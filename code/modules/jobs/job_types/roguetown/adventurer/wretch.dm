@@ -4,8 +4,8 @@
 	flag = WRETCH
 	department_flag = PEASANTS
 	faction = "Station"
-	total_positions = 10
-	spawn_positions = 10
+	total_positions = 15
+	spawn_positions = 15
 	allowed_races = RACES_ALL_KINDS
 	tutorial = "Somewhere in your lyfe, you fell to the wrong side of civilization. Hounded by the consequences of your actions, you now threaten the peace of those who still heed the authority that condemned you."
 	outfit = null
@@ -96,7 +96,7 @@
 			H.change_stat("fortune", 1)
 	
 	// Then proceed with normal bounty selection
-	var/bounty_poster = input(H, "Who placed a bounty on you?", "Bounty Poster") as anything in list("The Justiciary of Scarlet Reach", "The Grenzelhoftian Holy See", "The Otavan Holy See")
+	var/bounty_poster = input(H, "Who placed a bounty on you?", "Bounty Poster") as anything in list("The Justiciary of Scarlet Reach", "The Church of Blackmoor", "The Church of Scarlet Reach")
 	if(bounty_poster == "The Justiciary of Scarlet Reach")
 		GLOB.outlawed_players += H.real_name
 	else
