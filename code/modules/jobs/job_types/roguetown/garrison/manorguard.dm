@@ -174,7 +174,7 @@
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Bow") // They can head down to the armory to sideshift into one of the other bows.
-			beltr = /obj/item/quiver/bodkin/
+			beltr = /obj/item/quiver/arrows/
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 		if("Sling")
 			beltr = /obj/item/quiver/sling/iron

@@ -137,7 +137,7 @@ Archer is basically a 'bounty-catcher' in function, less specialized at close-qu
 
 	head = /obj/item/clothing/head/roguetown/helmet/kettle	//To-do: Make a guard hood come in kingdom's colors.
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat		//So they get default-dodge expert usage.
-	beltl = /obj/item/quiver/bodkin/
+	beltl = /obj/item/quiver/arrows/
 	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	beltr = /obj/item/storage/keyring/watch
