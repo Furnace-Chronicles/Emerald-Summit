@@ -639,3 +639,28 @@
 		user.change_stat("fortune", -1) //how much luck stat taken away when unequipped
 		goodluckactivated = FALSE
 	return
+
+/obj/item/clothing/neck/roguetown/gorget/slave_gorget
+	name = "slave gorget"
+	desc = "A metal gorget with ominous arcane engravings."
+	icon_state = "gorget"
+	item_state = "gorget"
+	armor = ARMOR_NECK_BAD
+	smeltresult = /obj/item/ingot/iron
+	anvilrepair = /datum/skill/craft/armorsmithing
+	max_integrity = 150
+	resistance_flags = FIRE_PROOF
+	slot_flags = ITEM_SLOT_NECK
+	body_parts_covered = NECK
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
+	blocksound = PLATEHIT
+	var/death_phrase = ""
+	var/submission_phrase = ""
+	var/freedom_phrase = ""
+	var/slave_marked = TRUE
+
+/obj/item/clothing/neck/roguetown/gorget/slave_gorget/New()
+	..()
+	death_phrase = generate_slave_code()
+	submission_phrase = generate_slave_code()
+	freedom_phrase = generate_slave_code()
