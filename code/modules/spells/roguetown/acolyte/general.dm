@@ -271,7 +271,7 @@
 			target.adjustFireLoss(25)
 			target.fire_act(1,10)
 			return TRUE
-// Block if excommunicated and caster is divine pantheon
+		// Block if excommunicated and caster is divine pantheon
 		var/is_divine = ispath(user.patron?.type, /datum/patron/divine)
 		if(is_divine && (target.real_name in GLOB.excommunicated_players))
 			to_chat(user, span_danger("The gods recoil from [target]! Divine fire scorches your hands as your plea is rejected!"))
