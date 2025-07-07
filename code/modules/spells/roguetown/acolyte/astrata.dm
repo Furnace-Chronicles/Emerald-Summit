@@ -79,11 +79,22 @@
 			target.gib()
 			return TRUE
 		// Block if excommunicated and caster is divine pantheon
-		if(ispath(user.patron?.type, /datum/patron/divine) && (target.real_name in GLOB.excommunicated_players))
-			to_chat(user, span_danger("The heavens recoil from [target]! Their soul is barred by divine wrath! Flames lick the edges of your vision as the gods reject your plea."))
-			target.visible_message(span_danger("[target]'s body is wracked with searing pain as the gods reject them!"), span_userdanger("I am wracked with pain as the gods reject me!"))
-			revert_cast()
-			return FALSE
+		if(istype(user, /mob/living)) {
+			var/mob/living/LU = user
+			var/excomm_found = FALSE
+			for(var/excomm_name in GLOB.excommunicated_players)
+				var/clean_excomm = lowertext(trim(excomm_name))
+				var/clean_target = lowertext(trim(target.real_name))
+				if(clean_excomm == clean_target)
+					excomm_found = TRUE
+					break
+			if(ispath(LU.patron?.type, /datum/patron/divine) && excomm_found) {
+				to_chat(user, span_danger("The gods recoil from [target]! Divine fire scorches your hands as your plea is rejected!"))
+				target.visible_message(span_danger("[target] is seared by divine wrath! The gods hate them!"), span_userdanger("I am seared by divine wrath! The gods hate me!"))
+				revert_cast()
+				return FALSE
+			}
+		}
 		if(!target.mind)
 			revert_cast()
 			return FALSE
@@ -104,12 +115,6 @@
 			S.AOE_flash(user, range = 8)
 		if(alert(target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
 			target.visible_message(span_notice("Nothing happens. They are not being let go."))
-			return FALSE
-		// Block excommunicated targets from receiving divine revival
-		if(ispath(user.patron?.type, /datum/patron/divine) && (target.real_name in GLOB.excommunicated_players))
-			to_chat(user, span_danger("The heavens recoil from [target]! Their soul is barred by divine wrath! Flames lick the edges of your vision as the gods reject your plea."))
-			target.visible_message(span_danger("[target]'s body is wracked with searing pain as the gods reject them!"), span_userdanger("I am wracked with pain as the gods reject me!"))
-			revert_cast()
 			return FALSE
 		target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
 		if(!target.revive(full_heal = FALSE))

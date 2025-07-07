@@ -201,7 +201,8 @@
 			healing += situational_bonus
 
 		// Block excommunicated targets from receiving divine healing
-		if(ispath(user.patron?.type, /datum/patron/divine) && (target.real_name in GLOB.excommunicated_players))
+		var/is_divine = ispath(user.patron?.type, /datum/patron/divine)
+		if(is_divine && (target.real_name in GLOB.excommunicated_players))
 			to_chat(user, span_danger("The gods recoil from [target]! Divine fire scorches your hands as your plea is rejected!"))
 			target.visible_message(span_danger("[target] is seared by divine wrath! The gods hate them!"), span_userdanger("I am seared by divine wrath! The gods hate me!"))
 			revert_cast()
@@ -270,8 +271,9 @@
 			target.adjustFireLoss(25)
 			target.fire_act(1,10)
 			return TRUE
-		// Block excommunicated targets from receiving divine healing
-		if(ispath(user.patron?.type, /datum/patron/divine) && (target.real_name in GLOB.excommunicated_players))
+// Block if excommunicated and caster is divine pantheon
+		var/is_divine = ispath(user.patron?.type, /datum/patron/divine)
+		if(is_divine && (target.real_name in GLOB.excommunicated_players))
 			to_chat(user, span_danger("The gods recoil from [target]! Divine fire scorches your hands as your plea is rejected!"))
 			target.visible_message(span_danger("[target] is seared by divine wrath! The gods hate them!"), span_userdanger("I am seared by divine wrath! The gods hate me!"))
 			revert_cast()
