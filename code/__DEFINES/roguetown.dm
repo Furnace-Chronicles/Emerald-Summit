@@ -146,11 +146,11 @@
     /datum/species/lizardfolk,\
     /datum/species/dracon,\
     /datum/species/akula,\
+	/datum/species/tieberian,\
 
 #define RACES_DESPISED \
     /datum/species/goblinp,\
     /datum/species/halforc,\
-    /datum/species/tieberian,\
     /datum/species/elf/dark,\
 
 #define RACES_CONSTRUCT \
