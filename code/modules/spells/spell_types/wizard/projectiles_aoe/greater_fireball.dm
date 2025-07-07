@@ -30,3 +30,16 @@
 	exp_flash = 2
 	exp_fire = 2
 	flag = "magic"
+
+/obj/projectile/magic/aoe/fireball/rogue/great/on_hit(target)
+	. = ..()
+	if(ismob(target))
+		var/mob/living/M = target
+		if(M.anti_magic_check())
+			visible_message(span_warning("[src] fizzles on contact with [target]!"))
+			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
+			qdel(src)
+			return BULLET_ACT_BLOCK
+		else
+			M.adjust_fire_stacks(20)	//extinguished by patting yourself down 4 times, or dropping on the floor and rolling twice
+			M.IgniteMob()
