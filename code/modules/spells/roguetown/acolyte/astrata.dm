@@ -25,9 +25,8 @@
 		user.visible_message("<font color='yellow'>[user] points at [L]!</font>")
 		if(L.anti_magic_check(TRUE, TRUE))
 			return FALSE
-		L.adjust_fire_stacks(5)
+		L.adjust_fire_stacks(5) //patting yourself down twice or rolling on the floor once. this is mainly supposed to be a deterrant, but it bites you if you dont deal with the source
 		L.IgniteMob()
-		addtimer(CALLBACK(L, TYPE_PROC_REF(/mob/living, ExtinguishMob)), 5 SECONDS)
 		return TRUE
 
 	// Spell interaction with ignitable objects (burn wooden things, light torches up)
@@ -68,8 +67,19 @@
 	if(isliving(targets[1]))
 		testing("revived1")
 		var/mob/living/target = targets[1]
+		if(target.mind && target.mind.has_antag_datum(/datum/antagonist/lich/)) //don't gib liches, but harm them for failing to get away from an anastasis cast in time
+			if(target.anti_magic_check(TRUE, TRUE))
+				return FALSE
+			target.adjust_fire_stacks(15)
+			target.IgniteMob()
+			target.visible_message(span_danger("[target] bursts into holy flame, barely resisting being unmade by the light!"), span_userdanger("I'm set alight by my arch-enemy! Alas, my own, wicked powers were too strong for Her to unmake me."))
+			return TRUE
+		if(target.mob_biotypes & MOB_UNDEAD) //positive energy harms the undead
+			target.visible_message(span_danger("[target] is unmade by holy light!"), span_userdanger("I'm unmade by holy light!"))
+			target.gib()
+			return TRUE
 		// Block if excommunicated and caster is divine pantheon
-		if(ispath(user.patron?.type, /datum/patron/divine) && target.real_name in GLOB.excommunicated_players)
+		if(ispath(user.patron?.type, /datum/patron/divine) && (target.real_name in GLOB.excommunicated_players))
 			to_chat(user, span_danger("The heavens recoil from [target]! Their soul is barred by divine wrath! Flames lick the edges of your vision as the gods reject your plea."))
 			target.visible_message(span_danger("[target]'s body is wracked with searing pain as the gods reject them!"), span_userdanger("I am wracked with pain as the gods reject me!"))
 			revert_cast()
@@ -92,15 +102,11 @@
 			to_chat(user, span_warning("Let there be light."))
 		for(var/obj/structure/fluff/psycross/S in oview(5, user))
 			S.AOE_flash(user, range = 8)
-		if(target.mob_biotypes & MOB_UNDEAD) //positive energy harms the undead
-			target.visible_message(span_danger("[target] is unmade by holy light!"), span_userdanger("I'm unmade by holy light!"))
-			target.gib()
-			return TRUE
 		if(alert(target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
 			target.visible_message(span_notice("Nothing happens. They are not being let go."))
 			return FALSE
 		// Block excommunicated targets from receiving divine revival
-		if(ispath(user.patron?.type, /datum/patron/divine) && target.real_name in GLOB.excommunicated_players)
+		if(ispath(user.patron?.type, /datum/patron/divine) && (target.real_name in GLOB.excommunicated_players))
 			to_chat(user, span_danger("The heavens recoil from [target]! Their soul is barred by divine wrath! Flames lick the edges of your vision as the gods reject your plea."))
 			target.visible_message(span_danger("[target]'s body is wracked with searing pain as the gods reject them!"), span_userdanger("I am wracked with pain as the gods reject me!"))
 			revert_cast()

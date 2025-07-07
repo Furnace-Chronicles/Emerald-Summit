@@ -355,8 +355,8 @@
 
 /mob/living/carbon/resist_fire()
 	fire_stacks -= 2.5
-	if(fire_stacks > 10 || !(mobility_flags & MOBILITY_STAND))
-		Paralyze(50, TRUE, TRUE)
+	if(!(mobility_flags & MOBILITY_STAND))
+		Paralyze(25, TRUE, TRUE)
 		spin(32,2)
 		fire_stacks -= 5
 		visible_message("<span class='warning'>[src] rolls on the ground, trying to put [p_them()]self out!</span>")

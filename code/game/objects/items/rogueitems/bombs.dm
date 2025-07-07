@@ -12,6 +12,7 @@
 	var/fuze = 50
 	var/lit = FALSE
 	var/prob2fail = 23
+	var/blewup = FALSE
 	grid_width = 32
 	grid_height = 64
 
@@ -57,11 +58,14 @@
 		if(lit)
 			if(!skipprob && prob(prob2fail))
 				snuff()
+				new /obj/item/natural/glass/shard (T)
 			else
-				explosion(T, light_impact_range = 1, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+				explosion(T, light_impact_range = 2, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+				blewup = TRUE
 		else
 			if(prob(prob2fail))
 				snuff()
+				new /obj/item/natural/glass/shard (T)
 			else
 				playsound(T, 'sound/items/firesnuff.ogg', 100)
 				new /obj/item/natural/glass/shard (T)
@@ -69,7 +73,12 @@
 
 /obj/item/bomb/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	..()
+	var/mob/living/L = hit_atom
+	if(isliving(hit_atom))
+		L.adjust_fire_stacks(12.5) //6 pats when standing or rolling on the floor 3 times, in case the bomb doesn't explode, you are still covered in accelerant...
 	explode()
+	if(blewup == TRUE) //in case the bomb DOES explode
+		L.IgniteMob()
 
 /obj/item/bomb/process()
 	fuze--

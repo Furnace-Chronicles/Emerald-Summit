@@ -27,8 +27,8 @@
 /obj/projectile/magic/aoe/fireball/rogue
 	name = "fireball"
 	exp_heavy = 0
-	exp_light = 0
-	exp_flash = 0
+	exp_light = 1
+	exp_flash = 2
 	exp_fire = 1
 	damage = 10
 	damage_type = BURN
@@ -42,9 +42,12 @@
 /obj/projectile/magic/aoe/fireball/rogue/on_hit(target)
 	. = ..()
 	if(ismob(target))
-		var/mob/M = target
+		var/mob/living/M = target
 		if(M.anti_magic_check())
 			visible_message(span_warning("[src] fizzles on contact with [target]!"))
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
+		else
+			M.adjust_fire_stacks(10)	//extinguished by patting yourself down 4 times, or dropping on the floor and rolling twice
+			M.IgniteMob()
