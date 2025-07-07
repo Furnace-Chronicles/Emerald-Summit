@@ -569,7 +569,7 @@
 
 /obj/item/rogueweapon/scythe
 	force = 15
-	force_wielded = 20
+	force_wielded = 25
 	possible_item_intents = list(SPEAR_BASH)
 	gripped_intents = list(/datum/intent/spear/cut/scythe, SPEAR_BASH, MACE_STRIKE)
 	name = "scythe"
@@ -588,7 +588,7 @@
 	max_blade_int = 100
 	anvilrepair = /datum/skill/craft/carpentry
 	smeltresult = /obj/item/rogueore/coal
-	associated_skill = /datum/skill/combat/polearms
+	associated_skill = /datum/skill/labor/farming
 	blade_dulling = DULLING_SHAFT_WOOD
 	walking_stick = TRUE
 	wdefense = 6
@@ -625,7 +625,7 @@
 	max_blade_int = 80
 	max_integrity = 400
 	slot_flags = ITEM_SLOT_HIP
-	associated_skill = /datum/skill/combat/axes
+	associated_skill = /datum/skill/labor/mining
 	anvilrepair = /datum/skill/craft/carpentry
 	smeltresult = /obj/item/ingot/iron
 	wdefense = 1
