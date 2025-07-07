@@ -654,6 +654,30 @@
 	body_parts_covered = NECK
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	blocksound = PLATEHIT
+
+	var/death_phrase = ""
+	var/submission_phrase = ""
+	var/freedom_phrase = ""
+	var/slave_marked = TRUE
+
+/obj/item/clothing/neck/roguetown/gorget/slave_gorget/New()
+	..()
+	death_phrase = generate_slave_code()
+	submission_phrase = generate_slave_code()
+	freedom_phrase = generate_slave_code()
+
+/obj/item/clothing/neck/roguetown/gorget/slave_gorget/male
+	name = "Cruel slave gorget"
+	desc = "A brutal-looking iron gorget adorned with inward-facing spikes. There's no mistaking its purpose."
+	icon_state = "gorget_male"
+	item_state = "gorget_male"
+
+/obj/item/clothing/neck/roguetown/gorget/slave_gorget/female
+	name = "Elegant slave collar"
+	desc = "An elegant black choker with faint arcane patterns along its trim. Beautiful, yet deeply symbolic."
+	icon_state = "gorget_female"
+	item_state = "gorget_female"
+
 	var/death_phrase = ""
 	var/submission_phrase = ""
 	var/freedom_phrase = ""

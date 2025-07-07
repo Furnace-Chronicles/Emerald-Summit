@@ -202,7 +202,7 @@
 	icon_state = "ring_duel"
 	sellprice = 10
 
-GLOBAL_LIST_INIT(generated_slave_phrases, list())
+GLOBAL_LIST_INIT(generated_slave_phrases, list()) //retarded dev made GLOB right here and entire fucking proc oh my goooooooooooooooood
 
 /obj/item/clothing/ring/slave
 	name = "Slave ring"
