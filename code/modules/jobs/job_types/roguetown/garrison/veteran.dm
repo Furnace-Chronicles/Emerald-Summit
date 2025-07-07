@@ -369,7 +369,6 @@
 	H.verbs |= /mob/proc/haltyell
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC) // You should really be parrying anyways, you have legendary/master skills....
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_WOODSMAN, TRAIT_GENERIC)
 	H.cmode_music = 'sound/music/combat_rogue.ogg'
 
 /datum/advclass/veteran/spy

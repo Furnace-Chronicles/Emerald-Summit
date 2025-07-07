@@ -52,7 +52,6 @@
 			H.mind.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE)
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
-			ADD_TRAIT(H, TRAIT_WOODSMAN, TRAIT_GENERIC)
 			var/weapons = list("Recurve Bow","Crossbow")
 			var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 			H.set_blindness(0)
