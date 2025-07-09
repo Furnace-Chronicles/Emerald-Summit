@@ -39,7 +39,7 @@
 
 
 
-////Classic Inquisitor with a much more underground twist. Use listening devices, sneak into places to gather evidence, track down suspicious individuals. Has relatively the same utility stats as Confessor, but fulfills a different niche in terms of their combative job as the head honcho. 
+////Classic Inquisitor with a much more underground twist. Use listening devices, sneak into places to gather evidence, track down suspicious individuals. Has relatively the same utility stats as Confessor, but fulfills a different niche in terms of their combative job as the head honcho.
 
 /datum/advclass/puritan/inspector
 	name = "Inquisitor"
@@ -91,10 +91,10 @@
 	gloves = /obj/item/clothing/gloves/roguetown/otavan/inqgloves
 	beltl = /obj/item/rogueweapon/sword/rapier
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat
-	backpack_contents = list(/obj/item/storage/keyring/puritan = 1, /obj/item/lockpickring/mundane = 1, /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger, /obj/item/grapplinghook = 1, /obj/item/storage/belt/rogue/pouch/coins/rich = 1, /obj/item/clothing/neck/roguetown/psicross/silver = 1) //these will be renamed to show that Psydon is dead after the next knife update
+	backpack_contents = list(/obj/item/branding_iron =1, /obj/item/storage/keyring/puritan = 1, /obj/item/lockpickring/mundane = 1, /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger, /obj/item/grapplinghook = 1, /obj/item/storage/belt/rogue/pouch/coins/rich = 1, /obj/item/clothing/neck/roguetown/psicross/silver = 1) //these will be renamed to show that Psydon is dead after the next knife update
 
 
-///The dirty, violent side of the Inquisition. Meant for confrontational, conflict-driven situations as opposed to simply sneaking around and asking questions. Templar with none of the miracles, but with all the muscles and more. 
+///The dirty, violent side of the Inquisition. Meant for confrontational, conflict-driven situations as opposed to simply sneaking around and asking questions. Templar with none of the miracles, but with all the muscles and more.
 
 /datum/advclass/puritan/ordinator
 	name = "Ordinator"
@@ -148,7 +148,7 @@
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm
 	gloves = /obj/item/clothing/gloves/roguetown/otavan/inqgloves
 	beltl = /obj/item/rogueweapon/sword/long/psysword
-	backpack_contents = list(/obj/item/storage/keyring/puritan = 1, /obj/item/lockpickring/mundane = 1, /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger, /obj/item/grapplinghook = 1, /obj/item/storage/belt/rogue/pouch/coins/rich = 1)
+	backpack_contents = list(/obj/item/branding_iron =1, /obj/item/storage/keyring/puritan = 1, /obj/item/lockpickring/mundane = 1, /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger, /obj/item/grapplinghook = 1, /obj/item/storage/belt/rogue/pouch/coins/rich = 1)
 
 /obj/item/clothing/gloves/roguetown/chain/blk
 		color = CLOTHING_GREY
@@ -334,7 +334,7 @@
 						interrogator.add_stress(/datum/stressevent/tortured)
 					else if(victim_patron.type == /datum/patron/inhumen)
 						interrogator.add_stress(/datum/stressevent/tortured)
-						
+
 
 		if(length(confessions))
 			if(torture) // Only scream your confession if it's due to torture.
@@ -410,3 +410,54 @@
 	to_chat(src, span_good("I resist the torture!"))
 	say(pick(innocent_lines), spans = list("torture"), forced = TRUE)
 	return
+
+/obj/item/branding_iron
+    name = "Branding iron"
+    desc = "A sacred iron used to brand heretics with holy pain."
+    icon = 'icons/roguetown/items/misc.dmi'
+    icon_state = "branding_iron_inq"
+    force = 5
+
+/obj/item/branding_iron/attack(mob/living/target, mob/user)
+    if (!istype(target, /mob/living/carbon/human))
+        return
+
+    if (!user || !user.client)
+        return
+
+    if (!target.restrained() || !target.buckled)
+        to_chat(user, span_warning("[target.name] must be restrained and buckled to be branded."))
+        return
+
+    user.visible_message(span_notice("[user] raises the branding iron over [target.name]."))
+
+    // 30 second to prevent meta click at random and yell graggarite
+    if (!do_after(user, 300, target = target))
+        user.visible_message(span_warning("[user] is interrupted while branding [target.name]."))
+        to_chat(target, span_notice("The pain fades as the ritual is broken."))
+        return
+
+    if (target.patron && target.patron.type in ALL_DIVINE_PATRONS) //FELLOW TENNIE WHAT ARE YOU DOIN
+        to_chat(user, span_info("[target.name] already bears the mark of the Ten."))
+        to_chat(target, span_info("The iron sears your flesh, but your soul is already branded."))
+        return
+
+	// accept your inner dendorite
+    var/list/divine_options = list()
+    for (var/path in ALL_DIVINE_PATRONS)
+        var/datum/patron/divine/instance = new path
+        divine_options[instance.name] = path
+
+    var/choice = input(target, "The flame has opened your soul. Choose your god, or reject the Ten.", "The Ten") as null|anything in divine_options
+    if (!choice)
+        to_chat(target, span_danger("You resist the Ten even through the pain."))
+        to_chat(user, span_danger("[target.name] rejects the path."))
+        return
+
+    target.set_patron(divine_options[choice])
+
+    user.visible_message(
+        span_notice("[target.name] accepts the mark of [choice]."),
+        span_notice("The branding is complete. The soul is bound.")
+    )
+
