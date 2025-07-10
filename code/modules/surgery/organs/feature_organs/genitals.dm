@@ -81,7 +81,7 @@
 	penis_type = PENIS_TYPE_TENTACLE
 	sheath_type = SHEATH_TYPE_NONE
 
-	
+
 /obj/item/organ/vagina
 	name = "vagina"
 	icon_state = "severedtail" //placeholder
@@ -132,5 +132,24 @@
 
 /obj/item/organ/testicles/internal
 	name = "internal testicles"
+	visible_organ = FALSE
+	accessory_type = /datum/sprite_accessory/none
+/obj/item/organ/testicles/internal
+	name = "internal testicles"
+	visible_organ = FALSE
+	accessory_type = /datum/sprite_accessory/none
+
+/obj/item/organ/penis/internal
+	name = "internal penis"
+	visible_organ = FALSE
+	accessory_type = /datum/sprite_accessory/none
+
+/obj/item/organ/vagina/internal
+	name = "internal vagina"
+	visible_organ = FALSE
+	accessory_type = /datum/sprite_accessory/none
+
+/obj/item/organ/breasts/internal
+	name = "internal breasts"
 	visible_organ = FALSE
 	accessory_type = /datum/sprite_accessory/none
