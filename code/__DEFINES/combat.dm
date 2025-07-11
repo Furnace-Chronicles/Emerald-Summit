@@ -354,7 +354,4 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define BULLET_ACT_TURF				"TURF"		//It hit us but it should hit something on the same turf too. Usually used for turfs.
 #define BULLET_ACT_MISS				"MISS"
 
-//Weapon values
-#define BLUNT_DEFAULT_PENFACTOR		-100
-
 #define UNARMED_DAMAGE_DEFAULT		12
