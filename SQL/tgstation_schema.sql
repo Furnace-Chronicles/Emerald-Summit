@@ -565,6 +565,22 @@ CREATE TABLE `ticket` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Table structure for table `whitelists`.
+--
+DROP TABLE IF EXISTS `whitelists`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `whitelists` (
+  `ckey` varchar(32) NOT NULL,
+  `type` enum('entry','agevet') NOT NULL,
+  `added_by` varchar(32) NOT NULL,
+  `timestamp` datetime NOT NULL,
+  `round_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`ckey`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 DELIMITER $$
 CREATE PROCEDURE `set_poll_deleted`(
 	IN `poll_id` INT
