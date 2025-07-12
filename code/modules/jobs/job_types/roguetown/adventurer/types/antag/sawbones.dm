@@ -23,6 +23,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
 	backr = /obj/item/storage/backpack/rogue/satchel
 	id = /obj/item/mattcoin
+	neck = /obj/item/clothing/neck/roguetown/psicross/wood
 	backpack_contents = list(
 					/obj/item/natural/worms/leech/cheele = 1,
 					/obj/item/natural/cloth = 2,
@@ -55,3 +56,18 @@
 		H.change_stat("perception", 1)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/lesser_heal)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/heal)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/revive)
+		
+		// Give them a custom devotion system for medical spells only (no patron miracles)
+		var/datum/devotion/C = new /datum/devotion(H, H.patron)
+		C.passive_devotion_gain = CLERIC_REGEN_MINOR
+		C.passive_progression_gain = CLERIC_REGEN_MINOR
+		C.max_devotion = CLERIC_REQ_2
+		C.max_progression = CLERIC_REQ_2
+		C.level = CLERIC_T2
+		C.last_level = CLERIC_T2
+		START_PROCESSING(SSobj, C)
+		H.verbs += list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray)
+		
