@@ -1,4 +1,4 @@
-/obj/effect/proc_holder/spell/invoked/defile_dead
+/obj/effect/proc_holder/spell/invoked_single_target/defile_dead
 	name = "Defile Dead"
 	desc = "A forbidden, heretical spell that desecrates the dead, raising corpses as deadites. Shunned by the Ten and feared by the living."
 	cost = 1
@@ -16,11 +16,11 @@
 	gesture_required = FALSE
 	spell_tier = 1 
 	invocation = "Defile mortem!"
-	invocation_type = "shout"
+	invocation_type = "whisper"
 	glow_color = "#7e2d7e" // purple/necromantic
 	glow_intensity = GLOW_INTENSITY_HIGH
 
-/obj/effect/proc_holder/spell/invoked/defile_dead/cast(list/targets, mob/user)
+/obj/effect/proc_holder/spell/invoked_single_target/defile_dead/cast(list/targets, mob/user)
 	. = ..()
 	if(!length(targets))
 		to_chat(user, span_warning("No target selected."))
