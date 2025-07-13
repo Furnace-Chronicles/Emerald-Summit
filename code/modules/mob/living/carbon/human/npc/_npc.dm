@@ -194,6 +194,9 @@
 
 /// Attempts to jump towards our next pathfinding step if it's far enough, or our target if we don't have a path planned.
 /mob/living/carbon/human/proc/npc_try_jump(force = FALSE)
+	// Prevent deadites from jumping
+	if(HAS_TRAIT(src, TRAIT_DEADITE))
+		return FALSE
 	if(!prob(npc_jump_chance))
 		return FALSE
 	if(next_move > world.time) // Jumped too recently!
@@ -266,6 +269,9 @@
 
 /// Force the NPC to jump to a specific destination. Handles 
 /mob/living/carbon/human/proc/npc_try_jump_to(atom/jump_destination)
+	// Prevent deadites from jumping
+	if(HAS_TRAIT(src, TRAIT_DEADITE))
+		return FALSE
 	if(!jump_destination)
 		return FALSE
 	if(next_move > world.time) // Jumped too recently!

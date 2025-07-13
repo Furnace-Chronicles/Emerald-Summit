@@ -108,6 +108,9 @@
 		if(HAS_TRAIT(src, TRAIT_CHOSEN))
 			. += span_notice("The ordained voice of the Ten!")
 
+		if(HAS_TRAIT(src, TRAIT_DEADITE))
+			. += span_danger("A twisted, undead abomination. It's eyes burn with unnatural malice!")
+
 		if (HAS_TRAIT(src, TRAIT_OUTLANDER) && !HAS_TRAIT(user, TRAIT_OUTLANDER)) 
 			. += span_phobia("A foreigner...")
 

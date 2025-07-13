@@ -595,6 +595,11 @@
 
 
 /mob/living/proc/jump_action(atom/A)
+	// Prevent deadites from jumping
+	if(HAS_TRAIT(src, TRAIT_DEADITE))
+		to_chat(src, span_warning("Your undead form cannot jump!"))
+		return
+
 	if(istype(get_turf(src), /turf/open/water))
 		to_chat(src, span_warning("I can't jump while floating."))
 		return
