@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/defile_dead
 	name = "Defile Dead"
-	desc = "A forbidden, heretical spell that desecrates the dead, raising corpses as zombies bound to your will. Shunned by all decent faiths and feared by the living."
+	desc = "A forbidden, heretical spell that desecrates the dead, raising corpses as deadites. Shunned by the Ten and feared by the living."
 	cost = 1
 	releasedrain = 80
 	overlay_state = "eyebite"
