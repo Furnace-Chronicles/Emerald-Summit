@@ -956,7 +956,8 @@
 		/obj/item/clothing/head/roguetown/crown/serpcrown,
 		/obj/item/clothing/head/roguetown/vampire,
 		/obj/item/scomstone,
-		/obj/item/reagent_containers/lux
+		/obj/item/reagent_containers/lux,
+		/obj/item/organ
 	)
 
 /obj/structure/fluff/statue/evil/attackby(obj/item/W, mob/user, params)
