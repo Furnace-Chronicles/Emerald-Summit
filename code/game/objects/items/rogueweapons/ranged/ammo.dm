@@ -33,6 +33,7 @@
 	name = "ancient bolt"
 	desc = "A ancient bolt. Aeon's grasp has been lifted from its form."
 	icon_state = "ancientbolt"
+	projectile_type = /obj/projectile/bullet/reusable/bolt/paalloy
 
 /obj/projectile/bullet/reusable/bolt
 	name = "bolt"
@@ -45,7 +46,7 @@
 	range = 15
 	hitsound = 'sound/combat/hits/hi_arrow2.ogg'
 	embedchance = 100
-	woundclass = BCLASS_STAB
+	woundclass = BCLASS_PIERCE
 	flag = "piercing"
 	speed = 0.5
 	npc_damage_mult = 2
@@ -53,6 +54,10 @@
 /obj/projectile/bullet/reusable/bolt/aalloy
 	damage = 40
 	armor_penetration = 30
+
+/obj/projectile/bullet/reusable/bolt/paalloy
+	damage = 50
+	armor_penetration = 35
 
 /obj/projectile/bullet/reusable/bolt/on_hit(atom/target)
 	. = ..()
@@ -120,6 +125,7 @@
 	name = "ancient bodkin arrow"
 	desc = "a bodkin formed of ancient metals. Aeon's grasp lifted from its form."
 	icon_state = "ancientarrow"
+	projectile_type = /obj/projectile/bullet/reusable/arrow/steel/paalloy
 
 /obj/projectile/bullet/reusable/arrow
 	name = "arrow"
@@ -133,7 +139,7 @@
 	range = 15
 	hitsound = 'sound/combat/hits/hi_arrow2.ogg'
 	embedchance = 25
-	woundclass = BCLASS_STAB
+	woundclass = BCLASS_PIERCE
 	flag = "piercing"
 	speed = 0.4
 
@@ -185,6 +191,11 @@
 	speed = 0.6
 	npc_damage_mult = 3
 
+/obj/projectile/bullet/reusable/arrow/steel/paalloy
+	name = "decrepit bodkin arrow"
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy
+	damage = 15
+	armor_penetration = 25
 
 // POISON AMMO
 
@@ -657,6 +668,7 @@
 	damage = 25
 	damage_type = BRUTE
 	armor_penetration = 0
+	npc_damage_mult = 2
 	icon = 'icons/roguetown/items/natural.dmi'
 	icon_state = "stone1"
 	range = 15

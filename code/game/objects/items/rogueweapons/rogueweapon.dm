@@ -27,6 +27,7 @@
 	max_integrity = 250
 	integrity_failure = 0.2
 	wdefense = 3
+	wdefense_wbonus = 3 //Default is 3.
 	experimental_onhip = TRUE
 	experimental_onback = TRUE
 	embedding = list(
@@ -94,25 +95,36 @@
 
 /obj/item/rogueweapon/obj_break(damage_flag)
 	..()
-	if (force)
+	if(force)
 		force /= 5
-	if (armor_penetration)
+	if(force_wielded)
+		force_wielded /= 5
+	force_dynamic = (wielded ? force_wielded : force)
+	if(armor_penetration)
 		armor_penetration /= 5
-	if (wdefense)
+	if(wdefense)
 		wdefense /= 2
-	if (sharpness & IS_SHARP)
+	if(wdefense_wbonus)
+		wdefense_wbonus = -3
+	wdefense_dynamic = wdefense
+	if(sharpness & IS_SHARP)
 		sharpness = IS_BLUNT
-	if (can_parry)
+	if(can_parry)
 		can_parry = FALSE
 
 /obj/item/rogueweapon/obj_fix()
 	..()
 
 	force = initial(force)
+	force_wielded = initial(force_wielded)
+	force_dynamic = force
 	armor_penetration = initial(armor_penetration)
 	wdefense = initial(wdefense)
+	wdefense_wbonus = initial(wdefense_wbonus)
+	wdefense_dynamic = wdefense
 	sharpness = initial(sharpness)
 	can_parry = initial(can_parry)
+	SEND_SIGNAL(src, COMSIG_ROGUEWEAPON_OBJFIX)
 
 /obj/item/rogueweapon/rmb_self(mob/user)
 	if(length(alt_intents))

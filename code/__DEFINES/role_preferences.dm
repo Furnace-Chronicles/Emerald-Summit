@@ -46,7 +46,8 @@
 #define ROLE_DEATHSQUAD			"Deathsquad"
 #define ROLE_LAVALAND			"Lavaland"
 #define ROLE_INTERNAL_AFFAIRS	"Internal Affairs Agent"
-#define ROLE_NECRO_SKELETON		"Necromancer Skeleton" // RT role
+#define ROLE_NECRO_SKELETON		"Necromancer Skeleton"
+#define ROLE_LICH_SKELETON		"Lich Skeleton"
 
 GLOBAL_LIST_INIT(special_roles_rogue, list(
 	ROLE_MANIAC = /datum/antagonist/maniac,

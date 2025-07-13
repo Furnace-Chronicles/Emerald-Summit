@@ -345,3 +345,33 @@
 	affected_bodyparts = HEAD | CHEST
 	default_color = DEFAULT_SECONDARY
 	covers_chest = TRUE
+
+//Bangs and buns addition - hair addons!
+
+/datum/body_marking/bangs
+	icon = 'icons/mob/body_markings/other_markings.dmi'
+	name = "Bangs"
+	icon_state = "bangs"
+	default_color = "FFFFFF"
+	affected_bodyparts = HEAD
+	
+/datum/body_marking/small/bangs
+	icon = 'icons/mob/body_markings/other_markings.dmi'
+	name = "Bangs (Volk)"
+	icon_state = "bangs_s"
+	default_color = "FFFFFF"
+	affected_bodyparts = HEAD
+	
+/datum/body_marking/bun
+	icon = 'icons/mob/body_markings/other_markings.dmi'
+	name = "Bun"
+	icon_state = "bun"
+	default_color = "FFFFFF"
+	affected_bodyparts = HEAD
+
+/datum/body_marking/small/bun
+	icon = 'icons/mob/body_markings/other_markings.dmi'
+	name = "Bun (Volk)"
+	icon_state = "bun_s"
+	default_color = "FFFFFF"
+	affected_bodyparts = HEAD

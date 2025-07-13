@@ -37,6 +37,7 @@
 	sleeved = 'modular_azurepeak/icons/clothing/onmob/donor_sleeves_armor.dmi'
 	flags_inv = HIDEBOOB
 	color = null
+	nodismemsleeves = TRUE // prevents sleeves from being torn
 
 //Bat's donator item - custom harp sprite
 /obj/item/rogue/instrument/harp/handcarved
@@ -53,27 +54,6 @@
 	item_state = "gildedsallet_visor"
 	icon = 'modular_azurepeak/icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'modular_azurepeak/icons/clothing/onmob/donor_clothes.dmi'
-
-/obj/item/clothing/head/roguetown/helmet/sallet/visored/gilded/attackby(obj/item/W, mob/living/user, params)
-	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
-		var/choice = input(user, "Choose a color.", "Orle") as anything in colorlist
-		user.visible_message(span_warning("[user] adds [W] to [src]."))
-		user.transferItemToLoc(W, src, FALSE, FALSE)
-		detail_color = colorlist[choice]
-		detail_tag = "_detail"
-		update_icon()
-		if(loc == user && ishuman(user))
-			var/mob/living/carbon/H = user
-			H.update_inv_head()
-
-/obj/item/clothing/head/roguetown/helmet/sallet/visored/gilded/update_icon()
-	cut_overlays()
-	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
-		pic.appearance_flags = RESET_COLOR
-		if(get_detail_color())
-			pic.color = get_detail_color()
-		add_overlay(pic)
 
 //Zydras donator item - merchant dress
 /obj/item/clothing/suit/roguetown/shirt/dress/silkydress/zydrasdress //Recolored silky dress

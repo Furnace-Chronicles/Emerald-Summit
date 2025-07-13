@@ -112,14 +112,21 @@
 
 /obj/effect/decal/cleanable/trail_holder/Initialize(mapload)
 	. = ..()
+	GLOB.weather_act_upon_list += src
 	if(. == INITIALIZE_HINT_QDEL)
 		return .
 	blood_timer = addtimer(CALLBACK(src, PROC_REF(become_dry)), rand(5 MINUTES,8 MINUTES), TIMER_STOPPABLE)
 
 /obj/effect/decal/cleanable/trail_holder/Destroy()
+	GLOB.weather_act_upon_list -= src
 	deltimer(blood_timer)
 	blood_timer = null
 	return ..()
+
+/obj/effect/decal/cleanable/trail_holder/weather_act_on(weather_trait, severity)
+	if(weather_trait != PARTICLEWEATHER_RAIN)
+		return
+	qdel(src)
 
 /obj/effect/decal/cleanable/trail_holder/proc/become_dry()
 	if(QDELETED(src))

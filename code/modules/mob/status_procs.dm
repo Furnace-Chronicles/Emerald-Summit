@@ -68,6 +68,12 @@
 		eye_blurry = max(amount, eye_blurry)
 	update_eye_blur()
 
+/mob/proc/psydo_nyte()
+	sleep(2)
+	overlay_fullscreen("LYVES", /atom/movable/screen/fullscreen/zezuspsyst)
+	sleep(2)
+	clear_fullscreen("LYVES")
+
 /**
   * Adjust the current blurriness of the mobs vision by amount
   */

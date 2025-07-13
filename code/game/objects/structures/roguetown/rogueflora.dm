@@ -177,7 +177,7 @@
 	name = "pine stump"
 	icon_state = "dead4"
 	icon = 'icons/obj/flora/pines.dmi'
-	static_debris = list(/obj/item/rogueore/charcoal = 1)
+	static_debris = list(/obj/item/rogueore/coal/charcoal = 1)
 	stump_type = null
 	pixel_x = -32
 
@@ -357,7 +357,7 @@
 /obj/structure/flora/roguegrass/bush/attack_hand(mob/user)
 	if(isliving(user))
 		var/mob/living/L = user
-		user.changeNext_move(CLICK_CD_MELEE)
+		user.changeNext_move(CLICK_CD_INTENTCAP)
 		playsound(src.loc, "plantcross", 50, FALSE, -1)
 		if(do_after(L, rand(1,5), target = src))
 			if(!looty.len && (world.time > res_replenish))
@@ -376,9 +376,17 @@
 				attack_hand(user)
 			if(!looty.len)
 				to_chat(user, span_warning("Picked clean... I should try later."))
-
 /obj/structure/flora/roguegrass/bush/update_icon()
 	icon_state = "bush[rand(2, 4)]"
+
+/obj/structure/flora/roguegrass/bush/CanAStarPass(ID, travel_dir, caller)
+	if(ismovableatom(caller))
+		var/atom/movable/mover = caller
+		if(mover.pass_flags & PASSGRILLE)
+			return TRUE
+	if(travel_dir == dir)
+		return FALSE // just don't even try, not even if you can climb it
+	return ..()
 
 /obj/structure/flora/roguegrass/bush/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover) && (mover.pass_flags & PASSGRILLE))
@@ -433,6 +441,13 @@
 	if(istype(mover) && (mover.pass_flags & PASSGRILLE))
 		return 1
 	return 0
+
+/obj/structure/flora/roguegrass/bush/wall/CanAStarPass(ID, travel_dir, caller)
+	if(ismovableatom(caller))
+		var/atom/movable/mover = caller
+		if(mover.pass_flags & PASSGRILLE)
+			return TRUE
+	return climbable || !density
 
 /obj/structure/flora/roguegrass/bush/wall/CheckExit(atom/movable/O, turf/target)
 	if(istype(O) && (O.pass_flags & PASSGRILLE))
@@ -495,6 +510,15 @@
 	if(get_dir(loc, target) == dir)
 		return 0
 	return 1
+
+/obj/structure/flora/rogueshroom/CanAStarPass(ID, travel_dir, caller)
+	if(ismovableatom(caller))
+		var/atom/movable/mover = caller
+		if(mover.pass_flags & PASSGRILLE)
+			return TRUE
+	if(travel_dir == dir)
+		return FALSE // just don't even try, not even if you can climb it
+	return ..()
 
 /obj/structure/flora/rogueshroom/CheckExit(atom/movable/mover as mob|obj, turf/target)
 	if(istype(mover) && (mover.pass_flags & PASSGRILLE))
@@ -587,9 +611,10 @@
 	climbable = FALSE
 	dir = SOUTH
 	debris = list(/obj/item/natural/fibers = 1)
-	var/list/looty2 = list()
-	var/bushtype2
-	var/res_replenish2
+	max_integrity = 9999 // From base 1. So antag don't get to destroy it easily :).
+	var/list/looty = list()
+	var/bushtype
+	var/res_replenish
 
 /obj/structure/flora/roguegrass/pyroclasticflowers/update_icon()
 	icon_state = "pyroflower[rand(1,3)]"
@@ -597,44 +622,37 @@
 /obj/structure/flora/roguegrass/pyroclasticflowers/Initialize()
 	. = ..()
 	if(prob(88))
-		bushtype2 = pickweight(list(/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1))
+		bushtype = pickweight(list(/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1))
 	loot_replenish2()
 	pixel_x += rand(-3,3)
 
 /obj/structure/flora/roguegrass/pyroclasticflowers/proc/loot_replenish2()
-	if(bushtype2)
-		looty2 += bushtype2
+	if(bushtype)
+		looty += bushtype
 	if(prob(66))
-		looty2 += /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius
+		looty += /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius
 
 // pyroflower cluster looting
 /obj/structure/flora/roguegrass/pyroclasticflowers/attack_hand(mob/user)
 	if(isliving(user))
 		var/mob/living/L = user
-		user.changeNext_move(CLICK_CD_MELEE)
+		user.changeNext_move(CLICK_CD_INTENTCAP)
 		playsound(src.loc, "plantcross", 80, FALSE, -1)
 		if(do_after(L, rand(1,5), target = src))
-#ifndef MATURESERVER
-			if(!looty2.len && (world.time > res_replenish2))
+			if(!looty.len && (world.time > res_replenish))
 				loot_replenish2()
-#endif
-			if(prob(50) && looty2.len)
-				if(looty2.len == 1)
-					res_replenish2 = world.time + 8 MINUTES
-				var/obj/item/B = pick_n_take(looty2)
+			if(prob(50) && looty.len)
+				if(looty.len == 1)
+					res_replenish = world.time + 8 MINUTES
+				var/obj/item/B = pick_n_take(looty)
 				if(B)
 					B = new B(user.loc)
 					user.put_in_hands(B)
 					user.visible_message("<span class='notice'>[user] finds [B] in [src].</span>")
 					return
 			user.visible_message("<span class='warning'>[user] searches through [src].</span>")
-#ifdef MATURESERVER
-			if(!looty2.len)
-				to_chat(user, "<span class='warning'>Picked clean.</span>")
-#else
-			if(!looty2.len)
+			if(!looty.len)
 				to_chat(user, "<span class='warning'>Picked clean... I should try later.</span>")
-#endif
 
 // swarmpweed bush -- STONEKEEP PORT
 /obj/structure/flora/roguegrass/swampweed
@@ -646,38 +664,36 @@
 	climbable = FALSE
 	dir = SOUTH
 	debris = list(/obj/item/natural/fibers = 1)
-	var/list/looty3 = list()
-	var/bushtype3
-	var/res_replenish3
+	var/list/looty = list()
+	var/bushtype
+	var/res_replenish
 
 /obj/structure/flora/roguegrass/swampweed/Initialize()
 	. = ..()
 	icon_state = "swampweed[rand(1,3)]"
 	if(prob(88))
-		bushtype3 = pickweight(list(/obj/item/reagent_containers/food/snacks/grown/rogue/sweetleaf = 1))
+		bushtype = pickweight(list(/obj/item/reagent_containers/food/snacks/grown/rogue/swampweed = 1))
 	loot_replenish3()
 	pixel_x += rand(-3,3)
 
 /obj/structure/flora/roguegrass/swampweed/proc/loot_replenish3()
-	if(bushtype3)
-		looty3 += bushtype3
+	if(bushtype)
+		looty += bushtype
 	if(prob(66))
-		looty3 += /obj/item/reagent_containers/food/snacks/grown/rogue/sweetleaf
+		looty += /obj/item/reagent_containers/food/snacks/grown/rogue/swampweed
 
 /obj/structure/flora/roguegrass/swampweed/attack_hand(mob/user)
 	if(isliving(user))
 		var/mob/living/L = user
-		user.changeNext_move(CLICK_CD_MELEE)
+		user.changeNext_move(CLICK_CD_INTENTCAP)
 		playsound(src.loc, "plantcross", 80, FALSE, -1)
 		if(do_after(L, rand(1,5), target = src))
-#ifndef MATURESERVER
-			if(!looty3.len && (world.time > res_replenish3))
+			if(!looty.len && (world.time > res_replenish))
 				loot_replenish3()
-#endif
-			if(prob(50) && looty3.len)
-				if(looty3.len == 1)
-					res_replenish3 = world.time + 8 MINUTES
-				var/obj/item/B = pick_n_take(looty3)
+			if(prob(50) && looty.len)
+				if(looty.len == 1)
+					res_replenish = world.time + 8 MINUTES
+				var/obj/item/B = pick_n_take(looty)
 				if(B)
 					B = new B(user.loc)
 					user.put_in_hands(B)
@@ -687,13 +703,8 @@
 					user.visible_message("<span class='notice'>[user] finds [HAS_TRAIT(user, TRAIT_WOODWALKER) ? "two of " : ""][B] in [src].</span>")
 					return
 			user.visible_message("<span class='warning'>[user] searches through [src].</span>")
-#ifdef MATURESERVER
-			if(!looty3.len)
-				to_chat(user, "<span class='warning'>Picked clean.</span>")
-#else
-			if(!looty3.len)
+			if(!looty.len)
 				to_chat(user, "<span class='warning'>Picked clean... I should try later.</span>")
-#endif
 
 // cute underdark mushrooms from dreamkeep
 
@@ -765,7 +776,7 @@
 	name = "burnt pine tree"
 	icon_state = "dead1"
 	max_integrity = 50
-	static_debris = list(/obj/item/rogueore/charcoal = 1)
+	static_debris = list(/obj/item/rogueore/coal/charcoal = 1)
 	resistance_flags = FIRE_PROOF
 	stump_type = /obj/structure/flora/roguetree/stump/pine
 

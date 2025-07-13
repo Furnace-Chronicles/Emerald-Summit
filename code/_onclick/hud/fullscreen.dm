@@ -178,6 +178,11 @@
 	layer = BLIND_LAYER
 	plane = FULLSCREEN_PLANE
 
+/atom/movable/screen/fullscreen/zezuspsyst
+	icon_state = "hey"
+	layer = CRIT_LAYER
+	plane = FULLSCREEN_PLANE
+
 /atom/movable/screen/fullscreen/curse
 	icon_state = "curse"
 	layer = CURSE_LAYER

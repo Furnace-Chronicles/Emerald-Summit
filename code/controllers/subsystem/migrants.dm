@@ -265,7 +265,7 @@ SUBSYSTEM_DEF(migrants)
 		hugboxify_for_class_selection(character)
 	else
 		// Apply a special if we're not applying an adv class, otherwise let the adv class apply it afterwards
-		apply_prefs_special(character)
+		try_apply_character_post_equipment(character, character.client)
 
 /datum/controller/subsystem/migrants/proc/get_priority_players(list/players, role_type)
 	var/list/priority = list()

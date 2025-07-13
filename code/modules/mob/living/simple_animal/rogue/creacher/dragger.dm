@@ -4,7 +4,8 @@
 	icon_living = "dragger"
 	icon_dead = "dragger_dead"
 	name = "dragger"
-	desc = ""
+	desc = "A husk of the once-dead."
+	pixel_x = -8
 	mob_biotypes = MOB_UNDEAD|MOB_HUMANOID
 	movement_type = GROUND
 	environment_smash = ENVIRONMENT_SMASH_NONE

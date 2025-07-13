@@ -59,7 +59,7 @@
 	color = "#851a16"
 
 /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
-	color = CLOTHING_AZURE
+	color = CLOTHING_SCARLET
 
 /obj/item/clothing/suit/roguetown/shirt/undershirt/guard/Initialize()
 	. = ..()
@@ -136,6 +136,8 @@
 	icon_state = "noblecoat"
 	item_state = "noblecoat"
 	sleevetype = "noblecoat"
+	detail_tag = "_detail"
+	detail_color = CLOTHING_SCARLET
 	color = CLOTHING_WHITE
 	boobed = TRUE
 	detail_tag = "_detail"
@@ -496,9 +498,9 @@
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
 	flags_inv = HIDECROTCH|HIDEBOOB
-	detail_color = CLOTHING_WHITE
-	color = CLOTHING_AZURE
-	altdetail_color = CLOTHING_WHITE
+	detail_color = CLOTHING_BLACK
+	color = CLOTHING_SCARLET
+	altdetail_color = CLOTHING_BLACK
 
 
 /obj/item/clothing/suit/roguetown/shirt/jester/update_icon()
@@ -566,6 +568,7 @@
 	desc = "An elegant dress fit for nobility, crafted with the finest materials and adorned with intricate details."
 	body_parts_covered = CHEST|GROIN|ARMS|VITALS
 	icon_state = "nobledress"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 	boobed = TRUE
 
 
@@ -602,6 +605,60 @@
 	desc = "A luxurious dress made of the finest velvet, soft to the touch and rich in appearance."
 	body_parts_covered = CHEST|GROIN|ARMS|VITALS
 	icon_state = "velvetdress"
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts_royalty.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 	boobed = TRUE
 
+
+//kazengite content
+/obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	name = "black foreign shirt"
+	desc = "A shirt typically used by thugs."
+	body_parts_covered = CHEST|GROIN|ARMS|VITALS
+	icon_state = "eastshirt1"
+	icon = 'icons/roguetown/clothing/shirts.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	boobed = TRUE
+	r_sleeve_status = SLEEVE_NORMAL
+	l_sleeve_status = SLEEVE_NORMAL
+	flags_inv = HIDECROTCH|HIDEBOOB
+	allowed_race = NON_DWARVEN_RACE_TYPES
+
+/obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	name = "white foreign shirt"
+	desc = "A shirt typically used by foreign gangs."
+	body_parts_covered = CHEST|GROIN|ARMS|VITALS
+	icon_state = "eastshirt2"
+	icon = 'icons/roguetown/clothing/shirts.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+	boobed = TRUE
+	r_sleeve_status = SLEEVE_NORMAL
+	l_sleeve_status = SLEEVE_NORMAL
+	flags_inv = HIDECROTCH|HIDEBOOB
+	allowed_race = NON_DWARVEN_RACE_TYPES
+
+//tattoo code
+/obj/item/clothing/suit/roguetown/shirt/undershirt/easttats/Initialize(mapload)
+	. = ..()
+	name = "lenticular tattoos"
+	desc = "It's styled into the shapes of clouds. You shudder as the ink moves and condenses into areas where the skin is struck."
+	resistance_flags = FIRE_PROOF
+	icon_state = "easttats"
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+	body_parts_covered = ARMS
+	icon = 'icons/roguetown/clothing/shirts.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+	r_sleeve_status = SLEEVE_NORMAL
+	l_sleeve_status = SLEEVE_NORMAL
+	allowed_race = NON_DWARVEN_RACE_TYPES
+
+/obj/item/clothing/suit/roguetown/shirt/easttats/easttats/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)

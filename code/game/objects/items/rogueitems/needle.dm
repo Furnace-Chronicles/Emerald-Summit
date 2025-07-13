@@ -64,7 +64,7 @@
 			return
 
 		to_chat(user, "I begin threading the needle with additional fibers...")
-		if(do_after(user, 6 SECONDS - user.mind.get_skill_level(/datum/skill/misc/sewing), target = I))
+		if(do_after(user, 6 SECONDS - user.get_skill_level(/datum/skill/misc/sewing), target = I))
 			var/refill_amount
 			refill_amount = min(5, (maxstring - stringamt))
 			stringamt += refill_amount
@@ -114,17 +114,17 @@
 			/// The minimum sewing time to prevent instant sewing at max level.
 			var/const/SEW_MIN_TIME = 0.5 SECONDS
 			/// The maximum sewing time for squires.
-			var/const/SQUIRE_MAX_TIME = BASE_SEW_TIME / 2 // always at least twice as fast as the base time
+			var/const/SQUIRE_MAX_TIME = BASE_SEW_TIME / 3 // always at least twice as fast as the base time / Apparently takes too long so dunno we will see at 2 seconds
 			/// The XP granted by failure. Scaled by INT. If 0, no XP is granted on failure.
 			var/const/XP_ON_FAIL = 0.5
 			/// The XP granted by success. Scaled by INT. If 0, no XP is granted on success.
-			var/const/XP_ON_SUCCESS = 0
+			var/const/XP_ON_SUCCESS = 1
 			/// The minimum delay between automatic sewing attempts.
 			var/const/AUTO_SEW_DELAY = CLICK_CD_MELEE
 
 			// This is the actual code that applies those constants.
 			// If you want to adjust the balance please try just tweaking the above constants first!
-			var/skill = user.mind.get_skill_level(/datum/skill/misc/sewing) + user.mind.get_skill_level(/datum/skill/craft/tanning)
+			var/skill = user.get_skill_level(/datum/skill/misc/sewing) + user.get_skill_level(/datum/skill/craft/tanning)
 			// The more knowlegeable we are the less chance we damage the object
 			var/failed = prob(BASE_FAIL_CHANCE - (skill * FAIL_REDUCTION_PER_LEVEL))
 			var/sewtime = max(SEW_MIN_TIME, BASE_SEW_TIME - (SEW_TIME_REDUCTION_PER_LEVEL * skill))
@@ -189,7 +189,7 @@
 
 	var/moveup = 10
 	if(doctor.mind)
-		moveup = ((doctor.mind.get_skill_level(/datum/skill/misc/medicine)+1) * 5)
+		moveup = ((doctor.get_skill_level(/datum/skill/misc/medicine)+1) * 5)
 	while(!QDELETED(target_wound) && !QDELETED(src) && \
 		!QDELETED(user) && (target_wound.sew_progress < target_wound.sew_threshold) && \
 		stringamt >= 1)

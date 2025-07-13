@@ -150,16 +150,25 @@
 
 /obj/item/grabbing/attack(mob/living/M, mob/living/user)
 	if(M != grabbed)
-		return FALSE
+		if(!istype(limb_grabbed, /obj/item/bodypart/head))
+			return FALSE
+		if(M != user)
+			return FALSE
+		if(!user.cmode)
+			return FALSE
+		user.changeNext_move(CLICK_CD_RESIST)
+		headbutt(user)
+		return
 	if(!valid_check())
 		return FALSE
 	user.changeNext_move(CLICK_CD_MELEE * 2 - user.STASPD) // 24 - the user's speed
+
 	var/skill_diff = 0
 	var/combat_modifier = 1
 	if(user.mind)
-		skill_diff += (user.mind.get_skill_level(/datum/skill/combat/wrestling))
+		skill_diff += (user.get_skill_level(/datum/skill/combat/wrestling))
 	if(M.mind)
-		skill_diff -= (M.mind.get_skill_level(/datum/skill/combat/wrestling))
+		skill_diff -= (M.get_skill_level(/datum/skill/combat/wrestling))
 
 	if(M.surrendering)
 		combat_modifier = 2
@@ -188,7 +197,7 @@
 			if(!(M.status_flags & CANPUSH) || HAS_TRAIT(M, TRAIT_PUSHIMMUNE))
 				to_chat(user, span_warning("Can't get a grip!"))
 				return FALSE
-			user.rogfat_add(rand(7,15))
+			user.stamina_add(rand(7,15))
 			if(M.grippedby(user))			//Aggro grip
 				bleed_suppressing = 0.5		//Better bleed suppression
 		if(/datum/intent/grab/choke)
@@ -197,12 +206,16 @@
 				return FALSE
 			if(limb_grabbed && grab_state > 0) //this implies a carbon victim
 				if(iscarbon(M) && M != user)
-					user.rogfat_add(rand(1,3))
+					user.stamina_add(rand(1,3))
 					var/mob/living/carbon/C = M
 					if(get_location_accessible(C, BODY_ZONE_PRECISE_NECK))
 						if(prob(25))
 							C.emote("choke")
-						var/choke_damage = user.STASTR * 0.75 // To stop strength-maxing entirely.
+						var/choke_damage
+						if(user.STASTR > STRENGTH_SOFTCAP)
+							choke_damage = STRENGTH_SOFTCAP
+						else
+							choke_damage = user.STASTR * 0.75
 						if(chokehold)
 							choke_damage *= 1.2		//Slight bonus
 						if(C.pulling == user && C.grab_state >= GRAB_AGGRESSIVE)
@@ -213,7 +226,7 @@
 						to_chat(user, span_danger("I [pick("choke", "strangle")] [C][chokehold ? " with a chokehold" : ""]!"))
 					else
 						to_chat(user, span_warning("I can't reach [C]'s throat!"))
-					user.changeNext_move(CLICK_CD_MELEE)	//Stops spam for choking.
+					user.changeNext_move(CLICK_CD_GRABBING)	//Stops spam for choking.
 		if(/datum/intent/grab/hostage)
 			if(user.buckled)
 				to_chat(user, span_warning("I can't do this while buckled!"))
@@ -239,7 +252,7 @@
 				return FALSE
 			if(limb_grabbed && grab_state > 0) //this implies a carbon victim
 				if(iscarbon(M))
-					user.rogfat_add(rand(3,8))
+					user.stamina_add(rand(3,8))
 					twistlimb(user)
 		if(/datum/intent/grab/twistitem)
 			if(user.buckled)
@@ -247,13 +260,13 @@
 				return FALSE
 			if(limb_grabbed && grab_state > 0) //this implies a carbon victim
 				if(ismob(M))
-					user.rogfat_add(rand(3,8))
+					user.stamina_add(rand(3,8))
 					twistitemlimb(user)
 		if(/datum/intent/grab/remove)
 			if(user.buckled)
 				to_chat(user, span_warning("I can't do this while buckled!"))
 				return FALSE
-			user.rogfat_add(rand(3,13))
+			user.stamina_add(rand(3,13))
 			if(isitem(sublimb_grabbed))
 				removeembeddeditem(user)
 			else
@@ -271,7 +284,7 @@
 					return
 				var/stun_dur = max(((65 + (skill_diff * 10) + (user.STASTR * 5) - (M.STASTR * 5)) * combat_modifier), 20)
 				var/pincount = 0
-				user.rogfat_add(rand(1,3))
+				user.stamina_add(rand(1,3))
 				while(M == grabbed && !(M.mobility_flags & MOBILITY_STAND) && (src in M.grabbedby))
 					if(M.IsStun())
 						if(!do_after(user, stun_dur + 1, needhand = 0, target = M))
@@ -284,16 +297,18 @@
 							break
 						M.Stun(stun_dur - pincount * 2)	
 						M.Immobilize(stun_dur)	//Made immobile for the whole do_after duration, though
+						user.stamina_add(rand(1,3) + abs(skill_diff) + stun_dur / 1.5)
 						M.visible_message(span_danger("[user] keeps [M] pinned to the ground!"))
 						pincount += 2
 					else if(src in M.grabbedby)
 						M.Stun(stun_dur - 10)
 						M.Immobilize(stun_dur)
+						user.stamina_add(rand(1,3) + abs(skill_diff) + stun_dur / 1.5)
 						pincount += 2
 						M.visible_message(span_danger("[user] pins [M] to the ground!"), \
 							span_userdanger("[user] pins me to the ground!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE)
 			else
-				user.rogfat_add(rand(5,15))
+				user.stamina_add(rand(5,15))
 				if(prob(clamp((((4 + (((user.STASTR - M.STASTR)/2) + skill_diff)) * 10 + rand(-5, 5)) * combat_modifier), 5, 95)))
 					M.visible_message(span_danger("[user] shoves [M] to the ground!"), \
 									span_userdanger("[user] shoves me to the ground!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE)
@@ -321,6 +336,30 @@
 		to_chat(user, span_warning("I twisted [C]'s prosthetic [parse_zone(sublimb_grabbed)] off.[C.next_attack_msg.Join()]"))
 		limb_grabbed.drop_limb(TRUE)
 
+/obj/item/grabbing/proc/headbutt(mob/living/carbon/human/H)
+	var/mob/living/carbon/C = grabbed
+	var/obj/item/bodypart/Chead = C.get_bodypart(BODY_ZONE_HEAD)
+	var/obj/item/bodypart/Hhead = H.get_bodypart(BODY_ZONE_HEAD)
+	var/armor_block = C.run_armor_check(Chead, "blunt")
+	var/armor_block_user = H.run_armor_check(Hhead, "blunt")
+	var/damage = H.get_punch_dmg()
+	C.next_attack_msg.Cut()
+	playsound(C.loc, "genblunt", 100, FALSE, -1)
+	C.apply_damage(damage*1.5, , Chead, armor_block)
+	Chead.bodypart_attacked_by(BCLASS_SMASH, damage*1.5, H, crit_message=TRUE)
+	H.apply_damage(damage, BRUTE, Hhead, armor_block_user)
+	Hhead.bodypart_attacked_by(BCLASS_SMASH, damage/1.2, H, crit_message=TRUE)
+	C.stop_pulling(TRUE)
+	C.Immobilize(10)
+	C.OffBalance(10)
+	H.Immobilize(5)
+
+	C.visible_message("<span class='danger'>[H] headbutts [C]'s [parse_zone(sublimb_grabbed)]![C.next_attack_msg.Join()]</span>", \
+					"<span class='userdanger'>[H] headbutts my [parse_zone(sublimb_grabbed)]![C.next_attack_msg.Join()]</span>", "<span class='hear'>I hear a sickening sound of pugilism!</span>", COMBAT_MESSAGE_RANGE, H)
+	to_chat(H, "<span class='warning'>I headbutt [C]'s [parse_zone(sublimb_grabbed)].[C.next_attack_msg.Join()]</span>")
+	C.next_attack_msg.Cut()
+	log_combat(H, C, "headbutted ")
+
 /obj/item/grabbing/proc/twistitemlimb(mob/living/user) //implies limb_grabbed and sublimb are things
 	var/mob/living/M = grabbed
 	var/damage = rand(5,10)
@@ -342,7 +381,7 @@
 		if(QDELETED(I) || QDELETED(L) || !L.remove_embedded_object(I))
 			return FALSE
 		L.receive_damage(I.embedding.embedded_unsafe_removal_pain_multiplier*I.w_class) //It hurts to rip it out, get surgery you dingus.
-		user.dropItemToGround(src)
+		user.dropItemToGround(src) // this will unset vars like limb_grabbed
 		user.put_in_hands(I)
 		C.emote("paincrit", TRUE)
 		playsound(C, 'sound/foley/flesh_rem.ogg', 100, TRUE, -2)
@@ -350,13 +389,12 @@
 			user.visible_message(span_notice("[user] rips [I] out of [user.p_their()] [L.name]!"), span_notice("I rip [I] from my [L.name]."))
 		else
 			user.visible_message(span_notice("[user] rips [I] out of [C]'s [L.name]!"), span_notice("I rip [I] from [C]'s [L.name]."))
-		sublimb_grabbed = limb_grabbed.body_zone
 	else if(HAS_TRAIT(M, TRAIT_SIMPLE_WOUNDS))
 		var/obj/item/I = locate(sublimb_grabbed) in M.simple_embedded_objects
 		if(QDELETED(I) || !M.simple_remove_embedded_object(I))
 			return FALSE
 		M.apply_damage(I.embedding.embedded_unsafe_removal_pain_multiplier*I.w_class, BRUTE) //It hurts to rip it out, get surgery you dingus.
-		user.dropItemToGround(src)
+		user.dropItemToGround(src) // this will unset vars like limb_grabbed
 		user.put_in_hands(I)
 		M.emote("paincrit", TRUE)
 		playsound(M, 'sound/foley/flesh_rem.ogg', 100, TRUE, -2)
@@ -364,14 +402,13 @@
 			user.visible_message(span_notice("[user] rips [I] out of [user.p_them()]self!"), span_notice("I remove [I] from myself."))
 		else
 			user.visible_message(span_notice("[user] rips [I] out of [M]!"), span_notice("I rip [I] from [src]."))
-		sublimb_grabbed = M.simple_limb_hit(user.zone_selected)
 	user.update_grab_intents(grabbed)
 	return TRUE
 
 /obj/item/grabbing/attack_turf(turf/T, mob/living/user)
 	if(!valid_check())
 		return
-	user.changeNext_move(CLICK_CD_MELEE)
+	user.changeNext_move(CLICK_CD_GRABBING)
 	switch(user.used_intent.type)
 		if(/datum/intent/grab/move)
 			if(isturf(T))
@@ -403,7 +440,7 @@
 /obj/item/grabbing/attack_obj(obj/O, mob/living/user)
 	if(!valid_check())
 		return
-	user.changeNext_move(CLICK_CD_MELEE)
+	user.changeNext_move(CLICK_CD_GRABBING)
 	if(user.used_intent.type == /datum/intent/grab/smash)
 		if(isstructure(O) && O.blade_dulling != DULLING_CUT)
 			if(!(user.mobility_flags & MOBILITY_STAND))
@@ -420,8 +457,10 @@
 
 /obj/item/grabbing/proc/smashlimb(atom/A, mob/living/user) //implies limb_grabbed and sublimb are things
 	var/mob/living/carbon/C = grabbed
-	var/armor_block = C.run_armor_check(limb_grabbed, d_type)
+	var/armor_block = C.run_armor_check(limb_grabbed, d_type, armor_penetration = BLUNT_DEFAULT_PENFACTOR)
 	var/damage = user.get_punch_dmg()
+	var/unarmed_skill = user.get_skill_level(/datum/skill/combat/unarmed)
+	damage *= (1 + (unarmed_skill / 10))	//1.X multiplier where X is the unarmed skill.
 	C.next_attack_msg.Cut()
 	if(C.apply_damage(damage, BRUTE, limb_grabbed, armor_block))
 		limb_grabbed.bodypart_attacked_by(BCLASS_BLUNT, damage, user, sublimb_grabbed, crit_message = TRUE)
@@ -493,6 +532,7 @@
 /obj/item/grabbing/bite
 	name = "bite"
 	icon_state = "bite"
+	d_type = "stab"
 	slot_flags = ITEM_SLOT_MOUTH
 	bleed_suppressing = 1
 	var/last_drink
@@ -527,9 +567,9 @@
 		to_chat(user, span_warning("My mouth has something in it."))
 		return FALSE*/
 
-	user.changeNext_move(CLICK_CD_MELEE)
+	user.changeNext_move(CLICK_CD_GRABBING)
 	var/mob/living/carbon/C = grabbed
-	var/armor_block = C.run_armor_check(sublimb_grabbed, d_type)
+	var/armor_block = C.run_armor_check(sublimb_grabbed, d_type, armor_penetration = BLUNT_DEFAULT_PENFACTOR)
 	var/damage = user.get_punch_dmg()
 	if(HAS_TRAIT(user, TRAIT_STRONGBITE))
 		damage = damage*2
@@ -552,7 +592,6 @@
 			*/
 			var/datum/antagonist/zombie/zombie_antag = user.mind.has_antag_datum(/datum/antagonist/zombie)
 			if(zombie_antag && zombie_antag.has_turned)
-				zombie_antag.last_bite = world.time
 				var/datum/antagonist/zombie/existing_zombie = C.mind?.has_antag_datum(/datum/antagonist/zombie) //If the bite target is a zombie
 				if(!existing_zombie && caused_wound?.zombie_infect_attempt())   // infect_attempt on wound
 					to_chat(user, span_danger("You feel your gift trickling into [C]'s wound...")) //message to the zombie they infected the target
@@ -608,7 +647,7 @@
 			to_chat(user, span_userdanger("SILVER! HISSS!!!"))
 			return
 	last_drink = world.time
-	user.changeNext_move(CLICK_CD_MELEE)
+	user.changeNext_move(CLICK_CD_GRABBING)
 
 	if(user.mind)
 		var/datum/antagonist/vampirelord/VDrinker = user.mind.has_antag_datum(/datum/antagonist/vampirelord)
@@ -663,9 +702,29 @@
 	log_combat(user, C, "drank blood from ")
 
 	if(user.mind && user.mind.has_antag_datum(/datum/antagonist/vampire))
-		var/datum/antagonist/vampire/VampDrinker = user.mind.has_antag_datum(/datum/antagonist/vampire)
-		if(VampDrinker && VampDrinker.wretch_antag)
-			VampDrinker.vitae = min(VampDrinker.vitae + 400, 5000)
-			to_chat(user, span_notice("I gain 400 vitae from drinking blood. Current vitae: [VampDrinker.vitae]"))
-		else if(VampDrinker && !C.mind)
-			to_chat(user, span_warning("This blood is not pure enough to nourish me properly."))
+		var/datum/antagonist/vampire/VDrinker = user.mind.has_antag_datum(/datum/antagonist/vampire)
+		if(VDrinker && VDrinker.wretch_antag)
+			VDrinker.vitae = min(VDrinker.vitae + 400, 5000)
+			to_chat(user, span_notice("I gain 400 vitae from drinking blood. Current vitae: [VDrinker.vitae]"))
+		else if(VDrinker && !C.mind)
+			to_chat(user, span_warning("This blood is not pure enough to nourish me properly!"))
+		
+
+	if(C.mind && user.mind.has_antag_datum(/datum/antagonist/vampirelord))
+		var/datum/antagonist/vampirelord/VDrinker = user.mind.has_antag_datum(/datum/antagonist/vampirelord)
+		if(C.blood_volume <= BLOOD_VOLUME_SURVIVE)
+			if(!VDrinker.isspawn)
+				switch(alert("Would you like to sire a new spawn?",,"Yes","No"))
+					if("Yes")
+						user.visible_message("[user] begins to infuse dark magic into [C]")
+						if(do_after(user, 30))
+							C.visible_message("[C] rises as a new spawn!")
+							var/datum/antagonist/vampirelord/lesser/new_antag = new /datum/antagonist/vampirelord/lesser()
+							new_antag.sired = TRUE
+							C.mind.add_antag_datum(new_antag)
+							sleep(10 SECONDS)
+							C.fully_heal()
+							C.energy = C.max_energy
+							C.update_health_hud()
+					if("No")
+						to_chat(user, span_warning("I decide [C] is unworthy."))

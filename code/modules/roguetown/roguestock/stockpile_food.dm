@@ -13,7 +13,7 @@
 	export_price = 8
 	importexport_amt = 5
 	passive_generation = 3
-	stockpile_limit = 30
+	stockpile_limit = 25
 	category = "Foodstuffs"
 
 /datum/roguestock/stockpile/grain
@@ -55,21 +55,7 @@
 	export_price = 3
 	importexport_amt = 10
 	passive_generation = 3
-	stockpile_limit = 30
-	category = "Foodstuffs"
-
-/datum/roguestock/stockpile/apple
-	name = "Apple"
-	desc = "Harvested produce."
-	item_type = /obj/item/reagent_containers/food/snacks/grown/apple
-	held_items = list(0, 0)
-	payout_price = 3
-	withdraw_price = 3
-	transport_fee = 1
-	export_price = 5
-	importexport_amt = 5
-	passive_generation = 3
-	stockpile_limit = 30
+	stockpile_limit = 50
 	category = "Foodstuffs"
 
 /datum/roguestock/stockpile/meat
@@ -81,8 +67,8 @@
 	withdraw_price = 4
 	transport_fee = 2
 	export_price = 8
-	importexport_amt = 5
-	stockpile_limit = 40
+	importexport_amt = 10
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -96,7 +82,7 @@
 	transport_fee = 1
 	export_price = 3
 	importexport_amt = 10
-	stockpile_limit = 30
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -110,7 +96,7 @@
 	transport_fee = 2
 	export_price = 8
 	importexport_amt = 5
-	stockpile_limit = 30
+	stockpile_limit = 25
 	passive_generation = 1
 	category = "Foodstuffs"
 
@@ -124,7 +110,7 @@
 	transport_fee = 1
 	export_price = 5
 	importexport_amt = 5
-	stockpile_limit = 30
+	stockpile_limit = 25
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -138,7 +124,7 @@
 	transport_fee = 2
 	export_price = 5
 	importexport_amt = 5
-	stockpile_limit = 30
+	stockpile_limit = 25
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -152,7 +138,7 @@
 	transport_fee = 1
 	export_price = 5
 	importexport_amt = 5
-	stockpile_limit = 30
+	stockpile_limit = 25
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -166,7 +152,7 @@
 	transport_fee = 1
 	export_price = 2
 	importexport_amt = 5
-	stockpile_limit = 30
+	stockpile_limit = 25
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -180,7 +166,7 @@
 	transport_fee = 3
 	export_price = 13
 	importexport_amt = 5
-	stockpile_limit = 30
+	stockpile_limit = 25
 	passive_generation = 1
 	category = "Foodstuffs"
 
@@ -194,22 +180,8 @@
 	transport_fee = 2
 	export_price = 5
 	importexport_amt = 5
-	stockpile_limit = 30
+	stockpile_limit = 25
 	passive_generation = 1
-	category = "Foodstuffs"
-
-/datum/roguestock/stockpile/jacksberry
-	name = "Jacksberries"
-	desc = "Sweet berries, prime for winemaking."
-	item_type = /obj/item/reagent_containers/food/snacks/grown/berries/rogue
-	held_items = list(0, 0)
-	payout_price = 2
-	withdraw_price = 2
-	transport_fee = 1
-	export_price = 3
-	importexport_amt = 10
-	stockpile_limit = 50 // Jackberries are used to mass produce raisins so higher limit
-	passive_generation = 2
 	category = "Foodstuffs"
 
 /datum/roguestock/stockpile/onion
@@ -222,7 +194,21 @@
 	transport_fee = 1
 	export_price = 3
 	importexport_amt = 10
-	stockpile_limit = 30
+	stockpile_limit = 50
+	passive_generation = 2
+	category = "Foodstuffs"
+
+/datum/roguestock/stockpile/turnip
+	name = "Turnip"
+	desc = "A hardy root vegetable suitable for soups. Favored by the poor"
+	item_type = /obj/item/reagent_containers/food/snacks/grown/vegetable/turnip
+	held_items = list(0, 0)
+	payout_price = 2
+	withdraw_price = 2
+	transport_fee = 1
+	export_price = 3
+	importexport_amt = 10
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -236,7 +222,7 @@
 	transport_fee = 1
 	export_price = 3
 	importexport_amt = 10
-	stockpile_limit = 30
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -250,7 +236,7 @@
 	transport_fee = 1
 	export_price = 3
 	importexport_amt = 10
-	stockpile_limit = 30
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -264,7 +250,7 @@
 	transport_fee = 1
 	export_price = 3
 	importexport_amt = 10
-	stockpile_limit = 30
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -278,7 +264,7 @@
 	transport_fee = 1
 	export_price = 3
 	importexport_amt = 10
-	stockpile_limit = 30
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -292,7 +278,7 @@
 	transport_fee = 1
 	export_price = 3
 	importexport_amt = 10
-	stockpile_limit = 30
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -306,7 +292,7 @@
 	transport_fee = 1
 	export_price = 3
 	importexport_amt = 10
-	stockpile_limit = 30
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -315,12 +301,12 @@
 	desc = "A seed with a sedative effect."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rogue/poppy
 	held_items = list(0, 0)
-	payout_price = 4
-	withdraw_price = 4
+	payout_price = 2
+	withdraw_price = 2
 	transport_fee = 1
-	export_price = 3
+	export_price = 4
 	importexport_amt = 10
-	stockpile_limit = 30
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -329,12 +315,26 @@
 	desc = "A nut with mild stimulant properties."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/nut
 	held_items = list(0, 0)
+	payout_price = 2
+	withdraw_price = 2
+	transport_fee = 1
+	export_price = 4
+	importexport_amt = 10
+	stockpile_limit = 50
+	passive_generation = 2
+	category = "Foodstuffs"
+
+/datum/roguestock/stockpile/sugarcane
+	name = "Sugarcane"
+	desc = "A plant that can be milled into sugar."
+	item_type = /obj/item/reagent_containers/food/snacks/grown/sugarcane
+	held_items = list(0, 0)
 	payout_price = 3
 	withdraw_price = 3
 	transport_fee = 1
 	export_price = 3
 	importexport_amt = 10
-	stockpile_limit = 30
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -348,7 +348,7 @@
 	transport_fee = 1
 	export_price = 3
 	importexport_amt = 10
-	stockpile_limit = 30
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -362,6 +362,6 @@
 	transport_fee = 1
 	export_price = 3
 	importexport_amt = 10
-	stockpile_limit = 30
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"

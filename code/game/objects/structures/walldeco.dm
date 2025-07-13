@@ -132,6 +132,15 @@
 	desc = ""
 	icon_state = "wallshield"
 
+/obj/structure/fluff/walldeco/sign/merchantsign
+	name = "merchant shop sign"
+	icon_state = "shopsign_merchant_right"
+	plane = -1
+	pixel_y = 16
+
+/obj/structure/fluff/walldeco/sign/merchantsign/left
+	icon_state = "shopsign_merchant_left"
+
 /obj/structure/fluff/walldeco/psybanner
 	name = "banner"
 	icon_state = "Psybanner-PURPLE"
@@ -147,7 +156,7 @@
 
 /obj/structure/fluff/walldeco/stone/bronze
 	color = "#ff9c1a"
-	
+
 /obj/structure/fluff/walldeco/church/line
 	name = ""
 	desc = ""

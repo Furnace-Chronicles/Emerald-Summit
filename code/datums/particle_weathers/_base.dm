@@ -376,7 +376,6 @@
 
 	var/color = input("Choose a weather color", "Weather")  as null|anything in selectable_colors
 	if(!color )
-		to_chat(usr, "hit")
 		color = "#ccffff" //base rain color
 
 	SSParticleWeather.run_weather(weather_type, TRUE, color)

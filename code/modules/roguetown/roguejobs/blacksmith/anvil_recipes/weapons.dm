@@ -379,7 +379,7 @@
 	craftdiff = 2
 
 /datum/anvil_recipe/weapons/iron/polemace
-	name = "Warclub (+1 Small Log)"
+	name = "Goedendag (+1 Small Log)"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/mace/goden
@@ -592,6 +592,13 @@
 	created_item = /obj/item/rogueweapon/spear/partizan
 	craftdiff = 4
 
+/datum/anvil_recipe/weapons/steel/naginata
+	name = "Naginata (+1 Big Log)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/grown/log/tree/) //looong spear
+	created_item = /obj/item/rogueweapon/spear/naginata
+	craftdiff = 4
+
 /datum/anvil_recipe/weapons/steel/boarspear
 	name = "Boar Spear (+1 Steel, +1 Small Log)"
 	req_bar = /obj/item/ingot/steel
@@ -790,6 +797,13 @@
 	created_item = /obj/item/rogueweapon/shield/buckler
 	craftdiff = 2
 
+/datum/anvil_recipe/weapons/iron/roundshield
+	name = "Iron Shield (+1 Iron)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron)
+	created_item = /obj/item/rogueweapon/shield/iron
+	craftdiff = 2
+
 /// CROSSBOWS
 /datum/anvil_recipe/weapons/steel/xbow
 	name = "Crossbow (+1 Small Log, +1 Fiber)"
@@ -896,7 +910,7 @@
 // BLACKSTEEL
 
 /datum/anvil_recipe/weapons/blackflamb
-	name = "Flamberge"
+	name = "Blacksteel Flamberge (+1 Blacksteel, +1 Ruby)"
 	req_bar = /obj/item/ingot/blacksteel
 	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/roguegem/ruby)
 	created_item = /obj/item/rogueweapon/sword/long/blackflamb

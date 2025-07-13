@@ -49,9 +49,14 @@
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/stonebeardreserve)
 
 /datum/supply_pack/rogue/alcohol/voddena
-	name = "Dwarven Voddena"
+	name = "Hammerhold Voddena"
 	cost = 25
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/voddena)
+
+/datum/supply_pack/rogue/alcohol/sazdistal
+	name = "Saz Distal Chili Liqueur"
+	cost = 30
+	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/sazdistal)
 
 /datum/supply_pack/rogue/alcohol/wineraneshen
 	name = "Shalvistine Wine"
@@ -125,8 +130,8 @@
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/saigamilk)
 
 /datum/supply_pack/rogue/alcohol/kgunlager
-	name = "Yamaguchi Pale (Kazengun Plumwine)"
-	cost = 50
+	name = "Yamaguchi Pale (Kazengun Pale Lager)"
+	cost = 20
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunlager)
 
 /datum/supply_pack/rogue/alcohol/kgunplum
@@ -139,7 +144,28 @@
 	cost = 150
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunsake)
 
-/datum/supply_pack/rogue/alcohol/kgunplum
-	name = "Umeshu"
-	cost = 30
-	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunplum)
+/datum/supply_pack/rogue/alcohol/kgunshochu
+	name = "Shochu"
+	cost = 150
+	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunshochu)
+
+// Zhongese
+/datum/supply_pack/rogue/alcohol/zhonghuangjiu
+	name = "Huangjiu (Zhongese Yellow Rice Wine)"
+	cost = 20
+	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/huangjiu)
+
+/datum/supply_pack/rogue/alcohol/baijiu
+	name = "Baijiu (Zhongese Sorghum Liquor)"
+	cost = 50
+	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/baijiu)
+
+/datum/supply_pack/rogue/alcohol/yaojiu
+	name = "Yaojiu (Zhongese Herbal Rice Wine)"
+	cost = 150
+	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/yaojiu)
+
+/datum/supply_pack/rogue/alcohol/shejiu
+	name = "Shejiu (Zhongese Snake Wine)"
+	cost = 150
+	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/shejiu)

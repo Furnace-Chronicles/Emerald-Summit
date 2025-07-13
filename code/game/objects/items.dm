@@ -146,12 +146,22 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/gripsprite = FALSE //use alternate grip sprite for inhand
 
 	var/dropshrink = 0
-
-	var/wlength = WLENGTH_NORMAL		//each weapon length class has its own inherent dodge properties
+	/// Force value that is force or force_wielded, with any added bonuses from external sources. (Mainly components for enchantments)
+	var/force_dynamic = 0
+	/// Weapon's length. Indicates what limbs it can target without extra circumstances (like grabs / on a prone target). 
+	var/wlength = WLENGTH_NORMAL
+	/// Weapon's balance. Swift uses SPD difference between attacker and defender to increase hit%. Heavy increases parry stamina drain based on STR diff.
 	var/wbalance = WBALANCE_NORMAL
-	var/wdefense = 0 //better at defending
-	var/minstr = 0  //for weapons
-	var/intdamage_factor = 0	//%-age of our raw damage that is dealt to armor or weapon on hit / parry.
+	/// Weapon's defense. Multiplied by 10 and added to the defender's parry / dodge %-age.
+	var/wdefense = 0 
+	/// Weapon's defense bonus from wielding it. Added to wdefense upon wielding.
+	var/wdefense_wbonus = 0
+	/// Weapon's dynamic defense of the wbonus and wdefense added together. This var allows wdefense and the wbonus to be altered by other code / status effects etc.
+	var/wdefense_dynamic = 0
+	/// Minimum STR required to use the weapon. Will reduce damage by 70% if not met. Wielding halves the requirement.
+	var/minstr = 0 
+	/// %-age of our raw damage that is dealt to armor or weapon on hit / parry / clip.
+	var/intdamage_factor = 1
 
 	var/sleeved = null
 	var/sleevetype = null
@@ -215,6 +225,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	/// This is what we get when we either tear up or salvage a piece of clothing
 	var/obj/item/salvage_result = null
+
+	var/craft_blocked = FALSE //blocks the item from being used in crafts, such as conjured items
 
 	/// The amount of salvage we get out of salvaging with scissors
 	var/salvage_amount = 0 //This will be more accurate when sewing recipes get sorted
@@ -331,6 +343,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				getmoboverlay(i,prop,behind=TRUE,mirrored=FALSE)
 				getmoboverlay(i,prop,behind=FALSE,mirrored=TRUE)
 				getmoboverlay(i,prop,behind=TRUE,mirrored=TRUE)
+	
+	wdefense_dynamic = wdefense
+	force_dynamic = force
 
 	. = ..()
 	for(var/path in actions_types)
@@ -457,7 +472,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			inspec += "\n<b>BULKY</b>"
 
 		if(can_parry)
-			inspec += "\n<b>DEFENSE:</b> [wdefense]"
+			inspec += "\n<b>DEFENSE:</b> [wdefense_dynamic]"
 
 		if(max_blade_int)
 			inspec += "\n<b>SHARPNESS:</b> "
@@ -516,8 +531,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 		if(max_integrity)
 			inspec += "\n<b>DURABILITY:</b> "
-			var/meme = round(((obj_integrity / max_integrity) * 100), 1)
-			inspec += "[meme]%"
+			var/percent = round(((obj_integrity / max_integrity) * 100), 1)
+			inspec += "[percent]% ([obj_integrity])"
 
 		to_chat(usr, "[inspec.Join()]")
 
@@ -849,7 +864,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		if(prob(50))
 			if(M.stat != DEAD)
 				if(M.drop_all_held_items())
-					to_chat(M, span_danger("I drop what you're holding and clutch at my eyes!"))
+					to_chat(M, span_danger("I drop what I'm holding and clutch at my eyes!"))
 			M.adjust_blurriness(10)
 			M.Unconscious(20)
 			M.Paralyze(40)
@@ -1200,8 +1215,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(wielded)
 		wielded = FALSE
 		if(force_wielded)
-			force = initial(force)
-		wdefense = initial(wdefense)
+			force_dynamic = force
+		wdefense_dynamic = wdefense
 	if(altgripped)
 		altgripped = FALSE
 	update_transform()
@@ -1240,8 +1255,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		return
 	wielded = TRUE
 	if(force_wielded)
-		force = force_wielded
-	wdefense = wdefense + 3
+		force_dynamic = force_wielded
+	wdefense_dynamic = (wdefense + wdefense_wbonus)
 	update_transform()
 	to_chat(user, span_notice("I wield [src] with both hands."))
 	playsound(loc, pick('sound/combat/weaponr1.ogg','sound/combat/weaponr2.ogg'), 100, TRUE)

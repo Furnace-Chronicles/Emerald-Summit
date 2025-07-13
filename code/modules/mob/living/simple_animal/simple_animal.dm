@@ -139,7 +139,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/dextrous = FALSE
 	var/dextrous_hud_type = /datum/hud/dextrous
 
-	///The Status of our AI, can be set to AI_ON (On, usual processing), AI_IDLE (Will not process, but will return to AI_ON if an enemy comes near), AI_OFF (Off, Not processing ever), AI_Z_OFF (Temporarily off due to nonpresence of players).
+	///The Status of our AI, can be set to AI_ON (On, usual processing), AI_IDLE (Will not process, but will return to AI_ON if an enemy comes near), NPC_AI_OFF (Off, Not processing ever), AI_Z_OFF (Temporarily off due to nonpresence of players).
 	var/AIStatus = AI_ON
 	///once we have become sentient, we can never go back.
 	var/can_have_ai = TRUE
@@ -267,6 +267,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		retreating = null
 		retreat_distance = initial(retreat_distance)
 		minimum_distance = initial(minimum_distance)
+	if(HAS_TRAIT(src, TRAIT_RIGIDMOVEMENT))
+		return
 	if(HAS_TRAIT(src, TRAIT_IGNOREDAMAGESLOWDOWN))
 		move_to_delay = initial(move_to_delay)
 		return
@@ -400,7 +402,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 				else
 					visible_message("[user] begins to butcher [src]...")
 				if(user.mind)
-					used_time -= (user.mind.get_skill_level(/datum/skill/labor/butchering) * 30)
+					used_time -= (user.get_skill_level(/datum/skill/labor/butchering) * 30)
 				playsound(src, 'sound/foley/gross.ogg', 100, FALSE)
 				if(do_after(user, used_time, target = src))
 					butcher(user)
@@ -419,7 +421,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		ssaddle.forceMove(get_turf(src))
 		ssaddle = null
 	var/list/butcher = list()
-	var/butchery_skill_level = user.mind.get_skill_level(/datum/skill/labor/butchering)
+	var/butchery_skill_level = user.get_skill_level(/datum/skill/labor/butchering)
 	var/botch_chance = 0
 	if(length(botched_butcher_results) && butchery_skill_level < SKILL_LEVEL_JOURNEYMAN)
 		botch_chance = 70 - (20 * butchery_skill_level) // 70% at unskilled, 20% lower for each level above it, 0% at journeyman or higher
@@ -533,9 +535,9 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 /mob/living/simple_animal/handle_fire()
 	. = ..()
-	if(fire_stacks > 0)
+	if(fire_stacks + divine_fire_stacks > 0)
 		apply_damage(5, BURN)
-		if(fire_stacks > 5)
+		if(fire_stacks + divine_fire_stacks > 5)
 			apply_damage(10, BURN)
 
 //mob/living/simple_animal/IgniteMob()
@@ -744,7 +746,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		return
 	var/time2mount = 12
 	if(M.mind)
-		var/amt = M.mind.get_skill_level(/datum/skill/misc/riding)
+		var/amt = M.get_skill_level(/datum/skill/misc/riding)
 		if(amt)
 			if(amt > 3)
 				time2mount = 0
@@ -768,7 +770,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		var/time2mount = 12
 		riding_datum.vehicle_move_delay = move_to_delay
 		if(M.mind)
-			var/amt = M.mind.get_skill_level(/datum/skill/misc/riding)
+			var/amt = M.get_skill_level(/datum/skill/misc/riding)
 			if(amt)
 				if(amt > 3)
 					time2mount = 0
@@ -817,7 +819,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 					else
 						do_footstep = FALSE
 			if(user.mind)
-				var/amt = user.mind.get_skill_level(/datum/skill/misc/riding)
+				var/amt = user.get_skill_level(/datum/skill/misc/riding)
 				if(amt)
 					riding_datum.vehicle_move_delay -= 5 + amt/6
 				else

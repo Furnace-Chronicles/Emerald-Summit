@@ -832,6 +832,9 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		player_details.byond_version = full_version
 		GLOB.player_details[ckey] = player_details
 
+#if (PRELOAD_RSC == 0)
+	preload_rsc = GLOB.external_rsc_urls[1]
+#endif
 
 	. = ..()	//calls mob.Login()
 	if (length(GLOB.stickybanadminexemptions))

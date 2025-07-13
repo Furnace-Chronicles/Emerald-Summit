@@ -77,6 +77,7 @@
 				change_stat("perception", -1)
 				change_stat("constitution", -2)
 				change_stat("intelligence", 2)
+				change_stat("fortune", 1)
 		if(key)
 			if(check_blacklist(ckey(key)))
 				change_stat("strength", -5)
@@ -230,6 +231,7 @@
 				newamt--
 				BUFSPE++
 			STASPD = newamt
+			update_move_intent_slowdown()
 
 		if("fortune")
 			newamt = STALUC + amt

@@ -68,7 +68,6 @@
 		return
 	lastminer = user
 	..()
-	// Auto mining logic
 	if(istype(I, /obj/item/rogueweapon/pick))
 		if(!isliving(user))
 			return
@@ -78,7 +77,7 @@
 		// Makes more sense for the check since they always
 		// become an open tile afterwards
 		while(density && user.Adjacent(src))
-			if((L.rogstam > 0) && (do_after(user, CLICK_CD_MELEE, TRUE, src)))
+			if((L.energy > 0) && (do_after(user, CLICK_CD_MELEE, TRUE, src)))
 				..()
 				var/olddam = turf_integrity
 				if(turf_integrity && turf_integrity > 10)
@@ -94,12 +93,12 @@
 
 /turf/closed/mineral/attack_right(mob/user)
 	var/obj/item = user.get_active_held_item()
-	if(user.used_intent.type == /datum/intent/pick && (user.mind.get_skill_level(/datum/skill/labor/mining) >= SKILL_LEVEL_JOURNEYMAN))
+	if(user.used_intent.type == /datum/intent/pick && (user.get_skill_level(/datum/skill/labor/mining) >= SKILL_LEVEL_JOURNEYMAN))
 		if(do_after(user, 4 SECONDS, TRUE, src))
 			if(!ismineralturf(src))
 				return
 			src.attackby(item, user, multiplier = 4)
-			user.rogfat_add(25)
+			user.stamina_add(25)
 	..()
 
 /turf/closed/mineral/turf_destruction(damage_flag)

@@ -20,6 +20,7 @@
 
 /mob/living/carbon/human/examine(mob/user)
 	var/observer_privilege = isobserver(user)
+	var/aghost_privilege = isadminobserver(user)
 	var/t_He = p_they(TRUE)
 	var/t_his = p_their()
 //	var/t_him = p_them()
@@ -28,8 +29,11 @@
 	var/obscure_name = FALSE
 	var/race_name = dna.species.name
 	var/datum/antagonist/maniac/maniac = user.mind?.has_antag_datum(/datum/antagonist/maniac)
+	var/datum/antagonist/skeleton/skeleton = user.mind?.has_antag_datum(/datum/antagonist/skeleton)
 	if(maniac && (user != src))
 		race_name = "disgusting pig"
+	if(skeleton && (user != src))
+		race_name = "[pick("shambling", "taut", "decrepit")]"
 
 	var/m1 = "[t_He] [t_is]"
 	var/m2 = "[t_his]"
@@ -61,6 +65,8 @@
 		on_examine_face(user)
 		var/used_name = name
 		var/used_title = get_role_title()
+		if(SSticker.regentmob == src)
+			used_title = "[used_title]" + " Regent"
 		var/display_as_wanderer = FALSE
 		var/is_returning = FALSE
 		if(observer_privilege)
@@ -98,6 +104,9 @@
 				. += span_notice("A fellow noble.")
 			else
 				. += span_notice("A noble!")
+
+		if(HAS_TRAIT(src, TRAIT_CHOSEN))
+			. += span_notice("The ordained voice of the Ten!")
 
 		if (HAS_TRAIT(src, TRAIT_OUTLANDER) && !HAS_TRAIT(user, TRAIT_OUTLANDER)) 
 			. += span_phobia("A foreigner...")
@@ -154,6 +163,8 @@
 				. += span_secradio("[m1] marked by scars inflicted for pleasure. A delectable target for my urges.")
 			if(has_flaw(/datum/charflaw/addiction/sadist) && user.has_flaw(/datum/charflaw/masochist))
 				. += span_secradio("[m1] looking with eyes filled with a desire to inflict pain. So exciting.")
+			if(HAS_TRAIT(user, TRAIT_EMPATH) && HAS_TRAIT(src, TRAIT_PERMAMUTE))
+				. += span_notice("[m1] lacks a voice. [m1] is a mute!")
 
 		var/villain_text = get_villain_text(user)
 		if(villain_text)
@@ -185,6 +196,12 @@
 					. += span_redtext("[m1] repugnant!")
 				if (THEY_THEM, THEY_THEM_F, IT_ITS)
 					. += span_redtext("[m1] repulsive!")
+	
+	if (HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS))
+		if(isliving(user))
+			var/mob/living/L = user
+			if(L.STAINT > 9 && L.STAPER > 9)
+				. += span_redtext("<i>[m1] critically fragile!</i>")
 
 	if(user != src && HAS_TRAIT(user, TRAIT_MATTHIOS_EYES))
 		var/atom/item = get_most_expensive()
@@ -197,21 +214,11 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 
-		// Family examine text
-		if(H.isFamily(src))
-			var/datum/relation/R = H.getRelationship(src)
-			if(R)
-				. += span_love("It's my [R.name]!")
-		else if(family)
-			var/datum/family/F = getFamily()
-			if(F)
-				. += span_notice("Ah, they belong to the [F.name] family!")
-
-		if(HAS_TRAIT(H, TRAIT_INTELLECTUAL) || H.mind?.get_skill_level(H, /datum/skill/craft/blacksmithing) >= SKILL_EXP_EXPERT)
+		if(HAS_TRAIT(H, TRAIT_INTELLECTUAL) || H.get_skill_level(H, /datum/skill/craft/blacksmithing) >= SKILL_EXP_EXPERT)
 			is_smart = TRUE	//Most of this is determining integrity of objects + seeing multiple layers. 
-		if(((H?.STAINT - 10) + round((H?.STAPER - 10) / 2) + H.mind?.get_skill_level(/datum/skill/misc/reading)) < 0 && !is_smart)
+		if(((H?.STAINT - 10) + round((H?.STAPER - 10) / 2) + H.get_skill_level(/datum/skill/misc/reading)) < 0 && !is_smart)
 			is_stupid = TRUE
-		if(((H?.STAINT - 10) + (H?.STAPER - 10) + H.mind?.get_skill_level(/datum/skill/misc/reading)) >= 5)
+		if(((H?.STAINT - 10) + (H?.STAPER - 10) + H.get_skill_level(/datum/skill/misc/reading)) >= 5)
 			is_normal = TRUE
 
 	if(user != src)
@@ -230,7 +237,10 @@
 
 	if(wear_shirt && !(SLOT_SHIRT in obscured))
 		if(!wear_armor)
-			. += "[m3] [wear_shirt.get_examine_string(user)]."
+			var/str = "[m3] [wear_shirt.get_examine_string(user)]."
+			if(!is_stupid)
+				str += " [wear_shirt.integrity_check()]"
+			. += str
 		else
 			if(is_smart)
 				var/str = "[m3] [wear_shirt.get_examine_string(user)]. "
@@ -311,7 +321,7 @@
 			str += cloak.integrity_check()
 			. += str
 		else if (is_stupid)					//So they can tell the named RG tabards. If they can read them, anyway.
-			if(!istype(cloak, /obj/item/clothing/cloak/stabard) && user.mind?.get_skill_level(/datum/skill/misc/reading))
+			if(!istype(cloak, /obj/item/clothing/cloak/stabard) && user.get_skill_level(/datum/skill/misc/reading))
 				. += "[m3] some kinda clothy thing on [m2] shoulders!"
 			else
 				. += "[m3] [cloak.get_examine_string(user)] on [m2] shoulders."
@@ -608,7 +618,7 @@
 				msg += "[m1] looking parched."
 
 	//Fire/water stacks
-	if(fire_stacks > 0)
+	if(fire_stacks + divine_fire_stacks > 0)
 		msg += "[m1] covered in something flammable."
 	else if(fire_stacks < 0)
 		msg += "[m1] soaked."
@@ -792,16 +802,31 @@
 		if(get_dist(src, H) <= ((2 + clamp(floor(((H.STAPER - 10))),-1, 4)) + HAS_TRAIT(user, TRAIT_INTELLECTUAL)))
 			. += "<a href='?src=[REF(src)];task=assess;'>Assess</a>"
 
+	var/flavorcheck = FALSE // to avoid duplicating the below checks a little later
 	if((!obscure_name || client?.prefs.masked_examine) && (flavortext || headshot_link || ooc_notes))
+		flavorcheck = TRUE
+	if(flavorcheck)
 		. += "<a href='?src=[REF(src)];task=view_headshot;'>Examine closer</a>"
 		//tiny picture when you are not examining closer, shouldnt take too much space.
 	var/list/lines = build_cool_description(get_mob_descriptors(obscure_name, user), src)
 	for(var/line in lines)
 		. += span_info(line)
 
+	if(!flavorcheck || aghost_privilege) // we show this due to flavortext panel fields all being empty, meaning that panel's age verified text could not otherwise be displayed
+		var/towrite = "ID Status: "
+		if(!src.ckey)
+			towrite += "N/A"
+		else if(!src.check_agevet())
+			towrite += "Unverified"
+		else
+			towrite += span_notice("Age Verified")
+		. += span_info(towrite)
+
 	var/trait_exam = common_trait_examine()
 	if(!isnull(trait_exam))
 		. += trait_exam
+	
+
 
 /mob/living/proc/status_effect_examines(pronoun_replacement) //You can include this in any mob's examine() to show the examine texts of status effects!
 	var/list/dat = list()
@@ -884,8 +909,8 @@
 		if(mind.special_role == "Bandit")
 			if(HAS_TRAIT(examiner, TRAIT_COMMIE))
 				villain_text = span_notice("Free man!")
-			/*else
-				villain_text = span_userdanger("BANDIT!")*/
+			if(HAS_TRAIT(src,TRAIT_KNOWNCRIMINAL))
+				villain_text = span_userdanger("BANDIT!")
 		if(mind.special_role == "Vampire Lord")
 			var/datum/antagonist/vampirelord/VD = mind.has_antag_datum(/datum/antagonist/vampirelord)
 			if(VD) 

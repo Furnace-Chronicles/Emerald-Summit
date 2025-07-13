@@ -1029,7 +1029,7 @@ GLOBAL_LIST_EMPTY(friendly_animal_types)
 	return 0
 
 //For creating consistent icons for human looking simple animals
-/proc/get_flat_human_icon(icon_id, datum/job/J, datum/preferences/prefs, dummy_key, showDirs = GLOB.cardinals, outfit_override = null, mob/living/carbon/human/human_gear_override)
+/proc/get_flat_human_icon(icon_id, datum/job/J, datum/preferences/prefs, dummy_key, showDirs = GLOB.cardinals, outfit_override = null, mob/living/carbon/human/human_gear_override, copy_appearance = FALSE)
 	var/static/list/humanoid_icon_cache = list()
 	if(!icon_id || !humanoid_icon_cache[icon_id])
 		var/mob/living/carbon/human/dummy/body = generate_or_wait_for_human_dummy(dummy_key)
@@ -1052,6 +1052,10 @@ GLOBAL_LIST_EMPTY(friendly_animal_types)
 				new_item.body_parts_covered = item.body_parts_covered
 				new_item.color = item.color
 				body.equip_to_slot_if_possible(new_item, slot)
+
+			if(copy_appearance)
+				human_gear_override.dna.transfer_identity(body)
+				body.updateappearance(icon_update=1, mutcolor_update=1)
 		else if(J)
 			J.equip(body, TRUE, FALSE, outfit_override = outfit_override)
 		else if (outfit_override)

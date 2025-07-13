@@ -12,6 +12,9 @@
 			return zone
 	if(!(target.mobility_flags & MOBILITY_STAND))
 		return zone
+	// If you're floored, you will aim feet and legs easily. There's a check for whether the victim is laying down already.
+	if(!(user.mobility_flags & MOBILITY_STAND) && (zone in list(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_PRECISE_L_FOOT)))
+		return zone
 	if( (target.dir == turn(get_dir(target,user), 180)))
 		return zone
 
@@ -20,8 +23,7 @@
 	if(check_zone(zone) == zone)	//Are we targeting a big limb or chest?
 		chance2hit += 10
 
-	if(user.mind)
-		chance2hit += (user.mind.get_skill_level(associated_skill) * 8)
+	chance2hit += (user.get_skill_level(associated_skill) * 8)
 
 	if(used_intent)
 		if(used_intent.blade_class == BCLASS_STAB)
@@ -156,12 +158,12 @@
 
 			if(mainhand)
 				if(mainhand.can_parry)
-					mainhand_defense += (H.mind ? (H.mind.get_skill_level(mainhand.associated_skill) * 20) : 20)
-					mainhand_defense += (mainhand.wdefense * 10)
+					mainhand_defense += (H.get_skill_level(mainhand.associated_skill) * 20)
+					mainhand_defense += (mainhand.wdefense_dynamic * 10)
 			if(offhand)
 				if(offhand.can_parry)
-					offhand_defense += (H.mind ? (H.mind.get_skill_level(offhand.associated_skill) * 20) : 20)
-					offhand_defense += (offhand.wdefense * 10)
+					offhand_defense += (H.get_skill_level(offhand.associated_skill) * 20)
+					offhand_defense += (offhand.wdefense_dynamic * 10)
 
 			if(mainhand_defense >= offhand_defense)
 				highest_defense += mainhand_defense
@@ -172,8 +174,8 @@
 			var/defender_skill = 0
 			var/attacker_skill = 0
 
-			if(highest_defense <= (H.mind ? (H.mind.get_skill_level(/datum/skill/combat/unarmed) * 20) : 20))
-				defender_skill = H.mind?.get_skill_level(/datum/skill/combat/unarmed)
+			if(highest_defense <= (H.get_skill_level(/datum/skill/combat/unarmed) * 20))
+				defender_skill = H.get_skill_level(/datum/skill/combat/unarmed)
 				var/obj/B = H.get_item_by_slot(SLOT_WRISTS)
 				if(istype(B, /obj/item/clothing/wrists/roguetown/bracers))
 					prob2defend += (defender_skill * 30)
@@ -182,20 +184,31 @@
 				weapon_parry = FALSE
 			else
 				if(used_weapon)
-					defender_skill = H.mind?.get_skill_level(used_weapon.associated_skill)
+					defender_skill = H.get_skill_level(used_weapon.associated_skill)
 				else
-					defender_skill = H.mind?.get_skill_level(/datum/skill/combat/unarmed)
+					defender_skill = H.get_skill_level(/datum/skill/combat/unarmed)
 				prob2defend += highest_defense
 				weapon_parry = TRUE
 
 			if(U.mind)
 				if(intenty.masteritem)
-					attacker_skill = U.mind.get_skill_level(intenty.masteritem.associated_skill)
+					attacker_skill = U.get_skill_level(intenty.masteritem.associated_skill)
 					prob2defend -= (attacker_skill * 20)
-					if((intenty.masteritem.wbalance > 0) && (user.STASPD > src.STASPD)) //enemy weapon is quick, so get a bonus based on spddiff
-						prob2defend -= ( intenty.masteritem.wbalance * ((user.STASPD - src.STASPD) * 10) )
+					if((intenty.masteritem.wbalance == WBALANCE_SWIFT) && (user.STASPD > src.STASPD)) //enemy weapon is quick, so get a bonus based on spddiff
+						var/spdmod = ((user.STASPD - src.STASPD) * 10)
+						var/permod = ((src.STAPER - user.STAPER) * 10)
+						var/intmod = ((src.STAINT - user.STAINT) * 3)
+						if(mind)
+							if(permod > 0)
+								spdmod -= permod
+							if(intmod > 0)
+								spdmod -= intmod
+						var/finalmod = spdmod
+						if(mind)
+							finalmod = clamp(spdmod, 0, 30)
+						prob2defend -= finalmod
 				else
-					attacker_skill = U.mind.get_skill_level(/datum/skill/combat/unarmed)
+					attacker_skill = U.get_skill_level(/datum/skill/combat/unarmed)
 					prob2defend -= (attacker_skill * 20)
 
 			if(HAS_TRAIT(src, TRAIT_GUIDANCE))
@@ -338,11 +351,43 @@
 					if(dam2take)
 						if(!user.mind)
 							dam2take = dam2take * 0.25
-						if(dam2take > 0 && intenty.masteritem?.intdamage_factor)
-							dam2take = dam2take * intenty.masteritem?.intdamage_factor
-						if(dam2take > 0 && intenty.intdamage_factor)
-							dam2take = dam2take * intenty.intdamage_factor
-						used_weapon.take_damage(max(dam2take,1), BRUTE, used_weapon.d_type)
+						if(dam2take > 0 && (intenty.masteritem?.intdamage_factor != 1 || intenty.intent_intdamage_factor != 1))
+							var/higher_intfactor = max(intenty.masteritem?.intdamage_factor, intenty.intent_intdamage_factor)
+							var/lowest_intfactor = min(intenty.masteritem?.intdamage_factor, intenty.intent_intdamage_factor)
+							var/used_intfactor
+							if(lowest_intfactor < 1)	//Our intfactor multiplier can be either 0 to 1, or 1 to whatever.
+								used_intfactor = lowest_intfactor
+							if(higher_intfactor > 1)	//Make sure to keep your weapon and intent intfactors consistent to avoid problems here!
+								used_intfactor = higher_intfactor
+							dam2take *= used_intfactor
+					else	//This is normally handled in get_complex_damage, but it doesn't support simple mobs... at all, so we do a clunky mini-version of it.
+						if(istype(user, /mob/living/simple_animal))
+							var/mob/living/simple_animal/SM = user
+							dam2take = rand(SM.melee_damage_lower, SM.melee_damage_upper)
+							dam2take *= (SM.STASTR / 10)
+							dam2take *= 0.25
+							switch(used_weapon.blade_dulling)
+								if(DULLING_SHAFT_CONJURED)
+									dam2take *= 1.3
+								if(DULLING_SHAFT_METAL)
+									switch(SM.d_type)
+										if("slash")
+											dam2take *= 0.5
+										if("blunt")
+											dam2take *= 1.5
+								if(DULLING_SHAFT_WOOD)
+									switch(SM.d_type)
+										if("slash")
+											dam2take *= 1.5
+										if("blunt")
+											dam2take *= 0.5
+								if(DULLING_SHAFT_REINFORCED)
+									switch(SM.d_type)
+										if("slash")
+											dam2take *= 0.75
+										if("stab")
+											dam2take *= 1.5
+					used_weapon.take_damage(max(dam2take,1), BRUTE, used_weapon.d_type)
 					return TRUE
 				else
 					return FALSE
@@ -438,10 +483,34 @@
 			else
 				return FALSE
 
+// origin is used for multi-step dodges like jukes
+/mob/living/proc/get_dodge_destinations(mob/living/attacker, atom/origin = src)
+	var/dodge_dir = get_dir(attacker, origin)
+	if(!dodge_dir)
+		return null
+	var/list/dirry = list()
+	// pick a random dir
+	var/list/turf/dodge_candidates = list()
+	for(var/dir_to_check in dirry)
+		var/turf/dodge_candidate = get_step(origin, dir_to_check)
+		if(!dodge_candidate)
+			continue
+		if(dodge_candidate.density)
+			continue
+		var/has_impassable_atom = FALSE
+		for(var/atom/movable/AM in dodge_candidate)
+			if(!AM.CanPass(src, dodge_candidate))
+				has_impassable_atom = TRUE
+				break
+		if(has_impassable_atom)
+			continue
+		dodge_candidates += dodge_candidate
+	return dodge_candidates
+
 /mob/proc/do_parry(obj/item/W, parrydrain as num, mob/living/user)
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
-		if(H.rogfat_add(parrydrain))
+		if(H.stamina_add(parrydrain))
 			if(W)
 				playsound(get_turf(src), pick(W.parrysound), 100, FALSE)
 			if(src.client)
@@ -462,7 +531,7 @@
 /mob/proc/do_unarmed_parry(parrydrain as num, mob/living/user)
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
-		if(H.rogfat_add(parrydrain))
+		if(H.stamina_add(parrydrain))
 			playsound(get_turf(src), pick(parry_sound), 100, FALSE)
 			src.visible_message(span_warning("<b>[src]</b> parries [user]!"))
 			if(src.client)
@@ -487,13 +556,14 @@
 	var/mob/living/carbon/human/UH
 	var/obj/item/I
 	var/drained = 10
+	var/drained_npc = 5
 	if(ishuman(src))
 		H = src
 	if(ishuman(user))
 		UH = user
 		I = UH.used_intent.masteritem
 	var/prob2defend = U.defprob
-	if(L.rogfat >= L.maxrogfat)
+	if(L.stamina >= L.max_stamina)
 		return FALSE
 	if(L)
 		if(H?.check_dodge_skill())
@@ -503,42 +573,25 @@
 	if(U)
 		prob2defend = prob2defend - (U.STASPD * 10)
 	if(I)
-		if(I.wbalance > 0 && U.STASPD > L.STASPD) //nme weapon is quick, so they get a bonus based on spddiff
+		if(I.wbalance == WBALANCE_SWIFT && U.STASPD > L.STASPD) //nme weapon is quick, so they get a bonus based on spddiff
 			prob2defend = prob2defend - ( I.wbalance * ((U.STASPD - L.STASPD) * 10) )
-		if(I.wbalance < 0 && L.STASPD > U.STASPD) //nme weapon is slow, so its easier to dodge if we're faster
+		if(I.wbalance == WBALANCE_HEAVY && L.STASPD > U.STASPD) //nme weapon is slow, so its easier to dodge if we're faster
 			prob2defend = prob2defend + ( I.wbalance * ((U.STASPD - L.STASPD) * 10) )
-		if(UH?.mind)
-			prob2defend = prob2defend - (UH.mind.get_skill_level(I.associated_skill) * 10)
+		prob2defend = prob2defend - (UH.get_skill_level(I.associated_skill) * 10)
 	if(H)
 		if(!H?.check_armor_skill() || H?.legcuffed)
 			H.Knockdown(1)
 			return FALSE
-		/* Commented out due to gaping imbalance
-			if(H?.check_dodge_skill())
-				drained = drained - 5  commented out for being too much. It was giving effectively double stamina efficiency compared to everyone else.
-			if(H.mind)
-				drained = drained + max((H.checkwornweight() * 10)-(mind.get_skill_level(/datum/skill/misc/athletics) * 10),0)
-			else
-				drained = drained + (H.checkwornweight() * 10)
-		*/
 		if(I) //the enemy attacked us with a weapon
 			if(!I.associated_skill) //the enemy weapon doesn't have a skill because its improvised, so penalty to attack
 				prob2defend = prob2defend + 10
 			else
-				if(H.mind)
-					prob2defend = prob2defend + (H.mind.get_skill_level(I.associated_skill) * 10)
-				/* Commented out due to encumbrance being seemingly broken and nonfunctional
-				var/thing = H.encumbrance
-				if(thing > 0)
-					drained = drained + (thing * 10)
-				*/
+				prob2defend = prob2defend + (H.get_skill_level(I.associated_skill) * 10)
 		else //the enemy attacked us unarmed or is nonhuman
 			if(UH)
 				if(UH.used_intent.unarmed)
-					if(UH.mind)
-						prob2defend = prob2defend - (UH.mind.get_skill_level(/datum/skill/combat/unarmed) * 10)
-					if(H.mind)
-						prob2defend = prob2defend + (H.mind.get_skill_level(/datum/skill/combat/unarmed) * 10)
+					prob2defend = prob2defend - (UH.get_skill_level(/datum/skill/combat/unarmed) * 10)
+					prob2defend = prob2defend + (H.get_skill_level(/datum/skill/combat/unarmed) * 10)
 
 		if(HAS_TRAIT(L, TRAIT_GUIDANCE))
 			prob2defend += 20
@@ -610,7 +663,9 @@
 
 		if(!dodge_status)
 			return FALSE
-		if(!H.rogfat_add(max(drained,5)))
+		if(!UH?.mind) // For NPC, reduce the drained to 5 stamina
+			drained = drained_npc
+		if(!H.stamina_add(max(drained,5)))
 			to_chat(src, span_warning("I'm too tired to dodge!"))
 			return FALSE
 	else //we are a non human
@@ -646,8 +701,42 @@
 			if(dam2take)
 				if(!user.mind)
 					dam2take = dam2take * 0.25
-				if(dam2take > 0 && IU.intdamage_factor != 0)
-					dam2take = dam2take * IU.intdamage_factor
+				if(dam2take > 0 && (user.used_intent.masteritem?.intdamage_factor != 1 || user.used_intent.intent_intdamage_factor != 1))
+					var/higher_intfactor = max(user.used_intent.masteritem?.intdamage_factor, user.used_intent.intent_intdamage_factor)
+					var/lowest_intfactor = min(user.used_intent.masteritem?.intdamage_factor, user.used_intent.intent_intdamage_factor)
+					var/used_intfactor
+					if(lowest_intfactor < 1)	//Our intfactor multiplier can be either 0 to 1, or 1 to whatever.
+						used_intfactor = lowest_intfactor
+					if(higher_intfactor > 1)	//Make sure to keep your weapon and intent intfactors consistent to avoid problems here!
+						used_intfactor = higher_intfactor
+					dam2take *= used_intfactor
+				else
+					if(istype(user, /mob/living/simple_animal))
+						var/mob/living/simple_animal/SM = user
+						dam2take = rand(SM.melee_damage_lower, SM.melee_damage_upper)
+						dam2take *= (SM.STASTR / 10)
+						dam2take *= 0.25
+						switch(IS.blade_dulling)
+							if(DULLING_SHAFT_CONJURED)
+								dam2take *= 1.3
+							if(DULLING_SHAFT_METAL)
+								switch(SM.d_type)
+									if("slash")
+										dam2take *= 0.5
+									if("blunt")
+										dam2take *= 1.5
+							if(DULLING_SHAFT_WOOD)
+								switch(SM.d_type)
+									if("slash")
+										dam2take *= 1.5
+									if("blunt")
+										dam2take *= 0.5
+							if(DULLING_SHAFT_REINFORCED)
+								switch(SM.d_type)
+									if("slash")
+										dam2take *= 0.75
+									if("stab")
+										dam2take *= 1.5
 				IS.take_damage(max(dam2take,1), BRUTE, IU.d_type)
 
 			user.visible_message(span_warning("<b>[user]</b> clips [src]'s weapon!"))
@@ -752,16 +841,23 @@
 		clash(user, IM, IU)
 	else	//Otherwise, we just riposte them.
 		var/damage = get_complex_damage(IM, src, IU.blade_dulling)
-		if(IM.intdamage_factor > 0)
-			damage *= IM.intdamage_factor
-		if(IM.wbalance < 0)
+		if(IM.intdamage_factor != 1 || used_intent.intent_intdamage_factor != 1)
+			var/higher_intfactor = max(IM.intdamage_factor, used_intent.intent_intdamage_factor)
+			var/lowest_intfactor = min(IM.intdamage_factor, used_intent.intent_intdamage_factor)
+			var/used_intfactor
+			if(lowest_intfactor < 1)	//Our intfactor multiplier can be either 0 to 1, or 1 to whatever.
+				used_intfactor = lowest_intfactor
+			if(higher_intfactor > 1)	//Make sure to keep your weapon and intent intfactors consistent to avoid problems here!
+				used_intfactor = higher_intfactor
+			damage *= used_intfactor
+		if(IM.wbalance == WBALANCE_HEAVY)
 			damage *= 1.5
 		IU.take_damage(max(damage,1), BRUTE, IM.d_type)
 		visible_message(span_suicide("[src] ripostes [H] with \the [IM]!"))
 		playsound(src, 'sound/combat/clash_struck.ogg', 100)
-		var/rogfatdef = (rogfat * 100) / maxrogfat
-		var/rogfatatt = (H.rogfat * 100) / H.maxrogfat
-		if(rogfatdef > rogfatatt) 
+		var/staminadef = (stamina * 100) / max_stamina
+		var/staminaatt = (H.stamina * 100) / H.max_stamina
+		if(staminadef > staminaatt) 
 			H.apply_status_effect(/datum/status_effect/debuff/exposed, 2 SECONDS)
 			H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 			H.Slowdown(3)
@@ -790,12 +886,12 @@
 	//Skill check, very simple. If you're more skilled with your weapon than the opponent is with theirs -> +10% to disarm or vice-versa.
 	var/skilldiff
 	if(IM.associated_skill)
-		skilldiff = mind.get_skill_level(IM.associated_skill)
+		skilldiff = get_skill_level(IM.associated_skill)
 	else
 		instantloss = TRUE	//We are Guarding with a book or something -- no chance for us.
 
 	if(IU.associated_skill)
-		skilldiff = skilldiff - HU.mind?.get_skill_level(IU.associated_skill)
+		skilldiff = skilldiff - HU.get_skill_level(IU.associated_skill)
 	else
 		instantwin = TRUE	//THEY are Guarding with a book or something -- no chance for them.
 	
@@ -883,9 +979,9 @@
 	apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 
 /mob/living/carbon/human/proc/bad_guard(msg, cheesy = FALSE)
-	rogfat_add(((maxrogfat * BAD_GUARD_FATIGUE_DRAIN) / 100))
+	stamina_add(((max_stamina * BAD_GUARD_FATIGUE_DRAIN) / 100))
 	if(cheesy)	//We tried to hit someone with Guard up. Unfortunately this must be super punishing to prevent cheese.
-		rogstam_add(-((maxrogstam * BAD_GUARD_FATIGUE_DRAIN) / 100))
+		energy_add(-((max_energy * BAD_GUARD_FATIGUE_DRAIN) / 100))
 		Immobilize(2 SECONDS)
 	if(msg)
 		to_chat(src, msg)
@@ -894,7 +990,7 @@
 
 /mob/living/carbon/human/proc/purge_peel(amt)
 	//Equipment slots manually picked out cus we don't have a proc for this apparently
-	var/list/slots = list(wear_armor, wear_pants, wear_wrists, wear_shirt, gloves, head, shoes, wear_neck, wear_mask)
+	var/list/slots = list(wear_armor, wear_pants, wear_wrists, wear_shirt, gloves, head, shoes, wear_neck, wear_mask, wear_ring)
 	for(var/slot in slots)
 		if(isnull(slot) || !istype(slot, /obj/item/clothing))
 			slots.Remove(slot)
@@ -904,7 +1000,7 @@
 			C.reduce_peel(amt)
 
 /mob/living/carbon/human/proc/highest_ac_worn()
-	var/list/slots = list(wear_armor, wear_pants, wear_wrists, wear_shirt, gloves, head, shoes, wear_neck, wear_mask)
+	var/list/slots = list(wear_armor, wear_pants, wear_wrists, wear_shirt, gloves, head, shoes, wear_neck, wear_mask, wear_ring)
 	for(var/slot in slots)
 		if(isnull(slot) || !istype(slot, /obj/item/clothing))
 			slots.Remove(slot)

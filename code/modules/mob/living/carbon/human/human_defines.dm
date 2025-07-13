@@ -116,6 +116,7 @@
 	var/is_legacy = FALSE
 	var/received_resident_key = FALSE
 
+	var/has_confessed = FALSE // Used to track if they have confessed it was written onto a confession paper
 	var/nsfw_headshot_link = null
 
 	possible_rmb_intents = list(/datum/rmb_intent/feint,\
@@ -131,3 +132,6 @@
 	var/datum/statpack/statpack = null // Lethalstone Port - statpacks for greater customization
 	var/second_voice	// Virtue-specific. Can be swapped to / from and changed.
 	var/original_voice
+
+	/// Whether our FOV cone is overridden to be hidden. Simple bool.
+	var/viewcone_override

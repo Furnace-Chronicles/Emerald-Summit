@@ -97,6 +97,15 @@
 	if(!user.can_do_sex())
 		to_chat(user, "<span class='warning'>I can't do this.</span>")
 		return
+	if(!target.client || !target.client.prefs)
+		to_chat(user, span_warning("[target] is simply not there. I can't do this."))
+		log_combat(user, target, "tried ERP menu against d/ced")
+		return
+	if(!target.client.prefs.sexable) // Don't bang someone that dosn't want it.
+		to_chat(user, "<span class='warning'>[target] doesn't want to be touched. (Their ERP preference, in the options)</span>")
+		to_chat(target, "<span class='warning'>[user] failed to touch you. (Your ERP preference, in the options)</span>")
+		log_combat(user, target, "tried unwanted ERP menu against")
+		return
 	if(!can_do_sex())
 //		to_chat(user, "<span class='warning'>I can't do this.</span>")
 		return
@@ -881,7 +890,7 @@
 				lastfuck = world.time
 				if(D.riding == owner)
 					if(fuckspeed != initial(fuckspeed))
-						if(!D.owner.rogfat_add(2))
+						if(!D.owner.stamina_add(2))
 							D.stop_riding()
 					if(fucking)
 						playsound(owner, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
@@ -897,7 +906,7 @@
 							D.stop_riding()
 				else if(D.inpussy == owner)
 					if(fuckspeed != initial(fuckspeed))
-						if(!owner.rogfat_add(2))
+						if(!owner.stamina_add(2))
 							stop_fucking()
 					if(fucking)
 						playsound(owner, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
@@ -919,7 +928,7 @@
 							stop_fucking()
 				if(D.inass == owner)
 					if(fuckspeed != initial(fuckspeed))
-						if(!owner.rogfat_add(2))
+						if(!owner.stamina_add(2))
 							stop_fucking()
 					if(fucking)
 						playsound(owner, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
@@ -942,7 +951,7 @@
 							stop_fucking()
 				if(D.ontits == owner)
 					if(fuckspeed != initial(fuckspeed))
-						if(!owner.rogfat_add(2))
+						if(!owner.stamina_add(2))
 							stop_fucking()
 					if(fucking)
 						playsound(owner, 'sound/misc/mat/fap.ogg', 30, TRUE, -2, ignore_walls = FALSE)
@@ -958,9 +967,9 @@
 				if(D.inmouth == owner)
 
 					if(fuckspeed != initial(fuckspeed))
-						if(!owner.rogfat_add(2))
+						if(!owner.stamina_add(2))
 							stop_fucking()
-						if(!fucking.rogfat_add(3, "gag", FALSE))
+						if(!fucking.stamina_add(3, "gag", FALSE))
 							stop_fucking()
 					if(fucking)
 						if(gender == FEMALE)
@@ -983,7 +992,7 @@
 			if(world.time > D.lasteat + max(D.eatspeed + rand(-3,3), 1))
 				D.lasteat = world.time
 				if(D.eatspeed != initial(D.eatspeed))
-					if(!riding.rogfat_add(1, "gag", FALSE))
+					if(!riding.stamina_add(1, "gag", FALSE))
 						stop_riding()
 				playsound(D.owner, pick('sound/misc/mat/girlmouth (1).ogg','sound/misc/mat/girlmouth (2).ogg'), 100, TRUE, -2, ignore_walls = FALSE)
 				if(prob(33))
@@ -998,7 +1007,7 @@
 			if(world.time > eatingus.sexcon.lasteat + max(eatingus.sexcon.eatspeed + rand(-3,3), 1))
 				eatingus.sexcon.lasteat = world.time
 				if(eatingus.sexcon.eatspeed != initial(eatingus.sexcon.eatspeed))
-					if(!eatingus.rogfat_add(1, "gag", FALSE))
+					if(!eatingus.stamina_add(1, "gag", FALSE))
 						stop_eating_us()
 				if(gender == FEMALE)
 					playsound(eatingus, pick('sound/misc/mat/girlmouth (1).ogg','sound/misc/mat/girlmouth (2).ogg'), 100, TRUE, -2, ignore_walls = FALSE)
@@ -1020,7 +1029,7 @@
 				lastfap = world.time
 				if(fapping.grabbee == owner)
 					if(fapspeed != initial(fapspeed))
-						if(!owner.rogfat_add(3))
+						if(!owner.stamina_add(3))
 							stop_fapping()
 					if(fapping)
 						if(gender == MALE)
@@ -1036,7 +1045,7 @@
 							stop_fapping()
 				else
 					if(fapspeed != initial(fapspeed))
-						if(!fapping.grabbee.rogfat_add(1))
+						if(!fapping.grabbee.stamina_add(1))
 							stop_fapping_us()
 					if(fapping)
 						if(gender == MALE)

@@ -39,6 +39,14 @@
 		for(var/datum/wound/wound as anything in get_wounds())
 			wound.heal_wound(1)
 
+	/// ENDVRE AS HE DOES.
+	if(!stat && HAS_TRAIT(src, TRAIT_PSYDONITE) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
+		handle_wounds()
+		//passively heal wounds, but not if you're skullcracked OR DEAD.
+		if(blood_volume > BLOOD_VOLUME_SURVIVE)
+			for(var/datum/wound/wound as anything in get_wounds())
+				wound.heal_wound(0.6)		
+
 	if (QDELETED(src)) // diseases can qdel the mob via transformations
 		return
 
@@ -110,8 +118,10 @@
 //		testing("handlefyre0 [src]")
 		return TRUE //the mob is no longer on fire, no need to do the rest.
 //	testing("handlefyre1 [src]")
-	if(fire_stacks > 0)
-		adjust_fire_stacks(-0.05) //the fire is slowly consumed
+	if(fire_stacks + divine_fire_stacks > 0)
+		adjust_divine_fire_stacks(-0.05)
+		if(fire_stacks > 0)
+			adjust_fire_stacks(-0.05) //the fire is slowly consumed
 	else
 		ExtinguishMob()
 		return TRUE //mob was put out, on_fire = FALSE via ExtinguishMob(), no need to update everything down the chain.

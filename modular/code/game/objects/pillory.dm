@@ -173,4 +173,11 @@
 		return null
 	return ..()
 
+/obj/structure/pillory/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum, damage_flag)
+	if(!has_buckled_mobs())
+		return ..()
+
+	var/mob/living/victim = pick(buckled_mobs)
+	return AM.throw_impact(victim, throwingdatum)
+
 #undef PILLORY_HEAD_OFFSET

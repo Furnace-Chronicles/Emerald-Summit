@@ -34,10 +34,11 @@
 	var/burndam = 20
 	var/stinky = FALSE
 	if(user.mind)
-		burndam -= (user.mind.get_skill_level(/datum/skill/misc/medicine) * 3)
+		burndam -= (user.get_skill_level(/datum/skill/misc/medicine) * 3)
 
 	var/datum/antagonist/zombie/was_zombie = target.mind?.has_antag_datum(/datum/antagonist/zombie)
 	if(target.stat == DEAD || was_zombie)											//Checks if the target is a dead rotted corpse.
+		target.death()	//Kills the target if they are a zombie as a fail-safe.
 		var/datum/component/rot/rot = target.GetComponent(/datum/component/rot)
 		if(rot && rot.amount && rot.amount >= 5 MINUTES)	//Fail-safe to make sure the dead person has at least rotted for ~5 min.
 			stinky = TRUE				

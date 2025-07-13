@@ -373,9 +373,9 @@
 
 /obj/item/clothing/cloak/tabard/knight/guard
 	desc = "A tabard with the lord's heraldic colors."
-	color = CLOTHING_AZURE
+	color = CLOTHING_SCARLET
 	detail_tag = "_spl"
-	detail_color = CLOTHING_WHITE
+	detail_color = CLOTHING_BLACK
 
 /obj/item/clothing/cloak/tabard/knight/guard/attack_right(mob/user)
 	if(picked)
@@ -526,9 +526,9 @@
 /obj/item/clothing/cloak/stabard/guard
 	name = "guard tabard"
 	desc = "A tabard with the lord's heraldic colors."
-	color = CLOTHING_AZURE
+	color = CLOTHING_SCARLET
 	detail_tag = "_spl"
-	detail_color = CLOTHING_WHITE
+	detail_color = CLOTHING_BLACK
 
 /obj/item/clothing/cloak/stabard/guard/attack_right(mob/user)
 	if(picked)
@@ -689,9 +689,9 @@
 
 /obj/item/clothing/cloak/stabard/surcoat/guard
 	desc = "A surcoat with the lord's heraldic colors."
-	color = CLOTHING_AZURE
+	color = CLOTHING_SCARLET
 	detail_tag = "_quad"
-	detail_color = CLOTHING_WHITE
+	detail_color = CLOTHING_BLACK
 
 /obj/item/clothing/cloak/stabard/surcoat/guard/attack_right(mob/user)
 	if(picked)
@@ -758,7 +758,7 @@
 //	allowed_sex = list(MALE)
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	detail_tag = "_det"
-	detail_color = CLOTHING_AZURE
+	detail_color = CLOTHING_SCARLET
 
 /obj/item/clothing/cloak/lordcloak/update_icon()
 	cut_overlays()
@@ -832,11 +832,13 @@
 	desc = "Made from the finest, warmest bear pelt. It might be worth more than your life."
 	icon_state = "bear_cloak"
 	item_state = "bear_cloak"
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 
 /obj/item/clothing/cloak/darkcloak/bear/light
 	name = "light direbear cloak"
 	icon_state = "bbear_cloak"
 	item_state = "bbear_cloak"
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 
 /obj/item/clothing/cloak/apron
 	name = "apron"
@@ -1037,7 +1039,7 @@
 	color = CLOTHING_WHITE
 
 /obj/item/clothing/cloak/cape/guard
-	color = CLOTHING_AZURE
+	color = CLOTHING_SCARLET
 
 /obj/item/clothing/cloak/cape/guard/Initialize()
 	. = ..()
@@ -1087,6 +1089,7 @@
 	name = "fur cape"
 	icon_state = "furcape"
 	item_state = "furcape"
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 	inhand_mod = TRUE
 	salvage_result = /obj/item/natural/fur
 
@@ -1198,7 +1201,7 @@
 /obj/item/clothing/cloak/half/rider
 	name = "rider cloak"
 	icon_state = "guardcloak"
-	color = CLOTHING_AZURE
+	color = CLOTHING_SCARLET
 	allowed_sex = list(MALE, FEMALE)
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	inhand_mod = FALSE
@@ -1209,7 +1212,7 @@
 /obj/item/clothing/cloak/half/vet
 	name = "town watch cloak"
 	icon_state = "guardcloak"
-	color = CLOTHING_AZURE
+	color = CLOTHING_SCARLET
 	allowed_sex = list(MALE, FEMALE)
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	inhand_mod = FALSE
@@ -1230,6 +1233,25 @@
 	icon_state = "shadowcloak"
 	color = null
 	allowed_race = NON_DWARVEN_RACE_TYPES
+
+/obj/item/clothing/cloak/thief_cloak
+	name = "rapscallion's shawl"
+	desc = "A simple shawl clapsed with an ersatz fastener. Practical and functional, though the fabric is rough and wearing bare."
+	icon_state = "thiefcloak"
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
+	color = CLOTHING_ORANGE
+
+/obj/item/clothing/cloak/thief_cloak/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+
+/obj/item/clothing/cloak/thief_cloak/dropped(mob/living/carbon/human/user)
+	..()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	if(STR)
+		var/list/things = STR.contents()
+		for(var/obj/item/I in things)
+			STR.remove_from_storage(I, get_turf(src))
 
 /obj/item/clothing/cloak/templar
 	var/overarmor = TRUE
@@ -1461,7 +1483,7 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 	flags_inv = HIDECROTCH|HIDEBOOB
 
-/obj/item/clothing/cloak/templar/ravox
+/obj/item/clothing/cloak/cleric/ravox
 	name = "ravox tabard"
 	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Ravox on it."
 	icon_state = "tabard_ravox"
@@ -1473,6 +1495,19 @@
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
+	flags_inv = HIDECROTCH|HIDEBOOB
+
+/obj/item/clothing/cloak/templar/ravox
+	name = "justice tabard"
+	desc = "An underarmor vestments with a neck cover, worn by templars of Ravox."
+	icon_state = "justicetabard"
+	body_parts_covered = CHEST|GROIN
+	boobed = TRUE
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_cloaks.dmi'
+	sleevetype = "shirt"
+	nodismemsleeves = TRUE
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK|ITEM_SLOT_MASK
 	flags_inv = HIDECROTCH|HIDEBOOB
 
 /obj/item/clothing/cloak/templar/xylix
@@ -1599,9 +1634,9 @@
 /obj/item/clothing/cloak/stabard/guardhood
 	name = "guard hood"
 	desc = "A hood with the lord's heraldic colors."
-	color = CLOTHING_AZURE
+	color = CLOTHING_SCARLET
 	detail_tag = "_spl"
-	detail_color = CLOTHING_WHITE
+	detail_color = CLOTHING_BLACK
 	icon_state = "guard_hood"
 	item_state = "guard_hood"
 	body_parts_covered = CHEST
@@ -1720,3 +1755,33 @@
 	name = "snow cloak"
 	desc = "A cloak meant to keep one's body warm in the cold of the mountains as well as the dampness of Scarlet Reach."
 	icon_state = "snowcloak"
+
+//eastern update
+
+/obj/item/clothing/cloak/eastcloak1
+	name = "cloud-cutter's cloak"
+	desc = "A brown cloak with white swirls. Some Kazengites may recognize it as an old militaristic symbol."
+	color = null
+	alternate_worn_layer = CLOAK_BEHIND_LAYER
+	icon_state = "eastcloak1"
+	item_state = "eastcloak1"
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleevetype = "shirt"
+	nodismemsleeves = TRUE
+	inhand_mod = FALSE
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
+	allowed_race = NON_DWARVEN_RACE_TYPES
+
+/obj/item/clothing/cloak/eastcloak2
+	name = "leather cloak"
+	desc = "A brown cloak. There's nothing special on it."
+	alternate_worn_layer = CLOAK_BEHIND_LAYER
+	color = null
+	icon_state = "eastcloak2"
+	item_state = "eastcloak2"
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleevetype = "shirt"
+	nodismemsleeves = TRUE
+	inhand_mod = FALSE
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
+	allowed_race = NON_DWARVEN_RACE_TYPES

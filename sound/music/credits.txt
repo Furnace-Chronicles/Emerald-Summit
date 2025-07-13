@@ -12,7 +12,6 @@ combat_guard4.ogg: Deus Ex The Conspiracy (PS2) / Deus Ex Revision - NYC Combat 
 combat_guard_bog.ogg: Deus Ex The Conspiracy (PS2) / Deus Ex Revision - UNATCO HQ Combat Theme
 combat_physician.ogg: Pathologic (Classic) - Utroba Aggression
 combat_bum.ogg: Pathologic (Classic) - Most Combat Theme
-combat_knight.ogg: Kingdom Come II: Deliverence - Combat Theme Loop
 combat_squire.ogg: Dragon's Dogma OST: Tense Combat
 combat_duelist.ogg: Medieval Total War 2 OST: Spanish Battle Theme
 combat_cult.ogg: Igor Kornelyuk - Воланд
@@ -45,4 +44,14 @@ combat_treasurehunter.ogg: Henry Jackman - Cut To The Chase
 combat_starsugar.ogg: FEMTANYL - DOGMATICA
 combat_ozium.ogg: Light Club - FAHKEET
 combat_shaman2.ogg. Heilung - Elddansurin
+combat_berserker.ogg: Mikolai Stroinski - Eyes of the Wolf
+combat_graggar.ogg: T87-Sulfurhead - Black Powder [https://www.youtube.com/@T87-Sulfurhead]
+combat_baotha.ogg: T87-Sulfurhead - Love Within You (Rough Mix) [https://www.youtube.com/@T87-Sulfurhead]
+combat_heretic.ogg: T87-Sulfurhead - DEMESNE [https://www.youtube.com/@T87-Sulfurhead]
+combat_matthios.ogg: T87-Sulfurhead - Amontillado [https://www.youtube.com/@T87-Sulfurhead]
+combat_dungeoneer.ogg: T87-Sulfurhead - RATEATER [https://www.youtube.com/@T87-Sulfurhead]
+combat_knight.ogg: T87-Sulfurhead - Durandal [https://www.youtube.com/@T87-Sulfurhead]
+combat_warden.ogg: T87-Sulfurhead - Metamorphosis [https://www.youtube.com/@T87-Sulfurhead]
+combat_ManAtArms.ogg: T87-Sulfurhead - Ready or Not [https://www.youtube.com/@T87-Sulfurhead]
+combat_veteran.ogg: T87-Sulfurhead - Good Men Die Young [https://www.youtube.com/@T87-Sulfurhead]
 combat_zybantine.ogg: Crusader Kings 3 Fate of Iberia OST - War "Short"

@@ -90,6 +90,18 @@
 			patron = initial(living.patron.name)
 		body += "<br><br>Current Patron: [patron]"
 
+		var/idstatus = "<br>ID Status: "
+		if(!M.ckey)
+			idstatus += "No key!"
+		else if(!M.check_agevet())
+			idstatus += "Unverified"
+		else
+			var/vetadmin = LAZYACCESS(GLOB.agevetted_list, M.ckey)
+			idstatus += "<b>Age Verified</b> by [vetadmin]"
+		body += idstatus
+
+
+
 		//Blackmoor port. Incompatibility.
 		/*var/curse_string = ""
 		if(ishuman(M))
@@ -102,7 +114,6 @@
 		if(M.client.byond_version)
 			full_version = "[M.client.byond_version].[M.client.byond_build ? M.client.byond_build : "xxx"]"
 		body += "<br>\[<b>Byond version:</b> [full_version]\]<br>"
-
 
 	body += "<br><br>\[ "
 	body += "<a href='?_src_=vars;[HrefToken()];Vars=[REF(M)]'>VV</a> - "
@@ -166,8 +177,8 @@
 	if(M.mind)
 		for(var/skill_type in SSskills.all_skills)
 			var/datum/skill/skill = GetSkillRef(skill_type)
-			if(skill in M.mind.known_skills)
-				body += "<li>[initial(skill.name)]: [M.mind.known_skills[skill]] "
+			if(skill in M.skills?.known_skills)
+				body += "<li>[initial(skill.name)]: [M.skills?.known_skills[skill]] "
 			else
 				body += "<li>[initial(skill.name)]: 0"
 			body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];increase_skill=[REF(M)];skill=[skill.type]'>+</a> "

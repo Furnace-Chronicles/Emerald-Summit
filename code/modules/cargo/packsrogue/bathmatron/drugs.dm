@@ -44,7 +44,12 @@
 	cost = 50
 	contains = list(/obj/item/reagent_containers/powder/starsugar)
 
-/datum/supply_pack/rogue/drugs/emberwine
-	name = "Emberwine"
-	cost = 120
-	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/emberwine)
+/datum/supply_pack/rogue/drugs/murkwine
+	name = "Murkwine"
+	cost = 30
+	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/murkwine)
+
+/datum/supply_pack/rogue/drugs/nocshine
+	name = "Nocshine"
+	cost = 40
+	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/nocshine)

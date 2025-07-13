@@ -243,12 +243,13 @@
 						/obj/item/natural/hide = 1,
 						/obj/item/natural/silk = 1, 
 						/obj/item/alch/viscera = 1,
+						/obj/item/reagent_containers/spidervenom_inert = 1, 
 						/obj/item/natural/head/mirespider_paralytic = 1)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 2,
 						/obj/item/natural/hide = 1,
 						/obj/item/natural/silk = 1, 
 						/obj/item/alch/viscera = 1, 
-						/obj/item/reagent_containers/spidervenom_inert = 1, 
+						/obj/item/reagent_containers/spidervenom_inert = 2, 
 						/obj/item/natural/head/mirespider_paralytic = 1)
 
 	health = MIRESPIDER_ARAGN_HEALTH

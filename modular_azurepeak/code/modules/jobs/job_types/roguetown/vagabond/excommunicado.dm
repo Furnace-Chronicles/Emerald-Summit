@@ -1,6 +1,6 @@
 /datum/advclass/vagabond_excommunicated
 	name = "Excommunicated"
-	tutorial = "The Church has found you bereft of mercy, and you walk the lands of Azure with nothing but the tattered shreds of the faith you cling to."
+	tutorial = "The Church has found you bereft of mercy, and you walk the lands of Scarlet Reach with nothing but the tattered shreds of the faith you cling to."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/vagabond/excommunicated
@@ -25,11 +25,11 @@
 	r_hand = /obj/item/rogueweapon/woodstaff
 
 	if (H.mind)
-		H.mind.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 		H.change_stat("perception", 2)
 		H.change_stat("constitution", -1)
 		H.change_stat("endurance", -1)

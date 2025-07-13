@@ -38,6 +38,12 @@
 	if(data["blood_DNA"])
 		B.add_blood_DNA(list(data["blood_DNA"] = data["blood_type"]))
 
+/datum/reagent/blood/on_mob_life(mob/living/carbon/H)//I hate you
+	..()
+	if(HAS_TRAIT(H, TRAIT_NASTY_EATER))
+		return
+	H.add_nausea(12) //Over 8 units will cause puking
+
 /datum/reagent/blood/green
 	color = "#05af01"
 
@@ -89,7 +95,7 @@
 
 /datum/reagent/water/gross/on_mob_life(mob/living/carbon/M)
 	..()
-	if(HAS_TRAIT(M, TRAIT_NASTY_EATER )) // lets orcs and goblins drink bogwater
+	if(HAS_TRAIT(M, TRAIT_NASTY_EATER)) // lets orcs and goblins drink bogwater
 		return
 	M.adjustToxLoss(1)
 	M.add_nausea(12) //Over 8 units will cause puking

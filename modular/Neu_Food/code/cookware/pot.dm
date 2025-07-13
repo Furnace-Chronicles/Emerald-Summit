@@ -52,6 +52,15 @@
 	desc = "A pot made out of stone. It can hold less than a metal pot."
 	volume = 99 // 99 is the max volume for a stone pot
 
+/obj/item/reagent_containers/glass/bucket/pot/kettle
+	name = "kettle"
+	desc = "A kettle made out of iron. It is portable."
+	icon_state = "kettle"
+	w_class = WEIGHT_CLASS_NORMAL
+	grid_width = 32
+	grid_height = 64
+	volume = 99
+
 /obj/item/reagent_containers/glass/bucket/pot/copper
 	name = "copper pot"
 	desc = "A pot made out of copper. It can hold a lot of liquid."

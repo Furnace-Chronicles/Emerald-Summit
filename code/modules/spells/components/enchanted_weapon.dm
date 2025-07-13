@@ -66,6 +66,7 @@
 	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(on_equip))
 	RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(on_unequip))
 	RegisterSignal(parent, COMSIG_ITEM_AFTERATTACK, PROC_REF(item_afterattack))
+	RegisterSignal(parent, COMSIG_ROGUEWEAPON_OBJFIX, PROC_REF(on_fix))
 
 	START_PROCESSING(SSdcs, src)
 
@@ -74,7 +75,7 @@
 		if(isliving(current_user) && refresh_skill)
 			if(!current_user.mind)
 				return
-			var/has_right_skill = current_user?.mind.get_skill_level(refresh_skill)
+			var/has_right_skill = current_user?.get_skill_level(refresh_skill)
 			if(has_right_skill)
 				if(overridden_duration)
 					endtime += overridden_duration
@@ -130,5 +131,12 @@
 			to_chat(M, span_warning("Flames leaps from [source] and singes you!"))
 			// Permanent temporary solution until I figure out how to hack a dynamic on mob sprites
 			// Bypass parry & dodge btw.
+
+// This is called right after the object is fixed and all of its force / wdefense values are reset to initial. We re-apply the relevant bonuses.
+/datum/component/enchanted_weapon/proc/on_fix()
+	var/obj/item/I = parent
+	if(enchant_type == FORCE_BLADE_ENCHANT)
+		I.force += FORCE_BLADE_FORCE
+		I.force_wielded += FORCE_BLADE_FORCE
 
 #undef DEFAULT_DURATION

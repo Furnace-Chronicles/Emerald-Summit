@@ -22,6 +22,10 @@
 	name = "Zizo's Defilement"
 	desc = "Deadites will rise in the town."
 
+/datum/world_trait/zizo_pet_cementery
+	name = "Zizo's Pet Cementery"
+	desc = "Deadite animals will rise frequently and appear instead of regular animals."
+
 /datum/world_trait/abyssor_rage
 	name = "Abyssor's Rage"
 	desc = "Drowning is more deadly."

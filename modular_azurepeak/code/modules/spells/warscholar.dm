@@ -21,14 +21,14 @@
 	icon = 'icons/mob/actions/roguespells.dmi'
 	icon_state = "katar_bound"
 	charges = 20
-	force = 18
+	force = 24
 	possible_item_intents = list(/datum/intent/katar/cut, /datum/intent/katar/thrust)
 	gripsprite = FALSE
 	wlength = WLENGTH_SHORT
 	w_class = WEIGHT_CLASS_HUGE
 	parrysound = list('sound/combat/parry/bladed/bladedsmall (1).ogg','sound/combat/parry/bladed/bladedsmall (2).ogg','sound/combat/parry/bladed/bladedsmall (3).ogg')
 	max_blade_int = 999
-	max_integrity = 999
+	max_integrity = 50
 	swingsound = list('sound/combat/wooshes/bladed/wooshsmall (1).ogg','sound/combat/wooshes/bladed/wooshsmall (2).ogg','sound/combat/wooshes/bladed/wooshsmall (3).ogg')
 	associated_skill = /datum/skill/combat/unarmed
 	pickup_sound = 'sound/foley/equip/swordsmall2.ogg'

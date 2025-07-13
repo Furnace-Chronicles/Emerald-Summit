@@ -23,7 +23,7 @@
 	var/total_deposit = 0
 	var/list/excluded_jobs = list("Wretch","Vagabond","Adventurer")
 	var/current_category = "Raw Materials"
-	var/list/categories = list("Raw Materials", "Foodstuffs")
+	var/list/categories = list("Raw Materials", "Foodstuffs", "Fruits")
 
 
 /obj/structure/roguemachine/steward/attackby(obj/item/P, mob/user, params)
@@ -85,25 +85,9 @@
 		var/datum/roguestock/D = locate(href_list["export"]) in SStreasury.stockpile_datums
 		if(!D)
 			return
-		if((D.held_items[1] + D.held_items[2]) < D.importexport_amt)
+		if(!SStreasury.do_export(D))
 			say("Insufficient stock.")
 			return
-		var/amt = D.get_export_price()
-
-		// Try to export everything from town stockpile
-		if(D.held_items[1] >= D.importexport_amt)
-			D.held_items[1] -= D.importexport_amt
-		// If not possible, first pull form town stockpile, then bog stockpile
-		else
-			D.held_items[2] -= (D.importexport_amt - D.held_items[1])
-			D.held_items[1] = 0
-
-		SStreasury.treasury_value += amt
-		SStreasury.total_export += amt
-		SStreasury.log_to_steward("+[amt] exported [D.name]")
-		if(amt >= 100) //Only announce big spending.
-			scom_announce("Scarlet Reach exports [D.name] for [amt] mammon.")
-		D.lower_demand()
 	if(href_list["togglewithdraw"])
 		var/datum/roguestock/D = locate(href_list["togglewithdraw"]) in SStreasury.stockpile_datums
 		if(!D)
@@ -224,6 +208,20 @@
 		compact = !compact
 	if(href_list["changecat"])
 		current_category = href_list["changecat"]
+	if(href_list["changeautoexport"])
+		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+			return
+		var/new_autoexport = input(usr, "Set a new autoexport percentage between 0 and 100", src, SStreasury.autoexport_percentage * 100) as null|num
+		if(!new_autoexport && new_autoexport != 0)
+			return
+		if(findtext(num2text(new_autoexport), "."))
+			return
+		if(new_autoexport < 0 || new_autoexport > 100)
+			to_chat(usr, span_warning("Invalid autoexport percentage. Must be between 0 and 100."))
+			return
+		new_autoexport = round(new_autoexport)
+		SStreasury.autoexport_percentage = new_autoexport * 0.01
+	
 	return attack_hand(usr)
 
 /obj/structure/roguemachine/steward/proc/do_import(datum/roguestock/D,number)
@@ -256,7 +254,7 @@
 	if(locked)
 		to_chat(user, span_warning("It's locked. Of course."))
 		return
-	user.changeNext_move(CLICK_CD_MELEE)
+	user.changeNext_move(CLICK_CD_INTENTCAP)
 	playsound(loc, 'sound/misc/keyboard_enter.ogg', 100, FALSE, -1)
 	var/canread = user.can_read(src, TRUE)
 	var/contents
@@ -307,6 +305,8 @@
 				contents += "Treasury: [SStreasury.treasury_value]m"
 				contents += " / Lord's Tax: [SStreasury.tax_value*100]%"
 				contents += " / Guild's Tax: [SStreasury.queens_tax*100]%</center><BR>"
+				contents += "<center>Auto Export Stockpile Above: "
+				contents += "<a href='?src=\ref[src];changeautoexport=1'>[SStreasury.autoexport_percentage * 100]%</a></center><BR>"
 				var/selection = "<center>Categories: "
 				for(var/category in categories)
 					if(category == current_category)
@@ -323,8 +323,13 @@
 					contents += " | SELL: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]m</a>"
 					contents += " / BUY: <a href='?src=\ref[src];setprice=\ref[A]'>[A.withdraw_price]m</a>"
 					contents += " / LIMIT: <a href='?src=\ref[src];setlimit=\ref[A]'>[A.stockpile_limit]</a>"
-					if(A.importexport_amt)
-						contents += " <a href='?src=\ref[src];import=\ref[A]'>\[IMP [A.importexport_amt] ([A.get_import_price()])\]</a> <a href='?src=\ref[src];export=\ref[A]'>\[EXP [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
+					if(!A.export_only)
+						if(A.importexport_amt)
+							contents += " <a href='?src=\ref[src];import=\ref[A]'>\[IMP [A.importexport_amt] ([A.get_import_price()])\]</a> <a href='?src=\ref[src];export=\ref[A]'>\[EXP [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
+					else
+						if(A.importexport_amt)
+							contents += " <a href='?src=\ref[src];export=\ref[A]'>\[EXP [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
+			
 			else
 				contents += "Treasury: [SStreasury.treasury_value]m<BR>"
 				contents += "Lord's Tax: [SStreasury.tax_value*100]%<BR>"
@@ -346,8 +351,12 @@
 					contents += "Bounty Price: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]</a><BR>"
 					contents += "Withdraw Price: <a href='?src=\ref[src];setprice=\ref[A]'>[A.withdraw_price]</a><BR>"
 					contents += "Demand: [A.demand2word()]<BR>"
-					if(A.importexport_amt)
-						contents += "<a href='?src=\ref[src];import=\ref[A]'>\[Import [A.importexport_amt] ([A.get_import_price()])\]</a> <a href='?src=\ref[src];export=\ref[A]'>\[Export [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
+					if(!A.export_only)
+						if(A.importexport_amt)
+							contents += "<a href='?src=\ref[src];import=\ref[A]'>\[Import [A.importexport_amt] ([A.get_import_price()])\]</a> <a href='?src=\ref[src];export=\ref[A]'>\[Export [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
+					else
+						if(A.importexport_amt)
+							contents += " <a href='?src=\ref[src];export=\ref[A]'>\[Export [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
 					contents += "<a href='?src=\ref[src];togglewithdraw=\ref[A]'>\[[A.withdraw_disabled ? "Enable" : "Disable"] Withdrawing\]</a><BR><BR>"
 		if(TAB_IMPORT)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"

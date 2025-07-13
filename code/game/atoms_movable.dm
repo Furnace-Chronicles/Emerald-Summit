@@ -465,7 +465,7 @@
 	var/mob/living/carbon/human/H = null
 	if(ishuman(src.loc))
 		H = src.loc
-
+	
 	. = FALSE
 
 	if(destination)
@@ -473,6 +473,9 @@
 	else
 		CRASH("[src] No valid destination passed into forceMove")
 		
+	if(H)
+		H.update_a_intents()
+
 	if(H)
 		H.update_a_intents()
 

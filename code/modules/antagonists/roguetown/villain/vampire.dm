@@ -57,8 +57,8 @@
 
 /datum/antagonist/vampire/on_gain()
 	if(!is_lesser)
-		owner.adjust_skillrank(/datum/skill/combat/wrestling, 6, TRUE)
-		owner.adjust_skillrank(/datum/skill/combat/unarmed, 6, TRUE)
+		owner.current.adjust_skillrank(/datum/skill/combat/wrestling, 6, TRUE)
+		owner.current.adjust_skillrank(/datum/skill/combat/unarmed, 6, TRUE)
 		ADD_TRAIT(owner.current, TRAIT_NOBLE, TRAIT_GENERIC)
 	owner.special_role = name
 	ADD_TRAIT(owner.current, TRAIT_STRONGBITE, TRAIT_GENERIC)
@@ -332,7 +332,7 @@
 		to_chat(src, span_warning("Already active."))
 		return
 	VD.handle_vitae(-100)
-	rogstam_add(2000)
+	energy_add(2000)
 	apply_status_effect(/datum/status_effect/buff/celerity)
 	to_chat(src, span_greentext("! QUICKENING !"))
 	src.playsound_local(get_turf(src), 'sound/misc/vampirespell.ogg', 100, FALSE, pressure_affected = FALSE)
@@ -368,7 +368,7 @@
 		to_chat(src, span_warning("Already active."))
 		return
 	VD.vitae -= 100
-	rogstam_add(2000)
+	energy_add(2000)
 	apply_status_effect(/datum/status_effect/buff/blood_fortitude)
 	to_chat(src, span_greentext("! ARMOR OF DARKNESS !"))
 	src.playsound_local(get_turf(src), 'sound/misc/vampirespell.ogg', 100, FALSE, pressure_affected = FALSE)

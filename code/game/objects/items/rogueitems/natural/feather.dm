@@ -30,6 +30,8 @@
 			var/oldname = O.name
 			if(QDELETED(O) || !user.canUseTopic(O, BE_CLOSE))
 				return
+			if(!input)
+				return
 			if(oldname == input)
 				to_chat(user, span_notice("I changed \the [O.name] to... well... \the [O.name]."))
 			else

@@ -1,5 +1,5 @@
 /datum/language/dwarvish
-	name = "Dwarfish"
+	name = "Dwarvish"
 	desc = ""
 	speech_verb = "blabbers"
 	ask_verb = "asks"

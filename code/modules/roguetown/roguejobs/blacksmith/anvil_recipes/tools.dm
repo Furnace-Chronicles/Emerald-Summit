@@ -179,7 +179,7 @@
 	craftdiff = 0
 
 /datum/anvil_recipe/tools/iron/shaft
-	name = "Metal Shaft x2 (+1 Iron)"
+	name = "Metal Shaft x2"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/shaft/metal
 	createditem_num = 2
@@ -378,6 +378,11 @@
 	name = "Cooking Pot (Iron)"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/reagent_containers/glass/bucket/pot
+
+/datum/anvil_recipe/tools/iron/kettle
+	name = "Cooking Kettle (Iron)"
+	req_bar = /obj/item/ingot/iron
+	created_item = /obj/item/reagent_containers/glass/bucket/pot/kettle
 
 /datum/anvil_recipe/tools/pote/copper
 	name = "Cooking Pot (Copper)"

@@ -62,6 +62,13 @@
 	verbage_simple = "untie"
 	verbage = "unties"
 
+/datum/crafting_recipe/roguetown/survival/clothsash
+	name = "fine sash (3 fibers, 1 goat fur)"
+	result = /obj/item/storage/belt/rogue/leather/sash
+	reqs = list(/obj/item/natural/fibers = 3,
+				/obj/item/natural/fur/goat = 1)
+	craftdiff = 3
+
 /datum/crafting_recipe/roguetown/survival/ropebelt
 	name = "rope belt"
 	result = /obj/item/storage/belt/rogue/leather/rope
@@ -219,7 +226,7 @@
 	verbage = "puts together"
 
 /datum/crafting_recipe/roguetown/survival/paperscroll
-	name = "scroll of parchment"
+	name = "scroll of parchment (x3)"
 	result = list(
 		/obj/item/paper/scroll,
 		/obj/item/paper/scroll,
@@ -399,3 +406,51 @@
 		)
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 2
+
+// Improvised surgey tools. They go here for now (TM)
+/datum/crafting_recipe/roguetown/survival/improvisedsaw
+	name = "improvised surgery saw (1 fiber + 1 stone + 1 stick)"
+	result = /obj/item/rogueweapon/surgery/saw/improv
+	reqs = list(
+		/obj/item/natural/fibers = 1, 
+		/obj/item/natural/stone = 1, 
+		/obj/item/grown/log/tree/stick = 1,
+		)
+	craftdiff = 1
+
+/datum/crafting_recipe/roguetown/survival/improvisedclamp
+	name = "improvised retractor ()"
+	result = /obj/item/rogueweapon/surgery/retractor/improv
+	reqs = list(
+		/obj/item/natural/fibers = 1,
+		/obj/item/grown/log/tree/stick = 2,
+		)
+	craftdiff = 1
+
+/datum/crafting_recipe/roguetown/survival/improvisedhemo
+	name = "improvised clamp (1 fiber + 2 sticks)"
+	result = /obj/item/rogueweapon/surgery/hemostat/improv
+	reqs = list(
+		/obj/item/natural/fibers = 1,
+		/obj/item/grown/log/tree/stick = 2,
+		)
+	craftdiff = 1
+
+// Unfortunately there's no good category for it, yet.
+// I don't want ration paper to be too expensive, making wrapped food underused
+// So instead, ration paper is a very cheap recipe with parchment and tallow (instead of full fat) that makes 2 wrapper
+// However, it is heavily skillgated by cooking skill. At Craftdiff 4, only Innkeep / Cook can make it easily off the bat.
+// Servant w/ high int can also make it, but it is a bit harder. Or just be middle aged / old instead lol 
+// For 1 fat, 1 log (48 reagents), you get 4 tallow + 6 piece of paper yielding 12 ration wrappers with 1 tallow leftover.
+/datum/crafting_recipe/roguetown/survival/ration_wrapper
+	name = "ration wrapping paper (x2)"
+	result = list(
+		/obj/item/ration,
+		/obj/item/ration,
+		)
+	reqs = list(
+		/obj/item/paper = 1,
+		/obj/item/reagent_containers/food/snacks/tallow = 1,
+		)
+	skillcraft = /datum/skill/craft/cooking
+	craftdiff = 4

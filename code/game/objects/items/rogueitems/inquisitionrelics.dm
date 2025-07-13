@@ -33,10 +33,10 @@
 					choice = /obj/item/rogueweapon/whip/antique/psywhip
 				if("Stigmata - Silver Halberd")
 					choice = /obj/item/rogueweapon/halberd/psyhalberd
-					user.mind?.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)	//We make sure the weapon is usable by the Inquisitor.
+					user.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)	//We make sure the weapon is usable by the Inquisitor.
 				if("Apocrypha - Silver Greatsword")
 					choice = /obj/item/rogueweapon/greatsword/psygsword
-					user.mind?.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)		//Ditto.
+					user.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)		//Ditto.
 				if("Golgatha - SYON Shard Censer")
 					choice = /obj/item/flashlight/flare/torch/lantern/psycenser
 			to_chat(user, span_info("I have chosen the relic, may HE guide my hand."))
@@ -399,11 +399,12 @@ Inquisitorial armory down here
 	var/silver
 
 /datum/component/psyblessed/Initialize(preblessed = FALSE, force, blade_int, int, def, makesilver)
-	if(!isitem(parent))
+	if(!istype(parent, /obj/item/rogueweapon))
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
+	RegisterSignal(parent, COMSIG_ROGUEWEAPON_OBJFIX, PROC_REF(on_fix))
 	pre_blessed = preblessed
-	force = added_force
+	added_force = force
 	added_blade_int = blade_int
 	added_int = int
 	added_def = def
@@ -451,6 +452,14 @@ Inquisitorial armory down here
 			I.smeltresult = /obj/item/ingot/silver
 		I.name = "blessed [I.name]"
 		I.AddComponent(/datum/component/metal_glint)
+
+// This is called right after the object is fixed and all of its force / wdefense values are reset to initial. We re-apply the relevant bonuses.
+/datum/component/psyblessed/proc/on_fix()
+	var/obj/item/rogueweapon/I = parent
+	I.force += added_force
+	if(I.force_wielded)
+		I.force_wielded += added_force
+	I.wdefense += added_def
 
 /obj/effect/temp_visual/censer_dust
 	icon = 'icons/effects/effects.dmi'

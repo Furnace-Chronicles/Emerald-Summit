@@ -6,7 +6,7 @@
 	added_skills = list(list(/datum/skill/magic/arcane, 1, 6))
 
 /datum/virtue/combat/magical_potential/apply_to_human(mob/living/carbon/human/recipient)
-	if (!recipient.mind?.get_skill_level(/datum/skill/magic/arcane)) // we can do this because apply_to is always called first
+	if (!recipient.get_skill_level(/datum/skill/magic/arcane)) // we can do this because apply_to is always called first
 		if (!recipient.mind?.has_spell(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation))
 			recipient.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 		if (!HAS_TRAIT(recipient, TRAIT_MEDIUMARMOR) && !HAS_TRAIT(recipient, TRAIT_HEAVYARMOR) && !HAS_TRAIT(recipient, TRAIT_DODGEEXPERT) && !HAS_TRAIT(recipient, TRAIT_CRITICAL_RESISTANCE))
@@ -25,36 +25,14 @@
 	if (!recipient.mind)
 		return
 	if (!recipient.devotion)
-		// only give non-devotionists orison... and t0 for some reason (this is probably a bad idea)
+		// Only give non-devotionists orison... and T0 for some reason (Bad ideas are fun!)
 		var/datum/devotion/new_faith = new /datum/devotion(recipient, recipient.patron)
-		if (!HAS_TRAIT(recipient, TRAIT_MEDIUMARMOR) && !HAS_TRAIT(recipient, TRAIT_HEAVYARMOR) && !HAS_TRAIT(recipient, TRAIT_DODGEEXPERT) && !HAS_TRAIT(recipient, TRAIT_CRITICAL_RESISTANCE))
-			new_faith.grant_miracles(recipient, cleric_tier = CLERIC_T0, passive_gain = FALSE, devotion_limit = (CLERIC_REQ_1 - 20))	//Capped to T0 miracles.
-		else
-			new_faith.grant_miracles(recipient, cleric_tier = CLERIC_ORI, passive_gain = FALSE, devotion_limit = (CLERIC_REQ_1 - 20))	//Capped to nothing!
+		new_faith.grant_miracles(recipient, cleric_tier = CLERIC_T0, passive_gain = FALSE, devotion_limit = (CLERIC_REQ_1 - 20))	//Capped to T0 miracles.
 	else
-		// for devotionists, bump up their maximum 1 tier and give them a TINY amount of passive devo gain
+		// for devotionists, give them an amount of passive devo gain.
 		var/datum/devotion/our_faith = recipient.devotion
 		our_faith.passive_devotion_gain += CLERIC_REGEN_DEVOTEE
-		switch (our_faith.max_devotion)
-			if (CLERIC_REQ_0)
-				our_faith.max_devotion = CLERIC_REQ_1
-			if (CLERIC_REQ_1)
-				our_faith.max_devotion = CLERIC_REQ_2
-			if (CLERIC_REQ_2)
-				our_faith.max_devotion = CLERIC_REQ_3
-			if (CLERIC_REQ_3)
-				our_faith.max_devotion = CLERIC_REQ_4
-		switch (our_faith.max_progression)
-			if (CLERIC_REQ_0)
-				our_faith.max_progression = CLERIC_REQ_1
-			if (CLERIC_REQ_1)
-				our_faith.max_progression = CLERIC_REQ_2
-			if (CLERIC_REQ_2)
-				our_faith.max_progression = CLERIC_REQ_3
-			if (CLERIC_REQ_3)
-				our_faith.max_progression = CLERIC_REQ_4
-			if (CLERIC_REQ_4)
-				our_faith.passive_devotion_gain += 1
+		START_PROCESSING(SSobj, our_faith)
 	switch(recipient.patron?.type)
 		if(/datum/patron/divine/astrata)
 			recipient.mind?.special_items["Astrata Psycross"] = /obj/item/clothing/neck/roguetown/psicross/astrata
@@ -78,81 +56,81 @@
 			recipient.mind?.special_items["Psydon Psycross"] = /obj/item/clothing/neck/roguetown/psicross
 
 /datum/virtue/combat/duelist
-	name = "Duelist Apprentice"
-	desc = "I have trained under a duelist of considerable skill, and always have my trusty rapier close at hand."
+	name = "Duelist's Apprentice"
+	desc = "I have trained under a duelist of considerable skill, and always have my swift rapier close at hand."
 	custom_text = "+1 to Swords and Knives, Up to Journeyman, Minimum Apprentice."
-	added_stashed_items = list("Rapier" = /obj/item/rogueweapon/sword/rapier)
+	added_stashed_items = list("Duelist's Rapier" = /obj/item/rogueweapon/sword/rapier)
 
 /datum/virtue/combat/duelist/apply_to_human(mob/living/carbon/human/recipient)
-	if(recipient.mind?.get_skill_level(/datum/skill/combat/swords) < SKILL_LEVEL_APPRENTICE)
-		recipient.mind?.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_APPRENTICE, silent = TRUE)
+	if(recipient.get_skill_level(/datum/skill/combat/swords) < SKILL_LEVEL_APPRENTICE)
+		recipient.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_APPRENTICE, silent = TRUE)
 	else
-		recipient.mind?.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
-	if(recipient.mind?.get_skill_level(/datum/skill/combat/knives) < SKILL_LEVEL_APPRENTICE)
-		recipient.mind?.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_APPRENTICE, silent = TRUE)
+		recipient.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+	if(recipient.get_skill_level(/datum/skill/combat/knives) < SKILL_LEVEL_APPRENTICE)
+		recipient.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_APPRENTICE, silent = TRUE)
 	else	
-		recipient.mind?.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+		recipient.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
 
 /datum/virtue/combat/executioner
-	name = "Executioner Apprentice"
-	desc = "I have trained under a skilled executioner, and always have my trusty exeuctioner's axe close at hand."
+	name = "Dungeoneer's Apprentice"
+	desc = "I was set to be a dungeoneer some time ago, and I was taught by one. I have an axe stashed away if the need arises."
 	custom_text = "+1 to Axes and Whips/Flails, Up to Journeyman, Minimum Apprentice."
-	added_stashed_items = list("Battleaxe" = /obj/item/rogueweapon/stoneaxe/battle)
+	added_stashed_items = list("Iron Axe" = /obj/item/rogueweapon/stoneaxe/woodcut)
 
 /datum/virtue/combat/executioner/apply_to_human(mob/living/carbon/human/recipient)
-	if(recipient.mind?.get_skill_level(/datum/skill/combat/whipsflails) < SKILL_LEVEL_APPRENTICE)
-		recipient.mind?.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_APPRENTICE, silent = TRUE)
+	if(recipient.get_skill_level(/datum/skill/combat/whipsflails) < SKILL_LEVEL_APPRENTICE)
+		recipient.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_APPRENTICE, silent = TRUE)
 	else
-		recipient.mind?.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
-	if(recipient.mind?.get_skill_level(/datum/skill/combat/axes) < SKILL_LEVEL_APPRENTICE)
-		recipient.mind?.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_APPRENTICE, silent = TRUE)
+		recipient.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+	if(recipient.get_skill_level(/datum/skill/combat/axes) < SKILL_LEVEL_APPRENTICE)
+		recipient.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_APPRENTICE, silent = TRUE)
 	else
-		recipient.mind?.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+		recipient.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
 
 /datum/virtue/combat/militia
-	name = "Militiaman Apprentice"
-	desc = "I have trained under a skilled militiaman, and always have my trusty billhook close at hand."
+	name = "Militiaman"
+	desc = "I have trained with the local garrison in case I'm ever to be levied to fight for my lord. I have a spear stashed away in the event I'm called to arms."
 	custom_text = "+1 to Maces and Polearms, Up to Journeyman, Minimum Apprentice."
-	added_stashed_items = list("Billhook" = /obj/item/rogueweapon/spear/billhook)
+	added_stashed_items = list("Spear" = /obj/item/rogueweapon/spear)
 
 /datum/virtue/combat/militia/apply_to_human(mob/living/carbon/human/recipient)
-	if(recipient.mind?.get_skill_level(/datum/skill/combat/polearms) < SKILL_LEVEL_APPRENTICE)
-		recipient.mind?.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_APPRENTICE, silent = TRUE)
+	if(recipient.get_skill_level(/datum/skill/combat/polearms) < SKILL_LEVEL_APPRENTICE)
+		recipient.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_APPRENTICE, silent = TRUE)
 	else
-		recipient.mind?.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
-	if(recipient.mind?.get_skill_level(/datum/skill/combat/maces) < SKILL_LEVEL_APPRENTICE)
-		recipient.mind?.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_APPRENTICE, silent = TRUE)
+		recipient.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+	if(recipient.get_skill_level(/datum/skill/combat/maces) < SKILL_LEVEL_APPRENTICE)
+		recipient.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_APPRENTICE, silent = TRUE)
 	else
-		recipient.mind?.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+		recipient.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
 
 /datum/virtue/combat/brawler
-	name = "Brawler Apprentice"
+	name = "Brawler's Apprentice"
 	desc = "I have trained under a skilled brawler, and have some experience fighting with my fists."
 	custom_text = "+1 to Unarmed and Wrestling, Up to Journeyman, Minimum Apprentice."
 	added_stashed_items = list("Katar" = /obj/item/rogueweapon/katar)
 	
 /datum/virtue/combat/brawler/apply_to_human(mob/living/carbon/human/recipient)
-	if(recipient.mind?.get_skill_level(/datum/skill/combat/unarmed) < SKILL_LEVEL_APPRENTICE)
-		recipient.mind?.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_APPRENTICE, silent = TRUE)
+	if(recipient.get_skill_level(/datum/skill/combat/unarmed) < SKILL_LEVEL_APPRENTICE)
+		recipient.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_APPRENTICE, silent = TRUE)
 	else
-		recipient.mind?.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
-	if(recipient.mind?.get_skill_level(/datum/skill/combat/wrestling) < SKILL_LEVEL_APPRENTICE)
-		recipient.mind?.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, silent = TRUE)
+		recipient.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+	if(recipient.get_skill_level(/datum/skill/combat/wrestling) < SKILL_LEVEL_APPRENTICE)
+		recipient.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, silent = TRUE)
 	else
-		recipient.mind?.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+		recipient.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
 
 
 /datum/virtue/combat/bowman
 	name = "Toxophilite"
-	desc = "I have studied underneath a bowman of considerable skill, and always have my trusty bow and a quiver of arrows close at hand."
+	desc = "I've had an interest in archery from a young age, and I always keep a spare bow and quiver around."
 	custom_text = "+1 to Bows, Up to Legendary, Minimum Apprentice"
 	added_stashed_items = list("Recurve Bow" = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve,
 								"Quiver (Arrows)" = /obj/item/quiver/arrows
 	)
 
 /datum/virtue/combat/bowman/apply_to_human(mob/living/carbon/human/recipient)
-	if(recipient.mind?.get_skill_level(/datum/skill/combat/bows) < SKILL_LEVEL_APPRENTICE)
-		recipient.mind?.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_APPRENTICE, silent = TRUE)
+	if(recipient.get_skill_level(/datum/skill/combat/bows) < SKILL_LEVEL_APPRENTICE)
+		recipient.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_APPRENTICE, silent = TRUE)
 	else
 		added_skills = list(list(/datum/skill/combat/bows, 1, 6))
 /*/datum/virtue/combat/tavern_brawler

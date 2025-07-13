@@ -73,7 +73,7 @@
 		playsound(src, 'sound/misc/lava_death.ogg', 100, FALSE)
 
 /turf/open/lava/process()
-	if(!burn_stuff())
+	if(!burn_stuff()) // try to burn everything in our contents, stop once nothing left can burn
 		STOP_PROCESSING(SSobj, src)
 
 /turf/open/lava/get_smooth_underlay_icon(mutable_appearance/underlay_appearance, turf/asking_turf, adjacency_dir)
@@ -90,10 +90,31 @@
 			LAZYREMOVE(found_safeties, S)
 	return LAZYLEN(found_safeties)
 
+/turf/open/lava/can_traverse_safely(atom/movable/traveler)
+	return ..() && !will_burn(traveler) // can traverse safely if you won't burn in it
+
+/turf/open/lava/proc/will_burn(atom/movable/thing)
+	if(isobj(thing))
+		var/obj/O = thing
+		if((O.resistance_flags & (LAVA_PROOF|INDESTRUCTIBLE)) || O.throwing)
+			return FALSE
+		return TRUE
+	else if (isliving(thing))
+		var/mob/living/L = thing
+		if(L.movement_type & FLYING)
+			return FALSE //YOU'RE FLYING OVER IT
+		if("lava" in L.weather_immunities) // just flat-out immune. is this even used in RT?
+			return FALSE
+		var/buckle_check = L.buckling
+		if(!buckle_check)
+			buckle_check = L.buckled
+		if(buckle_check && !will_burn(buckle_check))
+			return FALSE // buckled to something lavaproof
+		return TRUE
+	return FALSE // no handling for this type burning, obj or living only
 
 /turf/open/lava/proc/burn_stuff(AM)
-	. = 0
-
+	. = FALSE
 	if(is_safe())
 		return FALSE
 
@@ -101,12 +122,12 @@
 	if (AM)
 		thing_to_check = list(AM)
 	for(var/thing in thing_to_check)
+		if(!will_burn(thing))
+			continue
 		if(isobj(thing))
 			var/obj/O = thing
-			if((O.resistance_flags & (LAVA_PROOF|INDESTRUCTIBLE)) || O.throwing)
-				continue
-			. = 1
-			if((O.resistance_flags & (ON_FIRE)))
+			. = TRUE
+			if((O.resistance_flags & (ON_FIRE))) // already on fire, don't bother. why do we do this exactly...? is this bad copypasta?
 				continue
 			if(!(O.resistance_flags & FLAMMABLE))
 				O.resistance_flags |= FLAMMABLE //Even fireproof things burn up in lava
@@ -117,21 +138,8 @@
 			qdel(O)
 
 		else if (isliving(thing))
-			. = 1
+			. = TRUE
 			var/mob/living/L = thing
-			if(L.movement_type & FLYING)
-				continue	//YOU'RE FLYING OVER IT
-			var/buckle_check = L.buckling
-			if(!buckle_check)
-				buckle_check = L.buckled
-			if(isobj(buckle_check))
-				var/obj/O = buckle_check
-				if(O.resistance_flags & LAVA_PROOF)
-					continue
-			else if(isliving(buckle_check))
-				var/mob/living/live = buckle_check
-				if("lava" in live.weather_immunities)
-					continue
 
 			if(!L.on_fire)
 				L.update_fire()
@@ -141,22 +149,18 @@
 				var/obj/item/clothing/S = C.get_item_by_slot(SLOT_ARMOR)
 				var/obj/item/clothing/H = C.get_item_by_slot(SLOT_HEAD)
 
+				// we still catch fire if wearing lavaproof armor, but we don't get dusted when dead
+				// is this really the intended behaviour, or was it just badly coded? idk
 				if(S && H && S.clothing_flags & LAVAPROTECT && H.clothing_flags & LAVAPROTECT)
-					return
-
-				if(C.health <= 0)
-					C.dust(drop_items = TRUE)
+					continue
 
 			if("lava" in L.weather_immunities)
 				continue
 
-//			L.adjustFireLoss(50)
-			if(L) //mobs turning into object corpses could get deleted here.
-				L.adjustFireLoss(10)
+			if(L)
+				L.adjustFireLoss(100)
 				L.adjust_fire_stacks(100)
 				L.IgniteMob()
-				if(L.health <= 0)
-					L.dust(drop_items = TRUE)
 
 /turf/open/lava/onbite(mob/user)
 	if(isliving(user))
@@ -213,8 +217,10 @@
 			var/obj/O = thing
 			if((O.resistance_flags & (ACID_PROOF|INDESTRUCTIBLE)) || O.throwing)
 				continue
+			O.obj_integrity -= O.max_integrity * 0.1
+			if(O.obj_integrity <= 0)
+				qdel(O)	
 			. = 1
-			qdel(O)
 
 		else if (isliving(thing))
 			. = 1
@@ -232,33 +238,16 @@
 				var/mob/living/live = buckle_check
 				if("lava" in live.weather_immunities)
 					continue
+			for(var/obj/item/clothing/C in L.contents)
+				if(C.resistance_flags & (ACID_PROOF|INDESTRUCTIBLE))
+					continue
+				C.obj_integrity -= C.max_integrity * 0.1
+				if(C.obj_integrity <= 0)
+					to_chat(L, span_danger("Your [C.name] is destroyed by the acid!"))
+					qdel(C)	
 
-			if(iscarbon(L))
-				var/mob/living/carbon/C = L
-//				var/obj/item/clothing/S = C.get_item_by_slot(SLOT_ARMOR)
-//				var/obj/item/clothing/H = C.get_item_by_slot(SLOT_HEAD)
-
-//				if(S && H && S.clothing_flags & LAVAPROTECT && H.clothing_flags & LAVAPROTECT)
-//					return
-				//make this acid
-				var/shouldupdate = FALSE
-				for(var/obj/item/bodypart/B in C.bodyparts)
-					if(!B.skeletonized && B.is_organic_limb())
-						B.skeletonize()
-						shouldupdate = TRUE
-				if(shouldupdate)
-					if(ishuman(C))
-						var/mob/living/carbon/human/H = C
-						H.underwear = "Nude"
-					C.unequip_everything()
-					C.update_body()
-//				C.dust(drop_items = TRUE)
-				continue
-
-//			if("lava" in L.weather_immunities)
-//				continue
-
-			L.dust(drop_items = TRUE)
+			L.adjustFireLoss(100)
+			to_chat(L, span_userdanger("THE ACID BURNS!"))
 
 /turf/open/lava/acid/onbite(mob/user)
 	if(isliving(user))

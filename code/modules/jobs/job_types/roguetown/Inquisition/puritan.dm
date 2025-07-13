@@ -50,28 +50,27 @@
 
 /datum/outfit/job/roguetown/puritan/inspector/pre_equip(mob/living/carbon/human/H)
 	..()
-	if(H.mind)
-		H.mind.adjust_skillrank(/datum/skill/misc/lockpicking, 5, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/tracking, 5, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/sneaking, 5, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/crossbows, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/sewing, 2, TRUE)
-		H.change_stat("strength", 2)
-		H.change_stat("endurance", 2)
-		H.change_stat("constitution", 3)
-		H.change_stat("perception", 3)
-		H.change_stat("speed", 1)
-		H.change_stat("intelligence", 3)
+	H.adjust_skillrank(/datum/skill/misc/lockpicking, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/tracking, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/sneaking, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/crossbows, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/sewing, 2, TRUE)
+	H.change_stat("strength", 2)
+	H.change_stat("endurance", 2)
+	H.change_stat("constitution", 3)
+	H.change_stat("perception", 3)
+	H.change_stat("speed", 1)
+	H.change_stat("intelligence", 3)
 	H.verbs |= /mob/living/carbon/human/proc/faith_test
 	H.verbs |= /mob/living/carbon/human/proc/torture_victim
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
@@ -107,28 +106,27 @@
 
 /datum/outfit/job/roguetown/puritan/ordinator/pre_equip(mob/living/carbon/human/H)
 	..()
-	if(H.mind)
-		H.mind.adjust_skillrank(/datum/skill/misc/lockpicking, 5, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/tracking, 5, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/sneaking, 5, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/crossbows, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/sewing, 2, TRUE)
-		H.change_stat("strength", 2)
-		H.change_stat("endurance", 2)
-		H.change_stat("constitution", 3)
-		H.change_stat("perception", 3)
-		H.change_stat("speed", 1)
-		H.change_stat("intelligence", 3)
+	H.adjust_skillrank(/datum/skill/misc/lockpicking, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/tracking, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/sneaking, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/crossbows, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/sewing, 2, TRUE)
+	H.change_stat("strength", 2)
+	H.change_stat("endurance", 2)
+	H.change_stat("constitution", 3)
+	H.change_stat("perception", 3)
+	H.change_stat("speed", 1)
+	H.change_stat("intelligence", 3)
 	H.verbs |= /mob/living/carbon/human/proc/faith_test
 	H.verbs |= /mob/living/carbon/human/proc/torture_victim
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
@@ -169,7 +167,6 @@
 	set category = "Inquisition"
 	var/obj/item/grabbing/I = get_active_held_item()
 	var/mob/living/carbon/human/H
-	var/obj/item/S = get_inactive_held_item()
 	var/found = null
 	if(!istype(I) || !ishuman(I.grabbed))
 		to_chat(src, span_warning("I don't have a victim in my hands!"))
@@ -178,11 +175,8 @@
 	if(H == src)
 		to_chat(src, span_warning("I already torture myself."))
 		return
-	if (!H.restrained())
-		to_chat(src, span_warning ("My victim needs to be restrained in order to do this!"))
-		return
-	if(!istype(S, /obj/item/clothing/neck/roguetown/psicross))
-		to_chat(src, span_warning("I need to be holding a psycross to extract this divination!"))
+	if(H.stat == DEAD)
+		to_chat(src, span_warning("[H] is dead already..."))
 		return
 	for(var/obj/structure/fluff/psycross/N in oview(5, src))
 		found = N
@@ -191,16 +185,18 @@
 	if(!H.stat)
 		SEND_SIGNAL(src, COMSIG_TORTURE_PERFORMED, H)
 		var/static/list/torture_lines = list(
-			"CONFESS!",
+			"CONFESS YOUR WRONGDOINGS!",
 			"TELL ME YOUR SECRETS!",
-			"SPEAK!",
+			"SPEAK THE TRUTH!",
 			"YOU WILL SPEAK!",
 			"TELL ME!",
+			"THE PAIN HAS ONLY BEGUN, CONFESS!",
 		)
 
 		src.visible_message(span_warning("[src] shoves the psycross in [H]'s face!"))
 		say(pick(torture_lines), spans = list("torture"))
 		H.emote("agony", forced = TRUE)
+		H.confession_time("antag", src)
 		H.add_stress(/datum/stressevent/tortured)
 
 		if(!(do_mob(src, H, 10 SECONDS)))
@@ -208,7 +204,6 @@
 
 		src.visible_message(span_warning("[src]'s psycross abruptly catches flame, burning away in an instant!"))
 		H.confess_sins("antag")
-		qdel(S)
 		return
 	to_chat(src, span_warning("This one is not in a ready state to be questioned..."))
 
@@ -217,7 +212,6 @@
 	set category = "Inquisition"
 	var/obj/item/grabbing/I = get_active_held_item()
 	var/mob/living/carbon/human/H
-	var/obj/item/S = get_inactive_held_item()
 	var/found = null
 	if(!istype(I) || !ishuman(I.grabbed))
 		to_chat(src, span_warning("I don't have a victim in my hands!"))
@@ -228,9 +222,6 @@
 		return
 	if (!H.restrained())
 		to_chat(src, span_warning ("My victim needs to be restrained in order to do this!"))
-		return
-	if(!istype(S, /obj/item/clothing/neck/roguetown/psicross))
-		to_chat(src, span_warning("I need to be holding a psycross to extract this divination!"))
 		return
 	for(var/obj/structure/fluff/psycross/N in oview(5, src))
 		found = N
@@ -256,28 +247,166 @@
 		src.visible_message(span_warning("[src]'s psycross abruptly catches flame, burning away in an instant!"))
 		H.confess_sins("patron")
 		H.add_stress(/datum/stressevent/tortured)
-		qdel(S)
 		return
 	to_chat(src, span_warning("This one is not in a ready state to be questioned..."))
 
-/mob/living/carbon/human/proc/confess_sins(confession_type = "antag")
-	var/static/list/innocent_lines = list(
-		"I AM NO SINNER!",
-		"I'M INNOCENT!",
-		"I HAVE NOTHING TO CONFESS!",
-		"I AM FAITHFUL!",
-	)
-	var/list/confessions = list()
-	switch(confession_type)
-		if("patron")
-			if(length(patron?.confess_lines))
-				confessions += patron.confess_lines
-		if("antag")
-			for(var/datum/antagonist/antag in mind?.antag_datums)
-				if(!length(antag.confess_lines))
-					continue
-				confessions += antag.confess_lines
-	if(length(confessions))
-		say(pick(confessions), spans = list("torture"))
+/mob/living/carbon/human/proc/confession_time(confession_type = "antag", mob/living/carbon/human/user)
+	var/timerid = addtimer(CALLBACK(src, PROC_REF(confess_sins), confession_type, FALSE, user), 10 SECONDS, TIMER_STOPPABLE)
+	var/static/list/options = list("RESIST!!", "CONFESS!!")
+	var/responsey = input(src, "Resist torture?", "TEST OF PAIN", options)
+
+	if(SStimer.timer_id_dict[timerid])
+		deltimer(timerid)
+	else
+		to_chat(src, span_warning("Too late..."))
 		return
-	say(pick(innocent_lines), spans = list("torture"))
+	if(responsey == "RESIST!!")
+		confess_sins(confession_type, resist=TRUE, interrogator=user)
+	else
+		confess_sins(confession_type, resist=FALSE, interrogator=user)
+
+/mob/living/carbon/human/proc/confess_sins(confession_type = "antag", resist, mob/living/carbon/human/interrogator, torture=TRUE, obj/item/paper/confession/confession_paper, false_result)
+	if(stat == DEAD)
+		return
+	var/static/list/innocent_lines = list(
+		"I DON'T KNOW!",
+		"STOP THIS MADNESS!!",
+		"I DON'T DESERVE THIS!",
+		"THE PAIN!",
+		"I HAVE NOTHING TO SAY...!",
+		"WHY ME?!",
+		"I'M INNOCENT!",
+		"I AM NO SINNER!",
+	)
+	var/resist_chance = 0
+	if(resist)
+		to_chat(src, span_boldwarning("I attempt to resist the torture!"))
+		resist_chance = (STAINT + STAEND) + 10
+
+		if(confession_type == "antag")									// Inherant bonus to resist if you are an antag/heretic.
+			resist_chance += 25
+		if(istype(buckled, /obj/structure/fluff/walldeco/chains))		// If the victim is on hanging chains, apply a resist penalty
+			resist_chance -= 10
+		var/mob/living/carbon/human/H
+		if(H.has_status_effect(/datum/status_effect/buff/drunk))		// Loose lips sink ships.
+			resist_chance -= 10
+		if(H.has_status_effect(/datum/status_effect/debuff/revived))	//Weakened body and mind
+			resist_chance -= 5
+		if(H.has_status_effect(/datum/status_effect/debuff/devitalised))	//Weakened soul and mind
+			resist_chance -= 10
+		if(HAS_TRAIT(H, TRAIT_DECEIVING_MEEKNESS))						// Guraded bonus given you hide your faith better than others.
+			resist_chance += 15
+		if(HAS_TRAIT(H, TRAIT_CRITICAL_WEAKNESS))						// Negative for being bully-bait.
+			resist_chance -= 15
+		var/painpercent = (H.get_complex_pain() / (H.STAEND * 10)) * 100
+		if(painpercent < 100)											// If beaten/badly wounded, penalty.
+			resist_chance -= 15
+
+	if(!prob(resist_chance))
+		var/list/confessions = list()
+		var/antag_type = null
+		switch(confession_type)
+			if("antag")
+				if(!false_result)
+					for(var/datum/antagonist/antag in mind?.antag_datums)
+						if(!length(antag.confess_lines))
+							continue
+						confessions += antag.confess_lines
+						antag_type = antag.name
+						break // Only need one antag type
+			if("patron")
+				if(ispath(false_result, /datum/patron))
+					var/datum/patron/fake_patron = new false_result()
+					if(length(fake_patron.confess_lines))
+						confessions += fake_patron.confess_lines
+						antag_type = fake_patron.name
+				else
+					if(length(patron?.confess_lines))
+						confessions += patron.confess_lines
+						antag_type = patron.name
+
+		if(torture && interrogator && confession_type == "patron")
+			var/datum/patron/interrogator_patron = interrogator.patron
+			var/datum/patron/victim_patron = patron
+			switch(interrogator_patron.associated_faith.type)
+				if(/datum/patron/old_god)
+					if(victim_patron.type == /datum/patron/divine)
+						interrogator.add_stress(/datum/stressevent/tortured)
+					else if(victim_patron.type == /datum/patron/inhumen)
+						interrogator.add_stress(/datum/stressevent/tortured)
+						
+
+		if(length(confessions))
+			if(torture) // Only scream your confession if it's due to torture.
+				say(pick(confessions), spans = list("torture"), forced = TRUE)
+			else
+				say(pick(confessions), forced = TRUE)
+			if(has_confessed) // This is to check if the victim has already confessed, if so just inform the torturer and return. This is so that the Inquisitor cannot get infinite confession points and get all of the things upon getting thier first heretic.
+				visible_message(span_warning("[name] has already signed a confession!"), "I have already signed a confession!")
+				return
+			var/obj/item/paper/confession/held_confession
+			if(istype(confession_paper))
+				held_confession = confession_paper
+			else if(interrogator?.is_holding_item_of_type(/obj/item/paper/confession)) // This code is to process gettin a signed confession through torture.
+				held_confession = interrogator.is_holding_item_of_type(/obj/item/paper/confession)
+			if(held_confession && !held_confession.signed) // Check to see if the confession is already signed.
+				// held_confession.bad_type = "AN EVILDOER" // In case new antags are added with confession lines but have yet to be added here.
+				//this is no longer reliable as all patrons have confess lines now
+				switch(antag_type)
+					if("Bandit")
+						held_confession.bad_type = "AN OUTLAW OF THE THIEF-LORD"
+						held_confession.antag = antag_type
+					if("Verewolf")
+						held_confession.bad_type = "A BEARER OF DENDOR'S CURSE"
+						held_confession.antag = antag_type
+					if("Lesser Verewolf")
+						held_confession.bad_type = "A BEARER OF DENDOR'S CURSE"
+						held_confession.antag = antag_type
+					if("Vampire")
+						held_confession.bad_type = "A SCION OF KAINE"
+						held_confession.antag = antag_type
+					if("Lesser Vampire")
+						held_confession.bad_type = "A SCION OF KAINE"
+						held_confession.antag = antag_type
+					if("Vampire Lord")
+						held_confession.bad_type = "THE BLOOD-LORD OF VANDERLIN"
+						held_confession.antag = antag_type
+					if("Vampire Spawn")
+						held_confession.bad_type = "AN UNDERLING OF THE BLOOD-LORD"
+						held_confession.antag = antag_type
+					if("Maniac")
+						held_confession.bad_type = "A MANIAC DELUDED BY MADNESS"
+						held_confession.antag = antag_type
+					if("Matthios")
+						held_confession.bad_type = "A FOLLOWER OF THE THIEF-LORD"
+						held_confession.antag = "worshiper of " + antag_type
+					if("Zizo")
+						held_confession.bad_type = "A FOLLOWER OF THE FORBIDDEN ONE"
+						held_confession.antag = "worshiper of " + antag_type
+					if("Graggar")
+						held_confession.bad_type = "A FOLLOWER OF THE DARK SUN"
+						held_confession.antag = "worshiper of " + antag_type
+					if("Godless")
+						held_confession.bad_type = "A DAMNED ANTI-THEIST"
+						held_confession.antag = "worshiper of nothing"
+					if("Baotha")
+						held_confession.bad_type = "A FOLLOWER OF THE REMORSELESS RUINER"
+						held_confession.antag = "worshiper of " + antag_type
+					if("Peasant Rebel")
+						return // Inquisitors don't care about peasant revolts targeting the King
+					else
+						return // good job you tortured an innocent person
+				has_confessed = TRUE
+				held_confession.signed = real_name
+				held_confession.info = "THE GUILTY PARTY ADMITS THEIR SINFUL NATURE AS <font color='red'>[held_confession.bad_type]</font>. THEY WILL SERVE ANY PUNISHMENT OR SERVICE AS REQUIRED BY THE ORDER OF THE PSYCROSS UNDER PENALTY OF DEATH.<br/><br/>SIGNED,<br/><font color='red'><i>[held_confession.signed]</i></font>"
+				held_confession.update_icon_state()
+			return
+		else
+			if(torture) // Only scream your confession if it's due to torture.
+				say(pick(innocent_lines), spans = list("torture"), forced = TRUE)
+			else
+				say(pick(innocent_lines), forced = TRUE)
+			return
+	to_chat(src, span_good("I resist the torture!"))
+	say(pick(innocent_lines), spans = list("torture"), forced = TRUE)
+	return

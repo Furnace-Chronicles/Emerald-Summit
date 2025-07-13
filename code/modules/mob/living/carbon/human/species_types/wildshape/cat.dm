@@ -9,17 +9,17 @@
 /mob/living/carbon/human/species/wildshape/cat/gain_inherent_skills()
 	. = ..()
 	if(src.mind)
-		src.mind.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
-		src.mind.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-		src.mind.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-		src.mind.adjust_skillrank(/datum/skill/misc/sneaking, 5, TRUE) //Who's a sneaky fellow?
-		src.mind.adjust_skillrank(/datum/skill/misc/climbing, 5, TRUE) //May as well be magical
-		src.mind.adjust_skillrank(/datum/skill/misc/stealing, 3, TRUE)
-		src.mind.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE)
+		src.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
+		src.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
+		src.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
+		src.adjust_skillrank(/datum/skill/misc/sneaking, 5, TRUE) //Who's a sneaky fellow?
+		src.adjust_skillrank(/datum/skill/misc/climbing, 5, TRUE) //May as well be magical
+		src.adjust_skillrank(/datum/skill/misc/stealing, 3, TRUE)
+		src.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE)
 
 		src.STASTR = 2
 		src.STACON = 2
-		src.STAEND = 4
+		src.STAEND = 7
 		src.STAPER = 14
 		src.STASPD = 18 //May be overtuned with dodge expert, but this thing is so fragile
 		src.STALUC = 12 //Xylyx's critters
@@ -162,13 +162,14 @@
 	l = user.get_active_held_item()
 	r = user.get_inactive_held_item()
 	if(extended)
-		if(istype(user.get_active_held_item(), /obj/item/rogueweapon/cat_claw))
+		if(istype(l, /obj/item/rogueweapon/cat_claw))
 			user.dropItemToGround(l, TRUE)
-			user.dropItemToGround(r, TRUE)
 			qdel(l)
+		if(istype(r, /obj/item/rogueweapon/cat_claw))
+			user.dropItemToGround(r, TRUE)
 			qdel(r)
-			//user.visible_message("Your claws retract.", "You feel your claws retracting.", "You hear a sound of claws retracting.")
-			extended = FALSE
+		//user.visible_message("Your claws retract.", "You feel your claws retracting.", "You hear a sound of claws retracting.")
+		extended = FALSE
 	else
 		l = new(user,1)
 		r = new(user,2)

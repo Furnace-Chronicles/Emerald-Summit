@@ -44,13 +44,16 @@
 					if(HL.mind.do_i_know(name=user.real_name)) //do we know who this person is?
 						identified = TRUE // we do
 						to_chat(HL, "Arcyne whispers fill the back of my head, resolving into [user]'s voice: <font color=#7246ff>[message]</font>")
+						HL.playsound_local(HL, 'sound/magic/message.ogg', 100)
 
 			if(!identified) //we failed the check OR we just dont know who that is
 				to_chat(HL, "Arcyne whispers fill the back of my head, resolving into an unknown [user.gender == FEMALE ? "woman" : "man"]'s voice: <font color=#7246ff>[message]</font>")
+				HL.playsound_local(HL, 'sound/magic/message.ogg', 100)
 
 			user.visible_message("[user] mutters an incantation and their mouth briefly flashes white.")
 			user.whisper(message)
 			log_game("[key_name(user)] sent a message to [key_name(HL)] with contents [message]")
+			to_chat(user, span_notice("I close my eyes and focus my mind towards [HL.real_name]... The words I speak enter their head."))
 			// maybe an option to return a message, here?
 			return TRUE
 	to_chat(user, span_warning("I seek a mental connection, but can't find [input]."))

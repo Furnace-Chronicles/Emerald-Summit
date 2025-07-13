@@ -98,6 +98,8 @@
 		/datum/body_marking/small/front,
 		/datum/body_marking/small/spotted,
 		/datum/body_marking/small/nose,
+		/datum/body_marking/small/bangs,
+		/datum/body_marking/small/bun,
 	)
 	stress_examine = TRUE
 	stress_desc = span_red("Filthy vermin...")

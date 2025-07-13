@@ -52,7 +52,7 @@
 		ORGAN_SLOT_HEART = /obj/item/organ/heart,
 		ORGAN_SLOT_LUNGS = /obj/item/organ/lungs,
 		ORGAN_SLOT_EYES = /obj/item/organ/eyes/halfelf,
-		ORGAN_SLOT_EARS = /obj/item/organ/ears/elf,
+		ORGAN_SLOT_EARS = /obj/item/organ/ears,
 		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue,
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
@@ -69,6 +69,7 @@
 		/datum/customizer/organ/penis/anthro,
 		/datum/customizer/organ/breasts/human,
 		/datum/customizer/organ/vagina/human_anthro,
+		/datum/customizer/organ/ears/elf,
 		)
 	body_marking_sets = list(
 		/datum/body_marking_set/none,
@@ -81,7 +82,8 @@
 		/datum/body_marking/flushed_cheeks,
 		/datum/body_marking/eyeliner,
 		/datum/body_marking/tonage,
-		
+		/datum/body_marking/bangs,
+		/datum/body_marking/bun,
 	)
 	languages = list(
 		/datum/language/common,
@@ -95,16 +97,16 @@
 /datum/species/human/halfelf/get_skin_list()
 	return list(
 		"Timber-Gronn" = SKIN_COLOR_TIMBER_GRONN,
-		"Giza-Azure" = SKIN_COLOR_GIZA_AZURE,
+		"Giza-Scarlet" = SKIN_COLOR_GIZA_SCARLET,
 		"Walnut-Stine" = SKIN_COLOR_WALNUT_STINE,
 		"Etrustcan-Dandelion" = SKIN_COLOR_ETRUSTCAN_DANDELION,
 		"Ebon-Born" = SKIN_COLOR_EBON_BORN,
 		"Kaze-Lotus" = SKIN_COLOR_KAZE_LOTUS,
-		"Grenzel-Azuria" = SKIN_COLOR_GRENZEL_WOODS,
+		"Grenzel-Scarlet" = SKIN_COLOR_GRENZEL_WOODS,
 		"Etrusca-Lirvas" = SKIN_COLOR_ETRUSCA_LIRVAS,
 		"Free Roamers" = SKIN_COLOR_FREE_FOLK,
 		"Avar Borne"	= SKIN_COLOR_AVAR_BORNE,
-		"Shalvine Roamer" = SKIN_COLOR_SHALVINE_AZURE,
+		"Shalvine Roamer" = SKIN_COLOR_SHALVINE_SCARLET,
 		"Lalve-Steppes" = SKIN_COLOR_LALVE_NALEDI,
 		"Ebon-Otava" = SKIN_COLOR_EBON_OTAVA,
 		"Grezel-Avar" = SKIN_COLOR_GRENZEL_AVAR,

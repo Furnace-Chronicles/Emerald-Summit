@@ -195,7 +195,8 @@
 						list(/datum/skill/craft/carpentry, 2, 2),
 						list(/datum/skill/craft/masonry, 2, 2),
 						list(/datum/skill/craft/engineering, 2, 2),
-						list(/datum/skill/craft/smelting, 2, 2)
+						list(/datum/skill/craft/smelting, 2, 2),
+						list(/datum/skill/misc/ceramics, 2, 2)
 	)
 	added_stashed_items = list(
 		"Hammer" = /obj/item/rogueweapon/hammer/wood,
@@ -364,9 +365,7 @@
 	desc = "After years of training in the wilds, I've learned to traverse the woods confidently, without breaking any twigs. I can even step lightly on leaves without falling, and I can gather twice as many things from bushes."
 	added_traits = list(TRAIT_WOODWALKER, TRAIT_OUTDOORSMAN)
 
-//HERETIC VIRTUES
-
-/datum/virtue/heretic/seer
-	name = "(ASCENDANT) Seer"
-	desc = "You've spent your days studying the tales writ and told by the Ecclesiarchy's rejects and priests alike. You've grown to tell the followers by hunch and sight. They give themselves away so easily in this world slowly brewing to a fester."
-	added_traits = list(TRAIT_HERETIC_SEER)
+/datum/virtue/heretic/zchurch_keyholder
+	name = "Heresiarch"
+	desc = "The 'Holy' See has their blood-stained grounds, and so do we. Underneath their noses, we pray to the true gods - I know the location of the local heretic conclave. Secrecy is paramount. If found out, I will surely be killed."
+	added_traits = list(TRAIT_HERESIARCH)

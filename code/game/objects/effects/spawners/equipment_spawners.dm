@@ -4,6 +4,7 @@
 
 /obj/effect/spawner/lootdrop/light_armor_spawner
 	name = "light armor spawner"
+	icon_state = "larmor"
 	lootcount = 1
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/leather = 6,
@@ -26,6 +27,7 @@
 
 /obj/effect/spawner/lootdrop/medium_armor_spawner
 	name = "medium armor spawner"
+	icon_state = "marmor"
 	lootcount = 1
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/chainmail = 3,
@@ -45,6 +47,7 @@
 
 /obj/effect/spawner/lootdrop/heavy_armor_spawner
 	name = "heavy armor spawner"
+	icon_state = "harmor"
 	lootcount = 1
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/plate = 6,
@@ -58,6 +61,7 @@
 
 /obj/effect/spawner/lootdrop/helmet_spawner
 	name = "helmet spawner"
+	icon_state = "helmetarmor"
 	lootcount = 1
 	loot = list(
 		/obj/item/clothing/head/roguetown/helmet/coppercap = 10,
@@ -84,6 +88,7 @@
 
 /obj/effect/spawner/lootdrop/armored_gloves_spawner
 	name = "armored gloves spawner"
+	icon_state = "glovearmor"
 	lootcount = 1
 	loot = list(
 		/obj/item/clothing/gloves/roguetown/leather = 6,
@@ -96,6 +101,7 @@
 
 /obj/effect/spawner/lootdrop/armored_boots_spawner
 	name = "armored boots spawner"
+	icon_state = "bootarmor"
 	lootcount = 1
 	loot = list(
 		/obj/item/clothing/shoes/roguetown/boots = 10,
@@ -108,6 +114,7 @@
 
 /obj/effect/spawner/lootdrop/armored_wrists_spawner
 	name = "armored wrists spawner"
+	icon_state = "wristarmor"
 	lootcount = 1
 	loot = list(
 		/obj/item/clothing/wrists/roguetown/bracers = 1,
@@ -119,6 +126,7 @@
 
 /obj/effect/spawner/lootdrop/horny_armor_spawner
 	name = "horny armor spawner"
+	icon_state = "hornyarmor"
 	lootcount = 1
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/leather/bikini = 6,
@@ -133,6 +141,7 @@
 
 /obj/effect/spawner/lootdrop/peasant_weapon_spawner
 	name = "peasant weapon spawner"
+	icon_state = "pweapon"
 	lootcount = 1
 	loot = list(
 		/obj/item/rogueweapon/flail/peasantwarflail = 3,
@@ -148,6 +157,7 @@
 
 /obj/effect/spawner/lootdrop/iron_copper_weapon_spawner
 	name = "iron+copper weapon spawner"
+	icon_state = "icweapon"
 	lootcount = 1
 	loot = list(
 		/obj/item/rogueweapon/sword/iron = 1,
@@ -181,6 +191,7 @@
 
 /obj/effect/spawner/lootdrop/steel_weapon_spawner
 	name = "steel weapon spawner"
+	icon_state = "steelweapon"
 	lootcount = 1
 	loot = list(
 		/obj/item/rogueweapon/sword = 3,
@@ -222,6 +233,7 @@
 
 /obj/effect/spawner/lootdrop/silver_weapon_spawner //doesn't include psydonian or elven
 	name = "silver weapon spawner"
+	icon_state = "silverweapon"
 	lootcount = 1
 	loot = list(
 		/obj/item/rogueweapon/sword/silver = 1,
@@ -232,6 +244,7 @@
 
 /obj/effect/spawner/lootdrop/decrepit_equipment_spawner
 	name = "decrepit equipment spawner"
+	icon_state = "dweapon/armor"
 	lootcount = 1
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/chainmail/aalloy = 1,
@@ -267,6 +280,7 @@
 
 /obj/effect/spawner/lootdrop/ancient_equipment_spawner
 	name = "ancient equipment spawner"
+	icon_state = "paweapon/armor"
 	lootcount = 1
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/chainmail/paalloy = 1,
@@ -296,6 +310,7 @@
 
 /obj/effect/spawner/lootdrop/elven_equipment_spawner
 	name = "elven equipment spawner"
+	icon_state = "eweapon/armor"
 	lootcount = 1
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/plate/half/elven = 1,
@@ -312,6 +327,7 @@
 
 /obj/effect/spawner/lootdrop/blacksteel_equipment_spawner
 	name = "blacksteel equipment spawner"
+	icon_state = "bsweapon/armor"
 	lootcount = 1
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/plate/blacksteel_full_plate = 1,

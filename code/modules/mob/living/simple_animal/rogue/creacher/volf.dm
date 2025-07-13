@@ -95,6 +95,8 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf/death(gibbed)
 	..()
 	update_icon()
+	if(!QDELETED(src))
+		src.AddComponent(/datum/component/deadite_animal_reanimation)
 
 /* Eyes that glow in the dark. They float over kybraxor pits at the moment.
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf/update_icon()
@@ -130,7 +132,6 @@
 	if(pulledby)
 		Retaliate()
 		GiveTarget(pulledby)
-
 
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf/simple_limb_hit(zone)
 	if(!zone)
@@ -176,5 +177,3 @@
 
 /datum/intent/simple/bite/volf
 	clickcd = WOLF_ATTACK_SPEED
-
-

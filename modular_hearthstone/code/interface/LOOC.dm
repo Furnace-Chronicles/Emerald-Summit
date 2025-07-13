@@ -31,15 +31,20 @@
 /client/proc/do_looc(msg as text, wp)
 
 	if(GLOB.say_disabled)	//This is here to try to identify lag problems
-		to_chat(usr, "<span class='danger'> Speech is currently admin-disabled.</span>")
+		to_chat(usr, span_danger("Speech is currently admin-disabled."))
 		return
 
 	if(prefs.muted & MUTE_LOOC)
-		to_chat(src, "<span class='danger'>I cannot use LOOC (temp muted).</span>")
+		to_chat(src, span_danger("I cannot use LOOC (temp muted)."))
 		return
 
 	if(is_banned_from(ckey, "LOOC"))
-		to_chat(src, "<span class='danger'>I cannot use LOOC (perma muted).</span>")
+		to_chat(src, span_danger("I cannot use LOOC (perma muted)."))
+		return
+	
+	if(isobserver(mob))
+		to_chat(src, span_danger("I cannot use LOOC while dead."))
+		return
 
 	if(!mob)
 		return
@@ -49,7 +54,7 @@
 		return
 
 	if(!(prefs.chat_toggles & CHAT_OOC))
-		to_chat(src, "<span class='danger'> You have OOC muted.</span>")
+		to_chat(src, span_danger("You have OOC muted."))
 		return
 
 	if(!holder)

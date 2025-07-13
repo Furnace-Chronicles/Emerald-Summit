@@ -9,7 +9,7 @@
 	releasedrain = 30
 	chargedrain = 1
 	chargetime = 25
-	recharge_time = 20 SECONDS
+	recharge_time = 15 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -30,8 +30,9 @@
 	exp_light = 0
 	exp_flash = 0
 	exp_fire = 1
-	damage = 10
+	damage = 60
 	damage_type = BURN
+	npc_damage_mult = 2 // HAHAHA
 	accuracy = 40 // Base accuracy is lower for burn projectiles because they bypass armor
 	nodamage = FALSE
 	flag = "magic"

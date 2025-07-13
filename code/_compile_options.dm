@@ -41,7 +41,7 @@
 //#define UNIT_TESTS			//Enables unit tests via TEST_RUN_PARAMETERF
 
 #ifndef PRELOAD_RSC					//set to:
-#define PRELOAD_RSC		2			//	0 to allow using external resources or on-demand behaviour;
+#define PRELOAD_RSC		0			//	0 to allow using external resources or on-demand behaviour;
 #endif								//	1 to use the default behaviour;
 									//	2 for preloading absolutely everything;
 
@@ -73,6 +73,9 @@
 #ifdef TRAVISTESTING
 #define TESTING
 #endif
+
+// Uncomment this for NPCs to display their 'thoughts' (AI planning steps) above their heads. Useful for debugging NPC logic.
+// #define NPC_THINK_DEBUG
 
 // A reasonable number of maximum overlays an object needs
 // If you think you need more, rethink it

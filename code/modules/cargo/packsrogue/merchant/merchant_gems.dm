@@ -2,6 +2,7 @@
 /datum/supply_pack/rogue/gems
 	group = "Gems"
 	crate_name = "merchant guild's crate"
+	mandated_public_profit = 1 // 100% Mandatory Profit Margin on top
 	crate_type = /obj/structure/closet/crate/chest/merchant
 
 /datum/supply_pack/rogue/gems/amethyst

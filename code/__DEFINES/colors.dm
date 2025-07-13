@@ -62,6 +62,7 @@
 
 //roguetown
 #define CLOTHING_RED			"#8b2323"
+#define CLOTHING_SCARLET		"#bb0a1e"
 #define CLOTHING_PURPLE			"#8747b1"
 #define CLOTHING_BLACK			"#2b292e"
 #define CLOTHING_GREY			"#6c6c6c"
@@ -84,6 +85,8 @@
 	switch(input)
 		if("Red")
 			return CLOTHING_RED
+		if("Scarlet")
+			return CLOTHING_SCARLET
 		if("Purple")
 			return CLOTHING_PURPLE
 		if("Black")

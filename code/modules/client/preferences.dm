@@ -324,8 +324,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			if(SStriumphs.triumph_buys_enabled)
 				dat += "<a style='white-space:nowrap;' href='?_src_=prefs;preference=triumph_buy_menu'>Triumph Buy</a>"
 			dat += "</td>"
-
+			var/agevetted = user.check_agevet()
 			dat += "<td style='width:33%;text-align:right'>"
+			dat += "<a href='?_src_=prefs;preference=agevet'><b>Age Vetted:</b></a> [agevetted ? "<font color='#1cb308'>Yes!</font>" : "<font color='#aa0202'>No.</font>"]"
 			dat += "</td>"
 
 			dat += "</table>"
@@ -472,15 +473,19 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<br><b>Voice Pitch: </b><a href='?_src_=prefs;preference=voice_pitch;task=input'>[voice_pitch]</a>"
 			dat += "<br><b>Accent:</b> <a href='?_src_=prefs;preference=char_accent;task=input'>[char_accent]</a>"
 			dat += "<br><b>Features:</b> <a href='?_src_=prefs;preference=customizers;task=menu'>Change</a>"
+			dat += "<br><b>Sprite Scale:</b><a href='?_src_=prefs;preference=body_size;task=input'>[(features["body_size"] * 100)]%</a>"
 			dat += "<br><b>Markings:</b> <a href='?_src_=prefs;preference=markings;task=menu'>Change</a>"
 			dat += "<br><b>Descriptors:</b> <a href='?_src_=prefs;preference=descriptors;task=menu'>Change</a>"
 
-			dat += "<br><b>Headshot:</b> <a href='?_src_=prefs;preference=headshot;task=input'>Change</a>"
-			if(headshot_link != null)
-				dat += "<br><img src='[headshot_link]' width='150px' height='175px'>"
-			dat += "<br><b>NSFW Headshot:</b> <a href='?_src_=prefs;preference=nsfw_headshot;task=input'>Change</a>"
-			if(nsfw_headshot_link != null)
-				dat += "<br><img src='[nsfw_headshot_link]' width='125px' height='175px'>"
+			if(agevetted)
+				dat += "<br><b>Headshot:</b> <a href='?_src_=prefs;preference=headshot;task=input'>Change</a>"
+				if(headshot_link != null)
+					dat += "<br><img src='[headshot_link]' width='150px' height='175px'>"
+				dat += "<br><b>NSFW Headshot:</b> <a href='?_src_=prefs;preference=nsfw_headshot;task=input'>Change</a>"
+				if(nsfw_headshot_link != null)
+					dat += "<br><img src='[nsfw_headshot_link]' width='125px' height='175px'>"
+			else
+				dat += "<br><b>You need to be <font color='#aa0202'>Age Vetted</font> to use the Headshot feature.</b>"
 			if(is_legacy)
 				dat += "<br><i><font size = 1>(Legacy)<a href='?_src_=prefs;preference=legacyhelp;task=input'>(?)</a></font></i>"
 
@@ -488,7 +493,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 			dat += "<br><b>[(length(ooc_notes) < MINIMUM_OOC_NOTES) ? "<font color = '#802929'>" : ""]OOC Notes:[(length(ooc_notes) < MINIMUM_OOC_NOTES) ? "</font>" : ""]</b><a href='?_src_=prefs;preference=formathelp;task=input'>(?)</a><a href='?_src_=prefs;preference=ooc_notes;task=input'>Change</a>"
 
-			dat += "<br><b>OOC Extra:</b> <a href='?_src_=prefs;preference=ooc_extra;task=input'>Change</a>"
+			if(agevetted)
+				dat += "<br><b>OOC Extra:</b> <a href='?_src_=prefs;preference=ooc_extra;task=input'>Change</a>"
 			dat += "<br><a href='?_src_=prefs;preference=ooc_preview;task=input'><b>Preview Examine</b></a>"
 
 			dat += "<br><b>Loadout Item I:</b> <a href='?_src_=prefs;preference=loadout_item;task=input'>[loadout ? loadout.name : "None"]</a>"
@@ -1296,6 +1302,12 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	else if(href_list["preference"] == "playerquality")
 		check_pq_menu(user.ckey)
 
+	else if(href_list["preference"] == "agevet")
+		if(!user.check_agevet())
+			to_chat(usr, span_warning("You are not Age Verified. To access features like Headshots, OOC Extras, and more, please go into our Discord and make a ticket to verify your age. <b>ID is a requirement.</b>"))
+		else
+			to_chat(usr, span_nicegreen("You are already Age Verified. <b>Yippee!</b>"))
+
 	else if(href_list["preference"] == "markings")
 		ShowMarkings(user)
 		return
@@ -1555,7 +1567,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							if (AGE_MIDDLEAGED)
 								to_chat(user, "Muscles ache and joints begin to slow as Aeon's grasp begins to settle upon your shoulders. (-1 SPD, +1 END)")
 							if (AGE_OLD)
-								to_chat(user, "In a place as lethal as Engima, the elderly are all but marvels... or beneficiaries of the habitually privileged. (-1 STR, -2 SPE, -1 PER, -2 CON, +2 INT)")
+								to_chat(user, "In a place as lethal as PSYDONIA, the elderly are all but marvels... or beneficiaries of the habitually privileged. (-1 STR, -2 SPE, -1 PER, -2 CON, +2 INT, +1 FOR)")
 						// LETHALSTONE EDIT END
 						ResetJobs()
 						to_chat(user, "<font color='red'>Classes reset.</font>")
@@ -1680,8 +1692,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					var/new_color = input(user, "Choose your character's nickname highlight color:", "Character Preference","#"+highlight_color) as color|null
 					if(new_color)
 						highlight_color = sanitize_hexcolor(new_color)
-
 				if("headshot")
+					if(!user.check_agevet()) return
 					to_chat(user, "<span class='notice'>Please use a relatively SFW image of the head and shoulder area to maintain immersion level. Lastly, ["<span class='bold'>do not use a real life photo or use any image that is less than serious.</span>"]</span>")
 					to_chat(user, "<span class='notice'>If the photo doesn't show up properly in-game, ensure that it's a direct image link that opens properly in a browser.</span>")
 					to_chat(user, "<span class='notice'>Keep in mind that the photo will be downsized to 325x325 pixels, so the more square the photo, the better it will look.</span>")
@@ -1768,6 +1780,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					to_chat(user, "<span class='notice'>Successfully updated OOC notes.</span>")
 					log_game("[user] has set their OOC notes'.")
 				if("nsfw_headshot")
+					if(!user.check_agevet()) return
 					to_chat(user, "<span class='notice'>Finally a place to show it all.</span>")
 					var/new_nsfw_headshot_link = input(user, "Input the nsfw headshot link (https, hosts: gyazo, lensdump, imgbox, catbox):", "NSFW Headshot", nsfw_headshot_link) as text|null
 					if(new_nsfw_headshot_link == null)
@@ -1784,6 +1797,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					to_chat(user, "<span class='notice'>Successfully updated NSFW Headshot picture</span>")
 					log_game("[user] has set their NSFW Headshot image to '[nsfw_headshot_link]'.")
 				if("ooc_preview")	//Unashamedly copy pasted from human_topic.dm L:7. Sorry!
+					var/agevetted = user.check_agevet()
 					var/list/dat = list()
 					dat += "<div align='center'><font size = 5; font color = '#dddddd'><b>[real_name]</b></font></div>"
 					var/legacy_check = FALSE
@@ -1801,7 +1815,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						return
 					if(is_legacy)
 						dat += "<center><i><font color = '#b9b9b9'; font size = 1>This is a LEGACY Profile from naive days of Psydon.</font></i></center>"
-					if(valid_headshot_link(null, headshot_link, TRUE))
+					if(valid_headshot_link(null, headshot_link, TRUE) && agevetted)
 						dat += ("<div align='center'><img src='[headshot_link]' width='350px' height='350px'></div>")
 					if(flavortext && flavortext_display)
 						dat += "<div align='left'>[flavortext_display]</div>"
@@ -1809,15 +1823,16 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						dat += "<br>"
 						dat += "<div align='center'><b>OOC notes</b></div>"
 						dat += "<div align='left'>[ooc_notes_display]</div>"
-					if(ooc_extra)
+					if(ooc_extra && agevetted)
 						dat += "[ooc_extra]"
-					if(nsfw_headshot_link)
+					if(nsfw_headshot_link && agevetted)
 						dat += "<br><div align='center'><b>NSFW</b></div>"
-						dat += ("<br><div align='center'><img src='[nsfw_headshot_link]' width='600px' height='725px'></div>")
+						dat += ("<br><div align='center'><img src='[nsfw_headshot_link]' width='600px'></div>")
 					var/datum/browser/popup = new(user, "[real_name]", nwidth = 700, nheight = 800)
 					popup.set_content(dat.Join())
 					popup.open(FALSE)
 				if("ooc_extra")
+					if(!user.check_agevet()) return
 					to_chat(user, "<span class='notice'>Add a link from a suitable host (catbox, etc) to an mp3, mp4, or jpg / png file to have it embed at the bottom of your OOC notes.</span>")
 					to_chat(user, "<span class='notice'>If the link doesn't show up properly in-game, ensure that it's a direct link that opens properly in a browser.</span>")
 					to_chat(user, "<span class='notice'>Videos will be shrunk to a ~300x300 square. Keep this in mind.</span>")
@@ -2007,6 +2022,12 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if(charflaw.desc)
 							to_chat(user, "<span class='info'>[charflaw.desc]</span>")
 
+				if("body_size")
+					var/new_body_size = input(user, "Choose your desired sprite size:\n([BODY_SIZE_MIN*100]%-[BODY_SIZE_MAX*100]%), Warning: May make your character look distorted", "Character Preference", features["body_size"]*100) as num|null
+					if(new_body_size)
+						new_body_size = clamp(new_body_size * 0.01, BODY_SIZE_MIN, BODY_SIZE_MAX)
+						features["body_size"] = new_body_size
+
 				if("mutant_color")
 					var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's mutant #1 color:", "Character Preference","#"+features["mcolor"])
 					if(new_mutantcolor)
@@ -2161,24 +2182,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						domhand = 2
 					else
 						domhand = 1
-				if("bespecial")
-					if(next_special_trait)
-						print_special_text(user, next_special_trait)
-						return
-					to_chat(user, span_boldwarning("You will become special for one round, this could be something negative, positive or neutral and could have a high impact on your character and your experience. You cannot back out from or reroll this, and it will not carry over to other rounds."))
-					var/result = alert(user, "You'll receive a unique trait for one round\n You cannot back out from or reroll this\nDo you really want to be special?", "Be Special", "Yes", "No")
-					if(result != "Yes")
-						return
-					if(next_special_trait)
-						return
-					next_special_trait = roll_random_special(user.client)
-					if(next_special_trait)
-						log_game("SPECIALS: Rolled [next_special_trait] for ckey: [user.ckey]")
-						print_special_text(user, next_special_trait)
-						user.playsound_local(user, 'sound/misc/alert.ogg', 100)
-						to_chat(user, span_warning("This will be applied on your next game join."))
-						to_chat(user, span_warning("You may switch your character and choose any role, if you don't meet the requirements (if any are specified) it won't be applied"))
-
 				if("family")
 					if(family == FAMILY_NONE)
 						family = FAMILY_FULL
@@ -2484,6 +2487,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	character.dna.features = features.Copy()
 	character.gender = gender
 	character.set_species(chosen_species, icon_update = FALSE, pref_load = src)
+	character.dna.update_body_size()
 
 	if((randomise[RANDOM_NAME] || randomise[RANDOM_NAME_ANTAG] && antagonist) && !character_setup)
 		slot_randomized = TRUE

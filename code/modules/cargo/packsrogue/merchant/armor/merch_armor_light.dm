@@ -12,7 +12,7 @@
 	contains = list(/obj/item/clothing/suit/roguetown/armor/gambeson/heavy)
 
 /datum/supply_pack/rogue/light_armor/leather_gorget
-	name = "Hardened Leather Gorget"
+	name = "Leather Gorget"
 	cost = 20 // Base sellprice of 10
 	contains = list(/obj/item/clothing/neck/roguetown/leather)
 

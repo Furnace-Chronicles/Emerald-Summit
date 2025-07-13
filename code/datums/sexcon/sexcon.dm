@@ -526,7 +526,7 @@
 	while(TRUE)
 		if(!isnull(target.client) && target.client.prefs.sexable == FALSE) //Vrell - Needs changed to let me test sex mechanics solo
 			break
-		if(!user.rogfat_add(action.stamina_cost * get_stamina_cost_multiplier()))
+		if(!user.stamina_add(action.stamina_cost * get_stamina_cost_multiplier()))
 			break
 		if(!do_after(user, (action.do_time / get_speed_multiplier()), target = target))
 			break
@@ -672,7 +672,7 @@
 /datum/sex_controller/proc/get_generic_force_adjective()
 	switch(force)
 		if(SEX_FORCE_LOW)
-			return pick(list("gently", "carefully", "tenderly", "gingerly", "delicately", "lazingly"))
+			return pick(list("gently", "carefully", "tenderly", "gingerly", "delicately", "lazily"))
 		if(SEX_FORCE_MID)
 			return pick(list("firmly", "vigorously", "eagerly", "steadily", "intently"))
 		if(SEX_FORCE_HIGH)

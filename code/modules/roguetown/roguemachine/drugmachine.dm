@@ -176,7 +176,7 @@
 		return
 	if(locked)
 		return
-	user.changeNext_move(CLICK_CD_MELEE)
+	user.changeNext_move(CLICK_CD_INTENTCAP)
 	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
 	var/canread = user.can_read(src, TRUE)
 	var/contents
@@ -246,6 +246,7 @@
 	held_items[/obj/item/reagent_containers/powder/ozium] = list("PRICE" = rand(6,15),"NAME" = "ozium")
 	held_items[/obj/item/reagent_containers/powder/moondust] = list("PRICE" = rand(13,25),"NAME" = "moondust")
 	held_items[/obj/item/clothing/mask/cigarette/rollie/cannabis] = list("PRICE" = rand(12,18),"NAME" = "swampweed zig")
+	held_items[/obj/item/clothing/mask/cigarette/rollie/mentha] = list("PRICE" = rand(6,11),"NAME" = "mentha zig")
 	held_items[/obj/item/clothing/mask/cigarette/rollie/nicotine] = list("PRICE" = rand(5,10),"NAME" = "zig")
 	held_items[/obj/item/reagent_containers/glass/bottle/rogue/emberwine] = list("PRICE" = rand(100,140),"NAME" = "unlabeled emberwine")
 /*	held_items[/obj/item/reagent_containers/glass/bottle/rogue/wine] = list("PRICE" = rand(35,77),"NAME" = "vino")

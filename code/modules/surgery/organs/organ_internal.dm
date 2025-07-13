@@ -160,13 +160,16 @@
 /obj/item/reagent_containers/food/snacks/organ/On_Consume(mob/living/eater)		//Graggarites looove eating organs, they loooove eating organs!
 	if(HAS_TRAIT(eater, TRAIT_ORGAN_EATER))
 		eat_effect = /datum/status_effect/buff/foodbuff
+		foodtype = RAW | MEAT
+	else
+		eat_effect = initial(eat_effect)
+		foodtype = initial(foodtype)
 	if(bitecount >= bitesize)
 		record_featured_stat(FEATURED_STATS_CRIMINALS, eater)
 		GLOB.scarlet_round_stats[STATS_ORGANS_EATEN]++
 		check_culling(eater)
 		SEND_SIGNAL(eater, COMSIG_ORGAN_CONSUMED, src.type)
 	. = ..()
-	eat_effect = initial(eat_effect)
 
 /obj/item/reagent_containers/food/snacks/organ/Destroy()
 	QDEL_NULL(organ_inside)

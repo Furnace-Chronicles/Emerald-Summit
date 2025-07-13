@@ -30,6 +30,8 @@
 	var/gendered_variants = FALSE
 	/// List of generated icons based on the [type x icon_state x colors] combination.
 	var/static/list/accessory_icon_cache = list()
+	/// Whether this specific accessory doesn't allow for coloring
+	var/color_disabled = FALSE
 
 /datum/sprite_accessory/New()
 	if(color_keys > 1)

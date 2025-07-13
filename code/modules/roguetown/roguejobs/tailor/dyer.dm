@@ -1,16 +1,17 @@
 var/global/list/colorlist = list(
-	"PURPLE"="#8747b1", 	//RED AND BLACK
-	"RED"="#8b2323", 		//	 I DRESS
-	"BLACK"="#2b292e", 	//	  EAGLE
-	"BROWN"="#61462c", 	// ON MY CHEST
-	"GREEN"="#264d26", 	//IT'S GOOD TO BE
-	"BLUE"="#173266", 		// AN ALBANIAN
-	"YELLOW"="#ffcd43", 	// KEEP MY HEAD
-	"TEAL"="#249589", 		//	 UP HIGH
-	"AZURE"="#007fff", 	// FOR THE FLAG
-	"WHITE"="#ffffff",		//	  I DIE
-	"ORANGE"="#df8405",	//I'M PROUD TO BE
-	"MAGENTA"="#962e5c"	// AN ALBANIAN
+	"PURPLE"="#8747b1", 	
+	"RED"="#8b2323", 		
+	"SCARLET"="#bb0a1e", 	
+	"BLACK"="#2b292e", 
+	"BROWN"="#61462c", 	
+	"GREEN"="#264d26", 	
+	"BLUE"="#173266", 		
+	"YELLOW"="#ffcd43", 	
+	"TEAL"="#249589", 		
+	"AZURE"="#007fff", 	
+	"WHITE"="#ffffff",
+	"ORANGE"="#df8405",	
+	"MAGENTA"="#962e5c"	
 	)
 
 
@@ -113,19 +114,19 @@ var/global/list/colorlist = list(
 
 	dat += "Item inserted: [inserted]<HR>"
 	dat += "<A href='?src=\ref[src];select=1'>Select new color.</A><BR>"
-	dat += "Color: <font color='[activecolor]'>&#9899;</font>"
+	dat += "Color: <font color='[activecolor]'>&#10070;</font>"
 	dat += "<A href='?src=\ref[src];paint=1'>Apply new color</A> | "
 	dat += "<A href='?src=\ref[src];clear=1'>Remove paintjob</A><BR><BR>"
 
 	if(inserted_item.detail_color)
 		dat += "<A href='?src=\ref[src];select_detail=1'>Select new detail color.</A><BR>"
-		dat += "Detail Color: <font color='[activecolor_detail]'>&#9899;</font>"
+		dat += "Detail Color: <font color='[activecolor_detail]'>&#10070;</font>"
 		dat += "<A href='?src=\ref[src];paint_detail=1'>Apply new color</A> | "
 		dat += "<A href='?src=\ref[src];clear_detail=1'>Remove paintjob</A><BR><BR>"
 			
 	if(inserted_item.altdetail_color)
 		dat += "<A href='?src=\ref[src];select_altdetail=1'>Select new tertiary color.</A><BR>"
-		dat += "Alt. Detail Color: <font color='[activecolor_altdetail]'>&#9899;</font>"
+		dat += "Alt. Detail Color: <font color='[activecolor_altdetail]'>&#10070;</font>"
 		dat += "<A href='?src=\ref[src];paint_altdetail=1'>Apply new color</A> | "
 		dat += "<A href='?src=\ref[src];clear_altdetail=1'>Remove paintjob</A><BR><BR>"
 

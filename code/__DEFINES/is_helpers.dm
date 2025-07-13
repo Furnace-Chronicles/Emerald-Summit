@@ -105,8 +105,6 @@ GLOBAL_LIST_INIT(our_forest_sex, typecacheof(list(
 //more carbon mobs
 #define ismonkey(A) (istype(A, /mob/living/carbon/monkey))
 
-#define istruedevil(A) (istype(A, /mob/living/carbon/true_devil))
-
 //Simple animals
 #define isanimal(A) (istype(A, /mob/living/simple_animal))
 
@@ -143,6 +141,10 @@ GLOBAL_LIST_INIT(our_forest_sex, typecacheof(list(
 
 //Misc mobs
 #define isobserver(A) (istype(A, /mob/dead/observer))
+
+#define isrogueobserver(A) (istype(A, /mob/dead/observer/rogue))
+
+#define isadminobserver(A) (istype(A, /mob/dead/observer/admin))
 
 #define isdead(A) (istype(A, /mob/dead))
 

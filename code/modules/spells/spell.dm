@@ -33,6 +33,7 @@
 	var/charging_slowdown = 0
 	var/obj/inhand_requirement = null
 	var/overlay_state = null
+	var/overlay_alpha = 255
 	var/ignore_los = TRUE
 	var/glow_intensity = 0 // How much does the user glow when using the ability
 	var/glow_color = null // The color of the glow
@@ -47,6 +48,7 @@
 		var/obj/effect/R = new /obj/effect/spell_rune
 		R.icon = action_icon
 		R.icon_state = overlay_state // Weird af but that's how spells work???
+		action.overlay_alpha = overlay_alpha
 		mob_charge_effect = R
 	update_icon()
 
@@ -201,7 +203,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	if(ranged_ability_user && chargetime)
 		var/newtime = chargetime
 		//skill block
-		newtime = newtime - (chargetime * (ranged_ability_user.mind.get_skill_level(associated_skill) * CHARGE_REDUCTION_PER_SKILL))
+		newtime = newtime - (chargetime * (ranged_ability_user.get_skill_level(associated_skill) * CHARGE_REDUCTION_PER_SKILL))
 		//spellbook cdr
 		var/obj/item/book/spellbook/sbook = ranged_ability_user.is_holding_item_of_type(/obj/item/book/spellbook)
 		if(sbook && sbook?.open)
@@ -220,7 +222,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	if(ranged_ability_user && releasedrain)
 		var/newdrain = releasedrain
 		//skill block
-		newdrain = newdrain - (releasedrain * (ranged_ability_user.mind.get_skill_level(associated_skill) * FATIGUE_REDUCTION_PER_SKILL))
+		newdrain = newdrain - (releasedrain * (ranged_ability_user.get_skill_level(associated_skill) * FATIGUE_REDUCTION_PER_SKILL))
 		//int block
 		if(ranged_ability_user.STAINT > SPELL_SCALING_THRESHOLD)
 			var/diff = min(ranged_ability_user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD

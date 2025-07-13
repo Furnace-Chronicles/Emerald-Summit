@@ -17,7 +17,7 @@
 	name = "ozium"
 	category = "Table"
 	result = list(/obj/item/reagent_containers/powder/ozium)
-	reqs = list(/obj/item/ash = 2, /datum/reagent/toxin/berrypoison = 2, /obj/item/reagent_containers/food/snacks/grown/rogue/sweetleafdry = 1)
+	reqs = list(/obj/item/ash = 2, /datum/reagent/stampoison = 2, /obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry = 1)
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/alchemy/ozium_3x
@@ -26,7 +26,7 @@
 	result = list(/obj/item/reagent_containers/powder/ozium,
 					/obj/item/reagent_containers/powder/ozium,
 					/obj/item/reagent_containers/powder/ozium)
-	reqs = list(/obj/item/ash = 3, /datum/reagent/toxin/berrypoison = 3, /obj/item/reagent_containers/food/snacks/grown/rogue/sweetleafdry = 2)
+	reqs = list(/obj/item/ash = 3, /datum/reagent/stampoison = 3, /obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry = 2)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/alchemy/moon
@@ -74,12 +74,19 @@
 	reqs = list(/obj/item/herbseed/taraxacum = 1, /obj/item/herbseed/euphrasia = 1, /obj/item/herbseed/hypericum = 1, /obj/item/herbseed/salvia = 1)
 	craftdiff = 3
 
+/datum/crafting_recipe/roguetown/alchemy/menthazig
+	name = "handmade mentha zig"
+	category = "Table"
+	result = list(/obj/item/clothing/mask/cigarette/rollie/mentha/crafted)
+	reqs = list(/obj/item/clothing/mask/cigarette/rollie/nicotine = 1, /obj/item/alch/mentha = 1)
+	craftdiff = 1
+
 //Hard to craft but feasable, will give ONE vial but that has 10 units so, enough to cure 2 people if they ration it.
 /datum/crafting_recipe/roguetown/alchemy/curerot
 	name = "rot cure potion"
 	category = "Table"
-	result = list(/obj/item/reagent_containers/glass/bottle/rogue/rotcure = 1)
-	reqs = list(/obj/item/reagent_containers/glass/bottle = 1, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1, /obj/item/ingot/gold = 1, /obj/item/alch/viscera = 2)
+	result = list(/obj/item/reagent_containers/glass/bottle/alchemical/rogue/rotcure = 1)
+	reqs = list(/obj/item/reagent_containers/glass/bottle/alchemical = 1, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1, /obj/item/alch/golddust = 1, /obj/item/alch/viscera = 2)
 	craftdiff = 5	//Master-level
 
 /datum/crafting_recipe/roguetown/alchemy/paralytic_venom
@@ -99,6 +106,17 @@
 				/obj/item/reagent_containers/glass/bottle/alchemical,
 				/obj/item/reagent_containers/spidervenom_inert = 1,
 				/obj/item/alch/horn = 1)
+	craftdiff = 5
+	verbage_simple = "mix"
+
+/datum/crafting_recipe/roguetown/alchemy/revival_potion_spider
+	name = "Revival potion"
+	category = "Table"
+	result = list(/obj/item/reagent_containers/glass/bottle/revival = 1)
+	reqs = list(/obj/item/reagent_containers/food/snacks/eoran_aril/auric = 1,
+	 			/obj/item/alch/viscera = 2,
+				/obj/item/reagent_containers/glass/bottle/alchemical,
+				/obj/item/reagent_containers/spidervenom_inert = 3)
 	craftdiff = 5
 	verbage_simple = "mix"
 
@@ -148,7 +166,7 @@
 /datum/crafting_recipe/roguetown/alchemy/w2swa
 	name = "westleach to swampweed"
 	category = "Transmutation"
-	result = list(/obj/item/reagent_containers/food/snacks/grown/rogue/sweetleaf = 1)
+	result = list(/obj/item/reagent_containers/food/snacks/grown/rogue/swampweed = 1)
 	reqs = list(/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed = 2)
 	craftdiff = 3
 	verbage_simple = "transmute"

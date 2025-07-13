@@ -1,7 +1,6 @@
 GLOBAL_LIST_INIT(character_accents, list("No accent",
 	"Dwarf accent",
 	"Dark Elf accent",
-	"Snow Elf accent",
 	"Grenzelhoft accent",
 	"Hammerhold accent",
 	"Assimar accent",

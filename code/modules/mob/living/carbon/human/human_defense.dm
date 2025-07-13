@@ -14,7 +14,7 @@
 	return (armorval/max(organnum, 1))
 
 
-/mob/living/carbon/human/proc/checkarmor(def_zone, d_type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor)
+/mob/living/carbon/human/proc/checkarmor(def_zone, d_type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor = 1)
 	if(!d_type)
 		return 0
 	if(isbodypart(def_zone))
@@ -43,7 +43,7 @@
 		if(used.blocksound)
 			playsound(loc, get_armor_sound(used.blocksound, blade_dulling), 100)
 		var/intdamage = damage
-		if(intdamfactor)
+		if(intdamfactor != 1)
 			intdamage *= intdamfactor
 		if(d_type == "blunt")
 			if(used.armor?.getRating("blunt") > 0)
@@ -73,6 +73,29 @@
 				if(C.obj_integrity > 1)
 					if(d_type in C.prevent_crits)
 						return TRUE
+
+//This proc returns obj/item/clothing, the armor that has "soaked" the crit. Using it for dismemberment check
+/mob/living/carbon/human/proc/checkcritarmorreference(def_zone, bclass)
+	if(!bclass)
+		return null
+	var/obj/item/clothing/best_armor = null
+	if(isbodypart(def_zone))
+		var/obj/item/bodypart/CBP = def_zone
+		def_zone = CBP.body_zone
+	var/list/body_parts = list(head, wear_mask, wear_wrists, wear_shirt, wear_neck, cloak, wear_armor, wear_pants, backr, backl, gloves, shoes, belt, s_store, glasses, ears, wear_ring)
+	for(var/bp in body_parts)
+		if(!bp)
+			continue
+		if(bp && istype(bp , /obj/item/clothing))
+			var/obj/item/clothing/C = bp
+			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
+				if(C.obj_integrity > 1)
+					if(bclass in C.prevent_crits)
+						if(!best_armor)
+							best_armor = C
+						else if (round(((best_armor.obj_integrity / best_armor.max_integrity) * 100), 1) < round(((C.obj_integrity / C.max_integrity) * 100), 1)) //We want the armor with highest % integrity 
+							best_armor = C
+	return best_armor
 /*
 /mob/proc/checkwornweight()
 	return 0
@@ -328,7 +351,7 @@
 		var/obj/item/bodypart/affecting = get_bodypart(ran_zone(dam_zone))
 		if(!affecting)
 			affecting = get_bodypart(BODY_ZONE_CHEST)
-		var/ap = (M.d_type == "blunt") ? BLUNT_DEFAULT_PENFACTOR : M.a_intent.penfactor
+		var/ap = (M.d_type == "blunt") ? BLUNT_DEFAULT_PENFACTOR : M.armor_penetration
 		var/armor = run_armor_check(affecting, M.d_type, armor_penetration = ap, damage = damage)
 		next_attack_msg.Cut()
 
@@ -337,6 +360,7 @@
 			nodmg = TRUE
 			next_attack_msg += " <span class='warning'>Armor stops the damage.</span>"
 		else
+			SEND_SIGNAL(M, COMSIG_MOB_AFTERATTACK_SUCCESS, src)
 			affecting.bodypart_attacked_by(M.a_intent.blade_class, damage - armor, M, dam_zone, crit_message = TRUE)
 		visible_message(span_danger("\The [M] [pick(M.a_intent.attack_verb)] [src]![next_attack_msg.Join()]"), \
 					span_danger("\The [M] [pick(M.a_intent.attack_verb)] me![next_attack_msg.Join()]"), null, COMBAT_MESSAGE_RANGE)

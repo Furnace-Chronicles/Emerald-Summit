@@ -227,7 +227,7 @@ SUBSYSTEM_DEF(gamemode)
 /datum/controller/subsystem/gamemode/fire(resumed = FALSE)
 	if(last_devotion_check < world.time)
 		pick_most_influential()
-		last_devotion_check = world.time + 2 MINUTES
+		last_devotion_check = world.time + 90 MINUTES
 
 	if(SSticker.HasRoundStarted() && (world.time - SSticker.round_start_time) >= ROUNDSTART_VALID_TIMEFRAME)
 		can_run_roundstart = FALSE
@@ -1091,10 +1091,13 @@ SUBSYSTEM_DEF(gamemode)
 			lowest = initialized_storyteller
 	if(!highest)
 		return
-	if(storytellers_with_influence[highest] > 1.25)
-		highest.bonus_points -= 1.25
 
-	lowest.bonus_points += 1.25
+	var/adjustment = min(2.5, 1 + (0.3 * FLOOR(max(0, highest.times_chosen - 5) / 5, 1)))
+
+	if(storytellers_with_influence[highest] > adjustment)
+		highest.bonus_points -= adjustment
+
+	lowest.bonus_points += adjustment
 
 	set_storyteller(highest.type)
 
@@ -1182,13 +1185,17 @@ SUBSYSTEM_DEF(gamemode)
 			var/mob/living/carbon/human/human_mob = client.mob
 			GLOB.scarlet_round_stats[STATS_TOTAL_POPULATION]++
 			for(var/obj/item/clothing/neck/current_item in human_mob.get_equipped_items(TRUE))
-				if(current_item.type in list(/obj/item/clothing/neck/roguetown/psicross, /obj/item/clothing/neck/roguetown/psicross/silver, /obj/item/clothing/neck/roguetown/psicross/g))
+				if(current_item.type in list(/obj/item/clothing/neck/roguetown/psicross, /obj/item/clothing/neck/roguetown/psicross/wood, /obj/item/clothing/neck/roguetown/psicross/aalloy, /obj/item/clothing/neck/roguetown/psicross/silver,	/obj/item/clothing/neck/roguetown/psicross/g))
 					GLOB.scarlet_round_stats[STATS_PSYCROSS_USERS]++
 					break
-			switch(human_mob.gender)
-				if(MALE)
+			switch(human_mob.pronouns)
+				if(HE_HIM)
 					GLOB.scarlet_round_stats[STATS_MALE_POPULATION]++
-				if(FEMALE)
+				if(HE_HIM_F)
+					GLOB.scarlet_round_stats[STATS_MALE_POPULATION]++
+				if(SHE_HER)
+					GLOB.scarlet_round_stats[STATS_FEMALE_POPULATION]++
+				if(SHE_HER_M)
 					GLOB.scarlet_round_stats[STATS_FEMALE_POPULATION]++
 				else
 					GLOB.scarlet_round_stats[STATS_OTHER_GENDER]++

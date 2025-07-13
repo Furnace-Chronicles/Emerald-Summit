@@ -15,19 +15,18 @@
 	give_bank_account = 16
 	min_pq = 0
 	max_pq = null
-	round_contrib_points = 2
+	round_contrib_points = 3
 
 /datum/outfit/job/roguetown/tailor/pre_equip(mob/living/carbon/human/H)
 	..()
-	if(H.mind)
-		H.mind.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/sewing, 5, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/craft/crafting, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/craft/tanning, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/sewing, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/crafting, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/tanning, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 	pants = /obj/item/clothing/under/roguetown/tights
 	belt = /obj/item/storage/belt/rogue/leather/cloth
@@ -37,7 +36,7 @@
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/needle, 
-		/obj/item/roguekey/tailor, 
+		/obj/item/storage/keyring/tailor,
 		/obj/item/dye_brush, 
 		/obj/item/recipe_book/sewing, 
 		/obj/item/recipe_book/leatherworking

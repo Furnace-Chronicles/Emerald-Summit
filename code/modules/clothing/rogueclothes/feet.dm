@@ -175,6 +175,59 @@
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/hide/cured
 
+/obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	name = "heavy leather boots"
+	desc = "Sturdy boots stitched together from cured leather. Stylish, firm, and sport a satisfying 'squeek' with each step."
+	icon_state = "alboots"
+	item_state = "alboots"
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)	//Same as gloves
+	max_integrity = 100			//Half that of iron boots
+	armor = ARMOR_BOOTS			//Better than regular leather.
+
+/obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
+	name = "dress boots"
+	desc = "A pair of sturdy boots stitched together from cured leather. These are shorter than usual, made for casual wear and dueling."
+	icon_state = "albootsb"
+	item_state = "albootsb"
+
+/obj/item/clothing/shoes/roguetown/boots/otavan
+	name = "otavan leather boots"
+	desc = "Boots of outstanding craft, your fragile feet have never felt so protected and comfortable before."
+	body_parts_covered = FEET
+	icon_state = "fencerboots"
+	item_state = "fencerboots"
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
+	blocksound = SOFTHIT
+	max_integrity = 200
+	armor = ARMOR_BOOTS
+	allowed_race = NON_DWARVEN_RACE_TYPES
+	salvage_amount = 1
+	salvage_result = /obj/item/natural/hide/cured
+	sewrepair = TRUE
+
+/obj/item/clothing/shoes/roguetown/grenzelhoft
+	name = "grenzelhoft boots"
+	icon_state = "grenzelboots"
+	item_state = "grenzelboots"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
+	armor = ARMOR_BOOTS
+	allowed_race = NON_DWARVEN_RACE_TYPES
+	salvage_amount = 1
+	salvage_result = /obj/item/natural/hide/cured
+	sewrepair = TRUE
+
+/obj/item/clothing/shoes/roguetown/boots/leather/elven_boots
+	name = "woad elven boots"
+	desc = "The living trunks still blossom in the spring. They let water through, but it is never cold."
+	armor = list("blunt" = 100, "slash" = 10, "stab" = 100, "piercing" = 20, "fire" = 0, "acid" = 0) //Resistant to blunt and stab, but very weak to slash.
+	prevent_crits = list(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PICK)
+	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
+	icon_state = "welfshoes"
+	item_state = "welfshoes"
+	anvilrepair = /datum/skill/craft/carpentry
+
 /obj/item/clothing/shoes/roguetown/boots/armor
 	name = "plated boots"
 	desc = "Boots forged of a set of steel plates to protect your fragile toes."
@@ -240,23 +293,8 @@
 		return
 	qdel(src)
 
-/obj/item/clothing/shoes/roguetown/boots/otavan
-	name = "otavan leather boots"
-	desc = "Boots of outstanding craft, your fragile feet have never felt so protected and comfortable before."
-	body_parts_covered = FEET
-	icon_state = "fencerboots"
-	item_state = "fencerboots"
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
-	blocksound = SOFTHIT
-	max_integrity = 200
-	armor = ARMOR_BOOTS
-	allowed_race = NON_DWARVEN_RACE_TYPES
-	salvage_amount = 1
-	salvage_result = /obj/item/natural/hide/cured
-	sewrepair = TRUE
-
 /obj/item/clothing/shoes/roguetown/boots/armor/iron
-	name = "iron plated boots"
+	name = "light plated boots"
 	desc = "Boots with iron for added protection."
 	body_parts_covered = FEET
 	icon_state = "armorironboots"
@@ -276,8 +314,8 @@
 	detail_tag = "_detail"
 	resistance_flags = null
 	sewrepair = TRUE
-	detail_color = CLOTHING_WHITE
-	color = CLOTHING_AZURE
+	detail_color = CLOTHING_BLACK
+	color = CLOTHING_SCARLET
 
 /obj/item/clothing/shoes/roguetown/jester/update_icon()
 	cut_overlays()
@@ -304,18 +342,6 @@
 /obj/item/clothing/shoes/roguetown/jester/Destroy()
 	GLOB.lordcolor -= src
 	return ..()
-
-/obj/item/clothing/shoes/roguetown/grenzelhoft
-	name = "grenzelhoft boots"
-	icon_state = "grenzelboots"
-	item_state = "grenzelboots"
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
-	armor = ARMOR_BOOTS
-	allowed_race = NON_DWARVEN_RACE_TYPES
-	salvage_amount = 1
-	salvage_result = /obj/item/natural/hide/cured
-	sewrepair = TRUE
 
 /obj/item/clothing/shoes/roguetown/boots/furlinedboots
 	name = "fur lined boots"
@@ -362,8 +388,26 @@
 
 // ----------------- BLACKSTEEL -----------------------
 
-/obj/item/clothing/shoes/roguetown/boots/blacksteel/plateboots
+/obj/item/clothing/shoes/roguetown/boots/blacksteel/modern/plateboots
 	name = "blacksteel plate boots"
+	desc = "Boots forged of durable blacksteel, using a modern design."
+	body_parts_covered = FEET
+	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
+	icon_state = "bplateboots"
+	item_state = "bplateboots"
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
+	color = null
+	blocksound = PLATEHIT
+	max_integrity = 400
+	armor = ARMOR_PLATE_BSTEEL
+	anvilrepair = /datum/skill/craft/armorsmithing
+	smeltresult = /obj/item/ingot/blacksteel
+	resistance_flags = FIRE_PROOF
+
+/obj/item/clothing/shoes/roguetown/boots/blacksteel/plateboots
+	name = "ancient blacksteel plate boots"
 	desc = "Boots forged of durable blacksteel."
 	body_parts_covered = FEET
 	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
@@ -374,7 +418,7 @@
 	color = null
 	blocksound = PLATEHIT
 	max_integrity = 400
-	armor = ARMOR_BOOTS_PLATED
+	armor = ARMOR_PLATE_BSTEEL
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/blacksteel
 	resistance_flags = FIRE_PROOF
@@ -401,3 +445,13 @@
 	icon_state = "welfshoes"
 	item_state = "welfshoes"
 	anvilrepair = /datum/skill/craft/carpentry
+
+
+//kazen update
+/obj/item/clothing/shoes/roguetown/armor/rumaclan
+	name = "raised sandals"
+	desc = "A pair of strange sandals that push you off the ground."
+	icon_state = "eastsandals"
+	item_state = "eastsandals"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'
+	armor = ARMOR_BOOTS

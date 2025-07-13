@@ -1,5 +1,47 @@
-/obj/effect/proc_holder/spell/invoked/sacred_flame_rogue
+/obj/effect/proc_holder/spell/invoked/projectile/lightningbolt/sacred_flame_rogue
 	name = "Sacred Flame"
+	overlay_state = "sacredflame"
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	invocation = null
+	invocation_type = "shout"
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = TRUE
+	recharge_time = 25 SECONDS
+	miracle = TRUE
+	devotion_cost = 100
+	projectile_type = /obj/projectile/magic/lightning/astratablast
+
+/obj/projectile/magic/lightning/astratablast
+	damage = 10 
+	name = "ray of holy fire"
+	damage_type = BURN
+	flag = "magic"
+	light_color = "#a98107"
+	light_outer_range = 7
+	tracer_type = /obj/effect/projectile/tracer/solar_beam
+	var/fuck_that_guy_multiplier = 2.5
+	var/biotype_we_look_for = MOB_UNDEAD
+
+/obj/projectile/magic/lightning/astratablast/on_hit(target)
+	. = ..()
+
+	if(ismob(target))
+		var/mob/living/M = target
+		if(M.anti_magic_check())
+			visible_message(span_warning("[src] fizzles on contact with [target]!"))
+			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
+			qdel(src)
+			return BULLET_ACT_BLOCK
+		if(M.mob_biotypes & biotype_we_look_for || istype(M, /mob/living/simple_animal/hostile/rogue/skeleton))
+			damage *= fuck_that_guy_multiplier
+			M.adjust_fire_stacks(4)
+			M.IgniteMob()
+			visible_message(span_warning("[src] ignites [target] in holy flame!"))
+	return FALSE
+
+/obj/effect/proc_holder/spell/invoked/ignition
+	name = "Ignition"
+	desc = "Ignite a flammable object at range."
 	overlay_state = "sacredflame"
 	releasedrain = 30
 	chargedrain = 0
@@ -8,30 +50,19 @@
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	chargedloop = null
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	sound = 'sound/magic/heal.ogg'
-	invocation = "Cleansing flames, kindle!"
-	invocation_type = "shout"
+	invocation = null
+	invocation_type = null
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
 	recharge_time = 5 SECONDS
 	miracle = TRUE
-	devotion_cost = 30
+	devotion_cost = 10
 
 /obj/effect/proc_holder/spell/invoked/sacred_flame_rogue/cast(list/targets, mob/user = usr)
 	. = ..()
-	if(isliving(targets[1]))
-		var/mob/living/L = targets[1]
-		user.visible_message("<font color='yellow'>[user] points at [L]!</font>")
-		if(L.anti_magic_check(TRUE, TRUE))
-			return FALSE
-		L.adjust_fire_stacks(5)
-		L.IgniteMob()
-		addtimer(CALLBACK(L, TYPE_PROC_REF(/mob/living, ExtinguishMob)), 5 SECONDS)
-		return TRUE
-
 	// Spell interaction with ignitable objects (burn wooden things, light torches up)
-	else if(isobj(targets[1]))
+	if(isobj(targets[1]))
 		var/obj/O = targets[1]
 		if(O.fire_act())
 			user.visible_message("<font color='yellow'>[user] points at [O], igniting it with sacred flames!</font>")
@@ -86,6 +117,10 @@
 			}
 		}
 		if(!target.mind)
+			revert_cast()
+			return FALSE
+		if(HAS_TRAIT(target, TRAIT_NECRAS_VOW))
+			to_chat(user, "This one has pledged themselves whole to Necra. They are Hers.")
 			revert_cast()
 			return FALSE
 		if(!target.mind.active)
@@ -148,3 +183,65 @@
 		to_chat(user, span_warning("I need a holy cross."))
 		return FALSE
 	return TRUE
+
+//T0. Removes cone vision for a dynamic duration.
+/obj/effect/proc_holder/spell/self/astrata_gaze
+	name = "Astratan Gaze"
+	overlay_state = "astrata_gaze"
+	releasedrain = 10
+	chargedrain = 0
+	chargetime = 0
+	chargedloop = /datum/looping_sound/invokeholy
+	sound = 'sound/magic/astrata_choir.ogg'
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = FALSE
+	invocation = "Astrata show me true."
+	invocation_type = "shout"
+	recharge_time = 120 SECONDS
+	devotion_cost = 30
+	miracle = TRUE
+
+/obj/effect/proc_holder/spell/self/astrata_gaze/cast(list/targets, mob/user)
+	if(!ishuman(user))
+		revert_cast()
+		return FALSE
+	var/mob/living/carbon/human/H = user
+	H.apply_status_effect(/datum/status_effect/buff/astrata_gaze, user.get_skill_level(associated_skill))
+	return TRUE
+
+/atom/movable/screen/alert/status_effect/buff/astrata_gaze
+	name = "Astratan's Gaze"
+	desc = "She shines through me, illuminating all injustice."
+	icon_state = "astrata_gaze"
+
+/datum/status_effect/buff/astrata_gaze
+	id = "astratagaze"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/astrata_gaze
+	duration = 20 SECONDS
+
+/datum/status_effect/buff/astrata_gaze/on_apply(assocskill)
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		H.viewcone_override = TRUE
+		H.hide_cone()
+		H.update_cone_show()
+	var/per_bonus = 0
+	if(assocskill)
+		if(assocskill > SKILL_LEVEL_NOVICE)
+			per_bonus++
+		duration *= assocskill
+	if(GLOB.tod == "day" || GLOB.tod == "dawn")
+		per_bonus++
+		duration *= 2
+	if(per_bonus > 0)
+		effectedstats = list("perception" = per_bonus)
+	to_chat(owner, span_info("She shines through me! I can perceive all clear as dae!"))
+	. = ..()
+
+/datum/status_effect/buff/astrata_gaze/on_remove()
+	. = ..()
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		H.viewcone_override = FALSE
+		H.hide_cone()
+		H.update_cone_show()

@@ -1,6 +1,6 @@
 /obj/effect/spawner/lootdrop
-	icon = 'icons/obj/lootdrop.dmi'
-	icon_state = "random_loot"
+	icon = 'icons/roguetown/helpers/spawnerhelpers.dmi'
+	icon_state = "cot"
 	layer = OBJ_LAYER
 	//how many items will be spawned
 	var/lootcount = 1
@@ -10,7 +10,6 @@
 	var/list/loot
 	//Whether the items should be distributed to offsets 0,1,-1,2,-2,3,-3.. This overrides pixel_x/y on the spawner itself
 	var/fan_out_items = TRUE
-	icon = 'icons/obj/lootdrop.dmi'
 	var/probby = 100
 	var/list/spawned
 

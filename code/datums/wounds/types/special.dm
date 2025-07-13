@@ -189,13 +189,12 @@
 		"The nose is mangled beyond recognition!",
 		"The nose is destroyed!",
 	)
+	mortal = TRUE
 	woundpain = 10
 
 /datum/wound/facial/disfigurement/nose/on_mob_gain(mob/living/affected)
 	. = ..()
 	ADD_TRAIT(affected, TRAIT_MISSING_NOSE, "[type]")
-	if(HAS_TRAIT(affected, TRAIT_CRITICAL_WEAKNESS))
-		affected.death()
 
 /datum/wound/facial/disfigurement/nose/on_mob_loss(mob/living/affected)
 	. = ..()
@@ -216,6 +215,7 @@
 	can_cauterize = FALSE
 	disabling = TRUE
 	critical = TRUE
+	mortal = TRUE
 
 /datum/wound/cbt/can_stack_with(datum/wound/other)
 	if(istype(other, /datum/wound/cbt))
@@ -241,8 +241,6 @@
 			"The testicles are twisted!",
 			"The testicles are torsioned!",
 		)
-	if(HAS_TRAIT(affected, TRAIT_CRITICAL_WEAKNESS))
-		affected.death()
 
 /datum/wound/cbt/on_life()
 	. = ..()
@@ -276,3 +274,33 @@
 			"The testicles are destroyed!",
 			"The testicles are eviscerated!",
 		)
+
+/datum/wound/scarring
+	name = "permanent scarring"
+	check_name = "<span class='userdanger'><B>SCARRED</B></span>"
+	severity = WOUND_SEVERITY_SEVERE
+	crit_message = list(
+		"The whiplash cuts deep!",
+		"The tissue is irreversibly rended!",
+		"The %BODYPART is thoroughly disfigured!",
+	)
+	sound_effect = 'sound/combat/crit.ogg'
+	whp = 80
+	woundpain = 30
+	can_sew = FALSE
+	can_cauterize = FALSE
+	disabling = TRUE
+	critical = TRUE
+	sleep_healing = 0
+	var/gain_emote = "paincrit"
+
+/datum/wound/scarring/on_mob_gain(mob/living/affected)
+	. = ..()
+	affected.emote("scream", TRUE)
+	affected.Slowdown(20)
+	shake_camera(affected, 2, 2)
+
+/datum/wound/scarring/can_stack_with(datum/wound/other)
+	if(istype(other, /datum/wound/scarring))
+		return FALSE
+	return TRUE

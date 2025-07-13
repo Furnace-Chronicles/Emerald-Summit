@@ -245,10 +245,13 @@
 #define AI_OFF		3
 #define AI_Z_OFF	4
 
-#define AI_COMBAT	5
-#define AI_RETREAT	6
-#define AI_HUNT		7
-#define AI_FLEE		8
+// these are exclusively for hostile humantype mobs
+#define NPC_AI_OFF		0
+#define NPC_AI_IDLE		1
+#define NPC_AI_COMBAT	2
+#define NPC_AI_RETREAT	3
+#define NPC_AI_HUNT		4
+#define NPC_AI_FLEE		5
 
 //determines if a mob can smash through it
 #define ENVIRONMENT_SMASH_NONE			0
@@ -447,6 +450,7 @@
 #define SKIN_COLOR_LALVESTINE "9c6f52"
 #define SKIN_COLOR_EBON "4e3729"
 #define SKIN_COLOR_KAZENGUN "dbcca9"
+#define SKIN_COLOR_NALEDI_LIGHT "5d4c41"
 
 //AASIMAR SKIN TONES
 #define SKIN_COLOR_CULTOR "b5a4a4"
@@ -464,7 +468,7 @@
 //HALF ELF SKIN TONES
 #define SKIN_COLOR_GRENZEL_AVAR "fff0e9"
 #define SKIN_COLOR_TIMBER_GRONN "ffe0d1"
-#define SKIN_COLOR_GIZA_AZURE "fcccb3"
+#define SKIN_COLOR_GIZA_SCARLET "fcccb3"
 #define SKIN_COLOR_WALNUT_STINE "edc6b3"
 #define SKIN_COLOR_ETRUSTCAN_DANDELION "e2b9a3"
 #define SKIN_COLOR_EBON_BORN "5a4a41"
@@ -472,7 +476,7 @@
 #define SKIN_COLOR_ETRUSCA_LIRVAS "d9a284"
 #define SKIN_COLOR_FREE_FOLK "c9a893"
 #define SKIN_COLOR_AVAR_BORNE "ba9882"
-#define SKIN_COLOR_SHALVINE_AZURE "ac8369"
+#define SKIN_COLOR_SHALVINE_SCARLET "ac8369"
 #define SKIN_COLOR_LALVE_NALEDI "9c6f52"
 #define SKIN_COLOR_EBON_OTAVA "4e3729"
 #define SKIN_COLOR_HAMMER_GRONN "5d4c41"
@@ -552,3 +556,10 @@
 #define PIXEL_SHIFT_PASSABLE_THRESHOLD 8
 
 #define TYPING_INDICATOR_TIMEOUT 20 MINUTES
+
+// NPC Debugging
+#ifdef NPC_THINK_DEBUG
+#define NPC_THINK(message) visible_message(message, runechat_message = message)
+#else
+#define NPC_THINK(message)
+#endif

@@ -2,6 +2,7 @@
 /datum/supply_pack/rogue/merc_weapons
 	group = "Weapons (Foreign)"
 	crate_name = "merchant guild's crate"
+	mandated_public_profit = 1 // 100% Mandatory Profit Margin on top
 	crate_type = /obj/structure/closet/crate/chest/merchant
 
 /datum/supply_pack/rogue/merc_weapons/saildagger
@@ -43,3 +44,8 @@
 	name = "Navaja"
 	cost = 80
 	contains = list(/obj/item/rogueweapon/huntingknife/idagger/navaja)
+
+/datum/supply_pack/rogue/merc_weapons/naginata
+	name = "Naginata"
+	cost = 80
+	contains = list(/obj/item/rogueweapon/spear/naginata)

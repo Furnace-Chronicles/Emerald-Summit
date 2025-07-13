@@ -20,6 +20,14 @@
 	createditem_num = 4
 	craftdiff = 0
 
+/datum/anvil_recipe/engineering/mess_kit
+	name = "Mess Kit (+2 Iron)" // 3 Iron, cuz you get a pot, a pan and other things for free.
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron)
+	created_item = /obj/item/storage/gadget/messkit
+	createditem_num = 1
+	craftdiff = 2
+
 //Lockpicks and rings moved from blacksmithing, to fit with locks being engineered
 /datum/anvil_recipe/engineering/lockpicks
 	name = "Lockpicks x3"
@@ -66,6 +74,13 @@
 	createditem_num = 2
 	craftdiff = 0
 
+/datum/anvil_recipe/engineering/folding_table
+	name = "Folding Table (+1 Small Log)"
+	req_bar = /obj/item/ingot/bronze
+	additional_items = list(/obj/item/grown/log/tree/small)
+	created_item = /obj/item/folding_table_stored
+	craftdiff = 1
+
 /datum/anvil_recipe/engineering/bronze/lamptern
 	name = "Bronze Lamptern 3x"
 	req_bar = /obj/item/ingot/bronze
@@ -103,7 +118,7 @@
 	craftdiff = 3
 
 /datum/anvil_recipe/engineering/bronze/grappler
-	name = "Grappler"
+	name = "Grappler (+1 Iron Pick, +1 Chain, +3 Cog)"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/grapplinghook
 	additional_items = list(/obj/item/rogueweapon/pick, /obj/item/roguegear, /obj/item/roguegear, /obj/item/roguegear, /obj/item/rope/chain)

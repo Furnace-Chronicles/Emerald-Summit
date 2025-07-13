@@ -113,7 +113,7 @@
 		H.LoseTarget()
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
-		H.mode = AI_OFF
+		H.mode = NPC_AI_OFF
 
 /client/proc/show_game_over()
 	var/atom/movable/screen/splash/credits/S = new(src, FALSE)

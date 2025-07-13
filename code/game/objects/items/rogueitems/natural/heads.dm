@@ -9,7 +9,7 @@
 
 /obj/item/natural/head/volf
 	name = "volf head"
-	desc = "the head of a fearsome volf."
+	desc = "The head of a fearsome volf."
 	icon_state = "volfhead"
 	layer = 3.1
 	grid_height = 32
@@ -17,7 +17,7 @@
 
 /obj/item/natural/head/goat
 	name = "goat head"
-	desc = "the head of a simple goat."
+	desc = "The head of a simple goat."
 	icon_state = "goathead"
 	layer = 3.1
 	grid_height = 32
@@ -25,7 +25,7 @@
 
 /obj/item/natural/head/fox
 	name = "venard head"
-	desc = "the head of a majestic venard."
+	desc = "The head of a majestic venard."
 	icon_state = "foxhead"
 	layer = 3.1
 	grid_height = 32
@@ -33,7 +33,7 @@
 
 /obj/item/natural/head/saiga
 	name = "saiga head"
-	desc = "the head of a proud saiga."
+	desc = "The head of a proud saiga."
 	icon_state = "saigahead"
 	layer = 3.1
 	grid_height = 32
@@ -41,43 +41,67 @@
 
 /obj/item/natural/head/direbear
 	name = "direbear head"
-	desc = "the head of a terrifying direbear."
+	desc = "The head of a terrifying direbear."
 	icon_state = "direbearhead"
 	layer = 3.1
 	sellprice = 20
 
 /obj/item/natural/head/mole
 	name = "mole head"
-	desc = "the head of a lesser mole."
+	desc = "The head of a lesser mole."
 	icon_state = "molehead"
 	layer = 3.1
 	sellprice = 20
 
 /obj/item/natural/head/troll
 	name = "troll head"
-	desc = "the head of a giant troll."
+	desc = "The head of a giant troll."
 	icon_state = "trollhead"
 	layer = 3.1
 	w_class = WEIGHT_CLASS_NORMAL // We want them to be placeable in headhook
 	grid_height = 96
 	grid_width = 96
-	twohands_required = TRUE
-	sellprice = 110
+	sellprice = 80
 
 /obj/item/natural/head/troll/axe
 	name = "troll head"
 	desc = "The head of a once mighty warrior troll."
 	icon_state = "trollhead_axe"
-	sellprice = 170
+	sellprice = 110
 
 /obj/item/natural/head/troll/cave
 	name = "cave troll head"
 	icon_state = "cavetrollhead"
-	sellprice = 200
+	sellprice = 130
+
+/obj/item/natural/head/minotaur
+	name = "minotaur head"
+	desc = "The head of a dangerous beast of Dendor's madness."
+	icon_state = "minotaurhead"
+	layer = 3.1
+	w_class = WEIGHT_CLASS_NORMAL // We want them to be placeable in headhook
+	grid_height = 96
+	grid_width = 96
+	sellprice = 100
+
+/obj/item/natural/head/dragon/
+	name = "dragon head"
+	desc = "The head of a dragon."
+	w_class = WEIGHT_CLASS_NORMAL // We want them to be placeable in headhook
+	grid_height = 96
+	grid_width = 96
+	icon_state = "dragonhead"
+	sellprice = 150
+
+/obj/item/natural/head/dragon/broodmother
+	name = "broodmother head"
+	desc = "The head of a dragon broodmother."
+	icon_state = "dragonhead"
+	sellprice = 225
 
 /obj/item/natural/head/rous
 	name = "rous head"
-	desc = "the head of an unusually large rat."
+	desc = "The head of an unusually large rat."
 	icon_state = "roushead"
 	layer = 3.1
 	grid_height = 32
@@ -86,7 +110,7 @@
 
 /obj/item/natural/head/honeyspider
 	name = "honeyspider head"
-	desc = "the head of a venomous honeyspider."
+	desc = "The head of a venomous honeyspider."
 	icon_state = "spiderhead"
 	layer = 3.1
 	grid_height = 32
@@ -95,7 +119,7 @@
 
 /obj/item/natural/head/mirespider
 	name = "mire spider head"
-	desc = "the head of a disgusting 'little' mire spider."
+	desc = "The head of a disgusting 'little' mire spider."
 	icon_state = "mirespiderhead"
 	layer = 3.1
 	grid_height = 32
@@ -104,7 +128,7 @@
 
 /obj/item/natural/head/mirelurker
 	name = "mire lurker head"
-	desc = "the head of a terrifyingly large mire lurker."
+	desc = "The head of a terrifyingly large mire lurker."
 	icon_state = "mirelurkerhead"
 	layer = 3.1
 	grid_height = 32
@@ -112,7 +136,7 @@
 
 /obj/item/natural/head/mirespider_paralytic
 	name = "aragn head"
-	desc = "the head of the wretched aragn."
+	desc = "The head of the wretched aragn."
 	icon_state = "mirespider_paralytichead"
 	layer = 3.1
 	grid_height = 32

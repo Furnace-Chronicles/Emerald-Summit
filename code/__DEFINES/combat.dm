@@ -50,7 +50,9 @@
 #define HEALTH_THRESHOLD_NEARDEATH -90 //Not used mechanically, but to determine if someone is so close to death they hear the other side
 
 #define DAMAGE_THRESHOLD_FIRE_CRIT 150
-
+#define STRENGTH_SOFTCAP 14	//STR value past which we get diminishing returns in our damage calculations.
+#define STRENGTH_MULT 0.1	//STR multiplier per STR point up to the softcap. Works as a %-age. 0.1 = 10% per point.
+#define STRENGTH_CAPPEDMULT 0.034	//STR multiplier per STR point past the softcap
 //Actual combat defines
 
 //click cooldowns, in tenths of a second, used for various combat actions
@@ -201,6 +203,8 @@
 #define BCLASS_CHOP			"chopping"
 #define BCLASS_STAB			"stabbing"
 #define BCLASS_PICK			"stab"
+#define BCLASS_LASHING		"lashing"
+#define BCLASS_PIERCE		"pierce"
 #define BCLASS_TWIST		"twist"
 #define BCLASS_PUNCH		"punch"
 #define BCLASS_BITE			"bite"
@@ -352,3 +356,5 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 
 //Weapon values
 #define BLUNT_DEFAULT_PENFACTOR		-100
+
+#define UNARMED_DAMAGE_DEFAULT		12

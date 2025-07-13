@@ -20,6 +20,16 @@
 	. = ..()
 	can_hold = typecacheof(list(/obj/item/rogueweapon/surgery, /obj/item/needle, /obj/item/natural/worms/leech, /obj/item/reagent_containers/lux, /obj/item/natural/bundle/cloth, /obj/item/natural/cloth))
 
+/datum/component/storage/concrete/roguetown/messkit
+	screen_max_rows = 3
+	screen_max_columns = 3
+	max_w_class = WEIGHT_CLASS_HUGE
+	not_while_equipped = TRUE
+
+/datum/component/storage/concrete/roguetown/messkit/New(datum/P, ...)
+	. = ..()
+	can_hold = typecacheof(list(/obj/item/cooking, /obj/item/reagent_containers/food/snacks, /obj/item/reagent_containers/, /obj/item/kitchen))
+
 /datum/component/storage/concrete/roguetown/belt
 	screen_max_rows = 3
 	screen_max_columns = 2

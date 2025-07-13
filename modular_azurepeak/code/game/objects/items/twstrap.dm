@@ -12,6 +12,7 @@
 	equip_delay_self = 5 SECONDS
 	unequip_delay_self = 5 SECONDS
 	max_integrity = 0
+	sellprice = 15
 	pixel_y = -16
 	pixel_x = -16
 	inhand_x_dimension = 64
@@ -38,7 +39,7 @@
 
 /obj/item/twstrap/attack_right(mob/user)
 	if(tweps.len)
-		if(user.mind.get_skill_level(/datum/skill/combat/knives)<2)
+		if(user.get_skill_level(/datum/skill/combat/knives)<2)
 			if(do_after(user, 20, target = user)) //Limits those not skilled in knives from using it properly
 				to_chat(user, span_notice("You fumble to draw a throwing weapon..."))
 				var/obj/O = tweps[tweps.len]

@@ -592,7 +592,7 @@
 		if(HAS_TRAIT(src, TRAIT_NOHUNGER))
 			return TRUE
 		add_nausea(-100)
-		rogstam_add(-50)
+		energy_add(-50)
 		if(is_mouth_covered()) //make this add a blood/vomit overlay later it'll be hilarious
 			if(message)
 				visible_message("<span class='danger'>[src] throws up all over [p_them()]self!</span>", \
@@ -709,15 +709,6 @@
 	else
 		remove_movespeed_modifier(MOVESPEED_ID_CARBON_SOFTCRIT, TRUE)
 	SEND_SIGNAL(src, COMSIG_LIVING_HEALTH_UPDATE)
-/mob/living/carbon/update_stamina()
-	var/stam = getStaminaLoss()
-	if(stam > DAMAGE_PRECISION && (maxHealth - stam) <= crit_threshold && !stat)
-		enter_stamcrit()
-	else if(stam_paralyzed)
-		stam_paralyzed = FALSE
-	else
-		return
-	update_health_hud()
 
 /mob/living/carbon
 	var/lightning_flashing = FALSE
@@ -775,8 +766,8 @@
 		sight |= (SEE_TURFS|SEE_MOBS|SEE_OBJS)
 		see_in_dark = max(see_in_dark, 8)
 
-	if(HAS_TRAIT(src, TRAIT_NOCSIGHT))
-		lighting_alpha = min(lighting_alpha, LIGHTING_PLANE_ALPHA_NOCVISION)
+	if(HAS_TRAIT(src, TRAIT_ZIZOSIGHT))
+		lighting_alpha = min(lighting_alpha, LIGHTING_PLANE_ALPHA_ZIZOVISION)
 		see_in_dark = max(see_in_dark, 8)
 
 	if(see_override)

@@ -110,6 +110,35 @@
 	..()
 	. = 1
 
+/datum/reagent/drug/mentha // distinct from SS13 menthol, for the mentha zigs
+	name = "Mentha"
+	description = "Extract from the mentha herb. Produces a cooling sensation."
+	reagent_state = LIQUID
+	color = "#FFFFFF"
+	addiction_threshold = 999
+	taste_description = "mentha"
+	trippy = FALSE
+	overdose_threshold=999
+	metabolization_rate = 0.1 * REAGENTS_METABOLISM
+
+/datum/reagent/drug/mentha/on_mob_end_metabolize(mob/living/M)
+	..()
+
+/datum/reagent/drug/mentha/on_mob_metabolize(mob/living/M)
+	var/mob/living/carbon/V = M
+	V.add_stress(/datum/stressevent/menthasmoke)
+	..()
+
+/datum/reagent/drug/mentha/on_mob_life(mob/living/carbon/M)
+	..()
+	. = 1
+
+/datum/reagent/drug/mentha/overdose_process(mob/living/M)
+	M.adjustToxLoss(0.1*REM, 0)
+	M.adjustOxyLoss(1.1*REM, 0)
+	..()
+	. = 1
+
 /datum/reagent/drug/crank
 	name = "Crank"
 	description = "Reduces stun times by about 200%. If overdosed or addicted it will deal significant Toxin, Brute and Brain damage."

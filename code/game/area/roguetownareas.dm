@@ -116,17 +116,27 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	name = "mt decapitation"
 	icon_state = "decap"
 	ambush_types = list(
-				/turf/open/floor/rogue/dirt)
+				/turf/open/floor/rogue/dirt,
+				/turf/open/floor/rogue/dirt/road,
+				/turf/open/floor/rogue/snow,
+				/turf/open/floor/rogue/grasscold,
+				/turf/open/floor/rogue/grass,
+				)
 	ambush_mobs = list(
-				/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 30,
-				/mob/living/carbon/human/species/skeleton/npc/ambush = 10,
-				/mob/living/carbon/human/species/goblin/npc/ambush/hell = 20)
+				new /datum/ambush_config/pair_of_direbear = 10,
+				new /datum/ambush_config/trio_of_highwaymen = 10,
+				new /datum/ambush_config/singular_minotaur = 10,
+				new /datum/ambush_config/duo_minotaur = 5,
+				new /datum/ambush_config/solo_treasure_hunter = 10,
+				new /datum/ambush_config/duo_treasure_hunter = 1
+				)
 	droning_sound = 'sound/music/area/decap.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
 	first_time_text = "MOUNT DECAPITATION"
 	ambush_times = list("night","dawn","dusk","day")
 	converted_type = /area/rogue/indoors/shelter/mountains/decap
+
 /area/rogue/indoors/shelter/mountains/decap
 	icon_state = "decap"
 	droning_sound = 'sound/music/area/decap.ogg'
@@ -138,11 +148,20 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	name = "mt decapitation inner"
 	icon_state = "decap"
 	ambush_types = list(
-				/turf/open/floor/rogue/dirt)
+				/turf/open/floor/rogue/dirt,
+				/turf/open/floor/rogue/dirt/road,
+				/turf/open/floor/rogue/snow,
+				/turf/open/floor/rogue/grasscold,
+				/turf/open/floor/rogue/grass,
+				)
 	ambush_mobs = list(
-				/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 30,
-				/mob/living/carbon/human/species/skeleton/npc/ambush = 10,
-				/mob/living/carbon/human/species/goblin/npc/ambush/hell = 20)
+				new /datum/ambush_config/pair_of_direbear = 10,
+				new /datum/ambush_config/trio_of_highwaymen = 10,
+				new /datum/ambush_config/singular_minotaur = 10,
+				new /datum/ambush_config/duo_minotaur = 5,
+				new /datum/ambush_config/solo_treasure_hunter = 5,
+				new /datum/ambush_config/duo_treasure_hunter = 1
+				)
 	droning_sound = 'sound/music/area/decap_deeper.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
@@ -154,10 +173,13 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	name = "mt decapitation gundu-zirak"
 	icon_state = "decap"
 	ambush_types = list(
-				/turf/open/floor/rogue/dirt)
+				/turf/open/floor/rogue/dirt,
+				/turf/open/floor/rogue/cobble,
+				)
 	ambush_mobs = list(
-				/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 30,
-				/mob/living/carbon/human/species/dwarfskeleton/ambush = 30)
+				new /datum/ambush_config/treasure_hunter_posse = 1,
+				/mob/living/carbon/human/species/dwarfskeleton/ambush = 30,
+				)
 	droning_sound = 'sound/music/area/prospector.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
@@ -288,7 +310,6 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	ambush_mobs = list(
 				/mob/living/carbon/human/species/skeleton/npc/ambush = 20,
 				/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 20,
-				/mob/living/carbon/human/species/npc/deadite = 20,
 				/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = 20,
 				/mob/living/simple_animal/hostile/retaliate/rogue/spider = 40,
 				/mob/living/carbon/human/species/skeleton/npc/bogguard = 20,
@@ -625,6 +646,15 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/dungeon1
 
+/area/rogue/under/cave/inhumen
+	name = "inhumen"
+	icon_state = "cave"
+	first_time_text = "FORSAKEN CATHEDRAL"
+	droning_sound = 'sound/music/unholy.ogg'
+	droning_sound_dusk = 'sound/music/unholy.ogg'
+	droning_sound_night = 'sound/music/unholy.ogg'
+	converted_type = /area/rogue/outdoors/dungeon1
+
 /area/rogue/under/cave/fishmandungeon //idk what the fish guys are called in lore
 	name = "fishmandungeon"
 	icon_state = "under"
@@ -734,6 +764,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 /area/rogue/outdoors/exposed/bath/vault
 	name = "Bathmaster vault"
 	icon_state = "bathvault"
+	ceiling_protected = TRUE
 
 /area/rogue/indoors/town/garrison
 	name = "Garrison"

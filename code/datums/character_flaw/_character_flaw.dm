@@ -20,6 +20,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	"Wood Arm (L)"=/datum/charflaw/limbloss/arm_l,
 	"Sleepless"=/datum/charflaw/sleepless,
 	"Mute"=/datum/charflaw/mute,
+	"Critical Weakness"=/datum/charflaw/critweakness,
 	"Random or No Flaw"=/datum/charflaw/randflaw,
 	"No Flaw (3 TRIUMPHS)"=/datum/charflaw/noflaw,
 	))
@@ -155,8 +156,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	addtimer(CALLBACK(src, PROC_REF(apply_reading_skill), H), 5 SECONDS)
 
 /datum/charflaw/badsight/proc/apply_reading_skill(mob/living/carbon/human/H)
-	if(H.mind)
-		H.mind.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 
 /datum/charflaw/paranoid
 	name = "Paranoid"
@@ -495,3 +495,10 @@ GLOBAL_LIST_INIT(character_flaws, list(
 
 /datum/charflaw/mute/on_mob_creation(mob/user)
 	ADD_TRAIT(user, TRAIT_PERMAMUTE, TRAIT_GENERIC)
+
+/datum/charflaw/critweakness
+	name = "Critical Weakness"
+	desc = "My body is as fragile as an eggshell. A critical strike is like to end me then and there."
+
+/datum/charflaw/critweakness/on_mob_creation(mob/user)
+	ADD_TRAIT(user, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)

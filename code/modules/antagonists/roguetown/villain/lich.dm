@@ -13,7 +13,7 @@
 	var/out_of_lives = FALSE
 
 	var/traits_lich = list(	
-		TRAIT_NOROGSTAM,
+		TRAIT_INFINITE_STAMINA,
 		TRAIT_NOHUNGER,
 		TRAIT_NOBREATH,
 		TRAIT_NOPAIN,
@@ -53,7 +53,7 @@
 	return ..()
 
 /datum/antagonist/lich/greet()
-	to_chat(owner.current, span_userdanger("The secret of immortality is mine, but this is not enough. The Scarlet lands need a new ruler. One that will reign eternal."))
+	to_chat(owner.current, span_userdanger("An immortal king cries for new subjects. Subdue and conquer."))
 	owner.announce_objectives()
 	..()
 
@@ -85,8 +85,7 @@
 		owner.become_unknown_to(MF)
 
 	var/mob/living/carbon/human/L = owner.current
-
-	L.cmode_music = 'sound/music/combat_cult.ogg'
+	L.cmode_music = 'sound/music/combat_heretic.ogg'
 	L.faction = list("undead")
 
 	if (L.charflaw)
@@ -100,29 +99,27 @@
 
 	equip_and_traits()
 	L.equipOutfit(/datum/outfit/job/roguetown/lich)
-
 	L.set_patron(/datum/patron/inhumen/zizo)
 
 
 /datum/outfit/job/roguetown/lich/pre_equip(mob/living/carbon/human/H) //Equipment is located below
 	..()
 
-	H.mind.adjust_skillrank(/datum/skill/misc/reading, 6, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/craft/alchemy, 5, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/magic/arcane, 6, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/riding, 4, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/knives, 5, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
-	H.mind.adjust_spellpoints(27)
-
+	H.adjust_skillrank(/datum/skill/misc/reading, 6, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/alchemy, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/magic/arcane, 6, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/riding, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
+	H?.mind.adjust_spellpoints(27)
 	// Give it decent combat stats to make up for loss of 2 extra lives
 	H.change_stat("strength", 3)
 	H.change_stat("intelligence", 5)
@@ -130,15 +127,18 @@
 	H.change_stat("perception", 3)
 	H.change_stat("speed", 1)
 
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_undead)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_lesser_undead)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fireball)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/bloodlightning)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fetch)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb)
+	if(H.mind)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_undead)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_lesser_undead)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fireball)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/bloodlightning)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fetch)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lich_announce)
 	H.ambushable = FALSE
 
 	addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "LICH"), 5 SECONDS)
@@ -161,13 +161,12 @@
 	H.equip_to_slot_or_del(new_phylactery,SLOT_IN_BACKPACK, TRUE)
 
 /datum/antagonist/lich/proc/consume_phylactery(timer = 10 SECONDS)
-	if(phylacteries.len == 0)
-		return FALSE
-	else
+	if(phylacteries.len)
 		for(var/obj/item/phylactery/phyl in phylacteries)
 			phyl.be_consumed(timer)
 			phylacteries -= phyl
 			return TRUE
+	return FALSE
 
 
 ///Called post death to equip new body with armour and stats. Order of equipment matters
@@ -241,12 +240,9 @@
 	set_stats()
 	skele_look()
 	equip_and_traits()
-
 	// Delete the old body if it still exists
 	if (!QDELETED(old_body))
 		qdel(old_body)
-
-
 
 
 /obj/item/phylactery
@@ -264,7 +260,6 @@
 	light_color = "#e62424"
 
 	var/datum/antagonist/lich/possessor
-
 	var/datum/mind/mind
 
 /obj/item/phylactery/Initialize(mapload, datum/mind/newmind)
@@ -280,3 +275,122 @@
 		possessor.owner.current.forceMove(get_turf(src))
 		possessor.rise_anew()
 		qdel(src)
+
+/obj/effect/proc_holder/spell/invoked/raise_undead
+	name = "Raise Greater Undead"
+	desc = ""
+	clothes_req = FALSE
+	range = 7
+	overlay_state = "animate"
+	sound = list('sound/magic/magnet.ogg')
+	releasedrain = 40
+	chargetime = 60
+	warnie = "spellwarning"
+	no_early_release = TRUE
+	charging_slowdown = 1
+	chargedloop = /datum/looping_sound/invokegen
+	gesture_required = TRUE // Summon spell
+	associated_skill = /datum/skill/magic/arcane
+	recharge_time = 60 SECONDS
+
+/obj/effect/proc_holder/spell/invoked/raise_undead/cast(list/targets, mob/living/user)
+	..()
+
+	var/turf/T = get_turf(targets[1])
+	if(!isopenturf(T))
+		to_chat(user, span_warning("The targeted location is blocked. My summon fails to come forth."))
+		revert_cast()
+		return FALSE
+
+	var/list/candidates = pollGhostCandidates("Do you want to play as a Lich's skeleton?", ROLE_LICH_SKELETON, null, null, 10 SECONDS, POLL_IGNORE_LICH_SKELETON)
+	if(!LAZYLEN(candidates))
+		to_chat(user, span_warning("The depths are hollow."))
+		revert_cast()
+		return FALSE
+
+	var/mob/C = pick(candidates)
+	if(!C || !istype(C, /mob/dead))
+		revert_cast()
+		return FALSE
+
+	if (istype(C, /mob/dead/new_player))
+		var/mob/dead/new_player/N = C
+		N.close_spawn_windows()
+
+	var/mob/living/carbon/human/species/skeleton/no_equipment/target = new /mob/living/carbon/human/species/skeleton/no_equipment(T)
+	target.key = C.key
+	SSjob.EquipRank(target, "Fortified Skeleton", TRUE)
+	target.visible_message(span_warning("[target]'s eyes light up with an eerie glow!"))
+	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "FORTIFIED SKELETON"), 3 SECONDS)
+	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, choose_pronouns_and_body)), 7 SECONDS)
+	target.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser)
+	return TRUE
+
+/obj/effect/proc_holder/spell/self/suicidebomb
+	name = "Calcic Outburst"
+	desc = "Explode in a wonderful blast of osseous shrapnel."
+	overlay_state = "tragedy"
+	chargedrain = 0
+	chargetime = 0
+	recharge_time = 10 SECONDS
+	sound = 'sound/magic/swap.ogg'
+	warnie = "spellwarning"
+	chargedloop = /datum/looping_sound/invokegen
+	associated_skill = /datum/skill/magic/arcane
+	stat_allowed = TRUE
+	var/exp_heavy = 0
+	var/exp_light = 3
+	var/exp_flash = 3
+	var/exp_fire = 0
+
+/obj/effect/proc_holder/spell/self/suicidebomb/cast(list/targets, mob/living/user = usr)
+	..()
+	if(!user)
+		return FALSE
+	if(user.stat == DEAD)
+		return FALSE
+	if(alert(user, "Do you wish to sacrifice this vessel in a powerful explosion?", "ELDRITCH BLAST", "Yes", "No") == "No")
+		return FALSE
+	playsound(get_turf(user), 'sound/magic/antimagic.ogg', 100)
+	user.visible_message(
+		span_danger("[user] begins to shake violently, a blindingly bright light beginning to emanate from them!"), 
+		span_danger("Powerful energy begins to expand outwards from inside me!")
+	)
+
+	user.Immobilize(5 SECONDS)
+	user.Knockdown(5 SECONDS)
+
+	addtimer(CALLBACK(src, PROC_REF(lichdeath), user), 5 SECONDS)
+
+/obj/effect/proc_holder/spell/self/suicidebomb/proc/lichdeath(mob/living/user)
+	var/datum/antagonist/lich/lichman = user.mind.has_antag_datum(/datum/antagonist/lich)
+	explosion(get_turf(user), -1, exp_heavy, exp_light, exp_flash, 0, flame_range = exp_fire, soundin = 'sound/misc/explode/incendiary (1).ogg')
+	if(lichman && user.stat != DEAD && lichman.consume_phylactery(0)) // Use phylactery at 0 timer. Die if none.
+		return TRUE
+
+	user.death()
+	return TRUE
+
+/obj/effect/proc_holder/spell/self/suicidebomb/lesser
+	name = "Lesser Calcic Outburst"
+	exp_heavy = 0
+	exp_light = 2
+	exp_flash = 2
+	exp_fire = 0
+
+/obj/effect/proc_holder/spell/self/lich_announce
+	name = "Command Will"
+	desc = "Send a booming message to the undead under your will."
+	recharge_time = 20 SECONDS
+
+/obj/effect/proc_holder/spell/self/lich_announce/cast(list/targets, mob/user)
+	if(user.stat)
+		return FALSE
+	
+	var/calltext = input("Send Your Will To Your Undead", "UNDEAD ANNOUNCE") as text|null
+	if(!calltext)
+		return FALSE
+
+	priority_announce("[calltext]", title = "Your Lich King Commands", sound = 'sound/misc/deadbell.ogg', sender = user, receiver = /mob/living/carbon/human/species/skeleton)
+
+	..()

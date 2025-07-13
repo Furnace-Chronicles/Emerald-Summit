@@ -33,7 +33,7 @@
 	. += span_notice("Left click with a pestle to grind the item inside into alchemical ingredients. Middle Click with a pestle to grind or juice them. Right click to remove it.")
 
 /obj/item/reagent_containers/glass/mortar/attack_right(mob/user)
-	user.changeNext_move(CLICK_CD_MELEE)
+	user.changeNext_move(CLICK_CD_INTENTCAP)
 	if(to_grind)
 		to_chat(user, "<span class='notice'>I remove [to_grind] from the mortar.</span>")
 		if(!user.put_in_hands(to_grind))
@@ -100,7 +100,7 @@
 				S.start()
 			QDEL_NULL(to_grind)
 			if(user.mind)
-				user.mind.adjust_experience(/datum/skill/craft/alchemy, user.STAINT, FALSE)
+				user.adjust_experience(/datum/skill/craft/alchemy, user.STAINT, FALSE)
 			return
 	if(istype(I ,/obj/item/reagent_containers/glass))
 		if(user.used_intent.type == INTENT_POUR) //Something like a glass. Player probably wants to transfer TO it.

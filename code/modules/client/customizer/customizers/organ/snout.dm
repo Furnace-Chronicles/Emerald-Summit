@@ -161,6 +161,7 @@
 		/datum/sprite_accessory/snout/hanubus,
 		/datum/sprite_accessory/snout/hpanda,
 		/datum/sprite_accessory/snout/hjackal,
+		/datum/sprite_accessory/snout/hspots,
 		/datum/sprite_accessory/snout/hhorse,
 		/datum/sprite_accessory/snout/hzebra,
 		/datum/sprite_accessory/snout/front/bird,

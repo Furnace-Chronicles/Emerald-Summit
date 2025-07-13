@@ -16,6 +16,20 @@
 	reqs = list(/obj/item/natural/hide/cured = 1)
 	sellprice = 27
 
+/datum/crafting_recipe/roguetown/leather/footwear/boots_heavy
+	name = "heavy leather boots (1 leather, 1 fur)"
+	result = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	reqs = list(/obj/item/natural/hide/cured = 1,
+				/obj/item/natural/fur = 1)
+	craftdiff = 3	//Same as the heavy leather gloves.
+
+/datum/crafting_recipe/roguetown/leather/footwear/boots_heavy_b
+	name = "dress boots (1 leather, 1 fur)"
+	result = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
+	reqs = list(/obj/item/natural/hide/cured = 1,
+				/obj/item/natural/fur = 1)
+	craftdiff = 3
+
 /datum/crafting_recipe/roguetown/leather/footwear/boots/furlinedboots
 	name = "fur-lined boots (1 leather, 1 fur)"
 	result = /obj/item/clothing/shoes/roguetown/boots/furlinedboots

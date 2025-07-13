@@ -5,6 +5,17 @@
 	icon_state = "ash"
 	w_class = WEIGHT_CLASS_TINY
 
+/obj/item/ash/Initialize()
+	. = ..()
+	var/static/list/slapcraft_recipe_list = list(
+		/datum/crafting_recipe/boat,
+		)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+		)
+
 /obj/item/ash/Crossed(mob/living/L)
 	. = ..()
 	if(istype(L))

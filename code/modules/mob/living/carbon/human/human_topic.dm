@@ -33,7 +33,9 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 			client.prefs?.save_character()
 		if(is_legacy)
 			dat += "<center><i><font color = '#b9b9b9'; font size = 1>This is a LEGACY Profile from naive days of Psydon.</font></i></center>"
-		if(valid_headshot_link(null, headshot_link, TRUE))
+		var/agevetted = client.check_agevet()
+		dat += "<br><center>This person is [agevetted ? "<font color='#1cb308'>Age Vetted.</font>" : "<font color='#aa0202'>Not Age Vetted</font>"]</center>"
+		if(valid_headshot_link(null, headshot_link, TRUE) && agevetted)
 			dat += ("<div align='center'><img src='[headshot_link]' width='350px' height='350px'></div>")
 		if(flavortext)
 			dat += "<div align='left'>[flavortext_display]</div>"
@@ -41,14 +43,15 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 			dat += "<br>"
 			dat += "<div align='center'><b>OOC notes</b></div>"
 			dat += "<div align='left'>[ooc_notes_display]</div>"
-		if(ooc_extra)
+		if(ooc_extra && agevetted)
 			dat += "[ooc_extra]"
-		if(nsfw_headshot_link)
-			dat += "<br><div align='center'><b>NSFW</b></div>"
-		if(nsfw_headshot_link && !wear_armor && !wear_shirt)
-			dat += ("<br><div align='center'><img src='[nsfw_headshot_link]' width='600px' height='725px'></div>")
-		else if(nsfw_headshot_link && (wear_armor || wear_shirt))
-			dat += "<br><center><i><font color = '#9d0080'; font size = 5>There is more to see but they are not naked...</font></i></center>"
+		if(agevetted)
+			if(nsfw_headshot_link)
+				dat += "<br><div align='center'><b>NSFW</b></div>"
+			if(nsfw_headshot_link && !wear_armor && !wear_shirt)
+				dat += ("<br><div align='center'><img src='[nsfw_headshot_link]' width='600px' height='725px'></div>")
+			else if(nsfw_headshot_link && (wear_armor || wear_shirt))
+				dat += "<br><center><i><font color = '#9d0080'; font size = 5>There is more to see but they are not naked...</font></i></center>"
 		var/datum/browser/popup = new(user, "[src]", nwidth = 700, nheight = 800)
 		popup.set_content(dat.Join())
 		popup.open(FALSE)
@@ -199,17 +202,17 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 			return
 		user.visible_message("[user] begins assessing [src].")
 		
-		if(do_mob(user, src, ((intellectual ? 20 : 40)) - (user.STAINT - 10) - (user.STAPER - 10) - user.mind?.get_skill_level(/datum/skill/misc/reading), uninterruptible = intellectual, double_progress = (intellectual ? FALSE : TRUE)))
+		if(do_mob(user, src, ((intellectual ? 20 : 40)) - (user.STAINT - 10) - (user.STAPER - 10) - user.get_skill_level(/datum/skill/misc/reading), uninterruptible = intellectual, double_progress = (intellectual ? FALSE : TRUE)))
 			var/is_guarded = HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS)	//Will scramble Stats and prevent skills from being shown
 			var/is_smart = FALSE	//Maximum info (all skills, gear and stats) either Intellectual virtue or having high enough PER / INT / Reading
 			var/is_stupid = FALSE	//Less than 9 INT, Intellectual virtue overrides it.
 			var/is_normal = FALSE	//High amount of info -- most gear slots, combat skills. No stats.
 			//If you don't get any of these, you'll still get to see 3 gear slots and shown weapon skills in Assess.
-			if(intellectual || ((user.STAINT - 10) + (user.STAPER - 10) + user.mind?.get_skill_level(/datum/skill/misc/reading)) >= 10)
+			if(intellectual || ((user.STAINT - 10) + (user.STAPER - 10) + user.get_skill_level(/datum/skill/misc/reading)) >= 10)
 				is_smart = TRUE	
 			if(user.STAINT < 10 && !is_smart)
 				is_stupid = TRUE
-			if(!is_smart && !is_stupid && ((user.STAINT - 10) + (user.STAPER - 10) + user?.mind?.get_skill_level(/datum/skill/misc/reading)) >= 5)
+			if(!is_smart && !is_stupid && ((user.STAINT - 10) + (user.STAPER - 10) + user?.get_skill_level(/datum/skill/misc/reading)) >= 5)
 				is_normal = TRUE
 			var/list/dat = list()
 			// Top-level table
@@ -395,35 +398,35 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 								var/obj/item/wornthing = stuff
 								if(wornthing.associated_skill)
 									var/datum/skill/SK = wornthing.associated_skill
-									if(user.mind?.get_skill_level(SK) > 0)
+									if(user.get_skill_level(SK) > 0)
 										dat += "<font size = 4; font color = '#dddada'><b>[SK.name]</b><br></font>"
-										var/skilldiff = user.mind?.get_skill_level(SK) - H.mind?.get_skill_level(SK)
+										var/skilldiff = user.get_skill_level(SK) - H.get_skill_level(SK)
 										dat += "[skilldiff_report(skilldiff)] <br>"
 										dat += "-----------------------<br>"
 					for(var/obj/item/I in held_items)	//Also what's in their hands!
 						if(!(I.item_flags & ABSTRACT))
 							if(I.associated_skill)
 								var/datum/skill/SK = I.associated_skill
-								if(user.mind?.get_skill_level(SK) > 0)
+								if(user.get_skill_level(SK) > 0)
 									dat += "<font size = 4; font color = '#dddada'><b>[SK.name]</b><br></font>"
-									var/skilldiff = user.mind?.get_skill_level(SK) - H.mind?.get_skill_level(SK)
+									var/skilldiff = user.get_skill_level(SK) - H.get_skill_level(SK)
 									dat += "[skilldiff_report(skilldiff)] <br>"
 									dat += "-----------------------<br>"
 				else	//Otherwise, we get to see all of their combat skills
 					for(var/S in subtypesof(/datum/skill/combat))
 						var/datum/skill/combat/SK = S
-						if(user.mind?.get_skill_level(S) > 0)
+						if(user.get_skill_level(S) > 0)
 							dat += "<font size = 4; font color = '#dddada'><b>[SK.name]</b><br></font>"
-							var/skilldiff = user.mind?.get_skill_level(S) - H.mind?.get_skill_level(S)
+							var/skilldiff = user.get_skill_level(S) - H.get_skill_level(S)
 							dat += "[skilldiff_report(skilldiff)] <br>"
 							dat += "-----------------------<br>"
 					if(is_smart)	//And if we're smart enough, /all/ skills.
 						for(var/S in subtypesof(/datum/skill))
-							if(user.mind?.get_skill_level(S) > 0)
+							if(user.get_skill_level(S) > 0)
 								if(!ispath(S, /datum/skill/combat))	//We already did these.
 									var/datum/skill/SL = S
 									dat += "<font size = 4; font color = '#dddada'><b>[SL.name]</b><br></font>"
-									var/skilldiff = user.mind?.get_skill_level(S) - H.mind?.get_skill_level(S)
+									var/skilldiff = user.get_skill_level(S) - H.get_skill_level(S)
 									dat += "[skilldiff_report(skilldiff)] <br>"
 									dat += "-----------------------<br>"
 								else

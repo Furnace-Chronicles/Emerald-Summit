@@ -12,11 +12,15 @@ GLOBAL_LIST_INIT(named_ball_sizes, list(
 
 GLOBAL_LIST_INIT(named_breast_sizes, list(
 	"Flat" = 0,
-	"Very Small" = 1,
+	"Slight" = 1,
 	"Small" = 2,
-	"Normal" = 3,
+	"Moderate" = 3,
 	"Large" = 4,
-	"Enormous" = 5
+	"Generous" = 5,
+	"Heavy" = 6,
+	"Massive" = 7,
+	"Heaping" = 8,
+	"Obscene" = 9
 ))
 
 GLOBAL_LIST_INIT(customizer_choices, build_customizer_choices())
@@ -38,7 +42,7 @@ GLOBAL_LIST_INIT(customizers, build_customizers())
 		.[type] = new type()
 	return .
 
-/proc/color_pick_sanitized(mob/user, description, title, default_value, min_tag = 0.07, max_tag = 0.80)
+/proc/color_pick_sanitized(mob/user, description, title, default_value, min_tag = 0.07, max_tag = 1)
 	var/color = input(user, description, title, default_value) as color|null
 	var/good = TRUE
 	if(!color)
@@ -50,7 +54,7 @@ GLOBAL_LIST_INIT(customizers, build_customizers())
 		hsl[3] = min_tag
 		good = FALSE
 	if(hsl[2] > max_tag)
-		to_chat(user, span_warning("The picked color is too bright! Lowering Saturation to maximum 80%."))
+		to_chat(user, span_warning("The picked color is too bright! Lowering Saturation to maximum 100%."))
 		hsl[2] = max_tag
 		good = FALSE
 	if(!good)

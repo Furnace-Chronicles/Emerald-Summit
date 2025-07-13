@@ -15,9 +15,10 @@
 
 /obj/item/reagent_containers/glass/bottle/claybottle
 	name = "clay vessel"
-	desc = "A small ceramic bottle."
+	desc = "A ceramic bottle." //The sprite was anything but small
 	icon = 'icons/roguetown/items/cooking.dmi'
 	icon_state = "claybottlecook"
+	volume = 65 // Larger than glass bottle
 	sellprice = 6
 	reagent_flags = OPENCONTAINER	//So it doesn't appear through
 

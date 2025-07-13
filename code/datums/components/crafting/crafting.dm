@@ -88,6 +88,8 @@
 		. += user.get_item_by_slot(slot)
 
 /obj/item/proc/can_craft_with()
+	if(craft_blocked)
+		return FALSE
 	return TRUE
 
 /datum/component/personal_crafting/proc/get_surroundings(mob/user)
@@ -238,7 +240,7 @@
 						prob2craft -= (25*R.craftdiff)
 					if(R.skillcraft)
 						if(user.mind)
-							prob2craft += (user.mind.get_skill_level(R.skillcraft) * 25)
+							prob2craft += (user.get_skill_level(R.skillcraft) * 25)
 					else
 						prob2craft = 100
 					if(isliving(user))
@@ -387,8 +389,12 @@
 								B.update_bundle()
 								switch(B.amount)
 									if(1)
-										new B.stacktype(B.loc)
+										var/mob/living/carbon/old_loc = B.loc
 										qdel(B)
+										var/new_item = new B.stacktype(old_loc)
+										// Put in the person's hands if there were holding it.
+										if(ishuman(old_loc))
+											old_loc.put_in_hands(new_item)
 									if(0)
 										qdel(B)
 								amt = 0

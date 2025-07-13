@@ -3,7 +3,7 @@
 	desc = ""
 	icon_state = "fuckyou"
 	max_integrity = 300
-	armor = list("blunt" = 30, "slash" = 30, "stab" = 30, "piercing" = 30, "fire" = 60, "acid" = 60)
+	armor = ARMOR_STRUCTURE
 	density = TRUE
 	anchored = FALSE
 	var/list/mob/occupants				//mob = bitflags of their control level.

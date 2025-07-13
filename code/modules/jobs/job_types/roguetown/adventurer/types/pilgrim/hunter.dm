@@ -1,7 +1,6 @@
 /datum/advclass/hunter
 	name = "Hunter"
-	tutorial = "You are a hunter, with your bow you hunt the fauna in the bog, skinning what you kill to use in skincrafting \
-	cooking any meat left over, your role is one that is not done by many, but important in the circulation of clothing and light armor"
+	tutorial = "You are a hunter. With your bow you hunt the fauna of the glade, skinning what you kill and cooking any meat left over. The job is dangerous but important in the circulation of clothing and light armor."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/hunter
@@ -28,32 +27,30 @@
 						/obj/item/recipe_book/survival = 1,
 						/obj/item/recipe_book/leatherworking = 1,
 						)
-	gloves = /obj/item/clothing/gloves/roguetown/leather
+	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 
-	if(H.mind)
-		H.mind.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/crossbows, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/craft/tanning, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/labor/fishing, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/sewing, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/labor/butchering, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/craft/traps, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/tracking, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE)
-		H.change_stat("intelligence", 1)
-		H.change_stat("perception", 2)
-		H.change_stat("speed", 2)
+	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/crossbows, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/tanning, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/labor/fishing, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/sewing, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/labor/butchering, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/traps, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+	H.change_stat("intelligence", 1)
+	H.change_stat("perception", 3)
+	H.change_stat("speed", 1)

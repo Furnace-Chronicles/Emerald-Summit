@@ -109,3 +109,20 @@
 	/obj/item/natural/worms/leech,
 	/obj/item/cooking/pan
 	)
+
+/obj/item/storage/roguebag/ash
+	populate_contents = list(
+		/obj/item/ash,
+		/obj/item/ash,
+		/obj/item/ash,
+		/obj/item/ash,
+		/obj/item/ash,
+		/obj/item/ash,
+		/obj/item/ash,
+		/obj/item/ash,
+		/obj/item/ash,
+		/obj/item/ash,
+		/obj/item/ash,
+		/obj/item/ash,
+	/obj/item/ash
+	)

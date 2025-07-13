@@ -105,6 +105,8 @@
 		/datum/body_marking/tonage,
 		/datum/body_marking/spotted,
 		/datum/body_marking/nose,
+		/datum/body_marking/bangs,
+		/datum/body_marking/bun,
 	)
 	languages = list(
 		/datum/language/common,

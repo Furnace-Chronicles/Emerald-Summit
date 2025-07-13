@@ -28,29 +28,44 @@
 		return
 	
 	var/list/possible_targets = list()
-	if(user.client)
-		possible_targets += user  // Always add self first
-		
-	if(user.mind?.known_people)  // Only check known_people if it exists
-		for(var/mob/living/L in GLOB.player_list)
-			if((L.client && L != user) && (L.real_name in user.mind.known_people))
-				possible_targets += L
-	
-	if(!length(possible_targets))
+	if(user.mind.known_people.len)
+		for(var/people in user.mind.known_people)
+			possible_targets += people
+	else
 		to_chat(user, span_warning("You have no known people to establish a mindlink with!"))
+		revert_cast()
 		return FALSE
 
-	var/mob/living/first_target = input(user, "Choose the first person to link", "Mindlink") as null|anything in possible_targets
-	if(!first_target)
-		return FALSE
-		
-	var/mob/living/second_target = input(user, "Choose the second person to link", "Mindlink") as null|anything in possible_targets
-	if(!second_target)
+	possible_targets = sortList(possible_targets)
+
+	if(user.client)
+		possible_targets = list(user.real_name) + possible_targets // Oohhhhhh this looks bad. But this is supposed to append ourselves at the start of the ordered list.
+	
+	var/first_target_name = input(user, "Choose the first person to link", "Mindlink") as null|anything in possible_targets
+
+	if(!first_target_name)
+		revert_cast()
 		return FALSE
 
-	if(first_target == second_target)
-		to_chat(user, span_warning("You cannot link someone to themselves!"))
+	var/mob/living/first_target
+
+	for(var/mob/living/carbon/human/HL in GLOB.human_list)
+		if(HL.real_name == first_target_name)
+			first_target = HL
+
+	possible_targets -= first_target_name
+	
+	var/second_target_name = input(user, "Choose the second person to link", "Mindlink") as null|anything in possible_targets
+
+	if(!second_target_name)
+		revert_cast()
 		return FALSE
+
+	var/mob/living/second_target
+
+	for(var/mob/living/carbon/human/HL in GLOB.human_list)
+		if(HL.real_name == second_target_name)
+			second_target = HL
 
 	user.visible_message(span_notice("[user] touches their temples and concentrates..."), span_notice("I establish a mental connection between [first_target] and [second_target]..."))
 	

@@ -11,6 +11,9 @@
 	max_heat_protection_temperature = 361
 	experimental_inhand = FALSE
 
+	/// Unarmed damage multiplier (for pure fists / wrestling only)
+	var/unarmed_bonus = 1
+
 /obj/item/clothing/gloves/roguetown/leather
 	name = "leather gloves"
 	desc = ""
@@ -26,6 +29,7 @@
 	anvilrepair = null
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/hide/cured
+	unarmed_bonus = 1.1
 
 /obj/item/clothing/gloves/roguetown/leather/black
 	color = CLOTHING_BLACK
@@ -53,10 +57,11 @@
 	desc = ""
 	icon_state = "angle"
 	armor = ARMOR_GLOVES_LEATHER_GOOD
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT)
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)
 	resistance_flags = FIRE_PROOF
 	blocksound = SOFTHIT
 	max_integrity = 300
+	sellprice = 12
 	blade_dulling = DULLING_BASHCHOP
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
@@ -95,6 +100,7 @@
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/steel
+	unarmed_bonus = 1.15
 
 /obj/item/clothing/gloves/roguetown/chain/aalloy
 	name = "decrepit chain gauntlets"
@@ -163,6 +169,7 @@
 
 	grid_width = 64
 	grid_height = 32
+	unarmed_bonus = 1.2
 
 /obj/item/clothing/gloves/roguetown/plate/aalloy
 	name = "decrepit plate gauntlets"
@@ -248,14 +255,33 @@
 
 //---------------- BLACKSTEEL ---------------------
 
-/obj/item/clothing/gloves/roguetown/blacksteel/plategloves
+/obj/item/clothing/gloves/roguetown/blacksteel/modern/plategloves
 	name = "blacksteel plate gauntlets"
+	desc = "A set of plate gauntlets forged of blacksteel, using a modern design."
+	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
+	icon_state = "bplategloves"
+	item_state = "bplategloves"
+	armor = ARMOR_PLATE_BSTEEL
+	prevent_crits = list(BCLASS_CHOP, BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+	resistance_flags = FIRE_PROOF
+	blocksound = PLATEHIT
+	max_integrity = 400
+	blade_dulling = DULLING_BASH
+	break_sound = 'sound/foley/breaksound.ogg'
+	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
+	anvilrepair = /datum/skill/craft/armorsmithing
+	smeltresult = /obj/item/ingot/blacksteel
+
+/obj/item/clothing/gloves/roguetown/blacksteel/plategloves
+	name = "ancient blacksteel plate gauntlets"
 	desc = "A set of plate gauntlets forged of blacksteel."
 	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
 	icon_state = "bkgloves"
 	item_state = "bkgloves"
-	armor = ARMOR_GLOVES_PLATE_GOOD
+	armor = ARMOR_PLATE_BSTEEL
 	prevent_crits = list(BCLASS_CHOP, BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
 	resistance_flags = FIRE_PROOF
 	blocksound = PLATEHIT
@@ -287,3 +313,35 @@
 	blocksound = SOFTHIT
 	max_integrity = 200
 	anvilrepair = /datum/skill/craft/carpentry
+
+//eastern content
+
+/obj/item/clothing/gloves/roguetown/eastgloves1
+	name = "black gloves"
+	desc = "Sleek gloves typically used by swordsmen."
+	icon_state = "eastgloves1"
+	item_state = "eastgloves1"
+	armor = ARMOR_GLOVES_LEATHER
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
+	resistance_flags = null
+	blocksound = SOFTHIT
+	blade_dulling = DULLING_BASHCHOP
+	break_sound = 'sound/foley/cloth_rip.ogg'
+	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
+	anvilrepair = null
+	sewrepair = TRUE
+
+/obj/item/clothing/gloves/roguetown/eastgloves2
+	name = "stylish gloves"
+	desc = "Unusual gloves worn by foreign gangs."
+	icon_state = "eastgloves2"
+	item_state = "eastgloves2"
+	armor = ARMOR_GLOVES_LEATHER
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
+	resistance_flags = null
+	blocksound = SOFTHIT
+	blade_dulling = DULLING_BASHCHOP
+	break_sound = 'sound/foley/cloth_rip.ogg'
+	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
+	anvilrepair = null
+	sewrepair = TRUE

@@ -4,6 +4,7 @@
 
 /obj/effect/spawner/lootdrop/cheap_clutter_spawner
 	name = "cheap clutter spawner"
+	icon_state = "lowclutter"
 	lootcount = 1
 	loot = list(
 		/obj/item/jingle_bells = 1,
@@ -28,6 +29,7 @@
 
 /obj/effect/spawner/lootdrop/valuable_clutter_spawner
 	name = "valuable clutter spawner"
+	icon_state = "hiclutter"
 	lootcount = 1
 	loot = list(
 		/obj/item/reagent_containers/glass/bottle/clayfancyvase = 1,
@@ -41,6 +43,7 @@
 
 /obj/effect/spawner/lootdrop/cheap_candle_spawner
 	name = "cheap candle spawner"
+	icon_state = "lowcandle"
 	lootcount = 1
 	loot = list(
 		/obj/item/candle/yellow/lit = 10,
@@ -49,6 +52,7 @@
 
 /obj/effect/spawner/lootdrop/valuable_candle_spawner
 	name = "valuable candle spawner"
+	icon_state = "hicandle"
 	lootcount = 1
 	loot = list(
 		/obj/item/candle/candlestick/gold/lit = 2,
@@ -61,6 +65,7 @@
 
 /obj/effect/spawner/lootdrop/cheap_tableware_spawner
 	name = "valuable tableware spawner"
+	icon_state = "lowtableware"
 	lootcount = 1
 	loot = list(
 		/obj/item/kitchen/fork/iron = 1,
@@ -75,6 +80,7 @@
 
 /obj/effect/spawner/lootdrop/valuable_tableware_spawner
 	name = "valuable tableware spawner"
+	icon_state = "hitableware"
 	lootcount = 1
 	loot = list(
 		/obj/item/reagent_containers/glass/cup/silver/small = 1,
@@ -89,6 +95,7 @@
 
 /obj/effect/spawner/lootdrop/cheap_jewelry_spawner
 	name = "cheap jewelry spawner"
+	icon_state = "lowjewlery"
 	lootcount = 1
 	loot = list(
 		/obj/item/clothing/ring/aalloy = 6,
@@ -112,6 +119,7 @@
 
 /obj/effect/spawner/lootdrop/valuable_jewelry_spawner
 	name = "valuable jewelry spawner"
+	icon_state = "hijewlery"
 	lootcount = 1
 	loot = list(
 		/obj/item/clothing/ring/silver = 10,

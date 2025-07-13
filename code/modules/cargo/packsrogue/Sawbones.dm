@@ -170,7 +170,7 @@
 	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical/strpot)
 
 /datum/supply_pack/rogue/Sawbones/spdpot
-	name = "Strength Potion"
+	name = "Speed Potion"
 	cost = 10
 	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical/spdpot)
 
@@ -193,3 +193,4 @@
 	name = "Poison Antidote"
 	cost = 10
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/strong_antidote)
+	

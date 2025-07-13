@@ -22,8 +22,8 @@
 	glow_color = GLOW_COLOR_ICE
 	glow_intensity = GLOW_INTENSITY_HIGH
 	ignore_los = FALSE
-	var/delay = 6
-	var/damage = 50 // less then fireball, more then lighting bolt
+	var/delay = 10
+	var/damage = 40 // less then fireball, more then lighting bolt
 	var/area_of_effect = 2
 
 /obj/effect/temp_visual/trapice

@@ -844,7 +844,7 @@
 	taste_description = "bitter earthy-ness"
 
 /datum/reagent/consumable/acorn_powder/on_mob_life(mob/living/carbon/M)
-	M.rogstam_add(8)
+	M.energy_add(8)
 	..()
 
 /datum/reagent/consumable/Acoffee
@@ -882,7 +882,7 @@
 			H.adjust_hydration(hydration)
 		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
 			M.blood_volume = min(M.blood_volume+10, BLOOD_VOLUME_NORMAL)
-	M.rogstam_add(8)
+	M.energy_add(8)
 	M.dizziness = max(0, M.dizziness - 5)
 	M.drowsyness = max(0, M.drowsyness - 3)
 	M.SetSleeping(0, FALSE)

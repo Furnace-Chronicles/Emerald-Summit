@@ -253,6 +253,28 @@
 		to_chat(src, span_warning("[L] still has footing! I need a stronger grip!"))
 		return TRUE    
 
+	if(isanimal(mob.pulling))
+		var/mob/living/simple_animal/bound = mob.pulling
+		if(bound.binded)
+			move_delay = world.time + 10
+			to_chat(src, span_warning("[bound] is bound in a summoning circle. I can't move them!"))
+			return TRUE
+
+// similar to the above, but for NPCs mostly
+/mob/proc/is_move_blocked_by_grab()
+	if(pulledby && pulledby != src)
+		return TRUE
+	if(isliving(pulling))
+		var/mob/living/L = pulling
+		if(L.cmode && !L.resting && !L.incapacitated() && grab_state < GRAB_AGGRESSIVE)
+			return TRUE
+		if(buckled)
+			return TRUE
+	if(isanimal(pulling))
+		var/mob/living/simple_animal/bound = pulling
+		if(bound.binded)
+			return TRUE
+
 /**
   * Allows mobs to ignore density and phase through objects
   *
@@ -618,13 +640,17 @@
 	if(!T) //if the turf they're headed to is invalid
 		return
 
-	var/light_amount = T?.get_lumcount()
+	// This is hacky but it's the only runtime that fixing decap gives
+	// please forgive me...
+	var/light_amount = 0
+	if(T != null)
+		light_amount = T.get_lumcount()
 	var/used_time = 50
 	if(mind)
-		used_time = max(used_time - (mind.get_skill_level(/datum/skill/misc/sneaking) * 8), 0)
+		used_time = max(used_time - (get_skill_level(/datum/skill/misc/sneaking) * 8), 0)
 
-	if(rogue_sneaking) //If sneaking, check if they should be revealed
-		if((stat > SOFT_CRIT) || IsSleeping() || (world.time < mob_timers[MT_FOUNDSNEAK] + 30 SECONDS) || !T || reset || (m_intent != MOVE_INTENT_SNEAK) || light_amount >= rogue_sneaking_light_threshhold + (mind?.get_skill_level(/datum/skill/misc/sneaking)/200) )
+	if(rogue_sneaking || reset) //If sneaking, check if they should be revealed
+		if((stat > SOFT_CRIT) || IsSleeping() || (world.time < mob_timers[MT_FOUNDSNEAK] + 30 SECONDS) || !T || reset || (m_intent != MOVE_INTENT_SNEAK) || light_amount >= rogue_sneaking_light_threshhold + (get_skill_level(/datum/skill/misc/sneaking)/200) )
 			used_time = round(clamp((50 - (used_time*1.75)), 5, 50),1)
 			animate(src, alpha = initial(alpha), time =	used_time) //sneak skill makes you reveal slower but not as drastic as disappearing speed
 			spawn(used_time) regenerate_icons()
@@ -632,7 +658,7 @@
 			return
 
 	else //not currently sneaking, check if we can sneak
-		if(light_amount < rogue_sneaking_light_threshhold + (mind?.get_skill_level(/datum/skill/misc/sneaking)/200) && m_intent == MOVE_INTENT_SNEAK)
+		if(light_amount < rogue_sneaking_light_threshhold + (get_skill_level(/datum/skill/misc/sneaking)/200) && m_intent == MOVE_INTENT_SNEAK)
 			animate(src, alpha = 0, time = used_time)
 			spawn(used_time + 5) regenerate_icons()
 			rogue_sneaking = TRUE
@@ -675,7 +701,7 @@
 					var/mob/living/L = src
 
 					//If mob is trying to switch to run, fail if any of these are true
-					if (L.rogfat >= L.maxrogfat || L.rogstam <= 0 || HAS_TRAIT(L, TRAIT_NORUN))
+					if (L.stamina >= L.max_stamina || L.energy <= 0 || HAS_TRAIT(L, TRAIT_NORUN))
 						if (HAS_TRAIT(L, TRAIT_NORUN)) // If has trait blocker then inform them
 							to_chat(L, span_warning("My joints have decayed too much for running!"))
 						return
@@ -854,3 +880,8 @@
 /// Can this mob move between z levels
 /mob/proc/canZMove(direction, turf/target)
 	return FALSE
+
+// Ageneral-purpose proc used to centralize checks to skip turf, movement, step, etc. effects 
+// for mobs that are floating, flying, intangible, etc.
+/mob/proc/is_floor_hazard_immune()
+	return throwing || (movement_type & (FLYING|FLOATING))

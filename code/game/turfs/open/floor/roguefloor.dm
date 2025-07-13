@@ -162,6 +162,28 @@
 	. = ..()
 	icon_state = "roofgc1"
 
+/turf/open/floor/rogue/AzureSand
+	name = "sand"
+	desc = "Warm sand that, sadly, have been mixed with dirt."
+	icon_state = "grimshart"
+	layer = MID_TURF_LAYER
+	footstep = FOOTSTEP_SAND
+	barefootstep = FOOTSTEP_SOFT_BAREFOOT
+	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
+	tiled_dirt = FALSE
+	landsound = 'sound/foley/jumpland/grassland.wav'
+	slowdown = 0
+	smooth = SMOOTH_TRUE
+	canSmoothWith = list(/turf/open/floor/rogue/AzureSand,)
+	neighborlay = "grimshartedge"
+
+/turf/open/floor/rogue/AzureSand/Initialize()
+	dir = pick(GLOB.cardinals)
+	. = ..()
+
+/turf/open/floor/rogue/AzureSand/cardinal_smooth(adjacencies)
+	roguesmooth(adjacencies)
+
 /turf/open/floor/rogue/snow
 	name = "snow"
 	desc = "A gentle blanket of snow."
@@ -377,7 +399,8 @@
 						/turf/open/floor/rogue/grasscold,
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
-						/turf/open/floor/rogue/snowrough,)
+						/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/AzureSand)
 	neighborlay = "dirtedge"
 	var/muddy = FALSE
 	var/bloodiness = 20
@@ -385,23 +408,20 @@
 	var/dirt_amt = 3
 
 /turf/open/floor/rogue/dirt/get_slowdown(mob/user)
-	var/returned = slowdown
+	. = ..()
 	var/negate_slowdown = FALSE
 
-	for(var/obj/item/I in user.held_items)
-		if(I.walking_stick)
-			if(!I.wielded)
-				var/mob/living/L = user
-				if(!L.cmode)
-					negate_slowdown = TRUE
+	for(var/obj/item/stick in user.held_items)
+		if(stick.walking_stick && !stick.wielded && !user.cmode)
+			negate_slowdown = TRUE
+			break
 
 	if(HAS_TRAIT(user, TRAIT_LONGSTRIDER))
 		negate_slowdown = TRUE
 
 	if(negate_slowdown)
-		returned = max(returned-2, 0)
-
-	return returned
+		. -= 2
+	return max(., 0)
 
 
 /turf/open/floor/rogue/dirt/attack_right(mob/user)
@@ -520,7 +540,8 @@
 						/turf/open/floor/rogue/grasscold,
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
-						/turf/open/floor/rogue/snowrough,)
+						/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/AzureSand,)
 	neighborlay = "roadedge"
 	slowdown = 0
 
@@ -1020,7 +1041,8 @@
 						/turf/open/floor/rogue/grasscold,
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
-						/turf/open/floor/rogue/snowrough,)
+						/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/AzureSand)
 
 /turf/open/floor/rogue/cobble/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
@@ -1198,7 +1220,7 @@
 /turf/open/floor/rogue/tile/harem
 	icon = 'icons/turf/roguefloor.dmi'
 	icon_state = "harem"
-	
+
 /turf/open/floor/rogue/tile/harem1
 	icon = 'icons/turf/roguefloor.dmi'
 	icon_state = "harem1"
@@ -1367,3 +1389,10 @@
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	landsound = 'sound/foley/jumpland/grassland.wav'
+	smooth = SMOOTH_MORE
+	canSmoothWith = list(/turf/open/floor/rogue,
+						/turf/closed/mineral,
+						/turf/closed/wall/mineral)
+
+/turf/open/floor/rogue/naturalstone/cardinal_smooth(adjacencies)
+	roguesmooth(adjacencies)

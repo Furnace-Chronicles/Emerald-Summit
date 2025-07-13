@@ -180,6 +180,7 @@
 /datum/supply_pack/rogue/tools/shopkeyy
 	name = "Spare Shopkey"
 	cost = 10
+	not_in_public = TRUE
 	contains = list(/obj/item/roguekey/shop)
 
 /datum/supply_pack/rogue/tools/alch_bottle
@@ -193,7 +194,7 @@
 	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical,/obj/item/reagent_containers/glass/bottle/alchemical,/obj/item/reagent_containers/glass/bottle/alchemical,
 	/obj/item/reagent_containers/glass/bottle/alchemical,/obj/item/reagent_containers/glass/bottle/alchemical,/obj/item/reagent_containers/glass/bottle/alchemical,
 	/obj/item/reagent_containers/glass/bottle/alchemical,/obj/item/reagent_containers/glass/bottle/alchemical,/obj/item/reagent_containers/glass/bottle/alchemical)
-
+	
 /datum/supply_pack/rogue/tools/gwstrap
 	name = "Greatweapon Strap"
 	cost = 30
@@ -204,10 +205,10 @@
 	cost = 10
 	contains = list(/obj/item/storage/hip/headhook)
 
-/datum/supply_pack/rogue/tools/surgeonsbag
-	name = "Surgeon's bag, Full"
-	cost = 80
-	contains = list(/obj/item/storage/belt/rogue/surgery_bag)
+/datum/supply_pack/rogue/tools/bottle_kit
+	name = "Bottle Kit"
+	cost = 50
+	contains = list(/obj/item/bottle_kit)
 
 /datum/supply_pack/rogue/tools/spade
 	name = "Wooden Spade"

@@ -10,17 +10,6 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		.[type] = new type()
 	return .
 
-/proc/roll_random_special(client/player)
-	var/list/eligible_weight = list()
-	for(var/trait_type in GLOB.special_traits)
-		var/datum/special_trait/special = SPECIAL_TRAIT(trait_type)
-		eligible_weight[trait_type] = special.weight
-
-	if(!length(eligible_weight))
-		return null
-
-	return pickweight(eligible_weight)
-
 /proc/print_special_text(mob/user, trait_type)
 	var/datum/special_trait/special = SPECIAL_TRAIT(trait_type)
 	to_chat(user, span_notice("<b>[special.name]</b>"))

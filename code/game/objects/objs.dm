@@ -9,6 +9,8 @@
 
 	var/damtype = BRUTE
 	var/force = 0
+	//a modifier to an item's damage against structures
+	var/demolition_mod = 1
 
 	var/datum/armor/armor
 	var/last_peeled_limb
@@ -176,7 +178,7 @@
 /obj/get_dumping_location(datum/component/storage/source,mob/user)
 	return get_turf(src)
 
-/obj/proc/CanAStarPass()
+/obj/proc/CanAStarPass(ID, to_dir, caller)
 	. = !density
 
 /obj/proc/check_uplink_validity()
@@ -264,3 +266,9 @@
 // Should move all contained objects to it's location.
 /obj/proc/dump_contents()
 	CRASH("Unimplemented.")
+
+/obj/merge_conflict_marker
+	name = "---Merge Conflict Marker---"
+	desc = "Mapping helper."
+	icon = 'icons/obj/merge_conflict_marker.dmi'
+	icon_state = "merge_conflict_marker"

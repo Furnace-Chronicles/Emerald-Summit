@@ -33,6 +33,7 @@
 	/obj/item/rogueweapon/surgery/retractor,
 	/obj/item/rogueweapon/surgery/bonesetter,
 	/obj/item/rogueweapon/surgery/cautery,
+	/obj/item/rogueweapon/surgery/hammer,
 	/obj/item/natural/bundle/cloth,
 	/obj/item/needle/pestra //Gets the special needle!
 	)
@@ -44,5 +45,3 @@
 	)
 
 /obj/item/storage/belt/rogue/surgery_bag/empty
-	populate_contents = list(
-	)

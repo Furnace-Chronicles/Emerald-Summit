@@ -6,13 +6,13 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/wretch/hedgemage
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_MAGEARMOR, TRAIT_OUTLAW, TRAIT_ARCYNE_T3)
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_MAGEARMOR, TRAIT_OUTLAW, TRAIT_ARCYNE_T3, TRAIT_HERESIARCH)
 
 // Hedge Mage on purpose has nearly the same fit as a Adv Mage / Mage Associate who cast conjure armor roundstart. Call it meta disguise.
 /datum/outfit/job/roguetown/wretch/hedgemage/pre_equip(mob/living/carbon/human/H)
 	mask = /obj/item/clothing/mask/rogue/eyepatch // Chuunibyou up to 11.
 	head = /obj/item/clothing/head/roguetown/roguehood/black
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
@@ -29,23 +29,24 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backr = /obj/item/rogueweapon/woodstaff/ruby
 	backpack_contents = list(/obj/item/spellbook_unfinished/pre_arcyne = 1, /obj/item/roguegem/amethyst = 1, /obj/item/storage/belt/rogue/pouch/coins/poor = 1, /obj/item/flashlight/flare/torch/lantern/prelit = 1, /obj/item/rope/chain = 1)
-	H.mind.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/reading, 5, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/craft/alchemy, 4, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/magic/arcane, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/alchemy, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/magic/arcane, 4, TRUE)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	H.cmode_music = 'sound/music/combat_bandit_mage.ogg'
 	if(H.age == AGE_OLD)
-		H.mind.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
-		H.mind.adjust_spellpoints(6)
+		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
+		H?.mind.adjust_spellpoints(6)
 	H.change_stat("intelligence", 4) // Same stat spread as necromancer, same reasoning
 	H.change_stat("perception", 2)
 	H.change_stat("endurance", 1)
 	H.change_stat("speed", 1)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-	H.mind.adjust_spellpoints(27) // Unlike Rogue Mage, who gets 6 but DExpert, this one don't have DExpert but have more spell points than anyone but the CM. 
+	if(H.mind)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+	H?.mind.adjust_spellpoints(27) // Unlike Rogue Mage, who gets 6 but DExpert, this one don't have DExpert but have more spell points than anyone but the CM. 
 	wretch_select_bounty(H)

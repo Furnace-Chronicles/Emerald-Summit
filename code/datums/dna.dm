@@ -15,6 +15,8 @@
 	var/list/organ_dna = list()
 	///Body markings of the DNA's owner. This is for storing their original state for re-creating the character. They'll get changed on species mutation
 	var/list/list/body_markings = list()
+	///Current body size, used for proper re-sizing and keeping track of that
+	var/current_body_size = BODY_SIZE_NORMAL
 
 /datum/dna/New(mob/living/new_holder)
 	if(istype(new_holder))
@@ -46,6 +48,15 @@
 	destination.dna.features = features.Copy()
 	destination.dna.real_name = real_name
 	destination.dna.temporary_mutations = temporary_mutations.Copy()
+	destination.dna.organ_dna = organ_dna.Copy()
+	destination.gender = holder.gender
+	destination.regenerate_organs()
+	var/obj/item/bodypart/head/my_head = holder.get_bodypart(BODY_ZONE_HEAD)
+	var/obj/item/bodypart/head/their_head = destination.get_bodypart(BODY_ZONE_HEAD)
+	if(my_head && their_head)
+		their_head.bodypart_features = my_head.bodypart_features.Copy()
+	destination.dna.body_markings = body_markings.Copy()
+	destination.dna.update_body_size()
 
 /datum/dna/proc/copy_dna(datum/dna/new_dna)
 	new_dna.unique_enzymes = unique_enzymes
@@ -249,6 +260,16 @@
 
 /mob/proc/domutcheck()
 	return
+
+/datum/dna/proc/update_body_size()
+	if(!holder || current_body_size == features["body_size"])
+		return
+	var/change_multiplier = features["body_size"] / current_body_size
+	//We update the translation to make sure our character doesn't go out of the southern bounds of the tile
+	var/translate = ((change_multiplier-1) * 32)/2
+	holder.transform = holder.transform.Scale(change_multiplier, change_multiplier)
+	holder.transform = holder.transform.Translate(0, translate)
+	current_body_size = features["body_size"]
 
 
 /////////////////////////// DNA HELPER-PROCS //////////////////////////////

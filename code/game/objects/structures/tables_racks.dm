@@ -102,10 +102,10 @@
 		return !density
 
 /obj/structure/table/CanAStarPass(ID, dir, caller)
-	. = !density
+	. = ..()
 	if(ismovableatom(caller))
 		var/atom/movable/mover = caller
-		. = . || (mover.pass_flags & PASSTABLE)
+		. ||= (mover.pass_flags & PASSTABLE)
 
 /obj/structure/table/proc/tableplace(mob/living/user, mob/living/pushed_mob)
 	pushed_mob.forceMove(loc)
@@ -370,6 +370,28 @@
 	icon_state = "fancy_table_royalblue"
 	smooth_icon = 'icons/obj/smooth_structures/fancy_table_royalblue.dmi'
 
+/obj/structure/table/wood/folding
+	name = "folding table"
+	desc = "A folding table, useful for setting up a temporary workspace."
+	icon = 'icons/roguetown/misc/gadgets.dmi'
+	icon_state = "foldingtableDeployed"
+	resistance_flags = FLAMMABLE
+	max_integrity = 50
+	smooth = 0
+	debris = list(/obj/item/grown/log/tree/small = 1)
+	climbable = TRUE
+	climb_offset = 10
+
+/obj/structure/table/wood/folding/examine()
+	. = ..()
+	. += span_blue("Right-Click to fold the table.")
+
+/obj/structure/table/wood/folding/attack_right(mob/user)
+	user.visible_message(span_notice("[user] folds [src]."), span_notice("You fold [src]."))
+	new /obj/item/folding_table_stored(drop_location())
+	qdel(src)
+	return ..()
+
 /*
  * Racks
  */
@@ -400,10 +422,10 @@
 		return 0
 
 /obj/structure/rack/CanAStarPass(ID, dir, caller)
-	. = !density
+	. = ..()
 	if(ismovableatom(caller))
 		var/atom/movable/mover = caller
-		. = . || (mover.pass_flags & PASSTABLE)
+		. ||= (mover.pass_flags & PASSTABLE)
 
 /obj/structure/rack/MouseDrop_T(obj/O, mob/user)
 	. = ..()

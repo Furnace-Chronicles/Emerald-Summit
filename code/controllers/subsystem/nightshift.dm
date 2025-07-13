@@ -39,7 +39,7 @@ SUBSYSTEM_DEF(nightshift)
 	check_nightshift()
 
 /datum/controller/subsystem/nightshift/proc/announce(message)
-	priority_announce(message, sound='sound/misc/bell.ogg', sender_override="Automated Lighting System Announcement")
+	priority_announce(message, sound='sound/misc/bell.ogg')
 
 /datum/controller/subsystem/nightshift/proc/check_nightshift()
 //	var/emergency = GLOB.security_level >= SEC_LEVEL_RED
@@ -90,7 +90,7 @@ SUBSYSTEM_DEF(nightshift)
 			apply_status_effect(/datum/status_effect/debuff/sleepytime)
 
 	if(todd == "night")
-		if(HAS_TRAIT(src, TRAIT_NOROGSTAM))
+		if(HAS_TRAIT(src, TRAIT_INFINITE_STAMINA))
 			return ..()
 		if(HAS_TRAIT(src, TRAIT_NOSLEEP))
 			return ..()

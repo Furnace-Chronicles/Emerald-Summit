@@ -85,7 +85,6 @@ GLOBAL_LIST_INIT(stone_personalities, list(
 	"Barbarics",
 	"Fanciness",
 	"Relaxing",	
-	"Blacked",
 	"Greed",
 	"Evil",
 	"Good",
@@ -309,7 +308,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 
 /obj/item/natural/stone/attackby(obj/item/W, mob/living/user, params)
 	user.changeNext_move(CLICK_CD_MELEE)
-	var/skill_level = user.mind.get_skill_level(/datum/skill/craft/masonry)
+	var/skill_level = user.get_skill_level(/datum/skill/craft/masonry)
 	var/work_time = (35 - (skill_level * 5))
 	if(istype(W, /obj/item/natural/stone))
 		playsound(src.loc, pick('sound/items/stonestone.ogg'), 100)
@@ -336,14 +335,19 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 //rock munching
 /obj/item/natural/stone/attack(mob/living/M, mob/user)
 	testing("attack")
-	if(M.construct)
-		var/healydoodle = magic_power+1
-		M.apply_status_effect(/datum/status_effect/buff/rockmuncher, healydoodle)
-		qdel(src)
-		if(M == user)
-			user.visible_message(span_notice("[user] presses the stone to [user]'s body, and it is absorbed."), span_notice("I absorb the stone."))
-		else
-			user.visible_message(span_notice("[user] presses the stone to [M]'s body, and it is absorbed."), span_notice("I press the stone to [M], and it is absorbed."))
+	if(!user.cmode)
+		if(M.construct)
+			var/healydoodle = magic_power+1
+			M.apply_status_effect(/datum/status_effect/buff/rockmuncher, healydoodle)
+			qdel(src)
+			if(M == user)
+				user.visible_message(span_notice("[user] presses the stone to [user]'s body, and it is absorbed."), span_notice("I absorb the stone."))
+			else
+				user.visible_message(span_notice("[user] presses the stone to [M]'s body, and it is absorbed."), span_notice("I press the stone to [M], and it is absorbed."))
+		else // if theyre not a construct, but we're not in cmode, beat them 2 death with rocks.
+			return ..()
+	else // if we're in cmode, beat them to death with rocks.
+		return ..()
 
 /obj/item/natural/rock
 	name = "rock"
@@ -411,7 +415,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 
 /obj/item/natural/rock/attackby(obj/item/W, mob/living/user, params)
 	user.changeNext_move(CLICK_CD_MELEE)
-	var/skill_level = user.mind.get_skill_level(/datum/skill/craft/masonry)
+	var/skill_level = user.get_skill_level(/datum/skill/craft/masonry)
 	var/work_time = (120 - (skill_level * 15))
 	if(istype(W, /obj/item/natural/stone))
 		user.visible_message(span_info("[user] strikes the stone against the rock."))

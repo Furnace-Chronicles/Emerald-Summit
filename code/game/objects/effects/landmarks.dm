@@ -280,16 +280,12 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Archivist"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/weaponsmith
-	name = "Weaponsmith"
+/obj/effect/landmark/start/guildsman
+	name = "Guildsman"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/armorsmith
-	name = "Armorer"
-	icon_state = "arrow"
-
-/obj/effect/landmark/start/blacksmith
-	name = "Blacksmith"
+/obj/effect/landmark/start/guildmaster
+	name = "Guildmaster"
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/tailor
@@ -298,10 +294,6 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 
 /obj/effect/landmark/start/alchemist
 	name = "Alchemist"
-	icon_state = "arrow"
-
-/obj/effect/landmark/start/artificer
-	name = "Artificer"
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/scribe
@@ -334,6 +326,10 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 
 /obj/effect/landmark/start/vagrant
 	name = "Beggar"
+	icon_state = "arrow"
+
+/obj/effect/landmark/start/suitor
+	name = "Suitor"
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/lady

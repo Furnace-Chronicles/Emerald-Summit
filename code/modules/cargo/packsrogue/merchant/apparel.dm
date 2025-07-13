@@ -12,6 +12,11 @@
 					/obj/item/clothing/head/roguetown/roguehood/random,
 				)
 
+/datum/supply_pack/rogue/apparel/crosses/silver
+	name = "Silver Cross"
+	cost = 150
+	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver)
+
 /datum/supply_pack/rogue/apparel/crosses/divinepantheonastrata
 	name = "Astratan Amulet"
 	cost = 10

@@ -28,32 +28,36 @@
 						/obj/item/recipe_book/alchemy = 1,
 						/obj/item/recipe_book/survival = 1,
 						)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/crow)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/guidance)
+	if(H.mind)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/crow)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/guidance)
 	if(H.gender == FEMALE)
 		armor = /obj/item/clothing/suit/roguetown/armor/corset
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
 		pants = /obj/item/clothing/under/roguetown/skirt/red
-	if(H.mind)
-		H.mind.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/craft/alchemy, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
-		H.mind.adjust_spellpoints(6)
-		H.change_stat("intelligence", 3)
-		H.change_stat("speed", 2)
+	H.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/alchemy, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
+	H?.mind.adjust_spellpoints(6)
+	H.change_stat("intelligence", 3)
+	H.change_stat("speed", 2)
+	H.change_stat("fortune", 1)
+	if(H.age == AGE_OLD)
+		H.change_stat("speed", -1)
+		H.change_stat("intelligence", 1)
 		H.change_stat("fortune", 1)
-		if(H.age == AGE_OLD)
-			H.change_stat("speed", -1)
-			H.change_stat("intelligence", 1)
-			H.change_stat("fortune", 1)
 		
 	switch(H.patron?.type)
-		if(/datum/patron/inhumen/zizo)
+		if(/datum/patron/inhumen/zizo,
+	  		/datum/patron/inhumen/matthios,
+	   		/datum/patron/inhumen/graggar,
+	   		/datum/patron/inhumen/baotha)
 			H.cmode_music = 'sound/music/combat_cult.ogg'
-			neck = /obj/item/roguekey/inhumen
+			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)

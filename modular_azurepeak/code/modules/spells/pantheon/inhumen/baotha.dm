@@ -20,6 +20,11 @@
 /obj/effect/proc_holder/spell/invoked/baothablessings/cast(list/targets, mob/living/user)
 	if(isliving(targets[1]))
 		var/mob/living/carbon/target = targets[1]
+		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
+			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+			return FALSE
 		if(target.has_status_effect(/datum/status_effect/buff/druqks/baotha))
 			to_chat(user, span_warning("They're already blessed by these effects!"))
 			revert_cast()
@@ -93,3 +98,37 @@
 		target.apply_status_effect(/datum/status_effect/buff/vitae)					//Basically lowers fortune by 2 but +3 speed, it's powerful. Drugs cus Baotha.
 		return TRUE
 
+//T0 that tells the user the person's vice.
+/obj/effect/proc_holder/spell/invoked/baothavice
+	name = "Tell Vice"
+	overlay_state = "baotha_vice"
+	releasedrain = 10
+	chargedrain = 0
+	chargetime = 0
+	range = 3
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	invocation_type = "none"
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = TRUE
+	recharge_time = 5 SECONDS 
+	miracle = TRUE
+	devotion_cost = 10
+	var/list/fake_vices = list()
+
+/obj/effect/proc_holder/spell/invoked/baothavice/cast(list/targets, mob/living/user)
+	if(ishuman(targets[1]))
+		var/vice_found
+		var/mob/living/carbon/human/H = targets[1]
+		if(HAS_TRAIT(H, TRAIT_DECEIVING_MEEKNESS) && user.get_skill_level(/datum/skill/magic/holy) > SKILL_LEVEL_NOVICE)
+			if(!(H in fake_vices))
+				fake_vices[H] = pick(GLOB.character_flaws)
+				vice_found = fake_vices[H]
+			else
+				vice_found = fake_vices[H]
+		if(!vice_found)
+			vice_found = H.charflaw.name
+		to_chat(user, span_info("They are... [span_warning("a [vice_found]")]"))
+		return TRUE
+	revert_cast()
+	return FALSE

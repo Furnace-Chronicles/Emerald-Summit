@@ -31,6 +31,7 @@
 	item_state = "leather"
 	equip_sound = 'sound/blank.ogg'
 	sewrepair = TRUE
+	sellprice = 10
 	resistance_flags = FIRE_PROOF
 
 /obj/item/storage/belt/rogue/leather/plaquegold
@@ -98,6 +99,12 @@
 /obj/item/storage/belt/rogue/leather/cloth/bandit
 	color = "#ff0000"
 	component_type = /datum/component/storage/concrete/roguetown/belt
+
+/obj/item/storage/belt/rogue/leather/sash
+	name = "fine sash"		//Like the cloth sash but with better storage. More expensive.
+	desc = "A pliable sash made of wool meant to wrap tightly around the waist, especially popular with travellers who wear loose shirts."
+	icon_state = "clothsash"
+	item_state = "clothsash"
 
 /obj/item/storage/belt/rogue/pouch
 	name = "pouch"
@@ -180,6 +187,7 @@
 	slot_flags = ITEM_SLOT_BACK
 	resistance_flags = FIRE_PROOF
 	max_integrity = 300
+	sellprice = 10
 	equip_sound = 'sound/blank.ogg'
 	bloody_icon_state = "bodyblood"
 	alternate_worn_layer = UNDER_CLOAK_LAYER
@@ -213,6 +221,11 @@
 		CP.rmb_show(user)
 		return TRUE
 
+/obj/item/storage/backpack/rogue/satchel/short
+	name = "short satchel"
+	desc = "A leather satchel that's meant to  clip to a belt or to a pair of pants, freeing the shoulders from any weight."
+	icon_state = "satchelshort"
+	item_state = "satchelshort"
 
 /obj/item/storage/backpack/rogue/backpack
 	name = "backpack"
@@ -224,6 +237,7 @@
 	slot_flags = ITEM_SLOT_BACK_L
 	resistance_flags = FIRE_PROOF
 	max_integrity = 300
+	sellprice = 15
 	equip_sound = 'sound/blank.ogg'
 	bloody_icon_state = "bodyblood"
 	sewrepair = TRUE

@@ -223,14 +223,12 @@
 				return
 			door_rattle()
 			return
-		if(TryToSwitchState(AM))
+		if(TryToSwitchState(user))
 			if(swing_closed)
-				if(isliving(AM))
-					var/mob/living/M = AM
-					if(M.m_intent == MOVE_INTENT_SNEAK)
-						addtimer(CALLBACK(src, PROC_REF(Close), TRUE), 25)
-					else
-						addtimer(CALLBACK(src, PROC_REF(Close), FALSE), 25)
+				if(user.m_intent == MOVE_INTENT_SNEAK)
+					addtimer(CALLBACK(src, PROC_REF(Close), TRUE), 25)
+				else
+					addtimer(CALLBACK(src, PROC_REF(Close), FALSE), 25)
 
 
 /obj/structure/mineral_door/attack_paw(mob/user)
@@ -265,23 +263,30 @@
 		return !opacity
 	return !density
 
-/obj/structure/mineral_door/proc/TryToSwitchState(atom/user)
-	if(isSwitchingStates || !anchored)
-		return
-	if(isliving(user))
-		var/mob/living/M = user
-		if(world.time - M.last_bumped <= 60)
-			return //NOTE do we really need that?
-		if(M.client)
-			if(iscarbon(M))
-				var/mob/living/carbon/C = M
-				if(!C.handcuffed)
-					if(C.m_intent == MOVE_INTENT_SNEAK)
-						SwitchState(TRUE)
-					else
-						SwitchState()
-			else
-				SwitchState()
+/obj/structure/mineral_door/CanAStarPass(ID, to_dir, datum/caller)
+	. = ..()
+	if(.) // we can already go through it
+		return TRUE
+	if(!anchored)
+		return FALSE
+	if(HAS_TRAIT(caller, TRAIT_BASHDOORS))
+		return TRUE // bash into it!
+	// it's openable
+	return ishuman(caller) && !locked // only humantype mobs can open doors, as funny as it'd be for a volf to walk in on you ERPing
+
+/obj/structure/mineral_door/proc/TryToSwitchState(mob/living/user)
+	if(!isliving(user) || isSwitchingStates || !anchored)
+		return FALSE
+	if(ishuman(user))
+		var/mob/living/carbon/human/human_user = user
+		// must have a client or be trying to pass through the door
+		if(!human_user.client && !length(human_user.myPath))
+			return FALSE
+		if(human_user.handcuffed)
+			return FALSE
+	else if(!user.client) // simplemobs aren't allowed to pathfind through doors, currently
+		return FALSE
+	SwitchState(user.m_intent == MOVE_INTENT_SNEAK) // silent when sneaking
 	return TRUE
 
 /obj/structure/mineral_door/proc/SwitchState(silent = FALSE)
@@ -380,7 +385,7 @@
 			to_chat(user, span_warning("You clumsily drop a lockpick off the ring as you try to pick the lock with it."))
 		return
 	else
-		if(repairable && (user.mind.get_skill_level(repair_skill) > 0) && ((istype(I, repair_cost_first)) || (istype(I, repair_cost_second)))) // At least 1 skill level needed
+		if(repairable && (user.get_skill_level(repair_skill) > 0) && ((istype(I, repair_cost_first)) || (istype(I, repair_cost_second)))) // At least 1 skill level needed
 			repairdoor(I,user)
 		else
 			return ..()
@@ -399,7 +404,7 @@
 					user.visible_message(span_notice("[user] starts repairing [src]."), \
 					span_notice("I start repairing [src]."))
 					playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
-					if(do_after(user, (300 / user.mind.get_skill_level(repair_skill)), target = src)) // 1 skill = 30 secs, 2 skill = 15 secs etc.
+					if(do_after(user, (300 / user.get_skill_level(repair_skill)), target = src)) // 1 skill = 30 secs, 2 skill = 15 secs etc.
 						qdel(I)
 						playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 						repair_state = 1
@@ -410,7 +415,7 @@
 					user.visible_message(span_notice("[user] starts repairing [src]."), \
 					span_notice("I start repairing [src]."))
 					playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
-					if(do_after(user, (300 / user.mind.get_skill_level(repair_skill)), target = src)) // 1 skill = 30 secs, 2 skill = 15 secs etc.	
+					if(do_after(user, (300 / user.get_skill_level(repair_skill)), target = src)) // 1 skill = 30 secs, 2 skill = 15 secs etc.	
 						qdel(I)	
 						playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)	
 						icon_state = "[base_state]"
@@ -428,7 +433,7 @@
 			user.visible_message(span_notice("[user] starts repairing [src]."), \
 			span_notice("I start repairing [src]."))
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
-			if(do_after(user, (300 / user.mind.get_skill_level(repair_skill)), target = src)) // 1 skill = 30 secs, 2 skill = 15 secs etc.
+			if(do_after(user, (300 / user.get_skill_level(repair_skill)), target = src)) // 1 skill = 30 secs, 2 skill = 15 secs etc.
 				qdel(I)
 				playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 				obj_integrity = obj_integrity + (max_integrity/2)					
@@ -526,31 +531,7 @@
 		return
 	if(lockbroken)
 		to_chat(user, span_warning("The lock to this door is broken."))
-	user.changeNext_move(CLICK_CD_MELEE)
-	
-	// Handle belt items that contain keys
-	if(I.contents && I.contents.len && !istype(I, /obj/item/storage/keyring))
-		var/obj/item/found_key = null
-		for(var/obj/item/contained_item in I.contents)
-			if(istype(contained_item, /obj/item/roguekey))
-				var/obj/item/roguekey/K = contained_item
-				if(K.lockhash == lockhash || istype(K, /obj/item/roguekey/lord))
-					found_key = contained_item
-					break
-			if(istype(contained_item, /obj/item/storage/keyring))
-				if(keyring_has_matching_key(contained_item))
-					found_key = contained_item
-					break
-		
-		if(found_key)
-			// Use the found key instead of the belt
-			trykeylock(found_key, user, autobump)
-			return
-		else
-			to_chat(user, span_warning("No matching key found in [I]."))
-			door_rattle()
-			return
-	
+	user.changeNext_move(CLICK_CD_INTENTCAP)
 	if(istype(I,/obj/item/storage/keyring))
 		var/obj/item/storage/keyring/R = I
 		if(!R.contents.len)
@@ -595,7 +576,7 @@
 		return
 	if(lockbroken)
 		to_chat(user, "<span class='warning'>The lock to this door is broken.</span>")
-		user.changeNext_move(CLICK_CD_MELEE)
+		user.changeNext_move(CLICK_CD_INTENTCAP)
 	else
 		var/lockprogress = 0
 		var/locktreshold = lock_strength
@@ -603,7 +584,7 @@
 		var/obj/item/lockpick/P = I
 		var/mob/living/L = user
 
-		var/pickskill = user.mind.get_skill_level(/datum/skill/misc/lockpicking)
+		var/pickskill = user.get_skill_level(/datum/skill/misc/lockpicking)
 		var/perbonus = L.STAPER/5
 		var/picktime = 70
 		var/pickchance = 35
@@ -869,6 +850,18 @@
 
 /obj/structure/mineral_door/wood/deadbolt/attack_right(mob/user)
 	user.changeNext_move(CLICK_CD_FAST)
+	
+	// If keylock is disabled, implement manual locking behavior
+	if(!keylock)
+		if(get_dir(src,user) == lockdir)
+			if(brokenstate)
+				to_chat(user, span_warning("It's broken, that would be foolish."))
+				return
+			lock_toggle(user)
+		else
+			to_chat(user, span_warning("The deadbolt doesn't toggle from this side."))
+		return
+	
 	var/obj/item = user.get_active_held_item()
 	var/obj/item/roguekey/found_key = null
 	var/obj/item/storage/keyring/found_keyring = null
@@ -911,8 +904,6 @@
 					to_check += S.contents
 
 	if(found_key || found_keyring)
-		if(!keylock)
-			return ..()
 		if(door_opened || isSwitchingStates)
 			return ..()
 		if(lockbroken)

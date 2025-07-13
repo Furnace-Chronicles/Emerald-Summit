@@ -8,7 +8,7 @@
 	var/skill_quality = 0 // Accumulated per hit based on calculations, will decide final result.
 	var/appro_skill = /datum/skill/craft/blacksmithing
 	var/atom/req_bar
-	var/atom/created_item
+	var/atom/movable/created_item
 	var/createditem_num = 1 // How many units to make.
 	var/craftdiff = 0
 	var/needed_item
@@ -32,7 +32,7 @@
 	var/mob/living/L = user
 	var/moveup = 1
 	var/proab = 0 // Probability to not spoil the bar
-	var/skill_level	= user.mind.get_skill_level(appro_skill)
+	var/skill_level	= user.get_skill_level(appro_skill)
 	if(progress >= max_progress)
 		to_chat(user, span_info("It's ready."))
 		user.visible_message(span_warning("[user] strikes the bar!"))
@@ -202,6 +202,11 @@
 		html += "<strong class=class='scroll'>and then you get</strong> <br> [createditem_num] [icon2html(new created_item, user)] <br> [initial(created_item.name)]<br>"
 	else
 		html += "<strong class=class='scroll'>and then you get</strong> <br> [icon2html(new created_item, user)] <br> [initial(created_item.name)]<br>"
+
+	if(created_item.sellprice)
+		html += "<strong class=class='scroll'>You can sell this for [created_item.sellprice] mammons at a normal quality</strong> <br>"
+	else
+		html += "<strong class=class='scroll'>This is worthless for export</strong> <br>"
 
 	html += {"
 		</div>

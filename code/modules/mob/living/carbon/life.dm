@@ -78,7 +78,17 @@
 					emote("painmoan")
 			else
 				if(painpercent >= 100)
-					if(prob(probby) && !HAS_TRAIT(src, TRAIT_NOPAINSTUN))
+					if(HAS_TRAIT(src, TRAIT_PSYDONITE) || STACON >= 15)
+						if(prob(25)) // PSYDONIC WEIGHTED COINFLIP. TWEAK THIS AS THOU WILT. DON'T LET THEM BE BROKEN, PSYDON WILLING. THROW CON-MAXXERS A BONE, TOO.
+							Immobilize(15) // EAT A MICROSTUN. YOU'RE AVOIDING A PAINCRIT.
+							if(HAS_TRAIT(src, TRAIT_PSYDONITE))
+								visible_message(span_info("[src] audibly grits their teeth. ENDURING through their pain."), span_info("Through my faith in HIM, I ENDURE."))
+							else
+								visible_message(span_info("[src] trembled for a moment, but they remain stood."), span_info("My strong constitution keeps me upright."))
+							stuttering += 5
+							emote("painmoan")
+							return
+					if(prob(probby) && !HAS_TRAIT(src, TRAIT_NOPAINSTUN) && !has_status_effect(/datum/status_effect/buff/psyhealing))
 						Immobilize(10)
 						emote("painscream")
 						stuttering += 5
@@ -552,16 +562,16 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 
 /mob/living/carbon/proc/handle_sleep()
 	if(HAS_TRAIT(src, TRAIT_NOSLEEP) && !(mobility_flags & MOBILITY_STAND))
-		rogstam_add(5)
+		energy_add(5)
 		if(mind?.has_antag_datum(/datum/antagonist/vampirelord/lesser))
-			rogstam_add(10)
+			energy_add(10)
 		return
 	//Healing while sleeping in a bed
 	if(IsSleeping())
 		var/sleepy_mod = 0.5
 		var/yess = HAS_TRAIT(src, TRAIT_NOHUNGER)
 		if(HAS_TRAIT(src, TRAIT_BETTER_SLEEP))
-			rogstam_add(sleepy_mod * 4)
+			energy_add(sleepy_mod * 4)
 		if(buckled?.sleepy)
 			sleepy_mod = buckled.sleepy
 		else if(isturf(loc)) //No illegal tech.
@@ -569,7 +579,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 			if(bed)
 				sleepy_mod = bed.sleepy
 		if(nutrition > 0 || yess)
-			rogstam_add(sleepy_mod * 15)
+			energy_add(sleepy_mod * 15)
 		if(hydration > 0 || yess)
 			if(!bleed_rate)
 				blood_volume = min(blood_volume + (4 * sleepy_mod), BLOOD_VOLUME_NORMAL)
@@ -621,7 +631,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 					if(fallingas > 15)
 						Sleeping(300)
 			else
-				rogstam_add(sleepy_mod * 10)
+				energy_add(sleepy_mod * 10)
 		// Resting on the ground (not sleeping or with eyes closed and about to fall asleep)
 		else if(!(mobility_flags & MOBILITY_STAND))
 			if(eyesclosed)
@@ -644,10 +654,10 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 					if(fallingas > 25)
 						Sleeping(300)
 			else
-				rogstam_add(10)
+				energy_add(10)
 		else if(fallingas)
 			fallingas = 0
 
 	// Leaning against a wall: slowly regain stamina
 	if(mobility_flags & MOBILITY_STAND && wallpressed && !IsSleeping() && !buckled && !lying)
-		rogstam_add(9)
+		energy_add(5)

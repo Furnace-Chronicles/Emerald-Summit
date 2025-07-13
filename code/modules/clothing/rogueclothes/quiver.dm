@@ -11,6 +11,7 @@
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_BACK
 	resistance_flags = FIRE_PROOF
 	max_integrity = 0
+	sellprice = 2 // Shouldn't have added value lmao
 	equip_sound = 'sound/blank.ogg'
 	bloody_icon_state = "bodyblood"
 	alternate_worn_layer = UNDER_CLOAK_LAYER
@@ -102,50 +103,76 @@
 		icon_state = "quiver0"
 
 /obj/item/quiver/arrows/Initialize()
-	. = ..()
+	..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/ammo_casing/caseless/rogue/arrow/iron/A = new()
 		arrows += A
 	update_icon()
 
 /obj/item/quiver/bolts/Initialize()
-	. = ..()
+	..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/ammo_casing/caseless/rogue/bolt/A = new()
 		arrows += A
 	update_icon()
+
 /obj/item/quiver/Wbolts/Initialize()
-	. = ..()
+	..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/ammo_casing/caseless/rogue/bolt/water/A = new()
 		arrows += A
 	update_icon()
-/*
-/obj/item/quiver/Parrows/Initialize()
+
+/obj/item/quiver/pyrobolts/Initialize()
+	. = ..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/bolt/pyro/A = new()
+		arrows += A
+	update_icon()
+
+
+/obj/item/quiver/poisonarrows/Initialize()
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/ammo_casing/caseless/rogue/arrow/poison/A = new()
 		arrows += A
 	update_icon()
 
-/obj/item/quiver/Pbolts/Initialize()
+/obj/item/quiver/pyroarrows/Initialize()
 	. = ..()
 	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/bolt/poison/A = new()
+		var/obj/item/ammo_casing/caseless/rogue/arrow/pyro/A = new()
 		arrows += A
 	update_icon()
-*/
-/obj/item/quiver/Warrows/Initialize()
+
+/obj/item/quiver/Parrows/Initialize()
 	. = ..()
+
+/obj/item/quiver/bolts/paalloy/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/bolt/paalloy/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/Warrows/Initialize()
+	..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/ammo_casing/caseless/rogue/arrow/water/A = new()
 		arrows += A
 	update_icon()
 
 /obj/item/quiver/bodkin/Initialize()
-	. = ..()
+	..()
 	for(var/i in 1 to max_storage)
-		var/obj/projectile/bullet/reusable/arrow/steel/A = new()
+		var/obj/item/ammo_casing/caseless/rogue/arrow/steel/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/paalloy/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy/A = new()
 		arrows += A
 	update_icon()
 
@@ -155,6 +182,7 @@
 	icon_state = "javelinbag0"
 	item_state = "javelinbag"
 	max_storage = 4
+	sellprice = 10
 
 /obj/item/quiver/javelin/attack_turf(turf/T, mob/living/user)
 	if(arrows.len >= max_storage)
@@ -202,16 +230,23 @@
 		icon_state = "javelinbag0"
 
 /obj/item/quiver/javelin/iron/Initialize()
-	. = ..()
+	..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/ammo_casing/caseless/rogue/javelin/A = new()
 		arrows += A
 	update_icon()
 
 /obj/item/quiver/javelin/steel/Initialize()
-	. = ..()
+	..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/ammo_casing/caseless/rogue/javelin/steel/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/javelin/paalloy/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/javelin/steel/paalloy/A = new()
 		arrows += A
 	update_icon()
 
@@ -277,5 +312,12 @@
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/iron/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/sling/paalloy/Initialize()
+	. = ..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/paalloy/A = new()
 		arrows += A
 	update_icon()

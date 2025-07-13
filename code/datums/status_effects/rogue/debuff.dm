@@ -293,6 +293,7 @@
 /datum/status_effect/debuff/call_to_arms
 	id = "call_to_arms"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/call_to_arms
+	effectedstats = list("endurance" = -2, "constitution" = -2)
 	duration = 2.5 MINUTES
 
 /atom/movable/screen/alert/status_effect/debuff/call_to_arms
@@ -371,10 +372,19 @@
 	duration = 15 SECONDS
 	status_type = STATUS_EFFECT_REFRESH
 
+/datum/status_effect/debuff/dazed/shield
+	effectedstats = list("perception" = -3, "fortune" = -1)
+	duration = 8 SECONDS
+
 /atom/movable/screen/alert/status_effect/debuff/dazed
 	name = "Dazed"
 	desc = "You've been smacked on the head very hard. Which way is left, again?"
 	icon_state = "dazed"
+
+/*/atom/movable/screen/alert/status_effect/debuff/dazed/shield
+	name = "Dazed by fencer's wrap"
+	desc = "That stupid piece of cloth is so distracting! It pisses me off!"
+	icon_state = "dazed" */
 
 /datum/status_effect/debuff/staggered
 	id = "staggered"

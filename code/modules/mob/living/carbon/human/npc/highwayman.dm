@@ -2,12 +2,12 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 
 /mob/living/carbon/human/species/human/northern/highwayman
 	aggressive=1
-	mode = AI_IDLE
+	rude = TRUE
+	mode = NPC_AI_IDLE
 	faction = list("viking", "station")
 	ambushable = FALSE
 	dodgetime = 30
 	flee_in_pain = TRUE
-	stand_attempts = 6
 	possible_rmb_intents = list()
 	var/is_silent = FALSE /// Determines whether or not we will scream our funny lines at people.
 
@@ -44,7 +44,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	job = "Highwayman"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_NOROGSTAM, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_INFINITE_ENERGY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/highwayman)
 	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
@@ -72,7 +72,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 		face_atom(get_step(src,pick(GLOB.cardinals)))
 
 /mob/living/carbon/human/species/human/northern/highwayman/handle_combat()
-	if(mode == AI_HUNT)
+	if(mode == NPC_AI_HUNT)
 		if(prob(2)) // do not make this big or else they NEVER SHUT UP
 			emote("laugh")
 	. = ..()
@@ -118,7 +118,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	if(prob(25))	
 		l_hand = /obj/item/rogueweapon/shield/wood
 	if(prob(10))
-		l_hand = /obj/item/rogueweapon/shield/buckler
+		l_hand = /obj/item/rogueweapon/shield/buckler/palloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	if(prob(30))
 		neck = /obj/item/clothing/neck/roguetown/leather
@@ -130,3 +130,12 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	else
 		H.hairstyle = "Messy"
 		H.facial_hairstyle = "Beard (Manly)"
+	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE) // Trash mobs, untrained.
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)

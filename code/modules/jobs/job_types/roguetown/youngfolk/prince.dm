@@ -45,10 +45,10 @@
 
 /datum/outfit/job/roguetown/heir/daring/pre_equip(mob/living/carbon/human/H)
 	..()
-	
+
 	// Equipment choice - only affects clothing/gear, not skills
 	var/equipment_choice = input(H, "Choose your equipment style", "Equipment Choice") as anything in list("Wartime Outfit", "Traditional Dress")
-	
+
 	if(equipment_choice == "Wartime Outfit")
 		// Original daring twit equipment
 		head = /obj/item/clothing/head/roguetown/circlet
@@ -78,29 +78,29 @@
 		shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 		mask = /obj/item/clothing/mask/rogue/spectacles
 		neck = /obj/item/storage/belt/rogue/pouch/coins/rich
-	
+
 	if(H.mind)
 		// Give 2 in every weapon skill regardless of equipment choice
-		H.mind.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/whipsflails, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/crossbows, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/slings, 2, TRUE)
-		
+		H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/whipsflails, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/crossbows, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/slings, 2, TRUE)
+
 		// Keep original non-weapon skills
-		H.mind.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/athletics, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/riding, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
-		
+		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/athletics, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/riding, 3, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
+
 		H.change_stat("strength", 1)
 		H.change_stat("perception", 1)
 		H.change_stat("constitution", 1)
@@ -135,14 +135,14 @@
 	mask = /obj/item/clothing/mask/rogue/spectacles
 	neck = /obj/item/storage/belt/rogue/pouch/coins/rich
 
+	H.adjust_skillrank(/datum/skill/misc/reading, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
+	H?.mind.adjust_spellpoints(9)
+	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
 	if(H.mind)
-		H.mind.adjust_skillrank(/datum/skill/misc/reading, 5, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
-		H.mind.adjust_spellpoints(9)
-		ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 	H.change_stat("strength", -1)
 	H.change_stat("intelligence", 2)
@@ -178,24 +178,23 @@
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess
 		shoes = /obj/item/clothing/shoes/roguetown/shortboots
 		pants = /obj/item/clothing/under/roguetown/tights/stockings/silk/random
-	if(H.mind)
-		H.mind.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/crossbows, pick(0,1), TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/athletics, pick(0,1), TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/sewing, 3, TRUE)
-		H.change_stat("perception", 2)
-		H.change_stat("strength", -1)
-		H.change_stat("intelligence", 2)
-		H.change_stat("fortune", 1)
-		H.change_stat("speed", 1)
+	H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/crossbows, pick(0,1), TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, pick(0,1), TRUE)
+	H.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/sewing, 3, TRUE)
+	H.change_stat("perception", 2)
+	H.change_stat("strength", -1)
+	H.change_stat("intelligence", 2)
+	H.change_stat("fortune", 1)
+	H.change_stat("speed", 1)
 
 /datum/advclass/heir/inbred
 	name = "Inbred wastrel"
@@ -224,22 +223,21 @@
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess
 		shoes = /obj/item/clothing/shoes/roguetown/shortboots
 		pants = /obj/item/clothing/under/roguetown/tights/stockings/silk/random
-	if(H.mind)
-		H.mind.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/crossbows, pick(0,1), TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/climbing, pick(0,0,1), TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/athletics, pick(0,1), TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE)
-		H.change_stat("strength", -2)
-		H.change_stat("perception", -2)
-		H.change_stat("intelligence", -2)
-		H.change_stat("constitution", -2)
-		H.change_stat("endurance", -2)
-		H.change_stat("fortune", -2) //They already can't run, no need to do speed and torture their move speed.
+	H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/crossbows, pick(0,1), TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, pick(0,0,1), TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, pick(0,1), TRUE)
+	H.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE)
+	H.change_stat("strength", -2)
+	H.change_stat("perception", -2)
+	H.change_stat("intelligence", -2)
+	H.change_stat("constitution", -2)
+	H.change_stat("endurance", -2)
+	H.change_stat("fortune", -2) //They already can't run, no need to do speed and torture their move speed.

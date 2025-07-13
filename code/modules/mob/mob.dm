@@ -339,7 +339,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  * Initial is used to indicate whether or not this is the initial equipment (job datums etc) or just a player doing it
  */
 /mob/proc/equip_to_slot_if_possible(obj/item/W, slot, qdel_on_fail = FALSE, disable_warning = FALSE, redraw_mob = TRUE, bypass_equip_delay_self = FALSE, initial)
-	if(!istype(W))
+	if(!istype(W) || QDELETED(W)) //This qdeleted is to prevent stupid behavior with things that qdel during init, like say stacks
 		return FALSE
 	if(!W.mob_can_equip(src, null, slot, disable_warning, bypass_equip_delay_self))
 		if(qdel_on_fail)
@@ -804,13 +804,31 @@ GLOBAL_VAR_INIT(mobids, 1)
 			if(check_rights(R_ADMIN,0))
 				stat(null, SSmigrants.get_status_line())
 
+	var/days = "TWILIGHT"
+	switch(GLOB.dayspassed)
+		if(1)
+			days = "MOON'S DAE"
+		if(2)
+			days = "TIW'S DAE"
+		if(3)
+			days = "WEDDING'S DAE"
+		if(4)
+			days = "THULE'S DAE"
+		if(5)
+			days = "FREYJA'S DAE"
+		if(6)
+			days = "SATURN'S DAE"
+		if(7)
+			days = "SUN'S DAE"
+
 	if(client)
 		if(statpanel("RoundInfo"))
-			stat("Round ID: [GLOB.rogue_round_id]")
-			stat("Round Time: [time2text(STATION_TIME_PASSED(), "hh:mm:ss", 0)] [world.time - SSticker.round_start_time]")
+			stat("ROUND ID: [GLOB.rogue_round_id]")
+			stat("ROUND TIME: [time2text(STATION_TIME_PASSED(), "hh:mm:ss", 0)] [world.time - SSticker.round_start_time]")
 			if(SSgamemode.roundvoteend)
-				stat("Round End: [DisplayTimeText(time_left)]")
-			stat("TimeOfDay: [GLOB.tod]")
+				stat("ROUND END: [DisplayTimeText(time_left)]")
+			stat("[days] ᛉ [uppertext(GLOB.tod)]")
+
 
 	if(client && client.holder && check_rights(R_DEBUG,0))
 		if(statpanel("MC"))
@@ -991,23 +1009,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 	setDir(SOUTH)
 	client.last_turn = world.time + MOB_FACE_DIRECTION_DELAY
 	return TRUE
-
-///Hidden Pixel Shift Verbs, now handled through modularized pixel_shift 
-/mob/verb/eastshift()
-	set hidden = TRUE
-	pixel_shift(EAST)
-
-/mob/verb/westshift()
-	set hidden = TRUE
-	pixel_shift(WEST)
-
-/mob/verb/northshift()
-	set hidden = TRUE
-	pixel_shift(NORTH)
-
-/mob/verb/southshift()
-	set hidden = TRUE
-	pixel_shift(SOUTH)
 
 ///This might need a rename but it should replace the can this mob use things check
 /mob/proc/IsAdvancedToolUser()
@@ -1408,3 +1409,8 @@ GLOBAL_VAR_INIT(mobids, 1)
 	if(customsayverb)
 		input = capitalize(copytext(input, customsayverb+1))
 	return "[message_spans_start(spans)][input]</span>"
+
+/mob/living/proc/can_smell()
+	if(HAS_TRAIT(src, TRAIT_MISSING_NOSE))
+		return FALSE
+	return TRUE

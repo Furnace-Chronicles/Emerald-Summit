@@ -53,7 +53,7 @@
 
 	HU.visible_message(span_danger("[HU] baits an attack from [HT]!"))
 	HU.apply_status_effect(/datum/status_effect/debuff/baitcd)
-	HU.rogfat_add(HU.maxrogfat * 0.2)
+	HU.stamina_add(HU.max_stamina * 0.2)
 
 	if((target_zone != user_zone) || ((target_zone == BODY_ZONE_CHEST) || (user_zone == BODY_ZONE_CHEST))) //Our zones match and it's not the chest//Our zones do not match, or we were targeting chest
 		to_chat(HU, span_danger("It didn't work! Their footing returned!"))
@@ -79,7 +79,7 @@
 	HT.bait_stacks++
 	if(HT.bait_stacks <= 1)
 		HT.Immobilize(0.5 SECONDS)
-		HT.rogfat_add(HT.maxrogfat / fatiguemod)
+		HT.stamina_add(HT.max_stamina / fatiguemod)
 		HT.Slowdown(3)
 		HT.emote("huh")
 		HU.purge_peel(BAIT_PEEL_REDUCTION)
@@ -148,20 +148,17 @@
 	var/skill_factor = 0
 	if(I)
 		if(I.associated_skill)
-			ourskill = user.mind.get_skill_level(I.associated_skill)
+			ourskill = user.get_skill_level(I.associated_skill)
 		if(L.mind)
 			I = L.get_active_held_item()
 			if(I?.associated_skill)
-				theirskill = L.mind.get_skill_level(I.associated_skill)
+				theirskill = L.get_skill_level(I.associated_skill)
 	perc += (ourskill - theirskill)*15 	//skill is of the essence
 	perc += (user.STAINT - L.STAINT)*10	//but it's also mostly a mindgame
 	skill_factor = (ourskill - theirskill)/2
 
 	if(L.has_status_effect(/datum/status_effect/debuff/exposed))
 		perc = 0
-
-	if(HAS_TRAIT(L,TRAIT_DECEIVING_MEEKNESS))
-		perc -= 30
 
 	user.apply_status_effect(/datum/status_effect/debuff/feintcd)
 	perc = CLAMP(perc, 0, 90)
@@ -178,7 +175,7 @@
 	L.apply_status_effect(/datum/status_effect/debuff/exposed, 7.5 SECONDS)
 	L.apply_status_effect(/datum/status_effect/debuff/clickcd, max(1.5 SECONDS + skill_factor, 2.5 SECONDS))
 	L.Immobilize(0.5 SECONDS)
-	L.rogfat_add(L.rogfat * 0.1)
+	L.stamina_add(L.stamina * 0.1)
 	L.Slowdown(2)
 	to_chat(user, span_notice("[L] fell for my feint attack!"))
 	to_chat(L, span_danger("I fall for [user]'s feint attack!"))

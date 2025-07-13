@@ -116,7 +116,7 @@
 			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
 			to_chat(user, "Preparing a serving of steak and carrots...")
 			if(do_after(user,short_cooktime, target = src))
-				user.mind.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
+				user.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
 				new /obj/item/reagent_containers/food/snacks/rogue/carrotsteak(loc)
 				qdel(I)
 				qdel(src)
@@ -125,7 +125,7 @@
 			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
 			to_chat(user, "Laying down carrots alongside the rice...")
 			if(do_after(user,short_cooktime, target = src))
-				user.mind.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
+				user.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
 				new /obj/item/reagent_containers/food/snacks/rogue/ricebeefcar(loc)
 				qdel(I)
 				qdel(src)
@@ -176,7 +176,7 @@
 			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
 			to_chat(user, "Filling meat into the aubergine...")
 			if(do_after(user,short_cooktime, target = src))
-				user.mind.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
+				user.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
 				new /obj/item/reagent_containers/food/snacks/rogue/eggplantmeat(loc)
 				qdel(I)
 				qdel(src)
@@ -198,7 +198,7 @@
 			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
 			to_chat(user, "Topping tomatos onto the aubergine...")
 			if(do_after(user,short_cooktime, target = src))
-				user.mind.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
+				user.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
 				new /obj/item/reagent_containers/food/snacks/rogue/eggplantstuffedraw(loc)
 				qdel(I)
 				qdel(src)
@@ -232,7 +232,7 @@
 			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
 			to_chat(user, "Laying down a blanket of cheese...")
 			if(do_after(user,short_cooktime, target = src))
-				user.mind.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
+				user.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
 				new /obj/item/reagent_containers/food/snacks/rogue/preserved/eggplantstuffedcheese(loc)
 				qdel(I)
 				qdel(src)
@@ -249,3 +249,15 @@
 	faretype = FARE_LAVISH
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/foodbuff
+
+/obj/item/reagent_containers/food/snacks/roastseeds
+	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
+	tastes = list("toasted sunflower seeds" = 1)
+	name = "roasted seeds"
+	desc = "Food for birds, treats for humens."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'
+	icon_state = "roastseeds"
+	dropshrink = 0.8
+	color = "#e5b175"
+	foodtype = VEGETABLES
+	rotprocess = null

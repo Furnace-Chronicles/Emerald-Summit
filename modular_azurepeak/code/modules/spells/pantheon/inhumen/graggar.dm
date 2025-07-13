@@ -24,7 +24,7 @@
 		if(target.mob_biotypes & MOB_UNDEAD)
 			continue
 		target.apply_status_effect(/datum/status_effect/debuff/call_to_slaughter)	//Debuffs non-inhumens/psydonians
-	return ..()
+	return TRUE
 
 //Unholy Grasp - Throws disappearing net made of viscera at enemy. Creates blood on impact.
 /obj/effect/proc_holder/spell/invoked/projectile/blood_net
@@ -78,7 +78,6 @@
 	devotion_cost = 70
 
 /obj/effect/proc_holder/spell/invoked/revel_in_slaughter/cast(atom/A, list/targets, mob/living/user = usr)
-	. = ..()
 	var/success = 0
 	for(var/obj/effect/decal/cleanable/blood/B in view(3, user))
 		success++
@@ -97,4 +96,39 @@
 			addtimer(VARSET_CALLBACK(phy, pain_mod, phy.pain_mod /= 1.5), 15 SECONDS)
 			human_target.visible_message(span_danger("[target]'s wounds become inflammed as their vitality is sapped away!"))
 			to_chat(target, span_warning("My skins feels like pins and needles, as if something were ripping and tearing at me!"))
-			return ..()
+			return TRUE
+	return FALSE
+
+//Bloodrage T0 -- Uncapped STR buff.
+/obj/effect/proc_holder/spell/self/graggar_bloodrage
+	name = "Bloodrage"
+	desc = "Grants you unbound strength for a short while."
+	overlay_state = "bloodrage"
+	recharge_time = 5 MINUTES
+	invocation = "GRAGGAR!! GRAGGAR!! GRAGGAR!!"
+	invocation_type = "shout"
+	sound = 'sound/magic/bloodrage.ogg'
+	releasedrain = 30
+	miracle = TRUE
+	devotion_cost = 80
+	antimagic_allowed = FALSE
+	var/static/list/purged_effects = list(
+	/datum/status_effect/incapacitating/immobilized,
+	/datum/status_effect/incapacitating/paralyzed,
+	/datum/status_effect/incapacitating/stun,
+	/datum/status_effect/incapacitating/knockdown,)
+
+/obj/effect/proc_holder/spell/self/graggar_bloodrage/cast(list/targets, mob/user)
+	. = ..()
+	if(!ishuman(user))
+		revert_cast()
+		return FALSE
+	var/mob/living/carbon/human/H = user
+	if(H.resting)
+		H.set_resting(FALSE, FALSE)
+	H.emote("warcry")
+	for(var/effect in purged_effects)
+		H.remove_status_effect(effect)
+	H.apply_status_effect(/datum/status_effect/buff/bloodrage)
+	H.visible_message(span_danger("[H] rises upward, boiling with immense rage!"))
+	return TRUE

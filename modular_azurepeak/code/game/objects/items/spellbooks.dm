@@ -85,7 +85,7 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 	if(born_of_rock)
 		. += span_notice("This tome was made from a magical stone instead of a proper gem. Holding it in your hand with it open reduces spell charge time by [ROCK_CHARGE_REDUCTION * 100]%")
 	else
-		. += span_notice("This tome was made from a gem. Holding it in your hand with it open reduces spell charge time by [GEM_CHARGE_REDUCTION * 100]%") 
+		. += span_notice("This tome was made from a gem. Holding it in your hand with it open reduces spell charge time by [GEM_CHARGE_REDUCTION * 100]%")
 
 /obj/item/book/spellbook/attack_self(mob/user)
 	if(!open)
@@ -119,18 +119,22 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 	if(!resettable_spells.len)
 		to_chat(user, span_warning("I have no spells to unbind!"))
 		return
+	user_mind.has_changed_spell = TRUE //To pre-empt a halting duplication in the for loop here
+	var/unlearn_success = FALSE
 	for(var/i = 1, i <= 2, i++)
 		var/choice = input(user, "Choose up to two spells to unbind. Cancel both to not use up your daily unbinding.") as null|anything in resettable_spells
 		var/obj/effect/proc_holder/spell/item = resettable_spells[choice]
 		if(!item)
-			continue
+			break
 		if(!resettable_spells.len)
 			return
+		if(user_mind.RemoveSpell(item))
+			user_mind.used_spell_points -= item.cost
+			unlearn_success = TRUE
 		resettable_spells.Remove(choice)
-		user_mind.used_spell_points -= item.cost
-		user_mind.RemoveSpell(item)
 		user_mind.check_learnspell()
-		user_mind.has_changed_spell = TRUE
+	if(!unlearn_success)
+		user_mind.has_changed_spell = FALSE //If we didn't unlearn anything, reset
 
 /obj/item/book/spellbook/proc/get_cdr()
 	if(born_of_rock)
@@ -197,7 +201,7 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 	var/found_table = locate(/obj/structure/table) in (loc)
 	if(istype(P, /obj/item/paper/scroll))
 		if(isturf(loc)&& (found_table))
-			var/crafttime = (100 - ((user.mind?.get_skill_level(/datum/skill/magic/arcane))*5))
+			var/crafttime = (100 - ((user.get_skill_level(/datum/skill/magic/arcane))*5))
 			if(do_after(user, crafttime, target = src))
 				playsound(loc, 'sound/items/book_close.ogg', 100, TRUE)
 				to_chat(user, span_notice("I add the first few pages to the leather cover..."))
@@ -213,7 +217,7 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 	var/found_table = locate(/obj/structure/table) in (loc)
 	if(istype(P, /obj/item/paper/scroll))
 		if(isturf(loc)&& (found_table))
-			var/crafttime = (60 - ((user.mind?.get_skill_level(/datum/skill/magic/arcane))*5))
+			var/crafttime = (60 - ((user.get_skill_level(/datum/skill/magic/arcane))*5))
 			if(do_after(user, crafttime, target = src))
 				if(pages_left > 0)
 					playsound(loc, 'sound/items/book_page.ogg', 100, TRUE)
@@ -238,7 +242,7 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 	var/found_table = locate(/obj/structure/table) in (loc)
 	if(istype(P, /obj/item/roguegem))
 		if(isturf(loc)&& (found_table))
-			var/crafttime = (100 - ((user.mind?.get_skill_level(/datum/skill/magic/arcane))*5))
+			var/crafttime = (100 - ((user.get_skill_level(/datum/skill/magic/arcane))*5))
 			if(do_after(user, crafttime, target = src))
 				if(isarcyne(user))
 					playsound(loc, 'modular_azurepeak/sound/spellbooks/crystal.ogg', 100, TRUE)
@@ -269,7 +273,7 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 		var/obj/item/natural/stone/the_rock = P
 		if (the_rock.magic_power)
 			if(isturf(loc) && (found_table))
-				var/crafttime = ((130 - the_rock.magic_power) - ((user.mind?.get_skill_level(/datum/skill/magic/arcane))*5))
+				var/crafttime = ((130 - the_rock.magic_power) - ((user.get_skill_level(/datum/skill/magic/arcane))*5))
 				if(do_after(user, crafttime, target = src))
 					if (isarcyne(user))
 						playsound(loc, 'modular_azurepeak/sound/spellbooks/crystal.ogg', 100, TRUE)
@@ -323,6 +327,15 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 	resistance_flags = FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	layer = SIGIL_LAYER
 
+/obj/effect/roguerunelargeWall/
+	name = "The seal of Graggar"
+	desc = "Despite all their attempts, the orcs never understood how to open the gate..."
+	anchored = TRUE
+	icon = 'icons/effects/160x160.dmi'
+	icon_state = "walltest"
+	resistance_flags = FIRE_PROOF | UNACIDABLE | ACID_PROOF
+	layer = SIGIL_LAYER
+
 // helper proc
 /proc/isarcyne(mob/living/carbon/human/A)
-	return istype(A) && A.mind && (A.mind?.get_skill_level(/datum/skill/magic/arcane) > SKILL_LEVEL_NONE)
+	return istype(A) && A.mind && (A.get_skill_level(/datum/skill/magic/arcane) > SKILL_LEVEL_NONE)

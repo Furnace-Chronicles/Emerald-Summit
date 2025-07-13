@@ -28,7 +28,7 @@
 	if(W==/datum/weather/rain)
 		START_PROCESSING(SSweather,src)
 
-/obj/machinery/light/rogue/OnCrafted(dirin)
+/obj/machinery/light/rogue/OnCrafted(dirin, user)
 	. = ..()
 	can_damage = TRUE
 	burn_out()
@@ -108,7 +108,7 @@
 	fire_act()
 
 /obj/machinery/light/rogue/attackby(obj/item/W, mob/living/user, params)
-	var/datum/skill/craft/cooking/cs = user?.mind?.get_skill_level(/datum/skill/craft/cooking)
+	var/datum/skill/craft/cooking/cs = user?.get_skill_level(/datum/skill/craft/cooking)
 	var/cooktime_divisor = get_cooktime_divisor(cs)
 	if(cookonme)
 		if(istype(W, /obj/item/reagent_containers/food/snacks))
@@ -125,7 +125,7 @@
 						break
 				if(foundstab)
 					var/prob2spoil = 33
-					if(user.mind.get_skill_level(/datum/skill/craft/cooking))
+					if(user.get_skill_level(/datum/skill/craft/cooking))
 						prob2spoil = 1
 					user.visible_message("<span class='notice'>[user] starts to cook [W] over [src].</span>")
 					for(var/i in 1 to 6)

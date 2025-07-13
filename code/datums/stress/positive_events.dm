@@ -38,6 +38,11 @@
 	stressadd = -2
 	desc = list(span_green("A relaxing smoke."),span_green("A flavorful smoke."))
 
+/datum/stressevent/menthasmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A cooling feeling in my throat."))
+
 /datum/stressevent/weed
 	timer = 5 MINUTES
 	stressadd = -4
@@ -221,3 +226,13 @@
 	stressadd = -1
 	desc = span_green("I have prevailed over my rival! Graggar favours me now!")
 	timer = INFINITY
+
+/datum/stressevent/eoran_blessing
+	stressadd = -1
+	desc = span_info("An Eoran shone their brightness upon me.")
+	timer = 5 MINUTES
+
+/datum/stressevent/eoran_blessing_greater
+	stressadd = -2
+	desc = span_info("A Devout Eoran shone their brightness upon me.")
+	timer = 10 MINUTES

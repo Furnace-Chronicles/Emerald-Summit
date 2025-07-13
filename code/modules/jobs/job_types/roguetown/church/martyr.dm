@@ -10,7 +10,7 @@
 	var/next_activation = 0
 	var/end_activation = 0
 	var/ignite_chance = 2
-	var/traits_applied = list(TRAIT_NOPAIN, TRAIT_NOPAINSTUN, TRAIT_NOMOOD, TRAIT_NOHUNGER, TRAIT_STRONGBITE)
+	var/traits_applied = list(TRAIT_NOPAIN, TRAIT_NOPAINSTUN, TRAIT_NOMOOD, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_BLOODLOSS_IMMUNE, TRAIT_LONGSTRIDER, TRAIT_STRONGBITE, TRAIT_STRENGTH_UNCAPPED)
 	var/stat_bonus_martyr = 3
 	var/mob/living/current_holder
 	var/is_active = FALSE
@@ -272,7 +272,7 @@
 				current_holder.STAINT += stat_bonus_martyr
 				current_holder.STAPER += stat_bonus_martyr
 				current_holder.STALUC += stat_bonus_martyr
-				H.rogstam_add(9999)
+				H.energy_add(9999)
 			if(STATE_MARTYRULT)	//This is ONLY accessed during the last 30 seconds of the shorter variant.
 				current_holder.STASTR = 20
 				current_holder.STASPD = 20
@@ -281,13 +281,12 @@
 				current_holder.STAINT = 20
 				current_holder.STAPER = 20
 				current_holder.STALUC = 20
-				H.rogstam_add(9999)//Go get 'em, Martyrissimo, it's your last 30 seconds, it's a frag or be fragged world
-				if(H.mind)
-					H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 6, FALSE)
-					H.mind.adjust_skillrank(/datum/skill/combat/swords, 6, FALSE)
-					H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 6, FALSE)
-					H.mind.adjust_skillrank(/datum/skill/misc/athletics, 6, FALSE)
-				ADD_TRAIT(current_holder, TRAIT_NOROGSTAM, TRAIT_GENERIC)
+				H.energy_add(9999)//Go get 'em, Martyrissimo, it's your last 30 seconds, it's a frag or be fragged world
+				H.adjust_skillrank(/datum/skill/combat/wrestling, 6, FALSE)
+				H.adjust_skillrank(/datum/skill/combat/swords, 6, FALSE)
+				H.adjust_skillrank(/datum/skill/combat/unarmed, 6, FALSE)
+				H.adjust_skillrank(/datum/skill/misc/athletics, 6, FALSE)
+				ADD_TRAIT(current_holder, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC)
 				current_holder.visible_message(span_warning("[current_holder] rises up, empowered once more!"), span_warningbig("I rise again! I can feel my god flow through me!"))
 				flash_lightning(current_holder)
 				current_holder.revive(full_heal = TRUE, admin_revive = TRUE)
@@ -442,7 +441,7 @@
 	//No undeath-adjacent virtues for a role that can sacrifice itself. The Ten like their sacrifices 'pure'. (I actually didn't want to code returning those virtue traits post-sword use)
 	//They get those traits during sword activation, anyway. 
 	//Dual wielder is there to stand-in for ambidextrous in case they activate their sword in their off-hand.
-	virtue_restrictions = list(/datum/virtue/utility/noble, /datum/virtue/combat/rotcured, /datum/virtue/utility/deadened, /datum/virtue/utility/deathless, /datum/virtue/heretic/seer, /datum/virtue/combat/dualwielder)
+	virtue_restrictions = list(/datum/virtue/utility/noble, /datum/virtue/combat/rotcured, /datum/virtue/utility/deadened, /datum/virtue/utility/deathless, /datum/virtue/combat/dualwielder, /datum/virtue/heretic/zchurch_keyholder)
 
 /datum/outfit/job/roguetown/martyr
 	job_bitflag = BITFLAG_CHURCH
@@ -465,31 +464,30 @@
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/silver = 1)
 
 	//No, they don't get any miracles. Their miracle is being able to use their weapon at all.
-	if(H.mind)
-		H.mind.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/medicine, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/craft/cooking, 3, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/sneaking, 1, TRUE)
-		ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-		ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
-		ADD_TRAIT(H, TRAIT_SILVER_BLESSED, TRAIT_GENERIC)
-		ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)	//You can't dual wield the unique weapon, this is more to cover for the NODROP weapon that might end up in an off-hand.
-		H.change_stat("strength", 2)
-		H.change_stat("constitution", 3)
-		H.change_stat("endurance", 3)
-		H.change_stat("intelligence", 1)
-		H.change_stat("perception", 1)
-		H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/medicine, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/cooking, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/sneaking, 1, TRUE)
+	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_SILVER_BLESSED, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)	//You can't dual wield the unique weapon, this is more to cover for the NODROP weapon that might end up in an off-hand.
+	H.change_stat("strength", 2)
+	H.change_stat("constitution", 3)
+	H.change_stat("endurance", 3)
+	H.change_stat("intelligence", 1)
+	H.change_stat("perception", 1)
+	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 
 
 /obj/item/rogueweapon/sword/long/martyr

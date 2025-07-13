@@ -65,6 +65,7 @@
 	var/datum/component/rot/rot = target.GetComponent(/datum/component/rot)
 	if (rot)
 		rot.amount = 0
+		rot.soundloop.stop()
 
 ///Cure bodyparts
 /proc/clean_body_parts(mob/living/carbon/target)

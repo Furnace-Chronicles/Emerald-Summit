@@ -23,7 +23,7 @@
 	var/inquisitor = FALSE
 	if(!user.mind)
 		return
-	if(user.mind.assigned_role == "Inquisitor")
+	if(HAS_TRAIT(user, TRAIT_PURITAN))
 		inquisitor = TRUE
 
 	if(!M.mind) //Stopping null lookup runtimes
@@ -34,7 +34,7 @@
 		to_chat(user, span_warning("Upon closer inspection, [M] is already anointed with quicksilver."))
 		return
 
-	if(!inquisitor && !user.mind.get_skill_level(/datum/skill/magic/holy) >= SKILL_EXP_EXPERT)
+	if(!inquisitor && !user.get_skill_level(/datum/skill/magic/holy) >= SKILL_EXP_EXPERT)
 		to_chat(user, span_warning("I do not have the divine knowledge to properly apply [src]."))
 		return
 
@@ -87,7 +87,9 @@
 		new /obj/item/natural/cloth(user.loc)
 		qdel(src)
 	else
-		to_chat(user, span_notice("My inquisitorial training allows just enough of the poultice left for one more anointment."))
+		icon_state = "[initial(icon_state)]_half"
+		to_chat(user, span_notice("My inquisitorial training leaves just enough of the poultice left for one more anointment."))
+		
 
 	//Werewolf deconversion
 	if(Were && !Wereless) //The roundstart elder/alpha werewolf, it cannot be saved
@@ -146,7 +148,7 @@
 		M.mind.special_role = null
 		M.emote("agony", forced = TRUE)
 		to_chat(M, span_userdanger("THE FOUL SILVER! IT QUICKENS MY HEART!"))
-		REMOVE_TRAIT(M, TRAIT_NOROGSTAM, "/datum/antagonist/vampirelord/lesser")
+		REMOVE_TRAIT(M, TRAIT_INFINITE_STAMINA, "/datum/antagonist/vampirelord/lesser")
 		REMOVE_TRAIT(M, TRAIT_NOSLEEP, "/datum/antagonist/vampirelord/lesser")
 		REMOVE_TRAIT(M, TRAIT_NOBREATH, "/datum/antagonist/vampirelord/lesser")
 		REMOVE_TRAIT(M, TRAIT_NOPAIN, "/datum/antagonist/vampirelord/lesser")

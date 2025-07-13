@@ -108,6 +108,8 @@
 	name = "solar vestments"
 	desc = "Holy vestments sanctified by divine hands. Caution is advised if not a faithful."
 	icon_state = "priestrobe"
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	armor = ARMOR_PADDED	//Equal to gamby
 	color = null
 
 /obj/item/clothing/suit/roguetown/shirt/robe/priest/pickup(mob/living/user)
@@ -118,6 +120,40 @@
 				user.adjust_fire_stacks(5)
 				user.IgniteMob()
 	..()
+
+/obj/item/clothing/suit/roguetown/shirt/robe/priest/equipped(mob/living/user, slot)
+	..()
+	if(slot != SLOT_ARMOR|SLOT_SHIRT)
+		return
+	if(!HAS_TRAIT(user, TRAIT_CHOSEN))	//Requires this cus it's a priest-only thing.
+		return
+	ADD_TRAIT(user, TRAIT_MONK_ROBE, TRAIT_GENERIC)
+	to_chat(user, span_notice("With my vows to poverty and my vestments, I feel vigerous - empowered by the gods!"))
+
+/obj/item/clothing/suit/roguetown/shirt/robe/priest/dropped(mob/living/user)
+	..()
+	REMOVE_TRAIT(user, TRAIT_MONK_ROBE, TRAIT_GENERIC)
+	to_chat(user, span_notice("I must lay down my robes and rest; even god's chosen must rest.."))
+
+/obj/item/clothing/suit/roguetown/shirt/robe/monk
+	name = "monk vestments"
+	desc = "Holy vestments worn by the most faithful."
+	icon_state = "monkvestments"
+	item_state = "monkvestments"
+	armor = ARMOR_PADDED	//Equal to gamby
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+
+/obj/item/clothing/suit/roguetown/shirt/robe/monk/equipped(mob/living/user, slot)
+	..()
+	if(!HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN))	//Requires this cus it's a monk-only thing.
+		return
+	ADD_TRAIT(user, TRAIT_MONK_ROBE, TRAIT_GENERIC)
+	to_chat(user, span_notice("With my vows to poverty and my vestments, I feel vigerous - empowered by the gods!"))
+
+/obj/item/clothing/suit/roguetown/shirt/robe/monk/dropped(mob/living/user)
+	..()
+	REMOVE_TRAIT(user, TRAIT_MONK_ROBE, TRAIT_GENERIC)
+	to_chat(user, span_notice("I must lay down my robes and rest; even god's chosen must rest.."))
 
 /obj/item/clothing/suit/roguetown/shirt/robe/courtmage
 	color = "#6c6c6c"
@@ -264,12 +300,3 @@
 	desc = "Part robe, part butcher's apron."
 	icon_state = "surgrobe"
 	item_state = "surgrobe"
-
-/obj/item/clothing/suit/roguetown/shirt/robe/chokha
-	name = "layed steppes chokha"
-	desc = "A light yet warm woolen coat layered with silk robes underneath of it; able to withstand punishment while retaining its style."
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT	//No cloak slot.
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_CHOP)
-	armor = ARMOR_PADDED_GOOD
-	icon_state = "chokha"
-	item_state = "chokha"

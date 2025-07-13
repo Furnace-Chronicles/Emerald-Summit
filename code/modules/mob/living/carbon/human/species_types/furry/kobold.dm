@@ -87,6 +87,9 @@
 		/datum/body_marking/small/backspots,
 		/datum/body_marking/small/front,
 		/datum/body_marking/small/spotted,
+		/datum/body_marking/small/nose,
+		/datum/body_marking/small/bangs,
+		/datum/body_marking/small/bun,
 	)
 	languages = list(
 		/datum/language/common,

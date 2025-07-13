@@ -136,6 +136,10 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	icon = 'icons/roguetown/items/lighting.dmi'
 	heat = 1000
 	spitoutmouth = FALSE
+	light_outer_range = 1
+	light_system = MOVABLE_LIGHT
+	light_color = "#f5a885"
+	light_on = FALSE
 
 	grid_width = 32
 	grid_height = 32
@@ -178,20 +182,6 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	else
 		return ..()
 
-/obj/item/clothing/mask/cigarette/afterattack(obj/item/reagent_containers/glass/glass, mob/user, proximity)
-	. = ..()
-//	if(!proximity || lit) //can't dip if cigarette is lit (it will heat the reagents in the glass instead)
-//		return
-//	if(istype(glass))	//you can dip cigarettes into beakers
-//		if(glass.reagents.trans_to(src, chem_volume, transfered_by = user))	//if reagents were transfered, show the message
-//			to_chat(user, span_notice("I dip \the [src] into \the [glass]."))
-//		else			//if not, either the beaker was empty, or the cigarette was full
-//			if(!glass.reagents.total_volume)
-//				to_chat(user, span_warning("[glass] is empty!"))
-//			else
-//				to_chat(user, span_warning("[src] is full!"))
-
-
 /obj/item/clothing/mask/cigarette/proc/light(flavor_text = null)
 	if(lit)
 		return
@@ -203,7 +193,8 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		return
 
 	lit = TRUE
-//	name = "lit [name]"
+	set_light_on(TRUE)
+	name = "lit [name]"
 	attack_verb = list("burnt", "singed")
 	hitsound = list('sound/blank.ogg')
 	damtype = "fire"
@@ -240,13 +231,14 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/extinguish()
 	if(!lit)
 		return
-	name = copytext(name,5,length(name)+1)
+	name = "[initial(name)]"
 	attack_verb = null
 	hitsound = null
 	damtype = BRUTE
 	force = 0
 	icon_state = icon_off
 	item_state = icon_off
+	set_light_on(FALSE)
 	STOP_PROCESSING(SSobj, src)
 	ENABLE_BITFIELD(reagents.flags, NO_REACT)
 	lit = FALSE
@@ -355,6 +347,15 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 
 /obj/item/clothing/mask/cigarette/rollie/nicotine
 	list_reagents = list(/datum/reagent/drug/nicotine = 30)
+
+/obj/item/clothing/mask/cigarette/rollie/mentha // not a subtype of nicotine for crafting reasons
+	name = "mentha zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a cooling effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/mentha = 15)
+
+/obj/item/clothing/mask/cigarette/rollie/mentha/crafted
+	name = "handmade mentha zig"
+	desc = "A rewrapped westleach zig with some alchemically extracted mentha essence."
 
 /obj/item/clothing/mask/cigarette/rollie/nicotine/cheroot
 	name = "cheroot"
@@ -506,7 +507,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			item_state = icon_off
 			M.update_inv_mouth()
 			packeditem = 0
-//			name = "empty [initial(name)]"
+			name = "empty [initial(name)]"
 		STOP_PROCESSING(SSobj, src)
 		return
 	open_flame()
@@ -555,8 +556,10 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/pipe/attack_self(mob/user)
 	var/turf/location = get_turf(user)
 	if(lit)
+		name = copytext(name,5,length(name)+1)
 		user.visible_message(span_notice("[user] puts out [src]."), span_notice("I put out [src]."))
 		lit = 0
+		set_light_on(FALSE)
 		icon_state = icon_off
 		item_state = icon_off
 		STOP_PROCESSING(SSobj, src)
@@ -758,31 +761,3 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/lighter/greyscale/ignition_effect(atom/A, mob/user)
 	if(get_temperature())
 		. = span_notice("After some fiddling, [user] manages to light [A] with [src].")
-
-///////////
-//ROLLING//
-///////////
-/obj/item/rollingpaper
-	name = "rolling paper"
-	desc = ""
-	icon = 'icons/obj/cigarettes.dmi'
-	icon_state = "cig_paper"
-	w_class = WEIGHT_CLASS_TINY
-
-/obj/item/rollingpaper/afterattack(atom/target, mob/user, proximity)
-	. = ..()
-	if(!proximity)
-		return
-	if(istype(target, /obj/item/reagent_containers/food/snacks/grown))
-		var/obj/item/reagent_containers/food/snacks/grown/O = target
-		if(O.dry)
-			var/obj/item/clothing/mask/cigarette/rollie/R = new /obj/item/clothing/mask/cigarette/rollie(user.loc)
-			R.chem_volume = target.reagents.total_volume
-			target.reagents.trans_to(R, R.chem_volume, transfered_by = user)
-			qdel(target)
-			qdel(src)
-			user.put_in_active_hand(R)
-			to_chat(user, span_notice("I roll the [target.name] into a rolling paper."))
-			R.desc = ""
-		else
-			to_chat(user, span_warning("I need to dry this first!"))

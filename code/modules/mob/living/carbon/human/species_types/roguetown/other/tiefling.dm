@@ -88,6 +88,8 @@
 		/datum/body_marking/flushed_cheeks,
 		/datum/body_marking/eyeliner,
 		/datum/body_marking/tonage,
+		/datum/body_marking/bangs,
+		/datum/body_marking/bun,
 	)
 	languages = list(
 		/datum/language/common,

@@ -179,13 +179,27 @@
 		if(0)
 			adjective = "a flat"
 		if(1)
-			adjective = "a very small"
+			adjective = "a slight"
 		if(2)
 			adjective = "a small"
 		if(3)
-			adjective = "an average"
+			adjective = "a moderate"
 		if(4)
 			adjective = "a large"
 		if(5)
-			adjective = "an enormous"
+			adjective = "a generous"
+		if(6)
+			adjective = "a heavy"
+		if(7)
+			adjective = "a massive"
+		if(8)
+			adjective = "a heaping"
+		if(9)
+			adjective = "an obscene"
+		if(10)
+			adjective = "a backbreaking"
+		if(11)
+			adjective = "a stomach-hiding"
+		if(12)
+			adjective = "a torso-sized"
 	return "[adjective] pair of breasts"

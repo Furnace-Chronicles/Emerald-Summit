@@ -69,6 +69,7 @@
 		/datum/customizer/organ/penis/anthro,
 		/datum/customizer/organ/breasts/animal,
 		/datum/customizer/organ/vagina/animal,
+		/datum/customizer/organ/horns/tusks,
 		)
 	body_marking_sets = list(
 		/datum/body_marking_set/none,
@@ -84,6 +85,8 @@
 		/datum/body_marking/socklonger,
 		/datum/body_marking/tips,
 		/datum/body_marking/nose,
+		/datum/body_marking/bangs,
+		/datum/body_marking/bun,
 	)
 	descriptor_choices = list(
 		/datum/descriptor_choice/height,

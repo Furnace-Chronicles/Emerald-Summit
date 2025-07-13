@@ -15,6 +15,8 @@
 	min_pq = 20
 	max_pq = null
 
+	obsfuscated_job = TRUE
+
 	advclass_cat_rolls = list(CTAG_WRETCH = 20)
 	PQ_boost_divider = 10
 	round_contrib_points = 2
@@ -25,6 +27,7 @@
 	always_show_on_latechoices = TRUE
 	job_reopens_slots_on_death = TRUE
 	same_job_respawn_delay = 1 MINUTES
+	virtue_restrictions = list(/datum/virtue/heretic/zchurch_keyholder) //all wretch classes automatically get this
 
 /datum/job/roguetown/wretch/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
@@ -62,7 +65,7 @@
 				ADD_TRAIT(H, TRAIT_NOHUNGER, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_NOBREATH, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_NOPAIN, TRAIT_GENERIC)
-				ADD_TRAIT(H, TRAIT_NOROGSTAM, TRAIT_GENERIC)
+				ADD_TRAIT(H, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC)
 				// Apply -1 to all stats
 				H.change_stat("strength", -1)
 				H.change_stat("perception", -1)
@@ -103,18 +106,14 @@
 		GLOB.excommunicated_players += H.real_name
 	// Felinid said we should gate it at 100 or so on at the lowest, so that wretch cannot ezmode it.
 	var/bounty_severity = input(H, "How severe are your crimes?", "Bounty Amount") as anything in list("Misdeed", "Harm towards lyfe", "Horrific atrocities")
-	var/bounty_total = rand(350, 500) // Just in case
+	var/bounty_total = rand(100, 400) // Just in case
 	switch(bounty_severity)
 		if("Misdeed")
-			bounty_total = rand(130, 200)
+			bounty_total = rand(100, 200)
 		if("Harm towards lyfe")
-			bounty_total = rand(200, 350)
-			H.change_stat("intelligence", 1)
+			bounty_total = rand(200, 300)
 		if("Horrific atrocities")
-			bounty_total = rand(350, 500) // Let's not make it TOO profitable
-			H.change_stat("endurance", 1)
-			H.change_stat("constitution", 1)
-			H.change_stat("intelligence", 1)
+			bounty_total = rand(300, 400) // Let's not make it TOO profitable
 	var/my_crime = input(H, "What is your crime?", "Crime") as text|null
 	if (!my_crime)
 		my_crime = "crimes against the Crown"

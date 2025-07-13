@@ -51,6 +51,18 @@
 	typepath = /datum/round_event/antagonist/solo/bandits
 	antag_datum = /datum/antagonist/bandit
 
+/datum/round_event_control/antagonist/solo/bandits/canSpawnEvent(players_amt, gamemode, fake_check)
+	. = ..()
+	if(!.)
+		return
+	var/list/candidates = get_candidates()
+	
+	// Allow the event to run if there's at least 1 candidate, even if fewer than desired
+	if(length(candidates) < 1)
+		return FALSE
+	
+	return TRUE
+
 /datum/round_event/antagonist/solo/bandits
 	var/leader = FALSE
 

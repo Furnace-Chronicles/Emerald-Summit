@@ -331,7 +331,23 @@ GLOBAL_LIST(admin_objective_list) //Prefilled admin assignable objective list
 			return FALSE
 	return TRUE
 
+/datum/objective/marry
+	name = "marry"
+	explanation_text = "Secure a marriage with the local Duke/Duchess - or alternatively marry one of the royal heirs and ensure they are coronated by the week's end."
+	team_explanation_text = "Secure a marriage with the local Duke/Duchess - or alternatively marry one of the royal heirs and ensure they are coronated by the week's end."
 
+/datum/objective/marry/check_completion()
+	for(var/datum/mind/M in get_owners())
+		var/mob/living/carbon/human/marriagepartner = M.current
+		marriagepartner = marriagepartner.marriedto
+		var/mob/living/carbon/human/the_duke = SSticker.rulermob
+		if(the_duke)
+			var/duke_name = the_duke.real_name
+			if(duke_name && the_duke.real_name == marriagepartner)
+				testing("[duke_name] is duke, marriage partner is [marriagepartner]")
+				return TRUE
+	testing("duke is not marriagepartner")
+	return FALSE
 
 /datum/objective/dungeoneer
 	name = "protect"
