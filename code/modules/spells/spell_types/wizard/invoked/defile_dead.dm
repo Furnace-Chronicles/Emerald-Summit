@@ -3,7 +3,7 @@
 	desc = "A forbidden, heretical spell that desecrates the dead, raising corpses as deadites. Shunned by the Ten and feared by the living."
 	cost = 1
 	releasedrain = 80
-	overlay_state = "eyebite"
+	overlay_state = "raiseskele"
 	chargedrain = 0
 	chargetime = 50
 	recharge_time = 2 MINUTES
