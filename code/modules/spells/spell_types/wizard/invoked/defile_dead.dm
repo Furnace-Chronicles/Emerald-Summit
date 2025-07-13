@@ -38,30 +38,34 @@
 		return FALSE
 	if(H.mind)
 		// Player corpse: send transformation messages, then convert
-		user.visible_message(span_warning("[H]'s corpse begins to twitch and convulse..."), span_warning("You feel a surge of necromantic power as the corpse begins to twitch and convulse..."))
+		to_chat(user, span_warning("You feel a surge of necromantic power as the corpse begins to twitch and convulse..."))
 		sleep(3 SECONDS)
-		user.visible_message(span_warning("[H]'s body twists and distorts, bones cracking unnaturally!"), span_warning("The corpse's limbs contort and bones crack with sickening sounds!"))
+		to_chat(user, span_warning("The corpse's limbs contort and bones crack with sickening sounds!"))
 		sleep(3 SECONDS)
-		user.visible_message(span_danger("[H]'s face warps into a monstrous visage as it rises!"), span_danger("The corpse's face warps into a monstrous visage as it rises!"))
+		to_chat(user, span_danger("The corpse's face warps into a monstrous visage as it rises!"))
 		sleep(3 SECONDS)
+		to_chat(user, span_danger("The transformation is complete. The corpse rises as a zombie!"))
+		sleep(1 SECONDS)
 		H.zombie_check_can_convert()
 		var/datum/antagonist/zombie/Z = H.mind.has_antag_datum(/datum/antagonist/zombie)
 		if(Z)
 			Z.wake_zombie(TRUE)
-			user.visible_message(span_danger("[user] raises [H] as a zombie!"), span_danger("You raise [H] as a zombie!"))
+			to_chat(user, span_danger("You raise [H] as a zombie!"))
 			return TRUE
 	else
 		// No mind: send transformation messages, then spawn an NPC deadite and delete the corpse
-		user.visible_message(span_warning("[H]'s corpse begins to twitch and convulse..."), span_warning("You feel a surge of necromantic power as the corpse begins to twitch and convulse..."))
+		to_chat(user, span_warning("You feel a surge of necromantic power as the corpse begins to twitch and convulse..."))
 		sleep(3 SECONDS)
-		user.visible_message(span_warning("[H]'s body twists and distorts, bones cracking unnaturally!"), span_warning("The corpse's limbs contort and bones crack with sickening sounds!"))
+		to_chat(user, span_warning("The corpse's limbs contort and bones crack with sickening sounds!"))
 		sleep(3 SECONDS)
-		user.visible_message(span_danger("[H]'s face warps into a monstrous visage as it rises!"), span_danger("The corpse's face warps into a monstrous visage as it rises!"))
+		to_chat(user, span_danger("The corpse's face warps into a monstrous visage as it rises!"))
 		sleep(3 SECONDS)
+		to_chat(user, span_danger("The transformation is complete. The corpse rises as a zombie!"))
+		sleep(1 SECONDS)
 		var/mob/living/carbon/human/species/npc/deadite/N = new /mob/living/carbon/human/species/npc/deadite(get_turf(H))
 		N.real_name = "Defiled Corpse"
 		N.update_body()
 		QDEL_NULL(H)
-		user.visible_message(span_danger("[user] raises a corpse as a zombie!"), span_danger("You raise a corpse as a zombie!"))
+		to_chat(user, span_danger("You raise a corpse as a zombie!"))
 		return TRUE
 	return FALSE 
