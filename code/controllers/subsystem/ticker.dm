@@ -558,7 +558,7 @@ SUBSYSTEM_DEF(ticker)
 	var/mob/dead/new_player/next_in_line = queued_players[1]
 
 	switch(queue_delay)
-		if(5) //every 5 ticks check if there is a slot available
+		if(1800) //every 3 minutes (1800 ticks at 1 tick = 0.1s) check if there is a slot available
 			listclearnulls(queued_players)
 			if(living_player_count() < hpc)
 				if(next_in_line && next_in_line.client)
