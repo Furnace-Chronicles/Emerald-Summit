@@ -245,7 +245,7 @@
 			if(istype(E, /datum/round_event_control/gobinvade))
 				SSevents.TriggerEvent(E)
 				break
-		priority_announce("A cursed penitent has been slain! Ravox's hatred stirs against those who cut short the path of penance. Goblin portals tear open across the land!", "RAVOX'S WRATH", 'sound/misc/evilevent.ogg')
+		priority_announce("A cursed penitent has been slain! Ravox's hatred stirs against those who cut short the path of penance.", "RAVOX'S WRATH", 'sound/misc/evilevent.ogg')
 
 /obj/item/clothing/mask/rogue/facemask/steel
 	name = "steel mask"
