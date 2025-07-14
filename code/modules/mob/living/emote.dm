@@ -1773,3 +1773,22 @@
 	set category = "Emotes"
 
 	emote("ffsalute", intentional =  TRUE)
+
+/datum/emote/living/vomit
+	key = "vomit"
+	key_third_person = "vomits"
+	message = "vomits!"
+	emote_type = EMOTE_AUDIBLE | EMOTE_VISIBLE
+	show_runechat = TRUE
+
+/datum/emote/living/vomit/run_emote(mob/user, params, type_override, intentional)
+	. = ..()
+	if(. && iscarbon(user))
+		var/mob/living/carbon/C = user
+		C.vomit(50, FALSE, TRUE, 0, TRUE, FALSE, FALSE, TRUE)
+
+/mob/living/carbon/human/verb/emote_vomit()
+	set name = "Vomit"
+	set category = "Emotes"
+
+	emote("vomit", intentional = TRUE)
