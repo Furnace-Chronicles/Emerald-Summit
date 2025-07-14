@@ -57,12 +57,22 @@
 		to_chat(src, span_danger("You have OOC muted."))
 		return
 
+	// Check if player has enough triumphs
+	var/triumph_cost = 1
+	var/current_triumphs = SStriumphs.get_triumphs(ckey)
+	if(current_triumphs < triumph_cost)
+		to_chat(src, span_danger("You need at least [triumph_cost] triumph to use LOOC. You have [current_triumphs] triumphs."))
+		return
+
 	if(!holder)
 		if(findtext(msg, "byond://"))
 			to_chat(src, "<B>Advertising other servers is not allowed.</B>")
 			log_admin("[key_name(src)] has attempted to advertise in LOOC: [msg]")
 			return
 
+	// Charge triumph cost
+	adjust_triumphs(-triumph_cost, FALSE)
+	to_chat(src, span_notice("You spent [triumph_cost] triumph to use LOOC."))
 
 	//msg = emoji_parse(msg)
 
@@ -74,7 +84,6 @@
 		prefix = "LOOC"
 	else
 		prefix = "LOOC (WP)"
-
 
 	var/list/mobs = list()
 	var/muted = prefs.muted
@@ -94,7 +103,9 @@
 			if(istype(usr,/mob/living))
 				var/turf/speakturf = get_turf(M)
 				var/turf/sourceturf = get_turf(usr)
+				// Use real_name instead of name to show true name even when masked
+				var/display_name = mob.real_name
 				if(is_admin == 1 || (wp == 1 && (M in range (7, src))))
-					to_chat(C, "<font color='["#6699CC"]'><b><span class='prefix'>[prefix]:</span> <EM>[src.mob.name][added_text]:</EM> <span class='message'>[msg]</span></b></font>")
+					to_chat(C, "<font color='["#6699CC"]'><b><span class='prefix'>[prefix]:</span> <EM>[display_name][added_text]:</EM> <span class='message'>[msg]</span></b></font>")
 				else if(speakturf in get_hear(7, sourceturf))
-					to_chat(C, "<font color='["#6699CC"]'><b><span class='prefix'>[prefix]:</span> <EM>[src.mob.name][added_text]:</EM> <span class='message'>[msg]</span></b></font>")
+					to_chat(C, "<font color='["#6699CC"]'><b><span class='prefix'>[prefix]:</span> <EM>[display_name][added_text]:</EM> <span class='message'>[msg]</span></b></font>")
