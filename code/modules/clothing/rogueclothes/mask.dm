@@ -237,6 +237,16 @@
 		say("YOUR PENANCE WILL BE COMPLETE IN [timer_minutes] MINUTES.")
 	return
 
+/obj/item/clothing/mask/rogue/facemask/prisoner/on_mob_death(mob/living/L, gibbed)
+	. = ..()
+	if(istype(L, /mob/living/carbon/human))
+		// Trigger Goblin Portals (Gob Invasion) event
+		for(var/datum/round_event_control/E in SSevents.control)
+			if(istype(E, /datum/round_event_control/gobinvade))
+				SSevents.TriggerEvent(E)
+				break
+		priority_announce("A cursed penitent has been slain! Ravox's hatred stirs against those who cut short the path of penance. Goblin portals tear open across the land!", "RAVOX'S WRATH", 'sound/misc/evilevent.ogg')
+
 /obj/item/clothing/mask/rogue/facemask/steel
 	name = "steel mask"
 	desc = "A mask of steel which protects the eyes, nose and mouth while also obscuring the face it."
