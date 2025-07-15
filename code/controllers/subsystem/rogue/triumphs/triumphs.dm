@@ -403,3 +403,19 @@ SUBSYSTEM_DEF(triumphs)
 				continue
 
 		triumph_leaderboard = sorted_list
+
+// Set all players' triumphs to a specific value (e.g., 5)
+/datum/controller/subsystem/triumphs/proc/set_all_triumphs_to(value, by_who = null)
+	// Set all cached players
+	for(var/ckey in triumph_amount_cache)
+		triumph_amount_cache[ckey] = value
+		var/list/saving_data = list()
+		var/target_file = file("data/player_saves/[ckey[1]]/[ckey]/triumphs.json")
+		saving_data["triumph_wipe_season"] = GLOB.triumph_wipe_season
+		saving_data["triumph_count"] = value
+		WRITE_FILE(target_file, json_encode(saving_data))
+	// Optionally, update leaderboard
+	triumph_leaderboard = list()
+	call_menu_refresh()
+	if(by_who)
+		to_chat(world, span_announce("[by_who] has spent 100 triumphs to reset everyone's triumphs to [value]!"))

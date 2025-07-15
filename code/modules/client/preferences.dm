@@ -634,12 +634,12 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			used_title = "ooc"
 			dat += "<table><tr><td width='340px' height='300px' valign='top'>"
 			dat += "<h2>OOC Settings</h2>"
-			dat += "<b>Window Flashing:</b> <a href='?_src_=prefs;preference=winflash'>[(windowflashing) ? "Enabled":"Disabled"]</a><br>"
+			dat += "<b>Window Flashing:</b> <a href='?_src_=prefs;preference=winflash'>" + (windowflashing ? "Enabled" : "Disabled") + "</a><br>"
 			dat += "<br>"
-			dat += "<b>Play Admin MIDIs:</b> <a href='?_src_=prefs;preference=hear_midis'>[(toggles & SOUND_MIDI) ? "Enabled":"Disabled"]</a><br>"
-			dat += "<b>Play Lobby Music:</b> <a href='?_src_=prefs;preference=lobby_music'>[(toggles & SOUND_LOBBY) ? "Enabled":"Disabled"]</a><br>"
-			dat += "<b>See Pull Requests:</b> <a href='?_src_=prefs;preference=pull_requests'>[(chat_toggles & CHAT_PULLR) ? "Enabled":"Disabled"]</a><br>"
-	
+			dat += "<b>Play Admin MIDIs:</b> <a href='?_src_=prefs;preference=hear_midis'>" + ((toggles & SOUND_MIDI) ? "Enabled" : "Disabled") + "</a><br>"
+			dat += "<b>Play Lobby Music:</b> <a href='?_src_=prefs;preference=lobby_music'>" + ((toggles & SOUND_LOBBY) ? "Enabled" : "Disabled") + "</a><br>"
+			dat += "<b>See Pull Requests:</b> <a href='?_src_=prefs;preference=pull_requests'>" + ((chat_toggles & CHAT_PULLR) ? "Enabled" : "Disabled") + "</a><br>"
+			dat += "<br><b>Global Triumph Reset:</b> <a href='?_src_=prefs;preference=global_triumph_reset'><span style='color:red'>Spend 100 Triumphs to reset everyone's Triumphs to 5</span></a><br>"
 			dat += "<br>"
 
 

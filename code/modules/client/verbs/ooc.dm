@@ -619,3 +619,20 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 		policytext += "No related rules found."
 
 	usr << browse(policytext.Join(""),"window=policy")
+
+/client/verb/reset_triumphs_globally()
+	set name = "Reset Triumphs Globally"
+	set desc = "Spend 100 triumphs to reset everyone's triumphs to 5."
+	set category = "OOC"
+
+	var/cost = 100
+	var/reset_value = 5
+	var/current_triumphs = SStriumphs.get_triumphs(ckey)
+	if(current_triumphs < cost)
+		to_chat(src, span_warning("You need at least [cost] triumphs to perform a global reset. You have [current_triumphs]."))
+		return
+	var/confirm = tgalert(src, "Are you sure you want to spend 100 triumphs to reset everyone's triumphs to 5? This cannot be undone!", "Global Triumph Reset", "Yes", "No")
+	if(confirm != "Yes")
+		return
+	adjust_triumphs(-cost)
+	SStriumphs.set_all_triumphs_to(reset_value, key_name(src))
