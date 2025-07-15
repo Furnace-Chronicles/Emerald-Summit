@@ -1,3 +1,14 @@
+/proc/find_triumphs_json_files(dir)
+	var/list/results = list()
+	for(var/f in flist(dir))
+		if(f == "." || f == "..") continue
+		var/path = "[dir][f]"
+		if(fexists(path) && isnull(file(path)))
+			results += find_triumphs_json_files("[path]/")
+		else if(length(path) >= 13 && copytext(path, length(path)-12) == "/triumphs.json")
+			results += path
+	return results
+
 /*
 	A fun fact is that it is important to note triumph procs all used key, whilas player quality likes to use ckey
 	It doesn't help that the params to insert a json key in both are just key to go with byond clients having a ckey and key
@@ -307,19 +318,23 @@ SUBSYSTEM_DEF(triumphs)
 		var/target_file = file("data/player_saves/[target_ckey[1]]/[target_ckey]/triumphs.json")
 		if(!fexists(target_file)) // no file or new player, write them in something
 			var/triumph_amount = 0
-			// If it is the first triumph wipe season, inherit previous triumphs
 			if(GLOB.triumph_wipe_season <= 1)
 				triumph_amount = get_legacy_triumph_value(target_ckey)
-
 			var/list/new_guy = list("triumph_count" = triumph_amount, "triumph_wipe_season" = GLOB.triumph_wipe_season)
-
 			WRITE_FILE(target_file, json_encode(new_guy))
 			triumph_amount_cache[target_ckey] = triumph_amount
 			return triumph_amount
 
-		// This is not a new guy
-		var/list/not_new_guy = json_decode(file2text(target_file))
-		if(GLOB.triumph_wipe_season > not_new_guy["triumph_wipe_season"]) // Their file is behind in wipe seasons, time to be set to 0
+		var/list/not_new_guy = null
+		if(fexists(target_file))
+			not_new_guy = json_decode(file2text(target_file))
+		// Robust error check:
+		if(!islist(not_new_guy) || isnull(not_new_guy["triumph_wipe_season"]) || isnull(not_new_guy["triumph_count"]))
+			// File is missing, empty, or malformed, so reset to 0
+			triumph_amount_cache[target_ckey] = 0
+			return 0
+
+		if(GLOB.triumph_wipe_season > not_new_guy["triumph_wipe_season"])
 			triumph_amount_cache[target_ckey] = 0
 			return 0
 
@@ -411,11 +426,29 @@ SUBSYSTEM_DEF(triumphs)
 		triumph_amount_cache[ckey] = value
 		var/list/saving_data = list()
 		var/target_file = file("data/player_saves/[ckey[1]]/[ckey]/triumphs.json")
+		if(fexists(target_file))
+			saving_data = json_decode(file2text(target_file))
+			if(!islist(saving_data)) saving_data = list()
+		else
+			saving_data = list()
 		saving_data["triumph_wipe_season"] = GLOB.triumph_wipe_season
 		saving_data["triumph_count"] = value
 		WRITE_FILE(target_file, json_encode(saving_data))
+	// Also update all player save files on disk (offline players)
+	var/save_dir = "data/player_saves/"
+	var/list/all_files = find_triumphs_json_files(save_dir)
+	for(var/f in all_files)
+		var/list/file_data = list()
+		if(fexists(f))
+			file_data = json_decode(file2text(f))
+			if(!islist(file_data)) file_data = list()
+		else
+			file_data = list()
+		file_data["triumph_wipe_season"] = GLOB.triumph_wipe_season
+		file_data["triumph_count"] = value
+		WRITE_FILE(f, json_encode(file_data))
 	// Optionally, update leaderboard
 	triumph_leaderboard = list()
 	call_menu_refresh()
 	if(by_who)
-		to_chat(world, span_announce("[by_who] has spent 100 triumphs to reset everyone's triumphs to [value]!"))
+		to_chat(world, span_announce("[by_who] has spent 100 Triumphs to reset everyone's Triumphs to [value]!"))
