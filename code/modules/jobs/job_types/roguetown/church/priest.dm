@@ -113,6 +113,7 @@
 	mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/cure_rot) 
 	mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/monk) 
 	mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/templar)
+	mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
 
 /mob/living/carbon/human/proc/coronate_lord()
 	set name = "Coronate"
