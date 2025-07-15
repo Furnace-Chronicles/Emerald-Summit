@@ -42,10 +42,12 @@ GLOBAL_LIST_EMPTY(preference_patrons)
 		pious.verbs += /mob/living/carbon/human/proc/emote_ffsalute
 	if (HAS_TRAIT(pious, TRAIT_CABAL))
 		pious.faction |= "cabal"
+		pious.faction |= "undead" // Add to undead faction so undead do not attack them
 
 /datum/patron/proc/on_loss(mob/living/pious)
 	if (HAS_TRAIT(pious, TRAIT_CABAL))
 		pious.faction -= "cabal"
+		pious.faction -= "undead" // Remove from undead faction
 	if(HAS_TRAIT(pious, TRAIT_XYLIX))
 		pious.remove_language(/datum/language/thievescant)
 	for(var/trait in mob_traits)
