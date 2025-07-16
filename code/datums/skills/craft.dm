@@ -13,7 +13,7 @@
 
 /datum/skill/craft/blacksmithing
 	name = "Blacksmithing"
-	desc = "Determines whether you can smith various items. Required to repair them successfully."
+	desc = "Determines whether you can smith various items. Required to repair them successfully on table."
 	dreams = list(
 		"...you bow your head to the old master who scolds you for your wastefulness having left the forges unattended through the night...",
 		"...you hammer away at a strange blue metal. It tempts you, begging to be formed into a crown of secrets...",
