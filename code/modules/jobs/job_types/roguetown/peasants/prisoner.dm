@@ -159,8 +159,6 @@
 	H.adjust_skillrank(/datum/skill/craft/crafting, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/blacksmithing, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/armorsmithing, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/smelting, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
 	H.change_stat("strength", 2)

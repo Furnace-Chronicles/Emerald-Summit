@@ -409,7 +409,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	minstr = 11
 	max_blade_int = 200
-	anvilrepair = /datum/skill/craft/weaponsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/iron
 	associated_skill = /datum/skill/combat/axes
 	blade_dulling = DULLING_SHAFT_WOOD

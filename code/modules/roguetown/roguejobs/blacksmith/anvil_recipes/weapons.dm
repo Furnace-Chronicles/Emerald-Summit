@@ -1,6 +1,6 @@
 /datum/anvil_recipe/weapons
 	abstract_type = /datum/anvil_recipe/weapons
-	appro_skill = /datum/skill/craft/weaponsmithing  // inheritance yay !!
+	appro_skill = /datum/skill/craft/blacksmithing  // inheritance yay !!
 	craftdiff = 1
 	i_type = "Weapons"
 
@@ -8,7 +8,7 @@
 
 /datum/anvil_recipe/weapons/aalloy/flail
 	name = "Decrepit Alloy Flail"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/rogueweapon/flail/aflail
 	craftdiff = 0
@@ -16,7 +16,7 @@
 
 /datum/anvil_recipe/weapons/paalloy/flail/
 	name = "Purified Alloy Flail"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/purifiedaalloy
 	created_item = /obj/item/rogueweapon/flail/sflail/paflail
 	craftdiff = 0
@@ -24,7 +24,7 @@
 
 /datum/anvil_recipe/weapons/aalloy/dagger
 	name = "Decrepit Alloy Dagger"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/rogueweapon/huntingknife/idagger/adagger
 	craftdiff = 0
@@ -32,14 +32,14 @@
 
 /datum/anvil_recipe/weapons/paalloy/dagger
 	name = "Purified Alloy Dagger"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/purifiedaalloy
 	created_item = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
 	craftdiff = 0
 
 /datum/anvil_recipe/weapons/aalloy/knuckles
 	name = "Decrepit Alloy Knuckles"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/rogueweapon/knuckles/aknuckles
 	craftdiff = 0
@@ -47,14 +47,14 @@
 
 /datum/anvil_recipe/weapons/paalloy/knuckles
 	name = "Purified Alloy Knuckles"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/purifiedaalloy
 	created_item = /obj/item/rogueweapon/knuckles/paknuckles
 	craftdiff = 0
 
 /datum/anvil_recipe/weapons/aalloy/gladius
 	name = "Decrepit Alloy Gladius"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/rogueweapon/sword/iron/short/gladius/agladius
 	craftdiff = 0
@@ -62,14 +62,14 @@
 
 /datum/anvil_recipe/weapons/paalloy/gladius
 	name = "Purified Alloy Gladius"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/purifiedaalloy
 	created_item = /obj/item/rogueweapon/sword/iron/short/gladius/pagladius
 	craftdiff = 0
 
 /datum/anvil_recipe/weapons/aalloy/shortsword
 	name = "Decrepit Alloy Shortsword"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/rogueweapon/sword/iron/short/ashort
 	craftdiff = 0
@@ -77,14 +77,14 @@
 
 /datum/anvil_recipe/weapons/paalloy/shortsword
 	name = "Purified Alloy Shortsword"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/purifiedaalloy
 	created_item = /obj/item/rogueweapon/sword/short/pashortsword
 	craftdiff = 0
 
 /datum/anvil_recipe/weapons/aalloy/khopesh
 	name = "Decrepit Alloy Khopesh"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/rogueweapon/sword/sabre/alloy
 	craftdiff = 0
@@ -92,14 +92,14 @@
 
 /datum/anvil_recipe/weapons/paalloy/khopesh
 	name = "Purified Alloy Khopesh"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/purifiedaalloy
 	created_item = /obj/item/rogueweapon/sword/sabre/palloy
 	craftdiff = 0
 
 /datum/anvil_recipe/weapons/aalloy/handaxe
 	name = "Decrepit Alloy Axe"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/rogueweapon/stoneaxe/woodcut/aaxe
 	craftdiff = 0
@@ -107,14 +107,14 @@
 
 /datum/anvil_recipe/weapons/paalloy/handaxe
 	name = "Purified Alloy Axe"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/purifiedaalloy
 	created_item = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
 	craftdiff = 0
 
 /datum/anvil_recipe/weapons/aalloy/mace
 	name = "Decrepit Alloy Mace"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/rogueweapon/mace/alloy
 	craftdiff = 0
@@ -122,14 +122,14 @@
 
 /datum/anvil_recipe/weapons/paalloy/mace
 	name = "Purified Alloy Mace"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/purifiedaalloy
 	created_item = /obj/item/rogueweapon/mace/steel/palloy
 	craftdiff = 0
 
 /datum/anvil_recipe/weapons/aalloy/warhammer
 	name = "Decrepit Alloy Warhammer"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/rogueweapon/mace/warhammer/alloy
 	craftdiff = 0
@@ -137,7 +137,7 @@
 
 /datum/anvil_recipe/weapons/paalloy/warhammer
 	name = "Purified Alloy Warhammer"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/purifiedaalloy
 	created_item = /obj/item/rogueweapon/mace/warhammer/steel/paalloy
 	craftdiff = 0
@@ -158,7 +158,7 @@
 
 /datum/anvil_recipe/weapons/aalloy/gsw
 	name = "Decrepit Alloy Greatsword(+2 Alloy)"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/rogueweapon/greatsword/aalloy
 	additional_items = list(/obj/item/ingot/aalloy, /obj/item/ingot/aalloy)
@@ -167,7 +167,7 @@
 
 /datum/anvil_recipe/weapons/paalloy/gsw
 	name = "Purified Alloy Greatsword(+2 Purified Alloy)"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/purifiedaalloy
 	created_item = /obj/item/rogueweapon/greatsword/paalloy
 	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/ingot/purifiedaalloy)
@@ -176,7 +176,7 @@
 
 /datum/anvil_recipe/weapons/aalloy/bardiche
 	name = "Decrepit Alloy Bardiche(+1 log, +1 Alloy)"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/rogueweapon/halberd/bardiche/aalloy
 	additional_items = list(/obj/item/ingot/iron, /obj/item/grown/log/tree/small)
@@ -185,7 +185,7 @@
 
 /datum/anvil_recipe/weapons/paalloy/bardiche
 	name = "Purified Alloy Bardiche(+1 log, +1 Purified Alloy)"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/purifiedaalloy
 	created_item = /obj/item/rogueweapon/halberd/bardiche/paalloy
 	additional_items = list(/obj/item/ingot/iron, /obj/item/grown/log/tree/small)
@@ -239,7 +239,7 @@
 /// COPPER WEAPONS
 /datum/anvil_recipe/weapons/copper/caxe
 	name = "Copper Hatchet (+1 Copper)"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/copper
 	additional_items = list(/obj/item/ingot/copper)
 	created_item = /obj/item/rogueweapon/stoneaxe/handaxe/copper
@@ -247,7 +247,7 @@
 
 /datum/anvil_recipe/weapons/copper/cbludgeon
 	name = "Copper Bludgeon (+1 Stick)"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/copper
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/mace/cudgel/copper
@@ -255,7 +255,7 @@
 
 /datum/anvil_recipe/weapons/copper/cdagger
 	name = "x2 Copper Knives"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/copper
 	created_item = /obj/item/rogueweapon/huntingknife/copper
 	createditem_num = 2
@@ -263,14 +263,14 @@
 
 /datum/anvil_recipe/weapons/copper/cmesser
 	name = "Copper Messer"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/copper
 	created_item = /obj/item/rogueweapon/sword/iron/messer/copper
 	craftdiff = 0
 
 /datum/anvil_recipe/weapons/copper/cspears
 	name = "2x Copper Spears (+ 1 Small Log)"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/copper
 	additional_items = list(/obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/spear/stone/copper
@@ -279,7 +279,7 @@
 
 /datum/anvil_recipe/weapons/copper/crhomphaia
 	name = "Copper Rhomphaia (+ 1 Bar)"
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	req_bar = /obj/item/ingot/copper
 	additional_items = list(/obj/item/ingot/copper)
 	created_item = /obj/item/rogueweapon/sword/long/rhomphaia/copper

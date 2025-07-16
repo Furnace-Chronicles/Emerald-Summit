@@ -51,15 +51,11 @@
 	H.adjust_skillrank(/datum/skill/craft/crafting, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/blacksmithing, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/armorsmithing, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/smelting, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/engineering, 1, TRUE) // 1 Engineering to allow them to sub for Artificer role occaisonally
 	H.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/craft/armorsmithing, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/craft/smelting, 1, TRUE)
 	if(should_wear_femme_clothes(H))
 		pants = /obj/item/clothing/under/roguetown/trou
@@ -105,8 +101,6 @@
 	H.adjust_skillrank(/datum/skill/craft/crafting, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/engineering, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/blacksmithing, 2, TRUE) // Artificer makes for a crappy substitute blacksmith but have the same spread
-	H.adjust_skillrank(/datum/skill/craft/armorsmithing, 2, TRUE) 
-	H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/magic/arcane, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/lockpicking, 4, TRUE)

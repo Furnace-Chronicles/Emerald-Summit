@@ -145,8 +145,6 @@
 		ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/malum) // Craft and Creativity - they can make stuff.
 		H.adjust_skillrank(/datum/skill/craft/blacksmithing, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/craft/armorsmithing, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 2, TRUE)
 		H.adjust_skillrank(/datum/skill/craft/smelting, 2, TRUE)
 	if(H.patron?.type == /datum/patron/divine/ravox) // Justice and Honor - athletics and probably a bit better at handling the horrors of war
 		H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)

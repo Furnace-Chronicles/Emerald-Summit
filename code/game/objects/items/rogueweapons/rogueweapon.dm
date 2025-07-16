@@ -21,7 +21,7 @@
 	has_inspect_verb = TRUE
 	parrysound = list('sound/combat/parry/parrygen.ogg')
 	break_sound = 'sound/foley/breaksound.ogg'
-	anvilrepair = /datum/skill/craft/weaponsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	obj_flags = CAN_BE_HIT | UNIQUE_RENAME
 	blade_dulling = DULLING_SHAFT_WOOD
 	max_integrity = 250

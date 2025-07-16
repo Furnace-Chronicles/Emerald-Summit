@@ -11,23 +11,6 @@
 		"...you dig through the mud for worms with a spade you made from wood and stone gathered by the lakeside. Your fishing rod stands eager to bring you a meal, just like your grandfather taught you..."
 	)
 
-/datum/skill/craft/weaponsmithing
-	name = "Weaponsmithing"
-	desc = "Determins whether you can smith various weapons. Required to repair weapons successfully on tables."
-	dreams = list(
-		"...tempered in gold and void, sharpened only by the sun and moon, your creation is finally complete. This one... This one will pierce the heavens...",
-		"...sweat drips down your brow and your arms ache with every strike, but at last, the blade is forged. A masterpiece of steel and gold, adorned with rontz gems...",
-		"...an old hunter stands in front of your counter and demands two dozen arrows. He hands you a bundle of sticks with a smile on his face..."
-	)
-
-/datum/skill/craft/armorsmithing
-	name = "Armorsmithing"
-	desc = "Determines whether you can smith various armor. Required to repair armor successfully on tables."
-	dreams = list(
-		"...you stand amidst the deadite horde, their tooth and claw unable to dent your armor. Your creation. Your masterpiece...",
-		"...the veteran's armor, battered beyond recognition, mirrors the scars upon his body. Yet, without your craft, he'd have fallen long ago. With skilled hands and a half a day's work, the armor is reborn - stronger than the day it was forged..."
-	)
-
 /datum/skill/craft/blacksmithing
 	name = "Blacksmithing"
 	desc = "Determines whether you can smith various non-weapons and armor items. Required to repair them successfully on table."

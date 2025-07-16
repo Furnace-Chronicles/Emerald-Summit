@@ -32,7 +32,7 @@
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
 	max_integrity = 150
 	blade_dulling = DULLING_SHAFT_WOOD
-	anvilrepair = /datum/skill/craft/weaponsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	COOLDOWN_DECLARE(shield_bang)
 	pickup_sound = 'modular_helmsguard/sound/sheath_sounds/draw_shield.ogg'
 	sheathe_sound = 'modular_helmsguard/sound/sheath_sounds/put_back_shield.ogg'

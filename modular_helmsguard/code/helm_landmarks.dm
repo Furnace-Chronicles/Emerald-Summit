@@ -63,8 +63,6 @@
 	jobspawn_override = list(
 	"Merchant",
 	"Innkeeper",
-	"Armorer",
-	"Weaponsmith",
 	"Apothecary",
 	"Leatherworker",
 	"Tailor",
@@ -224,14 +222,6 @@
 
 /obj/effect/landmark/start/helms/yeomen/innkeeper
 	name = "Innkeeper"
-	icon_state = "arrow"
-
-/obj/effect/landmark/start/helms/yeomen/armorer
-	name = "Armorer"
-	icon_state = "arrow"
-
-/obj/effect/landmark/start/helms/yeomen/weaponsmith
-	name = "Weaponsmith"
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/helms/yeomen/blacksmith

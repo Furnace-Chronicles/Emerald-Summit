@@ -229,7 +229,7 @@
 	wdefense = 4
 	wbalance = WBALANCE_SWIFT
 	thrown_bclass = BCLASS_CUT
-	anvilrepair = /datum/skill/craft/weaponsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/steel
 	pickup_sound = 'modular_helmsguard/sound/sheath_sounds/draw_dagger.ogg'
 	sheathe_sound = 'modular_helmsguard/sound/sheath_sounds/put_back_dagger.ogg'
@@ -301,7 +301,7 @@
 	wdefense = 8
 	wbalance = WBALANCE_HEAVY
 	blade_dulling = DULLING_SHAFT_WOOD
-	anvilrepair = /datum/skill/craft/weaponsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/steel
 	grid_width = 64
 	grid_height = 32
@@ -336,7 +336,7 @@
 	wdefense = 10	//literally no clue how else to balance these
 	wbalance = WBALANCE_HEAVY
 	blade_dulling = DULLING_SHAFT_WOOD
-	anvilrepair = /datum/skill/craft/weaponsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/bronze
 	intdamage_factor = 1.30
 
@@ -646,7 +646,7 @@
 	max_blade_int = 160
 	max_integrity = 600
 	associated_skill = /datum/skill/combat/axes
-	anvilrepair = /datum/skill/craft/weaponsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/steel
 	wdefense = 5
 	wbalance = WBALANCE_HEAVY

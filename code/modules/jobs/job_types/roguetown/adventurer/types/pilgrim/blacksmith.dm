@@ -47,8 +47,6 @@
 	H.adjust_skillrank(/datum/skill/craft/engineering, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/blacksmithing, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/armorsmithing, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/smelting, 4, TRUE)
 	H.change_stat("strength", 1)
 	H.change_stat("endurance", 2)

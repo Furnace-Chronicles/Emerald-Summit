@@ -91,7 +91,6 @@
 	var/list/datum/skill/skill_choices = list(
 	//skills alphabetically... this will be sloppy based on the descriptive name but easier for devs
 	/datum/skill/craft/alchemy,
-	/datum/skill/craft/armorsmithing,
 
 	/datum/skill/craft/blacksmithing,
 	/datum/skill/labor/butchering,
@@ -126,8 +125,6 @@
 
 	/datum/skill/misc/reading,
     /datum/skill/misc/riding,
-
-	/datum/skill/craft/weaponsmithing,
 
 	//Languages
 	/datum/language/celestial,

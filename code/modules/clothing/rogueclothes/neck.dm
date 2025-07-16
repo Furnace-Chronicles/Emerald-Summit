@@ -103,7 +103,7 @@
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 	blocksound = CHAINHIT
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/steel
 
 
@@ -151,7 +151,7 @@
 	desc = "A coif of meticulously crafted iron rings. It isn't steel, but metal is metal, and it might just save your life."
 	icon_state = "ichaincoif"
 	max_integrity = 150
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/iron
 
 /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
@@ -224,7 +224,7 @@
 	icon_state = "bevor"
 	max_integrity = 300
 	armor = ARMOR_BEVOR
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/steel
 	resistance_flags = FIRE_PROOF
 	slot_flags = ITEM_SLOT_NECK
@@ -239,7 +239,7 @@
 	icon_state = "gorget"
 	armor = ARMOR_GORGET
 	smeltresult = /obj/item/ingot/iron
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	max_integrity = 150
 	resistance_flags = FIRE_PROOF
 	body_parts_inherent = NECK
@@ -268,7 +268,7 @@
 	icon_state = "fencercollar"
 	armor = ARMOR_BEVOR
 	smeltresult = /obj/item/ingot/iron
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	max_integrity = 150
 	body_parts_inherent = NECK
 	resistance_flags = FIRE_PROOF
@@ -315,7 +315,7 @@
 	item_state = "cursed_collar"
 	armor = ARMOR_CLOTHING
 	smeltresult = /obj/item/ingot/iron
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	max_integrity = 150
 	resistance_flags = FIRE_PROOF
 	slot_flags = ITEM_SLOT_NECK
@@ -344,7 +344,7 @@
 	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HIP|ITEM_SLOT_WRISTS
 	sellprice = 10
 	experimental_onhip = FALSE
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	grid_width = 32
 	grid_height = 32
 
@@ -533,7 +533,7 @@
 	resistance_flags = FIRE_PROOF
 	allowed_race = CLOTHED_RACES_TYPES
 	sellprice = 70
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/clothing/neck/roguetown/horus
 	name = "amulet of appraisal"
@@ -542,7 +542,7 @@
 	//dropshrink = 0.75
 	resistance_flags = FIRE_PROOF
 	sellprice = 80
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/clothing/neck/roguetown/horus/examine()
 	. = ..()
@@ -569,7 +569,7 @@
 	//dropshrink = 0.75
 	resistance_flags = FIRE_PROOF
 	sellprice = 15
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/clothing/neck/roguetown/ornateamulet
 	name = "Ornate Amulet"
@@ -578,7 +578,7 @@
 	//dropshrink = 0.75
 	resistance_flags = FIRE_PROOF
 	sellprice = 100
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/clothing/neck/roguetown/ornateamulet/noble
 	var/choicename = FALSE
@@ -607,7 +607,7 @@
 	//dropshrink = 0.75
 	resistance_flags = FIRE_PROOF
 	sellprice = 100
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/clothing/neck/roguetown/psicross/naledi
 	name = "naledian psy-bracelet"

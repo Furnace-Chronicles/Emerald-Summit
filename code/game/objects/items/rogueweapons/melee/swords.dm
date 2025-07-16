@@ -131,7 +131,7 @@
 	thrown_bclass = BCLASS_CUT
 	blade_dulling = DULLING_SHAFT_METAL
 	//dropshrink = 0.75
-	anvilrepair = /datum/skill/craft/weaponsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/steel
 	minstr = 6
 	sellprice = 30

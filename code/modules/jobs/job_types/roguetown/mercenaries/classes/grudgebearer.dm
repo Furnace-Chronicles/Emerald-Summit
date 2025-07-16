@@ -24,14 +24,12 @@
 				H.change_stat("strength", 1)
 				H.change_stat("speed", -2)
 				H.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
-				H.adjust_skillrank(/datum/skill/craft/armorsmithing, 4, TRUE)	//Shouldn't be better than the smith (though the stats are already)
 				H.adjust_skillrank(/datum/skill/craft/blacksmithing, 3, TRUE)
 				H.adjust_skillrank(/datum/skill/craft/smelting, 3, TRUE)
 				H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
 				H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 				H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 				H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
 				H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
 				shoes = /obj/item/clothing/shoes/roguetown/boots/armor/dwarven
 				cloak = /obj/item/clothing/cloak/forrestercloak/snow
@@ -58,7 +56,7 @@
 				H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 				H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
 				H.adjust_skillrank(/datum/skill/misc/tracking, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/craft/armorsmithing, 2, TRUE)	//Only here so they'd be able to repair their own armor integrity
+				H.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)	//Only here so they'd be able to repair their own things
 				H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
 				shoes = /obj/item/clothing/shoes/roguetown/boots/armor/dwarven
 				cloak = /obj/item/clothing/cloak/forrestercloak/snow
@@ -199,7 +197,7 @@
 	repair_items = list(/obj/machinery/anvil)
 
 	repair_skills = list(
-		/datum/skill/craft/armorsmithing = 2,
+		/datum/skill/craft/blacksmithing = 1,
 	)
 
 	race_repair = list(

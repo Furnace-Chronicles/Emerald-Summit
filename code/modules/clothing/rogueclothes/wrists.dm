@@ -38,7 +38,7 @@
 	blocksound = PLATEHIT
 	resistance_flags = FIRE_PROOF
 
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	sewrepair = FALSE
 	smeltresult = /obj/item/ingot/steel
 

@@ -98,7 +98,7 @@
 	wdefense = 3
 	wbalance = WBALANCE_SWIFT
 	thrown_bclass = BCLASS_CUT
-	anvilrepair = /datum/skill/craft/weaponsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/iron
 
 	grid_height = 64

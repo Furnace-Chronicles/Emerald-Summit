@@ -98,7 +98,7 @@
 					attacked_item.repair_coverage()
 			if(attacked_item.obj_broken && attacked_item.obj_integrity == attacked_item.max_integrity)
 				attacked_item.obj_fix()
-			blacksmith.mind.add_sleep_experience(attacked_item.anvilrepair, exp_gained/2) //We gain as much exp as we fix divided by 2
+			blacksmith.mind.add_sleep_experience(attacked_item.anvilrepair, exp_gained/3) //We gain as much exp as we fix divided by 3
 			if(do_after(user, CLICK_CD_MELEE, target = attacked_object))
 				attack_obj(attacked_object, user)
 			return
@@ -117,7 +117,7 @@
 		repair_percent *= blacksmith.get_skill_level(attacked_structure.hammer_repair) * attacked_structure.max_integrity
 		exp_gained = min(attacked_structure.obj_integrity + repair_percent, attacked_structure.max_integrity) - attacked_structure.obj_integrity
 		attacked_structure.obj_integrity = min(attacked_structure.obj_integrity + repair_percent, attacked_structure.max_integrity)
-		blacksmith.mind.add_sleep_experience(attacked_structure.hammer_repair, exp_gained) //We gain as much exp as we fix
+		blacksmith.mind.add_sleep_experience(attacked_structure.hammer_repair, exp_gained/1.5) //We gain as much exp as we fix divided by 1.5
 		playsound(src,'sound/items/bsmithfail.ogg', 100, FALSE)
 		user.visible_message(span_info("[user] repairs [attacked_structure]!"))
 		return

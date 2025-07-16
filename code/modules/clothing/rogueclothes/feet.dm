@@ -240,7 +240,7 @@
 	resistance_flags = FIRE_PROOF
 	max_integrity = 300
 	armor = ARMOR_BOOTS_PLATED
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/clothing/shoes/roguetown/boots/armor/graggar
@@ -304,7 +304,7 @@
 	blocksound = PLATEHIT
 	max_integrity = 200
 	armor = ARMOR_BOOTS_PLATED_IRON
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/iron
 
 /obj/item/clothing/shoes/roguetown/jester
@@ -402,7 +402,7 @@
 	blocksound = PLATEHIT
 	max_integrity = 400
 	armor = ARMOR_PLATE_BSTEEL
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/blacksteel
 	resistance_flags = FIRE_PROOF
 
@@ -419,7 +419,7 @@
 	blocksound = PLATEHIT
 	max_integrity = 400
 	armor = ARMOR_PLATE_BSTEEL
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/blacksteel
 	resistance_flags = FIRE_PROOF
 

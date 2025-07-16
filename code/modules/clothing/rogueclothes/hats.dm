@@ -605,7 +605,7 @@
 	dynamic_hair_suffix = null
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	sellprice = 50
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/clothing/head/roguetown/nyle
 	name = "jewel of nyle"
@@ -615,7 +615,7 @@
 	dynamic_hair_suffix = null
 	sellprice = 100
 	resistance_flags = FIRE_PROOF
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/clothing/head/roguetown/nyle/consortcrown
 	name = "gem-encrusted crown"
@@ -647,7 +647,7 @@
 	desc = ""
 	icon_state = "reqhat"
 	sellprice = 100
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/clothing/head/roguetown/headdress
 	name = "nemes"
@@ -707,7 +707,7 @@
 	clothing_flags = CANT_SLEEP_IN
 	dynamic_hair_suffix = "+generic"
 	bloody_icon_state = "helmetblood"
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/steel
 	blocksound = PLATEHIT
 	max_integrity = 200
