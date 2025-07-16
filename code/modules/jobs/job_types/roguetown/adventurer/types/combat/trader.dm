@@ -93,7 +93,7 @@
 			H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
-			H.adjust_skillrank(/datum/skill/craft/blacksmithing, 3, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/blacksmithing, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/labor/mining, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/craft/smelting, 2, TRUE)
