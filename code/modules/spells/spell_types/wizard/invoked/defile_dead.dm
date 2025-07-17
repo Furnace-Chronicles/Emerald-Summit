@@ -14,7 +14,7 @@
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
 	gesture_required = FALSE
-	spell_tier = 1 
+	spell_tier = 2 
 	invocation = "Defile mortem!"
 	invocation_type = "whisper"
 	glow_color = "#7e2d7e" // purple/necromantic
@@ -26,6 +26,25 @@
 		to_chat(user, span_warning("No target selected."))
 		return FALSE
 	var/target = targets[1]
+
+	// Handle volf corpse
+	if(istype(target, /obj/effect/decal/remains/wolf))
+		var/obj/effect/decal/remains/wolf/W = target
+		var/turf/T = get_turf(W)
+		to_chat(user, span_warning("You feel a surge of necromantic power as the remains begin to twitch and convulse..."))
+		sleep(3 SECONDS)
+		to_chat(user, span_warning("The bones contort and crack with sickening sounds!"))
+		sleep(3 SECONDS)
+		to_chat(user, span_danger("The skull warps into a monstrous visage as it rises!"))
+		sleep(3 SECONDS)
+		to_chat(user, span_danger("The transformation is complete. The remains rise as a deadite volf!"))
+		sleep(1 SECONDS)
+		var/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead/N = new /mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead(T)
+		N.real_name = "Deadite Volf"
+		QDEL_NULL(W)
+		to_chat(user, span_danger("You raise a deadite volf!"))
+		return TRUE
+
 	if(!isliving(target))
 		to_chat(user, span_warning("That is not a valid target! The spell fizzles."))
 		return FALSE
