@@ -140,3 +140,4 @@
 	var/teeth = 32
 	var/recently_lost_teeth = 0 //Will tick down as you slowly get over the pain of losing each and every one of these
 	var/lost_teeth_decay = FALSE //Flags whether or not we should spawn the pain decay proc
+	var/cached_accent = null //Use this when we regenerate teeth or whatnot

@@ -4,6 +4,7 @@
 	throwforce = 0
 	embedding = list("embedded_pain_multiplier" = 0, "embed_chance" = 0, "embedded_fall_chance" = 100) //This shouldn't embed
 	dropshrink = 0.2
+	possible_item_intents = list(/datum/intent/food)
 	
 /obj/item/natural/human_tooth/Initialize()
 	. = ..()
@@ -13,6 +14,8 @@
 		"tooth3"
 		)
 	icon_state = pick(tooth_sprites)
+
+
 
 /mob/living/carbon/human/proc/lose_teeth(var/damage)
 	var/lost_teeth = 0
@@ -31,7 +34,10 @@
 		src.flying_teeth(lost_teeth)
 		to_chat(src, span_warning("MY MOUTH HURTS!"))
 		src.decay_lost_teeth()
-
+		if(src.teeth < 12)
+			if(src.client)
+				src.cached_accent = src.client.prefs.char_accent
+			src.char_accent = "Toothless accent"
 
 /mob/living/carbon/human/proc/flying_teeth(var/amount)
 	for(var/i, i < amount, i++)
@@ -41,8 +47,7 @@
 		T.throw_at(landing_point, throw_range , 99)
 		playsound(src, pick('sound/combat/fracture/fracturewet (1).ogg', 'sound/combat/fracture/fracturewet (2).ogg', 'sound/combat/fracture/fracturewet (3).ogg'),
 		 100)
-	if(src.teeth < 12)
-		src.char_accent = "Toothless accent"
+
 
 /mob/living/carbon/human/proc/decay_lost_teeth()
 	if(lost_teeth_decay)
@@ -59,4 +64,20 @@
 	if(recently_lost_teeth > 0) //Final check
 		spawn() decay_lost_teeth()
 
+/mob/living/carbon/human/proc/remove_teeth(var/amount) //This is in case we want to make certain roles start off toothless
+	if(src.teeth == 0)
+		return
+	
+	if(amount > 32)
+		amount = 32
+	
+	for(var/i, i < amount, i++)
+		src.teeth--
+		if(src.teeth == 0)
+			break
+	
+	if(src.teeth < 12)
+		if(src.client)
+			src.cached_accent = src.client.prefs.char_accent
+		src.char_accent = "Toothless accent"
 	
