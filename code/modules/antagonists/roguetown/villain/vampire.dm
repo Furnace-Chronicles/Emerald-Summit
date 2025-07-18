@@ -458,6 +458,7 @@
 	
 	to_chat(src, span_greentext("! REGENERATE !"))
 	src.playsound_local(get_turf(src), 'sound/misc/vampirespell.ogg', 100, FALSE, pressure_affected = FALSE)
+	src.teeth = 32
 	
 	if(is_wretch)
 		Vamp.vitae -= vitae_cost
