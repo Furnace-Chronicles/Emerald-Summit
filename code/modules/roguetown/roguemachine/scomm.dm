@@ -122,7 +122,7 @@
 /obj/structure/roguemachine/scomm/MiddleClick(mob/living/carbon/human/user)
 	if(.)
 		return
-	if(((user.job == "Warden") || (user.job == "Hand") || (user.job == "Dungeoneer") || || (user.job == "Man At Arms") || (user.job == "Squire") || (user.job == "Marshal") || (user.job == "Grand Duke") || (user.job == "Knight Captain") || (user.job == "Consort") || (user.job == "Sergeant")))
+	if(((user.job == "Warden") || (user.job == "Hand") || (user.job == "Dungeoneer") || (user.job == "Man At Arms") || (user.job == "Squire") || (user.job == "Marshal") || (user.job == "Grand Duke") || (user.job == "Knight Captain") || (user.job == "Consort") || (user.job == "Sergeant")))
 		if(alert("Would you like to swap lines or connect to a jabberline?",, "swap", "jabberline") != "jabberline")
 			garrisonline = !garrisonline
 			to_chat(user, span_info("I [garrisonline ? "connect to the garrison SCOMline" : "connect to the general SCOMLINE"]"))
