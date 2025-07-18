@@ -2,7 +2,8 @@
 	name = "Lord of Heartfelt"
 	greet_text = "You are the Lord of Heartfelt, ruler of a once-prosperous barony now in ruin. Guided by your Magos, you journey to the Peak, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
 	outfit = /datum/outfit/job/roguetown/heartfelt/lord
-	allowed_races = RACES_NO_CONSTRUCT
+	allowed_races = RACES_ALL_KINDS
+	disallowed_races = list(RACES_CONSTRUCT)
 	grant_lit_torch = TRUE
 	show_wanderer_examine = FALSE
 
@@ -51,7 +52,8 @@
 	greet_text = "You are the Lady of Heartfelt, once a respected noblewoman now struggling to survive in a desolate landscape. With your home in ruins, you look to the Peak, hoping to find new purpose or refuge amidst the chaos."
 	outfit = /datum/outfit/job/roguetown/heartfelt/lady
 	allowed_sexes = list(FEMALE)
-	allowed_races = RACES_NO_CONSTRUCT
+	allowed_races = RACES_ALL_KINDS
+	disallowed_races = list(RACES_CONSTRUCT)
 	grant_lit_torch = TRUE
 	show_wanderer_examine = FALSE
 
@@ -133,7 +135,8 @@
 	name = "Knight of Heartfelt"
 	greet_text = "You are a Knight of Heartfelt, once part of a brotherhood in service to your Lord. Now, alone and committed to safeguarding what remains of your court, you ride to the Peak, resolved to ensure their safe arrival."
 	outfit = /datum/outfit/job/roguetown/heartfelt/knight
-	allowed_races = RACES_NO_CONSTRUCT
+	allowed_races = RACES_ALL_KINDS
+	disallowed_races = list(RACES_CONSTRUCT)
 	grant_lit_torch = TRUE
 	show_wanderer_examine = FALSE
 
@@ -204,7 +207,8 @@
 	name = "Magos of Heartfelt"
 	greet_text = "You are the Magos of Heartfelt, renowned for your arcane knowledge yet unable to foresee the tragedy that befell your home. Drawn by a guiding star to the Peak, you seek answers and perhaps a new purpose in the wake of destruction."
 	outfit = /datum/outfit/job/roguetown/heartfelt/magos
-	allowed_races = RACES_NO_CONSTRUCT
+	allowed_races = RACES_ALL_KINDS
+	disallowed_races = list(RACES_CONSTRUCT)
 	grant_lit_torch = TRUE
 	show_wanderer_examine = FALSE
 
@@ -265,7 +269,8 @@
 	name = "Prior of Heartfelt"
 	greet_text = "The Prior of Heartfelt, you were destined for ascension within the Church, but fate intervened with the barony's downfall, delaying it indefinitely. Still guided by the blessings of Astrata, you journey to the Peak, determined to offer what aid and solace you can."
 	outfit = /datum/outfit/job/roguetown/heartfelt/prior
-	allowed_races = RACES_NO_CONSTRUCT
+	allowed_races = RACES_ALL_KINDS
+	disallowed_races = list(RACES_CONSTRUCT)
 	grant_lit_torch = TRUE
 	show_wanderer_examine = FALSE
 

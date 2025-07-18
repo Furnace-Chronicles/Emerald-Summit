@@ -12,7 +12,7 @@
 #define ARMOR_PADDED_GOOD list("blunt" = 80, "slash" = 50, "stab" = 50, "piercing" = 80, "fire" = 0, "acid" = 0)
 #define ARMOR_PADDED list("blunt" = 60, "slash" = 40, "stab" = 30, "piercing" = 50, "fire" = 0, "acid" = 0)
 #define ARMOR_PADDED_BAD list("blunt" = 40, "slash" = 30, "stab" = 20, "piercing" = 40, "fire" = 0, "acid" = 0)
-#define ARMOR_LIGHTCUIRASS list("blunt" = 30, "slash" = 70, "stab" = 70, "piercing" = 20, "fire" = 0, "acid" = 0)	
+#define ARMOR_LIGHTCUIRASS list("blunt" = 30, "slash" = 70, "stab" = 70, "piercing" = 20, "fire" = 0, "acid" = 0)
 
 #define ARMOR_LEATHER list("blunt" = 60, "slash" = 50, "stab" = 40, "piercing" = 20, "fire" = 0, "acid" = 0)
 #define ARMOR_LEATHER_GOOD list("blunt" = 100, "slash" = 70, "stab" = 50, "piercing" = 30, "fire" = 0, "acid" = 0)
@@ -140,8 +140,6 @@
 #define RACES_SHUNNED \
     /datum/species/vulpkanin,\
     /datum/species/lupian,\
-    /datum/species/anthromorphsmall,\
-    /datum/species/kobold,\
     /datum/species/moth,\
     /datum/species/anthromorph,\
     /datum/species/tabaxi,\
@@ -150,6 +148,8 @@
     /datum/species/akula,\
 
 #define RACES_DESPISED \
+    /datum/species/anthromorphsmall,\
+    /datum/species/kobold,\
     /datum/species/goblinp,\
     /datum/species/halforc,\
     /datum/species/tieberian,\
@@ -157,6 +157,13 @@
 
 #define RACES_CONSTRUCT \
 	/datum/species/construct/metal,\
+
+#define RACES_VERMIN \
+	/datum/species/kobold,\
+	/datum/species/anthromorphsmall,\
+
+#define RACES_GOBLIN \
+	/datum/species/goblinp,\
 
 #define RACES_RESPECTED_UP list(RACES_RESPECTED)
 
@@ -168,9 +175,10 @@
 
 #define RACES_DESPIED_UP list(RACES_RESPECTED, RACES_TOLERATED, RACES_NEUTRAL, RACES_SHUNNED, RACES_DESPISED)
 
-#define RACES_ALL_KINDS list(RACES_DESPISED, RACES_SHUNNED, RACES_NEUTRAL, RACES_TOLERATED, RACES_RESPECTED, RACES_CONSTRUCT)
+#define RACES_ALL_KINDS list(RACES_DESPISED, RACES_SHUNNED, RACES_NEUTRAL, RACES_TOLERATED, RACES_RESPECTED)
 
-#define RACES_NO_CONSTRUCT list(RACES_DESPISED, RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED)
+// if you decide to exclude a race from a role, either use these classifications
+// or make a new sub-list and put it in a disallowed race list per role
 
 #define NOBLE_RACES_TYPES list(\
 	/datum/species/human/northern,\
