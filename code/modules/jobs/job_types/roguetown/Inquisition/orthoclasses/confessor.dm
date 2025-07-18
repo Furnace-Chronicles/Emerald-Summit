@@ -64,8 +64,8 @@
 					Q.arrows += S
 				Q.update_icon()
 		H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
-		H.change_stat("perception", -1)
-		H.change_stat("intelligence", -1)
+		H.change_stat("perception", -2)
+		H.change_stat("intelligence", -2)
 		H.change_stat("strength", 3)
 		H.change_stat("endurance", 2)
 		H.change_stat("speed", 3)
