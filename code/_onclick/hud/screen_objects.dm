@@ -525,6 +525,61 @@
 
 //
 
+/atom/movable/screen/combat_intents
+	name = "combat intents"
+	icon_state = "cmbintents1"
+	icon = 'icons/mob/roguecmbintent.dmi'
+	screen_loc = rogueui_cmbintents
+
+/atom/movable/screen/combat_intents/proc/switch_cmbintent(input)
+	icon_state = "cmbintents1"
+	if(input in 1 to 3)
+		icon_state = "cmbintents[input]"	
+
+/atom/movable/screen/combat_intents/Click(location, control, params)
+	if(ismob(usr))
+		var/mob/M = usr
+		M.playsound_local(M, 'sound/misc/click.ogg', 100)
+
+	var/_y = text2num(params2list(params)["icon-y"])
+	var/mob/living/user = usr
+	if(_y<=16)
+		usr.cmbintent = CMB_INTENT_FRAG
+		switch_cmbintent(CMB_INTENT_FRAG)
+		if(user.cmode)
+			user.update_combat_indicator()
+
+	else if(_y>=16 && _y<=32)
+		usr.cmbintent =  CMB_INTENT_ARREST
+		switch_cmbintent(CMB_INTENT_ARREST)
+		if(user.cmode)
+			user.update_combat_indicator()
+
+	else if(_y>=33 && _y<=48)
+		usr.cmbintent = CMB_INTENT_SPAR
+		switch_cmbintent(CMB_INTENT_SPAR)
+		if(user.cmode)
+			user.update_combat_indicator()	
+
+/mob/living/proc/cycle_cmb_intent()
+	var/mob/living/user = usr
+	switch(cmbintent)
+		if(CMB_INTENT_SPAR)
+			usr.cmbintent = CMB_INTENT_ARREST
+			hud_used.cmb_intents.switch_cmbintent(CMB_INTENT_ARREST)
+			if(user.cmode)
+				user.update_combat_indicator()	
+		if(CMB_INTENT_ARREST)
+			usr.cmbintent = CMB_INTENT_FRAG
+			hud_used.cmb_intents.switch_cmbintent(CMB_INTENT_FRAG)
+			if(user.cmode)
+				user.update_combat_indicator()	
+		if(CMB_INTENT_FRAG)
+			usr.cmbintent = CMB_INTENT_SPAR
+			hud_used.cmb_intents.switch_cmbintent(CMB_INTENT_SPAR)	
+			if(user.cmode)
+				user.update_combat_indicator()	
+
 /atom/movable/screen/quad_intents
 	name = "mmb intents"
 	icon_state = "mmbintents0"

@@ -311,6 +311,20 @@
 	C.cycle_rmb_intent()
 	return TRUE
 
+/datum/keybinding/carbon/cycle_cmb_intent
+	hotkey_keys = list("G")
+	name = "cycle_cmb_intent"
+	full_name = "Cycle Combat Intent"
+	description = "Cycle through available Combat Intents."
+	category = CATEGORY_CARBON
+
+/datum/keybinding/carbon/cycle_cmb_intent/down(client/user)
+	if (!iscarbon(user.mob))
+		return FALSE
+	var/mob/living/carbon/C = user.mob
+	C.cycle_cmb_intent()
+	return TRUE
+
 // ** Action Buttons **
 // I stopped at 6 because it is probably the maximum number you can comfortably reach on keyboard
 /datum/keybinding/carbon/actions

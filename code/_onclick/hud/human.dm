@@ -125,6 +125,10 @@
 	bloods.screen_loc = rogueui_blood
 	static_inventory += bloods
 
+	cmb_intents = new /atom/movable/screen/combat_intents
+	cmb_intents.hud = src
+	static_inventory += cmb_intents
+
 	quad_intents = new /atom/movable/screen/quad_intents
 	quad_intents.hud = src
 	static_inventory += quad_intents

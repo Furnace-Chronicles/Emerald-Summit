@@ -186,6 +186,7 @@
 #define rogueui_blood "WEST-1:6,CENTER+4:17"
 
 #define rogueui_cmode "WEST-1:-16,CENTER+1"
+#define rogueui_cmbintents "WEST-1:+16,CENTER:+6"
 #define rogueui_def "WEST-2,NORTH-5"
 
 #define rogueui_rmbintents "WEST-4:-16,CENTER+1"

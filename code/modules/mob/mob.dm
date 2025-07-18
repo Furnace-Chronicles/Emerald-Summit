@@ -478,7 +478,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 			else if(A.loc.loc == src)
 				message = "[src] looks into"
 				target = "[src.p_their()] [A.loc.name]"
-			else if(isliving(A) && src.cmode)
+			else if(isliving(A))
 				var/mob/living/T = A
 				if(!iscarbon(T))
 					target = "\the [T.name]'s [T.simple_limb_hit(zone_selected)]"

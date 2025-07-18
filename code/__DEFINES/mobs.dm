@@ -399,6 +399,11 @@
 #define INTENT_DODGE 1
 #define INTENT_PARRY 2
 
+//combat intent
+#define CMB_INTENT_SPAR 1
+#define CMB_INTENT_ARREST 2 
+#define CMB_INTENT_FRAG 3
+
 //skin tones defines
 
 //DWARF SKIN TONES
