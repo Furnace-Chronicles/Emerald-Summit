@@ -1,0 +1,71 @@
+{
+    "full": {
+        "goodbye": "sayonara",
+        "bye": "baibai",
+        "captain": "taichou",
+        "god": "kami",
+        "gods": "kami",
+		"goddess": "megami",
+		"goddesses": "megami",
+        "hello": "konnichiwa",
+        "sword": "ken",
+        "thanks": ["arigato", "domo"],
+        "the": "za",
+        "water": "mizu",
+        "wine": "sake",
+        "yes": "hai",
+        "soldier": "senshi",
+        "knight": "samurai",
+        "kingdom": "teikoku",
+		"dukedom": "kokoku",
+		"duke": "shogun",
+		"duchess": "shoguness",
+        "princess": "ohimesama",
+        "prince": "oji",
+        "necromancer": "nekuromansa",
+        "demon": "yokai",
+		"daemon": "youkai",
+		"goblin": "goburin",
+		"goblins": "goburin",
+		"wolf": "okami",
+		"volf": "okami",
+		"bath": "ofuro",
+		"lord": "daimyo",
+		"sorry": "gomen",
+		"hurray": "banzai",
+		"huzzah": "banzai",
+		"sellsword": "ronin",
+		"mercenary": "ronin",
+		"bandit": "ronin",
+		"brigand": "ronin",
+		"assassin": "ninja",
+		"kobold": "koboruto",
+		"hell": "jigoku",
+		"hells": "jigoku",
+		"huh": "eh",
+		"uhm": "etto",
+		"uh": "etto",
+		"um": "etto"
+    },
+    "start": {
+
+    },
+    "end": {
+        "d": "do"
+
+    },
+	"multiword": {
+		"good morning": "ohayo",
+		"good evening": "konbanwa",
+		"good night": "oyasumi",
+		"good bye": "sayonara",
+		"thank you": ["arigato", "domo"],
+		"good day": "konnichiwa",
+		"good dae": "konnichiwa"
+
+	},
+    "syllable": {
+        "orl": "aru"
+
+    }
+}
