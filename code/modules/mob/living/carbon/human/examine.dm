@@ -757,6 +757,11 @@
 				. += span_revennotice("[t_He] look[p_s()] dumber than I.")
 			if(-INFINITY to -5)
 				. += span_revennotice("[t_He] look[p_s()] as blunt-minded as a rock.")
+	
+	//Teeth Stuff
+	if(src.teeth < 32)//Only show this if they're missing teeth
+		var/missing_teeth = 32 - src.teeth
+		. += span_warning("[t_He] is missing [missing_teeth] of [m2] teeth!")
 
 	if(maniac)
 		var/obj/item/organ/heart/heart = getorganslot(ORGAN_SLOT_HEART)

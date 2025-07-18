@@ -168,6 +168,9 @@
 
 /mob/living/carbon/human/get_complex_pain()
 	. = ..()
+	if(src.teeth < 32)
+		for(var/i, i <= src.recently_lost_teeth, i++) //Only count teeth that've been recently lost
+			. += 25 //Same pain amount as a large hematoma
 	if(physiology)
 		. *= physiology.pain_mod
 

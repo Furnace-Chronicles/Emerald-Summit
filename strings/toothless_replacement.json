@@ -1,0 +1,34 @@
+{
+    "full": {
+    },
+    "start": {
+        "h": "'"
+    },
+    "end": {
+        "ed": "'t",
+        "er": "a",
+        "ing": "en'",
+		"th": "fff"
+    },
+	"multiword": {
+
+	},
+    "syllable": {
+        "fuck": "ffyc",
+		"teeth": "teee",
+        "a": "aa",
+        "o": "uu",
+        "r": "rr",
+		"s": "th",
+		"k": "kkh",
+		"th": "fhfh",
+		"g": "gh",
+		"f": "fhfh",
+		"p": "phhh",
+		"r": "rgh",
+		"c": "kh",
+		"l": "lh",
+		"q": "qfe",
+		"b": "buh"
+    }
+}
