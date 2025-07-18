@@ -12,6 +12,7 @@
 
 /datum/outfit/job/roguetown/confessor/pre_equip(mob/living/carbon/human/H)
 	..()
+	// Both subclasses get the same skills
 	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE) // Cudgellin - Nonlethals
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
@@ -24,20 +25,42 @@
 	H.adjust_skillrank(/datum/skill/misc/stealing, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/lockpicking, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE)
-	// Weapon choice system
-	H.adjust_blindness(-3)
-	var/weapons = list("Crossbow & Bolts", "Recurve Bow & Arrows")
-	var/weapon_choice = input("Choose your ranged weapon.", "TAKE UP ARMS") as anything in weapons
-	switch(weapon_choice)
-		if("Crossbow & Bolts")
-			H.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE)
-			beltr = /obj/item/quiver/bolts
-			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-		if("Recurve Bow & Arrows")
-			H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
-			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-			beltr = /obj/item/quiver/arrows
+	var/classes = list("Standard Confessor", "Confessor-Javelinier")
+	var/classchoice = input("Choose your archetype", "Available archetypes") as anything in classes
+	if(classchoice == "Confessor-Javelinier")
+		backl = /obj/item/quiver/javelin
+		beltr = null
+		// After outfit is equipped, fill the quiver with silver javelins
+		spawn(0)
+			for(var/obj/item/quiver/javelin/Q in H)
+				Q.arrows.Cut()
+				for(var/i in 1 to Q.max_storage)
+					var/obj/item/ammo_casing/caseless/rogue/javelin/silver/S = new /obj/item/ammo_casing/caseless/rogue/javelin/silver(Q)
+					Q.arrows += S
+				Q.update_icon()
+		H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
+		H.change_stat("perception", -1)
+		H.change_stat("intelligence", -1)
+		H.change_stat("strength", 3)
+		H.change_stat("endurance", 2)
+		H.change_stat("speed", 3)
+	else
+		// Standard confessor: original ranged weapon logic and stats
+		var/weapons = list("Crossbow & Bolts", "Recurve Bow & Arrows")
+		var/weapon_choice = input("Choose your ranged weapon.", "TAKE UP ARMS") as anything in weapons
+		switch(weapon_choice)
+			if("Crossbow & Bolts")
+				beltr = /obj/item/quiver/bolts
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+				H.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE)
+			if("Recurve Bow & Arrows")
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+				beltr = /obj/item/quiver/arrows
+				H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
+		H.change_stat("strength", -1) // weasel
+		H.change_stat("endurance", 3)
+		H.change_stat("perception", 2)
+		H.change_stat("speed", 3)
 	H.set_blindness(0)		
 	cloak = /obj/item/clothing/suit/roguetown/armor/longcoat
 	wrists = /obj/item/clothing/neck/roguetown/psicross/silver
@@ -52,10 +75,6 @@
 	mask = /obj/item/clothing/mask/rogue/facemask/psydonmask
 	head = /obj/item/clothing/head/roguetown/roguehood/psydon
 	backpack_contents = list(/obj/item/roguekey/inquisition = 1, /obj/item/lockpickring/mundane = 1, /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger, /obj/item/grapplinghook = 1)
-	H.change_stat("strength", -1) // weasel
-	H.change_stat("endurance", 3)
-	H.change_stat("perception", 2)
-	H.change_stat("speed", 3)
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_INQUISITION, TRAIT_GENERIC)
