@@ -8,7 +8,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_TOLERATED_UP		//Not been around long enough to be inquisitor, brand new race to the world.
 	allowed_patrons = ALL_DIVINE_PATRONS //psydon is dead confirmed
-	tutorial = "You have been sent here as an envoy from the Sovereignty of Holy see of the Ten : a silver-tipped olive branch, unmatched in aptitude and unshakable in faith to the Ten. Though you might be ostracized due to your overzealous beliefs, neither the Church nor Crown can deny your value, whenever matters of inhumenity arise to threaten this fief."
+	tutorial = "You have been sent here as an envoy from the Sovereignty of Holy see of the Amora : a silver-tipped olive branch, unmatched in aptitude and unshakable in faith to the Amora. Though you might be ostracized due to your overzealous beliefs, neither the Church nor Crown can deny your value, whenever matters of inhumenity arise to threaten this fief."
 	whitelist_req = TRUE
 	cmode_music = 'sound/music/inquisitorcombat.ogg'
 	selection_color = JCOLOR_INQUISITION

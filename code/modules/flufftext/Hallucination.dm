@@ -374,7 +374,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 			if("demon")//Demon
 				A = image('icons/roguetown/mob/monster/hellkeeper.dmi',H,"hellkeeper")
 				A.name = "RUN"
-				target.playsound_local(H, pick('sound/combat/caught.ogg','sound/misc/astratascream.ogg'), 80, 1)
+				target.playsound_local(H, pick('sound/combat/caught.ogg','sound/misc/saraelscream.ogg'), 80, 1)
 				target.playsound_local(target, 'sound/misc/carriage1.ogg', 80, 1)
 			/*if("custom")
 				A = image(custom_icon_file, H, custom_icon)
@@ -449,7 +449,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 			target.playsound_local(target, 'sound/vo/mobs/spider/idle (1).ogg', 80, 1)
 		if("demon")//Demon
 			A = image('icons/roguetown/mob/monster/hellkeeper.dmi',target,"hellkeeper")
-			target.playsound_local(target, pick('sound/combat/caught.ogg','sound/misc/astratascream.ogg'), 80, 1)
+			target.playsound_local(target, pick('sound/combat/caught.ogg','sound/misc/saraelscream.ogg'), 80, 1)
 			target.playsound_local(target, 'sound/misc/carriage1.ogg', 80, 1)
 			/*sleep(20)
 			target.playsound_local(target, pick('sound/misc/carriage1.ogg'), 80, 1)

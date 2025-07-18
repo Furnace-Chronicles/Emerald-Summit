@@ -14,12 +14,12 @@
 	l_sleeve_status = SLEEVE_NORMAL
 	experimental_inhand = FALSE
 
-/obj/item/clothing/suit/roguetown/shirt/robe/astrata
+/obj/item/clothing/suit/roguetown/shirt/robe/sarael
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
 	name = "sun robe"
 	desc = ""
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
-	icon_state = "astratarobe"
+	icon_state = "saraelrobe"
 	icon = 'icons/roguetown/clothing/armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
 	sleeved = null

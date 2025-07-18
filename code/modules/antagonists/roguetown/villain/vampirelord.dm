@@ -346,7 +346,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 					if(T.get_lumcount() > 0.15)
 						if(!isspawn)
 							if(!disguised)
-								to_chat(H, span_warning("Astrata spurns me! I must get out of her rays!")) // VLord is more punished for daylight excursions.
+								to_chat(H, span_warning("Sarael spurns me! I must get out of her rays!")) // VLord is more punished for daylight excursions.
 								var/turf/N = H.loc
 								if(N.can_see_sky())
 									if(N.get_lumcount() > 0.15)
@@ -790,11 +790,11 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 						spawn(6000)
 							GLOB.todoverride = null
 							sunstolen = FALSE
-						priority_announce("The Sun is torn from the sky!", "Terrible Omen", 'sound/misc/astratascream.ogg')
+						priority_announce("The Sun is torn from the sky!", "Terrible Omen", 'sound/misc/saraelscream.ogg')
 						SSParticleWeather?.run_weather(/datum/particle_weather/blood_rain_storm)
 						addomen(OMEN_SUNSTEAL)
 						for(var/mob/living/carbon/human/astrater in GLOB.human_list)
-							if(!istype(astrater.patron, /datum/patron/divine/astrata) || !length(astrater.mind?.antag_datums))
+							if(!istype(astrater.patron, /datum/patron/divine/sarael) || !length(astrater.mind?.antag_datums))
 								continue
 							to_chat(astrater, span_userdanger("You feel the pain of [astrater.patron.name]!"))
 							astrater.emote_scream()
@@ -881,7 +881,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 
 /datum/objective/vampirelord/ascend
 	name = "sun"
-	explanation_text = "Astrata has spurned me long enough. I must conquer the Sun."
+	explanation_text = "Sarael has spurned me long enough. I must conquer the Sun."
 	team_explanation_text = ""
 	triumph_count = 5
 

@@ -107,7 +107,7 @@
 //Persistence - Harms the shit out of an undead mob/player while causing bleeding/pain wounds to clot at higher rate for living ones. Basically a 'shittier' yet still good greater heal effect.
 /obj/effect/proc_holder/spell/invoked/persistence
 	name = "Persistence"
-	overlay_state = "astrata"
+	overlay_state = "sarael"
 	releasedrain = 30
 	chargedrain = 0
 	chargetime = 0

@@ -327,7 +327,7 @@
 		if(istype(M.patron, /datum/patron/inhumen))
 			var/turf/T = get_step(get_step(M, NORTH), NORTH)
 			T.Beam(M, icon_state="lightning[rand(1,12)]", time = 5)
-			M.visible_message(span_warning("[M] gets struck down by the Ten!"), span_warning("The Ten curse you! You stood too close to one of their devout!"))
+			M.visible_message(span_warning("[M] gets struck down by the Amora!"), span_warning("The Amora curse you! You stood too close to one of their devout!"))
 			M.electrocution_animation(20)
 			mob_ignite(M)
 			playsound(M, 'sound/magic/lightning.ogg', 100, FALSE)
@@ -422,12 +422,12 @@
 	title = "Martyr"
 	department_flag = CHURCHMEN
 	faction = "Station"
-	tutorial = "Martyrs are hand-picked among the most devout of the Holy See. They are given one of the See's cherished relics to protect the Church, and to inspire hope and lead by example of grace, kindness and vicious intolerance to any who do not share the belief of the Ten. They have sworn an Oath in the sight of the gods, and will fulfill it to the bitter end."
+	tutorial = "Martyrs are hand-picked among the most devout of the Holy See. They are given one of the See's cherished relics to protect the Church, and to inspire hope and lead by example of grace, kindness and vicious intolerance to any who do not share the belief of the Amora. They have sworn an Oath in the sight of the gods, and will fulfill it to the bitter end."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_CONSTRUCT
 	allowed_patrons = ALL_DIVINE_PATRONS
 	outfit = /datum/outfit/job/roguetown/martyr
-	min_pq = 10 //Cus it's a Martyr of the Ten. Get it.
+	min_pq = 10 //Cus it's a Martyr of the Amora. Get it.
 	max_pq = null
 	round_contrib_points = 4
 	total_positions = 1
@@ -438,7 +438,7 @@
 
 	cmode_music = 'sound/music/combat_martyrsafe.ogg'
 
-	//No undeath-adjacent virtues for a role that can sacrifice itself. The Ten like their sacrifices 'pure'. (I actually didn't want to code returning those virtue traits post-sword use)
+	//No undeath-adjacent virtues for a role that can sacrifice itself. The Amora like their sacrifices 'pure'. (I actually didn't want to code returning those virtue traits post-sword use)
 	//They get those traits during sword activation, anyway. 
 	//Dual wielder is there to stand-in for ambidextrous in case they activate their sword in their off-hand.
 	virtue_restrictions = list(/datum/virtue/utility/noble, /datum/virtue/combat/rotcured, /datum/virtue/utility/deadened, /datum/virtue/utility/deathless, /datum/virtue/combat/dualwielder, /datum/virtue/heretic/zchurch_keyholder)
@@ -573,7 +573,7 @@
 
 /obj/item/clothing/cloak/martyr
 	name = "martyr cloak"
-	desc = "An elegant cloak in the colors of Astrata. Looks like it can only fit Humen-sized people."
+	desc = "An elegant cloak in the colors of Sarael. Looks like it can only fit Humen-sized people."
 	color = null
 	icon_state = "martyrcloak"
 	item_state = "martyrcloak"
@@ -586,7 +586,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/holysee
 	name = "holy silver plate"
-	desc = "Silver-clad plate for the guardians and the warriors, for the spears and shields of the Ten."
+	desc = "Silver-clad plate for the guardians and the warriors, for the spears and shields of the Amora."
 	icon = 'icons/roguetown/clothing/special/martyr.dmi'
 	icon_state = "silverarmor"
 	item_state = "silverarmor"

@@ -15,14 +15,14 @@
 		qdel(src)
 
 // This'll be our tutorial ritual for those who want to make more later, let's go into details in comments, mm? - Onutsio 
-/obj/structure/ritualcircle/astrata
+/obj/structure/ritualcircle/sarael
 	name = "Rune of the Sun" // defines name of the circle itself
-	icon_state = "astrata_chalky" // the icon state, so, the sprite the runes use on the floor. As of making, we have 6, each needs an active/inactive state. 
-	desc = "A Holy Rune of Astrata" // description on examine
+	icon_state = "sarael_chalky" // the icon state, so, the sprite the runes use on the floor. As of making, we have 6, each needs an active/inactive state. 
+	desc = "A Holy Rune of Sarael" // description on examine
 	var/solarrites = list("Guiding Light") // This is important - This is the var which stores every ritual option available to a ritualist - Ideally, we'd have like, 3 for each God. Right now, just 1.
 
-/obj/structure/ritualcircle/astrata/attack_hand(mob/living/user) 
-	if((user.patron?.type) != /datum/patron/divine/astrata)
+/obj/structure/ritualcircle/sarael/attack_hand(mob/living/user) 
+	if((user.patron?.type) != /datum/patron/divine/sarael)
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
@@ -40,8 +40,8 @@
 					user.say("To bring Order to a world of naught!!")
 					if(do_after(user, 50))
 						user.say("Place your gaze upon me, oh Radiant one!!")
-						to_chat(user,span_danger("You feel the eye of Astrata turned upon you. Her warmth dances upon your cheek. You feel yourself warming up...")) // A bunch of flavor stuff, slow incanting.
-						icon_state = "astrata_active"
+						to_chat(user,span_danger("You feel the eye of Sarael turned upon you. Her warmth dances upon your cheek. You feel yourself warming up...")) // A bunch of flavor stuff, slow incanting.
+						icon_state = "sarael_active"
 						if(!HAS_TRAIT(user, TRAIT_CHOSEN)) //Priests don't burst into flames.
 							loc.visible_message(span_warning("[user]'s bursts to flames! Embraced by Her Warmth wholly!"))
 							playsound(loc, 'sound/combat/hits/burn (1).ogg', 100, FALSE, -1)
@@ -52,13 +52,13 @@
 						guidinglight(src) // Actually starts the proc for applying the buff
 						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 						spawn(120)
-							icon_state = "astrata_chalky"
+							icon_state = "sarael_chalky"
 
-/obj/structure/ritualcircle/astrata/proc/guidinglight(src)
+/obj/structure/ritualcircle/sarael/proc/guidinglight(src)
 	var/ritualtargets = view(7, loc) // Range of 7 from the source, which is the rune
 	for(var/mob/living/carbon/human/target in ritualtargets) // defines the target as every human in this range
 		target.apply_status_effect(/datum/status_effect/buff/guidinglight) // applies the status effect
-		to_chat(target,span_cultsmall("Astrata's light guides me forward, drawn to me by the Ritualist's pyre!"))
+		to_chat(target,span_cultsmall("Sarael's light guides me forward, drawn to me by the Ritualist's pyre!"))
 		playsound(target, 'sound/magic/holyshield.ogg', 80, FALSE, -1) // Cool sound!
 // If you want to review a more complicated one, Undermaiden's Bargain is probs the most complicated of the starting set. - Have fun! - Onutsio 🏳️‍⚧️
 

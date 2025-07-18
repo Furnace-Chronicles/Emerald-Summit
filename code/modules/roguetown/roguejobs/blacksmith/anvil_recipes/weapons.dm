@@ -949,12 +949,12 @@
 	created_item = /obj/item/rogueweapon/katar/abyssor
 	i_type = "Weapons"
 
-/datum/anvil_recipe/weapons/holy/astrata_exe
+/datum/anvil_recipe/weapons/holy/sarael_exe
 	name = "Solar Judgement (+1 H. Steel)"
 	req_bar = /obj/item/ingot/steelholy
 	craftdiff = 3
 	additional_items = list(/obj/item/ingot/steelholy)
-	created_item = /obj/item/rogueweapon/sword/long/exe/astrata
+	created_item = /obj/item/rogueweapon/sword/long/exe/sarael
 	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/holy/noc_kopesh

@@ -302,7 +302,7 @@
 
 /turf/open/floor/rogue/grassyel
 	name = "yellow grass"
-	desc = "Grass, blessed by Astrata's light."
+	desc = "Grass, blessed by Sarael's light."
 	icon_state = "grass_yel"
 	layer = MID_TURF_LAYER
 	footstep = FOOTSTEP_GRASS

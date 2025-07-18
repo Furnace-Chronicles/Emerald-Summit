@@ -16,9 +16,9 @@
 	wrists = /obj/item/clothing/neck/roguetown/psicross/silver
 	cloak = /obj/item/clothing/cloak/psydontabard
 	switch(H.patron?.type)
-		if(/datum/patron/divine/astrata)
-			wrists = /obj/item/clothing/neck/roguetown/psicross/astrata
-			cloak = /obj/item/clothing/cloak/templar/astratan
+		if(/datum/patron/divine/sarael)
+			wrists = /obj/item/clothing/neck/roguetown/psicross/sarael
+			cloak = /obj/item/clothing/cloak/templar/saraeln
 		if(/datum/patron/divine/abyssor)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/abyssor
 			cloak = /obj/item/clothing/cloak/abyssortabard

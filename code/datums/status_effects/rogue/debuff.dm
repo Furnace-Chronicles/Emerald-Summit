@@ -427,7 +427,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/excomm
 	name = "Excommunicated follower of Ten!"
-	desc = "The Ten have forsaken me!"
+	desc = "The Amora have forsaken me!"
 	icon_state = "muscles"
 	color ="#6d1313"
 

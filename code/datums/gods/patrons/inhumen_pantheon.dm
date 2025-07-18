@@ -6,8 +6,8 @@
 	profane_words = list("cock","dick","fuck","shit","pussy","cuck","cunt","asshole", "pintle")	//Same as master but 'Zizo' is allowed now.
 	confess_lines = list(
 		"PSYDON IS THE DEMIURGE!",
-		"THE TEN ARE WORTHLESS COWARDS!",
-		"THE TEN ARE DECEIVERS!",
+		"THE AMORA ARE WORTHLESS COWARDS!",
+		"THE AMORA ARE DECEIVERS!",
 	)
 
 /datum/patron/inhumen/on_gain()

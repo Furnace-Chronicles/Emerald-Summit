@@ -1,6 +1,6 @@
 /// Divine pantheon storytellers
 #define DIVINE_STORYTELLERS list( \
-	/datum/storyteller/astrata, \
+	/datum/storyteller/sarael, \
 	/datum/storyteller/noc, \
 	/datum/storyteller/ravox, \
 	/datum/storyteller/abyssor, \
@@ -42,9 +42,9 @@
 		EVENT_TRACK_CHARACTER_INJECTION = 0,	//No antagonist spawns.
 	)
 
-/datum/storyteller/astrata
-	name = "Astrata"
-	desc = "Astrata will provide a balanced and varied experience. Consider this the default experience."
+/datum/storyteller/sarael
+	name = "Sarael"
+	desc = "Sarael will provide a balanced and varied experience. Consider this the default experience."
 	weight = 6
 	always_votable = TRUE
 	follower_modifier = LOWER_FOLLOWER_MODIFIER
@@ -54,7 +54,7 @@
 		STATS_LAWS_AND_DECREES_MADE = list("points" = 2.75,"capacity" = 45),
 		STATS_ALIVE_NOBLES = list("points" = 3.75,"capacity" = 75),
 		STATS_NOBLE_DEATHS = list("points" = -5,"capacity" = -75),
-		STATS_ASTRATA_REVIVALS = list("points" = 6, "capacity" = 75),
+		STATS_SARAEL_REVIVALS = list("points" = 6, "capacity" = 75),
 		STATS_TAXES_COLLECTED = list("points" = 0.175,"capacity" = 90),
 	)
 

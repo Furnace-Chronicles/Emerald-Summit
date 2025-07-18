@@ -2,31 +2,31 @@
 	name = null
 	associated_faith = /datum/faith/divine
 
-/datum/patron/divine/astrata
-	name = "Astrata"
+/datum/patron/divine/sarael
+	name = "Sarael"
 	domain = "Twinned Goddess of the Sun, Day, and Order"
-	desc = "The she-form of the Twinned Gods, the combined amalgam of single-bodied Astrata and Noc that opens her eyes at glorious Dae. Men bask under the gift of the Sun. A single form begets two Gods that shift at Dusk and Dawn but always endures, even at night."
+	desc = "The she-form of the Twinned Gods, the combined amalgam of single-bodied Sarael and Noc that opens her eyes at glorious Dae. Men bask under the gift of the Sun. A single form begets two Gods that shift at Dusk and Dawn but always endures, even at night."
 	worshippers = "The Noble Hearted, Zealots and Farmers"
 	mob_traits = list(TRAIT_APRICITY)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/ignition				= CLERIC_T0,
-					/obj/effect/proc_holder/spell/self/astrata_gaze				= CLERIC_T0,
+					/obj/effect/proc_holder/spell/self/sarael_gaze				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/lightningbolt/sacred_flame_rogue	= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/heal					= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/revive				= CLERIC_T3,
 	)
 	confess_lines = list(
-		"ASTRATA IS MY LIGHT!",
-		"ASTRATA BRINGS LAW!",
+		"SARAEL IS MY LIGHT!",
+		"SARAEL BRINGS LAW!",
 		"I SERVE THE GLORY OF THE SUN!",
 	)
-	storyteller = /datum/storyteller/astrata
+	storyteller = /datum/storyteller/sarael
 
 /datum/patron/divine/noc
 	name = "Noc"
 	domain = "Twinned God of the Moon, Night, and Knowledge"
-	desc = "The he-form of the Twinned Gods, the combined amalgam of single-bodied Noc and Astrata that opens his eyes during pondorous Night. He gifted man knowledge of divinity and magicks. A single form begets two Gods that shift at Dusk and Dawn but always endures, even at dae."
+	desc = "The he-form of the Twinned Gods, the combined amalgam of single-bodied Noc and Sarael that opens his eyes during pondorous Night. He gifted man knowledge of divinity and magicks. A single form begets two Gods that shift at Dusk and Dawn but always endures, even at dae."
 	worshippers = "Wizards and Scholars"
 	mob_traits = list(TRAIT_NIGHT_OWL, TRAIT_DARKVISION)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
@@ -69,7 +69,7 @@
 /datum/patron/divine/abyssor
 	name = "Abyssor"
 	domain = "God of the Ocean, Storms and the Tide"
-	desc = "The strongest of the Ten; when awakened, the world flooded for a thousand daes and a thousand nights before he was put to slumber. Resting fitfully did Dendor split from his skull like a gaping wound. Communes rarely with his followers, only offering glimpses in dreams. Gifted primordial Man water. "
+	desc = "The strongest of the Amora; when awakened, the world flooded for a thousand daes and a thousand nights before he was put to slumber. Resting fitfully did Dendor split from his skull like a gaping wound. Communes rarely with his followers, only offering glimpses in dreams. Gifted primordial Man water. "
 	worshippers = "Men of the Sea, Primitive Aquatics"
 	mob_traits = list(TRAIT_ABYSSOR_SWIM, TRAIT_SEA_DRINKER)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
@@ -144,7 +144,7 @@
 					/obj/effect/proc_holder/spell/invoked/mastersillusion		= CLERIC_T2,
 	)
 	confess_lines = list(
-		"ASTRATA IS MY LIGHT!",
+		"SARAEL IS MY LIGHT!",
 		"NOC IS NIGHT!",
 		"DENDOR PROVIDES!",
 		"ABYSSOR COMMANDS THE WAVES!",
@@ -234,8 +234,8 @@
 // Does God Hear Your Prayer ? //
 /////////////////////////////////
 
-// Astrata - In daylight, church, cross, or ritual chalk.
-/datum/patron/divine/astrata/can_pray(mob/living/follower)
+// Sarael - In daylight, church, cross, or ritual chalk.
+/datum/patron/divine/sarael/can_pray(mob/living/follower)
 	. = ..()
 	// Allows prayer near psycross
 	for(var/obj/structure/fluff/psycross/cross in view(4, get_turf(follower)))
@@ -249,7 +249,7 @@
 	// Allows prayer during daytime if outside.
 	if(istype(get_area(follower), /area/rogue/outdoors) && (GLOB.tod == "day" || GLOB.tod == "dawn"))
 		return TRUE
-	to_chat(follower, span_danger("For Astrata to hear my prayer I must either be in her blessed daylight, within the church, or near a psycross.."))
+	to_chat(follower, span_danger("For Sarael to hear my prayer I must either be in her blessed daylight, within the church, or near a psycross.."))
 	return FALSE
 
 

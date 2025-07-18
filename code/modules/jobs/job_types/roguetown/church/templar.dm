@@ -47,12 +47,12 @@
 
 /datum/outfit/job/roguetown/templar/monk/pre_equip(mob/living/carbon/human/H)
 	..()
-	neck = /obj/item/clothing/neck/roguetown/psicross/astrata
+	neck = /obj/item/clothing/neck/roguetown/psicross/sarael
 	cloak = /obj/item/clothing/cloak/tabard/crusader/tief
 	switch(H.patron?.type)
-		if(/datum/patron/divine/astrata)
-			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
-			cloak = /obj/item/clothing/cloak/tabard/crusader/astrata
+		if(/datum/patron/divine/sarael)
+			neck = /obj/item/clothing/neck/roguetown/psicross/sarael
+			cloak = /obj/item/clothing/cloak/tabard/crusader/sarael
 		if(/datum/patron/divine/abyssor)
 			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
 			cloak = /obj/item/clothing/cloak/abyssortabard
@@ -100,7 +100,7 @@
 	H.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/magic/holy, 3, TRUE)
 	// -- Start of section for god specific bonuses --
-	if(H.patron?.type == /datum/patron/divine/astrata)
+	if(H.patron?.type == /datum/patron/divine/sarael)
 		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/dendor)
 		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
@@ -177,13 +177,13 @@
 /datum/outfit/job/roguetown/templar/crusader/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/bucket
-	wrists = /obj/item/clothing/neck/roguetown/psicross/astrata
+	wrists = /obj/item/clothing/neck/roguetown/psicross/sarael
 	cloak = /obj/item/clothing/cloak/tabard/crusader/tief
 	switch(H.patron?.type)
-		if(/datum/patron/divine/astrata)
-			wrists = /obj/item/clothing/neck/roguetown/psicross/astrata
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/astratan
-			cloak = /obj/item/clothing/cloak/templar/astratan
+		if(/datum/patron/divine/sarael)
+			wrists = /obj/item/clothing/neck/roguetown/psicross/sarael
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/saraeln
+			cloak = /obj/item/clothing/cloak/templar/saraeln
 		if(/datum/patron/divine/abyssor)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/abyssor
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/abyssorgreathelm
@@ -248,7 +248,7 @@
 	H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)	//May tone down to 2; seems OK.
 	// -- Start of section for god specific bonuses --
-	if(H.patron?.type == /datum/patron/divine/astrata)
+	if(H.patron?.type == /datum/patron/divine/sarael)
 		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/dendor)
 		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
@@ -298,7 +298,7 @@
 	. = ..()
 	var/weapons = list("Longsword","Flail","Mace","Battle Axe")
 	switch(H.patron?.type)
-		if(/datum/patron/divine/astrata) //Unique patron weapons, more can be added here if wanted.
+		if(/datum/patron/divine/sarael) //Unique patron weapons, more can be added here if wanted.
 			weapons += "Solar Judgement"
 		if(/datum/patron/divine/noc)
 			weapons += "Moonlight Khopesh"
@@ -331,7 +331,7 @@
 			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
 		if("Solar Judgement")
-			H.put_in_hands(new /obj/item/rogueweapon/sword/long/exe/astrata(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/sword/long/exe/sarael(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Moonlight Khopesh")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/sabre/nockhopesh(H), TRUE)

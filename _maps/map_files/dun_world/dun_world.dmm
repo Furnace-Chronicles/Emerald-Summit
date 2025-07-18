@@ -13815,10 +13815,10 @@
 "eEY" = (
 /obj/effect/decal/cobbleedge,
 /obj/structure/rack/rogue/shelf/biggest,
-/obj/item/clothing/suit/roguetown/shirt/robe/astrata,
-/obj/item/clothing/suit/roguetown/shirt/robe/astrata,
-/obj/item/clothing/head/roguetown/roguehood/astrata,
-/obj/item/clothing/head/roguetown/roguehood/astrata,
+/obj/item/clothing/suit/roguetown/shirt/robe/sarael,
+/obj/item/clothing/suit/roguetown/shirt/robe/sarael,
+/obj/item/clothing/head/roguetown/roguehood/sarael,
+/obj/item/clothing/head/roguetown/roguehood/sarael,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/church/chapel)
 "eEZ" = (
@@ -14367,7 +14367,7 @@
 /turf/open/floor/rogue/tile/brownbrick,
 /area/rogue/indoors/town/bath)
 "ePP" = (
-/obj/item/clothing/neck/roguetown/psicross/astrata,
+/obj/item/clothing/neck/roguetown/psicross/sarael,
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/orcdungeon)
@@ -18876,7 +18876,7 @@
 	},
 /area/rogue/indoors/town)
 "gph" = (
-/obj/item/clothing/suit/roguetown/shirt/robe/astrata,
+/obj/item/clothing/suit/roguetown/shirt/robe/sarael,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/orcdungeon)
 "gpi" = (
@@ -20965,8 +20965,8 @@
 /obj/item/clothing/suit/roguetown/shirt/undershirt/priest,
 /obj/item/clothing/cloak/templar/malumite,
 /obj/item/clothing/cloak/templar/malumite,
-/obj/item/clothing/cloak/templar/astratan,
-/obj/item/clothing/cloak/templar/astratan,
+/obj/item/clothing/cloak/templar/saraeln,
+/obj/item/clothing/cloak/templar/saraeln,
 /obj/item/clothing/cloak/templar/pestran,
 /obj/item/clothing/cloak/templar/pestran,
 /obj/item/clothing/cloak/templar/necran,
@@ -42158,8 +42158,8 @@
 /obj/item/clothing/neck/roguetown/psicross/eora,
 /obj/item/clothing/neck/roguetown/psicross/dendor,
 /obj/item/clothing/neck/roguetown/psicross/dendor,
-/obj/item/clothing/neck/roguetown/psicross/astrata,
-/obj/item/clothing/neck/roguetown/psicross/astrata,
+/obj/item/clothing/neck/roguetown/psicross/sarael,
+/obj/item/clothing/neck/roguetown/psicross/sarael,
 /obj/item/clothing/neck/roguetown/psicross/ravox,
 /obj/item/clothing/neck/roguetown/psicross/ravox,
 /obj/item/clothing/neck/roguetown/psicross/malum,
@@ -42646,7 +42646,7 @@
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/indoors/town/garrison)
 "ocw" = (
-/obj/structure/fluff/statue/astrata,
+/obj/structure/fluff/statue/sarael,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/skeletoncrypt)
 "ocA" = (
@@ -54819,7 +54819,7 @@
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "siB" = (
-/obj/structure/fluff/statue/astrata,
+/obj/structure/fluff/statue/sarael,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/orcdungeon)
 "siD" = (
@@ -57705,7 +57705,7 @@
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "tdD" = (
 /obj/structure/table/vtable/v2,
-/obj/item/clothing/neck/roguetown/psicross/astrata,
+/obj/item/clothing/neck/roguetown/psicross/sarael,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/orcdungeon)
 "tdE" = (
@@ -65768,7 +65768,7 @@
 /turf/open/floor/rogue/grassred,
 /area/rogue/indoors/shelter/woods)
 "vII" = (
-/obj/structure/fluff/statue/astrata/gold,
+/obj/structure/fluff/statue/sarael/gold,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement/keep)
 "vIP" = (
@@ -70520,7 +70520,7 @@
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/outdoors/mountains/decap)
 "xkf" = (
-/obj/structure/fluff/statue/astrata/gold,
+/obj/structure/fluff/statue/sarael/gold,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/basement)
 "xkh" = (

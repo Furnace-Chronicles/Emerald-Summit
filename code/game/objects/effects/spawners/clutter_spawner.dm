@@ -101,7 +101,7 @@
 		/obj/item/clothing/ring/aalloy = 6,
 		/obj/item/clothing/neck/roguetown/psicross = 1,
 		/obj/item/clothing/neck/roguetown/psicross/aalloy = 1,
-		/obj/item/clothing/neck/roguetown/psicross/astrata = 6,
+		/obj/item/clothing/neck/roguetown/psicross/sarael = 6,
 		/obj/item/clothing/neck/roguetown/psicross/noc = 6,
 		/obj/item/clothing/neck/roguetown/psicross/abyssor = 6,
 		/obj/item/clothing/neck/roguetown/psicross/dendor = 6,

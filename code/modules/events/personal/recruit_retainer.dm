@@ -19,7 +19,7 @@
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
 		if(!istype(H) || H.stat == DEAD || !H.client)
 			continue
-		if(!H.patron || !istype(H.patron, /datum/patron/divine/astrata))
+		if(!H.patron || !istype(H.patron, /datum/patron/divine/sarael))
 			continue
 		if(!H.is_noble() || (H.mind?.assigned_role in GLOB.church_positions))
 			continue
@@ -36,7 +36,7 @@
 	for(var/mob/living/carbon/human/human_mob in GLOB.player_list)
 		if(!istype(human_mob) || human_mob.stat == DEAD || !human_mob.client)
 			continue
-		if(!human_mob.patron || !istype(human_mob.patron, /datum/patron/divine/astrata))
+		if(!human_mob.patron || !istype(human_mob.patron, /datum/patron/divine/sarael))
 			continue
 		if(!human_mob.is_noble() || (human_mob.mind?.assigned_role in GLOB.church_positions))
 			continue
@@ -61,7 +61,7 @@
 	noble.mind.add_personal_objective(new_objective)
 
 	to_chat(noble, span_userdanger("YOU ARE GOD'S CHOSEN!"))
-	to_chat(noble, span_notice("Astrata wants you to demonstrate your ability to lead as a proper noble! Recruit at least one retainer to serve you!"))
+	to_chat(noble, span_notice("Sarael wants you to demonstrate your ability to lead as a proper noble! Recruit at least one retainer to serve you!"))
 	noble.playsound_local(noble, 'sound/magic/bless.ogg', 100)
 
 	noble.mind.announce_personal_objectives()

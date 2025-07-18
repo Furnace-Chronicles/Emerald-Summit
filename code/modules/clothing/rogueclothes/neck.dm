@@ -375,10 +375,10 @@
 	desc = "A symbol of progress from an era that had reason to believe in it."
 	icon_state = "zcross_a"
 
-/obj/item/clothing/neck/roguetown/psicross/astrata
-	name = "amulet of Astrata"
+/obj/item/clothing/neck/roguetown/psicross/sarael
+	name = "amulet of Sarael"
 	desc = "As sure as the sun rises, tomorrow will come."
-	icon_state = "astrata"
+	icon_state = "sarael"
 
 /obj/item/clothing/neck/roguetown/psicross/noc
 	name = "amulet of Noc"

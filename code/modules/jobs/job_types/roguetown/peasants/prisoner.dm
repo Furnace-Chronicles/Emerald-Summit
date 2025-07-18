@@ -524,8 +524,8 @@
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			wrists = /obj/item/clothing/neck/roguetown/psicross
-		if(/datum/patron/divine/astrata)
-			wrists = /obj/item/clothing/neck/roguetown/psicross/astrata
+		if(/datum/patron/divine/sarael)
+			wrists = /obj/item/clothing/neck/roguetown/psicross/sarael
 		if(/datum/patron/divine/noc)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/noc
 		if(/datum/patron/divine/abyssor)
@@ -551,7 +551,7 @@
 		if(/datum/patron/divine/xylix) // Random psicross for Xylix
 			var/list/psicross_options = list(
 			/obj/item/clothing/neck/roguetown/psicross,
-			/obj/item/clothing/neck/roguetown/psicross/astrata,
+			/obj/item/clothing/neck/roguetown/psicross/sarael,
 			/obj/item/clothing/neck/roguetown/psicross/noc,
 			/obj/item/clothing/neck/roguetown/psicross/abyssor,
 			/obj/item/clothing/neck/roguetown/psicross/dendor,

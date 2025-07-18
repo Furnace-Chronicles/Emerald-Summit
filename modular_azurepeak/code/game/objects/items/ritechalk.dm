@@ -19,7 +19,7 @@
 			ritechoices+="Rune of ZIZO" 
 		if(/datum/patron/inhumen/matthios)
 			ritechoices+="Rune of Transaction" 
-		if(/datum/patron/divine/astrata)
+		if(/datum/patron/divine/sarael)
 			ritechoices+="Rune of Sun"
 		if(/datum/patron/divine/noc)
 			ritechoices+="Rune of Moon"
@@ -47,7 +47,7 @@
 			to_chat(user,span_cultsmall("I begin inscribing the rune of Her Radiance..."))
 			if(do_after(user, 30, src))
 				playsound(src, 'sound/foley/scribble.ogg', 40, TRUE)
-				new /obj/structure/ritualcircle/astrata(step_turf)
+				new /obj/structure/ritualcircle/sarael(step_turf)
 		if("Rune of Moon")
 			to_chat(user, span_cultsmall("I begin inscribing the rune of His Wisdom"))
 			if(do_after(user, 30, src))

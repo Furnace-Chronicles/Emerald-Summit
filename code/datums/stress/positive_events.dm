@@ -217,10 +217,10 @@
 	desc = span_green("A soothing fragrance envelops me.")
 	timer = 10 MINUTES
 
-/datum/stressevent/astrata_grandeur
+/datum/stressevent/sarael_grandeur
 	timer = 30 MINUTES
 	stressadd = -2
-	desc = span_green("Astrata's light shines brightly through me. I must not let others ever forget that.")
+	desc = span_green("Sarael's light shines brightly through me. I must not let others ever forget that.")
 
 /datum/stressevent/graggar_culling_finished
 	stressadd = -1

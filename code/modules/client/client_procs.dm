@@ -281,7 +281,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	data += "<div style='display: table-cell; width: 50%; vertical-align: top; border-left: 1px solid #444; padding: 0 10px;'>"
 	data += "<font color='#9b6937'><span class='bold'>Total Deaths:</span></font> [GLOB.scarlet_round_stats[STATS_DEATHS]]<br>"
 	data += "<font color='#6b5ba1'><span class='bold'>Noble Deaths:</span></font> [GLOB.scarlet_round_stats[STATS_NOBLE_DEATHS]]<br>"
-	data += "<font color='#e6b327'><span class='bold'>Revivals:</span></font> [GLOB.scarlet_round_stats[STATS_ASTRATA_REVIVALS]]<br>"
+	data += "<font color='#e6b327'><span class='bold'>Revivals:</span></font> [GLOB.scarlet_round_stats[STATS_SARAEL_REVIVALS]]<br>"
 	data += "<font color='#2dc5bd'><span class='bold'>Lux Revivals:</span></font> [GLOB.scarlet_round_stats[STATS_LUX_REVIVALS]]<br>"
 	data += "<font color='#825b1c'><span class='bold'>Moat Fallers:</span></font> [GLOB.scarlet_round_stats[STATS_MOAT_FALLERS]]<br>"
 	data += "<font color='#ac5d5d'><span class='bold'>Ankles Broken:</span></font> [GLOB.scarlet_round_stats[STATS_ANKLES_BROKEN]]<br>"
@@ -437,8 +437,8 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	data += "<div style='text-align: center;'>Total Influence: [get_colored_influence_value(psydon_influence)]</div>"
 	data += "</div></div></div>"
 
-	// The Ten Section
-	var/astrata_followers = GLOB.patron_follower_counts["Astrata"] || 0
+	// The Amora Section
+	var/sarael_followers = GLOB.patron_follower_counts["Sarael"] || 0
 	var/noc_followers = GLOB.patron_follower_counts["Noc"] || 0
 	var/necra_followers = GLOB.patron_follower_counts["Necra"] || 0
 	var/pestra_followers = GLOB.patron_follower_counts["Pestra"] || 0
@@ -449,7 +449,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	var/abyssor_followers = GLOB.patron_follower_counts["Abyssor"] || 0
 	var/eora_followers = GLOB.patron_follower_counts["Eora"] || 0
 
-	var/astrata_storyteller = /datum/storyteller/astrata
+	var/sarael_storyteller = /datum/storyteller/sarael
 	var/noc_storyteller = /datum/storyteller/noc
 	var/necra_storyteller = /datum/storyteller/necra
 	var/pestra_storyteller = /datum/storyteller/pestra
@@ -460,20 +460,20 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	var/abyssor_storyteller = /datum/storyteller/abyssor
 	var/eora_storyteller = /datum/storyteller/eora
 
-	data += "<div style='text-align: center; font-size: 1.3em; color: #c0a828; margin: 20px 0 10px 0;'><b>THE TEN</b></div>"
+	data += "<div style='text-align: center; font-size: 1.3em; color: #c0a828; margin: 20px 0 10px 0;'><b>THE AMORA</b></div>"
 	data += "<div style='border-top: 3px solid #404040; margin: 0 auto 30px; width: 91.5%;'></div>"
 
 	data += "<div style='width: 91.5%; margin: 0 auto 40px;'>"
 	data += "<div style='display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; margin-bottom: 30px;'>"
 
-	// Astrata
-	data += god_ui_block("ASTRATA", "#ffd700", "#333300", "\
-		Number of followers: [astrata_followers] ([get_colored_influence_value(SSgamemode.get_follower_influence(astrata_storyteller))])<br>\
-		Astrata revivals: [GLOB.scarlet_round_stats[STATS_ASTRATA_REVIVALS]] ([get_colored_influence_value(SSgamemode.calculate_specific_influence(astrata_storyteller, STATS_ASTRATA_REVIVALS))])<br>\
-		Number of nobles: [GLOB.scarlet_round_stats[STATS_ALIVE_NOBLES]] ([get_colored_influence_value(SSgamemode.calculate_specific_influence(astrata_storyteller, STATS_ALIVE_NOBLES))])<br>\
-		Noble deaths: [GLOB.scarlet_round_stats[STATS_NOBLE_DEATHS]] ([get_colored_influence_value(SSgamemode.calculate_specific_influence(astrata_storyteller, STATS_NOBLE_DEATHS))])<br>\
-		Laws and decrees: [GLOB.scarlet_round_stats[STATS_LAWS_AND_DECREES_MADE]] ([get_colored_influence_value(SSgamemode.calculate_specific_influence(astrata_storyteller, STATS_LAWS_AND_DECREES_MADE))])<br>\
-		Taxes collected: [GLOB.scarlet_round_stats[STATS_TAXES_COLLECTED]] ([get_colored_influence_value(SSgamemode.calculate_specific_influence(astrata_storyteller, STATS_TAXES_COLLECTED))])", astrata_storyteller)
+	// Sarael
+	data += god_ui_block("SARAEL", "#ffd700", "#333300", "\
+		Number of followers: [sarael_followers] ([get_colored_influence_value(SSgamemode.get_follower_influence(sarael_storyteller))])<br>\
+		Sarael revivals: [GLOB.scarlet_round_stats[STATS_SARAEL_REVIVALS]] ([get_colored_influence_value(SSgamemode.calculate_specific_influence(sarael_storyteller, STATS_SARAEL_REVIVALS))])<br>\
+		Number of nobles: [GLOB.scarlet_round_stats[STATS_ALIVE_NOBLES]] ([get_colored_influence_value(SSgamemode.calculate_specific_influence(sarael_storyteller, STATS_ALIVE_NOBLES))])<br>\
+		Noble deaths: [GLOB.scarlet_round_stats[STATS_NOBLE_DEATHS]] ([get_colored_influence_value(SSgamemode.calculate_specific_influence(sarael_storyteller, STATS_NOBLE_DEATHS))])<br>\
+		Laws and decrees: [GLOB.scarlet_round_stats[STATS_LAWS_AND_DECREES_MADE]] ([get_colored_influence_value(SSgamemode.calculate_specific_influence(sarael_storyteller, STATS_LAWS_AND_DECREES_MADE))])<br>\
+		Taxes collected: [GLOB.scarlet_round_stats[STATS_TAXES_COLLECTED]] ([get_colored_influence_value(SSgamemode.calculate_specific_influence(sarael_storyteller, STATS_TAXES_COLLECTED))])", sarael_storyteller)
 
 	// Noc
 	data += god_ui_block("NOC", "#e0e0e0", "#404040", "\

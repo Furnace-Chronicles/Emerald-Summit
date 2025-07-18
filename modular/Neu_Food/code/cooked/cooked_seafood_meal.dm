@@ -147,7 +147,7 @@
 /*jellied eel*/
 /obj/item/reagent_containers/food/snacks/rogue/jelliedeel
 	name = "jellied eel"
-	desc = "Jellied eel! Eel in jelly made of eel! By the ten!"
+	desc = "Jellied eel! Eel in jelly made of eel! By the amora!"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
 	icon_state = "jellied_eel"
 	tastes = list("slimy, slippery fish" = 1)

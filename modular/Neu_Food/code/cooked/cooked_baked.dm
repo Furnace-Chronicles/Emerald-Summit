@@ -261,7 +261,7 @@
 /* 	.................   Crossbuns   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/crossbun_raw
 	name = "raw crossbun"
-	desc = "A piece of raw dough with the shape of Astrata's cross pressed onto it. In Her Light."
+	desc = "A piece of raw dough with the shape of Sarael's cross pressed onto it. In Her Light."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "crossbun_raw"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/crossbun
@@ -275,7 +275,7 @@
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/psycrossbun
 
 /* 	.................   Crossbuns   ................... */
-// Astrata variant
+// Sarael variant
 
 /obj/item/reagent_containers/food/snacks/rogue/crossbun
 	name = "crossbun"

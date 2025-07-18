@@ -18503,8 +18503,8 @@
 /obj/item/clothing/neck/roguetown/psicross/eora,
 /obj/item/clothing/neck/roguetown/psicross/dendor,
 /obj/item/clothing/neck/roguetown/psicross/dendor,
-/obj/item/clothing/neck/roguetown/psicross/astrata,
-/obj/item/clothing/neck/roguetown/psicross/astrata,
+/obj/item/clothing/neck/roguetown/psicross/sarael,
+/obj/item/clothing/neck/roguetown/psicross/sarael,
 /obj/item/clothing/neck/roguetown/psicross/ravox,
 /obj/item/clothing/neck/roguetown/psicross/ravox,
 /obj/item/clothing/neck/roguetown/psicross/malum,
@@ -26528,8 +26528,8 @@
 /obj/item/clothing/suit/roguetown/shirt/undershirt/priest,
 /obj/item/clothing/cloak/templar/malumite,
 /obj/item/clothing/cloak/templar/malumite,
-/obj/item/clothing/cloak/templar/astratan,
-/obj/item/clothing/cloak/templar/astratan,
+/obj/item/clothing/cloak/templar/saraeln,
+/obj/item/clothing/cloak/templar/saraeln,
 /obj/item/clothing/cloak/templar/pestran,
 /obj/item/clothing/cloak/templar/pestran,
 /obj/item/clothing/cloak/templar/necran,
@@ -26678,7 +26678,7 @@
 /turf/open/water/pond,
 /area/rogue/outdoors/mountains)
 "sEG" = (
-/obj/structure/fluff/statue/astrata,
+/obj/structure/fluff/statue/sarael,
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/town/church/chapel)
 "sEN" = (
@@ -27460,10 +27460,10 @@
 "tiP" = (
 /obj/effect/decal/cobbleedge,
 /obj/structure/rack/rogue/shelf/biggest,
-/obj/item/clothing/suit/roguetown/shirt/robe/astrata,
-/obj/item/clothing/suit/roguetown/shirt/robe/astrata,
-/obj/item/clothing/head/roguetown/roguehood/astrata,
-/obj/item/clothing/head/roguetown/roguehood/astrata,
+/obj/item/clothing/suit/roguetown/shirt/robe/sarael,
+/obj/item/clothing/suit/roguetown/shirt/robe/sarael,
+/obj/item/clothing/head/roguetown/roguehood/sarael,
+/obj/item/clothing/head/roguetown/roguehood/sarael,
 /obj/structure/fluff/walldeco/psybanner{
 	pixel_y = 29
 	},
@@ -30884,7 +30884,7 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/town/basement/keep)
 "vMo" = (
-/obj/structure/fluff/statue/astrata/gold,
+/obj/structure/fluff/statue/sarael/gold,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement/keep)
 "vMx" = (

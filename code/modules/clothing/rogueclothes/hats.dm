@@ -197,12 +197,12 @@
 /obj/item/clothing/neck/roguetown/roguehood/shalal/heavyhood/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, null, null, (UPD_HEAD|UPD_MASK|UPD_NECK))
 
-/obj/item/clothing/head/roguetown/roguehood/astrata
+/obj/item/clothing/head/roguetown/roguehood/sarael
 	name = "sun hood"
-	desc = "A hood worn by those who favor Astrata. Praise the firstborn sun!"
+	desc = "A hood worn by those who favor Sarael. Praise the firstborn sun!"
 	color = null
-	icon_state = "astratahood"
-	item_state = "astratahood"
+	icon_state = "saraelhood"
+	item_state = "saraelhood"
 	icon = 'icons/roguetown/clothing/head.dmi'
 	body_parts_covered = NECK
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
@@ -1172,7 +1172,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet
 	name = "armet"
-	desc = "Holy lamb, sacrificial hero, blessed idiot - The ten endures. Will you endure alongside them, as a knight of humenity, or crumble before temptation?"
+	desc = "Holy lamb, sacrificial hero, blessed idiot - The Amora endures. Will you endure alongside them, as a knight of humenity, or crumble before temptation?"
 	icon_state = "armet"
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/ComponentInitialize()
@@ -1277,11 +1277,11 @@
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_JINGLE_BELLS, 2)
 
-/obj/item/clothing/head/roguetown/helmet/heavy/astratahelm
-	name = "astrata helmet"
-	desc = "Headwear commonly worn by Templars in service to Astrata. The firstborn child's light will forever shine on within its crest."
-	icon_state = "astratahelm"
-	item_state = "astratahelm"
+/obj/item/clothing/head/roguetown/helmet/heavy/saraelhelm
+	name = "sarael helmet"
+	desc = "Headwear commonly worn by Templars in service to Sarael. The firstborn child's light will forever shine on within its crest."
+	icon_state = "saraelhelm"
+	item_state = "saraelhelm"
 	emote_environment = 3
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
 	block2add = FOV_BEHIND
@@ -1934,7 +1934,7 @@
 
 /obj/item/clothing/head/roguetown/roguehood/psydon
 	name = "Orthodox hood"
-	desc = "A hood worn by the tens' disciples, oft-worn in conjunction with its matching tabard. Made with spell-laced fabric to provide some protection."
+	desc = "A hood worn by the amoras' disciples, oft-worn in conjunction with its matching tabard. Made with spell-laced fabric to provide some protection."
 	icon_state = "psydonhood"
 	item_state = "psydonhood"
 	color = null

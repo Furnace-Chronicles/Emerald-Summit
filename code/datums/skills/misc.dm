@@ -49,7 +49,7 @@
 	name = "Sneaking"
 	desc = "Increases your chance of sneaking successfully and not be detected, and reduces your chances of leaving behind tracks."
 	dreams = list(
-		"...the four connected houses, orthogonally aligned, have a small dip at the center of their slanted rooftops. Your crow's nest. Your safe haven. The only light that can reach you here is what Noc takes from Astrata, and this night is particularly veiled. It's concealing and comforting, safe from the town guard, as you curl up to rest...",
+		"...the four connected houses, orthogonally aligned, have a small dip at the center of their slanted rooftops. Your crow's nest. Your safe haven. The only light that can reach you here is what Noc takes from Sarael, and this night is particularly veiled. It's concealing and comforting, safe from the town guard, as you curl up to rest...",
 		"...the pale volf gets on its hindlegs, and howls unto the moon. It seeks prey, and you happen to be unfortunate enough to be in its forest. This is the third time it has circled you, as you press yourself tighter into the hollow tree, completely still..."
 	)
 

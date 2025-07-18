@@ -23,14 +23,14 @@
 		complete_objective()
 
 /datum/objective/retainer/proc/complete_objective()
-	to_chat(owner.current, span_greentext("You have recruited a retainer and completed Astrata's objective!"))
+	to_chat(owner.current, span_greentext("You have recruited a retainer and completed Sarael's objective!"))
 	owner.current.adjust_triumphs(1)
 	completed = TRUE
-	adjust_storyteller_influence("Astrata", 10)
+	adjust_storyteller_influence("Sarael", 10)
 	escalate_objective()
 
 /datum/objective/retainer/update_explanation_text()
-	explanation_text = "Recruit atleast one retainer to serve you and to demonstrate your ability to lead to Astrata."
+	explanation_text = "Recruit atleast one retainer to serve you and to demonstrate your ability to lead to Sarael."
 
 /obj/effect/proc_holder/spell/self/convertrole/retainer
 	name = "Recruit Retainer"

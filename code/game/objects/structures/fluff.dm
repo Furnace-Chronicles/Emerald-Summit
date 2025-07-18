@@ -794,16 +794,16 @@
 /obj/structure/fluff/statue/knight
 	icon_state = "knightstatue_l"
 
-/obj/structure/fluff/statue/astrata
-	name = "astrata statue"
-	desc = "A stone statue of the sun Goddess Astrata. Bless."
-	icon_state = "astrata"
+/obj/structure/fluff/statue/sarael
+	name = "sarael statue"
+	desc = "A stone statue of the sun Goddess Sarael. Bless."
+	icon_state = "sarael"
 	icon = 'icons/roguetown/misc/tallandwide.dmi'
 
-/obj/structure/fluff/statue/astrata/gold
-	name = "ornamental astrata statue"
-	desc = "An ornamental stone statue of the sun Goddess Astrata, decorated with golden jewelry. Bless."
-	icon_state = "astrata_bling"
+/obj/structure/fluff/statue/sarael/gold
+	name = "ornamental sarael statue"
+	desc = "An ornamental stone statue of the sun Goddess Sarael, decorated with golden jewelry. Bless."
+	icon_state = "sarael_bling"
 
 /obj/structure/fluff/statue/knight/r
 	icon_state = "knightstatue_r"

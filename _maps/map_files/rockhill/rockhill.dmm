@@ -1198,7 +1198,7 @@
 	icon_state = "longtable"
 	},
 /obj/machinery/light/rogue/wallfire/candle/blue,
-/obj/item/clothing/neck/roguetown/psicross/astrata,
+/obj/item/clothing/neck/roguetown/psicross/sarael,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/church/chapel)
 "ajv" = (
@@ -4397,7 +4397,7 @@
 /obj/machinery/light/rogue/firebowl/church{
 	pixel_x = -4
 	},
-/obj/structure/fluff/statue/astrata/gold{
+/obj/structure/fluff/statue/sarael/gold{
 	pixel_x = 15
 	},
 /turf/open/floor/rogue/church,
@@ -5320,7 +5320,7 @@
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/town/church)
 "eBQ" = (
-/obj/structure/fluff/statue/astrata,
+/obj/structure/fluff/statue/sarael,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
 "eBU" = (
@@ -15260,7 +15260,7 @@
 /area/rogue/outdoors/rtfield)
 "pAS" = (
 /obj/structure/closet/crate/chest/crafted,
-/obj/item/clothing/cloak/tabard/crusader/astrata,
+/obj/item/clothing/cloak/tabard/crusader/sarael,
 /turf/open/floor/rogue/ruinedwood{
 	icon_state = "weird1"
 	},
@@ -23336,10 +23336,10 @@
 /area/rogue/under/cavewet/bogcaves)
 "ylQ" = (
 /obj/structure/closet/crate/roguecloset,
-/obj/item/clothing/suit/roguetown/shirt/robe/astrata,
-/obj/item/clothing/suit/roguetown/shirt/robe/astrata,
-/obj/item/clothing/head/roguetown/roguehood/astrata,
-/obj/item/clothing/head/roguetown/roguehood/astrata,
+/obj/item/clothing/suit/roguetown/shirt/robe/sarael,
+/obj/item/clothing/suit/roguetown/shirt/robe/sarael,
+/obj/item/clothing/head/roguetown/roguehood/sarael,
+/obj/item/clothing/head/roguetown/roguehood/sarael,
 /obj/item/clothing/suit/roguetown/shirt/robe/necra,
 /obj/item/clothing/head/roguetown/necrahood,
 /turf/open/floor/rogue/hexstone,

@@ -299,7 +299,7 @@
 	color = CLOTHING_RED
 	detail_color = CLOTHING_WHITE
 
-/obj/item/clothing/cloak/tabard/crusader/astrata
+/obj/item/clothing/cloak/tabard/crusader/sarael
 	color = "#9B7538"
 	detail_color = CLOTHING_WHITE
 
@@ -1282,10 +1282,10 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 	flags_inv = HIDECROTCH|HIDEBOOB
 
-/obj/item/clothing/cloak/templar/astrata
-	name = "astratan tabard"
-	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Astrata on it."
-	icon_state = "tabard_astrata_alt"
+/obj/item/clothing/cloak/templar/sarael
+	name = "saraeln tabard"
+	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Sarael on it."
+	icon_state = "tabard_sarael_alt"
 	alternate_worn_layer = TABARD_LAYER
 	body_parts_covered = CHEST|GROIN
 	boobed = TRUE

@@ -9,9 +9,9 @@
 	recharge_time = 25 SECONDS
 	miracle = TRUE
 	devotion_cost = 100
-	projectile_type = /obj/projectile/magic/lightning/astratablast
+	projectile_type = /obj/projectile/magic/lightning/saraelblast
 
-/obj/projectile/magic/lightning/astratablast
+/obj/projectile/magic/lightning/saraelblast
 	damage = 10 
 	name = "ray of holy fire"
 	damage_type = BURN
@@ -22,7 +22,7 @@
 	var/fuck_that_guy_multiplier = 2.5
 	var/biotype_we_look_for = MOB_UNDEAD
 
-/obj/projectile/magic/lightning/astratablast/on_hit(target)
+/obj/projectile/magic/lightning/saraelblast/on_hit(target)
 	. = ..()
 
 	if(ismob(target))
@@ -124,7 +124,7 @@
 			revert_cast()
 			return FALSE
 		if(!target.mind.active)
-			to_chat(user, "Astrata is not done with [target], yet.")
+			to_chat(user, "Sarael is not done with [target], yet.")
 			revert_cast()
 			return FALSE
 		if(target == user)
@@ -160,7 +160,7 @@
 		target.grab_ghost(force = TRUE) // even suicides
 		target.emote("breathgasp")
 		target.Jitter(100)
-		GLOB.scarlet_round_stats[STATS_ASTRATA_REVIVALS]++
+		GLOB.scarlet_round_stats[STATS_SARAEL_REVIVALS]++
 		target.update_body()
 		target.visible_message(span_notice("[target] is revived by holy light!"), span_green("I awake from the void."))
 		if(revive_pq && !HAS_TRAIT(target, TRAIT_IWASREVIVED) && user?.ckey)
@@ -185,41 +185,41 @@
 	return TRUE
 
 //T0. Removes cone vision for a dynamic duration.
-/obj/effect/proc_holder/spell/self/astrata_gaze
-	name = "Astratan Gaze"
-	overlay_state = "astrata_gaze"
+/obj/effect/proc_holder/spell/self/sarael_gaze
+	name = "Saraeln Gaze"
+	overlay_state = "sarael_gaze"
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
 	chargedloop = /datum/looping_sound/invokeholy
-	sound = 'sound/magic/astrata_choir.ogg'
+	sound = 'sound/magic/sarael_choir.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
-	invocation = "Astrata show me true."
+	invocation = "Sarael show me true."
 	invocation_type = "shout"
 	recharge_time = 120 SECONDS
 	devotion_cost = 30
 	miracle = TRUE
 
-/obj/effect/proc_holder/spell/self/astrata_gaze/cast(list/targets, mob/user)
+/obj/effect/proc_holder/spell/self/sarael_gaze/cast(list/targets, mob/user)
 	if(!ishuman(user))
 		revert_cast()
 		return FALSE
 	var/mob/living/carbon/human/H = user
-	H.apply_status_effect(/datum/status_effect/buff/astrata_gaze, user.get_skill_level(associated_skill))
+	H.apply_status_effect(/datum/status_effect/buff/sarael_gaze, user.get_skill_level(associated_skill))
 	return TRUE
 
-/atom/movable/screen/alert/status_effect/buff/astrata_gaze
-	name = "Astratan's Gaze"
+/atom/movable/screen/alert/status_effect/buff/sarael_gaze
+	name = "Saraeln's Gaze"
 	desc = "She shines through me, illuminating all injustice."
-	icon_state = "astrata_gaze"
+	icon_state = "sarael_gaze"
 
-/datum/status_effect/buff/astrata_gaze
-	id = "astratagaze"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/astrata_gaze
+/datum/status_effect/buff/sarael_gaze
+	id = "saraelgaze"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/sarael_gaze
 	duration = 20 SECONDS
 
-/datum/status_effect/buff/astrata_gaze/on_apply(assocskill)
+/datum/status_effect/buff/sarael_gaze/on_apply(assocskill)
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner
 		H.viewcone_override = TRUE
@@ -238,7 +238,7 @@
 	to_chat(owner, span_info("She shines through me! I can perceive all clear as dae!"))
 	. = ..()
 
-/datum/status_effect/buff/astrata_gaze/on_remove()
+/datum/status_effect/buff/sarael_gaze/on_remove()
 	. = ..()
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner

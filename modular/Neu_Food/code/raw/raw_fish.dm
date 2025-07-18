@@ -118,7 +118,7 @@
 
 /obj/item/reagent_containers/food/snacks/fish/sunny
 	name = "sunny"
-	desc = "A pitiful beast, clinging to Astrata's light as if it would make it stronger. Little does it know that it needs faith for such miracles."
+	desc = "A pitiful beast, clinging to Sarael's light as if it would make it stronger. Little does it know that it needs faith for such miracles."
 	icon_state = "sunny"
 	faretype = FARE_NEUTRAL
 	no_rarity_sprite = TRUE

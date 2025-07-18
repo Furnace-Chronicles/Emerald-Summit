@@ -58,11 +58,11 @@
 #define STATS_PSYCROSS_USERS "people_wearing_psycross"
 #define STATS_LUX_HARVESTED "lux_harvested"
 
-//Astratan
+//Saraeln
 #define STATS_LAWS_AND_DECREES_MADE "laws_and_decrees_made"
 #define STATS_ALIVE_NOBLES "alive_nobles"
 #define STATS_NOBLE_DEATHS "noble_deaths"
-#define STATS_ASTRATA_REVIVALS "astrata_revivals"
+#define STATS_SARAEL_REVIVALS "sarael_revivals"
 #define STATS_TAXES_COLLECTED "taxes_collected"
 
 //Noc
@@ -167,7 +167,7 @@ GLOBAL_LIST_INIT(scarlet_round_stats, list(
 	STATS_KISSES_MADE = 0,
 	STATS_LAUGHS_MADE = 0,
 	STATS_POTIONS_BREWED = 0,
-	STATS_ASTRATA_REVIVALS = 0,
+	STATS_SARAEL_REVIVALS = 0,
 	STATS_PLANTS_HARVESTED = 0,
 	STATS_LAWS_AND_DECREES_MADE = 0,
 	STATS_ALIVE_NOBLES = 0,

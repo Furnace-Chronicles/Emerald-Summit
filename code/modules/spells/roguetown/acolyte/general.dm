@@ -66,14 +66,14 @@
 		var/message_self
 		//this if chain is stupid, replace with variables on /datum/patron when possible?
 		switch(user.patron.type)
-			if(/datum/patron/divine/astrata)
+			if(/datum/patron/divine/sarael)
 				message_out = span_info("A wreath of gentle light passes over [target]!")
 				message_self = ("I'm bathed in holy light!")
 				// during the day, heal 1 more (basic as fuck)
 				if (GLOB.tod == "day")
 					conditional_buff = TRUE
 					situational_bonus = 2
-				// Day is 1/4th as long as night. Noc priests get a bonus for four times as long and during peak conflict hours, thus Astratans should have more powerful heals
+				// Day is 1/4th as long as night. Noc priests get a bonus for four times as long and during peak conflict hours, thus Saraelns should have more powerful heals
 			if(/datum/patron/divine/noc)
 				message_out = span_info("A shroud of soft moonlight falls upon [target]!")
 				message_self = span_notice("I'm shrouded in gentle moonlight!")
@@ -246,7 +246,7 @@
 // Miracle
 /obj/effect/proc_holder/spell/invoked/heal
 	name = "Fortify"
-	overlay_state = "astrata"
+	overlay_state = "sarael"
 	releasedrain = 30
 	chargedrain = 0
 	chargetime = 0

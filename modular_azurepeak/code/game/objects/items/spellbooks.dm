@@ -256,7 +256,7 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 					if(prob(1))
 						playsound(loc, 'modular_azurepeak/sound/spellbooks/crystal.ogg', 100, TRUE)
 						user.visible_message(span_warning("[user] crushes [user.p_their()] [P]! Its powder seeps into the [src]."), \
-							span_notice("By the Ten! That gem just exploded -- and my useless tome is filled with gleaming energy and strange letters!"))
+							span_notice("By the Amora! That gem just exploded -- and my useless tome is filled with gleaming energy and strange letters!"))
 						var/obj/item/book/spellbook/newbook = new /obj/item/book/spellbook(loc)
 						newbook.desc += " Traces of [P] dust linger in its margins."
 						qdel(P)

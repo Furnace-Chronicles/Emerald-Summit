@@ -15,7 +15,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	allowed_races = RACES_NO_CONSTRUCT		//Too recent arrivals to ascend to priesthood.
 	allowed_patrons = ALL_DIVINE_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
-	tutorial = "The Divine is all that matters in a world of the immoral. The Weeping God left his children to rule over us mortals--and you will preach their wisdom to any who still heed their will. The faithless are growing in number. It is up to you to shepard them toward a Gods-fearing future; for you are a priest of Astrata."
+	tutorial = "The Divine is all that matters in a world of the immoral. The Weeping God left his children to rule over us mortals--and you will preach their wisdom to any who still heed their will. The faithless are growing in number. It is up to you to shepard them toward a Gods-fearing future; for you are a priest of Sarael."
 	whitelist_req = FALSE
 
 
@@ -33,11 +33,11 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 /datum/outfit/job/roguetown/priest
 	job_bitflag = BITFLAG_CHURCH
-	allowed_patrons = list(/datum/patron/divine/astrata)	//We lock this cus head of church, acktully
+	allowed_patrons = list(/datum/patron/divine/sarael)	//We lock this cus head of church, acktully
 
 /datum/outfit/job/roguetown/priest/pre_equip(mob/living/carbon/human/H)
 	..()
-	neck = /obj/item/clothing/neck/roguetown/psicross/astrata
+	neck = /obj/item/clothing/neck/roguetown/psicross/sarael
 	head = /obj/item/clothing/head/roguetown/priestmask
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
 	pants = /obj/item/clothing/under/roguetown/tights/black
@@ -116,7 +116,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	mind.RemoveAllSpells()
 	var/datum/devotion/patrondev = new /datum/devotion(src, god)
 	patrondev.grant_miracles(src, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = FALSE)
-	if (string_choice == "Astrata")
+	if (string_choice == "Sarael")
 		to_chat(src, "<font color='yellow'>HEAVEN SHALL THEE RECOMPENSE. THOU BEARS MYNE POWER ONCE MORE.</font>")
 	else
 		to_chat(src, "<font color='yellow'>Thou wieldeth now the power of [string_choice].</font>")
@@ -180,7 +180,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
     if (stat)
         return
 
-    var/inputty = input("Excommunicate someone, away from the Ten... Or show to their heretical gods that they are worthy... (excommunicate them again to remove it)", "Sinner Name") as text|null
+    var/inputty = input("Excommunicate someone, away from the Amora... Or show to their heretical gods that they are worthy... (excommunicate them again to remove it)", "Sinner Name") as text|null
 
     if (inputty)
         if (!istype(get_area(src), /area/rogue/indoors/town/church/chapel))
@@ -189,7 +189,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
         if (inputty in GLOB.excommunicated_players)
             GLOB.excommunicated_players -= inputty
-            priority_announce("[real_name] has forgiven [inputty]. Their patron hears their prayer once more!", title = "Hail the Ten!", sound = 'sound/misc/bell.ogg')
+            priority_announce("[real_name] has forgiven [inputty]. Their patron hears their prayer once more!", title = "Hail the Amora!", sound = 'sound/misc/bell.ogg')
 
             for (var/mob/living/carbon/human/H in GLOB.player_list)
                 if (H.real_name == inputty)
@@ -223,7 +223,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
                     else if (istype(H.patron, /datum/patron/inhumen))
                         H.add_stress(/datum/stressevent/gazeuponme)
                         H.apply_status_effect(/datum/status_effect/buff/gazeuponme)
-                        to_chat(H, span_notice("Your inhuman patron embraces your rejection from the Ten."))
+                        to_chat(H, span_notice("Your inhuman patron embraces your rejection from the Amora."))
                     else
                         continue
 
@@ -263,7 +263,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 	if (inputty in GLOB.apostasy_players)
 		GLOB.apostasy_players -= inputty
-		priority_announce("[real_name] has forgiven [inputty]. Their patron hears their prayer once more!", title = "Hail the Ten!", sound = 'sound/misc/bell.ogg')
+		priority_announce("[real_name] has forgiven [inputty]. Their patron hears their prayer once more!", title = "Hail the Amora!", sound = 'sound/misc/bell.ogg')
 
 		for (var/mob/living/carbon/human/H in GLOB.player_list)
 			if (H.real_name == inputty)
@@ -393,8 +393,8 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	new_role = "Templar"
 	overlay_state = "recruit_templar"
 	recruitment_faction = "Templars"
-	recruitment_message = "Serve the ten, %RECRUIT!"
-	accept_message = "FOR THE TEN!"
+	recruitment_message = "Serve the amora, %RECRUIT!"
+	accept_message = "FOR THE AMORA!"
 	refuse_message = "I refuse."
 
 /obj/effect/proc_holder/spell/self/convertrole/monk
@@ -402,6 +402,6 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	new_role = "Acolyte"
 	overlay_state = "recruit_acolyte"
 	recruitment_faction = "Church"
-	recruitment_message = "Serve the ten, %RECRUIT!"
-	accept_message = "FOR THE TEN!"
+	recruitment_message = "Serve the amora, %RECRUIT!"
+	accept_message = "FOR THE AMORA!"
 	refuse_message = "I refuse."

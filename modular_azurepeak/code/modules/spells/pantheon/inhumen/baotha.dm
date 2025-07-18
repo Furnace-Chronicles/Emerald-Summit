@@ -70,7 +70,7 @@
 //Numbing Pleasure - T3, removes all pain from self for a period of time. (Similar to Ravox's without any blood-clotting and better pain suppression + good mood buff.)
 /obj/effect/proc_holder/spell/invoked/painkiller
 	name = "Numbing Pleasure"
-	overlay_state = "astrata"
+	overlay_state = "sarael"
 	releasedrain = 30
 	chargedrain = 0
 	chargetime = 0

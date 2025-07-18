@@ -331,7 +331,7 @@
 /datum/stressevent/excommunicated
 
 	stressadd = 5
-	desc = span_boldred("The Ten have forsaken me!")
+	desc = span_boldred("The Amora have forsaken me!")
 	timer = 999 MINUTES
 
 /datum/stressevent/apostasy

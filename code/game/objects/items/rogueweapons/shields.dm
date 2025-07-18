@@ -173,7 +173,7 @@
 
 /obj/item/rogueweapon/shield/tower/holysee
 	name = "decablessed shield"
-	desc = "Protection of the Ten upon the wielder. A final, staunch line against the darkness. For it's not what is before the shield-carrier that matters, but the home behind them."
+	desc = "Protection of the Amora upon the wielder. A final, staunch line against the darkness. For it's not what is before the shield-carrier that matters, but the home behind them."
 	icon_state = "gsshield"
 	wdefense = 13
 	max_integrity = 300

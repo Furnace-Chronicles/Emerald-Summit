@@ -2,7 +2,7 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
 	tastes = list("fried egg" = 1)
 	name = "fried egg"
-	desc = "Some Astratans enjoy their eggs sunny-side up."
+	desc = "Some Saraelns enjoy their eggs sunny-side up."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_egg.dmi'
 	icon_state = "friedegg"
 	portable = FALSE

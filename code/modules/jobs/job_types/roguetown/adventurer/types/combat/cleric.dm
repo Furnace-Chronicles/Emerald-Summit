@@ -62,9 +62,9 @@
 				if(/datum/patron/old_god)
 					cloak = /obj/item/clothing/cloak/psydontabard
 					head = /obj/item/clothing/head/roguetown/roguehood/psydon
-				if(/datum/patron/divine/astrata)
-					head = /obj/item/clothing/head/roguetown/roguehood/astrata
-					cloak = /obj/item/clothing/suit/roguetown/shirt/robe/astrata
+				if(/datum/patron/divine/sarael)
+					head = /obj/item/clothing/head/roguetown/roguehood/sarael
+					cloak = /obj/item/clothing/suit/roguetown/shirt/robe/sarael
 				if(/datum/patron/divine/noc)
 					head =  /obj/item/clothing/head/roguetown/nochood
 					cloak = /obj/item/clothing/suit/roguetown/shirt/robe/noc
@@ -126,9 +126,9 @@
 					armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fluted/ornate
 					cloak = /obj/item/clothing/cloak/psydontabard
 					head = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm
-				if(/datum/patron/divine/astrata)
-					cloak = /obj/item/clothing/cloak/templar/astrata
-					head = /obj/item/clothing/head/roguetown/helmet/heavy/astratan
+				if(/datum/patron/divine/sarael)
+					cloak = /obj/item/clothing/cloak/templar/sarael
+					head = /obj/item/clothing/head/roguetown/helmet/heavy/saraeln
 				if(/datum/patron/divine/noc)
 					cloak = /obj/item/clothing/cloak/templar/noc
 					head = /obj/item/clothing/head/roguetown/helmet/heavy/nochelm
@@ -218,8 +218,8 @@
 			switch(H.patron?.type)
 				if(/datum/patron/old_god)
 					cloak = /obj/item/clothing/cloak/templar/psydon
-				if(/datum/patron/divine/astrata)
-					cloak = /obj/item/clothing/cloak/templar/astrata
+				if(/datum/patron/divine/sarael)
+					cloak = /obj/item/clothing/cloak/templar/sarael
 				if(/datum/patron/divine/noc)
 					cloak = /obj/item/clothing/cloak/templar/noc
 				if(/datum/patron/divine/abyssor)
@@ -288,9 +288,9 @@
 				if(/datum/patron/old_god)
 					cloak = /obj/item/clothing/cloak/psydontabard
 					head = /obj/item/clothing/head/roguetown/roguehood/psydon
-				if(/datum/patron/divine/astrata)
-					head = /obj/item/clothing/head/roguetown/roguehood/astrata
-					cloak = /obj/item/clothing/suit/roguetown/shirt/robe/astrata
+				if(/datum/patron/divine/sarael)
+					head = /obj/item/clothing/head/roguetown/roguehood/sarael
+					cloak = /obj/item/clothing/suit/roguetown/shirt/robe/sarael
 				if(/datum/patron/divine/noc)
 					head =  /obj/item/clothing/head/roguetown/nochood
 					cloak = /obj/item/clothing/suit/roguetown/shirt/robe/noc
@@ -323,8 +323,8 @@
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			neck = /obj/item/clothing/neck/roguetown/psicross
-		if(/datum/patron/divine/astrata)
-			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
+		if(/datum/patron/divine/sarael)
+			neck = /obj/item/clothing/neck/roguetown/psicross/sarael
 		if(/datum/patron/divine/noc)
 			neck = /obj/item/clothing/neck/roguetown/psicross/noc
 		if(/datum/patron/divine/abyssor)
@@ -344,7 +344,7 @@
 		if(/datum/patron/divine/xylix) // Random pricross for Xylix
 			var/list/psicross_options = list(
 			/obj/item/clothing/neck/roguetown/psicross,
-			/obj/item/clothing/neck/roguetown/psicross/astrata,
+			/obj/item/clothing/neck/roguetown/psicross/sarael,
 			/obj/item/clothing/neck/roguetown/psicross/noc,
 			/obj/item/clothing/neck/roguetown/psicross/abyssor,
 			/obj/item/clothing/neck/roguetown/psicross/dendor,

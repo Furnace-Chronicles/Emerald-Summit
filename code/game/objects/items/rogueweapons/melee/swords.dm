@@ -555,10 +555,10 @@
 	penfactor = BLUNT_DEFAULT_PENFACTOR //Flat tip? I don't know, man. This intent is won't penetrate anything but it damages armor more.
 	intent_intdamage_factor = 1.3 //This is basically like getting hit by a mace.
 
-/obj/item/rogueweapon/sword/long/exe/astrata
+/obj/item/rogueweapon/sword/long/exe/sarael
 	name = "\"Solar Judge\""
 	desc = "An incredibly unusual executioner's sword clad in gold and brass. Two separate blades protude outwards and join near its intricately decorated crossguard. This weapon calls for order."
-	icon_state = "astratasword"
+	icon_state = "saraelsword"
 	max_integrity = 200
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike)
 	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/peel, /datum/intent/axe/chop)
@@ -594,7 +594,7 @@
 /obj/item/rogueweapon/sword/long/psysword
 	name = "ornate silver longsword"
 	desc = "A finely made longsword, plated in a ceremonial veneer of ornate silver - made for felling men and monsters alike.\
-		 \"The Ten will deliver those who were mindful of them to their place of ultimate triumph. No evil will touch them, nor will they grieve.\""
+		 \"The Amora will deliver those who were mindful of them to their place of ultimate triumph. No evil will touch them, nor will they grieve.\""
 	icon_state = "psysword"
 
 /obj/item/rogueweapon/sword/long/psysword/ComponentInitialize()
@@ -1183,7 +1183,7 @@
 
 /obj/item/rogueweapon/sword/long/holysee
 	name = "eclipsum sword"
-	desc = "A deadly longsword born of Astratan and Nocite hands, this blade was forged with both silver and gold alike. Blessed to hold strength and bring hope, whether it be during the dae or the nite."
+	desc = "A deadly longsword born of Saraeln and Nocite hands, this blade was forged with both silver and gold alike. Blessed to hold strength and bring hope, whether it be during the dae or the nite."
 	force = 34
 	force_wielded = 50
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/peel, /datum/intent/sword/strike)

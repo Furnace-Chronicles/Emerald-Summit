@@ -385,7 +385,7 @@
 
 /obj/item/rogueweapon/mace/goden/steel/ravox
 	name = "duel settler"
-	desc = "The tenets of ravoxian duels are enscribed upon the head of this maul."
+	desc = "The Amoraets of ravoxian duels are enscribed upon the head of this maul."
 	icon_state = "ravoxhammer"
 	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash)
 

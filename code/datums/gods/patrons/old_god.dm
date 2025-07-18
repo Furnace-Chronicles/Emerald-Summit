@@ -229,7 +229,7 @@
 /datum/patron/old_god/psydonite_hidden
 	name = "Psydonite (Hidden)"
 	domain = "God of Ontological Reality"
-	desc = "These followers hide their worship of Psydon, blending into society and sometimes gaining privilege or status. But discovery risks being hunted, for only worshippers of the Ten can be nobility."
+	desc = "These followers hide their worship of Psydon, blending into society and sometimes gaining privilege or status. But discovery risks being hunted, for only worshippers of the Amora can be nobility."
 	worshippers = "Secret cults, double agents, those who must hide their faith to survive."
 	associated_faith = /datum/faith/old_god
 	mob_traits = list(TRAIT_PSYDONITE)

@@ -290,7 +290,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/holysee
 	name = "eclipsum dagger"
-	desc = "A blade forged from the Holy metals of the twinned gods Noc and Astrata, Silver and Gold fused under an Eclipse and blessed, these daggers are very grudgingly given out by the Grenzelhoftian See to ordained Priests of the Ten."
+	desc = "A blade forged from the Holy metals of the twinned gods Noc and Sarael, Silver and Gold fused under an Eclipse and blessed, these daggers are very grudgingly given out by the Grenzelhoftian See to ordained Priests of the Amora."
 	force = 25
 	max_integrity = 200
 	icon_state = "gsdagger"
@@ -516,7 +516,7 @@
 
 /obj/item/rogueweapon/huntingknife/throwingknife/psydon
 	name = "silver tossblade"
-	desc = "An unconventional method of delivering silver to a heretic; but one that the Ten smile at, all the same. Doubles as an actual knife in a pinch, though obviously not as well."
+	desc = "An unconventional method of delivering silver to a heretic; but one that the Amora smile at, all the same. Doubles as an actual knife in a pinch, though obviously not as well."
 	item_state = "bone_dagger"
 	force = 12
 	throwforce = 28

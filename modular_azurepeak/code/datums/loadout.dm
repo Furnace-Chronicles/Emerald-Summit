@@ -441,9 +441,9 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Psydonian Cross"
 	path = /obj/item/clothing/neck/roguetown/psicross
 
-/datum/loadout_item/psicross/astrata
-	name = "Amulet of Astrata"
-	path = /obj/item/clothing/neck/roguetown/psicross/astrata
+/datum/loadout_item/psicross/sarael
+	name = "Amulet of Sarael"
+	path = /obj/item/clothing/neck/roguetown/psicross/sarael
 
 /datum/loadout_item/psicross/noc
 	name = "Amulet of Noc"
