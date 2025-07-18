@@ -153,7 +153,7 @@
 
 /obj/item/storage/belt/rogue/pouch/coins/rich/Initialize()
 	. = ..()
-	var/obj/item/roguecoin/silver/pile/H = new(loc)
+	var/obj/item/roguecoin/gold/pile/H = new(loc)
 	if(istype(H))
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
 			qdel(H)
