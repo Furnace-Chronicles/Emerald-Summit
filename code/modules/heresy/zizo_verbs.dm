@@ -1,5 +1,5 @@
 //Call to the Overlord! Speak the profane words! 
-
+//You can't stop Progress.
 /atom/movable/screen/alert/status_effect/overlord
 	name = "ZIZO"
 	desc = "ZIZO HEARS ME!"
