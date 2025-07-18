@@ -14,7 +14,6 @@
 	..()
 
 	// Both subclasses get the same skills
-
 	switch(H.patron?.type)
 		if(/datum/patron/divine/astrata)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/astrata
