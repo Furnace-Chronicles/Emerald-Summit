@@ -11,7 +11,7 @@
 
 /obj/item/paper/confession/examine(mob/user)
 	. = ..()
-	. += span_info("Left click with a feather to sign, right click to change confession type.")
+	. += span_info("One signature is all that bars you from Eternity's Gate")
 
 /obj/item/paper/confession/attackby(atom/A, mob/living/user, params)
 	if(signed)
@@ -48,6 +48,7 @@
 		playsound(src, 'sound/items/write.ogg', 50, FALSE, ignore_walls = FALSE)
 		M.visible_message(span_info("[M] signs the confession."), span_info("I seal my fate."), vision_distance = COMBAT_MESSAGE_RANGE)
 		signed = TRUE
+		update_icon_state()
 	else
 		M.visible_message(span_boldwarning("[M] refused to sign the confession!"), span_boldwarning("I refused to sign the confession!"), vision_distance = COMBAT_MESSAGE_RANGE)
 	return
