@@ -1183,7 +1183,12 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(!target.lying_attack_check(user))
 			return 0
 
-		var/armor_block = target.run_armor_check(selzone, "blunt", armor_penetration = BLUNT_DEFAULT_PENFACTOR, blade_dulling = user.used_intent.blade_class, damage = damage)
+		var/armor_pen = BLUNT_DEFAULT_PENFACTOR
+		// Civilized Barbarian trait: punches have 50 AP
+		if(HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN))
+			armor_pen = 50
+
+		var/armor_block = target.run_armor_check(selzone, "blunt", armor_penetration = armor_pen, blade_dulling = user.used_intent.blade_class, damage = damage)
 
 		target.lastattacker = user.real_name
 		if(target.mind)
