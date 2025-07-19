@@ -58,7 +58,7 @@
 #define STATS_PSYCROSS_USERS "people_wearing_psycross"
 #define STATS_LUX_HARVESTED "lux_harvested"
 
-//Saraeln
+//Saraelan
 #define STATS_LAWS_AND_DECREES_MADE "laws_and_decrees_made"
 #define STATS_ALIVE_NOBLES "alive_nobles"
 #define STATS_NOBLE_DEATHS "noble_deaths"

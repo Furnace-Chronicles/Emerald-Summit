@@ -1181,9 +1181,9 @@
 			if("onbelt") 
 				return list("shrink" = 0.4,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/rogueweapon/sword/long/holysee
+/obj/item/rogueweapon/sword/long/eclipsum
 	name = "eclipsum sword"
-	desc = "A deadly longsword born of Saraeln and Nocite hands, this blade was forged with both silver and gold alike. Blessed to hold strength and bring hope, whether it be during the dae or the nite."
+	desc = "A deadly longsword born of a unique blessing: Ozora's silver touched by Sarael's searing light."
 	force = 34
 	force_wielded = 50
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/peel, /datum/intent/sword/strike)
@@ -1194,7 +1194,7 @@
 	smelt_bar_num = 2
 	max_integrity = 9999
 
-/obj/item/rogueweapon/sword/long/holysee/getonmobprop(tag)
+/obj/item/rogueweapon/sword/long/eclipsum/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)

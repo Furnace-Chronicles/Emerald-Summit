@@ -18,7 +18,7 @@
 	switch(H.patron?.type)
 		if(/datum/patron/divine/sarael)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/sarael
-			cloak = /obj/item/clothing/cloak/templar/saraeln
+			cloak = /obj/item/clothing/cloak/templar/saraelan
 		if(/datum/patron/divine/abyssor)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/abyssor
 			cloak = /obj/item/clothing/cloak/abyssortabard

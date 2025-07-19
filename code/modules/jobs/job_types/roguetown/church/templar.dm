@@ -182,8 +182,8 @@
 	switch(H.patron?.type)
 		if(/datum/patron/divine/sarael)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/sarael
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/saraeln
-			cloak = /obj/item/clothing/cloak/templar/saraeln
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/saraelan
+			cloak = /obj/item/clothing/cloak/templar/saraelan
 		if(/datum/patron/divine/abyssor)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/abyssor
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/abyssorgreathelm

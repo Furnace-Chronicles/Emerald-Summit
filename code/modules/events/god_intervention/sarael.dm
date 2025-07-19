@@ -24,7 +24,7 @@
 		if(!human_mob.patron || !istype(human_mob.patron, /datum/patron/divine/sarael))
 			continue
 
-		// Only for saraeln clergy and nobles
+		// Only for saraelan clergy and nobles
 		if(!(human_mob.mind?.assigned_role in GLOB.church_positions) && !human_mob.is_noble())
 			continue
 

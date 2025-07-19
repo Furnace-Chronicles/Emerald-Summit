@@ -128,7 +128,7 @@
 					head = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm
 				if(/datum/patron/divine/sarael)
 					cloak = /obj/item/clothing/cloak/templar/sarael
-					head = /obj/item/clothing/head/roguetown/helmet/heavy/saraeln
+					head = /obj/item/clothing/head/roguetown/helmet/heavy/saraelan
 				if(/datum/patron/divine/noc)
 					cloak = /obj/item/clothing/cloak/templar/noc
 					head = /obj/item/clothing/head/roguetown/helmet/heavy/nochelm

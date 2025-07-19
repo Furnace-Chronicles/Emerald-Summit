@@ -1,7 +1,7 @@
-/obj/item/clothing/head/roguetown/helmet/heavy/saraeln
-	name = "saraeln helmet"
+/obj/item/clothing/head/roguetown/helmet/heavy/saraelan
+	name = "saraelan helmet"
 	desc = "Gilded gold and silvered metal, the bright, vibrant colors of an Asratan crusader radiate from this blessed helmet."
-	icon_state = "saraelnhelm"
+	icon_state = "saraelanhelm"
 	item_state = "saraelhnelm"
 	emote_environment = 3
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT

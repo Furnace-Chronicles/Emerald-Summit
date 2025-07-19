@@ -1,8 +1,8 @@
-/obj/item/clothing/cloak/templar/saraeln
+/obj/item/clothing/cloak/templar/saraelan
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	alternate_worn_layer = TABARD_LAYER
 	boobed = FALSE
-	name = "saraeln tabard"
+	name = "saraelan tabard"
 	desc = "The washed out golds of an asratan crusader adorn these fine robes."
 	icon_state = "saraeltabard"
 

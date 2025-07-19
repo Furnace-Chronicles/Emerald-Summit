@@ -186,7 +186,7 @@
 
 //T0. Removes cone vision for a dynamic duration.
 /obj/effect/proc_holder/spell/self/sarael_gaze
-	name = "Saraeln Gaze"
+	name = "Saraelan Gaze"
 	overlay_state = "sarael_gaze"
 	releasedrain = 10
 	chargedrain = 0
@@ -210,8 +210,8 @@
 	return TRUE
 
 /atom/movable/screen/alert/status_effect/buff/sarael_gaze
-	name = "Saraeln's Gaze"
-	desc = "She shines through me, illuminating all injustice."
+	name = "Sarael's Gaze"
+	desc = "She shines through me, illuminating the unpure."
 	icon_state = "sarael_gaze"
 
 /datum/status_effect/buff/sarael_gaze
