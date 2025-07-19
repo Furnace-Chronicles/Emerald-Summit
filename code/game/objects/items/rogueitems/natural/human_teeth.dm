@@ -23,6 +23,7 @@
 	throwforce = 0
 	embedding = list("embedded_pain_multiplier" = 0, "embed_chance" = 0, "embedded_fall_chance" = 100) //This shouldn't embed
 	dropshrink = 0.2
+	sellprice = 25
 
 /mob/living/carbon/human/proc/lose_teeth(var/damage)
 	var/lost_teeth = 0
