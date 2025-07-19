@@ -1,13 +1,13 @@
 //Speech verbs.
 
 
-//Because of how classic keys work, we need to use a custom verb to show the typing indicator. 
+//Because of how classic keys work, we need to use a custom verb to show the typing indicator.
 //Otherwise when you press enter, it will open up the input box.
 /mob/verb/say_typing_indicator()
 	set name = "say_indicator"
 	set hidden = TRUE
 	set category = "IC"
-	
+
 	display_typing_indicator()
 	var/message = input(usr, "", "say") as text|null
 	// If they don't type anything just drop the message.

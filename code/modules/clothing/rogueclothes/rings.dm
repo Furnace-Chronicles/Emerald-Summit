@@ -202,6 +202,7 @@
 	icon_state = "ring_duel"
 	sellprice = 10
 
+<<<<<<< HEAD
 /obj/item/clothing/ring/fate_weaver
 	name = "fate weaver"
 	desc = "An arcyne creation first theorized by malcontents with the resolution of Xylix's plays. It protects is wearer by tugging things gently toward less fatal potentials."
@@ -235,3 +236,42 @@
 	. = ..()
 	if(!QDELETED(src))
 		dispel()
+=======
+GLOBAL_LIST_INIT(generated_slave_phrases, list()) //retarded dev made GLOB right here and entire fucking proc oh my goooooooooooooooood
+
+/obj/item/clothing/ring/slave
+	name = "Slave ring"
+	desc = "An ominous-looking ring with arcane engravings."
+	icon_state = "signet"
+	sellprice = 100
+
+	var/death_phrase = ""
+	var/submission_phrase = ""
+	var/freedom_phrase = ""
+	var/slave_marked = TRUE
+
+/obj/item/clothing/ring/slave/New()
+	..()
+	death_phrase = generate_slave_code()
+	submission_phrase = generate_slave_code()
+	freedom_phrase = generate_slave_code()
+
+/proc/generate_slave_code()
+	var/list/syllables1 = list("ka", "zu", "lo", "da", "ra", "ve", "so", "ti", "ma", "xi", "no", "qu", "ga", "shi", "ni", "fa", "jo", "li", "pa", "re", "sa", "do", "ke", "mi")
+	var/list/syllables2 = list("th", "gor", "lek", "ram", "dra", "von", "nar", "zeth", "mir", "kul", "tar", "mol", "shan", "ruk", "vek", "zun", "bel", "thrall", "grim")
+
+	var/code
+	var/tries = 0
+	do
+		var/code1 = "[pick(syllables1)][pick(syllables2)]"
+		var/code2 = "[pick(syllables1)][pick(syllables2)]"
+		while(code1 == code2)
+			code2 = "[pick(syllables1)][pick(syllables2)]"
+		code = "[capitalize(code1)] [capitalize(code2)]"
+		tries++
+	while(code in GLOB.generated_slave_phrases && tries < 100)
+
+	GLOB.generated_slave_phrases += code
+	return code
+
+>>>>>>> Slavery

@@ -357,7 +357,7 @@
 	if(slot == SLOT_NECK)
 		mob_overlay_icon = initial(mob_overlay_icon)
 		sleeved = initial(sleeved)
-	
+
 	return TRUE
 
 /obj/item/clothing/neck/roguetown/psicross/attack_right(mob/user)
@@ -673,3 +673,102 @@
 		user.change_stat("fortune", -1) //how much luck stat taken away when unequipped
 		goodluckactivated = FALSE
 	return
+
+
+/obj/item/clothing/neck/roguetown/gorget/slave_gorget
+	name = "slave gorget"
+	desc = "A metal gorget with ominous arcane engravings."
+	icon_state = "gorget"
+	item_state = "gorget"
+	armor = ARMOR_NECK_BAD
+	smeltresult = /obj/item/ingot/iron
+	anvilrepair = /datum/skill/craft/armorsmithing
+	max_integrity = 150
+	resistance_flags = FIRE_PROOF
+	slot_flags = ITEM_SLOT_NECK
+	body_parts_covered = NECK
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
+	blocksound = PLATEHIT
+	flags_1 = HEAR_1
+
+	var/death_phrase
+	var/submission_phrase
+	var/freedom_phrase
+	var/slave_marked = TRUE
+
+/obj/item/clothing/neck/roguetown/gorget/slave_gorget/male
+	name = "Cruel slave gorget"
+	desc = "A brutal-looking iron gorget adorned with inward-facing spikes. There's no mistaking its purpose."
+	icon_state = "m_collar"
+	item_state = "gorget"
+
+/obj/item/clothing/neck/roguetown/gorget/slave_gorget/female
+	name = "Elegant slave collar"
+	desc = "An elegant black choker with faint arcane patterns along its trim. Beautiful, yet deeply symbolic."
+	icon_state = "f_collar"
+	item_state = "collar_f"
+
+/obj/item/clothing/neck/roguetown/gorget/slave_gorget/New()
+	. = ..()
+	death_phrase = generate_slave_code()
+	submission_phrase = generate_slave_code()
+	freedom_phrase = generate_slave_code()
+
+
+/obj/item/clothing/neck/roguetown/gorget/slave_gorget/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NO_SELF_UNEQUIP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/neck/roguetown/gorget/slave_gorget/equipped(mob/living/carbon/human/human)
+	. = ..()
+	RegisterSignal(human, COMSIG_MOVABLE_HEAR, PROC_REF(process_phrase), override = TRUE)
+
+/obj/item/clothing/neck/roguetown/gorget/slave_gorget/Destroy()
+	var/mob/living/carbon/human/parent = loc
+	if (ismob(parent))
+		UnregisterSignal(parent, COMSIG_MOVABLE_HEAR)
+	return ..()
+
+/obj/item/clothing/neck/roguetown/gorget/slave_gorget/proc/process_phrase(datum/source, list/hear_args)
+	var/raw_message = hear_args[HEARING_RAW_MESSAGE]
+	var/atom/movable/speaker = hear_args[HEARING_SPEAKER]
+
+	if (!ismob(speaker))
+		return
+
+	var/mob/living/carbon/human/H = src.loc
+	if (!ismob(H))
+		return
+
+	var/msg = normalize_slave_phrase(raw_message)
+
+	if (msg == normalize_slave_phrase(src.death_phrase))
+		H.visible_message("<span class='danger'><b>[H] explodes!</b></span>")
+		H.gib()
+		qdel(src)
+		return
+
+	if (msg == normalize_slave_phrase(src.submission_phrase))
+		H.visible_message("<span class='warning'><b>[H] is shocked violently!</b></span>")
+		H.apply_damage(30, BRUTE)
+		H.electrocute_act(5, src)
+		return
+
+	if (msg == normalize_slave_phrase(src.freedom_phrase))
+		H.visible_message("<span class='notice'><b>The collar around [H]'s neck falls off.</b></span>")
+
+		if(H.wear_neck == src)
+			H.wear_neck = null
+
+		src.forceMove(get_turf(H))
+		REMOVE_TRAIT(src, TRAIT_NO_SELF_UNEQUIP, CURSED_ITEM_TRAIT)
+
+		qdel(src)
+		return
+
+/proc/normalize_slave_phrase(text)
+	text = lowertext(strip_html(text))
+	text = strip_punctuation(text)
+	text = trim(text)
+	return text
+
