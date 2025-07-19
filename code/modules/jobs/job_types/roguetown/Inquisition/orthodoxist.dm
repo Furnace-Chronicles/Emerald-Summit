@@ -30,5 +30,4 @@
 		H.invisibility = INVISIBILITY_MAXIMUM
 		H.become_blind("advsetup")
 //They may now assist the Inquisitor. As is proper.
-		H.verbs |= /mob/living/carbon/human/proc/faith_test
 		H.verbs |= /mob/living/carbon/human/proc/torture_victim
