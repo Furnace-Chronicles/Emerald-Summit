@@ -127,6 +127,7 @@
 	embed_chance = 100
 	clotting_threshold = 0.4	//Eye-bone fucked
 	paralysis = FALSE			//Fucks your eyes, but won't paralyze you anymore.
+	fatal = TRUE // Yeah, you're dead.
 
 /datum/wound/fracture/head/eyes/on_mob_gain(mob/living/affected)
 	. = ..()

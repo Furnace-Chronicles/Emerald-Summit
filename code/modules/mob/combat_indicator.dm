@@ -42,18 +42,12 @@
 		var/intent
 		switch(cmbintent)
 			if(CMB_INTENT_SPAR)
-				if(lastcmbintent == cmbintent)
-					return
 				intent = "spar"
 				playsound(usr, 'sound/combat/nonlethal.ogg', 75)
 			if(CMB_INTENT_ARREST)
-				if(lastcmbintent == cmbintent)
-					return
 				intent = "arrest"
 				playsound(usr, 'sound/combat/arrest.ogg', 75)
 			if(CMB_INTENT_FRAG)
-				if(lastcmbintent == cmbintent)
-					return
 				intent = "frag"
 				playsound(usr, 'sound/combat/lethal.ogg', 75)		
 		log_message("[src] has changed combat intent to [intent] intent.", LOG_ATTACK)	
