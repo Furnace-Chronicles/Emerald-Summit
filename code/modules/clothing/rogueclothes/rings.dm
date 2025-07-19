@@ -237,4 +237,5 @@ GLOBAL_LIST_INIT(generated_slave_phrases, list()) //retarded dev made GLOB right
 	while(code in GLOB.generated_slave_phrases && tries < 100)
 
 	GLOB.generated_slave_phrases += code
-	return code	
+	return code
+
