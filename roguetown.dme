@@ -2228,6 +2228,7 @@
 #include "code\modules\surgery\surgeries\plastic_surgery.dm"
 #include "code\modules\surgery\surgeries\prosthetic_replacement.dm"
 #include "code\modules\surgery\surgeries\remove_embedded_object.dm"
+#include "code\modules\surgery\surgeries\tooth_replacement.dm"
 #include "code\modules\surgery\surgeries_hearth\cure_rot.dm"
 #include "code\modules\surgery\surgeries_hearth\extract_lux.dm"
 #include "code\modules\surgery\surgeries_hearth\revival.dm"
