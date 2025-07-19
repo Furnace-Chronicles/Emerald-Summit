@@ -640,8 +640,6 @@
 		goodluckactivated = FALSE
 	return
 
-// Define signal constant
-#define COMSIG_MOB_SAY "mob_say"
 
 /obj/item/clothing/neck/roguetown/gorget/slave_gorget
 	name = "slave gorget"
@@ -657,10 +655,11 @@
 	body_parts_covered = NECK
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	blocksound = PLATEHIT
+	flags_1 = HEAR_1
 
-	var/death_phrase = ""
-	var/submission_phrase = ""
-	var/freedom_phrase = ""
+	var/death_phrase
+	var/submission_phrase
+	var/freedom_phrase
 	var/slave_marked = TRUE
 
 /obj/item/clothing/neck/roguetown/gorget/slave_gorget/male
@@ -675,105 +674,67 @@
 	icon_state = "f_collar"
 	item_state = "collar_f"
 
-
 /obj/item/clothing/neck/roguetown/gorget/slave_gorget/New()
-	..()
+	. = ..()
 	death_phrase = generate_slave_code()
 	submission_phrase = generate_slave_code()
 	freedom_phrase = generate_slave_code()
 
+
 /obj/item/clothing/neck/roguetown/gorget/slave_gorget/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NO_SELF_UNEQUIP, CURSED_ITEM_TRAIT)
-	if(ismob(loc))
-		RegisterSignal(loc, COMSIG_MOB_SAY, PROC_REF(process_slave_phrase))
 
-/obj/item/clothing/neck/roguetown/gorget/slave_gorget/proc/process_slave_phrase(message, mob/living/speaker, datum/language/lang, raw_message, freq, spans, mode)
-	var/mob/living/carbon/human/H = loc
-	if(!H || !H.client || H.stat == DEAD)
+/obj/item/clothing/neck/roguetown/gorget/slave_gorget/equipped(mob/living/carbon/human/human)
+	. = ..()
+	RegisterSignal(human, COMSIG_MOVABLE_HEAR, PROC_REF(process_phrase), override = TRUE)
+
+/obj/item/clothing/neck/roguetown/gorget/slave_gorget/Destroy()
+	var/mob/living/carbon/human/parent = loc
+	if (ismob(parent))
+		UnregisterSignal(parent, COMSIG_MOVABLE_HEAR)
+	return ..()
+
+/obj/item/clothing/neck/roguetown/gorget/slave_gorget/proc/process_phrase(datum/source, list/hear_args)
+	var/raw_message = hear_args[HEARING_RAW_MESSAGE]
+	var/atom/movable/speaker = hear_args[HEARING_SPEAKER]
+
+	if (!ismob(speaker))
 		return
 
-	var/sanitized = normalize_slave_phrase(raw_message)
-	var/death_check = normalize_slave_phrase(death_phrase)
-	var/submission_check = normalize_slave_phrase(submission_phrase)
-	var/freedom_check = normalize_slave_phrase(freedom_phrase)
+	var/mob/living/carbon/human/H = src.loc
+	if (!ismob(H))
+		return
 
-	if(sanitized == death_check)
-		H.visible_message(span_warning("<b>[H] suddenly clutches their neck in horror!</b>"))
+	var/msg = normalize_slave_phrase(raw_message)
+
+	if (msg == normalize_slave_phrase(src.death_phrase))
+		H.visible_message("<span class='danger'><b>[H] explodes!</b></span>")
 		H.gib()
+		qdel(src)
 		return
 
-	if(sanitized == submission_check)
-		H.visible_message(span_danger("[H] convulses as a jolt of energy runs through the collar!"))
-		H.adjustFireLoss(50)
-		H.Knockdown(30)
-		H.Paralyze(30)
+	if (msg == normalize_slave_phrase(src.submission_phrase))
+		H.visible_message("<span class='warning'><b>[H] is shocked violently!</b></span>")
+		H.apply_damage(30, BRUTE)
 		H.electrocute_act(5, src)
 		return
 
-	if(sanitized == freedom_check)
-		H.visible_message(span_notice("With a faint chime, the collar around [H]'s neck falls off."))
+	if (msg == normalize_slave_phrase(src.freedom_phrase))
+		H.visible_message("<span class='notice'><b>The collar around [H]'s neck falls off.</b></span>")
+
 		if(H.wear_neck == src)
 			H.wear_neck = null
+
 		src.forceMove(get_turf(H))
+		REMOVE_TRAIT(src, TRAIT_NO_SELF_UNEQUIP, CURSED_ITEM_TRAIT)
+
 		qdel(src)
+		return
 
 /proc/normalize_slave_phrase(text)
 	text = lowertext(strip_html(text))
 	text = strip_punctuation(text)
 	text = trim(text)
 	return text
-
-
-/obj/item/clothing/neck/slave_gorget
-	name = "slave gorget"
-	desc = "A cursed gorget with arcane engravings. It hums faintly."
-	icon_state = "gorget"
-	slot_flags = ITEM_SLOT_NECK
-	flags_1 = HEAR_1
-
-	var/death_phrase = "kill phrase"
-	var/submission_phrase = "shock me"
-	var/freedom_phrase = "release me"
-
-/obj/item/clothing/neck/slave_gorget/equipped(mob/living/carbon/human/human)
-	. = ..()
-	RegisterSignal(human, COMSIG_MOVABLE_HEAR, PROC_REF(process_phrase))
-
-/obj/item/clothing/neck/slave_gorget/Destroy()
-	var/mob/living/carbon/human/parent = loc
-	if (ismob(parent))
-		UnregisterSignal(parent, COMSIG_MOVABLE_HEAR)
-	return ..()
-
-/obj/item/clothing/neck/slave_gorget/proc/process_phrase(datum/source, list/hear_args)
-	var/raw_message = hear_args[HEARING_RAW_MESSAGE]
-	var/atom/movable/speaker = hear_args[HEARING_SPEAKER]
-
-	debug_world("Processing phrase.")
-
-	if (!ismob(speaker))
-		debug_world("Not a mob: [speaker]")
-		return
-
-	var/msg = normalize_slave_phrase(raw_message)
-	to_chat(speaker, "[src] слышит: '[msg]'")
-
-	if (msg == death_phrase)
-		speaker.visible_message("<span class='danger'><b>[speaker] взрывается!</b></span>")
-		speaker:gib()
-		qdel(src)
-		return
-
-	if (msg == submission_phrase)
-		speaker.visible_message("<span class='warning'><b>[speaker] получает удар током!</b></span>")
-		speaker:apply_damage(30, BRUTE)
-		return
-
-	if (msg == freedom_phrase)
-		speaker.visible_message("<span class='notice'><b>[speaker] освобождается от ошейника!</b></span>")
-		src.forceMove(get_turf(speaker))
-		return
-
-	debug_world("No recognized phrase: '[msg]'")
 
