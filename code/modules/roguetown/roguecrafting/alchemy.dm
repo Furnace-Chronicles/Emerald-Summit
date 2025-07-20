@@ -259,3 +259,13 @@
 	craftdiff = 6
 	verbage_simple = "transmute"
 
+/datum/crafting_recipe/roguetown/alchemy/necro_crystal
+	name = "Dark crystal"
+	category = "Transmutation"
+	result = list(/obj/item/necro_relics/necro_crystal = 1)
+	reqs = list(/obj/item/reagent_containers/lux = 1, /obj/item/alch/viscera = 1)
+	skillcraft = /datum/skill/craft/alchemy
+	craftdiff = 4
+	verbage_simple = "craft"
+	always_availible = TRUE
+
