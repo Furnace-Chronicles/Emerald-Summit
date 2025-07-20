@@ -573,7 +573,7 @@
 		return FALSE
 	if(L)
 		if(H?.check_dodge_skill())
-			prob2defend = prob2defend + (L.STASPD * 12.5) //+30% base dodge chance at Speed 15, makes it so dodge is counterable by equal speed or a large skill difference.
+			prob2defend = prob2defend + (L.STASPD * 12) //+30% base dodge chance at Speed 15, makes it so dodge is counterable by equal speed or a large skill difference.
 		else
 			prob2defend = prob2defend + (L.STASPD * 10)
 	if(U)
