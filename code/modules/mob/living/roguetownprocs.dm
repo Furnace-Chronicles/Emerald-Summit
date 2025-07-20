@@ -561,7 +561,7 @@
 	var/mob/living/carbon/human/H
 	var/mob/living/carbon/human/UH
 	var/obj/item/I
-	var/drained = 10
+	var/drained = 5 //From 10 to 5, more in line with current parry drain
 	var/drained_npc = 5
 	if(ishuman(src))
 		H = src
@@ -573,7 +573,7 @@
 		return FALSE
 	if(L)
 		if(H?.check_dodge_skill())
-			prob2defend = prob2defend + (L.STASPD * 15)
+			prob2defend = prob2defend + (L.STASPD * 12.5) //+30% base dodge chance at Speed 15, makes it so dodge is counterable by equal speed or a large skill difference.
 		else
 			prob2defend = prob2defend + (L.STASPD * 10)
 	if(U)

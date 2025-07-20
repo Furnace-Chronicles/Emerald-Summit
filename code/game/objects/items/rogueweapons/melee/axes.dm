@@ -151,7 +151,7 @@
 	smelt_bar_num = 2
 	gripped_intents = list(/datum/intent/axe/cut/battle ,/datum/intent/axe/chop/battle, /datum/intent/axe/bash, /datum/intent/sword/peel)
 	minstr = 9
-	wdefense = 4
+	wdefense = 3.5 //Slightly less than a longsword, better intents.
 
 /obj/item/rogueweapon/stoneaxe/battle/getonmobprop(tag)
 	if(tag)
@@ -186,7 +186,7 @@
 	smeltresult = /obj/item/ingot/steel
 	gripped_intents = list(/datum/intent/axe/cut/battle ,/datum/intent/axe/chop/battle, /datum/intent/axe/bash)
 	minstr = 12
-	wdefense = 5
+	wdefense = 4
 
 /obj/item/rogueweapon/stoneaxe/oath/getonmobprop(tag)
 	if(tag)
@@ -245,6 +245,7 @@
 	gripped_intents = list(/datum/intent/axe/cut,/datum/intent/axe/chop, /datum/intent/mace/warhammer/pick, /datum/intent/axe/bash)
 	smeltresult = /obj/item/ingot/steel
 	wlength = WLENGTH_NORMAL
+	wdefense = 3
 	toolspeed = 2
 
 
@@ -368,7 +369,7 @@
 	max_blade_int = 400
 	smeltresult = /obj/item/ingot/silver
 	gripped_intents = null
-	wdefense = 4
+	wdefense = 5.5
 	is_silver = TRUE
 	blade_dulling = DULLING_SHAFT_METAL
 
@@ -416,7 +417,7 @@
 	smeltresult = /obj/item/ingot/iron
 	associated_skill = /datum/skill/combat/axes
 	blade_dulling = DULLING_SHAFT_WOOD
-	wdefense = 6
+	wdefense = 4
 	pickup_sound = 'modular_helmsguard/sound/sheath_sounds/draw_greatsword.ogg'
 	sheathe_sound = 'modular_helmsguard/sound/sheath_sounds/put_back_to_leather.ogg'
 

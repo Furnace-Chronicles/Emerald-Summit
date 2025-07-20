@@ -259,6 +259,7 @@
 	possible_item_intents = list(/datum/intent/dagger/thrust,/datum/intent/dagger/cut, /datum/intent/dagger/thrust/pick, /datum/intent/dagger/sucker_punch)
 	force = 15
 	max_integrity = 100
+	wdefense = 4
 	name = "iron dagger"
 	desc = "This is a common dagger of iron."
 	icon_state = "idagger"
@@ -286,6 +287,7 @@
 	icon_state = "sdagger"
 	force = 20
 	max_integrity = 150
+	wdefense = 5.5
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/holysee
@@ -313,6 +315,7 @@
 	icon_state = "stiletto"
 	force = 25
 	max_integrity = 200
+	wdefense = 6
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/parrying //direct upgrade but more costly.
@@ -321,12 +324,12 @@
 	force = 15
 	throwforce = 15
 	icon_state = "spdagger"
-	wdefense = 6
+	wdefense = 7
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/parrying/vaquero
 	name = "sail dagger"
 	desc = "An exceptionally protective parrying dagger popular in the Etruscan Isles, this dagger features a plain metal guard in the shape of a ship's sail."
-	wdefense = 7
+	wdefense = 7.5
 	force = 17
 	throwforce = 17
 	icon_state = "sail_dagger"
@@ -425,6 +428,7 @@
 	name = "elvish dagger"
 	desc = "This beautiful dagger is of intricate, elvish design. Sharper, too."
 	force = 22
+	wdefense = 5.5
 	icon_state = "elfdagger"
 	item_state = "elfdag"
 	last_used = 0

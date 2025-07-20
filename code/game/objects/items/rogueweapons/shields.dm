@@ -26,7 +26,7 @@
 	resistance_flags = FLAMMABLE
 	can_parry = TRUE
 	associated_skill = /datum/skill/combat/shields		//Trained via blocking or attacking dummys with; makes better at parrying w/ shields.
-	wdefense = 10										//should be pretty baller
+	wdefense = 7										//should be pretty baller
 	var/coverage = 50
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
@@ -166,7 +166,7 @@
 	wlength = WLENGTH_NORMAL
 	resistance_flags = FLAMMABLE
 	blade_dulling = DULLING_SHAFT_REINFORCED
-	wdefense = 10
+	wdefense = 7.5
 	coverage = 40
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
 	max_integrity = 200
@@ -192,7 +192,7 @@
 	wlength = WLENGTH_NORMAL
 	resistance_flags = null
 	flags_1 = CONDUCT_1
-	wdefense = 11
+	wdefense = 8
 	coverage = 50
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
@@ -214,6 +214,8 @@
 	desc = "Protection of the Ten upon the wielder. A final, staunch line against the darkness. \
 	For it's not what is before the shield-carrier that matters, but the home behind them."
 	icon_state = "gsshield"
+	max_integrity = 350
+	wdefense = 9
 
 /obj/item/rogueweapon/shield/tower/metal/holysee/dark
 	icon_state = "gsshielddark"
@@ -222,7 +224,7 @@
 	name = "decrepit shield"
 	desc = "A decrepit, worn out shield. Aeon's grasp is upon it."
 	max_integrity = 150
-	wdefense = 9
+	wdefense = 6
 	icon_state = "ancientsh"
 	smeltresult = /obj/item/ingot/aalloy
 	blade_dulling = DULLING_SHAFT_CONJURED
@@ -241,7 +243,7 @@
 	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK)
 	force = 25
 	throwforce = 25 //for cosplaying captain raneshen
-	wdefense = 11
+	wdefense = 8
 	max_integrity = 250 //not fully metal but not fully wood either
 
 /obj/item/rogueweapon/shield/tower/raneshen/getonmobprop(tag)
@@ -263,7 +265,7 @@
 	dropshrink = 0.8
 	resistance_flags = null
 	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK, SHIELD_SMASH_METAL)
-	wdefense = 9
+	wdefense = 7
 	coverage = 10
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')

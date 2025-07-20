@@ -205,7 +205,8 @@
 	pixel_x = -16
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
-	wdefense = 10
+	wdefense = 5.5 //This was at 10 (so 13 wielded) before for some insane reason. No, stop, wooden staffs aren't A.T. Fields. It was higher than a kite shield, get real.
+	max_integrity = 180 //It's a piece of wood. Unique staffs get higher durability.
 	bigboy = TRUE
 	gripsprite = TRUE
 	associated_skill = /datum/skill/combat/polearms
@@ -228,6 +229,7 @@
 /obj/item/rogueweapon/woodstaff/wise
 	name = "wise staff"
 	desc = "A staff for keeping the volves at bay..."
+	max_integrity = 225
 
 /obj/item/rogueweapon/woodstaff/aries
 	name = "staff of the shepherd"
@@ -236,6 +238,7 @@
 	force_wielded = 28
 	icon_state = "aries"
 	icon = 'icons/roguetown/weapons/32.dmi'
+	max_integrity = 300
 	pixel_y = 0
 	pixel_x = 0
 	inhand_x_dimension = 64
@@ -372,7 +375,8 @@
 	smeltresult = /obj/item/ingot/steel
 	max_blade_int = 200
 	minstr = 8
-	wdefense = 6
+	wdefense = 5
+	max_integrity = 325 //Sturdier than a spear, but same wdefense.
 	throwforce = 15
 
 /obj/item/rogueweapon/spear/improvisedbillhook
@@ -653,12 +657,13 @@
 	w_class = WEIGHT_CLASS_BULKY
 	minstr = 9
 	max_blade_int = 200
+	max_integrity = 275 // A little extra parry integrity, +25 compared to the spear.
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/steel
 	associated_skill = /datum/skill/combat/polearms
 	blade_dulling = DULLING_SHAFT_WOOD
 	walking_stick = TRUE
-	wdefense = 6
+	wdefense = 5.5
 	pickup_sound = 'modular_helmsguard/sound/sheath_sounds/draw_polearm.ogg'
 	sheathe_sound = 'sound/foley/equip/swordlarge1.ogg'
 
@@ -736,12 +741,12 @@
 	possible_item_intents = list(/datum/intent/spear/thrust/eaglebeak, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
 	gripped_intents = list(/datum/intent/spear/thrust/glaive, /datum/intent/spear/cut/glaive, /datum/intent/axe/chop/scythe, SPEAR_BASH)
 	name = "glaive"
-	desc = "A curved blade on a pole, specialised in defence, but expensive to manufacture."
+	desc = "A curved blade on a pole, specialised in offense, but expensive to manufacture."
 	icon_state = "glaive"
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/steel
 	max_blade_int = 300
-	wdefense = 9
+	wdefense = 4.5 //You're sacrificing defense for a better thrust and cut here.
 
 /obj/item/rogueweapon/halberd/glaive/getonmobprop(tag)
 	. = ..()
@@ -864,7 +869,7 @@
 	smeltresult = /obj/item/ingot/steel
 	associated_skill = /datum/skill/combat/swords
 	max_blade_int = 300
-	wdefense = 5
+	wdefense = 3.5 //65% base parry chance wielded, halfway between zweihander and longsword.
 	smelt_bar_num = 3
 	pickup_sound = 'modular_helmsguard/sound/sheath_sounds/draw_greatsword.ogg'
 	sheathe_sound = 'modular_helmsguard/sound/sheath_sounds/put_back_sword2.ogg'
@@ -912,7 +917,7 @@
 	smeltresult = /obj/item/ingot/iron
 	smelt_bar_num = 3
 	max_blade_int = 200
-	wdefense = 4
+	wdefense = 3
 	force = 14
 	force_wielded = 35
 
@@ -922,6 +927,7 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 3
 	max_blade_int = 300
+	max_integrity = 300 //+50 integrity for being steel.
 	force = 14
 	force_wielded = 35
 
@@ -970,6 +976,7 @@
 	associated_skill = /datum/skill/combat/swords
 	max_blade_int = 300
 	wdefense = 5
+	max_integrity = 220 //-30 integrity compared to the greatsword to compensate for its better parry and thrusting utility.
 	smelt_bar_num = 2
 	pickup_sound = 'modular_helmsguard/sound/sheath_sounds/draw_greatsword.ogg'
 	sheathe_sound = 'modular_helmsguard/sound/sheath_sounds/put_back_sword2.ogg'
@@ -1094,7 +1101,7 @@
 	icon = 'icons/roguetown/weapons/64.dmi'
 	minstr = 10
 	max_blade_int = 200
-	wdefense = 6
+	wdefense = 5
 	throwforce = 12	//Not a throwing weapon. Too heavy!
 	blade_dulling = DULLING_SHAFT_REINFORCED
 	icon_angle_wielded = 50
@@ -1115,7 +1122,7 @@
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	icon_state = "boarspear"
 	force_wielded = 33 // 10% base damage increase
-	wdefense = 6 // A little bit extra
+	wdefense = 5.5 // A little bit extra
 	max_blade_int = 150 // 50% more sharpness but it barely matter lol
 
 /obj/item/rogueweapon/spear/lance
@@ -1138,7 +1145,7 @@
 	name = "Naginata"
 	desc = "A traditional Kazengunese polearm, combining the reach of a spear with the cutting power of a curved blade. Due to the brittle quality of Kazengunese bladesmithing, weaponsmiths have adapted its blade to be easily replaceable when broken by a peg upon the end of the shaft."
 	force = 16
-	force_wielded = 30
+	force_wielded = 27
 	possible_item_intents = list(/datum/intent/spear/cut/naginata, SPEAR_BASH) // no stab for you little chuddy, it's a slashing weapon
 	gripped_intents = list(/datum/intent/rend/reach, /datum/intent/spear/cut/naginata, PARTIZAN_PEEL, SPEAR_BASH)
 	icon_state = "naginata"
@@ -1146,6 +1153,7 @@
 	minstr = 7
 	max_blade_int = 50 //Nippon suteeru (dogshit)
 	wdefense = 5
+	wbalance = WBALANCE_SWIFT //Lower damage, shitty blade integrity, but now its a swift weapon. Enjoy.
 	throwforce = 12	//Not a throwing weapon.
 	blade_dulling = DULLING_SHAFT_REINFORCED
 	icon_angle_wielded = 50

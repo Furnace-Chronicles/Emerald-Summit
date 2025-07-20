@@ -284,7 +284,7 @@
 /obj/item/rogueweapon/knuckles
 	name = "steel knuckles"
 	desc = "A mean looking pair of steel knuckles."
-	force = 22
+	force = 20
 	possible_item_intents = list(/datum/intent/knuckles/strike,/datum/intent/knuckles/smash)
 	icon = 'icons/roguetown/weapons/32.dmi'
 	icon_state = "steelknuckle"
@@ -298,7 +298,7 @@
 	swingsound = list('sound/combat/wooshes/punch/punchwoosh (1).ogg','sound/combat/wooshes/punch/punchwoosh (2).ogg','sound/combat/wooshes/punch/punchwoosh (3).ogg')
 	associated_skill = /datum/skill/combat/unarmed
 	throwforce = 12
-	wdefense = 8
+	wdefense = 6 //Unarmed classes tend to get Master unarmed so having this be too high is unhealthy.
 	wbalance = WBALANCE_HEAVY
 	blade_dulling = DULLING_SHAFT_WOOD
 	anvilrepair = /datum/skill/craft/weaponsmithing
@@ -319,7 +319,7 @@
 /obj/item/rogueweapon/knuckles/bronzeknuckles
 	name = "bronze knuckles"
 	desc = "A mean looking pair of bronze knuckles. Mildly heavier than it's steel counterpart, making it a solid defensive option, if less wieldy."
-	force = 20
+	force = 18
 	possible_item_intents = list(/datum/intent/knuckles/strike,/datum/intent/knuckles/smash)
 	icon = 'icons/roguetown/weapons/32.dmi'
 	icon_state = "bronzeknuckle"
@@ -333,7 +333,7 @@
 	swingsound = list('sound/combat/wooshes/punch/punchwoosh (1).ogg','sound/combat/wooshes/punch/punchwoosh (2).ogg','sound/combat/wooshes/punch/punchwoosh (3).ogg')
 	associated_skill = /datum/skill/combat/unarmed
 	throwforce = 12
-	wdefense = 10	//literally no clue how else to balance these
+	wdefense = 6.5
 	wbalance = WBALANCE_HEAVY
 	blade_dulling = DULLING_SHAFT_WOOD
 	anvilrepair = /datum/skill/craft/weaponsmithing
@@ -390,7 +390,7 @@
 /obj/item/rogueweapon/knuckles/eora
 	name = "close caress"
 	desc = "Some times call for a more intimate approach."
-	force = 25
+	force = 24
 	icon_state = "eoraknuckle"
 
 ///Peasantry / Militia Weapon Pack///
@@ -407,7 +407,7 @@
 	smeltresult = /obj/item/rogueore/coal
 	sharpness = IS_SHARP
 	walking_stick = TRUE
-	wdefense = 6
+	wdefense = 4
 	max_blade_int = 80
 
 /obj/item/rogueweapon/woodstaff/militia/getonmobprop(tag)
@@ -597,7 +597,7 @@
 	associated_skill = /datum/skill/combat/polearms
 	blade_dulling = DULLING_SHAFT_WOOD
 	walking_stick = TRUE
-	wdefense = 6
+	wdefense = 4.5
 	thrown_bclass = BCLASS_BLUNT
 	throwforce = 10
 	resistance_flags = FLAMMABLE
@@ -648,7 +648,7 @@
 	associated_skill = /datum/skill/combat/axes
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/steel
-	wdefense = 5
+	wdefense = 4
 	wbalance = WBALANCE_HEAVY
 
 /obj/item/rogueweapon/sword/falchion/militia

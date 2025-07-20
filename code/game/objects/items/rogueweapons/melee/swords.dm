@@ -135,7 +135,7 @@
 	smeltresult = /obj/item/ingot/steel
 	minstr = 6
 	sellprice = 30
-	wdefense = 4.5
+	wdefense = 4.5 //75% parry chance wielded, very dependable for a seasoned swordsman - but flimsy integrity.
 	grid_width = 32
 	grid_height = 64
 	pickup_sound = 'modular_helmsguard/sound/sheath_sounds/draw_sword.ogg'
@@ -160,7 +160,7 @@
 	max_integrity = 250
 	gripped_intents = null
 	minstr = 4
-	wdefense = 6.5
+	wdefense = 6
 
 /obj/item/rogueweapon/sword/falx
 	name = "falx"
@@ -221,7 +221,7 @@
 	icon_state = "swordshort"
 	gripped_intents = null
 	minstr = 4
-	wdefense = 4.5
+	wdefense = 5
 	wlength = WLENGTH_SHORT
 	w_class = WEIGHT_CLASS_NORMAL
 	grid_width = 32
@@ -252,6 +252,8 @@
 	pickup_sound = 'sound/foley/equip/swordlarge2.ogg'
 	bigboy = 1
 	wlength = WLENGTH_LONG
+	wdefense = 4
+	max_integrity = 225
 	gripsprite = TRUE
 	pixel_y = -16
 	pixel_x = -16
@@ -288,12 +290,13 @@
 	name = "basket-hilted longsword"
 	desc = "An uncommon and elaborate type of longsword with a compound hilt like those seen on rapiers and smallswords. It has a marked unsharpened section for safe unarmored half-swording, and it's made of Calorian steel."
 	icon_state = "elongsword"
+	wdefense = 4.5 //+5% parry chance from the basket hilt.
 
 /obj/item/rogueweapon/sword/long/malumflamm
 	name = "forgefiend flamberge"
 	desc = "This sword's creation took a riddle in its own making. A great sacrifice was made for a blade of perfect quality."
 	icon_state = "malumflamberge"
-	max_integrity = 200
+	max_integrity = 300
 
 /obj/item/rogueweapon/sword/long/zizo
 	name = "darksteel longsword"
@@ -425,7 +428,7 @@
 	force = 40
 	force_wielded = 55
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/peel, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/sword/chop)
+	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/peel, /datum/intent/sword/chop)
 	alt_intents = list(/datum/intent/effect/daze, /datum/intent/sword/strike, /datum/intent/sword/bash)
 	icon_state = "vlord"
 	icon = 'icons/roguetown/weapons/64.dmi'
@@ -526,7 +529,7 @@
 	dropshrink = 0.75
 	minstr = 6
 	sellprice = 42
-	wdefense = 5
+	wdefense = 4.5
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/sword/long/marlin/getonmobprop(tag)
@@ -686,7 +689,7 @@
 	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/axe/chop, /datum/intent/sword/peel)
 	gripped_intents = null
 	minstr = 4
-	wdefense = 2
+	wdefense = 3.5
 
 // This typepath is so buggered bruh but I am not repeating code and not dropping a massive merge conflict for now
 /obj/item/rogueweapon/sword/iron/messer/copper
@@ -709,7 +712,7 @@
 	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/axe/chop, /datum/intent/sword/peel)
 	gripped_intents = null
 	minstr = 5
-	wdefense = 4
+	wdefense = 4.5
 
 /obj/item/rogueweapon/sword/sabre
 	name = "sabre"
@@ -798,7 +801,7 @@
 		)
 	swingsound = BLADEWOOSH_SMALL
 	minstr = 6
-	wdefense = 7.5
+	wdefense = 7
 	wbalance = WBALANCE_SWIFT
 
 /obj/item/rogueweapon/sword/rapier/vaquero
@@ -807,7 +810,7 @@
 	icon = 'icons/roguetown/weapons/64.dmi'
 	max_integrity = 225
 	icon_state = "cup_hilt_rapier"
-	wdefense = 8
+	wdefense = 7.5
 	force = 25
 
 /obj/item/rogueweapon/sword/rapier/getonmobprop(tag)
@@ -910,7 +913,7 @@
 	sellprice = 300
 	max_integrity = 300
 	max_blade_int = 300
-	wdefense = 7
+	wdefense = 7.5
 
 /obj/item/rogueweapon/sword/rapier/eora
 	name = "\"Heartstring\""
@@ -920,6 +923,7 @@
 	grid_width = 32
 	grid_height = 64
 	dropshrink = 0
+	wdefense = 7.5
 	bigboy = FALSE
 
 /obj/item/rogueweapon/sword/cutlass
@@ -928,9 +932,9 @@
 	icon_state = "cutlass"
 	max_integrity = 240
 	force = 23
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop, /datum/intent/sword/peel)
+	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/chop, /datum/intent/sword/peel)
 	gripped_intents = null
-	wdefense = 6.5
+	wdefense = 6
 	wbalance = WBALANCE_SWIFT
 
 
@@ -952,7 +956,7 @@
 	force_wielded = 35
 	icon_state = "blackflamb"
 	smeltresult = /obj/item/ingot/blacksteel
-	max_integrity = 215
+	max_integrity = 300 //Blacksteel.
 
 /obj/item/rogueweapon/sword/long/blackflamb/getonmobprop(tag)
 	. = ..()
@@ -1060,7 +1064,7 @@
 	gripped_intents = list(/datum/intent/sword/cut/falx, /datum/intent/sword/strike, /datum/intent/sword/chop/falx, /datum/intent/sword/peel)
 	icon_state = "rhomphaia"
 	smeltresult = /obj/item/ingot/steel
-	max_integrity = 125
+	max_integrity = 175
 
 /obj/item/rogueweapon/sword/long/rhomphaia/getonmobprop(tag)
 	. = ..()
@@ -1165,7 +1169,7 @@
 	icon_state = "crhomphaia"
 	force = 22
 	force_wielded = 26
-	max_integrity = 100
+	max_integrity = 125
 	smeltresult = /obj/item/ingot/copper
 
 /obj/item/rogueweapon/sword/long/oathkeeper
@@ -1322,7 +1326,7 @@
 	desc = "A foreign sword used by cut-throats & thugs. There's a red tassel on the hilt."
 	icon_state = "eastsword1"
 	smeltresult = /obj/item/ingot/steel
-	wdefense = 3
+	wdefense = 4
 
 /obj/item/rogueweapon/sword/sabre/mulyeog/rumahench
 	name = "lenticular straight sword"
@@ -1332,10 +1336,10 @@
 /obj/item/rogueweapon/sword/sabre/mulyeog/rumacaptain
 	force = 30
 	name = "Heiyundao"
-	desc = "A gold-stained with cloud patterns on the groove. One of a kind."
+	desc = "A gold-stained sword with cloud patterns on the groove. One of a kind."
 	icon_state = "eastsword3"
-	max_integrity = 180
-	wdefense = 4
+	max_integrity = 225
+	wdefense = 5
 
 /obj/item/rogueweapon/sword/attack(mob/living/M, mob/living/user)
 	if(user == M && user.used_intent && user.used_intent.blade_class == BCLASS_STAB && istype(user.rmb_intent, /datum/rmb_intent/weak))

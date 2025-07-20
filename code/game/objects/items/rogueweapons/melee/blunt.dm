@@ -65,7 +65,7 @@
 	parrysound = list('sound/combat/parry/parrygen.ogg')
 	swingsound = BLUNTWOOSH_MED
 	minstr = 7
-	wdefense = 2
+	wdefense = 3
 	wbalance = WBALANCE_HEAVY
 	blade_dulling = DULLING_SHAFT_METAL
 	intdamage_factor = 1.35
@@ -118,7 +118,7 @@
 	icon_state = "smace"
 	wbalance = WBALANCE_HEAVY
 	smeltresult = /obj/item/ingot/steel
-	wdefense = 3
+	wdefense = 4 //70% parry chance wielded, because blunt weapons are in a bad spot right now.
 	smelt_bar_num = 2
 
 /obj/item/rogueweapon/mace/steel/palloy
@@ -135,7 +135,7 @@
 	force = 24
 	gripped_intents = null
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/effect/daze)
-	wdefense = 4
+	wdefense = 5.5
 	smeltresult = /obj/item/ingot/silver
 	smelt_bar_num = 2
 	is_silver = TRUE
@@ -197,7 +197,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	wbalance = WBALANCE_NORMAL
 	minstr = 7
-	wdefense = 1
+	wdefense = 2
 	resistance_flags = FLAMMABLE
 	blade_dulling = DULLING_SHAFT_WOOD
 	grid_width = 32
@@ -225,7 +225,7 @@
 	blade_dulling = DULLING_SHAFT_REINFORCED
 	wbalance = WBALANCE_SWIFT
 	minstr = 7
-	wdefense = 5
+	wdefense = 4
 
 /obj/item/rogueweapon/mace/cudgel/getonmobprop(tag)
 	. = ..()
@@ -438,7 +438,7 @@
 	blade_dulling = DULLING_SHAFT_CONJURED
 
 /obj/item/rogueweapon/mace/warhammer/steel
-	force = 25
+	force = 27 //Specialized for one-handed use.
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/warhammer/pick, /datum/intent/mace/warhammer/stab)
 	name = "steel warhammer"
 	desc = "A fine steel warhammer, makes a satisfying sound when paired with a knight's helm."
