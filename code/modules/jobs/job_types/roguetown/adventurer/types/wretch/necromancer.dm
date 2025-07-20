@@ -48,5 +48,6 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/necromancer)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/ghost_walk) // Ghost Walk spell
 	H?.mind.adjust_spellpoints(18)
 	wretch_select_bounty(H)
