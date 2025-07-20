@@ -328,12 +328,12 @@
 	resistance_flags = FIRE_PROOF	//It's meant to be smacked by a "lamptern", and is special enough to warrant overriding the spear weakness
 
 /obj/item/rogueweapon/spear/psyspear/ComponentInitialize()
-	. = ..()								//+3 force, +50 blade int, +50 int, +1 def, make silver
-	AddComponent(/datum/component/psyblessed, FALSE, 3, 50, 50, 1, TRUE)
+	. = ..()								//+3 force, +50 blade int, +50 int, +0.5 def, make silver
+	AddComponent(/datum/component/psyblessed, FALSE, 3, 50, 50, 0.5, TRUE)
 
 /obj/item/rogueweapon/spear/psyspear/preblessed/ComponentInitialize()
-	. = ..()								//Pre-blessed, +3 force, +50 blade int, +50 int, +1 def, make silver
-	AddComponent(/datum/component/psyblessed, TRUE, 3, 50, 50, 1, TRUE)
+	. = ..()								//Pre-blessed, +3 force, +50 blade int, +50 int, +0.5 def, make silver
+	AddComponent(/datum/component/psyblessed, TRUE, 3, 50, 50, 0.5, TRUE)
 
 /obj/item/rogueweapon/spear/getonmobprop(tag)
 	. = ..()
@@ -663,7 +663,7 @@
 	associated_skill = /datum/skill/combat/polearms
 	blade_dulling = DULLING_SHAFT_WOOD
 	walking_stick = TRUE
-	wdefense = 5.5
+	wdefense = 5
 	pickup_sound = 'modular_helmsguard/sound/sheath_sounds/draw_polearm.ogg'
 	sheathe_sound = 'sound/foley/equip/swordlarge1.ogg'
 
@@ -730,12 +730,12 @@
 	icon_state = "psyhalberd"
 
 /obj/item/rogueweapon/halberd/psyhalberd/ComponentInitialize()
-	. = ..()				//+5 force, +100 blade int, +100 int, +2 def, make silver.
-	AddComponent(/datum/component/psyblessed, FALSE, 5, 100, 100, 2, TRUE)
+	. = ..()				//+5 force, +100 blade int, +100 int, +1 def, make silver.
+	AddComponent(/datum/component/psyblessed, FALSE, 5, 100, 100, 1, TRUE)
 
 /obj/item/rogueweapon/halberd/psyhalberd/preblessed/ComponentInitialize()
-	. = ..()				//Pre-blessed, +5 force, +100 blade int, +100 int, +2 def, make silver.
-	AddComponent(/datum/component/psyblessed, TRUE, 5, 100, 100, 2, TRUE)
+	. = ..()				//Pre-blessed, +5 force, +100 blade int, +100 int, +1 def, make silver.
+	AddComponent(/datum/component/psyblessed, TRUE, 5, 100, 100, 1, TRUE)
 
 /obj/item/rogueweapon/halberd/glaive
 	possible_item_intents = list(/datum/intent/spear/thrust/eaglebeak, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
@@ -937,12 +937,12 @@
 	icon_state = "psygsword"
 
 /obj/item/rogueweapon/greatsword/psygsword/ComponentInitialize()
-	. = ..()					//+100 Blade int, +100 int, +2 def, make it silver
-	AddComponent(/datum/component/psyblessed, FALSE, 5, 100, 100, 2, TRUE)
+	. = ..()					//+100 Blade int, +100 int, +1.5 def, make it silver
+	AddComponent(/datum/component/psyblessed, FALSE, 5, 100, 100, 1.5, TRUE)
 
 /obj/item/rogueweapon/greatsword/psygsword/preblessed/ComponentInitialize()
-	. = ..()					//Pre-blessed, +100 Blade int, +100 int, +2 def, make it silver
-	AddComponent(/datum/component/psyblessed, TRUE, 5, 100, 100, 2, TRUE)
+	. = ..()					//Pre-blessed, +100 Blade int, +100 int, +1.5 def, make it silver
+	AddComponent(/datum/component/psyblessed, TRUE, 5, 100, 100, 1.5, TRUE)
 
 /obj/item/rogueweapon/estoc
 	name = "estoc"

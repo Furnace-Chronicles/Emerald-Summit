@@ -199,8 +199,8 @@
 					prob2defend -= (attacker_skill * 20)
 					if((intenty.masteritem.wbalance == WBALANCE_SWIFT) && (user.STASPD > src.STASPD)) //enemy weapon is quick, so get a bonus based on spddiff
 						var/spdmod = ((user.STASPD - src.STASPD) * 10)
-						var/permod = ((src.STAPER - user.STAPER) * 10)
-						var/intmod = ((src.STAINT - user.STAINT) * 3)
+						var/permod = ((src.STAPER - user.STAPER) * 5)
+						var/intmod = ((src.STAINT - user.STAINT) * 5)
 						if(mind)
 							if(permod > 0)
 								spdmod -= permod
@@ -817,9 +817,9 @@
 			var/bonus = round(((fakeint - 10) / 2)) * 10
 			if(bonus > 0)
 				if(HAS_TRAIT(src, TRAIT_HEAVYARMOR) || HAS_TRAIT(src, TRAIT_MEDIUMARMOR) || HAS_TRAIT(src, TRAIT_DODGEEXPERT) || HAS_TRAIT(src, TRAIT_CRITICAL_RESISTANCE))
-					bonus = clamp(bonus, 0, 25)
+					bonus = clamp(bonus, 0, 10)
 				else
-					bonus = clamp(bonus, 0, 50)//20-21 INT
+					bonus = clamp(bonus, 0, 25)//20-21 INT
 			return bonus
 		else
 			return 0
