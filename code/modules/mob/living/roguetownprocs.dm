@@ -561,7 +561,7 @@
 	var/mob/living/carbon/human/H
 	var/mob/living/carbon/human/UH
 	var/obj/item/I
-	var/drained = 5 //From 10 to 5, more in line with current parry drain
+	var/drained = 6.5 //From 10 to 5, more in line with current parry drain
 	var/drained_npc = 5
 	if(ishuman(src))
 		H = src
