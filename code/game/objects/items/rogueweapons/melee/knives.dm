@@ -287,7 +287,7 @@
 	icon_state = "sdagger"
 	force = 20
 	max_integrity = 150
-	wdefense = 5.5
+	wdefense = 4.5
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/holysee
