@@ -13,6 +13,8 @@
 	var/force = SEX_FORCE_MID
 	/// Our arousal
 	var/arousal = 0
+	///Makes genital arousal automatic by default
+	var/manual_arousal = SEX_MANUAL_AROUSAL_DEFAULT
 	/// Our charge gauge
 	var/charge = SEX_MAX_CHARGE
 	/// Whether we want to screw until finished, or non stop
@@ -50,6 +52,8 @@
 
 /datum/sex_controller/proc/adjust_force(amt)
 	force = clamp(force + amt, SEX_FORCE_MIN, SEX_FORCE_MAX)
+/datum/sex_controller/proc/adjust_arousal_manual(amt)
+	manual_arousal = clamp(manual_arousal + amt, SEX_MANUAL_AROUSAL_MIN, SEX_MANUAL_AROUSAL_MAX)
 
 /datum/sex_controller/proc/update_pink_screen()
 	var/severity = 0
@@ -101,8 +105,7 @@
 	if(!oral)
 		after_intimate_climax()
 	
-	// Cuckold check only for penetrative sex (cum_into)
-	cuckold_check()
+
 
 /datum/sex_controller/proc/ejaculate()
 	log_combat(user, user, "Ejaculated")
@@ -122,47 +125,8 @@
 	last_ejaculation_time = world.time
 	GLOB.scarlet_round_stats[STATS_PLEASURES]++
 
-/datum/sex_controller/proc/cuckold_check()
-	if(!target || !ishuman(target) || !ishuman(user))
-		return
-	
-	if(!user?.getorganslot(ORGAN_SLOT_PENIS))
-		return
-	
-	check_cuckolding(user, target) 
-	check_cuckolding(target, user) 
 
-/datum/sex_controller/proc/check_cuckolding(mob/living/carbon/human/person_with_spouse, mob/living/carbon/human/their_partner)
-	// Single family lookup with null check
-	var/datum/family/family = person_with_spouse.getFamily()
-	if(!family)
-		// Try the true family check as backup
-		family = person_with_spouse.getFamily(TRUE)
-		if(!family)
-			return
-	
-	var/list/spouse_relations = family.getRelations(person_with_spouse, REL_TYPE_SPOUSE)
-	if(!spouse_relations?.len)
-		return
-	
-	// Process first spouse only (there should only be one anyway)
-	var/datum/relation/R = spouse_relations[1]
-	var/mob/living/carbon/human/cuckold = R.target:resolve()
-	
-	if(!cuckold)
-		return
-	
-	if(cuckold == their_partner)
-		return
-		
-	if(!cuckold.getorganslot(ORGAN_SLOT_PENIS))
-		return
-	
-	var/cuckold_entry = "[cuckold.mind.assigned_role] [cuckold.real_name] (by [their_partner.real_name])"
-	if(cuckold_entry in GLOB.cuckolds)
-		return
-		
-	GLOB.cuckolds += cuckold_entry
+
 
 /datum/sex_controller/proc/after_intimate_climax()
 	if(user == target)
@@ -416,7 +380,11 @@
 	var/list/dat = list()
 	var/force_name = get_force_string()
 	var/speed_name = get_speed_string()
-	dat += "<center><a href='?src=[REF(src)];task=speed_down'>\<</a> [speed_name] <a href='?src=[REF(src)];task=speed_up'>\></a> ~|~ <a href='?src=[REF(src)];task=force_down'>\<</a> [force_name] <a href='?src=[REF(src)];task=force_up'>\></a></center>"
+	var/manual_arousal_name = get_manual_arousal_string()
+	if(!user.getorganslot(ORGAN_SLOT_PENIS))
+		dat += "<center><a href='?src=[REF(src)];task=speed_down'>\<</a> [speed_name] <a href='?src=[REF(src)];task=speed_up'>\></a> ~|~ <a href='?src=[REF(src)];task=force_down'>\<</a> [force_name] <a href='?src=[REF(src)];task=force_up'>\></a></center>"
+	else
+		dat += "<center><a href='?src=[REF(src)];task=speed_down'>\<</a> [speed_name] <a href='?src=[REF(src)];task=speed_up'>\></a> ~|~ <a href='?src=[REF(src)];task=force_down'>\<</a> [force_name] <a href='?src=[REF(src)];task=force_up'>\></a> ~|~ <a href='?src=[REF(src)];task=manual_arousal_down'>\<</a> [manual_arousal_name] <a href='?src=[REF(src)];task=manual_arousal_up'>\></a></center>"
 	dat += "<center>| <a href='?src=[REF(src)];task=toggle_finished'>[do_until_finished ? "UNTIL IM FINISHED" : "UNTIL I STOP"]</a> |</center>"
 	dat += "<center><a href='?src=[REF(src)];task=set_arousal'>SET AROUSAL</a> | <a href='?src=[REF(src)];task=freeze_arousal'>[arousal_frozen ? "UNFREEZE AROUSAL" : "FREEZE AROUSAL"]</a></center>"
 	if(target == user)
@@ -447,7 +415,7 @@
 			dat += "</tr><tr>"
 
 	dat += "</tr></table>"
-	var/datum/browser/popup = new(user, "sexcon", "<center>Sate Desire</center>", 430, 540)
+	var/datum/browser/popup = new(user, "sexcon", "<center>Sate Desire</center>", 490, 550)
 	popup.set_content(dat.Join())
 	popup.open()
 	return
@@ -472,6 +440,10 @@
 			adjust_force(1)
 		if("force_down")
 			adjust_force(-1)
+		if("manual_arousal_up")
+			adjust_arousal_manual(1)
+		if("manual_arousal_down")
+			adjust_arousal_manual(-1)
 		if("toggle_finished")
 			do_until_finished = !do_until_finished
 		if("set_arousal")
@@ -668,7 +640,16 @@
 			return "<font color='#f05ee1'>QUICK</font>"
 		if(SEX_SPEED_EXTREME)
 			return "<font color='#d146f5'>UNRELENTING</font>"
-
+/datum/sex_controller/proc/get_manual_arousal_string()
+	switch(manual_arousal)
+		if(SEX_MANUAL_AROUSAL_DEFAULT)
+			return "<font color='#eac8de'>NATURAL</font>"
+		if(SEX_MANUAL_AROUSAL_UNAROUSED)
+			return "<font color='#e9a8d1'>UNAROUSED</font>"
+		if(SEX_MANUAL_AROUSAL_PARTIAL)
+			return "<font color='#f05ee1'>PARTIALLY ERECT</font>"
+		if(SEX_MANUAL_AROUSAL_FULL)
+			return "<font color='#d146f5'>FULLY ERECT</font>"
 /datum/sex_controller/proc/get_generic_force_adjective()
 	switch(force)
 		if(SEX_FORCE_LOW)

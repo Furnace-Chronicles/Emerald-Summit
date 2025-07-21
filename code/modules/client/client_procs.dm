@@ -366,13 +366,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	else
 		data += "<font color='#93cac7'><span class='bold'>No confessions!</span></font>"
 	
-	// Cuckolds section
-	if(GLOB.cuckolds.len)
-		data += "<br><font color='#ae00c5'><span class='bold'>Cuckolds were:</span></font> "
-		for(var/i in 1 to GLOB.cuckolds.len)
-			data += "<font color='red'>[GLOB.cuckolds[i]]</font>"
-			if(i != GLOB.cuckolds.len)
-				data += ", "
+
 	data += "</div>"
 
 	src.mob << browse(null, "window=vanderlin_influences")

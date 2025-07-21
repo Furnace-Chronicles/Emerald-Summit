@@ -53,3 +53,8 @@
 	name = "Nocshine"
 	cost = 40
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/nocshine)
+
+/datum/supply_pack/rogue/drugs/emberwine
+	name = "Emberwine, unlabeled"
+	cost = 95
+	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/emberwine)

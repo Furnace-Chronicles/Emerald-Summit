@@ -10,12 +10,25 @@
 
 /obj/item/clothing/neck/roguetown/MiddleClick(mob/user, params)
 	. = ..()
-	overarmor = !overarmor
-	to_chat(user, span_info("I [overarmor ? "wear \the [src] over my armor" : "wear \the [src] under my armor"]."))
-	if(overarmor)
-		alternate_worn_layer = NECK_LAYER
+	if((user.zone_selected == BODY_ZONE_PRECISE_NOSE) && (cansnout == TRUE))
+		if(snouting == TRUE)
+			snouting = FALSE
+			flags_inv += HIDESNOUT
+		else
+			snouting = TRUE
+			flags_inv -= HIDESNOUT
+		to_chat(user, span_info("I [snouting ? "make space for my snout in \the [src]" : "wear \the [src] tighter"]."))
+		if(snouting)
+			icon_state = "[initial(icon_state)]_snout"
+		else
+			icon_state = "[initial(icon_state)]"
 	else
-		alternate_worn_layer = UNDER_ARMOR_LAYER
+		overarmor = !overarmor
+		to_chat(user, span_info("I [overarmor ? "wear \the [src] over my armor" : "wear \the [src] under my armor"]."))
+		if(overarmor)
+			alternate_worn_layer = NECK_LAYER
+		else
+			alternate_worn_layer = UNDER_ARMOR_LAYER
 	user.update_inv_neck()
 	user.update_inv_cloak()
 	user.update_inv_armor()
@@ -115,6 +128,7 @@
 	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
+	cansnout = TRUE
 
 /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (NECK|MOUTH), null, null, 'sound/foley/equip/equip_armor_chain.ogg', null, (UPD_HEAD|UPD_MASK|UPD_NECK))	//Chain coif.
@@ -130,6 +144,7 @@
 	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
 	smeltresult = /obj/item/ingot/iron
 	smelt_bar_num = 2
+	cansnout = TRUE
 
 /obj/item/clothing/neck/roguetown/chaincoif/iron
 	name = "iron chain coif"
@@ -157,6 +172,7 @@
 	adjustable = CAN_CADJUST
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
+	cansnout = TRUE
 
 /obj/item/clothing/neck/roguetown/chaincoif/full/ComponentInitialize()
 	return
@@ -200,6 +216,7 @@
 	adjustable = CAN_CADJUST
 	smeltresult = /obj/item/ingot/iron
 	smelt_bar_num = 2
+	cansnout = TRUE
 
 /obj/item/clothing/neck/roguetown/bevor
 	name = "bevor"
@@ -214,6 +231,7 @@
 	body_parts_covered = NECK|MOUTH|NOSE
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	blocksound = PLATEHIT
+	cansnout = TRUE
 
 /obj/item/clothing/neck/roguetown/gorget
 	name = "iron gorget"

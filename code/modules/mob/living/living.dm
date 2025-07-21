@@ -1007,10 +1007,18 @@
 
 	SEND_SIGNAL(src, COMSIG_LIVING_RESIST, src)
 	//resisting grabs (as if it helps anyone...)
-	if(!restrained(ignore_grab = 1) && pulledby)
-		log_combat(src, pulledby, "resisted grab")
-		resist_grab()
-		return
+	if(pulledby)
+		var/mob/living/P
+		if(isliving(pulledby))
+			P = pulledby
+		if(!restrained(ignore_grab = 1))
+			log_combat(src, pulledby, "resisted grab")
+			resist_grab()
+			return
+		else if(P.compliance) // we ARE handcuffed apart from the grab, but grabber has Compliance Mode on
+			log_combat(src, pulledby, "resisted grab (is restrained, compliance mode bypass)") // if you try baiting prisoners with this, I'll know.
+			resist_grab() // resisting out of his grab (100% success) takes priority here
+			return
 
 	//unbuckling yourself
 	if(buckled && last_special <= world.time)
@@ -1055,6 +1063,26 @@
 /mob/living/proc/end_submit()
 	surrendering = 0
 	update_mobility()
+
+/mob/living/proc/toggle_compliance()
+	set name = "Toggle Compliance"
+	set category = "IC"
+	set hidden = 1
+
+	var/notifyme = TRUE
+	if(client && client.prefs)
+		notifyme = client.prefs.compliance_notifs
+
+	if(has_status_effect(/datum/status_effect/compliance))
+		src.compliance = 0
+		remove_status_effect(/datum/status_effect/compliance)
+		if(notifyme)
+			to_chat(src, span_info("I will struggle against grabs as usual."))
+	else
+		src.compliance = 1
+		apply_status_effect(/datum/status_effect/compliance)
+		if(notifyme)
+			to_chat(src, span_info("I will allow all grabs and resistance attempts by others."))
 
 
 /mob/proc/stop_attack(message = FALSE)
@@ -1112,6 +1140,9 @@
 	resist_chance *= combat_modifier
 	resist_chance = clamp(resist_chance, 5, 95)
 
+	if(L.compliance)
+		resist_chance = 100
+
 	if(moving_resist && client) //we resisted by trying to move
 		client.move_delay = world.time + 20
 	stamina_add(rand(5,15))
@@ -1133,12 +1164,25 @@
 	L.changeNext_move(agg_grab ? CLICK_CD_GRABBING : CLICK_CD_GRABBING + 1 SECONDS)
 	playsound(src.loc, 'sound/combat/grabbreak.ogg', 50, TRUE, -1)
 
-	// Change the grabber's intent to grab before stopping the pull
+	L.stop_pulling()
+
+	// Repeatedly force the intent to grab on both server and client for 5 ticks after all cleanup
 	if(iscarbon(L))
 		var/mob/living/carbon/C = L
-		C.a_intent_change(INTENT_GRAB)
+		spawn(1)
+			for(var/i = 1, i <= 5, i++)
+				// Find the index of grab intent in the possible intents list
+				var/grab_index = 0
+				for(var/j = 1, j <= C.possible_a_intents.len, j++)
+					if(istype(C.possible_a_intents[j], INTENT_GRAB))
+						grab_index = j
+						break
+				if(grab_index > 0)
+					C.rog_intent_change(grab_index)
+					if(C.client)
+						C.client.mob.rog_intent_change(grab_index)
+				sleep(1)
 
-	L.stop_pulling()
 	return TRUE
 
 /mob/living/proc/resist_buckle()
@@ -1216,7 +1260,7 @@
 		if(L.cmode && L.mobility_flags & MOBILITY_STAND && !L.restrained())
 			to_chat(src, span_warning("I can't take \the [what] off, they are too tense!"))
 			return
-		if(L.surrendering)
+		if(L.compliance || L.surrendering)
 			surrender_mod = 0.5
 
 	if(!who.Adjacent(src))
@@ -1271,7 +1315,7 @@
 			if(L.cmode && L.mobility_flags & MOBILITY_STAND)
 				to_chat(src, span_warning("I can't put \the [what] on them, they are too tense!"))
 				return
-			if(L.surrendering)
+			if(L.compliance || L.surrendering)
 				surrender_mod = 0.5
 
 		who.visible_message(span_notice("[src] tries to put [what] on [who]."), \

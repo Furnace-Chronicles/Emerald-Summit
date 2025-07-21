@@ -1,7 +1,7 @@
 /obj/effect/proc_holder/spell/self/light
 	name = "Light"
 	desc = "Summons a condensed orb of light."
-	overlay_state = "null"
+	overlay_state = "light"
 	releasedrain = 50
 	chargetime = 1
 	recharge_time = 30 SECONDS

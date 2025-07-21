@@ -37,6 +37,8 @@
 			return
 		if("Valley accent")
 			return strings("valley_replacement.json", type, convert_HTML = TRUE)
+		if("Kazengun accent")
+			return strings("kazengun_replacement.json", type, convert_HTML = TRUE)
 
 /datum/species/proc/get_accent(mob/living/carbon/human/H)
 	return get_accent_list(H,"full")

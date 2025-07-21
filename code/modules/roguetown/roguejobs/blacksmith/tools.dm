@@ -59,7 +59,10 @@
 			return
 		else
 			user.visible_message(span_warning("[user] fumbles trying to repair [attacked_prosthetic]!"))
+			if(do_after(user, CLICK_CD_MELEE, target = attacked_object))
+				attack_obj(attacked_object, user)
 			return
+
 
 	if(isitem(attacked_object) && !user.cmode)
 		var/obj/item/attacked_item = attacked_object
@@ -104,7 +107,8 @@
 			return
 		else
 			user.visible_message(span_warning("[user] fumbles trying to repair [attacked_item]!"))
-			attacked_item.obj_integrity = max(0, attacked_item.obj_integrity - (10 - repair_percent))
+			if(do_after(user, CLICK_CD_MELEE, target = attacked_object))
+				attack_obj(attacked_object, user)
 			return
 
 	if(isstructure(attacked_object) && !user.cmode)
@@ -120,10 +124,18 @@
 		blacksmith.mind.add_sleep_experience(attacked_structure.hammer_repair, exp_gained) //We gain as much exp as we fix
 		playsound(src,'sound/items/bsmithfail.ogg', 100, FALSE)
 		user.visible_message(span_info("[user] repairs [attacked_structure]!"))
+		if(attacked_object.obj_integrity <= attacked_object.max_integrity && do_after(user, CLICK_CD_MELEE, target = attacked_object))
+			attack_obj(attacked_object, user)
 		return
 
 	. = ..()
 
+/obj/item/rogueweapon/hammer/attack_hand(mob/living/user)
+	if(HAS_TRAIT(user, TRAIT_MALUM_CURSE))
+		to_chat(user, span_warning("Your cursed hands burn at the touch of the hammer!"))
+		user.freak_out()
+		return
+	. = ..()
 
 /obj/item/rogueweapon/hammer/attack(mob/living/M, mob/user)
 	testing("attack")

@@ -1148,8 +1148,6 @@
 		if(owner.mind.has_antag_datum(/datum/antagonist/obsessed))
 			return
 	
-	// Cuckold check removed - moved to new sexcon system
-	
 	GLOB.scarlet_round_stats[STATS_PLEASURES]++
 	blueballs = FALSE
 	adjust_horny(-350)
@@ -1245,12 +1243,6 @@
 				if(ishuman(owner) && ishuman(fucking))
 					var/mob/living/carbon/human/H = owner
 					var/mob/living/carbon/human/F = fucking
-					// Check for family-based cuckolding
-					if(H.isFamily(F))
-						yee = 1
-						husbando = 1
-						owner.add_stress(/datum/stressevent/cumlove)
-					else
 				if(!yee)
 					owner.add_stress(/datum/stressevent/cummax)
 			else
@@ -1314,10 +1306,6 @@
 					if(ishuman(owner) && ishuman(inpussy))
 						var/mob/living/carbon/human/H = inpussy
 						var/mob/living/carbon/human/F = owner
-						if(H.isFamily(F))
-							yee = 1
-							owner.add_stress(/datum/stressevent/cumlove)
-						else
 					if(!yee)
 						owner.add_stress(/datum/stressevent/cummax)
 				else

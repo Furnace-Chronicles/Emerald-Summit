@@ -65,11 +65,10 @@
 			H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-			H.change_stat("strength", 2) //same str, worse end, more speed - actually a good tradeoff, now.
+			H.change_stat("strength", 2) //same str, worse end, no bonus speed (but still faster than a doppler). Polearm user, be joyous about a +1 PER.
 			H.change_stat("endurance", 2)
 			H.change_stat("constitution", 2)
-			H.change_stat("perception", -1)
-			H.change_stat("speed", 1)
+			H.change_stat("perception", 1)
 			var/weapons = list("Halberd", "Partizan")
 			var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 			switch(weapon_choice)

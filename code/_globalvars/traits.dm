@@ -120,6 +120,7 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		TRAIT_APRICITY,
 		TRAIT_BLACKLEG,
 		TRAIT_PERMAMUTE,
+		TRAIT_DYES,
 		TRAIT_MONK_ROBE,
 	),
 	/obj/item/bodypart = list(

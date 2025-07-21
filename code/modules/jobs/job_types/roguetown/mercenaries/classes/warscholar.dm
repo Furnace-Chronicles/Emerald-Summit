@@ -17,24 +17,10 @@
 
 /datum/outfit/job/roguetown/mercenary/warscholar/pre_equip(mob/living/carbon/human/H)
 	..()
-	var/list/naledicolors = sortList(list(
-		"GOLD" = "#C8BE6D",
-		"PALE PURPLE" = "#9E93FF",
-		"BLUE" = "#A7B4F6",
-		"BRICK BROWN" = "#773626",
-		"PURPLE" = "#B542AC",
-		"GREEN" = "#62a85f",
-		"BLUE" = "#A9BFE0",
-		"RED" = "#ED6762",
-		"ORANGE" = "#EDAF6D",
-		"PINK" = "#EDC1D5",
-		"MAROON" = "#5F1F34",
-		"BLACK" = "#242526"
-	))
 	// CLASS ARCHETYPES
 	H.adjust_blindness(-3)
-	detailcolor = input("Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
-	detailcolor = naledicolors[detailcolor]
+	detailcolor = input("Choose a color.", "NALEDIAN COLORPLEX") as anything in colorlist
+	detailcolor = colorlist[detailcolor]
 	var/classes = list("Hierophant","Pontifex","Vizier")
 	var/classchoice = input("Choose your archetypes", "Available archetypes") as anything in classes
 

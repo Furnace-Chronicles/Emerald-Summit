@@ -172,11 +172,21 @@
 
 
 /datum/component/personal_crafting/proc/construct_item(mob/user, datum/crafting_recipe/R)
+	if (HAS_TRAIT(user, TRAIT_MALUM_CURSE))
+		to_chat(user, span_warning("Your cursed hands tremble and fail to craft... Malum forbids it."))
+		return
 	if(user.doing)
 		return
 	var/list/contents = get_surroundings(user)
 //	var/send_feedback = 1
 	var/turf/T = get_step(user, user.dir)
+	var/obj/N
+	var/result_name
+	if(islist(R.result))
+		N = R.result[1]
+	else
+		N = R.result
+	result_name = N.name
 	if(isopenturf(T) && R.wallcraft)
 		to_chat(user, span_warning("Need to craft this on a wall."))
 		return
@@ -250,9 +260,9 @@
 					prob2craft = CLAMP(prob2craft, 0, 99)
 					if(!prob(prob2craft))
 						if(user.client?.prefs.showrolls)
-							to_chat(user, span_danger("I've failed to craft \the [R.name]... [prob2craft]%"))
+							to_chat(user, span_danger("I've failed to craft \the [result_name]... [prob2craft]%"))
 							continue
-						to_chat(user, span_danger("I've failed to craft \the [R.name]."))
+						to_chat(user, span_danger("I've failed to craft \the [result_name]."))
 						continue
 					var/list/parts = del_reqs(R, user)
 					if(islist(R.result))
@@ -275,8 +285,8 @@
 							I.CheckParts(parts, R)
 							I.OnCrafted(user.dir, user)
 							I.add_fingerprint(user)
-					user.visible_message(span_notice("[user] [R.verbage] \a [R.name]!"), \
-										span_notice("I [R.verbage_simple] \a [R.name]!"))
+					user.visible_message(span_notice("[user] [R.verbage] \a [result_name]!"), \
+										span_notice("I [R.verbage_simple] \a [result_name]!"))
 					if(user.mind && R.skillcraft)
 						if(isliving(user))
 							var/mob/living/L = user

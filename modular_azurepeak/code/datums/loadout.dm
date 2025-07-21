@@ -64,6 +64,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Fancy Hat"
 	path = /obj/item/clothing/head/roguetown/fancyhat
 
+/datum/loadout_item/furhat
+	name = "Fur Hat"
+	path = /obj/item/clothing/head/roguetown/hatfur
+
 /datum/loadout_item/smokingcap
 	name = "Smoking Cap"
 	path = /obj/item/clothing/head/roguetown/smokingcap

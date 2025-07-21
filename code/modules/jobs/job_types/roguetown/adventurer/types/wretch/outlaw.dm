@@ -102,7 +102,7 @@
 			H.adjust_skillrank(/datum/skill/misc/sneaking, 4, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/stealing, 4, TRUE)
 			H.cmode_music = 'sound/music/combat_bandit_brigand.ogg'
-			var/weapons = list("Just A Heater Shield","Dagger + Crossbow", "Militia Warpick + Heater Shield", "Militia Spear + Heater Shield")
+			var/weapons = list("Just An Iron Shield","Dagger + Crossbow", "Militia Warpick + Heater Shield", "Militia Spear + Heater Shield")
 			var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 			H.set_blindness(0)
 			switch(weapon_choice)

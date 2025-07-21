@@ -311,12 +311,7 @@ GLOBAL_LIST_INIT(lockhashes, list())
 GLOBAL_LIST_INIT(lockids, list())
 GLOBAL_LIST_EMPTY(credits_icons)
 GLOBAL_LIST_EMPTY(confessors)
-GLOBAL_LIST_EMPTY(cuckolds)
 
-//preference stuff
-#define FAMILY_NONE 0
-#define FAMILY_PARTIAL 2
-#define FAMILY_FULL 1
 
 GLOBAL_LIST_EMPTY(sunlights)
 GLOBAL_LIST_EMPTY(head_bounties)

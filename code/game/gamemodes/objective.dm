@@ -192,7 +192,7 @@ GLOBAL_LIST(admin_objective_list) //Prefilled admin assignable objective list
 /datum/objective/assassinate/update_explanation_text()
 	..()
 	if(target && target.current)
-		explanation_text = "Put [target.name] the [!target_role_type ? target.assigned_role : target.special_role] to sleep forever."
+		explanation_text = "Ensure [target.name] the [!target_role_type ? target.assigned_role : target.special_role] is killed and remains dead until the end of the round. If they are revived before the round ends, you will fail this objective."
 
 /datum/objective/assassinate/admin_edit(mob/admin)
 	admin_simple_target_pick(admin)

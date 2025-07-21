@@ -50,6 +50,8 @@
 	l_sleeve_status = SLEEVE_NORMAL
 	armor_class = ARMOR_CLASS_LIGHT
 	salvage_result = /obj/item/natural/hide/cured
+	grid_height = 64
+	grid_width = 64
 
 /obj/item/clothing/suit/roguetown/armor/armordress/alt
 	icon_state = "armordressalt"
@@ -132,6 +134,8 @@
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
 	armor_class = ARMOR_CLASS_LIGHT
+	grid_height = 64
+	grid_width = 64
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	name = "light gambeson"
@@ -336,6 +340,8 @@
 	detail_tag = "_detail"
 	color = CLOTHING_WHITE
 	detail_color = CLOTHING_BLACK
+	grid_height = 64
+	grid_width = 64
 
 /obj/item/clothing/suit/roguetown/armor/leather/vest/winterjacket/update_icon()
 	cut_overlays()
@@ -380,6 +386,8 @@
 	icon_state = "corset"
 	armor_class = ARMOR_CLASS_LIGHT
 	body_parts_covered = CHEST
+	grid_height = 64
+	grid_width = 32
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	name = "arming jacket"
@@ -400,7 +408,7 @@
 	desc = "A thick robe intervowen with spell-laced fabrics. Thick and protective while remaining light and breezy; the perfect gear for protecting one from the threats of the sun, the desert and the daemons, yet still allowing one to cast spells aptly."
 	naledicolor = TRUE
 	shiftable = FALSE
-	
+
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/grey
 	name = "hierophant's shawl"
 	icon_state = "desertrobe"
@@ -409,7 +417,7 @@
 	naledicolor = FALSE
 	shiftable = FALSE
 	color = CLOTHING_GREY
-	
+
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex
 	name = "pontifex's kaftan"
 	icon_state = "monkleather"
@@ -436,6 +444,8 @@
 	sellprice = 20
 	armor_class = ARMOR_CLASS_LIGHT
 	salvage_result = /obj/item/natural/hide/cured
+	grid_height = 64
+	grid_width = 64
 
 /obj/item/clothing/suit/roguetown/armor/leather/cuirass
 	name = "leather cuirass"
@@ -482,6 +492,8 @@
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_CHOP, BCLASS_SMASH)
 	max_integrity = 300
 	sellprice = 20
+	grid_height = 96 
+	grid_width = 64
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	name = "hardened leather coat"
@@ -638,6 +650,8 @@
 	sleeved = null
 	nodismemsleeves = TRUE
 	boobed = TRUE
+	grid_height = 64
+	grid_width = 64
 
 /obj/item/clothing/suit/roguetown/armor/workervest/Initialize()
 	color = pick("#94b4b6", "#ba8f9e", "#bd978c", "#92bd8c", "#c7c981")
@@ -664,6 +678,8 @@
 	armor_class = ARMOR_CLASS_LIGHT
 	allowed_sex = list(MALE, FEMALE)
 	allowed_race = CLOTHED_RACES_TYPES
+	grid_height = 64
+	grid_width = 64
 
 /obj/item/clothing/suit/roguetown/armor/silkcoat/Initialize()
 	. = ..()
@@ -683,6 +699,8 @@
 	color = null
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
+	grid_height = 64
+	grid_width = 64
 
 //MEDIUM ARMOR//
 
@@ -699,6 +717,8 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/steel
 	armor_class = ARMOR_CLASS_MEDIUM
+	grid_height = 32 // Chainmail shirts aren't so rigid, are they?
+	grid_width = 64
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/Initialize(mapload)
 	. = ..()
@@ -735,6 +755,8 @@
 	smeltresult = /obj/item/ingot/steel
 	armor_class = ARMOR_CLASS_MEDIUM
 	smelt_bar_num = 2
+	grid_height = 64 // Same size as gambeson.
+	grid_width = 64
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy
 	name = "decrepit hauberk"
@@ -753,15 +775,12 @@
 	slot_flags = ITEM_SLOT_ARMOR
 	armor_class = ARMOR_CLASS_HEAVY
 	armor = ARMOR_CUIRASS
-	name = "Silver hauberk"
+	name = "silver hauberk"
 	desc = "An ornate steel cuirass with tassets, worn atop thick chainmaille. While it falters against arrows and bolts, \
 			these interlinked layers are superb at warding off the blows of inhumen claws and axes."
 	icon_state = "ornatehauberk"
 	item_state = "ornatehauberk"
 	max_integrity = 350
-
-
-
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/bikini
 	name = "chainmail corslet"	// corslet, from the old French 'cors' or bodice, with the diminutive 'let', used to describe lightweight military armor since 1500. Chosen here to replace 'bikini', an extreme anachronism.
@@ -787,6 +806,8 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
+	grid_height = 64 // If it doesn't cover the stomach, then is slightly more compact than other plated medium armors.
+	grid_width = 64
 
 /obj/item/clothing/suit/roguetown/armor/plate/half
 	slot_flags = ITEM_SLOT_ARMOR
@@ -837,11 +858,11 @@
 	max_integrity = 350
 
 /obj/item/clothing/suit/roguetown/armor/plate/half/fluted/ornate
-	name = "Silver cuirass"
+	name = "silver cuirass"
 	icon_state = "ornatecuirass"
 	desc = "An ornate steel cuirass with tassets, favored by both the Holy Inquisition and the Order of the Silver cross. \
 			Made to endure."
-	
+
 	max_integrity = 300
 
 /obj/item/clothing/suit/roguetown/armor/plate/half/iron
@@ -959,7 +980,7 @@
 	..()
 
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate
-	name = "Silver half-plate"
+	name = "silver half-plate"
 	desc = "A sturdily made fluted half-plate armour-set, complete with pauldrons and shoulder-guards. \
 			Favored by both the Holy Inquisition and the Order of Silver cross. It smells of the madness of an enduring God."
 	icon_state = "ornatehalfplate"
@@ -1007,7 +1028,7 @@
 	max_integrity = 600
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate
-	name = "Silver plate"
+	name = "silver plate"
 	desc = "A sturdily made fluted full-plate. Heavy-duty, and made to deflect blows from blades and arrows. \
 			Favored by both the Holy Inquisition and the Order of Silver. It smells of the madness of an enduring Gods."
 	icon_state = "ornateplate"
@@ -1030,7 +1051,7 @@
 	name = "gilded fullplate"
 	desc = "Often, you have heard that told,"
 	icon_state = "matthiosarmor"
-	max_integrity = 700	
+	max_integrity = 700
 
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/matthios/Initialize()
@@ -1339,7 +1360,7 @@
 	unequip_delay_self = 12 SECONDS
 	equip_delay_other = 3 SECONDS
 	strip_delay = 6 SECONDS
-	smelt_bar_num = 4 
+	smelt_bar_num = 4
 
 /obj/item/clothing/suit/roguetown/armor/plate/blacksteel_full_plate
 	name = "ancient blacksteel plate armor"

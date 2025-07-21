@@ -1,17 +1,48 @@
 var/global/list/colorlist = list(
-	"PURPLE"="#8747b1", 	
-	"RED"="#8b2323", 		
-	"SCARLET"="#bb0a1e", 	
-	"BLACK"="#2b292e", 
-	"BROWN"="#61462c", 	
-	"GREEN"="#264d26", 	
-	"BLUE"="#173266", 		
-	"YELLOW"="#ffcd43", 	
-	"TEAL"="#249589", 		
-	"AZURE"="#007fff", 	
-	"WHITE"="#ffffff",
-	"ORANGE"="#df8405",	
-	"MAGENTA"="#962e5c"	
+	"Swan White"="#ffffff",
+	"Chalk White" = "#f4ecde",
+	"Cream" = "#fffdd0",
+	"Light Grey" = "#999999",
+	"Dunked in Water" = "#bbbbbb",
+	"Mage Grey" = "#6c6c6c",
+	"Sow's skin"="#CE929F",
+	"Knight's Red"="#933030",
+	"Royal Red"="#8b2323",
+	"Red Ochre" = "#913831",
+	"Maroon" = "#550000",
+	"Reach's Scarlet" = "#bb0a1e",
+	"Royal Orange" = "#df8405",
+	"Madroot Red"="#AD4545",
+	"Marigold Orange"="#E2A844",
+	"Chestnut" = "#613613",
+	"Dirt" = "#7c6d5c",
+	"Peasant Brown" = "#685542",
+	"Russet" = "#7f461b",
+	"Yellow Weld" = "#f4c430",
+	"Yarrow" = "#f0cb76",
+	"Yellow Ochre" = "#cb9d06",
+	"Mage Yellow" = "#c1b144",
+	"Astrata's Yellow"="#FFFD8D",
+	"Olive" = "#98bf64",
+	"Royal Green" = "#264d26",
+	"Forest Green" = "#428138",
+	"Mage Green" = "#759259",
+	"Bog Green"="#375B48",
+	"Seafoam Green"="#49938B",
+	"Royal Teal" = "#249589",
+	"Cornflower Blue"="#749EE8",
+	"Royal Blue" = "#173266",
+	"Woad Blue"="#395480",
+	"Mage Blue" = "#4756d8",
+	"Periwinkle Blue" = "#8f99fb",
+	"Lavender"="#865c9c",
+	"Royal Purple"="#5E4687",
+	"Orchil" = "#66023C",
+	"Wine Rouge"="#752B55",
+	"Royal Magenta" = "#962e5c",
+	"Blacksteel Grey"="#404040",
+	"Dark Grey" = "#505050",
+	"Darkest Night" = "#414143"
 	)
 
 
@@ -35,41 +66,10 @@ var/global/list/colorlist = list(
 			/obj/item/flowercrown
 			)
 	var/list/used_colors
-	var/list/extra_colors = list(
-		"Baby Puke" = "#b5b004",
-        "Black" = "#414143",
-        "Chalk White" = "#f4ecde",
-        "Chestnut" = "#613613",
-        "Cream" = "#fffdd0",
-        "Dark Grey" = "#505050",
-        "Dirt" = "#7c6d5c",
-        "Dunked in Water" = "#bbbbbb",
-        "Gold" = "#f9a602",
-        "Green" = "#428138",
-        "Light Grey" = "#999999",
-        "Mage Blue" = "#4756d8",
-        "Mage Green" = "#759259",
-        "Mage Grey" = "#6c6c6c",
-        "Mage Red" = "#b8252c",
-        "Mage Yellow" = "#c1b144",
-        "Maroon" = "#550000",
-        "Olive" = "#98bf64",
-        "Orange" = "#bd6606",
-        "Orchil" = "#66023C",
-        "Peasant Brown" = "#685542",
-        "Periwinkle Blue" = "#8f99fb",
-		"Red" = "#a32121",
-		"Red Ochre" = "#913831",
-        "Russet" = "#7f461b",
-        "Woad Blue" = "#597fb9",
-        "Yellow Ochre" = "#cb9d06",
-        "Yellow Weld" = "#f4c430",
-        "Yarrow" = "#f0cb76"
-		)
 
 /obj/machinery/gear_painter/Initialize()
 	..()
-	used_colors = colorlist + extra_colors
+	used_colors = colorlist
 
 /obj/machinery/gear_painter/Destroy()
 	if(inserted)
@@ -77,6 +77,21 @@ var/global/list/colorlist = list(
 	return ..()
 
 /obj/machinery/gear_painter/attackby(obj/item/I, mob/living/user)
+	if(istype(I, /obj/item/book/rogue/swatchbook))
+		var/obj/item/book/rogue/swatchbook/S = I
+		if(!S.open)
+			to_chat(user, span_info("The swatchbook expressly forbids the use of its cover color!"))
+			return ..()
+		if(S.swatchbookcolor == "#000000")
+			to_chat(user, span_info("You haven't picked out a color!"))
+			return ..()
+		else
+			to_chat(user, span_info("You mix the swatch's color in the dye bin."))
+			activecolor = "[S.swatchbookcolor]"
+			activecolor_detail = "[S.swatchbookcolor]"
+			activecolor_altdetail = "[S.swatchbookcolor]"
+			ui_interact(user)
+			return ..()
 	if(inserted)
 		to_chat(user, span_warning("Something is already inside!"))
 		return ..()
@@ -145,43 +160,64 @@ var/global/list/colorlist = list(
 		return
 
 	if(href_list["select"])
-		var/choice
-		if(alert(usr, "Input Choice", "Primary Dye", "Color Wheel", "Color Preset") != "Color Wheel")
-			choice = input(usr, "Choose your dye:", "Dyes", null) as null|anything in used_colors
+		if(HAS_TRAIT(usr, TRAIT_DYES))
+			var/choice
+			if(alert(usr, "Input Choice", "Primary Dye", "Color Wheel", "Color Preset") != "Color Wheel")
+				choice = input(usr, "Choose your dye:", "Dyes", null) as null|anything in used_colors
+				if(!choice)
+					return
+				activecolor = used_colors[choice]
+			else
+				activecolor = sanitize_hexcolor(color_pick_sanitized(usr, "Choose your dye:", "Dyes", choice ? choice : activecolor, 0.2, 1), 6, TRUE)
+				if(activecolor == "#000000")
+					activecolor = "#FFFFFF"
+			updateUsrDialog()
+		else
+			var/choice = input(usr,"Choose your dye:","Dyes",null) as null|anything in colorlist
 			if(!choice)
 				return
-			activecolor = used_colors[choice]
-		else
-			activecolor = sanitize_hexcolor(color_pick_sanitized(usr, "Choose your dye:", "Dyes", choice ? choice : activecolor_detail), 6, TRUE)
-			if(activecolor == "#000000")
-				activecolor = "#FFFFFF"
-		updateUsrDialog()
+			activecolor = colorlist[choice]
+			updateUsrDialog()
 
 	if(href_list["select_detail"])
-		var/choice
-		if(alert(usr, "Input Choice", "Secondary Dye", "Color Wheel", "Color Preset") != "Color Wheel")
-			choice = input(usr, "Choose your dye:", "Dyes", null) as anything in used_colors|null
+		if(HAS_TRAIT(usr, TRAIT_DYES))
+			var/choice
+			if(alert(usr, "Input Choice", "Primary Dye", "Color Wheel", "Color Preset") != "Color Wheel")
+				choice = input(usr, "Choose your dye:", "Dyes", null) as null|anything in used_colors
+				if(!choice)
+					return
+				activecolor_detail = used_colors[choice]
+			else
+				activecolor_detail = sanitize_hexcolor(color_pick_sanitized(usr, "Choose your dye:", "Dyes", choice ? choice : activecolor_detail, 0.2, 1), 6, TRUE)
+				if(activecolor_detail == "#000000")
+					activecolor_detail = "#FFFFFF"
+			updateUsrDialog()
+		else
+			var/choice = input(usr,"Choose your dye:","Dyes",null) as null|anything in colorlist
 			if(!choice)
 				return
-			activecolor_detail = used_colors[choice]
-		else
-			activecolor_detail = sanitize_hexcolor(color_pick_sanitized(usr, "Choose your dye:", "Dyes", choice ? choice : activecolor_detail), 6, TRUE)
-			if(activecolor == "#000000")
-				activecolor = "#FFFFFF"
-		updateUsrDialog()
+			activecolor_detail = colorlist[choice]
+			updateUsrDialog()
 
 	if(href_list["select_altdetail"])
-		var/choice
-		if(alert(usr, "Input Choice", "Tertiary Dye", "Color Wheel", "Color Preset") != "Color Wheel")
-			choice = input(usr, "Choose your dye:", "Dyes", null) as anything in used_colors|null
+		if(HAS_TRAIT(usr, TRAIT_DYES))
+			var/choice
+			if(alert(usr, "Input Choice", "Primary Dye", "Color Wheel", "Color Preset") != "Color Wheel")
+				choice = input(usr, "Choose your dye:", "Dyes", null) as null|anything in used_colors
+				if(!choice)
+					return
+				activecolor_altdetail = used_colors[choice]
+			else
+				activecolor_altdetail = sanitize_hexcolor(color_pick_sanitized(usr, "Choose your dye:", "Dyes", choice ? choice : activecolor_altdetail, 0.2, 1), 6, TRUE)
+				if(activecolor_altdetail == "#000000")
+					activecolor_altdetail = "#FFFFFF"
+			updateUsrDialog()
+		else
+			var/choice = input(usr,"Choose your dye:","Dyes",null) as null|anything in colorlist
 			if(!choice)
 				return
-			activecolor_altdetail = used_colors[choice]
-		else
-			activecolor_altdetail = sanitize_hexcolor(color_pick_sanitized(usr, "Choose your dye:", "Dyes", choice ? choice : activecolor_detail), 6, TRUE)
-			if(activecolor == "#000000")
-				activecolor = "#FFFFFF"
-		updateUsrDialog()
+			activecolor_altdetail = colorlist[choice]
+			updateUsrDialog()
 
 	if(href_list["paint"])
 		if(!inserted)

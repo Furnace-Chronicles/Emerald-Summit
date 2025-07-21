@@ -270,3 +270,8 @@ GLOBAL_LIST_EMPTY(antagonists)
 	else
 		return
 	..()
+
+// Register Thieves' Guild antagonist for admin panel and roundstart selection
+/datum/antagonist/thievesguild
+	antagpanel_category = "Thieves' Guild"
+	show_name_in_check_antagonists = TRUE

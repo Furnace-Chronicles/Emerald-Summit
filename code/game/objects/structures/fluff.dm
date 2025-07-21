@@ -965,6 +965,9 @@
 	var/donatedamnt = W.get_real_price()
 	if(user.mind)
 		if(user)
+			if(W.flags_1 & HOARDMASTER_SPAWNED_1)
+				to_chat(user, span_warning("This item is from the Hoard!"))
+				return
 			if(W.sellprice <= 0)
 				to_chat(user, span_warning("This item is worthless."))
 				return
@@ -1079,72 +1082,93 @@
 	icon_state = "invertedcross"
 	divine = FALSE
 
-/obj/structure/fluff/psycross/attackby(obj/item/W, mob/living/carbon/human/user, params)
+/obj/structure/fluff/psycross/attackby(obj/item/W, mob/user, params)
 	if(user.mind)
-		if((user.mind.assigned_role == "Priest") || ((user.mind.assigned_role == "Acolyte") && (user.patron.type == /datum/patron/divine/eora)))
+		if(user.mind.assigned_role == "Priest" || user.mind.assigned_role == "Priestess")
 			if(istype(W, /obj/item/reagent_containers/food/snacks/grown/apple))
-				var/marriage
+				if(!istype(get_area(user), /area/rogue/indoors/town/church/chapel))
+					to_chat(user, span_warning("I need to do this in the chapel."))
+					return FALSE
+				var/marriage = FALSE
 				var/obj/item/reagent_containers/food/snacks/grown/apple/A = W
-				
-				if(A.bitten_names.len)
-					if(A.bitten_names.len == 2)
-						var/mob/living/carbon/human/thegroom
-						var/mob/living/carbon/human/thebride
-						
-						// Find people by bite order, not random viewer order
-						for(var/bite_name in A.bitten_names)
-							for(var/mob/M in viewers(src, 7))
-								if(!ishuman(M))
-									continue
-								var/mob/living/carbon/human/C = M
-								if(C.stat == DEAD)
-									continue
-								if(!C.client)
-									continue
-								if(C.family)
-									continue
-								if(C.real_name == bite_name)
-									if(!thegroom)
-										thegroom = C  // First bite = groom
-									else if(!thebride)
-										thebride = C  // Second bite = bride
-									break
-							if(thegroom && thebride)
+				if(A.bitten_names.len == 2)
+					var/mob/living/carbon/human/thegroom
+					var/mob/living/carbon/human/thebride
+					// Find people by bite order, not random viewer order
+					for(var/bite_name in A.bitten_names)
+						var/found = FALSE
+						for(var/mob/M in viewers(src, 7))
+							if(!ishuman(M)) continue
+							var/mob/living/carbon/human/C = M
+							if(C.stat == DEAD) continue
+							if(!C.client) continue
+							if(C.marriedto) continue
+							if(C.real_name == bite_name)
+								if(!thegroom)
+									thegroom = C  // First bite = groom
+								else if(!thebride)
+									thebride = C  // Second bite = bride
+								found = TRUE
 								break
-
-						if(!thegroom || !thebride)
-							return
-						
-						var/datum/family/F = SSfamily.makeFamily(thegroom)
-						if(!F)
-							return
-
-						// Handle surname change for bride like regular family system
-						var/groom_surname = thegroom.family_surname
-						if(!groom_surname)
-							// If groom has no surname, create "of [firstname]"
+						if(found && thegroom && thebride)
+							break
+					if(thegroom && thebride)
+						// Excommunication check for both participants
+						var/excomm_found = FALSE
+						for(var/excomm_name in GLOB.excommunicated_players)
+							var/clean_excomm = lowertext(trim(excomm_name))
+							if(thegroom && clean_excomm == lowertext(trim(thegroom.real_name)))
+								excomm_found = TRUE
+								break
+							if(thebride && clean_excomm == lowertext(trim(thebride.real_name)))
+								excomm_found = TRUE
+								break
+						if(!excomm_found)
+							// Prompt priest for surname
+							var/surname = input(user, "Enter a surname for the couple:", "Marriage Ceremony") as text|null
+							if(!surname || !length(trim(surname)))
+								surname = thegroom.dna.species.random_surname()
+							// Ensure leading space for surname
+							if(!findtext(surname, " "))
+								surname = " [surname]"
+							// Assign surname to groom
 							var/list/groom_name_parts = splittext(thegroom.real_name, " ")
-							groom_surname = "of [groom_name_parts[1]]"
-						// Apply surname to bride (first name + groom's surname)
-						var/list/bride_name_parts = splittext(thebride.real_name, " ")
-						thebride.real_name = "[bride_name_parts[1]] [groom_surname]"
-
-						F.addMember(thebride)
-						F.addRel(thegroom,thebride,REL_TYPE_SPOUSE)
-						F.addRel(thebride,thegroom,REL_TYPE_SPOUSE)
-
-						thegroom.adjust_triumphs(1)
-						thebride.adjust_triumphs(1)
-						priority_announce("[thegroom.real_name] has married [thebride.real_name]!", title = "Holy Union!", sound = 'sound/misc/bell.ogg')
-						marriage = TRUE
-						SSfamily.family_candidates -= thegroom
-						SSfamily.family_candidates -= thebride
-						qdel(A)
-
-				if(!marriage)
-					A.burn()
-					return
-	return ..()
+							var/groom_first_name = groom_name_parts[1]
+							thegroom.real_name = "[groom_first_name] [surname]"
+							// Assign surname to bride
+							var/list/bride_name_parts = splittext(thebride.real_name, " ")
+							var/bride_first_name = bride_name_parts[1]
+							thebride.real_name = "[bride_first_name] [surname]"
+							// Private notification to both
+							if(thegroom) to_chat(thegroom, span_notice("Your new shared surname is [surname]."))
+							if(thebride) to_chat(thebride, span_notice("Your new shared surname is [surname]."))
+							// Set marriedto fields
+							thegroom.marriedto = thebride.real_name
+							thebride.marriedto = thegroom.real_name
+							thegroom.adjust_triumphs(1)
+							thebride.adjust_triumphs(1)
+							// After surname is set, have the priest say the wedding line
+							if(user && surname)
+								var/surname_trimmed = copytext(surname, 2) // Remove leading space if present
+								user.say("I hereby wed you [surname_trimmed]s.")
+							priority_announce("[thegroom.real_name] has married [thebride.real_name]!", title = "Holy Union!", sound = 'sound/misc/bell.ogg')
+							qdel(A)
+							marriage = TRUE
+						else
+							A.become_rotten()
+							to_chat(user, span_danger("Eora recoils from this union! The apple rots in your hands. The excommunicated cannot be wed by the church."))
+							if(thegroom)
+								to_chat(thegroom, span_danger("Eora recoils from this union! You are excommunicated and cannot be wed by the church."))
+							if(thebride)
+								to_chat(thebride, span_danger("Eora recoils from this union! You are excommunicated and cannot be wed by the church."))
+							// Do not qdel(A) here so the rotten apple remains
+							return
+					if(!marriage)
+						if(istype(W, /obj/item/reagent_containers/food/snacks/grown/apple))
+							W.burn()
+						return
+				return
+	..()
 
 
 /obj/structure/fluff/psycross/copper/Destroy()

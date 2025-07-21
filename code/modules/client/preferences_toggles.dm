@@ -82,6 +82,17 @@
 		else
 			to_chat(src, "Others can't touch you.")
 
+/client/verb/toggle_compliance_notifs() // The messages need to be on-by-default while this is in its early stages.
+	set category = "Options"
+	set name = "Compliance Notifs"
+	if(prefs)
+		prefs.compliance_notifs = !prefs.compliance_notifs
+		prefs.save_preferences()
+		if(prefs.compliance_notifs)
+			to_chat(src, "You will receive chat notifications when enabling or disabling Compliance Mode.")
+		else
+			to_chat(src, "You will no longer be notified in chat when toggling Compliance Mode.")
+
 /client/verb/toggle_lobby_music()
 	set name = "Toggle Lobby Music"
 	set category = "Options"

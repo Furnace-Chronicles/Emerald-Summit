@@ -19,6 +19,8 @@
 	l_sleeve_status = SLEEVE_NORMAL
 	flags_inv = HIDECROTCH
 	experimental_inhand = FALSE
+	grid_height = 32
+	grid_width = 64
 
 /obj/item/clothing/under/roguetown/AdjustClothes(mob/user)
 #ifdef MATURESERVER
@@ -292,6 +294,7 @@
 	resistance_flags = FIRE_PROOF
 	armor_class = ARMOR_CLASS_MEDIUM
 
+
 /obj/item/clothing/under/roguetown/chainlegs/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle)
@@ -314,6 +317,8 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	resistance_flags = FIRE_PROOF
 	sewrepair = FALSE
+	grid_height = 64
+	grid_width = 64
 
 /obj/item/clothing/under/roguetown/splintlegs/Initialize(mapload)
 	. = ..()
@@ -366,6 +371,8 @@
 	smelt_bar_num = 2
 	resistance_flags = FIRE_PROOF
 	armor_class = ARMOR_CLASS_HEAVY
+	grid_height = 64
+	grid_width = 64
 
 /obj/item/clothing/under/roguetown/platelegs/Initialize(mapload)
 	. = ..()
@@ -448,6 +455,8 @@
 	item_state = "chain_skirt"
 	body_parts_covered = LEGS
 	armor_class = ARMOR_CLASS_LIGHT	// Coverage to class trade.
+	grid_height = 32
+	grid_width = 64
 
 /obj/item/clothing/under/roguetown/platelegs/skirt
 	name = "steel plate tassets"
@@ -457,6 +466,8 @@
 	item_state = "plate_skirt"
 	body_parts_covered = LEGS
 	armor_class = ARMOR_CLASS_MEDIUM // Coverage to class trade.
+	grid_height = 64
+	grid_width = 64
 
 /obj/item/clothing/under/roguetown/loincloth
 	name = "loincloth"
@@ -466,6 +477,8 @@
 //	adjustable = CAN_CADJUST
 	r_sleeve_status = SLEEVE_NOMOD
 	l_sleeve_status = SLEEVE_NOMOD
+	grid_height = 32
+	grid_width = 32
 
 /obj/item/clothing/under/roguetown/loincloth/brown
 	color = CLOTHING_BROWN
@@ -481,6 +494,8 @@
 	sleevetype = "chainkilt"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_pants.dmi'
 	alternate_worn_layer = (SHOESLEEVE_LAYER-1)
+	grid_height = 32
+	grid_width = 64
 
 /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
 	name = "decrepit chain kilt"
@@ -525,7 +540,8 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/blacksteel
 	smelt_bar_num = 2
-
+	grid_height = 64
+	grid_width = 64
 
 /obj/item/clothing/under/roguetown/platelegs/blacksteel
 	name = "ancient blacksteel plate chausses"

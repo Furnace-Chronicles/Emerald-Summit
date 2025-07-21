@@ -384,6 +384,8 @@
 			pickring.removefromring(user)
 			to_chat(user, span_warning("You clumsily drop a lockpick off the ring as you try to pick the lock with it."))
 		return
+	if(istype(I, /obj/item/skeleton_key))
+		tryskeletonlock(user)
 	else
 		if(repairable && (user.get_skill_level(repair_skill) > 0) && ((istype(I, repair_cost_first)) || (istype(I, repair_cost_second)))) // At least 1 skill level needed
 			repairdoor(I,user)
@@ -636,6 +638,24 @@
 				add_sleep_experience(L, /datum/skill/misc/lockpicking, L.STAINT/4)
 				continue
 		return
+
+/obj/structure/mineral_door/proc/tryskeletonlock(mob/user)
+	if(door_opened || isSwitchingStates)
+		return
+	if(!keylock)
+		return
+	if(lockbroken)
+		to_chat(user, span_warning("The lock to this door is broken."))
+		return
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		message_admins("[H.real_name]([key_name(user)]) successfully skeletonkey'd [src.name] & [locked ? "unlocked" : "locked"] it. [ADMIN_JMP(src)]")
+		log_admin("[H.real_name]([key_name(user)]) successfully used a skeleton key on [src.name].")
+	do_sparks(3, FALSE, src)
+	playsound(user, 'sound/items/skeleton_key.ogg', 100)
+	lock_toggle(user) //All That It Does.
+	user.changeNext_move(CLICK_CD_INTENTCAP)
+	return
 
 /obj/structure/mineral_door/proc/lock_toggle(mob/user)
 	if(isSwitchingStates || door_opened)
