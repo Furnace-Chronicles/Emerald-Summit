@@ -120,7 +120,6 @@
 	/datum/species/anthromorphsmall,\
 	/datum/species/demihuman,\
 	/datum/species/halforc,\
-	/datum/species/kobold,\
 	/datum/species/goblinp,\
 )
 
@@ -141,7 +140,6 @@
     /datum/species/vulpkanin,\
     /datum/species/lupian,\
     /datum/species/anthromorphsmall,\
-    /datum/species/kobold,\
     /datum/species/moth,\
     /datum/species/anthromorph,\
     /datum/species/tabaxi,\
@@ -190,7 +188,6 @@
 	/datum/species/anthromorph,\
 	/datum/species/anthromorphsmall,\
 	/datum/species/demihuman,\
-	/datum/species/kobold,\
 	/datum/species/goblinp,\
 	/datum/species/construct/metal,\
 )
@@ -214,7 +211,6 @@
 	/datum/species/anthromorphsmall,\
 	/datum/species/demihuman,\
 	/datum/species/halforc,\
-	/datum/species/kobold,\
 	/datum/species/goblinp,\
 	/datum/species/construct/metal,\
 )

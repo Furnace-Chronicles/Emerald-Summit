@@ -1238,8 +1238,6 @@ SUBSYSTEM_DEF(gamemode)
 				GLOB.scarlet_round_stats[STATS_ALIVE_HALF_ORCS]++
 			if(isgoblinp(human_mob))
 				GLOB.scarlet_round_stats[STATS_ALIVE_GOBLINS]++
-			if(iskobold(human_mob))
-				GLOB.scarlet_round_stats[STATS_ALIVE_KOBOLDS]++
 			if(islizard(human_mob))
 				GLOB.scarlet_round_stats[STATS_ALIVE_LIZARDS]++
 			if(isaasimar(human_mob))

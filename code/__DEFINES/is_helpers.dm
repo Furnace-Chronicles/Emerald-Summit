@@ -88,7 +88,6 @@ GLOBAL_LIST_INIT(our_forest_sex, typecacheof(list(
 #define ishalforc(A) (is_species(A, /datum/species/halforc))
 #define islizard(A) (is_species(A, /datum/species/lizardfolk))
 #define isgoblinp(A) (is_species(A, /datum/species/goblinp))
-#define iskobold(A) (is_species(A, /datum/species/kobold))
 #define isaasimar(A) (is_species(A, /datum/species/aasimar))
 #define ishalfkin(A) (is_species(A, /datum/species/demihuman))
 #define iswildkin(A) (is_species(A, /datum/species/anthromorph))
