@@ -533,7 +533,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	name = "Rune of Violence"
 	desc = "A Holy Rune of Graggar."
 	// icon_state = "graggar_chalky"
-	var/graggarrites = list("Rite of Armaments")
+	var/graggarrites = list("Rite of Armaments", "War Ritual")
 
 /obj/structure/ritualcircle/graggar/attack_hand(mob/living/user)
 	if((user.patron?.type) != /datum/patron/inhumen/graggar)
@@ -546,7 +546,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
 		return
 	var/riteselection = input(user, "Rituals of Violence", src) as null|anything in graggarrites
-	switch(riteselection) // put ur rite selection here
+	switch(riteselection)
 		if("Rite of Armaments")
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
@@ -563,11 +563,23 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 					if(do_after(user, 50))
 						user.say("A slaughter awaits!!")
 						if(do_after(user, 50))
-							//icon_state = "graggar_active" when we have one
 							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 							graggararmor(target)
 							//spawn(120)
-								//icon_state = "graggar_chalky" 
+								//icon_state = "graggar_chalky"
+		if("War Ritual")
+			if(do_after(user, 50))
+				user.say("Blood for the war god, the circle is drawn!")
+				if(do_after(user, 50))
+					user.say("Let noble flesh be the price for the horde!")
+					if(do_after(user, 50))
+						user.say("Let portals open, let the goblins swarm!")
+						if(do_after(user, 50))
+							if(src.check_and_gib_noble_inquisition_body_warritual())
+								user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+								src.start_goblin_invasion_ritual_wargraggar()
+							else
+								to_chat(user, span_smallred("The ritual fails. A noble or inquisition body must be in the center of the circle!"))
 
 /obj/structure/ritualcircle/graggar/proc/graggararmor(src)
 	var/onrune = view(0, loc)
@@ -611,3 +623,39 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
 	cloak = /obj/item/clothing/cloak/graggar
 	r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead/graggar
+
+// New helper proc for the war ritual: checks for noble/inquisition body and gibs it
+/obj/structure/ritualcircle/graggar/proc/check_and_gib_noble_inquisition_body_warritual()
+	var/onrune = view(0, loc)
+	for(var/mob/living/carbon/human/H in onrune)
+		if(H.stat == DEAD)
+			if(H.is_noble() || HAS_TRAIT(H, TRAIT_INQUISITION))
+				loc.visible_message(span_warning("The body of [H] is consumed in a violent explosion of gore!"))
+				playsound(loc, 'sound/combat/gib (1).ogg', 100, FALSE, -1)
+				H.gib()
+				return TRUE
+	return FALSE
+
+// New proc to start goblin invasion for the war ritual
+/obj/structure/ritualcircle/graggar/proc/start_goblin_invasion_ritual_wargraggar()
+	to_chat(world, span_danger("A war ritual has been completed! Goblin portals begin to tear open across the land!"))
+	playsound(loc, 'sound/magic/bloodrage.ogg', 100, FALSE, -1)
+	var/datum/round_event_control/gobinvade/E = new()
+	E.req_omen = FALSE
+	E.earliest_start = 0
+	E.min_players = 0
+	if(E.canSpawnEvent())
+		E.runEvent()
+	else
+		// fallback: force spawn portals directly
+		var/list/spawn_locs = GLOB.hauntstart.Copy()
+		if(LAZYLEN(spawn_locs))
+			for(var/i in 1 to 5)
+				var/obj/effect/landmark/events/haunts/_T = pick_n_take(spawn_locs)
+				if(_T)
+					_T = get_turf(_T)
+					if(isfloorturf(_T))
+						var/obj/structure/gob_portal/G = locate() in _T
+						if(G)
+							continue
+						new /obj/structure/gob_portal(_T)
