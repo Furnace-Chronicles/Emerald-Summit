@@ -188,7 +188,6 @@
 	/datum/species/anthromorphsmall,\
 	/datum/species/demihuman,\
 	/datum/species/kobold,\
-	/datum/species/goblinp,\
 	/datum/species/construct/metal,\
 )
 
