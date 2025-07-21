@@ -5,7 +5,8 @@
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-	allowed_races = RACES_NEUTRAL_UP
+	allowed_races = RACES_ALL_KINDS		//Outsider nobility, perhaps.
+	disallowed_races = list(RACES_CONSTRUCT, RACES_GREENSKIN, RACES_VERMIN)
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT)
 
