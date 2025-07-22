@@ -106,10 +106,10 @@
 		return
 	var/canread = user.can_read(src, TRUE)
 	var/contents
-	if(SSticker.rulertype == "Baron")
-		contents += "<center>BARON'S DECREES<BR>"
+	if(SSticker.rulertype == "Grand Duke")
+		contents += "<center>GRAND DUKE'S DECREES<BR>"
 	else
-		contents += "<center>BARONESS' DECREES<BR>"
+		contents += "<center>GRAND DUCHESS' DECREES<BR>"
 	contents += "-----------<BR><BR></center>"
 	for(var/i = GLOB.lord_decrees.len to 1 step -1)
 		contents += "[i]. <span class='info'>[GLOB.lord_decrees[i]]</span><BR>"
@@ -122,7 +122,7 @@
 /obj/structure/roguemachine/scomm/MiddleClick(mob/living/carbon/human/user)
 	if(.)
 		return
-	if((HAS_TRAIT(user, TRAIT_GUARDSMAN) || (user.job == "Warden") || (user.job == "Hand") || (user.job == "Watchman") || (user.job == "Squire") || (user.job == "Marshal") || (user.job == "Baron") || (user.job == "Knight Captain") || (user.job == "Baroness")))
+	if(((user.job == "Warden") || (user.job == "Hand") || (user.job == "Dungeoneer") || (user.job == "Man At Arms") || (user.job == "Squire") || (user.job == "Marshal") || (user.job == "Grand Duke") || (user.job == "Knight Captain") || (user.job == "Consort") || (user.job == "Sergeant")))
 		if(alert("Would you like to swap lines or connect to a jabberline?",, "swap", "jabberline") != "jabberline")
 			garrisonline = !garrisonline
 			to_chat(user, span_info("I [garrisonline ? "connect to the garrison SCOMline" : "connect to the general SCOMLINE"]"))
