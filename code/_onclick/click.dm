@@ -3,11 +3,6 @@
 	~Sayu
 */
 
-// 1 decisecond click delay (above and beyond mob/next_move)
-//This is mainly modified by click code, to modify click delays elsewhere, use next_move and changeNext_move()
-/mob/var/next_click	= 0
-
-// THESE DO NOT EFFECT THE BASE 1 DECISECOND DELAY OF NEXT_CLICK
 /mob/var/next_move_adjust = 0 //Amount to adjust action/click delays by, + or -
 /mob/var/next_move_modifier = 1 //Value to multiply action/click delays by
 
@@ -88,10 +83,6 @@
 	if(curplaying)
 		curplaying.on_mouse_up()
 
-	if(world.time <= next_click)
-		return
-	next_click = world.time + 1
-
 	if(check_click_intercept(params,A))
 		return
 
@@ -99,9 +90,6 @@
 		return
 
 	if(SEND_SIGNAL(src, COMSIG_MOB_CLICKON, A, params) & COMSIG_MOB_CANCEL_CLICKON)
-		return
-
-	if(next_move > world.time)
 		return
 
 	if(modifiers["middle"] && atkswinging == "middle")
