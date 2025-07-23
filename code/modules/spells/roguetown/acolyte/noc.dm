@@ -84,7 +84,7 @@
 
 /obj/effect/proc_holder/spell/self/noc_spell_bundle
 	name = "Arcyne Affinity"
-	desc = "Allows you to learn a spell or two of a certain type once every cycle."
+	desc = "Choose up to  arcyne affinity spells to learn."
 	miracle = TRUE
 	devotion_cost = 200
 	recharge_time = 25 MINUTES
@@ -92,8 +92,7 @@
 	chargedrain = 0
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
-	var/chosen_bundle
-	var/list/utility_bundle = list(	//Utility means exactly that. Nothing offensive and nothing that can affect another person negatively. (Barring Fetch)
+	var/list/arcyne_affinity_spells = list(
 		/obj/effect/proc_holder/spell/self/message::name 				= /obj/effect/proc_holder/spell/self/message,
 		/obj/effect/proc_holder/spell/invoked/leap::name 				= /obj/effect/proc_holder/spell/invoked/leap,
 		/obj/effect/proc_holder/spell/targeted/touch/lesserknock::name 	= /obj/effect/proc_holder/spell/targeted/touch/lesserknock,
@@ -101,63 +100,41 @@
 		/obj/effect/proc_holder/spell/invoked/projectile/fetch::name 	= /obj/effect/proc_holder/spell/invoked/projectile/fetch,
 		/obj/effect/proc_holder/spell/invoked/aerosolize::name 			= /obj/effect/proc_holder/spell/invoked/aerosolize,
 		/obj/effect/proc_holder/spell/invoked/blink::name 				= /obj/effect/proc_holder/spell/invoked/blink,
-	)
-	var/list/offensive_bundle = list(	//This is not meant to make them combat-capable. A weak offensive, and mostly defensive option.
-		/obj/effect/proc_holder/spell/invoked/projectile/guided_bolt,
-		/obj/effect/proc_holder/spell/self/conjure_armor/miracle,
-		/obj/effect/proc_holder/spell/invoked/conjure_weapon/miracle
-	)
-	var/list/buff_bundle = list(	//Buffs! An Acolyte being a supportive caster is 100% what they already are, so this fits neatly. No debuffs -- every patron already has a plethora of those.
 		/obj/effect/proc_holder/spell/invoked/hawks_eyes::name 			= /obj/effect/proc_holder/spell/invoked/hawks_eyes,
 		/obj/effect/proc_holder/spell/invoked/giants_strength::name 	= /obj/effect/proc_holder/spell/invoked/giants_strength,
 		/obj/effect/proc_holder/spell/invoked/longstrider::name 		= /obj/effect/proc_holder/spell/invoked/longstrider,
 		/obj/effect/proc_holder/spell/invoked/guidance::name 			= /obj/effect/proc_holder/spell/invoked/guidance,
 		/obj/effect/proc_holder/spell/invoked/haste::name 				= /obj/effect/proc_holder/spell/invoked/haste,
 		/obj/effect/proc_holder/spell/invoked/fortitude::name 			= /obj/effect/proc_holder/spell/invoked/fortitude,
+		/obj/effect/proc_holder/spell/invoked/projectile/guided_bolt::name 	= /obj/effect/proc_holder/spell/invoked/projectile/guided_bolt,
+		/obj/effect/proc_holder/spell/self/conjure_armor/miracle::name 	= /obj/effect/proc_holder/spell/self/conjure_armor/miracle,
+		/obj/effect/proc_holder/spell/invoked/conjure_weapon/miracle::name 	= /obj/effect/proc_holder/spell/invoked/conjure_weapon/miracle
 	)
+
 /obj/effect/proc_holder/spell/self/noc_spell_bundle/cast(list/targets, mob/user)
 	. = ..()
-	var/choice = chosen_bundle
-	if(!chosen_bundle)
-		choice = alert(user, "What type of spells has Noc blessed you with?", "CHOOSE PATH", "Utility", "Offense", "Buffs")
-		chosen_bundle = choice
-	switch(choice)
-		if("Utility")
-			if(!user.mind?.has_spell(/obj/effect/proc_holder/spell/invoked/diagnose/secular))
-				var/secular_diagnose = new /obj/effect/proc_holder/spell/invoked/diagnose/secular
-				user.mind?.AddSpell(secular_diagnose)
-			add_spells(user, utility_bundle, choice_count = 2)
-		if("Offense")
-			add_spells(user, offensive_bundle, grant_all = TRUE)
-			ADD_TRAIT(user, TRAIT_MAGEARMOR, TRAIT_MIRACLE)
-			user.mind?.RemoveSpell(src.type)
-		if("Buffs")
-			add_spells(user, buff_bundle, choice_count = 1)
-			ADD_TRAIT(user, TRAIT_MAGEARMOR, TRAIT_MIRACLE)
-		else
-			revert_cast()
-
-
-/obj/effect/proc_holder/spell/self/noc_spell_bundle/proc/add_spells(mob/user, list/spells, choice_count = 1, grant_all = FALSE)
-	for(var/spell_type in spells)
-		if(user?.mind.has_spell(spells[spell_type]))
-			spells.Remove(spell_type)
-	if(!grant_all)
-		var/choice_count_visual = choice_count
-		for(var/i in 1 to choice_count)
-			var/choice = input(user, "Choose a spell! Choices remaining: [choice_count_visual]") as null|anything in spells
-			if(!isnull(choice))
-				var/picked_spell = spells[choice]
-				var/obj/effect/proc_holder/spell/new_spell = new picked_spell
-				user?.mind.AddSpell(new_spell)
-				choice_count_visual--
-				spells.Remove(choice)
-	else
-		for(var/spell_type in spells)
-			var/obj/effect/proc_holder/spell/new_spell = new spell_type
-			user?.mind.AddSpell(new_spell)
-	if(!length(spells))
+	ADD_TRAIT(user, TRAIT_MAGEARMOR, TRAIT_MIRACLE)
+	var/list/available_spells = list()
+	for(var/spell_type in arcyne_affinity_spells)
+		if(!user.mind?.has_spell(spell_type))
+			available_spells += spell_type
+	if(!length(available_spells))
+		to_chat(user, span_warning("You already know all available arcyne affinity spells!"))
 		user.mind?.RemoveSpell(src.type)
+		return
+	var/choice_count = 6
+	while(choice_count > 0 && length(available_spells))
+		var/choice = input(user, "Choose an arcyne affinity spell! Choices remaining: [choice_count]", src) as null|anything in available_spells
+		if(isnull(choice))
+			break
+		var/obj/effect/proc_holder/spell/new_spell = new choice
+		user?.mind.AddSpell(new_spell)
+		available_spells.Remove(choice)
+		choice_count--
+	if(choice_count == 0 || !length(available_spells))
+		user.mind?.RemoveSpell(src.type)
+		to_chat(user, span_notice("You have chosen all your arcyne affinity spells. The spell vanishes."))
+	return
 
 //15 PER peer-ahead.
 /obj/effect/proc_holder/spell/invoked/noc_sight
