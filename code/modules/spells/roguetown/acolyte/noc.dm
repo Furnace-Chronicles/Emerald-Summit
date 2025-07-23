@@ -1,3 +1,5 @@
+var/global/list/arcyne_affinity_spells_remaining_global = list()
+
 // Noc Spells
 // Blindness is a cancerous spells and should not be available to everyone.
 // But I am not nuking it from Acolyte yet so it will be unavailable to mage.
@@ -84,31 +86,31 @@
 
 /obj/effect/proc_holder/spell/self/noc_spell_bundle
 	name = "Arcyne Affinity"
-	desc = "Choose up to  arcyne affinity spells to learn."
+	desc = "Choose up to 6 arcyne affinity spells to learn."
 	miracle = TRUE
 	devotion_cost = 200
-	recharge_time = 25 MINUTES
+	recharge_time = 10 SECONDS
 	chargetime = 0
 	chargedrain = 0
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
 	var/list/arcyne_affinity_spells = list(
-		/obj/effect/proc_holder/spell/self/message::name 				= /obj/effect/proc_holder/spell/self/message,
-		/obj/effect/proc_holder/spell/invoked/leap::name 				= /obj/effect/proc_holder/spell/invoked/leap,
-		/obj/effect/proc_holder/spell/targeted/touch/lesserknock::name 	= /obj/effect/proc_holder/spell/targeted/touch/lesserknock,
-		/obj/effect/proc_holder/spell/invoked/mending::name 			= /obj/effect/proc_holder/spell/invoked/mending,
-		/obj/effect/proc_holder/spell/invoked/projectile/fetch::name 	= /obj/effect/proc_holder/spell/invoked/projectile/fetch,
-		/obj/effect/proc_holder/spell/invoked/aerosolize::name 			= /obj/effect/proc_holder/spell/invoked/aerosolize,
-		/obj/effect/proc_holder/spell/invoked/blink::name 				= /obj/effect/proc_holder/spell/invoked/blink,
-		/obj/effect/proc_holder/spell/invoked/hawks_eyes::name 			= /obj/effect/proc_holder/spell/invoked/hawks_eyes,
-		/obj/effect/proc_holder/spell/invoked/giants_strength::name 	= /obj/effect/proc_holder/spell/invoked/giants_strength,
-		/obj/effect/proc_holder/spell/invoked/longstrider::name 		= /obj/effect/proc_holder/spell/invoked/longstrider,
-		/obj/effect/proc_holder/spell/invoked/guidance::name 			= /obj/effect/proc_holder/spell/invoked/guidance,
-		/obj/effect/proc_holder/spell/invoked/haste::name 				= /obj/effect/proc_holder/spell/invoked/haste,
-		/obj/effect/proc_holder/spell/invoked/fortitude::name 			= /obj/effect/proc_holder/spell/invoked/fortitude,
-		/obj/effect/proc_holder/spell/invoked/projectile/guided_bolt::name 	= /obj/effect/proc_holder/spell/invoked/projectile/guided_bolt,
-		/obj/effect/proc_holder/spell/self/conjure_armor/miracle::name 	= /obj/effect/proc_holder/spell/self/conjure_armor/miracle,
-		/obj/effect/proc_holder/spell/invoked/conjure_weapon/miracle::name 	= /obj/effect/proc_holder/spell/invoked/conjure_weapon/miracle
+		/obj/effect/proc_holder/spell/self/message,
+		/obj/effect/proc_holder/spell/invoked/leap,
+		/obj/effect/proc_holder/spell/targeted/touch/lesserknock,
+		/obj/effect/proc_holder/spell/invoked/mending,
+		/obj/effect/proc_holder/spell/invoked/projectile/fetch,
+		/obj/effect/proc_holder/spell/invoked/aerosolize,
+		/obj/effect/proc_holder/spell/invoked/blink,
+		/obj/effect/proc_holder/spell/invoked/hawks_eyes,
+		/obj/effect/proc_holder/spell/invoked/giants_strength,
+		/obj/effect/proc_holder/spell/invoked/longstrider,
+		/obj/effect/proc_holder/spell/invoked/guidance,
+		/obj/effect/proc_holder/spell/invoked/haste,
+		/obj/effect/proc_holder/spell/invoked/fortitude,
+		/obj/effect/proc_holder/spell/invoked/projectile/guided_bolt,
+		/obj/effect/proc_holder/spell/self/conjure_armor/miracle,
+		/obj/effect/proc_holder/spell/invoked/conjure_weapon/miracle
 	)
 
 /obj/effect/proc_holder/spell/self/noc_spell_bundle/cast(list/targets, mob/user)
@@ -119,18 +121,45 @@
 		if(!user.mind?.has_spell(spell_type))
 			available_spells += spell_type
 	if(!length(available_spells))
-		to_chat(user, span_warning("You already know all available arcyne affinity spells!"))
 		user.mind?.RemoveSpell(src.type)
 		return
 	var/choice_count = 6
+	var/key = user.ckey
+	if(key && (key in arcyne_affinity_spells_remaining_global))
+		var/tmp_count = arcyne_affinity_spells_remaining_global[key]
+		if(isnum(tmp_count))
+			choice_count = tmp_count
+		arcyne_affinity_spells_remaining_global -= key
 	while(choice_count > 0 && length(available_spells))
-		var/choice = input(user, "Choose an arcyne affinity spell! Choices remaining: [choice_count]", src) as null|anything in available_spells
-		if(isnull(choice))
+		var/list/spell_choices = list()
+		var/list/name_counts = list()
+		for(var/spell_type in available_spells)
+			var/obj/effect/proc_holder/spell/temp_spell = new spell_type
+			var/base_name = temp_spell.name
+			var/display_name = base_name
+			if(name_counts[base_name])
+				name_counts[base_name] += 1
+				display_name = "[base_name] ([name_counts[base_name]])"
+			else
+				name_counts[base_name] = 1
+			spell_choices[display_name] = spell_type
+			qdel(temp_spell)
+		var/choice = input(user, "Choose an arcyne affinity spell! Choices remaining: [choice_count]", src) as null|anything in spell_choices
+		var/spell_type = spell_choices[choice]
+		if(islist(spell_type))
+			spell_type = spell_type[1]
+		if(!isnull(choice) && ispath(spell_type))
+			var/obj/effect/proc_holder/spell/new_spell = new spell_type
+			user?.mind.AddSpell(new_spell)
+			available_spells.Remove(spell_type)
+			choice_count--
+		else if(isnull(choice))
+			if(key)
+				arcyne_affinity_spells_remaining_global[key] = choice_count
 			break
-		var/obj/effect/proc_holder/spell/new_spell = new choice
-		user?.mind.AddSpell(new_spell)
-		available_spells.Remove(choice)
-		choice_count--
+		else
+			to_chat(user, span_warning("Invalid spell selection. Please contact an admin."))
+			break
 	if(choice_count == 0 || !length(available_spells))
 		user.mind?.RemoveSpell(src.type)
 		to_chat(user, span_notice("You have chosen all your arcyne affinity spells. The spell vanishes."))
