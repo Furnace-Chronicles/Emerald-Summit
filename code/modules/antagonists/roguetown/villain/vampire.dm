@@ -329,7 +329,7 @@
 	}
 	// Restore original appearance to visible organs
 	for(var/obj/item/organ/O in internal_organs)
-		if(istype(O, /obj/item/organ/tail) || istype(O, /obj/item/organ/wings) || istype(O, /obj/item/organ/ears) || istype(O, /obj/item/organ/snout) || istype(O, /obj/item/organ/horns) || istype(O, /obj/item/organ/frills) || istype(O, /obj/item/organ/penis) || istype(O, /obj/item/organ/breasts)) {
+		if(istype(O, /obj/item/organ/tail) || istype(O, /obj/item/organ/tail_feature) || istype(O, /obj/item/organ/wings) || istype(O, /obj/item/organ/ears) || istype(O, /obj/item/organ/snout) || istype(O, /obj/item/organ/horns) || istype(O, /obj/item/organ/frills) || istype(O, /obj/item/organ/penis) || istype(O, /obj/item/organ/breasts)) {
 			if(islist(VD.original_organ_icons) && (O in VD.original_organ_icons)) O.icon = VD.original_organ_icons[O]
 			if(islist(VD.original_organ_icon_states) && (O in VD.original_organ_icon_states)) O.icon_state = VD.original_organ_icon_states[O]
 			if(islist(VD.original_organ_colors) && (O in VD.original_organ_colors)) O.color = VD.original_organ_colors[O]
