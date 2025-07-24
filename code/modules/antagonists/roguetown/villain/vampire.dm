@@ -30,6 +30,15 @@
 	var/obj/effect/proc_holder/spell/targeted/shapeshift/bat/batform //attached to the datum itself to avoid cloning memes, and other duplicates
 	var/wretch_antag = FALSE
 	var/vitae_tick_counter = 0
+	var/list/original_organ_icons = list()
+	var/list/original_organ_icon_states = list()
+	var/list/original_organ_colors = list()
+	var/list/original_organ_accessory_colors = list()
+	var/list/original_organ_overlays = list()
+	var/list/original_organ_underlays = list()
+	var/original_mutant_color
+	var/original_mutant_color2
+	var/original_mutant_color3
 
 /datum/antagonist/vampire/examine_friendorfoe(datum/antagonist/examined_datum,mob/examiner,mob/examined)
 	if(istype(examined_datum, /datum/antagonist/vampire/lesser))
@@ -70,6 +79,8 @@
 	ADD_TRAIT(owner.current, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	ADD_TRAIT(owner.current, TRAIT_NASTY_EATER, TRAIT_GENERIC)
 	ADD_TRAIT(owner.current, TRAIT_BLOODLOSS_IMMUNE, TRAIT_GENERIC)
+	ADD_TRAIT(owner.current, TRAIT_NOSLEEP, TRAIT_GENERIC)
+	ADD_TRAIT(owner.current, TRAIT_ZOMBIE_IMMUNE, TRAIT_GENERIC)
 	owner.current.cmode_music = 'sound/music/combat_vamp2.ogg'
 	var/obj/item/organ/eyes/eyes = owner.current.getorganslot(ORGAN_SLOT_EYES)
 	if(eyes)
@@ -247,6 +258,57 @@
 			vampire_disguise(VDL)
 			to_chat(src, span_notice("I assume a human guise to hide my vampiric nature."))
 
+/mob/living/carbon/human/proc/vampire_undisguise_wretch(datum/antagonist/vampire/VD)
+	if(!VD)
+		return
+	VD.disguised = FALSE
+	// Set vampiric appearance: skin/mutant/organs = c9d3de, hair = 181a1d, eyes = ff0000
+	skin_tone = "c9d3de"
+	hair_color = "181a1d"
+	facial_hair_color = "181a1d"
+	eye_color = "ff0000"
+	// Store and set mutant color(s) to c9d3de
+	if(src.dna && islist(src.dna.features)) {
+		if("mcolor" in src.dna.features) {
+			if(!VD.original_mutant_color) VD.original_mutant_color = src.dna.features["mcolor"]
+			src.dna.features["mcolor"] = "c9d3de"
+		}
+		if("mcolor2" in src.dna.features) {
+			if(!VD.original_mutant_color2) VD.original_mutant_color2 = src.dna.features["mcolor2"]
+			src.dna.features["mcolor2"] = "c9d3de"
+		}
+		if("mcolor3" in src.dna.features) {
+			if(!VD.original_mutant_color3) VD.original_mutant_color3 = src.dna.features["mcolor3"]
+			src.dna.features["mcolor3"] = "c9d3de"
+		}
+	}
+	// Store and apply vampire appearance to visible organs
+	if(!islist(VD.original_organ_icons)) VD.original_organ_icons = list()
+	if(!islist(VD.original_organ_icon_states)) VD.original_organ_icon_states = list()
+	if(!islist(VD.original_organ_colors)) VD.original_organ_colors = list()
+	if(!islist(VD.original_organ_accessory_colors)) VD.original_organ_accessory_colors = list()
+	if(!islist(VD.original_organ_overlays)) VD.original_organ_overlays = list()
+	if(!islist(VD.original_organ_underlays)) VD.original_organ_underlays = list()
+	for(var/obj/item/organ/O in internal_organs)
+		if(istype(O, /obj/item/organ/tail) || istype(O, /obj/item/organ/wings) || istype(O, /obj/item/organ/ears) || istype(O, /obj/item/organ/snout) || istype(O, /obj/item/organ/horns) || istype(O, /obj/item/organ/frills) || istype(O, /obj/item/organ/penis) || istype(O, /obj/item/organ/breasts)) {
+			if(!(O in VD.original_organ_icons)) VD.original_organ_icons[O] = O.icon
+			if(!(O in VD.original_organ_icon_states)) VD.original_organ_icon_states[O] = O.icon_state
+			if(!(O in VD.original_organ_colors)) VD.original_organ_colors[O] = O.color
+			if(!(O in VD.original_organ_accessory_colors)) VD.original_organ_accessory_colors[O] = O.accessory_colors
+			if(!(O in VD.original_organ_overlays)) VD.original_organ_overlays[O] = O.overlays
+			if(!(O in VD.original_organ_underlays)) VD.original_organ_underlays[O] = O.underlays
+			O.icon = 'icons/mob/mob.dmi'
+			O.icon_state = "blank"
+			O.color = "c9d3de"
+			O.accessory_colors = "c9d3de"
+			O.overlays = list("c9d3de")
+			O.underlays = list("c9d3de")
+			if(hascall(O, "update_icon")) call(O, "update_icon")()
+		}
+	update_body()
+	update_hair()
+	update_body_parts(redraw = TRUE)
+
 /mob/living/carbon/human/proc/vampire_disguise_wretch(datum/antagonist/vampire/VD)
 	if(!VD)
 		return
@@ -256,19 +318,26 @@
 	hair_color = VD.cache_hair
 	facial_hair_color = VD.cache_hair
 	eye_color = VD.cache_eyes
-	update_body()
-	update_hair()
-	update_body_parts(redraw = TRUE)
-
-/mob/living/carbon/human/proc/vampire_undisguise_wretch(datum/antagonist/vampire/VD)
-	if(!VD)
-		return
-	VD.disguised = FALSE
-	// Restore vampiric appearance
-	skin_tone = "c9d3de"
-	hair_color = "181a1d"
-	facial_hair_color = "181a1d"
-	eye_color = "ff0000"
+	// Restore original mutant color(s)
+	if(src.dna && islist(src.dna.features)) {
+		if("mcolor" in src.dna.features && VD.original_mutant_color)
+			src.dna.features["mcolor"] = VD.original_mutant_color
+		if("mcolor2" in src.dna.features && VD.original_mutant_color2)
+			src.dna.features["mcolor2"] = VD.original_mutant_color2
+		if("mcolor3" in src.dna.features && VD.original_mutant_color3)
+			src.dna.features["mcolor3"] = VD.original_mutant_color3
+	}
+	// Restore original appearance to visible organs
+	for(var/obj/item/organ/O in internal_organs)
+		if(istype(O, /obj/item/organ/tail) || istype(O, /obj/item/organ/wings) || istype(O, /obj/item/organ/ears) || istype(O, /obj/item/organ/snout) || istype(O, /obj/item/organ/horns) || istype(O, /obj/item/organ/frills)) {
+			if(islist(VD.original_organ_icons) && (O in VD.original_organ_icons)) O.icon = VD.original_organ_icons[O]
+			if(islist(VD.original_organ_icon_states) && (O in VD.original_organ_icon_states)) O.icon_state = VD.original_organ_icon_states[O]
+			if(islist(VD.original_organ_colors) && (O in VD.original_organ_colors)) O.color = VD.original_organ_colors[O]
+			if(islist(VD.original_organ_accessory_colors) && (O in VD.original_organ_accessory_colors)) O.accessory_colors = VD.original_organ_accessory_colors[O]
+			if(islist(VD.original_organ_overlays) && (O in VD.original_organ_overlays)) O.overlays = VD.original_organ_overlays[O]
+			if(islist(VD.original_organ_underlays) && (O in VD.original_organ_underlays)) O.underlays = VD.original_organ_underlays[O]
+			if(hascall(O, "update_icon")) call(O, "update_icon")()
+		}
 	update_body()
 	update_hair()
 	update_body_parts(redraw = TRUE)
