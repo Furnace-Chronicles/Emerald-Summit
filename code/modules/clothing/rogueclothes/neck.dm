@@ -617,23 +617,27 @@
 
 /obj/item/clothing/neck/roguetown/collar
 	name = "collar"
+	icon = 'modular/icons/obj/leashes_collars.dmi'
+	mob_overlay_icon = 'modular/icons/mob/collars_leashes.dmi'
 	desc = "A band of leather which signifies bondage to another."
 	icon_state = "collar"
 	item_state = "collar"
 	resistance_flags = FIRE_PROOF
 	dropshrink = 0.5
+	leashable = TRUE
 
 /obj/item/clothing/neck/roguetown/collar/bell_collar
 	name = "bell collar"
+	icon = 'modular/icons/obj/leashes_collars.dmi'
+	mob_overlay_icon = 'modular/icons/mob/collars_leashes.dmi'
 	desc = "A band of leather with a bell that protects the local zads from the local catfolk."
 	icon_state = "bell_collar"
-
-/obj/item/clothing/neck/roguetown/collar/bell_collar/Initialize(mapload)
-	. = ..()
-	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_JINGLE_BELLS)
+	leashable = TRUE
 
 /obj/item/clothing/neck/roguetown/collar/feldcollar
 	name = "feldcollar"
+	icon = 'modular/icons/obj/leashes_collars.dmi'
+	mob_overlay_icon = 'modular/icons/mob/collars_leashes.dmi'
 	desc = "A sturdy collar made of leather, commonly worn by field workers."
 	icon_state = "feldcollar"
 	item_state = "feldcollar"
@@ -644,6 +648,8 @@
 
 /obj/item/clothing/neck/roguetown/collar/surgcollar
 	name = "surgcollar"
+	icon = 'modular/icons/obj/leashes_collars.dmi'
+	mob_overlay_icon = 'modular/icons/mob/collars_leashes.dmi'
 	desc = "A specialized collar designed for medical practitioners, with reinforced padding."
 	icon_state = "surgcollar"
 	item_state = "surgcollar"
@@ -673,3 +679,65 @@
 		user.change_stat("fortune", -1) //how much luck stat taken away when unequipped
 		goodluckactivated = FALSE
 	return
+
+// Crafting recipes for collars and leashes
+
+/datum/crafting_recipe/roguetown/leather/neck/leather_collar
+	name = "leather collar"
+	result = /obj/item/clothing/neck/roguetown/collar/leather
+	reqs = list(/obj/item/natural/hide/cured = 1)
+	tools = list(/obj/item/needle)
+	time = 8 SECONDS
+	category = "Leatherwork"
+	subcategory = CAT_NONE
+	always_availible = TRUE
+
+/datum/crafting_recipe/roguetown/leather/neck/catbell_collar
+	name = "catbell collar"
+	result = /obj/item/clothing/neck/roguetown/collar/catbell
+	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/catbell = 1)
+	tools = list(/obj/item/needle)
+	time = 10 SECONDS
+	category = "Leatherwork"
+	subcategory = CAT_NONE
+	always_availible = TRUE
+
+/datum/crafting_recipe/roguetown/leather/neck/cowbell_collar
+	name = "cowbell collar"
+	result = /obj/item/clothing/neck/roguetown/collar/cowbell
+	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/catbell/cow = 1)
+	tools = list(/obj/item/needle)
+	time = 10 SECONDS
+	category = "Leatherwork"
+	subcategory = CAT_NONE
+	always_availible = TRUE
+
+/datum/crafting_recipe/roguetown/leather/neck/rope_leash
+	name = "rope leash"
+	result = /obj/item/leash
+	reqs = list(/obj/item/rope = 1)
+	tools = list(/obj/item/needle)
+	time = 8 SECONDS
+	category = "Leatherwork"
+	subcategory = CAT_NONE
+	always_availible = TRUE
+
+/datum/crafting_recipe/roguetown/leather/neck/leather_leash
+	name = "leather leash"
+	result = /obj/item/leash/leather
+	reqs = list(/obj/item/natural/hide/cured = 1)
+	tools = list(/obj/item/needle)
+	time = 10 SECONDS
+	category = "Leatherwork"
+	subcategory = CAT_NONE
+	always_availible = TRUE
+
+/datum/crafting_recipe/roguetown/leather/neck/chain_leash
+	name = "chain leash"
+	result = /obj/item/leash/chain
+	reqs = list(/obj/item/rope/chain = 1)
+	tools = list(/obj/item/needle)
+	time = 12 SECONDS
+	category = "Leatherwork"
+	subcategory = CAT_NONE
+	always_availible = TRUE
