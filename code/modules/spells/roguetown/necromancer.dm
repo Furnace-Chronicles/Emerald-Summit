@@ -107,7 +107,27 @@
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/necromancer
 	cabal_affine = TRUE
 	is_summoned = TRUE
-	recharge_time = 45 SECONDS
+	// Buffed for necromancer cleric: shorter cooldown, faster cast
+	recharge_time = 15 SECONDS // Shorter cooldown than miracle
+	chargetime = 15 // Faster cast time
+
+/obj/effect/proc_holder/spell/invoked/raise_lesser_undead/necromancer/cast(list/targets, mob/living/user)
+	. = ..()
+	var/turf/T = get_turf(targets[1])
+	if(!isopenturf(T))
+		to_chat(user, span_warning("The targeted location is blocked. My summon fails to come forth."))
+		return FALSE
+	var/skeleton_roll = rand(1,100)
+	switch(skeleton_roll)
+		if(1 to 25)
+			new /mob/living/simple_animal/hostile/rogue/skeleton/axe(T, user, cabal_affine)
+		if(26 to 50)
+			new /mob/living/simple_animal/hostile/rogue/skeleton/spear(T, user, cabal_affine)
+		if(51 to 75)
+			new /mob/living/simple_animal/hostile/rogue/skeleton/guard(T, user, cabal_affine)
+		if(76 to 100)
+			new /mob/living/simple_animal/hostile/rogue/skeleton/bow(T, user, cabal_affine)
+	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/projectile/sickness
 	name = "Ray of Sickness"
@@ -162,4 +182,76 @@
 				target.faction |= faction_tag
 				user.say("Amicus declaratus es.")
 		return TRUE
+	return FALSE
+
+/obj/effect/proc_holder/spell/invoked/greater_undead_revive
+	name = "Reanimate"
+	desc = "Reanimate a fallen greater undead, or offer undeath to the slain."
+	clothes_req = FALSE
+	releasedrain = 60
+	chargetime = 1
+	range = 7
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	chargedloop = null
+	sound = 'sound/magic/revive.ogg'
+	associated_skill = /datum/skill/magic/arcane
+	gesture_required = TRUE
+	antimagic_allowed = TRUE
+	recharge_time = 10 MINUTES
+	miracle = FALSE
+
+/obj/effect/proc_holder/spell/invoked/greater_undead_revive/cast(list/targets, mob/living/user)
+	..()
+	var/target = targets[1]
+	var/mob/living/carbon/human/H = istype(target, /mob/living/carbon/human) ? target : null
+	if(!H || (H.stat != DEAD))
+		to_chat(user, span_warning("That target is not dead."))
+		return FALSE
+	if(issimple(target) || !istype(target, /mob/living/carbon/human))
+		to_chat(user, span_warning("They are unworthy."))
+		return FALSE
+	// Require head to be attached
+	var/obj/item/bodypart/head/head = null
+	if(islist(H.bodyparts))
+		for(var/obj/item/bodypart/B in H.bodyparts)
+			if(istype(B, /obj/item/bodypart/head))
+				head = B; break
+	if(!head)
+		to_chat(user, span_warning("The head must be attached to reanimate this body!"))
+		return FALSE
+	if(H.mind && H.mind.has_antag_datum(/datum/antagonist/skeleton))
+		// Already a greater undead, just revive
+		if(H.stat == DEAD)
+			if(H.revive(full_heal = TRUE))
+				to_chat(user, span_notice("The dark miracle restores [H] to unlife!"))
+				H.visible_message(span_notice("[H] is restored as a greater undead!"))
+				return TRUE
+			else
+				to_chat(user, span_warning("The ritual fails to restore [H]."))
+				return FALSE
+		else
+			to_chat(user, span_warning("[H] is already alive."))
+			return FALSE
+	// Not a greater undead, offer transformation if player
+	if(H.client && H.mind && !H.mind.has_antag_datum(/datum/antagonist/skeleton))
+		var/choice = alert(H, "The necromancer offers you the chance to return as a Greater Undead. Accept?", "Unlife Beckons", "Yes", "No")
+		if(choice == "Yes")
+			var/turf/T = get_turf(H)
+			var/mob/living/carbon/human/species/skeleton/no_equipment/new_skeleton = new /mob/living/carbon/human/species/skeleton/no_equipment(T)
+			new_skeleton.key = H.key
+			SSjob.EquipRank(new_skeleton, "Greater Skeleton", TRUE)
+			new_skeleton.visible_message(span_warning("[new_skeleton]'s eyes light up with an eerie glow!"))
+			new_skeleton.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser)
+			addtimer(CALLBACK(new_skeleton, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "GREATER SKELETON"), 3 SECONDS)
+			addtimer(CALLBACK(new_skeleton, TYPE_PROC_REF(/mob/living/carbon/human, choose_pronouns_and_body)), 7 SECONDS)
+			// Gib the old body
+			H.gib()
+			to_chat(user, span_notice("[new_skeleton] rises as a Greater Undead!"))
+			qdel(H)
+			return TRUE
+		else
+			to_chat(user, span_warning("[H] refuses the call of undeath."))
+			return FALSE
+	to_chat(user, span_warning("They are unworthy."))
 	return FALSE
