@@ -30,32 +30,6 @@
 	var/ceiling_protected = FALSE //Prevents tunneling into these from above
 */
 
-
-/*		AP's zone-specific buffs for certain classes based on areas. Here for reference until removed. If this is here in 2026, axe it.
-
-/area/rogue/Entered(mob/living/carbon/human/guy)
-
-	. = ..()
-	if((src.town_area == TRUE) && HAS_TRAIT(guy, TRAIT_GUARDSMAN) && guy.z == 3 && !guy.has_status_effect(/datum/status_effect/buff/guardbuffone)) //man at arms
-		guy.apply_status_effect(/datum/status_effect/buff/guardbuffone)
-		if(HAS_TRAIT(guy, TRAIT_KNIGHTSMAN) && guy.has_status_effect(/datum/status_effect/buff/knightbuff))
-			guy.remove_status_effect(/datum/status_effect/buff/knightbuff)
-
-/area/rogue/Entered(mob/living/carbon/human/guy)
-
-	. = ..()
-	if((src.warden_area == TRUE) && HAS_TRAIT(guy, TRAIT_WOODSMAN) && !guy.has_status_effect(/datum/status_effect/buff/wardenbuff)) // Warden
-		guy.apply_status_effect(/datum/status_effect/buff/wardenbuff)
-
-/area/rogue/Entered(mob/living/carbon/human/guy)
-
-	. = ..()
-	if((src.keep_area == TRUE) && HAS_TRAIT(guy, TRAIT_KNIGHTSMAN) && !guy.has_status_effect(/datum/status_effect/buff/knightbuff)) //royal guard
-		guy.apply_status_effect(/datum/status_effect/buff/knightbuff)
-		if(HAS_TRAIT(guy, TRAIT_GUARDSMAN) && guy.has_status_effect(/datum/status_effect/buff/guardbuffone))
-			guy.remove_status_effect(/datum/status_effect/buff/guardbuffone)
-*/
-
 // Keep
 /area/rogue/outdoors/sund/keep // Setting exterior defaults.
 	droning_sound = 'sound/music/area/sargoth.ogg'

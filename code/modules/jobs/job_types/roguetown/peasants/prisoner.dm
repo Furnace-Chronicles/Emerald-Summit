@@ -206,7 +206,6 @@
 	H.change_stat("speed", 2)
 	ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_WOODSMAN, TRAIT_GENERIC)
 
 /datum/advclass/prisoner_hunter
 	parent_type = /datum/advclass
