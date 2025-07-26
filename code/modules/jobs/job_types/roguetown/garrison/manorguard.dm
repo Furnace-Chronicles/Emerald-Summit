@@ -58,23 +58,23 @@
 // Melee goon
 /datum/advclass/manorguard/footsman
 	name = "Footman"
-	tutorial = "You are a professional soldier of the realm, specializing in melee warfare. Stalwart and hardy, your body can both withstand and dish out powerful strikes.."
+	tutorial = "You are a professional soldier of the realm, specializing in melee warfare. Stalwart and hardy, your body can both withstand and dish out powerful strikes."
 	outfit = /datum/outfit/job/roguetown/manorguard/footsman
 
 	category_tags = list(CTAG_MENATARMS)
 
 /datum/outfit/job/roguetown/manorguard/footsman/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.mind.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/combat/whipsflails, 2, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/combat/slings, 1, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/misc/sneaking, 2, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
@@ -103,15 +103,19 @@
 		if("Warhammer & Shield")
 			beltr = /obj/item/rogueweapon/mace/warhammer
 			backl = /obj/item/rogueweapon/shield/wood
+			H.mind.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 		if("Axe & Shield")
 			beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel
 			backl = /obj/item/rogueweapon/shield/wood
+			H.mind.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
 		if("Halberd")
 			r_hand = /obj/item/rogueweapon/halberd
 			backl = /obj/item/gwstrap
+			H.mind.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 		if("Greataxe")
 			r_hand = /obj/item/rogueweapon/greataxe
 			backl = /obj/item/gwstrap
+			H.mind.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1, /obj/item/storage/keyring/guardcastle)
 	H.verbs |= /mob/proc/haltyell
 
@@ -140,33 +144,33 @@
 	H.mind.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE) 		// Still have a cugel.
-	H.mind.adjust_skillrank(/datum/skill/combat/crossbows, 5, TRUE)		//Only effects draw and reload time.
-	H.mind.adjust_skillrank(/datum/skill/combat/bows, 5, TRUE)			//Only effects draw times.
-	H.mind.adjust_skillrank(/datum/skill/combat/slings, 5, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/combat/crossbows, 3, TRUE)		//Only effects draw and reload time.
+	H.mind.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)			//Only effects draw times.
+	H.mind.adjust_skillrank(/datum/skill/combat/slings, 3, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE) // A little better; run fast, weak boy.
-	H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/misc/tracking, 3, TRUE)
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_GUARDSMAN, TRAIT_GENERIC) //+1 spd, con, end, +2 per in town
+	ADD_TRAIT(H, TRAIT_GUARDSMAN, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 
 	//Garrison ranged/speed class. Time to go wild
-	H.change_stat("endurance", 1) // seems kinda lame but remember guardsman bonus!!
+	H.change_stat("endurance", 1) // guardsman bonus got gutted, praise be
 	H.change_stat("perception", 2)
 	H.change_stat("speed", 2)
 
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord			// Cant wear chainmail anymoooree
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson			// Cant wear chainmail anymoooree
 	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/bikini		//Helps against arrows; makes sense for a ranged-type role.
 	else
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/studded		//Helps against arrows; makes sense for a ranged-type role.
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
-	pants = /obj/item/clothing/under/roguetown/trou/leather
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Crossbow","Bow","Sling")
@@ -176,10 +180,13 @@
 		if("Crossbow")
 			beltr = /obj/item/quiver/bolts
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+			H.mind.adjust_skillrank(/datum/skill/combat/crossbows, 2, TRUE)	
 		if("Bow") // They can head down to the armory to sideshift into one of the other bows.
+			H.mind.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
 			beltr = /obj/item/quiver/arrows
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 		if("Sling")
+			H.mind.adjust_skillrank(/datum/skill/combat/slings, 2, TRUE)
 			beltr = /obj/item/quiver/sling/iron
 			r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling // Both are belt slots and it's not worth setting where the cugel goes for everyone else, sad.
 
@@ -192,139 +199,6 @@
 	"Bascinet Helmet"		= /obj/item/clothing/head/roguetown/helmet/bascinet,
 	"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet,
 	"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
-	"None"
-	)
-	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
-	if(helmchoice != "None")
-		head = helmets[helmchoice]
-
-/datum/advclass/manorguard/cavalry
-	name = "Cavalryman"
-	tutorial = "You are a professional soldier of the realm, specializing in the steady beat of hoof falls. Lighter and more expendable then the knights, you charge with lance in hand."
-	outfit = /datum/outfit/job/roguetown/manorguard/cavalry
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled //Since knights start with the Buck
-
-	category_tags = list(CTAG_MENATARMS)
-
-/datum/outfit/job/roguetown/manorguard/cavalry/pre_equip(mob/living/carbon/human/H)
-	..()
-	H.mind.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE) 		// Still have a cugel.
-	H.mind.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/whipsflails, 3, TRUE)	//Best whip training out of MAAs, they're strong.
-	H.mind.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)			// We discourage horse archers, though.
-	H.mind.adjust_skillrank(/datum/skill/combat/slings, 1, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE) 
-	H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/riding, 4, TRUE) 		// Like the other horselords.
-	H.mind.adjust_skillrank(/datum/skill/misc/tracking, 3, TRUE)	//Best tracker. Might as well give it something to stick-out utility wise.
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_GUARDSMAN, TRAIT_GENERIC) //+1 spd, con, end, +2 per in town
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-
-	//Garrison mounted class; charge and charge often.
-	H.change_stat("strength", 1)
-	H.change_stat("constitution", 2) 
-	H.change_stat("endurance", 2) // Your name is speed, and speed is running.
-	H.change_stat("intelligence", 1) // No strength to account for the nominally better weapons. We'll see.
-
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord		//Bit worse shirt protection than the archer -- as foot soldier.
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale			//Makes up for worse shirt protection with kinda better armor protection
-	pants = /obj/item/clothing/under/roguetown/chainlegs
-	neck = /obj/item/clothing/neck/roguetown/gorget
-
-	H.adjust_blindness(-3)
-	var/weapons = list("Bardiche","Sword & Shield")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
-	H.set_blindness(0)
-	switch(weapon_choice)
-		if("Bardiche")
-			r_hand = /obj/item/rogueweapon/halberd/bardiche
-			backl = /obj/item/gwstrap
-		if("Sword & Shield")
-			beltr = /obj/item/rogueweapon/sword/sabre
-			backl = /obj/item/rogueweapon/shield/wood
-	
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1, /obj/item/storage/keyring/guardcastle)
-	H.verbs |= /mob/proc/haltyell
-
-	var/helmets = list(
-	"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
-	"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle,
-	"Bascinet Helmet"		= /obj/item/clothing/head/roguetown/helmet/bascinet,
-	"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet,
-	"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
-	"Studded Leather Hood" = /obj/item/clothing/head/roguetown/helmet/leather/armorhood/advanced,
-	"None"
-	)
-	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
-	if(helmchoice != "None")
-		head = helmets[helmchoice]
-
-/datum/advclass/manorguard/stalker
-	name = "Stalker"
-	tutorial = "You are a stalker, a rogue familiar with the streets who had a great turn-around and somehow became a man at arms after going up the ladder, You are a agile melee soldier that is specialized to also track people. You have experience using daggers and crossbows."
-	outfit = /datum/outfit/job/roguetown/manorguard/stalker
-	category_tags = list(CTAG_MENATARMS)
-
-/datum/outfit/job/roguetown/manorguard/stalker/pre_equip(mob/living/carbon/human/H)
-	..()
-
-	H.mind.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/knives, 5, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/climbing, 6, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/sneaking, 5, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/stealing, 3, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/lockpicking, 4, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/craft/traps, 4, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/craft/crafting, 3, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
-
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_GUARDSMAN, TRAIT_GENERIC) //+1 spd, con, end, +2 per in town
-	ADD_TRAIT(H, TRAIT_LIGHT_STEP, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-
-	H.change_stat("strength", 1) //hopefully will help them with restraining people.
-	H.change_stat("intelligence", 1)
-	H.change_stat("endurance", 1)
-	H.change_stat("speed", 2)
-	H.grant_language(/datum/language/thievescant)
-
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
-	neck = /obj/item/clothing/neck/roguetown/chaincoif
-	mask = /obj/item/clothing/mask/rogue/facemask/steel
-	pants = /obj/item/clothing/under/roguetown/trou/leather
-	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt
-	beltr = /obj/item/quiver/bolts
-
-	backpack_contents = list(/obj/item/rope/chain = 1, /obj/item/rogueweapon/huntingknife/idagger/steel/special = 2, /obj/item/lockpickring/mundane = 1, /obj/item/storage/keyring/guardcastle = 1)
-	H.verbs |= /mob/proc/haltyell
-
-	var/helmets = list(
-	"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
-	"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle,
-	"Bascinet Helmet"		= /obj/item/clothing/head/roguetown/helmet/bascinet,
-	"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet,
-	"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
-	"Studded Leather Hood" = /obj/item/clothing/head/roguetown/helmet/leather/armorhood/advanced,
 	"None"
 	)
 	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
