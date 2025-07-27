@@ -65,16 +65,34 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/HU = user
 
-		if(HU.job != "Grand Duke")
+		if(HU.job != "Grand Duke" && HU.job != "Hand")
 			to_chat(user, span_danger("The rod doesn't obey me."))
 			return
 
 		if(ishuman(target))
 			var/mob/living/carbon/human/H = target
 			var/area/target_area = get_area(H)
+			// List of job titles that can be shocked outside the manor
+			var/slaves = list("Knight Captain",
+			"Knight",
+			"Dame",
+			"Dungeoneer",
+			"Man at Arms",
+			"Woman at Arms",
+			"Sergeant",
+			"Squire",
+			"Watchman",
+			"Watchwoman",
+			"Veteran",
+			"Warden",
+			)
 
-			if(!istype(target_area, /area/rogue/indoors/town/manor))
-				to_chat(user, span_danger("The rod cannot be used on targets outside of the manor!"))
+			if(!(HU.dna.species.type in RACES_NOBILITY_ELIGIBLE_UP) & (H.dna.species.type in RACES_NOBILITY_ELIGIBLE_UP))
+				to_chat(user, span_danger("The rod refuses!"))
+				return
+
+			if(!istype(target_area, /area/rogue/indoors/town/manor) && !(H.job in slaves) && H.job == "Grand Duke")
+				to_chat(user, span_danger("The rod cannot be used on such targets outside of the manor!"))
 				return
 
 			if(H == HU)
