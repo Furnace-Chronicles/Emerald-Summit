@@ -69,14 +69,17 @@
 		playsound(src, pick('sound/misc/mat/guymouth (1).ogg','sound/misc/mat/guymouth (2).ogg','sound/misc/mat/guymouth (3).ogg','sound/misc/mat/guymouth (4).ogg','sound/misc/mat/guymouth (5).ogg'), 35, TRUE, ignore_walls = FALSE)
 
 /mob/living/carbon/human/proc/try_impregnate(mob/living/carbon/human/wife)
-	var/obj/item/organ/testicles/testes = getorganslot(ORGAN_SLOT_TESTICLES)
-	if(!testes)
-		return
-	var/obj/item/organ/vagina/vag = wife.getorganslot(ORGAN_SLOT_VAGINA)
-	if(!vag)
-		return
-	if(prob(25) && wife.is_fertile() && is_virile())
-		vag.be_impregnated(src)
+    var/obj/item/organ/testicles/testes = getorganslot(ORGAN_SLOT_TESTICLES)
+    if(!testes)
+        return
+    var/obj/item/organ/vagina/vag = wife.getorganslot(ORGAN_SLOT_VAGINA)
+    if(!vag)
+        return
+    if(prob(vag.impregnation_probability) && wife.is_fertile() && is_virile())
+        vag.be_impregnated(src)
+        vag.impregnation_probability = IMPREG_PROB_DEFAULT // Reset on success
+    else
+        vag.impregnation_probability = min(vag.impregnation_probability + IMPREG_PROB_INCREMENT, IMPREG_PROB_MAX)
 
 /mob/living/carbon/human/proc/get_highest_grab_state_on(mob/living/carbon/human/victim)
 	var/grabstate = null
