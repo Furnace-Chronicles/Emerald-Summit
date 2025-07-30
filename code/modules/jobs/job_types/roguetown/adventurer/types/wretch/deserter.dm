@@ -23,7 +23,7 @@
 		if("Disgraced")
 			to_chat(H, span_warning("You were once a venerated and revered knight - now, a traitor who abandoned your liege. You lyve the lyfe of an outlaw, shunned and looked down upon by society."))
 			ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-			ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_DISGRACED_NOBLE, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)

@@ -118,7 +118,7 @@
 				if ("Militia Warpick + Heater Shield")
 					H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
 					beltl = /obj/item/rogueweapon/pick/militia
-					backr = /obj/item/rogueweapon/shield/iron
+					backr = /obj/item/rogueweapon/shield/heater
 				if ("Militia Spear + Heater Shield")
 					H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 					l_hand = /obj/item/rogueweapon/spear/militia

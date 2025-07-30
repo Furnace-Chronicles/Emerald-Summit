@@ -516,6 +516,3 @@ BLIND     // can't see anything
 		if(!user.incapacitated())
 			return 1
 	return 0
-
-/obj/item/clothing/proc/step_action() //this was made to rewrite clown shoes squeaking
-	SEND_SIGNAL(src, COMSIG_CLOTHING_STEP_ACTION)

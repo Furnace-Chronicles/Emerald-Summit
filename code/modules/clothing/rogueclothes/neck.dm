@@ -628,23 +628,66 @@
 
 /obj/item/clothing/neck/roguetown/collar
 	name = "collar"
-	desc = "A band of leather which signifies bondage to another."
-	icon_state = "collar"
-	item_state = "collar"
+	icon = 'modular/icons/obj/leashes_collars.dmi'
+	mob_overlay_icon = 'modular/icons/mob/collars_leashes.dmi'
+	desc = "This is a debug parent item. If you are seeing it meow at the coders."
+	icon_state = "collar_rope"
+	item_state = "collar_rope"
 	resistance_flags = FIRE_PROOF
 	dropshrink = 0.5
+	leashable = TRUE
+	bellsound = FALSE
+	bell = FALSE
 
-/obj/item/clothing/neck/roguetown/collar/bell_collar
-	name = "bell collar"
-	desc = "A band of leather with a bell that protects the local zads from the local catfolk."
-	icon_state = "bell_collar"
+/obj/item/clothing/neck/roguetown/collar/leather
+	name = "leather collar"
+	desc = "A sturdy leather collar."
+	icon = 'modular/icons/obj/leashes_collars.dmi'
+	mob_overlay_icon = 'modular/icons/mob/collars_leashes.dmi'
+	icon_state = "leathercollar"
+	item_state = "leathercollar"
+	leashable = TRUE
+	resistance_flags = FIRE_PROOF
+	dropshrink = 0.5
+	bellsound = FALSE
+	bell = FALSE
 
-/obj/item/clothing/neck/roguetown/collar/bell_collar/Initialize(mapload)
-	. = ..()
-	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_JINGLE_BELLS)
+/obj/item/clothing/neck/roguetown/collar/cowbell
+	name = "cowbell collar"
+	desc = "A leather collar with a jingly cowbell attached."
+	icon = 'modular/icons/obj/leashes_collars.dmi'
+	mob_overlay_icon = 'modular/icons/mob/collars_leashes.dmi'
+	icon_state = "cowbellcollar"
+	item_state = "cowbellcollar"
+	leashable = TRUE
+	resistance_flags = FIRE_PROOF
+	dropshrink = 0.5
+	bellsound = TRUE
+
+/obj/item/clothing/neck/roguetown/collar/cowbell/Initialize(mapload)
+		. = ..()
+		AddComponent(/datum/component/squeak, SFX_COLLARJINGLE, 50, 100, 1) //We want squeak so wearer jingles if touched while wearing collar
+
+/obj/item/clothing/neck/roguetown/collar/catbell
+	name = "catbell collar"
+	desc = "A leather collar with a jingling catbell attached."
+	icon = 'modular/icons/obj/leashes_collars.dmi'
+	mob_overlay_icon = 'modular/icons/mob/collars_leashes.dmi'
+	icon_state = "catbellcollar"
+	item_state = "catbellcollar"
+	leashable = TRUE
+	resistance_flags = FIRE_PROOF
+	dropshrink = 0.5
+	bellsound = TRUE
+
+/obj/item/clothing/neck/roguetown/collar/catbell/Initialize(mapload)
+		. = ..()
+		AddComponent(/datum/component/squeak, SFX_COLLARJINGLE, 50, 100, 1) //We want squeak so wearer jingles if touched while wearing collar
 
 /obj/item/clothing/neck/roguetown/collar/feldcollar
 	name = "feldcollar"
+	icon = 'icons/roguetown/clothing/neck.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/neck.dmi'
 	desc = "A sturdy collar made of leather, commonly worn by field workers."
 	icon_state = "feldcollar"
 	item_state = "feldcollar"
@@ -655,6 +698,8 @@
 
 /obj/item/clothing/neck/roguetown/collar/surgcollar
 	name = "surgcollar"
+	icon = 'icons/roguetown/clothing/neck.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/neck.dmi'
 	desc = "A specialized collar designed for medical practitioners, with reinforced padding."
 	icon_state = "surgcollar"
 	item_state = "surgcollar"

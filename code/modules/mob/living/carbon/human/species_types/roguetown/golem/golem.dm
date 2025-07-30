@@ -60,12 +60,15 @@
 	customizers = list(
 		/datum/customizer/organ/eyes/humanoid,
 		/datum/customizer/bodypart_feature/crest,
+		/datum/customizer/bodypart_feature/hair/head/humanoid,
+		/datum/customizer/bodypart_feature/hair/facial/humanoid,
 		/datum/customizer/bodypart_feature/accessory,
 		/datum/customizer/bodypart_feature/face_detail,
 		/datum/customizer/bodypart_feature/underwear,
-		/datum/customizer/organ/penis/anthro,
-		/datum/customizer/organ/breasts/human,
-		/datum/customizer/organ/vagina/human_anthro,
+		/datum/customizer/organ/ears/demihuman,
+		/datum/customizer/organ/horns/demihuman,
+		/datum/customizer/organ/tail/demihuman,
+		/datum/customizer/organ/wings/anthro,
 		)
 	body_marking_sets = list(
 		/datum/body_marking_set/none,

@@ -987,25 +987,6 @@
 
 	max_integrity = 400
 
-	/// Whether the user has the Heavy Armour Trait prior to donning.
-	var/traited = FALSE
-
-/obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate/equipped(mob/living/user, slot)
-	..()
-	if(slot != SLOT_ARMOR)
-		return
-	if (!HAS_TRAIT(user, TRAIT_MEDIUMARMOR))
-		return
-	ADD_TRAIT(user, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	to_chat(user, span_notice("Endure til' inevitability."))
-
-/obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate/dropped(mob/living/user)
-	..()
-	if (traited)
-		return
-	REMOVE_TRAIT(user, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	to_chat(user, span_notice("Trust in thyself."))
-
 /obj/item/clothing/suit/roguetown/armor/plate/full
 	name = "plate armor"
 	desc = "Full plate. Slow to don and doff without the aid of a good squire."
@@ -1330,11 +1311,9 @@
 	item_state = "inqcoat"
 	sleevetype = "shirt"
 	max_integrity = 200
-	anvilrepair = /datum/skill/craft/armorsmithing
-	smeltresult = /obj/item/ingot/steel
+	sewrepair = TRUE
 	equip_delay_self = 4 SECONDS
 	armor_class = ARMOR_CLASS_MEDIUM
-	smelt_bar_num = 2
 	blocksound = SOFTHIT
 
 /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/ComponentInitialize()	//No movement rustle component.

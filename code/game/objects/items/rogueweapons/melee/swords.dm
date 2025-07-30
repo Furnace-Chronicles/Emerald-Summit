@@ -372,7 +372,7 @@
 	thrown_bclass = BCLASS_CUT
 	dropshrink = 0.75
 	smeltresult = /obj/item/ingot/steel
-	sellprice = 363
+	sellprice = 600
 	static_price = TRUE
 
 /obj/item/rogueweapon/sword/long/judgement/getonmobprop(tag)
@@ -1171,7 +1171,7 @@
 /obj/item/rogueweapon/sword/long/oathkeeper
 	name = "Oathkeeper"
 	desc = "An ornate golden longsword with a ruby embedded in the hilt, given to the Knight Commander for their valiant service to the crown."
-	sellprice = 140
+	sellprice = 300
 	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/sword/strike)
 	icon_state = "kingslayer"
 

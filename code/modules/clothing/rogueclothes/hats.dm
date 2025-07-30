@@ -582,6 +582,11 @@
 	icon_state = "inqhat"
 	item_state = "inqhat"
 	sewrepair = TRUE
+	max_integrity = 200
+	equip_delay_self = 4 SECONDS
+	armor = ARMOR_HEAD_PSYDON
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+	blocksound = SOFTHIT
 
 /obj/item/clothing/head/roguetown/headband/red
 	color = CLOTHING_RED
@@ -1294,6 +1299,8 @@
 	icon_state = "psydonbarbute"
 	item_state = "psydonbarbute"
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
+	smeltresult = /obj/item/ingot/silver
+	smelt_bar_num = 1
 
 /obj/item/clothing/head/roguetown/helmet/heavy/psydonbarbute/getonmobprop(tag)
 	if(tag)
@@ -1310,6 +1317,8 @@
 	item_state = "psydonarmet"
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
 	adjustable = CAN_CADJUST
+	smeltresult = /obj/item/ingot/silver
+	smelt_bar_num = 1
 
 /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm/getonmobprop(tag)
 	if(tag)

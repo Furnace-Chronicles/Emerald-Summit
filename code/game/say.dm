@@ -59,6 +59,8 @@ GLOBAL_LIST_INIT(freqtospan, list(
 			namepart = "[H.get_face_name()]" //So "fake" speaking like in hallucinations does not give the speaker away if disguised
 		if(H.voice_color)
 			colorpart = "<span style='color:#[H.voice_color];text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>"
+		if(H.client && H.client.patreonlevel() >= GLOB.patreonsaylevel)
+			spans |= SPAN_PATREON_SAY
 	if(speaker.voicecolor_override)
 		colorpart = "<span style='color:#[speaker.voicecolor_override];text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>"
 	//End name span.

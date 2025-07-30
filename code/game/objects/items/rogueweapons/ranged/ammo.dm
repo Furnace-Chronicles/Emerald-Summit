@@ -86,7 +86,7 @@
 	projectile_type = /obj/projectile/bullet/reusable/arrow
 	caliber = "arrow"
 	icon = 'icons/roguetown/weapons/ammo.dmi'
-	icon_state = "stonearrow"
+	icon_state = "arrow"
 	force = 10
 	dropshrink = 0.6
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)

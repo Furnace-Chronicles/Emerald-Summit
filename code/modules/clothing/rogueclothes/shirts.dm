@@ -328,12 +328,10 @@
 	name = "tribalrag"
 	desc = ""
 	body_parts_covered = CHEST|VITALS
-	boobed = TRUE
 	icon_state = "tribalrag"
 	item_state = "tribalrag"
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
-	flags_inv = HIDECROTCH|HIDEBOOB
 
 /obj/item/clothing/suit/roguetown/shirt/robe/archivist
 	name = "archivist's robe"
@@ -343,7 +341,6 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 	body_parts_covered = CHEST|GROIN|ARMS|VITALS
-	boobed = TRUE
 	flags_inv = HIDECROTCH|HIDEBOOB
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
@@ -429,7 +426,6 @@
 	item_state = "silkdress"
 	color = "#e6e5e5"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
-	boobed = TRUE
 	flags_inv = HIDECROTCH
 
 /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/princess
@@ -554,7 +550,6 @@
 	icon_state = "exoticsilkbra"
 	item_state = "exoticsilkbra"
 	body_parts_covered = CHEST
-	boobed = TRUE
 	sewrepair = TRUE
 	flags_inv = null
 	slot_flags = ITEM_SLOT_SHIRT
@@ -569,7 +564,6 @@
 	body_parts_covered = CHEST|GROIN|ARMS|VITALS
 	icon_state = "nobledress"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
-	boobed = TRUE
 
 
 /obj/item/clothing/suit/roguetown/shirt/dress/noble/update_icon()
@@ -606,7 +600,6 @@
 	body_parts_covered = CHEST|GROIN|ARMS|VITALS
 	icon_state = "velvetdress"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
-	boobed = TRUE
 
 
 //kazengite content

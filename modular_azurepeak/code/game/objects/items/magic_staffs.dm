@@ -97,6 +97,7 @@
 /obj/item/rogueweapon/woodstaff/riddle_of_steel/magos
 	name = "\improper Staff of the Court Magos"
 	icon_state = "courtstaff"
+	sellprice = 500
 
 /obj/item/rogueweapon/woodstaff/naledi
 	cast_time_reduction = DIAMOND_CAST_TIME_REDUCTION

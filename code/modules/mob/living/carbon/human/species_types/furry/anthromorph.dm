@@ -87,9 +87,7 @@
 		/datum/body_marking_set/belly,
 		/datum/body_marking_set/bellysocks,
 		/datum/body_marking_set/tiger,
-		/datum/body_marking_set/tiger_dark,
-		/datum/body_marking/bangs,
-		/datum/body_marking/bun,
+		/datum/body_marking_set/tiger_dark,  //Delinefortune: removed TWO /datum/body_marking/ because there supposed to be /datum/body_marking_set
 	)
 	body_markings = list(
 		/datum/body_marking/flushed_cheeks,

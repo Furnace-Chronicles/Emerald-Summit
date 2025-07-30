@@ -887,25 +887,25 @@
 /obj/item/reagent_containers/food/snacks/rogue/honey/ambrosia
 	name = "relaxing honey"
 	desc = "Sweet honey with subtle relaxing properties."
-	icon_state = "honey_green"
+	icon_state = "honeycomb"
 	list_reagents = list(/datum/reagent/consumable/honey = 5, /datum/reagent/consumable/nutriment = 3, /datum/reagent/drug/space_drugs = 2)
 
 /obj/item/reagent_containers/food/snacks/rogue/honey/healing
 	name = "medicinal honey"
 	desc = "Sweet honey with healing properties."
-	icon_state = "honey_red"
+	icon_state = "honeycomb"
 	list_reagents = list(/datum/reagent/consumable/honey = 5, /datum/reagent/consumable/nutriment = 3)
 
 /obj/item/reagent_containers/food/snacks/rogue/honey/toxic
 	name = "strange honey"
 	desc = "This honey has an unusual smell and appearance."
-	icon_state = "honey_toxic"
+	icon_state = "honeycomb"
 	list_reagents = list(/datum/reagent/consumable/honey = 5, /datum/reagent/toxin = 2)
 
 /obj/item/reagent_containers/food/snacks/rogue/honey/luminescent
 	name = "glowing honey"
 	desc = "This honey gives off a soft bioluminescent glow."
-	icon_state = "honey_glowing"
+	icon_state = "honeycomb"
 	list_reagents = list(/datum/reagent/consumable/honey = 5, /datum/reagent/consumable/nutriment = 3)
 	light_system = MOVABLE_LIGHT
 	light_outer_range = 2
@@ -1146,7 +1146,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/honey/wild
 	name = "wild honey"
 	desc = "Sweet wild honey. It has a more complex flavor than regular honey."
-	icon_state = "honey_wild"
+	icon_state = "honeycomb"
 	honey_color = "#6d4633"
 	list_reagents = list(/datum/reagent/consumable/honey = 7, /datum/reagent/consumable/nutriment = 3)
 

@@ -1,0 +1,22 @@
+/datum/voicepack/female/tabaxi/get_sound(soundin, modifiers)
+	var/used
+	switch(modifiers)
+		if("old")
+			used = getfold(soundin)
+		if("young")
+			used = getfyoung(soundin)
+		if("silenced")
+			used = getfsilenced(soundin)
+	if(!used)
+		switch(soundin)
+			if("meow")
+				used = list('modular_scarletreach/sound/vo/female/tabaxi/tabaxi_meow1.ogg', 'modular_scarletreach/sound/vo/female/tabaxi/tabaxi_meow2.ogg')
+			if("purr")
+				used = list('modular_scarletreach/sound/vo/female/tabaxi/tabaxi_purr.ogg')
+			if("trill")
+				used = list('modular_scarletreach/sound/vo/female/tabaxi/tabaxi_mrrp1.ogg', 'modular_scarletreach/sound/vo/female/tabaxi/tabaxi_mrrp2.ogg')
+			if("hiss")
+				used = list('modular_scarletreach/sound/vo/female/tabaxi/tabaxi_hiss1.ogg', 'modular_scarletreach/sound/vo/female/tabaxi/tabaxi_hiss2.ogg')
+			else
+				return ..()
+	return used 

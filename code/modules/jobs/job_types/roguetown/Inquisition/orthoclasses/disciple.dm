@@ -14,26 +14,37 @@
 	switch(H.patron?.type)
 		if(/datum/patron/divine/astrata)
 			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
+			cloak = /obj/item/clothing/cloak/templar/astratan
 		if(/datum/patron/divine/abyssor)
 			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
+			cloak = /obj/item/clothing/cloak/abyssortabard
 		if(/datum/patron/divine/xylix)
 			neck = /obj/item/clothing/neck/roguetown/psicross/silver
+			cloak = /obj/item/clothing/cloak/templar/xylixian
 		if(/datum/patron/divine/dendor)
 			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
+			cloak = /obj/item/clothing/cloak/tabard/crusader/dendor
 		if(/datum/patron/divine/necra)
 			neck = /obj/item/clothing/neck/roguetown/psicross/necra
+			cloak = /obj/item/clothing/cloak/templar/necran
 		if(/datum/patron/divine/pestra)
 			neck = /obj/item/clothing/neck/roguetown/psicross/pestra
+			cloak = /obj/item/clothing/cloak/templar/pestran
 		if(/datum/patron/divine/eora)
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
+			cloak = /obj/item/clothing/cloak/templar/eoran
 		if(/datum/patron/divine/noc)
 			neck = /obj/item/clothing/neck/roguetown/psicross/noc
+			cloak = /obj/item/clothing/cloak/tabard/crusader/noc
 		if(/datum/patron/divine/ravox)
 			neck = /obj/item/clothing/neck/roguetown/psicross/ravox
+			cloak = /obj/item/clothing/cloak/tabard/crusader/ravox
 		if(/datum/patron/divine/malum)
 			neck = /obj/item/clothing/neck/roguetown/psicross/malum
+			cloak = /obj/item/clothing/cloak/templar/malumite
 		else
 			neck = /obj/item/clothing/neck/roguetown/psicross/silver
+			cloak = /obj/item/clothing/cloak/psydontabard/alt
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	gloves = /obj/item/clothing/gloves/roguetown/chain/psydon
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
@@ -62,7 +73,6 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	beltl = /obj/item/storage/keyring/orthodoxist
-	cloak = /obj/item/clothing/cloak/psydontabard/alt
 	H.adjust_skillrank(/datum/skill/misc/athletics, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
@@ -137,7 +147,6 @@
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/storage/keyring/orthodoxist
-	cloak = /obj/item/clothing/cloak/psydontabard/alt
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)

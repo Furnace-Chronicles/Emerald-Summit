@@ -323,7 +323,7 @@
 #define COMSIG_ITEM_WEARERCROSSED "wearer_crossed"                //called on item when crossed by something (): (/atom/movable, mob/living/crossed)
 
 // /obj/item/clothing signals
-#define COMSIG_CLOTHING_STEP_ACTION "clothing_step_action"			//from base of obj/item/clothing/shoes/proc/step_action(): ()
+#define COMSIG_CLOTHING_STEP_ACTION "clothing_step_action"			//from base of obj/item/proc/step_action(): ()
 
 // /obj/item/rogueweapon signals
 #define COMSIG_ROGUEWEAPON_OBJFIX "rogueweapon_fix"				//from base of obj/item/rogueweapon/obj_fix()

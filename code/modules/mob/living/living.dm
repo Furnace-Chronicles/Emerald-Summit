@@ -1032,6 +1032,15 @@
 	else if(mobility_flags & MOBILITY_MOVE)
 		if(on_fire)
 			resist_fire() //stop, drop, and roll
+		else if(has_status_effect(/datum/status_effect/leash_pet))
+			if(istype(src, /mob/living/carbon))
+				src:resist_leash()
+		else if(last_special <= world.time)
+			resist_restraints() //trying to remove cuffs.
+
+	else if(mobility_flags & MOBILITY_MOVE)
+		if(on_fire)
+			resist_fire() //stop, drop, and roll
 		else if(last_special <= world.time)
 			resist_restraints() //trying to remove cuffs.
 
@@ -2081,3 +2090,6 @@
 	reset_perspective()
 	update_cone_show()
 //	UnregisterSignal(src, COMSIG_MOVABLE_PRE_MOVE)
+
+/mob/living/proc/resist_leash()
+	return

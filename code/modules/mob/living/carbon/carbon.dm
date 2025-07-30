@@ -104,10 +104,10 @@
 		mode() // Activate held item
 
 /mob/living/carbon/attackby(obj/item/I, mob/user, params)
-	// Special case for scissors with snip intent targeting the head or skull
 	if(istype(I, /obj/item/rogueweapon/huntingknife/scissors) && user.used_intent.type == /datum/intent/snip && (user.zone_selected == BODY_ZONE_HEAD || user.zone_selected == BODY_ZONE_PRECISE_SKULL))
 		return I.attack(src, user)
-		
+	if(istype(I, /obj/item/leash))
+		return I.attack(src, user)
 	if(!user.cmode)
 		var/try_to_fail = !istype(user.rmb_intent, /datum/rmb_intent/weak)
 		var/list/possible_steps = list()
@@ -366,6 +366,17 @@
 	if(fire_stacks <= 0)
 		ExtinguishMob(TRUE)
 	return
+
+/mob/living/carbon/resist_leash()
+	to_chat(src, span_notice("I reach for the hook on my collar..."))
+	//Determine how long it takes to remove the leash
+	var/deleash = 15
+	if(src.handcuffed)
+		deleash = 60
+	if(move_after(src, deleash, 0, target = src))
+		if(!QDELETED(src))
+			to_chat(src, "<span class='warning'>[src] has removed their leash!</span>")
+			src.remove_status_effect(/datum/status_effect/leash_pet)
 
 /mob/living/carbon/resist_restraints()
 	var/obj/item/I = null
@@ -1287,4 +1298,15 @@
 			return FALSE
 	if(istype(loc, /turf/open/water) && !(mobility_flags & MOBILITY_STAND))
 		return FALSE
+
+/mob/living/carbon/resist_leash()
+	to_chat(src, span_notice("I reach for the hook on my collar..."))
+	//Determine how long it takes to remove the leash
+	var/deleash = 5 SECONDS
+	if(src.handcuffed)
+		deleash = 20 SECONDS
+	if(move_after(src, deleash, 0, target = src))
+		if(!QDELETED(src))
+			to_chat(src, "<span class='warning'>[src] has removed their leash!</span>")
+			src.remove_status_effect(/datum/status_effect/leash_pet)
 

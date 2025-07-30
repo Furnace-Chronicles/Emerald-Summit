@@ -106,10 +106,10 @@
 		return
 	var/canread = user.can_read(src, TRUE)
 	var/contents
-	if(SSticker.rulertype == "Baron")
-		contents += "<center>BARON'S DECREES<BR>"
+	if(SSticker.rulertype == "Grand Duke")
+		contents += "<center>GRAND DUKE'S DECREES<BR>"
 	else
-		contents += "<center>BARONESS' DECREES<BR>"
+		contents += "<center>GRAND DUTCHESS' DECREES<BR>"
 	contents += "-----------<BR><BR></center>"
 	for(var/i = GLOB.lord_decrees.len to 1 step -1)
 		contents += "[i]. <span class='info'>[GLOB.lord_decrees[i]]</span><BR>"
@@ -122,7 +122,7 @@
 /obj/structure/roguemachine/scomm/MiddleClick(mob/living/carbon/human/user)
 	if(.)
 		return
-	if((HAS_TRAIT(user, TRAIT_GUARDSMAN) || (user.job == "Warden") || (user.job == "Hand") || (user.job == "Watchman") || (user.job == "Squire") || (user.job == "Marshal") || (user.job == "Baron") || (user.job == "Knight Captain") || (user.job == "Baroness")))
+	if((HAS_TRAIT(user, TRAIT_GUARDSMAN) || (user.job == "Warden") || (user.job == "Hand") || (user.job == "Watchman") || (user.job == "Squire") || (user.job == "Marshal") || (user.job == "Grand Duke") || (user.job == "Knight Captain") || (user.job == "Consort")))
 		if(alert("Would you like to swap lines or connect to a jabberline?",, "swap", "jabberline") != "jabberline")
 			garrisonline = !garrisonline
 			to_chat(user, span_info("I [garrisonline ? "connect to the garrison SCOMline" : "connect to the general SCOMLINE"]"))
@@ -234,14 +234,14 @@
 	animate(pixel_x = oldx-1, time = 0.5)
 	animate(pixel_x = oldx, time = 0.5)
 
-/obj/structure/roguemachine/scomm/proc/repeat_message(message, atom/A, tcolor, message_language)
+/obj/structure/roguemachine/scomm/proc/repeat_message(message, atom/A, tcolor, message_language, list/tspans = list())
 	if(A == src)
 		return
 	if(tcolor)
 		voicecolor_override = tcolor
 	if(speaking && message)
 		playsound(loc, 'sound/vo/mobs/rat/rat_life.ogg', 100, TRUE, -1)
-		say(message, language = message_language)
+		say(message, spans = tspans, language = message_language)
 	voicecolor_override = null
 
 /obj/structure/roguemachine/scomm/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, message_mode, original_message)
@@ -255,10 +255,13 @@
 	var/usedcolor = H.voice_color
 	if(H.voicecolor_override)
 		usedcolor = H.voicecolor_override
+	var/list/tspans = list()
+	if(H.client.patreonlevel() >= GLOB.patreonsaylevel)
+		tspans |= SPAN_PATREON_SAY
 	if(raw_message)
 		if(calling)
 			if(calling.calling == src)
-				calling.repeat_message(raw_message, src, usedcolor, message_language)
+				calling.repeat_message(raw_message, src, usedcolor, message_language, tspans)
 			return
 		if(length(raw_message) > 100) //When these people talk too much, put that shit in slow motion, yeah
 			/*if(length(raw_message) > 200)
@@ -271,22 +274,24 @@
 		if(garrisonline)
 			raw_message = "<span style='color: [GARRISON_SCOM_COLOR]'>[raw_message]</span>" //Prettying up for Garrison line
 			for(var/obj/item/scomstone/garrison/S in SSroguemachine.scomm_machines)
-				S.repeat_message(raw_message, src, usedcolor, message_language)
+				S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
 			for(var/obj/item/scomstone/bad/garrison/S in SSroguemachine.scomm_machines)
-				S.repeat_message(raw_message, src, usedcolor, message_language)
+				S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
 			for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
 				if(S.garrisonline)
-					S.repeat_message(raw_message, src, usedcolor, message_language)
-			SSroguemachine.crown?.repeat_message(raw_message, src, usedcolor, message_language)
+					S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
+			SSroguemachine.crown?.repeat_message(raw_message, src, usedcolor, message_language, tspans)
 			return
+		if(H.client.patreonlevel() >= GLOB.patreonsaylevel)
+			raw_message = "<span class=\"[SPAN_PATREON_SAY]\">[raw_message]</span>"
 		for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
 			if(!S.calling)
-				S.repeat_message(raw_message, src, usedcolor, message_language)
+				S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
 		for(var/obj/item/scomstone/S in SSroguemachine.scomm_machines)
-			S.repeat_message(raw_message, src, usedcolor, message_language)
+			S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
 		for(var/obj/item/listenstone/S in SSroguemachine.scomm_machines)
-			S.repeat_message(raw_message, src, usedcolor, message_language)//make the listenstone hear scom
-		SSroguemachine.crown?.repeat_message(raw_message, src, usedcolor, message_language)
+			S.repeat_message(raw_message, src, usedcolor, message_language, tspans)//make the listenstone hear scom
+		SSroguemachine.crown?.repeat_message(raw_message, src, usedcolor, message_language, tspans)
 
 /obj/structure/roguemachine/scomm/proc/dictate_laws()
 	if(dictating)
@@ -349,15 +354,20 @@
 	if(user.voicecolor_override)
 		usedcolor = user.voicecolor_override
 	user.whisper(input_text)
+	var/list/tspans = list()
+	if(user.client.patreonlevel() >= GLOB.patreonsaylevel)
+		tspans |= SPAN_PATREON_SAY
+	if(user.client.patreonlevel() >= GLOB.patreonsaylevel)
+		input_text = "<span class=\"[SPAN_PATREON_SAY]\">[input_text]</span>"
 	if(length(input_text) > 100) //When these people talk too much, put that shit in slow motion, yeah
 		input_text = "<small>[input_text]</small>"
 	for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
-		S.repeat_message(input_text, src, usedcolor)
+		S.repeat_message(input_text, src, usedcolor, tspans = tspans)
 	for(var/obj/item/scomstone/S in SSroguemachine.scomm_machines)
-		S.repeat_message(input_text, src, usedcolor)
+		S.repeat_message(input_text, src, usedcolor, tspans = tspans)
 	for(var/obj/item/listenstone/S in SSroguemachine.scomm_machines)//make the listenstone hear scomstone
-		S.repeat_message(input_text, src, usedcolor)
-	SSroguemachine.crown?.repeat_message(input_text, src, usedcolor)
+		S.repeat_message(input_text, src, usedcolor, tspans = tspans)
+	SSroguemachine.crown?.repeat_message(input_text, src, usedcolor, tspans = tspans)
 
 /obj/item/scomstone/MiddleClick(mob/user)
 	if(.)
@@ -378,7 +388,7 @@
 	update_icon()
 	SSroguemachine.scomm_machines += src
 
-/obj/item/scomstone/proc/repeat_message(message, atom/A, tcolor, message_language)
+/obj/item/scomstone/proc/repeat_message(message, atom/A, tcolor, message_language, list/tspans = list())
 	if(A == src)
 		return
 	if(!ismob(loc))
@@ -387,7 +397,7 @@
 		voicecolor_override = tcolor
 	if(speaking && message)
 		playsound(loc, messagereceivedsound, 100, TRUE, -1)
-		say(message, language = message_language)
+		say(message, spans = tspans, language = message_language)
 	voicecolor_override = null
 
 
@@ -458,14 +468,14 @@
 	SSroguemachine.scomm_machines += src//dont know what this is for
 
 
-/obj/item/listenstone/proc/repeat_message(message, atom/A, tcolor, message_language)
+/obj/item/listenstone/proc/repeat_message(message, atom/A, tcolor, message_language, list/tspans = list())
 	if(A == src)
 		return
 	if(tcolor)
 		voicecolor_override = tcolor
 	if(speaking && message)
 		playsound(loc, 'sound/vo/mobs/rat/rat_life.ogg', 100, TRUE, -1)
-		say(message, language = message_language)
+		say(message, spans = tspans, language = message_language)
 	voicecolor_override = null
 
 /obj/item/listenstone/say(message, bubble_type, list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null)
@@ -535,10 +545,13 @@
 		if(user.voicecolor_override)
 			usedcolor = user.voicecolor_override
 		user.whisper(input_text)
+		var/list/tspans = list()
+		if(user.client.patreonlevel() >= GLOB.patreonsaylevel)
+			tspans |= SPAN_PATREON_SAY
 		if(length(input_text) > 100)
 			input_text = "<small>[input_text]</small>"
 		for(var/obj/item/mattcoin/S in SSroguemachine.scomm_machines)
-			S.repeat_message(input_text, src, usedcolor)
+			S.repeat_message(input_text, src, usedcolor, tspans = tspans)
 
 /obj/item/mattcoin/MiddleClick(mob/user)
 	if(.)
@@ -559,7 +572,7 @@
 	update_icon()
 	SSroguemachine.scomm_machines += src
 
-/obj/item/mattcoin/proc/repeat_message(message, atom/A, tcolor, message_language)
+/obj/item/mattcoin/proc/repeat_message(message, atom/A, tcolor, message_language, list/tspans = list())
 	if(A == src)
 		return
 	if(!ismob(loc))
@@ -568,7 +581,7 @@
 		voicecolor_override = tcolor
 	if(speaking && message)
 		playsound(loc, 'sound/foley/coins1.ogg', 20, TRUE, -1)
-		say(message, language = message_language)
+		say(message, spans = tspans, language = message_language)
 	voicecolor_override = null
 
 
@@ -609,7 +622,7 @@
 	grid_width = 32
 	grid_height = 32
 
-/obj/item/speakerinq/proc/repeat_message(message, atom/A, tcolor, message_language)
+/obj/item/speakerinq/proc/repeat_message(message, atom/A, tcolor, message_language, list/tspans = list())
 	if(A == src)
 		return
 	if(!ismob(loc))
@@ -618,7 +631,7 @@
 		voicecolor_override = tcolor
 	if(speaking && message)
 		playsound(loc, 'sound/vo/mobs/rat/rat_life.ogg', 20, TRUE, -1)
-		say(message, language = message_language)
+		say(message, spans = tspans, language = message_language)
 	voicecolor_override = null
 
 /obj/item/speakerinq/say(message, bubble_type, list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null)
@@ -708,12 +721,15 @@
 	var/usedcolor = H.voice_color
 	if(H.voicecolor_override)
 		usedcolor = H.voicecolor_override
+	var/list/tspans = list()
+	if(H.client.patreonlevel() >= GLOB.patreonsaylevel)
+		tspans |= SPAN_PATREON_SAY
 	if(!raw_message)
 		return
 	if(length(raw_message) > 100)
 		raw_message = "<small>[raw_message]</small>"
 	for(var/obj/item/speakerinq/S in SSroguemachine.scomm_machines)
-		S.repeat_message(raw_message, src, usedcolor, message_language)
+		S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
 
 // garrison scoms/listenstones
 
@@ -735,26 +751,29 @@
 	if(user.voicecolor_override)
 		usedcolor = user.voicecolor_override
 	user.whisper(input_text)
+	var/list/tspans = list()
+	if(user.client.patreonlevel() >= GLOB.patreonsaylevel)
+		tspans |= SPAN_PATREON_SAY
 	if(length(input_text) > 100) //When these people talk too much, put that shit in slow motion, yeah
 		input_text = "<small>[input_text]</small>"
 	if(garrisonline)
 		input_text = "<big><span style='color: [GARRISON_SCOM_COLOR]'>[input_text]</span></big>" //Prettying up for Garrison line
 		for(var/obj/item/scomstone/bad/garrison/S in SSroguemachine.scomm_machines)
-			S.repeat_message(input_text, src, usedcolor)
+			S.repeat_message(input_text, src, usedcolor, tspans = tspans)
 		for(var/obj/item/scomstone/garrison/S in SSroguemachine.scomm_machines)
-			S.repeat_message(input_text, src, usedcolor)
+			S.repeat_message(input_text, src, usedcolor, tspans = tspans)
 		for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
 			if(S.garrisonline)
-				S.repeat_message(input_text, src, usedcolor)
-		SSroguemachine.crown?.repeat_message(input_text, src, usedcolor)
+				S.repeat_message(input_text, src, usedcolor, tspans = tspans)
+		SSroguemachine.crown?.repeat_message(input_text, src, usedcolor, tspans = tspans)
 		return
 	for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
-		S.repeat_message(input_text, src, usedcolor)
+		S.repeat_message(input_text, src, usedcolor, tspans = tspans)
 	for(var/obj/item/scomstone/S in SSroguemachine.scomm_machines)
-		S.repeat_message(input_text, src, usedcolor)
+		S.repeat_message(input_text, src, usedcolor, tspans = tspans)
 	for(var/obj/item/listenstone/S in SSroguemachine.scomm_machines)
-		S.repeat_message(input_text, src, usedcolor)
-	SSroguemachine.crown?.repeat_message(input_text, src, usedcolor)
+		S.repeat_message(input_text, src, usedcolor, tspans = tspans)
+	SSroguemachine.crown?.repeat_message(input_text, src, usedcolor, tspans = tspans)
 
 /obj/item/scomstone/garrison/attack_self(mob/living/user)
 	if(.)

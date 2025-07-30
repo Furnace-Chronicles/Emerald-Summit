@@ -26,7 +26,7 @@
 /datum/outfit/job/roguetown/prisonerr/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	// Equip collar and loincloth only
-	neck = /obj/item/clothing/neck/roguetown/collar
+	neck = /obj/item/clothing/neck/roguetown/collar/leather
 	pants = /obj/item/clothing/under/roguetown/loincloth
 	ADD_TRAIT(H, TRAIT_OUTLAW, TRAIT_GENERIC)
 

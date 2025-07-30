@@ -45,7 +45,7 @@
 /datum/outfit/job/roguetown/nightmaiden/attendant/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/armingcap
-	neck = /obj/item/clothing/neck/roguetown/collar
+	neck = /obj/item/clothing/neck/roguetown/collar/leather
 	beltl = /obj/item/roguekey/nightmaiden
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backl = /obj/item/storage/backpack/rogue/satchel
@@ -103,14 +103,14 @@
 	)
 	if(should_wear_femme_clothes(H))
 		mask = /obj/item/clothing/mask/rogue/exoticsilkmask
-		neck = /obj/item/clothing/neck/roguetown/collar
+		neck = /obj/item/clothing/neck/roguetown/collar/leather
 		shirt = /obj/item/clothing/suit/roguetown/shirt/exoticsilkbra
 		pants = /obj/item/clothing/under/roguetown/tights/stockings/silk
 		shoes = /obj/item/clothing/shoes/roguetown/anklets
 		belt = /obj/item/storage/belt/rogue/leather/exoticsilkbelt
 	else
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
-		neck = /obj/item/clothing/neck/roguetown/collar/bell_collar
+		neck = /obj/item/clothing/neck/roguetown/collar/catbell
 		pants = /obj/item/clothing/under/roguetown/trou/leathertights
 		belt = /obj/item/storage/belt/rogue/leather/black
 		shoes = /obj/item/clothing/shoes/roguetown/sandals

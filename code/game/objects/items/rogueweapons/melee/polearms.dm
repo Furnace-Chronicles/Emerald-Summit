@@ -723,6 +723,7 @@
 	name = "Stigmata"
 	desc = "Christened in the Siege of Lirvas, these silver-tipped poleaxes - wielded by a lonesome contingent of Saint Eora's paladins - kept the horrors at bay for forty daes-and-nites. Long-since-recovered from the rubble, this relic now serve as a bulwark for the defenseless."
 	icon_state = "psyhalberd"
+	sellprice = 450 //price of the ingots plus.
 
 /obj/item/rogueweapon/halberd/psyhalberd/ComponentInitialize()
 	. = ..()				//+5 force, +100 blade int, +100 int, +2 def, make silver.
@@ -929,6 +930,7 @@
 	name = "Apocrypha"
 	desc = "In the Otavan mosaics, Saint Ravox - bare in all but a beaked helmet and loincloth - is often depicted wielding such an imposing greatweapon against the Dark Star, Graggar. Regardless of whether this relic was actually wielded by divinity-or-not, its unparallel strength will nevertheless command even the greatest foes to fall."
 	icon_state = "psygsword"
+	sellprice = 450 //2 bars plus
 
 /obj/item/rogueweapon/greatsword/psygsword/ComponentInitialize()
 	. = ..()					//+100 Blade int, +100 int, +2 def, make it silver

@@ -63,6 +63,7 @@
 	var/filter = owner.get_filter(GIANTSSTRENGTH_FILTER)
 	if (!filter)
 		owner.add_filter(GIANTSSTRENGTH_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 200, "size" = 1))
+		ADD_TRAIT(owner, TRAIT_STRENGTH_UNCAPPED, TRAIT_MIRACLE)
 	to_chat(owner, span_warning("My muscles strengthen."))
 
 
@@ -70,5 +71,6 @@
 	. = ..()
 	to_chat(owner, span_warning("My strength fades away..."))
 	owner.remove_filter(GIANTSSTRENGTH_FILTER)
+	REMOVE_TRAIT(owner, TRAIT_STRENGTH_UNCAPPED, TRAIT_MIRACLE)
 
 #undef GIANTSSTRENGTH_FILTER

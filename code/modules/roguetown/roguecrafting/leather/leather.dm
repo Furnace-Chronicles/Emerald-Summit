@@ -188,3 +188,11 @@
 	tools = list(/obj/item/needle)
 	craftdiff = 3
 	sellprice = 20
+
+/datum/crafting_recipe/roguetown/leather/neck/leather_leash
+	name = "leather leash (1 leather)"
+	result = /obj/item/leash/leather
+	reqs = list(/obj/item/natural/hide/cured = 1)
+	tools = list(/obj/item/needle)
+	time = 10 SECONDS
+	always_availible = TRUE

@@ -67,7 +67,7 @@
 	/obj/item/clothing/neck/roguetown/psicross/wood,
 	/obj/item/rope/chain,
 	/obj/item/rope,
-	/obj/item/clothing/neck/roguetown/collar,
+	/obj/item/clothing/neck/roguetown/collar/leather,
 	/obj/item/natural/dirtclod,
 	/obj/item/reagent_containers/glass/cup/wooden,
 	/obj/item/natural/glass,

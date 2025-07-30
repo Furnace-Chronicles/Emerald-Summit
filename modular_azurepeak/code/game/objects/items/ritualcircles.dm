@@ -374,7 +374,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	name = "Rune of Progress"
 	desc = "A Holy Rune of ZIZO"
 	icon_state = "zizo_chalky"
-	var/zizorites = list("Rite of Armaments")
+	var/zizorites = list("Rite of Armaments", "Rite of the Dark Crystal")
 
 /obj/structure/ritualcircle/zizo/attack_hand(mob/living/user)
 	if((user.patron?.type) != /datum/patron/inhumen/zizo)
@@ -387,7 +387,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
 		return
 	var/riteselection = input(user, "Rituals of Progress", src) as null|anything in zizorites
-	switch(riteselection) // put ur rite selection here
+	switch(riteselection)
 		if("Rite of Armaments")
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
@@ -407,6 +407,20 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 							icon_state = "zizo_active"
 							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 							zizoarmaments(target)
+							spawn(120)
+								icon_state = "zizo_chalky"
+		if("Rite of the Dark Crystal")
+			if(do_after(user, 50))
+				user.say("ZIZO! ZIZO! DAME OF PROGRESS!!")
+				if(do_after(user, 50))
+					user.say("ZIZO! ZIZO! GRANT THE CABAL THEIR RELIC!!")
+					if(do_after(user, 50))
+						user.say("ZIZO! ZIZO! THE DARK CRYSTAL TO COMMAND THE DEAD!!")
+						if(do_after(user, 50))
+							icon_state = "zizo_active"
+							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+							new /obj/item/necro_relics/necro_crystal(loc)
+							loc.visible_message(span_purple("A dark crystal materializes in the center of the ritual circle, pulsing with necromantic energy!"))
 							spawn(120)
 								icon_state = "zizo_chalky"
 
