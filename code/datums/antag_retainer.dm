@@ -6,6 +6,7 @@
 	var/list/werewolves = list()
 	var/list/liches = list()
 	var/list/bandits = list()
+	var/list/pontiffs = list()
 
 	//Minor antag types
 	var/list/wretches = list()
@@ -25,6 +26,11 @@
 	///bandit stuff
 	var/bandit_goal = 1
 	var/bandit_contribute = 0
+
+	///Pontiff stuff.
+	var/pontiff_stage = 0
+	///Same as the last relic being collected.
+	var/pontiff_goal = 3
 
 /proc/vampire_werewolf()
 	var/vampyr = 0

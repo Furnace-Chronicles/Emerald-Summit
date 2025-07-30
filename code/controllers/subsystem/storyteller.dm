@@ -1118,6 +1118,7 @@ SUBSYSTEM_DEF(gamemode)
 	GLOB.scarlet_round_stats[STATS_WEREVOLVES] = 0
 	GLOB.scarlet_round_stats[STATS_BANDITS] = 0
 	GLOB.scarlet_round_stats[STATS_VAMPIRES] = 0
+	GLOB.scarlet_round_stats[STATS_PONTIFFS] = 0
 	GLOB.scarlet_round_stats[STATS_DEADITES_ALIVE] = 0
 	GLOB.scarlet_round_stats[STATS_CLINGY_PEOPLE] = 0
 	GLOB.scarlet_round_stats[STATS_ALCOHOLICS] = 0
@@ -1179,6 +1180,8 @@ SUBSYSTEM_DEF(gamemode)
 			GLOB.scarlet_round_stats[STATS_WEREVOLVES]++
 		if(living.mind.has_antag_datum(/datum/antagonist/vampire))
 			GLOB.scarlet_round_stats[STATS_VAMPIRES]++
+		if(living.mind.has_antag_datum(/datum/antagonist/pontiff))
+			GLOB.scarlet_round_stats[STATS_PONTIFFS]++
 		if(living.mind.has_antag_datum(/datum/antagonist/zombie) || living.mind.has_antag_datum(/datum/antagonist/skeleton) || living.mind.has_antag_datum(/datum/antagonist/lich))
 			GLOB.scarlet_round_stats[STATS_DEADITES_ALIVE]++
 		if(ishuman(living))
@@ -1322,7 +1325,7 @@ SUBSYSTEM_DEF(gamemode)
 	var/total_influence = get_follower_influence(chosen_storyteller)
 	for(var/influence_factor in initialized_storyteller.influence_factors)
 		total_influence += calculate_specific_influence(chosen_storyteller, influence_factor)
-	
+
 	total_influence += initialized_storyteller.bonus_points
 
 	return total_influence

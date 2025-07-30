@@ -263,7 +263,7 @@
 				var/obj/item/I = parent
 				I.force = 20
 				I.force_wielded = 25
-				return		
+				return
 			if(STATE_MARTYR)
 				current_holder.STASTR += stat_bonus_martyr
 				//current_holder.STASPD += stat_bonus_martyr
@@ -345,7 +345,7 @@
 		I.icon_state = initial(I.icon_state)
 		I.item_state = initial(I.item_state)
 		I.toggle_state = null
-	
+
 	current_holder.regenerate_icons()
 
 //This is called once all the checks are passed and the options are made by the player to commit.
@@ -437,7 +437,7 @@
 	cmode_music = 'sound/music/combat_martyrsafe.ogg'
 
 	//No undeath-adjacent virtues for a role that can sacrifice itself. The Ten like their sacrifices 'pure'. (I actually didn't want to code returning those virtue traits post-sword use)
-	//They get those traits during sword activation, anyway. 
+	//They get those traits during sword activation, anyway.
 	//Dual wielder is there to stand-in for ambidextrous in case they activate their sword in their off-hand.
 	virtue_restrictions = list(/datum/virtue/utility/noble, /datum/virtue/combat/rotcured, /datum/virtue/utility/deadened, /datum/virtue/utility/deathless, /datum/virtue/combat/dualwielder, /datum/virtue/heretic/zchurch_keyholder)
 
@@ -534,7 +534,7 @@
 		else if (H.job in GLOB.church_positions)
 			to_chat(user, span_warning("You feel a jolt of holy energies just for a split second, and then the sword slips from your grasp! You are not devout enough."))
 			return FALSE
-		else if(istype(H.patron, /datum/patron/inhumen)) 
+		else if(istype(H.patron, /datum/patron/inhumen))
 			var/datum/component/martyrweapon/marty = GetComponent(/datum/component/martyrweapon)
 			to_chat(user, span_warning("YOU FOOL! IT IS ANATHEMA TO YOU! GET AWAY!"))
 			H.Stun(40)

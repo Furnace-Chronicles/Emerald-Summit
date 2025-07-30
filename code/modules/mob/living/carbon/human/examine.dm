@@ -108,7 +108,7 @@
 		if(HAS_TRAIT(src, TRAIT_CHOSEN))
 			. += span_notice("The ordained voice of the Ten!")
 
-		if (HAS_TRAIT(src, TRAIT_OUTLANDER) && !HAS_TRAIT(user, TRAIT_OUTLANDER)) 
+		if (HAS_TRAIT(src, TRAIT_OUTLANDER) && !HAS_TRAIT(user, TRAIT_OUTLANDER))
 			. += span_phobia("A foreigner...")
 
 		//For tennite schism god-event
@@ -138,11 +138,11 @@
 			var/datum/job/J = SSjob.GetJob(user.mind?.assigned_role)
 			if(J?.department_flag & GARRISON || J?.department_flag & NOBLEMEN)
 				. += span_greentext("<b>[m1] an agent of the court!</b>")
-		
+
 		if(user != src && !HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 			if(has_flaw(/datum/charflaw/addiction/lovefiend) && user.has_flaw(/datum/charflaw/addiction/lovefiend))
 				. += span_aiprivradio("[m1] as lovesick as I.")
-			
+
 			if(has_flaw(/datum/charflaw/addiction/junkie) && user.has_flaw(/datum/charflaw/addiction/junkie))
 				. += span_deadsay("[m1] carrying the same dust marks on their nose as I.")
 
@@ -178,7 +178,7 @@
 
 		if(leprosy == 1)
 			. += span_necrosis("A LEPER...")
-	
+
 		if (HAS_TRAIT(src, TRAIT_BEAUTIFUL))
 			switch (pronouns)
 				if (HE_HIM)
@@ -196,7 +196,7 @@
 					. += span_redtext("[m1] repugnant!")
 				if (THEY_THEM, THEY_THEM_F, IT_ITS)
 					. += span_redtext("[m1] repulsive!")
-	
+
 	if (HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS))
 		if(isliving(user))
 			var/mob/living/L = user
@@ -215,7 +215,7 @@
 		var/mob/living/carbon/human/H = user
 
 		if(HAS_TRAIT(H, TRAIT_INTELLECTUAL) || H.get_skill_level(H, /datum/skill/craft/blacksmithing) >= SKILL_EXP_EXPERT)
-			is_smart = TRUE	//Most of this is determining integrity of objects + seeing multiple layers. 
+			is_smart = TRUE	//Most of this is determining integrity of objects + seeing multiple layers.
 		if(((H?.STAINT - 10) + round((H?.STAPER - 10) / 2) + H.get_skill_level(/datum/skill/misc/reading)) < 0 && !is_smart)
 			is_stupid = TRUE
 		if(((H?.STAINT - 10) + (H?.STAPER - 10) + H.get_skill_level(/datum/skill/misc/reading)) >= 5)
@@ -739,7 +739,7 @@
 				. += span_warning("[t_He] look[p_s()] weaker than I.")
 			if(-INFINITY to -5)
 				. += span_warning("<B>[t_He] look[p_s()] much weaker than I.</B>")
-			
+
 	if((HAS_TRAIT(user,TRAIT_INTELLECTUAL)))
 		var/mob/living/L = user
 		var/final_int = STAINT
@@ -796,7 +796,7 @@
 			. += "<a href='?src=[REF(src)];inspect_limb=[checked_zone]'>Inspect [parse_zone(checked_zone)]</a>"
 			if(!(mobility_flags & MOBILITY_STAND) && user != src && (user.zone_selected == BODY_ZONE_CHEST))
 				. += "<a href='?src=[REF(src)];check_hb=1'>Listen to Heartbeat</a>"
-				
+
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		if(get_dist(src, H) <= ((2 + clamp(floor(((H.STAPER - 10))),-1, 4)) + HAS_TRAIT(user, TRAIT_INTELLECTUAL)))
@@ -825,7 +825,7 @@
 	var/trait_exam = common_trait_examine()
 	if(!isnull(trait_exam))
 		. += trait_exam
-	
+
 
 
 /mob/living/proc/status_effect_examines(pronoun_replacement) //You can include this in any mob's examine() to show the examine texts of status effects!
@@ -851,7 +851,7 @@
 
 	if(HAS_TRAIT(examiner, TRAIT_HERETIC_SEER))
 		seer = TRUE
-	
+
 	if(HAS_TRAIT(src, TRAIT_COMMIE))
 		if(seer)
 			heretic_text += "Matthiosan."
@@ -874,7 +874,7 @@
 			heretic_text += "Baotha's Touched."
 			if(HAS_TRAIT(examiner, TRAIT_DEPRAVED))
 				heretic_text += " She leads us to the greatest ends."
-	
+
 	return heretic_text
 
 /// Same as get_heretic_text, but returns a simple symbol depending on the type of heretic!
@@ -890,7 +890,7 @@
 		heretic_text += "♠"
 	else if(HAS_TRAIT(src, TRAIT_DEPRAVED) && HAS_TRAIT(examiner, TRAIT_DEPRAVED))
 		heretic_text += "♥"
-	
+
 	return heretic_text
 
 
@@ -913,11 +913,16 @@
 				villain_text = span_userdanger("BANDIT!")
 		if(mind.special_role == "Vampire Lord")
 			var/datum/antagonist/vampirelord/VD = mind.has_antag_datum(/datum/antagonist/vampirelord)
-			if(VD) 
+			if(VD)
 				if(!VD.disguised)
 					villain_text += span_userdanger("A MONSTER!")
 		if(mind.assigned_role == "Lunatic")
 			villain_text += span_userdanger("LUNATIC!")
+		if(mind.assigned_role == "Pontiff")
+			if(HAS_TRAIT(examiner, TRAIT_PSYDONITE))
+				villain_text = span_notice("Psydon's own!")
+			if(HAS_TRAIT(src,TRAIT_INQUISITION))
+				villain_text = span_userdanger("ANATHEMA!")
 
 	return villain_text
 

@@ -371,15 +371,31 @@
 	desc = "This is my sanctuary. I can overpower any opposition that dares breach it."
 	icon_state = "buff"
 
+/atom/movable/screen/alert/status_effect/buff/pontiffbuff
+	name = "Pontiff's Resolve"
+	desc = "His last order had been clear: 'ENDURE'"
+	icon_state = "buff"
+
+/datum/status_effect/buff/pontiffbuff
+	id = "pontiffbuff"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/pontiffbuff
+	effectedstats = list("endurance" = 6)//Just the ONE place on the entire map.
+
+/datum/status_effect/buff/pontiffbuff/process()
+	.=..()
+	var/area/rogue/our_area = get_area(owner)
+	if(!(our_area.pontiff_area))
+		owner.remove_status_effect(/datum/status_effect/buff/pontiffbuff)
+
 /datum/status_effect/buff/wardenbuff
 	id = "wardenbuff"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/wardenbuff
-	effectedstats = list("speed" = 1, "perception" = 3) 
+	effectedstats = list("speed" = 1, "perception" = 3)
 
 /datum/status_effect/buff/barkeepbuff
 	id = "barkeepbuff"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/barkeepbuff
-	effectedstats = list("constitution" = 1,"endurance" = 1, "speed" = 1, "strength" = 3) 
+	effectedstats = list("constitution" = 1,"endurance" = 1, "speed" = 1, "strength" = 3)
 
 /datum/status_effect/buff/barkeepbuff/process()
 
@@ -391,7 +407,7 @@
 /datum/status_effect/buff/guardbuffone
 	id = "guardbuffone"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/guardbuffone
-	effectedstats = list("constitution" = 1,"endurance" = 1, "speed" = 1, "perception" = 2) 
+	effectedstats = list("constitution" = 1,"endurance" = 1, "speed" = 1, "perception" = 2)
 
 /datum/status_effect/buff/dungeoneerbuff
 	id = "dungeoneerbuff"
@@ -543,7 +559,7 @@
 		owner.adjustOxyLoss(-healing_on_tick, 0)
 		owner.adjustToxLoss(-healing_on_tick, 0)
 		owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
-		owner.adjustCloneLoss(-healing_on_tick, 0)		
+		owner.adjustCloneLoss(-healing_on_tick, 0)
 
 /datum/status_effect/buff/rockmuncher
 	id = "rockmuncher"
@@ -999,7 +1015,7 @@
 	name = "Ready to Clash"
 	desc = span_notice("I am on guard, and ready to clash. If I am hit, I will successfully defend. Attacking will make me lose my focus.")
 	icon_state = "clash"
-  
+
 #define BLOODRAGE_FILTER "bloodrage"
 
 /atom/movable/screen/alert/status_effect/buff/graggar_bloodrage
@@ -1044,7 +1060,7 @@
 /datum/status_effect/buff/psydonic_endurance
 	id = "psydonic_endurance"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/psydonic_endurance
-	effectedstats = list("constitution" = 1,"endurance" = 1) 
+	effectedstats = list("constitution" = 1,"endurance" = 1)
 
 /datum/status_effect/buff/psydonic_endurance/on_apply()
 	. = ..()

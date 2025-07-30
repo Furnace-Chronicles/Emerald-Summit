@@ -21,7 +21,7 @@
 	var/current_tab = TAB_MAIN
 	var/compact = TRUE
 	var/total_deposit = 0
-	var/list/excluded_jobs = list("Wretch","Vagabond","Adventurer")
+	var/list/excluded_jobs = list("Wretch","Vagabond","Adventurer", "Pontiff")
 	var/current_category = "Raw Materials"
 	var/list/categories = list("Raw Materials", "Foodstuffs", "Fruits")
 
@@ -221,7 +221,7 @@
 			return
 		new_autoexport = round(new_autoexport)
 		SStreasury.autoexport_percentage = new_autoexport * 0.01
-	
+
 	return attack_hand(usr)
 
 /obj/structure/roguemachine/steward/proc/do_import(datum/roguestock/D,number)
@@ -329,7 +329,7 @@
 					else
 						if(A.importexport_amt)
 							contents += " <a href='?src=\ref[src];export=\ref[A]'>\[EXP [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
-			
+
 			else
 				contents += "Treasury: [SStreasury.treasury_value]m<BR>"
 				contents += "Lord's Tax: [SStreasury.tax_value*100]%<BR>"

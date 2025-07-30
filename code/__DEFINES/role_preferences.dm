@@ -49,6 +49,7 @@
 #define ROLE_NECRO_SKELETON		"Necromancer Skeleton"
 #define ROLE_LICH_SKELETON		"Lich Skeleton"
 #define ROLE_THIEVESGUILD "Thieves Guild"
+#define ROLE_PONTIFF "Psydonite Pontiff"
 
 GLOBAL_LIST_INIT(special_roles_rogue, list(
 	ROLE_MANIAC = /datum/antagonist/maniac,
@@ -58,7 +59,8 @@ GLOBAL_LIST_INIT(special_roles_rogue, list(
 	ROLE_WEREWOLF = /datum/antagonist/werewolf,
 	ROLE_NBEAST = /datum/antagonist/vampirelord,
 	ROLE_LICH = /datum/antagonist/lich,
-	ROLE_THIEVESGUILD = /datum/antagonist/thievesguild
+	ROLE_THIEVESGUILD = /datum/antagonist/thievesguild,
+	ROLE_PONTIFF = /datum/antagonist/pontiff
 ))
 
 //Job defines for what happens when you fail to qualify for any job during job selection

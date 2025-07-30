@@ -7,3 +7,6 @@
 #define ASCEND_FIRST "ascendantone"
 #define ASCEND_WAKENING "ascendanttwo"
 #define ASCEND_ASCENDANT "ascendantfinal"
+#define PONTIFF_ONE "pontiffone"
+#define PONTIFF_TWO "pontifftwo"
+#define PONTIFF_THREE "pontiffthree"

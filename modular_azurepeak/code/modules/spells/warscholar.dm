@@ -83,3 +83,18 @@
 	else if(easy_dismember)
 		return probability * 1.5
 	return probability
+
+//Pontiff variant.
+//Different draw / drop message.
+/obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/bladeofpsydon/pontiff
+	name = "Pontiff Blade"
+	antimagic_allowed = TRUE//The one guy using this is perma anti-magic. Required.
+	drawmessage = "I sweep my hand through the air, willing the perfect blade into existence. Yet, without Him to guide me? \
+	It's almost impossible to pull together anything larger. Stronger. Better. So, a small token of His will it shall be. Pity."
+	dropmessage = "Letting go, I watch the blade lose shape. His will made manifest, swept away by arcyne wind."
+	hand_path = /obj/item/melee/touch_attack/rogueweapon/bladeofpsydon/pontiff
+
+/obj/item/melee/touch_attack/rogueweapon/bladeofpsydon/pontiff
+	name = "\improper arcyne blade"
+	desc = "A manifestation of His will. Bound to my body, as I'm bound to Him. It pulses with energy, awaiting release."
+	associated_skill = /datum/skill/combat/knives

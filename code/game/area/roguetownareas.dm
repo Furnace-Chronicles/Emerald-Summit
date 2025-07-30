@@ -20,6 +20,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	var/tavern_area = FALSE
 	var/warden_area = FALSE
 	var/cell_area = FALSE
+	var/pontiff_area = FALSE
 	var/ceiling_protected = FALSE //Prevents tunneling into these from above
 
 /area/rogue/Entered(mob/living/carbon/human/guy)
@@ -45,6 +46,12 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	. = ..()
 	if((src.cell_area == TRUE) && HAS_TRAIT(guy, TRAIT_DUNGEONMASTER) && !guy.has_status_effect(/datum/status_effect/buff/dungeoneerbuff)) // Dungeoneer
 		guy.apply_status_effect(/datum/status_effect/buff/dungeoneerbuff)
+
+/area/rogue/Entered(mob/living/carbon/human/guy)
+
+	. = ..()
+	if((src.pontiff_area == TRUE) && HAS_TRAIT(guy, TRAIT_PONTIFF) && !guy.has_status_effect(/datum/status_effect/buff/pontiffbuff)) // Pontiff
+		guy.apply_status_effect(/datum/status_effect/buff/pontiffbuff)
 
 /area/rogue/indoors
 	name = "indoors rt"
@@ -1058,3 +1065,20 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = null
 	droning_sound_night = null
 	first_time_text = "The Forest of Repentence"
+
+// Pontiff area
+/area/rogue/under/cave/pontiff_shrine
+	name = "pontiff shrine"
+	warden_area = FALSE
+	pontiff_area = TRUE
+	icon_state = "underworld"
+	first_time_text = "FORGOTTEN SHRINE OF PSYDON"
+	droning_sound = 'sound/music/area/sleepingold.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+	mood_bonus = 2
+	mood_message = span_nicegreen("A calming force is invading my mind...\n")
+
+/area/rogue/under/cave/pontiff_shrine/interiors
+	name = "pontiff shrine interior"
+	icon_state = "basement"

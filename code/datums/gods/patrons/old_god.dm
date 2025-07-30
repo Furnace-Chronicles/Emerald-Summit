@@ -159,7 +159,7 @@
 		var/pp = 0
 		var/damtotal = brute + burn
 		var/zcross_trigger = FALSE
-		if(user.patron?.undead_hater && (target.mob_biotypes & MOB_UNDEAD)) // YOU ARE NO LONGER MORTAL. NO LONGER OF HIM. PSYDON WEEPS.
+		if(user.patron?.undead_hater && (target.mob_biotypes & MOB_UNDEAD) && !user.mind?.has_antag_datum(/datum/antagonist/pontiff)) // YOU ARE NO LONGER MORTAL. NO LONGER OF HIM. PSYDON WEEPS.
 			target.visible_message(span_danger("[target] shudders with a strange stirring feeling!"), span_userdanger("It hurts. You feel like weeping."))
 			target.adjustBruteLoss(40)
 			return TRUE
