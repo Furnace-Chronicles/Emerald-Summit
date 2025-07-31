@@ -6,7 +6,7 @@ Someone else can do it. Doubles as a healer, too, as the description would imply
 */
 /datum/advclass/pontiff/sanctifier
 	name = "Sanctifier"
-	tutorial = "A member of a knightly-priest caste. Wholly dedicated to maintaining order and discipline within the ranks Psydon's crusading forces. \
+	tutorial = "A member of a knightly-priest caste. Wholly dedicated to maintaining order and discipline within the ranks of Psydon's crusading forces. \
 	Charged with maintaining vigil over this lost shrine for centuries, perhaps it's time once more that you set your eyes to the surface. \
 	For He calls to you, from the shrine itself. A new purpose. Venture forth with your two companions. Your most trusted. \
 	Keep them alive, just as you do with the TRUE faith."
