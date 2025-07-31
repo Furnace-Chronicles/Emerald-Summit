@@ -1494,13 +1494,11 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/inhumen)
 "fo" = (
-/obj/structure/fluff/railing/wood{
-	dir = 4;
-	layer = 2.8;
-	pixel_x = 8
+/obj/effect/landmark/start/pontiff{
+	dir = 8
 	},
-/turf/open/floor/rogue/grass,
-/area/rogue/under/cave/pontiff_shrine)
+/turf/open/floor/rogue/church,
+/area/rogue/under/cave/pontiff_shrine/interiors)
 "ft" = (
 /obj/item/candle/skull,
 /turf/open/floor/rogue/herringbone,
@@ -1510,10 +1508,8 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/pontiff_shrine)
 "fF" = (
-/obj/effect/spawner/lootdrop/decrepit_equipment_spawner,
-/obj/effect/decal/remains/human,
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/under/cave/pontiff_shrine)
+/turf/open/floor/rogue/churchrough,
+/area/rogue/under/cave/pontiff_shrine/interiors)
 "fH" = (
 /obj/machinery/light/rogue/firebowl{
 	light_color = "#b30202"
@@ -1567,13 +1563,9 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/pontiff_shrine/interiors)
 "gn" = (
-/obj/structure/fluff/railing/wood{
-	dir = 8;
-	pixel_y = -1
-	},
-/obj/structure/flora/roguetree/burnt,
-/turf/open/floor/rogue/grass,
-/area/rogue/under/cave/pontiff_shrine)
+/obj/structure/table/church/m,
+/turf/open/floor/rogue/churchrough,
+/area/rogue/under/cave/pontiff_shrine/interiors)
 "gs" = (
 /obj/structure/closet/crate/chest,
 /turf/open/floor/rogue/blocks,
@@ -1609,14 +1601,11 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "gT" = (
-/obj/structure/flora/roguegrass/thorn_bush,
-/obj/structure/fluff/railing/wood{
-	dir = 4;
-	layer = 2.8;
-	pixel_x = 8
+/obj/effect/landmark/start/pontiff{
+	dir = 4
 	},
-/turf/open/floor/rogue/grass,
-/area/rogue/under/cave/pontiff_shrine)
+/turf/open/floor/rogue/church,
+/area/rogue/under/cave/pontiff_shrine/interiors)
 "hr" = (
 /obj/item/roguebin/water,
 /turf/open/floor/rogue/hexstone,
@@ -2085,26 +2074,9 @@
 	},
 /area/rogue/indoors)
 "pT" = (
-/obj/structure/fluff/railing/wood{
-	dir = 4;
-	layer = 2.8;
-	pixel_x = 8
-	},
-/obj/structure/fluff/railing/wood{
-	dir = 1
-	},
-/obj/structure/flora/roguetree/burnt,
-/turf/open/floor/rogue/grass,
-/area/rogue/under/cave/pontiff_shrine)
-"pU" = (
-/obj/structure/fluff/railing/wood{
-	dir = 4;
-	layer = 2.8;
-	pixel_x = 8
-	},
-/obj/structure/flora/roguetree/burnt,
-/turf/open/floor/rogue/grass,
-/area/rogue/under/cave/pontiff_shrine)
+/obj/structure/roguewindow/stained/silver,
+/turf/closed/wall/mineral/rogue/craftstone,
+/area/rogue/under/cave/pontiff_shrine/interiors)
 "pV" = (
 /obj/effect/decal/cleanable/dirt/cobweb,
 /obj/effect/decal/remains/human,
@@ -2231,7 +2203,10 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue)
 "sJ" = (
-/turf/open/floor/rogue/underworld/road,
+/obj/effect/landmark/start/pontiff{
+	dir = 1
+	},
+/turf/open/floor/rogue/church,
 /area/rogue/under/cave/pontiff_shrine/interiors)
 "sK" = (
 /obj/structure/fluff/statue/femalestatue/zizo{
@@ -2355,9 +2330,9 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors)
 "uq" = (
-/obj/structure/flora/roguegrass/thorn_bush,
-/turf/open/floor/rogue/grass,
-/area/rogue/under/cave/pontiff_shrine)
+/obj/structure/stairs/stone,
+/turf/open/floor/rogue/church,
+/area/rogue/under/cave/pontiff_shrine/interiors)
 "uw" = (
 /obj/structure/closet/dirthole/closed/loot,
 /obj/structure/gravemarker,
@@ -2619,10 +2594,14 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/banditcamp)
 "xU" = (
-/obj/effect/landmark/start/pontiff{
-	dir = 8
+/obj/structure/table/church{
+	icon_state = "churchtable_end"
 	},
-/turf/open/floor/rogue/underworld/road,
+/obj/item/candle/candlestick/silver/single/lit{
+	pixel_x = 6;
+	pixel_y = 18
+	},
+/turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/pontiff_shrine/interiors)
 "yk" = (
 /obj/structure/table/wood{
@@ -2636,10 +2615,8 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/inhumen)
 "yn" = (
-/obj/effect/landmark/start/pontiff{
-	dir = 1
-	},
-/turf/open/floor/rogue/underworld/road,
+/obj/structure/chair/stool/rogue,
+/turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/pontiff_shrine/interiors)
 "yu" = (
 /obj/structure/roguemachine/scomm,
@@ -2808,13 +2785,11 @@
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/outdoors)
 "AX" = (
-/obj/structure/flora/ausbushes/ppflowers,
-/obj/structure/fluff/railing/wood{
-	dir = 8;
-	pixel_y = -1
+/obj/machinery/light/rogue/wallfire/candle/floorcandle{
+	pixel_y = -14
 	},
-/turf/open/floor/rogue/grass,
-/area/rogue/under/cave/pontiff_shrine)
+/turf/open/floor/rogue/churchrough,
+/area/rogue/under/cave/pontiff_shrine/interiors)
 "Ba" = (
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
@@ -2863,10 +2838,16 @@
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/banditcamp)
 "Cc" = (
-/obj/effect/landmark/start/pontiff{
-	dir = 4
+/obj/structure/table/church,
+/obj/item/reagent_containers/glass/cup/silver/small{
+	pixel_x = -6;
+	pixel_y = 14
 	},
-/turf/open/floor/rogue/underworld/road,
+/obj/item/reagent_containers/glass/bottle/claybottle/wine{
+	pixel_x = 6;
+	pixel_y = 18
+	},
+/turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/pontiff_shrine/interiors)
 "Ce" = (
 /obj/structure/stairs,
@@ -3035,12 +3016,11 @@
 /turf/open/floor/rogue/metal,
 /area/rogue/under/cave/pontiff_shrine/interiors)
 "Eo" = (
-/obj/structure/flora/roguegrass/thorn_bush,
-/obj/structure/fluff/railing/wood{
-	dir = 1
+/obj/structure/mineral_door/wood/donjon/stone{
+	name = "Forgotten Shrine"
 	},
-/turf/open/floor/rogue/grass,
-/area/rogue/under/cave/pontiff_shrine)
+/turf/open/floor/rogue/churchrough,
+/area/rogue/under/cave/pontiff_shrine/interiors)
 "Ep" = (
 /obj/structure/fluff/railing/fence,
 /obj/structure/fluff/railing/fence{
@@ -3069,7 +3049,7 @@
 /area/rogue/under/cave/inhumen)
 "ED" = (
 /obj/machinery/light/rogue/wallfire/candle/floorcandle/alt,
-/turf/open/floor/rogue/blocks/platform,
+/turf/open/floor/rogue/cobblerock,
 /area/rogue/under/cave/pontiff_shrine)
 "EO" = (
 /obj/structure/bars,
@@ -3117,13 +3097,8 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/banditcamp)
 "Gg" = (
-/obj/structure/flora/roguegrass/thorn_bush,
-/obj/structure/fluff/railing/wood{
-	dir = 8;
-	pixel_y = -1
-	},
-/turf/open/floor/rogue/grass,
-/area/rogue/under/cave/pontiff_shrine)
+/turf/closed/wall/mineral/rogue/stone,
+/area/rogue/under/cave/pontiff_shrine/interiors)
 "Go" = (
 /obj/structure/flora/rogueshroom,
 /turf/open/floor/rogue/dirt,
@@ -3172,15 +3147,6 @@
 "GT" = (
 /turf/open/floor/rogue/metal,
 /area/rogue/under/cave/pontiff_shrine/interiors)
-"GU" = (
-/obj/structure/flora/ausbushes/brflowers,
-/obj/structure/fluff/railing/wood{
-	dir = 4;
-	layer = 2.8;
-	pixel_x = 8
-	},
-/turf/open/floor/rogue/grass,
-/area/rogue/under/cave/pontiff_shrine)
 "Hc" = (
 /obj/effect/landmark/start/bandit{
 	dir = 4
@@ -3325,15 +3291,8 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue)
 "Ju" = (
-/obj/structure/fluff/railing/wood{
-	dir = 8;
-	pixel_y = -1
-	},
-/obj/structure/fluff/railing/wood{
-	dir = 1
-	},
-/obj/structure/flora/roguetree/burnt,
-/turf/open/floor/rogue/grass,
+/obj/machinery/light/rogue/wallfire/candle/floorcandle,
+/turf/open/floor/rogue/cobblerock,
 /area/rogue/under/cave/pontiff_shrine)
 "JA" = (
 /obj/structure/table/wood{
@@ -3532,14 +3491,8 @@
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors)
 "NI" = (
-/obj/structure/fluff/railing/wood{
-	dir = 1;
-	layer = 2.7;
-	pixel_x = 2;
-	pixel_y = 7
-	},
-/turf/open/floor/rogue/cobblerock,
-/area/rogue/under/cave/pontiff_shrine)
+/turf/closed/wall/mineral/rogue/stone/moss,
+/area/rogue/under/cave/pontiff_shrine/interiors)
 "NQ" = (
 /obj/structure/fluff/alch,
 /turf/open/floor/rogue/blocks,
@@ -3729,18 +3682,19 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/inhumen)
 "Si" = (
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/under/cave/pontiff_shrine)
+/obj/machinery/light/rogue/wallfire/candle/floorcandle/alt{
+	pixel_y = -14
+	},
+/turf/open/floor/rogue/churchrough,
+/area/rogue/under/cave/pontiff_shrine/interiors)
 "Sj" = (
 /obj/machinery/light/rogue/wallfire/candle/r,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/inhumen)
 "So" = (
-/obj/machinery/light/rogue/wallfire/candle/floorcandle{
-	pixel_y = -14
-	},
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/under/cave/pontiff_shrine)
+/obj/machinery/light/rogue/wallfire/candle/floorcandle/alt,
+/turf/open/floor/rogue/churchrough,
+/area/rogue/under/cave/pontiff_shrine/interiors)
 "Su" = (
 /turf/closed/mineral/rogue/iron,
 /area/rogue/under/cave/pontiff_shrine)
@@ -3831,11 +3785,9 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/banditcamp)
 "Up" = (
-/obj/machinery/light/rogue/wallfire/candle/floorcandle/alt{
-	pixel_y = -14
-	},
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/under/cave/pontiff_shrine)
+/obj/machinery/light/rogue/wallfire/candle/floorcandle,
+/turf/open/floor/rogue/churchrough,
+/area/rogue/under/cave/pontiff_shrine/interiors)
 "Ut" = (
 /obj/effect/proc_holder/spell/invoked/heal,
 /obj/structure/table/wood{
@@ -3915,9 +3867,8 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue)
 "Vm" = (
-/obj/machinery/light/rogue/wallfire/candle/floorcandle,
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/under/cave/pontiff_shrine)
+/turf/open/floor/rogue/church,
+/area/rogue/under/cave/pontiff_shrine/interiors)
 "Vp" = (
 /obj/machinery/light/rogue/wallfire/candle/r,
 /turf/open/floor/rogue/hexstone,
@@ -4245,12 +4196,8 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/inhumen)
 "ZX" = (
-/obj/structure/fluff/railing/wood{
-	dir = 8;
-	pixel_y = -1
-	},
-/turf/open/floor/rogue/grass,
-/area/rogue/under/cave/pontiff_shrine)
+/turf/open/water/swamp,
+/area/rogue/under/cave/pontiff_shrine/interiors)
 
 (1,1,1) = {"
 rQ
@@ -10799,15 +10746,15 @@ Su
 PK
 vj
 vj
-vj
-vj
-vj
-vj
-vj
-vj
-vj
-vj
-vj
+Gg
+Gg
+pT
+Gg
+Gg
+Gg
+pT
+NI
+NI
 vj
 vj
 vj
@@ -10929,18 +10876,18 @@ je
 je
 vj
 vj
-vj
-Ju
 Gg
 ZX
-Si
-Gg
-AX
-gn
+ZX
+ZX
+ZX
+ZX
+ZX
+ZX
 NI
+AJ
 vj
-vj
-vj
+uZ
 Cx
 uZ
 uZ
@@ -11059,17 +11006,17 @@ vj
 vj
 vj
 vj
-vj
-Eo
-Si
-Si
-Si
+pT
+ZX
 fF
-Si
-uq
-NI
+fF
+fF
+fF
+fF
+ZX
+pT
 vj
-uZ
+vj
 uZ
 uZ
 uZ
@@ -11189,17 +11136,17 @@ vj
 vj
 vj
 vj
-vj
-fF
+NI
 Si
+gT
 Up
 Cc
-Vm
-Si
 fF
+fF
+AX
+Gg
+ED
 vj
-vj
-uZ
 Vt
 Vt
 Vt
@@ -11319,17 +11266,17 @@ vj
 vj
 vj
 vj
-vj
-Si
-Si
-sJ
+NI
+Vm
 MV
+sJ
+gn
 yn
-Si
-Si
+fF
+uq
+Eo
 vj
 vj
-uZ
 Vt
 gl
 wW
@@ -11449,16 +11396,16 @@ je
 uZ
 vj
 vj
-vj
-Si
-Si
+NI
+AX
+fo
 So
 xU
-ED
+fF
+fF
 Si
-Si
-vj
-vj
+Gg
+Ju
 vj
 Vt
 rm
@@ -11577,17 +11524,17 @@ yw
 yw
 je
 uZ
-uZ
 vj
 vj
-Eo
-Si
+pT
+ZX
 fF
-Si
 fF
-Si
-uq
-NI
+fF
+fF
+fF
+ZX
+pT
 vj
 vj
 EU
@@ -11709,15 +11656,15 @@ je
 Yx
 Yx
 vj
-vj
-pT
-gT
-GU
-Si
-fo
-gT
-pU
-NI
+Gg
+ZX
+ZX
+ZX
+ZX
+ZX
+ZX
+ZX
+Gg
 vj
 vj
 Vt
@@ -11839,17 +11786,17 @@ vd
 uZ
 Yx
 vj
+Gg
+NI
+pT
+NI
+NI
+Gg
+pT
+Gg
+Gg
 vj
 vj
-vj
-vj
-vj
-vj
-vj
-vj
-vj
-vj
-uZ
 Vt
 Uw
 lh
@@ -11974,12 +11921,12 @@ vj
 vj
 vj
 vj
+AJ
 vj
 vj
 vj
 vj
-Yx
-uZ
+AJ
 Vt
 Vt
 Vt
@@ -12108,7 +12055,7 @@ vj
 vj
 vj
 vj
-fu
+vj
 Yx
 Yx
 uZ
@@ -12232,10 +12179,10 @@ fT
 uZ
 tT
 vj
-vj
-vj
-vj
-vj
+uZ
+uZ
+uZ
+uZ
 vj
 tT
 uZ
