@@ -48,5 +48,6 @@ They cannot obtain any new spells roundstart, and must level(if even), but have 
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortitude)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/haste)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/recall)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravity)
 	H.ambushable = FALSE

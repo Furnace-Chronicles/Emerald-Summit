@@ -561,6 +561,47 @@
 		owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
 		owner.adjustCloneLoss(-healing_on_tick, 0)
 
+//Greater Psyheal. Raises blood level. Handles brute.
+/atom/movable/screen/alert/status_effect/buff/psyhealing_greater
+	name = "Pontiff's Gaze"
+	desc = "I ENDURE!"
+	icon_state = "buff"
+
+/datum/status_effect/buff/psyhealing_greater
+	id = "psyhealing_greater"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/psyhealing_greater
+	duration = 15 SECONDS
+	examine_text = "SUBJECTPRONOUN is EMBOLDENED by divine energy!"
+	var/healing_on_tick = 1
+	var/outline_colour = "#f8f8ff"
+
+/datum/status_effect/buff/psyhealing_greater/on_creation(mob/living/new_owner, new_healing_on_tick)
+	healing_on_tick = new_healing_on_tick
+	return ..()
+
+/datum/status_effect/buff/psyhealing_greater/on_apply()
+	SEND_SIGNAL(owner, COMSIG_LIVING_MIRACLE_HEAL_APPLY, healing_on_tick, src)
+	var/filter = owner.get_filter(PSYDON_HEALING_FILTER)
+	if (!filter)
+		owner.add_filter(PSYDON_HEALING_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
+	return TRUE
+
+/datum/status_effect/buff/psyhealing_greater/tick()
+	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/psyheal_rogue(get_turf(owner))
+	H.color = "#f8f8ff"
+	var/list/wCount = owner.get_wounds()
+	if(!owner.construct)
+		if(wCount.len > 0)
+			owner.heal_wounds(healing_on_tick * 1.75)
+			owner.update_damage_overlays()
+		if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
+			owner.blood_volume = min(owner.blood_volume + (healing_on_tick + 10), BLOOD_VOLUME_NORMAL)
+		owner.adjustBruteLoss(-healing_on_tick, 0)
+		owner.adjustOxyLoss(-healing_on_tick, 0)
+		owner.adjustToxLoss(-healing_on_tick, 0)
+		owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
+		owner.adjustCloneLoss(-healing_on_tick, 0)
+
 /datum/status_effect/buff/rockmuncher
 	id = "rockmuncher"
 	duration = 10 SECONDS

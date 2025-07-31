@@ -220,6 +220,14 @@
 			user.adjustBruteLoss(25)
 			return FALSE
 
+//Special check for Pontiffs, to make this into a proper miracle. It only looks to see if the caster is one.
+//Turns the Sanctifier into a proper miracle caster.
+		if(user.mind?.has_antag_datum(/datum/antagonist/pontiff))
+			if(!target.has_status_effect(/datum/status_effect/buff/fortify))
+				target.apply_status_effect(/datum/status_effect/buff/fortify)
+			target.apply_status_effect(/datum/status_effect/buff/psyhealing_greater, psyhealing)
+			return TRUE
+
 		target.apply_status_effect(/datum/status_effect/buff/psyhealing, psyhealing)
 		return TRUE
 

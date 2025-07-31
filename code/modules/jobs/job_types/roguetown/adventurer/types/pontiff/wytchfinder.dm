@@ -41,6 +41,7 @@ Something for the future, I suppose.
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/magic/arcane, 2, TRUE)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/evil()
 	H.change_stat("speed", 3)
 	H.change_stat("endurance", 3)
