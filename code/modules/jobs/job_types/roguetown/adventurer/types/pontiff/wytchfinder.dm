@@ -35,7 +35,7 @@ Something for the future, I suppose.
 	H.adjust_skillrank(/datum/skill/combat/knives, 5, TRUE)//Your singular weapon skill.
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/tracking, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)

@@ -1076,8 +1076,6 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound = 'sound/music/area/sleepingold.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
-	mood_bonus = 2
-	mood_message = span_nicegreen("A calming force is invading my mind...\n")
 
 /area/rogue/under/cave/pontiff_shrine/interiors
 	name = "pontiff shrine interior"
