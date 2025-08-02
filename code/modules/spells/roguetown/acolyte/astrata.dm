@@ -144,10 +144,6 @@
 			to_chat(user, span_warning("Nothing happens."))
 			revert_cast()
 			return FALSE
-		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
-			to_chat(user, span_warning("Astrata does not answer. Nothing happens."))
-			revert_cast()
-			return FALSE
 		if(GLOB.tod == "night")
 			to_chat(user, span_warning("Let there be light."))
 		for(var/obj/structure/fluff/psycross/S in oview(5, user))
