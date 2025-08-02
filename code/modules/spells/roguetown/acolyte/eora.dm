@@ -252,12 +252,6 @@
 		revert_cast()
 		return FALSE
 
-	if(HAS_TRAIT(target, TRAIT_PSYDONITE))
-		target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
-		playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		return FALSE
-
 
 	var/consent = alert(target, "[user] offers a lifebond. Accept?", "Heartweave", "Yes", "No")
 	if(consent != "Yes" || QDELETED(target))
