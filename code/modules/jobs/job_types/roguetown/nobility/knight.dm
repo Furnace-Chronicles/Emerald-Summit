@@ -6,7 +6,7 @@
 	faction = "Station"
 	total_positions = 3
 	spawn_positions = 3
-	allowed_races = RACES_NOBILITY_ELIGIBLE_UP
+	allowed_races = RACES_CHURCH_FAVORED_UP
 	allowed_patrons = NON_PSYDON_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)

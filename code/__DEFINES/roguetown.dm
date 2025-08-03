@@ -130,7 +130,6 @@
     /datum/species/human/halfelf,\
     /datum/species/demihuman,\
     /datum/species/dwarf/mountain,\
-	/datum/species/aasimar,\
 
 #define RACES_CHURCH_FAVORED \
 	/datum/species/aasimar,\
