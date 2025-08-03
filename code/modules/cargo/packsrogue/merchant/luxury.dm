@@ -94,7 +94,4 @@
 	cost = 300
 	contains = list(/obj/item/lovepotion)
 
-/datum/supply_pack/rogue/luxury/swatchbook
-	name = "Tailor's Swatchbook"
-	cost = 20
-	contains = list(/obj/item/book/rogue/swatchbook)
+

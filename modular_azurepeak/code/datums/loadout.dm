@@ -210,11 +210,6 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Dark Boots"
 	path = /obj/item/clothing/shoes/roguetown/boots
 
-/datum/loadout_item/eastcloak2
-	name = "Leather Cloak"
-	path = /obj/item/clothing/cloak/eastcloak2
-
-
 /datum/loadout_item/babouche
 	name = "Babouche"
 	path = /obj/item/clothing/shoes/roguetown/shalal
