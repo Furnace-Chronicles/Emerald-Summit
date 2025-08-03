@@ -1776,6 +1776,7 @@
 	name = "leather cloak"
 	desc = "A brown cloak. There's nothing special on it."
 	alternate_worn_layer = CLOAK_BEHIND_LAYER
+	color = null
 	icon_state = "eastcloak2"
 	item_state = "eastcloak2"
 	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
