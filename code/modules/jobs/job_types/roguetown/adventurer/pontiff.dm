@@ -59,6 +59,7 @@ Artefacts should push them towards being an adventurer party, I hope.
 	..()
 	var/datum/antagonist/new_antag = new /datum/antagonist/pontiff()
 	H.mind.add_antag_datum(new_antag)
+	SSmapping.retainer.pontiffs |= H.mind
 	addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "PONTIFF"), 5 SECONDS)
 	var/wanted = list("I have suffered the long dark", "I have remained of sound mind")
 	var/wanted_choice = input("Is my mind clear? My soul untainted?") as anything in wanted

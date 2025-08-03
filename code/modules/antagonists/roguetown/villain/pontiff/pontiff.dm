@@ -92,11 +92,14 @@
 		if(ishuman(owner.current))
 			var/mob/living/carbon/human/H = owner.current
 			the_name = H.real_name
-		to_chat(world, "[the_name] was one of Psydon's Pontiffs.")
+//		to_chat(world, "[the_name] was one of Psydon's Pontiffs.")
 		if(SSmapping.retainer.pontiff_stage >= SSmapping.retainer.pontiff_goal)
-			to_chat(world, "Psydon's Pontiffs have recovered all relics.")
+			for(var/datum/mind/M in SSmapping.retainer.pontiffs)
+				if(considered_alive(M))
+					M.adjust_triumphs(6)//Good work, trooper.
+			to_chat(world, "[the_name] had been a Pontiff. Their party has recovered all relics!")
 		else
-			to_chat(world, "Psydon's Pontiffs had [SSmapping.retainer.pontiff_goal - SSmapping.retainer.pontiff_stage] relics left to recover.")
+			to_chat(world, "[the_name] had been a Pontiff. Their party had [SSmapping.retainer.pontiff_goal - SSmapping.retainer.pontiff_stage] relics left to recover.")
 
 /datum/antagonist/pontiff/proc/add_objective(datum/objective/O)
 	objectives += O

@@ -1,6 +1,7 @@
 /obj/effect/proc_holder/spell/invoked/psydonlux_tamper
 	name = "WEEP FOR THEM"
-	overlay_state = "psydonweeps"
+	overlay_state = "bigpsy"
+//	overlay_state = "psydonweeps"
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 0
@@ -21,9 +22,9 @@
 		to_chat(user, span_warning("I cannot merge my Lux with Luxless beings."))
 		revert_cast()
 		return FALSE
-	
+
 	var/mob/living/carbon/human/H = targets[1]
-	
+
 	if(H == user)
 		to_chat(user, span_warning("I refuse to tamper with my own Lux."))
 		revert_cast()
@@ -33,8 +34,8 @@
 		to_chat(user, span_warning("[H]'s Lux is gone. I can't do anything, anymore."))
 		user.emote("cry")
 		revert_cast()
-		return FALSE	
-	
+		return FALSE
+
 	// Transfer wounds.
 	if(ishuman(H) && ishuman(user))
 		var/mob/living/carbon/human/C_target = H
@@ -48,15 +49,15 @@
 		//Transfer wounds from each bodypart.
 		for(var/datum/wound/targetwound in tw_List)
 			if (istype(targetwound, /datum/wound/dismemberment))
-				continue				
+				continue
 			if (istype(targetwound, /datum/wound/facial))
-				continue					
+				continue
 			if (istype(targetwound, /datum/wound/fracture/head))
-				continue				
+				continue
 			if (istype(targetwound, /datum/wound/fracture/neck))
 				continue
 			if (istype(targetwound, /datum/wound/cbt/permanent))
-				continue			
+				continue
 			var/obj/item/bodypart/c_BP = C_caster.get_bodypart(targetwound.bodypart_owner.body_zone)
 			c_BP.add_wound(targetwound.type)
 			var/obj/item/bodypart/t_BP = C_target.get_bodypart(targetwound.bodypart_owner.body_zone)
@@ -66,18 +67,18 @@
 	// Visual effects
 	user.visible_message(span_danger("[user] shoulders [H]'s wounds!"))
 	playsound(get_turf(user), 'sound/magic/psydonbleeds.ogg', 50, TRUE)
-	
-	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#487e97") 
-	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#487e97") 
-	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#487e97") 
-	new /obj/effect/temp_visual/psyheal_rogue(get_turf(user), "#487e97") 
-	new /obj/effect/temp_visual/psyheal_rogue(get_turf(user), "#487e97") 
-	new /obj/effect/temp_visual/psyheal_rogue(get_turf(user), "#487e97") 
-	
+
+	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#487e97")
+	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#487e97")
+	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#487e97")
+	new /obj/effect/temp_visual/psyheal_rogue(get_turf(user), "#487e97")
+	new /obj/effect/temp_visual/psyheal_rogue(get_turf(user), "#487e97")
+	new /obj/effect/temp_visual/psyheal_rogue(get_turf(user), "#487e97")
+
 	// Notify the user and target
 	to_chat(user, span_warning("You feel awash with the merging of your Lux for a brief moment."))
 	to_chat(H, span_info("You feel a strange stirring sensation pour over your Lux, stealing your wounds."))
-	
+
 	return TRUE
 
 /obj/effect/proc_holder/spell/self/psydonrespite
@@ -103,7 +104,7 @@
 	if(!ishuman(user))
 		revert_cast()
 		return FALSE
-		
+
 	var/mob/living/carbon/human/H = user
 	var/brute = H.getBruteLoss()
 	var/burn = H.getFireLoss()
@@ -117,7 +118,7 @@
 		if(current_item.type in list(/obj/item/clothing/neck/roguetown/zcross/aalloy, /obj/item/clothing/neck/roguetown/psicross, /obj/item/clothing/neck/roguetown/psicross/wood, /obj/item/clothing/neck/roguetown/psicross/aalloy, /obj/item/clothing/neck/roguetown/psicross/silver, /obj/item/clothing/neck/roguetown/psicross/g))
 			switch(current_item.type) // Worn Psicross Piety bonus. For fun.
 				if(/obj/item/clothing/neck/roguetown/psicross/wood)
-					psicross_bonus = -2				
+					psicross_bonus = -2
 				if(/obj/item/clothing/neck/roguetown/psicross/aalloy)
 					psicross_bonus = -4
 				if(/obj/item/clothing/neck/roguetown/psicross)
@@ -127,17 +128,17 @@
 				if(/obj/item/clothing/neck/roguetown/psicross/g) // PURITY AFLOAT.
 					psicross_bonus = -7
 				if(/obj/item/clothing/neck/roguetown/zcross/aalloy)
-					zcross_trigger = TRUE		
+					zcross_trigger = TRUE
 	if(brute > 100)
 		sit_bonus1 = -2
 	if(brute > 200)
-		sit_bonus1 = -4	
+		sit_bonus1 = -4
 	if(burn > 100)
-		sit_bonus2 = -2			
+		sit_bonus2 = -2
 	if(burn > 200)
-		sit_bonus2 = -4					
+		sit_bonus2 = -4
 
-	if(sit_bonus1 || sit_bonus2)				
+	if(sit_bonus1 || sit_bonus2)
 		conditional_buff = TRUE
 
 	var/bruthealval = -5 + psicross_bonus + sit_bonus1
@@ -147,13 +148,13 @@
 	if(zcross_trigger)
 		user.visible_message(span_warning("[user] shuddered. Something's very wrong."), span_userdanger("Cold shoots through my spine. Something laughs at me for trying."))
 		user.playsound_local(user, 'sound/misc/zizo.ogg', 25, FALSE)
-		user.adjustBruteLoss(25)		
+		user.adjustBruteLoss(25)
 		return FALSE
 
 	if(do_after(H, 50))
 		playsound(H, 'sound/magic/psydonrespite.ogg', 100, TRUE)
-		new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#e4e4e4") 
-		new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#e4e4e4") 
+		new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#e4e4e4")
+		new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#e4e4e4")
 		H.adjustBruteLoss(bruthealval)
 		H.adjustFireLoss(burnhealval)
 		to_chat(H, span_info("In a moment of quiet contemplation, I feel bolstered by my faith."))
@@ -163,5 +164,5 @@
 		return TRUE
 	else
 		to_chat(H, span_warning("My thoughts and sense of quiet escape me."))
-		
-	return FALSE			
+
+	return FALSE

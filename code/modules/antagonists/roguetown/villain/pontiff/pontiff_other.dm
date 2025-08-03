@@ -29,7 +29,9 @@
 /datum/objective/pontiff
 	name = "pontiff"
 	explanation_text = "Return relics to the statue."
-	triumph_count = 6//Good work, trooper.
+//Doesn't actually work? I 'unno. Awards otherwise in roundend_report.
+//Something is ALWAYS broken. RAAAAAAAA
+//	triumph_count = 6//Good work, trooper.
 
 /datum/objective/pontiff/check_completion()
 	if(SSmapping.retainer.pontiff_stage >= SSmapping.retainer.pontiff_goal)
