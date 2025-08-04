@@ -43,6 +43,7 @@ They cannot obtain any new spells roundstart, and must level(if even), but have 
 	H.change_stat("constitution", 1)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/message)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/guidance)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortitude)
