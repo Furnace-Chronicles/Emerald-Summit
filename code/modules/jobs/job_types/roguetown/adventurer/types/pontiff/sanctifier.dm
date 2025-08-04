@@ -44,7 +44,7 @@ Someone else can do it. Doubles as a healer, too, as the description would imply
 	H.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/magic/holy, 3, TRUE)//It's bleak, brothers. Hold true to the faith.
-	H.dna.species.soundpack_m = new /datum/voicepack/male/evil/blkknight()
+	H.dna.species.soundpack_m = new /datum/voicepack/male/evil()
 	H.change_stat("strength", 3)
 	H.change_stat("endurance", 3)
 	H.change_stat("constitution", 1)
