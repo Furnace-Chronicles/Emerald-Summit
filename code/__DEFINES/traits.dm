@@ -66,8 +66,8 @@
 #define TRAIT_PERMAMUTE "Permanent Mute"
 #define TRAIT_HERESIARCH "Forbidden Knowledge" //allows entry to ascendant church
 #define TRAIT_EXCOMMUNICATED "Excommunicated" //cannot be target of healing miracles of Ten or anastasia or cure rot
-#define TRAIT_PONTIFF "Pontiff" //Psydon's own (antag) gang. Used for travel tiles. Provides +6END when in the shrine.
-#define TRAIT_PONTIFF_ACCESS "Shrine Knowledge"
+#define TRAIT_PONTIFF "Pontiff" //Psydon's own (antag) gang. Provides +6END when in the shrine.
+#define TRAIT_PONTIFF_ACCESS "Shrine Knowledge" //To enable use of Pontiff shrine travel tiles.
 
 
 //Hearthstone port (Tracking)
