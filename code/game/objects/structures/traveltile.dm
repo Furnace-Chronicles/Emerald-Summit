@@ -159,7 +159,7 @@
 	required_trait = TRAIT_HERESIARCH //I'd tie this to trait_outlaw but unfortunately the heresiarch virtue exists so we're making a new trait instead.
 
 /obj/structure/fluff/traveltile/psydon
-	required_trait = TRAIT_PONTIFF
+	required_trait = TRAIT_PONTIFF_ACCESS//To stop ENDVRE maxing.
 
 /obj/structure/fluff/traveltile/dungeon
 	name = "gate"

@@ -23,6 +23,7 @@
 //We'll have the wide reaching traits handled by this, rather than the roles.
 	var/static/list/applied_traits = list(
 		TRAIT_PONTIFF,
+		TRAIT_PONTIFF_ACCESS,//To stop ENDVRE maxing. That's it. Outsiders getting 20 endurance inside the shrine was funny, but not intended.
 		TRAIT_OUTLANDER,//Not of this land.
 		TRAIT_STEELHEARTED,
 		TRAIT_NOBREATH,//They're technically corpses.

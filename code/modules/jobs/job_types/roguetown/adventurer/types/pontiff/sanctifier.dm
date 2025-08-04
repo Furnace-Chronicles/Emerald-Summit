@@ -19,7 +19,6 @@ Someone else can do it. Doubles as a healer, too, as the description would imply
 
 /datum/outfit/job/roguetown/pontiff/sanctifier/pre_equip(mob/living/carbon/human/H)
 	cloak = /obj/item/clothing/cloak/psydontabard
-	r_hand = /obj/item/rogueweapon/mace/goden/steel/paalloy
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/paalloy
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
@@ -32,7 +31,7 @@ Someone else can do it. Doubles as a healer, too, as the description would imply
 	beltl = /obj/item/flashlight/flare/torch/lantern/prelit
 	beltr = /obj/item/rogueweapon/mace/steel/palloy
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/gwstrap
+	backr = /obj/item/rogueweapon/mace/goden/steel/paalloy
 	backpack_contents = list(/obj/item/rope/chain = 2, /obj/item/clothing/neck/roguetown/psicross/aalloy = 1)
 	H.adjust_skillrank(/datum/skill/combat/maces, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)//For picking up one of the underdark weapons, given you'll probably upgrade.
