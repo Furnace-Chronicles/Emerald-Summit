@@ -3895,6 +3895,10 @@
 /area/rogue/under/cave/pontiff_shrine)
 "VJ" = (
 /obj/structure/closet/crate/chest/crate,
+/obj/item/paper,
+/obj/item/paper,
+/obj/item/paper,
+/obj/item/natural/feather,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/pontiff_shrine)
 "VS" = (
