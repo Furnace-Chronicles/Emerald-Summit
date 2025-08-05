@@ -19,7 +19,7 @@
 	var/maxtithing = 100
 	var/mintithing = 5
 	var/stopgambling = 0
-	var/probpenalty = 2
+//	var/probpenalty = 2 //previously used as penalty, now unused
 	var/oldtithe = 0
 
 
@@ -71,9 +71,11 @@
 		src.say(pick("Around and around I go, where I stop, only I know.", "Xylix smiles upon your idiocy, child.", "The wheel of fate spins, and spins.", "Oh, you poor fool.", "This is going to hurt for one of us.", "I laugh, you cry; I weep, you cheer..", "I will be your fool; I'll perform for you...", "Let's go gambling!", "Around and around, folly abounds.", "Dance with ruin and wealth."))
 		playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
 		playsound(src, 'sound/misc/letsgogambling.ogg', 100, FALSE, -1)
-		src.gamblingprob += (user.STALUC - src.probpenalty)
+		var/base_prob = 50
+		var/total_luck = user.STALUC + user.BUFLUC 
+		var/modifier = (total_luck - 10) * 5 //50% by default, 5% increase depending on how much fortune you have
+		src.gamblingprob = clamp(base_prob + modifier, 5, 95) //as low as 5, as high as 95
 		src.stopgambling = 1
-
 		src.checkchatter -= 1
 
 //thug shaker
