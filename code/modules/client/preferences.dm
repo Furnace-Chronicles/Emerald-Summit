@@ -151,7 +151,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/highlight_color = "#FF0000"
 	var/datum/charflaw/charflaw
 
-
+	var/datum/combat_music/combat_music
+	var/combat_music_helptext_shown = FALSE
 
 	var/crt = FALSE
 	var/grain = TRUE
@@ -395,6 +396,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 
 			dat += "<b>Dominance:</b> <a href='?_src_=prefs;preference=domhand'>[domhand == 1 ? "Left-handed" : "Right-handed"]</a><BR>"
+
+			var/musicname = (combat_music.shortname ? combat_music.shortname : combat_music.name)
+			dat += "<b>Combat Music:</b> <a href='?_src_=prefs;preference=combat_music;task=input'>[musicname || "FUCK!"]</a><BR>"
 
 /*
 			dat += "<br><br><b>Special Names:</b><BR>"
@@ -1563,6 +1567,28 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						to_chat(user, "Background: [selected_patron.desc]")
 						to_chat(user, "<font color='red'>Likely Worshippers: [selected_patron.worshippers]</font>")
 
+				if("combat_music") // if u change shit here look at /client/verb/combat_music() too
+					if(!combat_music_helptext_shown)
+						to_chat(user, span_notice("<span class='bold'>Combat Music Override</span>\n") + \
+						"Options other than \"Default\" override whatever the game dynamically sets for you, \
+						which is influenced by your job class, villain status, or certain events.\n\
+						You can change this later through \"Combat Mode Music\" in the Options tab.\"</span>")
+						combat_music_helptext_shown = TRUE
+					var/list/tracks_by_name = list()
+					for(var/path as anything in GLOB.cmode_tracks_list)
+						var/datum/combat_music/track = GLOB.cmode_tracks_list[path]
+						if(!track.name || tracks_by_name[track.name]) // containing damage from inevitable cockups
+							continue
+						tracks_by_name[track.name] = track
+					var/track_select = input(user, "Set a track to be your combat music.", "Combat Music", combat_music?.name) as null|anything in tracks_by_name
+					if(track_select)
+						combat_music = tracks_by_name[track_select]
+						to_chat(user, span_notice("Selected track: <b>[track_select]</b>."))
+						if(combat_music.desc)
+							to_chat(user, "<i>[combat_music.desc]</i>")
+						if(combat_music.credits)
+							to_chat(user, span_info("Song name: <b>[combat_music.credits]</b>"))
+
 				if("bdetail")
 					var/list/loly = list("Not yet.","Work in progress.","Don't click me.","Stop clicking this.","Nope.","Be patient.","Sooner or later.")
 					to_chat(user, "<font color='red'>[pick(loly)]</font>")
@@ -2430,6 +2456,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	character.name = character.real_name
 
 	character.domhand = domhand
+	character.cmode_music_override = combat_music.musicpath
+	character.cmode_music_override_name = combat_music.name
 	character.highlight_color = highlight_color
 	character.nickname = nickname
 

@@ -68,6 +68,10 @@
 		var/datum/loadout_item/loadout_item = new path()
 		GLOB.loadout_items[path] = loadout_item
 
+	for (var/path in subtypesof(/datum/combat_music))
+		var/datum/combat_music/combat_music = new path()
+		GLOB.cmode_tracks_list[path] = combat_music
+
 //creates every subtype of prototype (excluding prototype) and adds it to list L.
 //if no list/L is provided, one is created.
 /proc/init_subtypes(prototype, list/L)
