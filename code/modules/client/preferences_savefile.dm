@@ -431,7 +431,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	var/combat_music_type
 	S["combat_music"] >> combat_music_type
 	if (GLOB.cmode_tracks_list[combat_music_type])
-		combat_music = new combat_music_type()
+		combat_music = GLOB.cmode_tracks_list[combat_music_type]
 	else
 		combat_music = new /datum/combat_music/default()
 
