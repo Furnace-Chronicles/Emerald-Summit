@@ -19,11 +19,13 @@
 	if(HAS_TRAIT(user, TRAIT_OUTLAW))
 		to_chat(H, span_warning("The machine rejects you, sensing your status as an outlaw in these lands."))
 		return
+/*
 	if(HAS_TRAIT(user, TRAIT_OUTLANDER) && !HAS_TRAIT(user, TRAIT_NOBLE) && !HAS_TRAIT(user, TRAIT_INQUISITION))
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		loc.visible_message(span_warning("The meister turns its nose up at [user]'s hand."))
 		to_chat(user, span_danger("The machine spits on your ignoble foreign blood."))
 		return
+*/
 	if(drilled)
 		if(HAS_TRAIT(H, TRAIT_NOBLE))
 			if(!HAS_TRAIT(H, TRAIT_COMMIE))
