@@ -18,6 +18,7 @@ GLOBAL_LIST_EMPTY(cmode_tracks_list)
 	var/credits
 	var/musicpath = list()
 
+// Shit WILL break if you change /default's typepath. Don't do it.
 /datum/combat_music/default
 	name = "Default"
 	desc = "I let my current status sing for itself; its song will change dynamically."

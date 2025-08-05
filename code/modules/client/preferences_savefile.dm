@@ -433,7 +433,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if (GLOB.cmode_tracks_list[combat_music_type])
 		combat_music = GLOB.cmode_tracks_list[combat_music_type]
 	else
-		combat_music = new /datum/combat_music/default()
+		combat_music = GLOB.cmode_tracks_list[default_cmusic_type]
 
 /datum/preferences/proc/_load_appearence(S)
 	S["real_name"]			>> real_name
