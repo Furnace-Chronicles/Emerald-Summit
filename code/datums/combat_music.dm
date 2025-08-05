@@ -24,6 +24,7 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 		LAZYREMOVE(GLOB.cmode_tracks_by_type, track.type)
 		CRASH("CMODE MUSIC: type [track.type] has duplicate name \"[track.name]\"!")
 	GLOB.cmode_tracks_by_name[track.name] = track
+	return
 
 /datum/combat_music
 	var/name
