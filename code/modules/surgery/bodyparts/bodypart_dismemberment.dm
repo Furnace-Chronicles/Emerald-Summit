@@ -75,6 +75,21 @@
 						continue
 				CA.add_stress(stress2give)
 	if(grabbedby)
+		if(dam_type != BURN)
+			for(var/obj/item/grabbing/grab in grabbedby)
+				if(grab.grab_state != GRAB_AGGRESSIVE)
+					continue
+
+				var/mob/living/carbon/human = grab.grabbee
+				var/hand_index = human.get_held_index_of_item(grab)
+				human.dropItemToGround(grab)
+				drop_limb()
+				human.put_in_hand(src, hand_index)
+
+				qdel(grabbedby)
+				grabbedby = null
+				return TRUE
+
 		qdel(grabbedby)
 		grabbedby = null
 
@@ -286,7 +301,7 @@
 		var/list/worn_items = list(
 			owner.get_item_by_slot(SLOT_HEAD),
 			owner.get_item_by_slot(SLOT_GLASSES),
-			owner.get_item_by_slot(SLOT_NECK),
+			// owner.get_item_by_slot(SLOT_NECK), // We can still equip things in the neck, don't drop it.
 			owner.get_item_by_slot(SLOT_WEAR_MASK),
 			owner.get_item_by_slot(SLOT_MOUTH),
 		)
