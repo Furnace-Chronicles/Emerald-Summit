@@ -9,11 +9,25 @@
 	IMPORTANT! Be careful about adding songs to this list that aren't used anywhere else, lest you needlessly inflate the RSC.
 */
 
-GLOBAL_LIST_EMPTY(cmode_tracks_list)
+// Admins: please don't molest my lists. You can't add new types at runtime anyways. Kisses! - Zoktiik
+GLOBAL_LIST_EMPTY(cmode_tracks_by_type)
+GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
+
+// People make mistakes. This should help catch when that happens.
+/proc/cmode_track_to_namelist(var/datum/combat_music/track)
+	if(!track)
+		return
+	if(!track.name)
+		LAZYREMOVE(GLOB.cmode_tracks_by_type, track.type)
+		CRASH("CMODE MUSIC: type [track.type] has no name!") 
+	if(GLOB.cmode_tracks_by_name[track.name])
+		LAZYREMOVE(GLOB.cmode_tracks_by_type, track.type)
+		CRASH("CMODE MUSIC: type [track.type] has duplicate name \"[track.name]\"!")
+	GLOB.cmode_tracks_by_name[track.name] = track
 
 /datum/combat_music
-	var/name = "An Error"
-	var/desc = "You should not be seeing this."
+	var/name
+	var/desc
 	var/shortname
 	var/credits
 	var/musicpath = list()

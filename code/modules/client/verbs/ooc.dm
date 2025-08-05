@@ -603,21 +603,16 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 		to_chat(src, span_warning("You're not alive yet. Set this in your Game Preferences instead."))
 		return
 	var/mob/living/L = mob
-	var/list/tracks_by_name = list()
-	for(var/path as anything in GLOB.cmode_tracks_list)
-		var/datum/combat_music/track = GLOB.cmode_tracks_list[path]
-		if(!track.name || tracks_by_name[track.name]) // containing damage from inevitable cockups
-			continue
-		tracks_by_name[track.name] = track
 	var/track_select = input(src, "Choose a combat music track to use TEMPORARILY.\n\
 									You can set this permanently in Game Preferences.\
-									", "Combat Music", L.cmode_music_override_name) as null|anything in tracks_by_name
+									", "Combat Music", L.cmode_music_override_name)\
+									as null|anything in GLOB.cmode_tracks_by_name
 	if(track_select)
 		if(!isliving(mob)) // mob might've changed between then and now
 			return
 		L = mob
 		var/datum/combat_music/combat_music
-		combat_music = tracks_by_name[track_select]
+		combat_music = GLOB.cmode_tracks_by_name[track_select]
 		to_chat(src, span_notice("Selected track: <b>[track_select]</b>."))
 		if(combat_music.desc)
 			to_chat(src, "<i>[combat_music.desc]</i>")

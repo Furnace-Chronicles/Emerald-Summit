@@ -220,6 +220,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		charflaw = new charflaw()
 	if(!selected_patron)
 		selected_patron = GLOB.patronlist[default_patron]
+	if(!combat_music)
+		combat_music = GLOB.cmode_tracks_by_type[default_cmusic_type]
 	key_bindings = deepCopyList(GLOB.hotkey_keybinding_list_by_key) // give them default keybinds and update their movement keys
 	C.update_movement_keys()
 	if(!loaded_preferences_successfully)
@@ -1575,15 +1577,10 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						which is influenced by your job class, villain status, or certain events.\n\
 						You can change this later through \"Combat Mode Music\" in the Options tab.\"</span>")
 						combat_music_helptext_shown = TRUE
-					var/list/tracks_by_name = list()
-					for(var/path as anything in GLOB.cmode_tracks_list)
-						var/datum/combat_music/track = GLOB.cmode_tracks_list[path]
-						if(!track.name || tracks_by_name[track.name]) // containing damage from inevitable cockups
-							continue
-						tracks_by_name[track.name] = track
-					var/track_select = input(user, "Set a track to be your combat music.", "Combat Music", combat_music?.name) as null|anything in tracks_by_name
+					var/track_select = input(user, "Set a track to be your combat music.", "Combat Music", combat_music?.name)\
+											as null|anything in GLOB.cmode_tracks_by_name
 					if(track_select)
-						combat_music = tracks_by_name[track_select]
+						combat_music = GLOB.cmode_tracks_by_name[track_select]
 						to_chat(user, span_notice("Selected track: <b>[track_select]</b>."))
 						if(combat_music.desc)
 							to_chat(user, "<i>[combat_music.desc]</i>")
