@@ -199,6 +199,7 @@
 	max_integrity = 300
 	blade_dulling = DULLING_SHAFT_METAL
 	sellprice = 30
+	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/shield/tower/metal/getonmobprop(tag)
 	if(tag)
@@ -272,6 +273,7 @@
 	associated_skill = /datum/skill/combat/shields
 	grid_width = 32
 	grid_height = 64
+	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/shield/buckler/examine(mob/living/user)
 	. = ..()
@@ -344,6 +346,7 @@
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	possible_item_intents = list(SHIELD_SMASH_METAL, SHIELD_BLOCK) // No SHIELD_BASH. Too heavy to swing quickly, or something.
 	max_integrity = 200
+	smeltresult = /obj/item/ingot/iron
 
 /obj/item/rogueweapon/shield/iron/getonmobprop(tag)
 	. = ..()
