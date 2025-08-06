@@ -215,6 +215,45 @@
 	user_species.soul_light_on(user)
 	user_species.headless = TRUE
 
+	// Handle grabs when voluntarily removing head
+	if(grabbedby)
+		for(var/obj/item/grabbing/grab in grabbedby)
+			if(grab.grab_state != GRAB_AGGRESSIVE)
+				continue
+
+			var/mob/living/carbon/human = grab.grabbee
+			var/hand_index = human.get_held_index_of_item(grab)
+			human.dropItemToGround(grab)
+
+			// Handle worn items
+			if(!special)
+				var/list/worn_items = list(
+					"[SLOT_HEAD]" = owner.get_item_by_slot(SLOT_HEAD),
+					"[SLOT_WEAR_MASK]" = owner.get_item_by_slot(SLOT_WEAR_MASK),
+				)
+				head_items = list()
+				for(var/item_slot in worn_items)
+					var/obj/item/worn_item = worn_items[item_slot]
+					if(worn_item)
+						owner.dropItemToGround(worn_item, force = TRUE)
+
+						if(istype(worn_item, /obj/item/clothing/head/hooded) || HAS_TRAIT(worn_item, TRAIT_NODROP) || QDELETED(worn_item))
+							continue
+						head_items[item_slot] = worn_item
+						worn_item.forceMove(src)
+
+			// Call parent drop_limb without the grab handling
+			. = ..()
+
+			human.put_in_hand(src, hand_index)
+
+			// Clear the grabbedby list properly
+			grabbedby.Cut()
+			return
+
+		// Clear any remaining non-aggressive grabs
+		grabbedby.Cut()
+
 	// Sorry. Roguetown hardcodes variables and I don't want to do that.
 	if(!special)
 		var/list/worn_items = list(
