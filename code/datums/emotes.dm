@@ -107,7 +107,7 @@
 		tmp_sound = sound(get_sfx(tmp_sound))
 	tmp_sound.frequency = pitch
 
-	if(tmp_sound && (!only_forced_audio || !intentional))
+	if(tmp_sound && tmp_sound.file && (!only_forced_audio || !intentional))
 		// Specifying what bodyparts are needed to run an emote is a desireable replacement.
 		// Band-aid so emotes with sound aren't misplaced. You can still point with your head, for example.
 		var/soundfile = tmp_sound.file
