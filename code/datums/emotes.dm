@@ -121,9 +121,8 @@
 	if(!nomsg)
 		user.log_message(msg, LOG_EMOTE)
 		// Checks to see if we're emoting on the body while we have a head, or if we're emoting on the head.
-		if(human && ((dullahan && !dullahan.headless) || emotelocation != user))
-			if(human.voice_color)
-				msg = "<span style='color:#[human.voice_color];text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>[emotelocation]</b></span> " + msg
+		if(human && human.voice_color)
+			msg = "<span style='color:#[human.voice_color];text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>[emotelocation]</b></span> " + msg
 		else
 			msg = "<b>[emotelocation]</b> " + msg
 		for(var/mob/M in GLOB.dead_mob_list)
