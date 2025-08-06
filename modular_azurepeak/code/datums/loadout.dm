@@ -205,6 +205,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Rapscallion's Shawl"
 	path = /obj/item/clothing/cloak/thief_cloak
 
+/datum/loadout_item/wicker_cloak
+	name = "Wicker Cloak"
+	path = /obj/item/clothing/cloak/wickercloak
+
 //SHOES
 /datum/loadout_item/darkboots
 	name = "Dark Boots"
@@ -508,6 +512,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Naledian Psy-Bracelet"
 	path = /obj/item/clothing/neck/roguetown/psicross/naledi
 
+/datum/loadout_item/zcross_iron
+	name = "Zizo Cross"
+	path = /obj/item/clothing/neck/roguetown/zcross/iron
+
 /datum/loadout_item/chaperon
 	name = "Chaperon (Normal)"
 	path = /obj/item/clothing/head/roguetown/chaperon
@@ -539,10 +547,6 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/jestershoes
     name = "Jester's Shoes"
     path = /obj/item/clothing/shoes/roguetown/jester
-
-/datum/loadout_item/zcross_iron
-	name = "Zizo Cross"
-	path = /obj/item/clothing/neck/roguetown/zcross/iron
 
 //Donator Section
 //All these items are stored in the donator_fluff.dm in the azure modular folder for simplicity.

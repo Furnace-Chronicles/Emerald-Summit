@@ -240,7 +240,7 @@
 					cloak = /obj/item/clothing/cloak/templar/pestra
 				else
 					cloak = /obj/item/clothing/cloak/cape/crusader
-			var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman")
+			var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Trumpet")
 			var/weapon_choice = input("Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 			H.set_blindness(0)
 			switch(weapon_choice)
@@ -258,6 +258,8 @@
 					backr = /obj/item/rogue/instrument/viola
 				if("Vocal Talisman")
 					backr = /obj/item/rogue/instrument/vocals
+				if("Trumpet")
+					backr = /obj/item/rogue/instrument/trumpet
 
 		if("Missionary")
 			H.set_blindness(0)

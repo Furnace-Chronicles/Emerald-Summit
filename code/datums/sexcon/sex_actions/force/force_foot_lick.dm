@@ -12,11 +12,9 @@
 /datum/sex_action/force_foot_lick/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
 		return FALSE
-	if(!get_location_accessible(user, BODY_ZONE_PRECISE_L_FOOT))
+	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_L_FOOT) && !check_location_accessible(user, user, BODY_ZONE_PRECISE_R_FOOT))
 		return FALSE
-	if(!get_location_accessible(user, BODY_ZONE_PRECISE_R_FOOT))
-		return FALSE
-	if(!get_location_accessible(target, BODY_ZONE_PRECISE_MOUTH))
+	if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_MOUTH))
 		return FALSE
 	return TRUE
 

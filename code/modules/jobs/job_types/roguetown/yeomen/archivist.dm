@@ -48,7 +48,6 @@
 	H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/magic/arcane, 2, TRUE)
-	H?.mind.adjust_spellpoints(12)
 	H.grant_language(/datum/language/elvish)
 	H.grant_language(/datum/language/dwarvish)
 	H.grant_language(/datum/language/celestial)
@@ -68,7 +67,8 @@
 	H.change_stat("strength", -1)
 	H.change_stat("constitution", -1)
 	H.change_stat("intelligence", 4)
-	if(H.mind)
+	if (H && H.mind)
+		H.mind.adjust_spellpoints(12)// DelineFortune: H?.mind.adjust_spellpoints(12) - is not correct way because how do you want to add points to /mob/living/carbon/human/dummy???
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/teach)
 	if(H.age == AGE_OLD)
 		H.change_stat("speed", -1)

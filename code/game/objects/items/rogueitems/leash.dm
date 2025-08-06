@@ -58,7 +58,7 @@
 	equip_sound = 'sound/foley/equip/rummaging-01.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	throw_range = 4
-	slot_flags = ITEM_SLOT_HIP //Stop adding item_slot_belt, item_slot_belt is only compatable with inventory storage items and runtimes and breaks when used with anything else.
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_POCKET //Stop adding item_slot_belt, item_slot_belt is only compatable with inventory storage items and runtimes and breaks when used with anything else.
 	force = 1
 	throwforce = 1
 	w_class = WEIGHT_CLASS_SMALL
@@ -86,6 +86,7 @@
 
 /obj/item/leash/process(delta_time)
 	if(!leash_pet) //No pet, break loop
+		w_class = WEIGHT_CLASS_SMALL
 		return PROCESS_KILL
 	if(!leash_pet.get_item_by_slot(SLOT_NECK)) //The pet has slipped their collar and is not the pet anymore.
 		for(var/mob/viewing in viewers(leash_pet, null))
@@ -96,6 +97,7 @@
 			else
 				viewing.show_message("<span class='notice'>[leash_pet] has slipped out of their collar!</span>")
 		leash_pet.remove_status_effect(/datum/status_effect/leash_pet)
+		w_class = WEIGHT_CLASS_SMALL
 
 	if(!leash_pet.has_status_effect(/datum/status_effect/leash_pet)) //If there is no pet, there is no dom. Loop breaks.
 		if(leash_master) UnregisterSignal(leash_master, COMSIG_MOVABLE_MOVED)
@@ -107,6 +109,7 @@
 		leash_freepet = null
 		leash_master = null
 		leash_pet = null
+		w_class = WEIGHT_CLASS_SMALL
 		return PROCESS_KILL
 
 //Called when someone is clicked with the leash
@@ -141,6 +144,7 @@
 			log_combat(user, C, "leashed", addition="playfully")
 			C.apply_status_effect(/datum/status_effect/leash_pet)//Has now been leashed
 			leash_pet = C //Save pet reference for later
+			w_class = WEIGHT_CLASS_BULKY //This plus ITEM_SLOT_POCKET prevents putting into backpacks and other storage while still fitting on belt. When process kills, weightclass is returned to smol and backpackable.
 			if(!(user == leash_pet)) //Pet leashed themself. They are not the dom
 				leash_master = user //Save dom reference for later
 				user.apply_status_effect(/datum/status_effect/leash_owner) //Is the leasher
@@ -202,7 +206,9 @@
 	if(leash_pet == null)
 		return
 	apply_tug_mob_to_mob(leash_pet, leash_master, 1)
-
+	if(leash_pet.cmode && leash_master.m_intent == MOVE_INTENT_RUN) //stamina infliction Calls if pet has combatmode enabled while master has run intent active.
+		leash_master.stamina_add(1)
+		
 	//Knock the pet over if they get further behind. Shouldn't happen too often.
 	sleep(3) //This way running normally won't just yank the pet to the ground.
 	if(!leash_master) //Just to stop error messages. Break the loop early if something removed the master

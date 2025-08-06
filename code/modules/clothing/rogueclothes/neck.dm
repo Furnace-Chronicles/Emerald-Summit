@@ -322,6 +322,7 @@
 	body_parts_covered = NECK
 	prevent_crits = list()
 	blocksound = PLATEHIT
+	leashable = TRUE
 
 /obj/item/clothing/neck/roguetown/gorget/cursed_collar/Initialize()
 	. = ..()

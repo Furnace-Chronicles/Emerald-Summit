@@ -141,7 +141,7 @@
 			ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
 			H.cmode_music = 'sound/music/combat_bard.ogg'
-			var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman")
+			var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Trumpet")
 			var/weapon_choice = input("Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 			H.set_blindness(0)
 			switch(weapon_choice)
@@ -159,6 +159,8 @@
 					backr = /obj/item/rogue/instrument/viola
 				if("Vocal Talisman")
 					backr = /obj/item/rogue/instrument/vocals
+				if("Trumpet")
+					backr = /obj/item/rogue/instrument/trumpet
 			H.change_stat("intelligence", 2)
 			H.change_stat("endurance", 1)
 			H.change_stat("speed", 2)

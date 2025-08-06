@@ -246,6 +246,13 @@
 
 
 	if(thrown_thing)
+		// Admin alert for coin throws
+		if(istype(thrown_thing, /obj/item/roguecoin))
+			var/obj/item/roguecoin/coin = thrown_thing
+			var/coin_text = coin.quantity > 1 ? "[coin.quantity] [coin.name]" : coin.name
+			message_admins("[ADMIN_LOOKUPFLW(src)] has thrown [coin_text] at [target] ([AREACOORD(target)])")
+			log_admin("[key_name(src)] has thrown [coin_text] at [target] ([AREACOORD(target)])")
+		
 		if(!thrown_speed)
 			thrown_speed = thrown_thing.throw_speed
 		if(!thrown_range)
@@ -1294,7 +1301,7 @@
 	if(mouth?.muteinmouth)
 		return FALSE
 	for(var/obj/item/grabbing/grab in grabbedby)
-		if((grab.sublimb_grabbed == BODY_ZONE_PRECISE_MOUTH) && (get_location_accessible(src, BODY_ZONE_PRECISE_MOUTH)))
+		if(grab.sublimb_grabbed == BODY_ZONE_PRECISE_MOUTH)
 			return FALSE
 	if(istype(loc, /turf/open/water) && !(mobility_flags & MOBILITY_STAND))
 		return FALSE
