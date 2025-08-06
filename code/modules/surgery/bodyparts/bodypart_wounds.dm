@@ -107,6 +107,9 @@
 		if(!embedded.embedding.embedded_bloodloss)
 			continue
 		bleed_rate += embedded.embedding.embedded_bloodloss
+	// Ensure grabbedby is a list so it can be properly .Cut()'d
+	if(!islist(grabbedby))
+		grabbedby = list()
 	for(var/obj/item/grabbing/grab in grabbedby)
 		bleed_rate *= grab.bleed_suppressing
 	bleed_rate = max(round(bleed_rate, 0.1), 0)

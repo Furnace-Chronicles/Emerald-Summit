@@ -34,6 +34,8 @@
 	var/mob/p = usr
 	if(QDELETED(src))
 		return FALSE
+	if(!p)
+		return FALSE
 	if(p.client)
 		var/atom/AT = get_turf(p.client.eye)
 		if(!p.client.mouseovertext)

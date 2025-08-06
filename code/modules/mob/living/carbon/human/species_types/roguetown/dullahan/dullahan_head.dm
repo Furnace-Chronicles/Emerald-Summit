@@ -216,6 +216,9 @@
 	user_species.headless = TRUE
 
 	// Handle grabs when voluntarily removing head
+	// Ensure grabbedby is a list so it can be properly .Cut()'d
+	if(!islist(grabbedby))
+		grabbedby = list()
 	if(grabbedby)
 		for(var/obj/item/grabbing/grab in grabbedby)
 			if(grab.grab_state != GRAB_AGGRESSIVE)
@@ -338,6 +341,9 @@
 	//C.emote("painscream") // Should we still scream? Decapitations would happen quite often.
 	//src.add_mob_blood(C)
 
+	// Ensure grabbedby is a list so it can be properly .Cut()'d
+	if(!islist(grabbedby))
+		grabbedby = list()
 	if(grabbedby)
 		if(dam_type != BURN)
 			for(var/obj/item/grabbing/grab in grabbedby)
@@ -350,20 +356,20 @@
 				drop_limb(FALSE)
 				human.put_in_hand(src, hand_index)
 
-				qdel(grabbedby)
-				grabbedby = null
+				grabbedby.Cut()
 				return TRUE
 
-		qdel(grabbedby)
-		grabbedby = null
+		grabbedby.Cut()
 
 	drop_limb(FALSE)
 	if(dam_type == BURN)
 		burn()
 		return TRUE
 
-	var/obj/item/organ/dullahan_vision/vision = owner.getorganslot(ORGAN_SLOT_HUD)
-	vision.viewing_head = TRUE
+	if(owner)
+		var/obj/item/organ/dullahan_vision/vision = owner.getorganslot(ORGAN_SLOT_HUD)
+		if(vision)
+			vision.viewing_head = TRUE
 
 	var/turf/location = C.loc
 	if(istype(location))

@@ -163,7 +163,8 @@
 			continue
 		var/bodypart_pain = ((limb.brute_dam + limb.burn_dam) / limb.max_damage) * limb.max_pain_damage
 		for(var/datum/wound/wound as anything in limb.wounds)
-			bodypart_pain += wound.woundpain
+			if(wound)
+				bodypart_pain += wound.woundpain
 		bodypart_pain = min(bodypart_pain, limb.max_pain_damage)
 		. += bodypart_pain
 	.

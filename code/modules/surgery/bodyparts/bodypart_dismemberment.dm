@@ -74,6 +74,9 @@
 					if(HAS_TRAIT(CA, TRAIT_STEELHEARTED))
 						continue
 				CA.add_stress(stress2give)
+	// Ensure grabbedby is a list so it can be properly .Cut()'d
+	if(!islist(grabbedby))
+		grabbedby = list()
 	if(grabbedby)
 		if(dam_type != BURN)
 			for(var/obj/item/grabbing/grab in grabbedby)
@@ -86,12 +89,12 @@
 				drop_limb()
 				human.put_in_hand(src, hand_index)
 
-				qdel(grabbedby)
-				grabbedby = null
+				if(grabbedby)
+					grabbedby.Cut()
 				return TRUE
 
-		qdel(grabbedby)
-		grabbedby = null
+		if(grabbedby)
+			grabbedby.Cut()
 
 	drop_limb()
 	if(dam_type == BURN)
@@ -139,11 +142,12 @@
 	if(length(wounds))
 		var/list/stored_wounds = list()
 		for(var/datum/wound/wound as anything in wounds)
-			wound.remove_from_bodypart()
-			if(wound.qdel_on_droplimb)
-				qdel(wound)
-			else
-				stored_wounds += wound //store for later when the limb is reattached
+			if(wound)
+				wound.remove_from_bodypart()
+				if(wound.qdel_on_droplimb)
+					qdel(wound)
+				else
+					stored_wounds += wound //store for later when the limb is reattached
 		wounds = stored_wounds
 	//if we had an ongoing surgery on this limb, we stop it
 	for(var/body_zone in was_owner.surgeries)
@@ -364,8 +368,9 @@
 		stored_organ.Insert(C)
 
 	for(var/datum/wound/wound as anything in wounds)
-		wounds -= wound
-		wound.apply_to_bodypart(src, silent = TRUE, crit_message = FALSE)
+		if(wound)
+			wounds -= wound
+			wound.apply_to_bodypart(src, silent = TRUE, crit_message = FALSE)
 
 	var/obj/item/bodypart/affecting = C.get_bodypart(BODY_ZONE_CHEST)
 	if(affecting && dismember_wound)
