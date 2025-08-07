@@ -9,7 +9,7 @@
 	releasedrain = 30
 	chargedrain = 1
 	chargetime = 15
-	recharge_time = 25 SECONDS
+	recharge_time = 20 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -21,7 +21,7 @@
 	spell_tier = 2
 	invocation = "Fulmen!"
 	invocation_type = "shout"
-	cost = 6
+	cost = 3
 	xp_gain = TRUE
 
 /obj/projectile/magic/lightning
@@ -32,7 +32,8 @@
 	hitscan = TRUE
 	movement_type = UNSTOPPABLE
 	light_color = LIGHT_COLOR_WHITE
-	damage = 15
+	damage = 40
+	npc_damage_mult = 3
 	damage_type = BURN
 	accuracy = 40 // Base accuracy is lower for burn projectiles because they bypass armor
 	nodamage = FALSE
@@ -52,10 +53,8 @@
 			return BULLET_ACT_BLOCK
 		if(isliving(target))
 			var/mob/living/L = target
-			if(L.STACON <= 14)
-				L.electrocute_act(2, src, 2, SHOCK_NOSTUN)
-				L.Paralyze(10)
-			else
-				L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
-				L.Paralyze(10)
+			L.Immobilize(0.2 SECONDS)
+			L.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+			L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
+			L.apply_status_effect(/datum/status_effect/buff/lightningstruck, 1.2 SECONDS)
 	qdel(src)

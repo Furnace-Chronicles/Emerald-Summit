@@ -3067,7 +3067,6 @@
 /obj/effect/decal/cleanable/dirt/cobweb,
 /obj/effect/spawner/lootdrop/roguetown/sewers,
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /turf/open/floor/rogue/cobble,
@@ -3853,7 +3852,6 @@
 /area/rogue/indoors/town)
 "cCO" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/machinery/light/rogue/wallfire/candle,
@@ -6248,7 +6246,6 @@
 /area/rogue/under/town/sewer)
 "ejk" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /turf/open/floor/carpet/red,
@@ -6391,7 +6388,6 @@
 	dir = 1
 	},
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /turf/open/floor/rogue/cobble,
@@ -6981,7 +6977,6 @@
 /area/rogue/outdoors/mountains)
 "eNa" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/item/rogueweapon/woodstaff,
@@ -7224,7 +7219,6 @@
 /area/rogue/indoors/town/physician)
 "eVG" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/item/rogueweapon/mace/woodclub,
@@ -8552,7 +8546,6 @@
 /area/rogue/under/town/basement/keep)
 "fUG" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/machinery/light/rogue/torchholder/l,
@@ -8613,7 +8606,6 @@
 /area/rogue/indoors/town)
 "fXb" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/machinery/light/rogue/torchholder/r,
@@ -9241,7 +9233,6 @@
 /area/rogue/indoors/town/bath)
 "gvO" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /turf/open/floor/rogue/blocks,
@@ -9460,7 +9451,6 @@
 	pixel_y = 32
 	},
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /turf/open/floor/rogue/wood,
@@ -10487,7 +10477,6 @@
 	layer = 2.81
 	},
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /turf/open/floor/rogue/cobble,
@@ -10712,7 +10701,6 @@
 /area/rogue/indoors/town/manor)
 "hCc" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/item/reagent_containers/glass/cup/steel,
@@ -11844,7 +11832,6 @@
 /area/rogue/indoors/town/vault)
 "iwd" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /turf/open/floor/rogue/ruinedwood{
@@ -12916,7 +12903,6 @@
 /area/rogue/under/town/basement)
 "jiG" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/effect/spawner/lootdrop/roguetown/sewers,
@@ -13354,7 +13340,6 @@
 /area/rogue/indoors/town)
 "jAw" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/item/reagent_containers/glass/cup/wooden,
@@ -13828,7 +13813,6 @@
 /area/rogue/indoors/town/tavern)
 "jPP" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /turf/open/floor/rogue/ruinedwood,
@@ -15316,7 +15300,6 @@
 /area/rogue/indoors/town/garrison)
 "kOv" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/item/reagent_containers/glass/cup/wooden,
@@ -15541,7 +15524,6 @@
 /area/rogue/under/town/basement/keep)
 "kUP" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/item/reagent_containers/glass/cup/wooden,
@@ -16681,7 +16663,6 @@
 	icon_state = "cobbleedge-w"
 	},
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/item/millstone{
@@ -19000,7 +18981,6 @@
 "noF" = (
 /obj/structure/fluff/canopy,
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/structure/mineral_door/wood/deadbolt/shutter,
@@ -21257,7 +21237,6 @@
 	dir = 9
 	},
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/item/rogueweapon/huntingknife/chefknife,
@@ -21315,7 +21294,6 @@
 /area/rogue/indoors/town/manor)
 "oQn" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /turf/open/floor/rogue/cobble,
@@ -21559,7 +21537,6 @@
 /area/rogue/under/town/basement)
 "oZv" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/item/reagent_containers/glass/cup/steel,
@@ -23203,7 +23180,6 @@
 /area/rogue/under/town/sewer)
 "qkE" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/item/reagent_containers/glass/bucket,
@@ -24104,7 +24080,6 @@
 /area/rogue/indoors/town/garrison)
 "qTF" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/item/toy/cards/deck,
@@ -24854,7 +24829,6 @@
 /area/rogue/indoors/town/church)
 "rtH" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/item/rogue/instrument/drum,
@@ -24946,7 +24920,6 @@
 /area/rogue/indoors/town/dwarfin)
 "rwd" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/item/rogueweapon/huntingknife/chefknife,
@@ -25076,7 +25049,6 @@
 /area/rogue/indoors)
 "rBh" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /turf/open/floor/rogue/blocks,
@@ -25236,7 +25208,6 @@
 /area/rogue/indoors/town)
 "rGy" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /turf/open/floor/rogue/grass,
@@ -25387,7 +25358,6 @@
 "rLe" = (
 /obj/machinery/light/rogue/wallfire/candle/l,
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /turf/open/floor/rogue/carpet,
@@ -29297,7 +29267,6 @@
 /area/rogue/indoors/town/magician)
 "uwQ" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/item/paper/scroll,
@@ -29774,7 +29743,6 @@
 /area/rogue/indoors/town)
 "uMM" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/structure/mineral_door/wood/deadbolt/shutter,
@@ -34090,7 +34058,6 @@
 /area/rogue/indoors/town/church)
 "xOb" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /obj/structure/rogue/trophy/deer,
@@ -34243,7 +34210,6 @@
 /area/rogue/outdoors/town/roofs)
 "xRp" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /turf/open/floor/rogue/cobble,
