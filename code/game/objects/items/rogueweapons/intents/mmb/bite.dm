@@ -120,6 +120,7 @@
 					var/datum/antagonist/werewolf/lesser/WW = user.mind.has_antag_datum(/datum/antagonist/werewolf/lesser)
 					if(WW.wretch_antag == 0 && !HAS_TRAIT(src, TRAIT_SILVER_BLESSED))
 						caused_wound?.werewolf_infect_attempt()
+						
 				if(HAS_TRAIT(src, TRAIT_SILVER_BLESSED))
 					to_chat(user, span_warning("BLEH! [bite_victim] tastes of SILVER! My gift cannot take hold."))
 				else
