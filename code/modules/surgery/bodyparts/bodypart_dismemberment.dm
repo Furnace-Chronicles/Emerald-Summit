@@ -75,8 +75,7 @@
 						continue
 				CA.add_stress(stress2give)
 	// Ensure grabbedby is a list so it can be properly .Cut()'d
-	if(!islist(grabbedby))
-		grabbedby = list()
+	grabbedby = SANITIZE_LIST(grabbedby)
 	if(grabbedby)
 		if(dam_type != BURN)
 			for(var/obj/item/grabbing/grab in grabbedby)

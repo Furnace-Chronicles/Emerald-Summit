@@ -862,6 +862,8 @@
 	if(H)
 		if(H.rotted || H.skeletonized || H.brainkill)
 			return FALSE
+	else
+		return FALSE
 
 
 /mob/living/proc/update_damage_overlays()

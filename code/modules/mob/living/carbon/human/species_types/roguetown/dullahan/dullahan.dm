@@ -222,6 +222,8 @@
 
 	UnregisterSignal(my_head, COMSIG_QDELETING)
 	my_head = null
+	soul_light_off()
+	mob_light_obj = null
 
 /datum/species/dullahan/proc/on_aheal(datum/source, full_heal, admin_revive)
 	if(!admin_revive)

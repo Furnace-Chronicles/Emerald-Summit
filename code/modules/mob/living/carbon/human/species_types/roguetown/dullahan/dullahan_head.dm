@@ -208,6 +208,28 @@
 	head_items = list()
 	return ..()
 
+/obj/item/bodypart/head/dullahan/proc/insert_worn_items()
+	// Sorry. Roguetown hardcodes variables and I don't want to do that.
+	var/list/worn_items = list(
+		"[SLOT_HEAD]" = owner.get_item_by_slot(SLOT_HEAD),
+		"[SLOT_WEAR_MASK]" = owner.get_item_by_slot(SLOT_WEAR_MASK),
+		/*
+			"[SLOT_GLASSES]" = owner.get_item_by_slot(SLOT_GLASSES),
+			"[SLOT_NECK]" = owner.get_item_by_slot(SLOT_NECK),
+			"[SLOT_MOUTH]" = owner.get_item_by_slot(SLOT_MOUTH),
+		*/
+	)
+	head_items = list()
+	for(var/item_slot in worn_items)
+		var/obj/item/worn_item = worn_items[item_slot]
+		if(worn_item)
+			owner.dropItemToGround(worn_item, force = TRUE)
+
+			if(istype(worn_item, /obj/item/clothing/head/hooded) || HAS_TRAIT(worn_item, TRAIT_NODROP) || QDELETED(worn_item))
+				continue
+			head_items[item_slot] = worn_item
+			worn_item.forceMove(src)
+
 /obj/item/bodypart/head/dullahan/drop_limb(special)
 	var/mob/living/carbon/human/user = original_owner
 	var/datum/species/dullahan/user_species = user.dna.species
@@ -217,8 +239,7 @@
 
 	// Handle grabs when voluntarily removing head
 	// Ensure grabbedby is a list so it can be properly .Cut()'d
-	if(!islist(grabbedby))
-		grabbedby = list()
+	grabbedby = SANITIZE_LIST(grabbedby)
 	if(grabbedby)
 		for(var/obj/item/grabbing/grab in grabbedby)
 			if(grab.grab_state != GRAB_AGGRESSIVE)
@@ -230,20 +251,7 @@
 
 			// Handle worn items
 			if(!special)
-				var/list/worn_items = list(
-					"[SLOT_HEAD]" = owner.get_item_by_slot(SLOT_HEAD),
-					"[SLOT_WEAR_MASK]" = owner.get_item_by_slot(SLOT_WEAR_MASK),
-				)
-				head_items = list()
-				for(var/item_slot in worn_items)
-					var/obj/item/worn_item = worn_items[item_slot]
-					if(worn_item)
-						owner.dropItemToGround(worn_item, force = TRUE)
-
-						if(istype(worn_item, /obj/item/clothing/head/hooded) || HAS_TRAIT(worn_item, TRAIT_NODROP) || QDELETED(worn_item))
-							continue
-						head_items[item_slot] = worn_item
-						worn_item.forceMove(src)
+				insert_worn_items()
 
 			// Call parent drop_limb without the grab handling
 			. = ..()
@@ -254,30 +262,11 @@
 			grabbedby.Cut()
 			return
 
-		// Clear any remaining non-aggressive grabs
+		// Clear all grabs if no aggressive grab.
 		grabbedby.Cut()
-
-	// Sorry. Roguetown hardcodes variables and I don't want to do that.
+	
 	if(!special)
-		var/list/worn_items = list(
-			"[SLOT_HEAD]" = owner.get_item_by_slot(SLOT_HEAD),
-			"[SLOT_WEAR_MASK]" = owner.get_item_by_slot(SLOT_WEAR_MASK),
-			/*
-				"[SLOT_GLASSES]" = owner.get_item_by_slot(SLOT_GLASSES),
-				"[SLOT_NECK]" = owner.get_item_by_slot(SLOT_NECK),
-				"[SLOT_MOUTH]" = owner.get_item_by_slot(SLOT_MOUTH),
-			*/
-		)
-		head_items = list()
-		for(var/item_slot in worn_items)
-			var/obj/item/worn_item = worn_items[item_slot]
-			if(worn_item)
-				owner.dropItemToGround(worn_item, force = TRUE)
-
-				if(istype(worn_item, /obj/item/clothing/head/hooded) || HAS_TRAIT(worn_item, TRAIT_NODROP) || QDELETED(worn_item))
-					continue
-				head_items[item_slot] = worn_item
-				worn_item.forceMove(src)
+		insert_worn_items()
 
 	. = ..()
 
@@ -342,8 +331,7 @@
 	//src.add_mob_blood(C)
 
 	// Ensure grabbedby is a list so it can be properly .Cut()'d
-	if(!islist(grabbedby))
-		grabbedby = list()
+	grabbedby = SANITIZE_LIST(grabbedby)
 	if(grabbedby)
 		if(dam_type != BURN)
 			for(var/obj/item/grabbing/grab in grabbedby)
@@ -357,6 +345,7 @@
 				human.put_in_hand(src, hand_index)
 
 				grabbedby.Cut()
+				// Returns to not throw the head.
 				return TRUE
 
 		grabbedby.Cut()
@@ -366,10 +355,9 @@
 		burn()
 		return TRUE
 
-	if(owner)
-		var/obj/item/organ/dullahan_vision/vision = owner.getorganslot(ORGAN_SLOT_HUD)
-		if(vision)
-			vision.viewing_head = TRUE
+	var/obj/item/organ/dullahan_vision/vision = original_owner.getorganslot(ORGAN_SLOT_HUD)
+	if(vision)
+		vision.viewing_head = TRUE
 
 	var/turf/location = C.loc
 	if(istype(location))
