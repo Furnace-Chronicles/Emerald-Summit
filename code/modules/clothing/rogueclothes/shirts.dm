@@ -441,7 +441,7 @@
 	item_state = "silkdress"
 	color = "#e6e5e5"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
-	flags_inv = HIDECROTCH
+	flags_inv = HIDECROTCH|HIDEBOOB
 
 /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/princess
 	color = CLOTHING_WHITE
