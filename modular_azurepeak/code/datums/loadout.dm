@@ -312,53 +312,57 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Dress"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gen
 
-/datum/loadout_item/bardress
-	name = "Bar Dress"
+/datum/loadout_item/dress/bardress
+	name = "Dress, Barmaid"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress
 
-/datum/loadout_item/chemise
+/datum/loadout_item/dress/chemise
 	name = "Chemise"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress
 
-/datum/loadout_item/sexydress
-	name = "Sexy Dress"
+/datum/loadout_item/dress/sexydress
+	name = "Dress, Sheer"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gen/sexy
 
-/datum/loadout_item/straplessdress
-	name = "Strapless Dress"
+/datum/loadout_item/dress/straplessdress
+	name = "Dress, Strapless"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gen/strapless
 
-/datum/loadout_item/straplessdress/alt
-	name = "Strapless Dress, alt"
+/datum/loadout_item/dress/straplessdress/alt
+	name = "Dress, Strapless (Alt)"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gen/strapless/alt
 
+/datum/loadout_item/dress/silkydress
+	name = "Dress, Silky"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkydress
+
+/datum/loadout_item/dress/nobledress
+	name = "Dress, Noble"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/noble
+
+/datum/loadout_item/dress/velvetdress
+	name = "Dress, Velvet"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/velvet
+
+/datum/loadout_item/dress/winterdress_light
+	name = "Dress, Cold"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/winterdress_light
+
 /datum/loadout_item/gown
-	name = "Spring Gown"
+	name = "Gown, Spring"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gown
 
 /datum/loadout_item/gown/summer
-	name = "Summer Gown"
+	name = "Gown, Summer"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gown/summergown
 
 /datum/loadout_item/gown/fall
-	name = "Fall Gown"
+	name = "Gown, Fall"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gown/fallgown
 
 /datum/loadout_item/gown/winter
-	name = "Winter Gown"
+	name = "Gown, Winter"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gown/wintergown
-
-/datum/loadout_item/gown/silkydress
-	name = "Silky Dress"
-	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkydress
-
-/datum/loadout_item/nobledress
-	name = "Noble Dress"
-	path = /obj/item/clothing/suit/roguetown/shirt/dress/noble
-
-/datum/loadout_item/velvetdress
-	name = "Velvet Dress"
-	path = /obj/item/clothing/suit/roguetown/shirt/dress/velvet
 
 /datum/loadout_item/leathervest
 	name = "Leather Vest"

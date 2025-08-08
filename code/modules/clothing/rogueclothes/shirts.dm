@@ -211,6 +211,21 @@
 
 // End royal clothes
 
+/obj/item/clothing/suit/roguetown/shirt/dress/winterdress_light
+	name = "cold dress"
+	icon = 'icons/roguetown/clothing/shirts_royalty.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts_royalty.dmi'
+	desc = "A thick and comfortable dress popular amongst nobility during winter."
+	body_parts_covered = COVERAGE_FULL
+	icon_state = "winterdress"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts_royalty.dmi'
+	boobed = TRUE
+	detail_tag = "_detail"
+	detail_color = CLOTHING_BLACK
+	r_sleeve_status = SLEEVE_NORMAL
+	l_sleeve_status = SLEEVE_NORMAL
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+
 /obj/item/clothing/suit/roguetown/shirt/dress/silkydress
 	name = "silky dress"
 	desc = "Despite not actually being made of silk, the legendary expertise needed to sew this puts the quality on par."

@@ -726,6 +726,16 @@ datum/crafting_recipe/roguetown/sewing/Purdress
 	craftdiff = 5
 	sellprice = 25
 
+/datum/crafting_recipe/roguetown/sewing/winterdress_light
+	name = "cold dress (2 fibers, 2 cloth, 1 silk)"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/dress/winterdress_light)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 2,
+				/obj/item/natural/silk = 1)
+	tools = list(/obj/item/needle)
+	craftdiff = 3
+	sellprice = 10
+
 /datum/crafting_recipe/roguetown/sewing/skirt
 	name = "skirt (2 fibers, 1 cloth)"
 	result = list(/obj/item/clothing/under/roguetown/skirt)

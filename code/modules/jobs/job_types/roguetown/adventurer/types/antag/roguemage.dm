@@ -53,6 +53,7 @@
 	H.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/alchemy, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/magic/arcane, 4, TRUE)
+	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_ARCYNE_T3, TRAIT_GENERIC)

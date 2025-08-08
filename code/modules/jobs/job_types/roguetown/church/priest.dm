@@ -380,6 +380,13 @@ GLOBAL_LIST_EMPTY(heretical_players)
                     to_chat(src, span_warning("[H.real_name] is already afflicted by another curse."))
                     return
 
+                // Check if target is a bandit, wretch, lich, or vampire lord - silently fail for outlaws and undead
+                if (H.mind?.assigned_role == "Bandit" || H.mind?.special_role == "Bandit" || H.mind?.assigned_role == "Wretch" || H.mind?.special_role == "Lich" || H.mind?.special_role == "Vampire Lord")
+                    // Curse appears to work but has no effect on outlaws and undead
+                    priority_announce("[real_name] has cursed [H.real_name] with [curse_pick]!", title = "Judgment of the Gods", sound = 'sound/misc/excomm.ogg')
+                    last_curse_time = world.time // set cooldown
+                    return
+
                 H.add_curse(curse_type)
                 priority_announce("[real_name] has cursed [H.real_name] with [curse_pick]!", title = "Judgment of the Gods", sound = 'sound/misc/excomm.ogg')
 
