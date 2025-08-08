@@ -61,7 +61,7 @@
 			if(drugrade_flags & DRUGRADE_MONEYB)
 				amt = recent_payments * 0.50
 			recent_payments = 0
-			send_ooc_note("<b>Income from PURITY:</b> [amt]", job = "Bathmaster")
+			send_ooc_note("<b>Income from PURITY:</b> [amt]", job = "Nightmaster")
 			secret_budget += amt
 			last_payout = world.time
 
@@ -189,7 +189,7 @@
 
 
 	var/mob/living/carbon/human/H = user
-	if(H.job == "Bathmaster")
+	if(H.job == "Nightmaster")
 		if(canread)
 			contents += "<a href='?src=[REF(src)];secrets=1'>Secrets</a><BR>"
 			contents += "Mammon Washing: [recent_payments] -- Your cut, Master! [secret_budget]<BR>"

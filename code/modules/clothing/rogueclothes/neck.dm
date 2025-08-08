@@ -168,7 +168,7 @@
 	max_integrity = 350
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	resistance_flags = FIRE_PROOF
-	body_parts_covered = NECK|MOUTH|NOSE|HAIR|EARS|HEAD|CHEST
+	body_parts_covered = NECK|MOUTH|NOSE|HAIR|EARS|HEAD
 	adjustable = CAN_CADJUST
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
@@ -212,7 +212,7 @@
 	max_integrity = 275
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	resistance_flags = FIRE_PROOF
-	body_parts_covered = NECK|MOUTH|NOSE|HAIR|EARS|HEAD|CHEST
+	body_parts_covered = NECK|MOUTH|NOSE|HAIR|EARS|HEAD
 	adjustable = CAN_CADJUST
 	smeltresult = /obj/item/ingot/iron
 	smelt_bar_num = 2
