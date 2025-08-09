@@ -32,7 +32,6 @@
 			H.change_stat("perception", 3)
 			H.change_stat("constitution", 2)
 			H.change_stat("intelligence", 4)	//To give you an edge in specialty moves like feints and stop you from being feinted
-			l_hand = /obj/item/rogueweapon/scabbard/sword
 			armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fencer	//Experimental.
 			var/weapons = list("Modified Training Sword !!!CHALLENGE!!!", "Etruscan Longsword", "Kriegsmesser", "Field Longsword")
 			var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
