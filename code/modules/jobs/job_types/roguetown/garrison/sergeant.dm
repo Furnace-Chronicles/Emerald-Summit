@@ -48,13 +48,13 @@
 /datum/outfit/job/roguetown/sergeant
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	cloak = /obj/item/clothing/cloak/stabard/surcoat/guard
-	neck = /obj/item/clothing/neck/roguetown/gorget
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/full
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	belt = /obj/item/storage/belt/rogue/leather/black
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
+	gloves = /obj/item/clothing/gloves/roguetown/chain
 	backr = /obj/item/storage/backpack/rogue/satchel/black
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 	id = /obj/item/scomstone/garrison
@@ -72,12 +72,12 @@
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/whipsflails, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE) // They might as well get 4 axes, but I'm not doing that so eh
+	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE) // The sergeant gets a loadout with a flail, so they get 4
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/crossbows, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)	
+	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE) // The sergeant gets a loadout with a shield, so they get 4
+	H.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE) // The sergeant gets a loadout with a crossbow, so they get 4
+	H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE) 
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
@@ -87,7 +87,7 @@
 	H.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE)	//Decent tracking akin to Skirmisher.
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_GUARDSMAN, TRAIT_GENERIC) //+1 spd, con, end, +3 per in town
+	ADD_TRAIT(H, TRAIT_GUARDSMAN, TRAIT_GENERIC) //+1 spd, con, end, +2 per in town
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	H.change_stat("strength", 2)
 	H.change_stat("intelligence", 1)
@@ -110,16 +110,18 @@
 	switch(weapon_choice)
 		if("Rhomphaia")			//Rare-ish anti-armor two hander sword. Kinda alternative of a bastard sword type. Could be cool.
 			backl = /obj/item/rogueweapon/sword/long/rhomphaia
-			beltr = /obj/item/rogueweapon/mace/cudgel
+			beltl = /obj/item/rogueweapon/mace/cudgel
 		if("Flail & Shield")	//Tower-shield, higher durability wood shield w/ more coverage. Plus a steel flail; maybe.. less broken that a steel mace?
 			beltr = /obj/item/rogueweapon/flail/sflail
 			backl = /obj/item/rogueweapon/shield/tower
+			beltl = /obj/item/rogueweapon/mace/cudgel
 		if("Halberd")			//Halberd - basically exact same as MAA. It's a really valid build. Spear thrust + sword chop + bash.
 			r_hand = /obj/item/rogueweapon/halberd
 			backl = /obj/item/gwstrap
-			beltr = /obj/item/rogueweapon/mace/cudgel
-		if("Sabre & Crossbow")	//Versetile skirmisher class. Considered other swords but sabre felt best without being too strong. (This one gets no cudgel, no space.)
+			beltl = /obj/item/rogueweapon/mace/cudgel
+		if("Sabre & Crossbow")	//Versetile skirmisher class. Considered other swords but sabre felt best without being too strong. (This one gets a cudgel, there was space the whole time.)
 			beltr = /obj/item/quiver/bolts
+			beltl = /obj/item/rogueweapon/mace/cudgel
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 			r_hand = /obj/item/rogueweapon/sword/sabre
 
