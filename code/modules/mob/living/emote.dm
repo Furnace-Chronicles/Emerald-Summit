@@ -1750,7 +1750,7 @@
 	. = ..()
 	if(. && !isnull(user.patron))
 		user.play_overhead_indicator('icons/mob/overhead_effects.dmi', "stress", 15, MUTATIONS_LAYER, private = user.patron.type, soundin = 'sound/magic/holyshield.ogg', y_offset = 32)
-
+/*
 /mob/living/carbon/human/verb/emote_fsalute()
 	set name = "Faith Salute"
 	set category = "Emotes"
@@ -1773,3 +1773,4 @@
 	set category = "Emotes"
 
 	emote("ffsalute", intentional =  TRUE)
+*/
