@@ -105,7 +105,9 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	backr = /obj/item/storage/backpack/rogue/satchel/short
+	neck = /obj/item/clothing/neck/roguetown/leather //minimal defense
 
 	backpack_contents = list(/obj/item/roguekey/mercenary)
 
 	H.grant_language(/datum/language/aavnic)		//Your character could not have possibly "graduated" without atleast some basic knowledge of Aavnic.
+	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)	//trained mercenaries shouldn't get nervous on a fight

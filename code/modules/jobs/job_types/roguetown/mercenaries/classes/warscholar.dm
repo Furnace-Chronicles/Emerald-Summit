@@ -76,6 +76,7 @@
 
 
 			head = /obj/item/clothing/head/roguetown/roguehood/hierophant
+			neck = /obj/item/clothing/neck/roguetown/leather
 			cloak = /obj/item/clothing/cloak/hierophant
 			armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant
 			shirt = /obj/item/clothing/suit/roguetown/shirt/robe/hierophant
@@ -97,7 +98,7 @@
 			H.adjust_skillrank(/datum/skill/misc/stealing, 3, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/lockpicking, 3, TRUE)
 			H.change_stat("strength", 3)
-			H.change_stat("constitution", -1)
+			H.change_stat("constitution", 2) //doesn't seem clear the idea of reduce some cqc focused role constitution compared to the atgervi
 			H.change_stat("endurance", 1)
 			H.change_stat("perception", -1)
 			H.change_stat("speed", 2)
@@ -114,7 +115,7 @@
 			ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
 
-			head = /obj/item/clothing/head/roguetown/roguehood/pontifex
+			neck = /obj/item/clothing/neck/roguetown/leather //minimal armor
 			gloves = /obj/item/clothing/gloves/roguetown/angle/pontifex
 			head = /obj/item/clothing/head/roguetown/roguehood/pontifex
 			armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex
@@ -151,6 +152,7 @@
 			gloves = /obj/item/clothing/gloves/roguetown/angle/pontifex
 			backr = /obj/item/storage/backpack/rogue/satchel/black
 			head = /obj/item/clothing/head/roguetown/roguehood/shalal/black
+			neck = /obj/item/clothing/neck/roguetown/leather
 			cloak = /obj/item/clothing/cloak/half
 			H.grant_language(/datum/language/celestial)
 			shirt = /obj/item/clothing/suit/roguetown/shirt/robe/hierophant
