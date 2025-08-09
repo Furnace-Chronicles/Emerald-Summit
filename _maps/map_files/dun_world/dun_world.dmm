@@ -4975,7 +4975,7 @@
 /obj/structure/lever/wall{
 	dir = 1;
 	pixel_x = -24;
-	redstone_id = "dragonentry2"
+	redstone_id = "garrisonentr"
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/dragonden)
@@ -14426,6 +14426,15 @@
 /obj/machinery/light/rogue/firebowl,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/orcdungeon)
+"eSg" = (
+/obj/structure/lever/wall{
+	dir = 1;
+	pixel_x = -24;
+	redstone_id = "garrisonentry";
+	name = "passage bridge lever"
+	},
+/turf/open/floor/rogue/blocks,
+/area/rogue/indoors/town/garrison)
 "eSj" = (
 /turf/open/floor/rogue/dirt/ambush,
 /area/rogue/under/cave)
@@ -42485,6 +42494,12 @@
 /obj/structure/ladder,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/indoors/town/garrison)
+"ocu" = (
+/obj/structure/floordoor{
+	redstone_id = "garrisonentry"
+	},
+/turf/open/transparent/openspace,
+/area/rogue/outdoors/town)
 "ocw" = (
 /obj/structure/fluff/statue/astrata,
 /turf/open/floor/rogue/hexstone,
@@ -51300,11 +51315,6 @@
 /obj/item/roguekey/garrison,
 /obj/item/roguekey/garrison,
 /obj/item/roguekey/garrison,
-/obj/item/roguekey/manor,
-/obj/item/roguekey/manor,
-/obj/item/roguekey/manor,
-/obj/item/roguekey/manor,
-/obj/item/roguekey/manor,
 /obj/item/roguekey/sergeant,
 /obj/item/roguekey/sergeant,
 /obj/structure/closet/crate/roguecloset/dark{
@@ -277926,7 +277936,7 @@ uCc
 piE
 jWw
 loX
-kDS
+ocu
 bPU
 pjO
 bge
@@ -278378,7 +278388,7 @@ iAJ
 ice
 jWw
 jWw
-kDS
+ocu
 vSY
 bge
 bge
@@ -278830,7 +278840,7 @@ cOX
 ojJ
 vbG
 fOy
-kDS
+ocu
 vSY
 bge
 bge
@@ -279733,7 +279743,7 @@ srn
 srn
 srn
 srn
-srn
+eSg
 lcD
 oDW
 htZ
