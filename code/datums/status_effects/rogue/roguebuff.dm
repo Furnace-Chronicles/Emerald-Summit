@@ -574,12 +574,12 @@
 		if(wCount.len > 0)
 			owner.heal_wounds(healing_on_tick)
 			owner.update_damage_overlays()
-		owner.adjustBruteLoss(0.15*-healing_on_tick, 0)
-		owner.adjustFireLoss(0.15*-healing_on_tick, 0)
-		owner.adjustOxyLoss(0.15*-healing_on_tick, 0)
-		owner.adjustToxLoss(0.15*-healing_on_tick, 0)
-		owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.15*-healing_on_tick)
-		owner.adjustCloneLoss(0.15*-healing_on_tick, 0)
+		owner.adjustBruteLoss(-(0.15+healing_on_tick), 0)
+		owner.adjustFireLoss(-(0.15+healing_on_tick), 0)
+		owner.adjustOxyLoss(-(0.15+healing_on_tick), 0)
+		owner.adjustToxLoss(-(0.15+healing_on_tick), 0)
+		owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -(0.15+healing_on_tick))
+		owner.adjustCloneLoss(-(0.15+healing_on_tick), 0)
 		owner.energy_add(healing_on_tick+7) //give us a bit of blue bar back, more if the stone is magical.
 
 /datum/status_effect/buff/healing/on_remove()
