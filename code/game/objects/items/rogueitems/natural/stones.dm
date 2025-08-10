@@ -84,7 +84,7 @@ GLOBAL_LIST_INIT(stone_personalities, list(
 	"Daredevil",
 	"Barbarics",
 	"Fanciness",
-	"Relaxing",	
+	"Relaxing",
 	"Greed",
 	"Evil",
 	"Good",
@@ -120,7 +120,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	"One must wonder: Where did this stone come from?",
 	"If all stones were like this, then they would be some pretty great stones.",
 	"I wish my personality was like this stone's...",
-	"I could sure do a whole lot with this stone.", 
+	"I could sure do a whole lot with this stone.",
 	"I love stones!",
 ))
 
@@ -210,7 +210,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	var/stone_title = "stone" // Our stones title
 	var/stone_desc = "[desc]" // Total Bonus desc the stone will be getting
 
-	icon_state = "stone[rand(1,5)]" 
+	icon_state = "stone[rand(1,5)]"
 
 	var/bonus_force = 0 // Total bonus force the rock will be getting
 	var/list/given_intent_list = list(/datum/intent/hit) // By default you get this at least
@@ -249,7 +249,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 			desc_jumbler += pick(GLOB.stone_sharpness_descs)
 
 	if(name_jumbler.len) // Both name jumbler and desc jumbler should be symmetrical in insertions conceptually anyways.
-		for(var/i in 1 to name_jumbler.len) //Theres only two right now 
+		for(var/i in 1 to name_jumbler.len) //Theres only two right now
 			if(!name_jumbler.len) // If list somehow empty get the hell out! Now~!
 				break
 			//Remove so theres no repeats
@@ -272,7 +272,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 			stone_title = "[stone_title] of [pick(GLOB.stone_personalities)]"
 			stone_desc += " [pick(GLOB.stone_personality_descs)]"
 			personality_modifier += rand(1,5) // Personality gives a stone some more power too
-			
+
 	if (personality_modifier)
 		bonus_force += personality_modifier
 		magic_power += personality_modifier
@@ -298,7 +298,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 			var/cock = pick(extra_intent_list) // We pick one
 			given_intent_list += cock // Add it to the list
 			extra_intent_list -= cock // Remove it from the prev list
-	
+
 	//Now that we have built the history and lore of this stone, we apply it to the main vars.
 	name = stone_title
 	desc = stone_desc
@@ -332,10 +332,12 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 		to_chat(user, span_warning("You most use both hands to chisel blocks."))
 	else
 		..()
+
 //rock munching
 /obj/item/natural/stone/attack(mob/living/M, mob/user)
 	testing("attack")
 	if(!user.cmode)
+
 		if(M.construct)
 			var/healydoodle = magic_power+1
 			M.apply_status_effect(/datum/status_effect/buff/rockmuncher, healydoodle)
@@ -344,7 +346,25 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 				user.visible_message(span_notice("[user] presses the stone to [user]'s body, and it is absorbed."), span_notice("I absorb the stone."))
 			else
 				user.visible_message(span_notice("[user] presses the stone to [M]'s body, and it is absorbed."), span_notice("I press the stone to [M], and it is absorbed."))
-		else // if theyre not a construct, but we're not in cmode, beat them 2 death with rocks.
+
+		if(iskobold(M))
+			if(M == user)
+				user.visible_message(span_warning("[user] is attempting to eat [src]!"), span_warning("I begin to eat [src]!"))
+			else
+				user.visible_message(span_warning("[user] begins to force [M] to eat [src]!"), span_warning("I attempt to force [M] to eat [src]!"))
+			if(do_after(user, 40))
+				M.reagents.add_reagent(/datum/reagent/consumable/nutriment, magic_power*1.2)
+				var/healydoodle_again = magic_power+1
+				M.apply_status_effect(/datum/status_effect/buff/rockmuncher_lesser, healydoodle_again)
+				playsound(get_turf(src), 'modular_azurepeak/sound/spellbooks/icicle.ogg', 100)
+				qdel(src)
+				if(M == user)
+					user.visible_message(span_danger("[user] eats [src]!"), span_danger("I devour [src]!"))
+				else
+					user.visible_message(span_danger("[user] forces [M] to eat [src]!"), span_danger("I force [M] to eat [src]!"))
+
+
+		else // if theyre not either a construct or kobold, and we're not in cmode, beat them 2 death with rocks.
 			return ..()
 	else // if we're in cmode, beat them to death with rocks.
 		return ..()

@@ -71,7 +71,6 @@
 			gloves = /obj/item/clothing/gloves/roguetown/angle
 			belt = /obj/item/storage/belt/rogue/leather
 			neck = /obj/item/clothing/neck/roguetown/chaincoif
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 			backl = /obj/item/storage/backpack/rogue/satchel
 			beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 			wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
