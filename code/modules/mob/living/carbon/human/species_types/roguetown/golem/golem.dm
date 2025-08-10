@@ -96,7 +96,8 @@
 		"Coal" = GOLEM_COAL,
 		"Cobalt" = GOLEM_COBALT,
 		"Granite" = GOLEM_GRANITE,
-		"Jade" = GOLEM_JADE
+		"Jade" = GOLEM_JADE,
+		"Amythortz" = GOLEM_AMETHYST
 	)
 
 /datum/species/golem/metal/get_hairc_list()

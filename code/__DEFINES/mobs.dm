@@ -567,11 +567,12 @@
 #define GOLEM_IRON "525352"
 #define GOLEM_STEEL  "babbb9"
 #define GOLEM_BRONZE "e2a670"
-#define GOLEM_MARBLE "FFF2F2"
+#define GOLEM_MARBLE "ffffff"
 #define GOLEM_COAL "1f1f1f"
 #define GOLEM_COBALT "323666"
 #define GOLEM_GRANITE "ff8f8f"
 #define GOLEM_JADE "517051"
+#define GOLEM_AMETHYST "3a0b3d"
 
 // Pixel shifting
 #define PIXEL_SHIFT_MAXIMUM 16
