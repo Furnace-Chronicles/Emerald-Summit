@@ -603,5 +603,8 @@
 /obj/item/storage/box/can_be_package_wrapped()
 	return 1
 
+/obj/item/storage/belt/rogue/pouch/can_be_package_wrapped()
+	return 1
+
 /obj/item/smallDelivery/can_be_package_wrapped()
 	return 0
