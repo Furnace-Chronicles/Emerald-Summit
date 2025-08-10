@@ -18,10 +18,10 @@
 			set_nutrition(NUTRITION_LEVEL_FED - 1)	//just less than feeling vigorous
 			set_hydration(HYDRATION_LEVEL_START_MAX - 1)	//just less than feeling vigorous
 		else if(stat != DEAD)
-			adjust_nutrition(-(0.05))
+			adjust_nutrition(-(0.1))
 			adjust_hydration(-(0.05))
 			if(m_intent == MOVE_INTENT_RUN && isnull(buckled))
-				adjust_nutrition(-(0.1))
+				adjust_nutrition(-(0.2))
 				adjust_hydration(-(0.1))
 		if(m_intent == MOVE_INTENT_RUN && isnull(buckled)) //sprint fatigue add
 			stamina_add(2)

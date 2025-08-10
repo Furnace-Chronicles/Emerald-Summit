@@ -96,7 +96,7 @@
 	stamina = CLAMP(stamina+added, 0, max_stamina)
 	if(added > 0)
 		energy_add(added * -1)
-		adjust_nutrition(-stamina_nutrition_mod(added))
+		adjust_nutrition(- 2 * stamina_nutrition_mod(added))
 	if(added >= 5)
 		if(energy <= 0)
 			if(iscarbon(src))
