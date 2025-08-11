@@ -133,6 +133,7 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 				wanderers_listing += "[wanderers[i]]"
 			else
 				wanderers_listing += "[wanderers[i]], "
+		wanderers_listing += "<br>"
 		job_list.Insert(1, wanderers_listing)
 	dat += job_list
 	var/datum/browser/popup = new(src, "lobby_window", "<div align='center'>LOBBY</div>", 330, 430)
