@@ -133,8 +133,6 @@
 	if(user == mousedropping) //try to climb into or onto it
 		if(user.mobility_flags & MOBILITY_STAND)
 			return ..()
-		if(!do_after(user, 20, target = src))
-			return FALSE
 		put_in(mousedropping, user)
 		return TRUE
 	if(!insertion_allowed(mousedropping, user))
@@ -152,7 +150,6 @@
 	if(!insertion_allowed(I, user))
 		return NONE
 	if(put_in(I, user))
-		playsound(loc, 'sound/foley/cartadd.ogg', 100, FALSE, -1)
 		return TRUE
 	return ..()
 
@@ -178,7 +175,12 @@
 	return TRUE
 
 /obj/structure/handcart/proc/put_in(atom/movable/moved_atom, mob/user)
-	if(isitem(moved_atom))
+	if(moved_atom == user)
+		user.visible_message(span_notice("[user] starts shimmying up inside of [src]..."))
+		if(!do_after(user, 2 SECONDS))
+			return FALSE
+		. = TRUE
+	else if(isitem(moved_atom))
 		if(!user.transferItemToLoc(moved_atom, src))
 			return FALSE
 		. = TRUE
@@ -186,10 +188,10 @@
 		user.visible_message(span_notice("[user] starts moving [moved_atom] into [src]..."))
 		if(!do_after_mob(user, moved_atom, 2 SECONDS))
 			return FALSE
-		moved_atom.forceMove(src)
 		. = TRUE
 	if(.)
 		playsound(loc, 'sound/foley/cartadd.ogg', 100, FALSE, -1)
+		moved_atom.forceMove(src)
 	return TRUE
 
 /obj/structure/handcart/proc/take_contents()
