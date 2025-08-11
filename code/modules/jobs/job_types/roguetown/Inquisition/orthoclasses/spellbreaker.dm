@@ -1,6 +1,8 @@
 /datum/advclass/spellbreaker
 	name = "Spellbreaker"
-	tutorial = "A holy warrior of the Inquisition, dedicated to crushing unholy schools of magic and proving them lesser through the purity and might of their own faith and blade."
+	tutorial = "A holy warrior of the Inquisition. \
+	Wholly dedicated to crushing unholy schools of magic and proving them lesser. \
+	Whether that be through the purity and might of their own faith, or a blade."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/spellbreaker
@@ -49,6 +51,7 @@
 		/obj/item/storage/keyring/orthodoxist = 1,
 		/obj/item/rope/chain = 1,
 	)
+
 	if(H.mind)
 		H.adjust_skillrank(/datum/skill/magic/holy, 2, TRUE)
 		H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
@@ -79,3 +82,4 @@
 		ADD_TRAIT(H, TRAIT_INQUISITION, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SILVER_BLESSED, TRAIT_GENERIC)//Given they don't have the psyblessed silver cross. Puts them in line with the Inquisitor.
 		H.cmode_music = 'sound/music/inquisitorcombat.ogg'
+	H.grant_language(/datum/language/otavan)

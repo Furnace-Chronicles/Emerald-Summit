@@ -413,6 +413,14 @@
 
 		M.update_damage_hud()
 
+		if(HAS_TRAIT(M, TRAIT_GRABIMMUNE) && M.stat == CONSCIOUS) // Grab immunity check
+			if(M.cmode)
+				M.visible_message(span_warning("[M] breaks from [src]'s grip effortlessly!"), \
+						span_warning("I breaks from [src]'s grab effortlesly!"))
+				log_combat(src, M, "tried grabbing", addition="passive grab")
+				stop_pulling()
+				return
+
 		// Makes it so people who recently broke out of grabs cannot be grabbed again
 		if(TIMER_COOLDOWN_RUNNING(M, "broke_free") && M.stat == CONSCIOUS)
 			M.visible_message(span_warning("[M] slips from [src]'s grip."), \
@@ -862,6 +870,8 @@
 	if(H)
 		if(H.rotted || H.skeletonized || H.brainkill)
 			return FALSE
+	else
+		return FALSE
 
 
 /mob/living/proc/update_damage_overlays()
@@ -2090,6 +2100,16 @@
 	if(client)
 		client.pixel_x = 0
 		client.pixel_y = 0
+
+	if(isdullahan(src))
+		var/mob/living/carbon/human/human = src
+		var/obj/item/organ/dullahan_vision/vision = human.getorganslot(ORGAN_SLOT_HUD)
+		var/datum/species/dullahan/species = human.dna.species
+		if(species.headless && vision.viewing_head)
+			var/obj/item/bodypart/head/dullahan/head = species.my_head
+			reset_perspective(head)
+			update_cone_show()
+			return
 	reset_perspective()
 	update_cone_show()
 //	UnregisterSignal(src, COMSIG_MOVABLE_PRE_MOVE)

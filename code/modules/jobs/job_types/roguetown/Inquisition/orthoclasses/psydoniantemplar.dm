@@ -1,7 +1,8 @@
 /datum/advclass/psydoniantemplar // A templar, but for the Inquisition
 	name = "Adjudicator"
-	tutorial = "Ten knights, clad in fluted chainmaille and blessed with the capacity to invoke lesser miracles. \
-	In lieu of greater miracles and rituals, they compensate through martial discipline and blessed weaponry."
+	tutorial = "Knights of the Ten, bound to the Otavan Holy See's most feared order. The Inquisition. \
+	Assigned to the Inquisitor's retinue, their loyalty is absolute. \
+	They wield a combination of miracles, martial discipline and comet-blessed weaponry for this purpose."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/psydoniantemplar
@@ -45,7 +46,6 @@
 		if(/datum/patron/divine/malum)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/malum
 			cloak = /obj/item/clothing/cloak/templar/malumite
-	backr = /obj/item/rogueweapon/shield/tower/metal
 	gloves = /obj/item/clothing/gloves/roguetown/chain/psydon
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	pants = /obj/item/clothing/under/roguetown/chainlegs
@@ -53,28 +53,34 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger/preblessed
 	id = /obj/item/clothing/ring/silver
-	backpack_contents = list(/obj/item/storage/keyring/orthodoxist = 1)
+
+	backpack_contents = list(
+		/obj/item/storage/keyring/orthodoxist = 1,
+		/obj/item/rope/chain = 1,
+	)
+
 	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/whipsflails, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/crossbows, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/magic/holy, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
 	H.change_stat("strength", 2)
-	H.change_stat("constitution", 2)
+	H.change_stat("constitution", 3)
 	H.change_stat("endurance", 3)
+	H.change_stat("speed", -1)
 
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
@@ -85,7 +91,7 @@
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = FALSE, devotion_limit = CLERIC_REQ_1) //Capped to T2 miracles. It's just a self-heal.
+	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_2) //Capped to T2 miracles. Worse regen than Templar.
 
 	var/helmets = list(
 	"Ornate Barbute" 	= /obj/item/clothing/head/roguetown/helmet/heavy/psydonbarbute,

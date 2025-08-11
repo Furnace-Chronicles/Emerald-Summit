@@ -546,7 +546,7 @@
 	if(!user || !target)
 		return
 	if(ishuman(target))
-		playsound(target.loc, pick('sound/vo/hug.ogg'), 100, FALSE, -1)
+		playsound(target.loc, pick('sound/body/hug.ogg'), 100, FALSE, -1)
 		if(user.mind)
 			GLOB.scarlet_round_stats[STATS_HUGS_MADE]++
 			SEND_SIGNAL(user, COMSIG_MOB_HUGGED, target)
