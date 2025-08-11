@@ -104,7 +104,9 @@
 // no he's dead - ok maybe he does
 
 /datum/patron/old_god/can_pray(mob/living/follower)
-	. = TRUE
+	. = ..()
+	if(!.)
+		return FALSE
 	// Allows prayer near psycross.
 	for(var/obj/structure/fluff/psycross/cross in view(4, get_turf(follower)))
 		if(cross.divine == FALSE)

@@ -14,5 +14,8 @@
 	)
 
 /datum/patron/godless/can_pray(mob/living/follower)
+	. = ..()
+	if(!.)
+		return .
 	to_chat(follower, span_danger("Zarlz Zarwin and psyvolution cannot hear my prayer!"))
 	return FALSE	//heathen
