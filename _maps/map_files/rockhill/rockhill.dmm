@@ -1970,7 +1970,7 @@
 	},
 /area/rogue/indoors/town/manor)
 "bbO" = (
-/obj/item/roguebin/water,
+/obj/structure/roguebin/water,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/garrison)
 "bcu" = (
@@ -2034,7 +2034,7 @@
 	},
 /area/rogue/indoors)
 "bgI" = (
-/obj/item/roguebin/water,
+/obj/structure/roguebin/water,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/garrison)
 "bgQ" = (
@@ -2073,7 +2073,7 @@
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/tavern)
 "bkd" = (
-/obj/item/roguebin/water,
+/obj/structure/roguebin/water,
 /turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/town/garrison)
 "bke" = (
@@ -2908,7 +2908,7 @@
 /turf/open/floor/rogue/woodturned,
 /area/rogue/outdoors/beach)
 "cfY" = (
-/obj/item/roguebin/water,
+/obj/structure/roguebin/water,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/church/chapel)
 "cgq" = (
@@ -3559,7 +3559,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town/roofs)
 "cNr" = (
-/obj/item/roguebin/water,
+/obj/structure/roguebin/water,
 /obj/machinery/light/rogue/wallfire/candle/r,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/manor)
@@ -4122,8 +4122,8 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors)
 "drA" = (
-/obj/item/roguebin/water/gross,
-/obj/item/roguebin/water/gross,
+/obj/structure/roguebin/water/gross,
+/obj/structure/roguebin/water/gross,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors)
 "dsu" = (
@@ -5029,7 +5029,7 @@
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/town/church)
 "emM" = (
-/obj/item/roguebin/water/gross,
+/obj/structure/roguebin/water/gross,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cavewet/bogcaves)
 "emX" = (
@@ -5552,7 +5552,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors)
 "eSc" = (
-/obj/item/roguebin/water,
+/obj/structure/roguebin/water,
 /turf/open/floor/rogue/tile{
 	icon_state = "greenstone"
 	},
@@ -6677,7 +6677,7 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
 "gfl" = (
-/obj/item/roguebin/water/gross,
+/obj/structure/roguebin/water/gross,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/bog)
 "gfP" = (
@@ -10670,7 +10670,7 @@
 /turf/open/floor/rogue/woodturned,
 /area/rogue/under/town/basement)
 "ksH" = (
-/obj/item/roguebin/water/gross,
+/obj/structure/roguebin/water/gross,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/bog)
 "ksI" = (
@@ -11112,7 +11112,7 @@
 	},
 /area/rogue/indoors/town/shop)
 "kSh" = (
-/obj/item/roguebin/water/gross,
+/obj/structure/roguebin/water/gross,
 /obj/item/natural/cloth,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/manor)
@@ -12064,7 +12064,7 @@
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/under/cavewet/bogcaves)
 "lXo" = (
-/obj/item/roguebin/trash,
+/obj/structure/roguebin/trash,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
 "lXJ" = (
@@ -12478,7 +12478,7 @@
 /turf/open/water/sewer,
 /area/rogue/under/cave)
 "muu" = (
-/obj/item/roguebin/water/gross,
+/obj/structure/roguebin/water/gross,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors)
 "muz" = (
@@ -13411,7 +13411,7 @@
 "nBo" = (
 /obj/effect/decal/cleanable/blood/old,
 /obj/effect/decal/cleanable/cobweb/cobweb2,
-/obj/item/roguebin/water/gross,
+/obj/structure/roguebin/water/gross,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
 "nBz" = (
@@ -13460,7 +13460,7 @@
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/tavern)
 "nEj" = (
-/obj/item/roguebin/water/gross,
+/obj/structure/roguebin/water/gross,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/bog)
 "nFg" = (
@@ -13791,7 +13791,7 @@
 	},
 /area/rogue/outdoors/town)
 "nYR" = (
-/obj/item/roguebin/water/gross,
+/obj/structure/roguebin/water/gross,
 /obj/machinery/light/rogue/torchholder{
 	pixel_y = 32
 	},
@@ -17100,7 +17100,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors)
 "rKn" = (
-/obj/item/roguebin/water,
+/obj/structure/roguebin/water,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/town/church/chapel)
 "rLm" = (
@@ -20903,7 +20903,7 @@
 /area/rogue/indoors/town/manor)
 "vKX" = (
 /obj/effect/decal/cleanable/cobweb,
-/obj/item/roguebin/water,
+/obj/structure/roguebin/water,
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/town/church)
 "vLy" = (
@@ -21490,7 +21490,7 @@
 /turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/town/garrison)
 "wue" = (
-/obj/item/roguebin,
+/obj/structure/roguebin,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
 "wuh" = (
@@ -22324,7 +22324,7 @@
 	},
 /area/rogue/under/town/basement)
 "xoS" = (
-/obj/item/roguebin/water/gross,
+/obj/structure/roguebin/water/gross,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/dwarfin)
 "xoT" = (
