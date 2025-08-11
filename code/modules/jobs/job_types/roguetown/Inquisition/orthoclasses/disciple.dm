@@ -1,6 +1,8 @@
 /datum/advclass/disciple
 	name = "Disciple"
-	tutorial = "Monks and warscholars, trained in the martial arts. The former excels at shrugging off terrible blows while wrestling foes into submission, while the latter - often hired as mercenaries from abroad - amplify their pugilism with acryne might."
+	tutorial = "Monks and warscholars, trained in the martial arts. \
+	The former excels at shrugging off terrible blows while wrestling foes into submission. \
+	The latter - often hired as mercenaries from abroad - amplify their pugilism with acryne might."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/disciple
@@ -116,7 +118,7 @@
 			H.put_in_hands(I, TRUE)
 		if("Spear")
 			H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
-			var/obj/item/I = new /obj/item/rogueweapon/spear/psyspear(H)
+			var/obj/item/I = new /obj/item/rogueweapon/spear(H)
 			H.put_in_hands(I, TRUE)
 		if("Sword & Shield")
 			H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
@@ -131,8 +133,6 @@
 			ADD_TRAIT(H, TRAIT_STRONGBITE, TRAIT_GENERIC)
 			var/obj/item/katar = new /obj/item/rogueweapon/katar(H)
 			H.equip_to_slot(katar, SLOT_BELT_R)
-			var/obj/item/knuckles = new /obj/item/rogueweapon/knuckles/eora(H)
-			H.equip_to_slot(knuckles, SLOT_IN_BACKPACK)
 		if("Dual Wield")
 			H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
 			var/obj/item/sabre1 = new /obj/item/rogueweapon/sword/sabre/shamshir(H)
@@ -175,4 +175,4 @@
 		ADD_TRAIT(H, TRAIT_OUTLANDER, TRAIT_GENERIC)		//You're a foreigner, a guest of the realm.
 		ADD_TRAIT(H, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SILVER_BLESSED, TRAIT_GENERIC)//Given they don't have the psyblessed silver. Puts them in line with the Inquisitor.
-		H.grant_language(/datum/language/celestial)
+		H.grant_language(/datum/language/otavan)

@@ -1,6 +1,7 @@
 /datum/advclass/confessor
 	name = "Confessor"
-	tutorial = "Church of the Ten holy hunters, unmatched in the fields of subterfuge and investigation. There is no suspect too powerful to investigate, no room too guarded to infiltrate, and no weakness too hidden to exploit."
+	tutorial = "Church of the Ten holy hunters, unmatched in the fields of subterfuge and investigation. \
+	There is no suspect too powerful to investigate, no room too guarded to infiltrate, and no weakness too hidden to exploit."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/confessor
@@ -52,11 +53,11 @@
 	var/weapon_choice = input("Choose your ranged weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Crossbow & Bolts")
-			H.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 5, TRUE)
 			beltr = /obj/item/quiver/bolts
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 		if("Recurve Bow & Arrows")
-			H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/bows, 5, TRUE)
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 			beltr = /obj/item/quiver/arrows
 	H.set_blindness(0)
@@ -71,9 +72,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	mask = /obj/item/clothing/mask/rogue/facemask/psydonmask
 	head = /obj/item/clothing/head/roguetown/roguehood/psydon
-	backpack_contents = list(/obj/item/roguekey/inquisition = 1, /obj/item/lockpickring/mundane = 1, /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger/preblessed, /obj/item/grapplinghook = 1)
-	head = /obj/item/clothing/head/roguetown/puritan
-	backpack_contents = list(/obj/item/storage/keyring/orthodoxist = 1, /obj/item/lockpickring/mundane = 1, /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger, /obj/item/grapplinghook = 1)
+	backpack_contents = list(/obj/item/storage/keyring/orthodoxist = 1, /obj/item/lockpickring/mundane = 1, /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger/preblessed, /obj/item/grapplinghook = 1)
 	H.change_stat("strength", -1) // weasel
 	H.change_stat("endurance", 3)
 	H.change_stat("perception", 2)

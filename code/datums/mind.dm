@@ -160,7 +160,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 			else
 				referred_gender = "Androgynous"
 		known_people[H.real_name]["FGENDER"] = referred_gender
-		known_people[H.real_name]["FSPECIES"] = H.dna.species.name
+		if(H.dna && H.dna.species)
+			known_people[H.real_name]["FSPECIES"] = H.dna.species.name
 		known_people[H.real_name]["FAGE"] = H.age
 		if (ishuman(current))
 			var/mob/living/carbon/human/C = current
@@ -736,6 +737,12 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 /datum/mind/proc/RemoveAllSpells()
 	for(var/obj/effect/proc_holder/S in spell_list)
 		RemoveSpell(S)
+
+//removes spells that have miracle = true on them
+/datum/mind/proc/RemoveAllMiracles()
+	for(var/obj/effect/proc_holder/spell/spell in spell_list)
+		if(spell.miracle)
+			RemoveSpell(spell)
 
 /datum/mind/proc/transfer_martial_arts(mob/living/new_character)
 	if(!ishuman(new_character))
