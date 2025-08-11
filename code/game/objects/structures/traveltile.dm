@@ -66,6 +66,7 @@
 
 /atom/movable
 	var/recent_travel = 0
+//  var/last_client_interact = 0  // See mob_defines.dm.
 
 /obj/structure/fluff/traveltile/attack_hand(mob/user)
 	var/fou
@@ -178,6 +179,8 @@
 	if(. && required_trait && isliving(AM))
 		var/mob/living/L = AM
 		if(HAS_TRAIT(L, required_trait))
+			if(world.time > L.last_client_interact + 0.3 SECONDS)
+				return FALSE // we will only be travelling of our own volition (anti-afk-abuse)
 			return TRUE
 		else
 			to_chat(L, "<b>It is a dead end.</b>")
