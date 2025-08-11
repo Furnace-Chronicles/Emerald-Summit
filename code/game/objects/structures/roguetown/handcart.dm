@@ -48,7 +48,7 @@
 	. += span_notice("[span_bold("Right click")] to dump it out.")
 
 
-/obj/structure/handcart/proc/manage_upgrade(/obj/item/cart_upgrade/upgrade, mob/living/user)
+/obj/structure/handcart/proc/manage_upgrade(obj/item/cart_upgrade/upgrade, mob/living/user)
 	if(upgrade_level == upgrade.ulevel)
 		to_chat(user, span_warn("[src] already has an upgrade of that type."))
 		return
@@ -100,11 +100,13 @@
 /obj/structure/handcart/proc/recalculate_weight(atom/movable/moved_atom)
 	var/weight
 	var/entering = (moved_atom.loc == src)
+	var/mob/living/moved_living = null
+	var/obj/item/moved_item = null
 	if(isliving(moved_atom))
-		var/mob/living/moved_living = moved_atom
+		moved_living = moved_atom
 		weight = min(moved_living.mob_size * 5, 1)
 	else if(isitem(moved_atom))
-		var/obj/item/moved_item = moved_atom
+		moved_item = moved_atom
 		weight = moved_item.w_class
 	else // presumably a mobile structure or machine, assume they're all roughly twice as big as a person
 		weight = MOB_SIZE_HUMAN * 5 * 2 // 2 * 5 * 2
@@ -114,6 +116,7 @@
 			//shortened distance on this message to minimize the potential of it being spammed
 			visible_message(span_warn("[moved_atom] is simply too big to fit within the space remaining inside [src], and it tumbles out."), vision_distance = 1)
 			moved_atom.forceMove(drop_location())
+			moved_item?.after_throw()	
 	else
 		current_capacity -= weight
 	update_icon()
@@ -123,8 +126,8 @@
 	for(var/atom/movable/AM in src)
 		AM.forceMove(L)
 		if(isitem(AM))
-			AM.pixel_x = rand(-8, 8)
-			AM.pixel_y = rand(-8, 8)
+			var/obj/item/moved_item = AM
+			moved_item.after_throw()
 
 /obj/structure/handcart/MouseDrop_T(atom/movable/mousedropping, mob/living/user)
 	if(!istype(mousedropping) || !isturf(mousedropping.loc) || istype(mousedropping, /atom/movable/screen))
