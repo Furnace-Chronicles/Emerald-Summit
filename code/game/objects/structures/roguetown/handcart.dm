@@ -122,6 +122,9 @@
 	var/atom/L = drop_location()
 	for(var/atom/movable/AM in src)
 		AM.forceMove(L)
+		if(isitem(AM))
+			AM.pixel_x = rand(-8, 8)
+			AM.pixel_y = rand(-8, 8)
 
 /obj/structure/handcart/MouseDrop_T(atom/movable/mousedropping, mob/living/user)
 	if(!istype(mousedropping) || !isturf(mousedropping.loc) || istype(mousedropping, /atom/movable/screen))
