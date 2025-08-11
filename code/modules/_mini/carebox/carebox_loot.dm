@@ -81,11 +81,16 @@
 	)
 
 /datum/carebox_loot/wretch/quiver
-	name = "Arrows, Bolts and Throwing Knives"
+	name = "Arrows and Bolts"
 	loot = list(
 		/obj/item/quiver/arrows,
 		/obj/item/quiver/bolts,
-		/obj/item/rogueweapon/huntingknife/throwingknife,
+	)
+
+/datum/carebox_loot/wretch/throwing_knifes
+	name = "Iron Throwing Knifes"
+	loot = list(
+		/obj/item/storage/belt/rogue/leather/knifebelt/black/iron,
 	)
 
 /datum/carebox_loot/wretch/pouch_coins_mid

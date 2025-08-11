@@ -34,6 +34,7 @@
 		/datum/carebox_loot/wretch/manapot,
 		/datum/carebox_loot/wretch/raisin_loaf,
 		/datum/carebox_loot/wretch/quiver,
+		/datum/carebox_loot/wretch/throwing_knifes,
 		/datum/carebox_loot/wretch/pouch_coins_mid,
 		/datum/carebox_loot/wretch/chain_rope,
 		/datum/carebox_loot/wretch/lantern_bedroll,
