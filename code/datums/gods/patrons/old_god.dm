@@ -1,21 +1,21 @@
-/datum/patron/old_god
-	name = "Psydon (Known)"
-	domain = "God of Ontological Reality"
-	desc = "Those who openly worship Psydon in defiance of the Holy See are seen as heretics, but most are regarded as harmless relics of a bygone age. Tolerated but scorned, they endure quietly, holding to the hope that PSYDON YET LIVES. PSYDON YET ENDURES."
-	worshippers = "Fanatics and Nostalgists"
-	associated_faith = /datum/faith/old_god
+// /datum/patron/old_god
+	// name = "Psydon (Known)"
+	// domain = "God of Ontological Reality"
+	// desc = "Those who openly worship Psydon in defiance of the Holy See are seen as heretics, but most are regarded as harmless relics of a bygone age. Tolerated but scorned, they endure quietly, holding to the hope that PSYDON YET LIVES. PSYDON YET ENDURES."
+	// worshippers = "Fanatics and Nostalgists"
+	// associated_faith = /datum/faith/old_god
 	// mob_traits = list(TRAIT_PSYDONITE)
-	miracles = list(
-		/obj/effect/proc_holder/spell/targeted/touch/orison = CLERIC_ORI,
-		/obj/effect/proc_holder/spell/self/check_boot = CLERIC_T0,
-		/obj/effect/proc_holder/spell/invoked/psydonendure = CLERIC_T1,
-		/obj/effect/proc_holder/spell/self/psydonrespite = CLERIC_T2,
-	)
-	confess_lines = list(
-		"THERE IS ONLY ONE TRUE GOD!",
-		"PSYDON YET LYVES! PSYDON YET ENDURES!",
-		"REBUKE THE HERETICAL- PSYDON ENDURES!",
-	)
+	// miracles = list(
+	//	/obj/effect/proc_holder/spell/targeted/touch/orison = CLERIC_ORI,
+	//	/obj/effect/proc_holder/spell/self/check_boot = CLERIC_T0,
+	//	/obj/effect/proc_holder/spell/invoked/psydonendure = CLERIC_T1,
+	//	/obj/effect/proc_holder/spell/self/psydonrespite = CLERIC_T2,
+	//)
+	//confess_lines = list(
+	//	"THERE IS ONLY ONE TRUE GOD!",
+	//	"PSYDON YET LYVES! PSYDON YET ENDURES!",
+	//	"REBUKE THE HERETICAL- PSYDON ENDURES!",
+	//)
 
 
 /obj/effect/proc_holder/spell/self/check_boot
@@ -227,12 +227,12 @@
 	return FALSE
 
 /datum/patron/old_god/psydonite_hidden
-	name = "Psydon (Hidden)"
+	name = "Psydon"
 	domain = "God of Ontological Reality"
-	desc = "These followers hide their worship of Psydon, blending into society and sometimes gaining privilege or status. But discovery risks being hunted, for only worshippers of the Ten can be nobility."
-	worshippers = "Secret cults, double agents, those who must hide their faith to survive."
+	desc = "Psydon, creator of the entire world, is dead, but his worshippers still cling on to their psycrosses. Either from nostalgia for a better time, naive hope for his return, stubborn refusal to change, loyalty beyond the grave, or delusion that he truly does live, they endure. They are completely barred from nobility, and hunted by the church. The only place you'll see somebody openly wearing a psycross is in the outer wilds, or in a grave."
+	worshippers = "The naive, the nostalgic, and the stubborn."
 	associated_faith = /datum/faith/old_god
-	mob_traits = list(TRAIT_PSYDONITE)
+//	mob_traits = list(TRAIT_PSYDONITE)
 	miracles = list(
 		/obj/effect/proc_holder/spell/targeted/touch/orison = CLERIC_ORI,
 		/obj/effect/proc_holder/spell/self/check_boot = CLERIC_T0,
