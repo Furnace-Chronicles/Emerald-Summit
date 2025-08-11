@@ -168,6 +168,13 @@
 		"Nessyss" = SKIN_COLOR_NESSYSS,
 		"Helixia" = SKIN_COLOR_HELIXIA,
 		"Nymsea" = SKIN_COLOR_NYMSEA,
+		"Commorah" = SKIN_COLOR_COMMORAH,
+		"Gloomhaven" = SKIN_COLOR_GLOOMHAVEN,
+		"Darkpila" = SKIN_COLOR_DARKPILA,
+		"Sshanntynlan" = SKIN_COLOR_SSHANNTYNLAN,
+		"Llurth Dreir" = SKIN_COLOR_LLURTH_DREIR,
+		"Tafravma" = SKIN_COLOR_TAFRAVMA,
+		"Yuethindrynn" = SKIN_COLOR_YUETHINDRYNN
 	)
 
 /datum/species/dullahan/get_hairc_list()

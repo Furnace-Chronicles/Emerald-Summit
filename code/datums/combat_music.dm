@@ -42,7 +42,7 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 
 /datum/combat_music/adjudicator
 	name = "Adjudicator"
-	desc = ""
+	desc = "Now, there is nothing more cruel, than a fair judge."
 	shortname = "Adjudicator"
 	credits = "Chivalry 2 OST: Duty and Honor II (with Ryan Patrick Buckley)"
 	musicpath = list('sound/music/templarofpsydonia.ogg')
@@ -56,7 +56,7 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 
 /datum/combat_music/astratan_zeal
 	name = "Astratan Zeal"
-	desc = ""
+	desc = "You will never bloody your hand, striking with Her guidance."
 	shortname = "Astratan"
 	credits = "Jesper Kyd - Light of the Imperium"
 	musicpath = list('sound/music/combat_holy.ogg')
@@ -86,58 +86,58 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 
 /datum/combat_music/barbarian
 	name = "Barbarian"
-	desc = ""
+	desc = "Grit as if you had teeth to grit with left."
 	shortname = "Barbarian"
 	musicpath = list('sound/music/combat_gronn.ogg')
 
 /datum/combat_music/bard
 	name = "Bard"
-	desc = ""
+	desc = "At least you will make for a good tale."
 	shortname = "Bard"
 	musicpath = list('sound/music/combat_bard.ogg')
 
 /datum/combat_music/berserker
 	name = "Berserker"
-	desc = ""
+	desc = "All of it broke you, bit by bit until you became strong."
 	shortname = "Berserker"
 	credits = "Mikolai Stroinski - Eyes of the Wolf"
 	musicpath = list('sound/music/combat_berserker.ogg')
 
 /datum/combat_music/blackoak
 	name = "Black Oak's Guardian"
-	desc = ""
+	desc = "Trees were made for hanging."
 	shortname = "Black Oak"
 	musicpath = list('sound/music/combat_blackoak.ogg')
 
 /datum/combat_music/beggar
 	name = "Beggar"
-	desc = ""
+	desc = "Kick, scratch, bite."
 	shortname = "Beggar"
 	credits = "Pathologic (Classic) - Most Combat Theme"
 	musicpath = list('sound/music/combat_bum.ogg')
 
 /datum/combat_music/conddottiero
 	name = "Condottiero Guildsman"
-	desc = ""
+	desc = "Rue the dae, of the smiling profiteer."
 	shortname = "Condottiero"
 	musicpath = list('sound/music/combat_condottiero.ogg')
 
 /datum/combat_music/cultic
 	name = "Cultic Witchcraft"
-	desc = ""
+	desc = "I'm worked to the bone, but I cannot be laid to rest. What am I?"
 	shortname = "Cultic"
 	credits = "Igor Kornelyuk - Воланд (\"Voland\")"
 	musicpath = list('sound/music/combat_cult.ogg')
 
 /datum/combat_music/combat
 	name = "Combat Classic (Adventurer)"
-	desc = ""
+	desc = "Try and perish somewhere easy to loot."
 	shortname = "Combt Classic"
 	musicpath = list('sound/music/combat.ogg')
 
 /datum/combat_music/combat_old
 	name = "Combat Old (Town Elder)"
-	desc = ""
+	desc = "Making mistakes is lyfe, watching them being made, is torture."
 	shortname = "Combt Old"
 	musicpath = list('sound/music/combat_old.ogg')
 
@@ -151,53 +151,60 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 
 /datum/combat_music/deadite
 	name = "Deadite"
-	desc = ""
+	desc = "KICK! SCRATCH! BITE!"
 	shortname = "Deadite"
 	musicpath = list('sound/music/combat_weird.ogg')
 
 /datum/combat_music/desertrider
 	name = "Desert Rider Mercenary"
-	desc = ""
+	desc = "A toast to the highest bidder."
 	shortname = "Desert Rider"
 	credits = "Two Fingers - You Ain't Down"
 	musicpath = list('sound/music/combat_desertrider.ogg')
 
 /datum/combat_music/druid
 	name = "Druid (Verewolf)"
-	desc = ""
+	desc = "Dead ends, countless trails, suffocating mud. More dangerous than any blade."
 	shortname = "Druid"
 	credits = "The Witcher 3: Wild Hunt - Hunt or Be Hunted"
 	musicpath = list('sound/music/combat_druid.ogg')
 
 /datum/combat_music/duelist
 	name = "Duelist"
-	desc = ""
+	desc = "Battlefields and arenas. Even this is art."
 	shortname = "Duelist"
 	credits = "Medieval Total War 2 OST: Spanish Battle Theme"
 	musicpath = list('sound/music/combat_duelist.ogg')
 
 /datum/combat_music/dungeoneer
 	name = "Dungeoneer"
-	desc = ""
+	desc = "Oh, but the things I would do upon this town if I wasn't employed."
 	shortname = "Dungeoneer"
 	credits = "T87-Sulfurhead - RATEATER (https://www.youtube.com/@T87-Sulfurhead)"
 	musicpath = list('sound/music/combat_dungeoneer.ogg')
 
 /datum/combat_music/dwarf
 	name = "Dwarven Grudgebearer"
-	desc = ""
+	desc = "See this? It's some sort of guestbook."
 	shortname = "Dwarf"
 	musicpath = list('sound/music/combat_dwarf.ogg')
 
 /datum/combat_music/forlorn
 	name = "Forlorn Hope Mercenary"
-	desc = ""
+	desc = "Do you feel like you escaped death, vanguard?"
 	shortname = "Forlorn Hope"
 	musicpath = list('sound/music/combat_blackstar.ogg')
 
+/datum/combat_music/fullplate
+	name = "Full Plate"
+	desc = "Knight in waning armour."
+	shortname = "Full Plate"
+	credits = "Stoneshard OST - Track 9 (https://youtu.be/duI4N5MTyKY?si=aHEUbkUzEHSDsIRh)"
+	musicpath = list('sound/music/combat_fullplate.ogg')
+
 /datum/combat_music/grenzelhoft
 	name = "Grenzelhoft Mercenary"
-	desc = ""
+	desc = "Your attitude is intolerable and your smile is disgusting. You're hired."
 	shortname = "Grenzelhoft"
 	credits = "Helbrede - Sons of Tyr"
 	musicpath = list('sound/music/combat_grenzelhoft.ogg')
@@ -239,31 +246,38 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 
 /datum/combat_music/heretic_zizo
 	name = "Heretic - Zizo (Lich)"
-	desc = ""
+	desc = "Trust nobody, after all the power has always been within you."
 	shortname = "Zizo"
 	credits = "T87-Sulfurhead - DEMESNE (https://www.youtube.com/@T87-Sulfurhead)"
 	musicpath = list('sound/music/combat_heretic.ogg')
 
 /datum/combat_music/heretic_matthios
 	name = "Heretic - Matthios"
-	desc = ""
+	desc = "A rush of vigour. You've forgotten the last time you were told what's right or what to do."
 	shortname = "Matthios"
 	credits = "T87-Sulfurhead - Amontillado (https://www.youtube.com/@T87-Sulfurhead)"
 	musicpath = list('sound/music/combat_matthios.ogg')
 
 /datum/combat_music/heretic_graggar
 	name = "Heretic - Graggar"
-	desc = ""
+	desc = "Perhaps this time, you will finally feel powerful."
 	shortname = "Graggar"
 	credits = "T87-Sulfurhead - Black Powder (https://www.youtube.com/@T87-Sulfurhead)"
 	musicpath = list('sound/music/combat_graggar.ogg')
 
 /datum/combat_music/heretic_baotha
 	name = "Heretic - Baotha"
-	desc = ""
+	desc = "Fuck tomorrow."
 	shortname = "Baotha"
 	credits = "T87-Sulfurhead - Love Within You (Rough Mix) (https://www.youtube.com/@T87-Sulfurhead)"
 	musicpath = list('sound/music/combat_baotha.ogg')
+
+/datum/combat_music/highgrain
+	name = "High Grain"
+	desc = "I had him dead before he hit the ground."
+	shortname = "High Grain"
+	credits = "Half-Lyfe: Alyx - APC Cannon - Extended (https://youtu.be/LsGts7dAqTQ?si=wAMHGtrMKzHxyIon)"
+	musicpath = list('sound/music/combat_highgrain.ogg')
 
 /datum/combat_music/iconoclast
 	name = "Iconoclast"
@@ -319,10 +333,17 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	credits = "Timestopper Tactics - corru.works"
 	musicpath = list('sound/music/combat_bandit_mage.ogg')
 
+/datum/combat_music/malpractice
+	name = "Malpractice"
+	desc = "What kills you, makes you weaker."
+	shortname = "Malpractice"
+	credits = "Pathologic - Utroba Aggression"
+	musicpath = list('sound/music/combat_malpractice.ogg')
+
 // Maniac code has this track uncommented so this is free. And tbh it should remain here. Banger.
 /datum/combat_music/maniac
 	name = "Maniac"
-	desc = ""
+	desc = "TNC is the fairest company I know."
 	shortname = "Maniac"
 	credits = "Thomas Bangalter - Stress"
 	musicpath = list('sound/music/combat_maniac2.ogg')
@@ -343,6 +364,13 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 
 // The two Martyr Vengeance combat tracks are intentionally left out of this. Look how they're used.
 
+/datum/combat_music/nitecreecher
+	name = "Nite Creecher"
+	desc = "Now they will know why they are afraid of the dark. Now they will learn why they fear the night."
+	shortname = "Nite Creecher"
+	credits = "Half-Lyfe - Diabolical Adrenaline Horror (https://youtu.be/xZad5J1I-OQ?si=dwlYDOJ8t8A2bdpB)"
+	musicpath = list('sound/music/combat_nitecreecher.ogg')
+
 /datum/combat_music/noble
 	name = "Noble (Merchant/Freifechter)"
 	desc = ""
@@ -351,7 +379,7 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 
 /datum/combat_music/ozium
 	name = "Ozium Abuse (loud!)"
-	desc = ""
+	desc = "Alas, I must acquire a fast hold."
 	shortname = "Ozium"
 	credits = "Light Club - FAHKEET"
 	musicpath = list('sound/music/combat_ozium.ogg')
@@ -472,6 +500,13 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	credits = "T87-Sulfurhead - Good Men Die Young (https://www.youtube.com/@T87-Sulfurhead)"
 	musicpath = list('sound/music/combat_veteran.ogg')
 
+/datum/combat_music/vigilante
+	name = "Vigilante"
+	desc = "One ear to the road saves two steps to the grave."
+	shortname = "Vigilante"
+	credits = "Stoneshard - Track 5 (https://youtu.be/duI4N5MTyKY?si=aHEUbkUzEHSDsIRh)"
+	musicpath = list('sound/music/combat_vigilante.ogg')
+
 /datum/combat_music/watchman
 	name = "Watchman (Bailiff)"
 	desc = ""
@@ -504,7 +539,7 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 
 /datum/combat_music/zybantine
 	name = "Zybantine Slavers"
-	desc = ""
+	desc = "The right to own slaves is the greatest freedom a man could ask for."
 	shortname = "Zybantine"
 	credits = "Hakan Glante - Crusader Kings 3 Fate of Iberia OST - War \"Short\""
 	musicpath = list('sound/music/combat_zybantine.ogg')

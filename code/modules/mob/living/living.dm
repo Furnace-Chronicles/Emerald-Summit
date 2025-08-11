@@ -413,6 +413,14 @@
 
 		M.update_damage_hud()
 
+		if(HAS_TRAIT(M, TRAIT_GRABIMMUNE) && M.stat == CONSCIOUS) // Grab immunity check
+			if(M.cmode)
+				M.visible_message(span_warning("[M] breaks from [src]'s grip effortlessly!"), \
+						span_warning("I breaks from [src]'s grab effortlesly!"))
+				log_combat(src, M, "tried grabbing", addition="passive grab")
+				stop_pulling()
+				return
+
 		// Makes it so people who recently broke out of grabs cannot be grabbed again
 		if(TIMER_COOLDOWN_RUNNING(M, "broke_free") && M.stat == CONSCIOUS)
 			M.visible_message(span_warning("[M] slips from [src]'s grip."), \

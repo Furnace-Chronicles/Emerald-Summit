@@ -169,6 +169,10 @@
 		skill_diff += (user.get_skill_level(/datum/skill/combat/wrestling))
 	if(M.mind)
 		skill_diff -= (M.get_skill_level(/datum/skill/combat/wrestling))
+	if(HAS_TRAIT(M, TRAIT_GRABIMMUNE))
+		if(M.cmode)
+			to_chat(user, span_warning("Can't get a grip on this one!"))
+			return
 
 	if(M.compliance || M.surrendering)
 		combat_modifier = 2

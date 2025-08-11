@@ -493,6 +493,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Amulet of Abyssor"
 	path = /obj/item/clothing/neck/roguetown/psicross/abyssor
 
+/datum/loadout_item/psicross/xylix
+	name = "Amulet of Xylix"
+	path = /obj/item/clothing/neck/roguetown/psicross/xylix
+
 /datum/loadout_item/psicross/dendor
 	name = "Amulet of Dendor"
 	path = /obj/item/clothing/neck/roguetown/psicross/dendor

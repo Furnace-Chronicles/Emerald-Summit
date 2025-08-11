@@ -118,7 +118,7 @@
 			if(istype(user.dna.species, /datum/species/werewolf))
 				if(user.mind)
 					var/datum/antagonist/werewolf/lesser/WW = user.mind.has_antag_datum(/datum/antagonist/werewolf/lesser)
-					if(WW.wretch_antag == 0 && !HAS_TRAIT(src, TRAIT_SILVER_BLESSED))
+					if(!HAS_TRAIT(src, TRAIT_SILVER_BLESSED))
 						caused_wound?.werewolf_infect_attempt()
 						
 				if(HAS_TRAIT(src, TRAIT_SILVER_BLESSED))
@@ -253,7 +253,7 @@
 			if(istype(user.dna.species, /datum/species/werewolf))
 				if(user.mind)
 					var/datum/antagonist/werewolf/lesser/WW = user.mind.has_antag_datum(/datum/antagonist/werewolf/lesser)
-					if(WW.wretch_antag == 0 && !HAS_TRAIT(C, TRAIT_SILVER_BLESSED))
+					if(!HAS_TRAIT(C, TRAIT_SILVER_BLESSED))
 						caused_wound?.werewolf_infect_attempt()
 				if(prob(30))
 					user.werewolf_feed(C)
@@ -388,7 +388,7 @@
 
 	if(user.mind && user.mind.has_antag_datum(/datum/antagonist/vampire))
 		var/datum/antagonist/vampire/VDrinker = user.mind.has_antag_datum(/datum/antagonist/vampire)
-		if(VDrinker && VDrinker.wretch_antag)
+		if(VDrinker)
 			VDrinker.vitae = min(VDrinker.vitae + 400, 5000)
 			to_chat(user, span_notice("I gain 400 vitae from drinking blood. Current vitae: [VDrinker.vitae]"))
 		else if(VDrinker && !C.mind)
