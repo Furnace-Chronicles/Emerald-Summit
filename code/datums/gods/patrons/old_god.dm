@@ -4,7 +4,7 @@
 	desc = "Those who openly worship Psydon in defiance of the Holy See are seen as heretics, but most are regarded as harmless relics of a bygone age. Tolerated but scorned, they endure quietly, holding to the hope that PSYDON YET LIVES. PSYDON YET ENDURES."
 	worshippers = "Fanatics and Nostalgists"
 	associated_faith = /datum/faith/old_god
-	mob_traits = list(TRAIT_PSYDONITE)
+	// mob_traits = list(TRAIT_PSYDONITE)
 	miracles = list(
 		/obj/effect/proc_holder/spell/targeted/touch/orison = CLERIC_ORI,
 		/obj/effect/proc_holder/spell/self/check_boot = CLERIC_T0,
