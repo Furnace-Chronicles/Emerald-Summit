@@ -692,7 +692,7 @@
 			var/skip_vomit = FALSE
 			if(user.mind)
 				var/datum/antagonist/vampire/Vamp = user.mind.has_antag_datum(/datum/antagonist/vampire)
-				if(Vamp && Vamp.wretch_antag)
+				if(Vamp || Vamp.wretch_antag)
 					skip_vomit = TRUE
 			if(!skip_vomit)
 				to_chat(user, "<span class='warning'>I'm going to puke...</span>")
