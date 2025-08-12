@@ -137,6 +137,6 @@
 	name = "golem skill exhibitor"
 	result = /obj/item/ammo_casing/caseless/rogue/arrow/pyro
 	reqs = list(/obj/item/roguegear = 4,
-				/obj/item/ingot/gold = 2)
+				/obj/item/ingot/copper = 1)
 	craftdiff = 5
 	skillcraft = /datum/skill/craft/engineering
