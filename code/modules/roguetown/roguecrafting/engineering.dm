@@ -135,7 +135,7 @@
 //golem skill up component, check golem.dm
 /datum/crafting_recipe/roguetown/engineering/golem_skill_core
 	name = "golem skill exhibitor"
-	result = /obj/item/ammo_casing/caseless/rogue/arrow/pyro
+	result = /obj/item/golem_skill_core
 	reqs = list(/obj/item/roguegear = 4,
 				/obj/item/ingot/copper = 1)
 	craftdiff = 5
