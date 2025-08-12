@@ -123,7 +123,7 @@
 /obj/item/golem_skill_core
 	icon = 'icons/roguetown/items/misc.dmi'
 	name = "golem skill exhibitor"
-	desc = "A series of gears joined around a golden rod. When inserted into a Golem's head, it will allow them to grow their skills beyond their original design."
+	desc = "A series of gears joined around a copper rod. When inserted into a Golem's head, it will allow them to grow their skills beyond their original design."
 	icon_state = "golem_upgrade"
 	w_class = WEIGHT_CLASS_SMALL
 	smeltresult = /obj/item/ingot/bronze
