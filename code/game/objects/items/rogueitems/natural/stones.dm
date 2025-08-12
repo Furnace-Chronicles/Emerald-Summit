@@ -343,7 +343,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 			M.apply_status_effect(/datum/status_effect/buff/rockmuncher, healydoodle)
 			qdel(src)
 			if(M == user)
-				user.visible_message(span_notice("[user] presses the stone to [user]'s body, and it is absorbed."), span_notice("I absorb the stone."))
+				user.visible_message(span_notice("[user] presses the stone to [user.p_their()] body, and it is absorbed."), span_notice("I absorb the stone."))
 			else
 				user.visible_message(span_notice("[user] presses the stone to [M]'s body, and it is absorbed."), span_notice("I press the stone to [M], and it is absorbed."))
 
