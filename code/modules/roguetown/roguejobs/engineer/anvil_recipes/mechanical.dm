@@ -193,3 +193,12 @@
 	skillcraft = /datum/skill/magic/arcane
 	craftdiff = 5
 	*/
+
+
+//golem skill up component, check golem.dm
+/datum/anvil_recipe/engineering/golem_skill_core
+	name = "Golem Skill Exhibitor"
+	created_item = /obj/item/golem_skill_core
+	req_bar = /obj/item/ingot/copper
+	additional_items = list(/obj/item/roguegear, /obj/item/roguegear)
+	craftdiff = 4

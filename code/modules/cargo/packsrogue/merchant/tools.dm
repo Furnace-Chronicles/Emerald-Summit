@@ -224,3 +224,8 @@
 	name = "Surgeon's Bag, Full"
 	cost = 80
 	contains = list(/obj/item/storage/belt/rogue/surgery_bag)
+
+/datum/supply_pack/rogue/tools/golem_upgrades
+	name = "Golem Skill Exhibitor"
+	cost = 35
+	contains = list(/obj/item/golem_skill_core)
