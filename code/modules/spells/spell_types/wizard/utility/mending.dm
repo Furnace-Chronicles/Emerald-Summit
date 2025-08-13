@@ -41,7 +41,7 @@
 			if(H.getBruteLoss() || H.getFireLoss() || H.getToxLoss() || H.getCloneLoss() || H.getOrganLoss(ORGAN_SLOT_BRAIN) || H.getOxyLoss())
 				var/heal_amount = 10
 				if(user.mind)
-					heal_amount += (user.get_skill_level(/datum/skill/magic/arcane) * 10)//heal becomes significantly more potent the higher level your casting skill is
+					heal_amount += (user.get_skill_level(/datum/skill/magic/arcane) * 5)//heal becomes significantly more potent the higher level your casting skill is
 				var/list/wCount = H.get_wounds()
 				if(wCount.len > 0)
 					H.heal_wounds(-heal_amount)
