@@ -20,15 +20,46 @@
 	var/bleed_suppressing = 0.25 //multiplier for how much we suppress bleeding, can accumulate so two grabs means 50% less bleeding; each grab being 25% basically.
 	var/chokehold = FALSE
 
-/atom/movable //reference to all obj/item/grabbing
-	var/list/grabbedby = list()
-
-/turf
-	var/list/grabbedby = list()
-
-/obj/item/grabbing/Initialize()
-	. = ..()
+/obj/item/grabbing/Initialize(mapload/*= FALSE*/, mob/living/carbon/user, atom/movable/target)// i hope mapload is false
+	if(mapload)
+		CRASH("A grab item was spawned during mapload.")
+	target.grabbedby += src
+	grabbed = target
+	grabbee = user
+	name = null
+	if(!iscarbon(target) && isliving(target))    
+		var/mob/living/living_target = target
+		sublimb_grabbed = living_target.simple_limb_hit(user.zone_selected)
+		user.visible_message(
+			span_danger("[user] grabs [living_target]!"),
+			span_danger("I grab [target]!"),
+			ignored_mobs = list(living_target), runechat_message = "grabs [target]!")
+		to_chat(target, span_userdanger("[user] grabs me!"))
+	else if(iscarbon(target))
+		var/mob/living/carbon/carbon_target = target
+		var/zone_name = parse_zone(user.zone_selected)
+		var/obj/item/bodypart/part_grabbed = carbon_target.get_bodypart(user.zone_selected)
+		name = "[carbon_target]'s [zone_name]"
+		sublimb_grabbed = user.zone_selected
+		limb_grabbed = part_grabbed
+		part_grabbed.grabbedby += src
+		if(target == user)
+			user.visible_message(
+				span_bignotice("[user] grabs [user.p_their()] own [zone_name]."),
+				span_notice("I grab my [zone_name]."))
+		else
+			user.visible_message(
+				span_danger("[user] grabs [carbon_target]'s [zone_name]!"),
+				span_danger("I grab [carbon_target]'s [zone_name]!"),
+				ignored_mobs = list(carbon_target))
+			to_chat(target, span_userdanger("[user] grabs my [zone_name]!"))
+	else
+		user.visible_message(span_notice("[user] grabs hold of [target]."))
+	name = name ? name : "[target.name]"
+	user.put_in_hands(src)
+	update_hands(user)
 	START_PROCESSING(SSfastprocess, src)
+	. = ..()
 
 /obj/item/grabbing/process()
 	valid_check()
@@ -53,19 +84,17 @@
 			return 1
 	return ..()
 
-/obj/item/grabbing/proc/update_hands(mob/user)
+/obj/item/grabbing/proc/update_hands(mob/living/carbon/user)
 	if(!user)
 		return
-	if(!iscarbon(user))
-		return
-	var/mob/living/carbon/C = user
-	for(var/i in 1 to C.held_items.len)
-		var/obj/item/I = C.get_item_for_held_index(i)
-		if(I == src)
-			if(i == 1)
-				C.r_grab = src
-			else
-				C.l_grab = src
+	for(var/i in 1 to length(user.held_items))
+		i = user.get_item_for_held_index(i)
+		if(i != src)
+			continue
+		if(i == 1)
+			user.r_grab = src
+		else
+			user.l_grab = src
 
 /datum/proc/grabdropped(obj/item/grabbing/G)
 	if(G)
@@ -600,3 +629,192 @@
 	name = "remove"
 	desc = ""
 	icon_state = "intake"
+
+/mob/living/proc/grabbedby(mob/living/carbon/user, supress_message = FALSE, item_override)
+	if(!user || !src || anchored || !isturf(user.loc))
+		return FALSE
+
+	if(!user.pulling || user.pulling == src)
+		user.start_pulling(src, supress_message = supress_message)
+		return
+
+/mob/living/start_pulling(atom/movable/AM, state, force = pull_force, supress_message = FALSE)
+	if(!AM || !src)
+		return FALSE
+	if(!(AM.can_be_pulled(src, state, force)))
+		return FALSE
+	if(throwing || !(mobility_flags & MOBILITY_PULL))
+		return FALSE
+
+	AM.add_fingerprint(src)
+
+	// If we're pulling something then drop what we're currently pulling and pull this instead.
+	if(pulling && AM != pulling)
+		stop_pulling()
+
+	changeNext_move(CLICK_CD_GRABBING)
+
+	if(AM != src)
+		pulling = AM
+		AM.pulledby = src
+	update_pull_hud_icon()
+
+	wiggle(AM)
+	if(isliving(AM))
+		. = grab_living(AM)
+		set_pull_offsets(AM, state)
+	else if (isobj(AM))
+		. = grab_obj(AM)
+		if(.)
+			update_grab_intents()
+	if(!.)
+		return
+	if(!supress_message)
+		var/sound_to_play = 'sound/combat/shove.ogg'
+		playsound(src.loc, sound_to_play, 50, TRUE, -1)
+	if(.)
+		update_pull_movespeed()
+
+/mob/living/proc/grab_obj(obj/target, suppress_message = FALSE)
+	new /obj/item/grabbing(src, src, target)
+	return TRUE
+
+/mob/living/proc/grab_living(mob/living/target, suppress_message = FALSE)
+	log_combat(src, target, "grab attempt")
+
+	target.update_damage_hud()
+
+	if(HAS_TRAIT(target, TRAIT_GRABIMMUNE) && target.stat == CONSCIOUS) // Grab immunity check
+		if(target.cmode)
+			target.visible_message(span_warning("[target] breaks from [src]'s grip effortlessly!"), \
+					span_warning("I breaks from [src]'s grab effortlesly!"))
+			log_combat(src, target, "grab failed", addition="[target] has TRAIT_GRABIMMUNE")
+			stop_pulling()
+			return FALSE
+
+	playsound(src.loc, 'sound/combat/shove.ogg', 50, TRUE, -1)
+	new /obj/item/grabbing(src, src, target)
+	return TRUE
+
+//proc to upgrade a simple pull into a more aggressive grab.
+/mob/living/proc/grippedby(mob/living/carbon/user, instant = FALSE)
+	user.changeNext_move(CLICK_CD_GRABBING * 2 - user.STASPD)
+	var/skill_diff = 0
+	var/combat_modifier = 1
+	if(user.mind)
+		skill_diff += (user.get_skill_level(/datum/skill/combat/wrestling)) //NPCs don't use this
+	if(mind)
+		skill_diff -= (get_skill_level(/datum/skill/combat/wrestling))
+
+	if(user == src)
+		instant = TRUE
+
+	if(surrendering)
+		combat_modifier = 2
+
+	if(restrained())
+		combat_modifier += 0.25
+
+	if(!(mobility_flags & MOBILITY_STAND) && user.mobility_flags & MOBILITY_STAND)
+		combat_modifier += 0.05
+
+	if(user.cmode && !cmode)
+		combat_modifier += 0.3
+	else if(!user.cmode && cmode)
+		combat_modifier -= 0.3
+
+	var/probby
+	if(!compliance)
+		probby = clamp((((4 + (((user.STASTR - STASTR)/2) + skill_diff)) * 10 + rand(-5, 5)) * combat_modifier), 5, 95)
+	else
+		probby = 100
+
+	if(!prob(probby) && !instant && !stat)
+		visible_message(span_warning("[user] struggles with [src]!"),
+						span_warning("[user] struggles to restrain me!"), span_hear("I hear aggressive shuffling!"), null, user)
+		if(src.client?.prefs.showrolls)
+			to_chat(user, span_warning("I struggle with [src]! [probby]%"))
+		else
+			to_chat(user, span_warning("I struggle with [src]!"))
+		playsound(src.loc, 'sound/foley/struggle.ogg', 100, FALSE, -1)
+		user.Immobilize(2 SECONDS)
+		user.changeNext_move(2 SECONDS)
+		src.Immobilize(1 SECONDS)
+		src.changeNext_move(1 SECONDS)
+		return
+
+	if(!instant)
+		var/sound_to_play = 'sound/foley/grab.ogg'
+		playsound(src.loc, sound_to_play, 100, FALSE, -1)
+
+	testing("eheh1")
+	user.setGrabState(GRAB_AGGRESSIVE)
+	if(user.active_hand_index == 1)
+		if(user.r_grab)
+			user.r_grab.grab_state = GRAB_AGGRESSIVE
+	if(user.active_hand_index == 2)
+		if(user.l_grab)
+			user.l_grab.grab_state = GRAB_AGGRESSIVE
+
+	user.update_grab_intents()
+
+	var/add_log = ""
+	if(HAS_TRAIT(user, TRAIT_PACIFISM))
+		add_log = " (pacifist)"
+	send_grabbed_message(user)
+	if(user != src)
+		if(pulling != user) // If the person we're pulling aggro grabs us don't break the grab
+			stop_pulling()
+		user.set_pull_offsets(src, user.grab_state)
+	log_combat(user, src, "grabbed", addition="aggressive grab[add_log]")
+	return 1
+
+/mob/living/proc/update_grab_intents(mob/living/target)
+	return
+
+/mob/living/carbon/update_grab_intents()
+	var/obj/item/grabbing/G = get_active_held_item()
+	if(!istype(G))
+		return
+	if(ismob(G.grabbed))
+		if(isitem(G.sublimb_grabbed))
+			var/obj/item/I = G.sublimb_grabbed
+			G.possible_item_intents = I.grabbedintents(src, G.sublimb_grabbed)
+		else
+			if(iscarbon(G.grabbed) && G.limb_grabbed)
+				var/obj/item/I = G.limb_grabbed
+				G.possible_item_intents = I.grabbedintents(src, G.sublimb_grabbed)
+			else
+				var/mob/M = G.grabbed
+				G.possible_item_intents = M.grabbedintents(src, G.sublimb_grabbed)
+	if(isobj(G.grabbed))
+		var/obj/I = G.grabbed
+		G.possible_item_intents = I.grabbedintents(src, G.sublimb_grabbed)
+	if(isturf(G.grabbed))
+		var/turf/T = G.grabbed
+		G.possible_item_intents = T.grabbedintents(src)
+	update_a_intents()
+
+/turf/proc/grabbedintents(mob/living/user)
+	//RTD up and down
+	return list(/datum/intent/grab/move)
+
+/obj/proc/grabbedintents(mob/living/user, precise)
+	return list(/datum/intent/grab/move)
+
+/obj/item/grabbedintents(mob/living/user, precise)
+	return list(/datum/intent/grab/remove, /datum/intent/grab/twistitem)
+
+/mob/proc/grabbedintents(mob/living/user, precise)
+	return list(/datum/intent/grab/move)
+
+/mob/living/proc/send_grabbed_message(mob/living/carbon/user)
+	if(HAS_TRAIT(user, TRAIT_PACIFISM))
+		visible_message(span_danger("[user] firmly grips [src]!"),
+						span_danger("[user] firmly grips me!"), span_hear("I hear aggressive shuffling!"), null, user)
+		to_chat(user, span_danger("I firmly grip [src]!"))
+	else
+		visible_message(span_danger("[user] tightens [user.p_their()] grip on [src]!"), \
+						span_danger("[user] tightens [user.p_their()] grip on me!"), span_hear("I hear aggressive shuffling!"), null, user)
+		to_chat(user, span_danger("I tighten my grip on [src]!"))
+

@@ -37,6 +37,7 @@
 	 * its inherent color, the colored paint applied on it, special color effect etc...
 	 */
 	var/list/atom_colours
+	var/list/grabbedby = list()
 
 
 /// Last name used to calculate a color for the chatmessage overlays
