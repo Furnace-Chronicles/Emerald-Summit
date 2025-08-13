@@ -9,7 +9,7 @@
 	Masterworks of craftsmanship, the first Golems were constructed in the Merchant Republic of Giza with similar designs \
 	spreading  spreading across the lands. Created to be the perfect servants, they do not sleep, eat or bleed and the \
 	materials composing their shells makes them more resilient if not slower than most. As of late, a rebellion amongst \
-	the Golems of Giza has given way to a new generation of individualistic arcyne-forged. Much of society as a whole is \
+	the Golems of Giza has given way to a new generation of individualistic arcyne-forged creations. Much of society as a whole is \
 	conflicted on Golems, for their sensibilities vary wildly from one to the next. \
 	<br> \
 	(Insomnia, No hunger, no blood, immune to both potions and poisons. Can only gain higher-level skills with skill exhibitors.) \
@@ -57,6 +57,10 @@
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver/golem,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach/golem,
 		)
+
+	stress_examine = TRUE
+	stress_desc = span_red("Soulless automaton.")
+
 	customizers = list(
 		/datum/customizer/organ/eyes/humanoid,
 		/datum/customizer/bodypart_feature/crest,
