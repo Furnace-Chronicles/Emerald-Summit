@@ -611,7 +611,7 @@
 	..()
 
 /mob/living/carbon/human/vomit(lost_nutrition = 10, blood = 0, stun = 1, distance = 0, message = 1, toxic = 0)
-	if(blood && (NOBLOOD in dna.species.species_traits) && !HAS_TRAIT(src, TRAIT_TOXINLOVER))
+	if(blood && (NOBLOOD in dna.species.species_traits) && !HAS_TRAIT(src, TRAIT_TOXINLOVER) && !HAS_TRAIT(src, TRAIT_NOMETABOLISM))
 		if(message)
 			visible_message(span_warning("[src] dry heaves!"), \
 							span_danger("I try to throw up, but there's nothing in your stomach!"))

@@ -100,6 +100,8 @@
 	var/bleed_rate = 0
 	if(bandage && !HAS_BLOOD_DNA(bandage))
 		return 0
+	if(NOBLOOD in owner?.dna?.species?.species_traits)
+		return FALSE
 	for(var/datum/wound/wound in wounds)
 		if(istype(wound, /datum/wound))
 			bleed_rate += wound.bleed_rate
