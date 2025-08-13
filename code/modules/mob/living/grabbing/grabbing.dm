@@ -88,8 +88,8 @@
 	if(!user)
 		return
 	for(var/i in 1 to length(user.held_items))
-		i = user.get_item_for_held_index(i)
-		if(i != src)
+		var/obj/item/held = user.get_item_for_held_index(i)
+		if(held != src)
 			continue
 		if(i == 1)
 			user.r_grab = src
