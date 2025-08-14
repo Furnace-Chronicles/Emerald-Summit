@@ -13,7 +13,7 @@
 	conflicted on Golems, for their sensibilities vary wildly from one to the next. \
 	<br> \
 	(Insomnia, No hunger, no blood, immune to both potions and poisons. Can only gain higher-level skills with skill exhibitors.) \
-	(+2 Constitution, -2 Speed)"
+	(+2 Constitution, -1 Speed)"
 
 	construct = 1
 	skin_tone_wording = "Material"
