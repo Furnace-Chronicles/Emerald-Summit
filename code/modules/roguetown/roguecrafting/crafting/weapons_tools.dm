@@ -234,7 +234,7 @@
 		)
 
 /datum/crafting_recipe/roguetown/survival/stonepick
-	name = "stone pick"
+	name = "git merge life-optimizations"
 	category = "Tools"
 	result = /obj/item/rogueweapon/pick/stone
 	reqs = list(

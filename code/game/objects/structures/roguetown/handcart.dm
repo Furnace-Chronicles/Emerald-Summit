@@ -116,7 +116,8 @@
 			//shortened distance on this message to minimize the potential of it being spammed
 			visible_message(span_warn("[moved_atom] is simply too big to fit within the space remaining inside [src], and it tumbles out."), vision_distance = 1)
 			moved_atom.forceMove(drop_location())
-			moved_item?.after_throw()	
+			if(moved_item)
+				INVOKE_ASYNC(moved_item, TYPE_PROC_REF(/obj/item, after_throw))
 	else
 		current_capacity -= weight
 	update_icon()
@@ -127,7 +128,7 @@
 		AM.forceMove(L)
 		if(isitem(AM))
 			var/obj/item/moved_item = AM
-			moved_item.after_throw()
+			INVOKE_ASYNC(moved_item, TYPE_PROC_REF(/obj/item, after_throw))
 
 /obj/structure/handcart/MouseDrop_T(atom/movable/mousedropping, mob/living/user)
 	if(!istype(mousedropping) || !isturf(mousedropping.loc) || istype(mousedropping, /atom/movable/screen))

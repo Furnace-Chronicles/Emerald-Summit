@@ -485,7 +485,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		to_chat(src, "I am already the Master of Scarlet Reach.")
 		return
 	for(var/mob/living/carbon/human/given_human in oview(1))
-		if(SSticker.rulermob == user)
+		if(SSticker.rulermob == given_human)
 			given_human.receive_submission(src)
 
 /mob/living/carbon/human/proc/receive_submission(mob/living/carbon/human/lord)
