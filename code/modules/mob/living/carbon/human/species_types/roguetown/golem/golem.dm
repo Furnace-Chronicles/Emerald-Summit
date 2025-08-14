@@ -200,7 +200,7 @@
 				M.adjust_skillrank(real_skill, 1, FALSE)
 				//GLOB.scarlet_round_stats[STATS_SKILLS_DREAMED]++ //up for debate whether golems gaining skills like this should count
 				M.visible_message(span_notice("[M] absorbs [src]."), span_notice("I absorb [src] into myself, becoming more skilled."))
-				if(M.get_skill_level(real_skill) >= 5)//if our skill is now master or legendary level, gain a triumph
+				if(M.get_skill_level(real_skill) >= 4)//if our skill is now expert or more, gain a triumph
 					to_chat(M, span_boldgreen("Gaining such exquisite expertise in [lowertext(skill_choice)] is a true TRIUMPH."))
 					M.adjust_triumphs(1)
 				M.allmig_reward++//we also need to do this for RCP and endround triumphs- it's the closest thing Golems have to sleeping.
