@@ -391,7 +391,7 @@
 					nearby_pet = target
 					break
 			if(!nearby_pet)
-				if(!do_not_remove) // leash will unregister them next process(), to not spontaneously throw pet up a z-level
+				if(leash.leash_pet && !do_not_remove) // leash will unregister them next process(), to not spontaneously throw pet up a z-level
 					leash.leash_pet.remove_status_effect(/datum/status_effect/leash_pet)
 				continue
 			else
