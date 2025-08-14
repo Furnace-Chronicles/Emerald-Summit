@@ -125,14 +125,9 @@
 	W.adjust_skillrank(/datum/skill/misc/climbing, 6, TRUE)
 	W.adjust_skillrank(/datum/skill/misc/swimming, 5, TRUE)
 	
-	W.STASTR = src.STASTR +5
-	W.STACON = src.STACON +5
-	W.STAEND = src.STAEND +5
-	W.STAINT = src.STAINT -3
-	W.STAPER = src.STAPER
-	W.STASPD = src.STASPD
-	W.STALUC = src.STALUC
-
+	W.STASTR = 20 // LOCK IN
+	W.STACON = 20
+	W.STAEND = 20
 
 	W.AddSpell(new /obj/effect/proc_holder/spell/self/howl/call_of_the_moon)
 	W.AddSpell(new /obj/effect/proc_holder/spell/self/claws)

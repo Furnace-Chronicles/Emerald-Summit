@@ -67,13 +67,6 @@
 					/obj/item/rogueweapon/flail,
 				)
 
-/datum/supply_pack/rogue/iron_weapons/flail
-	name = "Iron Flail"
-	cost = 25 // 1 Iron Ingot
-	contains = list(
-					/obj/item/rogueweapon/flail,
-				)
-
 /datum/supply_pack/rogue/iron_weapons/zweihander
 	name = "Iron Zweihander"
 	cost = 40 // 2 Iron Ingot

@@ -410,6 +410,10 @@ SUBSYSTEM_DEF(ticker)
 
 //	setup_hell()
 	SStriumphs.fire_on_PostSetup()
+	
+	// Reset the found_lords list for the new round
+	reset_found_lords()
+	
 	for(var/i in GLOB.start_landmarks_list)
 		var/obj/effect/landmark/start/S = i
 		if(istype(S))							//we can not runtime here. not in this important of a proc.

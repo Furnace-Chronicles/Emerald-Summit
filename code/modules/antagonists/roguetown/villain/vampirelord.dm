@@ -1,8 +1,8 @@
 /// DEFINITIONS ///
 #define VAMP_LEVEL_ONE 10000
-#define VAMP_LEVEL_TWO 12000
-#define VAMP_LEVEL_THREE 15000
-#define VAMP_LEVEL_FOUR 20000
+#define VAMP_LEVEL_TWO 15000
+#define VAMP_LEVEL_THREE 25000
+#define VAMP_LEVEL_FOUR 40000
 
 GLOBAL_LIST_EMPTY(vampire_objects)
 
@@ -11,7 +11,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	roundend_category = "Vampires"
 	antagpanel_category = "Vampire"
 	job_rank = ROLE_VAMPIRE
-	var/list/inherent_traits = list(TRAIT_STRONGBITE, TRAIT_NOBLE, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_NOPAIN, TRAIT_TOXIMMUNE, TRAIT_STEELHEARTED, TRAIT_NOSLEEP, TRAIT_VAMPMANSION, TRAIT_VAMP_DREAMS, TRAIT_INFINITE_STAMINA, TRAIT_HEAVYARMOR, TRAIT_COUNTERCOUNTERSPELL, TRAIT_STRENGTH_UNCAPPED, TRAIT_CRITICAL_WEAKNESS)
+	var/list/inherent_traits = list(TRAIT_STRONGBITE, TRAIT_NOBLE, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_NOPAIN, TRAIT_TOXIMMUNE, TRAIT_STEELHEARTED, TRAIT_NOSLEEP, TRAIT_VAMPMANSION, TRAIT_VAMP_DREAMS, TRAIT_INFINITE_STAMINA, TRAIT_GRABIMMUNE, TRAIT_HEAVYARMOR, TRAIT_COUNTERCOUNTERSPELL, TRAIT_STRENGTH_UNCAPPED, TRAIT_CRITICAL_WEAKNESS)
 	antag_hud_type = ANTAG_HUD_VAMPIRE
 	antag_hud_name = "Vlord"
 	confess_lines = list(
@@ -61,7 +61,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	owner.special_role = name
 	for(var/inherited_trait in inherent_traits)
 		ADD_TRAIT(owner.current, inherited_trait, "[type]")
-	owner.current.cmode_music = 'sound/music/combat_vamp2.ogg' // vampire lords get this too... For Now.
+	owner.current.cmode_music = 'sound/music/combat_vamp2.ogg'
 	owner.current.AddSpell(new /obj/effect/proc_holder/spell/targeted/transfix)
 	owner.current.verbs |= /mob/living/carbon/human/proc/vamp_regenerate
 	owner.current.verbs |= /mob/living/carbon/human/proc/vampire_telepathy
@@ -124,9 +124,9 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 /datum/outfit/job/roguetown/vamplord/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/magic/blood, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 6, TRUE) //he has been alive for 2 thousand years, bro why
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 6, TRUE) // this was a problem in playtesting so i'm giving them legendary wrestling
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 6, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 6, TRUE) // he has been alive for 2 thousand years, bro why
 	H.adjust_skillrank(/datum/skill/combat/maces, 6, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 6, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/whipsflails, 6, TRUE)
@@ -140,42 +140,27 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	cloak = /obj/item/clothing/cloak/cape/puritan
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	backl = /obj/item/storage/backpack/rogue/satchel/black
+	backr = /obj/item/rogueweapon/sword/long/vlord // this shit should NOT be on the map otherwise
 	H.ambushable = FALSE
 
-
-
-/datum/outfit/job/roguetown/vampthrall/pre_equip(mob/living/carbon/human/H)
-	H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/shields, 4, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 4, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 4, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/bows, 4, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 4, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, 4, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 4, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 4, TRUE)
+/datum/outfit/job/roguetown/vampthrall/pre_equip(mob/living/carbon/human/H) // you're old but you ain't that old
+	H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/crossbows, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
 	H.ambushable = FALSE
 
 ////////Outfits////////
-/obj/item/clothing/under/roguetown/platelegs/vampire
-	name = "ancient plate greaves"
-	desc = ""
-	gender = PLURAL
-	icon_state = "vpants"
-	item_state = "vpants"
-	sewrepair = FALSE
-	armor = ARMOR_VAMP
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
-	blocksound = PLATEHIT
-	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
-	anvilrepair = /datum/skill/craft/armorsmithing
-	resistance_flags = FIRE_PROOF | ACID_PROOF
-
 /obj/item/clothing/suit/roguetown/shirt/vampire
 	slot_flags = ITEM_SLOT_SHIRT
 	name = "regal silks"
@@ -187,6 +172,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 
 /obj/item/clothing/head/roguetown/vampire
 	name = "crown of darkness"
+	desc = "A crown of iridescent power that radiates terrible evil. Staring at it gives you a sense of unease."
 	icon_state = "vcrown"
 	body_parts_covered = null
 	slot_flags = ITEM_SLOT_HEAD
@@ -194,56 +180,76 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	sellprice = 1000
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/iron/vampire
-	icon_state = "vunder"
-	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
-	name = "ancient chain shirt"
-	desc = ""
-	body_parts_covered = COVERAGE_TORSO
-	armor_class = 2
+/obj/item/clothing/under/roguetown/platelegs/vampire
+	name = "ancient plate chausses"
+	desc = "Carefully-weighted plate armor leggings dextrous enough to move in at any speed whilst strong enough to deflect bolts from crossbows."
+	gender = PLURAL
+	icon_state = "vpants"
+	item_state = "vpants"
+	sewrepair = FALSE
+	armor = ARMOR_VAMP
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
+	max_integrity = 500
+	blocksound = PLATEHIT
+	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
+	anvilrepair = /datum/skill/craft/armorsmithing
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/clothing/suit/roguetown/armor/plate/vampire
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "ancient ceremonial plate"
-	desc = ""
-	body_parts_covered = COVERAGE_TORSO
+	desc = "A panoply of plate armor adorned with ancient filligree and reinforced with alloying techniques known only to the likes of gods."
+	body_parts_covered = COVERAGE_FULL // this is fullplate duhh
 	icon_state = "vplate"
 	item_state = "vplate"
 	armor = ARMOR_VAMP
+	allowed_race = CLOTHED_RACES_TYPES
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	nodismemsleeves = TRUE
 	max_integrity = 500
 	allowed_sex = list(MALE, FEMALE)
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/steel
-	equip_delay_self = 40
-	armor_class = 3
+	equip_delay_self = 12 SECONDS
+	unequip_delay_self = 12 SECONDS
+	equip_delay_other = 3 SECONDS
+	strip_delay = 6 SECONDS
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/clothing/shoes/roguetown/boots/armor/vampire
 	name = "ancient ceremonial plated boots"
-	desc = ""
+	desc = "Boots adorned with shimmering decorations and plated in an alloy not even the land's most legendary smiths could hope to replicate."
 	body_parts_covered = FEET
 	icon_state = "vboots"
 	item_state = "vboots"
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
-	color = null
+	max_integrity = 500
 	blocksound = PLATEHIT
 	armor = ARMOR_VAMP
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/clothing/head/roguetown/helmet/heavy/vampire
 	name = "ancient ceremonial helm"
+	desc = "A terrible casque with the visage of Kaine upon the visor, plated with impossibly strong metals mortal minds cannot comprehend."
 	icon_state = "vhelmet"
-	max_integrity = 250
+	armor = ARMOR_VAMP
+	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	max_integrity = 500
 	block2add = FOV_BEHIND
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/clothing/gloves/roguetown/chain/vampire
 	name = "ancient ceremonial gloves"
+	desc = "Dextrous gloves that combine a chainmail gauntlet with well-woven outer plating to offer supreme hand protection without sacrificing mobility."
 	icon_state = "vgloves"
+	armor = ARMOR_VAMP
+	prevent_crits = list(BCLASS_CHOP, BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+	blocksound = PLATEHIT
+	max_integrity = 500
+	blade_dulling = DULLING_BASH
+	break_sound = 'sound/foley/breaksound.ogg'
+	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /datum/antagonist/vampirelord/on_removal()
@@ -639,14 +645,15 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 					user.playsound_local(get_turf(src), 'sound/misc/vcraft.ogg', 100, FALSE, pressure_affected = FALSE)
 		if("Shape Armor")
 			if(alert(user, "Craft a new set of armor? Cost:5000","","Yes","No") == "Yes")
-				if(!check_withdraw(-5000))
+				if(!check_withdraw(-7500)) // strongest armor in the game, it's gonna cost you a fucking lot
 					to_chat(user, "I don't have enough vitae!")
 					return
 				if(do_after(user, 100))
-					lord.handle_vitae(-5000)
+					lord.handle_vitae(-7500)
 					new /obj/item/clothing/under/roguetown/platelegs/vampire(user.loc)
-					new /obj/item/clothing/neck/roguetown/gorget/steel(user.loc)
-					new /obj/item/clothing/suit/roguetown/armor/chainmail/iron/vampire(user.loc)
+					new /obj/item/clothing/neck/roguetown/bevor(user.loc)
+					new /obj/item/clothing/wrists/roguetown/bracers(user.loc)
+					new /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk(user.loc)
 					new /obj/item/clothing/suit/roguetown/armor/plate/vampire(user.loc)
 					new /obj/item/clothing/shoes/roguetown/boots/armor/vampire(user.loc)
 					new /obj/item/clothing/head/roguetown/helmet/heavy/vampire(user.loc)
@@ -771,6 +778,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 						to_chat(user, "I don't have enough vitae!")
 						return
 					if(do_after(user, 100))
+						lord.handle_vitae(-5000)
 						to_chat(user, "I have summoned a knight from the underworld. I need only wait for them to materialize.")
 						SSmapping.add_world_trait(/datum/world_trait/death_knight, -1)
 						for(var/mob/dead/observer/D in GLOB.player_list)
@@ -785,11 +793,12 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 				if(GLOB.tod == "night")
 					to_chat(user, "It's already night!")
 					return
-				if(alert(user, "Force Enigma into Night? Cost:5000","","Yes","No") == "Yes")
-					if(!lord.mypool.check_withdraw(-2500))
+				if(alert(user, "Force Enigma into Night? Cost:10000","","Yes","No") == "Yes")
+					if(!lord.mypool.check_withdraw(-10000))
 						to_chat(user, "I don't have enough vitae!")
 						return
 					if(do_after(user, 100))
+						lord.handle_vitae(-10000)
 						GLOB.todoverride = "night"
 						sunstolen = TRUE
 						settod()
@@ -814,7 +823,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	if(LAZYLEN(candidates))
 		var/mob/dead/observer/C = pick(candidates)
 		log_game("VAMPIRE LOG: [C.ckey] chosen as new death knight.")
-		var/mob/living/carbon/human/new_knight = new /mob/living/carbon/human/species/human/northern()
+		var/mob/living/carbon/human/new_knight = new /mob/living/carbon/human/species/skeleton/no_equipment()
 		new_knight.forceMove(usr.loc)
 		new_knight.ckey = C.key
 		new_knight.equipOutfit(/datum/job/roguetown/deathknight)

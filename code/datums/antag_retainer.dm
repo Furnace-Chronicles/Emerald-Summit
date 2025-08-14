@@ -50,31 +50,70 @@
 		if(!vampyr)
 			return "werewolf"
 
+
+var/global/list/found_lords = list() 
+
+/proc/reset_found_lords()
+	found_lords.Cut()
+
+/proc/cleanup_found_lords()
+	// Only clean up if we have a functional living lord (meaning the crisis is over)
+	var/has_functional_lord = FALSE
+	for(var/mob/living/carbon/human/H in GLOB.human_list)
+		if(H.mind && (H.mind.assigned_role == "Grand Duke" || H.mind.assigned_role == "Grand Duchess"))
+			if(H.stat != DEAD && !isbrain(H) && H.get_bodypart(BODY_ZONE_HEAD))
+				has_functional_lord = TRUE
+				break
+	
+	if(has_functional_lord)
+		var/list/valid_ckeys = list()
+		for(var/mob/living/carbon/human/H in GLOB.human_list)
+			if(H.ckey)
+				valid_ckeys += H.ckey
+		
+		for(var/ckey in found_lords)
+			if(ckey && !(ckey in valid_ckeys))
+				found_lords -= ckey
+
 /proc/check_for_lord(forced = FALSE)
-	if(!forced && (world.time < SSticker.next_lord_check))
+	if(!SSticker.next_lord_check || world.time < SSticker.next_lord_check)
 		return
 	SSticker.next_lord_check = world.time + 1 MINUTES
-	var/lord_found = FALSE
-	var/lord_dead = FALSE
+	
+	var/living_lord_found = FALSE
+	
+	// Check for living lords and track all lords
 	for(var/mob/living/carbon/human/H in GLOB.human_list)
-		if(H.mind)
-			if(H.job == "Monarch")
-				lord_found = TRUE
-				if(H.stat == DEAD)
-					lord_dead = TRUE
-				else
-					if(lord_dead)
-						lord_dead = FALSE
-					break
-	if(lord_dead || !lord_found)
-		if(!SSticker.missing_lord_time)
-			SSticker.missing_lord_time = world.time
-		if(world.time > SSticker.missing_lord_time + 10 MINUTES)
-			SSticker.missing_lord_time = world.time
-			addomen(OMEN_NOLORD)
-		return FALSE
-	else
-		return TRUE
+		if(H.mind && (H.mind.assigned_role == "Grand Duke" || H.mind.assigned_role == "Grand Duchess"))
+			if(H.ckey)
+				found_lords[H.ckey] = TRUE
+			
+			// Check if the lord is actually functional
+			if(H.stat != DEAD && !isbrain(H) && H.get_bodypart(BODY_ZONE_HEAD))
+				living_lord_found = TRUE
+				if(hasomen(OMEN_NOLORD))
+					removeomen(OMEN_NOLORD)
+				break
+	
+	// Check for dead/missing lords if no living ones found and omen doesn't exist
+	if(!living_lord_found && found_lords.len > 0 && !hasomen(OMEN_NOLORD))
+		for(var/ckey in found_lords)
+			var/mob/living/carbon/human/dead_lord = locate(ckey) in GLOB.human_list
+			if(!dead_lord || dead_lord.stat == DEAD || dead_lord.stat == 3 || !dead_lord.get_bodypart(BODY_ZONE_HEAD))
+				// Found a dead/missing lord, handle missing lord logic
+				if(!SSticker.missing_lord_time)
+					SSticker.missing_lord_time = world.time
+				
+				if(forced || (world.time > SSticker.missing_lord_time + 10 MINUTES))
+					SSticker.missing_lord_time = world.time
+					addomen(OMEN_NOLORD)
+					// Announce the omen to players
+					var/datum/round_event_control/R = new()
+					R.badomen(OMEN_NOLORD)
+				break
+	
+	cleanup_found_lords()
+	return living_lord_found
 
 /proc/age_check(client/C)
 	if(get_remaining_days(C) == 0)

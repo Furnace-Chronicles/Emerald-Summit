@@ -148,8 +148,8 @@
 
 	var/list/virtue_restrictions
 	var/list/vice_restrictions
-	
 
+	var/carebox_table = null
 
 
 /datum/job/proc/special_job_check(mob/dead/new_player/player)

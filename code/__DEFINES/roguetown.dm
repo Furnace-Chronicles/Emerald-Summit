@@ -140,7 +140,7 @@
 #define ARMOR_SWORD list("blunt" = 60, "slash" = 50, "stab" = 50, "piercing" = 0)
 
 //Antag / Special / Unique armor defines
-#define ARMOR_VAMP list("blunt" = 100, "slash" = 100, "stab" = 90, "piercing" = 0, "fire" = 0, "acid" = 0)
+#define ARMOR_VAMP list("blunt" = 80, "slash" = 200, "stab" = 100, "piercing" = 80, "fire" = 80, "acid" = 0) // vulnerable to blunt and piercing attacks
 #define ARMOR_WWOLF list("blunt" = 100, "slash" = 90, "stab" = 80, "piercing" = 70, "fire" = 40, "acid" = 0)
 #define ARMOR_DRAGONSCALE list("blunt" = 100, "slash" = 100, "stab" = 100, "fire" = 50, "acid" = 0)
 #define ARMOR_ASCENDANT list("blunt" = 50, "slash" = 100, "stab" = 80, "piercing" = 80, "fire" = 0, "acid" = 0)
@@ -187,7 +187,6 @@
 	/datum/species/moth,\
 	/datum/species/dracon,\
 	/datum/species/anthromorph,\
-	/datum/species/anthromorphsmall,\
 	/datum/species/demihuman,\
 	/datum/species/halforc,\
 	/datum/species/kobold,\
@@ -211,12 +210,14 @@
 
 #define RACES_MANMADE \
 	/datum/species/golem/metal,\
+	/datum/species/golem/porcelain,\
 
 #define RACES_SECOND_CLASS \
     /datum/species/vulpkanin,\
     /datum/species/lupian,\
     /datum/species/moth,\
     /datum/species/anthromorph,\
+    /datum/species/anthromorphsmall,\
     /datum/species/tabaxi,\
     /datum/species/lizardfolk,\
     /datum/species/dracon,\
@@ -226,10 +227,10 @@
 	/datum/species/halforc,\
 
 #define RACES_WIDELY_REVILED \
-    /datum/species/anthromorphsmall,\
     /datum/species/kobold,\
     /datum/species/goblinp,\
-	/datum/species/dullahan,\
+    /datum/species/anthromorphsmall,\
+  	/datum/species/dullahan,\
 
 #define RACES_NOBILITY_ELIGIBLE_UP list(RACES_NOBILITY_ELIGIBLE)
 
@@ -270,6 +271,7 @@
 	/datum/species/kobold,\
 	/datum/species/goblinp,\
 	/datum/species/golem/metal,\
+	/datum/species/golem/porcelain,\
 	/datum/species/dullahan,\
 )
 
@@ -295,6 +297,7 @@
 	/datum/species/kobold,\
 	/datum/species/goblinp,\
 	/datum/species/golem/metal,\
+	/datum/species/golem/porcelain,\
 	/datum/species/dullahan,\
 )
 // Non-dwarf non-kobold non-goblin mostly
@@ -316,6 +319,7 @@
 	/datum/species/demihuman,\
 	/datum/species/halforc,\
 	/datum/species/golem/metal,\
+	/datum/species/golem/porcelain,\
 	/datum/species/dullahan,\
 )
 // Non-elf non-dwarf non-kobold non-goblin mostly
@@ -333,6 +337,7 @@
 	/datum/species/anthromorph,\
 	/datum/species/demihuman,\
 	/datum/species/golem/metal,\
+	/datum/species/golem/porcelain,\
 	/datum/species/dullahan,\
 )
 #define ALL_CLERIC_PATRONS list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/dendor, /datum/patron/divine/necra, /datum/patron/divine/pestra, /datum/patron/divine/ravox, /datum/patron/divine/malum, /datum/patron/divine/eora) // Currently unused.
