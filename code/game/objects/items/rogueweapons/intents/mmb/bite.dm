@@ -117,7 +117,6 @@
 			*/
 			if(istype(user.dna.species, /datum/species/werewolf))
 				if(user.mind)
-					var/datum/antagonist/werewolf/lesser/WW = user.mind.has_antag_datum(/datum/antagonist/werewolf/lesser)
 					if(!HAS_TRAIT(src, TRAIT_SILVER_BLESSED))
 						caused_wound?.werewolf_infect_attempt()
 						
@@ -252,7 +251,6 @@
 			*/
 			if(istype(user.dna.species, /datum/species/werewolf))
 				if(user.mind)
-					var/datum/antagonist/werewolf/lesser/WW = user.mind.has_antag_datum(/datum/antagonist/werewolf/lesser)
 					if(!HAS_TRAIT(C, TRAIT_SILVER_BLESSED))
 						caused_wound?.werewolf_infect_attempt()
 				if(prob(30))

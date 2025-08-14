@@ -13,6 +13,7 @@
 #define STATS_ALIVE_HALFKIN "alive_halfkin"
 #define STATS_ALIVE_WILDKIN "alive_wildkin"
 #define STATS_ALIVE_GOLEMS "alive_golems"
+#define STATS_ALIVE_DOLLS "alive_dolls"
 #define STATS_ALIVE_VERMINFOLK "alive_verminfolk"
 #define STATS_ALIVE_DRACON "alive_dracon"
 #define STATS_ALIVE_AXIAN "alive_axian"

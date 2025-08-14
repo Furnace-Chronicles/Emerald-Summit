@@ -46,12 +46,12 @@
 
 	base_antags = 1
 	maximum_antags = 5
-
+	max_occurrences = 1 // fuck you
 	earliest_start = 0 SECONDS
 
-	weight = 1000 // Set very high for testing
+	weight = 10
 
-	min_players = 0 // Allow testing with any population
+	min_players = 0
 
 	typepath = /datum/round_event/antagonist/solo/thievesguild
 	antag_datum = /datum/antagonist/thievesguild

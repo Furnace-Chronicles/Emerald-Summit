@@ -574,6 +574,10 @@
 #define GOLEM_GRANITE "ff8f8f"
 #define GOLEM_JADE "517051"
 
+//DOLL PAINT COLOR
+#define DOLL_LEAD "ffffff"
+#define DOLL_SIENNA "a0522d"
+
 // Pixel shifting
 #define PIXEL_SHIFT_MAXIMUM 16
 #define PIXEL_SHIFT_PASSABLE_THRESHOLD 8

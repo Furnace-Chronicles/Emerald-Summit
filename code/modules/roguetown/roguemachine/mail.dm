@@ -12,6 +12,8 @@
 	var/obfuscated = FALSE
 
 /obj/structure/roguemachine/mail/attack_hand(mob/user)
+	if(ishuman(user) && GLOB.carebox.try_retrieve_carebox(user, src))
+		return TRUE
 	if(SSroguemachine.hermailermaster && ishuman(user))
 		var/obj/item/roguemachine/mastermail/M = SSroguemachine.hermailermaster
 		var/mob/living/carbon/human/H = user

@@ -9,13 +9,13 @@
 	antag_flag = ROLE_WEREWOLF
 	shared_occurence_type = SHARED_HIGH_THREAT
 
-	denominator = 80
+	denominator = 50
 
 	base_antags = 1
 	maximum_antags = 2
 	min_players = 25
-	weight = 0
-
+	weight = 10 // equal to vamps
+	max_occurrences = 2
 	earliest_start = 0 SECONDS
 
 	typepath = /datum/round_event/antagonist/solo/werewolf
@@ -24,27 +24,26 @@
 	restricted_roles = list(
 		"Grand Duke",
 		"Grand Duchess",
+		"Knight Captain",
 		"Consort",
-		"Dungeoneer",
 		"Sergeant",
-		"Men-at-arms",
+		"Men-at-Arms",
+		"Woman-at-Arms",
 		"Marshal",
 		"Merchant",
 		"Priest",
+		"Priestess",
 		"Acolyte",
 		"Martyr",
 		"Templar",
-		"Councillor",
 		"Bandit",
 		"Prince",
 		"Princess",
 		"Hand",
-		"Steward",
-		"Court Physician",
-		"Town Elder",
 		"Captain",
 		"Archivist",
 		"Knight",
+		"Dame",
 		"Court Magician",
 		"Inquisitor",
 		"Orthodoxist",

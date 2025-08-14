@@ -218,13 +218,13 @@
 	var/end_reason
 
 	if(!check_for_lord())
-		end_reason = pick("Without a Monarch, they were doomed to become slaves of Zizo.",
-						"Without a Monarch, they were doomed to be eaten by nite creachers.",
-						"Without a Monarch, they were doomed to become victims of Gehenna.",
-						"Without a Monarch, they were doomed to enjoy a mass-suicide.",
-						"Without a Monarch, the Lich made them his playthings.",
-						"Without a Monarch, some jealous rival reigned in tyranny.",
-						"Without a Monarch, the town was abandoned.")
+		end_reason = pick("Without a Duke, they were doomed to become slaves of Zizo.",
+						"Without a Duke, they were doomed to be eaten by nite creachers.",
+						"Without a Duke, they were doomed to become victims of Gehenna.",
+						"Without a Duke, they were doomed to enjoy a mass-suicide.",
+						"Without a Duke, the Lich made them his playthings.",
+						"Without a Duke, some jealous rival reigned in tyranny.",
+						"Without a Duke, the town was abandoned.")
 
 	if(vampire_werewolf() == "vampire")
 		end_reason = "When the Vampires finished sucking the town dry, they moved on to the next one."

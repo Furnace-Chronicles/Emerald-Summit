@@ -126,6 +126,13 @@
 				return FALSE
 			}
 		}
+		var/mob/dead/observer/spirit = target.get_spirit()
+		//GET OVER HERE!
+		if(spirit)
+			var/mob/dead/observer/ghost = spirit.ghostize()
+			qdel(spirit)
+			ghost.mind.transfer_to(target, TRUE)
+		target.grab_ghost(force = FALSE)
 		if(!target.mind)
 			revert_cast()
 			return FALSE
@@ -134,7 +141,7 @@
 			revert_cast()
 			return FALSE
 		if(!target.mind.active)
-			to_chat(user, "Astrata is not done with [target], yet.")
+			to_chat(user, "[target] will not return from afterlife.")
 			revert_cast()
 			return FALSE
 		if(target == user)
@@ -152,22 +159,12 @@
 			target.visible_message(span_danger("[target] is unmade by holy light!"), span_userdanger("I'm unmade by holy light!"))
 			target.gib()
 			return TRUE
-		if(alert(target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
-			target.visible_message(span_notice("Nothing happens. They are not being let go."))
-			return FALSE
 		target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
 		if(!target.revive(full_heal = FALSE))
 			to_chat(user, span_warning("Nothing happens."))
 			revert_cast()
 			return FALSE
 		testing("revived2")
-		var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit()
-		//GET OVER HERE!
-		if(underworld_spirit)
-			var/mob/dead/observer/ghost = underworld_spirit.ghostize()
-			qdel(underworld_spirit)
-			ghost.mind.transfer_to(target, TRUE)
-		target.grab_ghost(force = TRUE) // even suicides
 		target.emote("breathgasp")
 		target.Jitter(100)
 		GLOB.scarlet_round_stats[STATS_ASTRATA_REVIVALS]++

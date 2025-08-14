@@ -17,7 +17,14 @@
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/chargah
 	backr = /obj/item/storage/backpack/rogue/satchel
-	backpack_contents = list(/obj/item/roguekey/mercenary, /obj/item/flashlight/flare/torch, /obj/item/rogueweapon/huntingknife/idagger/steel, /obj/item/storage/belt/rogue/pouch/coins/poor, /obj/item/rogueweapon/whip/nagaika)
+
+	backpack_contents = list(
+		/obj/item/roguekey/mercenary,
+		/obj/item/flashlight/flare/torch,
+		/obj/item/rogueweapon/huntingknife/idagger/steel,
+		/obj/item/storage/belt/rogue/pouch/coins/poor,
+		/obj/item/rogueweapon/whip/nagaika,
+		)
 
 	//Universal skills
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
@@ -68,10 +75,7 @@
 			shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 			head = /obj/item/clothing/head/roguetown/helmet
 			gloves = /obj/item/clothing/gloves/roguetown/leather
-			if(should_wear_femme_clothes(H))
-				armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/bikini
-			else
-				armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
+			armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/steppe
 			cloak = /obj/item/clothing/cloak/raincloak/furcloak
 			wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 			beltr = /obj/item/quiver/javelin/iron
@@ -124,3 +128,4 @@
 			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)	
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 			H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()		//Semi-crazed warrior vibe.
+

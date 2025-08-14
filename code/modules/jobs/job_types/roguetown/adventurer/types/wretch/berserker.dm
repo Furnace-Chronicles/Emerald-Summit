@@ -37,7 +37,7 @@
 	H.adjust_skillrank(/datum/skill/labor/butchering, 1, TRUE)
 	H.cmode_music = 'sound/music/combat_berserker.ogg'
 	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
-	var/weapons = list("Katar","Steel Knuckles","MY BARE HANDS!!!","Battle Axe","Mace","Sword")
+	var/weapons = list("Katar","Steel Knuckles","Punch Dagger","MY BARE HANDS!!!","Battle Axe","Mace","Sword")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
@@ -47,6 +47,9 @@
 		if ("Steel Knuckles")
 			H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
 			beltr = /obj/item/rogueweapon/knuckles
+		if ("Punch Dagger")
+			H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
+			beltr = /obj/item/rogueweapon/katar/punchdagger
 		if ("MY BARE HANDS!!!")
 			H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
 			ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)

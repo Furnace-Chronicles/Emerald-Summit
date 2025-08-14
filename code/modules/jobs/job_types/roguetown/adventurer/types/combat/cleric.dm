@@ -343,20 +343,8 @@
 			neck = /obj/item/clothing/neck/roguetown/psicross/malum
 		if(/datum/patron/divine/eora)
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
-		if(/datum/patron/divine/xylix) // Random pricross for Xylix
-			var/list/psicross_options = list(
-			/obj/item/clothing/neck/roguetown/psicross,
-			/obj/item/clothing/neck/roguetown/psicross/astrata,
-			/obj/item/clothing/neck/roguetown/psicross/noc,
-			/obj/item/clothing/neck/roguetown/psicross/abyssor,
-			/obj/item/clothing/neck/roguetown/psicross/dendor,
-			/obj/item/clothing/neck/roguetown/psicross/necra,
-			/obj/item/clothing/neck/roguetown/psicross/pestra,
-			/obj/item/clothing/neck/roguetown/psicross/ravox,
-			/obj/item/clothing/neck/roguetown/psicross/malum,
-			/obj/item/clothing/neck/roguetown/psicross/eora
-			)
-			neck = pick(psicross_options)
+		if(/datum/patron/divine/xylix) // no longer random, rejoice my fellow xylixians!
+			neck = /obj/item/clothing/neck/roguetown/psicross/xylix
 		if(/datum/patron/inhumen/zizo,
 	  		/datum/patron/inhumen/matthios,
 	   		/datum/patron/inhumen/graggar,

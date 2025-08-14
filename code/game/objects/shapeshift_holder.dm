@@ -29,7 +29,7 @@
 
 /obj/shapeshift_holder/Destroy()
 	if(!restoring)
-		INVOKE_ASYNC(src, PROC_REF(restore))
+		restore()
 	stored = null
 	shape = null
 	. = ..()
@@ -37,20 +37,20 @@
 /obj/shapeshift_holder/Moved()
 	. = ..()
 	if(!restoring || QDELETED(src))
-		INVOKE_ASYNC(src, PROC_REF(restore))
+		restore()
 
 /obj/shapeshift_holder/handle_atom_del(atom/A)
 	if(A == stored && !restoring)
-		INVOKE_ASYNC(src, PROC_REF(restore))
+		restore()
 
 /obj/shapeshift_holder/Exited(atom/movable/AM)
 	if(AM == stored && !restoring)
-		INVOKE_ASYNC(src, PROC_REF(restore))
+		restore()
 
 /obj/shapeshift_holder/proc/casterDeath()
 	//Something kills the stored caster through direct damage.
 	if(source.revert_on_death)
-		INVOKE_ASYNC(src, PROC_REF(restore), /*death = */TRUE)
+		restore(death=TRUE)
 	else
 		shape.death()
 

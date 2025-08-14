@@ -180,6 +180,12 @@ GLOBAL_LIST(teleport_runes)
 					rituals += GLOB.t2summoningrunerituallist
 				else if(tier == 1)
 					rituals += GLOB.t1summoningrunerituallist
+			else if(istype(src,/obj/effect/decal/cleanable/roguerune/arcyne/wall))
+				var/tier = src.tier
+				if(tier >= 3)
+					rituals += GLOB.t4wallrunerituallist
+				else
+					rituals += GLOB.t2wallrunerituallist
 			else if(istype(src,/obj/effect/decal/cleanable/roguerune/arcyne/enchantment))
 				if(tier >= 3)
 					rituals += GLOB.t4enchantmentrunerituallist
@@ -380,6 +386,170 @@ GLOBAL_LIST(teleport_runes)
 	pixel_x = -64 //So the big ol' 96x96 sprite shows up right
 	pixel_y = -64
 	invocation = "Zar’kalthra ul’norak ven’thelis!"
+
+
+/obj/effect/decal/cleanable/roguerune/arcyne/wall
+	name = "wall accession matrix"
+	desc = "arcane symbols litter the ground- is that a wall of some sort?"
+	icon_state = "wall"
+	tier = 2
+	invocation = "Fren’aleth ar’quor!"
+	ritual_number = TRUE
+	can_be_scribed = TRUE
+	color = "#184075"
+	var/list/barriers = list()
+
+/obj/effect/decal/cleanable/roguerune/arcyne/wall/Destroy()
+	QDEL_LIST_CONTENTS(barriers)
+	barriers = null
+	return ..()
+
+/obj/effect/decal/cleanable/roguerune/arcyne/wall/attack_hand(mob/living/user)
+	if(active)
+		QDEL_LIST_CONTENTS(barriers)
+		to_chat(user, span_warning("You deactivate the [src]!"))
+		playsound(usr, 'sound/magic/teleport_diss.ogg', 75, TRUE)
+		active = FALSE
+		return
+	. = ..()
+/obj/effect/decal/cleanable/roguerune/arcyne/wall/invoke(list/invokers, datum/runeritual/runeritual)
+	if(!..())	//VERY important. Calls parent and checks if it fails. parent/invoke has all the checks for ingredients
+		return
+	if(pickritual.tier == 1)
+		var/mob/living/user = usr
+		var/turf/target_turf = get_step(get_step(src, user.dir), user.dir)
+		var/turf/target_turf_two = get_step(target_turf, turn(user.dir, 90))
+		var/turf/target_turf_three = get_step(target_turf, turn(user.dir, -90))
+		var/turf/target_turf_four = get_step(target_turf_two, turn(user.dir, 90))
+		var/turf/target_turf_five = get_step(target_turf_three, turn(user.dir, -90))
+		if(!locate(/obj/structure/arcyne_wall/caster) in target_turf)
+			var/obj/structure/arcyne_wall/caster/newbarrier = new(target_turf, user)
+			src.barriers += newbarrier
+		if(!locate(/obj/structure/arcyne_wall/caster) in target_turf_two)
+			var/obj/structure/arcyne_wall/caster/newbarrier = new(target_turf_two, user)
+			src.barriers += newbarrier
+		if(!locate(/obj/structure/arcyne_wall/caster) in target_turf_three)
+			var/obj/structure/arcyne_wall/caster/newbarrier = new(target_turf_three, user)
+			src.barriers += newbarrier
+		if(!locate(/obj/structure/arcyne_wall/caster) in target_turf_four)
+			var/obj/structure/arcyne_wall/caster/newbarrier = new(target_turf_four, user)
+			src.barriers += newbarrier
+		if(!locate(/obj/structure/arcyne_wall/caster) in target_turf_five)
+			var/obj/structure/arcyne_wall/caster/newbarrier = new(target_turf_five, user)
+			src.barriers += newbarrier
+		active = TRUE
+	else
+		var/mob/living/user = usr
+		var/turf/target_turf = get_step(get_step(src, user.dir), user.dir)
+		var/turf/target_turf_two = get_step(target_turf, turn(user.dir, 90))
+		var/turf/target_turf_three = get_step(target_turf, turn(user.dir, -90))
+		var/turf/target_turf_four = get_step(target_turf_two, turn(user.dir, 90))
+		var/turf/target_turf_five = get_step(target_turf_three, turn(user.dir, -90))
+		var/turf/target_turfline2 = get_step(target_turf, user.dir)
+		var/turf/target_turfline2_two = get_step(target_turfline2, turn(user.dir, 90))
+		var/turf/target_turfline2_three = get_step(target_turfline2, turn(user.dir, -90))
+		var/turf/target_turfline2_four = get_step(target_turfline2_two, turn(user.dir, 90))
+		var/turf/target_turfline2_five = get_step(target_turfline2_three, turn(user.dir, -90))
+		if(!locate(/obj/structure/arcyne_wall/caster) in target_turf)
+			var/obj/structure/arcyne_wall/caster/newbarrier = new(target_turf, user)
+			src.barriers += newbarrier
+		if(!locate(/obj/structure/arcyne_wall/caster) in target_turf_two)
+			var/obj/structure/arcyne_wall/caster/newbarrier = new(target_turf_two, user)
+			src.barriers += newbarrier
+		if(!locate(/obj/structure/arcyne_wall/caster) in target_turf_three)
+			var/obj/structure/arcyne_wall/caster/newbarrier = new(target_turf_three, user)
+			src.barriers += newbarrier
+		if(!locate(/obj/structure/arcyne_wall/caster) in target_turf_four)
+			var/obj/structure/arcyne_wall/caster/newbarrier = new(target_turf_four, user)
+			src.barriers += newbarrier
+		if(!locate(/obj/structure/arcyne_wall/caster) in target_turf_five)
+			var/obj/structure/arcyne_wall/caster/newbarrier = new(target_turf_five, user)
+			src.barriers += newbarrier
+		if(!locate(/obj/structure/arcyne_wall/caster) in target_turfline2)
+			var/obj/structure/arcyne_wall/caster/newbarrier = new(target_turfline2, user)
+			src.barriers += newbarrier
+		if(!locate(/obj/structure/arcyne_wall/caster) in target_turfline2_two)
+			var/obj/structure/arcyne_wall/caster/newbarrier = new(target_turfline2_two, user)
+			src.barriers += newbarrier
+		if(!locate(/obj/structure/arcyne_wall/caster) in target_turfline2_three)
+			var/obj/structure/arcyne_wall/caster/newbarrier = new(target_turfline2_three, user)
+			src.barriers += newbarrier
+		if(!locate(/obj/structure/arcyne_wall/caster) in target_turfline2_four)
+			var/obj/structure/arcyne_wall/caster/newbarrier = new(target_turfline2_four, user)
+			src.barriers += newbarrier
+		if(!locate(/obj/structure/arcyne_wall/caster) in target_turfline2_five)
+			var/obj/structure/arcyne_wall/caster/newbarrier = new(target_turfline2_five, user)
+			src.barriers += newbarrier
+		active = TRUE
+
+	if(ritual_result)
+		pickritual.cleanup_atoms(selected_atoms)
+
+	for(var/atom/invoker in invokers)
+		if(!isliving(invoker))
+			continue
+		var/mob/living/living_invoker = invoker
+		if(invocation)
+			living_invoker.say(invocation, language = /datum/language/common, ignore_spam = TRUE, forced = "cult invocation")
+		if(invoke_damage)
+			living_invoker.apply_damage(invoke_damage, BRUTE)
+			to_chat(living_invoker,  span_italics("[src] saps your strength!"))
+	do_invoke_glow()
+
+/obj/effect/decal/cleanable/roguerune/arcyne/wallgreater
+	name = "fortress accession matrix"
+	desc = "A massive sigil- is that a wall in the center?"
+	icon = 'icons/effects/160x160.dmi'
+	icon_state = "wall"
+	tier = 3
+	invocation = "Thar’morak dul’vorr keth’alor!"
+	ritual_number = FALSE
+	runesize = 2
+	pixel_x = -64 //So the big ol' 96x96 sprite shows up right
+	pixel_y = -64
+	pixel_z = 0
+	can_be_scribed = TRUE
+//	var/id = "arcyne_fortress"
+	var/datum/map_template/template
+	var/fortress = /datum/map_template/arcyne_fortress
+	var/list/barriers = list()
+	associated_ritual = /datum/runeritual/other/wall/t3
+
+
+/obj/effect/decal/cleanable/roguerune/arcyne/wallgreater/proc/get_template(/datum/map_template/arcyne_fortress/fortress)
+
+	to_chat(usr, span_hierophant_warning("template retrieving"))
+	var/datum/map_template/temporary = new fortress
+	template = SSmapping.map_templates[temporary.id]
+	if(!template)
+		WARNING("Shelter template ([template.id]) not found!")
+		qdel(src)
+
+
+/obj/effect/decal/cleanable/roguerune/arcyne/wallgreater/invoke(list/invokers, datum/runeritual/ritual)
+	ritual = associated_ritual
+	if(!..())	//VERY important. Calls parent and checks if it fails. parent/invoke has all the checks for ingredients
+		return
+	if(QDELETED(src))
+		return
+	var/turf/deploy_location = get_turf(src)
+	get_template(template)
+
+	template.load(deploy_location, centered = TRUE)
+	to_chat(usr, span_hierophant_warning("template.load complete"))
+	if(ritual_result)
+		pickritual.cleanup_atoms(selected_atoms)
+
+	for(var/atom/invoker in invokers)
+		if(!isliving(invoker))
+			continue
+		var/mob/living/living_invoker = invoker
+		if(invocation)
+			living_invoker.say(invocation, language = /datum/language/common, ignore_spam = TRUE, forced = "cult invocation")
+		if(invoke_damage)
+			living_invoker.apply_damage(invoke_damage, BRUTE)
+			to_chat(living_invoker,  span_italics("[src] saps your strength!"))
+	do_invoke_glow()
 
 /obj/effect/decal/cleanable/roguerune/arcyne/summoning	//32x32 rune t1(one tile)
 	name = "confinement matrix"
