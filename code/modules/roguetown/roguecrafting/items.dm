@@ -244,6 +244,20 @@
 	verbage_simple = "put together"
 	verbage = "puts together"
 
+/datum/crafting_recipe/roguetown/survival/paper
+	name = "parchment (x3)"
+	result = list(
+		/obj/item/paper,
+		/obj/item/paper,
+		/obj/item/paper,
+		)
+	reqs = list(
+		/obj/item/grown/log/tree/small = 1,
+		/datum/reagent/water = 32,
+		)
+	structurecraft = /obj/machinery/tanningrack
+	craftdiff = 1
+
 /datum/crafting_recipe/roguetown/survival/paperscroll
 	name = "scroll of parchment (x3)"
 	result = list(
@@ -252,10 +266,9 @@
 		/obj/item/paper/scroll,
 		)
 	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
-		/datum/reagent/water = 48,
+		/obj/item/paper = 3,
+		/obj/item/grown/log/tree/stick = 3,
 		)
-	structurecraft = /obj/machinery/tanningrack
 	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/survival/prosthetic/woodleftarm
@@ -290,8 +303,7 @@
 	name = "tarot deck"
 	result = list(/obj/item/toy/cards/deck/tarot)
 	reqs = list(
-		/obj/item/paper/scroll = 3,
-		/obj/item/grown/log/tree/small = 1,
+		/obj/item/paper = 6,
 		/obj/item/ash = 1,
 		)
 	skillcraft = /datum/skill/misc/reading
