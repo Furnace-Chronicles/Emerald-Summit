@@ -131,8 +131,13 @@
 	icon_state = "golem_upgrade"
 	w_class = WEIGHT_CLASS_SMALL
 	smeltresult = /obj/item/ingot/bronze
+	var/self_usable = FALSE //allow golems to use it on themselves without skill reqs, exclusively used for the black market ver
 	var/in_use = FALSE //to avoid situations where the dialog box is open but you click the golem again with it
 
+/obj/item/golem_skill_core/blackmarket
+	name = "modified golem skill exhibitor"
+	desc = "A series of gears joined around a copper rod. When inserted into a Golem's head, it will allow them to grow their skills beyond their original design. This one looks like it was purposefully altered to allow Golems to use it themselves."
+	self_usable = TRUE
 
 /obj/item/golem_skill_core/examine(mob/user)
 	. = ..()
@@ -154,10 +159,10 @@
 		else
 			to_chat(user, span_warning("[M] is not a Golem. It will have no effect."))
 		return
-	if(user.construct)
+	if(user.construct && !self_usable)
 		to_chat(user, span_warning("I am unable to modify Golems. I must ask another."))//Golems NEED to ask organics to modify them.
 		return
-	if(user.get_skill_level(/datum/skill/craft/engineering) < 3) //need to be at least level 3 skill level in engineering to use this
+	if(user.get_skill_level(/datum/skill/craft/engineering) < 3 && !self_usable) //need to be at least level 3 skill level in engineering to use this
 		to_chat(user, span_warning("I fiddle around trying to properly insert [src] into [M], but I'm not skilled enough."))
 		return
 	if(in_use)
