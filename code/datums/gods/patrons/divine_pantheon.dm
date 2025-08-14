@@ -220,6 +220,7 @@
 					/obj/effect/proc_holder/spell/invoked/bud					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/heartweave			= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/eoracurse				= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/sanctuary				= CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/pomegranate			= CLERIC_T4,
 	)
 	confess_lines = list(

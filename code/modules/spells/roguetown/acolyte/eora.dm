@@ -1212,3 +1212,52 @@
 	name = "Eora's Calm"
 	desc = "A refreshing calm. All your troubles have washed away. Why can't it always be like this?"
 	icon_state = "eora_bless"
+
+/obj/effect/proc_holder/spell/invoked/sanctuary
+    name = "Sanctuary"
+    desc = "Bestow divine peace upon a target, temporarily preventing them from causing harm."
+    overlay_state = "sanctuary"
+    range = 7
+    chargetime = 3 SECONDS
+    invocation = "Eora's grace shield you from violence!"
+    sound = 'sound/magic/eora_bless.ogg'
+    recharge_time = 10 MINUTES
+    miracle = TRUE 
+    devotion_cost = 100
+    associated_skill = /datum/skill/magic/holy
+
+/obj/effect/proc_holder/spell/invoked/sanctuary/cast(list/targets, mob/living/user)
+    if(!isliving(targets[1]))
+        revert_cast()
+        return FALSE
+
+    var/mob/living/target = targets[1]
+    target.visible_message(
+        span_notice("A pink aura surrounds [target]!"),
+        span_notice("A feeling of divine peace washes over you.")
+    )
+    
+    addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living, sanctuary_start)), 1)
+    return TRUE
+
+/mob/living/proc/sanctuary_start()
+    status_flags |= GODMODE
+    ADD_TRAIT(src, TRAIT_PACIFISM, TRAIT_GENERIC)
+    ADD_TRAIT(src, TRAIT_GRABIMMUNE, TRAIT_GENERIC)
+    
+    add_filter("sanctuary_outline", 2, list("type" = "outline", "color" = "#FF69B4", "alpha" = 200, "size" = 2))
+    
+    addtimer(CALLBACK(src, PROC_REF(sanctuary_end)), 40 SECONDS)
+
+/mob/living/proc/sanctuary_end()
+    if(QDELETED(src))
+        return
+    if(!(status_flags & GODMODE))
+        return
+        
+    status_flags &= ~GODMODE
+    REMOVE_TRAIT(src, TRAIT_PACIFISM, TRAIT_GENERIC)
+    REMOVE_TRAIT(src, TRAIT_GRABIMMUNE, TRAIT_GENERIC)
+    remove_filter("sanctuary_outline")
+    
+    to_chat(src, span_warning("The divine protection fades away..."))
