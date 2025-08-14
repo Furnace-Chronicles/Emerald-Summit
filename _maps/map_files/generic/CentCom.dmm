@@ -614,7 +614,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue)
 "bn" = (
-/obj/item/roguebin/water/gross,
+/obj/structure/roguebin/water/gross,
 /turf/open/floor/rogue/cobble,
 /area/rogue)
 "bo" = (
@@ -1596,7 +1596,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "hr" = (
-/obj/item/roguebin/water,
+/obj/structure/roguebin/water,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/banditcamp)
 "hy" = (
@@ -3429,7 +3429,7 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/inhumen)
 "QX" = (
-/obj/item/roguebin/water/gross,
+/obj/structure/roguebin/water/gross,
 /obj/machinery/light/rogue/wallfire/candle,
 /turf/open/floor/rogue/ruinedwood{
 	icon_state = "weird1"
@@ -3511,7 +3511,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/banditcamp)
 "TD" = (
-/obj/item/roguebin/water/gross,
+/obj/structure/roguebin/water/gross,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "TK" = (
