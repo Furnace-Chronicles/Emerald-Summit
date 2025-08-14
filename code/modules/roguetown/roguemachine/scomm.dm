@@ -11,6 +11,7 @@
 	pixel_y = 32
 	flags_1 = HEAR_1
 	anchored = TRUE
+	verb_say = "squeaks"
 	var/next_decree = 0
 	var/listening = TRUE
 	var/speaking = TRUE
@@ -725,7 +726,9 @@
 	density = TRUE
 	anchored = TRUE
 	flags_1 = HEAR_1
+	speech_span = SPAN_ORATOR
 	var/listening = FALSE
+	var/speech_color = null
 
 /obj/structure/broadcast_horn/examine(mob/user)
 	. = ..()
@@ -765,6 +768,9 @@
 		return
 	if(length(raw_message) > 100)
 		raw_message = "<small>[raw_message]</small>"
+	tspans |= speech_span
+	if(speech_color)
+		raw_message = "<span style='color: [speech_color]'>[raw_message]</span>"
 	for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
 		if(!S.calling)
 			S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
@@ -778,6 +784,7 @@
 	name = "\improper Golden Mouth"
 	desc = "The Loudmouth's own gleaming horn, its surface engraved with the ducal crest."
 	icon_state = "broadcaster"
+	speech_color = COLOR_ASSEMBLY_GOLD
 
 /obj/structure/broadcast_horn/loudmouth/attack_hand(mob/living/user)
 	. = ..()
@@ -790,6 +797,7 @@
 	name = "\improper Silver Tongue"
 	desc = "A guest's horn. Not as gaudy as the Loudmouth's own, but still a fine piece of craftsmanship. "
 	icon_state = "broadcaster_crass"
+	speech_color = COLOR_ASSEMBLY_GURKHA
 
 // garrison scoms/listenstones
 
