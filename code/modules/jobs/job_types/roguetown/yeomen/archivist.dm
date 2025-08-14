@@ -1,40 +1,37 @@
 /datum/job/roguetown/archivist
-	title = "Archivist"
-	tutorial = "The Archivist meticulously preserves and organizes ancient scrolls and tomes, safeguarding the collective knowledge of the realm for generations to come. Nobles and Peasants alike often seek your expertise on matters of history and fact, and your keenly-kept records on the events of this week will likely stand a testament to your Duke's benevolence and their realm's prosperity...or not. After all, you hold the true power: The power to dictate how the future generations will look back on these coming days."
+	title = "Loudmouth"
+	tutorial = "Keeper of the Horn, Master of the Jabberline, and self-appointed Voice of Reason. From your desk in the SCOM atelier, you decide which words will thunder across the realm and which will die in the throats of petitioners who didn’t pay enough ratfeed. Nobles and cutpurses alike shuffle up to your counter, coins in hand, desperate for a moment in the golden glow of the broadcast horn. In your upstairs “studio,” you host debates, recite gossip, and spin tales that will ripple through every corner of town. After all, you hold the true power: the power to decide what all of the city hears... and how loudly."
 	flag = ARCHIVIST
 	department_flag = YEOMEN
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
 	spells = list(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-	allowed_races = RACES_ALL_KINDS
+	allowed_races = RACES_MANMADE_UP
 	allowed_ages = ALL_AGES_LIST
 
 	outfit = /datum/outfit/job/roguetown/archivist
 	display_order = JDO_ARCHIVIST
 	give_bank_account = 15
-	min_pq = 1 // Please do not read smut while brewing bottle bombs. It upsets the maids when they have to scrape archivists off the ceiling.
+	min_pq = 3 // Now has actual responsibility and is a key figure in town.
 	max_pq = null
 	round_contrib_points = 3
 
 /datum/outfit/job/roguetown/archivist/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_femme_clothes(H))
-		shirt = /obj/item/clothing/suit/roguetown/shirt/robe/archivist
 		pants = /obj/item/clothing/under/roguetown/tights/stockings/black
-		head  = /obj/item/clothing/head/roguetown/roguehood/black
 	else
-		shirt = /obj/item/clothing/suit/roguetown/shirt/robe/archivist
-		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor/nightman
 		pants = /obj/item/clothing/under/roguetown/tights/black
-		head = /obj/item/clothing/head/roguetown/nightman
+	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/black
+	armor = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/loudmouth
+	head = /obj/item/clothing/head/roguetown/loudmouth
 	backr = /obj/item/storage/backpack/rogue/satchel
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	belt = /obj/item/storage/belt/rogue/leather/plaquesilver
 	beltl = /obj/item/storage/keyring/archivist
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
-	mask = /obj/item/clothing/mask/rogue/spectacles
-	id = /obj/item/scomstone/bad
+	id = /obj/item/scomstone
 	backpack_contents = list(
 		/obj/item/recipe_book/alchemy
 	)
@@ -64,11 +61,10 @@
 	ADD_TRAIT(H, TRAIT_INTELLECTUAL, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
-	H.change_stat("strength", -1)
-	H.change_stat("constitution", -1)
+	H.change_stat("speed", 1)
 	H.change_stat("intelligence", 4)
 	if (H && H.mind)
-		H.mind.adjust_spellpoints(12)// DelineFortune: H?.mind.adjust_spellpoints(12) - is not correct way because how do you want to add points to /mob/living/carbon/human/dummy???
+		H.mind.adjust_spellpoints(12)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/teach)
 	if(H.age == AGE_OLD)
 		H.change_stat("speed", -1)

@@ -2,7 +2,7 @@
 
 /obj/structure/roguemachine/scomm
 	name = "SCOM"
-	desc = "The Supernatural Communication Optical Machine is a wonder of magic and technology."
+	desc = "The Supernatural Communication Optical Machine is a wonder of magic and technology. There's a button in the MIDDLE for making private jabberline connections."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "scomm1"
 	density = FALSE
@@ -264,12 +264,6 @@
 				calling.repeat_message(raw_message, src, usedcolor, message_language, tspans)
 			return
 		if(length(raw_message) > 100) //When these people talk too much, put that shit in slow motion, yeah
-			/*if(length(raw_message) > 200)
-				if(!spawned_rat)
-					visible_message(span_warning("An angered rous emerges from the SCOMlines!"))
-					new /mob/living/simple_animal/hostile/retaliate/rogue/bigrat(get_turf(src))
-					spawned_rat = TRUE
-				return*/
 			raw_message = "<small>[raw_message]</small>"
 		if(garrisonline)
 			raw_message = "<span style='color: [GARRISON_SCOM_COLOR]'>[raw_message]</span>" //Prettying up for Garrison line
@@ -282,16 +276,6 @@
 					S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
 			SSroguemachine.crown?.repeat_message(raw_message, src, usedcolor, message_language, tspans)
 			return
-		if(H.client.patreonlevel() >= GLOB.patreonsaylevel)
-			raw_message = "<span class=\"[SPAN_PATREON_SAY]\">[raw_message]</span>"
-		for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
-			if(!S.calling)
-				S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
-		for(var/obj/item/scomstone/S in SSroguemachine.scomm_machines)
-			S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
-		for(var/obj/item/listenstone/S in SSroguemachine.scomm_machines)
-			S.repeat_message(raw_message, src, usedcolor, message_language, tspans)//make the listenstone hear scom
-		SSroguemachine.crown?.repeat_message(raw_message, src, usedcolor, message_language, tspans)
 
 /obj/structure/roguemachine/scomm/proc/dictate_laws()
 	if(dictating)
@@ -730,6 +714,82 @@
 		raw_message = "<small>[raw_message]</small>"
 	for(var/obj/item/speakerinq/S in SSroguemachine.scomm_machines)
 		S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
+
+/obj/structure/broadcast_horn
+	name = "\improper Streetpipe"
+	desc = "Also known as the People's Mouth, so long as the people can afford the ratfeed to pay for it."
+	icon_state = "broadcaster_crass"
+	icon = 'icons/roguetown/misc/machines.dmi'
+	blade_dulling = DULLING_BASH
+	max_integrity = 0
+	density = TRUE
+	anchored = TRUE
+	flags_1 = HEAR_1
+	var/listening = FALSE
+
+/obj/structure/broadcast_horn/examine(mob/user)
+	. = ..()
+	if(listening)
+		. += "There's a faint skittering coming out of it."
+	else
+		. += "The rats within are quiet."
+
+/obj/structure/broadcast_horn/redstone_triggered()
+	toggle_horn()
+
+/obj/structure/broadcast_horn/proc/toggle_horn()
+	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
+	if(listening)
+		visible_message(span_notice("[src]'s whine stills."))
+		listening = FALSE
+	else
+		listening = TRUE
+		visible_message(span_notice("[src] squeaks alive."))
+
+/obj/structure/broadcast_horn/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, message_mode, original_message)
+	if(!ishuman(speaker))
+		return
+	if(!listening)
+		return
+	var/turf/step_turf = get_step(get_turf(src), src.dir)
+	if(get_turf(speaker) != step_turf)
+		return
+	var/mob/living/carbon/human/H = speaker
+	var/usedcolor = H.voice_color
+	if(H.voicecolor_override)
+		usedcolor = H.voicecolor_override
+	var/list/tspans = list()
+	if(H.client.patreonlevel() >= GLOB.patreonsaylevel)
+		tspans |= SPAN_PATREON_SAY
+	if(!raw_message)
+		return
+	if(length(raw_message) > 100)
+		raw_message = "<small>[raw_message]</small>"
+	for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
+		if(!S.calling)
+			S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
+	for(var/obj/item/scomstone/S in SSroguemachine.scomm_machines)
+		S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
+	for(var/obj/item/listenstone/S in SSroguemachine.scomm_machines)
+		S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
+	SSroguemachine.crown?.repeat_message(raw_message, src, usedcolor, message_language, tspans)
+
+/obj/structure/broadcast_horn/loudmouth
+	name = "\improper Golden Mouth"
+	desc = "The Loudmouth's own gleaming horn, its surface engraved with the ducal crest."
+	icon_state = "broadcaster"
+
+/obj/structure/broadcast_horn/loudmouth/attack_hand(mob/living/user)
+	. = ..()
+	if(.)
+		return
+	user.changeNext_move(CLICK_CD_INTENTCAP)
+	toggle_horn()
+
+/obj/structure/broadcast_horn/loudmouth/guest
+	name = "\improper Silver Tongue"
+	desc = "A guest's horn. Not as gaudy as the Loudmouth's own, but still a fine piece of craftsmanship. "
+	icon_state = "broadcaster_crass"
 
 // garrison scoms/listenstones
 

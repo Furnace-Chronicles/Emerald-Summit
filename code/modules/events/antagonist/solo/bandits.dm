@@ -30,7 +30,7 @@
 		"Court Physician",
 		"Town Elder",
 		"Captain",
-		"Archivist",
+		"Loudmouth",
 		"Knight",
 		"Court Magician",
 		"Inquisitor",

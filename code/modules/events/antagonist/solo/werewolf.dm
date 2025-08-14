@@ -41,7 +41,7 @@
 		"Princess",
 		"Hand",
 		"Captain",
-		"Archivist",
+		"Loudmouth",
 		"Knight",
 		"Dame",
 		"Court Magician",
