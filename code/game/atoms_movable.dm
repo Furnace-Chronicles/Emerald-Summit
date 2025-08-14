@@ -126,8 +126,7 @@
 			return FALSE
 	return ..()
 
-/atom/movable/proc/start_pulling(atom/movable/AM, state, force = move_force, supress_message = FALSE, obj/item/item_override)
-	testing("startpulling target: [AM]")
+/atom/movable/proc/start_pulling(atom/movable/AM, state, force = move_force, supress_message = FALSE)
 	if(QDELETED(AM))
 		return FALSE
 	if(!(AM.can_be_pulled(src, state, force)))
@@ -138,14 +137,6 @@
 		if(state == 0)
 			stop_pulling()
 			return FALSE
-		// Are we trying to pull something we are already pulling? Then enter grab cycle and end.
-//		if(AM == pulling)
-//			setGrabState(state)
-//			if(istype(AM,/mob/living))
-//				var/mob/living/AMob = AM
-//				AMob.grabbedby(src)
-//			return TRUE
-//		stop_pulling()
 	if(AM.pulledby)
 		log_combat(AM, AM.pulledby, "pulled from", src)
 		AM.pulledby.stop_pulling() //an object can't be pulled by two mobs at once.

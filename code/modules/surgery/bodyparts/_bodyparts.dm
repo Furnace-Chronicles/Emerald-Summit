@@ -79,7 +79,6 @@
 	var/last_crit = 0
 
 	var/list/subtargets = list()		//these are subtargets that can be attacked with weapons (crits)
-	var/list/grabtargets = list()		//these are subtargets that can be grabbed
 
 	var/rotted = FALSE
 	var/skeletonized = FALSE
@@ -683,7 +682,6 @@
 	max_pain_damage = 150
 	var/obj/item/cavity_item
 	subtargets = list(BODY_ZONE_CHEST, BODY_ZONE_PRECISE_STOMACH, BODY_ZONE_PRECISE_GROIN)
-	grabtargets = list(BODY_ZONE_CHEST, BODY_ZONE_PRECISE_STOMACH, BODY_ZONE_PRECISE_GROIN)
 	offset = OFFSET_ARMOR
 	offset_f = OFFSET_ARMOR_F
 	dismemberable = FALSE
@@ -735,7 +733,6 @@
 	px_x = -6
 	px_y = 0
 	subtargets = list(BODY_ZONE_PRECISE_L_HAND)
-	grabtargets = list(BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_L_ARM)
 	offset = OFFSET_GLOVES
 	offset_f = OFFSET_GLOVES_F
 	dismember_wound = /datum/wound/dismemberment/l_arm
@@ -792,7 +789,6 @@
 	px_y = 0
 	max_stamina_damage = 50
 	subtargets = list(BODY_ZONE_PRECISE_R_HAND)
-	grabtargets = list(BODY_ZONE_PRECISE_R_HAND, BODY_ZONE_R_ARM)
 	offset = OFFSET_GLOVES
 	offset_f = OFFSET_GLOVES_F
 	dismember_wound = /datum/wound/dismemberment/r_arm
@@ -848,7 +844,6 @@
 	aux_zone = "l_leg_above"
 	aux_layer = LEG_PART_LAYER
 	subtargets = list(BODY_ZONE_PRECISE_L_FOOT)
-	grabtargets = list(BODY_ZONE_PRECISE_L_FOOT, BODY_ZONE_L_LEG)
 	dismember_wound = /datum/wound/dismemberment/l_leg
 
 /obj/item/bodypart/l_leg/is_disabled()
@@ -898,7 +893,6 @@
 	aux_zone = "r_leg_above"
 	aux_layer = LEG_PART_LAYER
 	subtargets = list(BODY_ZONE_PRECISE_R_FOOT)
-	grabtargets = list(BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_R_LEG)
 	dismember_wound = /datum/wound/dismemberment/r_leg
 
 /obj/item/bodypart/r_leg/is_disabled()
