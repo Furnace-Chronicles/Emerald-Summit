@@ -1244,7 +1244,7 @@
     status_flags |= GODMODE
     ADD_TRAIT(src, TRAIT_PACIFISM, TRAIT_GENERIC)
     ADD_TRAIT(src, TRAIT_GRABIMMUNE, TRAIT_GENERIC)
-    
+    ADD_TRAIT(src, TRAIT_NOGRAB, TRAIT_GENERIC)
     add_filter("sanctuary_outline", 2, list("type" = "outline", "color" = "#FF69B4", "alpha" = 200, "size" = 2))
     
     addtimer(CALLBACK(src, PROC_REF(sanctuary_end)), 40 SECONDS)
@@ -1258,6 +1258,7 @@
     status_flags &= ~GODMODE
     REMOVE_TRAIT(src, TRAIT_PACIFISM, TRAIT_GENERIC)
     REMOVE_TRAIT(src, TRAIT_GRABIMMUNE, TRAIT_GENERIC)
+    REMOVE_TRAIT(src, TRAIT_NOGRAB, TRAIT_GENERIC)
     remove_filter("sanctuary_outline")
     
     to_chat(src, span_warning("The divine protection fades away..."))

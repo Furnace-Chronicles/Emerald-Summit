@@ -34,12 +34,22 @@
 	valid_check()
 
 /obj/item/grabbing/proc/valid_check()
-	// We require adjacency to count the grab as valid
-	if(grabbee.Adjacent(grabbed))
-		return TRUE
-	grabbee.stop_pulling(FALSE)
-	qdel(src)
-	return FALSE
+    if(!grabbee || !grabbed)
+        return FALSE
+
+    // Cancel if grabbee has NOGRAB trait
+    if(HAS_TRAIT(grabbee, TRAIT_NOGRAB))
+        grabbee.stop_pulling(FALSE)
+        qdel(src)
+        return FALSE
+
+    // Require adjacency
+    if(grabbee.Adjacent(grabbed))
+        return TRUE
+
+    grabbee.stop_pulling(FALSE)
+    qdel(src)
+    return FALSE
 
 /obj/item/grabbing/Click(location, control, params)
 	var/list/modifiers = params2list(params)
