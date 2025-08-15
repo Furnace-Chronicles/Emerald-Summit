@@ -21,12 +21,14 @@ if command -v rg >/dev/null 2>&1; then
 	fi
 	code_files="code/**/**.dm"
 	map_files="_maps/**/**.dmm"
+	shuttle_map_files="_maps/shuttles/**.dmm"
 	code_x_515="code/**/!(__byond_version_compat).dm"
 else
 	pcre2_support=0
 	grep=grep
 	code_files="-r --include=code/**/**.dm"
 	map_files="-r --include=_maps/**/**.dmm"
+	shuttle_map_files="-r --include=_maps/shuttles/**.dmm"
 	code_x_515="-r --include=code/**/!(__byond_version_compat).dm"
 fi
 
@@ -92,6 +94,11 @@ if $grep -i'centcomm' $map_files; then
     echo -e "${RED}ERROR: Misspelling(s) of CentCom detected in maps, please remove the extra M(s).${NC}"
     st=1
 fi;
+if $grep -i'eciev' $map_files; then
+	echo
+    echo -e "${RED}ERROR: Common I-before-E typo detected in maps.${NC}"
+    st=1
+fi;
 
 section "whitespace issues"
 part "space indentation"
@@ -118,6 +125,14 @@ if $grep 'allocate\(/mob/living/carbon/human[,\)]' $unit_test_files ||
 	st=1
 fi;
 
+section "516 Href Styles"
+part "byond href styles"
+if $grep "href[\s='\"\\\\]*\?" $code_files ; then
+    echo
+    echo -e "${RED}ERROR: BYOND requires internal href links to begin with \"byond://\".${NC}"
+    st=1
+fi;
+
 section "common mistakes"
 part "global vars"
 if $grep '^/*var/' $code_files; then
@@ -130,6 +145,13 @@ part "proc args with var/"
 if $grep '^/[\w/]\S+\(.*(var/|, ?var/.*).*\)' $code_files; then
 	echo
 	echo -e "${RED}ERROR: Changed files contains a proc argument starting with 'var'.${NC}"
+	st=1
+fi;
+
+part "improperly pathed static lists"
+if $grep -i 'var/list/static/.*' $code_files; then
+	echo
+	echo -e "${RED}ERROR: Found incorrect static list definition 'var/list/static/', it should be 'var/static/list/' instead.${NC}"
 	st=1
 fi;
 
@@ -189,6 +211,13 @@ if $grep 'AddElement\(/datum/element/update_icon_updates_onmob.+ITEM_SLOT_HANDS'
 	st=1
 fi;
 
+part "forceMove sanity"
+if $grep 'forceMove\(\s*(\w+\(\)|\w+)\s*,\s*(\w+\(\)|\w+)\s*\)' $code_files; then
+	echo
+	echo -e "${RED}ERROR: forceMove() call with two arguments - this is not how forceMove() is invoked! It's x.forceMove(y), not forceMove(x, y).${NC}"
+	st=1
+fi;
+
 part "common spelling mistakes"
 if $grep -i 'centcomm' $code_files; then
 	echo
@@ -203,6 +232,11 @@ fi;
 if $grep 'NanoTrasen' $code_files; then
 	echo
     echo -e "${RED}ERROR: Misspelling(s) of Nanotrasen detected in code, please uncapitalize the T(s).${NC}"
+    st=1
+fi;
+if $grep -i'eciev' $code_files; then
+	echo
+    echo -e "${RED}ERROR: Common I-before-E typo detected in code.${NC}"
     st=1
 fi;
 part "map json naming"
@@ -277,7 +311,7 @@ if [ "$pcre2_support" -eq 1 ]; then
 		st=1
 	fi
 	part "datum stockpart sanity"
-	if $grep -P 'for\b.*/obj/item/stock_parts/(?!cell)(?![\w_]+ in )' $code_files; then
+	if $grep -P 'for\b.*/obj/item/stock_parts/(?!power_store)(?![\w_]+ in )' $code_files; then
 		echo
 		echo -e "${RED}ERROR: Should be using datum/stock_part instead"
 		st=1
@@ -288,6 +322,18 @@ if [ "$pcre2_support" -eq 1 ]; then
 		echo -e "${RED}ERROR: Initialize override without 'mapload' argument.${NC}"
 		st=1
 	fi;
+	part "pronoun helper spellcheck"
+	if $grep -P '%PRONOUN_(?!they|They|their|Their|theirs|Theirs|them|Them|have|are|were|do|theyve|Theyve|theyre|Theyre|s|es)' $code_files; then
+		echo
+		echo -e "${RED}ERROR: Invalid pronoun helper found.${NC}"
+		st=1
+	fi;
+	part "shuttle area checker"
+	if $grep -PU '(},|\/obj|\/mob|\/turf\/(?!template_noop).+)[^()]+\/area\/template_noop\)' $shuttle_map_files; then
+		echo
+		echo -e "${RED}ERROR: Shuttle has objs or turfs in a template_noop area. Please correct their areas to a shuttle subtype.${NC}"
+		st=1
+fi;
 else
 	echo -e "${RED}pcre2 not supported, skipping checks requiring pcre2"
 	echo -e "if you want to run these checks install ripgrep with pcre2 support.${NC}"
