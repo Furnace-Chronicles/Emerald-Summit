@@ -17,6 +17,7 @@
 	var/speaking = TRUE
 	var/dictating = FALSE
 	var/scom_number
+	var/scom_tag
 	var/obj/structure/roguemachine/scomm/calling = null
 	var/obj/structure/roguemachine/scomm/called_by = null
 	var/spawned_rat = FALSE
@@ -47,7 +48,8 @@
 /obj/structure/roguemachine/scomm/examine(mob/user)
 	. = ..()
 	if(scom_number)
-		. += "Its designation is #[scom_number]."
+		. += "Its designation is #[scom_number][scom_tag ? ", labeled as [scom_tag]" : ""]."
+	. += "<a href='?src=[REF(src)];directory=1'>Directory</a>"
 	if(user.loc == loc)
 		. += "<b>THE LAWS OF THE LAND:</b>"
 		if(!length(GLOB.laws_of_the_land))
@@ -58,6 +60,25 @@
 			return
 		for(var/i in 1 to length(GLOB.laws_of_the_land))
 			. += span_small("[i]. [GLOB.laws_of_the_land[i]]")
+
+/obj/structure/roguemachine/scomm/Topic(href, href_list)
+	..()
+
+	if(!usr)
+		return
+
+	if(href_list["directory"])
+		view_directory(usr)
+
+/obj/structure/roguemachine/scomm/proc/view_directory(mob/user)
+	var/dat
+	for(var/obj/structure/roguemachine/scomm/X in SSroguemachine.scomm_machines)
+		if(X.scom_tag)
+			dat += "#[X.scom_number] [X.scom_tag]<br>"
+
+	var/datum/browser/popup = new(user, "scom_directory", "<center>RAT REGISTER</center>", 387, 420)
+	popup.set_content(dat)
+	popup.open(FALSE)
 
 /obj/structure/roguemachine/scomm/process()
 	if(world.time <= next_decree)

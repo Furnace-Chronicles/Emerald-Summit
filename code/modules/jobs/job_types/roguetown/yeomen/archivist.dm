@@ -13,7 +13,7 @@
 	outfit = /datum/outfit/job/roguetown/archivist
 	display_order = JDO_ARCHIVIST
 	give_bank_account = 15
-	min_pq = 3 // Now has actual responsibility and is a key figure in town.
+	min_pq = 5 // Now has actual responsibility and is a key figure in town.
 	max_pq = null
 	round_contrib_points = 3
 
