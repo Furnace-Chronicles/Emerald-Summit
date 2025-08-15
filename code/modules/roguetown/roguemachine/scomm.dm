@@ -15,6 +15,7 @@
 	var/next_decree = 0
 	var/listening = TRUE
 	var/speaking = TRUE
+	var/loudmouth_listening = TRUE
 	var/dictating = FALSE
 	var/scom_number
 	var/scom_tag
@@ -106,9 +107,15 @@
 		listening = !listening
 		to_chat(user, span_info("I [listening ? "unmute" : "mute"] the input on the SCOM."))
 		return
-	listening = !listening
-	speaking = listening
-	to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the SCOM."))
+	if(loudmouth_listening)
+		to_chat(user, span_info("I quell the Loudmouth's prattling on the SCOM. It may be muted entirely still."))
+		loudmouth_listening = FALSE
+	else
+		listening = !listening
+		speaking = listening
+		to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the SCOM."))
+		if(listening)
+			loudmouth_listening = TRUE
 	update_icon()
 
 /obj/structure/roguemachine/scomm/attack_right(mob/user)
@@ -344,6 +351,7 @@
 	muteinmouth = TRUE
 	var/listening = TRUE
 	var/speaking = TRUE
+	var/loudmouth_listening = TRUE
 	var/messagereceivedsound = 'sound/misc/scom.ogg'
 	var/hearrange = 1 // change to 0 if you want your special scomstone to be only hearable by wearer
 	drop_sound = 'sound/foley/coinphy (1).ogg'
@@ -380,10 +388,16 @@
 		return
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-	listening = !listening
-	speaking = !speaking
-	to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the scomstone."))
-	update_icon()
+	if(loudmouth_listening)
+		to_chat(user, span_info("I quell the Loudmouth's prattling on the scomstone. It may be muted entirely still."))
+		loudmouth_listening = FALSE
+	else
+		listening = !listening
+		speaking = !speaking
+		to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the scomstone."))
+		if(listening)
+			loudmouth_listening = TRUE
+		update_icon()
 
 /obj/item/scomstone/Destroy()
 	SSroguemachine.scomm_machines -= src
@@ -450,6 +464,7 @@
 	muteinmouth = TRUE
 	var/listening = TRUE
 	var/speaking = TRUE
+	var/loudmouth_listening = TRUE
 	sellprice = 200
 	grid_width = 32
 	grid_height = 32
@@ -459,9 +474,15 @@
 		return
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-	listening = !listening
-	speaking = !speaking
-	to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the scomstone."))
+	if(loudmouth_listening)
+		to_chat(user, span_info("I quell the Loudmouth's prattling on the scomstone. It may be muted entirely still."))
+		loudmouth_listening = FALSE
+	else
+		listening = !listening
+		speaking = !speaking
+		to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the scomstone."))
+		if(listening)
+			loudmouth_listening = TRUE
 	update_icon()
 	if(listening)
 		icon_state = "listenstone"
@@ -750,6 +771,7 @@
 	speech_span = SPAN_ORATOR
 	var/listening = FALSE
 	var/speech_color = null
+	var/loudmouth = FALSE
 
 /obj/structure/broadcast_horn/examine(mob/user)
 	. = ..()
@@ -793,19 +815,24 @@
 	if(speech_color)
 		raw_message = "<span style='color: [speech_color]'>[raw_message]</span>"
 	for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
-		if(!S.calling)
+		if(!S.calling && (!loudmouth || S.loudmouth_listening))
 			S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
 	for(var/obj/item/scomstone/S in SSroguemachine.scomm_machines)
-		S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
+		if(!loudmouth || S.loudmouth_listening)
+			S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
 	for(var/obj/item/listenstone/S in SSroguemachine.scomm_machines)
-		S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
-	SSroguemachine.crown?.repeat_message(raw_message, src, usedcolor, message_language, tspans)
+		if(!loudmouth || S.loudmouth_listening)
+			S.repeat_message(raw_message, src, usedcolor, message_language, tspans)
+	var/obj/item/clothing/head/roguetown/crown/serpcrown/crowne = SSroguemachine.crown
+	if(crowne && (!loudmouth || crowne.loudmouth_listening))
+		crowne.repeat_message(raw_message, src, usedcolor, message_language, tspans)
 
 /obj/structure/broadcast_horn/loudmouth
 	name = "\improper Golden Mouth"
 	desc = "The Loudmouth's own gleaming horn, its surface engraved with the ducal crest."
 	icon_state = "broadcaster"
 	speech_color = COLOR_ASSEMBLY_GOLD
+	loudmouth = TRUE
 
 /obj/structure/broadcast_horn/loudmouth/attack_hand(mob/living/user)
 	. = ..()
