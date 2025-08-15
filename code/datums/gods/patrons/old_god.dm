@@ -229,10 +229,10 @@
 /datum/patron/old_god/psydonite_hidden
 	name = "Psydon"
 	domain = "God of Ontological Reality"
-	desc = "Psydon, creator of the entire world, is dead, but his worshippers still cling on to their psycrosses. Either from nostalgia for a better time, naive hope for his return, stubborn refusal to change, loyalty beyond the grave, or delusion that he truly does live, they endure. They are completely barred from nobility, and hunted by the church. The only place you'll see somebody openly wearing a psycross is in the outer wilds, or in a grave."
+	desc = "Psydon, creator of the entire world, is dead, but his worshippers still cling on to their psycrosses. Either from nostalgia for a better time, naive hope for his return, stubborn refusal to change, loyalty beyond the grave, or delusion that he truly does live, they endure. They are completely barred from nobility- which has never stopped them from it- but even those who have no aspirations beyond their commoner lyfe are scorned. The only place you'll see somebody openly wearing a psycross is in the outer wilds, or in a grave."
 	worshippers = "The naive, the nostalgic, and the stubborn."
 	associated_faith = /datum/faith/old_god
-//	mob_traits = list(TRAIT_PSYDONITE)
+	mob_traits = list(TRAIT_PSYDONITE)
 	miracles = list(
 		/obj/effect/proc_holder/spell/targeted/touch/orison = CLERIC_ORI,
 		/obj/effect/proc_holder/spell/self/check_boot = CLERIC_T0,
