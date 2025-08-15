@@ -39,6 +39,11 @@ body {
   src: url('elf.ttf'); 
 }
 
+@font-face {
+  font-family: "Project Sans";
+  src: url('orator.ttf');
+}
+
 @font-face { 
   font-family: "MasonAlternate"; 
   src: url('dwarf.ttf'); 
