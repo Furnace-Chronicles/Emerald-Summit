@@ -135,7 +135,8 @@
 #define YEOMEN		(1<<4)
 
 #define BARKEEP		(1<<0)
-#define ARCHIVIST	(1<<1)
+#define LOUDMOUTH	(1<<1)
+#define ARCHIVIST	(1<<2)
 #define ALCHEMIST	(1<<5)
 #define MERCHANT	(1<<8)
 #define SCRIBE		(1<<9)
@@ -265,8 +266,9 @@
 #define JDO_SHOPHAND 17.1
 #define JDO_GRABBER 17.2
 
-#define JDO_ARCHIVIST 18
 #define JDO_CHIEF 18.1
+#define JDO_LOUDMOUTH 18.2
+#define JDO_ARCHIVIST 18.3
 
 #define JDO_GUILDMASTER 19.1
 #define JDO_GUILDSMAN 19.2
@@ -365,6 +367,7 @@
 #define YEOMEN_ROLES \
 	/datum/job/roguetown/elder,\
 	/datum/job/roguetown/niteman,\
+	/datum/job/roguetown/loudmouth,\
 	/datum/job/roguetown/archivist,\
 	/datum/job/roguetown/barkeep,\
 	/datum/job/roguetown/guildsmaster,\

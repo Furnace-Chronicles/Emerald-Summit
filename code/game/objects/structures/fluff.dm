@@ -675,13 +675,6 @@
 	name = "sign"
 	desc = ""
 	icon = 'icons/roguetown/misc/structure.dmi'
-/obj/structure/fluff/sellsign/examine(mob/user)
-	. = ..()
-	if(!user.is_literate())
-		. += "I have no idea what it says."
-	else
-		. += "It says \"EXPORTS\""
-
 
 /obj/structure/fluff/customsign
 	name = "sign"

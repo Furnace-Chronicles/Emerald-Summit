@@ -1589,6 +1589,7 @@
 #include "code\modules\jobs\job_types\roguetown\yeomen\barkeep.dm"
 #include "code\modules\jobs\job_types\roguetown\yeomen\guildmaster.dm"
 #include "code\modules\jobs\job_types\roguetown\yeomen\guildsman.dm"
+#include "code\modules\jobs\job_types\roguetown\yeomen\loudmouth.dm"
 #include "code\modules\jobs\job_types\roguetown\yeomen\merchant.dm"
 #include "code\modules\jobs\job_types\roguetown\yeomen\nightmaster.dm"
 #include "code\modules\jobs\job_types\roguetown\yeomen\tailor.dm"

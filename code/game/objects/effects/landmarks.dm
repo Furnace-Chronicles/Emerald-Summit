@@ -276,6 +276,10 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Innkeep"
 	icon_state = "arrow"
 
+/obj/effect/landmark/start/loudmouth
+	name = "Loudmouth"
+	icon_state = "arrow"
+
 /obj/effect/landmark/start/archivist
 	name = "Archivist"
 	icon_state = "arrow"

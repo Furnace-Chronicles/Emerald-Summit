@@ -1,6 +1,6 @@
 /datum/job/roguetown/archivist
 	title = "Archivist"
-	tutorial = "The Archivist meticulously preserves and organizes ancient scrolls and tomes, safeguarding the collective knowledge of the realm for generations to come. Nobles and Peasants alike often seek your expertise on matters of history and fact, and your keenly-kept records on the events of this week will likely stand a testament to your Duke's benevolence and their realm's prosperity...or not. After all, you hold the true power: The power to dictate how the future generations will look back on these coming days."
+	tutorial = "The Archivist meticulously preserves and organizes ancient scrolls and tomes, safeguarding the collective knowledge of the realm for generations to come. Nobles and Peasants alike often seek your expertise on matters of history and fact, and your keenly-kept records on the events of this week will likely stand a testament to your Duke's benevolence and their realm's prosperity...or not. After all, you hold the true power: The power to dictate how the future generations will look back on these coming days. You work closely with the Loudmouth, though it's obvious which of you the people truly respect."
 	flag = ARCHIVIST
 	department_flag = YEOMEN
 	faction = "Station"
@@ -13,7 +13,7 @@
 	outfit = /datum/outfit/job/roguetown/archivist
 	display_order = JDO_ARCHIVIST
 	give_bank_account = 15
-	min_pq = 1 // Please do not read smut while brewing bottle bombs. It upsets the maids when they have to scrape archivists off the ceiling.
+	min_pq = 1
 	max_pq = null
 	round_contrib_points = 3
 
@@ -73,9 +73,10 @@
 	ADD_TRAIT(H, TRAIT_GOODWRITER, TRAIT_GENERIC)
 	H.change_stat("strength", -1)
 	H.change_stat("constitution", -1)
+	H.change_stat("speed", 1)
 	H.change_stat("intelligence", 4)
 	if (H && H.mind)
-		H.mind.adjust_spellpoints(12)// DelineFortune: H?.mind.adjust_spellpoints(12) - is not correct way because how do you want to add points to /mob/living/carbon/human/dummy???
+		H.mind.adjust_spellpoints(12)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/teach)
 	if(H.age == AGE_OLD)
 		H.change_stat("speed", -1)

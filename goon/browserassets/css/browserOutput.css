@@ -39,6 +39,11 @@ body {
   src: url('elf.ttf'); 
 }
 
+@font-face {
+  font-family: "Project Sans";
+  src: url('orator.ttf');
+}
+
 @font-face { 
   font-family: "MasonAlternate"; 
   src: url('dwarf.ttf'); 
@@ -50,7 +55,7 @@ body {
 }
 
 @font-face {
-  font-family: "Ramadhan Karim";
+  font-family: "Almalik";
   src: url('algaib.ttf');
 }
 
@@ -454,7 +459,8 @@ h1.alert, h2.alert	{color: #c9c1ba;font-family: Pterra, TrueType;}
 .papyrus				{font-family: "Papyrus", cursive, sans-serif;}
 .robot					{font-family: "Courier New", cursive, sans-serif;}
 
-.sandwauk 				{font-family: "Ramadhan Karim", "Pterra"; font-size: 120%;}
+.orator					{font-family: "Project Sans", "Pterra"; font-size: 100%;}
+.sandwauk 				{font-family: "Almalik", "Pterra"; font-size: 120%;}
 .human 					{font-family: "Honoka Mincho", "Pterra";}
 .elf					{font-family: "Dauphin", cursive, "Pterra";}
 .dwarf 					{font-family: "MasonAlternate", "Pterra";} 

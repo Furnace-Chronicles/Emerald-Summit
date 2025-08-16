@@ -51,7 +51,7 @@
 		"Court Physician",
 		"Town Elder",
 		"Captain",
-		"Archivist",
+		"Loudmouth",
 		"Knight",
 		"Dame",
 		"Court Magician",

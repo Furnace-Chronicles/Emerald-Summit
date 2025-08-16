@@ -107,6 +107,7 @@ GLOBAL_LIST_INIT(inquisition_positions, list(
 GLOBAL_LIST_INIT(yeoman_positions, list(
 	"Merchant",
 	"Innkeeper",
+	"Loudmouth",
 	"Archivist",
 	"Scribe",
 	"Town Elder",
