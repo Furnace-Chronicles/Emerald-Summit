@@ -71,8 +71,6 @@
 	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_GOODWRITER, TRAIT_GENERIC)
-	H.change_stat("strength", -1)
-	H.change_stat("constitution", -1)
 	H.change_stat("speed", 1)
 	H.change_stat("intelligence", 4)
 	if (H && H.mind)
