@@ -10,6 +10,7 @@
 	var/subject = null //what reading this book will give exp toward
 	var/complete = TRUE
 	var/writing_page = FALSE//use this to determine whether we've added a new page and need to write it prior to finishing the book. We start with one unwritten page after crafting.
+	var/wellwritten = FALSE //if the author has TRAIT_GOODWRITER
 	grid_width = 32
 	grid_height = 32
 
@@ -45,9 +46,9 @@
 			if(4)
 				prefix = "Foundations"
 			if(5)
-				prefix = "Essentials"
-			if(6)
 				prefix = "Mastery"
+			if(6)
+				prefix = "True knowledge"
 			else //1 or 2
 				prefix = "Basics"
 		if(subject)
@@ -70,6 +71,8 @@
 						. += span_warning("I can't ascertain its contents.")
 				else
 					. += span_notice("It's suitable for readers of [get_text(skill_req)] skill, and can raise your skill up to the level of [get_text(skill_cap)].")
+					if(wellwritten)
+						. += span_nicegreen("It's exceptionally well-written.")
 			else
 				. += span_warning("I can't see any of its specifics without getting closer.")
 
@@ -108,7 +111,7 @@
 						to_chat(user,("I'm fully immersed in [src]."))
 				if(subject != /datum/skill/misc/reading)//if our topic isn't literacy, we still gain a little bit of literacy skill
 					add_sleep_experience(user, /datum/skill/misc/reading, user.STAINT*0.75)
-				add_sleep_experience(user, subject, user.STAINT * 1.5)
+				add_sleep_experience(user, subject, user.STAINT * (1.5 * (wellwritten+1)))//if the book is well-written, gain 2x exp on the subject
 				subject_skill = user.get_skill_level(subject)//update after we gain exp to see if we've leveled up
 				var/skill_difference = skill_cap - subject_skill//3 different cases: 1, we've reached !! level. 2, We've outleveled the book normally. 3, we've outleveled the book via sleep exp
 				if(user?.mind?.sleep_adv.enough_sleep_xp_to_advance(subject, min(skill_difference,2)) || skill_difference <= 0)
@@ -139,6 +142,8 @@
 				add_sleep_experience(user, /datum/skill/misc/reading, user.STAINT*1.5)//decently more than writing the book
 				var/obj/item/skillbook/newbook = new /obj/item/skillbook(get_turf(src))
 				newbook.set_bookstats(skill_req,skill_cap,subject)
+				if(HAS_TRAIT(user, TRAIT_GOODWRITER))
+					newbook.wellwritten = TRUE
 				qdel(src)
 
 
