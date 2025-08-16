@@ -114,7 +114,7 @@
 				if(user?.mind?.sleep_adv.enough_sleep_xp_to_advance(subject, min(skill_difference,2)) || skill_difference <= 0)
 					reading = FALSE
 					ADD_TRAIT(user, TRAIT_STUDENT, "[type]")
-					to_chat(user,span_notice("I've learned a lot from [src]. I need to rest before beginning again."))
+					to_chat(user,span_notice("I've learned a lot from [src]. I need to rest before reading again."))
 			else //we moved or were otherwise interrupted
 				reading = FALSE
 		to_chat(user,("I stop reading [src]."))

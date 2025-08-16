@@ -198,7 +198,7 @@
 	always_availible = TRUE
 
 /datum/crafting_recipe/roguetown/leather/skillbook
-	name = "incomplete skillbook (1 leather, 1 paper)"
+	name = "unfinished skillbook (1 leather, 1 paper)"
 	result = /obj/item/skillbook/unfinished
 	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/paper = 1)
 	tools = list(/obj/item/needle)
