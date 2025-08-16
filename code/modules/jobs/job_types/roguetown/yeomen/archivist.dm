@@ -36,7 +36,13 @@
 	mask = /obj/item/clothing/mask/rogue/spectacles
 	id = /obj/item/scomstone/bad
 	backpack_contents = list(
-		/obj/item/recipe_book/alchemy
+		/obj/item/recipe_book/alchemy,
+		/obj/item/skillbook/unfinished, //give the book man a starter book, enough paper for 3 pages, and a writing instrument to get him started
+		/obj/item/natural/feather,
+		/obj/item/paper,
+		/obj/item/paper,
+		/obj/item/paper
+
 	)
 
 	H.adjust_skillrank(/datum/skill/misc/reading, 6, TRUE)

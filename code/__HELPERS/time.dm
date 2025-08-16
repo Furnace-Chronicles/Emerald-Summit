@@ -149,6 +149,10 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 				to_chat(mind.current, span_warning("My glimpse of [mind.rituos_spell.name] flees my mind as the new dae dawns..."))
 				mind.RemoveSpell(mind.rituos_spell)
 				mind.rituos_spell = null
+			if(HAS_TRAIT(mind.current, TRAIT_STUDENT))//golems can learn, too!
+				REMOVE_TRAIT(mind.current, TRAIT_STUDENT, "[type]")
+				to_chat(mind.current, span_smallnotice("I feel that I can be educated in a skill once more."))
+
 
 	else if(GLOB.tod == "day")
 		playsound_local(src, 'sound/misc/midday.ogg', 100, FALSE)
