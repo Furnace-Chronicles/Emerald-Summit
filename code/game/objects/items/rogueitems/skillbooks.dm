@@ -228,17 +228,17 @@
 /obj/item/skillbook/proc/choose_skill(mob/living/user)
 	if(!complete)
 		var/list/known_skills = list()
-		var/list/choices = list()//we use this in the user input window for the names of the skills
+		var/list/skill_names = list()//we use this in the user input window for the names of the skills
 		if(user.mind)
 			for(var/skill_type in SSskills.all_skills)
 				var/datum/skill/skill = GetSkillRef(skill_type)
 				if(skill in user.skills?.known_skills)
-					LAZYADD(choices, skill)
+					LAZYADD(skill_names, skill)
 					LAZYADD(known_skills,skill_type)
 			if(!known_skills)//nobody has ever been as dumb as you are. feel bad.
 				to_chat(user, span_warning("I know nothing of value."))
 				return
-		var/skill_choice = input(user, "Begin your story","Skills") as null|anything in choices
+		var/skill_choice = input(user, "Begin your story","Skills") as null|anything in skill_names
 		if(skill_choice)
 			for(var/real_skill in known_skills)//real_skill is the actual datum for the skill rather than the "Skill" string
 				if(skill_choice == GetSkillRef(real_skill))//if skill_choice (the name string) is equal to real_skill's name ref, essentially
