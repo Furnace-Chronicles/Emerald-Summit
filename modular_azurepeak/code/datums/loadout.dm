@@ -119,31 +119,31 @@ GLOBAL_LIST_EMPTY(loadout_items)
 
 /datum/loadout_item/tabard/astrata
 	name = "Astrata Tabard"
-	path = /obj/item/clothing/cloak/templar/astrata
+	path = /obj/item/clothing/cloak/templar/astratan
 
 /datum/loadout_item/tabard/noc
 	name = "Noc Tabard"
-	path = /obj/item/clothing/cloak/templar/noc
+	path = /obj/item/clothing/cloak/tabard/crusader/noc
 
 /datum/loadout_item/tabard/dendor
 	name = "Dendor Tabard"
-	path = /obj/item/clothing/cloak/templar/dendor
+	path = /obj/item/clothing/cloak/tabard/crusader/dendor
 
 /datum/loadout_item/tabard/malum
 	name = "Malum Tabard"
-	path = /obj/item/clothing/cloak/templar/malum
+	path = /obj/item/clothing/cloak/templar/malumite
 
 /datum/loadout_item/tabard/eora
 	name = "Eora Tabard"
-	path = /obj/item/clothing/cloak/templar/eora
+	path = /obj/item/clothing/cloak/templar/eoran
 
 /datum/loadout_item/tabard/pestra
 	name = "Pestra Tabard"
-	path = /obj/item/clothing/cloak/templar/pestra
+	path = /obj/item/clothing/cloak/templar/pestran
 
 /datum/loadout_item/tabard/ravox
 	name = "Ravox Tabard"
-	path = /obj/item/clothing/cloak/cleric/ravox
+	path = /obj/item/clothing/cloak/templar/ravox
 
 /datum/loadout_item/tabard/abyssor
 	name = "Abyssor Tabard"
@@ -151,7 +151,7 @@ GLOBAL_LIST_EMPTY(loadout_items)
 
 /datum/loadout_item/tabard/necra
 	name = "Necra Tabard"
-	path = /obj/item/clothing/cloak/templar/necra
+	path = /obj/item/clothing/cloak/templar/necran
 
 /datum/loadout_item/tabard/psydon
 	name = "Psydon Tabard"
