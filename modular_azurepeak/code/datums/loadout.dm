@@ -147,10 +147,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 
 /datum/loadout_item/tabard/abyssor
 	name = "Abyssor Tabard"
-	path = /obj/item/clothing/cloak/templar/abyssor
+	path = /obj/item/clothing/cloak/abyssortabard
 
 /datum/loadout_item/tabard/necra
-	name = "Abyssor Tabard"
+	name = "Necra Tabard"
 	path = /obj/item/clothing/cloak/templar/necra
 
 /datum/loadout_item/tabard/psydon
