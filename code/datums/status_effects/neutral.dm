@@ -187,3 +187,12 @@
 /datum/status_effect/compliance
 	id = "compliance"
 	alert_type = /atom/movable/screen/alert/status_effect/compliance
+
+/datum/status_effect/carebox
+	id = "carebox"
+	alert_type = /atom/movable/screen/alert/status_effect/carebox
+
+/atom/movable/screen/alert/status_effect/carebox
+	name = "Package"
+	desc = "I have a parcel waiting for me at the HERMES."
+	icon_state = "mail"
