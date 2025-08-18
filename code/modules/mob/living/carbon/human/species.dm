@@ -754,8 +754,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(SLOT_CLOAK)
 			if(H.cloak)
 				return FALSE
-			if(is_nudist)
-				return FALSE
 			if( (I.slot_flags & ITEM_SLOT_BACK_R) )
 				if(H.backr)
 					if((H.backr.slot_flags & ITEM_SLOT_CLOAK) )
