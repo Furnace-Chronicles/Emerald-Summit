@@ -116,7 +116,7 @@
 				var/skill_difference = skill_cap - subject_skill//3 different cases: 1, we've reached !! level. 2, We've outleveled the book normally. 3, we've outleveled the book via sleep exp
 				if(user?.mind?.sleep_adv.enough_sleep_xp_to_advance(subject, min(skill_difference,2)) || skill_difference <= 0)
 					reading = FALSE
-					ADD_TRAIT(user, TRAIT_STUDENT, "[type]")
+					ADD_TRAIT(user, TRAIT_STUDENT, TRAIT_GENERIC)
 					to_chat(user,span_notice("I've learned a lot from [src]. I need to rest before reading again."))
 			else //we moved or were otherwise interrupted
 				reading = FALSE

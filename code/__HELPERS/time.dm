@@ -150,8 +150,8 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 				mind.RemoveSpell(mind.rituos_spell)
 				mind.rituos_spell = null
 			if(HAS_TRAIT(mind.current, TRAIT_STUDENT))//golems can learn, too!
-				REMOVE_TRAIT(mind.current, TRAIT_STUDENT, "[type]")
-				to_chat(mind.current, span_smallnotice("I feel that I can be educated in a skill once more."))
+				REMOVE_TRAIT(mind.current, TRAIT_STUDENT, TRAIT_GENERIC)
+				to_chat(mind.current, span_nicegreen("I feel that I can be educated in a skill once more."))
 
 
 	else if(GLOB.tod == "day")
