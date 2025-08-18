@@ -104,7 +104,7 @@
 				to_chat(player, span_warning("[user] signals to [user.a_intent] at [currentarea.location_name]!"))
 			continue
 		var/dirtext = " to the "
-		var/direction = get_dir(player, origin_turf)
+		var/direction = angle2dir(Get_Angle(player, origin_turf))
 		switch(direction)
 			if(NORTH)
 				dirtext += "north"
@@ -193,7 +193,7 @@
 				to_chat(player, span_colossus("[inputty]"))
 			continue
 		var/dirtext = " to the "
-		var/direction = get_dir(player, origin_turf)
+		var/direction = angle2dir(Get_Angle(player, origin_turf))
 		switch(direction)
 			if(NORTH)
 				dirtext += "north"
