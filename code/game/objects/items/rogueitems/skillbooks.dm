@@ -7,7 +7,7 @@
 	var/iconval = 0
 	var/skill_req = 0 //how much skill we need baseline to read this
 	var/skill_cap = 0 //how much exp we can gain (up to this level) from reading
-	var/subject = null //what reading this book will give exp toward
+	var/datum/skill/subject = null //what reading this book will give exp toward
 	var/complete = TRUE
 	var/writing_page = FALSE//use this to determine whether we've added a new page and need to write it prior to finishing the book. We start with one unwritten page after crafting.
 	var/wellwritten = FALSE //if the author has TRAIT_GOODWRITER
@@ -215,10 +215,13 @@
 		if(writing_page)
 			to_chat(user, span_warning("I'm not finished writing the current page!"))
 			return
+		if(skill_cap == subject.max_skillbook_level)//our readable skill cap defined in skill the datum itself
+			to_chat(user, span_warning("This subject requires hands-on experience to learn further. There's no point in writing more."))
+			return
 		if(skill_cap >= subject_skill)
 			to_chat(user, span_warning("I know nothing left to add to [src]!"))
 			return
-		if(skill_cap == 2)//breakpoint for when books require a minimum requirement to read, so it prompts the author if they want to continue
+		if(skill_cap == SKILL_LEVEL_APPRENTICE)//breakpoint for when books require a minimum requirement to read, so it prompts the author if they want to continue
 			if(alert("Continuing to write will require readers to have experience in the skill in order to read it.", "Continue?", "Yes", "No") == "No")
 				return
 		to_chat(user, span_notice("I place a new page into [src]."))
@@ -227,23 +230,26 @@
 
 /obj/item/skillbook/proc/choose_skill(mob/living/user)
 	if(!complete)
-		var/list/known_skills = list()
+		var/list/writable_skills = list()
 		var/list/skill_names = list()//we use this in the user input window for the names of the skills
 		if(user.mind)
 			for(var/skill_type in SSskills.all_skills)
 				var/datum/skill/skill = GetSkillRef(skill_type)
 				if(skill in user.skills?.known_skills)
-					LAZYADD(skill_names, skill)
-					LAZYADD(known_skills,skill_type)
-			if(!known_skills)//nobody has ever been as dumb as you are. feel bad.
-				to_chat(user, span_warning("I know nothing of value."))
+					if(skill.max_skillbook_level > 0)//max_skillbook_level is defined in the skill datum itself, if it's 0 we can't write on it at all
+						LAZYADD(skill_names, skill)
+						LAZYADD(writable_skills,skill_type)
+			if(!length(writable_skills))//nobody has ever been as dumb as you are. feel bad.
+				to_chat(user, span_warning("I know nothing of value to write."))
 				return
 		var/skill_choice = input(user, "Begin your story","Skills") as null|anything in skill_names
 		if(skill_choice)
-			for(var/real_skill in known_skills)//real_skill is the actual datum for the skill rather than the "Skill" string
+			for(var/real_skill in writable_skills)//real_skill is the actual datum for the skill rather than the "Skill" string
 				if(skill_choice == GetSkillRef(real_skill))//if skill_choice (the name string) is equal to real_skill's name ref, essentially
 					subject = real_skill
+					name = "unfinished skillbook"//resets name so we don't get a bunch of slop appends from changing the subject more than once
 					to_chat(user, span_notice("I dedicate [src] to [skill_choice]. Now, I'll need a thorn or a feather to write with."))
+					name += " ([skill_choice])"
 		else
 			to_chat(user, span_notice("Maybe later."))
 
