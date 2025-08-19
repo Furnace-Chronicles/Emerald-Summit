@@ -5,7 +5,7 @@
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-	allowed_races = RACES_APPOINTED_OUTCASTS_UP
+	allowed_races = RACES_SECOND_CLASS_NO_GOLEM
 	allowed_patrons = NON_PSYDON_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
 	display_order = JDO_PHYSICIAN
