@@ -9,7 +9,7 @@
 	antag_flag = ROLE_NBEAST
 	shared_occurence_type = SHARED_HIGH_THREAT
 
-	weight = 4 // frag out boy
+	weight = 0 // frag out boy
 	max_occurrences = 2
 	denominator = 50
 
