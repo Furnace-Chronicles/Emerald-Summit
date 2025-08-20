@@ -42,14 +42,21 @@ GLOBAL_LIST_EMPTY(preference_patrons)
 		pious.verbs += /mob/living/carbon/human/proc/emote_ffsalute
 	if (HAS_TRAIT(pious, TRAIT_CABAL))
 		pious.faction |= "cabal"
+		pious.verbs += list(/mob/living/carbon/human/proc/praise_zizo, /mob/living/carbon/human/proc/remember_associates)
+	if(HAS_TRAIT(pious, TRAIT_PSYDONITE))
+		pious.verbs += list(/mob/living/carbon/human/proc/praise_psy)
 
 /datum/patron/proc/on_loss(mob/living/pious)
 	if (HAS_TRAIT(pious, TRAIT_CABAL))
 		pious.faction -= "cabal"
+		pious.verbs -= list(/mob/living/carbon/human/proc/praise_zizo, /mob/living/carbon/human/proc/remember_associates)
 	if(HAS_TRAIT(pious, TRAIT_XYLIX))
 		pious.remove_language(/datum/language/thievescant)
+	if(HAS_TRAIT(pious, TRAIT_PSYDONITE))
+		pious.verbs -= list(/mob/living/carbon/human/proc/praise_psy)
 	for(var/trait in mob_traits)
 		REMOVE_TRAIT(pious, trait, "[type]")
+	
 
 /* -----PRAYERS----- */
 

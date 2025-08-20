@@ -543,3 +543,10 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	shortname = "Zybantine"
 	credits = "Hakan Glante - Crusader Kings 3 Fate of Iberia OST - War \"Short\""
 	musicpath = list('sound/music/combat_zybantine.ogg')
+
+/datum/combat_music/soulbreaker
+	name = "Soulbreaker"
+	desc = "Taking full advantage of the Star Bonds, which granted the planet's inhabitants a right to visit the Hive to propagate, the Soulbreakers send their Sakrans to Isfet in return. The Grand Lodges allow them to preach and even dictate morality in the \"common\" karums. This has already borne fruit - Setz, one of the Free Cities of Ligiph, has become a Soulbreaker base with many locals converted to the sinister faith."
+	shortname = "Soulbreaker"
+	credits = "Muhmood - Islamic Trance"
+	musicpath = list ('sound/music/combat_soulbreaker.ogg')

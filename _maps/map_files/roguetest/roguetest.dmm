@@ -124,6 +124,10 @@
 /obj/effect/landmark/observer_start,
 /turf/open/floor/rogue/carpet/lord,
 /area/rogue/indoors)
+"cz" = (
+/obj/structure/roguemachine/nkvd_confession,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors)
 "dA" = (
 /obj/structure/roguewindow,
 /obj/structure/fluff/railing/border{
@@ -2727,7 +2731,7 @@ YV
 Yt
 Yt
 zf
-HA
+cz
 BJ
 al
 al

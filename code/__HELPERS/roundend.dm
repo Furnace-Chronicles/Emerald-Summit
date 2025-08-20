@@ -147,6 +147,9 @@
 		if(H.stat != DEAD)
 			if(H.get_triumphs() < 0)
 				H.adjust_triumphs(1)
+		if(((H.mind.assigned_role == "Orthodoxist") || (H.mind.assigned_role == "Inquisitor")) && GLOB.confessors.len > 4)
+			H.adjust_triumphs(GLOB.confessors.len)
+			to_chat(world, span_boldgreen("The Inquisition met its quota!")) //Everyone should know about the good word
 		if(GLOB.round_join_times[H.ckey] && H.job && H.allmig_reward)
 			if((GLOB.round_join_times[H.ckey] + 45 MINUTES) < world.time)
 				var/datum/job/job = SSjob.GetJob(H.job)

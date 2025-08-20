@@ -75,6 +75,8 @@
 				GLOB.scarlet_round_stats[STATS_DEADITES_KILLED]++
 			if(mind.has_antag_datum(/datum/antagonist/skeleton) || mind.has_antag_datum(/datum/antagonist/lich))
 				GLOB.scarlet_round_stats[STATS_SKELETONS_KILLED]++
+		if(!istype(src, RACES_APPOINTED_OUTCASTS_UP))
+			playsound_local(src, 'sound/vo/mutt_dead.ogg', 100)
 
 	if(!gibbed)
 		/*

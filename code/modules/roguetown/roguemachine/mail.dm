@@ -34,12 +34,15 @@
 	. = ..()
 	. += span_info("Load a coin inside, then right click to send a letter.")
 	. += span_info("Left click with a piece of confession or paper to send a prewritten letter for free.")
+	. += span_info("Right click if you're the Inquisitor to requisition supplies.")
 
 /obj/structure/roguemachine/mail/attack_right(mob/user)
 	. = ..()
 	if(.)
 		return
 	user.changeNext_move(CLICK_CD_INTENTCAP)
+	if(user.mind.assigned_role == "Inquisitor")
+		inquisition_requisition(user)
 	if(!coin_loaded)
 		to_chat(user, span_warning("The machine doesn't respond. It needs a coin."))
 		return
@@ -126,8 +129,10 @@
 					if(!no)
 						if(GLOB.confessors.len)
 							GLOB.confessors += ", [C.signed]"
+							GLOB.inquisition_points += 5
 						else
 							GLOB.confessors += "[C.signed]"
+							GLOB.inquisition_points += 5
 				qdel(C)
 				visible_message(span_warning("[user] sends something."))
 				send_ooc_note("Confessions: [GLOB.confessors.len]/5", job = list("orthodoxist", "inquisitor", "priest"))
@@ -324,3 +329,57 @@
 		if(I.mailedto == name)
 			return TRUE
 	return FALSE
+
+/obj/structure/roguemachine/mail/proc/inquisition_requisition(mob/user)
+	if(!ishuman(user))
+		return
+
+	if(!user.mind.assigned_role == "Inquisitor")
+		return
+
+	var/list/inquisition_shop_items = list(
+	list("name" = "Listener", "price" = 1, "obj" = /obj/item/listeningdevice),
+	list("name" = "Secret whisperer", "price" = 2, "obj" = /obj/item/speakerinq),
+	list("name" = "Daybreak - Silver Whip", "price" = 10, "obj" = /obj/item/rogueweapon/whip/antique/psywhip),
+	list("name" = "Apocrypha - Silver Greatsword", "price" = 10, "obj" = /obj/item/rogueweapon/greatsword/psygsword),
+	list("name" = "Golgotha - SYON Shard", "price" = 10, "obj" = /obj/item/flashlight/flare/torch/lantern/psycenser),
+	list("name" = "Stigmata - Silver Halberd", "price" = 10, "obj" = /obj/item/rogueweapon/halberd/psyhalberd),
+	list("name" = "Chains", "price" = 1, "obj" = /obj/item/rope/chain),
+	list("name" = "Crossbow", "price" = 3, "obj" = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow),
+	list("name" = "Quiver of Bolts", "price" = 2, "obj" = /obj/item/quiver/bolts),
+	list("name" = "Quiver of Flaming Bolts", "price" = 5, "obj" = /obj/item/quiver/pyrobolts),
+	list("name" = "Lockpick ring", "price" = 1, "obj" = /obj/item/lockpickring/mundane),
+	list("name" = "Inquisitorial Dagger", "price" = 3, "obj" = /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger),
+	list("name" = "Skeleton Key", "price" = 15, "obj"= /obj/item/skeleton_key),
+	list("name" = "Gold Coins", "price" = 4, "obj" = /obj/item/roguecoin/gold/pile),
+	list("name" = "Blackbag", "price" = 1,"obj" = /obj/item/storage/roguebag),
+	list("name" = "burial shroud", "price" = 1,"obj" = /obj/item/burial_shroud),
+	list("name" = "Silver Throwing Knife", "price" = 1,"obj" = /obj/item/rogueweapon/huntingknife/throwingknife/psydon),
+	list("name" = "Bomb", "price" = 3, "obj" = /obj/item/bomb),
+	list("name" = "Lycanthropy Cure", "price" = 5, "obj" = /obj/item/quicksilver)
+)
+	var/points = GLOB.inquisition_points
+	var/list/purchasable = list()
+	var/list/item_list = list()
+
+	for(var/i in 1 to inquisition_shop_items.len)
+		var/listing = inquisition_shop_items[i]
+		if(listing["price"] <= points)
+			var/display = "[listing["name"]] - [listing["price"]]"
+			purchasable += display
+			item_list[display] = listing
+
+	if(purchasable.len == 0)
+		return
+
+	var/selection = input(user, "What are you going to Requisition?", "POINTS: [points]") in purchasable
+	if(!selection)
+		return
+
+	var/chosen_listing = item_list[selection]
+	if(chosen_listing)
+		GLOB.inquisition_points -= chosen_listing["price"]
+		playsound(src, 'sound/misc/requisition.ogg')
+		var/pick = chosen_listing["obj"]
+		var/obj/item/P = new pick(user.loc)
+		user.put_in_hands(P)
