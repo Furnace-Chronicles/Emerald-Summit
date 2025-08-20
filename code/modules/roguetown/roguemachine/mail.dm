@@ -119,19 +119,19 @@
 	if(istype(P, /obj/item/paper/confession))
 		if((user.mind.assigned_role == "Orthodoxist") || (user.mind.assigned_role == "Inquisitor"))
 			var/obj/item/paper/confession/C = P
-			if(C.signed)
+			if(C.signed && C.target)
 				if(GLOB.confessors)
 					var/no
-					if(", [C.signed]" in GLOB.confessors)
+					if(", [C.target]" in GLOB.confessors)
 						no = TRUE
-					if("[C.signed]" in GLOB.confessors)
+					if("[C.target]" in GLOB.confessors)
 						no = TRUE
 					if(!no)
 						if(GLOB.confessors.len)
-							GLOB.confessors += ", [C.signed]"
+							GLOB.confessors += ", [C.target]"
 							GLOB.inquisition_points += 5
 						else
-							GLOB.confessors += "[C.signed]"
+							GLOB.confessors += "[C.target]"
 							GLOB.inquisition_points += 5
 				qdel(C)
 				visible_message(span_warning("[user] sends something."))
