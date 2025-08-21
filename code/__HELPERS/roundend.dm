@@ -159,6 +159,7 @@
 		for(name in GLOB.confessors)
 			if(name == H.real_name || name == ", [H.real_name]")
 				H.playsound_local(H, 'sound/vo/confession.ogg', 100)
+				H.adjust_triumphs(1)
 	add_roundplayed(key_list)
 //	SEND_SOUND(world, sound(pick('sound/misc/roundend1.ogg','sound/misc/roundend2.ogg')))
 //	SEND_SOUND(world, sound('sound/misc/roundend.ogg'))
