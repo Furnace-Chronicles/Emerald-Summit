@@ -36,7 +36,7 @@
 
 	H.change_stat("strength", 3)
 	H.change_stat("endurance", 2)
-	H.change_stat("constitution", 2)
+	H.change_stat("constitution", 3)
 	H.change_stat("speed", 2)
 	H.change_stat("fortune", 2) //nature smiles at me!
 	H.change_stat("intelligence", -2)
