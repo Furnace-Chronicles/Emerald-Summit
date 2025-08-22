@@ -666,7 +666,7 @@
 	craftdiff = 2
 
 /datum/anvil_recipe/armor/steel/chainmantle
-	name = "Mantle"
+	name = "Mantle (+1 Steel)"
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/ingot/steel)
 	created_item = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle
@@ -674,7 +674,7 @@
 	craftdiff = 2
 
 /datum/anvil_recipe/armor/steel/chainmantle/iron
-	name = "Mantle"
+	name = "Mantle (+1 Iron)"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/ingot/iron)
 	created_item = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle
@@ -682,14 +682,14 @@
 	craftdiff = 2
 
 /datum/anvil_recipe/armor/steel/fullchaincoif
-	name = "Full Chain Coif"
+	name = "Full Chain Coif (+1 Steel)"
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/ingot/steel)
 	created_item = /obj/item/clothing/neck/roguetown/chaincoif/full
 	craftdiff = 2
 
 /datum/anvil_recipe/armor/steel/fullchaincoif/iron
-	name = "Full Chain Coif"
+	name = "Full Chain Coif (+1 Iron)"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/ingot/iron)
 	created_item = /obj/item/clothing/neck/roguetown/chaincoif/full/iron
