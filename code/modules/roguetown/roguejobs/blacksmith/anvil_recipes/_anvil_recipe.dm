@@ -121,27 +121,20 @@
 	var/modifier // Multiplier which will determine quality of final product depending on final skill_quality calculation
 	switch(skill_quality)
 		if(BLACKSMITH_LEVEL_MIN to BLACKSMITH_LEVEL_SPOIL)
-			I.name = "ruined [I.name]"
 			modifier = 0.3
 		if(BLACKSMITH_LEVEL_AWFUL)
-			I.name = "awful [I.name]"
 			modifier = 0.5
 		if(BLACKSMITH_LEVEL_CRUDE)
-			I.name = "crude [I.name]"
 			modifier = 0.8
 		if(BLACKSMITH_LEVEL_ROUGH)
-			I.name = "rough [I.name]"
 			modifier = 0.9
 		if(BLACKSMITH_LEVEL_COMPETENT)
 			modifier = 1
 		if(BLACKSMITH_LEVEL_FINE)
-			I.name = "fine [I.name]"
 			modifier = 1.1
 		if(BLACKSMITH_LEVEL_FLAWLESS)
-			I.name = "flawless [I.name]"
 			modifier = 1.2
 		if(BLACKSMITH_LEVEL_LEGENDARY to BLACKSMITH_LEVEL_MAX)
-			I.name = "masterwork [I.name]"
 			modifier = 1.3
 			I.polished = 4
 			I.AddComponent(/datum/component/metal_glint)
