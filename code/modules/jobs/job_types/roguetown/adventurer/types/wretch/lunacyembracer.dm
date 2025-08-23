@@ -40,7 +40,7 @@
 	H.change_stat("speed", 2)
 	H.change_stat("fortune", 2) //nature smiles at me!
 	H.change_stat("intelligence", -2)
-	H.change_stat("perception", -2)
+	H.change_stat("perception", -1)
 	H.cmode_music = 'sound/music/combat_berserker.ogg'
 	to_chat(H, span_danger("You have abandoned your humanity to run wild under the moon. The call of nature fills your soul!"))
 	wretch_select_bounty(H) 
