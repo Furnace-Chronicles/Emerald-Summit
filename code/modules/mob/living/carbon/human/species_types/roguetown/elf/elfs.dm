@@ -7,7 +7,7 @@
 	desc = "<b>Elf</b><br>\
 	\"Elf\" is a catch-all term used for tall, pointy-eared humanoids who can trace \
 	their heritage to the ancient and mysterious Snow Elves. The snow elves, while largely culled, are still around. \
-	Due to the afforementioned culling, most snow elves are either despise Zizo, or are her descendants. \
+	Due to the afforementioned culling, most snow elves either despise Zizo, or are her descendants. \
 	This particular species of elf are what most imagine when they hear the word, and are also known among \
 	the elder races as \"Wood-Elves\". Considering their diverse history, it is extremely \
 	difficult for other mortals to even conceive the various intricacies found in elven \
