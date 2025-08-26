@@ -695,6 +695,13 @@
 /obj/structure/plasticflaps,
 /turf/open/water/sewer,
 /area/rogue/under/town/sewer)
+"amp" = (
+/obj/structure/stairs/stone{
+	dir = 4
+	},
+/obj/machinery/light/rogue/torchholder,
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/cell)
 "amu" = (
 /obj/effect/decal/cleanable/dirt/cobweb,
 /obj/structure/table/wood,
@@ -17410,6 +17417,7 @@
 /obj/effect/landmark/start/hostage,
 /obj/structure/bed/rogue/inn/double,
 /obj/item/bedsheet/rogue/fabric_double,
+/obj/machinery/light/rogue/wallfire/candle/r,
 /turf/open/floor/rogue/carpet,
 /area/rogue/indoors/town/cell)
 "fCU" = (
@@ -23287,6 +23295,9 @@
 /area/rogue/outdoors/town)
 "hvB" = (
 /obj/structure/roguemachine/scomm/r,
+/obj/machinery/light/rogue/torchholder{
+	dir = 8
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/cell)
 "hvG" = (
@@ -23894,6 +23905,7 @@
 "hEo" = (
 /obj/structure/fluff/walldeco/chains,
 /obj/structure/closet/crate/chest,
+/obj/machinery/light/rogue/wallfire/candle,
 /turf/open/floor/rogue/carpet,
 /area/rogue/indoors/town/cell)
 "hEp" = (
@@ -35280,6 +35292,9 @@
 	dir = 1
 	},
 /obj/item/reagent_containers/glass/cup/golden/small,
+/obj/machinery/light/rogue/wallfire/candle{
+	pixel_y = -32
+	},
 /turf/open/floor/rogue/carpet,
 /area/rogue/indoors/town/cell)
 "lov" = (
@@ -47138,6 +47153,13 @@
 	},
 /turf/open/water/pond,
 /area/rogue/outdoors/woods)
+"pcs" = (
+/obj/structure/lever/wall{
+	redstone_id = "Dungeon_Lockdown";
+	name = DungeonLockdown
+	},
+/turf/closed/wall/mineral/rogue/stone,
+/area/rogue/indoors/town/garrison)
 "pct" = (
 /obj/random/spider,
 /turf/open/floor/rogue/dirt,
@@ -55737,6 +55759,10 @@
 	icon_state = "weird1"
 	},
 /area/rogue/indoors/town)
+"rOG" = (
+/obj/machinery/light/rogue/torchholder,
+/turf/closed/wall/mineral/rogue/stone,
+/area/rogue/indoors/town/cell)
 "rON" = (
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/shelter/mountains/decap)
@@ -66169,6 +66195,9 @@
 	dir = 1
 	},
 /obj/item/natural/feather,
+/obj/machinery/light/rogue/wallfire/candle{
+	pixel_y = -32
+	},
 /turf/open/floor/rogue/carpet,
 /area/rogue/indoors/town/cell)
 "veK" = (
@@ -67967,13 +67996,6 @@
 /obj/structure/fluff/statue/knight/interior/r,
 /turf/open/floor/rogue/carpet/lord/right,
 /area/rogue/under/cave/licharena)
-"vJm" = (
-/obj/structure/lever/wall{
-	redstone_id = "Dungeon_Lockdown";
-	name = DungeonLockdown
-	},
-/turf/closed/wall/mineral/rogue/stone,
-/area/rogue/indoors/town/garrison)
 "vJn" = (
 /obj/effect/decal/cobbleedge{
 	dir = 9
@@ -415311,7 +415333,7 @@ iVE
 vgL
 iVE
 oDW
-nsb
+amp
 eFC
 eFC
 eFC
@@ -515190,7 +515212,7 @@ gij
 aoM
 jWw
 tMd
-vJm
+pcs
 jWw
 jWw
 jWw
@@ -529668,7 +529690,7 @@ vmi
 vmi
 vmi
 pRP
-oDW
+rOG
 eFC
 eFC
 eFC
