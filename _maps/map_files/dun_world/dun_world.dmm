@@ -3788,6 +3788,13 @@
 	},
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/town/church/chapel)
+"bkx" = (
+/obj/structure/lever/wall{
+	redstone_id = "Dungeon_Lockdown";
+	name = DungeonLockdown
+	},
+/turf/closed/wall/mineral/rogue/stone,
+/area/rogue/indoors/town/garrison)
 "bkE" = (
 /obj/structure/closet/crate/chest/old_crate,
 /turf/open/floor/rogue/blocks,
@@ -14718,7 +14725,8 @@
 /obj/structure/mineral_door/wood/donjon{
 	lockid = "garrison";
 	dir = 1;
-	name = "Dungeon"
+	name = "Dungeon";
+	locked = 1
 	},
 /obj/structure/bars/passage/shutter{
 	redstone_id = "Dungeon_Lockdown"
@@ -19851,10 +19859,6 @@
 /obj/item/roguebin/water,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
-"gts" = (
-/obj/machinery/light/rogue/torchholder,
-/turf/closed/wall/mineral/rogue/stone,
-/area/rogue/indoors/town/cell)
 "gtt" = (
 /obj/structure/plough,
 /obj/machinery/light/rogue/torchholder/l,
@@ -35793,13 +35797,6 @@
 /obj/effect/decal/cleanable/dirt/cobweb/cobweb2,
 /turf/open/transparent/openspace,
 /area/rogue/indoors)
-"lvr" = (
-/obj/structure/lever/wall{
-	redstone_id = "Dungeon_Lockdown";
-	name = DungeonLockdown
-	},
-/turf/closed/wall/mineral/rogue/stone,
-/area/rogue/indoors/town/garrison)
 "lvu" = (
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
@@ -36712,6 +36709,10 @@
 "lKS" = (
 /turf/open/floor/rogue/church,
 /area/rogue/outdoors/mountains/decap/stepbelow)
+"lKY" = (
+/obj/machinery/light/rogue/torchholder,
+/turf/closed/wall/mineral/rogue/stone,
+/area/rogue/indoors/town/cell)
 "lLd" = (
 /obj/structure/table/wood{
 	icon_state = "longtable"
@@ -415325,7 +415326,7 @@ vgL
 iVE
 vgL
 iVE
-gts
+lKY
 nsb
 eFC
 eFC
@@ -515205,7 +515206,7 @@ gij
 aoM
 jWw
 tMd
-lvr
+bkx
 jWw
 jWw
 jWw
@@ -529683,7 +529684,7 @@ vmi
 vmi
 vmi
 pRP
-gts
+lKY
 eFC
 eFC
 eFC
