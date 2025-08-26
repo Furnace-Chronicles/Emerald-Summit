@@ -108,8 +108,8 @@
 
 /datum/species/elf/wood/get_skin_list()
 	return list(
-		"Snow White" = SKIN_COLOR_GHOST,
-		"Grenzel Woods" = SKIN_COLOR_GRENZEL_WOODS,
+		"Snowborn" = SKIN_COLOR_GHOST,
+		"Snowbred" = SKIN_COLOR_GRENZEL_WOODS,
 		"Dandelion Creek" = SKIN_COLOR_DANDELION_CREEK,
 		"Roseveil" = SKIN_COLOR_ROSEVEIL,
 		"Azuregrove" = SKIN_COLOR_AZUREGROVE,
