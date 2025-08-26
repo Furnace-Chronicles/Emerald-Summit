@@ -922,6 +922,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(HAS_TRAIT(H, TRAIT_NOHUNGER))
 		return //hunger is for BABIES
 
+	if(!H.wear_armor && !H.wear_shirt && !H.wear_pants)
+		if(istype(get_turf(H), /turf/open/water/bath)) // if we're naked in bath, don't process hunger
+			return
+
 	//The fucking TRAIT_FAT mutation is the dumbest shit ever. It makes the code so difficult to work with
 //	if(HAS_TRAIT_FROM(H, TRAIT_FAT, OBESITY))//I share my pain, past coder.
 //		if(H.overeatduration < 100)
