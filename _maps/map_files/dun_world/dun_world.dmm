@@ -19851,6 +19851,10 @@
 /obj/item/roguebin/water,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
+"gts" = (
+/obj/machinery/light/rogue/torchholder,
+/turf/closed/wall/mineral/rogue/stone,
+/area/rogue/indoors/town/cell)
 "gtt" = (
 /obj/structure/plough,
 /obj/machinery/light/rogue/torchholder/l,
@@ -35789,6 +35793,13 @@
 /obj/effect/decal/cleanable/dirt/cobweb/cobweb2,
 /turf/open/transparent/openspace,
 /area/rogue/indoors)
+"lvr" = (
+/obj/structure/lever/wall{
+	redstone_id = "Dungeon_Lockdown";
+	name = DungeonLockdown
+	},
+/turf/closed/wall/mineral/rogue/stone,
+/area/rogue/indoors/town/garrison)
 "lvu" = (
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
@@ -69537,13 +69548,6 @@
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/manor)
-"wig" = (
-/obj/structure/lever/wall{
-	redstone_id = "Dungeon_Lockdown";
-	name = DungeonLockdown
-	},
-/turf/closed/wall/mineral/rogue/stone,
-/area/rogue/indoors/town/garrison)
 "wij" = (
 /obj/structure/rack/rogue,
 /obj/item/storage/roguebag{
@@ -70207,10 +70211,6 @@
 "wsf" = (
 /turf/closed/wall/mineral/rogue/decostone/long,
 /area/rogue/indoors/town/manor)
-"wsh" = (
-/obj/machinery/light/rogue/torchholder,
-/turf/closed/wall/mineral/rogue/stone,
-/area/rogue/indoors/town/cell)
 "wsi" = (
 /turf/closed/wall/mineral/rogue/roofwall/innercorner,
 /area/rogue/indoors/town/magician)
@@ -412617,12 +412617,12 @@ vmi
 oDW
 oDW
 oDW
-ssq
-ssq
-ssq
-ssq
+oDW
+oDW
+oDW
+oDW
 gGn
-ssq
+oDW
 afK
 uTq
 bZZ
@@ -413074,8 +413074,8 @@ bSG
 mxS
 eFC
 wTj
-ssq
-ssq
+oDW
+oDW
 eKH
 dmM
 bzY
@@ -413527,7 +413527,7 @@ eFC
 rLs
 eFC
 jej
-ssq
+oDW
 eKH
 iHO
 iHO
@@ -413979,7 +413979,7 @@ rPF
 rPF
 rPF
 rPF
-ssq
+oDW
 bGf
 bGf
 bGf
@@ -414431,7 +414431,7 @@ rPF
 jej
 rLs
 wTj
-ssq
+oDW
 gLt
 gLt
 gLt
@@ -415325,7 +415325,7 @@ vgL
 iVE
 vgL
 iVE
-wsh
+gts
 nsb
 eFC
 eFC
@@ -415335,7 +415335,7 @@ rPF
 rPF
 rPF
 rPF
-ssq
+oDW
 tXN
 tXN
 tXN
@@ -415787,7 +415787,7 @@ ras
 eFC
 eFC
 jej
-ssq
+oDW
 aBB
 aBB
 aBB
@@ -416690,8 +416690,8 @@ hvB
 rPF
 rLs
 mxS
-ssq
-ssq
+oDW
+oDW
 aBB
 aBB
 aBB
@@ -417141,8 +417141,8 @@ oDW
 oDW
 oDW
 gGn
-ssq
-ssq
+oDW
+oDW
 aBB
 aBB
 aBB
@@ -515205,7 +515205,7 @@ gij
 aoM
 jWw
 tMd
-wig
+lvr
 jWw
 jWw
 jWw
@@ -529683,7 +529683,7 @@ vmi
 vmi
 vmi
 pRP
-wsh
+gts
 eFC
 eFC
 eFC
