@@ -6,8 +6,9 @@
 	id = "elfw"
 	desc = "<b>Elf</b><br>\
 	\"Elf\" is a catch-all term used for tall, pointy-eared humanoids who can trace \
-	their heritage to the ancient and mysterious Snow Elves. This particular species \
-	of elf are what most imagine when they hear the word, and are also known among \
+	their heritage to the ancient and mysterious Snow Elves. The snow elves, while largely culled, are still around. \
+	Due to the afforementioned culling, most snow elves are either despise Zizo, or are her descendants. \
+	This particular species of elf are what most imagine when they hear the word, and are also known among \
 	the elder races as \"Wood-Elves\". Considering their diverse history, it is extremely \
 	difficult for other mortals to even conceive the various intricacies found in elven \
 	society, thanks in no small part to the hundreds if not thousands of tribes that exist \
@@ -107,7 +108,7 @@
 
 /datum/species/elf/wood/get_skin_list()
 	return list(
-		"Ghost" = SKIN_COLOR_GHOST,
+		"Snow White" = SKIN_COLOR_GHOST,
 		"Grenzel Woods" = SKIN_COLOR_GRENZEL_WOODS,
 		"Dandelion Creek" = SKIN_COLOR_DANDELION_CREEK,
 		"Roseveil" = SKIN_COLOR_ROSEVEIL,
