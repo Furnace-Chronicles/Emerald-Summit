@@ -695,13 +695,6 @@
 /obj/structure/plasticflaps,
 /turf/open/water/sewer,
 /area/rogue/under/town/sewer)
-"amp" = (
-/obj/structure/stairs/stone{
-	dir = 4
-	},
-/obj/machinery/light/rogue/torchholder,
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/cell)
 "amu" = (
 /obj/effect/decal/cleanable/dirt/cobweb,
 /obj/structure/table/wood,
@@ -6730,7 +6723,7 @@
 /obj/structure/mineral_door/wood/donjon{
 	dir = 8;
 	locked = 1;
-	lockid = s;
+	lockid = "Torture";
 	name = "Torture Room"
 	},
 /turf/open/floor/rogue/concrete,
@@ -47153,13 +47146,6 @@
 	},
 /turf/open/water/pond,
 /area/rogue/outdoors/woods)
-"pcs" = (
-/obj/structure/lever/wall{
-	redstone_id = "Dungeon_Lockdown";
-	name = DungeonLockdown
-	},
-/turf/closed/wall/mineral/rogue/stone,
-/area/rogue/indoors/town/garrison)
 "pct" = (
 /obj/random/spider,
 /turf/open/floor/rogue/dirt,
@@ -55759,10 +55745,6 @@
 	icon_state = "weird1"
 	},
 /area/rogue/indoors/town)
-"rOG" = (
-/obj/machinery/light/rogue/torchholder,
-/turf/closed/wall/mineral/rogue/stone,
-/area/rogue/indoors/town/cell)
 "rON" = (
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/shelter/mountains/decap)
@@ -69555,6 +69537,13 @@
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/manor)
+"wig" = (
+/obj/structure/lever/wall{
+	redstone_id = "Dungeon_Lockdown";
+	name = DungeonLockdown
+	},
+/turf/closed/wall/mineral/rogue/stone,
+/area/rogue/indoors/town/garrison)
 "wij" = (
 /obj/structure/rack/rogue,
 /obj/item/storage/roguebag{
@@ -70218,6 +70207,10 @@
 "wsf" = (
 /turf/closed/wall/mineral/rogue/decostone/long,
 /area/rogue/indoors/town/manor)
+"wsh" = (
+/obj/machinery/light/rogue/torchholder,
+/turf/closed/wall/mineral/rogue/stone,
+/area/rogue/indoors/town/cell)
 "wsi" = (
 /turf/closed/wall/mineral/rogue/roofwall/innercorner,
 /area/rogue/indoors/town/magician)
@@ -415332,8 +415325,8 @@ vgL
 iVE
 vgL
 iVE
-oDW
-amp
+wsh
+nsb
 eFC
 eFC
 eFC
@@ -515212,7 +515205,7 @@ gij
 aoM
 jWw
 tMd
-pcs
+wig
 jWw
 jWw
 jWw
@@ -529690,7 +529683,7 @@ vmi
 vmi
 vmi
 pRP
-rOG
+wsh
 eFC
 eFC
 eFC
