@@ -6723,7 +6723,7 @@
 /obj/structure/mineral_door/wood/donjon{
 	dir = 8;
 	locked = 1;
-	lockid = "Torture";
+	lockid = s;
 	name = "Torture Room"
 	},
 /turf/open/floor/rogue/concrete,
@@ -24083,7 +24083,7 @@
 	name = "Key Chest"
 	},
 /obj/item/roguekey/dungeon{
-	lockid = s;
+	lockid = "Torture";
 	name = "torture key"
 	},
 /turf/open/floor/rogue/concrete,
@@ -54733,13 +54733,6 @@
 "ryO" = (
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/dwarfin)
-"ryR" = (
-/obj/structure/lever/wall{
-	redstone_id = "Dungeon_Lockdown";
-	name = DungeonLockdown
-	},
-/turf/closed/wall/mineral/rogue/stone,
-/area/rogue/indoors/town/garrison)
 "ryS" = (
 /obj/structure/mineral_door/wood/deadbolt{
 	dir = 8;
@@ -67974,6 +67967,13 @@
 /obj/structure/fluff/statue/knight/interior/r,
 /turf/open/floor/rogue/carpet/lord/right,
 /area/rogue/under/cave/licharena)
+"vJm" = (
+/obj/structure/lever/wall{
+	redstone_id = "Dungeon_Lockdown";
+	name = DungeonLockdown
+	},
+/turf/closed/wall/mineral/rogue/stone,
+/area/rogue/indoors/town/garrison)
 "vJn" = (
 /obj/effect/decal/cobbleedge{
 	dir = 9
@@ -515190,7 +515190,7 @@ gij
 aoM
 jWw
 tMd
-ryR
+vJm
 jWw
 jWw
 jWw
