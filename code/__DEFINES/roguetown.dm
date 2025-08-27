@@ -197,10 +197,8 @@
 
 #define RACES_NOBILITY_ELIGIBLE \
     /datum/species/human/northern,\
-    /datum/species/elf/wood,\
     /datum/species/human/halfelf,\
     /datum/species/demihuman,\
-    /datum/species/dwarf/mountain,\
 
 #define RACES_CHURCH_FAVORED \
 	/datum/species/aasimar,\
@@ -208,6 +206,8 @@
 #define RACES_APPOINTED_OUTCASTS \
     /datum/species/tieberian,\
     /datum/species/elf/dark,\
+    /datum/species/elf/wood,\
+    /datum/species/dwarf/mountain,\
 
 #define RACES_MANMADE \
 	/datum/species/golem/metal,\
