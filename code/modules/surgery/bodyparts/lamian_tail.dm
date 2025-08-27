@@ -37,6 +37,8 @@
 
 	if(clip_mask_state)
 		clip_mask = icon(icon = clip_mask_icon, icon_state = clip_mask_state)
+//		clip_mask = new/image(icon = clip_mask_icon, icon_state = clip_mask_state)
+
 /*
 	if(clip_mask_state)
 
