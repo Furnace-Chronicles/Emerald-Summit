@@ -93,6 +93,10 @@
 	allow_quick_empty = TRUE
 	insert_preposition = "in"
 
+/datum/component/storage/concrete/roguetown/sack/New(datum/P, ...)
+	. = ..()
+	cant_hold = typecacheof(list(/obj/item/restraints/legcuffs/beartrap))
+
 /datum/component/storage/concrete/roguetown/sack/bag
 	dump_time = 10
 	not_while_equipped = TRUE

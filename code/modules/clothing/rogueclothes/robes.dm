@@ -108,6 +108,7 @@
 	name = "solar vestments"
 	desc = "Holy vestments sanctified by divine hands. Caution is advised if not a faithful."
 	icon_state = "priestrobe"
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	armor = ARMOR_PADDED	//Equal to gamby
 	color = null

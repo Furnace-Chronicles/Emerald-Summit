@@ -210,14 +210,28 @@
 				return list("shrink" = 0.6,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = 0,"ey" = 2,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 	return ..()
 
-/obj/item/rogueweapon/shield/tower/metal/holysee
-	name = "ornate shield"
-	desc = "Protection of the Ten upon the wielder. A final, staunch line against the darkness. \
-	For it's not what is before the shield-carrier that matters, but the home behind them."
-	icon_state = "gsshield"
+/obj/item/rogueweapon/shield/tower/metal/psy
+	name = "Covenant"
+	desc = "A Psydonian endures. A Psydonian preserves themselves. A Psydonian preserves His flock."
+	icon_state = "psyshield"
+	force = 20
+	throwforce = 10
+	throw_speed = 1
+	throw_range = 3
+	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK, SHIELD_SMASH_METAL)
+	wlength = WLENGTH_NORMAL
+	resistance_flags = null
+	flags_1 = CONDUCT_1
+	wdefense = 11
+	coverage = 50
+	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
+	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
+	max_integrity = 300
+	blade_dulling = DULLING_SHAFT_METAL
 
-/obj/item/rogueweapon/shield/tower/metal/holysee/dark
-	icon_state = "gsshielddark"
+/obj/item/rogueweapon/shield/tower/metal/psy/ComponentInitialize()
+	. = ..()							//+0 force, +100 int, +1 def, make silver
+	AddComponent(/datum/component/psyblessed, TRUE, 0, FALSE, 100, 1, TRUE)	
 
 /obj/item/rogueweapon/shield/tower/metal/alloy
 	name = "decrepit shield"
@@ -367,3 +381,55 @@
 	coverage = 15
 	max_integrity = 200
 	possible_item_intents = list(SHIELD_BLOCK, FENCER_DAZE) */
+
+/obj/item/rogueweapon/shield/capbuckler // unique, better buckler for knight captain
+	name = "'Order'"
+	desc = "A special buckler shield made out of blacksteel for the captain of the guard, adorned with the Scarlet Reach crest."
+	icon_state = "capbuckler"
+	icon = 'icons/roguetown/weapons/special/captain.dmi'
+	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BACK
+	force = 20
+	throwforce = 10
+	dropshrink = 0.8
+	resistance_flags = null
+	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK, SHIELD_SMASH_METAL)
+	wdefense = 10
+	coverage = 10
+	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
+	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
+	max_integrity = 215 // more integrity cuz blacksteel
+	blade_dulling = DULLING_SHAFT_METAL
+	associated_skill = /datum/skill/combat/shields
+	grid_width = 32
+	grid_height = 64
+	sellprice = 100 // lets not make it too profitable
+	smeltresult = /obj/item/ingot/blacksteel
+
+/obj/item/rogueweapon/shield/capbuckler/examine(mob/living/user)
+	. = ..()
+	. += "Buckler uses the skill of your active weapon to parry. Otherwise it uses your shields skill."
+
+/obj/item/rogueweapon/shield/capbuckler/proc/bucklerskill(mob/living/user)
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/bucklerer = user
+	var/obj/item/mainhand = bucklerer.get_active_held_item()
+	var/weapon_parry = FALSE
+	if(mainhand)
+		if(mainhand.can_parry)
+			weapon_parry = TRUE
+	if(istype(mainhand, /obj/item/rogueweapon/shield/capbuckler))
+		associated_skill = /datum/skill/combat/shields
+	if(weapon_parry && mainhand.associated_skill)
+		associated_skill = mainhand.associated_skill
+	else
+		associated_skill = /datum/skill/combat/shields
+
+/obj/item/rogueweapon/shield/capbuckler/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -5,"sy" = -1,"nx" = 6,"ny" = -1,"wx" = 0,"wy" = -2,"ex" = 0,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 1,"eflip" = 0)
+			if("onback")
+				return list("shrink" = 0.6,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = 0,"ey" = 2,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)

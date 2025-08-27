@@ -60,6 +60,7 @@
 	new /obj/item/magic/infernalash(deathspot)
 	new /obj/item/magic/infernalash(deathspot)
 	new /obj/item/magic/infernalash(deathspot)
+	new /obj/item/magic/infernalash(deathspot)
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)

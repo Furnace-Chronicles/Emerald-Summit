@@ -13,4 +13,5 @@
         /datum/sprite_accessory/crests/ironc,
         /datum/sprite_accessory/crests/bronzer,
         /datum/sprite_accessory/crests/steelt,
+		/datum/sprite_accessory/crests/astratan,
     )

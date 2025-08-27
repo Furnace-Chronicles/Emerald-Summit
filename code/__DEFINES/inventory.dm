@@ -182,6 +182,7 @@
 #define HEAD		(1<<0)
 #define CHEST		(1<<1)
 #define GROIN		(1<<2)
+#define TAIL_LAMIA	(1<<20) // might look into smash/twist code instead grabbing.dm
 #define LEG_LEFT	(1<<3)
 #define LEG_RIGHT	(1<<4)
 #define LEGS		(LEG_LEFT | LEG_RIGHT)

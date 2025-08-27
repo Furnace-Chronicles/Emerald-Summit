@@ -1,9 +1,11 @@
 {
     "universal": {
 		"life": "lyfe",
+		"lifestyle": "lyfestyle",
+		"sir": "ser",
 		"lantern": "lamptern",
 		"ERP": "bush whacking",
-	    "day": "dae",
+		"day": "dae",
 		"monday": "moonsdae",
 		"tuesday": "tiwsdae",
 		"wednesday": "weddingsdae",
@@ -78,7 +80,7 @@
 		"vampire": "vampyre",
 		"vampires": "vampyres",
 		"werewolf": "verewolf",
-		"werewolfs": "verewolfs",
+		"werewolves": "verewolfs",
 		"wolf": "volf",
 		"wolves": "volfs",
 		"lolth": "graggar",

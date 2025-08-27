@@ -179,6 +179,9 @@
 		var/obj/item/bodypart/affecting = H.get_bodypart(check_zone(user.zone_selected))
 		if(!affecting)
 			return
+		if(M.construct)//I'd use trait_bloodloss_immune but I assume not all bloodloss immune people are immune to tox damage that leeches help with
+			to_chat(user, span_warning("[src] refuses to attach to [M]."))
+			return
 		if(!get_location_accessible(H, check_zone(user.zone_selected)))
 			to_chat(user, span_warning("Something in the way."))
 			return
@@ -191,9 +194,9 @@
 		src.forceMove(H)
 		affecting.add_embedded_object(src, silent = TRUE, crit_message = FALSE)
 		if(M == user)
-			user.visible_message(span_notice("[user] places [src] on [user.p_their()] [affecting]."), span_notice("I place a leech on my [affecting]."))
+			user.visible_message(span_notice("[user] places [src] on [user.p_their()] [affecting.name]."), span_notice("I place a leech on my [affecting.name]."))
 		else
-			user.visible_message(span_notice("[user] places [src] on [M]'s [affecting]."), span_notice("I place a leech on [M]'s [affecting]."))
+			user.visible_message(span_notice("[user] places [src] on [M]'s [affecting.name]."), span_notice("I place a leech on [M]'s [affecting.name]."))
 		return
 	return ..()
 

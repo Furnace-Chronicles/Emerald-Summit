@@ -36,16 +36,33 @@
 		handle_embedded_objects()
 		handle_blood()
 		//passively heal even wounds with no passive healing
-		for(var/datum/wound/wound as anything in get_wounds())
-			wound.heal_wound(1)
+	var/list/wounds = get_wounds()
+	if (islist(wounds))
+		for (var/entry in wounds)
+			// get_wounds() нередко возвращает вложенные списки (по конечностям и т.п.)
+			if (islist(entry))
+				for (var/sub in entry)
+					var/datum/wound/W = sub
+					W?.heal_wound(1)
+			else
+				var/datum/wound/W = entry
+				W?.heal_wound(1)
 
 	/// ENDVRE AS HE DOES.
 	if(!stat && HAS_TRAIT(src, TRAIT_PSYDONITE) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
 		handle_wounds()
 		//passively heal wounds, but not if you're skullcracked OR DEAD.
-		if(blood_volume > BLOOD_VOLUME_SURVIVE)
-			for(var/datum/wound/wound as anything in get_wounds())
-				wound.heal_wound(0.6)		
+	if (blood_volume > BLOOD_VOLUME_SURVIVE)
+		var/list/wounds2 = get_wounds()
+		if (islist(wounds2))
+			for (var/entry in wounds2)
+				if (islist(entry))
+					for (var/sub in entry)
+						var/datum/wound/W2 = sub
+						W2?.heal_wound(0.6)
+				else
+					var/datum/wound/W2 = entry
+					W2?.heal_wound(0.6)	
 
 	if (QDELETED(src)) // diseases can qdel the mob via transformations
 		return

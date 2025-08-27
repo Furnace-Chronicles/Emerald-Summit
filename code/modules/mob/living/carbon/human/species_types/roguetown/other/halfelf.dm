@@ -65,6 +65,7 @@
 		/datum/customizer/bodypart_feature/accessory,
 		/datum/customizer/bodypart_feature/face_detail,
 		/datum/customizer/bodypart_feature/underwear,
+		/datum/customizer/bodypart_feature/legwear,
 		/datum/customizer/organ/testicles/anthro,
 		/datum/customizer/organ/penis/anthro,
 		/datum/customizer/organ/breasts/human,
@@ -117,7 +118,10 @@
 		"Sshanntynlan-kin" = SKIN_COLOR_SSHANNTYNLAN,
 		"Llurth Dreir-kin" = SKIN_COLOR_LLURTH_DREIR,
 		"Tafravma-kin" = SKIN_COLOR_TAFRAVMA,
-		"Yuethindrynn-kin" = SKIN_COLOR_YUETHINDRYNN
+		"Yuethindrynn-kin" = SKIN_COLOR_YUETHINDRYNN,
+		"Koredynn-kin" = SKIN_COLOR_KOREDYNN,
+		"Aiseedrynn-kin" = SKIN_COLOR_AISEEDRYNN,
+		"Grenduskra-kin" = SKIN_COLOR_GRENDUSKRA
 	)
 
 /datum/species/human/halfelf/proc/languages(mob/living/carbon/human/literally_him)

@@ -459,31 +459,34 @@
 	if(!P.can_be_package_wrapped())
 		return ..()
 
-	to_chat(user, span_info("I start to wrap [P] in [src]..."))
-	if(do_after(user, 30, 0, target = src))
-		if(user.is_holding(P))
-			if(!user.dropItemToGround(P))
+	if(!istype(src, /obj/item/paper/inqslip))
+		to_chat(user, span_info("I start to wrap [P] in [src]..."))
+		if(do_after(user, 30, 0, target = src))
+			if(user.is_holding(P))
+				if(!user.dropItemToGround(P))
+					return
+			else if(!isturf(P.loc))
 				return
-		else if(!isturf(P.loc))
-			return
-		var/obj/item/smallDelivery/D = new /obj/item/smallDelivery(get_turf(P.loc))
-		if(user.Adjacent(D))
-			D.add_fingerprint(user)
-			P.add_fingerprint(user)
-			user.put_in_hands(D)
-		P.forceMove(D)
-		var/size = round(P.w_class)
-		D.name = "[weightclass2text(size)] package"
-		D.w_class = size
-		size = min(size, 5)
-		D.grid_height = P.grid_height
-		D.grid_width = P.grid_width
-		D.icon_state = "deliverypackage[size]"
-		D.note = src
-		forceMove(D)
+			var/obj/item/smallDelivery/D = new /obj/item/smallDelivery(get_turf(P.loc))
+			if(user.Adjacent(D))
+				D.add_fingerprint(user)
+				P.add_fingerprint(user)
+				user.put_in_hands(D)
+			P.forceMove(D)
+			var/size = round(P.w_class)
+			D.name = "[weightclass2text(size)] package"
+			D.w_class = size
+			size = min(size, 5)
+			D.grid_height = P.grid_height
+			D.grid_width = P.grid_width
+			D.icon_state = "deliverypackage[size]"
+			D.note = src
+			forceMove(D)
 
-	add_fingerprint(user)
-	return ..()
+		add_fingerprint(user)
+		return ..()
+	else
+		return ..()	
 
 /obj/item/paper/fire_act(added, maxstacks)
 	..()
@@ -607,4 +610,7 @@
 	return 1
 
 /obj/item/smallDelivery/can_be_package_wrapped()
+	return 0
+
+/obj/item/inqarticles/indexer/can_be_package_wrapped()
 	return 0

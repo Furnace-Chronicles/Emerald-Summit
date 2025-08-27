@@ -44,7 +44,10 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	if(isliving(user))
 		var/mob/living/L = user
 		L.changeNext_move(CLICK_CD_MELEE)
-		user.visible_message("<span class='warning'>[user] kicks the lever!</span>")
+		if(HAS_TRAIT(user, TRAIT_LAMIAN_TAIL))
+			user.visible_message("<span class='warning'>[user] slaps the lever with [user.p_their()] tail!</span>")
+		else
+			user.visible_message("<span class='warning'>[user] kicks the lever!</span>")
 		playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
 		if(prob(L.STASTR * 4))
 			for(var/obj/structure/O in redstone_attached)

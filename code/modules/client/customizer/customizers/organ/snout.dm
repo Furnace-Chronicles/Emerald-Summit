@@ -40,6 +40,47 @@
 		/datum/sprite_accessory/snout/lcanidstriped,
 		/datum/sprite_accessory/snout/lcanidstripedalt,
 		/datum/sprite_accessory/snout/vulp,
+		/datum/sprite_accessory/snout/husky,
+		/datum/sprite_accessory/snout/lcanid,
+		/datum/sprite_accessory/snout/lcanidalt,
+		/datum/sprite_accessory/snout/scanid,
+		/datum/sprite_accessory/snout/scanidalt,
+		/datum/sprite_accessory/snout/scanidalt2,
+		/datum/sprite_accessory/snout/scanidalt3,
+		/datum/sprite_accessory/snout/wolf,
+		/datum/sprite_accessory/snout/wolfalt,
+		/datum/sprite_accessory/snout/otie,
+		/datum/sprite_accessory/snout/hjackal,
+		/datum/sprite_accessory/snout/front/husky,
+		/datum/sprite_accessory/snout/front/lcanid,
+		/datum/sprite_accessory/snout/front/lcanidalt,
+		/datum/sprite_accessory/snout/front/lcanidstriped,
+		/datum/sprite_accessory/snout/front/lcanidstripedalt,
+		/datum/sprite_accessory/snout/front/scanid,
+		/datum/sprite_accessory/snout/front/scanidalt,
+		/datum/sprite_accessory/snout/front/scanidalt2,
+		/datum/sprite_accessory/snout/front/scanidalt3,
+		/datum/sprite_accessory/snout/front/wolf,
+		/datum/sprite_accessory/snout/front/wolfalt,
+		/datum/sprite_accessory/snout/front/otie,
+		/datum/sprite_accessory/snout/hpanda,
+		/datum/sprite_accessory/snout/skulldog,
+	    /datum/sprite_accessory/snout/cat,
+		/datum/sprite_accessory/snout/scanid,
+		/datum/sprite_accessory/snout/scanidalt,
+		/datum/sprite_accessory/snout/scanidalt2,
+		/datum/sprite_accessory/snout/scanidalt3,
+		/datum/sprite_accessory/snout/sharp,
+		/datum/sprite_accessory/snout/round,
+		/datum/sprite_accessory/snout/sharplight,
+		/datum/sprite_accessory/snout/roundlight,
+		/datum/sprite_accessory/snout/front/sharp,
+		/datum/sprite_accessory/snout/front/round,
+		/datum/sprite_accessory/snout/front/sharplight,
+		/datum/sprite_accessory/snout/front/roundlight,
+		/datum/sprite_accessory/snout/shortnosed,
+		/datum/sprite_accessory/snout/stubby,
+		/datum/sprite_accessory/snout/stubbyalt,
 		)
 
 /datum/customizer/organ/snout/lupian
@@ -72,7 +113,8 @@
 		/datum/sprite_accessory/snout/front/wolf,
 		/datum/sprite_accessory/snout/front/wolfalt,
 		/datum/sprite_accessory/snout/front/otie,
-		/datum/sprite_accessory/snout/hpanda
+		/datum/sprite_accessory/snout/hpanda,
+		/datum/sprite_accessory/snout/skulldog
 		)
 
 /datum/customizer/organ/snout/tajaran
@@ -112,6 +154,11 @@
 	allows_disabling = TRUE
 	default_disabled = FALSE
 	customizer_choices = list(/datum/customizer_choice/organ/snout/anthro)
+
+/datum/customizer/organ/snout/lamia
+	allows_disabling = TRUE
+	default_disabled = TRUE
+	customizer_choices = list(/datum/customizer_choice/organ/snout/lamia)
 
 /datum/customizer_choice/organ/snout/anthro
 	name = "Wild-Kin Snout"
@@ -200,6 +247,19 @@
 		/datum/sprite_accessory/snout/shortnosed,
 		/datum/sprite_accessory/snout/stubby,
 		/datum/sprite_accessory/snout/stubbyalt,
+		/datum/sprite_accessory/snout/front/malum1,
+		/datum/sprite_accessory/snout/front/malum2,
+		/datum/sprite_accessory/snout/front/necran,
+		/datum/sprite_accessory/snout/front/abbysorian,
+		/datum/sprite_accessory/snout/front/dendorite,
+		/datum/sprite_accessory/snout/front/pestran,
+		/datum/sprite_accessory/snout/front/ravoxian,
+		/datum/sprite_accessory/snout/front/eoran,
+		/datum/sprite_accessory/snout/front/comedy1,
+		/datum/sprite_accessory/snout/front/comedy2,
+		/datum/sprite_accessory/snout/front/drama1,
+		/datum/sprite_accessory/snout/front/drama2,
+		/datum/sprite_accessory/snout/front/noccite,
 		)
 
 /datum/customizer/organ/snout/akula
@@ -221,6 +281,26 @@
 		/datum/sprite_accessory/snout/front/roundlight,
 		/datum/sprite_accessory/snout/stubby,
 		/datum/sprite_accessory/snout/stubbyalt,
+		)
+
+/datum/customizer_choice/organ/snout/lamia
+	name = "Lamian Snout"
+	organ_type = /obj/item/organ/snout/akula
+	sprite_accessories = list(
+		/datum/sprite_accessory/snout/shark,
+		/datum/sprite_accessory/snout/sergal,
+		/datum/sprite_accessory/snout/sharp,
+		/datum/sprite_accessory/snout/round,
+		/datum/sprite_accessory/snout/sharplight,
+		/datum/sprite_accessory/snout/roundlight,
+		/datum/sprite_accessory/snout/front/sharp,
+		/datum/sprite_accessory/snout/front/round,
+		/datum/sprite_accessory/snout/front/sharplight,
+		/datum/sprite_accessory/snout/front/roundlight,
+		/datum/sprite_accessory/snout/stubby,
+		/datum/sprite_accessory/snout/stubbyalt,
+		/datum/sprite_accessory/snout/alienlizard,
+		/datum/sprite_accessory/snout/alienlizardteeth,
 		)
 
 /datum/customizer/organ/snout/tabaxi

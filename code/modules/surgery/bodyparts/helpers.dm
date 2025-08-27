@@ -105,10 +105,10 @@
 	. = 0
 	for(var/X in bodyparts)
 		var/obj/item/bodypart/affecting = X
-		if(affecting.body_part == LEG_RIGHT)
+		if(affecting.body_part & LEG_RIGHT)
 			if(!check_disabled || !affecting.disabled)
 				.++
-		if(affecting.body_part == LEG_LEFT)
+		if(affecting.body_part & LEG_LEFT)
 			if(!check_disabled || !affecting.disabled)
 				.++
 
@@ -132,12 +132,18 @@
 		BODY_ZONE_CHEST,
 		BODY_ZONE_R_ARM,
 		BODY_ZONE_L_ARM,
-		BODY_ZONE_R_LEG,
-		BODY_ZONE_L_LEG,
 	)
-	for(var/zone in full)
-		if(get_bodypart(zone))
-			full -= zone
+	if(!islamia(src))
+		full += BODY_ZONE_R_LEG
+		full += BODY_ZONE_L_LEG
+	else
+		full += BODY_ZONE_LAMIAN_TAIL
+
+	for(var/obj/item/bodypart/bodypart as anything in bodyparts)
+		full -= bodypart.body_zone
+		for(var/subzone in bodypart.subtargets)
+			full -= subzone
+
 	return full
 
 /mob/living/proc/get_disabled_limbs()
@@ -158,6 +164,17 @@
 		if(affecting && affecting.disabled)
 			disabled += zone
 	return disabled
+
+/mob/living/proc/get_lamian_tail()
+	RETURN_TYPE(/obj/item/bodypart/lamian_tail)
+	return null
+
+/mob/living/carbon/get_lamian_tail()
+	for(var/X in bodyparts)
+		var/obj/item/bodypart/affecting = X
+		if(affecting.body_zone == BODY_ZONE_LAMIAN_TAIL)
+			return affecting
+	return null
 
 //Helper for quickly creating a new limb - used by augment code in species.dm spec_attacked_by
 /mob/living/carbon/proc/newBodyPart(zone, robotic, fixed_icon)
@@ -236,3 +253,43 @@
 				H.update_inv_w_uniform()
 		if(H.shoes && !swap_back)
 			H.dropItemToGround(H.shoes)
+
+/mob/living/carbon/proc/ensure_not_lamia()
+	var/needs_new_legs = FALSE
+	for(var/X in bodyparts)
+		var/obj/item/bodypart/O = X
+		if(O.body_zone == BODY_ZONE_LAMIAN_TAIL)
+			O.drop_limb(1)
+			qdel(O)
+			needs_new_legs = TRUE
+
+	if(needs_new_legs)
+		var/obj/item/bodypart/N
+		N = new /obj/item/bodypart/l_leg
+		N.attach_limb(src)
+
+		N = new /obj/item/bodypart/r_leg
+		N.attach_limb(src)
+
+	// make sure we unapply our clipmasks
+	regenerate_icons()
+	set_resting(FALSE)
+
+/mob/living/carbon/proc/Lamiaze(taur_type = /obj/item/bodypart/lamian_tail, color = "#ffffff")
+	for(var/X in bodyparts)
+		var/obj/item/bodypart/O = X
+		// drop taur tails too
+		if(O.body_part == LEG_LEFT || O.body_part == LEG_RIGHT || O.body_zone == BODY_ZONE_LAMIAN_TAIL)
+			O.drop_limb(1)
+			qdel(O)
+
+	var/obj/item/bodypart/lamian_tail/T = new taur_type()
+	T.tail_color = color
+	T.attach_limb(src)
+
+	if(shoes)
+		dropItemToGround(shoes)
+
+	// make sure we apply our clipmasks
+	regenerate_icons()
+	set_resting(FALSE)

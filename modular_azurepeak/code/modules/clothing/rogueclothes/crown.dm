@@ -13,10 +13,10 @@
 	visual_replacement = /obj/item/clothing/head/roguetown/crown/fakecrown
 	var/listening = TRUE
 	var/speaking = TRUE
+	var/loudmouth_listening = TRUE
 	var/garrisonline = TRUE
 	var/messagereceivedsound = 'sound/misc/scom.ogg'
 	var/hearrange = 0 // Only hearable by wearer
-	flags_1 = HEAR_1
 	is_important = TRUE
 
 /obj/item/clothing/head/roguetown/crown/serpcrown/Initialize()
@@ -26,6 +26,7 @@
 	else
 		SSroguemachine.crown = src
 		SSroguemachine.scomm_machines += src
+	become_hearing_sensitive()
 
 /obj/item/clothing/head/roguetown/crown/serpcrown/proc/anti_stall()
 	src.visible_message(span_warning("The Crown of Scarlet Reach crumbles to dust, the ashes spiriting away in the direction of the Keep."))
@@ -76,9 +77,15 @@
 		return
 	user.changeNext_move(CLICK_CD_MELEE)
 	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-	listening = !listening
-	speaking = !speaking
-	to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the crown's SCOM capabilities."))
+	if(loudmouth_listening)
+		to_chat(user, span_info("I quell the Loudmouth's prattling on the scomstone. It may be muted entirely still."))
+		loudmouth_listening = FALSE
+	else
+		listening = !listening
+		speaking = !speaking
+		to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the crown's SCOM capabilities."))
+		if(listening)
+			loudmouth_listening = TRUE
 	update_icon()
 
 /obj/item/clothing/head/roguetown/crown/serpcrown/proc/repeat_message(message, atom/A, tcolor, message_language, list/tspans = list())
@@ -106,3 +113,7 @@
 		I.send_speech(message, hearrange, I, , spans, message_language=language)
 	else
 		send_speech(message, hearrange, src, , spans, message_language=language)
+
+/obj/item/clothing/head/roguetown/crown/serpcrown/Destroy()
+	lose_hearing_sensitivity()
+	return ..()

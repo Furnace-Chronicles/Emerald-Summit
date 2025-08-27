@@ -32,8 +32,8 @@
 	if(!H)
 		to_chat(user, "[target] is missing their heart!")
 		return FALSE
-	if(target.mind && !target.mind.active)
-		to_chat(user, "[target]'s heart is inert. Maybe it will respond later?")
+	if(!target.mind)
+		to_chat(user, "[target]'s heart is inert.")
 		return FALSE
 	if(HAS_TRAIT(target, TRAIT_NECRAS_VOW))
 		to_chat(user, "[target] has pledged a vow to Necra. This will not work.")
@@ -59,7 +59,7 @@
 			"[user] works the lux into [target]'s innards.",
 			"[user] works the lux into [target]'s innards.")
 		return FALSE
-	if(istype(user, /mob/living)) {
+	if(istype(user, /mob/living)) 
 		var/mob/living/LU = user
 		var/excomm_found = FALSE
 		for(var/excomm_name in GLOB.excommunicated_players)
@@ -68,36 +68,34 @@
 			if(clean_excomm == clean_target)
 				excomm_found = TRUE
 				break
-		if(ispath(LU.patron?.type, /datum/patron/divine) && excomm_found) {
+		if(ispath(LU.patron?.type, /datum/patron/divine) && excomm_found)
 			display_results(user, target,
 				span_warning("The lux recoils! Necra is not willing to return [target]'s soul."),
 				"[user] tries to infuse [target] with lux, but it refuses to take.",
 				"[user] tries to infuse [target] with lux, but it refuses to take.")
 			target.visible_message(span_danger("[target]'s body convulses violently, rejecting the light!"), span_warning("Something is terribly wrong..."))
 			return FALSE
-		}
-	}
-	if (target.mind)
-		if(alert(target, "Are you ready to face the world, once more?", "Revival", "I must go on", "Let me rest") != "I must go on")
-			display_results(user, target, span_notice("[target]'s heart refuses the lux. They're only in sweet dreams, now."),
-				"[user] works the lux into [target]'s innards, but nothing happens.",
-				"[user] works the lux into [target]'s innards, but nothing happens.")
-			return FALSE
-	target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
 	if(!target.revive(full_heal = FALSE))
 		display_results(user, target, span_notice("The lux refuses to meld with [target]'s heart. Their damage must be too severe still."),
 			"[user] works the lux into [target]'s innards, but nothing happens.",
 			"[user] works the lux into [target]'s innards, but nothing happens.")
 		return FALSE
+	var/mob/dead/observer/spirit = target.get_spirit()
+	//GET OVER HERE!
+	if(spirit)
+		var/mob/dead/observer/ghost = spirit.ghostize()
+		qdel(spirit)
+		ghost.mind.transfer_to(target, TRUE)
+	target.grab_ghost(force = FALSE)
+	if (!target.mind.active)
+		display_results(user, target, span_notice("[target]'s heart refuses the lux. They're only in sweet dreams, now."),
+			"[user] works the lux into [target]'s innards, but nothing happens.",
+			"[user] works the lux into [target]'s innards, but nothing happens.")
+		return FALSE
+	target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
 	display_results(user, target, span_notice("You succeed in restarting [target]'s heart with the infusion of lux."),
 		"[user] works the lux into [target]'s innards.",
 		"[user] works the lux into [target]'s innards.")
-	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit()
-	if(underworld_spirit)
-		var/mob/dead/observer/ghost = underworld_spirit.ghostize()
-		qdel(underworld_spirit)
-		ghost.mind.transfer_to(target, TRUE)
-	target.grab_ghost(force = TRUE) // even suicides
 	target.emote("breathgasp")
 	target.Jitter(100)
 	GLOB.scarlet_round_stats[STATS_LUX_REVIVALS]++

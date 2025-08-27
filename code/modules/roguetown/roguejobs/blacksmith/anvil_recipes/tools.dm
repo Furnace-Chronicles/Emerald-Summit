@@ -110,10 +110,10 @@
 	craftdiff = 0
 
 /datum/anvil_recipe/tools/aalloy/agobs
-	name = "Goblets x3"
+	name = "Goblets x2"
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/reagent_containers/glass/cup/aalloygob
-	createditem_num = 3
+	createditem_num = 2
 
 /datum/anvil_recipe/tools/aalloy/amugs
 	name = "Mugs x3"
@@ -330,10 +330,10 @@
 	i_type = "Tools"
 
 /datum/anvil_recipe/tools/steel/cups
-	name = "Goblets x3"
+	name = "Goblets x2"
 	req_bar = /obj/item/ingot/steel
 	created_item = /obj/item/reagent_containers/glass/cup/steel
-	createditem_num = 3
+	createditem_num = 2
 
 /datum/anvil_recipe/tools/steel/chefknife
 	name = "Chef's Knife"
@@ -357,18 +357,48 @@
 // --------- SILVER -----------
 
 /datum/anvil_recipe/tools/silver/cups
-	name = "Goblets x3"
+	name = "Goblets x2"
 	req_bar = /obj/item/ingot/silver
 	created_item = /obj/item/reagent_containers/glass/cup/silver
+	createditem_num = 2
+	craftdiff = 2
+
+/datum/anvil_recipe/tools/silver/cups/small
+	name = "Cups x3"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/reagent_containers/glass/cup/silver/small
 	createditem_num = 3
 	craftdiff = 2
 
 // --------- GOLD RECIPES-----------
 
 /datum/anvil_recipe/tools/gold/cups
-	name = "Goblets x3"
+	name = "Goblets x2"
 	req_bar = /obj/item/ingot/gold
 	created_item = /obj/item/reagent_containers/glass/cup/golden
+	createditem_num = 2
+	craftdiff = 2
+
+/datum/anvil_recipe/tools/gold/cups/small
+	name = "Cups x3"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/reagent_containers/glass/cup/golden/small
+	createditem_num = 3
+	craftdiff = 2
+
+// --------- TIN -----------
+
+/datum/anvil_recipe/tools/tin/cups
+	name = "Goblets x2"
+	req_bar = /obj/item/ingot/tin
+	created_item = /obj/item/reagent_containers/glass/cup/tin
+	createditem_num = 2
+	craftdiff = 2
+
+/datum/anvil_recipe/tools/tin/cups/small
+	name = "Cups x3"
+	req_bar = /obj/item/ingot/tin
+	created_item = /obj/item/reagent_containers/glass/cup/tin/small
 	createditem_num = 3
 	craftdiff = 2
 
@@ -397,46 +427,85 @@
 	createditem_num = 2
 
 /datum/anvil_recipe/tools/platter/tin
-	name = "Platters (Tin) x2"
 	req_bar = /obj/item/ingot/tin
 	created_item = /obj/item/cooking/platter/pewter
 
 /datum/anvil_recipe/tools/platter/gold
-	name = "Platters x2"
 	req_bar = /obj/item/ingot/gold
 	created_item = /obj/item/cooking/platter/gold
 
 /datum/anvil_recipe/tools/platter/silver
-	name = "Platters x2"
 	req_bar = /obj/item/ingot/silver
 	created_item = /obj/item/cooking/platter/silver
 
+/datum/anvil_recipe/tools/platter/aalloy
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/cooking/platter/aalloy
+
 /datum/anvil_recipe/tools/spoon
-	name = "Spoon x3"
+	name = "Spoon x4"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/kitchen/spoon/iron
-	createditem_num = 3
+	createditem_num = 4
 	craftdiff = 1
 
 /datum/anvil_recipe/tools/spoon/tin
-	name = "Spoon x3"
 	req_bar = /obj/item/ingot/tin
 	created_item = /obj/item/kitchen/spoon/tin
 
+/datum/anvil_recipe/tools/spoon/silver
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/kitchen/spoon/silver
+
+/datum/anvil_recipe/tools/spoon/gold
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/kitchen/spoon/gold
+
+/datum/anvil_recipe/tools/spoon/aaloy
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/kitchen/spoon/aalloy
+
 /datum/anvil_recipe/tools/fork
-	name = "Fork x3"
+	name = "Fork x4"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/kitchen/fork/iron
-	createditem_num = 3
+	createditem_num = 4
 	craftdiff = 1
 
 /datum/anvil_recipe/tools/fork/tin
-	name = "Fork x3"
 	req_bar = /obj/item/ingot/tin
 	created_item = /obj/item/kitchen/fork/tin
 
-/datum/anvil_recipe/tools/iron/bowl
+/datum/anvil_recipe/tools/fork/silver
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/kitchen/fork/silver
+
+/datum/anvil_recipe/tools/fork/gold
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/kitchen/fork/gold
+
+/datum/anvil_recipe/tools/fork/aaloy
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/kitchen/fork/aalloy
+
+/datum/anvil_recipe/tools/bowl
 	name = "Bowl"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/reagent_containers/glass/bowl/iron
 	craftdiff = 1
+
+/datum/anvil_recipe/tools/bowl/silver
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/reagent_containers/glass/bowl/silver
+
+/datum/anvil_recipe/tools/bowl/gold
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/reagent_containers/glass/bowl/gold
+
+/datum/anvil_recipe/tools/bowl/tin
+	req_bar = /obj/item/ingot/tin
+	created_item = /obj/item/reagent_containers/glass/bowl/tin
+
+/datum/anvil_recipe/tools/bowl/aalloy
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/reagent_containers/glass/bowl/aalloy

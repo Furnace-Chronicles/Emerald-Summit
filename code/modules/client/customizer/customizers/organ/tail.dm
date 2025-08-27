@@ -134,7 +134,7 @@
 
 /datum/customizer/organ/tail/tiefling
 	customizer_choices = list(/datum/customizer_choice/organ/tail/tiefling)
-	allows_disabling = FALSE
+	allows_disabling = TRUE
 
 /datum/customizer/organ/tail/dullahan
 	customizer_choices = list(/datum/customizer_choice/organ/tail/dullahan)
@@ -214,8 +214,9 @@
 	sprite_accessories = list(
 		/datum/sprite_accessory/tail/tiefling,
 		/datum/sprite_accessory/tail/tiefling/heart,
+		/datum/sprite_accessory/tail/tiefling/spade
 		)
-	allows_accessory_color_customization = FALSE
+	allows_accessory_color_customization = TRUE
 
 /datum/customizer/organ/tail/demihuman
 	customizer_choices = list(/datum/customizer_choice/organ/tail/demihuman)

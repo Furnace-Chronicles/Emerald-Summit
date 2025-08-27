@@ -78,10 +78,10 @@
 					emote("painmoan")
 			else
 				if(painpercent >= 100)
-					if(HAS_TRAIT(src, TRAIT_PSYDONITE) || STACON >= 15)
+					if(HAS_TRAIT(src, TRAIT_PSYDONIAN_GRIT) || STACON >= 15)
 						if(prob(25)) // PSYDONIC WEIGHTED COINFLIP. TWEAK THIS AS THOU WILT. DON'T LET THEM BE BROKEN, PSYDON WILLING. THROW CON-MAXXERS A BONE, TOO.
 							Immobilize(15) // EAT A MICROSTUN. YOU'RE AVOIDING A PAINCRIT.
-							if(HAS_TRAIT(src, TRAIT_PSYDONITE))
+							if(HAS_TRAIT(src, TRAIT_PSYDONIAN_GRIT))
 								visible_message(span_info("[src] audibly grits their teeth. ENDURING through their pain."), span_info("Through my faith in HIM, I ENDURE."))
 							else
 								visible_message(span_info("[src] trembled for a moment, but they remain stood."), span_info("My strong constitution keeps me upright."))
@@ -153,7 +153,7 @@
 
 /mob/living/carbon/human/handle_inwater(turf/onturf, extinguish = TRUE, force_drown = FALSE)
 	. = ..()
-	if(istype(onturf, /turf/open/water/sewer))
+	if(istype(onturf, /turf/open/water/sewer) && !HAS_TRAIT(src, TRAIT_NOSTINK))
 		add_stress(/datum/stressevent/sewertouched)
 
 /mob/living/carbon/proc/get_complex_pain()
@@ -585,16 +585,22 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 		if(hydration > 0 || yess)
 			if(!bleed_rate)
 				blood_volume = min(blood_volume + (4 * sleepy_mod), BLOOD_VOLUME_NORMAL)
-			for(var/obj/item/bodypart/affecting as anything in bodyparts)
-				//for context, it takes 5 small cuts (0.2 x 5) or 3 normal cuts (0.4 x 3) for a bodypart to not be able to heal itself
-				if(affecting.get_bleed_rate() >= 1)
+			for (var/obj/item/bodypart/affecting in bodyparts)
+				if (!affecting)
 					continue
-				if(affecting.heal_damage(sleepy_mod, sleepy_mod, required_status = BODYPART_ORGANIC))
+
+				if (affecting.get_bleed_rate() >= 1)
+					continue
+
+				if (affecting.heal_damage(sleepy_mod, sleepy_mod, required_status = BODYPART_ORGANIC))
 					src.update_damage_overlays()
-				for(var/datum/wound/wound as anything in affecting.wounds)
-					if(!wound.sleep_healing)
-						continue
-					wound.heal_wound(wound.sleep_healing * sleepy_mod)
+
+				var/list/wlist = affecting.wounds
+				if (islist(wlist))
+					for (var/datum/wound/W in wlist)
+						var/sh = W?.sleep_healing
+						if (sh) 
+							W.heal_wound(sh * sleepy_mod)
 			adjustToxLoss(-sleepy_mod)
 			if(eyesclosed && !HAS_TRAIT(src, TRAIT_NOSLEEP))
 				Sleeping(300)

@@ -129,7 +129,8 @@ h1.alert, h2.alert	{color: #c9c1ba;font-family: Pterra, TrueType;}
 .papyrus				{font-family: "Papyrus", cursive, sans-serif;}
 .robot					{font-family: "Courier New", cursive, sans-serif;}
 
-.sandwauk				{font-family: "Ramadhan Karim", Pterra; font-size: 150%;}
+.orator					{font-family: "Project Sans", Pterra; font-size: 100%;}
+.sandwauk				{font-family: "Persian", Pterra; font-size: 100%;}
 .human					{font-family: "Honoka Mincho", Pterra;}
 .elf					{font-family: "Dauphin", cursive, Pterra;}
 .dwarf					{font-family: "MasonAlternate", Pterra;}
@@ -189,6 +190,4 @@ h1.alert, h2.alert	{color: #c9c1ba;font-family: Pterra, TrueType;}
 .love_mid					{color: #e9a8d1;	font-size: 75%;}
 .love_high					{color: #f05ee1;	font-size: 75%;}
 .love_extreme					{color: #d146f5;	font-size: 75%;}
-
-.patreontalk			{color: #ff7a05;} /* TODO - CHANGE THIS TO THE DESIRED COLOR!!!! */
 </style>"}

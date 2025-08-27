@@ -174,7 +174,7 @@
 	cost = 20
 	contains = list(/obj/item/rogueweapon/woodstaff/quarterstaff/steel)
 
-/datum/supply_pack/rogue/bandit/Mage/mercury
-	name = "bottle of mercury"
-	cost = 50
-	contains = list(/obj/item/reagent_containers/glass/bottle/mercury)
+/datum/supply_pack/rogue/bandit/Mage/cinnabar
+	name = "Cinnabar Ore"
+	cost = 10
+	contains = list(/obj/item/rogueore/cinnabar = 1)

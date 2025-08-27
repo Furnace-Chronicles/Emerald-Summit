@@ -5,6 +5,7 @@
 #define BODY_ZONE_R_ARM		"r_arm"
 #define BODY_ZONE_L_LEG		"l_leg"
 #define BODY_ZONE_R_LEG		"r_leg"
+#define BODY_ZONE_LAMIAN_TAIL "lamian_tail"
 
 #define BODY_ZONE_PRECISE_SKULL		"skull"
 #define BODY_ZONE_PRECISE_EARS		"ears"
@@ -21,6 +22,8 @@
 #define BODY_ZONE_PRECISE_R_INHAND	"r_inhand"
 #define BODY_ZONE_PRECISE_L_FOOT	"l_foot"
 #define BODY_ZONE_PRECISE_R_FOOT	"r_foot"
+#define BODY_ZONE_PRECISE_R_TAILTIP "tailtip" // FOR LATER
+#define BODY_ZONE_PRECISE_L_TAILTIP "tailtip" // FOR LATER
 
 //user-readable body parts
 #define READABLE_ZONE_HEAD 		"Head"
@@ -31,6 +34,7 @@
 #define READABLE_ZONE_LEGS		"Legs"
 #define READABLE_ZONE_L_LEG		"Left leg"
 #define READABLE_ZONE_R_LEG		"Right leg"
+#define READABLE_ZONE_LAMIAN_TAIL "Tail"
 
 #define READABLE_ZONE_NOSE		"Nose"
 #define READABLE_ZONE_MOUTH		"Mouth"
@@ -94,6 +98,7 @@
 #define BODYPART_FEATURE_FACE_DETAIL "facedetail"
 #define BODYPART_FEATURE_UNDERWEAR "underwear"
 #define BODYPART_FEATURE_CREST "crest"
+#define BODYPART_FEATURE_LEGWEAR "legwear"
 
 //flags for requirements for a surgery step
 #define SURGERY_BLOODY (1<<0)

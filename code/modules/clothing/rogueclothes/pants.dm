@@ -2,7 +2,7 @@
 	slot_flags = ITEM_SLOT_PANTS
 	fitted = NO_FEMALE_UNIFORM
 	can_adjust = FALSE
-	body_parts_covered = GROIN|LEGS
+	body_parts_covered = GROIN|LEGS|TAIL_LAMIA
 	icon = 'icons/roguetown/clothing/pants.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/pants.dmi'
 	equip_sound = 'sound/blank.ogg'
@@ -156,7 +156,6 @@
 	name = "otavan leather trousers"
 	desc = "padded leather armor made by Otavan tailors, its quality is remarkable."
 	icon_state = "fencerpants"
-	allowed_race = NON_DWARVEN_RACE_TYPES
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
 	name = "fencing breeches"
@@ -166,6 +165,7 @@
 	detail_tag = "_detail"
 	color = "#FFFFFF"
 	detail_color = "#3b2b29"
+	allowed_race = NON_DWARVEN_RACE_TYPES
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic/update_icon()
 	cut_overlays()
@@ -453,7 +453,7 @@
 	desc = "A knee-length mail skirt, warding cuts against the thighs without slowing the feet."
 	icon_state = "chain_skirt"
 	item_state = "chain_skirt"
-	body_parts_covered = LEGS
+	body_parts_covered = LEGS|TAIL_LAMIA
 	armor_class = ARMOR_CLASS_LIGHT	// Coverage to class trade.
 	grid_height = 32
 	grid_width = 64
@@ -464,7 +464,7 @@
 	gender = PLURAL
 	icon_state = "plate_skirt"
 	item_state = "plate_skirt"
-	body_parts_covered = LEGS
+	body_parts_covered = LEGS|TAIL_LAMIA
 	armor_class = ARMOR_CLASS_MEDIUM // Coverage to class trade.
 	grid_height = 64
 	grid_width = 64
@@ -599,3 +599,12 @@
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT)
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	flags_inv = HIDECROTCH
+
+// new knight captain drip
+/obj/item/clothing/under/roguetown/platelegs/captain
+	name = "captain's chausses"
+	desc = "Cuisses made of plated steel, offering additional protection against blunt force. These are specially fitted for the captain."
+	icon_state = "capplateleg"
+	item_state = "capplateleg"
+	icon = 'icons/roguetown/clothing/special/captain.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/captain.dmi'

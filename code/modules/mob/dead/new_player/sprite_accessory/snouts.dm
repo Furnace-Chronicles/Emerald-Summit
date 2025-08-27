@@ -466,3 +466,56 @@
 	icon_state = "stubbyalt"
 	color_keys = 2
 	color_key_names = list("Snout", "Nose")
+
+///CONSTRUCT-GOLEM ACCESORIES, MADE OF METAL///
+/datum/sprite_accessory/snout/front/malum1
+	name = "malum1"
+	icon_state = "malum1"
+
+/datum/sprite_accessory/snout/front/malum2
+	name = "malum2"
+	icon_state = "malum2"
+
+/datum/sprite_accessory/snout/front/necran
+	name = "necran"
+	icon_state = "necran"
+
+/datum/sprite_accessory/snout/front/abbysorian
+	name = "abbysorian"
+	icon_state = "abbysorian"
+
+/datum/sprite_accessory/snout/front/dendorite
+	name = "dendorite"
+	icon_state = "dendorite"
+
+/datum/sprite_accessory/snout/front/pestran
+	name = "pestran"
+	icon_state = "pestran"
+
+/datum/sprite_accessory/snout/front/ravoxian
+	name = "ravoxian"
+	icon_state = "ravoxian"
+
+/datum/sprite_accessory/snout/front/eoran
+	name = "eoran"
+	icon_state = "eoran"
+
+/datum/sprite_accessory/snout/front/comedy1
+	name = "comedy1"
+	icon_state = "comedy1"
+
+/datum/sprite_accessory/snout/front/comedy2
+	name = "comedy2"
+	icon_state = "comedy2"
+
+/datum/sprite_accessory/snout/front/drama1
+	name = "drama1"
+	icon_state = "drama1"
+
+/datum/sprite_accessory/snout/front/drama2
+	name = "drama2"
+	icon_state = "drama2"
+
+/datum/sprite_accessory/snout/front/noccite
+	name = "noccite"
+	icon_state = "noccite"

@@ -93,9 +93,6 @@
 	new /obj/item/magic/melded/t2(deathspot)
 	new /obj/item/magic/iridescentscale(deathspot)
 	new /obj/item/magic/heartwoodcore(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)

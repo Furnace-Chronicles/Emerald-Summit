@@ -58,13 +58,21 @@
 		var/mob/living/L = user
 		if(kover)
 			playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
-			user.visible_message(span_warning("[user] kicks [src]!"), \
-				span_warning("I kick [src]!"))
+			if(HAS_TRAIT(user, TRAIT_LAMIAN_TAIL))
+				user.visible_message(span_warning("[user] tailslams [src]!"), \
+					span_warning("I tailslam [src]!"))
+			else
+				user.visible_message(span_warning("[user] kicks [src]!"), \
+					span_warning("I kick [src]!"))
 			return
 		if(prob(L.STASTR * 8))
 			playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
-			user.visible_message(span_warning("[user] kicks over [src]!"), \
-				span_warning("I kick over [src]!"))
+			if(HAS_TRAIT(user, TRAIT_LAMIAN_TAIL))
+				user.visible_message(span_warning("[user] slaps [src] over with [user.p_their()] tail!"), \
+					span_warning("I tailslap [src], toppling it over!"))
+			else
+				user.visible_message(span_warning("[user] kicks over [src]!"), \
+					span_warning("I kick over [src]!"))
 			kover = TRUE
 			chem_splash(loc, 2, list(reagents))
 			var/datum/component/storage/STR = GetComponent(/datum/component/storage)
@@ -75,8 +83,13 @@
 			update_icon()
 		else
 			playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
-			user.visible_message(span_warning("[user] kicks [src]!"), \
-				span_warning("I kick [src]!"))
+			if(HAS_TRAIT(user, TRAIT_LAMIAN_TAIL))
+				user.visible_message(span_warning("[user] tailslams [src]!"), \
+					span_warning("I tailslam [src]!"))
+			else
+				if(HAS_TRAIT(user, TRAIT_LAMIAN_TAIL))
+					user.visible_message(span_warning("[user] kicks [src]!"), \
+						span_warning("I kick [src]!"))
 
 /obj/item/roguebin/attack_hand(mob/user)
 	var/datum/component/storage/CP = GetComponent(/datum/component/storage)

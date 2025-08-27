@@ -57,6 +57,16 @@
 	penis_type = PENIS_TYPE_TAPERED
 	sheath_type = SHEATH_TYPE_SLIT
 
+/obj/item/organ/penis/tapered_knotted
+	name = "tapered knotted penis"
+	penis_type = PENIS_TYPE_TAPERED_KNOTTED
+	sheath_type = SHEATH_TYPE_SLIT
+
+/obj/item/organ/penis/tapered_knotted_mammal
+	name = "tapered knotted penis"
+	penis_type = PENIS_TYPE_TAPERED_KNOTTED
+	sheath_type = SHEATH_TYPE_NORMAL
+
 /obj/item/organ/penis/tapered_double
 	name = "hemi tapered penis"
 	penis_type = PENIS_TYPE_TAPERED_DOUBLE

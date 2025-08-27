@@ -66,8 +66,12 @@
 		return
 	if(door_opened)
 		playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
-		user.visible_message(span_warning("[user] kicks [src] shut!"), \
-			span_notice("I kick [src] shut!"))
+		if(HAS_TRAIT(user, TRAIT_LAMIAN_TAIL))
+			user.visible_message(span_warning("[user] slams [src] shut with [user.p_their()] tail!"), \
+				span_notice("I slam [src] shut with my tail!"))
+		else
+			user.visible_message(span_warning("[user] kicks [src] shut!"), \
+				span_notice("I kick [src] shut!"))
 		force_closed()
 	else
 		if(locked)
@@ -77,19 +81,31 @@
 					kickthresh--
 				if((prob(L.STASTR * 0.5) || kickthresh == 0) && (L.STASTR >= initial(kickthresh)))
 					playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
-					user.visible_message(span_warning("[user] kicks open [src]!"), \
-						span_notice("I kick open [src]!"))
+					if(HAS_TRAIT(user, TRAIT_LAMIAN_TAIL))
+						user.visible_message(span_warning("[user] slams [src] open with [user.p_their()] tail!"), \
+							span_notice("I tailslam [src] open!"))
+					else
+						user.visible_message(span_warning("[user] kicks open [src]!"), \
+							span_notice("I kick open [src]!"))
 					locked = 0
 					force_open()
 				else
 					playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
-					user.visible_message(span_warning("[user] kicks [src]!"), \
-						span_notice("I kick [src]!"))
+					if(HAS_TRAIT(user, TRAIT_LAMIAN_TAIL))
+						user.visible_message(span_warning("[user] tailslams [src]!"), \
+							span_notice("I slam [src] with my tail!"))
+					else
+						user.visible_message(span_warning("[user] kicks [src]!"), \
+							span_notice("I kick [src]!"))
 			//try to kick open, destroy lock
 		else
 			playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
-			user.visible_message(span_warning("[user] kicks open [src]!"), \
-				span_notice("I kick open [src]!"))
+			if(HAS_TRAIT(user, TRAIT_LAMIAN_TAIL))
+				user.visible_message(span_warning("[user] slams [src] open with [user.p_their()] tail!"), \
+					span_notice("I tailslam [src] open!"))
+			else
+				user.visible_message(span_warning("[user] kicks open [src]!"), \
+					span_notice("I kick open [src]!"))
 			force_open()
 
 /obj/structure/mineral_door/proc/force_open()
@@ -384,8 +400,6 @@
 			pickring.removefromring(user)
 			to_chat(user, span_warning("You clumsily drop a lockpick off the ring as you try to pick the lock with it."))
 		return
-	if(istype(I, /obj/item/skeleton_key))
-		tryskeletonlock(user)
 	else
 		if(repairable && (user.get_skill_level(repair_skill) > 0) && ((istype(I, repair_cost_first)) || (istype(I, repair_cost_second)))) // At least 1 skill level needed
 			repairdoor(I,user)
@@ -603,10 +617,8 @@
 		pickchance *= P.picklvl
 		pickchance = clamp(pickchance, 1, 95)
 
-		if(ishuman(user))
-			var/mob/living/carbon/human/H = user
-			message_admins("[H.real_name]([key_name(user)]) is attempting to lockpick [src.name]. [ADMIN_JMP(src)]")
-			log_admin("[H.real_name]([key_name(user)]) is attempting to lockpick [src.name].")
+		var/picked = FALSE
+		user.log_message("attempting to lockpick door \"[src.name]\" (currently [locked ? "locked" : "unlocked"]).", LOG_ATTACK)
 
 		while(!QDELETED(I) &&(lockprogress < locktreshold))
 			if(!do_after(user, picktime, target = src))
@@ -618,15 +630,13 @@
 				if(L.mind)
 					add_sleep_experience(L, /datum/skill/misc/lockpicking, L.STAINT/2)
 				if(lockprogress >= locktreshold)
+					picked = TRUE
 					to_chat(user, "<span class='deadsay'>The locking mechanism gives.</span>")
-					if(ishuman(user))
-						var/mob/living/carbon/human/H = user
-						message_admins("[H.real_name]([key_name(user)]) successfully lockpicked [src.name] & [locked ? "unlocked" : "locked"] it. [ADMIN_JMP(src)]")
-						log_admin("[H.real_name]([key_name(user)]) successfully lockpicked [src.name].")
-						record_featured_stat(FEATURED_STATS_CRIMINALS, user)
-						GLOB.scarlet_round_stats[STATS_LOCKS_PICKED]++
-						var/obj/effect/track/structure/new_track = new(get_turf(src))
-						new_track.handle_creation(user)
+					record_featured_stat(FEATURED_STATS_CRIMINALS, user)
+					GLOB.scarlet_round_stats[STATS_LOCKS_PICKED]++
+					var/obj/effect/track/structure/new_track = new(get_turf(src))
+					new_track.handle_creation(user)
+					user.log_message("finished lockpicking door \"[src.name]\" (now [locked ? "unlocked" : "locked"]).", LOG_ATTACK)
 					lock_toggle(user)
 					break
 				else
@@ -637,6 +647,8 @@
 				to_chat(user, "<span class='warning'>Clack.</span>")
 				add_sleep_experience(L, /datum/skill/misc/lockpicking, L.STAINT/4)
 				continue
+		if(!picked)
+			user.log_message("stopped/failed lockpicking door \"[src.name]\" (remains [locked ? "locked" : "unlocked"]).", LOG_ATTACK)
 		return
 
 /obj/structure/mineral_door/proc/tryskeletonlock(mob/user)
@@ -647,10 +659,7 @@
 	if(lockbroken)
 		to_chat(user, span_warning("The lock to this door is broken."))
 		return
-	if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		message_admins("[H.real_name]([key_name(user)]) successfully skeletonkey'd [src.name] & [locked ? "unlocked" : "locked"] it. [ADMIN_JMP(src)]")
-		log_admin("[H.real_name]([key_name(user)]) successfully used a skeleton key on [src.name].")
+	user.log_message("skeletonkey'd door \"[src.name]\" (now [locked ? "unlocked" : "locked"]).", LOG_ATTACK)
 	do_sparks(3, FALSE, src)
 	playsound(user, 'sound/items/skeleton_key.ogg', 100)
 	lock_toggle(user) //All That It Does.
@@ -1072,7 +1081,10 @@
 
 
 /obj/structure/mineral_door/bars/onkick(mob/user)
-	user.visible_message(span_warning("[user] kicks [src]!"))
+	if(HAS_TRAIT(user, TRAIT_LAMIAN_TAIL))
+		user.visible_message(span_warning("[user] tailslams [src]!"))
+	else
+		user.visible_message(span_warning("[user] kicks [src]!"))
 	return
 
 

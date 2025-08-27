@@ -162,6 +162,18 @@
 		/datum/sprite_accessory/horns/tieflingalt
 		)
 
+/datum/customizer/organ/horns/lamia
+	customizer_choices = list(/datum/customizer_choice/organ/horns/lamia)
+	allows_disabling = TRUE
+	default_disabled =  TRUE
+
+/datum/customizer_choice/organ/horns/lamia
+	name = "Horns"
+	organ_type = /obj/item/organ/horns
+	sprite_accessories = list(
+		/datum/sprite_accessory/horns/angler,
+		)
+
 /datum/customizer/organ/horns/tusks
 	name = "Tusks"
 	customizer_choices = list(/datum/customizer_choice/organ/horns/tusks)

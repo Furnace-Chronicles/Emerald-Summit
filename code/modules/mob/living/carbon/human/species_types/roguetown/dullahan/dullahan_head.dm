@@ -509,15 +509,15 @@
 		spans |= SPAN_REALLYBIG
 		var/datum/status_effect/thaumaturgy/buff = locate() in original_owner.status_effects
 		message_range += (5 + buff.potency) // maximum 12 tiles extra, which is a lot!
-		for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
+		for(var/datum/scommodule/S in SSroguemachine.scomm_commons)
 			if (prob(buff.potency * 3) && S.speaking) // 3% chance per holy level, per SCOM for it to shriek your message in town wherever you are
-				S.verb_say = "shrieks in terror"
-				S.verb_exclaim = "shrieks in terror"
-				S.verb_yell = "shrieks in terror"
-				S.say(message, spans = list("info", "reallybig"))
-				S.verb_say = initial(S.verb_say)
-				S.verb_exclaim = initial(S.verb_exclaim)
-				S.verb_yell = initial(S.verb_yell)
+				S.parent_object.verb_say = "shrieks in terror"
+				S.parent_object.verb_exclaim = "shrieks in terror"
+				S.parent_object.verb_yell = "shrieks in terror"
+				S.parent_object.say(message, spans = list("info", "reallybig"))
+				S.parent_object.verb_say = initial(S.parent_object.verb_say)
+				S.parent_object.verb_exclaim = initial(S.parent_object.verb_exclaim)
+				S.parent_object.verb_yell = initial(S.parent_object.verb_yell)
 		original_owner.remove_status_effect(/datum/status_effect/thaumaturgy)
 	// AZURE EDIT END
 	var/list/listening = get_hearers_in_view(message_range+eavesdrop_range, source)

@@ -25,16 +25,22 @@
 /obj/item/reagent_containers/glass/bowl/iron
 	name = "iron bowl"
 	icon_state = "bowl_iron"
+	sellprice = 20
 
 /obj/item/reagent_containers/glass/bowl/gold
 	name = "gold bowl"
 	icon_state = "bowl_gold"
-	sellprice = 40
+	sellprice = 120
 
 /obj/item/reagent_containers/glass/bowl/silver
 	name = "silver bowl"
 	icon_state = "bowl_silver"
-	sellprice = 60
+	sellprice = 96
+
+/obj/item/reagent_containers/glass/bowl/tin
+	name = "tin bowl"
+	icon_state = "bowl_tin"
+	sellprice = 20
 
 /obj/item/reagent_containers/glass/bowl/update_icon()
 	cut_overlays()

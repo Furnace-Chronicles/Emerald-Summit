@@ -33,11 +33,12 @@
 /datum/sex_action/vaginal_sex/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] fucks [target]'s cunt."))
 	playsound(target, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
+	do_thrust_animate(user, target)
 
 	user.sexcon.perform_sex_action(user, 2, 0, TRUE)
 	if(user.sexcon.check_active_ejaculation())
 		user.visible_message(span_love("[user] cums into [target]'s cunt!"))
-		user.sexcon.cum_into()
+		user.sexcon.cum_into(splashed_user = target)
 		user.try_impregnate(target)
 		user.virginity = FALSE
 		target.virginity = FALSE
@@ -55,3 +56,36 @@
 	if(user.sexcon.finished_check())
 		return TRUE
 	return FALSE
+
+/datum/sex_action/vaginal_sex/knot
+	name = "Knot their cunt"
+	knot_on_finish = TRUE
+
+/datum/sex_action/vaginal_sex/knot/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	if(!user.sexcon.knot_penis_type())
+		return FALSE
+	return ..()
+
+/datum/sex_action/vaginal_sex/knot/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	if(!user.sexcon.knot_penis_type())
+		return FALSE
+	return ..()
+
+/datum/sex_action/vaginal_sex/knot/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] knot-fucks [target]'s cunt."))
+	playsound(target, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
+	do_thrust_animate(user, target)
+
+	user.sexcon.perform_sex_action(user, 2, 0, TRUE)
+	if(user.sexcon.check_active_ejaculation())
+		user.visible_message(span_love("[user] cums into [target]'s cunt!"))
+		user.sexcon.cum_into(splashed_user = target)
+		user.try_impregnate(target)
+		user.virginity = FALSE
+		target.virginity = FALSE
+
+	if(user.sexcon.considered_limp())
+		user.sexcon.perform_sex_action(target, 1.2, 3, FALSE)
+	else
+		user.sexcon.perform_sex_action(target, 2.4, 7*1.5, FALSE)
+	target.sexcon.handle_passive_ejaculation()

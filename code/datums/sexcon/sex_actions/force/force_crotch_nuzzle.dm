@@ -34,7 +34,7 @@
 	user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] forces [target] to nuzzle [user.p_their()] crotch."))
 
 	user.sexcon.perform_sex_action(user, 0.5, 0, TRUE)
-	target.sexcon.handle_passive_ejaculation()
+	user.sexcon.handle_passive_ejaculation(target)
 
 /datum/sex_action/force_crotch_nuzzle/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	user.visible_message(span_warning("[user] pulls [target]'s head away from [user.p_their()] crotch."))

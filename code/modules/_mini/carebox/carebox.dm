@@ -28,6 +28,7 @@ GLOBAL_DATUM_INIT(carebox, /datum/carebox, new())
 
 /datum/carebox/proc/give_carebox(mob/living/carbon/human/human, datum/carebox_table/table)
 	ADD_TRAIT(human, TRAIT_CAREBOX, TRAIT_GENERIC)
+	human.apply_status_effect(/datum/status_effect/carebox)
 	to_chat(human, span_notice("New letter from <b>[table.sender].</b>"))
 	human.playsound_local(human, 'sound/misc/mail.ogg', 100, FALSE, -1)
 
@@ -86,6 +87,8 @@ GLOBAL_DATUM_INIT(carebox, /datum/carebox, new())
 		return
 	// Success
 	REMOVE_TRAIT(human, TRAIT_CAREBOX, TRAIT_GENERIC)
+	human.remove_status_effect(/datum/status_effect/carebox)
+	to_chat(human, span_notice("I collect my package."))
 
 	var/turf/spawn_loc = get_turf(human)
 	playsound(spawn_loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)

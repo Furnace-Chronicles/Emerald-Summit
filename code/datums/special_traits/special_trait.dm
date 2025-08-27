@@ -6,6 +6,7 @@
 	var/weight = 100
 	var/list/allowed_sexes
 	var/list/allowed_races
+	var/list/disallowed_races
 	var/list/allowed_ages
 	var/list/allowed_patrons
 	var/list/allowed_jobs

@@ -382,6 +382,9 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	// Create map text prior to modifying message for goonchat
 	if(can_see_runechat(speaker) && can_hear())
 		create_chat_message(speaker, message_language, raw_message, spans, message_mode)
+	if(raw_message == last_heard_raw_message)
+		return
+	last_heard_raw_message = raw_message
 	// Recompose message for AI hrefs, language incomprehension.
 	message = compose_message(speaker, message_language, raw_message, radio_freq, spans, message_mode)
 	show_message(message, MSG_AUDIBLE, deaf_message, deaf_type)
@@ -410,20 +413,20 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			Zs_yell = TRUE
 		if(say_test(message) == "3")	//Big "!!" shout
 			Zs_all = TRUE
-	// AZURE EDIT: thaumaturgical loudness (from orisons)
+	// AZURE EDIT: thaumaturgical loudness (from orisons) //Vrell - This is so fucking scuffed.
 	if (has_status_effect(/datum/status_effect/thaumaturgy))
 		spans |= SPAN_REALLYBIG
 		var/datum/status_effect/thaumaturgy/buff = locate() in status_effects
 		message_range += (5 + buff.potency) // maximum 12 tiles extra, which is a lot!
-		for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
+		for(var/datum/scommodule/S in SSroguemachine.scomm_commons)
 			if (prob(buff.potency * 3) && S.speaking) // 3% chance per holy level, per SCOM for it to shriek your message in town wherever you are
-				S.verb_say = "shrieks in terror"
-				S.verb_exclaim = "shrieks in terror"
-				S.verb_yell = "shrieks in terror"
-				S.say(message, spans = list("info", "reallybig"))
-				S.verb_say = initial(S.verb_say)
-				S.verb_exclaim = initial(S.verb_exclaim)
-				S.verb_yell = initial(S.verb_yell)
+				S.parent_object.verb_say = "shrieks in terror"
+				S.parent_object.verb_exclaim = "shrieks in terror"
+				S.parent_object.verb_yell = "shrieks in terror"
+				S.parent_object.say(message, spans = list("info", "reallybig"))
+				S.parent_object.verb_say = initial(S.parent_object.verb_say)
+				S.parent_object.verb_exclaim = initial(S.parent_object.verb_exclaim)
+				S.parent_object.verb_yell = initial(S.parent_object.verb_yell)
 		remove_status_effect(/datum/status_effect/thaumaturgy)
 	// AZURE EDIT END
 	var/list/listening = get_hearers_in_view(message_range+eavesdrop_range, source)
@@ -554,8 +557,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	return TRUE
 
 /mob/living/proc/can_speak_vocal(message) //Check AFTER handling of xeno and ling channels
-	if(HAS_TRAIT(src, TRAIT_MUTE)|| HAS_TRAIT(src, TRAIT_PERMAMUTE))
-		return FALSE
+	if(HAS_TRAIT(src, TRAIT_MUTE)|| HAS_TRAIT(src, TRAIT_PERMAMUTE) || HAS_TRAIT(src, TRAIT_BAGGED))
+		return FALSE	
 
 	if(is_muzzled())
 		return FALSE

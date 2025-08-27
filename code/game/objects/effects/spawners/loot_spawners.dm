@@ -321,7 +321,7 @@
 		//money
 		//has been removed
 		//junk
-		/obj/item/reagent_containers/glass/cup/golden = 1,
+		/obj/item/reagent_containers/glass/cup/golden/small = 1,
 		/obj/item/reagent_containers/glass/cup/skull = 1,
 		/obj/item/mundane/puzzlebox/medium = 1,
 		/obj/item/mundane/puzzlebox/impossible = 1,

@@ -15,7 +15,7 @@
 	maximum_antags = 2
 
 	weight = 3	//i love you
-	max_occurrences = 1
+	max_occurrences = 0 //temp back to migrant wave only
 
 	earliest_start = 0 SECONDS
 
@@ -44,11 +44,12 @@
 		"Court Physician",
 		"Town Elder",
 		"Captain",
-		"Archivist",
+		"Loudmouth",
 		"Knight",
 		"Court Magician",
 		"Inquisitor",
 		"Orthodoxist",
+		"Absolver",
 		"Warden",
 		"Squire",
 		"Veteran",

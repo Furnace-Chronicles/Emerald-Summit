@@ -28,7 +28,7 @@
 	mask = /obj/item/clothing/mask/rogue/facemask/steel //idk if this makes it so they cant cast but i want all of the bandits to have the same mask
 	neck = /obj/item/clothing/neck/roguetown/coif
 	head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
-	id = /obj/item/mattcoin
+	id = /obj/item/scomstone/mattcoin
 
 	r_hand = /obj/item/rogueweapon/woodstaff/diamond
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE) // Jman Polearms, for better parrying without making them bandit level 

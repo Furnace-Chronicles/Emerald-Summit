@@ -155,6 +155,15 @@
 	. = ..()
 	icon_state = "roofg"
 
+/turf/open/floor/rogue/rooftop/green/north
+	dir = 1
+
+/turf/open/floor/rogue/rooftop/green/east
+	dir = 4
+
+/turf/open/floor/rogue/rooftop/green/west
+	dir = 8
+
 /turf/open/floor/rogue/rooftop/green/corner1
 	icon_state = "roofgc1-arw"
 
@@ -162,6 +171,29 @@
 	. = ..()
 	icon_state = "roofgc1"
 
+/turf/open/floor/rogue/rooftop/green/corner1/dirone
+	dir = 1
+
+/turf/open/floor/rogue/rooftop/green/corner1/dirfour
+	dir = 4
+
+
+/turf/open/floor/rogue/rooftop/green/corner1/direight
+	dir = 8
+
+
+/turf/open/floor/rogue/rooftop/green/corner1/dirfive
+	dir = 5
+
+/turf/open/floor/rogue/rooftop/green/corner1/dirnine
+	dir = 9
+
+/turf/open/floor/rogue/rooftop/green/corner1/dirsix
+	dir = 6
+
+
+/turf/open/floor/rogue/rooftop/green/corner1/dirten
+	dir = 10
 /turf/open/floor/rogue/AzureSand
 	name = "sand"
 	desc = "Warm sand that, sadly, have been mixed with dirt."

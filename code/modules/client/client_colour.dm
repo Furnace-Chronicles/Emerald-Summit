@@ -136,6 +136,10 @@
 /datum/client_colour/monochrome/trance
 	priority = 2
 
+/datum/client_colour/nocshaded
+	colour = list(rgb(139, 25, 30), rgb(197, 88, 38), rgb(16, 16, 16), rgb(0,0,0))
+	priority = 1
+
 /datum/client_colour/monochrome/blind
 	priority = 2
 

@@ -183,6 +183,9 @@
 			in_caul.forceMove(get_turf(user))
 	if(reagents)
 		chem_splash(loc, 2, list(reagents))
-	user.visible_message("<span class='info'>[user] kicks [src],spilling it's contents!</span>")
+		if(HAS_TRAIT(user, TRAIT_LAMIAN_TAIL))
+			user.visible_message("<span class='info'>[user] tailslams [src] over, spilling it's contents!</span>")
+		else
+			user.visible_message("<span class='info'>[user] kicks [src], spilling it's contents!</span>")
 	playsound(src, 'sound/items/beartrap2.ogg', 100, FALSE)
 	return ..()

@@ -43,7 +43,7 @@
 	head = /obj/item/clothing/head/roguetown/roguehood
 	armor = /obj/item/clothing/suit/roguetown/armor/plate
 	beltr = /obj/item/rogueweapon/katar
-	id = /obj/item/mattcoin
+	id = /obj/item/scomstone/mattcoin
 	H.change_stat("strength", 3) // LETS WRASSLE
 	H.change_stat("endurance", 3) // This is our Go Big stat, we want lots of stamina for miracles and WRASSLIN.
 	H.change_stat("constitution", 1)

@@ -48,6 +48,7 @@
 	var/marking = "None"
 
 	var/shavelevel = 0
+	var/breathe_tick = 0 // Used for gas mask delays.
 
 	var/socks = "Nude" //Which socks the player wants
 	var/backpack = DBACKPACK		//Which backpack type the player has chosen.
@@ -116,7 +117,6 @@
 	var/is_legacy = FALSE
 	var/received_resident_key = FALSE
 
-	var/has_confessed = FALSE // Used to track if they have confessed it was written onto a confession paper
 	var/nsfw_headshot_link = null
 
 	possible_rmb_intents = list(/datum/rmb_intent/feint,\
@@ -136,5 +136,7 @@
 	/// Whether our FOV cone is overridden to be hidden. Simple bool.
 	var/viewcone_override
 
+	// adds a flag that if we were skeletonized not because we are super dead and rotted, our face can be shown
+	var/ritual_skeletonization = FALSE // ritualcircles.dm path of rituos, prevents the ritual target's name always being unknown ingame. used in human_helpers.dm if( !O || (HAS_TRAIT(src, TRAIT_DISFIGURED)) || !real_name || (O.skeletonized && !ritual_skeletonization && !mind?.has_antag_datum(/datum/antagonist/lich)))
 
 	var/already_converted_once = FALSE // ritualcircles.dm , used to make it so players can't switch around between inhumen gods to stack buffs with conversion rites

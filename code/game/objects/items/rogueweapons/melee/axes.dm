@@ -224,6 +224,13 @@
 	max_integrity = 180
 	blade_dulling = DULLING_SHAFT_CONJURED
 
+/obj/item/rogueweapon/stoneaxe/battle/abyssoraxe
+	name = "Tidecleaver"
+	desc = "An axe made in image and inspiration of the rumored Tidecleaver, an axe capable of parting the ocean itself. The steel hums the crash of waves."
+	icon_state = "abyssoraxe"
+	icon = 'icons/roguetown/weapons/32.dmi'
+	max_integrity = 400 // higher int than usual
+
 //Pickaxe-axe ; Technically both a tool and a weapon, but it goes here due to weapon function. Subtype of woodcutter axe, mostly a weapon.
 /obj/item/rogueweapon/stoneaxe/woodcut/pick
 	name = "Pulaski axe"

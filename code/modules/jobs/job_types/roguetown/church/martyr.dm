@@ -251,9 +251,9 @@
 /datum/component/martyrweapon/proc/adjust_traits(remove = FALSE)
 	for(var/trait in traits_applied)
 		if(!remove)
-			ADD_TRAIT(current_holder, trait, TRAIT_GENERIC)
+			ADD_TRAIT(current_holder, trait, "martyrweapon")
 		else
-			REMOVE_TRAIT(current_holder, trait, TRAIT_GENERIC)
+			REMOVE_TRAIT(current_holder, trait, "martyrweapon")
 
 /datum/component/martyrweapon/proc/adjust_stats(state)
 	if(current_holder)
@@ -425,6 +425,9 @@
 	tutorial = "Martyrs are hand-picked among the most devout of the Holy See. They are given one of the See's cherished relics to protect the Church, and to inspire hope and lead by example of grace, kindness and vicious intolerance to any who do not share the belief of the Ten. They have sworn an Oath in the sight of the gods, and will fulfill it to the bitter end."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_SECOND_CLASS_NO_GOLEM
+	disallowed_races = list(
+		/datum/species/lamia,
+	)
 	allowed_patrons = ALL_DIVINE_PATRONS
 	outfit = /datum/outfit/job/roguetown/martyr
 	min_pq = 10 //Cus it's a Martyr of the Ten. Get it.

@@ -8,6 +8,9 @@
 	spawn_positions = 1
 
 	allowed_races = RACES_APPOINTED_OUTCASTS_UP		//Nobility, no construct
+	disallowed_races = list(
+		/datum/species/lamia,
+	)
 	allowed_sexes = list(MALE, FEMALE)
 	spells = list(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 	display_order = JDO_MAGICIAN

@@ -78,6 +78,26 @@
 	icon_state = "orecoal[rand(1,3)]"
 	..()
 
+/obj/item/rogueore/coal/attack(mob/living/M, mob/user)
+	testing("attack")
+	if(!user.cmode)
+		if(M.construct)//reusing this from stones.dm stone eating code
+			if(M == user)
+				user.visible_message(span_notice("[user] puts [src] into [user.p_their()] mouth and crunches it loudly."), span_notice("I consume [src], feeling my energy return."))
+			else
+				user.visible_message(span_notice("[user] attempts to feed [src] to [M]."), span_notice("I attempt to feed [src] to [M]."))
+				if(!do_mob(user, M, 30))
+					return
+				user.visible_message(span_notice("[user] feeds [src] to [M]."), span_notice("I feed [src] to [M]."))
+				to_chat(M, span_notice("I consume [src], feeling my energy return."))
+			M.energy_add(500)//a LOT of energy since coal is good fuel
+			playsound(M.loc,'sound/misc/eat.ogg', rand(30,60), TRUE)
+			qdel(src)
+		else // not construct = we don't care
+			return ..()
+	else // if we're in cmode, beat them to death with rocks.
+		return ..()
+
 /obj/item/rogueore/coal/charcoal
 	name = "charcoal"
 	icon_state = "oreada"
@@ -248,6 +268,13 @@
 	name = "blessed silver bar"
 	desc = "This bar radiates a divine purity. Treasured by the realms and commonly found in Otavan weaponry."
 	icon_state = "ingotsilvblessed"
+	smeltresult = /obj/item/ingot/silver //Smelting it removes the blessing
+	sellprice = 100
+
+/obj/item/ingot/silverblessed/bullion
+	name = "blessed silver bullion"
+	desc = "This bar radiates a divine purity. The Psycross and the words casted into the surface denotes the Otavan Inquisition as the point of it's origin."
+	icon_state = "ingotsilvblessed_psy"
 	smeltresult = /obj/item/ingot/silver //Smelting it removes the blessing
 	sellprice = 100
 

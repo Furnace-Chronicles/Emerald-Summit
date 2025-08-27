@@ -172,22 +172,29 @@
 	var/last_drink
 
 /obj/item/grabbing/bite/valid_check()
-	// We require adjacency to count the grab as valid
+	var/mob/living/user = ismob(grabbee) ? grabbee : null
+	var/mob/living/target = ismob(grabbed) ? grabbed : null
 
-	if(isdullahan(grabbee) && ishuman(grabbed))
-		var/mob/living/carbon/human/target = grabbed
-		var/mob/living/carbon/human/user_human = grabbee
+	if(!user || !target || QDELETED(user) || QDELETED(target))
+		if(user) user.stop_pulling(FALSE)
+		qdel(src)
+		return FALSE
 
-		var/datum/species/dullahan/user_species = user_human.dna.species
-		var/obj/item/bodypart/head/dullahan/user_head = user_species.my_head
+	if(isdullahan(user) && ishuman(target))
+		var/mob/living/carbon/human/user_human = user
+		var/mob/living/carbon/human/target_human = target
 
-		if(!user_species.headless && user_human.Adjacent(target))
+		var/datum/species/dullahan/user_species = user_human.dna?.species
+		var/obj/item/bodypart/head/dullahan/user_head = user_species?.my_head
+
+		if(user_species && !user_species.headless && user_human.Adjacent(target_human))
 			return TRUE
-		else if(user_species.headless && (get_turf(user_head) == get_turf(target) || target.is_holding(user_head)))
+		else if(user_species && user_species.headless && user_head && (get_turf(user_head) == get_turf(target_human) || target_human.is_holding(user_head)))
 			return TRUE
-	else if(grabbee.Adjacent(grabbed))
+	else if(user.Adjacent(target))
 		return TRUE
-	grabbee.stop_pulling(FALSE)
+
+	user.stop_pulling(FALSE)
 	qdel(src)
 	return FALSE
 
@@ -332,11 +339,10 @@
 
 	if(user.mind)
 		var/datum/antagonist/vampirelord/VDrinker = user.mind.has_antag_datum(/datum/antagonist/vampirelord)
-		var/datum/antagonist/vampirelord/VVictim = C.mind.has_antag_datum(/datum/antagonist/vampirelord)
-		var/zomwerewolf = C.mind.has_antag_datum(/datum/antagonist/werewolf)
-		if(!zomwerewolf)
-			if(C.stat != DEAD)
-				zomwerewolf = C.mind.has_antag_datum(/datum/antagonist/zombie)
+		var/datum/antagonist/vampirelord/VVictim = C.mind?.has_antag_datum(/datum/antagonist/vampirelord)
+		var/zomwerewolf = C.mind?.has_antag_datum(/datum/antagonist/werewolf)
+		if(!zomwerewolf && C.stat != DEAD)
+			zomwerewolf = C.mind?.has_antag_datum(/datum/antagonist/zombie)
 		
 		if(VDrinker)
 			// Regular vampire lords
@@ -363,6 +369,8 @@
 						VDrinker.handle_vitae(1000)
 				else
 					to_chat(user, span_warning("No more vitae from this blood..."))
+		else if(HAS_TRAIT(user,TRAIT_NOMETABOLISM))
+			//for Golems. I'd use trait_nohunger but I'm not entirely sure whether it'd mess with any other stuff
 		else if(HAS_TRAIT(user, TRAIT_HORDE))
 			// Horde trait allows safe blood drinking
 		else

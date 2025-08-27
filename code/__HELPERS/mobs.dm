@@ -312,7 +312,7 @@ GLOBAL_LIST_EMPTY(species_list)
 	if (progress)
 		qdel(progbar)
 
-/proc/move_after(mob/user, delay, needhand = 1, atom/target = null, progress = 1, datum/callback/extra_checks = null) //do_after copypasta but you can move
+/proc/move_after(mob/user, delay, needhand = 1, atom/target = null, progress = 1, datum/callback/extra_checks = null, uninterrupt = FALSE) //do_after copypasta but you can move
 	if(!user)
 		return 0
 
@@ -357,11 +357,11 @@ GLOBAL_LIST_EMPTY(species_list)
 		Uloc = user.loc
 		Tloc = target.loc
 
-		if(QDELETED(user) || user.stat || !Tloc?.Adjacent(Uloc) || (extra_checks && !extra_checks.Invoke()))
+		if(QDELETED(user) || user.stat || (!Tloc?.Adjacent(Uloc) && !uninterrupt) || (extra_checks && !extra_checks.Invoke()))
 			. = 0
 			break
 
-		if(!user.doing)
+		if(!user.doing && !uninterrupt)
 			. = 0
 			break
 
@@ -372,7 +372,7 @@ GLOBAL_LIST_EMPTY(species_list)
 				break
 
 		if(!QDELETED(Tloc) && (QDELETED(target) || Tloc != target.loc))
-			if((Uloc != Tloc || Tloc != user) && !drifting)
+			if((Uloc != Tloc || Tloc != user) && !drifting && !uninterrupt)
 				. = 0
 				break
 

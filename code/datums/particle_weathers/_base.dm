@@ -278,6 +278,9 @@
 
 //weather effects for objects
 /datum/particle_weather/proc/weather_obj_act(obj/L)
+	if(!L || QDELETED(L))
+		return
+
 	if(can_weather_act_obj(L))
 		L.weather = TRUE
 		L.weather_act_on(target_trait, severity)
@@ -318,16 +321,12 @@
 
 /datum/particle_weather/proc/can_weather_act_obj(obj/obj_to_check)
 	var/turf/obj_turf = get_turf(obj_to_check)
-
 	if(!obj_turf)
-		return
-
+		return FALSE
 	if(!obj_turf.outdoor_effect)
-		return
-
+		return FALSE
 	if(obj_turf.outdoor_effect?.weatherproof)
-		return
-
+		return FALSE
 	return TRUE
 
 /client/proc/run_particle_weather()

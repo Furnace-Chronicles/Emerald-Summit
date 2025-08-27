@@ -84,25 +84,26 @@
 		"lich": "Davy Jones",
 		"skeleton":"Jolly Roger",
 		"skeletons":"Jolly Rogers",
-		"bandit": ["corsair", "buccaneer, freebooter"],
-		"bandits": ["corsairs", "buccaneers, freebooters"],
+		"bandit": ["corsair", "buccaneer", "freebooter"],
+		"bandits": ["corsairs", "buccaneers", "freebooters"],
 		"merchant": "sutler",
 		"charge": "ram",
 		"sergeant": "provost",
 		"hell": "Davy Jones' locker",
 		"slavers": "pressgang"
 
+    },
+    "start": {
+
+    },
+    "end": {
+
+    },
+	"multiword": {
+
 	},
+    "syllable": {
 
-	"start": {
-
-	},
-
-	"end": {
-
-	},
-	
-	"syllable": {
-
-	}
+    }
 }
+

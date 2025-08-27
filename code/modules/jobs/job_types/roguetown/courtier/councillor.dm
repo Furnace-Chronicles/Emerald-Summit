@@ -6,6 +6,9 @@
 	total_positions = 3
 	spawn_positions = 3
 	allowed_races = RACES_SECOND_CLASS_NO_GOLEM
+	disallowed_races = list(
+		/datum/species/lamia,
+	)
 	allowed_patrons = NON_PSYDON_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
 	display_order = JDO_COUNCILLOR

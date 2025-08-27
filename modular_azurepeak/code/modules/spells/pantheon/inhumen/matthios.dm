@@ -31,9 +31,21 @@
 	if(ishuman(targets[1]))
 		var/mob/living/carbon/human/target = targets[1]
 		var/mammonsonperson = get_mammons_in_atom(target)
-		var/mammonsinbank = SStreasury.bank_accounts[target]
+		var/mammonsinbank = SStreasury.bank_accounts[target] ? SStreasury.bank_accounts[target] : 0
 		var/totalvalue = mammonsinbank + mammonsonperson
 		to_chat(user, ("<font color='yellow'>[target] has [mammonsonperson] mammons on them, [mammonsinbank] in their meister, for a total of [totalvalue] mammons.</font>"))
+
+/obj/effect/proc_holder/spell/invoked/appraise/secular/pileappraisal
+	name = "Pile Appraise"
+	range = 1
+
+/obj/effect/proc_holder/spell/invoked/appraise/secular/pileappraisal/cast(list/targets, mob/living/user)
+	var/turf/T = get_turf(targets[1])
+	var/totalvalue = 0
+	for(var/obj/O in T.contents)
+		if(O.sellprice)
+			totalvalue += O.get_real_price()
+	to_chat(user, ("<font color='yellow'>That pile of items costs around [totalvalue] mammons.</font>"))
 
 // T1 - Take value of item in hand, apply that as healing. Destroys item.
 

@@ -64,7 +64,7 @@
 	)
 
 /obj/effect/spawner/lootdrop/cheap_tableware_spawner
-	name = "valuable tableware spawner"
+	name = "cheap tableware spawner"
 	icon_state = "lowtableware"
 	lootcount = 1
 	loot = list(
@@ -83,14 +83,15 @@
 	icon_state = "hitableware"
 	lootcount = 1
 	loot = list(
-		/obj/item/reagent_containers/glass/cup/silver/small = 1,
-		/obj/item/reagent_containers/glass/cup/golden/small = 2,
+		/obj/item/reagent_containers/glass/cup/silver/small = 2,
+		/obj/item/reagent_containers/glass/cup/golden/small = 1,
 		/obj/item/kitchen/spoon/gold = 2,
 		/obj/item/kitchen/spoon/silver = 1,
 		/obj/item/kitchen/fork/gold = 2,
 		/obj/item/kitchen/fork/silver = 1,
-		/obj/item/reagent_containers/glass/bowl/gold = 2,
+		/obj/item/reagent_containers/glass/bowl/gold = 1,
 		/obj/item/reagent_containers/glass/bowl/silver = 1,
+		/obj/item/cooking/platter/silver = 1,
 	)
 
 /obj/effect/spawner/lootdrop/cheap_jewelry_spawner

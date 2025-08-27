@@ -159,11 +159,6 @@
 	cost = 10
 	contains = list(/obj/item/rogueweapon/halberd/bardiche)
 
-/datum/supply_pack/rogue/Sellsword/glaive
-	name = "Glaive"
-	cost = 20
-	contains = list(/obj/item/rogueweapon/halberd/glaive)
-
 /datum/supply_pack/rogue/Sellsword/ebeak
 	name = "Eagle's Beak"
 	cost = 20

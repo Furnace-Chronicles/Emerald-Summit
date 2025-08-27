@@ -7,6 +7,10 @@
 		return FALSE
 	if(!user.getorganslot(ORGAN_SLOT_PENIS))
 		return FALSE
+	if(isdullahan(target) && knot_on_finish)
+		var/datum/species/dullahan/dullahan = target.dna.species
+		if(dullahan.headless)
+			return FALSE
 	return TRUE
 
 /datum/sex_action/throat_sex/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
@@ -20,6 +24,10 @@
 		return FALSE
 	if(!user.sexcon.can_use_penis())
 		return
+	if(isdullahan(target) && knot_on_finish)
+		var/datum/species/dullahan/dullahan = target.dna.species
+		if(dullahan.headless)
+			return FALSE
 	return TRUE
 
 /datum/sex_action/throat_sex/on_start(mob/living/carbon/human/user, mob/living/carbon/human/target)
@@ -29,11 +37,12 @@
 /datum/sex_action/throat_sex/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] fucks [target]'s throat."))
 	playsound(target, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
+	do_thrust_animate(user, target)
 
 	user.sexcon.perform_sex_action(user, 2, 0, TRUE)
 	if(user.sexcon.check_active_ejaculation())
 		user.visible_message(span_love("[user] cums into [target]'s throat!"))
-		user.sexcon.cum_into()
+		user.sexcon.cum_into(oral = TRUE, splashed_user = target) // give facial status effect for the target, considering this was rough throat sex
 		user.virginity = FALSE
 
 	if(user.sexcon.considered_limp())
@@ -50,3 +59,35 @@
 	if(user.sexcon.finished_check())
 		return TRUE
 	return FALSE
+
+/datum/sex_action/throat_sex/knot
+	name = "Knot their throat"
+	knot_on_finish = TRUE
+
+/datum/sex_action/throat_sex/knot/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	if(!user.sexcon.knot_penis_type())
+		return FALSE
+	return ..()
+
+/datum/sex_action/throat_sex/knot/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	if(!user.sexcon.knot_penis_type())
+		return FALSE
+	return ..()
+
+/datum/sex_action/throat_sex/knot/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] knot-fucks [target]'s throat."))
+	playsound(target, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
+	do_thrust_animate(user, target)
+
+	user.sexcon.perform_sex_action(user, 2, 0, TRUE)
+	if(user.sexcon.check_active_ejaculation())
+		user.visible_message(span_love("[user] cums into [target]'s throat!"))
+		user.sexcon.cum_into(oral = TRUE, splashed_user = target) // give facial status effect for the target, considering this was rough throat sex
+		user.virginity = FALSE
+
+	if(user.sexcon.considered_limp())
+		user.sexcon.perform_sex_action(target, 0, 2, FALSE)
+	else
+		user.sexcon.perform_sex_action(target, 0, 7, FALSE)
+		user.sexcon.perform_deepthroat_oxyloss(target, 2.6)
+	target.sexcon.handle_passive_ejaculation()

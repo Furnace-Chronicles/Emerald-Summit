@@ -32,7 +32,7 @@
 
 	if(user.sexcon.check_active_ejaculation())
 		user.visible_message(span_love("[user] cums over [target]'s body!"))
-		user.sexcon.cum_onto()
+		user.sexcon.cum_onto(target)
 
 /datum/sex_action/masturbate_penis_over/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	user.visible_message(span_warning("[user] stops jerking off."))

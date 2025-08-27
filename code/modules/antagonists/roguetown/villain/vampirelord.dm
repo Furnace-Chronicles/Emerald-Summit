@@ -925,7 +925,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	triumph_count = 5
 
 /datum/objective/vampirelord/infiltrate/one/check_completion()
-	var/list/churchjobs = list("Bishop", "Cleric", "Acolyte", "Templar", "Churchling", "Crusader", "Inquisitor", "Martyr")
+	var/list/churchjobs = list("Priest", "Cleric", "Acolyte", "Templar", "Churchling", "Crusader", "Inquisitor", "Martyr")
 	for(var/datum/mind/V in SSmapping.retainer.vampires)
 		if(V.current.job in churchjobs)
 			return TRUE

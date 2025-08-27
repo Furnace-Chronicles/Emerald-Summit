@@ -69,6 +69,7 @@
 		/datum/customizer/bodypart_feature/accessory,
 		/datum/customizer/bodypart_feature/face_detail,
 		/datum/customizer/bodypart_feature/underwear,
+		/datum/customizer/bodypart_feature/legwear,
 		/datum/customizer/organ/snout/akula,
 		/datum/customizer/organ/tail/axian,
 		/datum/customizer/organ/ears/axian,
@@ -105,6 +106,11 @@
 		/datum/descriptor_choice/prominent_two,
 		/datum/descriptor_choice/prominent_three,
 		/datum/descriptor_choice/prominent_four,
+	)
+
+	languages = list(
+		/datum/language/common,
+		/datum/language/abyssal
 	)
 
 /datum/species/akula/check_roundstart_eligible()
