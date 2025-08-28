@@ -53,7 +53,7 @@
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
 	head = /obj/item/clothing/head/roguetown/nyle/consortcrown
 	id = /obj/item/scomstone/garrison
-	shoes = /obj/item/clothing/shoes/roguetown/nobleboot
+	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	backr = /obj/item/storage/backpack/rogue/satchel
 	if(H.wear_mask)
 		if(istype(H.wear_mask, /obj/item/clothing/mask/rogue/eyepatch))
@@ -71,12 +71,12 @@
 
 /datum/outfit/job/roguetown/lady/Socialite/pre_equip(mob/living/carbon/human/H)
 	..()
-	if(should_wear_femme_clothes)
+	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/dress/royal //no pants, your spouse has to have easy access
 		wrists = /obj/item/clothing/wrists/roguetown/royalsleeves
 		cloak = /obj/item/clothing/cloak/lordcloak/ladycloak
 		backl = /obj/item/rogue/instrument/harp
-	if(should_wear_masc_clothes)
+	if(should_wear_masc_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
 		pants = /obj/item/clothing/under/roguetown/tights
@@ -105,10 +105,10 @@
 
 /datum/outfit/job/roguetown/lady/Plotter/pre_equip(mob/living/carbon/human/H)
 	..()
-	if(should_wear_femme_clothes)
+	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/winterjacket
 		shirt = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/monarch
-	if(should_wear_masc_clothes)
+	if(should_wear_masc_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/armor/longcoat
 		shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 		pants = /obj/item/clothing/under/roguetown/tights/black
@@ -139,9 +139,9 @@
 	..()
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/shirt
-	gloves = /obj/item/clothing/gloves/roguetown/gauntlets/plate
-	backl = /obj/item/rogueweapon/sword/longsword/steel
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
+	gloves = /obj/item/clothing/gloves/roguetown/plate
+	backl = /obj/item/rogueweapon/sword/long
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
