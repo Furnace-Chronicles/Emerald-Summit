@@ -79,8 +79,8 @@
 			H.adjust_skillrank(/datum/skill/magic/holy, 3, TRUE)
 			H.adjust_skillrank(/datum/skill/magic/arcane, 2, TRUE)
 			H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/evil/inhumenblade)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/message)
+			H?.mind.adjust_spellpoints(6) // Replace arcyne push dagger for 6 T1 spell points
 			H.change_stat("strength", 3) 
 			H.change_stat("endurance", 2)
 			H.change_stat("constitution", 2)
