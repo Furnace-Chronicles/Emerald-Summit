@@ -142,6 +142,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	gloves = /obj/item/clothing/gloves/roguetown/plate
 	backl = /obj/item/rogueweapon/sword/long
+	neck = /obj/item/clothing/neck/roguetown/coif/chainmail
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
