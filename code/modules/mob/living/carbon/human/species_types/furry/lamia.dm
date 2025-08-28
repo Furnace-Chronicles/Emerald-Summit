@@ -8,7 +8,8 @@
 	Sirens, mermaids, nagas and many others fall into 'lamia' categorization. While one could consider them to be of Dendor's, he had no hand in their creation. \
 	Lamia are widespread in the southern coastal regions, where their tribes have settled in aeons ago, much of their written and oral history is filled with accounts \
 	of grand raids on coastal regions, for they have been terrorizing any race that has dared to settle near their waters. For this, they are widely shunned by the other races, \
-	with the exception of Axians with whom they share their natural heartlands. Many a sailor has met their end at the claws of Lamias.<br>\
+	with the exception of Axians and some coast-dwelling Zardmen with whom they share their natural heartlands. Many a sailor has met their end at the claws of Lamias. \
+	Yet... not all of them have stayed in the depths of the abyss, for some of the clans have moved far away from the coastal regions, settling in swamps, forests and even deserts, having spread themselves far and wide aeons ago.<br>\
 	(+1 Strength, -1 Speed, Strong kicks, Longstrider, Strong stomach)" // SMOKINGRAWOCB
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR, LIPS, HAIR, LAMIAN_TAIL, OLDGREY, MUTCOLORS)
@@ -87,6 +88,12 @@
 		/datum/body_marking_set/tiger_dark,  //Delinefortune: removed TWO /datum/body_marking/ because there supposed to be /datum/body_marking_set
 //		/datum/body_marking_set/lamian_tail // how the fuck do I get it to display over tail
 	)
+
+	languages = list(
+		/datum/language/common,
+		/datum/language/abyssal //we are hellenic in this bitch
+	)
+
 	body_markings = list(
 		/datum/body_marking/flushed_cheeks,
 		/datum/body_marking/eyeliner,
@@ -249,3 +256,11 @@
 		"Hadal <span style='border: 1px solid #161616; background-color: #24353d;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>24353d</b>" = SKIN_COLOR_HADAL,
 		"Bone <span style='border: 1px solid #161616; background-color: #e3dac9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>e3dac9</b>" = SKIN_COLOR_BONE,
 	)
+
+/datum/species/lamia/random_name(gender,unique,lastname)
+	var/randname
+	if(gender == MALE)
+		randname = pick(world.file2list("strings/names/roguetown/lamiamale.txt"))
+	if(gender == FEMALE)
+		randname = pick(world.file2list("strings/names/roguetown/lamiafemale.txt"))
+	return randname

@@ -787,6 +787,27 @@
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/half/fluted/ornate
 	craftdiff = 3
 
+/datum/anvil_recipe/armor/steel/half/fencer/psy
+	name = "Psydonian Chestplate (+1 Blessed Silver)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/silverblessed)
+	created_item = /obj/item/clothing/suit/roguetown/armor/plate/half/fencer/psydon
+	craftdiff = 3
+
+/datum/anvil_recipe/armor/steel/helmsallpsy
+	name = "Psydonian Sallet (+1 Blessed Silver)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/silverblessed)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/psysallet
+	craftdiff = 3
+
+/datum/anvil_recipe/armor/steel/helmbucketpsy
+	name = "Psydonian Bucket Helm (+1 Blessed Silver)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/silverblessed)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/psybucket
+	craftdiff = 3
+
 /datum/anvil_recipe/armor/steel/scalemail
 	name = "Scalemail (+1 Steel)"
 	req_bar = /obj/item/ingot/steel
@@ -805,6 +826,13 @@
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/clothing/wrists/roguetown/bracers/iron
 	createditem_num = 1
+
+/datum/anvil_recipe/armor/steel/helmetabso
+	name = "Psydonian Conical Helm (+1 Steel, +1 Blessed Silver)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel, /obj/item/ingot/silverblessed)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/absolver
+	craftdiff = 3
 
 /datum/anvil_recipe/armor/steel/bevor
 	name = "Bevor"

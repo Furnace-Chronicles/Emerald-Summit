@@ -192,11 +192,16 @@
 	desc = "A large shirt with heavy padding meant to be used below armor. Will probably stop an arrow, unlikely to stop a bolt."
 	icon_state = "fancygamb"
 	allowed_race = NON_DWARVEN_RACE_TYPES
-	color = "#282e83"
-	detail_color = "#c7732f"
+	color = "#5058c1"
+	detail_color = "#e98738"
+	detail_tag = "_detail"
 	shiftable = FALSE
 	sellprice = 30
 	detail_tag = "_detail"
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/otavan/Initialize()
+	. = ..()		
+	update_icon()
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/otavan/update_icon()
 	cut_overlays()
@@ -425,6 +430,16 @@
 	desc = "Tight boiled leathers that stretch and fit to one's frame perfectly."
 	shiftable = FALSE
 
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
+	name = "inquisitorial leather tunic"
+	desc = "The finest leather tunic. Made to ENDURE, Made to Inquire, come heretic or hellfire."
+	icon_state = "leathertunic"
+	color = null
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_CHOP)
+	armor = ARMOR_PADDED
+	shiftable = FALSE
+	body_parts_covered = COVERAGE_ALL_BUT_LEGS
+
 //leather family
 
 /obj/item/clothing/suit/roguetown/armor/leather
@@ -520,6 +535,17 @@
 	desc = "A set of lightweight armor fashioned from the scales of the Ranesheni \'megarmach\', an armored reptilian creacher that ambushes prey by the riverside, and drags them deep into Abyssor's domain."
 	icon_state = "pangolin"
 	item_state = "pangolin"
+
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/confessor
+	name = "confessional coat"
+	desc = "A sturdy raincoat draped atop of a tightly-fastened boiled leather cuirass. Saint Astratan youths often fashion little pieces of memorabilia and stitch it on the inner pockets of the coat to remind the confessors that their cause is virtuous, and that they mustn't lose sight of what matters."
+	icon_state = "confessorcoat"
+	item_state = "confessorcoat"
+	body_parts_covered = COVERAGE_FULL
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
+	armor = ARMOR_LEATHER_STUDDED
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_CHOP, BCLASS_SMASH)
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE	
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/steppe
 	name = "fur-woven hatanga coat"
@@ -868,6 +894,13 @@
 	icon_state = "fencercuirass"
 	item_state = "fencercuirass"
 
+/obj/item/clothing/suit/roguetown/armor/plate/half/fencer/psydon
+	name = "psydonian chestplate"
+	desc = "An expertly smithed form-fitting steel cuirass that is much lighter and agile, but breaks with much more ease. It's thinner, but backed with silk and leather."
+	smelt_bar_num = 1
+	icon_state = "ornatechestplate"
+	item_state = "ornatechestplate"
+
 /obj/item/clothing/suit/roguetown/armor/plate/half/aalloy
 	name = "decrepit cuirass"
 	desc = "A withered cuirass. Aeon's grasp is upon its form."
@@ -1059,6 +1092,11 @@
 	. = ..()
 	if(istype(user) && user.wear_armor == src)
 		user.remove_status_effect(/datum/status_effect/buff/psydonic_endurance)
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/ordinator
+	name = "inquisitorial ordinator's plate"
+	desc = "A relic that is said to have survived the Grenzelhoft-Otavan war, refurbished and repurposed to slay the arch-enemy in the name of Psydon. <br> A fluted cuirass that has been reinforced with thick padding and an additional shoulder piece. You will endure."
+	icon_state = "ordinatorplate"	
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/matthios
 	name = "gilded fullplate"
@@ -1335,22 +1373,63 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat
 	slot_flags = ITEM_SLOT_ARMOR
+	slot_flags = ITEM_SLOT_ARMOR
 	name = "inquisitorial duster"
-	desc = "Metal plates reinforce this heavy coat; only the finest for the inquisition."
+	desc = "A heavy coat lined with thin metal plates; only the finest for the inquisition, complete with space to fit a Psydonian Cuirass."
 	body_parts_covered = COVERAGE_FULL
+	allowed_sex = list(MALE, FEMALE)
 	allowed_sex = list(MALE, FEMALE)
 	icon_state = "inqcoat"
 	item_state = "inqcoat"
 	sleevetype = "shirt"
-	max_integrity = 200
-	sewrepair = TRUE
+	max_integrity = 300
+	anvilrepair = /datum/skill/craft/armorsmithing
 	equip_delay_self = 4 SECONDS
 	armor_class = ARMOR_CLASS_LIGHT
+	armor = ARMOR_LEATHER_STUDDED
+	smeltresult = /obj/item/ingot/iron
+	smelt_bar_num = 2
 	blocksound = SOFTHIT
 
-/obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/ComponentInitialize()	//Storage because it's a duster.
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+/obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/ComponentInitialize()	//No movement rustle component.
+	return
+
+/obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/clothing/suit/roguetown/armor/plate/half/fluted/ornate))
+		user.visible_message(span_warning("[user] starts to fit [W] inside the [src]."))
+		if(do_after(user, 12 SECONDS))
+			var/obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/armored/P = new /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/armored(get_turf(src.loc))
+			if(user.is_holding(src))
+				user.dropItemToGround(src)
+			user.put_in_hands(P)
+			P.obj_integrity = src.obj_integrity
+			qdel(src)
+			qdel(W)
+		else
+			user.visible_message(span_warning("[user] stops fitting [W] inside the [src]."))
+		return
+
+
+/obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/armored
+	slot_flags = ITEM_SLOT_ARMOR
+	name = "armored inquisitorial duster"
+	desc = "Metal plates reinforce this heavy coat, worn over the top of the finest Psydonian plate."
+	smeltresult = /obj/item/ingot/steel 
+	icon_state = "inqcoata"
+	item_state = "inqcoata"
+	equip_delay_self = 4 SECONDS
+	max_integrity = 300
+	armor_class = ARMOR_CLASS_MEDIUM
+	armor = ARMOR_CUIRASS
+	smelt_bar_num = 2
+	smeltresult = /obj/item/ingot/steel
+	blocksound = PLATEHIT	
+
+/obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/armored/ComponentInitialize()
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_STEP)
+	return
+
 
  //--------------- BLACKSTEEL ---------------------
 

@@ -233,6 +233,30 @@
 	icon_state = "ashortsword"
 	smeltresult = /obj/item/ingot/aaslag
 
+/obj/item/rogueweapon/sword/short/psy
+	name = "psydonian shortsword"
+	desc = "Otavan smiths worked with Grenzelhoftian artificers, and an esoteric blade was born: a blade with an unique design, dismissing a crossguard in favor of a hollow beak to hook and draw harm away from its user. Short in length, yet lethally light in weight."
+	force = 19
+	possible_item_intents = list(/datum/intent/sword/cut/short, /datum/intent/sword/thrust/short, /datum/intent/sword/peel)
+	icon_state = "psyswordshort"
+	gripped_intents = null
+	minstr = 4
+	wdefense = 4
+	wbalance = WBALANCE_SWIFT
+	wlength = WLENGTH_SHORT
+	w_class = WEIGHT_CLASS_NORMAL
+	grid_width = 32
+	grid_height = 96
+
+/obj/item/rogueweapon/sword/short/psy/ComponentInitialize()
+	. = ..()							//+3 force, +100 blade int, +50 int, +1 def, make silver
+	AddComponent(/datum/component/psyblessed, FALSE, 3, 100, 50, 1, TRUE)
+
+/obj/item/rogueweapon/sword/short/psy/preblessed
+
+/obj/item/rogueweapon/sword/short/psy/preblessed/ComponentInitialize()
+	// PREBLESS IT +3 force, +100 blade int, +50 int, +1 def, make silver
+	AddComponent(/datum/component/psyblessed, TRUE, 3, 100, 50, 1, TRUE)
 
 /obj/item/rogueweapon/sword/long
 	name = "longsword"
@@ -597,22 +621,19 @@
 
 /obj/item/rogueweapon/sword/long/oldpsysword
 	name = "old psydonian longsword"
-	desc = "A finely made longsword, plated in a worn-down veneer of grubby silver. It's long seen better daes."
-	icon_state = "psysword"
+	desc = "A finely made longsword, plated in a worn-down veneer of grubby silver. It's long seen better daes. Yet alike PSYDON, it ENDURES."
+	icon_state = "opsysword"
+	dropshrink = 1
 
 /obj/item/rogueweapon/sword/long/psysword
-	name = "ornate longsword"
+	name = "psydonian longsword"
 	desc = "A finely made longsword, plated in a ceremonial veneer of ornate silver - made for felling men and monsters alike.\
-		 \"The Ten will deliver those who were mindful of them to their place of ultimate triumph. No evil will touch them, nor will they grieve.\""
+		\"Psydon will deliver those who were mindful of Him to their place of ultimate triumph. No evil will touch them, nor will they grieve.\""
 	icon_state = "psysword"
 
 /obj/item/rogueweapon/sword/long/psysword/ComponentInitialize()
 	. = ..()							//+3 force, +100 blade int, +50 int, +1 def, make silver
 	AddComponent(/datum/component/psyblessed, FALSE, 3, 100, 50, 1, TRUE)
-
-/obj/item/rogueweapon/sword/long/psysword/preblessed/ComponentInitialize()
-	. = ..()							//Pre-blessed, +3 force, +100 blade int, +50 int, +1 def, make silver
-	AddComponent(/datum/component/psyblessed, TRUE, 3, 100, 50, 1, TRUE)
 
 /obj/item/rogueweapon/sword/iron
 	name = "iron arming sword"
@@ -920,6 +941,17 @@
 	obverse reads, \"YE NOT GUILTY\"."
 	icon_state = "decrapier"
 	sellprice = 140
+
+/obj/item/rogueweapon/sword/rapier/psy/relic
+	name = "Eucharist"
+	desc = "Etruscan shape falling prey to Otavan craftsmanship. Saint Malum's smiths created an uniquely thin blade, capable of swiftly skewering the unholy and the miscreants through gaps that most claim to have never existed in the first place. <b> Silver-dipped steel crowned upon a basket hilt that keeps righteous hands safe from harm."
+	icon_state = "psyrapier"
+	max_integrity = 300
+	max_blade_int = 300
+	wdefense = 7
+
+/obj/item/rogueweapon/sword/rapier/psy/relic/ComponentInitialize()		//Pre-blessed, +100 Blade int, +100 int, +2 def, make it silver
+	AddComponent(/datum/component/psyblessed, TRUE, 5, 100, 100, 2, TRUE)
 
 /obj/item/rogueweapon/sword/rapier/lord
 	name = "sword of the Mad Duke"

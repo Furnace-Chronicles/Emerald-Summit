@@ -97,7 +97,6 @@
 /obj/item/toy/eightball/haunted
 	shake_time = 150
 	cooldown_time = 1800
-	flags_1 = HEAR_1
 	var/last_message
 	var/selected_message
 	var/list/votes

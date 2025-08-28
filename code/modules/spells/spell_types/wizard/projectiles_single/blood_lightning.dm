@@ -1,7 +1,7 @@
 // Lich / Vampire shared list only
 /obj/effect/proc_holder/spell/invoked/projectile/bloodlightning
 	name = "Blood Bolt"
-	desc = "Emit a bolt of lightning that burns a target harshly, preventing them from attacking and slowing them down for 8 seconds."
+	desc = "Emit a bolt of blood lightning that burns a target harshly, forcing them to drop items, preventing them from attacking, and slowing them down for a short time."
 	clothes_req = FALSE
 	overlay_state = "bloodlightning"
 	sound = 'sound/magic/vlightning.ogg'
@@ -31,7 +31,7 @@
 	impact_type = null
 	hitscan = TRUE
 	movement_type = UNSTOPPABLE
-	damage = 60
+	damage = 80
 	npc_damage_mult = 2
 	damage_type = BURN
 	nodamage = FALSE
@@ -51,8 +51,10 @@
 			return BULLET_ACT_BLOCK
 		if(isliving(target))
 			var/mob/living/L = target
-			L.Immobilize(0.2 SECONDS)
+			L.Immobilize(1 SECONDS)//much longer immobilize than standard bolt since it's an antagonist spell and they'd likely need it much more
 			L.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 			L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
+			for(var/obj/item/W in L.held_items)
+				L.dropItemToGround(W)
 			L.apply_status_effect(/datum/status_effect/buff/lightningstruck, 1.5 SECONDS)
 	qdel(src)

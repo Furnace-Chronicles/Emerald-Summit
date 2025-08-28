@@ -117,6 +117,16 @@
 	req_bar = /obj/item/ingot/gold
 	created_item = /obj/item/clothing/ring/signet
 
+/datum/anvil_recipe/valuables/signet/silver
+	name = "Blessed Silver Signet Ring"
+	req_bar = /obj/item/ingot/silverblessed
+	created_item = /obj/item/clothing/ring/signet/silver	
+
+/datum/anvil_recipe/valuables/signet/silver/inq
+	name = "Blessed Silver Signet Ring"
+	req_bar = /obj/item/ingot/silverblessed/bullion
+	created_item = /obj/item/clothing/ring/signet/silver
+
 // Silver ingots are now in play, and as such, the steel rings have been converted to silver with their value adjusted accordingly. -Kyogon
 
 /datum/anvil_recipe/valuables/emerings
@@ -161,6 +171,7 @@
 	additional_items = list(/obj/item/ingot/gold, /obj/item/ingot/steel, /obj/item/roguegem/ruby)
 	created_item = /obj/item/rogueweapon/sword/long/exe/cloth
 	craftdiff = 3
+	appro_skill = /datum/skill/craft/weaponsmithing
 	i_type = "Weapons"
 
 /datum/anvil_recipe/valuables/dragon

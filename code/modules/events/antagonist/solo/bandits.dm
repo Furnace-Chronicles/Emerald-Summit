@@ -7,6 +7,7 @@
 	)
 	roundstart = TRUE
 	antag_flag = ROLE_BANDIT
+	max_occurrences = 0
 	shared_occurence_type = SHARED_MINOR_THREAT
 
 	restricted_roles = list(
@@ -35,6 +36,7 @@
 		"Court Magician",
 		"Inquisitor",
 		"Orthodoxist",
+		"Absolver",
 		"Warden",
 		"Squire",
 		"Veteran",
@@ -46,7 +48,7 @@
 
 	earliest_start = 0 SECONDS
 
-	weight = 16
+	weight = 0
 
 	typepath = /datum/round_event/antagonist/solo/bandits
 	antag_datum = /datum/antagonist/bandit

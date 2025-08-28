@@ -156,7 +156,6 @@
 	name = "otavan leather trousers"
 	desc = "padded leather armor made by Otavan tailors, its quality is remarkable."
 	icon_state = "fencerpants"
-	allowed_race = NON_DWARVEN_RACE_TYPES
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
 	name = "fencing breeches"
@@ -166,6 +165,7 @@
 	detail_tag = "_detail"
 	color = "#FFFFFF"
 	detail_color = "#3b2b29"
+	allowed_race = NON_DWARVEN_RACE_TYPES
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic/update_icon()
 	cut_overlays()

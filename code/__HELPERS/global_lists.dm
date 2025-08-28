@@ -68,6 +68,11 @@
 		var/datum/loadout_item/loadout_item = new path()
 		GLOB.loadout_items[path] = loadout_item
 
+	// Inquisition Hermes list
+	for (var/path in subtypesof(/datum/inqports))
+		var/datum/inqports/inqports = new path()
+		GLOB.inqsupplies[path] = inqports
+
 	// Combat Music Overrides
 	for (var/path in subtypesof(/datum/combat_music))
 		var/datum/combat_music/combat_music = new path()

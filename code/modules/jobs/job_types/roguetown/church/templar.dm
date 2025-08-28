@@ -111,6 +111,7 @@
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/abyssor)
 		H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/necra)
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
@@ -259,7 +260,8 @@
 		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/abyssor)
-		H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE) // really good at fishing my ass, this mf can't even swim. no mermaidens?
+		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/necra)
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)

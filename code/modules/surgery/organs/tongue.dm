@@ -24,7 +24,8 @@
 		/datum/language/otavan,
 		/datum/language/etruscan,
 		/datum/language/gronnic,
-		/datum/language/aavnic
+		/datum/language/aavnic,
+		/datum/language/abyssal
 	))
 
 /obj/item/organ/tongue/Initialize(mapload)

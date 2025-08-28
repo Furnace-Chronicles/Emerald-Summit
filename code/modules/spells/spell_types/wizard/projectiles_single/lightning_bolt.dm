@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/projectile/lightningbolt
 	name = "Bolt of Lightning"
-	desc = "Emit a bolt of lightning that burns a target, preventing them from attacking and slowing them down for 8 seconds."
+	desc = "Emit a bolt of lightning that burns a target, forcing them to drop items, preventing them from attacking, and slowing them down for a short time."
 	clothes_req = FALSE
 	overlay_state = "lightning"
 	sound = 'sound/magic/lightning.ogg'
@@ -32,7 +32,7 @@
 	hitscan = TRUE
 	movement_type = UNSTOPPABLE
 	light_color = LIGHT_COLOR_WHITE
-	damage = 40
+	damage = 60
 	npc_damage_mult = 3
 	damage_type = BURN
 	accuracy = 40 // Base accuracy is lower for burn projectiles because they bypass armor
@@ -56,5 +56,7 @@
 			L.Immobilize(0.2 SECONDS)
 			L.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 			L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
+			for(var/obj/item/W in L.held_items)
+				L.dropItemToGround(W)
 			L.apply_status_effect(/datum/status_effect/buff/lightningstruck, 1.2 SECONDS)
 	qdel(src)

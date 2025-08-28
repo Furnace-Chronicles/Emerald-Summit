@@ -116,10 +116,33 @@
 	smeltresult = /obj/item/ingot/aaslag
 
 /obj/item/clothing/gloves/roguetown/chain/psydon
-	name = "holy blacksteel gloves"
+	name = "psydonian chain wrapped gloves"
 	desc = "Blacksteel-bound gauntlets. These ritualistic restraints, when left to dangle-and-sway, assist in the deflection of unpredictable blows."
 	icon_state = "psydongloveschain"
 	item_state = "psydongloveschains"
+	smeltresult = null	//So you can't melt down your start gear for blacksteel brigadines etc.
+	var/wrapped = FALSE
+
+/obj/item/clothing/gloves/roguetown/chain/psydon/attack_right(mob/user)
+	. = ..()
+	if(!wrapped)
+		icon_state = "psydongloveschainwrap"
+		item_state = "psydongloveschainwrap"
+		user.update_inv_wrists()
+		user.update_inv_gloves()
+		user.update_inv_armor()
+		user.update_inv_shirt()
+		playsound(user, 'sound/foley/equip/chain_equip.ogg', 50, TRUE)
+		wrapped = TRUE
+	else
+		icon_state = initial(icon_state)
+		item_state = initial(item_state)
+		user.update_inv_wrists()
+		user.update_inv_gloves()
+		user.update_inv_armor()
+		user.update_inv_shirt()
+		playsound(user, 'sound/foley/equip/chain_equip.ogg', 50, TRUE)
+		wrapped = FALSE
 
 /obj/item/clothing/gloves/roguetown/chain/iron
 	icon_state = "icgloves"
@@ -315,6 +338,13 @@
 	anvilrepair = /datum/skill/craft/carpentry
 
 //eastern content
+/obj/item/clothing/gloves/roguetown/otavan/psygloves
+	name = "psydonian leather gloves"
+	desc = "Made with Otava's Finest leather, these gloves are fashioned to last."
+	icon_state = "psydongloves"
+	item_state = "psydongloves"
+	salvage_result = /obj/item/natural/hide/cured	
+	allowed_race = ALL_RACES_TYPES
 
 /obj/item/clothing/gloves/roguetown/eastgloves1
 	name = "black gloves"

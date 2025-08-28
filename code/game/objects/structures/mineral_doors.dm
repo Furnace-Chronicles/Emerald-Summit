@@ -400,8 +400,6 @@
 			pickring.removefromring(user)
 			to_chat(user, span_warning("You clumsily drop a lockpick off the ring as you try to pick the lock with it."))
 		return
-	if(istype(I, /obj/item/skeleton_key))
-		tryskeletonlock(user)
 	else
 		if(repairable && (user.get_skill_level(repair_skill) > 0) && ((istype(I, repair_cost_first)) || (istype(I, repair_cost_second)))) // At least 1 skill level needed
 			repairdoor(I,user)

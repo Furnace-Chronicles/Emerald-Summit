@@ -270,14 +270,14 @@
 	if(istype(W, /obj/item/lockpick))
 		trypicklock(W, user)
 		return
+	if(istype(W, /obj/item/melee/touch_attack/lesserknock))
+		trypicklock(W, user)
+		return
 	if(istype(W,/obj/item/lockpickring))
 		var/obj/item/lockpickring/pickring = W
 		if(pickring.picks.len)
 			pickring.removefromring(user)
 			to_chat(user, span_warning("You clumsily drop a lockpick off the ring as you try to pick the lock with it."))
-		return
-	if(istype(W,/obj/item/skeleton_key))
-		tryskeletonlock(user)
 		return
 	if(src.tool_interact(W,user))
 		return 1 // No afterattack
@@ -388,23 +388,6 @@
 	if(opened)
 		if(user.transferItemToLoc(W, drop_location())) // so we put in unlit welder too
 			return TRUE
-
-/obj/structure/closet/proc/tryskeletonlock(mob/user)
-	if(opened)
-		to_chat(user, "<span class='warning'>This cannot be cracked while it is open.</span>")
-		return
-	if(!keylock)
-		to_chat(user, "<span class='warning'>There's no lock on this.</span>")
-		return
-	if(obj_broken)
-		to_chat(user, "<span class='warning'>The lock is obj_broken.</span>")
-		return
-	else
-		user.log_message("skeletonkey'd closet \"[src.name]\" (now [locked ? "unlocked" : "locked"]).", LOG_ATTACK)
-		do_sparks(3, FALSE, src)
-		playsound(user, 'sound/items/skeleton_key.ogg', 100)
-		togglelock(user) //All That It Does.
-		return
 
 /obj/structure/closet/proc/after_weld(weld_state)
 	return
