@@ -77,6 +77,7 @@
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/sneaking, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE)
@@ -148,6 +149,7 @@
 	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE) // A little better; run fast, weak boy.
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE)
@@ -217,6 +219,7 @@
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE) 
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 4, TRUE) 		// Like the other horselords.
 	H.adjust_skillrank(/datum/skill/misc/tracking, 3, TRUE)	//Best tracker. Might as well give it something to stick-out utility wise.
