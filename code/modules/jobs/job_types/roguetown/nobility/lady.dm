@@ -5,16 +5,14 @@
 	faction = "Station"
 	total_positions = 0
 	spawn_positions = 0
-
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NOBILITY_ELIGIBLE_UP
+	advclass_cat_rolls = list(CTAG_CONSORT = 20)
 	allowed_patrons = NON_PSYDON_PATRONS
 	tutorial = "Picked out of your political value rather than likely any form of love, you have become the Grand Duke's most trusted confidant--and likely friend--throughout your marriage. Your loyalty and perhaps even your love will be tested this day... for the daggers that threaten your beloved are as equally pointed at your own throat."
-
 	spells = list(/obj/effect/proc_holder/spell/self/convertrole/servant,
 	/obj/effect/proc_holder/spell/self/grant_nobility)
 	outfit = /datum/outfit/job/roguetown/lady
-
 	display_order = JDO_LADY
 	give_bank_account = 50
 	noble_income = 22
@@ -65,7 +63,7 @@
 
 /datum/advclass/consort/Socialite
 	name = "Socialite"
-	tutorial = "You were once an envoy of a noble house. Your classy charm and grace have won you the race to the bed of the throne warmer. You now spend your days by your spouse's side, helping their reign whenever possible. "
+	tutorial = "You were once an envoy of a noble house. You've a penchant for tunes and socializing. Your classy charm and grace have won you the race to the bed of the throne warmer. You now spend your days by your spouse's side, helping their reign whenever possible. "
 	outfit = /datum/outfit/job/roguetown/lady/Socialite
 	category_tags = list(CTAG_CONSORT)
 
@@ -99,7 +97,7 @@
 
 /datum/advclass/consort/Plotter
 	name = "Plotter"
-	tutorial = "You were once a schemer for a noble house. Your cunning and guile have won you the race to the bed of the throne warmer. Your life has only just started getting interesting. You now spend your days plotting to aid the interests of both you and your spouse. You'd never betray your spouse, right? Perhaps your spouse could use a break..."
+	tutorial = "You were once a schemer for a noble house. You are suspiciously good with a knife. Your cunning and guile have won you the race to the bed of the throne warmer. Your life has only just started getting interesting. You now spend your days plotting to aid the interests of both you and your spouse. You'd never betray your spouse, right? Perhaps your spouse could use a break..."
 	outfit = /datum/outfit/job/roguetown/lady/Plotter
 	category_tags = list(CTAG_CONSORT)
 
@@ -132,7 +130,7 @@
 
 /datum/advclass/consort/gallavanter
 	name = "Gallavanter"
-	tutorial = "You were once a gallant for a noble house. Your bravado and skill with a blade have won you the race to the bed of the throne warmer. You now spend your days by your spouse's side, hoping they're attacked more often so you can heroically save them like in the fairy tales, but there's much less action than you'd prefer."
+	tutorial = "You were once a gallant for a noble house. You have confidence and knowledge of the blade. Your bravado and skill with a blade have won you the race to the bed of the throne warmer. You now spend your days by your spouse's side, hoping they're attacked more often so you can heroically save them like in the fairy tales, but there's much less action than you'd prefer."
 	outfit = /datum/outfit/job/roguetown/lady/Gallavanter
 	category_tags = list(CTAG_CONSORT)
 /datum/outfit/job/roguetown/lady/Gallavanter/pre_equip(mob/living/carbon/human/H)
