@@ -72,7 +72,7 @@
 /datum/outfit/job/roguetown/lady/Socialite/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_femme_clothes(H))
-		armor = /obj/item/clothing/suit/dress/royal //no pants, your spouse has to have easy access
+		armor = /obj/item/clothing/suit/roguetown/shirt/dress/royal //no pants, your spouse has to have easy access
 		wrists = /obj/item/clothing/wrists/roguetown/royalsleeves
 		cloak = /obj/item/clothing/cloak/lordcloak/ladycloak
 		backl = /obj/item/rogue/instrument/harp
