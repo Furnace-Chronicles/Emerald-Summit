@@ -23915,7 +23915,6 @@
 /obj/structure/closet/crate/roguecloset,
 /obj/item/clothing/suit/roguetown/shirt/dress/gen/black,
 /obj/item/clothing/cloak/apron/waist,
-/obj/item/clothing/under/roguetown/tights/stockings,
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/indoors/town/tavern)
 "hEg" = (
@@ -73656,7 +73655,6 @@
 /area/rogue/outdoors/beach/forest)
 "xxF" = (
 /obj/structure/closet/crate/coffin,
-/obj/item/listenstone,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/skeletoncrypt)
 "xxL" = (
@@ -141418,7 +141416,7 @@ tVV
 hyA
 sYb
 haH
-bEa
+haH
 rrp
 iSu
 pkw
