@@ -53,7 +53,7 @@
 				if(prob(3))
 					used = 'sound/vo/male/gen/HEY.ogg'
 			if("cultistyell")
-				used = list('sound/vo/male/gen/cultist (1).ogg','sound/vo/male/gen/cultist (2).ogg','sound/vo/male/gen/cultist (3).ogg','sound/vo/male/gen/cultist (4).ogg','sound/vo/male/gen/cultist (5).ogg','sound/vo/male/gen/cultist (6).ogg','sound/vo/male/gen/cultist (7).ogg','sound/vo/male/gen/cultist (8).ogg','sound/vo/male/gen/cultist (9).ogg',)
+				used = list('sound/vo/male/gen/cultist (1).ogg','sound/vo/male/gen/cultist (2).ogg','sound/vo/male/gen/cultist (3).ogg','sound/vo/male/gen/cultist (4).ogg','sound/vo/male/gen/cultist (5).ogg','sound/vo/male/gen/cultist (6).ogg','sound/vo/male/gen/cultist (7).ogg','sound/vo/male/gen/cultist (8).ogg','sound/vo/male/gen/cultist (9).ogg')
 			if("hmm")
 				used = 'sound/vo/male/gen/hmm.ogg'
 			if("huh")
@@ -103,7 +103,7 @@
 			if("meow")
 				used = list('sound/vo/mobs/cat/cat_meow1.ogg', 'sound/vo/mobs/cat/cat_meow2.ogg', 'sound/vo/mobs/cat/cat_meow3.ogg', 'sound/vo/mobs/cat/cat_meow4.ogg')
 			if("caw")
-				used = list('sound/vo/mobs/bird/CROW_01.ogg', 'sound/vo/mobs/bird/CROW_03.ogg',)
+				used = list('sound/vo/mobs/bird/CROW_01.ogg', 'sound/vo/mobs/bird/CROW_03.ogg')
 			if("peep")
 				used = list('sound/vo/mobs/bird/peep.ogg')
 			if("hiss")
