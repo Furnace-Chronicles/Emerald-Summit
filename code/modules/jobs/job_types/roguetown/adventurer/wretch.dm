@@ -44,7 +44,8 @@
 		H.change_stat("endurance", 1)
 		H.change_stat("speed", 1)
 		H.change_stat("fortune", 1)
-
+		if(H.patron?.type == /datum/patron/inhumen/zizo && H.voice_type == VOICE_TYPE_MASC) // only masc voiced cultists get this privilege
+			H.verbs |= /mob/living/carbon/human/proc/cultistyell
 
 		if(GLOB.adventurer_hugbox_duration)
 			addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, adv_hugboxing_start)), 1)
