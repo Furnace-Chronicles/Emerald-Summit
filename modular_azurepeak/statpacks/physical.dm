@@ -26,6 +26,6 @@
 	stat_array = list(STAT_ENDURANCE = 2, STAT_CONSTITUTION = 1, STAT_PERCEPTION = -1, STAT_INTELLIGENCE = -1)
 
 /datum/statpack/physical/struggler
-	name = "Struggler"
-	desc = "Lyfe's dealt you a poor hand, so you've opted to simply flip the table instead."
+	name = "Brutish"
+	desc = "You've always been imperceptive, slow, and slow, but your body is something even the most highly trained would envy."
 	stat_array = list(STAT_STRENGTH = 2, STAT_CONSTITUTION = 2, STAT_ENDURANCE = 2, STAT_INTELLIGENCE = -2, STAT_PERCEPTION = -2, STAT_SPEED = -2)
