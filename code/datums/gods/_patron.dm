@@ -44,6 +44,8 @@ GLOBAL_LIST_EMPTY(preference_patrons)
 		pious.faction |= "cabal"
 
 /datum/patron/proc/on_loss(mob/living/pious)
+	if(pious.patron?.type == /datum/patron/inhumen/zizo)
+		pious.verbs -= /mob/living/carbon/human/proc/cultistyell
 	if (HAS_TRAIT(pious, TRAIT_CABAL))
 		pious.faction -= "cabal"
 	if(HAS_TRAIT(pious, TRAIT_XYLIX))

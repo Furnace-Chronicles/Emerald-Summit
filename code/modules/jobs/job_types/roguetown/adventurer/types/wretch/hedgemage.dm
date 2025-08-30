@@ -48,6 +48,8 @@
 	H.change_stat("speed", 1)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+		if(H.patron?.type == /datum/patron/inhumen/zizo && H.voice_type == VOICE_TYPE_MASC) // only masc voiced cultists get this privilege
+			H.verbs |= /mob/living/carbon/human/proc/cultistyell
 	var/classes = list("Hedge Mage","Rogue Mage")
 	var/classchoice = input("Choose your archetypes", "Available archetypes") as anything in classes
 	switch(classchoice)

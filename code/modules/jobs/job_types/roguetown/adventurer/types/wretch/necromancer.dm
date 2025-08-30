@@ -48,5 +48,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/necromancer)
+		if(H.voice_type == VOICE_TYPE_MASC) // only masc voiced cultists get this privilege
+			H.verbs |= /mob/living/carbon/human/proc/cultistyell
 	H?.mind.adjust_spellpoints(18)
 	wretch_select_bounty(H)

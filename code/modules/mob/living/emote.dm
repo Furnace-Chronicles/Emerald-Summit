@@ -1774,6 +1774,18 @@
 
 	emote("ffsalute", intentional =  TRUE)
 
+/mob/living/carbon/human/proc/cultistyell()
+	set name = "ZIZO Chant"
+	set category = "Noises"
+	emote("cultistyell", intentional = TRUE)
+
+/datum/emote/living/cultistyell
+	key = "cultistyell"
+	message = "shouts in ZIZO!"
+	message_muffled = "makes a muffled noise!"
+	emote_type = EMOTE_AUDIBLE
+	show_runechat = FALSE
+
 /datum/emote/living/praysuicide
     key = "praysuicide"
     key_third_person = "utters their last words"
