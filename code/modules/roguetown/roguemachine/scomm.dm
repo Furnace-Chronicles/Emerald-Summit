@@ -420,6 +420,7 @@
 	scom.mute_garrison = TRUE
 
 	START_PROCESSING(SSroguemachine, src)
+	become_hearing_sensitive()
 	update_icon()
 
 /obj/structure/roguemachine/scomm/update_icon()
@@ -440,6 +441,7 @@
 	scom.cleanup()
 	qdel(scom)
 	STOP_PROCESSING(SSroguemachine, src)
+	lose_hearing_sensitivity()
 	set_light(0)
 	return ..()
 
@@ -745,6 +747,11 @@
 /obj/structure/broadcast_horn/Initialize()
 	. = ..()
 	scominit()
+	become_hearing_sensitive()
+
+/obj/structure/broadcast_horn/Destroy()
+	lose_hearing_sensitivity()
+	return ..()
 
 /obj/structure/broadcast_horn/proc/scominit()
 	scom.setup(src, TRUE, TRUE, FALSE, FALSE, DEFAULT_GARRISON_COLOR, 'sound/vo/mobs/rat/rat_life.ogg', 100, SCOM_TARGET_LOUDMOUTH_STRONG, FALSE, FALSE, FALSE, FALSE)
