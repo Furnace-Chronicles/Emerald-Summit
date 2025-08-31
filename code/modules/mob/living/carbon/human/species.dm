@@ -1820,7 +1820,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				if(damage_amount > ((H.STACON*12.5) / 3) && !HAS_TRAIT(H, TRAIT_NOPAINSTUN)) //We want this effect only on heavy hits.
 					H.Immobilize(2) //The fastest you can swing a weapon is once each 0.6 seconds, anything higher than 0.5 Immob. opens the door for stunlocking (see: katar).
 					shake_camera(H, 2, 2)
-					H.stuttering == 5 //This procs with each hit so we use == instead of += to avoid stacking.
+					H.stuttering = 5 //This procs with each hit so we use == instead of += to avoid stacking.
 				if(damage_amount > 10 && !HAS_TRAIT(H, TRAIT_NOPAINSTUN))
 					H.Slowdown(clamp(damage_amount/10, 1, 5))
 					shake_camera(H, 1, 1)
