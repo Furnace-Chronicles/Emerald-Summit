@@ -113,6 +113,7 @@
 		calling = S
 		S.called_by = src
 		parent_object.update_icon()
+		calling.parent_object.say("Jabberline coupling call from SCOM #[nightcall]!", spans = list("info"))
 
 		for(var/i in 1 to 10)
 			if(!calling)
@@ -171,11 +172,11 @@
 	parent_object.update_icon()
 
 /datum/scommodule/proc/ring_ring()
-	playsound(parent_object, 'sound/vo/mobs/rat/rat_life.ogg', 100, TRUE, -1)
+	playsound(parent_object, 'sound/vo/mobs/rat/rat_life.ogg', 100, TRUE, 3)
 	var/oldx = parent_object.pixel_x
 	animate(parent_object, pixel_x = oldx+1, time = 0.5)
-	animate(parent_object, pixel_x = oldx-1, time = 0.5)
-	animate(parent_object, pixel_x = oldx, time = 0.5)
+	animate(pixel_x = oldx-1, time = 0.5)
+	animate(pixel_x = oldx, time = 0.5)
 
 /datum/scommodule/proc/examine(mob/user)
 	if(!is_setup)
