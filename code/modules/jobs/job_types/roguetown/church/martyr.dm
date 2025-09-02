@@ -5,12 +5,12 @@
 /datum/component/martyrweapon
 	var/list/allowed_areas = list(/area/rogue/indoors/town/church, /area/rogue/indoors/town/church/chapel, /area/rogue/indoors/town/church/basement)
 	var/list/allowed_patrons = list()
-	var/cooldown = 30 MINUTES
+	var/cooldown = 15 MINUTES
 	var/last_activation = 0
 	var/next_activation = 0
 	var/end_activation = 0
 	var/ignite_chance = 2
-	var/traits_applied = list(TRAIT_NOPAIN, TRAIT_NOPAINSTUN, TRAIT_NOMOOD, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_BLOODLOSS_IMMUNE, TRAIT_LONGSTRIDER, TRAIT_STRONGBITE, TRAIT_STRENGTH_UNCAPPED)
+	var/traits_applied = list(TRAIT_NOPAIN, TRAIT_NOPAINSTUN, TRAIT_NOMOOD, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_BLOODLOSS_IMMUNE, TRAIT_LONGSTRIDER, TRAIT_STRONGBITE, TRAIT_STRENGTH_UNCAPPED, TRAIT_SHOCKIMMUNE)
 	var/stat_bonus_martyr = 3
 	var/mob/living/current_holder
 	var/is_active = FALSE
@@ -397,12 +397,14 @@
 					SEND_SOUND(H, sound(null))
 					H.cmode_music = 'sound/music/combat_martyr.ogg'
 					to_chat(H, span_warning("I can feel my muscles nearly burst from power! I can jump great heights!"))
+					ADD_TRAIT(H, TRAIT_GRABIMMUNE, TRAIT_GENERIC)
 					ADD_TRAIT(H, TRAIT_ZJUMP, TRAIT_GENERIC)
 					ADD_TRAIT(H, TRAIT_NOFALLDAMAGE2, TRAIT_GENERIC)
 				if(STATE_MARTYRULT)
 					SEND_SOUND(H, sound(null))
 					H.cmode_music = 'sound/music/combat_martyrult.ogg'
 					to_chat(H, span_warning("I can jump great heights!"))
+					ADD_TRAIT(H, TRAIT_GRABIMMUNE, TRAIT_GENERIC)
 					ADD_TRAIT(H, TRAIT_ZJUMP, TRAIT_GENERIC)
 					ADD_TRAIT(H, TRAIT_NOFALLDAMAGE2, TRAIT_GENERIC)
 			adjust_traits(remove = FALSE)
@@ -494,8 +496,8 @@
 /obj/item/rogueweapon/sword/long/martyr
 	force = 30
 	force_wielded = 36
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/sword/chop)
+	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/sword/peel)
+	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/peel, /datum/intent/sword/chop)
 	icon_state = "martyrsword"
 	icon = 'icons/roguetown/weapons/64.dmi'
 	item_state = "martyrsword"
