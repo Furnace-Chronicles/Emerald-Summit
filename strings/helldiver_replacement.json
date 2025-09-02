@@ -1,0 +1,37 @@
+{
+	"multiword": {
+	"thank you": "freedom thanks you",
+	"good morning": "free morning",
+	"good night": "free night"
+	},
+    "full": {
+	"good": "free",
+	"rich": "prosperous",
+	"wealthy": "prosperous",
+	"riches": "prosperity",
+	"wealth": "prosperity",
+	"fight": "liberate",
+	"fighting": "liberating",
+	"fought": "liberated",
+	"evil": "tyrannical",
+	"bad": "tyrannical",
+	"ally": "freeman",
+	"allies": "freemen",
+	"enemy": "oppressor",
+	"enemies": "oppressors",
+	"goodbye": "walk unshackled",
+	"victory": "liberty",
+	"defeat": "tyranny",
+	"gain": "freedom",
+	"traitor": "tyrant",
+	"justice": "deliverance"
+},
+    "start": {
+
+    },
+    "end": {
+
+    },
+    "syllable": {
+    }
+}
