@@ -155,7 +155,7 @@
 	name = "golem eyes"
 	desc = "Some beast's eyes, preserved through artifice and with magical rock embedded in their back. Seems to fit a golem's head."
 	icon_state = "eyeball-con"
-	
+
 /obj/item/organ/eyes/night_vision/zombie/on_life()
 	. = ..()
 	if (!(owner.mob_biotypes & MOB_UNDEAD))
@@ -175,6 +175,7 @@
 	name = "wild goblin eyes"
 	desc = "What manner of madness have these reddened orbs espied in the darker places of the realm?"
 	icon_state = "burning_eyes"
+	eye_color = "#eb4034"
 
 /obj/item/organ/eyes/night_vision/wild_goblin/on_life()
 	. = ..()
