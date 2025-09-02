@@ -375,6 +375,7 @@
 		visible_message("<span class='warning'>[src] rolls on the ground, trying to put [p_them()]self out!</span>")
 	else
 		visible_message("<span class='notice'>[src] pats the flames to extinguish them.</span>")
+		last_special = world.time + CLICK_CD_RESIST
 	sleep(30)
 	if(fire_stacks <= 0)
 		ExtinguishMob(TRUE)
