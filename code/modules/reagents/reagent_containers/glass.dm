@@ -285,14 +285,15 @@
 		if(user.used_intent.type == /datum/intent/fill)
 			if(ishuman(M))
 				var/mob/living/carbon/human/humanized = M
-				if(get_location_accessible(humanized, BODY_ZONE_CHEST))
-					if(humanized.has_breasts() && humanized.getorganslot(ORGAN_SLOT_BREASTS).lactating)
-						if(humanized.getorganslot(ORGAN_SLOT_BREASTS).milk_stored > 0)
+				if(get_location_accessible(humanized, BODY_ZONE_CHEST) && humanized.has_breasts())
+					var/obj/item/organ/breasts/boobies = humanized.getorganslot(ORGAN_SLOT_BREASTS)
+					if(boobies.lactating)
+						if(boobies.milk_stored > 0)
 							if(reagents.total_volume < volume)
-								var/milk_to_take = min(humanized.getorganslot(ORGAN_SLOT_BREASTS).milk_stored, max(humanized.getorganslot(ORGAN_SLOT_BREASTS).breast_size, 1), volume - reagents.total_volume)
+								var/milk_to_take = min(boobies.milk_stored, max(boobies.breast_size, 1), volume - reagents.total_volume)
 								if(do_after(user, 20, target = M))
 									reagents.add_reagent(/datum/reagent/consumable/milk, milk_to_take)
-									humanized.getorganslot(ORGAN_SLOT_BREASTS).milk_stored -= milk_to_take
+									boobies.milk_stored -= milk_to_take
 									user.visible_message(span_notice("[user] milks [M] using \the [src]."), span_notice("I milk [M] using \the [src]."))
 							else
 								to_chat(user, span_warning("[src] is full."))
