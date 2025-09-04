@@ -58,8 +58,6 @@
 	var/weapons = list("MY BARE HANDS", "Katar", "Knuckles")
 	var/weapon_choice = input(H,"Choose your PSYDONIAN weapon.", "TAKE UP PSYDON'S ARMS") as anything in weapons
 	switch(weapon_choice)
-		if("MY BARE HANDS")
-			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 5, TRUE)
 		if("Katar")
 			H.put_in_hands(new /obj/item/rogueweapon/katar/psydon(H), TRUE)
 		if("Knuckles")
