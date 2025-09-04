@@ -5,8 +5,13 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/confessor
 	category_tags = list(CTAG_INQUISITION)
-	cmode_music = 'sound/music/combat_deadlyshadows.ogg'
-
+	cmode_music = 'sound/music/cmode/antag/combat_deadlyshadows.ogg'
+	subclass_stats = list(
+		STATKEY_SPD = 3,
+		STATKEY_WIL = 3,
+		STATKEY_PER = 2,
+		STATKEY_STR = -1//weazel
+	)
 /datum/outfit/job/roguetown/confessor
 	job_bitflag = BITFLAG_CHURCH
 
@@ -47,10 +52,6 @@
 		/obj/item/grapplinghook = 1,
 		/obj/item/paper/inqslip/arrival/ortho = 1
 		)
-	H.change_stat("strength", -1) // weasel
-	H.change_stat("endurance", 3)
-	H.change_stat("perception", 2)
-	H.change_stat("speed", 3)
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_INQUISITION, TRAIT_GENERIC)

@@ -21,6 +21,15 @@
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_physician.ogg'
 
+	job_stats = list(
+		STATKEY_INT = 4,
+		STATKEY_WIL = 1,
+		STATKEY_LCK = 1,
+		STATKEY_SPD = 1,
+		STATKEY_STR = -1,
+		STATKEY_CON = -1,
+	)
+
 /datum/outfit/job/roguetown/physician
 	job_bitflag = BITFLAG_ROYALTY
 
@@ -64,11 +73,8 @@
 	H.adjust_skillrank(/datum/skill/misc/medicine, 6, TRUE)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
-	H.change_stat("strength", -1)
-	H.change_stat("constitution", -1)
-	H.change_stat("intelligence", 4)
-	H.change_stat("fortune", 1)
-	H.change_stat("endurance", 1)
+	if(H.age == AGE_MIDDLEAGED)
+		H.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE)
 	if(H.age == AGE_OLD)
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 1)

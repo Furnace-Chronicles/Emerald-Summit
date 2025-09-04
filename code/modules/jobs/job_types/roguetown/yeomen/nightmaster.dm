@@ -16,6 +16,13 @@
 	max_pq = null
 	bypass_lastclass = TRUE
 	round_contrib_points = 3
+	cmode_music = 'sound/music/cmode/nobility/combat_spymaster.ogg'
+	job_stats = list(
+		STATKEY_WIL = 2,
+		STATKEY_STR = 1,
+		STATKEY_CON = 1,
+		STATKEY_INT = -1
+	)
 
 /datum/outfit/job/roguetown/niteman/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -48,10 +55,6 @@
 	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
-	H.change_stat("strength", 1)
-	H.change_stat("intelligence", -1)
-	H.change_stat("constitution", 1)
-	H.change_stat("endurance", 2)
 
 	if(should_wear_masc_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor/nightman

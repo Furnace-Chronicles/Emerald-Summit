@@ -25,6 +25,11 @@
 	round_contrib_points = 2
 
 	cmode_music = 'sound/music/combat_squire.ogg'
+	job_subclasses = list(
+		/datum/advclass/squire/lancer,
+		/datum/advclass/squire/footman,
+		/datum/advclass/squire/skirmisher
+	)
 
 /datum/outfit/job/roguetown/squire
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
@@ -60,6 +65,13 @@
 	outfit = /datum/outfit/job/roguetown/squire/lancer
 		
 	category_tags = list(CTAG_SQUIRE)
+	subclass_stats = list(
+		STATKEY_STR = 1,
+		STATKEY_SPD = 1,
+		STATKEY_PER = 1,
+		STATKEY_CON = 1,
+		STATKEY_INT = 1,
+	)
 
 /datum/outfit/job/roguetown/squire/lancer/pre_equip(mob/living/carbon/human/H)
 	r_hand = /obj/item/rogueweapon/spear
@@ -80,11 +92,6 @@
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 3, TRUE)
-	H.change_stat("strength", 1)
-	H.change_stat("perception", 1)
-	H.change_stat("constitution", 1)
-	H.change_stat("intelligence", 1)
-	H.change_stat("speed", 1)
 	ADD_TRAIT(H, TRAIT_SQUIRE_REPAIR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
@@ -95,6 +102,13 @@
 	outfit = /datum/outfit/job/roguetown/squire/footman
 		
 	category_tags = list(CTAG_SQUIRE)
+	subclass_stats = list(
+		STATKEY_STR = 1,
+		STATKEY_SPD = 1,
+		STATKEY_PER = 1,
+		STATKEY_CON = 1,
+		STATKEY_INT = 1,
+	)
 
 /datum/outfit/job/roguetown/squire/footman/pre_equip(mob/living/carbon/human/H)
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail
@@ -113,11 +127,6 @@
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-	H.change_stat("strength", 1)
-	H.change_stat("perception", 1)
-	H.change_stat("constitution", 1)
-	H.change_stat("intelligence", 1)
-	H.change_stat("speed", 1)
 	ADD_TRAIT(H, TRAIT_SQUIRE_REPAIR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
@@ -139,6 +148,12 @@
 	outfit = /datum/outfit/job/roguetown/squire/skirmisher
 		
 	category_tags = list(CTAG_SQUIRE)
+	subclass_stats = list(
+		STATKEY_SPD = 2,
+		STATKEY_PER = 1,
+		STATKEY_CON = 1,
+		STATKEY_INT = 1,
+	)
 
 /datum/outfit/job/roguetown/squire/skirmisher/pre_equip(mob/living/carbon/human/H)
 	beltr = /obj/item/quiver/arrows
@@ -159,9 +174,5 @@
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE)
-	H.change_stat("perception", 1)
-	H.change_stat("constitution", 1)
-	H.change_stat("intelligence", 1)
-	H.change_stat("speed", 2)
 	ADD_TRAIT(H, TRAIT_SQUIRE_REPAIR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)

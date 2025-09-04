@@ -7,6 +7,12 @@
 	outfit = /datum/outfit/job/roguetown/mercenary/condottiero
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_condottiero.ogg'
+	subclass_stats = list(
+		STATKEY_WIL = 2,
+		STATKEY_PER = 2,
+		STATKEY_SPD = 2,
+		STATKEY_INT = 1
+	)
 
 /datum/outfit/job/roguetown/mercenary/condottiero/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -41,10 +47,6 @@
 	H.adjust_skillrank(/datum/skill/misc/lockpicking, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/traps, 3, TRUE)
-	H.change_stat("endurance", 2)
-	H.change_stat("perception", 2)
-	H.change_stat("speed", 2)
-	H.change_stat("intelligence", 1)
 
 	H.grant_language(/datum/language/etruscan)
 	H.grant_language(/datum/language/thievescant)

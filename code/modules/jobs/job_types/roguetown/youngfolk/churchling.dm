@@ -18,6 +18,10 @@
 	min_pq = -10
 	max_pq = null
 	round_contrib_points = 2
+	job_stats = list(
+		STATKEY_SPD = 2,
+		STATKEY_PER = 1,
+	)
 
 /datum/outfit/job/roguetown/churchling/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -42,10 +46,6 @@
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
 	beltl = /obj/item/storage/keyring/churchie
-
-
-	H.change_stat("perception", 1)
-	H.change_stat("speed", 2)
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = FALSE, devotion_limit = CLERIC_REQ_1)	//Capped to T1 miracles.

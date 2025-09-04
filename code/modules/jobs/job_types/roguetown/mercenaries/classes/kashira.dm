@@ -8,6 +8,13 @@
 	traits_applied = list(TRAIT_OUTLANDER)
 	cmode_music = 'sound/music/combat_kazengite.ogg'
 	maximum_possible_slots = 1
+	subclass_stats = list(
+		STATKEY_CON = 3,
+		STATKEY_WIL = 3,
+		STATKEY_STR = 2,
+		STATKEY_PER = 1,
+		STATKEY_SPD = -1
+	)
 
 /datum/outfit/job/roguetown/mercenary/kashira/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -26,11 +33,6 @@
 	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-	H.change_stat("strength", 2) 
-	H.change_stat("endurance", 3)
-	H.change_stat("constitution", 3)
-	H.change_stat("perception", 1)
-	H.change_stat("speed", -1)
 	H.adjust_blindness(-3)
 
 	if(should_wear_masc_clothes(H))

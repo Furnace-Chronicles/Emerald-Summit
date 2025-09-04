@@ -29,6 +29,22 @@
 	same_job_respawn_delay = 1 MINUTES
 	virtue_restrictions = list(/datum/virtue/heretic/zchurch_keyholder) //all wretch classes automatically get this
 	carebox_table = /datum/carebox_table/wretch
+	job_subclasses = list(
+		/datum/advclass/wretch/deserter,
+		/datum/advclass/wretch/deserter/maa,
+		/datum/advclass/wretch/berserker,
+		/datum/advclass/wretch/hedgemage,
+		/datum/advclass/wretch/necromancer,
+		/datum/advclass/wretch/heretic,
+		/datum/advclass/wretch/heretic/spy,
+		/datum/advclass/wretch/outlaw,
+		/datum/advclass/wretch/outlaw/marauder,
+		/datum/advclass/wretch/poacher,
+		/datum/advclass/wretch/plaguebearer,
+		/datum/advclass/wretch/pyromaniac,
+		/datum/advclass/wretch/vigilante,
+		/datum/advclass/wretch/blackoakwyrm
+	)
 
 /datum/job/roguetown/wretch/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()

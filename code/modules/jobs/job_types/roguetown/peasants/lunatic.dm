@@ -9,7 +9,6 @@
 
 	var/list/traits_applied
 	traits_applied = list(TRAIT_SCHIZO_AMBIENCE, TRAIT_NOSTINK, TRAIT_MANIAC_AWOKEN) // Maniac_Awoken no longer has any function other than the flavor text and trait
-  
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
@@ -22,6 +21,9 @@
 	display_order = JDO_LUNATIC
 
 	cmode_music = 'sound/music/combat_bum.ogg'
+	job_stats = list(
+		STATKEY_SPD = 2
+	)
 
 /datum/outfit/job/roguetown/lunatic/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -36,7 +38,6 @@
 	H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
 	H.STALUC = rand(3, 8)
-	H.change_stat("speed", 2)
 	armor = /obj/item/clothing/suit/roguetown/shirt/rags
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
 	pants = /obj/item/clothing/under/roguetown/tights/vagrant

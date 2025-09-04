@@ -24,6 +24,13 @@
 
 	cmode_music = 'sound/music/combat_knight.ogg'
 
+	job_subclasses = list(
+		/datum/advclass/knight/heavy,
+		/datum/advclass/knight/footknight,
+		/datum/advclass/knight/mountedknight,
+		/datum/advclass/knight/irregularknight
+		)
+
 /datum/outfit/job/roguetown/knight
 	job_bitflag = BITFLAG_GARRISON
 
@@ -80,6 +87,12 @@
 	outfit = /datum/outfit/job/roguetown/knight/heavy
 
 	category_tags = list(CTAG_ROYALGUARD)
+	subclass_stats = list(
+		STATKEY_STR = 3,//Heavy hitters. Less con/end, high strength.
+		STATKEY_INT = 4,
+		STATKEY_CON = 1,
+		STATKEY_WIL = 1,
+		STATKEY_SPD = -1)
 
 /datum/outfit/job/roguetown/knight/heavy/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -99,13 +112,6 @@
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()	
 	H.verbs |= /mob/proc/haltyell
-
-
-	H.change_stat("strength", 3) //Heavy hitters. Less con/end, high strength.
-	H.change_stat("intelligence", 4)
-	H.change_stat("constitution", 1)
-	H.change_stat("endurance", 1)
-	H.change_stat("speed", -1)
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Zweihander","Great Mace","Battle Axe","Greataxe","Estoc","Lucerne", "Partizan")
@@ -164,6 +170,11 @@
 	outfit = /datum/outfit/job/roguetown/knight/footknight
 
 	category_tags = list(CTAG_ROYALGUARD)
+	subclass_stats = list(
+		STATKEY_STR = 1,//Tanky, less strength, but high con/end.
+		STATKEY_INT = 3,
+		STATKEY_CON = 3,
+		STATKEY_WIL = 3,)
 
 /datum/outfit/job/roguetown/knight/footknight/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -183,11 +194,6 @@
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	H.verbs |= /mob/proc/haltyell
-
-	H.change_stat("strength", 1) //Tanky, less strength, but high con/end.
-	H.change_stat("constitution", 3)
-	H.change_stat("endurance", 3)
-	H.change_stat("intelligence", 3)
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Longsword","Flail","Warhammer","Sabre")
@@ -243,6 +249,14 @@
 
 	category_tags = list(CTAG_ROYALGUARD)
 
+	//Decent all-around stats. Nothing spectacular. Ranged/melee hybrid class on horseback.
+	subclass_stats = list(
+		STATKEY_STR = 2,
+		STATKEY_INT = 3,
+		STATKEY_CON = 1,
+		STATKEY_WIL = 1,
+		STATKEY_PER = 2)
+
 /datum/outfit/job/roguetown/knight/mountedknight/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
@@ -262,12 +276,6 @@
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	H.verbs |= /mob/proc/haltyell
-
-	H.change_stat("strength", 2) //Decent all-around stats. Nothing spectacular. Ranged/melee hybrid class on horseback.
-	H.change_stat("endurance", 1)
-	H.change_stat("constitution", 1)
-	H.change_stat("perception", 2)
-	H.change_stat("intelligence", 3)
 
 	H.adjust_blindness(-3)
 	var/weapons = list(
@@ -340,6 +348,13 @@
 
 	category_tags = list(CTAG_ROYALGUARD)
 
+	subclass_stats = list(
+		STATKEY_STR = 1,
+		STATKEY_INT = 3,
+		STATKEY_WIL = 2,
+		STATKEY_SPD = 2)
+
+
 /datum/outfit/job/roguetown/knight/irregularknight/pre_equip(mob/living/carbon/human/H)
 	..()	
 	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE) //Swords and knives class.
@@ -361,11 +376,6 @@
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	H.verbs |= /mob/proc/haltyell
-
-	H.change_stat("strength", 1)
-	H.change_stat("endurance", 2)
-	H.change_stat("speed", 2)
-	H.change_stat("intelligence", 3)
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Rapier + Longbow","Estoc + Recurve Bow","Sabre + Buckler","Whip + Crossbow","Greataxe + Sling")

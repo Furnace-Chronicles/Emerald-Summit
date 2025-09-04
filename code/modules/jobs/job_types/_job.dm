@@ -78,9 +78,6 @@
 
 	var/list/spells
 
-	var/list/jobstats
-	var/list/jobstats_f
-
 	var/job_greet_text = TRUE
 	var/tutorial = null
 
@@ -150,7 +147,20 @@
 	var/list/virtue_restrictions
 	var/list/vice_restrictions
 
+	///The job's stats
+	var/list/job_stats
+
+	///The job's subclasses, if any. Overrides job_stats if present.
+	var/list/job_subclasses
+
+	///The job's stat UPPER ceilings, clamped after statpacks and job stats are applied.
+	var/list/stat_ceilings
+
 	var/carebox_table = null
+
+	///Whether this class can be clicked on for details.
+	var/class_setup_examine = TRUE
+
 
 
 /datum/job/proc/special_job_check(mob/dead/new_player/player)
@@ -186,17 +196,10 @@
 	if(spells && H.mind)
 		for(var/S in spells)
 			H.mind.AddSpell(new S)
-
-	if(H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F)
-		if(jobstats_f)
-			for(var/S in jobstats_f)
-				H.change_stat(S, jobstats_f[S])
-		else
-			for(var/S in jobstats)
-				H.change_stat(S, jobstats[S])
-	else
-		for(var/S in jobstats)
-			H.change_stat(S, jobstats[S])
+			
+	if(length(job_stats))
+		for(var/stat in job_stats)
+			H.change_stat(stat, job_stats[stat])
 
 	for(var/X in peopleknowme)
 		for(var/datum/mind/MF in get_minds(X))
@@ -431,3 +434,61 @@
 	return (H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F)
 // LETHALSTONE EDIT END
 
+/datum/job/Topic(href, list/href_list)
+	if(href_list["explainjob"])
+		var/list/dat = list()
+		var/sclass_count = 0
+		if(length(job_subclasses) && length(job_stats))
+			CRASH("[src] has definitions for both class and subclass stats. They will stack unintentionally!")
+		if(length(job_subclasses))
+			dat += "This class has the following subclasses: "
+			for(var/sclass in job_subclasses)
+				sclass_count++
+				var/datum/advclass/adv = sclass
+				var/datum/advclass/adv_ref = SSrole_class_handler.get_advclass_by_name(initial(adv.name))
+				dat += "<details><summary><b><font color ='#ece9e9'>[adv_ref.name]</font></b></summary>"
+				dat += "<table align='center'; width='100%'; height='100%';border: 1px solid white;border-collapse: collapse>"
+				dat += "<tr style='vertical-align:top'>"
+				dat += "<td width = 60%><i><font color ='#ece9e9'>[adv_ref.tutorial]</font></i></td>"
+				dat += "<td width = 40%>"
+				if(length(adv_ref.subclass_stats))
+					dat += "<font color ='#7a4d0a'>Stat Bonuses:</font><font color ='#d4b164'>"
+					for(var/stat in adv_ref.subclass_stats)
+						dat += "<br>[capitalize(stat)]: <b>[adv_ref.subclass_stats[stat] < 0 ? "<font color = '#cf2a2a'>" : "<font color = '#91cf68'>"]\Roman[adv_ref.subclass_stats[stat]]</font></b>"
+				dat += "</td></tr></table></font>"
+				if(length(adv_ref.adv_stat_ceiling))
+					dat += "["<font color = '#cf2a2a'><br><b>This subclass has the following stat limits: "]<br>"
+					dat += " | "
+					for(var/stat in adv_ref.adv_stat_ceiling)
+						dat += "["[capitalize(stat)]: <b>\Roman[adv_ref.adv_stat_ceiling[stat]]</b>"] | "
+					dat += "<i><br>Regardless of your statpacks or race choice, you will not be able to exceed these stats on spawn.</i></font>"
+				if(adv_ref.extra_context)
+					dat += "<br><font color ='#a06c1e'>[adv_ref.extra_context]"
+					dat += "</font></details>"
+				else
+					dat += "</details>"
+		if(length(job_stats))
+			dat += "Starting Stats:<font color ='#d4b164'>"
+			for(var/stat in job_stats)
+				dat += "<br>[capitalize(stat)]: <b>[job_stats[stat] < 0 ? "<font color = '#cf2a2a'>" : "<font color = '#91cf68'>"]\Roman[job_stats[stat]]</font></b>"
+			dat += "</font>"	//Ends the stats colors
+			if(length(stat_ceilings))
+				dat += "["<br><font color = '#cf2a2a'><b>This class has the following stat limits:</b> "]<br>"
+				dat += " | "
+				for(var/stat in stat_ceilings)
+					dat += "["[capitalize(stat)]: <b>\Roman[stat_ceilings[stat]]</b>"] | "
+				dat += "<br><i>Regardless of your statpacks or race choice, you will not be able to exceed these stats on spawn.</i></font>"
+				dat += "</font>"	//Ends the stat limit colors
+		if(istype(src,/datum/job/roguetown/jester))
+			dat += "<font color = '#d151ab'><center>Come one, come all, where Psydon Lies! <br>Let Xylix roll the dice, <br>unto our untimely demise! <br>Ahahaha!</center>"
+			dat += "<center><b><font size = 4>STR: ???</b><br>"
+			dat += "<b>INT: ???</b><br>"
+			dat += "<b>FOR: ???</b><br></center></font>"
+		dat += "<br><b>These attributes do not represent the class' capability in combat nor utility. Traits, skills, arcyne and miracles are all (currently) omitted.</b>"
+		var/height = 400
+		if(sclass_count >= 10)
+			height = 800
+		var/datum/browser/popup = new(usr, "Class Help", nwidth = 400, nheight = height)
+		popup.set_content(dat.Join())
+		popup.open(FALSE)
+	. = ..()

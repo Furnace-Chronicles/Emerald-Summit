@@ -16,6 +16,7 @@
 	round_contrib_points = 2
 
 	cmode_music = 'sound/music/combat_bum.ogg'
+	class_setup_examine = FALSE
 
 /datum/job/roguetown/orphan/New()
 	. = ..()

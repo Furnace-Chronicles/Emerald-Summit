@@ -23,6 +23,13 @@
 	min_pq = 5 // Higher PQ requirement as it is a leadership role. Not for total newbie.
 	max_pq = null
 	round_contrib_points = 3
+	cmode_music = 'sound/music/cmode/towner/combat_retired.ogg'
+	job_stats = list(
+		STATKEY_STR = 2,
+		STATKEY_CON = 2,
+		STATKEY_WIL = 2,
+		STATKEY_INT = 1
+	)
 
 /datum/outfit/job/roguetown/guildmaster/pre_equip(mob/living/carbon/human/H)
 	ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
@@ -69,11 +76,6 @@
 		belt = /obj/item/storage/belt/rogue/leather
 		beltl = /obj/item/storage/belt/rogue/pouch/coins/rich
 		beltr = /obj/item/storage/keyring/guildmaster
-
-	H.change_stat("strength", 2)
-	H.change_stat("intelligence", 1)
-	H.change_stat("endurance", 2)
-	H.change_stat("constitution", 2)
 
 GLOBAL_VAR_INIT(last_guildmaster_announcement, -50000) // Inits variable for later
 

@@ -17,6 +17,12 @@
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_noble.ogg'
 
+	job_stats = list(
+		STATKEY_INT = 2,
+		STATKEY_PER = 2,
+		STATKEY_SPD = -1
+	)
+
 /datum/outfit/job/roguetown/steward
 	job_bitflag = BITFLAG_ROYALTY
 
@@ -46,10 +52,6 @@
 	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
-	H.change_stat("intelligence", 2)
-	H.change_stat("perception", 2)
-	H.change_stat("speed", -1)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular/pileappraisal)

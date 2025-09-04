@@ -10,6 +10,13 @@
 	category_tags = list(CTAG_MERCENARY)
 	traits_applied = list(TRAIT_OUTLANDER)
 	cmode_music = 'sound/music/combat_routier.ogg'
+	subclass_stats = list(
+		STATKEY_CON = 4,
+		STATKEY_WIL = 2,
+		STATKEY_STR = 2,
+		STATKEY_PER = 1,
+		STATKEY_SPD = -1
+	)
 
 /datum/outfit/job/roguetown/mercenary/routier/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -34,12 +41,7 @@
 	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
-	H.change_stat("strength", 2)
-	H.change_stat("endurance", 2)
-	H.change_stat("constitution", 4)
-	H.change_stat("perception", 1)
-	H.change_stat("speed", -1)
+	H.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)   
 	switch(classchoice)
 		if("Swordsman")
 			H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)

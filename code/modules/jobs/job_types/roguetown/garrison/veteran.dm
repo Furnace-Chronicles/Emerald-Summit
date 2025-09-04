@@ -19,6 +19,7 @@
 	round_contrib_points = 2
 
 	cmode_music = 'sound/music/combat_veteran.ogg'
+	class_setup_examine = FALSE
 
 /datum/outfit/job/roguetown/captain
 	job_bitflag = BITFLAG_ROYALTY | BITFLAG_GARRISON	//Not a noble per-say but not really garrison either. So both, you are a courtier of sorts afterall + combat

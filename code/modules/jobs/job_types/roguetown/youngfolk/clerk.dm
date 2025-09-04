@@ -18,6 +18,13 @@
 	max_pq = null
 	round_contrib_points = 2
 
+	job_stats = list(
+		STATKEY_LCK = 2,
+		STATKEY_INT = 2,
+		STATKEY_SPD = 1,
+		STATKEY_STR = -1
+	)
+
 /datum/outfit/job/roguetown/clerk/pre_equip(mob/living/carbon/human/H)
 	..()
 	ADD_TRAIT(H, TRAIT_SEEPRICES_SHITTY, type)
@@ -31,10 +38,6 @@
 	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
-	H.change_stat("strength", -1) //NERDDDDDDD!!
-	H.change_stat("speed", 1)
-	H.change_stat("intelligence", 2)
-	H.change_stat("fortune", 2)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
 

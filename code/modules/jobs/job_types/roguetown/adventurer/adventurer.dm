@@ -34,6 +34,40 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 
 	cmode_music = 'sound/music/combat.ogg'
 
+	job_subclasses = list(
+		/datum/advclass/cleric,
+		/datum/advclass/cleric/paladin,
+		/datum/advclass/cleric/cantor,
+		/datum/advclass/cleric/missionary,
+		/datum/advclass/sfighter,
+		/datum/advclass/sfighter/duelist,
+		/datum/advclass/sfighter/mhunter,
+		/datum/advclass/sfighter/flagellant,
+		/datum/advclass/sfighter/barbarian,
+		/datum/advclass/sfighter/ironclad,
+		/datum/advclass/rogue,
+		/datum/advclass/rogue/thief,
+		/datum/advclass/rogue/bard,
+		/datum/advclass/rogue/swashbuckler,
+		/datum/advclass/mage,
+		/datum/advclass/mage/spellblade,
+		/datum/advclass/mage/spellsinger,
+		/datum/advclass/ranger,
+		/datum/advclass/ranger/assassin,
+		/datum/advclass/ranger/bombadier,
+		/datum/advclass/ranger/bwanderer,
+		/datum/advclass/noble,
+		/datum/advclass/noble/knighte,
+		/datum/advclass/noble/squire,
+		/datum/advclass/trader,
+		/datum/advclass/trader/doomsayer,
+		/datum/advclass/trader/scholar,
+		/datum/advclass/trader/harlequin,
+		/datum/advclass/foreigner,
+		/datum/advclass/foreigner/custodian,
+		/datum/advclass/foreigner/yoruku
+	)
+
 /datum/job/roguetown/adventurer/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
 	if(L)

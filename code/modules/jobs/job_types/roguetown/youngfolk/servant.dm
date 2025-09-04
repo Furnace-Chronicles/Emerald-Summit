@@ -19,6 +19,12 @@
 	max_pq = null
 	round_contrib_points = 2
 	advjob_examine = TRUE
+	cmode_music = 'sound/music/cmode/towner/combat_towner.ogg'
+	job_subclasses = list(
+		/datum/advclass/servant/servant,
+		/datum/advclass/servant/maid,
+		/datum/advclass/servant/butler
+	)
 	cmode_music = 'sound/music/combat_bard.ogg'
 
 /datum/job/roguetown/servant/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
@@ -34,6 +40,11 @@
 	tutorial = "You are a humdrum servant, dressed the part; lowly and best out of sight. It's practical, however."
 	outfit = /datum/outfit/job/roguetown/servant/servant
 	category_tags = list(CTAG_SERVANT)
+	subclass_stats = list(
+		STATKEY_PER = 2,
+		STATKEY_INT = 1,
+		STATKEY_SPD = 1
+	)
 
 /datum/outfit/job/roguetown/servant/servant/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -65,9 +76,6 @@
 		H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/labor/farming, 2, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
-	H.change_stat("speed", 1)
-	H.change_stat("intelligence", 1)
-	H.change_stat("perception", 2)
 	ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)
 
 /datum/advclass/servant/maid
@@ -75,6 +83,11 @@
 	tutorial = "Not one really mentions how hard it is to do yardwork in a dress and stockings, but at least you still look really good."
 	outfit = /datum/outfit/job/roguetown/servant/maid
 	category_tags = list(CTAG_SERVANT)
+	subclass_stats = list(
+		STATKEY_PER = 2,
+		STATKEY_INT = 1,
+		STATKEY_SPD = 1
+	)
 
 /datum/outfit/job/roguetown/servant/maid/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -105,9 +118,6 @@
 		H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/labor/farming, 2, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
-	H.change_stat("speed", 1)
-	H.change_stat("intelligence", 1)
-	H.change_stat("perception", 2)
 	ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)
 
 /datum/advclass/servant/butler
@@ -115,6 +125,11 @@
 	tutorial = "An impeccable appearance is your core being. You still dig through the mud, though, you just do the laundry more."
 	outfit = /datum/outfit/job/roguetown/servant/butler
 	category_tags = list(CTAG_SERVANT)
+	subclass_stats = list(
+		STATKEY_PER = 2,
+		STATKEY_INT = 1,
+		STATKEY_SPD = 1
+	)
 
 /datum/outfit/job/roguetown/servant/butler/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -145,7 +160,4 @@
 		H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/labor/farming, 2, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
-	H.change_stat("speed", 1)
-	H.change_stat("intelligence", 1)
-	H.change_stat("perception", 2)
 	ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)

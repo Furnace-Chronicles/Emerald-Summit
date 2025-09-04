@@ -5,6 +5,13 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/disciple
 	category_tags = list(CTAG_INQUISITION)
+	subclass_stats = list(
+		STATKEY_STR = 3,
+		STATKEY_WIL = 3,
+		STATKEY_CON = 3,
+		STATKEY_INT = -2,
+		STATKEY_SPD = -1
+	)
 
 /datum/outfit/job/roguetown/disciple
 	job_bitflag = BITFLAG_CHURCH
@@ -37,11 +44,6 @@
 	H.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
-	H.change_stat("strength", 3)
-	H.change_stat("endurance", 3)
-	H.change_stat("constitution", 3)
-	H.change_stat("intelligence", -2)
-	H.change_stat("speed", -1)
 	ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_INQUISITION, TRAIT_GENERIC)

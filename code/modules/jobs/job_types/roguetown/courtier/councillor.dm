@@ -22,6 +22,13 @@
 	round_contrib_points = 2
 	cmode_music = 'sound/music/combat_noble.ogg'
 
+	job_stats = list(
+		STATKEY_SPD = 2,
+		STATKEY_INT = 2,
+		STATKEY_PER = 2,
+		STATKEY_STR = -1,
+	)
+
 /datum/outfit/job/roguetown/councillor
 	job_bitflag = BITFLAG_ROYALTY
 
@@ -47,6 +54,3 @@
 	H.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
-	H.change_stat("strength", -1)
-	H.change_stat("intelligence", 2)
-	H.change_stat("perception", 1)

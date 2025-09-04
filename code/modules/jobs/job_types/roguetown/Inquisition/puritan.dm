@@ -23,6 +23,10 @@
 	min_pq = 10
 	max_pq = null
 	round_contrib_points = 2
+	job_subclasses = list(
+		/datum/advclass/puritan/inspector,
+		/datum/advclass/puritan/ordinator
+	)
 
 /datum/outfit/job/roguetown/puritan
 	name = "Inquisitor"
@@ -48,6 +52,14 @@
 	outfit = /datum/outfit/job/roguetown/puritan/inspector
 
 	category_tags = list(CTAG_PURITAN)
+	subclass_stats = list(
+		STATKEY_CON = 3,
+		STATKEY_PER = 3,
+		STATKEY_INT = 3,
+		STATKEY_STR = 2,
+		STATKEY_WIL = 2,
+		STATKEY_SPD = 1,
+	)
 
 /datum/outfit/job/roguetown/puritan/inspector/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -64,12 +76,6 @@
 	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/sewing, 2, TRUE)
-	H.change_stat("strength", 2)
-	H.change_stat("endurance", 2)
-	H.change_stat("constitution", 3)
-	H.change_stat("perception", 3)
-	H.change_stat("speed", 1)
-	H.change_stat("intelligence", 3)
 	H.verbs |= /mob/living/carbon/human/proc/faith_test
 	H.verbs |= /mob/living/carbon/human/proc/torture_victim
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
@@ -134,6 +140,13 @@
 	cmode_music = 'sound/music/combat_inqordinator.ogg'
 
 	category_tags = list(CTAG_PURITAN)
+	subclass_stats = list(
+		STATKEY_CON = 3,
+		STATKEY_WIL = 3,
+		STATKEY_INT = 2,
+		STATKEY_STR = 2,
+		STATKEY_PER = 2
+	)
 
 /datum/outfit/job/roguetown/puritan/ordinator/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -145,11 +158,6 @@
 	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/tracking, 5, TRUE)
-	H.change_stat("strength", 2)
-	H.change_stat("endurance", 3)
-	H.change_stat("constitution", 3)
-	H.change_stat("perception", 2)
-	H.change_stat("intelligence", 2)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = FALSE, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles.
 	H.verbs |= /mob/living/carbon/human/proc/faith_test

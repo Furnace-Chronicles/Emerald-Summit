@@ -8,6 +8,7 @@
 	traits_applied = list(TRAIT_OUTLANDER)
 	cmode_music = 'sound/music/combat_steppe.ogg'
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled
+	extra_context = "This subclass has 4 loadouts with various stats."
 
 /datum/outfit/job/roguetown/mercenary/steppesman/pre_equip(mob/living/carbon/human/H)
 	..()

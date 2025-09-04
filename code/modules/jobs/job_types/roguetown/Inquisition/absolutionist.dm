@@ -20,6 +20,11 @@
 	wanderer_examine = FALSE
 	advjob_examine = FALSE
 	give_bank_account = 15
+	job_stats = list(
+		STATKEY_CON = 7,
+		STATKEY_WIL = 3,
+		STATKEY_SPD = -2
+	)
 
 // REMEMBER FLAGELLANT? REMEMBER LASZLO? THIS IS HIM NOW. FEEL OLD YET?
 
@@ -66,14 +71,6 @@
 		/obj/item/natural/worms/leech/cheele = 1,
 		/obj/item/roguekey/inquisition = 1,
 		)
-	H.change_stat("endurance", 3)
-	H.change_stat("constitution", 7)
-	H.change_stat("speed", -2)
-	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/psydonabsolve)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/psydonlux_tamper)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
-		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/qsabsolution)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_ABSOLVER, start_maxed = TRUE) // PSYDONIAN MIRACLE-WORKER. LUX-MERGING FREEK.
 	ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
