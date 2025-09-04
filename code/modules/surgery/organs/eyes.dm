@@ -70,6 +70,9 @@
 		if(eye_color)
 			HMN.eye_color = eye_color
 			HMN.regenerate_icons()
+			if(HMN.hud_used)
+				for(var/atom/movable/screen/eye_intent/eyes_hud in HMN.hud_used.static_inventory)//updates our eye hud color
+					eyes_hud.update_icon()
 		else
 			eye_color = HMN.eye_color
 		if(HAS_TRAIT(HMN, TRAIT_NIGHT_VISION) && !lighting_alpha)
