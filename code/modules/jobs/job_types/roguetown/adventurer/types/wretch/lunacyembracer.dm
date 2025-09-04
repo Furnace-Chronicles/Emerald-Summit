@@ -21,8 +21,8 @@
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_WILD_EATER, TRAIT_GENERIC)
 
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/sewing, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/tanning, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/labor/farming, 5, TRUE)
