@@ -358,3 +358,17 @@
 	color_keys = 3
 	color_key_names = list("Ears", "Inner", "Tips")
 	relevant_layers = list(BODY_BEHIND_LAYER, BODY_FRONT_LAYER, BODY_ADJ_LAYER)
+
+///CONSTRUCT-GOLEM ACCESORIES, MADE OF METAL///
+/datum/sprite_accessory/ears/dendorite
+	name = "Dendorite Construct"
+	icon_state = "dendorite"
+
+/datum/sprite_accessory/ears/eoran
+	name = "Eoran Construct"
+	icon_state = "eoran"
+
+/datum/sprite_accessory/ears/pestran
+	name = "Pestran Construct"
+	icon_state = "pestran"
+

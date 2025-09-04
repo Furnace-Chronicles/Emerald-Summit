@@ -92,6 +92,8 @@
 	//Update our name based on whether our face is obscured/disfigured
 	name = get_visible_name()
 
+	handle_gas_mask_sound()
+
 	if(sexcon && client?.prefs?.sexable)
 		sexcon.process_sexcon(1 SECONDS)
 
@@ -190,14 +192,36 @@
 //			if(zone2covered(BODY_ZONE_PRECISE_L_FOOT, C.body_parts_covered))
 //				coverfeet = TRUE
 	if(locations & HEAD)
-		if(!coverhead)
-			add_stress(/datum/stressevent/coldhead)
+		if(!coverhead && patron?.type != /datum/patron/divine/abyssor) //abyssor friends don't care about a bit of water!!!
+			if(!isaxian(src) && !islamia(src))//if you aren't an abyssor spawn creature
+				add_stress(/datum/stressevent/coldhead)
 //	if(locations & FEET)
-//		if(!coverfeet)
-//			add_stress(/datum/stressevent/coldfeet)
+//		if(!coverfeet && patron?.type != /datum/patron/divine/abyssor)
+//			if(!isaxian(src) && !islamia(src))
+//				add_stress(/datum/stressevent/coldfeet)
 
 //END FIRE CODE
 
+/mob/living/carbon/human/proc/handle_gas_mask_sound()
+	if(!istype(wear_mask, /obj/item/clothing/mask/rogue/facemask/steel/confessor))
+		if(breathe_tick)
+			breathe_tick = 0
+		return
+	if(stat == DEAD)
+		return
+	if(HAS_TRAIT(src, TRAIT_NOBREATH))
+		return
+	breathe_tick++
+	var/mask_sound
+	if(istype(wear_mask, /obj/item/clothing/mask/rogue/facemask/steel/confessor))
+		if(breathe_tick>=rand(3,5))
+			breathe_tick = 0
+			mask_sound = pick('sound/items/confessormask1.ogg', 'sound/items/confessormask2.ogg', 'sound/items/confessormask3.ogg',
+							'sound/items/confessormask4.ogg', 'sound/items/confessormask5.ogg', 'sound/items/confessormask6.ogg',
+							'sound/items/confessormask7.ogg', 'sound/items/confessormask8.ogg', 'sound/items/confessormask9.ogg',
+					 		'sound/items/confessormask10.ogg')
+			playsound(src, mask_sound, 90, FALSE, 4, 0)
+			return
 
 //This proc returns a number made up of the flags for body parts which you are protected on. (such as HEAD, CHEST, GROIN, etc. See setup.dm for the full list)
 /mob/living/carbon/human/proc/get_heat_protection_flags(temperature) //Temperature is the temperature you're being exposed to.
@@ -243,6 +267,8 @@
 			thermal_protection += THERMAL_PROTECTION_FOOT_LEFT
 		if(thermal_protection_flags & FOOT_RIGHT)
 			thermal_protection += THERMAL_PROTECTION_FOOT_RIGHT
+		if(thermal_protection_flags & TAIL_LAMIA)
+			thermal_protection += THERMAL_PROTECTION_LEG_RIGHT
 		if(thermal_protection_flags & ARM_LEFT)
 			thermal_protection += THERMAL_PROTECTION_ARM_LEFT
 		if(thermal_protection_flags & ARM_RIGHT)
@@ -301,6 +327,8 @@
 			thermal_protection += THERMAL_PROTECTION_FOOT_LEFT
 		if(thermal_protection_flags & FOOT_RIGHT)
 			thermal_protection += THERMAL_PROTECTION_FOOT_RIGHT
+		if(thermal_protection_flags & TAIL_LAMIA)
+			thermal_protection += THERMAL_PROTECTION_LEG_RIGHT
 		if(thermal_protection_flags & ARM_LEFT)
 			thermal_protection += THERMAL_PROTECTION_ARM_LEFT
 		if(thermal_protection_flags & ARM_RIGHT)

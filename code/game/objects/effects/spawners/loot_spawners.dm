@@ -43,7 +43,7 @@
 		//junk
 		/obj/item/rogue/instrument/flute = 3,
 		/obj/item/ash = 5,
-		/obj/item/natural/glass/shard = 5,
+		/obj/item/natural/glass_shard = 5,
 		/obj/item/candle/yellow = 3,
 		/obj/item/flashlight/flare/torch = 3,
 		/obj/item/reagent_containers/glass/bowl = 4,
@@ -183,7 +183,7 @@
 		//junk
 		/obj/item/rogue/instrument/flute = 3,
 		/obj/item/ash = 5,
-		/obj/item/natural/glass/shard = 5,
+		/obj/item/natural/glass_shard = 5,
 		/obj/item/candle/yellow = 3,
 		/obj/item/flashlight/flare/torch = 3,
 		/obj/item/reagent_containers/glass/bowl = 4,
@@ -321,7 +321,7 @@
 		//money
 		//has been removed
 		//junk
-		/obj/item/reagent_containers/glass/cup/golden = 1,
+		/obj/item/reagent_containers/glass/cup/golden/small = 1,
 		/obj/item/reagent_containers/glass/cup/skull = 1,
 		/obj/item/mundane/puzzlebox/medium = 1,
 		/obj/item/mundane/puzzlebox/impossible = 1,

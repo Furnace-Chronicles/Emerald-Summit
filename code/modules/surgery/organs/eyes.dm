@@ -70,6 +70,9 @@
 		if(eye_color)
 			HMN.eye_color = eye_color
 			HMN.regenerate_icons()
+			if(HMN.hud_used)
+				for(var/atom/movable/screen/eye_intent/eyes_hud in HMN.hud_used.static_inventory)//updates our eye hud color
+					eyes_hud.update_icon()
 		else
 			eye_color = HMN.eye_color
 		if(HAS_TRAIT(HMN, TRAIT_NIGHT_VISION) && !lighting_alpha)
@@ -155,7 +158,7 @@
 	name = "golem eyes"
 	desc = "Some beast's eyes, preserved through artifice and with magical rock embedded in their back. Seems to fit a golem's head."
 	icon_state = "eyeball-con"
-	
+
 /obj/item/organ/eyes/night_vision/zombie/on_life()
 	. = ..()
 	if (!(owner.mob_biotypes & MOB_UNDEAD))
@@ -175,12 +178,17 @@
 	name = "wild goblin eyes"
 	desc = "What manner of madness have these reddened orbs espied in the darker places of the realm?"
 	icon_state = "burning_eyes"
+	eye_color = "#eb4034"
 
 /obj/item/organ/eyes/night_vision/wild_goblin/on_life()
 	. = ..()
-	if (!istype(owner, /mob/living/carbon/human/species/goblin))
+	if (!isgoblinp(owner))
 		if (prob(10))
-			owner.adjustToxLoss(0.2)
+			owner.adjustToxLoss(5)
+			applyOrganDamage(5)
+			owner.blur_eyes(3)
+			if(prob(50))
+				to_chat(owner, span_red("My eyes burn and my body aches."))
 
 /obj/item/organ/eyes/night_vision/mushroom
 	name = "fung-eye"
@@ -451,3 +459,14 @@
 	eye_icon_state = "snail_eyes"
 	icon_state = "snail_eyeballs"
 
+/proc/set_eye_color(var/mob/living/carbon/mob, color_one, color_two)
+	var/obj/item/organ/eyes/eyes = mob.getorganslot(ORGAN_SLOT_EYES)
+	if(!eyes)
+		return
+	if(color_one)
+		eyes.eye_color = color_one
+	if(color_two)
+		eyes.second_color = color_two
+	eyes.update_accessory_colors()
+	if(eyes.owner)
+		eyes.owner.update_body_parts(TRUE)

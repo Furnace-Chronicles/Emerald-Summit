@@ -68,6 +68,17 @@
 	name = "Tapered"
 	default_colors = list("C52828", "C52828")
 
+/datum/sprite_accessory/penis/taperedknot
+	icon_state = "taperedknot"
+	name = "Tapered, Knotted"
+	default_colors = list("C52828", "C52828")
+
+/datum/sprite_accessory/penis/taperedknot_mammal
+	icon_state = "taperedknot"
+	name = "Tapered, Knotted"
+	color_key_defaults = list(null, KEY_CHEST_COLOR)
+	default_colors = list("C52828", null)
+
 /datum/sprite_accessory/penis/tapered_mammal
 	icon_state = "tapered"
 	name = "Tapered"

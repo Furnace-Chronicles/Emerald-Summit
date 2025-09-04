@@ -43,7 +43,7 @@
 	mask = /obj/item/clothing/mask/rogue/facemask/steel
 	neck = /obj/item/clothing/neck/roguetown/gorget
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail
-	id = /obj/item/mattcoin
+	id = /obj/item/scomstone/mattcoin
 	H.change_stat("strength", 2)
 	H.change_stat("endurance", 2)
 	H.change_stat("constitution", 1)

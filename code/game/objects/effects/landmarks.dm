@@ -247,12 +247,16 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Orthodoxist"
 	icon_state = "arrow"
 
+/obj/effect/landmark/start/absolver
+	name = "Absolver"
+	icon_state = "arrow"
+
 /obj/effect/landmark/start/sergeant
 	name = "Sergeant"
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/nightman
-	name = "Bathmaster"
+	name = "Nightmaster"
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/nightmaiden
@@ -274,6 +278,10 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 
 /obj/effect/landmark/start/innkeep
 	name = "Innkeep"
+	icon_state = "arrow"
+
+/obj/effect/landmark/start/loudmouth
+	name = "Loudmouth"
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/archivist

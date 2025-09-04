@@ -99,6 +99,41 @@
 
 	return lines
 
+/proc/build_cool_description_unknown(list/descriptors, mob/living/described)
+	var/list/lines = list()
+	var/list/desc_copy = descriptors.Copy()
+
+	var/first_line = build_coalesce_description(desc_copy, described, list(MOB_DESCRIPTOR_SLOT_HEIGHT, MOB_DESCRIPTOR_SLOT_BODY, MOB_DESCRIPTOR_SLOT_STATURE), "You see %DESC1%, %DESC2% %DESC3%.")
+	if(first_line)
+		lines += first_line
+
+	var/second_line = build_coalesce_description(desc_copy, described, list(MOB_DESCRIPTOR_SLOT_VOICE), "%THEY% %DESC1%.")
+	if(second_line)
+		lines += second_line
+
+	var/third_line = build_coalesce_description(desc_copy, described, list(MOB_DESCRIPTOR_SLOT_PROMINENT, MOB_DESCRIPTOR_SLOT_PROMINENT), "%THEY% %DESC1% and %DESC2%.")
+	if(third_line)
+		lines += third_line
+
+	var/fourth_line = build_coalesce_description(desc_copy, described, list(MOB_DESCRIPTOR_SLOT_PROMINENT, MOB_DESCRIPTOR_SLOT_PROMINENT), "%THEY% %DESC1% and %DESC2%.")
+	if(fourth_line)
+		lines += fourth_line
+
+	var/fifth = build_coalesce_description(desc_copy, described, list(MOB_DESCRIPTOR_SLOT_PENIS, MOB_DESCRIPTOR_SLOT_TESTICLES), "%THEY% %DESC1% and %DESC2%.")
+	if(fifth)
+		lines += fifth
+
+	var/sixth = build_coalesce_description(desc_copy, described, list(MOB_DESCRIPTOR_SLOT_BREASTS, MOB_DESCRIPTOR_SLOT_VAGINA), "%THEY% %DESC1% and %DESC2%.")
+	if(sixth)
+		lines += sixth
+
+	for(var/descriptor_type in desc_copy)
+		var/datum/mob_descriptor/descriptor = MOB_DESCRIPTOR(descriptor_type)
+		if(descriptor.show_obscured)
+			lines += treat_mob_descriptor_string(descriptor.get_standalone_text(described), described)
+
+	return lines
+
 /proc/build_coalesce_description(list/descriptors, mob/living/described, list/slots, string)
 	var/list/descs = described.get_descriptor_slot_list(slots, descriptors)
 	if(!descs)
@@ -109,6 +144,22 @@
 		var/desc_type = descs[i]
 		var/datum/mob_descriptor/descriptor = MOB_DESCRIPTOR(desc_type)
 		string = replacetext(string, "%DESC[i]%", descriptor.get_coalesce_text(described, used_verbage))
+		var/used_verb = descriptor.get_verbage(described)
+		if(used_verb)
+			used_verbage |= used_verb
+	string = treat_mob_descriptor_string(string, described)
+	return string
+
+/proc/build_coalesce_description_nofluff(list/descriptors, mob/living/described, list/slots, string)
+	var/list/descs = described.get_descriptor_slot_list(slots, descriptors)
+	if(!descs)
+		return
+	var/list/used_verbage = list()
+	descriptors -= descs
+	for(var/i in 1 to descs.len)
+		var/desc_type = descs[i]
+		var/datum/mob_descriptor/descriptor = MOB_DESCRIPTOR(desc_type)
+		string = replacetext(string, "%DESC[i]%", descriptor.get_coalesce_text_nofluff(described))
 		var/used_verb = descriptor.get_verbage(described)
 		if(used_verb)
 			used_verbage |= used_verb

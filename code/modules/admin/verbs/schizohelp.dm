@@ -41,7 +41,6 @@ GLOBAL_LIST_EMPTY_TYPED(schizohelps, /datum/schizohelp)
 	var/static/list/possible_nouns = list(
 		"Fool",
 		"Madman",
-		"Nimrod",
 		"Lunatic",
 		"Imbecile",
 		"Simpleton",

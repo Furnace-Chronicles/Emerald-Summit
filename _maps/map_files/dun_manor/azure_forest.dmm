@@ -2400,8 +2400,7 @@
 /area/rogue/under/cave/dungeon1/gethsmane)
 "tL" = (
 /obj/structure/table/wood{
-	icon_state = "tablewood1";
-	dir = 1
+	icon_state = "tablewood1"
 	},
 /turf/open/floor/rogue/greenstone,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
@@ -3683,8 +3682,7 @@
 /area/rogue/under/cave/dungeon1/gethsmane)
 "DU" = (
 /obj/structure/table/wood{
-	icon_state = "tablewood1";
-	dir = 1
+	icon_state = "tablewood1"
 	},
 /obj/structure/vine,
 /turf/open/floor/rogue/greenstone,
@@ -3892,7 +3890,6 @@
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "FE" = (
 /obj/structure/table/wood{
-	dir = 1;
 	icon_state = "tablewood1"
 	},
 /turf/open/floor/rogue/twig,
@@ -4095,8 +4092,7 @@
 /area/rogue/indoors/shelter/woods)
 "Hi" = (
 /obj/structure/table/wood{
-	icon_state = "tablewood1";
-	dir = 1
+	icon_state = "tablewood1"
 	},
 /obj/item/reagent_containers/glass/bottle/rogue/wine,
 /turf/open/floor/rogue/hexstone,
@@ -5263,8 +5259,7 @@
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "Ra" = (
 /obj/structure/table/wood{
-	icon_state = "tablewood1";
-	dir = 1
+	icon_state = "tablewood1"
 	},
 /turf/open/floor/rogue/greenstone,
 /area/rogue/under/cave/dungeon1/gethsmane)
@@ -5964,8 +5959,7 @@
 /area/rogue/outdoors/woods)
 "WD" = (
 /obj/structure/table/wood{
-	icon_state = "tablewood1";
-	dir = 1
+	icon_state = "tablewood1"
 	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/shelter/woods)
@@ -6002,8 +5996,7 @@
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "WT" = (
 /obj/structure/table/wood{
-	icon_state = "tablewood1";
-	dir = 1
+	icon_state = "tablewood1"
 	},
 /obj/item/reagent_containers/glass/bottle/rogue/healthpot,
 /obj/item/reagent_containers/glass/bottle/rogue/wine,

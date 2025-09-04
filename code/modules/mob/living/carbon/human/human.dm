@@ -45,6 +45,17 @@
 					underwear.forceMove(get_turf(src))
 					src.put_in_hands(underwear)
 					underwear = null
+		if((user.zone_selected == BODY_ZONE_L_LEG) || (user.zone_selected == BODY_ZONE_R_LEG))
+			if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
+				if(!legwear_socks)
+					return
+				src.visible_message(span_notice("[src] begins to take off [legwear_socks]..."))
+				if(do_after(user, 30, needhand = 1, target = src))
+					var/obj/item/bodypart/chest = get_bodypart(BODY_ZONE_CHEST)
+					chest.remove_bodypart_feature(legwear_socks.legwears_feature)
+					legwear_socks.forceMove(get_turf(src))
+					src.put_in_hands(legwear_socks)
+					legwear_socks = null
 #endif
 
 /mob/living/carbon/human/Initialize()
@@ -135,7 +146,7 @@
 				stat("Vitae:", VDL.vitae)
 		else
 			var/datum/antagonist/vampire/VD = mind.has_antag_datum(/datum/antagonist/vampire)
-			if(VD && VD.wretch_antag)
+			if(VD)
 				if(statpanel("Stats"))
 					stat("Vitae:", VD.vitae)
 		if((mind.assigned_role == "Orthodoxist") || (mind.assigned_role == "Inquisitor"))
@@ -276,6 +287,9 @@
 #ifdef MATURESERVER
 	if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
 		dat += "<tr><td><BR><B>Underwear:</B> <A href='?src=[REF(src)];undiesthing=1'>[!underwear ? "Nothing" : "Remove"]</A></td></tr>"
+	dat += "<tr><td><hr></td></tr>"
+	if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
+		dat += "<tr><td><BR><B>Legwear:</B> <A href='?src=[REF(src)];legwearsthing=1'>[!legwear_socks ? "Nothing" : "Remove"]</A></td></tr>"
 #endif
 
 	dat += {"</table>"}
@@ -292,18 +306,6 @@
 
 /mob/living/carbon/human/proc/canUseHUD()
 	return (mobility_flags & MOBILITY_USE)
-
-///Checking if the unit can bite
-/mob/living/carbon/human/proc/can_bite()
-	//if(mouth?.muteinmouth && mouth?.type != /obj/item/grabbing/bite) //This one allows continued first biting rather than having to chew
-	if(mouth?.muteinmouth)
-		return FALSE
-	for(var/obj/item/grabbing/grab in grabbedby) //Grabbed by the mouth
-		if(grab.sublimb_grabbed == BODY_ZONE_PRECISE_MOUTH)
-			return FALSE
-
-	return TRUE
-
 
 /mob/living/carbon/human/can_inject(mob/user, error_msg, target_zone, penetrate_thick = 0)
 	. = 1 // Default to returning true.
@@ -441,6 +443,18 @@
 			R.fields["name"] = newname
 
 /mob/living/carbon/human/get_total_tint()
+	if(isdullahan(src))
+		var/datum/species/dullahan/species = dna.species
+		var/obj/item/bodypart/head/dullahan/user_head = species.my_head
+		if(species.headless && user_head)
+			var/obj/item/organ/dullahan_vision/vision = getorganslot(ORGAN_SLOT_HUD)
+
+			if(vision && vision.viewing_head && user_head.eyes)
+				. = user_head.eyes.tint
+			else
+				. = INFINITY
+			return
+
 	. = ..()
 	if(glasses)
 		. += glasses.tint
@@ -611,7 +625,7 @@
 	..()
 
 /mob/living/carbon/human/vomit(lost_nutrition = 10, blood = 0, stun = 1, distance = 0, message = 1, toxic = 0)
-	if(blood && (NOBLOOD in dna.species.species_traits) && !HAS_TRAIT(src, TRAIT_TOXINLOVER))
+	if(blood && (NOBLOOD in dna.species.species_traits) && !HAS_TRAIT(src, TRAIT_TOXINLOVER) && !HAS_TRAIT(src, TRAIT_NOMETABOLISM))
 		if(message)
 			visible_message(span_warning("[src] dry heaves!"), \
 							span_danger("I try to throw up, but there's nothing in your stomach!"))
@@ -710,22 +724,27 @@
 			admin_ticket_log("[key_name_admin(usr)] has modified the bodyparts of [src] to [result]")
 			set_species(newtype)
 
-/mob/living/carbon/human/MouseDrop_T(mob/living/target, mob/living/user)
-	if(pulling == target && stat == CONSCIOUS)
-		//If they dragged themselves and we're currently aggressively grabbing them try to piggyback (not on cmode)
-		if(user == target && can_piggyback(target))
-			if(cmode)
-				to_chat(target, span_warning("[src] won't let you on!"))
-				return FALSE
-			piggyback(target)
-			return TRUE
-		//If you dragged them to you and you're aggressively grabbing try to carry them
-		else if(user != target && can_be_firemanned(target))
-			var/obj/G = get_active_held_item()
-			if(G)
-				if(istype(G, /obj/item/grabbing))
-					fireman_carry(target)
-					return TRUE
+/mob/living/carbon/human/MouseDrop_T(atom/dragged, mob/living/user)
+	if(istype(dragged, /mob/living))
+		var/mob/living/target = dragged
+		if(pulling == target && stat == CONSCIOUS)
+			//If they dragged themselves and we're currently aggressively grabbing them try to piggyback (not on cmode)
+			if(user == target && can_piggyback(target))
+				if(cmode)
+					to_chat(target, span_warning("[src] won't let you on!"))
+					return FALSE
+				piggyback(target)
+				return TRUE
+			//If you dragged them to you and you're aggressively grabbing try to carry them
+			else if(user != target && can_be_firemanned(target))
+				var/obj/G = get_active_held_item()
+				if(G)
+					if(istype(G, /obj/item/grabbing))
+						fireman_carry(target)
+						return TRUE
+	else if(istype(dragged, /obj/item/bodypart/head/dullahan/))
+		var/obj/item/bodypart/head/dullahan/item_head = dragged
+		item_head.show_inv(user)
 	. = ..()
 
 //src is the user that will be carrying, target is the mob to be carried

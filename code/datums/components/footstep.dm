@@ -59,13 +59,13 @@
 	if(steps >= 6)
 		steps = 0
 
-	if(steps % 2)
+	if(steps % 2 && LM.m_intent == MOVE_INTENT_WALK && islamia(LM) || steps % 3 && LM.m_intent == MOVE_INTENT_RUN && islamia(LM) || steps % 2 && !islamia(LM))
 		return
 
 	if(steps != 0 && !LM.has_gravity(T)) // don't need to step as often when you hop around
 		return
 	return T
-
+var/list/kick_verb
 /datum/component/footstep/proc/play_simplestep()
 	var/turf/open/T = prepare_step()
 	if(!T)
@@ -102,7 +102,7 @@
 	var/list/used_footsteps
 	var/obj/item/clothing/shoes/humshoes = H.shoes
 
-	if((humshoes && !humshoes?.is_barefoot) || feetCover) //are we wearing shoes, and do they actually cover the sole
+	if((humshoes && !humshoes?.is_barefoot) && !islamia(H) || feetCover && !islamia(H)) //are we wearing shoes, and do they actually cover the sole
 		//SANITY CHECK, WILL NOT PLAY A SOUND IF THE LIST IS INVALID
 		if(!GLOB.footstep[T.footstep] || (LAZYLEN(GLOB.footstep[T.footstep]) < 3))
 			testing("SOME silly guy GAVE AN INVALID FOOTSTEP VALUE ([T.footstep]) TO [T.type]!!! FIX THIS SHIT!!!")
@@ -120,20 +120,38 @@
 			GLOB.footstep[T.footstep][2],
 			FALSE,
 			GLOB.footstep[T.footstep][3] + e_range)
+//	if(!islamia(H))
 	else
 		//SANITY CHECK, WILL NOT PLAY A SOUND IF THE LIST IS INVALID
 		if(!GLOB.barefootstep[T.barefootstep] || (LAZYLEN(GLOB.barefootstep[T.barefootstep]) < 3))
 			testing("SOME silly guy GAVE AN INVALID BAREFOOTSTEP VALUE ([T.barefootstep]) TO [T.type]!!! FIX THIS SHIT!!!")
 			return
-		used_footsteps = GLOB.barefootstep[T.barefootstep][1]
-		used_footsteps = used_footsteps.Copy()
-		used_sound = pick_n_take(used_footsteps)
-		if(used_sound == last_sound)
-			used_sound = pick(used_footsteps)
-		if(!used_sound)
-			used_sound = last_sound
-		last_sound = used_sound
-		playsound(T, used_sound,
-			GLOB.barefootstep[T.barefootstep][2],
-			TRUE,
-			GLOB.barefootstep[T.barefootstep][3] + e_range)
+		if(!islamia(H))
+			used_footsteps = GLOB.barefootstep[T.barefootstep][1]
+			used_footsteps = used_footsteps.Copy()
+			used_sound = pick_n_take(used_footsteps)
+			if(used_sound == last_sound)
+				used_sound = pick(used_footsteps)
+			if(!used_sound)
+				used_sound = last_sound
+			last_sound = used_sound
+			playsound(T, used_sound,
+				GLOB.barefootstep[T.barefootstep][2],
+				TRUE,
+				GLOB.barefootstep[T.barefootstep][3] + e_range)
+		else
+			used_footsteps = list(
+				'sound/foley/footsteps/lamia_slither (1).ogg',
+				'sound/foley/footsteps/lamia_slither (2).ogg',
+				'sound/foley/footsteps/lamia_slither (3).ogg',
+			)
+			used_footsteps = used_footsteps.Copy()
+			used_sound = pick_n_take(used_footsteps)
+			if(used_sound == last_sound)
+				used_sound = pick(used_footsteps)
+			if(!used_sound)
+				used_sound = last_sound
+			last_sound = used_sound
+			volume = rand(40, 85)
+			e_range = rand(1, 3)
+			playsound(T, used_sound, "vol" = volume, "extrarange" = e_range)

@@ -30,7 +30,16 @@
 		if(HAS_TRAIT(L, TRAIT_KNEESTINGER_IMMUNITY)) //Dendor kneestinger immunity
 			return TRUE
 
-		if(L.electrocute_act(30, src))
+		if(L.mind)
+			if(world.time > L.last_client_interact + 0.2 SECONDS)
+				return FALSE
+
+		var/electrodam = 30
+		if(world.time < (L.mob_timers["kneestinger"] + 30 SECONDS))
+			electrodam = 15
+
+		if(L.electrocute_act(electrodam, src))
+			L.mob_timers["kneestinger"] = world.time
 			src.take_damage(15)
 			L.consider_ambush(always = TRUE)
 			if(L.throwing)
@@ -46,6 +55,9 @@
 	var/mob/living/victim = movable_victim
 	if(HAS_TRAIT(victim, TRAIT_KNEESTINGER_IMMUNITY)) //Dendor kneestinger immunity
 		return FALSE
+	if(victim.mind)
+		if(world.time > victim.last_client_interact + 0.2 SECONDS)
+			return FALSE
 	if(victim.throwing)	//Exemption from floor hazard, you're thrown over it.
 		victim.throwing.finalize(FALSE)
 	//if(victim.is_floor_hazard_immune)	//Floating, flying, etc
@@ -56,7 +68,11 @@
 	if(!isliving(movable_victim))
 		return FALSE
 	var/mob/living/victim = movable_victim
-	if(victim.electrocute_act(30, src))
+	var/electrodam = 30
+	if(world.time < (victim.mob_timers["kneestinger"] + 30 SECONDS))
+		electrodam = 15
+	if(victim.electrocute_act(electrodam, src))
+		victim.mob_timers["kneestinger"] = world.time
 		victim.emote("painscream")
 		victim.update_sneak_invis(TRUE)
 		victim.consider_ambush(always = TRUE)
@@ -113,3 +129,15 @@
 	var/obj/effect/decal/cleanable/molten_object/I = new (get_turf(src))
 	I.desc = ""
 	qdel(src)
+
+/obj/structure/glowshroom/dendorite
+	var/timeleft = 5 MINUTES
+
+/obj/structure/glowshroom/dendorite/Initialize()
+	. = ..()
+	if(timeleft)
+		QDEL_IN(src, timeleft)
+
+/obj/structure/glowshroom/dendorite/attackby(obj/item/W, mob/user, params)
+	// Dendorite glowshrooms don't electrocute when hit
+	. = ..()

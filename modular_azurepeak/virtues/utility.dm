@@ -28,6 +28,8 @@
 	desc = "Wherever I go, I turn heads, such is my natural beauty. I am also rather good in bed, though they always say that."
 	custom_text = "Incompatible with Ugly virtue."
 	added_traits = list(TRAIT_BEAUTIFUL, TRAIT_GOODLOVER)
+	added_stashed_items = list(
+		"Hand Mirror" = /obj/item/handmirror)
 
 /datum/virtue/utility/beautiful/handle_traits(mob/living/carbon/human/recipient)
 	..()
@@ -142,7 +144,8 @@
 		/datum/language/otavan,
 		/datum/language/etruscan,
 		/datum/language/gronnic,
-		/datum/language/aavnic
+		/datum/language/aavnic,
+		/datum/language/abyssal
 	)
 
 	var/list/choices = list()
@@ -171,14 +174,6 @@
 
 /*/datum/virtue/utility/deathless/apply_to_human(mob/living/carbon/human/recipient)
 	recipient.mob_biotypes |= MOB_UNDEAD*/
-
-/datum/virtue/utility/ritualist
-	name = "Ritualist"
-	desc = "I am in tune with my god, more than others. I can perform rituals to strengthen my bond with them."
-	added_traits = list(TRAIT_RITUALIST)
-	added_stashed_items = list(
-		"Ritual Chalk" = /obj/item/ritechalk
-		)
 
 /datum/virtue/utility/blacksmith
 	name = "Blacksmith's Apprentice"

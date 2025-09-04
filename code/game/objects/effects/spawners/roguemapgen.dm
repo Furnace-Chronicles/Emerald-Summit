@@ -74,6 +74,7 @@
 /obj/effect/spawner/lootdrop/potion_vitals
 	icon_state = "lootpotion"
 	spawned = list(
+		/obj/item/reagent_containers/glass/bottle/rogue/berrypoison = 10,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 10,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpotnew = 5,
 		/obj/item/reagent_containers/glass/bottle/rogue/manapot = 10,

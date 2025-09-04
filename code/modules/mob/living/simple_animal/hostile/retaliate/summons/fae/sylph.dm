@@ -81,7 +81,7 @@
 		return
 	for(var/turf/turf as anything in RANGE_TURFS(3,src.loc))
 		if(prob(30))
-			new /obj/structure/glowshroom(turf)
+			new /obj/structure/glowshroom/dendorite(turf)
 
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/sylph/death(gibbed)
@@ -93,9 +93,6 @@
 	new /obj/item/magic/melded/t2(deathspot)
 	new /obj/item/magic/iridescentscale(deathspot)
 	new /obj/item/magic/heartwoodcore(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)

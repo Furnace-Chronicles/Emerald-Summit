@@ -411,6 +411,7 @@
 #define SKIN_COLOR_OBSIDIAN "3b2e27"
 #define SKIN_COLOR_BRIMSTONE "271f1a"
 #define SKIN_COLOR_JADE "d6bea9"
+#define SKIN_COLOR_CERAGYRITE "4c4a4f"
 
 //DARK ELF SKIN TONES
 #define SKIN_COLOR_COMMORAH "9796a9"
@@ -420,6 +421,9 @@
 #define SKIN_COLOR_LLURTH_DREIR "6a616d"
 #define SKIN_COLOR_TAFRAVMA "5f5f70"
 #define SKIN_COLOR_YUETHINDRYNN "2f2f38"
+#define SKIN_COLOR_KOREDYNN "242871"
+#define SKIN_COLOR_AISEEDRYNN "a3c1c9"
+#define SKIN_COLOR_GRENDUSKRA "969696"
 
 //WOOD ELF SKIN TONES
 #define SKIN_COLOR_GHOST "ffffff"
@@ -451,6 +455,14 @@
 #define SKIN_COLOR_EBON "4e3729"
 #define SKIN_COLOR_KAZENGUN "dbcca9"
 #define SKIN_COLOR_NALEDI_LIGHT "5d4c41"
+
+//DULLAHAN SKIN TONES
+#define SKIN_COLOR_PALE_GRENZELHOFT "ebdad2"
+#define SKIN_COLOR_PALE_HAMMERHOLD "ffe0d1"
+#define SKIN_COLOR_PALE_EBON "54463d"
+#define SKIN_COLOR_PALE_KAZENGUN "c9a893"
+
+
 
 //AASIMAR SKIN TONES
 #define SKIN_COLOR_CULTOR "b5a4a4"
@@ -506,6 +518,7 @@
 #define SKIN_COLOR_CHYERNO "252e41"
 #define SKIN_COLOR_DREMA "D16A51"
 #define SKIN_COLOR_CHIR "549ab6"
+#define SKIN_COLOR_VESYL "7A2525"
 
 //GOBLIN SKIN TONES
 #define SKIN_COLOR_OCHRE "968127"
@@ -553,6 +566,32 @@
 #define WHITEBROWN_FUR "c69b83"
 #define DARKBROWN_FUR "3b2e27"
 #define BLACK_FUR	 "271f1a"
+
+//GOLEM MATERIALS
+#define GOLEM_BRASS "dfbd6c"
+#define GOLEM_IRON "525352"
+#define GOLEM_STEEL  "babbb9"
+#define GOLEM_BRONZE "e2a670"
+#define GOLEM_COAL "1f1f1f"
+#define GOLEM_COBALT "323666"
+#define GOLEM_GRANITE "ff8f8f"
+#define GOLEM_JADE "517051"
+#define GOLEM_AMETHYST "3a0b3d"
+#define GOLEM_CORAL "ff96d6" //Pink
+#define GOLEM_LIMESTONE "e6e4d8" //Tan
+#define GOLEM_SILVER "94B9C0" //Ice grey, at least that's what microsoft paint says
+#define GOLEM_COPPER "b87333" //Orange
+#define GOLEM_GOLD "d4af37" //Gold
+#define GOLEM_RUST "B71F1F" //Dark red
+#define GOLEM_OBSIDIAN "19132a" //Black
+#define GOLEM_LAPIS "26619C" //Deep blue
+#define GOLEM_BASALT "474a4c" //Dark grey
+#define GOLEM_MARBLE "E6E6E6" //White
+#define GOLEM_TOPER "fffb9e"
+
+//DOLL PAINT COLOR
+#define DOLL_PORCELAIN "ffffff"
+#define DOLL_SIENNA "a0522d"
 
 // Pixel shifting
 #define PIXEL_SHIFT_MAXIMUM 16

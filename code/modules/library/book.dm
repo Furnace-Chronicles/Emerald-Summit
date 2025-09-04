@@ -32,7 +32,7 @@
 	grid_height = 64
 
 //Destroyer of knowledge - for storytellers
-/obj/item/book/fire_act()
+/obj/item/book/burn()
 	GLOB.scarlet_round_stats[STATS_BOOKS_BURNED]++
 	..()
 

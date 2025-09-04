@@ -348,12 +348,12 @@
 	character.set_patron(/datum/patron/godless)
 
 //negative
-/datum/special_trait/nimrod
-	name = "Nimrod"
+/datum/special_trait/foolish
+	name = "Fool"
 	greet_text = span_boldwarning("In the past I learned slower than my peers, and I tend to be clumsy.")
 	weight = 100
 
-/datum/special_trait/nimrod/on_apply(mob/living/carbon/human/character, silent)
+/datum/special_trait/foolish/on_apply(mob/living/carbon/human/character, silent)
 	character.change_stat("speed", -2)
 	character.change_stat("intelligence", -4)
 

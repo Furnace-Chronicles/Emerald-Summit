@@ -209,14 +209,42 @@
 	if(lay)
 		layer = lay
 
+/obj/structure/fluff/railing/border/north
+	dir = 1
+
+/obj/structure/fluff/railing/border/east
+	dir = 4
+
+/obj/structure/fluff/railing/border/west
+	dir = 8
+
 /obj/structure/fluff/railing/corner
-	icon_state = "railing_corner"
+	icon_state = "border"
 	density = FALSE
+	dir = 9
+
+/obj/structure/fluff/railing/corner/north_east
+	dir = 5
+
+/obj/structure/fluff/railing/corner/south_west
+	dir = 10
+
+/obj/structure/fluff/railing/corner/south_east
+	dir = 6
 
 /obj/structure/fluff/railing/wood
 	icon_state = "woodrailing"
 	blade_dulling = DULLING_BASHCHOP
 	layer = ABOVE_MOB_LAYER
+
+/obj/structure/fluff/railing/wood/north
+	dir = 1
+
+/obj/structure/fluff/railing/wood/east
+	dir = 4
+
+/obj/structure/fluff/railing/wood/west
+	dir = 8
 
 /obj/structure/fluff/railing/stonehedge
 	icon_state = "stonehedge"
@@ -675,13 +703,6 @@
 	name = "sign"
 	desc = ""
 	icon = 'icons/roguetown/misc/structure.dmi'
-/obj/structure/fluff/sellsign/examine(mob/user)
-	. = ..()
-	if(!user.is_literate())
-		. += "I have no idea what it says."
-	else
-		. += "It says \"EXPORTS\""
-
 
 /obj/structure/fluff/customsign
 	name = "sign"
@@ -804,6 +825,18 @@
 	name = "ornamental astrata statue"
 	desc = "An ornamental stone statue of the sun Goddess Astrata, decorated with golden jewelry. Bless."
 	icon_state = "astrata_bling"
+
+/obj/structure/fluff/statue/abyssor
+	name = "abyssor statue"
+	desc = "A slate statue of the ancient god abyssor. One of many depictions drawn from a dream no doubt. This particular one is horrifying to look at."
+	icon_state = "abyssor"
+	icon = 'icons/roguetown/misc/tallandwide.dmi'
+	pixel_x = -16
+
+/obj/structure/fluff/statue/abyssor/dolomite
+	name = "abyssor statue"
+	desc = "A rare dolomite statue of the ancient god abyssor. Hewn from bleached rock as if the shimmer makes his faceless gaze any less terrifying."
+	icon_state = "abyssor_dolomite"
 
 /obj/structure/fluff/statue/knight/r
 	icon_state = "knightstatue_r"
@@ -950,7 +983,7 @@
 		/obj/item/reagent_containers/glass/cup,
 		/obj/item/roguestatue,
 		/obj/item/riddleofsteel,
-		/obj/item/listenstone,
+		/obj/item/scomstone/listenstone,
 		/obj/item/clothing/neck/roguetown/shalal,
 		/obj/item/clothing/neck/roguetown/horus,
 		/obj/item/rogue/painting,
@@ -965,7 +998,6 @@
 		/obj/item/kitchen/spoon/silver,
 		/obj/item/candle/candlestick/gold,
 		/obj/item/candle/candlestick/silver,
-		/obj/item/reagent_containers/lux,
 		/obj/item/rogueweapon/sword/long/judgement, // various unique weapons around from a few roles follows. Don't lose your fancy toys.... 
 		/obj/item/rogueweapon/sword/long/oathkeeper,
 		/obj/item/rogueweapon/woodstaff/riddle_of_steel/magos, //bit dumb for a bandit mage to toss this toy away but whatever
@@ -1019,7 +1051,6 @@
 	layer = BELOW_MOB_LAYER
 	max_integrity = 100
 	sellprice = 40
-	flags_1 = HEAR_1
 	var/chance2hear = 30
 	buckleverb = "crucifie"
 	can_buckle = 1
@@ -1030,6 +1061,14 @@
 	buckle_prevents_pull = 1
 	var/divine = TRUE
 	obj_flags = UNIQUE_RENAME | CAN_BE_HIT
+
+/obj/structure/fluff/psycross/Initialize()
+	. = ..()
+	become_hearing_sensitive()
+
+/obj/structure/fluff/psycross/Destroy()
+	lose_hearing_sensitivity()
+	return ..()
 
 /obj/structure/fluff/psycross/post_buckle_mob(mob/living/M)
 	..()

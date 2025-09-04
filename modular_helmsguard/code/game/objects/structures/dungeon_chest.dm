@@ -73,14 +73,14 @@
 		// Garbage and Miscellanous
 		/obj/item/rogue/instrument/flute = 30,
 		/obj/item/ash = 50,
-		/obj/item/natural/glass/shard = 50,
+		/obj/item/natural/glass_shard = 50,
 		/obj/item/candle/yellow = 30,
 		/obj/item/flashlight/flare/torch = 30,
 		/obj/item/reagent_containers/glass/bowl = 40,
 		/obj/item/reagent_containers/glass/cup = 40,
 		/obj/item/reagent_containers/glass/cup/wooden = 40,
 		/obj/item/reagent_containers/glass/cup/steel = 30,
-		/obj/item/reagent_containers/glass/cup/golden = 10,
+		/obj/item/reagent_containers/glass/cup/golden/small = 10,
 		/obj/item/reagent_containers/glass/cup/skull = 10,
 		/obj/item/reagent_containers/glass/bucket/wooden = 30,
 		/obj/item/natural/feather = 40,
@@ -489,7 +489,7 @@
 		/obj/item/clothing/ring/diamond = 15,
 
 		/obj/item/riddleofsteel = 15,
-		/obj/item/listenstone = 15,
+		/obj/item/scomstone/listenstone = 15,
 				)
 
 	var/I = pickweight(loot)
@@ -589,7 +589,7 @@
 		/obj/item/clothing/ring/diamond = 15,
 
 		/obj/item/riddleofsteel = 15,
-		/obj/item/listenstone = 15,
+		/obj/item/scomstone/listenstone = 15,
 
 		/obj/item/book/granter/spell/blackstone/fireball = 15,
 		/obj/item/book/granter/spell/blackstone/greaterfireball = 15,

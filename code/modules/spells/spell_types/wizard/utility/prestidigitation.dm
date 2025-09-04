@@ -34,6 +34,7 @@
 	var/motespeed = 20 // mote summoning speed
 	var/sparkspeed = 30 // spark summoning speed
 	var/spark_cd = 0
+	var/gatherspeed = 35
 
 /obj/item/melee/touch_attack/prestidigitation/Initialize()
 	. = ..()
@@ -50,14 +51,18 @@
 /obj/item/melee/touch_attack/prestidigitation/afterattack(atom/target, mob/living/carbon/user, proximity)
 	switch (user.used_intent.type)
 		if (INTENT_HELP) // Clean something like a bar of soap
-			handle_cost(user, PRESTI_CLEAN)
-			clean_thing(target, user)
+			if(istype(target, /obj/structure/well/fountain/mana) || istype(target, /turf/open/lava))
+				if(gather_thing(target, user))
+					handle_cost(user, PRESTI_CLEAN)
+					return
+			if(clean_thing(target, user))
+				handle_cost(user, PRESTI_CLEAN)
 		if (INTENT_DISARM) // Snap your fingers and produce a spark
-			handle_cost(user, PRESTI_SPARK)
-			create_spark(user, target)
+			if(create_spark(user, target))
+				handle_cost(user, PRESTI_SPARK)
 		if (/datum/intent/use) // Summon an orbiting arcane mote for light
-			handle_cost(user, PRESTI_MOTE)
-			handle_mote(user)
+			if(handle_mote(user))
+				handle_cost(user, PRESTI_MOTE)
 
 /obj/item/melee/touch_attack/prestidigitation/proc/handle_cost(mob/living/carbon/human/user, action)
 	// handles fatigue/stamina deduction, this stuff isn't free - also returns the cost we took to use for xp calculations
@@ -154,6 +159,21 @@
 			return TRUE
 		return FALSE
 
+/obj/item/melee/touch_attack/prestidigitation/proc/gather_thing(atom/target, mob/living/carbon/human/user)
+
+	var/skill_level = user.get_skill_level(attached_spell.associated_skill)
+	gatherspeed = initial(gatherspeed) - (skill_level * 3) // 3 cleanspeed per skill level, from 35 down to a maximum of 17 (pretty quick)
+	var/turf/Turf = get_turf(target)
+	if (istype(target, /obj/structure/well/fountain/mana))
+		if (do_after(user, src.gatherspeed, target = target))
+			to_chat(user, span_notice("I mold the liquid mana in \the [target.name] with my arcane power, crystalizing it!"))
+			new /obj/item/magic/manacrystal(Turf)
+	if (istype(target, /turf/open/lava))
+		if (do_after(user, src.gatherspeed, target = target))
+			to_chat(user, span_notice("I mold a handful of oozing lava  with my arcane power, rapidly hardening it!"))
+			new /obj/item/magic/obsidian(user.loc)
+
+// Intents for prestidigitation
 // Intents for prestidigitation
 
 /obj/effect/wisp/prestidigitation

@@ -10,7 +10,7 @@
 
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	tutorial = ""
+	tutorial = "You are bygone. Your will belongs to your master. Fulfil and kill."
 
 	spells = list(/obj/effect/proc_holder/spell/invoked/projectile/lightningbolt, /obj/effect/proc_holder/spell/invoked/projectile/fetch)
 	outfit = /datum/outfit/job/roguetown/deathknight
@@ -72,13 +72,19 @@
 		ADD_TRAIT(H, TRAIT_NOSLEEP, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SHOCKIMMUNE, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-		ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
-		for(var/obj/item/bodypart/B in H.bodyparts)
-			B.skeletonize(FALSE)
+		ADD_TRAIT(H, TRAIT_ARCYNE_T3, TRAIT_GENERIC)
 		H.update_body()
 
 /datum/outfit/job/roguetown/deathknight/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.set_patron(/datum/patron/inhumen/zizo) // the skeleton approaches
+	H.possible_rmb_intents = list(/datum/rmb_intent/feint,\
+	/datum/rmb_intent/aimed,\
+	/datum/rmb_intent/riposte,\
+	/datum/rmb_intent/strong,\
+	/datum/rmb_intent/weak)
+	H.swap_rmb_intent(num=1)
+
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
@@ -87,17 +93,19 @@
 	H.adjust_skillrank(/datum/skill/misc/riding, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
-	H?.mind.adjust_spellpoints(18)
+	H.mind.adjust_spellpoints(18)
 
-
+	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	neck = /obj/item/clothing/neck/roguetown/bevor
 	belt = /obj/item/storage/belt/rogue/leather
-	pants = /obj/item/clothing/under/roguetown/platelegs/blk/death
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/blkknight
+	pants = /obj/item/clothing/under/roguetown/platelegs/zizo
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/blkknight/death
-	gloves = /obj/item/clothing/gloves/roguetown/plate/blk/death
-	backl = /obj/item/rogueweapon/sword/long/death
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/black
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/zizo // unremovable darksteel; as opposed to giving them lootable blacksteel
+	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
+	belt = /obj/item/storage/belt/rogue/leather/black
+	backl = /obj/item/rogueweapon/sword/long/zizo
 
 	H.change_stat("intelligence", 3)
 	H.change_stat("strength", 2)
@@ -109,15 +117,3 @@
 
 	var/datum/antagonist/new_antag = new /datum/antagonist/skeleton/knight()
 	H.mind.add_antag_datum(new_antag)
-
-/obj/item/clothing/suit/roguetown/armor/plate/blkknight/death
-	color = CLOTHING_BLACK
-
-/obj/item/clothing/shoes/roguetown/boots/armor/blkknight/death
-	color = CLOTHING_BLACK
-
-/obj/item/clothing/gloves/roguetown/plate/blk/death
-	color = CLOTHING_BLACK
-
-/obj/item/clothing/under/roguetown/platelegs/blk/death
-	color = CLOTHING_BLACK

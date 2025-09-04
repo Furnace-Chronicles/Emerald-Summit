@@ -61,7 +61,7 @@
 		to_chat(user, span_boldwarning("You focus your thoughts on the orb, but feel a sharp pain!"))
 		visible_message("\The [src] shatters!")
 		user.flash_fullscreen("redflash1")
-		new /obj/item/natural/glass/shard(get_turf(src))
+		new /obj/item/natural/glass_shard(get_turf(src))
 		playsound(src, "shatter", 70, TRUE)
 		qdel(src)
 		return
@@ -76,6 +76,7 @@
 				return
 			message_admins("SCRYING: [user.real_name] ([user.ckey]) has used the scrying orb to leer at [HL.real_name] ([HL.ckey])")
 			log_game("SCRYING: [user.real_name] ([user.ckey]) has used the scrying orb to leer at [HL.real_name] ([HL.ckey])")
+			ADD_TRAIT(user, TRAIT_NOSSDINDICATOR, "scryingorb")
 			var/mob/dead/observer/screye/S = user.scry_ghost()
 			if(!S)
 				return
@@ -93,6 +94,7 @@
 					return
 				if(HL.STAPER >= 11)
 					to_chat(HL, span_warning("I feel a pair of unknown eyes on me."))
+			REMOVE_TRAIT(user, TRAIT_NOSSDINDICATOR, "scryingorb")
 			return
 	to_chat(user, span_warning("I peer into the ball, but can't find [input]."))
 	return

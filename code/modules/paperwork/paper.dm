@@ -79,6 +79,7 @@
 
 	var/cached_mailer
 	var/cached_mailedto
+	var/trapped
 
 /obj/item/paper/get_real_price()
 	if(info)
@@ -226,6 +227,14 @@
 		mailedto = null
 		update_icon()
 		return
+	if(trapped)
+		var/mob/living/victim = user
+		victim.visible_message(span_notice("[user] opens the [src]."))
+		to_chat(user, span_warning("This parchment is full of strange symbols that start to glow. How odd. Wait-"))
+		sleep(5)
+		victim.adjust_fire_stacks(15)
+		victim.IgniteMob()
+		victim.visible_message(span_danger("[user] bursts into flames upon reading [src]!"))
 	read(user)
 	if(rigged && (SSevents.holidays && SSevents.holidays[APRIL_FOOLS]))
 		if(!spam_flag)
@@ -359,6 +368,14 @@
 		return
 
 	if(href_list["read"])
+		if(trapped)
+			var/mob/living/victim = usr
+			victim.visible_message(span_notice("[usr] opens the [src]."))
+			to_chat(usr, span_warning("This parchment is full of strange symbols that start to glow. How odd. Wait-"))
+			sleep(5)
+			victim.adjust_fire_stacks(15)
+			victim.IgniteMob()
+			victim.visible_message(span_danger("[usr] bursts into flames upon reading [src]!"))
 		read(usr)
 
 	if(href_list["help"])
@@ -406,6 +423,13 @@
 	if(is_blind(user))
 		return ..()
 
+	if(istype(P, /obj/item/natural/feather/infernal))
+		if(trapped)
+			to_chat(user, span_warning("[src] is already trapped."))
+		else
+			to_chat(user, span_warning("I draw infernal symbols on this [src], rigging it to explode."))
+			trapped = TRUE
+
 	if(istype(P, /obj/item/natural/thorn)|| istype(P, /obj/item/natural/feather))
 		if(length(info) > maxlen)
 			to_chat(user, "<span class='warning'>[src] is full of verba.</span>")
@@ -432,9 +456,37 @@
 				user.put_in_inactive_hand(M)
 			. = ..()
 			return qdel(src)
+	if(!P.can_be_package_wrapped())
+		return ..()
 
-	add_fingerprint(user)
-	return ..()
+	if(!istype(src, /obj/item/paper/inqslip))
+		to_chat(user, span_info("I start to wrap [P] in [src]..."))
+		if(do_after(user, 30, 0, target = src))
+			if(user.is_holding(P))
+				if(!user.dropItemToGround(P))
+					return
+			else if(!isturf(P.loc))
+				return
+			var/obj/item/smallDelivery/D = new /obj/item/smallDelivery(get_turf(P.loc))
+			if(user.Adjacent(D))
+				D.add_fingerprint(user)
+				P.add_fingerprint(user)
+				user.put_in_hands(D)
+			P.forceMove(D)
+			var/size = round(P.w_class)
+			D.name = "[weightclass2text(size)] package"
+			D.w_class = size
+			size = min(size, 5)
+			D.grid_height = P.grid_height
+			D.grid_width = P.grid_width
+			D.icon_state = "deliverypackage[size]"
+			D.note = src
+			forceMove(D)
+
+		add_fingerprint(user)
+		return ..()
+	else
+		return ..()	
 
 /obj/item/paper/fire_act(added, maxstacks)
 	..()
@@ -478,3 +530,87 @@
 
 /obj/item/paper/crumpled/muddy
 	icon_state = "scrap_mud"
+
+/obj/item/smallDelivery
+	name = "package"
+	desc = ""
+	icon = 'icons/roguetown/clothing/storage.dmi'
+	icon_state = "deliverypackage3"
+	item_state = "deliverypackage"
+	var/giftwrapped = 0
+	var/sortTag = 0
+	var/obj/item/paper/note
+
+/obj/item/smallDelivery/contents_explosion(severity, target)
+	for(var/atom/movable/AM in contents)
+		AM.ex_act()
+
+/obj/item/smallDelivery/attack_self(mob/user)
+	user.temporarilyRemoveItemFromInventory(src, TRUE)
+	for(var/X in contents)
+		var/atom/movable/AM = X
+		user.put_in_hands(AM)
+	playsound(src.loc, 'sound/blank.ogg', 50, TRUE)
+	user.visible_message(span_warning("[user] opens [src]."))
+	if(note)
+		note.forceMove(user.loc)
+	qdel(src)
+
+/obj/item/smallDelivery/attack_self_tk(mob/user)
+	if(ismob(loc))
+		var/mob/M = loc
+		M.temporarilyRemoveItemFromInventory(src, TRUE)
+		for(var/X in contents)
+			var/atom/movable/AM = X
+			M.put_in_hands(AM)
+	else
+		for(var/X in contents)
+			var/atom/movable/AM = X
+			AM.forceMove(src.loc)
+	if(note)
+		note.forceMove(user.loc)
+	playsound(src.loc, 'sound/blank.ogg', 50, TRUE)
+	qdel(src)
+
+/obj/item/smallDelivery/examine(mob/user)
+	. = ..()
+	if(note && length(note.info))
+		if(!in_range(user, src))
+			. += "There's a [note.name] attached to it. You can't read it from here."
+		else
+			. += "There's a [note.name] attached to it..."
+			. += note.examine(user)
+	if(mailer)
+		. += "It's from [mailer], addressed to [mailedto].</a>"
+
+/obj/item/smallDelivery/attackby(obj/item/W, mob/user, params)
+	if(istype(W, /obj/item/natural/feather))
+		if(!user.is_literate())
+			to_chat(user, span_notice("I scribble illegibly on the side of [src]!"))
+			return
+		var/str = copytext(sanitize(input(user,"Label text?","Set label","")),1,MAX_NAME_LEN)
+		if(!user.canUseTopic(src, BE_CLOSE))
+			return
+		if(!str || !length(str))
+			to_chat(user, span_warning("Invalid text!"))
+			return
+		user.visible_message(span_notice("[user] labels [src] as [str]."))
+		name = "[name] ([str])"
+
+/obj/item/proc/can_be_package_wrapped() //can the item be wrapped with package wrapper into a delivery package
+	return 1
+
+/obj/item/storage/can_be_package_wrapped()
+	return 0
+
+/obj/item/storage/box/can_be_package_wrapped()
+	return 1
+
+/obj/item/storage/belt/rogue/pouch/can_be_package_wrapped()
+	return 1
+
+/obj/item/smallDelivery/can_be_package_wrapped()
+	return 0
+
+/obj/item/inqarticles/indexer/can_be_package_wrapped()
+	return 0

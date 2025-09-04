@@ -13,6 +13,9 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	selection_color = JCOLOR_CHURCH
 	f_title = "Priestess"
 	allowed_races = RACES_SECOND_CLASS_NO_GOLEM		//Too recent arrivals to ascend to priesthood.
+	disallowed_races = list(
+		/datum/species/lamia,
+	)
 	allowed_patrons = ALL_DIVINE_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
 	tutorial = "The Divine is all that matters in a world of the immoral. The Weeping God left his children to rule over us mortals--and you will preach their wisdom to any who still heed their will. The faithless are growing in number. It is up to you to shepard them toward a Gods-fearing future; for you are a priest of Astrata."
@@ -115,7 +118,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	var/datum/patron/god = god_type[string_choice]
 	mind.RemoveAllSpells()
 	var/datum/devotion/patrondev = new /datum/devotion(src, god)
-	patrondev.grant_miracles(src, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = FALSE)
+	patrondev.grant_miracles(src, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, devotion_limit = CLERIC_REQ_4)
 	if (string_choice == "Astrata")
 		to_chat(src, "<font color='yellow'>HEAVEN SHALL THEE RECOMPENSE. THOU BEARS MYNE POWER ONCE MORE.</font>")
 	else
@@ -238,11 +241,15 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	set category = "Priest"
 	if(stat)
 		return
+	if(!(devotion && devotion.devotion >= 750))
+		to_chat(src, span_warning("I need more devotion to channel Her voice! (750 required)"))
+		return FALSE
 	var/inputty = input("Make an announcement", "SCARLET REACH") as text|null
 	if(inputty)
 		if(!istype(get_area(src), /area/rogue/indoors/town/church/chapel))
 			to_chat(src, span_warning("I need to do this from the chapel."))
 			return FALSE
+		devotion.update_devotion(-750)
 		priority_announce("[inputty]", title = "The Priest Speaks", sound = 'sound/misc/bell.ogg', sender = src)
 
 /mob/living/carbon/human/proc/churcheapostasy()
@@ -378,6 +385,13 @@ GLOBAL_LIST_EMPTY(heretical_players)
             else
                 if (length(H.curses) >= 1)
                     to_chat(src, span_warning("[H.real_name] is already afflicted by another curse."))
+                    return
+
+                // Check if target is a bandit, wretch, lich, or vampire lord - silently fail for outlaws and undead
+                if (H.mind?.assigned_role == "Bandit" || H.mind?.special_role == "Bandit" || H.mind?.assigned_role == "Wretch" || H.mind?.special_role == "Lich" || H.mind?.special_role == "Vampire Lord")
+                    // Curse appears to work but has no effect on outlaws and undead
+                    priority_announce("[real_name] has cursed [H.real_name] with [curse_pick]!", title = "Judgment of the Gods", sound = 'sound/misc/excomm.ogg')
+                    last_curse_time = world.time // set cooldown
                     return
 
                 H.add_curse(curse_type)

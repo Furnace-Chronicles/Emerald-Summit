@@ -334,6 +334,7 @@ var/global/list/anvil_recipe_prices[][]
 	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/flute, 10))
 	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/drum, 10))
 	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/harp, 20))
+	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/trumpet, 20))
 	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/lute, 20))
 	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/guitar, 30))
 	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/accord, 30))

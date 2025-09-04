@@ -36,6 +36,26 @@
 		/datum/sprite_accessory/wings/wide/spider,
 		/datum/sprite_accessory/wings/huge/dragon,
 		/datum/sprite_accessory/wings/large/harpyswept,
+		/datum/sprite_accessory/wings/large/harpyswept_alt,
+		/datum/sprite_accessory/wings/large/harpyfluff,
+		/datum/sprite_accessory/wings/large/harpyfolded,
+		/datum/sprite_accessory/wings/large/harpyowl,
+		/datum/sprite_accessory/wings/large/harpybat_alt,
+		)
+
+/datum/customizer/organ/wings/lamia
+	customizer_choices = list(/datum/customizer_choice/organ/wings/lamia)
+	allows_disabling = TRUE
+	default_disabled = TRUE
+
+/datum/customizer_choice/organ/wings/lamia
+	name = "Wings"
+	organ_type = /obj/item/organ/wings/anthro
+	sprite_accessories = list(
+		/datum/sprite_accessory/wings/wide/harpywings,
+		/datum/sprite_accessory/wings/wide/harpywingsalt1,
+		/datum/sprite_accessory/wings/wide/harpywings_top,
+		/datum/sprite_accessory/wings/wide/harpywingsalt1_top,
 		)
 
 /datum/customizer/organ/wings/moth

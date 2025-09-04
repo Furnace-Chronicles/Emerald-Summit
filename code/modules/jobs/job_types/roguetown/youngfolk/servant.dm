@@ -7,6 +7,9 @@
 	total_positions = 6
 	spawn_positions = 6
 	allowed_races = RACES_ALL_KINDS
+	disallowed_races = list(
+		/datum/species/lamia,
+	)
 	tutorial = "Granted a life of comfortable servitude in the Duke's manor, you follow the Seneschal's commands and spend your day performing necessary but menial tasks. This role offers an aesthetic choice between labor-servant, maid, and butler."
 	outfit = /datum/outfit/job/roguetown/servant
 	advclass_cat_rolls = list(CTAG_SERVANT = 20)
@@ -78,7 +81,6 @@
 	head = /obj/item/clothing/head/roguetown/armingcap
 	armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/black
 	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
-	pants = pick(/obj/item/clothing/under/roguetown/tights/stockings/black, /obj/item/clothing/under/roguetown/tights/stockings/white) 
 	cloak = /obj/item/clothing/cloak/apron/waist
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather

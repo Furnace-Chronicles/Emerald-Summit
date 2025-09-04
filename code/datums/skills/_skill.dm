@@ -9,6 +9,7 @@
 	var/list/specific_dream_costs
 	var/list/dreams
 	var/randomable_dream_xp = TRUE
+	var/max_skillbook_level = 6
 
 /datum/skill/proc/get_skill_speed_modifier(level)
 	return

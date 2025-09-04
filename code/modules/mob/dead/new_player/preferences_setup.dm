@@ -25,6 +25,7 @@
 	accessory = "Nothing"
 	reset_all_customizer_accessory_colors()
 	randomize_all_customizer_accessories()
+	tail_color = "FFFFFF"
 
 /datum/preferences/proc/random_species()
 	var/random_species_type = GLOB.species_list[pick(get_selectable_species())]

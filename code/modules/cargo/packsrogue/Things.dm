@@ -44,11 +44,6 @@
 	cost = 10
 	contains = list(/obj/item/reagent_containers/glass/bottle/waterskin)
 
-/datum/supply_pack/rogue/Things/gwstrap
-	name = "Greatweapon Strap"
-	cost = 15
-	contains = list(/obj/item/gwstrap)
-
 /datum/supply_pack/rogue/Things/Lamp
 	name = "Lamptern"
 	cost = 5
@@ -82,7 +77,7 @@
 /datum/supply_pack/rogue/Things/rubyband
 	name = "Matthian SCOMSTONE"
 	cost = 20
-	contains = list(/obj/item/mattcoin)
+	contains = list(/obj/item/scomstone/mattcoin)
 
 /datum/supply_pack/rogue/Things/Dragonscale
 	name = "Dragonscale Necklace"

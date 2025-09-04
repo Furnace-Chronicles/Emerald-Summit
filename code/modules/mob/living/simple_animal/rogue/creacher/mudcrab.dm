@@ -14,8 +14,8 @@
 	maxHealth = MUDCRAB_HEALTH
 	health = MUDCRAB_HEALTH
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 1, /obj/item/alch/viscera = 1)
-	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2, /obj/item/alch/viscera = 2)
-	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 3, /obj/item/alch/viscera = 2)
+	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2, /obj/item/alch/viscera = 2, /obj/item/natural/carapace = 1)
+	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 3, /obj/item/alch/viscera = 2, /obj/item/natural/carapace = 2)
 	food_type = list(/obj/item/reagent_containers/food/snacks)
 	faction = list("crabs")
 	response_help_continuous = "pets"

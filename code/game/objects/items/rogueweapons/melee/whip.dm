@@ -32,7 +32,7 @@
 //Lash = default, can't dismember, so more range and some pen.
 /datum/intent/whip/lash
 	name = "lash"
-	blade_class = BCLASS_LASHING
+	blade_class = BCLASS_PUNISH
 	attack_verb = list("lashes", "cracks")
 	hitsound = list('sound/combat/hits/blunt/flailhit.ogg')
 	chargetime = 0
@@ -108,13 +108,8 @@
 	icon_state = "psywhip"
 
 /obj/item/rogueweapon/whip/antique/psywhip/ComponentInitialize()
-	. = ..()					//+1 force, +50 int, +1 def, make silver
-	AddComponent(/datum/component/psyblessed, FALSE, 1, FALSE, 50, 1, TRUE)
-
-//Not that you can obtain the unblessed version, given it can't be smithed like the rest. But just in case.
-/obj/item/rogueweapon/whip/antique/psywhip/preblessed/ComponentInitialize()
-	. = ..()					//Pre-blessed, +1 force, +50 int, +1 def, make silver
-	AddComponent(/datum/component/psyblessed, TRUE, 1, FALSE, 50, 1, TRUE)
+	. = ..()					// Pre-blessed, +5 force, +100 INT, +2 Def, Silver.
+	AddComponent(/datum/component/psyblessed, TRUE, 5, FALSE, 100, 2, TRUE)
 
 /obj/item/rogueweapon/whip/psywhip_lesser
 	name = "psydonian whip"
@@ -124,7 +119,3 @@
 /obj/item/rogueweapon/whip/psywhip_lesser/ComponentInitialize()
 	. = ..()					//+3 force, +50 int, +1 def, make silver
 	AddComponent(/datum/component/psyblessed, FALSE, 3, FALSE, 50, 1, TRUE)
-
-/obj/item/rogueweapon/whip/psywhip_lesser/preblessed/ComponentInitialize()
-	. = ..()					//Pre-blessed, +3 force, +50 int, +1 def, make silver
-	AddComponent(/datum/component/psyblessed, TRUE, 3, FALSE, 50, 1, TRUE)

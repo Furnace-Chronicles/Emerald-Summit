@@ -50,6 +50,7 @@
 	var/list/nextspooky = 0
 
 	var/patreonlevel = -1
+	var/patreon_colored_say_allowed = FALSE
 
 		////////////
 		//SECURITY//

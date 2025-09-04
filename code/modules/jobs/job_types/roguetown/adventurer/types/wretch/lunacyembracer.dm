@@ -18,6 +18,8 @@
 	ADD_TRAIT(H, TRAIT_STRONGBITE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_WOODWALKER, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_WILD_EATER, TRAIT_GENERIC)
 
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 5, TRUE)
@@ -33,6 +35,7 @@
 	H.adjust_skillrank(/datum/skill/craft/alchemy, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/cooking, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/labor/fishing, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/magic/holy, 3, TRUE)
 
 	H.change_stat("strength", 3)
 	H.change_stat("endurance", 2)

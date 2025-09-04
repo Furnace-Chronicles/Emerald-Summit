@@ -69,6 +69,15 @@
 	if(istype(user.rmb_intent, /datum/rmb_intent/swift))
 		adf = max(round(adf * CLICK_CD_MOD_SWIFT), CLICK_CD_INTENTCAP)
 	user.changeNext_move(adf)
+	for(var/obj/item/clothing/worn_thing in get_equipped_items(include_pockets = TRUE))//checks clothing worn by src.
+	// Things that are supposed to be worn, being held = cannot block
+		if(isclothing(worn_thing))
+			if(worn_thing in held_items)
+				continue
+		// Things that are supposed to be held, being worn = cannot block
+		else if(!(worn_thing in held_items))
+			continue
+		worn_thing.hit_response(src, user) //checks if clothing has hit response. Refer to Items.dm
 	return I.attack(src, user)
 
 /mob/living
@@ -81,7 +90,7 @@
 		return FALSE
 	SEND_SIGNAL(user, COMSIG_MOB_ITEM_ATTACK, M, user)
 	if(item_flags & NOBLUDGEON)
-		return FALSE	
+		return FALSE
 
 	if(force && HAS_TRAIT(user, TRAIT_PACIFISM))
 		to_chat(user, span_warning("I don't want to harm other living beings!"))
@@ -140,7 +149,7 @@
 	if(M.has_status_effect(/datum/status_effect/buff/clash) && M.get_active_held_item() && ishuman(M) && !bad_guard)
 		var/mob/living/carbon/human/HM = M
 		var/obj/item/IM = M.get_active_held_item()
-		var/obj/item/IU 
+		var/obj/item/IU
 		if(user.used_intent.masteritem)
 			IU = user.used_intent.masteritem
 		HM.process_clash(user, IM, IU)
@@ -478,7 +487,7 @@
 
 	if(multiplier)
 		newforce = newforce * multiplier
-	
+
 	take_damage(newforce, I.damtype, I.d_type, 1)
 	if(newforce > 1)
 		I.take_damage(1, BRUTE, I.d_type)
@@ -544,12 +553,6 @@
 			var/datum/antagonist/werewolf/W = H.mind.has_antag_datum(/datum/antagonist/werewolf/)
 			var/datum/antagonist/vampirelord/lesser/V = H.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser)
 			var/datum/antagonist/vampirelord/V_lord = H.mind.has_antag_datum(/datum/antagonist/vampirelord/)
-			var/datum/antagonist/vampire/V_wretch = H.mind.has_antag_datum(/datum/antagonist/vampire)
-			if(V_wretch && V_wretch.wretch_antag && !V_wretch.disguised)
-				H.visible_message("<font color='white'>The silver weapon burns the vampire's flesh!</font>")
-				to_chat(H, span_userdanger("The silver burns you!"))
-				H.apply_status_effect(/datum/status_effect/debuff/silver_curse)
-				src.last_used = world.time
 			if(V)
 				if(V.disguised)
 					H.visible_message("<font color='white'>The silver weapon weakens the curse temporarily!</font>")
@@ -665,7 +668,7 @@
 		return
 	var/message_hit_area = ""
 	if(hit_area)
-		message_hit_area = " in the [hit_area]"
+		message_hit_area = " in the [span_userdanger(hit_area)]"
 	var/attack_message = "[src] is [message_verb][message_hit_area] with [I]!"
 	var/attack_message_local = "I'm [message_verb][message_hit_area] with [I]!"
 	if(user in viewers(src, null))

@@ -62,6 +62,11 @@
 				var/obj/item/clothing/C = wear_armor
 				C.step_action()
 
+		if(wear_neck)
+			if(mobility_flags & MOBILITY_STAND)
+				var/obj/item/clothing/N = wear_neck
+				N.step_action()
+
 		if(wear_shirt)
 			if(mobility_flags & MOBILITY_STAND)
 				var/obj/item/clothing/C = wear_shirt

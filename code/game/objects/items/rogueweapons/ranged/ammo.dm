@@ -170,7 +170,7 @@
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron
 
 	damage = 40
-	armor_penetration = 20
+	armor_penetration = 0
 	embedchance = 30
 	npc_damage_mult = 2
 

@@ -41,7 +41,7 @@
 	item_state = "coif"
 	max_integrity = 125
 	flags_inv = HIDEHAIR
-	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD
+	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	blocksound = SOFTHIT
 	body_parts_covered = NECK|HAIR|EARS|HEAD
 	armor = ARMOR_LEATHER
@@ -62,7 +62,7 @@
 	item_state = "coif" // Lacks its own sprite/grey-sprite.
 	max_integrity = 100
 	flags_inv = HIDEHAIR
-	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD
+	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	blocksound = SOFTHIT
 	body_parts_covered = NECK|HAIR|EARS|HEAD
 	armor = ARMOR_PADDED_BAD
@@ -97,7 +97,7 @@
 	flags_inv = HIDEHAIR
 	armor = ARMOR_MAILLE
 	resistance_flags = FIRE_PROOF
-	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD
+	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	body_parts_covered = NECK|HAIR|EARS|HEAD
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
 	adjustable = CAN_CADJUST
@@ -168,7 +168,7 @@
 	max_integrity = 350
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	resistance_flags = FIRE_PROOF
-	body_parts_covered = NECK|MOUTH|NOSE|HAIR|EARS|HEAD|CHEST
+	body_parts_covered = NECK|MOUTH|NOSE|HAIR|EARS|HEAD
 	adjustable = CAN_CADJUST
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
@@ -212,7 +212,7 @@
 	max_integrity = 275
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	resistance_flags = FIRE_PROOF
-	body_parts_covered = NECK|MOUTH|NOSE|HAIR|EARS|HEAD|CHEST
+	body_parts_covered = NECK|MOUTH|NOSE|HAIR|EARS|HEAD
 	adjustable = CAN_CADJUST
 	smeltresult = /obj/item/ingot/iron
 	smelt_bar_num = 2
@@ -290,6 +290,10 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
+/obj/item/clothing/neck/roguetown/fencerguard/Initialize()
+	. = ..()		
+	update_icon()		
+
 /obj/item/clothing/neck/roguetown/gorget/forlorncollar
 	name = "forlorn collar"
 	desc = "A old reminder."
@@ -322,6 +326,7 @@
 	body_parts_covered = NECK
 	prevent_crits = list()
 	blocksound = PLATEHIT
+	leashable = TRUE
 
 /obj/item/clothing/neck/roguetown/gorget/cursed_collar/Initialize()
 	. = ..()
@@ -430,6 +435,11 @@
 	name = "amulet of Eora"
 	desc = "In a world full of horror and hardship, all we have is each other."
 	icon_state = "eora"
+
+/obj/item/clothing/neck/roguetown/psicross/xylix
+	name = "amulet of Xylix"
+	desc = "In lyfe a smile is sharper than any blade."
+	icon_state = "xylix"
 
 /obj/item/clothing/neck/roguetown/psicross/wood
 	name = "wooden psycross"
@@ -630,21 +640,59 @@
 	name = "collar"
 	icon = 'modular/icons/obj/leashes_collars.dmi'
 	mob_overlay_icon = 'modular/icons/mob/collars_leashes.dmi'
-	desc = "A band of leather which signifies bondage to another."
-	icon_state = "collar"
-	item_state = "collar"
+	desc = "This is a debug parent item. If you are seeing it meow at the coders."
+	icon_state = "collar_rope"
+	item_state = "collar_rope"
 	resistance_flags = FIRE_PROOF
 	dropshrink = 0.5
 	leashable = TRUE
+	bellsound = FALSE
+	bell = FALSE
 
-/obj/item/clothing/neck/roguetown/collar/bell_collar
-	name = "bell collar"
+/obj/item/clothing/neck/roguetown/collar/leather
+	name = "leather collar"
+	desc = "A sturdy leather collar."
 	icon = 'modular/icons/obj/leashes_collars.dmi'
 	mob_overlay_icon = 'modular/icons/mob/collars_leashes.dmi'
-	desc = "A band of leather with a bell that protects the local zads from the local catfolk."
-	icon_state = "bell_collar"
-
+	icon_state = "leathercollar"
+	item_state = "leathercollar"
 	leashable = TRUE
+	resistance_flags = FIRE_PROOF
+	dropshrink = 0.5
+	bellsound = FALSE
+	bell = FALSE
+
+/obj/item/clothing/neck/roguetown/collar/cowbell
+	name = "cowbell collar"
+	desc = "A leather collar with a jingly cowbell attached."
+	icon = 'modular/icons/obj/leashes_collars.dmi'
+	mob_overlay_icon = 'modular/icons/mob/collars_leashes.dmi'
+	icon_state = "cowbellcollar"
+	item_state = "cowbellcollar"
+	leashable = TRUE
+	resistance_flags = FIRE_PROOF
+	dropshrink = 0.5
+	bellsound = TRUE
+
+/obj/item/clothing/neck/roguetown/collar/cowbell/Initialize(mapload)
+		. = ..()
+		AddComponent(/datum/component/squeak, SFX_COLLARJINGLE, 50, 100, 1) //We want squeak so wearer jingles if touched while wearing collar
+
+/obj/item/clothing/neck/roguetown/collar/catbell
+	name = "catbell collar"
+	desc = "A leather collar with a jingling catbell attached."
+	icon = 'modular/icons/obj/leashes_collars.dmi'
+	mob_overlay_icon = 'modular/icons/mob/collars_leashes.dmi'
+	icon_state = "catbellcollar"
+	item_state = "catbellcollar"
+	leashable = TRUE
+	resistance_flags = FIRE_PROOF
+	dropshrink = 0.5
+	bellsound = TRUE
+
+/obj/item/clothing/neck/roguetown/collar/catbell/Initialize(mapload)
+		. = ..()
+		AddComponent(/datum/component/squeak, SFX_COLLARJINGLE, 50, 100, 1) //We want squeak so wearer jingles if touched while wearing collar
 
 /obj/item/clothing/neck/roguetown/collar/feldcollar
 	name = "feldcollar"
@@ -691,46 +739,3 @@
 		user.change_stat("fortune", -1) //how much luck stat taken away when unequipped
 		goodluckactivated = FALSE
 	return
-
-// Crafting recipes for collars and leashes
-
-/datum/crafting_recipe/roguetown/leather/neck/leather_collar
-	name = "leather collar (1 cured leather)"
-	result = /obj/item/clothing/neck/roguetown/collar/leather
-	reqs = list(/obj/item/natural/hide/cured = 1)
-	tools = list(/obj/item/needle)
-	time = 8 SECONDS
-	category = "Leatherwork"
-	subcategory = CAT_NONE
-	always_availible = TRUE
-
-/datum/crafting_recipe/roguetown/leather/neck/catbell_collar
-	name = "catbell collar (1 cured leather, catbell)"
-	result = /obj/item/clothing/neck/roguetown/collar/catbell
-	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/catbell = 1)
-	tools = list(/obj/item/needle)
-	time = 10 SECONDS
-	category = "Leatherwork"
-	subcategory = CAT_NONE
-	always_availible = TRUE
-
-/datum/crafting_recipe/roguetown/leather/neck/cowbell_collar
-	name = "cowbell collar (1 curedleather, cowbell)"
-	result = /obj/item/clothing/neck/roguetown/collar/cowbell
-	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/catbell/cow = 1)
-	tools = list(/obj/item/needle)
-	time = 10 SECONDS
-	category = "Leatherwork"
-	subcategory = CAT_NONE
-	always_availible = TRUE
-
-
-/datum/crafting_recipe/roguetown/leather/neck/leather_leash
-	name = "leather leash (1 leather)"
-	result = /obj/item/leash/leather
-	reqs = list(/obj/item/natural/hide/cured = 1)
-	tools = list(/obj/item/needle)
-	time = 10 SECONDS
-	category = "Leatherwork"
-	subcategory = CAT_NONE
-	always_availible = TRUE

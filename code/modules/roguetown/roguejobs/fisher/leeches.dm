@@ -18,8 +18,8 @@
 		/obj/item/clothing/ring/gold = 1,
 		/obj/item/reagent_containers/food/snacks/smallrat = 1, //That's not a fish...?
 		/obj/item/reagent_containers/glass/bottle/rogue/wine = 1,
-		/obj/item/reagent_containers/glass/bottle/rogue = 1,		
-		/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab = 20,		
+		/obj/item/reagent_containers/glass/bottle/rogue = 1,
+		/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab = 20,
 	)
 	seafishloot = list(
 		/obj/item/reagent_containers/food/snacks/fish/cod = 230,
@@ -37,16 +37,16 @@
 		/obj/item/clothing/ring/gold = 1,
 		/obj/item/reagent_containers/food/snacks/smallrat = 1, //That's not a fish...?
 		/obj/item/reagent_containers/glass/bottle/rogue/wine = 1,
-		/obj/item/reagent_containers/glass/bottle/rogue = 1,	
+		/obj/item/reagent_containers/glass/bottle/rogue = 1,
 		/mob/living/carbon/human/species/goblin/npc/sea = 25,
 		/mob/living/simple_animal/hostile/rogue/deepone = 30,
-		/mob/living/simple_animal/hostile/rogue/deepone/spit = 30,			
+		/mob/living/simple_animal/hostile/rogue/deepone/spit = 30,
 	)
 	mudfishloot = list(
 		/obj/item/reagent_containers/food/snacks/fish/mudskipper = 200,
 		/obj/item/natural/worms/leech = 50,
-		/obj/item/clothing/ring/gold = 1,	
-		/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab = 25,			
+		/obj/item/clothing/ring/gold = 1,
+		/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab = 25,
 	)
 	// This is super trimmed down from the ratwood list to focus entirely on shellfishes
 	cageloot = list(
@@ -80,6 +80,11 @@
 	// Who are we latching onto?
 	var/mob/living/host
 
+	/// Multiplier for extracted blood. Mainly used by Cheeles or equivalent.
+	var/blood_multiplier = 1
+	/// Whether we can be attached to mindless mobs.
+	var/mindless_attach = TRUE
+
 /obj/item/natural/worms/leech/Initialize()
 	. = ..()
 	//leech lore
@@ -100,6 +105,8 @@
 		return FALSE
 	if(!host)
 		return FALSE
+	if(!giving && host.stat == DEAD)
+		return FALSE
 	host.adjustToxLoss(toxin_healing)
 	var/obj/item/bodypart/bp = loc
 	if(giving)
@@ -115,7 +122,7 @@
 	else
 		var/blood_extracted = min(blood_maximum - blood_storage, host.blood_volume, blood_sucking)
 		host.blood_volume = max(host.blood_volume - blood_extracted, 0)
-		blood_storage += blood_extracted
+		blood_storage += blood_extracted * blood_multiplier
 		if((blood_storage >= blood_maximum) || (host.blood_volume <= 0))
 			if(bp)
 				bp.remove_embedded_object(src)
@@ -175,9 +182,18 @@
 
 /obj/item/natural/worms/leech/attack(mob/living/M, mob/user)
 	if(ishuman(M))
+		if(!giving && M.stat == DEAD)
+			to_chat(user, span_warning("They are deceased. Only running blood may be extracted."))
+			return
+		if(!giving && !M.mind && !mindless_attach)
+			to_chat(user, span_warning("They are mindless. The [src] won't attach."))
+			return
 		var/mob/living/carbon/human/H = M
 		var/obj/item/bodypart/affecting = H.get_bodypart(check_zone(user.zone_selected))
 		if(!affecting)
+			return
+		if(M.construct)//I'd use trait_bloodloss_immune but I assume not all bloodloss immune people are immune to tox damage that leeches help with
+			to_chat(user, span_warning("[src] refuses to attach to [M]."))
 			return
 		if(!get_location_accessible(H, check_zone(user.zone_selected)))
 			to_chat(user, span_warning("Something in the way."))
@@ -191,9 +207,9 @@
 		src.forceMove(H)
 		affecting.add_embedded_object(src, silent = TRUE, crit_message = FALSE)
 		if(M == user)
-			user.visible_message(span_notice("[user] places [src] on [user.p_their()] [affecting]."), span_notice("I place a leech on my [affecting]."))
+			user.visible_message(span_notice("[user] places [src] on [user.p_their()] [affecting.name]."), span_notice("I place a leech on my [affecting.name]."))
 		else
-			user.visible_message(span_notice("[user] places [src] on [M]'s [affecting]."), span_notice("I place a leech on [M]'s [affecting]."))
+			user.visible_message(span_notice("[user] places [src] on [M]'s [affecting.name]."), span_notice("I place a leech on [M]'s [affecting.name]."))
 		return
 	return ..()
 
@@ -281,8 +297,10 @@
 	drainage = 0
 	blood_sucking = 5
 	toxin_healing = -2
-	blood_storage = BLOOD_VOLUME_SURVIVE
-	blood_maximum = BLOOD_VOLUME_BAD
+	blood_multiplier = 3
+	blood_storage = BLOOD_VOLUME_BAD
+	blood_maximum = BLOOD_VOLUME_NORMAL
+	mindless_attach = FALSE
 
 /obj/item/natural/worms/leech/cheele/attack_self(mob/user)
 	. = ..()

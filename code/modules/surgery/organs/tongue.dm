@@ -24,7 +24,8 @@
 		/datum/language/otavan,
 		/datum/language/etruscan,
 		/datum/language/gronnic,
-		/datum/language/aavnic
+		/datum/language/aavnic,
+		/datum/language/abyssal
 	))
 
 /obj/item/organ/tongue/Initialize(mapload)
@@ -257,3 +258,21 @@
 /obj/item/organ/tongue/moth
 	name = "moth tongue"
 	say_mod = "flutters"
+
+/obj/item/organ/tongue/lamia_forked
+	name = "forked tongue"
+	desc = "A forked tongue, like that of a snake. Hssss."
+	icon_state = "tonguelizard"
+	say_mod = "hisses"
+	taste_sensitivity = 5
+	modifies_speech = TRUE
+
+/obj/item/organ/tongue/lamia_forked/handle_speech(datum/source, list/speech_args)
+	var/static/regex/lizard_hiss = new("s+", "g")
+	var/static/regex/lizard_hiSS = new("S+", "g")
+	var/message = speech_args[SPEECH_MESSAGE]
+	if(message[1] != "*")
+		message = lizard_hiss.Replace(message, "sss")
+		message = lizard_hiSS.Replace(message, "Sss")
+	speech_args[SPEECH_MESSAGE] = message
+

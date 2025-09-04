@@ -15,8 +15,8 @@
 	if(client)
 		SSdroning.play_area_sound(get_area(src), client)
 
-	fully_heal(FALSE) //If we don't do this, even a single cut will mean the player's real body will die in the void while they run around wildshaped
-	
+	stasis = TRUE //If we don't do this, even a single cut will mean the player's real body will die in the void while they run around wildshaped
+
 	var/mob/living/carbon/human/species/wildshape/W = new shapepath(loc) //We crate a new mob for the wildshaping player to inhabit
 
 	W.set_patron(src.patron)
@@ -35,6 +35,8 @@
 	W.stored_experience = ensure_skills().skill_experience.Copy()
 	W.stored_spells = mind.spell_list.Copy()
 	W.voice_color = voice_color
+	W.cmode_music_override = cmode_music_override
+	W.cmode_music_override_name = cmode_music_override_name
 	mind.transfer_to(W)
 	skills?.known_skills = list()
 	skills?.skill_experience = list()
@@ -85,5 +87,7 @@
 	W.regenerate_icons()
 
 	to_chat(W, span_userdanger("I return to my old form."))
+
+	W.stasis = FALSE
 
 	qdel(src)

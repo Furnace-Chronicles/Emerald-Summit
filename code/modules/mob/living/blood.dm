@@ -26,7 +26,7 @@
 /mob/living/proc/handle_blood()
 	if((bodytemperature <= TCRYO) || HAS_TRAIT(src, TRAIT_HUSK)) //cryosleep or husked people do not pump the blood.
 		return
-	
+
 	blood_volume = min(blood_volume, BLOOD_VOLUME_MAXIMUM)
 	//Effects of bloodloss
 	if(!HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
@@ -64,6 +64,8 @@
 		remove_status_effect(/datum/status_effect/debuff/bleedingworst)
 
 	bleed_rate = get_bleed_rate()
+	if(HAS_TRAIT(src, TRAIT_ADRENALINE_RUSH))
+		bleed_rate = FALSE
 	if(bleed_rate)
 		bleed(bleed_rate)
 	else if(blood_volume < BLOOD_VOLUME_NORMAL)
@@ -73,7 +75,7 @@
 /mob/living/carbon/handle_blood()
 	if((bodytemperature <= TCRYO) || HAS_TRAIT(src, TRAIT_HUSK)) //cryosleep or husked people do not pump the blood.
 		return
-	
+
 	blood_volume = min(blood_volume, BLOOD_VOLUME_MAXIMUM)
 	if(dna?.species)
 		if(NOBLOOD in dna.species.species_traits)
@@ -140,6 +142,8 @@
 
 	//Bleeding out
 	bleed_rate = get_bleed_rate()
+	if(HAS_TRAIT(src, TRAIT_ADRENALINE_RUSH))
+		bleed_rate = FALSE
 	if(bleed_rate)
 		for(var/obj/item/bodypart/bodypart as anything in bodyparts)
 			bodypart.try_bandage_expire()
@@ -158,6 +162,8 @@
 
 /mob/living/carbon/get_bleed_rate()
 	var/bleed_rate = 0
+	if(NOBLOOD in dna?.species?.species_traits)
+		return 0
 	for(var/obj/item/bodypart/bodypart as anything in bodyparts)
 		bleed_rate += bodypart.get_bleed_rate()
 	return bleed_rate
@@ -168,7 +174,17 @@
 		return FALSE
 	if(blood_volume <= 0)
 		return FALSE
-	
+
+	//For each CON above 10, we bleed slower.
+	//Consequently, for each CON under 10 we bleed faster.
+	var/conbonus = 1
+	if(STACON >= CONSTITUTION_BLEEDRATE_CAP)
+		conbonus = CONSTITUTION_BLEEDRATE_CAP - 10
+	else if(STACON != 10)
+		conbonus = STACON - 10
+	if(mind)
+		amt -= amt * (conbonus * CONSTITUTION_BLEEDRATE_MOD)
+
 	blood_volume = max(blood_volume - amt, 0)
 	GLOB.scarlet_round_stats[STATS_BLOOD_SPILT] += amt
 	if(isturf(src.loc)) //Blood loss still happens in locker, floor stays clean

@@ -38,16 +38,17 @@
 		cloak = /obj/item/clothing/cloak/eastcloak1
 		pants = /obj/item/clothing/under/roguetown/trou/eastpants1
 		gloves = /obj/item/clothing/gloves/roguetown/eastgloves2
-		armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/easttats
+		armor = /obj/item/clothing/suit/roguetown/armor/skin_armor/easttats
 		shoes = /obj/item/clothing/shoes/roguetown/boots
 		H.change_stat("endurance", 1)
 		H.change_stat("constitution", 1) //to compensate for the permanent lack of armor
 		H.dna.species.soundpack_m = new /datum/voicepack/male/evil()
 	else if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/armor/basiceast/captainrobe
-		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/easttats
+		shirt = /obj/item/clothing/suit/roguetown/armor/skin_armor/easttats
 		shoes = /obj/item/clothing/shoes/roguetown/armor/rumaclan
 
+	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)	
 	ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC) //i swear this isn't as good as it sounds
 	H.grant_language(/datum/language/kazengunese)

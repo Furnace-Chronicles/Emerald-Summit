@@ -16,9 +16,11 @@
 	base_intents = list(/datum/intent/simple/claw/mossback)
 	botched_butcher_results = list (/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 1, /obj/item/alch/viscera = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 3, 
-							/obj/item/alch/viscera = 2)
+							/obj/item/alch/viscera = 2,
+							/obj/item/natural/carapace = 3)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 5, 
-									/obj/item/alch/viscera = 2)
+									/obj/item/alch/viscera = 2,
+									/obj/item/natural/carapace = 6)
 	faction = list("crabs")
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = MOSSBACK_HEALTH

@@ -49,3 +49,9 @@
 	name = "Naginata"
 	cost = 80
 	contains = list(/obj/item/rogueweapon/spear/naginata)
+
+/datum/supply_pack/rogue/merc_weapons/katana
+	name = "Kazengun Straight Sword"
+	cost = 80
+	contains = list(/obj/item/rogueweapon/sword/sabre/mulyeog,
+					/obj/item/scabbard/mulyeog)

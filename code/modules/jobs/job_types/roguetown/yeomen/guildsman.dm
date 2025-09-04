@@ -9,6 +9,9 @@
 	spawn_positions = 4
 	advclass_cat_rolls = list(CTAG_GUILDSMEN = 20)
 	allowed_races = RACES_ALL_KINDS
+	disallowed_races = list(
+		/datum/species/lamia,
+	)
 	tutorial = "You are a member of the Scarlet Reach Guild of Crafts, a massive guild formed to represent the interests of all craftsmen in the township of Scarlet Reach.\
 	As a Guildsman, you hail from the three most important constituent guilds: The Smith's Guild, the Artificer's Guild, and the Architect's Guild. The Guildsmaster has sway over you, but it is not absolute."
 	outfit = /datum/outfit/job/roguetown/guildsman
@@ -132,6 +135,8 @@
 						/obj/item/recipe_book/ceramics = 1,
 						/obj/item/recipe_book/builder = 1,
 						/obj/item/recipe_book/survival = 1,
+						/obj/item/recipe_book/magic = 1,
+						/obj/item/chalk = 1,
 						)
 	// Not a real mage, no free spell point. Take Arcyne Potential if you want it.
 	if(H.mind)

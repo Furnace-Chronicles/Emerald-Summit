@@ -61,6 +61,7 @@
 		/datum/customizer/bodypart_feature/accessory,
 		/datum/customizer/bodypart_feature/face_detail,
 		/datum/customizer/bodypart_feature/underwear,
+		/datum/customizer/bodypart_feature/legwear,
 		/datum/customizer/organ/testicles/anthro,
 		/datum/customizer/organ/penis/anthro,
 		/datum/customizer/organ/breasts/human,
@@ -91,7 +92,8 @@
 		"Malachite" = SKIN_COLOR_MALACHITE,
 		"Obsidian" = SKIN_COLOR_OBSIDIAN,
 		"Brimstone" = SKIN_COLOR_BRIMSTONE,
-		"Jade" = SKIN_COLOR_JADE
+		"Jade" = SKIN_COLOR_JADE,
+		"Ceragyrite" = SKIN_COLOR_CERAGYRITE
 	)
 
 /datum/species/dwarf/mountain/get_hairc_list()

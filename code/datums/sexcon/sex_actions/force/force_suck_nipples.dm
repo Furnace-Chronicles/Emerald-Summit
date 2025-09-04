@@ -5,17 +5,27 @@
 
 /datum/sex_action/force_suck_nipples/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
-		return FALSE
+		if(isdullahan(user))
+			var/datum/species/dullahan/dullahan = user.dna.species
+			if(dullahan.headless && !user.is_holding(dullahan.my_head))
+				return FALSE
+		else
+			return FALSE
 	if(!user.getorganslot(ORGAN_SLOT_BREASTS))
 		return FALSE
 	return TRUE
 
 /datum/sex_action/force_suck_nipples/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
+		if(isdullahan(user))
+			var/datum/species/dullahan/dullahan = user.dna.species
+			if(dullahan.headless && !user.is_holding(dullahan.my_head))
+				return FALSE
+		else
+			return FALSE
+	if(!check_location_accessible(user, user, BODY_ZONE_CHEST, TRUE))
 		return FALSE
-	if(!get_location_accessible(user, BODY_ZONE_CHEST, TRUE))
-		return FALSE
-	if(!get_location_accessible(target, BODY_ZONE_PRECISE_MOUTH))
+	if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_MOUTH))
 		return FALSE
 	if(!user.getorganslot(ORGAN_SLOT_BREASTS))
 		return FALSE

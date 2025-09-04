@@ -233,6 +233,30 @@
 	icon_state = "ashortsword"
 	smeltresult = /obj/item/ingot/aaslag
 
+/obj/item/rogueweapon/sword/short/psy
+	name = "psydonian shortsword"
+	desc = "Otavan smiths worked with Grenzelhoftian artificers, and an esoteric blade was born: a blade with an unique design, dismissing a crossguard in favor of a hollow beak to hook and draw harm away from its user. Short in length, yet lethally light in weight."
+	force = 19
+	possible_item_intents = list(/datum/intent/sword/cut/short, /datum/intent/sword/thrust/short, /datum/intent/sword/peel)
+	icon_state = "psyswordshort"
+	gripped_intents = null
+	minstr = 4
+	wdefense = 4
+	wbalance = WBALANCE_SWIFT
+	wlength = WLENGTH_SHORT
+	w_class = WEIGHT_CLASS_NORMAL
+	grid_width = 32
+	grid_height = 96
+
+/obj/item/rogueweapon/sword/short/psy/ComponentInitialize()
+	. = ..()							//+3 force, +100 blade int, +50 int, +1 def, make silver
+	AddComponent(/datum/component/psyblessed, FALSE, 3, 100, 50, 1, TRUE)
+
+/obj/item/rogueweapon/sword/short/psy/preblessed
+
+/obj/item/rogueweapon/sword/short/psy/preblessed/ComponentInitialize()
+	// PREBLESS IT +3 force, +100 blade int, +50 int, +1 def, make silver
+	AddComponent(/datum/component/psyblessed, TRUE, 3, 100, 50, 1, TRUE)
 
 /obj/item/rogueweapon/sword/long
 	name = "longsword"
@@ -288,6 +312,15 @@
 	name = "basket-hilted longsword"
 	desc = "An uncommon and elaborate type of longsword with a compound hilt like those seen on rapiers and smallswords. It has a marked unsharpened section for safe unarmored half-swording, and it's made of Calorian steel."
 	icon_state = "elongsword"
+
+/obj/item/rogueweapon/sword/long/frei		//Challenge weapon
+	name = "dueling longsword"
+	desc = "Fechtfeders are a type of training sword brought up by Grenzelhoft fencing guilds, their name - literally \"Feather\" - matches their construction; thinner, lighter, dull but more balanced - with a blade catcher to boot. Freifechters often modify them, giving them edges and a point for use in real dueling - this is one such example, and there's a reason they don't make it out of the fighting pit."
+	icon_state = "sharpfeder"
+	force = 22
+	force_wielded = 27
+	wdefense = 5		//+1
+	wbalance = WBALANCE_SWIFT
 
 /obj/item/rogueweapon/sword/long/malumflamm
 	name = "forgefiend flamberge"
@@ -588,22 +621,19 @@
 
 /obj/item/rogueweapon/sword/long/oldpsysword
 	name = "old psydonian longsword"
-	desc = "A finely made longsword, plated in a worn-down veneer of grubby silver. It's long seen better daes."
-	icon_state = "psysword"
+	desc = "A finely made longsword, plated in a worn-down veneer of grubby silver. It's long seen better daes. Yet alike PSYDON, it ENDURES."
+	icon_state = "oldpsybroadsword"
+	dropshrink = 1
 
 /obj/item/rogueweapon/sword/long/psysword
-	name = "ornate longsword"
+	name = "psydonian longsword"
 	desc = "A finely made longsword, plated in a ceremonial veneer of ornate silver - made for felling men and monsters alike.\
-		 \"The Ten will deliver those who were mindful of them to their place of ultimate triumph. No evil will touch them, nor will they grieve.\""
+		\"Psydon will deliver those who were mindful of Him to their place of ultimate triumph. No evil will touch them, nor will they grieve.\""
 	icon_state = "psysword"
 
 /obj/item/rogueweapon/sword/long/psysword/ComponentInitialize()
 	. = ..()							//+3 force, +100 blade int, +50 int, +1 def, make silver
 	AddComponent(/datum/component/psyblessed, FALSE, 3, 100, 50, 1, TRUE)
-
-/obj/item/rogueweapon/sword/long/psysword/preblessed/ComponentInitialize()
-	. = ..()							//Pre-blessed, +3 force, +100 blade int, +50 int, +1 def, make silver
-	AddComponent(/datum/component/psyblessed, TRUE, 3, 100, 50, 1, TRUE)
 
 /obj/item/rogueweapon/sword/iron
 	name = "iron arming sword"
@@ -710,6 +740,17 @@
 	gripped_intents = null
 	minstr = 5
 	wdefense = 4
+
+/obj/item/rogueweapon/sword/iron/saber
+	name = "iron saber"
+	desc = "A Naledian sword mass produced for line infantry. Its fittings are simple, munitions grade, but the construction is sturdy and the blade as threatening \
+	as any."
+	icon_state = "isaber"
+	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust/sabre, /datum/intent/sword/peel, /datum/intent/sword/strike)
+	gripped_intents = null
+	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')
+	swingsound = BLADEWOOSH_SMALL
+	wbalance = WBALANCE_SWIFT
 
 /obj/item/rogueweapon/sword/sabre
 	name = "sabre"
@@ -900,6 +941,17 @@
 	obverse reads, \"YE NOT GUILTY\"."
 	icon_state = "decrapier"
 	sellprice = 140
+
+/obj/item/rogueweapon/sword/rapier/psy/relic
+	name = "Eucharist"
+	desc = "Etruscan shape falling prey to Otavan craftsmanship. Saint Malum's smiths created an uniquely thin blade, capable of swiftly skewering the unholy and the miscreants through gaps that most claim to have never existed in the first place. <b> Silver-dipped steel crowned upon a basket hilt that keeps righteous hands safe from harm."
+	icon_state = "psyrapier"
+	max_integrity = 300
+	max_blade_int = 300
+	wdefense = 7
+
+/obj/item/rogueweapon/sword/rapier/psy/relic/ComponentInitialize()		//Pre-blessed, +100 Blade int, +100 int, +2 def, make it silver
+	AddComponent(/datum/component/psyblessed, TRUE, 5, 100, 100, 2, TRUE)
 
 /obj/item/rogueweapon/sword/rapier/lord
 	name = "sword of the Mad Duke"
@@ -1366,3 +1418,20 @@
 			user.overlay_fullscreen("painflash", /atom/movable/screen/fullscreen/painflash)
 			return
 	..()
+
+/obj/item/rogueweapon/sword/capsabre // just a better sabre, unique knight captain weapon
+	name = "'Law'"
+	desc = "A lavish sabre made for the captain, this one of a kind blacksteel beauty is meant to be used to uphold the law."
+	icon_state = "capsabre"
+	icon = 'icons/roguetown/weapons/special/captain.dmi'
+	force = 25 // same as elvish sabre
+	max_integrity = 200 // more integrity because blacksteel, a bit less than the flamberge
+	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust/sabre, /datum/intent/sword/peel, /datum/intent/sword/strike)
+	gripped_intents = null
+	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')
+	swingsound = BLADEWOOSH_SMALL
+	minstr = 5
+	wdefense = 7
+	wbalance = WBALANCE_SWIFT
+	sellprice = 100 // lets not make it too profitable
+	smeltresult = /obj/item/ingot/blacksteel

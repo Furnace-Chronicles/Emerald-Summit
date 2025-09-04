@@ -37,7 +37,8 @@
 	var/ignore_los = TRUE
 	var/glow_intensity = 0 // How much does the user glow when using the ability
 	var/glow_color = null // The color of the glow
-	var/hide_charge_effect = FALSE // If true, will not show the spell's icon when charging 
+	var/hide_charge_effect = FALSE // If true, will not show the spell's icon when charging
+	var/is_cdr_exempt = FALSE //whether the cooldown is impacted by stats
 	var/obj/effect/mob_charge_effect = null
 
 /obj/effect/proc_holder/Initialize()
@@ -80,7 +81,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 /obj/effect/proc_holder/Destroy()
 	if (action)
 		qdel(action)
-	if(ranged_ability_user)
+	if(ranged_ability_user )
 		remove_ranged_ability()
 	return ..()
 
@@ -401,7 +402,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	return TRUE
 
 /obj/effect/proc_holder/spell/proc/start_recharge()
-	if(ranged_ability_user)
+	if(ranged_ability_user && !is_cdr_exempt)
 		if(ranged_ability_user.STAINT > SPELL_SCALING_THRESHOLD)
 			var/diff = min(ranged_ability_user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
 			recharge_time = initial(recharge_time) - (initial(recharge_time) * diff * COOLDOWN_REDUCTION_PER_INT)
@@ -447,7 +448,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	before_cast(targets, user = user)
 	if(user && user.ckey)
 		user.log_message(span_danger("cast the spell [name]."), LOG_ATTACK)
-	if(user.mob_timers[MT_INVISIBILITY] > world.time)			
+	if(user.mob_timers[MT_INVISIBILITY] > world.time)
 		user.mob_timers[MT_INVISIBILITY] = world.time
 		user.update_sneak_invis(reset = TRUE)
 	if(cast(targets, user = user))
@@ -702,7 +703,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 				return FALSE
 			if(!H.has_active_hand())
 				return FALSE
-	
+
 	if((invocation_type == "whisper" || invocation_type == "shout") && isliving(user))
 		var/mob/living/living_user = user
 		if(!living_user.can_speak_vocal())

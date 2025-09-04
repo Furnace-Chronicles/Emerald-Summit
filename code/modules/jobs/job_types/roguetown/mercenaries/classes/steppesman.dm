@@ -17,7 +17,14 @@
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/chargah
 	backr = /obj/item/storage/backpack/rogue/satchel
-	backpack_contents = list(/obj/item/roguekey/mercenary, /obj/item/flashlight/flare/torch, /obj/item/rogueweapon/huntingknife/idagger/steel, /obj/item/storage/belt/rogue/pouch/coins/poor, /obj/item/rogueweapon/whip/nagaika)
+
+	backpack_contents = list(
+		/obj/item/roguekey/mercenary,
+		/obj/item/flashlight/flare/torch,
+		/obj/item/rogueweapon/huntingknife/idagger/steel,
+		/obj/item/storage/belt/rogue/pouch/coins/poor,
+		/obj/item/rogueweapon/whip/nagaika,
+		)
 
 	//Universal skills
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
@@ -60,6 +67,7 @@
 			H.change_stat("constitution", 2)
 			H.change_stat("speed", 1)
 			ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)	
 			H.dna.species.soundpack_m = new /datum/voicepack/male/evil() 	//Fits in my head all too well.
 		if("Druzhina - Ranged Skirmisher")	//Tl;dr - light armor class for Tatar-style archery. Has 'Druzhina' as a name cus czech/polish influence, couldn't think of better one.
 			H.set_blindness(0)
@@ -67,10 +75,7 @@
 			shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 			head = /obj/item/clothing/head/roguetown/helmet
 			gloves = /obj/item/clothing/gloves/roguetown/leather
-			if(should_wear_femme_clothes(H))
-				armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/bikini
-			else
-				armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
+			armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/steppe
 			cloak = /obj/item/clothing/cloak/raincloak/furcloak
 			wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 			beltr = /obj/item/quiver/javelin/iron
@@ -90,10 +95,11 @@
 			H.change_stat("perception", 3)
 			H.change_stat("endurance", 2)
 			H.change_stat("speed", 2)
+			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)	
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 		if("Kozak - Melee Skirmisher")		//Tl;dr - Old Steppesman whip build, light armor, be the glass canon you always wanted to be. Live your life, king. 
 			H.set_blindness(0)
-			to_chat(H, span_warning("Being a Kozak is not a title one earns, nor is born with. It's a way of life. Known to be esentric, living life on the edge - but living as free as possible. Skilled with whips, these madmen are the bane of civilized warriors."))
+			to_chat(H, span_warning("Being a Kozak is not a title one earns, nor is born with. It's a way of life. Known to be esentric, living life on the edge - but living as free as possible. Skilled with whips and flails, these madmen are the bane of civilized warriors."))
 			shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 			head = /obj/item/clothing/head/roguetown/papakha	//No helm
 			gloves = /obj/item/clothing/gloves/roguetown/leather
@@ -101,11 +107,12 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/bikini
 			else
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
+			backl = /obj/item/quiver/javelin/iron//their ranged weapons for skirmish
 			cloak = /obj/item/clothing/cloak/volfmantle			//Crazed man, gives the look.
-			wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-			beltr = /obj/item/rogueweapon/shield/buckler		//Doesn't get good shield skill + no armor, so they get this to compensate for no parry on whip.
-			beltl = /obj/item/rogueweapon/whip
-			neck = /obj/item/clothing/neck/roguetown/bevor		//Better neckpiece for slightly less skill variety. Based it off a cool piece of art...
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
+			beltr = /obj/item/rogueweapon/shield/buckler //Doesn't get good shield skill + no armor, so they get this to compensate for no parry on whip.
+			beltl = /obj/item/rogueweapon/flail //iron weapon since they get a whip already on the satchel
+			neck = /obj/item/clothing/neck/roguetown/chaincoif	//Better neckpiece for slightly less skill variety. Based it off a cool piece of art...// a minimun of defense against a critical hit is needed on combat roles, unless is specific gear made for them
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)		//Bit high but he doesn't get huge strength boons so makes up for it. Same as a guard.
@@ -118,5 +125,7 @@
 			H.change_stat("perception", 2)
 			H.change_stat("endurance", 1)
 			H.change_stat("speed", 2)
+			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)	
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 			H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()		//Semi-crazed warrior vibe.
+

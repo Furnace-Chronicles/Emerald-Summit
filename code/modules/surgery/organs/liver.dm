@@ -75,7 +75,7 @@
 /obj/item/organ/liver/golem
 	name = "golem decay regulator"
 	icon_state = "liver-con"
-	desc = "A golem's decay regulator. Swirling with pestran energies, it prevents corrosion and rot. Unfortunately, this makes them susceptible to toxins."
+	desc = "A golem's decay regulator. Swirling with pestran energies, it prevents corrosion and rot but cannot process any chemicals."
 
 /obj/item/organ/liver/alien
 	name = "alien liver" // doesnt matter for actual aliens because they dont take toxin damage

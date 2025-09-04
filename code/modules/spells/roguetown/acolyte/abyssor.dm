@@ -232,6 +232,8 @@
 			user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
 		QDEL_NULL(summoned)
 		summoned = new /mob/living/simple_animal/hostile/retaliate/rogue/mossback(T, user, townercrab)
+		if(summoned)
+			summoned.faction = list("[user.mind.current.real_name]_faction")
 		return TRUE
 	else
 		to_chat(user, span_warning("The targeted location is blocked. My call fails to draw a mossback."))

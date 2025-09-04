@@ -9,10 +9,9 @@
 	antag_flag = ROLE_NBEAST
 	shared_occurence_type = SHARED_HIGH_THREAT
 
-	weight = 0		//Disabled cus vampires too strong
-	max_occurrences = 0
-
-	denominator = 80
+	weight = 4 // frag out boy
+	max_occurrences = 2
+	denominator = 50
 
 	base_antags = 1
 	maximum_antags = 2
@@ -20,18 +19,21 @@
 	earliest_start = 0 SECONDS
 
 	typepath = /datum/round_event/antagonist/solo/vampire
-	antag_datum = /datum/antagonist/vampirelord
+	antag_datum = /datum/antagonist/vampirelord/lesser //vlord once again disabled by host request for now
 
-	restricted_roles = list(
+	restricted_roles = list( // basically just keep and church roles
 		"Grand Duke",
 		"Grand Duchess",
+		"Knight Captain",
 		"Consort",
 		"Dungeoneer",
 		"Sergeant",
-		"Men-at-arms",
+		"Men-at-Arms",
+		"Woman-at-Arms",
 		"Marshal",
 		"Merchant",
 		"Priest",
+		"Priestess",
 		"Acolyte",
 		"Martyr",
 		"Templar",
@@ -41,14 +43,21 @@
 		"Princess",
 		"Hand",
 		"Steward",
+		"Clerk",
+		"Magos Thrall",
+		"Jester",
+		"Servant",
+		"Seneschal",
 		"Court Physician",
 		"Town Elder",
 		"Captain",
-		"Archivist",
+		"Loudmouth",
 		"Knight",
+		"Dame",
 		"Court Magician",
 		"Inquisitor",
 		"Orthodoxist",
+		"Absolver",
 		"Warden",
 		"Squire",
 		"Veteran",

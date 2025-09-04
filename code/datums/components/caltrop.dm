@@ -27,6 +27,9 @@
 		if(HAS_TRAIT(H, TRAIT_PIERCEIMMUNE))
 			return
 
+		if(HAS_TRAIT(H, TRAIT_CALTROPIMMUNE))
+			return
+
 		if((flags & CALTROP_IGNORE_WALKERS) && H.m_intent == MOVE_INTENT_WALK)
 			return
 

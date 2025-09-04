@@ -20,8 +20,8 @@
 	)
 
 /datum/skill/misc/reading
-	name = "Reading"
-	desc = "Increases your chance to read a spellbook successfully by 2% per level. Minimum of 1 is required to be literate and read various things."
+	name = "Literacy"
+	desc = "Increases your chance to read a spellbook successfully by 2% per level. Also raises your ability to write and comprehend skillbooks. Minimum of 1 is required to be literate and read various things."
 	dreams = list(
 		"...amidst the void, strange symbols and glyphs make their way into your mind. They re-arrange themselves unceasingly, indecipherable truths speaking in silent voices. The clouds part, and they fall still within the moonlight. The meaning of the gift is revealed...",
 		"...you cut into your meal, juices leaking from the edges of the book. Your mind expands throughout your meal, and you are about halfway through the meal when an old, bearded chef asks you how you like his specialty..."

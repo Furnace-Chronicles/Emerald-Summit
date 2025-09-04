@@ -81,7 +81,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 	return new_msg
 
-/mob/living/say(message, bubble_type,list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null)
+/mob/living/say(message, bubble_type,list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null, message_mode = null)
 	var/static/list/crit_allowed_modes = list(MODE_WHISPER = TRUE, MODE_CHANGELING = TRUE, MODE_ALIEN = TRUE)
 	var/static/list/unconscious_allowed_modes = list(MODE_CHANGELING = TRUE, MODE_ALIEN = TRUE)
 	var/talk_key = get_key(message)
@@ -94,7 +94,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		ic_blocked = TRUE
 
 	if(sanitize)
-		message = trim(copytext(sanitize(message), 1, MAX_MESSAGE_LEN))
+		message = trim(copytext_char(sanitize(message), 1, MAX_MESSAGE_LEN))
 	if(!message || message == "")
 		return
 
@@ -105,16 +105,17 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		return
 
 	var/datum/saymode/saymode = SSradio.saymodes[talk_key]
-	var/message_mode = get_message_mode(message)
+	if(!message_mode)
+		message_mode = get_message_mode(message)
 	var/original_message = message
 	var/in_critical = InCritical()
 
 	if(one_character_prefix[message_mode])
-		message = copytext(message, 2)
+		message = copytext_char(message, 2)
 	else if(message_mode || saymode)
-		message = copytext(message, 3)
+		message = copytext_char(message, 3)
 	if(findtext_char(message, " ", 1, 2))
-		message = copytext(message, 2)
+		message = copytext_char(message, 2)
 
 	if(message_mode == MODE_ADMIN)
 		if(client)
@@ -161,11 +162,11 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		// No, you cannot speak in xenocommon just because you know the key
 		if(can_speak_in_language(message_language))
 			language = message_language
-		message = copytext(message, 3)
+		message = copytext_char(message, 3)
 
 		// Trim the space if they said ",0 I LOVE LANGUAGES"
 		if(findtext_char(message, " ", 1, 2))
-			message = copytext(message, 2)
+			message = copytext_char(message, 2)
 
 	if(!language)
 		language = get_default_language()
@@ -202,7 +203,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			var/health_diff = round(-HEALTH_THRESHOLD_DEAD + health)
 			// If we cut our message short, abruptly end it with a-..
 			var/message_len = length(message)
-			message = copytext(message, 1, health_diff) + "[message_len > health_diff ? "-.." : "..."]"
+			message = copytext_char(message, 1, health_diff) + "[message_len > health_diff ? "-.." : "..."]"
 			message = Ellipsis(message, 10, 1)
 			last_words = message
 			message_mode = MODE_WHISPER_CRIT
@@ -247,6 +248,12 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		return 1
 
 	var/datum/language/D = GLOB.language_datum_instances[language]
+	var/postsigreturn = SEND_SIGNAL(src, COMSIG_MOB_SAY_POSTPROCESS, args)
+	if(postsigreturn & COMPONENT_UPPERCASE_SPEECH)
+		message = uppertext(message)
+	if(!message)
+		return
+
 	if(D.flags & SIGNLANG)
 		send_speech_sign(message, message_range, src, bubble_type, spans, language, message_mode, original_message)
 	else
@@ -369,12 +376,15 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			deaf_message = "<span class='name'>[speaker]</span> [speaker.verb_say] something but you cannot hear [speaker.p_them()]."
 			deaf_type = 1
 	else
-		deaf_message = span_notice("I can't hear yourself!")
+		deaf_message = span_notice("I can't hear myself!")
 		deaf_type = 2 // Since you should be able to hear myself without looking
 
 	// Create map text prior to modifying message for goonchat
 	if(can_see_runechat(speaker) && can_hear())
 		create_chat_message(speaker, message_language, raw_message, spans, message_mode)
+	if(raw_message == last_heard_raw_message)
+		return
+	last_heard_raw_message = raw_message
 	// Recompose message for AI hrefs, language incomprehension.
 	message = compose_message(speaker, message_language, raw_message, radio_freq, spans, message_mode)
 	show_message(message, MSG_AUDIBLE, deaf_message, deaf_type)
@@ -403,20 +413,20 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			Zs_yell = TRUE
 		if(say_test(message) == "3")	//Big "!!" shout
 			Zs_all = TRUE
-	// AZURE EDIT: thaumaturgical loudness (from orisons)
+	// AZURE EDIT: thaumaturgical loudness (from orisons) //Vrell - This is so fucking scuffed.
 	if (has_status_effect(/datum/status_effect/thaumaturgy))
 		spans |= SPAN_REALLYBIG
 		var/datum/status_effect/thaumaturgy/buff = locate() in status_effects
 		message_range += (5 + buff.potency) // maximum 12 tiles extra, which is a lot!
-		for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
+		for(var/datum/scommodule/S in SSroguemachine.scomm_commons)
 			if (prob(buff.potency * 3) && S.speaking) // 3% chance per holy level, per SCOM for it to shriek your message in town wherever you are
-				S.verb_say = "shrieks in terror"
-				S.verb_exclaim = "shrieks in terror"
-				S.verb_yell = "shrieks in terror"
-				S.say(message, spans = list("info", "reallybig"))
-				S.verb_say = initial(S.verb_say)
-				S.verb_exclaim = initial(S.verb_exclaim)
-				S.verb_yell = initial(S.verb_yell)
+				S.parent_object.verb_say = "shrieks in terror"
+				S.parent_object.verb_exclaim = "shrieks in terror"
+				S.parent_object.verb_yell = "shrieks in terror"
+				S.parent_object.say(message, spans = list("info", "reallybig"))
+				S.parent_object.verb_say = initial(S.parent_object.verb_say)
+				S.parent_object.verb_exclaim = initial(S.parent_object.verb_exclaim)
+				S.parent_object.verb_yell = initial(S.parent_object.verb_yell)
 		remove_status_effect(/datum/status_effect/thaumaturgy)
 	// AZURE EDIT END
 	var/list/listening = get_hearers_in_view(message_range+eavesdrop_range, source)
@@ -424,6 +434,11 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 //	var/list/yellareas	//CIT CHANGE - adds the ability for yelling to penetrate walls and echo throughout areas
 	for(var/_M in GLOB.player_list)
 		var/mob/M = _M
+		var/atom/movable/tocheck = M
+		if(isdullahan(M))
+			var/mob/living/carbon/human/target = M
+			var/datum/species/dullahan/target_species = target.dna.species
+			tocheck = target_species.headless ? target_species.my_head : M
 //		if(M.stat != DEAD) //not dead, not important
 //			if(yellareas)	//CIT CHANGE - see above. makes yelling penetrate walls
 //				var/area/A = get_area(M)	//CIT CHANGE - ditto
@@ -436,13 +451,13 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			continue
 		if(!M.client)
 			continue
-		if(get_dist(M, src) > message_range) //they're out of range of normal hearing
+		if(get_dist(tocheck, src) > message_range) //they're out of range of normal hearing
 			if(M.client.prefs)
 				if(eavesdropping_modes[message_mode] && !(M.client.prefs.chat_toggles & CHAT_GHOSTWHISPER)) //they're whispering and we have hearing whispers at any range off
 					continue
 				if(!(M.client.prefs.chat_toggles & CHAT_GHOSTEARS)) //they're talking normally and we have hearing at any range off
 					continue
-		if(!is_in_zweb(src.z,M.z))
+		if(!is_in_zweb(src.z,tocheck.z))
 			continue
 		listening |= M
 		the_dead[M] = TRUE
@@ -500,7 +515,12 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			var/name_to_highlight = H.nickname
 			if(name_to_highlight && name_to_highlight != "" && name_to_highlight != "Please Change Me")	//We don't need to highlight an unset or blank one.
 				highlighted_message = replacetext_char(message, name_to_highlight, "<b><font color = #[H.highlight_color]>[name_to_highlight]</font></b>")
-		if(eavesdrop_range && get_dist(source, AM) > message_range+keenears && !(the_dead[AM]))
+		var/atom/movable/tocheck = AM
+		if(isdullahan(AM))
+			var/mob/living/carbon/human/target = AM
+			var/datum/species/dullahan/target_species = target.dna.species
+			tocheck = target_species.headless ? target_species.my_head : AM
+		if(eavesdrop_range && get_dist(source, tocheck) > message_range+keenears && !(the_dead[AM]))
 			AM.Hear(eavesrendered, src, message_language, eavesdropping, , spans, message_mode, original_message)
 		else if(highlighted_message)
 			AM.Hear(rendered, src, message_language, highlighted_message, , spans, message_mode, original_message)
@@ -537,8 +557,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	return TRUE
 
 /mob/living/proc/can_speak_vocal(message) //Check AFTER handling of xeno and ling channels
-	if(HAS_TRAIT(src, TRAIT_MUTE)|| HAS_TRAIT(src, TRAIT_PERMAMUTE))
-		return FALSE
+	if(HAS_TRAIT(src, TRAIT_MUTE)|| HAS_TRAIT(src, TRAIT_PERMAMUTE) || HAS_TRAIT(src, TRAIT_BAGGED))
+		return FALSE	
 
 	if(is_muzzled())
 		return FALSE
@@ -549,13 +569,13 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	return TRUE
 
 /mob/living/proc/get_key(message)
-	var/key = copytext(message, 1, 2)
+	var/key = copytext_char(message, 1, 2)
 	if(key in GLOB.department_radio_prefixes)
-		return lowertext(copytext(message, 2, 3))
+		return lowertext(copytext_char(message, 2, 3))
 
 /mob/living/proc/get_message_language(message)
-	if(copytext(message, 1, 2) == ",")
-		var/key = copytext(message, 2, 3)
+	if(copytext_char(message, 1, 2) == ",")
+		var/key = copytext_char(message, 2, 3)
 		for(var/ld in GLOB.all_languages)
 			var/datum/language/LD = ld
 			if(initial(LD.key) == key)

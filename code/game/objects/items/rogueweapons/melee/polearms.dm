@@ -7,7 +7,7 @@
 	animname = "stab"
 	icon_state = "instab"
 	reach = 2
-	chargetime = 1
+	clickcd = CLICK_CD_CHARGED
 	warnie = "mobwarning"
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
 	penfactor = 50
@@ -15,7 +15,6 @@
 
 /datum/intent/spear/thrust/militia
 	penfactor = 40
-	chargetime = 0
 
 /datum/intent/spear/bash
 	name = "bash"
@@ -112,7 +111,7 @@
 	reach = 1
 	penfactor = BLUNT_DEFAULT_PENFACTOR
 	damfactor = 2.5
-	chargetime = 10
+	clickcd = CLICK_CD_CHARGED
 	no_early_release = TRUE
 	hitsound = list('sound/combat/hits/bladed/genslash (1).ogg', 'sound/combat/hits/bladed/genslash (2).ogg', 'sound/combat/hits/bladed/genslash (3).ogg')
 	item_d_type = "slash"
@@ -123,7 +122,7 @@
 	name = "long rend"
 	penfactor = BLUNT_DEFAULT_PENFACTOR
 	misscost = 5
-	chargetime = 5
+	clickcd = CLICK_CD_HEAVY
 	damfactor = 2
 	reach = 2
 
@@ -131,7 +130,6 @@
 	name = "rending thrust"
 	attack_verb = list("skewers")
 	blade_class = BCLASS_STAB
-	chargetime = 10
 	swingdelay = 8
 	misscost = 20
 	damfactor = 1.8
@@ -147,7 +145,7 @@
 	animname = "cut"
 	blade_class = BCLASS_PEEL
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	chargetime = 2
+	clickcd = CLICK_CD_CHARGED
 	penfactor = 200
 	swingdelay = 5
 	damfactor = 0.05
@@ -280,6 +278,9 @@
 	gripsprite = TRUE
 	wlength = WLENGTH_GREAT
 	w_class = WEIGHT_CLASS_BULKY
+	slot_flags = ITEM_SLOT_BACK
+	equip_delay_self = 2.5 SECONDS
+	unequip_delay_self = 2.5 SECONDS
 	minstr = 8
 	max_blade_int = 100
 	anvilrepair = /datum/skill/craft/weaponsmithing
@@ -436,6 +437,9 @@
 	gripsprite = TRUE
 	wlength = WLENGTH_GREAT
 	w_class = WEIGHT_CLASS_BULKY
+	slot_flags = ITEM_SLOT_BACK
+	equip_delay_self = 2.5 SECONDS
+	unequip_delay_self = 2.5 SECONDS
 	minstr = 8
 	max_blade_int = 200
 	anvilrepair = /datum/skill/craft/weaponsmithing
@@ -651,6 +655,9 @@
 	gripsprite = TRUE
 	wlength = WLENGTH_GREAT
 	w_class = WEIGHT_CLASS_BULKY
+	slot_flags = ITEM_SLOT_BACK
+	equip_delay_self = 2.5 SECONDS
+	unequip_delay_self = 2.5 SECONDS
 	minstr = 9
 	max_blade_int = 200
 	anvilrepair = /datum/skill/craft/weaponsmithing
@@ -719,19 +726,22 @@
 	icon_state = "dendorscythe"
 	gripped_intents = list(/datum/intent/spear/thrust/eaglebeak, /datum/intent/spear/cut/bardiche, /datum/intent/axe/chop/scythe, SPEAR_BASH)
 
-/obj/item/rogueweapon/halberd/psyhalberd
+/obj/item/rogueweapon/halberd/psyhalberd/relic
 	name = "Stigmata"
 	desc = "Christened in the Siege of Lirvas, these silver-tipped poleaxes - wielded by a lonesome contingent of Saint Eora's paladins - kept the horrors at bay for forty daes-and-nites. Long-since-recovered from the rubble, this relic now serve as a bulwark for the defenseless."
 	icon_state = "psyhalberd"
-	sellprice = 450 //price of the ingots plus.
+
+/obj/item/rogueweapon/halberd/psyhalberd/relic/ComponentInitialize()	//Pre-blessed, +5 force, +100 blade int, +100 int, +2 def, make silver.
+	AddComponent(/datum/component/psyblessed, TRUE, 5, 100, 100, 2, TRUE)
+
+/obj/item/rogueweapon/halberd/psyhalberd	
+	name = "psydonian halberd"
+	desc = "A reliable design that has served humenkind to fell the enemy and defend Psydon's flock - now fitted with a lengthier blade and twin, silver-tipped beaks."
+	icon_state = "silverhalberd"
 
 /obj/item/rogueweapon/halberd/psyhalberd/ComponentInitialize()
-	. = ..()				//+5 force, +100 blade int, +100 int, +2 def, make silver.
-	AddComponent(/datum/component/psyblessed, FALSE, 5, 100, 100, 2, TRUE)
-
-/obj/item/rogueweapon/halberd/psyhalberd/preblessed/ComponentInitialize()
-	. = ..()				//Pre-blessed, +5 force, +100 blade int, +100 int, +2 def, make silver.
-	AddComponent(/datum/component/psyblessed, TRUE, 5, 100, 100, 2, TRUE)
+	. = ..()							//+3 force, +50 int, +1 def, make silver
+	AddComponent(/datum/component/psyblessed, FALSE, 3, FALSE, 50, 1, TRUE)
 
 /obj/item/rogueweapon/halberd/glaive
 	possible_item_intents = list(/datum/intent/spear/thrust/eaglebeak, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
@@ -774,6 +784,9 @@
 	gripsprite = TRUE
 	wlength = WLENGTH_GREAT
 	w_class = WEIGHT_CLASS_BULKY
+	slot_flags = ITEM_SLOT_BACK
+	equip_delay_self = 2.5 SECONDS
+	unequip_delay_self = 2.5 SECONDS
 	minstr = 11
 	smeltresult = /obj/item/ingot/steel
 	associated_skill = /datum/skill/combat/polearms
@@ -860,6 +873,9 @@
 	gripsprite = TRUE
 	wlength = WLENGTH_GREAT
 	w_class = WEIGHT_CLASS_BULKY
+	slot_flags = ITEM_SLOT_BACK
+	equip_delay_self = 2.5 SECONDS
+	unequip_delay_self = 2.5 SECONDS
 	blade_dulling = DULLING_SHAFT_METAL
 	minstr = 9
 	smeltresult = /obj/item/ingot/steel
@@ -926,19 +942,62 @@
 	force = 14
 	force_wielded = 35
 
-/obj/item/rogueweapon/greatsword/psygsword
-	name = "Apocrypha"
-	desc = "In the Otavan mosaics, Saint Ravox - bare in all but a beaked helmet and loincloth - is often depicted wielding such an imposing greatweapon against the Dark Star, Graggar. Regardless of whether this relic was actually wielded by divinity-or-not, its unparallel strength will nevertheless command even the greatest foes to fall."
-	icon_state = "psygsword"
-	sellprice = 450 //2 bars plus
+/obj/item/rogueweapon/greatsword/psygsword/
+	name = "psydonian greatsword"
+	desc = "It is said that a Psydonian smith was guided by Saint Malum himself to forge such a formidable blade, and given the task to slay a daemon preying on the Otavan farmlands. The design was retrieved, studied, and only a few replicas made - for they believe it dulls its edge."
+	icon_state = "silverexealt"
 
 /obj/item/rogueweapon/greatsword/psygsword/ComponentInitialize()
-	. = ..()					//+100 Blade int, +100 int, +2 def, make it silver
-	AddComponent(/datum/component/psyblessed, FALSE, 5, 100, 100, 2, TRUE)
+	. = ..()							//+3 force, +50 int, +1 def, make silver
+	AddComponent(/datum/component/psyblessed, FALSE, 3, FALSE, 50, 1, TRUE)
 
-/obj/item/rogueweapon/greatsword/psygsword/preblessed/ComponentInitialize()
-	. = ..()					//Pre-blessed, +100 Blade int, +100 int, +2 def, make it silver
+/obj/item/rogueweapon/greatsword/psygsword/relic
+	name = "Apocrypha"
+	desc = "In the Otavan mosaics, Saint Ravox - bare in all but a beaked helmet and loincloth - is often depicted wielding such an imposing greatweapon against the Dark Star, Graggar. Regardless of whether this relic was actually wielded by divinity-or-not, its unparallel strength will nevertheless command even the greatest foes to fall."
+	force = 25
+	icon_state = "psygsword"
+	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/peel, /datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/exe, /datum/intent/rend, /datum/intent/axe/chop)
+
+/obj/item/rogueweapon/greatsword/psygsword/relic/ComponentInitialize()		//Pre-blessed, +100 Blade int, +100 int, +2 def, make it silver
 	AddComponent(/datum/component/psyblessed, TRUE, 5, 100, 100, 2, TRUE)
+
+/obj/item/rogueweapon/greatsword/bsword/psy
+	name = "old psydonian broadsword"
+	desc = "Even the most ignorant of zealots know that the holy silver loses its properties when not blessed by Adjudicators and Priests of the Holy See for an extended period of time. Its edge remains as lethal as ever, however."
+	icon_state = "oldpsybroadsword"
+	force = 25
+	force_wielded = 30
+	possible_item_intents = list(/datum/intent/sword/cut,/datum/intent/sword/chop,/datum/intent/stab,/datum/intent/rend/krieg)
+	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/chop, /datum/intent/sword/lunge, /datum/intent/sword/thrust/estoc)
+	alt_intents = list(/datum/intent/effect/daze, /datum/intent/sword/strike, /datum/intent/sword/bash)
+
+/obj/item/rogueweapon/greatsword/bsword/psy/relic
+	name = "Creed"
+	desc = "Psydonian prayers and Tennite smiths, working as one to craft a weapon to slay the Four. A heavy and large blade, favored by Saint Ravox, to lay waste to those who threaten His flock. The crossguard's psycross reflects even the faintest of Noc's light. You're the light - show them the way."
+	icon_state = "psybroadsword"
+
+/obj/item/rogueweapon/greatsword/bsword/psy/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen") return list("shrink" = 0.5, "sx" = -14, "sy" = -8, "nx" = 15, "ny" = -7, "wx" = -10, "wy" = -5, "ex" = 7, "ey" = -6, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0, "nturn" = -13, "sturn" = 110, "wturn" = -60, "eturn" = -30, "nflip" = 1, "sflip" = 1, "wflip" = 8, "eflip" = 1)
+			if("wielded") return list("shrink" = 0.6,"sx" = 9,"sy" = -4,"nx" = -7,"ny" = 1,"wx" = -9,"wy" = 2,"ex" = 10,"ey" = 2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 5,"sturn" = -190,"wturn" = -170,"eturn" = -10,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
+			if("onback") return list("shrink" = 0.5, "sx" = -1, "sy" = 2, "nx" = 0, "ny" = 2, "wx" = 2, "wy" = 1, "ex" = 0, "ey" = 1, "nturn" = 0, "sturn" = 0, "wturn" = 70, "eturn" = 15, "nflip" = 1, "sflip" = 1, "wflip" = 1, "eflip" = 1, "northabove" = 1, "southabove" = 0, "eastabove" = 0, "westabove" = 0)
+			if("onbelt") return list("shrink" = 0.3, "sx" = -4, "sy" = -6, "nx" = 5, "ny" = -6, "wx" = 0, "wy" = -6, "ex" = -1, "ey" = -6, "nturn" = 100, "sturn" = 156, "wturn" = 90, "eturn" = 180, "nflip" = 0, "sflip" = 0, "wflip" = 0, "eflip" = 0, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0)
+
+/obj/item/rogueweapon/greatsword/bsword/psy/relic/ComponentInitialize()
+	. = ..()					//Pre-blessed, +5 DMG, +100 Blade int, +100 int, +2 def, make it silver
+	AddComponent(/datum/component/psyblessed, TRUE, 5, 100, 100, 2, TRUE)
+
+/obj/item/rogueweapon/greatsword/bsword/psy/unforgotten
+	name = "unforgotten blade"
+	desc = "High Inquisitor Archibald once recorded an expedition of seven brave Adjudicators into Gronnian snow-felled wastes to root out evil. Its leader, Holy Ordinator Guillemin, was said to have held on for seven daes and seven nights against darksteel-clad heretics before Psydon acknowledged his endurance. Nothing but his blade remained - his psycross wrapped around its hilt in rememberance."
+	icon_state = "forgottenblade"
+
+/obj/item/rogueweapon/greatsword/bsword/psy/unforgotten/ComponentInitialize()
+	. = ..()					//+50 Blade int, +3 DMG, +50 int, +1 def, make it silver
+	AddComponent(/datum/component/psyblessed, FALSE, 3, 50, 50, 1, TRUE)
 
 /obj/item/rogueweapon/estoc
 	name = "estoc"
@@ -966,6 +1025,9 @@
 	gripsprite = TRUE
 	wlength = WLENGTH_GREAT
 	w_class = WEIGHT_CLASS_BULKY
+	slot_flags = ITEM_SLOT_BACK
+	equip_delay_self = 2.5 SECONDS
+	unequip_delay_self = 2.5 SECONDS
 	blade_dulling = DULLING_SHAFT_METAL
 	minstr = 8
 	smeltresult = /obj/item/ingot/steel
@@ -1120,6 +1182,11 @@
 	wdefense = 6 // A little bit extra
 	max_blade_int = 150 // 50% more sharpness but it barely matter lol
 
+/obj/item/rogueweapon/spear/boar/frei
+	name = "Aavnic lándzsa"
+	desc = "A regional earspoon lance with a carved handle, adorned with the colours of the Freifechters. These are smithed by the legendary armourers of Vyšvou and given to distinguished lancers upon their graduation."
+	icon_state = "praguespear"
+
 /obj/item/rogueweapon/spear/lance
 	name = "lance"
 	desc = "A long polearm designed to be used from horseback, couched under the arm. It has a vambrace to prevent the arm sliding up \
@@ -1137,7 +1204,7 @@
 	blade_dulling = DULLING_SHAFT_REINFORCED
 
 /obj/item/rogueweapon/spear/naginata
-	name = "Naginata"
+	name = "naginata"
 	desc = "A traditional Kazengunese polearm, combining the reach of a spear with the cutting power of a curved blade. Due to the brittle quality of Kazengunese bladesmithing, weaponsmiths have adapted its blade to be easily replaceable when broken by a peg upon the end of the shaft."
 	force = 16
 	force_wielded = 30
@@ -1160,3 +1227,29 @@
 				return list("shrink" = 0.6,"sx" = -6,"sy" = 2,"nx" = 8,"ny" = 2,"wx" = -4,"wy" = 2,"ex" = 1,"ey" = 2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 300,"wturn" = 32,"eturn" = -23,"nflip" = 0,"sflip" = 100,"wflip" = 8,"eflip" = 0)
 			if("wielded")
 				return list("shrink" = 0.6,"sx" = 4,"sy" = -2,"nx" = -3,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+
+/obj/item/rogueweapon/halberd/capglaive
+	possible_item_intents = list(/datum/intent/spear/thrust/eaglebeak, SPEAR_BASH)
+	gripped_intents = list(/datum/intent/spear/thrust/glaive, /datum/intent/spear/cut/glaive, /datum/intent/axe/chop/scythe, SPEAR_BASH)
+	name = "'Deliverer'"
+	desc = "As if glaives werent hard enough to produce, this one in particular is made out of blacksteel. A piece of art made for the captain of the guard, its a tool to deliver justice and help those weaker than the wielder."
+	force = 17
+	force_wielded = 35
+	icon = 'icons/roguetown/weapons/special/captainglaive.dmi'
+	icon_state = "capglaive"
+	anvilrepair = /datum/skill/craft/weaponsmithing
+	smeltresult = /obj/item/ingot/blacksteel
+	blade_dulling = DULLING_SHAFT_METAL
+	max_integrity = 290 //blacksteel, so its gotta be more durable
+	max_blade_int = 200
+	sellprice = 250
+	wdefense = 12
+
+/obj/item/rogueweapon/halberd/capglaive/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -7,"sy" = 2,"nx" = 7,"ny" = 3,"wx" = -2,"wy" = 1,"ex" = 1,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 30,"eturn" = -30,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.6,"sx" = 5,"sy" = -3,"nx" = -5,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)

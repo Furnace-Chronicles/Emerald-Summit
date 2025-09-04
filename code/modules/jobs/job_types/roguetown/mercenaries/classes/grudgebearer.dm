@@ -46,6 +46,7 @@
 				backpack_contents = list(/obj/item/roguekey/mercenary, /obj/item/storage/belt/rogue/pouch/coins/poor, /obj/item/rogueweapon/hammer/iron, /obj/item/paper/scroll/grudge, /obj/item/natural/feather, /obj/item/rogueweapon/tongs = 1, /obj/item/clothing/head/roguetown/helmet/heavy/dwarven)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_TRAINED_SMITH, TRAIT_GENERIC)
+				ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)	
 			if("Soldier")
 				H.change_stat("constitution", 5)
 				H.change_stat("endurance", 4)

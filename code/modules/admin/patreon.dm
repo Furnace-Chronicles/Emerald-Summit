@@ -3,7 +3,6 @@
 // Vrell - IDK Who hardcoded the patreon lists but I'm changing that. Also, conventient defines.
 // TODO - MOVE THESE TO A CONFIG FILE OR SOMETHING IDFK
 #define HIGHESTPATREONLEVEL 9
-GLOBAL_VAR_INIT(patreonsaylevel, 4) // Minimum patreon level that the fancy say color applies to. 
 
 // V - Yeah not sure if there's a better way to do this but fuck it, it works.
 GLOBAL_LIST_INIT(patreonlevelnames, list("Squire", "Knight", "Knight Captain", "Marshal", "Jester", "Steward", "Heir", "Consort", "Grand Baron"))
@@ -143,50 +142,54 @@ GLOBAL_VAR(PatreonsLoaded)
 
 // TODO - If you add patreon verb perks, clean this up!!!!
 
-GLOBAL_LIST_INIT(pleveloneverbs, world.pleveloneverbs())
-GLOBAL_PROTECT(pleveloneverbs)
-/world/proc/pleveloneverbs()
-	return list(
-	)
+// VRELL - yeah guess I'm setting up the basics of perks.
 
-GLOBAL_LIST_INIT(pleveltwoverbs, world.pleveltwoverbs())
-GLOBAL_PROTECT(pleveltwoverbs)
-/world/proc/pleveltwoverbs()
-	return list(
-	)
+// Stuff for player text.
+GLOBAL_VAR_INIT(patreonsaylevel, 4) // Minimum patreon level that the fancy say color applies to. 
+/client/proc/patreon_say_color_toggle()
+	set name = "Toggle Say Color"
+	set category = "Patreon"
+	set desc = ""
 
-GLOBAL_LIST_INIT(plevelthreeverbs, world.plevelthreeverbs())
-GLOBAL_PROTECT(plevelthreeverbs)
-/world/proc/plevelthreeverbs()
-	return list(
-	)
+	if(prefs)
+		to_chat(src, span_info("[prefs.patreon_say_color_enabled ? "Your voice will appear as any other.": "<font color='[prefs.patreon_say_color]'>Your voice will use the color you choose.</font>"]"))
+		prefs.patreon_say_color_enabled = !prefs.patreon_say_color_enabled
+		prefs.save_preferences()
+	else
+		to_chat(src, "<font color='red'>Preferences not loaded! This is a bug or you need to wait for things to load first.</font>")
 
-GLOBAL_LIST_INIT(plevelfourverbs, world.plevelfourverbs())
-GLOBAL_PROTECT(plevelfourverbs)
-/world/proc/plevelfourverbs()
-	return list(
-	)
+/client/proc/patreon_say_color_set()
+	set name = "Change Say Color"
+	set category = "Patreon"
+	set desc = ""
 
-GLOBAL_LIST_INIT(plevelfiveverbs, world.plevelfiveverbs())
-GLOBAL_PROTECT(plevelfiveverbs)
-/world/proc/plevelfiveverbs()
-	return list(
-	)
+	if(prefs)
+		var/new_color = input(src, "Choose your voice color:", "Patreon Preference","#"+prefs.patreon_say_color) as color|null
+		if(new_color)
+			if(color_hex2num(new_color) < 230)
+				to_chat(src, "<font color='red'>This voice color is too dark.</font>")
+				return
 
+			prefs.patreon_say_color = sanitize_hexcolor(new_color)
+			if(prefs.patreon_say_color_enabled)
+				to_chat(src, "<font color='[prefs.patreon_say_color]'>Voice color set.</font>")
+			else
+				prefs.patreon_say_color_enabled = TRUE
+				to_chat(src, "<font color='[prefs.patreon_say_color]'>Voice color set and enabled.</font>")
+			prefs.save_preferences()
+		else
+			to_chat(src, "<font color='red'>No voice color selected.</font>")
+	else
+		to_chat(src, "<font color='red'>Preferences not loaded! This is a bug or you need to wait for things to load first.</font>")
+
+// Vrell - WOO WE LOVE HACKY FIXES!!!
 /client/proc/add_patreon_verbs()
-	set waitfor = 0
-	var/plev = check_patreon_lvl(ckey)
+	set waitfor = 0 // wtf is this for? leaving it in case it breaks something to not have it.
+	var/plev = patreonlevel() // Better to do it this way so all the safeguards and stuff get passed through.
 
-	if(plev > 1)
-		verbs |= GLOB.pleveloneverbs
-	if(plev > 2)
-		verbs |= GLOB.pleveltwoverbs
-	if(plev > 3)
-		verbs |= GLOB.plevelthreeverbs
-	if(plev > 4)
-		verbs |= GLOB.plevelfourverbs
-	if(plev > 5)
-		verbs |= GLOB.plevelfiveverbs
+	if(plev >= GLOB.patreonsaylevel)
+		verbs += /client/proc/patreon_say_color_toggle
+		verbs += /client/proc/patreon_say_color_set
 
 GLOBAL_LIST_EMPTY(hiderole)
 
@@ -234,7 +237,17 @@ GLOBAL_LIST_EMPTY(temporary_donators)
 		return patreonlevel
 	else
 		patreonlevel = check_patreon_lvl(ckey)
+		if(patreonlevel != -1)
+			updatepatreonperks() //stops infinite loop in the event that for some reason the patreon level is just -1.
 		return patreonlevel
+
+/client/proc/updatepatreonperks()
+	if(patreonlevel == -1)
+		patreonlevel(); // Vrell - If we try and get patreon perks without a level loaded, we need a fallback.
+		return FALSE; // Vrell - IDK who may want this but hey you have very rudimentary error stuff now.
+	patreon_colored_say_allowed = (patreonlevel >= GLOB.patreonsaylevel) //We have a variable for this because someone might leave it on and then lose their patreon perks.
+	// TODO - SLAP YOUR PATREON STUFF HERE!
+	return TRUE;
 
 /proc/patemail2ckey(input)
 	if(!input)

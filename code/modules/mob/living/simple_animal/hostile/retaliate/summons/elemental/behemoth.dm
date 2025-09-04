@@ -1,7 +1,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/elemental/behemoth
 	icon = 'icons/mob/summonable/32x64.dmi'
 	name = "earthen behemoth"
-	summon_primer = "You are an behemoth, a large elemental. Elementals such as yourself often lead groups of wardens in defending your plane. Now you've been pulled from your home into a new world, that is decidedly less peaceful then your carefully guarded plane. How you react to these events, only time can tell."
+	summon_primer = "You are a behemoth, a large elemental. Elementals such as yourself often lead groups of wardens in defending your plane. Now you've been pulled from your home into a new world, that is decidedly less peaceful than your carefully guarded plane. How you react to these events, only time can tell."
 	summon_tier = 3
 	icon_state = "behemoth"
 	icon_living = "behemoth"
@@ -52,8 +52,12 @@
 	..()
 	var/turf/deathspot = get_turf(src)
 	new /obj/item/magic/elementalfragment(deathspot)
+	new /obj/item/magic/elementalfragment(deathspot)
+	new /obj/item/magic/elementalshard(deathspot)
+	new /obj/item/magic/elementalshard(deathspot)
 	new /obj/item/magic/elementalmote(deathspot)
 	new /obj/item/magic/elementalmote(deathspot)
+	new /obj/item/magic/melded/t1(deathspot)
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)

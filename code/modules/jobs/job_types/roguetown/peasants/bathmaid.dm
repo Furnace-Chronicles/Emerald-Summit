@@ -105,12 +105,11 @@
 		mask = /obj/item/clothing/mask/rogue/exoticsilkmask
 		neck = /obj/item/clothing/neck/roguetown/collar/leather
 		shirt = /obj/item/clothing/suit/roguetown/shirt/exoticsilkbra
-		pants = /obj/item/clothing/under/roguetown/tights/stockings/silk
 		shoes = /obj/item/clothing/shoes/roguetown/anklets
 		belt = /obj/item/storage/belt/rogue/leather/exoticsilkbelt
 	else
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
-		neck = /obj/item/clothing/neck/roguetown/collar/bell_collar
+		neck = /obj/item/clothing/neck/roguetown/collar/catbell
 		pants = /obj/item/clothing/under/roguetown/trou/leathertights
 		belt = /obj/item/storage/belt/rogue/leather/black
 		shoes = /obj/item/clothing/shoes/roguetown/sandals
@@ -134,7 +133,7 @@
 	ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
 
-	var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Flute")
+	var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Flute","Trumpet")
 	var/weapon_choice = input("Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
@@ -154,6 +153,9 @@
 			backr = /obj/item/rogue/instrument/vocals
 		if("Flute")
 			backr = /obj/item/rogue/instrument/flute
+		if("Trumpet")
+			backr = /obj/item/rogue/instrument/trumpet
+
 
 /datum/advclass/nightmaiden/courtesan
 	name = "Courtesan"
@@ -219,7 +221,7 @@
 	ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
 
-	var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Flute")
+	var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Flute","Trumpet")
 	var/weapon_choice = input("Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
@@ -239,6 +241,8 @@
 			backr = /obj/item/rogue/instrument/vocals
 		if("Flute")
 			backr = /obj/item/rogue/instrument/flute
+		if("Trumpet")
+			backr = /obj/item/rogue/instrument/trumpet
 
 /obj/item/soap/bath
 	name = "herbal soap"

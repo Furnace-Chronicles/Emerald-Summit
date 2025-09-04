@@ -32,7 +32,7 @@
 	animname = "stab"
 	icon_state = "instab"
 	reach = 2
-	chargetime = 1
+	clickcd = CLICK_CD_CHARGED
 	recovery = 30
 	warnie = "mobwarning"
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
@@ -203,6 +203,35 @@
 	grid_width = 32
 	grid_height = 96
 
+/obj/item/rogueweapon/mace/cudgel/psy
+	name = "psydonian handmace"
+	desc = "A shorthanded mace, a convenient sleeping aid, or a means to root out heresy. It's all in the wrist."
+	wbalance = WBALANCE_SWIFT
+	blade_dulling = DULLING_SHAFT_REINFORCED
+	resistance_flags = FIRE_PROOF
+	icon_state = "psyflangedmace"
+	wdefense = 2
+
+/obj/item/rogueweapon/mace/cudgel/psy/ComponentInitialize()
+	// +3 force, +100 blade int, +50 int, +1 def, make silver
+	AddComponent(/datum/component/psyblessed, FALSE, 3, 100, 50, 1, TRUE)	
+
+/obj/item/rogueweapon/mace/cudgel/psy/preblessed
+
+/obj/item/rogueweapon/mace/cudgel/psy/preblessed/ComponentInitialize()
+	// PREBLESS IT +3 force, +100 blade int, +50 int, +1 def, make silver
+	AddComponent(/datum/component/psyblessed, TRUE, 3, 100, 50, 1, TRUE)
+
+/obj/item/rogueweapon/mace/cudgel/psy/old
+	name = "old psydonian handmace"
+	desc = "A shorthanded mace and convenient sleeping aid, its grown harder to swing with age, though it hasn't lost reliability."
+	force = 20
+	wbalance = WBALANCE_NORMAL
+	icon_state = "opsyflangedmace"
+
+/obj/item/rogueweapon/mace/cudgel/psy/old/ComponentInitialize()
+	return
+
 /obj/item/rogueweapon/mace/cudgel/copper
 	name = "copper bludgeon"
 	desc = "An extremely crude weapon for cruder bastards."
@@ -224,6 +253,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	blade_dulling = DULLING_SHAFT_REINFORCED
 	wbalance = WBALANCE_SWIFT
+	resistance_flags = FIRE_PROOF
 	minstr = 7
 	wdefense = 5
 
@@ -398,7 +428,6 @@
 	force_wielded = 32
 	wbalance = WBALANCE_HEAVY
 	dropshrink = 0.75
-	slot_flags = ITEM_SLOT_BACK //Looks better on back
 	smelt_bar_num = 2
 
 /obj/item/rogueweapon/mace/goden/psymace/ComponentInitialize()

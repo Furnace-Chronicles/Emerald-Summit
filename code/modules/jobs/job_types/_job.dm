@@ -69,6 +69,7 @@
 	//allowed sex/race for picking
 	var/list/allowed_sexes = list(MALE, FEMALE)
 	var/list/allowed_races = RACES_ALL_KINDS
+	var/list/disallowed_races = null
 	var/list/allowed_patrons
 	var/list/allowed_ages = ALL_AGES_LIST
 
@@ -148,8 +149,8 @@
 
 	var/list/virtue_restrictions
 	var/list/vice_restrictions
-	
 
+	var/carebox_table = null
 
 
 /datum/job/proc/special_job_check(mob/dead/new_player/player)

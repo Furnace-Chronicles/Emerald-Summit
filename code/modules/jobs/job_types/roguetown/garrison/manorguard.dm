@@ -8,6 +8,9 @@
 	spawn_positions = 8
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_FEARED_UP
+	disallowed_races = list(
+		/datum/species/lamia,
+	)
 	allowed_patrons = ALL_PATRONS
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
 	tutorial = "Having proven yourself loyal and capable, you are entrusted to defend the town and enforce its laws. \
@@ -105,10 +108,8 @@
 			backl = /obj/item/rogueweapon/shield/iron
 		if("Halberd")
 			r_hand = /obj/item/rogueweapon/halberd
-			backl = /obj/item/gwstrap
 		if("Greataxe")
 			r_hand = /obj/item/rogueweapon/greataxe
-			backl = /obj/item/gwstrap
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1, /obj/item/storage/keyring/guardcastle)
 	H.verbs |= /mob/proc/haltyell
 
@@ -158,10 +159,7 @@
 	H.change_stat("speed", 2)
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord			// Cant wear chainmail anymoooree
-	if(should_wear_femme_clothes(H))
-		armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/bikini		//Helps against arrows; makes sense for a ranged-type role.
-	else
-		armor = /obj/item/clothing/suit/roguetown/armor/leather/studded		//Helps against arrows; makes sense for a ranged-type role.
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded		//Helps against arrows; makes sense for a ranged-type role.
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 
@@ -242,7 +240,6 @@
 	switch(weapon_choice)
 		if("Bardiche")
 			r_hand = /obj/item/rogueweapon/halberd/bardiche
-			backl = /obj/item/gwstrap
 		if("Sword & Shield")
 			beltr = /obj/item/rogueweapon/sword/sabre
 			backl = /obj/item/rogueweapon/shield/wood

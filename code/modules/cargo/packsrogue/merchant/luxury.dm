@@ -61,13 +61,17 @@
 /datum/supply_pack/rogue/luxury/listenst
 	name = "Emerald Choker"
 	cost = 250
-	contains = list(/obj/item/listenstone)
+	contains = list(/obj/item/scomstone/listenstone)
 
-/datum/supply_pack/rogue/luxury/polishing_kit
-	name = "Polishing Kit"
-	no_name_quantity = TRUE
-	cost = 100
-	contains = list(/obj/item/polishing_cream, /obj/item/armor_brush)
+/datum/supply_pack/rogue/luxury/polishing_brush
+	name = "Polishing Brush"
+	cost = 40
+	contains = list(/obj/item/armor_brush)
+
+/datum/supply_pack/rogue/luxury/polishing_cream
+	name = "Polishing Cream"
+	cost = 60
+	contains = list(/obj/item/polishing_cream)
 
 /datum/supply_pack/rogue/luxury/talkstone
 	name = "Talkstone"
@@ -98,3 +102,30 @@
 	name = "Tailor's Swatchbook"
 	cost = 20
 	contains = list(/obj/item/book/rogue/swatchbook)
+
+/datum/supply_pack/rogue/luxury/obsidianfragment
+	name = "Obsidian Fragments"
+	cost = 55
+	contains = list(	
+			/obj/item/magic/obsidian,
+			/obj/item/magic/obsidian,
+			/obj/item/magic/obsidian,
+			)
+
+/datum/supply_pack/rogue/luxury/manaflower
+	name = "Manabloom Flowers"
+	cost = 55
+	contains = list(	
+			/obj/item/reagent_containers/food/snacks/grown/manabloom,
+			/obj/item/reagent_containers/food/snacks/grown/manabloom,
+			/obj/item/reagent_containers/food/snacks/grown/manabloom,
+			)
+
+/datum/supply_pack/rogue/luxury/manacrystal
+	name = "Mana Crystals"
+	cost = 55
+	contains = list(	
+			/obj/item/magic/manacrystal,
+			/obj/item/magic/manacrystal,
+			/obj/item/magic/manacrystal,
+			)

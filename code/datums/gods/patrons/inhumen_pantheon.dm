@@ -22,12 +22,14 @@
 	domain = "Progress, Undeath, Hubris, Left Hand Magicks"
 	desc = "A once-mortal snow elf turned god. Her hubris in thinking she could harvest lux from the planet itself led to the elimination of her entire race. Her works are still used to this dae in some cases."
 	worshippers = "Necromancers, Researchers, Warlocks, and the Undead"
-	mob_traits = list(TRAIT_CABAL, TRAIT_ZIZOSIGHT)
+	mob_traits = list(TRAIT_CABAL, TRAIT_ZIZOSIGHT, TRAIT_ZOMBIE_IMMUNE)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/self/zizo_snuff						= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/profane/miracle 	= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/raise_lesser_undead/miracle 	= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/wound_heal					= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/rituos/miracle 				= CLERIC_T3
 	)
 	confess_lines = list(
@@ -46,9 +48,11 @@
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/self/graggar_bloodrage				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/self/call_to_slaughter 				= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/blood_net 			= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/revel_in_slaughter 			= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/wound_heal					= CLERIC_T3,
 	)
 	confess_lines = list(
 		"GRAGGAR IS THE BEAST I WORSHIP!",
@@ -68,8 +72,10 @@
 					/obj/effect/proc_holder/spell/targeted/touch/lesserknock/miracle	= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/transact						= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/equalize						= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/churnwealthy					= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/wound_heal					= CLERIC_T3,
 	)
 	confess_lines = list(
 		"MATTHIOS STEALS FROM THE WORTHLESS!",
@@ -87,9 +93,11 @@
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/baothavice					= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/baothablessings				= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/blowingdust		= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/painkiller					= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/wound_heal					= CLERIC_T3,
 	)
 	confess_lines = list(
 		"BAOTHA DEMANDS PLEASURE!",
@@ -179,7 +187,7 @@
 	to_chat(follower, span_danger("For Matthios to hear my prayers I must either be in the church of the abandoned, near an inverted psycross, flaunting wealth upon me of at least 100 mammon, or offer a coin of at least five mammon up to him!"))
 	return FALSE
 
-// Baotha 
+// Baotha
 /datum/patron/inhumen/baotha/can_pray(mob/living/follower)
 	. = ..()
 	// Allows prayer in the Zzzzzzzurch(!)

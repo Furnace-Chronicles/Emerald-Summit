@@ -6,6 +6,9 @@
 	total_positions = 1
 	spawn_positions = 1
 	allowed_races = RACES_SECOND_CLASS_NO_GOLEM
+	disallowed_races = list(
+		/datum/species/lamia,
+	)
 	tutorial = "Servitude unto death; that is your motto. You are the manor's major-domo, commanding over the house servants and seeing to the administrative affairs, day to day of the estate. This role has style options for chief butlers and head maids."
 	outfit = /datum/outfit/job/roguetown/seneschal
 	advclass_cat_rolls = list(CTAG_SENESCHAL = 20)
@@ -74,8 +77,6 @@
 
 /datum/outfit/job/roguetown/seneschal/headmaid/pre_equip(mob/living/carbon/human/H)
 	..()
-	armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen
-	pants = pick(/obj/item/clothing/under/roguetown/tights/stockings/silk/white, /obj/item/clothing/under/roguetown/tights/stockings/silk/black) 
 	armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/black
 	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
 	cloak = /obj/item/clothing/cloak/apron/waist

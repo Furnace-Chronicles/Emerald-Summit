@@ -16,6 +16,9 @@
 /obj/item/reagent_containers/glass/bottle/rogue/water
 	list_reagents = list(/datum/reagent/water = 48)
 
+/obj/item/reagent_containers/glass/bottle/mercury
+	list_reagents = list(/datum/reagent/mercury = 48)
+
 //vanderlin potion stuff//
 /obj/item/reagent_containers/glass/bottle/rogue/strongmanapot
 	list_reagents = list(/datum/reagent/medicine/strongmana = 48)
@@ -67,6 +70,18 @@
 
 /obj/item/reagent_containers/glass/bottle/alchemical/healthpot
 	list_reagents = list(/datum/reagent/medicine/healthpot = 27)
+
+/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew
+	list_reagents = list(/datum/reagent/medicine/stronghealth = 27)
+
+/obj/item/reagent_containers/glass/bottle/alchemical/blessedwater
+	list_reagents = list(/datum/reagent/water/blessed = 27)	
+
+/obj/item/reagent_containers/glass/bottle/alchemical/manapot
+	list_reagents = list(/datum/reagent/medicine/manapot = 27)
+
+/obj/item/reagent_containers/glass/bottle/alchemical/strongmanapot
+	list_reagents = list(/datum/reagent/medicine/strongmana = 27)	
 
 //////////////////////////
 /// ALCOHOLIC BOTTLES ///

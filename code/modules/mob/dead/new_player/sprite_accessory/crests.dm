@@ -22,3 +22,7 @@
 /datum/sprite_accessory/crests/steelt
 	name = "Steel Thorn Crest"
 	icon_state = "steelt"	
+
+/datum/sprite_accessory/crests/astratan
+	name = "astratan crown Crest"
+	icon_state = "astratan"	

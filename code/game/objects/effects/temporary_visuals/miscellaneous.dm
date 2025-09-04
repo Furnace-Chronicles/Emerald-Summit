@@ -467,3 +467,18 @@
 	else
 		return INITIALIZE_HINT_QDEL
 
+/obj/effect/temp_visual/recall_smoke //effects from casting the Recall spell, meant to make it more obvious that you're doing it
+	name = "recall smoke"
+	icon = 'icons/effects/particles/smoke.dmi'
+	icon_state = "steam_cloud_1"
+	duration = 20
+	plane = GAME_PLANE_UPPER
+	layer = ABOVE_ALL_MOB_LAYER
+
+/obj/effect/temp_visual/recall_smoke/Initialize(mapload, set_color)
+	if(set_color)
+		add_atom_colour(set_color, FIXED_COLOUR_PRIORITY)
+	. = ..()
+	alpha = 180
+	pixel_x = rand(-15, 15)
+	pixel_y = rand(-15, 15)

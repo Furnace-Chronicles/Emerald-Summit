@@ -305,6 +305,7 @@
 	color = null
 	icon_state = "priesthead"
 	item_state = "priesthead"
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	dynamic_hair_suffix = ""
 	sewrepair = TRUE
@@ -581,6 +582,9 @@
 	desc = "To keep ones vision away from the heavens, and focused on the sin beneath the soil."
 	icon_state = "inqhat"
 	item_state = "inqhat"
+	max_integrity = 150
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+	armor = ARMOR_SPELLSINGER // spellsinger hat stats
 	sewrepair = TRUE
 
 /obj/item/clothing/head/roguetown/headband/red
@@ -1364,6 +1368,80 @@
 			pic2.color = get_altdetail_color()
 		add_overlay(pic2)
 
+/obj/item/clothing/head/roguetown/helmet/heavy/ordinatorhelm
+	name = "inquisitorial ordinator's helmet"
+	desc = "A design suggested by a Grenzelhoftian smith, an avid follower of Saint Abyssor - implying to base it on the templar's greathelm design, and it was proved worthy of usage: A steel casket with thin slits that allow for deceptively clear vision. The tainted will drown on the blood you will bring their way."
+	icon_state = "ordinatorhelm"
+	item_state = "ordinatorhelm"
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
+	bloody_icon = 'icons/effects/blood64.dmi'
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
+	adjustable = CAN_CADJUST
+	max_integrity = ARMOR_INT_HELMET_HEAVY_STEEL - ARMOR_INT_HELMET_HEAVY_ADJUSTABLE_PENALTY
+	var/plumed = FALSE
+
+/obj/item/clothing/head/roguetown/helmet/heavy/ordinatorhelm/ComponentInitialize()
+	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
+
+/obj/item/clothing/head/roguetown/helmet/heavy/ordinatorhelm/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/feather))
+		user.visible_message(span_warning("[user] starts to fashion plumage using [W] for [src]."))
+		if(do_after(user, 4 SECONDS))
+			var/obj/item/clothing/head/roguetown/helmet/heavy/ordinatorhelm/plume/P = new /obj/item/clothing/head/roguetown/helmet/heavy/ordinatorhelm/plume(get_turf(src.loc))
+			if(user.is_holding(src))
+				user.dropItemToGround(src)
+				user.put_in_hands(P)
+			P.obj_integrity = src.obj_integrity
+			qdel(src)
+			qdel(W)
+		else
+			user.visible_message(span_warning("[user] stops fashioning plumage for [src]."))
+		return
+
+/obj/item/clothing/head/roguetown/helmet/heavy/ordinatorhelm/plume
+	icon_state = "ordinatorhelmplume"
+	item_state = "ordinatorhelmplume"
+
+/obj/item/clothing/head/roguetown/helmet/heavy/ordinatorhelm/plume/attackby(obj/item/W, mob/living/user, params)
+	if(istype(W, /obj/item/natural/feather))
+		return
+
+/obj/item/clothing/head/roguetown/helmet/heavy/absolver
+	name = "psydonian conical helm"
+	desc = "Based on the visage worn by Saint Pestra's order, this cryptic helmet provides its wearer with the satisfaction of reminding heretics that fear is not an emotion easily lost. Even the dead may learn to taste terror again."
+	icon_state = "absolutionisthelm"
+	item_state = "absolutionisthelm"
+	emote_environment = 3
+	body_parts_covered = FULL_HEAD|NECK
+	block2add = FOV_BEHIND // now good
+	max_integrity = 370
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
+	bloody_icon = 'icons/effects/blood64.dmi'
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
+
+/obj/item/clothing/head/roguetown/helmet/heavy/psybucket
+	name = "psydonian bucket helmet"
+	desc = "Worn by the blade-carrying arms of Saint Astrata and Saint Ravox, it is a true-and-tested design. Steel encapsulates your head, and His cross when facing enemies reminds them that you will endure until they meet oblivion. Only then may you rest."
+	icon_state = "psybucket"
+	item_state = "psybucket"
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
+	adjustable = CAN_CADJUST
+	max_integrity = ARMOR_INT_HELMET_HEAVY_STEEL
+
+/obj/item/clothing/head/roguetown/helmet/heavy/psysallet
+	name = "psydonian sallet"
+	desc = "A boiled leather cap, crowned with steel and veiled with His cross. Fear not - He will show you the way, and He will see your blows well-struck."
+	icon_state = "psysallet"
+	item_state = "psysallet"
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
+	adjustable = CAN_CADJUST
+	max_integrity = ARMOR_INT_HELMET_HEAVY_STEEL	
+
 /obj/item/clothing/head/roguetown/helmet/heavy/nochelm
 	name = "noc helmet"
 	desc = "Headwear commonly worn by Templars in service to Noc. Without the night there can be no day; without Noc there can be no light in the dark hours."
@@ -1684,7 +1762,7 @@
 /obj/item/clothing/head/roguetown/wizhat/gen/wise
 	name = "wise hat"
 	sellprice = 100
-	desc = "Only the wisest of nimrods wear this."
+	desc = "Only the wisest of dimwits wear this."
 
 /obj/item/clothing/head/roguetown/wizhat/gen/wise/equipped(mob/user, slot)
 	. = ..()
@@ -1936,22 +2014,75 @@
 	smeltresult = /obj/item/ingot/blacksteel
 	smelt_bar_num = 2
 
+/obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns
+	name = "crown of psydonian thorns"
+	desc = "Thorns fashioned from pliable yet durable blacksteel - woven and interlinked, fashioned to be worn upon the head."
+	body_parts_covered = HAIR | HEAD
+	icon_state = "psybarbs"
+	item_state = "psybarbs"
+	armor = ARMOR_PLATE_BSTEEL
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PICK)
+	blocksound = PLATEHIT
+	resistance_flags = FIRE_PROOF
+	max_integrity = ARMOR_INT_SIDE_BLACKSTEEL
+	anvilrepair = /datum/skill/craft/armorsmithing
+	sewrepair = FALSE
+	icon = 'icons/roguetown/clothing/wrists.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
+	alternate_worn_layer  = 8.9 //On top of helmet
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+
+/obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns/attack_self(mob/living/user)
+	. = ..()
+	user.visible_message(span_warning("[user] starts to reshape the [src]."))
+	if(do_after(user, 4 SECONDS))
+		var/obj/item/clothing/wrists/roguetown/bracers/psythorns/P = new /obj/item/clothing/wrists/roguetown/bracers/psythorns(get_turf(src.loc))
+		if(user.is_holding(src))
+			user.dropItemToGround(src)
+			user.put_in_hands(P)
+		P.obj_integrity = src.obj_integrity
+		user.adjustBruteLoss(25)	
+		qdel(src)
+	else
+		user.visible_message(span_warning("[user] stops reshaping [src]."))
+		return
+
 /obj/item/clothing/head/roguetown/roguehood/psydon
 	name = "Orthodox hood"
 	desc = "A hood worn by the tens' disciples, oft-worn in conjunction with its matching tabard. Made with spell-laced fabric to provide some protection."
 	icon_state = "psydonhood"
 	item_state = "psydonhood"
 	color = null
-	body_parts_covered = NECK
+	blocksound = SOFTHIT
+	break_sound = 'sound/foley/cloth_rip.ogg'
+	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
+	body_parts_covered = NECK | HEAD | HAIR
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
-	max_integrity = 100
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
 	armor = ARMOR_HEAD_PSYDON
 	dynamic_hair_suffix = ""
 	edelay_type = 1
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
-	max_integrity = 100
+	max_integrity = 200
+
+/obj/item/clothing/head/roguetown/roguehood/psydon/confessor
+	name = "confessional hood"
+	desc = "A loose-fitting piece of leatherwear that can be tightened on the move. Keeps rain, blood, and the tears of the sullied away."
+	icon_state = "confessorhood"
+	item_state = "confessorhood"
+	color = null
+	body_parts_covered = NECK | HEAD | HAIR
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+	armor = ARMOR_HEAD_PSYDON
+	dynamic_hair_suffix = ""
+	edelay_type = 1
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+	max_integrity = 200
 
 /obj/item/clothing/head/roguetown/roguehood/hierophant
 	name = "hierophant's pashmina"
@@ -2065,9 +2196,10 @@
 	icon_state = "elven_barbute_winged"
 	item_state = "elven_barbute_winged"
 
+// Warden Helmets
 /obj/item/clothing/head/roguetown/helmet/bascinet/antler
 	name = "wardens's helmet"
-	desc = "A strange helmet adorned with antlers worn by the warden of the forest."
+	desc = "A strange visored bascinet with a dark finish and a pair of large antlers of a saiga buck portruding from it. A sure sign of the Scarlet Reach wardens, along with their distinctive cloaks."
 	icon = 'icons/roguetown/clothing/special/warden.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/warden64.dmi'
 	bloody_icon = 'icons/effects/blood64.dmi'
@@ -2087,6 +2219,65 @@
 /obj/item/clothing/head/roguetown/helmet/bascinet/antler/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
 
+/obj/item/clothing/head/roguetown/helmet/bascinet/antler/snouted
+	name = "wardens's 'buck' helmet"
+	desc = "A beastly snouted bascinet with the large antlers of a saiga buck protruding from it. Residents of Scarlet Reach know not to fear such a sight in the wilds, for they are exclusively associated with the Reaches wardens."
+	icon_state = "wardensnout"
+
+/obj/item/clothing/head/roguetown/helmet/sallet/warden
+	flags_inv = HIDEFACE|HIDESNOUT
+	body_parts_covered = FULL_HEAD
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	block2add = FOV_BEHIND
+
+/obj/item/clothing/head/roguetown/helmet/sallet/warden/wolf
+	name = "warden's volfskull helm"
+	desc = "The large, intimidating skull of an elusive white volf, plated with steel on its inner side and given padding - paired together with a steel maille mask and worn with a linen shroud. Such trophies are associated with life-long game wardens and their descendants."
+	icon = 'icons/roguetown/clothing/special/warden.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/warden.dmi'
+	icon_state = "skullmet_volf"
+
+/obj/item/clothing/head/roguetown/helmet/sallet/warden/goat
+	name = "warden's ramskull helm"
+	desc = "The large, intimidating horned skull of an elusive Azurian great ram, plated with steel on its inner side and given padding - paired together with a steel maille mask and worn with a linen shroud. Such trophies are associated with life-long foresters and their descendants."
+	icon = 'icons/roguetown/clothing/special/warden.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/warden.dmi'
+	icon_state = "skullmet_goat"
+
+/obj/item/clothing/head/roguetown/helmet/sallet/warden/bear
+	name = "warden's bearskull helm"
+	desc = "The large, intimidating skull of a common direbear, plated with steel on its inner side and given padding - paired together with a steel maille mask and worn with a linen shroud. Such trophies are associated with life-long hunters and their descendants."
+	icon = 'icons/roguetown/clothing/special/warden.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/warden.dmi'
+	icon_state = "skullmet_bear"
+
+/obj/item/clothing/head/roguetown/roguehood/warden
+	name = "warden's hood"
+	desc = "A hunter's leather hood with two linen layers, sewn larger than usual to accommodate a helmet - or an animal's skull."
+	color = null
+	icon_state = "wardenhood"
+	item_state = "wardenhood"
+	icon = 'icons/roguetown/clothing/special/warden.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/warden.dmi'
+	body_parts_covered = NECK
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	dynamic_hair_suffix = ""
+	edelay_type = 1
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+	max_integrity = 200
+
+/obj/item/clothing/head/roguetown/roguehood/warden/antler
+	name = "warden's antlered hood"
+	desc = "A hunter's leather hood with two linen layers, sewn larger than usual tooo accommodate a helmet, and fitted with the large antlers of a saiga buck."
+	icon_state = "wardenhoodalt"
+	item_state = "wardenhoodalt"
+	icon = 'icons/roguetown/clothing/special/warden.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/warden64.dmi'
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	bloody_icon = 'icons/effects/blood64.dmi'
+
 //kazengite update
 /obj/item/clothing/head/roguetown/mentorhat
 	name = "worn bamboo hat"
@@ -2100,3 +2291,128 @@
 	sewrepair = TRUE
 	flags_inv = HIDEEARS
 	body_parts_covered = HEAD|HAIR|EARS|NOSE|EYES
+
+/obj/item/clothing/head/roguetown/loudmouth
+	name = "loudmouth's headcover"
+	desc = "Said to be worn by only the loudest and proudest. The mask is adjustable."
+	icon_state = "loudmouth"
+	item_state = "loudmouth"
+	detail_tag = "_detail"
+	flags_inv = HIDEHAIR|HIDEFACIALHAIR|HIDEFACE|HIDESNOUT
+	flags_cover = HEADCOVERSEYES
+	body_parts_covered = HEAD|HAIR|EARS|NECK|MOUTH|NOSE|EYES
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+	color = CLOTHING_RED
+	detail_color = CLOTHING_WHITE
+	blocksound = SOFTHIT
+	max_integrity = 100
+	sewrepair = TRUE
+
+/obj/item/clothing/head/roguetown/loudmouth/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/head/roguetown/loudmouth/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/adjustable_clothing, (NECK|HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/foley/equip/cloak (3).ogg', null, (UPD_HEAD|UPD_MASK))	
+
+// new knight captain drip
+
+/obj/item/clothing/head/roguetown/helmet/visored/captain
+	name = "captain's helmet"
+	desc = "An elegant barbute, fitted with the gold trim and polished metal of nobility."
+	adjustable = CAN_CADJUST
+	icon = 'icons/roguetown/clothing/special/captain.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/captain.dmi'
+	icon_state = "capbarbute"
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
+
+/obj/item/clothing/head/roguetown/helmet/visored/captain/ComponentInitialize()
+	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), HIDEHAIR, null, 'sound/items/visor.ogg', null, UPD_HEAD)
+
+// the klappenlonger
+/obj/item/clothing/head/roguetown/helmet/bascinet/klapplong
+	name = "klappenlonger"
+	desc = "A steel bascinet helmet with a straight visor, or \"klappvisier\", which can greatly reduce visibility. This one is ridiculously long, and due to its flawed design, the visor doesnt open."
+	icon = 'icons/roguetown/clothing/special/klappenlonger.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/klappenlonger.dmi'
+	icon_state = "klapplong"
+	item_state = "klapplong"
+	detail_tag = "_detail"
+	emote_environment = 3
+	body_parts_covered = FULL_HEAD
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	block2add = FOV_BEHIND
+	smeltresult = /obj/item/ingot/steel
+	smelt_bar_num = 2
+
+// new ruma merc shit
+/obj/item/clothing/head/roguetown/roguehood/shalal/hijab/kazengunese
+	name = "kazengunese headwrap"
+	desc = "A cloth hood of Kazengunese origin, which fully conceals one's face. Painted black for the wearer to blend into the night."
+	icon = 'icons/roguetown/clothing/special/ninjahood.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/ninjahood.dmi'
+	icon_state = "ninjahood"
+	item_state = "ninjahood"
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
+	max_integrity = 150
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+	armor = ARMOR_HEAD_PSYDON //basically the same as a warscholar hood
+	color = CLOTHING_BLACK
+
+// the wizard helmet
+/obj/item/clothing/head/roguetown/helmet/bascinet/wizardhelm
+	name = "wizard bascinet"
+	desc = "A steel bascinet helmet, with a purely decorative built in wizard hat. Though it lacks a working visor, what won't a wizard do for fashion, right?"
+	icon = 'icons/roguetown/clothing/special/wizardhelm.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/wizardhelm.dmi'
+	icon_state = "wizardhelm"
+	item_state = "wizardhelm"
+	emote_environment = 3
+	body_parts_covered = FULL_HEAD
+	flags_inv = HIDEEARS|HIDEHAIR
+	block2add = FOV_BEHIND
+	max_integrity = 250
+	smeltresult = /obj/item/ingot/steel
+
+/obj/item/clothing/head/roguetown/helmet/carapacecap
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_HIP
+	name = "carapace cap"
+	desc = "Watery armored plates sown together to protect your head."
+	body_parts_covered = HEAD|HAIR
+	icon_state = "carapacecap"
+	item_state = "carapacecap"
+	armor = list("blunt" = 60, "slash" = 50, "stab" = 40, "piercing" = 30, "fire" = 10, "acid" = 0) //Around Leather level
+	prevent_crits = list(BCLASS_CUT, BCLASS_CHOP, BCLASS_BLUNT)
+	max_integrity = 150
+	anvilrepair = null
+	sewrepair = TRUE
+	blocksound = PLATEHIT
+	smeltresult = /obj/item/ash
+	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
+
+/obj/item/clothing/head/roguetown/helmet/carapacehelm
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_HIP
+	name = "carapace helmet"
+	desc = "Tightly sealed plates of aquatic armor."
+	body_parts_covered = HEAD|HAIR|EARS|NOSE
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	block2add = FOV_BEHIND
+	icon_state = "carapacehelm"
+	item_state = "carapacehelm"
+	armor = list("blunt" = 70, "slash" = 70, "stab" = 50, "piercing" = 40, "fire" = 15, "acid" = 0) //Around Hardened Leather level.
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST)
+	max_integrity = 200
+	anvilrepair = null
+	sewrepair = TRUE
+	blocksound = PLATEHIT
+	smeltresult = /obj/item/ash
+	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'

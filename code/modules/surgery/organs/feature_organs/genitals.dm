@@ -57,6 +57,16 @@
 	penis_type = PENIS_TYPE_TAPERED
 	sheath_type = SHEATH_TYPE_SLIT
 
+/obj/item/organ/penis/tapered_knotted
+	name = "tapered knotted penis"
+	penis_type = PENIS_TYPE_TAPERED_KNOTTED
+	sheath_type = SHEATH_TYPE_SLIT
+
+/obj/item/organ/penis/tapered_knotted_mammal
+	name = "tapered knotted penis"
+	penis_type = PENIS_TYPE_TAPERED_KNOTTED
+	sheath_type = SHEATH_TYPE_NORMAL
+
 /obj/item/organ/penis/tapered_double
 	name = "hemi tapered penis"
 	penis_type = PENIS_TYPE_TAPERED_DOUBLE
@@ -97,16 +107,19 @@
 	accessory_type = /datum/sprite_accessory/vagina/human
 	var/pregnant = FALSE
 	var/fertility = TRUE
+	var/impregnation_probability = IMPREG_PROB_DEFAULT
 
 /obj/item/organ/vagina/proc/be_impregnated(mob/living/carbon/human/father)
-	if(pregnant)
-		return
-	if(!owner)
-		return
-	if(owner.stat == DEAD)
-		return
-	to_chat(owner, span_love("I feel a surge of warmth in my belly, I’m definitely pregnant!"))
-	pregnant = TRUE
+    if(!owner)
+        return
+    if(owner.stat == DEAD)
+        return
+    if(pregnant)
+        to_chat(owner, span_love("I feel a surge of warmth in my belly again..."))
+        return
+    to_chat(owner, span_love("I feel a surge of warmth in my belly, I’m definitely pregnant!"))
+    pregnant = TRUE
+	//TODO add a way to trigger lactating when pregnancy happens
 
 /obj/item/organ/breasts
 	name = "breasts"

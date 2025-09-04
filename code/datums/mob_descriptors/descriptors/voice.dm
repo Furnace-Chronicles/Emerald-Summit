@@ -4,6 +4,7 @@
 	verbage = "speaks with"
 	prefix = "a"
 	suffix = "voice"
+	show_obscured = TRUE
 
 /datum/mob_descriptor/voice/ordinary
 	name = "Ordinary"

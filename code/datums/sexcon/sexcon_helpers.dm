@@ -38,26 +38,37 @@
 	var/can_do_sex = TRUE
 	var/virginity = FALSE
 
-/mob/living/carbon/human/MiddleMouseDrop_T(mob/living/target, mob/living/user)
+/**:
+ * target/src is whomever the drag ends on. Inherited proc, needs to be a human.
+ * user is the person who initiated the drag.
+ * dragged is the object the drag was initiated on. Dragged may be anything.
+ **/
+/mob/living/carbon/human/MiddleMouseDrop_T(atom/movable/dragged, mob/living/user)
+	var/mob/living/carbon/human/target = src
+
 	if(user.mmb_intent)
 		return ..()
-	if(!istype(target))
+	if(!istype(dragged))
 		return
-	if(target != user)
+	// Need to drag yourself to the target.
+	if(dragged != user)
 		return
 	if(!user.can_do_sex())
 		to_chat(user, "<span class='warning'>I can't do this.</span>")
+		return
+	if(!user.client.prefs.sexable)
+		to_chat(user, "<span class='warning'>I don't want to touch [target]. (Your ERP preference, in the options)</span>")
 		return
 	if(!target.client || !target.client.prefs)
 		to_chat(user, span_warning("[target] is simply not there. I can't do this."))
 		log_combat(user, target, "tried ERP menu against d/ced")
 		return
-	if(!target.client.prefs.sexable) // Don't bang someone that dosn't want it.
+	if(!target.client.prefs.sexable)
 		to_chat(user, "<span class='warning'>[target] doesn't want to be touched. (Their ERP preference, in the options)</span>")
 		to_chat(target, "<span class='warning'>[user] failed to touch you. (Your ERP preference, in the options)</span>")
 		log_combat(user, target, "tried unwanted ERP menu against")
 		return
-	user.sexcon.start(src)
+	user.sexcon.start(target)
 
 /mob/living/proc/can_do_sex()
 	return TRUE
@@ -75,8 +86,11 @@
 	var/obj/item/organ/vagina/vag = wife.getorganslot(ORGAN_SLOT_VAGINA)
 	if(!vag)
 		return
-	if(prob(25) && wife.is_fertile() && is_virile())
+	if(prob(vag.impregnation_probability) && wife.is_fertile() && is_virile())
 		vag.be_impregnated(src)
+		vag.impregnation_probability = IMPREG_PROB_DEFAULT // Reset on success
+	else
+		vag.impregnation_probability = min(vag.impregnation_probability + IMPREG_PROB_INCREMENT, IMPREG_PROB_MAX)
 
 /mob/living/carbon/human/proc/get_highest_grab_state_on(mob/living/carbon/human/victim)
 	var/grabstate = null

@@ -149,7 +149,7 @@
 		"The ear canal is pierced!",
 	)
 	embed_chance = 100
-	paralysis = TRUE
+	paralysis = FALSE
 	knockout = 25
 	clotting_threshold = 0.3	//Ears gonna bleed worse than just a fracture
 
@@ -160,7 +160,7 @@
 
 /datum/wound/fracture/head/ears/on_mob_loss(mob/living/affected)
 	. = ..()
-	to_chat(affected, span_notice("Slowly my hearing comes back to me.."))
+	to_chat(affected, span_notice("My hearing slowly comes back to me..."))
 	REMOVE_TRAIT(affected, TRAIT_DEAF, "[type]")
 
 /datum/wound/fracture/head/nose
@@ -180,17 +180,7 @@
 /datum/wound/fracture/head/nose/on_mob_loss(mob/living/affected)
 	. = ..()
 	REMOVE_TRAIT(affected, TRAIT_MISSING_NOSE, "[type]")
-	ADD_TRAIT(affected, TRAIT_DISFIGURED, "[type]")
-
-/datum/wound/fracture/head/nose/on_mob_gain(mob/living/affected)
-	. = ..()
-	ADD_TRAIT(affected, TRAIT_MISSING_NOSE, "[type]")
-	ADD_TRAIT(affected, TRAIT_DISFIGURED, "[type]")
-
-/datum/wound/fracture/head/nose/on_mob_loss(mob/living/affected)
-	. = ..()
-	REMOVE_TRAIT(affected, TRAIT_MISSING_NOSE, "[type]")
-	ADD_TRAIT(affected, TRAIT_DISFIGURED, "[type]")
+	REMOVE_TRAIT(affected, TRAIT_DISFIGURED, "[type]")
 
 /datum/wound/fracture/mouth
 	name = "mandibular fracture"

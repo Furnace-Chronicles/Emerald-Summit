@@ -11,7 +11,6 @@
 	density = TRUE
 	layer = MOB_LAYER
 	animate_movement = SLIDE_STEPS
-	flags_1 = HEAR_1
 	hud_possible = list(ANTAG_HUD)
 	mouse_drag_pointer = MOUSE_ACTIVE_POINTER
 	throwforce = 10
@@ -306,3 +305,6 @@
 	var/mutable_appearance/typing_indicator_current
 
 	var/hanged = FALSE
+
+	// The last tick where we manually moved, or clicked on something in-world. Useful for preventing abuse of mobs with AFK players.
+	var/last_client_interact = 0

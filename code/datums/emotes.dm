@@ -83,14 +83,19 @@
 	if(!msg && nomsg == FALSE)
 		return
 
-	if(!nomsg)
-		user.log_message(msg, LOG_EMOTE)
-		if(ishuman(user))
-			var/mob/living/carbon/human/H = user
-			if(H.voice_color)
-				msg = "<span style='color:#[H.voice_color];text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>[user]</b></span> " + msg
-		else
-			msg = "<b>[user]</b> " + msg
+	// A COMSIG here would be nice, in my attempts it sadly didn't work out well for the relay.
+	var/atom/movable/emotelocation = user
+	var/mob/living/carbon/human/human
+	if(ishuman(user))
+		human = user
+
+	var/obj/item/organ/dullahan_vision/vision
+	var/datum/species/dullahan/dullahan
+	if(isdullahan(user))
+		dullahan = human.dna.species
+		vision = human.getorganslot(ORGAN_SLOT_HUD)
+		if(dullahan.headless && vision.viewing_head)
+			emotelocation = dullahan.my_head
 
 	var/pitch = 1 //bespoke vary system so deep voice/high voiced humans
 	if(isliving(user))
@@ -101,22 +106,38 @@
 	if(!istype(tmp_sound))
 		tmp_sound = sound(get_sfx(tmp_sound))
 	tmp_sound.frequency = pitch
-	if(tmp_sound && (!only_forced_audio || !intentional))
-		playsound(user, tmp_sound, snd_vol, FALSE, snd_range, soundping = soundping, animal_pref = animal)
+
+	if(tmp_sound && tmp_sound.file && (!only_forced_audio || !intentional))
+		// Specifying what bodyparts are needed to run an emote is a desireable replacement.
+		// Band-aid so emotes with sound aren't misplaced. You can still point with your head, for example.
+		var/soundfile = tmp_sound.file
+		if(dullahan && dullahan.headless)
+			if(findtext("[soundfile]", @"sound/vo"))
+				emotelocation = dullahan.my_head
+			else// if(!vision.viewing_head)
+				emotelocation = user
+
+		playsound(emotelocation, tmp_sound, snd_vol, FALSE, snd_range, soundping = soundping, animal_pref = animal)
 	if(!nomsg)
+		user.log_message(msg, LOG_EMOTE)
+		// Checks to see if we're emoting on the body while we have a head, or if we're emoting on the head.
+		if(human && human.voice_color)
+			msg = "<span style='color:#[human.voice_color];text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>[emotelocation]</b></span> " + msg
+		else
+			msg = "<b>[emotelocation]</b> " + msg
 		for(var/mob/M in GLOB.dead_mob_list)
 			if(!M.client || isnewplayer(M))
 				continue
-			var/T = get_turf(user)
+			var/T = get_turf(emotelocation)
 			if(M.stat == DEAD && M.client && (M.client.prefs?.chat_toggles & CHAT_GHOSTSIGHT) && !(M in viewers(T, null)))
 				M.show_message(msg)
 		var/runechat_msg_to_use = null
 		if(show_runechat)
 			runechat_msg_to_use = runechat_msg ? runechat_msg : raw_msg
 		if(emote_type == EMOTE_AUDIBLE)
-			user.audible_message(msg, runechat_message = runechat_msg_to_use, log_seen = SEEN_LOG_EMOTE)
+			emotelocation.audible_message(msg, runechat_message = runechat_msg_to_use, log_seen = SEEN_LOG_EMOTE)
 		else
-			user.visible_message(msg, runechat_message = runechat_msg_to_use, log_seen = SEEN_LOG_EMOTE)
+			emotelocation.visible_message(msg, runechat_message = runechat_msg_to_use, log_seen = SEEN_LOG_EMOTE)
 
 /mob/living/proc/get_emote_pitch()
 	return clamp(voice_pitch, 0.5, 2)
@@ -158,7 +179,7 @@
 			var/modifier
 			if(H.age == AGE_OLD)
 				modifier = "old"
-			if(!ignore_silent && (H.silent || !H.can_speak()))
+			if((!ignore_silent && (H.silent)) || (!ignore_silent && !is_emote_muffled(H)) || (!ignore_silent && HAS_TRAIT(H, TRAIT_MUTE)) ||  (!ignore_silent && HAS_TRAIT(H, TRAIT_BAGGED)))
 				modifier = "silenced"
 			if(user.gender == FEMALE && H.dna.species.soundpack_f)
 				possible_sounds = H.dna.species.soundpack_f.get_sound(key,modifier)
@@ -207,16 +228,14 @@
 	. = message
 	if(message_muffled && iscarbon(user))
 		var/mob/living/carbon/C = user
-		if(C.silent || !C.can_speak_vocal())
+		if(C.silent)
 			. = message_muffled
-	if(!muzzle_ignore && user.is_muzzled() && emote_type == EMOTE_AUDIBLE)
-		return "makes a [pick("strong ", "weak ", "")]noise."
-	if(user.mind && user.mind.miming && message_mime)
-		. = message_mime
-	else if(ismonkey(user) && message_monkey)
-		. = message_monkey
-	else if(isanimal(user) && message_simple)
-		. = message_simple
+		if(!muzzle_ignore && HAS_TRAIT(C, TRAIT_MUTE) && emote_type == EMOTE_AUDIBLE)	
+			. = message_muffled
+		if(!muzzle_ignore && C.mouth?.muteinmouth && emote_type == EMOTE_AUDIBLE)
+			. = message_muffled
+		if(!muzzle_ignore && emote_type == EMOTE_AUDIBLE && HAS_TRAIT(C, TRAIT_BAGGED))
+			. = message_muffled	
 
 /datum/emote/proc/select_param(mob/user, params)
 	return replacetext(message_param, "%t", params)
@@ -269,3 +288,13 @@
 			break
 	
 	return target
+
+/datum/emote/proc/is_emote_muffled(mob/living/carbon/H) //ONLY for audible emote use
+	if(H.mouth?.muteinmouth)
+		return FALSE
+	for(var/obj/item/grabbing/grab in H.grabbedby)
+		if(grab.sublimb_grabbed == BODY_ZONE_PRECISE_MOUTH)
+			return FALSE
+	if(istype(H.loc, /turf/open/water) && !(H.mobility_flags & MOBILITY_STAND))
+		return FALSE
+	return TRUE

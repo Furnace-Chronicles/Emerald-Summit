@@ -58,7 +58,7 @@
 	equip_sound = 'sound/foley/equip/rummaging-01.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	throw_range = 4
-	slot_flags = ITEM_SLOT_HIP
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_POCKET //Stop adding item_slot_belt, item_slot_belt is only compatable with inventory storage items and runtimes and breaks when used with anything else.
 	force = 1
 	throwforce = 1
 	w_class = WEIGHT_CLASS_SMALL
@@ -66,6 +66,13 @@
 	var/mob/living/leash_master = null //And our master too
 	var/mob/living/leash_freepet = null
 	var/var/last_yank = null
+
+/obj/item/leash/examine(mob/user)
+	. = ..()
+	if(leash_pet)
+		. += span_notice("It's connected to [leash_pet.name ? leash_pet : "something"]'s neck.")
+	else 
+		. += "It's not connected to anything."	
 
 /obj/item/leash/leather
 	name = "leather leash"
@@ -86,6 +93,7 @@
 
 /obj/item/leash/process(delta_time)
 	if(!leash_pet) //No pet, break loop
+		w_class = WEIGHT_CLASS_SMALL
 		return PROCESS_KILL
 	if(!leash_pet.get_item_by_slot(SLOT_NECK)) //The pet has slipped their collar and is not the pet anymore.
 		for(var/mob/viewing in viewers(leash_pet, null))
@@ -96,6 +104,7 @@
 			else
 				viewing.show_message("<span class='notice'>[leash_pet] has slipped out of their collar!</span>")
 		leash_pet.remove_status_effect(/datum/status_effect/leash_pet)
+		w_class = WEIGHT_CLASS_SMALL
 
 	if(!leash_pet.has_status_effect(/datum/status_effect/leash_pet)) //If there is no pet, there is no dom. Loop breaks.
 		if(leash_master) UnregisterSignal(leash_master, COMSIG_MOVABLE_MOVED)
@@ -107,6 +116,7 @@
 		leash_freepet = null
 		leash_master = null
 		leash_pet = null
+		w_class = WEIGHT_CLASS_SMALL
 		return PROCESS_KILL
 
 //Called when someone is clicked with the leash
@@ -135,12 +145,13 @@
 				viewing.show_message("<span class='warning'>[leash_attempt_message]</span>", 1)
 
 		var/leashtime = 50
-		if(C.handcuffed)
+		if(C.handcuffed || C.compliance)
 			leashtime = 5
 		if(do_mob(user, C, leashtime)) //do_mob adds a progress bar, but then we also check to see if they have a collar
 			log_combat(user, C, "leashed", addition="playfully")
 			C.apply_status_effect(/datum/status_effect/leash_pet)//Has now been leashed
 			leash_pet = C //Save pet reference for later
+			w_class = WEIGHT_CLASS_BULKY //This plus ITEM_SLOT_POCKET prevents putting into backpacks and other storage while still fitting on belt. When process kills, weightclass is returned to smol and backpackable.
 			if(!(user == leash_pet)) //Pet leashed themself. They are not the dom
 				leash_master = user //Save dom reference for later
 				user.apply_status_effect(/datum/status_effect/leash_owner) //Is the leasher
@@ -202,7 +213,9 @@
 	if(leash_pet == null)
 		return
 	apply_tug_mob_to_mob(leash_pet, leash_master, 1)
-
+	if(leash_pet.cmode && leash_master.m_intent == MOVE_INTENT_RUN) //stamina infliction Calls if pet has combatmode enabled while master has run intent active.
+		leash_master.stamina_add(1)
+		
 	//Knock the pet over if they get further behind. Shouldn't happen too often.
 	sleep(3) //This way running normally won't just yank the pet to the ground.
 	if(!leash_master) //Just to stop error messages. Break the loop early if something removed the master
@@ -270,7 +283,7 @@
 		return
 	if(!leash_pet) //If there is no pet, don't do this
 		return
-	if(leash_pet.is_holding(src) || leash_pet.get_item_by_slot(ITEM_SLOT_BELT) == src) //If the pet is holding the leash, don't do this
+	if(leash_pet.is_holding(src) || leash_pet.get_item_by_slot(ITEM_SLOT_HIP) == src) //If the pet is holding the leash, don't do this
 		return
 
 	//If the pet gets too far away, we get tugged to them.
@@ -314,7 +327,7 @@
 /obj/item/leash/proc/drop_effects(mob/user, silent)
 	SIGNAL_HANDLER
 	if(leash_master == user)
-		if(leash_master.is_holding(src) || leash_master.get_item_by_slot(ITEM_SLOT_BELT) == src || leash_master.get_item_by_slot(ITEM_SLOT_HIP) == src)
+		if(leash_master.is_holding(src) || leash_master.get_item_by_slot(ITEM_SLOT_HIP) == src)
 			return  //Dom still has the leash as it turns out. Cancel the proc.
 	if(!leash_pet)
 		return
@@ -327,7 +340,7 @@
 		leash_pet.apply_status_effect(/datum/status_effect/leash_freepet)
 		RegisterSignal(leash_freepet, COMSIG_MOVABLE_MOVED, PROC_REF(on_freepet_move))
 		leash_master?.remove_status_effect(/datum/status_effect/leash_owner) //No dom with no leash. We will get a new dom if the leash is picked back up.
-		if(leash_master) UnregisterSignal(leash_master, COMSIG_MOVABLE_MOVED)
+		UnregisterSignal(leash_master, COMSIG_MOVABLE_MOVED)
 		leash_master = null
 
 /obj/item/leash/equipped(mob/user, slot, initial = FALSE, silent = FALSE)
@@ -354,6 +367,46 @@
 	leash_pet.remove_status_effect(/datum/status_effect/leash_freepet)
 	leash_freepet = null
 //	leash_pet.add_movespeed_modifier(/datum/movespeed_modifier/leash)
+
+// These procs were made for travel tiles and are called in traveltile.dm. But they might have uses elsewhere.
+
+/proc/leashed_by_other(mob/living/L)
+	if(L.has_status_effect(/datum/status_effect/leash_pet))
+		for(var/obj/item/leash/held_leash in L.contents)
+			if(held_leash.leash_pet == L)
+				return FALSE
+		for(var/obj/item/leash/dropped_freepet_leash in view(5, L))
+			if(dropped_freepet_leash.leash_pet == L)
+				return FALSE
+		return TRUE
+	return FALSE
+
+/proc/get_master_leashed_mobs(mob/living/L, do_not_remove = TRUE)
+	var/list/master_leashed_mobs = list()
+	if(L.has_status_effect(/datum/status_effect/leash_owner))
+		for(var/obj/item/leash/leash in L.contents)
+			var/mob/living/nearby_pet
+			for(var/mob/living/target in view(5, L) - L)
+				if((L == leash.leash_master) && (target == leash.leash_pet))  // As of writing, you are not considered a master for leashing yourself, or for holding your own leash.
+					nearby_pet = target
+					break
+			if(!nearby_pet)
+				if(leash.leash_pet && !do_not_remove) // leash will unregister them next process(), to not spontaneously throw pet up a z-level
+					leash.leash_pet.remove_status_effect(/datum/status_effect/leash_pet)
+				continue
+			else
+				master_leashed_mobs += nearby_pet
+	return master_leashed_mobs
+
+/proc/get_freepet_leash(atom/movable/subject)
+	if(!isliving(subject))
+		return
+	var/mob/living/L = subject
+	if(L.has_status_effect(/datum/status_effect/leash_freepet))
+		for(var/obj/item/leash/leash in view(5, L))
+			if(leash.leash_freepet == L)
+				return leash
+	return null
 
 /*/datum/movespeed_modifier/leash
 	id = MOVESPEED_ID_LEASH
@@ -382,41 +435,40 @@
 	if(world.time < last_ring + 15)
 		return
 	user.visible_message(span_info("[user] starts ringing the [src]."))
+	playsound(src, 'sound/items/jinglebell1.ogg', 100, extrarange = 8, ignore_walls = TRUE)
 	flick("bell_commonpressed", src)
 	last_ring = world.time
 
-/obj/item/clothing/neck/roguetown/collar/leather
-	name = "leather collar"
-	desc = "A sturdy leather collar."
-	icon = 'modular/icons/obj/leashes_collars.dmi'
-	mob_overlay_icon = 'modular/icons/mob/collars_leashes.dmi'
-	icon_state = "leathercollar"
-	item_state = "leathercollar"
-	leashable = TRUE
-	resistance_flags = FIRE_PROOF
-	dropshrink = 0.5
 
-/obj/item/clothing/neck/roguetown/collar/cowbell
-	name = "cowbell collar"
-	desc = "A leather collar with a cowbell attached."
-	icon = 'modular/icons/obj/leashes_collars.dmi'
-	mob_overlay_icon = 'modular/icons/mob/collars_leashes.dmi'
-	icon_state = "cowbellcollar"
-	item_state = "cowbellcollar"
-	leashable = TRUE
-	resistance_flags = FIRE_PROOF
-	dropshrink = 0.5
+//Bell attachment onto collars
+/obj/item/catbell/attack(mob/living/carbon/target, mob/living/user)
+	var/obj/item/clothing/neck/roguetown/collar/leather/collar = target.get_item_by_slot(SLOT_NECK)
+	if(!istype(collar))
+		to_chat(user, "[target] needs a collar to attach the bell!")
+		return
+	if(collar.bell)
+		to_chat(user, "[target]'s collar already has a bell!")
+		return
+	target.visible_message(span_warning("[user] raises \the [src] to [target]'s neck!"), span_warning("[user] begins raising \the [src] to my neck!"), span_hear("I hear \a [src] jingling."), ignored_mobs = user)
+	to_chat(user, span_warning("I begin raising \the [src] to [target]'s neck!"))
+	if(!do_mob(user, target, target.handcuffed ? 0.5 SECONDS : 5 SECONDS))
+		return
+	log_combat(user, target, "put a bell on")
+	user.visible_message(span_warning("[target] has had \a [src] clipped onto [target.p_their()] [collar.name] by [user]!"), span_warning("I clip \a [src] onto [target]'s [collar.name]!"))
+	collar.bell = TRUE
+	collar.bellsound = TRUE
+	collar.AddComponent(/datum/component/squeak, SFX_COLLARJINGLE, 50, 100, 1)
+	if(istype(src, /obj/item/catbell/cow))
+		collar.icon_state = /obj/item/clothing/neck/roguetown/collar/cowbell::icon_state
+		collar.desc = "A leather collar with a jingly cowbell attached."
+		collar.name = "cowbell collar"
+	else
+		collar.icon_state = /obj/item/clothing/neck/roguetown/collar/catbell::icon_state
+		collar.desc = "A leather collar with a jingling catbell attached."
+		collar.name = "catbell collar"
+	target.update_inv_neck()
+	forceMove(collar) // move us inside the collar so that if we salvage it, we get the bell back
 
-/obj/item/clothing/neck/roguetown/collar/catbell
-	name = "catbell collar"
-	desc = "A leather collar with a jingling catbell attached."
-	icon = 'modular/icons/obj/leashes_collars.dmi'
-	mob_overlay_icon = 'modular/icons/mob/collars_leashes.dmi'
-	icon_state = "catbellcollar"
-	item_state = "catbellcollar"
-	leashable = TRUE
-	resistance_flags = FIRE_PROOF
-	dropshrink = 0.5
 
 /datum/crafting_recipe/roguetown/smithing/catbell
 	name = "catbell"

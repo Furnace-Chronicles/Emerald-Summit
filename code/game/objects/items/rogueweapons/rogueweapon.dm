@@ -47,7 +47,7 @@
 /obj/item/rogueweapon/get_examine_string(mob/user, thats = FALSE)
 	return "[thats? "That's ":""]<b>[get_examine_name(user)]</b> <font size = 1>[get_blade_dulling_text(src)]</font>"
 
-/obj/item/rogueweapon/get_dismemberment_chance(obj/item/bodypart/affecting, mob/user)
+/obj/item/rogueweapon/get_dismemberment_chance(obj/item/bodypart/affecting, mob/user, zone_sel)
 	if(!get_sharpness() || !affecting.can_dismember(src))
 		return 0
 
@@ -82,12 +82,19 @@
 	var/probability = nuforce * (total_dam / affecting.max_damage)
 	var/hard_dismember = HAS_TRAIT(affecting, TRAIT_HARDDISMEMBER)
 	var/easy_dismember = affecting.rotted || affecting.skeletonized || HAS_TRAIT(affecting, TRAIT_EASYDISMEMBER)
+	var/easy_decapitation = HAS_TRAIT(affecting, TRAIT_EASYDECAPITATION)
 	if(affecting.owner)
 		if(!hard_dismember)
 			hard_dismember = HAS_TRAIT(affecting.owner, TRAIT_HARDDISMEMBER)
 		if(!easy_dismember)
 			easy_dismember = HAS_TRAIT(affecting.owner, TRAIT_EASYDISMEMBER)
-	if(hard_dismember)
+		if(!easy_decapitation)
+			easy_decapitation = HAS_TRAIT(affecting.owner, TRAIT_EASYDECAPITATION)
+
+	if(easy_decapitation && zone_sel == BODY_ZONE_PRECISE_NECK)
+		// May want to include hard dismember compatibility.
+		return probability * 1.5
+	else if(hard_dismember)
 		return min(probability, 5)
 	else if(easy_dismember)
 		return probability * 1.5
@@ -99,7 +106,7 @@
 		force /= 5
 	if(force_wielded)
 		force_wielded /= 5
-	force_dynamic = (wielded ? force_wielded : force)
+	update_force_dynamic()
 	if(armor_penetration)
 		armor_penetration /= 5
 	if(wdefense)
@@ -113,18 +120,16 @@
 		can_parry = FALSE
 
 /obj/item/rogueweapon/obj_fix()
-	..()
-
 	force = initial(force)
 	force_wielded = initial(force_wielded)
-	force_dynamic = force
+	update_force_dynamic()
 	armor_penetration = initial(armor_penetration)
 	wdefense = initial(wdefense)
 	wdefense_wbonus = initial(wdefense_wbonus)
 	wdefense_dynamic = wdefense
 	sharpness = initial(sharpness)
 	can_parry = initial(can_parry)
-	SEND_SIGNAL(src, COMSIG_ROGUEWEAPON_OBJFIX)
+	..()
 
 /obj/item/rogueweapon/rmb_self(mob/user)
 	if(length(alt_intents))

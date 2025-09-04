@@ -44,6 +44,10 @@
 				playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
 				update_icon()
 				return attack_hand(user)
+	if(istype(P, /obj/item/roguecoin/aalloy))
+		return
+	if(istype(P, /obj/item/roguecoin/inqcoin))	
+		return			
 	if(istype(P, /obj/item/roguecoin))
 		budget += P.get_real_price()
 		qdel(P)
@@ -61,7 +65,7 @@
 			if(drugrade_flags & DRUGRADE_MONEYB)
 				amt = recent_payments * 0.50
 			recent_payments = 0
-			send_ooc_note("<b>Income from PURITY:</b> [amt]", job = "Bathmaster")
+			send_ooc_note("<b>Income from PURITY:</b> [amt]", job = "Nightmaster")
 			secret_budget += amt
 			last_payout = world.time
 
@@ -189,7 +193,7 @@
 
 
 	var/mob/living/carbon/human/H = user
-	if(H.job == "Bathmaster")
+	if(H.job == "Nightmaster")
 		if(canread)
 			contents += "<a href='?src=[REF(src)];secrets=1'>Secrets</a><BR>"
 			contents += "Mammon Washing: [recent_payments] -- Your cut, Master! [secret_budget]<BR>"
@@ -248,6 +252,10 @@
 	held_items[/obj/item/clothing/mask/cigarette/rollie/cannabis] = list("PRICE" = rand(12,18),"NAME" = "swampweed zig")
 	held_items[/obj/item/clothing/mask/cigarette/rollie/mentha] = list("PRICE" = rand(6,11),"NAME" = "mentha zig")
 	held_items[/obj/item/clothing/mask/cigarette/rollie/nicotine] = list("PRICE" = rand(5,10),"NAME" = "zig")
+	held_items[/obj/item/azure_lipstick] = list("PRICE" = rand(33,50),"NAME" = "red lipstick")
+	held_items[/obj/item/azure_lipstick/jade] = list("PRICE" = rand(33,50),"NAME" = "jade lipstick")
+	held_items[/obj/item/azure_lipstick/purple] = list("PRICE" = rand(33,50),"NAME" = "purple lipstick")
+	held_items[/obj/item/azure_lipstick/black] = list("PRICE" = rand(33,50),"NAME" = "black lipstick")
 	held_items[/obj/item/reagent_containers/glass/bottle/rogue/emberwine] = list("PRICE" = rand(100,140),"NAME" = "unlabeled emberwine")
 /*	held_items[/obj/item/reagent_containers/glass/bottle/rogue/wine] = list("PRICE" = rand(35,77),"NAME" = "vino")
 	held_items[/obj/item/rogueweapon/huntingknife/idagger] = list("PRICE" = rand(20,33),"NAME" = "kinfe")

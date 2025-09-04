@@ -211,6 +211,21 @@
 
 // End royal clothes
 
+/obj/item/clothing/suit/roguetown/shirt/dress/winterdress_light
+	name = "cold dress"
+	icon = 'icons/roguetown/clothing/shirts_royalty.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts_royalty.dmi'
+	desc = "A thick and comfortable dress popular amongst nobility during winter."
+	body_parts_covered = COVERAGE_FULL
+	icon_state = "winterdress"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts_royalty.dmi'
+	boobed = TRUE
+	detail_tag = "_detail"
+	detail_color = CLOTHING_BLACK
+	r_sleeve_status = SLEEVE_NORMAL
+	l_sleeve_status = SLEEVE_NORMAL
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+
 /obj/item/clothing/suit/roguetown/shirt/dress/silkydress
 	name = "silky dress"
 	desc = "Despite not actually being made of silk, the legendary expertise needed to sew this puts the quality on par."
@@ -426,7 +441,7 @@
 	item_state = "silkdress"
 	color = "#e6e5e5"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
-	flags_inv = HIDECROTCH
+	flags_inv = HIDECROTCH|HIDEBOOB
 
 /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/princess
 	color = CLOTHING_WHITE
@@ -537,6 +552,13 @@
 	icon_state = "stewardtunic"
 	item_state = "stewardtunic"
 
+/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/loudmouth
+	color = null
+	name = "loudmouth's garb"
+	desc = "A robe that speaks volumes!"
+	icon_state = "loudmouthrobe"
+	item_state = "loudmouthrobe"
+
 //WEDDING CLOTHES
 /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/weddingdress
 	name = "wedding silk dress"
@@ -634,24 +656,48 @@
 	allowed_race = NON_DWARVEN_RACE_TYPES
 
 //tattoo code
-/obj/item/clothing/suit/roguetown/shirt/undershirt/easttats/Initialize(mapload)
-	. = ..()
+/obj/item/clothing/suit/roguetown/armor/skin_armor/easttats
 	name = "lenticular tattoos"
 	desc = "It's styled into the shapes of clouds. You shudder as the ink moves and condenses into areas where the skin is struck."
 	resistance_flags = FIRE_PROOF
 	icon_state = "easttats"
+	armor = list("blunt" = 30, "slash" = 50, "stab" = 50, "piercing" = 20, "fire" = 0, "acid" = 0)
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-	body_parts_covered = ARMS
+	body_parts_covered = ARMS 
 	icon = 'icons/roguetown/clothing/shirts.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
 	allowed_race = NON_DWARVEN_RACE_TYPES
+	max_integrity = 600 //Bad armor protection and very basic crit protection, but incredibly hard to break completely
+	var/repair_amount = 6 //The amount of integrity the tattoos will repair themselves
+	var/repair_time = 20 SECONDS //The amount of time between each repair
+	var/last_repair //last time the tattoos got repaired
 
-/obj/item/clothing/suit/roguetown/shirt/easttats/easttats/dropped(mob/living/carbon/human/user)
+/obj/item/clothing/suit/roguetown/armor/skin_armor/easttats/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/suit/roguetown/armor/skin_armor/easttats/dropped(mob/living/carbon/human/user)
 	. = ..()
 	if(QDELETED(src))
 		return
 	qdel(src)
+
+/obj/item/clothing/suit/roguetown/armor/skin_armor/easttats/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
+	. = ..()
+	if(obj_integrity < max_integrity)
+		START_PROCESSING(SSobj, src)
+		return
+
+/obj/item/clothing/suit/roguetown/armor/skin_armor/easttats/process()
+	if(obj_integrity >= max_integrity) 
+		STOP_PROCESSING(SSobj, src)
+		src.visible_message(span_notice("The [src] flow more calmly, as they finish resting and regain their strength."), vision_distance = 1)
+		return
+	else if(world.time > src.last_repair + src.repair_time)
+		src.last_repair = world.time
+		obj_integrity = min(obj_integrity + src.repair_amount, src.max_integrity)
+	..()

@@ -10,7 +10,7 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/crab
 	cooked_smell = /datum/pollutant/food/fried_crab
 
-/obj/item/reagent_containers/food/snacks/fish/crab/attackby(obj/item/I, mob/living/user, params)
+/obj/item/reagent_containers/food/snacks/rogue/meat/crab/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/butterdoughslice))
 		if(isturf(loc)&& (found_table))

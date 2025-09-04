@@ -8,7 +8,6 @@
 			"zakuty leb"
 		],
 		"knave": "kanalia",
-		"fool": "glupiec",
 		"idiot": "idiota",
 		"bare-skin": "gola-skora",
 		"cat": "kotka",
@@ -42,10 +41,9 @@
 			"niedorozwoj"
 		],
 		"sabre": "szabla",
-		"latern": "lamtarnia",
-
+		"lantern": "lamtarnia",
+		"lamptern": "lamtarnia",
 		"yes": "tak",
-
 		"hey": "hej",
 		"hello": "czesc",
 		"hi": "czesc",
@@ -69,13 +67,10 @@
 		"beggar": "vagabund",
 		"acolyte": "acolita",
 		"mammon": "mamona",
-		"coin": [
-			"coin",
-			"moneta"
-		],
 		"adventurer": "awanturnik",
 		"magician": "iluzjonista",
 		"mage": "magik",
+		"magos": "magyk",
 		"priest": "kaplan",
 		"priestess": "kaplanka",
 		"templar": "templariusz",
@@ -115,6 +110,7 @@
 	},
 	"start": {
 		"fuck!": "kurwa!",
+		"fool!": "glupiec!",
 		"fucking hell!": "o kurwa mac!",
 		"fuckingk hell!": "o kurwa mac!",
 		"fucker!": [
@@ -177,8 +173,6 @@
 		"yes, yes": "Tak, tak, tak",
 		"yeah, yeah": "Tak, tak, tak",
 		"kill yourself": "zabij sie",
-		"what the fuck?": "co kurwa",
-		"what the hell?": "ca licha",
 		"holy fuck": "svete jeblo",
 		"holy shit": "jasna cholera",
 		"oh fuck me": "o kurwa",

@@ -35,7 +35,9 @@
 				/obj/item/flashlight/flare/torch = 1,
 				/obj/item/spellbook_unfinished/pre_arcyne = 1,
 				/obj/item/roguegem/amethyst = 1,
-				/obj/item/recipe_book/survival = 1
+				/obj/item/recipe_book/survival = 1,
+				/obj/item/recipe_book/magic = 1,
+				/obj/item/chalk = 1,
 				)
 			H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
@@ -69,7 +71,6 @@
 			gloves = /obj/item/clothing/gloves/roguetown/angle
 			belt = /obj/item/storage/belt/rogue/leather
 			neck = /obj/item/clothing/neck/roguetown/chaincoif
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 			backl = /obj/item/storage/backpack/rogue/satchel
 			beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 			wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
@@ -153,7 +154,7 @@
 			switch(H.patron?.type)
 				if(/datum/patron/inhumen/zizo)
 					H.cmode_music = 'sound/music/combat_cult.ogg'
-			var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman")
+			var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Trumpet")
 			var/weapon_choice = input("Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 			H.set_blindness(0)
 			switch(weapon_choice)
@@ -171,3 +172,5 @@
 					backr = /obj/item/rogue/instrument/viola
 				if("Vocal Talisman")
 					backr = /obj/item/rogue/instrument/vocals
+				if("Trumpet")
+					backr = /obj/item/rogue/instrument/trumpet

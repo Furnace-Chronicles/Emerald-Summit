@@ -28,8 +28,6 @@
 	var/cache_eyes
 	var/cache_hair
 	var/obj/effect/proc_holder/spell/targeted/shapeshift/bat/batform //attached to the datum itself to avoid cloning memes, and other duplicates
-	var/wretch_antag = FALSE
-	var/vitae_tick_counter = 0
 
 /datum/antagonist/vampire/examine_friendorfoe(datum/antagonist/examined_datum,mob/examiner,mob/examined)
 	if(istype(examined_datum, /datum/antagonist/vampire/lesser))
@@ -68,32 +66,27 @@
 	ADD_TRAIT(owner.current, TRAIT_NOPAIN, TRAIT_GENERIC)
 	ADD_TRAIT(owner.current, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
 	ADD_TRAIT(owner.current, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-	ADD_TRAIT(owner.current, TRAIT_NASTY_EATER, TRAIT_GENERIC)
-	ADD_TRAIT(owner.current, TRAIT_BLOODLOSS_IMMUNE, TRAIT_GENERIC)
-	owner.current.cmode_music = 'sound/music/combat_vamp2.ogg'
+	owner.current.cmode_music = 'sound/music/combat_vamp.ogg'
 	var/obj/item/organ/eyes/eyes = owner.current.getorganslot(ORGAN_SLOT_EYES)
 	if(eyes)
 		eyes.Remove(owner.current,1)
 		QDEL_NULL(eyes)
-		eyes = new /obj/item/organ/eyes/night_vision/zombie
-		eyes.Insert(owner.current)
+	eyes = new /obj/item/organ/eyes/night_vision/zombie
+	eyes.Insert(owner.current)
 	if(increase_votepwr)
 		forge_vampire_objectives()
 	finalize_vampire()
-	var/mob/living/carbon/human/H = owner.current
-	if(wretch_antag && istype(H))
-		cache_skin = H.skin_tone
-		cache_eyes = H.eye_color
-		cache_hair = H.hair_color
-		vitae = 5000 // Always set vitae for wretch vampires
-		H.verbs |= /mob/living/carbon/human/proc/disguise_button
-		H.verbs |= /mob/living/carbon/human/proc/vamp_regenerate
-		// Give wretch vampires their vampiric appearance
-		wretch_vamp_look()
+//	if(!is_lesser)
+//		if(isnull(batform))
+//			batform = new
+//			owner.current.AddSpell(batform)
+	owner.current.verbs |= /mob/living/carbon/human/proc/disguise_button
+	owner.current.verbs |= /mob/living/carbon/human/proc/vamp_regenerate
 	if(!is_lesser)
 		owner.current.verbs |= /mob/living/carbon/human/proc/blood_strength
 		owner.current.verbs |= /mob/living/carbon/human/proc/blood_celerity
 		owner.current.verbs |= /mob/living/carbon/human/proc/blood_fortitude
+
 	return ..()
 
 /datum/antagonist/vampire/on_removal()
@@ -126,6 +119,8 @@
 /datum/antagonist/vampire/proc/finalize_vampire()
 	owner.current.playsound_local(get_turf(owner.current), 'sound/music/vampintro.ogg', 80, FALSE, pressure_affected = FALSE)
 
+
+
 /datum/antagonist/vampire/on_life(mob/user)
 	if(!user)
 		return
@@ -141,16 +136,8 @@
 				var/turf/T = H.loc
 				if(T.can_see_sky())
 					if(T.get_lumcount() > 0.15)
-						// Cache antagonist lookup to avoid repeated lookups
-						var/datum/antagonist/vampire/wretch_vamp = H.mind?.has_antag_datum(/datum/antagonist/vampire)
-						var/is_wretch = wretch_vamp && wretch_vamp.wretch_antag
-						
 						if(!disguised)
-							H.fire_act(1,2)
-						// Only apply additional fire damage if wretch vampire and not already handled
-						if(is_wretch && !disguised)
 							H.fire_act(1,5)
-							wretch_vamp.vitae = max(wretch_vamp.vitae - 10, 0)
 
 	if(H.on_fire)
 		if(disguised)
@@ -162,116 +149,43 @@
 		if(istype(H.loc, /obj/structure/closet/crate/coffin))
 			H.fully_heal()
 
-	// Optimized vitae management for wretch vampires
-	if(wretch_antag)
-		// Only check blood volume when it might exceed the cap
-		if(H.blood_volume > 5000)
-			H.blood_volume = 5000
-		// Only check vitae cap when it might exceed
-		if(vitae > 5000)
-			vitae = 5000
-		// Only update vitae every minute instead of every tick
-		vitae_tick_counter++
-		if(vitae_tick_counter >= 120)  // Every 120 ticks = 1 minute
-			vitae = max(vitae - 60, 0)  // Lose 60 vitae per minute instead of 1 per tick
-			vitae_tick_counter = 0  // Reset counter
+	vitae = CLAMP(vitae, 0, 1666)
+
+	if(vitae > 0)
+		H.blood_volume = BLOOD_VOLUME_MAXIMUM
+		if(vitae < 200)
+			if(disguised)
+				to_chat(H, "<span class='warning'>My disguise fails!</span>")
+				H.vampire_undisguise(src)
+		vitae -= 1
 	else
-		vitae = CLAMP(vitae, 0, 1666)
-		// Non-wretch vampire vitae management
-		if(vitae > 0)
-			H.blood_volume = BLOOD_VOLUME_MAXIMUM
-			if(vitae < 200)
-				if(disguised)
-					to_chat(H, "<span class='warning'>My disguise fails!</span>")
-					H.vampire_undisguise(src)
-			// Only decrement vitae every 5 ticks
-			if(world.time % 50 == 0)
-				vitae -= 1
-		else
-			to_chat(H, "<span class='userdanger'>I RAN OUT OF VITAE!</span>")
-			var/obj/shapeshift_holder/SS = locate() in H
-			if(SS)
-				SS.shape.dust()
-			H.dust()
-			return
+		to_chat(H, "<span class='userdanger'>I RAN OUT OF VITAE!</span>")
+		var/obj/shapeshift_holder/SS = locate() in H
+		if(SS)
+			SS.shape.dust()
+		H.dust()
+		return
 
 /mob/living/carbon/human/proc/disguise_button()
 	set name = "Disguise"
 	set category = "VAMPIRE"
 
-	var/datum/antagonist/vampirelord/VDL = mind.has_antag_datum(/datum/antagonist/vampirelord)
-	var/datum/antagonist/vampire/Vamp = mind.has_antag_datum(/datum/antagonist/vampire)
-	
-	if(!VDL && !Vamp)
+	var/datum/antagonist/vampirelord/VD = mind.has_antag_datum(/datum/antagonist/vampirelord)
+	if(!VD)
 		return
-	
-	var/is_wretch = FALSE
-	
-	if(!VDL && Vamp && Vamp.wretch_antag)
-		is_wretch = TRUE
-	else if(!VDL)
+	if(world.time < VD.last_transform + 30 SECONDS)
+		var/timet2 = (VD.last_transform + 30 SECONDS) - world.time
+		to_chat(src, span_warning("No.. not yet. [round(timet2/10)]s"))
 		return
-	
-	if(is_wretch)
-		if(world.time < Vamp.last_transform + 30 SECONDS)
-			var/timet2 = (Vamp.last_transform + 30 SECONDS) - world.time
-			to_chat(src, span_warning("No.. not yet. [round(timet2/10)]s"))
-			return
-		if(Vamp.disguised)
-			Vamp.last_transform = world.time
-			vampire_undisguise_wretch(Vamp)
-			to_chat(src, span_notice("I drop my disguise, revealing my true nature."))
-		else
-			var/vitae_cost = 100
-			if(Vamp.vitae < vitae_cost)
-				to_chat(src, span_warning("I don't have enough Vitae!"))
-				return
-			Vamp.last_transform = world.time
-			vampire_disguise_wretch(Vamp)
-			to_chat(src, span_notice("I assume a human guise to hide my vampiric nature."))
+	if(VD.disguised)
+		VD.last_transform = world.time
+		vampire_undisguise(VD)
 	else
-		if(world.time < VDL.last_transform + 30 SECONDS)
-			var/timet2 = (VDL.last_transform + 30 SECONDS) - world.time
-			to_chat(src, span_warning("No.. not yet. [round(timet2/10)]s"))
+		if(VD.vitae < 100)
+			to_chat(src, span_warning("I don't have enough Vitae!"))
 			return
-		if(VDL.disguised)
-			VDL.last_transform = world.time
-			vampire_undisguise(VDL)
-			to_chat(src, span_notice("I drop my disguise, revealing my true nature."))
-		else
-			var/vitae_cost = 100
-			if(VDL.vitae < vitae_cost)
-				to_chat(src, span_warning("I don't have enough Vitae!"))
-				return
-			VDL.last_transform = world.time
-			vampire_disguise(VDL)
-			to_chat(src, span_notice("I assume a human guise to hide my vampiric nature."))
-
-/mob/living/carbon/human/proc/vampire_disguise_wretch(datum/antagonist/vampire/VD)
-	if(!VD)
-		return
-	VD.disguised = TRUE
-	// Restore original human appearance
-	skin_tone = VD.cache_skin
-	hair_color = VD.cache_hair
-	facial_hair_color = VD.cache_hair
-	eye_color = VD.cache_eyes
-	update_body()
-	update_hair()
-	update_body_parts(redraw = TRUE)
-
-/mob/living/carbon/human/proc/vampire_undisguise_wretch(datum/antagonist/vampire/VD)
-	if(!VD)
-		return
-	VD.disguised = FALSE
-	// Restore vampiric appearance
-	skin_tone = "c9d3de"
-	hair_color = "181a1d"
-	facial_hair_color = "181a1d"
-	eye_color = "ff0000"
-	update_body()
-	update_hair()
-	update_body_parts(redraw = TRUE)
+		VD.last_transform = world.time
+		vampire_disguise(VD)
 
 /mob/living/carbon/human/proc/vampire_disguise(datum/antagonist/vampirelord/VD)
 	if(!VD)
@@ -279,23 +193,44 @@
 	VD.disguised = TRUE
 	skin_tone = VD.cache_skin
 	hair_color = VD.cache_hair
-	eye_color = VD.cache_eyes
 	facial_hair_color = VD.cache_hair
+	var/obj/item/organ/eyes/eyes = getorganslot(ORGAN_SLOT_EYES)
+	if(eyes)
+		eyes.Remove(src,1)
+		QDEL_NULL(eyes)
+	eyes = new VD.cache_eyes
+	eyes.Insert(src)
+	set_eye_color(src, VD.cache_eye_color, VD.cache_eye_color)
 	update_body()
 	update_hair()
 	update_body_parts(redraw = TRUE)
+	eyes.update_accessory_colors()
+	mob_biotypes &= ~MOB_UNDEAD
+	faction = list()
+	to_chat(src, span_notice("My true form is hidden."))
 
 /mob/living/carbon/human/proc/vampire_undisguise(datum/antagonist/vampirelord/VD)
 	if(!VD)
 		return
 	VD.disguised = FALSE
-	skin_tone = VD.cache_skin
-	hair_color = VD.cache_hair
-	eye_color = VD.cache_eyes
-	facial_hair_color = VD.cache_hair
+	skin_tone = "c9d3de"
+	hair_color = "181a1d"
+	facial_hair_color = "181a1d"
+	var/obj/item/organ/eyes/eyes = getorganslot(ORGAN_SLOT_EYES)
+	if(eyes)
+		eyes.Remove(src,1)
+		QDEL_NULL(eyes)
+	eyes = new /obj/item/organ/eyes/night_vision/zombie
+	eyes.Insert(src)
+	set_eye_color(src, "#FF0000", "#FF0000")
 	update_body()
 	update_hair()
 	update_body_parts(redraw = TRUE)
+	eyes.update_accessory_colors()
+	mob_biotypes |= MOB_UNDEAD
+	faction = list("undead")
+	to_chat(src, span_notice("My true form is revealed."))
+
 
 /mob/living/carbon/human/proc/blood_strength()
 	set name = "Night Muscles"
@@ -433,82 +368,23 @@
 	for(var/datum/status_effect/debuff/silver_curse/silver_curse in status_effects)
 		silver_curse_status = TRUE
 		break
-	
-	var/datum/antagonist/vampirelord/VDL = mind.has_antag_datum(/datum/antagonist/vampirelord)
-	var/datum/antagonist/vampire/Vamp = mind.has_antag_datum(/datum/antagonist/vampire)
-	
-	if(!VDL && !Vamp)
+	var/datum/antagonist/vampirelord/VD = mind.has_antag_datum(/datum/antagonist/vampirelord)
+	if(!VD)
 		return
-	
-	var/is_wretch = FALSE
-	
-	if(!VDL && Vamp && Vamp.wretch_antag)
-		is_wretch = TRUE
-	else if(!VDL)
+	if(VD.disguised)
+		to_chat(src, span_warning("My curse is hidden."))
 		return
-	
-	if(is_wretch)
-		if(Vamp.disguised)
-			to_chat(src, span_warning("My curse is hidden."))
-			return
-	else
-		if(VDL.disguised)
-			to_chat(src, span_warning("My curse is hidden."))
-			return
-	
 	if(silver_curse_status)
 		to_chat(src, span_warning("My BANE is not letting me REGEN!."))
 		return
-	
-	var/vitae_cost = 500
-	if(is_wretch)
-		if(Vamp.vitae < vitae_cost)
-			to_chat(src, span_warning("Not enough vitae."))
-			return
-	else
-		if(VDL.vitae < vitae_cost)
-			to_chat(src, span_warning("Not enough vitae."))
-			return
-	
+	if(VD.vitae < 300)
+		to_chat(src, span_warning("Not enough vitae."))
+		return
 	to_chat(src, span_greentext("! REGENERATE !"))
 	src.playsound_local(get_turf(src), 'sound/misc/vampirespell.ogg', 100, FALSE, pressure_affected = FALSE)
-	
-	if(is_wretch)
-		Vamp.vitae -= vitae_cost
-		// Wound healing
-		var/list/wCount = get_wounds()
-		if(wCount.len > 0)
-			heal_wounds(30)
-			update_damage_overlays()
-			if(prob(10))
-				to_chat(src, span_nicegreen("I feel my wounds mending."))
-		// Stop all bleeding (health potion logic: expire bandages, remove status effects)
-		for(var/obj/item/bodypart/BP as anything in bodyparts)
-			if(BP.bandage)
-				BP.try_bandage_expire()
-		// Remove bleeding status effects
-		remove_status_effect(/datum/status_effect/debuff/bleeding)
-		remove_status_effect(/datum/status_effect/debuff/bleedingworse)
-		remove_status_effect(/datum/status_effect/debuff/bleedingworst)
-		// Damage healing - FLAT 50 HEALING
-		adjustBruteLoss(-50, 0)
-		adjustFireLoss(-50, 0)
-		adjustOxyLoss(-50, 0)
-		adjustCloneLoss(-50, 0)
-		for(var/obj/item/organ/organny in internal_organs)
-			adjustOrganLoss(organny.slot, -50)
-		// Heal bodypart damage (including "battered" limbs) - FLAT 50 HEALING
-		var/healed_bodyparts = FALSE
-		for(var/obj/item/bodypart/BP as anything in bodyparts)
-			if(BP.brute_dam > 0 || BP.burn_dam > 0)
-				BP.heal_damage(50, 50, 0)
-				healed_bodyparts = TRUE
-		if(healed_bodyparts)
-			update_damage_overlays()
-	else
-		VDL.handle_vitae(-vitae_cost)
-		fully_heal()
-		regenerate_limbs()
+	VD.handle_vitae(-300)
+	fully_heal()
+	regenerate_limbs()
 
 /mob/living/carbon/human/proc/vampire_infect()
 	if(!mind)
@@ -555,21 +431,3 @@
 		client.screen += H
 		H.Fade()
 		addtimer(CALLBACK(H, TYPE_PROC_REF(/atom/movable/screen/gameover, Fade), TRUE), 100)
-
-/datum/antagonist/vampire/proc/wretch_vamp_look()
-	var/mob/living/carbon/human/V = owner.current
-	// Set vampiric appearance only
-	V.skin_tone = "c9d3de"
-	V.hair_color = "181a1d"
-	V.facial_hair_color = "181a1d"
-	V.eye_color = "ff0000"
-	V.update_body()
-	V.update_hair()
-	V.update_body_parts(redraw = TRUE)
-	V.mob_biotypes = MOB_UNDEAD
-
-/mob/living/carbon/human/proc/on_hit_by_silver_weapon()
-	var/datum/antagonist/vampire/Vamp = mind?.has_antag_datum(/datum/antagonist/vampire)
-	if(Vamp && Vamp.wretch_antag && !Vamp.disguised)
-		to_chat(src, span_userdanger("The silver weapon burns my flesh! My curse is revealed!"))
-		apply_status_effect(/datum/status_effect/debuff/silver_curse)

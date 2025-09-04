@@ -4,7 +4,7 @@
 	icon_state = "colossus"
 	icon_living = "colossus"
 	icon_dead = "vvd"
-	summon_primer = "You are an colossus, a massive elemental. Elementals such as yourself are immeasurably old. Now you've been pulled from your home into a new world, that is decidedly less peaceful then your carefully guarded plane. How you react to these events, only time can tell."
+	summon_primer = "You are a colossus, a massive elemental. Elementals such as yourself are immeasurably old. Now you've been pulled from your home into a new world, that is decidedly less peaceful than your carefully guarded plane. How you react to these events, only time can tell."
 	summon_tier = 4
 	gender = MALE
 	emote_hear = null
@@ -96,6 +96,11 @@
 	..()
 	var/turf/deathspot = get_turf(src)
 	new /obj/item/magic/elementalrelic(deathspot)
+	new /obj/item/magic/elementalfragment(deathspot)
+	new /obj/item/magic/elementalshard(deathspot)
+	new /obj/item/magic/elementalmote(deathspot)
+	new /obj/item/magic/elementalmote(deathspot)
+	new /obj/item/magic/melded/t2(deathspot)
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)

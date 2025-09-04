@@ -129,6 +129,7 @@
 	trash = /obj/item/trash/applecore
 	faretype = FARE_POOR
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
+	bloody_icon = 'icons/effects/blood64.dmi'
 	slot_flags = ITEM_SLOT_HEAD
 	worn_x_dimension = 64
 	list_reagents = list(/datum/reagent/consumable/nutriment = 3)
@@ -385,8 +386,10 @@
 	icon_state = "fyritius"
 	filling_color = "#ff5e00"
 	tastes = list("tastes like a burning coal and fire" = 1)
+	obj_flags = CAN_BE_HIT
 	bitesize = 1
 	list_reagents = list(/datum/reagent/consumable/nutriment = 2, /datum/reagent/toxin/fyritiusnectar = 5)
+	grind_results = list(/datum/reagent/toxin/fyritiusnectar = 10)
 	dropshrink = 0.8
 	rotprocess = null
 	w_class = WEIGHT_CLASS_TINY
@@ -421,6 +424,21 @@
 		to_chat(user, span_warning("Their blood is not robust enough to hold to the warmth of [src]."))
 	if(success)
 		changefood(/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius/bloodied, user)
+
+/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius/attacked_by(obj/item/I, mob/living/user)
+	. = ..()
+	if(istype(I, /obj/item/inqarticles/indexer))
+		var/obj/item/inqarticles/indexer/IND = I
+		var/success
+		if(HAS_TRAIT(user, TRAIT_INQUISITION))
+			if(IND.cursedblood)
+				if(alert(user, "DRENCH THE FYRITIUS?", "CURSED BLOOD", "YES", "NO") != "NO")
+					success = TRUE
+					IND.fullreset(user)
+				else
+					return	
+				if(success)
+					changefood(/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius/bloodied, user)		
 
 
 /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius/bloodied

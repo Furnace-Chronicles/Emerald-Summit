@@ -21,7 +21,6 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 	blade_dulling = DULLING_BASH
 	integrity_failure = 0.5
 	max_integrity = 0
-	flags_1 = HEAR_1
 	anchored = TRUE
 	var/mode = 0
 
@@ -34,12 +33,14 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 	return
 
 /obj/structure/roguemachine/titan/Destroy()
+	lose_hearing_sensitivity()
 	set_light(0)
-	..()
+	return ..()
 
 /obj/structure/roguemachine/titan/Initialize()
 	. = ..()
 	icon_state = null
+	become_hearing_sensitive()
 //	var/mutable_appearance/eye_lights = mutable_appearance(icon, "titan-eyes")
 //	eye_lights.plane = ABOVE_LIGHTING_PLANE //glowy eyes
 //	eye_lights.layer = ABOVE_LIGHTING_LAYER
@@ -171,10 +172,6 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 				mode = 2
 				return
 			if(findtext(message, "purge decrees"))
-				if(!SScommunications.can_announce(H))
-					say("I must gather my strength!")
-					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-					return
 				if(notlord || nocrown)
 					say("You are not my master!")
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
@@ -184,10 +181,6 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 				purge_decrees()
 				return
 			if(findtext(message, "make law"))
-				if(!SScommunications.can_announce(H))
-					say("I must gather my strength!")
-					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-					return
 				if(notlord || nocrown)
 					say("You are not my master!")
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
@@ -197,10 +190,6 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 				mode = 4
 				return
 			if(findtext(message, "remove law"))
-				if(!SScommunications.can_announce(H))
-					say("I must gather my strength!")
-					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-					return
 				if(notlord || nocrown)
 					say("You are not my master!")
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
@@ -215,10 +204,6 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 				remove_law(law_index)
 				return
 			if(findtext(message, "purge laws"))
-				if(!SScommunications.can_announce(H))
-					say("I must gather my strength!")
-					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-					return
 				if(notlord || nocrown)
 					say("You are not my master!")
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)

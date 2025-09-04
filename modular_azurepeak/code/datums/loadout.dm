@@ -119,39 +119,39 @@ GLOBAL_LIST_EMPTY(loadout_items)
 
 /datum/loadout_item/tabard/astrata
 	name = "Astrata Tabard"
-	path = /obj/item/clothing/cloak/templar/astrata
+	path = /obj/item/clothing/cloak/templar/astratan
 
 /datum/loadout_item/tabard/noc
 	name = "Noc Tabard"
-	path = /obj/item/clothing/cloak/templar/noc
+	path = /obj/item/clothing/cloak/tabard/crusader/noc
 
 /datum/loadout_item/tabard/dendor
 	name = "Dendor Tabard"
-	path = /obj/item/clothing/cloak/templar/dendor
+	path = /obj/item/clothing/cloak/tabard/crusader/dendor
 
 /datum/loadout_item/tabard/malum
 	name = "Malum Tabard"
-	path = /obj/item/clothing/cloak/templar/malum
+	path = /obj/item/clothing/cloak/templar/malumite
 
 /datum/loadout_item/tabard/eora
 	name = "Eora Tabard"
-	path = /obj/item/clothing/cloak/templar/eora
+	path = /obj/item/clothing/cloak/templar/eoran
 
 /datum/loadout_item/tabard/pestra
 	name = "Pestra Tabard"
-	path = /obj/item/clothing/cloak/templar/pestra
+	path = /obj/item/clothing/cloak/templar/pestran
 
 /datum/loadout_item/tabard/ravox
 	name = "Ravox Tabard"
-	path = /obj/item/clothing/cloak/cleric/ravox
+	path = /obj/item/clothing/cloak/templar/ravox
 
 /datum/loadout_item/tabard/abyssor
 	name = "Abyssor Tabard"
-	path = /obj/item/clothing/cloak/templar/abyssor
+	path = /obj/item/clothing/cloak/abyssortabard
 
 /datum/loadout_item/tabard/necra
-	name = "Abyssor Tabard"
-	path = /obj/item/clothing/cloak/templar/necra
+	name = "Necra Tabard"
+	path = /obj/item/clothing/cloak/templar/necran
 
 /datum/loadout_item/tabard/psydon
 	name = "Psydon Tabard"
@@ -204,6 +204,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/thief_cloak
 	name = "Rapscallion's Shawl"
 	path = /obj/item/clothing/cloak/thief_cloak
+
+/datum/loadout_item/wicker_cloak
+	name = "Wicker Cloak"
+	path = /obj/item/clothing/cloak/wickercloak
 
 //SHOES
 /datum/loadout_item/darkboots
@@ -308,53 +312,57 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Dress"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gen
 
-/datum/loadout_item/bardress
-	name = "Bar Dress"
+/datum/loadout_item/dress/bardress
+	name = "Dress, Barmaid"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress
 
-/datum/loadout_item/chemise
+/datum/loadout_item/dress/chemise
 	name = "Chemise"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress
 
-/datum/loadout_item/sexydress
-	name = "Sexy Dress"
+/datum/loadout_item/dress/sexydress
+	name = "Dress, Sheer"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gen/sexy
 
-/datum/loadout_item/straplessdress
-	name = "Strapless Dress"
+/datum/loadout_item/dress/straplessdress
+	name = "Dress, Strapless"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gen/strapless
 
-/datum/loadout_item/straplessdress/alt
-	name = "Strapless Dress, alt"
+/datum/loadout_item/dress/straplessdress/alt
+	name = "Dress, Strapless (Alt)"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gen/strapless/alt
 
+/datum/loadout_item/dress/silkydress
+	name = "Dress, Silky"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkydress
+
+/datum/loadout_item/dress/nobledress
+	name = "Dress, Noble"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/noble
+
+/datum/loadout_item/dress/velvetdress
+	name = "Dress, Velvet"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/velvet
+
+/datum/loadout_item/dress/winterdress_light
+	name = "Dress, Cold"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/winterdress_light
+
 /datum/loadout_item/gown
-	name = "Spring Gown"
+	name = "Gown, Spring"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gown
 
 /datum/loadout_item/gown/summer
-	name = "Summer Gown"
+	name = "Gown, Summer"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gown/summergown
 
 /datum/loadout_item/gown/fall
-	name = "Fall Gown"
+	name = "Gown, Fall"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gown/fallgown
 
 /datum/loadout_item/gown/winter
-	name = "Winter Gown"
+	name = "Gown, Winter"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gown/wintergown
-
-/datum/loadout_item/gown/silkydress
-	name = "Silky Dress"
-	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkydress
-
-/datum/loadout_item/nobledress
-	name = "Noble Dress"
-	path = /obj/item/clothing/suit/roguetown/shirt/dress/noble
-
-/datum/loadout_item/velvetdress
-	name = "Velvet Dress"
-	path = /obj/item/clothing/suit/roguetown/shirt/dress/velvet
 
 /datum/loadout_item/leathervest
 	name = "Leather Vest"
@@ -397,18 +405,6 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	path = /obj/item/clothing/under/roguetown/skirt
 
 //ACCESSORIES
-/datum/loadout_item/stockings
-	name = "Stockings"
-	path = /obj/item/clothing/under/roguetown/tights/stockings
-
-/datum/loadout_item/silkstockings
-	name = "Silk Stockings"
-	path = /obj/item/clothing/under/roguetown/tights/stockings/silk
-
-/datum/loadout_item/fishnet
-	name = "Fishnet Stockings"
-	path = /obj/item/clothing/under/roguetown/tights/stockings/fishnet
-
 /datum/loadout_item/wrappings
 	name = "Handwraps"
 	path = /obj/item/clothing/wrists/roguetown/wrappings
@@ -461,7 +457,6 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Feather"
 	path = /obj/item/natural/feather
 
-
 /datum/loadout_item/cursed_collar
 	name = "Cursed Collar"
 	path = /obj/item/clothing/neck/roguetown/gorget/cursed_collar
@@ -469,6 +464,14 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/cloth_blindfold
 	name = "Cloth Blindfold"
 	path = /obj/item/clothing/mask/rogue/blindfold
+
+/datum/loadout_item/bases
+	name = "Cloth military skirt"
+	path = /obj/item/storage/belt/rogue/leather/battleskirt
+
+/datum/loadout_item/fauldedbelt
+	name = "Belt with faulds"
+	path = /obj/item/storage/belt/rogue/leather/battleskirt/faulds
 
 /datum/loadout_item/psicross
 	name = "Psydonian Cross"
@@ -485,6 +488,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/psicross/abyssor
 	name = "Amulet of Abyssor"
 	path = /obj/item/clothing/neck/roguetown/psicross/abyssor
+
+/datum/loadout_item/psicross/xylix
+	name = "Amulet of Xylix"
+	path = /obj/item/clothing/neck/roguetown/psicross/xylix
 
 /datum/loadout_item/psicross/dendor
 	name = "Amulet of Dendor"
@@ -513,6 +520,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/psicross/naledi
 	name = "Naledian Psy-Bracelet"
 	path = /obj/item/clothing/neck/roguetown/psicross/naledi
+
+/datum/loadout_item/zcross_iron
+	name = "Zizo Cross"
+	path = /obj/item/clothing/neck/roguetown/zcross/iron
 
 /datum/loadout_item/chaperon
 	name = "Chaperon (Normal)"
@@ -545,10 +556,6 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/jestershoes
     name = "Jester's Shoes"
     path = /obj/item/clothing/shoes/roguetown/jester
-
-/datum/loadout_item/zcross_iron
-	name = "Zizo Cross"
-	path = /obj/item/clothing/neck/roguetown/zcross/iron
 
 //Donator Section
 //All these items are stored in the donator_fluff.dm in the azure modular folder for simplicity.

@@ -14,6 +14,31 @@
 	static_price = FALSE
 	resistance_flags = FIRE_PROOF
 
+//Kobolds eating GEMS. Dwarves, behold, your BANE.
+/obj/item/roguegem/attack(mob/living/M, mob/user)
+	testing("attack")
+	if(!user.cmode)
+
+		if(iskobold(M))
+			if(M == user)
+				user.visible_message(span_warning("[user] is attempting to eat [src]!"), span_warning("I begin to eat [src]!"))
+			else
+				user.visible_message(span_warning("[user] begins to force [M] to eat [src]!"), span_warning("I attempt to force [M] to eat [src]!"))
+			if(do_after(user, 40))
+				var/healydoodle_gems = sellprice*0.6
+				M.apply_status_effect(/datum/status_effect/buff/gemmuncher, healydoodle_gems)
+				playsound(get_turf(src), 'modular_azurepeak/sound/spellbooks/glass.ogg', 100)
+				qdel(src)
+				if(M == user)
+					user.visible_message(span_danger("[user] eats [src]! Egads!"), span_danger("I devour [src]!"))
+				else
+					user.visible_message(span_danger("[user] forces [M] to eat [src]! Egads!"), span_danger("I force [M] to eat [src]!"))
+
+		else
+			return ..()
+	else
+		return ..()
+
 /obj/item/roguegem/getonmobprop(tag)
 	. = ..()
 	if(tag)
@@ -35,7 +60,7 @@
 
 /obj/item/roguegem/green/Initialize()
 	. = ..()
-	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/emerald_staff,)
+	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/gemstaff/emerald_staff,)
 
 	AddElement(
 		/datum/element/slapcrafting,\
@@ -50,7 +75,7 @@
 
 /obj/item/roguegem/blue/Initialize()
 	. = ..()
-	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/quartz_staff,)
+	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/gemstaff/quartz_staff,)
 
 	AddElement(
 		/datum/element/slapcrafting,\
@@ -65,7 +90,7 @@
 
 /obj/item/roguegem/yellow/Initialize()
 	. = ..()
-	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/toper_staff,)
+	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/gemstaff/toper_staff,)
 
 	AddElement(
 		/datum/element/slapcrafting,\
@@ -80,7 +105,7 @@
 
 /obj/item/roguegem/violet/Initialize()
 	. = ..()
-	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/sapphire_staff,)
+	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/gemstaff/ruby_staff,)
 
 	AddElement(
 		/datum/element/slapcrafting,\
@@ -95,7 +120,7 @@
 
 /obj/item/roguegem/ruby/Initialize()
 	. = ..()
-	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/ruby_staff,)
+	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/gemstaff/diamond_staff,)
 
 	AddElement(
 		/datum/element/slapcrafting,\
@@ -110,7 +135,7 @@
 
 /obj/item/roguegem/diamond/Initialize()
 	. = ..()
-	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/diamond_staff,)
+	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/gemstaff/amethyst_staff,)
 
 	AddElement(
 		/datum/element/slapcrafting,\
@@ -124,7 +149,7 @@
 
 /obj/item/roguegem/amethyst/Initialize()
 	. = ..()
-	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/amethyst_staff,)
+	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/gemstaff/quartz_staff,)
 
 	AddElement(
 		/datum/element/slapcrafting,\
@@ -159,17 +184,53 @@
 	dropshrink = 0.4
 	drop_sound = 'sound/items/gem.ogg'
 	sellprice = 400
+	var/det_chance = 50//Chance that it'll explode violently when eaten.
 
 /obj/item/riddleofsteel/Initialize()
 	. = ..()
 	set_light(2, 2, 1, l_color = "#ff0d0d")
 
-	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/quartz_staff,)
+	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/gemstaff/quartz_staff,)
 
 	AddElement(
 		/datum/element/slapcrafting,\
 		slapcraft_recipes = slapcraft_recipe_list,\
 	)
+
+//Kobolds eating RIDDLES. PSYDON WEPT.
+/obj/item/riddleofsteel/attack(mob/living/M, mob/user)
+	testing("attack")
+	if(!user.cmode)
+
+		if(iskobold(M))
+			if(M == user)
+				user.visible_message(span_warning("[user] is attempting to eat [src]!"), span_warning("I begin to eat [src]!"))
+			else
+				user.visible_message(span_warning("[user] begins to force [M] to eat [src]!"), span_warning("I attempt to force [M] to eat [src]!"))
+
+			if(do_after(user, 40))
+				playsound(get_turf(src), 'modular_azurepeak/sound/spellbooks/crystal.ogg', 100)
+				qdel(src)
+				if(prob(det_chance))//Woe... - TODO: Expand this. Properly. An explosion and dusting.
+					M.adjust_fire_stacks(100)//You will burn. Horribly.
+					M.adjustFireLoss(250)//If you somehow put it out immediately, you still contend with this.
+					M.Paralyze(12 SECONDS, ignore_canstun = TRUE)//You lost the coin toss. Suffer the loss.
+					M.IgniteMob()
+					M.visible_message(span_deadsay("[src] explodes in a shower of arcyne fire and energy, violently engulfing [M]!"))
+					M.add_stress(/datum/stressevent/riddle_munch)//You still get the stress, even if you don't get the heal.
+				else//You won the toss, but you still lose. Because this is a waste of a riddle.
+					var/healydoodle_riddle = sellprice*0.5//Not as effective, on a per-value basis. But it's still MUCH better.
+					M.apply_status_effect(/datum/status_effect/buff/gemmuncher, healydoodle_riddle)
+					M.add_stress(/datum/stressevent/riddle_munch)//Why would you do this?
+					if(M == user)
+						user.visible_message(span_danger("[user] eats [src]! Wretched creature!"), span_danger("I devour [src]! Was this a good idea?"))
+					else
+						user.visible_message(span_danger("[user] forces [M] to eat [src]! Oh, the Humenity..."), span_danger("I force [M] to eat [src]! Why did I do that?"))
+
+		else
+			return ..()
+	else
+		return ..()
 
 /obj/item/pearl
 	name = "pearl"

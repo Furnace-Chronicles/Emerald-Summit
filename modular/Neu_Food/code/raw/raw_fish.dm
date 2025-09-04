@@ -32,12 +32,15 @@
 		if("gold")
 			sellprice = sellprice * 10
 			name = "legendary [initial(name)]"
+			rarity_rank = 3
 		if("ultra")
 			sellprice = sellprice * 4
 			name = "ultra-rare [initial(name)]"
+			rarity_rank = 2
 		if("rare")
 			sellprice = sellprice * 2
 			name = "rare [initial(name)]"
+			rarity_rank = 1
 		if("com")
 			name = "common [initial(name)]"
 	if(!dead)

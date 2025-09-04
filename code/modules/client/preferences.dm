@@ -151,7 +151,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/highlight_color = "#FF0000"
 	var/datum/charflaw/charflaw
 
-
+	var/static/default_cmusic_type = /datum/combat_music/default
+	var/datum/combat_music/combat_music
+	var/combat_music_helptext_shown = FALSE
 
 	var/crt = FALSE
 	var/grain = TRUE
@@ -169,9 +171,13 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/list/descriptor_entries = list()
 	var/list/custom_descriptors = list()
 
-	var/char_accent = "No accent"
-	
+	var/char_accent = "No accent"	
 
+	// PATREON
+	// Vrell - I fucking hate how inconsistent the variable style is for this shit. underscores? all lowercase? camelcase? 
+	var/patreon_say_color = "ff7a05"
+	var/patreon_say_color_enabled = FALSE
+	// END PATREON
 
 	var/datum/loadout_item/loadout
 	var/datum/loadout_item/loadout2
@@ -184,6 +190,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	var/ooc_notes
 	var/ooc_notes_display
+
+	//var/taur_type = null
+	var/tail_color = "ffffff"
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -218,6 +227,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		charflaw = new charflaw()
 	if(!selected_patron)
 		selected_patron = GLOB.patronlist[default_patron]
+	if(!combat_music)
+		combat_music = GLOB.cmode_tracks_by_type[default_cmusic_type]
 	key_bindings = deepCopyList(GLOB.hotkey_keybinding_list_by_key) // give them default keybinds and update their movement keys
 	C.update_movement_keys()
 	if(!loaded_preferences_successfully)
@@ -244,6 +255,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	reset_all_customizer_accessory_colors()
 	randomize_all_customizer_accessories()
 	reset_descriptors()
+//	taur_type = null
 
 #define APPEARANCE_CATEGORY_COLUMN "<td valign='top' width='14%'>"
 #define MAX_MUTANT_ROWS 4
@@ -373,6 +385,13 @@ GLOBAL_LIST_EMPTY(chosen_names)
 					dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_GENDER]'>Always Random Bodytype: [(randomise[RANDOM_GENDER]) ? "Yes" : "No"]</A>"
 					dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_GENDER_ANTAG]'>When Antagonist: [(randomise[RANDOM_GENDER_ANTAG]) ? "Yes" : "No"]</A>"
 
+			//if(LAZYLEN(pref_species.allowed_taur_types))
+			if((LAMIAN_TAIL in pref_species.species_traits))
+				//var/obj/item/bodypart/taur/T = taur_type
+				//var/name = ispath(T) ? T::name : "None"
+				//dat += "<b>Taur Body Type:</b> <a href='?_src_=prefs;preference=taur_type;task=input'>[name]</a><BR>"
+				dat += "<b>Tail Color:</b><span style='border: 1px solid #161616; background-color: #[tail_color];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=tail_color;task=input'>Change</a><BR>"
+
 			// LETHALSTONE EDIT BEGIN: add voice type prefs
 			dat += "<b>Voice Type</b>: <a href='?_src_=prefs;preference=voicetype;task=input'>[voice_type]</a><BR>"
 			// LETHALSTONE EDIT END
@@ -395,6 +414,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 
 			dat += "<b>Dominance:</b> <a href='?_src_=prefs;preference=domhand'>[domhand == 1 ? "Left-handed" : "Right-handed"]</a><BR>"
+
+			var/musicname = (combat_music.shortname ? combat_music.shortname : combat_music.name)
+			dat += "<b>Combat Music:</b> <a href='?_src_=prefs;preference=combat_music;task=input'>[musicname || "FUCK!"]</a><BR>"
 
 /*
 			dat += "<br><br><b>Special Names:</b><BR>"
@@ -428,18 +450,24 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<table width='100%'><tr><td width='1%' valign='top'>"
 			dat += "<b>Update feature colors with change:</b> <a href='?_src_=prefs;preference=update_mutant_colors;task=input'>[update_mutant_colors ? "Yes" : "No"]</a><BR>"
 			var/use_skintones = pref_species.use_skintones
-			if(use_skintones)
+			if(use_skintones && !(LAMIAN_TAIL in pref_species.species_traits))
 
 				var/skin_tone_wording = pref_species.skin_tone_wording // Both the skintone names and the word swap here is useless fluff
 
 				dat += "<b>[skin_tone_wording]: </b><a href='?_src_=prefs;preference=s_tone;task=input'>Change </a>"
 				dat += "<br>"
 
-			if((MUTCOLORS in pref_species.species_traits) || (MUTCOLORS_PARTSONLY in pref_species.species_traits))
+			if((MUTCOLORS in pref_species.species_traits) && !(LAMIAN_TAIL in pref_species.species_traits) || (MUTCOLORS_PARTSONLY in pref_species.species_traits) && !(LAMIAN_TAIL in pref_species.species_traits))
 
 				dat += "<b>Mutant Color #1:</b><span style='border: 1px solid #161616; background-color: #[features["mcolor"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color;task=input'>Change</a><BR>"
 				dat += "<b>Mutant Color #2:</b><span style='border: 1px solid #161616; background-color: #[features["mcolor2"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color2;task=input'>Change</a><BR>"
 				dat += "<b>Mutant Color #3:</b><span style='border: 1px solid #161616; background-color: #[features["mcolor3"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color3;task=input'>Change</a><BR>"
+
+			if((LAMIAN_TAIL in pref_species.species_traits))
+
+				dat += "<b>Skin/scales color #1:</b><a href='?_src_=prefs;preference=skin_color_ref_list;task=input'>(?)</a><span style='border: 1px solid #161616; background-color: #[features["mcolor"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=skin_choice_pick;task=input'>Change</a><BR>"
+				dat += "<b>Feature Color #1:</b><span style='border: 1px solid #161616; background-color: #[features["mcolor2"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color2;task=input'>Change</a><BR>"
+				dat += "<b>Feature Color #2:</b><span style='border: 1px solid #161616; background-color: #[features["mcolor3"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color3;task=input'>Change</a><BR>"
 
 			var/datum/language/selected_lang
 			var/lang_output = "None"
@@ -801,7 +829,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	popup.open(FALSE)
 	onclose(user, "capturekeypress", src)
 
-/datum/preferences/proc/SetChoices(mob/user, limit = 14, list/splitJobs = list("Court Magician", "Knight Captain", "Priest", "Merchant", "Archivist", "Towner", "Grenzelhoft Mercenary", "Beggar", "Prisoner", "Goblin King"), widthPerColumn = 295, height = 620) //295 620
+/datum/preferences/proc/SetChoices(mob/user, limit = 14, list/splitJobs = list("Court Magician", "Knight Captain", "Priest", "Merchant", "Town Elder", "Adventurer", "Grenzelhoft Mercenary", "Beggar", "Prisoner", "Goblin King"), widthPerColumn = 295, height = 620) //295 620
 	if(!SSjob)
 		return
 
@@ -1490,7 +1518,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							if (AGE_ADULT)
 								to_chat(user, "You preside in your 'prime', whatever this may be, and gain no bonus nor endure any penalty for your time spent alive.")
 							if (AGE_MIDDLEAGED)
-								to_chat(user, "Muscles ache and joints begin to slow as Aeon's grasp begins to settle upon your shoulders. (-1 SPD, +1 END)")
+								to_chat(user, "Muscles ache and joints begin to slow as Aeon's grasp begins to settle upon your shoulders. (-1 SPD, +1 CON, +1 FOR)")
 							if (AGE_OLD)
 								to_chat(user, "In a place as lethal as PSYDONIA, the elderly are all but marvels... or beneficiaries of the habitually privileged. (-1 STR, -2 SPE, -1 PER, -2 CON, +2 INT, +1 FOR)")
 						// LETHALSTONE EDIT END
@@ -1532,6 +1560,29 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						voice_type = voicetype_input
 						to_chat(user, "<font color='red'>Your character will now vocalize with a [lowertext(voice_type)] affect.</font>")
 
+//				if("taur_type")
+//					var/list/species_taur_list = pref_species.get_taur_list()
+//					if(!LAZYLEN(species_taur_list))
+//						taur_type = null
+//						to_chat(user, span_bad("There are no available taur bodies for this species."))
+//						return
+//
+//					var/list/taur_selection = list("None")
+//					for(var/obj/item/bodypart/taur/tt as anything in pref_species.get_taur_list())
+//						taur_selection[tt::name] = tt
+//
+//					var/new_taur_type = input(user, "Choose your character's taur body", "Taur Body") as null|anything in taur_selection
+//					if(!new_taur_type)
+//						return
+//
+//					if(new_taur_type == "None")
+//						taur_type = null
+//					else
+//						taur_type = taur_selection[new_taur_type]
+//
+//					var/obj/item/bodypart/taur/tt = taur_type
+//					to_chat(user, span_red("Your character now has [tt ? tt::name : "no taurtype."]."))
+
 				if("faith")
 					var/list/faiths_named = list()
 					for(var/path as anything in GLOB.preference_faiths)
@@ -1562,6 +1613,23 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						to_chat(user, "<font color='#FFA500'>Domain: [selected_patron.domain]</font>")
 						to_chat(user, "Background: [selected_patron.desc]")
 						to_chat(user, "<font color='red'>Likely Worshippers: [selected_patron.worshippers]</font>")
+
+				if("combat_music") // if u change shit here look at /client/verb/combat_music() too
+					if(!combat_music_helptext_shown)
+						to_chat(user, span_notice("<span class='bold'>Combat Music Override</span>\n") + \
+						"Options other than \"Default\" override whatever the game dynamically sets for you, \
+						which is influenced by your job class, villain status, or certain events.\n\
+						You can change this later through \"Combat Mode Music\" in the Options tab.\"</span>")
+						combat_music_helptext_shown = TRUE
+					var/track_select = input(user, "Set a track to be your combat music.", "Combat Music", combat_music?.name)\
+											as null|anything in GLOB.cmode_tracks_by_name
+					if(track_select)
+						combat_music = GLOB.cmode_tracks_by_name[track_select]
+						to_chat(user, span_notice("Selected track: <b>[track_select]</b>."))
+						if(combat_music.desc)
+							to_chat(user, "<i>[combat_music.desc]</i>")
+						if(combat_music.credits)
+							to_chat(user, span_info("Song name: <b>[combat_music.credits]</b>"))
 
 				if("bdetail")
 					var/list/loly = list("Not yet.","Work in progress.","Don't click me.","Stop clicking this.","Nope.","Be patient.","Sooner or later.")
@@ -1663,6 +1731,15 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					dat += "Minimum Flavortext: <b>[MINIMUM_FLAVOR_TEXT]</b> characters.<br>"
 					dat += "Minimum OOC Notes: <b>[MINIMUM_OOC_NOTES]</b> characters."
 					var/datum/browser/popup = new(user, "Formatting Help", nwidth = 400, nheight = 350)
+					popup.set_content(dat.Join())
+					popup.open(FALSE)
+				if("skin_color_ref_list")
+					var/list/dat = list()
+					dat +="Skin color codes reference list<br>"
+					dat += "<br>"
+					for(var/tone in pref_species.get_skin_list_tooltip()) 
+						dat += "[tone]<br>"
+					var/datum/browser/popup = new(user, "Formatting Help", nwidth = 400, nheight = 450)
 					popup.set_content(dat.Join())
 					popup.open(FALSE)
 				if("flavortext")
@@ -1953,6 +2030,11 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						new_body_size = clamp(new_body_size * 0.01, BODY_SIZE_MIN, BODY_SIZE_MAX)
 						features["body_size"] = new_body_size
 
+				if("tail_color")
+					var/new_tail_color = color_pick_sanitized(user, "Choose your character's tail color:", "Character Preference", "#"+tail_color)
+					if(new_tail_color)
+						tail_color = sanitize_hexcolor(new_tail_color)
+
 				if("mutant_color")
 					var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's mutant #1 color:", "Character Preference","#"+features["mcolor"])
 					if(new_mutantcolor)
@@ -1971,6 +2053,20 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					if(new_mutantcolor)
 						features["mcolor3"] = sanitize_hexcolor(new_mutantcolor)
 						try_update_mutant_colors()
+
+				if("skin_choice_pick")
+					var/prompt = alert(user, "Choose skin/scales color",, "Custom", "Predefined")
+					if(prompt == "Custom")
+						var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's skin/scale color:", "Character Preference","#"+features["mcolor"])
+						if(new_mutantcolor)
+							features["mcolor"] = sanitize_hexcolor(new_mutantcolor)
+							try_update_mutant_colors()
+					if(prompt == "Predefined")
+						var/listy = pref_species.get_skin_list()
+						var/new_mutantcolor = input(user, "Choose your character's skin tone:", "Sun")  as null|anything in listy
+						if(new_mutantcolor)
+							features["mcolor"] = listy[new_mutantcolor]
+							try_update_mutant_colors()
 
 /*
 				if("color_ethereal")
@@ -2430,6 +2526,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	character.name = character.real_name
 
 	character.domhand = domhand
+	character.cmode_music_override = combat_music.musicpath
+	character.cmode_music_override_name = combat_music.name
 	character.highlight_color = highlight_color
 	character.nickname = nickname
 
@@ -2491,6 +2589,18 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		if(L)
 			for(var/X in L)
 				ADD_TRAIT(character, curse2trait(X), TRAIT_GENERIC)
+
+//	if(taur_type)
+//		character.Taurize(taur_type, "#[taur_color]")
+//	else if(character_setup)
+//		// This should only ever ~do~ anything for previews
+//		character.ensure_not_taur()
+
+	if((LAMIAN_TAIL in pref_species.species_traits))
+		character.Lamiaze(/obj/item/bodypart/lamian_tail, "#[tail_color]")
+	else if(character_setup)
+		// This should only ever ~do~ anything for previews
+		character.ensure_not_lamia()
 
 	if(icon_updates)
 		character.update_body()

@@ -78,6 +78,7 @@ SUBSYSTEM_DEF(nightshift)
 	return
 
 /mob/living/carbon/human/update_tod(todd)
+	progress_cycles()
 	if(client)
 		var/area/areal = get_area(src)
 		if(!cmode)
@@ -99,3 +100,11 @@ SUBSYSTEM_DEF(nightshift)
 		else
 			apply_status_effect(/datum/status_effect/debuff/sleepytime)
 			add_stress(/datum/stressevent/sleepytime)
+
+/mob/living/carbon/human
+	var/survived_cycles = 0
+
+/mob/living/carbon/human/proc/progress_cycles()
+	survived_cycles++
+	GLOB.carebox.human_cycle_progress(src)
+

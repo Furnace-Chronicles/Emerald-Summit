@@ -1109,6 +1109,11 @@
 		update_filters()
 	return .
 
+/atom/movable/proc/clear_filters()
+	var/atom/atom_cast = src // filters only work with images or atoms.
+	filter_data = null
+	atom_cast.filters = null
+
 /atom/movable/proc/update_filters() //Determine which filter comes first
 	filters = null                  //note, the cmp_filter is a little flimsy.
 	sortTim(filter_data, /proc/cmp_filter_priority_desc, associative = TRUE) 
@@ -1173,3 +1178,14 @@
 /atom/proc/InitializeAIController()
 	if(ai_controller)
 		ai_controller = new ai_controller(src)
+
+///Returns a list of all locations (except the area) the movable is within.
+/proc/get_nested_locs(atom/movable/atom_on_location, include_turf = FALSE)
+	. = list()
+	var/atom/location = atom_on_location.loc
+	var/turf/our_turf = get_turf(atom_on_location)
+	while(location && location != our_turf)
+		. += location
+		location = location.loc
+	if(our_turf && include_turf) //At this point, only the turf is left, provided it exists.
+		. += our_turf

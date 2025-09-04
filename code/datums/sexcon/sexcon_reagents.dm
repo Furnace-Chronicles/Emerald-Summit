@@ -12,7 +12,7 @@
 
 /datum/reagent/consumable/ethanol/beer/emberwine/on_mob_metabolize(mob/living/carbon/human/C)
 	..()
-	if(!C.client.prefs.sexable)
+	if(!C?.client?.prefs?.sexable)
 		volume = 0
 		return
 	C.sexcon.aphrodisiac += 1

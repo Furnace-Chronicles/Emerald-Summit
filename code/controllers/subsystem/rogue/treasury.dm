@@ -125,7 +125,6 @@ SUBSYSTEM_DEF(treasury)
 					send_ooc_note("<b>MEISTER:</b> Error: Insufficient funds in the account to complete the fine.", name = target_name)
 					return FALSE  // Return early if the player has insufficient funds
 				bank_accounts[X] -= abs(amt)  // Deduct the fine amount from the player's account
-				treasury_value += abs(amt) // Add the fined amount to the treasury
 			found_account = TRUE
 			break
 	if(!found_account)
