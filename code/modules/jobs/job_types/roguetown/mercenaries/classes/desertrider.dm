@@ -7,6 +7,7 @@
 	traits_applied = list(TRAIT_OUTLANDER)
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_desertrider.ogg' //GREATEST COMBAT TRACK IN THE GAME SO FAR BESIDES MAYBE MANIAC2.OGG
+	traits_applied = list(TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_WIL = 2,
@@ -31,7 +32,6 @@
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/sneaking, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/raneshen
 	neck = /obj/item/clothing/neck/roguetown/bevor
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
@@ -77,6 +77,7 @@
 	name = "Desert Rider Zeybek"
 	tutorial = "Ranesheni 'Blade Dancers' are famed and feared the world over. Their expertise in blades both long and short is well known."
 	outfit = /datum/outfit/job/roguetown/mercenary/desert_rider_zeybek
+	traits_applied = list(TRAIT_DODGEEXPERT)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_WIL = 2,
@@ -101,7 +102,6 @@
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 3, TRUE)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/raneshen
 	neck = /obj/item/clothing/neck/roguetown/leather
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/paalloy
@@ -150,6 +150,7 @@
 	name = "Desert Rider Almah"
 	tutorial = "Almah are those skilled in both magyck and swordsmanship, but excelling in nothing."
 	outfit = /datum/outfit/job/roguetown/mercenary/desert_rider_almah
+	traits_applied = list(TRAIT_ARCYNE_T2, TRAIT_MAGEARMOR)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_WIL = 2,

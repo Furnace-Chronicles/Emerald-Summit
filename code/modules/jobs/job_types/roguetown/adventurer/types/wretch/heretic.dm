@@ -5,7 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/wretch/heretic
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_RITUALIST, TRAIT_OUTLAW, TRAIT_HERESIARCH)
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_RITUALIST, TRAIT_OUTLAW, TRAIT_HEAVYARMOR, TRAIT_HERESIARCH)
 	maximum_possible_slots = 2 //Ppl dont like heavy armor antags.
 	// Heretic is by far the best class with access to rituals (as long as they play a god with ritual), holy and heavy armor. So they keep 7 points.
 	subclass_stats = list(
@@ -31,7 +31,6 @@
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
 	H.set_blindness(0)
-	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	var/weapons = list("Longsword", "Mace", "Flail", "Axe")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
@@ -157,6 +156,7 @@
 	tutorial = "Nimble of dagger and foot both, you are the shadowy herald of the cabal. They will not see you coming."
 	outfit = /datum/outfit/job/roguetown/wretch/hereticspy
 	maximum_possible_slots = 2 //Ppl dont like rogue antags.
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_RITUALIST, TRAIT_OUTLAW, TRAIT_DODGEEXPERT, TRAIT_HERESIARCH)
 	//Slower than outlaw, but a bit more PER and INT
 	subclass_stats = list(
 		STATKEY_PER = 2,
@@ -204,7 +204,6 @@
 	H.adjust_skillrank(/datum/skill/misc/lockpicking, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/traps, 3, TRUE)
 	H.cmode_music = 'sound/music/cmode/antag/combat_cutpurse.ogg'
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	var/weapons = list("Rapier","Dagger", "Bow", "Crossbow")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)

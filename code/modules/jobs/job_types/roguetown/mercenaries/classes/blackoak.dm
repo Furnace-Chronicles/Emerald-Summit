@@ -11,6 +11,7 @@
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_blackoak.ogg'
 	extra_context = "This subclass is race-restricted to: Half-Elves, Elves, Dark Elves."
+	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_RACISMISBAD, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 3,
 		STATKEY_WIL = 2,
@@ -36,10 +37,6 @@
 	H.adjust_skillrank(/datum/skill/craft/tanning, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/labor/farming, 2, TRUE)
-	ADD_TRAIT(H, TRAIT_AZURENATIVE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_RACISMISBAD, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/elven_helm
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/elven_plate
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
@@ -65,6 +62,7 @@
 	name = "Black Oak's Ranger"
 	tutorial = "A shady guardian of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Peaks. Thankfully, you are not here today to shed the blood of the Duke's men — unless someone pays you to..."
 	outfit = /datum/outfit/job/roguetown/mercenary/blackoak_ranger
+	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_RACISMISBAD, TRAIT_DODGEEXPERT)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_WIL = 2,
@@ -111,9 +109,5 @@
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/book/rogue/blackoak = 1
 		)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_AZURENATIVE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_RACISMISBAD, TRAIT_GENERIC)
 
 	H.merctype = 2

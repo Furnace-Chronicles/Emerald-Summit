@@ -12,7 +12,7 @@
 	)
 	outfit = /datum/outfit/job/roguetown/mercenary/underdweller
 	category_tags = list(CTAG_MERCENARY)
-	traits_applied = list(TRAIT_OUTLANDER)
+	traits_applied = list(TRAIT_OUTLANDER, TRAIT_MEDIUMARMOR, TRAIT_WEBWALK)
 	subclass_stats = list(
 		STATKEY_CON = 2,
 		STATKEY_WIL = 2,
@@ -54,10 +54,8 @@
 	H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/smelting, 2, TRUE)	//Accompanies mining; they know how to smelt, not make armor though.
+	H.merctype = 12
 
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_WEBWALK, TRAIT_GENERIC)	//A cave dweller fears no spider.
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)	
 
 //Clothing here to avoid overcrowding the hats.dm with snowflake gear. It's just a kettle with a light.
 /obj/item/clothing/head/roguetown/helmet/kettle/minershelm

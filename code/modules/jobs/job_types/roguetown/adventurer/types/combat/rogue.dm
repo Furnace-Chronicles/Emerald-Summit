@@ -4,7 +4,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/rogue
-	traits_applied = list(TRAIT_OUTLANDER)
+	traits_applied = list(TRAIT_OUTLANDER, TRAIT_DODGEEXPERT, TRAIT_SEEPRICES, TRAIT_GRAVEROBBER)
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	subclass_stats = list(
 		STATKEY_STR = -1,
@@ -49,9 +49,6 @@
 	H.adjust_skillrank(/datum/skill/misc/lockpicking, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/traps, 3, TRUE)
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
 	var/weapons = list("Sabre","Whip")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
@@ -68,6 +65,7 @@
 	name = "Thief"
 	tutorial = "You are a scoundrel and a thief. A master in getting into places you shouldn't be and taking things that aren't rightfully yours."
 	outfit = /datum/outfit/job/roguetown/adventurer/thief
+	traits_applied = list(TRAIT_OUTLANDER, TRAIT_DODGEEXPERT)
 	subclass_stats = list(
 		STATKEY_STR = -1,
 		STATKEY_INT = 1,
@@ -114,13 +112,13 @@
 	H.adjust_skillrank(/datum/skill/misc/stealing, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/lockpicking, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/traps, 4, TRUE)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	H.grant_language(/datum/language/thievescant)
 
 /datum/advclass/rogue/bard
 	name = "Bard"
 	tutorial = "You make your fortune in brothels, flop houses, and taverns – gaining fame for your songs and legends. If there is any truth to them, that is."
 	outfit = /datum/outfit/job/roguetown/adventurer/bard
+	traits_applied = list(TRAIT_OUTLANDER, TRAIT_DODGEEXPERT, TRAIT_GOODLOVER, TRAIT_EMPATH)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_SPD = 2,
@@ -162,9 +160,6 @@
 		)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
 	var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman")
 	var/weapon_choice = input("Choose your instrument.", "TAKE UP ARMS") as anything in weapons
@@ -189,6 +184,7 @@
 	name = "Swashbuckler"
 	tutorial = "You are a daring rogue of the seas! Swashbucklers wield agile swordplay and acrobatic prowess - fighting dirty to outmaneuver foes with flair."
 	outfit = /datum/outfit/job/roguetown/adventurer/swashbuckler
+	traits_applied = list(TRAIT_OUTLANDER, TRAIT_DODGEEXPERT, TRAIT_NUTCRACKER, TRAIT_DECEIVING_MEEKNESS)
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_STR = 1,
@@ -230,6 +226,3 @@
 	H.adjust_skillrank(/datum/skill/misc/stealing, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/music, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/lockpicking, 2, TRUE)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_NUTCRACKER, TRAIT_GENERIC)
-	ADD_TRAIT (H, TRAIT_DECEIVING_MEEKNESS, TRAIT_GENERIC)

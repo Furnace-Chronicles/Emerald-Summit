@@ -5,6 +5,13 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/disciple
 	category_tags = list(CTAG_INQUISITION)
+	traits_applied = list(
+		TRAIT_STEELHEARTED,
+		TRAIT_CRITICAL_RESISTANCE,
+		TRAIT_NOPAINSTUN,
+		TRAIT_INQUISITION,
+		TRAIT_OUTLANDER
+	)
 	subclass_stats = list(
 		STATKEY_STR = 3,
 		STATKEY_WIL = 3,
@@ -43,13 +50,7 @@
 	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
-	ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_INQUISITION, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_OUTLANDER, TRAIT_GENERIC)		//You're a foreigner, a guest of the realm.
+	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)\
 	H.grant_language(/datum/language/otavan)
 	H.adjust_skillrank(/datum/skill/magic/holy, 2, TRUE)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)

@@ -32,7 +32,7 @@
 	/// Stat ceilings for the specific subclass.
 	var/list/adv_stat_ceiling
 
-	/// Subclass stats.
+	/// Subclass stat bonuses.
 	var/list/subclass_stats
 
 	/// Extra fluff added to the role explanation in class selection.

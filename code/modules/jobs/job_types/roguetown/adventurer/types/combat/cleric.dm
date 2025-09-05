@@ -7,6 +7,7 @@
 	vampcompat = FALSE
 	outfit = /datum/outfit/job/roguetown/adventurer/cleric
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_CIVILIZEDBARBARIAN)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_WIL = 2,
@@ -48,8 +49,6 @@
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/magic/holy, 2, TRUE)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
 	var/weapons = list("Katar","Knuckle Dusters")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
@@ -135,6 +134,7 @@
 	name = "Paladin"
 	tutorial = "A holy warrior. Where others of the clergy may have spent their free time studying scriptures, you have instead honed your skills with a blade."
 	outfit = /datum/outfit/job/roguetown/adventurer/paladin
+	traits_applied = list(TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_WIL = 1,
@@ -169,7 +169,6 @@
 	H.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/magic/holy, 2, TRUE)
 	H.cmode_music = 'sound/music/cmode/church/combat_reckoning.ogg'
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fluted/ornate
@@ -284,6 +283,7 @@
 	name = "Cantor"
 	tutorial = "You were a bard once - but you've found a new calling. Your eyes have been opened to the divine, now you wander from city to city singing songs and telling tales of your patron's greatness."
 	outfit = /datum/outfit/job/roguetown/adventurer/cantor
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_EMPATH)
 	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_WIL = 1,
@@ -319,8 +319,6 @@
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
 	H.cmode_music = 'sound/music/cmode/church/combat_reckoning.ogg'
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
 	switch(H.patron?.type)
@@ -414,6 +412,7 @@
 	name = "Missionary"
 	tutorial = "You are a devout worshipper of the divine with a strong connection to your patron god. You've spent years studying scriptures and serving your deity - now you wander into foreign lands, spreading the word of your faith."
 	outfit = /datum/outfit/job/roguetown/adventurer/missionary
+	traits_applied = list()
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_PER = 2,

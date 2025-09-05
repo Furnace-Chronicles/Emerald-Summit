@@ -52,6 +52,17 @@
 	outfit = /datum/outfit/job/roguetown/puritan/inspector
 
 	category_tags = list(CTAG_PURITAN)
+	traits_applied = list(
+		TRAIT_STEELHEARTED,
+		TRAIT_DODGEEXPERT,
+		TRAIT_MEDIUMARMOR,
+		TRAIT_BLACKBAGGER,
+		TRAIT_SILVER_BLESSED,
+		TRAIT_INQUISITION,
+		TRAIT_PERFECT_TRACKER,
+		TRAIT_PURITAN,
+		TRAIT_OUTLANDER
+		)
 	subclass_stats = list(
 		STATKEY_CON = 3,
 		STATKEY_PER = 3,
@@ -79,15 +90,7 @@
 	H.verbs |= /mob/living/carbon/human/proc/faith_test
 	H.verbs |= /mob/living/carbon/human/proc/torture_victim
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = FALSE, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles.
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_BLACKBAGGER, TRAIT_GENERIC) // Probably trained the Confessors. Or was one. Who knows.
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_SILVER_BLESSED, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_INQUISITION, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_PERFECT_TRACKER, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_PURITAN, JOB_TRAIT)
+	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles.
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
 	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/psydon
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
@@ -140,6 +143,15 @@
 	cmode_music = 'sound/music/combat_inqordinator.ogg'
 
 	category_tags = list(CTAG_PURITAN)
+	traits_applied = list(
+		TRAIT_STEELHEARTED,
+		TRAIT_HEAVYARMOR,
+		TRAIT_BLACKBAGGER,
+		TRAIT_SILVER_BLESSED,
+		TRAIT_INQUISITION,
+		TRAIT_PURITAN,
+		TRAIT_OUTLANDER
+		)
 	subclass_stats = list(
 		STATKEY_CON = 3,
 		STATKEY_WIL = 3,
@@ -162,11 +174,6 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = FALSE, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles.
 	H.verbs |= /mob/living/carbon/human/proc/faith_test
 	H.verbs |= /mob/living/carbon/human/proc/torture_victim
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_SILVER_BLESSED, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_INQUISITION, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_PURITAN, JOB_TRAIT)
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/ordinator
 	belt = /obj/item/storage/belt/rogue/leather/steel/tasset

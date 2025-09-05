@@ -51,6 +51,7 @@
 	outfit = /datum/outfit/job/roguetown/wapprentice/associate
 
 	category_tags = list(CTAG_WAPPRENTICE)
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 2,
@@ -82,12 +83,10 @@
 	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
-		H.change_stat("speed", -1)
-		H.change_stat("intelligence", 1)
-		H?.mind.adjust_spellpoints(6)
-	H?.mind.adjust_spellpoints(21)
-	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_ARCYNE_T3, TRAIT_GENERIC)
+		H.change_stat(STATKEY_SPD, -1)
+		H.change_stat(STATKEY_INT, 1)
+		H.mind?.adjust_spellpoints(6)
+	H.mind?.adjust_spellpoints(21)
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_cult.ogg'
@@ -98,12 +97,13 @@
 	outfit = /datum/outfit/job/roguetown/wapprentice/alchemist
 
 	category_tags = list(CTAG_WAPPRENTICE)
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3, TRAIT_SEEDKNOW)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 3,
 		STATKEY_WIL = 1
 	)
-	
+
 /datum/outfit/job/roguetown/wapprentice/alchemist/pre_equip(mob/living/carbon/human/H)
 	backpack_contents = list(
 		/obj/item/roguegem/amethyst = 1,
@@ -130,12 +130,9 @@
 	H.adjust_skillrank(/datum/skill/labor/fishing, 1, TRUE)
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
-		H.change_stat("perception", -1)
-		H.change_stat("intelligence", 1)
-	H?.mind.adjust_spellpoints(18)
-	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_ARCYNE_T3, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_SEEDKNOW, TRAIT_GENERIC)
+		H.change_stat(STATKEY_PER, -1)
+		H.change_stat(STATKEY_INT, 1)
+	H.mind?.adjust_spellpoints(18)
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_cult.ogg'
@@ -146,6 +143,7 @@
 	outfit = /datum/outfit/job/roguetown/wapprentice/apprentice
 
 	category_tags = list(CTAG_WAPPRENTICE)
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3)
 	subclass_stats = list(
 		STATKEY_INT = 4,
 		STATKEY_WIL = 1,
@@ -167,9 +165,7 @@
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
-	H?.mind.adjust_spellpoints(18)
-	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_ARCYNE_T3, TRAIT_GENERIC)
+	H.mind?.adjust_spellpoints(18)
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)

@@ -462,6 +462,11 @@
 					for(var/stat in adv_ref.adv_stat_ceiling)
 						dat += "["[capitalize(stat)]: <b>\Roman[adv_ref.adv_stat_ceiling[stat]]</b>"] | "
 					dat += "<i><br>Regardless of your statpacks or race choice, you will not be able to exceed these stats on spawn.</i></font>"
+				if(length(adv_ref.traits_applied))
+					dat += "<br><font color ='#ccbb82'>This subclass gains the following traits: "
+					for(var/trait in adv_ref.traits_applied)
+						dat += "<br><b>[trait]</b>"
+					dat += "</font>"
 				if(adv_ref.extra_context)
 					dat += "<br><font color ='#a06c1e'>[adv_ref.extra_context]"
 					dat += "</font></details>"
@@ -484,7 +489,7 @@
 			dat += "<center><b><font size = 4>STR: ???</b><br>"
 			dat += "<b>INT: ???</b><br>"
 			dat += "<b>FOR: ???</b><br></center></font>"
-		dat += "<br><b>These attributes do not represent the class' capability in combat nor utility. Traits, skills, arcyne and miracles are all (currently) omitted.</b>"
+		dat += "<br><i>This information is not all-encompassing. Many classes have other quirks and skills that define them.</i>"
 		var/height = 400
 		if(sclass_count >= 10)
 			height = 800

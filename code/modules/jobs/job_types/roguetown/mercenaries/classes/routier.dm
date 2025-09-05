@@ -8,7 +8,7 @@
 	)
 	outfit = /datum/outfit/job/roguetown/mercenary/routier
 	category_tags = list(CTAG_MERCENARY)
-	traits_applied = list(TRAIT_OUTLANDER)
+	traits_applied = list(TRAIT_OUTLANDER, TRAIT_HEAVYARMOR, TRAIT_NOBLE)
 	cmode_music = 'sound/music/combat_routier.ogg'
 	subclass_stats = list(
 		STATKEY_CON = 4,
@@ -71,6 +71,4 @@
 
 	H.grant_language(/datum/language/otavan)
 	
-	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)	
+	H.merctype = 10

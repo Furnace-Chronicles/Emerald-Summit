@@ -35,6 +35,9 @@
 		H.invisibility = INVISIBILITY_MAXIMUM
 		H.become_blind("advsetup") // Classes are for aesthetic clothing only, mechanically they're identical.
 
+/datum/advclass/servant
+	traits_applied = list(TRAIT_CICERONE)
+
 /datum/advclass/servant/servant
 	name = "Servant"
 	tutorial = "You are a humdrum servant, dressed the part; lowly and best out of sight. It's practical, however."
@@ -76,7 +79,6 @@
 		H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/labor/farming, 2, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
-	ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)
 
 /datum/advclass/servant/maid
 	name = "Maid"
@@ -118,7 +120,6 @@
 		H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/labor/farming, 2, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
-	ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)
 
 /datum/advclass/servant/butler
 	name = "Butler"
@@ -160,4 +161,3 @@
 		H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/labor/farming, 2, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
-	ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)

@@ -67,6 +67,7 @@
 	outfit = /datum/outfit/job/roguetown/manorguard/footsman
 
 	category_tags = list(CTAG_MENATARMS)
+	traits_applied = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 2,// seems kinda lame but remember guardsman bonus!!
 		STATKEY_INT = 1,
@@ -92,9 +93,6 @@
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE)
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_GUARDSMAN, TRAIT_GENERIC) //+1 spd, con, end, +2 per in town
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	neck = /obj/item/clothing/neck/roguetown/gorget
@@ -136,6 +134,7 @@
 	outfit = /datum/outfit/job/roguetown/manorguard/skirmisher
 
 	category_tags = list(CTAG_MENATARMS)
+	traits_applied = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED)
 	//Garrison ranged/speed class. Time to go wild
 	subclass_stats = list(
 		STATKEY_SPD = 2,// seems kinda lame but remember guardsman bonus!!
@@ -159,9 +158,6 @@
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_GUARDSMAN, TRAIT_GENERIC) //+1 spd, con, end, +2 per in town
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson			// Cant wear chainmail anymoooree
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded		//Helps against arrows; makes sense for a ranged-type role.
@@ -205,6 +201,7 @@
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled //Since knights start with the Buck
 
 	category_tags = list(CTAG_MENATARMS)
+	traits_applied = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR)
 	//Garrison mounted class; charge and charge often.
 	subclass_stats = list(
 		STATKEY_CON = 2,// seems kinda lame but remember guardsman bonus!!
@@ -230,9 +227,6 @@
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 4, TRUE) 		// Like the other horselords.
 	H.adjust_skillrank(/datum/skill/misc/tracking, 3, TRUE)	//Best tracker. Might as well give it something to stick-out utility wise.
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_GUARDSMAN, TRAIT_GENERIC) //+1 spd, con, end, +2 per in town
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson		//Bit worse shirt protection than the archer -- as foot soldier.
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale			//Makes up for worse shirt protection with kinda better armor protection

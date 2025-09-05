@@ -7,6 +7,7 @@
 	category_tags = list(CTAG_MERCENARY)
 	traits_applied = list(TRAIT_OUTLANDER)
 	cmode_music = 'sound/music/combat_grenzelhoft.ogg'
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
 	subclass_stats = list(
 		STATKEY_CON = 3,
 		STATKEY_WIL = 3,
@@ -34,7 +35,6 @@
 	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)		//Trust me, they'll need it due to stamina drain on their base-sword.
 	backl = /obj/item/rogueweapon/scabbard/gwstrap
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/blacksteel_half_plate
-	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	var/weapons = list("Zweihander", "Kriegmesser & Buckler")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
@@ -64,12 +64,12 @@
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	H.grant_language(/datum/language/grenzelhoftian)
 	H.merctype = 7
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)		// me when my business is combat and I get shocked when ppl lose limbs
 
 /datum/advclass/mercenary/grenzelhoft/halberdier
 	name = "Halberdier"
 	tutorial = "You're an experienced soldier skilled in the use of polearms and axes. Your equals make up the bulk of the mercenary guild's forces."
 	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft_halberdier
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
 	subclass_stats = list(
 		STATKEY_STR = 2,//same str, worse end, more speed - actually a good tradeoff, now.
 		STATKEY_CON = 2,
@@ -96,7 +96,6 @@
 	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)		// Foot soldier that carries the Big Fuckin Polearm around. Also polearm stam drain from the fact they gon' be catching swings all day.
 	backl = /obj/item/rogueweapon/scabbard/gwstrap
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/blacksteel_half_plate
-	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	var/weapons = list("Halberd", "Partizan")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
@@ -124,13 +123,13 @@
 
 	H.grant_language(/datum/language/grenzelhoftian)
 	H.merctype = 7
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)		// me when my business is combat and I get shocked when ppl lose limbs
 
 //crossbow and axe class. Rearguard. Utility skills, no medium armor, no dodge expert. This is NOT a go-face-first-into-war class.
 /datum/advclass/mercenary/grenzelhoft/crossbowman
 	name = "Armbrustschutze"
 	tutorial = "You're a proved marksman with a crossbow, and learned how to set up camp and defenses in the wild. The guild needs you."
 	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft_crossbowman
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_STEELHEARTED)
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_WIL = 2,
@@ -189,5 +188,4 @@
 
 	H.grant_language(/datum/language/grenzelhoftian)
 	H.merctype = 7
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)		// me when my business is combat and I get shocked when ppl lose limbs
 

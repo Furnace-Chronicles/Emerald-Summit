@@ -4,7 +4,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/ranger
-	traits_applied = list(TRAIT_OUTLANDER)
+	traits_applied = list(TRAIT_OUTLANDER, TRAIT_DODGEEXPERT, TRAIT_OUTDOORSMAN)
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	subclass_stats = list(
 		STATKEY_PER = 3,
@@ -48,8 +48,6 @@
 	H.adjust_skillrank(/datum/skill/craft/traps, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/cooking, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
 	var/weapons = list("Recurve Bow","Crossbow")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
@@ -68,6 +66,7 @@
 	name = "Assassin"
 	tutorial = "You've lived the life of a hired killer and have spent your time training with blades and crossbows alike."
 	outfit = /datum/outfit/job/roguetown/adventurer/assassin
+	traits_applied = list(TRAIT_OUTLANDER, TRAIT_DODGEEXPERT)
 	subclass_stats = list(
 		STATKEY_PER = 2,
 		STATKEY_SPD = 2,
@@ -107,7 +106,6 @@
 	H.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/lockpicking, 2, TRUE)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander.ogg'
 	H.grant_language(/datum/language/thievescant)
 	H.set_blindness(0)
@@ -116,6 +114,7 @@
 	name = "Bombadier"
 	tutorial = "Bombs? You've got them. Plenty of them - and the skills to make more. You've spent years training under skilled alchemists and have found the perfect mix to create some chaos - now go blow something up!"
 	outfit = /datum/outfit/job/roguetown/adventurer/bombadier
+	traits_applied = list(TRAIT_OUTLANDER, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_INT = 2,
@@ -153,19 +152,19 @@
 	H.adjust_skillrank(/datum/skill/craft/alchemy, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	H.set_blindness(0)
 
 /datum/advclass/ranger/bwanderer
 	name = "Biome Wanderer"
 	tutorial = "The dangers of the wilds vary upon the plains they rest upon, You happen to be experienced in many."
 	outfit = /datum/outfit/job/roguetown/adventurer/bwanderer
+	traits_applied = list(TRAIT_OUTLANDER, TRAIT_OUTDOORSMAN)
 	subclass_stats = list(
 		STATKEY_PER = 2,
 		STATKEY_WIL = 2,
 		STATKEY_INT = 1,
 	)
-	extra_context = "Selecting Light Armor grants +1 SPD. Selecting Medium Armor grants +1 STR."
+	extra_context = "Selecting Light Armor grants +1 SPD. Selecting Medium Armor grants +1 STR along with the corresponding traits."
 
 /datum/outfit/job/roguetown/adventurer/bwanderer/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -199,7 +198,6 @@
 	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE) // Won't really equate to much.
 	H.adjust_skillrank(/datum/skill/misc/tracking, 3, TRUE)
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander4.ogg'
-	ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
 	var/weapons = list("Recurve Bow","Billhook","Sling","Crossbow")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)

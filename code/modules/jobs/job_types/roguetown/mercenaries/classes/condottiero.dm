@@ -7,6 +7,7 @@
 	outfit = /datum/outfit/job/roguetown/mercenary/condottiero
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_condottiero.ogg'
+	traits_applied = list(TRAIT_DODGEEXPERT)
 	subclass_stats = list(
 		STATKEY_WIL = 2,
 		STATKEY_PER = 2,
@@ -50,5 +51,4 @@
 
 	H.grant_language(/datum/language/etruscan)
 	H.grant_language(/datum/language/thievescant)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)	
+	H.merctype = 3

@@ -31,11 +31,14 @@
 		H.invisibility = INVISIBILITY_MAXIMUM
 		H.become_blind("advsetup") // Classes are for aesthetic clothing only, mechanically they're identical.
 
+/datum/advclass/seneschal
+	traits_applied = list(TRAIT_CICERONE)
+	category_tags = list(CTAG_SENESCHAL)
+
 /datum/advclass/seneschal/seneschal
 	name = "Seneschal"
 	tutorial = "While still expected to fill in for the duties of the household servantry as needed, you have styled yourself as a figure beyond them."
 	outfit = /datum/outfit/job/roguetown/seneschal/seneschal
-	category_tags = list(CTAG_SENESCHAL)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_PER = 2,
@@ -74,13 +77,11 @@
 		H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
-	ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)
 
 /datum/advclass/seneschal/headmaid
 	name = "Head Maid"
 	tutorial = "Whether you were promoted from one or just like the frills, you stylize yourself as a head maid. Your duties and talents remain the same, though."
 	outfit = /datum/outfit/job/roguetown/seneschal/headmaid
-	category_tags = list(CTAG_SENESCHAL)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_PER = 2,
@@ -117,13 +118,11 @@
 		H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
-	ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)
 
 /datum/advclass/seneschal/chiefbutler
 	name = "Chief Butler"
 	tutorial = "You are the ruling class of butler and your ability to clear your throat and murmur 'I say' is without peer. Your duties and talents as seneschal remain the same, though."
 	outfit = /datum/outfit/job/roguetown/seneschal/chiefbutler
-	category_tags = list(CTAG_SENESCHAL)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_PER = 2,
@@ -161,5 +160,3 @@
 		H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
-	ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)
-

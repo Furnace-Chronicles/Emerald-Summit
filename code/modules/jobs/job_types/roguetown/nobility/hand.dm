@@ -56,6 +56,7 @@
 	outfit = /datum/outfit/job/roguetown/hand/handclassic
 
 	category_tags = list(CTAG_HAND)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_STEELHEARTED, TRAIT_HEAVYARMOR)
 	subclass_stats = list(
 		STATKEY_PER = 3,
 		STATKEY_INT = 3,
@@ -82,9 +83,6 @@
 	H.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE)
-	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 
 /datum/advclass/hand/spymaster
 	name = "Spymaster"
@@ -92,6 +90,7 @@
 	outfit = /datum/outfit/job/roguetown/hand/spymaster
 
 	category_tags = list(CTAG_HAND)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_MEDIUMARMOR, TRAIT_DODGEEXPERT, TRAIT_PERFECT_TRACKER)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_PER = 2,
@@ -134,10 +133,6 @@
 	H.adjust_skillrank(/datum/skill/misc/stealing, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/lockpicking, 5, TRUE) // not like they're gonna break into the vault.
 	H.grant_language(/datum/language/thievescant)
-	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_PERFECT_TRACKER, TRAIT_GENERIC)
 
 /datum/advclass/hand/advisor
 	name = "Advisor"
@@ -145,6 +140,7 @@
 	outfit = /datum/outfit/job/roguetown/hand/advisor
 
 	category_tags = list(CTAG_HAND)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2)
 	subclass_stats = list(
 		STATKEY_INT = 4,
 		STATKEY_PER = 3,
@@ -171,8 +167,6 @@
 	H.adjust_skillrank(/datum/skill/misc/medicine, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/lockpicking, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/magic/arcane, 2, TRUE)
-	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
 	if(H.mind)
 		H?.mind.adjust_spellpoints(15)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
@@ -183,5 +177,4 @@
 		H.change_stat("perception", 1)
 		H?.mind.adjust_spellpoints(3)
 
-	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 

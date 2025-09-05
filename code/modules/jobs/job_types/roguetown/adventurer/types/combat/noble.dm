@@ -4,7 +4,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_GOLEM
 	outfit = /datum/outfit/job/roguetown/adventurer/noble
-	traits_applied = list(TRAIT_OUTLANDER)
+	traits_applied = list(TRAIT_OUTLANDER, TRAIT_NOBLE)
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 
 	cmode_music = 'sound/music/combat_knight.ogg'
@@ -46,13 +46,13 @@
 	var/turf/TU = get_turf(H)
 	if(TU)
 		new /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled(TU)
-	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 	H.set_blindness(0)
 
 /datum/advclass/noble/knighte
 	name = "Knight Errant"
 	tutorial = "You are a knight from a distant land, a scion of a noble house visiting Azuria for one reason or another."
 	outfit = /datum/outfit/job/roguetown/adventurer/knighte
+	traits_applied = list(TRAIT_OUTLANDER, TRAIT_NOBLE, TRAIT_HEAVYARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 1,
@@ -120,8 +120,6 @@
 	if(TU)
 		new /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled(TU)
 	H.set_blindness(0)
-	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 	var/weapons = list("Longsword","Mace + Shield","Flail + Shield","Billhook","Battle Axe","Greataxe")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
@@ -155,6 +153,7 @@
 	name = "Squire Errant"
 	tutorial = "You are a squire who has traveled far in search of a master to train you and a lord to knight you."
 	outfit = /datum/outfit/job/roguetown/adventurer/squire
+	traits_applied = list(TRAIT_OUTLANDER, TRAIT_SQUIRE_REPAIR)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_STR = 1,
@@ -203,4 +202,3 @@
 	H.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
 	H.set_blindness(0)
-	ADD_TRAIT(H, TRAIT_SQUIRE_REPAIR, TRAIT_GENERIC)

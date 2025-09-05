@@ -83,6 +83,7 @@
 		if("Quarterstaff")
 			backr = /obj/item/rogueweapon/woodstaff/quarterstaff/steel
 	H.cmode_music = 'sound/music/combat_kazengite.ogg'
+	H.grant_language(/datum/language/kazengunese)
 
 /datum/advclass/foreigner/yoruku
 	name = "Yoruku"
@@ -90,6 +91,7 @@
 	for combat in the tight confines of castles and back alleys."
 	allowed_races = NON_DWARVEN_RACE_TYPES //roughneck & custodian sprites dont have dwarf variants - adjust if/when a second update comes out with dwarf sprites
 	outfit = /datum/outfit/job/roguetown/adventurer/yoruku
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_DODGEEXPERT)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_PER = 1,
@@ -122,7 +124,6 @@
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/sneaking, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/lockpicking, 2, TRUE)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	H.set_blindness(0)
 	var/weapons = list("Tanto","Kodachi")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
@@ -143,4 +144,5 @@
 		if("Kitsune")
 			mask = /obj/item/clothing/mask/rogue/facemask/yoruku_kitsune
 
+	H.cmode_music = 'sound/music/combat_kazengite.ogg'
 	H.grant_language(/datum/language/kazengunese)
