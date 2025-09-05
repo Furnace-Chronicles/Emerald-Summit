@@ -50,7 +50,7 @@
 
 /datum/advclass/trader/doomsayer
 	name = "Doomsayer"
-	tutorial = "You make your coin peddling exotic jewelry, gems, and shiny things."
+	tutorial = "THE WORLD IS ENDING!!! At least, that's what you want your clients to believe. You'll offer them a safe place in the new world, of course - built by yours truly."
 	outfit = /datum/outfit/job/roguetown/adventurer/doomsayer
 	subclass_stats = list(
 		STATKEY_INT = 3,
