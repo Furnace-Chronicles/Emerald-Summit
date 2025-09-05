@@ -16,6 +16,7 @@
 
 	var/turf/marked_location = null
 	var/recall_delay = 15 SECONDS
+	var/casted_with_eyes_open = FALSE
 
 /obj/effect/proc_holder/spell/self/recall/cast(mob/user = usr)
 	if(!istype(user, /mob/living/carbon/human))
@@ -35,7 +36,13 @@
 	// Subsequent casts - begin channeling
 	H.visible_message(span_warning("[H] closes [H.p_their()] eyes and begins to focus intently..."))
 	H.apply_status_effect(/datum/status_effect/buff/recalling)
-	if(do_after(H, recall_delay, target = H, progress = TRUE))
+	// Actually close their eyes
+	casted_with_eyes_open = H.eyesclosed == 0
+	if (casted_with_eyes_open)
+		H.eyesclosed = 1
+		H.become_blind("eyelids")
+		H.toggle_eye_intent(H)
+	if(do_after(H, recall_delay, target = H, progress = TRUE, extra_checks = CALLBACK(src, PROC_REF(eyes_check), H)))
 		// Get any grabbed mobs
 		var/list/to_teleport = list(H)
 		if(H.pulling && isliving(H.pulling))
@@ -59,3 +66,13 @@
 		to_chat(H, span_warning("Your concentration was broken!"))
 		start_recharge()
 		revert_cast()
+	if(casted_with_eyes_open) // if we started to cast with them open, open our eyes
+		H.eyesclosed = 0
+		H.cure_blind("eyelids")
+		H.toggle_eye_intent(H)
+
+/obj/effect/proc_holder/spell/self/recall/proc/eyes_check(mob/living/carbon/human/H) //for the do_after, this checks if the user opened their eyes during the recall
+	if(!H.eyesclosed) // user opened their eyes, abort
+		casted_with_eyes_open = FALSE // don't bother reopening their eyes
+		return FALSE
+	return TRUE
