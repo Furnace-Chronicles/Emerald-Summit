@@ -9,7 +9,7 @@
 	cmode_music = 'sound/music/combat_bum.ogg'
 	maximum_possible_slots = 8 // i dont want an army of towner thugs
 	classes = list("Goon" = "You're a goon, a low-lyfe thug in a painful world - not good enough for war, not smart enough for peace. What you lack in station you make up for in daring.",
-					"Wise Guy" = "You're smarter than the rest, by a stone's throw - and you know better than to get up close and personal. Unlike most others, you can read."
+					"Wise Guy" = "You're smarter than the rest, by a stone's throw - and you know better than to get up close and personal. Unlike most others, you can read.",
 					"Big Man" = "More akin to a corn-fed monster than a normal man, your size and strength are your greatest weapons; though they hardly supplement what's missing of your brains.")
 
 /datum/outfit/job/roguetown/adventurer/thug/pre_equip(mob/living/carbon/human/H)
