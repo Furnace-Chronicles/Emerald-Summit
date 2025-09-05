@@ -5,7 +5,16 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/bandit/knave
 	category_tags = list(CTAG_BANDIT)
-	cmode_music = 'sound/music/combat_bandit2.ogg'
+	cmode_music = 'sound/music/cmode/antag/combat_cutpurse.ogg'
+	traits_applied = list(TRAIT_DODGEEXPERT)//gets dodge expert but no medium armor training - gotta stay light
+	subclass_stats = list(
+		STATKEY_SPD = 3,//It's all about speed and perception
+		STATKEY_PER = 2,
+		STATKEY_LCK = 2,
+		STATKEY_STR = 1,
+		STATKEY_WIL = 1,
+		STATKEY_CON = 1
+	)
 
 /datum/outfit/job/roguetown/bandit/knave/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -41,14 +50,7 @@
 	mask = /obj/item/clothing/mask/rogue/facemask/steel
 	neck = /obj/item/clothing/neck/roguetown/coif
 	armor = /obj/item/clothing/suit/roguetown/armor/leather
-	id = /obj/item/scomstone/mattcoin
-	H.change_stat("strength", 1)
-	H.change_stat("constitution", 1)
-	H.change_stat("endurance", 1)
-	H.change_stat("perception", 2)
-	H.change_stat("speed", 3) //It's all about speed and perception
-	H.change_stat("fortune", 2)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC) //gets dodge expert but no medium armor training - gotta stay light
+	id = /obj/item/mattcoin
 	H.adjust_blindness(-3)
 	var/weapons = list("Crossbow & Dagger", "Bow & Sword")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons

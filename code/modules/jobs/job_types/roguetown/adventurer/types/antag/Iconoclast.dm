@@ -6,6 +6,17 @@
 	outfit = /datum/outfit/job/roguetown/bandit/iconoclast
 	category_tags = list(CTAG_BANDIT)
 	maximum_possible_slots = 1 // We only want one of these.
+	traits_applied = list(
+		TRAIT_HEAVYARMOR,// We are going to be the lord's first heavy armor unarmed class
+		TRAIT_CIVILIZEDBARBARIAN,// To be up to date with other unarmed classes.
+		TRAIT_RITUALIST
+		)
+	subclass_stats = list(
+		STATKEY_STR = 3,// LETS WRASSLE
+		STATKEY_WIL = 3,// This is our Go Big stat, we want lots of stamina for miracles and WRASSLIN.
+		STATKEY_LCK = 2,//We have a total of +12 in stats. 
+		STATKEY_CON = 1
+	)
 	cmode_music = 'sound/music/Iconoclast.ogg'
 
 /datum/outfit/job/roguetown/bandit/iconoclast/pre_equip(mob/living/carbon/human/H)
@@ -43,12 +54,6 @@
 	head = /obj/item/clothing/head/roguetown/roguehood
 	armor = /obj/item/clothing/suit/roguetown/armor/plate
 	beltr = /obj/item/rogueweapon/katar
-	id = /obj/item/scomstone/mattcoin
-	H.change_stat("strength", 3) // LETS WRASSLE
-	H.change_stat("endurance", 3) // This is our Go Big stat, we want lots of stamina for miracles and WRASSLIN.
-	H.change_stat("constitution", 1)
-	H.change_stat("fortune", 2) //We have a total of +12 in stats. 
-	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC) // We are going to be the lord's first heavy armor unarmed class
-	ADD_TRAIT(H, TRAIT_RITUALIST, TRAIT_GENERIC)
+	id = /obj/item/mattcoin
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.
