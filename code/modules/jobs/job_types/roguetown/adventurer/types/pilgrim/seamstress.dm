@@ -5,6 +5,12 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/seamstress
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
+	subclass_stats = list(
+		STATKEY_SPD = 2,
+		STATKEY_INT = 2,
+		STATKEY_PER = 1,
+		STATKEY_STR = -1
+	)
 
 /datum/outfit/job/roguetown/adventurer/seamstress/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -35,8 +41,3 @@
 						/obj/item/book/rogue/swatchbook = 1,
 						/obj/item/recipe_book/leatherworking = 1
 						)
-	ADD_TRAIT(H, TRAIT_DYES, TRAIT_GENERIC)
-	H.change_stat("intelligence", 2)
-	H.change_stat("speed", 2)
-	H.change_stat("perception", 1)
-	H.change_stat("strength", -1)
