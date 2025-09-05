@@ -181,7 +181,13 @@
 	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 3, TRUE) // That saiga was stolen. Probably.
 	H.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/brother)
+	H.verbs |= list(/mob/living/carbon/human/mind/proc/setorderswretch)
+	if(H.mind)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/retreat)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/bolster)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/brotherhood)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/charge)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/brotherhood)
 
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
@@ -365,10 +371,10 @@
 /datum/status_effect/buff/order/brotherhood/on_apply()
 	. = ..()
 	to_chat(owner, span_blue("My commander orders me to stand proud for the brotherhood!"))
-	ADD_TRAIT(owner, TRAIT_NOPAIN, id)
+	ADD_TRAIT(owner, TRAIT_NOPAIN, MAGIC_TRAIT)
 
-/datum/status_effect/buff/order/onfeet/on_remove()
-	REMOVE_TRAIT(owner, TRAIT_NOPAIN, id)
+/datum/status_effect/buff/order/brotherhood/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_NOPAIN, MAGIC_TRAIT)
 	. = ..()
 
 

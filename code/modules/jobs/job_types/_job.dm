@@ -464,10 +464,10 @@
 						dat += "["[capitalize(stat)]: <b>\Roman[adv_ref.adv_stat_ceiling[stat]]</b>"] | "
 					dat += "<i><br>Regardless of your statpacks or race choice, you will not be able to exceed these stats on spawn.</i></font>"
 				if(length(adv_ref.traits_applied))
-					dat += "<br><font color ='#ccbb82'>This subclass gains the following traits: "
+					dat += "<br><font color ='#ccbb82'>This subclass gains the following traits:</font> "
 					for(var/trait in adv_ref.traits_applied)
-						dat += "<details><summary><b>[trait]</b></summary>"
-						dat += "<i>[GLOB.roguetraits[trait]]</i></details>"
+						dat += "<details><summary><b><font color ='#ccbb82'>[trait]</font></b></summary>"
+						dat += "<i><font color = '#a3ffe0'>[GLOB.roguetraits[trait]]</font></i></details>"
 					dat += "</font>"
 				if(adv_ref.extra_context)
 					dat += "<br><font color ='#a06c1e'>[adv_ref.extra_context]"
@@ -487,10 +487,10 @@
 				dat += "<br><i>Regardless of your statpacks or race choice, you will not be able to exceed these stats on spawn.</i></font>"
 				dat += "</font>"	//Ends the stat limit colors
 		if(length(job_traits))
-			dat += "<br><font color ='#ccbb82'>This class gains the following traits: "
+			dat += "<br><font color ='#ccbb82'>This class gains the following traits:</font> "
 			for(var/trait in job_traits)
-				dat += "<details><summary><b>[trait]</b></summary>"
-				dat += "<i>[GLOB.roguetraits[trait]]</i></details>"
+				dat += "<details><summary><b><font color ='#ccbb82'>[trait]</font></b></summary>"
+				dat += "<i><font color = '#a3ffe0'>[GLOB.roguetraits[trait]]</font></i></details>"
 			dat += "</font>"
 		dat += "<br><i>This information is not all-encompassing. Many classes have other quirks and skills that define them.</i>"
 		if(istype(src,/datum/job/roguetown/jester))

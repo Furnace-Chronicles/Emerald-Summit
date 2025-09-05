@@ -5,6 +5,10 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/vagabond/runner
 	category_tags = list(CTAG_VAGABOND)
+	subclass_stats = list(
+		STATKEY_WIL = 1,
+		STATKEY_INT = -2
+	)
 
 /datum/outfit/job/roguetown/vagabond/runner/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -29,5 +33,3 @@
 		H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/sneaking, 2, TRUE)
-		H.change_stat("endurance", 1)
-		H.change_stat("intelligence", -2)

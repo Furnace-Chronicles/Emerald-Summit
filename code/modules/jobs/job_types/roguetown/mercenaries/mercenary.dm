@@ -25,6 +25,7 @@
 		/datum/advclass/mercenary/desert_rider/zeybek,
 		/datum/advclass/mercenary/desert_rider/almah,
 		/datum/advclass/mercenary/forlorn,
+		/datum/advclass/mercenary/vaquero,
 		/datum/advclass/mercenary/freelancer,
 		/datum/advclass/mercenary/freelancer/lancer,
 		/datum/advclass/mercenary/grenzelhoft,
