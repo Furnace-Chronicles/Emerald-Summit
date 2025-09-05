@@ -505,15 +505,20 @@
 			return	
 
 	if(istype(P, /obj/item/roguecoin))
-		if(coin_loaded)
-			return
 		var/obj/item/roguecoin/C = P
-		if(C.quantity > 1)
-			return
-		coin_loaded = C.get_real_price()
-		qdel(C)
+		switch(C.get_real_price())
+			if(1)
+				qdel(C)
+				var/obj/item/paper/papier = new
+				user.put_in_hands(papier)
+			if(5)
+				qdel(C)
+				var/obj/item/natural/feather/quill = new
+				user.put_in_hands(quill)
+			else
+				to_chat(user, span_warning("Not a valid denomination! Insert 1 mammon for paper, 5 mammon for a quill."))
+				return
 		playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
-		update_icon()
 		return
 	..()
 
