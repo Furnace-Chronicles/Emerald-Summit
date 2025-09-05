@@ -466,7 +466,7 @@
 				if(length(adv_ref.traits_applied))
 					dat += "<br><font color ='#ccbb82'>This subclass gains the following traits: "
 					for(var/trait in adv_ref.traits_applied)
-						dat += "<br><b>[trait]</b>"
+						dat += "<br><i>[trait]</i>"
 					dat += "</font>"
 				if(adv_ref.extra_context)
 					dat += "<br><font color ='#a06c1e'>[adv_ref.extra_context]"
@@ -488,7 +488,7 @@
 		if(length(job_traits))
 			dat += "<br><font color ='#ccbb82'>This class gains the following traits: "
 			for(var/trait in job_traits)
-				dat += "<br><b>[trait]</b>"
+				dat += "<br><i>[trait]</i>"
 			dat += "</font>"
 		if(istype(src,/datum/job/roguetown/jester))
 			dat += "<font color = '#d151ab'><center>Come one, come all, where Psydon Lies! <br>Let Xylix roll the dice, <br>unto our untimely demise! <br>Ahahaha!</center>"
