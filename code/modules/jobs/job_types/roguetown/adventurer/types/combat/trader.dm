@@ -197,5 +197,153 @@
 		if("Vocal Talisman")
 			backr = /obj/item/rogue/instrument/vocals
 
+/datum/advclass/trader/peddler
+	name = "Peddler"
+	tutorial = "You make your coin peddling in spices and performing back-alley 'medical' procedures. Hope your patient didn't need that kidney."
+	outfit = /datum/outfit/job/roguetown/adventurer/peddler
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_PER = 2,
+		STATKEY_SPD = 1
+	)
+
+/datum/outfit/job/roguetown/adventurer/peddler/pre_equip(mob/living/carbon/human/H)
+	..()
+	to_chat(H, span_warning("You make your coin peddling in spices and performing back-alley 'medical' procedures. Hope your patient didn't need that kidney."))
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/stealing, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/sneaking, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/alchemy, 3, TRUE)
+	head = /obj/item/clothing/head/roguetown/roguehood
+	mask = /obj/item/clothing/mask/rogue/facemask/steel
+	shoes = /obj/item/clothing/shoes/roguetown/boots
+	neck = /obj/item/storage/belt/rogue/pouch/coins/mid
+	pants = /obj/item/clothing/under/roguetown/tights/black
+	shirt = /obj/item/clothing/suit/roguetown/shirt/robe
+	belt = /obj/item/storage/belt/rogue/leather
+	backl = /obj/item/storage/backpack/rogue/satchel
+	backr = /obj/item/storage/backpack/rogue/satchel
+	beltr = /obj/item/storage/belt/rogue/surgery_bag/full
+	beltl = /obj/item/flashlight/flare/torch/lantern
+	backpack_contents = list(
+		/obj/item/reagent_containers/powder/spice = 2,
+		/obj/item/reagent_containers/powder/ozium = 1,
+		/obj/item/reagent_containers/powder/moondust = 2,
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/recipe_book/survival = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1
+		)
+
+/datum/advclass/trader/brewer
+	name = "Brewer"
+	tutorial = "You make your coin peddling imported alcohols from all over the world, though you're no stranger to the craft, and have experience brewing your own ale in a pinch. You have the equipments and know how on how to make your own distiller, too."
+	outfit = /datum/outfit/job/roguetown/adventurer/brewer
+	traits_applied = list(TRAIT_OUTLANDER, TRAIT_SEEPRICES, TRAIT_CICERONE)
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_PER = 1,
+		STATKEY_CON = 1,
+		STATKEY_STR = 1
+	)
+
+/datum/outfit/job/roguetown/adventurer/brewer/pre_equip(mob/living/carbon/human/H)
+	..()
+	to_chat(H, span_warning("You make your coin peddling imported alcohols from all over the world, though you're no stranger to the craft, and have experience brewing your own ale in a pinch. You have the equipments and know how on how to make your own distiller, too."))
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/cooking, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/engineering, 1, TRUE) // CBT to make a copper distillery
+	H.adjust_skillrank(/datum/skill/labor/farming, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+	mask = /obj/item/clothing/mask/rogue/ragmask/black
+	shoes = /obj/item/clothing/shoes/roguetown/boots
+	neck = /obj/item/storage/belt/rogue/pouch/coins/mid
+	pants = /obj/item/clothing/under/roguetown/tights/black
+	cloak = /obj/item/clothing/suit/roguetown/armor/longcoat
+	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/red
+	belt = /obj/item/storage/belt/rogue/leather/black
+	backl = /obj/item/storage/backpack/rogue/satchel
+	backr = /obj/item/storage/backpack/rogue/satchel
+	beltr = /obj/item/rogueweapon/mace/cudgel
+	beltl = /obj/item/flashlight/flare/torch/lantern
+	backpack_contents = list(
+		/obj/item/reagent_containers/glass/bottle/rogue/beer/gronnmead = 1, 
+		/obj/item/reagent_containers/glass/bottle/rogue/beer/voddena = 1,
+		/obj/item/reagent_containers/glass/bottle/rogue/beer/blackgoat = 1, 
+		/obj/item/reagent_containers/glass/bottle/rogue/elfred = 1, 
+		/obj/item/reagent_containers/glass/bottle/rogue/elfblue = 1, 
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/ingot/copper = 2,
+		/obj/item/roguegear = 1, 
+		/obj/item/recipe_book/survival = 1)
+
+/datum/advclass/trader/cuisiner
+	name = "Cuisiner"
+	tutorial = "Whether a disciple of a culinary school, a storied royal chef, or a mercenary cook for hire, your trade is plied at the counter, \
+	the cutting board, and the hearth."
+	outfit = /datum/outfit/job/roguetown/adventurer/cuisiner
+	traits_applied = list(TRAIT_OUTLANDER, TRAIT_SEEPRICES, TRAIT_GOODLOVER)
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_PER = 1,
+		STATKEY_CON = 1,
+		STATKEY_SPD = 1
+	)
+
+/datum/outfit/job/roguetown/adventurer/cuisiner/pre_equip(mob/living/carbon/human/H)
+	..()
+	to_chat(H, span_warning("Whether a disciple of a culinary school, a storied royal chef, or a mercenary cook for hire, your trade is plied at the counter, \
+	the cutting board, and the hearth."))
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/cooking, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/labor/farming, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+	if(H.age == AGE_MIDDLEAGED)
+		H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
+	if(H.age == AGE_OLD)
+		H.adjust_skillrank(/datum/skill/craft/cooking, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
+	head = /obj/item/clothing/head/roguetown/chef
+	shoes = /obj/item/clothing/shoes/roguetown/shortboots
+	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
+	pants = /obj/item/clothing/under/roguetown/trou
+	armor = /obj/item/clothing/suit/roguetown/armor/workervest
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
+	belt = /obj/item/storage/belt/rogue/leather/black
+	backl = /obj/item/storage/backpack/rogue/backpack
+	beltr = /obj/item/cooking/pan
+	beltl = /obj/item/flashlight/flare/torch/lantern
+	backpack_contents = list(
+		/obj/item/clothing/mask/cigarette/rollie/nicotine/cheroot = 5,
+		/obj/item/reagent_containers/peppermill = 1,
+		/obj/item/reagent_containers/food/snacks/rogue/cheddar/aged = 1,
+		/obj/item/reagent_containers/food/snacks/butter = 1,
+		/obj/item/kitchen/rollingpin = 1,
+		/obj/item/flint = 1,
+		/obj/item/rogueweapon/huntingknife/chefknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/recipe_book/survival = 1,
+		)
+		// no ration wrappers by design
+
 /obj/item/clothing/mask/rogue/ragmask/black
 	color = CLOTHING_BLACK

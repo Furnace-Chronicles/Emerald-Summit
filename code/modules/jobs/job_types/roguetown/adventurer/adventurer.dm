@@ -63,6 +63,9 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 		/datum/advclass/trader/doomsayer,
 		/datum/advclass/trader/scholar,
 		/datum/advclass/trader/harlequin,
+		/datum/advclass/trader/peddler,
+		/datum/advclass/trader/brewer,
+		/datum/advclass/trader/cuisiner,
 		/datum/advclass/foreigner,
 		/datum/advclass/foreigner/custodian,
 		/datum/advclass/foreigner/yoruku
