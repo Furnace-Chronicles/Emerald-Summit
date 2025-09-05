@@ -466,7 +466,8 @@
 				if(length(adv_ref.traits_applied))
 					dat += "<br><font color ='#ccbb82'>This subclass gains the following traits: "
 					for(var/trait in adv_ref.traits_applied)
-						dat += "<br><i>[trait]</i>"
+						dat += "<details><summary><b>[trait]</b></summary>"
+						dat += "<i>[GLOB.roguetraits[trait]]</i></details>"
 					dat += "</font>"
 				if(adv_ref.extra_context)
 					dat += "<br><font color ='#a06c1e'>[adv_ref.extra_context]"
@@ -488,14 +489,15 @@
 		if(length(job_traits))
 			dat += "<br><font color ='#ccbb82'>This class gains the following traits: "
 			for(var/trait in job_traits)
-				dat += "<br><i>[trait]</i>"
+				dat += "<details><summary><b>[trait]</b></summary>"
+				dat += "<i>[GLOB.roguetraits[trait]]</i></details>"
 			dat += "</font>"
+		dat += "<br><i>This information is not all-encompassing. Many classes have other quirks and skills that define them.</i>"
 		if(istype(src,/datum/job/roguetown/jester))
-			dat += "<font color = '#d151ab'><center>Come one, come all, where Psydon Lies! <br>Let Xylix roll the dice, <br>unto our untimely demise! <br>Ahahaha!</center>"
+			dat = list("<font color = '#d151ab'><center>Come one, come all, where Psydon Lies! <br>Let Xylix roll the dice, <br>unto our untimely demise! <br>Ahahaha!</center>")
 			dat += "<center><b><font size = 4>STR: ???</b><br>"
 			dat += "<b>INT: ???</b><br>"
 			dat += "<b>FOR: ???</b><br></center></font>"
-		dat += "<br><i>This information is not all-encompassing. Many classes have other quirks and skills that define them.</i>"
 		var/height = 400
 		if(sclass_count >= 10)
 			height = 800
