@@ -50,7 +50,7 @@
 	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)\
+	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
 	H.grant_language(/datum/language/otavan)
 	H.adjust_skillrank(/datum/skill/magic/holy, 2, TRUE)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)

@@ -174,8 +174,6 @@
 	H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/sewing, 2, TRUE)
-	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/repulse)
