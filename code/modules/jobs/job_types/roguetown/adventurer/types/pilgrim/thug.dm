@@ -129,6 +129,7 @@
 				if("Big Axe")
 					H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
 					r_hand = /obj/item/rogueweapon/greataxe // not steel
+
 			var/prev_real_name = H.real_name
 			var/prev_name = H.name
 			var/prefix = "Big" // if i see someone named "Boss" pick big man for this bit i will kill them
