@@ -129,19 +129,11 @@
 				if("Big Axe")
 					H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
 					r_hand = /obj/item/rogueweapon/greataxe // not steel
-
 			var/prev_real_name = H.real_name
 			var/prev_name = H.name
 			var/prefix = "Big" // if i see someone named "Boss" pick big man for this bit i will kill them
 			H.real_name = "[prefix] [prev_real_name]"
 			H.name = "[prefix] [prev_name]"
-
-	for(var/X in peopleknowme)
-		for(var/datum/mind/MF in get_minds(X))
-			if(MF.known_people)
-				if(prev_name)
-					MF.known_people -= prev_real_name
-					H.mind.person_knows_me(MF)
 
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
