@@ -417,7 +417,7 @@
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_CIVILIZEDBARBARIAN, id)
 
-/atom/movable/screen/alert/status_effect/buff/healing
+/atom/movable/screen/alert/status_effect/buff/healing//lesser miracle
 	name = "Healing Miracle"
 	desc = "Divine intervention relieves me of my ailments."
 	icon_state = "buff"
@@ -441,18 +441,29 @@
 	var/filter = owner.get_filter(MIRACLE_HEALING_FILTER)
 	if (!filter)
 		owner.add_filter(MIRACLE_HEALING_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
+
+	var/list/wCount = owner.get_wounds()
+	if(wCount.len > 0)
+		var/pain_killed = FALSE //to see if we did actually painkill something
+		for(var/datum/wound/ouchie in wCount)
+			if(!ouchie.pain_reduced)
+				ouchie.pain_reduced = TRUE //halve the pain of our wounds but only once to avoid perma spamming
+				ouchie.woundpain /= 2
+				pain_killed = TRUE
+		if(pain_killed)
+			to_chat(owner, span_notice("The healing aura soothes my wounds' pain."))
 	return TRUE
 
 /datum/status_effect/buff/healing/tick()
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
 	H.color = "#FF0000"
 	var/list/wCount = owner.get_wounds()
-	if(owner.construct)//golems can't be healed by miracles cuz they're not living beans
+	if(owner.construct) //golems can't be healed by miracles cuz they're not living beans
 		owner.visible_message(span_warning("The divine aura enveloping [owner]'s inorganic body sputters and fades away."))
 		qdel(src)
 		return
 	if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
-		owner.blood_volume = min(owner.blood_volume+10, BLOOD_VOLUME_NORMAL)
+		owner.blood_volume = min(owner.blood_volume+healing_on_tick, BLOOD_VOLUME_NORMAL)
 	if(wCount.len > 0)
 		owner.heal_wounds(healing_on_tick)
 		owner.update_damage_overlays()
@@ -462,6 +473,64 @@
 	owner.adjustToxLoss(-healing_on_tick, 0)
 	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
 	owner.adjustCloneLoss(-healing_on_tick, 0)
+
+/datum/status_effect/buff/healing/on_remove()
+	owner.remove_filter(MIRACLE_HEALING_FILTER)
+	owner.update_damage_hud()
+
+#define BLOODHEAL_DUR_SCALE_PER_LEVEL 3 SECONDS
+#define BLOODHEAL_RESTORE_DEFAULT 5
+#define BLOODHEAL_RESTORE_SCALE_PER_LEVEL 2
+#define BLOODHEAL_DUR_DEFAULT 10 SECONDS
+// Bloodheal miracle effect
+/atom/movable/screen/alert/status_effect/buff/bloodheal
+	name = "Blood Miracle"
+	desc = "Divine intervention is infusing me with lyfe's blood."
+	icon_state = "bloodheal"
+
+#define MIRACLE_BLOODHEAL_FILTER "miracle_bloodheal_glow"
+
+/datum/status_effect/buff/bloodheal
+	id = "bloodheal"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/bloodheal
+	duration = BLOODHEAL_DUR_DEFAULT
+	examine_text = "SUBJECTPRONOUN is bathed in a thick, pungent aura of iron!"
+	var/healing_on_tick = BLOODHEAL_RESTORE_DEFAULT
+	var/skill_level
+	var/outline_colour = "#c42424"
+
+/datum/status_effect/buff/bloodheal/on_creation(mob/living/new_owner, associated_skill)
+	healing_on_tick = BLOODHEAL_RESTORE_DEFAULT + ((associated_skill > SKILL_LEVEL_NOVICE) ? (BLOODHEAL_RESTORE_SCALE_PER_LEVEL * associated_skill) : 0)
+	skill_level = associated_skill
+	duration = BLOODHEAL_DUR_DEFAULT + ((associated_skill > SKILL_LEVEL_NOVICE) ? (BLOODHEAL_DUR_SCALE_PER_LEVEL * associated_skill) : 0)
+	return ..()
+
+/datum/status_effect/buff/bloodheal/on_apply()
+	var/filter = owner.get_filter(MIRACLE_BLOODHEAL_FILTER)
+	if (!filter)
+		owner.add_filter(MIRACLE_BLOODHEAL_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
+	return TRUE
+
+/datum/status_effect/buff/bloodheal/on_remove()
+	. = ..()
+	owner.remove_filter(MIRACLE_BLOODHEAL_FILTER)
+
+/datum/status_effect/buff/bloodheal/tick()
+	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_blood(get_turf(owner))
+	H.color = "#FF0000"
+	if(!owner.construct)
+		if(skill_level >= SKILL_LEVEL_JOURNEYMAN)
+			if(owner.blood_volume < BLOOD_VOLUME_SURVIVE)
+				owner.blood_volume = BLOOD_VOLUME_SURVIVE
+		if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
+			owner.blood_volume = min(owner.blood_volume + healing_on_tick, BLOOD_VOLUME_NORMAL)
+
+#undef BLOODHEAL_DUR_SCALE_PER_LEVEL
+#undef BLOODHEAL_RESTORE_DEFAULT
+#undef BLOODHEAL_RESTORE_SCALE_PER_LEVEL
+#undef BLOODHEAL_DUR_DEFAULT
+// Bloodheal miracle effect end
+
 
 /datum/status_effect/buff/healing/necras_vow
 	id = "healing"
@@ -649,10 +718,6 @@
 	name = "Sated"
 	desc = "I've devoured a stone."
 	icon_state = "buff"
-
-/datum/status_effect/buff/healing/on_remove()
-	owner.remove_filter(MIRACLE_HEALING_FILTER)
-	owner.update_damage_hud()
 
 /datum/status_effect/buff/psyhealing/on_remove()
 	owner.remove_filter(PSYDON_HEALING_FILTER)
@@ -1179,3 +1244,47 @@
 	name = "Good Loving"
 	desc = "Some good loving has left me feeling very fortunate."
 	icon_state = "stressg"
+
+/atom/movable/screen/alert/status_effect/buff/adrenaline_rush
+	name = "Adrenaline Rush"
+	desc = "The gambit worked! I can do anything! My heart races, the throb of my wounds wavers."
+	icon_state = "adrrush"
+
+/datum/status_effect/buff/adrenaline_rush
+	id = "adrrush"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/adrenaline_rush
+	duration = 18 SECONDS
+	examine_text = "SUBJECTPRONOUN is amped up!"
+	effectedstats = list("endurance" = 1)
+	var/blood_restore = 30
+
+/datum/status_effect/buff/adrenaline_rush/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_ADRENALINE_RUSH, INNATE_TRAIT)
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		H.playsound_local(get_turf(H), 'sound/misc/adrenaline_rush.ogg', 100, TRUE)
+		H.blood_volume = min((H.blood_volume + blood_restore), BLOOD_VOLUME_NORMAL)
+		H.stamina -= max((H.stamina - (H.max_stamina / 2)), 0)
+
+/datum/status_effect/buff/adrenaline_rush/on_remove()
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_ADRENALINE_RUSH, INNATE_TRAIT)
+
+/atom/movable/screen/alert/status_effect/buff/recalling
+	name = "Recalling"
+	desc = "I'm in the middle of casting Recall. I need to stand still!"
+	icon_state = "buff"
+
+/datum/status_effect/buff/recalling
+	id = "recalling"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/recalling
+	var/effect_color
+	var/datum/stressevent/stress_to_apply
+	var/pulse = 0
+	var/ticks_to_apply = 5
+
+/datum/status_effect/buff/recalling/tick()
+	var/obj/effect/temp_visual/recall_smoke/M = new /obj/effect/temp_visual/recall_smoke(get_turf(owner))
+	M.color = effect_color
+	pulse += 1

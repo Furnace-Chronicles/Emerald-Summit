@@ -29,21 +29,33 @@
 		return
 
 	var/mob/living/carbon/human/H = user
-	
-	if(!HAS_TRAIT(H, TRAIT_MIRROR_MAGIC))
-		to_chat(H, span_warning("You look into the mirror but see only your normal reflection."))
-		return
-	
+
 	if(obj_broken || !Adjacent(user))
 		return
+
+	if(!HAS_TRAIT(H, TRAIT_MIRROR_MAGIC))
+		to_chat(H, span_warning("You look into the mirror but see only your normal reflection."))
+		if(HAS_TRAIT(user, TRAIT_BEAUTIFUL))
+			H.add_stress(/datum/stressevent/beautiful)
+			to_chat(H, span_smallgreen("I look great!"))
+			// Apply Xylix buff when examining someone with the beautiful trait
+			if(HAS_TRAIT(H, TRAIT_XYLIX) && !H.has_status_effect(/datum/status_effect/buff/xylix_joy))
+				H.apply_status_effect(/datum/status_effect/buff/xylix_joy)
+				to_chat(H, span_info("My beauty brings a smile to my face, and fortune to my steps!"))
+		if(HAS_TRAIT(H, TRAIT_UNSEEMLY))
+			to_chat(H, span_warning("Another reminder of my own horrid visage."))
+			H.add_stress(/datum/stressevent/unseemly)
+		return
+
+
 
 	var/should_update = FALSE
 	var/list/choices = list("hairstyle", "facial hairstyle", "accessory", "face detail", "tail", "tail color one", "tail color two", "hair color", "facial hair color", "eye color", "natural gradient", "natural gradient color", "dye gradient", "dye gradient color", "penis", "testicles", "breasts", "vagina", "breast size", "penis size", "testicle size")
 	var/chosen = input(user, "Change what?", "Appearance") as null|anything in choices
-	
+
 	if(!chosen)
 		return
-		
+
 	switch(chosen)
 		if("hairstyle")
 			var/datum/customizer_choice/bodypart_feature/hair/head/humanoid/hair_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/hair/head/humanoid)
@@ -51,7 +63,7 @@
 			for(var/hair_type in hair_choice.sprite_accessories)
 				var/datum/sprite_accessory/hair/head/hair = new hair_type()
 				valid_hairstyles[hair.name] = hair_type
-			
+
 			var/new_style = input(user, "Choose your hairstyle", "Hair Styling") as null|anything in valid_hairstyles
 			if(new_style)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
@@ -60,11 +72,11 @@
 					for(var/datum/bodypart_feature/hair/head/hair_feature in head.bodypart_features)
 						current_hair = hair_feature
 						break
-					
+
 					if(current_hair)
 						var/datum/customizer_entry/hair/hair_entry = new()
 						hair_entry.hair_color = current_hair.hair_color
-						
+
 						if(istype(current_hair, /datum/bodypart_feature/hair/head))
 							hair_entry.natural_gradient = current_hair.natural_gradient
 							hair_entry.natural_color = current_hair.natural_color
@@ -72,12 +84,12 @@
 								hair_entry.dye_gradient = current_hair.hair_dye_gradient
 							if(hasvar(current_hair, "hair_dye_color"))
 								hair_entry.dye_color = current_hair.hair_dye_color
-						
+
 						var/datum/bodypart_feature/hair/head/new_hair = new()
 						new_hair.set_accessory_type(valid_hairstyles[new_style], hair_entry.hair_color, H)
-						
+
 						hair_choice.customize_feature(new_hair, H, null, hair_entry)
-						
+
 						head.remove_bodypart_feature(current_hair)
 						head.add_bodypart_feature(new_hair)
 						H.update_hair()
@@ -831,3 +843,32 @@
 
 /obj/structure/mirror/magic/proc/curse(mob/living/user)
 	return
+
+/obj/item/handmirror
+	name = "hand mirror"
+	desc = "Mirror, mirror, in my hand, who's the fairest in the land?"
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "handmirror"
+	grid_width = 32
+	grid_height = 64
+	dropshrink = 0.8
+
+/obj/item/handmirror/attack_self(mob/user)
+	if(!ishuman(user))
+		return
+
+	var/mob/living/carbon/human/H = user
+
+	if(HAS_TRAIT(H, TRAIT_MIRROR_MAGIC))
+		to_chat(H, span_notice("This mirror isn't large enough for me to use mirror magic."))
+	to_chat(H, span_warning("You look into [src] but see only your normal reflection."))
+	if(HAS_TRAIT(user, TRAIT_BEAUTIFUL))
+		H.add_stress(/datum/stressevent/beautiful)
+		H.visible_message(span_notice("[H] admires [H.p_their()] reflection in [src]."), span_smallgreen("I look great!"))
+		// Apply Xylix buff when examining someone with the beautiful trait
+		if(HAS_TRAIT(H, TRAIT_XYLIX) && !H.has_status_effect(/datum/status_effect/buff/xylix_joy))
+			H.apply_status_effect(/datum/status_effect/buff/xylix_joy)
+			to_chat(H, span_info("My beauty brings a smile to my face, and fortune to my steps!"))
+	if(HAS_TRAIT(H, TRAIT_UNSEEMLY))
+		to_chat(H, span_warning("Another reminder of my own horrid visage."))
+		H.add_stress(/datum/stressevent/unseemly)

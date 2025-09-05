@@ -469,8 +469,6 @@
 						attempted_wounds +=/datum/wound/fracture/head/nose
 					else
 						attempted_wounds += /datum/wound/facial/disfigurement/nose
-				else if(zone_precise in knockout_zones)
-					attempted_wounds += /datum/wound/fracture/head/brain
 
 	for(var/wound_type in shuffle(attempted_wounds))
 		var/datum/wound/applied = add_wound(wound_type, silent, crit_message)

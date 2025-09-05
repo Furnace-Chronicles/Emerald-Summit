@@ -1679,7 +1679,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			H.next_attack_msg += " <span class='warning'>Armor stops the damage.</span>"
 			if(I)
 				I.take_damage(1, BRUTE, I.d_type)
+				SEND_SIGNAL(I, COMSIG_ITEM_ATTACKBY_BLOCKED, H, user, I.damtype, def_zone) // attack was blocked by armor or other variables
 		if(!nodmg)
+			if(I)
+				SEND_SIGNAL(I, COMSIG_ITEM_ATTACKBY_SUCCESS, H, user, Iforce * weakness, I.damtype, def_zone) // attack was not blocked by armor or other variables
 			var/datum/wound/crit_wound = affecting.bodypart_attacked_by(user.used_intent.blade_class, (Iforce * weakness) * ((100-(armor_block+armor))/100), user, selzone, crit_message = TRUE)
 			if(should_embed_weapon(crit_wound, I))
 				var/can_impale = TRUE
@@ -1817,10 +1820,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 							H.emote("painscream")
 						else
 							H.emote("pain")
-				if(damage_amount > ((H.STACON*10) / 3) && !HAS_TRAIT(H, TRAIT_NOPAINSTUN))
-					H.Immobilize(8)
+				if(damage_amount > ((H.STACON*12.5) / 3) && !HAS_TRAIT(H, TRAIT_NOPAINSTUN)) //We want this effect only on heavy hits.
+					H.Immobilize(2) //The fastest you can swing a weapon is once each 0.6 seconds, anything higher than 0.5 Immob. opens the door for stunlocking (see: katar).
 					shake_camera(H, 2, 2)
-					H.stuttering += 5
+					H.stuttering = 5 //This procs with each hit so we use == instead of += to avoid stacking.
 				if(damage_amount > 10 && !HAS_TRAIT(H, TRAIT_NOPAINSTUN))
 					H.Slowdown(clamp(damage_amount/10, 1, 5))
 					shake_camera(H, 1, 1)

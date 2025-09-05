@@ -195,11 +195,6 @@
 	/obj/item/reagent_containers/glass/bottle/alchemical,/obj/item/reagent_containers/glass/bottle/alchemical,/obj/item/reagent_containers/glass/bottle/alchemical,
 	/obj/item/reagent_containers/glass/bottle/alchemical,/obj/item/reagent_containers/glass/bottle/alchemical,/obj/item/reagent_containers/glass/bottle/alchemical)
 	
-/datum/supply_pack/rogue/tools/gwstrap
-	name = "Greatweapon Strap"
-	cost = 30
-	contains = list(/obj/item/gwstrap)
-
 /datum/supply_pack/rogue/tools/headhook
 	name = "Iron Head Hook"
 	cost = 10

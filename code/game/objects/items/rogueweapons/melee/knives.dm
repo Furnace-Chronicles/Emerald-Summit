@@ -33,7 +33,7 @@
 	icon_state = "inpick"
 	attack_verb = list("stabs", "impales")
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 80
+	penfactor = 75
 	clickcd = 14
 	swingdelay = 12
 	damfactor = 1.1
@@ -111,6 +111,7 @@
 
 /obj/item/rogueweapon/huntingknife/Initialize()
 	. = ..()
+	AddElement(/datum/element/tipped_item)
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/peasantry/maciejowski_knife,
 		)
@@ -413,7 +414,7 @@
 			H.Paralyze(10)
 			H.adjustFireLoss(25)
 			H.fire_act(1,10)
-			
+
 /obj/item/weapon/knife/dagger/silver/arcyne
 	name = "glowing purple silver dagger"
 	desc = "This dagger glows a faint purple. Quicksilver runs across its blade."
@@ -580,6 +581,10 @@
 	desc = "A four pointed throwing knife ground and sharpened from a single piece of metal. The design is intended to solve one of weaknesses of basic tossblades; \
 	more points means these are more likely to land point-first."
 	icon_state = "easttossblade"
+	throwforce = 30
+	max_integrity = 100
+	armor_penetration = 40
+	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 60, "embedded_fall_chance" = 5)
 
 /obj/item/rogueweapon/huntingknife/throwingknife/aalloy
 	name = "decrepit tossblade"
@@ -865,3 +870,33 @@
 			qdel(item)
 			user.mind.add_sleep_experience(/datum/skill/misc/sewing, (user.STAINT))
 	return ..()
+
+/obj/item/rogueweapon/huntingknife/attack(mob/living/M, mob/living/user)
+	if(user == M && user.used_intent && user.used_intent.blade_class == BCLASS_STAB && istype(user.rmb_intent, /datum/rmb_intent/weak))
+		if(user.zone_selected == BODY_ZONE_PRECISE_STOMACH || user.zone_selected == BODY_ZONE_CHEST)
+			if(user.doing)
+				to_chat(user, span_warning("You're already in the process of disemboweling yourself!"))
+				return
+			user.visible_message(span_danger("[user] presses [src] to their stomach, preparing to disembowel themselves!"), span_notice("You press the blade to your stomach and begin to push..."))
+			if(!do_after(user, 40, 1, user, 1)) // 4 seconds, hand required, target self, show progress
+				to_chat(user, span_warning("You stop before you can disembowel yourself!"))
+				return
+			// Disembowelment success: drop organs
+			var/list/spilled_organs = list()
+			var/obj/item/organ/stomach/stomach = user.getorganslot(ORGAN_SLOT_STOMACH)
+			if(stomach)
+				spilled_organs += stomach
+			var/obj/item/organ/liver/liver = user.getorganslot(ORGAN_SLOT_LIVER)
+			if(liver)
+				spilled_organs += liver
+			var/obj/item/organ/heart/heart = user.getorganslot(ORGAN_SLOT_HEART)
+			if(heart)
+				spilled_organs += heart
+			for(var/obj/item/organ/spilled as anything in spilled_organs)
+				spilled.Remove(user)
+				spilled.forceMove(user.drop_location())
+			user.visible_message(span_danger("[user] disembowels themselves, their organs spilling out!"), span_notice("You feel a horrible pain as your organs spill out!"))
+			user.emote("scream", null, null, TRUE, TRUE) // forced scream
+			user.overlay_fullscreen("painflash", /atom/movable/screen/fullscreen/painflash)
+			return
+	..()

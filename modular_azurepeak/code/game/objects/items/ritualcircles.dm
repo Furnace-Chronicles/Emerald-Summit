@@ -660,7 +660,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		loc.visible_message(span_cult("THE RITE REJECTS ONE ALREADY OF THE CABAL"))
 		return
 	if(target.already_converted_once)
-		loc.visible_message(span_cult("BLOODY NIMROD!!"))
+		loc.visible_message(span_cult("BLOODY FOOL!!"))
 		target.apply_damage(150, BRUTE, BODY_ZONE_HEAD)
 		return
 	var/prompt = alert(target, "SUBMISSION OR DEATH",, "SUBMISSION", "DEATH")
@@ -827,7 +827,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		loc.visible_message(span_cult("THE RITE REJECTS ONE WITH GREED IN THEIR HEART ALREADY PRESENT!!"))
 		return
 	if(target.already_converted_once)
-		loc.visible_message(span_cult("BLOODY NIMROD!!"))
+		loc.visible_message(span_cult("BLOODY FOOL!!"))
 		target.apply_damage(150, BRUTE, BODY_ZONE_HEAD)
 		return
 	var/prompt = alert(target, "GOOD DEAL?",, "GOOD DEAL!", "NO DEAL!")
@@ -997,7 +997,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		loc.visible_message(span_cult("THE RITE REJECTS ONE WITH SLAUGHTER IN THEIR HEART!!"))
 		return
 	if(target.already_converted_once)
-		loc.visible_message(span_cult("BLOODY NIMROD!!"))
+		loc.visible_message(span_cult("BLOODY FOOL!!"))
 		target.apply_damage(150, BRUTE, BODY_ZONE_HEAD)
 		return 
 	var/prompt = alert(target, "CULL AND HUNT!",, "KILL KILL KILL!!", "I DEFY YOU!!")
@@ -1100,7 +1100,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		loc.visible_message(span_cult("THE RITE REJECTS ONE ALREADY DEPRAVED ENOUGH!!"))
 		return
 	if(target.already_converted_once)
-		loc.visible_message(span_cult("BLOODY NIMROD!!"))
+		loc.visible_message(span_cult("BLOODY FOOL!!"))
 		target.apply_damage(150, BRUTE, BODY_ZONE_HEAD)
 		return 
 	var/prompt = alert(target, "LEASH OF SUBMISSION OR LASH OF DEFIANCE?",, "LEASH", "LASH")

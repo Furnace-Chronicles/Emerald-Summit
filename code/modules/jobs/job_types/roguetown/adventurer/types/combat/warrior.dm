@@ -50,7 +50,6 @@
 				if("Billhook")
 					H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 					r_hand = /obj/item/rogueweapon/spear/billhook
-					backr = /obj/item/gwstrap
 				if("Battle Axe")
 					H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
 					backr = /obj/item/rogueweapon/stoneaxe/battle
@@ -417,7 +416,6 @@
 						if("Billhook")
 							H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 							r_hand = /obj/item/rogueweapon/spear/billhook
-							backr = /obj/item/gwstrap
 						if ("MY BARE HANDS!!!")
 							H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
 							H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
@@ -456,11 +454,9 @@
 						if("Great Sword")
 							H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 							r_hand = /obj/item/rogueweapon/greatsword
-							backr = /obj/item/gwstrap
 						if("Eagle's Beak")
 							H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 							r_hand = /obj/item/rogueweapon/eaglebeak
-							backr = /obj/item/gwstrap
 						if("Battle Axe")
 							H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
 							beltr = /obj/item/rogueweapon/stoneaxe/battle

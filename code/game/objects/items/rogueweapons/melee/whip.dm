@@ -32,7 +32,7 @@
 //Lash = default, can't dismember, so more range and some pen.
 /datum/intent/whip/lash
 	name = "lash"
-	blade_class = BCLASS_LASHING
+	blade_class = BCLASS_PUNISH
 	attack_verb = list("lashes", "cracks")
 	hitsound = list('sound/combat/hits/blunt/flailhit.ogg')
 	chargetime = 0

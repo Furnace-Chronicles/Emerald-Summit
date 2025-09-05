@@ -187,3 +187,14 @@
 	desc = "A rabbit's foot. A lucky charm."
 	w_class = WEIGHT_CLASS_TINY
 	sellprice = 10
+
+/obj/item/natural/carapace
+	name = "carapace"
+	icon_state = "carapace"
+	desc = "Carapace from a watery creature."
+	force = 0
+	throwforce = 0
+	w_class = WEIGHT_CLASS_SMALL
+	resistance_flags = FLAMMABLE
+	drop_sound = 'sound/foley/dropsound/food_drop.ogg'
+	sellprice = 8

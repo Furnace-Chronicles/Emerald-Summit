@@ -185,7 +185,7 @@
 	if(specific_listeners.len)
 		listeners = specific_listeners
 		power_multiplier *= (1 + (1/specific_listeners.len)) //2x on a single guy, 1.5x on two and so on
-		message = copytext(message, 0, 1)+copytext(message, 1 + length(found_string), length(message) + 1)
+		message = copytext_char(message, 0, 1)+copytext_char(message, 1 + length(found_string), length(message) + 1)
 
 	var/static/regex/stun_words = regex("stop|wait|stand still|hold on|halt")
 	var/static/regex/knockdown_words = regex("drop|fall|trip|knockdown")

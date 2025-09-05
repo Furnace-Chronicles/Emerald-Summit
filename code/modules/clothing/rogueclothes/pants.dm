@@ -608,3 +608,26 @@
 	item_state = "capplateleg"
 	icon = 'icons/roguetown/clothing/special/captain.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/captain.dmi'
+
+/obj/item/clothing/under/roguetown/carapacelegs
+	name = "carapace chausses"
+	desc = "Aquatic plated armor to protect the legs."
+	gender = PLURAL
+	icon_state = "carapace_legs"
+	item_state = "carapace_legs"
+	smeltresult = /obj/item/ash
+	sewrepair = TRUE
+	anvilrepair = null
+	armor = list("blunt" = 70, "slash" = 60, "stab" = 50, "piercing" = 30, "fire" = 30, "acid" = 0) //Around Hardened leather
+	max_integrity = 225
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
+	blocksound = PLATEHIT
+	var/do_sound = FALSE
+	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
+	r_sleeve_status = SLEEVE_NOMOD
+	l_sleeve_status = SLEEVE_NOMOD
+
+/obj/item/clothing/under/roguetown/carapacelegs/skirt
+	name = "carapace plated skirt"
+	icon_state = "carapace_skirt"
+	item_state = "carapace_skirt"

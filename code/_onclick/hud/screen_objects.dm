@@ -803,7 +803,7 @@
 			iris.icon_state = "oeye_fixed"
 		else
 			iris.icon_state = "oeye"
-	iris.color = "#" + human.eye_color
+	iris.color = human.get_eye_color()
 	. += iris
 
 /atom/movable/screen/eye_intent/proc/toggle(mob/user)
@@ -1644,10 +1644,12 @@
 				to_chat(M, span_warning("I haven't TRIUMPHED."))
 				return
 			if(alert("Do you want to remember a TRIUMPH?", "", "Yes", "No") == "Yes")
-				if(!M.has_stress_event(/datum/stressevent/triumph))
-					M.add_stress(/datum/stressevent/triumph)
-					M.adjust_triumphs(-1)
-					M.playsound_local(M, 'sound/misc/notice (2).ogg', 100, FALSE)
+				M.add_stress(/datum/stressevent/triumph)
+				M.adjust_triumphs(-1)
+				M.playsound_local(M, 'sound/misc/notice (2).ogg', 100, FALSE)
+				if(M.sexcon)
+					var/datum/sex_controller/sexo = M.sexcon
+					sexo.adjust_charge(SEX_MAX_CHARGE)
 
 
 /atom/movable/screen/rmbintent

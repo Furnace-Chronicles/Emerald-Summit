@@ -1607,3 +1607,41 @@
 	GLOB.lordcolor -= src
 	return..()
 	
+/obj/item/clothing/suit/roguetown/armor/carapace
+	slot_flags = ITEM_SLOT_ARMOR
+	name = "carapace armor"
+	desc = "Full carapace plate. Includes leg protecting tassets, groin cup, and armored vambraces."
+	body_parts_covered = CHEST|GROIN|VITALS|LEGS|ARMS
+	icon_state = "carapace"
+	item_state = "carapace"
+	blocksound = PLATEHIT
+	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
+	armor = list("blunt" = 70, "slash" = 85, "stab" = 60, "piercing" = 60, "fire" = 25, "acid" = 0) //Slightly above carapace cuirass
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
+	max_integrity = 225
+	allowed_sex = list(MALE, FEMALE)
+	var/do_sound = TRUE
+	sewrepair = TRUE
+	smeltresult = /obj/item/ash
+	equip_delay_self = 60
+	nodismemsleeves = TRUE
+	armor_class = ARMOR_CLASS_MEDIUM
+
+/obj/item/clothing/suit/roguetown/armor/carapace/Initialize()
+	. = ..()
+	if(do_sound)
+		AddComponent(/datum/component/squeak, list('sound/foley/footsteps/armor/chain (1).ogg',\
+													'sound/foley/footsteps/armor/chain (2).ogg',\
+													'sound/foley/footsteps/armor/chain (3).ogg'), 70)
+
+/obj/item/clothing/suit/roguetown/armor/carapace/cuirass
+	slot_flags = ITEM_SLOT_ARMOR
+	name = "carapace cuirass"
+	desc = "Vest styled watery shell chest armor sewn in layers."
+	armor = list("blunt" = 60, "slash" = 80, "stab" = 60, "piercing" = 50, "fire" = 20, "acid" = 0) //Below Brigandine, Above Hardened Leather
+	body_parts_covered = CHEST|GROIN|VITALS
+	icon_state = "carapacecuirass"
+	item_state = "carapacecuirass"
+	flags_inv = HIDEBOOB
+	max_integrity = 200
+	equip_delay_self = 30

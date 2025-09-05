@@ -347,13 +347,13 @@
 		if("Plaguebringer Sickles")
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle(H), TRUE)
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle(H), TRUE)
-			H.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE) // actually makes them usable for the templar.
+			H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE) // actually makes them usable for the templar. (fixed to no longer have legendary skill templars)
 		if("Forgefiend")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/long/malumflamm(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Summer Scythe")
 			H.put_in_hands(new /obj/item/rogueweapon/halberd/bardiche/scythe(H), TRUE)
-			H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE) // again, needs skill to actually use the weapon
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE) // again, needs skill to actually use the weapon (fixed to no longer have legendary skill templars)
 		if("Cackle Lash")
 			H.put_in_hands(new /obj/item/rogueweapon/whip/xylix(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)

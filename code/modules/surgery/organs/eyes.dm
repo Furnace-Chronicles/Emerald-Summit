@@ -70,6 +70,9 @@
 		if(eye_color)
 			HMN.eye_color = eye_color
 			HMN.regenerate_icons()
+			if(HMN.hud_used)
+				for(var/atom/movable/screen/eye_intent/eyes_hud in HMN.hud_used.static_inventory)//updates our eye hud color
+					eyes_hud.update_icon()
 		else
 			eye_color = HMN.eye_color
 		if(HAS_TRAIT(HMN, TRAIT_NIGHT_VISION) && !lighting_alpha)
@@ -155,7 +158,7 @@
 	name = "golem eyes"
 	desc = "Some beast's eyes, preserved through artifice and with magical rock embedded in their back. Seems to fit a golem's head."
 	icon_state = "eyeball-con"
-	
+
 /obj/item/organ/eyes/night_vision/zombie/on_life()
 	. = ..()
 	if (!(owner.mob_biotypes & MOB_UNDEAD))
@@ -175,6 +178,7 @@
 	name = "wild goblin eyes"
 	desc = "What manner of madness have these reddened orbs espied in the darker places of the realm?"
 	icon_state = "burning_eyes"
+	eye_color = "#eb4034"
 
 /obj/item/organ/eyes/night_vision/wild_goblin/on_life()
 	. = ..()

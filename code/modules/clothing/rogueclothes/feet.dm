@@ -59,11 +59,14 @@
 	desc = "Blacksteel-heeled boots. The leather refuses to be worn down, no matter how far you march through these lands."
 	icon_state = "psydonboots"
 	item_state = "psydonboots"
-	sewrepair = TRUE
-	armor = ARMOR_BOOTS_BAD
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
+	blocksound = SOFTHIT
+	max_integrity = 200
+	armor = ARMOR_BOOTS
+	allowed_race = NON_DWARVEN_RACE_TYPES
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/hide/cured
-
+	sewrepair = TRUE
 /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	name = "noble boots"
 	//dropshrink = 0.75
@@ -455,3 +458,19 @@
 	item_state = "eastsandals"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'
 	armor = ARMOR_BOOTS
+
+/obj/item/clothing/shoes/roguetown/boots/carapace
+	name = "carapace boots"
+	desc = "Boots made from carapace for added protection."
+	body_parts_covered = FEET
+	icon_state = "carapaceboots"
+	item_state = "carapaceboots"
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
+	color = null
+	blocksound = PLATEHIT
+	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
+	armor = list("blunt" = 30, "slash" = 50, "stab" = 60, "piercing" = 30, "fire" = 30, "acid" = 0) //Sidegrade to plated boots. (Worse for most situation, better against fire or pierce.)
+	max_integrity = 225
+	anvilrepair = null
+	smeltresult = /obj/item/ash
+	sewrepair = TRUE

@@ -69,20 +69,14 @@
 
 		if("Thief")
 			to_chat(H, span_warning("You are a scoundrel and a thief. A master in getting into places you shouldn't be and taking things that aren't rightfully yours."))
-			pants = /obj/item/clothing/under/roguetown/trou/leather
 			armor = /obj/item/clothing/suit/roguetown/armor/leather
-			cloak = /obj/item/clothing/cloak/raincloak/mortus
-			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 			backl = /obj/item/storage/backpack/rogue/backpack
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
-			belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
-			gloves = /obj/item/clothing/gloves/roguetown/fingerless
 			shoes = /obj/item/clothing/shoes/roguetown/boots
 			neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 			wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 			beltl = /obj/item/rogueweapon/mace/cudgel
 			beltr = /obj/item/quiver/Warrows
-			backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/rogueweapon/huntingknife/idagger/steel = 2, /obj/item/lockpickring/mundane = 1, /obj/item/recipe_book/survival = 1)
 			H.cmode_music = 'sound/music/combat_rogue.ogg'
 			H.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
@@ -106,6 +100,40 @@
 			H.change_stat("endurance", 1)
 			H.change_stat("speed", 3)
 			H.grant_language(/datum/language/thievescant)
+			var/loadouts = list("Local Scoundrel","Eastern Agent")
+			var/loadout_choice = input("Choose your provenance.", "WHO AM I") as anything in loadouts
+			H.set_blindness(0)
+			switch(loadout_choice)
+				if("Local Scoundrel")
+					backpack_contents = list(
+						/obj/item/flashlight/flare/torch = 1,
+						/obj/item/rogueweapon/huntingknife/idagger/steel = 1,
+						/obj/item/lockpickring/mundane = 1,
+						/obj/item/recipe_book/survival = 1,
+						)
+					belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
+					gloves = /obj/item/clothing/gloves/roguetown/fingerless
+					pants = /obj/item/clothing/under/roguetown/trou/leather
+					shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+					cloak = /obj/item/clothing/cloak/raincloak/mortus
+				if("Eastern Agent")
+					backpack_contents = list(
+						/obj/item/flashlight/flare/torch = 1,
+						/obj/item/rogueweapon/huntingknife/idagger/steel/kazengun = 1,
+						/obj/item/lockpickring/mundane = 1,
+						/obj/item/recipe_book/survival = 1,
+						)
+					belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun
+					gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
+					pants = /obj/item/clothing/under/roguetown/trou/leather/eastern
+					shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
+					cloak = /obj/item/clothing/cloak/thief_cloak
+					head = /obj/item/clothing/head/roguetown/mentorhat //other armor pieces are nerfed to justify this
+			H.change_stat("strength", -1)
+			H.change_stat("intelligence", 1)
+			H.change_stat("perception", 1)
+			H.change_stat("endurance", 1)
+			H.change_stat("speed", 3)
 
 		if("Bard")
 			to_chat(H, span_warning("You make your fortune in brothels, flop houses, and taverns – gaining fame for your songs and legends. If there is any truth to them, that is."))

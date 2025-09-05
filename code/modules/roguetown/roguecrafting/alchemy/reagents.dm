@@ -68,7 +68,7 @@
 		M.blood_volume = min(M.blood_volume+10, BLOOD_VOLUME_MAXIMUM)
 	if(wCount.len > 0)
 		//some peeps dislike the church, this allows an alternative thats not a doctor or sleep.
-		M.heal_wounds(20)
+		M.heal_wounds(10)
 		M.update_damage_overlays()
 		if(prob(10))
 			to_chat(M, span_nicegreen("I feel my wounds mending."))
@@ -95,7 +95,7 @@
 	else
 		M.blood_volume = min(M.blood_volume+20, BLOOD_VOLUME_MAXIMUM)
 	if(wCount.len > 0)
-		M.heal_wounds(30)
+		M.heal_wounds(20)
 		M.update_damage_overlays()
 		if(prob(10))
 			to_chat(M, span_nicegreen("I feel my wounds mending."))

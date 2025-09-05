@@ -65,7 +65,6 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	owner.current.AddSpell(new /obj/effect/proc_holder/spell/targeted/transfix)
 	owner.current.verbs |= /mob/living/carbon/human/proc/vamp_regenerate
 	owner.current.verbs |= /mob/living/carbon/human/proc/vampire_telepathy
-	owner.current.verbs |= /mob/living/carbon/human/proc/disguise_button
 	vamp_look()
 	if(isspawn)
 		owner.current.verbs |= /mob/living/carbon/human/proc/disguise_button
@@ -363,7 +362,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 									if(N.get_lumcount() > 0.15)
 										H.fire_act(3)
 										handle_vitae(-300)
-								to_chat(H, span_warning("That was too close. I must avoid the sun."))
+								to_chat(H, span_warning("THE SUN DESTROYS MY VERY ESSENCE!"))
 						else if (isspawn && !disguised)
 							H.fire_act(1,5)
 							handle_vitae(-10)

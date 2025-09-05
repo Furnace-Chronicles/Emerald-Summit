@@ -5,7 +5,7 @@
 	crit_message = "Blood sprays from %VICTIM's %BODYPART!"
 	sound_effect = 'sound/combat/crit.ogg'
 	whp = 50
-	sewn_whp = 20
+	sewn_whp = ARTERY_LIMB_BLEEDRATE
 	bleed_rate = 10
 	sewn_bleed_rate = 0.2
 	clotting_threshold = null

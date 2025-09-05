@@ -697,7 +697,7 @@
 	BODY_ZONE_L_ARM,
 	BODY_ZONE_R_ARM,
 	)
-	if(!islamia(user))
+	if(!islamia(src))
 		body_zones += BODY_ZONE_L_LEG
 		body_zones += BODY_ZONE_R_LEG
 	else

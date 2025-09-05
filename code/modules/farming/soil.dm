@@ -141,8 +141,11 @@
 		else if(container.reagents.has_reagent(/datum/reagent/water/gross, 10))
 			container.reagents.remove_reagent(/datum/reagent/water/gross, 10)
 			water_amount = 150
+		else if(container.reagents.has_reagent(/datum/reagent/water/blessed, 10))
+			container.reagents.remove_reagent(/datum/reagent/water/blessed, 10)
+			water_amount = 150
 		else
-			to_chat(user, span_warning("There's no water in \the [container]!"))
+			to_chat(user, span_warning("There's not enough water in \the [container]!"))
 			return TRUE
 	if(water_amount > 0)
 		var/list/wash = list('sound/foley/waterwash (1).ogg','sound/foley/waterwash (2).ogg')

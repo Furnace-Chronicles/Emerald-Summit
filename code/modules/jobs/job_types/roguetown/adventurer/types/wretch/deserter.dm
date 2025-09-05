@@ -61,7 +61,6 @@
 			switch(weapon_choice)
 				if("Estoc")
 					r_hand = /obj/item/rogueweapon/estoc
-					backr = /obj/item/gwstrap
 				if("Longsword + Shield")
 					beltr = /obj/item/rogueweapon/sword/long
 					backr = /obj/item/rogueweapon/shield/tower/metal
@@ -73,7 +72,6 @@
 					backr = /obj/item/rogueweapon/shield/tower/metal
 				if("Lucerne")
 					r_hand = /obj/item/rogueweapon/eaglebeak/lucerne
-					backr = /obj/item/gwstrap
 				if("Battle Axe")
 					backr = /obj/item/rogueweapon/stoneaxe/battle
 				if("Lance + Kite Shield")
@@ -141,13 +139,10 @@
 					backl = /obj/item/rogueweapon/shield/iron
 				if("Billhook")
 					r_hand = /obj/item/rogueweapon/spear/billhook 
-					backl = /obj/item/gwstrap
 				if("Halberd")
 					r_hand = /obj/item/rogueweapon/halberd
-					backl = /obj/item/gwstrap	
 				if("Greataxe")
 					r_hand = /obj/item/rogueweapon/greataxe
-					backl = /obj/item/gwstrap
 			
 			ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)

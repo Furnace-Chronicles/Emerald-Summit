@@ -30,10 +30,9 @@ SUBSYSTEM_DEF(communications)
 			if(SSticker.regentmob == user)
 				used_title = "[used_title]" + " Regent"
 			priority_announce(html_decode(user.treat_message(input)), "The [used_title] Speaks", 'sound/misc/bell.ogg', sender = user)
-			nonsilicon_message_cooldown = world.time + 5 SECONDS
 		else
 			priority_announce(html_decode(user.treat_message(input)), "Someone Speaks", 'sound/misc/bell.ogg', sender = user)
-			nonsilicon_message_cooldown = world.time + 5 SECONDS
+		nonsilicon_message_cooldown = world.time + 3 MINUTES
 
 #undef COMMUNICATION_COOLDOWN
 #undef COMMUNICATION_COOLDOWN_AI

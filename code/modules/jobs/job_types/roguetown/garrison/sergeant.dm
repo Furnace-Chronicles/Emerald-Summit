@@ -119,7 +119,6 @@
 			backl = /obj/item/rogueweapon/shield/tower
 		if("Halberd")			//Halberd - basically exact same as MAA. It's a really valid build. Spear thrust + sword chop + bash.
 			r_hand = /obj/item/rogueweapon/halberd
-			backl = /obj/item/gwstrap
 			beltr = /obj/item/rogueweapon/mace/cudgel
 		if("Sabre & Crossbow")	//Versetile skirmisher class. Considered other swords but sabre felt best without being too strong. (This one gets no cudgel, no space.)
 			beltr = /obj/item/quiver/bolts

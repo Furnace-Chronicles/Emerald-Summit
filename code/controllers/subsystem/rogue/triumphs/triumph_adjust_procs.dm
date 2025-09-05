@@ -13,12 +13,12 @@
 		if(counted)
 			GLOB.scarlet_round_stats[STATS_TRIUMPHS_AWARDED] += amt
 		if(current)
-			to_chat(current, "\n<font color='purple'>[amt] TRIUMPH(S) awarded.</font>")
+			to_chat(current, "\n<font color='purple'>[amt] TRIUMPH[amt == 1 ? "" : "S"] awarded.</font>")
 	else if(amt < 0)
 		if(counted)
 			GLOB.scarlet_round_stats["triumphs_stolen"] += amt
 		if(current)
-			to_chat(current, "\n<font color='purple'>[amt*-1] TRIUMPH(S) lost.</font>")
+			to_chat(current, "\n<font color='purple'>[amt] TRIUMPH[amt == 1 ? "" : "S"] lost.</font>")
 
 
 

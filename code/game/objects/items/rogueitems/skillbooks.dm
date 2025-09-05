@@ -13,6 +13,7 @@
 	var/wellwritten = FALSE //if the author has TRAIT_GOODWRITER
 	grid_width = 32
 	grid_height = 32
+	resistance_flags = FLAMMABLE
 
 /obj/item/skillbook/Initialize()
 	iconval = rand(0,9)//lets us randomize from all our books from books.dmi
@@ -32,6 +33,9 @@
 			else
 				icon_state = "book[iconval]_[open]"
 
+/obj/item/skillbook/burn()
+	GLOB.scarlet_round_stats[STATS_BOOKS_BURNED]++
+	..()
 
 /obj/item/skillbook/proc/set_bookstats(var/req,var/cap,var/topic)
 	if(complete)
@@ -144,6 +148,7 @@
 				newbook.set_bookstats(skill_req,skill_cap,subject)
 				if(HAS_TRAIT(user, TRAIT_GOODWRITER))
 					newbook.wellwritten = TRUE
+				GLOB.scarlet_round_stats[STATS_BOOKS_PRINTED]++
 				qdel(src)
 
 

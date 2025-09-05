@@ -52,8 +52,8 @@
 					H.update_inv_neck()
 
 //RECIPES
-/datum/crafting_recipe/roguetown/sewing/studhood
-	name = "leather padded hood"
+/datum/crafting_recipe/roguetown/leather/studhood
+	name = "leather padded hood (2 leather)"
 	result = /obj/item/clothing/head/roguetown/helmet/leather/armorhood
 	reqs = list(/obj/item/natural/hide/cured = 2)
 	craftdiff = 2

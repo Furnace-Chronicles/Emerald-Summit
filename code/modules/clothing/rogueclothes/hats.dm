@@ -1762,7 +1762,7 @@
 /obj/item/clothing/head/roguetown/wizhat/gen/wise
 	name = "wise hat"
 	sellprice = 100
-	desc = "Only the wisest of nimrods wear this."
+	desc = "Only the wisest of dimwits wear this."
 
 /obj/item/clothing/head/roguetown/wizhat/gen/wise/equipped(mob/user, slot)
 	. = ..()
@@ -2353,6 +2353,20 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 
+// new ruma merc shit
+/obj/item/clothing/head/roguetown/roguehood/shalal/hijab/kazengunese
+	name = "kazengunese headwrap"
+	desc = "A cloth hood of Kazengunese origin, which fully conceals one's face. Painted black for the wearer to blend into the night."
+	icon = 'icons/roguetown/clothing/special/ninjahood.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/ninjahood.dmi'
+	icon_state = "ninjahood"
+	item_state = "ninjahood"
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
+	max_integrity = 150
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+	armor = ARMOR_HEAD_PSYDON //basically the same as a warscholar hood
+	color = CLOTHING_BLACK
+
 // the wizard helmet
 /obj/item/clothing/head/roguetown/helmet/bascinet/wizardhelm
 	name = "wizard bascinet"
@@ -2367,3 +2381,38 @@
 	block2add = FOV_BEHIND
 	max_integrity = 250
 	smeltresult = /obj/item/ingot/steel
+
+/obj/item/clothing/head/roguetown/helmet/carapacecap
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_HIP
+	name = "carapace cap"
+	desc = "Watery armored plates sown together to protect your head."
+	body_parts_covered = HEAD|HAIR
+	icon_state = "carapacecap"
+	item_state = "carapacecap"
+	armor = list("blunt" = 60, "slash" = 50, "stab" = 40, "piercing" = 30, "fire" = 10, "acid" = 0) //Around Leather level
+	prevent_crits = list(BCLASS_CUT, BCLASS_CHOP, BCLASS_BLUNT)
+	max_integrity = 150
+	anvilrepair = null
+	sewrepair = TRUE
+	blocksound = PLATEHIT
+	smeltresult = /obj/item/ash
+	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
+
+/obj/item/clothing/head/roguetown/helmet/carapacehelm
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_HIP
+	name = "carapace helmet"
+	desc = "Tightly sealed plates of aquatic armor."
+	body_parts_covered = HEAD|HAIR|EARS|NOSE
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	block2add = FOV_BEHIND
+	icon_state = "carapacehelm"
+	item_state = "carapacehelm"
+	armor = list("blunt" = 70, "slash" = 70, "stab" = 50, "piercing" = 40, "fire" = 15, "acid" = 0) //Around Hardened Leather level.
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST)
+	max_integrity = 200
+	anvilrepair = null
+	sewrepair = TRUE
+	blocksound = PLATEHIT
+	smeltresult = /obj/item/ash
+	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'

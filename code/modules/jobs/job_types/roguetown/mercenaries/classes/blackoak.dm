@@ -46,7 +46,6 @@
 			beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/special
 			beltr = /obj/item/flashlight/flare/torch
 			r_hand = /obj/item/rogueweapon/halberd/bardiche
-			backr = /obj/item/gwstrap
 			backpack_contents = list(/obj/item/roguekey/mercenary, /obj/item/storage/belt/rogue/pouch/coins/poor)
 			ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 		if("Ranged (Bows)")

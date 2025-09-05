@@ -66,12 +66,6 @@
 	reqs = list(/obj/item/reagent_containers/food/snacks/tallow = 1,
 				/obj/item/rope = 1)
 
-/datum/crafting_recipe/roguetown/leather/container/gwstrap
-	name = "greatweapon strap (2 leather, 1 rope)"
-	result = /obj/item/gwstrap
-	reqs = list(/obj/item/natural/hide/cured = 2,
-				/obj/item/rope = 1)
-
 /datum/crafting_recipe/roguetown/leather/container/twstrap
 	name = "bandolier (2 leather, 1 rope)"
 	result = /obj/item/twstrap

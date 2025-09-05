@@ -375,3 +375,19 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	anvilrepair = null
 	sewrepair = TRUE
+
+/obj/item/clothing/gloves/roguetown/carapace
+	name = "carapace gauntlets"
+	desc = "Strong carapace plated gauntlets to sink your pincers into."
+	icon_state = "carapace_gauntlets"
+	armor = list("blunt" = 60, "slash" = 50, "stab" = 50, "piercing" = 30, "fire" = 30, "acid" = 0) //Around chain level
+	max_integrity = 225
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT)
+	resistance_flags = null
+	blocksound = PLATEHIT
+	blade_dulling = DULLING_BASHCHOP
+	break_sound = 'sound/foley/cloth_rip.ogg'
+	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
+	smeltresult = /obj/item/ash
+	anvilrepair = null
+	sewrepair = TRUE

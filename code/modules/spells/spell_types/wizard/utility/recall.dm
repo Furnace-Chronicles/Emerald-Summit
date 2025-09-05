@@ -10,6 +10,8 @@
 	cooldown_min = 3 MINUTES
 	associated_skill = /datum/skill/magic/arcane
 	xp_gain = TRUE
+	invocation = ""
+	invocation_type = "whisper"
 	action_icon_state = "spell0"
 
 	var/turf/marked_location = null
@@ -32,6 +34,7 @@
 
 	// Subsequent casts - begin channeling
 	H.visible_message(span_warning("[H] closes [H.p_their()] eyes and begins to focus intently..."))
+	H.apply_status_effect(/datum/status_effect/buff/recalling)
 	if(do_after(H, recall_delay, target = H, progress = TRUE))
 		// Get any grabbed mobs
 		var/list/to_teleport = list(H)
@@ -49,8 +52,10 @@
 		var/datum/effect_system/smoke_spread/smoke = new
 		smoke.set_up(3, marked_location)
 		smoke.start()
+		H.remove_status_effect(/datum/status_effect/buff/recalling)
 		start_recharge()
 	else
+		H.remove_status_effect(/datum/status_effect/buff/recalling)
 		to_chat(H, span_warning("Your concentration was broken!"))
 		start_recharge()
 		revert_cast()

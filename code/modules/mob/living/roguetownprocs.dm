@@ -49,7 +49,7 @@
 		chance2hit += 20
 	if(istype(user.rmb_intent, /datum/rmb_intent/swift))
 		chance2hit -= 20
-	
+
 	if(HAS_TRAIT(user, TRAIT_RAVOX_CURSE))
 		chance2hit -= 30
 
@@ -267,8 +267,8 @@
 					else//If we're defending against or as a dual wielder, we roll disadv. But if we're both dual wielding it cancels out.
 						text += " Twice! Disadvantage! ([(prob2defend / 100) * (prob2defend / 100) * 100]%)"
 				to_chat(src, span_info("[text]"))
-			
-			var/attacker_feedback 
+
+			var/attacker_feedback
 			if(user.client?.prefs.showrolls && (attacker_dualw || defender_dualw))
 				attacker_feedback = "Attacking with advantage. ([100 - ((prob2defend / 100) * (prob2defend / 100) * 100)]%)"
 
@@ -643,7 +643,7 @@
 				attacker_dualw = TRUE
 		//----------Dual Wielding check end---------
 
-		var/attacker_feedback 
+		var/attacker_feedback
 		if(user.client?.prefs.showrolls && (attacker_dualw || defender_dualw))
 			attacker_feedback = "Attacking with advantage. ([100 - ((prob2defend / 100) * (prob2defend / 100) * 100)]%)"
 
@@ -868,14 +868,15 @@
 		playsound(src, 'sound/combat/clash_struck.ogg', 100)
 		var/staminadef = (stamina * 100) / max_stamina
 		var/staminaatt = (H.stamina * 100) / H.max_stamina
-		if(staminadef > staminaatt) 
+		if(staminadef > staminaatt)
 			H.apply_status_effect(/datum/status_effect/debuff/exposed, 2 SECONDS)
 			H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 			H.Slowdown(3)
-			to_chat(src, span_notice("[H.p_theyre()] exposed!"))
+			to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
 		else
 			H.changeNext_move(CLICK_CD_MELEE)
 		remove_status_effect(/datum/status_effect/buff/clash)
+		apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
 		purge_peel(GUARD_PEEL_REDUCTION)
 
 //This is a gargantuan, clunky proc that is meant to tally stats and weapon properties for the potential disarm.
@@ -905,7 +906,7 @@
 		skilldiff = skilldiff - HU.get_skill_level(IU.associated_skill)
 	else
 		instantwin = TRUE	//THEY are Guarding with a book or something -- no chance for them.
-	
+
 	//Weapon checks.
 	var/lengthdiff = IM.wlength - IU.wlength //The longer the weapon the better.
 	var/wieldeddiff = IM.wielded - IU.wielded //If ours is wielded but theirs is not.
@@ -923,7 +924,7 @@
 			prob_us += 10
 		else if(statdiff <= -2)
 			prob_opp += 10
-	
+
 	for(var/wepdiff in wepdiffs)
 		if(wepdiff > 0)
 			prob_us += 10
@@ -935,7 +936,7 @@
 		prob_us += 10
 	else if(wildcard < 0 )
 		prob_opp += 10
-	
+
 	//Small bonus to the first one to strike in a Clash.
 	var/initiator_bonus = rand(5, 10)
 	prob_us += initiator_bonus
@@ -974,12 +975,12 @@
 			disarmed(IM)
 		if(instantwin)
 			HU.disarmed(IU)
-	
+
 	remove_status_effect(/datum/status_effect/buff/clash)
 	HU.remove_status_effect(/datum/status_effect/buff/clash)
 
 /mob/living/carbon/human/proc/disarmed(obj/item/I)
-	visible_message(span_suicide("[src] is disarmed!"), 
+	visible_message(span_suicide("[src] is disarmed!"),
 					span_boldwarning("I'm disarmed!"))
 	var/turnangle = (prob(50) ? 270 : 90)
 	var/turndir = turn(dir, turnangle)
@@ -1015,14 +1016,14 @@
 	for(var/slot in slots)
 		if(isnull(slot) || !istype(slot, /obj/item/clothing))
 			slots.Remove(slot)
-	
+
 	var/highest_ac = ARMOR_CLASS_NONE
 
 	for(var/obj/item/clothing/C in slots)
 		if(C.armor_class)
 			if(C.armor_class > highest_ac)
 				highest_ac = C.armor_class
-	
+
 	return highest_ac
 
 /mob/living/carbon/human/proc/has_duelist_ring()
@@ -1045,12 +1046,12 @@
 	var/min_target = min(HT.STASTR, HT.STACON, HT.STAEND, HT.STAINT, HT.STAPER, HT.STASPD)
 	var/max_user = min(max(STASTR, STACON, STAEND, STAINT, STAPER, STASPD), 14)
 	var/min_user = min(STASTR, STACON, STAEND, STAINT, STAPER, STASPD)
-	
+
 	if(max_target > max_user)
 		finalprob -= max_target
 	if(min_target > min_user)
 		finalprob -= 3 * min_target
-	
+
 	if(max_target < max_user)
 		finalprob += max_user
 	if(min_target < min_user)

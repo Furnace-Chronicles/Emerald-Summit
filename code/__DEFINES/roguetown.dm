@@ -1,7 +1,7 @@
 /*------------------------\
-| ARMOR INTEGRITY DEFINES | // Use these when possible on armor to keep value consistent.	
+| ARMOR INTEGRITY DEFINES | // Use these when possible on armor to keep value consistent.
 \------------------------*/
-// Side = Non-chest armor integrity 
+// Side = Non-chest armor integrity
 // For now. Steel vs Iron will be a difference of 75% integrity without rating differences.
 // So Iron will actually be pretty decent and there shouldn't be a compulsive need to upgrade.
 
@@ -12,13 +12,13 @@
 #define ARMOR_INT_HELMET_HEAVY_IRON 300
 #define ARMOR_INT_HELMET_HEAVY_DECREPIT 200
 #define ARMOR_INT_HELMET_HEAVY_ADJUSTABLE_PENALTY 50 // Integrity reduction, if a helmet is adjustable
-#define ARMOR_INT_HELMET_STEEL 300 
+#define ARMOR_INT_HELMET_STEEL 300
 #define ARMOR_INT_HELMET_IRON 225
 #define ARMOR_INT_HELMET_HARDLEATHER 250
 #define ARMOR_INT_HELMET_LEATHER 200
 #define ARMOR_INT_HELMET_CLOTH 100
 
-// Chest / Armor Pieces 
+// Chest / Armor Pieces
 
 // HEAVY
 #define ARMOR_INT_CHEST_PLATE_ANTAG 700
@@ -45,7 +45,7 @@
 
 // LEG PIECES - Leg Armor
 #define ARMOR_INT_LEG_ANTAG 600
-#define ARMOR_INT_LEG_BLACKSTEEL 500 
+#define ARMOR_INT_LEG_BLACKSTEEL 500
 #define ARMOR_INT_LEG_STEEL_PLATE 400
 #define ARMOR_INT_LEG_IRON_PLATE 300
 #define ARMOR_INT_LEG_DECREPIT_PLATE 200
@@ -69,7 +69,7 @@
 
 
 /*--------------------\
-| ARMOR VALUE DEFINES |	
+| ARMOR VALUE DEFINES |
 \--------------------*/
 // Misc defines. These are here just in case. Inherited by their relevant subtypes.
 #define ARMOR_MACHINERY list("blunt" = 25, "slash" = 25, "stab" = 25,  "piercing" = 10, "fire" = 50, "acid" = 70)
@@ -83,14 +83,14 @@
 #define ARMOR_PADDED_GOOD list("blunt" = 80, "slash" = 50, "stab" = 50, "piercing" = 80, "fire" = 0, "acid" = 0)
 #define ARMOR_PADDED list("blunt" = 60, "slash" = 40, "stab" = 30, "piercing" = 50, "fire" = 0, "acid" = 0)
 #define ARMOR_PADDED_BAD list("blunt" = 40, "slash" = 30, "stab" = 20, "piercing" = 40, "fire" = 0, "acid" = 0)
-#define ARMOR_LIGHTCUIRASS list("blunt" = 30, "slash" = 70, "stab" = 70, "piercing" = 30, "fire" = 0, "acid" = 0)	
+#define ARMOR_LIGHTCUIRASS list("blunt" = 30, "slash" = 70, "stab" = 70, "piercing" = 30, "fire" = 0, "acid" = 0)
 
 #define ARMOR_LEATHER list("blunt" = 60, "slash" = 50, "stab" = 40, "piercing" = 20, "fire" = 0, "acid" = 0)
 #define ARMOR_LEATHER_GOOD list("blunt" = 100, "slash" = 70, "stab" = 50, "piercing" = 30, "fire" = 0, "acid" = 0)
 #define ARMOR_LEATHER_STUDDED list("blunt" = 80, "slash" = 80, "stab" = 60, "piercing" = 20, "fire" = 0, "acid" = 0)
 
 // Medium AC | Chest
-#define ARMOR_CUIRASS list("blunt" = 40, "slash" = 100, "stab" = 80, "piercing" = 60, "fire" = 0, "acid" = 0)	
+#define ARMOR_CUIRASS list("blunt" = 40, "slash" = 100, "stab" = 80, "piercing" = 60, "fire" = 0, "acid" = 0)
 #define ARMOR_MAILLE list("blunt" = 40, "slash" = 100, "stab" = 80, "piercing" = 50, "fire" = 0, "acid" = 0)
 
 // Heavy AC | Chest
@@ -455,11 +455,11 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_SQUIRE			"CAT_SQUIRE"		// Squire class - Handles Squire class selector
 #define CTAG_VETERAN		"CAT_VETERAN"		// Veteran class - Handles Veteran class selector
 #define CTAG_MARSHAL		"CAT_MARSHAL"		// Marshal class
-#define CTAG_SENESCHAL		"CAT_SENESCHAL"		// Seneschal's aesthetic choices. 
+#define CTAG_SENESCHAL		"CAT_SENESCHAL"		// Seneschal's aesthetic choices.
 #define CTAG_SERVANT		"CAT_SERVANT"		// Servant's aesthetic choices.
 #define CTAG_CAPTAIN		"CAT_CAPTAIN"		// Handles Captain class selector
 #define CTAG_WAPPRENTICE	"CTAG_WAPPRENTICE"	// Mage Apprentice Classes - Handles Mage Apprentices class selector
-#define CTAG_GUILDSMASTER 	"CAT_GUILDSMASTER"	// Guildsmaster class - Handles Guildsmaster class selector 
+#define CTAG_GUILDSMASTER 	"CAT_GUILDSMASTER"	// Guildsmaster class - Handles Guildsmaster class selector
 #define CTAG_GUILDSMEN 		"CAT_GUILDSMEN"		// Guildsmen class - Handles Guildsmen class selector
 #define CTAG_NIGHTMAIDEN	"CAT_NIGHTMAIDEN"	// Bathhouse Attendant's aesthetic choices.
 #define CTAG_PRISONER "CAT_PRISONER"
@@ -481,3 +481,10 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define BAD_GUARD_FATIGUE_DRAIN 20 	// Percentage of your green bar lost on letting a guard expire.
 #define GUARD_PEEL_REDUCTION 2		// How many Peel stacks to lose if a Guard is hit.
 #define BAIT_PEEL_REDUCTION 1		// How many Peel stacks to lose if we perfectly bait.
+
+/*
+Medical defines
+*/
+#define ARTERY_LIMB_BLEEDRATE 20	//This is used as a reference point for dynamic wounds, so it's better off as a define.
+#define CONSTITUTION_BLEEDRATE_MOD 0.1	//How much slower we'll be bleeding for every CON point. 0.1 = 10% slower.
+#define CONSTITUTION_BLEEDRATE_CAP 15	//The CON value up to which we get a bleedrate reduction.

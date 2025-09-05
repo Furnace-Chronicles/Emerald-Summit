@@ -554,3 +554,38 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR)	//Minor regen, can level up to T4.
 
+// Thief subclass here. Thieves are thieves, there would be prisoners who are thieves.
+/datum/advclass/prisonerthief
+	name = "Thief Prisoner"
+	tutorial = "You are a cunning thief, even in chains. If you're ever to escape, you'll have an array of skills at your disposal to get you planted right back in the cells you came"
+	allowed_sexes = list(MALE, FEMALE)
+	allowed_races = RACES_ALL_KINDS
+	outfit = /datum/outfit/job/roguetown/prisoner_thief
+	category_tags = list(CTAG_PRISONER)
+/datum/outfit/job/roguetown/prisoner_thief/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(!H) return
+	..() // Call base prisoner outfit for collar/loincloth
+	H.cmode_music = 'sound/music/combat_rogue.ogg'
+	// a thief, just in prison. a prisoner thief, if you will.
+	H.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 6, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/sneaking, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/stealing, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/lockpicking, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/traps, 4, TRUE)
+	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_LIGHT_STEP, TRAIT_GENERIC)
+	H.change_stat("strength", -1)
+	H.change_stat("intelligence", 1)
+	H.change_stat("perception", 1)
+	H.change_stat("endurance", 1)
+	H.change_stat("speed", 3)
+	H.grant_language(/datum/language/thievescant)

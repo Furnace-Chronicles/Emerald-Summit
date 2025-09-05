@@ -6532,7 +6532,9 @@
 /obj/structure/closet/crate/chest/crate,
 /obj/machinery/light/rogue/torchholder/c,
 /obj/structure/curtain/magenta{
-	color = 54202a
+	color = 54202a;
+	pixel_y = 0;
+	icon_state = "curtain-closed"
 	},
 /obj/item/rogue/instrument/harp/handcarved,
 /obj/item/rogue/instrument/viola,
@@ -53039,7 +53041,9 @@
 /area/rogue/indoors/shelter/woods)
 "qdJ" = (
 /obj/structure/curtain/magenta{
-	color = 54202a
+	color = 54202a;
+	pixel_y = 0;
+	icon_state = "curtain-closed"
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/tavern)
@@ -55755,8 +55759,7 @@
 "qTW" = (
 /obj/machinery/light/rogue/torchholder/c,
 /obj/structure/curtain/magenta{
-	color = 54202a;
-	pixel_y = 0
+	color = 54202a
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/tavern)
@@ -56759,8 +56762,11 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
 "rlj" = (
-/obj/structure/roguemachine/noticeboard,
-/turf/open/floor/rogue/cobble,
+/obj/structure/roguemachine/noticeboard{
+	pixel_y = 6;
+	pixel_x = -17
+	},
+/turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
 "rlk" = (
 /obj/machinery/light/rogue/wallfire/candle/off/r,
@@ -56912,7 +56918,9 @@
 	},
 /area/rogue/indoors/shelter/mountains/decap)
 "rnp" = (
-/obj/structure/fermentation_keg,
+/obj/structure/fermentation_keg/random/water{
+	color = "#8f7f62"
+	},
 /turf/open/floor/rogue/tile/brownbrick,
 /area/rogue/indoors/town/bath)
 "rnq" = (
@@ -57739,13 +57747,6 @@
 	},
 /turf/open/floor/rogue/woodturned,
 /area/rogue/outdoors/beach)
-"rBi" = (
-/obj/structure/curtain/magenta{
-	color = 54202a;
-	pixel_y = 0
-	},
-/turf/open/floor/rogue/hexstone,
-/area/rogue/indoors/town/tavern)
 "rBl" = (
 /obj/structure/mineral_door/wood/deadbolt{
 	dir = 4
@@ -145390,7 +145391,7 @@ wTJ
 hyA
 hMB
 haH
-gCR
+haH
 xqE
 iSu
 pkw
@@ -263357,7 +263358,7 @@ fLM
 rbu
 taS
 bYj
-rBi
+qdJ
 aar
 icb
 icb
@@ -274658,7 +274659,7 @@ kwU
 kwU
 phl
 cDX
-rlj
+sns
 sns
 sns
 feG
@@ -299001,7 +299002,7 @@ qyR
 aZo
 pWT
 fpx
-exD
+rlj
 exD
 exD
 xzx

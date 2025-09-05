@@ -108,10 +108,8 @@
 			backl = /obj/item/rogueweapon/shield/iron
 		if("Halberd")
 			r_hand = /obj/item/rogueweapon/halberd
-			backl = /obj/item/gwstrap
 		if("Greataxe")
 			r_hand = /obj/item/rogueweapon/greataxe
-			backl = /obj/item/gwstrap
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1, /obj/item/storage/keyring/guardcastle)
 	H.verbs |= /mob/proc/haltyell
 
@@ -242,7 +240,6 @@
 	switch(weapon_choice)
 		if("Bardiche")
 			r_hand = /obj/item/rogueweapon/halberd/bardiche
-			backl = /obj/item/gwstrap
 		if("Sword & Shield")
 			beltr = /obj/item/rogueweapon/sword/sabre
 			backl = /obj/item/rogueweapon/shield/wood

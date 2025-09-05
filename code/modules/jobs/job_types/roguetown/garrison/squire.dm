@@ -67,7 +67,6 @@
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
-	backl = /obj/item/gwstrap
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger = 1, /obj/item/rogueweapon/hammer/copper = 1, /obj/item/storage/belt/rogue/pouch = 1) // do not put this on the universal loadout because it fills the bag with two of each
 	H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/crossbows, 1, TRUE)

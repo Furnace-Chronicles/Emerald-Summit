@@ -4,7 +4,7 @@
 	icon_state = "fiend"
 	icon_living = "fiend"
 	icon_dead = "vvd"
-	summon_primer = "You are fiend, a large sized demon from the infernal plane. You have imps and hounds at your beck and call, able to do whatever you wished. Now you've been pulled from your home into a new world, that is decidedly lacking in fire. How you react to these events, only time can tell."
+	summon_primer = "You are a fiend, a large sized demon from the infernal plane. You have imps and hounds at your beck and call, able to do whatever you wished. Now you've been pulled from your home into a new world, that is decidedly lacking in fire. How you react to these events, only time can tell."
 	summon_tier = 4
 	gender = MALE
 	emote_hear = null

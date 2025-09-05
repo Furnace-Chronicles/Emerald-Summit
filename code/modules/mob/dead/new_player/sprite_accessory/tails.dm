@@ -127,6 +127,7 @@
 /datum/sprite_accessory/tail/horse
 	name = "Horse"
 	icon_state = "horse"
+	can_wag = TRUE
 
 /datum/sprite_accessory/tail/husky
 	name = "Husky"
@@ -384,6 +385,22 @@
 	icon_state = "lynx"
 	color_keys = 2
 	color_key_names = list("Tail", "Tip")
+
+/datum/sprite_accessory/tail/owl
+	name = "Owl"
+	icon_state = "owl"
+
+/datum/sprite_accessory/tail/forked_long
+	name = "Forked Long"
+	icon_state = "forked_long"
+
+/datum/sprite_accessory/tail/haven
+	name = "Haven"
+	icon_state = "haven"
+
+/datum/sprite_accessory/tail/swallow
+	name = "Swallow"
+	icon_state = "swallow"
 
 /datum/sprite_accessory/tail/pinecone
 	name = "Pinecone"

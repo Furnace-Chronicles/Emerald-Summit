@@ -16,12 +16,14 @@
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1,
 						/obj/item/reagent_containers/food/snacks/fat = 1,
 						/obj/item/alch/sinew = 2,
-						/obj/item/alch/bone = 1)
+						/obj/item/alch/bone = 1,
+						/obj/item/natural/carapace = 2)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2,
 						/obj/item/reagent_containers/food/snacks/fat = 2,
 						/obj/item/alch/sinew = 2,
 						/obj/item/alch/bone = 1,
-						/obj/item/natural/hide = 1)
+						/obj/item/natural/hide = 1,
+						/obj/item/natural/carapace = 3)
 	faction = list("orcs")
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST|MOB_REPTILE
 	health = 200

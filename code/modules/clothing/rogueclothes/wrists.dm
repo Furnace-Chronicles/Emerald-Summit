@@ -201,3 +201,18 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	resistance_flags = FIRE_PROOF
 	sewrepair = FALSE
+
+/obj/item/clothing/wrists/roguetown/bracers/carapace
+	name = "carapace bracers"
+	desc = "Fiber bracers lined with carapace to protect your wrists"
+	body_parts_covered = ARMS
+	icon_state = "carapace_bracers"
+	item_state = "carapace_bracers"
+	armor = list("blunt" = 70, "slash" = 70, "stab" = 60, "piercing" = 50, "fire" = 30, "acid" = 0)
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
+	blocksound = PLATEHIT
+	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
+	max_integrity = 200
+	anvilrepair = null
+	smeltresult = /obj/item/ash
+	sewrepair = TRUE

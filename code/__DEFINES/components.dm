@@ -314,6 +314,8 @@
 #define COMSIG_ITEM_PRE_ATTACK "item_pre_attack"				//from base of obj/item/pre_attack(): (atom/target, mob/user, params)
 	#define COMPONENT_NO_ATTACK 1
 #define COMSIG_ITEM_AFTERATTACK "item_afterattack"				//from base of obj/item/afterattack(): (atom/target, mob/user, params)
+#define COMSIG_ITEM_ATTACKBY_BLOCKED "item_attackby_blocked"	//from base of species/proc/spec_attacked_by(): (mob/living/carbon/human/target, mob/living/user, damagetype, def_zone)
+#define COMSIG_ITEM_ATTACKBY_SUCCESS "item_attackby_success"	//from base of species/proc/spec_attacked_by(): (mob/living/carbon/human/target, mob/living/user, damage, damagetype, def_zone)
 #define COMSIG_ITEM_ATTACK_QDELETED "item_attack_qdeleted"		//from base of obj/item/attack_qdeleted(): (atom/target, mob/user, params)
 #define COMSIG_ITEM_EQUIPPED "item_equip"						//from base of obj/item/equipped(): (/mob/equipper, slot)
 #define COMSIG_ITEM_DROPPED "item_drop"							//from base of obj/item/dropped(): (mob/user)

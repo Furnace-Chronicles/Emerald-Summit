@@ -164,11 +164,11 @@
 	icon = 'icons/roguetown/weapons/32.dmi'
 	max_blade_int = 900
 	max_integrity = 900
-	force = 35
+	force = 25
 	block_chance = 0
-	wdefense = 10
+	wdefense = 2
 	blade_dulling = DULLING_SHAFT_GRAND
-	armor_penetration = 30
+	armor_penetration = 15
 	associated_skill = /datum/skill/combat/unarmed
 	wlength = WLENGTH_NORMAL
 	wbalance = WBALANCE_HEAVY

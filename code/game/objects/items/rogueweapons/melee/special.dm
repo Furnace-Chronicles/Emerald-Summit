@@ -10,7 +10,7 @@
 	chargetime = 0
 	swingdelay = 0
 	damfactor = 1.3
-	clickcd = CLICK_CD_INTENTCAP
+	clickcd = 10
 	item_d_type = "slash"
 
 /datum/intent/katar/thrust
@@ -22,7 +22,7 @@
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
 	penfactor = 40
 	chargetime = 0
-	clickcd = CLICK_CD_INTENTCAP
+	clickcd = 8
 	item_d_type = "stab"
 
 /datum/intent/lordbash
@@ -54,7 +54,7 @@
 	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
 	chargetime = 0
 	penfactor = BLUNT_DEFAULT_PENFACTOR
-	clickcd = 8
+	clickcd = 10
 	damfactor = 1.1
 	swingdelay = 0
 	icon_state = "inpunch"

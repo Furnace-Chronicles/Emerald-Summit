@@ -32,7 +32,7 @@
 	animname = "stab"
 	icon_state = "instab"
 	reach = 2
-	chargetime = 1
+	clickcd = CLICK_CD_CHARGED
 	recovery = 30
 	warnie = "mobwarning"
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')

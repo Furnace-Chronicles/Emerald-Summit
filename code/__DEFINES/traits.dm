@@ -107,7 +107,7 @@
 
 #define TRAIT_CURSE "Curse" //source
 #define TRAIT_RAVOX_CURSE "Ravox's Curse" // effect same as ~ -2 (-30% parry -30% dodge -30% accuracy) to all weapon skills
-#define TRAIT_NECRA_CURSE "Necra's Curse" //cannot be revived 
+#define TRAIT_NECRA_CURSE "Necra's Curse" //cannot be revived
 #define TRAIT_PESTRA_CURSE "Pestra's Curse" //randomly causes vomiting, unconsciousness, blurred vision
 #define TRAIT_ABYSSOR_CURSE "Abyssors's Curse" //fears the water
 #define TRAIT_MALUM_CURSE "Malum's Curse" //cannot craft or use smith hammer
@@ -160,7 +160,7 @@
 #define TRAIT_NOPAINSTUN	"Enduring"
 #define TRAIT_NOBREATH	"Breathless"
 #define TRAIT_TOXIMMUNE	"Poison Immune"
-#define TRAIT_GRABIMMUNE "Unstoppable" 
+#define TRAIT_GRABIMMUNE "Unstoppable"
 #define TRAIT_ROTMAN "Rotman"
 #define TRAIT_ZOMBIE_IMMUNE "Deadite Immunity" //immune to deadite infection
 #define TRAIT_NOHUNGER	"Foodless"
@@ -181,6 +181,7 @@
 #define TRAIT_NECRAS_VOW "Necra's Vow"
 #define TRAIT_DYES "Dyemaster"
 #define TRAIT_GOODWRITER "Great Writer"
+#define TRAIT_ADRENALINE_RUSH "Adrenaline Rush"
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
 
@@ -324,7 +325,9 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_NECRAS_VOW = span_warning("I've pledged myself to Necra. If I fall, I am Hers."),
 	TRAIT_DYES = span_notice("I know my way around pigments and shades, and I'm able to create the exact colors I want in a dye station."),
 	TRAIT_HERESIARCH = span_warning("I know of sacred sites of worship where followers of the Ascendants convene, and the path to the nearest conclave is etched into my memory."),
-	TRAIT_GOODWRITER = span_notice("I'm proficient at writing. Any skillbooks made by me will allow the reader to learn the subject more quickly.")
+	TRAIT_GOODWRITER = span_notice("I'm proficient at writing. Any skillbooks made by me will allow the reader to learn the subject more quickly."),
+	TRAIT_BLOODLOSS_IMMUNE = span_notice("While I may bleed, I will feel nothing from it."),
+	TRAIT_ADRENALINE_RUSH = span_notice("I'm invigorated in the midst of battle! I don't feel my wounds!")
 ))
 
 // trait accessor defines

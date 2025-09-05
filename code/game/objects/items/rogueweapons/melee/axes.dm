@@ -417,6 +417,9 @@
 	gripsprite = TRUE
 	wlength = WLENGTH_GREAT
 	w_class = WEIGHT_CLASS_BULKY
+	slot_flags = ITEM_SLOT_BACK
+	equip_delay_self = 2.5 SECONDS
+	unequip_delay_self = 2.5 SECONDS
 	minstr = 11
 	max_blade_int = 200
 	anvilrepair = /datum/skill/craft/weaponsmithing

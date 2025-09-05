@@ -42,7 +42,9 @@
 	return ..()
 
 /obj/structure/roguemachine/mail/attack_hand(mob/user)
-	if(SSroguemachine.hermailermaster && ishuman(user))
+	if(ishuman(user) && GLOB.carebox.try_retrieve_carebox(user, src))
+		return TRUE
+	if(SSroguemachine.hermailermaster && ishuman(user)) 
 		var/obj/item/roguemachine/mastermail/M = SSroguemachine.hermailermaster
 		var/mob/living/carbon/human/H = user
 		var/addl_mail = FALSE

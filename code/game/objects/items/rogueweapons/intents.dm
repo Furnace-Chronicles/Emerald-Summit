@@ -336,8 +336,8 @@
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
 	penfactor = 60
 	damfactor = 1.1
-	chargetime = 0.7
-	chargedrain = 2
+	clickcd = CLICK_CD_CHARGED
+	releasedrain = 4
 	reach = 2
 	no_early_release = TRUE
 	blade_class = BCLASS_PICK
@@ -409,8 +409,8 @@
 	noaa = FALSE
 	animname = "bite"
 	hitsound = list('sound/combat/hits/punch/punch (1).ogg', 'sound/combat/hits/punch/punch (2).ogg', 'sound/combat/hits/punch/punch (3).ogg')
-	misscost = 5
-	releasedrain = 2	//Lowered for intent stam usage.
+	misscost = 1
+	releasedrain = 1	//Lowered for intent stam usage.
 	swingdelay = 0
 	clickcd = 10
 	rmb_ranged = TRUE
