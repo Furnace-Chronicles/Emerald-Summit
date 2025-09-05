@@ -19,6 +19,9 @@
 	required = TRUE
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_noble.ogg'
+
+	job_traits = list(TRAIT_SEEPRICES, TRAIT_CICERONE)
+
 	job_stats = list(
 		STATKEY_PER = 3,
 		STATKEY_INT = 2,
@@ -41,9 +44,7 @@
 	H.adjust_skillrank(/datum/skill/craft/cooking, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/lockpicking, 2, TRUE)
-	backpack_contents = /obj/item/rogueweapon/huntingknife/idagger/navaja
-	ADD_TRAIT(H, TRAIT_SEEPRICES, type)
-	ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC) //Makes up for loss of alchemy to see reagents.
+	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/navaja)
 	neck = /obj/item/clothing/neck/roguetown/horus
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/merchant
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/sailor

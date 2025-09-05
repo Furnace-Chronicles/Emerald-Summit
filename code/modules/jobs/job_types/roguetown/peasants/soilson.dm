@@ -25,6 +25,9 @@
 	min_pq = -10
 	max_pq = null
 	round_contrib_points = 3
+
+	job_traits = list(TRAIT_SEEDKNOW, TRAIT_NOSTINK, TRAIT_LONGSTRIDER)
+
 	job_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_CON = 1,
@@ -61,9 +64,6 @@
 	if(H.age == AGE_OLD)//So ppl have reason to pick this I guess?
 		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/labor/butchering, 1, TRUE)
-	ADD_TRAIT(H, TRAIT_SEEDKNOW, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_LONGSTRIDER, TRAIT_GENERIC)
 
 	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/random

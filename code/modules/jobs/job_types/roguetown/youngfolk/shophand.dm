@@ -16,6 +16,9 @@
 	max_pq = null
 	round_contrib_points = 2
 	cmode_music = 'sound/music/cmode/towner/combat_towner.ogg'
+
+	job_traits = list(TRAIT_SEEPRICES_SHITTY)
+
 	job_stats = list(
 		STATKEY_SPD = 1,
 		STATKEY_INT = 1,
@@ -24,7 +27,6 @@
 	
 /datum/outfit/job/roguetown/shophand/pre_equip(mob/living/carbon/human/H)
 	..()
-	ADD_TRAIT(H, TRAIT_SEEPRICES_SHITTY, "[type]")
 	if(should_wear_femme_clothes(H))
 		pants = /obj/item/clothing/under/roguetown/tights
 		armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/blue

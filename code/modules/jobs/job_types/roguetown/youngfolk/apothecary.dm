@@ -15,6 +15,9 @@
 	min_pq = 0
 	max_pq = null
 	round_contrib_points = 5
+
+	job_traits = list(TRAIT_MEDICINE_EXPERT, TRAIT_NOSTINK, TRAIT_EMPATH)
+
 	job_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 2,
@@ -49,4 +52,3 @@
 	H.adjust_skillrank(/datum/skill/craft/alchemy, 3, TRUE)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
-	ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)

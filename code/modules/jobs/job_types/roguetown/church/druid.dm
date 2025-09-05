@@ -25,6 +25,7 @@
 
 	//You're.. not REALLY a full-on church member, but being a druid implies you became a clergy-man of some sort; even if it's non-organized. So, still shouldn't be noble.
 	virtue_restrictions = list(/datum/virtue/utility/noble)
+	job_traits = list(TRAIT_SEEDKNOW, TRAIT_OUTDOORSMAN, TRAIT_RITUALIST)
 	job_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_WIL = 2,
@@ -71,9 +72,5 @@
 		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/magic/druidic, 1, TRUE)
 	H.ambushable = FALSE
-
-	ADD_TRAIT(H, TRAIT_SEEDKNOW, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_RITUALIST, TRAIT_GENERIC)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.

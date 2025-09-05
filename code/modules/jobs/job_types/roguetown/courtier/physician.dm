@@ -21,6 +21,8 @@
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_physician.ogg'
 
+	job_traits = list(TRAIT_MEDICINE_EXPERT, TRAIT_NOSTINK, TRAIT_EMPATH)
+
 	job_stats = list(
 		STATKEY_INT = 4,
 		STATKEY_WIL = 1,
@@ -60,8 +62,6 @@
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/recipe_book/alchemy = 1,
 	)
-	ADD_TRAIT(H, TRAIT_EMPATH, "[type]")
-	ADD_TRAIT(H, TRAIT_NOSTINK, "[type]")
 	H.adjust_skillrank(/datum/skill/misc/reading, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)

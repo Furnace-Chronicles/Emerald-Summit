@@ -18,6 +18,8 @@
 	max_pq = null
 	round_contrib_points = 2
 
+	job_traits = list(TRAIT_SEEPRICES_SHITTY)
+
 	job_stats = list(
 		STATKEY_LCK = 2,
 		STATKEY_INT = 2,
@@ -27,7 +29,6 @@
 
 /datum/outfit/job/roguetown/clerk/pre_equip(mob/living/carbon/human/H)
 	..()
-	ADD_TRAIT(H, TRAIT_SEEPRICES_SHITTY, type)
 	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)

@@ -17,6 +17,8 @@
 	max_pq = null
 	round_contrib_points = 2
 	cmode_music = 'sound/music/cmode/towner/combat_towner.ogg'
+	
+	job_traits = list(TRAIT_CICERONE)
 	//5 points (weighted)
 	job_stats = list(
 		STATKEY_CON = 1,
@@ -60,4 +62,3 @@
 	backpack_contents = list(
 		/obj/item/bottle_kit
 	)
-	ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)

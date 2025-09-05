@@ -17,6 +17,9 @@
 	round_contrib_points = 2
 	cmode_music = 'sound/music/cmode/towner/combat_towner2.ogg'
 	//5 points (weighted)
+
+	job_traits = list(TRAIT_CICERONE)
+
 	job_stats = list(
 		STATKEY_CON = 2,
 		STATKEY_STR = 1,
@@ -57,4 +60,3 @@
 	backpack_contents = list(
 		/obj/item/recipe_book/survival,
 	)
-	ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)

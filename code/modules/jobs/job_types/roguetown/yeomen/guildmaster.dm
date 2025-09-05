@@ -24,6 +24,9 @@
 	max_pq = null
 	round_contrib_points = 3
 	cmode_music = 'sound/music/cmode/towner/combat_retired.ogg'
+
+	job_traits = list(TRAIT_TRAINED_SMITH, TRAIT_SEEPRICES)
+
 	job_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 2,
@@ -32,8 +35,6 @@
 	)
 
 /datum/outfit/job/roguetown/guildmaster/pre_equip(mob/living/carbon/human/H)
-	ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_TRAINED_SMITH, TRAIT_GENERIC)
 	head = /obj/item/clothing/head/roguetown/chaperon/noble/guildmaster
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith
 	if(H.mind)

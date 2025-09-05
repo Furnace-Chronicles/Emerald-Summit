@@ -20,6 +20,7 @@
 	max_pq = null
 	round_contrib_points = 3
 	cmode_music = 'sound/music/cmode/towner/combat_towner3.ogg'
+
 	job_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_PER = 1,

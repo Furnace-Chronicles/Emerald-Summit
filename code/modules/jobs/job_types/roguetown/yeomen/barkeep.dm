@@ -20,6 +20,9 @@
 	max_pq = null
 	round_contrib_points = 3
 	cmode_music = 'sound/music/cmode/towner/combat_retired.ogg'
+
+	job_traits = list(TRAIT_MEDIUMARMOR, TRAIT_TAVERN_FIGHTER, TRAIT_EMPATH, TRAIT_DODGEEXPERT, TRAIT_CICERONE)
+
 	job_stats = list(
 		STATAKEY_STR = 1,
 		STATKEY_WIL = 1,
@@ -65,8 +68,3 @@
 		/obj/item/recipe_book/survival,
 		/obj/item/bottle_kit
 	)
-	ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_TAVERN_FIGHTER, TRAIT_GENERIC)

@@ -16,6 +16,9 @@
 	min_pq = 5 // Now has actual responsibility and is a key figure in town.
 	max_pq = null
 	round_contrib_points = 3
+
+	job_traits = list(TRAIT_INTELLECTUAL, TRAIT_ARCYNE_T1, TRAIT_MAGEARMOR, TRAIT_SEEPRICES_SHITTY)
+
 	job_stats = list(
 		STATKEY_WIL = 3,
 		STATKEY_INT = 3,
@@ -62,10 +65,6 @@
 	H.grant_language(/datum/language/kazengunese)
 	H.grant_language(/datum/language/draconic)
 	H.grant_language(/datum/language/aavnic) // All but beast, which is associated with werewolves.
-	ADD_TRAIT(H, TRAIT_SEEPRICES_SHITTY, "[type]")
-	ADD_TRAIT(H, TRAIT_INTELLECTUAL, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
 	if (H && H.mind)
 		H.mind.adjust_spellpoints(6)
 	if(H.age == AGE_OLD)

@@ -440,7 +440,14 @@
 	display_order = JDO_MARTYR
 	give_bank_account = TRUE
 	cmode_music = 'sound/music/combat_martyrsafe.ogg'
-
+	job_traits = list(
+		TRAIT_HEAVYARMOR,
+		TRAIT_STEELHEARTED,
+		TRAIT_SILVER_BLESSED,
+		TRAIT_EMPATH,
+		TRAIT_MEDICINE_EXPERT,
+		TRAIT_DUALWIELDER
+	)
 	job_stats = list(
 		STATKEY_CON = 3,
 		STATKEY_WIL = 3,
@@ -488,11 +495,7 @@
 	H.adjust_skillrank(/datum/skill/craft/cooking, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/sneaking, 1, TRUE)
-	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_SILVER_BLESSED, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)	//You can't dual wield the unique weapon, this is more to cover for the NODROP weapon that might end up in an off-hand.
+	H.grant_language(/datum/language/grenzelhoftian)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 
 

@@ -62,8 +62,6 @@
 	var/paycheck = PAYCHECK_MINIMAL
 	var/paycheck_department = ACCOUNT_CIV
 
-	var/list/mind_traits // Traits added to the mind of the mob assigned this job
-
 	var/display_order = JOB_DISPLAY_ORDER_DEFAULT
 
 	//allowed sex/race for picking
@@ -150,6 +148,9 @@
 	///The job's stats
 	var/list/job_stats
 
+	///The job's traits, best used SEPARATELY from subclass traits for your own sanity.
+	var/list/job_traits
+
 	///The job's subclasses, if any. Overrides job_stats if present.
 	var/list/job_subclasses
 
@@ -186,9 +187,9 @@
 	SHOULD_CALL_PARENT(TRUE)
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_JOB_AFTER_SPAWN, src)
 	//do actions on H but send messages to M as the key may not have been transferred_yet
-	if(mind_traits)
-		for(var/t in mind_traits)
-			ADD_TRAIT(H.mind, t, JOB_TRAIT)
+	if(job_traits)
+		for(var/trait in job_traits)
+			ADD_TRAIT(H, trait, JOB_TRAIT)
 
 	if(!ishuman(H))
 		return
@@ -484,6 +485,11 @@
 					dat += "["[capitalize(stat)]: <b>\Roman[stat_ceilings[stat]]</b>"] | "
 				dat += "<br><i>Regardless of your statpacks or race choice, you will not be able to exceed these stats on spawn.</i></font>"
 				dat += "</font>"	//Ends the stat limit colors
+		if(length(job_traits))
+			dat += "<br><font color ='#ccbb82'>This class gains the following traits: "
+			for(var/trait in job_traits)
+				dat += "<br><b>[trait]</b>"
+			dat += "</font>"
 		if(istype(src,/datum/job/roguetown/jester))
 			dat += "<font color = '#d151ab'><center>Come one, come all, where Psydon Lies! <br>Let Xylix roll the dice, <br>unto our untimely demise! <br>Ahahaha!</center>"
 			dat += "<center><b><font size = 4>STR: ???</b><br>"

@@ -17,6 +17,9 @@
 	bypass_lastclass = TRUE
 	round_contrib_points = 3
 	cmode_music = 'sound/music/cmode/nobility/combat_spymaster.ogg'
+
+	job_traits = list(TRAIT_SEEPRICES_SHITTY, TRAIT_CICERONE, TRAIT_NUTCRACKER, TRAIT_GOODLOVER)
+
 	job_stats = list(
 		STATKEY_WIL = 2,
 		STATKEY_STR = 1,
@@ -38,10 +41,6 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry = 2, /obj/item/reagent_containers/powder/moondust = 2, /obj/item/reagent_containers/powder/spice = 1)
 	H.grant_language(/datum/language/thievescant)
-	ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_SEEPRICES_SHITTY, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_NUTCRACKER, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/whipsflails, 3, TRUE)
