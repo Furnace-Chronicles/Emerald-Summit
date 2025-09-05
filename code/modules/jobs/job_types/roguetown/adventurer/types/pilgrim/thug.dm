@@ -136,11 +136,12 @@
 			H.real_name = "[prefix] [prev_real_name]"
 			H.name = "[prefix] [prev_name]"
 
-			for(var/X in peopleknowme)
-				for(var/datum/mind/MF in get_minds(X))
-					if(MF.known_people)
-						MF.known_people -= prev_real_name
-						H.mind.person_knows_me(MF)
+	for(var/X in peopleknowme)
+		for(var/datum/mind/MF in get_minds(X))
+			if(MF.known_people)
+				if(prev_name)
+					MF.known_people -= prev_real_name
+					H.mind.person_knows_me(MF)
 
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
