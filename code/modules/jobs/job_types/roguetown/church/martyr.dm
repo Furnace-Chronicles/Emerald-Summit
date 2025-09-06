@@ -522,7 +522,7 @@
 	thrown_bclass = BCLASS_CUT
 	dropshrink = 1
 	smeltresult = /obj/item/ingot/gold
-	is_silver = FALSE
+	is_silver = TRUE
 	toggle_state = null
 	is_important = TRUE
 
