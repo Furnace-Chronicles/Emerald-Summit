@@ -28,7 +28,8 @@
 						/obj/item/recipe_book/alchemy = 1,
 						/obj/item/recipe_book/survival = 1,
 						/obj/item/recipe_book/magic = 1,
-						/obj/item/chalk = 1
+						/obj/item/chalk = 1,
+						/obj/item/ritechalk = 1
 						)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/crow)
@@ -55,7 +56,7 @@
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 1)
 		H.change_stat("fortune", 1)
-		
+
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo,
 	  		/datum/patron/inhumen/matthios,
