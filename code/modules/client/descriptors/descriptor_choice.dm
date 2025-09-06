@@ -153,6 +153,7 @@
 		/datum/mob_descriptor/stature/creep,
 		/datum/mob_descriptor/stature/freek,
 		/datum/mob_descriptor/stature/weerdoe,
+		/datum/mob_descriptor/stature/creacher,
 	)
 
 /datum/descriptor_choice/voice

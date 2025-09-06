@@ -183,3 +183,6 @@
 
 /datum/mob_descriptor/stature/weerdoe
 	name = "Weerdoe"
+
+/datum/mob_descriptor/stature/creacher
+	name = "Creacher"
