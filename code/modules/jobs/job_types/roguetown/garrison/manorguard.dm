@@ -141,6 +141,7 @@
 		STATKEY_PER = 2,
 		STATKEY_WIL = 1
 	)
+	extra_context = "Chooses between Light Armor (Dodge Expert) & Medium Armor."
 
 /datum/outfit/job/roguetown/manorguard/skirmisher/pre_equip(mob/living/carbon/human/H)
 	..()

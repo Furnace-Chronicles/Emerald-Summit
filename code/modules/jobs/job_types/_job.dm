@@ -450,21 +450,21 @@
 				dat += "<details><summary><b><font color ='#ece9e9'>[adv_ref.name]</font></b></summary>"
 				dat += "<table align='center'; width='100%'; height='100%';border: 1px solid white;border-collapse: collapse>"
 				dat += "<tr style='vertical-align:top'>"
-				dat += "<td width = 60%><i><font color ='#ece9e9'>[adv_ref.tutorial]</font></i></td>"
-				dat += "<td width = 40%>"
+				dat += "<td width = 70%><i><font color ='#ece9e9'>[adv_ref.tutorial]</font></i></td>"
+				dat += "<td width = 30%; style='text-align:right'>"
 				if(length(adv_ref.subclass_stats))
 					dat += "<font color ='#7a4d0a'>Stat Bonuses:</font><font color ='#d4b164'>"
 					for(var/stat in adv_ref.subclass_stats)
 						dat += "<br>[capitalize(stat)]: <b>[adv_ref.subclass_stats[stat] < 0 ? "<font color = '#cf2a2a'>" : "<font color = '#91cf68'>"]\Roman[adv_ref.subclass_stats[stat]]</font></b>"
-				dat += "</td></tr></table></font>"
+				dat += "<br></td></tr></table></font>"
 				if(length(adv_ref.adv_stat_ceiling))
-					dat += "["<font color = '#cf2a2a'><br><b>This subclass has the following stat limits: "]</b></font><br>"
+					dat += "["<font color = '#cf2a2a'><b>This subclass has the following stat limits: "]</b></font><br>"
 					dat += " | "
 					for(var/stat in adv_ref.adv_stat_ceiling)
 						dat += "["[capitalize(stat)]: <b>\Roman[adv_ref.adv_stat_ceiling[stat]]</b>"] | "
 					dat += "<i><br>Regardless of your statpacks or race choice, you will not be able to exceed these stats on spawn.</i></font>"
 				if(length(adv_ref.traits_applied))
-					dat += "<br><font color ='#ccbb82'>This <font color ='#d6d6d6'>sub</font>class gains the following traits:</font> "
+					dat += "<font color ='#ccbb82'>This <font color ='#d6d6d6'>sub</font>class gains the following traits:</font> "
 					for(var/trait in adv_ref.traits_applied)
 						dat += "<details><summary><i><font color ='#ccbb82'>[trait]</font></i></summary>"
 						dat += "<i><font color = '#a3ffe0'>[GLOB.roguetraits[trait]]</font></i></details>"
@@ -503,7 +503,7 @@
 		var/height = 400
 		if(sclass_count >= 10)
 			height = 800
-		var/datum/browser/popup = new(usr, "Class Help", nwidth = 400, nheight = height)
+		var/datum/browser/popup = new(usr, "Class Help", nwidth = 425, nheight = height)
 		popup.set_content(dat.Join())
 		popup.open(FALSE)
 	. = ..()
