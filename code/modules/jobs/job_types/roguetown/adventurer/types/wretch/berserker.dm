@@ -5,7 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/wretch/berserker
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_STRONGBITE, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_OUTLAW, TRAIT_HERESIARCH)
+	traits_applied = list(TRAIT_STRONGBITE, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
 	// Literally same stat spread as Atgervi Shaman
 	subclass_stats = list(
 		STATKEY_STR = 3,

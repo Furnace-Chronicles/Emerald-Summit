@@ -5,7 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/wretch/outlaw
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_DODGEEXPERT, TRAIT_OUTLAW, TRAIT_HERESIARCH)
+	traits_applied = list(TRAIT_DODGEEXPERT)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_WIL = 2,

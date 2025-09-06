@@ -6,7 +6,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/wretch/hedgemage
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_MAGEARMOR, TRAIT_OUTLAW, TRAIT_ARCYNE_T3, TRAIT_HERESIARCH)
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3)
 	// Same stat spread as necromancer, same reasoning
 	subclass_stats = list(
 		STATKEY_INT = 4,

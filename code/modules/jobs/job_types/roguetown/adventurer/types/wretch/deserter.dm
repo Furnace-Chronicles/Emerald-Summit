@@ -6,7 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/wretch/deserter
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_OUTLAW, TRAIT_HERESIARCH, TRAIT_HEAVYARMOR, TRAIT_NOBLE)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_NOBLE)
 	maximum_possible_slots = 2 //Ideal role for fraggers. Better to limit it. 
 	
 	cmode_music = 'sound/music/cmode/antag/combat_thewall.ogg' // same as new hedgeknight music
@@ -133,7 +133,7 @@
 	
 	cmode_music = 'sound/music/cmode/antag/combat_thewall.ogg' // same as new hedgeknight music
 	// Slightly more rounded. These can be nudged as needed.
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_OUTLAW, TRAIT_HERESIARCH, TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_WIL = 2,
