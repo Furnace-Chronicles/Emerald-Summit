@@ -4,7 +4,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/ranger
-	traits_applied = list(TRAIT_OUTLANDER, TRAIT_DODGEEXPERT, TRAIT_OUTDOORSMAN)
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_OUTDOORSMAN)
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	subclass_stats = list(
 		STATKEY_PER = 3,
@@ -66,7 +66,7 @@
 	name = "Assassin"
 	tutorial = "You've lived the life of a hired killer and have spent your time training with blades and crossbows alike."
 	outfit = /datum/outfit/job/roguetown/adventurer/assassin
-	traits_applied = list(TRAIT_OUTLANDER, TRAIT_DODGEEXPERT)
+	traits_applied = list(TRAIT_DODGEEXPERT)
 	subclass_stats = list(
 		STATKEY_PER = 2,
 		STATKEY_SPD = 2,
@@ -114,7 +114,7 @@
 	name = "Bombadier"
 	tutorial = "Bombs? You've got them. Plenty of them - and the skills to make more. You've spent years training under skilled alchemists and have found the perfect mix to create some chaos - now go blow something up!"
 	outfit = /datum/outfit/job/roguetown/adventurer/bombadier
-	traits_applied = list(TRAIT_OUTLANDER, TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_INT = 2,
@@ -158,7 +158,7 @@
 	name = "Biome Wanderer"
 	tutorial = "The dangers of the wilds vary upon the plains they rest upon, You happen to be experienced in many."
 	outfit = /datum/outfit/job/roguetown/adventurer/bwanderer
-	traits_applied = list(TRAIT_OUTLANDER, TRAIT_OUTDOORSMAN)
+	traits_applied = list(TRAIT_OUTDOORSMAN)
 	subclass_stats = list(
 		STATKEY_PER = 2,
 		STATKEY_WIL = 2,

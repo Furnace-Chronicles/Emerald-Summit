@@ -500,9 +500,9 @@
 			dat += "<center><b><font size = 4>STR: ???</b><br>"
 			dat += "<b>INT: ???</b><br>"
 			dat += "<b>FOR: ???</b><br></center></font>"
-		var/height = 400
+		var/height = 500
 		if(sclass_count >= 10)
-			height = 800
+			height = 925
 		var/datum/browser/popup = new(usr, "Class Help", nwidth = 425, nheight = height)
 		popup.set_content(dat.Join())
 		popup.open(FALSE)

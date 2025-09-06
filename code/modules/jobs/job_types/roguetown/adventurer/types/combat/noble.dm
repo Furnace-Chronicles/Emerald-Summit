@@ -4,7 +4,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_GOLEM
 	outfit = /datum/outfit/job/roguetown/adventurer/noble
-	traits_applied = list(TRAIT_OUTLANDER, TRAIT_NOBLE)
+	traits_applied = list(TRAIT_NOBLE)
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 
 	cmode_music = 'sound/music/combat_knight.ogg'
@@ -52,7 +52,7 @@
 	name = "Knight Errant"
 	tutorial = "You are a knight from a distant land, a scion of a noble house visiting Azuria for one reason or another."
 	outfit = /datum/outfit/job/roguetown/adventurer/knighte
-	traits_applied = list(TRAIT_OUTLANDER, TRAIT_NOBLE, TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 1,
@@ -153,7 +153,7 @@
 	name = "Squire Errant"
 	tutorial = "You are a squire who has traveled far in search of a master to train you and a lord to knight you."
 	outfit = /datum/outfit/job/roguetown/adventurer/squire
-	traits_applied = list(TRAIT_OUTLANDER, TRAIT_SQUIRE_REPAIR)
+	traits_applied = list(TRAIT_SQUIRE_REPAIR)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_STR = 1,

@@ -32,7 +32,8 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 	job_reopens_slots_on_death = TRUE
 	same_job_respawn_delay = 1 MINUTES
 
-	cmode_music = 'sound/music/combat.ogg'
+	cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
+	job_traits = list(TRAIT_OUTLANDER)
 
 	job_subclasses = list(
 		/datum/advclass/cleric,
