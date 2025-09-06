@@ -54,7 +54,6 @@
 			if(istype(target, /obj/structure/well/fountain/mana) || istype(target, /turf/open/lava))
 				if(gather_thing(target, user))
 					handle_cost(user, PRESTI_CLEAN)
-					return
 			else if(clean_thing(target, user))
 				handle_cost(user, PRESTI_CLEAN)
 		if (INTENT_DISARM) // Snap your fingers and produce a spark
