@@ -15,6 +15,8 @@
 		Now you serve in the Duke's court ensuring the good health of those inhabiting the keep."
 	outfit = /datum/outfit/job/roguetown/physician
 	whitelist_req = TRUE
+	advclass_cat_rolls = list(CTAG_COURTPHYS = 2)
+
 	give_bank_account = 30
 	min_pq = 3 //Please don't kill the duke by operating on strong intent. Play apothecary until you're deserving of the great white beak of doom
 	max_pq = null
@@ -22,8 +24,28 @@
 	cmode_music = 'sound/music/combat_physician.ogg'
 
 	job_traits = list(TRAIT_MEDICINE_EXPERT, TRAIT_NOSTINK, TRAIT_EMPATH)
+	job_subclasses = list(
+		/datum/advclass/physician
+	)
 
-	job_stats = list(
+/datum/job/roguetown/physician/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		H.advsetup = 1
+		H.invisibility = INVISIBILITY_MAXIMUM
+		H.become_blind("advsetup")
+
+/datum/advclass/physician
+	name = "Court Physician"
+	tutorial = "You were a child born into good wealth--but poor health. \
+		Perhaps in another life, you would have turned out to be a powerful mage, wise archivist or a shrewd steward, \
+		but leprosy took away your younger years. \
+		Out of desperation, you followed the ways of Pestra and managed to be cured. \
+		Now you serve in the Duke's court ensuring the good health of those inhabiting the keep."
+	outfit = /datum/outfit/job/roguetown/physician/basic
+	category_tags = list(CTAG_COURTPHYS)
+	subclass_stats = list(
 		STATKEY_INT = 4,
 		STATKEY_WIL = 1,
 		STATKEY_LCK = 1,
@@ -39,8 +61,9 @@
 	name = "Physician"
 	jobtype = /datum/job/roguetown/physician
 
-/datum/outfit/job/roguetown/physician/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/physician/basic/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.adjust_blindness(-3)
 	head = /obj/item/clothing/head/roguetown/physician
 	mask = /obj/item/clothing/mask/rogue/physician
 	neck = /obj/item/clothing/neck/roguetown/psicross/pestra

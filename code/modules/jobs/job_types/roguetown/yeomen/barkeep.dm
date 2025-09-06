@@ -23,15 +23,35 @@
 
 	job_traits = list(TRAIT_MEDIUMARMOR, TRAIT_TAVERN_FIGHTER, TRAIT_EMPATH, TRAIT_DODGEEXPERT, TRAIT_CICERONE)
 
-	job_stats = list(
+	advclass_cat_rolls = list(CTAG_INNKEEPER = 2)
+	job_subclasses = list(
+		/datum/advclass/barkeep
+	)
+
+/datum/job/roguetown/barkeep/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		H.advsetup = 1
+		H.invisibility = INVISIBILITY_MAXIMUM
+		H.become_blind("advsetup")
+
+/datum/advclass/barkeep
+	name = "Innkeeper"
+	tutorial = "Adventurers and warriors alike have two exit plans; the early grave or even earlier retirement. As the proud owner of this fine establishment, you took the latter: The Azurian Pint, tavern, inn, and bathhouse! You even have an assortment of staff to help you, and plenty of business from the famished townsfolk looking to eat, weary travelers looking to rest, and characters of dubious repute seeking their own sort of success. Your bladework has gotten a little rusty, and the church across the street gives you the odd evil eye for the extra 'delights' of the bathhouse--but, well...you can't win 'em all!"
+	outfit = /datum/outfit/job/roguetown/barkeep/basic
+	category_tags = list(CTAG_INNKEEPER)
+	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_WIL = 1,
 		STATKEY_CON = 1,
 		STATKEY_INT = 1,
 		STATKEY_SPD = 1
 	)
-/datum/outfit/job/roguetown/barkeep/pre_equip(mob/living/carbon/human/H)
+	
+/datum/outfit/job/roguetown/barkeep/basic/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.adjust_blindness(-3)
 	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)

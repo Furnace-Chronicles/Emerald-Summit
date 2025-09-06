@@ -22,14 +22,36 @@
 
 	job_traits = list(TRAIT_SEEPRICES, TRAIT_CICERONE)
 
-	job_stats = list(
+	advclass_cat_rolls = list(CTAG_MERCH = 2)
+	job_subclasses = list(
+		/datum/advclass/merchant
+	)
+
+/datum/job/roguetown/merchant/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		H.advsetup = 1
+		H.invisibility = INVISIBILITY_MAXIMUM
+		H.become_blind("advsetup")
+
+/datum/advclass/merchant
+	name = "Merchant"
+	tutorial = "You were born into wealth, learning from before you could talk about the basics of mathematics. \
+	Counting coins is a simple pleasure for any person, but you've made it an art form. \
+	These people are addicted to your wares, and you are the literal beating heart of this economy: \
+	Don't let these filth-covered troglodytes ever forget that."
+	outfit = /datum/outfit/job/roguetown/merchant/basic
+	category_tags = list(CTAG_MERCH)
+	subclass_stats = list(
 		STATKEY_PER = 3,
 		STATKEY_INT = 2,
 		STATKEY_STR = -1
 	)
 
-/datum/outfit/job/roguetown/merchant/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/merchant/basic/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.adjust_blindness(-3)
 	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/crossbows, 2, TRUE)

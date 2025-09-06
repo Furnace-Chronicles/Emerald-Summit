@@ -23,14 +23,26 @@
 	min_pq = 4 //High potential for abuse, lovepotion/killersice/greater fireball is not for the faint of heart
 	max_pq = null
 	round_contrib_points = 2
-	cmode_music = 'sound/music/combat_bandit_mage.ogg'
+	cmode_music = 'sound/music/cmode/nobility/combat_courtmage.ogg'
+	advclass_cat_rolls = list(CTAG_COURTMAGE = 2)
 
 	// Can't get very far as a magician if you can't chant spells now can you?
 	vice_restrictions = list(/datum/charflaw/mute)
 
 	job_traits = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T4, TRAIT_SEEPRICES, TRAIT_INTELLECTUAL)
+	job_subclasses = list(
+		/datum/advclass/courtmage
+	)
 
-	job_stats = list(
+/datum/advclass/courtmage
+	name = "Court Magician"
+	tutorial = "Your creed is one dedicated to the conquering of the arcane arts and the constant thrill of knowledge. \
+		You owe your life to the Lord, for it was his coin that allowed you to continue your studies in these dark times. \
+		In return, you have proven time and time again as justicar and trusted advisor to their reign."
+	outfit = /datum/outfit/job/roguetown/magician/basic
+
+	category_tags = list(CTAG_COURTMAGE)
+	subclass_stats = list(
 		STATKEY_INT = 5,// Automatic advanced magic for most spells. (I.E summon weapon being upgraded to steel from iron/etc)
 		STATKEY_PER = 3,
 		STATKEY_LCK = 1,// Leadership carrot, stats weight lower than usual leadership weight due to having T4 magic.
@@ -41,8 +53,17 @@
 /datum/outfit/job/roguetown/magician
 	job_bitflag = BITFLAG_ROYALTY
 
-/datum/outfit/job/roguetown/magician/pre_equip(mob/living/carbon/human/H)
+/datum/job/roguetown/magician/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		H.advsetup = 1
+		H.invisibility = INVISIBILITY_MAXIMUM
+		H.become_blind("advsetup")
+
+/datum/outfit/job/roguetown/magician/basic/pre_equip(mob/living/carbon/human/H)
+	..()
+	H.adjust_blindness(-3)
 	neck = /obj/item/clothing/neck/roguetown/talkstone
 	cloak = /obj/item/clothing/cloak/black_cloak
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/black

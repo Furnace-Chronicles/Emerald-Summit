@@ -26,19 +26,42 @@
 	//You're.. not REALLY a full-on church member, but being a druid implies you became a clergy-man of some sort; even if it's non-organized. So, still shouldn't be noble.
 	virtue_restrictions = list(/datum/virtue/utility/noble)
 	job_traits = list(TRAIT_SEEDKNOW, TRAIT_OUTDOORSMAN, TRAIT_RITUALIST)
-	job_stats = list(
+
+	advclass_cat_rolls = list(CTAG_DRUID = 2)
+	job_subclasses = list(
+		/datum/advclass/druid
+	)
+
+/datum/job/roguetown/druid/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		H.advsetup = 1
+		H.invisibility = INVISIBILITY_MAXIMUM
+		H.become_blind("advsetup")
+
+/datum/advclass/druid
+	name = "Druid"
+	tutorial = "You have always been drawn to the wild, and the wild drawn to you. When your calling came, it was from Dendor. \
+	Your patron claims dominion over all nature--promising bounties to those who act in his name to bring balance to His domain. \
+	The forest is the most comfortable place for you, toiling alongside soilsons and soilbrides...although sometimes what lies beyond the gates fills your soul with a feral yearning."
+	outfit = /datum/outfit/job/roguetown/druid/basic
+	category_tags = list(CTAG_DRUID)
+	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_WIL = 2,
 		STATKEY_SPD = 1,
 		STATKEY_PER = -1
 	)
+
 /datum/outfit/job/roguetown/druid
 	name = "Druid"
 	jobtype = /datum/job/roguetown/druid
 	allowed_patrons = list(/datum/patron/divine/dendor)
 
-/datum/outfit/job/roguetown/druid/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/druid/basic/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.adjust_blindness(-3)
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	beltr = /obj/item/flashlight/flare/torch/lantern

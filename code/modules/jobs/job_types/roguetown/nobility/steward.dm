@@ -17,9 +17,28 @@
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_noble.ogg'
 
-	job_traits = list(TRAIT_NOBLE, TRAIT_SEEPRICES)
+	advclass_cat_rolls = list(CTAG_STEWARD = 2)
 
-	job_stats = list(
+	job_traits = list(TRAIT_NOBLE, TRAIT_SEEPRICES)
+	job_subclasses = list(
+		/datum/advclass/steward
+	)
+
+/datum/job/roguetown/steward/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		H.advsetup = 1
+		H.invisibility = INVISIBILITY_MAXIMUM
+		H.become_blind("advsetup")
+
+/datum/advclass/steward
+	name = "Steward"
+	tutorial = "Coin, Coin, Coin! Oh beautiful coin: You're addicted to it, and you hold the position as the Grand Duke's personal treasurer of both coin and information. You know the power silver and gold has on a man's mortal soul, and you know just what lengths they'll go to in order to get even more. Keep your festering economy alive- for it is the only thing you can weigh any trust into anymore."
+	outfit = /datum/outfit/job/roguetown/steward/basic
+
+	category_tags = list(CTAG_STEWARD)
+	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_PER = 2,
 		STATKEY_SPD = -1
@@ -28,8 +47,9 @@
 /datum/outfit/job/roguetown/steward
 	job_bitflag = BITFLAG_ROYALTY
 
-/datum/outfit/job/roguetown/steward/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/steward/basic/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.adjust_blindness(-3)
 	if(should_wear_femme_clothes(H))
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/steward
 	else if(should_wear_masc_clothes(H))

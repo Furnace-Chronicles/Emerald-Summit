@@ -440,7 +440,7 @@
 		var/list/dat = list()
 		var/sclass_count = 0
 		if(length(job_subclasses) && length(job_stats))
-			CRASH("[src] has definitions for both class and subclass stats. They will stack unintentionally!")
+			CRASH("[REF(src)] has definitions for both class and subclass stats. Likely not intended, and they will stack!")
 		if(length(job_subclasses))
 			dat += "This class has the following subclasses: "
 			for(var/sclass in job_subclasses)
@@ -458,17 +458,18 @@
 						dat += "<br>[capitalize(stat)]: <b>[adv_ref.subclass_stats[stat] < 0 ? "<font color = '#cf2a2a'>" : "<font color = '#91cf68'>"]\Roman[adv_ref.subclass_stats[stat]]</font></b>"
 				dat += "</td></tr></table></font>"
 				if(length(adv_ref.adv_stat_ceiling))
-					dat += "["<font color = '#cf2a2a'><br><b>This subclass has the following stat limits: "]<br>"
+					dat += "["<font color = '#cf2a2a'><br><b>This subclass has the following stat limits: "]</b></font><br>"
 					dat += " | "
 					for(var/stat in adv_ref.adv_stat_ceiling)
 						dat += "["[capitalize(stat)]: <b>\Roman[adv_ref.adv_stat_ceiling[stat]]</b>"] | "
 					dat += "<i><br>Regardless of your statpacks or race choice, you will not be able to exceed these stats on spawn.</i></font>"
 				if(length(adv_ref.traits_applied))
-					dat += "<br><font color ='#ccbb82'>This subclass gains the following traits:</font> "
+					dat += "<br><font color ='#ccbb82'>This <font color ='#d6d6d6'>sub</font>class gains the following traits:</font> "
 					for(var/trait in adv_ref.traits_applied)
-						dat += "<details><summary><b><font color ='#ccbb82'>[trait]</font></b></summary>"
+						dat += "<details><summary><i><font color ='#ccbb82'>[trait]</font></i></summary>"
 						dat += "<i><font color = '#a3ffe0'>[GLOB.roguetraits[trait]]</font></i></details>"
 					dat += "</font>"
+					dat += "<br>"
 				if(adv_ref.extra_context)
 					dat += "<br><font color ='#a06c1e'>[adv_ref.extra_context]"
 					dat += "</font></details>"
@@ -487,9 +488,9 @@
 				dat += "<br><i>Regardless of your statpacks or race choice, you will not be able to exceed these stats on spawn.</i></font>"
 				dat += "</font>"	//Ends the stat limit colors
 		if(length(job_traits))
-			dat += "<br><font color ='#ccbb82'>This class gains the following traits:</font> "
+			dat += "<br><font color ='#ccbb82'>This <font color ='#d6d6d6'>class</font> gains the following traits:</font> "
 			for(var/trait in job_traits)
-				dat += "<details><summary><b><font color ='#ccbb82'>[trait]</font></b></summary>"
+				dat += "<details><summary><i><font color ='#ccbb82'>[trait]</font></i></summary>"
 				dat += "<i><font color = '#a3ffe0'>[GLOB.roguetraits[trait]]</font></i></details>"
 			dat += "</font>"
 		dat += "<br><i>This information is not all-encompassing. Many classes have other quirks and skills that define them.</i>"

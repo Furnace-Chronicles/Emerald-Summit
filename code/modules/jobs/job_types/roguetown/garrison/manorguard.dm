@@ -13,6 +13,7 @@
 	)
 	allowed_patrons = ALL_PATRONS
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
+	job_traits = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED)
 	tutorial = "Having proven yourself loyal and capable, you are entrusted to defend the town and enforce its laws. \
 				Trained regularly in combat and siege warfare, you deal with threats - both within and without. \
 				Obey your Sergeant-at-Arms, the Marshal, and the Crown. Show the nobles and knights your respect, so that you may earn it in turn. Not as a commoner, but as a soldier.."
@@ -67,7 +68,7 @@
 	outfit = /datum/outfit/job/roguetown/manorguard/footsman
 
 	category_tags = list(CTAG_MENATARMS)
-	traits_applied = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 2,// seems kinda lame but remember guardsman bonus!!
 		STATKEY_INT = 1,
@@ -134,7 +135,6 @@
 	outfit = /datum/outfit/job/roguetown/manorguard/skirmisher
 
 	category_tags = list(CTAG_MENATARMS)
-	traits_applied = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED)
 	//Garrison ranged/speed class. Time to go wild
 	subclass_stats = list(
 		STATKEY_SPD = 2,// seems kinda lame but remember guardsman bonus!!
@@ -201,7 +201,7 @@
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled //Since knights start with the Buck
 
 	category_tags = list(CTAG_MENATARMS)
-	traits_applied = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_MEDIUMARMOR)
 	//Garrison mounted class; charge and charge often.
 	subclass_stats = list(
 		STATKEY_CON = 2,// seems kinda lame but remember guardsman bonus!!

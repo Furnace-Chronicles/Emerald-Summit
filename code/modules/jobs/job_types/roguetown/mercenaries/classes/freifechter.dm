@@ -5,7 +5,6 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/mercenary/freelancer
 	category_tags = list(CTAG_MERCENARY)
-	traits_applied = list(TRAIT_OUTLANDER)
 	cmode_music = 'sound/music/combat_noble.ogg'
 	traits_applied = list(TRAIT_BADTRAINER)
 	//To give you an edge in specialty moves like feints and stop you from being feinted

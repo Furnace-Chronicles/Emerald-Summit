@@ -19,16 +19,36 @@
 	cmode_music = 'sound/music/cmode/towner/combat_towner.ogg'
 	
 	job_traits = list(TRAIT_CICERONE)
-	//5 points (weighted)
-	job_stats = list(
+
+	advclass_cat_rolls = list(CTAG_TAPSTER = 2)
+	job_subclasses = list(
+		/datum/advclass/tapster
+	)
+
+/datum/job/roguetown/knavewench/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		H.advsetup = 1
+		H.invisibility = INVISIBILITY_MAXIMUM
+		H.become_blind("advsetup")
+
+/datum/advclass/tapster
+	name = "Tapster"
+	tutorial = "You have a simple role at the Azurian Pint; please. You wait tables and help guests, clean the rooms, grow and brew more drink, and assist in the kitchens as need be. Bring a smile to the masses--and those cheapsake townsfolk and adventures might just give you an extra coin...assuming you've not already pilfered their pouch while they're in a drunken stupor off your latest brew."
+	outfit = /datum/outfit/job/roguetown/knavewench/basic
+	category_tags = list(CTAG_TAPSTER)
+	// 5 points weighted
+	subclass_stats = list(
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 		STATKEY_INT = 1,
 		STATKEY_SPD = 1
 	)
-	
-/datum/outfit/job/roguetown/knavewench/pre_equip(mob/living/carbon/human/H)
+
+/datum/outfit/job/roguetown/knavewench/basic/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.adjust_blindness(-3)
 	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)

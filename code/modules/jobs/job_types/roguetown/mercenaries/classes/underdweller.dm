@@ -12,7 +12,7 @@
 	)
 	outfit = /datum/outfit/job/roguetown/mercenary/underdweller
 	category_tags = list(CTAG_MERCENARY)
-	traits_applied = list(TRAIT_OUTLANDER, TRAIT_MEDIUMARMOR, TRAIT_WEBWALK)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_WEBWALK)
 	subclass_stats = list(
 		STATKEY_CON = 2,
 		STATKEY_WIL = 2,

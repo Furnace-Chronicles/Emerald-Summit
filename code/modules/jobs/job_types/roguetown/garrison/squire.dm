@@ -12,6 +12,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT)
 	advclass_cat_rolls = list(CTAG_SQUIRE = 20)
+	job_traits = list(TRAIT_SQUIRE_REPAIR)
 
 	tutorial = "Your folks said you were going to be something, they had better aspirations for you than the life of a peasant. You practiced the basics \
 		in the field alongside your friends, swordfighting with sticks, chasing rabbits with grain flail, and helping around the house lifting heavy \
@@ -65,7 +66,7 @@
 	outfit = /datum/outfit/job/roguetown/squire/lancer
 		
 	category_tags = list(CTAG_SQUIRE)
-	traits_applied = list(TRAIT_SQUIRE_REPAIR, TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_SPD = 1,
@@ -101,7 +102,7 @@
 	outfit = /datum/outfit/job/roguetown/squire/footman
 		
 	category_tags = list(CTAG_SQUIRE)
-	traits_applied = list(TRAIT_SQUIRE_REPAIR, TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_SPD = 1,
@@ -146,7 +147,7 @@
 	outfit = /datum/outfit/job/roguetown/squire/skirmisher
 		
 	category_tags = list(CTAG_SQUIRE)
-	traits_applied = list(TRAIT_SQUIRE_REPAIR, TRAIT_DODGEEXPERT)
+	traits_applied = list(TRAIT_DODGEEXPERT)
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_PER = 1,

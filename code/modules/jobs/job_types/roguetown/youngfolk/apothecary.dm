@@ -16,15 +16,33 @@
 	max_pq = null
 	round_contrib_points = 5
 
+	advclass_cat_rolls = list(CTAG_APOTH = 2)
 	job_traits = list(TRAIT_MEDICINE_EXPERT, TRAIT_NOSTINK, TRAIT_EMPATH)
+	job_subclasses = list(
+		/datum/advclass/apothecary
+	)
 
-	job_stats = list(
+/datum/job/roguetown/apothecary/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		H.advsetup = 1
+		H.invisibility = INVISIBILITY_MAXIMUM
+		H.become_blind("advsetup")
+
+/datum/advclass/apothecary
+	name = "Apothecary"
+	tutorial = "Working under the tutelage of the court physician, you still remain a mere apprentice in the medical arts. \
+	Woe is the one who has to suffer your hand holding the scalpel when your master is out."
+	outfit = /datum/outfit/job/roguetown/apothecary/basic
+	category_tags = list(CTAG_APOTH)
+	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 2,
 	)
-
-/datum/outfit/job/roguetown/apothecary/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/apothecary/basic/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.adjust_blindness(-3)
 	head = /obj/item/clothing/head/roguetown/roguehood/black
 	pants = /obj/item/clothing/under/roguetown/trou/apothecary
 	shirt = /obj/item/clothing/suit/roguetown/shirt/apothshirt

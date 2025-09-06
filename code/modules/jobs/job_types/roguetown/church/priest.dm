@@ -34,9 +34,29 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts.
 	virtue_restrictions = list(/datum/virtue/utility/noble)
 	job_traits = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_GRAVEROBBER)
-	job_stats = list(
-		STATKEY_INT = 3,
-		STATKEY_WIN = 1,
+	advclass_cat_rolls = list(CTAG_BISHOP = 2)
+	job_subclasses = list(
+		/datum/advclass/bishop
+	)
+
+/datum/job/roguetown/priest/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		H.advsetup = 1
+		H.invisibility = INVISIBILITY_MAXIMUM
+		H.become_blind("advsetup")
+
+/datum/advclass/bishop
+	name = "Bishop"
+	tutorial = "The Divine is all that matters in a world of the immoral. \
+	The Weeping God abandoned us, and in his stead the TEN rule over us mortals--and you will preach their wisdom to any who still heed their will. The faithless are growing in number. \
+	It is up to you to shepherd them toward a Gods-fearing future; for you are a Bishop of the Holy See."
+	outfit = /datum/outfit/job/roguetown/priest/basic
+	category_tags = list(CTAG_BISHOP)
+	subclass_stats = list(
+		STATKEY_INT = 4,
+		STATKEY_WIL = 2,
 		STATKEY_STR = -1,
 		STATKEY_CON = -1,
 		STATKEY_SPD = -1
@@ -46,9 +66,10 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	job_bitflag = BITFLAG_CHURCH
 	allowed_patrons = list(/datum/patron/divine/astrata)	//We lock this cus head of church, acktully
 
-/datum/outfit/job/roguetown/priest/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/priest/basic/pre_equip(mob/living/carbon/human/H)
 	..()
-	neck = /obj/item/clothing/neck/roguetown/psicross/astrata
+	H.adjust_blindness(-3)
+	neck = /obj/item/clothing/neck/roguetown/psicross/undivided
 	head = /obj/item/clothing/head/roguetown/priestmask
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
 	pants = /obj/item/clothing/under/roguetown/tights/black
@@ -89,7 +110,39 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	H.verbs |= /mob/living/carbon/human/proc/completesermon
 	H.verbs |= /mob/living/carbon/human/proc/change_miracle_set
 
-//	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)		- You are literally disinherited. Begone......
+/datum/outfit/job/roguetown/priest/basic/choose_loadout(mob/living/carbon/human/H)
+	. = ..()
+	var/t3_count = 2
+	var/list/t4 = list()
+	var/list/t3 = list()
+	for(var/path as anything in GLOB.patrons_by_faith[/datum/faith/divine])
+		var/datum/patron/patron = GLOB.patronlist[path]
+		if(!patron || !patron.name)
+			continue
+		for(var/miracle in patron.miracles)
+			var/obj/effect/proc_holder/checked_miracle = miracle
+			if(patron.miracles[checked_miracle] == CLERIC_T4 && (initial(checked_miracle.priest_excluded) == FALSE))
+				t4[initial(checked_miracle.name)] = checked_miracle
+			if(patron.miracles[checked_miracle] == CLERIC_T3 && (initial(checked_miracle.priest_excluded) == FALSE))
+				t3[initial(checked_miracle.name)] = checked_miracle
+	for(var/miracle in t4)
+		if(H.mind?.has_spell(t4[miracle]))
+			t4.Remove(miracle)
+	for(var/miracle in t3)
+		if(H.mind?.has_spell(t3[miracle]))
+			t3.Remove(miracle)
+	var/t4_choice = input(H,"Choose your Tier Four Miracle.", "TAKE UP KNAWLEDGE") as anything in t4
+	if(t4_choice)
+		var/obj/effect/proc_holder/chosen_miracle = t4[t4_choice]
+		H.mind?.AddSpell(new chosen_miracle)
+
+	for(var/i in 1 to t3_count)
+		var/t3_choice = input(H,"Choose your Tier Three Miracle.", "TAKE UP KNAWLEDGE ([t3_count] CHOICES REMAIN)") as anything in t3
+		if(t3_choice)
+			var/obj/effect/proc_holder/chosen_miracle = t3[t3_choice]
+			H.mind?.AddSpell(new chosen_miracle)
+			t3.Remove(t3_choice)
+			t3_count--
 
 /datum/job/priest/vice //just used to change the priest title
 	title = "Vice Priest"

@@ -27,14 +27,34 @@
 
 	job_traits = list(TRAIT_TRAINED_SMITH, TRAIT_SEEPRICES)
 
-	job_stats = list(
+	advclass_cat_rolls = list(CTAG_GUILDMASTER = 2)
+	job_subclasses = list(
+		/datum/advclass/guildmaster
+	)
+
+/datum/job/roguetown/guildmaster/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		H.advsetup = 1
+		H.invisibility = INVISIBILITY_MAXIMUM
+		H.become_blind("advsetup")
+
+/datum/advclass/guildmaster
+	name = "Guildmaster"
+	tutorial = "You are the leader of the Azure Peak Guild of Crafts. You represents the interests of all of the craftsmen underneath you - including the Tailor\
+	the Blacksmiths, the Artificers and the Architects. Other townspeople may look to you for guidance, but they are not under your control. You are an experienced smith and artificer, and can do their work easily. Protect the craftsmen's interests."  
+	outfit = /datum/outfit/job/roguetown/guildmaster/basic
+	category_tags = list(CTAG_GUILDSMASTER)
+	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 2,
 		STATKEY_WIL = 2,
 		STATKEY_INT = 1
 	)
 
-/datum/outfit/job/roguetown/guildmaster/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/guildmaster/basic/pre_equip(mob/living/carbon/human/H)
+	H.adjust_blindness(-3)
 	head = /obj/item/clothing/head/roguetown/chaperon/noble/guildmaster
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith
 	if(H.mind)

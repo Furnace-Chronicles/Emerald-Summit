@@ -17,17 +17,35 @@
 	min_pq = -10
 	max_pq = null
 	round_contrib_points = 2
+	advclass_cat_rolls = list(CTAG_CLERK = 2)
 
 	job_traits = list(TRAIT_SEEPRICES_SHITTY)
+	job_subclasses = list(
+		/datum/advclass/clerk
+	)
 
-	job_stats = list(
+
+/datum/advclass/clerk
+	name = "Clerk"
+	tutorial = "Clerk, tax-collector, blessed fool. You help the Steward with anything they need and perform their tasks when they are unavailable. Although you aren't a noble, it's not the worst position. The caveat? If money is misplaced or goes missing, a noble could probably weasel out of the stockades as punishment. You? Eh...well, Etrusca is lovely this time of year."
+	subclass_stats = list(
 		STATKEY_LCK = 2,
 		STATKEY_INT = 2,
 		STATKEY_SPD = 1,
 		STATKEY_STR = -1
 	)
+	category_tags = list(CTAG_CLERK)
+	outfit = /datum/outfit/job/roguetown/clerk/basic
 
-/datum/outfit/job/roguetown/clerk/pre_equip(mob/living/carbon/human/H)
+/datum/job/roguetown/clerk/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		H.advsetup = 1
+		H.invisibility = INVISIBILITY_MAXIMUM
+		H.become_blind("advsetup")
+
+/datum/outfit/job/roguetown/clerk/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)

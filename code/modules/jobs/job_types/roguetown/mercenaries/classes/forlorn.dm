@@ -6,7 +6,6 @@
 	outfit = /datum/outfit/job/roguetown/mercenary/forlorn
 	min_pq = 2
 	cmode_music = 'sound/music/combat_blackstar.ogg'
-	traits_applied = list(TRAIT_OUTLANDER)
 	category_tags = list(CTAG_MERCENARY)
 	// tuff boys
 	traits_applied = list(TRAIT_MEDIUMARMOR)

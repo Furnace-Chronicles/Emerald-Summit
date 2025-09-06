@@ -8,7 +8,7 @@
 	)
 	outfit = /datum/outfit/job/roguetown/mercenary/routier
 	category_tags = list(CTAG_MERCENARY)
-	traits_applied = list(TRAIT_OUTLANDER, TRAIT_HEAVYARMOR, TRAIT_NOBLE)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_NOBLE)
 	cmode_music = 'sound/music/combat_routier.ogg'
 	subclass_stats = list(
 		STATKEY_CON = 4,

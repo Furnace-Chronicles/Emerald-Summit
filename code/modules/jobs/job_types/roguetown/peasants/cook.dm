@@ -20,14 +20,33 @@
 
 	job_traits = list(TRAIT_CICERONE)
 
-	job_stats = list(
+	advclass_cat_rolls = list(CTAG_COOK = 2)
+	job_subclasses = list(
+		/datum/advclass/cook
+	)
+
+/datum/job/roguetown/cook/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		H.advsetup = 1
+		H.invisibility = INVISIBILITY_MAXIMUM
+		H.become_blind("advsetup")
+
+/datum/advclass/cook
+	name = "Cook"
+	tutorial = "There are many mouths to feed in town, and most look to you for it. You work under the care of the innkeeper and craft such culinary delights that even the crown stops by from time to time. All the while, you try to get the rest of the staff up to speed as well--before you get too many burn marks on your body from slaving over your hot hearths."
+	outfit = /datum/outfit/job/roguetown/cook/basic
+	category_tags = list(CTAG_COOK)
+	subclass_stats = list(
 		STATKEY_CON = 2,
 		STATKEY_STR = 1,
 		STATKEY_INT = 1
 	)
 
-/datum/outfit/job/roguetown/cook/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/cook/basic/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.adjust_blindness(-3)
 	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
