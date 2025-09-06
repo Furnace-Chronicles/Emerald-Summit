@@ -55,7 +55,7 @@
 				if(gather_thing(target, user))
 					handle_cost(user, PRESTI_CLEAN)
 					return
-			if(clean_thing(target, user))
+			else if(clean_thing(target, user))
 				handle_cost(user, PRESTI_CLEAN)
 		if (INTENT_DISARM) // Snap your fingers and produce a spark
 			if(create_spark(user, target))
@@ -168,10 +168,14 @@
 		if (do_after(user, src.gatherspeed, target = target))
 			to_chat(user, span_notice("I mold the liquid mana in \the [target.name] with my arcane power, crystalizing it!"))
 			new /obj/item/magic/manacrystal(Turf)
+			return TRUE
+		return FALSE
 	if (istype(target, /turf/open/lava))
 		if (do_after(user, src.gatherspeed, target = target))
 			to_chat(user, span_notice("I mold a handful of oozing lava  with my arcane power, rapidly hardening it!"))
 			new /obj/item/magic/obsidian(user.loc)
+			return TRUE
+		return FALSE
 
 // Intents for prestidigitation
 // Intents for prestidigitation
