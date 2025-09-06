@@ -503,7 +503,8 @@
 		var/height = 500
 		if(sclass_count >= 10)
 			height = 925
-		var/datum/browser/popup = new(usr, "Class Help", nwidth = 425, nheight = height)
+		usr << browse(null, "window=classhelp")
+		var/datum/browser/popup = new(usr, "classhelp", "[title]", nwidth = 425, nheight = height)
 		popup.set_content(dat.Join())
 		popup.open(FALSE)
 	. = ..()
