@@ -25,6 +25,7 @@
 	min_pq = 6
 	max_pq = null
 	cmode_music = 'sound/music/combat_ManAtArms.ogg'
+	job_traits = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR)
 	job_subclasses = list(
 		/datum/advclass/sergeant/sergeant
 	)
@@ -71,7 +72,6 @@
 	outfit = /datum/outfit/job/roguetown/sergeant/sergeant
 
 	category_tags = list(CTAG_SERGEANT)
-	traits_applied = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_INT = 1,
