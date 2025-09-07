@@ -3156,6 +3156,13 @@
 /obj/structure/bed/rogue/shit,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/inhumen)
+"FH" = (
+/obj/structure/fluff/traveltile/wretch{
+	aportalgoesto = "wretchout3";
+	aportalid = "wretchin3"
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/inhumen)
 "FO" = (
 /obj/structure/fluff/railing/border{
 	dir = 8;
@@ -3913,6 +3920,10 @@
 "RX" = (
 /turf/closed/indestructible/riveted,
 /area/start)
+"Sc" = (
+/obj/effect/decal/remains/human,
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/cave/inhumen)
 "Sd" = (
 /obj/machinery/light/rogue/hearth,
 /obj/item/cooking/pan,
@@ -3988,6 +3999,10 @@
 "TD" = (
 /obj/item/roguebin/water/gross,
 /turf/open/floor/rogue/cobble,
+/area/rogue/under/cave/inhumen)
+"TG" = (
+/obj/effect/decal/cleanable/blood,
+/turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/inhumen)
 "TK" = (
 /obj/structure/flora/roguegrass/water/reeds,
@@ -19958,11 +19973,11 @@ rQ
 rQ
 wN
 wN
+wN
 xm
 xm
 xm
-xm
-xm
+Sc
 xm
 wN
 wN
@@ -20087,16 +20102,16 @@ rQ
 rQ
 rQ
 wN
-uJ
+wN
+Ld
 xm
 hO
-xm
+TG
 xm
 xm
 Jc
+wN
 Jc
-wN
-wN
 Jc
 tX
 KZ
@@ -20217,12 +20232,12 @@ rQ
 rQ
 rQ
 wN
-uJ
-uJ
-xm
-xm
-xm
+FH
 Jc
+Jc
+xm
+Sc
+xm
 Jc
 Jc
 Jc
@@ -20347,10 +20362,10 @@ rQ
 rQ
 rQ
 wN
-uJ
-uJ
-uJ
-xm
+FH
+Jc
+Jc
+Jc
 Jc
 Jc
 Jc
@@ -20477,12 +20492,12 @@ rQ
 rQ
 rQ
 wN
-uJ
-uJ
-xm
-xm
+FH
 Jc
-wN
+Jc
+Jc
+Jc
+Jc
 Jc
 Jc
 Jc
@@ -20608,10 +20623,10 @@ rQ
 rQ
 wN
 wN
-uJ
-xm
 Ld
-wN
+Jc
+Jc
+Jc
 wN
 wN
 Qg

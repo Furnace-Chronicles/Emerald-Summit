@@ -21163,6 +21163,13 @@
 /obj/structure/fluff/walldeco/wantedposter,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/tavern)
+"gwm" = (
+/obj/structure/fluff/traveltile/wretch{
+	aportalgoesto = "wretchin1";
+	aportalid = "wretchout1"
+	},
+/turf/closed/mineral/random/rogue,
+/area/rogue/outdoors/mountains)
 "gwq" = (
 /obj/structure/roguerock,
 /turf/open/water/cleanshallow,
@@ -33714,10 +33721,11 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/town)
 "klW" = (
-/obj/effect/decal/cleanable/blood/tracks{
-	dir = 4
+/obj/structure/fluff/traveltile/wretch{
+	aportalgoesto = "wretchin3";
+	aportalid = "wretchout3"
 	},
-/turf/closed/mineral/rogue/bedrock,
+/turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/cave)
 "kmc" = (
 /obj/structure/closet/crate/chest/crate,
@@ -41272,7 +41280,6 @@
 /obj/item/quiver/bolts,
 /obj/item/flashlight/flare/torch/lantern,
 /obj/item/rope/chain,
-/obj/item/gwstrap,
 /obj/item/rogueweapon/mace/cudgel,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/garrison)
@@ -72206,7 +72213,6 @@
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/item/flashlight/flare/torch/lantern,
 /obj/item/rope/chain,
-/obj/item/gwstrap,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/garrison)
 "vTN" = (
@@ -322676,7 +322682,7 @@ vvB
 vvB
 vvB
 vvB
-vvB
+gwm
 aBB
 aBB
 aBB
@@ -511371,7 +511377,7 @@ qPv
 ujm
 ujm
 ujm
-klW
+ujm
 ujm
 ujm
 ujm
@@ -511821,11 +511827,11 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
 klW
-ujm
-ujm
+klW
+klW
+klW
+klW
 ujm
 qPv
 tIH
@@ -512272,13 +512278,13 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+bhn
+fnC
+fnC
+fnC
+fnC
+fnC
+bhn
 ujm
 qPv
 qPv
@@ -512724,13 +512730,13 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-vuw
-vuw
-vuw
-ujm
-ujm
+fnC
+fnC
+fnC
+fnC
+fnC
+fnC
+fnC
 ujm
 qPv
 qPv
@@ -513177,10 +513183,10 @@ ujm
 ujm
 ujm
 fnC
-vuw
-vuw
-vuw
-vuw
+fnC
+fnC
+fnC
+fnC
 fnC
 fnC
 ujm
@@ -513629,11 +513635,11 @@ vMR
 ujm
 ujm
 fnC
-vuw
-vuw
-vuw
-vuw
-vuw
+ujm
+ujm
+ujm
+ujm
+ujm
 fnC
 ujm
 ujm
