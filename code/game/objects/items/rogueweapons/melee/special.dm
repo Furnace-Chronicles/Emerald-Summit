@@ -54,7 +54,7 @@
 	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
 	chargetime = 0
 	penfactor = BLUNT_DEFAULT_PENFACTOR
-	clickcd = 10
+	clickcd = 12
 	damfactor = 1.1
 	swingdelay = 0
 	icon_state = "inpunch"
@@ -352,7 +352,7 @@
 	slot_flags = ITEM_SLOT_HIP
 	parrysound = list('sound/combat/parry/pugilism/unarmparry (1).ogg','sound/combat/parry/pugilism/unarmparry (2).ogg','sound/combat/parry/pugilism/unarmparry (3).ogg')
 	sharpness = IS_BLUNT
-	max_integrity = 300
+	max_integrity = 150
 	swingsound = list('sound/combat/wooshes/punch/punchwoosh (1).ogg','sound/combat/wooshes/punch/punchwoosh (2).ogg','sound/combat/wooshes/punch/punchwoosh (3).ogg')
 	associated_skill = /datum/skill/combat/unarmed
 	throwforce = 12
