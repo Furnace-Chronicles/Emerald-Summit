@@ -44,6 +44,17 @@
 
 			O.MakeSlippery(wet_setting = slip_effect_type, min_wet_time = tile_effect_duration, max_wet_time = 120 SECONDS)
 
+			new /obj/effect/temp_visual/slick_warning(O)
 		return TRUE
 	revert_cast()
 	return FALSE
+
+/obj/effect/temp_visual/slick_warning
+	name = "slippery patch"
+	desc = "Watch your step!"
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "purplesparkles"
+	color = "#0099FF" // Blue tint for water-like appearance
+	randomdir = FALSE
+	duration = 15 SECONDS //Make sure this is the same as slick_trick's tile_effect_duration
+	layer = MASSIVE_OBJ_LAYER
