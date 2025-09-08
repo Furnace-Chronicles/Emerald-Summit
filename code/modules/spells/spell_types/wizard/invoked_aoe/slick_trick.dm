@@ -28,7 +28,7 @@
 	var/turf/T = get_turf(targets[1])
 
 	// Get all turfs in a 3x3 area
-	var/list/affected_turfs = list()
+	var/list/affected_turfs = list(T)
 	for(var/turf/open/O in range(area_of_effect_radius, T))
 		affected_turfs += O
 
