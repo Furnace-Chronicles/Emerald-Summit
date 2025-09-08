@@ -488,7 +488,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				dat += "<br><b>Headshot:</b> <a href='?_src_=prefs;preference=headshot;task=input'>Change</a>"
 				if(headshot_link != null)
 					dat += "<br><img src='[headshot_link]' width='150px' height='175px'>"
-				dat += "<br><b>NSFW Headshot:</b> <a href='?_src_=prefs;preference=nsfw_headshot;task=input'>Change</a>"
+				dat += "<br><b>NSFW Bodyshot:</b> <a href='?_src_=prefs;preference=nsfw_headshot;task=input'>Change</a>"
 				if(nsfw_headshot_link != null)
 					dat += "<br><img src='[nsfw_headshot_link]' width='125px' height='175px'>"
 			else
@@ -1785,7 +1785,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				if("nsfw_headshot")
 					if(!user.check_agevet()) return
 					to_chat(user, "<span class='notice'>Finally a place to show it all.</span>")
-					var/new_nsfw_headshot_link = input(user, "Input the nsfw headshot link (https, hosts: gyazo, lensdump, imgbox, catbox):", "NSFW Headshot", nsfw_headshot_link) as text|null
+					var/new_nsfw_headshot_link = input(user, "Input the nsfw bodyshot link (https, hosts: gyazo, lensdump, imgbox, catbox):", "NSFW Bodyshot", nsfw_headshot_link) as text|null
 					if(new_nsfw_headshot_link == null)
 						return
 					if(new_nsfw_headshot_link == "")
@@ -1797,8 +1797,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						ShowChoices(user)
 						return
 					nsfw_headshot_link = new_nsfw_headshot_link
-					to_chat(user, "<span class='notice'>Successfully updated NSFW Headshot picture</span>")
-					log_game("[user] has set their NSFW Headshot image to '[nsfw_headshot_link]'.")
+					to_chat(user, "<span class='notice'>Successfully updated NSFW Bodyshot picture</span>")
+					log_game("[user] has set their NSFW Bodyshot image to '[nsfw_headshot_link]'.")
 				if("ooc_preview")	//Unashamedly copy pasted from human_topic.dm L:7. Sorry!
 					var/agevetted = user.check_agevet()
 					var/list/dat = list()
