@@ -103,7 +103,7 @@
 
 		var/olddir = C.dir
 		C.moving_diagonally = 0 //If this was part of diagonal move slipping will stop it.
-		if(!(lube & SLIDE_ICE))
+		if(!(lube & SLIDE_ICE) && !(lube & SLIDE_MAGIC))
 			C.Knockdown(knockdown_amount)
 			C.Paralyze(paralyze_amount)
 			C.stop_pulling()
@@ -113,8 +113,9 @@
 		if(buckled_obj)
 			buckled_obj.unbuckle_mob(C)
 			lube |= SLIDE_ICE
-
-		if(lube&SLIDE)
+		if(lube&SLIDE_MAGIC) //send them flying
+			new /datum/forced_movement(C, get_ranged_target_turf(C, olddir, 8), 1, FALSE, CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon, spin), 1, 1))
+		else if(lube&SLIDE)
 			new /datum/forced_movement(C, get_ranged_target_turf(C, olddir, 4), 1, FALSE, CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon, spin), 1, 1))
 		else if(lube&SLIDE_ICE)
 			if(C.force_moving) //If we're already slipping extend it
