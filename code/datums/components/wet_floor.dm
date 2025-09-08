@@ -8,9 +8,15 @@
 	var/static/mutable_appearance/ice_overlay = mutable_appearance('icons/turf/overlays.dmi', "snowfloor")
 	var/static/mutable_appearance/water_overlay = mutable_appearance('icons/effects/water.dmi', "wet_floor_static")
 	var/static/mutable_appearance/generic_turf_overlay = mutable_appearance('icons/effects/water.dmi', "wet_static")
+	var/static/mutable_appearance/magic_overlay // We will declare this later so that the color can be set
 	var/current_overlay
 	var/permanent = FALSE
 	var/last_process = 0
+
+/datum/component/wet_floor/New()
+	..()
+	magic_overlay = mutable_appearance('icons/effects/effects.dmi', "purplesparkles")
+	magic_overlay.color = "#0099FF"
 
 /datum/component/wet_floor/InheritComponent(datum/newcomp, orig, argslist)
 	if(!newcomp)	//We are getting passed the arguments of a would-be new component, but not a new component
@@ -61,9 +67,6 @@
 			if(TURF_WET_ICE)
 				intended = ice_overlay
 			if(TURF_WET_MAGIC)
-				var/mutable_appearance/magic_overlay = mutable_appearance('icons/effects/effects.dmi', "purplesparkles")
-				magic_overlay.color = "#0099FF" 
-				magic_overlay.layer = MASSIVE_OBJ_LAYER
 				intended = magic_overlay
 			else
 				intended = water_overlay
