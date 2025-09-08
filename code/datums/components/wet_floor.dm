@@ -63,6 +63,7 @@
 			if(TURF_WET_MAGIC)
 				var/mutable_appearance/magic_overlay = mutable_appearance('icons/effects/effects.dmi', "purplesparkles")
 				magic_overlay.color = "#0099FF" 
+				magic_overlay.layer = MASSIVE_OBJ_LAYER
 				intended = magic_overlay
 			else
 				intended = water_overlay
