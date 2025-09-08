@@ -60,6 +60,10 @@
 				intended = permafrost_overlay
 			if(TURF_WET_ICE)
 				intended = ice_overlay
+			if(TURF_WET_MAGIC)
+				var/mutable_appearance/magic_overlay = mutable_appearance('icons/effects/effects.dmi', "purplesparkles")
+				magic_overlay.color = "#0099FF" 
+				intended = magic_overlay
 			else
 				intended = water_overlay
 	if(current_overlay != intended)
@@ -71,6 +75,12 @@
 /datum/component/wet_floor/proc/AfterSlip(mob/living/L)
 	if(highest_strength == TURF_WET_LUBE)
 		L.confused = max(L.confused, 8)
+	if(highest_strength == TURF_WET_MAGIC)
+		if(istype(L))
+			L.visible_message("<span class='warning'>[L] slips on the slick surface!</span>",
+						  "<span class='warning'>You slip on a magically slick surface!</span>")
+			return TRUE
+		return FALSE
 
 /datum/component/wet_floor/proc/update_flags()
 	var/intensity
@@ -91,6 +101,9 @@
 		if(TURF_WET_SUPERLUBE)
 			intensity = 120
 			lube_flags = SLIDE | GALOSHES_DONT_HELP | SLIP_WHEN_CRAWLING
+		if(TURF_WET_MAGIC)
+			intensity = 80
+			lube_flags = SLIDE_ICE | GALOSHES_DONT_HELP
 		else
 			qdel(parent.GetComponent(/datum/component/slippery))
 			return
@@ -160,7 +173,7 @@
 	//NB it's possible we get deleted after this, due to inherit
 
 /datum/component/wet_floor/proc/add_wet(type, duration_minimum = 0, duration_add = 0, duration_maximum = MAXIMUM_WET_TIME, _permanent = FALSE)
-	var/static/list/allowed_types = list(TURF_WET_WATER, TURF_WET_LUBE, TURF_WET_ICE, TURF_WET_PERMAFROST, TURF_WET_SUPERLUBE)
+	var/static/list/allowed_types = list(TURF_WET_WATER, TURF_WET_LUBE, TURF_WET_ICE, TURF_WET_PERMAFROST, TURF_WET_SUPERLUBE, TURF_WET_MAGIC)
 	if(duration_minimum <= 0 || !type)
 		return FALSE
 	if(type in allowed_types)
