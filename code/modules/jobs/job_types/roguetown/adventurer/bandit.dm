@@ -30,6 +30,15 @@
 	same_job_respawn_delay = 1 MINUTES
 	cmode_music = 'sound/music/combat_bandit2.ogg'
 
+	job_subclasses = list(
+		/datum/advclass/brigand,
+		/datum/advclass/hedgeknight,
+		/datum/advclass/iconoclast,
+		/datum/advclass/knave,
+		/datum/advclass/roguemage,
+		/datum/advclass/sawbones,
+		/datum/advclass/sellsword
+	)
 
 /datum/job/roguetown/bandit/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()

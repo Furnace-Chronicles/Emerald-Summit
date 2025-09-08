@@ -8,6 +8,21 @@
 	maximum_possible_slots = 1
 	cmode_music = 'sound/music/combat_bandit.ogg'
 
+	traits_applied = list(
+		TRAIT_MEDIUMARMOR,
+		TRAIT_HEAVYARMOR,
+		TRAIT_NOBLE,
+		TRAIT_STEELHEARTED
+	)
+	subclass_stats = list(
+		STATKEY_STR = 2,
+		STATKEY_END = 2,
+		STATKEY_CON = 3, //dark souls 3 dual greatshield moment
+		STATKEY_INT = 1,
+		STATKEY_SPD = 1,
+		STATKEY_LCK = 2,
+	)
+
 /datum/outfit/job/roguetown/bandit/hedgeknight/pre_equip(mob/living/carbon/human/H)
 	..()
 	if (!(istype(H.patron, /datum/patron/inhumen/zizo) || istype(H.patron, /datum/patron/inhumen/matthios) || istype(H.patron, /datum/patron/inhumen/graggar) || istype(H.patron, /datum/patron/inhumen/baotha)))
@@ -44,13 +59,4 @@
 	H.adjust_skillrank(/datum/skill/misc/riding, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/labor/butchering, 1, TRUE)
-	H.change_stat("strength", 2)
-	H.change_stat("endurance", 2)
-	H.change_stat("constitution", 3) //dark souls 3 dual greatshield moment
-	H.change_stat("intelligence", 1)
-	H.change_stat("speed", 1)
-	H.change_stat("fortune", 2)
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_DISGRACED_NOBLE, TRAIT_GENERIC) //hey buddy you hear about roleplaying
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()	

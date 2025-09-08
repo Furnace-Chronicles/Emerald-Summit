@@ -129,7 +129,6 @@
 	///Jobs that are hidden from actor screen
 	var/hidden_job = FALSE
 
-
 /*
 	How this works, its CTAG_DEFINE = amount_to_attempt_to_role
 	EX: advclass_cat_rolls = list(CTAG_PILGRIM = 5, CTAG_ADVENTURER = 5)
@@ -156,8 +155,12 @@
 	///The job's subclasses, if any. Overrides job_stats if present.
 	var/list/job_subclasses
 
+	///The job's stat UPPER ceilings, clamped after statpacks and job stats are applied.
+	var/list/stat_ceilings
+
 	///Whether this class can be clicked on for details.
 	var/class_setup_examine = TRUE
+
 
 /datum/job/proc/special_job_check(mob/dead/new_player/player)
 	return TRUE
@@ -452,12 +455,6 @@
 					for(var/stat in adv_ref.subclass_stats)
 						dat += "<br>[capitalize(stat)]: <b>[adv_ref.subclass_stats[stat] < 0 ? "<font color = '#cf2a2a'>" : "<font color = '#91cf68'>"]\Roman[adv_ref.subclass_stats[stat]]</font></b>"
 				dat += "<br></td></tr></table></font>"
-				if(length(adv_ref.adv_stat_ceiling))
-					dat += "["<font color = '#cf2a2a'><b>This subclass has the following stat limits: "]</b></font><br>"
-					dat += " | "
-					for(var/stat in adv_ref.adv_stat_ceiling)
-						dat += "["[capitalize(stat)]: <b>\Roman[adv_ref.adv_stat_ceiling[stat]]</b>"] | "
-					dat += "<i><br>Regardless of your statpacks or race choice, you will not be able to exceed these stats on spawn.</i></font>"
 				if(length(adv_ref.traits_applied))
 					dat += "<font color ='#ccbb82'>This <font color ='#d6d6d6'>sub</font>class gains the following traits:</font> "
 					for(var/trait in adv_ref.traits_applied)
