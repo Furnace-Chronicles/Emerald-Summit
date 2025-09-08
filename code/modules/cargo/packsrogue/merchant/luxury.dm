@@ -98,6 +98,11 @@
 	cost = 300
 	contains = list(/obj/item/lovepotion)
 
+/datum/supply_pack/rogue/luxury/gold_teeth
+	name = "Gold Teeth x5"
+	cost = 220
+	contains = list(/obj/item/gold_tooth,/obj/item/gold_tooth,/obj/item/gold_tooth,/obj/item/gold_tooth,/obj/item/gold_tooth)
+
 /datum/supply_pack/rogue/luxury/swatchbook
 	name = "Tailor's Swatchbook"
 	cost = 20

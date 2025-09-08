@@ -83,6 +83,11 @@
 			var/who = (isnull(user) || eater == user) ? "my" : "[eater.p_their()]"
 			to_chat(user, span_warning("I have to remove [who] [covered] first!"))
 		return FALSE
+	if(ishuman(C))
+		var/mob/living/carbon/human/E = C
+		if(E.teeth < 12 && istype(src, /obj/item/reagent_containers/food))
+			to_chat(user, span_warning("I don't have enough teeth to chew this..."))
+			return FALSE
 	return TRUE
 
 /obj/item/reagent_containers/ex_act()

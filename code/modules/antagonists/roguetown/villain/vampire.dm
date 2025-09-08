@@ -382,6 +382,8 @@
 		return
 	to_chat(src, span_greentext("! REGENERATE !"))
 	src.playsound_local(get_turf(src), 'sound/misc/vampirespell.ogg', 100, FALSE, pressure_affected = FALSE)
+	src.teeth = 32
+	src.char_accent = src.cached_accent
 	VD.handle_vitae(-300)
 	fully_heal()
 	regenerate_limbs()

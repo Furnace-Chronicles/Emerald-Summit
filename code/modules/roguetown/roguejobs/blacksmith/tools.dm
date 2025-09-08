@@ -282,7 +282,7 @@
 
 /obj/item/rogueweapon/tongs
 	force = 10
-	possible_item_intents = list(/datum/intent/mace/strike)
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/use)
 	name = "tongs"
 	desc = "A pair of iron jaws used to carry hot ingots."
 	icon_state = "tongs"
@@ -344,6 +344,21 @@
 		hingot = null
 	hott = FALSE
 	update_icon()
+
+/obj/item/rogueweapon/tongs/afterattack(atom/target, mob/living/user, proximity)
+	. = ..()
+	if(!proximity || !check_allowed_items(target))
+		return
+
+	if(ishuman(target) && user.zone_selected == BODY_ZONE_PRECISE_MOUTH)
+		var/mob/living/carbon/human/victim = target
+		if(victim.restrained())
+			if(do_after(user, 2 SECONDS, victim))
+				victim.teeth -= 1
+				victim.recently_lost_teeth += 1
+				victim.flying_teeth(1)
+				to_chat(victim, span_warning("MY MOUTH HURTS!"))
+				victim.decay_lost_teeth()
 
 /obj/item/rogueweapon/tongs/getonmobprop(tag)
 	. = ..()

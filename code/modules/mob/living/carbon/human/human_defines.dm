@@ -136,6 +136,13 @@
 	/// Whether our FOV cone is overridden to be hidden. Simple bool.
 	var/viewcone_override
 
+	//Teeth held in this creature's mouth
+	var/teeth = 32
+	var/gold_teeth = 0//If you have any gold teeth in your mouth or not
+	var/recently_lost_teeth = 0 //Will tick down as you slowly get over the pain of losing each and every one of these
+	var/lost_teeth_decay = FALSE //Flags whether or not we should spawn the pain decay proc
+	var/cached_accent = null //Use this when we regenerate teeth or whatnot
+
 	// adds a flag that if we were skeletonized not because we are super dead and rotted, our face can be shown
 	var/ritual_skeletonization = FALSE // ritualcircles.dm path of rituos, prevents the ritual target's name always being unknown ingame. used in human_helpers.dm if( !O || (HAS_TRAIT(src, TRAIT_DISFIGURED)) || !real_name || (O.skeletonized && !ritual_skeletonization && !mind?.has_antag_datum(/datum/antagonist/lich)))
 
