@@ -464,6 +464,36 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_NIGHTMAIDEN	"CAT_NIGHTMAIDEN"	// Bathhouse Attendant's aesthetic choices.
 #define CTAG_PRISONER "CAT_PRISONER"
 
+// List of mono-class categories. Only here for standardisation sake, but can be added on if desired.
+#define CTAG_DUNGEONEER		"CAT_DUNGEONEER"
+
+#define CTAG_BISHOP			"CAT_BISHOP"
+#define CTAG_MARTYR			"CAT_MARTYR"
+#define CTAG_ACOLYTE		"CAT_ACOLYTE"
+#define CTAG_CHURCHLING		"CAT_CHURCHLING"
+#define CTAG_DRUID			"CAT_DRUID"
+
+#define CTAG_STEWARD		"CAT_STEWARD"
+#define CTAG_CLERK			"CAT_CLERK"
+#define CTAG_COUNCILLOR		"CAT_COUNCIL"
+
+#define CTAG_COURTMAGE		"CAT_COURTMAGE"
+
+#define CTAG_COURTPHYS		"CAT_COURTPHYS"
+#define CTAG_APOTH			"CAT_APOTH"
+
+#define CTAG_MERCH			"CAT_MERCH"
+#define CTAG_SHOPHAND		"CAT_SHOPHAND"
+#define CTAG_ARCHIVIST		"CAT_ARCHIVIST"
+#define CTAG_TOWNCRIER		"CAT_TOWNCRIER"
+#define CTAG_TAILOR			"CAT_TAILOR"
+#define CTAG_SOILBRIDE		"CAT_SOILBRIDE"
+#define CTAG_INNKEEPER		"CAT_INNKEEPER"
+#define CTAG_COOK			"CAT_COOK"
+#define CTAG_BATHMOM		"CAT_BATHMOM"
+#define CTAG_TAPSTER		"CAT_TAPSTER"
+#define CTAG_LUNATIC		"CAT_LUNATIC"
+
 /*
 	Defines for the triumph buy datum categories
 */
