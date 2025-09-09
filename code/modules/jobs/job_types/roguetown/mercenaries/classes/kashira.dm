@@ -9,6 +9,8 @@
 	cmode_music = 'sound/music/combat_kazengite.ogg'
 	maximum_possible_slots = 1
 
+	subclass_languages = list(/datum/language/kazengunese)
+
 	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
 	subclass_stats = list(
 		STATKEY_CON = 3,
@@ -18,6 +20,19 @@
 		STATKEY_SPD = -1
 	)
 
+	subclass_skills = list(
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+	)
+
 /datum/outfit/job/roguetown/mercenary/kashira/pre_equip(mob/living/carbon/human/H)
 	..()
 	belt = /obj/item/storage/belt/rogue/leather
@@ -25,16 +40,6 @@
 	beltl = /obj/item/scabbard/rumacaptain
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(/obj/item/roguekey/mercenary, /obj/item/flashlight/flare/torch, /obj/item/flashlight/flare/torch/lantern)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/sneaking, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 	H.adjust_blindness(-3)
 
 	if(should_wear_masc_clothes(H))
@@ -51,5 +56,3 @@
 		armor = /obj/item/clothing/suit/roguetown/armor/basiceast/captainrobe
 		shirt = /obj/item/clothing/suit/roguetown/armor/skin_armor/easttats
 		shoes = /obj/item/clothing/shoes/roguetown/armor/rumaclan
-
-	H.grant_language(/datum/language/kazengunese)

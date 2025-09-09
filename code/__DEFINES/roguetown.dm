@@ -436,6 +436,7 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_VAGABOND		"CAT_VAGABOND"		// Vagabond class - start with nothing and work your way up
 #define CTAG_INQUISITION	"CAT_INQUISITION"	// For Orthodoxist subclasses
 #define CTAG_PURITAN		"CAT_PURITAN"		// For Inquisitor subclasses
+#define CTAG_ABSOLVER		"CAT_ABSOLVER"		// For Absolver (sub)class
 #define CTAG_COURTAGENT		"CAT_COURTAGENT"	// Court agent classes
 #define CTAG_WRETCH			"CAT_WRETCH"		// Wretch classes untethered from adventurer
 #define CTAG_LSKELETON		"CAT_LSKELETON"		// Lich Fortified Skeleton classes

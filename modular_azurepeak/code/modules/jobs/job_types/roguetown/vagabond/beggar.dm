@@ -6,6 +6,8 @@
 	outfit = /datum/outfit/job/roguetown/vagabond/beggar
 	category_tags = list(CTAG_VAGABOND)
 
+	subclass_languages = list(/datum/language/thievescant)
+
 	traits_applied = list(TRAIT_NOSTINK, TRAIT_NASTY_EATER)
 	subclass_stats = list(
 		STATKEY_STR =  1,
@@ -14,6 +16,10 @@
 		STATKEY_INT = -4
 	)
 	extra_context = "Fortune is randomised."
+
+	subclass_skills = list(
+		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
+	)
 
 /datum/outfit/job/roguetown/vagabond/beggar/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -55,8 +61,6 @@
 
 	if (H.mind)
 		H.adjust_skillrank(/datum/skill/misc/sneaking, rand(1,5), TRUE)
-		H.adjust_skillrank(/datum/skill/misc/stealing, 4, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/climbing, rand(1,5), TRUE)
 		H.adjust_skillrank(/datum/skill/misc/lockpicking, pick (1,2,3,4,5), TRUE)
 		H.STALUC = rand(5, 15)
-		H.grant_language(/datum/language/thievescant)

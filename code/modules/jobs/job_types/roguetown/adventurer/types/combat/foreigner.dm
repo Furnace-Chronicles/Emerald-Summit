@@ -7,11 +7,25 @@
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	class_select_category = CLASS_CAT_NOMAD
 
+	subclass_languages = list(/datum/language/kazengunese)
+
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 2,
 		STATKEY_END = 1
+	)
+
+	subclass_skills = list(
+		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/adventurer/foreigner/pre_equip(mob/living/carbon/human/H)
@@ -28,15 +42,7 @@
 	beltl = /obj/item/rogueweapon/sword/sabre/mulyeog
 	belt = /obj/item/storage/belt/rogue/leather/black
 	backr = /obj/item/storage/backpack/rogue/satchel
-	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)		//to encourage use of the scabbard as a shield	
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/sewing, 2, TRUE) 			//this shouldn't be enough to allow them to craft shit, rather just repair their prone-to-break armor
+
 	backpack_contents = list(
 		/obj/item/recipe_book/survival = 1,
 		/obj/item/flashlight/flare/torch/lantern,
@@ -49,11 +55,25 @@
 	tutorial = "You are an ex-guardian, whenever that be for a petty noble, or a small shrine. You excel in defense with quarterstaffs, or have taken up the Naginata's offensive martial capabilities."
 	allowed_races = NON_DWARVEN_RACE_TYPES //roughneck & custodian sprites dont have dwarf variants - adjust if/when a second update comes out with dwarf sprites
 	outfit = /datum/outfit/job/roguetown/adventurer/custodian
+
+	subclass_languages = list(/datum/language/kazengunese)
+
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 2,
 		STATKEY_END = 1
+	)
+
+	subclass_skills = list(
+		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,		
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/adventurer/custodian/pre_equip(mob/living/carbon/human/H)
@@ -68,14 +88,7 @@
 	belt = /obj/item/storage/belt/rogue/leather/
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	backl = /obj/item/storage/backpack/rogue/satchel
-	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)		
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/sewing, 2, TRUE)
+
 	backpack_contents = list(/obj/item/recipe_book/survival = 1)
 	H.set_blindness(0)
 	var/weapons = list("Naginata","Quarterstaff")
@@ -86,7 +99,7 @@
 		if("Quarterstaff")
 			backr = /obj/item/rogueweapon/woodstaff/quarterstaff/steel
 	H.cmode_music = 'sound/music/combat_kazengite.ogg'
-	H.grant_language(/datum/language/kazengunese)
+
 /*
 /datum/advclass/foreigner/yoruku
 	name = "Yoruku"
@@ -94,6 +107,7 @@
 	for combat in the tight confines of castles and back alleys."
 	allowed_races = NON_DWARVEN_RACE_TYPES //roughneck & custodian sprites dont have dwarf variants - adjust if/when a second update comes out with dwarf sprites
 	outfit = /datum/outfit/job/roguetown/adventurer/yoruku
+
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_DODGEEXPERT)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
@@ -118,15 +132,15 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 	cloak = /obj/item/clothing/cloak/thief_cloak/yoruku
 	shoes = /obj/item/clothing/shoes/roguetown/boots
-	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/sneaking, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/lockpicking, 2, TRUE)
+	/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
+	/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
+	/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+	/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+	/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
+	/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+	/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
+	/datum/skill/misc/lockpicking = SKILL_LEVEL_APPRENTICE,
 	H.set_blindness(0)
 	var/weapons = list("Tanto","Kodachi")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons

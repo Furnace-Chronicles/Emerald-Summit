@@ -22,6 +22,22 @@
 		STATKEY_LCK = 2,
 	)
 
+	subclass_skills = list(
+	/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/swords = SKILL_LEVEL_MASTER,
+	/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
+	/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
+	/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/riding = SKILL_LEVEL_EXPERT,
+	/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
+	/datum/skill/labor/butchering = SKILL_LEVEL_NOVICE,
+	)
+
 /datum/outfit/job/roguetown/bandit/hedgeknight/pre_equip(mob/living/carbon/human/H)
 	..()
 	if (!(istype(H.patron, /datum/patron/inhumen/zizo) || istype(H.patron, /datum/patron/inhumen/matthios) || istype(H.patron, /datum/patron/inhumen/graggar) || istype(H.patron, /datum/patron/inhumen/baotha)))
@@ -45,17 +61,5 @@
 					/obj/item/rogueweapon/huntingknife/idagger = 1,
 					/obj/item/flashlight/flare/torch = 1,
 					)
-	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/riding, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/labor/butchering, 1, TRUE)
+
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()	

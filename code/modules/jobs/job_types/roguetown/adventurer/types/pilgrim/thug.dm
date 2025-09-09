@@ -38,6 +38,8 @@
 	outfit = /datum/outfit/job/roguetown/thug/goon
 	category_tags = list(CTAG_TOWNER)
 
+	subclass_languages = list(/datum/language/thievescant)
+
 	traits_applied = list(TRAIT_SEEPRICES_SHITTY)
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -47,27 +49,27 @@
 		STATKEY_INT = -1
 	)
 
+	subclass_skills = list(
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/axes = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN, 
+		/datum/skill/labor/mining = SKILL_LEVEL_NOVICE,
+		/datum/skill/labor/lumberjacking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/farming = SKILL_LEVEL_NOVICE,
+		/datum/skill/labor/fishing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
+	)
+
 /datum/outfit/job/roguetown/thug/goon/pre_equip(mob/living/carbon/human/H)
 	to_chat(H, span_warning("You're a goon, a low-lyfe thug in a painful world - not good enough for war, not smart enough for peace. What you lack in station you make up for in daring."))
-
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE) 
-	H.adjust_skillrank(/datum/skill/labor/mining, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/labor/lumberjacking, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/sneaking, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/stealing, 3, TRUE)
-
-	H.grant_language(/datum/language/thievescant)
-
+	H.set_blindness(0)
 	var/options = list("Frypan", "Knuckles", "Navaja", "Bare Hands", "Whatever I Can Find")
 	var/option_choice = input("Choose your means.", "TAKE UP ARMS") as anything in options
 	switch(option_choice)
@@ -95,6 +97,8 @@
 	outfit = /datum/outfit/job/roguetown/thug/wiseguy
 	category_tags = list(CTAG_TOWNER)
 
+	subclass_languages = list(/datum/language/thievescant)
+
 	traits_applied = list(TRAIT_NUTCRACKER, TRAIT_CICERONE, TRAIT_SEEPRICES_SHITTY)
 	subclass_stats = list(
 		STATKEY_END = -2,
@@ -103,26 +107,26 @@
 		STATKEY_INT = 2
 	)
 
+	subclass_skills = list(
+		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE, // vaguely smart, capable of making pyrotechnics
+		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/armorsmithing = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE, 
+		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/fishing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
+	)
+
 /datum/outfit/job/roguetown/thug/wiseguy/pre_equip(mob/living/carbon/human/H)
 	to_chat(H, span_warning("You're smarter than the rest, by a stone's throw - and you know better than to get up close and personal. Unlike most others, you can read."))
-
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE) // vaguely smart, capable of making pyrotechnics
-	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/armorsmithing, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE) 
-	H.adjust_skillrank(/datum/skill/labor/farming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/stealing, 3, TRUE)
-
-	H.grant_language(/datum/language/thievescant)
-
+	H.set_blindness(0)
 	var/options = list("Stone Sling", "Magic Bricks", "Lockpicking Equipment")
 	var/option_choice = input("Choose your means.", "TAKE UP ARMS") as anything in options
 	switch(option_choice)
@@ -146,6 +150,8 @@
 	outfit = /datum/outfit/job/roguetown/thug/bigman
 	category_tags = list(CTAG_TOWNER)
 
+	subclass_languages = list(/datum/language/thievescant)
+
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_HARDDISMEMBER, TRAIT_SEEPRICES_SHITTY)
 	subclass_stats = list(
 		STATKEY_STR = 3,
@@ -156,19 +162,19 @@
 		STATKEY_PER = -3
 	)
 
+	subclass_skills = list(
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN, // knows very few practical skills; you're a moron
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_MASTER, // absolutely unrelenting
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE, 
+		/datum/skill/labor/mining = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/labor/lumberjacking = SKILL_LEVEL_JOURNEYMAN,
+	)
+
 /datum/outfit/job/roguetown/thug/bigman/pre_equip(mob/living/carbon/human/H)
 	to_chat(H, span_warning("More akin to a corn-fed monster than a normal man, your size and strength are your greatest weapons; though they hardly supplement what's missing of your brains."))
-
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE) // knows very few practical skills; you're a moron
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 5, TRUE) // absolutely unrelenting
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE) 
-	H.adjust_skillrank(/datum/skill/labor/mining, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/labor/lumberjacking, 3, TRUE)
-
-	H.grant_language(/datum/language/thievescant)
-
+	H.set_blindness(0)
 	var/options = list("Hands-On", "Big Axe")
 	var/option_choice = input("Choose your means.", "TAKE UP ARMS") as anything in options
 	switch(option_choice) // you are big dumb guy, none of your options give you expert-level weapons skill
