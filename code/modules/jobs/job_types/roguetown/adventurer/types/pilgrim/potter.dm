@@ -8,6 +8,13 @@
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 
+	subclass_stats = list(
+		STATKEY_PER = 2,
+		STATKEY_END = 2,
+		STATKEY_CON = 1,
+		STATKEY_SPD = -1
+	)
+
 /datum/outfit/job/roguetown/adventurer/potter/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE) // Potters are fairly active, having to source their own clay.
@@ -45,8 +52,3 @@
 	// Clay and glassBatch are raw materials
 	// Coal so he can build an ore furnace for glass blowing
 	// Coggers so he can build a potter's wheel.
-
-	H.change_stat("endurance", 2)
-	H.change_stat("constitution", 1)
-	H.change_stat("perception", 2)
-	H.change_stat("speed", -1)

@@ -13,6 +13,14 @@
 
 	category_tags = list(CTAG_TOWNER)
 
+	subclass_stats = list( // idk what to say bruh, i guess he's legendary indeed
+		STATKEY_LCK = 4,
+		STATKEY_STR = 2,
+		STATKEY_INT = 2,
+		STATKEY_END = 2,
+		STATKEY_CON = 1,
+	)
+
 /datum/outfit/job/roguetown/adventurer/masterblacksmith/pre_equip(mob/living/carbon/human/H)
 	..()
 	belt = /obj/item/storage/belt/rogue/leather
@@ -50,9 +58,6 @@
 		H.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/craft/armorsmithing, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
-	H.change_stat("strength", 2)
-	H.change_stat("speed", -1)
-	H.change_stat("fortune", 3)
 	if(H.pronouns == HE_HIM)
 		shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 		shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt

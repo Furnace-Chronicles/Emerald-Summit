@@ -7,6 +7,13 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/woodcutter
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 
+	subclass_stats = list(
+		STATKEY_STR = 2,
+		STATKEY_END = 1,
+		STATKEY_CON = 1,
+		STATKEY_PER = 1
+	)
+
 /datum/outfit/job/roguetown/adventurer/woodcutter/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE) // AXE MEN! GIVE ME SPLINTERS!
@@ -50,7 +57,3 @@
 		armor = /obj/item/clothing/suit/roguetown/armor/workervest
 		pants = /obj/item/clothing/under/roguetown/trou
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
-	H.change_stat("strength", 2)
-	H.change_stat("endurance", 1)
-	H.change_stat("constitution", 1)
-	H.change_stat("perception", 1)

@@ -8,6 +8,12 @@
 	traits_applied = list(TRAIT_DEATHSIGHT, TRAIT_RITUALIST, TRAIT_WITCH, TRAIT_ARCYNE_T1)
 	cmode_music = 'sound/music/combat_cult.ogg'
 
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_SPD = 2,
+		STATKEY_LCK = 1
+	)
+
 /datum/outfit/job/roguetown/adventurer/witch/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/witchhat
@@ -49,9 +55,6 @@
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
 	H?.mind.adjust_spellpoints(6)
-	H.change_stat("intelligence", 3)
-	H.change_stat("speed", 2)
-	H.change_stat("fortune", 1)
 	if(H.age == AGE_OLD)
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 1)

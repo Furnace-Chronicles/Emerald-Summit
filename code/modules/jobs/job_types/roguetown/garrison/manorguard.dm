@@ -26,6 +26,14 @@
 	round_contrib_points = 2
 	cmode_music = 'sound/music/combat_ManAtArms.ogg'
 
+	job_traits = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED)
+
+	job_subclasses = list(
+		/datum/advclass/manorguard/footsman,
+		/datum/advclass/manorguard/skirmisher,
+		/datum/advclass/manorguard/cavalry
+	)
+
 /datum/outfit/job/roguetown/manorguard
 	job_bitflag = BITFLAG_GARRISON
 
@@ -63,6 +71,14 @@
 
 	category_tags = list(CTAG_MENATARMS)
 
+	traits_applied = list(TRAIT_MEDIUMARMOR)
+	subclass_stats = list(
+		STATKEY_STR = 2,// seems kinda lame but remember guardsman bonus!!
+		STATKEY_INT = 1,
+		STATKEY_CON = 1,
+		STATKEY_END = 1
+	)
+
 /datum/outfit/job/roguetown/manorguard/footsman/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
@@ -81,14 +97,6 @@
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE)
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_GUARDSMAN, TRAIT_GENERIC) //+1 spd, con, end, +2 per in town
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-
-	H.change_stat("strength", 2) // seems kinda lame but remember guardsman bonus!!
-	H.change_stat("intelligence", 1)
-	H.change_stat("constitution", 1)
-	H.change_stat("endurance", 1)
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord		//Bit worse shirt protection than the archer
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale			//Makes up for worse shirt protection with kinda better armor protection
@@ -133,6 +141,15 @@
 
 	category_tags = list(CTAG_MENATARMS)
 
+	//Garrison ranged/speed class. Time to go wild
+	traits_applied = list(TRAIT_DODGEEXPERT)
+	subclass_stats = list(
+		STATKEY_SPD = 2,// seems kinda lame but remember guardsman bonus!!
+		STATKEY_PER = 2,
+		STATKEY_END = 1
+	)
+	extra_context = "Chooses between Light Armor (Dodge Expert) & Medium Armor."
+
 /datum/outfit/job/roguetown/manorguard/skirmisher/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
@@ -149,14 +166,6 @@
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_GUARDSMAN, TRAIT_GENERIC) //+1 spd, con, end, +2 per in town
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-
-	//Garrison ranged/speed class. Time to go wild
-	H.change_stat("endurance", 1) // seems kinda lame but remember guardsman bonus!!
-	H.change_stat("perception", 2)
-	H.change_stat("speed", 2)
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord			// Cant wear chainmail anymoooree
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded		//Helps against arrows; makes sense for a ranged-type role.
@@ -201,6 +210,15 @@
 
 	category_tags = list(CTAG_MENATARMS)
 
+	traits_applied = list(TRAIT_MEDIUMARMOR)
+	//Garrison mounted class; charge and charge often.
+	subclass_stats = list(
+		STATKEY_CON = 2,// seems kinda lame but remember guardsman bonus!!
+		STATKEY_END = 2,// Your name is speed, and speed is running.
+		STATKEY_STR = 1,
+		STATKEY_INT = 1, // No strength to account for the nominally better weapons. We'll see.
+	)
+
 /datum/outfit/job/roguetown/manorguard/cavalry/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
@@ -218,15 +236,6 @@
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 4, TRUE) 		// Like the other horselords.
 	H.adjust_skillrank(/datum/skill/misc/tracking, 3, TRUE)	//Best tracker. Might as well give it something to stick-out utility wise.
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_GUARDSMAN, TRAIT_GENERIC) //+1 spd, con, end, +2 per in town
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-
-	//Garrison mounted class; charge and charge often.
-	H.change_stat("strength", 1)
-	H.change_stat("constitution", 2) 
-	H.change_stat("endurance", 2) // Your name is speed, and speed is running.
-	H.change_stat("intelligence", 1) // No strength to account for the nominally better weapons. We'll see.
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord		//Bit worse shirt protection than the archer -- as foot soldier.
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale			//Makes up for worse shirt protection with kinda better armor protection

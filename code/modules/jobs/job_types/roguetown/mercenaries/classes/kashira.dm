@@ -5,9 +5,16 @@
 	allowed_races = NON_DWARVEN_RACE_TYPES
 	outfit = /datum/outfit/job/roguetown/mercenary/kashira
 	category_tags = list(CTAG_MERCENARY)
-	traits_applied = list(TRAIT_OUTLANDER)
+	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
 	cmode_music = 'sound/music/combat_kazengite.ogg'
 	maximum_possible_slots = 1
+	subclass_stats = list(
+		STATKEY_CON = 3,
+		STATKEY_END = 3,
+		STATKEY_STR = 2,
+		STATKEY_PER = 1,
+		STATKEY_SPD = -1
+	)
 
 /datum/outfit/job/roguetown/mercenary/kashira/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -26,17 +33,12 @@
 	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-	H.change_stat("strength", 2) 
-	H.change_stat("endurance", 3)
-	H.change_stat("constitution", 3)
-	H.change_stat("perception", 1)
-	H.change_stat("speed", -1)
 	H.adjust_blindness(-3)
 
 	if(should_wear_masc_clothes(H))
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 		cloak = /obj/item/clothing/cloak/eastcloak1
-		pants = /obj/item/clothing/under/roguetown/trou/eastpants1
+		/obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
 		gloves = /obj/item/clothing/gloves/roguetown/eastgloves2
 		armor = /obj/item/clothing/suit/roguetown/armor/skin_armor/easttats
 		shoes = /obj/item/clothing/shoes/roguetown/boots
@@ -48,7 +50,4 @@
 		shirt = /obj/item/clothing/suit/roguetown/armor/skin_armor/easttats
 		shoes = /obj/item/clothing/shoes/roguetown/armor/rumaclan
 
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)	
-	ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC) //i swear this isn't as good as it sounds
 	H.grant_language(/datum/language/kazengunese)

@@ -11,8 +11,15 @@
 	maximum_possible_slots = 1
 	pickprob = 5
 	category_tags = list(CTAG_TOWNER)
-	
-	
+
+	subclass_stats = list(
+		STATKEY_STR = 4,
+		STATKEY_INT = 2,
+		STATKEY_END = 2,
+		STATKEY_CON = 2,
+		STATKEY_PER = 1
+	)
+
 /datum/outfit/job/roguetown/adventurer/masterwoodcutter/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/axes, 6, TRUE) // AXE MEN! GIVE ME SPLINTERS!
@@ -44,8 +51,4 @@
 						/obj/item/flint = 1,
 						/obj/item/flashlight/flare/torch = 1,
 						)
-	H.change_stat("strength", 4)
-	H.change_stat("constitution", 1)
-	H.change_stat("perception", 1)
-	H.change_stat("intelligence", 2)
 

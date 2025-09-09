@@ -19,6 +19,13 @@
 
 	give_bank_account = TRUE
 
+	job_traits = list(TRAIT_RITUALIST, TRAIT_STEELHEARTED)
+
+	job_subclasses = list(
+		/datum/advclass/templar/monk,
+		/datum/advclass/templar/crusader
+	)
+
 	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts.
 	virtue_restrictions = list(/datum/virtue/utility/noble)
 
@@ -44,6 +51,14 @@
 	outfit = /datum/outfit/job/roguetown/templar/monk
 
 	category_tags = list(CTAG_TEMPLAR)
+
+	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN, TRAIT_DODGEEXPERT)
+	subclass_stats = list(
+		STATKEY_STR = 3,
+		STATKEY_CON = 2,
+		STATKEY_END = 2,
+		STATKEY_SPD = 2
+	)
 
 /datum/outfit/job/roguetown/templar/monk/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -135,14 +150,6 @@
 		H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
 	// -- End of section for god specific bonuses --
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_RITUALIST, TRAIT_GENERIC)
-	H.change_stat("strength", 3)
-	H.change_stat("constitution", 2)
-	H.change_stat("endurance", 2)
-	H.change_stat("speed", 2)
 	H.cmode_music = 'sound/music/combat_holy.ogg'
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
@@ -174,6 +181,13 @@
 	outfit = /datum/outfit/job/roguetown/templar/crusader
 
 	category_tags = list(CTAG_TEMPLAR)
+
+	traits_applied = list(TRAIT_HEAVYARMOR)
+	subclass_stats = list(
+		STATKEY_END = 3,
+		STATKEY_STR = 2,
+		STATKEY_CON = 2,
+	)
 
 /datum/outfit/job/roguetown/templar/crusader/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -285,12 +299,6 @@
 		H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
 	// -- End of section for god specific bonuses --
-	ADD_TRAIT(H, TRAIT_RITUALIST, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-	H.change_stat("strength", 2)
-	H.change_stat("constitution", 2)
-	H.change_stat("endurance", 3)
 	H.cmode_music = 'sound/music/combat_holy.ogg'
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()

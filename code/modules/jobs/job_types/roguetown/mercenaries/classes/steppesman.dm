@@ -5,9 +5,10 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/mercenary/steppesman
 	category_tags = list(CTAG_MERCENARY)
-	traits_applied = list(TRAIT_OUTLANDER)
 	cmode_music = 'sound/music/combat_steppe.ogg'
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled
+
+	extra_context = "This subclass has 3 loadouts with various stats, skills & equipment."
 
 /datum/outfit/job/roguetown/mercenary/steppesman/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -67,7 +68,6 @@
 			H.change_stat("constitution", 2)
 			H.change_stat("speed", 1)
 			ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)	
 			H.dna.species.soundpack_m = new /datum/voicepack/male/evil() 	//Fits in my head all too well.
 		if("Druzhina - Ranged Skirmisher")	//Tl;dr - light armor class for Tatar-style archery. Has 'Druzhina' as a name cus czech/polish influence, couldn't think of better one.
 			H.set_blindness(0)
@@ -95,7 +95,6 @@
 			H.change_stat("perception", 3)
 			H.change_stat("endurance", 2)
 			H.change_stat("speed", 2)
-			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)	
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 		if("Kozak - Melee Skirmisher")		//Tl;dr - Old Steppesman whip build, light armor, be the glass canon you always wanted to be. Live your life, king. 
 			H.set_blindness(0)
@@ -125,7 +124,6 @@
 			H.change_stat("perception", 2)
 			H.change_stat("endurance", 1)
 			H.change_stat("speed", 2)
-			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)	
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 			H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()		//Semi-crazed warrior vibe.
 

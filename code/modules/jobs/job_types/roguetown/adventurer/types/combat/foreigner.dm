@@ -4,8 +4,9 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = NON_DWARVEN_RACE_TYPES //roughneck & custodian sprites dont have dwarf variants - adjust if/when a second update comes out with dwarf sprites
 	outfit = /datum/outfit/job/roguetown/adventurer/foreigner
-	traits_applied = list(TRAIT_STEELHEARTED)
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
+
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 2,
@@ -47,6 +48,7 @@
 	tutorial = "You are an ex-guardian, whenever that be for a petty noble, or a small shrine. You excel in defense with quarterstaffs, or have taken up the Naginata's offensive martial capabilities."
 	allowed_races = NON_DWARVEN_RACE_TYPES //roughneck & custodian sprites dont have dwarf variants - adjust if/when a second update comes out with dwarf sprites
 	outfit = /datum/outfit/job/roguetown/adventurer/custodian
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 2,
@@ -84,7 +86,7 @@
 			backr = /obj/item/rogueweapon/woodstaff/quarterstaff/steel
 	H.cmode_music = 'sound/music/combat_kazengite.ogg'
 	H.grant_language(/datum/language/kazengunese)
-
+/*
 /datum/advclass/foreigner/yoruku
 	name = "Yoruku"
 	tutorial = "You are a Kazengunese agent trained in assassination, sabotage, and irregular combat. You are armed with daggers or a short sword, perfect \
@@ -146,3 +148,4 @@
 
 	H.cmode_music = 'sound/music/combat_kazengite.ogg'
 	H.grant_language(/datum/language/kazengunese)
+*/

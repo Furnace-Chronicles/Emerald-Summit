@@ -456,7 +456,7 @@
 						dat += "<br>[capitalize(stat)]: <b>[adv_ref.subclass_stats[stat] < 0 ? "<font color = '#cf2a2a'>" : "<font color = '#91cf68'>"]\Roman[adv_ref.subclass_stats[stat]]</font></b>"
 				dat += "<br></td></tr></table></font>"
 				if(length(adv_ref.traits_applied))
-					dat += "<font color ='#ccbb82'>This <font color ='#d6d6d6'>sub</font>class gains the following traits:</font> "
+					dat += "<font color ='#ccbb82'>This subclass gains the following traits:</font> "
 					for(var/trait in adv_ref.traits_applied)
 						dat += "<details><summary><i><font color ='#ccbb82'>[trait]</font></i></summary>"
 						dat += "<i><font color = '#a3ffe0'>[GLOB.roguetraits[trait]]</font></i></details>"

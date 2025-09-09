@@ -6,6 +6,13 @@
 	outfit = /datum/outfit/job/roguetown/vagabond/wanted
 	category_tags = list(CTAG_VAGABOND)
 
+	subclass_stats = list(
+		STATKEY_PER = 2,
+		STATKEY_SPD = 2,
+		STATKEY_INT = -1
+	)
+	extra_context = "This class starts with a bounty."
+
 /datum/outfit/job/roguetown/vagabond/wanted/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_femme_clothes(H))
@@ -26,8 +33,6 @@
 		H.adjust_skillrank(/datum/skill/misc/sneaking, 4, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/stealing, 4, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
-		H.change_stat("perception", 2)
-		H.change_stat("intelligence", -1)
 		H.change_stat("fortune", rand(-2, 2))
 		var/my_crime = input(H, "What is your crime?", "Crime") as text|null
 		if (!my_crime)

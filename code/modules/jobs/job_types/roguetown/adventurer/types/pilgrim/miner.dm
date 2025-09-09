@@ -8,6 +8,14 @@
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 
+	traits_applied = list(TRAIT_DARKVISION)
+	subclass_stats = list(
+		STATKEY_STR = 2,
+		STATKEY_CON = 2,
+		STATKEY_LCK = 2,
+		STATKEY_END = 1
+	)
+
 /datum/outfit/job/roguetown/adventurer/miner/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/armingcap
@@ -49,8 +57,3 @@
 	H.adjust_skillrank(/datum/skill/labor/mining, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/smelting, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-	H.change_stat("strength", 2)
-	H.change_stat("endurance", 1)
-	H.change_stat("constitution", 2)
-	H.change_stat("fortune", 2)
-	ADD_TRAIT(H, TRAIT_DARKVISION, TRAIT_GENERIC)

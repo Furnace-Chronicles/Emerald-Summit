@@ -9,6 +9,12 @@
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 
+	subclass_stats = list(
+		STATKEY_INT = 2,
+		STATKEY_CON = 2,//Cheeese diet
+		STATKEY_END = 1
+	)
+
 /datum/outfit/job/roguetown/adventurer/cheesemaker/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
@@ -45,6 +51,3 @@
 		/obj/item/recipe_book/survival = 1,
 		)
 	r_hand = /obj/item/flashlight/flare/torch
-	H.change_stat("intelligence", 2)
-	H.change_stat("constitution", 2) // Cheese diet.
-	H.change_stat("endurance", 1)

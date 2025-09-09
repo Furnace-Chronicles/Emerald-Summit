@@ -22,7 +22,13 @@
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_noble.ogg'
 
-
+	job_traits = list(TRAIT_NOBLE)
+	job_subclasses = list(
+		/datum/advclass/heir/daring,
+		/datum/advclass/heir/bookworm,
+		/datum/advclass/heir/aristocrat,
+		/datum/advclass/heir/inbred,
+	)
 
 /datum/job/roguetown/prince/after_spawn(mob/living/H, mob/M, latejoin)
 	. = ..()
@@ -37,6 +43,15 @@
 	tutorial = "You're a somebody, someone important. It only makes sense you want to make a name for yourself, to gain your own glory so people see how great you really are beyond your bloodline. Plus, if you're beloved by the people for your exploits you'll be chosen! Probably. Shame you're as useful and talented as a squire, despite your delusions to the contrary."
 	outfit = /datum/outfit/job/roguetown/heir/daring
 	category_tags = list(CTAG_HEIR)
+
+	traits_applied = list(TRAIT_MEDIUMARMOR)
+	subclass_stats = list(
+		STATKEY_STR = 1,
+		STATKEY_PER = 1,
+		STATKEY_CON = 1,
+		STATKEY_SPD = 1,
+		STATKEY_LCK = 1,
+	)
 
 /datum/outfit/job/roguetown/heir/daring/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -95,24 +110,23 @@
 		H.adjust_skillrank(/datum/skill/misc/riding, 3, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
 
-		H.change_stat("strength", 1)
-		H.change_stat("perception", 1)
-		H.change_stat("constitution", 1)
-		H.change_stat("speed", 1)
-		H.change_stat("fortune", 1)
-		ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
-		ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-
 /datum/advclass/heir/bookworm
 	name = "Introverted Bookworm"
 	tutorial = "Despite your standing, sociability is not your strong suit, and you have kept mostly to yourself and your books. This hardly makes you a favourite among the lords and ladies of the court, and an exit from your room is often met with amusement from nobility and servants alike. But maybe... just maybe, some of your reading interests may be bearing fruit."
 	outfit = /datum/outfit/job/roguetown/heir/bookworm
 	category_tags = list(CTAG_HEIR)
 
+	traits_applied = list(TRAIT_ARCYNE_T1, TRAIT_MAGEARMOR)
+	subclass_stats = list(
+		STATKEY_STR = -1,
+		STATKEY_INT = 2,
+		STATKEY_SPD = 1,
+		STATKEY_CON = -1,
+		STATKEY_LCK = 1,
+	)
+
 /datum/outfit/job/roguetown/heir/bookworm/pre_equip(mob/living/carbon/human/H)
 	..()
-	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
 	if(should_wear_masc_clothes(H))
 		pants = /obj/item/clothing/under/roguetown/tights/random
 		armor = /obj/item/clothing/suit/roguetown/armor/longcoat
@@ -134,14 +148,8 @@
 	H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 	H?.mind.adjust_spellpoints(9)
-	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-	H.change_stat("strength", -1)
-	H.change_stat("intelligence", 2)
-	H.change_stat("speed", 1)
-	H.change_stat("constitution", -1)
-	H.change_stat("fortune", 1)
 
 /datum/advclass/heir/aristocrat
 	name = "Sheltered Aristocrat"
@@ -149,11 +157,17 @@
 	outfit = /datum/outfit/job/roguetown/heir/aristocrat
 	category_tags = list(CTAG_HEIR)
 
+	traits_applied = list(TRAIT_SEEPRICES_SHITTY, TRAIT_GOODLOVER)
+	subclass_stats = list(
+		STATKEY_PER = 2,
+		STATKEY_STR = -1,
+		STATKEY_INT = 2,
+		STATKEY_LCK = 1,
+		STATKEY_SPD = 1
+	)
+
 /datum/outfit/job/roguetown/heir/aristocrat/pre_equip(mob/living/carbon/human/H)
 	..()
-	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_SEEPRICES_SHITTY, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC) // Pillow princesses (gender neutral)
 	head = /obj/item/clothing/head/roguetown/circlet
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/keyring/heir
@@ -182,11 +196,6 @@
 	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/sewing, 3, TRUE)
-	H.change_stat("perception", 2)
-	H.change_stat("strength", -1)
-	H.change_stat("intelligence", 2)
-	H.change_stat("fortune", 1)
-	H.change_stat("speed", 1)
 
 /datum/advclass/heir/inbred
 	name = "Inbred wastrel"
@@ -194,11 +203,18 @@
 	outfit = /datum/outfit/job/roguetown/heir/inbred
 	category_tags = list(CTAG_HEIR)
 
+	traits_applied = list(TRAIT_CRITICAL_WEAKNESS, TRAIT_NORUN)
+	subclass_stats = list(
+		STATKEY_STR = -2,
+		STATKEY_PER = -2,
+		STATKEY_INT = -2,
+		STATKEY_CON = -2,
+		STATKEY_END = -2,
+		STATKEY_LCK = -2
+	)
+
 /datum/outfit/job/roguetown/heir/inbred/pre_equip(mob/living/carbon/human/H)
 	..()
-	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_NORUN, TRAIT_GENERIC)
 	head = /obj/item/clothing/head/roguetown/circlet
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/keyring/heir
@@ -226,9 +242,3 @@
 	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE)
-	H.change_stat("strength", -2)
-	H.change_stat("perception", -2)
-	H.change_stat("intelligence", -2)
-	H.change_stat("constitution", -2)
-	H.change_stat("endurance", -2)
-	H.change_stat("fortune", -2) //They already can't run, no need to do speed and torture their move speed.

@@ -8,6 +8,14 @@
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 
+	subclass_stats = list(
+		STATKEY_END = 2,
+		STATKEY_STR = 1,
+		STATKEY_CON = 1,
+		STATKEY_INT = 1,
+		STATKEY_SPD = -1
+	)
+
 /datum/outfit/job/roguetown/adventurer/carpenter/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE) // They use hammers, sawes and axes all day.
@@ -47,8 +55,3 @@
 						/obj/item/recipe_book/builder = 1,
 						/obj/item/recipe_book/survival = 1,
 						)
-	H.change_stat("strength", 1)
-	H.change_stat("endurance", 2)
-	H.change_stat("constitution", 1)
-	H.change_stat("intelligence", 1)
-	H.change_stat("speed", -1)

@@ -24,15 +24,45 @@
 	max_pq = null
 	round_contrib_points = 2
 	cmode_music = 'sound/music/combat_bandit_mage.ogg'
+	advclass_cat_rolls = list(CTAG_COURTMAGE = 2)
 
 	// Can't get very far as a magician if you can't chant spells now can you?
 	vice_restrictions = list(/datum/charflaw/mute)
 
+	job_traits = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T4, TRAIT_SEEPRICES, TRAIT_INTELLECTUAL)
+	job_subclasses = list(
+		/datum/advclass/courtmage
+	)
+
+/datum/advclass/courtmage
+	name = "Court Magician"
+	tutorial = "Your creed is one dedicated to the conquering of the arcane arts and the constant thrill of knowledge. \
+		You owe your life to the Lord, for it was his coin that allowed you to continue your studies in these dark times. \
+		In return, you have proven time and time again as justicar and trusted advisor to their reign."
+	outfit = /datum/outfit/job/roguetown/magician/basic
+
+	category_tags = list(CTAG_COURTMAGE)
+	subclass_stats = list(
+		STATKEY_INT = 4,// Automatic advanced magic for most spells. (I.E summon weapon being upgraded to steel from iron/etc)
+		STATKEY_STR = -1,
+		STATKEY_CON = -1,
+	)
+
+
 /datum/outfit/job/roguetown/magician
 	job_bitflag = BITFLAG_ROYALTY
 
-/datum/outfit/job/roguetown/magician/pre_equip(mob/living/carbon/human/H)
+/datum/job/roguetown/magician/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		H.advsetup = 1
+		H.invisibility = INVISIBILITY_MAXIMUM
+		H.become_blind("advsetup")
+
+/datum/outfit/job/roguetown/magician/basic/pre_equip(mob/living/carbon/human/H)
+	..()
+	H.adjust_blindness(-3)
 	neck = /obj/item/clothing/neck/roguetown/talkstone
 	cloak = /obj/item/clothing/cloak/black_cloak
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/black
@@ -53,16 +83,11 @@
 		/obj/item/book/spellbook,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne
 	)
-	ADD_TRAIT(H, TRAIT_SEEPRICES, "[type]")
-	ADD_TRAIT(H, TRAIT_INTELLECTUAL, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_ARCYNE_T4, TRAIT_GENERIC)
 	H.adjust_skillrank(/datum/skill/misc/reading, 6, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/alchemy, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/alchemy, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/magic/arcane, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
@@ -70,12 +95,8 @@
 	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
-	H.change_stat("strength", -1)
-	H.change_stat("constitution", -1)
-	H.change_stat("intelligence", 4)
 	if (H && H.mind)
 		H?.mind.adjust_spellpoints(36)
-	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 		H.change_stat("speed", -1)

@@ -6,8 +6,15 @@
 	outfit = /datum/outfit/job/roguetown/mercenary/forlorn
 	min_pq = 2
 	cmode_music = 'sound/music/combat_blackstar.ogg'
-	traits_applied = list(TRAIT_OUTLANDER)
 	category_tags = list(CTAG_MERCENARY)
+
+	// tuff boys
+	traits_applied = list(TRAIT_MEDIUMARMOR)
+	subclass_stats = list(
+		STATKEY_END = 3,
+		STATKEY_STR = 2,
+		STATKEY_CON = 2
+	)
 
 /datum/outfit/job/roguetown/mercenary/forlorn/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -40,8 +47,3 @@
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
-	H.change_stat("strength", 2)
-	H.change_stat("endurance", 3) // tuff boys
-	H.change_stat("constitution", 2) 
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)	

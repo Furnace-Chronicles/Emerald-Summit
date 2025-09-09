@@ -6,6 +6,12 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/butcher
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 
+	subclass_stats = list(
+		STATKEY_CON = 2,
+		STATKEY_END = 2,
+		STATKEY_STR = 1
+	)
+
 /datum/outfit/job/roguetown/adventurer/butcher/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
@@ -36,7 +42,3 @@
 	else
 		pants = /obj/item/clothing/under/roguetown/trou
 		wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-
-	H.change_stat("strength", 1)	//Stat spread is decent; not great but decent. 
-	H.change_stat("endurance", 2)
-	H.change_stat("constitution", 2)

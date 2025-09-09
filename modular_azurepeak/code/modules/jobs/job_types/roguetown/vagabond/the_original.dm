@@ -6,6 +6,12 @@
 	outfit = /datum/outfit/job/roguetown/vagabond/original
 	category_tags = list(CTAG_VAGABOND)
 
+	subclass_stats = list(
+		STATKEY_CON = -1,
+		STATKEY_END = -1
+	)
+	extra_context = "FOR and INT are randomised."
+
 /datum/outfit/job/roguetown/vagabond/original/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_femme_clothes(H))
@@ -31,5 +37,3 @@
 		H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
 		H.STALUC = rand(5, 15)
 		H.change_stat("intelligence", round(rand(-4,4)))
-		H.change_stat("constitution", -1)
-		H.change_stat("endurance", -1)

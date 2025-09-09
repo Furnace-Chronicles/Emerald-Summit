@@ -21,6 +21,31 @@
 	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts.
 	virtue_restrictions = list(/datum/virtue/utility/noble)
 
+	job_traits = list(TRAIT_RITUALIST, TRAIT_GRAVEROBBER)
+	advclass_cat_rolls = list(CTAG_ACOLYTE = 2)
+	job_subclasses = list(
+		/datum/advclass/acolyte
+	)
+
+/datum/job/roguetown/monk/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		H.advsetup = 1
+		H.invisibility = INVISIBILITY_MAXIMUM
+		H.become_blind("advsetup")
+
+/datum/advclass/acolyte
+	name = "Acolyte"
+	tutorial = "Chores, some more chores- Even more chores.. Oh how the life of a humble acolyte is exhausting… You have faith, but even you know you gave up a life of adventure for that of the security in the Church. Assist the Bishop in their daily tasks, maybe today will be the day something interesting happens."
+	outfit = /datum/outfit/job/roguetown/monk/basic
+	category_tags = list(CTAG_ACOLYTE)
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_END = 2,
+		STATKEY_SPD = 1
+	)
+
 /datum/outfit/job/roguetown/monk
 	name = "Acolyte"
 	jobtype = /datum/job/roguetown/monk
@@ -28,8 +53,9 @@
 	allowed_patrons = list(/datum/patron/divine/pestra, /datum/patron/divine/astrata, /datum/patron/divine/eora, /datum/patron/divine/noc, /datum/patron/divine/necra, /datum/patron/divine/abyssor, /datum/patron/divine/malum, /datum/patron/divine/ravox, /datum/patron/divine/xylix) // The whole Ten. Probably could delete this now, actually.
 
 
-/datum/outfit/job/roguetown/monk/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/monk/basic/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.adjust_blindness(-3)
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	beltl = /obj/item/storage/keyring/churchie
@@ -159,11 +185,6 @@
 		H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/music, 2, TRUE)
 	// -- End of section for god specific bonuses --
-	ADD_TRAIT(H, TRAIT_RITUALIST, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
-	H.change_stat("intelligence", 3)
-	H.change_stat("endurance", 2)
-	H.change_stat("speed", 1)
 	H.cmode_music = 'sound/music/combat_holy.ogg'
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)

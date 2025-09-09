@@ -6,6 +6,14 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/thug
 	category_tags = list(CTAG_TOWNER)
 
+	subclass_stats = list(
+		STATKEY_CON = 3,
+		STATKEY_STR = 2,
+		STATKEY_END = 1,
+		STATKEY_INT = -1,
+		STATKEY_SPD = -1
+	)
+
 /datum/outfit/job/roguetown/adventurer/thug/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
@@ -41,9 +49,4 @@
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	armor = /obj/item/clothing/suit/roguetown/armor/workervest
-	H.change_stat("strength", 2)
-	H.change_stat("endurance", 1)
-	H.change_stat("constitution", 3)
-	H.change_stat("speed", -1)
-	H.change_stat("intelligence", -1)
 	H.grant_language(/datum/language/thievescant)

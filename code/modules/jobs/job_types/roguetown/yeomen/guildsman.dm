@@ -23,6 +23,12 @@
 	round_contrib_points = 3
 	advjob_examine = TRUE // So that everyone know which subjob they have picked
 
+	job_subclasses = list(
+		/datum/advclass/guildsman/artificer,
+		/datum/advclass/guildsman/blacksmith,
+		/datum/advclass/guildsman/architect
+	)
+
 /datum/job/roguetown/guildsman/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	. = ..()
 	if(ishuman(L))
@@ -32,17 +38,24 @@
 		H.become_blind("advsetup")
 
 /datum/advclass/guildsman/blacksmith
-	name = "Blacksmith"
+	name = "Guild Blacksmith"
 	tutorial = "You've studied for many yils under quite a number of master smiths. Whether it's cookware or tools of war, you're unmatched at the art of bending metal to your will."
 	outfit = /datum/outfit/job/roguetown/guildsman/blacksmith
 
 	category_tags = list(CTAG_GUILDSMEN)
 
+	traits_applied = list(TRAIT_TRAINED_SMITH)
+	subclass_stats = list(
+		STATKEY_STR = 2,
+		STATKEY_END = 2,
+		STATKEY_CON = 2,
+		STATKEY_INT = 1
+	)
+
 /datum/outfit/job/roguetown/guildsman/blacksmith/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/hatfur
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith
-	ADD_TRAIT(H, TRAIT_TRAINED_SMITH, TRAIT_GENERIC)
 	if(prob(50))
 		head = /obj/item/clothing/head/roguetown/hatblu
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
@@ -82,19 +95,23 @@
 		beltr = /obj/item/roguekey/crafterguild
 		cloak = /obj/item/clothing/cloak/apron/blacksmith
 
-	H.change_stat("strength", 2)
-	H.change_stat("intelligence", 1)
-	H.change_stat("endurance", 2)
-	H.change_stat("constitution", 2)
-
 /datum/advclass/guildsman/artificer
-	name = "Artificer"
+	name = "Guild Artificer"
 	tutorial = "You are an Artificer, oft known by the longer name of Artificer-Enchanter. You have basic training in the arts of smithing, and can substitute for a blacksmith's work if needed.\
 	But your true calling is the creation and enchantment of magical items, alongside feats of engineering, creating mechanical and magical wonders whose art of creation has been passed down\
 	from a certain elven Artificer..."
 	outfit = /datum/outfit/job/roguetown/guildsman/artificer
 
 	category_tags = list(CTAG_GUILDSMEN)
+
+	traits_applied = list(TRAIT_ARCYNE_T1)
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_END = 2,
+		STATKEY_STR = 1,
+		STATKEY_CON = 1,
+		STATKEY_PER = 1
+	)
 
 /datum/outfit/job/roguetown/guildsman/artificer/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -142,20 +159,23 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
-	ADD_TRAIT(H, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
-	H.change_stat("strength", 1)
-	H.change_stat("intelligence", 3)
-	H.change_stat("endurance", 2)
-	H.change_stat("constitution", 1)
-	H.change_stat("perception", 1)
 
 /datum/advclass/guildsman/architect
-	name = "Architect"
+	name = "Guild Architect"
 	tutorial = "You are a Guild Architect, a master of the art of building and construction. You build castles, fortifications and entire cities with your own hands. And you know how to source those materials yourself too.\
 	When there is no construction work around, your fellow Guildsmen appreciate your help with gathering materials."
 	outfit = /datum/outfit/job/roguetown/guildsman/architect
 
 	category_tags = list(CTAG_GUILDSMEN)
+
+	traits_applied = list()
+	subclass_stats = list(
+		STATKEY_INT = 2,
+		STATKEY_END = 2,
+		STATKEY_LCK = 2,
+		STATKEY_STR = 1,
+		STATKEY_CON = 1,
+	)
 
 /datum/outfit/job/roguetown/guildsman/architect/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -202,9 +222,3 @@
 						/obj/item/recipe_book/survival = 1,
 						/obj/item/roguekey/crafterguild = 1
 						)
-	H.change_stat("strength", 1)
-	H.change_stat("intelligence", 2)
-	H.change_stat("endurance", 2)
-	H.change_stat("constitution", 1)
-	H.change_stat("fortune", 2)
-

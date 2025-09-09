@@ -8,6 +8,11 @@
 	traits_applied = list(TRAIT_EMPATH, TRAIT_NOSTINK)
 	cmode_music = 'sound/music/combat_physician.ogg'
 
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_LCK = 1
+	)
+
 /datum/outfit/job/roguetown/adventurer/doctor/pre_equip(mob/living/carbon/human/H)
 	..()
 	mask = /obj/item/clothing/mask/rogue/spectacles
@@ -40,8 +45,6 @@
 	H.adjust_skillrank(/datum/skill/misc/medicine, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/sewing, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
-	H.change_stat("intelligence", 3)
-	H.change_stat("fortune", 1)
 	if(H.age == AGE_OLD)
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 1)

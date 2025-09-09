@@ -22,6 +22,12 @@
 	cmode_music = 'sound/music/combat_guard.ogg'
 	advclass_cat_rolls = list (CTAG_MARSHAL = 20)
 
+	job_traits = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_PERFECT_TRACKER)
+	job_subclasses = list(
+		/datum/advclass/marshal/classic,
+		/datum/advclass/marshal/kcommander
+	)
+
 /datum/outfit/job/roguetown/marshal
 	job_bitflag = BITFLAG_ROYALTY | BITFLAG_GARRISON	//Same as Captain, you get decent combat stats so might as well be garrison.
 
@@ -44,16 +50,6 @@
 	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE)
-	H.change_stat("strength", 2) //important leadership role, but SHOULDN'T be frontlining
-	H.change_stat("perception", 2)
-	H.change_stat("intelligence", 3)
-	H.change_stat("constitution", 1)
-	H.change_stat("endurance", 1)
-	H.change_stat("speed", 1)
-	H.change_stat("fortune", 1)
-	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_PERFECT_TRACKER, TRAIT_GENERIC)
 	H.verbs |= /mob/proc/haltyell
 	H.verbs |= list(/mob/living/carbon/human/proc/request_outlaw, /mob/living/carbon/human/proc/request_law, /mob/living/carbon/human/proc/request_law_removal, /mob/living/carbon/human/proc/request_purge)
 
@@ -72,6 +68,16 @@
 
 	category_tags = list(CTAG_MARSHAL)
 
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_PER = 2,
+		STATKEY_LCK = 1,
+		STATKEY_CON = 1,
+		STATKEY_END = 1,
+		STATKEY_SPD = 1,
+		STATKEY_STR = 2,
+	)
+
 /datum/outfit/job/roguetown/marshal/classic/pre_equip(mob/living/carbon/human/H)
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/sheriff
 	cloak = /obj/item/clothing/cloak/stabard/surcoat/bailiff
@@ -88,6 +94,16 @@
 	outfit = /datum/outfit/job/roguetown/marshal/kcommander
 
 	category_tags = list(CTAG_MARSHAL)
+
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_PER = 2,
+		STATKEY_LCK = 1,
+		STATKEY_CON = 1,
+		STATKEY_END = 1,
+		STATKEY_SPD = 1,
+		STATKEY_STR = 2,
+	)
 
 /datum/outfit/job/roguetown/marshal/kcommander/pre_equip(mob/living/carbon/human/H)
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/sheriff/coat

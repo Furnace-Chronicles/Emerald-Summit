@@ -11,7 +11,7 @@
 	traits_applied = list(
 		TRAIT_MEDIUMARMOR,
 		TRAIT_HEAVYARMOR,
-		TRAIT_NOBLE,
+		TRAIT_DISGRACED_NOBLE,
 		TRAIT_STEELHEARTED
 	)
 	subclass_stats = list(

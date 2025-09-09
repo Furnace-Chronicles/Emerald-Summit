@@ -8,6 +8,11 @@
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	cmode_music = 'sound/music/combat_soilson.ogg'
 
+	subclass_stats = list(
+		STATKEY_STR = 1,
+		STATKEY_INT = -1
+		)
+
 /datum/outfit/job/roguetown/adventurer/peasant/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
@@ -43,5 +48,3 @@
 						)
 	beltl = /obj/item/rogueweapon/sickle
 	backr = /obj/item/rogueweapon/hoe
-	H.change_stat("strength", 1)
-	H.change_stat("intelligence", -1)
