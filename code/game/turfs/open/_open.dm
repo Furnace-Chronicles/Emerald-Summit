@@ -113,8 +113,8 @@
 		if(buckled_obj)
 			buckled_obj.unbuckle_mob(C)
 			lube |= SLIDE_ICE
-		if(lube&SLIDE_MAGIC) //send them flying
-			new /datum/forced_movement(C, get_ranged_target_turf(C, olddir, 7), 1, FALSE, CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon, spin), 1, 1))
+		if(lube&SLIDE_MAGIC)
+			new /datum/forced_movement(C, get_ranged_target_turf(C, olddir, 6), 1, FALSE, CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon, spin), 1, 1))
 		else if(lube&SLIDE)
 			new /datum/forced_movement(C, get_ranged_target_turf(C, olddir, 4), 1, FALSE, CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon, spin), 1, 1))
 		else if(lube&SLIDE_ICE)
