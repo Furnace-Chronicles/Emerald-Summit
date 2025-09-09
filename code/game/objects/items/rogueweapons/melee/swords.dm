@@ -265,6 +265,7 @@
 		 It has great cultural significance in the empires of Grenzelhoft and Etrusca, where legendary swordsmen have created and perfected many fighting techniques of todae."
 	force = 25
 	force_wielded = 30
+	max_integrity = 200
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/sword/peel)
 	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/peel, /datum/intent/sword/chop)
 	alt_intents = list(/datum/intent/effect/daze, /datum/intent/sword/strike, /datum/intent/sword/bash)
@@ -758,7 +759,7 @@
 	name = "sabre"
 	desc = "A very popular backsword made for cavalrymen that originated in Naledi and spread its influence further north, reaching Aavnr as a \"Szablya\" and notoriously cementing itself as the preferred weapon of the Potentate's Hussars."
 	icon_state = "saber"
-	max_integrity = 230
+	max_integrity = 200
 	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust/sabre, /datum/intent/sword/peel, /datum/intent/sword/strike)
 	gripped_intents = null
 	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')
@@ -825,7 +826,7 @@
 		A very young type of fighting technique for this weapon is emerging in the island, aptly named \"Destreza\" for dexterity."
 	icon = 'icons/roguetown/weapons/64.dmi'
 	icon_state = "rapier"
-	max_integrity = 215
+	max_integrity = 175		//thin blade
 	bigboy = TRUE
 	pixel_y = -16
 	pixel_x = -16
@@ -848,7 +849,7 @@
 	name = "cup-hilt rapier"
 	desc = "A special variant of an Etruscan rapier. The cup hilt of this weapon is both simpler to produce and more protective than the type of traditional design of current rapiers."
 	icon = 'icons/roguetown/weapons/64.dmi'
-	max_integrity = 225
+	max_integrity = 175
 	icon_state = "cup_hilt_rapier"
 	wdefense = 8
 	force = 25
@@ -980,7 +981,7 @@
 	name = "cutlass"
 	desc = "The mariner's special: A short, broad sabre with a slightly curved blade optimized for slashing."
 	icon_state = "cutlass"
-	max_integrity = 240
+	max_integrity = 225
 	force = 23
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop, /datum/intent/sword/peel)
 	gripped_intents = null
@@ -1006,7 +1007,7 @@
 	force_wielded = 35
 	icon_state = "blackflamb"
 	smeltresult = /obj/item/ingot/blacksteel
-	max_integrity = 215
+	max_integrity = 250		//made of blacksteel after all
 
 /obj/item/rogueweapon/sword/long/blackflamb/getonmobprop(tag)
 	. = ..()
