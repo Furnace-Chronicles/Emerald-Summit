@@ -27,8 +27,8 @@
 	H.adjust_skillrank(/datum/skill/craft/tanning, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/labor/farming, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/tracking, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/masonry, 3, TRUE)
@@ -36,13 +36,15 @@
 	H.adjust_skillrank(/datum/skill/craft/cooking, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/labor/fishing, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/magic/holy, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/sneaking, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
 
 	H.change_stat("strength", 3)
 	H.change_stat("endurance", 2)
 	H.change_stat("constitution", 2)
 	H.change_stat("speed", 2)
 	H.change_stat("fortune", 2) //nature smiles at me!
-	H.change_stat("intelligence", -2)
+	H.change_stat("intelligence", -3)
 	H.change_stat("perception", -2)
 	H.cmode_music = 'sound/music/combat_berserker.ogg'
 	to_chat(H, span_danger("You have abandoned your humanity to run wild under the moon. The call of nature fills your soul!"))
