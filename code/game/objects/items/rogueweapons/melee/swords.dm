@@ -849,7 +849,7 @@
 	name = "cup-hilt rapier"
 	desc = "A special variant of an Etruscan rapier. The cup hilt of this weapon is both simpler to produce and more protective than the type of traditional design of current rapiers."
 	icon = 'icons/roguetown/weapons/64.dmi'
-	max_integrity = 175
+	max_integrity = 200
 	icon_state = "cup_hilt_rapier"
 	wdefense = 8
 	force = 25
