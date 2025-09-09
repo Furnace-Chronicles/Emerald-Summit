@@ -5,8 +5,10 @@
 	allowed_races = NON_DWARVEN_RACE_TYPES //no dwarf sprites
 	outfit = /datum/outfit/job/roguetown/mercenary/rumaclan
 	category_tags = list(CTAG_MERCENARY)
-	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
+	class_select_category = CLASS_CAT_KAZENGUN
 	cmode_music = 'sound/music/combat_kazengite.ogg'
+
+	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
 	subclass_stats = list(
 		STATKEY_CON = 3,
 		STATKEY_END = 3,

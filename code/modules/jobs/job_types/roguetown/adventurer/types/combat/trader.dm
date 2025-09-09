@@ -5,6 +5,8 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/trader
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
+	class_select_category = CLASS_CAT_TRADER
+
 	traits_applied = list(TRAIT_SEEPRICES)
 	subclass_stats = list(
 		STATKEY_INT = 3,

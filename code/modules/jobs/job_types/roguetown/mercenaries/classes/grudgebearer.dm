@@ -9,8 +9,10 @@
 	)
 	outfit = /datum/outfit/job/roguetown/mercenary/grudgebearer
 	category_tags = list(CTAG_MERCENARY)
+	class_select_category = CLASS_CAT_RACIAL
 	cmode_music = 'sound/music/combat_dwarf.ogg'
 	extra_context = "This subclass is race-limited to: Dwarves."
+
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_TRAINED_SMITH)
 	subclass_stats = list(
 		STATKEY_INT = 3,

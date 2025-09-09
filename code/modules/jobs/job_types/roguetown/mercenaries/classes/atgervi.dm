@@ -5,6 +5,8 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/mercenary/atgervi
 	category_tags = list(CTAG_MERCENARY)
+	class_select_category = CLASS_CAT_GRONN
+
 	traits_applied = list(TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_END = 3,

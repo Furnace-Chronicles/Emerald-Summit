@@ -5,7 +5,9 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/mercenary/warscholar
 	category_tags = list(CTAG_MERCENARY)
+	class_select_category = CLASS_CAT_NALEDI
 	cmode_music = 'sound/music/warscholar.ogg'
+
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3)
 	subclass_stats = list(
 		STATKEY_INT = 3,

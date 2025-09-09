@@ -13,6 +13,8 @@
 	var/total_slots_occupied = 0
 	var/min_pq = -100
 
+	var/class_select_category
+
 	var/horse = FALSE
 	var/vampcompat = TRUE
 	var/list/traits_applied

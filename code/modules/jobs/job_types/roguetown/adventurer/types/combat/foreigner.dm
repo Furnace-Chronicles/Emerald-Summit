@@ -5,6 +5,7 @@
 	allowed_races = NON_DWARVEN_RACE_TYPES //roughneck & custodian sprites dont have dwarf variants - adjust if/when a second update comes out with dwarf sprites
 	outfit = /datum/outfit/job/roguetown/adventurer/foreigner
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
+	class_select_category = CLASS_CAT_NOMAD
 
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
 	subclass_stats = list(

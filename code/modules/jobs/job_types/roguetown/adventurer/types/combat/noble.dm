@@ -4,10 +4,11 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_GOLEM
 	outfit = /datum/outfit/job/roguetown/adventurer/noble
-	traits_applied = list(TRAIT_NOBLE)
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
+	class_select_category = CLASS_CAT_NOBLE
 
 	cmode_music = 'sound/music/combat_knight.ogg'
+	traits_applied = list(TRAIT_NOBLE)
 	subclass_stats = list(
 		STATKEY_PER = 2,
 		STATKEY_INT = 2,

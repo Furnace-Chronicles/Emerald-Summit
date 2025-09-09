@@ -5,6 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/mercenary/steppesman
 	category_tags = list(CTAG_MERCENARY)
+	class_select_category = CLASS_CAT_AAVNR
 	cmode_music = 'sound/music/combat_steppe.ogg'
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled
 

@@ -5,7 +5,9 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft
 	category_tags = list(CTAG_MERCENARY)
+	class_select_category = CLASS_CAT_GRENZELHOFT
 	cmode_music = 'sound/music/combat_grenzelhoft.ogg'
+
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
 	subclass_stats = list(
 		STATKEY_CON = 3,

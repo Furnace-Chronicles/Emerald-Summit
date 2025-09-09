@@ -7,6 +7,7 @@
 	min_pq = 2
 	cmode_music = 'sound/music/combat_blackstar.ogg'
 	category_tags = list(CTAG_MERCENARY)
+	class_select_category = CLASS_CAT_RANESHENI
 
 	// tuff boys
 	traits_applied = list(TRAIT_MEDIUMARMOR)
