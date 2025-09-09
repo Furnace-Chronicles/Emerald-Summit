@@ -15,7 +15,7 @@
 	associated_skill = /datum/skill/magic/arcane
 	gesture_required = TRUE
 	spell_tier = 3 // AOE
-	invocation = "The ground betrays thee!" //Makes it a bit more obvious what it does
+	invocation = "Dolus Lubricus!" //"Slick Trick" in Latin
 	invocation_type = "shout"
 	glow_color = GLOW_COLOR_DISPLACEMENT
 	glow_intensity = GLOW_INTENSITY_HIGH //Big warning as its AoE
