@@ -8,11 +8,11 @@
 	desc = "<b>Porcelain Doll</b><br>\
 	The pinnacle of both art and craftsmanship, originally made to provide companionship for ladies and wealthy women \
 	alike. Created to be simply toys or novelty decorations for the wealthy, they do not sleep, eat or bleed. However, \
-	due to their dark magic and heretical origin that even their stronger cousin share; They were made to be incredibly \
-	brittle as to promote their subservience and remove any chance these somber creations have of killing their masters. \
+	due to the dark magic and heretical connotation that they share with the Golems of Giza, they were made to be incredibly \
+	brittle as to promote their subservience and remove any chance these somber creations have of harming their masters. \
 	Over time, they were seen to prove as valuable asset and advisory role due to their intellectual prowess, it is \
 	unknown what provided them with such a gift. A master wanting more engaging conversation? A lord wanting a more \
-	efficient clerk? Regardless, who knows what them eyes made of glass truly reflect...<br> \
+	efficient clerk? Regardless, who knows what thoughts their eyes of glass truly conceal?<br> \
 	(Insomnia, No hunger, no blood.) \
 	(+2 Intelligence, +1 Speed, -2 Strength)"
 

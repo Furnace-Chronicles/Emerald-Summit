@@ -1054,7 +1054,7 @@
 		C.container_resist(src)
 
 	else if(mobility_flags & MOBILITY_MOVE)
-		if(on_fire)
+		if(on_fire && last_special <= world.time)
 			resist_fire() //stop, drop, and roll
 			changeNext_move(CLICK_CD_RESIST)
 		else if(has_status_effect(/datum/status_effect/leash_pet))
