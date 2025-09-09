@@ -7,8 +7,7 @@
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_DISGRACED_NOBLE)
-	maximum_possible_slots = 2 //Ideal role for fraggers. Better to limit it. 
-	
+
 	cmode_music = 'sound/music/combat_bandit.ogg' // same as new hedgeknight music
 	// Deserter are the knight-equivalence. They get a balanced, straightforward 2 2 3 statspread to endure and overcome.
 	subclass_stats = list(
@@ -124,7 +123,7 @@
 	wretch_select_bounty(H)
 
 /datum/advclass/wretch/deserter/maa
-	name = "Disgraced Man at Arms"
+	name = "Deserter"
 	tutorial = "You had your post. You had your duty. Dissatisfied, lacking in morale, or simply thinking yourself better than it. - You decided to walk. Now it follows you everywhere you go."
 	outfit = /datum/outfit/job/roguetown/wretch/desertermaa
 	

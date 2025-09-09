@@ -6,20 +6,30 @@
 	outfit = /datum/outfit/job/roguetown/wretch/lunacyembracer
 	category_tags = list(CTAG_WRETCH)
 
+	traits_applied = list(
+		TRAIT_NUDIST,
+		TRAIT_CRITICAL_RESISTANCE,
+		TRAIT_NOPAIN,
+		TRAIT_DODGEEXPERT,
+		TRAIT_CIVILIZEDBARBARIAN,
+		TRAIT_STRONGBITE,
+		TRAIT_WOODWALKER,
+		TRAIT_NASTY_EATER,
+		TRAIT_CALTROPIMMUNE
+	)
+	subclass_stats = list(
+		STATKEY_STR = 3,
+		STATKEY_CON = 2,
+		STATKEY_END = 2,
+		STATKEY_SPD = 2,
+		STATKEY_LCK = 2,
+		STATKEY_INT = -2,
+		STATKEY_PER = -2
+	)
+
 /datum/outfit/job/roguetown/wretch/lunacyembracer/pre_equip(mob/living/carbon/human/H)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MAJOR)
-
-	ADD_TRAIT(H, TRAIT_NUDIST, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_NOPAIN, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_STRONGBITE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_WOODWALKER, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_NASTY_EATER, TRAIT_GENERIC)
 
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 5, TRUE)
@@ -37,13 +47,6 @@
 	H.adjust_skillrank(/datum/skill/labor/fishing, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/magic/holy, 3, TRUE)
 
-	H.change_stat("strength", 3)
-	H.change_stat("endurance", 2)
-	H.change_stat("constitution", 2)
-	H.change_stat("speed", 2)
-	H.change_stat("fortune", 2) //nature smiles at me!
-	H.change_stat("intelligence", -2)
-	H.change_stat("perception", -2)
 	H.cmode_music = 'sound/music/combat_berserker.ogg'
 	to_chat(H, span_danger("You have abandoned your humanity to run wild under the moon. The call of nature fills your soul!"))
 	wretch_select_bounty(H) 

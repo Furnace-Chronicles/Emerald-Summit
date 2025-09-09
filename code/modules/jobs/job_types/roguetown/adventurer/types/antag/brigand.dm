@@ -9,7 +9,6 @@
 
 	traits_applied = list(
 		TRAIT_MEDIUMARMOR,
-		TRAIT_STEELHEARTED
 	)
 	subclass_stats = list(
 		STATKEY_STR = 4,//have you seen this idiot's starting gear and skill spread??

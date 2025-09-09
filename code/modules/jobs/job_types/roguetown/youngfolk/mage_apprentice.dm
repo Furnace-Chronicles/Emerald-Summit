@@ -29,7 +29,6 @@
 		/datum/advclass/wapprentice/apprentice
 	)
 
-
 /datum/outfit/job/roguetown/wapprentice
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 	pants = /obj/item/clothing/under/roguetown/tights/random

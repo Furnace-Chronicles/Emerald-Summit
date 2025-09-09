@@ -30,6 +30,7 @@
 	same_job_respawn_delay = 1 MINUTES
 	cmode_music = 'sound/music/combat_bandit2.ogg'
 
+	job_traits = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_OUTLAW)
 	job_subclasses = list(
 		/datum/advclass/brigand,
 		/datum/advclass/hedgeknight,
