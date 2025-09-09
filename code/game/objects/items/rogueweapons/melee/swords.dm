@@ -328,7 +328,7 @@
 	name = "forgefiend flamberge"
 	desc = "This sword's creation took a riddle in its own making. A great sacrifice was made for a blade of perfect quality."
 	icon_state = "malumflamberge"
-	max_integrity = 200
+	max_integrity = 225
 
 /obj/item/rogueweapon/sword/long/zizo
 	name = "darksteel longsword"
