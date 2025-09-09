@@ -25,9 +25,9 @@
 			neck = /obj/item/clothing/neck/roguetown/leather //minimal defense
 			beltr = /obj/item/scabbard/rumahench
 			beltl = /obj/item/rogueweapon/sword/sabre/mulyeog/rumahench
-			shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
+			armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
 			cloak = /obj/item/clothing/cloak/eastcloak1
-			armor = /obj/item/clothing/suit/roguetown/armor/skin_armor/easttats
+			shirt = /obj/item/clothing/suit/roguetown/armor/skin_armor/easttats
 			pants = /obj/item/clothing/under/roguetown/trou/eastpants2
 			shoes = /obj/item/clothing/shoes/roguetown/armor/rumaclan
 			gloves = /obj/item/clothing/gloves/roguetown/eastgloves2
@@ -57,8 +57,8 @@
 			head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/kazengunese
 			neck = /obj/item/clothing/neck/roguetown/leather //minimal defense
 			beltl = /obj/item/flashlight/flare/torch/lantern
-			shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
-			armor = /obj/item/clothing/suit/roguetown/armor/skin_armor/easttats
+			armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
+			shirt = /obj/item/clothing/suit/roguetown/armor/skin_armor/easttats
 			pants = /obj/item/clothing/under/roguetown/trou/eastpants2
 			shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 			gloves = /obj/item/clothing/gloves/roguetown/eastgloves2

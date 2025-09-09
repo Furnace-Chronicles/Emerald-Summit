@@ -110,7 +110,7 @@
 	..()
 
 /obj/item/scabbard/examine(mob/user)
-	..()
+	. = ..()
 	if(sheathed)
 		. += span_notice("The sheath is occupied by [sheathed].")
 
