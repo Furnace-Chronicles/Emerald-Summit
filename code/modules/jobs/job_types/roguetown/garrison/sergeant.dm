@@ -113,14 +113,20 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/focustarget)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/guard) // We'll just use Watchmen as sorta conscripts yeag?
 	H.verbs |= list(/mob/living/carbon/human/proc/request_outlaw, /mob/proc/haltyell, /mob/living/carbon/human/mind/proc/setorders)
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1, /obj/item/storage/keyring/guardsergeant = 1)
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/storage/keyring/guardsergeant = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+	)
 	H.adjust_blindness(-3)
 	var/weapons = list("Rhomphaia","Flail & Shield","Halberd","Sabre & Crossbow")	//Bit more unique than footsman, you are a jack-of-all-trades + slightly more 'elite'.
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Rhomphaia")			//Rare-ish anti-armor two hander sword. Kinda alternative of a bastard sword type. Could be cool.
-			backl = /obj/item/rogueweapon/sword/long/rhomphaia
+			l_hand = /obj/item/rogueweapon/sword/long/rhomphaia
+			backl = /obj/item/rogueweapon/scabbard/sword
 			beltr = /obj/item/rogueweapon/mace/cudgel
 		if("Flail & Shield")	//Tower-shield, higher durability wood shield w/ more coverage. Plus a steel flail; maybe.. less broken that a steel mace?
 			beltr = /obj/item/rogueweapon/flail/sflail
@@ -132,6 +138,7 @@
 			beltr = /obj/item/quiver/bolts
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 			r_hand = /obj/item/rogueweapon/sword/sabre
+			l_hand = /obj/item/rogueweapon/scabbard/sword
 
 /obj/effect/proc_holder/spell/invoked/order
 	name = ""

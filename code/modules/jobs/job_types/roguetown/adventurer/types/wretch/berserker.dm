@@ -47,7 +47,13 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	neck = /obj/item/clothing/neck/roguetown/leather
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife = 1, /obj/item/flashlight/flare/torch/lantern/prelit = 1, /obj/item/storage/belt/rogue/pouch/coins/poor = 1, /obj/item/rope/chain = 1)
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+	)
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
 	var/weapons = list("Katar","Steel Knuckles","Punch Dagger","MY BARE HANDS!!!","Battle Axe","Mace","Sword")

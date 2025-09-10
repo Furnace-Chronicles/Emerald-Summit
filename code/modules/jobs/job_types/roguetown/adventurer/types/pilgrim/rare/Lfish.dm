@@ -49,6 +49,7 @@
 							/obj/item/natural/worms = 2,
 							/obj/item/rogueweapon/shovel/small=1,
 							/obj/item/flashlight/flare/torch = 1,
+							/obj/item/rogueweapon/scabbard/sheath = 1
 							)
 	else
 		pants = /obj/item/clothing/under/roguetown/trou
@@ -61,4 +62,8 @@
 		belt = /obj/item/storage/belt/rogue/leather/rope
 		beltr = /obj/item/fishingrod
 		beltl = /obj/item/rogueweapon/huntingknife
-		backpack_contents = list(/obj/item/natural/worms = 2,/obj/item/rogueweapon/shovel/small=1)
+		backpack_contents = list(
+			/obj/item/natural/worms = 2,
+			/obj/item/rogueweapon/shovel/small=1,
+			/obj/item/rogueweapon/scabbard/sheath = 1,
+		)

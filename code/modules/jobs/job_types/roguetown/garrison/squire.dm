@@ -136,7 +136,11 @@
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger = 1, /obj/item/rogueweapon/hammer/copper = 1, /obj/item/storage/belt/rogue/pouch = 1)
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger = 1,
+		/obj/item/rogueweapon/hammer/copper = 1,
+		/obj/item/storage/belt/rogue/pouch = 1,
+	)
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Iron Sword","Cudgel",)
@@ -144,7 +148,8 @@
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Iron Sword")
-			beltr = /obj/item/rogueweapon/sword/iron
+			r_hand = /obj/item/rogueweapon/sword/iron
+			beltr = /obj/item/rogueweapon/scabbard/sword
 		if("Cudgel")	
 			beltr = /obj/item/rogueweapon/mace/cudgel
 
@@ -186,4 +191,9 @@
 	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger = 1, /obj/item/rogueweapon/hammer/copper = 1, /obj/item/storage/belt/rogue/pouch = 1)
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger = 1,
+		/obj/item/rogueweapon/hammer/copper = 1,
+		/obj/item/storage/belt/rogue/pouch = 1,
+		/obj/item/rogueweapon/scabbard/sheath,
+	)

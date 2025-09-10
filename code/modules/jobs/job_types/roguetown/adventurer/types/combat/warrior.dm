@@ -40,6 +40,7 @@
 		if("Longsword")
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 			backr = /obj/item/rogueweapon/sword/long
+			beltr = /obj/item/rogueweapon/scabbard/sword
 		if("Mace")
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 			beltr = /obj/item/rogueweapon/mace
@@ -53,7 +54,8 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			backr = /obj/item/rogueweapon/shield/iron
-			beltr = /obj/item/rogueweapon/sword/iron/short
+			r_hand = /obj/item/rogueweapon/sword/iron/short
+			beltr = /obj/item/rogueweapon/scabbard/sword
 	belt = /obj/item/storage/belt/rogue/leather
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
@@ -185,6 +187,7 @@
 		if ("Silver Dagger")
 			r_hand = /obj/item/rogueweapon/huntingknife/idagger/silver
 			backr = /obj/item/rogueweapon/scabbard/sheath
+
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 	wrists = /obj/item/clothing/neck/roguetown/psicross/silver
 	armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
@@ -387,7 +390,8 @@
 					beltr = /obj/item/rogueweapon/stoneaxe/boneaxe
 				if("Sword")
 					H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-					beltr = /obj/item/rogueweapon/sword/short
+					r_hand = /obj/item/rogueweapon/sword/short
+					beltr = /obj/item/rogueweapon/scabbard/sword
 				if("Whip")
 					H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
 					beltr = /obj/item/rogueweapon/whip
@@ -438,7 +442,8 @@
 					beltr = /obj/item/rogueweapon/stoneaxe/boneaxe
 				if("Sword")
 					H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-					beltr = /obj/item/rogueweapon/sword/short
+					r_hand = /obj/item/rogueweapon/sword/short
+					beltr = /obj/item/rogueweapon/scabbard/sword
 				if("Whip")
 					H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
 					beltr = /obj/item/rogueweapon/whip
@@ -574,8 +579,9 @@
 			switch(weapon_choice)
 				if("Sword and Tower Shield")
 					H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-					beltr = /obj/item/rogueweapon/sword/short
+					r_hand = /obj/item/rogueweapon/sword/short
 					backr = /obj/item/rogueweapon/shield/tower
+					beltr = /obj/item/rogueweapon/scabbard/sword
 				if("Mace and Tower Shield")
 					H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 					beltr = /obj/item/rogueweapon/mace

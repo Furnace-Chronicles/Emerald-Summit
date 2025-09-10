@@ -202,8 +202,15 @@
 	beltl = /obj/item/rogueweapon/mace/cudgel
 	belt = /obj/item/storage/belt/rogue/leather
 	backr = /obj/item/storage/backpack/rogue/satchel
+	backpack_contents = list(
+		/obj/item/natural/cloth = 1,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1
+	)
 
-	backpack_contents = list(/obj/item/natural/cloth = 1, /obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1, /obj/item/storage/belt/rogue/pouch/coins/poor = 1, /obj/item/flashlight/flare/torch/lantern/prelit = 1, /obj/item/rogueweapon/scabbard/sheath = 1)
 	var/helmets = list(
 	"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
 	"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle,

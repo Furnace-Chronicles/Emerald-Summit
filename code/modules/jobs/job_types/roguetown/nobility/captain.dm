@@ -115,7 +115,8 @@
 	backpack_contents = list(
 		/obj/item/storage/keyring/sheriff = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		)
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+	)
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/movemovemove)
@@ -152,6 +153,7 @@
 		if("Longsword & Shield")
 			beltr = /obj/item/rogueweapon/sword/long
 			backl = /obj/item/rogueweapon/shield/tower/metal
+			r_hand = /obj/item/rogueweapon/scabbard/sword
 		if("Flail & Shield")
 			beltr = /obj/item/rogueweapon/flail/sflail
 			backl = /obj/item/rogueweapon/shield/tower/metal
@@ -200,6 +202,7 @@
 	backpack_contents = list(
 		/obj/item/storage/keyring/sheriff = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 	)
 
 	if(H.mind)
@@ -226,6 +229,7 @@
 			r_hand = /obj/item/rogueweapon/sword/long
 			beltr = /obj/item/quiver/arrows
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+			l_hand = /obj/item/rogueweapon/scabbard/sword
 		if("Mace & Crossbow")
 			r_hand = /obj/item/rogueweapon/mace
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow

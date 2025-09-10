@@ -55,8 +55,10 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	cloak = /obj/item/clothing/cloak/half/rider/red
 	backl = /obj/item/storage/backpack/rogue/satchel
-	beltl = /obj/item/rogueweapon/sword/rapier/vaquero
-	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/parrying/vaquero
+	beltl = /obj/item/rogueweapon/scabbard/sword
+	l_hand = /obj/item/rogueweapon/sword/rapier/vaquero
+	beltr = /obj/item/rogueweapon/scabbard/sheath
+	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/parrying/vaquero
 	backpack_contents = list(
 					/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 					/obj/item/rogueweapon/huntingknife/idagger/navaja = 1,

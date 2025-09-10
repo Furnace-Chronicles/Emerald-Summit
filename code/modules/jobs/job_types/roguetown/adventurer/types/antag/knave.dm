@@ -74,11 +74,13 @@
 						/obj/item/natural/cloth = 1,
 						/obj/item/lockpickring/mundane = 1,
 						/obj/item/flashlight/flare/torch = 1,
+						/obj/item/rogueweapon/scabbard/sheath = 1,
 						) //rogue gets lockpicks
 			H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT, TRUE)
 		if("Bow & Sword") //Poacher
 			backl= /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 			beltl = /obj/item/rogueweapon/sword/short
+			beltl = /obj/item/rogueweapon/scabbard/sword
 			beltr = /obj/item/quiver/arrows
 			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm //cool hat
 			backr = /obj/item/storage/backpack/rogue/satchel

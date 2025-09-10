@@ -86,6 +86,7 @@
 		if("Sword")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/long/psysword(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/scabbard/sword(H), TRUE)
 		if("Axe")
 			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/psyaxe(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)

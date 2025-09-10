@@ -39,4 +39,5 @@
 						/obj/item/rogue/instrument/flute = 1,
 						/obj/item/rogue/instrument/drum = 1,
 						/obj/item/flashlight/flare/torch = 1,
+						/obj/item/rogueweapon/scabbard/sheath = 1,
 						)

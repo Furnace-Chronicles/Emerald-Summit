@@ -54,6 +54,7 @@
 						/obj/item/flashlight/flare/torch = 1,
 						/obj/item/recipe_book/blacksmithing = 1,
 						/obj/item/recipe_book/survival = 1,
+						/obj/item/rogueweapon/scabbard/sheath = 1,
 						)
 	if(H.pronouns == HE_HIM)
 		shoes = /obj/item/clothing/shoes/roguetown/boots/leather

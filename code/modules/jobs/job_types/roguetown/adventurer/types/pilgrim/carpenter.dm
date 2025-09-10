@@ -56,4 +56,5 @@
 						/obj/item/dye_brush = 1,
 						/obj/item/recipe_book/builder = 1,
 						/obj/item/recipe_book/survival = 1,
+						/obj/item/rogueweapon/scabbard/sheath = 1,
 						)

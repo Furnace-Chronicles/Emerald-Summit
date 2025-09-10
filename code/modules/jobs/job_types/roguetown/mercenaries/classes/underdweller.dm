@@ -58,7 +58,12 @@
 	beltr = /obj/item/rogueweapon/huntingknife
 	backl = /obj/item/storage/backpack/rogue/backpack
 	backr = /obj/item/rogueweapon/shield/wood
-	backpack_contents = list(/obj/item/roguekey/mercenary, /obj/item/storage/belt/rogue/pouch/coins/poor, /obj/item/bomb = 2)
+	backpack_contents = list(
+		/obj/item/roguekey/mercenary,
+		/obj/item/storage/belt/rogue/pouch/coins/poor,
+		/obj/item/bomb = 2,
+		/obj/item/rogueweapon/scabbard/sheath = 1
+	)
 
 //Clothing here to avoid overcrowding the hats.dm with snowflake gear. It's just a kettle with a light.
 /obj/item/clothing/head/roguetown/helmet/kettle/minershelm

@@ -388,7 +388,7 @@
 
 
 /obj/item/rogueweapon/scabbard/sword/kazengun/steel
-	name = "hwang scabbard"
+	name = "lenticular scabbard"
 	desc = "A cloud-patterned scabbard with a cloth sash. Used for blocking."
 	icon_state = "kazscab_steel"
 	item_state = "kazscab_steel"
@@ -396,7 +396,7 @@
 
 
 /obj/item/rogueweapon/scabbard/sword/kazengun/gold
-	name = "gold-stained Xinyi scabbard"
+	name = "gold-stained scabbard"
 	desc = "An ornate, wooden scabbard with a sash. Great for parrying."
 	icon_state = "kazscab_gold"
 	item_state = "kazscab_gold"

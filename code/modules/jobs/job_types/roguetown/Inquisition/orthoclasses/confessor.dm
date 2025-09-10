@@ -45,7 +45,6 @@
 /datum/outfit/job/roguetown/confessor/pre_equip(mob/living/carbon/human/H)
 	..()
 	has_loadout = TRUE
-
 	wrists = /obj/item/clothing/neck/roguetown/psicross/silver
 	gloves = /obj/item/clothing/gloves/roguetown/otavan/psygloves
 	beltr = /obj/item/quiver/bolts
@@ -78,9 +77,11 @@
 		if("Shortsword")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/short/psy/preblessed(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_L, TRUE)
 		if("Handmace")
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/mace/cudgel/psy/preblessed, SLOT_BELT_L, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)	
 		if("Dagger")
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sheath, SLOT_BELT_L, TRUE)

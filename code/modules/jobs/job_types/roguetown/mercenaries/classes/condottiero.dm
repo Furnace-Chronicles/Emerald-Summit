@@ -50,10 +50,16 @@
 	else
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 	backl = /obj/item/storage/backpack/rogue/satchel
-	beltl = /obj/item/rogueweapon/sword/short
+	l_hand = /obj/item/rogueweapon/sword/short
+	beltl = /obj/item/rogueweapon/scabbard/sword
 	beltr = /obj/item/quiver/bolts
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
-	backpack_contents = list(/obj/item/roguekey/mercenary, /obj/item/storage/belt/rogue/pouch/coins/poor, /obj/item/rogueweapon/huntingknife/idagger/navaja, /obj/item/lockpick = 1)
+	backpack_contents = list(
+		/obj/item/roguekey/mercenary,
+		/obj/item/storage/belt/rogue/pouch/coins/poor,
+		/obj/item/rogueweapon/huntingknife/idagger/navaja,
+		/obj/item/lockpick = 1
+	)

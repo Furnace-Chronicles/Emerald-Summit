@@ -56,6 +56,7 @@
 		if("Swordsman")
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 			beltl = /obj/item/rogueweapon/sword/falchion
+			l_hand = /obj/item/rogueweapon/scabbard/sword
 		if("Macebearer")
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 			beltl = /obj/item/rogueweapon/mace/steel/morningstar

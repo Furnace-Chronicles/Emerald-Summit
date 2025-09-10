@@ -90,7 +90,12 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant
 	shirt = /obj/item/clothing/suit/roguetown/shirt/robe/hierophant
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	backpack_contents = list(/obj/item/roguekey/mercenary, /obj/item/rogueweapon/huntingknife/idagger, /obj/item/spellbook_unfinished/pre_arcyne)
+	backpack_contents = list(
+		/obj/item/roguekey/mercenary,
+		/obj/item/rogueweapon/huntingknife/idagger,
+		/obj/item/spellbook_unfinished/pre_arcyne,
+		/obj/item/rogueweapon/scabbard/sheath = 1
+	)
 
 /datum/advclass/mercenary/warscholar/pontifex
 	name = "Naledi Pontifex"
@@ -170,7 +175,12 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex
 	shirt = /obj/item/clothing/suit/roguetown/shirt/robe/pointfex
 	pants = /obj/item/clothing/under/roguetown/trou/leather/pontifex
-	backpack_contents = list(/obj/item/roguekey/mercenary,/obj/item/lockpick = 1,/obj/item/rogueweapon/huntingknife)
+	backpack_contents = list(
+		/obj/item/roguekey/mercenary,
+		/obj/item/lockpick = 1,
+		/obj/item/rogueweapon/huntingknife,
+		/obj/item/rogueweapon/scabbard/sheath = 1
+	)
 
 /datum/advclass/mercenary/warscholar/vizier
 	name = "Naledi Vizier"
@@ -240,7 +250,12 @@
 	neck = /obj/item/clothing/neck/roguetown/leather
 	cloak = /obj/item/clothing/cloak/half
 	shirt = /obj/item/clothing/suit/roguetown/shirt/robe/hierophant
-	backpack_contents = list(/obj/item/roguekey/mercenary,/obj/item/rogueweapon/huntingknife, /obj/item/storage/belt/rogue/surgery_bag)
+	backpack_contents = list(
+		/obj/item/roguekey/mercenary,
+		/obj/item/rogueweapon/huntingknife,
+		/obj/item/storage/belt/rogue/surgery_bag,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+	)
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.

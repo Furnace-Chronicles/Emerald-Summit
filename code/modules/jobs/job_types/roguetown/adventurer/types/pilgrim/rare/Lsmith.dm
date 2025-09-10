@@ -56,6 +56,7 @@
 						/obj/item/rogueore/iron=2,
 						/obj/item/rogueore/silver=1,
 						/obj/item/flashlight/flare/torch = 1,
+						/obj/item/rogueweapon/scabbard/sheath = 1,
 						)
 
 	if(H.pronouns == HE_HIM)

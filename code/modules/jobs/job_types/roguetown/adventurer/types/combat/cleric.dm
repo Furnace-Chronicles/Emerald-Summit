@@ -321,7 +321,7 @@
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/recipe_book/survival = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
 
 	H.cmode_music = 'sound/music/combat_bard.ogg'
@@ -351,7 +351,7 @@
 			cloak = /obj/item/clothing/cloak/templar/pestra
 		else
 			cloak = /obj/item/clothing/cloak/cape/crusader
-	var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman")
+	var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Trumpet")
 	var/weapon_choice = input("Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)

@@ -49,4 +49,8 @@
 	beltl = /obj/item/rogueweapon/mace/warhammer/steel
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backl = /obj/item/rogueweapon/shield/heater
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife, /obj/item/roguekey/mercenary)
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife,
+		/obj/item/roguekey/mercenary,
+		/obj/item/rogueweapon/scabbard/sheath,
+	)

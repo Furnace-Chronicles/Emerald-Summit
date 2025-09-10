@@ -159,7 +159,11 @@
 	var/armorchoice = input("Choose your armor.", "TAKE UP ARMOR") as anything in armors
 	armor = armors[armorchoice]
 
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1)
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1
+	)
 
 /datum/advclass/knight/footknight
 	name = "Foot Knight"
@@ -204,14 +208,16 @@
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Longsword")
-			beltr = /obj/item/rogueweapon/sword/long
+			beltl = /obj/item/rogueweapon/scabbard/sword
+			l_hand = /obj/item/rogueweapon/sword/long
 		if("Flail")
 			beltr = /obj/item/rogueweapon/flail/sflail
 		if ("Warhammer")
 			beltr = /obj/item/rogueweapon/mace/warhammer //Iron warhammer. This is one-handed and pairs well with shields. They can upgrade to steel in-round.
 		if("Sabre")
-			beltl = /obj/item/rogueweapon/sword/sabre
-	
+			beltl = /obj/item/rogueweapon/scabbard/sword
+			l_hand = /obj/item/rogueweapon/sword/sabre
+
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	backl = /obj/item/rogueweapon/shield/tower/metal
@@ -242,7 +248,11 @@
 	var/armorchoice = input("Choose your armor.", "TAKE UP ARMOR") as anything in armors
 	armor = armors[armorchoice]
 
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1)
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+	)
 
 /datum/advclass/knight/mountedknight
 	name = "Mounted Knight"
@@ -295,7 +305,8 @@
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Longsword + Crossbow")
-			beltl = /obj/item/rogueweapon/sword/long
+			beltl = /obj/item/rogueweapon/scabbard/sword
+			r_hand = /obj/item/rogueweapon/sword/long
 			beltr = /obj/item/quiver/bolts
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 		if("Billhook + Recurve Bow")
@@ -307,6 +318,7 @@
 			beltr = /obj/item/quiver/arrows
 			beltl = /obj/item/rogueweapon/mace/goden/steel
 		if("Sabre + Recurve Bow")
+			l_hand = /obj/item/rogueweapon/scabbard/sword
 			r_hand = /obj/item/rogueweapon/sword/sabre
 			beltr = /obj/item/quiver/arrows
 			beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
@@ -344,7 +356,11 @@
 	var/armorchoice = input("Choose your armor.", "TAKE UP ARMOR") as anything in armors
 	armor = armors[armorchoice]
 
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1)
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+	)
 
 
 /datum/advclass/knight/irregularknight
@@ -392,7 +408,8 @@
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Rapier + Longbow") 
-			beltl = /obj/item/rogueweapon/sword/rapier
+			r_hand = /obj/item/rogueweapon/sword/rapier
+			beltl = /obj/item/rogueweapon/scabbard/sword
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
 			beltr = /obj/item/quiver/arrows
 
@@ -402,7 +419,8 @@
 			beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 		
 		if("Sabre + Buckler")
-			beltl = /obj/item/rogueweapon/sword/sabre
+			beltl = /obj/item/rogueweapon/scabbard/sword
+			r_hand = /obj/item/rogueweapon/sword/sabre
 			backl = /obj/item/rogueweapon/shield/buckler
 
 		if("Whip + Crossbow")
@@ -448,4 +466,8 @@
 	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1)
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+	)

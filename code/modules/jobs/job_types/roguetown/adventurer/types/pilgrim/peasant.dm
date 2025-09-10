@@ -47,6 +47,7 @@
 						/obj/item/ash=1,
 						/obj/item/flashlight/flare/torch = 1,
 						/obj/item/recipe_book/survival = 1,
+						/obj/item/rogueweapon/scabbard/sheath = 1,
 						)
 	beltl = /obj/item/rogueweapon/sickle
 	backr = /obj/item/rogueweapon/hoe

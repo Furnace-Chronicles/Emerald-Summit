@@ -400,6 +400,18 @@
 	desc = "A mask of steel with a shape of a hound's muzzle which protects the eyes, nose and mouth while also obscuring the face it."
 	icon_state = "smask_hound"
 
+/obj/item/clothing/mask/rogue/facemask/steel/steppesman
+	name = "steppesman war mask"
+	desc = "A steel mask shaped like the face of a rather charismatic fellow! Pronounced cheeks, a nose, and a large mustache. Well, people outside of Aavnr don't think you'd look charismatic at all wearing this."
+	max_integrity = 250
+	icon_state = "steppemask"
+	layer = HEAD_LAYER
+
+/obj/item/clothing/mask/rogue/facemask/steel/steppesman/anthro
+	name = "steppesman beast mask"
+	desc = "A steel mask shaped like the face of a rather charismatic beastman! Pronounced cheeks, a nose, and small spikes for whiskers. Well, people outside of Aavnr don't think you'd look charismatic at all wearing this."
+	icon_state = "steppebeast"
+
 /obj/item/clothing/mask/rogue/facemask/goldmask
 	name = "gold mask"
 	icon_state = "goldmask"

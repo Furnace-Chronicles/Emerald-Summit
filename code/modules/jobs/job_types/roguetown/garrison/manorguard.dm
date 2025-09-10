@@ -121,7 +121,12 @@
 			r_hand = /obj/item/rogueweapon/halberd
 		if("Greataxe")
 			r_hand = /obj/item/rogueweapon/greataxe
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1, /obj/item/storage/keyring/guardcastle)
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/storage/keyring/guardcastle,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+	)
 	H.verbs |= /mob/proc/haltyell
 
 	var/helmets = list(
@@ -193,7 +198,12 @@
 			beltr = /obj/item/quiver/sling/iron
 			r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling // Both are belt slots and it's not worth setting where the cugel goes for everyone else, sad.
 
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1, /obj/item/storage/keyring/guardcastle)
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/storage/keyring/guardcastle,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+	)
 	H.verbs |= /mob/proc/haltyell
 
 	var/helmets = list(
@@ -261,8 +271,14 @@
 		if("Sword & Shield")
 			beltr = /obj/item/rogueweapon/sword/sabre
 			backl = /obj/item/rogueweapon/shield/wood
+			beltr = /obj/item/rogueweapon/scabbard/sword
 	
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1, /obj/item/storage/keyring/guardcastle)
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/storage/keyring/guardcastle,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		)
 	H.verbs |= /mob/proc/haltyell
 
 	var/helmets = list(

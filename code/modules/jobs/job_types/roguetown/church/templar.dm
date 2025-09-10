@@ -35,7 +35,6 @@
 	allowed_patrons = ALL_DIVINE_PATRONS
 	id = /obj/item/clothing/ring/silver
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backpack_contents = list(/obj/item/ritechalk)
 
 /datum/job/roguetown/templar/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	. = ..()
@@ -112,11 +111,15 @@
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/monk
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	belt = /obj/item/storage/belt/rogue/leather/rope
-	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	beltr = /obj/item/storage/keyring/churchie
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	gloves = /obj/item/clothing/gloves/roguetown/angle
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
+	backpack_contents = list(
+		/obj/item/ritechalk,
+		/obj/item/storage/belt/rogue/pouch/coins/mid,
+		/obj/item/rope/chain,
+		)
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)	//Capped to T2 miracles.
@@ -209,6 +212,7 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,	//May tone down to 2; seems OK.
 	)
+	extra_context = "This subclass gains Expert skill in their weapon of choice."
 
 /datum/outfit/job/roguetown/templar/crusader/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -263,10 +267,15 @@
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	belt = /obj/item/storage/belt/rogue/leather/black
-	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	beltr = /obj/item/storage/keyring/churchie
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
 	armor = /obj/item/clothing/suit/roguetown/armor/plate	///Half-Plate not fullplate
+	backpack_contents = list(
+		/obj/item/ritechalk,
+		/obj/item/storage/belt/rogue/pouch/coins/mid,
+		/obj/item/rogueweapon/scabbard/sword,
+		/obj/item/rope/chain,
+		)
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)

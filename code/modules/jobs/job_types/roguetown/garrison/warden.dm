@@ -93,7 +93,11 @@
 	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden
 	beltr = /obj/item/quiver/arrows
 	beltl = /obj/item/rogueweapon/huntingknife/idagger/steel
-	backpack_contents = list(/obj/item/storage/keyring/guard = 1, /obj/item/flashlight/flare/torch/lantern = 1)
+	backpack_contents = list(
+		/obj/item/storage/keyring/guard = 1,
+		/obj/item/flashlight/flare/torch/lantern = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+	)
 
 	H.verbs |= /mob/proc/haltyell
 	H.set_blindness(0)
@@ -169,7 +173,11 @@
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick
 	beltl = /obj/item/rogueweapon/huntingknife
 	r_hand = /obj/item/rogueweapon/spear
-	backpack_contents = list(/obj/item/storage/keyring/guard = 1, /obj/item/flashlight/flare/torch/lantern = 1)
+	backpack_contents = list(
+		/obj/item/storage/keyring/guard = 1,
+		/obj/item/flashlight/flare/torch/lantern = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+	)
 
 	H.verbs |= /mob/proc/haltyell
 	H.set_blindness(0)
