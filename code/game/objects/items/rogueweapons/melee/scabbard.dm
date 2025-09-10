@@ -27,6 +27,9 @@
 
 	COOLDOWN_DECLARE(shield_bang)
 
+	grid_height = 96
+	grid_width = 96
+
 	var/obj/item/rogueweapon/valid_blade
 	var/list/obj/item/rogueweapon/valid_blades
 	var/list/obj/item/rogueweapon/invalid_blades

@@ -56,6 +56,23 @@
 			backr = /obj/item/rogueweapon/shield/iron
 			r_hand = /obj/item/rogueweapon/sword/iron/short
 			beltr = /obj/item/rogueweapon/scabbard/sword
+	var/armors = list("Chainmaille Set","Iron Breastplate","Gambeson & Helmet")
+	var/armor_choice = input("Choose your armor.", "TAKE UP ARMOR") as anything in armors
+	switch(armor_choice)
+		if("Chainmaille Set")
+			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+			pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+			neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
+			gloves = /obj/item/clothing/gloves/roguetown/chain/iron
+		if("Iron Breastplate")
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/half/iron
+			pants = /obj/item/clothing/under/roguetown/trou/leather
+			gloves = /obj/item/clothing/gloves/roguetown/angle
+		if("Gambeson & Helmet")
+			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+			pants = /obj/item/clothing/under/roguetown/trou/leather
+			head = /obj/item/clothing/head/roguetown/helmet/kettle
+			gloves = /obj/item/clothing/gloves/roguetown/angle
 	belt = /obj/item/storage/belt/rogue/leather
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
