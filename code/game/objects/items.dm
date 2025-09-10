@@ -73,6 +73,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/body_parts_covered = 0 //see setup.dm for appropriate bit flags
 	var/body_parts_covered_dynamic = 0
 	var/body_parts_inherent	= 0 //bodypart coverage areas you cannot peel off because it wouldn't make any sense (peeling chest off of torso armor, hands off of gloves, head off of helmets, etc)
+	var/surgery_cover = TRUE // binary, whether this item is considered covering its bodyparts in respect to surgery. Tattoos, etc. are false. 
 	var/gas_transfer_coefficient = 1 // for leaking gas from turf to mask and vice-versa (for masks right now, but at some point, i'd like to include space helmets)
 	var/permeability_coefficient = 1 // for chemicals/diseases
 	var/siemens_coefficient = 1 // for electrical admittance/conductance (electrocution checks and shit)
