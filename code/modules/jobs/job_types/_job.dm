@@ -511,7 +511,7 @@
 				dat += "</details>"
 		dat += "<hr>"
 		if(length(job_stats))
-			dat += "<font color ='#7a4d0a'><b>Class</b></font> Traits:</font> "
+			dat += "<b>Class</b></font> Traits: "
 			for(var/stat in job_stats)
 				dat += "<br>[capitalize(stat)]: <b>[job_stats[stat] < 0 ? "<font color = '#cf2a2a'>" : "<font color = '#91cf68'>"]\Roman[job_stats[stat]]</font></b>"
 			dat += "</font>"	//Ends the stats colors
