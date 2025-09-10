@@ -270,10 +270,10 @@
 	beltr = /obj/item/storage/keyring/churchie
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
 	armor = /obj/item/clothing/suit/roguetown/armor/plate	///Half-Plate not fullplate
+	r_hand = /obj/item/rogueweapon/scabbard/sword
 	backpack_contents = list(
 		/obj/item/ritechalk,
 		/obj/item/storage/belt/rogue/pouch/coins/mid,
-		/obj/item/rogueweapon/scabbard/sword,
 		/obj/item/rope/chain,
 		)
 

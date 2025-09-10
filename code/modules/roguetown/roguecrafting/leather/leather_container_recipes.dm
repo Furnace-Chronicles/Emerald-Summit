@@ -98,7 +98,6 @@
 		/obj/item/natural/hide/cured = 2,
 		/obj/item/natural/fibers = 3,
 		/obj/item/grown/log/tree/small = 1,
-		/obj/item/rope = 1
 	)
 	craftdiff = 2
 
