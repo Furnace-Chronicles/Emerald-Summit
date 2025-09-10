@@ -1,18 +1,14 @@
-/datum/advclass/mercenary/rumaclan/kyodai
-	name = "Kyodai"
+/datum/advclass/mercenary/rumaclan
+	name = "Ruma Clan Kyodai"
 	tutorial = "A band of foreign Kazengites. The Ruma Clan isn't an organized group of soldiers - rather a loose collection of fighters, with strange tattoos that act as armor."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = NON_DWARVEN_RACE_TYPES //no dwarf sprites
 	outfit = /datum/outfit/job/roguetown/mercenary/rumaclan
-	category_tags = list(CTAG_MERCENARY)
+	subclass_languages = list(/datum/language/kazengunese)
 	class_select_category = CLASS_CAT_KAZENGUN
+	category_tags = list(CTAG_MERCENARY)
+	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_HARDDISMEMBER, TRAIT_NOPAINSTUN)
 	cmode_music = 'sound/music/combat_kazengite.ogg'
-
-	subclass_languages = list(
-		/datum/language/kazengunese
-	)
-
-	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
 	subclass_stats = list(
 		STATKEY_CON = 3,
 		STATKEY_END = 3,
@@ -20,8 +16,6 @@
 		STATKEY_PER = 1,
 		STATKEY_SPD = -1
 	)
-	extra_context = "This subclass is race-limited from: Dwarves."
-
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
@@ -34,8 +28,9 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 	)
+	extra_context = "This subclass is race-limited from: Dwarves."
 
-/datum/outfit/job/roguetown/mercenary/rumaclan/kyodai/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/mercenary/rumaclan/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are relatively versed in the art of \"swinging a sword until enemy death.\" - You would gladly take up most jobs for money, or a chance to cut loose."))
 	belt = /obj/item/storage/belt/rogue/leather
@@ -54,15 +49,9 @@
 		)
 
 /datum/advclass/mercenary/rumaclan/ishu
-	name = "Ishu"
+	name = "Ruma Clan Ishu"
 	tutorial = "A band of foreign Kazengites. The Ruma Clan isn't an organized group of soldiers - rather a loose collection of fighters, with strange tattoos that act as armor."
-	outfit = /datum/outfit/job/roguetown/mercenary/rumaclan/ishu
-
-	subclass_languages = list(
-		/datum/language/kazengunese
-	)
-
-	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
+	outfit = /datum/outfit/job/roguetown/mercenary/rumaclan_ishu
 	subclass_stats = list(
 		STATKEY_SPD = 4,
 		STATKEY_PER = 2,
@@ -70,7 +59,6 @@
 		STATKEY_STR = -1,
 		STATKEY_CON = -1
 	)
-
 	subclass_skills = list(
 		/datum/skill/combat/bows = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
@@ -85,7 +73,7 @@
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/mercenary/rumaclan/ishu/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/mercenary/rumaclan_ishu/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.set_blindness(0)
 	to_chat(H, span_warning("You are an archer. Pretty good in the art of \"pelting until enemy death.\" - You would gladly take up most jobs for money, or a chance to shoot loose."))
