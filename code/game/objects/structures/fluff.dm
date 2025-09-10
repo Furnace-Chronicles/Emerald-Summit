@@ -1360,58 +1360,70 @@
     name = "abyssor shrine"
     desc = "A slate statue related to the ancient god Abyssor. One of many depictions drawn from a dream, no doubt. The statue wrought of divine obsidian and gold. Fishermen of old once prayed to it. Remarkably, the sea answered them..."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "abyssorqueststatue"
+    icon_state = "Abyssorqueststatue"
 
 /obj/structure/fluff/statue/dendorqueststatue
     name = "dendor shrine"
     desc = "A statue of a druid who once accepted a curse. One way or another, this monument draws animals and the local hermits to it."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "dendorqueststatue"	
+    icon_state = "Dendorqueststatue"	
 
 /obj/structure/fluff/statue/necraqueststatue
     name = "necra shrine"
     desc = "A statue of a faceless maiden of Necra. She bears no face, no name, no title. The last to come to your doorstep, and the first you will see in the carriage..."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "necraqueststatue"		
+    icon_state = "Necraqueststatue"		
 
 /obj/structure/fluff/statue/pestraqueststatue
     name = "pestra shrine"
     desc = "A statue of one devoted follower of the goddess of medicine. Weathered by time and wind; she likely kept helping others to the very end, forgetting herself."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "pestraqueststatue"		
+    icon_state = "Pestraqueststatue"		
 
 /obj/structure/fluff/statue/malumqueststatue
     name = "malum shrine"
     desc = "A statue of an unknown blacksmith. In his fanatic devotion, he likely never even noticed the sculptor at work..."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "malumqueststatue"			
+    icon_state = "Malumqueststatue"			
 
 /obj/structure/fluff/statue/ravoxqueststatue
     name = "ravox shrine"
     desc = "A statue of an unknown warder in the green garb once worn by the bogmen. He keeps his lonely watch still, long after his kingdom fell and his comrades were disbanded."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "ravoxqueststatue"			
+    icon_state = "Ravoxqueststatue"			
 
 /obj/structure/fluff/statue/eoraqueststatue
     name = "eora shrine"
     desc = "A statue of an unknown woman. In stone she seems to smell faintly of soup and clean linen, still darning sleeves for a husband or a child. A soft, sturdy soul who once dreamed of being a princess in a castle, and instead kept a smaller kingdom warm."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "eoraqueststatue"		
+    icon_state = "Eoraqueststatue"		
 
 /obj/structure/fluff/statue/nocqueststatue
     name = "noc shrine"
     desc = "A statue of the Moon Goddess. She still seems to radiate a cool, quiet hush. Once, this place teemed with students; now it stands empty."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "nocqueststatue"		
+    icon_state = "Nocqueststatue"		
 
 /obj/structure/fluff/statue/astrataqueststatue
     name = "astrata shrine"
     desc = "A statue of the Sun Goddess. Before her, you find yourself straightening your back and squaring your shoulder-falling into a soldier’s stance, as if to answer the call of order."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "astrataqueststatue"				
+    icon_state = "Astrataqueststatue"				
 
 /obj/structure/fluff/statue/xylixqueststatue
     name = "xylix shrine"
     desc = "A statue of the Patron of Jesters. You could swear you hear laughter-soft, somewhere just behind you-and for a heartbeat the weight of your coinpurse shifts. Then nothing."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "xylixqueststatue"		
+    icon_state = "Xylixqueststatue"		
+
+/obj/structure/fluff/statue/churchcore
+    name = "The Heart Of The Martyr"
+    desc = "The heart that once belonged to one of His Chosen. It still holds a drop of His blood and can turn this world into paradise - or into a barren wasteland. The power it carries is boundless."
+    icon = 'icons/roguetown/misc/structure.dmi'
+    icon_state = "churchcore"		
+
+/obj/structure/fluff/statue/churchcore
+    name = "The Heart Of The Martyr"
+    desc = "The heart that once belonged to one of His Chosen. It still holds a drop of His blood and can turn this world into paradise - or into a barren wasteland. The power it carries is boundless."
+    icon = 'icons/roguetown/misc/structure.dmi'
+    icon_state = "churchcore"	
