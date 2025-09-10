@@ -77,20 +77,20 @@
 	..()
 	H.set_blindness(0)
 	to_chat(H, span_warning("You are an archer. Pretty good in the art of \"pelting until enemy death.\" - You would gladly take up most jobs for money, or a chance to shoot loose."))
-	belt = /obj/item/storage/belt/rogue/leather
+	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun
 	beltr = /obj/item/quiver/arrows
+	head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/kazengunese
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
-	cloak = /obj/item/clothing/cloak/eastcloak1
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 	armor = /obj/item/clothing/suit/roguetown/armor/skin_armor/easttats
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2
-	shoes = /obj/item/clothing/shoes/roguetown/armor/rumaclan
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	gloves = /obj/item/clothing/gloves/roguetown/eastgloves2
 	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary,
 		/obj/item/storage/belt/rogue/pouch/coins/poor,
-		/obj/item/rogueweapon/huntingknife/idagger,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/kazengun,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
