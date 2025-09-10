@@ -28,6 +28,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/roguetown/wretch/heretic
@@ -66,10 +67,9 @@
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
 			H.mind.current.faction += "[H.name]_faction"
 		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
-	head = /obj/item/clothing/head/roguetown/helmet/bascinet
+
 	mask = /obj/item/clothing/mask/rogue/facemask/steel
 	neck = /obj/item/clothing/neck/roguetown/gorget
-	cloak = /obj/item/clothing/cloak/cape/crusader
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/half
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	gloves = /obj/item/clothing/gloves/roguetown/chain
@@ -87,51 +87,55 @@
 		/obj/item/rope/chain = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
+
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_4)	//Minor regen, can level up to T4.
 	wretch_select_bounty(H)
 
-/datum/outfit/job/roguetown/wretch/heretic/choose_loadout(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/wretch/heretic/choose_loadout(mob/living/carbon/human/H) // some got +1 to their relevant patron skill
 	. = ..()
-	has_loadout = TRUE
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
-			head = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface
-			id = /obj/item/clothing/neck/roguetown/zcross/iron
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/bascinet/pigface, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/zcross/iron, SLOT_RING, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/cape/crusader, SLOT_CLOAK, TRUE)
 		if(/datum/patron/inhumen/matthios)
 			H.cmode_music = 'sound/music/combat_matthios.ogg'
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/gold
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/bucket/gold, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/cape/crusader, SLOT_CLOAK, TRUE)
 		if(/datum/patron/inhumen/baotha)
 			H.cmode_music = 'sound/music/combat_baotha.ogg'
-			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/cape/crusader, SLOT_CLOAK, TRUE)
 		if(/datum/patron/inhumen/graggar)
 			H.cmode_music = 'sound/music/combat_graggar.ogg'
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/guard
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/guard, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/cape/crusader, SLOT_CLOAK, TRUE)
 //		if(/datum/patron/divine/astrata) // Just fuck off
 //			cloak = /obj/item/clothing/cloak/tabard/crusader/astrata
 //			id = /obj/item/clothing/neck/roguetown/psicross/astrata
 //			head = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/gold
-//			H.adjust_skillrank_up_to(/datum/skill/magic/holy, SKILL_LEVEL_MASTER, TRUE)
+//			H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
 		if(/datum/patron/divine/abyssor)
-			cloak = /obj/item/clothing/cloak/abyssortabard
-			id = /obj/item/clothing/neck/roguetown/psicross/abyssor
-			head = /obj/item/clothing/head/roguetown/helmet/heavy
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/abyssor, SLOT_RING, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/abyssortabard, SLOT_CLOAK, TRUE)
 			H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
 			ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
 		if(/datum/patron/divine/xylix)
-			cloak = /obj/item/clothing/cloak/templar/xylixian
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle
-			id = /obj/item/clothing/neck/roguetown/psicross/xylix
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/xylix, SLOT_RING, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/templar/xylixian, SLOT_CLOAK, TRUE)
 			H.cmode_music = 'sound/music/combat_jester.ogg'
 			H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
 		if(/datum/patron/divine/dendor)
-			cloak = /obj/item/clothing/cloak/tabard/crusader/dendor
-			id = /obj/item/clothing/neck/roguetown/psicross/dendor
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/dendor, SLOT_RING, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/volfplate, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/crusader/dendor, SLOT_CLOAK, TRUE)
 			H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
 //		if(/datum/patron/divine/necra) // necrans kinda can be heretical but that'd require a different patron due to how grant_miracles functions
@@ -140,10 +144,10 @@
 //			head = /obj/item/clothing/head/roguetown/helmet/heavy/guard
 //			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 //			ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
-		if(/datum/patron/divine/pestra)
-			cloak = /obj/item/clothing/cloak/templar/pestran
-			id = /obj/item/clothing/neck/roguetown/psicross/pestra
-			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
+		if(/datum/patron/divine/pestra) // get +1 to med and alch so that they can be dedicated 'surgeons' when they arent fragging
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/pestra, SLOT_RING, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/sallet/visored, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/templar/pestran, SLOT_CLOAK, TRUE)
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
@@ -154,25 +158,25 @@
 //			ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
 //			ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
 		if(/datum/patron/divine/noc)
-			cloak = /obj/item/clothing/cloak/tabard/crusader/noc
-			id = /obj/item/clothing/neck/roguetown/psicross/noc
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/noc, SLOT_RING, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/knight, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/crusader/noc, SLOT_CLOAK, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
-			H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 //		if(/datum/patron/divine/ravox) //validhunting god, not even Ares. Whiteknight the god, so no.
 //			cloak = /obj/item/clothing/cloak/templar/ravox
 //			id = /obj/item/clothing/neck/roguetown/psicross/ravox
 //			head = /obj/item/clothing/head/roguetown/helmet/heavy/bucket
 //			H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
-		if(/datum/patron/divine/malum)
-			cloak = /obj/item/clothing/cloak/templar/malumite
-			id = /obj/item/clothing/neck/roguetown/psicross/malum
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/sheriff
-			H.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)
-			H.adjust_skillrank(/datum/skill/craft/armorsmithing, 1, TRUE)
-			H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
-			H.adjust_skillrank(/datum/skill/craft/smelting, 1, TRUE)
+		if(/datum/patron/divine/malum) // get +1 to their patron skills to be the 'smiths' when they are not fragging
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/malum, SLOT_RING, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/sheriff, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/templar/malumite, SLOT_CLOAK, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/blacksmithing, 2, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/armorsmithing, 2, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 2, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/smelting, 2, TRUE)
 //		if(/datum/patron/old_god) // Inquisition is psydonian, so no
 //			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet
 //			id = /obj/item/clothing/neck/roguetown/psicross
@@ -208,6 +212,7 @@
 		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/traps = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/roguetown/wretch/heretic_wanderer
@@ -218,7 +223,6 @@
 	if ((istype(H.patron, /datum/patron/divine/astrata) || istype(H.patron, /datum/patron/divine/necra) || istype(H.patron, /datum/patron/divine/eora) || istype(H.patron, /datum/patron/divine/ravox) || istype(H.patron, /datum/patron/old_god)))
 		to_chat(H, span_warning("My former deity frowned upon my practices. I have since turned to ZIZO..."))
 		H.set_patron(/datum/patron/inhumen/zizo)
-	has_loadout = TRUE
 	to_chat(H, span_warning("Nimble of dagger and foot both, you are the shadowy herald of the cabal. They will not see you coming."))
 	H.mind.current.faction += "[H.name]_faction"
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
@@ -272,10 +276,11 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_4)	//Minor regen, can level up to T4.
 	wretch_select_bounty(H)
 
-/datum/outfit/job/roguetown/wretch/heretic_wanderer/choose_loadout(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/wretch/heretic_wanderer/choose_loadout(mob/living/carbon/human/H) // some got +1 to their patron skill, same deal as armoured heretics
 	. = ..()
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/zcross/iron, SLOT_RING, TRUE)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 		if(/datum/patron/inhumen/matthios)
 			H.cmode_music = 'sound/music/combat_matthios.ogg'
@@ -287,18 +292,18 @@
 //			id = /obj/item/clothing/neck/roguetown/psicross/astrata
 //			H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
 		if(/datum/patron/divine/abyssor)
-			id = /obj/item/clothing/neck/roguetown/psicross/abyssor
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/abyssor, SLOT_RING, TRUE)
 			H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
 			ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
 		if(/datum/patron/divine/xylix)
-			id = /obj/item/clothing/neck/roguetown/psicross/xylix
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/xylix, SLOT_RING, TRUE)
 			H.cmode_music = 'sound/music/combat_jester.ogg'
 			H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
 		if(/datum/patron/divine/dendor)
-			id = /obj/item/clothing/neck/roguetown/psicross/dendor
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/dendor, SLOT_RING, TRUE)
 			H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
 //		if(/datum/patron/divine/necra) // necrans kinda can be heretical but that'd require a different patron due to how grant_miracles functions
@@ -306,7 +311,7 @@
 //			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 //			ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
 		if(/datum/patron/divine/pestra)
-			id = /obj/item/clothing/neck/roguetown/psicross/pestra
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/pestra, SLOT_RING, TRUE)
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
@@ -315,19 +320,19 @@
 //			ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
 //			ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
 		if(/datum/patron/divine/noc)
-			id = /obj/item/clothing/neck/roguetown/psicross/noc
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/noc, SLOT_RING, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
-			H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 //		if(/datum/patron/divine/ravox)
 //			id = /obj/item/clothing/neck/roguetown/psicross/ravox
 //			H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
 		if(/datum/patron/divine/malum)
-			id = /obj/item/clothing/neck/roguetown/psicross/malum
-			H.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)
-			H.adjust_skillrank(/datum/skill/craft/armorsmithing, 1, TRUE)
-			H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
-			H.adjust_skillrank(/datum/skill/craft/smelting, 1, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/malum, SLOT_RING, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/blacksmithing, 2, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/armorsmithing, 2, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 2, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/smelting, 2, TRUE)
 //		if(/datum/patron/old_god)
 //			id = /obj/item/clothing/neck/roguetown/psicross
 //			cloak = /obj/item/clothing/cloak/tabard/crusader/psydon
