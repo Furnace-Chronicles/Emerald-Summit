@@ -37,6 +37,7 @@
 	tutorial = "Your family were zealots. They scolded you with a studded belt and prayed like sinners every waking hour of the day they weren't toiling in the fields. You escaped them by becoming a churchling--and a guaranteed education isn't so bad."
 	outfit = /datum/outfit/job/roguetown/churchling/basic
 	category_tags = list(CTAG_CHURCHLING)
+	cmode_music = 'sound/music/combat_holy.ogg'
 
 	subclass_stats = list(
 		STATKEY_SPD = 2,
@@ -57,8 +58,6 @@
 /datum/outfit/job/roguetown/churchling/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
-
-	H.cmode_music = 'sound/music/combat_holy.ogg'
 	neck = /obj/item/clothing/neck/roguetown/psicross
 	if(should_wear_femme_clothes(H))
 		head = /obj/item/clothing/head/roguetown/armingcap

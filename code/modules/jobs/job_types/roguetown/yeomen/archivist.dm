@@ -59,6 +59,8 @@
 		STATKEY_STR = -1
 	)
 
+	subclass_spellpoints = 12
+
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_LEGENDARY,
@@ -100,7 +102,6 @@
 	)
 
 	if (H && H.mind)
-		H.mind.adjust_spellpoints(12)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/teach)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/learn)
 	if(H.age == AGE_OLD)

@@ -75,7 +75,7 @@
 						/obj/item/lockpickring/mundane = 1,
 						/obj/item/flashlight/flare/torch = 1,
 						) //rogue gets lockpicks
-			H.adjust_skillrank(/datum/skill/combat/crossbows, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT, TRUE)
 		if("Bow & Sword") //Poacher
 			backl= /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 			beltl = /obj/item/rogueweapon/sword/short
@@ -88,4 +88,4 @@
 						/obj/item/restraints/legcuffs/beartrap = 2,
 						/obj/item/flashlight/flare/torch = 1,
 						) //poacher gets mantraps
-			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)

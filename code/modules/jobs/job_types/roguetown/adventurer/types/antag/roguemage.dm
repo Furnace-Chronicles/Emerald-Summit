@@ -21,6 +21,8 @@
 		STATKEY_CON = 1,
 	)
 
+	subclass_spellpoints = 21
+
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN, // Jman Polearms, for better parrying without making them bandit level 
 		/datum/skill/combat/axes = SKILL_LEVEL_APPRENTICE, // They get apprentice in a wide spread of weapons for synergy with conjuration, especially if they take virtues
@@ -71,9 +73,7 @@
 	if(H.age == AGE_OLD)
 		head = /obj/item/clothing/head/roguetown/wizhat/gen
 		armor = /obj/item/clothing/suit/roguetown/shirt/robe
-		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_MASTER, TRUE)
 		H.change_stat("intelligence", 1)
 		H.change_stat("perception", 1)
 		H?.mind.adjust_spellpoints(6)
-	H?.mind.adjust_spellpoints(21) // On par with Mage Associate
-	H?.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)

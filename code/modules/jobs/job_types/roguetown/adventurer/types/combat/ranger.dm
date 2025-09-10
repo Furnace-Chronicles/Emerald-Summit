@@ -7,6 +7,8 @@
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	class_select_category = CLASS_CAT_RANGER
 
+	cmode_music = 'sound/music/combat_condottiero.ogg'
+
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_OUTDOORSMAN, TRAIT_WOODSMAN)
 	subclass_stats = list(
 		STATKEY_PER = 3,
@@ -54,17 +56,16 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 
-	H.cmode_music = 'sound/music/combat_condottiero.ogg'
 	var/weapons = list("Recurve Bow","Crossbow")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Recurve Bow")
-			H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 			beltl = /obj/item/quiver/arrows
 		if("Crossbow")
-			H.adjust_skillrank(/datum/skill/combat/crossbows, 2, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT, TRUE)
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 			beltl = /obj/item/quiver/bolts
 
@@ -127,6 +128,8 @@
 	tutorial = "Bombs? You've got them. Plenty of them - and the skills to make more. You've spent years training under skilled alchemists and have found the perfect mix to create some chaos - now go blow something up!"
 	outfit = /datum/outfit/job/roguetown/adventurer/bombadier
 
+	cmode_music = 'sound/music/combat_condottiero.ogg'
+
 	traits_applied = list(TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -168,7 +171,6 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 
-	H.cmode_music = 'sound/music/combat_condottiero.ogg'
 	H.set_blindness(0)
 
 /datum/advclass/ranger/bwanderer
@@ -183,6 +185,8 @@
 		STATKEY_INT = 1,
 	)
 	extra_context = "Selecting Light Armor grants +1 SPD. Selecting Medium Armor grants +1 STR along with the corresponding traits."
+
+	cmode_music = 'sound/music/combat_condottiero.ogg'
 
 	subclass_skills = list(
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
@@ -219,23 +223,22 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 
-	H.cmode_music = 'sound/music/combat_condottiero.ogg'
 	var/weapons = list("Recurve Bow","Billhook","Sling","Crossbow")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Recurve Bow")
-			H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 			beltl = /obj/item/quiver/arrows
 		if("Billhook") // Debatable here, but we love variety.
-			H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			r_hand = /obj/item/rogueweapon/spear/billhook
 		if("Sling")
-			H.adjust_skillrank(/datum/skill/combat/slings, 3, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/slings, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			beltl = /obj/item/quiver/sling/iron
 			r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 		if("Crossbow") // Hunting crossbows were a thing in these times, shame we don't have an item for it.
-			H.adjust_skillrank(/datum/skill/combat/crossbows, 3, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 			beltl = /obj/item/quiver/bolts
 	var/armors = list("Light Armor","Medium Armor")

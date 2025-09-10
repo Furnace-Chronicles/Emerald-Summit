@@ -48,6 +48,8 @@
 		STATKEY_CON = -1,
 	)
 
+	subclass_spellpoints = 36
+
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_MASTER,
@@ -98,8 +100,6 @@
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne
 	)
 
-	if (H && H.mind)
-		H?.mind.adjust_spellpoints(36)
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 		H.change_stat("speed", -1)

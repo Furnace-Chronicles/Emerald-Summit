@@ -6,6 +6,8 @@
 	outfit = /datum/outfit/job/roguetown/wretch/berserker
 	category_tags = list(CTAG_WRETCH)
 
+	cmode_music = 'sound/music/combat_berserker.ogg'
+
 	traits_applied = list(TRAIT_STRONGBITE, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
 	subclass_stats = list(
 		STATKEY_STR = 3,
@@ -46,7 +48,7 @@
 	neck = /obj/item/clothing/neck/roguetown/leather
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife = 1, /obj/item/flashlight/flare/torch/lantern/prelit = 1, /obj/item/storage/belt/rogue/pouch/coins/poor = 1, /obj/item/rope/chain = 1)
-	H.cmode_music = 'sound/music/combat_berserker.ogg'
+
 	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
 	var/weapons = list("Katar","Steel Knuckles","Punch Dagger","MY BARE HANDS!!!","Battle Axe","Mace","Sword")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons

@@ -176,6 +176,8 @@
 		STATKEY_PER = -1
 	)
 
+	subclass_spellpoints = 15
+
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
@@ -197,11 +199,9 @@
 	to_chat(H, span_warning("Almah are those skilled in both magyck and swordsmanship, but excelling in nothing."))
 
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/repulse)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/airblade)
-		H.mind.adjust_spellpoints(15)
 	head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/raneshen
 	neck = /obj/item/clothing/neck/roguetown/gorget/copper
 	mask = /obj/item/clothing/mask/rogue/facemask/copper

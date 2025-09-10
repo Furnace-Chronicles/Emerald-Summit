@@ -72,6 +72,8 @@
 	tutorial = "You are an esteemed swordsman who foregoes armor in exchange for a more nimble fighting style."
 	outfit = /datum/outfit/job/roguetown/adventurer/duelist
 
+	cmode_music = 'sound/music/combat_duelist.ogg'
+
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_DODGEEXPERT, TRAIT_DECEIVING_MEEKNESS)
 	subclass_stats = list(
 		STATKEY_INT = 2,
@@ -97,7 +99,7 @@
 	to_chat(H, span_warning("You are an esteemed swordsman who foregoes armor in exchange for a more nimble fighting style."))
 
 	H.set_blindness(0)
-	H.cmode_music = 'sound/music/combat_duelist.ogg'
+
 	var/weapons = list("Rapier","Dagger")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
@@ -135,6 +137,8 @@
 	tutorial = "You specialize in hunting down monsters and the undead, carrying two blades - one of silver, one of steel."
 	outfit = /datum/outfit/job/roguetown/adventurer/mhunter
 
+	cmode_music = 'sound/music/inquisitorcombat.ogg'
+
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -160,7 +164,6 @@
 	..()
 	to_chat(H, span_warning("You specialize in hunting down monsters and the undead, carrying two blades - one of silver, one of steel."))
 
-	H.cmode_music = 'sound/music/inquisitorcombat.ogg'
 	var/steel = list("Parrying Dagger","Sword","Dagger")
 	var/steel_choice = input("Choose your steel.", "PURGE THE LIVING") as anything in steel
 	switch(steel_choice)
@@ -214,6 +217,8 @@
 	tutorial = "You are a brutal warrior who foregoes armor in order to showcase your raw strength. You specialize in unarmed combat and wrestling."
 	outfit = /datum/outfit/job/roguetown/adventurer/barbarian
 
+	cmode_music = 'sound/music/combat_gronn.ogg'
+
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
 	subclass_stats = list(
 		STATKEY_STR = 3,
@@ -239,7 +244,6 @@
 	to_chat(H, span_warning("You are a brutal warrior who foregoes armor in order to showcase your raw strength. You specialize in unarmed combat and wrestling."))
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
-	H.cmode_music = 'sound/music/combat_gronn.ogg'
 	H.set_blindness(0)
 	var/weapons = list("Katar","Axe","Sword","Club","Spear","MY BARE HANDS!!!")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons

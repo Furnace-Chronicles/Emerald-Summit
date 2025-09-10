@@ -14,6 +14,8 @@
 		STATKEY_LCK = 1
 	)
 
+	subclass_spellpoints = 6
+
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
@@ -51,14 +53,12 @@
 						)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/crow)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/guidance)
 	if(H.gender == FEMALE)
 		armor = /obj/item/clothing/suit/roguetown/armor/corset
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
 		pants = /obj/item/clothing/under/roguetown/skirt/red
 
-	H?.mind.adjust_spellpoints(6)
 	if(H.age == AGE_OLD)
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 1)

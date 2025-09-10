@@ -123,6 +123,8 @@
 		STATKEY_LCK = 1,
 	)
 
+	subclass_spellpoints = 9
+
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
 		/datum/skill/magic/arcane = SKILL_LEVEL_NOVICE,
@@ -147,10 +149,6 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	mask = /obj/item/clothing/mask/rogue/spectacles
 	neck = /obj/item/storage/belt/rogue/pouch/coins/rich
-
-	H?.mind.adjust_spellpoints(9)
-	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 
 /datum/advclass/heir/aristocrat
 	name = "Sheltered Aristocrat"

@@ -458,6 +458,8 @@
 					for(var/stat in adv_ref.subclass_stats)
 						dat += "<br>[capitalize(stat)]: <b>[adv_ref.subclass_stats[stat] < 0 ? "<font color = '#cf2a2a'>" : "<font color = '#91cf68'>"]\Roman[adv_ref.subclass_stats[stat]]</font></b>"
 				dat += "<br></td></tr></table></font>"
+				if(adv_ref.subclass_spellpoints > 0)
+					dat += "<font color = '#a3a7e0'>Starting Spellpoints: <b>[adv_ref.subclass_spellpoints]</b></font>"
 				if(length(adv_ref.subclass_languages))
 					dat += "<details><summary><i>Known Languages</i></summary>"
 					for(var/i in 1 to length(adv_ref.subclass_languages))
@@ -471,11 +473,11 @@
 					var/list/traitlist
 					if(length(adv_ref.traits_applied))
 						traitlist = adv_ref.traits_applied
-						dat += "<font color ='#ccbb82'><font color ='#d6d6d6'>Sub</font>class traits:</font> "
+						dat += "<font color ='#7a4d0a'><b>Sub</b>class Traits:</font> "
 					else if(!length(adv_ref.traits_applied) && length(job_traits))
 						traitlist = job_traits
 						show_job_traits = FALSE
-						dat += "<font color ='#ccbb82'><font color ='#d6d6d6'>Class</font> traits:</font> "
+						dat += "<font color ='#7a4d0a'><b>Class</b> Traits:</font> "
 					for(var/trait in traitlist)
 						dat += "<details><summary><i><font color ='#ccbb82'>[trait]</font></i></summary>"
 						dat += "<i><font color = '#a3ffe0'>[GLOB.roguetraits[trait]]</font></i></details>"
@@ -505,12 +507,11 @@
 				dat += "</td></tr></table>"//Skill table end
 				if(adv_ref.extra_context)
 					dat += "<font color ='#a06c1e'>[adv_ref.extra_context]"
-					dat += "</font></details>"
-				else
-					dat += "</details>"
+					dat += "</font>"
+				dat += "</details>"
 		dat += "<hr>"
 		if(length(job_stats))
-			dat += "Starting Stats:<font color ='#d4b164'>"
+			dat += "<font color ='#7a4d0a'><b>Class</b></font> Traits:</font> "
 			for(var/stat in job_stats)
 				dat += "<br>[capitalize(stat)]: <b>[job_stats[stat] < 0 ? "<font color = '#cf2a2a'>" : "<font color = '#91cf68'>"]\Roman[job_stats[stat]]</font></b>"
 			dat += "</font>"	//Ends the stats colors

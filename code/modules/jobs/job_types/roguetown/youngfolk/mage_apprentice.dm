@@ -58,6 +58,8 @@
 		STATKEY_SPD = 1
 	)
 
+	subclass_spellpoints = 21
+
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
@@ -89,7 +91,6 @@
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 1)
 		H?.mind.adjust_spellpoints(6)
-	H?.mind.adjust_spellpoints(21)
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_cult.ogg'
@@ -106,6 +107,8 @@
 		STATKEY_PER = 3,
 		STATKEY_END = 1
 	)
+
+	subclass_spellpoints = 18
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_NOVICE,
@@ -139,7 +142,6 @@
 		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
 		H.change_stat("perception", -1)
 		H.change_stat("intelligence", 1)
-	H?.mind.adjust_spellpoints(18)
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_cult.ogg'
@@ -156,6 +158,8 @@
 		STATKEY_SPD = 1,
 		STATKEY_LCK = 1 // this is just a carrot for the folk who are mad enough to take this role...
 	)
+
+	subclass_spellpoints = 18
 
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
@@ -174,7 +178,6 @@
 		/obj/item/chalk = 1,
 		)
 
-	H?.mind.adjust_spellpoints(18)
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)

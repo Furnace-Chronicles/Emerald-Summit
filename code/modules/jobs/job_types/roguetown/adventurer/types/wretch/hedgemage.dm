@@ -6,6 +6,8 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/wretch/hedgemage
 	category_tags = list(CTAG_WRETCH)
+	cmode_music = 'sound/music/combat_bandit_mage.ogg'
+	extra_context = "Choose between 2 options: 27 spellpoints or 21 spellpoints and Dodge Expert."
 
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3)
 	// Same stat spread as necromancer, same reasoning
@@ -15,6 +17,8 @@
 		STATKEY_END = 1,
 		STATKEY_SPD = 1
 	)
+
+	subclass_spellpoints = 21 // Unlike Rogue Mage, who gets 6 but DExpert, this one don't have DExpert but have more spell points than anyone but the CM. 
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
@@ -50,18 +54,15 @@
 	backpack_contents = list(/obj/item/spellbook_unfinished/pre_arcyne = 1, /obj/item/roguegem/amethyst = 1, /obj/item/storage/belt/rogue/pouch/coins/poor = 1, /obj/item/flashlight/flare/torch/lantern/prelit = 1, /obj/item/rope/chain = 1)
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
-	H.cmode_music = 'sound/music/combat_bandit_mage.ogg'
+
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 		H?.mind.adjust_spellpoints(6)
-	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 	var/classes = list("Hedge Mage","Rogue Mage")
 	var/classchoice = input("Choose your archetypes", "Available archetypes") as anything in classes
 	switch(classchoice)
 		if("Hedge Mage")
-			H?.mind.adjust_spellpoints(27)
+			H?.mind.adjust_spellpoints(6)
 		if("Rogue Mage")
-			H?.mind.adjust_spellpoints(21)
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	wretch_select_bounty(H)

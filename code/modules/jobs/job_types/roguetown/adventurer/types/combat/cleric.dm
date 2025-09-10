@@ -230,15 +230,15 @@
 			else
 				beltr = /obj/item/rogueweapon/sword/long
 			r_hand = /obj/item/rogueweapon/scabbard/sword
-			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		if("Mace")
-			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
 				beltr = /obj/item/rogueweapon/mace/cudgel/psy/old
 			else
 				beltr = /obj/item/rogueweapon/mace
 		if("Flail")
-			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			beltr = /obj/item/rogueweapon/flail
 	H.set_blindness(0)
 	switch(H.patron?.type)

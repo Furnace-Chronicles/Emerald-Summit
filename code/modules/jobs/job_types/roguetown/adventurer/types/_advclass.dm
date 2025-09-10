@@ -40,6 +40,9 @@
 	/// Subclass languages.
 	var/list/subclass_languages
 
+	/// Spellpoints. If More than 0, Gives Prestidigitation & the Learning Spell.
+	var/subclass_spellpoints = 0
+
 /datum/advclass/proc/equipme(mob/living/carbon/human/H)
 	// input sleeps....
 	set waitfor = FALSE
@@ -75,6 +78,9 @@
 	if(length(subclass_skills))
 		for(var/skill in subclass_skills)
 			H.adjust_skillrank_up_to(skill, subclass_skills[skill], TRUE)
+
+	if(subclass_spellpoints > 0)
+		H.mind?.adjust_spellpoints(subclass_spellpoints)
 
 	// After the end of adv class equipping, apply a SPECIAL trait if able
 

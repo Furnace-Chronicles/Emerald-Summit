@@ -14,6 +14,8 @@
 		STATKEY_SPD = -1
 	)
 
+	subclass_spellpoints = 9
+
 	subclass_skills = list(
 		/datum/skill/magic/arcane = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
@@ -38,7 +40,3 @@
 		gloves = /obj/item/clothing/gloves/roguetown/fingerless
 	
 	r_hand = /obj/item/rogueweapon/woodstaff
-
-	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-		H?.mind.adjust_spellpoints(9)

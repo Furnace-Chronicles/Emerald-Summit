@@ -170,6 +170,8 @@
 		STATKEY_PER = 3,
 	)
 
+	subclass_spellpoints = 15
+
 	subclass_skills = list(
 		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
@@ -194,9 +196,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/hand
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	id = /obj/item/scomstone/garrison
-	if(H.mind)
-		H?.mind.adjust_spellpoints(15)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+
 	if(H.age == AGE_OLD)
 		H.change_stat("speed", -1)
 		H.change_stat("strength", -1)

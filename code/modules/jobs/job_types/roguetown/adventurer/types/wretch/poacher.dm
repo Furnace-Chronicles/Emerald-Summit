@@ -5,6 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/wretch/poacher
 	category_tags = list(CTAG_WRETCH)
+	cmode_music = 'sound/music/combat_poacher.ogg'
 
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_WOODSMAN, TRAIT_OUTDOORSMAN)
 	// No straight upgrade to perception / speed to not stack one stat too high, but still stronger than MAA Skirm out of town.
@@ -53,7 +54,7 @@
 	beltl = /obj/item/quiver/arrows
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	backpack_contents = list(/obj/item/bait = 1, /obj/item/rogueweapon/huntingknife = 1, /obj/item/storage/belt/rogue/pouch/coins/poor = 1, /obj/item/flashlight/flare/torch/lantern/prelit = 1, /obj/item/rope/chain = 1)
-	H.cmode_music = 'sound/music/combat_poacher.ogg'
+
 	var/weapons = list("Dagger","Axe", "Cudgel", "My Bow Is Enough")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)

@@ -7,6 +7,8 @@
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	class_select_category = CLASS_CAT_ROGUE
 
+	cmode_music = 'sound/music/combat_treasurehunter.ogg'
+
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_SEEPRICES, TRAIT_GRAVEROBBER)
 	subclass_stats = list(
 		STATKEY_STR = -1,
@@ -54,23 +56,24 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 
-	H.cmode_music = 'sound/music/combat_treasurehunter.ogg'
 	var/weapons = list("Sabre","Whip")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Sabre")
-			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			beltr = /obj/item/rogueweapon/sword/sabre
 			r_hand = /obj/item/rogueweapon/scabbard/sword
 		if("Whip")
-			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			beltr = /obj/item/rogueweapon/whip
 
 /datum/advclass/rogue/thief
 	name = "Thief"
 	tutorial = "You are a scoundrel and a thief. A master in getting into places you shouldn't be and taking things that aren't rightfully yours."
 	outfit = /datum/outfit/job/roguetown/adventurer/thief
+
+	cmode_music = 'sound/music/combat_rogue.ogg'
 
 	subclass_languages = list(/datum/language/thievescant)
 
@@ -118,7 +121,6 @@
 		/obj/item/recipe_book/survival = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
-	H.cmode_music = 'sound/music/combat_rogue.ogg'
 
 	var/loadouts = list("Local Scoundrel","Eastern Agent")
 	var/loadout_choice = input("Choose your provenance.", "WHO AM I") as anything in loadouts
@@ -154,6 +156,8 @@
 	name = "Bard"
 	tutorial = "You make your fortune in brothels, flop houses, and taverns – gaining fame for your songs and legends. If there is any truth to them, that is."
 	outfit = /datum/outfit/job/roguetown/adventurer/bard
+
+	cmode_music = 'sound/music/combat_bard.ogg'
 
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_GOODLOVER, TRAIT_EMPATH)
 	subclass_stats = list(
@@ -201,7 +205,7 @@
 		)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
-	H.cmode_music = 'sound/music/combat_bard.ogg'
+
 	var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Trumpet")
 	var/weapon_choice = input("Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
@@ -227,6 +231,8 @@
 	name = "Swashbuckler"
 	tutorial = "You are a daring rogue of the seas! Swashbucklers wield agile swordplay and acrobatic prowess - fighting dirty to outmaneuver foes with flair."
 	outfit = /datum/outfit/job/roguetown/adventurer/swashbuckler
+
+	cmode_music = 'sound/music/jukeboxes/oldschool/Sea_Shanty2.ogg'
 
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_NUTCRACKER, TRAIT_DECEIVING_MEEKNESS)
 	subclass_stats = list(
@@ -272,4 +278,3 @@
 		/obj/item/recipe_book/survival = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
-	H.cmode_music = 'sound/music/jukeboxes/oldschool/Sea_Shanty2.ogg'

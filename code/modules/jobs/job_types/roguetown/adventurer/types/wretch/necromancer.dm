@@ -5,6 +5,8 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/wretch/necromancer
 	category_tags = list(CTAG_WRETCH)
+	cmode_music = 'sound/music/combat_cult.ogg'
+	extra_context = "Only those that worship ZIZO may be necromancers."
 
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_GRAVEROBBER, TRAIT_ARCYNE_T3, TRAIT_RITUALIST) // removing zombie immunity cos zizo gives u it by default
 	// Necromancer get the most +4 Int, +2 Perception just like Sorc (Adv Mage), and a bit of endurance / speed
@@ -14,7 +16,8 @@
 		STATKEY_END = 1,
 		STATKEY_SPD = 1
 	)
-	extra_context = "Only those that worship ZIZO may be necromancers."
+
+	subclass_spellpoints = 18
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
@@ -44,16 +47,15 @@
 	backr = /obj/item/rogueweapon/woodstaff/ruby
 	backpack_contents = list(/obj/item/spellbook_unfinished/pre_arcyne = 1, /obj/item/roguegem/amethyst = 1, /obj/item/storage/belt/rogue/pouch/coins/poor = 1, /obj/item/flashlight/flare/torch/lantern/prelit = 1, /obj/item/ritechalk = 1)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
-	H.cmode_music = 'sound/music/combat_cult.ogg'
+
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 		H?.mind.adjust_spellpoints(6)
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/eyebite)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/necromancer)
-	H?.mind.adjust_spellpoints(18)
+
 	wretch_select_bounty(H)

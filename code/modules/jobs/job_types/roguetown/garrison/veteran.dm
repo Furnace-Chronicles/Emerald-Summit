@@ -54,8 +54,8 @@
 	tutorial = "You have served under a hundred masters, some good, some bad. You were a general once. A marshal, a captain. To some a hero, others a monster. Something of the sorts. You made strategies, tactics, new innovations of war. A thousand new ways for one man to kill another. It still keeps you up at night."
 	allowed_races = RACES_FEARED_UP//I'm going to assume they are the same criteria as MAA
 	outfit = /datum/outfit/job/roguetown/vet/battlemaster
-
 	category_tags = list(CTAG_VETERAN)
+	cmode_music = 'sound/music/combat_duelist.ogg'
 
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED)
 	subclass_stats = list(
@@ -108,7 +108,6 @@
 		H.change_stat("endurance", 1)
 
 	H.verbs |= /mob/proc/haltyell
-	H.cmode_music = 'sound/music/combat_duelist.ogg'
 
 /datum/advclass/veteran/footman
 	name = "Retired Footman"
@@ -449,8 +448,8 @@
 	allowed_races = RACES_FEARED_UP //Same as MAA, who might as well assume they were apart of.
 	tutorial = "You and your unit maneuvered ahead of the main force, ever-watchful for traps and ambushes. You never thought of what would happen should you actually walk into one. You specialize in archery and axes."
 	outfit = /datum/outfit/job/roguetown/vet/scout
-
 	category_tags = list(CTAG_VETERAN)
+	cmode_music = 'sound/music/combat_rogue.ogg'
 
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_WOODSMAN, TRAIT_STEELHEARTED)
 	subclass_stats = list(
@@ -511,7 +510,6 @@
 		H.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE)
 		H.change_stat("perception", 2)
 	H.verbs |= /mob/proc/haltyell
-	H.cmode_music = 'sound/music/combat_rogue.ogg'
 
 /datum/advclass/veteran/spy
 	name = "Ex-Spy"
