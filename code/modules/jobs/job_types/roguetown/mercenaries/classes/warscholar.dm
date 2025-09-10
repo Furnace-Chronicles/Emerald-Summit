@@ -238,6 +238,7 @@
 	to_chat(H, span_warning("You are a Naledi Vizier. Your research into miracles and holy incantations has lead you to esoteric magycks. Though psydonians have long struggled to channel their all-father's divinity, a combination of the saint's power may be similar enough."))
 
 	backl = /obj/item/rogueweapon/woodstaff/naledi
+	wrists = /obj/item/clothing/neck/roguetown/psicross/naledi
 	armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/grey
 	mask = /obj/item/clothing/mask/rogue/lordmask/naledi
 	belt = /obj/item/storage/belt/rogue/leather
