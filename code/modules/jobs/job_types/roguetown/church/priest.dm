@@ -226,10 +226,10 @@ GLOBAL_LIST_EMPTY(heretical_players)
                     REMOVE_TRAIT(H, TRAIT_EXCOMMUNICATED, TRAIT_GENERIC)
 
                     if (H.patron)
-                        if (istype(H.patron, /datum/patron/divine))
+                        if((istype(H.patron, /datum/patron/divine)) && !HAS_TRAIT(H, TRAIT_HERETIC_DEVOUT))
                             H.remove_stress(/datum/stressevent/excommunicated)
                             H.remove_status_effect(/datum/status_effect/debuff/excomm)
-                        else if (istype(H.patron, /datum/patron/inhumen))
+                        else if((istype(H.patron, /datum/patron/inhumen)) || HAS_TRAIT(H, TRAIT_HERETIC_DEVOUT))
                             H.remove_stress(/datum/stressevent/gazeuponme)
                             H.remove_status_effect(/datum/status_effect/buff/gazeuponme)
                         else
@@ -246,14 +246,14 @@ GLOBAL_LIST_EMPTY(heretical_players)
                 ADD_TRAIT(H, TRAIT_EXCOMMUNICATED, TRAIT_GENERIC)
 
                 if (H.patron)
-                    if (istype(H.patron, /datum/patron/divine))
+                    if((istype(H.patron, /datum/patron/divine)) && !HAS_TRAIT(H, TRAIT_HERETIC_DEVOUT))
                         H.add_stress(/datum/stressevent/excommunicated)
                         H.apply_status_effect(/datum/status_effect/debuff/excomm)
                         to_chat(H, span_warning("Your divine patron recoils from your excommunication."))
-                    else if (istype(H.patron, /datum/patron/inhumen))
+                    else if((istype(H.patron, /datum/patron/inhumen)) || HAS_TRAIT(H, TRAIT_HERETIC_DEVOUT))
                         H.add_stress(/datum/stressevent/gazeuponme)
                         H.apply_status_effect(/datum/status_effect/buff/gazeuponme)
-                        to_chat(H, span_notice("Your inhuman patron embraces your rejection from the Ten."))
+                        to_chat(H, span_notice("Your patron embraces your rejection from the Ten."))
                     else
                         continue
 
@@ -315,7 +315,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 			found = TRUE
 			GLOB.apostasy_players += inputty
 
-			if (istype(H.patron, /datum/patron/divine) && H.devotion)
+			if (istype(H.patron, /datum/patron/divine) && H.devotion && !HAS_TRAIT(H, TRAIT_HERETIC_DEVOUT))
 				H.devotion.excommunicate()
 				H.apply_status_effect(/datum/status_effect/debuff/apostasy)
 				H.add_stress(/datum/stressevent/apostasy)

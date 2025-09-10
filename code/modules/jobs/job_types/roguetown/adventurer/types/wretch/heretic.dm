@@ -5,9 +5,9 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/wretch/heretic
 	category_tags = list(CTAG_WRETCH)
-	extra_context = "If your patron is the following: Psydon, Astrata, Ravox, Necra or Eora, your patron will be set to ZIZO."
+	extra_context = "If your patron is the following: Psydon, Astrata, Ravox, Necra or Eora, your patron will be set to ZIZO. Excommunication does not work on the Ten worshippers."
 
-	traits_applied = list(TRAIT_RITUALIST, TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_RITUALIST, TRAIT_HEAVYARMOR, TRAIT_HERETIC_DEVOUT)
 	// Heretic is by far the best class with access to rituals (as long as they play a god with ritual), holy and heavy armor. So they keep 7 points.
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -188,7 +188,7 @@
 	tutorial = "Nimble of dagger and foot both, you are the shadowy herald of the cabal. They will not see you coming."
 	outfit = /datum/outfit/job/roguetown/wretch/heretic_wanderer
 
-	traits_applied = list(TRAIT_RITUALIST, TRAIT_DODGEEXPERT)
+	traits_applied = list(TRAIT_RITUALIST, TRAIT_DODGEEXPERT, TRAIT_HERETIC_DEVOUT)
 	//Slower than outlaw, but a bit more PER and INT
 	subclass_stats = list(
 		STATKEY_PER = 2,

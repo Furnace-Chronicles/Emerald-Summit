@@ -103,6 +103,7 @@
 #define TRAIT_PSYDONIAN_GRIT "Psydonian Grit" // Pain Tolerance. Through faith, ENDURE.
 #define TRAIT_PSYDONITE "Psydonite's Devotion" // Anti-Miracles on a selective basis, anastasis / cure rot still apply. Slow passive wound healing while you have blood.
 #define TRAIT_BLACKBAGGER "Apprehension Techniques" // Capable of using Garrotes and Blackbags. Apprehension techniques.w passive wound healing while you have blood.
+#define TRAIT_HERETIC_DEVOUT "Heretic Devout" // used to make it so excom and other priest stuff doesn't work on wretches
 
 // PATRON GOD TRAITS Curses
 
@@ -187,6 +188,7 @@
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
 
 GLOBAL_LIST_INIT(roguetraits, list(
+	TRAIT_HERETIC_DEVOUT = span_necrosis("The scorn of Astrata shan't make me waiver, for my faith holds true."),
 	TRAIT_PACIFISM = span_info("I shall never harm a living being. Directly."),
 	TRAIT_STEELHEARTED = span_info("I have hardened nerves, and do not waiver from the sight of violence in battle."),
 	TRAIT_OUTLANDER = span_info("I am naught but a foreigner in this land."),
