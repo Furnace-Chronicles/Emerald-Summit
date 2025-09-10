@@ -98,8 +98,9 @@
 	backpack_contents = list(/obj/item/ritechalk)
 	H.put_in_hands(new /obj/item/rogueweapon/woodstaff(H), TRUE) //To encourage them to wander the forests and to help defend themselves
 	if(H.age == AGE_OLD)
-		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/magic/druidic, 1, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/magic/holy, 5, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/magic/druidic, 5, TRUE)
+
 	H.ambushable = FALSE
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)

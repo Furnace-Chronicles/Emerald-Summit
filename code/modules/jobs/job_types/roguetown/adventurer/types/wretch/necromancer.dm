@@ -49,7 +49,7 @@
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 
 	if(H.age == AGE_OLD)
-		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_MASTER, TRUE)
 		H?.mind.adjust_spellpoints(6)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/eyebite)

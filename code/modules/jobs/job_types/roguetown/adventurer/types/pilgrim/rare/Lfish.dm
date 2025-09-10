@@ -21,7 +21,7 @@
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/swimming = SKILL_LEVEL_MASTER,
 		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
@@ -50,9 +50,6 @@
 							/obj/item/rogueweapon/shovel/small=1,
 							/obj/item/flashlight/flare/torch = 1,
 							)
-		if(H.age == AGE_OLD)
-			H.adjust_skillrank(/datum/skill/labor/fishing, 1, TRUE)
-			H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 	else
 		pants = /obj/item/clothing/under/roguetown/trou
 		shoes = /obj/item/clothing/shoes/roguetown/boots/leather
@@ -65,6 +62,3 @@
 		beltr = /obj/item/fishingrod
 		beltl = /obj/item/rogueweapon/huntingknife
 		backpack_contents = list(/obj/item/natural/worms = 2,/obj/item/rogueweapon/shovel/small=1)
-		if(H.age == AGE_OLD)
-			H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
-			H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)

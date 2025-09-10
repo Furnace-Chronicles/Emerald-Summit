@@ -67,15 +67,15 @@
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Rapier")
-			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 			beltl = /obj/item/rogueweapon/scabbard/sword
 			l_hand = /obj/item/rogueweapon/sword/rapier
 		if("Dagger")
-			H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 			beltl = /obj/item/rogueweapon/scabbard/sheath
 			l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/special // Why were they spawning with an elven dagger in the first place??? Please LMK.
 		if ("Whip")
-			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
 			beltl = /obj/item/rogueweapon/whip
 	wretch_select_bounty(H)
 
@@ -141,21 +141,21 @@
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Just An Iron Shield")
-			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
-			H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			backr = /obj/item/rogueweapon/shield/iron
 		if("Dagger + Crossbow")
-			H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 			beltl = /obj/item/rogueweapon/scabbard/sheath
 			l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 			beltr = /obj/item/quiver/bolts
 		if ("Militia Warpick + Heater Shield")
-			H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 			beltl = /obj/item/rogueweapon/pick/militia
 			backr = /obj/item/rogueweapon/shield/iron
 		if ("Militia Spear + Heater Shield")
-			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 			l_hand = /obj/item/rogueweapon/spear/militia
 			backr = /obj/item/rogueweapon/shield/heater
 	wretch_select_bounty(H)

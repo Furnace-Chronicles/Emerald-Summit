@@ -85,8 +85,8 @@
 	backpack_contents = list(/obj/item/recipe_book/survival = 1, /obj/item/flashlight/flare/torch = 1, /obj/item/rogueweapon/huntingknife = 1, /obj/item/flint = 1)
 
 	if(H.age == AGE_OLD)//So ppl have reason to pick this I guess?
-		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/labor/butchering, 1, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/labor/farming, 6, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/labor/butchering, 6, TRUE)
 
 	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/random

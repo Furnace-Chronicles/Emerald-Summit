@@ -102,9 +102,9 @@
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1)
 
 	if(H.age == AGE_OLD)
-		H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/swords, 6, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/maces, 6, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 5, TRUE)
 		H.change_stat("endurance", 1)
 
 	H.verbs |= /mob/proc/haltyell
@@ -166,12 +166,12 @@
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1)
 
 	if(H.age == AGE_OLD)
-		H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/shields, 6, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 6, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/maces, 5, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/axes, 5, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 5, TRUE)
 	H.verbs |= /mob/proc/haltyell
 
 /datum/advclass/veteran/cavalryman
@@ -230,13 +230,13 @@
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1)
 
 	if(H.age == AGE_OLD)
-		H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE) // You get a lot of weapon skills, but none are legendary. Jack of all trades, master of none. This is probably worse than just having legendary in one, as people rarely swap weapons mid-combat.
-		H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/crossbows, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/bows, 5, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/maces, 5, TRUE) // You get a lot of weapon skills, but none are legendary. Jack of all trades, master of none. This is probably worse than just having legendary in one, as people rarely swap weapons mid-combat.
+		H.adjust_skillrank_up_to(/datum/skill/combat/axes, 5, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 5, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 5, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 5, TRUE)
 	H.verbs |= /mob/proc/haltyell
 
 	H.adjust_blindness(-3)
@@ -262,9 +262,8 @@
 	name = "Retired Mercenary"
 	tutorial = "You were a sell-sword, a warrior of coin. Your pockets were never light, you always had a warm place to stay and food in your belly, but you knew that every battle could be your last. You're the last of your unit, and you can't help but regret it."
 	allowed_races = RACES_ALL_KINDS //Mercenary, and thus, the same options as the Mercenary class.
-	
 	outfit = /datum/outfit/job/roguetown/vet/merc
-
+	extra_context = "Choose between Grenzelhoftian, Janissary or Condottiero mercenary."
 	category_tags = list(CTAG_VETERAN)
 	classes = list("Grenzelhoft" = "Having once served with zweihandler or halberd in the professional echelons of the Grenzelhoft mercenary guild, they are now free from the guild to pursue lordly service rather then highest bidder.",
 					"Janissary" = "The elite infantry of Ranesheni, you have found yourself far from home, may your current liege prove a better choice then the Autarchy back home.",
@@ -273,7 +272,8 @@
 
 	traits_applied = list(TRAIT_STEELHEARTED)
 
-	extra_context = "Choose between Grenzelhoftian, Janissary or Condottiero mercenary."
+/datum/outfit/job/roguetown/vet/merc
+	has_loadout = TRUE
 
 /datum/outfit/job/roguetown/vet/merc/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -321,10 +321,10 @@
 			H.change_stat("speed", -1)
 			H.change_stat("strength", 2)
 			if(H.age == AGE_OLD)
-				H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
-				H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE) // two handed weapons require a LOT of stamina.
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, 5, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 5, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 3, TRUE) // two handed weapons require a LOT of stamina.
 			H.verbs |= /mob/proc/haltyell
 			H.grant_language(/datum/language/grenzelhoftian)
 			ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
@@ -376,9 +376,9 @@
 			H.change_stat("perception", -1)
 			H.change_stat("speed", 2)
 			if(H.age == AGE_OLD)
-				H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 			H.grant_language(/datum/language/celestial)
 			H.cmode_music = 'sound/music/combat_desertrider.ogg'
 			ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
@@ -433,9 +433,9 @@
 			H.change_stat("speed", 2)
 			H.change_stat("intelligence", 2)
 			if(H.age == AGE_OLD)
-				H.adjust_skillrank(/datum/skill/combat/crossbows, 1, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 6, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives, 6, TRUE)
 				H.change_stat("perception", 2)
 			H.grant_language(/datum/language/etruscan)
 			H.grant_language(/datum/language/thievescant)
@@ -503,11 +503,11 @@
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/storage/keyring/guardcastle = 1)
 
 	if(H.age == AGE_OLD)
-		H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/crossbows, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/bows, 6, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/axes, 6, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 6, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/misc/tracking, 6, TRUE)
 		H.change_stat("perception", 2)
 	H.verbs |= /mob/proc/haltyell
 
@@ -570,14 +570,13 @@
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/silver/elvish = 1, /obj/item/storage/keyring/guardcastle = 1, /obj/item/reagent_containers/glass/bottle/rogue/poison = 1, /obj/item/lockpickring/mundane)
 
 	if(H.age == AGE_OLD)
-		H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE) ///Having Master Knives is extremely negligible for a singular role that isn't even meant to be combative.
-		H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/sneaking, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/stealing, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/whipsflails, 2, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/knives, 5, TRUE) ///Having Master Knives is extremely negligible for a singular role that isn't even meant to be combative.
+		H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/misc/sneaking, 6, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/bows, 5, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 5, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/misc/stealing, 5, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 6, TRUE)
 		H.change_stat("speed", 1) // You get -2 speed from being old. You are still in the negative stat wise from picking old.
 		H.change_stat("perception", 2) // You get -2 perception from being old. I want you to at least have a positive perception, to represent that you're observant. The highest perception you can get with this is a 13, so I think we'll be okayed.
 	H.verbs |= /mob/proc/haltyell

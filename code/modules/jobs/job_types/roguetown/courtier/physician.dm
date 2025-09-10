@@ -101,5 +101,5 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 	if(H.age == AGE_OLD)
 		H.change_stat("speed", -1)
-		H.change_stat("intelligence", 1)
+		H.change_stat("intelligence", 2)
 		H.change_stat("perception", 1)

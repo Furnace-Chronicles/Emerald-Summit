@@ -76,6 +76,9 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 	)
 
+/datum/outfit/job/roguetown/guildmaster
+	has_loadout = TRUE
+
 /datum/outfit/job/roguetown/guildmaster/basic/pre_equip(mob/living/carbon/human/H)
 	H.adjust_blindness(-3)
 	head = /obj/item/clothing/head/roguetown/chaperon/noble/guildmaster
@@ -85,13 +88,6 @@
 		// And Tailor / Leathercrafting
 		H.verbs += /mob/living/carbon/human/proc/guild_announcement
 
-		if(H.age == AGE_OLD)
-			H.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)
-			H.adjust_skillrank(/datum/skill/craft/armorsmithing, 1, TRUE)
-			H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
-			H.adjust_skillrank(/datum/skill/craft/smelting, 1, TRUE)
-			H.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE) // Worse than the real tailor, so can't steal their job right away 
-			H.adjust_skillrank(/datum/skill/craft/tanning, 1, TRUE)
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket
 		pants = /obj/item/clothing/under/roguetown/trou/artipants
 		shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
@@ -101,6 +97,16 @@
 		belt = /obj/item/storage/belt/rogue/leather
 		beltl = /obj/item/storage/belt/rogue/pouch/coins/rich
 		beltr = /obj/item/storage/keyring/guildmaster
+
+/datum/outfit/job/roguetown/guildmaster/choose_loadout(mob/living/carbon/human/H)
+	. = ..()
+	if(H.age == AGE_OLD)
+		H.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/armorsmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/smelting, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE) // Worse than the real tailor, so can't steal their job right away 
+		H.adjust_skillrank(/datum/skill/craft/tanning, 1, TRUE)
 
 GLOBAL_VAR_INIT(last_guildmaster_announcement, -50000) // Inits variable for later
 

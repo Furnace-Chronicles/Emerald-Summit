@@ -40,6 +40,7 @@
 	tutorial = "Chores, some more chores- Even more chores.. Oh how the life of a humble acolyte is exhausting… You have faith, but even you know you gave up a life of adventure for that of the security in the Church. Assist the Bishop in their daily tasks, maybe today will be the day something interesting happens."
 	outfit = /datum/outfit/job/roguetown/monk/basic
 	category_tags = list(CTAG_ACOLYTE)
+	cmode_music = 'sound/music/combat_holy.ogg'
 
 	subclass_stats = list(
 		STATKEY_INT = 3,
@@ -65,8 +66,19 @@
 	name = "Acolyte"
 	jobtype = /datum/job/roguetown/monk
 	job_bitflag = BITFLAG_CHURCH
-	allowed_patrons = list(/datum/patron/divine/pestra, /datum/patron/divine/astrata, /datum/patron/divine/eora, /datum/patron/divine/noc, /datum/patron/divine/necra, /datum/patron/divine/abyssor, /datum/patron/divine/malum, /datum/patron/divine/ravox, /datum/patron/divine/xylix) // The whole Ten. Probably could delete this now, actually.
+	allowed_patrons = list(
+		/datum/patron/divine/pestra,
+		/datum/patron/divine/astrata,
+		/datum/patron/divine/eora,
+		/datum/patron/divine/noc,
+		/datum/patron/divine/necra,
+		/datum/patron/divine/abyssor,
+		/datum/patron/divine/malum,
+		/datum/patron/divine/ravox,
+		/datum/patron/divine/xylix,
+	) // The whole Ten. Probably could delete this now, actually.
 
+	has_loadout = TRUE
 
 /datum/outfit/job/roguetown/monk/basic/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -151,6 +163,12 @@
 			wrists = /obj/item/clothing/wrists/roguetown/wrappings
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/astrata
+	// -- End of section for god specific bonuses --
+	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.
+
+/datum/outfit/job/roguetown/monk/basic/choose_loadout(mob/living/carbon/human/H)
+	. = ..()
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
 	// -- Start of section for god specific bonuses --
@@ -188,8 +206,3 @@
 		H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/music, 2, TRUE)
-	// -- End of section for god specific bonuses --
-	H.cmode_music = 'sound/music/combat_holy.ogg'
-
-	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.
