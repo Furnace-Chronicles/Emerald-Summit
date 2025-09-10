@@ -850,6 +850,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_night = null
 	droning_sound_dawn = 'sound/music/area/churchdawn.ogg'
 	converted_type = /area/rogue/outdoors/exposed/church
+	
 /area/rogue/outdoors/exposed/church
 	icon_state = "church"
 	droning_sound = 'sound/music/area/church.ogg'
@@ -867,6 +868,13 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = null
 	droning_sound_night = null
 	first_time_text = "THE CRYPT OF THE TEN"
+
+/area/rogue/indoors/town/church/outside
+	icon_state = "churchoutside"
+	droning_sound = 'sound/music/area/monastery.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+	first_time_text = "THE SCARLET MONASTERY"
 
 /area/rogue/indoors/town/fire_chamber
 	name = "incinerator"
