@@ -271,7 +271,7 @@
 		if("Sword & Shield")
 			beltr = /obj/item/rogueweapon/sword/sabre
 			backl = /obj/item/rogueweapon/shield/wood
-			beltr = /obj/item/rogueweapon/scabbard/sword
+			r_hand = /obj/item/rogueweapon/scabbard/sword
 	
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
