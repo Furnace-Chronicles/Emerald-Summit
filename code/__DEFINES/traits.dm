@@ -187,7 +187,7 @@
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
 
 GLOBAL_LIST_INIT(roguetraits, list(
-	TRAIT_PACIFISM = span_info("I shall never harm a living being."),
+	TRAIT_PACIFISM = span_info("I shall never harm a living being. Directly."),
 	TRAIT_STEELHEARTED = span_info("I have hardened nerves, and do not waiver from the sight of violence in battle."),
 	TRAIT_OUTLANDER = span_info("I am naught but a foreigner in this land."),
 	TRAIT_OUTLAW = span_info("This land's meisters and castificos reject my touch."),
