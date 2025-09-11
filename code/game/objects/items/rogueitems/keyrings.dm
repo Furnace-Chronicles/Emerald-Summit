@@ -263,7 +263,7 @@
 	keys = list(/obj/item/roguekey/church, /obj/item/roguekey/graveyard)
 
 /obj/item/storage/keyring/puritan
-	keys = list(/obj/item/roguekey/puritan, /obj/item/roguekey/inquisition, /obj/item/roguekey/graveyard)
+	keys = list(/obj/item/roguekey/puritan, /obj/item/roguekey/inquisition)
 
 /obj/item/storage/keyring/orthodoxist
 	keys = list(/obj/item/roguekey/inquisition)
@@ -287,7 +287,7 @@
 	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/garrison)
 
 /obj/item/storage/keyring/archivist
-	keys = list(/obj/item/roguekey/archive)
+	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/archive)
 
 /obj/item/storage/keyring/physician
 	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/garrison, /obj/item/roguekey/physician)

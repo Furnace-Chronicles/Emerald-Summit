@@ -965,6 +965,18 @@
 				return TRUE
 	..()
 
+/obj/structure/fluff/statue/psydonbleeding
+	name = "statue of the Weeping Psydon"
+	desc = "A statue of the Weeping God. His followers, even when shunned and hated by society, continue to defend His legacy, ignoring the snobbery of the Ten. They must endure, as He did."
+	icon = 'icons/roguetown/misc/64x64.dmi'
+	icon_state = "psydonstatue"
+
+/obj/structure/fluff/statue/astratacore
+	name = "statue of Astrata"
+	desc = "A masterfully carved stone likeness of the sun goddess Astrata, adorned with golden inlays that gleam warmly even in shadow. It will accept money and valuable metals as offerings, which will be used as a proof of devotion to the Ten."
+	icon = 'icons/roguetown/misc/64x64.dmi'
+	icon_state = "astratastatue"
+
 /obj/structure/fluff/statue/evil
 	name = "idol"
 	desc = "A statue built to the robber-god, Matthios, who stole the gift of fire from the underworld. It is said that he grants the wishes of those pagan bandits (free folk) who feed him money and valuable metals."
@@ -998,10 +1010,10 @@
 		/obj/item/kitchen/spoon/silver,
 		/obj/item/candle/candlestick/gold,
 		/obj/item/candle/candlestick/silver,
-		/obj/item/rogueweapon/sword/long/judgement, // various unique weapons around from a few roles follows. Don't lose your fancy toys.... 
+		/obj/item/rogueweapon/sword/long/judgement, // various unique weapons around from a few roles follows. Don't lose your fancy toys....
 		/obj/item/rogueweapon/sword/long/oathkeeper,
 		/obj/item/rogueweapon/woodstaff/riddle_of_steel/magos, //bit dumb for a bandit mage to toss this toy away but whatever
-		/obj/item/rogueweapon/halberd/psyhalberd, // relic weapons but not standard Inquisition stuff 
+		/obj/item/rogueweapon/halberd/psyhalberd, // relic weapons but not standard Inquisition stuff
 		/obj/item/rogueweapon/greatsword/psygsword,
 	)
 

@@ -96,14 +96,14 @@
 	if(swimmer.buckled)
 		return 0
 	var/abyssor_swim_bonus = HAS_TRAIT(swimmer, TRAIT_ABYSSOR_SWIM) ? 5 : 0
-	var/swimming_skill_level = swimmer.get_skill_level(/datum/skill/misc/swimming) 
+	var/swimming_skill_level = swimmer.get_skill_level(/datum/skill/misc/swimming)
 	. = max(BASE_STAM_DRAIN - (swimming_skill_level * STAM_PER_LEVEL) - abyssor_swim_bonus, MIN_STAM_DRAIN)
 	if(swimmer.mind)
 		swimmer.mind.add_sleep_experience(/datum/skill/misc/swimming, swimmer.STAINT * 0.5)
 //	. += (swimmer.checkwornweight()*2)
 	if(!swimmer.check_armor_skill())
 		. += UNSKILLED_ARMOR_PENALTY
-	if(.) // this check is expensive so we only run it if we do expect to use stamina	
+	if(.) // this check is expensive so we only run it if we do expect to use stamina
 		for(var/obj/structure/S in src)
 			if(S.obj_flags & BLOCK_Z_OUT_DOWN)
 				return 0
@@ -508,7 +508,7 @@
 /turf/open/water/pond
 	name = "pond"
 	desc = "Still and idyllic water that flows through meadows."
-	icon_state = "pond"
+	icon_state = "water"
 	icon = 'icons/turf/roguefloor.dmi'
 	water_level = 3
 	water_color = "#367e94"
@@ -516,3 +516,43 @@
 	swim_skill = TRUE
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water
+
+/turf/open/water/psydontears
+	name = "Tears of Psydon"
+	desc = "The ground weeps with the tears of Psydon. Warmth or agony - it depends on your faith."
+	icon = 'icons/turf/roguefloor.dmi'
+	icon_state = "water"
+	water_level = 2
+	water_color = "#6b0303"
+	slowdown = 3
+	wash_in = TRUE
+	water_reagent = /datum/reagent/water
+	var/last_effect = 0
+
+/turf/open/water/psydontears/Initialize()
+	icon_state = "water"
+	dir = pick(GLOB.cardinals)
+	START_PROCESSING(SSobj, src)
+	. = ..()
+
+/turf/open/water/psydontears/Destroy()
+	STOP_PROCESSING(SSobj, src)
+	. = ..()
+
+/turf/open/water/psydontears/process()
+	if (world.time < last_effect + 50)
+		return
+
+	for (var/mob/living/carbon/M in src)
+		if (M.stat == DEAD)
+			continue
+
+		if (HAS_TRAIT(M, TRAIT_PSYDONITE))
+			M.adjustBruteLoss(-10)
+			M.adjustFireLoss(-10)
+			M.adjustToxLoss(-10)
+			M.adjustOxyLoss(-10)
+		else
+			M.apply_damage(30, BURN, BODY_ZONE_CHEST, forced = TRUE)
+
+	last_effect = world.time

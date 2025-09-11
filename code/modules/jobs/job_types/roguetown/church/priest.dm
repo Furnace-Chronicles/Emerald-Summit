@@ -60,6 +60,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	ADD_TRAIT(H, TRAIT_CHOSEN, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_RITUALIST, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_CLERGY, TRAIT_GENERIC)
 
 	H.cmode_music = 'sound/music/combat_holy.ogg'
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 5, TRUE)
