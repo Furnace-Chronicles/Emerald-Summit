@@ -9,10 +9,11 @@
 
 	traits_applied = list(TRAIT_RITUALIST, TRAIT_HEAVYARMOR, TRAIT_HERETIC_DEVOUT)
 	// Heretic is by far the best class with access to rituals (as long as they play a god with ritual), holy and heavy armor. So they keep 7 points.
+	// ... except templars get the same but aren't supposed to 1vX
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 2,
-		STATKEY_END = 1
+		STATKEY_END = 3
 	)
 
 	subclass_skills = list(

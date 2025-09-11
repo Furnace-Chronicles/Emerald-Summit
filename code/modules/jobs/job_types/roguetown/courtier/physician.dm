@@ -76,7 +76,6 @@
 	..()
 	H.adjust_blindness(-3)
 	head = /obj/item/clothing/head/roguetown/physician
-	mask = /obj/item/clothing/mask/rogue/physician
 	neck = /obj/item/clothing/neck/roguetown/psicross/pestra
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/physician
 	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/black
@@ -99,6 +98,10 @@
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+		if(H.patron?.type == /datum/patron/divine/pestra)
+			backpack_contents += /obj/item/clothing/mask/rogue/facemask/steel/pestra_beakmask
+		else
+			backpack_contents += /obj/item/clothing/mask/rogue/physician
 	if(H.age == AGE_OLD)
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 2)

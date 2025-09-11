@@ -54,4 +54,8 @@
 		H.change_stat("perception", 1)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+		if(H.patron?.type == /datum/patron/divine/pestra)
+			backpack_contents += /obj/item/clothing/mask/rogue/facemask/steel/pestra_beakmask
+		else
+			backpack_contents += /obj/item/clothing/mask/rogue/physician
 

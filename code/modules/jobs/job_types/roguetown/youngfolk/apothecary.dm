@@ -71,7 +71,11 @@
 	backpack_contents = list(
 		/obj/item/natural/worms/leech/cheele = 1,
 		/obj/item/recipe_book/alchemy = 1,
-		/obj/item/clothing/mask/rogue/physician = 1,
 	)
+
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+		if(H.patron?.type == /datum/patron/divine/pestra)
+			backpack_contents += /obj/item/clothing/mask/rogue/facemask/steel/pestra_beakmask
+		else
+			backpack_contents += /obj/item/clothing/mask/rogue/physician
