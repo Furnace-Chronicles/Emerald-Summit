@@ -138,6 +138,20 @@
 		"Grenduskra" = SKIN_COLOR_GRENDUSKRA,
 	)
 
+/datum/species/elfd/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
+	return list(
+		"Commorah <span style='border: 1px solid #161616; background-color: #9796a9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>9796a9</b>" = SKIN_COLOR_COMMORAH,
+		"Gloomhaven <span style='border: 1px solid #161616; background-color: #897489;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>897489</b>" = SKIN_COLOR_GLOOMHAVEN,
+		"Darkpila <span style='border: 1px solid #161616; background-color: #938f9c;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>938f9c</b>" = SKIN_COLOR_DARKPILA,
+		"Sshanntynlan <span style='border: 1px solid #161616; background-color: #737373;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>737373</b>" = SKIN_COLOR_SSHANNTYNLAN,
+		"Llurth Dreir <span style='border: 1px solid #161616; background-color: #6a616d;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>6a616d</b>" = SKIN_COLOR_LLURTH_DREIR,
+		"Tafravma <span style='border: 1px solid #161616; background-color: #5f5f70;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>5f5f70</b>" = SKIN_COLOR_TAFRAVMA,
+		"Yuethindrynn <span style='border: 1px solid #161616; background-color: #2f2f38;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>2f2f38</b>" = SKIN_COLOR_YUETHINDRYNN,
+		"Koredynn <span style='border: 1px solid #161616; background-color: #242871;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>242871</b>" = SKIN_COLOR_KOREDYNN,
+		"Aiseedrynn <span style='border: 1px solid #161616; background-color: #a3c1c9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>a3c1c9</b>" = SKIN_COLOR_AISEEDRYNN,
+		"Grenduskra <span style='border: 1px solid #161616; background-color: #969696;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>969696</b>" = SKIN_COLOR_GRENDUSKRA,
+	)
+
 /datum/species/elf/dark/get_hairc_list()
 	return sortList(list(
 	"black - oil" = "181a1d",
