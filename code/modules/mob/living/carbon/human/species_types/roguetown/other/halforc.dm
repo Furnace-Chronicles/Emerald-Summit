@@ -120,6 +120,19 @@
 		"Spirit Crusher" = SKIN_COLOR_SPIRITCRUSHER
 	)
 
+/datum/species/halforc/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
+	return list(
+		"Shellcrest <span style='border: 1px solid #161616; background-color: #3C5166;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>3C5166</b>" = SKIN_COLOR_SHELLCREST,
+		"Bloodaxe <span style='border: 1px solid #161616; background-color: #A84C4F;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>A84C4F</b>" = SKIN_COLOR_BLOOD_AXE,
+		"Splitjaw <span style='border: 1px solid #161616; background-color: #50715C;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>50715C</b>" = SKIN_COLOR_GROONN, // Changed name from Gronn
+		"Blackhammer <span style='border: 1px solid #161616; background-color: #1B2B21;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>1B2B21</b>" = SKIN_COLOR_BLACK_HAMMER,
+		"Skullseeker <span style='border: 1px solid #161616; background-color: #3D3725;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>3D3725</b>" = SKIN_COLOR_SKULL_SEEKER,
+		"Crescent Fang <span style='border: 1px solid #161616; background-color: #8A8951;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>8A8951</b>" = SKIN_COLOR_CRESCENT_FANG,
+		"Murkwalker <span style='border: 1px solid #161616; background-color: #716646;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>716646</b>" = SKIN_COLOR_MURKWALKER,
+		"Shatterhorn <span style='border: 1px solid #161616; background-color: #D6D5E2;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>D6D5E2</b>" = SKIN_COLOR_SHATTERHORN,
+		"Spirit Crusher <span style='border: 1px solid #161616; background-color: #9D4D62;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>9D4D62</b>" = SKIN_COLOR_SPIRITCRUSHER,
+	)
+
 /datum/species/halforc/get_hairc_list()
 	return sortList(list(
 	"Minotaur" = "58433b",
