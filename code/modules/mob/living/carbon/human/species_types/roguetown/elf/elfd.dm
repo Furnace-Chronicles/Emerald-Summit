@@ -138,7 +138,7 @@
 		"Grenduskra" = SKIN_COLOR_GRENDUSKRA,
 	)
 
-/datum/species/elfd/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
+/datum/species/elf/dark/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
 	return list(
 		"Commorah <span style='border: 1px solid #161616; background-color: #9796a9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>9796a9</b>" = SKIN_COLOR_COMMORAH,
 		"Gloomhaven <span style='border: 1px solid #161616; background-color: #897489;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>897489</b>" = SKIN_COLOR_GLOOMHAVEN,
