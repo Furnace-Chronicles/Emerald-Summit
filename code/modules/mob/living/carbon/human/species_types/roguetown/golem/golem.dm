@@ -115,7 +115,7 @@
 		"Lapis" = GOLEM_LAPIS,
 		"Basalt" = GOLEM_BASALT
 	)
-/datum/species/golem/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
+/datum/species/golem/metal/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
 	return list(
 		"Brass <span style='border: 1px solid #161616; background-color: #dfbd6c;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>dfbd6c</b>" = GOLEM_BRASS,
 		"Iron <span style='border: 1px solid #161616; background-color: #525352;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>525352</b>" = GOLEM_IRON,
