@@ -93,6 +93,22 @@
 		"Kazengun" = SKIN_COLOR_KAZENGUN
 	)
 
+/datum/species/humen/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
+	return list(
+		"Grenzelhoft <span style='border: 1px solid #161616; background-color: #fff0e9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>fff0e9</b>" = SKIN_COLOR_GRENZELHOFT,
+		"Hammerhold <span style='border: 1px solid #161616; background-color: #ffe0d1;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ffe0d1</b>" = SKIN_COLOR_HAMMERHOLD,
+		"Avar <span style='border: 1px solid #161616; background-color: #fcccb3;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>fcccb3</b>" = SKIN_COLOR_AVAR,
+		"Scarlet Reach <span style='border: 1px solid #161616; background-color: #edc6b3;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>edc6b3</b>" = SKIN_COLOR_ROCKHILL,
+		"Otava <span style='border: 1px solid #161616; background-color: #e2b9a3;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>e2b9a3</b>" = SKIN_COLOR_OTAVA,
+		"Etrusca <span style='border: 1px solid #161616; background-color: #d9a284;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>d9a284</b>" = SKIN_COLOR_ETRUSCA,
+		"Gronn <span style='border: 1px solid #161616; background-color: #c9a893;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>c9a893</b>" = SKIN_COLOR_GRONN,
+		"Giza <span style='border: 1px solid #161616; background-color: #ba9882;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ba9882</b>" = SKIN_COLOR_GIZA,
+		"Shalvistine <span style='border: 1px solid #161616; background-color: #ac8369;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ac8369</b>" = SKIN_COLOR_SHALVISTINE,
+		"Lalvestine <span style='border: 1px solid #161616; background-color: #9c6f52;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>9c6f52</b>" = SKIN_COLOR_LALVESTINE,
+		"Ebon <span style='border: 1px solid #161616; background-color: #4e3729;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>4e3729</b>" = SKIN_COLOR_EBON,
+		"Kazengun <span style='border: 1px solid #161616; background-color: #dbcca9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>dbcca9</b>" = SKIN_COLOR_KAZENGUN,
+	)
+
 /datum/species/human/northern/get_hairc_list()
 	return sortList(list(
 	"blond - pale" = "9d8d6e",
