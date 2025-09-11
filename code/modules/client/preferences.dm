@@ -1743,7 +1743,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					dat += "<br>"
 					for(var/tone in pref_species.get_skin_list_tooltip()) 
 						dat += "[tone]<br>"
-					var/datum/browser/popup = new(user, "Formatting Help", nwidth = 400, nheight = 450)
+					var/datum/browser/popup = new(user, "Formatting Help", nwidth = 250, nheight = 500)
 					popup.set_content(dat.Join())
 					popup.open(FALSE)
 				if("flavortext")
