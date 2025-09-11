@@ -226,7 +226,6 @@
 		"Hadal" = SKIN_COLOR_HADAL,
 		"Bone" = SKIN_COLOR_BONE,
 		"Stone" = SKIN_COLOR_STONE,
-
 	)
 
 /datum/species/lamia/get_skin_list_tooltip() // nothing ever matters
