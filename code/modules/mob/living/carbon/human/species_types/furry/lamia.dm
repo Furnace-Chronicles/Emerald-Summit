@@ -225,6 +225,8 @@
 		"Teal" = SKIN_COLOR_TEAL,
 		"Hadal" = SKIN_COLOR_HADAL,
 		"Bone" = SKIN_COLOR_BONE,
+		"Stone" = SKIN_COLOR_STONE,
+
 	)
 
 /datum/species/lamia/get_skin_list_tooltip() // nothing ever matters
@@ -257,6 +259,8 @@
 		"Teal <span style='border: 1px solid #161616; background-color: #008080;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>008080</b>" = SKIN_COLOR_TEAL,
 		"Hadal <span style='border: 1px solid #161616; background-color: #24353d;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>24353d</b>" = SKIN_COLOR_HADAL,
 		"Bone <span style='border: 1px solid #161616; background-color: #e3dac9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>e3dac9</b>" = SKIN_COLOR_BONE,
+		"Stone <span style='border: 1px solid #161616; background-color: #48465b;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>48465b</b>" = SKIN_COLOR_STONE,
+
 	)
 
 /datum/species/lamia/random_name(gender,unique,lastname)
