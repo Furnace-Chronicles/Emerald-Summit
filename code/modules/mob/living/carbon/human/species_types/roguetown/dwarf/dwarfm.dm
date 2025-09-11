@@ -96,6 +96,21 @@
 		"Ceragyrite" = SKIN_COLOR_CERAGYRITE
 	)
 
+
+/datum/species/dwarf/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
+	return list(
+		"Platinum <span style='border: 1px solid #161616; background-color: #ffe0d1;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ffe0d1</b>" = SKIN_COLOR_PLATINUM,
+		"Aurum <span style='border: 1px solid #161616; background-color: #fcccb3;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>fcccb3</b>" = SKIN_COLOR_AURUM,
+		"Quicksilver <span style='border: 1px solid #161616; background-color: #edc6b3;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>edc6b3</b>" = SKIN_COLOR_QUICKSILVER,
+		"Brass <span style='border: 1px solid #161616; background-color: #e2b9a3;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>e2b9a3</b>" = SKIN_COLOR_BRASS,
+		"Iron <span style='border: 1px solid #161616; background-color: #d9a284;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>d9a284</b>" = SKIN_COLOR_IRON,
+		"Malachite <span style='border: 1px solid #161616; background-color: #c69b83;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>c69b83</b>" = SKIN_COLOR_MALACHITE,
+		"Obsidian <span style='border: 1px solid #161616; background-color: #3b2e27;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>3b2e27</b>" = SKIN_COLOR_OBSIDIAN,
+		"Brimstone <span style='border: 1px solid #161616; background-color: #271f1a;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>271f1a</b>" = SKIN_COLOR_BRIMSTONE,
+		"Jade <span style='border: 1px solid #161616; background-color: #d6bea9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>d6bea9</b>" = SKIN_COLOR_JADE,
+		"Ceragyrite <span style='border: 1px solid #161616; background-color: #4c4a4f;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>4c4a4f</b>" = SKIN_COLOR_CERAGYRITE,
+	)
+
 /datum/species/dwarf/mountain/get_hairc_list()
 	return sortList(list(
 	"black - oil" = "181a1d",
