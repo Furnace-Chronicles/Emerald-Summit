@@ -201,6 +201,18 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Volf Mantle"
 	path = /obj/item/clothing/cloak/volfmantle
 
+/datum/loadout_item/snowcloak
+	name = "Snow Cloak"
+	path = /obj/item/clothing/cloak/forrestercloak/snow
+
+/datum/loadout_item/shortcloak
+	name = "Ladylike Half-cloak"
+	path = /obj/item/clothing/cloak/lordcloak/ladycloak
+
+/datum/loadout_item/eastcloak1
+	name = "Cloud-Cutter Cloak"
+	path = /obj/item/clothing/cloak/eastcloak1
+
 /datum/loadout_item/eastcloak2
 	name = "Leather Cloak"
 	path = /obj/item/clothing/cloak/eastcloak2
