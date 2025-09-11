@@ -105,6 +105,21 @@
 		"Abyssal" = SKIN_COLOR_ABYSSAL,
 	)
 
+/datum/species/aasimar/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
+	return list(
+		"Cultor <span style='border: 1px solid #161616; background-color: #b5a4a4;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>b5a4a4</b>" = SKIN_COLOR_CULTOR,
+		"Spiritus <span style='border: 1px solid #161616; background-color: #f0eded;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>f0eded</b>" = SKIN_COLOR_SPIRITUS,
+		"Planetar <span style='border: 1px solid #161616; background-color: #ffd859;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ffd859</b>" = SKIN_COLOR_PLANETAR,
+		"Deva <span style='border: 1px solid #161616; background-color: #b6f1f2;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>b6f1f2</b>" = SKIN_COLOR_DEVA,
+		"Solar <span style='border: 1px solid #161616; background-color: #daeaeb;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>daeaeb</b>" = SKIN_COLOR_SOLAR,
+		"Empyrea <span style='border: 1px solid #161616; background-color: #a9ded1;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>a9ded1</b>" = SKIN_COLOR_EMPYREA,
+		"Gaeia <span style='border: 1px solid #161616; background-color: #db874f;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>db874f</b>" = SKIN_COLOR_GAEIA,
+		"Celestial <span style='border: 1px solid #161616; background-color: #e1c565;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>e1c565</b>" = SKIN_COLOR_CELESTIAL,
+		"Olympia <span style='border: 1px solid #161616; background-color: #c7f9cc;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>c7f9cc</b>" = SKIN_COLOR_OLYMPIA,
+		"Necral <span style='border: 1px solid #161616; background-color: #23130c;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>23130c</b>" = SKIN_COLOR_NECRAL,
+		"Abyssal <span style='border: 1px solid #161616; background-color: #22577a;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>22577a</b>" = SKIN_COLOR_ABYSSAL,
+	)
+
 /datum/species/aasimar/get_hairc_list()
 	return sortList(list(
 	"white - silver" = "d3d9e3",
