@@ -129,6 +129,8 @@
 			shoes = /obj/item/clothing/shoes/roguetown/boots
 			pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
 			cloak = /obj/item/clothing/cloak/templar/pestran
+			mask = /obj/item/clothing/mask/rogue/facemask/steel/pestra_beakmask
+			wrists = /obj/item/clothing/wrists/roguetown/wrappings
 		if(/datum/patron/divine/eora) //Eora content from Stonekeep
 			head = /obj/item/clothing/head/roguetown/eoramask
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
