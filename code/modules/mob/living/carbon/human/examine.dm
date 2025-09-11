@@ -112,11 +112,11 @@
 
 		// Leashed pet status effect message
 		if(has_status_effect(/datum/status_effect/leash_pet))
-			. += span_warning("A leash is hooked to their collar. They are being led like a pet.")
+			. += span_warning("A leash is hooked to [p_their()] collar. [m1] being led like a pet.")
 
 		// Knotted effect message
 		if(has_status_effect(/datum/status_effect/knot_tied))
-			. += span_warning("A knot is locked inside them. They're being pulled around like a pet.")
+			. += span_warning("A knot is locked inside [p_them()]. [m1] being pulled around like a pet.")
 
 		// Facial/Creampie effect message
 		var/facial = has_status_effect(/datum/status_effect/facial)
