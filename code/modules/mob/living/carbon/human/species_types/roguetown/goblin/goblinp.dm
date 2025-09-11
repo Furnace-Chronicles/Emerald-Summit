@@ -113,6 +113,23 @@
 		"Bone" = SKIN_COLOR_BONE
 		"Stone" = SKIN_COLOR_STONE
 	)
+/datum/species/goblinp/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
+	return list(
+		"Ochre <span style='border: 1px solid #161616; background-color: #968127;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>968127</b>" = SKIN_COLOR_OCHRE,
+		"Meadow <span style='border: 1px solid #161616; background-color: #909630;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>909630</b>" = SKIN_COLOR_MEADOW,
+		"Olive <span style='border: 1px solid #161616; background-color: #6b8a08;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>6b8a08</b>" = SKIN_COLOR_OLIVE,
+		"Green <span style='border: 1px solid #161616; background-color: #4c6835;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>4c6835</b>" = SKIN_COLOR_GREEN,
+		"Moss <span style='border: 1px solid #161616; background-color: #43533e;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>43533e</b>" = SKIN_COLOR_MOSS,
+		"Taiga <span style='border: 1px solid #161616; background-color: #373f29;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>373f29</b>" = SKIN_COLOR_TAIGA,
+		"Bronze <span style='border: 1px solid #161616; background-color: #725237;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>725237</b>" = SKIN_COLOR_BRONZE,
+		"Red <span style='border: 1px solid #161616; background-color: #87312a;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>87312a</b>" = SKIN_COLOR_RED,
+		"Frost <span style='border: 1px solid #161616; background-color: #6486b0;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>6486b0</b>" = SKIN_COLOR_FROST,
+		"Abyss <span style='border: 1px solid #161616; background-color: #2a6986;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>2a6986</b>" = SKIN_COLOR_ABYSS,
+		"Teal <span style='border: 1px solid #161616; background-color: #008080;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>008080</b>" = SKIN_COLOR_TEAL,
+		"Hadal <span style='border: 1px solid #161616; background-color: #24353d;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>24353d</b>" = SKIN_COLOR_HADAL,
+		"Bone <span style='border: 1px solid #161616; background-color: #e3dac9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>e3dac9</b>" = SKIN_COLOR_BONE,
+		"Stone <span style='border: 1px solid #161616; background-color: #48465b;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>48465b</b>" = SKIN_COLOR_STONE,
+	)
 
 /datum/species/goblinp/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	..()
