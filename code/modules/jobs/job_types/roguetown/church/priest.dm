@@ -101,9 +101,9 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		/obj/item/natural/worms/leech/cheele = 1, //little buddy
 		/obj/item/ritechalk = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/holysee = 1,	//Unique knife from the Holy See
-		/obj/item/rogueweapon/surgery/hammer,
-	)
+		/obj/item/rogueweapon/surgery/hammer = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
+	)
 
 	H.cmode_music = 'sound/music/combat_holy.ogg'
 	if(H.age == AGE_OLD)
