@@ -23,7 +23,7 @@
 		STATKEY_END = 2,
 		STATKEY_SPD = 2,
 		STATKEY_LCK = 2,
-		STATKEY_INT = -2,
+		STATKEY_INT = -3,
 		STATKEY_PER = -2
 	)
 
