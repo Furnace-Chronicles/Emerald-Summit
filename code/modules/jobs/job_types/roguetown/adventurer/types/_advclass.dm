@@ -13,6 +13,8 @@
 	var/total_slots_occupied = 0
 	var/min_pq = -100
 
+	var/class_select_category
+
 	var/horse = FALSE
 	var/vampcompat = TRUE
 	var/list/traits_applied
@@ -25,6 +27,21 @@
 
 	//What categories we are going to sort it in
 	var/list/category_tags = list(CTAG_DISABLED)
+
+	/// Subclass stat bonuses.
+	var/list/subclass_stats
+
+	/// Extra fluff added to the role explanation in class selection.
+	var/extra_context
+
+	/// Subclass skills. Levelled UP TO.
+	var/list/subclass_skills
+
+	/// Subclass languages.
+	var/list/subclass_languages
+
+	/// Spellpoints. If More than 0, Gives Prestidigitation & the Learning Spell.
+	var/subclass_spellpoints = 0
 
 /datum/advclass/proc/equipme(mob/living/carbon/human/H)
 	// input sleeps....
@@ -50,6 +67,20 @@
 	if(noble_income)
 		SStreasury.noble_incomes[H] = noble_income
 
+	if(length(subclass_languages))
+		for(var/lang in subclass_languages)
+			H.grant_language(lang)
+
+	if(length(subclass_stats))
+		for(var/stat in subclass_stats)
+			H.change_stat(stat, subclass_stats[stat])
+
+	if(length(subclass_skills))
+		for(var/skill in subclass_skills)
+			H.adjust_skillrank_up_to(skill, subclass_skills[skill], TRUE)
+
+	if(subclass_spellpoints > 0)
+		H.mind?.adjust_spellpoints(subclass_spellpoints)
 
 	// After the end of adv class equipping, apply a SPECIAL trait if able
 

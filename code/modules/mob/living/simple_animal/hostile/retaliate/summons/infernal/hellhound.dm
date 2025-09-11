@@ -26,10 +26,8 @@
 	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	simple_detect_bonus = 20
-	ranged = TRUE
-	projectiletype = /obj/projectile/magic/firebolt
-	retreat_distance = 4
-	minimum_distance = 3
+	retreat_distance = 0
+	minimum_distance = 0
 	food_type = list()
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	pooptype = null
@@ -53,14 +51,14 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound/death(gibbed)
 	..()
 	var/turf/deathspot = get_turf(src)
-	new /obj/item/magic/hellhoundfang(deathspot)
-	new /obj/item/magic/hellhoundfang(deathspot)
-	new /obj/item/magic/hellhoundfang(deathspot)
-	new /obj/item/magic/hellhoundfang(deathspot)
-	new /obj/item/magic/infernalash(deathspot)
-	new /obj/item/magic/infernalash(deathspot)
-	new /obj/item/magic/infernalash(deathspot)
-	new /obj/item/magic/infernalash(deathspot)
+	new /obj/item/magic/infernal/fang(deathspot)
+	new /obj/item/magic/infernal/fang(deathspot)
+	new /obj/item/magic/infernal/fang(deathspot)
+	new /obj/item/magic/infernal/fang(deathspot)
+	new /obj/item/magic/infernal/ash(deathspot)
+	new /obj/item/magic/infernal/ash(deathspot)
+	new /obj/item/magic/infernal/ash(deathspot)
+	new /obj/item/magic/infernal/ash(deathspot)
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)

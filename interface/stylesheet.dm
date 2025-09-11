@@ -143,8 +143,9 @@ h1.alert, h2.alert	{color: #c9c1ba;font-family: Pterra, TrueType;}
 .reptile				{font-family: "Kingthings Petrock", Pterra; font-size: 120%;}
 .grenzelhoftian			{font-family: "Emperialisme", Pterra; font-size: 120%;}
 .kazengunese 			{font-family: "Yuji Boku", Pterra;}
-.kazenaccent			{font-family: "Geishta", "Pterra"; font-size: 120%;}
+.kazenaccent			{font-family: "Asiana", "Pterra"; font-size: 100%;}
 .otavan					{font-family: "Notredame", "Pterra"; font-size: 200%;}
+.posh					{font-family: "Parisish", "Pterra"; font-size: 130%;}
 .etruscan				{font-family: "Feronia", "Pterra"; font-size: 100%;}
 .gronnic				{font-family: "Jorvik Informal", "Pterra"; font-size: 100%;}
 .aavnic					{font-family: "Romeodn", "Pterra"; font-size: 100%;}

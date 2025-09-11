@@ -42,6 +42,15 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 
+/obj/item/clothing/head/roguetown/helmet/heavy/pestran/heretic
+	name = "haruspex mask"
+	desc = "<span class='necrosis'>\"The Haruspex is blood and organs... That which is torn must be tied, and that conjoined — split apart.\"</span>" // quotes from pathologic games
+
+	icon = 'icons/roguetown/clothing/masks.dmi' // the sprites were in the files. I believe they are from IS12, I can't remember. I like the sprites a lot, if it's any solace
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/masks.dmi'
+	item_state = "pestramask"
+	icon_state = "pestramask"
+
 /obj/item/clothing/head/roguetown/helmet/heavy/eoran
 	name = "eoran helmet"
 	desc = "A visage of beauty, this helm made in soft pink and beige reminds one of the grace of Eora."

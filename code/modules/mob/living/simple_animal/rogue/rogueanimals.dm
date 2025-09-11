@@ -42,7 +42,7 @@
 
 	var/deaggroprob = 10
 	var/eat_forever
-	
+
 	candodge = TRUE
 
 	var/summon_tier = 0 // Tier of summoning
@@ -175,6 +175,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/Initialize()
 	. = ..()
+	if(summon_tier)
+		adjust_skillrank(/datum/skill/combat/unarmed, summon_tier+1, TRUE)//gives summons a bit more oomph, especially at higher levels
 	if(milkies)
 		udder = new()
 	if(tame)

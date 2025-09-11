@@ -241,10 +241,10 @@
 		add_overlay(pic2)
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/chargah
-	name = "steppesman chargah robe"
-	desc = "A light yet thick robe padded with fine silks and cloth, acting as a mix of traditional gambeson and imported silks of the east. Popular among Aavnr steppesmen."
+	name = "padded caftan"
+	desc = "A long overcoat commonly worn in Naledi, Kazengun, and Aavnr - but mostly associated with steppesmen. This specific kind rivals a gambeson in protection."
 	icon_state = "chargah"
-	color = "#864a4a"
+	color = "#ffffff"
 	boobed = TRUE
 	shiftable = FALSE
 
@@ -969,10 +969,10 @@
 	smelt_bar_num = 2
 
 /obj/item/clothing/suit/roguetown/armor/plate/scale/steppe
-	name = "steel steppesman hatanga"
-	desc = "A set of steel-scaled hatanga armor hailing from the southern steppes."
+	name = "steel heavy lamellar"
+	desc = "A chestpiece of Aavnic make composed of easily-replaced small rectangular plates of layered steel laced together in rows with wire. Malleable and protective, perfect for cavalrymen."
 	icon_state = "hudesutu"
-	max_integrity = 250		//Grenzel gets 100+ integrity, I don't see why not give a +50 here.
+	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL + 50
 
 
 //HEAVY ARMOR//

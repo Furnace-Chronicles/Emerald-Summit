@@ -31,7 +31,7 @@
 	name = "infernal feather (1 Feather, 2 infernal ash)"
 	result = /obj/item/natural/feather/infernal
 	reqs = list(/obj/item/natural/feather = 1,
-				/obj/item/magic/infernalash = 2)
+				/obj/item/magic/infernal/ash = 2)
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/arcana/sendingstone
@@ -78,7 +78,7 @@
 /datum/crafting_recipe/roguetown/arcana/shimmeringlens
 	name = "shimmering lens - (1 Iridescent Scale, 1 Leyline, 1 Dense Arcanic Meld)"
 	result = /obj/item/clothing/ring/active/shimmeringlens
-	reqs = list(/obj/item/magic/iridescentscale = 1,
+	reqs = list(/obj/item/magic/fae/scale = 1,
 				/obj/item/magic/leyline = 1,
 				/obj/item/magic/melded/t2 = 1)
 	craftdiff = 3
@@ -129,7 +129,7 @@
 	name = "infernal forge - (1 Infernal Core, 4 Stones)"
 	req_table = FALSE
 	result = /obj/machinery/light/rogue/forge/arcane
-	reqs = list(/obj/item/magic/infernalcore = 1,
+	reqs = list(/obj/item/magic/infernal/core = 1,
 				/obj/item/natural/stone = 4)
 	craftdiff = 3
 
@@ -143,33 +143,33 @@
 /datum/crafting_recipe/roguetown/arcana/meldt1
 	name = "arcanic meld - (1 Infernal Ash, 1 Fairy Dust, 1 Elemental Mote)"
 	result = /obj/item/magic/melded/t1
-	reqs = list(/obj/item/magic/infernalash = 1,
-				/obj/item/magic/fairydust = 1,
-				/obj/item/magic/elementalmote = 1)
+	reqs = list(/obj/item/magic/infernal/ash = 1,
+				/obj/item/magic/fae/dust = 1,
+				/obj/item/magic/elemental/mote = 1)
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/arcana/meldt2
 	name = "dense arcanic meld - (1 Hellhound Fang, 1 Iridescent Scale, 1 Elemental Shard)"
 	result = /obj/item/magic/melded/t2
-	reqs = list(/obj/item/magic/hellhoundfang = 1,
-				/obj/item/magic/iridescentscale = 1,
-				/obj/item/magic/elementalshard = 1)
+	reqs = list(/obj/item/magic/infernal/fang = 1,
+				/obj/item/magic/fae/scale = 1,
+				/obj/item/magic/elemental/shard = 1)
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/arcana/meldt3
 	name = "sorcerous weave - (1 Molten Core, 1 Heartwood Core, 1 Elemental Fragment)"
 	result = /obj/item/magic/melded/t3
-	reqs = list(/obj/item/magic/infernalcore = 1,
-				/obj/item/magic/heartwoodcore = 1,
-				/obj/item/magic/elementalfragment = 1)
+	reqs = list(/obj/item/magic/infernal/core = 1,
+				/obj/item/magic/fae/core = 1,
+				/obj/item/magic/elemental/fragment = 1)
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/arcana/meldt4
 	name = "magical confluence - (1 Abyssal Flame, 1 Sylvan Essence, 1 Elemental Relic)"
 	result = /obj/item/magic/melded/t4
-	reqs = list(/obj/item/magic/abyssalflame = 1,
-				/obj/item/magic/sylvanessence = 1,
-				/obj/item/magic/elementalrelic = 1)
+	reqs = list(/obj/item/magic/infernal/flame = 1,
+				/obj/item/magic/fae/essence = 1,
+				/obj/item/magic/elemental/relic = 1)
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/arcana/meldt5

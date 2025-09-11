@@ -54,7 +54,7 @@
 	name = "Kazengun Straight Sword"
 	cost = 80
 	contains = list(/obj/item/rogueweapon/sword/sabre/mulyeog,
-					/obj/item/scabbard/mulyeog)
+					/obj/item/rogueweapon/scabbard/sword/kazengun)
 
 /datum/supply_pack/rogue/merc_weapons/tossbladekazengun
 	name = "Tossblade Belt, Eastern"

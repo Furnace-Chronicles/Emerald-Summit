@@ -46,6 +46,8 @@
 
 	clothes_req = FALSE
 	human_req = FALSE
+	shape.see_in_dark = 8
+	shape.lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
 
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/bat/Shapeshift(mob/living/caster)
@@ -60,3 +62,5 @@
 
 	clothes_req = FALSE
 	human_req = FALSE
+	shape.see_in_dark = 8
+	shape.lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
