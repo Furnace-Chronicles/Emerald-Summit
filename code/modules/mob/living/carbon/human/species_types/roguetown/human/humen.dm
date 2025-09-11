@@ -93,7 +93,7 @@
 		"Kazengun" = SKIN_COLOR_KAZENGUN
 	)
 
-/datum/species/humen/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
+/datum/species/human/northern/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
 	return list(
 		"Grenzelhoft <span style='border: 1px solid #161616; background-color: #fff0e9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>fff0e9</b>" = SKIN_COLOR_GRENZELHOFT,
 		"Hammerhold <span style='border: 1px solid #161616; background-color: #ffe0d1;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ffe0d1</b>" = SKIN_COLOR_HAMMERHOLD,
