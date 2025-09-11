@@ -46,7 +46,7 @@
 	name = "golem aersource"
 	desc = "A complex hollow crystal, which courses with air through unknowable means. Steam wisps around it in a vortex."
 	icon_state = "lungs-con"
-	
+
 /obj/item/organ/lungs/t1
 	name = "completed lungs"
 	icon_state = "lungs"
@@ -111,6 +111,10 @@
 		REMOVE_TRAIT(M, TRAIT_ZJUMP , TRAIT_GENERIC)
 		REMOVE_TRAIT(M, TRAIT_WATERBREATHING , TRAIT_GENERIC)
 
+
+/datum/status_effect/buff/t3lungs
+    id = "t3lungs"
+    alert_type = /atom/movable/screen/alert/status_effect/buff/t3lungs
 
 /atom/movable/screen/alert/status_effect/buff/t3lungs
 	name = "Corrupted lungs"

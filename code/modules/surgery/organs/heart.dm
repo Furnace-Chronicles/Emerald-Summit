@@ -263,7 +263,7 @@ obj/item/organ/heart/t1
 	id = "t2heart"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/t2heart
 
-/atom/movable/screen/alert/status_effect/buff/t2heart //your helper against mages 
+/atom/movable/screen/alert/status_effect/buff/t2heart //your helper against mages
 	name = "Blessed heart"
 	desc = "A blessed heart... Maybe"
 
@@ -282,6 +282,11 @@ obj/item/organ/heart/t1
 		REMOVE_TRAIT(M, TRAIT_SHOCKIMMUNE , TRAIT_GENERIC)
 		REMOVE_TRAIT(M, TRAIT_KNEESTINGER_IMMUNITY , TRAIT_GENERIC)
 		REMOVE_TRAIT(M, TRAIT_ANTIMAGIC , TRAIT_GENERIC)
+
+
+/datum/status_effect/buff/t3heart
+    id = "t3heart"
+    alert_type = /atom/movable/screen/alert/status_effect/buff/t3heart
 
 /atom/movable/screen/alert/status_effect/buff/t3heart
 	name = "Corrupted heart"

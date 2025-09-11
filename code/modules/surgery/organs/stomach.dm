@@ -184,7 +184,7 @@
 	if(M)
 		M.apply_status_effect(/datum/status_effect/buff/t2stomach)
 		ADD_TRAIT(M, TRAIT_ROT_EATER, TRAIT_GENERIC)
-		ADD_TRAIT(M, WILD_EATER, TRAIT_GENERIC)
+		ADD_TRAIT(M, TRAIT_WILD_EATER, TRAIT_GENERIC)
 
 
 /obj/item/organ/stomach/t2/Remove(mob/living/carbon/M, special = 0)
@@ -192,8 +192,11 @@
 	if(M.has_status_effect(/datum/status_effect/buff/t2stomach))
 		M.remove_status_effect(/datum/status_effect/buff/t2stomach)
 		REMOVE_TRAIT(M, TRAIT_ROT_EATER , TRAIT_GENERIC)
-		REMOVE_TRAIT(M, WILD_EATER , TRAIT_GENERIC)
+		REMOVE_TRAIT(M, TRAIT_WILD_EATER , TRAIT_GENERIC)
 
+/datum/status_effect/buff/t3stomach
+    id = "t3stomach"
+    alert_type = /atom/movable/screen/alert/status_effect/buff/t3stomach
 
 /atom/movable/screen/alert/status_effect/buff/t3stomach
 	name = "Corrupted stomach"

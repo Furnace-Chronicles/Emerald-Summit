@@ -472,8 +472,18 @@
 		eyes.owner.update_body_parts(TRUE)
 
 
+/obj/item/organ/eyes/t1
+	parent_type = /obj/item/organ/eyes/robotic/glow
 
+	name = "Low Luminosity Eyes"
+	desc = "Bio-augmented luminous eyes."
 
+	max_light_beam_distance = 3
+	light_beam_distance = 3
+	light_object_power = 1
+
+	emp_act(severity)
+		return
 
 /obj/item/organ/eyes/t2
 	name = "Blessed dendorite eyes"

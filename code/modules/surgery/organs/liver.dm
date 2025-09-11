@@ -180,6 +180,10 @@
 		REMOVE_TRAIT(M, TRAIT_SEA_DRINKER, TRAIT_GENERIC)
 
 
+/datum/status_effect/buff/t3liver
+    id = "t3liver"
+    alert_type = /atom/movable/screen/alert/status_effect/buff/t3liver
+
 /atom/movable/screen/alert/status_effect/buff/t3liver
 	name = "Corrupted liver"
 	desc = "The cursed thing is inside me now."
