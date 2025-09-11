@@ -29,7 +29,7 @@
 	retreat_distance = 3
 	minimum_distance = 0
 	food_type = list()
-	footstep_type = FOOTSTEP_MOB_BAREFOOT
+	movement_type = FLYING
 	pooptype = null
 	STAEND = 6
 	STACON = 6
@@ -55,12 +55,12 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/sprite/death(gibbed)
 	..()
 	var/turf/deathspot = get_turf(src)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
+	new /obj/item/magic/fae/dust(deathspot)
+	new /obj/item/magic/fae/dust(deathspot)
+	new /obj/item/magic/fae/dust(deathspot)
+	new /obj/item/magic/fae/dust(deathspot)
+	new /obj/item/magic/fae/dust(deathspot)
+	new /obj/item/magic/fae/dust(deathspot)
 	update_icon()
 	sleep(1)
 	qdel(src)

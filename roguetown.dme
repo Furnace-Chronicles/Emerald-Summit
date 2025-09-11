@@ -2204,6 +2204,7 @@
 #include "code\modules\spells\spell_types\wizard\invoked_aoe\ensnare.dm"
 #include "code\modules\spells\spell_types\wizard\invoked_aoe\knock.dm"
 #include "code\modules\spells\spell_types\wizard\invoked_aoe\repulse.dm"
+#include "code\modules\spells\spell_types\wizard\invoked_aoe\slick_trick.dm"
 #include "code\modules\spells\spell_types\wizard\invoked_aoe\snap_freeze.dm"
 #include "code\modules\spells\spell_types\wizard\invoked_aoe\thunderstrike.dm"
 #include "code\modules\spells\spell_types\wizard\invoked_aoe\wither.dm"

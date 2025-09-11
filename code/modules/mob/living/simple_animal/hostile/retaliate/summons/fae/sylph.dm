@@ -44,9 +44,10 @@
 	ranged = TRUE
 	rapid = 3
 	projectiletype = /obj/projectile/magic/frostbolt/greater
-	ranged_message = "throws icey magick"
+	ranged_message = "throws icy magick"
 	var/shroom_cd = 0
 	var/summon_cd = 0
+	inherent_spells = list(/obj/effect/proc_holder/spell/invoked/create_shrooms)
 
 /obj/projectile/magic/frostbolt/greater
 	name = "greater frostbolt"
@@ -62,7 +63,7 @@
 		return
 	visible_message(span_danger("<b>[src]</b> [ranged_message] at [A]!"))
 
-	if(world.time >= shroom_cd + 25 SECONDS)
+	if(world.time >= shroom_cd + 25 SECONDS && !mind)
 		var/mob/living/targetted = target
 		create_shroom(targetted)
 		src.shroom_cd = world.time
@@ -76,23 +77,50 @@
 
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/sylph/proc/create_shroom(atom/target)
-	target.visible_message(span_boldwarning("Kneestingers pop out from the ground around [src]!"))
 	if(!target)
 		return
-	for(var/turf/turf as anything in RANGE_TURFS(3,src.loc))
+	target.visible_message(span_boldwarning("Kneestingers pop out from the ground around [target]! More fae creatures follow!"))
+	var/turf/target_turf = target // need to handle it this way so player sylphs can target turfs with this spell
+	if(isliving(target))
+		target_turf = target.loc
+	new /mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing(target_turf)
+	for(var/turf/turf as anything in RANGE_TURFS(3,target_turf))
 		if(prob(30))
 			new /obj/structure/glowshroom/dendorite(turf)
+			if(prob(20))
+				new /mob/living/simple_animal/hostile/retaliate/rogue/fae/sprite(turf)
 
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/sylph/death(gibbed)
 	..()
 	var/turf/deathspot = get_turf(src)
-	new /obj/item/magic/sylvanessence(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
+	new /obj/item/magic/fae/essence(deathspot)
+	new /obj/item/magic/fae/dust(deathspot)
+	new /obj/item/magic/fae/dust(deathspot)
 	new /obj/item/magic/melded/t2(deathspot)
-	new /obj/item/magic/iridescentscale(deathspot)
-	new /obj/item/magic/heartwoodcore(deathspot)
+	new /obj/item/magic/fae/scale(deathspot)
+	new /obj/item/magic/fae/core(deathspot)
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)
+
+/obj/effect/proc_holder/spell/invoked/create_shrooms
+	name = "Spread Kneestingers"
+	recharge_time = 20 SECONDS
+	sound = 'sound/magic/churn.ogg'
+	overlay_state = "blesscrop"
+	chargetime = 0
+	range = 15
+
+/obj/effect/proc_holder/spell/invoked/create_shrooms/cast(list/targets, mob/living/user = usr)
+	if(istype(user, /mob/living/simple_animal/hostile/retaliate/rogue/fae/sylph))
+		var/mob/living/simple_animal/hostile/retaliate/rogue/fae/sylph/treeguy = user
+		if(world.time <= treeguy.shroom_cd + 200)//shouldn't ever happen cuz the spell cd is the same as summon_cd but I'd rather it check with the internal cd just in case
+			to_chat(user,span_warning("Too soon!"))
+			revert_cast()
+			return FALSE
+		if(treeguy.binded)
+			revert_cast()
+			return FALSE
+		treeguy.create_shroom(targets[1])
+		treeguy.shroom_cd = world.time

@@ -16,6 +16,10 @@
 	miracle = TRUE
 	devotion_cost = 10
 
+/obj/effect/proc_holder/spell/invoked/lesser_heal/free //using this for a simplemob spell
+	releasedrain = 0
+	devotion_cost = 0
+
 /obj/effect/proc_holder/spell/invoked/lesser_heal/proc/get_most_damaged_limb(mob/living/carbon/C)
 	var/obj/item/bodypart/most_damaged_limb = null
 	var/highest_damage = 0

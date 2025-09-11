@@ -375,14 +375,14 @@
 		to_chat(src, span_warning("My curse is hidden."))
 		return
 	if(silver_curse_status)
-		to_chat(src, span_warning("My BANE is not letting me REGEN!."))
+		to_chat(src, span_warning("My BANE is not letting me REGENERATE!"))
 		return
-	if(VD.vitae < 300)
+	if(VD.vitae < 600)
 		to_chat(src, span_warning("Not enough vitae."))
 		return
 	to_chat(src, span_greentext("! REGENERATE !"))
 	src.playsound_local(get_turf(src), 'sound/misc/vampirespell.ogg', 100, FALSE, pressure_affected = FALSE)
-	VD.handle_vitae(-300)
+	VD.handle_vitae(-600)
 	fully_heal()
 	regenerate_limbs()
 

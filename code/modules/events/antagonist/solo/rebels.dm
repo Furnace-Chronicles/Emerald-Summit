@@ -11,7 +11,7 @@
 	base_antags = 1
 	maximum_antags = 3
 	denominator = 50 // adds 1 possible rebel for every 50 players
-	max_occurrences = 1
+	max_occurrences = 0 // disabled
 
 	earliest_start = 0 SECONDS
 
