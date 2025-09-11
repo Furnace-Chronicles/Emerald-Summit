@@ -6,7 +6,7 @@
 	name = "lesser arcyne wall"
 	tier = 1
 	blacklisted = FALSE
-	required_atoms = list(/obj/item/magic/elementalmote = 2, /obj/item/magic/manacrystal = 1, /obj/item/magic/melded/t1 = 1)
+	required_atoms = list(/obj/item/magic/elemental/mote = 2, /obj/item/magic/manacrystal = 1, /obj/item/magic/melded/t1 = 1)
 
 /datum/runeritual/other/wall/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	return 1
@@ -14,7 +14,7 @@
 /datum/runeritual/other/wall/t2
 	name = "greater arcyne wall"
 	tier = 2
-	required_atoms = list(/obj/item/magic/elementalmote = 4, /obj/item/magic/manacrystal = 2, /obj/item/magic/melded/t1 = 1)
+	required_atoms = list(/obj/item/magic/elemental/mote = 4, /obj/item/magic/manacrystal = 2, /obj/item/magic/melded/t1 = 1)
 
 /datum/runeritual/other/wall/t2/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	return 2

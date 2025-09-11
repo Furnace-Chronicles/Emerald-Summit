@@ -179,6 +179,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/botched_butcher_results
 	var/perfect_butcher_results
 
+	var/list/inherent_spells = list()
+
 /mob/living/simple_animal/Initialize()
 	. = ..()
 	GLOB.simple_animals[AIStatus] += src
@@ -191,6 +193,9 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	update_simplemob_varspeed()
 //	if(dextrous)
 //		AddComponent(/datum/component/personal_crafting)
+	for(var/spell in inherent_spells)
+		var/obj/effect/proc_holder/spell/newspell = new spell()
+		AddSpell(newspell)
 
 /mob/living/simple_animal/Destroy()
 	GLOB.simple_animals[AIStatus] -= src
@@ -314,7 +319,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		if(ssaddle && has_buckled_mobs())
 			return 0
 		if(binded)
-			return FALSE	
+			return FALSE
 		if((isturf(loc) || allow_movement_on_non_turfs) && (mobility_flags & MOBILITY_MOVE))		//This is so it only moves if it's not inside a closet, gentics machine, etc.
 			turns_since_move++
 			if(turns_since_move >= turns_per_move)
@@ -408,7 +413,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 				playsound(src, 'sound/foley/gross.ogg', 100, FALSE)
 				if(do_after(user, 3 SECONDS, target = src))
 					butcher(user)
-		
+
 	else if (stat != DEAD && istype(ssaddle, /obj/item/natural/saddle))		//Fallback saftey for saddles
 		var/datum/component/storage/saddle_storage = ssaddle.GetComponent(/datum/component/storage)
 		var/access_time = (user in buckled_mobs) ? 10 : 30
@@ -427,7 +432,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 	var/botch_chance = 0
 	if(length(botched_butcher_results) && butchery_skill_level < SKILL_LEVEL_JOURNEYMAN)
-		botch_chance = 70 - (20 * butchery_skill_level) 
+		botch_chance = 70 - (20 * butchery_skill_level)
 
 	var/perfect_chance = 0
 	if(length(perfect_butcher_results))
@@ -478,10 +483,10 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		else if(length(perfect_butcher_results) && (path in perfect_butcher_results) && prob(perfect_chance))
 			amount = perfect_butcher_results[path]
 			perfect_count++
-		
+
 		else
 			normal_count++
-		
+
 		butcher_results -= path
 
 		// Spawn the item(s)
@@ -578,6 +583,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		..()
 
 /mob/living/simple_animal/proc/CanAttack(atom/the_target)
+	if(binded)
+		return FALSE
 	if(see_invisible < the_target.invisibility)
 		return FALSE
 	if(ismob(the_target))
@@ -936,6 +943,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		toggle_ai(initial(AIStatus))
 
 /mob/living/simple_animal/Move()
+	if(binded)
+		return FALSE
 	. = ..()
 //	if(!stat)
 //		eat_plants()

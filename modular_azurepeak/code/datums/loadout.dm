@@ -153,6 +153,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Necra Tabard"
 	path = /obj/item/clothing/cloak/templar/necran
 
+/datum/loadout_item/tabard/xylix
+	name = "Xylix Tabard"
+	path = /obj/item/clothing/cloak/templar/xylixian
+
 /datum/loadout_item/tabard/psydon
 	name = "Psydon Tabard"
 	path = /obj/item/clothing/cloak/templar/psydon
@@ -516,6 +520,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/psicross/eora
 	name = "Amulet of Eora"
 	path = /obj/item/clothing/neck/roguetown/psicross/eora
+
+/datum/loadout_item/psicross/xylix
+	name = "Amulet of Xylix"
+	path = /obj/item/clothing/neck/roguetown/psicross/xylix
 
 /datum/loadout_item/psicross/naledi
 	name = "Naledian Psy-Bracelet"

@@ -25,10 +25,16 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/reagent_containers/glass/bottle/rogue/manapot
 	neck = /obj/item/clothing/neck/roguetown/leather // No iron gorget vs necro. They will have to acquire one in round.
-	beltl = /obj/item/rogueweapon/huntingknife
+	beltl = /obj/item/storage/magebag/starter
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backr = /obj/item/rogueweapon/woodstaff/ruby
-	backpack_contents = list(/obj/item/spellbook_unfinished/pre_arcyne = 1, /obj/item/roguegem/amethyst = 1, /obj/item/storage/belt/rogue/pouch/coins/poor = 1, /obj/item/flashlight/flare/torch/lantern/prelit = 1, /obj/item/rope/chain = 1)
+	backpack_contents = list(
+	/obj/item/spellbook_unfinished/pre_arcyne = 1,
+	/obj/item/roguegem/amethyst = 1,
+	/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+	/obj/item/flashlight/flare/torch/lantern/prelit = 1,
+	/obj/item/rope/chain = 1,
+	/obj/item/rogueweapon/huntingknife)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)

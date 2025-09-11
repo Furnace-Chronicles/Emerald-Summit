@@ -29,7 +29,7 @@
 	retreat_distance = 0
 	minimum_distance = 0
 	food_type = list()
-	footstep_type = FOOTSTEP_MOB_BAREFOOT
+	movement_type = FLYING
 	pooptype = null
 	STACON = 7
 	STASTR = 9
@@ -44,6 +44,7 @@
 	dodgetime = 40
 	aggressive = 1
 	var/drug_cd
+	inherent_spells = list(/obj/effect/proc_holder/spell/invoked/lesser_heal/free)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing/Initialize()
 	. = ..()
@@ -51,14 +52,14 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing/death(gibbed)
 	..()
 	var/turf/deathspot = get_turf(src)
-	new /obj/item/magic/iridescentscale(deathspot)
-	new /obj/item/magic/iridescentscale(deathspot)
-	new /obj/item/magic/iridescentscale(deathspot)
-	new /obj/item/magic/iridescentscale(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
+	new /obj/item/magic/fae/scale(deathspot)
+	new /obj/item/magic/fae/scale(deathspot)
+	new /obj/item/magic/fae/scale(deathspot)
+	new /obj/item/magic/fae/scale(deathspot)
+	new /obj/item/magic/fae/dust(deathspot)
+	new /obj/item/magic/fae/dust(deathspot)
+	new /obj/item/magic/fae/dust(deathspot)
+	new /obj/item/magic/fae/dust(deathspot)
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)

@@ -13,14 +13,14 @@
 	turns_per_move = 6
 	see_in_dark = 6
 	move_to_delay = 12
-	base_intents = list(/datum/intent/simple/elementalt2_unarmed)
+	base_intents = list(/datum/intent/simple/elementalt3_unarmed)
 	butcher_results = list()
 	faction = list("fae")
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 650
 	maxHealth = 650
-	melee_damage_lower = 20
-	melee_damage_upper = 30
+	melee_damage_lower = 40
+	melee_damage_upper = 55
 	vision_range = 7
 	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_STRUCTURES
@@ -32,7 +32,7 @@
 	pooptype = null
 	STACON = 18
 	STASTR = 14
-	STASPD = 4
+	STASPD = 8
 	simple_detect_bonus = 20
 	deaggroprob = 0
 	defprob = 40
@@ -45,6 +45,8 @@
 //	stat_attack = UNCONSCIOUS
 	ranged = FALSE
 	var/vine_cd
+	inherent_spells = list(/obj/effect/proc_holder/spell/self/create_vines)
+
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad/simple_add_wound(datum/wound/wound, silent = FALSE, crit_message = FALSE)	//no wounding the watcher
 	return
@@ -64,7 +66,7 @@
 		if(!Process_Spacemove()) //Drifting
 			walk(src,0)
 			return 1
-		if(world.time >= src.vine_cd + 100)
+		if(world.time >= src.vine_cd + 150 && !mind)
 			vine()
 			src.vine_cd = world.time
 		if(retreat_distance != null) //If we have a retreat distance, check if we need to run from our target
@@ -91,20 +93,43 @@
 		return 1
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad/proc/vine()
-	target.visible_message(span_boldwarning("Vines spread out from [src]!"))
+	visible_message(span_boldwarning("Vines spread out from [src]!"))
 	for(var/turf/turf as anything in RANGE_TURFS(3,src.loc))
-		new /obj/structure/vine(turf)
+		if(!locate(/obj/structure/vine) in turf)
+			new /obj/structure/vine(turf)
+		for(var/mob/living/carbon/human/H in turf.contents)
+			to_chat(H,span_danger("I'm tangled up in the vines!"))
+			H.Immobilize(50)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad/death(gibbed)
 	..()
 	var/turf/deathspot = get_turf(src)
 	new /obj/item/magic/melded/t1(deathspot)
-	new /obj/item/magic/iridescentscale(deathspot)
-	new /obj/item/magic/iridescentscale(deathspot)
-	new /obj/item/magic/heartwoodcore(deathspot)
-	new /obj/item/magic/heartwoodcore(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
+	new /obj/item/magic/fae/scale(deathspot)
+	new /obj/item/magic/fae/scale(deathspot)
+	new /obj/item/magic/fae/core(deathspot)
+	new /obj/item/magic/fae/core(deathspot)
+	new /obj/item/magic/fae/dust(deathspot)
+	new /obj/item/magic/fae/dust(deathspot)
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)
+
+/obj/effect/proc_holder/spell/self/create_vines
+	name = "Spawn Vines"
+	recharge_time = 15 SECONDS
+	sound = 'sound/magic/churn.ogg'
+	overlay_state = "blesscrop"
+
+/obj/effect/proc_holder/spell/self/create_vines/cast(list/targets, mob/living/user = usr)
+	if(istype(user, /mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad))
+		var/mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad/treeguy = user
+		if(world.time <= treeguy.vine_cd + 150)//shouldn't ever happen cuz the spell cd is the same as summon_cd but I'd rather it check with the internal cd just in case
+			to_chat(user,span_warning("Too soon!"))
+			revert_cast()
+			return FALSE
+		if(treeguy.binded)
+			revert_cast()
+			return FALSE
+		treeguy.vine()
+		treeguy.vine_cd = world.time
