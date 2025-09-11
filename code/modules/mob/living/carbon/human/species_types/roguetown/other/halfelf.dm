@@ -124,6 +124,35 @@
 		"Grenduskra-kin" = SKIN_COLOR_GRENDUSKRA
 	)
 
+/datum/species/human/halfelf/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
+	return list(
+		"Timber-Gronn <span style='border: 1px solid #161616; background-color: #ffe0d1;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ffe0d1</b>" = SKIN_COLOR_TIMBER_GRONN,
+		"Giza-Scarlet <span style='border: 1px solid #161616; background-color: #fcccb3;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>fcccb3</b>" = SKIN_COLOR_GIZA_SCARLET,
+		"Walnut-Stine <span style='border: 1px solid #161616; background-color: #edc6b3;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>edc6b3</b>" = SKIN_COLOR_WALNUT_STINE,
+		"Etrustcan-Dandelion <span style='border: 1px solid #161616; background-color: #e2b9a3;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>e2b9a3</b>" = SKIN_COLOR_ETRUSTCAN_DANDELION,
+		"Ebon-Born <span style='border: 1px solid #161616; background-color: #5a4a41;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>5a4a41</b>" = SKIN_COLOR_EBON_BORN,
+		"Kaze-Lotus <span style='border: 1px solid #161616; background-color: #E0D5B8;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>E0D5B8</b>" = SKIN_COLOR_KAZE_LOTUS,
+		"Grenzel-Scarlet <span style='border: 1px solid #161616; background-color: #fff0e9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>fff0e9</b>" = SKIN_COLOR_GRENZEL_WOODS,
+		"Etrusca-Lirvas <span style='border: 1px solid #161616; background-color: #d9a284;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>d9a284</b>" = SKIN_COLOR_ETRUSCA_LIRVAS,
+		"Free Roamers <span style='border: 1px solid #161616; background-color: #c9a893;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>c9a893</b>" = SKIN_COLOR_FREE_FOLK,
+		"Avar Borne <span style='border: 1px solid #161616; background-color: #ba9882;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ba9882</b>" = SKIN_COLOR_AVAR_BORNE,
+		"Shalvine Roamer <span style='border: 1px solid #161616; background-color: #ac8369;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ac8369</b>" = SKIN_COLOR_SHALVINE_SCARLET,
+		"Lalve-Steppes <span style='border: 1px solid #161616; background-color: #9c6f52;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>9c6f52</b>" = SKIN_COLOR_LALVE_NALEDI,
+		"Ebon-Otava <span style='border: 1px solid #161616; background-color: #4e3729;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>4e3729</b>" = SKIN_COLOR_EBON_OTAVA,
+		"Grezel-Avar <span style='border: 1px solid #161616; background-color: #fff0e9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>fff0e9</b>" = SKIN_COLOR_GRENZEL_AVAR,
+		"Hammer-Gronn <span style='border: 1px solid #161616; background-color: #5d4c41;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>5d4c41</b>" = SKIN_COLOR_HAMMER_GRONN,
+		"Commorah-kin <span style='border: 1px solid #161616; background-color: #9796a9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>9796a9</b>" = SKIN_COLOR_COMMORAH,
+		"Gloomhaven-kin <span style='border: 1px solid #161616; background-color: #897489;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>897489</b>" = SKIN_COLOR_GLOOMHAVEN,
+		"Darkpila-kin <span style='border: 1px solid #161616; background-color: #938f9c;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>938f9c</b>" = SKIN_COLOR_DARKPILA,
+		"Sshanntynlan-kin <span style='border: 1px solid #161616; background-color: #737373;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>737373</b>" = SKIN_COLOR_SSHANNTYNLAN,
+		"Llurth Dreir-kin <span style='border: 1px solid #161616; background-color: #6a616d;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>6a616d</b>" = SKIN_COLOR_LLURTH_DREIR,
+		"Tafravma-kin <span style='border: 1px solid #161616; background-color: #5f5f70;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>5f5f70</b>" = SKIN_COLOR_TAFRAVMA,
+		"Yuethindrynn-kin <span style='border: 1px solid #161616; background-color: #2f2f38;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>2f2f38</b>" = SKIN_COLOR_YUETHINDRYNN,
+		"Koredynn-kin <span style='border: 1px solid #161616; background-color: #242871;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>242871</b>" = SKIN_COLOR_KOREDYNN,
+		"Aiseedrynn-kin <span style='border: 1px solid #161616; background-color: #a3c1c9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>a3c1c9</b>" = SKIN_COLOR_AISEEDRYNN,
+		"Grenduskra-kin <span style='border: 1px solid #161616; background-color: #969696;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>969696</b>" = SKIN_COLOR_GRENDUSKRA,
+	)
+
 /datum/species/human/halfelf/proc/languages(mob/living/carbon/human/literally_him)
 	if(literally_him.skin_tone == SKIN_COLOR_EBON_BORN)
 		literally_him.grant_language(/datum/language/celestial)
