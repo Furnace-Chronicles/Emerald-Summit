@@ -22,6 +22,12 @@
 	cmode_music = 'sound/music/combat_guard.ogg'
 	advclass_cat_rolls = list (CTAG_MARSHAL = 20)
 
+	job_traits = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_PERFECT_TRACKER)
+	job_subclasses = list(
+		/datum/advclass/marshal/classic,
+		/datum/advclass/marshal/kcommander
+	)
+
 /datum/outfit/job/roguetown/marshal
 	job_bitflag = BITFLAG_ROYALTY | BITFLAG_GARRISON	//Same as Captain, you get decent combat stats so might as well be garrison.
 
@@ -35,25 +41,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	id = /obj/item/scomstone/garrison
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/signal_horn = 1)
-	H.adjust_skillrank(/datum/skill/combat/crossbows, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE)
-	H.change_stat("strength", 2) //important leadership role, but SHOULDN'T be frontlining
-	H.change_stat("perception", 2)
-	H.change_stat("intelligence", 3)
-	H.change_stat("constitution", 1)
-	H.change_stat("endurance", 1)
-	H.change_stat("speed", 1)
-	H.change_stat("fortune", 1)
-	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_PERFECT_TRACKER, TRAIT_GENERIC)
+
 	H.verbs |= /mob/proc/haltyell
 	H.verbs |= list(/mob/living/carbon/human/proc/request_outlaw, /mob/living/carbon/human/proc/request_law, /mob/living/carbon/human/proc/request_law_removal, /mob/living/carbon/human/proc/request_purge)
 
@@ -72,6 +60,29 @@
 
 	category_tags = list(CTAG_MARSHAL)
 
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_PER = 2,
+		STATKEY_LCK = 1,
+		STATKEY_CON = 1,
+		STATKEY_END = 1,
+		STATKEY_SPD = 1,
+		STATKEY_STR = 2,
+	)
+
+	subclass_skills = list(
+		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
+	)
+
 /datum/outfit/job/roguetown/marshal/classic/pre_equip(mob/living/carbon/human/H)
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/sheriff
 	cloak = /obj/item/clothing/cloak/stabard/surcoat/bailiff
@@ -80,7 +91,6 @@
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
 	beltl = /obj/item/storage/keyring/sheriff
 	head = /obj/item/clothing/head/roguetown/chaperon/noble/bailiff
-	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
 
 /datum/advclass/marshal/kcommander
 	name = "Knight Commander"
@@ -89,13 +99,35 @@
 
 	category_tags = list(CTAG_MARSHAL)
 
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_PER = 2,
+		STATKEY_LCK = 1,
+		STATKEY_CON = 1,
+		STATKEY_END = 1,
+		STATKEY_SPD = 1,
+		STATKEY_STR = 2,
+	)
+
+	subclass_skills = list(
+		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
+	)
+
 /datum/outfit/job/roguetown/marshal/kcommander/pre_equip(mob/living/carbon/human/H)
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/sheriff/coat
 	backr = /obj/item/rogueweapon/sword/long/oathkeeper
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
 	beltl = /obj/item/storage/keyring/sheriff
-	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
 
 /mob/living/carbon/human/proc/request_law()
 	set name = "Request Law"

@@ -40,9 +40,12 @@
 	H.adjust_skillrank(/datum/skill/misc/music, rand(1,6), TRUE)
 	H.adjust_skillrank(/datum/skill/misc/lockpicking, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/cooking, rand(1,3), TRUE)
-	H.STASTR = rand(1, 20)
-	H.STAINT = rand(1, 20)
-	H.STALUC = rand(1, 20)
+	H.STASTR = rand(1, 21)
+	H.STAEND = rand(1, 21)
+	H.STACON = rand(1, 21)
+	H.STAINT = rand(1, 21)
+	H.STAPER = rand(1, 21)
+	H.STALUC = rand(1, 21)
 	H.cmode_music = 'sound/music/combat_jester.ogg'
 	if(H.mind)
 		// Mime vs Jester. 

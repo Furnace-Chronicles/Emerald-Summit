@@ -213,15 +213,26 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Wicker Cloak"
 	path = /obj/item/clothing/cloak/wickercloak
 
+/datum/loadout_item/cloudcutter_kaz_cloak
+	name = "Cloud Cutter Cloak"
+	path = /obj/item/clothing/cloak/eastcloak1
+
+/datum/loadout_item/leather_kaz_cloak
+	name = "Leather Cloak"
+	path = /obj/item/clothing/cloak/eastcloak2
+
+/datum/loadout_item/ladyshort_cloak
+	name = "Ladylike Shortcloak"
+	path = /obj/item/clothing/cloak/lordcloak/ladycloak
+
+/datum/loadout_item/forester_snow_cloak
+	name = "Snow Cloak"
+	path = /obj/item/clothing/cloak/forrestercloak/snow
+
 //SHOES
 /datum/loadout_item/darkboots
 	name = "Dark Boots"
 	path = /obj/item/clothing/shoes/roguetown/boots
-
-/datum/loadout_item/eastcloak2
-	name = "Leather Cloak"
-	path = /obj/item/clothing/cloak/eastcloak2
-
 
 /datum/loadout_item/babouche
 	name = "Babouche"
@@ -520,10 +531,6 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/psicross/eora
 	name = "Amulet of Eora"
 	path = /obj/item/clothing/neck/roguetown/psicross/eora
-
-/datum/loadout_item/psicross/xylix
-	name = "Amulet of Xylix"
-	path = /obj/item/clothing/neck/roguetown/psicross/xylix
 
 /datum/loadout_item/psicross/naledi
 	name = "Naledian Psy-Bracelet"

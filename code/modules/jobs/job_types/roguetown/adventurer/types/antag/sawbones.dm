@@ -7,6 +7,34 @@
 	category_tags = list(CTAG_BANDIT)
 	cmode_music = 'sound/music/combat_physician.ogg'
 
+	traits_applied = list(
+		TRAIT_NOSTINK,
+		TRAIT_EMPATH,
+		TRAIT_DODGEEXPERT,
+		TRAIT_DECEIVING_MEEKNESS
+	)
+	subclass_stats = list(
+		STATKEY_INT = 4,
+		STATKEY_SPD = 3,
+		STATKEY_LCK = 3
+	)
+
+	subclass_skills = list(
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/swords = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/carpentry = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/labor/lumberjacking = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN, //needed for getting into hideout
+		/datum/skill/misc/sneaking = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/medicine = SKILL_LEVEL_LEGENDARY,
+		/datum/skill/misc/sewing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
+	)
+
 /datum/outfit/job/roguetown/bandit/sawbones/pre_equip(mob/living/carbon/human/H)
 	..()
 	if (!(istype(H.patron, /datum/patron/inhumen/zizo) || istype(H.patron, /datum/patron/inhumen/matthios) || istype(H.patron, /datum/patron/inhumen/graggar) || istype(H.patron, /datum/patron/inhumen/baotha)))
@@ -18,7 +46,8 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/belt/rogue/surgery_bag/full/physician
-	beltr = /obj/item/rogueweapon/sword/rapier
+	l_hand = /obj/item/rogueweapon/sword/rapier
+	beltr = /obj/item/rogueweapon/scabbard/sword
 	pants = /obj/item/clothing/under/roguetown/trou
 	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
 	backr = /obj/item/storage/backpack/rogue/satchel
@@ -29,26 +58,7 @@
 					/obj/item/flashlight/flare/torch = 1,
 					/obj/item/bedroll = 1,
 					)
-	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/crafting, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/carpentry, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/labor/lumberjacking, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE) //needed for getting into hideout
-	H.adjust_skillrank(/datum/skill/misc/sneaking, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/medicine, 6, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/sewing, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/alchemy, 3, TRUE)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_DECEIVING_MEEKNESS, TRAIT_GENERIC)
-	H.change_stat("speed", 3)
-	H.change_stat("intelligence", 4)
-	H.change_stat("fortune", 3)
+
 	if(H.age == AGE_OLD)
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 1)

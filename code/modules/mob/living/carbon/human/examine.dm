@@ -112,11 +112,11 @@
 
 		// Leashed pet status effect message
 		if(has_status_effect(/datum/status_effect/leash_pet))
-			. += span_warning("A leash is hooked to their collar. They are being led like a pet.")
+			. += span_warning("A leash is hooked to [p_their()] collar. [m1] being led like a pet.")
 
 		// Knotted effect message
 		if(has_status_effect(/datum/status_effect/knot_tied))
-			. += span_warning("A knot is locked inside them. They're being pulled around like a pet.")
+			. += span_warning("A knot is locked inside [p_them()]. [m1] being pulled around like a pet.")
 
 		// Facial/Creampie effect message
 		var/facial = has_status_effect(/datum/status_effect/facial)
@@ -148,6 +148,8 @@
 				. += span_phobia("A disgraced member of the nobility...")
 			else
 				. += span_notice("A disgraced noble.")
+		if(HAS_TRAIT(src, TRAIT_DEADITE))
+			. += span_userdanger("DEADITE!")
 
 		//For tennite schism god-event
 		if(length(GLOB.tennite_schisms))
@@ -721,8 +723,12 @@
 						msg += "[m1] not stressed."
 					if(-19 to -10)
 						msg += "[m1] somewhat at peace."
+						if(user != src)
+							user.add_stress(/datum/stressevent/empath_happy)
 					if(-20 to INFINITY)
 						msg += "[m1] at peace inside."
+						if(user != src)
+							user.add_stress(/datum/stressevent/empath_superhappy)
 			else if(stress > 10)
 				msg += "[m3] stress all over [m2] face."
 

@@ -34,6 +34,7 @@
 	mob_biotypes |= MOB_UNDEAD
 	var/datum/zombie_antag = src.mind.add_antag_datum(/datum/antagonist/zombie, team = FALSE, admin_panel = TRUE)
 	equipOutfit(new /datum/outfit/job/roguetown/deadite)
+	ADD_TRAIT(src, TRAIT_DEADITE, TRAIT_GENERIC)
 	//Make sure deadite NPCs don't show up in the antag listings
 	GLOB.antagonists -= zombie_antag
 	update_body()
