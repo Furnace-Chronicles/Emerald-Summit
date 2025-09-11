@@ -90,7 +90,12 @@
 	return list(
 		"Porcelain" = DOLL_PORCELAIN,
 		"Sienna" = DOLL_SIENNA,
+	)
 
+/datum/species/doll/get_skin_list_tooltip() //tooltip to let people know the skin colors at a glance
+	return list(
+		"Porcelain <span style='border: 1px solid #161616; background-color: #ffffff;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ffffff</b>" = DOLL_PORCELAIN,
+		"Sienna <span style='border: 1px solid #161616; background-color: #a0522d;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>a0522d</b>" = DOLL_SIENNA,
 	)
 
 /datum/species/golem/porcelain/get_hairc_list()
