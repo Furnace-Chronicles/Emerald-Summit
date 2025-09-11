@@ -133,6 +133,25 @@
 		"Vesyl"	= SKIN_COLOR_VESYL
 	)
 
+/datum/species/tieberian/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
+	return list(
+		"Jehoel <span style='border: 1px solid #161616; background-color: #DBA960;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>DBA960</b>" = SKIN_COLOR_JEHOEL,
+		"Urvix <span style='border: 1px solid #161616; background-color: #5B5F96;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>5B5F96</b>" = SKIN_COLOR_URVIX,
+		"Sarvyra <span style='border: 1px solid #161616; background-color: #80284a;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>80284a</b>" = SKIN_COLOR_SARVYRA,
+		"Vheslyn <span style='border: 1px solid #161616; background-color: #991F1D;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>991F1D</b>" = SKIN_COLOR_VHESLYN,
+		"Arlenneth <span style='border: 1px solid #161616; background-color: #9197C5;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>9197C5</b>" = SKIN_COLOR_ARLENNETH,
+		"Nessyss <span style='border: 1px solid #161616; background-color: #C62D4C;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>C62D4C</b>" = SKIN_COLOR_NESSYSS,
+		"Helixia <span style='border: 1px solid #161616; background-color: #B289C6;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>B289C6</b>" = SKIN_COLOR_HELIXIA,
+		"Nymsea <span style='border: 1px solid #161616; background-color: #A8619E;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>A8619E</b>" = SKIN_COLOR_NYMSEA,
+		"Vodyanev <span style='border: 1px solid #161616; background-color: #2a6986;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>2a6986</b>" = SKIN_COLOR_ABYSS,
+		"Calvus <span style='border: 1px solid #161616; background-color: #E0CED8;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>E0CED8</b>" = SKIN_COLOR_CALVUS,
+		"Voibion <span style='border: 1px solid #161616; background-color: #53392f;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>53392f</b>" = SKIN_COLOR_VOIBION,
+		"Chyerno <span style='border: 1px solid #161616; background-color: #252e41;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>252e41</b>" = SKIN_COLOR_CHYERNO,
+		"Drema <span style='border: 1px solid #161616; background-color: #D16A51;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>D16A51</b>" = SKIN_COLOR_DREMA,
+		"Chir <span style='border: 1px solid #161616; background-color: #549ab6;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>549ab6</b>" = SKIN_COLOR_CHIR,
+		"Vesyl <span style='border: 1px solid #161616; background-color: #7A2525;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>7A2525</b>" = SKIN_COLOR_VESYL,
+	)
+
 /datum/species/tieberian/get_hairc_list()
 	return sortList(list(
 	"black - oil" = "181a1d",
