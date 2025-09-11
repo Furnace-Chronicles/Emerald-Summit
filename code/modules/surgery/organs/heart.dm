@@ -273,7 +273,6 @@ obj/item/organ/heart/t1
 		M.apply_status_effect(/datum/status_effect/buff/t2heart)
 		ADD_TRAIT(M, TRAIT_SHOCKIMMUNE, TRAIT_GENERIC)
 		ADD_TRAIT(M, TRAIT_KNEESTINGER_IMMUNITY, TRAIT_GENERIC)
-		ADD_TRAIT(M, TRAIT_ANTIMAGIC, TRAIT_GENERIC)
 
 /obj/item/organ/heart/t2/Remove(mob/living/carbon/M, special = 0)
 	..()
@@ -281,7 +280,6 @@ obj/item/organ/heart/t1
 		M.remove_status_effect(/datum/status_effect/buff/t2heart)
 		REMOVE_TRAIT(M, TRAIT_SHOCKIMMUNE , TRAIT_GENERIC)
 		REMOVE_TRAIT(M, TRAIT_KNEESTINGER_IMMUNITY , TRAIT_GENERIC)
-		REMOVE_TRAIT(M, TRAIT_ANTIMAGIC , TRAIT_GENERIC)
 
 
 /datum/status_effect/buff/t3heart
