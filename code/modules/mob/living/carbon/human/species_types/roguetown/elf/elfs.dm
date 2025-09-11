@@ -123,6 +123,23 @@
 		"Ebon Coverts"	= SKIN_COLOR_EBON_COAST
 	)
 
+/datum/species/elfs/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
+	return list(
+		"Ghost <span style='border: 1px solid #161616; background-color: #ffffff;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ffffff</b>" = SKIN_COLOR_GHOST,
+		"Grenzel Woods <span style='border: 1px solid #161616; background-color: #fff0e9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>fff0e9</b>" = SKIN_COLOR_GRENZEL_WOODS,
+		"Dandelion Creek <span style='border: 1px solid #161616; background-color: #ffe0d1;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ffe0d1</b>" = SKIN_COLOR_DANDELION_CREEK,
+		"Roseveil <span style='border: 1px solid #161616; background-color: #fcccb3;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>fcccb3</b>" = SKIN_COLOR_ROSEVEIL,
+		"Azuregrove <span style='border: 1px solid #161616; background-color: #edc6b3;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>edc6b3</b>" = SKIN_COLOR_AZUREGROVE,
+		"Arborshome <span style='border: 1px solid #161616; background-color: #e2b9a3;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>e2b9a3</b>" = SKIN_COLOR_ARBORSHOME,
+		"Almondvalle <span style='border: 1px solid #161616; background-color: #c9a893;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>c9a893</b>" = SKIN_COLOR_ALMONDVALLE,
+		"Walnut Woods <span style='border: 1px solid #161616; background-color: #ba9882;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ba9882</b>" = SKIN_COLOR_WALNUT_WOODS,
+		"Timberborn <span style='border: 1px solid #161616; background-color: #5d4c41;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>5d4c41</b>" = SKIN_COLOR_TIMBERBORN,
+		"Lotus Coast <span style='border: 1px solid #161616; background-color: #eae1c8;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>eae1c8</b>" = SKIN_COLOR_LOTUS_COAST,
+		"Etruscan Swamps <span style='border: 1px solid #161616; background-color: #d9a284;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>d9a284</b>" = SKIN_COLOR_ETRUSCAN_SWAMPS,
+		"Shalvine Forests <span style='border: 1px solid #161616; background-color: #ac8369;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ac8369</b>" = SKIN_COLOR_SHALVINE_FORESTS,
+		"Lalvestine Thickets <span style='border: 1px solid #161616; background-color: #9c6f52;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>9c6f52</b>" = SKIN_COLOR_LALVE_STEPPES,
+		"Ebon Coverts <span style='border: 1px solid #161616; background-color: #4e3729;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>4e3729</b>" = SKIN_COLOR_EBON_COAST,
+	)
 /datum/species/elf/wood/get_hairc_list()
 	return sortList(list(
 	"black - oil" = "181a1d",
