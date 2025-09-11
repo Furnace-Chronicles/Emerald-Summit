@@ -160,19 +160,20 @@
 
 /datum/species/dullahan/get_skin_list()
 	return list(
-		"Grenzelhoft" = SKIN_COLOR_PALE_GRENZELHOFT,
-		"Hammerhold" = SKIN_COLOR_PALE_HAMMERHOLD,
-		"Avar" = SKIN_COLOR_PALE_AVAR,
-		"Scarlet Reach" = SKIN_COLOR_PALE_ROCKHILL,
-		"Otava" = SKIN_COLOR_PALE_OTAVA,
-		"Etrusca" = SKIN_COLOR_PALE_ETRUSCA,
-		"Gronn" = SKIN_COLOR_PALE_GRONN,
-		"Giza" = SKIN_COLOR_PALE_GIZA,
-		"Shalvistine" = SKIN_COLOR_PALE_SHALVISTINE,
-		"Lalvestine" = SKIN_COLOR_PALE_LALVESTINE,
-		"Ebon" = SKIN_COLOR_PALE_EBON,
-		"Kazengun" = SKIN_COLOR_PALE_KAZENGUN,
-		"Naledi Light" = SKIN_COLOR_PALE_NALEDI_LIGHT,
+		"Ghost" = SKIN_COLOR_GHOST,		
+		"Pale Grenzelhoft" = SKIN_COLOR_PALE_GRENZELHOFT,
+		"Pale Hammerhold" = SKIN_COLOR_PALE_HAMMERHOLD,
+		"Pale Avar" = SKIN_COLOR_PALE_AVAR,
+		"Pale Scarlet Reach" = SKIN_COLOR_PALE_ROCKHILL,
+		"Pale Otava" = SKIN_COLOR_PALE_OTAVA,
+		"Pale Etrusca" = SKIN_COLOR_PALE_ETRUSCA,
+		"Pale Gronn" = SKIN_COLOR_PALE_GRONN,
+		"Pale Giza" = SKIN_COLOR_PALE_GIZA,
+		"Pale Shalvistine" = SKIN_COLOR_PALE_SHALVISTINE,
+		"Pale Lalvestine" = SKIN_COLOR_PALE_LALVESTINE,
+		"Pale Ebon" = SKIN_COLOR_PALE_EBON,
+		"Pale Kazengun" = SKIN_COLOR_PALE_KAZENGUN,
+		"Pale Naledi Light" = SKIN_COLOR_PALE_NALEDI_LIGHT,
 		"Vheslyn" = SKIN_COLOR_VHESLYN,
 		"Arlenneth" = SKIN_COLOR_ARLENNETH,
 		"Nessyss" = SKIN_COLOR_NESSYSS,
@@ -187,9 +188,44 @@
 		"Yuethindrynn" = SKIN_COLOR_YUETHINDRYNN,
 		"Koredynn" = SKIN_COLOR_KOREDYNN,
 		"Aiseedrynn" = SKIN_COLOR_AISEEDRYNN,
-		"Grenduskra" = SKIN_COLOR_GRENDUSKRA,
-		"Ghost" = SKIN_COLOR_GHOST
+		"Grenduskra" = SKIN_COLOR_GRENDUSKRA
+)
+
+/datum/species/dullahan/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
+	return list(
+		"Ghost <span style='border: 1px solid #161616; background-color: #ffffff;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ffffff</b>" = SKIN_COLOR_GHOST,
+		"Pale Grenzelhoft <span style='border: 1px solid #161616; background-color: #ebdad2;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ebdad2</b>" = SKIN_COLOR_PALE_GRENZELHOFT,
+		"Pale Hammerhold <span style='border: 1px solid #161616; background-color: #f4c8b4;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>f4c8b4</b>" = SKIN_COLOR_PALE_HAMMERHOLD,
+		"Pale Avar <span style='border: 1px solid #161616; background-color: #e9af9c;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>e9af9c</b>" = SKIN_COLOR_PALE_AVAR,
+		"Pale Scarlet Reach <span style='border: 1px solid #161616; background-color: #daa99c;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>daa99c</b>" = SKIN_COLOR_PALE_ROCKHILL,
+		"Pale Otava <span style='border: 1px solid #161616; background-color: #cf9c8c;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>cf9c8c</b>" = SKIN_COLOR_PALE_OTAVA,
+		"Pale Etrusca <span style='border: 1px solid #161616; background-color: #c6856d;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>c6856d</b>" = SKIN_COLOR_PALE_ETRUSCA,
+		"Pale Gronn <span style='border: 1px solid #161616; background-color: #b68b7c;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>b68b7c</b>" = SKIN_COLOR_PALE_GRONN,
+		"Pale Giza <span style='border: 1px solid #161616; background-color: #a77b6b;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>a77b6b</b>" = SKIN_COLOR_PALE_GIZA,
+		"Pale Shalvistine <span style='border: 1px solid #161616; background-color: #996652;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>996652</b>" = SKIN_COLOR_PALE_SHALVISTINE,
+		"Pale Lalvestine <span style='border: 1px solid #161616; background-color: #a27e66;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>a27e66</b>" = SKIN_COLOR_PALE_LALVESTINE,
+		"Pale Ebon <span style='border: 1px solid #161616; background-color: #54463d;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>54463d</b>" = SKIN_COLOR_PALE_EBON,
+		"Pale Kazengun <span style='border: 1px solid #161616; background-color: #c9a893;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>c9a893</b>" = SKIN_COLOR_PALE_KAZENGUN,
+		"Pale Naledi Light <span style='border: 1px solid #161616; background-color: #635b55;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>635b55</b>" = SKIN_COLOR_PALE_NALEDI_LIGHT,
+		"Vheslyn <span style='border: 1px solid #161616; background-color: #991F1D;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>991F1D</b>" = SKIN_COLOR_VHESLYN,
+		"Sarvyra <span style='border: 1px solid #161616; background-color: #80284a;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>80284a</b>" = SKIN_COLOR_SARVYRA,
+		"Nessyss <span style='border: 1px solid #161616; background-color: #C62D4C;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>C62D4C</b>" = SKIN_COLOR_NESSYSS,
+		"Helixia <span style='border: 1px solid #161616; background-color: #B289C6;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>B289C6</b>" = SKIN_COLOR_HELIXIA,
+		"Nymsea <span style='border: 1px solid #161616; background-color: #A8619E;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>A8619E</b>" = SKIN_COLOR_NYMSEA,
+		"Commorah <span style='border: 1px solid #161616; background-color: #9796a9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>9796a9</b>" = SKIN_COLOR_COMMORAH,
+		"Gloomhaven <span style='border: 1px solid #161616; background-color: #897489;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>897489</b>" = SKIN_COLOR_GLOOMHAVEN,
+		"Darkpila <span style='border: 1px solid #161616; background-color: #938f9c;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>938f9c</b>" = SKIN_COLOR_DARKPILA,
+		"Sshanntynlan <span style='border: 1px solid #161616; background-color: #737373;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>737373</b>" = SKIN_COLOR_SSHANNTYNLAN,
+		"Llurth Dreir <span style='border: 1px solid #161616; background-color: #6a616d;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>6a616d</b>" = SKIN_COLOR_LLURTH_DREIR,
+		"Tafravma <span style='border: 1px solid #161616; background-color: #5f5f70;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>5f5f70</b>" = SKIN_COLOR_TAFRAVMA,
+		"Yuethindrynn <span style='border: 1px solid #161616; background-color: #2f2f38;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>2f2f38</b>" = SKIN_COLOR_YUETHINDRYNN,
+		"Otava <span style='border: 1px solid #161616; background-color: #daa99c;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>daa99c</b>" = SKIN_COLOR_KOREDYNN,
+		"Koredynn <span style='border: 1px solid #161616; background-color: #242871;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>242871</b>" = SKIN_COLOR_KOREDYNN,
+		"Aiseedrynn <span style='border: 1px solid #161616; background-color: #a3c1c9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>a3c1c9</b>" = SKIN_COLOR_AISEEDRYNN,
+		"Grenduskra <span style='border: 1px solid #161616; background-color: #969696;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>969696</b>" = SKIN_COLOR_GRENDUSKRA,
 	)
+
+
 
 /datum/species/dullahan/get_hairc_list()
 	return sortList(list(
