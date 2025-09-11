@@ -132,14 +132,26 @@
 
 /datum/species/tabaxi/get_skin_list()
 	return list(
-		"Orange" = ORANGE_FUR,
-		"Light grey" = LIGHTGREY_FUR,
-		"Dark grey" = DARKGREY_FUR,
-		"Light orange" = LIGHTORANGE_FUR,
-		"Light brown" = LIGHTBROWN_FUR,
-		"White brown" = WHITEBROWN_FUR,
-		"Dark brown" = DARKBROWN_FUR,
-		"Black" = BLACK_FUR,
+		"Emberhide" = ORANGE_FUR,
+		"Ashpelt" = LIGHTGREY_FUR,
+		"Stormshade" = DARKGREY_FUR,
+		"Cindercoat" = LIGHTORANGE_FUR,
+		"Umberpelt" = LIGHTBROWN_FUR,
+		"Sandmottle" = WHITEBROWN_FUR,
+		"Earthhide" = DARKBROWN_FUR,
+		"Nightcloak" = BLACK_FUR,
+	)
+
+/datum/species/tabaxi/get_skin_list_tooltip() // tooltip to let people know the fur colors at a glance
+	return list(
+		"Emberhide <span style='border: 1px solid #161616; background-color: #de7642;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>de7642</b>" = ORANGE_FUR,
+		"Ashpelt <span style='border: 1px solid #161616; background-color: #a8aa97;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>a8aa97</b>" = LIGHTGREY_FUR,
+		"Stormshade <span style='border: 1px solid #161616; background-color: #677881;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>677881</b>" = DARKGREY_FUR,
+		"Cindercoat <span style='border: 1px solid #161616; background-color: #da672a;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>da672a</b>" = LIGHTORANGE_FUR,
+		"Umberpelt <span style='border: 1px solid #161616; background-color: #6d4530;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>6d4530</b>" = LIGHTBROWN_FUR,
+		"Sandmottle <span style='border: 1px solid #161616; background-color: #c69b83;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>c69b83</b>" = WHITEBROWN_FUR,
+		"Earthhide <span style='border: 1px solid #161616; background-color: #3b2e27;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>3b2e27</b>" = DARKBROWN_FUR,
+		"Nightcloak <span style='border: 1px solid #161616; background-color: #271f1a;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>271f1a</b>" = BLACK_FUR,
 	)
 
 /datum/species/tabaxi/get_random_features()
