@@ -123,7 +123,7 @@
 		"Ebon Coverts"	= SKIN_COLOR_EBON_COAST
 	)
 
-/datum/species/elfs/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
+/datum/species/elf/wood/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
 	return list(
 		"Ghost <span style='border: 1px solid #161616; background-color: #ffffff;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ffffff</b>" = SKIN_COLOR_GHOST,
 		"Grenzel Woods <span style='border: 1px solid #161616; background-color: #fff0e9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>fff0e9</b>" = SKIN_COLOR_GRENZEL_WOODS,
