@@ -97,7 +97,7 @@
 	)
 
 
-/datum/species/dwarf/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
+/datum/species/dwarf/mountain/get_skin_list_tooltip() // tooltip to let people know the skin colors at a glance
 	return list(
 		"Platinum <span style='border: 1px solid #161616; background-color: #ffe0d1;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ffe0d1</b>" = SKIN_COLOR_PLATINUM,
 		"Aurum <span style='border: 1px solid #161616; background-color: #fcccb3;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>fcccb3</b>" = SKIN_COLOR_AURUM,
