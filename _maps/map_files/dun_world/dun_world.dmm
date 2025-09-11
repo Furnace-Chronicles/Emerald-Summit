@@ -4817,6 +4817,7 @@
 "boo" = (
 /obj/effect/falling_maple,
 /obj/structure/flora/newleaf,
+/obj/effect/falling_leaves,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/indoors/town/church/outside)
 "bor" = (
@@ -7741,6 +7742,13 @@
 /obj/structure/fermentation_keg/water,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town)
+"ceX" = (
+/obj/structure/flora/newleaf{
+	color = #d90f19f
+	},
+/obj/effect/falling_leaves,
+/turf/open/floor/rogue/grassred,
+/area/rogue/indoors/town/church/outside)
 "cfa" = (
 /obj/structure/stairs{
 	dir = 1
@@ -8402,6 +8410,10 @@
 /obj/item/natural/bone,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/sewer)
+"cpf" = (
+/obj/effect/falling_leaves,
+/turf/open/floor/rogue/grassyel,
+/area/rogue/indoors/town/church/outside)
 "cpH" = (
 /obj/structure/closet/crate/roguecloset/inn,
 /turf/open/floor/rogue/wood,
@@ -8884,6 +8896,10 @@
 /obj/structure/closet/crate/chest/old_crate,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town)
+"cwb" = (
+/obj/effect/falling_leaves,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/church/outside)
 "cwd" = (
 /obj/structure/chair/wood/rogue/fancy{
 	dir = 8
@@ -18967,6 +18983,11 @@
 	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/manor)
+"fgQ" = (
+/obj/structure/flora/roguegrass/bush/wall,
+/obj/effect/falling_leaves,
+/turf/open/floor/rogue/grassyel,
+/area/rogue/indoors/town/church/outside)
 "fha" = (
 /turf/open/floor/rogue/rooftop/green/north,
 /area/rogue/outdoors/town/roofs)
@@ -24206,6 +24227,11 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/metal,
 /area/rogue/outdoors/mountains/decap)
+"gEN" = (
+/obj/structure/flora/newleaf,
+/obj/effect/falling_leaves,
+/turf/open/transparent/openspace,
+/area/rogue/outdoors/mountains)
 "gEX" = (
 /obj/effect/decal/cobbleedge{
 	dir = 1;
@@ -30234,6 +30260,11 @@
 /obj/structure/flora/newbranch/connector,
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/beach/forest)
+"ill" = (
+/obj/structure/flora/newleaf,
+/obj/effect/falling_leaves,
+/turf/open/floor/rogue/grassyel,
+/area/rogue/indoors/town/church/outside)
 "ilm" = (
 /obj/structure/fluff/railing/border{
 	dir = 1
@@ -30249,6 +30280,14 @@
 /obj/machinery/light/rogue/wallfire/candle/blue/r,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/town/manor)
+"ils" = (
+/obj/structure/flora/newleaf{
+	color = #d90f19f
+	},
+/obj/effect/falling_maple,
+/obj/effect/falling_leaves,
+/turf/open/floor/rogue/grassred,
+/area/rogue/indoors/town/church/outside)
 "ilt" = (
 /obj/structure/stairs{
 	dir = 8
@@ -34878,6 +34917,14 @@
 /obj/structure/closet/dirthole/grave,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave)
+"jyt" = (
+/obj/structure/flora/newleaf{
+	color = #d90f19f
+	},
+/obj/structure/flora/newleaf,
+/obj/effect/falling_leaves,
+/turf/open/floor/rogue/grassred,
+/area/rogue/indoors/town/church/outside)
 "jyE" = (
 /obj/structure/mineral_door/bars,
 /turf/open/floor/rogue/dirt,
@@ -35647,6 +35694,11 @@
 	},
 /turf/closed/wall/mineral/rogue/pipe,
 /area/rogue/indoors/town/dwarfin)
+"jKq" = (
+/obj/structure/flora/newleaf,
+/obj/effect/falling_leaves,
+/turf/open/floor/rogue/grassred,
+/area/rogue/indoors/town/church/outside)
 "jKv" = (
 /obj/structure/chair/wood/rogue,
 /turf/open/floor/rogue/ruinedwood{
@@ -44271,6 +44323,7 @@
 /obj/structure/flora/ausbushes/lavendergrass,
 /obj/effect/falling_maple,
 /obj/structure/flora/newleaf,
+/obj/effect/falling_leaves,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/indoors/town/church/outside)
 "mds" = (
@@ -56408,6 +56461,14 @@
 /obj/machinery/light/rogue/wallfire/candle,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
+"pss" = (
+/obj/structure/flora/roguegrass/bush/wall,
+/obj/structure/vine{
+	color = #bd5a19f
+	},
+/obj/effect/falling_leaves,
+/turf/open/floor/rogue/grassred,
+/area/rogue/indoors/town/church/outside)
 "psu" = (
 /obj/item/roguebin/water,
 /turf/open/floor/rogue/cobble,
@@ -70729,6 +70790,10 @@
 	},
 /turf/open/floor/rogue/tile/brownbrick,
 /area/rogue/under/town/sewer)
+"tje" = (
+/obj/effect/falling_leaves,
+/turf/open/floor/rogue/grassred,
+/area/rogue/indoors/town/church/outside)
 "tjh" = (
 /obj/structure/chair/bench/church/smallbench{
 	dir = 1
@@ -475781,7 +475846,7 @@ mzv
 liE
 lgc
 kiZ
-lgc
+ceX
 liE
 cxA
 cxA
@@ -476228,7 +476293,7 @@ sAn
 xnf
 cwL
 hmK
-lgc
+ceX
 hkX
 cwL
 cwL
@@ -477584,7 +477649,7 @@ sAn
 hYr
 cwL
 bQj
-beN
+ils
 djc
 fHB
 fHB
@@ -478478,7 +478543,7 @@ fhA
 pPm
 ikg
 ikg
-liE
+jKq
 liE
 cSM
 hae
@@ -479385,7 +479450,7 @@ rTI
 sAn
 jHI
 rUc
-lgc
+ceX
 vEa
 uKx
 fpe
@@ -479397,7 +479462,7 @@ vCk
 hMG
 rvf
 qpQ
-vEa
+cpf
 ikg
 liE
 qwK
@@ -480301,7 +480366,7 @@ vEa
 vEa
 vEa
 vEa
-vEa
+cpf
 vEa
 iyq
 dIo
@@ -481217,7 +481282,7 @@ liE
 ikg
 ikg
 tUO
-ydU
+fgQ
 vEa
 hae
 bJk
@@ -481646,7 +481711,7 @@ kjD
 sEk
 mSe
 eFB
-hae
+ill
 pad
 mbk
 mbk
@@ -481665,7 +481730,7 @@ srE
 srE
 fRM
 lRE
-fRM
+pss
 fRM
 naT
 xDM
@@ -482124,11 +482189,11 @@ kCA
 sCZ
 sGs
 liE
-ikg
+tje
 xDM
 xDM
 hae
-vEa
+cpf
 pcJ
 cxA
 cxA
@@ -482995,7 +483060,7 @@ cxA
 cxA
 ikg
 hae
-hae
+ill
 hae
 hae
 klz
@@ -484390,7 +484455,7 @@ srE
 srE
 fRM
 cSM
-btX
+jyt
 cxA
 vvB
 vvB
@@ -487554,7 +487619,7 @@ bOJ
 oED
 oED
 vEa
-ikg
+tje
 cxA
 aBB
 aBB
@@ -490718,7 +490783,7 @@ ler
 oED
 srE
 ydU
-vEa
+cpf
 cxA
 aBB
 aBB
@@ -492978,7 +493043,7 @@ srE
 srE
 xFv
 liE
-ikg
+tje
 cxA
 aBB
 aBB
@@ -495685,7 +495750,7 @@ vvB
 eGx
 eJj
 rNw
-vRO
+cwb
 cVF
 rsX
 iUg
@@ -497047,7 +497112,7 @@ nEq
 imD
 nRB
 hdO
-iiA
+gEN
 aBB
 aBB
 aBB
