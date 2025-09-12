@@ -42,9 +42,9 @@
 //	block2add = FOV_BEHIND
 
 /obj/item/clothing/mask/rogue/acolyteglasses
-	name = "Dark spectacles"
+	name = "dark spectacles"
 	desc = "Spectacles of an acolyte. Worn by radical devotees who pursue knowledge at any cost... even when it is heresy."
-	icon_state = "acolytegoogles"
+	icon_state = "acolyteglasses"
 	break_sound = "glassbreak"
 	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
 	max_integrity = 150
