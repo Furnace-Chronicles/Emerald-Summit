@@ -41,6 +41,19 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 //	block2add = FOV_BEHIND
 
+/obj/item/clothing/mask/rogue/acolyteglasses
+	name = "Dark spectacles"
+	icon_state = "Spectacles of an acolyte. Worn by radical devotees who pursue knowledge at any cost... even when it is heresy."
+	break_sound = "glassbreak"
+	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
+	max_integrity = 150
+	integrity_failure = 0.5
+	resistance_flags = FIRE_PROOF
+	body_parts_covered = EYES
+	anvilrepair = /datum/skill/craft/armorsmithing
+//	block2add = FOV_BEHIND
+
+
 /obj/item/clothing/mask/rogue/spectacles/inq
 	name = "otavan nocshade lens-pair"
 	icon_state = "bglasses"
