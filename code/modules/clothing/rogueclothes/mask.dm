@@ -43,7 +43,8 @@
 
 /obj/item/clothing/mask/rogue/acolyteglasses
 	name = "Dark spectacles"
-	icon_state = "Spectacles of an acolyte. Worn by radical devotees who pursue knowledge at any cost... even when it is heresy."
+	desc = "Spectacles of an acolyte. Worn by radical devotees who pursue knowledge at any cost... even when it is heresy."
+	icon_state = "acolytegoogles"
 	break_sound = "glassbreak"
 	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
 	max_integrity = 150
@@ -78,14 +79,14 @@
 			ADD_TRAIT(user, TRAIT_NOCSHADES, "redlens")
 			return
 
-/obj/item/clothing/mask/rogue/spectacles/inq/update_icon(mob/user, slot)	
+/obj/item/clothing/mask/rogue/spectacles/inq/update_icon(mob/user, slot)
 	cut_overlays()
 	..()
 	if(slot == SLOT_WEAR_MASK || slot == SLOT_HEAD)
 		var/mutable_appearance/redlenses = mutable_appearance(mob_overlay_icon, "bglasses_glow")
 		redlenses.layer = 19
 		redlenses.plane = 20
-		user.add_overlay(redlenses)	
+		user.add_overlay(redlenses)
 
 /obj/item/clothing/mask/rogue/spectacles/inq/attack_right(mob/user, slot)
 	..()
@@ -100,7 +101,7 @@
 	lensmoved = FALSE
 
 /obj/item/clothing/mask/rogue/spectacles/inq/dropped(mob/user, slot)
-	..()		
+	..()
 	if(slot != SLOT_WEAR_MASK || slot == SLOT_HEAD)
 		if(!lensmoved)
 			REMOVE_TRAIT(user, TRAIT_NOCSHADES, "redlens")
@@ -183,7 +184,7 @@
 	body_parts_covered = FACE|HEAD
 	block2add = FOV_BEHIND
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
-	armor = ARMOR_PADDED 
+	armor = ARMOR_PADDED
 	sewrepair = TRUE
 
 /obj/item/clothing/mask/rogue/sack/psy
@@ -197,7 +198,7 @@
 	icon_state = "confessormask"
 	max_integrity = 200
 	equip_sound = 'sound/items/confessormaskon.ogg'
-	smeltresult = /obj/item/ingot/steel	
+	smeltresult = /obj/item/ingot/steel
 	var/worn = FALSE
 	slot_flags = ITEM_SLOT_MASK
 
@@ -226,7 +227,7 @@
 			qdel(I)
 		else
 			user.visible_message(span_warning("[user] stops inserting the lenses into [src]."))
-		return		
+		return
 
 /obj/item/clothing/mask/rogue/facemask/steel/confessor/lensed
 	name = "stranger mask"
@@ -253,11 +254,11 @@
 	lensmoved = FALSE
 
 /obj/item/clothing/mask/rogue/facemask/steel/confessor/lensed/dropped(mob/user, slot)
-	..()		
+	..()
 	if(slot != SLOT_WEAR_MASK || slot == SLOT_HEAD)
 		if(!lensmoved)
 			REMOVE_TRAIT(user, TRAIT_NOCSHADES, "redlens")
-			return	
+			return
 
 /obj/item/clothing/mask/rogue/wildguard
 	name = "wild guard"

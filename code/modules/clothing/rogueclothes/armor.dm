@@ -200,7 +200,7 @@
 	detail_tag = "_detail"
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/otavan/Initialize()
-	. = ..()		
+	. = ..()
 	update_icon()
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/otavan/update_icon()
@@ -516,7 +516,7 @@
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_CHOP, BCLASS_SMASH)
 	max_integrity = 300
 	sellprice = 20
-	grid_height = 96 
+	grid_height = 96
 	grid_width = 64
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
@@ -545,7 +545,7 @@
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
 	armor = ARMOR_LEATHER_STUDDED
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_CHOP, BCLASS_SMASH)
-	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE	
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/steppe
 	name = "fur-woven hatanga coat"
@@ -1096,7 +1096,7 @@
 /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/ordinator
 	name = "inquisitorial ordinator's plate"
 	desc = "A relic that is said to have survived the Grenzelhoft-Otavan war, refurbished and repurposed to slay the arch-enemy in the name of Psydon. <br> A fluted cuirass that has been reinforced with thick padding and an additional shoulder piece. You will endure."
-	icon_state = "ordinatorplate"	
+	icon_state = "ordinatorplate"
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/matthios
 	name = "gilded fullplate"
@@ -1415,7 +1415,7 @@
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "armored inquisitorial duster"
 	desc = "Metal plates reinforce this heavy coat, worn over the top of the finest Psydonian plate."
-	smeltresult = /obj/item/ingot/steel 
+	smeltresult = /obj/item/ingot/steel
 	icon_state = "inqcoata"
 	item_state = "inqcoata"
 	equip_delay_self = 4 SECONDS
@@ -1424,7 +1424,7 @@
 	armor = ARMOR_CUIRASS
 	smelt_bar_num = 2
 	smeltresult = /obj/item/ingot/steel
-	blocksound = PLATEHIT	
+	blocksound = PLATEHIT
 
 /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/armored/ComponentInitialize()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_STEP)
@@ -1591,7 +1591,7 @@
 	body_parts_covered = COVERAGE_ALL_BUT_LEGS
 	max_integrity = 500
 	prevent_crits = list(BCLASS_BLUNT, BCLASS_TWIST, BCLASS_PICK, BCLASS_SMASH, BCLASS_CUT, BCLASS_CHOP)
-	
+
 /obj/item/clothing/suit/roguetown/armor/captain/lordcolor(primary,secondary)
 	detail_color = primary
 	update_icon()
@@ -1606,7 +1606,7 @@
 /obj/item/clothing/suit/roguetown/armor/captain/Destroy()
 	GLOB.lordcolor -= src
 	return..()
-	
+
 /obj/item/clothing/suit/roguetown/armor/carapace
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "carapace armor"
@@ -1647,7 +1647,7 @@
 	equip_delay_self = 30
 
 /obj/item/clothing/suit/roguetown/armor/islandworkingarmor
-	name = "Islander's trench coat"
+	name = "islander's trench coat"
 	desc = "A long, oil-treated trench coat issued to workers stationed across the soaked archipelagos. Its high collar, dense fabric, and water-resistant lining shield the wearer from the island rain and sea-born damp. Meant to endure storms as much as silence, it’s a garment built for vigilance in a land where rot creeps in with the tide."
 	icon_state = "workingarmor"
 	item_state = "workingarmor"
@@ -1666,6 +1666,6 @@
 	armor_class = ARMOR_CLASS_LIGHT
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	flags_inv = HIDEBOOB|HIDECROTCH
-	color = #464544ff
+	color = "#646464"
 	grid_height = 64
 	grid_width = 64
