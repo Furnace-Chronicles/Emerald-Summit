@@ -998,10 +998,10 @@
 		/obj/item/kitchen/spoon/silver,
 		/obj/item/candle/candlestick/gold,
 		/obj/item/candle/candlestick/silver,
-		/obj/item/rogueweapon/sword/long/judgement, // various unique weapons around from a few roles follows. Don't lose your fancy toys.... 
+		/obj/item/rogueweapon/sword/long/judgement, // various unique weapons around from a few roles follows. Don't lose your fancy toys....
 		/obj/item/rogueweapon/sword/long/oathkeeper,
 		/obj/item/rogueweapon/woodstaff/riddle_of_steel/magos, //bit dumb for a bandit mage to toss this toy away but whatever
-		/obj/item/rogueweapon/halberd/psyhalberd, // relic weapons but not standard Inquisition stuff 
+		/obj/item/rogueweapon/halberd/psyhalberd, // relic weapons but not standard Inquisition stuff
 		/obj/item/rogueweapon/greatsword/psygsword,
 	)
 
@@ -1356,74 +1356,498 @@
 	stake = null
 	qdel(src)
 
-/obj/structure/fluff/statue/abyssorqueststatue
+/obj/structure/fluff/statue/shrine/abyssorqueststatue
+    parent_type = /obj/structure/fluff/statue/shrine/donation
     name = "abyssor shrine"
     desc = "A slate statue related to the ancient god Abyssor. One of many depictions drawn from a dream, no doubt. The statue wrought of divine obsidian and gold. Fishermen of old once prayed to it. Remarkably, the sea answered them..."
     icon = 'icons/roguetown/misc/64x96.dmi'
     icon_state = "Abyssorqueststatue"
+    max_integrity = null
+   	required_donation = list(/obj/item/ingot/iron)
+    donation_points = 3
 
-/obj/structure/fluff/statue/dendorqueststatue
+/obj/structure/fluff/statue/shrine/dendorqueststatue
+    parent_type = /obj/structure/fluff/statue/shrine/donation
     name = "dendor shrine"
     desc = "A statue of a druid who once accepted a curse. One way or another, this monument draws animals and the local hermits to it."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "Dendorqueststatue"	
+    icon_state = "Dendorqueststatue"
+    max_integrity = null
+    required_donation = list(/obj/item/ingot/iron)
+    donation_points = 5
 
-/obj/structure/fluff/statue/necraqueststatue
+/obj/structure/fluff/statue/shrine/necraqueststatue
+    parent_type = /obj/structure/fluff/statue/shrine/donation
     name = "necra shrine"
     desc = "A statue of a faceless maiden of Necra. She bears no face, no name, no title. The last to come to your doorstep, and the first you will see in the carriage..."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "Necraqueststatue"		
+    icon_state = "Necraqueststatue"
+    max_integrity = null
+    required_donation = list(/obj/item/ingot/iron)
+    donation_points = 5
 
-/obj/structure/fluff/statue/pestraqueststatue
+/obj/structure/fluff/statue/shrine/pestraqueststatue
+    parent_type = /obj/structure/fluff/statue/shrine/donation
     name = "pestra shrine"
     desc = "A statue of one devoted follower of the goddess of medicine. Weathered by time and wind; she likely kept helping others to the very end, forgetting herself."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "Pestraqueststatue"		
+    icon_state = "Pestraqueststatue"
+    max_integrity = null
+    required_donation = list(/obj/item/ingot/iron)
+    donation_points = 3
 
-/obj/structure/fluff/statue/malumqueststatue
+/obj/structure/fluff/statue/shrine/malumqueststatue
+    parent_type = /obj/structure/fluff/statue/shrine/donation
     name = "malum shrine"
     desc = "A statue of an unknown blacksmith. In his fanatic devotion, he likely never even noticed the sculptor at work..."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "Malumqueststatue"			
+    icon_state = "Malumqueststatue"
+    max_integrity = null
+    required_donation = list(/obj/item/ingot/iron)
+    donation_points = 3
 
-/obj/structure/fluff/statue/ravoxqueststatue
+/obj/structure/fluff/statue/shrine/ravoxqueststatue
+    parent_type = /obj/structure/fluff/statue/shrine/donation
     name = "ravox shrine"
     desc = "A statue of an unknown warder in the green garb once worn by the bogmen. He keeps his lonely watch still, long after his kingdom fell and his comrades were disbanded."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "Ravoxqueststatue"			
+    icon_state = "Ravoxqueststatue"
+    max_integrity = null
+    required_donation = list(/obj/item/ingot/iron)
+    donation_points = 3
 
-/obj/structure/fluff/statue/eoraqueststatue
+/obj/structure/fluff/statue/shrine/eoraqueststatue
+    parent_type = /obj/structure/fluff/statue/shrine/donation
     name = "eora shrine"
     desc = "A statue of an unknown woman. In stone she seems to smell faintly of soup and clean linen, still darning sleeves for a husband or a child. A soft, sturdy soul who once dreamed of being a princess in a castle, and instead kept a smaller kingdom warm."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "Eoraqueststatue"		
+    icon_state = "Eoraqueststatue"
+    max_integrity = null
+    required_donation = list(/obj/item/ingot/iron)
+    donation_points = 3
 
-/obj/structure/fluff/statue/nocqueststatue
+/obj/structure/fluff/statue/shrine/nocqueststatue
+    parent_type = /obj/structure/fluff/statue/shrine/donation
     name = "noc shrine"
     desc = "A statue of the Moon Goddess. She still seems to radiate a cool, quiet hush. Once, this place teemed with students; now it stands empty."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "Nocqueststatue"		
+    icon_state = "Nocqueststatue"
+    required_donation = list(/obj/item/ingot/iron)
+    donation_points = 5
 
-/obj/structure/fluff/statue/astrataqueststatue
+/obj/structure/fluff/statue/shrine/astrataqueststatue
+    parent_type = /obj/structure/fluff/statue/shrine/donation
     name = "astrata shrine"
     desc = "A statue of the Sun Goddess. Before her, you find yourself straightening your back and squaring your shoulder-falling into a soldier’s stance, as if to answer the call of order."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "Astrataqueststatue"				
+    icon_state = "Astrataqueststatue"
+    max_integrity = null
+    required_donation = list(/obj/item/ingot/iron)
+    donation_points = 7
 
-/obj/structure/fluff/statue/xylixqueststatue
+/obj/structure/fluff/statue/shrine/xylixqueststatue
+    parent_type = /obj/structure/fluff/statue/shrine/donation
     name = "xylix shrine"
     desc = "A statue of the Patron of Jesters. You could swear you hear laughter-soft, somewhere just behind you-and for a heartbeat the weight of your coinpurse shifts. Then nothing."
     icon = 'icons/roguetown/misc/64x96.dmi'
-    icon_state = "Xylixqueststatue"		
+    icon_state = "Xylixqueststatue"
+    max_integrity = null
+    required_donation = list(/obj/item/ingot/iron)
+    donation_points = 3
 
-/obj/structure/fluff/statue/churchcore
-    name = "The Heart Of The Martyr"
-    desc = "The heart that once belonged to one of His Chosen. It still holds a drop of His blood and can turn this world into paradise - or into a barren wasteland. The power it carries is boundless."
-    icon = 'icons/roguetown/misc/structure.dmi'
-    icon_state = "churchcore"		
 
-/obj/structure/fluff/statue/churchcore
-    name = "The Heart Of The Martyr"
-    desc = "The heart that once belonged to one of His Chosen. It still holds a drop of His blood and can turn this world into paradise - or into a barren wasteland. The power it carries is boundless."
-    icon = 'icons/roguetown/misc/structure.dmi'
-    icon_state = "churchcore"	
+#define span_hint(T) span_notice(T)
+
+/obj/structure/fluff/statue/shrine/donation
+	parent_type = /obj/structure/fluff/statue
+
+	var/list/required_donation = null
+	var/donation_points = 0
+	var/clergy_only_donate = TRUE
+
+	proc/_donation_names()
+		if(!required_donation || !required_donation.len)
+			return "—"
+		var/list/names = list()
+		for(var/T in required_donation)
+			var/obj/item/tmp = T
+			names += initial(tmp.name)
+		return jointext(names, ", ")
+
+	proc/_add_research_points(mob/user, amt)
+		return
+
+	examine(mob/user)
+		. = ..()
+		if(HAS_TRAIT(user, TRAIT_CLERGY))
+			if(donation_points > 0 && required_donation && required_donation.len)
+				. += span_notice("<b>Offering:</b> [_donation_names()] <span class='small'>(+[donation_points] research points)</span>")
+				. += span_hint("Drag the required item onto the statue to make the offering.")
+
+	attackby(obj/item/I, mob/user, params)
+		if(required_donation && required_donation.len)
+			var/matches = FALSE
+			for(var/T in required_donation)
+				if(istype(I, T))
+					matches = TRUE
+					break
+
+			if(matches)
+				if(clergy_only_donate && !HAS_TRAIT(user, TRAIT_CLERGY))
+					to_chat(user, span_warning("You do not understand how to perform this rite."))
+					return
+				if(do_after(user, 2 SECONDS, src))
+					to_chat(user, span_notice("The offering is accepted."))
+					qdel(I)
+					_add_research_points(user, donation_points)
+					return
+				else
+					return
+		return ..()
+
+
+
+var/global/datum/church_research/CHURCH_RESEARCH
+
+proc/GET_CHURCH_RESEARCH()
+	if(!CHURCH_RESEARCH)
+		CHURCH_RESEARCH = new
+	return CHURCH_RESEARCH
+
+/datum/church_tech
+	var/id = ""
+	var/name = ""
+	var/desc = ""
+	var/cost = 0
+	var/list/prereqs = list()
+	var/unlocked = FALSE
+	proc/on_unlock(mob/user) return
+
+/datum/church_research
+	var/points = 0
+	var/list/techs = list()
+	var/donation_multiplier = 1.0
+	var/passive_blessing_bonus = 0
+
+	New()
+		..()
+		register_default_techs()
+
+	proc/register_default_techs()
+		register(new /datum/church_tech/tithe_knowledge)
+		register(new /datum/church_tech/basic_rites)
+		register(new /datum/church_tech/gilded_tithe)
+		register(new /datum/church_tech/sanctified_passive)
+
+	proc/register(datum/church_tech/T)
+		if(!T || !istext(T.id) || !length(T.id))
+			CRASH("church_research: attempted to register tech with empty id.")
+		techs[T.id] = T
+
+	proc/add_points(amount, mob/source)
+		if(amount <= 0) return
+		var/gained = round(amount * donation_multiplier)
+		points += max(0, gained)
+		if(ismob(source))
+			to_chat(source, span_notice("Church research: +[gained] points (bank: [points])."))
+
+	proc/can_unlock(id)
+		var/datum/church_tech/T = techs[id]
+		if(!T) return FALSE
+		if(T.unlocked) return FALSE
+		if(points < T.cost) return FALSE
+		for(var/req in T.prereqs)
+			var/datum/church_tech/PR = techs[req]
+			if(!PR || !PR.unlocked)
+				return FALSE
+		return TRUE
+
+	proc/unlock(id, mob/user)
+		var/datum/church_tech/T = techs[id]
+		if(!T) return FALSE
+		if(!can_unlock(id)) return FALSE
+		points -= T.cost
+		T.unlocked = TRUE
+		T.on_unlock(user)
+		return TRUE
+
+	proc/is_unlocked(id)
+		var/datum/church_tech/T = techs[id]
+		return T ? T.unlocked : FALSE
+
+	proc/get_cost(id)
+		var/datum/church_tech/T = techs[id]
+		return T ? T.cost : 0
+
+	proc/get_name(id)
+		var/datum/church_tech/T = techs[id]
+		return T ? T.name : id
+
+	proc/get_desc(id)
+		var/datum/church_tech/T = techs[id]
+		return T ? T.desc : "—"
+
+	proc/list_ids()
+		var/list/ids = list()
+		for(var/k in techs)
+			ids += "[k]"
+		return ids
+
+/datum/church_tech/tithe_knowledge
+	id = "tithe_knowledge"
+	name = "Tithe Knowledge"
+	desc = "Learn to appraise offerings more wisely. Increases research gained from donations by 15%."
+	cost = 100
+	on_unlock(mob/user)
+		var/datum/church_research/CR = GET_CHURCH_RESEARCH()
+		CR.donation_multiplier = max(CR.donation_multiplier, 1.15)
+
+/datum/church_tech/basic_rites
+	id = "basic_rites"
+	name = "Basic Rites"
+	desc = "Codify the common rites and responses. Unlocks passive church boons."
+	cost = 120
+
+/datum/church_tech/gilded_tithe
+	id = "gilded_tithe"
+	name = "Gilded Tithe"
+	desc = "Refine the tithe ledgers. Further increases research from donations to a total of +30%."
+	cost = 220
+	prereqs = list("tithe_knowledge")
+	on_unlock(mob/user)
+		var/datum/church_research/CR = GET_CHURCH_RESEARCH()
+		CR.donation_multiplier = max(CR.donation_multiplier, 1.30)
+
+/datum/church_tech/sanctified_passive
+	id = "sanctified_passive"
+	name = "Sanctified Passive"
+	desc = "Instruct the faithful to carry the light. Grants +5% passive church bonus."
+	cost = 200
+	prereqs = list("basic_rites")
+	on_unlock(mob/user)
+		var/datum/church_research/CR = GET_CHURCH_RESEARCH()
+		CR.passive_blessing_bonus = max(CR.passive_blessing_bonus, 5)
+
+
+
+/mob/living/carbon/human
+	var/church_favor = 0
+	var/miracle_points = 0
+
+
+
+/obj/structure/fluff/statue/shrine/churchcore
+	parent_type = /obj/structure/fluff/statue
+
+	name = "The Heart Of The Martyr"
+	desc = "The heart that once belonged to one of His Chosen. It still holds a drop of His blood and can turn this world into paradise - or into a barren wasteland. The power it carries is boundless."
+	icon = 'icons/roguetown/misc/structure.dmi'
+	icon_state = "churchcore"
+	max_integrity = null
+	density = TRUE
+	anchored = TRUE
+	layer = ABOVE_MOB_LAYER
+
+	var/ui_width = 420
+	var/ui_height = 650
+
+	var/unlocked_organs = FALSE
+	var/unlocked_artifacts = FALSE
+	var/unlocked_knowledge = FALSE
+	var/unlocked_taboos = FALSE
+	var/unlocked_devotion = FALSE
+
+	var/prayer_scope = "church"
+	var/passive_enabled = FALSE
+	var/passive_bonus = 0
+
+	var/church_bank = 0
+	var/mp_cost = 100
+
+	var/treasuretypes = list(
+		/obj/item/roguecoin,
+		/obj/item/roguegem,
+		/obj/item/clothing/ring,
+		/obj/item/ingot/gold,
+		/obj/item/ingot/silver,
+		/obj/item/ingot/silverblessed,
+		/obj/item/ingot/blacksteel,
+		/obj/item/clothing/neck/roguetown/psicross,
+		/obj/item/reagent_containers/glass/cup,
+		/obj/item/roguestatue,
+		/obj/item/riddleofsteel,
+		/obj/item/scomstone/listenstone,
+		/obj/item/clothing/neck/roguetown/shalal,
+		/obj/item/clothing/neck/roguetown/horus,
+		/obj/item/rogue/painting,
+		/obj/item/clothing/head/roguetown/crown/serpcrown,
+		/obj/item/clothing/head/roguetown/vampire,
+		/obj/item/scomstone,
+		/obj/item/cooking/platter/silver,
+		/obj/item/cooking/platter/gold,
+		/obj/item/reagent_containers/glass/bowl/silver,
+		/obj/item/reagent_containers/glass/bowl/gold,
+		/obj/item/kitchen/spoon/gold,
+		/obj/item/kitchen/spoon/silver,
+		/obj/item/candle/candlestick/gold,
+		/obj/item/candle/candlestick/silver,
+		/obj/item/rogueweapon/sword/long/judgement,
+		/obj/item/rogueweapon/sword/long/oathkeeper,
+		/obj/item/rogueweapon/woodstaff/riddle_of_steel/magos,
+		/obj/item/rogueweapon/halberd/psyhalberd,
+		/obj/item/rogueweapon/greatsword/psygsword,
+	)
+
+	var/donation_rate = 1.0
+
+	proc/_broadcast(msg)
+		for(var/mob/M in viewers(src, null))
+			to_chat(M, msg)
+
+	proc/_donation_flavor(obj/item/W, amount)
+		var/msg = ""
+		if(istype(W, /obj/item/ingot/gold) || findtext(lowertext("[W.name]"), "gold"))
+			msg = "Gold drinks the light; the statue seems warmer for a breath."
+		else if(istype(W, /obj/item/ingot/silver) || findtext(lowertext("[W.name]"), "silver"))
+			msg = "Silver answers the hush with a clear, bell-like tone."
+		else if(istype(W, /obj/item/roguegem) || findtext(lowertext("[W.name]"), "gem"))
+			msg = "A small constellation glints within the stone for a heartbeat."
+		else
+			msg = "The offering is taken and weighed in silence."
+		if(amount >= 1000)
+			msg += " A hush falls — this is a king’s ransom."
+		else if(amount >= 300)
+			msg += " The air stirs; this is a generous tithe."
+		else if(amount >= 100)
+			msg += " A modest vow is noted."
+		else
+			msg += " A humble seed is planted."
+		return msg
+
+	examine(mob/user)
+		to_chat(user, "<span class='notice'><i>A rhythm echoes faintly within, like a vow remembered.</i></span>")
+		to_chat(user, "<span class='notice'><i>Gold is a pledge, silver a vow, copper a seed—cast them, and the Ten will remember.</i></span>")
+
+	attack_hand(mob/living/user)
+		if(!ishuman(user)) return
+		user.changeNext_move(CLICK_CD_INTENTCAP)
+
+		var/mob/living/carbon/human/H = user
+		var/my_mp = H ? H.miracle_points : 0
+
+		var/html = "<center><h3>Church Core</h3></center><hr>"
+		html += "<b>Treasure Bank:</b> [church_bank]<br>"
+		html += "<hr>"
+
+		html += "<b>Miracles</b><br>"
+		html += "Your Miracle Points: <b>[my_mp]</b><br>"
+		if(HAS_TRAIT(user, TRAIT_CLERGY))
+			if(church_bank >= mp_cost)
+				html += "<a href='?src=[REF(src)];buymp=1'>Buy 1 MP ([mp_cost] Bank)</a><br>"
+			else
+				html += "<span style='color:#7f8c8d'>Buy 1 MP ([mp_cost] Bank)</span><br>"
+		else
+			html += "<span style='color:#7f8c8d'>Only clergy may buy Miracle Points.</span><br>"
+		html += "<hr>"
+
+		html += "<b>Tabs</b><br>"
+		html += "Organs — [unlocked_organs ? "<span style='color:#2ecc71'>Unlocked</span>" : "<span style='color:#e67e22'>Locked</span>"] "
+		if(!unlocked_organs) html += "<a href='?src=[REF(src)];unlock=organs'>Unlock</a>"
+		html += "<br>"
+		html += "Artifacts — [unlocked_artifacts ? "<span style='color:#2ecc71'>Unlocked</span>" : "<span style='color:#e67e22'>Locked</span>"] "
+		if(!unlocked_artifacts) html += "<a href='?src=[REF(src)];unlock=artifacts'>Unlock</a>"
+		html += "<br>"
+		html += "Knowledge — [unlocked_knowledge ? "<span style='color:#2ecc71'>Unlocked</span>" : "<span style='color:#e67e22'>Locked</span>"] "
+		if(!unlocked_knowledge) html += "<a href='?src=[REF(src)];unlock=knowledge'>Unlock</a>"
+		html += "<br>"
+		html += "Taboos — [unlocked_taboos ? "<span style='color:#2ecc71'>Unlocked</span>" : "<span style='color:#e67e22'>Locked</span>"] "
+		if(!unlocked_taboos) html += "<a href='?src=[REF(src)];unlock=taboos'>Unlock</a>"
+		html += "<br>"
+		html += "Devotion — [unlocked_devotion ? "<span style='color:#2ecc71'>Unlocked</span>" : "<span style='color:#e67e22'>Locked</span>"] "
+		if(!unlocked_devotion) html += "<a href='?src=[REF(src)];unlock=devotion'>Unlock</a>"
+		html += "<hr>"
+
+		html += "<b>Controls</b><br>" //bleh so fucked
+		html += "Prayer scope: <b>[prayer_scope]</b> "
+		html += "<a href='?src=[REF(src)];scope=church'>church</a> | "
+		html += "<a href='?src=[REF(src)];scope=all'>all</a><br>"
+		html += "Passive: <b>[passive_enabled ? "enabled" : "disabled"]</b> "
+		html += "<a href='?src=[REF(src)];toggle=passive'>toggle</a><br>"
+		html += "Passive bonus: <b>[passive_bonus]%</b> "
+		html += "<a href='?src=[REF(src)];bonus=+'>+1</a> | "
+		html += "<a href='?src=[REF(src)];bonus=-'>-1</a><br>"
+
+		var/datum/browser/B = new(user, "CHURCH_CORE", "", ui_width, ui_height)
+		B.set_content(html)
+		B.open()
+
+	Topic(href, href_list)
+		if(!usr.canUseTopic(src, BE_CLOSE)) return
+
+		if(href_list["buymp"])
+			if(!HAS_TRAIT(usr, TRAIT_CLERGY)) { attack_hand(usr); return }
+			if(church_bank < mp_cost) { attack_hand(usr); return }
+			church_bank -= mp_cost
+			var/mob/living/carbon/human/H = ishuman(usr) ? usr : null
+			if(H)
+				H.miracle_points++
+				to_chat(usr, span_notice("A spark settles within you. +1 Miracle Point (now [H.miracle_points])."))
+			_broadcast(span_notice("A dull pulse echoes from within the Heart."))
+			attack_hand(usr); return
+
+		if(href_list["unlock"])
+			var/what = lowertext(href_list["unlock"])
+			if(what == "organs") unlocked_organs = TRUE
+			else if(what == "artifacts") unlocked_artifacts = TRUE
+			else if(what == "knowledge") unlocked_knowledge = TRUE
+			else if(what == "taboos") unlocked_taboos = TRUE
+			else if(what == "devotion") unlocked_devotion = TRUE
+			attack_hand(usr); return
+
+		if(href_list["scope"])
+			var/val = lowertext(href_list["scope"])
+			if(val == "church" || val == "all") prayer_scope = val
+			attack_hand(usr); return
+
+		if(href_list["toggle"])
+			if(lowertext(href_list["toggle"]) == "passive") passive_enabled = !passive_enabled
+			attack_hand(usr); return
+
+		if(href_list["bonus"])
+			if(href_list["bonus"] == "+") passive_bonus = min(100, passive_bonus + 1)
+			else if(href_list["bonus"] == "-") passive_bonus = max(0, passive_bonus - 1)
+			attack_hand(usr); return
+
+	attackby(obj/item/W, mob/user, params)
+		if(!HAS_TRAIT(user, TRAIT_CLERGY)) return
+		if(W.flags_1 & HOARDMASTER_SPAWNED_1) { to_chat(user, span_warning("This item is from the Hoard!")); return }
+
+		var/proceed = FALSE
+		for(var/T in treasuretypes)
+			if(istype(W, T)) { proceed = TRUE; break }
+		if(!proceed) { to_chat(user, span_warning("This item isn't a good offering.")); return }
+
+		var/amount = W.get_real_price()
+		if(W.sellprice <= 0 || amount <= 0) { to_chat(user, span_warning("This item is worthless.")); return }
+
+		playsound(src, 'sound/items/carvty.ogg', 50, TRUE)
+		var/flavor = _donation_flavor(W, amount)
+		qdel(W)
+
+		var/mob/living/carbon/human/H = ishuman(user) ? user : null
+		if(H)
+			H.church_favor = max(0, H.church_favor + amount)
+
+		var/gain = round(amount * donation_rate)
+		church_bank = max(0, church_bank + gain)
+
+		_broadcast(span_notice("[user] lays an offering before the Heart."))
+		to_chat(user, span_notice("[flavor]"))
+
+		for(var/mob/M in GLOB.player_list)
+			if(!M?.mind) continue
+			if(HAS_TRAIT(M, TRAIT_CLERGY))
+				if(H)
+					to_chat(M, "<font color='yellow'>[H.real_name] donates [amount]. Favor: [H.church_favor]. Bank +[gain] (now [church_bank]).</font>")
+				else
+					to_chat(M, "<font color='yellow'>Someone donates [amount]. Bank +[gain] (now [church_bank]).</font>")

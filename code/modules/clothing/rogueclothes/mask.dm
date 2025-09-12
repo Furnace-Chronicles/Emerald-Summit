@@ -51,6 +51,7 @@
 	integrity_failure = 0.5
 	resistance_flags = FIRE_PROOF
 	body_parts_covered = EYES
+	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HEAD
 	anvilrepair = /datum/skill/craft/armorsmithing
 //	block2add = FOV_BEHIND
 
