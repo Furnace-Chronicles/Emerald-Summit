@@ -33230,6 +33230,12 @@
 /obj/structure/table/wood,
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/town/church/chapel)
+"jac" = (
+/obj/structure/stairs/stone{
+	dir = 4
+	},
+/turf/open/floor/rogue/wood,
+/area/rogue/indoors/town/church/chapel)
 "jad" = (
 /obj/structure/bookcase,
 /obj/item/book/rogue/cardgame,
@@ -57311,9 +57317,6 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap)
 "pCp" = (
-/obj/structure/fluff/railing/border{
-	dir = 8
-	},
 /obj/machinery/light/rogue/wallfire/candle{
 	pixel_x = 26;
 	pixel_y = 0
@@ -65760,9 +65763,6 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/indoors/town/church/outside)
 "rRS" = (
-/obj/structure/fluff/railing/border{
-	dir = 4
-	},
 /obj/machinery/light/rogue/wallfire/candle{
 	pixel_x = -26;
 	pixel_y = 0
@@ -484910,7 +484910,7 @@ bJc
 pbZ
 ncx
 ahJ
-iBk
+vjq
 maI
 bJc
 qTa
@@ -487631,8 +487631,8 @@ iBk
 iBk
 iBk
 yez
-imW
-imW
+fwK
+fwK
 gCZ
 usU
 oED
@@ -488083,8 +488083,8 @@ iBk
 iBk
 ufF
 yez
-iPO
-iPO
+jac
+jac
 nBg
 dOi
 oED
@@ -489891,8 +489891,8 @@ iBk
 iBk
 ufF
 yez
-iPO
-iPO
+jac
+jac
 lDR
 iXv
 oED
@@ -490343,8 +490343,8 @@ iBk
 iBk
 iBk
 yez
-imW
-imW
+fwK
+fwK
 mJy
 iij
 oED
@@ -493046,7 +493046,7 @@ bJc
 pbZ
 ncx
 cvo
-iBk
+vjq
 maI
 bJc
 cMA
