@@ -126,7 +126,9 @@
 		"ten": "dieci",
 		"crossbow": "balestra",
 		"perfect": "perfetto",
-		"great": "grande"
+		"great": "grande",
+		"archduke": "arciduca", 
+		"archduchy": "arciducato"
     },
     "start": {
     },

@@ -64,7 +64,7 @@ SUBSYSTEM_DEF(ticker)
 	var/end_state = "undefined"
 	var/job_change_locked = FALSE
 	var/list/royals_readied = list()
-	var/rulertype = "Grand Duke" // reports whether king or queen rules
+	var/rulertype = "Archduke" // reports whether king or queen rules
 	var/rulermob = null // reports what the ruling mob is.
 	var/regentmob = null // keeps track of regent mob
 	var/regentday = -1 // to prevent regent shuffling

@@ -376,8 +376,8 @@
 		return
 	var/canread = user.can_read(src, TRUE)
 	var/contents
-	if(SSticker.rulertype == "Grand Duke")
-		contents += "<center>GRAND DUKE'S DECREES<BR>"
+	if(SSticker.rulertype == "Archduke")
+		contents += "<center>Archduke'S DECREES<BR>"
 	else
 		contents += "<center>GRAND DUTCHESS' DECREES<BR>"
 	contents += "-----------<BR><BR></center>"
@@ -392,7 +392,7 @@
 /obj/structure/roguemachine/scomm/MiddleClick(mob/living/carbon/human/user)
 	if(.)
 		return
-	if((HAS_TRAIT(user, TRAIT_GUARDSMAN) || (user.job == "Warden") || (user.job == "Hand") || (user.job == "Watchman") || (user.job == "Squire") || (user.job == "Marshal") || (user.job == "Grand Duke") || (user.job == "Knight Captain") || (user.job == "Consort")))
+	if((HAS_TRAIT(user, TRAIT_GUARDSMAN) || (user.job == "Warden") || (user.job == "Hand") || (user.job == "Watchman") || (user.job == "Squire") || (user.job == "Marshal") || (user.job == "Archduke") || (user.job == "Knight Captain") || (user.job == "Consort")))
 		if(alert("Would you like to swap lines or connect to a jabberline?",, "swap", "jabberline") != "jabberline")
 			if(scom.target != SCOM_TARGET_GARRISON)
 				scom.target = SCOM_TARGET_GARRISON

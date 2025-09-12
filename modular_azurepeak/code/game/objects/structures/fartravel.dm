@@ -71,7 +71,7 @@
 	
 	// If departure is a lord, remove them from found_lords to prevent false omen triggers
 	if(departing_mob.mind && departing_mob.ckey)
-		if(departing_mob.mind.assigned_role == "Grand Duke" || departing_mob.mind.assigned_role == "Grand Duchess")
+		if(departing_mob.mind.assigned_role == "Archduke" || departing_mob.mind.assigned_role == "Archduchess")
 			if(found_lords[departing_mob.ckey])
 				found_lords -= departing_mob.ckey
 	
