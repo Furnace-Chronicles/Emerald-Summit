@@ -2878,11 +2878,11 @@
 /area/rogue/outdoors/mountains)
 "aMW" = (
 /obj/effect/decal/cleanable/blood/footprints,
-/obj/structure/fluff/statue/churchcore,
 /obj/structure/vampire/bloodpool{
 	pixel_x = -18;
 	pixel_y = -12
 	},
+/obj/structure/fluff/statue/shrine/churchcore,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "aMX" = (
@@ -6616,6 +6616,10 @@
 	},
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/cell)
+"bNt" = (
+/obj/machinery/light/rogue/wallfire/candle/floorcandle,
+/turf/open/floor/rogue/blocks/stonered,
+/area/rogue/under/underdark)
 "bNE" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town/cell)
@@ -7675,6 +7679,13 @@
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/water/swamp/deep,
 /area/rogue/outdoors/bog)
+"cdH" = (
+/obj/machinery/light/rogue/wallfire/candle/floorcandle,
+/obj/machinery/light/rogue/wallfire/candle/floorcandle{
+	pixel_y = -14
+	},
+/turf/open/floor/rogue/blocks/stonered,
+/area/rogue/under/underdark)
 "cdO" = (
 /turf/closed/wall/mineral/rogue/pipe{
 	dir = 4;
@@ -17309,7 +17320,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/town/church/outside)
 "eJm" = (
-/obj/structure/fluff/statue/abyssorqueststatue{
+/obj/structure/fluff/statue/shrine/abyssorqueststatue{
 	pixel_x = -18
 	},
 /turf/open/floor/rogue/blocks,
@@ -19107,12 +19118,6 @@
 /mob/living/simple_animal/hostile/rogue/skeleton/bow,
 /turf/open/floor/rogue/woodturned,
 /area/rogue/outdoors/beach/forest)
-"fjp" = (
-/obj/structure/fluff/statue/eoraqueststatue{
-	pixel_x = -18
-	},
-/turf/open/floor/rogue/blocks,
-/area/rogue/outdoors/rtfield/eora)
 "fju" = (
 /turf/open/water/swamp,
 /area/rogue/under/cave)
@@ -20442,6 +20447,12 @@
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/tile/bath,
 /area/rogue/indoors/town/manor)
+"fBE" = (
+/obj/machinery/light/rogue/wallfire/candle/floorcandle/alt,
+/turf/open/floor/rogue/ruinedwood{
+	icon_state = "weird1"
+	},
+/area/rogue/under/underdark)
 "fBJ" = (
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow,
 /turf/open/floor/rogue/grass,
@@ -22377,6 +22388,9 @@
 /obj/machinery/light/rogue/wallfire/candle/floorcandle/alt{
 	pixel_y = -16
 	},
+/obj/structure/fluff/statue/shrine/xylixqueststatue{
+	pixel_x = -12
+	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/bog)
 "gep" = (
@@ -23356,12 +23370,6 @@
 /obj/structure/flora/roguetree/burnt,
 /turf/open/floor/rogue/grass,
 /area/rogue/under/cavewet/bogcaves/sunkencity)
-"gtk" = (
-/obj/structure/fluff/statue/ravoxqueststatue{
-	pixel_x = -18
-	},
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/shelter/woods)
 "gtp" = (
 /obj/item/roguebin/water,
 /turf/open/floor/rogue/cobble,
@@ -23498,7 +23506,6 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/church/basement)
 "guZ" = (
-/obj/structure/fluff/statue/xylixqueststatue,
 /obj/machinery/light/rogue/wallfire/candle/floorcandle/alt,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/bog)
@@ -26438,6 +26445,12 @@
 "hjJ" = (
 /obj/structure/fluff/railing/wood,
 /turf/open/floor/rogue/dirt/road,
+/area/rogue/under/underdark)
+"hjK" = (
+/obj/machinery/light/rogue/wallfire/candle/floorcandle{
+	pixel_y = -14
+	},
+/turf/open/floor/rogue/blocks/stonered,
 /area/rogue/under/underdark)
 "hkf" = (
 /obj/effect/decal/cobbleedge{
@@ -32381,6 +32394,12 @@
 	},
 /turf/open/floor/rogue/woodturned/nosmooth,
 /area/rogue/outdoors/mountains)
+"iNh" = (
+/obj/structure/fluff/statue/shrine/eoraqueststatue{
+	pixel_x = -18
+	},
+/turf/open/floor/rogue/blocks,
+/area/rogue/outdoors/rtfield/eora)
 "iNk" = (
 /obj/item/natural/rock/salt,
 /turf/open/floor/rogue/cobblerock,
@@ -35018,6 +35037,12 @@
 	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/orcdungeon)
+"jzS" = (
+/obj/structure/fluff/statue/shrine/dendorqueststatue{
+	pixel_x = -18
+	},
+/turf/open/floor/rogue/blocks,
+/area/rogue/outdoors/beach/forest)
 "jzV" = (
 /obj/effect/decal/cobbleedge{
 	dir = 4;
@@ -37671,12 +37696,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/woods)
-"klL" = (
-/obj/structure/fluff/statue/necraqueststatue{
-	pixel_x = -32
-	},
-/turf/open/floor/rogue/dirt,
-/area/rogue/under/cave/scarymaze)
 "klM" = (
 /obj/effect/decal/wood/herringbone{
 	dir = 10;
@@ -39970,11 +39989,11 @@
 /obj/structure/fluff/railing/border{
 	dir = 4
 	},
-/obj/structure/fluff/statue/astrataqueststatue{
-	pixel_x = -14
-	},
 /obj/machinery/light/rogue/wallfire/candle/floorcandle/alt{
 	pixel_y = -16
+	},
+/obj/structure/fluff/statue/shrine/astrataqueststatue{
+	pixel_x = -18
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/outdoors/beach/forest)
@@ -41092,12 +41111,6 @@
 /obj/item/storage/belt/rogue/pouch,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
-"lkq" = (
-/obj/structure/fluff/statue/malumqueststatue{
-	pixel_x = -18
-	},
-/turf/open/floor/rogue/blocks/stonered,
-/area/rogue/under/underdark)
 "lkr" = (
 /obj/machinery/light/rogue/wallfire/candle/off/l,
 /turf/open/floor/rogue/ruinedwood/herringbone,
@@ -58036,6 +58049,12 @@
 "pNi" = (
 /turf/open/floor/rogue/dirt/ambush,
 /area/rogue/indoors/cave)
+"pNj" = (
+/obj/structure/fluff/statue/shrine/necraqueststatue{
+	pixel_x = -32
+	},
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/cave/scarymaze)
 "pNl" = (
 /obj/structure/rack/rogue,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
@@ -59891,6 +59910,9 @@
 /obj/machinery/light/rogue/wallfire/candle/floorcandle,
 /obj/machinery/light/rogue/wallfire/candle/floorcandle{
 	pixel_y = 2
+	},
+/obj/structure/fluff/statue/shrine/pestraqueststatue{
+	pixel_x = -18
 	},
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/shelter/woods)
@@ -61759,6 +61781,12 @@
 	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/church/chapel)
+"qKV" = (
+/obj/structure/fluff/statue/shrine/malumqueststatue{
+	pixel_x = -18
+	},
+/turf/open/floor/rogue/blocks/stonered,
+/area/rogue/under/underdark)
 "qKX" = (
 /obj/structure/chair/wood/rogue/chair3{
 	dir = 8
@@ -65286,6 +65314,12 @@
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/indoors/cave)
+"rKV" = (
+/obj/structure/fluff/statue/shrine/ravoxqueststatue{
+	pixel_x = -18
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/woods)
 "rKY" = (
 /obj/effect/decal/cleanable/blood/gibs/limb,
 /turf/open/floor/rogue/hay,
@@ -67403,12 +67437,6 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
-"snA" = (
-/obj/structure/fluff/statue/nocqueststatue{
-	pixel_x = -18
-	},
-/turf/open/floor/rogue/greenstone,
-/area/rogue/outdoors/bog)
 "snD" = (
 /obj/structure/flora/rock/jungle,
 /turf/open/floor/rogue/dirt,
@@ -67984,7 +68012,6 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/town)
 "suw" = (
-/obj/structure/fluff/statue/pestraqueststatue,
 /obj/machinery/light/rogue/wallfire/candle/floorcandle,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/shelter/woods)
@@ -72737,6 +72764,12 @@
 	},
 /turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/shelter/woods)
+"tKv" = (
+/obj/structure/fluff/statue/shrine/nocqueststatue{
+	pixel_x = -18
+	},
+/turf/open/floor/rogue/greenstone,
+/area/rogue/outdoors/bog)
 "tKI" = (
 /obj/machinery/light/rogue/torchholder/r{
 	dir = 4
@@ -76494,12 +76527,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/under/cave/dukecourt)
-"uIX" = (
-/obj/structure/fluff/statue/dendorqueststatue{
-	pixel_x = -18
-	},
-/turf/open/floor/rogue/blocks,
-/area/rogue/outdoors/beach/forest)
 "uJk" = (
 /obj/structure/fluff/railing/wood{
 	dir = 4;
@@ -130943,8 +130970,8 @@ qHj
 qHj
 vPA
 lrF
-tMu
-lrF
+bNt
+fBE
 lrF
 pSk
 bkW
@@ -131395,8 +131422,8 @@ qHj
 qHj
 nWn
 lrF
-lkq
-tMu
+qKV
+hjK
 lrF
 lrF
 tJQ
@@ -131847,8 +131874,8 @@ qmg
 qHj
 eTj
 lrF
-tMu
-lrF
+cdH
+fBE
 lrF
 rAL
 dVB
@@ -281998,7 +282025,7 @@ jMW
 fEv
 ffw
 fjC
-gtk
+rKV
 xaB
 inC
 wNN
@@ -337933,7 +337960,7 @@ vhs
 vhs
 vhs
 tYx
-snA
+tKv
 ogu
 xFg
 ogu
@@ -386172,7 +386199,7 @@ lKY
 cGF
 rRJ
 rRJ
-uIX
+jzS
 rRr
 rRJ
 xJQ
@@ -396767,7 +396794,7 @@ vvB
 vvB
 dfy
 dfy
-fjp
+iNh
 vCv
 ofE
 dfy
@@ -453993,7 +454020,7 @@ eWw
 ini
 xfP
 xfP
-klL
+pNj
 nmM
 asc
 asc
