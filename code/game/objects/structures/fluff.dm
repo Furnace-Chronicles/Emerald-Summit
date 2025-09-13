@@ -1747,9 +1747,10 @@ var/global/church_research_points = 0
 		var/mob/living/carbon/human/H = user
 		var/my_favor = H ? H.church_favor : 0
 		var/my_mp = H ? H.miracle_points : 0
+		var/datum/church_research/CR = GET_CHURCH_RESEARCH()
 
 		var/html = "<center><h3>Church Core</h3></center><hr>"
-		html += "<b>Research Points (global):</b> [church_research_points]<br>"
+		html += "<b>Research Points (global):</b> [CR.points]<br>"
 		html += "<b>Tithe Bank (local):</b> [church_bank]<br>"
 		html += "<hr>"
 
@@ -1788,14 +1789,15 @@ var/global/church_research_points = 0
 				html += "| <a href='?src=[REF(src)];toggle=passive'>toggle</a>"
 			html += "<br>"
 
-			html += "Passive bonus: <b>[passive_bonus]%</b> "
+			var/bonus_on = (dev_bonus_unlocked && passive_bonus >= 50)
+			html += "Passive bonus: <b>[bonus_on ? "ON (50%)" : "OFF (0%)"]</b> "
 			if(!dev_bonus_unlocked)
 				if(HAS_TRAIT(user, TRAIT_CLERGY) && my_favor >= dev_inner_cost_favor)
 					html += "<a href='?src=[REF(src)];dev_unlock=bonus'>Unlock (100 favor)</a>"
 				else
 					html += "<span style='color:#7f8c8d'>Unlock (100 favor)</span>"
 			else
-				html += "| <a href='?src=[REF(src)];bonus=+'>+1</a> | <a href='?src=[REF(src)];bonus=-'>-1</a>"
+				html += "| <a href='?src=[REF(src)];bonus=toggle'>turn [bonus_on ? "off" : "on"]</a>"
 			html += "<br>"
 
 		else
@@ -1805,7 +1807,7 @@ var/global/church_research_points = 0
 				html += "Organs — <span style='color:#2ecc71'>Unlocked</span><br>"
 			else
 				html += "Organs — <span style='color:#e67e22'>Locked</span> "
-				if(church_research_points >= line_cost_rp)
+				if(CR.points >= line_cost_rp)
 					html += "<a href='?src=[REF(src)];unlock=organs'>Unlock (5 RP)</a><br>"
 				else
 					html += "<span style='color:#7f8c8d'>Unlock (5 RP)</span><br>"
@@ -1814,7 +1816,7 @@ var/global/church_research_points = 0
 				html += "Artifacts — <span style='color:#2ecc71'>Unlocked</span><br>"
 			else
 				html += "Artifacts — <span style='color:#e67e22'>Locked</span> "
-				if(church_research_points >= line_cost_rp)
+				if(CR.points >= line_cost_rp)
 					html += "<a href='?src=[REF(src)];unlock=artifacts'>Unlock (5 RP)</a><br>"
 				else
 					html += "<span style='color:#7f8c8d'>Unlock (5 RP)</span><br>"
@@ -1823,7 +1825,7 @@ var/global/church_research_points = 0
 				html += "Knowledge — <span style='color:#2ecc71'>Unlocked</span><br>"
 			else
 				html += "Knowledge — <span style='color:#e67e22'>Locked</span> "
-				if(church_research_points >= line_cost_rp)
+				if(CR.points >= line_cost_rp)
 					html += "<a href='?src=[REF(src)];unlock=knowledge'>Unlock (5 RP)</a><br>"
 				else
 					html += "<span style='color:#7f8c8d'>Unlock (5 RP)</span><br>"
@@ -1832,7 +1834,7 @@ var/global/church_research_points = 0
 				html += "Herecy — <span style='color:#2ecc71'>Unlocked</span><br>"
 			else
 				html += "Herecy — <span style='color:#e67e22'>Locked</span> "
-				if(church_research_points >= line_cost_rp)
+				if(CR.points >= line_cost_rp)
 					html += "<a href='?src=[REF(src)];unlock=herecy'>Unlock (5 RP)</a><br>"
 				else
 					html += "<span style='color:#7f8c8d'>Unlock (5 RP)</span><br>"
@@ -1841,7 +1843,7 @@ var/global/church_research_points = 0
 				html += "Devotion — <span style='color:#2ecc71'>Unlocked</span> <a href='?src=[REF(src)];tab=devotion'>Open</a><br>"
 			else
 				html += "Devotion — <span style='color:#e67e22'>Locked</span> "
-				if(church_research_points >= devotion_cost_rp)
+				if(CR.points >= devotion_cost_rp)
 					html += "<a href='?src=[REF(src)];unlock=devotion'>Unlock (5 RP)</a><br>"
 				else
 					html += "<span style='color:#7f8c8d'>Unlock (5 RP)</span><br>"
@@ -1870,20 +1872,21 @@ var/global/church_research_points = 0
 
 		if(href_list["unlock"])
 			var/what = lowertext(href_list["unlock"])
-			if(what == "organs" && !unlocked_organs && church_research_points >= line_cost_rp)
-				church_research_points -= line_cost_rp
+			var/datum/church_research/CR = GET_CHURCH_RESEARCH()
+			if(what == "organs" && !unlocked_organs && CR.points >= line_cost_rp)
+				CR.points -= line_cost_rp
 				unlocked_organs = TRUE
-			else if(what == "artifacts" && !unlocked_artifacts && church_research_points >= line_cost_rp)
-				church_research_points -= line_cost_rp
+			else if(what == "artifacts" && !unlocked_artifacts && CR.points >= line_cost_rp)
+				CR.points -= line_cost_rp
 				unlocked_artifacts = TRUE
-			else if(what == "knowledge" && !unlocked_knowledge && church_research_points >= line_cost_rp)
-				church_research_points -= line_cost_rp
+			else if(what == "knowledge" && !unlocked_knowledge && CR.points >= line_cost_rp)
+				CR.points -= line_cost_rp
 				unlocked_knowledge = TRUE
-			else if(what == "herecy" && !unlocked_herecy && church_research_points >= line_cost_rp)
-				church_research_points -= line_cost_rp
+			else if(what == "herecy" && !unlocked_herecy && CR.points >= line_cost_rp)
+				CR.points -= line_cost_rp
 				unlocked_herecy = TRUE
-			else if(what == "devotion" && !unlocked_devotion && church_research_points >= devotion_cost_rp)
-				church_research_points -= devotion_cost_rp
+			else if(what == "devotion" && !unlocked_devotion && CR.points >= devotion_cost_rp)
+				CR.points -= devotion_cost_rp
 				unlocked_devotion = TRUE
 				current_tab = "devotion"
 			attack_hand(usr); return
@@ -1950,7 +1953,9 @@ var/global/church_research_points = 0
 
 		var/gain = round(amount * donation_rate)
 		church_bank = max(0, church_bank + gain)
-		church_research_points = max(0, church_research_points + gain)
+
+		var/datum/church_research/CR = GET_CHURCH_RESEARCH()
+		CR.add_points(gain, user)
 
 		_broadcast(span_notice("[user] lays an offering before the Heart."))
 		to_chat(user, span_notice("[flavor]"))
@@ -1958,7 +1963,4 @@ var/global/church_research_points = 0
 		for(var/mob/M in GLOB.player_list)
 			if(!M?.mind) continue
 			if(HAS_TRAIT(M, TRAIT_CLERGY))
-				if(H)
-					to_chat(M, "<font color='yellow'>[H.real_name] donates [amount]. Favor: [H.church_favor]. Bank +[gain] (now [church_bank]). Research +[gain] (now [church_research_points]).</font>")
-				else
-					to_chat(M, "<font color='yellow'>Someone donates [amount]. Bank +[gain] (now [church_bank]). Research +[gain] (now [church_research_points]).</font>")
+				to_chat(M, "<font color='yellow'>[H ? H.real_name : "Someone"] donates [amount]. Favor: [H ? H.church_favor : "—"]. Bank +[gain] (now [church_bank]). Research +[gain] (now [CR.points]).</font>")
