@@ -1668,7 +1668,6 @@ var/global/church_research_points = 0
 	var/dev_passive_unlocked = FALSE
 	var/dev_bonus_unlocked = FALSE
 
-	var/church_bank = 0
 	var/mp_cost = 100
 	var/devotion_cost_rp = 5
 	var/line_cost_rp = 5
@@ -1709,8 +1708,6 @@ var/global/church_research_points = 0
 		/obj/item/rogueweapon/halberd/psyhalberd,
 		/obj/item/rogueweapon/greatsword/psygsword,
 	)
-
-	var/donation_rate = 1.0
 
 	proc/_broadcast(msg)
 		for(var/mob/M in viewers(src, null))
@@ -1757,10 +1754,10 @@ var/global/church_research_points = 0
 		html += "<b>Miracles</b><br>"
 		html += "Your Miracle Points: <b>[my_mp]</b><br>"
 		if(HAS_TRAIT(user, TRAIT_CLERGY))
-			if(church_bank >= mp_cost)
-				html += "<a href='?src=[REF(src)];buymp=1'>Buy 1 MP (Bank [mp_cost])</a><br>"
+			if(my_favor >= mp_cost)
+				html += "<a href='?src=[REF(src)];buymp=1'>Buy 1 MP (100 favor)</a><br>"
 			else
-				html += "<span style='color:#7f8c8d'>Buy 1 MP (Bank [mp_cost])</span><br>"
+				html += "<span style='color:#7f8c8d'>Buy 1 MP (100 favor)</span><br>"
 		else
 			html += "<span style='color:#7f8c8d'>Only clergy may buy Miracle Points.</span><br>"
 		html += "<hr>"
@@ -1864,10 +1861,10 @@ var/global/church_research_points = 0
 
 		if(href_list["buymp"])
 			if(!HAS_TRAIT(usr, TRAIT_CLERGY)) { attack_hand(usr); return }
-			if(church_bank < mp_cost) { attack_hand(usr); return }
-			church_bank = max(0, church_bank - mp_cost)
 			var/mob/living/carbon/human/H = ishuman(usr) ? usr : null
-			if(H) H.miracle_points++
+			if(!H || H.church_favor < mp_cost) { attack_hand(usr); return }
+			H.church_favor = max(0, H.church_favor - mp_cost)
+			H.miracle_points++
 			_broadcast(span_notice("A dull pulse echoes from within the Heart."))
 			attack_hand(usr); return
 
@@ -1952,9 +1949,6 @@ var/global/church_research_points = 0
 		if(H)
 			H.church_favor = max(0, H.church_favor + amount)
 
-		var/gain = round(amount * donation_rate)
-		church_bank = max(0, church_bank + gain)
-
 		_broadcast(span_notice("[user] lays an offering before the Heart."))
 		to_chat(user, span_notice("[flavor]"))
 
@@ -1962,6 +1956,6 @@ var/global/church_research_points = 0
 			if(!M?.mind) continue
 			if(HAS_TRAIT(M, TRAIT_CLERGY))
 				if(H)
-					to_chat(M, "<font color='yellow'>[H.real_name] donates [amount]. Favor: [H.church_favor]. Bank +[gain] (now [church_bank]).</font>")
+					to_chat(M, "<font color='yellow'>[H.real_name] donates [amount]. Favor: [H.church_favor].</font>")
 				else
-					to_chat(M, "<font color='yellow'>Someone donates [amount]. Bank +[gain] (now [church_bank]).</font>")
+					to_chat(M, "<font color='yellow'>Someone donates [amount].</font>")
