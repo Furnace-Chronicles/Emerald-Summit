@@ -1455,7 +1455,6 @@
     required_donation = list(/obj/item/ingot/iron)
     donation_points = 3
 
-
 #define span_hint(T) span_notice(T)
 
 /obj/structure/fluff/statue/shrine/donation
@@ -1475,7 +1474,9 @@
 		return jointext(names, ", ")
 
 	proc/_add_research_points(mob/user, amt)
-		return
+		var/datum/church_research/CR = GET_CHURCH_RESEARCH()
+		if(!CR) return
+		CR.add_points(max(0, round(amt)), user)
 
 	examine(mob/user)
 		. = ..()
@@ -1654,7 +1655,7 @@ proc/GET_CHURCH_RESEARCH()
 	var/unlocked_organs = FALSE
 	var/unlocked_artifacts = FALSE
 	var/unlocked_knowledge = FALSE
-	var/unlocked_taboos = FALSE
+	var/unlocked_herecy = FALSE
 	var/unlocked_devotion = FALSE
 
 	var/prayer_scope = "church"
@@ -1663,6 +1664,9 @@ proc/GET_CHURCH_RESEARCH()
 
 	var/church_bank = 0
 	var/mp_cost = 100
+	var/devotion_cost = 5
+
+	var/current_tab = "main"
 
 	var/treasuretypes = list(
 		/obj/item/roguecoin,
@@ -1700,6 +1704,17 @@ proc/GET_CHURCH_RESEARCH()
 
 	var/donation_rate = 1.0
 
+	var/list/organs_tab_items = list(
+		"/obj/item/organ/liver/t1",
+		"/obj/item/organ/liver/t2",
+		"/obj/item/organ/liver/t3",
+		"/obj/item/organ/eyes",
+		"/obj/item/organ/liver",
+		"/obj/item/organ/heart",
+		"/obj/item/organ/stomach",
+		"/obj/item/organ/lungs",
+	)
+
 	proc/_broadcast(msg)
 		for(var/mob/M in viewers(src, null))
 			to_chat(M, msg)
@@ -1709,13 +1724,13 @@ proc/GET_CHURCH_RESEARCH()
 		if(istype(W, /obj/item/ingot/gold) || findtext(lowertext("[W.name]"), "gold"))
 			msg = "Gold drinks the light; the statue seems warmer for a breath."
 		else if(istype(W, /obj/item/ingot/silver) || findtext(lowertext("[W.name]"), "silver"))
-			msg = "Silver answers the hush with a clear, bell-like tone."
+			msg = "Silver answers the hush with a clear, bell=like tone."
 		else if(istype(W, /obj/item/roguegem) || findtext(lowertext("[W.name]"), "gem"))
 			msg = "A small constellation glints within the stone for a heartbeat."
 		else
 			msg = "The offering is taken and weighed in silence."
 		if(amount >= 1000)
-			msg += " A hush falls — this is a king’s ransom."
+			msg += " A hush falls - this is a king’s ransom."
 		else if(amount >= 300)
 			msg += " The air stirs; this is a generous tithe."
 		else if(amount >= 100)
@@ -1750,32 +1765,65 @@ proc/GET_CHURCH_RESEARCH()
 			html += "<span style='color:#7f8c8d'>Only clergy may buy Miracle Points.</span><br>"
 		html += "<hr>"
 
-		html += "<b>Tabs</b><br>"
-		html += "Organs — [unlocked_organs ? "<span style='color:#2ecc71'>Unlocked</span>" : "<span style='color:#e67e22'>Locked</span>"] "
-		if(!unlocked_organs) html += "<a href='?src=[REF(src)];unlock=organs'>Unlock</a>"
-		html += "<br>"
-		html += "Artifacts — [unlocked_artifacts ? "<span style='color:#2ecc71'>Unlocked</span>" : "<span style='color:#e67e22'>Locked</span>"] "
-		if(!unlocked_artifacts) html += "<a href='?src=[REF(src)];unlock=artifacts'>Unlock</a>"
-		html += "<br>"
-		html += "Knowledge — [unlocked_knowledge ? "<span style='color:#2ecc71'>Unlocked</span>" : "<span style='color:#e67e22'>Locked</span>"] "
-		if(!unlocked_knowledge) html += "<a href='?src=[REF(src)];unlock=knowledge'>Unlock</a>"
-		html += "<br>"
-		html += "Taboos — [unlocked_taboos ? "<span style='color:#2ecc71'>Unlocked</span>" : "<span style='color:#e67e22'>Locked</span>"] "
-		if(!unlocked_taboos) html += "<a href='?src=[REF(src)];unlock=taboos'>Unlock</a>"
-		html += "<br>"
-		html += "Devotion — [unlocked_devotion ? "<span style='color:#2ecc71'>Unlocked</span>" : "<span style='color:#e67e22'>Locked</span>"] "
-		if(!unlocked_devotion) html += "<a href='?src=[REF(src)];unlock=devotion'>Unlock</a>"
-		html += "<hr>"
+		if(current_tab == "devotion" && unlocked_devotion)
+			html += "<center><a href='?src=[REF(src)];tab=main'>\[RETURN\]</a></center><hr>"
+			html += "<b>Devotion Controls</b><br>"
+			html += "Prayer scope: <b>[prayer_scope]</b> "
+			html += "<a href='?src=[REF(src)];scope=church'>church</a> | "
+			html += "<a href='?src=[REF(src)];scope=all'>all</a><br>"
+			html += "Passive: <b>[passive_enabled ? "enabled" : "disabled"]</b> "
+			html += "<a href='?src=[REF(src)];toggle=passive'>toggle</a><br>"
+			html += "Passive bonus: <b>[passive_bonus]%</b> "
+			html += "<a href='?src=[REF(src)];bonus=+'>+50</a> | "
+			html += "<a href='?src=[REF(src)];bonus=-'>-1</a><br>"
+		else if(current_tab == "organs" && unlocked_organs)
+			html += "<center><a href='?src=[REF(src)];tab=main'>\[RETURN\]</a></center><hr>"
+			html += "<b>Organs</b><br>"
+			html += "<ul>"
+			for(var/entry in organs_tab_items)
+				html += "<li><code>[entry]</code></li>"
+			html += "</ul>"
+		else
+			html += "<b>Tabs</b><br>"
+			if(unlocked_organs)
+				html += "Organs — <span style='color:#2ecc71'>Unlocked</span> "
+				html += "<a href='?src=[REF(src)];tab=organs'>Open</a>"
+			else
+				html += "Organs — <span style='color:#e67e22'>Locked</span> "
+				html += "<a href='?src=[REF(src)];unlock=organs'>Unlock</a>"
+			html += "<br>"
 
-		html += "<b>Controls</b><br>" //bleh so fucked
-		html += "Prayer scope: <b>[prayer_scope]</b> "
-		html += "<a href='?src=[REF(src)];scope=church'>church</a> | "
-		html += "<a href='?src=[REF(src)];scope=all'>all</a><br>"
-		html += "Passive: <b>[passive_enabled ? "enabled" : "disabled"]</b> "
-		html += "<a href='?src=[REF(src)];toggle=passive'>toggle</a><br>"
-		html += "Passive bonus: <b>[passive_bonus]%</b> "
-		html += "<a href='?src=[REF(src)];bonus=+'>+1</a> | "
-		html += "<a href='?src=[REF(src)];bonus=-'>-1</a><br>"
+			if(unlocked_artifacts)
+				html += "Artifacts — <span style='color:#2ecc71'>Unlocked</span>"
+			else
+				html += "Artifacts — <span style='color:#e67e22'>Locked</span> "
+				html += "<a href='?src=[REF(src)];unlock=artifacts'>Unlock</a>"
+			html += "<br>"
+
+			if(unlocked_knowledge)
+				html += "Knowledge — <span style='color:#2ecc71'>Unlocked</span>"
+			else
+				html += "Knowledge — <span style='color:#e67e22'>Locked</span> "
+				html += "<a href='?src=[REF(src)];unlock=knowledge'>Unlock</a>"
+			html += "<br>"
+
+			if(unlocked_herecy)
+				html += "Herecy — <span style='color:#2ecc71'>Unlocked</span>"
+			else
+				html += "Herecy — <span style='color:#e67e22'>Locked</span> "
+				html += "<a href='?src=[REF(src)];unlock=herecy'>Unlock</a>"
+			html += "<br>"
+
+			if(unlocked_devotion)
+				html += "Devotion — <span style='color:#2ecc71'>Unlocked</span> "
+				html += "<a href='?src=[REF(src)];tab=devotion'>Open</a>"
+			else
+				html += "Devotion — <span style='color:#e67e22'>Locked</span> "
+				if(church_bank >= devotion_cost)
+					html += "<a href='?src=[REF(src)];unlock=devotion'>Unlock ([devotion_cost])</a>"
+				else
+					html += "<span style='color:#7f8c8d'>Unlock ([devotion_cost])</span>"
+			html += "<hr>"
 
 		var/datum/browser/B = new(user, "CHURCH_CORE", "", ui_width, ui_height)
 		B.set_content(html)
@@ -1783,6 +1831,13 @@ proc/GET_CHURCH_RESEARCH()
 
 	Topic(href, href_list)
 		if(!usr.canUseTopic(src, BE_CLOSE)) return
+
+		if(href_list["tab"])
+			var/t = lowertext(href_list["tab"])
+			if(t == "main") current_tab = "main"
+			else if(t == "devotion" && unlocked_devotion) current_tab = "devotion"
+			else if(t == "organs" && unlocked_organs) current_tab = "organs"
+			attack_hand(usr); return
 
 		if(href_list["buymp"])
 			if(!HAS_TRAIT(usr, TRAIT_CLERGY)) { attack_hand(usr); return }
@@ -1800,20 +1855,27 @@ proc/GET_CHURCH_RESEARCH()
 			if(what == "organs") unlocked_organs = TRUE
 			else if(what == "artifacts") unlocked_artifacts = TRUE
 			else if(what == "knowledge") unlocked_knowledge = TRUE
-			else if(what == "taboos") unlocked_taboos = TRUE
-			else if(what == "devotion") unlocked_devotion = TRUE
+			else if(what == "herecy") unlocked_herecy = TRUE
+			else if(what == "devotion")
+				if(church_bank >= devotion_cost)
+					church_bank -= devotion_cost
+					unlocked_devotion = TRUE
+					current_tab = "devotion"
 			attack_hand(usr); return
 
 		if(href_list["scope"])
+			if(current_tab != "devotion" || !unlocked_devotion) { attack_hand(usr); return }
 			var/val = lowertext(href_list["scope"])
 			if(val == "church" || val == "all") prayer_scope = val
 			attack_hand(usr); return
 
 		if(href_list["toggle"])
+			if(current_tab != "devotion" || !unlocked_devotion) { attack_hand(usr); return }
 			if(lowertext(href_list["toggle"]) == "passive") passive_enabled = !passive_enabled
 			attack_hand(usr); return
 
 		if(href_list["bonus"])
+			if(current_tab != "devotion" || !unlocked_devotion) { attack_hand(usr); return }
 			if(href_list["bonus"] == "+") passive_bonus = min(100, passive_bonus + 1)
 			else if(href_list["bonus"] == "-") passive_bonus = max(0, passive_bonus - 1)
 			attack_hand(usr); return
