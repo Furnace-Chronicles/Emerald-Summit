@@ -1,6 +1,7 @@
 /datum/sex_action/masturbate_penis_other
 	name = "Jerk them off"
 	check_same_tile = FALSE
+	target_sex_part = SEX_PART_COCK
 
 /datum/sex_action/masturbate_penis_other/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

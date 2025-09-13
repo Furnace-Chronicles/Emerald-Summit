@@ -1,5 +1,7 @@
 /datum/sex_action/toy_oral
 	name = "Swallow toy"
+	user_sex_part = SEX_PART_JAWS
+	target_sex_part = SEX_PART_JAWS
 
 /datum/sex_action/toy_oral/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user != target)

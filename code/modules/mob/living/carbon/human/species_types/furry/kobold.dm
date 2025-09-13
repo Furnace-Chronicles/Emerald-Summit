@@ -5,7 +5,10 @@
 	name = "Kobold"
 	id = "kobold"
 	desc = "<b>Kobold</b><br>\
-	Short in stature and typically scrawny, these little lizards make up for it in their natural agility. People typically stereotype them as thieves, though...<br>\
+	Short in stature and typically scrawny, these little lizards make up for it in their natural agility. Interestingly, no historical relation has been found between this race and that of the \
+	hardy bog-dwelling Zardmen, past their somewhat-similar appearance. Kobolds often dwell in caves or in the outskirts of civilization, preferring to keep to themselves in small homogeneous groups \
+	or alone rather than engage with tall-folk, given their widespread stereotype of being thieves or ne'er-do-wells. Scarlet Reach is no exception to this, and some Kobolds have even dared to brave the\
+	odds and try their luck amongst Humen society.<br>\
 	(+1 Fortune)"
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)
 	possible_ages = ALL_AGES_LIST

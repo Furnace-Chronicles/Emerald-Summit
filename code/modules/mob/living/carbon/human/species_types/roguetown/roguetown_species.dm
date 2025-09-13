@@ -41,6 +41,8 @@
 			return strings("valley_replacement.json", type, convert_HTML = TRUE)
 		if("Kazengun accent")
 			return strings("kazengun_replacement.json", type, convert_HTML = TRUE)
+		if("West Kazengun accent")
+			return strings("cultivator_replacement.json", type, convert_HTML = TRUE)
 		if("Avar accent")
 			return strings("russian_replacement.json", type, convert_HTML = TRUE)
 		if("Pirate accent")

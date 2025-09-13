@@ -6,6 +6,18 @@
 	outfit = /datum/outfit/job/roguetown/vagabond/original
 	category_tags = list(CTAG_VAGABOND)
 
+	subclass_stats = list(
+		STATKEY_CON = -1,
+		STATKEY_END = -1
+	)
+	extra_context = "FOR and INT are randomised."
+
+	subclass_skills = list(
+		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
+	)
+
 /datum/outfit/job/roguetown/vagabond/original/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_femme_clothes(H))
@@ -26,10 +38,5 @@
 		r_hand = /obj/item/rogue/instrument/flute
 
 	if (H.mind)
-		H.adjust_skillrank(/datum/skill/misc/sneaking, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/stealing, 4, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
 		H.STALUC = rand(5, 15)
 		H.change_stat("intelligence", round(rand(-4,4)))
-		H.change_stat("constitution", -1)
-		H.change_stat("endurance", -1)

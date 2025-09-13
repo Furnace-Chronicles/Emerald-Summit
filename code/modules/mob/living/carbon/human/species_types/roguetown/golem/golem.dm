@@ -109,7 +109,6 @@
 		"Silver" = GOLEM_SILVER,
 		"Coral" = GOLEM_CORAL,
 		"Gold" = GOLEM_GOLD,
-		"Limestone" = GOLEM_LIMESTONE,
 		"Copper" = GOLEM_COPPER,
 		"Rust" = GOLEM_RUST,
 		"Obsidian" = GOLEM_OBSIDIAN,

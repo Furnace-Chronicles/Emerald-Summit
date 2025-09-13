@@ -37,6 +37,18 @@
 		icon_state = "summoning"
 		w_class = WEIGHT_CLASS_NORMAL
 
+/obj/item/storage/magebag/starter
+	populate_contents = list(
+		/obj/item/magic/manacrystal,
+		/obj/item/magic/manacrystal,
+		/obj/item/magic/manacrystal,
+		/obj/item/magic/obsidian,
+		/obj/item/magic/obsidian,
+		/obj/item/magic/obsidian,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom
+	)
 
 /obj/item/chalk
 	name = "stick of chalk"
@@ -424,8 +436,11 @@
 		return
 
 	var/mob/living/simple_animal/hostile/retaliate/rogue/target = captive
-	target.visible_message(span_warning("[src] is trying to bind [target.real_name]"))
-	if(do_after(user, 50, target = src) && binding == FALSE)
+	if(binding)
+		to_chat(user, span_notice("The shackles are already in use, hold on!"))
+		return FALSE
+	target.visible_message(span_warning("[src] is trying to bind [target.real_name]."))
+	if(do_after(user, 50, target = src))
 		if(!target.ckey) //player is not inside body or has refused, poll for candidates
 			to_chat(user, span_notice("You attempt to bind the targetted summon to this plane."))
 			binding = TRUE
@@ -442,7 +457,7 @@
 				binding = FALSE
 			//no candidates, raise as npc
 			else
-				to_chat(user, span_notice("The [captive] stares at you with mindless hate. The binding attempt failed to draw out it's intelligence!"))
+				to_chat(user, span_notice("[captive] stares at you with mindless hate. The binding attempt failed to draw out its intelligence!"))
 				binding = FALSE
 		else
 			target.visible_message(span_notice("This summon is already bound to this plane."))
@@ -455,9 +470,11 @@
 		return FALSE
 	if(ckey) //player
 		src.ckey = ckey
-
 	to_chat(src, span_userdanger("My summoner is [master.real_name]. They will need to convince me to obey them."))
 	to_chat(src, span_notice("[summon_primer]"))
+
+	see_in_dark = 8
+	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE//easiest way to give mage summons proper darksight, although I'm wracking my brain for other angles since admin-spawned guys might happen
 
 /obj/item/rope/chain/bindingshackles/proc/custom_name(mob/awakener, var/mob/chosen_one, iteration = 1)
 	if(iteration > 5)

@@ -1,5 +1,6 @@
 /datum/sex_action/force_thighjob
 	name = "Jerk them off with thighs"
+	target_sex_part = SEX_PART_COCK
 
 /datum/sex_action/force_thighjob/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

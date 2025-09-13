@@ -6,6 +6,22 @@
 	outfit = /datum/outfit/job/roguetown/vagabond/scholar
 	category_tags = list(CTAG_VAGABOND)
 
+	traits_applied = list(TRAIT_CICERONE, TRAIT_SEEDKNOW, TRAIT_INTELLECTUAL)
+	subclass_stats = list(
+		STATKEY_INT = 2,
+		STATKEY_CON = -1,
+		STATKEY_END = -1
+	)
+
+	subclass_skills = list(
+		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
+	)
+
 /datum/outfit/job/roguetown/vagabond/scholar/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_femme_clothes(H))
@@ -24,15 +40,3 @@
 	
 	if(prob(10))
 		r_hand = /obj/item/rogue/instrument/flute
-
-	if (H.mind)
-		H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE)
-		ADD_TRAIT(H, TRAIT_INTELLECTUAL, TRAIT_GENERIC)
-		H.change_stat("intelligence", 2)
-		H.change_stat("constitution", -1)
-		H.change_stat("endurance", -1)

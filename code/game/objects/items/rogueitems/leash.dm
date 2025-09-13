@@ -98,11 +98,11 @@
 	if(!leash_pet.get_item_by_slot(SLOT_NECK)) //The pet has slipped their collar and is not the pet anymore.
 		for(var/mob/viewing in viewers(leash_pet, null))
 			if(viewing == leash_master)
-				to_chat(leash_master, "<span class='notice'>[leash_pet] has escaped their collar!!</span>", 1)
+				to_chat(leash_master, "<span class='notice'>[leash_pet] has escaped [leash_pet.p_their()] collar!!</span>", 1)
 			else if(viewing == leash_pet)
 				to_chat(leash_pet, "<span class='notice'>You have slipped free of your collar!</span>")
 			else
-				viewing.show_message("<span class='notice'>[leash_pet] has slipped out of their collar!</span>")
+				viewing.show_message("<span class='notice'>[leash_pet] has slipped out of [leash_pet.p_their()]  collar!</span>")
 		leash_pet.remove_status_effect(/datum/status_effect/leash_pet)
 		w_class = WEIGHT_CLASS_SMALL
 
@@ -127,7 +127,7 @@
 		return
 
 	if(C.cmode && C.mobility_flags & MOBILITY_STAND)
-		to_chat(user, span_warning("I can't leash them, they're too tense!"))
+		to_chat(user, span_warning("I can't leash [C], [C.p_they()] [C.p_are()] too tense!"))
 		return
 
 	if(src.leash_pet != null)
@@ -224,7 +224,7 @@
 		return
 	if(get_dist(leash_pet, leash_master) > 3)
 		leash_pet.visible_message(
-			span_warning("[leash_pet] is pulled to the ground by their leash!"),
+			span_warning("[leash_pet] is pulled to the ground by [leash_pet.p_their()]  leash!"),
 			span_warning("You are pulled to the ground by your leash!")
 		)
 		leash_pet.apply_effect(20, EFFECT_KNOCKDOWN, 0)

@@ -264,6 +264,7 @@
 #define GALOSHES_DONT_HELP		(1<<2)
 #define SLIDE_ICE				(1<<3)
 #define SLIP_WHEN_CRAWLING		(1<<4) //clown planet ruin
+#define SLIDE_MAGIC				(1<<5)
 
 #define MAX_CHICKENS 50
 
@@ -578,7 +579,6 @@
 #define GOLEM_JADE "517051"
 #define GOLEM_AMETHYST "3a0b3d"
 #define GOLEM_CORAL "ff96d6" //Pink
-#define GOLEM_LIMESTONE "e6e4d8" //Tan
 #define GOLEM_SILVER "94B9C0" //Ice grey, at least that's what microsoft paint says
 #define GOLEM_COPPER "b87333" //Orange
 #define GOLEM_GOLD "d4af37" //Gold
@@ -586,7 +586,6 @@
 #define GOLEM_OBSIDIAN "19132a" //Black
 #define GOLEM_LAPIS "26619C" //Deep blue
 #define GOLEM_BASALT "474a4c" //Dark grey
-#define GOLEM_MARBLE "E6E6E6" //White
 #define GOLEM_TOPER "fffb9e"
 
 //DOLL PAINT COLOR

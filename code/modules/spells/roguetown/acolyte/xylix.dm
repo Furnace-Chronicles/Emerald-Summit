@@ -199,4 +199,3 @@
 		if(prob(50))
 			playsound(H, pick(sounds), 100, TRUE)
 		return TRUE
-

@@ -1,5 +1,6 @@
 /datum/sex_action/toy_other_vagina
 	name = "Use toy on their cunt"
+	target_sex_part = SEX_PART_CUNT
 
 /datum/sex_action/toy_other_vagina/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

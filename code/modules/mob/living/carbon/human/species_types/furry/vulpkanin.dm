@@ -4,7 +4,10 @@
 /datum/species/vulpkanin
 	name = "Vulpkian"
 	id = "vulpkanin"
-	desc = "Foxy creatures known for their cleverness and mischief. In ancient history they were Dendor's original champions, but as His madness grew the connect became frey and forgotten, leaving them to their own devices. Or, at least, that's what they say.<br>\
+	desc = "Foxy creatures known for their cleverness and mischief. In ancient history they were Dendor's original champions, but as His madness grew the connect \
+	became frey and forgotten, leaving them to their own devices. Or, at least, that's what they say. Regardless of their contested history, Vulpkian todae live all \
+	across the world in settlements belonging to all races, with no real place to call their native home. Interestingly, their mischeivous nature often results in Vulpkian \
+	finding themselves at-odds with the untrusting Lupians moving in from northern regions.<br>\
 	(+1 Intelligence, +1 Perception)"
 	default_color = "444"
 	species_traits = list(

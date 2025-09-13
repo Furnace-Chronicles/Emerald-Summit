@@ -5,7 +5,11 @@
 	name = "Drakian"
 	id = "dracon"
 	desc = "<b>Drakian</b><br>\
-	Mighty scaled individuals who claim to be descendants of the dragons of yore.<br>\
+	Mighty, scaled individuals that are particularly reminiscent of the ancient dragons of yore- their true origins are often called into question given that dragons \
+	are so seldom seen in todae's age. They are extremely long-lived compared to other, more fleshy races, and they lack a true homeland- past their tendency to settle in \
+	mountainous regions. Given this propensity, Drakians often find themselves near or amongst Dwarven settlements, either learning to coexist \
+	peacefully with the short-statured folk or finding themselves at odds with them. In recent years, they've been seen more and more frequently within Humen settlements along with \
+	the other races, although their draconic resemblance sometimes lends others to suspicion at first sight.<br>\
 	(+1 Strength)"
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)
 	possible_ages = ALL_AGES_LIST

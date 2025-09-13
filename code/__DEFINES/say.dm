@@ -67,6 +67,7 @@
 #define SPAN_HELL "hellspeak"
 #define SPAN_GRENZELHOFTIAN "grenzelhoftian"
 #define SPAN_OTAVAN "otavan"
+#define SPAN_POSH "posh"
 #define SPAN_ETRUSCAN "etruscan"
 #define SPAN_ABYSSAL "abyssal"
 #define SPAN_GRONNIC "gronnic"

@@ -30,8 +30,8 @@
 /mob/living/carbon/human/death(gibbed, nocutscene = FALSE)
 	if(stat == DEAD)
 		return
-
 	var/area/A = get_area(src)
+	dna?.species?.stop_wagging_tail(src)
 
 	if(client)
 		SSdroning.kill_droning(client)
