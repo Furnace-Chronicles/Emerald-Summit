@@ -1709,6 +1709,36 @@ var/global/church_research_points = 0
 		/obj/item/rogueweapon/greatsword/psygsword,
 	)
 
+	var/org_tab = "t1"
+	var/unlocked_org_t2 = FALSE
+	var/unlocked_org_t3 = FALSE
+	var/org_unlock_cost_rp = 5
+	var/org_price_t1 = 250
+	var/org_price_t2 = 500
+	var/org_price_t3 = 750
+
+	var/list/organs_t1 = list(
+		"Heart" = /obj/item/organ/heart/t1,
+		"Lungs" = /obj/item/organ/lungs/t1,
+		"Eyes" = /obj/item/organ/eyes/t1,
+		"Liver" = /obj/item/organ/liver/t1,
+		"Stomach" = /obj/item/organ/stomach/t1
+	)
+	var/list/organs_t2 = list(
+		"Heart" = /obj/item/organ/heart/t2,
+		"Lungs" = /obj/item/organ/lungs/t2,
+		"Eyes" = /obj/item/organ/eyes/t2,
+		"Liver" = /obj/item/organ/liver/t2,
+		"Stomach" = /obj/item/organ/stomach/t2
+	)
+	var/list/organs_t3 = list(
+		"Heart" = /obj/item/organ/heart/t3,
+		"Lungs" = /obj/item/organ/lungs/t3,
+		"Eyes" = /obj/item/organ/eyes/t3,
+		"Liver" = /obj/item/organ/liver/t3,
+		"Stomach" = /obj/item/organ/stomach/t3
+	)
+
 	proc/_broadcast(msg)
 		for(var/mob/M in viewers(src, null))
 			to_chat(M, msg)
@@ -1732,6 +1762,18 @@ var/global/church_research_points = 0
 		else
 			msg += " A humble seed is planted."
 		return msg
+
+	proc/_org_list_for(tab)
+		if(tab == "t1") return organs_t1
+		if(tab == "t2") return organs_t2
+		if(tab == "t3") return organs_t3
+		return organs_t1
+
+	proc/_org_price_for(tab)
+		if(tab == "t1") return org_price_t1
+		if(tab == "t2") return org_price_t2
+		if(tab == "t3") return org_price_t3
+		return org_price_t1
 
 	examine(mob/user)
 		to_chat(user, "<span class='notice'><i>A rhythm echoes faintly within, like a vow remembered.</i></span>")
@@ -1797,11 +1839,62 @@ var/global/church_research_points = 0
 				html += "| <a href='?src=[REF(src)];bonus=toggle'>turn [bonus_on ? "off" : "on"]</a>"
 			html += "<br>"
 
+		else if(current_tab == "organs" && unlocked_organs)
+			html += "<center><a href='?src=[REF(src)];tab=main'>\[RETURN\\]</a></center><hr>"
+			html += "<b>Organs</b><br>"
+
+			html += "Tier: "
+			if(org_tab == "t1")
+				html += "<b>T1</b>"
+			else
+				html += "<a href='?src=[REF(src)];orgtab=t1'>T1</a>"
+			html += " | "
+
+			if(unlocked_org_t2)
+				if(org_tab == "t2")
+					html += "<b>T2</b>"
+				else
+					html += "<a href='?src=[REF(src)];orgtab=t2'>T2</a>"
+			else
+				if(CR.points >= org_unlock_cost_rp)
+					html += "T2 <a href='?src=[REF(src)];orgunlock=t2'>(Unlock 5 RP)</a>"
+				else
+					html += "T2 <span style='color:#7f8c8d'>(Unlock 5 RP)</span>"
+			html += " | "
+
+			if(unlocked_org_t3)
+				if(org_tab == "t3")
+					html += "<b>T3</b>"
+				else
+					html += "<a href='?src=[REF(src)];orgtab=t3'>T3</a>"
+			else
+				if(CR.points >= org_unlock_cost_rp)
+					html += "T3 <a href='?src=[REF(src)];orgunlock=t3'>(Unlock 5 RP)</a>"
+				else
+					html += "T3 <span style='color:#7f8c8d'>(Unlock 5 RP)</span>"
+			html += "<br><br>"
+
+			var/price = _org_price_for(org_tab)
+			html += "Price: <b>[price] favor</b><br><br>"
+
+			var/list/L = _org_list_for(org_tab)
+			html += "<table width='100%' cellspacing='2' cellpadding='2'>"
+			html += "<tr><th align='left'>Item</th><th width='120'>Action</th></tr>"
+			for(var/label in L)
+				var/can = HAS_TRAIT(user, TRAIT_CLERGY) && my_favor >= price
+				html += "<tr><td>[label]</td><td align='center'>"
+				if(can)
+					html += "<a href='?src=[REF(src)];buyorg=[org_tab];item=[label]'>Buy</a>"
+				else
+					html += "<span style='color:#7f8c8d'>Buy</span>"
+				html += "</td></tr>"
+			html += "</table>"
+
 		else
 			html += "<b>Lines</b><br>"
 
 			if(unlocked_organs)
-				html += "Organs — <span style='color:#2ecc71'>Unlocked</span><br>"
+				html += "Organs — <span style='color:#2ecc71'>Unlocked</span> <a href='?src=[REF(src)];tab=organs'>Open</a><br>"
 			else
 				html += "Organs — <span style='color:#e67e22'>Locked</span> "
 				if(CR.points >= line_cost_rp)
@@ -1857,6 +1950,7 @@ var/global/church_research_points = 0
 			var/t = lowertext(href_list["tab"])
 			if(t == "main") current_tab = "main"
 			else if(t == "devotion" && unlocked_devotion) current_tab = "devotion"
+			else if(t == "organs" && unlocked_organs) current_tab = "organs"
 			attack_hand(usr); return
 
 		if(href_list["buymp"])
@@ -1874,6 +1968,7 @@ var/global/church_research_points = 0
 			if(what == "organs" && !unlocked_organs && CR.points >= line_cost_rp)
 				CR.points -= line_cost_rp
 				unlocked_organs = TRUE
+				current_tab = "organs"
 			else if(what == "artifacts" && !unlocked_artifacts && CR.points >= line_cost_rp)
 				CR.points -= line_cost_rp
 				unlocked_artifacts = TRUE
@@ -1923,10 +2018,60 @@ var/global/church_research_points = 0
 		if(href_list["bonus"])
 			if(current_tab != "devotion" || !unlocked_devotion || !dev_bonus_unlocked) { attack_hand(usr); return }
 			if(lowertext(href_list["bonus"]) == "toggle")
-				if(passive_bonus >= 50)
-					passive_bonus = 0
-				else
-					passive_bonus = 50
+				if(passive_bonus >= 50) passive_bonus = 0
+				else passive_bonus = 50
+			attack_hand(usr); return
+
+		if(href_list["orgtab"])
+			if(current_tab != "organs" || !unlocked_organs) { attack_hand(usr); return }
+			var/tb = lowertext(href_list["orgtab"])
+			if(tb == "t1") org_tab = "t1"
+			else if(tb == "t2" && unlocked_org_t2) org_tab = "t2"
+			else if(tb == "t3" && unlocked_org_t3) org_tab = "t3"
+			attack_hand(usr); return
+
+		if(href_list["orgunlock"])
+			if(current_tab != "organs" || !unlocked_organs) { attack_hand(usr); return }
+			var/datum/church_research/CR = GET_CHURCH_RESEARCH()
+			var/tb2 = lowertext(href_list["orgunlock"])
+			if(tb2 == "t2" && !unlocked_org_t2 && CR.points >= org_unlock_cost_rp)
+				CR.points -= org_unlock_cost_rp
+				unlocked_org_t2 = TRUE
+				org_tab = "t2"
+			else if(tb2 == "t3" && !unlocked_org_t3 && CR.points >= org_unlock_cost_rp)
+				CR.points -= org_unlock_cost_rp
+				unlocked_org_t3 = TRUE
+				org_tab = "t3"
+			attack_hand(usr); return
+
+		if(href_list["buyorg"])
+			if(current_tab != "organs" || !unlocked_organs) { attack_hand(usr); return }
+			if(!HAS_TRAIT(usr, TRAIT_CLERGY)) { attack_hand(usr); return }
+
+			var/mob/living/carbon/human/H = ishuman(usr) ? usr : null
+			if(!H) { attack_hand(usr); return }
+
+			var/tier = lowertext(href_list["buyorg"])
+			var/label = href_list["item"]
+			if(!label) { attack_hand(usr); return }
+
+			if(tier == "t1") {}
+			else if(tier == "t2" && !unlocked_org_t2) { attack_hand(usr); return }
+			else if(tier == "t3" && !unlocked_org_t3) { attack_hand(usr); return }
+			else if(!(tier in list("t1","t2","t3"))) { attack_hand(usr); return }
+
+			var/list/L = _org_list_for(tier)
+			if(!(label in L)) { attack_hand(usr); return }
+
+			var/price = _org_price_for(tier)
+			if(H.church_favor < price) { attack_hand(usr); return }
+
+			var/typepath = L[label]
+			var/turf/T = get_step(usr, usr.dir)
+			if(!T) T = get_turf(usr)
+			new typepath(T)
+			H.church_favor = max(0, H.church_favor - price)
+			to_chat(usr, span_notice("[label] [uppertext(tier)] purchased for [price] favor."))
 			attack_hand(usr); return
 
 	attackby(obj/item/W, mob/user, params)
@@ -1946,8 +2091,7 @@ var/global/church_research_points = 0
 		qdel(W)
 
 		var/mob/living/carbon/human/H = ishuman(user) ? user : null
-		if(H)
-			H.church_favor = max(0, H.church_favor + amount)
+		if(H) H.church_favor = max(0, H.church_favor + amount)
 
 		_broadcast(span_notice("[user] lays an offering before the Heart."))
 		to_chat(user, span_notice("[flavor]"))
@@ -1955,7 +2099,5 @@ var/global/church_research_points = 0
 		for(var/mob/M in GLOB.player_list)
 			if(!M?.mind) continue
 			if(HAS_TRAIT(M, TRAIT_CLERGY))
-				if(H)
-					to_chat(M, "<font color='yellow'>[H.real_name] donates [amount]. Favor: [H.church_favor].</font>")
-				else
-					to_chat(M, "<font color='yellow'>Someone donates [amount].</font>")
+				if(H) to_chat(M, "<font color='yellow'>[H.real_name] donates [amount]. Favor: [H.church_favor].</font>")
+				else to_chat(M, "<font color='yellow'>Someone donates [amount].</font>")
