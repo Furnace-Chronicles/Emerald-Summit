@@ -1557,6 +1557,25 @@
 		to_chat(usr, span_warning("Your tongue doesn't do that"))
 		return
 
+/datum/emote/living/mggaow
+	key = "mggaow"
+	key_third_person = "mggaows!"
+	message = "mggaows!"
+	emote_type = EMOTE_AUDIBLE | EMOTE_VISIBLE
+	message_muffled = "makes a muffled sound!"
+	vary = TRUE
+	show_runechat = FALSE
+	is_animal = TRUE
+
+/mob/living/carbon/human/verb/emote_mggaow()
+	if(istype(usr.getorganslot(ORGAN_SLOT_TONGUE), /obj/item/organ/tongue/wild_tongue))
+		set name = "Mggaow"
+		set category = "Noises"
+		emote("mggaow", intentional = TRUE, animal = TRUE)
+	else
+		to_chat(usr, span_warning("Your tongue doesn't do that"))
+		return
+
 /datum/emote/living/snap
 	key = "snap"
 	key_third_person = "finger snaps!"

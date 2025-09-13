@@ -15,6 +15,8 @@
 				used = list('modular_scarletreach/sound/vo/female/tabaxi/tabaxi_purr.ogg')
 			if("trill")
 				used = list('modular_scarletreach/sound/vo/female/tabaxi/tabaxi_mrrp1.ogg', 'modular_scarletreach/sound/vo/female/tabaxi/tabaxi_mrrp2.ogg')
+			if("mggaow")
+				used = list('modular_scarletreach/sound/vo/female/tabaxi/mggaow.ogg')
 			if("hiss")
 				used = list('modular_scarletreach/sound/vo/female/tabaxi/tabaxi_hiss1.ogg', 'modular_scarletreach/sound/vo/female/tabaxi/tabaxi_hiss2.ogg')
 			else
