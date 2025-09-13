@@ -18,7 +18,7 @@ GLOBAL_LIST_INIT(character_accents, list("No accent",
 	"Posh accent",
 	"Valley accent",
 	"Kazengun accent",
-  "West Kazengun accent",
+	"West Kazengun accent",
 	"Avar accent",
 	"Pirate accent",
 	"Toothless Accent"))
