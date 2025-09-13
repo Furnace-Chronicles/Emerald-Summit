@@ -1751,7 +1751,7 @@ var/global/church_research_points = 0
 
 		var/html = "<center><h3>Church Core</h3></center><hr>"
 		html += "<b>Research Points (global):</b> [CR.points]<br>"
-		html += "<b>Tithe Bank (local):</b> [church_bank]<br>"
+		html += "<b>Favor:</b> [my_favor]<br>"
 		html += "<hr>"
 
 		html += "<b>Miracles</b><br>"
@@ -1853,6 +1853,7 @@ var/global/church_research_points = 0
 		B.open()
 
 	Topic(href, href_list)
+		. = ..()
 		if(!usr.canUseTopic(src, BE_CLOSE)) return
 
 		if(href_list["tab"])
@@ -1954,13 +1955,13 @@ var/global/church_research_points = 0
 		var/gain = round(amount * donation_rate)
 		church_bank = max(0, church_bank + gain)
 
-		var/datum/church_research/CR = GET_CHURCH_RESEARCH()
-		CR.add_points(gain, user)
-
 		_broadcast(span_notice("[user] lays an offering before the Heart."))
 		to_chat(user, span_notice("[flavor]"))
 
 		for(var/mob/M in GLOB.player_list)
 			if(!M?.mind) continue
 			if(HAS_TRAIT(M, TRAIT_CLERGY))
-				to_chat(M, "<font color='yellow'>[H ? H.real_name : "Someone"] donates [amount]. Favor: [H ? H.church_favor : "—"]. Bank +[gain] (now [church_bank]). Research +[gain] (now [CR.points]).</font>")
+				if(H)
+					to_chat(M, "<font color='yellow'>[H.real_name] donates [amount]. Favor: [H.church_favor]. Bank +[gain] (now [church_bank]).</font>")
+				else
+					to_chat(M, "<font color='yellow'>Someone donates [amount]. Bank +[gain] (now [church_bank]).</font>")
