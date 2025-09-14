@@ -28,7 +28,7 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 	var/is_regex = TRUE
 	/// cooldown variable which is normally returned to [proc/voice_of_god] and used as its return value.
 	var/cooldown = COOLDOWN_NONE
-	/// How powerful the command is. Higher tiers may have restrictions.
+	/// How powerful the command is, ascending according to power. Higher tiers may have restrictions.
 	var/tier = 1
 
 /datum/voice_of_god_command/New()
