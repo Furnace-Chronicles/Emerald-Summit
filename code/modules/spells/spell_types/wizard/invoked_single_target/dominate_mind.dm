@@ -192,11 +192,11 @@
 				to_chat(master, span_warning("Your psychic connection with [puppet.real_name] is not yet strong enough to compel such a command."))
 				return
 
-			if(command.tier == VOG_TIER_DOMINANT)
+			if(command.tier == 3)
 				if(!is_yell)
 					to_chat(master, span_warning("You must exert your will more forcefully to make them obey that command!"))
 					return 
-			if(command.tier >= VOG_TIER_OVERT)
+			if(command.tier >= 2)
 				is_overt = TRUE
 				to_chat(puppet, span_userdanger("Your mind is overwhelmed by a command!"))
 
@@ -243,7 +243,3 @@
 		return
 
 	dom_comp.confirm_submission()
-	
-#undef COOLDOWN_STUN
-#undef COOLDOWN_DAMAGE
-#undef COOLDOWN_NONE

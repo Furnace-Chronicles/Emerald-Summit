@@ -372,3 +372,11 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 /datum/voice_of_god_command/emote/clap
 	trigger = "clap|applaud"
 	emote_name = "clap"
+
+#undef COOLDOWN_STUN
+#undef COOLDOWN_DAMAGE
+#undef COOLDOWN_NONE
+
+#undef VOG_TIER_SUBTLE
+#undef VOG_TIER_OVERT
+#undef VOG_TIER_DOMINANT
