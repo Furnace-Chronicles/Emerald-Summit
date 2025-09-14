@@ -91,7 +91,7 @@
 							stuttering += 5
 							emote("painmoan")
 							return
-					if(prob(probby) && !HAS_TRAIT(src, TRAIT_NOPAINSTUN) && !has_status_effect(/datum/status_effect/buff/psyhealing))
+					if(prob(probby) && !HAS_TRAIT(src, TRAIT_NOPAIN) && !HAS_TRAIT(src, TRAIT_NOPAINSTUN) && !has_status_effect(/datum/status_effect/buff/psyhealing))
 						Immobilize(10)
 						emote("painscream")
 						stuttering += 5

@@ -127,7 +127,7 @@
 
 /mob/living/proc/handle_random_events()
 	//random painstun
-	if(!stat && !HAS_TRAIT(src, TRAIT_NOPAINSTUN))
+	if(!stat && !HAS_TRAIT(src, TRAIT_NOPAIN) && !HAS_TRAIT(src, TRAIT_NOPAINSTUN))
 		if(world.time > mob_timers["painstun"] + 600)
 			if(getBruteLoss() + getFireLoss() >= (STACON * 10))
 				var/probby = 53 - (STACON * 2)
