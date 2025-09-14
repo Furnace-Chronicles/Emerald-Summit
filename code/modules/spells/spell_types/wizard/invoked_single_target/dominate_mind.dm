@@ -179,22 +179,15 @@
 
 	if(!master || QDELETED(puppet) || puppet.stat != CONSCIOUS)
 		qdel(src)
-		message_admins("FUCK")
 		return
 
 	var/is_yell = (say_test(message) >= "2")
 	// Find a command that matches the message and invocation type
-	message_admins("Finding")
-	message_admins(message)
 	if(command_cooldown && world.time < command_cooldown)
 		to_chat(master, span_warning("You need more time to focus your will before issuing another command."))
 		return
 	for(var/datum/voice_of_god_command/command as anything in GLOB.voice_of_god_commands)
-		if(prob(1))
-			message_admins(command.trigger)
 		if(findtext(message, command.trigger))
-			message_admins("WE FOUND IT")
-
 			if(command.tier > enthrallment_level)
 				to_chat(master, span_warning("Your psychic connection with [puppet.real_name] is not yet strong enough to compel such a command."))
 				return
