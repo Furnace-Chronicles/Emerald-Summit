@@ -58,10 +58,10 @@
 	var/datum/component/dominated_mind/existing_bond = target.GetComponent(/datum/component/dominated_mind)
 	if(existing_bond && existing_bond.master == caster)
 		to_chat(caster, span_notice("You strengthen your hold over [target.real_name]."))
-		existing_bond.reinforce_domination(40 SECONDS)
+		existing_bond.reinforce_domination(20 SECONDS)
 	else
 		to_chat(caster, span_warning("You create a hole in [target.real_name]'s mind. You can issue commands for a short time."))
-		target.AddComponent(/datum/component/dominated_mind, caster, 40 SECONDS)
+		target.AddComponent(/datum/component/dominated_mind, caster, 20 SECONDS)
 
 /obj/effect/proc_holder/spell/invoked/dominate_mind/proc/handle_failure(mob/living/target, mob/living/caster)
 	to_chat(caster, span_warning("You are deflected and your presence has been detected."))
