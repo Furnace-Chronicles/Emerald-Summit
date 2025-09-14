@@ -2,7 +2,6 @@
 	name = "Dominate Mind"
 	desc = "Make a risky attempt to subvert another's will, forcing them to obey your commands."
 	cost = 5
-	range = 7
 	recharge_time = 30 SECONDS
 	chargetime = 0.8 SECONDS
 	invocation = ""
