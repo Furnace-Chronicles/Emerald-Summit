@@ -45,6 +45,15 @@
 	/// Spells we have granted thus far
 	var/list/granted_spells
 
+	/// Can pray everywhere (true) or church-only (false). Controlled by church core.
+	var/allow_prayer_everywhere = FALSE
+	/// Auto-regeneration toggle from church core (for clergy/renegade)
+	var/auto_regen_enabled = FALSE
+	/// +50% passive bonus toggle from church core
+	var/passive_bonus_on = FALSE
+	/// Manual learning tier for clergy: 0=only patron, 1=+divine, 2=+inhumen
+	var/clergy_learn_tier = 0
+
 /datum/devotion/New(mob/living/carbon/human/holder, datum/patron/patron)
 	. = ..()
 	src.holder = holder
@@ -64,12 +73,20 @@
 	STOP_PROCESSING(SSobj, src)
 
 /datum/devotion/process()
-	if(!passive_devotion_gain && !passive_progression_gain)
-		return PROCESS_KILL
-	var/devotion_multiplier = 1
+	if(HAS_TRAIT(holder, TRAIT_CLERGY) || HAS_TRAIT(holder, TRAIT_RENEGADE))
+		if(!auto_regen_enabled || (!passive_devotion_gain && !passive_progression_gain))
+			return PROCESS_KILL
+	else
+		if(!passive_devotion_gain && !passive_progression_gain)
+			return PROCESS_KILL
+
+	var/mul = 1.0
 	if(holder?.mind)
-		devotion_multiplier += (holder.get_skill_level(/datum/skill/magic/holy) / SKILL_LEVEL_LEGENDARY)
-	update_devotion((passive_devotion_gain * devotion_multiplier), (passive_progression_gain * devotion_multiplier), silent = TRUE)
+		mul += (holder.get_skill_level(/datum/skill/magic/holy) / SKILL_LEVEL_LEGENDARY)
+	if(passive_bonus_on)
+		mul *= 1.5
+
+	update_devotion(passive_devotion_gain * mul, passive_progression_gain * mul, silent = TRUE)
 
 /datum/devotion/proc/check_devotion(obj/effect/proc_holder/spell/spell)
 	if(devotion - spell.devotion_cost < 0)
@@ -78,25 +95,23 @@
 
 /datum/devotion/proc/update_devotion(dev_amt, prog_amt, silent = FALSE)
 	devotion = clamp(devotion + dev_amt, 0, max_devotion)
-	//Max devotion limit
+	// Max devotion limit
 	if((devotion >= max_devotion) && !silent)
 		to_chat(holder, span_warning("I have reached the limit of my devotion..."))
-	if(!prog_amt) // no point in the rest if it's just an expenditure
+	if(!prog_amt) // expenditure-only, no progression changes
 		return TRUE
+
 	progression = clamp(progression + prog_amt, 0, max_progression)
 	switch(level)
 		if(CLERIC_T0)
-			if(progression >= CLERIC_REQ_1)
-				level = CLERIC_T1
+			if(progression >= CLERIC_REQ_1) level = CLERIC_T1
 		if(CLERIC_T1)
-			if(progression >= CLERIC_REQ_2)
-				level = CLERIC_T2
+			if(progression >= CLERIC_REQ_2) level = CLERIC_T2
 		if(CLERIC_T2)
-			if(progression >= CLERIC_REQ_3)
-				level = CLERIC_T3
+			if(progression >= CLERIC_REQ_3) level = CLERIC_T3
 		if(CLERIC_T3)
-			if(progression >= CLERIC_REQ_4)
-				level = CLERIC_T4
+			if(progression >= CLERIC_REQ_4) level = CLERIC_T4
+
 	if(!holder?.mind)
 		return FALSE
 	if(level != last_level)
@@ -105,22 +120,55 @@
 	return TRUE
 
 /datum/devotion/proc/try_add_spells(silent = FALSE)
+	if(HAS_TRAIT(holder, TRAIT_CLERGY) || HAS_TRAIT(holder, TRAIT_RENEGADE))
+		return FALSE
+
 	if(length(patron.miracles))
 		for(var/spell_type in patron.miracles)
 			if(patron.miracles[spell_type] <= level)
 				if(holder.mind.has_spell(spell_type))
 					continue
-				else
-					var/newspell = new spell_type
-					if(!silent)
-						to_chat(holder, span_boldnotice("I have unlocked a new spell: [newspell]"))
-					holder.mind.AddSpell(newspell)
-					LAZYADD(granted_spells, newspell)
+				var/newspell = new spell_type
+				if(!silent)
+					to_chat(holder, span_boldnotice("I have unlocked a new spell: [newspell]"))
+				holder.mind.AddSpell(newspell)
+				LAZYADD(granted_spells, newspell)
+
 	if(length(patron.traits_tier))
 		for(var/trait in patron.traits_tier)
 			if(patron.traits_tier[trait] <= level)
 				ADD_TRAIT(holder, trait, TRAIT_MIRACLE)
+	return TRUE
 
+/datum/devotion/proc/set_prayer_everywhere(enabled = TRUE)
+	allow_prayer_everywhere = !!enabled
+
+/datum/devotion/proc/set_auto_regen(enabled = TRUE)
+	auto_regen_enabled = !!enabled
+	if(!holder) return
+	if(HAS_TRAIT(holder, TRAIT_CLERGY) || HAS_TRAIT(holder, TRAIT_RENEGADE))
+		if(auto_regen_enabled && (passive_devotion_gain || passive_progression_gain))
+			START_PROCESSING(SSobj, src)
+		else
+			STOP_PROCESSING(SSobj, src)
+	else
+		if(passive_devotion_gain || passive_progression_gain)
+			START_PROCESSING(SSobj, src)
+		else
+			STOP_PROCESSING(SSobj, src)
+
+/datum/devotion/proc/set_passive_bonus(enabled = TRUE)
+	passive_bonus_on = !!enabled
+
+/datum/devotion/proc/can_pray_here(mob/living/carbon/human/H)
+	if(allow_prayer_everywhere)
+		return TRUE
+	if(!H) H = holder
+	if(!H) return FALSE
+	var/area/A = get_area(H)
+	if(istype(A, /area/rogue/indoors/town/church)) return TRUE
+	if(istype(A, /area/rogue/indoors/town/church/chapel)) return TRUE
+	return FALSE
 
 //The main proc that distributes all the needed devotion tweaks to the given class.
 //cleric_tier 		- The cleric tier that the holder will get spells of immediately.
@@ -131,20 +179,34 @@
 	if(!H || !H.mind || !patron)
 		return
 	level = cleric_tier
-	if(devotion_limit) //Upper devotion limit - Limits gain to that tier's miracles. Mostly used by Templars / Paladins.
+	if(devotion_limit) // Upper devotion limit
 		max_devotion = devotion_limit
 		max_progression = devotion_limit
-	if(passive_gain)
+
+	if(HAS_TRAIT(H, TRAIT_CLERGY) || HAS_TRAIT(H, TRAIT_RENEGADE))
 		passive_devotion_gain = passive_gain
 		passive_progression_gain = passive_gain
-		START_PROCESSING(SSobj, src)
-	if(start_maxed)		//Mainly for Acolytes & Priests
+		if(auto_regen_enabled && (passive_gain > 0))
+			START_PROCESSING(SSobj, src)
+	else
+		if(passive_gain)
+			passive_devotion_gain = passive_gain
+			passive_progression_gain = passive_gain
+			START_PROCESSING(SSobj, src)
+
+	if(start_maxed) // Mainly for Acolytes & Priests
 		max_devotion = CLERIC_REQ_4
 		devotion = max_devotion
 		update_devotion(max_devotion, CLERIC_REQ_4, silent = TRUE)
 	else
 		update_devotion(50, 50, silent = TRUE)
+
 	H.verbs += list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray)
+
+	if(HAS_TRAIT(H, TRAIT_CLERGY) || HAS_TRAIT(H, TRAIT_RENEGADE))
+		if(!H.mind.has_spell(/obj/effect/proc_holder/spell/self/learnspell))
+			var/obj/effect/proc_holder/spell/self/learnspell/L = new
+			H.mind.AddSpell(L)
 
 // Debug verb
 /mob/living/carbon/human/proc/devotionchange()
@@ -177,6 +239,11 @@
 	if(!devotion)
 		return FALSE
 
+	if(HAS_TRAIT(src, TRAIT_CLERGY) || HAS_TRAIT(src, TRAIT_RENEGADE))
+		if(!devotion.can_pray_here(src))
+			to_chat(src, span_warning("I must pray within the church."))
+			return FALSE
+
 	var/prayersesh = 0
 	visible_message("[src] kneels their head in prayer to the Gods.", "I kneel my head in prayer to [devotion.patron.name].")
 	for(var/i in 1 to 50)
@@ -185,12 +252,12 @@
 			break
 		if(!do_after(src, 30))
 			break
-		var/devotion_multiplier = 1
+		var/mul = 1
 		if(mind)
-			devotion_multiplier += (get_skill_level(/datum/skill/magic/holy) / SKILL_LEVEL_LEGENDARY)
-		var/prayer_effectiveness = round(devotion.prayer_effectiveness * devotion_multiplier)
-		devotion.update_devotion(prayer_effectiveness, prayer_effectiveness)
-		prayersesh += prayer_effectiveness
+			mul += (get_skill_level(/datum/skill/magic/holy) / SKILL_LEVEL_LEGENDARY)
+		var/effective = round(devotion.prayer_effectiveness * mul)
+		devotion.update_devotion(effective, effective)
+		prayersesh += effective
 	visible_message("[src] concludes their prayer.", "I conclude my prayer.")
 	to_chat(src, "<font color='purple'>I gained [prayersesh] devotion!</font>")
 	return TRUE
@@ -233,21 +300,51 @@
 		remove_client_colour(/datum/client_colour/monochrome)
 
 /datum/devotion/proc/excommunicate(mob/living/carbon/human/H)
-    if (!devotion)
-        return
-
-    prayer_effectiveness = 0
-    devotion = 0
-    passive_devotion_gain = 0
-    passive_progression_gain = 0
-    STOP_PROCESSING(SSobj, src)
-    to_chat(H, span_boldnotice("I have been excommunicated. I am now unable to gain devotion."))
+	if (!devotion)
+		return
+	prayer_effectiveness = 0
+	devotion = 0
+	passive_devotion_gain = 0
+	passive_progression_gain = 0
+	STOP_PROCESSING(SSobj, src)
+	to_chat(H, span_boldnotice("I have been excommunicated. I am now unable to gain devotion."))
 
 /datum/devotion/proc/recommunicate(mob/living/carbon/human/H)
-    prayer_effectiveness = 2
-    if (!passive_devotion_gain && !passive_progression_gain)
-        passive_devotion_gain = CLERIC_REGEN_DEVOTEE
-        passive_progression_gain = CLERIC_REGEN_DEVOTEE
-        START_PROCESSING(SSobj, src)
+	prayer_effectiveness = 2
+	if (!passive_devotion_gain && !passive_progression_gain)
+		passive_devotion_gain = CLERIC_REGEN_DEVOTEE
+		passive_progression_gain = CLERIC_REGEN_DEVOTEE
+		START_PROCESSING(SSobj, src)
+	to_chat(H, span_boldnotice("I have been welcomed back to the Church. I am now able to gain devotion again."))
 
-    to_chat(H, span_boldnotice("I have been welcomed back to the Church. I am now able to gain devotion again."))
+/proc/_is_clergy_like(mob/living/carbon/human/H)
+	if(!H) return FALSE
+	return HAS_TRAIT(H, TRAIT_CLERGY) || HAS_TRAIT(H, TRAIT_RENEGADE)
+
+/proc/_find_churchcore_settings()
+	var/scope = "church"
+	var/auto_regen = FALSE
+	var/bonus = 0
+	for(var/obj/structure/fluff/statue/shrine/churchcore/C in world)
+		scope = C.prayer_scope           
+		auto_regen = C.passive_enabled   
+		bonus = C.passive_bonus          
+		break
+	return list("scope" = scope, "auto" = auto_regen, "bonus" = bonus)
+
+/proc/_in_chapel(mob/living/carbon/human/H)
+	if(!H) return FALSE
+	var/area/A = get_area(H)
+	return istype(A, /area/rogue/indoors/town/church/chapel)
+
+/proc/_apply_devotion_upgrades_to_all()
+	var/settings = _find_churchcore_settings()
+	var/scope = settings["scope"]
+	var/auto  = settings["auto"]
+	var/bonus = settings["bonus"]
+
+	for(var/mob/living/carbon/human/H in GLOB.player_list)
+		if(!H?.devotion) continue
+		H.devotion.set_prayer_everywhere(scope == "all")
+		H.devotion.set_auto_regen(auto)
+		H.devotion.set_passive_bonus(bonus >= 50)

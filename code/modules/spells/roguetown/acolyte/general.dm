@@ -1,3 +1,41 @@
+// Globals for church gameloop
+var/global/list/divine_miracles_cache  = list()
+var/global/list/inhumen_miracles_cache = list()
+var/global/miracle_caches_built = FALSE
+
+/proc/build_miracle_caches()
+	if(miracle_caches_built)
+		return
+	build_cache_for_root(/datum/patron/divine,  divine_miracles_cache)
+	build_cache_for_root(/datum/patron/inhumen, inhumen_miracles_cache)
+	miracle_caches_built = TRUE
+
+/proc/build_cache_for_root(root_type, list/cache)
+	for(var/p_type in typesof(root_type))
+		if(p_type == root_type) continue
+		var/datum/patron/P = new p_type
+		if(length(P.miracles))
+			for(var/st in P.miracles)
+				cache[st] = TRUE
+		qdel(P)
+
+/proc/build_cache_for_root_if_exists(root_path_string, list/cache)
+	var/T = text2path(root_path_string)
+	if(ispath(T))
+		build_cache_for_root(T, cache)
+
+/proc/is_patron_spell(datum/devotion/D, obj/effect/proc_holder/spell/S)
+	if(!D || !D.patron || !length(D.patron.miracles)) return FALSE
+	return (S.type in D.patron.miracles)
+
+/proc/is_divine_spell(obj/effect/proc_holder/spell/S)
+	if(!miracle_caches_built) build_miracle_caches()
+	return !!divine_miracles_cache[S.type]
+
+/proc/is_inhumen_spell(obj/effect/proc_holder/spell/S)
+	if(!miracle_caches_built) build_miracle_caches()
+	return !!inhumen_miracles_cache[S.type]
+
 // Lesser miracle
 /obj/effect/proc_holder/spell/invoked/lesser_heal
 	name = "Miracle"

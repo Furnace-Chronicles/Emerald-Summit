@@ -1870,7 +1870,6 @@ var/global/church_research_points = 0
 					html += "<span style='color:#7f8c8d'>Unlock (100 favor)</span>"
 			html += "<br>"
 
-			// Shunned miracles
 			html += "Shunned miracles: <b>[dev_shunned_miracles_unlocked ? "UNLOCKED" : "LOCKED"]</b> "
 			if(!dev_shunned_miracles_unlocked)
 				if(HAS_TRAIT(user, TRAIT_CLERGY) && my_favor >= dev_inner_cost_favor)
@@ -2121,30 +2120,39 @@ var/global/church_research_points = 0
 			to_chat(usr, span_notice("[label] [uppertext(tier)] purchased for [price] favor."))
 			attack_hand(usr); return
 
-	attackby(obj/item/W, mob/user, params)
-		if(!HAS_TRAIT(user, TRAIT_CLERGY)) return
-		if(W.flags_1 & HOARDMASTER_SPAWNED_1) { to_chat(user, span_warning("This item is from the Hoard!")); return }
+/obj/structure/fluff/statue/shrine/churchcore/attackby(obj/item/W, mob/user, params)
+	if(!HAS_TRAIT(user, TRAIT_CLERGY))
+		return
 
-		var/proceed = FALSE
-		for(var/T in treasuretypes)
-			if(istype(W, T)) { proceed = TRUE; break }
-		if(!proceed) { to_chat(user, span_warning("This item isn't a good offering.")); return }
+	var/proceed = FALSE
+	for(var/T in treasuretypes)
+		if(istype(W, T))
+			proceed = TRUE
+			break
+	if(!proceed)
+		to_chat(user, span_warning("This item isn't a good offering."))
+		return
 
-		var/amount = W.get_real_price()
-		if(W.sellprice <= 0 || amount <= 0) { to_chat(user, span_warning("This item is worthless.")); return }
+	var/amount = W.get_real_price()
+	if(W.sellprice <= 0 || amount <= 0)
+		to_chat(user, span_warning("This item is worthless."))
+		return
 
-		playsound(src, 'sound/items/carvty.ogg', 50, TRUE)
-		var/flavor = _donation_flavor(W, amount)
-		qdel(W)
+	playsound(src, 'sound/items/carvty.ogg', 50, TRUE)
+	var/flavor = _donation_flavor(W, amount)
+	qdel(W)
 
-		var/mob/living/carbon/human/H = ishuman(user) ? user : null
-		if(H) H.church_favor = max(0, H.church_favor + amount)
+	var/mob/living/carbon/human/H = ishuman(user) ? user : null
+	if(H)
+		H.church_favor = max(0, H.church_favor + amount)
 
-		_broadcast(span_notice("[user] lays an offering before the Heart."))
-		to_chat(user, span_notice("[flavor]"))
-		for(var/mob/M in GLOB.player_list)
-			if(!M?.mind) continue
-			if(HAS_TRAIT(M, TRAIT_CLERGY))
-				if(H) to_chat(M, "<font color='yellow'>[H.real_name] donates [amount]. Favor: [H.church_favor].</font>")
-				else to_chat(M, "<font color='yellow'>Someone donates [amount].</font>")
+	_broadcast(span_notice("[user] lays an offering before the Heart."))
+	to_chat(user, span_notice("[flavor]"))
 
+	for(var/mob/M in GLOB.player_list)
+		if(!M?.mind) continue
+		if(HAS_TRAIT(M, TRAIT_CLERGY))
+			if(H)
+				to_chat(M, "<font color='yellow'>[H.real_name] donates [amount]. Favor: [H.church_favor].</font>")
+			else
+				to_chat(M, "<font color='yellow'>Someone donates [amount].</font>")
