@@ -1585,7 +1585,7 @@
 	max_integrity = 300
 	sellprice = 25
 
-/obj/item/clothing/suit/roguetown/armor/basiceast/captainrobe/
+/obj/item/clothing/suit/roguetown/armor/basiceast/captainrobe/light
 	name = "floral robes"
 	desc = "Flower-styled robes, the Merchant Guild says that this is from the southern Kazengite region."
 	armor = ARMOR_PADDED_BAD
