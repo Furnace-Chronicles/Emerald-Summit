@@ -92,7 +92,6 @@
 	/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 	/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
-	/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
 	/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE,
@@ -170,7 +169,6 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT, // A little better; run fast, weak boy.
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
 	)
@@ -248,7 +246,6 @@
 	/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN, 
 	/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 	/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
-	/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	/datum/skill/misc/riding = SKILL_LEVEL_EXPERT, 		// Like the other horselords.
 	/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,	//Best tracker. Might as well give it something to stick-out utility wise.
 	)
