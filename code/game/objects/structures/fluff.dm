@@ -1455,181 +1455,199 @@
     required_donation = list(/obj/item/ingot/iron)
     donation_points = 3
 
-#define span_hint(T) span_notice(T)
-
 /obj/structure/fluff/statue/shrine/donation
-	parent_type = /obj/structure/fluff/statue
+    parent_type = /obj/structure/fluff/statue
 
-	var/list/required_donation = null
-	var/donation_points = 0
-	var/clergy_only_donate = TRUE
-	var/global/church_research_points = 0
+    var/list/required_donation = null
+    var/donation_points = 0
+    var/clergy_only_donate = TRUE
+    var/global/church_research_points = 0
 
-	proc/_donation_names()
-		if(!required_donation || !required_donation.len)
-			return "—"
-		var/list/names = list()
-		for(var/T in required_donation)
-			var/obj/item/tmp = T
-			names += initial(tmp.name)
-		return jointext(names, ", ")
+    proc/_donation_names()
+        if(!required_donation || !required_donation.len)
+            return "—"
+        var/list/names = list()
+        for(var/T in required_donation)
+            var/obj/item/tmp = T
+            names += initial(tmp.name)
+        return jointext(names, ", ")
 
-	proc/_add_research_points(mob/user, amt)
-		var/datum/church_research/CR = GET_CHURCH_RESEARCH()
-		if(!CR) return
-		CR.add_points(max(0, round(amt)), user)
+    proc/_add_research_points(mob/user, amt)
+        var/datum/church_research/CR = GET_CHURCH_RESEARCH()
+        if(!CR) return
+        CR.add_points(max(0, round(amt)), user)
 
-	examine(mob/user)
-		. = ..()
-		if(HAS_TRAIT(user, TRAIT_CLERGY))
-			if(donation_points > 0 && required_donation && required_donation.len)
-				. += span_notice("<b>Offering:</b> [_donation_names()] <span class='small'>(+[donation_points] research points)</span>")
-				. += span_hint("Drag the required item onto the statue to make the offering.")
+    examine(mob/user)
+        . = ..()
+        if(HAS_TRAIT(user, TRAIT_CLERGY))
+            if(donation_points > 0 && required_donation && required_donation.len)
+                . += span_notice("<b>Offering:</b> [_donation_names()] <span class='small'>(+[donation_points] research points)</span>")
 
-	attackby(obj/item/I, mob/user, params)
-		if(required_donation && required_donation.len)
-			var/matches = FALSE
-			for(var/T in required_donation)
-				if(istype(I, T))
-					matches = TRUE
-					break
+    attackby(obj/item/I, mob/user, params)
+        if(required_donation && required_donation.len)
+            var/matches = FALSE
+            for(var/T in required_donation)
+                if(istype(I, T))
+                    matches = TRUE
+                    break
 
-			if(matches)
-				if(clergy_only_donate && !HAS_TRAIT(user, TRAIT_CLERGY))
-					to_chat(user, span_warning("You do not understand how to perform this rite."))
-					return
-				if(do_after(user, 2 SECONDS, src))
-					to_chat(user, span_notice("The offering is accepted."))
-					qdel(I)
-					_add_research_points(user, donation_points)
-					return
-				else
-					return
-		return ..()
+            if(matches)
+                if(clergy_only_donate && !HAS_TRAIT(user, TRAIT_CLERGY))
+                    to_chat(user, span_warning("You do not understand how to perform this rite."))
+                    return
+                if(do_after(user, 2 SECONDS, src))
+                    to_chat(user, span_notice("The offering is accepted."))
+                    qdel(I)
+                    _add_research_points(user, donation_points)
+                    return
+                else
+                    return
+        return ..()
 
 
 
 var/global/datum/church_research/CHURCH_RESEARCH
 
 proc/GET_CHURCH_RESEARCH()
-	if(!CHURCH_RESEARCH)
-		CHURCH_RESEARCH = new
-	return CHURCH_RESEARCH
+    if(!CHURCH_RESEARCH)
+        CHURCH_RESEARCH = new
+    return CHURCH_RESEARCH
 
 /datum/church_tech
-	var/id = ""
-	var/name = ""
-	var/desc = ""
-	var/cost = 0
-	var/list/prereqs = list()
-	var/unlocked = FALSE
-	proc/on_unlock(mob/user) return
+    var/id = ""
+    var/name = ""
+    var/desc = ""
+    var/cost = 0
+    var/list/prereqs = list()
+    var/unlocked = FALSE
+    proc/on_unlock(mob/user) return
 
 /datum/church_research
-	var/points = 0
-	var/list/techs = list()
-	var/donation_multiplier = 1.0
-	var/passive_blessing_bonus = 0
+    var/points = 0
+    var/list/techs = list()
+    var/donation_multiplier = 1.0
+    var/passive_blessing_bonus = 0
 
-	New()
-		..()
-		register_default_techs()
+    New()
+        ..()
+        register_default_techs()
 
-	proc/register_default_techs()
-		register(new /datum/church_tech/tithe_knowledge)
-		register(new /datum/church_tech/basic_rites)
-		register(new /datum/church_tech/gilded_tithe)
-		register(new /datum/church_tech/sanctified_passive)
+    proc/register_default_techs()
+        register(new /datum/church_tech/tithe_knowledge)
+        register(new /datum/church_tech/basic_rites)
+        register(new /datum/church_tech/gilded_tithe)
+        register(new /datum/church_tech/sanctified_passive)
 
-	proc/register(datum/church_tech/T)
-		if(!T || !istext(T.id) || !length(T.id))
-			CRASH("church_research: attempted to register tech with empty id.")
-		techs[T.id] = T
+    proc/register(datum/church_tech/T)
+        if(!T || !istext(T.id) || !length(T.id))
+            CRASH("church_research: attempted to register tech with empty id.")
+        techs[T.id] = T
 
-	proc/add_points(amount, mob/source)
-		if(amount <= 0) return
-		var/gained = round(amount * donation_multiplier)
-		points += max(0, gained)
-		if(ismob(source))
-			to_chat(source, span_notice("Church research: +[gained] points (bank: [points])."))
+    proc/add_points(amount, mob/source)
+        if(amount <= 0) return
+        var/gained = round(amount * donation_multiplier)
+        points += max(0, gained)
+        if(ismob(source))
+            to_chat(source, span_notice("Church research: +[gained] points (bank: [points])."))
 
-	proc/can_unlock(id)
-		var/datum/church_tech/T = techs[id]
-		if(!T) return FALSE
-		if(T.unlocked) return FALSE
-		if(points < T.cost) return FALSE
-		for(var/req in T.prereqs)
-			var/datum/church_tech/PR = techs[req]
-			if(!PR || !PR.unlocked)
-				return FALSE
-		return TRUE
+    proc/can_unlock(id)
+        var/datum/church_tech/T = techs[id]
+        if(!T) return FALSE
+        if(T.unlocked) return FALSE
+        if(points < T.cost) return FALSE
+        for(var/req in T.prereqs)
+            var/datum/church_tech/PR = techs[req]
+            if(!PR || !PR.unlocked)
+                return FALSE
+        return TRUE
 
-	proc/unlock(id, mob/user)
-		var/datum/church_tech/T = techs[id]
-		if(!T) return FALSE
-		if(!can_unlock(id)) return FALSE
-		points -= T.cost
-		T.unlocked = TRUE
-		T.on_unlock(user)
-		return TRUE
+    proc/unlock(id, mob/user)
+        var/datum/church_tech/T = techs[id]
+        if(!T) return FALSE
+        if(!can_unlock(id)) return FALSE
+        points -= T.cost
+        T.unlocked = TRUE
+        T.on_unlock(user)
+        return TRUE
 
-	proc/is_unlocked(id)
-		var/datum/church_tech/T = techs[id]
-		return T ? T.unlocked : FALSE
+    proc/is_unlocked(id)
+        var/datum/church_tech/T = techs[id]
+        return T ? T.unlocked : FALSE
 
-	proc/get_cost(id)
-		var/datum/church_tech/T = techs[id]
-		return T ? T.cost : 0
+    proc/get_cost(id)
+        var/datum/church_tech/T = techs[id]
+        return T ? T.cost : 0
 
-	proc/get_name(id)
-		var/datum/church_tech/T = techs[id]
-		return T ? T.name : id
+    proc/get_name(id)
+        var/datum/church_tech/T = techs[id]
+        return T ? T.name : id
 
-	proc/get_desc(id)
-		var/datum/church_tech/T = techs[id]
-		return T ? T.desc : "—"
+    proc/get_desc(id)
+        var/datum/church_tech/T = techs[id]
+        return T ? T.desc : "—"
 
-	proc/list_ids()
-		var/list/ids = list()
-		for(var/k in techs)
-			ids += "[k]"
-		return ids
+    proc/list_ids()
+        var/list/ids = list()
+        for(var/k in techs)
+            ids += "[k]"
+        return ids
 
 /datum/church_tech/tithe_knowledge
-	id = "tithe_knowledge"
-	name = "Tithe Knowledge"
-	desc = "Learn to appraise offerings more wisely. Increases research gained from donations by 15%."
-	cost = 100
-	on_unlock(mob/user)
-		var/datum/church_research/CR = GET_CHURCH_RESEARCH()
-		CR.donation_multiplier = max(CR.donation_multiplier, 1.15)
+    id = "tithe_knowledge"
+    name = "Tithe Knowledge"
+    desc = "Learn to appraise offerings more wisely. Increases research gained from donations by 15%."
+    cost = 100
+    on_unlock(mob/user)
+        var/datum/church_research/CR = GET_CHURCH_RESEARCH()
+        CR.donation_multiplier = max(CR.donation_multiplier, 1.15)
 
 /datum/church_tech/basic_rites
-	id = "basic_rites"
-	name = "Basic Rites"
-	desc = "Codify the common rites and responses. Unlocks passive church boons."
-	cost = 120
+    id = "basic_rites"
+    name = "Basic Rites"
+    desc = "Codify the common rites and responses. Unlocks passive church boons."
+    cost = 120
 
 /datum/church_tech/gilded_tithe
-	id = "gilded_tithe"
-	name = "Gilded Tithe"
-	desc = "Refine the tithe ledgers. Further increases research from donations to a total of +30%."
-	cost = 220
-	prereqs = list("tithe_knowledge")
-	on_unlock(mob/user)
-		var/datum/church_research/CR = GET_CHURCH_RESEARCH()
-		CR.donation_multiplier = max(CR.donation_multiplier, 1.30)
+    id = "gilded_tithe"
+    name = "Gilded Tithe"
+    desc = "Refine the tithe ledgers. Further increases research from donations to a total of +30%."
+    cost = 220
+    prereqs = list("tithe_knowledge")
+    on_unlock(mob/user)
+        var/datum/church_research/CR = GET_CHURCH_RESEARCH()
+        CR.donation_multiplier = max(CR.donation_multiplier, 1.30)
 
 /datum/church_tech/sanctified_passive
-	id = "sanctified_passive"
-	name = "Sanctified Passive"
-	desc = "Instruct the faithful to carry the light. Grants +5% passive church bonus."
-	cost = 200
-	prereqs = list("basic_rites")
-	on_unlock(mob/user)
-		var/datum/church_research/CR = GET_CHURCH_RESEARCH()
-		CR.passive_blessing_bonus = max(CR.passive_blessing_bonus, 5)
+    id = "sanctified_passive"
+    name = "Sanctified Passive"
+    desc = "Instruct the faithful to carry the light. Grants +5% passive church bonus."
+    cost = 200
+    prereqs = list("basic_rites")
+    on_unlock(mob/user)
+        var/datum/church_research/CR = GET_CHURCH_RESEARCH()
+        CR.passive_blessing_bonus = max(CR.passive_blessing_bonus, 5)
 
+// === Churchcore helpers
+
+proc/GET_CHURCH_CORE()
+	for (var/obj/structure/fluff/statue/shrine/churchcore/C in world)
+		return C
+	return null
+
+proc/Churchcore_Apply_Devotion_Settings(obj/structure/fluff/statue/shrine/churchcore/C)
+	if(!C) C = GET_CHURCH_CORE()
+	if(!C) return
+
+	var/tier = 0
+	if(C.dev_path_ten) tier = max(tier, 1)
+	if(C.dev_shunned_miracles) tier = max(tier, 2)
+
+	for (var/mob/living/carbon/human/H in GLOB.player_list)
+		if(!H?.devotion) continue
+		H.devotion.set_prayer_everywhere( C.dev_prayer_unlocked && (C.prayer_scope == "all") )
+		H.devotion.set_auto_regen( C.dev_passive_unlocked && C.passive_enabled )
+		H.devotion.set_passive_bonus( C.dev_bonus_unlocked && (C.passive_bonus >= 50) )
+		H.devotion.clergy_learn_tier = clamp(tier, 0, 2)
 
 
 /mob/living/carbon/human
@@ -1678,7 +1696,7 @@ var/global/church_research_points = 0
 	var/dev_inner_cost_favor = 100
 	var/mp_cost = 100
 	var/devotion_cost_rp = 5
-	var/line_cost_rp = 5 //i have removed one line from here because i forgot why it was important
+	var/line_cost_rp = 5
 
 	var/current_tab = "main"
 
@@ -1817,7 +1835,7 @@ var/global/church_research_points = 0
 		html += "<hr>"
 
 		if(current_tab == "devotion" && unlocked_devotion)
-			html += "<center><a href='?src=[REF(src)];tab=main'>\[RETURN\\]</a></center><hr>"
+			html += "<center><a href='?src=[REF(src)];tab=main'>&#91;RETURN&#93;</a></center><hr>"
 			html += "<b>Devotion</b><br>"
 
 			html += "Prayer scope: <b>[prayer_scope == "all" ? "Everywhere" : "Church-only"]</b> "
@@ -1879,7 +1897,7 @@ var/global/church_research_points = 0
 			html += "<br>"
 
 		else if(current_tab == "organs" && unlocked_organs)
-			html += "<center><a href='?src=[REF(src)];tab=main'>\[RETURN\\]</a></center><hr>"
+			html += "<center><a href='?src=[REF(src)];tab=main'>&#91;RETURN&#93;</a></center><hr>"
 			html += "<b>Organs</b><br>"
 
 			html += "Tier: "
@@ -1930,7 +1948,7 @@ var/global/church_research_points = 0
 			html += "</table>"
 
 		else if(current_tab == "knowledge" && unlocked_knowledge)
-			html += "<center><a href='?src=[REF(src)];tab=main'>\[RETURN\\]</a></center><hr>"
+			html += "<center><a href='?src=[REF(src)];tab=main'>&#91;RETURN&#93;</a></center><hr>"
 			html += "<b>Knowledge</b><br>"
 
 			html += "Blood Path — <b>[kn_blood_path ? "Unlocked" : "Locked"]</b> "
@@ -2023,42 +2041,43 @@ var/global/church_research_points = 0
 		if(href_list["dev_unlock"])
 			if(current_tab != "devotion" || !unlocked_devotion) { attack_hand(usr); return }
 			if(!HAS_TRAIT(usr, TRAIT_CLERGY)) { attack_hand(usr); return }
+
 			var/mob/living/carbon/human/H = ishuman(usr) ? usr : null
 			if(!H || H.church_favor < dev_inner_cost_favor) { attack_hand(usr); return }
 
 			var/what2 = lowertext(href_list["dev_unlock"])
 			H.church_favor = max(0, H.church_favor - dev_inner_cost_favor)
 
-			if(what2 == "prayer" && !dev_prayer_unlocked)
-				dev_prayer_unlocked = TRUE; prayer_scope = "all"
-			else if(what2 == "passive" && !dev_passive_unlocked)
-				dev_passive_unlocked = TRUE; passive_enabled = TRUE
-			else if(what2 == "bonus" && !dev_bonus_unlocked)
-				dev_bonus_unlocked = TRUE; passive_bonus = 50
-			else if(what2 == "path_ten" && !dev_path_ten)
-				dev_path_ten = TRUE
-			else if(what2 == "rituals" && !dev_heretical_rituals)
-				dev_heretical_rituals = TRUE
-			else if(what2 == "shunned" && !dev_shunned_miracles)
-				dev_shunned_miracles = TRUE
-			attack_hand(usr); return
+			switch(what2)
+				if("prayer")
+					if(!dev_prayer_unlocked)
+						dev_prayer_unlocked = TRUE
+						prayer_scope = "all"
+				if("passive")
+					if(!dev_passive_unlocked)
+						dev_passive_unlocked = TRUE
+						passive_enabled = TRUE
+				if("bonus")
+					if(!dev_bonus_unlocked)
+						dev_bonus_unlocked = TRUE
+						passive_bonus = 50
+				if("path_ten")
+					if(!dev_path_ten_unlocked)
+						dev_path_ten_unlocked = TRUE
+						dev_path_ten = TRUE
+				if("heretical")
+					if(!dev_heretical_rituals_unlocked)
+						dev_heretical_rituals_unlocked = TRUE
+						dev_heretical_rituals = TRUE
+				if("shunned")
+					if(!dev_shunned_miracles_unlocked)
+						dev_shunned_miracles_unlocked = TRUE
+						dev_shunned_miracles = TRUE
 
-		if(href_list["scope"])
-			if(current_tab != "devotion" || !unlocked_devotion || !dev_prayer_unlocked) { attack_hand(usr); return }
-			var/val = lowertext(href_list["scope"])
-			if(val == "church" || val == "all") prayer_scope = val
-			attack_hand(usr); return
+			// to be sure that late join gamers going to get the progress
+			Churchcore_Apply_Devotion_Settings(src)
+			_broadcast(span_notice("A covenant is deepened within the Heart."))
 
-		if(href_list["toggle"])
-			if(current_tab != "devotion" || !unlocked_devotion || !dev_passive_unlocked) { attack_hand(usr); return }
-			if(lowertext(href_list["toggle"]) == "passive") passive_enabled = !passive_enabled
-			attack_hand(usr); return
-
-		if(href_list["bonus"])
-			if(current_tab != "devotion" || !unlocked_devotion || !dev_bonus_unlocked) { attack_hand(usr); return }
-			if(lowertext(href_list["bonus"]) == "toggle")
-				if(passive_bonus >= 50) passive_bonus = 0
-				else passive_bonus = 50
 			attack_hand(usr); return
 
 		if(href_list["kn_unlock"])

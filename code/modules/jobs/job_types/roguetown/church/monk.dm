@@ -18,7 +18,7 @@
 	max_pq = null
 	round_contrib_points = 2
 
-	var/church_favor = 100 //starter miracle points = 5 and its below
+	var/church_favor = 100
 
 	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts.
 	virtue_restrictions = list(/datum/virtue/utility/noble)
@@ -168,29 +168,7 @@
 	H.change_stat("endurance", 2)
 	H.change_stat("speed", 1)
 	H.cmode_music = 'sound/music/combat_holy.ogg'
-	if(H?.mind)
-		var/start_mp = 5
-		H.mind.spell_points += start_mp
-		if(!isnum(H.mind.used_spell_points))
-			H.mind.used_spell_points = 0
+	H.miracle_points = max(H.miracle_points, 5)
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
-
-	if(H?.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/learnmiracle))
-		var/obj/effect/proc_holder/spell/self/learnmiracle/L = new
-		H.mind.AddSpell(L)
-
-	var/path_ten = FALSE
-	var/shunned  = FALSE
-	for(var/obj/structure/fluff/statue/shrine/churchcore/CC in world)
-		if(CC.dev_shunned_miracles)
-			shunned = TRUE
-			path_ten = TRUE
-		else if(CC.dev_path_ten)
-			path_ten = TRUE
-		break
-
-	if(H?.devotion)
-		H.devotion.clergy_learn_tier = shunned ? 2 : (path_ten ? 1 : 0)
-
