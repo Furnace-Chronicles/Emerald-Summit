@@ -3,8 +3,8 @@
 	flag = DUNGEONEER
 	department_flag = GARRISON
 	faction = "Station"
-	total_positions = 1
-	spawn_positions = 1
+	total_positions = 0
+	spawn_positions = 0
 	allowed_races = RACES_ALL_KINDS//Dungeoneer is a freak. His race selection should allow this.
 	allowed_sexes = list(MALE, FEMALE)
 
