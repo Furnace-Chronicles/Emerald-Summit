@@ -2,11 +2,6 @@
 #define COOLDOWN_DAMAGE (30 SECONDS)
 #define COOLDOWN_NONE (0 SECONDS)
 
-// Tier definitions for Voice of God commands
-#define VOG_TIER_SUBTLE 1   // Minor commands
-#define VOG_TIER_OVERT 2    // More powerful commands
-#define VOG_TIER_DOMINANT 3 // The most powerful commands
-
 /// Used to stop listeners with silly or clown-esque (first) names such as "Honk" or "Flip" from screwing up certain commands.
 GLOBAL_DATUM(all_voice_of_god_triggers, /regex)
 /// List of all voice of god commands
@@ -34,7 +29,7 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 	/// cooldown variable which is normally returned to [proc/voice_of_god] and used as its return value.
 	var/cooldown = COOLDOWN_NONE
 	/// How powerful the command is. Higher tiers may have restrictions.
-	var/tier = VOG_TIER_SUBTLE
+	var/tier = 1
 
 /datum/voice_of_god_command/New()
 	if(is_regex)
@@ -54,7 +49,7 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 /datum/voice_of_god_command/knockdown
 	trigger = "drop|fall|trip|knockdown"
 	cooldown = COOLDOWN_STUN
-	tier = VOG_TIER_OVERT
+	tier = 2
 
 /datum/voice_of_god_command/knockdown/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
 	for(var/mob/living/target as anything in listeners)
@@ -64,7 +59,7 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 /datum/voice_of_god_command/immobilize
 	trigger = "stop|wait|stand\\s*still|hold\\s*on|halt"
 	cooldown = COOLDOWN_STUN
-	tier = VOG_TIER_DOMINANT
+	tier = 3
 
 /datum/voice_of_god_command/immobilize/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
 	for(var/mob/living/target as anything in listeners)
@@ -74,7 +69,7 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 /datum/voice_of_god_command/vomit
 	trigger = "vomit|throw\\s*up|sick"
 	cooldown = COOLDOWN_STUN
-	tier = VOG_TIER_DOMINANT
+	tier = 3
 
 /datum/voice_of_god_command/vomit/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
 	for(var/mob/living/carbon/target in listeners)
@@ -84,7 +79,7 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 /datum/voice_of_god_command/silence
 	trigger = "shut\\s*up|silence|be\\s*silent|ssh|quiet|hush"
 	cooldown = COOLDOWN_STUN
-	tier = VOG_TIER_OVERT
+	tier = 2
 
 /datum/voice_of_god_command/silence/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
 	for(var/mob/living/carbon/target in listeners)
@@ -120,7 +115,7 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 /datum/voice_of_god_command/brute
 	trigger = "die|suffer|hurt|pain|death"
 	cooldown = COOLDOWN_DAMAGE
-	tier = VOG_TIER_OVERT
+	tier = 2
 
 /datum/voice_of_god_command/brute/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
 	for(var/mob/living/target as anything in listeners)
@@ -130,7 +125,7 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 /datum/voice_of_god_command/bleed
 	trigger = "bleed|there\\s*will\\s*be\\s*blood"
 	cooldown = COOLDOWN_DAMAGE
-	tier = VOG_TIER_OVERT
+	tier = 2
 
 /datum/voice_of_god_command/bleed/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
 	for(var/mob/living/carbon/human/target in listeners)
@@ -159,7 +154,7 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 /datum/voice_of_god_command/cold
 	trigger = "cold|chill|freeze"
 	cooldown = COOLDOWN_DAMAGE
-	tier = VOG_TIER_DOMINANT
+	tier = 3
 
 /datum/voice_of_god_command/cold/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
 	for(var/mob/living/target as anything in listeners)
@@ -169,7 +164,7 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 /datum/voice_of_god_command/repulse
 	trigger = "shoo|go\\s*away|leave\\s*me\\s*alone|begone|flee|fus\\s*ro\\s*dah|get\\s*away|repulse"
 	cooldown = COOLDOWN_DAMAGE
-	tier = VOG_TIER_OVERT
+	tier = 2
 
 /datum/voice_of_god_command/repulse/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
 	for(var/mob/living/target as anything in listeners)
@@ -180,7 +175,7 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 /datum/voice_of_god_command/attract
 	trigger = "come\\s*here|come\\s*to\\s*me|get\\s*over\\s*here|attract"
 	cooldown = COOLDOWN_DAMAGE
-	tier = VOG_TIER_OVERT
+	tier = 2
 
 /datum/voice_of_god_command/attract/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
 	for(var/mob/living/target as anything in listeners)
@@ -312,7 +307,7 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 /datum/voice_of_god_command/stand
 	trigger = "stand"
 	is_regex = FALSE
-	tier = VOG_TIER_SUBTLE
+	tier = 1
 
 /datum/voice_of_god_command/stand/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
 	for(var/mob/living/target as anything in listeners)
@@ -322,7 +317,7 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 /datum/voice_of_god_command/jump
 	trigger = "jump"
 	is_regex = FALSE
-	tier = VOG_TIER_SUBTLE
+	tier = 1
 
 /datum/voice_of_god_command/jump/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
 	var/iteration = 1
@@ -376,7 +371,3 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 #undef COOLDOWN_STUN
 #undef COOLDOWN_DAMAGE
 #undef COOLDOWN_NONE
-
-#undef VOG_TIER_SUBTLE
-#undef VOG_TIER_OVERT
-#undef VOG_TIER_DOMINANT
