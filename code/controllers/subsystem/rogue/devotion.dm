@@ -165,6 +165,8 @@
 		return TRUE
 	if(!H) H = holder
 	if(!H) return FALSE
+	if(patron)
+		return patron.can_pray(H)
 	var/area/A = get_area(H)
 	if(istype(A, /area/rogue/indoors/town/church)) return TRUE
 	if(istype(A, /area/rogue/indoors/town/church/chapel)) return TRUE
@@ -204,8 +206,8 @@
 	H.verbs += list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray)
 
 	if(HAS_TRAIT(H, TRAIT_CLERGY) || HAS_TRAIT(H, TRAIT_RENEGADE))
-		if(!H.mind.has_spell(/obj/effect/proc_holder/spell/self/learnspell))
-			var/obj/effect/proc_holder/spell/self/learnspell/L = new
+		if(!H.mind.has_spell(/obj/effect/proc_holder/spell/self/learnmiracle))
+			var/obj/effect/proc_holder/spell/self/learnmiracle/L = new
 			H.mind.AddSpell(L)
 
 // Debug verb
@@ -239,10 +241,10 @@
 	if(!devotion)
 		return FALSE
 
-	if(HAS_TRAIT(src, TRAIT_CLERGY) || HAS_TRAIT(src, TRAIT_RENEGADE))
-		if(!devotion.can_pray_here(src))
+	if(!devotion.can_pray_here(src))
+		if(HAS_TRAIT(src, TRAIT_CLERGY) || HAS_TRAIT(src, TRAIT_RENEGADE))
 			to_chat(src, span_warning("I must pray within the church."))
-			return FALSE
+		return FALSE
 
 	var/prayersesh = 0
 	visible_message("[src] kneels their head in prayer to the Gods.", "I kneel my head in prayer to [devotion.patron.name].")

@@ -1,4 +1,9 @@
-// Globals for church gameloop
+#define CLERIC_PRICE_PATRON    1
+#define CLERIC_PRICE_DIVINE    3
+#define CLERIC_PRICE_SHUNNED   3
+#define CLERIC_UPGRADE_TEN_COST       0
+#define CLERIC_UPGRADE_SHUNNED_COST   0
+
 var/global/list/divine_miracles_cache  = list()
 var/global/list/inhumen_miracles_cache = list()
 var/global/miracle_caches_built = FALSE
@@ -12,20 +17,17 @@ var/global/miracle_caches_built = FALSE
 
 /proc/build_cache_for_root(root_type, list/cache)
 	for(var/p_type in typesof(root_type))
-		if(p_type == root_type) continue
+		if(p_type == root_type)
+			continue
 		var/datum/patron/P = new p_type
 		if(length(P.miracles))
 			for(var/st in P.miracles)
 				cache[st] = TRUE
 		qdel(P)
 
-/proc/build_cache_for_root_if_exists(root_path_string, list/cache)
-	var/T = text2path(root_path_string)
-	if(ispath(T))
-		build_cache_for_root(T, cache)
-
 /proc/is_patron_spell(datum/devotion/D, obj/effect/proc_holder/spell/S)
-	if(!D || !D.patron || !length(D.patron.miracles)) return FALSE
+	if(!D || !D.patron || !length(D.patron.miracles))
+		return FALSE
 	return (S.type in D.patron.miracles)
 
 /proc/is_divine_spell(obj/effect/proc_holder/spell/S)
@@ -35,6 +37,142 @@ var/global/miracle_caches_built = FALSE
 /proc/is_inhumen_spell(obj/effect/proc_holder/spell/S)
 	if(!miracle_caches_built) build_miracle_caches()
 	return !!inhumen_miracles_cache[S.type]
+
+/obj/effect/proc_holder/spell/self/learnmiracle
+	name = "Learn a Miracle"
+	desc = "Contemplate and accept a new miracle."
+	miracle = TRUE
+	associated_skill = /datum/skill/magic/holy
+	school = "holy"
+	overlay_state = "book1"
+	chargedrain = 0
+	chargetime = 0
+	antimagic_allowed = TRUE
+
+/obj/effect/proc_holder/spell/self/learnmiracle/cast(list/targets, mob/user = usr)
+	if(!..())
+		return
+	if(!user?.mind)
+		return
+
+	// user.devotion есть только у human; приведём тип корректно
+	var/mob/living/carbon/human/H
+	if(ishuman(user))
+		H = user
+
+	// кэши
+	if(!miracle_caches_built) build_miracle_caches()
+
+	var/is_manual_clergy = HAS_TRAIT(user, TRAIT_CLERGY)
+	var/datum/devotion/D = H ? H.devotion : null
+	var/list/choices = list()
+	var/list/spell_pool = GLOB.learnable_spells
+
+	// текущий тьер из Devotion (0=только свой; 1=+divine; 2=+inhumen)
+	var/current_tier = D ? D.clergy_learn_tier : 0
+
+	// Апгрейды — только клирику
+	if(is_manual_clergy && D)
+		if(current_tier < 1)
+			choices["[span_boldnotice("Upgrade: Path of Ten")] — cost [CLERIC_UPGRADE_TEN_COST]"] = "UPG_TEN"
+		if(current_tier < 2)
+			choices["[span_boldnotice("Upgrade: Shunned Miracles")] — cost [CLERIC_UPGRADE_SHUNNED_COST]"] = "UPG_SHUNNED"
+
+	// Список доступных чудес
+	for(var/i = 1, i <= spell_pool.len, i++)
+		var/obj/effect/proc_holder/spell/S = spell_pool[i]
+
+		// уже изучено?
+		var/already = FALSE
+		for(var/obj/effect/proc_holder/spell/K in user.mind.spell_list)
+			if(K.type == S.type) { already = TRUE; break }
+		if(already) continue
+
+		var/allow = FALSE
+		var/cost = 0
+
+		if(!is_manual_clergy || !D)
+			// не клирик — используем базовые цены прототипа
+			allow = TRUE
+			cost = S.cost
+		else
+			var/own     = is_patron_spell(D, S)
+			var/divine  = is_divine_spell(S)
+			var/inhumen = is_inhumen_spell(S)
+
+			switch(current_tier)
+				if(0) // только свой патрон
+					if(own) { allow = TRUE; cost = CLERIC_PRICE_PATRON }
+				if(1) // свой + divine
+					if(own)   { allow = TRUE; cost = CLERIC_PRICE_PATRON }
+					else if(divine) { allow = TRUE; cost = CLERIC_PRICE_DIVINE }
+				if(2) // свой + divine + inhumen
+					if(own)   { allow = TRUE; cost = CLERIC_PRICE_PATRON }
+					else if(divine)  { allow = TRUE; cost = CLERIC_PRICE_DIVINE }
+					else if(inhumen) { allow = TRUE; cost = CLERIC_PRICE_SHUNNED }
+
+		if(!allow) continue
+		choices["[S.name]: [cost]"] = list("ref" = S, "cost" = cost)
+
+	if(!choices.len)
+		to_chat(user, span_warning("No miracles available to learn right now."))
+		return
+
+	// Miracle Points = mind.spell_points
+	var/left = user.mind.spell_points - user.mind.used_spell_points
+	var/pick = input("Choose a miracle or upgrade, miracle points left: [left]") as null|anything in choices
+	if(!pick) return
+
+	var/sel = choices[pick]
+
+	// --- Апгрейды ---
+	if(istext(sel))
+		if(!D)
+			to_chat(user, span_warning("Your faith is not strong enough."))
+			return
+
+		if(sel == "UPG_TEN")
+			if(left < CLERIC_UPGRADE_TEN_COST)
+				to_chat(user, span_warning("Not enough miracle points."))
+				return
+			D.clergy_learn_tier = max(D.clergy_learn_tier, 1)
+			user.mind.used_spell_points += CLERIC_UPGRADE_TEN_COST
+			to_chat(user, span_boldnotice("Path of Ten acquired. You can now learn miracles of any Divine patron."))
+			return TRUE
+
+		if(sel == "UPG_SHUNNED")
+			if(left < CLERIC_UPGRADE_SHUNNED_COST)
+				to_chat(user, span_warning("Not enough miracle points."))
+				return
+			D.clergy_learn_tier = max(D.clergy_learn_tier, 2)
+			user.mind.used_spell_points += CLERIC_UPGRADE_SHUNNED_COST
+			to_chat(user, span_boldnotice("Shunned Miracles acquired. Inhumen miracles are now available."))
+			return TRUE
+
+		return
+
+	// --- Покупка чуда ---
+	var/obj/effect/proc_holder/spell/REF = sel["ref"]
+	var/calc_cost = sel["cost"]
+	if(!REF) return
+
+	if(alert(user, "[REF.desc]", "[REF.name]", "Learn", "Cancel") == "Cancel")
+		return
+
+	for(var/obj/effect/proc_holder/spell/K2 in user.mind.spell_list)
+		if(K2.type == REF.type)
+			to_chat(user, span_warning("You already know this one!"))
+			return
+
+	if(calc_cost > (user.mind.spell_points - user.mind.used_spell_points))
+		to_chat(user, span_warning("Not enough miracle points."))
+		return
+
+	user.mind.used_spell_points += calc_cost
+	var/obj/effect/proc_holder/spell/new_spell = new REF
+	new_spell.refundable = TRUE
+	user.mind.AddSpell(new_spell)
+	return TRUE
 
 // Lesser miracle
 /obj/effect/proc_holder/spell/invoked/lesser_heal
