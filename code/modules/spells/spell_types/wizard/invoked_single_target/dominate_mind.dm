@@ -1,7 +1,7 @@
 /obj/effect/proc_holder/spell/invoked/dominate_mind
 	name = "Dominate Mind"
 	desc = "Make a risky attempt to subvert another's will, forcing them to obey your commands."
-	cost = 4
+	cost = 5
 	range = 7
 	recharge_time = 30 SECONDS
 	chargetime = 0.8 SECONDS
