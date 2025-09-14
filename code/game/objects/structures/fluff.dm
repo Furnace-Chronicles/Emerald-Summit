@@ -1639,6 +1639,7 @@ proc/GET_CHURCH_RESEARCH()
 
 var/global/church_research_points = 0
 
+
 /obj/structure/fluff/statue/shrine/churchcore
 	parent_type = /obj/structure/fluff/statue
 
@@ -1657,7 +1658,6 @@ var/global/church_research_points = 0
 	var/unlocked_organs = FALSE
 	var/unlocked_artifacts = FALSE
 	var/unlocked_knowledge = FALSE
-	var/unlocked_herecy = FALSE
 	var/unlocked_devotion = FALSE
 
 	var/prayer_scope = "church"
@@ -1668,10 +1668,17 @@ var/global/church_research_points = 0
 	var/dev_passive_unlocked = FALSE
 	var/dev_bonus_unlocked = FALSE
 
+	var/dev_path_ten = FALSE
+	var/dev_heretical_rituals = FALSE
+	var/dev_shunned_miracles = FALSE
+	var/dev_path_ten_unlocked = FALSE
+	var/dev_heretical_rituals_unlocked = FALSE
+	var/dev_shunned_miracles_unlocked = FALSE
+
+	var/dev_inner_cost_favor = 100
 	var/mp_cost = 100
 	var/devotion_cost_rp = 5
-	var/line_cost_rp = 5
-	var/dev_inner_cost_favor = 100
+	var/line_cost_rp = 5 //i have removed one line from here because i forgot why it was important
 
 	var/current_tab = "main"
 
@@ -1738,6 +1745,11 @@ var/global/church_research_points = 0
 		"Liver" = /obj/item/organ/liver/t3,
 		"Stomach" = /obj/item/organ/stomach/t3
 	)
+
+	var/kn_cost_rp = 5
+	var/kn_blood_path = FALSE
+	var/kn_unethical_medicine = FALSE
+	var/kn_forbidden_chemistry = FALSE
 
 	proc/_broadcast(msg)
 		for(var/mob/M in viewers(src, null))
@@ -1839,6 +1851,34 @@ var/global/church_research_points = 0
 				html += "| <a href='?src=[REF(src)];bonus=toggle'>turn [bonus_on ? "off" : "on"]</a>"
 			html += "<br>"
 
+			html += "<hr>"
+			html += "<b>Additional Paths</b><br>"
+
+			html += "The Path of the Ten: <b>[dev_path_ten_unlocked ? "UNLOCKED" : "LOCKED"]</b> "
+			if(!dev_path_ten_unlocked)
+				if(HAS_TRAIT(user, TRAIT_CLERGY) && my_favor >= dev_inner_cost_favor)
+					html += "<a href='?src=[REF(src)];dev_unlock=path_ten'>Unlock (100 favor)</a>"
+				else
+					html += "<span style='color:#7f8c8d'>Unlock (100 favor)</span>"
+			html += "<br>"
+
+			html += "Heretical rituals: <b>[dev_heretical_rituals_unlocked ? "UNLOCKED" : "LOCKED"]</b> "
+			if(!dev_heretical_rituals_unlocked)
+				if(HAS_TRAIT(user, TRAIT_CLERGY) && my_favor >= dev_inner_cost_favor)
+					html += "<a href='?src=[REF(src)];dev_unlock=heretical'>Unlock (100 favor)</a>"
+				else
+					html += "<span style='color:#7f8c8d'>Unlock (100 favor)</span>"
+			html += "<br>"
+
+			// Shunned miracles
+			html += "Shunned miracles: <b>[dev_shunned_miracles_unlocked ? "UNLOCKED" : "LOCKED"]</b> "
+			if(!dev_shunned_miracles_unlocked)
+				if(HAS_TRAIT(user, TRAIT_CLERGY) && my_favor >= dev_inner_cost_favor)
+					html += "<a href='?src=[REF(src)];dev_unlock=shunned'>Unlock (100 favor)</a>"
+			else
+				html += "<span style='color:#7f8c8d'>Unlock (100 favor)</span>"
+			html += "<br>"
+
 		else if(current_tab == "organs" && unlocked_organs)
 			html += "<center><a href='?src=[REF(src)];tab=main'>\[RETURN\\]</a></center><hr>"
 			html += "<b>Organs</b><br>"
@@ -1890,6 +1930,28 @@ var/global/church_research_points = 0
 				html += "</td></tr>"
 			html += "</table>"
 
+		else if(current_tab == "knowledge" && unlocked_knowledge)
+			html += "<center><a href='?src=[REF(src)];tab=main'>\[RETURN\\]</a></center><hr>"
+			html += "<b>Knowledge</b><br>"
+
+			html += "Blood Path — <b>[kn_blood_path ? "Unlocked" : "Locked"]</b> "
+			if(!kn_blood_path)
+				if(CR.points >= kn_cost_rp) html += "<a href='?src=[REF(src)];kn_unlock=blood'>Unlock (5 RP)</a>"
+				else html += "<span style='color:#7f8c8d'>Unlock (5 RP)</span>"
+			html += "<br>"
+
+			html += "Unethical Medicine — <b>[kn_unethical_medicine ? "Unlocked" : "Locked"]</b> "
+			if(!kn_unethical_medicine)
+				if(CR.points >= kn_cost_rp) html += "<a href='?src=[REF(src)];kn_unlock=med'>Unlock (5 RP)</a>"
+				else html += "<span style='color:#7f8c8d'>Unlock (5 RP)</span>"
+			html += "<br>"
+
+			html += "Forbidden Chemistry — <b>[kn_forbidden_chemistry ? "Unlocked" : "Locked"]</b> "
+			if(!kn_forbidden_chemistry)
+				if(CR.points >= kn_cost_rp) html += "<a href='?src=[REF(src)];kn_unlock=chem'>Unlock (5 RP)</a>"
+				else html += "<span style='color:#7f8c8d'>Unlock (5 RP)</span>"
+			html += "<br>"
+
 		else
 			html += "<b>Lines</b><br>"
 
@@ -1897,46 +1959,29 @@ var/global/church_research_points = 0
 				html += "Organs — <span style='color:#2ecc71'>Unlocked</span> <a href='?src=[REF(src)];tab=organs'>Open</a><br>"
 			else
 				html += "Organs — <span style='color:#e67e22'>Locked</span> "
-				if(CR.points >= line_cost_rp)
-					html += "<a href='?src=[REF(src)];unlock=organs'>Unlock (5 RP)</a><br>"
-				else
-					html += "<span style='color:#7f8c8d'>Unlock (5 RP)</span><br>"
+				if(CR.points >= line_cost_rp) html += "<a href='?src=[REF(src)];unlock=organs'>Unlock (5 RP)</a><br>"
+				else html += "<span style='color:#7f8c8d'>Unlock (5 RP)</span><br>"
 
 			if(unlocked_artifacts)
 				html += "Artifacts — <span style='color:#2ecc71'>Unlocked</span><br>"
 			else
 				html += "Artifacts — <span style='color:#e67e22'>Locked</span> "
-				if(CR.points >= line_cost_rp)
-					html += "<a href='?src=[REF(src)];unlock=artifacts'>Unlock (5 RP)</a><br>"
-				else
-					html += "<span style='color:#7f8c8d'>Unlock (5 RP)</span><br>"
+				if(CR.points >= line_cost_rp) html += "<a href='?src=[REF(src)];unlock=artifacts'>Unlock (5 RP)</a><br>"
+				else html += "<span style='color:#7f8c8d'>Unlock (5 RP)</span><br>"
 
 			if(unlocked_knowledge)
-				html += "Knowledge — <span style='color:#2ecc71'>Unlocked</span><br>"
+				html += "Knowledge — <span style='color:#2ecc71'>Unlocked</span> <a href='?src=[REF(src)];tab=knowledge'>Open</a><br>"
 			else
 				html += "Knowledge — <span style='color:#e67e22'>Locked</span> "
-				if(CR.points >= line_cost_rp)
-					html += "<a href='?src=[REF(src)];unlock=knowledge'>Unlock (5 RP)</a><br>"
-				else
-					html += "<span style='color:#7f8c8d'>Unlock (5 RP)</span><br>"
-
-			if(unlocked_herecy)
-				html += "Herecy — <span style='color:#2ecc71'>Unlocked</span><br>"
-			else
-				html += "Herecy — <span style='color:#e67e22'>Locked</span> "
-				if(CR.points >= line_cost_rp)
-					html += "<a href='?src=[REF(src)];unlock=herecy'>Unlock (5 RP)</a><br>"
-				else
-					html += "<span style='color:#7f8c8d'>Unlock (5 RP)</span><br>"
+				if(CR.points >= line_cost_rp) html += "<a href='?src=[REF(src)];unlock=knowledge'>Unlock (5 RP)</a><br>"
+				else html += "<span style='color:#7f8c8d'>Unlock (5 RP)</span><br>"
 
 			if(unlocked_devotion)
 				html += "Devotion — <span style='color:#2ecc71'>Unlocked</span> <a href='?src=[REF(src)];tab=devotion'>Open</a><br>"
 			else
 				html += "Devotion — <span style='color:#e67e22'>Locked</span> "
-				if(CR.points >= devotion_cost_rp)
-					html += "<a href='?src=[REF(src)];unlock=devotion'>Unlock (5 RP)</a><br>"
-				else
-					html += "<span style='color:#7f8c8d'>Unlock (5 RP)</span><br>"
+				if(CR.points >= devotion_cost_rp) html += "<a href='?src=[REF(src)];unlock=devotion'>Unlock (5 RP)</a><br>"
+				else html += "<span style='color:#7f8c8d'>Unlock (5 RP)</span><br>"
 
 		var/datum/browser/B = new(user, "CHURCH_CORE", "", ui_width, ui_height)
 		B.set_content(html)
@@ -1951,6 +1996,7 @@ var/global/church_research_points = 0
 			if(t == "main") current_tab = "main"
 			else if(t == "devotion" && unlocked_devotion) current_tab = "devotion"
 			else if(t == "organs" && unlocked_organs) current_tab = "organs"
+			else if(t == "knowledge" && unlocked_knowledge) current_tab = "knowledge"
 			attack_hand(usr); return
 
 		if(href_list["buymp"])
@@ -1966,22 +2012,13 @@ var/global/church_research_points = 0
 			var/what = lowertext(href_list["unlock"])
 			var/datum/church_research/CR = GET_CHURCH_RESEARCH()
 			if(what == "organs" && !unlocked_organs && CR.points >= line_cost_rp)
-				CR.points -= line_cost_rp
-				unlocked_organs = TRUE
-				current_tab = "organs"
+				CR.points -= line_cost_rp; unlocked_organs = TRUE; current_tab = "organs"
 			else if(what == "artifacts" && !unlocked_artifacts && CR.points >= line_cost_rp)
-				CR.points -= line_cost_rp
-				unlocked_artifacts = TRUE
+				CR.points -= line_cost_rp; unlocked_artifacts = TRUE
 			else if(what == "knowledge" && !unlocked_knowledge && CR.points >= line_cost_rp)
-				CR.points -= line_cost_rp
-				unlocked_knowledge = TRUE
-			else if(what == "herecy" && !unlocked_herecy && CR.points >= line_cost_rp)
-				CR.points -= line_cost_rp
-				unlocked_herecy = TRUE
+				CR.points -= line_cost_rp; unlocked_knowledge = TRUE; current_tab = "knowledge"
 			else if(what == "devotion" && !unlocked_devotion && CR.points >= devotion_cost_rp)
-				CR.points -= devotion_cost_rp
-				unlocked_devotion = TRUE
-				current_tab = "devotion"
+				CR.points -= devotion_cost_rp; unlocked_devotion = TRUE; current_tab = "devotion"
 			attack_hand(usr); return
 
 		if(href_list["dev_unlock"])
@@ -1990,18 +2027,21 @@ var/global/church_research_points = 0
 			var/mob/living/carbon/human/H = ishuman(usr) ? usr : null
 			if(!H || H.church_favor < dev_inner_cost_favor) { attack_hand(usr); return }
 
-			var/what = lowertext(href_list["dev_unlock"])
+			var/what2 = lowertext(href_list["dev_unlock"])
 			H.church_favor = max(0, H.church_favor - dev_inner_cost_favor)
 
-			if(what == "prayer" && !dev_prayer_unlocked)
-				dev_prayer_unlocked = TRUE
-				prayer_scope = "all"
-			else if(what == "passive" && !dev_passive_unlocked)
-				dev_passive_unlocked = TRUE
-				passive_enabled = TRUE
-			else if(what == "bonus" && !dev_bonus_unlocked)
-				dev_bonus_unlocked = TRUE
-				passive_bonus = 50
+			if(what2 == "prayer" && !dev_prayer_unlocked)
+				dev_prayer_unlocked = TRUE; prayer_scope = "all"
+			else if(what2 == "passive" && !dev_passive_unlocked)
+				dev_passive_unlocked = TRUE; passive_enabled = TRUE
+			else if(what2 == "bonus" && !dev_bonus_unlocked)
+				dev_bonus_unlocked = TRUE; passive_bonus = 50
+			else if(what2 == "path_ten" && !dev_path_ten)
+				dev_path_ten = TRUE
+			else if(what2 == "rituals" && !dev_heretical_rituals)
+				dev_heretical_rituals = TRUE
+			else if(what2 == "shunned" && !dev_shunned_miracles)
+				dev_shunned_miracles = TRUE
 			attack_hand(usr); return
 
 		if(href_list["scope"])
@@ -2022,6 +2062,19 @@ var/global/church_research_points = 0
 				else passive_bonus = 50
 			attack_hand(usr); return
 
+		if(href_list["kn_unlock"])
+			if(current_tab != "knowledge" || !unlocked_knowledge) { attack_hand(usr); return }
+			var/datum/church_research/CR = GET_CHURCH_RESEARCH()
+			if(CR.points < kn_cost_rp) { attack_hand(usr); return }
+			var/k = lowertext(href_list["kn_unlock"])
+			if(k == "blood" && !kn_blood_path)
+				CR.points -= kn_cost_rp; kn_blood_path = TRUE
+			else if(k == "med" && !kn_unethical_medicine)
+				CR.points -= kn_cost_rp; kn_unethical_medicine = TRUE
+			else if(k == "chem" && !kn_forbidden_chemistry)
+				CR.points -= kn_cost_rp; kn_forbidden_chemistry = TRUE
+			attack_hand(usr); return
+
 		if(href_list["orgtab"])
 			if(current_tab != "organs" || !unlocked_organs) { attack_hand(usr); return }
 			var/tb = lowertext(href_list["orgtab"])
@@ -2035,13 +2088,9 @@ var/global/church_research_points = 0
 			var/datum/church_research/CR = GET_CHURCH_RESEARCH()
 			var/tb2 = lowertext(href_list["orgunlock"])
 			if(tb2 == "t2" && !unlocked_org_t2 && CR.points >= org_unlock_cost_rp)
-				CR.points -= org_unlock_cost_rp
-				unlocked_org_t2 = TRUE
-				org_tab = "t2"
+				CR.points -= org_unlock_cost_rp; unlocked_org_t2 = TRUE; org_tab = "t2"
 			else if(tb2 == "t3" && !unlocked_org_t3 && CR.points >= org_unlock_cost_rp)
-				CR.points -= org_unlock_cost_rp
-				unlocked_org_t3 = TRUE
-				org_tab = "t3"
+				CR.points -= org_unlock_cost_rp; unlocked_org_t3 = TRUE; org_tab = "t3"
 			attack_hand(usr); return
 
 		if(href_list["buyorg"])
@@ -2055,10 +2104,9 @@ var/global/church_research_points = 0
 			var/label = href_list["item"]
 			if(!label) { attack_hand(usr); return }
 
-			if(tier == "t1") {}
-			else if(tier == "t2" && !unlocked_org_t2) { attack_hand(usr); return }
-			else if(tier == "t3" && !unlocked_org_t3) { attack_hand(usr); return }
-			else if(!(tier in list("t1","t2","t3"))) { attack_hand(usr); return }
+			if(tier == "t2" && !unlocked_org_t2) { attack_hand(usr); return }
+			if(tier == "t3" && !unlocked_org_t3) { attack_hand(usr); return }
+			if(!(tier in list("t1","t2","t3"))) { attack_hand(usr); return }
 
 			var/list/L = _org_list_for(tier)
 			if(!(label in L)) { attack_hand(usr); return }
@@ -2067,8 +2115,7 @@ var/global/church_research_points = 0
 			if(H.church_favor < price) { attack_hand(usr); return }
 
 			var/typepath = L[label]
-			var/turf/T = get_step(usr, usr.dir)
-			if(!T) T = get_turf(usr)
+			var/turf/T = get_step(usr, usr.dir); if(!T) T = get_turf(usr)
 			new typepath(T)
 			H.church_favor = max(0, H.church_favor - price)
 			to_chat(usr, span_notice("[label] [uppertext(tier)] purchased for [price] favor."))
@@ -2095,9 +2142,9 @@ var/global/church_research_points = 0
 
 		_broadcast(span_notice("[user] lays an offering before the Heart."))
 		to_chat(user, span_notice("[flavor]"))
-
 		for(var/mob/M in GLOB.player_list)
 			if(!M?.mind) continue
 			if(HAS_TRAIT(M, TRAIT_CLERGY))
 				if(H) to_chat(M, "<font color='yellow'>[H.real_name] donates [amount]. Favor: [H.church_favor].</font>")
 				else to_chat(M, "<font color='yellow'>Someone donates [amount].</font>")
+
