@@ -42,6 +42,7 @@
 	flag = "magic"
 	range = 10
 	speed = 1
+	nodamage = FALSE
 	var/aoe_range = 0
 
 /obj/projectile/magic/frostbolt/on_hit(target)

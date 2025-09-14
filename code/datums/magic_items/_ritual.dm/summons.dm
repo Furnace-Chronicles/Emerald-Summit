@@ -36,7 +36,7 @@
 	desc = "summons a hellhound"
 	blacklisted = FALSE
 	tier = 2
-	required_atoms = list(/obj/item/magic/infernalash = 3, /obj/item/magic/obsidian = 2, /obj/item/magic/melded/t1 = 1)
+	required_atoms = list(/obj/item/magic/infernal/ash = 3, /obj/item/magic/obsidian = 2, /obj/item/magic/melded/t1 = 1)
 	mob_to_summon = /mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound
 
 /datum/runeritual/summoning/watcher
@@ -44,15 +44,15 @@
 	desc = "summons an infernal watcher"
 	blacklisted = FALSE
 	tier = 3
-	required_atoms = list(/obj/item/magic/hellhoundfang = 2, /obj/item/magic/obsidian = 2, /obj/item/magic/melded/t2 =1)
+	required_atoms = list(/obj/item/magic/infernal/fang = 2, /obj/item/magic/obsidian = 2, /obj/item/magic/melded/t2 =1)
 	mob_to_summon = /mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher
 
 /datum/runeritual/summoning/archfiend
 	name = "T4 - fiend"
-	desc = "summons an fiend"
+	desc = "summons a fiend"
 	blacklisted = FALSE
 	tier = 4
-	required_atoms = list(/obj/item/magic/infernalcore = 1, /obj/item/magic/obsidian = 3, /obj/item/magic/melded/t3 =1)
+	required_atoms = list(/obj/item/magic/infernal/core = 1, /obj/item/magic/obsidian = 3, /obj/item/magic/melded/t3 =1)
 	mob_to_summon = /mob/living/simple_animal/hostile/retaliate/rogue/infernal/fiend
 
 /datum/runeritual/summoning/sprite
@@ -65,18 +65,18 @@
 
 /datum/runeritual/summoning/glimmer
 	name = "T2 - glimmerwing"
-	desc = "summons an fae spirit"
+	desc = "summons a fae spirit"
 	blacklisted = FALSE
 	tier = 2
-	required_atoms = list(/obj/item/reagent_containers/food/snacks/grown/manabloom = 2, /obj/item/magic/fairydust = 3, /obj/item/magic/melded/t1 = 1)
+	required_atoms = list(/obj/item/reagent_containers/food/snacks/grown/manabloom = 2, /obj/item/magic/fae/dust = 3, /obj/item/magic/melded/t1 = 1)
 	mob_to_summon = /mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing
 
 /datum/runeritual/summoning/dryad
 	name = "T3 - dryad"
-	desc = "summons an drayd"
+	desc = "summons a drayd"
 	blacklisted = FALSE
 	tier = 3
-	required_atoms = list(/obj/item/reagent_containers/food/snacks/grown/manabloom = 2, /obj/item/magic/iridescentscale = 2, /obj/item/magic/melded/t2 = 1)
+	required_atoms = list(/obj/item/reagent_containers/food/snacks/grown/manabloom = 2, /obj/item/magic/fae/scale = 2, /obj/item/magic/melded/t2 = 1)
 	mob_to_summon = /mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad
 
 /datum/runeritual/summoning/sylph
@@ -84,7 +84,7 @@
 	desc = "summons an archfae"
 	blacklisted = FALSE
 	tier = 4
-	required_atoms = list(/obj/item/reagent_containers/food/snacks/grown/manabloom = 1, /obj/item/magic/heartwoodcore = 1, /obj/item/magic/melded/t3 = 1)
+	required_atoms = list(/obj/item/reagent_containers/food/snacks/grown/manabloom = 1, /obj/item/magic/fae/core = 1, /obj/item/magic/melded/t3 = 1)
 	mob_to_summon = /mob/living/simple_animal/hostile/retaliate/rogue/fae/sylph
 
 /datum/runeritual/summoning/crawler
@@ -100,7 +100,7 @@
 	desc = "summons an elemental"
 	blacklisted = FALSE
 	tier = 2
-	required_atoms = list(/obj/item/magic/elementalmote = 3, /obj/item/magic/manacrystal = 2, /obj/item/magic/melded/t1 = 1)
+	required_atoms = list(/obj/item/magic/elemental/mote = 3, /obj/item/magic/manacrystal = 2, /obj/item/magic/melded/t1 = 1)
 	mob_to_summon = /mob/living/simple_animal/hostile/retaliate/rogue/elemental/warden
 
 /datum/runeritual/summoning/behemoth
@@ -108,7 +108,7 @@
 	desc = "summons a large elemental"
 	blacklisted = FALSE
 	tier = 3
-	required_atoms = list(/obj/item/magic/elementalshard = 2, /obj/item/magic/manacrystal = 2, /obj/item/magic/melded/t2 =1)
+	required_atoms = list(/obj/item/magic/elemental/shard = 2, /obj/item/magic/manacrystal = 2, /obj/item/magic/melded/t2 =1)
 	mob_to_summon = /mob/living/simple_animal/hostile/retaliate/rogue/elemental/behemoth
 
 /datum/runeritual/summoning/collossus
@@ -116,7 +116,7 @@
 	desc = "summons an huge elemental"
 	blacklisted = FALSE
 	tier = 4
-	required_atoms = list(/obj/item/magic/elementalfragment = 1, /obj/item/magic/manacrystal = 1, /obj/item/magic/melded/t3 =1)
+	required_atoms = list(/obj/item/magic/elemental/fragment = 1, /obj/item/magic/manacrystal = 1, /obj/item/magic/melded/t3 =1)
 	mob_to_summon = /mob/living/simple_animal/hostile/retaliate/rogue/elemental/colossus
 
 /datum/runeritual/summoning/abberant

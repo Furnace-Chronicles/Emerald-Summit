@@ -1,5 +1,6 @@
 /datum/sex_action/masturbate_vagina_finger
 	name = "Finger pussy"
+	target_sex_part = SEX_PART_CUNT
 
 /datum/sex_action/masturbate_vagina_finger/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user != target)

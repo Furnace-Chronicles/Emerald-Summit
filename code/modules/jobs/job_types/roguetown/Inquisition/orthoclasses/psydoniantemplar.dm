@@ -7,6 +7,36 @@
 	category_tags = list(CTAG_INQUISITION)
 	cmode_music = 'sound/music/templarofpsydonia.ogg'
 
+	subclass_languages = list(/datum/language/otavan)
+
+	traits_applied = list(
+		TRAIT_INQUISITION,
+		TRAIT_HEAVYARMOR,
+		TRAIT_STEELHEARTED,
+		TRAIT_OUTLANDER
+	)
+	subclass_stats = list(
+		STATKEY_END = 3,
+		STATKEY_CON = 2,
+		STATKEY_STR = 2
+	)
+
+	subclass_skills = list(
+		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/bows = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
+	)
+
 /datum/outfit/job/roguetown/psydoniantemplar
 	job_bitflag = BITFLAG_CHURCH
 
@@ -29,29 +59,9 @@
 	id = /obj/item/clothing/ring/signet/silver
 	backpack_contents = list(/obj/item/roguekey/inquisition = 1,
 	/obj/item/paper/inqslip/arrival/ortho = 1)
-	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/whipsflails, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/crossbows, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/magic/holy, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
-	H.change_stat("strength", 2)
-	H.change_stat("constitution", 2)
-	H.change_stat("endurance", 3)
-	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_INQUISITION, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_OUTLANDER, TRAIT_GENERIC)		//You're a foreigner, a guest of the realm.
-	H.grant_language(/datum/language/otavan)
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = FALSE, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles. ENDURE.
 
@@ -76,6 +86,7 @@
 		if("Sword")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/long/psysword(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/scabbard/sword(H), TRUE)
 		if("Axe")
 			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/psyaxe(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)

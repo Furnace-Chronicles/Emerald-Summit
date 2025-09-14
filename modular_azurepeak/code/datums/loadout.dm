@@ -153,6 +153,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Necra Tabard"
 	path = /obj/item/clothing/cloak/templar/necran
 
+/datum/loadout_item/tabard/xylix
+	name = "Xylix Tabard"
+	path = /obj/item/clothing/cloak/templar/xylixian
+
 /datum/loadout_item/tabard/psydon
 	name = "Psydon Tabard"
 	path = /obj/item/clothing/cloak/templar/psydon
@@ -209,15 +213,26 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Wicker Cloak"
 	path = /obj/item/clothing/cloak/wickercloak
 
+/datum/loadout_item/cloudcutter_kaz_cloak
+	name = "Cloud Cutter Cloak"
+	path = /obj/item/clothing/cloak/eastcloak1
+
+/datum/loadout_item/leather_kaz_cloak
+	name = "Leather Cloak"
+	path = /obj/item/clothing/cloak/eastcloak2
+
+/datum/loadout_item/ladyshort_cloak
+	name = "Ladylike Shortcloak"
+	path = /obj/item/clothing/cloak/lordcloak/ladycloak
+
+/datum/loadout_item/forester_snow_cloak
+	name = "Snow Cloak"
+	path = /obj/item/clothing/cloak/forrestercloak/snow
+
 //SHOES
 /datum/loadout_item/darkboots
 	name = "Dark Boots"
 	path = /obj/item/clothing/shoes/roguetown/boots
-
-/datum/loadout_item/eastcloak2
-	name = "Leather Cloak"
-	path = /obj/item/clothing/cloak/eastcloak2
-
 
 /datum/loadout_item/babouche
 	name = "Babouche"
@@ -372,6 +387,22 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Nun Habit"
 	path = /obj/item/clothing/suit/roguetown/shirt/robe/nun
 
+/datum/loadout_item/worn_dobo_robe
+	name = "Worn Dobo Robe"
+	path = /obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit/light
+
+/datum/loadout_item/floral_robe
+	name = "Floral Robes"
+	path = /obj/item/clothing/suit/roguetown/armor/basiceast/captainrobe/light
+
+/datum/loadout_item/formal_robe
+	name = "Formal Dobo Robe"
+	path = /obj/item/clothing/suit/roguetown/armor/basiceast/crafteast/light
+
+/datum/loadout_item/ronin_robe
+	name = "Ronin Dobo Robe"
+	path = /obj/item/clothing/suit/roguetown/armor/basiceast/light
+
 /datum/loadout_item/eastshirt1
 	name = "Black Foreign Shirt"
 	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
@@ -387,6 +418,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/leathertights
 	name = "Leather Tights"
 	path = /obj/item/clothing/under/roguetown/trou/leathertights
+
+/datum/loadout_item/rumaclanpants
+	name = "Cut-Throat Pants"
+	path = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1/light
 
 /datum/loadout_item/trou
 	name = "Work Trousers"

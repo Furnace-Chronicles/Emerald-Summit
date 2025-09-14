@@ -178,7 +178,8 @@
 		"Yuethindrynn" = SKIN_COLOR_YUETHINDRYNN,
 		"Koredynn" = SKIN_COLOR_KOREDYNN,
 		"Aiseedrynn" = SKIN_COLOR_AISEEDRYNN,
-		"Grenduskra" = SKIN_COLOR_GRENDUSKRA
+		"Grenduskra" = SKIN_COLOR_GRENDUSKRA,
+		"Ghost" = SKIN_COLOR_GHOST
 	)
 
 /datum/species/dullahan/get_hairc_list()

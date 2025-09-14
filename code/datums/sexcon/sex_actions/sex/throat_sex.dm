@@ -1,6 +1,8 @@
 /datum/sex_action/throat_sex
 	name = "Fuck their throat"
 	stamina_cost = 1.0
+	user_sex_part = SEX_PART_COCK
+	target_sex_part = SEX_PART_JAWS
 
 /datum/sex_action/throat_sex/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
@@ -23,7 +25,7 @@
 	if(!user.getorganslot(ORGAN_SLOT_PENIS))
 		return FALSE
 	if(!user.sexcon.can_use_penis())
-		return
+		return FALSE
 	if(isdullahan(target) && knot_on_finish)
 		var/datum/species/dullahan/dullahan = target.dna.species
 		if(dullahan.headless)

@@ -1,13 +1,16 @@
 /datum/sex_action/double_penetration_sex
 	name = "Fuck both their holes"
 	stamina_cost = 1.0
+	user_sex_part = SEX_PART_COCK
+	target_sex_part = SEX_PART_CUNT|SEX_PART_ANUS
 
 /datum/sex_action/double_penetration_sex/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
 		return FALSE
 	if(!target.getorganslot(ORGAN_SLOT_VAGINA))
 		return FALSE
-	if(!user.getorganslot(ORGAN_SLOT_PENIS))
+	var/obj/item/organ/penis/penis = user.getorganslot(ORGAN_SLOT_PENIS)
+	if(!penis || penis.penis_type != PENIS_TYPE_TAPERED_DOUBLE && penis.penis_type != PENIS_TYPE_TAPERED_DOUBLE_KNOTTED)
 		return FALSE
 	return TRUE
 
@@ -21,12 +24,10 @@
 	if(!target.getorganslot(ORGAN_SLOT_VAGINA))
 		return FALSE
 	var/obj/item/organ/penis/penis = user.getorganslot(ORGAN_SLOT_PENIS)
-	if(!penis)
-		return FALSE
-	if(penis.penis_type != PENIS_TYPE_TAPERED_DOUBLE && penis.penis_type != PENIS_TYPE_TAPERED_DOUBLE_KNOTTED)
+	if(!penis || penis.penis_type != PENIS_TYPE_TAPERED_DOUBLE && penis.penis_type != PENIS_TYPE_TAPERED_DOUBLE_KNOTTED)
 		return FALSE
 	if(!user.sexcon.can_use_penis())
-		return
+		return FALSE
 	return TRUE
 
 /datum/sex_action/double_penetration_sex/on_start(mob/living/carbon/human/user, mob/living/carbon/human/target)

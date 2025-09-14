@@ -21,6 +21,9 @@
 /turf/open/floor/rogue/snow
 	track_prob = 20
 
+/turf/open/floor/rogue/AzureSand
+	track_prob = 20
+
 /turf/open/floor/rogue/snowrough
 	track_prob = 10
 

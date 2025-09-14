@@ -13,15 +13,8 @@
 /datum/virtue/utility/socialite
 	name = "Socialite"
 	desc = "I thrive in social settings, easily reading the emotions of others and charming those around me. My presence is always felt at any gathering."
-	custom_text = "Incompatible with Ugly virtue. Grants empathic insight."
-	added_traits = list(TRAIT_BEAUTIFUL, TRAIT_GOODLOVER, TRAIT_EMPATH)
-
-/datum/virtue/utility/socialite/handle_traits(mob/living/carbon/human/recipient)
-	..()
-	if(HAS_TRAIT(recipient, TRAIT_UNSEEMLY))
-		to_chat(recipient, "Your social grace is cancelled out! You become normal.")
-		REMOVE_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
-		REMOVE_TRAIT(recipient, TRAIT_UNSEEMLY, TRAIT_VIRTUE)
+	custom_text = "Grants empathic insight."
+	added_traits = list(TRAIT_GOODLOVER, TRAIT_EMPATH)
 
 /datum/virtue/utility/beautiful
 	name = "Beautiful"

@@ -112,6 +112,13 @@
 	med_pot = /datum/alch_cauldron_recipe/antidote
 	minor_pot = /datum/alch_cauldron_recipe/big_health_potion
 
+/obj/item/alch/tindust
+	name = "tin dust"
+	icon_state = "tindust"
+	major_pot = /datum/alch_cauldron_recipe/big_stam_poison
+	med_pot = /datum/alch_cauldron_recipe/big_mana_potion
+	minor_pot = /datum/alch_cauldron_recipe/strong_antidote
+
 /obj/item/alch/magicdust
 	name = "pure essentia"
 	icon_state = "magic_runedust"
@@ -233,7 +240,7 @@
 	if(alert("Do you wish to change your self?", "Dust of Self", "Yes", "No") != "Yes")
 		return
 	user.visible_message(
-		span_warn("[user] begins to use [src]."), 
+		span_warn("[user] begins to use [src]."),
 		span_warn("I begin to apply [src] on myself.")
 	)
 	if(!do_after(user, 5 SECONDS))

@@ -1,5 +1,6 @@
 /datum/sex_action/thighjob
 	name = "Use their thighs to get off"
+	user_sex_part = SEX_PART_COCK
 
 /datum/sex_action/thighjob/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

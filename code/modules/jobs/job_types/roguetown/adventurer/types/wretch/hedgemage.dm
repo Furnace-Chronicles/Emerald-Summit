@@ -6,7 +6,30 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/wretch/hedgemage
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_MAGEARMOR, TRAIT_OUTLAW, TRAIT_ARCYNE_T3, TRAIT_HERESIARCH)
+	cmode_music = 'sound/music/combat_bandit_mage.ogg'
+	extra_context = "Choose between 2 options: 27 spellpoints or 21 spellpoints and Dodge Expert."
+
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3)
+	// Same stat spread as necromancer, same reasoning
+	subclass_stats = list(
+		STATKEY_INT = 4,
+		STATKEY_PER = 2,
+		STATKEY_END = 1,
+		STATKEY_SPD = 1
+	)
+
+	subclass_spellpoints = 21 // Unlike Rogue Mage, who gets 6 but DExpert, this one don't have DExpert but have more spell points than anyone but the CM. 
+
+	subclass_skills = list(
+		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
+		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
+	)
 
 // Hedge Mage on purpose has nearly the same fit as a Adv Mage / Mage Associate who cast conjure armor roundstart. Call it meta disguise.
 /datum/outfit/job/roguetown/wretch/hedgemage/pre_equip(mob/living/carbon/human/H)
@@ -25,35 +48,30 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/reagent_containers/glass/bottle/rogue/manapot
 	neck = /obj/item/clothing/neck/roguetown/leather // No iron gorget vs necro. They will have to acquire one in round.
-	beltl = /obj/item/rogueweapon/huntingknife
+	beltl = /obj/item/storage/magebag/starter
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backr = /obj/item/rogueweapon/woodstaff/ruby
-	backpack_contents = list(/obj/item/spellbook_unfinished/pre_arcyne = 1, /obj/item/roguegem/amethyst = 1, /obj/item/storage/belt/rogue/pouch/coins/poor = 1, /obj/item/flashlight/flare/torch/lantern/prelit = 1, /obj/item/rope/chain = 1)
-	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/alchemy, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/magic/arcane, 4, TRUE)
+	backpack_contents = list(
+		/obj/item/spellbook_unfinished/pre_arcyne = 1, 
+		/obj/item/roguegem/amethyst = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1, 
+		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/chalk = 1,
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+	)
+
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
-	H.cmode_music = 'sound/music/combat_bandit_mage.ogg'
+
 	if(H.age == AGE_OLD)
-		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_MASTER, TRUE)
 		H?.mind.adjust_spellpoints(6)
-	H.change_stat("intelligence", 4) // Same stat spread as necromancer, same reasoning
-	H.change_stat("perception", 2)
-	H.change_stat("endurance", 1)
-	H.change_stat("speed", 1)
-	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 	var/classes = list("Hedge Mage","Rogue Mage")
 	var/classchoice = input("Choose your archetypes", "Available archetypes") as anything in classes
 	switch(classchoice)
 		if("Hedge Mage")
-			H?.mind.adjust_spellpoints(27)
+			H?.mind.adjust_spellpoints(6)
 		if("Rogue Mage")
-			H?.mind.adjust_spellpoints(21)
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	wretch_select_bounty(H)

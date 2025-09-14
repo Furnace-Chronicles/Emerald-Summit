@@ -252,7 +252,27 @@
 	desc = span_green("I feel inspired by the sermon.")
 	timer = 20 MINUTES
 
+/datum/stressevent/champion
+	stressadd = -3
+	desc = span_green("I am near my ward!")
+	timer = 1 MINUTES
+
+/datum/stressevent/ward
+	stressadd = -3
+	desc = span_green("I am near my Champion! Oh, oh, Champion!")
+	timer = 1 MINUTES
+
 /datum/stressevent/goodloving
 	timer = 5 MINUTES
 	stressadd = -3
 	desc = "<span class='green'>I got some love, and it was wonderful!</span>"
+
+/datum/stressevent/empath_happy
+	stressadd = -2
+	desc = span_green("I've seen someone in a good mood, and it makes me happy!")
+	timer = 2 MINUTES
+
+/datum/stressevent/empath_superhappy
+	stressadd = -4
+	desc = span_green("I've seen someone completely at peace! Their happiness is contagious!")
+	timer = 3 MINUTES

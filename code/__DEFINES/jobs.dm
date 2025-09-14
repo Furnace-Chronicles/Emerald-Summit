@@ -373,7 +373,7 @@
 	/datum/job/roguetown/loudmouth,\
 	/datum/job/roguetown/archivist,\
 	/datum/job/roguetown/barkeep,\
-	/datum/job/roguetown/guildsmaster,\
+	/datum/job/roguetown/guildmaster,\
 	/datum/job/roguetown/guildsman,\
 	/datum/job/roguetown/tailor,\
 	/datum/job/roguetown/merchant,\

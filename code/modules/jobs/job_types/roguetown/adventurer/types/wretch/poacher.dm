@@ -4,16 +4,45 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/wretch/poacher
+	cmode_music = 'sound/music/combat_poacher.ogg'
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_DODGEEXPERT, TRAIT_OUTLAW, TRAIT_WOODSMAN, TRAIT_OUTDOORSMAN, TRAIT_HERESIARCH)
 
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_WOODSMAN, TRAIT_OUTDOORSMAN)
+	// No straight upgrade to perception / speed to not stack one stat too high, but still stronger than MAA Skirm out of town.
+	subclass_stats = list(
+		STATKEY_PER = 2,
+		STATKEY_SPD = 2,
+		STATKEY_END = 2,
+		STATKEY_CON = 1
+	)
+
+	subclass_skills = list(
+		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/axes = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/traps = SKILL_LEVEL_EXPERT,
+		//these people live in the forest so let's give them some peasant skills
+		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/tanning = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
+		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
+	)
 
 /datum/outfit/job/roguetown/wretch/poacher/pre_equip(mob/living/carbon/human/H)
 	head = /obj/item/clothing/head/roguetown/roguehood/darkgreen
 	mask = /obj/item/clothing/mask/rogue/wildguard
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
-	cloak = /obj/item/clothing/cloak/raincloak/furcloak/darkgreen
+	cloak = /obj/item/clothing/cloak/wickercloak
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather
@@ -23,45 +52,28 @@
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	beltl = /obj/item/quiver/arrows
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-	backpack_contents = list(/obj/item/bait = 1, /obj/item/rogueweapon/huntingknife = 1, /obj/item/storage/belt/rogue/pouch/coins/poor = 1, /obj/item/flashlight/flare/torch/lantern/prelit = 1, /obj/item/rope/chain = 1)
-	H.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/traps, 4, TRUE)
-	//these people live in the forest so let's give them some peasant skills
-	H.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/tanning, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/labor/butchering, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
-	H.cmode_music = 'sound/music/combat_poacher.ogg'
+	backpack_contents = list(
+		/obj/item/bait = 1,
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
+		/obj/item/rope/chain = 1,
+		)
 	var/weapons = list("Dagger","Axe", "Cudgel", "My Bow Is Enough")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Dagger")
-			H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
-			beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
+			H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
+			beltr = /obj/item/rogueweapon/scabbard/sheath
+			r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
 		if("Axe")
-			H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
 			beltr = /obj/item/rogueweapon/stoneaxe/woodcut
 		if ("Cudgel")
-			H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 			beltr = /obj/item/rogueweapon/mace/cudgel
 		if ("My Bow Is Enough")
-			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/bows, 5, TRUE)
 			head = /obj/item/clothing/head/roguetown/duelhat
-	H.change_stat("endurance", 2)
-	H.change_stat("constitution", 1) // No straight upgrade to perception / speed to not stack one stat too high, but still stronger than MAA Skirm out of town.
-	H.change_stat("perception", 2)
-	H.change_stat("speed", 2)
 	wretch_select_bounty(H)

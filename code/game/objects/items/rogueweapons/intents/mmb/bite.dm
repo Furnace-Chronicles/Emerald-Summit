@@ -120,7 +120,7 @@
 					if(!HAS_TRAIT(src, TRAIT_SILVER_BLESSED))
 						if(istype(caused_wound))
 							caused_wound.werewolf_infect_attempt()
-						
+
 				if(HAS_TRAIT(src, TRAIT_SILVER_BLESSED))
 					to_chat(user, span_warning("BLEH! [bite_victim] tastes of SILVER! My gift cannot take hold."))
 				else
@@ -324,11 +324,17 @@
 		to_chat(user, span_warning("Sigh. It's not bleeding."))
 		return
 	var/mob/living/carbon/C = grabbed
+	if(!C.mind)
+		to_chat(user, span_warning("It has no mind. Its blood is unfit for me."))
+		return
 	if(C.dna?.species && (NOBLOOD in C.dna.species.species_traits))
 		to_chat(user, span_warning("Sigh. No blood."))
 		return
 	if(C.blood_volume <= 0)
 		to_chat(user, span_warning("Sigh. No blood."))
+		return
+	if(C.mob_biotypes & MOB_UNDEAD)
+		to_chat(user, span_warning("Corrupt blood. I gain nothing from it."))
 		return
 	if(ishuman(C))
 		var/mob/living/carbon/human/H = C
@@ -344,7 +350,7 @@
 		var/zomwerewolf = C.mind?.has_antag_datum(/datum/antagonist/werewolf)
 		if(!zomwerewolf && C.stat != DEAD)
 			zomwerewolf = C.mind?.has_antag_datum(/datum/antagonist/zombie)
-		
+
 		if(VDrinker)
 			// Regular vampire lords
 			if(zomwerewolf)
@@ -398,7 +404,7 @@
 			to_chat(user, span_notice("I gain 400 vitae from drinking blood. Current vitae: [VDrinker.vitae]"))
 		else if(VDrinker && !C.mind)
 			to_chat(user, span_warning("This blood is not pure enough to nourish me properly!"))
-		
+
 
 	if(C.mind && user.mind.has_antag_datum(/datum/antagonist/vampirelord))
 		var/datum/antagonist/vampirelord/VDrinker = user.mind.has_antag_datum(/datum/antagonist/vampirelord)

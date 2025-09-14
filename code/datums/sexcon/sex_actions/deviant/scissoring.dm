@@ -1,5 +1,7 @@
 /datum/sex_action/scissoring
 	name = "Scissor them"
+	user_sex_part = SEX_PART_CUNT
+	target_sex_part = SEX_PART_CUNT
 
 /datum/sex_action/scissoring/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
