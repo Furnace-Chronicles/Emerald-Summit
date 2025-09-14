@@ -243,3 +243,7 @@
 		return
 
 	dom_comp.confirm_submission()
+	
+#undef COOLDOWN_STUN
+#undef COOLDOWN_DAMAGE
+#undef COOLDOWN_NONE
