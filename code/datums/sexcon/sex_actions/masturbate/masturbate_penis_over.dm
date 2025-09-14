@@ -1,6 +1,7 @@
 /datum/sex_action/masturbate_penis_over
 	name = "Jerk over them"
 	check_same_tile = FALSE
+	user_sex_part = SEX_PART_COCK
 
 /datum/sex_action/masturbate_penis_over/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
@@ -17,7 +18,7 @@
 	if(!user.getorganslot(ORGAN_SLOT_PENIS))
 		return FALSE
 	if(!user.sexcon.can_use_penis())
-		return
+		return FALSE
 	return TRUE
 
 /datum/sex_action/masturbate_penis_over/on_start(mob/living/carbon/human/user, mob/living/carbon/human/target)

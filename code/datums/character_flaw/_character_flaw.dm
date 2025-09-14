@@ -21,6 +21,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	"Sleepless"=/datum/charflaw/sleepless,
 	"Mute"=/datum/charflaw/mute,
 	"Critical Weakness"=/datum/charflaw/critweakness,
+	"Foreigner"=/datum/charflaw/foreigner,
 	"Random or No Flaw"=/datum/charflaw/randflaw,
 	"No Flaw (3 TRIUMPHS)"=/datum/charflaw/noflaw,
 	))
@@ -502,3 +503,44 @@ GLOBAL_LIST_INIT(character_flaws, list(
 
 /datum/charflaw/critweakness/on_mob_creation(mob/user)
 	ADD_TRAIT(user, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
+
+/datum/charflaw/foreigner	
+	name = "Foreigner"
+	desc = "You never learned Imperial. You cannot understand or speak it."
+
+/datum/charflaw/foreigner/apply_post_equipment(mob/user)
+	var/mob/living/carbon/human/H = user 
+	var/datum/job/J = SSjob.GetJob(H.mind.assigned_role)
+	if(J && (J.department_flag & (NOBLEMEN | GARRISON | CHURCHMEN | INQUISITION | YEOMEN)))
+		var/list/flaw_choices = GLOB.character_flaws.Copy()
+		flaw_choices -= "Foreigner"
+		flaw_choices -= "Random or No Flaw"
+		flaw_choices -= "No Flaw (3 TRIUMPHS)"
+		var/new_flaw_name = pick(flaw_choices)
+		var/new_flaw_type = GLOB.character_flaws[new_flaw_name]
+		H.charflaw = new new_flaw_type()
+		H.charflaw.on_mob_creation(H)
+		to_chat(user, span_warning("Your profession requires you to speak the local language. Your 'Foreigner' flaw has been replaced with '[H.charflaw.name]'."))
+		return
+	
+	user.remove_language(/datum/language/common)
+	if(!user.get_random_understood_language()) // give them a random langauge if they dont understand any
+		var/static/list/selectable_languages = list(
+			/datum/language/elvish,
+			/datum/language/dwarvish,
+			/datum/language/orcish,
+			/datum/language/hellspeak,
+			/datum/language/draconic,
+			/datum/language/celestial,
+			/datum/language/grenzelhoftian,
+			/datum/language/kazengunese,
+			/datum/language/otavan,
+			/datum/language/etruscan,
+			/datum/language/gronnic,
+			/datum/language/aavnic,
+			/datum/language/abyssal
+		)
+		var/datum/language/new_language = pick(selectable_languages)
+		user.grant_language(new_language)
+		to_chat(user, span_info("In your past, you learned the language [initial(new_language.name)]."))
+		desc += " In your past, you learned the language [initial(new_language.name)]."

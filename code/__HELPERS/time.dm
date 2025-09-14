@@ -39,7 +39,7 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 		GLOB.tod = "dawn"
 //		testing("set [tod]")
 	if(time > SSnightshift.nightshift_day_start && time <= SSnightshift.nightshift_dusk_start)
-		GLOB.tod = "day"
+		GLOB.tod = "dae"
 //		testing("set [tod]")
 	if(time > SSnightshift.nightshift_dusk_start && time <= SSnightshift.nightshift_start_time)
 		GLOB.tod = "dusk"
@@ -71,7 +71,7 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 		else
 			switch(GLOB.forecast) //end the weather now
 				if("rain")
-					if(GLOB.tod == "day")
+					if(GLOB.tod == "dae")
 						GLOB.forecast = "rainbow"
 					else
 						GLOB.forecast = null
@@ -237,3 +237,7 @@ GLOBAL_VAR_INIT(rollovercheck_last_timeofday, 0)
 
 //returns time diff of two times normalized to time_rate_multiplier
 /proc/daytimeDiff(timeA, timeB)
+
+	//if the time is less than station time, add 24 hours (MIDNIGHT_ROLLOVER)
+	var/time_diff = timeA > timeB ? (timeB + 24 HOURS) - timeA : timeB - timeA
+	return time_diff / SSticker.station_time_rate_multiplier // normalise with the time rate multiplier

@@ -42,7 +42,7 @@
 
 	listening = set_listening
 	speaking = set_speaking
-	garrisoncolor = set_garrisoncolor 
+	garrisoncolor = set_garrisoncolor
 	message_received_sound = set_message_received_sound
 	target = set_starting_target
 	message_received_volume = set_message_received_volume
@@ -396,7 +396,7 @@
 		if(alert("Would you like to swap lines or connect to a jabberline?",, "swap", "jabberline") != "jabberline")
 			if(scom.target != SCOM_TARGET_GARRISON)
 				scom.target = SCOM_TARGET_GARRISON
-			else 
+			else
 				scom.target = SCOM_TARGET_COMMONS
 			scom.mute_commons = !scom.mute_commons
 			scom.mute_garrison = !scom.mute_commons // Yes this is intentional.
@@ -716,6 +716,7 @@
 /obj/structure/listeningdeviceactive/Initialize()
 	. = ..()
 	scom.setup(src, TRUE, TRUE, FALSE, FALSE, DEFAULT_GARRISON_COLOR, 'sound/vo/mobs/rat/rat_life.ogg', 100, SCOM_TARGET_INQUISITOR, FALSE, FALSE, FALSE, FALSE)
+	become_hearing_sensitive()
 
 /obj/structure/listeningdeviceactive/attack_right(mob/user)
 	to_chat(user, span_info("I begin dismounting the listen-stone..."))
@@ -727,6 +728,7 @@
 /obj/structure/listeningdeviceactive/Destroy()
 	scom.cleanup()
 	qdel(scom)
+	lose_hearing_sensitivity()
 	return ..()
 
 /obj/structure/listeningdeviceactive/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, message_mode, original_message)

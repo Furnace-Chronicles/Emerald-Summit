@@ -123,6 +123,8 @@
 		/datum/mob_descriptor/stature/patriarch,
 		/datum/mob_descriptor/stature/villain,
 		/datum/mob_descriptor/stature/thug,
+		/datum/mob_descriptor/stature/knave,
+		/datum/mob_descriptor/stature/wench,
 		/datum/mob_descriptor/stature/snob,
 		/datum/mob_descriptor/stature/slob,
 		/datum/mob_descriptor/stature/brute,
@@ -142,6 +144,16 @@
 		/datum/mob_descriptor/stature/bookworm,
 		/datum/mob_descriptor/stature/lowlife,
 		/datum/mob_descriptor/stature/dignitary,
+		/datum/mob_descriptor/stature/degenerate,
+		/datum/mob_descriptor/stature/zealot,
+		/datum/mob_descriptor/stature/churl,
+		/datum/mob_descriptor/stature/archon,
+		/datum/mob_descriptor/stature/vizier,
+		/datum/mob_descriptor/stature/blaggard,
+		/datum/mob_descriptor/stature/creep,
+		/datum/mob_descriptor/stature/freek,
+		/datum/mob_descriptor/stature/weerdoe,
+		/datum/mob_descriptor/stature/creacher,
 	)
 
 /datum/descriptor_choice/voice

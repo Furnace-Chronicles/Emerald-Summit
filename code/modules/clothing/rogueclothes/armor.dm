@@ -241,10 +241,10 @@
 		add_overlay(pic2)
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/chargah
-	name = "steppesman chargah robe"
-	desc = "A light yet thick robe padded with fine silks and cloth, acting as a mix of traditional gambeson and imported silks of the east. Popular among Aavnr steppesmen."
+	name = "padded caftan"
+	desc = "A long overcoat commonly worn in Naledi, Kazengun, and Aavnr - but mostly associated with steppesmen. This specific kind rivals a gambeson in protection."
 	icon_state = "chargah"
-	color = "#864a4a"
+	color = "#ffffff"
 	boobed = TRUE
 	shiftable = FALSE
 
@@ -969,10 +969,10 @@
 	smelt_bar_num = 2
 
 /obj/item/clothing/suit/roguetown/armor/plate/scale/steppe
-	name = "steel steppesman hatanga"
-	desc = "A set of steel-scaled hatanga armor hailing from the southern steppes."
+	name = "steel heavy lamellar"
+	desc = "A chestpiece of Aavnic make composed of easily-replaced small rectangular plates of layered steel laced together in rows with wire. Malleable and protective, perfect for cavalrymen."
 	icon_state = "hudesutu"
-	max_integrity = 250		//Grenzel gets 100+ integrity, I don't see why not give a +50 here.
+	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL + 50
 
 
 //HEAVY ARMOR//
@@ -1535,6 +1535,12 @@
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	flags_inv = HIDEBOOB|HIDECROTCH
 
+/obj/item/clothing/suit/roguetown/armor/basiceast/light
+	name = "fragile dobo robe"
+	desc = "A dirty tattered dobo robe with white lapels, robes primarily worn by the nomadic or disgraced ronin traveling from their homeland."
+	armor = ARMOR_PADDED_BAD
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
+
 //less integrity than a leather cuirass, incredibly weak to blunt damage - great against slash - standard leather value against stab
 //the intent for these armors is to create specific weaknesses/strengths for people to play with
 
@@ -1545,6 +1551,12 @@
 	item_state = "eastsuit2"
 	armor = list("blunt" = 50, "slash" = 90, "stab" = 60, "piercing" = 30, "fire" = 0, "acid" = 0)
 	max_integrity = 200
+
+/obj/item/clothing/suit/roguetown/armor/basiceast/crafteast/light
+	name = "formal dobo robe"
+	desc = "A dobo robe with a red tassel, used primarily for general use by the populace for formal occasions."
+	armor = ARMOR_PADDED_BAD
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
 
 //craftable variation of eastsuit, essentially requiring the presence of a tailor with relevant materials
 //still weak against blunt
@@ -1558,6 +1570,12 @@
 	armor = list("blunt" = 50, "slash" = 90, "stab" = 60, "piercing" = 30, "fire" = 0, "acid" = 0)
 	max_integrity = 200
 
+/obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit/light
+	name = "worn dobo robe"
+	desc = "A tattered robe belonging to a warrior scarred from a battle long forgotten."
+	armor = ARMOR_PADDED_BAD
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
+
 /obj/item/clothing/suit/roguetown/armor/basiceast/captainrobe
 	name = "foreign robes"
 	desc = "Flower-styled robes, said to have been infused with magical protection. The Merchant Guild says that this is from the southern Kazengite region."
@@ -1566,6 +1584,12 @@
 	armor = list("blunt" = 50, "slash" = 90, "stab" = 60, "piercing" = 30, "fire" = 0, "acid" = 0)
 	max_integrity = 300
 	sellprice = 25
+
+/obj/item/clothing/suit/roguetown/armor/basiceast/captainrobe/
+	name = "floral robes"
+	desc = "Flower-styled robes, the Merchant Guild says that this is from the southern Kazengite region."
+	armor = ARMOR_PADDED_BAD
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
 
 // this robe spawns on a role that offers no leg protection nor further upgrades to the loadout, in exchange for better roundstart gear
 

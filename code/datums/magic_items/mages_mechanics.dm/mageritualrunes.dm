@@ -5,7 +5,7 @@
 	anchored = TRUE
 	icon = 'icons/obj/rune.dmi'
 	icon_state = "6"
-	resistance_flags = FIRE_PROOF | UNACIDABLE | ACID_PROOF
+	resistance_flags = INDESTRUCTIBLE | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	layer = SIGIL_LAYER
 	color = null
 	var/magictype = "arcyne"//"arcyne", "divine", "druid", "blood"
@@ -61,6 +61,9 @@
 	var/datum/runeritual/pickritual		//selected
 	var/list/selected_atoms
 	var/associated_ritual = null	//Associated ritual for runes with only 1 ritual. Use in tandom with ritual_number
+
+/obj/effect/decal/cleanable/roguerune/arcyne/summoning/ex_act(severity, target)
+	return
 
 /proc/isarcyne(mob/living/carbon/human/A)
 	return istype(A) && A.mind && (A.get_skill_level(/datum/skill/magic/arcane) > SKILL_LEVEL_NONE)	//checks if person has arcane skill

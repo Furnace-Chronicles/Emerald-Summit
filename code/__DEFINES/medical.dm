@@ -27,6 +27,8 @@
 
 //user-readable body parts
 #define READABLE_ZONE_HEAD 		"Head"
+#define READABLE_ZONE_SKULL		"Skull"
+#define READABLE_ZONE_EARS 		"Ears"
 #define READABLE_ZONE_CHEST		"Chest"
 #define READABLE_ZONE_ARMS		"Arms"
 #define READABLE_ZONE_L_ARM		"Left arm"

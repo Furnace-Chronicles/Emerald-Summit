@@ -24,7 +24,9 @@
 		var/obj/item/bodypart/affecting = target.get_bodypart(check_zone(user.zone_selected))
 		if(affecting && (affecting.heal_damage(50, 50) || affecting.heal_wounds(50)))
 			target.update_damage_overlays()
-		target.visible_message(span_danger("[target] reforms under the vile energy!"), span_notice("I'm remade by dark magic!"))
+		target.visible_message(span_danger("[target]'s [affecting.name] reforms under the vile energy!"), span_notice("My [affecting.name] is remade by dark magic!"))
+		var/obj/effect/temp_visual/heal/E = new /obj/effect/temp_visual/heal_rogue(get_turf(target))
+		E.color = "#4E6651"
 		return TRUE
 
 	target.visible_message(span_info("Necrotic energy floods over [target]!"), span_userdanger("I feel colder as the dark energy floods into me!"))
@@ -62,7 +64,7 @@
 	target.blind_eyes(2)
 	target.blur_eyes(10)
 	return TRUE
-	
+
 
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead
 	name = "Raise Lesser Undead"

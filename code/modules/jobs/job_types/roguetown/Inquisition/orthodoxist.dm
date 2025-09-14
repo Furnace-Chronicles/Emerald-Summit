@@ -23,6 +23,12 @@
 	advjob_examine = TRUE
 	give_bank_account = 15
 
+	job_subclasses = list(
+		/datum/advclass/psydoniantemplar,
+		/datum/advclass/disciple,
+		/datum/advclass/confessor
+	)
+
 /datum/job/roguetown/orthodoxist/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
 	if(L)

@@ -212,7 +212,7 @@
 // SPACE VINES (Note that this code is very similar to Biomass code)
 /obj/structure/vine
 	name = "weepvine"
-	desc = ""
+	desc = "Nasty, dead-looking gray tendrils of plantmass. Some believe that the name belies their nature as Dendor's tears for those that refuse to embrace nature, others believe it comes from the nasty thorns that cause their flesh to weep red tears."
 	icon = 'icons/effects/spacevines.dmi'
 	icon_state = "Light1"
 	anchored = TRUE
@@ -302,8 +302,15 @@
 			SM.on_cross(src, crosser)
 	if(prob(23) && istype(crosser) && !isvineimmune(crosser))
 		var/mob/living/M = crosser
-		M.adjustBruteLoss(5)
-		to_chat(M, "<span class='warning'>I nick myself on the thorny vines.</span>")
+		if(ishuman(M) && prob(50))
+			var/mob/living/carbon/human/H = M
+			var/obj/item/bodypart/BP = pick(H.bodyparts)
+			BP.add_wound(/datum/wound/slash/small)
+			to_chat(M, "<span class='warning'>I nick my [BP.name] on the thorny vines. Is that blood?</span>")
+			H.apply_damage(5, BRUTE, BP)
+		else
+			M.adjustBruteLoss(5)
+			to_chat(M, "<span class='warning'>I nick myself on the thorny vines.</span>")
 
 //ATTACK HAND IGNORING PARENT RETURN VALUE
 /obj/structure/vine/attack_hand(mob/user)

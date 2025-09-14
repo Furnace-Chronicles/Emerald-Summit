@@ -49,9 +49,9 @@
 				W?.heal_wound(1)
 
 	/// ENDVRE AS HE DOES.
-	if(!stat && HAS_TRAIT(src, TRAIT_PSYDONITE) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
+	if(HAS_TRAIT(src, TRAIT_PSYDONITE))
 		handle_wounds()
-		//passively heal wounds, but not if you're skullcracked OR DEAD.
+		//passively heal wounds, even if you're dead. THE ALL-FATHER LIVES!
 	if (blood_volume > BLOOD_VOLUME_SURVIVE)
 		var/list/wounds2 = get_wounds()
 		if (islist(wounds2))
@@ -165,7 +165,7 @@
 	location?.hotspot_expose(700, 50, 1)
 
 /mob/living/proc/handle_wounds()
-	if(stat >= DEAD)
+	if(!HAS_TRAIT(src, TRAIT_PSYDONITE) && stat >= DEAD)
 		for(var/datum/wound/wound as anything in get_wounds())
 			if(istype(wound, /datum/wound))
 				wound.on_death()

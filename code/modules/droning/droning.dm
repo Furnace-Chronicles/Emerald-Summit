@@ -82,6 +82,10 @@ SUBSYSTEM_DEF(droning)
 	if(!music || !dreamer)
 		return
 
+	if(!dreamer?.prefs.musicvol)
+		kill_droning(dreamer)
+		return
+
 	var/frenq = 1
 
 	if(HAS_TRAIT(dreamer.mob, TRAIT_DRUQK))
@@ -162,6 +166,9 @@ SUBSYSTEM_DEF(droning)
 	//kill the previous looping
 	kill_loop(dreamer)
 
+	if(!dreamer?.prefs.musicvol)
+		return
+
 	var/amb_sound_list = null
 	if(area_entered.we_looping_here)
 		if(GLOB.tod == "night")
@@ -193,6 +200,9 @@ SUBSYSTEM_DEF(droning)
 	if(!area_entered || !dreamer)
 		return
 	kill_rain(dreamer)
+
+	if(!dreamer?.prefs.musicvol)
+		return
 
 	var/amb_sound_list = null
 	if(area_entered.ambientrain)

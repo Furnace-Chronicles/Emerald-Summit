@@ -107,7 +107,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 				arrowpart += " ⇈"
 			if(speakturf.z < sourceturf.z)
 				arrowpart += " ⇊"
-			
+
 			var/hidden = TRUE
 			if(HAS_TRAIT(src, TRAIT_KEENEARS))
 				if(ishuman(speaker) && ishuman(src))
@@ -165,7 +165,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	var/spanned = attach_spans(input, spans)
 	if(isliving(src))
 		var/mob/living/L = src
-		if(L.cmode)
+		if(L.cmode && !issimple(L))
 			return "— \"[spanned]\""
 	return "[say_mod(input, message_mode)], \"[spanned]\""
 

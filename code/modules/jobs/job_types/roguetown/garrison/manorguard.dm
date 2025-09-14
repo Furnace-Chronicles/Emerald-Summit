@@ -26,6 +26,14 @@
 	round_contrib_points = 2
 	cmode_music = 'sound/music/combat_ManAtArms.ogg'
 
+	job_traits = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED)
+
+	job_subclasses = list(
+		/datum/advclass/manorguard/footsman,
+		/datum/advclass/manorguard/skirmisher,
+		/datum/advclass/manorguard/cavalry
+	)
+
 /datum/outfit/job/roguetown/manorguard
 	job_bitflag = BITFLAG_GARRISON
 
@@ -63,32 +71,35 @@
 
 	category_tags = list(CTAG_MENATARMS)
 
+	traits_applied = list(TRAIT_MEDIUMARMOR)
+	subclass_stats = list(
+		STATKEY_STR = 2,// seems kinda lame but remember guardsman bonus!!
+		STATKEY_INT = 1,
+		STATKEY_CON = 1,
+		STATKEY_END = 1
+	)
+
+	subclass_skills = list(
+	/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/whipsflails = SKILL_LEVEL_APPRENTICE,
+	/datum/skill/combat/slings = SKILL_LEVEL_NOVICE,
+	/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+	/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
+	/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+	/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
+	/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE,
+	)
+
 /datum/outfit/job/roguetown/manorguard/footsman/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/whipsflails, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/slings, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/sneaking, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE)
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_GUARDSMAN, TRAIT_GENERIC) //+1 spd, con, end, +2 per in town
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-
-	H.change_stat("strength", 2) // seems kinda lame but remember guardsman bonus!!
-	H.change_stat("intelligence", 1)
-	H.change_stat("constitution", 1)
-	H.change_stat("endurance", 1)
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord		//Bit worse shirt protection than the archer
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale			//Makes up for worse shirt protection with kinda better armor protection
@@ -110,7 +121,12 @@
 			r_hand = /obj/item/rogueweapon/halberd
 		if("Greataxe")
 			r_hand = /obj/item/rogueweapon/greataxe
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1, /obj/item/storage/keyring/guardcastle)
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/storage/keyring/guardcastle,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+	)
 	H.verbs |= /mob/proc/haltyell
 
 	var/helmets = list(
@@ -133,30 +149,34 @@
 
 	category_tags = list(CTAG_MENATARMS)
 
+	//Garrison ranged/speed class. Time to go wild
+	traits_applied = list(TRAIT_DODGEEXPERT)
+	subclass_stats = list(
+		STATKEY_SPD = 2,// seems kinda lame but remember guardsman bonus!!
+		STATKEY_PER = 2,
+		STATKEY_END = 1
+	)
+	extra_context = "Chooses between Light Armor (Dodge Expert) & Medium Armor."
+
+	subclass_skills = list(
+		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE, 		// Still have a cugel.
+		/datum/skill/combat/crossbows = SKILL_LEVEL_MASTER,		//Only effects draw and reload time.
+		/datum/skill/combat/bows = SKILL_LEVEL_MASTER,			//Only effects draw times.
+		/datum/skill/combat/slings = SKILL_LEVEL_MASTER,
+		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT, // A little better; run fast, weak boy.
+		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
+	)
+
 /datum/outfit/job/roguetown/manorguard/skirmisher/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE) 		// Still have a cugel.
-	H.adjust_skillrank(/datum/skill/combat/crossbows, 5, TRUE)		//Only effects draw and reload time.
-	H.adjust_skillrank(/datum/skill/combat/bows, 5, TRUE)			//Only effects draw times.
-	H.adjust_skillrank(/datum/skill/combat/slings, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE) // A little better; run fast, weak boy.
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_GUARDSMAN, TRAIT_GENERIC) //+1 spd, con, end, +2 per in town
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-
-	//Garrison ranged/speed class. Time to go wild
-	H.change_stat("endurance", 1) // seems kinda lame but remember guardsman bonus!!
-	H.change_stat("perception", 2)
-	H.change_stat("speed", 2)
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord			// Cant wear chainmail anymoooree
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded		//Helps against arrows; makes sense for a ranged-type role.
@@ -178,7 +198,12 @@
 			beltr = /obj/item/quiver/sling/iron
 			r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling // Both are belt slots and it's not worth setting where the cugel goes for everyone else, sad.
 
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1, /obj/item/storage/keyring/guardcastle)
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/storage/keyring/guardcastle,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+	)
 	H.verbs |= /mob/proc/haltyell
 
 	var/helmets = list(
@@ -201,32 +226,35 @@
 
 	category_tags = list(CTAG_MENATARMS)
 
+	traits_applied = list(TRAIT_MEDIUMARMOR)
+	//Garrison mounted class; charge and charge often.
+	subclass_stats = list(
+		STATKEY_CON = 2,// seems kinda lame but remember guardsman bonus!!
+		STATKEY_END = 2,// Your name is speed, and speed is running.
+		STATKEY_STR = 1,
+		STATKEY_INT = 1, // No strength to account for the nominally better weapons. We'll see.
+	)
+
+	subclass_skills = list(
+	/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+	/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN, 		// Still have a cugel.
+	/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,	//Best whip training out of MAAs, they're strong.
+	/datum/skill/combat/bows = SKILL_LEVEL_NOVICE,			// We discourage horse archers, though.
+	/datum/skill/combat/slings = SKILL_LEVEL_NOVICE,
+	/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN, 
+	/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+	/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+	/datum/skill/misc/riding = SKILL_LEVEL_EXPERT, 		// Like the other horselords.
+	/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,	//Best tracker. Might as well give it something to stick-out utility wise.
+	)
+
 /datum/outfit/job/roguetown/manorguard/cavalry/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE) 		// Still have a cugel.
-	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/whipsflails, 3, TRUE)	//Best whip training out of MAAs, they're strong.
-	H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)			// We discourage horse archers, though.
-	H.adjust_skillrank(/datum/skill/combat/slings, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE) 
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/riding, 4, TRUE) 		// Like the other horselords.
-	H.adjust_skillrank(/datum/skill/misc/tracking, 3, TRUE)	//Best tracker. Might as well give it something to stick-out utility wise.
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_GUARDSMAN, TRAIT_GENERIC) //+1 spd, con, end, +2 per in town
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-
-	//Garrison mounted class; charge and charge often.
-	H.change_stat("strength", 1)
-	H.change_stat("constitution", 2) 
-	H.change_stat("endurance", 2) // Your name is speed, and speed is running.
-	H.change_stat("intelligence", 1) // No strength to account for the nominally better weapons. We'll see.
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord		//Bit worse shirt protection than the archer -- as foot soldier.
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale			//Makes up for worse shirt protection with kinda better armor protection
@@ -243,8 +271,14 @@
 		if("Sword & Shield")
 			beltr = /obj/item/rogueweapon/sword/sabre
 			backl = /obj/item/rogueweapon/shield/wood
+			r_hand = /obj/item/rogueweapon/scabbard/sword
 	
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1, /obj/item/storage/keyring/guardcastle)
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/storage/keyring/guardcastle,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		)
 	H.verbs |= /mob/proc/haltyell
 
 	var/helmets = list(

@@ -22,6 +22,7 @@
 	// taur_icon_state sets which icon to use from icons/mob/taurs.dmi to render
 	// (we don't use icon_state to avoid duplicate rendering on dropped organs)
 	var/taur_icon_state = "altnaga_s"
+	var/taur_tip_icon_state = "altnaga_s_tip"
 
 	// We can Blend() a color with the base greyscale color, only some tails support this
 	var/has_tail_color = TRUE
@@ -45,18 +46,19 @@
 	// This section is based on Virgo's human rendering, there may be better ways to do this now
 //	var/icon/tail_s = image("icon" = icon, "icon_state" = taur_icon_state, "layer" = BODYPARTS_LAYER, "dir" = image_dir, "pixel_x" = -16) // why doesnt this work
 	var/icon/tail_s = new/icon("icon" = icon, "icon_state" = taur_icon_state, "dir" = image_dir)
+	var/icon/tail_s_tip = new/icon("icon" = icon, "icon_state" = taur_tip_icon_state, "dir" = image_dir)
 	if(has_tail_color)
 		tail_s.Blend(tail_color, color_blend_mode)
-	
-//	if(!skeletonized) // kill me obladaet
-//		var/list/marking_overlays = get_markings_overlays(override_color)
-//		if(marking_overlays)
-//			. += marking_overlays
+		tail_s_tip.Blend(tail_color, color_blend_mode)
+
+	var/image/working_tip = image(tail_s_tip)
+	working_tip.layer = -BODY_FRONT_FRONT_LAYER // -FRONT_MUTATIONS_LAYER = tail renders over tits, -BODYPARTS_LAYER = tail renders underneath the tits, as it should
+	working_tip.pixel_x = offset_x
+
+	. += working_tip
 
 	var/image/working = image(tail_s)
-	// because these can overlap other organs, we need to layer slightly higher
 	working.layer = -BODYPARTS_LAYER // -FRONT_MUTATIONS_LAYER = tail renders over tits, -BODYPARTS_LAYER = tail renders underneath the tits, as it should
 	working.pixel_x = offset_x
 
 	. += working
-

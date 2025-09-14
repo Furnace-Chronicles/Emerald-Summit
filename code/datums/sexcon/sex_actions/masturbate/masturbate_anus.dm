@@ -1,5 +1,7 @@
 /datum/sex_action/masturbate_anus
 	name = "Finger butt"
+	user_sex_part = SEX_PART_ANUS
+	target_sex_part = SEX_PART_ANUS
 
 /datum/sex_action/masturbate_anus/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user != target)
