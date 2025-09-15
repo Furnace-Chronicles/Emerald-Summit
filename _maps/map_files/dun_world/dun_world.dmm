@@ -962,7 +962,7 @@
 	layer = 2.05
 	},
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/indoors/town/church/chapel)
 "anL" = (
 /obj/structure/stairs/stone,
 /turf/open/floor/rogue/cobble,
@@ -1909,7 +1909,7 @@
 "ayR" = (
 /obj/structure/flora/ausbushes/brflowers,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/indoors/town/church/chapel)
 "ayU" = (
 /obj/structure/stairs{
 	dir = 4
@@ -5131,9 +5131,8 @@
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/beach/forest)
 "bsl" = (
-/obj/structure/underworld/barrier,
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/outdoors/rtfield)
+/area/rogue/indoors/town/church/chapel)
 "bsm" = (
 /turf/closed/wall/mineral/rogue/pipe,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
@@ -10746,7 +10745,7 @@
 "cTc" = (
 /obj/structure/flora/ausbushes/ppflowers,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/indoors/town/church/chapel)
 "cTf" = (
 /obj/structure/chair/wood/rogue{
 	dir = 8;
@@ -19172,7 +19171,7 @@
 	pixel_x = -8
 	},
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/indoors/town/church/chapel)
 "feV" = (
 /obj/structure/flora/newleaf/corner{
 	dir = 10
@@ -30687,7 +30686,7 @@
 	layer = 2.05
 	},
 /turf/open/floor/rogue/blocks,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/indoors/town/church/chapel)
 "ikG" = (
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/inq)
@@ -39236,10 +39235,6 @@
 	icon_state = "weird1"
 	},
 /area/rogue/indoors/town/physician)
-"kzg" = (
-/obj/structure/underworld/barrier,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/rtfield)
 "kzh" = (
 /obj/structure/bars,
 /turf/open/water/ocean,
@@ -53363,9 +53358,11 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cavewet/bogcaves/sunkencity)
 "ool" = (
-/obj/structure/underworld/barrier,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/rtfield)
+/obj/effect/decal/cobbleedge{
+	dir = 6
+	},
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/indoors/town/church/chapel)
 "oou" = (
 /obj/machinery/light/rogue/hearth,
 /obj/item/reagent_containers/glass/bucket/pot{
@@ -59877,7 +59874,7 @@
 	layer = 2.05
 	},
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/indoors/town/church/chapel)
 "qdh" = (
 /obj/structure/bars/pipe,
 /obj/structure/mineral_door/wood{
@@ -60808,7 +60805,7 @@
 	dir = 5
 	},
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/indoors/town/church/chapel)
 "qpS" = (
 /obj/item/chair/stool/bar/rogue/crafted,
 /turf/open/floor/rogue/blocks/platform,
@@ -76516,7 +76513,7 @@
 	layer = 2.05
 	},
 /turf/open/floor/rogue/blocks,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/indoors/town/church/chapel)
 "uxR" = (
 /obj/structure/fluff/railing/fence{
 	dir = 4
@@ -259481,8 +259478,8 @@ oIR
 ove
 ecM
 ecM
-ecM
-ecM
+bsl
+bsl
 mij
 wJF
 jrx
@@ -259933,8 +259930,8 @@ mvW
 ecM
 ecM
 ecM
-sSR
-ecM
+ool
+bsl
 wfX
 yac
 iBw
@@ -273052,9 +273049,9 @@ mGv
 pxF
 ibp
 bsL
-bsl
-bsl
-bsl
+asY
+asY
+asY
 asY
 asY
 asY
@@ -273504,9 +273501,9 @@ sNZ
 sNZ
 aXW
 bsL
-bsl
-bsl
-bsl
+asY
+asY
+asY
 asY
 asY
 asY
@@ -273956,9 +273953,9 @@ aoe
 aoe
 aoe
 sNZ
-kzg
+rZO
 asY
-euk
+asY
 asY
 asY
 szF
@@ -274408,7 +274405,7 @@ aoe
 aoe
 aoe
 sNZ
-kzg
+rZO
 asY
 asY
 asY
@@ -274860,9 +274857,9 @@ aoe
 aoe
 ibp
 ibp
-ool
-ool
-kzg
+bsL
+bsL
+rZO
 asY
 asY
 szF
