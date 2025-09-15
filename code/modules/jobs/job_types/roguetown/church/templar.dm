@@ -19,7 +19,7 @@
 
 	give_bank_account = TRUE
 
-	job_traits = list(TRAIT_RITUALIST, TRAIT_STEELHEARTED)
+	job_traits = list(TRAIT_RITUALIST, TRAIT_STEELHEARTED, TRAIT_CLERGY)
 
 	job_subclasses = list(
 		/datum/advclass/templar/monk,
