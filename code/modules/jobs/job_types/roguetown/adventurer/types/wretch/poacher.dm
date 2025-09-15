@@ -38,7 +38,7 @@
 	)
 
 /datum/outfit/job/roguetown/wretch/poacher/pre_equip(mob/living/carbon/human/H)
-	head = /obj/item/clothing/head/roguetown/roguehood/darkgreen
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/matt
 	mask = /obj/item/clothing/mask/rogue/wildguard
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
