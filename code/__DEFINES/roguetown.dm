@@ -194,7 +194,6 @@
     /datum/species/human/northern,\
     /datum/species/elf/wood,\
     /datum/species/human/halfelf,\
-    /datum/species/demihuman,\
     /datum/species/dwarf/mountain,\
 
 #define RACES_CHURCH_FAVORED \
@@ -222,6 +221,7 @@
     /datum/species/dracon,\
     /datum/species/akula,\
 	/datum/species/lamia,\
+    /datum/species/demihuman,\
 
 #define RACES_FEARED \
 	/datum/species/halforc,\
