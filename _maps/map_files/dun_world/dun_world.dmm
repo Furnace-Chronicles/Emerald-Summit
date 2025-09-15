@@ -67,7 +67,7 @@
 "aaO" = (
 /obj/structure/flora/roguetree/pine/dead,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "aaU" = (
 /obj/structure/closet/crate/chest{
 	name = "Evidence Storage"
@@ -378,7 +378,7 @@
 "afF" = (
 /obj/structure/handcart,
 /turf/open/floor/rogue/cobble/mossy,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "afJ" = (
 /obj/machinery/light/rogue/firebowl/standing{
 	pixel_y = 2
@@ -733,7 +733,7 @@
 /obj/item/soap,
 /obj/item/soap,
 /turf/open/floor/rogue/twig,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "akG" = (
 /obj/item/natural/stone{
 	pixel_x = 6;
@@ -875,7 +875,7 @@
 	icon_state = "pine3"
 	},
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "amx" = (
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/cave)
@@ -1557,7 +1557,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "auX" = (
 /obj/structure/stairs,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -1665,7 +1665,7 @@
 "awd" = (
 /obj/structure/flora/roguegrass/bush/wall/tall,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "awg" = (
 /obj/structure/fluff/railing/border{
 	dir = 5
@@ -2487,7 +2487,7 @@
 	},
 /obj/structure/curtain/red,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "aHU" = (
 /obj/structure/chair/bench,
 /turf/open/floor/rogue/grass,
@@ -3811,7 +3811,7 @@
 "bad" = (
 /obj/structure/vine,
 /turf/closed/wall/mineral/rogue/stone/moss,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "baf" = (
 /obj/effect/decal/cobble/mossy{
 	dir = 6
@@ -4066,7 +4066,7 @@
 	dir = 1
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "bcV" = (
 /obj/structure/stairs{
 	dir = 4
@@ -4113,7 +4113,7 @@
 	dir = 10
 	},
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "bdq" = (
 /obj/structure/closet/crate/roguecloset/dark{
 	keylock = 1;
@@ -4183,7 +4183,7 @@
 /area/rogue/indoors/shelter)
 "ber" = (
 /turf/closed/wall/mineral/rogue/decostone/end,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "beu" = (
 /obj/structure/mineral_door/wood/fancywood{
 	locked = 1;
@@ -4284,7 +4284,7 @@
 	pixel_x = -32
 	},
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "bgl" = (
 /obj/structure/table/wood{
 	dir = 9;
@@ -4602,7 +4602,7 @@
 	opacity = 1
 	},
 /turf/closed/wall/mineral/rogue/decostone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "bkw" = (
 /obj/structure/table/vtable,
 /obj/item/reagent_containers/food/snacks/rogue/bread,
@@ -4716,7 +4716,7 @@
 "bmG" = (
 /obj/structure/ladder,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "bmI" = (
 /obj/structure/table/wood{
 	dir = 6;
@@ -4805,7 +4805,7 @@
 	},
 /obj/effect/falling_maple,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "bnF" = (
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/dirt/road,
@@ -5016,7 +5016,7 @@
 "bqO" = (
 /obj/structure/flora/roguegrass,
 /turf/open/water/pond,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "bqP" = (
 /turf/open/floor/rogue/dirt/ambush,
 /area/rogue/outdoors/mountains)
@@ -5077,7 +5077,7 @@
 	pixel_x = -32
 	},
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "brv" = (
 /obj/structure/chair/bench/church/smallbench,
 /turf/open/floor/rogue/grassyel,
@@ -5322,7 +5322,7 @@
 	pixel_y = 32
 	},
 /turf/open/floor/rogue/twig,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "buw" = (
 /turf/open/water/swamp,
 /area/rogue/indoors/shelter/woods)
@@ -6250,7 +6250,7 @@
 	dir = 8
 	},
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "bHR" = (
 /obj/structure/mineral_door/bars{
 	locked = 1
@@ -6696,7 +6696,7 @@
 	max_integrity = 1400
 	},
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "bMU" = (
 /mob/living/carbon/human/species/skeleton/npc,
 /turf/open/floor/rogue/churchmarble,
@@ -6929,7 +6929,7 @@
 /obj/structure/flora/newleaf,
 /obj/effect/falling_leaves,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "bRq" = (
 /obj/machinery/light/rogue/wallfire/candle/blue{
 	pixel_y = -32
@@ -7103,7 +7103,7 @@
 	pixel_y = 1
 	},
 /turf/open/floor/carpet/red,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "bTK" = (
 /obj/machinery/light/rogue/torchholder/r,
 /turf/open/transparent/openspace,
@@ -7125,7 +7125,7 @@
 /area/rogue/outdoors/town)
 "bTY" = (
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "bTZ" = (
 /obj/structure/mineral_door/wood/window,
 /turf/open/floor/rogue/concrete,
@@ -7900,7 +7900,7 @@
 	},
 /obj/structure/ladder,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "cfJ" = (
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cavewet/bogcaves/sunkencity)
@@ -8239,7 +8239,7 @@
 	dir = 4
 	},
 /turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "clo" = (
 /obj/structure/flora/roguegrass/bush/wall/tall,
 /turf/open/floor/rogue/dirt/road,
@@ -8679,7 +8679,7 @@
 "crM" = (
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "crQ" = (
 /obj/structure/fluff/statue/small,
 /turf/open/floor/rogue/cobble/mossy,
@@ -9024,7 +9024,7 @@
 /area/rogue/outdoors/mountains)
 "cwL" = (
 /turf/open/transparent/openspace,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "cwP" = (
 /turf/open/floor/rogue/carpet,
 /area/rogue/indoors/town/church/basement)
@@ -9182,7 +9182,7 @@
 	dir = 1
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "cyR" = (
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/town/roofs)
@@ -9247,7 +9247,7 @@
 /area/rogue/indoors/cave)
 "cAy" = (
 /turf/closed/wall/mineral/rogue/decowood,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "cAH" = (
 /obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/concrete,
@@ -10447,7 +10447,7 @@
 	dir = 4
 	},
 /turf/open/water/pond,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "cPy" = (
 /turf/open/transparent/openspace,
 /area/rogue/under/cave/goblindungeon)
@@ -10619,7 +10619,7 @@
 "cRH" = (
 /obj/machinery/light/rogue/firebowl,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "cRN" = (
 /obj/structure/fluff/railing/border{
 	dir = 5
@@ -10654,7 +10654,7 @@
 /obj/item/rogueweapon/sickle,
 /obj/item/rogueweapon/thresher,
 /turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "cSt" = (
 /obj/structure/flora/roguegrass,
 /obj/effect/decal/mossy{
@@ -10700,7 +10700,7 @@
 /obj/structure/vine,
 /obj/structure/flora/roguetree/pine/dead,
 /turf/closed/mineral/rogue,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "cSN" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/lamia,
 /turf/open/floor/rogue/dirt,
@@ -11108,7 +11108,7 @@
 "cXT" = (
 /obj/structure/flora/roguetree/burnt,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "cXU" = (
 /obj/structure/table/church{
 	icon_state = "churchtable_mid"
@@ -11263,7 +11263,7 @@
 "dam" = (
 /obj/structure/fluff/big_chain,
 /turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "dap" = (
 /obj/structure/rack/rogue,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
@@ -11540,7 +11540,7 @@
 /obj/structure/roguewindow/openclose/reinforced,
 /obj/structure/curtain/red,
 /turf/open/floor/rogue/twig,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "deg" = (
 /turf/open/floor/rogue/metal{
 	dir = 4
@@ -11618,7 +11618,7 @@
 	max_integrity = 1400
 	},
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "dfe" = (
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grass,
@@ -11972,7 +11972,7 @@
 	},
 /obj/structure/table/vtable,
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "dlr" = (
 /obj/structure/well,
 /turf/open/floor/rogue/grass,
@@ -12635,7 +12635,7 @@
 /obj/structure/flora/newleaf,
 /obj/effect/falling_leaves,
 /turf/open/transparent/openspace,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "dua" = (
 /obj/structure/closet/crate/chest/crafted,
 /obj/effect/spawner/lootdrop/general_loot_mid/x3,
@@ -12884,7 +12884,7 @@
 	dir = 10
 	},
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "dyq" = (
 /obj/structure/flora/hotspring_rocks/grassy,
 /turf/open/floor/rogue/cobble/mossy,
@@ -13040,7 +13040,7 @@
 	icon_state = "borderfall"
 	},
 /turf/open/floor/rogue/twig,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "dzX" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 1
@@ -13108,7 +13108,7 @@
 "dBj" = (
 /obj/structure/roguewindow/openclose/reinforced,
 /turf/closed/wall/mineral/rogue/decowood,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "dBl" = (
 /obj/structure/fluff/railing/border{
 	dir = 8
@@ -13259,7 +13259,7 @@
 	pixel_x = -2
 	},
 /turf/open/floor/rogue/cobble,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "dDF" = (
 /obj/structure/boatbell/fluff{
 	desc = ""
@@ -13661,7 +13661,7 @@
 	dir = 4
 	},
 /turf/open/floor/rogue/tile,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "dJN" = (
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/indoors/town/tavern)
@@ -14007,7 +14007,7 @@
 	pixel_y = -1
 	},
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "dOY" = (
 /obj/item/millstone{
 	pixel_y = 7
@@ -14387,7 +14387,7 @@
 "dTD" = (
 /obj/structure/flora/newleaf,
 /turf/open/transparent/openspace,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "dTE" = (
 /obj/structure/chair/wood/rogue{
 	dir = 4
@@ -14500,7 +14500,7 @@
 	},
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "dUT" = (
 /obj/machinery/light/small{
 	dir = 8;
@@ -14845,7 +14845,7 @@
 	opacity = 1
 	},
 /turf/open/transparent/openspace,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "eab" = (
 /obj/structure/roguewindow/stained/yellow,
 /turf/open/transparent/openspace,
@@ -14999,7 +14999,7 @@
 /area/rogue/outdoors/town)
 "ebW" = (
 /turf/open/water/pond,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "ebX" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -15020,7 +15020,7 @@
 "ece" = (
 /obj/structure/closet/dirthole/grave,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "ecf" = (
 /obj/structure/roguemachine/vendor{
 	keycontrol = "archive"
@@ -15066,7 +15066,7 @@
 /area/rogue/under/cave/scarymaze)
 "ecM" = (
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "ecS" = (
 /obj/structure/hotspring/border/five,
 /turf/open/floor/rogue/grasscold,
@@ -15342,7 +15342,7 @@
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/ausbushes/lavendergrass,
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "egi" = (
 /mob/living/carbon/human/species/goblin/npc/cave,
 /turf/open/floor/rogue/naturalstone,
@@ -15700,7 +15700,7 @@
 /obj/structure/table/wood/poor,
 /obj/item/candle/silver/lit,
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "ejU" = (
 /obj/structure/mineral_door/wood/towner/seamstress,
 /turf/open/floor/rogue/blocks,
@@ -16364,7 +16364,7 @@
 /obj/effect/falling_maple,
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "erX" = (
 /obj/effect/decal/cleanable/debris/glassy,
 /turf/open/floor/rogue/cobblerock,
@@ -16955,7 +16955,7 @@
 	pixel_y = 0
 	},
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "ezs" = (
 /obj/machinery/light/rogue/wallfire/candle{
 	pixel_y = -32
@@ -17308,7 +17308,7 @@
 "eEY" = (
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "eEZ" = (
 /obj/effect/decal/cleanable/blood/gibs,
 /turf/open/floor/rogue/blocks,
@@ -18672,7 +18672,7 @@
 	icon_state = "tablewood1"
 	},
 /turf/open/floor/rogue/twig,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "faq" = (
 /obj/structure/closet/crate/chest/gold,
 /obj/item/roguecoin/gold/pile,
@@ -18844,7 +18844,7 @@
 "fci" = (
 /obj/structure/vine,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "fcn" = (
 /obj/structure/fluff/railing/wood{
 	dir = 8;
@@ -19461,7 +19461,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "fkc" = (
 /obj/structure/stairs{
 	dir = 1
@@ -19680,7 +19680,7 @@
 "fmv" = (
 /obj/structure/flora/roguegrass/herb/salvia,
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "fmy" = (
 /obj/effect/decal/cobbleedge,
 /turf/open/floor/rogue/cobble,
@@ -20822,7 +20822,7 @@
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "fCY" = (
 /turf/open/floor/rogue/twig,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "fDf" = (
 /obj/effect/decal/cobbleedge,
 /turf/open/floor/rogue/cobblerock,
@@ -22422,7 +22422,7 @@
 "gbk" = (
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "gbq" = (
 /obj/structure/chair/stool/rogue,
 /mob/living/simple_animal/hostile/retaliate/rogue/orc/spear,
@@ -23385,7 +23385,7 @@
 /obj/structure/flora/ausbushes/lavendergrass,
 /obj/structure/flora/ausbushes/lavendergrass,
 /turf/open/water/pond,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "gqd" = (
 /obj/machinery/light/rogue/torchholder/r,
 /obj/structure/rack/rogue,
@@ -23457,7 +23457,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "gqP" = (
 /obj/structure/composter,
 /turf/open/floor/rogue/cobble/mossy,
@@ -23746,7 +23746,7 @@
 /obj/structure/flora/newleaf,
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "guB" = (
 /obj/structure/chair/wood/rogue{
 	dir = 1
@@ -24375,7 +24375,7 @@
 "gDF" = (
 /obj/structure/flora/ausbushes/lavendergrass,
 /turf/open/water/pond,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "gDG" = (
 /obj/structure/roguemachine/scomm/l,
 /turf/open/floor/rogue/wood,
@@ -25538,7 +25538,7 @@
 	pixel_y = -24
 	},
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "gUs" = (
 /obj/structure/table/wood{
 	icon_state = "map4"
@@ -26018,7 +26018,7 @@
 "hba" = (
 /obj/structure/flora/ausbushes/leafybush,
 /turf/open/water/pond,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "hbc" = (
 /obj/structure/fluff/statue/knight,
 /turf/open/floor/rogue/hexstone,
@@ -26454,7 +26454,7 @@
 /obj/structure/closet/dirthole/closed,
 /obj/structure/gravemarker,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "hfP" = (
 /obj/structure/closet/crate/chest,
 /obj/item/reagent_containers/food/snacks/egg,
@@ -26729,7 +26729,7 @@
 /obj/structure/fluff/railing/wood,
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "hjh" = (
 /obj/effect/decal/cobbleedge{
 	dir = 1;
@@ -26987,7 +26987,7 @@
 /obj/effect/falling_maple,
 /obj/effect/falling_leaves,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "hmW" = (
 /obj/item/reagent_containers/food/snacks/crow,
 /turf/open/floor/rogue/rooftop{
@@ -27263,7 +27263,7 @@
 "hrn" = (
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "hrp" = (
 /obj/structure/well,
 /turf/open/floor/rogue/dirt,
@@ -27490,7 +27490,7 @@
 	dir = 1
 	},
 /turf/open/floor/carpet/red,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "huq" = (
 /obj/machinery/light/rogue/wallfire/candle/off/r,
 /obj/item/chair/stool/bar/rogue/crafted,
@@ -27744,7 +27744,7 @@
 	icon_state = "borderfall"
 	},
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "hwE" = (
 /obj/structure/bed/rogue/inn/double{
 	dir = 1
@@ -27753,7 +27753,7 @@
 	dir = 1
 	},
 /turf/open/floor/rogue/twig,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "hwF" = (
 /obj/structure/roguemachine/scomm,
 /obj/machinery/light/rogue/wallfire/candle/l,
@@ -27869,7 +27869,7 @@
 /area/rogue/outdoors/town/roofs/keep)
 "hxN" = (
 /turf/closed/wall/mineral/rogue/stone/moss,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "hxR" = (
 /obj/structure/stairs{
 	dir = 8
@@ -28311,7 +28311,7 @@
 	},
 /obj/structure/curtain/red,
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "hDn" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic/gold,
 /turf/open/floor/rogue/churchmarble,
@@ -28612,7 +28612,7 @@
 /area/rogue/outdoors/town)
 "hHf" = (
 /turf/closed/wall/mineral/rogue/decostone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "hHg" = (
 /obj/structure/stairs{
 	dir = 8
@@ -28780,7 +28780,7 @@
 	dir = 4
 	},
 /turf/open/floor/rogue/twig,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "hJw" = (
 /obj/structure/chair/bench/couchamagenta/r,
 /turf/open/floor/rogue/tile/harem2,
@@ -29123,7 +29123,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "hOT" = (
 /obj/structure/mannequin,
 /obj/item/clothing/suit/roguetown/armor/leather/studded,
@@ -29388,7 +29388,7 @@
 /area/rogue/indoors/town/manor)
 "hRW" = (
 /turf/closed/mineral/random/rogue,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "hRZ" = (
 /turf/open/transparent/openspace,
 /area/rogue/indoors)
@@ -29733,7 +29733,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "hYd" = (
 /obj/structure/table/wood/long_table/right,
 /obj/item/book/rogue/abyssor,
@@ -30125,7 +30125,7 @@
 	pixel_x = 2
 	},
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "idG" = (
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/under/cave)
@@ -30186,7 +30186,7 @@
 /obj/item/reagent_containers/glass/bucket,
 /obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/twig,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "iet" = (
 /obj/structure/mineral_door/wood/fancywood{
 	locked = 1
@@ -30316,7 +30316,7 @@
 	dir = 9
 	},
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "ifS" = (
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/outdoors/mountains/decap)
@@ -31189,7 +31189,7 @@
 	pixel_x = -32
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "iry" = (
 /obj/structure/fluff/railing/border{
 	dir = 8
@@ -31484,7 +31484,7 @@
 "iwj" = (
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "iwm" = (
 /obj/structure/vine{
 	opacity = 1
@@ -31921,7 +31921,7 @@
 	dir = 4
 	},
 /turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "iCo" = (
 /turf/open/floor/rogue/ruinedwood{
 	icon_state = "weird1"
@@ -32455,7 +32455,7 @@
 "iJI" = (
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "iJM" = (
 /obj/effect/decal/cobbleedge{
 	dir = 1;
@@ -32463,7 +32463,7 @@
 	},
 /obj/structure/table/vtable/v2,
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "iJQ" = (
 /obj/structure/fluff/walldeco/wantedposter,
 /turf/open/floor/rogue/grassyel,
@@ -32573,7 +32573,7 @@
 	lockid = "church"
 	},
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "iKK" = (
 /obj/structure/mineral_door/wood/fancywood{
 	locked = 1;
@@ -33768,7 +33768,7 @@
 "jbX" = (
 /obj/structure/closet/crate/chest/crate,
 /turf/open/floor/rogue/twig,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "jbY" = (
 /obj/structure/fluff/railing/border/north,
 /turf/open/floor/rogue/twig,
@@ -34045,7 +34045,7 @@
 "jeQ" = (
 /obj/effect/falling_leaves,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "jeZ" = (
 /obj/structure/closet/crate/chest/lootbox,
 /turf/open/floor/rogue/tile,
@@ -34436,7 +34436,7 @@
 	pixel_x = -32
 	},
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "jjC" = (
 /obj/effect/landmark/start/wretchlate,
 /turf/open/floor/rogue/naturalstone,
@@ -34585,7 +34585,7 @@
 "jmp" = (
 /obj/structure/flora/roguegrass/bush/wall,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "jmt" = (
 /turf/closed/wall/mineral/rogue/tent,
 /area/rogue/indoors/cave)
@@ -34652,7 +34652,7 @@
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/ausbushes/lavendergrass,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "jnX" = (
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/under/cave/orcdungeon)
@@ -34695,7 +34695,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "joM" = (
 /obj/machinery/light/rogue/wallfire/candle,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -35588,7 +35588,7 @@
 /obj/structure/flora/newleaf,
 /obj/effect/falling_maple,
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "jBu" = (
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/grass,
@@ -35657,7 +35657,7 @@
 	},
 /obj/structure/hotspring/border/fourteen,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "jCN" = (
 /obj/structure/vine,
 /obj/structure/mineral_door/wood/deadbolt{
@@ -35947,7 +35947,7 @@
 	pixel_y = 6
 	},
 /turf/open/floor/rogue/twig,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "jHk" = (
 /obj/structure/table/wood{
 	dir = 5;
@@ -35994,7 +35994,7 @@
 	icon_state = "borderfall"
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "jHJ" = (
 /obj/structure/flora/ausbushes/brflowers,
 /turf/open/floor/rogue/grass,
@@ -36472,7 +36472,7 @@
 "jPk" = (
 /obj/effect/falling_maple,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "jPl" = (
 /obj/structure/closet/crate/roguecloset/crafted,
 /obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat,
@@ -37381,7 +37381,7 @@
 /area/rogue/indoors/town/church/basement)
 "kcr" = (
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "kcv" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -37476,7 +37476,7 @@
 /obj/effect/falling_leaves,
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "kdm" = (
 /obj/structure/fluff/railing/fence{
 	dir = 4
@@ -37930,7 +37930,7 @@
 	dir = 6
 	},
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "kjk" = (
 /obj/structure/bars,
 /turf/open/floor/rogue/blocks,
@@ -38350,7 +38350,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "kpa" = (
 /obj/structure/mirror,
 /obj/structure/chair/stool/rogue,
@@ -38405,7 +38405,7 @@
 	pixel_y = 8
 	},
 /turf/closed/wall/mineral/rogue/decostone/end,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "kpK" = (
 /obj/structure/flora/newleaf,
 /obj/structure/flora/newbranch/leafless{
@@ -39563,7 +39563,7 @@
 "kEX" = (
 /obj/effect/falling_leaves,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "kFe" = (
 /obj/structure/fluff/railing/corner,
 /turf/open/floor/rogue/ruinedwood/turned,
@@ -39890,7 +39890,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "kJy" = (
 /obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/tile,
@@ -41759,7 +41759,7 @@
 "llT" = (
 /obj/machinery/light/rogue/firebowl,
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "llV" = (
 /obj/structure/fluff/railing/border,
 /obj/structure/table/wood/poor,
@@ -41975,7 +41975,7 @@
 	icon_state = "pine3"
 	},
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "loH" = (
 /obj/effect/decal/cobbleedge{
 	dir = 1;
@@ -41985,7 +41985,7 @@
 	dir = 4
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "loI" = (
 /obj/structure/mineral_door/wood{
 	lockid = "mansionvampire"
@@ -42012,7 +42012,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "loQ" = (
 /obj/structure/closet/crate/chest/neu_iron,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
@@ -42407,7 +42407,7 @@
 	icon_state = "dead2"
 	},
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "ltO" = (
 /obj/structure/bars{
 	max_integrity = 2000;
@@ -42629,7 +42629,7 @@
 "lxL" = (
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "lxW" = (
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/under/cave)
@@ -42799,7 +42799,7 @@
 "lzL" = (
 /obj/structure/flora/roguegrass,
 /turf/closed/wall/mineral/rogue/decostone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "lzP" = (
 /obj/structure/chair/stool/rogue,
 /obj/effect/decal/cleanable/dirt/cobweb,
@@ -43402,7 +43402,7 @@
 "lHR" = (
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "lHT" = (
 /obj/effect/decal/cleanable/blood/gibs/up,
 /turf/open/floor/rogue/blocks,
@@ -44162,7 +44162,7 @@
 /obj/structure/flora/ausbushes/lavendergrass,
 /obj/effect/falling_maple,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "lTP" = (
 /turf/closed/wall/mineral/rogue/decowood,
 /area/rogue/outdoors/woods)
@@ -44531,7 +44531,7 @@
 	dir = 4
 	},
 /turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "lZJ" = (
 /obj/structure/table/wood{
 	dir = 10;
@@ -45017,7 +45017,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "mfT" = (
 /obj/effect/decal/cobbleedge{
 	dir = 9
@@ -45137,7 +45137,7 @@
 /obj/structure/flora/newleaf,
 /obj/effect/falling_maple,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "mho" = (
 /obj/structure/flora/roguegrass/herb/taraxacum,
 /turf/open/floor/rogue/grassred,
@@ -45185,7 +45185,7 @@
 	icon_state = "pine3"
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "mih" = (
 /obj/structure/roguewindow,
 /turf/open/floor/rogue/twig,
@@ -45591,7 +45591,7 @@
 /obj/structure/flora/newleaf,
 /obj/effect/falling_leaves,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "mnN" = (
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/underdark)
@@ -45648,7 +45648,7 @@
 	dir = 10
 	},
 /turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "moA" = (
 /obj/effect/decal/cobbleedge{
 	dir = 4;
@@ -46102,7 +46102,7 @@
 "mvw" = (
 /obj/effect/falling_maple,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "mvx" = (
 /obj/structure/chair/wood/rogue{
 	dir = 1
@@ -46164,7 +46164,7 @@
 	max_integrity = 1400
 	},
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "mwe" = (
 /obj/structure/closet/crate/chest,
 /obj/effect/spawner/lootdrop/roguetown/sewers,
@@ -47116,7 +47116,7 @@
 /obj/structure/flora/ausbushes/lavendergrass,
 /obj/structure/flora/ausbushes/ppflowers,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "mIU" = (
 /obj/structure/closet/crate/chest/neu_fancy,
 /obj/item/roguecoin/gold/pile,
@@ -47218,7 +47218,7 @@
 	max_integrity = 1400
 	},
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "mKz" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/rogue/tile/masonic{
@@ -47407,7 +47407,7 @@
 /obj/effect/falling_maple,
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "mMP" = (
 /obj/structure/bars/pipe{
 	dir = 1
@@ -47944,7 +47944,7 @@
 /area/rogue/outdoors/beach)
 "mVh" = (
 /turf/open/floor/carpet/red,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "mVk" = (
 /obj/structure/table/wood/fancy/black,
 /obj/structure/fluff/psycross{
@@ -48698,7 +48698,7 @@
 	dir = 4
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "neO" = (
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/clothing,
@@ -48932,7 +48932,7 @@
 	},
 /obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "nhl" = (
 /obj/structure/chair/hotspring_bench/left,
 /turf/open/floor/rogue/cobble/mossy,
@@ -48948,7 +48948,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "nhC" = (
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/rtfield/eora)
@@ -49646,7 +49646,7 @@
 /obj/structure/flora/ausbushes/lavendergrass,
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "nqw" = (
 /obj/structure/fluff/walldeco/psybanner/red{
 	pixel_y = 32
@@ -49758,7 +49758,7 @@
 	},
 /obj/structure/handcart,
 /turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "nst" = (
 /obj/structure/mineral_door/wood/towner/generic,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -49782,7 +49782,7 @@
 "nsG" = (
 /obj/structure/vine,
 /turf/closed/mineral/rogue,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "nsI" = (
 /obj/structure/mineral_door/wood{
 	locked = 1
@@ -50108,7 +50108,7 @@
 	opacity = 1
 	},
 /turf/open/water/pond,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "nwZ" = (
 /obj/structure/roguemachine/scomm,
 /turf/open/floor/rogue/ruinedwood/herringbone,
@@ -50200,7 +50200,7 @@
 /obj/structure/closet/dirthole/grave,
 /obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "nyz" = (
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/cave)
@@ -50553,7 +50553,7 @@
 	icon_state = "dead3"
 	},
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "nDI" = (
 /obj/item/reagent_containers/glass/bottle/rogue/whitewine{
 	pixel_x = -10;
@@ -50584,7 +50584,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "nDV" = (
 /obj/structure/bed/rogue/shit{
 	name = "makeshift bed"
@@ -50735,7 +50735,7 @@
 /area/rogue/outdoors/bog)
 "nFC" = (
 /turf/closed/mineral/rogue,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "nFN" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -50797,7 +50797,7 @@
 	dir = 4
 	},
 /turf/open/transparent/openspace,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "nGL" = (
 /obj/structure/chair/bench/couch/r,
 /turf/open/floor/rogue/wood,
@@ -50909,7 +50909,7 @@
 "nIh" = (
 /obj/structure/flora/ausbushes/lavendergrass,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "nIq" = (
 /obj/machinery/light/rogue/firebowl/standing,
 /turf/open/floor/rogue/dirt/road,
@@ -51078,7 +51078,7 @@
 	pixel_y = -24
 	},
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "nKD" = (
 /obj/effect/decal/cleanable/blood,
 /mob/living/carbon/human/species/goblin/npc/ambush,
@@ -51170,7 +51170,7 @@
 /obj/structure/flora/newleaf,
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "nLz" = (
 /obj/effect/decal/cleanable/dirt/cobweb{
 	dir = 1
@@ -51690,7 +51690,7 @@
 	pixel_y = 20
 	},
 /turf/open/floor/carpet/purple,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "nSc" = (
 /obj/structure/bed/rogue/inn/double,
 /obj/item/bedsheet/rogue/fabric_double,
@@ -51862,7 +51862,7 @@
 	},
 /obj/structure/noose,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "nTL" = (
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/ruinedwood,
@@ -52626,7 +52626,7 @@
 /area/rogue/outdoors/mountains/decap)
 "oeE" = (
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "oeF" = (
 /obj/structure/stairs/fancy/c{
 	dir = 1
@@ -52851,7 +52851,7 @@
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "ohz" = (
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/blocks,
@@ -53606,7 +53606,7 @@
 /area/rogue/under/cave/scarymaze)
 "ove" = (
 /turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "ovf" = (
 /obj/structure/fluff/railing/border{
 	dir = 10
@@ -54394,7 +54394,7 @@
 	lockid = "church"
 	},
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "oHk" = (
 /obj/structure/mineral_door/wood/donjon/stone{
 	locked = 1;
@@ -54407,7 +54407,7 @@
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/ausbushes/leafybush,
 /turf/open/water/pond,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "oHr" = (
 /obj/structure/rack/rogue/shelf,
 /obj/structure/rack/rogue,
@@ -54544,7 +54544,7 @@
 	max_integrity = 1400
 	},
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "oIS" = (
 /obj/structure/fluff/railing/border{
 	dir = 6
@@ -54871,7 +54871,7 @@
 "oNL" = (
 /obj/structure/flora/ausbushes/stalkybush,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "oNQ" = (
 /obj/structure/closet/crate/coffin,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
@@ -54891,7 +54891,7 @@
 	},
 /obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "oOr" = (
 /obj/effect/spawner/lootdrop/roguetown/sewers,
 /turf/open/floor/rogue/cobble,
@@ -54983,7 +54983,7 @@
 	},
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "oPu" = (
 /obj/structure/mineral_door/wood/deadbolt{
 	locked = 1
@@ -55474,7 +55474,7 @@
 /obj/structure/fluff/psycross/copper,
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "oXa" = (
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-sread"
@@ -55845,7 +55845,7 @@
 /area/rogue/under/cave/dukecourt)
 "pbi" = (
 /turf/closed/mineral/random/rogue/med,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "pbj" = (
 /obj/effect/decal/mossy,
 /obj/effect/decal/cobble/mossy{
@@ -56009,7 +56009,7 @@
 	},
 /obj/structure/chair/bench/church/smallbench,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "pdN" = (
 /obj/structure/fluff/railing/wood{
 	dir = 4;
@@ -56124,7 +56124,7 @@
 /obj/structure/mirror,
 /obj/structure/fluff/alch,
 /turf/open/floor/rogue/twig,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "pfs" = (
 /obj/structure/roguewindow/openclose{
 	dir = 1
@@ -56341,7 +56341,7 @@
 	},
 /obj/effect/falling_maple,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "phE" = (
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/town/church/chapel)
@@ -56381,7 +56381,7 @@
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "piw" = (
 /obj/structure/fluff/railing/border{
 	dir = 8
@@ -56427,7 +56427,7 @@
 	dir = 5
 	},
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "piQ" = (
 /obj/structure/fluff/walldeco/customflag{
 	pixel_y = 32
@@ -57110,7 +57110,7 @@
 	},
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "puw" = (
 /obj/structure/flora/roguetree/pine/dead,
 /turf/open/floor/rogue/dirt/road,
@@ -57245,7 +57245,7 @@
 /area/rogue/outdoors/beach)
 "pws" = (
 /turf/closed/wall/mineral/rogue/decostone/cand,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "pwt" = (
 /obj/structure/chair/wood/rogue{
 	dir = 4
@@ -57481,7 +57481,7 @@
 "pzb" = (
 /obj/structure/composter,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "pze" = (
 /turf/open/floor/rogue/ruinedwood{
 	icon_state = "weird1"
@@ -57518,7 +57518,7 @@
 	opacity = 1
 	},
 /turf/closed/wall/churchpass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "pzl" = (
 /obj/structure/fluff/railing/wood,
 /turf/open/floor/rogue/grass,
@@ -57533,7 +57533,7 @@
 	dir = 1
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "pzs" = (
 /obj/structure/roguemachine/scomm,
 /turf/open/floor/rogue/herringbone,
@@ -58564,7 +58564,7 @@
 	pixel_y = 7
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "pNl" = (
 /obj/structure/rack/rogue,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
@@ -58840,7 +58840,7 @@
 "pRx" = (
 /obj/structure/vine,
 /turf/closed/wall/mineral/rogue/stone/red_moss,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "pRz" = (
 /obj/structure/fluff/railing/border{
 	dir = 9
@@ -59458,7 +59458,7 @@
 "pZW" = (
 /obj/structure/flora/roguegrass/bush/wall/tall,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "pZX" = (
 /obj/structure/fluff/railing/border,
 /obj/structure/fluff/railing/border{
@@ -59519,7 +59519,7 @@
 "qax" = (
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "qaD" = (
 /obj/structure/fluff/railing/border,
 /obj/structure/fluff/railing/border/west,
@@ -60108,7 +60108,7 @@
 /obj/structure/flora/maple/d,
 /obj/effect/falling_leaves,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "qiB" = (
 /obj/structure/roguetent,
 /turf/open/floor/rogue/dirt/ambush,
@@ -60166,7 +60166,7 @@
 /area/rogue/under/cave/dukecourt)
 "qjd" = (
 /turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "qje" = (
 /obj/effect/decal/cobbleedge{
 	dir = 5
@@ -60608,7 +60608,7 @@
 /area/rogue/outdoors/town)
 "qpl" = (
 /turf/open/floor/rogue/cobble,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "qpr" = (
 /mob/living/simple_animal/hostile/rogue/skeleton/guard,
 /turf/open/floor/rogue/cobble/mossy,
@@ -60673,7 +60673,7 @@
 "qpY" = (
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "qqc" = (
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/metal{
@@ -60698,7 +60698,7 @@
 	pixel_x = -32
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "qqq" = (
 /obj/structure/fluff/walldeco/chains,
 /turf/open/floor/rogue/cobble,
@@ -60771,7 +60771,7 @@
 /area/rogue/indoors/town)
 "qri" = (
 /turf/closed/mineral/random/rogue/high,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "qrk" = (
 /obj/structure/closet/crate/chest/wicker,
 /obj/item/rogueweapon/hoe,
@@ -60927,7 +60927,7 @@
 "qtm" = (
 /obj/structure/flora/roguegrass/bush/wall,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "qtn" = (
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/dirt/road,
@@ -61180,7 +61180,7 @@
 	name = "Maneater well"
 	},
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "qwK" = (
 /turf/closed/mineral/random/rogue/high,
 /area/rogue/outdoors/mountains)
@@ -61302,7 +61302,7 @@
 	icon_state = "borderfall"
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "qyk" = (
 /obj/structure/fluff/railing/border/west,
 /turf/open/transparent/openspace,
@@ -61963,7 +61963,7 @@
 /obj/structure/flora/newleaf,
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "qHj" = (
 /turf/closed/mineral/random/rogue/high,
 /area/rogue/under/cave)
@@ -62239,7 +62239,7 @@
 /obj/structure/flora/ausbushes/ppflowers,
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "qJN" = (
 /obj/machinery/light/rogue/firebowl/standing/blue,
 /turf/open/floor/rogue/concrete,
@@ -62376,7 +62376,7 @@
 	dir = 4
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "qLO" = (
 /obj/machinery/light/rogue/wallfire,
 /turf/closed/wall/mineral/rogue/pipe,
@@ -62905,7 +62905,7 @@
 "qTU" = (
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "qTW" = (
 /obj/machinery/light/rogue/torchholder/c,
 /obj/structure/curtain/magenta{
@@ -63249,7 +63249,7 @@
 	dir = 9
 	},
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "qZa" = (
 /obj/effect/decal/wood/herringbone2{
 	dir = 8
@@ -63792,7 +63792,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "rfQ" = (
 /obj/item/reagent_containers/food/snacks/smallrat,
 /turf/open/floor/rogue/cobble,
@@ -64080,7 +64080,7 @@
 "rkP" = (
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "rkS" = (
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/churchmarble,
@@ -64321,7 +64321,7 @@
 	},
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "rnI" = (
 /turf/open/floor/carpet/red,
 /area/rogue/under/town/basement/keep)
@@ -64337,7 +64337,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "rnT" = (
 /obj/structure/fluff/railing/corner/south_west,
 /obj/structure/chair/wood/rogue{
@@ -64610,13 +64610,13 @@
 	},
 /obj/structure/flora/ausbushes/stalkybush,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "rrW" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/ausbushes/lavendergrass,
 /obj/structure/flora/ausbushes/lavendergrass,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "rrZ" = (
 /obj/item/cooking/platter/silver{
 	pixel_y = -4
@@ -64825,7 +64825,7 @@
 	icon_state = "borderfall"
 	},
 /turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "rvg" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -65326,7 +65326,7 @@
 	pixel_y = -24
 	},
 /turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "rBY" = (
 /turf/open/floor/rogue/metal{
 	icon_state = "plating2"
@@ -66355,7 +66355,7 @@
 "rQC" = (
 /obj/structure/rack/rogue/shelf,
 /turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "rQD" = (
 /obj/structure/flora/ausbushes/ywflowers,
 /turf/open/floor/rogue/grass,
@@ -66404,7 +66404,7 @@
 /obj/structure/flora/newleaf,
 /obj/effect/falling_leaves,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "rRi" = (
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 1
@@ -66812,7 +66812,7 @@
 "rWx" = (
 /obj/structure/fluff/railing/wood,
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "rWH" = (
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/snow,
@@ -66834,7 +66834,7 @@
 	},
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "rXc" = (
 /turf/closed/wall/mineral/rogue/wooddark/end{
 	dir = 4
@@ -67110,7 +67110,7 @@
 	dir = 4
 	},
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "saK" = (
 /obj/structure/mineral_door/wood/deadbolt{
 	dir = 8;
@@ -68226,7 +68226,7 @@
 /area/rogue/indoors/town)
 "soE" = (
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "soK" = (
 /obj/item/rogueweapon/pick/copper,
 /turf/open/floor/rogue/dirt,
@@ -68403,7 +68403,7 @@
 	},
 /obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "sqq" = (
 /obj/machinery/light/rogue/torchholder/r,
 /obj/structure/bed/rogue/inn/hay,
@@ -68413,7 +68413,7 @@
 /obj/structure/flora/roguegrass,
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "sqB" = (
 /obj/structure/bars/pipe{
 	dir = 8
@@ -68662,7 +68662,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "sto" = (
 /turf/open/floor/rogue/grass,
 /area/rogue/under/cave)
@@ -68698,7 +68698,7 @@
 /obj/structure/bed/rogue/inn/double,
 /obj/item/bedsheet/rogue/double_pelt,
 /turf/open/floor/rogue/twig,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "sui" = (
 /obj/structure/bars/grille,
 /obj/structure/fluff/walldeco/church/line{
@@ -68805,7 +68805,7 @@
 /obj/item/cooking/platter,
 /obj/item/kitchen/fork,
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "svl" = (
 /obj/machinery/light/rogue/wallfire{
 	pixel_y = 32
@@ -68912,7 +68912,7 @@
 	pixel_y = 0
 	},
 /turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "swI" = (
 /obj/effect/decal/cleanable/dirt/cobweb,
 /obj/structure/rack/rogue,
@@ -69304,7 +69304,7 @@
 "sCQ" = (
 /obj/structure/hotspring/border/three,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "sDa" = (
 /obj/structure/table/wood/poor,
 /turf/open/floor/rogue/blocks,
@@ -69489,7 +69489,7 @@
 "sGu" = (
 /obj/structure/flora/roguegrass/water,
 /turf/open/water/pond,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "sGH" = (
 /obj/structure/fluff/railing/border/west{
 	dir = 2
@@ -69811,7 +69811,7 @@
 "sLt" = (
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "sLY" = (
 /obj/structure/table/wood{
 	icon_state = "longtable_mid"
@@ -69991,7 +69991,7 @@
 "sOf" = (
 /obj/structure/fluff/walldeco/painting/seraphina,
 /turf/closed/wall/mineral/rogue/decowood,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "sOg" = (
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/effect/spawner/lootdrop/light_armor_spawner{
@@ -70316,7 +70316,7 @@
 /obj/structure/flora/newleaf,
 /obj/effect/falling_maple,
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "sRR" = (
 /obj/structure/bed/rogue/inn/hay,
 /turf/open/floor/rogue/hay,
@@ -70381,7 +70381,7 @@
 	dir = 6
 	},
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "sTc" = (
 /obj/structure/flora/newleaf,
 /obj/structure/flora/newbranch/leafless{
@@ -71061,7 +71061,7 @@
 "tcE" = (
 /obj/structure/flora/roguegrass/bush/wall,
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "tcF" = (
 /obj/structure/closet/crate/chest,
 /obj/item/paper,
@@ -73107,7 +73107,7 @@
 /area/rogue/indoors/cave)
 "tFp" = (
 /turf/open/floor/carpet/purple,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "tFq" = (
 /obj/structure/closet/dirthole/closed/loot,
 /obj/structure/gravemarker{
@@ -74065,7 +74065,7 @@
 	pixel_x = 2
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "tTB" = (
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
@@ -74115,7 +74115,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "tUu" = (
 /obj/machinery/light/rogue/wallfire/candle/r,
 /obj/structure/bed/rogue/inn,
@@ -75128,7 +75128,7 @@
 	lockid = "church"
 	},
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "uhR" = (
 /obj/machinery/light/rogue/firebowl/standing/blue,
 /turf/open/floor/rogue/blocks,
@@ -75402,7 +75402,7 @@
 	dir = 8
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "ulN" = (
 /obj/structure/mineral_door/wood/violet,
 /turf/open/floor/rogue/dirt/road,
@@ -75740,7 +75740,7 @@
 	opacity = 1
 	},
 /turf/open/transparent/openspace,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "uqi" = (
 /obj/structure/bars/steel,
 /obj/structure/bars/pipe,
@@ -75795,7 +75795,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "urh" = (
 /obj/structure/mineral_door/wood/deadbolt{
 	dir = 8;
@@ -75812,7 +75812,7 @@
 	dir = 8
 	},
 /turf/open/floor/rogue/twig,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "urn" = (
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-n"
@@ -77079,7 +77079,7 @@
 /obj/structure/flora/roguegrass/bush/wall,
 /obj/effect/falling_leaves,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "uGv" = (
 /obj/effect/decal/carpet/kover_purple{
 	pixel_x = 16;
@@ -77132,7 +77132,7 @@
 "uHo" = (
 /obj/structure/vine,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "uHt" = (
 /obj/structure/chair/wood/rogue/fancy{
 	dir = 8
@@ -77218,7 +77218,7 @@
 "uIk" = (
 /obj/effect/falling_leaves,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "uIl" = (
 /turf/open/floor/rogue/tile/harem2,
 /area/rogue/indoors/town/bath)
@@ -77539,7 +77539,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "uNj" = (
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
@@ -77837,7 +77837,7 @@
 	dir = 8
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "uRN" = (
 /turf/closed/wall/mineral/rogue/wooddark/end,
 /area/rogue/under/town/basement)
@@ -78119,7 +78119,7 @@
 "uWh" = (
 /obj/structure/fluff/pillow/red,
 /turf/open/floor/carpet/red,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "uWo" = (
 /obj/structure/chair/wood/rogue/throne,
 /turf/open/floor/rogue/blocks/platform,
@@ -78234,7 +78234,7 @@
 "uXy" = (
 /obj/structure/flora/roguegrass/water,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "uXD" = (
 /obj/structure/roguewindow/stained/zizo,
 /turf/open/floor/rogue/concrete,
@@ -78663,7 +78663,7 @@
 	dir = 9
 	},
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "vcM" = (
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/misc,
@@ -78754,7 +78754,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "veg" = (
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/grass,
@@ -78866,7 +78866,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "vgd" = (
 /obj/structure/mineral_door/swing_door,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -78892,7 +78892,7 @@
 "vgr" = (
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "vgs" = (
 /obj/structure/flora/ausbushes/brflowers,
 /obj/structure/flora/roguegrass,
@@ -79055,7 +79055,7 @@
 	dir = 10
 	},
 /turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "viJ" = (
 /obj/effect/decal/cobbleedge{
 	dir = 1;
@@ -79219,7 +79219,7 @@
 /area/rogue/indoors)
 "vkS" = (
 /turf/open/floor/rogue/rooftop,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "vkY" = (
 /obj/structure/chair/hotspring_bench{
 	dir = 4
@@ -79332,7 +79332,7 @@
 	dir = 4
 	},
 /turf/open/water/pond,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "vmr" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/roguegrass/herb/rosa,
@@ -79374,7 +79374,7 @@
 /obj/structure/flora/newleaf,
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "vnk" = (
 /obj/effect/decal/cobbleedge{
 	dir = 1
@@ -79414,7 +79414,7 @@
 "vnr" = (
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "vnx" = (
 /obj/structure/fluff/railing/border{
 	dir = 10
@@ -79434,7 +79434,7 @@
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "vnF" = (
 /obj/effect/decal/mossy{
 	dir = 4
@@ -79766,7 +79766,7 @@
 "vsE" = (
 /obj/structure/ladder,
 /turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "vsG" = (
 /obj/structure/chair/bench/couch,
 /obj/structure/fluff/walldeco/med{
@@ -79993,7 +79993,7 @@
 /area/rogue/indoors/town)
 "vvP" = (
 /turf/closed/wall/mineral/rogue/wooddark,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "vvS" = (
 /obj/item/roguebin/water,
 /turf/open/floor/rogue/metal,
@@ -80517,7 +80517,7 @@
 "vDJ" = (
 /obj/structure/bookcase/random/archive,
 /turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "vDR" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -80651,7 +80651,7 @@
 	dir = 4
 	},
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "vFH" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/spider/mutated,
 /turf/open/floor/rogue/tile/harem1,
@@ -80750,7 +80750,7 @@
 /area/rogue/indoors/town)
 "vHa" = (
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "vHf" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -81299,7 +81299,7 @@
 "vOZ" = (
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/cobble/mossy,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "vPd" = (
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/cave/scarymaze)
@@ -81944,7 +81944,7 @@
 	dir = 4
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "vYw" = (
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/item/reagent_containers/glass/bucket/pot/stone,
@@ -82087,7 +82087,7 @@
 /area/rogue/outdoors/town)
 "wag" = (
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "waw" = (
 /obj/structure/stairs{
 	dir = 1
@@ -82145,7 +82145,7 @@
 "wbm" = (
 /obj/structure/hotspring/border/eight,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "wbt" = (
 /obj/machinery/light/rogue/wallfire/candle/floorcandle/alt,
 /obj/machinery/light/rogue/wallfire/candle/floorcandle/pink{
@@ -82977,7 +82977,7 @@
 	opacity = 1
 	},
 /turf/closed/mineral/rogue,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "wlr" = (
 /obj/structure/bars/grille,
 /obj/structure/fluff/railing/border/west,
@@ -83195,7 +83195,7 @@
 "wnD" = (
 /obj/structure/fluff/railing/border,
 /turf/open/transparent/openspace,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "wnE" = (
 /obj/structure/fluff/grindwheel,
 /obj/effect/decal/cleanable/debris/woody,
@@ -83213,7 +83213,7 @@
 	dir = 4
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "woe" = (
 /obj/structure/floordoor/gatehatch/inner{
 	redstone_id = "swamp_psy_dungeon"
@@ -83229,7 +83229,7 @@
 /obj/structure/flora/newleaf,
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "woi" = (
 /obj/structure/chair/wood/rogue/fancy,
 /turf/open/floor/carpet/royalblack,
@@ -83574,7 +83574,7 @@
 "wts" = (
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "wtE" = (
 /obj/machinery/light/rogue/wallfire/candle/blue,
 /obj/structure/chair/wood/rogue{
@@ -84249,7 +84249,7 @@
 /obj/structure/flora/newleaf,
 /obj/effect/falling_leaves,
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "wDy" = (
 /obj/structure/fluff/railing/border{
 	dir = 1
@@ -84319,7 +84319,7 @@
 "wEI" = (
 /obj/structure/vine,
 /turf/closed/mineral/random/rogue/med,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "wEK" = (
 /obj/effect/decal/cleanable/blood{
 	icon_state = "floor6-old"
@@ -84426,7 +84426,7 @@
 	},
 /obj/structure/ladder,
 /turf/open/transparent/openspace,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "wFH" = (
 /obj/structure/closet/crate/roguecloset,
 /obj/item/clothing/suit/roguetown/shirt/tunic,
@@ -84705,7 +84705,7 @@
 	max_integrity = 1400
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "wJD" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/ausbushes/ppflowers,
@@ -84847,7 +84847,7 @@
 "wLE" = (
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/cobble/mossy,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "wLF" = (
 /obj/structure/fluff/railing/border/west,
 /obj/machinery/light/rogue/oven/east,
@@ -85503,7 +85503,7 @@
 /obj/structure/flora/newleaf,
 /obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "wVr" = (
 /turf/closed/wall/churchpass,
 /area/rogue/indoors/town/church/chapel)
@@ -85550,7 +85550,7 @@
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/roguegrass/herb/salvia,
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "wVN" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf{
 	name = "Bitey"
@@ -85563,7 +85563,7 @@
 	icon_state = "borderfall"
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "wVU" = (
 /obj/effect/decal/cobbleedge{
 	dir = 1
@@ -86388,7 +86388,7 @@
 /obj/structure/flora/roguegrass/herb/salvia,
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grass,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "xhj" = (
 /obj/structure/mineral_door/bars,
 /turf/open/floor/rogue/cobblerock,
@@ -86587,7 +86587,7 @@
 /area/rogue/indoors/town/bath)
 "xkf" = (
 /turf/open/floor/rogue/cobble/mossy,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "xkh" = (
 /turf/closed/wall/mineral/rogue/roofwall/outercorner{
 	dir = 8
@@ -87123,7 +87123,7 @@
 	lockid = "church"
 	},
 /turf/open/floor/rogue/cobble/mossy,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "xqU" = (
 /obj/structure/table/wood{
 	dir = 8;
@@ -87144,7 +87144,7 @@
 /area/rogue/outdoors/bog)
 "xrc" = (
 /turf/closed/mineral/rogue/bedrock,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "xrk" = (
 /obj/machinery/light/rogue/firebowl/standing,
 /turf/open/floor/rogue/grassyel,
@@ -87458,7 +87458,7 @@
 "xxO" = (
 /obj/item/rogueweapon/mace/church,
 /turf/closed/wall/mineral/rogue/decostone/end,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "xyd" = (
 /turf/closed/wall/mineral/rogue/wooddark{
 	density = 0
@@ -87901,7 +87901,7 @@
 "xDB" = (
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/water/pond,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "xDF" = (
 /obj/structure/fluff/traveltile/vampire{
 	aportalgoesto = "vampin";
@@ -88253,7 +88253,7 @@
 	lockid = "church"
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "xIE" = (
 /obj/structure/chair/wood/rogue{
 	dir = 4
@@ -88737,7 +88737,7 @@
 /obj/machinery/light/rogue/hearth,
 /obj/item/cooking/pan,
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "xPw" = (
 /obj/structure/fluff/railing/fence{
 	dir = 4
@@ -88907,7 +88907,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/grassyel,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "xRL" = (
 /obj/machinery/light/rogue/firebowl/off,
 /turf/open/floor/rogue/dirt,
@@ -89243,7 +89243,7 @@
 "xXe" = (
 /obj/structure/flora/roguegrass/bush/wall/tall,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "xXm" = (
 /obj/effect/decal/cobbleedge{
 	dir = 6
@@ -89501,7 +89501,7 @@
 "yaN" = (
 /obj/structure/flora/roguetree/pine/dead,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town/church/outside)
+/area/rogue/outdoors/exposed/church)
 "yaR" = (
 /obj/structure/gate{
 	gid = "dungeonfool";
