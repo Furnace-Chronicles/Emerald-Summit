@@ -9950,10 +9950,6 @@
 	dir = 4
 	},
 /obj/structure/flora/ausbushes/fullgrass,
-/obj/structure/flora/roguegrass/bush{
-	pixel_y = 5;
-	color = #D1154Af
-	},
 /turf/open/floor/rogue/grassyel,
 /area/rogue/indoors/town/church/chapel)
 "cKK" = (
@@ -10339,10 +10335,6 @@
 	dir = 1
 	},
 /obj/structure/flora/ausbushes/lavendergrass,
-/obj/structure/flora/roguegrass/bush{
-	pixel_y = 5;
-	color = #D1154Af
-	},
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors/town/church/chapel)
@@ -20616,10 +20608,6 @@
 	},
 /obj/structure/flora/ausbushes/lavendergrass,
 /obj/structure/flora/ausbushes/ppflowers,
-/obj/structure/flora/roguegrass/bush{
-	pixel_y = 5;
-	color = #D1154Af
-	},
 /turf/open/floor/rogue/grassred,
 /area/rogue/indoors/town/church/chapel)
 "fAm" = (
@@ -34140,10 +34128,6 @@
 	pixel_y = 0
 	},
 /obj/structure/flora/ausbushes/lavendergrass,
-/obj/structure/flora/roguegrass/bush{
-	pixel_y = 5;
-	color = #D1154Af
-	},
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/indoors/town/church/chapel)
@@ -41466,10 +41450,6 @@
 	dir = 1
 	},
 /obj/structure/flora/ausbushes/fullgrass,
-/obj/structure/flora/roguegrass/bush{
-	pixel_y = 5;
-	color = #D1154Af
-	},
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/indoors/town/church/chapel)
@@ -61269,10 +61249,6 @@
 	dir = 8
 	},
 /obj/structure/flora/ausbushes/lavendergrass,
-/obj/structure/flora/roguegrass/bush{
-	pixel_y = 5;
-	color = #D1154Af
-	},
 /turf/open/floor/rogue/grassred,
 /area/rogue/indoors/town/church/chapel)
 "qxC" = (
@@ -69236,10 +69212,6 @@
 	pixel_y = 0
 	},
 /obj/structure/flora/ausbushes/ppflowers,
-/obj/structure/flora/roguegrass/bush{
-	pixel_y = 5;
-	color = #D1154Af
-	},
 /turf/open/floor/rogue/grassred,
 /area/rogue/indoors/town/church/chapel)
 "sAO" = (
@@ -81941,10 +81913,6 @@
 	dir = 8
 	},
 /obj/structure/flora/ausbushes/ppflowers,
-/obj/structure/flora/roguegrass/bush{
-	pixel_y = 5;
-	color = #D1154Af
-	},
 /obj/structure/flora/newleaf,
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors/town/church/chapel)
