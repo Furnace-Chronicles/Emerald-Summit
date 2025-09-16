@@ -13072,6 +13072,7 @@
 /area/rogue/indoors/town/dwarfin)
 "dAr" = (
 /obj/structure/stairs,
+/obj/structure/roguemachine/scomm/r,
 /turf/open/floor/rogue/blocks{
 	icon_state = "paving"
 	},
@@ -29913,11 +29914,10 @@
 	},
 /area/rogue/under/cave/licharena)
 "ibh" = (
-/obj/structure/roguemachine/withdraw{
-	pixel_x = 32;
-	pixel_y = 0
+/obj/machinery/light/rogue/oven/west,
+/turf/open/floor/rogue/blocks{
+	icon_state = "paving"
 	},
-/turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "ibm" = (
 /obj/structure/fluff/railing/border{
@@ -37867,6 +37867,7 @@
 /area/rogue/under/cave/dukecourt)
 "kik" = (
 /obj/structure/roguemachine/scomm/r,
+/obj/structure/fermentation_keg/random/water,
 /turf/open/floor/rogue/blocks{
 	icon_state = "paving"
 	},
@@ -38340,7 +38341,6 @@
 /obj/machinery/light/rogue/hearth,
 /obj/structure/fluff/railing/border,
 /obj/item/reagent_containers/glass/bucket/pot,
-/obj/structure/rack/rogue/shelf,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/church/chapel)
 "koV" = (
@@ -50006,10 +50006,13 @@
 /turf/open/floor/rogue/rooftop/green/north,
 /area/rogue/outdoors/town/roofs)
 "nvP" = (
-/obj/structure/fermentation_keg/random/water{
-	icon_state = "barrel_tapped_ready"
+/obj/structure/roguemachine/withdraw{
+	pixel_x = 32;
+	pixel_y = 0
 	},
-/turf/closed/wall/mineral/rogue/decostone/cand,
+/turf/open/floor/rogue/blocks{
+	icon_state = "paving"
+	},
 /area/rogue/indoors/town/church/chapel)
 "nvQ" = (
 /obj/effect/decal/cobbleedge{
@@ -67969,11 +67972,6 @@
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/indoors/town/tavern)
-"slN" = (
-/obj/machinery/light/rogue/oven/south,
-/obj/structure/roguemachine/scomm/r,
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/church/chapel)
 "slP" = (
 /obj/effect/decal/mossy{
 	dir = 4;
@@ -254729,7 +254727,7 @@ bJc
 iOC
 bJc
 bJc
-nvP
+iOC
 koL
 sLe
 pjR
@@ -256540,8 +256538,8 @@ fzQ
 ncx
 ncx
 dAr
-guZ
-guZ
+ibh
+nvP
 ydv
 guZ
 fjV
@@ -256992,8 +256990,8 @@ bJc
 bJc
 bJc
 bJc
-slN
-ibh
+bJc
+bJc
 lil
 mlE
 oKc
@@ -261047,7 +261045,7 @@ xFv
 xFv
 xFv
 xFv
-xcA
+xFv
 qEy
 aEl
 aUo
