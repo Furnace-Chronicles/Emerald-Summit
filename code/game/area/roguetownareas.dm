@@ -46,7 +46,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 
 	. = ..()
 	if((src.church_area == TRUE) && HAS_TRAIT(guy, TRAIT_CLERGY) && !guy.has_status_effect(/datum/status_effect/buff/churchbuff)) // Templar/Priest/Churchling/Acolyte
-		guy.apply_status_effect(/datum/status_effect/buff/churchbuff)		
+		guy.apply_status_effect(/datum/status_effect/buff/churchbuff)
 
 /area/rogue/Entered(mob/living/carbon/human/guy)
 
@@ -862,7 +862,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 
 /area/rogue/outdoors/exposed/church
 	icon_state = "church"
-	droning_sound = 'sound/music/area/monastary.ogg'
+	droning_sound = 'sound/music/area/monastery.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
 	droning_sound_dawn = null
