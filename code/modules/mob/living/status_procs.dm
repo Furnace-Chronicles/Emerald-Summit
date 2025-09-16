@@ -489,19 +489,19 @@
 	REMOVE_TRAIT(src, TRAIT_PARALYSIS, source)
 
 /**
- * Adjusts a timed status effect on the mob,taking into account any existing timed status effects.
- * This can be any status effect that takes into account "duration" with their initialize arguments.
- *
- * Positive durations will add deciseconds to the duration of existing status effects
- * or apply a new status effect of that duration to the mob.
- *
- * Negative durations will remove deciseconds from the duration of an existing version of the status effect,
- * removing the status effect entirely if the duration becomes less than zero (less than the current world time).
- *
- * duration - the duration, in deciseconds, to add or remove from the effect
- * effect - the type of status effect being adjusted on the mob
- * max_duration - optional - if set, positive durations will only be added UP TO the passed max duration
- */
+	* Adjusts a timed status effect on the mob,taking into account any existing timed status effects.
+	* This can be any status effect that takes into account "duration" with their initialize arguments.
+	*
+	* Positive durations will add deciseconds to the duration of existing status effects
+	* or apply a new status effect of that duration to the mob.
+	*
+	* Negative durations will remove deciseconds from the duration of an existing version of the status effect,
+	* removing the status effect entirely if the duration becomes less than zero (less than the current world time).
+	*
+	* duration - the duration, in deciseconds, to add or remove from the effect
+	* effect - the type of status effect being adjusted on the mob
+	* max_duration - optional - if set, positive durations will only be added UP TO the passed max duration
+	*/
 /mob/living/proc/adjust_timed_status_effect(duration, effect, max_duration)
 	if(!isnum(duration))
 		CRASH("adjust_timed_status_effect: called with an invalid duration. (Got: [duration])")
@@ -543,14 +543,14 @@
 		apply_status_effect(effect, duration)
 
 /**
- * Sets a timed status effect of some kind on a mob to a specific value.
- * If only_if_higher is TRUE, it will only set the value up to the passed duration,
- * so any pre-existing status effects of the same type won't be reduced down
- *
- * duration - the duration, in deciseconds, of the effect. 0 or lower will either remove the current effect or do nothing if none are present
- * effect - the type of status effect given to the mob
- * only_if_higher - if TRUE, we will only set the effect to the new duration if the new duration is longer than any existing duration
- */
+	* Sets a timed status effect of some kind on a mob to a specific value.
+	* If only_if_higher is TRUE, it will only set the value up to the passed duration,
+	* so any pre-existing status effects of the same type won't be reduced down
+	*
+	* duration - the duration, in deciseconds, of the effect. 0 or lower will either remove the current effect or do nothing if none are present
+	* effect - the type of status effect given to the mob
+	* only_if_higher - if TRUE, we will only set the effect to the new duration if the new duration is longer than any existing duration
+	*/
 /mob/living/proc/set_timed_status_effect(duration, effect, only_if_higher = FALSE)
 	if(!isnum(duration))
 		CRASH("set_timed_status_effect: called with an invalid duration. (Got: [duration])")
@@ -580,11 +580,11 @@
 		apply_status_effect(effect, duration)
 
 /**
- * Gets how many deciseconds are remaining in
- * the duration of the passed status effect on this mob.
- *
- * If the mob is unaffected by the passed effect, returns 0.
- */
+	* Gets how many deciseconds are remaining in
+	* the duration of the passed status effect on this mob.
+	*
+	* If the mob is unaffected by the passed effect, returns 0.
+	*/
 /mob/living/proc/get_timed_status_effect_duration(effect)
 	if(!ispath(effect, /datum/status_effect))
 		CRASH("get_timed_status_effect_duration: called with an invalid effect type. (Got: [effect])")

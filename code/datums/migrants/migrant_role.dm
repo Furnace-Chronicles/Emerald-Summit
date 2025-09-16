@@ -28,8 +28,8 @@
 	return
 
 // /datum/migrant_role/pilgrim
-// 	name = "Pilgrim"
-// 	advclass_cat_rolls = list(CTAG_PILGRIM = 20)
+//	name = "Pilgrim"
+//	advclass_cat_rolls = list(CTAG_PILGRIM = 20)
 
 /datum/migrant_role/adventurer
 	name = "Adventurer"

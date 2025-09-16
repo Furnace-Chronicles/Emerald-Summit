@@ -99,7 +99,7 @@
 		Did you know 'pure' glass dissolves in water? The stablizer is what binds everything together and makes it strong.
 	In reality, those different components will be abstracted in game, respectively to:
 	*2x clay   (Assuming it is a base for acquiring Silica)
-	*2x ash    (No abstraction needed. Plant/wood ash IS Na2CO3)
+	*2x ash	(No abstraction needed. Plant/wood ash IS Na2CO3)
 	*1x stone  (We'll just assume that regular stones have enough limestone in them) (We could use bones but those are too hard to get.)
 	This should make glass neither trivial nor too challenging to make, especially given its a high-skill recipe.
 	Smelting it into a pane is a fairly straightforward process with a mold.

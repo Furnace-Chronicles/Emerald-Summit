@@ -41,7 +41,7 @@ All foods are distributed among various categories. Use common sense.
 	var/bitesize = 3
 	var/bitecount = 0
 	var/trash = null
-	var/slice_path    // for sliceable food. path of the item resulting from the slicing
+	var/slice_path	// for sliceable food. path of the item resulting from the slicing
 	var/slice_bclass = BCLASS_CUT
 	var/slices_num
 	var/slice_batch = TRUE

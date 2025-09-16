@@ -4,9 +4,9 @@
 #define DEFAULT_BLOOD_RECOVERY 5
 
 /**
- * Behavior for mob sitting and healing bleed/brute. This does not recover blood, the mobs will still be vulnerable to being bled out.
- * todo: crix check heal_wounds, see if applicable
- */
+	* Behavior for mob sitting and healing bleed/brute. This does not recover blood, the mobs will still be vulnerable to being bled out.
+	* todo: crix check heal_wounds, see if applicable
+	*/
 /datum/ai_behavior/simple_rest_and_recuperate
 	action_cooldown = 2 SECONDS
 	behavior_flags = AI_BEHAVIOR_KEEP_MOVING_TOWARDS_TARGET_ON_FINISH

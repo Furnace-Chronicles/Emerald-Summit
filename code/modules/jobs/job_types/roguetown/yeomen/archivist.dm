@@ -146,13 +146,13 @@
 	/datum/skill/misc/lockpicking,
 	/datum/skill/labor/lumberjacking,
 
-    /datum/skill/craft/masonry,
-    /datum/skill/labor/mining,
-    /datum/skill/misc/music,
-    /datum/skill/misc/medicine,
+	/datum/skill/craft/masonry,
+	/datum/skill/labor/mining,
+	/datum/skill/misc/music,
+	/datum/skill/misc/medicine,
 
-    /datum/skill/misc/sewing,
-    /datum/skill/craft/smelting,
+	/datum/skill/misc/sewing,
+	/datum/skill/craft/smelting,
 	/datum/skill/misc/sneaking,
 	/datum/skill/misc/stealing,
 	/datum/skill/misc/swimming,
@@ -162,7 +162,7 @@
 	/datum/skill/craft/traps,
 
 	/datum/skill/misc/reading,
-    /datum/skill/misc/riding,
+	/datum/skill/misc/riding,
 
 	/datum/skill/craft/weaponsmithing,
 
@@ -176,7 +176,7 @@
 	/datum/language/orcish
 
 
-    )
+	)
 	for(var/i = 1, i <= skill_choices.len, i++)
 		choices["[skill_choices[i].name]"] = skill_choices[i]
 

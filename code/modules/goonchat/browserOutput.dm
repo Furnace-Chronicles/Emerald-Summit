@@ -9,11 +9,11 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 
 //On client, created on login
 /datum/chatOutput
-	var/client/owner	 //client ref
-	var/loaded       = FALSE // Has the client loaded the browser output area?
+	var/client/owner	//client ref
+	var/loaded	= FALSE // Has the client loaded the browser output area?
 	var/list/messageQueue = list()//If they haven't loaded chat, this is where messages will go until they do
 	var/cookieSent   = FALSE // Has the client sent a cookie for analysis
-	var/broken       = FALSE
+	var/broken	= FALSE
 	var/list/connectionHistory //Contains the connection history passed from chat cookie
 	var/adminMusicVolume = 50 //This is for the Play Global Sound verb
 	var/total_checks = 0
@@ -70,7 +70,7 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 	for(var/key in href_list)
 		if(length(key) > 7 && findtext(key, "param")) // 7 is the amount of characters in the basic param key template.
 			var/param_name = copytext(key, 7, -1)
-			var/item       = href_list[key]
+			var/item	= href_list[key]
 
 			params[param_name] = item
 

@@ -13,9 +13,9 @@
 	var/can_spawn = TRUE
 	resistance_flags = FLAMMABLE
 	var/list/categories = list("All") // Default categories
-	var/current_category = "All"      // Default selected category
-	var/current_recipe = null         // Currently viewed recipe
-	var/search_query = ""             // Current search query
+	var/current_category = "All"	// Default selected category
+	var/current_recipe = null		// Currently viewed recipe
+	var/search_query = ""			// Current search query
 
 /obj/item/recipe_book/New()
 	. = ..()
@@ -72,29 +72,29 @@
 			var/datum/alch_cauldron_recipe/r = temp_recipe
 			category = r.category
 		// else if(ispath(path, /datum/orderless_slapcraft))
-		// 	temp_recipe = new path()
-		// 	var/datum/orderless_slapcraft/r = temp_recipe
-		// 	category = r.category
+		//	temp_recipe = new path()
+		//	var/datum/orderless_slapcraft/r = temp_recipe
+		//	category = r.category
 		// else if(ispath(path, /datum/slapcraft_recipe))
-		// 	temp_recipe = new path()
-		// 	var/datum/slapcraft_recipe/r = temp_recipe
-		// 	category = r.category
+		//	temp_recipe = new path()
+		//	var/datum/slapcraft_recipe/r = temp_recipe
+		//	category = r.category
 		// else if(ispath(path, /datum/crafting_recipe))
-		// 	temp_recipe = new path()
-		// 	var/datum/crafting_recipe/r = temp_recipe
-		// 	category = r.category
+		//	temp_recipe = new path()
+		//	var/datum/crafting_recipe/r = temp_recipe
+		//	category = r.category
 		// else if(ispath(path, /datum/container_craft))
-		// 	temp_recipe = new path()
-		// 	var/datum/container_craft/r = temp_recipe
-		// 	category = r.category
+		//	temp_recipe = new path()
+		//	var/datum/container_craft/r = temp_recipe
+		//	category = r.category
 		// else if(ispath(path, /datum/molten_recipe))
-		// 	temp_recipe = new path()
-		// 	var/datum/molten_recipe/r = temp_recipe
-		// 	category = r.category
+		//	temp_recipe = new path()
+		//	var/datum/molten_recipe/r = temp_recipe
+		//	category = r.category
 		// else if(ispath(path, /datum/pottery_recipe))
-		// 	temp_recipe = new path()
-		// 	var/datum/pottery_recipe/r = temp_recipe
-		// 	category = r.category
+		//	temp_recipe = new path()
+		//	var/datum/pottery_recipe/r = temp_recipe
+		//	category = r.category
 		else if(ispath(path, /datum/brewing_recipe))
 			temp_recipe = new path()
 			var/datum/brewing_recipe/r = temp_recipe
@@ -453,41 +453,41 @@
 		recipe_name = initial(r.name)
 		recipe_html = get_recipe_specific_html(r, user)
 	// else if(ispath(path, /datum/alch_cauldron_recipe))
-	// 	temp_recipe = new path()
-	// 	var/datum/alch_cauldron_recipe/r = temp_recipe
-	// 	recipe_name = initial(r.name)
-	// 	recipe_html = get_recipe_specific_html(r, user)
+	//	temp_recipe = new path()
+	//	var/datum/alch_cauldron_recipe/r = temp_recipe
+	//	recipe_name = initial(r.name)
+	//	recipe_html = get_recipe_specific_html(r, user)
 	// else if(ispath(path, /datum/orderless_slapcraft))
-	// 	temp_recipe = new path()
-	// 	var/datum/orderless_slapcraft/r = temp_recipe
-	// 	recipe_name = initial(r.name)
-	// 	recipe_html = get_recipe_specific_html(r, user)
+	//	temp_recipe = new path()
+	//	var/datum/orderless_slapcraft/r = temp_recipe
+	//	recipe_name = initial(r.name)
+	//	recipe_html = get_recipe_specific_html(r, user)
 	// else if(ispath(path, /datum/slapcraft_recipe))
-	// 	temp_recipe = new path()
-	// 	var/datum/slapcraft_recipe/r = temp_recipe
-	// 	recipe_name = initial(r.name)
-	// 	recipe_description = r.desc || recipe_description
-	// 	recipe_html = get_recipe_specific_html(r, user)
+	//	temp_recipe = new path()
+	//	var/datum/slapcraft_recipe/r = temp_recipe
+	//	recipe_name = initial(r.name)
+	//	recipe_description = r.desc || recipe_description
+	//	recipe_html = get_recipe_specific_html(r, user)
 	// else if(ispath(path, /datum/crafting_recipe))
-	// 	temp_recipe = new path()
-	// 	var/datum/crafting_recipe/r = temp_recipe
-	// 	recipe_name = initial(r.name)
-	// 	recipe_html = get_recipe_specific_html(r, user)
+	//	temp_recipe = new path()
+	//	var/datum/crafting_recipe/r = temp_recipe
+	//	recipe_name = initial(r.name)
+	//	recipe_html = get_recipe_specific_html(r, user)
 	// else if(ispath(path, /datum/container_craft))
-	// 	temp_recipe = new path()
-	// 	var/datum/container_craft/r = temp_recipe
-	// 	recipe_name = initial(r.name)
-	// 	recipe_html = get_recipe_specific_html(r, user)
+	//	temp_recipe = new path()
+	//	var/datum/container_craft/r = temp_recipe
+	//	recipe_name = initial(r.name)
+	//	recipe_html = get_recipe_specific_html(r, user)
 	// else if(ispath(path, /datum/molten_recipe))
-	// 	temp_recipe = new path()
-	// 	var/datum/molten_recipe/r = temp_recipe
-	// 	recipe_name = initial(r.name)
-	// 	recipe_html = get_recipe_specific_html(r, user)
+	//	temp_recipe = new path()
+	//	var/datum/molten_recipe/r = temp_recipe
+	//	recipe_name = initial(r.name)
+	//	recipe_html = get_recipe_specific_html(r, user)
 	// else if(ispath(path, /datum/pottery_recipe))
-	// 	temp_recipe = new path()
-	// 	var/datum/pottery_recipe/r = temp_recipe
-	// 	recipe_name = initial(r.name)
-	// 	recipe_html = get_recipe_specific_html(r, user)
+	//	temp_recipe = new path()
+	//	var/datum/pottery_recipe/r = temp_recipe
+	//	recipe_name = initial(r.name)
+	//	recipe_html = get_recipe_specific_html(r, user)
 	else if(ispath(path, /datum/brewing_recipe))
 		temp_recipe = new path()
 		var/datum/brewing_recipe/r = temp_recipe
@@ -599,32 +599,32 @@
 			var/datum/anvil_recipe/real_path = new path
 			real_path.show_menu(current_reader)
 		// if(ispath(path, /datum/repeatable_crafting_recipe))
-		// 	var/datum/repeatable_crafting_recipe/real_path = new path
-		// 	real_path.show_menu(current_reader)
+		//	var/datum/repeatable_crafting_recipe/real_path = new path
+		//	real_path.show_menu(current_reader)
 		// else if(ispath(path, /datum/orderless_slapcraft))
-		// 	var/datum/orderless_slapcraft/real_path = new path
-		// 	real_path.show_menu(current_reader)
+		//	var/datum/orderless_slapcraft/real_path = new path
+		//	real_path.show_menu(current_reader)
 		// else if(ispath(path, /datum/slapcraft_recipe))
-		// 	var/datum/slapcraft_recipe/real_path = new path
-		// 	real_path.show_menu(current_reader)
+		//	var/datum/slapcraft_recipe/real_path = new path
+		//	real_path.show_menu(current_reader)
 		// else if(ispath(path, /datum/pot_recipe))
-		// 	var/datum/pot_recipe/real_path = new path
-		// 	real_path.show_menu(current_reader)
+		//	var/datum/pot_recipe/real_path = new path
+		//	real_path.show_menu(current_reader)
 		// else if(ispath(path, /datum/molten_recipe))
-		// 	var/datum/molten_recipe/real_path = new path
-		// 	real_path.show_menu(current_reader)
+		//	var/datum/molten_recipe/real_path = new path
+		//	real_path.show_menu(current_reader)
 		// else if(ispath(path, /datum/pottery_recipe))
-		// 	var/datum/pottery_recipe/real_path = new path
-		// 	real_path.show_menu(current_reader)
+		//	var/datum/pottery_recipe/real_path = new path
+		//	real_path.show_menu(current_reader)
 		else if(ispath(path, /datum/brewing_recipe))
 			var/datum/brewing_recipe/real_path = new path
 			real_path.show_menu(current_reader)
 		// else if(ispath(path, /datum/runerituals))
-		// 	var/datum/runerituals/real_path = new path
-		// 	real_path.show_menu(current_reader)
+		//	var/datum/runerituals/real_path = new path
+		//	real_path.show_menu(current_reader)
 		// else if(ispath(path, /datum/book_entry))
-		// 	var/datum/book_entry/real_path = new path
-		// 	real_path.show_menu(current_reader)
+		//	var/datum/book_entry/real_path = new path
+		//	real_path.show_menu(current_reader)
 
 /obj/item/recipe_book/getonmobprop(tag)
 	. = ..()

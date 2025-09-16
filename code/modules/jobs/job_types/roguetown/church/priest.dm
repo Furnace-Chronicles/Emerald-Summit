@@ -204,64 +204,64 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 
 /mob/living/carbon/human/proc/churchexcommunicate()
-    set name = "Excommunicate"
-    set category = "Priest"
+	set name = "Excommunicate"
+	set category = "Priest"
 
-    if (stat)
-        return
+	if (stat)
+		return
 
-    var/inputty = input("Excommunicate someone, away from the Ten... Or show to their heretical gods that they are worthy... (excommunicate them again to remove it)", "Sinner Name") as text|null
+	var/inputty = input("Excommunicate someone, away from the Ten... Or show to their heretical gods that they are worthy... (excommunicate them again to remove it)", "Sinner Name") as text|null
 
-    if (inputty)
-        if (!istype(get_area(src), /area/rogue/indoors/town/church/chapel))
-            to_chat(src, span_warning("I need to do this from the Church."))
-            return FALSE
+	if (inputty)
+		if (!istype(get_area(src), /area/rogue/indoors/town/church/chapel))
+			to_chat(src, span_warning("I need to do this from the Church."))
+			return FALSE
 
-        if (inputty in GLOB.excommunicated_players)
-            GLOB.excommunicated_players -= inputty
-            priority_announce("[real_name] has forgiven [inputty]. Their patron hears their prayer once more!", title = "Hail the Ten!", sound = 'sound/misc/bell.ogg')
+		if (inputty in GLOB.excommunicated_players)
+			GLOB.excommunicated_players -= inputty
+			priority_announce("[real_name] has forgiven [inputty]. Their patron hears their prayer once more!", title = "Hail the Ten!", sound = 'sound/misc/bell.ogg')
 
-            for (var/mob/living/carbon/human/H in GLOB.player_list)
-                if (H.real_name == inputty)
-                    REMOVE_TRAIT(H, TRAIT_EXCOMMUNICATED, TRAIT_GENERIC)
+			for (var/mob/living/carbon/human/H in GLOB.player_list)
+				if (H.real_name == inputty)
+					REMOVE_TRAIT(H, TRAIT_EXCOMMUNICATED, TRAIT_GENERIC)
 
-                    if (H.patron)
-                        if((istype(H.patron, /datum/patron/divine)) && !HAS_TRAIT(H, TRAIT_HERETIC_DEVOUT))
-                            H.remove_stress(/datum/stressevent/excommunicated)
-                            H.remove_status_effect(/datum/status_effect/debuff/excomm)
-                        else if((istype(H.patron, /datum/patron/inhumen)) || HAS_TRAIT(H, TRAIT_HERETIC_DEVOUT))
-                            H.remove_stress(/datum/stressevent/gazeuponme)
-                            H.remove_status_effect(/datum/status_effect/buff/gazeuponme)
-                        else
-                            continue
-            return
+					if (H.patron)
+						if((istype(H.patron, /datum/patron/divine)) && !HAS_TRAIT(H, TRAIT_HERETIC_DEVOUT))
+							H.remove_stress(/datum/stressevent/excommunicated)
+							H.remove_status_effect(/datum/status_effect/debuff/excomm)
+						else if((istype(H.patron, /datum/patron/inhumen)) || HAS_TRAIT(H, TRAIT_HERETIC_DEVOUT))
+							H.remove_stress(/datum/stressevent/gazeuponme)
+							H.remove_status_effect(/datum/status_effect/buff/gazeuponme)
+						else
+							continue
+			return
 
-        var/found = FALSE
+		var/found = FALSE
 
-        for (var/mob/living/carbon/human/H in GLOB.player_list)
-            if (H == src)
-                continue
-            if (H.real_name == inputty)
-                found = TRUE
-                ADD_TRAIT(H, TRAIT_EXCOMMUNICATED, TRAIT_GENERIC)
+		for (var/mob/living/carbon/human/H in GLOB.player_list)
+			if (H == src)
+				continue
+			if (H.real_name == inputty)
+				found = TRUE
+				ADD_TRAIT(H, TRAIT_EXCOMMUNICATED, TRAIT_GENERIC)
 
-                if (H.patron)
-                    if((istype(H.patron, /datum/patron/divine)) && !HAS_TRAIT(H, TRAIT_HERETIC_DEVOUT))
-                        H.add_stress(/datum/stressevent/excommunicated)
-                        H.apply_status_effect(/datum/status_effect/debuff/excomm)
-                        to_chat(H, span_warning("Your divine patron recoils from your excommunication."))
-                    else if((istype(H.patron, /datum/patron/inhumen)) || HAS_TRAIT(H, TRAIT_HERETIC_DEVOUT))
-                        H.add_stress(/datum/stressevent/gazeuponme)
-                        H.apply_status_effect(/datum/status_effect/buff/gazeuponme)
-                        to_chat(H, span_notice("Your patron embraces your rejection from the Ten."))
-                    else
-                        continue
+				if (H.patron)
+					if((istype(H.patron, /datum/patron/divine)) && !HAS_TRAIT(H, TRAIT_HERETIC_DEVOUT))
+						H.add_stress(/datum/stressevent/excommunicated)
+						H.apply_status_effect(/datum/status_effect/debuff/excomm)
+						to_chat(H, span_warning("Your divine patron recoils from your excommunication."))
+					else if((istype(H.patron, /datum/patron/inhumen)) || HAS_TRAIT(H, TRAIT_HERETIC_DEVOUT))
+						H.add_stress(/datum/stressevent/gazeuponme)
+						H.apply_status_effect(/datum/status_effect/buff/gazeuponme)
+						to_chat(H, span_notice("Your patron embraces your rejection from the Ten."))
+					else
+						continue
 
-        if (!found)
-            return FALSE
+		if (!found)
+			return FALSE
 
-        GLOB.excommunicated_players += inputty
-        priority_announce("[real_name] has excommunicated [inputty]!", title = "SHAME", sound = 'sound/misc/excomm.ogg')
+		GLOB.excommunicated_players += inputty
+		priority_announce("[real_name] has excommunicated [inputty]!", title = "SHAME", sound = 'sound/misc/excomm.ogg')
 
 /mob/living/carbon/human/proc/churchannouncement()
 	set name = "Announcement"
@@ -369,65 +369,65 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	return TRUE
 
 /mob/living/carbon/human/proc/churchpriestcurse()
-    set name = "Divine punishment"
-    set category = "Priest"
+	set name = "Divine punishment"
+	set category = "Priest"
 
-    if (stat)
-        return
+	if (stat)
+		return
 
-    if (world.time < last_curse_time + 12000) // 1200 seconds = 20 minutes
-        to_chat(src, span_warning("You must wait before invoking divine punishment again."))
-        return
+	if (world.time < last_curse_time + 12000) // 1200 seconds = 20 minutes
+		to_chat(src, span_warning("You must wait before invoking divine punishment again."))
+		return
 
-    var/target_name = input("Who shall receive divine punishment?", "Target Name") as text|null
-    if (!target_name)
-        return
+	var/target_name = input("Who shall receive divine punishment?", "Target Name") as text|null
+	if (!target_name)
+		return
 
-    var/list/curse_choices = list(
-        "Ravox's Curse" = /datum/curse/ravox, //your way to deal with TOP 10 ROGUE BUILD PLAYERS. They lose ~2 level of their combat skills (-30 parry dodge accuracy)
-        "Necra's Curse" = /datum/curse/necra, //they cannot be revived
-        "Pestra's Curse" = /datum/curse/pestra, //annoying effects
-        "Eora's Curse" = /datum/curse/eora, //locks their 50% erp buttons and they cannot end up
-        "Abyssor's Curse" = /datum/curse/abyssor, //water burns them
-        "Malum's Curse" = /datum/curse/malum //They cannot craft or touch smith hammer
-    )
+	var/list/curse_choices = list(
+		"Ravox's Curse" = /datum/curse/ravox, //your way to deal with TOP 10 ROGUE BUILD PLAYERS. They lose ~2 level of their combat skills (-30 parry dodge accuracy)
+		"Necra's Curse" = /datum/curse/necra, //they cannot be revived
+		"Pestra's Curse" = /datum/curse/pestra, //annoying effects
+		"Eora's Curse" = /datum/curse/eora, //locks their 50% erp buttons and they cannot end up
+		"Abyssor's Curse" = /datum/curse/abyssor, //water burns them
+		"Malum's Curse" = /datum/curse/malum //They cannot craft or touch smith hammer
+	)
 
-    var/curse_pick = input("Choose a curse to apply or lift.", "Select Curse") as null|anything in curse_choices
-    if (!curse_pick)
-        return
+	var/curse_pick = input("Choose a curse to apply or lift.", "Select Curse") as null|anything in curse_choices
+	if (!curse_pick)
+		return
 
-    var/curse_type = curse_choices[curse_pick]
+	var/curse_type = curse_choices[curse_pick]
 
-    for (var/mob/living/carbon/human/H in GLOB.player_list)
-        if (H.real_name == target_name)
-            if (H == src)
-                to_chat(src, span_warning("Cursing yourself is heresy!"))
-                return
+	for (var/mob/living/carbon/human/H in GLOB.player_list)
+		if (H.real_name == target_name)
+			if (H == src)
+				to_chat(src, span_warning("Cursing yourself is heresy!"))
+				return
 
-            var/datum/curse/temp = new curse_type()
+			var/datum/curse/temp = new curse_type()
 
-            if (H.is_cursed(temp))
-                H.remove_curse(temp)
-                priority_announce("[real_name] has lifted [curse_pick] from [H.real_name]!", title = "Mercy of the Faith", sound = 'sound/misc/bell.ogg')
-            else
-                if (length(H.curses) >= 1)
-                    to_chat(src, span_warning("[H.real_name] is already afflicted by another curse."))
-                    return
+			if (H.is_cursed(temp))
+				H.remove_curse(temp)
+				priority_announce("[real_name] has lifted [curse_pick] from [H.real_name]!", title = "Mercy of the Faith", sound = 'sound/misc/bell.ogg')
+			else
+				if (length(H.curses) >= 1)
+					to_chat(src, span_warning("[H.real_name] is already afflicted by another curse."))
+					return
 
-                // Check if target is a bandit, wretch, lich, or vampire lord - silently fail for outlaws and undead
-                if (H.mind?.assigned_role == "Bandit" || H.mind?.special_role == "Bandit" || H.mind?.assigned_role == "Wretch" || H.mind?.special_role == "Lich" || H.mind?.special_role == "Vampire Lord")
-                    // Curse appears to work but has no effect on outlaws and undead
-                    priority_announce("[real_name] has cursed [H.real_name] with [curse_pick]!", title = "Judgment of the Gods", sound = 'sound/misc/excomm.ogg')
-                    last_curse_time = world.time // set cooldown
-                    return
+				// Check if target is a bandit, wretch, lich, or vampire lord - silently fail for outlaws and undead
+				if (H.mind?.assigned_role == "Bandit" || H.mind?.special_role == "Bandit" || H.mind?.assigned_role == "Wretch" || H.mind?.special_role == "Lich" || H.mind?.special_role == "Vampire Lord")
+					// Curse appears to work but has no effect on outlaws and undead
+					priority_announce("[real_name] has cursed [H.real_name] with [curse_pick]!", title = "Judgment of the Gods", sound = 'sound/misc/excomm.ogg')
+					last_curse_time = world.time // set cooldown
+					return
 
-                H.add_curse(curse_type)
-                priority_announce("[real_name] has cursed [H.real_name] with [curse_pick]!", title = "Judgment of the Gods", sound = 'sound/misc/excomm.ogg')
+				H.add_curse(curse_type)
+				priority_announce("[real_name] has cursed [H.real_name] with [curse_pick]!", title = "Judgment of the Gods", sound = 'sound/misc/excomm.ogg')
 
-            last_curse_time = world.time // set cooldown
-            return
+			last_curse_time = world.time // set cooldown
+			return
 
-    to_chat(src, span_warning("No soul has such name."))
+	to_chat(src, span_warning("No soul has such name."))
 
 /obj/effect/proc_holder/spell/self/convertrole/templar
 	name = "Recruit Templar"

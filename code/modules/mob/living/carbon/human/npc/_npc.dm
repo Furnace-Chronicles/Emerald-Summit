@@ -350,7 +350,7 @@
 			sleep(1) // wait 1ds to see if we're finished/recovered
 			continue
 		// this is unnecessary, we don't re-call handle_ai until this is done
-/* 		if(world.time > (move_started + /datum/controller/subsystem/humannpc::wait))
+/*		if(world.time > (move_started + /datum/controller/subsystem/humannpc::wait))
 			// we ran out of time and started the next tick!
 			NPC_THINK("MOVEMENT TURN [movement_turn]: Out of time to move!")
 			return */

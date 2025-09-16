@@ -134,13 +134,13 @@ GLOBAL_LIST_INIT(t4enchantmentrunerituallist,generate_t4enchantment_rituallist()
 		<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'/>
 		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
 		<body>
-		  <div>
-		    <h1>[name]</h1>
-		    <div>
-			  <h2>Complexity Tier: [tier] </h2>
-			  <br>
-			  <h2>Requirements</h2>
-			  <br>
+		<div>
+		<h1>[name]</h1>
+		<div>
+			<h2>Complexity Tier: [tier] </h2>
+			<br>
+			<h2>Requirements</h2>
+			<br>
 		"}
 	if(length(required_atoms))
 		html += "<strong>Items Required</strong><br>"
@@ -179,19 +179,19 @@ GLOBAL_LIST_INIT(t4enchantmentrunerituallist,generate_t4enchantment_rituallist()
 	return "[initial(item_path.name)]\s"
 
 /**
- * Called after on_finished_recipe returns TRUE
- * and a ritual was successfully completed.
- *
- * Goes through and cleans up (deletes)
- * all atoms in the selected_atoms list.
- *
- * Remove atoms from the selected_atoms
- * (either in this proc or in on_finished_recipe)
- * to NOT have certain atoms deleted on cleanup.
- *
- * Arguments
- * * selected_atoms - a list of all atoms we intend on destroying.
- */
+	* Called after on_finished_recipe returns TRUE
+	* and a ritual was successfully completed.
+	*
+	* Goes through and cleans up (deletes)
+	* all atoms in the selected_atoms list.
+	*
+	* Remove atoms from the selected_atoms
+	* (either in this proc or in on_finished_recipe)
+	* to NOT have certain atoms deleted on cleanup.
+	*
+	* Arguments
+	* * selected_atoms - a list of all atoms we intend on destroying.
+	*/
 /datum/runeritual/proc/cleanup_atoms(list/selected_atoms)
 	SHOULD_CALL_PARENT(TRUE)
 

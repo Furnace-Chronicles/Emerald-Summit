@@ -1,19 +1,19 @@
 /* Library Machines
- *
- * Contains:
- *		Borrowbook datum
- *		Library Public Computer
- *		Cachedbook datum
- *		Library Computer
- *		Library Scanner
- *		Book Binder
- */
+	*
+	* Contains:
+	*		Borrowbook datum
+	*		Library Public Computer
+	*		Cachedbook datum
+	*		Library Computer
+	*		Library Scanner
+	*		Book Binder
+	*/
 
 
 
 /*
- * Library Public Computer
- */
+	* Library Public Computer
+	*/
 /obj/machinery/computer/libraryconsole
 	name = "library visitor console"
 	icon_state = "oldcomp"
@@ -112,8 +112,8 @@
 	return
 
 /*
- * Borrowbook datum
- */
+	* Borrowbook datum
+	*/
 /datum/borrowbook // Datum used to keep track of who has borrowed what when and for how long.
 	var/bookname
 	var/mobname
@@ -121,8 +121,8 @@
 	var/duedate
 
 /*
- * Cachedbook datum
- */
+	* Cachedbook datum
+	*/
 /datum/cachedbook // Datum used to cache the SQL DB books locally in order to achieve a performance gain.
 	var/id
 	var/title
@@ -156,9 +156,9 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 #define PRINTER_COOLDOWN 60
 
 /*
- * Library Computer
- * After 860 days, it's finally a buildable computer.
- */
+	* Library Computer
+	* After 860 days, it's finally a buildable computer.
+	*/
 // TODO: Make this an actual /obj/machinery/computer that can be crafted from circuit boards and such
 // It is August 22nd, 2012... This TODO has already been here for months.. I wonder how long it'll last before someone does something about it.
 // It's December 25th, 2014, and this is STILL here, and it's STILL relevant. Kill me
@@ -496,8 +496,8 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 	updateUsrDialog()
 
 /*
- * Library Scanner
- */
+	* Library Scanner
+	*/
 /obj/machinery/libraryscanner
 	name = "scanner control interface"
 	icon = 'icons/obj/library.dmi'
@@ -525,7 +525,7 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 		dat += "No data stored in memory.<BR>"
 	dat += "<A href='?src=[REF(src)];scan=1'>\[Scan\]</A>"
 	if(cache)
-		dat += "       <A href='?src=[REF(src)];clear=1'>\[Clear Memory\]</A><BR><BR><A href='?src=[REF(src)];eject=1'>\[Remove Book\]</A>"
+		dat += "	<A href='?src=[REF(src)];clear=1'>\[Clear Memory\]</A><BR><BR><A href='?src=[REF(src)];eject=1'>\[Remove Book\]</A>"
 	else
 		dat += "<BR>"
 	var/datum/browser/popup = new(user, "scanner", name, 600, 400)
@@ -554,8 +554,8 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 
 
 /*
- * Book binder
- */
+	* Book binder
+	*/
 /obj/machinery/bookbinder
 	name = "book binder"
 	icon = 'icons/obj/library.dmi'

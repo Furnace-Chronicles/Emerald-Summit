@@ -1,13 +1,13 @@
 /*
- * Holds procs designed to change one type of value, into another.
- * Contains:
- *			hex2num & num2hex
- *			file2list
- *			angle2dir
- *			angle2text
- *			worldtime2text
- *			text2dir_extended & dir2text_short
- */
+	* Holds procs designed to change one type of value, into another.
+	* Contains:
+	*			hex2num & num2hex
+	*			file2list
+	*			angle2dir
+	*			angle2text
+	*			worldtime2text
+	*			text2dir_extended & dir2text_short
+	*/
 
 //Returns an integer given a hex input, supports negative values "-ff"
 //skips preceding invalid characters

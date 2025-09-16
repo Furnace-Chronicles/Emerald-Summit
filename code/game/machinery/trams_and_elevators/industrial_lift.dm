@@ -493,17 +493,17 @@ GLOBAL_LIST_INIT(all_radial_directions, list(
 	return TRUE
 
 /**
- * reset the contents of this lift platform to its original state in case someone put too much shit on it.
- * everything that is considered foreign is deleted, you can configure what is considered foreign.
- *
- * used by an admin via calling reset_lift_contents() on our lift_master_datum.
- *
- * Arguments:
- * * consider_anything_past - number. if > 0 this platform will only handle foreign contents that exceed this number on each of our locs
- * * foreign_objects - bool. if true this platform will consider /atom/movable's that arent mobs as part of foreign contents
- * * foreign_non_player_mobs - bool. if true we consider mobs that dont have a mind to be foreign
- * * consider_player_mobs - bool. if true we consider player mobs to be foreign. only works if foreign_non_player_mobs is true as well
- */
+	* reset the contents of this lift platform to its original state in case someone put too much shit on it.
+	* everything that is considered foreign is deleted, you can configure what is considered foreign.
+	*
+	* used by an admin via calling reset_lift_contents() on our lift_master_datum.
+	*
+	* Arguments:
+	* * consider_anything_past - number. if > 0 this platform will only handle foreign contents that exceed this number on each of our locs
+	* * foreign_objects - bool. if true this platform will consider /atom/movable's that arent mobs as part of foreign contents
+	* * foreign_non_player_mobs - bool. if true we consider mobs that dont have a mind to be foreign
+	* * consider_player_mobs - bool. if true we consider player mobs to be foreign. only works if foreign_non_player_mobs is true as well
+	*/
 /obj/structure/industrial_lift/proc/reset_contents(consider_anything_past = 0, foreign_objects = TRUE, foreign_non_player_mobs = TRUE, consider_player_mobs = FALSE)
 	if(!foreign_objects && !foreign_non_player_mobs && !consider_player_mobs)
 		return FALSE
@@ -642,14 +642,14 @@ GLOBAL_LIST_INIT(all_radial_directions, list(
 			return
 
 /**
- * Proc to ensure that the radial menu closes when it should.
- * Arguments:
- * * user - The person that opened the menu.
- * * starting_loc - The location of the lift when the menu was opened, used to prevent the menu from being interacted with after the lift was moved by someone else.
- *
- * Returns:
- * * boolean, FALSE if the menu should be closed, TRUE if the menu is clear to stay opened.
- */
+	* Proc to ensure that the radial menu closes when it should.
+	* Arguments:
+	* * user - The person that opened the menu.
+	* * starting_loc - The location of the lift when the menu was opened, used to prevent the menu from being interacted with after the lift was moved by someone else.
+	*
+	* Returns:
+	* * boolean, FALSE if the menu should be closed, TRUE if the menu is clear to stay opened.
+	*/
 /obj/structure/industrial_lift/proc/check_menu(mob/user, starting_loc)
 	if(user.incapacitated() || !user.Adjacent(src) || starting_loc != src.loc)
 		return FALSE
@@ -687,11 +687,11 @@ GLOBAL_LIST_INIT(all_radial_directions, list(
 	return open_lift_radial(user)
 
 /**
- * Shows a message indicating that the lift has moved up or down.
- * Arguments:
- * * direction - What direction are we going
- * * user - The mob that caused the lift to move, for the visible message.
- */
+	* Shows a message indicating that the lift has moved up or down.
+	* Arguments:
+	* * direction - What direction are we going
+	* * user - The mob that caused the lift to move, for the visible message.
+	*/
 /obj/structure/industrial_lift/proc/show_fluff_message(direction, mob/user)
 	if(direction == UP)
 		user.visible_message(span_notice("[user] moves the lift upwards."), span_notice("You move the lift upwards."))
@@ -798,12 +798,12 @@ GLOBAL_LIST_INIT(all_radial_directions, list(
 	SEND_SIGNAL(src, COMSIG_TRAM_SET_TRAVELLING, travelling)
 
 /**
- * Handles unlocking the tram controls for use after moving
- *
- * More safety checks to make sure the tram has actually docked properly
- * at a location before users are allowed to interact with the tram console again.
- * Tram finds its location at this point before fully unlocking controls to the user.
- */
+	* Handles unlocking the tram controls for use after moving
+	*
+	* More safety checks to make sure the tram has actually docked properly
+	* at a location before users are allowed to interact with the tram console again.
+	* Tram finds its location at this point before fully unlocking controls to the user.
+	*/
 /obj/structure/industrial_lift/tram/proc/unlock_controls()
 	for(var/obj/structure/industrial_lift/tram/tram_part as anything in lift_master_datum.lift_platforms) //only thing everyone needs to know is the new location.
 		tram_part.set_travelling(FALSE)

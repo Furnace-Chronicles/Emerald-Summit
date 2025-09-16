@@ -26,9 +26,9 @@
 	hiding_place_key = BB_BASIC_MOB_FLEE_TARGET_HIDING_LOCATION
 
 /**
- * Picks a target from a provided list of atoms who have been pissing you off
- * You will probably need /datum/element/ai_retaliate to take advantage of this unless you're populating the blackboard yourself
- */
+	* Picks a target from a provided list of atoms who have been pissing you off
+	* You will probably need /datum/element/ai_retaliate to take advantage of this unless you're populating the blackboard yourself
+	*/
 /datum/ai_behavior/target_from_retaliate_list
 	action_cooldown = 2 SECONDS
 	/// How far can we see stuff?

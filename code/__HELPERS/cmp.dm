@@ -119,5 +119,5 @@ GLOBAL_VAR_INIT(cmp_field, "name")
 	return limb_one.body_part - limb_two.body_part
 	
 /proc/cmp_filter_priority_desc(list/A, list/B) // Compares two lists by their 'priority' key. Used for filters.
-    return (A["priority"] || 0) - (B["priority"] || 0)
+	return (A["priority"] || 0) - (B["priority"] || 0)
 	

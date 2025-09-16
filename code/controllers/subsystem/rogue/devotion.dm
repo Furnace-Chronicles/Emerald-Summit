@@ -123,8 +123,8 @@
 
 
 //The main proc that distributes all the needed devotion tweaks to the given class.
-//cleric_tier 		- The cleric tier that the holder will get spells of immediately.
-//passive_gain 		- Passive devotion gain, if any, will begin processing this datum.
+//cleric_tier		- The cleric tier that the holder will get spells of immediately.
+//passive_gain		- Passive devotion gain, if any, will begin processing this datum.
 //devotion_limit	- The CLERIC_REQ max_devotion and max_progression will be set to. Devotee overrides this with its own value!
 //start_maxed		- Whether this class starts out with all devotion maxed. Mostly used by Acolytes & Priests to spawn with everything.
 /datum/devotion/proc/grant_miracles(mob/living/carbon/human/H, cleric_tier = CLERIC_T0, passive_gain = 0, devotion_limit, start_maxed = FALSE)
@@ -233,21 +233,21 @@
 		remove_client_colour(/datum/client_colour/monochrome)
 
 /datum/devotion/proc/excommunicate(mob/living/carbon/human/H)
-    if (!devotion)
-        return
+	if (!devotion)
+		return
 
-    prayer_effectiveness = 0
-    devotion = 0
-    passive_devotion_gain = 0
-    passive_progression_gain = 0
-    STOP_PROCESSING(SSobj, src)
-    to_chat(H, span_boldnotice("I have been excommunicated. I am now unable to gain devotion."))
+	prayer_effectiveness = 0
+	devotion = 0
+	passive_devotion_gain = 0
+	passive_progression_gain = 0
+	STOP_PROCESSING(SSobj, src)
+	to_chat(H, span_boldnotice("I have been excommunicated. I am now unable to gain devotion."))
 
 /datum/devotion/proc/recommunicate(mob/living/carbon/human/H)
-    prayer_effectiveness = 2
-    if (!passive_devotion_gain && !passive_progression_gain)
-        passive_devotion_gain = CLERIC_REGEN_DEVOTEE
-        passive_progression_gain = CLERIC_REGEN_DEVOTEE
-        START_PROCESSING(SSobj, src)
+	prayer_effectiveness = 2
+	if (!passive_devotion_gain && !passive_progression_gain)
+		passive_devotion_gain = CLERIC_REGEN_DEVOTEE
+		passive_progression_gain = CLERIC_REGEN_DEVOTEE
+		START_PROCESSING(SSobj, src)
 
-    to_chat(H, span_boldnotice("I have been welcomed back to the Church. I am now able to gain devotion again."))
+	to_chat(H, span_boldnotice("I have been welcomed back to the Church. I am now able to gain devotion again."))

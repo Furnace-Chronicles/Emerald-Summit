@@ -1,8 +1,8 @@
 /**find and set
- * Finds an item near themselves, sets a blackboard key as it. Very useful for ais that need to use machines or something.
- * if you want to do something more complicated than find a single atom, change the search_tactic() proc
- * cool tip: search_tactic() can set lists
- */
+	* Finds an item near themselves, sets a blackboard key as it. Very useful for ais that need to use machines or something.
+	* if you want to do something more complicated than find a single atom, change the search_tactic() proc
+	* cool tip: search_tactic() can set lists
+	*/
 /datum/ai_behavior/find_and_set
 	action_cooldown = 3 SECONDS
 
@@ -19,8 +19,8 @@
 	return locate(locate_path) in oview(search_range, controller.pawn)
 
 /**
- * Variant of find and set that fails if the living pawn doesn't hold something
- */
+	* Variant of find and set that fails if the living pawn doesn't hold something
+	*/
 /datum/ai_behavior/find_and_set/pawn_must_hold_item
 
 /datum/ai_behavior/find_and_set/pawn_must_hold_item/search_tactic(datum/ai_controller/controller)
@@ -30,8 +30,8 @@
 	return ..()
 
 /**
- * Variant of find and set that also requires the item to be edible. checks hands too
- */
+	* Variant of find and set that also requires the item to be edible. checks hands too
+	*/
 /datum/ai_behavior/find_and_set/edible
 
 /datum/ai_behavior/find_and_set/edible/search_tactic(datum/ai_controller/controller, locate_path, search_range)
@@ -51,8 +51,8 @@
 		return pick(food_candidates)
 
 /**
- * Variant of find and set that only checks in hands, search range should be excluded for this
- */
+	* Variant of find and set that only checks in hands, search range should be excluded for this
+	*/
 /datum/ai_behavior/find_and_set/in_hands
 
 /datum/ai_behavior/find_and_set/in_hands/search_tactic(datum/ai_controller/controller, locate_path)
@@ -60,8 +60,8 @@
 	return locate(locate_path) in living_pawn.held_items
 
 /**
- * Variant of find and set that takes a list of things to find.
- */
+	* Variant of find and set that takes a list of things to find.
+	*/
 /datum/ai_behavior/find_and_set/in_list
 
 /datum/ai_behavior/find_and_set/in_list/search_tactic(datum/ai_controller/controller, locate_paths, search_range)
@@ -81,10 +81,10 @@
 	for(var/mob/living/mob in oview(search_range, controller.pawn))
 		if(mob.stat != DEAD) 
 			continue
-		 if(istype(mob, /mob/living/carbon)) //hopefully not too taxing
-		 	var/mob/living/carbon/carbon_mob = mob
-		 	if(carbon_mob.mind || carbon_mob.last_mind) //Avoid eating people with minds
-		 		continue
+		if(istype(mob, /mob/living/carbon)) //hopefully not too taxing
+			var/mob/living/carbon/carbon_mob = mob
+			if(carbon_mob.mind || carbon_mob.last_mind) //Avoid eating people with minds
+				continue
 		found |= mob
 	if(!length(found))
 		return null

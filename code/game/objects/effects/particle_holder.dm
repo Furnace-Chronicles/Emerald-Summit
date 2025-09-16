@@ -72,18 +72,18 @@
 	particles.position = list(x, y, z)
 
 /**
- * A subtype of particle holder that reuses the same particles to reduce client lag
- * when rendering certain atoms, usually found in large quantities and close together.
- * Since it reuses the same instances, modifying an instance of particles will affect all atoms
- * that show it, therefore procs like set_particle_position() shouldn't be used here.
- */
+	* A subtype of particle holder that reuses the same particles to reduce client lag
+	* when rendering certain atoms, usually found in large quantities and close together.
+	* Since it reuses the same instances, modifying an instance of particles will affect all atoms
+	* that show it, therefore procs like set_particle_position() shouldn't be used here.
+	*/
 /obj/effect/abstract/particle_holder/cached
 	///A static list meant to contain the availables instances of a particle path to use.
 	var/static/list/particles_by_type
 	/**
-	 * The length of the pool of particles from which the chosen instance will be picked
-	 * This provides an ever-so-lightly variety to the particles, so they don't all jarringly look EXACTLY the same
-	 */
+		* The length of the pool of particles from which the chosen instance will be picked
+		* This provides an ever-so-lightly variety to the particles, so they don't all jarringly look EXACTLY the same
+		*/
 	var/max_particle_index = 4
 
 /obj/effect/abstract/particle_holder/cached/Initialize(mapload, particle_path = /particles/leaf, particle_flags = NONE, max_particle_index)

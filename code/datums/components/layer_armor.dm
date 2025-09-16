@@ -38,11 +38,11 @@
 	/// New hit count requirements per shredded layer. ex. going from 100 to 90 will require 5 hits, 90 to 80 will require 10, etc.
 	/// MAKE SURE THE VALUES CORRELATE WITH YOUR SHRED_AMT AND STARTING ARMOR VALUES IF YOU WISH TO USE THIS
 	var/list/hits_per_layer = list(
-		"100" 	= 10,
-		"90" 	= 10,
-		"80" 	= 20,
-		"70" 	= 25,
-		"60" 	= 30,
+		"100"	= 10,
+		"90"	= 10,
+		"80"	= 20,
+		"70"	= 25,
+		"60"	= 30,
 		"50"	= 30,
 		"40"	= 30,
 		"30"	= 30,

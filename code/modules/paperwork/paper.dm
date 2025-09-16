@@ -1,9 +1,9 @@
 /*
- * Paper
- * also scraps of paper
- *
- * lipstick wiping is in code/game/objects/items/weapons/cosmetics.dm!
- */
+	* Paper
+	* also scraps of paper
+	*
+	* lipstick wiping is in code/game/objects/items/weapons/cosmetics.dm!
+	*/
 
 #ifdef TESTSERVER
 
@@ -487,8 +487,8 @@
 	cut_overlay("paper_onfire_overlay")
 
 /*
- * Construction paper
- */
+	* Construction paper
+	*/
 
 /obj/item/paper/construction
 
@@ -497,8 +497,8 @@
 	color = pick("FF0000", "#33cc33", "#ffb366", "#551A8B", "#ff80d5", "#4d94ff")
 
 /*
- * Natural paper
- */
+	* Natural paper
+	*/
 
 /obj/item/paper/natural/Initialize()
 	. = ..()

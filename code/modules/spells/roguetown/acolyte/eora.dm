@@ -867,7 +867,7 @@
 				/obj/item/reagent_containers/lux/eoran_aril = 1
 			)
 
-    // Generate 4 arils +1 per tier.
+	// Generate 4 arils +1 per tier.
 	for(var/i in 1 to 4 + (floor(fruit_tier / 2)))
 		var/aril_type = pickweight(possible_arils)
 		aril_types += aril_type
@@ -999,7 +999,7 @@
 	desc = "An iridescent seed that shifts colors in the light."
 	icon_state = "opalescent"
 	effect_desc = "Transforms held gems into rubies."
-    
+	
 /obj/item/reagent_containers/food/snacks/eoran_aril/opalescent/apply_effects(mob/living/eater)
 	for(var/obj/item/roguegem/G in eater.held_items)
 		var/obj/item/roguegem/ruby/new_gem = new(eater.loc)

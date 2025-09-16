@@ -253,7 +253,7 @@
 	/turf/closed/mineral/rogue/tin = 15,
 	/turf/closed/mineral/rogue/coal = 19,
 	/turf/closed/mineral/rogue/cinnabar = 15,
-	 /turf/closed/mineral/rogue/gem = 3)
+		/turf/closed/mineral/rogue/gem = 3)
 
 
 //begin actual mineral turfs

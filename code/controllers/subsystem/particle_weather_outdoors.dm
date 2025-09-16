@@ -54,11 +54,11 @@ SUBSYSTEM_DEF(outdoor_effects)
 	var/picked_color
 	//Ensure midnight is the liast step
 	var/list/datum/time_of_day/time_cycle_steps = list(new /datum/time_of_day/dawn(),
-	                                                   new /datum/time_of_day/sunrise(),
-	                                                   new /datum/time_of_day/daytime(),
-	                                                   new /datum/time_of_day/sunset(),
-	                                                   new /datum/time_of_day/dusk(),
-	                                                   new /datum/time_of_day/midnight())
+													new /datum/time_of_day/sunrise(),
+													new /datum/time_of_day/daytime(),
+													new /datum/time_of_day/sunset(),
+													new /datum/time_of_day/dusk(),
+													new /datum/time_of_day/midnight())
 	var/next_day = FALSE // Resets when station_time is less than the next start time.
 
 /datum/controller/subsystem/outdoor_effects/proc/fullPlonk()
@@ -274,11 +274,11 @@ SUBSYSTEM_DEF(outdoor_effects)
 //get our weather overlay
 /datum/controller/subsystem/outdoor_effects/proc/get_weather_overlay() //TODO VANDERLIN: Restore this to 32x48 for some extra
 	var/mutable_appearance/MA = new /mutable_appearance()
-	MA.icon 			  = 'icons/effects/weather_overlay.dmi'
-	MA.icon_state 		  = "weather_overlay"
-	MA.plane			  = WEATHER_OVERLAY_PLANE
-	MA.blend_mode   	  = BLEND_OVERLAY
-	MA.invisibility 	  = INVISIBILITY_LIGHTING
+	MA.icon			= 'icons/effects/weather_overlay.dmi'
+	MA.icon_state		= "weather_overlay"
+	MA.plane			= WEATHER_OVERLAY_PLANE
+	MA.blend_mode	= BLEND_OVERLAY
+	MA.invisibility	= INVISIBILITY_LIGHTING
 	return MA
 
 
@@ -289,7 +289,7 @@ SUBSYSTEM_DEF(outdoor_effects)
 	var/mutable_appearance/MA = new /mutable_appearance()
 
 	MA.blend_mode   = BLEND_OVERLAY
-	MA.icon		 = LIGHTING_ICON
+	MA.icon		= LIGHTING_ICON
 	MA.icon_state   = null
 	MA.plane		= SUNLIGHTING_PLANE /* we put this on a lower level than lighting so we dont multiply anything */
 	MA.invisibility = INVISIBILITY_LIGHTING

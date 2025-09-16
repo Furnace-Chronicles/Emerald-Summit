@@ -344,7 +344,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			// Leftmost Column, 40% width
 			dat += "<td width=40% valign='top'>"
 
-// 			-----------START OF IDENT TABLE-----------
+//			-----------START OF IDENT TABLE-----------
 			dat += "<h2>Identity</h2>"
 			dat += "<table width='100%'><tr><td width='75%' valign='top'>"
 			if(is_banned_from(user.ckey, "Appearance"))
@@ -436,7 +436,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<a href='?_src_=prefs;preference=sec_dept;task=input'><b>Preferred Security Department:</b> [prefered_security_department]</a><BR></td>"
 */
 			dat += "</tr></table>"
-// 			-----------END OF IDENT TABLE-----------
+//			-----------END OF IDENT TABLE-----------
 
 
 			// Middle dummy Column, 20% width

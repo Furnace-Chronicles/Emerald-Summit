@@ -1,7 +1,7 @@
 #define STATUS_EFFECT_LEASH_PET /datum/status_effect/leash_pet
 #define STATUS_EFFECT_LEASH_OWNER /datum/status_effect/leash_owner
 #define STATUS_EFFECT_LEASH_FREEPET /datum/status_effect/leash_freepet
-#define MOVESPEED_ID_LEASH      "LEASH"
+#define MOVESPEED_ID_LEASH	"LEASH"
 
 /////STATUS EFFECTS/////
 //These are mostly used as flags for the states each member can be in
@@ -317,7 +317,7 @@
 //The proc below in question is the one causing all the errors apparently
 
 /obj/item/leash/dropped(mob/user, silent)
-	 //Drop the leash, and the leash effects stop
+		//Drop the leash, and the leash effects stop
 	. = ..()
 	if(!leash_pet) //There is no pet. Stop this silliness
 		return

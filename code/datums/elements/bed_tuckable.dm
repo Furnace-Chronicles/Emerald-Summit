@@ -24,12 +24,12 @@
 	UnregisterSignal(target, list(COMSIG_ITEM_ATTACK_OBJ, COMSIG_ITEM_PICKUP))
 
 /**
- * Tuck our object into bed.
- *
- * tucked - the object being tucked
- * target_bed - the bed we're tucking them into
- * tucker - the guy doing the tucking
- */
+	* Tuck our object into bed.
+	*
+	* tucked - the object being tucked
+	* target_bed - the bed we're tucking them into
+	* tucker - the guy doing the tucking
+	*/
 /datum/element/bed_tuckable/proc/tuck_into_bed(obj/item/tucked, obj/structure/bed/target_bed, mob/living/tucker)
 	SIGNAL_HANDLER
 
@@ -53,10 +53,10 @@
 	return COMPONENT_NO_AFTERATTACK
 
 /**
- * If we rotate our object, then we need to un-rotate it when it's picked up
- *
- * tucked - the object that is tucked
- */
+	* If we rotate our object, then we need to un-rotate it when it's picked up
+	*
+	* tucked - the object that is tucked
+	*/
 /datum/element/bed_tuckable/proc/untuck(obj/item/tucked)
 	SIGNAL_HANDLER
 

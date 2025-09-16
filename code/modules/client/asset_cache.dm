@@ -37,7 +37,7 @@ You can set verify to TRUE if you want send() to sleep until the client has the 
 			else
 				return FALSE //no client, no care
 		else
-			return FALSE     //only mobs have clients
+			return FALSE	//only mobs have clients
 
 	if(!send_asset_internal(client, asset_name))
 		return FALSE
@@ -50,7 +50,7 @@ You can set verify to TRUE if you want send() to sleep until the client has the 
 
 //This proc doesn't
 /proc/send_asset_async(client/client, asset_name)
-	if(!istype(client))    // Don't really want to do this here; needs to be refactored
+	if(!istype(client))	// Don't really want to do this here; needs to be refactored
 		if(ismob(client))  //duplicate check in above proc
 			var/mob/M = client
 			if(M.client)
@@ -58,7 +58,7 @@ You can set verify to TRUE if you want send() to sleep until the client has the 
 			else
 				return FALSE //no client, no care
 		else
-			return FALSE     //only mobs have clients
+			return FALSE	//only mobs have clients
 
 	if(!send_asset_internal(client, asset_name))
 		return FALSE
@@ -233,7 +233,7 @@ GLOBAL_LIST_EMPTY(asset_datums)
 /datum/asset/spritesheet
 	_abstract = /datum/asset/spritesheet
 	var/name
-	var/list/sizes = list()    // "32x32" -> list(10, icon/normal, icon/stripped)
+	var/list/sizes = list()	// "32x32" -> list(10, icon/normal, icon/stripped)
 	var/list/sprites = list()  // "foo_bar" -> list("32x32", 5)
 	var/verify = FALSE
 
@@ -427,32 +427,32 @@ GLOBAL_LIST_EMPTY(asset_datums)
 
 /datum/asset/simple/headers
 /*	assets = list(
-		"alarm_green.gif" 			= 'icons/program_icons/alarm_green.gif',
-		"alarm_red.gif" 			= 'icons/program_icons/alarm_red.gif',
-		"batt_5.gif" 				= 'icons/program_icons/batt_5.gif',
-		"batt_20.gif" 				= 'icons/program_icons/batt_20.gif',
-		"batt_40.gif" 				= 'icons/program_icons/batt_40.gif',
-		"batt_60.gif" 				= 'icons/program_icons/batt_60.gif',
-		"batt_80.gif" 				= 'icons/program_icons/batt_80.gif',
-		"batt_100.gif" 				= 'icons/program_icons/batt_100.gif',
-		"charging.gif" 				= 'icons/program_icons/charging.gif',
-		"downloader_finished.gif" 	= 'icons/program_icons/downloader_finished.gif',
-		"downloader_running.gif" 	= 'icons/program_icons/downloader_running.gif',
+		"alarm_green.gif"			= 'icons/program_icons/alarm_green.gif',
+		"alarm_red.gif"			= 'icons/program_icons/alarm_red.gif',
+		"batt_5.gif"				= 'icons/program_icons/batt_5.gif',
+		"batt_20.gif"				= 'icons/program_icons/batt_20.gif',
+		"batt_40.gif"				= 'icons/program_icons/batt_40.gif',
+		"batt_60.gif"				= 'icons/program_icons/batt_60.gif',
+		"batt_80.gif"				= 'icons/program_icons/batt_80.gif',
+		"batt_100.gif"				= 'icons/program_icons/batt_100.gif',
+		"charging.gif"				= 'icons/program_icons/charging.gif',
+		"downloader_finished.gif"	= 'icons/program_icons/downloader_finished.gif',
+		"downloader_running.gif"	= 'icons/program_icons/downloader_running.gif',
 		"ntnrc_idle.gif"			= 'icons/program_icons/ntnrc_idle.gif',
 		"ntnrc_new.gif"				= 'icons/program_icons/ntnrc_new.gif',
 		"power_norm.gif"			= 'icons/program_icons/power_norm.gif',
 		"power_warn.gif"			= 'icons/program_icons/power_warn.gif',
-		"sig_high.gif" 				= 'icons/program_icons/sig_high.gif',
-		"sig_low.gif" 				= 'icons/program_icons/sig_low.gif',
-		"sig_lan.gif" 				= 'icons/program_icons/sig_lan.gif',
-		"sig_none.gif" 				= 'icons/program_icons/sig_none.gif',
-		"smmon_0.gif" 				= 'icons/program_icons/smmon_0.gif',
-		"smmon_1.gif" 				= 'icons/program_icons/smmon_1.gif',
-		"smmon_2.gif" 				= 'icons/program_icons/smmon_2.gif',
-		"smmon_3.gif" 				= 'icons/program_icons/smmon_3.gif',
-		"smmon_4.gif" 				= 'icons/program_icons/smmon_4.gif',
-		"smmon_5.gif" 				= 'icons/program_icons/smmon_5.gif',
-		"smmon_6.gif" 				= 'icons/program_icons/smmon_6.gif'
+		"sig_high.gif"				= 'icons/program_icons/sig_high.gif',
+		"sig_low.gif"				= 'icons/program_icons/sig_low.gif',
+		"sig_lan.gif"				= 'icons/program_icons/sig_lan.gif',
+		"sig_none.gif"				= 'icons/program_icons/sig_none.gif',
+		"smmon_0.gif"				= 'icons/program_icons/smmon_0.gif',
+		"smmon_1.gif"				= 'icons/program_icons/smmon_1.gif',
+		"smmon_2.gif"				= 'icons/program_icons/smmon_2.gif',
+		"smmon_3.gif"				= 'icons/program_icons/smmon_3.gif',
+		"smmon_4.gif"				= 'icons/program_icons/smmon_4.gif',
+		"smmon_5.gif"				= 'icons/program_icons/smmon_5.gif',
+		"smmon_6.gif"				= 'icons/program_icons/smmon_6.gif'
 	)*/
 
 /datum/asset/spritesheet/simple/pda
@@ -552,22 +552,22 @@ GLOBAL_LIST_EMPTY(asset_datums)
 /datum/asset/simple/purify
 	verify = TRUE
 	assets = list(
-		"purify.min.js"            = 'goon/browserassets/js/purify.min.js',
+		"purify.min.js"			= 'goon/browserassets/js/purify.min.js',
 	)
 
 
 /datum/asset/simple/jquery
 	verify = TRUE
 	assets = list(
-		"jquery.min.js"            = 'goon/browserassets/js/jquery.min.js',
+		"jquery.min.js"			= 'goon/browserassets/js/jquery.min.js',
 	)
 
 /datum/asset/simple/goonchat
 	verify = TRUE
 	assets = list(
-		"json2.min.js"             = 'goon/browserassets/js/json2.min.js',
-		"browserOutput.js"         = 'goon/browserassets/js/browserOutput.js',
-		"browserOutput.css"	       = 'goon/browserassets/css/browserOutput.css',
+		"json2.min.js"			= 'goon/browserassets/js/json2.min.js',
+		"browserOutput.js"		= 'goon/browserassets/js/browserOutput.js',
+		"browserOutput.css"	= 'goon/browserassets/css/browserOutput.css',
 		"browserOutput_white.css"  = 'goon/browserassets/css/browserOutput.css',
 	)
 
@@ -576,10 +576,10 @@ GLOBAL_LIST_EMPTY(asset_datums)
 	assets = list(
 		"fa-regular-400.eot"  = 'html/font-awesome/webfonts/fa-regular-400.eot',
 		"fa-regular-400.woff" = 'html/font-awesome/webfonts/fa-regular-400.woff',
-		"fa-solid-900.eot"    = 'html/font-awesome/webfonts/fa-solid-900.eot',
+		"fa-solid-900.eot"	= 'html/font-awesome/webfonts/fa-solid-900.eot',
 		"fa-solid-900.woff"   = 'html/font-awesome/webfonts/fa-solid-900.woff',
-		"font-awesome.css"    = 'html/font-awesome/css/all.min.css',
-		//"v4shim.css"          = 'html/font-awesome/css/v4-shims.min.css'
+		"font-awesome.css"	= 'html/font-awesome/css/all.min.css',
+		//"v4shim.css"		= 'html/font-awesome/css/v4-shims.min.css'
 	)
 
 /datum/asset/simple/blackedstone_class_menu_slop_layout
@@ -822,6 +822,6 @@ GLOBAL_LIST_EMPTY(asset_datums)
 /*	assets = list(
 		"dna_discovered.gif"	= 'html/dna_discovered.gif',
 		"dna_undiscovered.gif"	= 'html/dna_undiscovered.gif',
-		"dna_extra.gif" 		= 'html/dna_extra.gif'
+		"dna_extra.gif"		= 'html/dna_extra.gif'
 	)*/
 	assets = null

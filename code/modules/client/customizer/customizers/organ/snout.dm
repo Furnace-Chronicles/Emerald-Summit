@@ -65,7 +65,7 @@
 		/datum/sprite_accessory/snout/front/otie,
 		/datum/sprite_accessory/snout/hpanda,
 		/datum/sprite_accessory/snout/skulldog,
-	    /datum/sprite_accessory/snout/cat,
+		/datum/sprite_accessory/snout/cat,
 		/datum/sprite_accessory/snout/scanid,
 		/datum/sprite_accessory/snout/scanidalt,
 		/datum/sprite_accessory/snout/scanidalt2,
@@ -310,7 +310,7 @@
 	name = "Tabaxian Snout"
 	organ_type = /obj/item/organ/snout/cat
 	sprite_accessories = list(
-	    /datum/sprite_accessory/snout/cat,
+		/datum/sprite_accessory/snout/cat,
 		/datum/sprite_accessory/snout/scanid,
 		/datum/sprite_accessory/snout/scanidalt,
 		/datum/sprite_accessory/snout/scanidalt2,

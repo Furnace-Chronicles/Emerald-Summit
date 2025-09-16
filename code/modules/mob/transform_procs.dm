@@ -120,7 +120,7 @@
 
 	qdel(src)
 
-//////////////////////////           Humanize               //////////////////////////////
+//////////////////////////		Humanize			//////////////////////////////
 //Could probably be merged with monkeyize but other transformations got their own procs, too
 
 /mob/living/carbon/proc/humanize(tr_flags = (TR_KEEPITEMS | TR_KEEPVIRUS | TR_KEEPSTUNS | TR_KEEPREAGENTS | TR_DEFAULTMSG))
@@ -327,10 +327,10 @@
 	qdel(src)
 
 /* Certain mob types have problems and should not be allowed to be controlled by players.
- *
- * This proc is here to force coders to manually place their mob in this list, hopefully tested.
- * This also gives a place to explain -why- players shouldnt be turn into certain mobs and hopefully someone can fix them.
- */
+	*
+	* This proc is here to force coders to manually place their mob in this list, hopefully tested.
+	* This also gives a place to explain -why- players shouldnt be turn into certain mobs and hopefully someone can fix them.
+	*/
 /mob/proc/safe_animal(MP)
 
 //Bad mobs! - Remember to add a comment explaining what's wrong with the mob

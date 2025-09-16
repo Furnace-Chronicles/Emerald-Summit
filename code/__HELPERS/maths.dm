@@ -1,8 +1,8 @@
 /**
- * Get a list of turfs in a line from `starting_atom` to `ending_atom`.
- *
- * Uses the ultra-fast [Bresenham Line-Drawing Algorithm](https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm).
- */
+	* Get a list of turfs in a line from `starting_atom` to `ending_atom`.
+	*
+	* Uses the ultra-fast [Bresenham Line-Drawing Algorithm](https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm).
+	*/
 /proc/get_line(atom/starting_atom, atom/ending_atom)
 	var/current_x_step = starting_atom.x//start at x and y, then add 1 or -1 to these to get every turf from starting_atom to ending_atom
 	var/current_y_step = starting_atom.y

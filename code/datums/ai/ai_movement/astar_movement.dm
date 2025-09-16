@@ -1,6 +1,6 @@
 /**
- * This movement datum represents smart-pathing
- */
+	* This movement datum represents smart-pathing
+	*/
 /datum/ai_movement/astar
 	max_pathing_attempts = 4
 	max_path_distance = 30

@@ -1,28 +1,28 @@
 /* Toys!
- * Contains
- *		Balloons
- *		Fake singularity
- *		Toy gun
- *		Toy crossbow
- *		Toy swords
- *		Crayons
- *		Snap pops
- *		Mech prizes
- *		AI core prizes
- *		Toy codex gigas
- * 		Skeleton toys
- *		Cards
- *		Toy nuke
- *		Fake meteor
- *		Foam armblade
- *		Toy big red button
- *		Beach ball
- *		Toy xeno
- *      Kitty toys!
- *		Snowballs
- *		Clockwork Watches
- *		Toy Daggers
- */
+	* Contains
+	*		Balloons
+	*		Fake singularity
+	*		Toy gun
+	*		Toy crossbow
+	*		Toy swords
+	*		Crayons
+	*		Snap pops
+	*		Mech prizes
+	*		AI core prizes
+	*		Toy codex gigas
+	*		Skeleton toys
+	*		Cards
+	*		Toy nuke
+	*		Fake meteor
+	*		Foam armblade
+	*		Toy big red button
+	*		Beach ball
+	*		Toy xeno
+	*	Kitty toys!
+	*		Snowballs
+	*		Clockwork Watches
+	*		Toy Daggers
+	*/
 
 
 /obj/item/toy
@@ -32,8 +32,8 @@
 	force = 0
 
 /*
- * Snap pops
- */
+	* Snap pops
+	*/
 
 /obj/item/toy/snappop
 	name = "powder pack"

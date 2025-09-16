@@ -20,15 +20,15 @@
 #endif
 
 /**
- * Used for registering typepaths of item to be tracked as a "required map item"
- * This is used to ensure that that all station maps have certain items mapped in that they should have
- * Or that people aren't mapping in an excess of items that they shouldn't be
- * (For example, all map should only ever have 1 Pun Pun)
- *
- * Min is inclusive, Max is inclusive (so 1, 1 means min of 1, max of 1, or only 1 allowed)
- *
- * This should only be used in Initialize(). And don't forget to update the unit test with the type itself!
- */
+	* Used for registering typepaths of item to be tracked as a "required map item"
+	* This is used to ensure that that all station maps have certain items mapped in that they should have
+	* Or that people aren't mapping in an excess of items that they shouldn't be
+	* (For example, all map should only ever have 1 Pun Pun)
+	*
+	* Min is inclusive, Max is inclusive (so 1, 1 means min of 1, max of 1, or only 1 allowed)
+	*
+	* This should only be used in Initialize(). And don't forget to update the unit test with the type itself!
+	*/
 #ifdef UNIT_TESTS
 #define REGISTER_REQUIRED_MAP_ITEM(min, max) \
 	do { \

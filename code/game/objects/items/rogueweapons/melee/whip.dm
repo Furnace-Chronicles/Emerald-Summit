@@ -76,7 +76,7 @@
 	blade_class = BCLASS_BLUNT
 	penfactor = BLUNT_DEFAULT_PENFACTOR
 	recovery = 6
-	damfactor = 1.2 	//20% bonus because no pen, and it doesn't get smash crits.
+	damfactor = 1.2	//20% bonus because no pen, and it doesn't get smash crits.
 	reach = 2			//Less range than a normal whip by 1 compared to crack.
 	icon_state = "instrike"
 	item_d_type = "blunt"

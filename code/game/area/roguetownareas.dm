@@ -703,7 +703,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 
 //////
 /////
-////     TOWN AREAS
+////	TOWN AREAS
 ////
 ///
 //

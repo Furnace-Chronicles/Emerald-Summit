@@ -1,30 +1,30 @@
 /**
- * A holder for simple behaviour that can be attached to many different types
- *
- * Only one element of each type is instanced during game init.
- * Otherwise acts basically like a lightweight component.
- */
+	* A holder for simple behaviour that can be attached to many different types
+	*
+	* Only one element of each type is instanced during game init.
+	* Otherwise acts basically like a lightweight component.
+	*/
 /datum/element
 	/// Option flags for element behaviour
 	var/element_flags = NONE
 	
 	var/id_arg_index = 1
 	/**
-	  * The index of the first attach argument to consider for duplicate elements
-	  *
-	  * All arguments from this index onwards (1 based, until `argument_hash_end_idx` is reached, if set)
-	  * are hashed into the key to determine if this is a new unique element or one already exists
-	  *
-	  * Is only used when flags contains [ELEMENT_BESPOKE]
-	  *
-	  * This is infinity so you must explicitly set this
-	  */
+		* The index of the first attach argument to consider for duplicate elements
+		*
+		* All arguments from this index onwards (1 based, until `argument_hash_end_idx` is reached, if set)
+		* are hashed into the key to determine if this is a new unique element or one already exists
+		*
+		* Is only used when flags contains [ELEMENT_BESPOKE]
+		*
+		* This is infinity so you must explicitly set this
+		*/
 	var/argument_hash_start_idx = INFINITY
 	/**
-	  * The index of the last attach argument to consider for duplicate elements
-	  * Only used when `element_flags` contains [ELEMENT_BESPOKE].
-	  * If not set, it'll copy every argument from `argument_hash_start_idx` onwards as normal
-	  */
+		* The index of the last attach argument to consider for duplicate elements
+		* Only used when `element_flags` contains [ELEMENT_BESPOKE].
+		* If not set, it'll copy every argument from `argument_hash_start_idx` onwards as normal
+		*/
 	var/argument_hash_end_idx = 0
 
 /// Activates the functionality defined by the element on the given target datum
@@ -73,9 +73,9 @@
 		CRASH("Incompatible element [ele.type] was assigned to a [type]! args: [json_encode(args)]")
 
 /**
- * Finds the singleton for the element type given and detaches it from src
- * You only need additional arguments beyond the type if you're using [ELEMENT_BESPOKE]
- */
+	* Finds the singleton for the element type given and detaches it from src
+	* You only need additional arguments beyond the type if you're using [ELEMENT_BESPOKE]
+	*/
 /datum/proc/_RemoveElement(list/arguments)
 	var/datum/element/ele = SSdcs.GetElement(arguments, FALSE)
 	if(!ele) // We couldn't fetch the element, likely because it didn't exist.
@@ -87,11 +87,11 @@
 		ele.Detach(src)
 
 /**
- * Used to manage (typically non_bespoke) elements with multiple sources through traits
- * so we don't have to make them a components again.
- * The element will be later removed once all trait sources are gone, there's no need of a
- * "RemoveElementTrait" counterpart.
- */
+	* Used to manage (typically non_bespoke) elements with multiple sources through traits
+	* so we don't have to make them a components again.
+	* The element will be later removed once all trait sources are gone, there's no need of a
+	* "RemoveElementTrait" counterpart.
+	*/
 /datum/proc/AddElementTrait(trait, source, datum/element/eletype, ...)
 	if(!ispath(eletype, /datum/element))
 		CRASH("AddElementTrait called, but [eletype] is not of a /datum/element path")

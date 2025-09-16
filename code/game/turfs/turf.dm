@@ -233,19 +233,19 @@
 	reassess_stack()
 
 /**
- * Check whether the specified turf is blocked by something dense inside it with respect to a specific atom.
- *
- * Returns truthy value TURF_BLOCKED_TURF_DENSE if the turf is blocked because the turf itself is dense.
- * Returns truthy value TURF_BLOCKED_CONTENT_DENSE if one of the turf's contents is dense and would block
- * a source atom's movement.
- * Returns falsey value TURF_NOT_BLOCKED if the turf is not blocked.
- *
- * Arguments:
- * * exclude_mobs - If TRUE, ignores dense mobs on the turf.
- * * source_atom - If this is not null, will check whether any contents on the turf can block this atom specifically. Also ignores itself on the turf.
- * * ignore_atoms - Check will ignore any atoms in this list. Useful to prevent an atom from blocking itself on the turf.
- * * type_list - are we checking for types of atoms to ignore and not physical atoms
- */
+	* Check whether the specified turf is blocked by something dense inside it with respect to a specific atom.
+	*
+	* Returns truthy value TURF_BLOCKED_TURF_DENSE if the turf is blocked because the turf itself is dense.
+	* Returns truthy value TURF_BLOCKED_CONTENT_DENSE if one of the turf's contents is dense and would block
+	* a source atom's movement.
+	* Returns falsey value TURF_NOT_BLOCKED if the turf is not blocked.
+	*
+	* Arguments:
+	* * exclude_mobs - If TRUE, ignores dense mobs on the turf.
+	* * source_atom - If this is not null, will check whether any contents on the turf can block this atom specifically. Also ignores itself on the turf.
+	* * ignore_atoms - Check will ignore any atoms in this list. Useful to prevent an atom from blocking itself on the turf.
+	* * type_list - are we checking for types of atoms to ignore and not physical atoms
+	*/
 /turf/proc/is_blocked_turf(exclude_mobs = FALSE, source_atom = null, list/ignore_atoms, type_list = FALSE)
 	if((!isnull(source_atom) && !CanPass(source_atom, get_dir(src, source_atom))) || density)
 		return TRUE
@@ -270,10 +270,10 @@
 	return FALSE
 
 /**
- * Checks whether the specified turf is blocked by something dense inside it, but ignores anything with the climbable trait
- *
- * Works similar to is_blocked_turf(), but ignores climbables and has less options. Primarily added for jaunting checks
- */
+	* Checks whether the specified turf is blocked by something dense inside it, but ignores anything with the climbable trait
+	*
+	* Works similar to is_blocked_turf(), but ignores climbables and has less options. Primarily added for jaunting checks
+	*/
 /turf/proc/is_blocked_turf_ignore_climbable()
 	if(density)
 		return TRUE
@@ -666,7 +666,7 @@
 
 /proc/clear_reagents_to_vomit_pool(mob/living/carbon/M, obj/effect/decal/cleanable/vomit/V)
 	M.reagents.trans_to(V, M.reagents.total_volume / 10, transfered_by = M)
-	for(var/datum/reagent/R in M.reagents.reagent_list)                //clears the stomach of anything that might be digested as food
+	for(var/datum/reagent/R in M.reagents.reagent_list)				//clears the stomach of anything that might be digested as food
 		if(istype(R, /datum/reagent/consumable))
 			var/datum/reagent/consumable/nutri_check = R
 			if(nutri_check.nutriment_factor >0)

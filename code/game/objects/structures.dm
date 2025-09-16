@@ -38,7 +38,7 @@
 						if(S.smashable)
 							is_bigguy = TRUE
 				if(is_bigguy && obj_integrity > max_integrity / 3)
-					if(max_integrity > 1000) 	//Custom-set HP door, should be respected
+					if(max_integrity > 1000)	//Custom-set HP door, should be respected
 						take_damage(max_integrity / 6 + 1)
 					else
 						if(H.STASTR >= 13)	//STR adding role w/ Giant or half-orc, seems fair

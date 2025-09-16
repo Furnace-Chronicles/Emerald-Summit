@@ -191,18 +191,18 @@
 )
 
 #define RACES_NOBILITY_ELIGIBLE \
-    /datum/species/human/northern,\
-    /datum/species/elf/wood,\
-    /datum/species/human/halfelf,\
-    /datum/species/demihuman,\
-    /datum/species/dwarf/mountain,\
+	/datum/species/human/northern,\
+	/datum/species/elf/wood,\
+	/datum/species/human/halfelf,\
+	/datum/species/demihuman,\
+	/datum/species/dwarf/mountain,\
 
 #define RACES_CHURCH_FAVORED \
 	/datum/species/aasimar,\
 
 #define RACES_APPOINTED_OUTCASTS \
-    /datum/species/tieberian,\
-    /datum/species/elf/dark,\
+	/datum/species/tieberian,\
+	/datum/species/elf/dark,\
 
 #define RACES_MANMADE \
 	/datum/species/golem/metal,\
@@ -212,25 +212,25 @@
 	/datum/species/anthromorph,\
 
 #define RACES_SECOND_CLASS \
-    /datum/species/vulpkanin,\
-    /datum/species/lupian,\
-    /datum/species/moth,\
-    /datum/species/anthromorph,\
-    /datum/species/anthromorphsmall,\
-    /datum/species/tabaxi,\
-    /datum/species/lizardfolk,\
-    /datum/species/dracon,\
-    /datum/species/akula,\
+	/datum/species/vulpkanin,\
+	/datum/species/lupian,\
+	/datum/species/moth,\
+	/datum/species/anthromorph,\
+	/datum/species/anthromorphsmall,\
+	/datum/species/tabaxi,\
+	/datum/species/lizardfolk,\
+	/datum/species/dracon,\
+	/datum/species/akula,\
 	/datum/species/lamia,\
 
 #define RACES_FEARED \
 	/datum/species/halforc,\
 
 #define RACES_WIDELY_REVILED \
-    /datum/species/kobold,\
-    /datum/species/goblinp,\
-    /datum/species/anthromorphsmall,\
-  	/datum/species/dullahan,\
+	/datum/species/kobold,\
+	/datum/species/goblinp,\
+	/datum/species/anthromorphsmall,\
+		/datum/species/dullahan,\
 	/datum/species/lamia,\
 
 
@@ -423,13 +423,13 @@ GLOBAL_LIST_EMPTY(round_join_times)
 */
 
 #define CTAG_ALLCLASS		"CAT_ALLCLASS"		// Just a define for allclass to not deal with actively typing strings
-#define CTAG_DISABLED 		"CAT_DISABLED" 		// Disabled, aka don't make it fuckin APPEAR
-#define CTAG_PILGRIM 		"CAT_PILGRIM"  		// Pilgrim classes
-#define CTAG_ADVENTURER 	"CAT_ADVENTURER"  	// Adventurer classes
-#define CTAG_TOWNER 		"CAT_TOWNER"  		// Villager class - Villagers can use it
-#define CTAG_ANTAG 			"CAT_ANTAG"  		// Antag class - results in an antag
+#define CTAG_DISABLED		"CAT_DISABLED"		// Disabled, aka don't make it fuckin APPEAR
+#define CTAG_PILGRIM		"CAT_PILGRIM"		// Pilgrim classes
+#define CTAG_ADVENTURER	"CAT_ADVENTURER"	// Adventurer classes
+#define CTAG_TOWNER		"CAT_TOWNER"		// Villager class - Villagers can use it
+#define CTAG_ANTAG			"CAT_ANTAG"		// Antag class - results in an antag
 #define CTAG_BANDIT			"CAT_BANDIT"		// Bandit class - Tied to the bandit antag really
-#define CTAG_CHALLENGE 		"CAT_CHALLENGE"  	// Challenge class - Meant to be free for everyone
+#define CTAG_CHALLENGE		"CAT_CHALLENGE"	// Challenge class - Meant to be free for everyone
 #define CTAG_VAGABOND		"CAT_VAGABOND"		// Vagabond class - start with nothing and work your way up
 #define CTAG_INQUISITION	"CAT_INQUISITION"	// For Orthodoxist subclasses
 #define CTAG_PURITAN		"CAT_PURITAN"		// For Inquisitor subclasses
@@ -457,8 +457,8 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_SERVANT		"CAT_SERVANT"		// Servant's aesthetic choices.
 #define CTAG_CAPTAIN		"CAT_CAPTAIN"		// Handles Captain class selector
 #define CTAG_WAPPRENTICE	"CTAG_WAPPRENTICE"	// Mage Apprentice Classes - Handles Mage Apprentices class selector
-#define CTAG_GUILDMASTER 	"CAT_GUILDMASTER"	// Guildmaster class - Handles Guildmaster class selector
-#define CTAG_GUILDSMEN 		"CAT_GUILDSMEN"		// Guildsmen class - Handles Guildsmen class selector
+#define CTAG_GUILDMASTER	"CAT_GUILDMASTER"	// Guildmaster class - Handles Guildmaster class selector
+#define CTAG_GUILDSMEN		"CAT_GUILDSMEN"		// Guildsmen class - Handles Guildsmen class selector
 #define CTAG_NIGHTMAIDEN	"CAT_NIGHTMAIDEN"	// Bathhouse Attendant's aesthetic choices.
 #define CTAG_PRISONER "CAT_PRISONER"
 
@@ -530,8 +530,8 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define ARMOR_CLASS_MEDIUM 2
 #define ARMOR_CLASS_HEAVY 3
 
-#define BASE_PARRY_STAMINA_DRAIN 5 	// Unmodified stamina drain for parry, now a var instead of setting on simplemobs
-#define BAD_GUARD_FATIGUE_DRAIN 20 	// Percentage of your green bar lost on letting a guard expire.
+#define BASE_PARRY_STAMINA_DRAIN 5	// Unmodified stamina drain for parry, now a var instead of setting on simplemobs
+#define BAD_GUARD_FATIGUE_DRAIN 20	// Percentage of your green bar lost on letting a guard expire.
 #define GUARD_PEEL_REDUCTION 2		// How many Peel stacks to lose if a Guard is hit.
 #define BAIT_PEEL_REDUCTION 1		// How many Peel stacks to lose if we perfectly bait.
 

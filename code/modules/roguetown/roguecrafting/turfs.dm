@@ -209,10 +209,10 @@
 	name = "reinforced window (brick)"
 	result = /obj/structure/roguewindow/openclose/reinforced/brick
 	reqs = list(
-	  /obj/item/natural/brick = 2,
-	  /obj/item/ingot/iron = 1,
-	  /obj/item/natural/glass = 1,
-	  /obj/item/natural/dirtclod = 1,
+		/obj/item/natural/brick = 2,
+		/obj/item/ingot/iron = 1,
+		/obj/item/natural/glass = 1,
+		/obj/item/natural/dirtclod = 1,
 	)
 	skillcraft = /datum/skill/craft/blacksmithing
 	craftsound = 'sound/items/bsmith1.ogg'
@@ -236,10 +236,10 @@
 	name = "fancy window"
 	result = /obj/structure/roguewindow/openclose
 	reqs = list(
-	  /obj/item/grown/log/tree/small = 2,
-	  /obj/item/natural/stone = 1,
-	  /obj/item/natural/glass = 1,
-	  /obj/item/natural/dirtclod = 1,
+		/obj/item/grown/log/tree/small = 2,
+		/obj/item/natural/stone = 1,
+		/obj/item/natural/glass = 1,
+		/obj/item/natural/dirtclod = 1,
 	)
 	skillcraft = /datum/skill/craft/carpentry
 	craftsound = 'sound/foley/Building-01.ogg'

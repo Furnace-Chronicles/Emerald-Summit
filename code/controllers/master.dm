@@ -1,11 +1,11 @@
 /**
- * StonedMC
- *
- * Designed to properly split up a given tick among subsystems
- * Note: if you read parts of this code and think "why is it doing it that way"
- * Odds are, there is a reason
- *
- **/
+	* StonedMC
+	*
+	* Designed to properly split up a given tick among subsystems
+	* Note: if you read parts of this code and think "why is it doing it that way"
+	* Odds are, there is a reason
+	*
+	**/
 
 //This is the ABSOLUTE ONLY THING that should init globally like this
 //2019 update: the failsafe,config and Global controllers also do it
@@ -167,7 +167,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 		Initialize(20, TRUE)
 
 // Please don't stuff random bullshit here,
-// 	Make a subsystem, give it the SS_NO_FIRE flag, and do your work in it's Initialize()
+//	Make a subsystem, give it the SS_NO_FIRE flag, and do your work in it's Initialize()
 /datum/controller/master/Initialize(delay, init_sss, tgs_prime)
 	set waitfor = 0
 

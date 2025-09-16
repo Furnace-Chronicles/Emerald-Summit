@@ -1,8 +1,8 @@
 /**
- * This element registers to a shitload of signals which can signify "someone attacked me".
- * If anyone does it sends a single "someone attacked me" signal containing details about who done it.
- * This prevents other components and elements from having to register to the same list of a million signals, should be more maintainable in one place.
- */
+	* This element registers to a shitload of signals which can signify "someone attacked me".
+	* If anyone does it sends a single "someone attacked me" signal containing details about who done it.
+	* This prevents other components and elements from having to register to the same list of a million signals, should be more maintainable in one place.
+	*/
 /datum/element/relay_attackers
 
 /datum/element/relay_attackers/Attach(datum/target)

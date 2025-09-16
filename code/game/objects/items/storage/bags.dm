@@ -2,8 +2,8 @@
 	slot_flags = ITEM_SLOT_BELT
 
 /*
- * Trays - Agouri
- *///wip
+	* Trays - Agouri
+	*///wip
 /obj/item/storage/bag/tray
 	name = "tray"
 	icon = 'icons/obj/food/containers.dmi'

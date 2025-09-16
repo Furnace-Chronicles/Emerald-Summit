@@ -1431,7 +1431,7 @@
 	return
 
 
- //--------------- BLACKSTEEL ---------------------
+	//--------------- BLACKSTEEL ---------------------
 
 /obj/item/clothing/suit/roguetown/armor/plate/modern/blacksteel_full_plate
 	name = "blacksteel plate armor"

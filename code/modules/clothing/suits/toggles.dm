@@ -70,7 +70,7 @@
 		return
 
 	var/mob/living/carbon/human/H = user
- 
+	
 	// Hood is already UP, make it go DOWN
 	if(hoodtoggled)
 		if(connected_hood)

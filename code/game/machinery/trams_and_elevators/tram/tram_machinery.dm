@@ -27,10 +27,10 @@ GLOBAL_LIST_EMPTY(tram_doors)
 	find_tram()
 
 /**
- * Finds the tram from the console
- *
- * Locates tram parts in the lift global list after everything is done.
- */
+	* Finds the tram from the console
+	*
+	* Locates tram parts in the lift global list after everything is done.
+	*/
 /obj/machinery/tram_controls/proc/find_tram()
 	for(var/datum/lift_master/lift as anything in GLOB.active_lifts_by_type[TRAM_LIFT_ID])
 		if(lift.specific_lift_id == specific_lift_id)
@@ -38,12 +38,12 @@ GLOBAL_LIST_EMPTY(tram_doors)
 
 
 /**
- * Finds the destinations for the tram console gui
- *
- * Pulls tram landmarks from the landmark gobal list
- * and uses those to show the proper icons and destination
- * names for the tram console gui.
- */
+	* Finds the destinations for the tram console gui
+	*
+	* Pulls tram landmarks from the landmark gobal list
+	* and uses those to show the proper icons and destination
+	* names for the tram console gui.
+	*/
 /obj/machinery/tram_controls/proc/get_destinations()
 	. = list()
 	for(var/obj/effect/landmark/tram/destination as anything in GLOB.tram_landmarks[specific_lift_id])

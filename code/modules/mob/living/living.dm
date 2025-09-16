@@ -983,7 +983,7 @@
 		if(trail_type)
 			var/brute_ratio = round(getBruteLoss() / maxHealth, 0.1)
 			if(blood_volume && blood_volume > max(BLOOD_VOLUME_NORMAL*(1 - brute_ratio * 0.25), 0))//don't leave trail if blood volume below a threshold
-				blood_volume = max(blood_volume - max(1, brute_ratio * 2), 0) 					//that depends on our brute damage.
+				blood_volume = max(blood_volume - max(1, brute_ratio * 2), 0)					//that depends on our brute damage.
 				var/newdir = get_dir(target_turf, start)
 				if(newdir != direction)
 					newdir = newdir | direction
@@ -1870,11 +1870,11 @@
 	return !((next_move > world.time) || incapacitated(ignore_restraints = TRUE))
 
 /**
- * look_up Changes the perspective of the mob to any openspace turf above the mob
- *
- * This also checks if an openspace turf is above the mob before looking up or resets the perspective if already looking up
- *
- */
+	* look_up Changes the perspective of the mob to any openspace turf above the mob
+	*
+	* This also checks if an openspace turf is above the mob before looking up or resets the perspective if already looking up
+	*
+	*/
 
 /mob/living/proc/look_around()
 	if(!client)

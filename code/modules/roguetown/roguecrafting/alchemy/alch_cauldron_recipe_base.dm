@@ -19,8 +19,8 @@
 		<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'/>
 		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
 		<body>
-		  <div>
-		    <h1>[name]</h1>
+		<div>
+		<h1>[name]</h1>
 		"}
 
 	html += "Requires [SSskills.level_names_plain[skill_required]] level of skills<br>"

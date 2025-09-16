@@ -256,12 +256,12 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	return 1
 
 /*
- * This proc will update the icon of the ghost itself, with hair overlays, as well as the ghost image.
- * Please call update_icon(icon_state) from now on when you want to update the icon_state of the ghost,
- * or you might end up with hair on a sprite that's not supposed to get it.
- * Hair will always update its dir, so if your sprite has no dirs the haircut will go all over the place.
- * |- Ricotez
- */
+	* This proc will update the icon of the ghost itself, with hair overlays, as well as the ghost image.
+	* Please call update_icon(icon_state) from now on when you want to update the icon_state of the ghost,
+	* or you might end up with hair on a sprite that's not supposed to get it.
+	* Hair will always update its dir, so if your sprite has no dirs the haircut will go all over the place.
+	* |- Ricotez
+	*/
 /mob/dead/observer/update_icon(new_form)
 	. = ..()
 /*
@@ -292,7 +292,7 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 		updatedir = 1
 	else
 		updatedir = 0	//stop updating the dir in case we want to show accessories with dirs on a ghost sprite without dirs
-		setDir(2 		)//reset the dir to its default so the sprites all properly align up
+		setDir(2		)//reset the dir to its default so the sprites all properly align up
 
 	if(ghost_accs == GHOST_ACCS_FULL && icon_state in GLOB.ghost_forms_with_accessories_list) //check if this form supports accessories and if the client wants to show them
 		var/datum/sprite_accessory/S
@@ -318,11 +318,11 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 
 
 /*
- * Increase the brightness of a color by calculating the average distance between the R, G and B values,
- * and maximum brightness, then adding 30% of that average to R, G and B.
- *
- * I'll make this proc global and move it to its own file in a future update. |- Ricotez
- */
+	* Increase the brightness of a color by calculating the average distance between the R, G and B values,
+	* and maximum brightness, then adding 30% of that average to R, G and B.
+	*
+	* I'll make this proc global and move it to its own file in a future update. |- Ricotez
+	*/
 /mob/proc/brighten_color(input_color)
 	var/r_val
 	var/b_val
@@ -674,7 +674,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 
 		var/list/dest = list() //List of possible destinations (mobs)
-		var/target = null	   //Chosen target.
+		var/target = null	//Chosen target.
 
 		dest += getpois(mobs_only=1) //Fill list, prompt user with list
 		target = input("Please, select a player!", "Jump to Mob", null, null) as null|anything in dest
@@ -683,7 +683,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 			return
 		else
 			var/mob/M = dest[target] //Destination mob
-			var/mob/A = src			 //Source mob
+			var/mob/A = src			//Source mob
 			var/turf/T = get_turf(M) //Turf of the destination mob
 
 			if(T && isturf(T))	//Make sure the turf exists, then move the source to that destination.

@@ -74,7 +74,7 @@
 	if(highest_strength == TURF_WET_MAGIC)
 		if(istype(L))
 			L.visible_message("<span class='warning'>[L] slips on the slick surface!</span>",
-						  "<span class='warning'>You slip on a magically slick surface!</span>")
+						"<span class='warning'>You slip on a magically slick surface!</span>")
 			return TRUE
 		return FALSE
 

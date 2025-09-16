@@ -1,9 +1,9 @@
 //supposedly the fastest way to do this according to https://gist.github.com/Giacom/be635398926bb463b42a
 #define RANGE_TURFS(RADIUS, CENTER) \
-  block( \
-    locate(max(CENTER.x-(RADIUS),1),          max(CENTER.y-(RADIUS),1),          CENTER.z), \
-    locate(min(CENTER.x+(RADIUS),world.maxx), min(CENTER.y+(RADIUS),world.maxy), CENTER.z) \
-  )
+	block( \
+	locate(max(CENTER.x-(RADIUS),1),		max(CENTER.y-(RADIUS),1),		CENTER.z), \
+	locate(min(CENTER.x+(RADIUS),world.maxx), min(CENTER.y+(RADIUS),world.maxy), CENTER.z) \
+	)
 
 #define Z_TURFS(ZLEVEL) block(locate(1,1,ZLEVEL), locate(world.maxx, world.maxy, ZLEVEL))
 #define CULT_POLL_WAIT 2400
@@ -90,7 +90,7 @@
 //qdel.dm doesn't compile before this file so uh yeah
 #define QDEL_IN_CLIENT_TIME(item, time) addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(qdel), item), time, TIMER_STOPPABLE | TIMER_CLIENT_TIME)
 /**
- * Helper atom that copies an appearance and exists for a period
+	* Helper atom that copies an appearance and exists for a period
 */
 /atom/movable/flick_visual
 
@@ -137,12 +137,12 @@
 		processing_list += A.contents
 
 /** recursive_organ_check
-  * inputs: O (object to start with)
-  * outputs:
-  * description: A pseudo-recursive loop based off of the recursive mob check, this check looks for any organs held
-  *				 within 'O', toggling their frozen flag. This check excludes items held within other safe organ
-  *				 storage units, so that only the lowest level of container dictates whether we do or don't decompose
-  */
+	* inputs: O (object to start with)
+	* outputs:
+	* description: A pseudo-recursive loop based off of the recursive mob check, this check looks for any organs held
+	*				within 'O', toggling their frozen flag. This check excludes items held within other safe organ
+	*				storage units, so that only the lowest level of container dictates whether we do or don't decompose
+	*/
 /proc/recursive_organ_check(atom/O)
 
 	var/list/processing_list = list(O)

@@ -1,15 +1,15 @@
 // One-use crystal that spawns a Greater Undead, should delete after use.
 /obj/item/necro_relics/necro_crystal
-    name = "dark crystal"
-    desc = "It feels cold in your hands. You shouldn't be holding this."
-    icon = 'icons/roguetown/items/gems.dmi'
-    icon_state = "necro_crystal"
-    hitsound = 'sound/blank.ogg'
-    dropshrink = 0.6
-    var/last_use_time = 0
-    var/use_cooldown = 300 // 30 seconds to prevent spamming it for multiple free goons
-    grid_height = 32
-    grid_width = 32
+	name = "dark crystal"
+	desc = "It feels cold in your hands. You shouldn't be holding this."
+	icon = 'icons/roguetown/items/gems.dmi'
+	icon_state = "necro_crystal"
+	hitsound = 'sound/blank.ogg'
+	dropshrink = 0.6
+	var/last_use_time = 0
+	var/use_cooldown = 300 // 30 seconds to prevent spamming it for multiple free goons
+	grid_height = 32
+	grid_width = 32
 
 /obj/item/necro_relics/necro_crystal/attack_self(mob/living/user)
 	..()
@@ -72,9 +72,9 @@
 	set_light(2, 2, 1, l_color = "#551c1c")
 
 /mob/living/carbon/human/proc/choose_pronouns_and_body()
-    var/p_input = input(src, "Choose your character's pronouns", "Pronouns") as null|anything in GLOB.pronouns_list
-    if(p_input)
-        src.pronouns = p_input
-    if(alert(src, "Do you wish to change your frame?", "Body Type", "Yes", "No") == "Yes")
-        src.gender = (src.gender == "male") ? "female" : "male"
-    src.regenerate_icons()
+	var/p_input = input(src, "Choose your character's pronouns", "Pronouns") as null|anything in GLOB.pronouns_list
+	if(p_input)
+		src.pronouns = p_input
+	if(alert(src, "Do you wish to change your frame?", "Body Type", "Yes", "No") == "Yes")
+		src.gender = (src.gender == "male") ? "female" : "male"
+	src.regenerate_icons()

@@ -8,19 +8,19 @@
 #define TOX			"toxin"
 #define OXY			"oxygen"
 #define CLONE		"clone"
-#define STAMINA 	"stamina"
+#define STAMINA	"stamina"
 #define BRAIN		"brain"
 
 //Omnibus'ing melee attack types
 #define MELEE_TYPES list("blunt", "slash", "stab")
 
 //bitflag damage defines used for suicide_act
-#define BRUTELOSS 	            	(1<<0)
-#define FIRELOSS 	            	(1<<1)
-#define TOXLOSS 	            	(1<<2)
-#define OXYLOSS 	            	(1<<3)
-#define SHAME 			            (1<<4)
-#define MANUAL_SUICIDE          	(1<<5)	//suicide_act will do the actual killing.
+#define BRUTELOSS					(1<<0)
+#define FIRELOSS					(1<<1)
+#define TOXLOSS					(1<<2)
+#define OXYLOSS					(1<<3)
+#define SHAME					(1<<4)
+#define MANUAL_SUICIDE			(1<<5)	//suicide_act will do the actual killing.
 #define MANUAL_SUICIDE_NONLETHAL	(1<<6)  //when the suicide is conditionally lethal
 
 #define EFFECT_STUN			"stun"
@@ -30,7 +30,7 @@
 #define EFFECT_IMMOBILIZE	"immobilize"
 #define EFFECT_IRRADIATE	"irradiate"
 #define EFFECT_STUTTER		"stutter"
-#define EFFECT_SLUR 		"slur"
+#define EFFECT_SLUR		"slur"
 #define EFFECT_EYE_BLUR		"eye_blur"
 #define EFFECT_DROWSY		"drowsy"
 #define EFFECT_JITTER		"jitter"
@@ -93,7 +93,7 @@
 #define GRAB_KILL					3
 
 //Grab breakout odds
-#define BASE_GRAB_RESIST_CHANCE 	30
+#define BASE_GRAB_RESIST_CHANCE	30
 
 //slowdown when in softcrit. Note that crawling slowdown will also apply at the same time!
 #define SOFTCRIT_ADD_SLOWDOWN 1
@@ -122,10 +122,10 @@
 #define ATTACK_EFFECT_BOOP		"boop" //Honk
 
 //intent defines
-#define INTENT_HELP			 /datum/intent/unarmed/help
-#define INTENT_GRAB			 /datum/intent/unarmed/grab
-#define INTENT_DISARM		 /datum/intent/unarmed/shove
-#define INTENT_HARM			 /datum/intent/unarmed/punch
+#define INTENT_HELP			/datum/intent/unarmed/help
+#define INTENT_GRAB			/datum/intent/unarmed/grab
+#define INTENT_DISARM		/datum/intent/unarmed/shove
+#define INTENT_HARM			/datum/intent/unarmed/punch
 
 //mmb intents
 #define INTENT_KICK		/datum/intent/kick
@@ -136,22 +136,22 @@
 #define INTENT_SPELL	/datum/intent/spell
 
 //hurrrddurrrr
-#define QINTENT_BITE		 1
-#define QINTENT_JUMP		 2
-#define QINTENT_KICK		 3
-#define QINTENT_STEAL		 4
-#define QINTENT_GIVE		 5
-#define QINTENT_SPELL		 6
+#define QINTENT_BITE		1
+#define QINTENT_JUMP		2
+#define QINTENT_KICK		3
+#define QINTENT_STEAL		4
+#define QINTENT_GIVE		5
+#define QINTENT_SPELL		6
 
 //used for all items that aren't weapons but have a blunt force
-#define INTENT_GENERIC	 /datum/intent/hit
+#define INTENT_GENERIC	/datum/intent/hit
 #define RANGED_FIRE		/datum/intent/shoot
 
 //Weapon intents
-#define SWORD_CUT		 /datum/intent/sword/cut
-#define SWORD_THRUST	 /datum/intent/sword/thrust
-#define SWORD_CHOP		 /datum/intent/sword/chop //2h swords only
-#define SWORD_STRIKE	 /datum/intent/sword/strike //mordhau grip
+#define SWORD_CUT		/datum/intent/sword/cut
+#define SWORD_THRUST	/datum/intent/sword/thrust
+#define SWORD_CHOP		/datum/intent/sword/chop //2h swords only
+#define SWORD_STRIKE	/datum/intent/sword/strike //mordhau grip
 #define SWORD_PEEL		/datum/intent/sword/peel
 
 #define ELFSWORD_CUT		/datum/intent/sword/cut/elf
@@ -163,7 +163,7 @@
 #define SPEAR_THRUST		/datum/intent/spear/thrust
 #define SPEAR_BASH			/datum/intent/spear/bash
 #define SPEAR_CUT			/datum/intent/spear/cut
-#define SPEAR_CAST          /datum/intent/spear/cast
+#define SPEAR_CAST		/datum/intent/spear/cast
 #define PARTIZAN_REND		/datum/intent/rend/reach/partizan
 #define PARTIZAN_PEEL		/datum/intent/partizan/peel
 
@@ -270,8 +270,8 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 //Combat object defines
 
 //Embedded objects
-#define EMBEDDED_PAIN_CHANCE 					15	//Chance for embedded objects to cause pain (damage user)
-#define EMBEDDED_ITEM_FALLOUT 					5	//Chance for embedded object to fall out (causing pain but removing the object)
+#define EMBEDDED_PAIN_CHANCE					15	//Chance for embedded objects to cause pain (damage user)
+#define EMBEDDED_ITEM_FALLOUT					5	//Chance for embedded object to fall out (causing pain but removing the object)
 #define EMBED_CHANCE							45	//Chance for an object to embed into somebody when thrown (if it's sharp)
 #define EMBEDDED_PAIN_MULTIPLIER				2	//Coefficient of multiplication for the damage the item does while embedded (this*item.w_class)
 #define EMBEDDED_FALL_PAIN_MULTIPLIER			5	//Coefficient of multiplication for the damage the item does when it falls out (this*item.w_class)
@@ -316,7 +316,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define AMMO_BOX_FULL_EMPTY 2
 
 //Projectile Reflect
-#define REFLECT_NORMAL 				(1<<0)
+#define REFLECT_NORMAL				(1<<0)
 #define REFLECT_FAKEPROJECTILE		(1<<1)
 
 //Object/Item sharpness

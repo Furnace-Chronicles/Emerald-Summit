@@ -288,13 +288,13 @@ GLOBAL_LIST_EMPTY(active_lifts_by_type)
 	return platforms_in_z
 
 /**
- * Moves the lift UP or DOWN, this is what users invoke with their hand.
- * This is a SAFE proc, ensuring every part of the lift moves SANELY.
- *
- * Arguments:
- * going - UP or DOWN directions, where the lift should go. Keep in mind by this point checks of whether it should go up or down have already been done.
- * user - Whomever made the lift movement.
- */
+	* Moves the lift UP or DOWN, this is what users invoke with their hand.
+	* This is a SAFE proc, ensuring every part of the lift moves SANELY.
+	*
+	* Arguments:
+	* going - UP or DOWN directions, where the lift should go. Keep in mind by this point checks of whether it should go up or down have already been done.
+	* user - Whomever made the lift movement.
+	*/
 /datum/lift_master/proc/move_lift_vertically(going, mob/user)
 	//lift_platforms are sorted in order of lowest z to highest z, so going upwards we need to move them in reverse order to not collide
 	if(going == UP)
@@ -312,21 +312,21 @@ GLOBAL_LIST_EMPTY(active_lifts_by_type)
 			lift_platform.travel(going)
 
 /**
- * Moves the lift after a passed delay.
- *
- * This is a more "user friendly" or "realistic" lift move.
- * It includes things like:
- * - Allowing lift "travel time"
- * - Shutting elevator safety doors
- * - Sound effects while moving
- * - Safety warnings for anyone below the lift (while it's moving downwards)
- *
- * Arguments:
- * duration - required, how long do we wait to move the lift?
- * door_duration - optional, how long should we wait to open the doors after arriving? If null, we won't open or close doors
- * direction - which direction are we moving the lift?
- * user - optional, who is moving the lift?
- */
+	* Moves the lift after a passed delay.
+	*
+	* This is a more "user friendly" or "realistic" lift move.
+	* It includes things like:
+	* - Allowing lift "travel time"
+	* - Shutting elevator safety doors
+	* - Sound effects while moving
+	* - Safety warnings for anyone below the lift (while it's moving downwards)
+	*
+	* Arguments:
+	* duration - required, how long do we wait to move the lift?
+	* door_duration - optional, how long should we wait to open the doors after arriving? If null, we won't open or close doors
+	* direction - which direction are we moving the lift?
+	* user - optional, who is moving the lift?
+	*/
 /datum/lift_master/proc/move_after_delay(lift_move_duration, door_duration, direction, mob/user)
 	if(!isnum(lift_move_duration))
 		CRASH("[type] move_after_delay called with invalid duration ([lift_move_duration]).")
@@ -352,15 +352,15 @@ GLOBAL_LIST_EMPTY(active_lifts_by_type)
 		lift_locs |= going_to_move.locs
 
 /**
- * Simple wrapper for checking if we can move 1 zlevel, and if we can, do said move.
- * Locks controls, closes all doors, then moves the lift and re-opens the doors afterwards.
- *
- * Arguments:
- * direction - which direction are we moving?
- * lift_move_duration - how long does the move take? can be 0 or null for instant move.
- * door_duration - how long does it take for the doors to open after a move?
- * user - optional, who moved it?
- */
+	* Simple wrapper for checking if we can move 1 zlevel, and if we can, do said move.
+	* Locks controls, closes all doors, then moves the lift and re-opens the doors afterwards.
+	*
+	* Arguments:
+	* direction - which direction are we moving?
+	* lift_move_duration - how long does the move take? can be 0 or null for instant move.
+	* door_duration - how long does it take for the doors to open after a move?
+	* user - optional, who moved it?
+	*/
 /datum/lift_master/proc/simple_move_wrapper(direction, lift_move_duration, mob/user)
 	if(!Check_lift_move(direction))
 		return FALSE
@@ -389,26 +389,26 @@ GLOBAL_LIST_EMPTY(active_lifts_by_type)
 	return TRUE
 
 /**
- * Wrap everything up from simple_move_wrapper finishing its movement
- */
+	* Wrap everything up from simple_move_wrapper finishing its movement
+	*/
 /datum/lift_master/proc/finish_simple_move_wrapper()
 	SEND_SIGNAL(src, COMSIG_LIFT_SET_DIRECTION, 0)
 	set_controls(LIFT_PLATFORM_UNLOCKED)
 
 /**
- * Moves the lift to the passed z-level.
- *
- * Checks for validity of the move: Are we moving to the same z-level, can we actually move to that z-level?
- * Does NOT check if the lift controls are currently locked.
- *
- * Moves to the passed z-level by calling move_after_delay repeatedly until the passed z-level is reached.
- * This proc sleeps as it moves.
- *
- * Arguments:
- * target_z - required, the Z we want to move to
- * loop_callback - optional, an additional callback invoked during the l oop that allows the move to cancel.
- * user - optional, who started the move
- */
+	* Moves the lift to the passed z-level.
+	*
+	* Checks for validity of the move: Are we moving to the same z-level, can we actually move to that z-level?
+	* Does NOT check if the lift controls are currently locked.
+	*
+	* Moves to the passed z-level by calling move_after_delay repeatedly until the passed z-level is reached.
+	* This proc sleeps as it moves.
+	*
+	* Arguments:
+	* target_z - required, the Z we want to move to
+	* loop_callback - optional, an additional callback invoked during the l oop that allows the move to cancel.
+	* user - optional, who started the move
+	*/
 /datum/lift_master/proc/move_to_zlevel(target_z, datum/callback/loop_callback, mob/user)
 	if(!isnum(target_z) || target_z <= 0)
 		CRASH("[type] move_to_zlevel was passed an invalid target_z ([target_z]).")
@@ -456,10 +456,10 @@ GLOBAL_LIST_EMPTY(active_lifts_by_type)
 	return TRUE
 
 /**
- * Moves the lift, this is what users invoke with their hand.
- * This is a SAFE proc, ensuring every part of the lift moves SANELY.
- * It also locks controls for the (miniscule) duration of the movement, so the elevator cannot be broken by spamming.
- */
+	* Moves the lift, this is what users invoke with their hand.
+	* This is a SAFE proc, ensuring every part of the lift moves SANELY.
+	* It also locks controls for the (miniscule) duration of the movement, so the elevator cannot be broken by spamming.
+	*/
 /datum/lift_master/proc/move_lift_horizontally(going)
 	set_controls(LIFT_PLATFORM_LOCKED)
 
@@ -548,21 +548,21 @@ GLOBAL_LIST_EMPTY(active_lifts_by_type)
 	return TRUE
 
 /**
- * Sets all lift parts's controls_locked variable. Used to prevent moving mid movement, or cooldowns.
- */
+	* Sets all lift parts's controls_locked variable. Used to prevent moving mid movement, or cooldowns.
+	*/
 /datum/lift_master/proc/set_controls(state)
 	controls_locked = state
 
 /**
- * resets the contents of all platforms to their original state in case someone put a bunch of shit onto the tram.
- * intended to be called by admins. passes all arguments to reset_contents() for each of our platforms.
- *
- * Arguments:
- * * consider_anything_past - number. if > 0 our platforms will only handle foreign contents that exceed this number in each of their locs
- * * foreign_objects - bool. if true our platforms will consider /atom/movable's that arent mobs as part of foreign contents
- * * foreign_non_player_mobs - bool. if true our platforms consider mobs that dont have a mind to be foreign
- * * consider_player_mobs - bool. if true our platforms consider player mobs to be foreign. only works if foreign_non_player_mobs is true as well
- */
+	* resets the contents of all platforms to their original state in case someone put a bunch of shit onto the tram.
+	* intended to be called by admins. passes all arguments to reset_contents() for each of our platforms.
+	*
+	* Arguments:
+	* * consider_anything_past - number. if > 0 our platforms will only handle foreign contents that exceed this number in each of their locs
+	* * foreign_objects - bool. if true our platforms will consider /atom/movable's that arent mobs as part of foreign contents
+	* * foreign_non_player_mobs - bool. if true our platforms consider mobs that dont have a mind to be foreign
+	* * consider_player_mobs - bool. if true our platforms consider player mobs to be foreign. only works if foreign_non_player_mobs is true as well
+	*/
 /datum/lift_master/proc/reset_lift_contents(consider_anything_past = 0, foreign_objects = TRUE, foreign_non_player_mobs = TRUE, consider_player_mobs = FALSE)
 	for(var/obj/structure/industrial_lift/lift_to_reset in lift_platforms)
 		lift_to_reset.reset_contents(consider_anything_past, foreign_objects, foreign_non_player_mobs, consider_player_mobs)

@@ -1,6 +1,6 @@
 /*
- * A large number of misc global procs.
- */
+	* A large number of misc global procs.
+	*/
 
 //Inverts the colour of an HTML string
 /proc/invertHTML(HTMLstring)
@@ -576,14 +576,14 @@ Turf and target are separate in case you want to teleport some distance from a t
 
 Gets the turf this atom's *ICON* appears to inhabit
 It takes into account:
- * Pixel_x/y
- * Matrix x/y
+	* Pixel_x/y
+	* Matrix x/y
 
 NOTE: if your atom has non-standard bounds then this proc
 will handle it, but:
- * if the bounds are even, then there are an even amount of "middle" turfs, the one to the EAST, NORTH, or BOTH is picked
+	* if the bounds are even, then there are an even amount of "middle" turfs, the one to the EAST, NORTH, or BOTH is picked
 (this may seem bad, but you're atleast as close to the center of the atom as possible, better than byond's default loc being all the way off)
- * if the bounds are odd, the true middle turf of the atom is returned
+	* if the bounds are odd, the true middle turf of the atom is returned
 
 */
 
@@ -877,14 +877,14 @@ rough example of the "cone" made by the 3 dirs checked
 * \
 *  \
 *   >
-*     <
-*      \
-*       \
+*	<
+*	\
+*	\
 *B --><-- A
-*       /
-*      /
-*     <
-*    >
+*	/
+*	/
+*	<
+*	>
 *   /
 *  /
 
@@ -1265,7 +1265,7 @@ GLOBAL_DATUM_INIT(dview_mob, /mob/dview, new)
 
 
 #define FOR_DVIEW(type, range, center, invis_flags) \
-	GLOB.dview_mob.loc = center;           \
+	GLOB.dview_mob.loc = center;		\
 	GLOB.dview_mob.see_invisible = invis_flags; \
 	for(type in view(range, GLOB.dview_mob))
 
@@ -1386,8 +1386,8 @@ GLOBAL_DATUM_INIT(dview_mob, /mob/dview, new)
 #define NAMEOF(datum, X) (#X || ##datum.##X)
 
 /**
- * NAMEOF that actually works in static definitions because src::type requires src to be defined
- */
+	* NAMEOF that actually works in static definitions because src::type requires src to be defined
+	*/
 #define NAMEOF_STATIC(datum, X) (nameof(type::##X))
 
 #define VARSET_LIST_CALLBACK(target, var_name, var_value) CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(___callbackvarset), ##target, ##var_name, ##var_value)

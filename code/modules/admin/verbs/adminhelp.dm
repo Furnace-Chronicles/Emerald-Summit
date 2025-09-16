@@ -6,8 +6,8 @@
 GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 
 /**
- * # Adminhelp Ticket Manager
- */
+	* # Adminhelp Ticket Manager
+	*/
 /datum/admin_help_tickets
 	/// The set of all active tickets
 	var/list/active_tickets = list()
@@ -148,8 +148,8 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	Click()
 
 /**
- * # Adminhelp Ticket
- */
+	* # Adminhelp Ticket
+	*/
 /datum/admin_help
 	/// Unique ID of the ticket
 	var/id
@@ -177,12 +177,12 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	var/static/ticket_counter = 0
 
 /**
- * Call this on its own to create a ticket, don't manually assign current_ticket
- *
- * Arguments:
- * * msg - The title of the ticket: usually the ahelp text
- * * is_bwoink - Boolean operator, TRUE if this ticket was started by an admin PM
- */
+	* Call this on its own to create a ticket, don't manually assign current_ticket
+	*
+	* Arguments:
+	* * msg - The title of the ticket: usually the ahelp text
+	* * is_bwoink - Boolean operator, TRUE if this ticket was started by an admin PM
+	*/
 /datum/admin_help/New(msg, client/C, is_bwoink)
 	//clean the input msg
 	msg = copytext_char(msg,1,MAX_MESSAGE_LEN)
@@ -452,8 +452,8 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	usr << browse(dat.Join(), "window=ahelp[id];size=620x480")
 
 /**
- * Renders the current status of the ticket into a displayable string
- */
+	* Renders the current status of the ticket into a displayable string
+	*/
 /datum/admin_help/proc/ticket_status()
 	switch(state)
 		if(AHELP_ACTIVE)

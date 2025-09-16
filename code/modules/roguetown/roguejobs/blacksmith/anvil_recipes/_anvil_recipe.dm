@@ -170,8 +170,8 @@
 		<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'/>
 		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
 		<body>
-		  <div>
-		    <h1>[name]</h1>
+		<div>
+		<h1>[name]</h1>
 		"}
 
 	if(craftdiff > 0)
@@ -183,8 +183,8 @@
 		html += "in Engineering<br>"
 
 	html += {"<div>
-		      <strong>Requirements</strong>
-			  <br>"}
+		<strong>Requirements</strong>
+			<br>"}
 
 	html += "[icon2html(new req_bar, user)] Start with [initial(req_bar.name)] on an anvil.<br>"
 	html += "Hammer the material.<br>"

@@ -381,8 +381,8 @@
 
 			qdel(src)
 			user.put_in_active_hand(limb_grabbed)
-      
-  // Dealing damage to the head beforehand is intentional.
+		
+	// Dealing damage to the head beforehand is intentional.
 	if(limb_grabbed.body_zone == BODY_ZONE_HEAD && isdullahan(C))
 		var/mob/living/carbon/human/target = C
 		var/datum/species/dullahan/target_species = target.dna.species
@@ -409,7 +409,7 @@
 
 			qdel(src)
 			user.put_in_active_hand(limb_grabbed)
-      
+		
 /obj/item/grabbing/proc/headbutt(mob/living/carbon/human/H)
 	var/mob/living/carbon/C = grabbed
 	var/obj/item/bodypart/Chead = C.get_bodypart(BODY_ZONE_HEAD)

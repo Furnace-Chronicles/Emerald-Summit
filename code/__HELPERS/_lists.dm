@@ -1,13 +1,13 @@
 /*
- * Holds procs to help with list operations
- * Contains groups:
- *			Misc
- *			Sorting
- */
+	* Holds procs to help with list operations
+	* Contains groups:
+	*			Misc
+	*			Sorting
+	*/
 
 /*
- * Misc
- */
+	* Misc
+	*/
 
 #define LAZYINITLIST(L) if (!L) L = list()
 #define UNSETEMPTY(L) if (L && !length(L)) L = null
@@ -246,10 +246,10 @@
 	return L.len < start_len
 
 /*
- * Returns list containing all the entries from first list that are not present in second.
- * If skiprep = 1, repeated elements are treated as one.
- * If either of arguments is not a list, returns null
- */
+	* Returns list containing all the entries from first list that are not present in second.
+	* If skiprep = 1, repeated elements are treated as one.
+	* If either of arguments is not a list, returns null
+	*/
 /proc/difflist(list/first, list/second, skiprep=0)
 	if(!islist(first) || !islist(second))
 		return
@@ -263,10 +263,10 @@
 	return result
 
 /*
- * Returns list containing entries that are in either list but not both.
- * If skipref = 1, repeated elements are treated as one.
- * If either of arguments is not a list, returns null
- */
+	* Returns list containing entries that are in either list but not both.
+	* If skipref = 1, repeated elements are treated as one.
+	* If either of arguments is not a list, returns null
+	*/
 /proc/uniquemergelist(list/first, list/second, skiprep=0)
 	if(!islist(first) || !islist(second))
 		return
@@ -278,10 +278,10 @@
 	return result
 
 /**
- * Given a list, return a copy where values without defined weights are given weight 1.
- * For example, fill_with_ones(list(A, B=2, C)) = list(A=1, B=2, C=1)
- * Useful for weighted random choices (loot tables, syllables in languages, etc.)
- */
+	* Given a list, return a copy where values without defined weights are given weight 1.
+	* For example, fill_with_ones(list(A, B=2, C)) = list(A=1, B=2, C=1)
+	* Useful for weighted random choices (loot tables, syllables in languages, etc.)
+	*/
 /proc/fill_with_ones(list/list_to_pad)
 	if (!islist(list_to_pad))
 		return list_to_pad
@@ -616,7 +616,7 @@
 
 /* Definining a counter as a series of key -> numeric value entries
 
- * All these procs modify in place.
+	* All these procs modify in place.
 */
 
 /proc/counterlist_scale(list/L, scalar)
@@ -678,8 +678,8 @@
 GLOBAL_LIST_EMPTY(string_lists)
 
 /**
- * Caches lists with non-numeric stringify-able values (text or typepath).
- */
+	* Caches lists with non-numeric stringify-able values (text or typepath).
+	*/
 /proc/string_list(list/values)
 	var/string_id = values.Join("-")
 
@@ -699,8 +699,8 @@ GLOBAL_LIST_EMPTY(string_lists)
 #define UNTYPED_LIST_REMOVE(list, item) (list -= LIST_VALUE_WRAP_LISTS(item))
 
 /**
- * Removes any null entries from the list
- * Returns TRUE if the list had nulls, FALSE otherwise
+	* Removes any null entries from the list
+	* Returns TRUE if the list had nulls, FALSE otherwise
 **/
 /proc/list_clear_nulls(list/list_to_clear)
 	return (list_to_clear.RemoveAll(null) > 0)

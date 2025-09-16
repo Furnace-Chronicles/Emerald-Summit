@@ -665,18 +665,18 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		return 0
 	return 1
 /*
- * Call back proc that should be checked in all paths where a client can send messages
- *
- * Handles checking for duplicate messages and people sending messages too fast
- *
- * The first checks are if you're sending too fast, this is defined as sending
- * SPAM_TRIGGER_AUTOMUTE messages in
- * 5 seconds, this will start supressing my messages,
- * if you send 2* that limit, you also get muted
- *
- * The second checks for the same duplicate message too many times and mutes
- * you for it
- */
+	* Call back proc that should be checked in all paths where a client can send messages
+	*
+	* Handles checking for duplicate messages and people sending messages too fast
+	*
+	* The first checks are if you're sending too fast, this is defined as sending
+	* SPAM_TRIGGER_AUTOMUTE messages in
+	* 5 seconds, this will start supressing my messages,
+	* if you send 2* that limit, you also get muted
+	*
+	* The second checks for the same duplicate message too many times and mutes
+	* you for it
+	*/
 /client/proc/handle_spam_prevention(message, mute_type)
 
 	//Increment message count
@@ -1290,7 +1290,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 
 			sleep(15 SECONDS) //Longer sleep here since this would trigger if a client tries to reconnect manually because the inital reconnect failed
 
-			 //we sleep after telling the client to reconnect, so if we still exist something is up
+			//we sleep after telling the client to reconnect, so if we still exist something is up
 			log_access("Forced disconnect: [key] [computer_id] [address] - CID randomizer check")
 
 			qdel(src)

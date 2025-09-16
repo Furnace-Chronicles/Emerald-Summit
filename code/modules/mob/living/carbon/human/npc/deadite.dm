@@ -147,9 +147,9 @@
 		return
 	return mind.add_antag_datum(/datum/antagonist/zombie)
 /**
- * This occurs when one zombie infects a living human, going into instadeath from here is kind of shit and confusing
- * We instead just transform at the end
- */
+	* This occurs when one zombie infects a living human, going into instadeath from here is kind of shit and confusing
+	* We instead just transform at the end
+	*/
 /mob/living/carbon/human/proc/zombie_infect_attempt()
 	var/datum/antagonist/zombie/zombie_antag = zombie_check()
 	if(!zombie_antag)

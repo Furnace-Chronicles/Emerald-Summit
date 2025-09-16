@@ -1,8 +1,8 @@
 #define NEXT_FLEE_TIME 60 SECONDS
 #define FLEE_TIME 6 SECONDS
 /**
- * Attached to a mob with an AI controller, simply sets a flag on whether or not to run away based on current health values.
- */
+	* Attached to a mob with an AI controller, simply sets a flag on whether or not to run away based on current health values.
+	*/
 /datum/element/ai_flee_while_injured
 	/// Health value to end fleeing if at or above
 	var/stop_fleeing_at

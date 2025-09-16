@@ -7,21 +7,21 @@
 
 
 	spawning = 0
-	width                  = 800  // I think this is supposed to be in pixels, but it doesn't match bounds, so idk - 800x800 seems to prevent particle-less edges
-	height                 = 800
-	count                  = 3000 // 3000 particles
+	width				= 800  // I think this is supposed to be in pixels, but it doesn't match bounds, so idk - 800x800 seems to prevent particle-less edges
+	height				= 800
+	count				= 3000 // 3000 particles
 	//Set bounds to rough screensize + some extra on the side and top movement for "wind"
-	bound1                 = list(-500,-256,-10)
-	bound2                 = list(500,500,10)
-	lifespan               = 285   // live for 30s max (fadein + lifespan + fade)
-	fade                   = 10    // 1s fade out
-	fadein				   = 5     // 0.5s fade in
+	bound1				= list(-500,-256,-10)
+	bound2				= list(500,500,10)
+	lifespan			= 285   // live for 30s max (fadein + lifespan + fade)
+	fade				= 10	// 1s fade out
+	fadein				= 5	// 0.5s fade in
 
 	//Obnoxiously 3D -- INCREASE Z level to make them further away
-	transform			   = list( 1, 0, 0,  0  ,
-								   0, 1, 0,  0  ,
-								   0, 0, 1, 1/4, //Get twice as Small every 4 Z
-								   0, 0, 0,  1  )
+	transform			= list( 1, 0, 0,  0  ,
+								0, 1, 0,  0  ,
+								0, 0, 1, 1/4, //Get twice as Small every 4 Z
+								0, 0, 0,  1  )
 
 //Animate particle effect to a severity
 /particles/weather/proc/animateSeverity(severityMod)
@@ -47,14 +47,14 @@
 	// animate(src, gravity=newGravity, spawning=newSpawning, time=1/severity * 10, easing=ELASTIC_EASING)
 
 /**
- * Shitty particle weather by Gomble
- * Causes weather to occur on a z level in certain area types
- *
- * The effects of weather occur across an entire z-level. For instance, lavaland has periodic ash storms that scorch most unprotected creatures.
- * Weather always occurs on different z levels at different times, regardless of weather type.
- * Can have custom durations, targets, and can automatically protect indoor areas.
- *
- */
+	* Shitty particle weather by Gomble
+	* Causes weather to occur on a z level in certain area types
+	*
+	* The effects of weather occur across an entire z-level. For instance, lavaland has periodic ash storms that scorch most unprotected creatures.
+	* Weather always occurs on different z levels at different times, regardless of weather type.
+	* Can have custom durations, targets, and can automatically protect indoor areas.
+	*
+	*/
 
 
 /datum/particle_weather
@@ -149,12 +149,12 @@
 	return ..()
 
 /**
- * Starts the actual weather and effects from it
- *
- * Updates area overlays and sends sounds and messages to mobs to notify them
- * Begins dealing effects from weather to mobs in the area
- *
- */
+	* Starts the actual weather and effects from it
+	*
+	* Updates area overlays and sends sounds and messages to mobs to notify them
+	* Begins dealing effects from weather to mobs in the area
+	*
+	*/
 /datum/particle_weather/proc/start(color)
 	if(running)
 		return //some cheeky git has started you early
@@ -195,12 +195,12 @@
 
 
 /**
- * Weather enters the winding down phase, stops effects
- *
- * Updates areas to be in the winding down phase
- * Sends sounds and messages to mobs to notify them
- *
- */
+	* Weather enters the winding down phase, stops effects
+	*
+	* Updates areas to be in the winding down phase
+	* Sends sounds and messages to mobs to notify them
+	*
+	*/
 /datum/particle_weather/proc/wind_down()
 	severity = 0
 	if(SSParticleWeather.particleEffect)
@@ -212,12 +212,12 @@
 
 
 /**
- * Fully ends the weather
- *
- * Effects no longer occur and particles are wound down
- * Removes weather from processing completely
- *
- */
+	* Fully ends the weather
+	*
+	* Effects no longer occur and particles are wound down
+	* Removes weather from processing completely
+	*
+	*/
 /datum/particle_weather/proc/end()
 	running = FALSE
 	for(var/mob/living/M in currentSounds)
@@ -227,8 +227,8 @@
 
 
 /**
- * Returns TRUE if the living mob can hear the weather (you might be immune, but you get to listen to the pitter patter)
- */
+	* Returns TRUE if the living mob can hear the weather (you might be immune, but you get to listen to the pitter patter)
+	*/
 /datum/particle_weather/proc/can_weather(mob/living/mob_to_check)
 	var/turf/mob_turf = get_turf(mob_to_check)
 
@@ -241,8 +241,8 @@
 	return TRUE
 
 /**
- * Returns TRUE if the living mob can be affected by the weather
- */
+	* Returns TRUE if the living mob can be affected by the weather
+	*/
 /datum/particle_weather/proc/can_weather_effect(mob/living/mob_to_check)
 
 	//If mob is not in a turf
@@ -256,9 +256,9 @@
 	return TRUE
 
 /**
- * Try to do weather effects - if we can hear sound, play it
- * If we are affected by weather (i.e damage), do effect and send severity message
- */
+	* Try to do weather effects - if we can hear sound, play it
+	* If we are affected by weather (i.e damage), do effect and send severity message
+	*/
 /datum/particle_weather/proc/try_weather_act(mob/living/L)
 	if(!L.mind)
 		return

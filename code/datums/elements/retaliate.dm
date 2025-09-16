@@ -1,7 +1,7 @@
 /**
- * Attached to a mob with an AI controller, passes things which have damaged it to a blackboard.
- * The AI controller is responsible for doing anything with that information.
- */
+	* Attached to a mob with an AI controller, passes things which have damaged it to a blackboard.
+	* The AI controller is responsible for doing anything with that information.
+	*/
 /datum/element/ai_retaliate
 
 /datum/element/ai_retaliate/Attach(datum/target)

@@ -86,7 +86,7 @@
 	setup_field()
 	post_setup_field()
 
-/datum/proximity_monitor/advanced/proc/full_cleanup()	 //Full cleanup for when you change something that would require complete resetting.
+/datum/proximity_monitor/advanced/proc/full_cleanup()	//Full cleanup for when you change something that would require complete resetting.
 	for(var/turf/T in edge_turfs)
 		cleanup_edge_turf(T)
 	for(var/turf/T in field_turfs)

@@ -127,7 +127,7 @@
 	return FALSE
 
 //////////////////////////////////
-// 	    ENDVRE. AS DOES HE.    //
+//		ENDVRE. AS DOES HE.	//
 ////////////////////////////////
 
 /obj/effect/proc_holder/spell/invoked/psydonendure

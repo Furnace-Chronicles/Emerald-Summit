@@ -6,13 +6,13 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	///The atom this controller is controlling
 	var/atom/pawn
 	/**
-	 * This is a list of variables the AI uses and can be mutated by actions.
-	 *
-	 * When an action is performed you pass this list and any relevant keys for the variables it can mutate.
-	 *
-	 * DO NOT set values in the blackboard directly, and especially not if you're adding a datum reference to this!
-	 * Use the setters, this is important for reference handing.
-	 */
+		* This is a list of variables the AI uses and can be mutated by actions.
+		*
+		* When an action is performed you pass this list and any relevant keys for the variables it can mutate.
+		*
+		* DO NOT set values in the blackboard directly, and especially not if you're adding a datum reference to this!
+		* Use the setters, this is important for reference handing.
+		*/
 	var/list/blackboard = list()
 	///Bitfield of traits for this AI to handle extra behavior
 	var/ai_traits
@@ -149,10 +149,10 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	set_ai_status(get_expected_ai_status())
 
 /**
- * Gets the AI status we expect the AI controller to be on at this current moment.
- * Returns AI_STATUS_OFF if it's inhabited by a Client and shouldn't be, if it's dead and cannot act while dead, or is on a z level without clients.
- * Returns AI_STATUS_ON otherwise.
- */
+	* Gets the AI status we expect the AI controller to be on at this current moment.
+	* Returns AI_STATUS_OFF if it's inhabited by a Client and shouldn't be, if it's dead and cannot act while dead, or is on a z level without clients.
+	* Returns AI_STATUS_ON otherwise.
+	*/
 /datum/ai_controller/proc/get_expected_ai_status()
 
 	if (!ismob(pawn))
@@ -384,11 +384,11 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	return !!key_value
 
 /**
- * Used to manage references to datum by AI controllers
- *
- * * tracked_datum - something being added to an ai blackboard
- * * key - the associated key
- */
+	* Used to manage references to datum by AI controllers
+	*
+	* * tracked_datum - something being added to an ai blackboard
+	* * key - the associated key
+	*/
 #define TRACK_AI_DATUM_TARGET(tracked_datum, key) do { \
 	if(isweakref(tracked_datum)) { \
 		var/datum/weakref/_bad_weakref = tracked_datum; \
@@ -405,11 +405,11 @@ have ways of interacting with a specific atom and control it. They posses a blac
 } while(FALSE)
 
 /**
- * Used to clear previously set reference handing by AI controllers
- *
- * * tracked_datum - something being removed from an ai blackboard
- * * key - the associated key
- */
+	* Used to clear previously set reference handing by AI controllers
+	*
+	* * tracked_datum - something being removed from an ai blackboard
+	* * key - the associated key
+	*/
 #define CLEAR_AI_DATUM_TARGET(tracked_datum, key) do { \
 	if(isdatum(tracked_datum)) { \
 		var/datum/_tracked_datum = tracked_datum; \
@@ -424,11 +424,11 @@ have ways of interacting with a specific atom and control it. They posses a blac
 #define TRAIT_AI_TRACKING "tracked_by_ai"
 
 /**
- * Sets the key to the passed "thing".
- *
- * * key - A blackboard key
- * * thing - a value to set the blackboard key to.
- */
+	* Sets the key to the passed "thing".
+	*
+	* * key - A blackboard key
+	* * thing - a value to set the blackboard key to.
+	*/
 /datum/ai_controller/proc/set_blackboard_key(key, thing)
 	// Assume it is an error when trying to set a value overtop a list
 	if(islist(blackboard[key]))
@@ -442,14 +442,14 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	blackboard[key] = thing
 
 /**
- * Sets the key at index thing to the passed value
- *
- * Assumes the key value is already a list, if not throws an error.
- *
- * * key - A blackboard key, with its value set to a list
- * * thing - a value which becomes the inner list value's key
- * * value - what to set the inner list's value to
- */
+	* Sets the key at index thing to the passed value
+	*
+	* Assumes the key value is already a list, if not throws an error.
+	*
+	* * key - A blackboard key, with its value set to a list
+	* * thing - a value which becomes the inner list value's key
+	* * value - what to set the inner list's value to
+	*/
 /datum/ai_controller/proc/set_blackboard_key_assoc(key, thing, value)
 	if(!islist(blackboard[key]))
 		CRASH("set_blackboard_key_assoc called on non-list key [key]!")
@@ -458,13 +458,13 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	blackboard[key][thing] = value
 
 /**
- * Similar to [proc/set_blackboard_key_assoc] but operates under the assumption the key is a lazylist (so it will create a list)
- * More dangerous / easier to override values, only use when you want to use a lazylist
- *
- * * key - A blackboard key, with its value set to a list
- * * thing - a value which becomes the inner list value's key
- * * value - what to set the inner list's value to
- */
+	* Similar to [proc/set_blackboard_key_assoc] but operates under the assumption the key is a lazylist (so it will create a list)
+	* More dangerous / easier to override values, only use when you want to use a lazylist
+	*
+	* * key - A blackboard key, with its value set to a list
+	* * thing - a value which becomes the inner list value's key
+	* * value - what to set the inner list's value to
+	*/
 /datum/ai_controller/proc/set_blackboard_key_assoc_lazylist(key, thing, value)
 	LAZYINITLIST(blackboard[key])
 	TRACK_AI_DATUM_TARGET(thing, key)
@@ -472,24 +472,24 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	blackboard[key][thing] = value
 
 /**
- * Adds the passed "thing" to the associated key
- *
- * Works with lists or numbers, but not lazylists.
- *
- * * key - A blackboard key
- * * thing - a value to set the blackboard key to.
- */
+	* Adds the passed "thing" to the associated key
+	*
+	* Works with lists or numbers, but not lazylists.
+	*
+	* * key - A blackboard key
+	* * thing - a value to set the blackboard key to.
+	*/
 /datum/ai_controller/proc/add_blackboard_key(key, thing)
 	TRACK_AI_DATUM_TARGET(thing, key)
 	blackboard[key] += thing
 
 /**
- * Similar to [proc/add_blackboard_key], but performs an insertion rather than an add
- * Throws an error if the key is not a list already, intended only for use with lists
- *
- * * key - A blackboard key, with its value set to a list
- * * thing - a value to set the blackboard key to.
- */
+	* Similar to [proc/add_blackboard_key], but performs an insertion rather than an add
+	* Throws an error if the key is not a list already, intended only for use with lists
+	*
+	* * key - A blackboard key, with its value set to a list
+	* * thing - a value to set the blackboard key to.
+	*/
 /datum/ai_controller/proc/insert_blackboard_key(key, thing)
 	if(!islist(blackboard[key]))
 		CRASH("insert_blackboard_key called on non-list key [key]!")
@@ -497,36 +497,36 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	blackboard[key] |= thing
 
 /**
- * Adds the passed "thing" to the associated key, assuming key is intended to be a lazylist (so it will create a list)
- * More dangerous / easier to override values, only use when you want to use a lazylist
- *
- * * key - A blackboard key
- * * thing - a value to set the blackboard key to.
- */
+	* Adds the passed "thing" to the associated key, assuming key is intended to be a lazylist (so it will create a list)
+	* More dangerous / easier to override values, only use when you want to use a lazylist
+	*
+	* * key - A blackboard key
+	* * thing - a value to set the blackboard key to.
+	*/
 /datum/ai_controller/proc/add_blackboard_key_lazylist(key, thing)
 	LAZYINITLIST(blackboard[key])
 	TRACK_AI_DATUM_TARGET(thing, key)
 	blackboard[key] += thing
 
 /**
- * Similar to [proc/insert_blackboard_key_lazylist], but performs an insertion / or rather than an add
- *
- * * key - A blackboard key
- * * thing - a value to set the blackboard key to.
- */
+	* Similar to [proc/insert_blackboard_key_lazylist], but performs an insertion / or rather than an add
+	*
+	* * key - A blackboard key
+	* * thing - a value to set the blackboard key to.
+	*/
 /datum/ai_controller/proc/insert_blackboard_key_lazylist(key, thing)
 	LAZYINITLIST(blackboard[key])
 	TRACK_AI_DATUM_TARGET(thing, key)
 	blackboard[key] |= thing
 
 /**
- * Adds the value to the inner list at key with the inner key set to "thing"
- * Throws an error if the key is not a list already, intended only for use with lists
- *
- * * key - A blackboard key, with its value set to a list
- * * thing - a value which becomes the inner list value's key
- * * value - what to set the inner list's value to
- */
+	* Adds the value to the inner list at key with the inner key set to "thing"
+	* Throws an error if the key is not a list already, intended only for use with lists
+	*
+	* * key - A blackboard key, with its value set to a list
+	* * thing - a value which becomes the inner list value's key
+	* * value - what to set the inner list's value to
+	*/
 /datum/ai_controller/proc/add_blackboard_key_assoc(key, thing, value)
 	if(!islist(blackboard[key]))
 		CRASH("add_blackboard_key_assoc called on non-list key [key]!")
@@ -536,13 +536,13 @@ have ways of interacting with a specific atom and control it. They posses a blac
 
 
 /**
- * Similar to [proc/add_blackboard_key_assoc], assuming key is intended to be a lazylist (so it will create a list)
- * More dangerous / easier to override values, only use when you want to use a lazylist
- *
- * * key - A blackboard key, with its value set to a list
- * * thing - a value which becomes the inner list value's key
- * * value - what to set the inner list's value to
- */
+	* Similar to [proc/add_blackboard_key_assoc], assuming key is intended to be a lazylist (so it will create a list)
+	* More dangerous / easier to override values, only use when you want to use a lazylist
+	*
+	* * key - A blackboard key, with its value set to a list
+	* * thing - a value which becomes the inner list value's key
+	* * value - what to set the inner list's value to
+	*/
 /datum/ai_controller/proc/add_blackboard_key_assoc_lazylist(key, thing, value)
 	LAZYINITLIST(blackboard[key])
 	TRACK_AI_DATUM_TARGET(thing, key)
@@ -550,24 +550,24 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	blackboard[key][thing] += value
 
 /**
- * Clears the passed key, resetting it to null
- *
- * Not intended for use with list keys - use [proc/remove_thing_from_blackboard_key] if you are removing a value from a list at a key
- *
- * * key - A blackboard key
- */
+	* Clears the passed key, resetting it to null
+	*
+	* Not intended for use with list keys - use [proc/remove_thing_from_blackboard_key] if you are removing a value from a list at a key
+	*
+	* * key - A blackboard key
+	*/
 /datum/ai_controller/proc/clear_blackboard_key(key)
 	CLEAR_AI_DATUM_TARGET(blackboard[key], key)
 	blackboard[key] = null
 
 /**
- * Remove the passed thing from the associated blackboard key
- *
- * Intended for use with lists, if you're just clearing a reference from a key use [proc/clear_blackboard_key]
- *
- * * key - A blackboard key
- * * thing - a value to set the blackboard key to.
- */
+	* Remove the passed thing from the associated blackboard key
+	*
+	* Intended for use with lists, if you're just clearing a reference from a key use [proc/clear_blackboard_key]
+	*
+	* * key - A blackboard key
+	* * thing - a value to set the blackboard key to.
+	*/
 /datum/ai_controller/proc/remove_thing_from_blackboard_key(key, thing)
 	var/associated_value = blackboard[key]
 	if(thing == associated_value)

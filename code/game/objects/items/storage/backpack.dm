@@ -1,13 +1,13 @@
 /* Backpacks
- * Contains:
- *		Backpack
- *		Backpack Types
- *		Satchel Types
- */
+	* Contains:
+	*		Backpack
+	*		Backpack Types
+	*		Satchel Types
+	*/
 
 /*
- * Backpack
- */
+	* Backpack
+	*/
 
 /obj/item/storage/backpack
 	name = "backpack"

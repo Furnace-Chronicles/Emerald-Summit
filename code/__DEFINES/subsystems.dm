@@ -5,43 +5,43 @@
 
 //! ## DB defines
 /**
- * DB major schema version
- *
- * Update this whenever the db schema changes
- *
- * make sure you add an update to the schema_version stable in the db changelog
- */
+	* DB major schema version
+	*
+	* Update this whenever the db schema changes
+	*
+	* make sure you add an update to the schema_version stable in the db changelog
+	*/
 #define DB_MAJOR_VERSION 5
 
 /**
- * DB minor schema version
- *
- * Update this whenever the db schema changes
- *
- * make sure you add an update to the schema_version stable in the db changelog
- */
+	* DB minor schema version
+	*
+	* Update this whenever the db schema changes
+	*
+	* make sure you add an update to the schema_version stable in the db changelog
+	*/
 #define DB_MINOR_VERSION 9
 
 
 //! ## Timing subsystem
 /**
- * Don't run if there is an identical unique timer active
- *
- * if the arguments to addtimer are the same as an existing timer, it doesn't create a new timer,
- * and returns the id of the existing timer
- */
+	* Don't run if there is an identical unique timer active
+	*
+	* if the arguments to addtimer are the same as an existing timer, it doesn't create a new timer,
+	* and returns the id of the existing timer
+	*/
 #define TIMER_UNIQUE			(1<<0)
 
 ///For unique timers: Replace the old timer rather then not start this one
 #define TIMER_OVERRIDE			(1<<1)
 
 /**
- * Timing should be based on how timing progresses on clients, not the server.
- *
- * Tracking this is more expensive,
- * should only be used in conjuction with things that have to progress client side, such as
- * animate() or sound()
- */
+	* Timing should be based on how timing progresses on clients, not the server.
+	*
+	* Tracking this is more expensive,
+	* should only be used in conjuction with things that have to progress client side, such as
+	* animate() or sound()
+	*/
 #define TIMER_CLIENT_TIME		(1<<2)
 
 ///Timer can be stopped using deltimer()
@@ -74,12 +74,12 @@
 ///Nothing happens
 #define INITIALIZE_HINT_NORMAL 0
 /**
- * call LateInitialize at the end of all atom Initalization
- *
- * The item will be added to the late_loaders list, this is iterated over after
- * initalization of subsystems is complete and calls LateInitalize on the atom
- * see [this file for the LateIntialize proc](atom.html#proc/LateInitialize)
- */
+	* call LateInitialize at the end of all atom Initalization
+	*
+	* The item will be added to the late_loaders list, this is iterated over after
+	* initalization of subsystems is complete and calls LateInitalize on the atom
+	* see [this file for the LateIntialize proc](atom.html#proc/LateInitialize)
+	*/
 #define INITIALIZE_HINT_LATELOAD 1
 
 ///Call qdel on the atom after intialization
@@ -106,7 +106,7 @@
 #define INIT_ORDER_INPUT			85
 #define INIT_ORDER_MATURITY_GUARD	84  // RATWOOD EDIT
 #define INIT_ORDER_VIS				80
-#define INIT_ORDER_SOUNDS 			79
+#define INIT_ORDER_SOUNDS			79
 #define INIT_ORDER_ACHIEVEMENTS		77
 #define INIT_ORDER_MATERIALS		76
 #define INIT_ORDER_RESEARCH			75
@@ -115,12 +115,12 @@
 #define INIT_ORDER_ROLE_CLASS_HANDLER 66
 #define INIT_ORDER_TRIUMPHS			67
 #define INIT_ORDER_QUIRKS			60
-#define INIT_ORDER_AI_MOVEMENT 		56 //We need the movement setup
-#define INIT_ORDER_AI_CONTROLLERS 	55 //So the controller can get the ref
+#define INIT_ORDER_AI_MOVEMENT		56 //We need the movement setup
+#define INIT_ORDER_AI_CONTROLLERS	55 //So the controller can get the ref
 #define INIT_ORDER_TICKER			55
 #define INIT_ORDER_MAPPING			50
 #define INIT_ORDER_NETWORKS			45
-#define INIT_ORDER_SPATIAL_GRID 	43
+#define INIT_ORDER_SPATIAL_GRID	43
 #define INIT_ORDER_ECONOMY			40
 #define INIT_ORDER_OUTPUTS			35
 #define INIT_ORDER_ATOMS			30
@@ -155,14 +155,14 @@
 #define FIRE_PRIORITY_SERVER_MAINT	10
 #define FIRE_PRIORITY_RESEARCH		10
 #define FIRE_PRIORITY_VIS			10
-#define FIRE_PRIORITY_AMBIENCE    10
+#define FIRE_PRIORITY_AMBIENCE	10
 #define FIRE_PRIORITY_GARBAGE		15
 #define FIRE_PRIORITY_INCONE		19
 #define FIRE_PRIORITY_MOUSECHARGE	20
 #define FIRE_PRIORITY_HOTSPOTS		20
 #define FIRE_PRIORITY_NPC			20
-#define FIRE_PRIORITY_NPC_MOVEMENT 	21
-#define FIRE_PRIORITY_NPC_ACTIONS 	22
+#define FIRE_PRIORITY_NPC_MOVEMENT	21
+#define FIRE_PRIORITY_NPC_ACTIONS	22
 #define FIRE_PRIORITY_PROCESS		25
 #define FIRE_PRIORITY_THROWING		25
 #define FIRE_PRIORITY_SPACEDRIFT	30

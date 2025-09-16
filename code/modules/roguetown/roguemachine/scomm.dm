@@ -476,7 +476,7 @@
 		if(S.speaking)
 			S.parent_object.say(message, spans = list("info"))
 
-//SCOMSTONE                 SCOMSTONE
+//SCOMSTONE				SCOMSTONE
 
 /obj/item/scomstone
 	name = "scomstone"

@@ -78,7 +78,7 @@
 #define SPAN_KAZENACCENT "kazenaccent"
 #define SPAN_AAVNIC "aavnic"
 #define SPAN_UNDEAD "undead" //nyi but file found
-#define SPAN_CAT "cat"		 //nyi but file found
+#define SPAN_CAT "cat"		//nyi but file found
 
 //bitflag #defines for return value of the radio() proc.
 #define ITALICS 1

@@ -1,4 +1,4 @@
-/////     ARMS     /////
+/////	ARMS	/////
 
 /obj/item/bodypart/l_arm/prosthetic/woodleft
 	name = "wooden left arm"
@@ -100,7 +100,7 @@
 		user.visible_message(span_notice("[user] attaches [src] to [H]."))
 		return 1
 
-/////     LEGS     /////
+/////	LEGS	/////
 
 /obj/item/bodypart/l_leg/prosthetic
 	name = "wooden left leg"

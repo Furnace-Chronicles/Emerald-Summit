@@ -130,11 +130,11 @@
 	H.verbs |= /mob/proc/haltyell
 
 	var/helmets = list(
-	"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
-	"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle,
+	"Simple Helmet"	= /obj/item/clothing/head/roguetown/helmet,
+	"Kettle Helmet"	= /obj/item/clothing/head/roguetown/helmet/kettle,
 	"Bascinet Helmet"		= /obj/item/clothing/head/roguetown/helmet/bascinet,
 	"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet,
-	"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
+	"Winged Helmet"	= /obj/item/clothing/head/roguetown/helmet/winged,
 	"None"
 	)
 	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
@@ -161,7 +161,7 @@
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE, 		// Still have a cugel.
+		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,		// Still have a cugel.
 		/datum/skill/combat/crossbows = SKILL_LEVEL_MASTER,		//Only effects draw and reload time.
 		/datum/skill/combat/bows = SKILL_LEVEL_MASTER,			//Only effects draw times.
 		/datum/skill/combat/slings = SKILL_LEVEL_MASTER,
@@ -207,11 +207,11 @@
 	H.verbs |= /mob/proc/haltyell
 
 	var/helmets = list(
-	"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
-	"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle,
+	"Simple Helmet"	= /obj/item/clothing/head/roguetown/helmet,
+	"Kettle Helmet"	= /obj/item/clothing/head/roguetown/helmet/kettle,
 	"Bascinet Helmet"		= /obj/item/clothing/head/roguetown/helmet/bascinet,
 	"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet,
-	"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
+	"Winged Helmet"	= /obj/item/clothing/head/roguetown/helmet/winged,
 	"None"
 	)
 	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
@@ -239,7 +239,7 @@
 	/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
 	/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 	/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
-	/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN, 		// Still have a cugel.
+	/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,		// Still have a cugel.
 	/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,	//Best whip training out of MAAs, they're strong.
 	/datum/skill/combat/bows = SKILL_LEVEL_NOVICE,			// We discourage horse archers, though.
@@ -249,7 +249,7 @@
 	/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 	/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 	/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
-	/datum/skill/misc/riding = SKILL_LEVEL_EXPERT, 		// Like the other horselords.
+	/datum/skill/misc/riding = SKILL_LEVEL_EXPERT,		// Like the other horselords.
 	/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,	//Best tracker. Might as well give it something to stick-out utility wise.
 	)
 
@@ -282,11 +282,11 @@
 	H.verbs |= /mob/proc/haltyell
 
 	var/helmets = list(
-	"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
-	"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle,
+	"Simple Helmet"	= /obj/item/clothing/head/roguetown/helmet,
+	"Kettle Helmet"	= /obj/item/clothing/head/roguetown/helmet/kettle,
 	"Bascinet Helmet"		= /obj/item/clothing/head/roguetown/helmet/bascinet,
 	"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet,
-	"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
+	"Winged Helmet"	= /obj/item/clothing/head/roguetown/helmet/winged,
 	"Studded Leather Hood" = /obj/item/clothing/head/roguetown/helmet/leather/armorhood/advanced,
 	"None"
 	)

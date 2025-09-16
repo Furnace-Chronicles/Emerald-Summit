@@ -1,8 +1,8 @@
 #define DRUGRADE_MONEYA				(1<<0)
-#define DRUGRADE_MONEYB 	      	(1<<1)
-#define DRUGRADE_WINE 	          	(1<<2)
-#define DRUGRADE_WEAPONS 	      	(1<<3)
-#define DRUGRADE_CLOTHES 	      	(1<<4)
+#define DRUGRADE_MONEYB			(1<<1)
+#define DRUGRADE_WINE				(1<<2)
+#define DRUGRADE_WEAPONS			(1<<3)
+#define DRUGRADE_CLOTHES			(1<<4)
 #define DRUGRADE_NOTAX				(1<<5)
 
 /obj/structure/roguemachine/drugmachine

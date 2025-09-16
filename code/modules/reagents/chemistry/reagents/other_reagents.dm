@@ -151,8 +151,8 @@
 	new /obj/item/reagent_containers/powder/salt(location)
 
 /*
- *	Water reaction to turf
- */
+	*	Water reaction to turf
+	*/
 
 /turf/open
 	var/water_level = 0
@@ -207,8 +207,8 @@
 		T.color = initial(T.color)
 
 /*
- *	Water reaction to an object
- */
+	*	Water reaction to an object
+	*/
 
 /datum/reagent/water/reaction_obj(obj/O, reac_volume)
 	O.extinguish()
@@ -236,8 +236,8 @@
 
 
 /*
- *	Water reaction to a mob
- */
+	*	Water reaction to a mob
+	*/
 
 /datum/reagent/water/reaction_mob(mob/living/M, method=TOUCH, reac_volume)//Splashing people with water can help put them out!
 	if(!istype(M))
@@ -305,8 +305,8 @@
 	shot_glass_icon_state = "shotglassclear"
 
 /*
- *	Water reaction to turf
- */
+	*	Water reaction to turf
+	*/
 
 /datum/reagent/hydrogen_peroxide/reaction_turf(turf/open/T, reac_volume)
 	if(!istype(T))
@@ -314,8 +314,8 @@
 	if(reac_volume >= 5)
 		T.MakeSlippery(TURF_WET_WATER, 10 SECONDS, min(reac_volume*1.5 SECONDS, 60 SECONDS))
 /*
- *	Water reaction to a mob
- */
+	*	Water reaction to a mob
+	*/
 
 /datum/reagent/hydrogen_peroxide/reaction_mob(mob/living/M, method=TOUCH, reac_volume)//Splashing people with h2o2 can burn them !
 	if(!istype(M))
@@ -1492,8 +1492,8 @@
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER)) //they can't puke
 		holder.del_reagent(type)
 
-#define YUCK_PUKE_CYCLES 3 		// every X cycle is a puke
-#define YUCK_PUKES_TO_STUN 3 	// hit this amount of pukes in a row to start stunning
+#define YUCK_PUKE_CYCLES 3		// every X cycle is a puke
+#define YUCK_PUKES_TO_STUN 3	// hit this amount of pukes in a row to start stunning
 /datum/reagent/yuck/on_mob_life(mob/living/carbon/C)
 	if(!yuck_cycle)
 		if(prob(8))

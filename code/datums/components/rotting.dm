@@ -27,7 +27,7 @@
 
 	var/amt2add = 10 // 1 Second. Base increment. 
 	var/current_time = world.time
-    
+	
 	// time elapsed since the last rot/process
 	var/elapsed_time = last_process ? (current_time - last_process) : 0
 	last_process = current_time

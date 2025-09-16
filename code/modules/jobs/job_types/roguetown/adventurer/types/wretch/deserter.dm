@@ -80,15 +80,15 @@
 		if("Samshir")
 			r_hand = /obj/item/rogueweapon/sword/sabre/shamshir
 	var/helmets = list(
-		"Pigface Bascinet" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
+		"Pigface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
 		"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
 		"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
 		"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
 		"Knight Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
 		"Visored Sallet"			= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
 		"Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
-		"Hounskull Bascinet" 		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
-		"Etruscan Bascinet" 		= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
+		"Hounskull Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
+		"Etruscan Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
 		"Slitted Kettle"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
 		"Kulah Khud"	= /obj/item/clothing/head/roguetown/helmet/sallet/raneshen,
 		"None"
@@ -212,11 +212,11 @@
 	)
 
 	var/helmets = list(
-	"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
-	"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle,
+	"Simple Helmet"	= /obj/item/clothing/head/roguetown/helmet,
+	"Kettle Helmet"	= /obj/item/clothing/head/roguetown/helmet/kettle,
 	"Bascinet Helmet"		= /obj/item/clothing/head/roguetown/helmet/bascinet,
 	"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet,
-	"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
+	"Winged Helmet"	= /obj/item/clothing/head/roguetown/helmet/winged,
 	"None"
 	)
 	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
@@ -224,7 +224,7 @@
 		head = helmets[helmchoice]
 
 	var/masks = list(
-	"Steel Houndmask" 	= /obj/item/clothing/mask/rogue/facemask/steel/hound,
+	"Steel Houndmask"	= /obj/item/clothing/mask/rogue/facemask/steel/hound,
 	"Steel Mask"		= /obj/item/clothing/mask/rogue/facemask/steel,
 	"Wildguard"			= /obj/item/clothing/mask/rogue/wildguard,
 	"None"

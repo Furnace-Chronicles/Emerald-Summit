@@ -74,11 +74,11 @@
 	return TRUE
 
 /**
- * Signal for when the tram runs into a field of which it cannot go through.
- * Stops the train's travel fully, sends a message, and destroys the train.
- * Arguments:
- * bumped_atom - The atom this tram bumped into
- */
+	* Signal for when the tram runs into a field of which it cannot go through.
+	* Stops the train's travel fully, sends a message, and destroys the train.
+	* Arguments:
+	* bumped_atom - The atom this tram bumped into
+	*/
 /datum/lift_master/tram/proc/gracefully_break(atom/bumped_atom)
 	SIGNAL_HANDLER
 
@@ -100,13 +100,13 @@
 			qdel(tram_part)
 
 /**
- * Handles moving the tram
- *
- * Tells the individual tram parts where to actually go and has an extra safety checks
- * incase multiple inputs get through, preventing conflicting directions and the tram
- * literally ripping itself apart. all of the actual movement is handled by SStramprocess
- * Arguments: destination platform, rapid (bypass some safety checks)
- */
+	* Handles moving the tram
+	*
+	* Tells the individual tram parts where to actually go and has an extra safety checks
+	* incase multiple inputs get through, preventing conflicting directions and the tram
+	* literally ripping itself apart. all of the actual movement is handled by SStramprocess
+	* Arguments: destination platform, rapid (bypass some safety checks)
+	*/
 /datum/lift_master/tram/proc/tram_travel(obj/effect/landmark/tram/destination_platform, rapid = TRUE)
 	if(destination_platform == idle_platform)
 		return
@@ -175,12 +175,12 @@
 		next_move = world.time + horizontal_speed
 
 /**
- * Handles unlocking the tram controls for use after moving
- *
- * More safety checks to make sure the tram has actually docked properly
- * at a location before users are allowed to interact with the tram console again.
- * Tram finds its location at this point before fully unlocking controls to the user.
- */
+	* Handles unlocking the tram controls for use after moving
+	*
+	* More safety checks to make sure the tram has actually docked properly
+	* at a location before users are allowed to interact with the tram console again.
+	* Tram finds its location at this point before fully unlocking controls to the user.
+	*/
 /datum/lift_master/tram/proc/unlock_controls(obj/effect/landmark/tram/tram_mark)
 	if(idle_platform != tram_mark)
 		return

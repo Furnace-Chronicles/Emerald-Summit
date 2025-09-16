@@ -47,8 +47,8 @@
 	damfactor = 1
 
 /datum/intent/spear/cut/bardiche
-    damfactor = 1.2
-    chargetime = 0
+	damfactor = 1.2
+	chargetime = 0
 
 /datum/intent/spear/cut/glaive
 	damfactor = 1.2

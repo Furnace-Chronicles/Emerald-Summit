@@ -1,12 +1,12 @@
 /*
- * Holds procs designed to help with filtering text
- * Contains groups:
- *			SQL sanitization/formating
- *			Text sanitization
- *			Text searches
- *			Text modification
- *			Misc
- */
+	* Holds procs designed to help with filtering text
+	* Contains groups:
+	*			SQL sanitization/formating
+	*			Text sanitization
+	*			Text searches
+	*			Text modification
+	*			Misc
+	*/
 
 
 
@@ -14,8 +14,8 @@
 	return CONFIG_GET(string/feedback_tableprefix) + table
 
 /*
- * Text sanitization
- */
+	* Text sanitization
+	*/
 
 //Simply removes < and > and limits the length of the message
 /proc/strip_html_simple(t,limit=MAX_MESSAGE_LEN)
@@ -203,8 +203,8 @@
 	return (a < b ? a : b)
 
 /*
- * Text searches
- */
+	* Text searches
+	*/
 
 //Checks the beginning of a string for a specified sub-string
 //Returns the position of the substring or 0 if it was not found
@@ -387,8 +387,8 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 
 //merges non-null characters (3rd argument) from "from" into "into". Returns result
 //e.g. into = "Hello World"
-//     from = "Seeya______"
-//     returns"Seeya World"
+//	from = "Seeya______"
+//	returns"Seeya World"
 //The returned text is always the same length as into
 //This was coded to handle DNA gene-splicing.
 /proc/merge_text(into, from, null_char="_")
@@ -823,7 +823,7 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 		words.Remove(cword)
 		var/suffix = copytext_char(cword,length(cword)-1,length(cword))
 		while(length(cword)>0 && (suffix in list(".",",",";","!",":","?")))
-			cword  = copytext_char(cword,1              ,length(cword)-1)
+			cword  = copytext_char(cword,1			,length(cword)-1)
 			suffix = copytext_char(cword,length(cword)-1,length(cword)  )
 		if(length(cword))
 			rearranged += cword

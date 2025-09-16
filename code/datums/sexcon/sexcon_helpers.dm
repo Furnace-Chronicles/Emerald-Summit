@@ -39,10 +39,10 @@
 	var/virginity = FALSE
 
 /**:
- * target/src is whomever the drag ends on. Inherited proc, needs to be a human.
- * user is the person who initiated the drag.
- * dragged is the object the drag was initiated on. Dragged may be anything.
- **/
+	* target/src is whomever the drag ends on. Inherited proc, needs to be a human.
+	* user is the person who initiated the drag.
+	* dragged is the object the drag was initiated on. Dragged may be anything.
+	**/
 /mob/living/carbon/human/MiddleMouseDrop_T(atom/movable/dragged, mob/living/user)
 	var/mob/living/carbon/human/target = src
 

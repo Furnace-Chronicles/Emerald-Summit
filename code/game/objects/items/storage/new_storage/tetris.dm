@@ -549,13 +549,13 @@
 	return LAZYACCESS(underlay_appearances_by_size, "[grid_width]x[grid_height]_[enchanted]")
 
 /**
- * Generates and caches an underlay for the given width and height.
- *
- * USING APPEARANCES HERE IS MOST LIKELY THE CULPRIT OF THE GOD AWFUL INVENTORY LAG PROBLEM.
- * I HAD NO CHOICE BUT TO CONVERT THIS TO USE ICONS.
- *
- * I. FUCKING. HATE. ICONS.
- */
+	* Generates and caches an underlay for the given width and height.
+	*
+	* USING APPEARANCES HERE IS MOST LIKELY THE CULPRIT OF THE GOD AWFUL INVENTORY LAG PROBLEM.
+	* I HAD NO CHOICE BUT TO CONVERT THIS TO USE ICONS.
+	*
+	* I. FUCKING. HATE. ICONS.
+	*/
 /datum/component/storage/proc/generate_bound_underlay(grid_width = world.icon_size, grid_height = world.icon_size, enchanted = FALSE)
 	var/mutable_appearance/final_appearance = mutable_appearance()
 	final_appearance.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA

@@ -71,9 +71,9 @@
 	visible_message(span_danger("<b>[src]</b> [ranged_message] at [A]!"))
 
 	// if(world.time >= src.flame_cd + 250)
-	// 	var/mob/living/targetted = target
-	// 	create_meteors(targetted)
-	// 	src.flame_cd = world.time
+	//	var/mob/living/targetted = target
+	//	create_meteors(targetted)
+	//	src.flame_cd = world.time
 
 	if(world.time >= src.summon_cd + 200 && !mind) // Adjusted from 250 to give them a bit more strength in summoning instead to compensate for no meteors
 		callforbackup()
@@ -90,13 +90,13 @@
 
 
 // /mob/living/simple_animal/hostile/retaliate/rogue/infernal/fiend/proc/create_meteors(atom/target)
-// 	if(!target)
-// 		return
-// 	target.visible_message(span_boldwarning("Fire rains from the sky!"))
-// 	var/turf/targetturf = get_turf(target)
-// 	for(var/turf/turf as anything in RANGE_TURFS(4,targetturf))
-// 		if(prob(20))
-// 			new /obj/effect/temp_visual/target(turf)
+//	if(!target)
+//		return
+//	target.visible_message(span_boldwarning("Fire rains from the sky!"))
+//	var/turf/targetturf = get_turf(target)
+//	for(var/turf/turf as anything in RANGE_TURFS(4,targetturf))
+//		if(prob(20))
+//			new /obj/effect/temp_visual/target(turf)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/fiend/proc/callforbackup()
 	var/list/spawnLists = list(/mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp,

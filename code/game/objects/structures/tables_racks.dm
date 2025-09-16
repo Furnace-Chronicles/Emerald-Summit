@@ -1,16 +1,16 @@
 /* Tables and Racks
- * Contains:
- *		Tables
- *		Glass Tables
- *		Wooden Tables
- *		Reinforced Tables
- *		Racks
- *		Rack Parts
- */
+	* Contains:
+	*		Tables
+	*		Glass Tables
+	*		Wooden Tables
+	*		Reinforced Tables
+	*		Racks
+	*		Rack Parts
+	*/
 
 /*
- * Tables
- */
+	* Tables
+	*/
 
 /obj/structure/table
 	name = "table"
@@ -215,8 +215,8 @@
 	qdel(src)
 
 /*
- * Wooden tables
- */
+	* Wooden tables
+	*/
 
 /obj/structure/table/wood
 	name = "wooden table"
@@ -482,8 +482,8 @@
 	return ..()
 
 /*
- * Racks
- */
+	* Racks
+	*/
 /obj/structure/rack
 	name = "rack"
 	desc = ""

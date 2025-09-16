@@ -613,21 +613,21 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 	// accepts_water_input = TRUE
 
 // /obj/structure/fermentation_keg/distiller/valid_water_connection(direction, obj/structure/water_pipe/pipe)
-// 	if(direction == SOUTH)
-// 		input = pipe
-// 		return TRUE
-// 	return FALSE
+//	if(direction == SOUTH)
+//		input = pipe
+//		return TRUE
+//	return FALSE
 
 // /obj/structure/fermentation_keg/distiller/setup_water()
-// 	var/turf/north_turf = get_step(src, NORTH)
-// 	input = locate(/obj/structure/water_pipe) in north_turf
+//	var/turf/north_turf = get_step(src, NORTH)
+//	input = locate(/obj/structure/water_pipe) in north_turf
 
 // /obj/structure/fermentation_keg/distiller/return_rotation_chat(atom/movable/screen/movable/mouseover/mouseover)
-// 	mouseover.maptext_height = 96
-// 	if(!input)
-// 		return {"<span style='font-size:8pt;font-family:"Pterra";color:#808000;text-shadow:0 0 1px #fff, 0 0 2px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;' class='center maptext '>
-// 			NO INPUT"}
+//	mouseover.maptext_height = 96
+//	if(!input)
+//		return {"<span style='font-size:8pt;font-family:"Pterra";color:#808000;text-shadow:0 0 1px #fff, 0 0 2px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;' class='center maptext '>
+//			NO INPUT"}
 
-// 	return {"<span style='font-size:8pt;font-family:"Pterra";color:#808000;text-shadow:0 0 1px #fff, 0 0 2px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;' class='center maptext '>
-// 			Pressure: [input.water_pressure]
-// 			Fluid: [input.carrying_reagent ? initial(input.carrying_reagent.name) : "Nothing"]</span>"}
+//	return {"<span style='font-size:8pt;font-family:"Pterra";color:#808000;text-shadow:0 0 1px #fff, 0 0 2px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;' class='center maptext '>
+//			Pressure: [input.water_pressure]
+//			Fluid: [input.carrying_reagent ? initial(input.carrying_reagent.name) : "Nothing"]</span>"}

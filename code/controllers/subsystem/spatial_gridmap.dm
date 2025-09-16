@@ -2,12 +2,12 @@
 #define NUMBER_OF_PREGENERATED_ORANGES_EARS 2500
 
 /**
- * # Spatial Grid Cell
- *
- * used by [/datum/controller/subsystem/spatial_grid] to cover every z level so that the coordinates of every turf in the world corresponds to one of these in
- * the subsystems list of grid cells by z level. each one of these contains content lists holding all atoms meeting a certain criteria that is in our borders.
- * these datums shouldnt have significant behavior, they should just hold data. the lists are filled and emptied by the subsystem.
- */
+	* # Spatial Grid Cell
+	*
+	* used by [/datum/controller/subsystem/spatial_grid] to cover every z level so that the coordinates of every turf in the world corresponds to one of these in
+	* the subsystems list of grid cells by z level. each one of these contains content lists holding all atoms meeting a certain criteria that is in our borders.
+	* these datums shouldnt have significant behavior, they should just hold data. the lists are filled and emptied by the subsystem.
+	*/
 /datum/spatial_grid_cell
 	///our x index in the list of cells. this is our index inside of our row list
 	var/cell_x
@@ -52,31 +52,31 @@
 	. = ..()
 
 /**
- * # Spatial Grid
- *
- * a gamewide grid of spatial_grid_cell datums, each "covering" [SPATIAL_GRID_CELLSIZE] ^ 2 turfs.
- * each spatial_grid_cell datum stores information about what is inside its covered area, so that searches through that area dont have to literally search
- * through all turfs themselves to know what is within it since view() calls are expensive, and so is iterating through stuff you dont want.
- * this allows you to only go through lists of what you want very cheaply.
- *
- * you can also register to objects entering and leaving a spatial cell, this allows you to do things like stay idle until a player enters, so you wont
- * have to use expensive view() calls or iteratite over the global list of players and call get_dist() on every one. which is fineish for a few things, but is
- * k * n operations for k objects iterating through n players.
- *
- * currently this system is only designed for searching for relatively uncommon things, small subsets of /atom/movable.
- * dont add stupid shit to the cells please, keep the information that the cells store to things that need to be searched for often
- *
- * The system currently implements two different "classes" of spatial type
- *
- * The first exists to support important_recursive_contents.
- * So if a client is inside a locker and the locker crosses a boundary, you'll still get a signal from the spatial grid.
- * These types are [SPATIAL_GRID_CONTENTS_TYPE_HEARING] and [SPATIAL_GRID_CONTENTS_TYPE_CLIENTS]
- *
- * The second pattern is more paired down, and supports more wide use.
- * Rather then the object and anything the object is in being sensitive, it's limited to just the object itself
- * Currently only [SPATIAL_GRID_CONTENTS_TYPE_ATMOS] uses this pattern. This is because it's far more common, and so worth optimizing
- *
- */
+	* # Spatial Grid
+	*
+	* a gamewide grid of spatial_grid_cell datums, each "covering" [SPATIAL_GRID_CELLSIZE] ^ 2 turfs.
+	* each spatial_grid_cell datum stores information about what is inside its covered area, so that searches through that area dont have to literally search
+	* through all turfs themselves to know what is within it since view() calls are expensive, and so is iterating through stuff you dont want.
+	* this allows you to only go through lists of what you want very cheaply.
+	*
+	* you can also register to objects entering and leaving a spatial cell, this allows you to do things like stay idle until a player enters, so you wont
+	* have to use expensive view() calls or iteratite over the global list of players and call get_dist() on every one. which is fineish for a few things, but is
+	* k * n operations for k objects iterating through n players.
+	*
+	* currently this system is only designed for searching for relatively uncommon things, small subsets of /atom/movable.
+	* dont add stupid shit to the cells please, keep the information that the cells store to things that need to be searched for often
+	*
+	* The system currently implements two different "classes" of spatial type
+	*
+	* The first exists to support important_recursive_contents.
+	* So if a client is inside a locker and the locker crosses a boundary, you'll still get a signal from the spatial grid.
+	* These types are [SPATIAL_GRID_CONTENTS_TYPE_HEARING] and [SPATIAL_GRID_CONTENTS_TYPE_CLIENTS]
+	*
+	* The second pattern is more paired down, and supports more wide use.
+	* Rather then the object and anything the object is in being sensitive, it's limited to just the object itself
+	* Currently only [SPATIAL_GRID_CONTENTS_TYPE_ATMOS] uses this pattern. This is because it's far more common, and so worth optimizing
+	*
+	*/
 SUBSYSTEM_DEF(spatial_grid)
 	can_fire = FALSE
 	name = "Spatial Grid"
@@ -212,18 +212,18 @@ SUBSYSTEM_DEF(spatial_grid)
 #define BOUNDING_BOX_MAX(center_coord, axis_size) min(GET_SPATIAL_INDEX(center_coord + range), axis_size)
 
 /**
- * https://en.wikipedia.org/wiki/Range_searching#Orthogonal_range_searching
- *
- * searches through the grid cells intersecting a rectangular search space (with sides of length 2 * range) then returns all contents of type inside them.
- * much faster than iterating through view() to find all of what you want.
- *
- * this does NOT return things only in range distance from center! the search space is a square not a circle, if you want only things in a certain distance
- * then you need to filter that yourself
- *
- * * center - the atom that is the center of the searched circle
- * * type - the type of grid contents you are looking for, see __DEFINES/spatial_grid.dm
- * * range - the bigger this is, the more spatial grid cells the search space intersects
- */
+	* https://en.wikipedia.org/wiki/Range_searching#Orthogonal_range_searching
+	*
+	* searches through the grid cells intersecting a rectangular search space (with sides of length 2 * range) then returns all contents of type inside them.
+	* much faster than iterating through view() to find all of what you want.
+	*
+	* this does NOT return things only in range distance from center! the search space is a square not a circle, if you want only things in a certain distance
+	* then you need to filter that yourself
+	*
+	* * center - the atom that is the center of the searched circle
+	* * type - the type of grid contents you are looking for, see __DEFINES/spatial_grid.dm
+	* * range - the bigger this is, the more spatial grid cells the search space intersects
+	*/
 /datum/controller/subsystem/spatial_grid/proc/orthogonal_range_search(atom/center, type, range)
 	var/turf/center_turf = get_turf(center)
 
@@ -411,13 +411,13 @@ SUBSYSTEM_DEF(spatial_grid)
 	return intersecting_cell
 
 /**
- * find the spatial map cell that target used to belong to, then remove the target (and sometimes its important_recusive_contents) from it.
- * make sure to provide the turf old_target used to be "in"
- *
- * * old_target - the thing we want to remove from the spatial grid cell
- * * target_turf - the turf we use to determine the cell we're removing from
- * * exclusive_type - either null or a valid contents channel. if you just want to remove a single type from the grid cell then use this
- */
+	* find the spatial map cell that target used to belong to, then remove the target (and sometimes its important_recusive_contents) from it.
+	* make sure to provide the turf old_target used to be "in"
+	*
+	* * old_target - the thing we want to remove from the spatial grid cell
+	* * target_turf - the turf we use to determine the cell we're removing from
+	* * exclusive_type - either null or a valid contents channel. if you just want to remove a single type from the grid cell then use this
+	*/
 /datum/controller/subsystem/spatial_grid/proc/exit_cell(atom/movable/old_target, turf/target_turf, exclusive_type)
 	if(!initialized)
 		return
@@ -535,15 +535,15 @@ SUBSYSTEM_DEF(spatial_grid)
 					error_data = "within the contents of the following cells: {coords: [coords], within channels: [contents]}"
 
 		/**
-		 * example:
-		 *
-		 * /mob/living/trolls_the_maintainer instance, which is supposed to only be in the contents of a spatial grid cell at coords: (136, 136, 14),
-		 * was in the contents of 3 spatial grid cells when it was only supposed to be in one! within the contents of the following cells:
-		 * {(68, 153, 2), within channels: hearing},
-		 * {coords: (221, 170, 3), within channels: hearing},
-		 * {coords: (255, 153, 11), within channels: hearing},
-		 * {coords: (136, 136, 14), within channels: hearing}.
-		 */
+		* example:
+		*
+		* /mob/living/trolls_the_maintainer instance, which is supposed to only be in the contents of a spatial grid cell at coords: (136, 136, 14),
+		* was in the contents of 3 spatial grid cells when it was only supposed to be in one! within the contents of the following cells:
+		* {(68, 153, 2), within channels: hearing},
+		* {coords: (221, 170, 3), within channels: hearing},
+		* {coords: (255, 153, 11), within channels: hearing},
+		* {coords: (136, 136, 14), within channels: hearing}.
+		*/
 		stack_trace("[movable_to_check.type] instance, [location_string], [error_explanation] [error_data].")
 
 		return TRUE
@@ -551,9 +551,9 @@ SUBSYSTEM_DEF(spatial_grid)
 	return FALSE
 
 /**
- * remove this movable from the grid by finding the grid cell its in and removing it from that.
- * if it cant infer a grid cell its located in (e.g. if its in nullspace but it can happen if the grid isnt expanded to a z level), search every grid cell.
- */
+	* remove this movable from the grid by finding the grid cell its in and removing it from that.
+	* if it cant infer a grid cell its located in (e.g. if its in nullspace but it can happen if the grid isnt expanded to a z level), search every grid cell.
+	*/
 /datum/controller/subsystem/spatial_grid/proc/force_remove_from_grid(atom/movable/to_remove)
 	if(!to_remove?.spatial_grid_key)
 		return

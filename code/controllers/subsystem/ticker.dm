@@ -315,7 +315,7 @@ SUBSYSTEM_DEF(ticker)
 
 	CHECK_TICK
 
-	can_continue = can_continue && SSjob.DivideOccupations(list()) 				//Distribute jobs
+	can_continue = can_continue && SSjob.DivideOccupations(list())				//Distribute jobs
 
 	CHECK_TICK
 

@@ -1,12 +1,12 @@
 /* Beds... get your mind out of the gutter, they're for sleeping!
- * Contains:
- * 		Beds
- *		Roller beds
- */
+	* Contains:
+	*		Beds
+	*		Roller beds
+	*/
 
 /*
- * Beds
- */
+	* Beds
+	*/
 /obj/structure/bed
 	name = "bed"
 	desc = "A soft warm bed complete with sheets and pillows."

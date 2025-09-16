@@ -40,7 +40,7 @@
 /obj/effect/proc_holder/spell/invoked/enlarge/proc/remove_buff(mob/living/carbon/target)
 	REMOVE_TRAIT(target, TRAIT_BIGGUY, MAGIC_TRAIT)
 	target.transform = target.transform.Translate(0, -(0.25 * 16))
-	target.transform = target.transform.Scale(1/1.25, 1/1.25)      
+	target.transform = target.transform.Scale(1/1.25, 1/1.25)	
 	target.update_transform()
 	to_chat(target, span_warning("I feel smaller all of a sudden."))
 	target.visible_message("[target]'s body shrinks quickly!")

@@ -1,7 +1,7 @@
 /**
- * # Targeted Mob Ability
- * Attempts to use a mob's cooldown ability on a target
- */
+	* # Targeted Mob Ability
+	* Attempts to use a mob's cooldown ability on a target
+	*/
 /datum/ai_behavior/targeted_mob_ability
 	action_cooldown = 5 SECONDS
 
@@ -25,9 +25,9 @@
 	if (QDELETED(target))
 		controller.clear_blackboard_key(target_key)
 /**
- * # Try Mob Ability and clear target
- * Attempts to use a mob's cooldown ability on a target and releases the target when the action completes
- */
+	* # Try Mob Ability and clear target
+	* Attempts to use a mob's cooldown ability on a target and releases the target when the action completes
+	*/
 /datum/ai_behavior/targeted_mob_ability/and_clear_target
 /datum/ai_behavior/targeted_mob_ability/and_clear_target/finish_action(datum/ai_controller/controller, succeeded, ability_key, target_key)
 	. = ..()
@@ -35,8 +35,8 @@
 /datum/ai_behavior/targeted_mob_ability/proc/get_ability_to_use(datum/ai_controller/controller, ability_key)
 	return controller.blackboard[ability_key]
 /**
- * Attempts to move into the provided range and then use a mob's cooldown ability on a target
- */
+	* Attempts to move into the provided range and then use a mob's cooldown ability on a target
+	*/
 /datum/ai_behavior/targeted_mob_ability/min_range
 	required_distance = 6
 	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT

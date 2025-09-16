@@ -14,7 +14,7 @@
 
 /datum/component/art/proc/apply_moodlet(mob/M, impress)
 	M.visible_message(span_notice("[M] stops and looks intently at [parent]."), \
-						 span_notice("I stop to take in [parent]."))
+						span_notice("I stop to take in [parent]."))
 	switch(impress)
 		if (0 to BAD_ART)
 			SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "artbad", /datum/mood_event/artbad)
@@ -43,6 +43,6 @@
 
 /datum/component/art/rev/apply_moodlet(mob/M, impress)
 	M.visible_message(span_notice("[M] stops to inspect [parent]."), \
-						 span_notice("I take in [parent], inspecting the fine craftsmanship of the proletariat."))
+						span_notice("I take in [parent], inspecting the fine craftsmanship of the proletariat."))
 
 	SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "artbad", /datum/mood_event/artbad)

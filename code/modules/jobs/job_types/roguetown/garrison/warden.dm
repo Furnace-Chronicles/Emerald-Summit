@@ -104,7 +104,7 @@
 
 	var/helmets = list(
 		"Path of the Woodsman"	= /obj/item/clothing/head/roguetown/helmet/bascinet/antler,
-		"Path of the Buck" 		= /obj/item/clothing/head/roguetown/helmet/bascinet/antler/snouted,
+		"Path of the Buck"		= /obj/item/clothing/head/roguetown/helmet/bascinet/antler/snouted,
 		"Path of the Volf"		= /obj/item/clothing/head/roguetown/helmet/sallet/warden/wolf,
 		"Path of the Ram"		= /obj/item/clothing/head/roguetown/helmet/sallet/warden/goat,
 		"Path of the Bear"		= /obj/item/clothing/head/roguetown/helmet/sallet/warden/bear,
@@ -116,7 +116,7 @@
 		head = helmets[helmchoice]
 
 	var/hoods = list(
-		"Common Shroud" 	= /obj/item/clothing/head/roguetown/roguehood/warden,
+		"Common Shroud"	= /obj/item/clothing/head/roguetown/roguehood/warden,
 		"Antlered Shroud"		= /obj/item/clothing/head/roguetown/roguehood/warden/antler,
 		"None"
 	)
@@ -184,7 +184,7 @@
 
 	var/helmets = list(
 		"Path of the Woodsman"	= /obj/item/clothing/head/roguetown/helmet/bascinet/antler,
-		"Path of the Buck" 		= /obj/item/clothing/head/roguetown/helmet/bascinet/antler/snouted,
+		"Path of the Buck"		= /obj/item/clothing/head/roguetown/helmet/bascinet/antler/snouted,
 		"Path of the Volf"		= /obj/item/clothing/head/roguetown/helmet/sallet/warden/wolf,
 		"Path of the Ram"		= /obj/item/clothing/head/roguetown/helmet/sallet/warden/goat,
 		"Path of the Bear"		= /obj/item/clothing/head/roguetown/helmet/sallet/warden/bear,
@@ -195,7 +195,7 @@
 		head = helmets[helmchoice]
 
 	var/hoods = list(
-		"Common Shroud" 	= /obj/item/clothing/head/roguetown/roguehood/warden,
+		"Common Shroud"	= /obj/item/clothing/head/roguetown/roguehood/warden,
 		"Antlered Shroud"		= /obj/item/clothing/head/roguetown/roguehood/warden/antler,
 		"None"
 	)

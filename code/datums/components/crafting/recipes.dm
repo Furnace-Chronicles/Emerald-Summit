@@ -67,8 +67,8 @@
 		<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'/>
 		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
 		<body>
-		  <div>
-		    <h1>[name]</h1>
+		<div>
+		<h1>[name]</h1>
 		"}
 
 	if(craftdiff > 0)
@@ -77,8 +77,8 @@
 		html += "Suitable for all skills<br>"	
 
 	html += {"<div>
-		      <strong>Requirements</strong>
-			  <br>"}
+		<strong>Requirements</strong>
+			<br>"}
 
 	for(var/path as anything in reqs)
 		var/count = reqs[path]
@@ -101,9 +101,9 @@
 		html += {"
 		<br>
 		<div>
-		    <strong>Required Tools</strong>
+		<strong>Required Tools</strong>
 			<br>
-			  "}
+			"}
 		for(var/atom/path as anything in tools)
 			if(subtype_reqs)
 				html += "[icon2html(new path, user)] any [initial(path.name)]<br>"
@@ -118,9 +118,9 @@
 		html += {"
 		<br>
 		<div>
-		    <strong>Required Liquids</strong>
+		<strong>Required Liquids</strong>
 			<br>
-			  "}
+			"}
 		for(var/atom/path as anything in chem_catalysts)
 			var/count = chem_catalysts[path]
 			html += "[CEILING(count / 3, 1)] oz of [initial(path.name)]<br>"

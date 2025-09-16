@@ -128,7 +128,7 @@
 
 #define JESTER		(1<<0)
 #define WIZARD		(1<<1)
-#define PHYSICIAN 	(1<<2)
+#define PHYSICIAN	(1<<2)
 #define BUTLER		(1<<3)
 #define COUNCILLOR	(1<<4)
 
@@ -175,7 +175,7 @@
 #define ORPHAN		(1<<3)
 #define PRINCE		(1<<4)
 #define SHOPHAND	(1<<5)
-#define CLERK 		(1<<6)
+#define CLERK		(1<<6)
 #define MAGEAPPRENTICE	(1<<7)
 #define APOTHECARY	(1<<8)
 
@@ -209,7 +209,7 @@
 
 #define GUILDSMEN	(1<<11)
 #define GUILDMASTER (1<<1)
-#define GUILDSMAN  	(1<<2)
+#define GUILDSMAN	(1<<2)
 #define TAILOR		(1<<3)
 
 #define JCOLOR_NOBLE "#aa83b9"

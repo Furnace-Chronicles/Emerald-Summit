@@ -6,7 +6,7 @@
 
 	types = list(
 	/datum/crafting_recipe/roguetown/tallow,
-	/datum/crafting_recipe/roguetown/leather, 		
+	/datum/crafting_recipe/roguetown/leather,		
 	)
 
 /obj/item/recipe_book/sewing
@@ -84,7 +84,7 @@
 		/datum/alch_grind_recipe,
 		/datum/alch_cauldron_recipe
 		)
- 
+	
 /obj/item/recipe_book/cooking
 	name = "The Culinary Codex"
 	desc = "A book full of recipes and tips for cooking. This version looks very incomplete, and only contain brewing recipes. Perhaps it will be filled in later?"
