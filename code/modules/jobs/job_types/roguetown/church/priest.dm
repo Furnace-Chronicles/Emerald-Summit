@@ -22,7 +22,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	whitelist_req = FALSE
 
 
-	spells = list(/obj/effect/proc_holder/spell/invoked/cure_rot, /obj/effect/proc_holder/spell/self/convertrole/templar, /obj/effect/proc_holder/spell/self/convertrole/monk)
+	spells = list(/obj/effect/proc_holder/spell/invoked/cure_rot, /obj/effect/proc_holder/spell/self/convertrole/templar, /obj/effect/proc_holder/spell/self/convertrole/monk, /obj/effect/proc_holder/spell/invoked/temple_smite)
 	outfit = /datum/outfit/job/roguetown/priest
 
 	display_order = JDO_PRIEST
@@ -154,6 +154,8 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/cure_rot)
 	mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/monk)
 	mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/templar)
+	mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/temple_smite)
+	
 
 /mob/living/carbon/human/proc/coronate_lord()
 	set name = "Coronate"

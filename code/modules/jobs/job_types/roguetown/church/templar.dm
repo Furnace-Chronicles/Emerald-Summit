@@ -20,6 +20,7 @@
 	give_bank_account = TRUE
 
 	job_traits = list(TRAIT_RITUALIST, TRAIT_STEELHEARTED, TRAIT_CLERGY)
+	spells = list(/obj/effect/proc_holder/spell/invoked/temple_smite)
 
 	job_subclasses = list(
 		/datum/advclass/templar/monk,

@@ -1,3 +1,87 @@
+//temple smite
+
+/obj/effect/proc_holder/spell/invoked/temple_smite
+	name = "Temple Smite"
+	desc = "Call divine punishment within your own church. Stuns a worthy target for 3 seconds and weakens them briefly. The gods will not punish clergy who are not excommunicated."
+	overlay_state = "sheltersmite"
+	releasedrain = 30
+	chargedrain = 0
+	chargetime = 0
+	range = 4
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	sound = 'sound/magic/heal.ogg'
+	invocation_type = "none"
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = TRUE
+	recharge_time = 10 SECONDS
+	miracle = TRUE
+	devotion_cost = 10
+
+/obj/effect/proc_holder/spell/invoked/temple_smite/proc/_is_church_area(var/area/A)
+	if(!istype(A))
+		return FALSE
+	if(A:church_area)
+		return TRUE
+	if(istype(A, /area/rogue/indoors/town/church))
+		return TRUE
+	if(istype(A, /area/rogue/outdoors/exposed/church))
+		return TRUE
+
+	return FALSE
+
+/obj/effect/proc_holder/spell/invoked/temple_smite/cast(list/targets, mob/living/user)
+	. = ..()
+	if(!targets || !targets.len || !isliving(targets[1]))
+		revert_cast()
+		return FALSE
+
+	if(!HAS_TRAIT(user, TRAIT_CLERGY))
+		to_chat(user, span_warning("Only clergy may call judgment."))
+		revert_cast()
+		return FALSE
+
+	var/mob/living/target = targets[1]
+
+	if(!_is_church_area(get_area(user)) || !_is_church_area(get_area(target)))
+		to_chat(user, span_warning("This miracle may be invoked only within your church."))
+		revert_cast()
+		return FALSE
+
+	if(user.patron && !user.patron.can_pray(user))
+		to_chat(user, span_warning("The gods heed you only in your own church."))
+		revert_cast()
+		return FALSE
+
+	if(istype(target, /mob/living/simple_animal))
+		target.adjustBruteLoss(50)
+		target.visible_message(
+			span_danger("[target] is scorched by divine wrath!"),
+			span_userdanger("Divine wrath tears through me!")
+		)
+		playsound(target, src.sound, 60, FALSE)
+		return TRUE
+
+	if(HAS_TRAIT(target, TRAIT_CLERGY) && !HAS_TRAIT(target, TRAIT_EXCOMMUNICATED))
+		to_chat(user, span_warning("The gods refuse to punish their servant."))
+		target.visible_message(
+			span_info("A hush falls; the heavens stay their hand over [target]."),
+			span_notice("The gods will not punish me while I serve.")
+		)
+		revert_cast()
+		return FALSE
+
+	target.visible_message(
+		span_danger("A bolt of judgment crashes upon [target]!"),
+		span_userdanger("Divine wrath tears through me!")
+	)
+
+	target.Stun(3 SECONDS)
+	target.Knockdown(3 SECONDS)
+	target.apply_status_effect(/datum/status_effect/debuff/templesmite)
+
+	return TRUE
+
 // Lesser miracle
 /obj/effect/proc_holder/spell/invoked/lesser_heal
 	name = "Miracle"

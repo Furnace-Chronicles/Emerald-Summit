@@ -473,6 +473,21 @@
 	desc = "Something has chilled me to the bone! It's hard to move."
 	icon_state = "muscles"
 
+
+/atom/movable/screen/alert/status_effect/debuff/templesmite
+    name = "Temple Smite"
+    desc = "Judgment weighs me down! I must leave this place!"
+    color ="#a01e1eff"
+    icon_state = "tenbless"
+
+/datum/status_effect/debuff/templesmite
+	id = "templesmite"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/templesmite
+	effectedstats = list("speed" = -3, "constitution" = -3, "perception" = -3)
+	duration = 15 SECONDS
+
+
+
 ///////////////////////
 /// CLIMBING STUFF ///
 /////////////////////
@@ -528,3 +543,5 @@
 	name = "Climbing..."
 	desc = ""
 	icon_state = "muscles"
+
+

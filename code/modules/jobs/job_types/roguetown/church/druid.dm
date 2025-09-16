@@ -27,6 +27,7 @@
 	virtue_restrictions = list(/datum/virtue/utility/noble)
 
 	job_traits = list(TRAIT_SEEDKNOW, TRAIT_OUTDOORSMAN, TRAIT_RITUALIST, TRAIT_CLERGY)
+	spells = list(/obj/effect/proc_holder/spell/invoked/temple_smite)
 
 	advclass_cat_rolls = list(CTAG_DRUID = 2)
 	job_subclasses = list(
