@@ -48,7 +48,10 @@
 	nodamage = TRUE	//No damage, just ensnaring a target.
 
 /obj/projectile/magic/unholy_grasp/on_hit(atom/hit_atom, datum/thrownthing/throwingdatum)
-	if(..() || !iscarbon(hit_atom))	//if it gets caught or the target can't be cuffed.
+	. = ..()
+	if(!.)
+		return
+	if(!iscarbon(hit_atom))	//if it gets caught or the target can't be cuffed.
 		return	//Abort
 	ensnare(hit_atom)
 
