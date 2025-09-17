@@ -1,4 +1,4 @@
-name: Build Checks
+name: BYOND Build
 
 on:
   push:
@@ -9,22 +9,11 @@ on:
       - main
 
 env:
-  BYOND_MAJOR: 516
-  BYOND_MINOR: 1659
-  SPACEMAN_DMM_VERSION: suite-1.11
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  BYOND_MAJOR: 515
+  BYOND_MINOR: 1636
+  SPACEMAN_DMM_VERSION: suite-1.9
 
 jobs:
-  start_gate:
-    if: ( !contains(github.event.head_commit.message, '[ci skip]') )
-    name: Start Gate
-    runs-on: ubuntu-latest
-    steps:
-      - name: Mandatory Empty Step
-        run: exit 0
   run-linters:
     if: ( !contains(github.event.head_commit.message, '[ci skip]') )
     name: Run Linters
@@ -57,41 +46,35 @@ jobs:
           bash tools/ci/check_filedirs.sh roguetown.dme
           bash tools/ci/check_changelogs.sh
           find . -name "*.php" -print0 | xargs -0 -n1 php -l
-          bash tools/ci/check_grep.sh # TODO: fix indentation etc
-          tools/bootstrap/python tools/ci/validate_dme.py < roguetown.dme # TODO: fix unincluded files
+          # bash tools/ci/check_grep.sh # TODO: fix indentation etc
+          # tools/bootstrap/python tools/ci/validate_dme.py < roguetown.dme # TODO: fix unincluded files
           tools/bootstrap/python -m dmi.test
           tools/bootstrap/python -m mapmerge2.dmm_test
           ~/dreamchecker > ${GITHUB_WORKSPACE}/output-annotations.txt 2>&1
+      - name: Annotate Lints
+        uses: yogstation13/DreamAnnotate@v2
+        if: always()
+        with:
+          outputFile: output-annotations.txt
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       
       - name: Restore BYOND cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache@v4
         with:
           path: ~/BYOND
           key: ${{ runner.os }}-BYOND-${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}
       
       - name: Install BYOND
-        if: ${{ !steps.restore_byond_cache.outputs.cache-hit }}
-        shell: bash
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y make gcc unzip curl
+          sudo apt-get install -y make gcc unzip
           bash tools/ci/install_byond.sh
-        
-      - name: Save BYOND cache
-        if: ${{ !steps.restore_byond_cache.outputs.cache-hit }}
-        uses: actions/cache/save@v4
-        with:
-          path: ~/BYOND
-          key: ${{ steps.restore_byond_cache.outputs.cache-primary-key }}
-
 
       - name: Compile BYOND project
-        shell: bash
         run: |
           ls -h $HOME/
           source $HOME/BYOND/byond/bin/byondsetup

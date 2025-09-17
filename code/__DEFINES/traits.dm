@@ -185,6 +185,7 @@
 #define TRAIT_GOODWRITER "Great Writer"
 #define TRAIT_ADRENALINE_RUSH "Adrenaline Rush"
 #define TRAIT_DEADITE "Deadite"
+#define TRAIT_PUZZLEMASTER "Puzzle Master"
 #define TRAIT_CLERGY "Clergy" // City clergy
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
@@ -324,7 +325,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ARCYNE_T1 = span_notice("I have received basic training in the Arcyne arts, allowing me access to a small variety of spells useful outside of combat."),
 	TRAIT_ARCYNE_T2 = span_notice("I have received advanced training in the Arcyne arts, allowing me to learn basic combat spells"),
 	TRAIT_ARCYNE_T3 = span_notice("I am a full-fledged mage, and have access to devastating spells that affects a wide area."),
-	TRAIT_ARCYNE_T4 = span_notice("I'm a master of the Arcyne arts, and has access to some of the most powerful spells ever devised."),
+	TRAIT_ARCYNE_T4 = span_notice("I'm a master of the Arcyne arts, and have access to some of the most powerful spells ever devised."),
 	TRAIT_INFINITE_ENERGY = span_notice ("I don't need rest; I won't ever feel fatigue."),
 	TRAIT_PERMAMUTE = span_notice("I am a mute. I cannot speak."),
 	TRAIT_STRENGTH_UNCAPPED = span_warning("MY STRENGTH IS UNBOUND!"),
@@ -338,7 +339,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_BLOODLOSS_IMMUNE = span_notice("While I may bleed, I will feel nothing from it."),
 	TRAIT_ADRENALINE_RUSH = span_notice("I'm invigorated in the midst of battle! I don't feel my wounds!"),
 	TRAIT_DEADITE = span_danger("The Rot has overtaken me."),
-	TRAIT_CLERGY = span_notice("I am a servant of the local House of the Ten."),
+	TRAIT_PUZZLEMASTER = span_notice("I've solved an impossible puzzle!"),
+  TRAIT_CLERGY = span_notice("I am a servant of the local House of the Ten.")
 ))
 
 // trait accessor defines

@@ -324,6 +324,7 @@
 		/obj/item/reagent_containers/glass/cup/golden/small = 1,
 		/obj/item/reagent_containers/glass/cup/skull = 1,
 		/obj/item/mundane/puzzlebox/medium = 1,
+		/obj/item/mundane/puzzlebox/impossible = 1,
 		//medical
 		/obj/item/needle = 4,
 		/obj/item/natural/bundle/cloth = 3,

@@ -1567,18 +1567,21 @@
 
 	if(on_fire)
 		if(L.on_fire) // If they were also on fire
-			var/firesplit = (fire_stacks + L.fire_stacks)/2
-			fire_stacks = firesplit
-			L.fire_stacks = firesplit
+			if(fire_stacks >= L.fire_stacks)
+				fire_stacks--
+				L.fire_stacks++
+			else
+				fire_stacks++
+				L.fire_stacks--
 		else // If they were not
-			fire_stacks /= 2
-			L.fire_stacks += fire_stacks
+			fire_stacks--
+			L.fire_stacks++
 			if(L.IgniteMob()) // Ignite them
 				log_game("[key_name(src)] bumped into [key_name(L)] and set them on fire")
 
 	else if(L.on_fire) // If they were on fire and we were not
-		L.fire_stacks /= 2
-		fire_stacks += L.fire_stacks
+		L.fire_stacks--
+		fire_stacks++
 		IgniteMob() // Ignite us
 
 //Mobs on Fire end
