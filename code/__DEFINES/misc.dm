@@ -11,9 +11,6 @@
 #define TEXT_EAST			"[EAST]"
 #define TEXT_WEST			"[WEST]"
 
-///Returns true if the dir is diagonal, false otherwise
-#define ISDIAGONALDIR(d) (d&(d-1))
-
 //Human Overlays Indexes/////////
 #define MUTATIONS_LAYER			51		//mutations. Tk headglows, cold resistance glow, etc
 #define CLOAK_BEHIND_LAYER		50
@@ -499,3 +496,8 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 #define FALL_INTERCEPTED		(1<<0) //Stops the movable from falling further and crashing on the ground
 #define FALL_NO_MESSAGE			(1<<1) //Used to suppress the "[A] falls through [old_turf]" messages where it'd make little sense at all, like going downstairs.
 #define FALL_STOP_INTERCEPTING	(1<<2) //Used in situations where halting the whole "intercept" loop would be better, like supermatter dusting (and thus deleting) the atom.
+
+//---------- LIGHTING -------------
+/// Displays reflections
+#define REFLECTIVE_DISPLACEMENT_PLANE 120
+#define REFLECTIVE_DISPLACEMENT_PLANE_RENDER_TARGET "*REFLECTIVE_DISPLACEMENT_RENDER_TARGET"

@@ -250,6 +250,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/bellsound = FALSE //Sanitycheck for bell jingles
 	var/bell = FALSE //Does item have bell in it, used for attachables
 
+	///our melting material, basically if exists this is what we melt into in a crucible
+	var/datum/material/melting_material
+	///our metling amount
+	var/melt_amount = 0
+
 /obj/item/Initialize()
 	. = ..()
 	if(!pixel_x && !pixel_y && !bigboy)

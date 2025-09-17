@@ -51,6 +51,7 @@
             icon_state = "keyring5"
 
 /obj/item/storage/keyring/proc/update_desc()
+	. = ..()
 	if(contents.len)
 		desc = span_info("Holds \Roman[contents.len] key\s, including:")
 		for(var/obj/item/roguekey/KE in contents)
@@ -199,6 +200,7 @@
 			icon_state = "pickring3"
 
 /obj/item/lockpickring/proc/update_desc()
+	. = ..()
 	if(picks.len)
 		desc = initial(desc)
 		desc += "<span class='info'>\n\Roman [picks.len] lockpicks.</span>"

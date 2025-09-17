@@ -1,6 +1,5 @@
 
 /obj/item
-	var/smeltresult
 	var/smelt_bar_num = 1 //variable for tracking how many bars things smelt back into for multi-bar items
 // MULTIBAR SMELTING WAS DISABLED FOR BALANCE REASONS
 // DO NOT RE-ENABLE IT UNTIL FURTHER NOTICE

@@ -98,6 +98,10 @@
 	///Default pixel y shifting for the atom's icon.
 	var/base_pixel_y = 0
 
+	///how shiny we are
+	var/mutable_appearance/total_reflection_mask
+	var/shine = SHINE_MATTE
+
 /**
  * Called when an atom is created in byond (built in engine proc)
  *
@@ -437,6 +441,52 @@
 				. += span_danger("It's empty.")
 
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .)
+
+
+/**
+ * Updates the appearence of the icon
+ *
+ * Mostly delegates to update_name, update_desc, and update_icon
+ *
+ * Arguments:
+ * - updates: A set of bitflags dictating what should be updated. Defaults to [ALL]
+ */
+/atom/proc/update_appearance(updates = ALL)
+	SHOULD_NOT_SLEEP(TRUE)
+	SHOULD_CALL_PARENT(TRUE)
+
+	. = NONE
+	updates &= ~SEND_SIGNAL(src, COMSIG_ATOM_UPDATE_APPEARANCE, updates)
+	if(updates & UPDATE_NAME)
+		. |= update_name(updates)
+	if(updates & UPDATE_DESC)
+		. |= update_desc(updates)
+	if(updates & UPDATE_ICON)
+		. |= update_icon(updates)
+
+/// Updates the name of the atom
+/atom/proc/update_name(updates = ALL)
+	SHOULD_CALL_PARENT(TRUE)
+	return SEND_SIGNAL(src, COMSIG_ATOM_UPDATE_NAME, updates)
+
+/// Updates the description of the atom
+/atom/proc/update_desc(updates = ALL)
+	SHOULD_CALL_PARENT(TRUE)
+	return SEND_SIGNAL(src, COMSIG_ATOM_UPDATE_DESC, updates)
+
+/atom/proc/make_shiny(_shine = SHINE_REFLECTIVE)
+	if(total_reflection_mask)
+		if(shine != _shine)
+			cut_overlay(total_reflection_mask)
+		else
+			return
+	total_reflection_mask = mutable_appearance('icons/turf/overlays.dmi', "whiteFull", plane = REFLECTIVE_DISPLACEMENT_PLANE)
+	add_overlay(total_reflection_mask)
+	shine = _shine
+
+/atom/proc/make_unshiny()
+	cut_overlay(total_reflection_mask)
+	shine = SHINE_MATTE
 
 /// Updates the icon of the atom
 /atom/proc/update_icon()

@@ -43,10 +43,34 @@ GLOBAL_LIST_INIT(name2reagent, build_name2reagent())
 	var/reagent_weight = 1 //affects how far it travels when sprayed
 	var/metabolizing = FALSE
 	var/harmful = FALSE //is it bad for you? Currently only used for borghypo. C2s and Toxins have it TRUE by default.
+	var/evaporates = TRUE
+	///The rate of evaporation in units per call
+	var/evaporation_rate = 2
+	/// do we have a turf exposure (used to prevent liquids doing un-needed processes)
+	var/turf_exposure = FALSE
+	/// are we slippery?
+	var/slippery = TRUE
+	///do we glow?
+	var/glows = FALSE
+	///The opacity of the chems used to determine the alpha of liquid turfs
+	var/opacity = 175
+	///How much fire power does the liquid have, for burning on simulated liquids. Not enough fire power/unit of entire mixture may result in no fire
+	var/liquid_fire_power = 0
+	///How fast does the liquid burn on simulated turfs, if it does
+	var/liquid_fire_burnrate = 0
 
 /datum/reagent/Destroy() // This should only be called by the holder, so it's already handled clearing its references
 	. = ..()
 	holder = null
+
+/datum/reagent/proc/evaporate(turf/exposed_turf, reac_volume)
+	return
+
+/datum/reagent/proc/remove_from_member(obj/effect/abstract/liquid_turf/remover)
+	return
+
+/datum/reagent/proc/add_to_member(obj/effect/abstract/liquid_turf/adder)
+	return
 
 /datum/reagent/proc/reaction_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1, touch_protection = 0)
 	if(!istype(M))

@@ -42,6 +42,8 @@ GLOBAL_LIST_INIT(our_forest_sex, typecacheof(list(
 
 #define isspaceturf(A) (istype(A, /turf/open/space))
 
+#define isopenspace(A) (istype(A, /turf/open/transparent/openspace))
+
 #define isfloorturf(A) (istype(A, /turf/open/floor))
 
 #define isclosedturf(A) (istype(A, /turf/closed))
