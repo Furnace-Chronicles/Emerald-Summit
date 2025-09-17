@@ -340,7 +340,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ADRENALINE_RUSH = span_notice("I'm invigorated in the midst of battle! I don't feel my wounds!"),
 	TRAIT_DEADITE = span_danger("The Rot has overtaken me."),
 	TRAIT_PUZZLEMASTER = span_notice("I've solved an impossible puzzle!"),
-  TRAIT_CLERGY = span_notice("I am a servant of the local House of the Ten.")
+	TRAIT_CLERGY = span_notice("I am a servant of the local House of the Ten.")
 ))
 
 // trait accessor defines
