@@ -90,7 +90,7 @@
 	slot_flags = ITEM_SLOT_HIP
 	throw_speed = 0.5
 	grid_width = 32
-	grid_height = 64
+	grid_height = 32
 
 /obj/item/smokebomb/attack_self(mob/user)
     ..()
