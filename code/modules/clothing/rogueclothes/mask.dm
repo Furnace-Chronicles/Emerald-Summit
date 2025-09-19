@@ -41,6 +41,11 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 //	block2add = FOV_BEHIND
 
+/obj/item/clothing/mask/rogue/spectacles/clear
+	name = "clear spectacles"
+	desc = "Spectacles with modified lenses, so people can see your pretty eyes."
+	icon_state = "glassesclear"
+
 /obj/item/clothing/mask/rogue/spectacles/inq
 	name = "otavan nocshade lens-pair"
 	icon_state = "bglasses"
