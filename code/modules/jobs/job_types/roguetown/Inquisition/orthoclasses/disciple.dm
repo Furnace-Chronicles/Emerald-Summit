@@ -14,7 +14,8 @@
 		TRAIT_NOPAINSTUN,
 		TRAIT_INQUISITION,
 		TRAIT_OUTLANDER,
-		TRAIT_CIVILIZEDBARBARIAN
+		TRAIT_CIVILIZEDBARBARIAN,
+		TRAIT_MEDIUMARMOR
 	)
 	subclass_stats = list(
 		STATKEY_STR = 3,
@@ -47,7 +48,7 @@
 	..()
 	has_loadout = TRUE
 
-	neck = /obj/item/clothing/neck/roguetown/psicross/silver
+	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/psythorns
 	gloves = /obj/item/clothing/gloves/roguetown/chain/psydon
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
@@ -55,11 +56,13 @@
 	backl = /obj/item/storage/backpack/rogue/satchel/otavan
 	backr = /obj/item/rogueweapon/shield/tower/metal
 	mask = /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/armored
 	head = /obj/item/clothing/head/roguetown/roguehood/psydon
 	backpack_contents = list(/obj/item/roguekey/inquisition = 1,
 	/obj/item/paper/inqslip/arrival/ortho = 1)
 	belt = /obj/item/storage/belt/rogue/leather/rope/dark
-	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
+	pants = /obj/item/clothing/under/roguetown/chainlegs
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	cloak = /obj/item/clothing/cloak/psydontabard/alt
 
