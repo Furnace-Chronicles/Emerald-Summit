@@ -60,7 +60,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/armored
 	head = /obj/item/clothing/head/roguetown/roguehood/psydon
 	backpack_contents = list(/obj/item/roguekey/inquisition = 1,
-	/obj/item/paper/inqslip/arrival/ortho = 1)
+	/obj/item/paper/inqslip/arrival/ortho = 1, /obj/item/clothing/neck/roguetown/psicross/silver = 1)
 	belt = /obj/item/storage/belt/rogue/leather/rope/dark
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
