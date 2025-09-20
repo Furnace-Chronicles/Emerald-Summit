@@ -52,6 +52,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 	id = /obj/item/clothing/ring/signet/silver
 	backl = /obj/item/storage/backpack/rogue/satchel/otavan
+	backr = /obj/item/rogueweapon/shield/tower/metal
 	mask = /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns
 	head = /obj/item/clothing/head/roguetown/roguehood/psydon
 	backpack_contents = list(/obj/item/roguekey/inquisition = 1,
