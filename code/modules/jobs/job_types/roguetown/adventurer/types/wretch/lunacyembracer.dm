@@ -16,6 +16,8 @@
 		TRAIT_WOODWALKER,
 		TRAIT_NASTY_EATER,
 		TRAIT_CALTROPIMMUNE
+		TRAIT_ORGAN_EATER
+		TRAIT_DARKVISION
 	)
 	subclass_stats = list(
 		STATKEY_STR = 3,
@@ -31,17 +33,12 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/tanning = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/labor/farming = SKILL_LEVEL_MASTER,
-		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/swimming = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/masonry = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/labor/butchering = SKILL_LEVEL_NOVICE
 		/datum/skill/labor/fishing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN,
 	)
