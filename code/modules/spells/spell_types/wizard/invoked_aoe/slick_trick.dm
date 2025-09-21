@@ -22,7 +22,6 @@
 	glow_color = GLOW_COLOR_DISPLACEMENT
 	glow_intensity = GLOW_INTENSITY_HIGH //Big warning as its AoE
 
-	var/tile_effect_duration = SLIPPERY_TILE_DURATION
 	var/slip_effect_type = TURF_WET_MAGIC
 	var/area_of_effect_radius = 1 // 1 = 3x3
 
@@ -44,7 +43,7 @@
 			// First, clear any existing wet floor
 			O.ClearWet()
 
-			O.MakeSlippery(wet_setting = slip_effect_type, min_wet_time = tile_effect_duration, max_wet_time = 120 SECONDS)
+			O.MakeSlippery(wet_setting = slip_effect_type, min_wet_time = SLIPPERY_TILE_DURATION, max_wet_time = SLIPPERY_TILE_DURATION)
 
 			new /obj/effect/temp_visual/slick_warning(O)
 		return TRUE
