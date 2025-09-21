@@ -58,7 +58,7 @@
 	icon_state = "purplesparkles"
 	color = "#0099FF" // Blue tint for water-like appearance
 	randomdir = FALSE
-	duration = 10 SECONDS //Make sure this is the same as slick_trick's tile_effect_duration
+	duration = SLIPPERY_TILE_DURATION //Make sure this is the same as slick_trick's tile_effect_duration
 	layer = MASSIVE_OBJ_LAYER
 
 #undef SLIPPERY_TILE_DURATION
