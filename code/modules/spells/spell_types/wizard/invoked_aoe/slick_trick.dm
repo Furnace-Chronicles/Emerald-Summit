@@ -1,3 +1,5 @@
+#define SLIPPERY_TILE_DURATION 10 SECONDS
+
 /obj/effect/proc_holder/spell/invoked/slick_trick
 	name = "Slick Trick"
 	desc = "Temporarily create a slippery area that sends victims flying to the floor."
@@ -20,7 +22,7 @@
 	glow_color = GLOW_COLOR_DISPLACEMENT
 	glow_intensity = GLOW_INTENSITY_HIGH //Big warning as its AoE
 
-	var/tile_effect_duration = 10 SECONDS
+	var/tile_effect_duration = SLIPPERY_TILE_DURATION
 	var/slip_effect_type = TURF_WET_MAGIC
 	var/area_of_effect_radius = 1 // 1 = 3x3
 
@@ -56,5 +58,7 @@
 	icon_state = "purplesparkles"
 	color = "#0099FF" // Blue tint for water-like appearance
 	randomdir = FALSE
-	duration = 15 SECONDS //Make sure this is the same as slick_trick's tile_effect_duration
+	duration = 10 SECONDS //Make sure this is the same as slick_trick's tile_effect_duration
 	layer = MASSIVE_OBJ_LAYER
+
+#undef SLIPPERY_TILE_DURATION
