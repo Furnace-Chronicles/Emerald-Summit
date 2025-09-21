@@ -77,7 +77,6 @@
 	..()
 	H.set_blindness(0)
 	to_chat(H, span_warning("You are an archer. Pretty good in the art of \"pelting until enemy death.\" - You would gladly take up most jobs for money, or a chance to shoot loose."))
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun
 	beltr = /obj/item/quiver/arrows
 	head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/kazengunese
 	beltl = /obj/item/flashlight/flare/torch/lantern
@@ -94,3 +93,11 @@
 		/obj/item/rogueweapon/huntingknife/idagger/steel/kazengun,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
+
+	var/belts = list("Shurikens","Smokebombs")
+	var/belt_choice = input("Choose your belt.", "BELT YOURSELF") as anything in belts
+	switch(belt_choice)
+		if("Shurikens")
+			belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun
+		if("Smokebombs")
+			belt = /obj/item/storage/belt/rogue/leather/smokebelt/black

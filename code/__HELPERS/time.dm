@@ -39,7 +39,7 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 		GLOB.tod = "dawn"
 //		testing("set [tod]")
 	if(time > SSnightshift.nightshift_day_start && time <= SSnightshift.nightshift_dusk_start)
-		GLOB.tod = "dae"
+		GLOB.tod = "day"
 //		testing("set [tod]")
 	if(time > SSnightshift.nightshift_dusk_start && time <= SSnightshift.nightshift_start_time)
 		GLOB.tod = "dusk"
@@ -52,7 +52,7 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 				if("dawn")
 					if(prob(25))
 						GLOB.forecast = "rain"
-				if("dae")
+				if("day")
 					if(prob(5))
 						GLOB.forecast = "rain"
 				if("dusk")
@@ -71,7 +71,7 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 		else
 			switch(GLOB.forecast) //end the weather now
 				if("rain")
-					if(GLOB.tod == "dae")
+					if(GLOB.tod == "day")
 						GLOB.forecast = "rainbow"
 					else
 						GLOB.forecast = null

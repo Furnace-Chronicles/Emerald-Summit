@@ -173,3 +173,15 @@
 	desc = "Whether it's by having an annoying sibling that kept prodding me with a stick, or years of study and observation, I've become adept at both parrying and dodging stronger opponents, by learning their moves and studying them."
 	added_traits = list(TRAIT_SENTINELOFWITS)
 
+
+/datum/virtue/combat/hollow_life
+	name = "Hollow Lyfe"
+	desc = "Due to the events of the past, I have been rendered hollow, practically bereft of any lyfe. My heart doth not beat, neither do I draw any breath. As it stands, I am closer to the deadite than to the living."
+	added_traits = list(TRAIT_HOLLOW_LIFE, TRAIT_NOPAIN, TRAIT_NOPAINSTUN, TRAIT_NOBREATH, TRAIT_TOXIMMUNE, TRAIT_ZOMBIE_IMMUNE, TRAIT_NOHUNGER)
+	custom_text = span_bloody("CON IS ADJUSTED BY -2, SILVER WEAKNESS AND TENNITE MIRACLES SET YOU ON FIRE")
+
+/datum/virtue/combat/hollow_life/apply_to_human(mob/living/carbon/human/recipient)
+	recipient.change_stat(STATKEY_CON, -2)
+	recipient.mob_biotypes |= MOB_UNDEAD
+	recipient.dna.species.soundpack_m = new /datum/voicepack/hollow()
+	recipient.dna.species.soundpack_f = new /datum/voicepack/hollow_fem()

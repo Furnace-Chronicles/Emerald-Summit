@@ -92,40 +92,69 @@
 	return FALSE
 
 // any new sex commands that target new locations, will need to be added here, and given a unique bitflag define
-/datum/sex_controller/proc/update_accessible_body_zones()
+/datum/sex_controller/proc/update_all_accessible_body_zones()
 	access_zone_bitfield = SEX_ZONE_NULL
-	if(get_location_accessible(user, BODY_ZONE_PRECISE_GROIN, FALSE, TRUE))
+	if(get_location_accessible(user, BODY_ZONE_PRECISE_GROIN, grabs = FALSE, skipundies = TRUE))
 		access_zone_bitfield |= SEX_ZONE_GROIN
-		if(get_location_accessible(user, BODY_ZONE_PRECISE_GROIN, TRUE, TRUE))
-			access_zone_bitfield |= SEX_ZONE_GROIN_GRAB
-	if(get_location_accessible(user, BODY_ZONE_PRECISE_L_FOOT, FALSE, TRUE))
+	if(get_location_accessible(user, BODY_ZONE_PRECISE_GROIN, grabs = TRUE, skipundies = TRUE))
+		access_zone_bitfield |= SEX_ZONE_GROIN_GRAB
+	if(get_location_accessible(user, BODY_ZONE_PRECISE_L_FOOT, grabs = FALSE, skipundies = TRUE))
 		access_zone_bitfield |= SEX_ZONE_L_FOOT
-	if(get_location_accessible(user, BODY_ZONE_PRECISE_R_FOOT, FALSE, TRUE))
+	if(get_location_accessible(user, BODY_ZONE_PRECISE_R_FOOT, grabs = FALSE, skipundies = TRUE))
 		access_zone_bitfield |= SEX_ZONE_R_FOOT
-	if(get_location_accessible(user, BODY_ZONE_PRECISE_MOUTH, FALSE, TRUE))
+	if(get_location_accessible(user, BODY_ZONE_PRECISE_MOUTH, grabs = FALSE, skipundies = TRUE))
 		access_zone_bitfield |= SEX_ZONE_MOUTH
-	if(get_location_accessible(user, BODY_ZONE_CHEST, FALSE, TRUE))
+	if(get_location_accessible(user, BODY_ZONE_CHEST, grabs = FALSE, skipundies = TRUE))
 		access_zone_bitfield |= SEX_ZONE_CHEST
-		if(get_location_accessible(user, BODY_ZONE_CHEST, TRUE, TRUE))
-			access_zone_bitfield |= SEX_ZONE_CHEST_GRAB
+	if(get_location_accessible(user, BODY_ZONE_CHEST, grabs = TRUE, skipundies = TRUE))
+		access_zone_bitfield |= SEX_ZONE_CHEST_GRAB
+
+// only check active accessible body zones
+/datum/sex_controller/proc/update_current_accessible_body_zones(body_zone, grabs)
+	switch(body_zone)
+		if(BODY_ZONE_PRECISE_GROIN)
+			if(grabs)
+				if((access_zone_bitfield&SEX_ZONE_GROIN_GRAB) && !get_location_accessible(user, BODY_ZONE_PRECISE_GROIN, grabs = TRUE, skipundies = TRUE))
+					access_zone_bitfield &= ~SEX_ZONE_GROIN_GRAB
+			else if((access_zone_bitfield&SEX_ZONE_GROIN) && !get_location_accessible(user, BODY_ZONE_PRECISE_GROIN, grabs = FALSE, skipundies = TRUE))
+				access_zone_bitfield &= ~SEX_ZONE_GROIN
+		if(BODY_ZONE_PRECISE_L_FOOT)
+			if((access_zone_bitfield&SEX_ZONE_L_FOOT) && !get_location_accessible(user, BODY_ZONE_PRECISE_L_FOOT, grabs = FALSE, skipundies = TRUE))
+				access_zone_bitfield &= ~SEX_ZONE_L_FOOT
+		if(BODY_ZONE_PRECISE_R_FOOT)
+			if((access_zone_bitfield&SEX_ZONE_R_FOOT) && !get_location_accessible(user, BODY_ZONE_PRECISE_R_FOOT, grabs = FALSE, skipundies = TRUE))
+				access_zone_bitfield &= ~SEX_ZONE_R_FOOT
+		if(BODY_ZONE_PRECISE_MOUTH)
+			if((access_zone_bitfield&SEX_ZONE_MOUTH) && !get_location_accessible(user, BODY_ZONE_PRECISE_MOUTH, grabs = FALSE, skipundies = TRUE))
+				access_zone_bitfield &= ~SEX_ZONE_MOUTH
+		if(BODY_ZONE_CHEST)
+			if(grabs)
+				if((access_zone_bitfield&SEX_ZONE_CHEST_GRAB) && !get_location_accessible(user, BODY_ZONE_CHEST, grabs = TRUE, skipundies = TRUE))
+					access_zone_bitfield &= ~SEX_ZONE_CHEST_GRAB
+			else if((access_zone_bitfield&SEX_ZONE_CHEST) && !get_location_accessible(user, BODY_ZONE_CHEST, grabs = FALSE, skipundies = TRUE))
+				access_zone_bitfield &= ~SEX_ZONE_CHEST
+		else
+		 	// hey YOU, add the new targeted zone to SEX_ZONE bitfield, and update update_all_accessible_body_zones()/get_accessible_body_zone()
+			CRASH("sex_action: attempt to access non-existent bitfield for var body_zone_bitfield [body_zone]")
 
 /datum/sex_controller/proc/get_accessible_body_zone(body_zone_bitfield, body_zone, grabs)
 	switch(body_zone)
 		if(BODY_ZONE_PRECISE_GROIN)
 			if(grabs)
-				return body_zone_bitfield&SEX_ZONE_GROIN_GRAB
-			return body_zone_bitfield&SEX_ZONE_GROIN
+				return (body_zone_bitfield&SEX_ZONE_GROIN_GRAB) != SEX_ZONE_NULL
+			return (body_zone_bitfield&SEX_ZONE_GROIN) != SEX_ZONE_NULL
 		if(BODY_ZONE_PRECISE_L_FOOT)
-			return body_zone_bitfield&SEX_ZONE_L_FOOT
+			return (body_zone_bitfield&SEX_ZONE_L_FOOT) != SEX_ZONE_NULL
 		if(BODY_ZONE_PRECISE_R_FOOT)
-			return body_zone_bitfield&SEX_ZONE_R_FOOT
+			return (body_zone_bitfield&SEX_ZONE_R_FOOT) != SEX_ZONE_NULL
 		if(BODY_ZONE_PRECISE_MOUTH)
-			return body_zone_bitfield&SEX_ZONE_MOUTH
+			return (body_zone_bitfield&SEX_ZONE_MOUTH) != SEX_ZONE_NULL
 		if(BODY_ZONE_CHEST)
 			if(grabs)
-				return body_zone_bitfield&SEX_ZONE_CHEST_GRAB
-			return body_zone_bitfield&SEX_ZONE_CHEST
-	return SEX_ZONE_NULL
+				return (body_zone_bitfield&SEX_ZONE_CHEST_GRAB) != SEX_ZONE_NULL
+			return (body_zone_bitfield&SEX_ZONE_CHEST) != SEX_ZONE_NULL
+	// hey YOU, add the new targeted zone to SEX_ZONE bitfield, and update update_all_accessible_body_zones()/update_current_accessible_body_zones()
+	CRASH("sex_action: attempt to access non-existent bitfield for var body_zone_bitfield [body_zone]")
 
 /datum/sex_action/proc/check_location_accessible(mob/living/carbon/human/user, mob/living/carbon/human/target, location = BODY_ZONE_CHEST, grabs = FALSE)
 	var/obj/item/bodypart/bodypart = target.get_bodypart(location)
@@ -161,7 +190,9 @@
 		if((grabstate == null || grabstate < src.required_grab_state))
 			return FALSE
 
-	var/result = user_controller.get_accessible_body_zone(target.sexcon.access_zone_bitfield, location, grabs) != SEX_ZONE_NULL
+	if(!isnull(user_controller.current_action) && user_controller.current_action == src.type) // action is active, update the currently accessible body zones
+		target.sexcon.update_current_accessible_body_zones(location, grabs)
+	var/result = user_controller.get_accessible_body_zone(target.sexcon.access_zone_bitfield, location, grabs)
 	if(result && user == target && !(bodypart in user_controller.using_zones) && user_controller.current_action == SEX_ACTION(src))
 		user_controller.using_zones += location
 	
@@ -588,9 +619,9 @@
 	dat += "<table width='100%'><td width='50%'></td><td width='50%'></td><tr>"
 	var/i = 0
 	var/user_is_incapacitated = user.incapacitated()
-	user.sexcon.update_accessible_body_zones()
+	user.sexcon.update_all_accessible_body_zones()
 	if(target != user)
-		target.sexcon.update_accessible_body_zones()
+		target.sexcon.update_all_accessible_body_zones()
 	for(var/action_type in GLOB.sex_actions)
 		var/datum/sex_action/action = SEX_ACTION(action_type)
 		if(!action.shows_on_menu(user, target))

@@ -83,6 +83,15 @@
 	maturation_time = FAST_GROWING
 	produce_time = 2 MINUTES
 
+/datum/plant_def/carrot
+	name = "carrot patch"
+	icon_state = "carrot"
+	produce_type = /obj/item/reagent_containers/food/snacks/grown/carrot
+	produce_amount_min = 3
+	produce_amount_max = 5
+	maturation_time = FAST_GROWING
+	produce_time = 2 MINUTES
+
 // Rice are faster growing but drain way more water
 /datum/plant_def/rice
 	name = "rice stalks"
@@ -217,6 +226,15 @@
 	maturation_time = FAST_GROWING
 	water_drain_rate = 1 / (1 MINUTES)
 
+/datum/plant_def/eggplant
+	name = "eggplant patch"
+	icon_state = "eggplant"
+	produce_type = /obj/item/reagent_containers/food/snacks/grown/eggplant
+	produce_amount_min = 4
+	produce_amount_max = 6
+	maturation_nutrition = HUNGRINESS_TINY
+	water_drain_rate = 1 / (1 MINUTES)
+
 //................ Water-efficient plants ...............................
 /datum/plant_def/swampweed
 	name = "swampweed plant"
@@ -310,6 +328,15 @@
 	produce_type = /obj/item/reagent_containers/food/snacks/grown/tea
 	produce_amount_min = 2
 	produce_amount_max = 3
+
+/datum/plant_def/cucumber
+	name = "cucumber patch"
+	icon = 'icons/roguetown/misc/crops.dmi'
+	icon_state = "cucumber"
+	produce_type = /obj/item/reagent_containers/food/snacks/grown/cucumber
+	produce_amount_min = 2
+	produce_amount_max = 3
+
 
 #undef SLOW_GROWING
 #undef FAST_GROWING

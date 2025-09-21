@@ -89,6 +89,36 @@
 			new /obj/structure/glowshroom/dendorite(TT)
 	return TRUE
 
+/obj/effect/proc_holder/spell/targeted/conjure_vines
+	name = "Vine Sprout"
+	overlay_state = "blesscrop"
+	releasedrain = 90
+	invocation = "Treefather, bring forth vines."
+	invocation_type = "shout"
+	devotion_cost = 90
+	range = 1
+	recharge_time = 30 SECONDS
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	max_targets = 0
+	cast_without_targets = TRUE
+	sound = 'sound/items/dig_shovel.ogg'
+	associated_skill = /datum/skill/magic/holy
+
+/obj/effect/proc_holder/spell/targeted/conjure_vines/cast(list/targets, mob/user = usr)
+	. = ..()
+	var/turf/target_turf = get_step(user, user.dir)
+	var/turf/target_turf_two = get_step(target_turf, turn(user.dir, 90))
+	var/turf/target_turf_three = get_step(target_turf, turn(user.dir, -90))
+	if(!locate(/obj/structure/vine) in target_turf)
+		new /obj/structure/vine/dendor(target_turf)
+	if(!locate(/obj/structure/vine) in target_turf_two)
+		new /obj/structure/vine/dendor(target_turf_two)
+	if(!locate(/obj/structure/vine) in target_turf_three)
+		new /obj/structure/vine/dendor(target_turf_three)
+	
+	return TRUE
+
+
 /obj/effect/proc_holder/spell/self/howl/call_of_the_moon
 	name = "Call of the Moon"
 	desc = "Draw upon the the secrets of the hidden firmament to converse with the mooncursed."

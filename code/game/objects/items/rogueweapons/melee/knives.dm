@@ -438,6 +438,12 @@
 			H.Paralyze(10)
 			H.adjustFireLoss(25)
 			H.fire_act(1,10)
+		if(HAS_TRAIT(H, TRAIT_HOLLOW_LIFE))
+			to_chat(H, span_userdanger("I can't pick up the silver, for I am one of the damned!"))
+			H.adjustFireLoss(25)
+			H.fire_act(1,10)
+			H.Knockdown(5)
+			H.Paralyze(5)
 
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
@@ -465,6 +471,12 @@
 			H.Paralyze(10)
 			H.adjustFireLoss(25)
 			H.fire_act(1,10)
+		if(HAS_TRAIT(H, TRAIT_HOLLOW_LIFE))
+			to_chat(H, span_userdanger("I can't equip the silver, for I am one of the damned!"))
+			H.adjustFireLoss(25)
+			H.fire_act(1,10)
+			H.Knockdown(5)
+			H.Paralyze(5)
 
 /obj/item/weapon/knife/dagger/silver/arcyne
 	name = "glowing purple silver dagger"

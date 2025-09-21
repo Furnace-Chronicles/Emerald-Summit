@@ -106,11 +106,30 @@
 		"Taiga" = SKIN_COLOR_TAIGA,
 		"Bronze" = SKIN_COLOR_BRONZE,
 		"Red" = SKIN_COLOR_RED,
+		"Teal" = SKIN_COLOR_TEAL,
 		"Frost" = SKIN_COLOR_FROST,
 		"Abyss" = SKIN_COLOR_ABYSS,
-		"Teal" = SKIN_COLOR_TEAL,
 		"Hadal" = SKIN_COLOR_HADAL,
-		"Bone" = SKIN_COLOR_BONE
+		"Bone" = SKIN_COLOR_BONE,
+		"Stone" = SKIN_COLOR_STONE
+	)
+
+/datum/species/goblinp/get_skin_list_tooltip()
+	return list(
+		"Ochre <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_OCHRE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_OCHRE,
+		"Meadow <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_MEADOW];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_MEADOW,
+		"Olive <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_OLIVE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_OLIVE,
+		"Green <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_GREEN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_GREEN,
+		"Moss <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_MOSS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_MOSS,
+		"Taiga <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_TAIGA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_TAIGA,
+		"Bronze <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_BRONZE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_BRONZE,
+		"Red <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_RED];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_RED,
+		"Teal <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_TEAL];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_TEAL,
+		"Frost <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_FROST];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_FROST,
+		"Abyss <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_ABYSS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_ABYSS,
+		"Hadal <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_HADAL];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_HADAL,
+		"Bone <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_BONE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_BONE,
+		"Stone <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_STONE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_STONE,
 	)
 
 /datum/species/goblinp/on_species_gain(mob/living/carbon/C, datum/species/old_species)

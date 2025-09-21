@@ -111,7 +111,7 @@
 		"Grenzel Woods" = SKIN_COLOR_GRENZEL_WOODS,
 		"Dandelion Creek" = SKIN_COLOR_DANDELION_CREEK,
 		"Roseveil" = SKIN_COLOR_ROSEVEIL,
-		"Azuregrove" = SKIN_COLOR_AZUREGROVE,
+		"Scarletgrove" = SKIN_COLOR_SCARLETGROVE,
 		"Arborshome" = SKIN_COLOR_ARBORSHOME,
 		"Almondvalle" = SKIN_COLOR_ALMONDVALLE,
 		"Walnut Woods" = SKIN_COLOR_WALNUT_WOODS,
@@ -120,7 +120,25 @@
 		"Etruscan Swamps" = SKIN_COLOR_ETRUSCAN_SWAMPS,
 		"Shalvine Forests" = SKIN_COLOR_SHALVINE_FORESTS,
 		"Lalvestine Thickets" = SKIN_COLOR_LALVE_STEPPES,
-		"Ebon Coverts"	= SKIN_COLOR_EBON_COAST
+		"Ebon Coverts" = SKIN_COLOR_EBON_COAST
+	)
+
+/datum/species/elf/wood/get_skin_list_tooltip()
+	return list(
+		"Ghost <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_GHOST];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_GHOST,
+		"Grenzel Woods <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_GRENZEL_WOODS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_GRENZEL_WOODS,
+		"Dandelion Creek <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_DANDELION_CREEK];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_DANDELION_CREEK,
+		"Roseveil <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_ROSEVEIL];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_ROSEVEIL,
+		"Scarletgrove <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_SCARLETGROVE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_SCARLETGROVE,
+		"Arborshome <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_ARBORSHOME];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_ARBORSHOME,
+		"Almondvalle <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_ALMONDVALLE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_ALMONDVALLE,
+		"Walnut Woods <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_WALNUT_WOODS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_WALNUT_WOODS,
+		"Timberborn <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_TIMBERBORN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_TIMBERBORN,
+		"Lotus Coast <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_LOTUS_COAST];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_LOTUS_COAST,
+		"Etruscan Swamps <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_ETRUSCAN_SWAMPS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_ETRUSCAN_SWAMPS,
+		"Shalvine Forests <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_SHALVINE_FORESTS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_SHALVINE_FORESTS,
+		"Lalvestine Thickets <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_LALVE_STEPPES];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_LALVE_STEPPES,
+		"Ebon Coverts <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_EBON_COAST];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_EBON_COAST,
 	)
 
 /datum/species/elf/wood/get_hairc_list()

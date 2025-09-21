@@ -138,11 +138,12 @@
 		/datum/descriptor_choice/prominent_four_wild,
 	)
 
-//	allowed_tail_types = list(
-//		/obj/item/bodypart/lamian_tail/lamian_tail,
-//		/obj/item/bodypart/lamian_tail/mermaid_tail,
-//	)
-//
+	allowed_tail_types = list(
+		/obj/item/bodypart/lamian_tail/lamian_tail,
+		/obj/item/bodypart/lamian_tail/mermaid_tail,
+		/obj/item/bodypart/lamian_tail/mermaid_tail_alt,
+	)
+
 /datum/species/lamia/check_roundstart_eligible()
 	return TRUE
 
@@ -201,7 +202,7 @@
 		"Grenzel Woods" = SKIN_COLOR_GRENZEL_WOODS,
 		"Dandelion Creek" = SKIN_COLOR_DANDELION_CREEK,
 		"Roseveil" = SKIN_COLOR_ROSEVEIL,
-		"Azuregrove" = SKIN_COLOR_AZUREGROVE,
+		"Scarletgrove" = SKIN_COLOR_SCARLETGROVE,
 		"Arborshome" = SKIN_COLOR_ARBORSHOME,
 		"Almondvalle" = SKIN_COLOR_ALMONDVALLE,
 		"Walnut Woods" = SKIN_COLOR_WALNUT_WOODS,
@@ -210,7 +211,7 @@
 		"Etruscan Swamps" = SKIN_COLOR_ETRUSCAN_SWAMPS,
 		"Shalvine Forests" = SKIN_COLOR_SHALVINE_FORESTS,
 		"Lalvestine Thickets" = SKIN_COLOR_LALVE_STEPPES,
-		"Ebon Coverts"	= SKIN_COLOR_EBON_COAST,
+		"Ebon Coverts" = SKIN_COLOR_EBON_COAST,
 		"Ochre" = SKIN_COLOR_OCHRE,
 		"Meadow" = SKIN_COLOR_MEADOW,
 		"Olive" = SKIN_COLOR_OLIVE,
@@ -225,38 +226,40 @@
 		"Teal" = SKIN_COLOR_TEAL,
 		"Hadal" = SKIN_COLOR_HADAL,
 		"Bone" = SKIN_COLOR_BONE,
+		"Stone" = SKIN_COLOR_STONE
 	)
 
-/datum/species/lamia/get_skin_list_tooltip() // nothing ever matters
+/datum/species/lamia/get_skin_list_tooltip()
 	return list(
-		"Ghost <span style='border: 1px solid #161616; background-color: #ffffff;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ffffff</b>" = SKIN_COLOR_GHOST,
-		"Grenzel Woods <span style='border: 1px solid #161616; background-color: #fff0e9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>fff0e9</b>" = SKIN_COLOR_GRENZEL_WOODS,
-		"Dandelion Creek <span style='border: 1px solid #161616; background-color: #ffe0d1;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ffe0d1</b>" = SKIN_COLOR_DANDELION_CREEK,
-		"Roseveil <span style='border: 1px solid #161616; background-color: #fcccb3;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>fcccb3</b>" = SKIN_COLOR_ROSEVEIL,
-		"Azuregrove <span style='border: 1px solid #161616; background-color: #edc6b3;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>edc6b3</b>" = SKIN_COLOR_AZUREGROVE,
-		"Arborshome <span style='border: 1px solid #161616; background-color: #e2b9a3;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>e2b9a3</b>" = SKIN_COLOR_ARBORSHOME,
-		"Almondvalle <span style='border: 1px solid #161616; background-color: #c9a893;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>c9a893</b>" = SKIN_COLOR_ALMONDVALLE,
-		"Walnut Woods <span style='border: 1px solid #161616; background-color: #ba9882;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ba9882</b>" = SKIN_COLOR_WALNUT_WOODS,
-		"Lotus Coast <span style='border: 1px solid #161616; background-color: #eae1C8;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>eae1C8</b>" = SKIN_COLOR_LOTUS_COAST,
-		"Etruscan Swamps <span style='border: 1px solid #161616; background-color: #d9a284;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>d9a284</b>" = SKIN_COLOR_ETRUSCAN_SWAMPS,
-		"Shalvine Forests <span style='border: 1px solid #161616; background-color: #ac8369;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>ac8369</b>" = SKIN_COLOR_SHALVINE_FORESTS,
-		"Lalvestine Thickets <span style='border: 1px solid #161616; background-color: #9c6f52;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>9c6f52</b>" = SKIN_COLOR_LALVE_STEPPES,
-		"Timberborn <span style='border: 1px solid #161616; background-color: #5d4c41;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>5d4c41</b>" = SKIN_COLOR_TIMBERBORN,
-		"Ebon Coverts <span style='border: 1px solid #161616; background-color: #4e3729;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>4e3729</b>"	= SKIN_COLOR_EBON_COAST,
-		"Ochre <span style='border: 1px solid #161616; background-color: #968127;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>968127</b>" = SKIN_COLOR_OCHRE,
-		"Meadow <span style='border: 1px solid #161616; background-color: #909630;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>909630</b>" = SKIN_COLOR_MEADOW,
-		"Olive <span style='border: 1px solid #161616; background-color: #6b8a08;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>6b8a08</b>" = SKIN_COLOR_OLIVE,
-		"Green <span style='border: 1px solid #161616; background-color: #4c6835;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>4c6835</b>" = SKIN_COLOR_GREEN,
-		"Moss <span style='border: 1px solid #161616; background-color: #43533e;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>43533e</b>" = SKIN_COLOR_MOSS,
-		"Taiga <span style='border: 1px solid #161616; background-color: #373f29;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>373f29</b>" = SKIN_COLOR_TAIGA,
-		"Bronze <span style='border: 1px solid #161616; background-color: #725237;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>725237</b>" = SKIN_COLOR_BRONZE,
-		"Red <span style='border: 1px solid #161616; background-color: #87312a;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>87312a</b>" = SKIN_COLOR_RED,
-		"Frost <span style='border: 1px solid #161616; background-color: #6486b0;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>6486b0</b>" = SKIN_COLOR_FROST,
-		"Abyss <span style='border: 1px solid #161616; background-color: #2a6986;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>2a6986</b>" = SKIN_COLOR_ABYSS,
-		"Abyssal <span style='border: 1px solid #161616; background-color: #22577a;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>22577a</b>" = SKIN_COLOR_ABYSSAL,
-		"Teal <span style='border: 1px solid #161616; background-color: #008080;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>008080</b>" = SKIN_COLOR_TEAL,
-		"Hadal <span style='border: 1px solid #161616; background-color: #24353d;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>24353d</b>" = SKIN_COLOR_HADAL,
-		"Bone <span style='border: 1px solid #161616; background-color: #e3dac9;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b>e3dac9</b>" = SKIN_COLOR_BONE,
+		"Ghost <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_GHOST];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_GHOST,
+		"Grenzel Woods <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_GRENZEL_WOODS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_GRENZEL_WOODS,
+		"Dandelion Creek <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_DANDELION_CREEK];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_DANDELION_CREEK,
+		"Roseveil <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_ROSEVEIL];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_ROSEVEIL,
+		"Scarletgrove <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_SCARLETGROVE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_SCARLETGROVE,
+		"Arborshome <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_ARBORSHOME];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_ARBORSHOME,
+		"Almondvalle <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_ALMONDVALLE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_ALMONDVALLE,
+		"Walnut Woods <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_WALNUT_WOODS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_WALNUT_WOODS,
+		"Timberborn <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_TIMBERBORN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_TIMBERBORN,
+		"Lotus Coast <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_LOTUS_COAST];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_LOTUS_COAST,
+		"Etruscan Swamps <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_ETRUSCAN_SWAMPS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_ETRUSCAN_SWAMPS,
+		"Shalvine Forests <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_SHALVINE_FORESTS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_SHALVINE_FORESTS,
+		"Lalvestine Thickets <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_LALVE_STEPPES];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_LALVE_STEPPES,
+		"Ebon Coverts <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_EBON_COAST];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_EBON_COAST,
+		"Ochre <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_OCHRE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_OCHRE,
+		"Meadow <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_MEADOW];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_MEADOW,
+		"Olive <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_OLIVE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_OLIVE,
+		"Green <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_GREEN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_GREEN,
+		"Moss <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_MOSS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_MOSS,
+		"Taiga <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_TAIGA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_TAIGA,
+		"Bronze <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_BRONZE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_BRONZE,
+		"Red <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_RED];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_RED,
+		"Frost <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_FROST];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_FROST,
+		"Abyss <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_ABYSS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_ABYSS,
+		"Abyssal <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_ABYSSAL];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_ABYSSAL,
+		"Teal <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_TEAL];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_TEAL,
+		"Hadal <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_HADAL];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_HADAL,
+		"Bone <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_BONE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_BONE,
+		"Stone <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_STONE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_STONE
 	)
 
 /datum/species/lamia/random_name(gender,unique,lastname)

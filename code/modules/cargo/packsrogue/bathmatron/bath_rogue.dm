@@ -69,3 +69,10 @@
 	name = "Climbing Gear"
 	cost = 150
 	contains = list(/obj/item/clothing/climbing_gear)
+
+/datum/supply_pack/rogue/bath_rogue/smokebelt
+	name = "Smokebomb belt"
+	cost = 90 // smokebombs are pretty expensive, this is justified
+	contains = list(
+					/obj/item/storage/belt/rogue/leather/smokebelt
+				)

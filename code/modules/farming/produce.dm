@@ -626,6 +626,7 @@
 	name = "carrot"
 	desc = "A long vegetable said to help with eyesight. Often baked"
 	icon_state = "carrot"
+	seed = /obj/item/seeds/carrot
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/preserved/carrot_baked
 	tastes = list("carrot" = 1)
 	dropshrink = 0.75
@@ -637,6 +638,7 @@
 	icon_state = "cucumber"
 	dropshrink = 0.75
 	slices_num = 2
+	seed = /obj/item/seeds/cucumber
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/veg/cucumber_sliced
 	tastes = list("cucumber" = 1)
 	chopping_sound = TRUE
@@ -645,6 +647,7 @@
 	name = "eggplant"
 	desc = "A large, purple vegetable with a mild taste. Can be carved to be filled up."
 	icon_state = "eggplant"
+	seed = /obj/item/seeds/eggplant
 	slices_num = 1
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/eggplantcarved
 	slice_sound = TRUE

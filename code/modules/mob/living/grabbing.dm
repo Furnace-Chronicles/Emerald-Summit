@@ -213,7 +213,7 @@
 					user.stamina_add(rand(1,3))
 					var/mob/living/carbon/C = M
 					if(get_location_accessible(C, BODY_ZONE_PRECISE_NECK))
-						if(prob(25))
+						if(prob(25) && !HAS_TRAIT(C, TRAIT_NOBREATH))
 							C.emote("choke")
 						var/choke_damage
 						if(user.STASTR > STRENGTH_SOFTCAP)

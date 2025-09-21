@@ -141,7 +141,7 @@
 		"Grenzelhoft" = SKIN_COLOR_GRENZELHOFT,
 		"Hammerhold" = SKIN_COLOR_HAMMERHOLD,
 		"Avar" = SKIN_COLOR_AVAR,
-		"Scarlet Reach" = SKIN_COLOR_ROCKHILL,
+		"Scarlet Reach" = SKIN_COLOR_SCARLET_REACH,
 		"Otava" = SKIN_COLOR_OTAVA,
 		"Etrusca" = SKIN_COLOR_ETRUSCA,
 		"Gronn" = SKIN_COLOR_GRONN,
@@ -150,4 +150,22 @@
 		"Lalvestine" = SKIN_COLOR_LALVESTINE,
 		"Ebon" = SKIN_COLOR_EBON,
 		"Kazengun" = SKIN_COLOR_KAZENGUN,
+		"Naledi" = SKIN_COLOR_NALEDI
+	)
+
+/datum/species/demihuman/get_skin_list_tooltip()
+	return list(
+		"Grenzelhoft <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_GRENZELHOFT];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_GRENZELHOFT,
+		"Hammerhold <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_HAMMERHOLD];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_HAMMERHOLD,
+		"Avar <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_AVAR];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_AVAR,
+		"Scarlet Reach <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_SCARLET_REACH];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_SCARLET_REACH,
+		"Otava <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_OTAVA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_OTAVA,
+		"Etrusca <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_ETRUSCA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_ETRUSCA,
+		"Gronn <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_GRONN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_GRONN,
+		"Giza <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_GIZA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_GIZA,
+		"Shalvistine <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_SHALVISTINE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_SHALVISTINE,
+		"Lalvestine <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_LALVESTINE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_LALVESTINE,
+		"Ebon <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_EBON];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_EBON,
+		"Kazengun <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_KAZENGUN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_KAZENGUN,
+		"Naledi <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_NALEDI];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_NALEDI
 	)

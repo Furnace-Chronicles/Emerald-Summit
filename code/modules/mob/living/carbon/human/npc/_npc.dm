@@ -77,7 +77,25 @@
 		return TRUE
 	return FALSE
 
+// Check if a player is in range of the AI
+// TODO: Note, we can nuke this once we put complex on spatial grid sleeping
+/mob/living/carbon/human/proc/scan_for_player_in_range()
+	for(var/i = GLOB.player_list.len; i > 0; i--)
+		var/mob/living/M = GLOB.player_list[i]
+		if(!istype(M))
+			continue
+		if(M.z != z) // not the same z sector
+			if(abs(M.y-y) > 6 || abs(M.x-x) > 6)
+				continue
+		else if(abs(M.y-y) > 14 || abs(M.x-x) > 14)
+			continue
+		return TRUE
+	return FALSE
+
 /mob/living/carbon/human/proc/process_ai()
+	// Prevent expensive pathing if it is in idle mode and there's no players
+	if((mode == NPC_AI_IDLE || mode == NPC_AI_OFF) && !scan_for_player_in_range())
+		return FALSE
 	if(IsDeadOrIncap())
 		walk_to(src,0)
 		return stat == DEAD // only stop processing if we're dead-dead
@@ -417,8 +435,8 @@
 			pathing_frustration = 0
 			myPath -= myPath[1]
 			NPC_THINK("MOVEMENT TURN [movement_turn]: Movement on cooldown for [movespeed/10] seconds!")
-			sleep(movespeed) // wait until next move	
-		
+			sleep(movespeed) // wait until next move
+
 // blocks, but only while path is being calculated
 /mob/living/carbon/human/proc/start_pathing_to(new_target)
 	if(!new_target)

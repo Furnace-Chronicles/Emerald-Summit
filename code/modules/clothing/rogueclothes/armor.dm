@@ -760,6 +760,12 @@
 	grid_height = 64
 	grid_width = 64
 
+/obj/item/clothing/suit/roguetown/shirt/robe/spellcasterrobe/light
+	name = "tattered spellsinger robes"	//meant for the version you can spawn with via loadout
+	desc = "Old and worn robes like those of spellblades. Though, these carry the signs of poverty, missing discouraging amounts of padding in leather and linen, as if emaciated from a famine."
+	armor = ARMOR_PADDED	//you can layer this with a gambeson. still really good but not arguably competing with the studded leather and hardened coat anymore
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
+
 //MEDIUM ARMOR//
 
 /obj/item/clothing/suit/roguetown/armor/chainmail
@@ -1551,6 +1557,18 @@
 	item_state = "eastsuit2"
 	armor = list("blunt" = 50, "slash" = 90, "stab" = 60, "piercing" = 30, "fire" = 0, "acid" = 0)
 	max_integrity = 200
+
+/obj/item/clothing/suit/roguetown/armor/basiceast/crafteast/outlaw
+	color = "#bbbbbb"
+
+/obj/item/clothing/suit/roguetown/armor/basiceast/crafteast/shrinekeeper
+	name = "eastern ceremonial robe"
+	desc = "A simple eastern robe, traditionally worn by Kazengunese priests. This one is reinforced with cured leather inlays."
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	allowed_race = CLOTHED_RACES_TYPES
+	color = "#414143"
+	icon_state = "shrinekeeper"
+	item_state = "shrinekeeper"
 
 /obj/item/clothing/suit/roguetown/armor/basiceast/crafteast/light
 	name = "formal dobo robe"

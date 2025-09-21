@@ -480,6 +480,12 @@
 		to_chat(H, span_userdanger("I can't equip the silver, it is my BANE!"))
 		H.Knockdown(20)
 		H.Paralyze(20)
+	if(HAS_TRAIT(H, TRAIT_HOLLOW_LIFE))
+		to_chat(H, span_userdanger("I can't pick up the silver, for I am one of the damned!"))
+		H.adjustFireLoss(60)
+		H.fire_act(1,5)
+		H.Knockdown(5)
+		H.Paralyze(5)
 
 /obj/item/clothing/neck/roguetown/psicross/silver/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
 	..()
@@ -508,7 +514,13 @@
 		H.Knockdown(20)
 		H.Paralyze(20)
 		return FALSE
-
+	if(HAS_TRAIT(H, TRAIT_HOLLOW_LIFE))
+		to_chat(H, span_userdanger("I can't equip the silver, for I am one of the damned!"))
+		H.adjustFireLoss(60)
+		H.fire_act(1,5)
+		H.Knockdown(5)
+		H.Paralyze(5)
+		return FALSE
 	return TRUE
 
 /obj/item/clothing/neck/roguetown/psicross/g

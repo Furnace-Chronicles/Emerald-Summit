@@ -93,7 +93,21 @@
 		"Obsidian" = SKIN_COLOR_OBSIDIAN,
 		"Brimstone" = SKIN_COLOR_BRIMSTONE,
 		"Jade" = SKIN_COLOR_JADE,
-		"Ceragyrite" = SKIN_COLOR_CERAGYRITE
+		"Cerargyrite" = SKIN_COLOR_CERARGYRITE,
+	)
+
+/datum/species/dwarf/mountain/get_skin_list_tooltip()
+	return list(
+		"Platinum <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_PLATINUM];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_PLATINUM,
+		"Aurum <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_AURUM];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_AURUM,
+		"Quicksilver <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_QUICKSILVER];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_QUICKSILVER,
+		"Brass <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_BRASS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_BRASS,
+		"Iron <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_IRON];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_IRON,
+		"Malachite <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_MALACHITE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_MALACHITE,
+		"Obsidian <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_OBSIDIAN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_OBSIDIAN,
+		"Brimstone <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_BRIMSTONE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_BRIMSTONE,
+		"Jade <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_JADE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_JADE,
+		"Cerargyrite <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_CERARGYRITE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_CERARGYRITE,
 	)
 
 /datum/species/dwarf/mountain/get_hairc_list()

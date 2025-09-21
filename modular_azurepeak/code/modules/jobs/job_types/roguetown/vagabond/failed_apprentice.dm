@@ -1,17 +1,16 @@
 /datum/advclass/vagabond_mage
-	name = "Exiled Apprentice"
+	name = "Failed Apprentice"
 	tutorial = "Your master found you talentless, and cast you from their tower with nothing but your staff and dreams of what could've been."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/vagabond/mage
 	category_tags = list(CTAG_VAGABOND)
 
-	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3)
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2)
 	subclass_stats = list(
 		STATKEY_INT = 2,
-		STATKEY_CON = -2,
-		STATKEY_END = -2,
-		STATKEY_SPD = -1
+		STATKEY_CON = -1,
+		STATKEY_END = -1
 	)
 
 	subclass_spellpoints = 9
@@ -38,5 +37,5 @@
 	if(prob(33))
 		cloak = /obj/item/clothing/cloak/half/brown
 		gloves = /obj/item/clothing/gloves/roguetown/fingerless
-	
+
 	r_hand = /obj/item/rogueweapon/woodstaff

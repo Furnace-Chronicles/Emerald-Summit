@@ -21,6 +21,10 @@
 	advjob_examine = FALSE
 	give_bank_account = 15
 
+	virtue_restrictions = list(
+		/datum/virtue/combat/hollow_life,
+	)
+
 	job_traits = list(
 		TRAIT_NOPAINSTUN,
 		TRAIT_PACIFISM,

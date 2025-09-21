@@ -89,8 +89,13 @@
 /datum/species/golem/porcelain/get_skin_list()
 	return list(
 		"Porcelain" = DOLL_PORCELAIN,
-		"Sienna" = DOLL_SIENNA,
+		"Sienna" = DOLL_SIENNA
+	)
 
+/datum/species/golem/porcelain/get_skin_list_tooltip()
+	return list(
+		"Porcelain <span style='border: 1px solid #161616; background-color: #[DOLL_PORCELAIN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = DOLL_PORCELAIN,
+		"Sienna <span style='border: 1px solid #161616; background-color: #[DOLL_SIENNA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = DOLL_SIENNA,
 	)
 
 /datum/species/golem/porcelain/get_hairc_list()

@@ -433,14 +433,33 @@
 
 	emote("grimace", intentional = TRUE)
 
-/datum/emote/living/jump
+/datum/emote/living/jump // i see absolutely zero fucking reason for why this shit doesnt print an emote and a runechat text, jump_fixed on the other hand works juuust fine
 	key = "jump"
+	key_third_person = "jumps"
+	message = "jumps!"
+	restraint_check = TRUE
+
+/datum/emote/living/jump_deathless //literally doesnt have a 'UH!!' sound, thats it
+	key = "jump_deathless"
+	key_third_person = "jumps"
+	message = "jumps!"
+	restraint_check = TRUE
+
+/datum/emote/living/jump_fixed // see above
+	key = "jump_fixed"
 	key_third_person = "jumps"
 	message = "jumps!"
 	restraint_check = TRUE
 
 /datum/emote/living/leap
 	key = "leap"
+	key_third_person = "leaps"
+	message = "leaps!"
+	restraint_check = TRUE
+	only_forced_audio = TRUE
+
+/datum/emote/living/leap_deathless //literally doesnt have a 'UH!!' sound, thats it
+	key = "leap_deathless"
 	key_third_person = "leaps"
 	message = "leaps!"
 	restraint_check = TRUE

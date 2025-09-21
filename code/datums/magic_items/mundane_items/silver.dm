@@ -56,6 +56,14 @@
 				H.fire_act(1,10)
 				to_chat(H, span_userdanger("I'm hit by my BANE!"))
 				src.last_used = world.time
+			if(HAS_TRAIT(H, TRAIT_HOLLOW_LIFE))
+				H.adjustFireLoss(25)
+				H.adjustFireLoss(25)
+				H.fire_act(1,10)
+				H.Paralyze(5)
+				H.Stun(5)
+				to_chat(H, span_userdanger("I'm hit by my BANE!"))
+				src.last_used = world.time
 
 /datum/magic_item/mundane/silver/on_equip(var/obj/item/i, var/mob/living/user)
 	. = ..()
@@ -81,6 +89,12 @@
 				H.Paralyze(10)
 				H.adjustFireLoss(25)
 				H.fire_act(1,10)
+			if(HAS_TRAIT(H, TRAIT_HOLLOW_LIFE))
+				to_chat(H, span_userdanger("I can't equip the silver, for I am one of the damned!"))
+				H.adjustFireLoss(25)
+				H.Knockdown(5)
+				H.Paralyze(5)
+				H.fire_act(1,10)
 
 /datum/magic_item/mundane/silver/on_pickup(var/obj/item/i, var/mob/living/user)
 	var/mob/living/carbon/human/H = user
@@ -105,3 +119,9 @@
 				H.Paralyze(10)
 				H.adjustFireLoss(25)
 				H.fire_act(1,10)
+			if(HAS_TRAIT(H, TRAIT_HOLLOW_LIFE))
+				to_chat(H, span_userdanger("I can't pick up the silver, for I am one of the damned!"))
+				H.adjustFireLoss(25)
+				H.fire_act(1,10)
+				H.Knockdown(5)
+				H.Paralyze(5)

@@ -125,7 +125,7 @@
 	if(prob(20))
 		if(carbon_owner)
 			carbon_owner.handle_dreams()
-			if(prob(10) && owner.health > owner.crit_threshold)
+			if((prob(10) && owner.health > owner.crit_threshold) && !HAS_TRAIT(owner, TRAIT_NOBREATH))
 				owner.emote("snore")
 
 /atom/movable/screen/alert/status_effect/asleep
@@ -269,7 +269,7 @@
 	var/mob/living/carbon/human/H = owner
 	if(H.stat == DEAD || H.bleed_rate <= 8)
 		H.remove_status_effect(/datum/status_effect/neck_slice)
-	if(prob(10))
+	if(prob(10) && !HAS_TRAIT(H, TRAIT_NOBREATH))
 		H.emote(pick("gasp", "gag", "choke"))
 
 /obj/effect/temp_visual/curse

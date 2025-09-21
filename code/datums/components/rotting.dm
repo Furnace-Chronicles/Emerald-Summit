@@ -64,6 +64,9 @@
 	if (istype(A, /area/rogue/indoors/town))	//Stops rotting inside town buildings; will stop your zombification such as at church or appothocary.
 		return
 
+	if(HAS_TRAIT(C, TRAIT_ZOMBIE_IMMUNE) && !is_zombie)
+		return
+
 	if(!(C.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD)))
 		qdel(src)
 		return

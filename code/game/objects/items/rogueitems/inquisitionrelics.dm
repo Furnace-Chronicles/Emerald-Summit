@@ -997,7 +997,7 @@ Inquisitorial armory down here
 		var/mob/living/carbon/C = victim
 		// if(get_location_accessible(C, BODY_ZONE_PRECISE_NECK))
 		playsound(loc, pick('sound/items/garrotechoke1.ogg', 'sound/items/garrotechoke2.ogg', 'sound/items/garrotechoke3.ogg', 'sound/items/garrotechoke4.ogg', 'sound/items/garrotechoke5.ogg'), 100, TRUE)
-		if(prob(40))
+		if(prob(40) && !HAS_TRAIT(C, TRAIT_NOBREATH))
 			C.emote("choke")
 		C.adjustOxyLoss(choke_damage)
 		C.visible_message(span_danger("[user] [pick("garrotes", "asphyxiates")] [C]!"), \

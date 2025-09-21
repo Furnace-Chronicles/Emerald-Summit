@@ -57,8 +57,8 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	path = /obj/item/clothing/head/roguetown/bardhat
 
 /datum/loadout_item/spellcasterhat
-	name = "Spellcaster Hat"
-	path = /obj/item/clothing/head/roguetown/spellcasterhat
+	name = "Tattered Spellcaster Hat"
+	path = /obj/item/clothing/head/roguetown/spellcasterhat/light
 
 /datum/loadout_item/fancyhat
 	name = "Fancy Hat"
@@ -284,8 +284,8 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	path = /obj/item/clothing/suit/roguetown/shirt/robe
 
 /datum/loadout_item/spellcasterrobe
-	name = "Spellcaster Robe"
-	path = /obj/item/clothing/suit/roguetown/shirt/robe/spellcasterrobe
+	name = "Tattered Spellcaster Robe"
+	path = /obj/item/clothing/suit/roguetown/shirt/robe/spellcasterrobe/light
 
 /datum/loadout_item/formalsilks
 	name = "Formal Silks"

@@ -7,14 +7,14 @@
 	invocation_type = "shout"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
-	recharge_time = 15 SECONDS
+	recharge_time = 20 SECONDS
 	miracle = TRUE
 	devotion_cost = 100
 	projectile_type = /obj/projectile/magic/astratablast
 
 
 /obj/projectile/magic/astratablast
-	damage = 10
+	damage = 25
 	name = "ray of holy fire"
 	nodamage = FALSE
 	damage_type = BURN
@@ -26,7 +26,7 @@
 	light_color = "#a98107"
 	light_outer_range = 7
 	tracer_type = /obj/effect/projectile/tracer/solar_beam
-	var/fuck_that_guy_multiplier = 2.5
+	var/fuck_that_guy_multiplier = 2
 	var/biotype_we_look_for = MOB_UNDEAD
 
 /obj/projectile/magic/astratablast/on_hit(target)
@@ -151,11 +151,17 @@
 			to_chat(user, span_warning("Nothing happens."))
 			revert_cast()
 			return FALSE
+		if(HAS_TRAIT(target, TRAIT_HOLLOW_LIFE))
+			to_chat(user, span_bloody("Astrata scorns this one, for reasons unknown. Lux infusal is the only option."))
+			target.adjustFireLoss(30)
+			target.fire_act(1,5)
+			revert_cast()
+			return FALSE
 		if(GLOB.tod == "night")
 			to_chat(user, span_warning("Let there be light."))
 		for(var/obj/structure/fluff/psycross/S in oview(5, user))
 			S.AOE_flash(user, range = 8)
-		if(target.mob_biotypes & MOB_UNDEAD) //positive energy harms the undead
+		if((target.mob_biotypes & MOB_UNDEAD) && !HAS_TRAIT(target, TRAIT_HOLLOW_LIFE)) //positive energy harms the undead
 			target.visible_message(span_danger("[target] is unmade by holy light!"), span_userdanger("I'm unmade by holy light!"))
 			target.gib()
 			return TRUE

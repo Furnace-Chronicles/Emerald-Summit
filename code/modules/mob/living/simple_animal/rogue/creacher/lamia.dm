@@ -1,7 +1,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/lamia
 	icon = 'icons/roguetown/mob/monster/lamia.dmi'
-	name = "lamia"
-	desc = "This slithering monstrosity has a human torso, a large snake tail, and four bladed arms."
+	name = "greater lamia"
+	desc = "This slithering monstrosity has a human torso, a large snake tail, and four bladed arms. Some say they're cousins of the more Humen-like Lamia, but even further touched by Abyssor."
 	icon_state = "lamia_f"
 	icon_living = "lamia_f"
 	icon_dead = "lamia_dead"
@@ -11,7 +11,7 @@
 	speak_chance = 1
 	see_in_dark = 9
 	move_to_delay = 2
-	base_intents = list(/datum/intent/simple/bite, /datum/intent/simple/claw)
+	base_intents = list(/datum/intent/simple/elementalt3_unarmed)//dryad's chopping intent, I think it fits better for a scary monster with multiple sword arms
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1,
 						/obj/item/reagent_containers/food/snacks/fat = 1,

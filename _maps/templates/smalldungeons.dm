@@ -66,6 +66,7 @@
 		/obj/item/storage/bag/tray = 3,
 		/obj/item/mundane/puzzlebox/medium = 3,
 		/obj/item/mundane/puzzlebox/easy = 1,
+		/obj/item/mundane/puzzlebox/impossible = 2,
 
 		//medical
 		/obj/item/needle = 4,
@@ -230,6 +231,7 @@
 		/obj/item/storage/bag/tray = 3,
 		/obj/item/mundane/puzzlebox/medium = 2,
 		/obj/item/mundane/puzzlebox/easy = 2,
+		/obj/item/mundane/puzzlebox/impossible = 1,
 	)
 	lootcount = 1
 

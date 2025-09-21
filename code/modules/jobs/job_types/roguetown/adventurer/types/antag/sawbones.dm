@@ -5,6 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/bandit/sawbones
 	category_tags = list(CTAG_BANDIT)
+	maximum_possible_slots = 2 // We only want one of these because of master in swords.
 	cmode_music = 'sound/music/combat_physician.ogg'
 
 	traits_applied = list(

@@ -13,7 +13,7 @@
 
 /mob/living/proc/check_heartbeat(mob/user)
 	var/list/message = list()
-	if(stat >= DEAD || HAS_TRAIT(src, TRAIT_FAKEDEATH) || HAS_TRAIT(src, TRAIT_ROTMAN))
+	if(stat >= DEAD || HAS_TRAIT(src, TRAIT_FAKEDEATH) || HAS_TRAIT(src, TRAIT_ROTMAN) || HAS_TRAIT(src, TRAIT_HOLLOW_LIFE))
 		message += "<B>No heartbeat...</B>"
 	else
 		message += "<B>The heart is still beating.</B>"

@@ -116,6 +116,28 @@
 		"Basalt" = GOLEM_BASALT
 	)
 
+/datum/species/golem/metal/get_skin_list_tooltip()
+	return list(
+		"Brass <span style='border: 1px solid #161616; background-color: #[GOLEM_BRASS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = GOLEM_BRASS,
+		"Iron <span style='border: 1px solid #161616; background-color: #[GOLEM_IRON];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = GOLEM_IRON,
+		"Steel <span style='border: 1px solid #161616; background-color: #[GOLEM_STEEL];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = GOLEM_STEEL,
+		"Bronze <span style='border: 1px solid #161616; background-color: #[GOLEM_BRONZE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = GOLEM_BRONZE,
+		"Toper <span style='border: 1px solid #161616; background-color: #[GOLEM_TOPER];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = GOLEM_TOPER,
+		"Coal <span style='border: 1px solid #161616; background-color: #[GOLEM_COAL];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = GOLEM_COAL,
+		"Cobalt <span style='border: 1px solid #161616; background-color: #[GOLEM_COBALT];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = GOLEM_COBALT,
+		"Granite <span style='border: 1px solid #161616; background-color: #[GOLEM_GRANITE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = GOLEM_GRANITE,
+		"Jade <span style='border: 1px solid #161616; background-color: #[GOLEM_JADE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = GOLEM_JADE,
+		"Amythortz <span style='border: 1px solid #161616; background-color: #[GOLEM_AMETHYST];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = GOLEM_AMETHYST,
+		"Silver <span style='border: 1px solid #161616; background-color: #[GOLEM_SILVER];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = GOLEM_SILVER,
+		"Coral <span style='border: 1px solid #161616; background-color: #[GOLEM_CORAL];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = GOLEM_CORAL,
+		"Gold <span style='border: 1px solid #161616; background-color: #[GOLEM_GOLD];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = GOLEM_GOLD,
+		"Copper <span style='border: 1px solid #161616; background-color: #[GOLEM_COPPER];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = GOLEM_COPPER,
+		"Rust <span style='border: 1px solid #161616; background-color: #[GOLEM_RUST];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = GOLEM_RUST,
+		"Obsidian <span style='border: 1px solid #161616; background-color: #[GOLEM_OBSIDIAN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = GOLEM_OBSIDIAN,
+		"Lapis <span style='border: 1px solid #161616; background-color: #[GOLEM_LAPIS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = GOLEM_LAPIS,
+		"Basalt <span style='border: 1px solid #161616; background-color: #[GOLEM_BASALT];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = GOLEM_BASALT
+	)
+
 /datum/species/golem/metal/get_hairc_list()
 	return sortList(list(
 
