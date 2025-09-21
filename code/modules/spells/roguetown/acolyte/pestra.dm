@@ -282,7 +282,7 @@
 			to_chat(user, span_warning("Pestra gives no answer back to clean their body from the rot."))
 			revert_cast()
 			return FALSE		
-		if(HAS_TRAIT(target, TRAIT_NECRA_CURSE))
+		if(HAS_TRAIT(target, TRAIT_CURSE_NECRA))
 			to_chat(user, span_warning("Pestra gives no answer to even clean their body from the rot."))
 			revert_cast()
 			return FALSE			

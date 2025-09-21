@@ -50,7 +50,7 @@
 	if(istype(user.rmb_intent, /datum/rmb_intent/swift))
 		chance2hit -= 20
 
-	if(HAS_TRAIT(user, TRAIT_RAVOX_CURSE))
+	if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 		chance2hit -= 30
 
 	chance2hit = CLAMP(chance2hit, 5, 93)
@@ -230,7 +230,7 @@
 					var/sentinel = SH.calculate_sentinel_bonus()
 					prob2defend += sentinel
 
-			if(HAS_TRAIT(H, TRAIT_RAVOX_CURSE))
+			if(HAS_TRAIT(H, TRAIT_CURSE_RAVOX))
 				prob2defend -= 30
 
 			prob2defend = clamp(prob2defend, 5, 90)
@@ -585,7 +585,7 @@
 			var/sentinel = H.calculate_sentinel_bonus()
 			prob2defend += sentinel
 
-		if(HAS_TRAIT(H, TRAIT_RAVOX_CURSE))
+		if(HAS_TRAIT(H, TRAIT_CURSE_RAVOX))
 			prob2defend -= 30
 
 		prob2defend = clamp(prob2defend, 5, 90)

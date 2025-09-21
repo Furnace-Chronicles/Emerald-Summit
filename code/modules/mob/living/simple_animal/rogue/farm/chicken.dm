@@ -2,7 +2,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/chicken
 	icon = 'icons/roguetown/mob/monster/chicken.dmi'
 	name = "\improper chicken"
-	desc = ""
+	desc = "A small, domestic, flightless bird. It's known for both its egg-laying and rapid breeding, making it a boon for carnivorous societies."
 	icon_state = "chicken_brown"
 	icon_living = "chicken_brown"
 	icon_dead = "chicken_brown_dead"

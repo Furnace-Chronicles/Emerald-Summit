@@ -476,6 +476,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["nickname"]			>> nickname
 	S["highlight_color"]	>> highlight_color
 	S["tail_color"]			>> tail_color
+	S["tail_markings_color"]>> tail_markings_color
+	S["tail_type"] 			>> tail_type
 
 /datum/preferences/proc/load_character(slot)
 	if(!path)
@@ -624,6 +626,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	features["ethcolor"]	= copytext(features["ethcolor"],1,7)
 	features["feature_lizard_legs"]	= sanitize_inlist(features["legs"], GLOB.legs_list, "Normal Legs")
 	tail_color = sanitize_hexcolor(tail_color, 6, 0)
+	tail_markings_color = sanitize_hexcolor(tail_markings_color, 6, 0)
 	S["body_markings"] >> body_markings
 	body_markings = SANITIZE_LIST(body_markings)
 	validate_body_markings()
@@ -695,6 +698,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["nickname"]			, nickname)
 	WRITE_FILE(S["highlight_color"]		, highlight_color)
 	WRITE_FILE(S["tail_color"]			, tail_color)
+	WRITE_FILE(S["tail_markings_color"]			, tail_markings_color)
+	WRITE_FILE(S["tail_type"] , tail_type)
 
 	//Custom names
 	for(var/custom_name_id in GLOB.preferences_custom_names)

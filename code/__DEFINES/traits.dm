@@ -44,6 +44,7 @@
 #define TRAIT_NOSLEEP "Fatal Insomnia"
 #define TRAIT_FASTSLEEP "Fast Sleeper"
 #define TRAIT_GOODLOVER "Fabled Lover"
+#define TRAIT_LIMPDICK "Limp Dick"
 #define TRAIT_SEEDKNOW "Seed Knower"
 #define TRAIT_SQUIRE_REPAIR "Squire Knowledge"
 #define TRAIT_TRAINED_SMITH "Trained Smith"
@@ -105,15 +106,27 @@
 #define TRAIT_BLACKBAGGER "Apprehension Techniques" // Capable of using Garrotes and Blackbags. Apprehension techniques.w passive wound healing while you have blood.
 #define TRAIT_HERETIC_DEVOUT "Heretic Devout" // used to make it so excom and other priest stuff doesn't work on wretches
 
-// PATRON GOD TRAITS Curses
+// PATRON GOD TRAITS CURSES
 
 #define TRAIT_CURSE "Curse" //source
-#define TRAIT_RAVOX_CURSE "Ravox's Curse" // effect same as ~ -2 (-30% parry -30% dodge -30% accuracy) to all weapon skills
-#define TRAIT_NECRA_CURSE "Necra's Curse" //cannot be revived
-#define TRAIT_PESTRA_CURSE "Pestra's Curse" //randomly causes vomiting, unconsciousness, blurred vision
-#define TRAIT_ABYSSOR_CURSE "Abyssors's Curse" //fears the water
-#define TRAIT_MALUM_CURSE "Malum's Curse" //cannot craft or use smith hammer
+#define TRAIT_CURSE_ASTRATA "Astrata's Curse" //Cannot sleep and burn up in sunlight
+#define TRAIT_CURSE_NOC "Noc's Curse" //Cannot use magic and burn up in moonlight
+#define TRAIT_CURSE_DENDOR "Dendor's Curse" //Increased damage from nature sources.
+#define TRAIT_CURSE_RAVOX "Ravox's Curse" // effect same as ~ -2 (-30% parry -30% dodge -30% accuracy) to all weapon skills
+#define TRAIT_CURSE_NECRA "Necra's Curse" //cannot be revived
+#define TRAIT_CURSE_PESTRA "Pestra's Curse" //randomly causes vomiting, unconsciousness, blurred vision
+#define TRAIT_CURSE_ABYSSOR "Abyssors's Curse" //fears the water
+#define TRAIT_CURSE_MALUM "Malum's Curse" //cannot craft or use smith hammer
+#define TRAIT_CURSE_XYLIX "Curse of Xylix" //no fortune
+#define TRAIT_CURSE_EORA "Eora's Curse" //world is ugly
+#define TRAIT_CURSE_RESIST "Curse Resistance" //Some folk with a tendency to get cursed are resistant
 
+//ASCENDANT GOD CURSES
+
+#define TRAIT_CURSE_ZIZO "Curse of Zizo" //int nuke and no magic
+#define TRAIT_CURSE_GRAGGAR "Curse of Graggar" //str nuke, inhumen anatomy and disfigurment
+#define TRAIT_CURSE_MATTHIOS "Curse of Matthios" //lck nuke and clumsy
+#define TRAIT_CURSE_BAOTHA "Curse of Baotha" //nudist
 
 // ASCENDANT CULTIST TRAITS (all of them recognize each other)
 #define TRAIT_COMMIE "Blessing of Matthios" //recognized by bandits as an ally
@@ -131,7 +144,6 @@
 #define TRAIT_BANDITCAMP "banditcamp"
 #define TRAIT_VAMPMANSION "vampiremansion"
 #define TRAIT_VAMP_DREAMS "vamp_dreams"
-#define TRAIT_LIMPDICK "Limp Dick"
 #define TRAIT_SEXPASS "sexpass"
 #define TRAIT_STEELHEARTED "Steelhearted" //no bad mood from dismembering or seeing this
 #define TRAIT_IWASREVIVED "iwasrevived" //prevents PQ gain from reviving the same person twice
@@ -161,6 +173,7 @@
 #define TRAIT_NOPAIN	"Painless"
 #define TRAIT_NOPAINSTUN	"Enduring"
 #define TRAIT_NOBREATH	"Breathless"
+#define TRAIT_HOLLOW_LIFE "Hollow Lyfe"
 #define TRAIT_TOXIMMUNE	"Poison Immune"
 #define TRAIT_GRABIMMUNE "Unstoppable"
 #define TRAIT_ROTMAN "Rotman"
@@ -308,6 +321,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_NOPAIN = span_info("I feel no pain."),
 	TRAIT_NOPAINSTUN = span_info("Pain does not impair me."),
 	TRAIT_NOBREATH = span_info("I do not breathe."),
+	TRAIT_HOLLOW_LIFE = span_bloody("I am a half-lyfe, closer to a deadite than to the living. I can feel astrata's scorn upon me, even now."),
 	TRAIT_TOXIMMUNE = span_info("Poisons do nothing to me."),
 	TRAIT_ZOMBIE_IMMUNE = span_info("Deadite bites cannot infect me."),
 	TRAIT_NOHUNGER = span_info("I do not hunger, or thirst."),
@@ -337,9 +351,23 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_GOODWRITER = span_notice("I'm proficient at writing. Any skillbooks made by me will allow the reader to learn the subject more quickly."),
 	TRAIT_BLOODLOSS_IMMUNE = span_notice("While I may bleed, I will feel nothing from it."),
 	TRAIT_ADRENALINE_RUSH = span_notice("I'm invigorated in the midst of battle! I don't feel my wounds!"),
+	TRAIT_CURSE_ASTRATA = span_warning("I am forsaken by the Sun. I will find no rest under Her unwavering gaze."),
+	TRAIT_CURSE_NOC = span_warning("I am forsaken by the Moon. I will find no salvation in His grace."),
+	TRAIT_CURSE_DENDOR = span_warning("I am forsaken by the Treefather. Reason and common sense abandon me."),
+	TRAIT_CURSE_ABYSSOR = span_warning("I am forsaken by the Dreamer. His domain will surely become my grave."),
+	TRAIT_CURSE_RAVOX = span_warning("I am forsaken by the Justicar. My opponents will show me no clemency."),
+	TRAIT_CURSE_NECRA = span_warning("I am forsaken by the Undermaiden. Even the lightest strike could send me into Her embrace."),
+	TRAIT_CURSE_XYLIX = span_warning("I am forsaken by the Trickster. Misfortune follows me on every step."),
+	TRAIT_CURSE_PESTRA = span_warning("I am forsaken by the Plaguemother. Sickness overwhelms my body rendering even simplest of tasks into a challenge."),
+	TRAIT_CURSE_MALUM = span_warning("I am forsaken by the Maker. My hands tremble and fog overwhelms my mind."),
+	TRAIT_CURSE_EORA = span_warning("I am forsaken by the Lover. There is no beauty to be found for me in this world."),
+	TRAIT_EXCOMMUNICATED = span_warning("I have been excommunicated."),
+	TRAIT_CURSE_ZIZO = span_warning("I am forsaken by the Architect. Her grasp reaches for my heart."),
+	TRAIT_CURSE_GRAGGAR = span_warning("I am forsaken by the Warlord. Bloodlust is only thing I know for real."),
+	TRAIT_CURSE_MATTHIOS = span_warning("I am forsaken by the Dragon. Greed will be my only salvation."),
+	TRAIT_CURSE_BAOTHA = span_warning("I am forsaken by the Heartbreaker. I am drowning in her promises."),
 	TRAIT_DEADITE = span_danger("The Rot has overtaken me."),
 	TRAIT_PUZZLEMASTER = span_notice("I've solved an impossible puzzle!")
-
 ))
 
 // trait accessor defines

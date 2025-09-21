@@ -56,7 +56,10 @@
 	var/jextra = FALSE
 
 	if(m_intent == MOVE_INTENT_RUN)
-		emote("leap", forced = TRUE)
+		if(!HAS_TRAIT(src, TRAIT_NOBREATH))
+			emote("leap", forced = TRUE)
+		else
+			emote("leap_deathless", forced = TRUE)
 		OffBalance(30)
 		jadded = 45
 		jrange = 3
@@ -64,7 +67,10 @@
 		if(!HAS_TRAIT(src, TRAIT_LEAPER))// The Jester lands where the Jester wants.
 			jextra = TRUE
 	else
-		emote("jump", forced = TRUE)
+		if(!HAS_TRAIT(src, TRAIT_NOBREATH))
+			emote("jump_fixed", forced = TRUE)
+		else
+			emote("jump_deathless", forced = TRUE)
 		OffBalance(20)
 		jadded = 20
 		jrange = 2

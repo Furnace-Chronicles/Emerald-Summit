@@ -1558,6 +1558,18 @@
 	armor = list("blunt" = 50, "slash" = 90, "stab" = 60, "piercing" = 30, "fire" = 0, "acid" = 0)
 	max_integrity = 200
 
+/obj/item/clothing/suit/roguetown/armor/basiceast/crafteast/outlaw
+	color = "#bbbbbb"
+
+/obj/item/clothing/suit/roguetown/armor/basiceast/crafteast/shrinekeeper
+	name = "eastern ceremonial robe"
+	desc = "A simple eastern robe, traditionally worn by Kazengunese priests. This one is reinforced with cured leather inlays."
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	allowed_race = CLOTHED_RACES_TYPES
+	color = "#414143"
+	icon_state = "shrinekeeper"
+	item_state = "shrinekeeper"
+
 /obj/item/clothing/suit/roguetown/armor/basiceast/crafteast/light
 	name = "formal dobo robe"
 	desc = "A dobo robe with a red tassel, used primarily for general use by the populace for formal occasions."

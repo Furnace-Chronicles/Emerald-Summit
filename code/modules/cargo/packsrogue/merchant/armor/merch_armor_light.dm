@@ -55,3 +55,13 @@
 	name = "Heavy Leather Gloves"
 	cost = 20 // No one buying this lmao it costs 1 fur
 	contains = list(/obj/item/clothing/gloves/roguetown/angle)
+
+/datum/supply_pack/rogue/light_armor/padded_leather_hood
+	name = "Padded Leather Hood"
+	cost = 35 //based off of other leather stuff
+	contains = list(/obj/item/clothing/head/roguetown/helmet/leather/armorhood)
+
+/datum/supply_pack/rogue/light_armor/studded_leather_hood
+	name = "Studded Leather Hood"
+	cost = 40 //based off of studded leather leather
+	contains = list(/obj/item/clothing/head/roguetown/helmet/leather/armorhood/advanced)

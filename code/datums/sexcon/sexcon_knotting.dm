@@ -399,6 +399,7 @@
 
 /atom/movable/screen/alert/status_effect/knot_tied
 	name = "Knotted"
+	icon_state = "knotted"
 
 /datum/status_effect/knot_fucked_stupid
 	id = "knot_fucked_stupid"
@@ -410,6 +411,7 @@
 /atom/movable/screen/alert/status_effect/knot_fucked_stupid
 	name = "Fucked Stupid"
 	desc = "Mmmph I can't think straight..."
+	icon_state = "knotted_stupid"
 
 /datum/status_effect/knot_gaped
 	id = "knot_gaped"
@@ -448,6 +450,7 @@
 /atom/movable/screen/alert/status_effect/knotted
 	name = "Knotted"
 	desc = "I have to be careful where I step..."
+	icon_state = "knotted"
 
 /datum/status_effect/jaw_gaped
 	id = "jaw_gaped"

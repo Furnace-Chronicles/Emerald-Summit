@@ -23,6 +23,10 @@
 	advjob_examine = TRUE
 	give_bank_account = 15
 
+	virtue_restrictions = list(
+		/datum/virtue/combat/hollow_life,
+	)
+
 	job_subclasses = list(
 		/datum/advclass/psydoniantemplar,
 		/datum/advclass/disciple,

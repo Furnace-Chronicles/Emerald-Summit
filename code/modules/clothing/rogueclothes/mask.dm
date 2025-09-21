@@ -394,6 +394,21 @@
 	max_integrity = 200
 	smeltresult = /obj/item/ingot/steel
 
+/obj/item/clothing/mask/rogue/facemask/steel/kazengun
+	name = "steel mempo"
+	desc = "A steel half-mask of Kazengun origin. Cast in the visage of a fiend, it fits snugly around the neck, offering additional protection at the cost of head mobility."
+	icon_state = "steelmempo"
+	body_parts_covered = NECK|MOUTH|NOSE
+
+/obj/item/clothing/mask/rogue/facemask/steel/kazengun/full
+	desc = "A steel mask of Kazengun origin. Cast in the visage of a fiend, it fits snugly around the neck, offering additional protection at the cost of head mobility."
+	icon_state = "steelyoroi"
+	body_parts_covered = NECK|FACE
+
+/obj/item/clothing/mask/rogue/facemask/steel/kazengun/full/kitsune
+	desc = "A steel mask of Kazengun origin. Cast in the visage of a vulpine monster, it fits snugly around the neck, offering additional protection at the cost of head mobility."
+	icon_state = "kitsuneyoroi"
+
 /obj/item/clothing/mask/rogue/facemask/steel/paalloy
 	name = "ancient mask"
 	desc = "A mask forged of ancient alloys. Aeon's grasp has been lifted from its form."

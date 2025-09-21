@@ -24,6 +24,10 @@
 	max_pq = null
 	round_contrib_points = 2
 
+	virtue_restrictions = list(
+		/datum/virtue/combat/hollow_life,
+	)
+
 	job_subclasses = list(
 		/datum/advclass/puritan/inspector,
 		/datum/advclass/puritan/ordinator

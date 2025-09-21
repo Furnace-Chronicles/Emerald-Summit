@@ -101,4 +101,4 @@
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/necra
 		else
 			cloak = /obj/item/clothing/cloak/stabard/dungeon
-			head = /obj/item/clothing/head/roguetown/menacing
+			head = /obj/item/clothing/head/roguetown/dungeoneer

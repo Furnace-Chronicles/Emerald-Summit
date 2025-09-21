@@ -275,7 +275,7 @@
 	regenerate_icons()
 	set_resting(FALSE)
 
-/mob/living/carbon/proc/Lamiaze(taur_type = /obj/item/bodypart/lamian_tail, color = "#ffffff")
+/mob/living/carbon/proc/Lamiaze(tail_type = /obj/item/bodypart/lamian_tail, color = "#ffffff", markings_color = "#ffffff")
 	if(client?.prefs)
 		if((LAMIAN_TAIL in client.prefs.pref_species.species_traits))//if we call lamia-ize on an existing lamia (just fully_heal, basically)
 			color = "#"+client.prefs.tail_color
@@ -286,8 +286,9 @@
 			O.drop_limb(1)
 			qdel(O)
 
-	var/obj/item/bodypart/lamian_tail/T = new taur_type()
+	var/obj/item/bodypart/lamian_tail/T = new tail_type()
 	T.tail_color = color
+	T.tail_markings_color = markings_color
 	T.attach_limb(src)
 
 	// make sure we apply our clipmasks

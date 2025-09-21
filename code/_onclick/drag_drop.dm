@@ -247,13 +247,13 @@
 	L.used_intent.prewarning()
 
 	if(!charging) //This is for spell charging
-		charging = 1 
+		charging = 1
 		L.used_intent.on_charge_start()
 		L.update_charging_movespeed(L.used_intent)
 //		L.update_warning(L.used_intent)
-		progress = 0 
+		progress = 0
 
-//		if(L.used_intent.charge_invocation) 
+//		if(L.used_intent.charge_invocation)
 //			sections = 100/L.used_intent.charge_invocation.len
 //		else
 //			sections = null
@@ -263,37 +263,31 @@
 		lastplayed = 0
 		doneset = 0
 		chargedprog = 0
-		mouse_pointer_icon = 'icons/effects/mousemice/swang/acharging.dmi'
+		mouse_pointer_icon = SSmousecharge.access(chargedprog)
 		START_PROCESSING(SSmousecharge, src)
 
 /client/Destroy()
 	STOP_PROCESSING(SSmousecharge, src)
 	return ..()
 
-/client/process()
+/client/process(seconds_per_tick)
 	if(!isliving(mob))
 		return PROCESS_KILL
 	var/mob/living/L = mob
-	if(!L?.client || !update_to_mob(L))
+	if(!L?.client || !update_to_mob(L, seconds_per_tick))
 		if(L.curplaying)
 			L.curplaying.on_mouse_up()
 		L.update_charging_movespeed()
 		return PROCESS_KILL
 
-/client/proc/update_to_mob(mob/living/L)
+/client/proc/update_to_mob(mob/living/L, seconds_per_tick)
 	if(charging)
 		if(progress < goal)
-			progress++
-			chargedprog = text2num("[((progress / goal) * 100)]")
-	//		mouseprog = round(text2num("[((progress / goal) * 20)]"), 1)
-	//		mouse_pointer_icon = GLOB.mouseicons_human[mouseprog]
-	//		testing("mouse[mouseprog]")
-//			if(sections && chargedprog > lastplayed) //used for changing icon based on action progress
-//				L.say(L.used_intent.charge_invocation[part])
-//				part++
-//				lastplayed = sections * part
+			progress += 1 * seconds_per_tick //Tickspeed independent. Should always be 1, isn't always 1 when under strain.
+			chargedprog = ((progress / goal) * 100)
+			mouse_pointer_icon = SSmousecharge.access(chargedprog)
 		else //Fully charged spell
-			if(!doneset) 
+			if(!doneset)
 				doneset = 1
 //				if(sections)
 //					L.say(L.used_intent.charge_invocation[L.used_intent.charge_invocation.len])

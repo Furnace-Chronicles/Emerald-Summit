@@ -108,7 +108,7 @@
 
 /obj/item/seeds/manabloom
 	seed_identity = "manabloom seeds"
-	plant_def_type = /datum/plant_def/manabloom	
+	plant_def_type = /datum/plant_def/manabloom
 
 /obj/item/seeds/tomato
 	seed_identity = "tomato seeds"
@@ -177,3 +177,15 @@
 /obj/item/seeds/tea
 	seed_identity = "tea seeds"
 	plant_def_type = /datum/plant_def/tea
+
+/obj/item/seeds/carrot
+	seed_identity = "carrot seeds"
+	plant_def_type = /datum/plant_def/carrot
+
+/obj/item/seeds/eggplant
+	seed_identity = "eggplant seeds"
+	plant_def_type = /datum/plant_def/eggplant
+
+/obj/item/seeds/cucumber
+	seed_identity = "cucumber seeds"
+	plant_def_type = /datum/plant_def/cucumber

@@ -164,10 +164,10 @@
 	name = "Deathless"
 	desc = "Some fell magick has rendered me inwardly unliving - I do not hunger, and I do not breathe."
 	added_traits = list(TRAIT_NOHUNGER, TRAIT_NOBREATH)
-
-/*/datum/virtue/utility/deathless/apply_to_human(mob/living/carbon/human/recipient)
-	recipient.mob_biotypes |= MOB_UNDEAD*/
-
+/*
+/datum/virtue/utility/deathless/apply_to_human(mob/living/carbon/human/recipient)
+	recipient.mob_biotypes |= MOB_UNDEAD
+*/
 /datum/virtue/utility/blacksmith
 	name = "Blacksmith's Apprentice"
 	desc = "In my youth, I worked under a skilled blacksmith, honing my skills with an anvil."

@@ -60,6 +60,8 @@
 				used = list('sound/vo/male/gen/hum (1).ogg','sound/vo/male/gen/hum (2).ogg','sound/vo/male/gen/hum (3).ogg')
 			if("jump")
 				used = 'sound/vo/male/gen/jump.ogg'
+			if("jump_fixed")
+				used = 'sound/vo/male/gen/jump.ogg'
 			if("laugh")
 				used = list('sound/vo/male/gen/laugh (2).ogg','sound/vo/male/gen/laugh (3).ogg','sound/vo/male/gen/laugh (4).ogg','sound/vo/male/gen/laugh (5).ogg','sound/vo/male/gen/laugh (6).ogg')
 			if("leap")

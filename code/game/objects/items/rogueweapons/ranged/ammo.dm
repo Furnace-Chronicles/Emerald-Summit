@@ -617,6 +617,11 @@
 			to_chat(H, span_userdanger("I'm hit by my BANE!"))
 			H.apply_status_effect(/datum/status_effect/debuff/silver_curse)
 			src.last_used = world.time
+		if(HAS_TRAIT(H, TRAIT_HOLLOW_LIFE))
+			H.visible_message("<font color='white'>The silver weapon weakens the damned temporarily!</font>")
+			to_chat(H, span_userdanger("I'm hit by my BANE!"))
+			H.apply_status_effect(/datum/status_effect/debuff/silver_curse_weaker)
+			src.last_used = world.time
 	return
 
 //sling bullets
