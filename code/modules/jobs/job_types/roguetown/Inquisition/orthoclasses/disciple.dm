@@ -54,7 +54,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 	id = /obj/item/clothing/ring/signet/silver
 	backl = /obj/item/storage/backpack/rogue/satchel/otavan
-	backr = /obj/item/rogueweapon/shield/tower/metal
+	backr = /obj/item/rogueweapon/shield/tower/metal/psy
 	mask = /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/armored
