@@ -24,7 +24,6 @@
 
 	var/slip_effect_duration = 10 SECONDS
 	var/pre_slip_buffer_delay = 1 SECONDS
-	var/post_slip_visual_delay = 1 SECONDS
 	var/slip_effect_type = TURF_WET_MAGIC
 	var/area_of_effect_radius = 1 // 1 = 3x3
 
@@ -43,9 +42,7 @@
 		for(var/turf/open/O in affected_turfs)
 			playsound(O, 'sound/foley/waterenter.ogg', 25, TRUE)
 
-			var/obj/effect/temp_visual/slick_warning/V = new /obj/effect/temp_visual/slick_warning(O)
-			//add a couple seconds because the slip lasts longer than intended for some freaking reason
-			V.duration = pre_slip_buffer_delay + slip_effect_duration  + post_slip_visual_delay
+			new /obj/effect/temp_visual/slick_warning(O)
 
 			//wait before actually adding the slip for "Slip buffering"
 			addtimer(CALLBACK(O, TYPE_PROC_REF(/turf/open, MakeSlippery), slip_effect_type, slip_effect_duration, 0, slip_effect_duration), pre_slip_buffer_delay)
@@ -61,5 +58,5 @@
 	color = "#0099FF" // Blue tint for water-like appearance
 	randomdir = FALSE
 	layer = MASSIVE_OBJ_LAYER
+	duration = 13 SECONDS //add a couple seconds because the slip lasts longer than intended for some freaking reason
 
-#undef SLIPPERY_TILE_DURATION
