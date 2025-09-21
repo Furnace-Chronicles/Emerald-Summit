@@ -99,7 +99,7 @@
 			lube_flags = SLIDE | GALOSHES_DONT_HELP | SLIP_WHEN_CRAWLING
 		if(TURF_WET_MAGIC)
 			intensity = 2 SECONDS
-			lube_flags = SLIDE_MAGIC | GALOSHES_DONT_HELP | NO_SLIP_WHEN_WALKING
+			lube_flags = SLIDE_MAGIC | GALOSHES_DONT_HELP
 		else
 			qdel(parent.GetComponent(/datum/component/slippery))
 			return
