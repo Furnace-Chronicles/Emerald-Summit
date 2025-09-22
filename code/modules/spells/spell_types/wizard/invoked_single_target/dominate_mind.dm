@@ -101,10 +101,6 @@
 	RegisterSignal(master, COMSIG_MOB_SAY, PROC_REF(on_master_speak))
 	// Listens to everything the puppet hears to format the master's voice.
 	RegisterSignal(parent, COMSIG_MOVABLE_HEAR, PROC_REF(handle_hearing))
-	// Add the submission verb to the puppet
-	var/mob/living/carbon/human/slave = parent
-	if(slave)
-		slave.verbs += /mob/living/proc/submit_to_master
 	// Store the timer ID so it can be cancelled if the puppet submits.
 	domination_end_time = world.time + duration
 	timer_id = addtimer(CALLBACK(src, PROC_REF(end_domination)), duration, TIMER_STOPPABLE)
@@ -153,7 +149,7 @@
 		deltimer(timer_id)
 		timer_id = null
 	to_chat(master, span_userdanger("[puppet.real_name] has fully submitted to your will. The psychic link is now unbreakable."))
-	to_chat(puppet, span_danger("You completely surrender your will to [master.real_name]. The psychic link is now unbreakable."))
+	to_chat(puppet, span_mind_control("I must obey. It is my compulsion; to follow their every command. I am bound to their will utterly and totally..."))
 
 /datum/component/dominated_mind/proc/confirm_submission()
 	var/mob/living/puppet = parent
@@ -196,9 +192,12 @@
 				if(!is_yell)
 					to_chat(master, span_warning("You must exert your will more forcefully to make them obey that command!"))
 					return 
-			if(command.tier >= 2)
-				is_overt = TRUE
-				to_chat(puppet, span_userdanger("Your mind is overwhelmed by a command!"))
+			if(command.tier >= 2 && !is_overt)
+				to_chat(puppet, span_mind_control("You suddenly feel a controlling presence throughout your mind!"))
+				// Add the submission verb to the puppet
+				var/mob/living/carbon/human/slave = parent
+				if(slave)
+					slave.verbs += /mob/living/proc/submit_to_master
 
 			// Execute the command on the puppet
 			command.execute(list(puppet), master, 1, message)
