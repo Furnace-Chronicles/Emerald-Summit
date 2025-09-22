@@ -104,7 +104,7 @@
 	// Add the submission verb to the puppet
 	var/mob/living/carbon/human/slave = parent
 	if(slave)
-		slave.verbs += /mob/living/verb/submit_to_master
+		slave.verbs += /mob/living/proc/submit_to_master
 	// Store the timer ID so it can be cancelled if the puppet submits.
 	domination_end_time = world.time + duration
 	timer_id = addtimer(CALLBACK(src, PROC_REF(end_domination)), duration, TIMER_STOPPABLE)
@@ -124,7 +124,7 @@
 			to_chat(parent, span_notice("The controlling influence in your mind recedes. You are yourself again."))
 		var/mob/living/carbon/human/slave = parent
 		if(slave)
-			slave.verbs -= /mob/living/verb/submit_to_master
+			slave.verbs -= /mob/living/proc/submit_to_master
 	master = null
 	return ..()
 
@@ -227,7 +227,7 @@
 	hearing_args[HEARING_RAW_MESSAGE] = span_phobia(hearing_args[HEARING_RAW_MESSAGE])
 
 /// This verb allows a player under the effect of Dominate Mind to permanently submit to their master.
-/mob/living/verb/submit_to_master()
+/mob/living/proc/submit_to_master()
 	set name = "Submit to Master"
 	set category = "SUBMIT"
 	set desc = "Permanently submit your will to the one who dominates your mind."
