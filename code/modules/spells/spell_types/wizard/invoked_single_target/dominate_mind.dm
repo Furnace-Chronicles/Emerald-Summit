@@ -149,7 +149,7 @@
 		deltimer(timer_id)
 		timer_id = null
 	to_chat(master, span_userdanger("[puppet.real_name] has fully submitted to your will. The psychic link is now unbreakable."))
-	to_chat(puppet, span_mind_control("I must obey. It is my compulsion; to follow their every command. I am bound to their will utterly and totally..."))
+	to_chat(puppet, span_mind_control("I must obey [master.real_name]. It is my compulsion; to follow their every command. I am bound to their will utterly and totally..."))
 
 /datum/component/dominated_mind/proc/confirm_submission()
 	var/mob/living/puppet = parent
