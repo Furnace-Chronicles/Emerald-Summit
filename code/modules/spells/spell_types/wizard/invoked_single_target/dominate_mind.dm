@@ -193,7 +193,7 @@
 					to_chat(master, span_warning("You must exert your will more forcefully to make them obey that command!"))
 					return 
 			if(command.tier >= 2 && !is_overt)
-				to_chat(puppet, span_mind_control("You suddenly feel a controlling presence throughout your mind!"))
+				to_chat(puppet, span_mind_control("You are overwhelmed by a controlling presence throughout your mind!"))
 				// Add the submission verb to the puppet
 				var/mob/living/carbon/human/slave = parent
 				if(slave)
