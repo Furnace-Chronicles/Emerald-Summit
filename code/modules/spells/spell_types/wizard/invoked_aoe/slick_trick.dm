@@ -1,5 +1,3 @@
- 
-
 /obj/effect/proc_holder/spell/invoked/slick_trick
 	name = "Slick Trick"
 	desc = "Temporarily create a slippery area that sends victims flying to the floor."
@@ -23,7 +21,7 @@
 	glow_intensity = GLOW_INTENSITY_HIGH //Big warning as its AoE
 
 	var/slip_effect_duration = 10 SECONDS
-	var/pre_slip_buffer_delay = 1 SECONDS
+	var/pre_slip_buffer_delay = 0.5 SECONDS
 	var/slip_effect_type = TURF_WET_MAGIC
 	var/area_of_effect_radius = 1 // 1 = 3x3
 
