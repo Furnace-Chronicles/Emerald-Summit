@@ -49,7 +49,7 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 /datum/voice_of_god_command/knockdown
 	trigger = "drop|fall|trip|knockdown"
 	cooldown = COOLDOWN_STUN
-	tier = 2
+	tier = 3
 
 /datum/voice_of_god_command/knockdown/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
 	for(var/mob/living/target as anything in listeners)
@@ -135,6 +135,7 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 /datum/voice_of_god_command/burn
 	trigger = "burn|ignite"
 	cooldown = COOLDOWN_DAMAGE
+	tier = 2
 
 /datum/voice_of_god_command/burn/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
 	for(var/mob/living/target as anything in listeners)
@@ -145,6 +146,7 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 /datum/voice_of_god_command/hot
 	trigger = "heat|hot|hell"
 	cooldown = COOLDOWN_DAMAGE
+	tier = 2
 
 /datum/voice_of_god_command/hot/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
 	for(var/mob/living/target as anything in listeners)
@@ -154,7 +156,7 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 /datum/voice_of_god_command/cold
 	trigger = "cold|chill|freeze"
 	cooldown = COOLDOWN_DAMAGE
-	tier = 3
+	tier = 2
 
 /datum/voice_of_god_command/cold/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
 	for(var/mob/living/target as anything in listeners)
@@ -307,7 +309,6 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 /datum/voice_of_god_command/stand
 	trigger = "stand"
 	is_regex = FALSE
-	tier = 1
 
 /datum/voice_of_god_command/stand/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
 	for(var/mob/living/target as anything in listeners)
@@ -317,7 +318,6 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 /datum/voice_of_god_command/jump
 	trigger = "jump"
 	is_regex = FALSE
-	tier = 1
 
 /datum/voice_of_god_command/jump/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
 	var/iteration = 1
