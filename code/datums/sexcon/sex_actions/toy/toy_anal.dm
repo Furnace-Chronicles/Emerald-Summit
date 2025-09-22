@@ -4,7 +4,7 @@
 	target_sex_part = SEX_PART_ANUS
 
 /datum/sex_action/toy_anal/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	if(user != target)
+	if(user != target  || !target.sexcon.can_zodomize())
 		return FALSE
 	if(!get_dildo_in_either_hand(user))
 		return FALSE

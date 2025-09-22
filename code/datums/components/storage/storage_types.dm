@@ -143,23 +143,11 @@
 /datum/component/storage/concrete/grid/magebag/New(datum/P, ...)
 	. = ..()
 	set_holdable(list(
-		/obj/item/magic/infernal/ash,
-		/obj/item/magic/infernal/fang,
-		/obj/item/magic/infernal/core,
-		/obj/item/magic/infernal/flame,
-		/obj/item/magic/fae/dust,
-		/obj/item/magic/fae/scale,
-		/obj/item/magic/fae/core,
-		/obj/item/magic/fae/essence,
-		/obj/item/magic/elemental/mote,
-		/obj/item/magic/elemental/shard,
-		/obj/item/magic/elemental/fragment,
-		/obj/item/magic/elemental/relic,
-		/obj/item/magic/obsidian,
-		/obj/item/magic/leyline,
 		/obj/item/reagent_containers/food/snacks/grown/manabloom,
-		/obj/item/magic/manacrystal,
 		/obj/item/ash,
+		/obj/item/natural/stone,
+		/obj/item/reagent_containers/food/snacks/grown/berries/rogue,
+		/obj/item/magic
 		))
 
 /datum/component/storage/concrete/roguetown/saddle

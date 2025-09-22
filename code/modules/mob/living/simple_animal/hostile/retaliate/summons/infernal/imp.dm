@@ -4,6 +4,7 @@
 	icon_state = "imp"
 	icon_living = "imp"
 	icon_dead = "vvd"
+	summon_tier = 1
 	gender = MALE
 	emote_hear = null
 	emote_see = null

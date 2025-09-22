@@ -13,7 +13,9 @@
 				return FALSE
 		else
 			return FALSE
-	return TRUE
+	if(user.sexcon.can_zodomize())
+		return TRUE
+	return FALSE
 
 /datum/sex_action/force_rimming/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)

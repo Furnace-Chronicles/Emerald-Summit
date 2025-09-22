@@ -3,11 +3,12 @@
 	stamina_cost = 1.0
 	user_sex_part = SEX_PART_COCK
 	target_sex_part = SEX_PART_CUNT|SEX_PART_ANUS
+	knot_on_finish = TRUE
 
 /datum/sex_action/double_penetration_sex/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
 		return FALSE
-	if(!target.getorganslot(ORGAN_SLOT_VAGINA))
+	if(!target.getorganslot(ORGAN_SLOT_VAGINA) || !target.sexcon.can_zodomize())
 		return FALSE
 	var/obj/item/organ/penis/penis = user.getorganslot(ORGAN_SLOT_PENIS)
 	if(!penis || penis.penis_type != PENIS_TYPE_TAPERED_DOUBLE && penis.penis_type != PENIS_TYPE_TAPERED_DOUBLE_KNOTTED)
@@ -35,7 +36,10 @@
 	playsound(target, list('sound/misc/mat/insert (1).ogg','sound/misc/mat/insert (2).ogg'), 20, TRUE, ignore_walls = FALSE)
 
 /datum/sex_action/double_penetration_sex/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] fucks [target]'s holes together."))
+	if(!user.sexcon.do_knot_action)
+		user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] fucks [target]'s holes together."))
+	else
+		user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] knot-fucks [target]'s holes together."))
 	playsound(target, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
 	do_thrust_animate(user, target)
 
@@ -50,7 +54,7 @@
 	if(user.sexcon.considered_limp())
 		user.sexcon.perform_sex_action(target, 1.4, 4, FALSE)
 	else
-		user.sexcon.perform_sex_action(target, 2.7, 9, FALSE)
+		user.sexcon.perform_sex_action(target, 2.7, !user.sexcon.do_knot_action ? 9 : 14, FALSE)
 	target.sexcon.handle_passive_ejaculation()
 
 /datum/sex_action/double_penetration_sex/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)
@@ -60,36 +64,3 @@
 	if(user.sexcon.finished_check())
 		return TRUE
 	return FALSE
-
-/datum/sex_action/double_penetration_sex/knot
-	name = "Knot both their holes"
-	knot_on_finish = TRUE
-
-/datum/sex_action/double_penetration_sex/knot/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	if(!user.sexcon.knot_penis_type(TRUE))
-		return FALSE
-	return ..()
-
-/datum/sex_action/double_penetration_sex/knot/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	if(!user.sexcon.knot_penis_type(TRUE))
-		return FALSE
-	return ..()
-
-/datum/sex_action/double_penetration_sex/knot/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] knot-fucks [target]'s holes together."))
-	playsound(target, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
-	do_thrust_animate(user, target)
-
-	user.sexcon.perform_sex_action(user, 3, 0, TRUE)
-	if(user.sexcon.check_active_ejaculation())
-		user.visible_message(span_love("[user] cums into [target]'s holes at the same time!"))
-		user.sexcon.cum_into(splashed_user = target)
-		user.try_impregnate(target)
-		user.virginity = FALSE
-		target.virginity = FALSE
-
-	if(user.sexcon.considered_limp())
-		user.sexcon.perform_sex_action(target, 1.4, 4, FALSE)
-	else
-		user.sexcon.perform_sex_action(target, 2.7, 9*1.5, FALSE)
-	target.sexcon.handle_passive_ejaculation()

@@ -9,6 +9,17 @@
 			return TRUE
 	return FALSE
 
+/datum/sex_controller/proc/double_penis_type()
+	var/obj/item/organ/penis/penis = user.getorganslot(ORGAN_SLOT_PENIS)
+	if(!penis)
+		return FALSE
+	if(!penis.functional)
+		return FALSE
+	switch(penis.penis_type)
+		if(PENIS_TYPE_TAPERED_DOUBLE,PENIS_TYPE_TAPERED_DOUBLE_KNOTTED,PENIS_TYPE_TAPER_DOUBLE_KNOTTED_MAMMAL)
+			return TRUE
+	return FALSE
+
 /datum/sex_controller/proc/knot_check_remove(var/action_path)
 	if(!user.sexcon.knotted_status && !target.sexcon.knotted_status)
 		return
@@ -78,13 +89,15 @@
 		target.Stun(80) // stun for dramatic effect
 	user.visible_message(span_notice("[user] ties their knot inside of [target]!"), span_notice("I tie my knot inside of [target]."))
 	if(target.stat != DEAD)
-		switch(target.sexcon.knotted_part)
-			if(SEX_PART_CUNT,SEX_PART_ANUS,SEX_PART_JAWS)
+		switch(target.sexcon.knotted_part) // this is not a smart way to do this in hindsight, but it is fast at least
+			if(SEX_PART_CUNT,SEX_PART_ANUS,SEX_PART_JAWS,SEX_PART_SLIT_SHEATH)
 				to_chat(target, span_userdanger("You have been knotted!"))
-			if(SEX_PART_CUNT|SEX_PART_ANUS|SEX_PART_JAWS)
-				to_chat(target, span_userdanger("You have been triple-knotted!"))
-			else
+			if(SEX_PART_CUNT|SEX_PART_ANUS|SEX_PART_JAWS|SEX_PART_SLIT_SHEATH)
+				to_chat(target, span_userdanger("You have been quad-knotted!"))
+			if(SEX_PART_CUNT|SEX_PART_ANUS,SEX_PART_CUNT|SEX_PART_JAWS,SEX_PART_CUNT|SEX_PART_SLIT_SHEATH,SEX_PART_ANUS|SEX_PART_SLIT_SHEATH,SEX_PART_ANUS|SEX_PART_JAWS,SEX_PART_JAWS|SEX_PART_SLIT_SHEATH)
 				to_chat(target, span_userdanger("You have been double-knotted!"))
+			else
+				to_chat(target, span_userdanger("You have been triple-knotted!"))
 		if(we_got_baothad)
 			to_chat(target, span_userdanger("Baotha magick infuses within, you can't think straight!"))
 	if(!target.has_status_effect(/datum/status_effect/knot_tied)) // only apply status if we don't have it already
