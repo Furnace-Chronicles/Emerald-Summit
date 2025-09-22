@@ -9503,7 +9503,7 @@
 "qmg" = (/turf/open/water/swamp/deep,/area/rogue/under/cave)
 "qmr" = (/turf/closed/wall/mineral/rogue/stone,/area/rogue/indoors/cave)
 "qmt" = (/obj/structure/table/wood{icon_state = "tablewood1"},/obj/item/toy/cards/deck,/turf/open/floor/rogue/blocks,/area/rogue/under/town/basement)
-"qmx" = (/obj/structure/bars{icon_state = "barsbent"; layer = 2.81},/obj/structure/table/wood/poor,/turf/open/floor/rogue/blocks,/area/rogue/indoors/town/cell)
+"qmx" = (/obj/structure/bars{icon_state = "barsbent"; layer = 2.81},/obj/structure/table/wood/poor,/obj/item/toy/cards/deck,/turf/open/floor/rogue/blocks,/area/rogue/indoors/town/cell)
 "qmD" = (/obj/structure/chair/wood/rogue/chair3{dir = 4},/turf/open/floor/rogue/tile,/area/rogue/indoors/town)
 "qmS" = (/obj/structure/stairs/stone{dir = 8},/turf/open/floor/rogue/churchmarble,/area/rogue/outdoors/mountains/decap/stepbelow)
 "qmT" = (/obj/structure/fluff/railing/border/west,/obj/structure/winch{name = "nautical wheel"; desc = "The centerpiece of any ship. You're not going anywhere without it."; pixel_x = -3},/obj/structure/fluff/walldeco/church/line{dir = 4},/turf/open/floor/rogue/metal,/area/rogue/outdoors/beach)
