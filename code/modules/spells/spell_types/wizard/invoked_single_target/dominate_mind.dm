@@ -26,11 +26,11 @@
 	var/mob/living/target = targets[1]
 
 	var/caster_skill = user.get_skill_level(/datum/skill/magic/arcane)
-	var/target_willpower = round(target.STAINT / 4)
+	var/target_willpower = round(target.STAINT / 2)
 
 	var/diceroll = roll(1, 20)
 	var/caster_roll = diceroll + (caster_skill)
-	var/target_dc = 10 + target_willpower
+	var/target_dc = target_willpower
 
 	var/success_margin = caster_roll - target_dc
 
@@ -229,7 +229,6 @@
 /mob/living/proc/submit_to_master()
 	set name = "Submit to Master"
 	set category = "SUBMIT"
-	set desc = "Permanently submit your will to the one who dominates your mind."
 
 	var/datum/component/dominated_mind/dom_comp = GetComponent(/datum/component/dominated_mind)
 
