@@ -47,7 +47,7 @@
 /obj/effect/proc_holder/spell/invoked/dominate_mind/proc/handle_critical_success(mob/living/target, mob/living/caster)
 	var/datum/component/dominated_mind/existing_bond = target.GetComponent(/datum/component/dominated_mind)
 	if(existing_bond && existing_bond.master == caster)
-		to_chat(caster, span_userdanger("You focus your power and entrap [target.real_name] in your psychic chains!"))
+		to_chat(caster, span_userdanger("You firmly reinforce your hold over [target.real_name] for a while!"))
 		existing_bond.reinforce_domination(60 SECONDS)
 	else
 		to_chat(caster, span_userdanger("You smash through the mental defenses of [target.real_name]. [target.p_their(TRUE)] mind is yours to command for a while."))
@@ -56,7 +56,7 @@
 /obj/effect/proc_holder/spell/invoked/dominate_mind/proc/handle_success(mob/living/target, mob/living/caster)
 	var/datum/component/dominated_mind/existing_bond = target.GetComponent(/datum/component/dominated_mind)
 	if(existing_bond && existing_bond.master == caster)
-		to_chat(caster, span_notice("You strengthen your hold over [target.real_name]."))
+		to_chat(caster, span_notice("You extend your hold over [target.real_name] for a short time."))
 		existing_bond.reinforce_domination(20 SECONDS)
 	else
 		to_chat(caster, span_warning("You create a hole in [target.real_name]'s mind. You can issue commands for a short time."))
@@ -69,10 +69,10 @@
 /obj/effect/proc_holder/spell/invoked/dominate_mind/proc/handle_critical_failure(mob/living/target, mob/living/caster)
 	var/datum/component/dominated_mind/existing_bond = target.GetComponent(/datum/component/dominated_mind)
 	if(existing_bond && existing_bond.master == caster)
-		to_chat(caster, span_userdanger("Your clumsy attempt to reinforce the bond shatters it completely!"))
+		to_chat(caster, span_userdanger("Your clumsy attempt shatters the bond completely! Your own mind is exposed!"))
 		existing_bond.end_domination()
 	to_chat(caster, span_userdanger("Your attack collapses! Your own mind is exposed!"))
-	to_chat(target, span_danger("You repel a mental attack! You get a crystal-clear image of your assailant: [caster.real_name]!"))
+	to_chat(target, span_danger("You repel a mental intrusion! You get a crystal-clear image of your assailant: [caster.real_name]!"))
 	caster.Stun(5 SECONDS)
 	caster.blur_eyes(5 SECONDS)
 
@@ -117,7 +117,7 @@
 	if(parent)
 		UnregisterSignal(parent, COMSIG_MOVABLE_HEAR)
 		if(!permanent_submission && is_overt)
-			to_chat(parent, span_notice("The controlling influence in your mind recedes. You are yourself again."))
+			to_chat(parent, span_notice("The controlling presence in your mind recedes."))
 		var/mob/living/carbon/human/slave = parent
 		if(slave)
 			slave.verbs -= /mob/living/proc/submit_to_master
@@ -184,10 +184,6 @@
 		return
 	for(var/datum/voice_of_god_command/command as anything in GLOB.voice_of_god_commands)
 		if(findtext(message, command.trigger))
-			if(command.tier > enthrallment_level)
-				to_chat(master, span_warning("Your psychic connection with [puppet.real_name] is not yet strong enough to compel such a command."))
-				return
-
 			if(command.tier == 3)
 				if(!is_yell)
 					to_chat(master, span_warning("You must exert your will more forcefully to make them obey that command!"))
