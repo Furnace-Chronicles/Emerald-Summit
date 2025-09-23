@@ -229,8 +229,8 @@
 /mob/living/proc/submit_to_master()
 	set name = "Submit to Master"
 	set category = "SUBMIT"
-	set desc = "Permanently submit your will to the one who dominates your mind."
-
+	set hidden = 1
+	
 	var/datum/component/dominated_mind/dom_comp = GetComponent(/datum/component/dominated_mind)
 
 	if(!dom_comp)
