@@ -275,16 +275,6 @@ GLOBAL_LIST_INIT(voice_of_god_commands, init_voice_of_god_commands())
 	for(var/mob/living/carbon/target in listeners)
 		target.throw_mode_on()
 
-/// This command forces the listeners to say a brain damage line.
-/datum/voice_of_god_command/speak
-	trigger = "speak|say\\s*something"
-
-/datum/voice_of_god_command/speak/execute(list/listeners, mob/living/user, power_multiplier = 1, message)
-	var/iteration = 1
-	for(var/mob/living/target in listeners)
-		addtimer(CALLBACK(target, TYPE_PROC_REF(/atom/movable, say), pick_list_replacements(BRAIN_DAMAGE_FILE, "brain_damage")), 0.5 SECONDS * iteration)
-		iteration++
-
 /// This command forces the listeners to get the fuck up, resetting all stuns.
 /datum/voice_of_god_command/getup
 	trigger = "get\\s*up"
