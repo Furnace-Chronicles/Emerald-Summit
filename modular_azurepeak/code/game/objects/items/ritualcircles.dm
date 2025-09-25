@@ -88,7 +88,7 @@
 					user.say("To bring Wisdom to a world of naught!!")
 					if(do_after(user, 50))
 						user.say("Place your gaze upon me, oh Wise one!!")
-						to_chat(user,span_cultsmall("You feel Noc's comforting gaze fall upon you. You feel surrounded by a soothing chill."))
+						to_chat(user,span_cultsmall("You feel Noc's comforting gaze fall upon you. A soothing chill surrounds you."))
 						playsound(loc, 'sound/magic/holyshield.ogg', 80, FALSE, -1)
 						moonlightdance(src)
 						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
