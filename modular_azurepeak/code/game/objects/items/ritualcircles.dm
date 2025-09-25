@@ -35,15 +35,15 @@
 	switch(riteselection) // rite selection goes in this section, try to do something fluffy. Presentation is most important here, truthfully.
 		if("Guiding Light") // User selects Guiding Light, begins the stuff for it
 			if(do_after(user, 50)) // just flavor stuff before activation
-				user.say("I beseech the she-form of the Twinned God!!")
+				user.say("I beseech the guidance of the Sun!!")
 				if(do_after(user, 50))
 					user.say("To bring Order to a world of naught!!")
 					if(do_after(user, 50))
 						user.say("Place your gaze upon me, oh Radiant one!!")
-						to_chat(user,span_danger("You feel the eye of Astrata turned upon you. Her warmth dances upon your cheek. You feel yourself warming up...")) // A bunch of flavor stuff, slow incanting.
+						to_chat(user,span_danger("You feel Astrata's strict gaze turned upon you. Her warmth dances upon your cheek. You feel yourself heating up...")) // A bunch of flavor stuff, slow incanting.
 						icon_state = "astrata_active"
 						if(!HAS_TRAIT(user, TRAIT_CHOSEN)) //Priests don't burst into flames.
-							loc.visible_message(span_warning("[user]'s bursts to flames! Embraced by Her Warmth wholly!"))
+							loc.visible_message(span_warning("[user]'s bursts to flames! Embraced by Her warmth wholly!"))
 							playsound(loc, 'sound/combat/hits/burn (1).ogg', 100, FALSE, -1)
 							user.adjust_fire_stacks(10)
 							user.IgniteMob()
@@ -83,12 +83,12 @@
 	switch(riteselection) // put ur rite selection here
 		if("Moonlight Dance")
 			if(do_after(user, 50))
-				user.say("I beseech the he-form of the Twinned God!!")
+				user.say("I beseech the guidance of the Moon!!")
 				if(do_after(user, 50))
 					user.say("To bring Wisdom to a world of naught!!")
 					if(do_after(user, 50))
-						user.say("Place your gaze upon me, oh wise one!!")
-						to_chat(user,span_cultsmall("The waning half of the Twin-God carries but one eye. With some effort, it can be drawn upon supplicants."))
+						user.say("Place your gaze upon me, oh Wise one!!")
+						to_chat(user,span_cultsmall("You feel Noc's comforting gaze fall upon you. You feel surrounded by a soothing chill."))
 						playsound(loc, 'sound/magic/holyshield.ogg', 80, FALSE, -1)
 						moonlightdance(src)
 						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
