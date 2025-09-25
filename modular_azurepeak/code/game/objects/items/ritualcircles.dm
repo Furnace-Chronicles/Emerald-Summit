@@ -40,7 +40,7 @@
 					user.say("To bring Order to a world of naught!!")
 					if(do_after(user, 50))
 						user.say("Place your gaze upon me, oh Radiant one!!")
-						to_chat(user,span_danger("You feel Astrata's strict gaze turned upon you. Her warmth dances upon your cheek. You feel yourself heating up...")) // A bunch of flavor stuff, slow incanting.
+						to_chat(user,span_danger("You feel Astrata's strict gaze fall upon you. Her warmth dances upon your cheek. You feel yourself heating up...")) // A bunch of flavor stuff, slow incanting.
 						icon_state = "astrata_active"
 						if(!HAS_TRAIT(user, TRAIT_CHOSEN)) //Priests don't burst into flames.
 							loc.visible_message(span_warning("[user]'s bursts to flames! Embraced by Her warmth wholly!"))
