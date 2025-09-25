@@ -4,8 +4,8 @@
 
 /datum/patron/divine/astrata
 	name = "Astrata"
-	domain = "Twinned Goddess of the Sun, Day, and Order"
-	desc = "The she-form of the Twinned Gods, the combined amalgam of single-bodied Astrata and Noc that opens her eyes at glorious Dae. Men bask under the gift of the Sun. A single form begets two Gods that shift at Dusk and Dawn but always endures, even at night."
+	domain = "Goddess of the Sun, Day, and Order"
+	desc = "The Sun-Tyrant of the Ten, sister and rival to Noc - and the eldest of them all. Her radiance keeps the evils at bay during the dae. Night, however, is a different tale."
 	worshippers = "The Noble Hearted, Zealots and Farmers"
 	mob_traits = list(TRAIT_APRICITY)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
@@ -27,9 +27,9 @@
 
 /datum/patron/divine/noc
 	name = "Noc"
-	domain = "Twinned God of the Moon, Night, and Knowledge"
-	desc = "The he-form of the Twinned Gods, the combined amalgam of single-bodied Noc and Astrata that opens his eyes during pondorous Night. He gifted man knowledge of divinity and magicks. A single form begets two Gods that shift at Dusk and Dawn but always endures, even at dae."
-	worshippers = "Wizards and Scholars"
+	domain = "God of the Moon, Night, Knowledge and Arcyne"
+	desc = "The Veiled One of the Ten, brother and rival to Astrata. His wisdom paves the way in the moonlight. Tales of esoteric magic at the destination are sung - in the words of decaying scripts."
+	worshippers = "The Curious, Wizards and Scholars"
 	mob_traits = list(TRAIT_NIGHT_OWL, TRAIT_DARKVISION)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/noc_sight				= CLERIC_T0,
@@ -183,7 +183,7 @@
 	name = "Pestra"
 	domain = "Goddess of Decay, Disease and Medicine"
 	desc = "Goddess that blessed many a saint with healing hands, Pestra taught man the arts of medicine and its benefits."
-	worshippers = "The Sick, Phyicians, Apothecaries"
+	worshippers = "The Sick, Physicians, Apothecaries"
 	mob_traits = list(TRAIT_EMPATH, TRAIT_ROT_EATER)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/diagnose				= CLERIC_ORI,
