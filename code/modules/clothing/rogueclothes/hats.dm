@@ -2378,7 +2378,8 @@
 	icon_state = "capbarbute"
 	block2add = FOV_BEHIND
 	max_integrity = 350
-	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT|HIDEEYES
+	body_parts_covered = HEAD|HAIR|EARS|MOUTH|NOSE|EYES
 
 /obj/item/clothing/head/roguetown/helmet/visored/captain/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), HIDEHAIR, null, 'sound/items/visor.ogg', null, UPD_HEAD)
