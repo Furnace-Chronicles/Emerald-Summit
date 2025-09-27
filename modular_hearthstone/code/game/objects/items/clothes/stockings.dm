@@ -102,14 +102,3 @@
 
 /obj/item/legwears/fishnet/purple
 	color = "#664357"
-
-//thigh highs
-
-/obj/item/legwears/thigh
-	name = "Thigh highs"
-	desc = "A legwear popular among wenches."
-	icon_state = "thigh"
-
-/obj/item/legwears/thigh/random/Initialize()
-	. = ..()
-	color = pick("#e6e5e5", CLOTHING_BLACK, CLOTHING_BLUE, "#6F0000", "#664357")

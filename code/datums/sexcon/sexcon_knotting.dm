@@ -9,17 +9,6 @@
 			return TRUE
 	return FALSE
 
-/datum/sex_controller/proc/double_penis_type()
-	var/obj/item/organ/penis/penis = user.getorganslot(ORGAN_SLOT_PENIS)
-	if(!penis)
-		return FALSE
-	if(!penis.functional)
-		return FALSE
-	switch(penis.penis_type)
-		if(PENIS_TYPE_TAPERED_DOUBLE,PENIS_TYPE_TAPERED_DOUBLE_KNOTTED)
-			return TRUE
-	return FALSE
-
 /datum/sex_controller/proc/knot_check_remove(var/action_path)
 	if(!user.sexcon.knotted_status && !target.sexcon.knotted_status)
 		return
@@ -60,7 +49,7 @@
 		var/top_still_topping = user.sexcon.knotted_status == KNOTTED_AS_TOP // top just reknotted a different character, don't retrigger the same status (this fixes a weird perma stat debuff if we try to remove/apply the same effect in the same tick)
 		user.sexcon.knot_remove(keep_top_status = top_still_topping)
 	var/we_got_baothad = user.patron && istype(user.patron, /datum/patron/inhumen/baotha)
-	if(we_got_baothad && !target.has_status_effect(/datum/status_effect/knot_fucked_stupid)) // as requested, if the top is of the baotha faith
+	if((target.compliance || we_got_baothad) && !target.has_status_effect(/datum/status_effect/knot_fucked_stupid)) // as requested, if the top is of the baotha faith, or the target has compliance mode on
 		target.apply_status_effect(/datum/status_effect/knot_fucked_stupid)
 
 	user.sexcon.knotted_owner = user
@@ -89,15 +78,13 @@
 		target.Stun(80) // stun for dramatic effect
 	user.visible_message(span_notice("[user] ties their knot inside of [target]!"), span_notice("I tie my knot inside of [target]."))
 	if(target.stat != DEAD)
-		switch(target.sexcon.knotted_part) // this is not a smart way to do this in hindsight, but it is fast at least
-			if(SEX_PART_CUNT,SEX_PART_ANUS,SEX_PART_JAWS,SEX_PART_SLIT_SHEATH)
+		switch(target.sexcon.knotted_part)
+			if(SEX_PART_CUNT,SEX_PART_ANUS,SEX_PART_JAWS)
 				to_chat(target, span_userdanger("You have been knotted!"))
-			if(SEX_PART_CUNT|SEX_PART_ANUS|SEX_PART_JAWS|SEX_PART_SLIT_SHEATH)
-				to_chat(target, span_userdanger("You have been quad-knotted!"))
-			if(SEX_PART_CUNT|SEX_PART_ANUS,SEX_PART_CUNT|SEX_PART_JAWS,SEX_PART_CUNT|SEX_PART_SLIT_SHEATH,SEX_PART_ANUS|SEX_PART_SLIT_SHEATH,SEX_PART_ANUS|SEX_PART_JAWS,SEX_PART_JAWS|SEX_PART_SLIT_SHEATH)
-				to_chat(target, span_userdanger("You have been double-knotted!"))
-			else
+			if(SEX_PART_CUNT|SEX_PART_ANUS|SEX_PART_JAWS)
 				to_chat(target, span_userdanger("You have been triple-knotted!"))
+			else
+				to_chat(target, span_userdanger("You have been double-knotted!"))
 		if(we_got_baothad)
 			to_chat(target, span_userdanger("Baotha magick infuses within, you can't think straight!"))
 	if(!target.has_status_effect(/datum/status_effect/knot_tied)) // only apply status if we don't have it already
@@ -464,16 +451,6 @@
 	name = "Knotted"
 	desc = "I have to be careful where I step..."
 	icon_state = "knotted"
-
-/atom/movable/screen/alert/status_effect/knotted/Click()
-	..()
-	var/mob/living/L = usr
-	if(!istype(L) || !L.sexcon)
-		return FALSE
-	if(L.sexcon.knotted_status == KNOTTED_AS_TOP)
-		var/do_forceful_removal = L.sexcon.arousal > MAX_AROUSAL / 3 // considered still hard, let it rip like a beyblade
-		L.sexcon.knot_remove(forceful_removal = do_forceful_removal)
-	return FALSE
 
 /datum/status_effect/jaw_gaped
 	id = "jaw_gaped"

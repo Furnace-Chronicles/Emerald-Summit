@@ -2,14 +2,13 @@
 	name = "Ride them anally"
 	stamina_cost = 1.0
 	aggro_grab_instead_same_tile = FALSE
-	category = SEX_CATEGORY_PENETRATE
 	user_sex_part = SEX_PART_ANUS
 	target_sex_part = SEX_PART_COCK
 
 /datum/sex_action/anal_ride_sex/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
 		return FALSE
-	if(!target.getorganslot(ORGAN_SLOT_PENIS) || !user.sexcon.can_zodomize())
+	if(!target.getorganslot(ORGAN_SLOT_PENIS))
 		return FALSE
 	return TRUE
 

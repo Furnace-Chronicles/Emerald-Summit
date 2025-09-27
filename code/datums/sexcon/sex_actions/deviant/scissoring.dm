@@ -7,9 +7,9 @@
 	if(user == target)
 		return FALSE
 	if(!user.getorganslot(ORGAN_SLOT_VAGINA))
-		return FALSE
+		return
 	if(!target.getorganslot(ORGAN_SLOT_VAGINA))
-		return FALSE
+		return
 	return TRUE
 
 /datum/sex_action/scissoring/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
@@ -41,8 +41,3 @@
 
 /datum/sex_action/scissoring/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	user.visible_message(span_warning("[user] stops scissoring with [target]."))
-
-/datum/sex_action/scissoring/is_finished(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	if(target.sexcon.finished_check())
-		return TRUE
-	return FALSE

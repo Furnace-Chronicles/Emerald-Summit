@@ -2,7 +2,6 @@
 	name = "Ride them"
 	stamina_cost = 1.0
 	aggro_grab_instead_same_tile = FALSE
-	category = SEX_CATEGORY_PENETRATE
 	user_sex_part = SEX_PART_CUNT
 	target_sex_part = SEX_PART_COCK
 

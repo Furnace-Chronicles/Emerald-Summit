@@ -2378,8 +2378,7 @@
 	icon_state = "capbarbute"
 	block2add = FOV_BEHIND
 	max_integrity = 350
-	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT|HIDEEYES
-	body_parts_covered = HEAD|HAIR|EARS|MOUTH|NOSE|EYES
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
 
 /obj/item/clothing/head/roguetown/helmet/visored/captain/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), HIDEHAIR, null, 'sound/items/visor.ogg', null, UPD_HEAD)
@@ -2464,109 +2463,3 @@
 	blocksound = PLATEHIT
 	smeltresult = /obj/item/ash
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
-
-/obj/item/clothing/head/roguetown/helmet/heavy/zizoid
-	name = "crow of zizo"
-	desc = "A darkened iron heavy helmet shaped in a beak, it glows with dark red magiks on his eyes."
-	icon_state = "zizo"
-	var/on = FALSE
-	light_outer_range = 2 	//very small light in red to scare people
-	light_power = 1
-	light_color = LIGHT_COLOR_BLOOD_MAGIC
-	light_system = MOVABLE_LIGHT
-	smeltresult = /obj/item/ingot/iron
-
-/obj/item/clothing/head/roguetown/helmet/heavy/zizoid/MiddleClick(mob/user)
-	if(.)
-		return
-	user.changeNext_move(CLICK_CD_MELEE)
-	playsound(loc, 'sound/misc/toggle_lamp.ogg', 100)
-	toggle_helmet_light(user)
-	to_chat(user, span_info("I toggle [src] [on ? "on" : "off"]."))
-
-/obj/item/clothing/head/roguetown/helmet/heavy/zizoid/proc/toggle_helmet_light(mob/living/user)
-	on = !on
-	set_light_on(on)
-	update_icon()
-
-/obj/item/clothing/head/roguetown/helmet/heavy/zizoid/update_icon()
-	icon_state = "zizo[on]"
-	item_state = "zizo[on]"
-	if(ishuman(loc))
-		var/mob/living/carbon/human/H = loc
-		H.update_inv_head()
-	for(var/X in actions)
-		var/datum/action/A = X
-		A.UpdateButtonIcon(force = TRUE)
-	..()
-
-/obj/item/clothing/head/roguetown/helmet/heavy/grag
-	name = "vicious spiked star"
-	desc = "A heavy iron helmet covered in dry blood and spikes, shaped in a cruel deformated smile it glows with dark red magiks on his eyes."
-	icon_state = "graggar"
-	var/on = FALSE
-	light_outer_range = 2 	//very small light in red to scare people
-	light_power = 1
-	light_color = LIGHT_COLOR_BLOOD_MAGIC
-	light_system = MOVABLE_LIGHT
-	smeltresult = /obj/item/ingot/iron
-
-/obj/item/clothing/head/roguetown/helmet/heavy/grag/MiddleClick(mob/user)
-	if(.)
-		return
-	user.changeNext_move(CLICK_CD_MELEE)
-	playsound(loc, 'sound/misc/toggle_lamp.ogg', 100)
-	toggle_helmet_light(user)
-	to_chat(user, span_info("I toggle [src] [on ? "on" : "off"]."))
-
-/obj/item/clothing/head/roguetown/helmet/heavy/grag/proc/toggle_helmet_light(mob/living/user)
-	on = !on
-	set_light_on(on)
-	update_icon()
-
-/obj/item/clothing/head/roguetown/helmet/heavy/grag/update_icon()
-	icon_state = "graggar[on]"
-	item_state = "graggar[on]"
-	if(ishuman(loc))
-		var/mob/living/carbon/human/H = loc
-		H.update_inv_head()
-	for(var/X in actions)
-		var/datum/action/A = X
-		A.UpdateButtonIcon(force = TRUE)
-	..()
-
-/obj/item/clothing/head/roguetown/helmet/heavy/matt
-	name = "veil of greed"
-	desc = "A heavy iron helmet covered in a heavy red hood, shaped in a deformated greedy smile it glows with dark red magiks on his eyes."
-	icon_state = "matthios"
-	var/on = FALSE
-	light_outer_range = 2 	//very small light in red to scare people
-	light_power = 1
-	light_color = LIGHT_COLOR_BLOOD_MAGIC
-	light_system = MOVABLE_LIGHT
-	smeltresult = /obj/item/ingot/iron
-
-/obj/item/clothing/head/roguetown/helmet/heavy/matt/MiddleClick(mob/user)
-	if(.)
-		return
-	user.changeNext_move(CLICK_CD_MELEE)
-	playsound(loc, 'sound/misc/toggle_lamp.ogg', 100)
-	toggle_helmet_light(user)
-	to_chat(user, span_info("I toggle [src] [on ? "on" : "off"]."))
-
-/obj/item/clothing/head/roguetown/helmet/heavy/matt/proc/toggle_helmet_light(mob/living/user)
-	on = !on
-	set_light_on(on)
-	update_icon()
-
-/obj/item/clothing/head/roguetown/helmet/heavy/matt/update_icon()
-	icon_state = "matthios[on]"
-	item_state = "matthios[on]"
-	if(ishuman(loc))
-		var/mob/living/carbon/human/H = loc
-		H.update_inv_head()
-	for(var/X in actions)
-		var/datum/action/A = X
-		A.UpdateButtonIcon(force = TRUE)
-	..()
-

@@ -19,7 +19,7 @@
 			to_chat(src, span_warning("[soften_text]"))
 //		else
 //			to_chat(src, span_warning("My armor softens the blow!"))
-	if(mob_timers[MT_INVISIBILITY] > world.time)
+	if(mob_timers[MT_INVISIBILITY] > world.time)			
 		mob_timers[MT_INVISIBILITY] = world.time
 		update_sneak_invis(reset = TRUE)
 	return armor
@@ -60,7 +60,7 @@
 		if(!apply_damage(P.damage, P.damage_type, def_zone, armor))
 			nodmg = TRUE
 			next_attack_msg += " <span class='warning'>Armor stops the damage.</span>"
-		apply_effects(stun = P.stun, knockdown = P.knockdown, unconscious = P.unconscious, slur = P.slur, stutter = P.stutter, eyeblur = P.eyeblur, drowsy = P.drowsy, blocked = armor, stamina = P.stamina, jitter = P.jitter, paralyze = P.paralyze, immobilize = P.immobilize)
+		apply_effects(P.stun, P.knockdown, P.unconscious, P.slur, P.stutter, P.eyeblur, P.drowsy, armor, P.stamina, P.jitter, P.paralyze, P.immobilize)
 		if(!nodmg)
 			if(P.dismemberment)
 				check_projectile_dismemberment(P, def_zone,armor)
@@ -121,7 +121,7 @@
 		var/zone = throwingdatum?.target_zone || ran_zone(BODY_ZONE_CHEST, 65)
 		SEND_SIGNAL(I, COMSIG_MOVABLE_IMPACT_ZONE, src, zone)
 		if(!blocked)
-			var/ap = (damage_flag == "blunt") ? BLUNT_DEFAULT_PENFACTOR : I.armor_penetration
+			var/ap = (damage_flag == "blunt") ? BLUNT_DEFAULT_PENFACTOR : I.armor_penetration 
 			var/armor = run_armor_check(zone, damage_flag, "", "", armor_penetration = ap, damage = I.throwforce)
 			next_attack_msg.Cut()
 			var/nodmg = FALSE
@@ -195,7 +195,7 @@
 	if(user == src)
 		instant = TRUE
 
-	if(HAS_TRAIT(user, TRAIT_NOSTRUGGLE))
+	if(HAS_TRAIT(user, TRAIT_NOSTRUGGLE))	
 		instant = TRUE
 
 	if(surrendering)
@@ -298,7 +298,7 @@
 	return list(/datum/intent/grab/move)
 
 /mob/living/proc/send_grabbed_message(mob/living/carbon/user)
-	if(HAS_TRAIT(user, TRAIT_NOTIGHTGRABMESSAGE))
+	if(HAS_TRAIT(user, TRAIT_NOTIGHTGRABMESSAGE))	
 		return
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
 		visible_message(span_danger("[user] firmly grips [src]!"),

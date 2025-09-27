@@ -1,6 +1,6 @@
 
 /obj/item/roguegem
-	name = "gem"
+	name = "mother of all gems"
 	icon_state = "ruby_cut"
 	icon = 'icons/roguetown/items/gems.dmi'
 	desc = "A debug tool to help us later"

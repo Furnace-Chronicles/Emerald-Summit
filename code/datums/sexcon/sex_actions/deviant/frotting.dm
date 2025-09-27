@@ -7,9 +7,9 @@
 	if(user == target)
 		return FALSE
 	if(!user.getorganslot(ORGAN_SLOT_PENIS))
-		return FALSE
+		return
 	if(!target.getorganslot(ORGAN_SLOT_PENIS))
-		return FALSE
+		return
 	return TRUE
 
 /datum/sex_action/frotting/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)

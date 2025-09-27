@@ -519,7 +519,7 @@
 	if(environment_smash)
 		var/turf/V = get_turf(src)
 		for (var/obj/structure/O in V.contents)	//check for if a direction dense structure is on the same tile as the mob
-			if(isstructure(O) && !O in favored_structures)
+			if(isstructure(O) && !(O in favored_structures))
 				O.attack_animal(src)
 				continue
 		EscapeConfinement()

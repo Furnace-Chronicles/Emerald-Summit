@@ -20,8 +20,7 @@
 	glow_color = GLOW_COLOR_DISPLACEMENT
 	glow_intensity = GLOW_INTENSITY_HIGH //Big warning as its AoE
 
-	var/slip_effect_duration = 10 SECONDS
-	var/pre_slip_buffer_delay = 0.5 SECONDS
+	var/tile_effect_duration = 10 SECONDS
 	var/slip_effect_type = TURF_WET_MAGIC
 	var/area_of_effect_radius = 1 // 1 = 3x3
 
@@ -40,10 +39,12 @@
 		for(var/turf/open/O in affected_turfs)
 			playsound(O, 'sound/foley/waterenter.ogg', 25, TRUE)
 
-			new /obj/effect/temp_visual/slick_warning(O)
+			// First, clear any existing wet floor
+			O.ClearWet()
 
-			//wait before actually adding the slip for "Slip buffering"
-			addtimer(CALLBACK(O, TYPE_PROC_REF(/turf/open, MakeSlippery), slip_effect_type, slip_effect_duration, 0, slip_effect_duration), pre_slip_buffer_delay)
+			O.MakeSlippery(wet_setting = slip_effect_type, min_wet_time = tile_effect_duration, max_wet_time = 120 SECONDS)
+
+			new /obj/effect/temp_visual/slick_warning(O)
 		return TRUE
 	revert_cast()
 	return FALSE
@@ -55,6 +56,5 @@
 	icon_state = "purplesparkles"
 	color = "#0099FF" // Blue tint for water-like appearance
 	randomdir = FALSE
+	duration = 15 SECONDS //Make sure this is the same as slick_trick's tile_effect_duration
 	layer = MASSIVE_OBJ_LAYER
-	duration = 13 SECONDS //add a couple seconds because the slip lasts longer than intended for some freaking reason
-

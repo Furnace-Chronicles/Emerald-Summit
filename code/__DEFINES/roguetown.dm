@@ -451,7 +451,6 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_HEIR			"CAT_HEIR"			// Prince(cess) class - Handles Heir class selector
 #define CTAG_LORD			"CAT_LORD"			// Lord class - Handles Lord class selector
 #define CTAG_SQUIRE			"CAT_SQUIRE"		// Squire class - Handles Squire class selector
-#define CTAG_GATEMASTER		"CAT_GATEMASTER"	// Gatemaster class - Handles Gatemaster class selector
 #define CTAG_VETERAN		"CAT_VETERAN"		// Veteran class - Handles Veteran class selector
 #define CTAG_MARSHAL		"CAT_MARSHAL"		// Marshal class
 #define CTAG_SENESCHAL		"CAT_SENESCHAL"		// Seneschal's aesthetic choices.

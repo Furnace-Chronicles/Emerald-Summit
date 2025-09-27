@@ -81,9 +81,8 @@
 	)
 
 	subclass_skills = list(
-		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
@@ -91,9 +90,9 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE,
 	)
 
 //Classical hand start - same as before, nothing changed.
@@ -115,11 +114,12 @@
 	/datum/language/thievescant,
 	)
 
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_DODGEEXPERT, TRAIT_PERFECT_TRACKER, TRAIT_KEENEARS)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_DODGEEXPERT, TRAIT_PERFECT_TRACKER)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_PER = 2,
-		STATKEY_INT = 2
+		STATKEY_INT = 2,
+		STATKEY_STR = -1,
 	)
 
 	subclass_skills = list(
@@ -133,9 +133,9 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/stealing = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_MASTER, // not like they're gonna break into the vault.
@@ -166,7 +166,7 @@
 	outfit = /datum/outfit/job/roguetown/hand/advisor
 	category_tags = list(CTAG_HAND)
 
-	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2, TRAIT_INTELLECTUAL, TRAIT_SEEPRICES_SHITTY)
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2)
 	subclass_stats = list(
 		STATKEY_INT = 4,
 		STATKEY_PER = 3,
@@ -184,7 +184,6 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/medicine = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT,
@@ -195,7 +194,7 @@
 /datum/outfit/job/roguetown/hand/advisor/pre_equip(mob/living/carbon/human/H)
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
 	backr = /obj/item/storage/backpack/rogue/satchel/black
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/dtace = 1, /obj/item/storage/keyring/hand = 1, /obj/item/lockpickring/mundane = 1, /obj/item/reagent_containers/glass/bottle/rogue/poison = 1) //starts with a vial of poison, like all wizened evil advisors do!
+	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/dtace = 1, /obj/item/storage/keyring/hand = 1, /obj/item/reagent_containers/glass/bottle/rogue/poison = 1) //starts with a vial of poison, like all wizened evil advisors do!
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/hand
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	id = /obj/item/scomstone/garrison

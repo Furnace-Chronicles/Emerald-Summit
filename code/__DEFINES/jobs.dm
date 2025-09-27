@@ -112,11 +112,10 @@
 #define GUARDSMAN	(1<<0)
 #define MANATARMS	(1<<1)
 #define DUNGEONEER	(1<<2)
-#define GATEMASTER	(1<<3)
-#define SQUIRE		(1<<4)
-#define BOGGUARD	(1<<5)
-#define SERGEANT	(1<<6)
-#define SHERIFF		(1<<7)
+#define SQUIRE		(1<<3)
+#define BOGGUARD	(1<<4)
+#define SERGEANT	(1<<5)
+#define SHERIFF		(1<<6)
 
 #define CHURCHMEN		(1<<2)
 

@@ -67,13 +67,9 @@
 /obj/item/psydonmusicbox/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(usr, TRAIT_INQUISITION))
-		. += "A relic from the bowels of the Otavan cathedral's thaumaturgical workshops. Fourteen souls of heretics, all bound together, they will scream and protect us from magicks. It would be wise to not teach the heretics of its true nature, to only bring it to bear in dire circumstances."
+		desc = "A relic from the bowels of the Otavan cathedral's thaumaturgical workshops. Fourteen souls of heretics, all bound together, they will scream and protect us from magicks. It would be wise to not teach the heretics of its true nature, to only bring it to bear in dire circumstances."
 	else
-		. += "A cranked music box, it has the seal of the Otavan Inquisition on the side. It carries a somber feeling to it..."
-		if(isliving(user))
-			var/mob/living/L = user
-			if(L.has_status_effect(/datum/status_effect/buff/churnernegative))
-				. += span_userdanger("DESTROY IT!")
+		desc = "A cranked music box, it has the seal of the Otavan Inquisition on the side. It carries a somber feeling to it..."
 
 /obj/item/psydonmusicbox/attack_self(mob/living/user)
 	. = ..()
@@ -100,15 +96,6 @@
 	if(soundloop)
 		QDEL_NULL(soundloop)
 	src.visible_message(span_cult("A great deluge of souls escapes the shattered box!"))
-	for (var/mob/living/carbon/human/H in hearers(7, src))
-		if (!H.client)
-			continue
-		if(!HAS_TRAIT(H, TRAIT_INQUISITION))
-			if(H?.patron?.type == /datum/patron/old_god)
-				H.add_stress(/datum/stressevent/soulchurnerdestroyed_psydon)
-			else
-				H.add_stress(/datum/stressevent/soulchurnerdestroyed)
-				to_chat(H, (span_hypnophrase("\"Thank you.\"")))
 	return ..()
 
 /obj/item/psydonmusicbox/update_icon()

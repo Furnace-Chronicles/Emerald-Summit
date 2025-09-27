@@ -1,6 +1,6 @@
 /datum/advclass/mercenary/desert_rider
 	name = "Desert Rider Janissary"
-	tutorial = "The Janissaries are the Empire's elite infantry units, shield and weapon in hand. We do not break."
+	tutorial = "The Janissaries are the Empire's elite infantry units, wielding mace and shield. We do not break."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/mercenary/desert_rider
@@ -16,12 +16,12 @@
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_END = 2,
-		STATKEY_CON = 2,
-		STATKEY_PER = 1
+		STATKEY_SPD = 2,
+		STATKEY_PER = -1
 	)
 
 	subclass_skills = list(
-		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
@@ -38,7 +38,7 @@
 
 /datum/outfit/job/roguetown/mercenary/desert_rider/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("The Janissaries are the Empire's elite infantry units, shield and weapon in hand. We do not break."))
+	to_chat(H, span_warning("The Janissaries are the Empire's elite infantry units, wielding mace and shield. We do not break."))
 
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/raneshen
 	neck = /obj/item/clothing/neck/roguetown/bevor
@@ -57,18 +57,16 @@
 		/obj/item/storage/belt/rogue/pouch/coins/poor
 		)
 
-	var/weapons = list("Axe and Shield","Shamshir and Shield","Spear and Shield")
+	var/weapons = list("Heavy Mace","Shamshir and Shield","Spear and Shield")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
-		if("Axe and Shield")
-			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
-			backl = /obj/item/rogueweapon/shield/tower/raneshen
-			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut
+		if("Heavy Mace")
+			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
+			backl = /obj/item/rogueweapon/mace/goden
 		if("Shamshir and Shield")
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 			r_hand = /obj/item/rogueweapon/sword/sabre/shamshir
-			beltr = /obj/item/rogueweapon/scabbard/sword
 			backl = /obj/item/rogueweapon/shield/tower/raneshen
 		if("Spear and Shield")
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
@@ -78,6 +76,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/shalal
 	belt = /obj/item/storage/belt/rogue/leather/shalal
 	beltl = /obj/item/rogueweapon/scabbard/sword
+	beltr = /obj/item/rogueweapon/scabbard/sword
 	l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
 
 /datum/advclass/mercenary/desert_rider/zeybek

@@ -139,7 +139,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 				playsound(user, 'sound/foley/climb.ogg', 100, TRUE)
 			var/pulling = user.pulling
 			var/mob/living/carbon/human/climber = user
-			var/baseline_stamina_cost = 30
+			var/baseline_stamina_cost = 20
 			var/climb_gear_bonus = 1
 			if((istype(climber.backr, /obj/item/clothing/climbing_gear)) || (istype(climber.backl, /obj/item/clothing/climbing_gear)))
 				climb_gear_bonus = 2
@@ -149,10 +149,10 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 				user.pulling.forceMove(target)
 			var/climber_armor_class = climber.highest_ac_worn()
 			if((climber_armor_class <= ARMOR_CLASS_LIGHT) && !(ismob(pulling))) // if our armour is not light or none OR we are pulling someone we eat shit and die and can't climb vertically at all, except for 'vaulting' aka we got a sold turf we can walk on in front of us
-				user.movement_type |= FLYING
+				user.movement_type = FLYING
 			L.stamina_add(stamina_cost_final)
 			user.forceMove(target)
-			user.movement_type &= ~FLYING
+			user.movement_type = GROUND
 			if(istype(user.loc, /turf/open/transparent/openspace)) // basically only apply this slop after we moved. if we are hovering on the openspace turf, then good, we are doing an 'active climb' instead of the usual vaulting action
 				climber.wallpressed = climber2wall_dir
 				switch(climber2wall_dir)// we are pressed against the wall after all that shit and are facing it, also hugging it too bcoz sou
@@ -168,7 +168,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 					if(WEST)
 						climber.setDir(WEST)
 						climber.set_mob_offsets("wall_press", _x = -12, _y = 0)
-				L.apply_status_effect(/datum/status_effect/debuff/climbing_lfwb, stamina_cost_final)
+				L.apply_status_effect(/datum/status_effect/debuff/climbing_lfwb)
 			user.start_pulling(pulling,supress_message = TRUE)
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -191,7 +191,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	var/turf/climb_target = src
 	var/mob/living/carbon/human/climber = user // https://discord.com/channels/1389349752700928050/1389452066493169765/1413195734441922580
 	if(!(climber.stat != CONSCIOUS))
-		if(!(climber.movement_type & (FLYING|FLOATING))) // if you fly then fuck off
+		if(!(climber.movement_type == FLYING)) // if you fly then fuck off
 			var/pulling = climber.pulling
 			if(ismob(pulling)) // if you are grabbing someone then fuck off, could forceMove() both grabber and the grabee for fun doe
 				climber.visible_message(span_info("I can't get a good grip while dragging someone."))
@@ -205,6 +205,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 			var/turf/wall_for_message
 			var/climbing_skill = max(climber.get_skill_level(/datum/skill/misc/climbing), SKILL_LEVEL_NOVICE)
 			var/adjacent_wall_diff
+			var/climb_gear_bonus = 1 // bonus is defined here, we might use it for calculations still, like giving you +1 effective skill for climbing purposes, but rn it it's only used to halve your stamina costs
 			for(var/turf/closed/adjacent_wall in adjacent_wall_list) // we add any turf that is a wall, aka /turf/closed/...
 				adjacent_wall_diff = adjacent_wall.climbdiff
 				if(!(climbing_skill == 6))
@@ -223,7 +224,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 				var/sfx_vol = (100 - (climbing_skill * 10))
 				var/climb_along_delay = round(max(20 - (climbing_skill * 2) - (climber.STASPD/3), 5), 1)
 				var/climber_armor_class
-				var/baseline_stamina_cost = 30
+				var/baseline_stamina_cost = 15
 				if(climber.m_intent == MOVE_INTENT_SNEAK)
 					climb_along_delay = climb_along_delay * 1.5
 				if(do_after(climber, climb_along_delay, wall_for_message))
@@ -232,12 +233,14 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 					if(!(climber_armor_class <= ARMOR_CLASS_LIGHT))
 						climber.visible_message(span_danger("The armor weighs me down!")) // if you can actually shuffle along the wall but wearing heavy armor, you get a grip on it... but fall, as a little treat
 					else
-						climber.movement_type |= FLYING // the way this works is that we only really ever fall if we enter the open space turf with GROUND move type, otherwise we can just hover over indefinetely
-					var/stamina_cost_final = round((baseline_stamina_cost / climbing_skill), 1)
+						climber.movement_type = FLYING // the way this works is that we only really ever fall if we enter the open space turf with GROUND move type, otherwise we can just hover over indefinetely
+					if((istype(climber.backr, /obj/item/clothing/climbing_gear)) || (istype(climber.backl, /obj/item/clothing/climbing_gear)))
+						climb_gear_bonus = 2
+					var/stamina_cost_final = round(((baseline_stamina_cost / climbing_skill) / climb_gear_bonus), 1)
 					climber.stamina_add(stamina_cost_final) // eat some of climber's stamina when we move onto the next tile
-					climber.apply_status_effect(/datum/status_effect/debuff/climbing_lfwb, stamina_cost_final) // continious drain of STAMINA and checks to remove the status effect if we are on solid stuff or branches
+					climber.apply_status_effect(/datum/status_effect/debuff/climbing_lfwb) // continious drain of STAMINA and checks to remove the status effect if we are on solid stuff or branches
 					climber.forceMove(climb_target) // while our MOVEMENT TYPE is FLYING, we move onto next tile and can't fall cos of the flying
-					climber.movement_type &= ~FLYING // if we move and it's an empty space tile, we fall. otherwise we either just walk into a wall along which we climb and don't fall, or walk onto a solid turf, like... floor or water
+					climber.movement_type = GROUND // if we move and it's an empty space tile, we fall. otherwise we either just walk into a wall along which we climb and don't fall, or walk onto a solid turf, like... floor or water
 					if(climber.m_intent != MOVE_INTENT_SNEAK)
 						playsound(climber, 'sound/foley/climb.ogg', sfx_vol)
 					else

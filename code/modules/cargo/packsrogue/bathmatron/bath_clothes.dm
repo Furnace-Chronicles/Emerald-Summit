@@ -43,7 +43,7 @@
 /datum/supply_pack/rogue/bath_clothes/corset
 	name = "Corset"
 	cost = 15
-	contains = list(/obj/item/clothing/suit/roguetown/shirt/undershirt/corset)
+	contains = list(/obj/item/clothing/suit/roguetown/armor/corset)
 
 /datum/supply_pack/rogue/bath_clothes/silkydress
 	name = "Silky Dress"

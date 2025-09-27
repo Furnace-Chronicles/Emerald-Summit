@@ -36,7 +36,7 @@
 	)
 
 /datum/outfit/job/roguetown/wretch/berserker/pre_equip(mob/living/carbon/human/H)
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/grag
+	head = /obj/item/clothing/head/roguetown/helmet/kettle
 	mask = /obj/item/clothing/mask/rogue/wildguard
 	cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
 	wrists = /obj/item/clothing/wrists/roguetown/bracers

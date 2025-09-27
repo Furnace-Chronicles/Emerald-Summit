@@ -45,6 +45,5 @@ PROCESSING_SUBSYSTEM_DEF(mousecharge)
 		if (MC_TICK_CHECK)
 			return
 
-/datum/controller/subsystem/processing/mousecharge/proc/access(var/percentage)
-	percentage = clamp(percentage,0,100)///Only here bc I'm a lazy ass and want all my math on one screen.
+/datum/controller/subsystem/processing/mousecharge/proc/access(var/percentage)///Only here bc I'm a lazy ass and want all my math on one screen.
 	return SSmousecharge.mouse_icons[floor(percentage / 5) + 1]

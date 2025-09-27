@@ -53,8 +53,10 @@
 	sprite_accessories = list(
 		/datum/sprite_accessory/neck_feature/mammal_fluff/fluff,
 		/datum/sprite_accessory/neck_feature/mammal_fluff/fluff_front,
+		/datum/sprite_accessory/neck_feature/mammal_fluff/fluff_neck,
 		/datum/sprite_accessory/neck_feature/mammal_fluff/fluff_dual,
 		/datum/sprite_accessory/neck_feature/mammal_fluff/fluff_dual_front,
+		/datum/sprite_accessory/neck_feature/mammal_fluff/fluff_dual_neck,
 		/datum/sprite_accessory/neck_feature/mammal_fluff/insect_m,
 		/datum/sprite_accessory/neck_feature/mammal_fluff/insect_f,
 		)
