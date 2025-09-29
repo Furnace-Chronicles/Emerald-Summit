@@ -22,6 +22,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	"Mute"=/datum/charflaw/mute,
 	"Critical Weakness"=/datum/charflaw/critweakness,
 	"Foreigner"=/datum/charflaw/foreigner,
+	"Damned"=/datum/charflaw/damned,
 	"Random or No Flaw"=/datum/charflaw/randflaw,
 	"No Flaw (3 TRIUMPHS)"=/datum/charflaw/noflaw,
 	))
@@ -504,7 +505,19 @@ GLOBAL_LIST_INIT(character_flaws, list(
 /datum/charflaw/critweakness/on_mob_creation(mob/user)
 	ADD_TRAIT(user, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
 
-/datum/charflaw/foreigner	
+/datum/charflaw/damned
+	name = "Damned"
+	desc = "I am cursed! Holy magic and silver metal burns my body."
+
+/datum/charflaw/damned/on_mob_creation(mob/user)
+	..()
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	H.mob_biotypes |= MOB_UNDEAD
+	ADD_TRAIT(user, TRAIT_HOLLOW_LIFE, TRAIT_GENERIC)
+
+/datum/charflaw/foreigner
 	name = "Foreigner"
 	desc = "You never learned Imperial. You cannot understand or speak it."
 
