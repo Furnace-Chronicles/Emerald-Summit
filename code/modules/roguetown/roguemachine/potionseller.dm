@@ -218,6 +218,16 @@
 				held_items[R]["PRICE"] = newprice
 			else if(text2num(newprice) == 0)
 				held_items[R]["PRICE"] = 0 // free!
+	if(href_list["buybottle"])
+		if(!usr.canUseTopic(src, BE_CLOSE) || !locked)
+			return
+		if(ishuman(usr))
+			if(budget < 10)
+				say("NOT ENOUGH COINS")
+				return
+			budget -= 10
+			var/obj/item/reagent_containers/glass/bottle/rogue/sold_bottle = new /obj/item/reagent_containers/glass/bottle/rogue(get_turf(src))
+			if(!usr.put_in_hands(sold_bottle))
 	if(href_list["eject"])
 		if(!inserted)
 			return
@@ -238,7 +248,6 @@
 		if(!locked)
 			contents += "UNLOCKED<HR>"
 		else if(!inserted)
-			contents += "No container inserted<HR>"
 		else
 			contents += "Container inserted: <a href='?src=[REF(src)];eject=1'>[inserted]</a> ([round(inserted.reagents.total_volume / 3, 0.1)]/[round(inserted.reagents.maximum_volume / 3, 0.1)] oz)<HR>"
 		if(locked)
@@ -250,7 +259,6 @@
 		if(!locked)
 			contents += "[stars("UNLOCKED")]<HR>"
 		else if(!inserted)
-			contents += "[stars("No container inserted")]<HR>"
 		else
 			contents += "[stars("Container inserted")]: <a href='?src=[REF(src)];eject=1'>[inserted]</a> ([round(inserted.reagents.total_volume / 3, 0.1)]/[round(inserted.reagents.maximum_volume / 3, 0.1)] oz)<HR>"
 		if(locked)
