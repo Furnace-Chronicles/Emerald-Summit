@@ -228,6 +228,7 @@
 			budget -= 10
 			var/obj/item/reagent_containers/glass/bottle/rogue/sold_bottle = new /obj/item/reagent_containers/glass/bottle/rogue(get_turf(src))
 			if(!usr.put_in_hands(sold_bottle))
+				sold_bottle.forceMove(get_turf(src))
 	if(href_list["eject"])
 		if(!inserted)
 			return
@@ -248,6 +249,7 @@
 		if(!locked)
 			contents += "UNLOCKED<HR>"
 		else if(!inserted)
+			contents += "No container inserted<BR><a href='?src=[REF(src)];buybottle=1'>Buy a bottle for 10 mammons</a><HR>"
 		else
 			contents += "Container inserted: <a href='?src=[REF(src)];eject=1'>[inserted]</a> ([round(inserted.reagents.total_volume / 3, 0.1)]/[round(inserted.reagents.maximum_volume / 3, 0.1)] oz)<HR>"
 		if(locked)
@@ -259,6 +261,7 @@
 		if(!locked)
 			contents += "[stars("UNLOCKED")]<HR>"
 		else if(!inserted)
+			contents += "[stars("No container inserted")]<BR><a href='?src=[REF(src)];buybottle=1'>[stars("Buy a bottle for 10 mammons")]</a><HR>"
 		else
 			contents += "[stars("Container inserted")]: <a href='?src=[REF(src)];eject=1'>[inserted]</a> ([round(inserted.reagents.total_volume / 3, 0.1)]/[round(inserted.reagents.maximum_volume / 3, 0.1)] oz)<HR>"
 		if(locked)
