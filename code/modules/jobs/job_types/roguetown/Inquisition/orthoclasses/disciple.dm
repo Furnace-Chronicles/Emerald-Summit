@@ -55,7 +55,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel/otavan
 	mask = /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
-	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat
 	head = /obj/item/clothing/head/roguetown/roguehood/psydon
 	backpack_contents = list(/obj/item/roguekey/inquisition = 1,
 	/obj/item/paper/inqslip/arrival/ortho = 1)
