@@ -116,6 +116,7 @@
 /datum/customizer_choice/bodypart_feature/hair/head/humanoid
 	sprite_accessories = list(
 		/datum/sprite_accessory/hair/head/bald,
+		/datum/sprite_accessory/hair/head/jester1,
 		/datum/sprite_accessory/hair/head/shorthaireighties,
 		/datum/sprite_accessory/hair/head/shorthaireighties_alt,
 		/datum/sprite_accessory/hair/head/afro,
@@ -527,6 +528,7 @@
 /datum/customizer_choice/bodypart_feature/hair/facial/humanoid
 	sprite_accessories = list(
 		/datum/sprite_accessory/hair/facial/shaved,
+		/datum/sprite_accessory/hair/facial/jester2,
 		/datum/sprite_accessory/hair/facial/abe,
 		/datum/sprite_accessory/hair/facial/brokenman,
 		/datum/sprite_accessory/hair/facial/chinstrap,

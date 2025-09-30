@@ -17,6 +17,10 @@
 	name = "Bald"
 	icon_state = null
 
+/datum/sprite_accessory/hair/head/jester1
+	name = "Jester Hair"
+	icon_state = "jester1"
+
 /datum/sprite_accessory/hair/head/shorthaireighties
 	name = "80s-style Hair"
 	icon_state = "80s"
@@ -1740,6 +1744,10 @@
 /datum/sprite_accessory/hair/facial/viking
 	name = "Beard (Viking)"
 	icon_state = "viking"
+
+/datum/sprite_accessory/hair/facial/jester2
+	name = "Beard (Jester)"
+	icon_state = "jester2"
 
 /datum/sprite_accessory/hair/facial/moustache
 	name = "Moustache"
