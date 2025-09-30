@@ -160,6 +160,7 @@
 		quantity = input(usr, "How much to pour into \the [sold_bottle] ([vol_rounded] oz)?", "\The [held_items[R.type]["NAME"]]") as num|null
 		quantity = round(text2num(quantity))
 		if(quantity <= 0 || !usr.Adjacent(src))
+			qdel(sold_bottle)
 			return
 		quantity *= 3
 		if(quantity > buyer_volume)
