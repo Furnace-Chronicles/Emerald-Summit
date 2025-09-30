@@ -29,7 +29,6 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
@@ -48,21 +47,20 @@
 	..()
 	has_loadout = TRUE
 
-	neck = /obj/item/clothing/neck/roguetown/chaincoif
+	neck = /obj/item/clothing/neck/roguetown/psicross/silver
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/psythorns
 	gloves = /obj/item/clothing/gloves/roguetown/chain/psydon
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 	id = /obj/item/clothing/ring/signet/silver
 	backl = /obj/item/storage/backpack/rogue/satchel/otavan
-	backr = /obj/item/rogueweapon/shield/tower/metal/psy
 	mask = /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/armored
+	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate
 	head = /obj/item/clothing/head/roguetown/roguehood/psydon
 	backpack_contents = list(/obj/item/roguekey/inquisition = 1,
-	/obj/item/paper/inqslip/arrival/ortho = 1, /obj/item/clothing/neck/roguetown/psicross/silver = 1)
+	/obj/item/paper/inqslip/arrival/ortho = 1)
 	belt = /obj/item/storage/belt/rogue/leather/rope/dark
-	pants = /obj/item/clothing/under/roguetown/chainlegs
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	cloak = /obj/item/clothing/cloak/psydontabard/alt
 
