@@ -28,15 +28,12 @@
 	if(reagents)
 		qdel(reagents)
 		reagents = null
-	held_items = list()
 	if(inserted)
 		inserted.forceMove(drop_location())
 	set_light(0)
 	return ..()
 
 /obj/structure/roguemachine/potionseller/proc/insert(obj/item/P, mob/living/user)
-	if(P.w_class > WEIGHT_CLASS_BULKY)
-		return
 	if(!istype(P, /obj/item/reagent_containers/glass/bottle))
 		to_chat(user, span_warning("Not a container."))
 		return
