@@ -77,13 +77,9 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 
 	dat += "</center>"
 
-	var/list/wanderers = list()
-	var/list/job_list = list()
-
 	for(var/datum/job/job in SSjob.occupations)
-		var/wanderer_job = FALSE
 		if(istype(job, /datum/job/roguetown/adventurer) || istype(job, /datum/job/roguetown/wretch) || istype(job, /datum/job/roguetown/adventurer/courtagent))
-			wanderer_job = TRUE
+			continue
 		if(!job)
 			continue
 		var/readiedas = 0
@@ -99,19 +95,15 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 							var/thing = "[player.client.prefs.real_name]"
 							if(istype(job, /datum/job/roguetown/hand))
 								if(player != src)
-									if(client.prefs.job_preferences["Grand Duke"] == JP_HIGH)
+									if(client.prefs.job_preferences["Duke"] == JP_HIGH)
 										thing = "<a href='byond://?src=[REF(src)];sethand=[player.client.ckey]'>[player.client.prefs.real_name]</a>"
 								for(var/mob/dead/new_player/Lord in GLOB.player_list)
-									if(Lord.client.prefs.job_preferences["Grand Duke"] == JP_HIGH)
+									if(Lord.client.prefs.job_preferences["Duke"] == JP_HIGH)
 										if(Lord.brohand == player.ckey)
 											thing = "*[thing]*"
 											break
-							if(wanderer_job)
-								wanderers += thing
-							else
-								PL += thing
-		if(wanderer_job)
-			continue
+							PL += thing
+
 		var/list/PL2 = list()
 		for(var/i in 1 to PL.len)
 			if(i == PL.len)
@@ -123,19 +115,9 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 
 		if(readiedas)
 			if(PL2.len)
-				job_list += "<B>[str_job]</B> ([readiedas]) - [PL2.Join()]<br>"
+				dat += "<B>[str_job]</B> ([readiedas]) - [PL2.Join()]<br>"
 			else
-				job_list += "<B>[str_job]</B> ([readiedas])<br>"
-	if(length(wanderers))
-		var/wanderers_listing = "<B>Wanderers</B> ([wanderers.len]) - "
-		for(var/i in 1 to wanderers.len)
-			if(i == wanderers.len)
-				wanderers_listing += "[wanderers[i]]"
-			else
-				wanderers_listing += "[wanderers[i]], "
-		wanderers_listing += "<br>"
-		job_list.Insert(1, wanderers_listing)
-	dat += job_list
+				dat += "<B>[str_job]</B> ([readiedas])<br>"
 	var/datum/browser/popup = new(src, "lobby_window", "<div align='center'>LOBBY</div>", 330, 430)
 	popup.set_window_options("can_close=1;can_minimize=0;can_maximize=0;can_resize=1;")
 	popup.set_content(dat.Join())

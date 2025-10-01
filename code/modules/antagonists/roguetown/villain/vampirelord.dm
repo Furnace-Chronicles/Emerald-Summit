@@ -931,7 +931,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	triumph_count = 5
 
 /datum/objective/vampirelord/infiltrate/two/check_completion()
-	var/list/noblejobs = list("Grand Duke", "Consort", "Prince", "Princess", "Hand", "Steward")
+	var/list/noblejobs = list("Duke", "Consort", "Prince", "Princess", "Hand", "Steward")
 	for(var/datum/mind/V in SSmapping.retainer.vampires)
 		if(V.current.job in noblejobs)
 			return TRUE

@@ -46,7 +46,7 @@
     is_mammon = FALSE
     is_assassinate = TRUE
     var/list/valid_roles
-    valid_roles = list("Grand Duke", "Prince", "Priest", "Priestess", "Councillor", "Acolyte", "Inquisitor", "Merchant", "Town Elder", "Guildmaster", "Steward", "Clerk")
+    valid_roles = list("Duke", "Prince", "Priest", "Priestess", "Councillor", "Acolyte", "Inquisitor", "Merchant", "Town Elder", "Guildmaster", "Steward", "Clerk")
     var/list/strong_combat_roles
     strong_combat_roles = list("Knight", "Marshal", "Knight Captain", "Man at Arms", "Sergeant", "Warden", "Watchman", "Squire", "Dungeoneer", "Mercenary", "Veteran")
     var/list/candidates
@@ -55,9 +55,9 @@
     for(var/client/C in GLOB.clients)
         var/mob/living/carbon/human/H
         H = C.mob
-        if(!istype(H, /mob/living/carbon/human/)) 
+        if(!istype(H, /mob/living/carbon/human/))
             continue
-        if(!H.mind || !H.mind.assigned_role) 
+        if(!H.mind || !H.mind.assigned_role)
             continue
         var/assigned_role = H.mind.assigned_role
         var/role_name = get_role_name(assigned_role)
@@ -169,10 +169,10 @@
 		for(var/obj/item/I in get_all_mob_items(owner.current))
 			if(istype(I, target_item_path))
 				return TRUE
-	return FALSE 
+	return FALSE
 
 /proc/get_role_name(var/role)
 	if(istype(role, /datum/job))
 		var/datum/job/J = role
 		return J.title
-	return "[role]" 
+	return "[role]"

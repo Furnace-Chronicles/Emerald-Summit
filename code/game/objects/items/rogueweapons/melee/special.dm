@@ -110,13 +110,13 @@
 	. = ..()
 	if(get_dist(user, target) > 7)
 		return
-	
+
 	user.changeNext_move(CLICK_CD_MELEE)
 
 	if(ishuman(user))
 		var/mob/living/carbon/human/HU = user
 
-		if(HU.job != "Grand Duke")
+		if(HU.job != "Duke")
 			to_chat(user, span_danger("The rod doesn't obey me."))
 			return
 
@@ -134,7 +134,7 @@
 			if(H.anti_magic_check())
 				to_chat(user, span_danger("Something is disrupting the rod's power!"))
 				return
-		
+
 			if(!(H in SStreasury.bank_accounts))
 				to_chat(user, span_danger("The target must have a Meister account!"))
 				return
@@ -481,7 +481,7 @@
 	light_outer_range = 5
 	light_on = FALSE
 	light_color = "#db892b"
-	var/is_loaded = FALSE 
+	var/is_loaded = FALSE
 	var/list/hay_types = list(/obj/structure/fluff/nest, /obj/structure/composter, /obj/structure/flora/roguegrass, /obj/item/reagent_containers/food/snacks/grown/wheat)
 
 /obj/item/rogueweapon/spear/militia/ComponentInitialize()
@@ -596,7 +596,7 @@
 					user.regenerate_icons()
 
 
-	
+
 /datum/component/ignitable/proc/on_examine(datum/source, mob/user, list/examine_list)
 	return
 

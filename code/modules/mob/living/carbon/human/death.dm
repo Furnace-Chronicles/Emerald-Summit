@@ -84,7 +84,7 @@
 			if(!is_in_roguetown(src) || has_world_trait(/datum/world_trait/zizo_defilement))
 				if(!zombie_check_can_convert()) //Gives the dead unit the zombie antag flag
 					to_chat(src, span_userdanger("..is this to be my end..?"))
-					to_chat(src, span_danger("The cold consumes the final flicker of warmth in your chest and begins to seep into your limbs...")) 
+					to_chat(src, span_danger("The cold consumes the final flicker of warmth in your chest and begins to seep into your limbs..."))
 
 	stop_sound_channel(CHANNEL_HEARTBEAT)
 	var/obj/item/organ/heart/H = getorganslot(ORGAN_SLOT_HEART)
@@ -123,7 +123,7 @@
 				adjust_triumphs(-1)
 */
 		switch(job)
-			if("Grand Duke")
+			if("Duke")
 				//omen gets added separately, after a few minutes
 				for(var/mob/living/carbon/human/HU in GLOB.player_list)
 					if(!HU.stat && is_in_roguetown(HU))
@@ -164,7 +164,7 @@
 	if(!.)
 		return
 	switch(job)
-		if("Grand Duke", "Grand Duchess")
+		if("Duke", "Duchess")
 			removeomen(OMEN_NOLORD)
 		if("Priest")
 			removeomen(OMEN_NOPRIEST)
