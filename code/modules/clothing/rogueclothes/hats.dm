@@ -378,6 +378,7 @@
 	detail_tag = "_detail"
 	altdetail_tag = "_detailalt"
 	dynamic_hair_suffix = "+generic"
+	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HEAD
 	sewrepair = TRUE
 	flags_inv = HIDEEARS
 	detail_color = CLOTHING_BLACK
