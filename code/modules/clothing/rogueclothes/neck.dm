@@ -234,7 +234,7 @@
 	cansnout = TRUE
 
 /obj/item/clothing/neck/roguetown/bevor/blacksteel
-	name = "Blacksteel Bevor"
+	name = "blacksteel bevor"
 	desc = "A blacksteel bevor that protects the lower part of the head, that being the neck, mouth and nose."
 	icon_state = "bl_bevor"
 	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
