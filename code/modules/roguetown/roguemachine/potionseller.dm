@@ -121,6 +121,9 @@
 		var/buyer_volume = inserted.reagents.maximum_volume - inserted.reagents.total_volume
 		if(volume < 3) // do not let user buy reagants less than 3 oz due to coin rounding
 			return
+		if(buyer_volume < 1)
+			say("[uppertext("\the [inserted]")] IS FULL, INSERT AN EMPTY CONTAINER")
+			return
 		if(price > 0)
 			var/budget_vol = round(budget / price)
 			if(budget_vol > round(volume/3))
@@ -158,7 +161,7 @@
 		var/obj/item/reagent_containers/glass/bottle/alchemical/sold_bottle = new /obj/item/reagent_containers/glass/bottle/alchemical(get_turf(src))
 		var/quantity = 0
 		var/volume = reagents.get_reagent_amount(R)
-		var/buyer_volume = sold_bottle.reagents.maximum_volume
+		var/buyer_volume = sold_bottle.reagents.maximum_volume - sold_bottle.reagents.total_volume
 		var/vol_rounded = round(min(buyer_volume,volume) / 3, 0.1)
 		quantity = input(usr, "How many oz to pour into \the [sold_bottle] ([vol_rounded] oz free)?", "\The [held_items[R.type]["NAME"]]") as num|null
 		quantity = round(text2num(quantity))
