@@ -117,13 +117,13 @@
 			return
 		var/quantity = 0
 		var/volume = reagents.get_reagent_amount(R)
-		var/buyer_volume = inserted.reagents.maximum_volume
+		var/buyer_volume = inserted.reagents.maximum_volume - inserted.reagents.total_volume
 		if(volume < 3) // do not let user buy reagants less than 3 oz due to coin rounding
 			return
 		if(price > 0)
 			var/budget_vol = round(budget / price)
-			if(budget_vol > round(buyer_volume/3))
-				budget_vol = round(buyer_volume/3)
+			if(budget_vol > round(volume/3))
+				budget_vol = round(volume/3)
 			quantity = input(usr, "How many oz to buy (can afford [budget_vol] oz)?", "\The [held_items[R.type]["NAME"]]") as num|null
 		else
 			quantity = input(usr, "How many oz to pour?", "\The [held_items[R.type]["NAME"]]") as num|null
