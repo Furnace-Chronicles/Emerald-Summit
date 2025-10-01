@@ -118,13 +118,15 @@
 		var/quantity = 0
 		var/volume = reagents.get_reagent_amount(R)
 		var/buyer_volume = inserted.reagents.maximum_volume
-		var/vol_rounded = round(min(buyer_volume,volume) / 3, 0.1)
 		if(volume < 3) // do not let user buy reagants less than 3 oz due to coin rounding
 			return
 		if(price > 0)
-			quantity = input(usr, "How much to pour into \the [inserted] ([vol_rounded] oz)? ([price] mammons per oz)", "\The [held_items[R.type]["NAME"]]") as num|null
+			var/budget_vol = round(budget / price)
+			if(budget_vol > round(buyer_volume/3))
+				budget_vol = round(buyer_volume/3)
+			quantity = input(usr, "How many oz to buy (can afford [budget_vol] oz)?", "\The [held_items[R.type]["NAME"]]") as num|null
 		else
-			quantity = input(usr, "How much to pour into \the [inserted] ([vol_rounded] oz)?", "\The [held_items[R.type]["NAME"]]") as num|null
+			quantity = input(usr, "How many oz to pour?", "\The [held_items[R.type]["NAME"]]") as num|null
 		quantity = round(quantity)
 		if(quantity <= 0 || !usr.Adjacent(src))
 			return
@@ -157,7 +159,7 @@
 		var/volume = reagents.get_reagent_amount(R)
 		var/buyer_volume = sold_bottle.reagents.maximum_volume
 		var/vol_rounded = round(min(buyer_volume,volume) / 3, 0.1)
-		quantity = input(usr, "How much to pour into \the [sold_bottle] ([vol_rounded] oz)?", "\The [held_items[R.type]["NAME"]]") as num|null
+		quantity = input(usr, "How many oz to pour into \the [sold_bottle] ([vol_rounded] oz free)?", "\The [held_items[R.type]["NAME"]]") as num|null
 		quantity = round(text2num(quantity))
 		if(quantity <= 0 || !usr.Adjacent(src))
 			qdel(sold_bottle)
@@ -249,7 +251,7 @@
 		if(!locked)
 			contents += "UNLOCKED<HR>"
 		else if(!inserted)
-			contents += "No container inserted<BR><a href='?src=[REF(src)];buybottle=1'>Buy a bottle for 10 mammons</a><HR>"
+			contents += "No container inserted<BR><a href='?src=[REF(src)];buybottle=1'>Buy bottle for 10 mammons</a><HR>"
 		else
 			contents += "Container inserted: <a href='?src=[REF(src)];eject=1'>[inserted]</a> ([round(inserted.reagents.total_volume / 3, 0.1)]/[round(inserted.reagents.maximum_volume / 3, 0.1)] oz)<HR>"
 		if(locked)
@@ -261,7 +263,7 @@
 		if(!locked)
 			contents += "[stars("UNLOCKED")]<HR>"
 		else if(!inserted)
-			contents += "[stars("No container inserted")]<BR><a href='?src=[REF(src)];buybottle=1'>[stars("Buy a bottle for 10 mammons")]</a><HR>"
+			contents += "[stars("No container inserted")]<BR><a href='?src=[REF(src)];buybottle=1'>[stars("Buy bottle for 10 mammons")]</a><HR>"
 		else
 			contents += "[stars("Container inserted")]: <a href='?src=[REF(src)];eject=1'>[inserted]</a> ([round(inserted.reagents.total_volume / 3, 0.1)]/[round(inserted.reagents.maximum_volume / 3, 0.1)] oz)<HR>"
 		if(locked)
