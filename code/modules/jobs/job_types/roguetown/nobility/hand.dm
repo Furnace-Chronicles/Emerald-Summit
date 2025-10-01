@@ -10,7 +10,7 @@
 	outfit = /datum/outfit/job/roguetown/hand
 	advclass_cat_rolls = list(CTAG_HAND = 20)
 	display_order = JDO_HAND
-	tutorial = "Whether by outstanding merit or petty favoritism, you are the Archduke’s most trusted representative and advisor. Your authority is second only to the Archduke themselves. The weight of your words can shape policy, stir conflict, or silence dissent. Let none forget whose will you carry, and do not fail your benefactor."
+	tutorial = "Whether by outstanding merit or petty favoritism, you are the Duke’s most trusted representative and advisor. Your authority is second only to the Duke himself. The weight of your words can shape policy, stir conflict, or silence dissent. Let none forget whose will you carry, and do not fail your benefactor."
 	whitelist_req = TRUE
 	give_bank_account = 44
 	noble_income = 22
