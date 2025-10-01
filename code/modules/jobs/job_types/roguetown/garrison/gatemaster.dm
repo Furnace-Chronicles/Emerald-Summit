@@ -23,7 +23,7 @@
 
 	cmode_music = 'sound/music/combat_guard.ogg'
 
-	job_traits = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR)
+	job_traits = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR, TRAIT_KEENEARS,)
 	job_subclasses = list(
 		/datum/advclass/gatemaster
 	)
@@ -45,22 +45,23 @@
 		STATKEY_STR = 2,
 		STATKEY_INT = 1,
 		STATKEY_CON = 1,
-		STATKEY_PER = 2,
+		STATKEY_PER = 3,
 	)
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/crossbows = SKILL_LEVEL_MASTER,
-		/datum/skill/combat/bows = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/slings = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_LEGENDARY, // semi automatic rifleman
+		/datum/skill/combat/bows = SKILL_LEVEL_MASTER, // equal to skirmisher 
+		/datum/skill/combat/slings = SKILL_LEVEL_MASTER, // read above
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/traps = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT, //Paperwork RP
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_JOURNEYMAN, //For fixing the door.
 		/datum/skill/craft/engineering = SKILL_LEVEL_JOURNEYMAN, //lets them change stuff like the levers and gate
@@ -77,12 +78,12 @@
 	head = /obj/item/clothing/head/roguetown/roguehood/red
 	neck = /obj/item/clothing/neck/roguetown/gorget
 	cloak = /obj/item/clothing/cloak/stabard/surcoat/guard
-	armor = /obj/item/clothing/suit/roguetown/armor/chainmail
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	shoes = /obj/item/clothing/shoes/roguetown/boots
+	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/storage/keyring/guardcastle
 	beltr = /obj/item/quiver/bolts
