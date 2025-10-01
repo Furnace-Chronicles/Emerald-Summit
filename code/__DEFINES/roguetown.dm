@@ -125,6 +125,7 @@
 #define ARMOR_MASK_METAL list("blunt" = 50, "slash" = 100, "stab" = 80, "piercing" = 50, "fire" = 0, "acid" = 0)
 
 // Neck Armor
+#define ARMOR_BEVOR_BL list("blunt" = 40, "slash" = 100, "stab" = 80, "piercing" = 90, "fire" = 0, "acid" = 0)
 #define ARMOR_BEVOR list("blunt" = 20, "slash" = 100, "stab" = 80, "piercing" = 70, "fire" = 0, "acid" = 0)
 #define ARMOR_GORGET list("blunt" = 40, "slash" = 100, "stab" = 80, "piercing" = 50, "fire" = 0, "acid" = 0)
 #define ARMOR_NECK_BAD list("blunt" = 50, "slash" = 50, "stab" = 40, "piercing" = 20, "fire" = 0, "acid" = 0)

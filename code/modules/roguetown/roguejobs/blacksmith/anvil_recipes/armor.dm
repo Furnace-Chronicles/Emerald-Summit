@@ -957,6 +957,11 @@
 	created_item = /obj/item/clothing/shoes/roguetown/boots/blacksteel/modern/plateboots
 	craftdiff = 5
 
+/datum/anvil_recipe/armor/blacksteel/modern/bevor
+	name = "Bevor"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/clothing/neck/roguetown/bevor/blacksteel
+	craftdiff = 5
 
 /datum/anvil_recipe/armor/blacksteel/platechest
 	name = "Ancient Plate Armor (+3 B.Steel)"

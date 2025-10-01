@@ -233,6 +233,18 @@
 	blocksound = PLATEHIT
 	cansnout = TRUE
 
+/obj/item/clothing/neck/roguetown/bevor/blacksteel
+	name = "Blacksteel Bevor"
+	desc = "A blacksteel bevor that protects the lower part of the head, that being the neck, mouth and nose."
+	icon_state = "bl_bevor"
+	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
+	armor = ARMOR_BEVOR_BL
+	smeltresult = /obj/item/ingot/blacksteel
+	max_integrity = ARMOR_INT_SIDE_BLACKSTEEL
+	resistance_flags = FIRE_PROOF | LAVA_PROOF
+
 /obj/item/clothing/neck/roguetown/gorget
 	name = "iron gorget"
 	desc = "A series of iron plates designed to protect the neck."

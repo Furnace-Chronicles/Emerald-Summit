@@ -90,6 +90,11 @@
 	cost = 20
 	contains = list(/obj/item/clothing/neck/roguetown/bevor)
 
+/datum/supply_pack/rogue/Knight/blacksteelBevor
+	name = "Blacksteel Bevor"
+	cost = 60
+	contains = list(/obj/item/clothing/neck/roguetown/bevor/blacksteel)
+
 /datum/supply_pack/rogue/Knight/gorget
 	name = "Gorget"
 	cost = 20
