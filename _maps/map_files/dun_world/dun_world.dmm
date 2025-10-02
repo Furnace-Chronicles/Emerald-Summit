@@ -32743,6 +32743,12 @@
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
+"jmX" = (
+/obj/structure/roguemachine/potionseller{
+	keycontrol = "tower"
+	},
+/turf/closed/wall/mineral/rogue/wooddark,
+/area/rogue/indoors/town/magician)
 "jnh" = (
 /obj/machinery/light/rogue/wallfire/candle/blue,
 /obj/structure/table/wood,
@@ -305054,7 +305060,7 @@ tok
 bVF
 tok
 mKS
-oSt
+jmX
 baE
 weQ
 weQ
