@@ -242,7 +242,7 @@
 			return
 		if(ishuman(usr))
 			if(budget < 10)
-				say("MY BOTTLE IS TOO EXPENSIVE FOR YOU, TRAVELER")
+				say("MY BOTTLES ARE TOO EXPENSIVE FOR YOU, TRAVELER")
 				return
 			budget -= 10
 			var/obj/item/reagent_containers/glass/bottle/rogue/sold_bottle = new /obj/item/reagent_containers/glass/bottle/rogue(get_turf(src))
