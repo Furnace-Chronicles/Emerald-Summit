@@ -17,6 +17,7 @@
 	var/is_crafted = FALSE
 	var/keycontrol = "merchant"
 	var/obj/item/reagent_containers/glass/bottle/inserted
+	var/bottle_sold_max = 5
 
 /obj/structure/roguemachine/potionseller/crafted
 	is_crafted = TRUE
@@ -239,10 +240,16 @@
 		if(!usr.canUseTopic(src, BE_CLOSE) || !locked)
 			return
 		if(ishuman(usr))
-			if(budget < 10)
+			var/price = 10
+			if(bottle_sold_max < 1)
+				say("MY BOTTLES ARE ALL SOLD OUT, TRAVELER")
+				return
+			if(budget < price)
 				say("MY BOTTLES ARE TOO EXPENSIVE FOR YOU, TRAVELER")
 				return
-			budget -= 10
+			budget -= price
+			wgain += price
+			bottle_sold_max--
 			var/obj/item/reagent_containers/glass/bottle/rogue/sold_bottle = new /obj/item/reagent_containers/glass/bottle/rogue(get_turf(src))
 			if(!usr.put_in_hands(sold_bottle))
 				sold_bottle.forceMove(get_turf(src))
