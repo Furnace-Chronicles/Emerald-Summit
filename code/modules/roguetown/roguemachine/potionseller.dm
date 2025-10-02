@@ -122,12 +122,12 @@
 		var/datum/reagent/R = locate(href_list["buy"]) in held_items
 		if(!R || !ishuman(usr) || !usr.canUseTopic(src, BE_CLOSE) || !locked)
 			return
-		var/price = held_items[R.type]["PRICE"]
 		if(!inserted)
-			say(!price ? "INSERT A BOTTLE BEFORE 'YA TAKE" : "INSERT A BOTTLE BEFORE 'YA BUY")
+			say("MY POTION NEEDS A BOTTLE TO FILL, TRAVELER")
 			return
+		var/price = held_items[R.type]["PRICE"]
 		if(price > budget)
-			say(pick("NO MONEY NO HONEY!","OI, GET SOME DOSH MATE!","DO SOME TEN O'CLOCK WORK AND COME BACK","EVERYBODY LAUGH AT YE POOR POCKETS"))
+			say("MY POTION IS TOO EXPENSIVE FOR YOU, TRAVELER")
 			return
 		var/quantity = 0
 		var/volume = reagents.get_reagent_amount(R)
@@ -135,7 +135,7 @@
 		if(volume < 3) // do not let user buy reagants less than 3 oz due to coin rounding
 			return
 		if(buyer_volume < 1)
-			say("[uppertext("\the [inserted]")] IS FULL, INSERT AN EMPTY CONTAINER")
+			say("MY POTION IS TOO BIG FOR [uppertext("\the [inserted]")], TRAVELER")
 			return
 		if(price > 0)
 			var/budget_vol = round(budget / price)
@@ -158,7 +158,7 @@
 				budget -= price
 				wgain += price
 			else
-				say("NOT ENOUGH COINS")
+				say("MY POTION IS TOO EXPENSIVE FOR YOU, TRAVELER")
 				return
 		inserted.reagents.add_reagent(R.type, quantity)
 		reagents.remove_reagent(R.type, quantity, FALSE)
@@ -242,7 +242,7 @@
 			return
 		if(ishuman(usr))
 			if(budget < 10)
-				say("NOT ENOUGH COINS")
+				say("MY BOTTLE IS TOO EXPENSIVE FOR YOU, TRAVELER")
 				return
 			budget -= 10
 			var/obj/item/reagent_containers/glass/bottle/rogue/sold_bottle = new /obj/item/reagent_containers/glass/bottle/rogue(get_turf(src))
