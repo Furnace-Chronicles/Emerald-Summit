@@ -16,6 +16,7 @@
 	outfit = /datum/outfit/job/roguetown/marshal
 	give_bank_account = 40
 	noble_income = 20
+	requires_vetting = TRUE
 	min_pq = 8
 	max_pq = null
 	round_contrib_points = 3

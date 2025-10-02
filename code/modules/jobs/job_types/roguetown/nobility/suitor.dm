@@ -15,6 +15,7 @@
 	noble_income = 20
 	min_pq = 3
 	max_pq = null
+	requires_vetting = TRUE
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_noble.ogg'
 

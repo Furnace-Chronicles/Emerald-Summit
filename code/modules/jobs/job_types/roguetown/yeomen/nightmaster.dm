@@ -13,6 +13,7 @@
 	display_order = JDO_NITEMASTER
 	give_bank_account = 150
 	min_pq = 1
+	requires_vetting = TRUE
 	max_pq = null
 	bypass_lastclass = TRUE
 	round_contrib_points = 3
