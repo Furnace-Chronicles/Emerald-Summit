@@ -15,6 +15,7 @@
 	var/budget = 0
 	var/wgain = 0
 	var/is_crafted = FALSE
+	var/keycontrol = "merchant"
 	var/obj/item/reagent_containers/glass/bottle/inserted
 
 /obj/structure/roguemachine/potionseller/Initialize()
