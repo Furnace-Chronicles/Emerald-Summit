@@ -123,11 +123,11 @@
 		if(!R || !ishuman(usr) || !usr.canUseTopic(src, BE_CLOSE) || !locked)
 			return
 		if(!inserted)
-			say("MY POTION NEEDS A BOTTLE TO FILL, TRAVELER")
+			say("MY POTIONS NEEDS A BOTTLE TO FILL, TRAVELER")
 			return
 		var/price = held_items[R.type]["PRICE"]
 		if(price > budget)
-			say("MY POTION IS TOO EXPENSIVE FOR YOU, TRAVELER")
+			say("MY POTIONS ARE TOO EXPENSIVE FOR YOU, TRAVELER")
 			return
 		var/quantity = 0
 		var/volume = reagents.get_reagent_amount(R)
@@ -135,7 +135,7 @@
 		if(volume < 3) // do not let user buy reagants less than 3 oz due to coin rounding
 			return
 		if(buyer_volume < 1)
-			say("MY POTION IS TOO BIG FOR [uppertext("\the [inserted]")], TRAVELER")
+			say("[uppertext("\the [inserted]")] IS TOO SMALL FOR MY POTIONS, TRAVELER")
 			return
 		if(price > 0)
 			var/budget_vol = round(budget / price)
@@ -158,7 +158,7 @@
 				budget -= price
 				wgain += price
 			else
-				say("MY POTION IS TOO EXPENSIVE FOR YOU, TRAVELER")
+				say("MY POTIONS ARE TOO EXPENSIVE FOR YOU, TRAVELER")
 				return
 		inserted.reagents.add_reagent(R.type, quantity)
 		reagents.remove_reagent(R.type, quantity, FALSE)
