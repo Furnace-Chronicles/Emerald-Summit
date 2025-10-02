@@ -19,6 +19,7 @@
 	noble_income = 22
 	min_pq = 5
 	max_pq = null
+	requires_vetting = TRUE
 	round_contrib_points = 3
 
 /datum/job/roguetown/exlady
