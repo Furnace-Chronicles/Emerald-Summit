@@ -43,7 +43,7 @@
 		H.real_name = wolfname
 		H.name = wolfname
 
-		if(GLOB.tod != "night")
+		if(GLOB.tod == "day")
 			if(!untransforming)
 				untransforming = world.time // Start untransformation phase
 
@@ -56,6 +56,17 @@
 			else if (world.time >= untransforming) // Alert player
 				H.flash_fullscreen("redflash1")
 				to_chat(H, span_warning("Daylight shines around me... the curse begins to fade."))
+
+
+//Returns true if the werewolf is above ground during the day
+/datum/antagonist/werewolf/proc/should_force_untransform()
+	if(GLOB.tod != "day")	return FALSE
+
+	//TODO: Check if area is underground
+
+	//TODO: Check if tile can see sky
+
+	return TRUE
 
 
 /mob/living/carbon/human/species/werewolf/death(gibbed, nocutscene = FALSE)

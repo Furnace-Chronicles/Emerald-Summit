@@ -74,7 +74,9 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	icon_state = "cave"
 	ambientsounds = AMB_GENCAVE
 	ambientnight = AMB_GENCAVE
+	underground = TRUE
 	soundenv = 8
+	underground = TRUE
 
 /area/rogue/indoors/cave/late/can_craft_here()
 	return FALSE
@@ -136,6 +138,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound = 'sound/music/area/townstreets.ogg'
 	droning_sound_dusk = 'sound/music/area/septimus.ogg'
 	droning_sound_night = 'sound/music/area/sleeping.ogg'
+	underground = TRUE
 
 /area/rogue/outdoors/mountains/deception
 	name = "deception"
@@ -198,6 +201,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	first_time_text = "TARICHEA, VALLEY OF LOSS"
 	ambush_times = list("night","dawn","dusk","day")
 	converted_type = /area/rogue/indoors/shelter/mountains/decap
+	underground = TRUE
 
 /area/rogue/outdoors/mountains/decap/gunduzirak
 	name = "mt decapitation gundu-zirak"
@@ -410,11 +414,14 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	soundenv = 8
 	plane = INDOOR_PLANE
 	converted_type = /area/rogue/outdoors/exposed
+	underground = TRUE
+
 /area/rogue/outdoors/exposed
 	icon_state = "exposed"
 	droning_sound = 'sound/music/area/towngen.ogg'
 	droning_sound_dusk = 'sound/music/area/septimus.ogg'
 	droning_sound_night = 'sound/music/area/sleeping.ogg'
+	underground = FALSE
 
 /area/rogue/under/cave
 	name = "cave"
@@ -438,11 +445,13 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 				/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 5,
 				/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 5)
 	converted_type = /area/rogue/outdoors/caves
+
 /area/rogue/outdoors/caves
 	icon_state = "caves"
 	droning_sound = 'sound/music/area/caves.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
+	underground = TRUE
 
 /area/rogue/under/cavewet
 	name = "cavewet"
@@ -489,6 +498,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 				/mob/living/carbon/human/species/goblin/npc/ambush/moon = 30,
 				/mob/living/simple_animal/hostile/retaliate/rogue/troll = 15)
 	converted_type = /area/rogue/outdoors/caves
+	underground = TRUE
 
 /area/rogue/under/cavewet/bogcaves
 	first_time_text = "The Undergrove"
@@ -515,6 +525,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound = 'sound/music/area/spidercave.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
+	underground = TRUE
 
 /area/rogue/under/spiderbase
 	name = "spiderbase"
@@ -525,11 +536,6 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = null
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/spidercave
-/area/rogue/outdoors/spidercave
-	icon_state = "spidercave"
-	droning_sound = 'sound/music/area/spidercave.ogg'
-	droning_sound_dusk = null
-	droning_sound_night = null
 
 /area/rogue/under/cavelava
 	name = "cavelava"
@@ -624,6 +630,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound = 'sound/music/area/dungeon.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
+	underground = TRUE
 
 /area/rogue/under/cave/mazedungeon
 	name = "mazedungeon"
@@ -824,6 +831,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	converted_type = /area/rogue/outdoors/exposed/manorgarri
 	keep_area = TRUE
 	cell_area = TRUE
+	underground = TRUE
 
 /area/rogue/indoors/town/tavern
 	name = "tavern"
@@ -867,6 +875,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = null
 	droning_sound_night = null
 	first_time_text = "THE CRYPT OF THE TEN"
+	underground = TRUE
 
 /area/rogue/indoors/town/fire_chamber
 	name = "incinerator"
@@ -895,6 +904,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	name = "The Inquisition's Basement"
 	icon_state = "chapel"
 	ceiling_protected = TRUE
+	underground = TRUE
 
 /area/rogue/indoors/inq/import
 	name = "foreign imports"
@@ -908,6 +918,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	name = "vault"
 	icon_state = "vault"
 	keep_area = TRUE
+	underground = TRUE
 
 /area/rogue/indoors/town/vault/can_craft_here()
 	return FALSE
@@ -1016,6 +1027,10 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = null
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/exposed/under/town
+
+/area/rogue/outdoors/exposed/under
+	underground = TRUE
+
 /area/rogue/outdoors/exposed/under/town
 	icon_state = "town"
 	droning_sound = 'sound/music/area/catacombs.ogg'
@@ -1035,6 +1050,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	ambientrain = RAIN_SEWER
 	soundenv = 21
 	converted_type = /area/rogue/outdoors/exposed/under/sewer
+
 /area/rogue/outdoors/exposed/under/sewer
 	icon_state = "sewer"
 	droning_sound = 'sound/music/area/sewers.ogg'
@@ -1052,11 +1068,13 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = null
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/exposed/under/caves
+
 /area/rogue/outdoors/exposed/under/caves
 	icon_state = "caves"
 	droning_sound = 'sound/music/area/caves.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
+	underground = TRUE
 
 /area/rogue/under/town/basement
 	name = "basement"
@@ -1077,6 +1095,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	icon_state = "basement"
 	keep_area = TRUE
 	town_area = TRUE
+	underground = TRUE
 
 /area/rogue/outdoors/exposed/under/basement
 	icon_state = "basement"
@@ -1092,3 +1111,4 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = null
 	droning_sound_night = null
 	first_time_text = "The Forest of Repentence"
+	underground = TRUE

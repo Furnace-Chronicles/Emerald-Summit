@@ -33,6 +33,7 @@
 	var/always_unpowered = FALSE	// This gets overridden to 1 for space in area/Initialize().
 
 	var/outdoors = FALSE //For space, the asteroid, lavaland, etc. Used with blueprints to determine if we are adding a new area (vs editing a station room)
+	var/underground	= FALSE // Areas with this flag are below ground level, or encased in solid rock, or are otherwise heavily sheltered, especially from sunlight
 
 	var/areasize = 0 //Size of the area in open turfs, only calculated for indoors areas.
 

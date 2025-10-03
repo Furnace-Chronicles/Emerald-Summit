@@ -3,6 +3,7 @@
 #Ignore everything in datafolder and subdirectories
 /data/**/*
 /tmp/**/*
+/.vs/**/*
 
 #Ignore byond config folder.
 /cfg/**/*
@@ -14,12 +15,17 @@
 *.lk
 *.int
 *.backup
+*.cache
+*.cs
+*.GeneratedMSBuildEditorConfig*
+
 ### https://raw.github.com/github/gitignore/cc542de017c606138a87ee4880e5f06b3a306def/Global/Linux.gitignore
 
 *~
 
 # temporary files which can be created if a process still has a handle open of a deleted file
 .fuse_hidden*
+CppProperties.json
 
 # KDE directory preferences
 .directory
