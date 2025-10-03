@@ -26,7 +26,8 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	visuals_only_outfit = /datum/outfit/job/roguetown/lord/visuals
 
 	display_order = JDO_LORD
-	tutorial = "Whether you've earned your station through loyalty, betrayal, or merely inheriting it from your predecessors, you've been made supreme ruler of a small vassal state on the border of Grenzelhoft. Her Majesty, the Queen trusts you to remain stalwart and loyal in Astrata's name. Can you trust your subjects to do the same?"	whitelist_req = FALSE
+	tutorial = "Whether you've earned your station through loyalty, betrayal, or merely inheriting it from your predecessors, you've been made supreme ruler of a small vassal state on the border of Grenzelhoft. Her Majesty, the Queen trusts you to remain stalwart and loyal in Astrata's name. Can you trust your subjects to do the same?"
+	whitelist_req = FALSE
 	min_pq = 10
 	max_pq = null
 	round_contrib_points = 4
