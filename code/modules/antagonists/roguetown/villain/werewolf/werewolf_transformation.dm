@@ -9,64 +9,122 @@
 	if(HAS_TRAIT(H, TRAIT_SILVER_BLESSED)) return
 
 	// Werewolf transforms at night AND under the sky
-	if(!transformed && !transforming)
-		if(GLOB.tod == "night")
-			if(isturf(H.loc))
-				var/turf/loc = H.loc
-				if(loc.can_see_sky())
-					to_chat(H, span_userdanger("The moonlight scorns me... It is too late."))
-					owner.current.playsound_local(get_turf(owner.current), 'sound/music/wolfintro.ogg', 80, FALSE, pressure_affected = FALSE)
-					H.flash_fullscreen("redflash3")
-					transforming = world.time // timer
+	if(!transformed)
+		//Its already ongoing,
+		if(transforming)
+			if (world.time >= transforming + 35 SECONDS) // Stage 3
+				H.werewolf_transform()
+				transforming = FALSE
+				transformed = TRUE // Mark as transformed
 
-	// Begin transformation
-	else if(transforming)
-		if (world.time >= transforming + 35 SECONDS) // Stage 3
-			H.werewolf_transform()
-			transforming = FALSE
-			transformed = TRUE // Mark as transformed
+			else if (world.time >= transforming + 25 SECONDS) // Stage 2
+				H.flash_fullscreen("redflash3")
+				H.emote("agony", forced = TRUE)
+				to_chat(H, span_userdanger("UNIMAGINABLE PAIN!"))
+				H.Stun(30)
+				H.Knockdown(30)
 
-		else if (world.time >= transforming + 25 SECONDS) // Stage 2
+			else if (world.time >= transforming + 10 SECONDS) // Stage 1
+				H.emote("")
+				to_chat(H, span_warning("I can feel my muscles aching, it feels HORRIBLE..."))
+
+		// Begin transformation if we are able
+		else if (should_transform(H))
+			to_chat(H, span_userdanger("The moonlight scorns me... It is too late."))
+			owner.current.playsound_local(get_turf(owner.current), 'sound/music/wolfintro.ogg', 80, FALSE, pressure_affected = FALSE)
 			H.flash_fullscreen("redflash3")
-			H.emote("agony", forced = TRUE)
-			to_chat(H, span_userdanger("UNIMAGINABLE PAIN!"))
-			H.Stun(30)
-			H.Knockdown(30)
-
-		else if (world.time >= transforming + 10 SECONDS) // Stage 1
-			H.emote("")
-			to_chat(H, span_warning("I can feel my muscles aching, it feels HORRIBLE..."))
+			transforming = world.time // timer
 
 
-	// Werewolf reverts to human form during the day
-	else if(transformed)
-		H.real_name = wolfname
-		H.name = wolfname
-
-		if(GLOB.tod == "day")
-			if(!untransforming)
-				untransforming = world.time // Start untransformation phase
-
+	else
+		//We are already reverting
+		if (untransforming)
 			if (world.time >= untransforming + 30 SECONDS) // Untransform
 				H.emote("rage", forced = TRUE)
 				H.werewolf_untransform()
 				transformed = FALSE
 				untransforming = FALSE // Reset untransforming phase
 
-			else if (world.time >= untransforming) // Alert player
-				H.flash_fullscreen("redflash1")
-				to_chat(H, span_warning("Daylight shines around me... the curse begins to fade."))
+		// Werewolf reverts to human form during the day
+		else if(should_untransform(user))
+
+			//Why is the name changed right now? Is it for easier identification of fugitive wolves?
+			H.real_name = wolfname
+			H.name = wolfname
+
+			H.flash_fullscreen("redflash1")
+			to_chat(H, span_warning("Daylight shines around me... the curse begins to fade."))
+			untransforming = world.time // Start untransformation phase
 
 
-//Returns true if the werewolf is above ground during the day
-/datum/antagonist/werewolf/proc/should_force_untransform()
+
+
+//Returns true if the werewolf is above ground during the day, or sunlight is filtering into their den
+/datum/antagonist/werewolf/proc/should_untransform(var/mob/user)
+
+	//Gotta be in wolf form already to revert from it
+	if (!transformed)	return FALSE
+
+	//Don't try to do it twice
+	if (untransforming)	return FALSE
+
+	var/mob/living/carbon/human/H = user
+	if(H.stat == DEAD) return TRUE //In death their form reverts
+
+	//If the time isn't daytime, we're cool
 	if(GLOB.tod != "day")	return FALSE
 
-	//TODO: Check if area is underground
 
-	//TODO: Check if tile can see sky
+	if(!isturf(H.loc))	//Are we inside a coffin or something? No sunlight here i guess
+		return FALSE
 
-	return TRUE
+	var/turf/T = H.loc
+
+	var/area/A = get_area(T)
+
+	//If the area isn't protected against sunlight, it hits us.
+	//So we cant hide inside normal houses with windows, its got to be somewhere dark and dank
+	if (A.underground == FALSE)
+		return TRUE
+
+	//Check if tile can see sky. This accounts for cases where people destroy the roof of a wolf den
+	if(T.can_see_sky())
+		return TRUE
+
+	//I guess we're good to stay wolfy
+	return FALSE
+
+
+
+/datum/antagonist/werewolf/proc/should_transform(var/mob/user)
+	//Gotta be in human form already to change from it
+	if (transformed)	return FALSE
+
+	//Don't try to do it twice
+	if (transforming)	return FALSE
+
+	var/mob/living/carbon/human/H = user
+	if(H.stat == DEAD) return FALSE //Cant change if we're dead
+
+	//We need the moon at full rise
+	if(GLOB.tod != "night")	return FALSE
+
+
+
+	if(!isturf(H.loc))	//Are we inside a coffin or something? No moonlight here i guess
+		return FALSE
+
+	var/turf/T = H.loc
+
+
+
+	//Check if tile can see sky. We need direct sight of the moon
+	//Note that, since moonlight is weaker than sunlight, it wont penetrate in windows and you need to actually stand under the stars
+	if(T.can_see_sky())
+		return TRUE
+
+	//I guess we're just gonna stay human
+	return FALSE
 
 
 /mob/living/carbon/human/species/werewolf/death(gibbed, nocutscene = FALSE)
@@ -142,9 +200,7 @@
 	W.adjust_skillrank(/datum/skill/misc/climbing, 6, TRUE)
 	W.adjust_skillrank(/datum/skill/misc/swimming, 5, TRUE)
 
-	W.STASTR = 20 // LOCK IN
-	W.STACON = 20
-	W.STAEND = 20
+
 
 	W.AddSpell(new /obj/effect/proc_holder/spell/self/howl/call_of_the_moon)
 	W.AddSpell(new /obj/effect/proc_holder/spell/self/claws)

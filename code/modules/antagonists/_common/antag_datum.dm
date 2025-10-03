@@ -44,6 +44,9 @@ GLOBAL_LIST_EMPTY(antagonists)
 /datum/antagonist/proc/after_name_change()
 	return
 
+/datum/antagonist/proc/do_time_change()
+	return
+
 /datum/antagonist/proc/examine_friendorfoe(datum/antagonist/examined_datum,mob/examiner,mob/examined)
 	return
 

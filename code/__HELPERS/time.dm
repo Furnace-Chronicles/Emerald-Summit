@@ -100,7 +100,8 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 
 	if(!mind)
 		return
-	if(GLOB.tod == "dawn")
+	var/current_time = GLOB.tod
+	if(current_time == "dawn")
 		var/text_to_show
 		switch(GLOB.dayspassed)
 			if(1)
@@ -154,10 +155,15 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 				to_chat(mind.current, span_nicegreen("I feel that I can be educated in a skill once more."))
 
 
-	else if(GLOB.tod == "day")
+	else if(current_time == "day")
 		playsound_local(src, 'sound/misc/midday.ogg', 100, FALSE)
-	else if(GLOB.tod == "night")
+	else if(current_time == "night")
 		playsound_local(src, 'sound/misc/nightfall.ogg', 100, FALSE)
+
+	//Tell antag datums that time has changed, werewolves do something with this
+	for (var/datum/antagonist/A in mind.antag_datums)
+		A.do_time_change(current_time)
+
 
 	var/atom/movable/screen/daynight/D = new()
 	D.alpha = 0

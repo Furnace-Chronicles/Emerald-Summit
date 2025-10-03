@@ -15,6 +15,12 @@
 	var/transforming
 	var/untransforming
 	var/wolfname = "Verevolf"
+	var/attributes_applied = FALSE
+
+	var/night_attribute_magnitude	=	20
+	var/day_attribute_magnitude	=	10
+
+	var/attribute_magnitude = 20
 
 /datum/antagonist/werewolf/lesser
 	name = "Lesser Verevolf"
@@ -41,7 +47,7 @@
 	owner.special_role = name
 	if(increase_votepwr)
 		forge_werewolf_objectives()
-	
+
 	wolfname = "[pick(GLOB.wolf_prefixes)] [pick(GLOB.wolf_suffixes)]"
 	return ..()
 
@@ -71,6 +77,43 @@
 /datum/antagonist/werewolf/lesser/greet()
 	// leave this empty so that lesser verevolf's dont get the greeting on bite.
 	// there is probably a better way to do this but this works until sm1 smarter inevitably rewrites WW.
+
+/datum/antagonist/werewolf/do_time_change()
+	.=..()
+	update_attributes()
+
+/datum/antagonist/werewolf/apply_innate_effects(mob/living/mob_override)
+	.=..(mob_override)
+	update_attributes()
+
+/datum/antagonist/werewolf/proc/update_attributes()
+	var/mob/living/carbon/human/species/werewolf/W = owner.current
+
+	//Check if the mob is actually in wolf form
+	if (!istype(W))
+		//IF they've converted back to human, thats fine, the wolf is deleted on change and the attributes were attached to it, so they are gone
+		attributes_applied = FALSE
+		return
+
+
+	if(attributes_applied)
+		//
+		W.STASTR -= attribute_magnitude // LOCK IN
+		W.STACON -= attribute_magnitude
+		W.STAEND -= attribute_magnitude
+		attributes_applied = FALSE
+
+	if (transformed)
+		if (GLOB.tod == "night")
+			attribute_magnitude = night_attribute_magnitude
+		else
+			attribute_magnitude = day_attribute_magnitude
+
+	W.STASTR += attribute_magnitude
+	W.STACON += attribute_magnitude
+	W.STAEND += attribute_magnitude
+	attributes_applied = TRUE
+
 
 /mob/living/carbon/human/proc/can_werewolf()
 	if(!mind)
@@ -193,3 +236,5 @@
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOEMBED, TRAIT_GENERIC)
+
+

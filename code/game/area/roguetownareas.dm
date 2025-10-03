@@ -365,7 +365,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	name = "dense bog"
 
 /area/rogue/outdoors/beach
-	name = "coast"
+	name = "coastal cave"
 	icon_state = "beach"
 	warden_area = TRUE
 	ambientsounds = AMB_BEACH
@@ -374,6 +374,8 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = 'sound/music/area/septimus.ogg'
 	droning_sound_night = 'sound/music/area/sleeping.ogg'
 	converted_type = /area/rogue/under/lake
+	underground = TRUE	//Hot werewolf hunks sunbathing on the sands.
+	//And also because many cave areas are currently wrongly painted as beach in dun_world
 
 /area/rogue/outdoors/beach/forest
 	name = "coastforest"
@@ -445,6 +447,17 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 				/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 5,
 				/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 5)
 	converted_type = /area/rogue/outdoors/caves
+
+/area/rogue/under/cave/beachcave
+	name = "coastal cave"
+	icon_state = "cavewet"
+	warden_area = TRUE
+	ambientsounds = AMB_BEACH
+	ambientnight = AMB_BEACH
+	droning_sound = 'sound/music/area/townstreets.ogg'
+	droning_sound_dusk = 'sound/music/area/septimus.ogg'
+	droning_sound_night = 'sound/music/area/sleeping.ogg'
+	converted_type = /area/rogue/under/lake
 
 /area/rogue/outdoors/caves
 	icon_state = "caves"
