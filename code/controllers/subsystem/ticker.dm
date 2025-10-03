@@ -64,7 +64,7 @@ SUBSYSTEM_DEF(ticker)
 	var/end_state = "undefined"
 	var/job_change_locked = FALSE
 	var/list/royals_readied = list()
-	var/rulertype = "Grand Duke" // reports whether king or queen rules
+	var/rulertype = "Duke" // reports whether king or queen rules
 	var/rulermob = null // reports what the ruling mob is.
 	var/regentmob = null // keeps track of regent mob
 	var/regentday = -1 // to prevent regent shuffling
@@ -185,7 +185,7 @@ SUBSYSTEM_DEF(ticker)
 				var/mob/dead/new_player/player = i
 				if(player.ready == PLAYER_READY_TO_PLAY)
 					++totalPlayersReady
-			
+
 			if(!gamemode_voted)
 				SSvote.initiate_vote("storyteller", "Psydon", timeLeft/2)
 				gamemode_voted = TRUE
@@ -303,7 +303,7 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/proc/setup()
 	message_admins(span_boldannounce("Starting game..."))
 	var/init_start = world.timeofday
-		
+
 
 	CHECK_TICK
 	//Configure mode and assign player to special mode stuff
@@ -410,10 +410,10 @@ SUBSYSTEM_DEF(ticker)
 
 //	setup_hell()
 	SStriumphs.fire_on_PostSetup()
-	
+
 	// Reset the found_lords list for the new round
 	reset_found_lords()
-	
+
 	for(var/i in GLOB.start_landmarks_list)
 		var/obj/effect/landmark/start/S = i
 		if(istype(S))							//we can not runtime here. not in this important of a proc.

@@ -23,8 +23,8 @@
 	antag_datum = /datum/antagonist/lich
 
 	restricted_roles = list(
-		"Grand Duke",
-		"Grand Duchess",
+		"Duke",
+		"Duchess",
 		"Consort",
 		"Dungeoneer",
 		"Sergeant",

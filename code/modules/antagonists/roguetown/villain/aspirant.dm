@@ -85,7 +85,7 @@
 // OBJECTIVES
 /datum/objective/aspirant/coup/one
 	name = "Aspirant"
-	explanation_text = "I must ensure that I am crowned as the Grand Duke."
+	explanation_text = "I must ensure that I am crowned as Duke of Scarlet Reach."
 	triumph_count = 5
 
 /datum/objective/aspirant/coup/one/check_completion()
@@ -96,7 +96,7 @@
 
 /datum/objective/aspirant/coup/two
 	name = "Moral"
-	explanation_text = "I am no kinslayer, I must make sure that the Grand Duke doesn't die."
+	explanation_text = "I am no kinslayer, I must make sure that His Grace remains alive."
 	triumph_count = 10
 	var/initialruler
 
@@ -115,7 +115,7 @@
 
 /datum/objective/aspirant/loyal/one
 	name = "Ruler"
-	explanation_text = "I must remain Grand Duke."
+	explanation_text = "I must remain Duke of Scarlet Reach."
 	triumph_count = 3
 
 /datum/objective/aspirant/loyal/one/check_completion()
@@ -126,7 +126,7 @@
 
 /datum/objective/aspirant/loyal/two
 	name = "Loyalist"
-	explanation_text = "I must ensure that the Grand Duke continues to reign."
+	explanation_text = "I must ensure that the His Grace continues to reign."
 	triumph_count = 3
 	var/initialruler
 

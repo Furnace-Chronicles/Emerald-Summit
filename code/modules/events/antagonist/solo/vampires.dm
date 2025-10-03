@@ -22,8 +22,8 @@
 	antag_datum = /datum/antagonist/vampirelord
 
 	restricted_roles = list( // basically just keep and church roles
-		"Grand Duke",
-		"Grand Duchess",
+		"Duke",
+		"Duchess",
 		"Knight Captain",
 		"Consort",
 		"Dungeoneer",

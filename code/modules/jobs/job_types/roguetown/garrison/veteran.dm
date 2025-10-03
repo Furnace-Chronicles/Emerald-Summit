@@ -277,7 +277,7 @@
 	category_tags = list(CTAG_VETERAN)
 	classes = list("Grenzelhoft" = "Having once served with zweihandler or halberd in the professional echelons of the Grenzelhoft mercenary guild, they are now free from the guild to pursue lordly service rather then highest bidder.",
 					"Janissary" = "The elite infantry of Ranesheni, you have found yourself far from home, may your current liege prove a better choice then the Autarchy back home.",
-					"Condottiero" = "Hailing from Etrusca, you owe the Grand Duke for your life, and as such you've did the one thing unthinkable for one of the Condotterio. You've traded sellsword opportunism for a stable life.")
+					"Condottiero" = "Hailing from Etrusca, you owe your lyfe to the Duke, and as such you've did the one thing unthinkable for one of the Condotterio. You've traded sellsword opportunism for a stable life.")
 //Mercenary Veteran with options!
 
 	traits_applied = list(TRAIT_STEELHEARTED)
@@ -415,7 +415,7 @@
 					r_hand = /obj/item/rogueweapon/spear
 					backl = /obj/item/rogueweapon/shield/tower/raneshen
 		if("Condottiero") //Crossbow Specialist Former Scout who is nowhere as versatile in training.
-			to_chat(H, span_warning("A crossbowmen hailing from Etrusca, you owe the Grand Duke for your life, and as such you've did the one thing unthinkable for one of the Condotterio. You've traded sellsword opportunism for stable employment."))
+			to_chat(H, span_warning("A crossbowmen hailing from Etrusca, you owe your lyfe to the Duke, and as such you've did the one thing unthinkable for one of the Condotterio. You've traded sellsword opportunism for stable employment."))
 			shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 			cloak = /obj/item/clothing/cloak/half/vet
 			gloves = /obj/item/clothing/gloves/roguetown/angle

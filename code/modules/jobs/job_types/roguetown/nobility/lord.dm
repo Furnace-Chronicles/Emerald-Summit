@@ -2,8 +2,8 @@ GLOBAL_VAR(lordsurname)
 GLOBAL_LIST_EMPTY(lord_titles)
 
 /datum/job/roguetown/lord
-	title = "Grand Duke"
-	f_title = "Grand Duchess"
+	title = "Duke"
+	f_title = "Duchess"
 	flag = LORD
 	department_flag = NOBLEMEN
 	faction = "Station"
@@ -26,8 +26,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	visuals_only_outfit = /datum/outfit/job/roguetown/lord/visuals
 
 	display_order = JDO_LORD
-	tutorial = "Elevated upon your throne through a web of intrigue and political upheaval, you are the absolute authority of these lands and at the center of every plot within it. Every man, woman and child is envious of your position and would replace you in less than a heartbeat: Show them the error of their ways."
-	whitelist_req = FALSE
+	tutorial = "Whether you've earned your station through loyalty, betrayal, or merely inheriting it from your predecessors, you've been made supreme ruler of a small vassal state on the border of Grenzelhoft. Her Majesty, the Queen trusts you to remain stalwart and loyal in Astrata's name. Can you trust your subjects to do the same?"	whitelist_req = FALSE
 	min_pq = 10
 	max_pq = null
 	round_contrib_points = 4
@@ -60,15 +59,15 @@ GLOBAL_LIST_EMPTY(lord_titles)
 			GLOB.lordsurname = "of [L.real_name]"
 		SSticker.rulermob = L
 		if(should_wear_femme_clothes(L))
-			SSticker.rulertype = "Grand Duchess"
+			SSticker.rulertype = "Duchess"
 		else
-			SSticker.rulertype = "Grand Duke"
+			SSticker.rulertype = "Duke"
 		to_chat(world, "<b><span class='notice'><span class='big'>[L.real_name] is [SSticker.rulertype] of Scarlet Reach.</span></span></b>")
 		if(istype(SSticker.regentmob, /mob/living/carbon/human))
 			var/mob/living/carbon/human/regentbuddy = SSticker.regentmob
 			to_chat(L, span_notice("Word reached me on the approach that [regentbuddy.real_name], the [regentbuddy.job], served as regent in my absence."))
 		SSticker.regentmob = null //Time for regent to give up the position.
-		
+
 		addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, lord_marriage_choice)), 50)
 		if(STATION_TIME_PASSED() <= 10 MINUTES) //Late to the party? Stuck with default colors, sorry!
 			addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, lord_color_choice)), 50)
@@ -110,12 +109,12 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 
 //	SSticker.rulermob = H
-/** 
+/**
 	Warrior Lord subclass. An evolution from the Daring Twit. This is the original Lord Class.
 */
 /datum/advclass/lord/warrior
 	name = "Valiant Warrior"
-	tutorial = "You're a noble warrior. You rose to your rank through your own strength and skill, whether by leading your men or by fighting alongside them. Or perhaps you are none of that, but simply a well-trained heir elevated to the position of Lord. You're trained in the usage of heavy armor, and knows swordsmanship well."
+	tutorial = "You're a noble warrior. You rose to your rank through your own strength and skill, whether by leading your men or by fighting alongside them. Or perhaps you are none of that, and simply a well-trained heir elevated to the position of Lord. You're trained in the usage of heavy armor, and know swordsmanship well."
 	outfit = /datum/outfit/job/roguetown/lord/warrior
 	category_tags = list(CTAG_LORD)
 
@@ -151,16 +150,16 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 
-/** 
+/**
 	Merchant Lord subclass. Consider this an evolution from Sheltered Aristocrat.
-	Gets the same weighted 12 statspread + 5 fortune, but no strength. +2 Int, trade 2 End for 2 Perception. Keep speed. Deals gotta be quick. 
+	Gets the same weighted 12 statspread + 5 fortune, but no strength. +2 Int, trade 2 End for 2 Perception. Keep speed. Deals gotta be quick.
 	Get nice traits for seeing price, secular appraise and keen ears for spying.
 	Weapon skills are worse across the board compared to the warrior lord, apprentice only.
 	Has a high noble income plus a starting pouch with insane amount of money.
 */
 /datum/advclass/lord/merchant
 	name = "Merchant Lord"
-	tutorial = "You were always talented with coins and trade. And your talents have brought you to the position of the Lord of Scarlet Reach. You could be a merchant who bought his way into nobility and power, or an exceptionally talented noble who were inclined to be good with coins. Fighting directly is not your forte\
+	tutorial = "You were always talented with coins and trade. Your talents have brought you to the position of the Duke of Scarlet Reach. You could be a merchant who bought his way into nobility and power, or an exceptionally talented noble who simply happens to be good with coins. Fighting directly is not your forte\
 	But you have plenty of wealth, keen ears, and know a good deal from a bad one."
 	outfit = /datum/outfit/job/roguetown/lord/merchant
 	category_tags = list(CTAG_LORD)
@@ -195,16 +194,16 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
 
-/** 
+/**
 	Inbred Lord subclass. A joke class, evolution of the Inbred Wastrel.
 	Literally the same stat line and skills line, but with one exception - 10 Fortune.
 	Why? Because it is funny, that's why. They also have heavy armor training.
-	The fact that the inbred wastrel with 20 fortune and critical weakness 
+	The fact that the inbred wastrel with 20 fortune and critical weakness
 	can get into heavy armor and try to fight is hilarious.
 */
 /datum/advclass/lord/inbred
 	name = "Inbred Lord"
-	tutorial = "Psydon and Astrata smiles upon you. For despite your inbred and weak body, and your family's conspiracies to remove you from succession, you have somehow become the Lord of Scarlet Reach. May your reign lasts a hundred years."
+	tutorial = "Psydon and Astrata smile upon you. For despite your inbred and weak body, and your family's conspiracies to remove you from succession, you have somehow become the Duke of Scarlet Reach. May your reign last a hundred years."
 	outfit = /datum/outfit/job/roguetown/lord/inbred
 	category_tags = list(CTAG_LORD)
 

@@ -1189,7 +1189,7 @@ SUBSYSTEM_DEF(gamemode)
 		if(!roundstart)
 			if(living.patron)
 				GLOB.patron_follower_counts[living.patron.name]++
-				if(living.job == "Grand Duke")
+				if(living.job == "Duke")
 					GLOB.scarlet_round_stats[STATS_MONARCH_PATRON] = "[living.patron.name]"
 		if(living.mind.has_antag_datum(/datum/antagonist/bandit))
 			GLOB.scarlet_round_stats[STATS_BANDITS]++
@@ -1345,7 +1345,7 @@ SUBSYSTEM_DEF(gamemode)
 	var/total_influence = get_follower_influence(chosen_storyteller)
 	for(var/influence_factor in initialized_storyteller.influence_factors)
 		total_influence += calculate_specific_influence(chosen_storyteller, influence_factor)
-	
+
 	total_influence += initialized_storyteller.bonus_points
 
 	return total_influence

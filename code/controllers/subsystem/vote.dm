@@ -194,7 +194,7 @@ SUBSYSTEM_DEF(vote)
 					if(H.stat != DEAD)
 						vote_power += 3
 					if(H.job)
-						var/list/list_of_powerful = list("Grand Duke", "Priest")
+						var/list/list_of_powerful = list("Duke", "Priest")
 						if(H.job in list_of_powerful)
 							vote_power += 5
 						else
@@ -299,7 +299,7 @@ SUBSYSTEM_DEF(vote)
 		return 1
 	return 0
 
-// Helper for sending an active vote to someone who has just logged in 
+// Helper for sending an active vote to someone who has just logged in
 /datum/controller/subsystem/vote/proc/send_vote(client/C)
 	if(!mode || !C)
 		return

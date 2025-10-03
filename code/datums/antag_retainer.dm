@@ -51,7 +51,7 @@
 			return "werewolf"
 
 
-var/global/list/found_lords = list() 
+var/global/list/found_lords = list()
 
 /proc/reset_found_lords()
 	found_lords.Cut()
@@ -60,17 +60,17 @@ var/global/list/found_lords = list()
 	// Only clean up if we have a functional living lord (meaning the crisis is over)
 	var/has_functional_lord = FALSE
 	for(var/mob/living/carbon/human/H in GLOB.human_list)
-		if(H.mind && (H.mind.assigned_role == "Grand Duke" || H.mind.assigned_role == "Grand Duchess"))
+		if(H.mind && (H.mind.assigned_role == "Duke" || H.mind.assigned_role == "Duchess"))
 			if(H.stat != DEAD && !isbrain(H) && H.get_bodypart(BODY_ZONE_HEAD))
 				has_functional_lord = TRUE
 				break
-	
+
 	if(has_functional_lord)
 		var/list/valid_ckeys = list()
 		for(var/mob/living/carbon/human/H in GLOB.human_list)
 			if(H.ckey)
 				valid_ckeys += H.ckey
-		
+
 		for(var/ckey in found_lords)
 			if(ckey && !(ckey in valid_ckeys))
 				found_lords -= ckey
@@ -79,22 +79,22 @@ var/global/list/found_lords = list()
 	if(!SSticker.next_lord_check || world.time < SSticker.next_lord_check)
 		return
 	SSticker.next_lord_check = world.time + 1 MINUTES
-	
+
 	var/living_lord_found = FALSE
-	
+
 	// Check for living lords and track all lords
 	for(var/mob/living/carbon/human/H in GLOB.human_list)
-		if(H.mind && (H.mind.assigned_role == "Grand Duke" || H.mind.assigned_role == "Grand Duchess"))
+		if(H.mind && (H.mind.assigned_role == "Duke" || H.mind.assigned_role == "Duchess"))
 			if(H.ckey)
 				found_lords[H.ckey] = TRUE
-			
+
 			// Check if the lord is actually functional
 			if(H.stat != DEAD && !isbrain(H) && H.get_bodypart(BODY_ZONE_HEAD))
 				living_lord_found = TRUE
 				if(hasomen(OMEN_NOLORD))
 					removeomen(OMEN_NOLORD)
 				break
-	
+
 	// Check for dead/missing lords if no living ones found and omen doesn't exist
 	if(!living_lord_found && found_lords.len > 0 && !hasomen(OMEN_NOLORD))
 		for(var/ckey in found_lords)
@@ -103,7 +103,7 @@ var/global/list/found_lords = list()
 				// Found a dead/missing lord, handle missing lord logic
 				if(!SSticker.missing_lord_time)
 					SSticker.missing_lord_time = world.time
-				
+
 				if(forced || (world.time > SSticker.missing_lord_time + 10 MINUTES))
 					SSticker.missing_lord_time = world.time
 					addomen(OMEN_NOLORD)
@@ -111,7 +111,7 @@ var/global/list/found_lords = list()
 					var/datum/round_event_control/R = new()
 					R.badomen(OMEN_NOLORD)
 				break
-	
+
 	cleanup_found_lords()
 	return living_lord_found
 

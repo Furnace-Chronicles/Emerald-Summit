@@ -13,7 +13,7 @@
 		/datum/species/lamia,
 	)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
-	tutorial = "Responsible for the safety of the town and the enforcement of the Grand Duke's law, you are the vanguard of the city faced with punishing those who defy his Royal Majesty. Though you've many lords to obey, as both the Church and the Bailiff have great sway over your life."
+	tutorial = "Responsible for the safety of the town and the enforcement of the Duke's law, you are the vanguard of the city faced with punishing those who defy His Grace. However, you've many lords to obey, as both the Church and the Bailiff have great sway over your life."
 	display_order = JDO_TOWNGUARD
 	whitelist_req = TRUE
 
@@ -85,7 +85,7 @@ Archer is basically a 'bounty-catcher' in function, less specialized at close-qu
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE) 
+	H.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE)
 	H.change_stat("strength", 2)
 	H.change_stat("constitution", 1)
 	H.change_stat("endurance", 1)
@@ -129,7 +129,7 @@ Archer is basically a 'bounty-catcher' in function, less specialized at close-qu
 	H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)	//For basic crafting; you'll need it due to relegated support role.
 	H.adjust_skillrank(/datum/skill/craft/tanning, 1, TRUE)	//Likely hunter background; very crappy basic skill.
-	H.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE) 
+	H.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE)
 	H.change_stat("strength", 1)
 	H.change_stat("perception", 2)
 	H.change_stat("intelligence", 1)		//Gets some int for crafting + feinting, makes up for no medium armor training along with the speed.

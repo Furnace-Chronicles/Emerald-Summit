@@ -13,8 +13,8 @@
 
 	// Restrict from important roles
 	restricted_roles = list(
-		"Grand Duke",
-		"Grand Duchess",
+		"Duke",
+		"Duchess",
 		"Consort",
 		"Dungeoneer",
 		"Sergeant",
@@ -61,45 +61,45 @@
 	// Check each base condition individually
 	if(SSgamemode.current_storyteller?.disable_distribution || SSgamemode.halted_storyteller)
 		return FALSE
-	
+
 	if(event_group && !GLOB.event_groups[event_group].can_run())
 		return FALSE
-	
+
 	if(roundstart && (!SSgamemode.can_run_roundstart || (SSgamemode.ran_roundstart && !fake_check && !SSgamemode.current_storyteller?.ignores_roundstart)))
 		return FALSE
-	
+
 	if(occurrences >= max_occurrences)
 		return FALSE
-	
+
 	if(earliest_start >= world.time-SSticker.round_start_time)
 		return FALSE
-	
+
 	if(wizardevent != SSevents.wizardmode)
 		return FALSE
-	
+
 	if(players_amt < min_players)
 		return FALSE
-	
+
 	if(length(todreq) && !(GLOB.tod in todreq))
 		return FALSE
-	
+
 	if(length(allowed_storytellers))
 		if(!(SSgamemode.current_storyteller.type in allowed_storytellers))
 			return FALSE
-	
+
 	if(req_omen)
 		if(!GLOB.badomens.len)
 			return FALSE
-	
+
 	if(!name)
 		return FALSE
-	
+
 	var/list/candidates = get_candidates()
-	
+
 	// Allow the event to run if there's at least 1 candidate, even if fewer than desired
 	if(length(candidates) < 1)
 		return FALSE
-	
+
 	return TRUE
 
 /datum/round_event_control/antagonist/solo/thievesguild/get_candidates()
@@ -112,14 +112,14 @@
 /datum/round_event/antagonist/solo/thievesguild/setup()
 	var/datum/round_event_control/antagonist/solo/cast_control = control
 	antag_count = cast_control.get_antag_amount()
-	
+
 	antag_flag = cast_control.antag_flag
 	antag_datum = cast_control.antag_datum
 	restricted_roles = cast_control.restricted_roles
 	prompted_picking = cast_control.prompted_picking
-	
+
 	var/list/possible_candidates = cast_control.get_candidates()
-	
+
 	var/list/candidates = list()
 	if(cast_control == SSgamemode.current_roundstart_event && length(SSgamemode.roundstart_antag_minds))
 		log_storyteller("Running roundstart antagonist assignment, event: [src], roundstart_antag_minds: [english_list(SSgamemode.roundstart_antag_minds)]")
@@ -162,7 +162,7 @@
 		candidate.mind.special_role = antag_flag
 		candidate.mind.restricted_roles = restricted_roles
 		picked_mobs += WEAKREF(candidate.client)
-	
+
 	setup = TRUE
 	if(LAZYLEN(extra_spawned_events))
 		var/event_type = pickweight(extra_spawned_events)
@@ -176,22 +176,22 @@
 	// Check if we have any candidates
 	if(!setup_minds || !setup_minds.len)
 		return
-	
+
 	// Check if the antagonist datum is valid
 	if(!antag_datum)
 		return
-	
+
 	for(var/datum/mind/antag_mind as anything in setup_minds)
 		// Check if the mind already has this antagonist
 		if(antag_mind.has_antag_datum(antag_datum))
 			continue
-		
+
 		// Check if the antagonist can be owned by this mind
 		var/datum/antagonist/test_antag = new antag_datum()
 		if(!test_antag.can_be_owned(antag_mind))
 			qdel(test_antag)
 			continue
 		qdel(test_antag)
-		
+
 		// Attempt to add the antagonist datum
-		antag_mind.add_antag_datum(antag_datum) 
+		antag_mind.add_antag_datum(antag_datum)
