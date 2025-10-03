@@ -83,24 +83,19 @@
 	return !(stat & (NOPOWER|BROKEN|MAINT))
 
 /obj/machinery/can_interact(mob/user)
-	if(QDELETED(user))
-		return FALSE
+	var/silicon = IsAdminGhost(user)
 	if((stat & (NOPOWER|BROKEN)) && !(interaction_flags_machine & INTERACT_MACHINE_OFFLINE))
 		return FALSE
+	if(!(interaction_flags_machine & INTERACT_MACHINE_OPEN))
+		if(!silicon || !(interaction_flags_machine & INTERACT_MACHINE_OPEN_SILICON))
+			return FALSE
 
-	if(isAdminGhostAI(user))
-		return TRUE
-
-	if(!isliving(user))
-		return FALSE
-
-	if(!user.can_hold_items())
-		return FALSE
-
-	. = ..()
-	if(!.)
-		return FALSE
-
+	if(silicon)
+		if(!(interaction_flags_machine & INTERACT_MACHINE_ALLOW_SILICON))
+			return FALSE
+	else
+		if(interaction_flags_machine & INTERACT_MACHINE_REQUIRES_SILICON)
+			return FALSE
 	return TRUE
 
 ////////////////////////////////////////////////////////////////////////////////////////////

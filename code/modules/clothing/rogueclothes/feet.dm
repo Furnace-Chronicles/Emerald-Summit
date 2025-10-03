@@ -464,6 +464,9 @@
 	icon_state = "eastsandals"
 	item_state = "eastsandals"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'
+	sewrepair = TRUE
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
+	max_integrity = 150
 	armor = ARMOR_BOOTS
 
 /obj/item/clothing/shoes/roguetown/boots/carapace

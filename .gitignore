@@ -55,6 +55,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+build/
 develop-eggs/
 dist/
 downloads/
@@ -195,7 +196,6 @@ Temporary Items
 #Visual studio stuff
 *.vscode/*
 !/.vscode/extensions.json
-!/.vscode/tasks.json
 tools/MapAtmosFixer/MapAtmosFixer/obj/*
 tools/MapAtmosFixer/MapAtmosFixer/bin/*
 

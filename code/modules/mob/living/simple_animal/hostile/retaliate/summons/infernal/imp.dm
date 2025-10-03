@@ -4,6 +4,7 @@
 	icon_state = "imp"
 	icon_living = "imp"
 	icon_dead = "vvd"
+	summon_tier = 1
 	gender = MALE
 	emote_hear = null
 	emote_see = null
@@ -29,7 +30,7 @@
 	retreat_distance = 4
 	minimum_distance = 3
 	food_type = list()
-	movement_type = FLYING
+	is_flying_animal = TRUE
 	pooptype = null
 	STACON = 7
 	STASTR = 6

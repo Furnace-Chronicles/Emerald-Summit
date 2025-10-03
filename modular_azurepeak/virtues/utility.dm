@@ -237,7 +237,7 @@
 	desc = "Music, artistry and the act of showmanship carried me through life. I've hidden a favorite instrument of mine, know how to please anyone I touch, and how to crack the eggs of hecklers."
 	custom_text = "Comes with a stashed instrument of your choice. You choose the instrument after spawning in."
 	added_traits = list(TRAIT_NUTCRACKER, TRAIT_GOODLOVER)
-	added_skills = list(list(/datum/skill/misc/music, 3, 6))
+	added_skills = list(list(/datum/skill/misc/music, 4, 6))
 
 /datum/virtue/utility/performer/apply_to_human(mob/living/carbon/human/recipient)
     addtimer(CALLBACK(src, .proc/performer_apply, recipient), 50)
@@ -261,6 +261,11 @@
 	desc = "Whether it was asked of you, or by a calling for the rush deep within your hollow heart, you seek things that don't belong you. You know how to work a lock, and have stashed a ring of them, for just the occasion."
 	added_stashed_items = list("Lockpick Ring" = /obj/item/lockpickring/mundane)
 	added_skills = list(list(/datum/skill/misc/lockpicking, 3, 6))
+
+/datum/virtue/utility/swiftfingers
+	name = "Swift Fingers"
+	desc = "You have a natural talent for weaving your hands into the pockets of others unnoticed, or weightlessly untying a belt. You know how to take away goods from their owners far easier than most travelers."
+	added_skills = list(list(/datum/skill/misc/stealing, 3, 4))
 
 /datum/virtue/utility/granary
 	name = "Cunning Provisioner"

@@ -10,10 +10,6 @@ indent_size = 2
 [*.py]
 indent_style = space
 
-[/tgui/**/*.{js,ts,tsx,jsx,scss,json,html}]
-indent_style = space
-indent_size = 2
-
-[*.ts]
+[/tgui/**/*.{js,styl,ract,json,html}]
 indent_style = space
 indent_size = 2

@@ -111,3 +111,10 @@
 	name = "Golden Hairpin"
 	cost =	100
 	contains = list(/obj/item/lockpick/goldpin)
+
+/datum/supply_pack/rogue/blackmarket_diplomacy/smokebelt
+	name = "Smokebomb belt"
+	cost = 90 // smokebombs are pretty expensive, this is justified
+	contains = list(
+					/obj/item/storage/belt/rogue/leather/smokebelt
+				)

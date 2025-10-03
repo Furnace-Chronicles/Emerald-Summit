@@ -136,10 +136,7 @@
 			if(H.craftingthing)
 				last_craft = world.time
 				var/datum/component/personal_crafting/C = H.craftingthing
-				if(H.client.legacycraft)
-					C.roguecraft(location, control, params, H)
-				else
-					C.ui_interact(H)
+				C.roguecraft(location, control, params, H)
 			else
 				testing("what")
 
@@ -1288,9 +1285,10 @@
 
 	if(hud.mymob.stat != DEAD && ishuman(hud.mymob))
 		var/mob/living/carbon/human/H = hud.mymob
+		var/list/missing_bodyparts_zones = H.get_missing_limbs()
 		for(var/X in H.bodyparts)
 			var/obj/item/bodypart/BP = X
-			if(BP.body_zone in H.get_missing_limbs())
+			if(BP.body_zone in missing_bodyparts_zones)
 				continue
 			if(HAS_TRAIT(H, TRAIT_NOPAIN))
 				var/mutable_appearance/limby = mutable_appearance('icons/mob/roguehud64.dmi', "[H.gender == "male" ? "m" : "f"]-[BP.body_zone]")
@@ -1307,7 +1305,7 @@
 			. += limby
 			if(BP.get_bleed_rate())
 				. += mutable_appearance('icons/mob/roguehud64.dmi', "[H.gender == "male" ? "m" : "f"]-[BP.body_zone]-bleed") //apply healthy limb
-		for(var/X in H.get_missing_limbs())
+		for(var/X in missing_bodyparts_zones)
 			var/mutable_appearance/limby = mutable_appearance('icons/mob/roguehud64.dmi', "[H.gender == "male" ? "m" : "f"]-[X]") //missing limb
 			limby.color = "#2f002f"
 			. += limby

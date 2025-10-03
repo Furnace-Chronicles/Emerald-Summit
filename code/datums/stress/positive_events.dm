@@ -276,3 +276,13 @@
 	stressadd = -4
 	desc = span_green("I've seen someone completely at peace! Their happiness is contagious!")
 	timer = 3 MINUTES
+
+/datum/stressevent/soulchurnerdestroyed
+	timer = 10 MINUTES
+	stressadd = -40
+	desc = span_green("That disgusting box was destroyed, and its captives freed.")
+
+/datum/stressevent/soulchurnerdestroyed_psydon
+	timer = 5 MINUTES
+	stressadd = -2
+	desc = span_green("The box of souls was destroyed. I feel relief.")

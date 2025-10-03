@@ -118,6 +118,8 @@
 			update_icon_dropped()
 		else
 			I.forceMove(T)
+		I.sellprice = 0 //no extra points for gruesomeness
+		sellprice = 0 //and say goodbye to any value the head had!
 	eyes = null
 	ears = null
 	tongue = null

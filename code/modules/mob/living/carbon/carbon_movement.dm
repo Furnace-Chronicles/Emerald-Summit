@@ -25,3 +25,10 @@
 				adjust_hydration(-(0.1))
 		if(m_intent == MOVE_INTENT_RUN && isnull(buckled)) //sprint fatigue add
 			stamina_add(2)
+
+/// Called when movement_type trait is added to the mob.
+/mob/living/carbon/on_movement_type_flag_enabled(datum/source, flag, old_movement_type)
+	. = ..()
+
+/mob/living/carbon/on_movement_type_flag_disabled(datum/source, flag, old_movement_type)
+	. = ..()

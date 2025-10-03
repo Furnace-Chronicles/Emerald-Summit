@@ -57,6 +57,7 @@
 		/datum/sprite_accessory/ears/cat_normal,
 		/datum/sprite_accessory/ears/miqote,
 		/datum/sprite_accessory/ears/lynx,
+		/datum/sprite_accessory/ears/broad,
 		)
 
 /datum/customizer/organ/ears/axian

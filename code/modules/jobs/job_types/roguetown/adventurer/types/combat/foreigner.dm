@@ -135,7 +135,6 @@
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/recipe_book/survival = 1,
-		/obj/item/smokebomb = 3,
 		)
 	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun
 	gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
@@ -163,3 +162,10 @@
 		if("Kitsune")
 			mask = /obj/item/clothing/mask/rogue/facemask/yoruku_kitsune
 
+	var/belts = list("Shurikens","Smokebombs")
+	var/belt_choice = input("Choose your belt.", "BELT YOURSELF") as anything in belts
+	switch(belt_choice)
+		if("Shurikens")
+			belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun
+		if("Smokebombs")
+			belt = /obj/item/storage/belt/rogue/leather/smokebelt/black

@@ -469,7 +469,7 @@
 			to_chat(user, span_warning("The tree has been fully pruned already!"))
 			return TRUE
 		var/skill = get_farming_skill(user)
-		var/prune_time = 25 SECONDS - (skill * 3.5 SECONDS)
+		var/prune_time = 12 SECONDS - (skill * 1.3 SECONDS)
 
 		to_chat(user, span_notice("You begin pruning the tree..."))
 
@@ -480,7 +480,7 @@
 			if(iscarbon(user))
 				var/mob/living/carbon/C = user
 				add_sleep_experience(user, /datum/skill/labor/farming, C.STAINT * 0.5)
-			
+
 			to_chat(user, span_notice("You prune some branches."))
 			update_icon()
 			return TRUE
@@ -557,7 +557,7 @@
 
 		qdel(I)
 		tree_offerings += I.type
-		
+
 		happiness = min(happiness + 10, 100)
 		update_happiness_tier()
 
@@ -861,10 +861,10 @@
 				/obj/item/reagent_containers/food/snacks/eoran_aril/pearlescent = 10,
 				/obj/item/reagent_containers/food/snacks/eoran_aril/cerulean = 15,
 				/obj/item/reagent_containers/food/snacks/eoran_aril/fractal = 5,
-				/obj/item/reagent_containers/food/snacks/eoran_aril/auric = 4,
-				/obj/item/reagent_containers/food/snacks/eoran_aril/ashen = 1,
+				/obj/item/reagent_containers/food/snacks/eoran_aril/auric = 10,
+				/obj/item/reagent_containers/food/snacks/eoran_aril/ashen = 3,
 				/obj/item/reagent_containers/food/snacks/eoran_aril/ochre = 5,
-				/obj/item/reagent_containers/lux/eoran_aril = 1
+				/obj/item/reagent_containers/lux/eoran_aril = 10
 			)
 
     // Generate 4 arils +1 per tier.
@@ -1105,18 +1105,91 @@
 
 /obj/item/reagent_containers/food/snacks/eoran_aril/ochre
 	name = "ochre aril"
-	desc = "A blood-red seed that seems to pulse menacingly."
+	desc = "A dust-colored seed that seems to pulse menacingly."
 	icon_state = "ochre"
-	effect_desc = "Produce golden arils at the cost of your own life."
+	effect_desc = "Return two nearby corpses in view from Necra's embrace, at the cost of your own life."
 
 /obj/item/reagent_containers/food/snacks/eoran_aril/ochre/apply_effects(mob/living/carbon/eater)
 	if(ishuman(eater))
 		var/mob/living/carbon/human/H = eater
 		if(H.patron.type == /datum/patron/divine/eora)
-			to_chat(H, span_notice("Golden seeds sprout from your skin and fall upon the floor."))
-			for(var/i in 1 to 2)
-				new /obj/item/reagent_containers/food/snacks/eoran_aril/auric(H.loc)
-			H.apply_status_effect(/datum/status_effect/debuff/eoran_wilting)
+			var/list/mob/living/carbon/human/target_mobs = list()
+
+			for(var/mob/living/carbon/human/target in view(7, H))
+				if(target_mobs.len >= 2)
+					break
+				if(target.stat != DEAD)
+					continue
+				if(!target.mind || !target.mind.active)
+					continue
+				if(HAS_TRAIT(target, TRAIT_NECRAS_VOW))
+					continue
+				if(target.mob_biotypes & MOB_UNDEAD)
+					continue
+				if(target.has_status_effect(/datum/status_effect/debuff/eoran_wilting))
+					continue
+				if(target.has_status_effect(/datum/status_effect/debuff/revived))
+					continue
+				target_mobs += target
+				for(var/i in 1 to 4)
+					var/obj/effect/temp_visual/heal/E = new /obj/effect/temp_visual/heal_rogue(get_turf(target))
+					E.color = "#FF8CD9"
+				target.visible_message(span_notice("[target]'s body is bathed in rose-hued light!"))
+				addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, process_ochre_revival), TRUE), 1 SECONDS)
+
+			if(target_mobs.len > 0)
+				H.apply_status_effect(/datum/status_effect/debuff/eoran_wilting)
+
+	return ..()
+
+/mob/living/carbon/human/proc/process_ochre_revival()
+	if(stat != DEAD)
+		return
+	if(QDELETED(src) || stat != DEAD)
+		return FALSE
+
+	var/mob/living/carbon/spirit/underworld_spirit = get_spirit()
+	if (client)
+		if (alert(src, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
+			visible_message(span_notice("Nothing happens. They are not being let go."))
+			return FALSE
+	else if (underworld_spirit && underworld_spirit.client)
+		if (alert(underworld_spirit, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
+			visible_message(span_notice("Nothing happens. They are not being let go."))
+			return FALSE
+	else
+		visible_message(span_notice("The body shudders, but there's no one to call out to."))
+		return FALSE
+
+	addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon/human, ochre_revival), TRUE), 5 SECONDS)
+
+/mob/living/carbon/human/proc/ochre_revival()
+	var/mob/living/carbon/spirit/underworld_spirit = get_spirit()
+	// Perform revival
+	adjustOxyLoss(-getOxyLoss())
+	if(revive(full_heal = FALSE))
+		mind.remove_antag_datum(/datum/antagonist/zombie)
+		remove_status_effect(/datum/status_effect/debuff/rotted_zombie)	//Removes the rotted-zombie debuff if they have it - Failsafe for it.
+		// Transfer ghost back to body (if they were ghosted)
+		if(underworld_spirit && underworld_spirit.mind) // Ensure spirit exists and has a mind
+			underworld_spirit.mind.transfer_to(target, TRUE) // Transfer mind back to the revived body
+			qdel(underworld_spirit) // Delete the spirit mob
+		else
+			grab_ghost(force = TRUE) // This attempts to grab a ghost even if they committed suicide.
+
+		emote("breathgasp")
+		Jitter(100)
+		update_body()
+		visible_message(span_notice("[src] is revived by divine magic!"), span_green("I awake from the void."))
+		to_chat(src, "<span class='userdanger'><b style='color:pink'>True love can transcend even death.</b></span>")
+
+		ADD_TRAIT(target, TRAIT_IWASREVIVED, "ochre_aril")
+		apply_status_effect(/datum/status_effect/debuff/revived)
+		return TRUE
+	else
+		visible_message(span_warning("The magic falters, and nothing happens."))
+		return FALSE
+
 
 //For now this is just artifical lux. But this may make the user/receiver indebted to eora eventually.
 //This is meant to be given guaranteed with T4 pommes for priests but given we don't have eoran priests yet I will implement this when we do.

@@ -7,14 +7,14 @@
 	invocation_type = "shout"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
-	recharge_time = 15 SECONDS
+	recharge_time = 20 SECONDS
 	miracle = TRUE
 	devotion_cost = 100
 	projectile_type = /obj/projectile/magic/astratablast
 
 
 /obj/projectile/magic/astratablast
-	damage = 10
+	damage = 25
 	name = "ray of holy fire"
 	nodamage = FALSE
 	damage_type = BURN
@@ -26,7 +26,7 @@
 	light_color = "#a98107"
 	light_outer_range = 7
 	tracer_type = /obj/effect/projectile/tracer/solar_beam
-	var/fuck_that_guy_multiplier = 2.5
+	var/fuck_that_guy_multiplier = 2
 	var/biotype_we_look_for = MOB_UNDEAD
 
 /obj/projectile/magic/astratablast/on_hit(target)

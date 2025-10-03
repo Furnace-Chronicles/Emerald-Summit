@@ -918,6 +918,10 @@
 	name = "Gloomy"
 	icon_state = "gloomy"
 
+/datum/sprite_accessory/hair/head/gloomy
+	name = "Gloomy (Trimmed)"
+	icon_state = "gloomytrimmed"
+
 /datum/sprite_accessory/hair/head/gloomylong
 	name = "Gloomy (Long)"
 	icon_state = "gloomylong"

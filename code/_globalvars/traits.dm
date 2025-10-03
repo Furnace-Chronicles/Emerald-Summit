@@ -5,10 +5,6 @@
 */
 GLOBAL_LIST_INIT(traits_by_type, list(
 	/mob = list(
-		TRAIT_AI_ACCESS,
-		TRAIT_UI_BLOCKED,
-		TRAIT_HANDS_BLOCKED,
-		TRAIT_PRESERVE_UI_WITHOUT_CLIENT,
 		TRAIT_HERETIC_DEVOUT,
 		TRAIT_PACIFISM,
 		TRAIT_LEPROSY,
@@ -158,7 +154,13 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		"TRAIT_NODROP" = TRAIT_NODROP,
 		"TRAIT_T_RAY_VISIBLE" = TRAIT_T_RAY_VISIBLE,
 		"TRAIT_NO_TELEPORT" = TRAIT_NO_TELEPORT
-		)
+		),
+	/atom/movable = list(
+		"TRAIT_MOVE_GROUND" = TRAIT_MOVE_GROUND,
+		"TRAIT_MOVE_FLYING" = TRAIT_MOVE_FLYING,
+		"TRAIT_MOVE_VENTCRAWLING" = TRAIT_MOVE_VENTCRAWLING,
+		"TRAIT_MOVE_FLOATING" = TRAIT_MOVE_FLOATING,
+		),
 	))
 
 /// value -> trait name, generated on use from trait_by_type global
@@ -168,3 +170,23 @@ GLOBAL_LIST(trait_name_map)
 	. = list()
 	for(var/key in GLOB.traits_by_type)
 		.[key] = key
+
+GLOBAL_LIST_INIT(movement_type_trait_to_flag, list(
+	TRAIT_MOVE_GROUND = GROUND,
+	TRAIT_MOVE_FLYING = FLYING,
+	TRAIT_MOVE_VENTCRAWLING = VENTCRAWLING,
+	TRAIT_MOVE_FLOATING = FLOATING,
+	))
+
+GLOBAL_LIST_INIT(movement_type_addtrait_signals, set_movement_type_addtrait_signals())
+GLOBAL_LIST_INIT(movement_type_removetrait_signals, set_movement_type_removetrait_signals())
+
+/proc/set_movement_type_addtrait_signals(signal_prefix)
+	. = list()
+	for(var/trait in GLOB.movement_type_trait_to_flag)
+		. += SIGNAL_ADDTRAIT(trait)
+
+/proc/set_movement_type_removetrait_signals(signal_prefix)
+	. = list()
+	for(var/trait in GLOB.movement_type_trait_to_flag)
+		. += SIGNAL_REMOVETRAIT(trait)

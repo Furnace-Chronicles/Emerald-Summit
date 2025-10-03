@@ -281,9 +281,9 @@
 	if(istype(M) && user.used_intent.type == /datum/intent/fill)
 		if(ishuman(M))
 			var/mob/living/carbon/human/humanized = M
-			if(get_location_accessible(humanized, BODY_ZONE_CHEST) && humanized.has_breasts())
-				var/obj/item/organ/breasts/boobies = humanized.getorganslot(ORGAN_SLOT_BREASTS)
-				if(boobies.lactating)
+			var/obj/item/organ/breasts/boobies = humanized.getorganslot(ORGAN_SLOT_BREASTS)
+			if(boobies && boobies.lactating)
+				if(get_location_accessible(humanized, BODY_ZONE_CHEST))
 					if(boobies.milk_stored > 1)
 						if(reagents.total_volume < volume)
 							var/milk_to_take = min(boobies.milk_stored, max(boobies.breast_size*2, 1), volume - reagents.total_volume)
@@ -291,14 +291,18 @@
 								reagents.add_reagent(/datum/reagent/consumable/milk, milk_to_take)
 								boobies.milk_stored -= milk_to_take
 								user.visible_message(span_notice("[user] milks [M] using \the [src]."), span_notice("I milk [M] using \the [src]."))
+								playsound(humanized, pick('modular/Creechers/sound/milking1.ogg', 'modular/Creechers/sound/milking2.ogg'), 50, TRUE, -1)
+								if(humanized.client?.prefs?.sexable)
+									var/datum/sex_controller/S = humanized.sexcon
+									S.adjust_arousal(5)
+									if(prob(25))
+										humanized.emote("sexmoanlight", forced = TRUE)
 						else
 							to_chat(user, span_warning("[src] is full."))
 					else
 						to_chat(user, span_warning("[M] is out of milk!"))
 				else
-					to_chat(user, span_warning("[M] cannot be milked!"))
-			else
-				to_chat(user, span_warning("[M]'s chest must be exposed before I can milk them!"))
+					to_chat(user, span_warning("[M]'s chest must be exposed before I can milk them!"))
 			return 1
 	else
 		return ..()

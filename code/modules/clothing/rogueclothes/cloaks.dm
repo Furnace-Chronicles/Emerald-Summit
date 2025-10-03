@@ -819,6 +819,12 @@
 	. = ..()
 	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
 
+/obj/item/clothing/cloak/darkcloak/minotaur
+	name = "minotaur cloak"
+	desc = "Minotaur fur and straw roughly sewn into a long mantle."
+	icon_state = "mino"
+	item_state = "mino"
+
 /obj/item/clothing/cloak/darkcloak/dropped(mob/living/carbon/human/user)
 	..()
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
@@ -1762,6 +1768,10 @@
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 	allowed_race = NON_DWARVEN_RACE_TYPES
 
+/obj/item/clothing/cloak/eastcloak1/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+
 /obj/item/clothing/cloak/eastcloak2
 	name = "leather cloak"
 	desc = "A brown cloak. There's nothing special on it."
@@ -1776,6 +1786,10 @@
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 	allowed_race = NON_DWARVEN_RACE_TYPES
 
+/obj/item/clothing/cloak/eastcloak2/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+
 // new knight captain drip
 /obj/item/clothing/cloak/captain
 	name = "captain's cape"
@@ -1788,6 +1802,10 @@
 	detail_tag = "_detail"
 	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	detail_color = CLOTHING_BLUE
+
+/obj/item/clothing/cloak/captain/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
 
 /obj/item/clothing/cloak/captain/update_icon()
 	cut_overlays()

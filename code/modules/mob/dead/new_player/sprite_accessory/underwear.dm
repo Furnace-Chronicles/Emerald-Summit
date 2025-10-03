@@ -103,3 +103,8 @@
 	name = "fishnet stockings"
 	icon_state = "fishnet"
 	legwear_type = /obj/item/legwears/fishnet
+
+/datum/sprite_accessory/legwear/stockings/thigh
+	name = "Thigh highs"
+	icon_state = "thigh"
+	legwear_type = /obj/item/legwears/thigh

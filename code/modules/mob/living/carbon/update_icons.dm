@@ -22,6 +22,8 @@
 		resize = RESIZE_DEFAULT_SIZE
 
 	if(changed)
+		ADD_TRAIT(src, TRAIT_NO_FLOATING_ANIM, UPDATE_TRANSFORM_TRAIT)
+		addtimer(TRAIT_CALLBACK_REMOVE(src, TRAIT_NO_FLOATING_ANIM, UPDATE_TRANSFORM_TRAIT), 0.3 SECONDS, TIMER_UNIQUE|TIMER_OVERRIDE)
 //		animate(src, transform = ntransform, time = (lying_prev == 0 || !lying) ? 2 : 0, pixel_y = final_pixel_y, dir = final_dir, easing = (EASE_IN|EASE_OUT))
 		transform = ntransform
 		// Only reset pixel_x if we're not in a custom pixel shift
@@ -29,7 +31,6 @@
 			pixel_x = get_standard_pixel_x_offset()
 			pixel_y = final_pixel_y
 		dir = final_dir
-		setMovetype(movement_type & ~FLOATING)  // If we were without gravity, the bouncing animation got stopped, so we make sure we restart it in next life().
 		update_vision_cone()
 	else
 		// Only reset pixel_x if we're not in a custom pixel shift

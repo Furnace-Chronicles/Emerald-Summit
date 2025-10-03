@@ -113,6 +113,7 @@
 	var/pregnant = FALSE
 	var/fertility = TRUE
 	var/impregnation_probability = IMPREG_PROB_DEFAULT
+	var/monohole = FALSE
 
 /obj/item/organ/vagina/proc/be_impregnated(mob/living/carbon/human/father)
     if(!owner)

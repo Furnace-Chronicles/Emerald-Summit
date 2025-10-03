@@ -350,7 +350,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	playsound(loc, 'sound/vo/mobs/vdragon/drgnroar.ogg', 50, TRUE, -1)
 	stop_automated_movement = TRUE
 	swooping |= SWOOP_DAMAGEABLE
-	movement_type = FLYING
+	ADD_TRAIT(src, TRAIT_MOVE_FLYING, AI_ATTACK_TRAIT)
 	density = FALSE
 	icon_state = "shadow"
 	visible_message("<span class='boldwarning'>[src] swoops up high!</span>")
@@ -420,7 +420,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 				visible_message(span_warning("[L] is thrown clear of [src]!</span>"))
 	for(var/mob/M in range(7, src))
 		shake_camera(M, 15, 1)
-	movement_type = GROUND
+	REMOVE_TRAIT(src, TRAIT_MOVE_FLYING, AI_ATTACK_TRAIT)
 	density = TRUE
 	SLEEP_CHECK_DEATH(1)
 	swooping &= ~SWOOP_DAMAGEABLE

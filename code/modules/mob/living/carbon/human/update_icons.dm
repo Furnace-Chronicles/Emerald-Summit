@@ -1861,6 +1861,14 @@ generate/load female uniform sprites matching all previously decided variables
 	//GENERATE NEW LIMBS
 	var/list/new_limbs = list()
 	var/hiden = FALSE //used to tell if we should hide boobs, basically
+	var/hidearms = FALSE //used to hide arm aux layer when clothing has integrated sleeves
+
+	// Check if any worn armor/shirt covers arms without sleeve overlays
+	if(wear_armor && (wear_armor.body_parts_covered & ARMS) && !wear_armor.sleeved)
+		hidearms = TRUE
+	if(wear_shirt && (wear_shirt.body_parts_covered & ARMS) && !wear_shirt.sleeved)
+		hidearms = TRUE
+
 	for(var/X in bodyparts)
 		var/obj/item/bodypart/BP = X
 		if(BP.name == BODY_ZONE_CHEST)
@@ -1877,6 +1885,8 @@ generate/load female uniform sprites matching all previously decided variables
 				if(I.flags_inv & HIDEBOOB)
 					hiden = TRUE
 			new_limbs += BP.get_limb_icon(hideaux = hiden)
+		else if(BP.body_part == ARM_LEFT || BP.body_part == ARM_RIGHT)
+			new_limbs += BP.get_limb_icon(hideaux = hidearms)
 		else
 			new_limbs += BP.get_limb_icon()
 	if(new_limbs.len)

@@ -290,7 +290,7 @@
 
 			if(parry_status)
 				if(intenty.masteritem)
-					if(intenty.masteritem.wbalance < 0 && user.STASTR > src.STASTR) //enemy weapon is heavy, so get a bonus scaling on strdiff
+					if((intenty.masteritem.wbalance < 0 || istype(user.rmb_intent, /datum/rmb_intent/strong))  && user.STASTR > src.STASTR) //enemy weapon is heavy, so get a bonus scaling on strdiff
 						drained = drained + ( intenty.masteritem.wbalance * ((user.STASTR - src.STASTR) * -5) )
 			else
 				to_chat(src, span_warning("The enemy defeated my parry!"))
