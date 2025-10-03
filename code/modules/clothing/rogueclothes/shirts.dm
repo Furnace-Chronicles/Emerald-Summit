@@ -15,7 +15,7 @@
 	sewrepair = TRUE
 	flags_inv = HIDEBOOB
 	experimental_inhand = FALSE
-	
+
 	grid_width = 64
 	grid_height = 32
 
@@ -166,8 +166,8 @@
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	icon = 'icons/roguetown/clothing/shirts_royalty.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts_royalty.dmi'
-	name = "royal gown"
-	desc = "An elaborate ball gown, a favoured fashion of queens and elevated nobility in Enigma."
+	name = "noble gown"
+	desc = "An elaborate ball gown, a favoured fashion of queens and elevated nobility in Grenzelhoft."
 	body_parts_covered = CHEST|GROIN|ARMS|VITALS
 	icon_state = "royaldress"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts_royalty.dmi'
@@ -205,7 +205,7 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	name = "pristine dress"
-	desc = "A flowy, intricate dress made by the finest tailors in the land for the monarch's children."
+	desc = "A flowy, intricate dress made by the finest tailors in the land for the lord's children."
 	icon_state = "princess"
 	boobed = TRUE
 	detail_color = CLOTHING_BLUE
@@ -214,7 +214,7 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	name = "gilded dress shirt"
-	desc = "A gold-embroidered dress shirt specially tailored for the monarch's children."
+	desc = "A gold-embroidered dress shirt specially tailored for the lord's children."
 	icon_state = "prince"
 	boobed = TRUE
 	detail_color = CLOTHING_MAGENTA
@@ -225,7 +225,7 @@
 	name = "cold dress"
 	icon = 'icons/roguetown/clothing/shirts_royalty.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts_royalty.dmi'
-	desc = "A thick and comfortable dress popular amongst nobility during winter."
+	desc = "A thick and comfortable dress popular amongst the nobility during winter."
 	body_parts_covered = COVERAGE_FULL
 	icon_state = "winterdress"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts_royalty.dmi'
@@ -552,7 +552,7 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/steward
 	color = null
 	name = "ornate silk dress"
-	desc = "A dress woven of only the finest, softest silks. Golden thread is inlaid with a deep royal crimson, expressing the owner's exquisitve wealth."
+	desc = "A dress woven of only the finest, softest silks. Golden thread is inlaid with a deep regal crimson, expressing the owner's exquisitve wealth."
 	icon_state = "stewarddress"
 	item_state = "stewarddress"
 
@@ -706,7 +706,7 @@
 		return
 
 /obj/item/clothing/suit/roguetown/armor/skin_armor/easttats/process()
-	if(obj_integrity >= max_integrity) 
+	if(obj_integrity >= max_integrity)
 		STOP_PROCESSING(SSobj, src)
 		src.visible_message(span_notice("The [src] flow more calmly, as they finish resting and regain their strength."), vision_distance = 1)
 		return

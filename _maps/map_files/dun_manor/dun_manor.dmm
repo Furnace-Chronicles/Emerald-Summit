@@ -12226,7 +12226,7 @@
 /area/rogue/outdoors/town)
 "iLt" = (
 /obj/structure/roguemachine/mail{
-	mailtag = "His Grace's Suite"
+	mailtag = "Ducal Suite"
 	},
 /turf/open/floor/rogue/ruinedwood{
 	icon_state = "weird1"

@@ -70,8 +70,8 @@
 			if(80 to 160)
 				disttext = " far"
 			else
-				disttext = " very far" 
-		
+				disttext = " very far"
+
 		var/placetext
 		var/area/localarea = get_area_name(src)
 		switch(localarea)
@@ -110,7 +110,7 @@
 				to_chat(player, span_warning("I hear the horn of the Garrison somewhere[disttext],[dirtext],[placetext]"))
 			if("Knight Captain", "Knight")
 				player.playsound_local(get_turf(player), 'modular_hearthstone/sound/items/rghorn.ogg', 35, FALSE, pressure_affected = FALSE)
-				to_chat(player, span_warning("I hear the horn of the Royal Guard somewhere[disttext],[dirtext],[placetext]"))
+				to_chat(player, span_warning("I hear the horn of the Ducal Guard somewhere[disttext],[dirtext],[placetext]"))
 			else
 				player.playsound_local(get_turf(player), 'modular_hearthstone/sound/items/signalhorn.ogg', 35, FALSE, pressure_affected = FALSE)
 				to_chat(player, span_warning("I hear the signal horn somewhere[disttext], [dirtext],[placetext]"))

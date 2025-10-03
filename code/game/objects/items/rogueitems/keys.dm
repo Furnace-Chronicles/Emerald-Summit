@@ -162,20 +162,20 @@
 			lockhash = D.lockhash
 
 /obj/item/roguekey/royal
-	name = "Royal Key"
-	desc = "The Key to the royal chambers. It even feels pretentious."
+	name = "ducal key"
+	desc = "The key to the ducal chambers. It even feels pretentious."
 	icon_state = "ekey"
 	lockid = "royal"
 
 /obj/item/roguekey/manor
 	name = "manor key"
-	desc = "This key will open any manor doors."
+	desc = "This key will open most manor doors."
 	icon_state = "mazekey"
 	lockid = "manor"
 
 /obj/item/roguekey/heir
-	name = "heir room key"
-	desc = "A highly coveted key belonging to the doors of the heirs of this realm."
+	name = "princely key"
+	desc = "An extravagant key belonging to the heirs of this realm."
 	icon_state = "hornkey"
 	lockid = "heir"
 
@@ -452,13 +452,13 @@
 
 /obj/item/roguekey/nightman
 	name = "bathmaster's key"
-	desc = "This regal key opens the bathmaster's office - and his vault."
+	desc = "This opulent key opens the bathmaster's office - and his vault."
 	icon_state = "greenkey"
 	lockid = "nightman"
 
 /obj/item/roguekey/nightmaiden
 	name = "brothel key"
-	desc = "This regal key opens doors inside the bath-house."
+	desc = "This tasteful key opens doors inside the bath-house."
 	icon_state = "bathkey"
 	lockid = "nightmaiden"
 
@@ -529,7 +529,7 @@
 
 /obj/item/roguekey/hand
 	name = "hand's key"
-	desc = "This regal key belongs to the Right Hand of the Duke."
+	desc = "This gilded key belongs to the Right Hand of the Duke."
 	icon_state = "cheesekey"
 	lockid = "hand"
 

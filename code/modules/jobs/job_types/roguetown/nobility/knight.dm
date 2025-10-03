@@ -9,8 +9,8 @@
 	allowed_races = RACES_NOBILITY_ELIGIBLE_UP
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
-	tutorial = "Having proven yourself both loyal and capable, you have been knighted to serve the realm as the royal family's sentry. \
-				You listen to your Liege, the Marshal, and the Knight Captain, defending your Lord and realm - the last beacon of chivalry in these dark times."
+	tutorial = "Having proven yourself both loyal and capable, you have been knighted to serve the realm as the ducal family's sentry. \
+				You listen to your liege, the Marshal, and the Knight Captain, defending your lord and realm - the last beacon of chivalry in these dark times."
 	display_order = JDO_KNIGHT
 	whitelist_req = TRUE
 	outfit = /datum/outfit/job/roguetown/knight
@@ -107,7 +107,7 @@
 
 /datum/outfit/job/roguetown/knight/heavy/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()	
+	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	H.verbs |= /mob/proc/haltyell
 
 	H.adjust_blindness(-3)
@@ -183,9 +183,9 @@
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT, 
+		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,	
+		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
@@ -297,7 +297,7 @@
 	var/weapons = list(
 		"Longsword + Crossbow",
 		"Billhook + Recurve Bow",
-		"Grand Mace + Longbow", 
+		"Grand Mace + Longbow",
 		"Sabre + Recurve Bow",
 		"Lance + Kite Shield"
 	)
@@ -364,7 +364,7 @@
 
 
 /datum/advclass/knight/irregularknight
-	name = "Royal Champion"
+	name = "Ducal Champion"
 	tutorial = "Your skillset is abnormal for a knight. Your swift maneuvers and masterful technique impress both lords and ladies alike, and you have a preference for quicker, more elegant blades. While you are an effective fighting force in medium armor, your evasive skills will only truly shine if you don even lighter protection."
 	outfit = /datum/outfit/job/roguetown/knight/irregularknight
 
@@ -379,13 +379,13 @@
 
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT, //Swords and knives class.
-		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,	
-		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT, //Whips can work as a light class weapon.	
-		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,	
-		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,	
+		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT, //Whips can work as a light class weapon.
+		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT, //Bows fit a light/speedy class pretty well, gave them ranged options.
 		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/climbing = SKILL_LEVEL_MASTER,		
+		/datum/skill/misc/climbing = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
@@ -407,7 +407,7 @@
 	var/armor_choice = input("Choose your armor.", "TAKE UP ARMS") as anything in armor_options
 	H.set_blindness(0)
 	switch(weapon_choice)
-		if("Rapier + Longbow") 
+		if("Rapier + Longbow")
 			r_hand = /obj/item/rogueweapon/sword/rapier
 			beltl = /obj/item/rogueweapon/scabbard/sword
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
@@ -417,7 +417,7 @@
 			r_hand = /obj/item/rogueweapon/estoc
 			beltr = /obj/item/quiver/arrows
 			beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-		
+
 		if("Sabre + Buckler")
 			beltl = /obj/item/rogueweapon/scabbard/sword
 			r_hand = /obj/item/rogueweapon/sword/sabre
@@ -427,14 +427,14 @@
 			beltl = /obj/item/rogueweapon/whip
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 			beltr = /obj/item/quiver/bolts
-		
+
 		if("Greataxe + Sling")
 			H.adjust_skillrank(/datum/skill/combat/slings, 4, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
 			r_hand = /obj/item/rogueweapon/greataxe/steel
 			beltr = /obj/item/quiver/sling/iron
 			beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
-	
+
 	switch(armor_choice)
 		if("Light Armor")
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
@@ -462,7 +462,7 @@
 		"Slitted Kettle" = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
 		"None"
 	)
-	
+
 	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]

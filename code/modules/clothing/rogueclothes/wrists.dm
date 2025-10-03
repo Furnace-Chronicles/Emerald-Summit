@@ -82,7 +82,7 @@
 			user.dropItemToGround(src)
 			user.put_in_hands(P)
 		P.obj_integrity = src.obj_integrity
-		user.adjustBruteLoss(25)	
+		user.adjustBruteLoss(25)
 		qdel(src)
 	else
 		user.visible_message(span_warning("[user] stops reshaping [src]."))
@@ -154,7 +154,7 @@
 
 //Queensleeves
 /obj/item/clothing/wrists/roguetown/royalsleeves
-	name = "royal sleeves"
+	name = "noble sleeves"
 	desc = "Sleeves befitting an elaborate gown."
 	slot_flags = ITEM_SLOT_WRISTS
 	icon_state = "royalsleeves"
