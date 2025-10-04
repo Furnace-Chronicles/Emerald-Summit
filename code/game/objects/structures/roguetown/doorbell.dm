@@ -13,6 +13,7 @@
 /obj/structure/doorbell/Initialize()
 	if(!bell_area) // if not overridden in map, use spawn location
 		bell_area = get_area(get_turf(src))
+	last_ring = world.time
 	. = ..()
 
 /obj/structure/doorbell/attack_hand(mob/user)
@@ -27,3 +28,4 @@
 			continue
 		if(istype(get_area(M), bell_area))
 			to_chat(M, span_notice("You hear the [bell_name] ring."))
+			M.playsound_local(M, 'sound/misc/doorbell.ogg', 25)

@@ -4690,6 +4690,12 @@
 	icon_state = "roofg"
 	},
 /area/rogue/outdoors/beach/forest)
+"bqd" = (
+/obj/structure/doorbell{
+	bell_name = "gate bell"
+	},
+/turf/closed/wall/mineral/rogue/stonebrick,
+/area/rogue/indoors/inq)
 "bqi" = (
 /obj/structure/chair/bench/ultimacouch,
 /turf/open/floor/rogue/ruinedwood/herringbone,
@@ -366481,7 +366487,7 @@ puG
 hdD
 xrL
 xrL
-tYz
+bqd
 asY
 asY
 nxm
