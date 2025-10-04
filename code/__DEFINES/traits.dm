@@ -105,6 +105,7 @@
 #define TRAIT_PSYDONITE "Psydonite's Devotion" // Anti-Miracles on a selective basis, anastasis / cure rot still apply. Slow passive wound healing while you have blood.
 #define TRAIT_BLACKBAGGER "Apprehension Techniques" // Capable of using Garrotes and Blackbags. Apprehension techniques.w passive wound healing while you have blood.
 #define TRAIT_HERETIC_DEVOUT "Heretic Devout" // used to make it so excom and other priest stuff doesn't work on wretches
+#define TRAIT_CLERGY "Clergy" // Access to church gameloop
 
 // PATRON GOD TRAITS CURSES
 
@@ -367,7 +368,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CURSE_MATTHIOS = span_warning("I am forsaken by the Dragon. Greed will be my only salvation."),
 	TRAIT_CURSE_BAOTHA = span_warning("I am forsaken by the Heartbreaker. I am drowning in her promises."),
 	TRAIT_DEADITE = span_danger("The Rot has overtaken me."),
-	TRAIT_PUZZLEMASTER = span_notice("I've solved an impossible puzzle!")
+	TRAIT_PUZZLEMASTER = span_notice("I've solved an impossible puzzle!"),
+	TRAIT_CLERGY = span_notice("I am a servant of the local House of the Ten.")
 ))
 
 // trait accessor defines
