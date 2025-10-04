@@ -26,6 +26,9 @@
 		var/mob/M = GLOB.player_list[i]
 		if(!istype(M) || M == user)
 			continue
-		if(istype(get_area(M), bell_area))
-			to_chat(M, span_notice("You hear the [bell_name] ring."))
-			M.playsound_local(M, 'sound/misc/doorbell.ogg', 25)
+		if(!istype(get_area(M), bell_area))
+			continue
+		if(HAS_TRAIT(M, TRAIT_DEAF) || !M.getorganslot(ORGAN_SLOT_EARS))
+			continue
+		to_chat(M, span_notice("You hear the [bell_name] ring."))
+		M.playsound_local(M, 'sound/misc/doorbell.ogg', 25)
