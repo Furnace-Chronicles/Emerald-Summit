@@ -128,16 +128,21 @@
 				situational_bonus = rand(1, 6)
 				switch(situational_bonus)
 					if(1)
-						user.play_overhead_indicator('icons/mob/overhead_effects.dmi', "roll1", 3 SECONDS, MUTATIONS_LAYER, soundin = 'sound/misc/psydong.ogg', y_offset = 32)
-						user.psydo_nyte()
-						var/turf/T = get_step(get_step(user, NORTH), NORTH)
-						T.Beam(user, icon_state="lightning[rand(1,12)]", time = 5)
-						user.adjustFireLoss(150)
-						if(ishuman(user))
-							var/mob/living/carbon/human/H = user
-							H.electrocution_animation(40)
-						GLOB.scarlet_round_stats[STATS_PEOPLE_SMITTEN]++
-						to_chat(user, span_danger("Xylix didn't like this at all!"))
+						if(user.goodluck(5))
+							user.play_overhead_indicator('icons/mob/overhead_effects.dmi', "roll1", 3 SECONDS, MUTATIONS_LAYER, soundin = 'sound/misc/psydong.ogg', y_offset = 32)
+							user.psydo_nyte()
+							var/turf/T = get_step(get_step(user, NORTH), NORTH)
+							T.Beam(user, icon_state="lightning[rand(1,12)]", time = 5)
+							user.adjustFireLoss(150)
+							if(ishuman(user))
+								var/mob/living/carbon/human/H = user
+								H.electrocution_animation(40)
+							GLOB.scarlet_round_stats[STATS_PEOPLE_SMITTEN]++
+							to_chat(user, span_danger("Xylix didn't like this at all!"))
+						else
+							user.play_overhead_indicator('icons/mob/overhead_effects.dmi', "roll1", 3 SECONDS, MUTATIONS_LAYER, soundin = 'sound/misc/psydong.ogg', y_offset = 32)
+							user.psydo_nyte()
+							to_chat(user, span_danger("Roll the dice better, chuclkenuts!"))
 					if(2)
 						user.play_overhead_indicator('icons/mob/overhead_effects.dmi', "roll2", 3 SECONDS, MUTATIONS_LAYER, soundin = 'sound/magic/mockery.ogg', y_offset = 32)
 						user.psydo_nyte()
