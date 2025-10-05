@@ -63,7 +63,7 @@
 	. = ..()
 
 	var/mob/living/L = firer
-	if(!L || !L.mind) 
+	if(!L || !L.mind)
 		return
 
 	var/skill_multiplier = 0
@@ -108,7 +108,7 @@
 	shooters will."
 	projectile_type = /obj/projectile/bullet/reusable/arrow/iron
 
-/obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy 
+/obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy
 	name = "decrepit broadhead arrow"
 	desc = "A decrepit old arrow. Seems unlikely to penetrate anything."
 	icon_state = "ancientarrow"
@@ -147,7 +147,7 @@
 	..()
 
 	var/mob/living/L = firer
-	if(!L || !L.mind) 
+	if(!L || !L.mind)
 		return
 
 	var/skill_multiplier = 0
@@ -170,7 +170,7 @@
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron
 
 	damage = 40
-	armor_penetration = 0
+	armor_penetration = 10
 	embedchance = 30
 	npc_damage_mult = 2
 
@@ -218,7 +218,7 @@
 
 /obj/projectile/bullet/reusable/arrow/poison
 	name = "poison iron arrow"
-	damage = 20	
+	damage = 20
 	damage_type = BRUTE
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "arrow_proj"
@@ -531,7 +531,7 @@
 	wlength = WLENGTH_NORMAL
 	w_class = WEIGHT_CLASS_BULKY
 	armor_penetration = 40					//Redfined because.. it's not a weapon, it's an 'arrow' basically.
-	max_integrity = 50						//Breaks semi-easy, stops constant re-use. 
+	max_integrity = 50						//Breaks semi-easy, stops constant re-use.
 	wdefense = 3							//Worse than a spear
 	thrown_bclass = BCLASS_STAB				//Knives are slash, lets try out stab and see if it's too strong in terms of wounding.
 	throwforce = 25							//throwing knife is 22, slightly better for being bulkier.
@@ -581,11 +581,11 @@
 
 //Snowflake code to make sure the silver-bane is applied on hit to targeted mob. Thanks to Aurorablade for getting this code to work.
 /obj/item/ammo_casing/caseless/rogue/javelin/silver/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
-	..() 
+	..()
 	if(!iscarbon(hit_atom))
 		return//abort
 	check_dmg(hit_atom)//apply effects and damages
-		
+
 /obj/item/ammo_casing/caseless/rogue/javelin/silver/proc/check_dmg(mob/living/hit_atom)
 	var/mob/living/carbon/human/H = hit_atom
 	if(H.mind)
@@ -638,7 +638,7 @@
 	dropshrink = 0.6
 	possible_item_intents = list(INTENT_GENERIC) //not intended to attack with them
 	max_integrity = 20
-	
+
 /obj/item/ammo_casing/caseless/rogue/sling_bullet/stone //these should be seen
 	name = "stone sling bullet"
 	desc = "A stone refined for wrath."
@@ -698,7 +698,7 @@
 
 	if(skill_multiplier && can_train_combat_skill(L, /datum/skill/combat/slings, SKILL_LEVEL_LEGENDARY))
 		L.mind.add_sleep_experience(/datum/skill/combat/slings, L.STAINT * skill_multiplier)
-		
+
 /obj/projectile/bullet/reusable/sling_bullet //parent for proper reusable sling bullets
 	name = "sling bullet"
 	desc = "If you're reading this: duck."
@@ -713,7 +713,7 @@
 	embedchance = 0
 	woundclass = BCLASS_BLUNT
 	flag = "piercing"
-	speed = 0.4		
+	speed = 0.4
 
 /obj/projectile/bullet/reusable/sling_bullet/on_hit(atom/target)
 	. = ..()
@@ -738,10 +738,10 @@
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/stone
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "musketball_proj"
-	
+
 /obj/projectile/bullet/reusable/sling_bullet/aalloy
 	name = "decrepit sling bullet"
-	damage = 15 
+	damage = 15
 	armor_penetration = 0
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy
 	icon = 'icons/roguetown/weapons/ammo.dmi'
