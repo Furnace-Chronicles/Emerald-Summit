@@ -1,6 +1,12 @@
-// dont touch it, it responsable for holy_bureaucracy_xxx
 #undef  MIRACLE_RADIAL_DMI
 #define MIRACLE_RADIAL_DMI 'icons/mob/actions/roguespells.dmi'
+
+#ifndef QUEST_COOLDOWN_DS
+#define QUEST_COOLDOWN_DS (30*60*10)
+#endif
+#ifndef QUEST_REWARD_FAVOR
+#define QUEST_REWARD_FAVOR 250
+#endif
 
 #ifndef TRAIT_CLERGY
 #define TRAIT_CLERGY "clergy"
@@ -69,16 +75,18 @@
 	var	unlocked_research_unity    = FALSE
 	var	unlocked_research_ten      = FALSE
 	var	unlocked_research_shunned  = FALSE
+	var/quest_cycle_start = 0
+	var/list/quest_ui_entries = null
 
 var/global/list/divine_miracles_cache  = list()
 var/global/list/inhumen_miracles_cache = list()
 var/global/miracle_caches_built = FALSE
 
 var/global/list/unity_miracles_list = list(
-	/obj/effect/proc_holder/spell/invoked/mending, //dnd cleric spell
-	/obj/effect/proc_holder/spell/invoked/guidance, //dnd cleric spell
-	/obj/effect/proc_holder/spell/invoked/healingtouch, //old lesser miracle
-	/obj/effect/proc_holder/spell/targeted/shapeshift/crow //witches hhave ritualists and it costs 3
+	/obj/effect/proc_holder/spell/invoked/mending,
+	/obj/effect/proc_holder/spell/invoked/guidance,
+	/obj/effect/proc_holder/spell/invoked/healingtouch,
+	/obj/effect/proc_holder/spell/targeted/shapeshift/crow
 )
 
 var/global/list/divine_patrons_index = list()
@@ -94,7 +102,7 @@ var/global/divine_patrons_built = FALSE
 	for(var/p_type in typesof(root_type))
 		if(p_type == root_type) continue
 		var/datum/patron/P = new p_type
-		if(length(P.miracles))
+		if(P && length(P.miracles))
 			for(var/st in P.miracles)
 				cache[st] = TRUE
 		qdel(P)
@@ -132,7 +140,7 @@ var/global/divine_patrons_built = FALSE
 	for(var/p_type in typesof(/datum/patron/divine))
 		if(p_type == /datum/patron/divine) continue
 		var/datum/patron/P = new p_type
-		if(P?.name)
+		if(P && P.name)
 			var/domain = ""
 			if("domain" in P.vars) domain = "[P.vars["domain"]]"
 			var/desc = ""
@@ -345,9 +353,10 @@ var/global/divine_patrons_built = FALSE
 		html += "<span style='color:#7f8c8d'>—</span>"
 	html += "</td></tr>"
 	html += "</table>"
+
 	if(H.unlocked_research_artefacts)
 		build_divine_patrons_index()
-		if(divine_patrons_index && divine_patrons_index.len)
+		if(divine_patrons_index && length(divine_patrons_index))
 			html += "<hr><b>Artefacts</b><br>"
 			var/list/nav = list()
 			if(src.current_art_tab == "none")
@@ -385,6 +394,7 @@ var/global/divine_patrons_built = FALSE
 						html += "<span style='color:#7f8c8d'>Only clergy may buy artefacts.</span>"
 				else
 					html += "<i>Patron not found.</i>"
+
 	if(H.unlocked_research_unity || H.unlocked_research_ten || H.unlocked_research_shunned)
 		html += "<hr><b>Miracle Lists</b><br>"
 		var/list/nav_bits = list()
@@ -455,6 +465,7 @@ var/global/divine_patrons_built = FALSE
 				html += "<i>No miracles found for this tab.</i>"
 		else
 			html += "<i>Miracle list hidden (None).</i>"
+
 	if(H.unlocked_research_org_t1 || H.unlocked_research_org_t2 || H.unlocked_research_org_t3)
 		html += "<hr><b>Organs</b><br>"
 		var/list/org_tabs = list()
@@ -508,7 +519,151 @@ var/global/divine_patrons_built = FALSE
 					html += "<span style='color:#7f8c8d'>Spawn ([price] Favor)</span>"
 				html += "</td></tr>"
 			html += "</table>"
+
 	var/datum/browser/B = new(user, "MIRACLE_RESEARCH", "", 560, 760)
+	B.set_content(html)
+	B.open()
+
+/proc/_random_skill_name()
+	var/list/skillnames = list(
+		"Carpentry","Mining","Farming","Medicine","Lockpicking",
+		"Athletics","Fishing","Music","Literacy","Tracking"
+	)
+	return pick(skillnames)
+
+/proc/_random_race_name()
+	return pick(list("Human","Elf","Dwarf","Orc","Goblin"))
+
+/proc/_random_bonus_god_name()
+	build_divine_patrons_index()
+	if(divine_patrons_index && length(divine_patrons_index))
+		var/list/names = list()
+		for(var/n in divine_patrons_index)
+			names += "[n]"
+		return pick(names)
+	return pick(list("Astrata","Noc","Dendor","Abyssor","Ravox","Necra","Xylix","Pestra","Malum","Eora"))
+
+/proc/_pick_n(list/L, n as num)
+	if(!islist(L) || !length(L) || n <= 0) return list()
+	var/list/pool = L.Copy()
+	var/list/out = list()
+	while(length(out) < n && length(pool) > 0)
+		var/entry = pick(pool)
+		pool -= entry
+		out += list(entry)
+	return out
+
+/proc/_gen_all_quest_defs()
+	var/list/L = list()
+	var/col_skill = "#3498db"
+	var/col_rank  = "#f1c40f"
+	var/col_hint  = "#9b59b6"
+	var/col_god   = "#e67e22"
+	var/col_var   = "#e74c3c"
+	var/col_money = "#1abc9c"
+
+	var/s1 = _random_skill_name()
+	L += list(list(
+		"title" = "Blessing",
+		"desc"  = "Bless a player who has <span style='color:[col_skill];'><b>SKILL: [s1]</b></span> at <span style='color:[col_rank];'><b>EXPERT</b></span> rank.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
+		"reward" = QUEST_REWARD_FAVOR
+	))
+
+	var/s2 = _random_skill_name()
+	L += list(list(
+		"title" = "Find Expertise",
+		"desc"  = "Find a player with <span style='color:[col_skill];'><b>SKILL: [s2]</b></span> at <span style='color:[col_rank];'><b>EXPERT</b></span>. Politely verify and interact to complete.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
+		"reward" = QUEST_REWARD_FAVOR
+	))
+
+	var/race = _random_race_name()
+	L += list(list(
+		"title" = "Rite of Blood",
+		"desc"  = "Obtain a small blood sample from a <span style='color:[col_var];'><b>RACE: [race]</b></span> peacefully and consensually.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
+		"reward" = QUEST_REWARD_FAVOR
+	))
+
+	L += list(list(
+		"title" = "Tithe of 500",
+		"desc"  = "Fill the tithe cube with at least <span style='color:[col_money];'><b>COINS: 500</b></span>. Exactly 500+ is accepted — less does not count.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
+		"reward" = QUEST_REWARD_FAVOR
+	))
+
+	var/god = _random_bonus_god_name()
+	L += list(list(
+		"title" = "Sealed Reliquary",
+		"desc"  = "Open a sealed reliquary by solving a <b>4-digit</b> code. Green = correct digit in correct spot; Yellow = correct digit in wrong spot.<br><span style='color:[col_god];'><b>Followers of [god]</b></span> can see the full code on examine.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
+		"reward" = QUEST_REWARD_FAVOR
+	))
+
+	L += list(list(
+		"title" = "Feed the Outlander",
+		"desc"  = "Hand-feed a ration or soup to a hungry <b>Outlander</b>. Must be given directly from your hands and eaten by them.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
+		"reward" = QUEST_REWARD_FAVOR
+	))
+
+	L += list(list(
+		"title" = "Relic Tribute",
+		"desc"  = "Place one required item into the shrine cube (e.g., <i>holy token</i>, <i>wooden idol</i>, <i>metal ingot</i>, <i>stitched cloth</i>). Only listed offerings count this run.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
+		"reward" = QUEST_REWARD_FAVOR
+	))
+
+	L += list(list(
+		"title" = "Minor Sermon",
+		"desc"  = "Deliver a Minor Sermon to a single player. If they do not follow the Ten, the effect may invert into a mild debuff.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
+		"reward" = QUEST_REWARD_FAVOR
+	))
+
+	L += list(list(
+		"title" = "Anoint the Inspired",
+		"desc"  = "Find a player currently affected by a sermon-style blessing and perform an anointing near them to complete.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
+		"reward" = QUEST_REWARD_FAVOR
+	))
+
+	L += list(list(
+		"title" = "Bones & Chance",
+		"desc"  = "Play a short dice game against fate itself. Do it near another player to make it social.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
+		"reward" = QUEST_REWARD_FAVOR
+	))
+
+	return L
+
+/obj/effect/proc_holder/spell/self/learnmiracle/proc/open_quests_ui(mob/user)
+	var/mob/living/carbon/human/H = istype(user, /mob/living/carbon/human) ? user : null
+	if(!H) return
+	if(!H.quest_cycle_start || world.time >= H.quest_cycle_start + QUEST_COOLDOWN_DS || !islist(H.quest_ui_entries) || !length(H.quest_ui_entries))
+		H.quest_cycle_start = world.time
+		H.quest_ui_entries = _pick_n(_gen_all_quest_defs(), 3)
+	var/left_ds = max(0, H.quest_cycle_start + QUEST_COOLDOWN_DS - world.time)
+	var/left_s  = round(left_ds / 10)
+	var/mins    = left_s / 60
+	var/secs    = left_s % 60
+	var/secs_str = "[secs]"; if(secs < 10) secs_str = "0[secs]"
+	var/html = "<center><h3 style='color:#3498db;margin:6px 0;'>Miracle Quests</h3>"
+	html += "<div style='color:#9b59b6'>Quests reroll every 30 minutes after your first open. Next automatic reroll in: <b>[mins]:[secs_str]</b></div>"
+	html += "<div style='margin-top:6px;'><a href='?src=[REF(src)];q_reroll=1' style='background:#8e44ad;color:#fff;padding:3px 8px;border-radius:6px;text-decoration:none;'><b>Reroll</b></a></div>"
+	html += "</center><hr>"
+	if(!H.quest_ui_entries || !length(H.quest_ui_entries))
+		html += "<i>No quests right now. Check back later.</i>"
+	else
+		var/idx = 1
+		for(var/entry in H.quest_ui_entries)
+			var/list/E = entry
+			var/title  = "[E["title"]]"
+			var/desc   = "[E["desc"]]"
+			var/reward = "[E["reward"]]"
+			html += "<div style='padding:10px;'>"
+			html += "<center><b style='font-size:14px; color:#ecf0f1; background:#34495e; padding:2px 8px; border-radius:6px;'>[title]</b></center>"
+			html += "<div style='margin:8px 0; text-align:center;'>[desc]</div>"
+			html += "<div style='text-align:center; color:#2ecc71'>Reward: <b>[reward]</b> Favor</div>"
+			html += "<div style='margin-top:8px; text-align:center;'>"
+			html += "<a href='?src=[REF(src)];q_spawn=[idx]' style='display:inline-block; padding:4px 10px; border-radius:6px; background:#1abc9c; color:#ffffff; text-decoration:none;'>Get special item</a>"
+			html += "</div>"
+			html += "</div>"
+			if(idx < length(H.quest_ui_entries))
+				html += "<hr style='border-color:#2c3e50;'>"
+			idx++
+	var/datum/browser/B = new(user, "MIRACLE_QUESTS", "", 520, 600)
 	B.set_content(html)
 	B.open()
 
@@ -516,6 +671,15 @@ var/global/divine_patrons_built = FALSE
 	. = ..()
 	if(!usr || !istype(usr, /mob/living/carbon/human)) return
 	var/mob/living/carbon/human/H = usr
+	if(href_list["q_reroll"])
+		H.quest_cycle_start = world.time
+		H.quest_ui_entries = _pick_n(_gen_all_quest_defs(), 3)
+		open_quests_ui(H)
+		return
+	if(href_list["q_spawn"])
+		to_chat(H, span_notice("A special quest item would be granted here (placeholder)."))
+		open_quests_ui(H)
+		return
 	if(href_list["arttab"])
 		var/tbA = href_list["arttab"]
 		if(tbA == "none")
@@ -656,4 +820,6 @@ var/global/divine_patrons_built = FALSE
 		do_learn_miracle(user)
 	else if(choice == "Research")
 		open_research_ui(user)
+	else if(choice == "Quests")
+		open_quests_ui(user)
 	return
