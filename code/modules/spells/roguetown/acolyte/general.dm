@@ -1,6 +1,6 @@
 // Old lesser miracle
-/obj/effect/proc_holder/spell/invoked/lesser_heal_point
-	name = "Lesser Miracle"
+/obj/effect/proc_holder/spell/invoked/healingtouch
+	name = "Healing touch"
 	overlay_state = "lesserheal"
 	releasedrain = 30
 	chargedrain = 0
@@ -16,7 +16,7 @@
 	miracle = TRUE
 	devotion_cost = 10
 
-/obj/effect/proc_holder/spell/invoked/lesser_heal_point/cast(list/targets, mob/living/user)
+/obj/effect/proc_holder/spell/invoked/healingtouch/cast(list/targets, mob/living/user)
 	. = ..()
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
