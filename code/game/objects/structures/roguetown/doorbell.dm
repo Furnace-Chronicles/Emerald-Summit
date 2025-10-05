@@ -42,6 +42,7 @@
 
 /obj/structure/doorbell/attack_hand(mob/user)
 	if(world.time < last_ring + 15 SECONDS)
+		to_chat(user, span_info("The [bell_name] is still ringing."))
 		return
 	var/is_spammed = world.time < last_ring + 5 MINUTES
 	to_chat(user, span_notice("I ring the [bell_name]."))
