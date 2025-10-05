@@ -60,7 +60,7 @@
 
 /mob/living/carbon/human
 	var/miracle_points = 0
-	var/church_favor = 100000
+	var/church_favor = 0
 	var/personal_research_points = 0
 	var/unlocked_research_artefacts = FALSE
 	var/unlocked_research_org_t1   = FALSE
@@ -75,9 +75,10 @@ var/global/list/inhumen_miracles_cache = list()
 var/global/miracle_caches_built = FALSE
 
 var/global/list/unity_miracles_list = list(
-	/obj/effect/proc_holder/spell/invoked/mending,
-	/obj/effect/proc_holder/spell/invoked/guidance,
-	/obj/effect/proc_holder/spell/invoked/healingtouch
+	/obj/effect/proc_holder/spell/invoked/mending, //dnd cleric spell
+	/obj/effect/proc_holder/spell/invoked/guidance, //dnd cleric spell
+	/obj/effect/proc_holder/spell/invoked/healingtouch, //old lesser miracle
+	/obj/effect/proc_holder/spell/targeted/shapeshift/crow //witches hhave ritualists and it costs 3
 )
 
 var/global/list/divine_patrons_index = list()
