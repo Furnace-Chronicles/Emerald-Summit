@@ -20,6 +20,8 @@
 		return FALSE
 	if(!user.sexcon.can_use_penis())
 		return FALSE
+	if(!user.Adjacent(target))
+		return FALSE
 	return TRUE
 
 /datum/sex_action/masturbate_penis_over/on_start(mob/living/carbon/human/user, mob/living/carbon/human/target)

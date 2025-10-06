@@ -39,7 +39,7 @@
 	move_to_delay = 12
 	vision_range = 9
 	aggro_vision_range = 9
-	movement_type = FLYING
+	is_flying_animal = TRUE
 	butcher_results = list()
 
 	health = 750

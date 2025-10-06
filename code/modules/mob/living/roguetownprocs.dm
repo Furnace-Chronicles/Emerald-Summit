@@ -241,56 +241,31 @@
 				drained = drained + 5							//More stamina usage for not being trained in the armor you're using.
 
 			//Dual Wielding
-			var/attacker_dualw
 			var/defender_dualw
-			var/extraattroll
 			var/extradefroll
 
 			//Dual Wielder defense disadvantage
-			if(HAS_TRAIT(src, TRAIT_DUALWIELDER) && istype(offhand, mainhand))
+			if(HAS_TRAIT(src, TRAIT_DUALWIELDER) && (istype(offhand, mainhand) || istype(mainhand, offhand)))
 				extradefroll = prob(prob2defend)
 				defender_dualw = TRUE
 
-			//Dual Wielder attack advantage
-			var/obj/item/mainh = user.get_active_held_item()
-			var/obj/item/offh = user.get_inactive_held_item()
-			if(mainh && offh && HAS_TRAIT(user, TRAIT_DUALWIELDER))
-				if(istype(mainh, offh))
-					extraattroll = prob(prob2defend)
-					attacker_dualw = TRUE
-
 			if(src.client?.prefs.showrolls)
 				var/text = "Roll to parry... [prob2defend]%"
-				if((defender_dualw || attacker_dualw))
-					if(defender_dualw && attacker_dualw)
-						text += " Our dual wielding cancels out!"
-					else//If we're defending against or as a dual wielder, we roll disadv. But if we're both dual wielding it cancels out.
-						text += " Twice! Disadvantage! ([(prob2defend / 100) * (prob2defend / 100) * 100]%)"
+				if(defender_dualw)
+					text += " Twice! Disadvantage! ([(prob2defend / 100) * (prob2defend / 100) * 100]%)"
 				to_chat(src, span_info("[text]"))
 
-			var/attacker_feedback
-			if(user.client?.prefs.showrolls && (attacker_dualw || defender_dualw))
-				attacker_feedback = "Attacking with advantage. ([100 - ((prob2defend / 100) * (prob2defend / 100) * 100)]%)"
-
 			var/parry_status = FALSE
-			if((defender_dualw && attacker_dualw) || (!defender_dualw && !attacker_dualw)) //They cancel each other out
-				if(attacker_feedback)
-					attacker_feedback = "Advantage cancelled out!"
-				if(prob(prob2defend))
-					parry_status = TRUE
-			else if(attacker_dualw)
-				if(prob(prob2defend) && extraattroll)
-					parry_status = TRUE
-			else if(defender_dualw)
+			if(defender_dualw)
 				if(prob(prob2defend) && extradefroll)
 					parry_status = TRUE
-
-			if(attacker_feedback)
-				to_chat(user, span_info("[attacker_feedback]"))
+			else
+				if(prob(prob2defend))
+					parry_status = TRUE
 
 			if(parry_status)
 				if(intenty.masteritem)
-					if((intenty.masteritem.wbalance < 0 || istype(user.rmb_intent, /datum/rmb_intent/strong))  && user.STASTR > src.STASTR) //enemy weapon is heavy, so get a bonus scaling on strdiff
+					if(intenty.masteritem.wbalance < WBALANCE_NORMAL && user.STASTR > src.STASTR) //enemy weapon is heavy, so get a bonus scaling on strdiff
 						drained = drained + ( intenty.masteritem.wbalance * ((user.STASTR - src.STASTR) * -5) )
 			else
 				to_chat(src, span_warning("The enemy defeated my parry!"))

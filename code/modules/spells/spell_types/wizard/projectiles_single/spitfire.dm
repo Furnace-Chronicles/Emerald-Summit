@@ -39,3 +39,24 @@
 	flag = "magic"
 	hitsound = 'sound/blank.ogg'
 	aoe_range = 0
+
+/obj/projectile/magic/aoe/fireball/rogue2/on_hit(target)
+	. = ..()
+	if(ismob(target))
+		var/mob/M = target
+		if(M.anti_magic_check())
+			visible_message(span_warning("[src] fizzles on contact with [target]!"))
+			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
+			qdel(src)
+			return BULLET_ACT_BLOCK
+		if(isliving(target))
+			var/mob/living/L = target
+			if(L.has_status_effect(/datum/status_effect/buff/frost) || L.has_status_effect(/datum/status_effect/buff/frostbite))
+				visible_message(span_warning("[src] extinguishes on contact with [target]!"))
+				playsound(get_turf(target), 'sound/items/firesnuff.ogg', 100)
+				L.remove_status_effect(/datum/status_effect/buff/frost)
+				L.remove_status_effect(/datum/status_effect/buff/frostbite)
+				qdel(src)
+				return BULLET_ACT_BLOCK
+			new /obj/effect/temp_visual/snap_freeze(get_turf(L))
+	qdel(src)

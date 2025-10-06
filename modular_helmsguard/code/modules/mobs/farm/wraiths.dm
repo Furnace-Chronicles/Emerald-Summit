@@ -6,7 +6,7 @@
 	icon_living = "wraith"
 	icon_dead = null
 	mob_biotypes = MOB_UNDEAD|MOB_SPIRIT
-	movement_type = FLYING
+	is_flying_animal = TRUE
 	incorporeal_move = INCORPOREAL_MOVE_JAUNT
 	layer = GHOST_LAYER
 	environment_smash = ENVIRONMENT_SMASH_NONE

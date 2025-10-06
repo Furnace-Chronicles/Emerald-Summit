@@ -11,6 +11,7 @@
 	allowed_races = RACES_ALL_KINDS
 	disallowed_races = list(
 		/datum/species/lamia,
+		/datum/species/harpy,
 	)
 	allowed_sexes = list(MALE, FEMALE)
 	tutorial = "You are the leader of the Scarlet Reach Guild of Crafts. You represents the interests of all of the craftsmen underneath you - including the Tailor\

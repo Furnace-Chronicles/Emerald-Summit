@@ -152,6 +152,8 @@
 		return 1
 	if(isliving(mover))
 		var/mob/living/M = mover
+		if(M.movement_type & FLYING)
+			return 1
 		if(!(M.mobility_flags & MOBILITY_STAND))
 			if(passcrawl)
 				return TRUE
@@ -183,6 +185,8 @@
 		return 1
 	if(isliving(O))
 		var/mob/living/M = O
+		if(M.movement_type & FLYING)
+			return 1
 		if(!(M.mobility_flags & MOBILITY_STAND))
 			if(passcrawl)
 				return TRUE

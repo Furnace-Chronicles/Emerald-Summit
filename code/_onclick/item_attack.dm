@@ -84,7 +84,6 @@
 	var/tempatarget = null
 	var/pegleg = 0			//Handles check & slowdown for peglegs. Fuckin' bootleg, literally, but hey it at least works.
 	var/construct = 0
-	var/dual_attack_active = 0 // we're rerunning the attack proc again for a successful dual wield attack
 
 /obj/item/proc/attack(mob/living/M, mob/living/user)
 	if(SEND_SIGNAL(src, COMSIG_ITEM_ATTACK, M, user) & COMPONENT_ITEM_NO_ATTACK)
@@ -103,7 +102,7 @@
 		M.mind.attackedme[user.real_name] = world.time
 	if(force)
 		if(user.used_intent)
-			if(!user.used_intent.noaa && !user.dual_attack_active)
+			if(!user.used_intent.noaa)
 				playsound(get_turf(src), pick(swingsound), 100, FALSE, -1)
 			if(user.used_intent.no_attack) //BYE!!!
 				return
@@ -124,7 +123,7 @@
 		return
 	if(!user.CanReach(M,src))
 		return
-	if(user.get_active_held_item() != src)
+	if(user.get_active_held_item() != src && !HAS_TRAIT(user, TRAIT_DUALWIELDER))
 		return
 	if(user.incapacitated())
 		return
@@ -199,11 +198,7 @@
 							span_boldwarning("I'm disarmed by [user]!"))
 			return
 
-	var/do_double_hit = FALSE
 	if(M.attacked_by(src, user))
-		switch(user.used_intent.blade_class)
-			if(BCLASS_BLUNT,BCLASS_CUT,BCLASS_CHOP,BCLASS_STAB,BCLASS_PICK,BCLASS_PIERCE) // only these intents are allowed to double attack with dual wield trait
-				do_double_hit = get_dist(get_turf(user), get_turf(M)) <= 1 // do not allow this for whips and other long range weapons
 		if(user.used_intent == cached_intent)
 			var/tempsound = user.used_intent.hitsound
 			if(tempsound)
@@ -213,35 +208,6 @@
 
 	log_combat(user, M, "attacked", src.name, "(INTENT: [uppertext(user.used_intent.name)]) (DAMTYPE: [uppertext(damtype)])")
 	add_fingerprint(user)
-
-	if(user.dual_attack_active) // sir, a second attack has hit the mob
-		if(user.client?.prefs.showrolls && do_double_hit)
-			to_chat(user, span_notice("Success!"))
-		return
-	if(do_double_hit && HAS_TRAIT(user, TRAIT_DUALWIELDER)) // do a second follow up attack if we successfully hit our target
-		if(!prob(33)) // 33% chance of doing a second hit
-			return
-		var/obj/item/offh = user.get_inactive_held_item()
-		if(!offh)
-			return
-		var/obj/item/mainh = user.get_active_held_item()
-		if(!mainh || !istype(mainh, offh))
-			return
-		if(!iscarbon(user) || user == M) // don't allow this to apply to yourself
-			return
-		var/bakstr = user.STASTR
-		var/bakhandindex = user.active_hand_index
-		user.STASTR = round(user.STASTR*0.5)+1 // half str for second attack
-		user.active_hand_index = (user.active_hand_index % user.held_items.len)+1
-		if(user.client?.prefs.showrolls)
-			to_chat(user, span_info("I try getting in a second attack!"))
-		user.dual_attack_active = 1
-		offh.attack(M, user)
-		if(!user.used_intent.noaa)
-			user.do_attack_animation(get_turf(M), user.used_intent.animname, offh, used_intent = user.used_intent)
-		user.dual_attack_active = 0
-		user.STASTR = bakstr
-		user.active_hand_index = bakhandindex
 
 //the equivalent of the standard version of attack() but for object targets.
 /obj/item/proc/attack_obj(obj/O, mob/living/user)

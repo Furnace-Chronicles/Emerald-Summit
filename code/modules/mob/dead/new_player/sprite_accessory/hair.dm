@@ -994,6 +994,10 @@
 	name = "Kobeni (Alt)"
 	icon_state = "kobeni_2"
 
+/datum/sprite_accessory/hair/head/kobeni_tail
+	name = "Kobeni (Ponytail)"
+	icon_state = "kobeni_tail"
+
 /datum/sprite_accessory/hair/head/gloomy_short
 	name = "Gloomy (Short)"
 	icon_state = "gloomy_short"
@@ -1053,6 +1057,10 @@
 /datum/sprite_accessory/hair/head/sabitsuki
 	name = "Sabitsuki"
 	icon_state = "sabitsuki"
+
+/datum/sprite_accessory/hair/head/sabitsuki_ponytail
+	name = "Sabitsuki (Ponytail)"
+	icon_state = "sabitsuki_ponytail"
 
 /datum/sprite_accessory/hair/head/cotton
 	name = "Cotton"

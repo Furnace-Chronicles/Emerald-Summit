@@ -4,7 +4,7 @@
 	name = "flail"
 	desc = "This is a swift, iron flail. Strikes hard and far."
 	icon_state = "iflail"
-	icon = 'icons/roguetown/weapons/32.dmi'
+	icon = 'icons/roguetown/weapons/whips32.dmi'
 	sharpness = IS_BLUNT
 	//dropshrink = 0.75
 	wlength = WLENGTH_NORMAL

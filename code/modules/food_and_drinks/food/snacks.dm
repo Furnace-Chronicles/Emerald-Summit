@@ -526,7 +526,7 @@ All foods are distributed among various categories. Use common sense.
 		if(!do_after(user, 30, target = src))
 			return FALSE
 		var/reagents_per_slice = reagents.total_volume/slices_num
-		var/add_reagents_from_knife = W?.reagents?.total_volume // if we're slicing with a tipped_item knife, poison some of the reagents into the cake
+		var/add_reagents_from_knife = min(W?.reagents?.total_volume, 1) // if we're slicing with a tipped_item knife, poison some of the reagents into the cake (but not too much)
 		if(add_reagents_from_knife >= reagents_per_slice) // if the slice too small to inject into, don't attempt
 			add_reagents_from_knife = 0
 		else if(add_reagents_from_knife)
@@ -544,7 +544,7 @@ All foods are distributed among various categories. Use common sense.
 		qdel(src)
 	else
 		var/reagents_per_slice = reagents.total_volume/slices_num
-		var/add_reagents_from_knife = W?.reagents?.total_volume // if we're slicing with a tipped_item knife, poison some of the reagents into the cake
+		var/add_reagents_from_knife = min(W?.reagents?.total_volume, 1) // if we're slicing with a tipped_item knife, poison some of the reagents into the cake (but not too much)
 		if(add_reagents_from_knife >= reagents_per_slice) // if the slice too small to inject into, don't attempt
 			add_reagents_from_knife = 0
 		else if(add_reagents_from_knife)

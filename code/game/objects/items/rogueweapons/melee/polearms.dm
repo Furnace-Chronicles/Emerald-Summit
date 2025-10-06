@@ -242,7 +242,7 @@
 	force = 25
 	force_wielded = 28
 	icon_state = "aries"
-	icon = 'icons/roguetown/weapons/32.dmi'
+	icon = 'icons/roguetown/weapons/misc32.dmi'
 	pixel_y = 0
 	pixel_x = 0
 	inhand_x_dimension = 64
@@ -424,7 +424,7 @@
 	pixel_y = 0
 	pixel_x = 0
 	max_integrity = 100
-	icon = 'icons/roguetown/weapons/32.dmi'
+	icon = 'icons/roguetown/weapons/misc32.dmi'
 	dam_icon = 'icons/effects/item_damage32.dmi'
 	icon_state = "cspear"
 	smeltresult = null
@@ -1265,7 +1265,7 @@
 	desc = "As if glaives werent hard enough to produce, this one in particular is made out of blacksteel. A piece of art made for the captain of the guard, its a tool to deliver justice and help those weaker than the wielder."
 	force = 17
 	force_wielded = 35
-	icon = 'icons/roguetown/weapons/special/captainglaive.dmi'
+	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	icon_state = "capglaive"
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/blacksteel

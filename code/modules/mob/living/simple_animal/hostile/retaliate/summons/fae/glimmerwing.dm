@@ -29,7 +29,7 @@
 	retreat_distance = 0
 	minimum_distance = 0
 	food_type = list()
-	movement_type = FLYING
+	is_flying_animal = TRUE
 	pooptype = null
 	STACON = 7
 	STASTR = 9

@@ -3,6 +3,9 @@
 	tutorial = "You have rejected and terrorized civilization in the name of nature. You run wild under the moon, a terror to the townsfolk and a champion of Dendor's wild domain."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
+	disallowed_races = list(
+		/datum/species/harpy,
+	)
 	outfit = /datum/outfit/job/roguetown/wretch/lunacyembracer
 	category_tags = list(CTAG_WRETCH)
 
@@ -15,7 +18,11 @@
 		TRAIT_STRONGBITE,
 		TRAIT_WOODWALKER,
 		TRAIT_NASTY_EATER,
-		TRAIT_CALTROPIMMUNE
+		TRAIT_CALTROPIMMUNE,
+		TRAIT_LONGSTRIDER,
+		TRAIT_OUTDOORSMAN,
+		TRAIT_WOODSMAN
+
 	)
 	subclass_stats = list(
 		STATKEY_STR = 3,
@@ -52,4 +59,4 @@
 
 	H.cmode_music = 'sound/music/combat_berserker.ogg'
 	to_chat(H, span_danger("You have abandoned your humanity to run wild under the moon. The call of nature fills your soul!"))
-	wretch_select_bounty(H) 
+	wretch_select_bounty(H)

@@ -17,6 +17,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	allowed_races = RACES_SECOND_CLASS_NO_GOLEM		//Too recent arrivals to ascend to priesthood.
 	disallowed_races = list(
 		/datum/species/lamia,
+		/datum/species/harpy,
 	)
 	allowed_patrons = ALL_DIVINE_PATRONS
 	allowed_sexes = list(MALE, FEMALE)

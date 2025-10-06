@@ -1,3 +1,7 @@
+#define TIPPED_REAGENT_VOLUME 6
+#define TIPPED_REAGENT_VOLUME_ALCHEMIST (TIPPED_REAGENT_VOLUME+3)
+#define TIPPED_REAGENT_ATTACK_VOLUME 3
+
 /datum/element/tipped_item
 	element_flags = NONE
 
@@ -6,7 +10,7 @@
 	if(!ismovableatom(target))
 		return ELEMENT_INCOMPATIBLE
 	if(!target.reagents)
-		target.create_reagents(2)
+		target.create_reagents(TIPPED_REAGENT_VOLUME_ALCHEMIST)
 	RegisterSignal(target, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 	RegisterSignal(target, COMSIG_ITEM_PRE_ATTACK, PROC_REF(check_dip))
 	RegisterSignal(target, COMSIG_ITEM_ATTACKBY_SUCCESS, PROC_REF(try_inject))
@@ -27,7 +31,7 @@
 	if(!attacked_container.reagents.total_volume)
 		to_chat(attacker, span_warning("\The [attacked_container] is empty!"))
 		return
-	var/max_volume = HAS_TRAIT(attacker, TRAIT_LEGENDARY_ALCHEMIST) ? 2 : 1 // legendary alchemists get the ability to double their max volume
+	var/max_volume = HAS_TRAIT(attacker, TRAIT_LEGENDARY_ALCHEMIST) ? TIPPED_REAGENT_VOLUME_ALCHEMIST : TIPPED_REAGENT_VOLUME // legendary alchemists get the ability to increase the max volume
 	if(dipper.reagents.total_volume >= max_volume) // don't let user attempt to double dip
 		var/reagent_color = mix_color_from_reagents(dipper.reagents.reagent_list)
 		to_chat(attacker, span_warning("\The [dipper] is already soaked with <font color=[reagent_color]>something</font>. Washing should clean the <font color=[reagent_color]>coating</font> off."))
@@ -37,11 +41,18 @@
 
 /datum/element/tipped_item/proc/start_dipping(obj/item/dipper, obj/item/reagent_containers/attacked_container, mob/living/attacker, params)
 	var/reagentlog = attacked_container.reagents
-	var/dip = dipper.reagents.total_volume > 0 ? "double dip" : "dip"
+	var/dip
+	var/dip_amount
+	if(HAS_TRAIT(attacker, TRAIT_LEGENDARY_ALCHEMIST))
+		dip = dipper.reagents.total_volume > 0 ? "double dip" : "dip"
+		dip_amount = TIPPED_REAGENT_VOLUME_ALCHEMIST-dipper.reagents.total_volume
+	else
+		dip = "dip"
+		dip_amount = TIPPED_REAGENT_VOLUME-dipper.reagents.total_volume
 	attacker.visible_message(span_danger("[attacker] is [dip]ping \the [dipper] in [attacked_container]!"), "You begin [dip]ping \the [dipper] in \the [attacked_container]...", vision_distance = 2)
 	if(!do_after(attacker, 2 SECONDS, target = attacked_container))
 		return
-	attacked_container.reagents.trans_to(dipper, 1, transfered_by = attacker)
+	attacked_container.reagents.trans_to(dipper, dip_amount, transfered_by = attacker)
 	attacker.visible_message(span_danger("[attacker] [dip]s \the [dipper] in \the [attacked_container]!"), "You finish [dip]ping \the [dipper] in \the [attacked_container]!", vision_distance = 2)
 	log_combat(attacker, dipper, "poisoned", addition="with [reagentlog]")
 
@@ -52,11 +63,10 @@
 			if(BCLASS_BLUNT,BCLASS_PUNCH,BCLASS_BITE,BCLASS_LASHING,BCLASS_BURN,BCLASS_TWIST) // do not attempt to inject with these intents
 				return
 		if(HAS_TRAIT(target,TRAIT_NOMETABOLISM)) // do not bother infecting target if they cannot process reagents
-			dipper.reagents.clear_reagents()
 			return
 		var/reagentlog2 = dipper.reagents
 		log_combat(user, target, "poisoned", addition="with [reagentlog2]")
-		dipper.reagents.trans_to(target, dipper.reagents.total_volume, transfered_by = user)
+		dipper.reagents.trans_to(target, min(dipper.reagents.total_volume, TIPPED_REAGENT_ATTACK_VOLUME), transfered_by = user)
 
 /datum/element/tipped_item/proc/blocked_inject(obj/item/dipper, atom/target, mob/user, damagetype = BRUTE, def_zone = null)
 	if(isliving(target) && dipper.reagents.total_volume && prob(20)) // random chance of smearing our blade clean with their armor
@@ -68,8 +78,14 @@
 	var/total_volume = source.reagents.total_volume
 	if(total_volume)
 		var/reagent_color = mix_color_from_reagents(source.reagents.reagent_list)
-		var/dip = total_volume > 1 ? "double dip" : "dip"
-		examine_list += span_red("Has been [dip]ped in <font color=[reagent_color]>something</font>!")
+		var/dip
+		if(total_volume > TIPPED_REAGENT_VOLUME)
+			dip = "double dipped"
+		else if(total_volume == TIPPED_REAGENT_VOLUME)
+			dip = "soaked"
+		else
+			dip = "dipped"
+		examine_list += span_red("Has been [dip] in <font color=[reagent_color]>something</font>!")
 
 /datum/element/tipped_item/proc/clean_dip(datum/source, strength)
 	if(strength < CLEAN_WEAK)
@@ -77,3 +93,7 @@
 	var/obj/item/dipper = source
 	if(istype(dipper) && dipper.reagents.total_volume)
 		dipper.reagents.clear_reagents()
+
+#undef TIPPED_REAGENT_VOLUME
+#undef TIPPED_REAGENT_VOLUME_ALCHEMIST
+#undef TIPPED_REAGENT_ATTACK_VOLUME

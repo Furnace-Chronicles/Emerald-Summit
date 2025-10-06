@@ -2570,3 +2570,36 @@
 		A.UpdateButtonIcon(force = TRUE)
 	..()
 
+// the psylongers
+/obj/item/clothing/head/roguetown/helmet/bascinet/psylonger
+	name = "psylonger"
+	desc = "A steel bascinet helmet with a straight visor, or \"klappvisier\", which can greatly reduce visibility. This one is ridiculously long, and has a PSYCROSS directly on the face. Only for the most zealous of the All-fathers followers."
+	icon = 'icons/roguetown/clothing/special/klappenlonger.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/klappenlonger.dmi'
+	icon_state = "psylonger"
+	item_state = "psylonger"
+	emote_environment = 3
+	body_parts_covered = FULL_HEAD
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	block2add = FOV_BEHIND
+	smeltresult = /obj/item/ingot/steel
+	smelt_bar_num = 2
+
+/obj/item/clothing/head/roguetown/helmet/bascinet/psylongest
+	name = "THE PSYLONGEST"
+	desc = "Oh- oh PSYDON, what is this THING?!"
+	icon = 'icons/roguetown/clothing/special/klappenlonger.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/klappenlonger.dmi'
+	icon_state = "psylongest"
+	item_state = "psylongest"
+	emote_environment = 3
+	armor = list("blunt" = 200, "slash" = 200, "stab" = 200, "piercing" = 200, "fire" = 200, "acid" = 200) //ENDVRE, admin shitspawn item..
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST)
+	max_integrity = 9999
+	body_parts_covered = FULL_HEAD
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | NECK
+	block2add = FOV_BEHIND
+	smeltresult = /obj/item/ingot/steel // why would you
+	smelt_bar_num = 2
