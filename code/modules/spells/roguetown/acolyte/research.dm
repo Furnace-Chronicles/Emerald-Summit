@@ -2,7 +2,7 @@
 #define MIRACLE_RADIAL_DMI 'icons/mob/actions/roguespells.dmi'
 
 #ifndef QUEST_COOLDOWN_DS
-#define QUEST_COOLDOWN_DS (30*60*10)
+#define QUEST_COOLDOWN_DS (30*60*10) // я ебу считать это все ты троллишь чтоли, 30 минут на 60 секунд и на 10 потому бьенд тик
 #endif
 #ifndef QUEST_REWARD_FAVOR
 #define QUEST_REWARD_FAVOR 250
@@ -120,9 +120,9 @@ var/global/divine_patrons_built = FALSE
 	if(!miracle_caches_built) build_miracle_caches()
 	return !!inhumen_miracles_cache[S.type]
 
+// fluff
 /proc/status_yn(flag)
-	if(flag)
-		return "<span style='color:#2ecc71'>Unlocked</span>"
+	if(flag) return "<span style='color:#2ecc71'>Unlocked</span>"
 	return "<span style='color:#e67e22'>Locked</span>"
 
 /proc/html_attr(t as text)
@@ -159,6 +159,7 @@ var/global/divine_patrons_built = FALSE
 			patron_name = p_name
 			name = "Sacred Artefact of [p_name]"
 
+// IT STARTS HERE
 /obj/effect/proc_holder/spell/self/learnmiracle
 	name = "Miracles"
 	desc = "Open miracle actions."
@@ -166,6 +167,8 @@ var/global/divine_patrons_built = FALSE
 	var/current_org_tab = "none"
 	var/current_miracle_tab = "none"
 	var/current_art_tab = "none"
+
+// 1 PART HOW TO LEARN MY LITTLE MIRACLE
 
 /obj/effect/proc_holder/spell/self/learnmiracle/proc/do_learn_miracle(mob/user)
 	if(!user || !user.mind) return
@@ -182,29 +185,26 @@ var/global/divine_patrons_built = FALSE
 	var/tier = 0
 	if(("clergy_learn_tier" in D.vars) && isnum(D.vars["clergy_learn_tier"]))
 		tier = max(tier, D.vars["clergy_learn_tier"])
-	if(H.unlocked_research_ten)
-		tier = max(tier, 1)
-	if(H.unlocked_research_shunned)
-		tier = max(tier, 2)
+	if(H.unlocked_research_ten) tier = max(tier, 1)
+	if(H.unlocked_research_shunned) tier = max(tier, 2)
+
 	var/list/spell_types = list()
 	if(length(D.patron.miracles))
-		for(var/st in D.patron.miracles)
-			spell_types[st] = TRUE
+		for(var/st in D.patron.miracles) spell_types[st] = TRUE
 	if(H.unlocked_research_unity)
-		for(var/st in unity_miracles_list)
-			spell_types[st] = TRUE
+		for(var/st in unity_miracles_list) spell_types[st] = TRUE
 	if(tier >= 1)
-		for(var/st in divine_miracles_cache)
-			spell_types[st] = TRUE
+		for(var/st in divine_miracles_cache) spell_types[st] = TRUE
 	if(tier >= 2)
-		for(var/st in inhumen_miracles_cache)
-			spell_types[st] = TRUE
+		for(var/st in inhumen_miracles_cache) spell_types[st] = TRUE
+
 	var/list/choices = list()
 	for(var/st in spell_types)
 		var/already = FALSE
 		for(var/obj/effect/proc_holder/spell/K in user.mind.spell_list)
 			if(K.type == st) { already = TRUE; break }
 		if(already) continue
+
 		var/obj/effect/proc_holder/spell/S = new st
 		var/own     = is_patron_spell(D, S)
 		var/divine  = is_divine_spell(S)
@@ -213,8 +213,7 @@ var/global/divine_patrons_built = FALSE
 		var/allow = FALSE
 		var/cost = 0
 		if(is_unity && H.unlocked_research_unity)
-			allow = TRUE
-			cost = CLERIC_PRICE_DIVINE
+			allow = TRUE; cost = CLERIC_PRICE_DIVINE
 		else
 			switch(tier)
 				if(0)
@@ -226,14 +225,15 @@ var/global/divine_patrons_built = FALSE
 					if(own) { allow = TRUE; cost = CLERIC_PRICE_PATRON }
 					else if(divine) { allow = TRUE; cost = CLERIC_PRICE_DIVINE }
 					else if(inhumen) { allow = TRUE; cost = CLERIC_PRICE_SHUNNED }
-		if(!allow)
-			qdel(S)
-			continue
+
+		if(!allow) { qdel(S); continue }
 		choices["[S.name] ([cost])"] = list("type" = st, "cost" = cost, "desc" = S.desc, "name" = S.name)
 		qdel(S)
+
 	if(!choices.len)
 		to_chat(user, span_warning("No miracles available to learn right now."))
 		return
+
 	var/left = max(0, H.miracle_points)
 	var/pick = input(user, "Choose a miracle to learn. Miracle points left: [left]", "Learn a Miracle") as null|anything in choices
 	if(!pick) return
@@ -257,6 +257,8 @@ var/global/divine_patrons_built = FALSE
 	to_chat(user, span_notice("You have learned [new_spell.name]."))
 	return
 
+// HELLO RND HOW TO RESEARCH STUFF
+
 /obj/effect/proc_holder/spell/self/learnmiracle/proc/open_research_ui(mob/user)
 	var/mob/living/carbon/human/H = istype(user, /mob/living/carbon/human) ? user : null
 	if(!H) return
@@ -279,6 +281,7 @@ var/global/divine_patrons_built = FALSE
 			html += "<span style='color:#7f8c8d'>Buy 1 MP ([MIRACLE_MP_PRICE_FLAVOR] Favor)</span><br>"
 	else
 		html += "<span style='color:#7f8c8d'>Only clergy can buy RP/MP.</span><br>"
+
 	html += "<hr><b>Studies</b><br>"
 	html += "<table width='100%' cellspacing='2' cellpadding='2'>"
 	html += "<tr><th align='left'>Study</th><th width='110'>Status</th><th width='160'>Action</th></tr>"
@@ -289,6 +292,8 @@ var/global/divine_patrons_built = FALSE
 	var/cu = COST_UNITY
 	var/ct = COST_TEN
 	var/cs = COST_SHUNNED
+
+	// Artefacts
 	html += "<tr><td>Artefacts</td><td>[status_yn(H.unlocked_research_artefacts)]</td><td align='center'>"
 	if(!H.unlocked_research_artefacts)
 		if(rp >= ca)
@@ -298,6 +303,8 @@ var/global/divine_patrons_built = FALSE
 	else
 		html += "<span style='color:#7f8c8d'>—</span>"
 	html += "</td></tr>"
+
+	// T1
 	html += "<tr><td>Organs T1</td><td>[status_yn(H.unlocked_research_org_t1)]</td><td align='center'>"
 	if(!H.unlocked_research_org_t1)
 		if(rp >= c1)
@@ -307,6 +314,8 @@ var/global/divine_patrons_built = FALSE
 	else
 		html += "<span style='color:#7f8c8d'>—</span>"
 	html += "</td></tr>"
+
+	// T2
 	html += "<tr><td>Organs T2</td><td>[status_yn(H.unlocked_research_org_t2)]</td><td align='center'>"
 	if(!H.unlocked_research_org_t2)
 		if(rp >= c2)
@@ -316,6 +325,8 @@ var/global/divine_patrons_built = FALSE
 	else
 		html += "<span style='color:#7f8c8d'>—</span>"
 	html += "</td></tr>"
+
+	// T3
 	html += "<tr><td>Organs T3</td><td>[status_yn(H.unlocked_research_org_t3)]</td><td align='center'>"
 	if(!H.unlocked_research_org_t3)
 		if(rp >= c3)
@@ -325,6 +336,9 @@ var/global/divine_patrons_built = FALSE
 	else
 		html += "<span style='color:#7f8c8d'>—</span>"
 	html += "</td></tr>"
+
+	// Other shit my gyt balancekack toss shit you want to add into there (i made cahce that scans patroon.dm miracle but whatever)
+
 	html += "<tr><td>Unity Miracles</td><td>[status_yn(H.unlocked_research_unity)]</td><td align='center'>"
 	if(!H.unlocked_research_unity)
 		if(rp >= cu)
@@ -334,6 +348,8 @@ var/global/divine_patrons_built = FALSE
 	else
 		html += "<span style='color:#7f8c8d'>—</span>"
 	html += "</td></tr>"
+
+	// 10
 	html += "<tr><td>Ten Miracles</td><td>[status_yn(H.unlocked_research_ten)]</td><td align='center'>"
 	if(!H.unlocked_research_ten)
 		if(rp >= ct)
@@ -343,6 +359,8 @@ var/global/divine_patrons_built = FALSE
 	else
 		html += "<span style='color:#7f8c8d'>—</span>"
 	html += "</td></tr>"
+
+	// 4
 	html += "<tr><td>Shunned Miracles</td><td>[status_yn(H.unlocked_research_shunned)]</td><td align='center'>"
 	if(!H.unlocked_research_shunned)
 		if(rp >= cs)
@@ -352,35 +370,31 @@ var/global/divine_patrons_built = FALSE
 	else
 		html += "<span style='color:#7f8c8d'>—</span>"
 	html += "</td></tr>"
+
 	html += "</table>"
 
+	// Arts UI
 	if(H.unlocked_research_artefacts)
 		build_divine_patrons_index()
 		if(divine_patrons_index && length(divine_patrons_index))
 			html += "<hr><b>Artefacts</b><br>"
 			var/list/nav = list()
-			if(src.current_art_tab == "none")
-				nav += "<b>None</b>"
-			else
-				nav += "<a href='?src=[REF(src)];arttab=none'>None</a>"
+			if(src.current_art_tab == "none") nav += "<b>None</b>"
+			else nav += "<a href='?src=[REF(src)];arttab=none'>None</a>"
 			var/list/names = list()
-			for(var/n in divine_patrons_index)
-				names += "[n]"
+			for(var/n in divine_patrons_index) names += "[n]"
 			names = sortList(names)
 			for(var/n in names)
-				if(src.current_art_tab == "[n]")
-					nav += "<b>[n]</b>"
-				else
-					nav += "<a href='?src=[REF(src)];arttab=[n]'>[n]</a>"
-			html += jointext(nav, " | ")
-			html += "<br><br>"
+				if(src.current_art_tab == "[n]") nav += "<b>[n]</b>"
+				else nav += "<a href='?src=[REF(src)];arttab=[n]'>[n]</a>"
+			html += jointext(nav, " | ") + "<br><br>"
 			if(src.current_art_tab == "none")
 				html += "<i>Artefacts list hidden (None).</i>"
 			else
 				var/rec2 = divine_patrons_index[src.current_art_tab]
 				if(rec2)
 					var/domain2 = "[rec2["domain"]]"
-					var/desc2 = "[rec2["desc"]]"
+					var/desc2   = "[rec2["desc"]]"
 					html += "<b>[src.current_art_tab]</b><br>"
 					if(length(domain2)) html += "<i>[domain2]</i><br>"
 					if(length(desc2)) html += "<div style='color:#7f8c8d'>[desc2]</div>"
@@ -395,55 +409,39 @@ var/global/divine_patrons_built = FALSE
 				else
 					html += "<i>Patron not found.</i>"
 
+	// Miracles UIs
 	if(H.unlocked_research_unity || H.unlocked_research_ten || H.unlocked_research_shunned)
 		html += "<hr><b>Miracle Lists</b><br>"
 		var/list/nav_bits = list()
-		if(src.current_miracle_tab == "none")
-			nav_bits += "<b>None</b>"
-		else
-			nav_bits += "<a href='?src=[REF(src)];mirtab=none'>None</a>"
+		if(src.current_miracle_tab == "none") nav_bits += "<b>None</b>"
+		else nav_bits += "<a href='?src=[REF(src)];mirtab=none'>None</a>"
 		if(H.unlocked_research_unity)
-			if(src.current_miracle_tab == "unity")
-				nav_bits += "<b>Unity</b>"
-			else
-				nav_bits += "<a href='?src=[REF(src)];mirtab=unity'>Unity</a>"
-		else
-			nav_bits += "<span style='color:#7f8c8d'>Unity</span>"
+			nav_bits += (src.current_miracle_tab == "unity") ? "<b>Unity</b>" : "<a href='?src=[REF(src)];mirtab=unity'>Unity</a>"
+		else nav_bits += "<span style='color:#7f8c8d'>Unity</span>"
 		if(H.unlocked_research_ten)
-			if(src.current_miracle_tab == "ten")
-				nav_bits += "<b>Ten</b>"
-			else
-				nav_bits += "<a href='?src=[REF(src)];mirtab=ten'>Ten</a>"
-		else
-			nav_bits += "<span style='color:#7f8c8d'>Ten</span>"
+			nav_bits += (src.current_miracle_tab == "ten") ? "<b>Ten</b>" : "<a href='?src=[REF(src)];mirtab=ten'>Ten</a>"
+		else nav_bits += "<span style='color:#7f8c8d'>Ten</span>"
 		if(H.unlocked_research_shunned)
-			if(src.current_miracle_tab == "shunned")
-				nav_bits += "<b>Shunned</b>"
-			else
-				nav_bits += "<a href='?src=[REF(src)];mirtab=shunned'>Shunned</a>"
-		else
-			nav_bits += "<span style='color:#7f8c8d'>Shunned</span>"
-		html += jointext(nav_bits, " | ")
-		html += "<br><br>"
+			nav_bits += (src.current_miracle_tab == "shunned") ? "<b>Shunned</b>" : "<a href='?src=[REF(src)];mirtab=shunned'>Shunned</a>"
+		else nav_bits += "<span style='color:#7f8c8d'>Shunned</span>"
+		html += jointext(nav_bits, " | ") + "<br><br>"
+
 		if(src.current_miracle_tab != "none")
 			if(!miracle_caches_built) build_miracle_caches()
 			var/list/to_show = list()
 			var/tab_title = ""
 			if(src.current_miracle_tab == "unity" && H.unlocked_research_unity)
 				tab_title = "Unity Miracles"
-				for(var/st in unity_miracles_list)
-					to_show += st
+				for(var/st in unity_miracles_list) to_show += st
 			else if(src.current_miracle_tab == "ten" && H.unlocked_research_ten)
 				tab_title = "Ten Miracles"
-				for(var/st in divine_miracles_cache)
-					to_show += st
+				for(var/st in divine_miracles_cache) to_show += st
 			else if(src.current_miracle_tab == "shunned" && H.unlocked_research_shunned)
 				tab_title = "Shunned Miracles"
-				for(var/st in inhumen_miracles_cache)
-					to_show += st
+				for(var/st in inhumen_miracles_cache) to_show += st
+
 			if(to_show.len)
-				html += "<b>[tab_title]</b><br>"
-				html += "<table width='100%' cellspacing='2' cellpadding='2'>"
+				html += "<b>[tab_title]</b><br><table width='100%' cellspacing='2' cellpadding='2'>"
 				html += "<tr><th align='left'>Miracle</th><th width='120'>Status</th></tr>"
 				for(var/st in to_show)
 					var/name_txt = "[st]"
@@ -454,40 +452,21 @@ var/global/divine_patrons_built = FALSE
 						for(var/obj/effect/proc_holder/spell/K in H.mind.spell_list)
 							if(K.type == st) { known = TRUE; break }
 						qdel(T)
-					html += "<tr><td>[name_txt]</td><td>"
-					if(known)
-						html += "<span style='color:#2ecc71'>Known</span>"
-					else
-						html += "<span style='color:#7f8c8d'>Unknown</span>"
-					html += "</td></tr>"
+					html += "<tr><td>[name_txt]</td><td>" + (known ? "<span style='color:#2ecc71'>Known</span>" : "<span style='color:#7f8c8d'>Unknown</span>") + "</td></tr>"
 				html += "</table>"
 			else
 				html += "<i>No miracles found for this tab.</i>"
 		else
 			html += "<i>Miracle list hidden (None).</i>"
 
+	// Organs UIs
 	if(H.unlocked_research_org_t1 || H.unlocked_research_org_t2 || H.unlocked_research_org_t3)
 		html += "<hr><b>Organs</b><br>"
 		var/list/org_tabs = list()
-		if(src.current_org_tab == "none")
-			org_tabs += "<b>None</b>"
-		else
-			org_tabs += "<a href='?src=[REF(src)];orgtab=none'>None</a>"
-		if(src.current_org_tab == "t1")
-			org_tabs += "<b>T1</b>"
-		else
-			if(H.unlocked_research_org_t1) org_tabs += "<a href='?src=[REF(src)];orgtab=t1'>T1</a>"
-			else org_tabs += "<span style='color:#7f8c8d'>T1</span>"
-		if(src.current_org_tab == "t2")
-			org_tabs += "<b>T2</b>"
-		else
-			if(H.unlocked_research_org_t2) org_tabs += "<a href='?src=[REF(src)];orgtab=t2'>T2</a>"
-			else org_tabs += "<span style='color:#7f8c8d'>T2</span>"
-		if(src.current_org_tab == "t3")
-			org_tabs += "<b>T3</b>"
-		else
-			if(H.unlocked_research_org_t3) org_tabs += "<a href='?src=[REF(src)];orgtab=t3'>T3</a>"
-			else org_tabs += "<span style='color:#7f8c8d'>T3</span>"
+		org_tabs += (src.current_org_tab == "none") ? "<b>None</b>" : "<a href='?src=[REF(src)];orgtab=none'>None</a>"
+		org_tabs += (src.current_org_tab == "t1") ? "<b>T1</b>" : (H.unlocked_research_org_t1 ? "<a href='?src=[REF(src)];orgtab=t1'>T1</a>" : "<span style='color:#7f8c8d'>T1</span>")
+		org_tabs += (src.current_org_tab == "t2") ? "<b>T2</b>" : (H.unlocked_research_org_t2 ? "<a href='?src=[REF(src)];orgtab=t2'>T2</a>" : "<span style='color:#7f8c8d'>T2</span>")
+		org_tabs += (src.current_org_tab == "t3") ? "<b>T3</b>" : (H.unlocked_research_org_t3 ? "<a href='?src=[REF(src)];orgtab=t3'>T3</a>" : "<span style='color:#7f8c8d'>T3</span>")
 		html += jointext(org_tabs, " | ")
 		html += "<br><br>"
 		if(src.current_org_tab == "none")
@@ -500,15 +479,9 @@ var/global/divine_patrons_built = FALSE
 				var/tier_key = src.current_org_tab
 				var/can_buy = FALSE
 				var/price = 0
-				if(tier_key == "t1")
-					can_buy = H.unlocked_research_org_t1
-					price = ORG_PRICE_T1
-				else if(tier_key == "t2")
-					can_buy = H.unlocked_research_org_t2
-					price = ORG_PRICE_T2
-				else if(tier_key == "t3")
-					can_buy = H.unlocked_research_org_t3
-					price = ORG_PRICE_T3
+				if(tier_key == "t1") { can_buy = H.unlocked_research_org_t1; price = ORG_PRICE_T1 }
+				else if(tier_key == "t2") { can_buy = H.unlocked_research_org_t2; price = ORG_PRICE_T2 }
+				else if(tier_key == "t3") { can_buy = H.unlocked_research_org_t3; price = ORG_PRICE_T3 }
 				html += "<tr><td>[label] ([uppertext(tier_key)])</td><td align='center'>"
 				if(HAS_TRAIT(H, TRAIT_CLERGY) && can_buy)
 					if(H.church_favor >= price)
@@ -524,146 +497,254 @@ var/global/divine_patrons_built = FALSE
 	B.set_content(html)
 	B.open()
 
-/proc/_random_skill_name()
-	var/list/skillnames = list(
-		"Carpentry","Mining","Farming","Medicine","Lockpicking",
-		"Athletics","Fishing","Music","Literacy","Tracking"
+
+// QUEEEEEEEEEEEEEEEEEEEESTS OH NO MY FUCKING DROW LIFEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+
+
+/* Debug shit for me only dont mind abouit it
+
+/proc/_rt_make_qid(owner_name as text)
+	if(!istext(owner_name) || !length(owner_name)) owner_name = "unknown"
+	return "[owner_name]-[rand(1000,9999)]"
+
+/proc/_rt_make_qid_for(mob/living/carbon/human/H)
+	if(!istype(H, /mob/living/carbon/human)) return "unknown-[rand(1000,9999)]"
+	var/oname = H.real_name || H.name || (H.client ? H.client.ckey : "unknown")
+	return "[oname]-[rand(1000,9999)]" */
+
+/proc/_rt_random_skill_type()
+	var/list/cands = list()
+	for(var/t in typesof(/datum/skill))
+		if(t == /datum/skill) continue
+		cands += t
+	if(!cands.len) return null
+	return pick(cands)
+
+/proc/_rt_skill_display_name(skill_t)
+	var/name_txt = "[skill_t]"
+	if(skill_t)
+		var/datum/skill/SK = new skill_t
+		if(SK && istext(SK.name)) name_txt = SK.name
+		qdel(SK)
+	return name_txt
+
+/proc/_rt_random_race_key() //fucking bloat my man my fucking fursona
+	var/list/keys = list(
+		"northern_human","dwarf","dark_elf","wood_elf","half_elf","half_orc",
+		"goblin","kobold","lizard","aasimar","tiefling","halfkin","wildkin",
+		"golem","doll","vermin","dracon","axian","tabaxi","vulp","lupian",
+		"moth","lamia"
 	)
-	return pick(skillnames)
+	return lowertext(pick(keys))
 
-/proc/_random_race_name()
-	return pick(list("Human","Elf","Dwarf","Orc","Goblin"))
+// charflaw
+/proc/_rt_random_charflaw_type()
+	var/list/cands = list()
+	for(var/t in typesof(/datum/charflaw))
+		if(t == /datum/charflaw) continue
+		cands += t
+	if(!cands.len) return null
+	return pick(cands)
 
-/proc/_random_bonus_god_name()
+/proc/_rt_flaw_display_name(flaw_t)
+	var/name_txt = "[flaw_t]"
+	if(flaw_t)
+		var/datum/charflaw/F = new flaw_t
+		if(F && istext(F.name)) name_txt = F.name
+		qdel(F)
+	return name_txt
+
+// list for shit to put into box
+/proc/_rt_donation_need_types()
+	var/list/candidates = list(
+		"/obj/item/roguecoin",
+		"/obj/item/food",
+		"/obj/item/stack/cloth",
+		"/obj/item/ingot/iron",
+		"/obj/item/wood",
+		"/obj/item/reagent_containers/glass/bottle/holywater"
+	)
+	var/list/ok = list()
+	for(var/s in candidates)
+		var/p = text2path("[s]")
+		if(p) ok += p
+	if(!ok.len) ok += /obj/item/roguecoin
+	return ok
+
+/proc/_rt_random_divine_patron_name()
 	build_divine_patrons_index()
 	if(divine_patrons_index && length(divine_patrons_index))
 		var/list/names = list()
-		for(var/n in divine_patrons_index)
-			names += "[n]"
+		for(var/n in divine_patrons_index) names += "[n]"
 		return pick(names)
 	return pick(list("Astrata","Noc","Dendor","Abyssor","Ravox","Necra","Xylix","Pestra","Malum","Eora"))
 
-/proc/_pick_n(list/L, n as num)
-	if(!islist(L) || !length(L) || n <= 0) return list()
-	var/list/pool = L.Copy()
-	var/list/out = list()
-	while(length(out) < n && length(pool) > 0)
-		var/entry = pick(pool)
-		pool -= entry
-		out += list(entry)
-	return out
+// Anal ass roulette
+/proc/_rt_build_full_quest_pool(mob/living/carbon/human/H)
+	if(!H) return list()
+	var/list/pool = list()
 
-/proc/_gen_all_quest_defs()
-	var/list/L = list()
-	var/col_skill = "#3498db"
-	var/col_rank  = "#f1c40f"
-	var/col_hint  = "#9b59b6"
-	var/col_god   = "#e67e22"
-	var/col_var   = "#e74c3c"
-	var/col_money = "#1abc9c"
-
-	var/s1 = _random_skill_name()
-	L += list(list(
-		"title" = "Blessing",
-		"desc"  = "Bless a player who has <span style='color:[col_skill];'><b>SKILL: [s1]</b></span> at <span style='color:[col_rank];'><b>EXPERT</b></span> rank.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
-		"reward" = QUEST_REWARD_FAVOR
+	// 1 antag
+	pool += list(list(
+		"kind"=1, "title"="Insight Sigil",
+		"desc"="Use the sigil on a hidden foe.",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/antag_find,
+		"params"=list()
 	))
 
-	var/s2 = _random_skill_name()
-	L += list(list(
-		"title" = "Find Expertise",
-		"desc"  = "Find a player with <span style='color:[col_skill];'><b>SKILL: [s2]</b></span> at <span style='color:[col_rank];'><b>EXPERT</b></span>. Politely verify and interact to complete.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
-		"reward" = QUEST_REWARD_FAVOR
+	// 2 skill expert
+	var/skill_t = _rt_random_skill_type()
+	var/skill_name = _rt_skill_display_name(skill_t)
+	pool += list(list(
+		"kind"=2, "title"="Find Expertise",
+		"desc"="Bless an EXPERT of SKILL: [html_attr(skill_name)].",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/skill_bless,
+		"params"=list("required_skill_type"=skill_t)
 	))
 
-	var/race = _random_race_name()
-	L += list(list(
-		"title" = "Rite of Blood",
-		"desc"  = "Obtain a small blood sample from a <span style='color:[col_var];'><b>RACE: [race]</b></span> peacefully and consensually.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
-		"reward" = QUEST_REWARD_FAVOR
+	// 3 blood race
+	var/race_key = _rt_random_race_key()
+	pool += list(list(
+		"kind"=3, "title"="Rite of Blood",
+		"desc"="Take blood from RACE: [html_attr(uppertext(race_key))].",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/blood_draw,
+		"params"=list("required_race_key"=race_key)
 	))
 
-	L += list(list(
-		"title" = "Tithe of 500",
-		"desc"  = "Fill the tithe cube with at least <span style='color:[col_money];'><b>COINS: 500</b></span>. Exactly 500+ is accepted — less does not count.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
-		"reward" = QUEST_REWARD_FAVOR
+	// 4 tithe 500
+	pool += list(list(
+		"kind"=4, "title"="Tithe of 500",
+		"desc"="Donate at least 500 mammon into the chest.",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/coin_chest,
+		"params"=list()
 	))
 
-	var/god = _random_bonus_god_name()
-	L += list(list(
-		"title" = "Sealed Reliquary",
-		"desc"  = "Open a sealed reliquary by solving a <b>4-digit</b> code. Green = correct digit in correct spot; Yellow = correct digit in wrong spot.<br><span style='color:[col_god];'><b>Followers of [god]</b></span> can see the full code on examine.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
-		"reward" = QUEST_REWARD_FAVOR
+	// 5 reliquary 4-digit (visible to patron)
+	var/pname = _rt_random_divine_patron_name()
+	pool += list(list(
+		"kind"=5, "title"="Sealed Reliquary",
+		"desc"="Solve a 4-digit code (followers of [html_attr(pname)] can see it).",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/reliquary,
+		"params"=list("bonus_patron_name"=pname)
 	))
 
-	L += list(list(
-		"title" = "Feed the Outlander",
-		"desc"  = "Hand-feed a ration or soup to a hungry <b>Outlander</b>. Must be given directly from your hands and eaten by them.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
-		"reward" = QUEST_REWARD_FAVOR
+	// 6 feed outlander
+	pool += list(list(
+		"kind"=6, "title"="Feed the Outlander",
+		"desc"="Hand-feed a player with the OUTLANDER trait.",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/outlander_ration,
+		"params"=list()
 	))
 
-	L += list(list(
-		"title" = "Relic Tribute",
-		"desc"  = "Place one required item into the shrine cube (e.g., <i>holy token</i>, <i>wooden idol</i>, <i>metal ingot</i>, <i>stitched cloth</i>). Only listed offerings count this run.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
-		"reward" = QUEST_REWARD_FAVOR
+	// 7 donation whitelist
+	var/need_types = _rt_donation_need_types()
+	pool += list(list(
+		"kind"=7, "title"="Relic Tribute",
+		"desc"="Offer one accepted item into the cube.",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/donation_box,
+		"params"=list("need_types"=need_types)
 	))
 
-	L += list(list(
-		"title" = "Minor Sermon",
-		"desc"  = "Deliver a Minor Sermon to a single player. If they do not follow the Ten, the effect may invert into a mild debuff.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
-		"reward" = QUEST_REWARD_FAVOR
+	// 8 minor sermon for patron follower
+	var/pname2 = _rt_random_divine_patron_name()
+	pool += list(list(
+		"kind"=8, "title"="Minor Sermon",
+		"desc"="Deliver a Minor Sermon to a follower of [html_attr(pname2)].",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/sermon_minor,
+		"params"=list("required_patron_name"=pname2)
 	))
 
-	L += list(list(
-		"title" = "Anoint the Inspired",
-		"desc"  = "Find a player currently affected by a sermon-style blessing and perform an anointing near them to complete.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
-		"reward" = QUEST_REWARD_FAVOR
+	// 9 witness sermon buff
+	pool += list(list(
+		"kind"=9, "title"="Anoint the Inspired",
+		"desc"="Seal a player who currently has a sermon-style blessing.",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/sermon_witness,
+		"params"=list()
 	))
 
-	L += list(list(
-		"title" = "Bones & Chance",
-		"desc"  = "Play a short dice game against fate itself. Do it near another player to make it social.<br><span style='color:[col_hint];'>Time limit: 3 minutes after you start.</span>",
-		"reward" = QUEST_REWARD_FAVOR
+	// 10 help flaw
+	var/flaw_t = _rt_random_charflaw_type()
+	var/flaw_name = _rt_flaw_display_name(flaw_t)
+	pool += list(list(
+		"kind"=10, "title"="Mercy for the Afflicted",
+		"desc"="Soothe a player bearing flaw: [html_attr(flaw_name)].",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/flaw_aid,
+		"params"=list("required_flaw_type"=flaw_t)
 	))
 
-	return L
+	return pool
+
+// OH MY FUCKING GOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOD UI SPAGETTI for QUESTS
 
 /obj/effect/proc_holder/spell/self/learnmiracle/proc/open_quests_ui(mob/user)
 	var/mob/living/carbon/human/H = istype(user, /mob/living/carbon/human) ? user : null
 	if(!H) return
+
+	// Snowflake fucking logic because i dont want 3 quests touch lupian balls and touch lupian balls and touch lupian balls
 	if(!H.quest_cycle_start || world.time >= H.quest_cycle_start + QUEST_COOLDOWN_DS || !islist(H.quest_ui_entries) || !length(H.quest_ui_entries))
 		H.quest_cycle_start = world.time
-		H.quest_ui_entries = _pick_n(_gen_all_quest_defs(), 3)
+		var/list/full = _rt_build_full_quest_pool(H)
+		var/list/pool = full.Copy()
+		var/list/choice = list()
+		while(choice.len < 3 && pool.len)
+			var/entry = pick(pool); pool -= entry
+			var/dup = FALSE
+			for(var/E in choice) if(E["kind"] == entry["kind"]) { dup = TRUE; break }
+			if(!dup)
+				entry["spawned"] = FALSE
+				choice += list(entry)
+		H.quest_ui_entries = choice
+
 	var/left_ds = max(0, H.quest_cycle_start + QUEST_COOLDOWN_DS - world.time)
 	var/left_s  = round(left_ds / 10)
 	var/mins    = left_s / 60
 	var/secs    = left_s % 60
 	var/secs_str = "[secs]"; if(secs < 10) secs_str = "0[secs]"
+
 	var/html = "<center><h3 style='color:#3498db;margin:6px 0;'>Miracle Quests</h3>"
 	html += "<div style='color:#9b59b6'>Quests reroll every 30 minutes after your first open. Next automatic reroll in: <b>[mins]:[secs_str]</b></div>"
 	html += "<div style='margin-top:6px;'><a href='?src=[REF(src)];q_reroll=1' style='background:#8e44ad;color:#fff;padding:3px 8px;border-radius:6px;text-decoration:none;'><b>Reroll</b></a></div>"
 	html += "</center><hr>"
+
 	if(!H.quest_ui_entries || !length(H.quest_ui_entries))
 		html += "<i>No quests right now. Check back later.</i>"
 	else
 		var/idx = 1
 		for(var/entry in H.quest_ui_entries)
 			var/list/E = entry
-			var/title  = "[E["title"]]"
-			var/desc   = "[E["desc"]]"
-			var/reward = "[E["reward"]]"
+			var/title   = "[E["title"]]"
+			var/desc    = "[E["desc"]]"
+			var/reward  = "[E["reward"]]"
+			var/spawned = E["spawned"]
+
 			html += "<div style='padding:10px;'>"
 			html += "<center><b style='font-size:14px; color:#ecf0f1; background:#34495e; padding:2px 8px; border-radius:6px;'>[title]</b></center>"
 			html += "<div style='margin:8px 0; text-align:center;'>[desc]</div>"
 			html += "<div style='text-align:center; color:#2ecc71'>Reward: <b>[reward]</b> Favor</div>"
+
 			html += "<div style='margin-top:8px; text-align:center;'>"
-			html += "<a href='?src=[REF(src)];q_spawn=[idx]' style='display:inline-block; padding:4px 10px; border-radius:6px; background:#1abc9c; color:#ffffff; text-decoration:none;'>Get special item</a>"
+			if(spawned)
+				html += "<span style='display:inline-block; padding:4px 10px; border-radius:6px; background:#7f8c8d; color:#ecf0f1;'>Item spawned</span>"
+			else
+				html += "<a href='?src=[REF(src)];q_spawn=[idx]' style='display:inline-block; padding:4px 10px; border-radius:6px; background:#1abc9c; color:#ffffff; text-decoration:none;'>Get special item</a>"
 			html += "</div>"
+
 			html += "</div>"
 			if(idx < length(H.quest_ui_entries))
 				html += "<hr style='border-color:#2c3e50;'>"
 			idx++
-	var/datum/browser/B = new(user, "MIRACLE_QUESTS", "", 520, 600)
+
+	var/datum/browser/B = new(user, "MIRACLE_QUESTS", "", 520, 630)
 	B.set_content(html)
 	B.open()
 
@@ -671,15 +752,84 @@ var/global/divine_patrons_built = FALSE
 	. = ..()
 	if(!usr || !istype(usr, /mob/living/carbon/human)) return
 	var/mob/living/carbon/human/H = usr
+
 	if(href_list["q_reroll"])
 		H.quest_cycle_start = world.time
-		H.quest_ui_entries = _pick_n(_gen_all_quest_defs(), 3)
+		var/list/full = _rt_build_full_quest_pool(H)
+		H.quest_ui_entries = list()
+		while(H.quest_ui_entries.len < 3 && full.len)
+			var/entry = pick(full); full -= entry
+			entry["spawned"] = FALSE
+			var/dup = FALSE
+			for(var/E in H.quest_ui_entries)
+				if(E["kind"] == entry["kind"]) { dup = TRUE; break }
+			if(!dup) H.quest_ui_entries += list(entry)
 		open_quests_ui(H)
 		return
+
 	if(href_list["q_spawn"])
-		to_chat(H, span_notice("A special quest item would be granted here (placeholder)."))
+		var/idx = text2num(href_list["q_spawn"])
+		if(!isnum(idx) || idx < 1 || idx > (H.quest_ui_entries?.len || 0))
+			open_quests_ui(H)
+			return
+
+		var/list/E = H.quest_ui_entries[idx]
+		if(!islist(E))
+			open_quests_ui(H)
+			return
+		if(E["spawned"])
+			to_chat(H, span_warning("The quest item has already been granted."))
+			open_quests_ui(H)
+			return
+
+		var/typepath = E["token_path"]
+		if(!typepath)
+			to_chat(H, span_warning("Token type not found."))
+			open_quests_ui(H)
+			return
+
+		var/obj/item/quest_token/QI = new typepath(H)
+		if(!QI)
+			to_chat(H, span_warning("Failed to spawn the quest item."))
+			open_quests_ui(H)
+			return
+
+		var/success = FALSE
+		if(ismob(H) && hascall(H, "put_in_hands"))
+			success = call(H, "put_in_hands")(QI)
+
+		if(!success)
+			var/turf/T = get_turf(H)
+			if(T) QI.forceMove(T)
+
+		var/list/P = E["params"]
+		if(islist(P) && P.len)
+			if(istype(QI, /obj/item/quest_token/skill_bless))
+				var/obj/item/quest_token/skill_bless/SK = QI
+				SK.required_skill_type = P["required_skill_type"]
+			else if(istype(QI, /obj/item/quest_token/blood_draw))
+				var/obj/item/quest_token/blood_draw/BD = QI
+				BD.required_race_key = "[P["required_race_key"]]"
+			else if(istype(QI, /obj/item/quest_token/sermon_minor))
+				var/obj/item/quest_token/sermon_minor/SM = QI
+				SM.required_patron_name = "[P["required_patron_name"]]"
+			else if(istype(QI, /obj/item/quest_token/donation_box))
+				var/obj/item/quest_token/donation_box/DB = QI
+				DB.need_types = P["need_types"]
+			else if(istype(QI, /obj/item/quest_token/flaw_aid))
+				var/obj/item/quest_token/flaw_aid/FA = QI
+				FA.required_flaw_type = P["required_flaw_type"]
+			else if(istype(QI, /obj/item/quest_token/reliquary))
+				var/obj/item/quest_token/reliquary/RL = QI
+				RL.bonus_patron_name = "[P["bonus_patron_name"]]"
+
+		E["spawned"] = TRUE
+		H.quest_ui_entries[idx] = E
+
+		to_chat(H, span_notice("A special quest item has been granted: [QI.name]."))
 		open_quests_ui(H)
 		return
+
 	if(href_list["arttab"])
 		var/tbA = href_list["arttab"]
 		if(tbA == "none")
@@ -690,20 +840,19 @@ var/global/divine_patrons_built = FALSE
 				src.current_art_tab = "[tbA]"
 			else
 				src.current_art_tab = "none"
-		open_research_ui(H); return
+		open_research_ui(H)
+		return
+
 	if(href_list["mirtab"])
 		var/tb = lowertext(href_list["mirtab"])
-		if(tb == "unity" && H.unlocked_research_unity)
-			src.current_miracle_tab = "unity"
-		else if(tb == "ten" && H.unlocked_research_ten)
-			src.current_miracle_tab = "ten"
-		else if(tb == "shunned" && H.unlocked_research_shunned)
-			src.current_miracle_tab = "shunned"
-		else if(tb == "none")
-			src.current_miracle_tab = "none"
-		else
-			src.current_miracle_tab = "none"
-		open_research_ui(H); return
+		if     (tb == "unity"   && H.unlocked_research_unity)   src.current_miracle_tab = "unity"
+		else if(tb == "ten"     && H.unlocked_research_ten)     src.current_miracle_tab = "ten"
+		else if(tb == "shunned" && H.unlocked_research_shunned) src.current_miracle_tab = "shunned"
+		else if(tb == "none")                                    src.current_miracle_tab = "none"
+		else                                                      src.current_miracle_tab = "none"
+		open_research_ui(H)
+		return
+
 	if(href_list["orgtab"])
 		var/tb2 = lowertext(href_list["orgtab"])
 		if(tb2 == "t1" || tb2 == "t2" || tb2 == "t3")
@@ -712,7 +861,9 @@ var/global/divine_patrons_built = FALSE
 			src.current_org_tab = "none"
 		else
 			src.current_org_tab = "none"
-		open_research_ui(H); return
+		open_research_ui(H)
+		return
+
 	if(href_list["buyart"])
 		if(!HAS_TRAIT(H, TRAIT_CLERGY)) { open_research_ui(H); return }
 		var/god = href_list["buyart"]
@@ -725,87 +876,85 @@ var/global/divine_patrons_built = FALSE
 		new /obj/item/church_artefact(T1, god)
 		H.church_favor = max(0, H.church_favor - ARTEFACT_PRICE_FAVOR)
 		to_chat(H, span_notice("You acquired a Sacred Artefact of [god]."))
-		open_research_ui(H); return
+		open_research_ui(H)
+		return
+
 	if(href_list["buyorg"])
 		if(!HAS_TRAIT(H, TRAIT_CLERGY)) { open_research_ui(H); return }
 		var/tier = lowertext(href_list["buyorg"])
 		var/label = lowertext(href_list["item"])
 		if(!(label in list("eyes","stomach","liver","heart","lungs"))) { open_research_ui(H); return }
+
 		var/unlocked = FALSE
 		var/price = 0
-		if(tier == "t1")
-			unlocked = H.unlocked_research_org_t1
-			price = ORG_PRICE_T1
-		else if(tier == "t2")
-			unlocked = H.unlocked_research_org_t2
-			price = ORG_PRICE_T2
-		else if(tier == "t3")
-			unlocked = H.unlocked_research_org_t3
-			price = ORG_PRICE_T3
-		else
-			open_research_ui(H); return
+		if     (tier == "t1") { unlocked = H.unlocked_research_org_t1; price = ORG_PRICE_T1 }
+		else if(tier == "t2") { unlocked = H.unlocked_research_org_t2; price = ORG_PRICE_T2 }
+		else if(tier == "t3") { unlocked = H.unlocked_research_org_t3; price = ORG_PRICE_T3 }
+		else { open_research_ui(H); return }
+
 		if(!unlocked) { open_research_ui(H); return }
 		if(H.church_favor < price) { open_research_ui(H); return }
+
 		var/path_text = "/obj/item/organ/[label]/[tier]"
-		var/typepath = text2path(path_text)
-		if(!typepath)
+		var/typepath2 = text2path(path_text)
+		if(!typepath2)
 			to_chat(H, span_warning("Organ type not found: [path_text]"))
-			open_research_ui(H); return
-		var/turf/T = get_step(H, H.dir); if(!T) T = get_turf(H)
-		new typepath(T)
+			open_research_ui(H)
+			return
+
+		var/turf/T2 = get_step(H, H.dir); if(!T2) T2 = get_turf(H)
+		new typepath2(T2)
 		H.church_favor = max(0, H.church_favor - price)
 		to_chat(H, span_notice("[capitalize(label)] [uppertext(tier)] spawned for [price] Favor."))
-		open_research_ui(H); return
+		open_research_ui(H)
+		return
+
 	if(href_list["buyrp"])
 		if(!HAS_TRAIT(H, TRAIT_CLERGY)) { open_research_ui(H); return }
 		if(H.church_favor < RESEARCH_RP_PRICE_FLAVOR) { open_research_ui(H); return }
 		H.church_favor = max(0, H.church_favor - RESEARCH_RP_PRICE_FLAVOR)
 		H.personal_research_points++
 		to_chat(H, span_notice("You gained +1 Research Point."))
-		open_research_ui(H); return
+		open_research_ui(H)
+		return
+
 	if(href_list["buymp"])
 		if(!HAS_TRAIT(H, TRAIT_CLERGY)) { open_research_ui(H); return }
 		if(H.church_favor < MIRACLE_MP_PRICE_FLAVOR) { open_research_ui(H); return }
 		H.church_favor = max(0, H.church_favor - MIRACLE_MP_PRICE_FLAVOR)
 		H.miracle_points++
 		to_chat(H, span_notice("You gained +1 Miracle Point."))
-		open_research_ui(H); return
+		open_research_ui(H)
+		return
+
 	if(href_list["unlock"])
 		var/key = lowertext(href_list["unlock"])
 		var/need = 0
-		if(key == "artefacts") need = COST_ARTEFACTS
-		else if(key == "org_t1") need = COST_ORG_T1
-		else if(key == "org_t2") need = COST_ORG_T2
-		else if(key == "org_t3") need = COST_ORG_T3
-		else if(key == "unity")  need = COST_UNITY
-		else if(key == "ten")    need = COST_TEN
-		else if(key == "shunned") need = COST_SHUNNED
+		if     (key == "artefacts") need = COST_ARTEFACTS
+		else if(key == "org_t1")    need = COST_ORG_T1
+		else if(key == "org_t2")    need = COST_ORG_T2
+		else if(key == "org_t3")    need = COST_ORG_T3
+		else if(key == "unity")     need = COST_UNITY
+		else if(key == "ten")       need = COST_TEN
+		else if(key == "shunned")   need = COST_SHUNNED
 		else { open_research_ui(H); return }
+
 		if(H.personal_research_points < need) { open_research_ui(H); return }
+
 		H.personal_research_points = max(0, H.personal_research_points - need)
-		if(key == "artefacts")
-			H.unlocked_research_artefacts = TRUE
-			if(src.current_art_tab == "none") src.current_art_tab = "none"
-		else if(key == "org_t1")
-			H.unlocked_research_org_t1 = TRUE
-			if(src.current_org_tab == "none") src.current_org_tab = "t1"
-		else if(key == "org_t2")
-			H.unlocked_research_org_t2 = TRUE
-			if(src.current_org_tab == "none") src.current_org_tab = "t2"
-		else if(key == "org_t3")
-			H.unlocked_research_org_t3 = TRUE
-			if(src.current_org_tab == "none") src.current_org_tab = "t3"
-		else if(key == "unity")
-			H.unlocked_research_unity = TRUE
-			if(src.current_miracle_tab == "none") src.current_miracle_tab = "unity"
-		else if(key == "ten")
-			H.unlocked_research_ten = TRUE
-			if(src.current_miracle_tab == "none") src.current_miracle_tab = "ten"
-		else if(key == "shunned")
-			H.unlocked_research_shunned = TRUE
-			if(src.current_miracle_tab == "none") src.current_miracle_tab = "shunned"
+		if     (key == "artefacts") H.unlocked_research_artefacts = TRUE
+		else if(key == "org_t1")    H.unlocked_research_org_t1   = TRUE
+		else if(key == "org_t2")    H.unlocked_research_org_t2   = TRUE
+		else if(key == "org_t3")    H.unlocked_research_org_t3   = TRUE
+		else if(key == "unity")     H.unlocked_research_unity    = TRUE
+		else if(key == "ten")       H.unlocked_research_ten      = TRUE
+		else if(key == "shunned")   H.unlocked_research_shunned  = TRUE
+
 		to_chat(H, span_notice("Study unlocked: [key]."))
-		open_research_ui(H); return
+		open_research_ui(H)
+		return
+
+// FLUFF DONT TOUCH ADD SHIT ABOVE
 
 /obj/effect/proc_holder/spell/self/learnmiracle/cast(list/targets, mob/user)
 	if(!..()) return
@@ -816,10 +965,7 @@ var/global/divine_patrons_built = FALSE
 	rad["Quests"]   = icon(icon = MIRACLE_RADIAL_DMI, icon_state = "questmiracle")
 	rad["Research"] = icon(icon = MIRACLE_RADIAL_DMI, icon_state = "researchmiracle")
 	var/choice = show_radial_menu(user, user, rad, require_near = FALSE)
-	if(choice == "Learn")
-		do_learn_miracle(user)
-	else if(choice == "Research")
-		open_research_ui(user)
-	else if(choice == "Quests")
-		open_quests_ui(user)
+	if(choice == "Learn") do_learn_miracle(user)
+	else if(choice == "Research") open_research_ui(user)
+	else if(choice == "Quests") open_quests_ui(user)
 	return
