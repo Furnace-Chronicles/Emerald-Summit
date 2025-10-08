@@ -127,8 +127,16 @@
 				conditional_buff = TRUE
 				situational_bonus = rand(1, 6)
 				switch(situational_bonus)
-					if(1)
+					if(1 to 2)
 						if(user.goodluck(5))
+							user.play_overhead_indicator('icons/mob/overhead_effects.dmi', "roll2", 3 SECONDS, MUTATIONS_LAYER, soundin = 'sound/magic/mockery.ogg', y_offset = 32)
+							user.psydo_nyte()
+							var/turf/target_tile = get_ranged_target_turf(user, pick(GLOB.alldirs), 12)
+							user.throw_at(target = target_tile, range = 12, speed = 2, thrower = user, spin = TRUE, force = 30)
+							user.Knockdown(1 SECONDS)
+							GLOB.scarlet_round_stats[STATS_PEOPLE_SMITTEN]++
+							to_chat(user, span_danger("Xylix is ​​laughing at you!"))
+						else
 							user.play_overhead_indicator('icons/mob/overhead_effects.dmi', "roll1", 3 SECONDS, MUTATIONS_LAYER, soundin = 'sound/misc/psydong.ogg', y_offset = 32)
 							user.psydo_nyte()
 							var/turf/T = get_step(get_step(user, NORTH), NORTH)
@@ -138,19 +146,7 @@
 								var/mob/living/carbon/human/H = user
 								H.electrocution_animation(40)
 							GLOB.scarlet_round_stats[STATS_PEOPLE_SMITTEN]++
-							to_chat(user, span_danger("Xylix didn't like this at all!"))
-						else
-							user.play_overhead_indicator('icons/mob/overhead_effects.dmi', "roll1", 3 SECONDS, MUTATIONS_LAYER, soundin = 'sound/misc/psydong.ogg', y_offset = 32)
-							user.psydo_nyte()
 							to_chat(user, span_danger("Roll the dice better, chuclkenuts!"))
-					if(2)
-						user.play_overhead_indicator('icons/mob/overhead_effects.dmi', "roll2", 3 SECONDS, MUTATIONS_LAYER, soundin = 'sound/magic/mockery.ogg', y_offset = 32)
-						user.psydo_nyte()
-						var/turf/target_tile = get_ranged_target_turf(user, pick(GLOB.alldirs), 12)
-						user.throw_at(target = target_tile, range = 12, speed = 2, thrower = user, spin = TRUE, force = 30)
-						user.Knockdown(1 SECONDS)
-						GLOB.scarlet_round_stats[STATS_PEOPLE_SMITTEN]++
-						to_chat(user, span_danger("Xylix is ​​laughing at you!"))
 					if(3)
 						user.play_overhead_indicator('icons/mob/overhead_effects.dmi', "roll3", 3 SECONDS, MUTATIONS_LAYER, soundin = 'sound/magic/xylix_1.ogg', y_offset = 32)
 					if(4)
