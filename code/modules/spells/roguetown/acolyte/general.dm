@@ -25,7 +25,6 @@
 	miracle = TRUE
 	devotion_cost = 25
 
-
 /obj/projectile/energy/divineblast
 	name = "Divine Blast"
 	icon_state = "divine_blast"
