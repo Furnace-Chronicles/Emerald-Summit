@@ -127,8 +127,8 @@
 				conditional_buff = TRUE
 				situational_bonus = rand(1, 6)
 				switch(situational_bonus)
-					if(1 to 2)
-						if(user.goodluck(5))
+					if(1)
+						if(prob(75+(user.STALUC)))
 							user.play_overhead_indicator('icons/mob/overhead_effects.dmi', "roll2", 3 SECONDS, MUTATIONS_LAYER, soundin = 'sound/magic/mockery.ogg', y_offset = 32)
 							user.psydo_nyte()
 							var/turf/target_tile = get_ranged_target_turf(user, pick(GLOB.alldirs), 12)
@@ -147,6 +147,8 @@
 								H.electrocution_animation(40)
 							GLOB.scarlet_round_stats[STATS_PEOPLE_SMITTEN]++
 							to_chat(user, span_danger("Roll the dice better, chuclkenuts!"))
+					if(2)
+						user.play_overhead_indicator('icons/mob/overhead_effects.dmi', "roll3", 3 SECONDS, MUTATIONS_LAYER, soundin = 'sound/magic/xylix_1.ogg', y_offset = 32)
 					if(3)
 						user.play_overhead_indicator('icons/mob/overhead_effects.dmi', "roll3", 3 SECONDS, MUTATIONS_LAYER, soundin = 'sound/magic/xylix_1.ogg', y_offset = 32)
 					if(4)
