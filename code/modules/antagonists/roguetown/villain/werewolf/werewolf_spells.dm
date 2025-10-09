@@ -103,24 +103,14 @@
 		to_chat(H, span_userdanger("This place is underground, but the surface overhead provides no shelter, sunlight can penetrate here easily."))
 		return
 
-	to_chat(H, span_userdanger("This turf cannot see the sky [current_turf], [current_turf.x], [current_turf.y] "))
 
-
-	var/list/turfs = get_room_turfs(usr, TRUE, 5)
+	var/list/turfs = get_room_turfs(usr, TRUE, 7)
 
 	var/exposed_turfs = 0
-	to_chat(H, span_userdanger("Number of turfs [turfs.len]"))
-	to_chat(H, span_userdanger("Seesky flags [turfs.len]"))
-	to_chat(H, span_userdanger("Yes: [SEE_SKY_YES]"))
-	to_chat(H, span_userdanger("No: [SEE_SKY_NO]"))
 
 
-	for (var/turf/T in turfs)
-		if (T.can_see_sky())
-			to_chat(H, span_userdanger("This turf can see the sky [T], [T.x], [T.y] (Sky:[T.can_see_sky])"))
-			exposed_turfs++
 
-	to_chat(H, span_userdanger("Number of exposed turfs [exposed_turfs.len]"))
+
 
 	if (exposed_turfs == 0)
 		to_chat(H, span_nicegreen("This place is dark and sunproof, perfect shelter for our new home!"))
