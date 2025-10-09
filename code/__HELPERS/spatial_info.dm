@@ -411,6 +411,23 @@
 	for(var/near_turf in adjacent_turfs)
 		. |= get_area(near_turf)
 
+//A "clear" tile is, broadly speaking, one that a human mob can walk into without any special measures.
+//This generally means a floor, with no dense/blocking objects on it
+/proc/get_adjacent_clear_turfs(atom/center)
+	var/list/hand_back = list()
+	
+	for (var/direction in GLOB.cardinals)
+		var/turf/new_turf = get_step(center, direction)
+		if(!istype(new_turf))	continue
+		if (new_turf.density)	continue
+		
+		//Future TODO: Check for blocking objects? Or maybe density var already caches this
+		
+		hand_back += new_turf
+	
+	return hand_back
+
+
 /**
  * Returns a list with the names of the areas around a center at a certain distance
  * Returns the local area if no distance is indicated

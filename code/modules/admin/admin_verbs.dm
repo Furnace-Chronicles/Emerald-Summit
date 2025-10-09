@@ -149,7 +149,9 @@ GLOBAL_LIST_INIT(admin_verbs_fun, list(
 	/client/proc/run_particle_weather,
 	/client/proc/run_custom_particle_weather,
 	/client/proc/show_tip,
-	/client/proc/smite
+	/client/proc/smite,
+	/client/proc/set_tod_override,
+	/client/proc/advance_tod,
 	))
 GLOBAL_PROTECT(admin_verbs_fun)
 GLOBAL_LIST_INIT(admin_verbs_spawn, list(/datum/admins/proc/spawn_atom, /datum/admins/proc/podspawn_atom, /client/proc/respawn_character, /datum/admins/proc/beaker_panel))
@@ -208,7 +210,6 @@ GLOBAL_PROTECT(admin_verbs_debug)
 	/client/proc/reload_configuration,
 	/datum/admins/proc/create_or_modify_area,
 	/client/proc/returntolobby,
-	/client/proc/set_tod_override,
 	/client/proc/stresstest_chat
 	)
 GLOBAL_LIST_INIT(admin_verbs_possess, list(/proc/possess, GLOBAL_PROC_REF(release)))
@@ -474,17 +475,73 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Check Antagonists") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/set_tod_override()
-	set category = "Debug"
-	set name = "SetTODOverride"
-	var/list/TODs = list("dawn","day","dusk","night")
-	var/choice = input(src,"","Set time of day override") as null|anything in TODs
-	if(choice)
+	set category = "-GameMaster-"
+	set name = "Time of Day - Override"
+	var/list/TODs = list("dawn","day","dusk","night","disable override")
+	var/choice = input(src,"Choose a time to override and lock to. The time of day will stay at this time indefinitely, until you disable the override. ","Set time of day override") as null|anything in TODs
+
+	if(choice != "disable override")
 		GLOB.todoverride = choice
-		world << "[ckey] has set the time of day override to [choice]."
+		message_admins("[key_name_admin(usr)] has set the time of day override to [choice]")
 	else
 		GLOB.todoverride = null
-		world << "[ckey] has disabled the time of day override."
+		message_admins("[key_name_admin(usr)] has disabled the time of day override.")
+
+
 	settod()
+
+
+//This proc works by adding to SSticker.gametime_offset, which is added to world time as part of determining what the time in the game is
+/client/proc/advance_tod()
+	set category = "-GameMaster-"
+	set name = "Time of Day - Advance"
+
+	var/list/TODs = list("dawn","day","dusk","night")
+	TODs -= GLOB.tod //Cant advance to the time we are already at
+	var/choice = input(src,"Choose a time of day to set. Time will jump forward until the start of the specified phase, and continue on as normal from that point. Note that any day phases in between now and the target will not be triggered. If there is an existing override on the time of day, that will be removed. ","Advance time of day override") as null|anything in TODs
+
+	if (choice)
+		//First of all get rid of override
+		GLOB.todoverride = null
+
+		var/target_time = null
+		switch(choice)
+			if ("dawn")
+				target_time = SSnightshift.nightshift_dawn_start
+			if ("day")
+				target_time = SSnightshift.nightshift_day_start
+			if ("dusk")
+				target_time = SSnightshift.nightshift_dusk_start
+			if ("night")
+				target_time = SSnightshift.nightshift_start_time
+
+		if (target_time == null)
+			//Safety check
+			return
+
+		target_time += 1 //Time of day proc checks GREATER than the target, so lets add a millisecond
+
+		//Okay now we know when we want to get to, where are we currently?
+		var/current_time = station_time()
+
+		//And what will we be adding?
+		var/time_to_add = 0
+
+		//If we're already past the target for today, then we need to go for tomorrow instead
+		if (current_time > target_time)
+			target_time += 1 DAYS
+
+		//This is now certain to be below one day
+		time_to_add = target_time - current_time
+
+		SSticker.gametime_offset += time_to_add
+
+		//Small potential issue, if people keep doing this, could the time eventually overflow past max integer?
+		//it'd need to be done about 3000 times in one session, probably never happen
+
+		message_admins("[key_name_admin(usr)] has advanced time to the next [choice]")
+
+		settod()
 
 /client/proc/stresstest_chat()
 	set name = "Stress Chat"
@@ -885,4 +942,4 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 			scom_announce("An unknown force has erased the bounty on [target_name]. The gods are displeased.")
 			message_admins("[ADMIN_LOOKUPFLW(src)] has removed the bounty on [ADMIN_LOOKUPFLW(target_name)]")
 			return
-	to_chat(src, "Error. Bounty no longer active.") 
+	to_chat(src, "Error. Bounty no longer active.")

@@ -25,8 +25,10 @@
 				H.Knockdown(30)
 
 			else if (world.time >= transforming + 10 SECONDS) // Stage 1
-				H.emote("")
-				to_chat(H, span_warning("I can feel my muscles aching, it feels HORRIBLE..."))
+
+				if (prob(15))
+					H.flash_fullscreen("redflash3")
+					to_chat(H, span_warning("I can feel my muscles aching, it feels HORRIBLE..."))
 
 		// Begin transformation if we are able
 		else if (should_transform(H))
@@ -44,6 +46,8 @@
 				H.werewolf_untransform()
 				transformed = FALSE
 				untransforming = FALSE // Reset untransforming phase
+			else if (prob(20))
+				H.flash_fullscreen("redflash3") //A little reminder
 
 		// Werewolf reverts to human form during the day
 		else if(should_untransform(user))
@@ -204,6 +208,7 @@
 
 	W.AddSpell(new /obj/effect/proc_holder/spell/self/howl/call_of_the_moon)
 	W.AddSpell(new /obj/effect/proc_holder/spell/self/claws)
+	W.AddSpell(new /obj/effect/proc_holder/spell/self/den_sense)
 
 	ADD_TRAIT(src, TRAIT_NOSLEEP, TRAIT_GENERIC)
 	ADD_TRAIT(W, TRAIT_GRABIMMUNE, TRAIT_GENERIC)

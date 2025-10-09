@@ -17,9 +17,11 @@
 	var/wolfname = "Verevolf"
 	var/attributes_applied = FALSE
 
+	//Edit these to make stronger or weaker wolf versions
 	var/night_attribute_magnitude	=	20
 	var/day_attribute_magnitude	=	10
 
+	//This is a temporary variable do not edit it
 	var/attribute_magnitude = 20
 
 /datum/antagonist/werewolf/lesser
@@ -81,6 +83,20 @@
 /datum/antagonist/werewolf/do_time_change()
 	.=..()
 	update_attributes()
+
+
+	//Armour is restored at the start of a new night, if you stayed in wolf form all day
+	if (GLOB.tod == "night")
+		var/mob/living/carbon/human/species/werewolf/W = owner.current
+		if (!istype(W))	return
+
+		var/obj/item/clothing/suit/roguetown/armor/skin_armor/werewolf_skin/skin = W.skin_armor
+		if (skin.obj_integrity < skin.max_integrity)
+			skin.repair_coverage()
+			skin.obj_fix()
+			playsound(W.loc, 'sound/foley/sewflesh.ogg', 50, TRUE, -2)
+			to_chat(owner.current, span_userdanger("You feel your flesh knit, as your damaged skin is made whole again."))
+
 
 /datum/antagonist/werewolf/apply_innate_effects(mob/living/mob_override)
 	.=..(mob_override)
