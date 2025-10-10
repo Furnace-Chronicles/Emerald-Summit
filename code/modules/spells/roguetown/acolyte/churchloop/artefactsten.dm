@@ -1,8 +1,8 @@
-define MALUM_ALLOWED_INGOTS list( \
-    /obj/item/ingot/steel, \
-    /obj/item/ingot/iron, \
-    /obj/item/ingot/aalloy, \
-    /obj/item/ingot/purifiedaalloy \
+#define MALUM_ALLOWED_INGOTS list( \
+	/obj/item/ingot/steel, \
+	/obj/item/ingot/iron, \
+	/obj/item/ingot/aalloy, \
+	/obj/item/ingot/purifiedaalloy \
 )
 
 var/global/list/EORA_PARTNERS_BY_ID = list()
@@ -20,8 +20,8 @@ Malum's tool
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/forge,  /datum/intent/smelt)
 	name = "Malum's tool"
 	desc = "A blessed hammer that forges fate as it pleases."
-	icon_state = "hammer"
-	icon = 'icons/roguetown/weapons/tools.dmi'
+	icon = 'icons/roguetown/items/artefactsten.dmi'
+	icon_state = "malumartefact"
 	sharpness = IS_BLUNT
 	//dropshrink = 0.8
 	wlength = 10
@@ -286,8 +286,8 @@ Necra's Censer (by ARefrigerator)
 /obj/item/necra_censer
 	name = "Necra's censer"
 	desc = "A small bronze censer that expels an otherworldly mist."
-	icon = 'icons/roguetown/items/misc.dmi'
-	icon_state ="necra_censer"
+	icon = 'icons/roguetown/items/artefactsten.dmi'
+	icon_state = "necrartefact"
 	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
 	item_state = "necra_censer"
@@ -317,11 +317,8 @@ Necra's Censer (by ARefrigerator)
 /obj/item/artefact/dendor_hose //bless your tree with its piss
 	name = "Dendor's Endless Hose"
 	desc = "A living crook of wood that bends soil to the Treefather’s will. Click soil to add ±100 water/nutriment, bless, or affect growth." //Dendor's piss
-	icon = 'icons/roguetown/items/misc.dmi'
-	icon_state = "necra_censer"
-	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
-	item_state = "staff"
+	icon = 'icons/roguetown/items/artefactsten.dmi'
+	icon_state = "dendorartefact"
 	w_class = WEIGHT_CLASS_NORMAL
 	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_HIP
 	grid_width = 32
@@ -471,9 +468,8 @@ Necra's Censer (by ARefrigerator)
 /obj/item/artefact/noc_phylactery
 	name = "Noc's Phylactery"
 	desc = "A lunar phylactery of Noc: a crystal vessel that binds a drop of blood to a path under the moon's gaze. In elder nights, mages used such vessels to hunt apostates who abused or stole arcane knowledge."
-	icon = 'icons/roguetown/items/misc.dmi'
-	icon_state = "phylactery"
-	item_state = "phylactery"
+	icon = 'icons/roguetown/items/artefactsten.dmi'
+	icon_state = "nocartefact"
 	w_class = WEIGHT_CLASS_TINY
 	var/bound = FALSE
 	var/target_ref = null
@@ -618,9 +614,8 @@ Necra's Censer (by ARefrigerator)
 /obj/item/artefact/eora_heart
 	name = "Eora's Heart"
 	desc = "A velvet heart dedicated to Eora. It remembers the names of bonds formed this week."
-	icon = 'icons/roguetown/items/misc.dmi'
-	icon_state = "eora_heart"
-	item_state = "eora_heart"
+	icon = 'icons/roguetown/items/artefactsten.dmi'
+	icon_state = "eoraartefact"
 	w_class = WEIGHT_CLASS_TINY
 
 /obj/item/artefact/eora_heart/examine(mob/user)
@@ -761,7 +756,7 @@ Necra's Censer (by ARefrigerator)
 	return sortList(names)
 
 /*===========================================
-  PESTRA PERSTRA 
+  PESTRA PERSTRA
 ===========================================*/
 
 // STAPLES
@@ -802,15 +797,13 @@ Necra's Censer (by ARefrigerator)
 	tool_behaviour = TOOL_RETRACTOR
 
 
-// multitool 
+// multitool
 
 /obj/item/rogueweapon/surgery/multitool
 	name = "surgical multitool"
 	desc = "A compact, blessed device that unfolds into whatever the surgeon needs."
-	icon = 'icons/roguetown/items/surgery.dmi'
-	icon_state = "multitool_scalpel"
-	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
+	icon = 'icons/roguetown/items/artefactsten.dmi'
+	icon_state = "scapelpestra"
 	gripsprite = FALSE
 	wlength = WLENGTH_SHORT
 	w_class = WEIGHT_CLASS_SMALL
@@ -837,7 +830,7 @@ Necra's Censer (by ARefrigerator)
 			"damtype" = BRUTE,
 			"force" = 12,
 			"intents" = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust),
-			"icon_state" = "multitool_scalpel"
+			"icon_state" = "scalpelpestra"
 		),
 		"saw" = list(
 			"tool_behaviour" = TOOL_SAW,
@@ -845,7 +838,7 @@ Necra's Censer (by ARefrigerator)
 			"damtype" = BRUTE,
 			"force" = 16,
 			"intents" = list(/datum/intent/dagger/cut, /datum/intent/dagger/chop/cleaver),
-			"icon_state" = "multitool_saw"
+			"icon_state" = "sawpestra"
 		),
 		"hemostat" = list(
 
@@ -854,7 +847,7 @@ Necra's Censer (by ARefrigerator)
 			"damtype" = BRUTE,
 			"force" = 6,
 			"intents" = list(/datum/intent/use),
-			"icon_state" = "multitool_hemo"
+			"icon_state" = "hemostatpestra"
 		),
 		"retractor" = list(
 			"tool_behaviour" = TOOL_RETRACTOR,
@@ -862,7 +855,7 @@ Necra's Censer (by ARefrigerator)
 			"damtype" = BRUTE,
 			"force" = 6,
 			"intents" = list(/datum/intent/use),
-			"icon_state" = "multitool_retr"
+			"icon_state" = "retractorprestra"
 		),
 		"bonesetter" = list(
 			"tool_behaviour" = TOOL_BONESETTER,
@@ -870,7 +863,7 @@ Necra's Censer (by ARefrigerator)
 			"damtype" = BRUTE,
 			"force" = 8,
 			"intents" = list(/datum/intent/use),
-			"icon_state" = "multitool_bone"
+			"icon_state" = "bonesetterpestra"
 		),
 		"cautery" = list(
 			"tool_behaviour" = TOOL_CAUTERY,
@@ -878,7 +871,7 @@ Necra's Censer (by ARefrigerator)
 			"damtype" = BURN,
 			"force" = 8,
 			"intents" = list(/datum/intent/use, /datum/intent/mace/strike, /datum/intent/mace/smash),
-			"icon_state" = "multitool_caut_hot"
+			"icon_state" = "cauterypestra"
 		)
 	)
 
@@ -914,7 +907,7 @@ Necra's Censer (by ARefrigerator)
 	damtype = P["damtype"]
 	possible_item_intents = P["intents"]
 	icon_state = P["icon_state"]
-	tool_behaviour = P["tool_behaviour"] 
+	tool_behaviour = P["tool_behaviour"]
 
 	update_icon()
 	if(!silent)
@@ -927,7 +920,7 @@ Necra's Censer (by ARefrigerator)
 	_apply_mode(_modes_order[i])
 	if(user) to_chat(user, span_notice("Multitool mode: [uppertext(current_mode)]."))
 
-// CAUTERY: 
+// CAUTERY:
 
 /obj/item/rogueweapon/surgery/multitool/get_temperature()
 	if(current_mode == "cautery")
@@ -986,7 +979,7 @@ Necra's Censer (by ARefrigerator)
 	return FALSE
 
 /*=========================================================
-  RAVOX TRACE LENS 
+  RAVOX TRACE LENS
 =========================================================*/
 
 #define SAY_INFO(msg)  to_chat(user, span_info(msg))
@@ -994,12 +987,9 @@ Necra's Censer (by ARefrigerator)
 
 /obj/item/artifact/ravox_lens
 	name = "Ravox trace lens"
-	desc = "A fearless god’s lens that reveals only the race of whoever left traces here."
-	icon = 'icons/obj/device.dmi'
-	icon_state = "forensicnew"
-	item_state = "electronic"
-	lefthand_file = 'icons/mob/inhands/misc/devices_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/misc/devices_righthand.dmi'
+	desc = "A fearless god's lens that reveals only the race of whoever left traces here."
+	icon = 'icons/roguetown/items/artefactsten.dmi'
+	icon_state = "ravoxartefact"
 	w_class = WEIGHT_CLASS_SMALL
 	flags_1 = CONDUCT_1
 	item_flags = NOBLUDGEON
@@ -1109,3 +1099,272 @@ Necra's Censer (by ARefrigerator)
 	if(!name) name = H.dna?.species?.id
 	if(!name) name = "Humanoid"
 	return "[name]"
+
+
+/************************
+/obj/item/artifact/fishingrod/abyssoid
+ * Дроп только рыбы + не нужен bait.
+ **************************************************/
+
+/obj/item/artifact/fishingrod/abyssoid
+	name = "Abyssor's rod"
+	desc = "A rod blessed by Abyssor. It needs no bait, and the deep always answers-even away from water."
+	icon = 'icons/roguetown/items/artefactsten.dmi'
+	icon_state = "abyssorartefact"
+
+	var/static/list/_abyssor_loot = list(
+		/obj/item/reagent_containers/food/snacks/fish/cod       = 230,
+		/obj/item/reagent_containers/food/snacks/fish/plaice    = 180,
+		/obj/item/reagent_containers/food/snacks/fish/sole      = 250,
+		/obj/item/reagent_containers/food/snacks/fish/angler    = 170,
+		/obj/item/reagent_containers/food/snacks/fish/lobster   = 180,
+		/obj/item/reagent_containers/food/snacks/fish/bass      = 230,
+		/obj/item/reagent_containers/food/snacks/fish/clam      = 50,
+		/obj/item/reagent_containers/food/snacks/fish/clownfish = 40,
+	)
+
+/obj/item/fishingrod/abyssoid/attackby(obj/item/I, mob/user, params)
+	to_chat(user, span_notice("This rod needs no bait."))
+	return
+
+/obj/item/fishingrod/abyssoid/afterattack(obj/target, mob/user, proximity)
+	if(user?.used_intent?.type == SPEAR_BASH)
+		return ..()
+
+	if(!check_allowed_items(target, target_self = 1))
+		return ..()
+
+	if(!proximity || !(target in range(user, 5)))
+		return
+
+	if(user.used_intent.type != ROD_CAST)
+		return
+
+	if(user.doing)
+		to_chat(user, "<span class='warning'>I must stand still to fish.</span>")
+		return
+
+	var/sl = user.get_skill_level(/datum/skill/labor/fishing)
+	var/ft = 120
+	ft -= (sl * 20)
+	ft = max(20, ft)
+
+	user.visible_message("<span class='warning'>[user] casts a line!</span>",
+	                     "<span class='notice'>I cast a line.</span>")
+	playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
+
+	if(!do_after(user, ft, target = target))
+		to_chat(user, "<span class='warning'>I must stand still to fish.</span>")
+		update_icon()
+		return
+
+	var/fpp = 100 - (40 + (sl * 10))
+	var/fishchance = 100
+	if(has_world_trait(/datum/world_trait/fishing_decrease))
+		fishchance -= 25
+	if(has_world_trait(/datum/world_trait/fishing_increase))
+		fishchance += 40
+	if(user.mind)
+		if(!sl)
+			fishchance -= 50
+		else
+			fishchance -= fpp
+
+	var/mob/living/fisherman = user
+	if(!prob(fishchance))
+		to_chat(user, "<span class='warning'>Not even a nibble...</span>")
+		if(user?.mind)
+			user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT/2)
+		update_icon()
+		return
+
+	var/A = pickweight(_abyssor_loot)
+
+	var/ow = 30 + (sl * 10)
+	to_chat(user, "<span class='notice'>Something tugs the line!</span>")
+	playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
+
+	if(!do_after(user, ow, target = target))
+		if(ismob(A))
+			var/mob/M = A
+			if(M.type in subtypesof(/mob/living/simple_animal/hostile))
+				new M(target)
+			else
+				new M(user.loc)
+			if(user?.mind)
+				user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT*2)
+		else
+			new A(user.loc)
+			to_chat(user, "<span class='warning'>Reel 'em in!</span>")
+			if(user?.mind)
+				user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE)
+			record_featured_stat(FEATURED_STATS_FISHERS, fisherman)
+			GLOB.scarlet_round_stats[STATS_FISH_CAUGHT]++
+
+		playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
+	else
+		to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")
+
+	user.changeNext_move(CLICK_CD_INTENTCAP)
+	update_icon()
+	return
+
+/*******************************************
+ * XYLIXSOID STUFF
+ ***************************************************/
+
+ /datum/element/xylix_theft_mods
+	var/chance_bonus_pct = 25
+	var/range_bonus_tiles = 1
+	var/xp_multiplier = 1.5
+
+ /datum/element/xylix_theft_mods/Attach(datum/target, chance=15, range=1, xp_mult=1.5)
+	. = ..()
+	if(!ismob(target))
+		return ELEMENT_INCOMPATIBLE
+	chance_bonus_pct = chance
+	range_bonus_tiles = range
+	xp_multiplier = xp_mult
+	RegisterSignal(target, "steal_mods_query", .proc/_on_mods_query)
+	RegisterSignal(target, "steal_xp_query",   .proc/_on_xp_query)
+
+ /datum/element/xylix_theft_mods/Detach(datum/target)
+	UnregisterSignal(target, list("steal_mods_query", "steal_xp_query"))
+	return ..()
+
+ /datum/element/xylix_theft_mods/proc/_on_mods_query(datum/source, list/mods)
+	SIGNAL_HANDLER
+	if(!islist(mods)) return
+	mods["chance_add"] = (mods["chance_add"] || 0) + chance_bonus_pct
+	mods["range_add"]  = (mods["range_add"]  || 0) + range_bonus_tiles
+
+ /datum/element/xylix_theft_mods/proc/_on_xp_query(datum/source, list/xpmods, path/skill)
+	SIGNAL_HANDLER
+	if(!islist(xpmods)) return
+	if(skill == /datum/skill/misc/stealing || skill == /datum/skill/misc/thievery)
+		var/m = xpmods["xp_mult"]
+		if(!isnum(m)) m = 1
+		xpmods["xp_mult"] = m * xp_multiplier
+
+
+/************************
+/obj/item/artifact/clothing/gloves/xylix
+ * - При экипе: вешают элемент на владельца (бонус шанс/дистанция/XP)
+ * - При снятииии: снимают элемент
+ **************************************************/
+
+ /obj/item/artifact/clothing/gloves/xylix
+	name = "Xylix gloves"
+	desc = "Gloves favored by Xylix's disciples. Fingers feel lighter, reach seems longer."
+	icon = 'icons/roguetown/items/artefactsten.dmi'
+	icon_state = 'xylixartefact'
+	slot_flags = ITEM_SLOT_GLOVES
+	w_class = WEIGHT_CLASS_SMALL
+	slot_flags = ITEM_SLOT_GLOVES
+	body_parts_covered = HANDS
+	body_parts_inherent = HANDS
+	sleeved = 'icons/roguetown/clothing/onmob/gloves.dmi'
+	icon = 'icons/roguetown/clothing/gloves.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/gloves.dmi'
+	bloody_icon_state = "bloodyhands"
+	sleevetype = "shirt"
+	max_heat_protection_temperature = 361
+	experimental_inhand = FALSE
+	armor = ARMOR_GLOVES_LEATHER_GOOD
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)
+	resistance_flags = FIRE_PROOF
+	blocksound = SOFTHIT
+	max_integrity = 300
+	sellprice = 12
+	blade_dulling = DULLING_BASHCHOP
+	break_sound = 'sound/foley/cloth_rip.ogg'
+	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
+	anvilrepair = null
+	sewrepair = TRUE
+	salvage_result = /obj/item/natural/fur
+
+	var/mob/living/_buff_owner
+
+ /obj/item/artifact/clothing/gloves/xylix/equipped(mob/living/user, slot)
+	. = ..()
+	if(!(slot & ITEM_SLOT_GLOVES) || !isliving(user))
+		return
+	_buff_apply(user)
+
+ /obj/item/artifact/clothing/gloves/xylix/unequipped(mob/living/user, slot)
+	. = ..()
+	if(_buff_owner)
+		_buff_remove(_buff_owner)
+
+ /obj/item/artifact/clothing/gloves/xylix/dropped(mob/user)
+	. = ..()
+	if(_buff_owner)
+		_buff_remove(_buff_owner)
+
+ /obj/item/artifact/clothing/gloves/xylix/Destroy()
+	if(_buff_owner)
+		_buff_remove(_buff_owner)
+	_buff_owner = null
+	return ..()
+
+ /obj/item/artifact/clothing/gloves/xylix/proc/_buff_apply(mob/living/user)
+	if(_buff_owner == user)
+		return
+	if(_buff_owner)
+		_buff_remove(_buff_owner)
+	_buff_owner = user
+	user.AddElement(/datum/element/xylix_theft_mods, 15, 1, 1.5)
+
+ /obj/item/artifact/clothing/gloves/xylix/proc/_buff_remove(mob/living/user)
+	if(!isliving(user))
+		return
+	user.RemoveElement(/datum/element/xylix_theft_mods)
+	if(_buff_owner == user)
+		_buff_owner = null
+
+// ASS TRATA
+
+/obj/item/artifact/astrata_star
+	name = "Star of Astrata"
+	desc = "An artifact used to help the lost find the true light."
+	icon = 'icons/roguetown/items/artefactsten.dmi'
+	icon_state = "astrataartefact"
+	force = 0
+
+/obj/item/artifact/astrata_star/attack(mob/living/target, mob/user)
+	if (!istype(target, /mob/living/carbon/human))
+		return
+
+	if (!user || !user.client)
+		return
+
+	user.visible_message(span_notice("[user] holds the Star of Astrata before [target.name]."))
+
+	if (!do_after(user, 300, target = target))
+		user.visible_message(span_warning("[user] stops the ritual with the Star of Astrata for [target.name]."))
+		to_chat(target, span_notice("The light fades as the ritual is broken."))
+		return
+
+	var/list/divine_options = list()
+	for (var/path in ALL_DIVINE_PATRONS)
+		var/datum/patron/divine/instance = new path
+		if (instance?.name)
+			divine_options[instance.name] = path
+		qdel(instance)
+
+	if (!divine_options || !divine_options.len)
+		to_chat(user, span_warning("No divine patrons are available."))
+		return
+
+	var/choice = input(target, "The star opens your soul. Choose your patron, or refuse.", "The Ten") as null|anything in divine_options
+	if (!choice)
+		to_chat(target, span_danger("You turn away from the light."))
+		to_chat(user, span_danger("[target.name] rejects the offered path."))
+		return
+
+	target.set_patron(divine_options[choice])
+
+	user.visible_message(
+		span_notice("[target.name] accepts the mark of [choice]."),
+		span_notice("The ritual is complete. The path is chosen.")
+	)
