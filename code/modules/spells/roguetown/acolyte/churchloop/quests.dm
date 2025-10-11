@@ -407,22 +407,48 @@
 	to_chat(user, span_warning("This is not an acceptable offering."))
 
 // 8) minor sermon to follower of patron
+/obj/item/quest_token/sermon_minor
+    name = "sermon token"
+    desc = "Deliver a Minor Sermon to a follower of a specific patron."
+    icon_state = "questflaw"
+    var/required_patron_name = ""
+
+/proc/_patron_matches(mob/living/carbon/human/H, required_patron_name as text)
+    if(!istype(H) || !istext(required_patron_name) || !length(required_patron_name))
+        return FALSE
+    var/datum/devotion/D = H.devotion
+    if(!D || !D.patron || !D.patron.name)
+        return FALSE
+    return lowertext(trim("[D.patron.name]")) == lowertext(trim("[required_patron_name]"))
+
 /obj/item/quest_token/sermon_minor/attack(target, user)
-	if(!istype(target, /mob/living/carbon/human)) return ..()
-	if(!_ensure_attacker(user)) return
-	var/mob/living/carbon/human/H = target
-	if(!_ensure_target_player(H, user)) return
-	if(_has_quest_lock(H)) { to_chat(user, span_warning("Target recently received a sacred effect.")); return }
+    if(!istype(target, /mob/living/carbon/human))
+        return ..()
 
-	if(!_patron_matches(H, required_patron_name))
-		to_chat(user, span_warning("They do not follow [required_patron_name]."))
-		return
+    if(!_ensure_attacker(user))
+        return
 
-	if(!do_after(user, 15 SECONDS, H)) return
-	H.apply_status_effect(/datum/status_effect/buff/sermon_minor)
-	_apply_quest_lock(H)
-	_reward_owner(QUEST_REWARD_FAVOR)
-	qdel(src)
+    var/mob/living/carbon/human/H = target
+    if(!_ensure_target_player(H, user))
+        return
+
+    if(_has_quest_lock(H)) {
+        to_chat(user, span_warning("Target recently received a sacred effect."))
+        return
+    }
+
+    if(!_patron_matches(H, required_patron_name)) {
+        to_chat(user, span_warning("They do not follow [required_patron_name]."))
+        return
+    }
+
+    if(!do_after(user, 15 SECONDS, target = H))
+        return
+
+    H.apply_status_effect(/datum/status_effect/buff/sermon)
+    _apply_quest_lock(H)
+    _reward_owner(QUEST_REWARD_FAVOR)
+    qdel(src)
 
 // 9) witness sermon buff
 /obj/item/quest_token/sermon_witness

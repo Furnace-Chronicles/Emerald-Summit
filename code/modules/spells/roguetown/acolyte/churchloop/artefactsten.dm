@@ -1106,26 +1106,26 @@ Necra's Censer (by ARefrigerator)
  * Дроп только рыбы + не нужен bait.
  **************************************************/
 
-/obj/item/artifact/fishingrod/abyssoid
-	name = "Abyssor's rod"
-	desc = "A rod blessed by Abyssor. It needs no bait, and the deep always answers-even away from water."
-	icon = 'icons/roguetown/items/artefactsten.dmi'
-	icon_state = "abyssorartefact"
+/obj/item/fishingrod/abyssoid
+    name = "Abyssor's rod"
+    desc = "A rod blessed by Abyssor. It needs no bait, and the deep always answers-even away from water."
+    icon = 'icons/roguetown/items/artefactsten.dmi'
+    icon_state = "abyssorartefact"
 
-	var/static/list/_abyssor_loot = list(
-		/obj/item/reagent_containers/food/snacks/fish/cod       = 230,
-		/obj/item/reagent_containers/food/snacks/fish/plaice    = 180,
-		/obj/item/reagent_containers/food/snacks/fish/sole      = 250,
-		/obj/item/reagent_containers/food/snacks/fish/angler    = 170,
-		/obj/item/reagent_containers/food/snacks/fish/lobster   = 180,
-		/obj/item/reagent_containers/food/snacks/fish/bass      = 230,
-		/obj/item/reagent_containers/food/snacks/fish/clam      = 50,
-		/obj/item/reagent_containers/food/snacks/fish/clownfish = 40,
-	)
+    var/static/list/_abyssor_loot = list(
+        /obj/item/reagent_containers/food/snacks/fish/cod       = 230,
+        /obj/item/reagent_containers/food/snacks/fish/plaice    = 180,
+        /obj/item/reagent_containers/food/snacks/fish/sole      = 250,
+        /obj/item/reagent_containers/food/snacks/fish/angler    = 170,
+        /obj/item/reagent_containers/food/snacks/fish/lobster   = 180,
+        /obj/item/reagent_containers/food/snacks/fish/bass      = 230,
+        /obj/item/reagent_containers/food/snacks/fish/clam      = 50,
+        /obj/item/reagent_containers/food/snacks/fish/clownfish = 40,
+    )
 
 /obj/item/fishingrod/abyssoid/attackby(obj/item/I, mob/user, params)
-	to_chat(user, span_notice("This rod needs no bait."))
-	return
+    to_chat(user, span_notice("This rod needs no bait."))
+    return
 
 /obj/item/fishingrod/abyssoid/afterattack(obj/target, mob/user, proximity)
 	if(user?.used_intent?.type == SPEAR_BASH)
@@ -1213,114 +1213,102 @@ Necra's Censer (by ARefrigerator)
  * XYLIXSOID STUFF
  ***************************************************/
 
- /datum/element/xylix_theft_mods
-	var/chance_bonus_pct = 25
-	var/range_bonus_tiles = 1
-	var/xp_multiplier = 1.5
+/datum/element/xylix_theft_mods
+    var/chance_bonus_pct = 25
+    var/range_bonus_tiles = 1
+    var/xp_multiplier = 1.5
 
- /datum/element/xylix_theft_mods/Attach(datum/target, chance=15, range=1, xp_mult=1.5)
-	. = ..()
-	if(!ismob(target))
-		return ELEMENT_INCOMPATIBLE
-	chance_bonus_pct = chance
-	range_bonus_tiles = range
-	xp_multiplier = xp_mult
-	RegisterSignal(target, "steal_mods_query", .proc/_on_mods_query)
-	RegisterSignal(target, "steal_xp_query",   .proc/_on_xp_query)
+/datum/element/xylix_theft_mods/Attach(datum/target, chance_b = 15, range_b = 1, xp_mult_b = 1.5)
+    . = ..()
+    if(!ismob(target))
+        return ELEMENT_INCOMPATIBLE
+    chance_bonus_pct = chance_b
+    range_bonus_tiles = range_b
+    xp_multiplier = xp_mult_b
+    RegisterSignal(target, "steal_mods_query", PROC_REF(_on_mods_query))
+    RegisterSignal(target, "steal_xp_query",   PROC_REF(_on_xp_query))
 
- /datum/element/xylix_theft_mods/Detach(datum/target)
-	UnregisterSignal(target, list("steal_mods_query", "steal_xp_query"))
-	return ..()
+/datum/element/xylix_theft_mods/Detach(datum/target)
+    UnregisterSignal(target, list("steal_mods_query", "steal_xp_query"))
+    return ..()
 
- /datum/element/xylix_theft_mods/proc/_on_mods_query(datum/source, list/mods)
-	SIGNAL_HANDLER
-	if(!islist(mods)) return
-	mods["chance_add"] = (mods["chance_add"] || 0) + chance_bonus_pct
-	mods["range_add"]  = (mods["range_add"]  || 0) + range_bonus_tiles
+/datum/element/xylix_theft_mods/proc/_on_mods_query(datum/source, list/mods)
+    SIGNAL_HANDLER
+    if(!islist(mods)) return
+    mods["chance_add"] = (mods["chance_add"] || 0) + chance_bonus_pct
+    mods["range_add"]  = (mods["range_add"]  || 0) + range_bonus_tiles
 
- /datum/element/xylix_theft_mods/proc/_on_xp_query(datum/source, list/xpmods, path/skill)
-	SIGNAL_HANDLER
-	if(!islist(xpmods)) return
-	if(skill == /datum/skill/misc/stealing || skill == /datum/skill/misc/thievery)
-		var/m = xpmods["xp_mult"]
-		if(!isnum(m)) m = 1
-		xpmods["xp_mult"] = m * xp_multiplier
+/datum/element/xylix_theft_mods/proc/_on_xp_query(datum/source, list/xpmods, skill)
+    SIGNAL_HANDLER
+    if(!islist(xpmods)) return
+    if(!ispath(skill)) return
+
+    if(skill == /datum/skill/misc/stealing)
+        var/m = xpmods["xp_mult"]
+        if(!isnum(m)) m = 1
+        xpmods["xp_mult"] = m * xp_multiplier // оно может пойти хуями потому что ъуъ. я не ебу почему бьенд и старое тг не ебется поэтому type path, капиш?
 
 
 /************************
 /obj/item/artifact/clothing/gloves/xylix
- * - При экипе: вешают элемент на владельца (бонус шанс/дистанция/XP)
- * - При снятииии: снимают элемент
  **************************************************/
 
- /obj/item/artifact/clothing/gloves/xylix
-	name = "Xylix gloves"
-	desc = "Gloves favored by Xylix's disciples. Fingers feel lighter, reach seems longer."
-	icon = 'icons/roguetown/items/artefactsten.dmi'
-	icon_state = 'xylixartefact'
-	slot_flags = ITEM_SLOT_GLOVES
-	w_class = WEIGHT_CLASS_SMALL
-	slot_flags = ITEM_SLOT_GLOVES
-	body_parts_covered = HANDS
-	body_parts_inherent = HANDS
-	sleeved = 'icons/roguetown/clothing/onmob/gloves.dmi'
-	icon = 'icons/roguetown/clothing/gloves.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/gloves.dmi'
-	bloody_icon_state = "bloodyhands"
-	sleevetype = "shirt"
-	max_heat_protection_temperature = 361
-	experimental_inhand = FALSE
-	armor = ARMOR_GLOVES_LEATHER_GOOD
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)
-	resistance_flags = FIRE_PROOF
-	blocksound = SOFTHIT
-	max_integrity = 300
-	sellprice = 12
-	blade_dulling = DULLING_BASHCHOP
-	break_sound = 'sound/foley/cloth_rip.ogg'
-	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
-	anvilrepair = null
-	sewrepair = TRUE
-	salvage_result = /obj/item/natural/fur
+/obj/item/clothing/gloves/xylix
+    name = "Xylix gloves"
+    desc = "Gloves favored by Xylix's disciples. Fingers feel lighter, reach seems longer."
+    icon = 'icons/roguetown/items/artefactsten.dmi'
+    icon_state = "xylixartefact"
+    slot_flags = ITEM_SLOT_GLOVES
+    w_class = WEIGHT_CLASS_SMALL
+    body_parts_covered = HANDS
+    body_parts_inherent = HANDS
+    sleeved = 'icons/roguetown/clothing/onmob/gloves.dmi'
+    mob_overlay_icon = 'icons/roguetown/clothing/onmob/gloves.dmi'
+    bloody_icon_state = "bloodyhands"
+    sleevetype = "shirt"
+    resistance_flags = FIRE_PROOF
+    blocksound = SOFTHIT
+    max_integrity = 300
+    sellprice = 12
+    blade_dulling = DULLING_BASHCHOP
+    break_sound = 'sound/foley/cloth_rip.ogg'
+    drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
+    anvilrepair = null
+    sewrepair = TRUE
+    salvage_result = /obj/item/natural/fur
+    var/mob/living/_buff_owner
 
-	var/mob/living/_buff_owner
+/obj/item/clothing/gloves/xylix/equipped(mob/living/user, slot)
+    if(!(slot & ITEM_SLOT_GLOVES) || !isliving(user))
+        return
+    _buff_apply(user)
+    return
 
- /obj/item/artifact/clothing/gloves/xylix/equipped(mob/living/user, slot)
-	. = ..()
-	if(!(slot & ITEM_SLOT_GLOVES) || !isliving(user))
-		return
-	_buff_apply(user)
+/obj/item/clothing/gloves/xylix/dropped(mob/user)
+    if(_buff_owner)
+        _buff_remove(_buff_owner)
+    return
 
- /obj/item/artifact/clothing/gloves/xylix/unequipped(mob/living/user, slot)
-	. = ..()
-	if(_buff_owner)
-		_buff_remove(_buff_owner)
+/obj/item/clothing/gloves/xylix/Destroy()
+    if(_buff_owner)
+        _buff_remove(_buff_owner)
+    _buff_owner = null
+    return ..()
 
- /obj/item/artifact/clothing/gloves/xylix/dropped(mob/user)
-	. = ..()
-	if(_buff_owner)
-		_buff_remove(_buff_owner)
+/obj/item/clothing/gloves/xylix/proc/_buff_apply(mob/living/user)
+    if(_buff_owner == user)
+        return
+    if(_buff_owner)
+        _buff_remove(_buff_owner)
+    _buff_owner = user
+    user.AddElement(/datum/element/xylix_theft_mods, 15, 1, 1.5)
 
- /obj/item/artifact/clothing/gloves/xylix/Destroy()
-	if(_buff_owner)
-		_buff_remove(_buff_owner)
-	_buff_owner = null
-	return ..()
-
- /obj/item/artifact/clothing/gloves/xylix/proc/_buff_apply(mob/living/user)
-	if(_buff_owner == user)
-		return
-	if(_buff_owner)
-		_buff_remove(_buff_owner)
-	_buff_owner = user
-	user.AddElement(/datum/element/xylix_theft_mods, 15, 1, 1.5)
-
- /obj/item/artifact/clothing/gloves/xylix/proc/_buff_remove(mob/living/user)
-	if(!isliving(user))
-		return
-	user.RemoveElement(/datum/element/xylix_theft_mods)
-	if(_buff_owner == user)
-		_buff_owner = null
+/obj/item/clothing/gloves/xylix/proc/_buff_remove(mob/living/user)
+    if(!isliving(user))
+        return
+    user.RemoveElement(/datum/element/xylix_theft_mods)
+    if(_buff_owner == user)
+        _buff_owner = null
 
 // ASS TRATA
 
