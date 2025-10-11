@@ -821,7 +821,7 @@ Necra's Censer (by ARefrigerator)
 
 	var/current_mode = "scalpel"
 
-	var/list/_modes_order = list("scalpel","saw","hemostat","retractor","bonesetter","cautery")
+	var/list/_modes_order = list("scalpel","saw","hemostat","retractor","bonesetter","needle","cautery")
 
 	var/list/_mode_params = list(
 		"scalpel" = list(
@@ -864,6 +864,14 @@ Necra's Censer (by ARefrigerator)
 			"force" = 8,
 			"intents" = list(/datum/intent/use),
 			"icon_state" = "bonesetterpestra"
+		),
+		"suture" = list(
+			"tool_behaviour" = TOOL_SUTURE,
+			"sharpness" = IS_BLUNT,
+			"damtype" = BRUTE,
+			"force" = 6,
+			"intents" = list(/datum/intent/use),
+			"icon_state" = "needlepestra"
 		),
 		"cautery" = list(
 			"tool_behaviour" = TOOL_CAUTERY,
