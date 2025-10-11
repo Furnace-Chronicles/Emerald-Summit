@@ -1,12 +1,6 @@
 #ifndef QUEST_REWARD_FAVOR
 #define QUEST_REWARD_FAVOR 250
 #endif
-#ifndef TRAIT_CLERGY
-#define TRAIT_CLERGY "clergy"
-#endif
-#ifndef TRAIT_OUTLANDER
-#define TRAIT_OUTLANDER "outlander"
-#endif //remove it coz separated files
 
 /proc/_is_digit_string(t)
 	if(!istext(t)) return FALSE
@@ -208,7 +202,7 @@
 	if(!_ensure_attacker(user)) return
 	var/mob/living/carbon/human/H = target
 	if(!_ensure_target_player(H, user)) return
-	if(_has_quest_lock(H)) { to_chat(user, span_warning("Target recently received a sacred effect.")); return }
+	if(_has_quest_lock(H)) { to_chat(user, span_warning("They’ve already answered the call - stand down and let the clock run.")); return }
 	if(!_is_antagonist(H)) { to_chat(user, span_warning("No hidden malice reveals itself.")); return }
 	if(!do_after(user, 15 SECONDS, H)) return
 	_apply_parish_boon(H)
@@ -228,7 +222,7 @@
 	if(!_ensure_attacker(user)) return
 	var/mob/living/carbon/human/H = target
 	if(!_ensure_target_player(H, user)) return
-	if(_has_quest_lock(H)) { to_chat(user, span_warning("Target recently received a sacred effect.")); return }
+	if(_has_quest_lock(H)) { to_chat(user, span_warning("They’ve already answered the call - stand down and let the clock run.")); return }
 	if(!required_skill_type || !_safe_has_skill_expert(H, required_skill_type)) { to_chat(user, span_warning("They are not an EXPERT of the required skill.")); return }
 	if(!do_after(user, 15 SECONDS, H)) return
 	_apply_parish_boon(H)
@@ -248,7 +242,7 @@
 	if(!_ensure_attacker(user)) return
 	var/mob/living/carbon/human/H = target
 	if(!_ensure_target_player(H, user)) return
-	if(_has_quest_lock(H)) { to_chat(user, span_warning("Target recently received a sacred effect.")); return }
+	if(_has_quest_lock(H)) { to_chat(user, span_warning("They’ve already answered the call - stand down and let the clock run.")); return }
 	if(!_race_satisfies(H, required_race_key)) { to_chat(user, span_warning("Wrong race for this task.")); return }
 	if(!do_after(user, 15 SECONDS, H)) return
 	_apply_parish_boon(H)
@@ -276,74 +270,120 @@
 		to_chat(user, span_notice("Deposited. Current tithe: [sum]."))
 		if(sum >= 500)
 			to_chat(user, span_notice("The chest accepts the tithe."))
-			_apply_parish_boon(user)
-			_apply_quest_lock(user)
 			_reward_owner(QUEST_REWARD_FAVOR)
 			qdel(src)
 		return
 	..()
 
-// 5) tyraga 4 code moment
+
+// 5) sealed reliquary (4-digit code)
+
 /obj/item/quest_token/reliquary
 	name = "sealed reliquary"
-	desc = "A sealed box with a hidden 4-digit code."
+	desc = "An ancient box sealed by divine sigils."
 	icon_state = "questbox"
-	var/code = ""
-	var/bonus_patron_name = ""
+	w_class = WEIGHT_CLASS_NORMAL
+
+	var/code = "0000"
+	var/bonus_patron_name = null
 	var/next_attempt_ds = 0
 
 /obj/item/quest_token/reliquary/Initialize()
 	. = ..()
-	code = "[rand(0,9)][rand(0,9)][rand(0,9)][rand(0,9)]"
+
+	if(!length(code) || code == "0000")
+		code = generate_reliquary_code()
+	else
+		if(!(code in GLOB.generated_reliquary_codes))
+			GLOB.generated_reliquary_codes += code
+
 	if(isnull(bonus_patron_name) || !length(bonus_patron_name))
 		var/list/fallback = list("Astrata","Noc","Dendor","Abyssor","Ravox","Necra","Xylix","Pestra","Malum","Eora")
 		bonus_patron_name = pick(fallback)
-	next_attempt_ds = world.time
 
-/obj/item/quest_token/reliquary/examine(user)
+	next_attempt_ds = world.time
+/obj/item/quest_token/reliquary/examine(mob/user)
 	. = ..()
+	if(!istext(bonus_patron_name) || !length(bonus_patron_name))
+		return
 	if(istype(user, /mob/living/carbon/human))
 		var/mob/living/carbon/human/H = user
-		if(H?.devotion?.patron && "[H.devotion.patron.name]" == "[bonus_patron_name]")
+		if(_patron_matches(H, bonus_patron_name))
 			. += "<br><span class='notice'>Divine insight: <b>[code]</b></span>"
 		else
 			. += "<br><span class='info'>Followers of [bonus_patron_name] see the code clearly.</span>"
 
-/obj/item/quest_token/reliquary/attack_hand(user)
-	if(!..()) return
+/obj/item/quest_token/reliquary/proc/_ensure_ui_access(mob/living/user)
+	if(!user) return FALSE
+	if(!user.canUseTopic(src, TRUE)) return FALSE
+	if(get_dist(user, src) > 1) return FALSE
+	return TRUE
+
+/obj/item/quest_token/reliquary/attack_hand(mob/living/user)
+	. = ..() // ← CHANGED: НЕ выходим по результату родителя
 	if(!_ensure_attacker(user)) return
+	if(!_ensure_ui_access(user)) return
+
+	user.set_machine(src)
+
 	var/locked = (world.time < next_attempt_ds)
 	var/left = max(0, next_attempt_ds - world.time)
 	var/left_s = round(left / 10)
 	var/m = left_s / 60
 	var/s = left_s % 60
-	var/s2 = "[s]"; if(s < 10) s2 = "0[s]"
+	var/s2 = (s < 10) ? "0[s]" : "[s]"
+
 	var/html = "<center><b>Sealed Reliquary</b></center><hr>"
 	html += "Enter the 4-digit code to open the box.<br>"
-	html += "<b>Attempts:</b> once every 5 minutes.<br>"
-	html += "<b>Hint:</b> green = correct place, yellow = correct digit wrong place.<br><br>"
+	html += "<b>Attempts:</b> once every <b>20 seconds</b>.<br>"
+	html += "<b>Hint:</b> <span style='color:#2ecc71'>green</span> = correct place, "
+	html += "<span style='color:#f1c40f'>yellow</span> = correct digit wrong place.<br><br>"
+
 	if(locked)
 		html += "<span style='color:#7f8c8d'>Next attempt in [m]:[s2]</span>"
 	else
 		html += "<a href='?src=[REF(src)];trycode=1'>Try code</a>"
-	var/datum/browser/B = new(user, "RELIQUARY_UI", "", 360, 220)
+
+	var/datum/browser/B = new(user, "RELIQUARY_UI", "Sealed Reliquary", 360, 220)
 	B.set_content(html)
 	B.open()
+	return TRUE
 
 /obj/item/quest_token/reliquary/Topic(href, href_list)
 	. = ..()
 	if(!usr) return
 	if(!_ensure_attacker(usr)) return
-	if(_has_quest_lock(usr)) { to_chat(usr, span_warning("You are under the Edict and cannot perform another routine.")); return }
-	if(href_list["trycode"])
-		if(world.time < next_attempt_ds) { attack_hand(usr); return }
+	if(!_ensure_ui_access(usr)) return
+
+	if(_has_quest_lock(usr)) {
+		to_chat(usr, span_warning("You are under the Edict and cannot perform another routine."))
+		return
+	}
+
+	if(href_list["trycode"]) {
+		if(world.time < next_attempt_ds) {
+			attack_hand(usr)
+			return
+		}
+
 		var/guess = input(usr, "Enter 4 digits (0-9).", "Reliquary") as null|text
-		if(!guess) { attack_hand(usr); return }
+		if(isnull(guess)) {
+			attack_hand(usr)
+			return
+		}
+
 		guess = copytext(guess, 1, 5)
-		if(!_is_digit_string(guess)) { to_chat(usr, span_warning("Needs exactly four digits 0-9.")); attack_hand(usr); return }
+		if(!_is_digit_string(guess) || length(guess) != 4) {
+			to_chat(usr, span_warning("Needs exactly four digits 0-9."))
+			attack_hand(usr)
+			return
+		}
+
 		var/correct_pos = 0
 		for(var/i = 1 to 4)
-			if(copytext(code, i, i + 1) == copytext(guess, i, i + 1)) correct_pos++
+			if(copytext(code, i, i + 1) == copytext(guess, i, i + 1))
+				correct_pos++
+
 		var/correct_digit = 0
 		for(var/d = 0 to 9)
 			var/ds = "[d]"
@@ -351,19 +391,24 @@
 			var/ng = _digit_count(guess, ds)
 			correct_digit += min(nc, ng)
 		correct_digit -= correct_pos
-		next_attempt_ds = world.time + (5 * 60 * 10)
-		if(guess == code)
+
+		next_attempt_ds = world.time + (20 SECONDS)
+
+		if(guess == code) {
 			to_chat(usr, span_notice("The reliquary opens."))
-			_apply_parish_boon(usr)
-			_apply_quest_lock(usr)
 			_reward_owner(QUEST_REWARD_FAVOR)
 			qdel(src)
 			return
-		else
+		} else {
 			to_chat(usr, "<span class='notice'>Feedback — <span style='color:#2ecc71'>green</span>: [correct_pos], <span style='color:#f1c40f'>yellow</span>: [correct_digit]</span>")
-		attack_hand(usr)
+		}
 
-// 6) feed outlander migrant animal
+		attack_hand(usr)
+	}
+
+
+
+// 6) feed outlander
 /obj/item/quest_token/outlander_ration
 	name = "charity ration"
 	desc = "Feed an outlander by hand."
@@ -374,7 +419,7 @@
 	if(!_ensure_attacker(user)) return
 	var/mob/living/carbon/human/H = target
 	if(!_ensure_target_player(H, user)) return
-	if(_has_quest_lock(H)) { to_chat(user, span_warning("Target recently received a sacred effect.")); return }
+	if(_has_quest_lock(H)) { to_chat(user, span_warning("They’ve already answered the call - stand down and let the clock run.")); return }
 	if(!HAS_TRAIT(H, TRAIT_OUTLANDER)) { to_chat(user, span_warning("They are not an outlander.")); return }
 	if(!do_after(user, 15 SECONDS, H)) return
 	_apply_parish_boon(H)
@@ -393,14 +438,12 @@
 /obj/item/quest_token/donation_box/attackby(I, user, params)
 	if(collected || !I) return
 	if(!_ensure_attacker(user)) return
-	if(_has_quest_lock(user)) { to_chat(user, span_warning("You are under the Edict and cannot perform another routine.")); return }
+	if(_has_quest_lock(user)) { to_chat(user, span_warning("They’ve already answered the call - stand down and let the clock run")); return }
 	for(var/T in need_types)
 		if(istype(I, T))
 			qdel(I)
 			collected = TRUE
 			to_chat(user, span_notice("The offering is accepted."))
-			_apply_parish_boon(user)
-			_apply_quest_lock(user)
 			_reward_owner(QUEST_REWARD_FAVOR)
 			qdel(src)
 			return
@@ -408,47 +451,68 @@
 
 // 8) minor sermon to follower of patron
 /obj/item/quest_token/sermon_minor
-    name = "sermon token"
-    desc = "Deliver a Minor Sermon to a follower of a specific patron."
-    icon_state = "questflaw"
-    var/required_patron_name = ""
+	name = "sermon token"
+	desc = "Deliver a Minor Sermon to a follower of a specific patron."
+	icon_state = "questflaw"
+	var/required_patron_name = ""
+
+/obj/item/quest_token/sermon_minor/Initialize()
+	. = ..()
+	if(!length(required_patron_name))
+		var/list/fallback = list("Astrata","Noc","Dendor","Abyssor","Ravox","Necra","Xylix","Pestra","Malum","Eora")
+		required_patron_name = pick(fallback)
+
+/obj/item/quest_token/sermon_minor/examine(mob/user)
+	. = ..()
+	. += "<br><span class='info'>This sermon seeks a follower of <b>[required_patron_name]</b>.</span>"
 
 /proc/_patron_matches(mob/living/carbon/human/H, required_patron_name as text)
-    if(!istype(H) || !istext(required_patron_name) || !length(required_patron_name))
-        return FALSE
-    var/datum/devotion/D = H.devotion
-    if(!D || !D.patron || !D.patron.name)
-        return FALSE
-    return lowertext(trim("[D.patron.name]")) == lowertext(trim("[required_patron_name]"))
+	if(!istype(H) || !istext(required_patron_name) || !length(required_patron_name))
+		return FALSE
+	var/datum/devotion/D = H.devotion
+	if(!D || !D.patron || !D.patron.name)
+		return FALSE
+	var/target_name = lowertext(trim("[D.patron.name]"))
+	var/need_name = lowertext(trim("[required_patron_name]"))
+	return target_name == need_name
 
-/obj/item/quest_token/sermon_minor/attack(target, user)
-    if(!istype(target, /mob/living/carbon/human))
-        return ..()
+/obj/item/quest_token/sermon_minor/attack(mob/living/target, mob/living/user)
+	if(!istype(target, /mob/living/carbon/human))
+		return ..()
+	if(!_ensure_attacker(user))
+		return
 
-    if(!_ensure_attacker(user))
-        return
+	var/mob/living/carbon/human/H = target
+	if(!_ensure_target_player(H, user))
+		return
 
-    var/mob/living/carbon/human/H = target
-    if(!_ensure_target_player(H, user))
-        return
+	if(_has_quest_lock(H))
+		to_chat(user, span_warning("They’ve already answered the call - stand down and let the clock run."))
+		return
 
-    if(_has_quest_lock(H)) {
-        to_chat(user, span_warning("Target recently received a sacred effect."))
-        return
-    }
+	if(!_patron_matches(H, required_patron_name))
+		to_chat(user, span_warning("They do not follow [required_patron_name]."))
+		return
 
-    if(!_patron_matches(H, required_patron_name)) {
-        to_chat(user, span_warning("They do not follow [required_patron_name]."))
-        return
-    }
+	user.visible_message(
+		span_notice("[user] begins a brief sermon to [H]."),
+		span_notice("I begin a brief sermon to [H].")
+	)
 
-    if(!do_after(user, 15 SECONDS, target = H))
-        return
+	if(!do_after(user, 15 SECONDS, target = H))
+		return
 
-    H.apply_status_effect(/datum/status_effect/buff/sermon)
-    _apply_quest_lock(H)
-    _reward_owner(QUEST_REWARD_FAVOR)
-    qdel(src)
+	user.visible_message(
+		span_notice("[user] finishes the sermon for [H]."),
+		span_notice("I finish the sermon for [H].")
+	)
+
+	_apply_parish_boon(H)
+	_apply_quest_lock(H)
+	_reward_owner(QUEST_REWARD_FAVOR)
+	qdel(src)
+	return TRUE
+
 
 // 9) witness sermon buff
 /obj/item/quest_token/sermon_witness
@@ -461,7 +525,7 @@
 	if(!_ensure_attacker(user)) return
 	var/mob/living/carbon/human/H = target
 	if(!_ensure_target_player(H, user)) return
-	if(_has_quest_lock(H)) { to_chat(user, span_warning("Target recently received a sacred effect.")); return }
+	if(_has_quest_lock(H)) { to_chat(user, span_warning("They’ve already answered the call - stand down and let the clock run.")); return }
 	if(!H.has_status_effect(/datum/status_effect/buff/sermon)) { to_chat(user, span_warning("They are not inspired by a sermon.")); return }
 	if(!do_after(user, 10 SECONDS, H)) return
 	_apply_parish_boon(H)
@@ -481,7 +545,7 @@
 	if(!_ensure_attacker(user)) return
 	var/mob/living/carbon/human/H = target
 	if(!_ensure_target_player(H, user)) return
-	if(_has_quest_lock(H)) { to_chat(user, span_warning("Target recently received a sacred effect.")); return }
+	if(_has_quest_lock(H)) { to_chat(user, span_warning("They’ve already answered the call - stand down and let the clock run.")); return }
 	if(!required_flaw_type || !_target_has_flaw(H, required_flaw_type)) { to_chat(user, span_warning("Target does not bear the required flaw.")); return }
 	if(!do_after(user, 15 SECONDS, H)) return
 	_apply_parish_boon(H)

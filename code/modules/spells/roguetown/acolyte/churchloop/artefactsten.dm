@@ -8,6 +8,31 @@
 var/global/list/EORA_PARTNERS_BY_ID = list()
 var/global/list/EORA_ID_NAME = list()
 
+GLOBAL_LIST_INIT(generated_reliquary_codes, list())
+
+#define RELIQUARY_CODE_LEN 4
+
+/proc/generate_reliquary_code()
+	var/tries = 0
+	while(tries < 200)
+		var/code = ""
+		for(var/i = 1, i <= RELIQUARY_CODE_LEN, i++)
+			code += "[rand(0,9)]"
+		if(!(code in GLOB.generated_reliquary_codes))
+			GLOB.generated_reliquary_codes += code
+			return code
+		tries++
+
+	for(var/n = 0, n < 10000, n++)
+		var/code2 = "[n]"
+		while(length(code2) < RELIQUARY_CODE_LEN)
+			code2 = "0[code2]"
+		if(!(code2 in GLOB.generated_reliquary_codes))
+			GLOB.generated_reliquary_codes += code2
+			return code2
+
+	return "0000"
+
 /*============
 Malum's tool
 ============*/
@@ -613,7 +638,7 @@ Necra's Censer (by ARefrigerator)
 
 /obj/item/artefact/eora_heart
 	name = "Eora's Heart"
-	desc = "A velvet heart dedicated to Eora. It remembers the names of bonds formed this week."
+	desc = "A velvet heart dedicated to Eora. It remembers the names of bonds formed."
 	icon = 'icons/roguetown/items/artefactsten.dmi'
 	icon_state = "eoraartefact"
 	w_class = WEIGHT_CLASS_TINY
@@ -755,9 +780,9 @@ Necra's Censer (by ARefrigerator)
 
 	return sortList(names)
 
-/*===========================================
+/*=================================
   PESTRA PERSTRA
-===========================================*/
+======================================*/
 
 // STAPLES
 
@@ -821,7 +846,7 @@ Necra's Censer (by ARefrigerator)
 
 	var/current_mode = "scalpel"
 
-	var/list/_modes_order = list("scalpel","saw","hemostat","retractor","bonesetter","needle","cautery")
+	var/list/_modes_order = list("scalpel","saw","hemostat","retractor","bonesetter","suture","cautery")
 
 	var/list/_mode_params = list(
 		"scalpel" = list(
@@ -841,7 +866,6 @@ Necra's Censer (by ARefrigerator)
 			"icon_state" = "sawpestra"
 		),
 		"hemostat" = list(
-
 			"tool_behaviour" = TOOL_HEMOSTAT,
 			"sharpness" = IS_BLUNT,
 			"damtype" = BRUTE,
@@ -855,7 +879,7 @@ Necra's Censer (by ARefrigerator)
 			"damtype" = BRUTE,
 			"force" = 6,
 			"intents" = list(/datum/intent/use),
-			"icon_state" = "retractorprestra"
+			"icon_state" = "retractorpestra"
 		),
 		"bonesetter" = list(
 			"tool_behaviour" = TOOL_BONESETTER,
@@ -863,7 +887,7 @@ Necra's Censer (by ARefrigerator)
 			"damtype" = BRUTE,
 			"force" = 8,
 			"intents" = list(/datum/intent/use),
-			"icon_state" = "bonesetterpestra"
+			"icon_state" = "retractorpestra"
 		),
 		"suture" = list(
 			"tool_behaviour" = TOOL_SUTURE,
@@ -928,8 +952,6 @@ Necra's Censer (by ARefrigerator)
 	_apply_mode(_modes_order[i])
 	if(user) to_chat(user, span_notice("Multitool mode: [uppertext(current_mode)]."))
 
-// CAUTERY:
-
 /obj/item/rogueweapon/surgery/multitool/get_temperature()
 	if(current_mode == "cautery")
 		return FIRE_MINIMUM_TEMPERATURE_TO_SPREAD
@@ -986,6 +1008,8 @@ Necra's Censer (by ARefrigerator)
 			return TRUE
 	return FALSE
 
+
+
 /*=========================================================
   RAVOX TRACE LENS
 =========================================================*/
@@ -995,7 +1019,7 @@ Necra's Censer (by ARefrigerator)
 
 /obj/item/artifact/ravox_lens
 	name = "Ravox trace lens"
-	desc = "A fearless god's lens that reveals only the race of whoever left traces here."
+	desc = "A fearless god's lens that reveals the truth."
 	icon = 'icons/roguetown/items/artefactsten.dmi'
 	icon_state = "ravoxartefact"
 	w_class = WEIGHT_CLASS_SMALL
@@ -1116,7 +1140,7 @@ Necra's Censer (by ARefrigerator)
 
 /obj/item/fishingrod/abyssoid
     name = "Abyssor's rod"
-    desc = "A rod blessed by Abyssor. It needs no bait, and the deep always answers-even away from water."
+    desc = "A rod blessed by Abyssor. It needs no bait."
     icon = 'icons/roguetown/items/artefactsten.dmi'
     icon_state = "abyssorartefact"
 
@@ -1250,20 +1274,19 @@ Necra's Censer (by ARefrigerator)
     SIGNAL_HANDLER
     if(!islist(xpmods)) return
     if(!ispath(skill)) return
-
     if(skill == /datum/skill/misc/stealing)
         var/m = xpmods["xp_mult"]
         if(!isnum(m)) m = 1
-        xpmods["xp_mult"] = m * xp_multiplier // оно может пойти хуями потому что ъуъ. я не ебу почему бьенд и старое тг не ебется поэтому type path, капиш?
+        xpmods["xp_mult"] = m * xp_multiplier
 
 
 /************************
-/obj/item/artifact/clothing/gloves/xylix
+ * Gloves
  **************************************************/
 
 /obj/item/clothing/gloves/xylix
     name = "Xylix gloves"
-    desc = "Gloves favored by Xylix's disciples. Fingers feel lighter, reach seems longer."
+    desc = "Gloves favored by Xylix's acolytes. Fingers feel lighter, reach seems longer."
     icon = 'icons/roguetown/items/artefactsten.dmi'
     icon_state = "xylixartefact"
     slot_flags = ITEM_SLOT_GLOVES
@@ -1287,15 +1310,20 @@ Necra's Censer (by ARefrigerator)
     var/mob/living/_buff_owner
 
 /obj/item/clothing/gloves/xylix/equipped(mob/living/user, slot)
-    if(!(slot & ITEM_SLOT_GLOVES) || !isliving(user))
+    . = ..()
+    if(!isliving(user))
         return
-    _buff_apply(user)
-    return
+
+    if(slot == SLOT_GLOVES)
+        _buff_apply(user)
+    else
+        if(_buff_owner)
+            _buff_remove(_buff_owner)
 
 /obj/item/clothing/gloves/xylix/dropped(mob/user)
+    . = ..()
     if(_buff_owner)
         _buff_remove(_buff_owner)
-    return
 
 /obj/item/clothing/gloves/xylix/Destroy()
     if(_buff_owner)

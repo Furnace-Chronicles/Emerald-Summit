@@ -8,10 +8,6 @@
 #define QUEST_REWARD_FAVOR 250
 #endif
 
-#ifndef TRAIT_CLERGY
-#define TRAIT_CLERGY "clergy"
-#endif
-
 #ifndef CLERIC_PRICE_PATRON
 #define CLERIC_PRICE_PATRON 1
 #endif
