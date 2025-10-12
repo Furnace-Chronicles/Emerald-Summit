@@ -130,7 +130,8 @@
 		"Chyerno" = SKIN_COLOR_CHYERNO,
 		"Drema"	= SKIN_COLOR_DREMA,
 		"Chir"	= SKIN_COLOR_CHIR,
-		"Vesyl"	= SKIN_COLOR_VESYL
+		"Vesyl"	= SKIN_COLOR_VESYL,
+		"Krosec" = SKIN_COLOR_KROSEC
 	)
 
 /datum/species/tieberian/get_skin_list_tooltip()
@@ -149,7 +150,8 @@
 		"Chyerno <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_CHYERNO];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_CHYERNO,
 		"Drema <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_DREMA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_DREMA,
 		"Chir <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_CHIR];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_CHIR,
-		"Vesyl <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_VESYL];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_VESYL
+		"Vesyl <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_VESYL];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_VESYL,
+		"Krosec <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_KROSEC];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_KROSEC
 	)
 
 /datum/species/tieberian/get_hairc_list()
