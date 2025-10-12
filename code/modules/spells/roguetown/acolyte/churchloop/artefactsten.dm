@@ -222,7 +222,7 @@ proc/_malum_recipe_requires_extras(datum/anvil_recipe/R)
 		to_chat(user, span_warning("No single-bar recipes for [ing.name]."))
 		return
 
-	var/contents = "<center><b>Malum's Tool — Instant Forge</b><br>Consumed: [ing.name]</center><hr>"
+	var/contents = "<center><b>Malum's Tool ——— Instant Forge</b><br>Consumed: [ing.name]</center><hr>"
 
 	for(var/section in list("Armor","Weapons","Tools","Valuables"))
 		var/list/map = by_cat[section]
@@ -336,7 +336,7 @@ Necra's Censer (by ARefrigerator)
 		S.start()
 
 /*=========================================
-  Dendor’s Endless Hose — additive mode
+  Dendor’s Endless Hose - additive mode
   Click soil to add ±100 water/nutrition,
   optional bless, and growth modes incl. KILL
 =========================================*/
@@ -378,7 +378,7 @@ Necra's Censer (by ARefrigerator)
 	open_config_ui(user)
 
 /obj/item/artefact/dendor_hose/proc/open_config_ui(mob/user)
-	var/contents = "<center><b>Dendor’s Endless Hose — Settings</b></center><hr>"
+	var/contents = "<center><b> — Dendor’s Endless Hose Settings — </b></center><hr>"
 
 	contents += "<b>Water delta per click</b><br>"
 	contents += "<a href='?src=[REF(src)];cyclestep=water'>[hose_state_text(water_step_state)]</a><br><br>"
@@ -508,10 +508,10 @@ Necra's Censer (by ARefrigerator)
 /obj/item/artefact/noc_phylactery/examine(mob/user)
 	. = ..()
 	if(bound)
-		. += "<hr><span class='notice'>It hums softly — someone's blood is bound within.</span><br>"
+		. += "<hr><span class='notice'>It hums softly - someone's blood is bound within.</span><br>"
 		. += "Bound to: <b>[target_name ? target_name : "unknown"]</b><br>"
 	else if(binding)
-		. += "<hr><span class='warning'>The glass warms in your hand — attunement in progress...</span><br>"
+		. += "<hr><span class='warning'>The glass warms in your hand - attunement in progress...</span><br>"
 	else
 		. += "<hr><span class='info'>Use on a living being to attune by blood (30 seconds).</span><br>"
 
@@ -542,9 +542,9 @@ Necra's Censer (by ARefrigerator)
 		else
 			to_chat(user, span_warning("The phylactery finds the blood, but not the ground beneath them..."))
 	else
-		to_chat(user, span_warning("The blood-sample feels dull — perhaps the vessel is gone."))
+		to_chat(user, span_warning("The blood-sample feels dull - perhaps the vessel is gone."))
 
-	to_chat(user, span_notice("-- Noc's Phylactery --"))
+	to_chat(user, span_notice("— Noc's Phylactery —"))
 	to_chat(user, span_info("Target [target_name ? target_name : "unknown"]: X=[tx], Y=[ty], Z=[tz]"))
 	to_chat(user, span_info("You: X=[ut.x], Y=[ut.y], Z=[ut.z]"))
 	if(distance_tiles >= 0)
@@ -635,7 +635,7 @@ Necra's Censer (by ARefrigerator)
   Eora's Heart
   -----------------------------------------
   • Use on self: shows your unique partners (names) this week
-  • Use on target: shows their unique partners (names) this round
+  • Use on target: shows their unique partners (names) this week
 ========================================*/
 
 /obj/item/artefact/eora_heart
@@ -1192,52 +1192,32 @@ Necra's Censer (by ARefrigerator)
 		update_icon()
 		return
 
-	var/fpp = 100 - (40 + (sl * 10))
-	var/fishchance = 100
-	if(has_world_trait(/datum/world_trait/fishing_decrease))
-		fishchance -= 25
-	if(has_world_trait(/datum/world_trait/fishing_increase))
-		fishchance += 40
-	if(user.mind)
-		if(!sl)
-			fishchance -= 50
-		else
-			fishchance -= fpp
-
 	var/mob/living/fisherman = user
-	if(!prob(fishchance))
-		to_chat(user, "<span class='warning'>Not even a nibble...</span>")
-		if(user?.mind)
-			user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT/2)
-		update_icon()
-		return
-
 	var/A = pickweight(_abyssor_loot)
 
 	var/ow = 30 + (sl * 10)
 	to_chat(user, "<span class='notice'>Something tugs the line!</span>")
 	playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
 
-	if(!do_after(user, ow, target = target))
-		if(ismob(A))
-			var/mob/M = A
-			if(M.type in subtypesof(/mob/living/simple_animal/hostile))
-				new M(target)
-			else
-				new M(user.loc)
-			if(user?.mind)
-				user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT*2)
-		else
-			new A(user.loc)
-			to_chat(user, "<span class='warning'>Reel 'em in!</span>")
-			if(user?.mind)
-				user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE)
-			record_featured_stat(FEATURED_STATS_FISHERS, fisherman)
-			GLOB.scarlet_round_stats[STATS_FISH_CAUGHT]++
+	do_after(user, ow, target = target)
 
-		playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
+	if(ismob(A))
+		var/mob/M = A
+		if(M.type in subtypesof(/mob/living/simple_animal/hostile))
+			new M(target)
+		else
+			new M(user.loc)
+		if(user?.mind)
+			user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT*2)
 	else
-		to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")
+		new A(user.loc)
+		to_chat(user, "<span class='notice'>Reel 'em in!</span>")
+		if(user?.mind)
+			user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE)
+		record_featured_stat(FEATURED_STATS_FISHERS, fisherman)
+		GLOB.scarlet_round_stats[STATS_FISH_CAUGHT]++
+
+	playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
 
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	update_icon()

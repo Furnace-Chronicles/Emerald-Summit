@@ -519,8 +519,7 @@ var/global/list/PATRON_ARTIFACTS = list(
 	var/mob/living/carbon/human/H = istype(user, /mob/living/carbon/human) ? user : null
 	if(!H) return
 
-	if(!H.quest_cycle_start || world.time >= H.quest_cycle_start + QUEST_COOLDOWN_DS || !islist(H.quest_ui_entries) || !length(H.quest_ui_entries))
-		H.quest_cycle_start = world.time
+	if(!islist(H.quest_ui_entries) || !length(H.quest_ui_entries))
 		var/list/full = _rt_build_full_quest_pool(H)
 		var/list/pool = full.Copy()
 		var/list/choice = list()
@@ -533,15 +532,21 @@ var/global/list/PATRON_ARTIFACTS = list(
 				choice += list(entry)
 		H.quest_ui_entries = choice
 
-	var/left_ds = max(0, H.quest_cycle_start + QUEST_COOLDOWN_DS - world.time)
+		if(!H.quest_reroll_ready_at)
+			H.quest_reroll_ready_at = world.time + QUEST_COOLDOWN_DS
+
+	var/can_reroll = (world.time >= H.quest_reroll_ready_at)
+	var/left_ds = can_reroll ? 0 : max(0, H.quest_reroll_ready_at - world.time)
 	var/left_s  = round(left_ds / 10)
 	var/mins    = left_s / 60
 	var/secs    = left_s % 60
-	var/secs_str = "[secs]"; if(secs < 10) secs_str = "0[secs]"
+	var/secs_str = (secs < 10) ? "0[secs]" : "[secs]"
 
 	var/html = "<center><h3 style='color:#3498db;margin:6px 0;'>Miracle Quests</h3>"
-	html += "<div style='color:#9b59b6'>Quests reroll every 30 minutes after your first open. Next automatic reroll in: <b>[mins]:[secs_str]</b></div>"
-	html += "<div style='margin-top:6px;'><a href='?src=[REF(src)];q_reroll=1' style='background:#8e44ad;color:#fff;padding:3px 8px;border-radius:6px;text-decoration:none;'><b>Reroll</b></a></div>"
+	if(can_reroll)
+		html += "<div style='margin-top:6px;'><a href='?src=[REF(src)];q_reroll=1' style='background:#8e44ad;color:#fff;padding:3px 8px;border-radius:6px;text-decoration:none;'><b>Reroll</b></a></div>"
+	else
+		html += "<div style='margin-top:6px;color:#9b59b6;'>Reroll available in: <b>[mins]:[secs_str]</b></div>"
 	html += "</center><hr>"
 
 	if(!H.quest_ui_entries || !length(H.quest_ui_entries))
@@ -611,8 +616,21 @@ var/global/list/PATRON_ARTIFACTS = list(
 	if(!usr || !istype(usr, /mob/living/carbon/human)) return
 	var/mob/living/carbon/human/H = usr
 
+	/mob/living/carbon/human
+		// ...
+		var/quest_reroll_ready_at = 0
+
 	if(href_list["q_reroll"])
-		H.quest_cycle_start = world.time
+		if(world.time < H.quest_reroll_ready_at)
+			var/left_ds2 = max(0, H.quest_reroll_ready_at - world.time)
+			var/left_s2 = round(left_ds2 / 10)
+			var/m2 = left_s2 / 60
+			var/s2 = left_s2 % 60
+			var/s2s = (s2 < 10) ? "0[s2]" : "[s2]"
+			to_chat(H, span_warning("Reroll will be available in [m2]:[s2s]."))
+			open_quests_ui(H)
+			return
+
 		var/list/full = _rt_build_full_quest_pool(H)
 		H.quest_ui_entries = list()
 		while(H.quest_ui_entries.len < 3 && full.len)
@@ -622,6 +640,10 @@ var/global/list/PATRON_ARTIFACTS = list(
 			for(var/E in H.quest_ui_entries)
 				if(E["kind"] == entry["kind"]) { dup = TRUE; break }
 			if(!dup) H.quest_ui_entries += list(entry)
+
+		H.quest_reroll_ready_at = world.time + QUEST_COOLDOWN_DS
+
+		to_chat(H, span_notice("Quests rerolled."))
 		open_quests_ui(H)
 		return
 

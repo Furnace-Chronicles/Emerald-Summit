@@ -44,6 +44,13 @@
 		if(istext(sr) && length(sr)) return TRUE
 	return FALSE
 
+/proc/_rt_type_display_name(T)
+    if(!ispath(T)) return "[T]"
+    var/obj/O = new T
+    var/n = (istype(O, /obj) && istext(O.name) && length(O.name)) ? O.name : "[T]"
+    qdel(O)
+    return n
+
 /proc/_race_satisfies(H, key)
 	if(!istype(H, /mob/living/carbon/human)) return FALSE
 	var/mob/living/carbon/human/HH = H
@@ -192,9 +199,53 @@
 
 // 1) make an antag to sign this shit your excuse being railed by werewolves and bandits
 
+proc/_rt_calc_antag_bonus(mob/living/carbon/human/H)
+	if(!istype(H, /mob/living/carbon/human)) return 0
+	if(!H.mind) return 0
+
+	var/datum/mind/M = H.mind
+	var/bonus = 0
+
+	if(hascall(M, "has_antag_datum"))
+		if(call(M, "has_antag_datum")(/datum/antagonist/vampirelord))
+			bonus = max(bonus, 500)
+		if(call(M, "has_antag_datum")(/datum/antagonist/vampirelord/lesser))
+			bonus = max(bonus, 250)
+		if(call(M, "has_antag_datum")(/datum/antagonist/werewolf))
+			bonus = max(bonus, 250)
+		if(call(M, "has_antag_datum")(/datum/antagonist/lich))
+			bonus = max(bonus, 500)
+	else if("antag_datums" in M.vars)
+		var/list/L = M.vars["antag_datums"]
+		if(islist(L))
+			for(var/datum/antagonist/A in L)
+				if(istype(A, /datum/antagonist/vampirelord))
+					bonus = max(bonus, 500)
+				else if(istype(A, /datum/antagonist/vampirelord/lesser))
+					bonus = max(bonus, 250)
+				else if(istype(A, /datum/antagonist/werewolf))
+					bonus = max(bonus, 250)
+				else if(istype(A, /datum/antagonist/lich))
+					bonus = max(bonus, 500)
+
+	var/special_role = ""
+	var/assigned_role = ""
+	if("special_role" in M.vars) special_role = "[M.vars["special_role"]]"
+	if("assigned_role" in M.vars) assigned_role = "[M.vars["assigned_role"]]"
+
+	var/sr = lowertext(trim(special_role))
+	var/ar = lowertext(trim(assigned_role))
+
+	if(sr == "vampire lord" || ar == "vampire lord") bonus = max(bonus, 500)
+	if(sr == "lich" || ar == "lich") bonus = max(bonus, 500)
+	if(sr == "werewolf" || ar == "werewolf") bonus = max(bonus, 250)
+
+
+	return bonus
+
 /obj/item/quest_token/antag_find
 	name = "insight sigil"
-	desc = "Discern a hidden foe."
+	desc = "Gather forbidden knowledge from the enemy."
 	icon_state = "questflaw"
 
 /obj/item/quest_token/antag_find/attack(target, user)
@@ -202,18 +253,27 @@
 	if(!_ensure_attacker(user)) return
 	var/mob/living/carbon/human/H = target
 	if(!_ensure_target_player(H, user)) return
-	if(_has_quest_lock(H)) { to_chat(user, span_warning("They’ve already answered the call - stand down and let the clock run.")); return }
-	if(!_is_antagonist(H)) { to_chat(user, span_warning("No hidden malice reveals itself.")); return }
-	if(!do_after(user, 15 SECONDS, H)) return
+	if(_has_quest_lock(H))
+		to_chat(user, span_warning("They’ve already answered the call - stand down and let the clock run."))
+		return
+	if(!do_after(user, 15 SECONDS, H))
+		return
+	var/is_antag = _is_antagonist(H)
 	_apply_parish_boon(H)
 	_apply_quest_lock(H)
-	_reward_owner(QUEST_REWARD_FAVOR)
+	if(is_antag)
+		var/extra = _rt_calc_antag_bonus(H)
+		var/total_reward = QUEST_REWARD_FAVOR + extra
+		to_chat(user, span_notice("Hidden malice is revealed. You have completed the research."))
+		_reward_owner(total_reward)
+	else
+		to_chat(user, span_notice("No hidden malice reveals itself. The sigil is spent."))
 	qdel(src)
 
 // 2) bless expert of skill
 /obj/item/quest_token/skill_bless
 	name = "mark of craft"
-	desc = "Bless an expert of a specified skill."
+	desc = "Get an opinion of an expert of a specified skill."
 	icon_state = "questflaw"
 	var/required_skill_type = null
 
@@ -320,7 +380,7 @@
 	return TRUE
 
 /obj/item/quest_token/reliquary/attack_hand(mob/living/user)
-	. = ..() // ← CHANGED: НЕ выходим по результату родителя
+	. = ..()
 	if(!_ensure_attacker(user)) return
 	if(!_ensure_ui_access(user)) return
 
@@ -407,11 +467,10 @@
 	}
 
 
-
 // 6) feed outlander
 /obj/item/quest_token/outlander_ration
 	name = "charity ration"
-	desc = "Feed an outlander by hand."
+	desc = "Feed an outlander, ask them about their story..."
 	icon_state = "questration"
 
 /obj/item/quest_token/outlander_ration/attack(target, user)
@@ -513,7 +572,6 @@
 	qdel(src)
 	return TRUE
 
-
 // 9) witness sermon buff
 /obj/item/quest_token/sermon_witness
 	name = "sermon witness"
@@ -563,9 +621,9 @@
 	var/list/pool = list()
 
 	pool += list(list(
-		"kind"=1, "title"="Insight Sigil",
-		"desc"="Use the sigil on a hidden foe.",
-		"reward"=QUEST_REWARD_FAVOR,
+		"kind"=1, "title"="The Enemy of the Faith",
+		"desc"="Gather information from any enemy of the society (antagonist).",
+		"reward"=QUEST_REWARD_FAVOR, //in cool world its supposed to be higher reward for difficult antags but i dont care why would waste my time
 		"token_path"=/obj/item/quest_token/antag_find,
 		"params"=list()
 	))
@@ -598,7 +656,7 @@
 	)
 	var/race_key = lowertext(pick(race_keys))
 	pool += list(list(
-		"kind"=3, "title"="Rite of Blood",
+		"kind"=3, "title"="Blood research",
 		"desc"="Take blood from RACE: [html_attr(uppertext(race_key))].",
 		"reward"=QUEST_REWARD_FAVOR,
 		"token_path"=/obj/item/quest_token/blood_draw,
@@ -622,7 +680,7 @@
 	if(!pname) pname = pick(list("Astrata","Noc","Dendor","Abyssor","Ravox","Necra","Xylix","Pestra","Malum","Eora"))
 
 	pool += list(list(
-		"kind"=5, "title"="Sealed Reliquary",
+		"kind"=5, "title"="The riddle of the box",
 		"desc"="Solve a 4-digit code (followers of [html_attr(pname)] can see it).",
 		"reward"=QUEST_REWARD_FAVOR,
 		"token_path"=/obj/item/quest_token/reliquary,
@@ -631,18 +689,41 @@
 
 	pool += list(list(
 		"kind"=6, "title"="Feed the Outlander",
-		"desc"="Hand-feed a player with the OUTLANDER trait.",
+		"desc"="Feed a pilligrimage with the OUTLANDER trait.",
 		"reward"=QUEST_REWARD_FAVOR,
 		"token_path"=/obj/item/quest_token/outlander_ration,
 		"params"=list()
 	))
 
-	var/list/need_types = list(
-		/obj/item/ingot/iron
+
+	// 7) Offering of Supplies
+	var/list/candidate_types = list(
+		/obj/item/ingot/iron,
+		/obj/item/ingot/steel,
+		/obj/item/rogueweapon/spear/billhook,
+		/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,
+		/obj/item/clothing/neck/roguetown/chaincoif,
+		/obj/item/clothing/wrists/roguetown/bracers,
+		/obj/item/reagent_containers/powder/spice,
+		/obj/item/reagent_containers/glass/cup/ceramic/fancy,
+		/obj/item/polishing_cream,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom,
+		/obj/item/roguegem/green,
+		/obj/item/roguegem/violet,
+		/obj/item/roguegem/amethyst,
 	)
+
+	if(!candidate_types.len) //you have failed the simple task Connor
+		candidate_types = list(/obj/item/ingot/iron)
+
+	var/req_type = pick(candidate_types)
+	var/list/need_types = list(req_type)
+	var/req_name = html_attr(_rt_type_display_name(req_type))
+
 	pool += list(list(
-		"kind"=7, "title"="Relic Tribute",
-		"desc"="Offer one accepted item into the cube.",
+		"kind"=7,
+		"title"="Offering of Supplies",
+		"desc"="Place the required item into the coffer — [req_name].",
 		"reward"=QUEST_REWARD_FAVOR,
 		"token_path"=/obj/item/quest_token/donation_box,
 		"params"=list("need_types"=need_types)
@@ -664,8 +745,8 @@
 	))
 
 	pool += list(list(
-		"kind"=9, "title"="Anoint the Inspired",
-		"desc"="Seal a player who currently has a sermon-style blessing.",
+		"kind"=9, "title"="Whitness the Sermon",
+		"desc"="Seal a player who currently has a sermon-style blessing. They are supposed to get it from the priest.",
 		"reward"=QUEST_REWARD_FAVOR,
 		"token_path"=/obj/item/quest_token/sermon_witness,
 		"params"=list()
@@ -684,8 +765,8 @@
 		qdel(F)
 
 	pool += list(list(
-		"kind"=10, "title"="Mercy for the Afflicted",
-		"desc"="Soothe a player bearing flaw: [html_attr(flaw_name)].",
+		"kind"=10, "title"="Researchment of addiction",
+		"desc"="Find a person bearing flaw: [html_attr(flaw_name)].",
 		"reward"=QUEST_REWARD_FAVOR,
 		"token_path"=/obj/item/quest_token/flaw_aid,
 		"params"=list("required_flaw_type"=flaw_t)
