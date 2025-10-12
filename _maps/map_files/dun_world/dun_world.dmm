@@ -5454,6 +5454,14 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods)
+"bAv" = (
+/obj/structure/mineral_door/wood{
+	locked = 1;
+	lockid = "councillor";
+	name = "Councilling Office"
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town)
 "bAB" = (
 /obj/structure/roguemachine/scomm/l,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -11917,7 +11925,8 @@
 	},
 /obj/structure/mineral_door/wood{
 	locked = 1;
-	lockid = "garrison"
+	lockid = "councillor";
+	name = "Counsillor's Apartment"
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
@@ -18921,7 +18930,8 @@
 "frA" = (
 /obj/structure/mineral_door/wood{
 	locked = 1;
-	lockid = "garrison"
+	lockid = "councillor";
+	name = "Councillor's Bedroom"
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
@@ -24341,7 +24351,8 @@
 "gWA" = (
 /obj/structure/mineral_door/wood{
 	locked = 1;
-	lockid = "garrison"
+	lockid = "councillor";
+	name = "Counsillor's Bath"
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
@@ -34707,6 +34718,10 @@
 	icon_state = "woodchestalt"
 	},
 /obj/machinery/light/rogue/torchholder/l,
+/obj/item/rope/chain,
+/obj/item/rope/chain,
+/obj/item/rope/chain,
+/obj/item/rope/chain,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
 "jQO" = (
@@ -40788,7 +40803,7 @@
 /area/rogue/indoors/town/shop)
 "lAt" = (
 /obj/structure/closet/crate/roguecloset/lord{
-	lockid = "steward"
+	lockid = "councillor"
 	},
 /obj/machinery/light/rogue/wallfire/candle/l,
 /turf/open/floor/carpet/royalblack,
@@ -66739,7 +66754,8 @@
 	},
 /obj/structure/mineral_door/wood{
 	locked = 1;
-	lockid = "garrison"
+	lockid = "councillor";
+	name = "Counsillor's Apartment"
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/indoors/town)
@@ -72392,6 +72408,12 @@
 	base_icon_state = "woodchestalt";
 	icon_state = "woodchestalt"
 	},
+/obj/item/paper/scroll,
+/obj/item/paper/scroll,
+/obj/item/paper/scroll,
+/obj/item/paper/scroll,
+/obj/item/paper/scroll,
+/obj/item/paper/scroll,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
 "uwf" = (
@@ -72817,7 +72839,8 @@
 	},
 /obj/structure/mineral_door/wood{
 	locked = 1;
-	lockid = "garrison"
+	lockid = "councillor";
+	name = "Counsillor's War Office"
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
@@ -399432,7 +399455,7 @@ eKH
 eKH
 eKH
 eKH
-frA
+bAv
 eKH
 eSn
 yeu
