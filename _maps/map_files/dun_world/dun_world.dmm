@@ -32720,6 +32720,9 @@
 	pixel_x = -8;
 	pixel_y = 4
 	},
+/obj/structure/roguemachine/mail{
+	mailtag = "Counsillor's War Conference"
+	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "jky" = (
