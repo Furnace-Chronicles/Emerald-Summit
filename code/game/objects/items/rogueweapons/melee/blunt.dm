@@ -275,6 +275,7 @@
 	desc = "This wooden sword is great for training."
 	force = 5
 	force_wielded = 8
+	icon = 'icons/roguetown/weapons/swords32.dmi'
 	icon_state = "wsword"
 	//dropshrink = 0.75
 	possible_item_intents = list(/datum/intent/mace/strike/wood)
