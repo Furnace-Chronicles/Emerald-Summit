@@ -82,7 +82,8 @@ var/global/list/unity_miracles_list = list(
 	/obj/effect/proc_holder/spell/invoked/mending,
 	/obj/effect/proc_holder/spell/invoked/guidance,
 	/obj/effect/proc_holder/spell/invoked/healingtouch,
-	/obj/effect/proc_holder/spell/targeted/shapeshift/crow
+	/obj/effect/proc_holder/spell/targeted/shapeshift/crow,
+	/obj/effect/proc_holder/spell/invoked/projectile/divineblast
 )
 
 var/global/list/divine_patrons_index = list()

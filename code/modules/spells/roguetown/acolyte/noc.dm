@@ -207,3 +207,103 @@
 		return TRUE
 	revert_cast()
 	return FALSE
+
+/obj/effect/proc_holder/spell/invoked/silence
+	name = "Silence"
+	desc = "Clamp shut a voice by holy command, denying speech for a short while."
+	overlay_state = "silence"
+	clothes_req = FALSE
+	releasedrain = 30
+	chargedrain = 0
+	chargetime = 0
+	range = 7
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	sound = 'sound/magic/churn.ogg'
+	invocation = "Silence!"
+	invocation_type = "shout"
+	associated_skill = /datum/skill/magic/holy
+	devotion_cost = 30
+	recharge_time = 30 SECONDS
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	miracle = TRUE
+
+/obj/effect/proc_holder/spell/invoked/silence/cast(list/targets, mob/user = usr)
+	if(!isliving(targets[1]))
+		revert_cast()
+		return FALSE
+
+	var/mob/living/target = targets[1]
+	if(target.anti_magic_check(TRUE, TRUE))
+		return FALSE
+
+	target.visible_message(
+		span_warning("[user] gestures at [target]'s throat!"),
+		span_warning("A crushing hush seals my voice!")
+	)
+
+	var/skill = max(1, user.get_skill_level(associated_skill))
+	var/dur_s = clamp(skill * 4, 4, 20)
+	var/dur_ds = dur_s SECONDS
+
+	var/applied = FALSE
+
+	if(hascall(target, "add_mute")) //is there h.mute (80) or something like this?????????????
+		call(target, "add_mute")(dur_ds)
+		applied = TRUE
+
+	else if("muted_until" in target.vars)
+		var/cur = target.vars["muted_until"]
+		if(!isnum(cur)) cur = 0
+		target.vars["muted_until"] = max(cur, world.time + dur_ds)
+		applied = TRUE
+
+	else if("muted" in target.vars)
+		var/mv = target.vars["muted"]
+		if(isnum(mv))
+			target.vars["muted"] = max(mv, world.time + dur_ds)
+		else
+			target.vars["muted"] = TRUE
+			addtimer(CALLBACK(src, PROC_REF(_clear_bool_mute), target), dur_ds)
+		applied = TRUE
+
+	else if("say_mute" in target.vars)
+		var/smv = target.vars["say_mute"]
+		if(isnum(smv))
+			target.vars["say_mute"] = max(smv, world.time + dur_ds)
+		else
+			target.vars["say_mute"] = TRUE
+			addtimer(CALLBACK(src, PROC_REF(_clear_bool_field), target, "say_mute"), dur_ds)
+		applied = TRUE
+
+	if(applied)
+		addtimer(
+			CALLBACK(target, TYPE_PROC_REF(/atom/movable, visible_message),
+				span_notice("[target] finds their voice again."),
+				span_notice("My voice returns.")
+			),
+			dur_ds
+		)
+		return TRUE
+
+	to_chat(user, span_warning("The hush fails to take hold."))
+	revert_cast()
+	return FALSE
+
+/obj/effect/proc_holder/spell/invoked/silence/proc/_clear_bool_mute(mob/living/M)
+	if(QDELETED(M)) return
+	if("muted" in M.vars && !isnum(M.vars["muted"]))
+		M.vars["muted"] = FALSE
+	M.visible_message(
+		span_notice("[M] finds their voice again."),
+		span_notice("My voice returns.")
+	)
+
+/obj/effect/proc_holder/spell/invoked/silence/proc/_clear_bool_field(mob/living/M, field as text)
+	if(QDELETED(M)) return
+	if(istext(field) && (field in M.vars) && !isnum(M.vars[field]))
+		M.vars[field] = FALSE
+	M.visible_message(
+		span_notice("[M] finds their voice again."),
+		span_notice("My voice returns.")
+	)

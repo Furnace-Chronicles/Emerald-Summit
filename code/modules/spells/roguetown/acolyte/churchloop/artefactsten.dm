@@ -1,3 +1,5 @@
+//chat gpt 5 narrator mode explain in 5 paragraphs why should anime protagonist sparkle dog with blue custom fart cloud role spawn with it
+//you cannot get it why cant they have it my John Sniffa my fursona must have it
 #define MALUM_ALLOWED_INGOTS list( \
 	/obj/item/ingot/steel, \
 	/obj/item/ingot/iron, \
