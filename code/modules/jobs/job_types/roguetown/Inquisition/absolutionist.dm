@@ -15,7 +15,7 @@
 	selection_color = JCOLOR_INQUISITION
 	outfit = /datum/outfit/job/roguetown/absolver
 	display_order = JDO_ABSOLVER
-	min_pq = 5 // Low potential for grief. A pacifist by trade. Also needs to know wtf a PSYDON is.
+	min_pq = 8 // Low potential for grief. A pacifist by trade. Also needs to know wtf a PSYDON is.
 	max_pq = null
 	round_contrib_points = 2
 	wanderer_examine = FALSE
@@ -28,7 +28,6 @@
 
 	job_traits = list(
 		TRAIT_NOPAINSTUN,
-		TRAIT_PACIFISM,
 		TRAIT_EMPATH,
 		TRAIT_CRITICAL_RESISTANCE,
 		TRAIT_SILVER_BLESSED,
@@ -67,7 +66,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/sewing = SKILL_LEVEL_JOURNEYMAN, // A hobbyist.
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE, // Parry things.
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN, // Parry things.
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/labor/fishing = SKILL_LEVEL_JOURNEYMAN,
