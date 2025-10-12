@@ -251,7 +251,8 @@
 	if(L.stat != CONSCIOUS)
 		return
 	if(do_after(L, 25, target = src))
-		var/list/waterl = list(/datum/reagent/water = 5)
+		var/list/waterl = list()
+		waterl[water_reagent] = 5
 		var/datum/reagents/reagents = new()
 		reagents.add_reagent_list(waterl)
 		reagents.trans_to(L, reagents.total_volume, transfered_by = user, method = INGEST)
