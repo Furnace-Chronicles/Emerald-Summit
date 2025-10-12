@@ -70,7 +70,7 @@
 	//receiving = list()
 	. = ..()
 
-/proc/do_thrust_animate(atom/movable/user, atom/movable/target, pixels = 4, time = 2.7)
+/datum/sex_controller/proc/do_thrust_animate(atom/movable/target, pixels = 4, time = 2.7)
 	var/oldx = user.pixel_x
 	var/oldy = user.pixel_y
 	var/target_x = oldx
@@ -78,6 +78,10 @@
 	var/dir = get_dir(user, target)
 	if(user.loc == target.loc)
 		dir = user.dir
+	if(speed > SEX_SPEED_MID)
+		time -= 0.25
+	if(force < SEX_FORCE_MID)
+		pixels -= 1
 	switch(dir)
 		if(NORTH)
 			target_y += pixels

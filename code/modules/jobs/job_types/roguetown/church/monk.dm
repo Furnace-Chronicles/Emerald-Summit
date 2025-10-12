@@ -90,7 +90,7 @@
 	beltl = /obj/item/storage/keyring/churchie
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backr = /obj/item/rogueweapon/woodstaff
-	backpack_contents = list(/obj/item/ritechalk)
+	backpack_contents = list(/obj/item/ritechalk, /obj/item/rogueweapon/surgery/hammer)
 	switch(H.patron?.type)
 		if(/datum/patron/divine/astrata)
 			head = /obj/item/clothing/head/roguetown/roguehood/astrata

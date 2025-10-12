@@ -706,6 +706,7 @@
 	max_integrity = 100
 	name = "iron scissors"
 	desc = "Scissors made of iron that may be used to salvage usable materials from clothing."
+	icon = 'icons/roguetown/weapons/tools.dmi'
 	icon_state = "iscissors"
 	inv_storage_delay = null
 

@@ -22,7 +22,7 @@
 	cmode_music = 'sound/music/combat_guard.ogg'
 	advclass_cat_rolls = list (CTAG_MARSHAL = 20)
 
-	job_traits = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_PERFECT_TRACKER)
+	job_traits = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_PERFECT_TRACKER)
 	job_subclasses = list(
 		/datum/advclass/marshal/classic,
 		/datum/advclass/marshal/kcommander

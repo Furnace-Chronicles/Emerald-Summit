@@ -591,9 +591,6 @@
 		var/atom/movable/AM = item
 		AM.onTransitZ(old_z,new_z)
 
-/atom/movable/proc/setMovetype(newval)
-	movement_type = newval
-
 //Called whenever an object moves and by mobs when they attempt to move themselves through space
 //And when an object or action applies a force on src, see newtonian_move() below
 //Return 0 to have src start/keep drifting in a no-grav area and 1 to stop/not start drifting
@@ -1033,18 +1030,6 @@ GLOBAL_VAR_INIT(pixel_diff_time, 1)
 		return FALSE
 	acted_explosions += ex_id
 	return TRUE
-
-//TODO: Better floating
-/atom/movable/proc/float(on)
-	if(throwing)
-		return
-	if(on && !(movement_type & FLOATING))
-		animate(src, pixel_y = pixel_y + 2, time = 1 SECONDS, loop = -1, flags = ANIMATION_RELATIVE)
-		animate(pixel_y = pixel_y - 2, time = 1 SECONDS, loop = -1, flags = ANIMATION_RELATIVE)
-		setMovetype(movement_type | FLOATING)
-	else if (!on && (movement_type & FLOATING))
-		animate(src, pixel_y = initial(pixel_y), time = 1 SECONDS)
-		setMovetype(movement_type & ~FLOATING)
 
 /* Language procs */
 /atom/movable/proc/get_language_holder(shadow=TRUE)

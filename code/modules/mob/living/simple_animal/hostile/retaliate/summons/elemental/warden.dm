@@ -81,6 +81,8 @@
 		return target.attack_animal(src)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/elemental/warden/proc/yeet(atom/movable/target)
+	if(!target) //i have no idea too lets hope it will be fine
+		return
 	var/atom/throw_target = get_edge_target_turf(src, get_dir(src, target)) //ill be real I got no idea why this worked.
 	target.throw_at(throw_target, 7, 4)
 	if(isliving(target))

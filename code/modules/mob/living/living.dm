@@ -12,6 +12,7 @@
 	faction += "[REF(src)]"
 	GLOB.mob_living_list += src
 	init_faith()
+	AddElement(/datum/element/movetype_handler)
 
 /mob/living/Destroy()
 	surgeries = null
@@ -1254,38 +1255,6 @@
 /mob/living/proc/get_visible_name()
 	return name
 
-/mob/living/update_gravity(has_gravity, override)
-	. = ..()
-	if(!SSticker.HasRoundStarted())
-		return
-	if(has_gravity)
-		if(has_gravity == 1)
-			clear_alert("gravity")
-		else
-			if(has_gravity >= GRAVITY_DAMAGE_TRESHOLD)
-				throw_alert("gravity", /atom/movable/screen/alert/veryhighgravity)
-			else
-				throw_alert("gravity", /atom/movable/screen/alert/highgravity)
-	else
-		throw_alert("gravity", /atom/movable/screen/alert/weightless)
-	if(!override && !is_flying())
-		float(!has_gravity)
-
-/mob/living/float(on)
-	if(throwing)
-		return
-	var/fixed = 0
-	if(anchored || (buckled && buckled.anchored))
-		fixed = 1
-	if(on && !(movement_type & FLOATING) && !fixed)
-		animate(src, pixel_y = pixel_y + 2, time = 10, loop = -1)
-		sleep(10)
-		animate(src, pixel_y = pixel_y - 2, time = 10, loop = -1)
-		setMovetype(movement_type | FLOATING)
-	else if(((!on || fixed) && (movement_type & FLOATING)))
-		animate(src, pixel_y = get_standard_pixel_y_offset(lying), time = 10)
-		setMovetype(movement_type & ~FLOATING)
-
 // The src mob is trying to strip an item from someone
 // Override if a certain type of mob should be behave differently when stripping items (can't, for example)
 /mob/living/stripPanelUnequip(obj/item/what, mob/who, where)
@@ -1395,11 +1364,8 @@
 	var/amplitude = min(4, (jitteriness/100) + 1)
 	var/pixel_x_diff = rand(-amplitude, amplitude)
 	var/pixel_y_diff = rand(-amplitude/3, amplitude/3)
-	var/final_pixel_x = get_standard_pixel_x_offset(lying)
-	var/final_pixel_y = get_standard_pixel_y_offset(lying)
-	animate(src, pixel_x = pixel_x + pixel_x_diff, pixel_y = pixel_y + pixel_y_diff , time = 2, loop = 6)
-	animate(pixel_x = final_pixel_x , pixel_y = final_pixel_y , time = 2)
-	setMovetype(movement_type & ~FLOATING) // If we were without gravity, the bouncing animation got stopped, so we make sure to restart it in next life().
+	animate(src, pixel_x = pixel_x_diff, pixel_y = pixel_y_diff , time = 2, loop = 6, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
+	animate(pixel_x = -pixel_x_diff , pixel_y = -pixel_y_diff , time = 2, flags = ANIMATION_RELATIVE)
 
 /mob/living/proc/get_temperature()
 //ATMO/TURF/TEMPERATURE

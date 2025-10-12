@@ -59,8 +59,7 @@
 
 		if(wear_armor)
 			if(mobility_flags & MOBILITY_STAND)
-				var/obj/item/clothing/C = wear_armor
-				C.step_action()
+				wear_armor.step_action()
 
 		if(wear_neck)
 			if(mobility_flags & MOBILITY_STAND)
@@ -69,17 +68,16 @@
 
 		if(wear_shirt)
 			if(mobility_flags & MOBILITY_STAND)
-				var/obj/item/clothing/C = wear_shirt
-				C.step_action()
+				wear_shirt.step_action()
 
 		if(cloak)
 			if(mobility_flags & MOBILITY_STAND)
-				var/obj/item/clothing/C = cloak
-				C.step_action()
+				var/obj/item/clothing/C = isclothing(cloak) ? cloak : null
+				C?.step_action()
 
 		if(shoes)
-			if(mobility_flags & MOBILITY_STAND)
-				var/obj/item/clothing/shoes/S = shoes
+			var/obj/item/clothing/shoes/S = shoes
+			if(mobility_flags & MOBILITY_STAND && istype(S))
 
 				//Bloody footprints
 				var/turf/T = get_turf(src)

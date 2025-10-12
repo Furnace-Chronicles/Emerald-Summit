@@ -112,6 +112,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Volf Helm"
 	path = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 
+/datum/loadout_item/papakha
+	name = "Papakha"
+	path = /obj/item/clothing/head/roguetown/papakha
+
 //CLOAKS
 /datum/loadout_item/tabard
 	name = "Tabard"
@@ -451,6 +455,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/spectacles
 	name = "Spectacles"
 	path = /obj/item/clothing/mask/rogue/spectacles
+
+/datum/loadout_item/spectacles_clear
+	name = "Clear Spectacles"
+	path = /obj/item/clothing/mask/rogue/spectacles/clear
 
 /datum/loadout_item/fingerless
 	name = "Fingerless Gloves"

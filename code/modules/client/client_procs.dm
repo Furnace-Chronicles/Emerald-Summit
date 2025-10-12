@@ -352,6 +352,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	data += "<font color='#c0c6c7'><span class='bold'>Golems & Dolls:</span></font> [GLOB.scarlet_round_stats[STATS_ALIVE_GOLEMS] + GLOB.scarlet_round_stats[STATS_ALIVE_DOLLS]]<br>"
 	data += "<font color='#9ACD32'><span class='bold'>Fluvian & Axians:</span></font> [GLOB.scarlet_round_stats[STATS_ALIVE_MOTHS] + GLOB.scarlet_round_stats[STATS_ALIVE_AXIAN]]<br>"
 	data += "<font color='#00CC99'><span class='bold'>Lamiae:</span></font> [GLOB.scarlet_round_stats[STATS_ALIVE_LAMIA]]<br>"
+	data += "<font color='#2be2e9'><span class='bold'>Harpies:</span></font> [GLOB.scarlet_round_stats[STATS_ALIVE_HARPIES]]<br>"
 	data += "</div>"
 
 	data += "</div></div>"

@@ -126,7 +126,7 @@
 
 /datum/supply_pack/rogue/Knave/elfdagger
 	name = "Elven Dagger"
-	cost = 40
+	cost = 155
 	contains = list(/obj/item/rogueweapon/huntingknife/idagger/silver/elvish)
 
 /datum/supply_pack/rogue/Knave/steeltossblades

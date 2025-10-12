@@ -519,3 +519,37 @@
 /datum/sprite_accessory/snout/front/noccite
 	name = "noccite"
 	icon_state = "noccite"
+
+// Sorry
+/datum/sprite_accessory/snout/thin_beak
+	abstract_type = /datum/sprite_accessory/snout/thin_beak
+	icon = 'icons/mob/sprite_accessory/snouts/thin.dmi'
+	default_colors = list("#5e5e5e")
+
+/datum/sprite_accessory/snout/thin_beak/bigbeak
+	name = "Big Beak, Thin"
+	icon_state = "bigbeak"
+
+/datum/sprite_accessory/snout/thin_beak/bigbeakshort
+	name = "Big Beak Short, Thin"
+	icon_state = "bigbeakshort"
+
+/datum/sprite_accessory/snout/thin_beak/slimbeak
+	name = "Slim Beak, Thin"
+	icon_state = "slimbeak"
+
+/datum/sprite_accessory/snout/thin_beak/slimbeakshort
+	name = "Slim Beak Short, Thin"
+	icon_state = "slimbeakshort"
+
+/datum/sprite_accessory/snout/thin_beak/slimbeakalt
+	name = "Slim Beak Alt, Thin"
+	icon_state = "slimbeakalt"
+
+/datum/sprite_accessory/snout/thin_beak/hookbeak
+	name = "Hook Beak, Thin"
+	icon_state = "hookbeak"
+
+/datum/sprite_accessory/snout/thin_beak/hookbeakbig
+	name = "Hook Beak Big, Thin"
+	icon_state = "hookbeakbig"

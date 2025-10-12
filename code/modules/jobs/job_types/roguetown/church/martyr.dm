@@ -429,6 +429,7 @@
 	allowed_races = RACES_SECOND_CLASS_NO_GOLEM
 	disallowed_races = list(
 		/datum/species/lamia,
+		/datum/species/harpy,
 	)
 	allowed_patrons = ALL_DIVINE_PATRONS
 	outfit = /datum/outfit/job/roguetown/martyr

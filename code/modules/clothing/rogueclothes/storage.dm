@@ -500,35 +500,6 @@
 	. = ..()
 	playsound(loc, 'sound/items/garrotegrab.ogg', 100, TRUE)
 
-/obj/item/clothing/wall_grab
-	name = "wall"
-	item_state = "grabbing"
-	icon_state = "grabbing"
-	icon = 'icons/mob/roguehudgrabs.dmi'
-	max_integrity = 10
-	w_class = WEIGHT_CLASS_HUGE
-	item_flags = ABSTRACT
-	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
-	no_effect = TRUE
-
-/obj/item/clothing/wall_grab/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
-	var/turf/openspace = user.loc
-	openspace.zFall(user) // slop?
-
-/obj/item/clothing/wall_grab/intercept_zImpact(atom/movable/AM, levels = 1) // with this shit it doesn't generate "X falls through open space". thank u guppyluxx
-    . = ..()
-    . |= FALL_NO_MESSAGE
-
-/*
-/obj/item/clothing/wall_grab/Initialize()
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-*/
-
 /obj/item/storage/belt/rogue/leather/smokebelt
 	name = "smokebomb belt"
 	desc = "A five-slotted belt meant for smokebombs. Little room left over."
