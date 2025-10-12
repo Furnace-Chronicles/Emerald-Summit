@@ -456,3 +456,92 @@
         span_notice("A steady warmth mends your insides and scours away infection.")
     )
     return TRUE
+
+//TEST STUFF UPGRADEABLE
+
+/obj/effect/proc_holder/spell/invoked/diagnose/greater
+	name = "Greater Diagnose"
+	desc = "A precise divine appraisal: shows reagents, blood level, organ status, and quantified damage."
+	overlay_state = "diagnose"
+	releasedrain = 15
+	chargedrain = 0
+	chargetime = 0
+	range = 2
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	sound = 'sound/magic/diagnose.ogg'
+	invocation_type = "none"
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = TRUE
+	recharge_time = 8 SECONDS
+	miracle = TRUE
+	devotion_cost = 0
+
+/obj/effect/proc_holder/spell/invoked/diagnose/greater/cast(list/targets, mob/living/user)
+	if(!ishuman(targets[1]))
+		revert_cast()
+		return FALSE
+
+	var/mob/living/carbon/human/H = targets[1]
+
+	if(hascall(H, "check_for_injuries"))
+		H.check_for_injuries(user)
+
+	to_chat(user, span_notice("--- Divine Diagnosis on [H] ---"))
+
+	if(H.reagents && H.reagents.reagent_list?.len)
+		to_chat(user, span_info("Reagents detected:"))
+		for(var/datum/reagent/R as anything in H.reagents.reagent_list)
+			if(!R || R.volume <= 0) continue
+			to_chat(user, "• [R.name]: [round(R.volume, 0.1)]u")
+	else
+		to_chat(user, span_notice("Reagents detected: none."))
+
+	var/blood_u = 0
+	if(H.reagents && hascall(H.reagents, "get_reagent_amount"))
+		blood_u = H.reagents.get_reagent_amount(/datum/reagent/blood)
+	else if("blood_volume" in H.vars && isnum(H.vars["blood_volume"]))
+		blood_u = H.vars["blood_volume"]
+	to_chat(user, span_info("Blood volume: [round(blood_u, 0.1)]u"))
+
+	var/tox = _dg_safe_num(H, list("toxloss"))
+	var/oxy = _dg_safe_num(H, list("oxyloss", "oxygen_loss"))
+	to_chat(user, span_info("Toxin damage: [tox]"))
+	to_chat(user, span_info("Oxygen damage: [oxy]"))
+
+	if(islist(H.bodyparts) && H.bodyparts.len)
+		to_chat(user, span_info("Bodyparts damage:"))
+		for(var/obj/item/bodypart/B as anything in H.bodyparts)
+			var/br = _dg_safe_num(B, list("brute_dam", "brute_damage", "brute"))
+			var/bu = _dg_safe_num(B, list("burn_dam", "burn_damage", "burn"))
+			if(br > 0 || bu > 0)
+				to_chat(user, "• [B.name]: brute [br], burn [bu]")
+	else
+		to_chat(user, span_notice("No bodypart damage data available."))
+	if(islist(H.internal_organs) && H.internal_organs.len)
+		to_chat(user, span_info("Internal organs:"))
+		for(var/obj/item/organ/O as anything in H.internal_organs)
+			var/od = 0
+			if(hascall(H, "get_organ_loss") && istext(O.slot) || isnum(O.slot))
+				var/tmp_loss = call(H, "get_organ_loss")(O.slot)
+				if(isnum(tmp_loss))
+					od = tmp_loss
+			if(!od)
+				var/base = _dg_safe_num(O, list("damage", "organ_damage"))
+				var/brorg = _dg_safe_num(O, list("brute_dam", "brute_damage"))
+				var/buorg = _dg_safe_num(O, list("burn_dam", "burn_damage"))
+				od = base + brorg + buorg
+			to_chat(user, "• [O.name]: damage [od]")
+	else
+		to_chat(user, span_notice("No internal organ data available."))
+
+	return TRUE
+
+/proc/_dg_safe_num(datum/D, list/keys)
+	if(!D || !islist(keys)) return 0
+	for(var/k in keys)
+		if(k in D.vars)
+			var/v = D.vars[k]
+			if(isnum(v))
+				return v
+	return 0

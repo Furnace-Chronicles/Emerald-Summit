@@ -552,3 +552,143 @@
 	_apply_quest_lock(H)
 	_reward_owner(QUEST_REWARD_FAVOR)
 	qdel(src)
+
+
+// UI ANCOR THING
+
+
+/proc/_rt_build_full_quest_pool(mob/living/carbon/human/H)
+	if(!H) return list()
+
+	var/list/pool = list()
+
+	pool += list(list(
+		"kind"=1, "title"="Insight Sigil",
+		"desc"="Use the sigil on a hidden foe.",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/antag_find,
+		"params"=list()
+	))
+
+	var/skill_t = null
+	var/list/skill_cands = list()
+	for(var/t in typesof(/datum/skill))
+		if(t != /datum/skill) skill_cands += t
+	if(skill_cands.len) skill_t = pick(skill_cands)
+
+	var/skill_name = "[skill_t]"
+	if(skill_t)
+		var/datum/skill/SK = new skill_t
+		if(SK && istext(SK.name)) skill_name = SK.name
+		qdel(SK)
+
+	pool += list(list(
+		"kind"=2, "title"="Find Expertise",
+		"desc"="Bless an EXPERT of SKILL: [html_attr(skill_name)].",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/skill_bless,
+		"params"=list("required_skill_type"=skill_t)
+	))
+
+	var/list/race_keys = list(
+		"northern_human","dwarf","dark_elf","wood_elf","half_elf","half_orc",
+		"goblin","kobold","lizard","aasimar","tiefling","halfkin","wildkin",
+		"golem","doll","vermin","dracon","axian","tabaxi","vulp","lupian",
+		"moth","lamia"
+	)
+	var/race_key = lowertext(pick(race_keys))
+	pool += list(list(
+		"kind"=3, "title"="Rite of Blood",
+		"desc"="Take blood from RACE: [html_attr(uppertext(race_key))].",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/blood_draw,
+		"params"=list("required_race_key"=race_key)
+	))
+
+	pool += list(list(
+		"kind"=4, "title"="Tithe of 500",
+		"desc"="Donate at least 500 mammon into the chest.",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/coin_chest,
+		"params"=list()
+	))
+
+	var/pname = null
+	build_divine_patrons_index()
+	if(divine_patrons_index && divine_patrons_index.len)
+		var/list/names = list()
+		for(var/n in divine_patrons_index) names += "[n]"
+		pname = pick(names)
+	if(!pname) pname = pick(list("Astrata","Noc","Dendor","Abyssor","Ravox","Necra","Xylix","Pestra","Malum","Eora"))
+
+	pool += list(list(
+		"kind"=5, "title"="Sealed Reliquary",
+		"desc"="Solve a 4-digit code (followers of [html_attr(pname)] can see it).",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/reliquary,
+		"params"=list("bonus_patron_name"=pname)
+	))
+
+	pool += list(list(
+		"kind"=6, "title"="Feed the Outlander",
+		"desc"="Hand-feed a player with the OUTLANDER trait.",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/outlander_ration,
+		"params"=list()
+	))
+
+	var/list/need_types = list(
+		/obj/item/ingot/iron
+	)
+	pool += list(list(
+		"kind"=7, "title"="Relic Tribute",
+		"desc"="Offer one accepted item into the cube.",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/donation_box,
+		"params"=list("need_types"=need_types)
+	))
+
+	var/pname2 = null
+	if(divine_patrons_index && divine_patrons_index.len)
+		var/list/names2 = list()
+		for(var/m in divine_patrons_index) names2 += "[m]"
+		pname2 = pick(names2)
+	if(!pname2) pname2 = pick(list("Astrata","Noc","Dendor","Abyssor","Ravox","Necra","Xylix","Pestra","Malum","Eora"))
+
+	pool += list(list(
+		"kind"=8, "title"="Minor Sermon",
+		"desc"="Deliver a Minor Sermon to a follower of [html_attr(pname2)].",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/sermon_minor,
+		"params"=list("required_patron_name"=pname2)
+	))
+
+	pool += list(list(
+		"kind"=9, "title"="Anoint the Inspired",
+		"desc"="Seal a player who currently has a sermon-style blessing.",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/sermon_witness,
+		"params"=list()
+	))
+
+	var/flaw_t = null
+	var/list/flaw_cands = list()
+	for(var/t2 in typesof(/datum/charflaw))
+		if(t2 != /datum/charflaw) flaw_cands += t2
+	if(flaw_cands.len) flaw_t = pick(flaw_cands)
+
+	var/flaw_name = "[flaw_t]"
+	if(flaw_t)
+		var/datum/charflaw/F = new flaw_t
+		if(F && istext(F.name)) flaw_name = F.name
+		qdel(F)
+
+	pool += list(list(
+		"kind"=10, "title"="Mercy for the Afflicted",
+		"desc"="Soothe a player bearing flaw: [html_attr(flaw_name)].",
+		"reward"=QUEST_REWARD_FAVOR,
+		"token_path"=/obj/item/quest_token/flaw_aid,
+		"params"=list("required_flaw_type"=flaw_t)
+	))
+
+	return pool

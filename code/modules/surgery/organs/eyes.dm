@@ -470,3 +470,34 @@
 	eyes.update_accessory_colors()
 	if(eyes.owner)
 		eyes.owner.update_body_parts(TRUE)
+
+/obj/item/organ/eyes/t1
+	parent_type = /obj/item/organ/eyes/robotic/glow
+
+	name = "Low Luminosity Eyes"
+	desc = "Bio-augmented luminous eyes."
+
+	max_light_beam_distance = 3
+	light_beam_distance = 3
+	light_object_power = 1
+
+	emp_act(severity)
+		return
+
+/obj/item/organ/eyes/t2
+	name = "Blessed dendorite eyes"
+	desc = "Eyes, that will allow you to see your prey... Be blessed, hunter..."
+	color = "#c2ae40"
+	eye_color = "#864896"
+	see_in_dark = 5
+	sight_flags = SEE_MOBS
+
+/obj/item/organ/eyes/t3
+	name = "Cursed necran eyes"
+	desc = "Pair of eyes that been stolen from one of Her hounds..."
+	icon_state = "burning_eyes"
+	color = "#c2ae40"
+	eye_color = "#3c6696"
+	sight_flags = SEE_MOBS | SEE_OBJS | SEE_TURFS
+	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
+	see_in_dark = 10
