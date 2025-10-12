@@ -22,7 +22,14 @@
 				new /obj/item/reagent_containers/food/snacks/rogue/friedegg/two(loc)
 				qdel(I)
 				qdel(src)
-	else
+	else if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheese))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
+			if(do_after(user,short_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/stuffeggraw(loc)
+				qdel(I)
+				qdel(src)
 		return ..()
 
 
@@ -48,7 +55,7 @@
 				new /obj/item/reagent_containers/food/snacks/rogue/friedegg/tiberian(loc)
 				qdel(I)
 				qdel(src)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/bacon/fried))
+	else if (istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/bacon/fried))
 		if(isturf(loc)&& (found_table))
 			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
 			if(do_after(user,long_cooktime, target = src))
