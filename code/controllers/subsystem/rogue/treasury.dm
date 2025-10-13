@@ -1,5 +1,3 @@
-#define RURAL_TAX 50 // Free money. A small safety pool for lowpop mostly
-#define TREASURY_TICK_AMOUNT 6 MINUTES
 #define EXPORT_ANNOUNCE_THRESHOLD 100
 
 /proc/send_ooc_note(msg, name, job)
@@ -27,25 +25,26 @@ SUBSYSTEM_DEF(treasury)
 	wait = 1
 	priority = FIRE_PRIORITY_WATER_LEVEL
 	var/tax_value = 0.11
-	var/queens_tax = 0.10
+	var/queens_tax = 0.15
 	var/treasury_value = 0
-	var/mint_multiplier = 0.8 // 1x is meant to leave a margin after standard 80% collectable. Less than Bathmatron.
-	var/minted = 0
-	var/autoexport_percentage = 0.6 // Percentage above which stockpiles will automatically export  
+	var/multiple_item_penalty = 0.33
+	var/interest_rate = 0.15
+	var/autoexport_percentage = 0.6 // Percentage above which stockpiles will automatically export
 	var/list/bank_accounts = list()
 	var/list/noble_incomes = list()
 	var/list/stockpile_datums = list()
+	var/list/vault_accounting = list() //used for the vault count, cleared every fire()
 	var/next_treasury_check = 0
 	var/list/log_entries = list()
 	var/economic_output = 0
 	var/total_deposit_tax = 0
-	var/total_rural_tax = 0
+	var/total_vault_income = 0
 	var/total_noble_income = 0
 	var/total_import = 0
 	var/total_export = 0
 
 /datum/controller/subsystem/treasury/Initialize()
-	treasury_value = rand(1000, 2000)
+	treasury_value = rand(1500,2000)
 
 	for(var/path in subtypesof(/datum/roguestock/bounty))
 		var/datum/D = new path
@@ -58,12 +57,13 @@ SUBSYSTEM_DEF(treasury)
 		stockpile_datums += D
 	return ..()
 
+
 /datum/controller/subsystem/treasury/fire(resumed = 0)
 	if(world.time > next_treasury_check)
-		next_treasury_check = world.time + TREASURY_TICK_AMOUNT
+		next_treasury_check = world.time + 5 MINUTES
 		if(SSticker.current_state == GAME_STATE_PLAYING)
 			for(var/datum/roguestock/X in stockpile_datums)
-				if(!X.stable_price && !X.mint_item)
+				if(!X.stable_price && !X.transport_item)
 					if(X.demand < initial(X.demand))
 						X.demand += rand(5,15)
 					if(X.demand > initial(X.demand))
@@ -72,11 +72,24 @@ SUBSYSTEM_DEF(treasury)
 				A.held_items[2] += A.passive_generation
 				A.held_items[2] = min(A.held_items[2],10) //To a maximum of 10
 		var/area/A = GLOB.areas_by_type[/area/rogue/indoors/town/vault]
+		var/amt_to_generate = 0
+		vault_accounting = list()
+		for(var/obj/item/I in A)
+			if(!isturf(I.loc))
+				continue
+			amt_to_generate += add_to_vault(I)
+		for(var/obj/structure/closet/C in A)
+			for(var/obj/item/I in C.contents)
+				amt_to_generate += add_to_vault(I)
+		amt_to_generate = amt_to_generate - (amt_to_generate * queens_tax)
+		amt_to_generate = round(amt_to_generate)
+		if(amt_to_generate > 0)
+			give_money_treasury(amt_to_generate, "wealth hoard")
+			total_vault_income += amt_to_generate
+			send_ooc_note("Income from wealth hoard: +[amt_to_generate]", job = list("Grand Duke", "Steward", "Clerk"))
 		for(var/obj/structure/roguemachine/vaultbank/VB in A)
 			if(istype(VB))
 				VB.update_icon()
-		give_money_treasury(RURAL_TAX, "Rural Tax Collection") //Give the King's purse to the treasury
-		total_rural_tax += RURAL_TAX
 		auto_export()
 
 /datum/controller/subsystem/treasury/proc/create_bank_account(name, initial_deposit)
@@ -205,6 +218,16 @@ SUBSYSTEM_DEF(treasury)
 /datum/controller/subsystem/treasury/proc/log_to_steward(log)
 	log_entries += log
 	return
+
+
+/datum/controller/subsystem/treasury/proc/add_to_vault(var/obj/item/I)
+	if(I.get_real_price() <= 0 || istype(I, /obj/item/roguecoin))
+		return 0
+	if(I.type in vault_accounting)
+		vault_accounting[I.type] *= multiple_item_penalty
+	else
+		vault_accounting[I.type] = I.get_real_price()
+	return (vault_accounting[I.type] * interest_rate)
 
 /datum/controller/subsystem/treasury/proc/distribute_estate_incomes()
 	for(var/mob/living/welfare_dependant in noble_incomes)

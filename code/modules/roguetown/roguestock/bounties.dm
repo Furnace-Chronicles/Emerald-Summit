@@ -1,13 +1,9 @@
 /datum/roguestock/bounty/treasure
 	name = "Collectable Treasures"
-	desc = "Treasures are minted for 80% of its value, which is deposited into the treasury\
-	Weapons, ores and clothings are excluded.\
-	Any item worth more than 30 mammons is accepted,\
-	and statues, cups, rings, platters, and candlesticks are always accepted\
-	regardless of value."
-	item_type = /obj
-	payout_price = 70
-	mint_item = TRUE
+	desc = "Treasures are sent to the vault, where they accrue value over time. Payout is a percentage is based on the price of the treasure, with taxes removed from the payout after."
+	item_type = /obj/item
+	payout_price = 10
+	transport_item = /area/rogue/indoors/town/vault
 	percent_bounty = TRUE
 
 /datum/roguestock/bounty/treasure/get_payout_price(obj/item/I)

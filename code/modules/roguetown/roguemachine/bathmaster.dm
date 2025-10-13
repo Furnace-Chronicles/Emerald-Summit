@@ -202,8 +202,8 @@ SUBSYSTEM_DEF(BMtreasury)
 	wait = 60 SECONDS // this should not need to run very often.
 	priority = FIRE_PRIORITY_WATER_LEVEL
 	var/treasury_value = 0
-	var/multiple_item_penalty = 0.7
-	var/interest_rate = 0.15 // Bit more interest, since it's gonna be much harder for the BMaster to get valuables.
+	var/multiple_item_penalty = 0.66
+	var/interest_rate = 0.20 // Bit more interest, since it's gonna be much harder for the BMaster to get valuables.
 	var/next_treasury_check = 0
 	var/list/vault_accounting = list()
 	/// The reference to the map's brassface, populated when it initializes.
@@ -217,6 +217,7 @@ SUBSYSTEM_DEF(BMtreasury)
 		vault_accounting[I.type] *= multiple_item_penalty
 	else
 		vault_accounting[I.type] = I.get_real_price()
+	return (vault_accounting[I.type]*interest_rate)
 	return (vault_accounting[I.type]*interest_rate)
 
 
@@ -246,7 +247,7 @@ SUBSYSTEM_DEF(BMtreasury)
 				amt_to_generate += add_to_vault(item)	
 
 	brassface.budget += round(amt_to_generate, 1) // goes directly into BRASSFACE rather than into any account.
-	send_ooc_note("Income from smuggling hoard to the BRASSFACE: +[amt_to_generate]", job = "Nightmaster")
+	send_ooc_note("Income from smuggling hoard to the BRASSFACE: +[amt_to_generate]", job = list("Nightmaster"))
 
 
 /datum/controller/subsystem/BMtreasury/Destroy()

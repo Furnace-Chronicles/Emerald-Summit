@@ -8,11 +8,11 @@
 	var/transport_fee = 1
 	var/withdraw_disabled = FALSE
 	var/demand = 100
-	// If the type of item is a mint item it will be reminted into coins
-	var/mint_item = FALSE
+	//v may send it to a place instead like treasures to horde. If false, will increment held_items and delete the item instead
+	var/transport_item = FALSE
 	//SStreasury.queens_tax is used in getting import price
 	var/export_price = 1
-	// Limit for stockpile. Only accounted for if it is not mint_item
+	// Limit for stockpile. Only accounted for if it is not transport_item
 	var/stockpile_limit = 100 // Limit beyond which the stockpile will just eat your things for free. Very high limit just to be safe you should define it directly.
 	//how many of the items are consumed/spawned when exporting/importing
 	var/importexport_amt = 10
