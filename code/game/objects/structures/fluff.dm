@@ -1056,18 +1056,20 @@
 				if(num_others > 0)
 					var/multiplier = 1.0
 					// number of bandits beyond the first
-					var/extras = max(0, num_bandits - 1)
-					multiplier = 1.0 - (0.1 * extras)
-					if(multiplier < 0.5)
-						multiplier = 0.5
+					var/extras = max(0, num_bandits - 1) // if donor is in list, otherwise -1
+					// each additional bandit reduces others' shares by 10%
+					multiplier = 1.0 - (0.1 * extras) // 0.1 per additional bandit
+					if(multiplier < 0.5) // cap at 50%
+						multiplier = 0.5 // minimum 50%
 					// apply multiplier to the donated amount when computing other bandit pool
-					var/other_pool = round(donatedamnt * multiplier)
-					other_share_base = floor(other_pool / num_others)
-					other_remainder = other_pool - (other_share_base * num_others)
-				for(var/mob/player in bandit_list)
+					var/other_pool = round(donatedamnt * multiplier) // total amount to be shared among other bandits
+					other_share_base = floor(other_pool / num_others) // base share for each other bandit
+					other_remainder = other_pool - (other_share_base * num_others) //remainder to distribute (+1) to first recipients
+				for(var/mob/player in bandit_list) // distribute to each bandit in the list
 					var/datum/antagonist/bandit/bandit_players = player.mind.has_antag_datum(/datum/antagonist/bandit)
 					var/amt_to_give = 0 // ensure variable is declared in this scope
 					if(player == user && donor_in_list)
+						// please stop whining after these changes, i am losing it
 						// donor receives the full donated amount (if they are a bandit)
 						amt_to_give = donatedamnt
 					else
