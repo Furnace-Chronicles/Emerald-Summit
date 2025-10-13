@@ -1054,7 +1054,7 @@
 				var/other_share_base = 0
 				var/other_remainder = 0
 				if(num_others > 0)
-					var/float/multiplier = 1.0
+					var/multiplier = 1.0
 					// number of bandits beyond the first
 					var/extras = max(0, num_bandits - 1)
 					multiplier = 1.0 - (0.1 * extras)
