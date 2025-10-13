@@ -58,7 +58,7 @@ changes:
   - rscadd: "Werewolves can now remain in wolf form if they hide underground during daylight. This feature is designed to encourage establishing underground 'wolf dens' to hide and socialise in"
   - rscadd: "Added a new werewolf spell, Den Sense, it examines the surrounding area for its suitability as a wolf den, to help you find hidey holes."
   - balance: "Werewolves in wolf form will now revert in daytime, not at dawn, when they are exposed to sunlight. The dawn period is intended to act as a warning, to run for your den before the sun is fully up"
-  - balance: "Werewolf stat bonus now only applies fully during the night period. It is halved during dawn, day, and dusk, (and reverts to full at night)"
+  - balance: "Werewolf stat bonus now only applies fully during the night period. It is reduced during dawn, day, and dusk, (and reverts to full at night)"
   - admin: "Fixed a bug in the admin command to set time of day, that would make it frozen forever with no way to resume. It can now be resumed"
   - admin: "Renamed the above command , 'Time of Day: Override' and moved it to the gamemaster menu"
   - admin: "Added a new gamemaster command, 'Time of Day: Advance', this command sets the time of day and does not freeze it, allowing time to continue normally from the start of the specified time period."
