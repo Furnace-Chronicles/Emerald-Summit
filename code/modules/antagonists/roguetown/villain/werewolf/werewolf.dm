@@ -19,7 +19,7 @@
 
 	//Edit these to make stronger or weaker wolf versions
 	var/night_attribute_magnitude	=	20
-	var/day_attribute_magnitude	=	10
+	var/day_attribute_magnitude	=	14
 
 	//This is a temporary variable do not edit it
 	var/attribute_magnitude = 20

@@ -76,7 +76,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	ambientnight = AMB_GENCAVE
 	underground = TRUE
 	soundenv = 8
-	underground = TRUE
+
 
 /area/rogue/indoors/cave/late/can_craft_here()
 	return FALSE
@@ -132,6 +132,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	warden_area = TRUE
 	soundenv = 17
 	converted_type = /area/rogue/indoors/shelter/mountains
+	underground = TRUE
 
 /area/rogue/indoors/shelter/mountains
 	icon_state = "mountains"
