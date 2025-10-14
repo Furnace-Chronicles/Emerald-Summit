@@ -112,6 +112,16 @@
 	desc = "A tunic exposing much of the neck and... shoulders?! How scandalous..."
 	icon_state = "lowcut"
 
+/obj/item/clothing/suit/roguetown/shirt/undershirt/corset
+	name = "corset"
+	desc = "A leather binding to constrict one's figure... and lungs."
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	icon = 'icons/roguetown/clothing/armor.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
+	icon_state = "corset"
+	grid_height = 64
+	grid_width = 32
+
 /obj/item/clothing/suit/roguetown/shirt/shadowshirt
 	name = "silk shirt"
 	desc = "A sleeveless shirt woven from glossy material."

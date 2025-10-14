@@ -10,7 +10,7 @@
 	name = ""
 	desc = ""
 	icon_state = ""
-	icon = 'icons/roguetown/weapons/32.dmi'
+	icon = 'icons/roguetown/weapons/shields32.dmi'
 	slot_flags = ITEM_SLOT_BACK
 	flags_1 = null
 	force = 10
@@ -390,7 +390,7 @@
 	name = "'Order'"
 	desc = "A special buckler shield made out of blacksteel for the captain of the guard, adorned with the Scarlet Reach crest."
 	icon_state = "capbuckler"
-	icon = 'icons/roguetown/weapons/special/captain.dmi'
+	icon = 'icons/roguetown/weapons/shields32.dmi'
 	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BACK
 	force = 20
 	throwforce = 10

@@ -58,7 +58,7 @@
 	name = "mace"
 	desc = "Helps anyone fall asleep."
 	icon_state = "mace"
-	icon = 'icons/roguetown/weapons/32.dmi'
+	icon = 'icons/roguetown/weapons/blunt32.dmi'
 	item_state = "mace_greyscale"
 	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/melee_righthand.dmi'
@@ -275,6 +275,7 @@
 	desc = "This wooden sword is great for training."
 	force = 5
 	force_wielded = 8
+	icon = 'icons/roguetown/weapons/swords32.dmi'
 	icon_state = "wsword"
 	//dropshrink = 0.75
 	possible_item_intents = list(/datum/intent/mace/strike/wood)

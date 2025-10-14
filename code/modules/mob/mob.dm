@@ -1363,11 +1363,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 	if(hydration > HYDRATION_LEVEL_FULL)
 		hydration = HYDRATION_LEVEL_FULL
 
-///Set the movement type of the mob and update it's movespeed
-/mob/setMovetype(newval)
-	. = ..()
-	update_movespeed(FALSE)
-
 /// Updates the grab state of the mob and updates movespeed
 /mob/setGrabState(newstate)
 	. = ..()

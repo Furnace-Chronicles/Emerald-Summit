@@ -100,6 +100,9 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	///LETS SEE IF I CAN SET SPEEDS FOR SIMPLE MOBS WITHOUT DESTROYING EVERYTHING. Higher speed is slower, negative speed is faster.
 	var/speed = 1
 
+	///If the creature should have an innate TRAIT_MOVE_FLYING trait added on init that is also toggled off/on on death/revival.
+	var/is_flying_animal = FALSE
+
 	///Hot simple_animal baby making vars.
 	var/list/childtype = null
 	var/next_scan_time = 0
@@ -197,6 +200,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	for(var/spell in inherent_spells)
 		var/obj/effect/proc_holder/spell/newspell = new spell()
 		AddSpell(newspell)
+	if(is_flying_animal)
+		ADD_TRAIT(src, TRAIT_MOVE_FLYING, ROUNDSTART_TRAIT)
 
 /mob/living/simple_animal/Destroy()
 	GLOB.simple_animals[AIStatus] -= src
@@ -576,6 +581,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		del_on_death = FALSE
 		qdel(src)
 	else
+		if(is_flying_animal)
+			REMOVE_TRAIT(src, TRAIT_MOVE_FLYING, ROUNDSTART_TRAIT)
 		health = 0
 		icon_state = icon_dead
 		if(flip_on_death)
@@ -614,14 +621,14 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 //	return
 
 /mob/living/simple_animal/revive(full_heal = FALSE, admin_revive = FALSE)
-	if(..()) //successfully ressuscitated from death
-		icon = initial(icon)
-		icon_state = icon_living
-		density = initial(density)
-		mobility_flags = MOBILITY_FLAGS_DEFAULT
-		update_mobility()
-		. = TRUE
-		setMovetype(initial(movement_type))
+	. = ..()
+	if(!.)
+		return
+	icon = initial(icon)
+	icon_state = icon_living
+	density = initial(density)
+	if(is_flying_animal)
+		ADD_TRAIT(src, TRAIT_MOVE_FLYING, ROUNDSTART_TRAIT)
 
 /mob/living/simple_animal/proc/make_babies() // <3 <3 <3
 	if(gender != FEMALE || stat || next_scan_time > world.time || !childtype || !animal_species || !SSticker.IsRoundInProgress())

@@ -182,6 +182,12 @@
 
 /datum/virtue/combat/hollow_life/apply_to_human(mob/living/carbon/human/recipient)
 	recipient.change_stat(STATKEY_CON, -2)
-	recipient.mob_biotypes |= MOB_UNDEAD
 	recipient.dna.species.soundpack_m = new /datum/voicepack/hollow()
 	recipient.dna.species.soundpack_f = new /datum/voicepack/hollow_fem()
+	if(recipient.charflaw)
+		if(recipient.charflaw.type == /datum/charflaw/damned)
+			to_chat(recipient, "Your body is plagued by curses!")
+			ADD_TRAIT(recipient, TRAIT_NORUN, TRAIT_GENERIC)
+		else
+			recipient.mob_biotypes |= MOB_UNDEAD //Undead biotype is already applied by damned vice.
+

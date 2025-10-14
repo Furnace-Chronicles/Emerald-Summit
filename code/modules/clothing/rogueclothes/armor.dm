@@ -383,17 +383,6 @@
 	icon_state = "shadowplate"
 	item_state = "shadowplate"
 
-//................ Corset.................... //
-/obj/item/clothing/suit/roguetown/armor/corset
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
-	name = "corset"
-	desc = "A leather binding to constrict one's figure... and lungs."
-	icon_state = "corset"
-	armor_class = ARMOR_CLASS_LIGHT
-	body_parts_covered = CHEST
-	grid_height = 64
-	grid_width = 32
-
 /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	name = "arming jacket"
 	icon_state = "dgamb"

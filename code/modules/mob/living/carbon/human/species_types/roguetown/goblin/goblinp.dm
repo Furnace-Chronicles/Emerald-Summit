@@ -11,6 +11,7 @@
 	town square or out on a well-traveled road, as even the most backwater peasant can tell the difference between a sapient one and portal-spawn. Usually.<br>\
 	(+1 Speed)" 
 	species_traits = list(EYECOLOR,LIPS,STUBBLE)
+	inherent_traits = list(TRAIT_NASTY_EATER)
 	possible_ages = ALL_AGES_LIST
 	use_skintones = TRUE
 	skin_tone_wording = "Skin Color"
@@ -22,6 +23,7 @@
 	soundpack_f = /datum/voicepack/female/goblin
 	custom_clothes = TRUE
 	use_f = TRUE
+	disliked_food = NONE
 	clothes_id = "dwarf"
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
 	organs = list(

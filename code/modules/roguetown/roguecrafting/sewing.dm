@@ -228,6 +228,12 @@
 
 /* craftdif of 2+ */
 
+/datum/crafting_recipe/roguetown/sewing/clothsash
+	name = "cloth sash (4 cloth)"
+	result = list(/obj/item/storage/belt/rogue/leather/sash)
+	reqs = list(/obj/item/natural/cloth = 4)
+	craftdiff = 2
+
 /datum/crafting_recipe/roguetown/sewing/wrappings
 	name = "solar wrappings (2 cloth)"
 	result = list(/obj/item/clothing/wrists/roguetown/wrappings)

@@ -73,6 +73,7 @@
 		/datum/sprite_accessory/underwear/bikini,
 		/datum/sprite_accessory/underwear/leotard,
 		/datum/sprite_accessory/underwear/athletic_leotard,
+		/datum/sprite_accessory/underwear/braies,
 		)
 
 /datum/customizer/bodypart_feature/legwear
@@ -89,4 +90,5 @@
 		/datum/sprite_accessory/legwear/stockings,
 		/datum/sprite_accessory/legwear/stockings/silk,
 		/datum/sprite_accessory/legwear/stockings/fishnet,
+		/datum/sprite_accessory/legwear/stockings/thigh,
 		)

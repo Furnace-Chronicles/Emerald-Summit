@@ -31,6 +31,7 @@
 	// Explicitly defined runechat message, if it's not defined and `show_runechat` is TRUE then it will use `message` instaed
 	var/runechat_msg = null
 	var/is_animal = FALSE
+	var/targetrange = 2 //for ranged targeted emotes, range of 2 is for adjacents
 
 /datum/emote/New()
 	if(!runechat_msg)
@@ -64,13 +65,16 @@
 	if(targetted)
 		var/list/mobsadjacent = list()
 		var/mob/chosenmob
-		for(var/mob/living/M in range(user, 2))
+		for(var/mob/living/M in range(user, targetrange))
 			if(M != user)
 				mobsadjacent += M
 		if(mobsadjacent.len)
 			chosenmob = input("[key] who?") in mobsadjacent
 		if(chosenmob)
 			if(user.Adjacent(chosenmob))
+				params = chosenmob.name
+				adjacentaction(user, chosenmob)
+			else if(targetrange > 2) //if it's a ranged targeted emote
 				params = chosenmob.name
 				adjacentaction(user, chosenmob)
 	var/raw_msg = select_message_type(user, intentional)
@@ -230,12 +234,12 @@
 		var/mob/living/carbon/C = user
 		if(C.silent)
 			. = message_muffled
-		if(!muzzle_ignore && HAS_TRAIT(C, TRAIT_MUTE) && emote_type == EMOTE_AUDIBLE)	
+		if(!muzzle_ignore && HAS_TRAIT(C, TRAIT_MUTE) && emote_type == EMOTE_AUDIBLE)
 			. = message_muffled
 		if(!muzzle_ignore && C.mouth?.muteinmouth && emote_type == EMOTE_AUDIBLE)
 			. = message_muffled
 		if(!muzzle_ignore && emote_type == EMOTE_AUDIBLE && HAS_TRAIT(C, TRAIT_BAGGED))
-			. = message_muffled	
+			. = message_muffled
 
 /datum/emote/proc/select_param(mob/user, params)
 	return replacetext(message_param, "%t", params)
@@ -278,15 +282,15 @@
 /datum/emote/proc/get_target(mob/user, list/params)
 	if(!params.len)
 		return null
-	
+
 	var/target_name = params[1]
 	var/mob/target = null
-	
+
 	for(var/mob/M in view(user))
 		if(M.name == target_name)
 			target = M
 			break
-	
+
 	return target
 
 /datum/emote/proc/is_emote_muffled(mob/living/carbon/H) //ONLY for audible emote use

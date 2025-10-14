@@ -1330,6 +1330,9 @@ There are several things that need to be remembered:
 	remove_overlay(PANTS_LAYER)
 	remove_overlay(LEGSLEEVE_LAYER)
 
+	var/icon/clip_mask_init
+	var/icon/c_mask
+
 	if(client && hud_used)
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[SLOT_PANTS]
 		inv.update_icon()
@@ -1344,15 +1347,18 @@ There are several things that need to be remembered:
 			var/racecustom
 			var/legsindex = get_limbloss_index(LEG_RIGHT, LEG_LEFT)
 			var/mutable_appearance/pants_overlay
-			if(dna.species.custom_clothes)
+			if(isharpy(src))
+				clip_mask_init = icon(icon = 'icons/roguetown/mob/bodies/f/harpy_f.dmi', icon_state = "harpy_clipmask")
+				c_mask = clip_mask_init
+			if(dna.species.custom_clothes) // should prolly make it a separate limb or just use clipmask then
 				racecustom = dna.species.clothes_id
 			if(gender == FEMALE && !dna.species.use_m)
-				pants_overlay = wear_pants.build_worn_icon(default_layer = PANTS_LAYER, default_icon_file = 'icons/mob/clothing/feet.dmi', female = TRUE, customi = racecustom, sleeveindex = legsindex, boobed_overlay = has_boobed_overlay())
+				pants_overlay = wear_pants.build_worn_icon(default_layer = PANTS_LAYER, default_icon_file = 'icons/mob/clothing/feet.dmi', female = TRUE, customi = racecustom, sleeveindex = legsindex, boobed_overlay = has_boobed_overlay(), clip_mask = c_mask)
 			else
 				if(dna.species.use_f)
-					pants_overlay = wear_pants.build_worn_icon(default_layer = PANTS_LAYER, default_icon_file = 'icons/mob/clothing/feet.dmi', female = TRUE, customi = racecustom, sleeveindex = legsindex, boobed_overlay = has_boobed_overlay())
+					pants_overlay = wear_pants.build_worn_icon(default_layer = PANTS_LAYER, default_icon_file = 'icons/mob/clothing/feet.dmi', female = TRUE, customi = racecustom, sleeveindex = legsindex, boobed_overlay = has_boobed_overlay(), clip_mask = c_mask)
 				else
-					pants_overlay = wear_pants.build_worn_icon(default_layer = PANTS_LAYER, default_icon_file = 'icons/mob/clothing/feet.dmi', female = FALSE, customi = racecustom, sleeveindex = legsindex)
+					pants_overlay = wear_pants.build_worn_icon(default_layer = PANTS_LAYER, default_icon_file = 'icons/mob/clothing/feet.dmi', female = FALSE, customi = racecustom, sleeveindex = legsindex, clip_mask = c_mask)
 
 			if(gender == MALE)
 				if(OFFSET_PANTS in dna.species.offset_features)
@@ -1543,7 +1549,7 @@ generate/load female uniform sprites matching all previously decided variables
 
 
 */
-/obj/item/proc/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE)
+/obj/item/proc/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, var/icon/clip_mask = null)
 	var/t_state
 	var/sleevejazz = sleevetype
 	if(override_state)
@@ -1666,6 +1672,9 @@ generate/load female uniform sprites matching all previously decided variables
 
 	standing.alpha = alpha
 	standing.color = color
+
+	if(istype(clip_mask)) //For harpies to clip off remainder of their pantaloons. copypaste from ap 9/26/2025 taur code, which has been ported before
+		standing.filters += filter(type = "alpha", icon = clip_mask)
 
 	return standing
 
@@ -1861,6 +1870,14 @@ generate/load female uniform sprites matching all previously decided variables
 	//GENERATE NEW LIMBS
 	var/list/new_limbs = list()
 	var/hiden = FALSE //used to tell if we should hide boobs, basically
+	var/hidearms = FALSE //used to hide arm aux layer when clothing has integrated sleeves
+
+	// Check if any worn armor/shirt covers arms without sleeve overlays
+	if(wear_armor && (wear_armor.body_parts_covered & ARMS) && !wear_armor.sleeved)
+		hidearms = TRUE
+	if(wear_shirt && (wear_shirt.body_parts_covered & ARMS) && !wear_shirt.sleeved)
+		hidearms = TRUE
+
 	for(var/X in bodyparts)
 		var/obj/item/bodypart/BP = X
 		if(BP.name == BODY_ZONE_CHEST)
@@ -1877,6 +1894,8 @@ generate/load female uniform sprites matching all previously decided variables
 				if(I.flags_inv & HIDEBOOB)
 					hiden = TRUE
 			new_limbs += BP.get_limb_icon(hideaux = hiden)
+		else if(BP.body_part == ARM_LEFT || BP.body_part == ARM_RIGHT)
+			new_limbs += BP.get_limb_icon(hideaux = hidearms)
 		else
 			new_limbs += BP.get_limb_icon()
 	if(new_limbs.len)

@@ -8,6 +8,7 @@
 	allowed_races = RACES_SECOND_CLASS_NO_GOLEM
 	disallowed_races = list(
 		/datum/species/lamia,
+		/datum/species/harpy,
 	)
 	allowed_sexes = list(MALE, FEMALE)
 	display_order = JDO_COUNCILLOR

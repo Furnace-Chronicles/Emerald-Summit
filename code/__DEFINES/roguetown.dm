@@ -188,6 +188,7 @@
 	/datum/species/goblinp,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
+	/datum/species/harpy,\
 )
 
 #define RACES_NOBILITY_ELIGIBLE \
@@ -210,6 +211,7 @@
 
 #define RACES_WILDKIN \
 	/datum/species/anthromorph,\
+	/datum/species/harpy,\
 
 #define RACES_SECOND_CLASS \
     /datum/species/vulpkanin,\
@@ -222,6 +224,7 @@
     /datum/species/dracon,\
     /datum/species/akula,\
 	/datum/species/lamia,\
+	/datum/species/harpy,\
 
 #define RACES_FEARED \
 	/datum/species/halforc,\
@@ -278,6 +281,7 @@
 	/datum/species/golem/porcelain,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
+	/datum/species/harpy,\
 )
 
 #define CLOTHED_RACES_TYPES list(\
@@ -305,6 +309,7 @@
 	/datum/species/golem/porcelain,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
+	/datum/species/harpy,\
 )
 // Non-dwarf non-kobold non-goblin mostly
 #define NON_DWARVEN_RACE_TYPES list(\
@@ -328,6 +333,7 @@
 	/datum/species/golem/porcelain,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
+	/datum/species/harpy,\
 )
 // Non-elf non-dwarf non-kobold non-goblin mostly
 #define HUMANLIKE_RACE_TYPES list(\
@@ -347,6 +353,7 @@
 	/datum/species/golem/porcelain,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
+	/datum/species/harpy,\
 )
 #define ALL_CLERIC_PATRONS list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/dendor, /datum/patron/divine/necra, /datum/patron/divine/pestra, /datum/patron/divine/ravox, /datum/patron/divine/malum, /datum/patron/divine/eora) // Currently unused.
 
@@ -451,6 +458,7 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_HEIR			"CAT_HEIR"			// Prince(cess) class - Handles Heir class selector
 #define CTAG_LORD			"CAT_LORD"			// Lord class - Handles Lord class selector
 #define CTAG_SQUIRE			"CAT_SQUIRE"		// Squire class - Handles Squire class selector
+#define CTAG_GATEMASTER		"CAT_GATEMASTER"	// Gatemaster class - Handles Gatemaster class selector
 #define CTAG_VETERAN		"CAT_VETERAN"		// Veteran class - Handles Veteran class selector
 #define CTAG_MARSHAL		"CAT_MARSHAL"		// Marshal class
 #define CTAG_SENESCHAL		"CAT_SENESCHAL"		// Seneschal's aesthetic choices.

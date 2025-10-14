@@ -1,6 +1,7 @@
 /datum/sex_action/double_penetration_sex
 	name = "Fuck both their holes"
 	stamina_cost = 1.0
+	category = SEX_CATEGORY_PENETRATE
 	user_sex_part = SEX_PART_COCK
 	target_sex_part = SEX_PART_CUNT|SEX_PART_ANUS
 	knot_on_finish = TRUE
@@ -41,7 +42,7 @@
 	else
 		user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] knot-fucks [target]'s holes together."))
 	playsound(target, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
-	do_thrust_animate(user, target)
+	user.sexcon.do_thrust_animate(target)
 
 	user.sexcon.perform_sex_action(user, 3, 0, TRUE)
 	if(user.sexcon.check_active_ejaculation())

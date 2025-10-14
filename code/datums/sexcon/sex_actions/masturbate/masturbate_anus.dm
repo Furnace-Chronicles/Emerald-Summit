@@ -1,5 +1,6 @@
 /datum/sex_action/masturbate_anus
 	name = "Finger butt"
+	category = SEX_CATEGORY_HANDS
 	user_sex_part = SEX_PART_ANUS
 	target_sex_part = SEX_PART_ANUS
 

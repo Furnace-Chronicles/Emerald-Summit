@@ -33,7 +33,7 @@
 
 /datum/crafting_recipe/roguetown/leather/corset
 	name = "corset (1 fibers, 1 leather)"
-	result = /obj/item/clothing/suit/roguetown/armor/corset
+	result = /obj/item/clothing/suit/roguetown/shirt/undershirt/corset
 	reqs = list(/obj/item/natural/hide/cured = 1,
 				/obj/item/natural/fibers = 1)
 	tools = list(/obj/item/needle)

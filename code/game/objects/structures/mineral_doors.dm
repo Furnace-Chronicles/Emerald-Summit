@@ -45,7 +45,7 @@
 	var/repairable = FALSE
 	var/repair_state = 0
 	var/obj/item/repair_cost_first = null
-	var/obj/item/repair_cost_second = null	
+	var/obj/item/repair_cost_second = null
 	var/repair_skill = null
 	damage_deflection = 10
 	var/mob/last_bumper = null
@@ -356,7 +356,7 @@
 /obj/structure/mineral_door/update_icon()
 	icon_state = "[base_state][door_opened ? "open":""]"
 
-/obj/structure/mineral_door/examine(mob/user)	
+/obj/structure/mineral_door/examine(mob/user)
 	. = ..()
 	if(repairable)
 		var/obj/cast_repair_cost_first = repair_cost_first
@@ -413,9 +413,9 @@
 		new_track.handle_creation(user)
 
 /obj/structure/mineral_door/proc/repairdoor(obj/item/I, mob/user)
-	if(brokenstate)				
+	if(brokenstate)
 		switch(repair_state)
-			if(0)					
+			if(0)
 				if(istype(I, repair_cost_first))
 					user.visible_message(span_notice("[user] starts repairing [src]."), \
 					span_notice("I start repairing [src]."))
@@ -425,52 +425,52 @@
 						playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 						repair_state = 1
 						var/obj/cast_repair_cost_second = repair_cost_second
-						to_chat(user, span_notice("An additional [initial(cast_repair_cost_second.name)] is needed to finish the job."))				
+						to_chat(user, span_notice("An additional [initial(cast_repair_cost_second.name)] is needed to finish the job."))
 			if(1)
 				if(istype(I, repair_cost_second))
 					user.visible_message(span_notice("[user] starts repairing [src]."), \
 					span_notice("I start repairing [src]."))
 					playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
-					if(do_after(user, (300 / user.get_skill_level(repair_skill)), target = src)) // 1 skill = 30 secs, 2 skill = 15 secs etc.	
-						qdel(I)	
-						playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)	
+					if(do_after(user, (300 / user.get_skill_level(repair_skill)), target = src)) // 1 skill = 30 secs, 2 skill = 15 secs etc.
+						qdel(I)
+						playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 						icon_state = "[base_state]"
 						density = TRUE
 						opacity = TRUE
 						brokenstate = FALSE
 						obj_broken = FALSE
 						obj_integrity = max_integrity
-						repair_state = 0								
+						repair_state = 0
 						user.visible_message(span_notice("[user] repaired [src]."), \
-						span_notice("I repaired [src]."))												
+						span_notice("I repaired [src]."))
 	else
 		if(obj_integrity < max_integrity && istype(I, repair_cost_first))
-			to_chat(user, span_warning("[obj_integrity]"))	
+			to_chat(user, span_warning("[obj_integrity]"))
 			user.visible_message(span_notice("[user] starts repairing [src]."), \
 			span_notice("I start repairing [src]."))
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 			if(do_after(user, (300 / user.get_skill_level(repair_skill)), target = src)) // 1 skill = 30 secs, 2 skill = 15 secs etc.
 				qdel(I)
 				playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
-				obj_integrity = obj_integrity + (max_integrity/2)					
+				obj_integrity = obj_integrity + (max_integrity/2)
 				if(obj_integrity > max_integrity)
 					obj_integrity = max_integrity
 				user.visible_message(span_notice("[user] repaired [src]."), \
-				span_notice("I repaired [src]."))		
+				span_notice("I repaired [src]."))
 
 /obj/structure/mineral_door/attack_right(mob/user)
 	user.changeNext_move(CLICK_CD_FAST)
-	
+
 	// Special handling for deadbolt and shutter doors - preserve their custom behavior
 	if(istype(src, /obj/structure/mineral_door/wood/deadbolt) || istype(src, /obj/structure/mineral_door/wood/deadbolt/shutter))
 		return ..()
-	
+
 	// Check if user has a key in hand or belt slots
 	var/obj/item/key_item = find_key_for_door(user)
 	if(key_item)
 		trykeylock(key_item, user)
 		return
-	
+
 	// If no key found, fall back to parent behavior
 	return ..()
 
@@ -478,7 +478,7 @@
 /obj/structure/mineral_door/proc/find_key_for_door(mob/user)
 	if(!user || !keylock)
 		return null
-	
+
 	// Check hand first
 	var/obj/item/W = user.get_active_held_item()
 	if(W && (istype(W, /obj/item/roguekey) || istype(W, /obj/item/storage/keyring)))
@@ -489,19 +489,19 @@
 		if(istype(W, /obj/item/storage/keyring))
 			if(keyring_has_matching_key(W))
 				return W
-	
+
 	// Check belt slots if human
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		var/list/belt_slots = list(
 			H.get_item_by_slot(SLOT_BELT),
-			H.get_item_by_slot(SLOT_BELT_L), 
+			H.get_item_by_slot(SLOT_BELT_L),
 			H.get_item_by_slot(SLOT_BELT_R)
 		)
-		
+
 		for(var/obj/item/I in belt_slots)
 			if(!I) continue
-			
+
 			// Check if the belt item itself is a key or keyring
 			if(istype(I, /obj/item/roguekey))
 				var/obj/item/roguekey/K = I
@@ -510,7 +510,7 @@
 			if(istype(I, /obj/item/storage/keyring))
 				if(keyring_has_matching_key(I))
 					return I
-			
+
 			// Check inside the belt item if it has contents (storage belts, etc.)
 			if(I.contents && I.contents.len)
 				for(var/obj/item/contained_item in I.contents)
@@ -521,14 +521,14 @@
 					if(istype(contained_item, /obj/item/storage/keyring))
 						if(keyring_has_matching_key(contained_item))
 							return I // Return the belt item that contains the keyring
-	
+
 	return null
 
 // Helper proc to check if a keyring contains a matching key
 /obj/structure/mineral_door/proc/keyring_has_matching_key(obj/item/storage/keyring/keyring)
 	if(!keyring || !istype(keyring, /obj/item/storage/keyring))
 		return FALSE
-	
+
 	for(var/obj/item/I in keyring.contents)
 		if(istype(I, /obj/item/roguekey))
 			var/obj/item/roguekey/K = I
@@ -537,7 +537,7 @@
 		if(istype(I, /obj/item/storage/keyring))
 			if(keyring_has_matching_key(I))
 				return TRUE
-	
+
 	return FALSE
 
 /obj/structure/mineral_door/proc/trykeylock(obj/item/I, mob/user, autobump = FALSE)
@@ -769,7 +769,7 @@
 	var/over_state = "woodover"
 	repairable = TRUE
 	repair_cost_first = /obj/item/grown/log/tree/small
-	repair_cost_second = /obj/item/grown/log/tree/small	
+	repair_cost_second = /obj/item/grown/log/tree/small
 	repair_skill = /datum/skill/craft/carpentry
 	smashable = TRUE
 
@@ -836,7 +836,7 @@
 	attacked_sound = list('sound/combat/hits/onwood/woodimpact (1).ogg','sound/combat/hits/onwood/woodimpact (2).ogg')
 	repairable = TRUE
 	repair_cost_first = /obj/item/grown/log/tree/small
-	repair_cost_second = /obj/item/grown/log/tree/small	
+	repair_cost_second = /obj/item/grown/log/tree/small
 	repair_skill = /datum/skill/craft/carpentry
 	ridethrough = TRUE
 	smashable = TRUE
@@ -879,7 +879,7 @@
 
 /obj/structure/mineral_door/wood/deadbolt/attack_right(mob/user)
 	user.changeNext_move(CLICK_CD_FAST)
-	
+
 	// If keylock is disabled, implement manual locking behavior
 	if(!keylock)
 		if(get_dir(src,user) == lockdir)
@@ -890,7 +890,7 @@
 		else
 			to_chat(user, span_warning("The deadbolt doesn't toggle from this side."))
 		return
-	
+
 	var/obj/item = user.get_active_held_item()
 	var/obj/item/roguekey/found_key = null
 	var/obj/item/storage/keyring/found_keyring = null
@@ -907,14 +907,14 @@
 			var/mob/living/carbon/human/H = user
 			var/list/checked_items = list()
 			var/list/to_check = H.get_all_slots()
-			
+
 			while(to_check.len)
 				var/obj/item/I = to_check[1]
 				to_check -= I
 				if(I in checked_items)
 					continue
 				checked_items += I
-				
+
 				if(istype(I, /obj/item/roguekey))
 					var/obj/item/roguekey/K = I
 					if(K.lockhash == lockhash || istype(K, /obj/item/roguekey/lord))
@@ -951,6 +951,7 @@
 	max_integrity = 2000
 	over_state = "dunjonopen"
 	var/viewportdir
+	var/window_closed = TRUE
 	kickthresh = 15
 	locksound = 'sound/foley/doors/lockmetal.ogg'
 	unlocksound = 'sound/foley/doors/lockmetal.ogg'
@@ -988,7 +989,7 @@
 	if(key_item)
 		trykeylock(key_item, user)
 		return
-	
+
 	// If no key, fall back to parent behavior
 	if(user.get_active_held_item())
 		return ..()
@@ -1033,15 +1034,17 @@
 /obj/structure/mineral_door/wood/donjon/proc/view_toggle(mob/user)
 	if(door_opened)
 		return
-	if(opacity)
-		to_chat(user, span_info("I slide the viewport open."))
-		opacity = FALSE
-		playsound(src, 'sound/foley/doors/windowup.ogg', 100, FALSE)
-	else
-		to_chat(user, span_info("I slide the viewport closed."))
-		opacity = TRUE
-		playsound(src, 'sound/foley/doors/windowup.ogg', 100, FALSE)
+	window_closed = !window_closed //opacity == true, so inverting this sets it to false.
+	to_chat(user, span_info("I slide the viewport [window_closed ? "closed" : "open"]."))
+	set_opacity(window_closed)
+	playsound(src, 'sound/foley/doors/windowup.ogg', 100, FALSE)
 
+/obj/structure/mineral_door/wood/donjon/set_opacity(setter)
+	..()
+	if(!window_closed) //Keeps it non-opaque when the door shuts.
+		opacity = FALSE
+	else
+		opacity = setter
 
 /obj/structure/mineral_door/bars
 	name = "iron door"
@@ -1069,7 +1072,7 @@
 	repair_cost_first = /obj/item/ingot/iron
 	repair_cost_second = /obj/item/ingot/iron
 	repair_skill = /datum/skill/craft/blacksmithing
-	
+
 /obj/structure/mineral_door/barsold
 	name = "iron door"
 	desc = ""

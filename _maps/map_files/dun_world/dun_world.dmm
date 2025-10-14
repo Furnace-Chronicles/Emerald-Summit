@@ -64889,6 +64889,7 @@
 /obj/item/rogueweapon/sword/long/exe/cloth,
 /obj/item/natural/stone,
 /obj/item/storage/belt/rogue/surgery_bag/full,
+/obj/item/clothing/neck/roguetown/collar/leather/nomagic,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/cell)
 "sst" = (
@@ -69028,6 +69029,8 @@
 /obj/item/scrying,
 /obj/item/roguekey/manor,
 /obj/item/roguekey/manor,
+/obj/item/clothing/neck/roguetown/collar/leather/nomagic,
+/obj/item/clothing/gloves/roguetown/nomagic,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/town/magician)
 "tCv" = (

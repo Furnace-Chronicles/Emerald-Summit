@@ -49,7 +49,7 @@
 				H.adjustFireLoss(-heal_amount, 0)
 				H.adjustOxyLoss(-heal_amount, 0)
 				H.adjustToxLoss(-heal_amount, 0)
-				H.adjustOrganLoss(-ORGAN_SLOT_BRAIN, heal_amount)
+				H.adjustOrganLoss(ORGAN_SLOT_BRAIN, -heal_amount)
 				H.adjustCloneLoss(-heal_amount, 0)
 				H.visible_message(span_info("[H] glows in a faint mending light."), span_notice("I feel my body being repaired by arcyne energy."))
 				playsound(H, 'sound/foley/sewflesh.ogg', 50, TRUE, -2)

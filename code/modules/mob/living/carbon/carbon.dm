@@ -109,7 +109,7 @@
 	if(istype(I, /obj/item/leash))
 		return I.attack(src, user)
 	if(!user.cmode)
-		var/try_to_fail = !istype(user.rmb_intent, /datum/rmb_intent/weak)
+		var/try_to_fail = istype(user.rmb_intent, /datum/rmb_intent/strong)
 		var/list/possible_steps = list()
 		for(var/datum/surgery_step/surgery_step as anything in GLOB.surgery_steps)
 			if(!surgery_step.name)
@@ -253,11 +253,12 @@
 				var/coin_text = coin.quantity > 1 ? "[coin.quantity] [coin.name]" : coin.name
 				message_admins("[ADMIN_LOOKUPFLW(src)] has thrown [coin_text] at [target] ([AREACOORD(target)])")
 				log_admin("[key_name(src)] has thrown [coin_text] at [target] ([AREACOORD(target)])")
-		
+
 		if(!thrown_speed)
 			thrown_speed = thrown_thing.throw_speed
 		if(!thrown_range)
 			thrown_range = thrown_thing.throw_range
+		do_attack_animation(target, no_effect = TRUE)
 		visible_message("<span class='danger'>[src] throws [thrown_thing].</span>", \
 						"<span class='danger'>I toss [thrown_thing].</span>")
 		log_message("has thrown [thrown_thing]", LOG_ATTACK)
@@ -823,7 +824,7 @@
 
 	if(HAS_TRAIT(src, TRAIT_NOCSHADES))
 		lighting_alpha = min(lighting_alpha, LIGHTING_PLANE_ALPHA_NOCSHADES)
-		see_in_dark = max(see_in_dark, 12)	
+		see_in_dark = max(see_in_dark, 12)
 		add_client_colour(/datum/client_colour/nocshaded)
 		overlay_fullscreen("inqvision", /atom/movable/screen/fullscreen/inqvision)
 	else

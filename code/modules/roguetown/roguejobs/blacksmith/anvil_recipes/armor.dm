@@ -384,6 +384,13 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/bascinet/klapplong
 	craftdiff = 5
 
+/datum/anvil_recipe/armor/steel/helmet/psylonger
+	name = "Psylonger (+1 Steel, +1 Silver)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel, /obj/item/ingot/silver)
+	created_item = /obj/item/clothing/head/roguetown/helmet/bascinet/psylonger
+	craftdiff = 5
+
 /datum/anvil_recipe/armor/steel/helmet/wizardhelm
 	name = "Wizard bascinet (+1 Steel)"
 	req_bar = /obj/item/ingot/steel

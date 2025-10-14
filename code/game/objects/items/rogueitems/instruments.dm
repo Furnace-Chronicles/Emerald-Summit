@@ -27,6 +27,9 @@
 	grid_height = 64
 	grid_width = 32
 
+	/// Instrument is in some other holder such as an organ or item.
+	var/not_held = FALSE
+
 /obj/item/rogue/instrument/equipped(mob/living/user, slot)
 	. = ..()
 	if(playing && user.get_active_held_item() != src)
@@ -71,6 +74,8 @@
 		groupplaying = FALSE
 		soundloop.stop()
 		user.remove_status_effect(/datum/status_effect/buff/playing_music)
+//		if(not_held)
+//			user.remove_status_effect(/datum/status_effect/buff/harpy_sing)
 		return
 	else
 		var/playdecision = alert(user, "Would you like to start a band?", "Band Play", "Yes", "No")
@@ -163,6 +168,8 @@
 				soundloop.cursound = null
 				soundloop.start()
 				user.apply_status_effect(/datum/status_effect/buff/playing_music, stressevent, note_color)
+//				if(not_held)
+//					user.apply_status_effect(/datum/status_effect/buff/harpy_sing)
 				GLOB.scarlet_round_stats[STATS_SONGS_PLAYED]++
 			else
 				playing = FALSE
@@ -311,7 +318,6 @@
 	"Bard Dance" = 'sound/music/instruments/viola (7).ogg', // BG3 Song
 	"Old Time Battles" = 'sound/music/instruments/viola (8).ogg') // BG3 Song
 
-
 /obj/item/rogue/instrument/vocals
 	name = "vocalist's talisman"
 	desc = "This talisman emanates a soft shimmer of light. When held, it can amplify and even change a bard's voice."
@@ -331,6 +337,12 @@
 	"Bard Dance (Whistling)" = 'sound/music/instruments/vocalsx (3).ogg',
 	"Old Time Battles (Whistling)" = 'sound/music/instruments/vocalsx (4).ogg')
 
+/obj/item/rogue/instrument/vocals/harpy_vocals
+	name = "harpy's song"
+	desc = "The blessed essence of harpysong. How did you get this... you monster!"
+	icon = 'icons/obj/surgery.dmi'
+	icon_state = "harpysong"		//Pulsating heart energy thing.
+	not_held = TRUE
 
 /obj/item/rogue/instrument/trumpet
 	name = "trumpet"

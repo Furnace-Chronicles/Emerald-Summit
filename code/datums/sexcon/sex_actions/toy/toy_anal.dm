@@ -1,5 +1,6 @@
 /datum/sex_action/toy_anal
 	name = "Pleasure butt with toy"
+	category = SEX_CATEGORY_PENETRATE
 	user_sex_part = SEX_PART_ANUS
 	target_sex_part = SEX_PART_ANUS
 

@@ -31,7 +31,7 @@
 	var/prayer = input("Whisper your prayer:", "Prayer") as text|null
 	if(!prayer)
 		return
-	
+
 	//If God can hear your prayer (long enough, no bad words, etc.)
 	if(patron.hear_prayer(follower, prayer))
 		if(follower.has_flaw(/datum/charflaw/addiction/godfearing))
@@ -80,13 +80,11 @@
 	message_param = "bows to %t."
 	restraint_check = TRUE
 	emote_type = EMOTE_VISIBLE
+	targetrange = 4
 
-/datum/emote/living/bow/run_emote(mob/user, params, type_override, intentional)
+/datum/emote/living/bow/adjacentaction(mob/user, mob/target)
 	. = ..()
-	if(. && params && isliving(user))
-		var/mob/living/L = user
-		var/list/split_params = splittext(params, " ")
-		var/mob/target = get_target(L, split_params)
+	if(isliving(user))
 		if(target && ishuman(target))
 			var/mob/living/carbon/human/H = target
 			if(HAS_TRAIT(H, TRAIT_NOBLE))
@@ -96,7 +94,7 @@
 	set name = "Bow"
 	set category = "Emotes"
 
-	emote("bow", intentional = TRUE)
+	emote("bow", intentional = TRUE, targetted = TRUE)
 
 /datum/emote/living/burp
 	key = "burp"
@@ -1379,7 +1377,7 @@
 	is_animal = TRUE
 
 /mob/living/carbon/human/verb/emote_caw()
-	if(istype(usr.getorganslot(ORGAN_SLOT_TONGUE), /obj/item/organ/tongue/wild_tongue))
+	if(istype(usr.getorganslot(ORGAN_SLOT_TONGUE), /obj/item/organ/tongue/wild_tongue) || istype(usr.getorganslot(ORGAN_SLOT_TONGUE), /obj/item/organ/tongue/harpy))
 		set name = "Caw"
 		set category = "Noises"
 		emote("caw", intentional = TRUE, animal = TRUE)
@@ -1398,7 +1396,7 @@
 	is_animal = TRUE
 
 /mob/living/carbon/human/verb/emote_peep()
-	if(istype(usr.getorganslot(ORGAN_SLOT_TONGUE), /obj/item/organ/tongue/wild_tongue))
+	if(istype(usr.getorganslot(ORGAN_SLOT_TONGUE), /obj/item/organ/tongue/wild_tongue) || istype(usr.getorganslot(ORGAN_SLOT_TONGUE), /obj/item/organ/tongue/harpy))
 		set name = "Peep"
 		set category = "Noises"
 		emote("peep", intentional = TRUE, animal = TRUE)
@@ -1417,7 +1415,7 @@
 	is_animal = TRUE
 
 /mob/living/carbon/human/verb/emote_hoot()
-	if(istype(usr.getorganslot(ORGAN_SLOT_TONGUE), /obj/item/organ/tongue/wild_tongue))
+	if(istype(usr.getorganslot(ORGAN_SLOT_TONGUE), /obj/item/organ/tongue/wild_tongue) || istype(usr.getorganslot(ORGAN_SLOT_TONGUE), /obj/item/organ/tongue/harpy))
 		set name = "Hoot"
 		set category = "Noises"
 		emote("hoot", intentional = TRUE, animal = TRUE)
@@ -1796,9 +1794,9 @@
 /datum/emote/living/praysuicide
     key = "praysuicide"
     key_third_person = "utters their last words"
-    message = ""                   
+    message = ""
     emote_type = EMOTE_AUDIBLE
-    stat_allowed = UNCONSCIOUS      
+    stat_allowed = UNCONSCIOUS
     show_runechat = FALSE
 
 /mob/living/carbon/human/verb/emote_praysuicide()
@@ -1832,4 +1830,4 @@
     else
         to_chat(L, span_warning("Nothing happens."))
 
-    return TRUE   
+    return TRUE

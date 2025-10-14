@@ -2,6 +2,7 @@
 	name = "Ride them"
 	stamina_cost = 1.0
 	aggro_grab_instead_same_tile = FALSE
+	category = SEX_CATEGORY_PENETRATE
 	user_sex_part = SEX_PART_CUNT
 	target_sex_part = SEX_PART_COCK
 
@@ -34,7 +35,7 @@
 /datum/sex_action/vaginal_ride_sex/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] rides [target]."))
 	playsound(target, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
-	do_thrust_animate(user, target)
+	user.sexcon.do_thrust_animate(target)
 
 	target.sexcon.perform_sex_action(target, 2, 0, TRUE)
 	if(target.sexcon.check_active_ejaculation())

@@ -429,6 +429,7 @@
 	allowed_races = RACES_SECOND_CLASS_NO_GOLEM
 	disallowed_races = list(
 		/datum/species/lamia,
+		/datum/species/harpy,
 	)
 	allowed_patrons = ALL_DIVINE_PATRONS
 	outfit = /datum/outfit/job/roguetown/martyr
@@ -454,6 +455,7 @@
 	//Dual wielder is there to stand-in for ambidextrous in case they activate their sword in their off-hand.
 	virtue_restrictions = list(
 		/datum/virtue/utility/noble,
+		/datum/virtue/utility/blueblooded,
 		/datum/virtue/combat/rotcured,
 		/datum/virtue/utility/deadened,
 		/datum/virtue/utility/deathless,

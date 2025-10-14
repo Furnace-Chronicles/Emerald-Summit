@@ -146,7 +146,7 @@
 
 /datum/supply_pack/rogue/Brigand/silverwarhammer
 	name = "Silver Warhammer"
-	cost = 80
+	cost = 180
 	contains = list(/obj/item/rogueweapon/mace/silver)
 
 /datum/supply_pack/rogue/Brigand/steelwarhammer

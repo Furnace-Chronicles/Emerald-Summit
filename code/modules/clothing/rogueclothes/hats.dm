@@ -2378,7 +2378,8 @@
 	icon_state = "capbarbute"
 	block2add = FOV_BEHIND
 	max_integrity = 350
-	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT|HIDEEYES
+	body_parts_covered = HEAD|HAIR|EARS|MOUTH|NOSE|EYES
 
 /obj/item/clothing/head/roguetown/helmet/visored/captain/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), HIDEHAIR, null, 'sound/items/visor.ogg', null, UPD_HEAD)
@@ -2463,3 +2464,142 @@
 	blocksound = PLATEHIT
 	smeltresult = /obj/item/ash
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
+
+/obj/item/clothing/head/roguetown/helmet/heavy/zizoid
+	name = "crow of zizo"
+	desc = "A darkened iron heavy helmet shaped in a beak, it glows with dark red magiks on his eyes."
+	icon_state = "zizo"
+	var/on = FALSE
+	light_outer_range = 2 	//very small light in red to scare people
+	light_power = 1
+	light_color = LIGHT_COLOR_BLOOD_MAGIC
+	light_system = MOVABLE_LIGHT
+	smeltresult = /obj/item/ingot/iron
+
+/obj/item/clothing/head/roguetown/helmet/heavy/zizoid/MiddleClick(mob/user)
+	if(.)
+		return
+	user.changeNext_move(CLICK_CD_MELEE)
+	playsound(loc, 'sound/misc/toggle_lamp.ogg', 100)
+	toggle_helmet_light(user)
+	to_chat(user, span_info("I toggle [src] [on ? "on" : "off"]."))
+
+/obj/item/clothing/head/roguetown/helmet/heavy/zizoid/proc/toggle_helmet_light(mob/living/user)
+	on = !on
+	set_light_on(on)
+	update_icon()
+
+/obj/item/clothing/head/roguetown/helmet/heavy/zizoid/update_icon()
+	icon_state = "zizo[on]"
+	item_state = "zizo[on]"
+	if(ishuman(loc))
+		var/mob/living/carbon/human/H = loc
+		H.update_inv_head()
+	for(var/X in actions)
+		var/datum/action/A = X
+		A.UpdateButtonIcon(force = TRUE)
+	..()
+
+/obj/item/clothing/head/roguetown/helmet/heavy/grag
+	name = "vicious spiked star"
+	desc = "A heavy iron helmet covered in dry blood and spikes, shaped in a cruel deformated smile it glows with dark red magiks on his eyes."
+	icon_state = "graggar"
+	var/on = FALSE
+	light_outer_range = 2 	//very small light in red to scare people
+	light_power = 1
+	light_color = LIGHT_COLOR_BLOOD_MAGIC
+	light_system = MOVABLE_LIGHT
+	smeltresult = /obj/item/ingot/iron
+
+/obj/item/clothing/head/roguetown/helmet/heavy/grag/MiddleClick(mob/user)
+	if(.)
+		return
+	user.changeNext_move(CLICK_CD_MELEE)
+	playsound(loc, 'sound/misc/toggle_lamp.ogg', 100)
+	toggle_helmet_light(user)
+	to_chat(user, span_info("I toggle [src] [on ? "on" : "off"]."))
+
+/obj/item/clothing/head/roguetown/helmet/heavy/grag/proc/toggle_helmet_light(mob/living/user)
+	on = !on
+	set_light_on(on)
+	update_icon()
+
+/obj/item/clothing/head/roguetown/helmet/heavy/grag/update_icon()
+	icon_state = "graggar[on]"
+	item_state = "graggar[on]"
+	if(ishuman(loc))
+		var/mob/living/carbon/human/H = loc
+		H.update_inv_head()
+	for(var/X in actions)
+		var/datum/action/A = X
+		A.UpdateButtonIcon(force = TRUE)
+	..()
+
+/obj/item/clothing/head/roguetown/helmet/heavy/matt
+	name = "veil of greed"
+	desc = "A heavy iron helmet covered in a heavy red hood, shaped in a deformated greedy smile it glows with dark red magiks on his eyes."
+	icon_state = "matthios"
+	var/on = FALSE
+	light_outer_range = 2 	//very small light in red to scare people
+	light_power = 1
+	light_color = LIGHT_COLOR_BLOOD_MAGIC
+	light_system = MOVABLE_LIGHT
+	smeltresult = /obj/item/ingot/iron
+
+/obj/item/clothing/head/roguetown/helmet/heavy/matt/MiddleClick(mob/user)
+	if(.)
+		return
+	user.changeNext_move(CLICK_CD_MELEE)
+	playsound(loc, 'sound/misc/toggle_lamp.ogg', 100)
+	toggle_helmet_light(user)
+	to_chat(user, span_info("I toggle [src] [on ? "on" : "off"]."))
+
+/obj/item/clothing/head/roguetown/helmet/heavy/matt/proc/toggle_helmet_light(mob/living/user)
+	on = !on
+	set_light_on(on)
+	update_icon()
+
+/obj/item/clothing/head/roguetown/helmet/heavy/matt/update_icon()
+	icon_state = "matthios[on]"
+	item_state = "matthios[on]"
+	if(ishuman(loc))
+		var/mob/living/carbon/human/H = loc
+		H.update_inv_head()
+	for(var/X in actions)
+		var/datum/action/A = X
+		A.UpdateButtonIcon(force = TRUE)
+	..()
+
+// the psylongers
+/obj/item/clothing/head/roguetown/helmet/bascinet/psylonger
+	name = "psylonger"
+	desc = "A steel bascinet helmet with a straight visor, or \"klappvisier\", which can greatly reduce visibility. This one is ridiculously long, and has a PSYCROSS directly on the face. Only for the most zealous of the All-fathers followers."
+	icon = 'icons/roguetown/clothing/special/klappenlonger.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/klappenlonger.dmi'
+	icon_state = "psylonger"
+	item_state = "psylonger"
+	emote_environment = 3
+	body_parts_covered = FULL_HEAD
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	block2add = FOV_BEHIND
+	smeltresult = /obj/item/ingot/steel
+	smelt_bar_num = 2
+
+/obj/item/clothing/head/roguetown/helmet/bascinet/psylongest
+	name = "THE PSYLONGEST"
+	desc = "Oh- oh PSYDON, what is this THING?!"
+	icon = 'icons/roguetown/clothing/special/klappenlonger.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/klappenlonger.dmi'
+	icon_state = "psylongest"
+	item_state = "psylongest"
+	emote_environment = 3
+	armor = list("blunt" = 200, "slash" = 200, "stab" = 200, "piercing" = 200, "fire" = 200, "acid" = 200) //ENDVRE, admin shitspawn item..
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST)
+	max_integrity = 9999
+	body_parts_covered = FULL_HEAD
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | NECK
+	block2add = FOV_BEHIND
+	smeltresult = /obj/item/ingot/steel // why would you
+	smelt_bar_num = 2

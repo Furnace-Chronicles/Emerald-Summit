@@ -98,20 +98,16 @@
 
 /datum/supply_pack/rogue/food/butter
 	name = "Butter"
-	cost = 35
+	cost = 12
 	contains = list(
-					/obj/item/reagent_containers/food/snacks/butter,
-					/obj/item/reagent_containers/food/snacks/butter,
-					/obj/item/reagent_containers/food/snacks/butter,
+					/obj/item/reagent_containers/food/snacks/butter
 				)
 
 /datum/supply_pack/rogue/food/honey
 	name = "Honey"
-	cost = 50
+	cost = 25
 	contains = list(
 					/obj/item/reagent_containers/food/snacks/rogue/honey/spider,
-					/obj/item/reagent_containers/food/snacks/rogue/honey/spider,
-					/obj/item/reagent_containers/food/snacks/rogue/honey,
 					/obj/item/reagent_containers/food/snacks/rogue/honey,
 				)
 
@@ -119,34 +115,26 @@
 	name = "Eel"
 	cost = 20
 	contains = list(
-					/obj/item/reagent_containers/food/snacks/fish/eel,
-					/obj/item/reagent_containers/food/snacks/fish/eel,
-					/obj/item/reagent_containers/food/snacks/fish/eel,
+					/obj/item/reagent_containers/food/snacks/fish/eel
 				)
 
 /datum/supply_pack/rogue/food/carp
 	name = "Carp"
 	cost = 40
 	contains = list(
-					/obj/item/reagent_containers/food/snacks/fish/carp,
-					/obj/item/reagent_containers/food/snacks/fish/carp,
-					/obj/item/reagent_containers/food/snacks/fish/carp,
+					/obj/item/reagent_containers/food/snacks/fish/carp
 				)
 
 /datum/supply_pack/rogue/food/angler
 	name = "Anglerfish"
 	cost = 60
 	contains = list(
-					/obj/item/reagent_containers/food/snacks/fish/angler,
-					/obj/item/reagent_containers/food/snacks/fish/angler,
-					/obj/item/reagent_containers/food/snacks/fish/angler,
+					/obj/item/reagent_containers/food/snacks/fish/angler
 				)
 
 /datum/supply_pack/rogue/food/clownfish
 	name = "Clownfish"
 	cost = 40
 	contains = list(
-					/obj/item/reagent_containers/food/snacks/fish/clownfish,
-					/obj/item/reagent_containers/food/snacks/fish/clownfish,
-					/obj/item/reagent_containers/food/snacks/fish/clownfish,
+					/obj/item/reagent_containers/food/snacks/fish/clownfish
 				)

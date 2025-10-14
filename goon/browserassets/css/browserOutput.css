@@ -119,6 +119,11 @@ body {
 	src: url('aavnic.ttf');
 }
 
+@font-face { 
+  font-family: "Achilles"; 
+  src: url('abyssal.ttf'); 
+}
+
 /* */
 
 em {
@@ -487,6 +492,7 @@ h1.alert, h2.alert	{color: #c9c1ba;font-family: Pterra, TrueType;}
 .etruscan				{font-family: "Feronia", "Pterra"; font-size: 100%;}
 .gronnic				{font-family: "Jorvik Informal", "Pterra"; font-size: 100%;}
 .aavnic					{font-family: "Romeodn", "Pterra"; font-size: 100%;}
+.abyssal				{font-family: "Achilles", "Pterra"; font-size: 110%;}
 
 .torture				{color: #42ff20}
 

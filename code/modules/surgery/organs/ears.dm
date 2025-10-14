@@ -182,3 +182,7 @@
 /obj/item/organ/ears/goblin
 	name = "goblin ears"
 	accessory_type = /datum/sprite_accessory/ears/goblin
+
+/obj/item/organ/ears/harpy
+	name = "harpy ears"
+	desc = "You are a monster."

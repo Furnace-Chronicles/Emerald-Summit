@@ -82,7 +82,7 @@
 	name = "master's rod"
 	desc = "Bend the knee. Can't be used outside of the manor."
 	icon_state = "scepter"
-	icon = 'icons/roguetown/weapons/32.dmi'
+	icon = 'icons/roguetown/weapons/blunt32.dmi'
 	sharpness = IS_BLUNT
 	//dropshrink = 0.75
 	wlength = WLENGTH_NORMAL
@@ -266,7 +266,7 @@
 	name = "katar"
 	desc = "A blade that sits above the users fist. Commonly used by those proficient at unarmed fighting"
 	icon_state = "katar"
-	icon = 'icons/roguetown/weapons/32.dmi'
+	icon = 'icons/roguetown/weapons/daggers32.dmi'
 	gripsprite = FALSE
 	wlength = WLENGTH_SHORT
 	w_class = WEIGHT_CLASS_SMALL
@@ -299,6 +299,7 @@
 /obj/item/rogueweapon/katar/abyssor
 	name = "barotrauma"
 	desc = "A gift from a creature of the sea. The claw is sharpened to a wicked edge."
+	icon = 'icons/roguetown/weapons/misc32.dmi'
 	icon_state = "abyssorclaw"
 	force = 27	//Its thrust will be able to pen 80 stab armor if the wielder has 17 STR. (With softcap)
 	max_integrity = 120
@@ -344,7 +345,7 @@
 	desc = "A mean looking pair of steel knuckles."
 	force = 22
 	possible_item_intents = list(/datum/intent/knuckles/strike,/datum/intent/knuckles/smash)
-	icon = 'icons/roguetown/weapons/32.dmi'
+	icon = 'icons/roguetown/weapons/blunt32.dmi'
 	icon_state = "steelknuckle"
 	gripsprite = FALSE
 	wlength = WLENGTH_SHORT
@@ -378,7 +379,7 @@
 	desc = "A mean looking pair of bronze knuckles. Mildly heavier than it's steel counterpart, making it a solid defensive option, if less wieldy."
 	force = 20
 	possible_item_intents = list(/datum/intent/knuckles/strike,/datum/intent/knuckles/smash)
-	icon = 'icons/roguetown/weapons/32.dmi'
+	icon = 'icons/roguetown/weapons/blunt32.dmi'
 	icon_state = "bronzeknuckle"
 	gripsprite = FALSE
 	wlength = WLENGTH_SHORT
@@ -651,7 +652,7 @@
 	possible_item_intents = list(/datum/intent/pick)
 	gripped_intents = list(/datum/intent/pick, /datum/intent/stab/militia)
 	icon_state = "milpick"
-	icon = 'icons/roguetown/weapons/32.dmi'
+	icon = 'icons/roguetown/weapons/misc32.dmi'
 	sharpness = IS_SHARP
 	wlength = WLENGTH_SHORT
 	max_blade_int = 120

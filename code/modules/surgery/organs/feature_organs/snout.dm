@@ -37,3 +37,8 @@
 /obj/item/organ/snout/akula
 	name = "axian snout"
 	accessory_type = /datum/sprite_accessory/snout/sergal
+
+/obj/item/organ/snout/harpy
+	name = "harpy beak"
+	desc = "Thine cruelty knows no bounds, vile cur..."
+	accessory_type = /datum/sprite_accessory/snout/bird

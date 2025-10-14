@@ -258,7 +258,7 @@
 /obj/item/gun/ballistic/arquebus_pistol
 	name = "arquebus pistol"
 	desc = "A gunpowder weapon that shoots an armor piercing metal ball."
-	icon = 'icons/roguetown/weapons/32.dmi'
+	icon = 'icons/roguetown/weapons/ranged32.dmi'
 	icon_state = "pistol"
 	item_state = "pistol"
 	force = 10

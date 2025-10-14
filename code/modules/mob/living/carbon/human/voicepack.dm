@@ -23,7 +23,7 @@
 		switch(soundin)
 			if("laugh")
 				testing("setlaughh")
-				used = pick('sound/vo/male/old/laugh (1).ogg', 'sound/vo/male/old/laugh (2).ogg', 'sound/vo/male/old/laugh (3).ogg')
+				used = pick('sound/vo/male/old/harris_laugh_01.ogg', 'sound/vo/male/old/harris_laugh_02.ogg', 'sound/vo/male/old/harris_laugh_03.ogg', 'sound/vo/male/old/harris_laugh_04.ogg', 'sound/vo/male/old/harris_laugh_05.ogg', 'sound/vo/male/old/harris_laugh_07.ogg', 'sound/vo/male/old/harris_laugh_08.ogg', 'sound/vo/male/old/harris_laugh_10.ogg', 'sound/vo/male/old/harris_laugh_10.ogg', 'sound/vo/male/old/harris_laugh_11.ogg', 'sound/vo/male/old/harris_laugh_12.ogg', 'sound/vo/male/old/harris_laugh_14.ogg')
 			if("scream")
 				used = 'sound/vo/male/old/scream.ogg'
 			if("pain")
