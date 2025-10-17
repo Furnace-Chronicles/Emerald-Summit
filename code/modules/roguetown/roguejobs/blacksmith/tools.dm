@@ -108,6 +108,8 @@
 			return
 		else
 			user.visible_message(span_warning("[user] fumbles trying to repair [attacked_item]!"))
+			attacked_item.max_integrity = max(1, attacked_item.max_integrity-initial(attacked_item.max_integrity)/100) //subtract 1% max integrity. keep it as 1 because if integrity is zero and max is 1, it will be visibly damaged in some way.
+			attacked_item.obj_integrity  = max(0, initial(attacked_item.max_integrity)/100)
 			if(do_after(user, CLICK_CD_MELEE, target = attacked_object))
 				attack_obj(attacked_object, user)
 			return
