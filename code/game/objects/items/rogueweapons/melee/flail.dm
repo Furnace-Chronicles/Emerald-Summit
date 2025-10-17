@@ -52,11 +52,11 @@
 /datum/intent/flail/strike/smash
 	name = "smash"
 	chargetime = 5
-	chargedrain = 2
+	chargedrain = 1
 	no_early_release = TRUE
 	penfactor = BLUNT_DEFAULT_PENFACTOR
 	recovery = 10
-	damfactor = 1.6
+	damfactor = 1.9
 	chargedloop = /datum/looping_sound/flailswing
 	keep_looping = TRUE
 	icon_state = "insmash"
@@ -69,7 +69,7 @@
 	reach = 2
 
 /datum/intent/flail/strike/smash/militia
-	damfactor = 1.35
+	damfactor = 1.4
 
 /datum/intent/flail/strike/smash/golgotha
 	hitsound = list('sound/items/beartrap2.ogg')
@@ -126,6 +126,8 @@
 	name = "swift journey"
 	desc = "The striking head is full of teeth, rattling viciously with ever strike, with every rotation. Each set coming from one the wielder has laid to rest. Carried alongside them as a great show of respect."
 	icon_state = "necraflail"
+    force = 35
+	is_silver = TRUE
 
 /obj/item/rogueweapon/flail/sflail/psyflail
 	name = "ornate flail"
