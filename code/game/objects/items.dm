@@ -250,6 +250,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/bellsound = FALSE //Sanitycheck for bell jingles
 	var/bell = FALSE //Does item have bell in it, used for attachables
 
+	var/no_use_cd = FALSE //if true, no cooldown when interacting with it 
+
 /obj/item/Initialize()
 	. = ..()
 	if(!pixel_x && !pixel_y && !bigboy)

@@ -20,6 +20,8 @@
 	drinksounds = list('sound/items/drink_cup (1).ogg','sound/items/drink_cup (2).ogg','sound/items/drink_cup (3).ogg','sound/items/drink_cup (4).ogg','sound/items/drink_cup (5).ogg')
 	fillsounds = list('sound/items/fillcup.ogg')
 	anvilrepair = /datum/skill/craft/blacksmithing
+	var/rolling = FALSE
+	var/max_dice = 6
 
 /obj/item/reagent_containers/glass/cup/update_icon(dont_fill=FALSE)
 	testing("cupupdate")
@@ -32,6 +34,113 @@
 		filling.color = mix_color_from_reagents(reagents.reagent_list)
 		filling.alpha = mix_alpha_from_reagents(reagents.reagent_list)
 		add_overlay(filling)
+	if(max_dice)
+		var/dice_count = 0
+		for(var/obj/item/dice/D in contents)
+			dice_count++
+		if(dice_count)
+			dice_count = min(3, dice_count)
+		add_overlay(mutable_appearance(icon, "[icon_state]dice[dice_count]"))
+
+/obj/item/reagent_containers/glass/cup/attackby(obj/item/I, mob/user)
+	if(istype(I, /obj/item/dice) && max_dice)
+		if(reagents && reagents.total_volume)
+			to_chat(user, span_warning("[src] is full of liquid! You can’t fit dice in there."))
+			return TRUE
+
+		if(length(contents) >= max_dice)
+			to_chat(user, span_warning("[src] can’t hold more than [max_dice] dice."))
+			return TRUE
+
+		I.forceMove(src)
+		user.visible_message(
+			span_notice("[user] drops [I] into [src]."),
+			span_notice("I drop [I] into [src].")
+		)
+		update_icon()
+		return TRUE
+	. = ..()
+
+/obj/item/reagent_containers/glass/cup/attack_self(mob/user)
+	if(!max_dice)
+		return
+	if(rolling)
+		return
+	if(!contents)
+		return
+	var/list/dice_in_cup = list()
+	for(var/obj/item/dice/D in contents)
+		dice_in_cup += D
+
+	if(!dice_in_cup.len)
+		return
+
+	rolling = TRUE
+	user.visible_message(
+		span_notice("[user] shakes [src], rolling all the dice inside!"),
+		span_notice("I shake [src] and roll the dice inside!")
+	)
+	playsound(src, 'sound/items/cup_dice_roll.ogg', 100, TRUE)
+	sleep(10)
+
+	var/turf/target_turf = get_step(user.loc, user.dir)
+	if(!target_turf)
+		target_turf = get_turf(user)
+
+	for(var/obj/item/dice/D in dice_in_cup)
+		D.forceMove(get_turf(user))
+		D.throw_at(target_turf, 1, 2, user)
+		sleep(3) // tiny delay so they scatter nicely
+
+	rolling = FALSE
+	update_icon()
+
+/obj/item/reagent_containers/glass/cup/afterattack(atom/target, mob/user, proximity)
+	if(!proximity)
+		return ..()
+
+	if(istype(target, /obj/item/dice) && max_dice)
+		if(reagents && reagents.total_volume)
+			to_chat(user, span_warning("[src] is full of liquid! You can’t scoop dice into it."))
+			return
+
+		var/turf/T = get_turf(target)
+		var/list/scooped = list()
+		for(var/obj/item/dice/D in T)
+			if(length(contents) >= max_dice)
+				break
+			D.forceMove(src)
+			scooped += D
+
+		if(scooped.len)
+			user.visible_message(
+				span_notice("[user] scoops up [english_list(scooped)] with [src]."),
+				span_notice("I scoop up [english_list(scooped)] with [src].")
+			)
+		update_icon()
+		return TRUE
+
+	return ..()
+
+/obj/item/reagent_containers/glass/cup/examine()
+	. = ..()
+	if (max_dice)
+		var/dice_count = 0
+		for(var/obj/item/dice/D in contents)
+			dice_count++
+		if(dice_count)
+			. += span_info("There [dice_count > 1 ? "are" : "is"] [dice_count] [dice_count > 1 ? "dice" : "die"] inside the cup.")
+
+/obj/item/reagent_containers/glass/cup/onfill(obj/target, mob/user, silent = FALSE)
+	..()
+	if(max_dice && contents)
+		for(var/obj/item/dice/D in contents)
+			user.visible_message(
+				span_notice("[user] accidentally spills [D] from [src] while filling it!"),
+				span_notice("I accidentally spill [D] from [src] while filling it!")
+			)
+			D.forceMove(get_turf(user))
+			update_icon()
 
 /obj/item/reagent_containers/glass/cup/wooden
 	name = "wooden cup"
@@ -47,18 +156,21 @@
 	desc = "A steel goblet, its surface adorned with studs."
 	icon_state = "steel"
 	sellprice = 15
+	max_dice = 0
 
 /obj/item/reagent_containers/glass/cup/aalloymug
 	name = "decrepit mug"
 	desc = "A decrepit mug. Aeon's grasp is upon its form."
 	icon_state = "amug"
 	sellprice = 0
+	max_dice = 0
 
 /obj/item/reagent_containers/glass/cup/aalloygob
 	name = "decrepit goblet"
 	desc = "A decrepit goblet. Aeon's grasp is upon its form."
 	icon_state = "agoblet"
 	sellprice = 0
+	max_dice = 0
 
 /obj/item/reagent_containers/glass/cup/silver
 	name = "silver goblet"
@@ -67,12 +179,14 @@
 	sellprice = 48
 	last_used = 0
 	is_silver = TRUE
+	max_dice = 0
 
 /obj/item/reagent_containers/glass/cup/silver/small
 	name = "silver cup"
 	desc = "A silver cup, its surface carefully polished."
 	icon_state = "scup"
 	sellprice = 32
+	max_dice = 0
 
 /obj/item/reagent_containers/glass/cup/silver/pickup(mob/user)
 	. = ..()
@@ -128,12 +242,14 @@
 	desc = "This goblet radiates opulence and grandeur."
 	icon_state = "golden"
 	sellprice = 60
+	max_dice = 0
 
 /obj/item/reagent_containers/glass/cup/golden/small
 	name = "golden cup"
 	desc = "This cup radiates opulence and grandeur."
 	icon_state = "gcup"
 	sellprice = 40
+	max_dice = 0
 
 /obj/item/reagent_containers/glass/cup/golden/poison
 	list_reagents = list(/datum/reagent/toxin/killersice = 1, /datum/reagent/consumable/ethanol/elfred = 20)
@@ -143,18 +259,21 @@
 	desc = "A tin goblet, cheaper than silver, but with a similar shine!"
 	icon_state = "tgoblet"
 	sellprice = 12
+	max_dice = 0
 
 /obj/item/reagent_containers/glass/cup/tin/small
 	name = "tin cup"
 	desc = "A tin cup, cheaper than silver, but with a similar shine!"
 	icon_state = "tcup"
 	sellprice = 8
+	max_dice = 0
 
 /obj/item/reagent_containers/glass/cup/skull
 	name = "skull goblet"
 	desc = "The hollow eye sockets tell me of forgotten, dark rituals."
 	dropshrink = 1
 	icon_state = "skull"
+	max_dice = 0
 
 /obj/item/reagent_containers/glass/cup/ceramic
 	name = "teacup"
@@ -162,6 +281,7 @@
 	dropshrink = 0.7
 	icon_state = "cup"
 	sellprice = 10
+	max_dice = 0
 
 /obj/item/reagent_containers/glass/cup/ceramic/examine()
 	. = ..()
@@ -184,3 +304,4 @@
 	desc = "A fancy tea cup made out of ceramic. Used to serve tea."
 	icon_state = "cup_fancy"
 	sellprice = 12
+	max_dice = 0
