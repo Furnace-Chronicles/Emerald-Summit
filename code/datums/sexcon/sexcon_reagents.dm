@@ -16,9 +16,11 @@
 	else
 		overdose_threshold = initial(overdose_threshold)
 	..()
+#ifndef TESTING
 	if(!C?.client?.prefs?.sexable)
 		volume = 0
 		return
+#endif
 	C.sexcon.aphrodisiac += 1
 
 /datum/reagent/consumable/ethanol/beer/emberwine/on_mob_end_metabolize(mob/living/carbon/human/C)

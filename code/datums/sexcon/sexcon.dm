@@ -775,8 +775,10 @@
 	show_progress = 1
 	action.on_start(user, target)
 	while(TRUE)
+#ifndef TESTING
 		if(!isnull(target.client) && target.client.prefs.sexable == FALSE) //Vrell - Needs changed to let me test sex mechanics solo
 			break
+#endif
 		if(!user.stamina_add(action.stamina_cost * get_stamina_cost_multiplier()))
 			break
 		if(!do_after(user, (action.do_time / get_speed_multiplier()), target = target, progress = show_progress))
