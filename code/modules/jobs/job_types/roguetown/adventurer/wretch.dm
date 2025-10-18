@@ -34,6 +34,7 @@
 	job_subclasses = list(
 		/datum/advclass/wretch/deserter,
 		/datum/advclass/wretch/deserter/maa,
+		/datum/advclass/wretch/mastermind,
 		/datum/advclass/wretch/berserker,
 		/datum/advclass/wretch/hedgemage,
 		/datum/advclass/wretch/necromancer,
