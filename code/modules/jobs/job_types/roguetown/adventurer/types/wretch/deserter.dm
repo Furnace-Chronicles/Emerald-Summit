@@ -249,7 +249,7 @@
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_RITUALIST, TRAIT_HERESIARCH) // Ritualist for greater undead, dodge expert to survive the valid hunters.
 	maximum_possible_slots = 1
-	H.set_patron(/datum/patron/inhumen/zizo) //No, you can't just be an innocent tennite crafter
+	subclass_languages = list(/datum/language/thievescant)
 
 	subclass_skills = list(
 		/datum/skill/craft/blacksmithing = SKILL_LEVEL_EXPERT, //Masterminds makes themselves useful to people. Buy their loyalty.
