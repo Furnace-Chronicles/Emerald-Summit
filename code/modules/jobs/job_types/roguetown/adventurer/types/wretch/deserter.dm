@@ -274,6 +274,7 @@
 		/datum/skill/labor/farming = SKILL_LEVEL_EXPERT,
 		/datum/skill/magic/arcane = SKILL_LEVEL_MASTER,
 		/datum/skill/magic/holy = SKILL_LEVEL_MASTER,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
 	)
 
 /datum/outfit/job/roguetown/wretch/mastermind/pre_equip(mob/living/carbon/human/H)
