@@ -193,4 +193,8 @@
 	name = "Emberwine"
 	cost = 100
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/emberwine)
-	
+
+/datum/supply_pack/rogue/Sawbones/revivalpot
+	name = "Revival potion"
+	cost = 50
+	contains = list(/obj/item/reagent_containers/glass/bottle/revival)
