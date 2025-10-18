@@ -262,11 +262,12 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/masonry = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/medicine = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN, //So you don't die to the first grab
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT,
 	)
 
 /datum/outfit/job/roguetown/wretch/mastermind/pre_equip(mob/living/carbon/human/H)
@@ -1047,7 +1048,11 @@
 
 
 	H.adjust_blindness(-3)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/brother) //only buffs and debuffs, no offensive magic
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/retreat)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/bolster)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/brotherhood)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/charge)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/brotherhood)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/eyebite)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
