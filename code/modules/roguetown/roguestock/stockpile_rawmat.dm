@@ -205,3 +205,16 @@
 	importexport_amt = 5
 	stockpile_limit = 25
 	passive_generation = 1
+
+/datum/roguestock/stockpile/viscera
+	name = "Viscera"
+	desc = "Miscellanious carcass parts used in alchemy."
+	item_type = /obj/item/alch/viscera
+	held_items = list(0, 0)
+	payout_price = 4
+	withdraw_price = 4
+	transport_fee = 4
+	export_price = 6
+	importexport_amt = 10
+	stockpile_limit = 30
+	passive_generation = 0

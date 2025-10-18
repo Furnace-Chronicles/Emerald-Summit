@@ -6275,10 +6275,6 @@
 	icon_state = "vertw"
 	},
 /area/rogue/indoors/town/garrison)
-"bLE" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
-/turf/open/floor/rogue/church,
-/area/rogue/indoors/town/church/basement)
 "bLK" = (
 /obj/structure/bars/grille{
 	max_integrity = 2000
@@ -12868,7 +12864,6 @@
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/dragonden)
 "dIR" = (
-/obj/machinery/light/rogue/wallfire/candle/r,
 /obj/structure/mineral_door/wood/deadbolt,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/basement)
@@ -20939,7 +20934,7 @@
 /turf/open/floor/rogue/volcanic,
 /area/rogue/outdoors/mountains/decap/stepbelow)
 "fUD" = (
-/obj/machinery/light/rogue/wallfire/candle/off/r,
+/obj/machinery/light/rogue/wallfire/candle/r,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/shelter/woods)
 "fUN" = (
@@ -22395,12 +22390,6 @@
 /obj/item/rogueweapon/huntingknife/stoneknife,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/beach/forest)
-"gqN" = (
-/obj/machinery/light/rogue/wallfire/candle{
-	pixel_y = -32
-	},
-/turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/town/church/chapel)
 "gqP" = (
 /obj/structure/composter,
 /turf/open/floor/rogue/cobble/mossy,
@@ -71698,10 +71687,10 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/beach/forest)
 "ugb" = (
-/obj/machinery/light/rogue/wallfire/candle/l,
-/obj/structure/mineral_door/wood/deadbolt,
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/church/basement)
+/obj/structure/flora/roguegrass,
+/obj/structure/roguemachine/stockpile,
+/turf/open/floor/rogue/grass,
+/area/rogue/indoors/shelter/woods)
 "ugc" = (
 /obj/structure/flora/roguetree/burnt,
 /turf/open/floor/rogue/grassyel,
@@ -73592,7 +73581,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave)
 "uEK" = (
-/obj/machinery/light/rogue/wallfire/candle/off/r,
+/obj/machinery/light/rogue/wallfire/candle/r,
 /turf/open/floor/rogue/ruinedwood{
 	icon_state = "weird1"
 	},
@@ -149451,7 +149440,7 @@ ogs
 llO
 llO
 ber
-qxC
+lfr
 llO
 fRS
 wSB
@@ -150807,7 +150796,7 @@ llO
 llO
 llO
 ber
-qxC
+lfr
 llO
 fRS
 ijd
@@ -153066,7 +153055,7 @@ llO
 llO
 llO
 llO
-ber
+lfr
 lfr
 iqG
 llO
@@ -153971,7 +153960,7 @@ ogs
 llO
 wKk
 lfr
-qxC
+lfr
 llO
 llO
 llO
@@ -154424,10 +154413,10 @@ llO
 lxW
 lfr
 lfr
-bLE
 lfr
 lfr
-ugb
+lfr
+dIR
 lQf
 xkf
 nKM
@@ -154874,7 +154863,7 @@ bhJ
 ogs
 llO
 llO
-lfr
+ber
 lfr
 lfr
 sCQ
@@ -263032,7 +263021,7 @@ ixl
 niV
 xkH
 apU
-dfe
+ugb
 dXq
 qzg
 qzg
@@ -498397,7 +498386,7 @@ nrI
 iRn
 iRn
 iRn
-gqN
+iRn
 xPN
 jbB
 xPN
