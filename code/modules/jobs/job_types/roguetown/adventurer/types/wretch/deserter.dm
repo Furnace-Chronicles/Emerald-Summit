@@ -272,6 +272,8 @@
 		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/tanning = SKILL_LEVEL_EXPERT,
 		/datum/skill/labor/farming = SKILL_LEVEL_EXPERT,
+		/datum/skill/magic/arcane = SKILL_LEVEL_MASTER,
+		/datum/skill/magic/holy = SKILL_LEVEL_MASTER,
 	)
 
 /datum/outfit/job/roguetown/wretch/mastermind/pre_equip(mob/living/carbon/human/H)
