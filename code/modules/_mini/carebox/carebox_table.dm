@@ -40,4 +40,12 @@
 		/datum/carebox_loot/wretch/lantern_bedroll,
 		/datum/carebox_loot/wretch/pouch_medicine,
 		/datum/carebox_loot/wretch/bottle_bomb,
+		/datum/carebox_loot/wretch/smithing_tools,
+		/datum/carebox_loot/wretch/farming_tools,
+		/datum/carebox_loot/wretch/chalks,
+		/datum/carebox_loot/wretch/surgery_tools,
+		/datum/carebox_loot/wretch/starsugar,
+		/datum/carebox_loot/wretch/emberwine,
+		/datum/carebox_loot/wretch/summonerpouch,
+
 	)

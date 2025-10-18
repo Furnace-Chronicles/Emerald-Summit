@@ -126,3 +126,52 @@
 		/obj/item/bomb,
 		/obj/item/bomb,
 	)
+
+/datum/carebox_loot/wretch/smithing_tools
+	name = "Smithing tools"
+	loot = list(
+		/obj/item/rogueweapon/hammer/iron,
+		/obj/item/rogueweapon/tongs,
+	)
+
+/datum/carebox_loot/wretch/farming_tools
+	name = "Farming tools"
+	loot = list(
+		/obj/item/rogueweapon/hoe,
+		/obj/item/rogueweapon/pitchfork,
+		/obj/item/rogueweapon/sickle,
+		/obj/item/seeds/apple,
+		/obj/item/seeds/wheat,
+		/obj/item/seeds/berryrogue,
+	)
+/datum/carebox_loot/wretch/chalks
+	name = "Chalks"
+	loot = list(
+		/obj/item/ritechalk,
+		/obj/item/ritechalk,
+		/obj/item/ritechalk,
+	)
+
+/datum/carebox_loot/wretch/surgery_tools
+	name = "Surgery tools"
+	loot = list(
+		/obj/item/storage/belt/rogue/surgery_bag/full/physician,
+	)
+	
+/datum/carebox_loot/wretch/starsugar
+	name = "Star Sugar"
+	loot = list(
+		/obj/item/reagent_containers/powder/starsugar,
+		/obj/item/reagent_containers/powder/starsugar,
+	)
+/datum/carebox_loot/wretch/emberwine
+	name = "Emberwine"
+	loot = list(
+		/obj/item/reagent_containers/glass/bottle/rogue/emberwine,
+	)
+
+/datum/carebox_loot/wretch/summonerpouch	
+	name = "Beginner's summoner's pouch"
+	loot = list(
+		 /obj/item/storage/magebag/starter,
+	)
