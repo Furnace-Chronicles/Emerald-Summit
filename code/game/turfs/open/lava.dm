@@ -28,6 +28,8 @@
 /turf/open/lava/Initialize()
 	. = ..()
 	dir = pick(GLOB.cardinals)
+	icon = icon(icon, icon_state, SOUTH, 1)
+	icon_state = ""
 
 /turf/open/lava/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
@@ -219,7 +221,7 @@
 				continue
 			O.obj_integrity -= O.max_integrity * 0.1
 			if(O.obj_integrity <= 0)
-				qdel(O)	
+				qdel(O)
 			. = 1
 
 		else if (isliving(thing))
@@ -244,7 +246,7 @@
 				C.obj_integrity -= C.max_integrity * 0.1
 				if(C.obj_integrity <= 0)
 					to_chat(L, span_danger("Your [C.name] is destroyed by the acid!"))
-					qdel(C)	
+					qdel(C)
 
 			L.adjustFireLoss(100)
 			to_chat(L, span_userdanger("THE ACID BURNS!"))

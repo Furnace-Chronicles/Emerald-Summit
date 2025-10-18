@@ -14,12 +14,13 @@
 	var/aggressive = 0
 
 /mob/living/simple_animal/hostile/retaliate/ListTargets()
-	if(!(AIStatus == NPC_AI_OFF))
-		if(aggressive)
+	if (!(AIStatus == NPC_AI_OFF))
+		if (aggressive)
 			return ..()
 		else
-			if(!enemies.len)
-				return list()
+			for (var/mob/living/M in enemies.Copy())
+				if (!M || QDELETED(M) || M.stat != CONSCIOUS)
+					enemies -= M
 			var/list/see = ..()
 			see &= enemies // Remove all entries that aren't in enemies
 			return see
@@ -61,20 +62,18 @@
 		LoseTarget()
 
 /mob/living/simple_animal/hostile/retaliate/proc/Retaliate()
-//	var/list/around = view(src, vision_range)
 	toggle_ai(AI_ON)
-	var/list/around = hearers(vision_range, src)
+	var/list/around = view(vision_range, src) // had hearers
 
-	for(var/atom/movable/A in around)
-		if(A == src)
-			continue
-		if(isliving(A))
+	for (var/atom/movable/A in around)
+		if (A == src) continue
+		if (isliving(A))
 			var/mob/living/M = A
-			if(faction_check_mob(M) && attack_same || !faction_check_mob(M))
+			if (faction_check_mob(M) && attack_same || !faction_check_mob(M))
 				enemies |= M
 
-	for(var/mob/living/simple_animal/hostile/retaliate/H in around)
-		if(faction_check_mob(H) && !attack_same && !H.attack_same)
+	for (var/mob/living/simple_animal/hostile/retaliate/H in around)
+		if (faction_check_mob(H) && !attack_same && !H.attack_same)
 			H.enemies |= enemies
 	return 0
 	

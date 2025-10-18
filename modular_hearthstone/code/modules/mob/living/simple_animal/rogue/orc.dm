@@ -136,7 +136,7 @@
 	clickcd = ORC_ATTACK_SPEED * 1.2
 	//slower swing timer because it has 2 reach
 
-/mob/living/simple_animal/hostile/retaliate/rogue/orc/get_sound(input)
+/* /mob/living/simple_animal/hostile/retaliate/rogue/orc/get_sound(input)
 	switch(input)
 		if("aggro")
 			return pick('sound/vo/mobs/simple_orcs/orc_yell.ogg','sound/vo/mobs/simple_orcs/orc_yell2.ogg','sound/vo/mobs/simple_orcs/orc_yell3.ogg', 'sound/vo/mobs/simple_orcs/orc_yell4.ogg')
@@ -153,7 +153,7 @@
 	. = ..()
 	if(!target)
 		if(prob(3))
-			emote(pick("idle"), TRUE)
+			emote(pick("idle"), TRUE) */ // To remove spam idle sounds
 
 
 /mob/living/simple_animal/hostile/retaliate/rogue/orc/taunted(mob/user)

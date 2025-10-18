@@ -17,7 +17,7 @@
 		/datum/ai_planning_subtree/basic_melee_attack_subtree,
 	)
 
-	idle_behavior = /datum/idle_behavior/idle_random_walk
+//	idle_behavior = /datum/idle_behavior/idle_random_walk 
 
 /datum/ai_controller/orc_ranged
 	movement_delay = ORC_MOVEMENT_SPEED * 1.2 //ranged malus
@@ -34,7 +34,7 @@
 		/datum/ai_planning_subtree/basic_ranged_attack_subtree,
 	)
 
-	idle_behavior = /datum/idle_behavior/idle_random_walk
+//	idle_behavior = /datum/idle_behavior/idle_random_walk
 
 /datum/ai_controller/spear_orc
 	movement_delay = ORC_MOVEMENT_SPEED
@@ -53,7 +53,7 @@
 		
 	)
 
-	idle_behavior = /datum/idle_behavior/idle_random_walk
+//	idle_behavior = /datum/idle_behavior/idle_random_walk
 
 
 /datum/ai_controller/elite_orc
@@ -73,7 +73,7 @@
 		
 	)
 
-	idle_behavior = /datum/idle_behavior/idle_random_walk
+//	idle_behavior = /datum/idle_behavior/idle_random_walk
 
 /datum/ai_controller/elite_orc/event
 	planning_subtrees = list(
