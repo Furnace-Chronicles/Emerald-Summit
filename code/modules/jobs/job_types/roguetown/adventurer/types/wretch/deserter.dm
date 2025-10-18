@@ -268,6 +268,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT,
+		/datum/skill/craft/cooking = SKILL_LEVEL_EXPERT,
 	)
 
 /datum/outfit/job/roguetown/wretch/mastermind/pre_equip(mob/living/carbon/human/H)
@@ -275,13 +276,13 @@
 
 	H.set_blindness(0)
 
-	var/cleric_loadouts = list("Paladin", "Monk", "Missionary", "Cantor"),
-	var/rogue_loadouts = list("Treasure Hunter", "Thief", "Bard", "Swashbuckler"),
-	var/foreigner_loadouts = list("Roughneck", "Custodian"),
-	var/mage_loadouts = list("Sorcerer, Spellblade, Spellsinger"),
-	var/noble_loadouts = list("Aristocrat, Knight Errant, Squire Errant"),
-	var/ranger_loadouts = list("Sentinel, Assassin, Bombadier, Biome Wanderer"),
-	var/trader_loadouts = list("Peddler","Brewer","Jeweler","Doomsayer","Scholar","Harlequin"),
+	var/cleric_loadouts = list("Paladin", "Monk", "Missionary", "Cantor")
+	var/rogue_loadouts = list("Treasure Hunter", "Thief", "Bard", "Swashbuckler")
+	var/foreigner_loadouts = list("Roughneck", "Custodian")
+	var/mage_loadouts = list("Sorcerer", "Spellblade", "Spellsinger")
+	var/noble_loadouts = list("Aristocrat", "Knight Errant", "Squire Errant")
+	var/trader_loadouts = list("Jeweler", "Doomsayer", "Scholar", "Harlequin", "Peddler", "Brewer", "Cuisiner")
+	var/ranger_loadouts = list("Sentinel", "Assassin", "Bombadier","Biome Wanderer")
 	var/warrior_loadouts = list("Battlemaster","Duelist","Barbarian","Monster Hunter","Flagellant","Leather Kini","Hide Armor Kini","Studded Leather Kini")
 
 	var/loadout_type = input("Choose your guise type.", "Who am I pretending to be?") as anything in list("Cleric", "Rogue", "Foreigner", "Mage", "Noble", "Ranger", "Trader", "Warrior")
@@ -852,6 +853,29 @@
 					if("Trumpet")
 						backr = /obj/item/rogue/instrument/trumpet
 
+			if("Cuisiner")
+				head = /obj/item/clothing/head/roguetown/chef
+				shoes = /obj/item/clothing/shoes/roguetown/shortboots
+				neck = /obj/item/storage/belt/rogue/pouch/coins/poor
+				pants = /obj/item/clothing/under/roguetown/trou
+				armor = /obj/item/clothing/suit/roguetown/armor/workervest
+				shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
+				belt = /obj/item/storage/belt/rogue/leather/black
+				backl = /obj/item/storage/backpack/rogue/backpack
+				beltr = /obj/item/cooking/pan
+				beltl = /obj/item/flashlight/flare/torch/lantern
+				backpack_contents = list(
+					/obj/item/clothing/mask/cigarette/rollie/nicotine/cheroot = 5,
+					/obj/item/reagent_containers/peppermill = 1,
+					/obj/item/reagent_containers/food/snacks/rogue/cheddar/aged = 1,
+					/obj/item/reagent_containers/food/snacks/butter = 1,
+					/obj/item/kitchen/rollingpin = 1,
+					/obj/item/flint = 1,
+					/obj/item/rogueweapon/huntingknife/chefknife = 1,
+					/obj/item/rogueweapon/scabbard/sheath = 1,
+					/obj/item/recipe_book/survival = 1,
+			)
+
 	if(loadout_type == "Warrior")
 		var/loadout_choice = input("Choose your guise.", "My mask") as anything in warrior_loadouts
 		switch(loadout_choice)
@@ -1067,6 +1091,7 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_2)
 	H.change_stat("speed", 3) /// Not a fighter, even with a virtue, built to be able to escape from fights.
 	H.change_stat("constitution", 3)
+	H.set_patron(/datum/patron/inhumen/zizo)
 
 	wretch_select_bounty(H)
 	
