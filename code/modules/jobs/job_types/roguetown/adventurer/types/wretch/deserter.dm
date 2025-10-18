@@ -1085,6 +1085,7 @@
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/eyebite)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortitude)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stoneskin)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/hawks_eyes)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/giants_strength)
