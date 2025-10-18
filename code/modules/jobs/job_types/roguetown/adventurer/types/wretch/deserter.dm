@@ -269,6 +269,9 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/cooking = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
+		/datum/skill/craft/tanning = SKILL_LEVEL_EXPERT,
+		/datum/skill/labor/farming = SKILL_LEVEL_EXPERT,
 	)
 
 /datum/outfit/job/roguetown/wretch/mastermind/pre_equip(mob/living/carbon/human/H)
@@ -1086,6 +1089,7 @@
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/guidance)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/haste)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/message)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mindlink)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_2)
