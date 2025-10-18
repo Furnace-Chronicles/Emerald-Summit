@@ -157,7 +157,7 @@
 	loot = list(
 		/obj/item/storage/belt/rogue/surgery_bag/full/physician,
 	)
-	
+
 /datum/carebox_loot/wretch/starsugar
 	name = "Star Sugar"
 	loot = list(
@@ -170,8 +170,14 @@
 		/obj/item/reagent_containers/glass/bottle/rogue/emberwine,
 	)
 
-/datum/carebox_loot/wretch/summonerpouch	
+/datum/carebox_loot/wretch/summonerpouch
 	name = "Beginner's summoner's pouch"
 	loot = list(
 		 /obj/item/storage/magebag/starter,
+	)
+
+/datum/carebox_loot/wretch/revival_potion
+	name = "Revival potion"
+	loot = list(
+		 /obj/item/reagent_containers/glass/bottle/revival,
 	)

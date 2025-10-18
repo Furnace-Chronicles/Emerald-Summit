@@ -47,5 +47,6 @@
 		/datum/carebox_loot/wretch/starsugar,
 		/datum/carebox_loot/wretch/emberwine,
 		/datum/carebox_loot/wretch/summonerpouch,
+		/datum/carebox_loot/wretch/revival_potion,
 
 	)
