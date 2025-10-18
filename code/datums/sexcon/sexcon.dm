@@ -32,6 +32,9 @@
 	var/charge = SEX_MAX_CHARGE
 	/// Whether we want to screw until finished, or non stop
 	var/do_until_finished = TRUE
+	/// The bed (if) we're occupying, update on starting an action
+	var/obj/structure/bed/rogue/bed = null
+	var/target_on_bed = FALSE
 	/// Arousal won't change if active.
 	var/arousal_frozen = FALSE
 	var/last_arousal_increase_time = 0
@@ -65,6 +68,7 @@
 	//remove_from_target_receiving()
 	user = null
 	target = null
+	bed = null
 	if(knotted_status)
 		knot_exit()
 	//receiving = list()
@@ -94,6 +98,17 @@
 
 	animate(user, pixel_x = target_x, pixel_y = target_y, time = time)
 	animate(pixel_x = oldx, pixel_y = oldy, time = time)
+	if(bed && force > SEX_FORCE_MID)
+		oldy = bed.pixel_y
+		target_y = oldy-1
+		time /= 2
+		animate(bed, pixel_y = target_y, time = time)
+		animate(pixel_y = oldy, time = time)
+		if(target_on_bed && target)
+			oldy = target.pixel_y
+			target_y = oldy-1
+			animate(target, pixel_y = target_y, time = time)
+			animate(pixel_y = oldy, time = time)
 
 /datum/sex_controller/proc/is_spent()
 	if(charge < CHARGE_FOR_CLIMAX)
@@ -725,6 +740,8 @@
 	desire_stop = FALSE
 	user.doing = FALSE
 	current_action = null
+	bed = null
+	target_on_bed = FALSE
 	using_zones = list()
 
 /datum/sex_controller/proc/try_start_action(action_type)
@@ -742,6 +759,11 @@
 	// Set vars
 	desire_stop = FALSE
 	current_action = action_type
+	if(target && isturf(target.loc) && !(target.mobility_flags & MOBILITY_STAND)) // find target's bed
+		bed = locate() in target.loc
+		target_on_bed = TRUE
+	if(!bed && isturf(user.loc) && !(user.mobility_flags & MOBILITY_STAND)) // find our bed
+		bed = locate() in user.loc
 	var/datum/sex_action/action = SEX_ACTION(current_action)
 	log_combat(user, target, "Started sex action: [action.name]")
 	INVOKE_ASYNC(src, PROC_REF(sex_action_loop))
