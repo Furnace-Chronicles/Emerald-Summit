@@ -20,7 +20,7 @@
         /datum/ai_planning_subtree/being_a_minion/mirespider
     )
 
-    idle_behavior = /datum/idle_behavior/idle_random_walk
+//    idle_behavior = /datum/idle_behavior/idle_random_walk
 
 /datum/ai_controller/mirespider_lurker
     movement_delay = MIRESPIDER_MOVEMENT_SPEED
@@ -39,7 +39,7 @@
         /datum/ai_planning_subtree/cocoon_target
     )
 
-    idle_behavior = /datum/idle_behavior/idle_random_walk
+//    idle_behavior = /datum/idle_behavior/idle_random_walk
 
 /datum/ai_controller/mirespider_paralytic
     movement_delay = MIRESPIDER_MOVEMENT_SPEED
@@ -57,7 +57,7 @@
         /datum/ai_planning_subtree/cocoon_target
     )
 
-    idle_behavior = /datum/idle_behavior/idle_random_walk
+//    idle_behavior = /datum/idle_behavior/idle_random_walk
 
 /datum/ai_planning_subtree/being_a_minion/mirespider
     /// Blackboard key where we travel a place
