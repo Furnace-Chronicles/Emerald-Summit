@@ -759,11 +759,8 @@
 	// Set vars
 	desire_stop = FALSE
 	current_action = action_type
-	if(target && isturf(target.loc) && !(target.mobility_flags & MOBILITY_STAND)) // find target's bed
-		bed = locate() in target.loc
-		target_on_bed = TRUE
-	if(!bed && isturf(user.loc) && !(user.mobility_flags & MOBILITY_STAND)) // find our bed
-		bed = locate() in user.loc
+	bed = null
+	target_on_bed = null
 	var/datum/sex_action/action = SEX_ACTION(current_action)
 	log_combat(user, target, "Started sex action: [action.name]")
 	INVOKE_ASYNC(src, PROC_REF(sex_action_loop))
@@ -791,6 +788,7 @@
 			break
 		if(desire_stop)
 			break
+		find_occupying_bed()
 		action.on_perform(user, target)
 		// It could want to finish afterwards the performed action
 		if(action.is_finished(user, target))
@@ -808,6 +806,15 @@
 	if(!action.can_perform(user, target))
 		return FALSE
 	return TRUE
+
+/datum/sex_controller/proc/find_occupying_bed()
+	if(bed)
+		return
+	if(target && !(target.mobility_flags & MOBILITY_STAND) && isturf(target.loc)) // find target's bed
+		bed = locate() in target.loc
+		target_on_bed = TRUE
+	if(!bed && !(user.mobility_flags & MOBILITY_STAND) && isturf(user.loc)) // find our bed
+		bed = locate() in user.loc
 
 /datum/sex_controller/proc/inherent_perform_check(action_type, incapacitated)
 	var/datum/sex_action/action = SEX_ACTION(action_type)
