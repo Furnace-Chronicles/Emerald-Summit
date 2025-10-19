@@ -211,10 +211,10 @@
 	desc = "Miscellanious carcass parts used in alchemy."
 	item_type = /obj/item/alch/viscera
 	held_items = list(0, 0)
-	payout_price = 4
-	withdraw_price = 4
-	transport_fee = 4
-	export_price = 6
+	payout_price = 2
+	withdraw_price = 2
+	transport_fee = 2
+	export_price = 4
 	importexport_amt = 10
 	stockpile_limit = 30
 	passive_generation = 0
