@@ -275,6 +275,11 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_MASTER,
 		/datum/skill/magic/holy = SKILL_LEVEL_MASTER,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/music = SKILL_LEVEL_EXPERT,
+		/datum/skill/labor/lumberjacking = SKILL_LEVEL_EXPERT,
+		/datum/skill/labor/mining = SKILL_LEVEL_EXPERT, //Has most crafting skills so they can convincingly pretend to be any role - showing off is how you get sniffed out as a valid
+
+
 	)
 
 /datum/outfit/job/roguetown/wretch/mastermind/pre_equip(mob/living/carbon/human/H)
@@ -1099,7 +1104,7 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_2)
 	H.change_stat("speed", 3) /// Not a fighter, even with a virtue, built to be able to escape from fights.
 	H.change_stat("constitution", 3)
-	H.set_patron(/datum/patron/inhumen/zizo)
+	H.set_patron(/datum/patron/inhumen/zizo) // Always valid, must hide their true power
 
 	wretch_select_bounty(H)
 	
