@@ -922,8 +922,8 @@ datum/crafting_recipe/roguetown/sewing/Purdress
 	craftdiff = 4
 	sellprice = 3
 
-	/datum/crafting_recipe/roguetown/sewing/physhood
-	name = "physicker's robe (1 fibers, 2 cloth)"
+/datum/crafting_recipe/roguetown/sewing/phyhood
+	name = "physicker's hood (1 fibers, 2 cloth)"
 	result = list(/obj/item/clothing/head/roguetown/roguehood/phys)
 	reqs = list(/obj/item/natural/cloth = 2,
 	            /obj/item/natural/fibers = 1)
@@ -967,7 +967,7 @@ datum/crafting_recipe/roguetown/sewing/Purdress
 	craftdiff = 6
 
 /datum/crafting_recipe/roguetown/sewing/sleevelessrobe
-	name = "feldsher's robe (2 fibers, 3 cloth)"
+	name = "feldsher's robe (2 fibers, 3 cloth, 1 silk)"
 	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/feld)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/silk = 2,
@@ -978,7 +978,7 @@ datum/crafting_recipe/roguetown/sewing/Purdress
 
 
 /datum/crafting_recipe/roguetown/sewing/hoodfeld
-	name = "feldsher's hood (2 fibers, 3 cloth)"
+	name = "feldsher's hood (2 fibers, 2 cloth, 1 silk)"
 	result = list(/obj/item/clothing/head/roguetown/roguehood/feld)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 1,
