@@ -970,6 +970,7 @@ datum/crafting_recipe/roguetown/sewing/Purdress
 	name = "feldsher's robe (2 fibers, 3 cloth)"
 	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/feld)
 	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/silk = 2,
 	            /obj/item/natural/fibers = 2)
 	tools = list(/obj/item/needle)
 	craftdiff = 4
@@ -979,7 +980,8 @@ datum/crafting_recipe/roguetown/sewing/Purdress
 /datum/crafting_recipe/roguetown/sewing/hoodfeld
 	name = "feldsher's hood (2 fibers, 3 cloth)"
 	result = list(/obj/item/clothing/head/roguetown/roguehood/feld)
-	reqs = list(/obj/item/natural/cloth = 3,
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/silk = 1,
 	            /obj/item/natural/fibers = 2)
 	tools = list(/obj/item/needle)
 	craftdiff = 4
