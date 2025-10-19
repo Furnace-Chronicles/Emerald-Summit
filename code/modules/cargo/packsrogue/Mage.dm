@@ -178,3 +178,11 @@
 	name = "Cinnabar Ore"
 	cost = 10
 	contains = list(/obj/item/rogueore/cinnabar = 1)
+
+/datum/supply_pack/rogue/Mage/Summonerkit
+	name = "Beginner's summoner kit"
+	cost = 30
+	contains = list(
+		/obj/item/storage/magebag/starter,
+		/obj/item/ritechalk,
+	)
