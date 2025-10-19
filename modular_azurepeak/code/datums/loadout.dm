@@ -169,6 +169,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Jupon"
 	path = /obj/item/clothing/cloak/stabard/surcoat
 
+/datum/loadout_item/apron
+	name = "Apron"
+	path = 	/obj/item/clothing/cloak/apron/waist
+
 /datum/loadout_item/cape
 	name = "Cape"
 	path = /obj/item/clothing/cloak/cape
@@ -504,6 +508,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Cloth Blindfold"
 	path = /obj/item/clothing/mask/rogue/blindfold
 
+/datum/loadout_item/leather_belt
+	name = "leather belt"
+	path = /obj/item/storage/belt/rogue/leather
+
 /datum/loadout_item/bases
 	name = "Cloth military skirt"
 	path = /obj/item/storage/belt/rogue/leather/battleskirt
@@ -698,3 +706,7 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/cooking_recipes
 	name = "Guide to Cooking"
 	path = /obj/item/recipe_book/cooking
+
+/datum/loadout_item/lawbook
+	name = "Tome of Justice"
+	path = /obj/item/book/rogue/law

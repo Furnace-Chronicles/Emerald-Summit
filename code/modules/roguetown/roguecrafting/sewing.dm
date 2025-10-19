@@ -913,6 +913,24 @@ datum/crafting_recipe/roguetown/sewing/Purdress
 	craftdiff = 5
 	sellprice = 20
 
+/datum/crafting_recipe/roguetown/sewing/physician
+	name = "physicker's robe (2 fibers, 2 cloth)"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/phys)
+	reqs = list(/obj/item/natural/cloth = 2,
+	            /obj/item/natural/fibers = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 4
+	sellprice = 3
+
+	/datum/crafting_recipe/roguetown/sewing/physhood
+	name = "physicker's robe (1 fibers, 2 cloth)"
+	result = list(/obj/item/clothing/head/roguetown/roguehood/phys)
+	reqs = list(/obj/item/natural/cloth = 2,
+	            /obj/item/natural/fibers = 1)
+	tools = list(/obj/item/needle)
+	craftdiff = 4
+	sellprice = 2
+
 /datum/crafting_recipe/roguetown/sewing/desertgown
 	name = "hierophant's kandys (4 fibers, 6 cloth)"
 	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/hierophant)
@@ -950,12 +968,22 @@ datum/crafting_recipe/roguetown/sewing/Purdress
 
 /datum/crafting_recipe/roguetown/sewing/sleevelessrobe
 	name = "feldsher's robe (2 fibers, 3 cloth)"
-	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/phys)
+	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/feld)
 	reqs = list(/obj/item/natural/cloth = 3,
 	            /obj/item/natural/fibers = 2)
 	tools = list(/obj/item/needle)
 	craftdiff = 4
 	sellprice = 13
+
+
+/datum/crafting_recipe/roguetown/sewing/hoodfeld
+	name = "feldsher's hood (2 fibers, 3 cloth)"
+	result = list(/obj/item/clothing/head/roguetown/roguehood/feld)
+	reqs = list(/obj/item/natural/cloth = 3,
+	            /obj/item/natural/fibers = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 4
+	sellprice = 6
 	
 /datum/crafting_recipe/roguetown/sewing/weddingdress
 	name = "wedding silk dress (2 fibers, 3 cloth, 2 silk, 2 gold dust)"

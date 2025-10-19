@@ -142,4 +142,13 @@
 		)
 	tools = list(/obj/item/needle)
 	craftdiff = 5
-	
+
+/datum/crafting_recipe/roguetown/leather/unique/crafteast
+	name = "decorated dobo robe (2 fibers, 2 leather, 1 tallow, 1 simple dobo robe)"
+	result = list(/obj/item/clothing/mask/rogue/physician)
+	reqs = list(
+		/obj/item/natural/hide/cured = 2,
+		/obj/item/natural/fibers = 2,
+		)
+	tools = list(/obj/item/needle)
+	craftdiff = 5
