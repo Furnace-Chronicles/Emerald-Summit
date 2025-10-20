@@ -894,7 +894,7 @@
 
 
 /obj/item/clothing/cloak/apron/cook
-	name = "cook apron"
+	name = "cooking apron"
 	desc = "An apron meant to show how clean the cook is."
 	color = null
 	icon_state = "aproncook"

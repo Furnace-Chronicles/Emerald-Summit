@@ -170,8 +170,12 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	path = /obj/item/clothing/cloak/stabard/surcoat
 
 /datum/loadout_item/apron
-	name = "Apron"
+	name = "Waist Apron"
 	path = 	/obj/item/clothing/cloak/apron/waist
+
+/datum/loadout_item/aproncook
+	name = "Cooking Apron"
+	path = 	/obj/item/clothing/cloak/apron/cook
 
 /datum/loadout_item/cape
 	name = "Cape"
