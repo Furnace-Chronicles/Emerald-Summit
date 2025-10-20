@@ -1083,6 +1083,8 @@
 
 
 	H.adjust_blindness(-3)
+	H.change_stat("speed", 3) /// Not a fighter, even with a virtue, built to be able to escape from fights.
+	H.change_stat("constitution", 3)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/retreat)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/bolster)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/brotherhood)
@@ -1100,11 +1102,10 @@
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/haste)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/message)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mindlink)
+
+	H.set_patron(/datum/patron/inhumen/zizo) // Always valid, must hide their true power
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_2)
-	H.change_stat("speed", 3) /// Not a fighter, even with a virtue, built to be able to escape from fights.
-	H.change_stat("constitution", 3)
-	H.set_patron(/datum/patron/inhumen/zizo) // Always valid, must hide their true power
 
 	// Second voice
 	var/datum/virtue/V = new /datum/virtue/utility/secondvoice
