@@ -60,6 +60,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Tattered Spellcaster Hat"
 	path = /obj/item/clothing/head/roguetown/spellcasterhat/light
 
+/datum/loadout_item/artihat
+	name = "Artificer's cap"
+	path = /obj/item/clothing/head/roguetown/articap
+
 /datum/loadout_item/fancyhat
 	name = "Fancy Hat"
 	path = /obj/item/clothing/head/roguetown/fancyhat
@@ -302,6 +306,14 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/longshirt
 	name = "Shirt"
 	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
+
+/datum/loadout_item/artishirt
+	name = "Artficer's shirt"
+	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer
+
+/datum/loadout_item/artijacket
+	name = "Artficer's Jacket"
+	path = /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket
 
 /datum/loadout_item/shortshirt
 	name = "Short-sleeved Shirt"
