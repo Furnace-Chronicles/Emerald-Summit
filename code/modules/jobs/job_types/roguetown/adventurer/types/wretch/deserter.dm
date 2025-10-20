@@ -1106,6 +1106,11 @@
 	H.change_stat("constitution", 3)
 	H.set_patron(/datum/patron/inhumen/zizo) // Always valid, must hide their true power
 
+	// Second voice
+	var/datum/virtue/V = new /datum/virtue/utility/secondvoice
+	V.apply_to_human(H)
+
+
 	wretch_select_bounty(H)
 	
 /obj/effect/proc_holder/spell/invoked/order
