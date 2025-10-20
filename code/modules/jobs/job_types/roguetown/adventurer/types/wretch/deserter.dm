@@ -1098,10 +1098,10 @@
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/hawks_eyes)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/giants_strength)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/guidance)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/haste)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/message)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mindlink)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/call_to_slaughter)
 
 	H.set_patron(/datum/patron/inhumen/zizo) // Always valid, must hide their true power
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
