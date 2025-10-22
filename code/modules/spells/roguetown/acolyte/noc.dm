@@ -116,7 +116,7 @@
 		/obj/effect/proc_holder/spell/invoked/guidance::name 			= /obj/effect/proc_holder/spell/invoked/guidance,
 		/obj/effect/proc_holder/spell/invoked/haste::name 				= /obj/effect/proc_holder/spell/invoked/haste,
 		/obj/effect/proc_holder/spell/invoked/fortitude::name 			= /obj/effect/proc_holder/spell/invoked/fortitude,
-		/obj/effect/proc_holder/spell/invoked/stoneskin::name			= /obj/effect/proc_holder/spell/invoked/stoneskin
+		/obj/effect/proc_holder/spell/invoked/stoneskin::name			= /obj/effect/proc_holder/spell/invoked/stoneskin,
 	)
 
 /obj/effect/proc_holder/spell/self/noc_spell_bundle/cast(list/targets, mob/user)
