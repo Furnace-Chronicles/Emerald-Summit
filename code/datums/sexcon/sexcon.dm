@@ -82,9 +82,9 @@
 	var/dir = get_dir(user, target)
 	if(user.loc == target.loc)
 		dir = user.dir
-	if(speed > SEX_SPEED_MID)
+	if(speed > SEX_SPEED_MID && time > 1)
 		time -= 0.25
-	if(force < SEX_FORCE_MID)
+	if(force < SEX_FORCE_MID && pixels > 2)
 		pixels -= 1
 	switch(dir)
 		if(NORTH)
