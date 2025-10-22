@@ -287,8 +287,8 @@
 		mind.RemoveSpell(mind.rituos_spell)
 		mind.rituos_spell = null
 	if (mind.has_affinity)
-		to_chat("The calm of sleep restores my bond to Noc. I may beseech His favor once more...")
 		mind.has_affinity = FALSE
+		to_chat("The calm of sleep restores my bond to Noc. I may beseech His favor once more...")
 	to_chat(mind.current, span_notice("...and that's all I dreamt of."))
 	if(HAS_TRAIT(mind.current, TRAIT_STUDENT))
 		REMOVE_TRAIT(mind.current, TRAIT_STUDENT, TRAIT_GENERIC)
