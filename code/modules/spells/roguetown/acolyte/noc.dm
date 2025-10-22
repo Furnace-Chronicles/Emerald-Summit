@@ -93,7 +93,6 @@
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
 	var/chosen_bundle
-	var/used_this_sleep_cycle = FALSE			// Prevent use until resting/sleeping
 
 	var/list/utility_bundle = list(
 		/obj/effect/proc_holder/spell/self/message::name 				= /obj/effect/proc_holder/spell/self/message,
