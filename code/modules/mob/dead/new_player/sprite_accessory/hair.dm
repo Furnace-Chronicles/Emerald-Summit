@@ -1598,6 +1598,19 @@
 	name = "Alsoprotagonist"
 	icon_state = "alsoprotagonist"
 
+/datum/sprite_accessory/hair/head/generic
+	name = "Generic"
+	icon_state = "Generic"
+
+/datum/sprite_accessory/hair/head/polite
+	name = "Polite"
+	icon_state = "Polite"
+
+/datum/sprite_accessory/hair/head/protag
+	name = "Protagonist"
+	icon_state = "Protagonist"
+
+
 /datum/sprite_accessory/hair/head/vulpkian
 	abstract_type = /datum/sprite_accessory/hair/head/vulpkian
 	icon = 'icons/mob/sprite_accessory/hair/vulpkian_hair.dmi'
