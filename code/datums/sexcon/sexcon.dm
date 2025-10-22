@@ -847,7 +847,10 @@
 /datum/sex_controller/proc/find_occupying_grass()
 	if(grassy_knoll)
 		return
-	grassy_knoll = locate() in user.loc
+	if(target && isturf(target.loc)) // find target's bed
+		grassy_knoll = locate() in target.loc
+	if(!grassy_knoll && isturf(user.loc)) // find our bed
+		grassy_knoll = locate() in user.loc
 
 /datum/sex_controller/proc/inherent_perform_check(action_type, incapacitated)
 	var/datum/sex_action/action = SEX_ACTION(action_type)
