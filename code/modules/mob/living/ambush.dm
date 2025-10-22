@@ -20,6 +20,12 @@ GLOBAL_VAR_INIT(ambush_mobconsider_cooldown, 5 MINUTES) // Cooldown for each ind
 	mob_timers["ambush_check"] = world.time
 	if(!ambushable())
 		return
+#ifdef MATURESERVER
+	if(ishuman(src))
+		var/mob/living/carbon/human/M = src
+		if(M?.sexcon.current_action && !M?.sexcon.desire_stop) // if we're fucking in the bushes, don't spawn ambush
+			return
+#endif
 	var/area/AR = get_area(src)
 	var/turf/T = get_turf(src)
 	if(!T)

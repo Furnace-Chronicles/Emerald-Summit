@@ -35,6 +35,8 @@
 	/// The bed (if) we're occupying, update on starting an action
 	var/obj/structure/bed/rogue/bed = null
 	var/target_on_bed = FALSE
+	/// The bush (if) we're on top of, update on starting an action
+	var/obj/structure/flora/roguegrass/grassy_knoll = null
 	/// Arousal won't change if active.
 	var/arousal_frozen = FALSE
 	var/last_arousal_increase_time = 0
@@ -69,6 +71,7 @@
 	user = null
 	target = null
 	bed = null
+	grassy_knoll = null
 	if(knotted_status)
 		knot_exit()
 	//receiving = list()
@@ -109,6 +112,8 @@
 			target_y = oldy-1
 			animate(target, pixel_y = target_y, time = time)
 			animate(pixel_y = oldy, time = time)
+	else if(grassy_knoll)
+		SEND_SIGNAL(grassy_knoll, COMSIG_MOVABLE_CROSSED, user)
 
 /datum/sex_controller/proc/is_spent()
 	if(charge < CHARGE_FOR_CLIMAX)
@@ -761,6 +766,7 @@
 	user.doing = FALSE
 	current_action = null
 	bed = null
+	grassy_knoll = null
 	target_on_bed = FALSE
 	using_zones = list()
 
@@ -780,6 +786,7 @@
 	desire_stop = FALSE
 	current_action = action_type
 	bed = null
+	grassy_knoll = null
 	target_on_bed = null
 	var/datum/sex_action/action = SEX_ACTION(current_action)
 	log_combat(user, target, "Started sex action: [action.name]")
@@ -809,6 +816,7 @@
 		if(desire_stop)
 			break
 		find_occupying_bed()
+		find_occupying_grass()
 		action.on_perform(user, target)
 		// It could want to finish afterwards the performed action
 		if(action.is_finished(user, target))
@@ -835,6 +843,11 @@
 		target_on_bed = TRUE
 	if(!bed && !(user.mobility_flags & MOBILITY_STAND) && isturf(user.loc)) // find our bed
 		bed = locate() in user.loc
+
+/datum/sex_controller/proc/find_occupying_grass()
+	if(grassy_knoll)
+		return
+	grassy_knoll = locate() in user.loc
 
 /datum/sex_controller/proc/inherent_perform_check(action_type, incapacitated)
 	var/datum/sex_action/action = SEX_ACTION(action_type)
