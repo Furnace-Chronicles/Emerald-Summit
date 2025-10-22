@@ -338,7 +338,7 @@
 
 /datum/stressevent/unseemly_made_love
 	stressadd = 3
-	desc = span_red("They... Touched me!")
+	desc = span_red("That ugly fiend... Touched me!")
 	timer = 20 MINUTES
 
 /datum/stressevent/unseemly_made_love/beautiful
