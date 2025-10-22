@@ -87,13 +87,15 @@
 	desc = "Allows you to learn a spell or two of a certain type once every cycle."
 	miracle = TRUE
 	devotion_cost = 200
-	recharge_time = 25 MINUTES
+	recharge_time = 1 MINUTES
 	chargetime = 0
 	chargedrain = 0
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
 	var/chosen_bundle
-	var/list/utility_bundle = list(	//Utility means exactly that. Nothing offensive and nothing that can affect another person negatively. (Barring Fetch)
+	var/used_this_sleep_cycle = FALSE			// Prevent use until resting/sleeping
+
+	var/list/utility_bundle = list(
 		/obj/effect/proc_holder/spell/self/message::name 				= /obj/effect/proc_holder/spell/self/message,
 		/obj/effect/proc_holder/spell/invoked/leap::name 				= /obj/effect/proc_holder/spell/invoked/leap,
 		/obj/effect/proc_holder/spell/targeted/touch/lesserknock::name 	= /obj/effect/proc_holder/spell/targeted/touch/lesserknock,
@@ -114,8 +116,14 @@
 		/obj/effect/proc_holder/spell/invoked/guidance::name 			= /obj/effect/proc_holder/spell/invoked/guidance,
 		/obj/effect/proc_holder/spell/invoked/haste::name 				= /obj/effect/proc_holder/spell/invoked/haste,
 		/obj/effect/proc_holder/spell/invoked/fortitude::name 			= /obj/effect/proc_holder/spell/invoked/fortitude,
+		/obj/effect/proc_holder/spell/invoked/stoneskin::name			= /obj/effect/proc_holder/spell/invoked/stoneskin
 	)
+
 /obj/effect/proc_holder/spell/self/noc_spell_bundle/cast(list/targets, mob/user)
+	if (used_this_sleep_cycle)
+		to_chat(user, span_warning("I have already invoked Noc's favor this cycle. I must first sleep..."))
+		return FALSE
+
 	. = ..()
 	var/choice = chosen_bundle
 	if(!chosen_bundle)
@@ -136,6 +144,14 @@
 			ADD_TRAIT(user, TRAIT_MAGEARMOR, TRAIT_MIRACLE)
 		else
 			revert_cast()
+
+	used_this_sleep_cycle = TRUE
+	return TRUE
+
+/obj/effect/proc_holder/spell/self/noc_spell_bundle/proc/reset_after_sleep(mob/living/carbon/human/H)
+	used_this_sleep_cycle = FALSE
+	chosen_bundle = null
+
 
 
 /obj/effect/proc_holder/spell/self/noc_spell_bundle/proc/add_spells(mob/user, list/spells, choice_count = 1, grant_all = FALSE)
