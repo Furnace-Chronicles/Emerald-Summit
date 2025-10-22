@@ -102,6 +102,9 @@
 	animate(user, pixel_x = target_x, pixel_y = target_y, time = time)
 	animate(pixel_x = oldx, pixel_y = oldy, time = time)
 	if(bed && force > SEX_FORCE_MID)
+		if (!istype(bed) || QDELETED(bed))
+			bed = null
+			return
 		oldy = bed.pixel_y
 		target_y = oldy-1
 		time /= 2
@@ -113,6 +116,9 @@
 			animate(target, pixel_y = target_y, time = time)
 			animate(pixel_y = oldy, time = time)
 	else if(grassy_knoll)
+		if (!istype(grassy_knoll) || QDELETED(grassy_knoll))
+			grassy_knoll = null
+			return
 		SEND_SIGNAL(grassy_knoll, COMSIG_MOVABLE_CROSSED, user)
 
 /datum/sex_controller/proc/is_spent()
