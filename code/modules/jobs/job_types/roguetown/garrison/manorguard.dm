@@ -47,7 +47,6 @@
 
 /datum/outfit/job/roguetown/manorguard
 	cloak = /obj/item/clothing/cloak/stabard/surcoat/guard
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	beltl = /obj/item/rogueweapon/mace/cudgel
 	belt = /obj/item/storage/belt/rogue/leather/black
@@ -91,7 +90,8 @@
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson		//It's only proper a soldier gets a gambeson, tbh.
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fluted
-	pants = /obj/item/clothing/under/roguetown/chainlegs
+	wrists = /obj/item/clothing/wrists/roguetown/splintarms
+	pants = /obj/item/clothing/under/roguetown/splintlegs
 	neck = /obj/item/clothing/neck/roguetown/gorget
 	gloves = /obj/item/clothing/gloves/roguetown/plate    //Footmen aren't on horseback or at a distance -- the more likely to get their fingers chopped.
 
@@ -164,6 +164,7 @@
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	gloves = /obj/item/clothing/gloves/roguetown/leather		//Archer class -- doesn't need much hand protection.
+	wrists = /obj/item/clothing/wrists/roguetown/bracers
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Crossbow","Bow","Sling")
@@ -233,9 +234,10 @@
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson		
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fluted			
-	pants = /obj/item/clothing/under/roguetown/chainlegs
+	pants = /obj/item/clothing/under/roguetown/splintlegs
 	neck = /obj/item/clothing/neck/roguetown/gorget
 	gloves = /obj/item/clothing/gloves/roguetown/chain
+	wrists = /obj/item/clothing/wrists/roguetown/splintarms
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Bardiche","Sword & Shield")
