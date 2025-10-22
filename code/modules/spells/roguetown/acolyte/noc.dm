@@ -120,7 +120,7 @@
 	)
 
 /obj/effect/proc_holder/spell/self/noc_spell_bundle/cast(list/targets, mob/user)
-	if (used_this_sleep_cycle)
+	if (user.mind?.has_affinity)
 		to_chat(user, span_warning("I have already invoked Noc's favor this cycle. I must first sleep..."))
 		return FALSE
 
@@ -145,14 +145,8 @@
 		else
 			revert_cast()
 
-	used_this_sleep_cycle = TRUE
+	user.mind.has_affinity = TRUE
 	return TRUE
-
-/obj/effect/proc_holder/spell/self/noc_spell_bundle/proc/reset_after_sleep(mob/living/carbon/human/H)
-	used_this_sleep_cycle = FALSE
-	chosen_bundle = null
-
-
 
 /obj/effect/proc_holder/spell/self/noc_spell_bundle/proc/add_spells(mob/user, list/spells, choice_count = 1, grant_all = FALSE)
 	for(var/spell_type in spells)
