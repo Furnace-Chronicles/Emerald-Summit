@@ -379,16 +379,16 @@
 	var/user_ugly = HAS_TRAIT(user, TRAIT_UNSEEMLY)
 	var/target_beautiful = HAS_TRAIT(target, TRAIT_BEAUTIFUL)
 	var/target_ugly = HAS_TRAIT(target, TRAIT_UNSEEMLY)
-	if(user_ugly == target_ugly || user_beautiful == target_beautiful) // both are ugly/beautiful, add made love buff
+	if(user_ugly && target_ugly || user_beautiful && target_beautiful) // both are ugly/beautiful, add made love buff
 		user.add_stress(/datum/stressevent/cummax)
 		target.add_stress(/datum/stressevent/cummax)
 	else // one of them is ugly, add debuff to non-ugly character
-		if(!user_ugly && !user_goodlover) // good lover are immune to ugly characters
+		if(target_ugly && !user_ugly && !user_goodlover) // good lover are immune to ugly characters
 			if(user_beautiful) // stress event last twice as long
 				user.add_stress(/datum/stressevent/unseemly_made_love/beautiful)
 			else
 				user.add_stress(/datum/stressevent/unseemly_made_love)
-		if(!target_ugly && !target_goodlover) // good lover are immune to ugly characters
+		if(user_ugly && !target_ugly && !target_goodlover) // good lover are immune to ugly characters
 			if(target_beautiful) // stress event last twice as long
 				target.add_stress(/datum/stressevent/unseemly_made_love/beautiful)
 			else
