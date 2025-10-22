@@ -162,7 +162,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded		//Helps against arrows; makes sense for a ranged-type role.
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather		//Archer class -- doesn't need much hand protection.
+	gloves = /obj/item/clothing/gloves/roguetown/leather		//Archer class -- doesn't need much hand protection.
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Crossbow","Bow","Sling")
