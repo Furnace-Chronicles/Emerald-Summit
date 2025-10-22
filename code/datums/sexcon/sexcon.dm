@@ -104,6 +104,7 @@
 	if(bed && force > SEX_FORCE_MID)
 		if (!istype(bed) || QDELETED(bed))
 			bed = null
+			target_on_bed = FALSE
 			return
 		oldy = bed.pixel_y
 		target_y = oldy-1
