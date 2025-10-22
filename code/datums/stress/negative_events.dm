@@ -336,6 +336,14 @@
 	desc = span_red("Their face is unbearable!")
 	timer = 3 MINUTES
 
+/datum/stressevent/unseemly_made_love
+	stressadd = 3
+	desc = span_red("They... Touched me!")
+	timer = 20 MINUTES
+
+/datum/stressevent/unseemly_made_love/beautiful
+	timer = 40 MINUTES
+
 /datum/stressevent/syoncalamity
 	stressadd = 15
 	desc = span_boldred("By Psydon, the great comet's shard is no more! What will we do now!?")

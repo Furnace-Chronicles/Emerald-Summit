@@ -368,6 +368,22 @@
 			target.mob_timers["cumtri"] = world.time
 			target.adjust_triumphs(1)
 			to_chat(target, span_love("Our loving is a true TRIUMPH!"))
+	var/user_ugly = HAS_TRAIT(user, TRAIT_UNSEEMLY)
+	var/target_ugly = HAS_TRAIT(target, TRAIT_UNSEEMLY)
+	if(user_ugly == target_ugly) // both are ugly, add made love buff
+		user.add_stress(/datum/stressevent/cummax)
+		target.add_stress(/datum/stressevent/cummax)
+	else // one of them is ugly, add debuff to non-ugly character
+		if(!user_ugly)
+			if(HAS_TRAIT(user, TRAIT_BEAUTIFUL)) // stress event last twice as long
+				user.add_stress(/datum/stressevent/unseemly_made_love/beautiful)
+			else
+				user.add_stress(/datum/stressevent/unseemly_made_love)
+		if(!target_ugly)
+			if(HAS_TRAIT(target, TRAIT_BEAUTIFUL)) // stress event last twice as long
+				target.add_stress(/datum/stressevent/unseemly_made_love/beautiful)
+			else
+				target.add_stress(/datum/stressevent/unseemly_made_love)
 
 /datum/sex_controller/proc/just_ejaculated()
 	return (last_ejaculation_time + 2 SECONDS >= world.time)
