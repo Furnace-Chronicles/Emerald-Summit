@@ -48,7 +48,6 @@
 /datum/outfit/job/roguetown/manorguard
 	cloak = /obj/item/clothing/cloak/stabard/surcoat/guard
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	beltl = /obj/item/rogueweapon/mace/cudgel
 	belt = /obj/item/storage/belt/rogue/leather/black
@@ -90,10 +89,11 @@
 	H.change_stat("constitution", 1)
 	H.change_stat("endurance", 1)
 
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord		//Bit worse shirt protection than the archer
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale			//Makes up for worse shirt protection with kinda better armor protection
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson		//It's only proper a soldier gets a gambeson, tbh.
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fluted
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	neck = /obj/item/clothing/neck/roguetown/gorget
+	gloves = /obj/item/clothing/gloves/roguetown/plate    //Footmen aren't on horseback or at a distance -- the more likely to get their fingers chopped.
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Warhammer & Shield","Axe & Shield","Halberd","Greataxe")
@@ -158,10 +158,11 @@
 	H.change_stat("perception", 2)
 	H.change_stat("speed", 2)
 
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord			// Cant wear chainmail anymoooree
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson			// Cant wear chainmail anymoooree
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded		//Helps against arrows; makes sense for a ranged-type role.
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	pants = /obj/item/clothing/under/roguetown/trou/leather
+	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather		//Archer class -- doesn't need much hand protection.
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Crossbow","Bow","Sling")
@@ -228,10 +229,11 @@
 	H.change_stat("endurance", 2) // Your name is speed, and speed is running.
 	H.change_stat("intelligence", 1) // No strength to account for the nominally better weapons. We'll see.
 
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord		//Bit worse shirt protection than the archer -- as foot soldier.
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale			//Makes up for worse shirt protection with kinda better armor protection
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson		
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fluted			
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	neck = /obj/item/clothing/neck/roguetown/gorget
+	gloves = /obj/item/clothing/gloves/roguetown/chain
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Bardiche","Sword & Shield")
