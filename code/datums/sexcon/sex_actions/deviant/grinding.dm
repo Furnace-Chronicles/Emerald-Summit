@@ -22,6 +22,7 @@
 
 /datum/sex_action/grind_body/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/do_subtle
+	var/pleasure_target
 	var/zone_text
 	if(user.sexcon.force < SEX_FORCE_MID && user.sexcon.speed < SEX_SPEED_MID) // always subtle
 		do_subtle = 1
@@ -31,6 +32,7 @@
 		do_subtle = 0 // we go loud
 	if(user.zone_selected == BODY_ZONE_PRECISE_GROIN)
 		zone_text = user.dir == target.dir ? "ass" : "crotch"
+		pleasure_target = 1 // only pleasure them if user is grinding against their ass/crotch
 	else
 		zone_text = lowertext(parse_zone(user.zone_selected))
 	user.sexcon.show_progress = !do_subtle
@@ -45,7 +47,8 @@
 	user.sexcon.perform_sex_action(user, 1, 0.5, TRUE)
 	user.sexcon.handle_passive_ejaculation()
 
-	user.sexcon.perform_sex_action(target, 1, 0.5, TRUE)
+	if(pleasure_target)
+		user.sexcon.perform_sex_action(target, 1, 0.5, TRUE)
 	target.sexcon.handle_passive_ejaculation()
 
 /datum/sex_action/grind_body/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)
