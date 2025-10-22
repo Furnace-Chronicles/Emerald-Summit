@@ -27,6 +27,7 @@
 
 	virtue_restrictions = list(
 		/datum/virtue/combat/hollow_life,
+		/datum/virtue/combat/vampire,
 	)
 
 	job_subclasses = list(

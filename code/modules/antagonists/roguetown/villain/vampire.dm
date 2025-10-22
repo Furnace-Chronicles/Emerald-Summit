@@ -14,6 +14,7 @@
 	job_rank = ROLE_VAMPIRE
 	antag_hud_type = ANTAG_HUD_TRAITOR
 	antag_hud_name = "vampire"
+	var/inherent_traits = list(TRAIT_STRONGBITE, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_NOPAIN, TRAIT_TOXIMMUNE, TRAIT_STEELHEARTED, TRAIT_NOSLEEP, TRAIT_VAMP_DREAMS, TRAIT_CRITICAL_WEAKNESS)
 	confess_lines = list(
 		"I WANT YOUR BLOOD!",
 		"DRINK THE BLOOD!",
@@ -55,18 +56,13 @@
 	return
 
 /datum/antagonist/vampire/on_gain()
+	for(var/inherited_trait in inherent_traits)
+		ADD_TRAIT(owner.current, inherited_trait, "[type]")
 	if(!is_lesser)
 		owner.current.adjust_skillrank(/datum/skill/combat/wrestling, 6, TRUE)
 		owner.current.adjust_skillrank(/datum/skill/combat/unarmed, 6, TRUE)
 		ADD_TRAIT(owner.current, TRAIT_NOBLE, src)
 	owner.special_role = name
-	ADD_TRAIT(owner.current, TRAIT_STRONGBITE, src)
-	ADD_TRAIT(owner.current, TRAIT_NOHUNGER, src)
-	ADD_TRAIT(owner.current, TRAIT_NOBREATH, src)
-	ADD_TRAIT(owner.current, TRAIT_NOPAIN, src)
-	ADD_TRAIT(owner.current, TRAIT_TOXIMMUNE, src)
-	ADD_TRAIT(owner.current, TRAIT_STEELHEARTED, src)
-	ADD_TRAIT(owner.current, TRAIT_SILVER_WEAK, src)
 	owner.current.cmode_music = 'sound/music/combat_vamp.ogg'
 	var/obj/item/organ/eyes/eyes = owner.current.getorganslot(ORGAN_SLOT_EYES)
 	if(eyes)
@@ -81,8 +77,8 @@
 //		if(isnull(batform))
 //			batform = new
 //			owner.current.AddSpell(batform)
-	owner.current.verbs |= /mob/living/carbon/human/proc/disguise_button
-	owner.current.verbs |= /mob/living/carbon/human/proc/vamp_regenerate
+	owner.current.AddSpell(new /obj/effect/proc_holder/spell/self/disguise)
+	owner.current.AddSpell(new /obj/effect/proc_holder/spell/self/regenerate)
 	if(!is_lesser)
 		owner.current.verbs |= /mob/living/carbon/human/proc/blood_strength
 		owner.current.verbs |= /mob/living/carbon/human/proc/blood_celerity
@@ -167,28 +163,7 @@
 		H.dust()
 		return
 
-/mob/living/carbon/human/proc/disguise_button()
-	set name = "Disguise"
-	set category = "VAMPIRE"
-
-	var/datum/antagonist/vampirelord/VD = mind.has_antag_datum(/datum/antagonist/vampirelord)
-	if(!VD)
-		return
-	if(world.time < VD.last_transform + 30 SECONDS)
-		var/timet2 = (VD.last_transform + 30 SECONDS) - world.time
-		to_chat(src, span_warning("No.. not yet. [round(timet2/10)]s"))
-		return
-	if(VD.disguised)
-		VD.last_transform = world.time
-		vampire_undisguise(VD)
-	else
-		if(VD.vitae < 100)
-			to_chat(src, span_warning("I don't have enough Vitae!"))
-			return
-		VD.last_transform = world.time
-		vampire_disguise(VD)
-
-/mob/living/carbon/human/proc/vampire_disguise(datum/antagonist/vampirelord/VD)
+/mob/living/carbon/human/proc/vampire_disguise(datum/antagonist/vampirelord/VD, silent = FALSE)
 	if(!VD)
 		return
 	VD.disguised = TRUE
@@ -208,9 +183,10 @@
 	eyes.update_accessory_colors()
 	mob_biotypes &= ~MOB_UNDEAD
 	faction = list()
-	to_chat(src, span_notice("My true form is hidden."))
+	if(!silent)
+		to_chat(src, span_notice("My true form is hidden."))
 
-/mob/living/carbon/human/proc/vampire_undisguise(datum/antagonist/vampirelord/VD)
+/mob/living/carbon/human/proc/vampire_undisguise(datum/antagonist/vampirelord/VD, silent = FALSE)
 	if(!VD)
 		return
 	VD.disguised = FALSE
@@ -230,7 +206,8 @@
 	eyes.update_accessory_colors()
 	mob_biotypes |= MOB_UNDEAD
 	faction = list("undead")
-	to_chat(src, span_notice("My true form is revealed."))
+	if(!silent)
+		to_chat(src, span_notice("My true form is revealed."))
 
 
 /mob/living/carbon/human/proc/blood_strength()
@@ -361,30 +338,6 @@
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = TRUE
 	max_integrity = 0
-
-/mob/living/carbon/human/proc/vamp_regenerate()
-	set name = "Regenerate"
-	set category = "VAMPIRE"
-	if(has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
-		if(prob(50))
-			to_chat(src, span_warning("I cannot regenerate while engulfed in holy fire!"))
-		else
-			to_chat(src, span_warning("Holy fire smothers my attempt to mend these wounds!"))
-		return
-	var/datum/antagonist/vampirelord/VD = mind.has_antag_datum(/datum/antagonist/vampirelord)
-	if(!VD)
-		return
-	if(VD.disguised)
-		to_chat(src, span_warning("My curse is hidden."))
-		return
-	if(VD.vitae < 600)
-		to_chat(src, span_warning("Not enough vitae."))
-		return
-	to_chat(src, span_greentext("! REGENERATE !"))
-	src.playsound_local(get_turf(src), 'sound/misc/vampirespell.ogg', 100, FALSE, pressure_affected = FALSE)
-	VD.handle_vitae(-600)
-	fully_heal()
-	regenerate_limbs()
 
 /mob/living/carbon/human/proc/vampire_infect()
 	if(!mind)

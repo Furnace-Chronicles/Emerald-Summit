@@ -71,3 +71,65 @@
 	human_req = FALSE
 	shape.see_in_dark = 8
 	shape.lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
+
+/obj/effect/proc_holder/spell/self/regenerate
+	name = "Regenerate"
+	desc = ""
+	invocation = ""
+	recharge_time = 20 SECONDS
+	overlay_icon = 'icons/mob/actions/genericmiracles.dmi'
+	overlay_state = "woundheal"
+	action_icon_state = "woundheal"
+	action_icon = 'icons/mob/actions/genericmiracles.dmi'
+
+/obj/effect/proc_holder/spell/self/regenerate/cast(list/targets, mob/living/carbon/human/user)
+	. = ..()
+	if(!ishuman(user))
+		return
+	for(var/datum/status_effect/debuff/silver_curse/silver_curse in user.status_effects)
+		to_chat(src, span_warning("My BANE is not letting me REGENERATE!"))
+		revert_cast()
+		return
+	var/datum/antagonist/vampirelord/VD = user.mind.has_antag_datum(/datum/antagonist/vampirelord)
+	if(VD)
+		if(VD.disguised)
+			to_chat(src, span_warning("My curse is hidden."))
+			revert_cast()
+			return
+		if(VD.vitae < 600)
+			to_chat(user, span_warning("Not enough vitae."))
+			revert_cast()
+			return
+		to_chat(user, span_greentext("! REGENERATE !"))
+		user.playsound_local(get_turf(user), 'sound/misc/vampirespell.ogg', 100, FALSE, pressure_affected = FALSE)
+		VD.handle_vitae(-600)
+		user.fully_heal()
+		if(!VD.isstray)
+			user.regenerate_limbs()
+		else
+			recharge_time = 5 MINUTES
+		return
+
+
+/obj/effect/proc_holder/spell/self/disguise
+	name = "Disguise"
+	desc = ""
+	invocation = ""
+	recharge_time = 30 SECONDS
+
+/obj/effect/proc_holder/spell/self/disguise/cast(list/targets, mob/living/carbon/human/user)
+	. = ..()
+	if(!ishuman(user))
+		return
+	var/datum/antagonist/vampirelord/VD = user.mind.has_antag_datum(/datum/antagonist/vampirelord)
+	if(!VD)
+		return
+	if(VD.disguised)
+		VD.last_transform = world.time
+		user.vampire_undisguise(VD)
+	else
+		if(VD.vitae < 100)
+			to_chat(src, span_warning("I don't have enough Vitae!"))
+			return
+		VD.last_transform = world.time
+		user.vampire_disguise(VD)
