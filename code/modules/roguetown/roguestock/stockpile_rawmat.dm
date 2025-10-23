@@ -208,7 +208,7 @@
 
 /datum/roguestock/stockpile/viscera
 	name = "Viscera"
-	desc = "Miscellanious carcass parts used in alchemy."
+	desc = "Miscellaneous carcass parts used in alchemy."
 	item_type = /obj/item/alch/viscera
 	held_items = list(0, 0)
 	payout_price = 2
