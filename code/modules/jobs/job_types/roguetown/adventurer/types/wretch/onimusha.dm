@@ -1,6 +1,6 @@
 /datum/advclass/wretch/onimusha
 	name = "Onimusha"
-	tutorial = "You are a fiend of the Kazengunese mountains, a warrior who has cast aside their humenity and seeks to emulate the beasts of Graggar and Dendor."
+	tutorial = "You are a fiend of the Kazengunese mountains, a warrior who has cast aside their humenity and seeks to emulate the beasts and demons of Shogunate lore."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/wretch/onimusha
@@ -33,7 +33,6 @@
 	)
 
 /datum/outfit/job/roguetown/wretch/onimusha/pre_equip(mob/living/carbon/human/H)
-	H.set_patron(/datum/patron/inhumen/graggar)
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/beastskull
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full
 	cloak = /obj/item/clothing/cloak/darkcloak/minotaur
@@ -86,8 +85,7 @@
 
 /datum/outfit/job/roguetown/wretch/swordhunter/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("Hailing from Lingyue, yours is an unique art: You seek the swords of worthy foes and add them to your collection in worship of Matiosu."))
-	H.set_patron(/datum/patron/inhumen/matthios)
+	to_chat(H, span_warning("Hailing from Lingyue, yours is an unique art: You seek the swords of worthy foes and add them to your collection in demonstration of might."))
 	head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/kazengunese
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2
 	armor = /obj/item/clothing/suit/roguetown/armor/basiceast/crafteast/outlaw
