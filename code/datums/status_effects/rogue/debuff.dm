@@ -499,6 +499,17 @@
 	desc = "Something has chilled me to the bone! It's hard to move."
 	icon_state = "muscles"
 
+/datum/status_effect/debuff/sunspurn
+	id = "Sunspurn"
+	alert_type =  /atom/movable/screen/alert/status_effect/debuff/sunspurn
+	effectedstats = list("strength" = -2, "endurance" = -3, "constitution" = -3)
+	duration = 1 MINUTES
+
+/atom/movable/screen/alert/status_effect/debuff/sunspurn
+	name = "Sunspurned"
+	desc = "Astrata spurns me! I feel so weak..."
+	icon_state = "muscles"
+
 ///////////////////////
 /// CLIMBING STUFF ///
 /////////////////////

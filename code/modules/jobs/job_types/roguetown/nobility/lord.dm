@@ -42,6 +42,10 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/advclass/lord/inbred
 	)
 
+	virtue_restrictions = list(
+		/datum/virtue/combat/hollow_life,
+	)
+
 /datum/outfit/job/roguetown/lord
 	job_bitflag = BITFLAG_ROYALTY
 

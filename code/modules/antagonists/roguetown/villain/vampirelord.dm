@@ -85,13 +85,13 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	vamp_look()
 	if(isspawn)
 		owner.current.AddSpell(new /obj/effect/proc_holder/spell/self/disguise)
+		equip_spawn()
 		if(!isstray)
 			owner.current.verbs |= /mob/living/carbon/human/proc/vampire_telepathy
 			add_objective(/datum/objective/vlordserve)
 			finalize_vampire_lesser()
 			for(var/obj/structure/vampire/bloodpool/mansion in GLOB.vampire_objects)
 				mypool = mansion
-			equip_spawn()
 			greet()
 			addtimer(CALLBACK(owner.current, TYPE_PROC_REF(/mob/living/carbon/human, equipOutfit), /datum/outfit/job/roguetown/vampthrall), 5 SECONDS)
 
@@ -374,16 +374,13 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 				var/turf/T = H.loc
 				if(T.can_see_sky())
 					if(T.get_lumcount() > 0.15)
+						H.apply_status_effect(/datum/status_effect/debuff/sunspurn)
 						if(!isspawn)
 							if(!disguised)
-								to_chat(H, span_warning("Astrata spurns me! I must get out of her rays!")) // VLord is more punished for daylight excursions.
-								var/turf/N = H.loc
-								if(N.can_see_sky())
-									if(N.get_lumcount() > 0.15)
-										H.fire_act(3)
-										handle_vitae(-300)
-								to_chat(H, span_warning("THE SUN DESTROYS MY VERY ESSENCE!"))
-						else if (isspawn && !disguised)
+								H.fire_act(3)
+								handle_vitae(-300)
+								to_chat(H, span_warning("THE SUN DESTROYS MY VERY ESSENCE!"))  // VLord is more punished for daylight excursions.
+						else if(!disguised)
 							H.fire_act(1,5)
 							handle_vitae(-10)
 	if(H.on_fire)
@@ -502,7 +499,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 /datum/antagonist/vampirelord/lesser/stray //For virtue vampires
 	name = "Stray Vampire"
 	antag_hud_name = null
-	inherent_traits = list(TRAIT_STRONGBITE, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_NOPAIN, TRAIT_TOXIMMUNE, TRAIT_STEELHEARTED, TRAIT_NOSLEEP, TRAIT_VAMP_DREAMS, TRAIT_CRITICAL_WEAKNESS)
+	inherent_traits = list(TRAIT_STRONGBITE, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_NOPAIN, TRAIT_TOXIMMUNE, TRAIT_STEELHEARTED, TRAIT_NOSLEEP, TRAIT_VAMP_DREAMS)
 	isstray = TRUE
 	sired = TRUE
 
