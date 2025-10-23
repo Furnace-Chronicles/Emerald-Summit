@@ -32,6 +32,9 @@
 			if(I.obj_broken && I.obj_integrity >= I.max_integrity)
 				I.obj_integrity = I.max_integrity
 				I.obj_fix()
+			if(I.body_parts_covered_dynamic != I.body_parts_covered)
+				I.repair_coverage()
+			user.visible_message(span_info("[I]'s protective coverage knits itself whole again."))
 		else
 			to_chat(user, span_info("[I] appears to be in perfect condition."))
 			revert_cast()
