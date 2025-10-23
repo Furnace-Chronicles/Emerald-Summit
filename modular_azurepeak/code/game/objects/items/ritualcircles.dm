@@ -535,7 +535,6 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		loc.visible_message(span_cult("Great hooks come from the rune, embedding into [target]'s ankles, pulling them onto the rune. Then, into their wrists. Their lux is torn from their chest, and reforms into armor. "))
 		target.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending)
 		to_chat(target, span_notice("A new understanding fills my mind... I can mend that which breaks."))
-
 	spawn(20)
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
 		target.equipOutfit(/datum/outfit/job/roguetown/darksteelrite)
