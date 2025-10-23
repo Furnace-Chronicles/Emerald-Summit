@@ -23,18 +23,23 @@
 /obj/effect/proc_holder/spell/invoked/mending/cast(list/targets, mob/living/user)
 	if(istype(targets[1], /obj/item))
 		var/obj/item/I = targets[1]
-		if(I.obj_integrity < I.max_integrity)
-			var/repair_percent = 0.25
-			repair_percent *= I.max_integrity
-			I.obj_integrity = min(I.obj_integrity + repair_percent, I.max_integrity)
-			user.visible_message(span_info("[I] glows in a faint mending light."))
-			playsound(I, 'sound/foley/sewflesh.ogg', 50, TRUE, -2)
-			if(I.obj_broken && I.obj_integrity >= I.max_integrity)
-				I.obj_integrity = I.max_integrity
-				I.obj_fix()
+
+		if(I.obj_integrity >= I.max_integrity)
 			if(I.body_parts_covered_dynamic != I.body_parts_covered)
 				I.repair_coverage()
-			user.visible_message(span_info("[I]'s protective coverage knits itself whole again."))
+				user.visible_message(span_info("[I]'s protective coverage knits itself whole again."))
+			else
+				to_chat(user, span_info("[I] appears to be in perfect condition."))
+			return
+
+		var/repair_percent = 0.25
+		repair_percent *= I.max_integrity
+		I.obj_integrity = min(I.obj_integrity + repair_percent, I.max_integrity)
+		user.visible_message(span_info("[I] glows in a faint mending light."))
+		playsound(I, 'sound/foley/sewflesh.ogg', 50, TRUE, -2)
+		if(I.obj_broken && I.obj_integrity >= I.max_integrity)
+			I.obj_integrity = I.max_integrity
+			I.obj_fix()
 		else
 			to_chat(user, span_info("[I] appears to be in perfect condition."))
 			revert_cast()
