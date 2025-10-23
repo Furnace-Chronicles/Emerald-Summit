@@ -74,7 +74,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	remove_antag_hud(antag_hud_type, M)
 
 /datum/antagonist/vampirelord/on_gain()
-	SSmapping.retainer.vampires |= owner
+	if(!isstray)
+		SSmapping.retainer.vampires |= owner
 	. = ..()
 	owner.special_role = name
 	for(var/inherited_trait in inherent_traits)
@@ -996,6 +997,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		return TRUE
 
 /datum/antagonist/vampirelord/roundend_report()
+	if(isstray)
+		return
 	var/traitorwin = TRUE
 
 	printplayer(owner)
