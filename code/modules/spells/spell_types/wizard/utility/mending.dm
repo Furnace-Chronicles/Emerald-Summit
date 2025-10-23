@@ -23,7 +23,6 @@
 /obj/effect/proc_holder/spell/invoked/mending/cast(list/targets, mob/living/user)
 	if(istype(targets[1], /obj/item))
 		var/obj/item/I = targets[1]
-
 		if(I.obj_integrity >= I.max_integrity)
 			if(I.body_parts_covered_dynamic != I.body_parts_covered)
 				I.repair_coverage()
