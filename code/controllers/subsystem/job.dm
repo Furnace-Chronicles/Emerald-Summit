@@ -163,6 +163,9 @@ SUBSYSTEM_DEF(job)
 		if(check_blacklist(player.client.ckey) && !job.bypass_jobban)
 			JobDebug("FOC incompatible with blacklist, Player: [player], Job: [job.title]")
 			continue
+		if(job.requires_vetting == TRUE && !player.client.check_agevet()) //Player was unable to join class due to not meeting the vetting requirement. Why is this not mandatory?
+			JobDebug("FOC incompatible with agevetting requirement, Player: [player], Job: [job.title]")
+			continue
 		if((player.client.prefs.lastclass == job.title) && !job.bypass_lastclass)
 			JobDebug("FOC incompatible with lastclass, Player: [player], Job: [job.title]")
 			continue
@@ -247,6 +250,10 @@ SUBSYSTEM_DEF(job)
 
 		if(!isnull(job.max_pq) && (get_playerquality(player.ckey) > job.max_pq))
 			JobDebug("GRJ incompatible with maxPQ, Player: [player], Job: [job.title]")
+			continue
+
+		if(job.requires_vetting == TRUE && !player.client.check_agevet()) //as if this would ever happen
+			JobDebug("GRJ incompatible with agevetting requirement, Player: [player], Job: [job.title]")
 			continue
 
 		if(check_blacklist(player.client.ckey) && !job.bypass_jobban)
@@ -475,6 +482,10 @@ SUBSYSTEM_DEF(job)
 					JobDebug("DO incompatible with PATREON LEVEL, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
 					continue
 
+				if(job.requires_vetting == TRUE && !player.client.check_agevet()) //why is there so much copy paste in this file? WTF TG
+					JobDebug("DO incompatible with agevetting requirement, Player: [player], Job: [job.title]")
+					continue
+
 				if(!isnull(job.min_pq) && (get_playerquality(player.ckey) < job.min_pq))
 					continue
 
@@ -560,13 +571,13 @@ SUBSYSTEM_DEF(job)
 
 				if(length(job.allowed_races) && !(player.client.prefs.pref_species.type in job.allowed_races))
 					continue
-				
+
 				if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron.type in job.allowed_patrons))
 					continue
 
 				if(length(job.virtue_restrictions) && ((player.client.prefs.virtue.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions)))
 					continue
-					
+
 				if(length(job.vice_restrictions) && (player.client.prefs.charflaw.type in job.vice_restrictions))
 					continue
 
@@ -580,6 +591,9 @@ SUBSYSTEM_DEF(job)
 					continue
 
 				if(check_blacklist(player.client.ckey) && !job.bypass_jobban)
+					continue
+
+				if(job.requires_vetting == TRUE && !player.client.check_agevet())
 					continue
 
 				if(CONFIG_GET(flag/usewhitelist))

@@ -15,6 +15,7 @@
 	give_bank_account = 44
 	noble_income = 22
 	min_pq = 9 //The second most powerful person in the realm...
+	requires_vetting = TRUE
 	max_pq = null
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_noble.ogg'

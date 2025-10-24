@@ -23,8 +23,9 @@
 	announce_latejoin = FALSE
 	outfit = /datum/outfit/job/roguetown/dungeoneer
 	give_bank_account = 25
-	min_pq = 0
+	min_pq = 9 //why is a role dedicated to making sure other players are not bored low value? this used to be zero
 	max_pq = null
+	requires_vetting = TRUE //notorious shitter class. This won't stop anything, but it will definitely stem the tide.
 	round_contrib_points = 2
 
 	cmode_music = 'sound/music/combat_dungeoneer.ogg'

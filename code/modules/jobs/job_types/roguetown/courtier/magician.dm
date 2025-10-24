@@ -20,7 +20,8 @@
 	outfit = /datum/outfit/job/roguetown/magician
 	whitelist_req = TRUE
 	give_bank_account = 47
-	min_pq = 4 //High potential for abuse, lovepotion/killersice/greater fireball is not for the faint of heart
+	min_pq = 4 //High potential for abuse, lovepotion/killersice/greater fireball is not for the faint of heart //WERE THESE COMMENTS WRITTEN WITH THE ASSUMPTION OF A 10X SLOWER GROWTH RATE??
+	requires_vetting = TRUE
 	max_pq = null
 	round_contrib_points = 2
 	cmode_music = 'sound/music/combat_bandit_mage.ogg'
@@ -108,7 +109,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 
 	backpack_contents = list(
-		/obj/item/reagent_containers/glass/bottle/rogue/poison, 
+		/obj/item/reagent_containers/glass/bottle/rogue/poison,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
 		/obj/item/recipe_book/alchemy,
 		/obj/item/recipe_book/magic,

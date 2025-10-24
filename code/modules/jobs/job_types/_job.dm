@@ -93,6 +93,7 @@
 	var/min_pq = 0
 	var/max_pq = 0
 	var/round_contrib_points = 0 //Each 10 contributor points counts as 1 PQ, up to 10 PQ.
+	var/requires_vetting = FALSE
 
 	var/show_in_credits = TRUE
 	var/announce_latejoin = TRUE
@@ -232,7 +233,7 @@
 
 	if(H.mind.special_role == "Court Agent" || H.mind.assigned_role == "Bandit" || H.mind.assigned_role == "Wretch") //For obfuscating Court Agents & Bandits in Actors list
 		if (istype(H, /mob/living/carbon/human)) //For determining if the actor has a species name to display
-			var/mob/living/carbon/human/Hu = H 
+			var/mob/living/carbon/human/Hu = H
 			GLOB.actors_list[H.mobid] = "[H.real_name] as the [Hu.dna.species.name] Adventurer<BR>"
 		else
 			GLOB.actors_list[H.mobid] = "[H.real_name] as Adventurer<BR>"
@@ -241,7 +242,7 @@
 			var/mob/living/carbon/human/Hu = H
 			GLOB.actors_list[H.mobid] = "[H.real_name] as the [Hu.dna.species.name] [H.mind.assigned_role]<BR>"
 	if (!hidden_job)
-		var/mob/living/carbon/human/Hu = H 
+		var/mob/living/carbon/human/Hu = H
 		if (istype(H, /mob/living/carbon/human))
 			if (obsfuscated_job)
 				GLOB.actors_list[H.mobid] = "[H.real_name] as the [Hu.dna.species.name] Adventurer<BR>"

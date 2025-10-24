@@ -20,6 +20,7 @@
 	give_bank_account = TRUE
 	can_random = FALSE
 	min_pq = -10
+	requires_vetting = TRUE //WHY WAS THIS EVER ALLOWED TO NOT BE THE CASE
 	max_pq = null
 	round_contrib_points = 2
 	advjob_examine = TRUE
