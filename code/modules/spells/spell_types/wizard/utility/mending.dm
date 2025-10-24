@@ -30,7 +30,6 @@
 			else
 				to_chat(user, span_info("[I] appears to be in perfect condition."))
 			return
-
 		var/repair_percent = 0.25
 		repair_percent *= I.max_integrity
 		I.obj_integrity = min(I.obj_integrity + repair_percent, I.max_integrity)
@@ -39,9 +38,6 @@
 		if(I.obj_broken && I.obj_integrity >= I.max_integrity)
 			I.obj_integrity = I.max_integrity
 			I.obj_fix()
-		else
-			to_chat(user, span_info("[I] appears to be in perfect condition."))
-			revert_cast()
 	else if(ishuman(targets[1]))
 		var/mob/living/carbon/human/H = targets[1]
 		if(H.construct)
