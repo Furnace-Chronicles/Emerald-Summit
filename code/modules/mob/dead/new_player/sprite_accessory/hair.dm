@@ -1610,6 +1610,13 @@
 	name = "Protagonist"
 	icon_state = "Protagonist"
 
+/datum/sprite_accessory/hair/head/astolfo
+	name = "Paladin"
+	icon_state = "paladin"
+
+/datum/sprite_accessory/hair/head/ghast
+	name = "Ghastly"
+	icon_state = "ghastly"
 
 /datum/sprite_accessory/hair/head/vulpkian
 	abstract_type = /datum/sprite_accessory/hair/head/vulpkian

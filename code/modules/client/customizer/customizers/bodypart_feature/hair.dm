@@ -510,6 +510,8 @@
 		/datum/sprite_accessory/hair/head/generic,
 		/datum/sprite_accessory/hair/head/polite,
 		/datum/sprite_accessory/hair/head/protag,
+		/datum/sprite_accessory/hair/head/ghast,
+		/datum/sprite_accessory/hair/head/astolfo
 		)
 
 /datum/customizer_choice/bodypart_feature/hair/head/humanoid/get_random_accessory(datum/customizer_entry/entry, datum/preferences/prefs)
@@ -997,7 +999,9 @@
 		/datum/sprite_accessory/hair/head/vulpkian/raine,
 		/datum/sprite_accessory/hair/head/generic,
 		/datum/sprite_accessory/hair/head/polite,
-		/datum/sprite_accessory/hair/head/protag
+		/datum/sprite_accessory/hair/head/protag,
+		/datum/sprite_accessory/hair/head/ghast,
+		/datum/sprite_accessory/hair/head/astolfo
 		)
 
 
