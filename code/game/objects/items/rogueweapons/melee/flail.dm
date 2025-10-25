@@ -36,6 +36,7 @@
 
 /datum/intent/flail/strike/matthiosflail
 	reach = 2
+	damfactor = 1.9
 
 /datum/intent/flail/strikerange
 	name = "ranged strike"
@@ -67,6 +68,7 @@
 
 /datum/intent/flail/strike/smash/matthiosflail
 	reach = 2
+	damfactor = 1.4
 
 /datum/intent/flail/strike/smash/militia
 	damfactor = 1.35
@@ -184,6 +186,8 @@
 	name = "Gilded Flail"
 	desc = "Weight of wealth in a deadly striking end."
 	icon_state = "matthiosflail"
+	force = 20
+	force_wielded = 50
 	sellprice = 250
 	smeltresult = /obj/item/ingot/steel
 	possible_item_intents = list(/datum/intent/flail/strike/matthiosflail)
