@@ -1,10 +1,10 @@
 /obj/structure/barricade/wood_spike
 	name = "wooden barrier"
-	desc = "A defensive barrier made of sharp wooden stakes,"
-	icon = 'modular_helmsguard/icons/obj/structure/spike_barricades.dmi'
-	icon_state = "barricade"
+	desc = "A defensive barrier made of sharp wooden stakes"
+	icon = 'icons/roguetown/items/siege.dmi'
+	icon_state = "spikebarricade"
 	max_integrity = 250
-	proj_pass_rate = 80
+	proj_pass_rate = 100
 	blade_dulling = DULLING_BASHCHOP
 	pass_flags = LETPASSTHROW
 	bar_material = /obj/item/grown/log/tree/small
@@ -14,8 +14,6 @@
 	destroy_sound = 'sound/misc/treefall.ogg'
 	debris = list(/obj/item/grown/log/tree/small = 2)
 	static_debris = list(/obj/item/grown/log/tree/small = 2)
-	smooth = SMOOTH_TRUE
-	canSmoothWith = list(/obj/structure/barricade/wood_spike, /turf/closed/wall)
 	resistance_flags = FLAMMABLE
 	buckle_lying = 0
 	var/contact_dir
@@ -62,7 +60,6 @@
 	playsound(src, pick("sound/combat/hits/bladed/genthrust (1).ogg", "sound/combat/hits/bladed/genthrust (2).ogg"),  100)
 
 
-
 /obj/structure/barricade/wood_spike/proc/impale(mob/living/M)
 	BP.add_wound(/datum/wound/puncture/large)
 	M.forceMove(drop_location())
@@ -89,8 +86,6 @@
 	shake_camera(M, 3, 1)
 	playsound(src, pick("sound/combat/hits/bladed/genthrust (1).ogg", "sound/combat/hits/bladed/genthrust (2).ogg"),  100)
 	..()
-
-
 
 
 /obj/structure/barricade/wood_spike/post_buckle_mob(mob/living/M)

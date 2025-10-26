@@ -1,5 +1,5 @@
 /***********************
- * AMMO 
+ * AMMO
  *********************************/
 
 /obj/item/trebuchet_ammo
@@ -23,7 +23,7 @@
 
 
 /********************************
- * IMPACT!!! 
+ * IMPACT!!!
  **********************/
 
 /obj/effect/trebuchet_marker
@@ -33,7 +33,7 @@
     density = FALSE
     layer = ABOVE_MOB_LAYER
     mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-    var/time_left_ds = 0  
+    var/time_left_ds = 0
     var/started = 0
 
 /obj/effect/trebuchet_marker/Initialize(mapload)
@@ -57,7 +57,7 @@
 
 
 /***************************************
- * TREBUCHET 
+ * TREBUCHET
  *****************
  ***********************/
 
@@ -107,7 +107,7 @@
             loaded_ammo_path = I.type
             if(user) user.dropItemToGround(I)
             qdel(I)
-            if(load_sound)  
+            if(load_sound)
                 playsound(src, load_sound, 50, FALSE)
             to_chat(user, span_notice("Требушет заряжен."))
             update_icon()
@@ -149,9 +149,9 @@
 
     var/succeeded = FALSE //не ебу это тесты
     if(hascall(src, "buckle_mob"))
-        succeeded = src.buckle_mob(V)        /
+        succeeded = src.buckle_mob(V)
     else if(hascall(V, "buckle_mob"))
-        succeeded = V.buckle_mob(src)     
+        succeeded = V.buckle_mob(src)
 
     if(!succeeded)
         V.forceMove(src)
@@ -163,7 +163,7 @@
 
 
 /*********************************
- 
+
   Fluff 2
  ***************************************/
 
@@ -289,7 +289,7 @@
 
 
 /*****************************************
- * FLUFF 
+ * FLUFF
  ***********************************/
 
 /obj/structure/trebuchet/proc/spawn_gibs_ring(turf/center, radius = 1, density = 8)
