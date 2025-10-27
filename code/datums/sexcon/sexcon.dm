@@ -116,6 +116,7 @@
 			target_y = oldy-1
 			animate(target, pixel_y = target_y, time = time)
 			animate(pixel_y = oldy, time = time)
+		bed.damage_bed(force > SEX_FORCE_HIGH ? 2 : 1)
 	else if(grassy_knoll)
 		if (!istype(grassy_knoll) || QDELETED(grassy_knoll))
 			grassy_knoll = null
