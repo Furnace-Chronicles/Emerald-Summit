@@ -724,6 +724,14 @@
 	color = "#463C2B"
 	sewrepair = TRUE
 
+/obj/item/clothing/head/roguetown/maid_headband
+	name = "maid's headband"
+	desc = "A modest hairpiece typically denoting the female help among a home's housekeeping service."
+	icon_state = "maid_headband"
+	sellprice = 19
+	dynamic_hair_suffix = "+generic"
+	sewrepair = TRUE
+
 /obj/item/clothing/head/roguetown/helmet
 	icon = 'icons/roguetown/clothing/head.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'

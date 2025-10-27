@@ -633,6 +633,17 @@
 	icon_state = "velvetdress"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 
+//................ Maid Dress ............... //
+/obj/item/clothing/suit/roguetown/shirt/dress/maiddress
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	icon = 'icons/roguetown/clothing/shirts.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	name = "maid dress"
+	desc = "The not-so-modest garb that once denoted the female help among a home's housekeeping service, before it became popular among bathmaidens."
+	body_parts_covered = CHEST|GROIN|ARMS|VITALS
+	icon_state = "maid_costume"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+
 
 //kazengite content
 /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1

@@ -120,6 +120,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Papakha"
 	path = /obj/item/clothing/head/roguetown/papakha
 
+/datum/loadout_item/maid_headband
+	name = "Maid's Headdress"
+	path = /obj/item/clothing/head/roguetown/maid_headband
+
 //CLOAKS
 /datum/loadout_item/tabard
 	name = "Tabard"
@@ -430,6 +434,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/eastshirt2
 	name = "White Foreign Shirt"
 	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
+
+/datum/loadout_item/maid_costume
+	name = "Skimpy Maid Dress"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/maiddress
 
 //PANTS
 /datum/loadout_item/tights
