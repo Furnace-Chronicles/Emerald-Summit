@@ -44,6 +44,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 
 	virtue_restrictions = list(
 		/datum/virtue/combat/hollow_life,
+		/datum/virtue/combat/vampire,
 	)
 
 /datum/outfit/job/roguetown/lord

@@ -30,6 +30,7 @@
 	virtue_restrictions = list(
 		/datum/virtue/utility/noble,
 		/datum/virtue/utility/blueblooded,
+		/datum/virtue/combat/vampire,
 	)
 
 /datum/outfit/job/roguetown/templar

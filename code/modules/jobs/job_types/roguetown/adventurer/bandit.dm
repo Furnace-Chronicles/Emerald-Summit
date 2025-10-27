@@ -41,6 +41,10 @@
 		/datum/advclass/sellsword
 	)
 
+	virtue_restrictions = list(
+		/datum/virtue/combat/vampire,
+	)
+
 /datum/job/roguetown/bandit/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
 	if(L)
