@@ -1,6 +1,7 @@
 /obj/effect/proc_holder/spell/self/howl
 	name = "Howl"
 	desc = "!"
+	action_icon = 'icons/mob/actions/antag/wolf_spells.dmi'
 	overlay_state = "howl"
 	antimagic_allowed = TRUE
 	recharge_time = 600 //1 minute
@@ -39,6 +40,7 @@
 /obj/effect/proc_holder/spell/self/claws
 	name = "Lupine Claws"
 	desc = "!"
+	action_icon = 'icons/mob/actions/antag/wolf_spells.dmi'
 	overlay_state = "claws"
 	antimagic_allowed = TRUE
 	recharge_time = 20 //2 seconds
@@ -76,6 +78,7 @@
 /obj/effect/proc_holder/spell/self/den_sense
 	name = "Den Sense"
 	desc = "Evaluates the current area for suitability as a wolf den"
+	action_icon = 'icons/mob/actions/antag/wolf_spells.dmi'
 	overlay_state = "wolfeye"
 	antimagic_allowed = TRUE
 	recharge_time = 50 //2 seconds
