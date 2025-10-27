@@ -2,6 +2,7 @@
 	name = "Howl"
 	desc = "!"
 	action_icon = 'icons/mob/actions/antag/wolf_spells.dmi'
+	action_background_icon_state = "spell"	//Future TODO: Make all the wolf spells have the red orb background that a few of them currently have baked in
 	overlay_state = "howl"
 	antimagic_allowed = TRUE
 	recharge_time = 600 //1 minute
@@ -41,6 +42,7 @@
 	name = "Lupine Claws"
 	desc = "!"
 	action_icon = 'icons/mob/actions/antag/wolf_spells.dmi'
+	action_background_icon_state = "spell"	//Future TODO: Make all the wolf spells have the red orb background that a few of them currently have baked in
 	overlay_state = "claws"
 	antimagic_allowed = TRUE
 	recharge_time = 20 //2 seconds
@@ -79,6 +81,7 @@
 	name = "Den Sense"
 	desc = "Evaluates the current area for suitability as a wolf den"
 	action_icon = 'icons/mob/actions/antag/wolf_spells.dmi'
+	action_background_icon_state = "spell"	//Future TODO: Make all the wolf spells have the red orb background that a few of them currently have baked in
 	overlay_state = "wolfeye"
 	antimagic_allowed = TRUE
 	recharge_time = 50 //2 seconds
@@ -125,3 +128,11 @@
 		to_chat(H, span_warning("This place is adequate shelter, but it is not completely intact, we must tread carefully lest sunbeams sneak in through cracks"))
 		return
 
+
+/*
+	This is for the togglign of their moonlight eyes
+*/
+/datum/action/item_action/organ_action/use/wolf
+	icon_icon = 'icons/mob/actions/antag/wolf_spells.dmi'
+	button_icon_state = "transfix"
+	background_icon_state = "spell" //Future TODO: Make all the wolf spells have the red orb background that a few of them currently have baked in

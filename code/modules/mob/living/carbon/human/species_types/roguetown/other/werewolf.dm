@@ -120,3 +120,10 @@
 
 /datum/species/werewolf/random_name(gender,unique,lastname)
 	return "VEREWOLF"
+
+
+/obj/item/organ/eyes/night_vision/werewolf
+	name = "moonlight eyes"
+	desc = ""
+	actions_types = list(/datum/action/item_action/organ_action/use/wolf)
+	
