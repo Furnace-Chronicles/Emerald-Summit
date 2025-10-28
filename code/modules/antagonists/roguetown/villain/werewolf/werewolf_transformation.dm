@@ -13,7 +13,7 @@
 		//Its already ongoing,
 		if(transforming)
 			if (world.time >= transforming + 35 SECONDS) // Stage 3
-				H.werewolf_transform()
+				H.werewolf_transform(src)
 				transforming = FALSE
 				transformed = TRUE // Mark as transformed
 
@@ -53,8 +53,7 @@
 		else if(should_untransform(user))
 
 			//Why is the name changed right now? Is it for easier identification of fugitive wolves?
-			H.real_name = wolfname
-			H.name = wolfname
+
 
 			H.flash_fullscreen("redflash1")
 			to_chat(H, span_warning("Daylight shines around me... the curse begins to fade."))
@@ -134,7 +133,7 @@
 /mob/living/carbon/human/species/werewolf/death(gibbed, nocutscene = FALSE)
 	werewolf_untransform(TRUE, gibbed)
 
-/mob/living/carbon/human/proc/werewolf_transform()
+/mob/living/carbon/human/proc/werewolf_transform(var/datum/antagonist/werewolf/WolfAntag = null)
 	if(!mind)
 		log_runtime("NO MIND ON [src.name] WHEN TRANSFORMING")
 	Paralyze(1, ignore_canstun = TRUE)
@@ -159,6 +158,10 @@
 		ww_path = /mob/living/carbon/human/species/werewolf/female
 
 	var/mob/living/carbon/human/species/werewolf/W = new ww_path(loc)
+
+	if (istype(WolfAntag) && WolfAntag.wolfname)
+		W.real_name = WolfAntag.wolfname
+		W.name = WolfAntag.wolfname
 
 	W.set_patron(src.patron)
 	W.gender = gender
