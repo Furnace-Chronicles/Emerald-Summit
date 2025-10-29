@@ -37,6 +37,7 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/sewing = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/roguetown/mercenary/monsterhunter/pre_equip(mob/living/carbon/human/H)
@@ -102,4 +103,3 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/repulse)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/forcewall)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/malum_flame_rogue) // only for devotee virtue, for the fun and igni spell like, it doesnt bring anything realy usefull.
