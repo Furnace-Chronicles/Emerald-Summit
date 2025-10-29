@@ -1389,6 +1389,29 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/ComponentInitialize()	//No movement rustle component.
 	return
+/obj/item/clothing/suit/roguetown/armor/plate/scale/mhjacket
+	slot_flags = ITEM_SLOT_ARMOR
+	slot_flags = ITEM_SLOT_ARMOR
+	name = "modified duster"
+	desc = "A heavy coat lined with thin metal plates. This one was modified to have extra pockets inside at the demand of notorious monster hunters.."
+	body_parts_covered = COVERAGE_FULL
+	allowed_sex = list(MALE, FEMALE)
+	allowed_sex = list(MALE, FEMALE)
+	icon_state = "inqcoat"
+	item_state = "inqcoat"
+	sleevetype = "shirt"
+	sewrepair = TRUE
+	max_integrity = 300
+	anvilrepair = /datum/skill/craft/armorsmithing
+	equip_delay_self = 4 SECONDS
+	armor_class = ARMOR_CLASS_LIGHT
+	armor = ARMOR_LEATHER_STUDDED
+	smeltresult = /obj/item/ingot/iron
+	smelt_bar_num = 2
+	blocksound = SOFTHIT
+
+/obj/item/clothing/suit/roguetown/armor/plate/scale/mhjacket/ComponentInitialize()	//No movement rustle component.
+	return
 
 /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/attackby(obj/item/W, mob/living/user, params)
 	..()
