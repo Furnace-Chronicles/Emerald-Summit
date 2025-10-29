@@ -1752,6 +1752,33 @@
 	desc = "A cloak meant to keep one's body warm in the cold of the mountains as well as the dampness of Scarlet Reach."
 	icon_state = "snowcloak"
 
+/obj/item/clothing/cloak/poncho
+	name = "cloth poncho"
+	desc = "A loose garment that is usually draped across ones upper body. No one's quite sure of its cultural origin."
+	icon_state = "poncho"
+	item_state = "poncho"
+	alternate_worn_layer = TABARD_LAYER
+	boobed = FALSE
+	flags_inv = HIDECROTCH|HIDEBOOB
+	slot_flags = ITEM_SLOT_CLOAK|ITEM_SLOT_ARMOR
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	nodismemsleeves = TRUE
+	color = CLOTHING_WHITE
+	detail_tag = "_detail"
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/cloak/poncho/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+
+/obj/item/clothing/cloak/poncho/dropped(mob/living/carbon/human/user)
+	..()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	if(STR)
+		var/list/things = STR.contents()
+		for(var/obj/item/I in things)
+			STR.remove_from_storage(I, get_turf(src))
+
 //eastern update
 
 /obj/item/clothing/cloak/eastcloak1

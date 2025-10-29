@@ -217,6 +217,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Rapscallion's Shawl"
 	path = /obj/item/clothing/cloak/thief_cloak
 
+/datum/loadout_item/poncho
+	name = "Poncho"
+	path = /obj/item/clothing/cloak/poncho
+
 /datum/loadout_item/wicker_cloak
 	name = "Wicker Cloak"
 	path = /obj/item/clothing/cloak/wickercloak
@@ -451,6 +455,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/leathertrou
 	name = "Leather Trousers"
 	path = /obj/item/clothing/under/roguetown/trou/leather
+
+/datum/loadout_item/leathershorts
+	name = "Leather Shorts"
+	path = /obj/item/clothing/under/roguetown/heavy_leather_pants/shorts
 
 /datum/loadout_item/sailorpants
 	name = "Seafaring Pants"

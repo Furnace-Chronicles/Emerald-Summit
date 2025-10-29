@@ -323,6 +323,17 @@
 	name = "surcoat, bog (1 fibers, 3 cloth)"
 	result = list(/obj/item/clothing/cloak/stabard/bog)
 
+/datum/crafting_recipe/roguetown/sewing/stabard/guardhood
+	name = "guard hood"
+	result = list(/obj/item/clothing/cloak/stabard/guardhood)
+
+/datum/crafting_recipe/roguetown/sewing/poncho
+	name = "cloth poncho"
+	result = /obj/item/clothing/cloak/poncho
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 1,)
+	craftdiff = 2
+
 /datum/crafting_recipe/roguetown/sewing/robe
 	name = "robe (1 fibers, 3 cloth)"
 	result = list(/obj/item/clothing/suit/roguetown/shirt/robe)
