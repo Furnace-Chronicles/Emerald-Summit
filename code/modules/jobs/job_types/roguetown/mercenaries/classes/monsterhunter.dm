@@ -6,6 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/mercenary/monsterhunter
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_OTAVA  //Not much class from otava, and lorewise i find it fitting. Not a reason to dogtail the inquisition, you mostly hunt alone, duo or trio.
+	maximum_possible_slots = 3
 
 	subclass_languages = list(
 		/datum/language/otavan,
