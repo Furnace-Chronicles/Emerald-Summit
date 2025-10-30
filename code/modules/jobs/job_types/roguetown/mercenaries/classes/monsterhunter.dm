@@ -1,5 +1,5 @@
 /datum/advclass/mercenary/monsterhunter
-	name = "Monster Hunter"
+	name = "Sorceleur" //French name for Monster Hunter since it's in the otavan faction
 	tutorial = "You are a monster hunter, you dedicated your lyfe to hunt down night creechurs. You know their ways and carry the adequate arsenal to end or cure them. You travel the lands taking on dangerous contracts where your own existence is at risk of shifting into one of theirs."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = NON_DWARVEN_RACE_TYPES 
