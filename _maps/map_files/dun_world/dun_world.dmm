@@ -38017,12 +38017,6 @@
 /obj/structure/roguemachine/atm{
 	location_tag = "Bathhouse Lobby";
 	mammonsiphoned = 250;
-	pixel_x = -32;
-	pixel_y = 0
-	},
-/obj/structure/roguemachine/atm{
-	location_tag = "Bathhouse Lobby";
-	mammonsiphoned = 250;
 	pixel_x = 32;
 	pixel_y = 0
 	},
