@@ -10,7 +10,7 @@
 		/datum/species/lamia,
 	)
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_ages = list(AGE_ADULT)
+	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
 	advclass_cat_rolls = list(CTAG_SQUIRE = 20)
 	job_traits = list(TRAIT_SQUIRE_REPAIR)
 
