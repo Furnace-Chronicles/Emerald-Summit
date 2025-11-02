@@ -44,7 +44,7 @@
 		return
 
 	var/list/modifiers = params2list(params)
-	if(modifiers["shift"])
+	if(modifiers["alt"])
 		if(locked)
 			to_chat(usr, span_warning("Action button \"[name]\" is locked, unlock it first."))
 			return TRUE
@@ -57,6 +57,10 @@
 		if(id && usr.client) //try to (un)remember position
 			usr.client.prefs.action_buttons_screen_locs["[name]_[id]"] = locked ? moved : null
 		return TRUE
+	if(modifiers["shift"])
+		if(linked_action.desc)//just in case it's null- make sure to give your actions descriptions!
+			to_chat(usr, "[linked_action.desc]")
+			return
 	if(usr.next_click > world.time)
 		return
 	usr.next_click = world.time + 1
@@ -165,13 +169,7 @@
 	else
 		. += hide_appearance
 
-/atom/movable/screen/movable/action_button/MouseEntered(location,control,params)
-	if(!QDELETED(src))
-		openToolTip(usr,src,params,title = name,content = desc,theme = actiontooltipstyle)
-	..()
-
 /atom/movable/screen/movable/action_button/MouseExited()
-	closeToolTip(usr)
 	..()
 
 /datum/hud/proc/get_action_buttons_icons()

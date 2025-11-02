@@ -65,6 +65,9 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_NOVICE,
 	)
+	subclass_languages = list(
+		/datum/language/thievescant,
+	)
 
 /datum/outfit/job/roguetown/nightmaiden/attendant/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -112,6 +115,9 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/sewing = SKILL_LEVEL_JOURNEYMAN,
+	)
+	subclass_languages = list(
+		/datum/language/thievescant,
 	)
 
 /datum/outfit/job/roguetown/nightmaiden/concubine/pre_equip(mob/living/carbon/human/H)
@@ -187,6 +193,9 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
+	)
+	subclass_languages = list(
+		/datum/language/thievescant,
 	)
 
 /datum/outfit/job/roguetown/nightmaiden/courtesan/pre_equip(mob/living/carbon/human/H)

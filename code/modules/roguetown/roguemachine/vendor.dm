@@ -134,6 +134,7 @@
 				return
 
 		// remove one instance and deliver it
+		record_round_statistic(STATS_PEDDLER_REVENUE, held_items[O]["PRICE"])
 		held_items -= O
 		if(!usr.put_in_hands(O))
 			O.forceMove(get_turf(src))
@@ -390,6 +391,13 @@
 		held_items[Q] = list()
 		held_items[Q]["NAME"] = Q.name
 		held_items[Q]["PRICE"] = 100
+
+	// Add penthouse suite key
+	for (var/Z in list(/obj/item/roguekey/roomhunt))
+		var/obj/F = new Z(src)
+		held_items[F] = list()
+		held_items[F]["NAME"] = F.name
+		held_items[F]["PRICE"] = 200
 
 	update_icon()
 

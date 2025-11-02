@@ -80,7 +80,7 @@
 				if(D.holie)
 					D.holie.attackby(src, user)
 				else
-					if(istype(T, /turf/open/floor/rogue/dirt/road))
+					if(istype(T, /turf/open/floor/rogue/dirt/road) && !locate(/obj/structure/spike_pit) in T)//No double holing a spike pit you fuck.
 						new /obj/structure/closet/dirthole(T)
 					else
 						T.ChangeTurf(/turf/open/floor/rogue/dirt/road, flags = CHANGETURF_INHERIT_AIR)
@@ -89,9 +89,9 @@
 					update_icon()
 			return
 		if(heldclod)
-			if(istype(T, /turf/open/water))
+			if(istype(T, /turf/open/water/swamp)) //No filling the ocean for you.
 				qdel(heldclod)
-//				T.ChangeTurf(/turf/open/floor/rogue/dirt/road, flags = CHANGETURF_INHERIT_AIR)
+				T.ChangeTurf(/turf/open/floor/rogue/dirt/road, flags = CHANGETURF_INHERIT_AIR)
 			else
 				heldclod.forceMove(T)
 			heldclod = null

@@ -2,7 +2,7 @@
 	abstract_type = /datum/crafting_recipe/roguetown/engineering
 
 /datum/crafting_recipe/roguetown/engineering/coolingtable
-	name = "Cooling Table"
+	name = "cooling table"
 	result = /obj/structure/table/cooling
 	reqs = list(/obj/item/grown/log/tree/small = 1,
 				/obj/item/ingot/iron = 1,

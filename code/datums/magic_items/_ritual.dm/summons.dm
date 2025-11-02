@@ -19,7 +19,6 @@
 			var/turf/invoker_turf = get_step(get_turf(user), user.dir)
 			guard = new /mob/living/simple_animal/hostile/retaliate/rogue/arcane/noc_guard(invoker_turf)
 			guard.apply_guard_stuff()
-			animate(guard, alpha = 155, time = 20, easing = EASE_IN, flags = ANIMATION_PARALLEL)
 			sleep(25)
 		//extinguish lights and shit ; stolen from zizo snuff lights
 			for(var/obj/O in range(9, user))	
@@ -28,7 +27,6 @@
 				for(var/obj/O in M.contents)
 					O.extinguish()
 		//light extinguish stop
-			guard.alpha = 155
 			guard.say("T H R E A T  D E T E C T E D", spans = list(SPAN_MACHINA))
 			sleep(25)
 		summoned = new mob_to_summon(loc)
@@ -38,7 +36,7 @@
 		ADD_TRAIT(summoned, TRAIT_PACIFISM, TRAIT_GENERIC)	//can't kill while planar bound.
 		summoned.status_flags += GODMODE//It's not meant to be killable until released from it's planar binding.
 		summoned.candodge = FALSE
-		animate(summoned, color = "#ff0000",time = 5)
+		animate(summoned, color = "#ff0000", time = 5, flags = ANIMATION_PARALLEL)
 		summoned.move_resist = MOVE_FORCE_EXTREMELY_STRONG
 		summoned.binded = TRUE
 		summoned.SetParalyzed(900)

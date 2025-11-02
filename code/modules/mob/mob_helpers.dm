@@ -137,8 +137,6 @@
 		if(rand(1,20)==20)
 			if(newletter==" ")
 				newletter="...huuuhhh..."
-			if(newletter==".")
-				newletter=" *BURP*."
 		switch(rand(1,20))
 			if(1)
 				newletter+="'"
@@ -975,3 +973,25 @@
 		if(J.advjob_examine)
 			used_title = advjob
 	return used_title
+
+///Is the passed in mob a ghost with admin powers, doesn't check for AI interact like isAdminGhost() used to
+/proc/isAdminObserver(mob/user)
+	if(!user) //Are they a mob? Auto interface updates call this with a null src
+		return
+	if(!user.client) // Do they have a client?
+		return
+	if(!isobserver(user)) // Are they a ghost?
+		return
+	if(!check_rights_for(user.client, R_ADMIN)) // Are they allowed?
+		return
+	return TRUE
+
+///Returns TRUE/FALSE on whether the mob is an Admin Ghost AI.
+///This requires this snowflake check because AI interact gives the access to the mob's client, rather
+///than the mob like everyone else, and we keep it that way so they can't accidentally give someone Admin AI access.
+/proc/isAdminGhostAI(mob/user)
+	if(!isAdminObserver(user))
+		return FALSE
+	if(!HAS_TRAIT_FROM(user.client, TRAIT_AI_ACCESS, ADMIN_TRAIT)) // Do they have it enabled?
+		return FALSE
+	return TRUE

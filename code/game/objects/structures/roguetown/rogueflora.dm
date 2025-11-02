@@ -1,3 +1,4 @@
+#define SEARCHTIME 12 // Standard search cooldown = 1.2 seconds
 
 //newtree
 
@@ -28,7 +29,7 @@
 	if(.)
 		if(!was_destroyed && obj_destroyed)
 			record_featured_stat(FEATURED_STATS_TREE_FELLERS, user)
-			GLOB.scarlet_round_stats[STATS_TREES_CUT]++
+			record_round_statistic(STATS_TREES_CUT)
 
 /obj/structure/flora/roguetree/spark_act()
 	fire_act()
@@ -278,7 +279,7 @@
 		if(L.m_intent == MOVE_INTENT_SNEAK)
 			return
 		else
-			if(!(HAS_TRAIT(L, TRAIT_AZURENATIVE) && L.m_intent != MOVE_INTENT_RUN))
+			if(!(HAS_TRAIT(L, TRAIT_REACHNATIVE) && L.m_intent != MOVE_INTENT_RUN))
 				playsound(A.loc, "plantcross", 100, FALSE, -1)
 			var/oldx = A.pixel_x
 			animate(A, pixel_x = oldx+1, time = 0.5)
@@ -683,6 +684,48 @@
 			user.visible_message("<span class='warning'>[user] searches through [src].</span>")
 			if(!looty.len)
 				to_chat(user, "<span class='warning'>Picked clean... I should try later.</span>")
+
+/obj/structure/flora/roguegrass/pumpkin
+	name = "bunch of wild pumpkins"
+	desc = "Wild pumpkins overgrown with vines."
+	icon_state = "pumpkin1"
+	max_integrity = 1
+	climbable = FALSE
+	dir = SOUTH
+	debris = list(/obj/item/natural/fibers = 2)
+	var/list/looty = list(/obj/item/natural/shellplant/pumpkin, /obj/item/natural/fibers)
+
+/obj/structure/flora/roguegrass/pumpkin/Initialize()
+	. = ..()
+	icon_state = "pumpkin[rand(1,2)]"
+	if(prob(78))
+		looty += /obj/item/natural/shellplant/pumpkin
+	if(prob(32))
+		looty += /obj/item/natural/shellplant/pumpkin
+	if(prob(24))
+		looty += /obj/item/natural/fibers
+	if(prob(7))
+		looty += /obj/item/natural/shellplant/pumpkin
+	pixel_x += rand(-3,3)
+	pixel_y += rand(0,6)
+
+/obj/structure/flora/roguegrass/pumpkin/attack_hand(mob/user)
+	if(isliving(user))
+		var/mob/living/L = user
+		user.changeNext_move(CLICK_CD_INTENTCAP)
+		playsound(src.loc, "plantcross", 80, FALSE, -1)
+		if(do_after(L, SEARCHTIME, target = src))
+			if(looty.len && prob(75))
+				var/obj/item/B = pick_n_take(looty)
+				if(B)
+					B = new B(user.loc)
+					user.put_in_hands(B)
+					user.visible_message("<span class='notice'>[user] finds [B] in [src].</span>")
+					if(!looty.len)
+						to_chat(user, "<span class='warning'>There is nothing else to find.</span>")
+						qdel(src)
+					return
+			user.visible_message("<span class='warning'>[user] searches through [src].</span>")
 
 // cute underdark mushrooms from dreamkeep
 

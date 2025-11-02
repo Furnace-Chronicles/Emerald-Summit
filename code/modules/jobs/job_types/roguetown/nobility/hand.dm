@@ -6,6 +6,7 @@
 	total_positions = 1
 	spawn_positions = 1
 	allowed_races = RACES_ALL_KINDS	//Duke selects his hand.
+	allowed_patrons = NON_PSYDON_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/hand
 	advclass_cat_rolls = list(CTAG_HAND = 20)
@@ -14,7 +15,7 @@
 	whitelist_req = TRUE
 	give_bank_account = 44
 	noble_income = 22
-	min_pq = 9 //The second most powerful person in the realm...
+	min_pq = 20 //The second most powerful person in the realm...
 	max_pq = null
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_noble.ogg'

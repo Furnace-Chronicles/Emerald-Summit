@@ -1,6 +1,7 @@
 //t1, the bends
 /obj/effect/proc_holder/spell/invoked/abyssor_bends
 	name = "Depth Bends"
+	desc = "Nauseate a target, draining their stamina."
 	overlay_state = "thebends"
 	releasedrain = 15
 	chargedrain = 0
@@ -76,6 +77,7 @@
 //T0 The Fishing
 /obj/effect/proc_holder/spell/invoked/aquatic_compulsion
 	name = "Aquatic Compulsion"
+	desc = "Beckon to water, bringing something within into your reach."
 	overlay_state = "aqua"
 	releasedrain = 15
 	chargedrain = 0
@@ -100,7 +102,7 @@
 		/obj/item/reagent_containers/food/snacks/fish/salmon = 190,
 		/obj/item/reagent_containers/food/snacks/fish/eel = 140,
 		/obj/item/reagent_containers/food/snacks/smallrat = 1, //funny
-		/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab = 20,			
+		/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab = 20,
 	)
 	var/list/seafishloot = list(
 		/obj/item/reagent_containers/food/snacks/fish/cod = 190,
@@ -114,7 +116,7 @@
 		/obj/item/reagent_containers/food/snacks/smallrat = 1, //still funny
 		/mob/living/carbon/human/species/goblin/npc/sea = 10,
 		/mob/living/simple_animal/hostile/rogue/deepone = 3,
-		/mob/living/simple_animal/hostile/rogue/deepone/spit = 3,			
+		/mob/living/simple_animal/hostile/rogue/deepone/spit = 3,
 	)
 
 /obj/effect/proc_holder/spell/invoked/aquatic_compulsion/cast(list/targets, mob/user = usr)
@@ -133,7 +135,7 @@
 			var/atom/movable/AF = new A(T)
 			AF.throw_at(get_turf(user), 5, 1, null)
 			record_featured_stat(FEATURED_STATS_FISHERS, user)
-			GLOB.scarlet_round_stats[STATS_FISH_CAUGHT]++
+			record_round_statistic(STATS_FISH_CAUGHT)
 			playsound(T, 'sound/foley/footsteps/FTWAT_1.ogg', 100)
 			user.visible_message("<font color='yellow'>[user] makes a beckoning gesture at [T]!</font>")
 			return TRUE
@@ -146,6 +148,7 @@
 //T2, Abyssal Healing. Totally stole most of this from lesser heal.
 /obj/effect/proc_holder/spell/invoked/abyssheal
 	name = "Abyssal Healing"
+	desc = "Invoke Abyssor's dream to provide a more potent heal to a target. Stronger near water."
 	overlay_state = "thebends"
 	releasedrain = 15
 	chargedrain = 0
@@ -173,7 +176,7 @@
 			return FALSE
 		if(user.patron?.undead_hater && (target.mob_biotypes & MOB_UNDEAD)) //THE DEEP CALLS- sorry, the pressure of the deep falls upon those of the undead ilk
 			target.visible_message(span_danger("[target] is crushed by divine pressure!"), span_userdanger("I'm crushed by divine pressure!"))
-			target.adjustBruteLoss(30)			
+			target.adjustBruteLoss(30)
 			return TRUE
 		var/conditional_buff = FALSE
 		var/situational_bonus = 1
@@ -205,6 +208,7 @@
 //t3, possible t4 if I put in land surf, summon mossback
 /obj/effect/proc_holder/spell/invoked/call_mossback
 	name = "Call Mossback"
+	desc = "Summon a Mossback to follow your commands."
 	overlay_state = "thebends"
 	range = 7
 	no_early_release = TRUE
@@ -241,6 +245,7 @@
 
 /obj/effect/proc_holder/spell/invoked/call_dreamfiend
 	name = "Summon Dreamfiend"
+	desc = "Draw upon the dreams of your target to manifest a Dreamfiend hostile to them."
 	overlay_state = "dreamfiend"
 	range = 7
 	no_early_release = TRUE
@@ -262,12 +267,12 @@
 /obj/effect/proc_holder/spell/invoked/call_dreamfiend/cast(list/targets, mob/living/user)
 	. = ..()
 	var/mob/living/carbon/target = targets[1]
-	
+
 	if(!istype(target))
 		to_chat(user, span_warning("This spell only works on creatures capable of dreaming!"))
 		revert_cast()
 		return FALSE
-	
+
 	if(!summon_dreamfiend(
 		target = target,
 		user = user,
@@ -312,11 +317,11 @@
 		return FALSE
 
 	var/turf/spawn_turf = pick(turfs)
-	
+
 	F = new F(spawn_turf)
 	F.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target)
 	F.ai_controller.set_blackboard_key(BB_MAIN_TARGET, target)
-	
+
 	F.visible_message(span_notice("A [F] manifests following after [target]... countless teeth bared with hostility!"))
 	return TRUE
 
@@ -447,7 +452,7 @@
 				to_chat(user, span_warning("The whispers in your head grow louder..."))
 	else
 		casts_in_stage = min(casts_in_stage + 1, 100)
-	
+
 	target.apply_status_effect(
 		/datum/status_effect/buff/abyssal,
 		stats["str"],
@@ -500,7 +505,7 @@
 		"speed" = speed_malus,
 		"perception" = perception_malus
 	)
-	
+
 	return ..()
 
 /datum/status_effect/buff/abyssal/on_apply()

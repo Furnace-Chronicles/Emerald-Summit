@@ -469,6 +469,7 @@
 	message = "blows a kiss."
 	message_param = "kisses %t."
 	emote_type = EMOTE_VISIBLE
+	use_params_for_runechat = TRUE
 
 /mob/living/carbon/human/verb/emote_kiss()
 	set name = "Kiss"
@@ -506,8 +507,55 @@
 				message_param = "kisses %t on \the [parse_zone(H.zone_selected)]."
 	playsound(target.loc, pick('sound/vo/kiss (1).ogg','sound/vo/kiss (2).ogg'), 100, FALSE, -1)
 	if(user.mind)
-		GLOB.scarlet_round_stats[STATS_KISSES_MADE]++
+		record_round_statistic(STATS_KISSES_MADE)
 
+/datum/emote/living/lick
+	key = "lick"
+	key_third_person = "licks"
+	message = "licks their lips."
+	message_param = "licks %t."
+	emote_type = EMOTE_VISIBLE
+	use_params_for_runechat = TRUE
+
+/mob/living/carbon/human/verb/emote_lick()
+	set name = "Lick"
+	set category = "Emotes"
+
+	emote("lick", intentional = TRUE, targetted = TRUE)
+
+/datum/emote/living/lick/adjacentaction(mob/user, mob/target)
+	. = ..()
+	message_param = initial(message_param)
+	if(!user || !target)
+		return
+	if(ishuman(user) && ishuman(target))
+		var/mob/living/carbon/human/J = user
+		var/do_change
+		if(target.loc == user.loc)
+			do_change = TRUE
+		if(!do_change)
+			if(J.pulling == target)
+				do_change = TRUE
+		if(do_change)
+			if(J.zone_selected == BODY_ZONE_PRECISE_MOUTH)
+				message_param = "licks %t's lips."
+			else if(J.zone_selected == BODY_ZONE_PRECISE_EARS)
+				message_param = "licks the ear of %t."
+				var/mob/living/carbon/human/O = target
+				if(iself(O) || ishalfelf(O) || isdarkelf(O))
+					if(!O.cmode)
+						if (O.has_flaw(/datum/charflaw/addiction/lovefiend))
+							to_chat(target, span_love("That feels... <b>good</b>..."))
+						else
+							to_chat(target, span_love("That tickles..."))
+			else if(J.zone_selected == BODY_ZONE_PRECISE_GROIN)
+				message_param = "licks %t between the legs."
+				to_chat(target, span_love("It is somewhat stimulating..."))
+			else if(J.zone_selected == BODY_ZONE_HEAD)
+				message_param = "licks %t's cheek."
+			else
+				message_param = "licks %t's [parse_zone(J.zone_selected)]."
+	playsound(target.loc, pick("sound/vo/lick.ogg"), 100, FALSE, -1)	
 
 /datum/emote/living/spit
 	key = "spit"
@@ -565,7 +613,7 @@
 	if(ishuman(target))
 		playsound(target.loc, pick('sound/body/hug.ogg'), 100, FALSE, -1)
 		if(user.mind)
-			GLOB.scarlet_round_stats[STATS_HUGS_MADE]++
+			record_round_statistic(STATS_HUGS_MADE)
 			SEND_SIGNAL(user, COMSIG_MOB_HUGGED, target)
 
 /datum/emote/living/holdbreath
@@ -668,7 +716,7 @@
 /datum/emote/living/laugh/run_emote(mob/user, params, type_override, intentional, targetted)
 	. = ..()
 	if(. && user.mind)
-		GLOB.scarlet_round_stats[STATS_LAUGHS_MADE]++
+		record_round_statistic(STATS_LAUGHS_MADE)
 
 /datum/emote/living/laugh
 	key = "laugh"
@@ -934,7 +982,7 @@
 /datum/emote/living/rage/run_emote(mob/user, params, type_override, intentional, targetted)
 	. = ..()
 	if(. && user.mind)
-		GLOB.scarlet_round_stats[STATS_WARCRIES]++
+		record_round_statistic(STATS_WARCRIES)
 
 /datum/emote/living/attnwhistle
 	key = "attnwhistle"
@@ -1797,6 +1845,84 @@
 	set category = "Emotes"
 
 	emote("ffsalute", intentional =  TRUE)
+
+/datum/emote/living/yip
+	key = "yip"
+	key_third_person = "yips"
+	message = "yips!"
+	emote_type = EMOTE_AUDIBLE
+	message_muffled = "makes a muffled yip!"
+	is_animal = TRUE
+	show_runechat = FALSE
+/mob/living/carbon/human/verb/yip()
+	set name = "Yip"
+	set category = "Noises"
+	emote("yip", intentional = TRUE)
+
+/datum/emote/living/yap
+	key = "yap"
+	key_third_person = "yaps"
+	message = "yaps!"
+	emote_type = EMOTE_AUDIBLE
+	message_muffled = "makes a muffled yap!"
+	is_animal = TRUE
+	show_runechat = FALSE
+/mob/living/carbon/human/verb/yap()
+	set name = "Yap"
+	set category = "Noises"
+	emote("yap", intentional = TRUE)
+
+/datum/emote/living/gulp
+	key = "gulp"
+	key_third_person = "gulps"
+	message = "gulps."
+	emote_type = EMOTE_AUDIBLE
+	show_runechat = TRUE
+
+/mob/living/carbon/human/verb/gulp()
+	set name = "Gulp"
+	set category = "Noises"
+
+	emote("gulp", intentional = TRUE)
+
+/datum/emote/living/crack
+	key = "crack"
+	key_third_person = "cracks"
+	message = "cracks their knuckles."
+	emote_type = EMOTE_AUDIBLE | EMOTE_VISIBLE
+	show_runechat = TRUE
+
+/mob/living/carbon/human/verb/crack()
+	set name = "Knuckles"
+	set category = "Noises"
+
+	emote("crack", intentional = TRUE)
+
+/datum/emote/living/salute
+	key = "salute"
+	key_third_person = "salutes"
+	message = "salutes!"
+	emote_type = EMOTE_AUDIBLE | EMOTE_VISIBLE
+	show_runechat = TRUE
+
+/mob/living/carbon/human/verb/salute()
+	set name = "Salute"
+	set category = "Noises"
+
+	emote("salute", intentional = TRUE)
+
+/datum/emote/living/sniff
+	key = "sniff"
+	key_third_person = "sniffs"
+	message = "sniffs."
+	emote_type = EMOTE_AUDIBLE
+	show_runechat = TRUE
+
+/mob/living/carbon/human/verb/sniff()
+	set name = "Sniff"
+	set category = "Noises"
+
+	emote("sniff", intentional = TRUE)
 
 /datum/emote/living/praysuicide
     key = "praysuicide"

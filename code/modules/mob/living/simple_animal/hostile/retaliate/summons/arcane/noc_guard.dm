@@ -63,8 +63,8 @@
 	mob_size = MOB_SIZE_TINY
 	ventcrawler = VENTCRAWLER_ALWAYS
 	pass_flags = PASSTABLE|PASSGRILLE
-	faction = list()
-	alpha = 15
+	faction = list("noc")
+	alpha = 10
 //	var/mob/living/simple_animal/hostile/retaliate/rogue/summoned_target
 	var/summoned_slaughter = TRUE
 	see_invisible = TRUE
@@ -92,6 +92,12 @@
 	grid_height = 32
 	grid_width = 32
 
+/mob/living/simple_animal/hostile/retaliate/rogue/arcane/noc_guard/New()
+	. = ..()
+	animate(src, alpha = 135, time = 25, easing = EASE_IN, flags = ANIMATION_PARALLEL)
+	spawn(30)
+		src.alpha = 135
+
 /obj/item/summoner_relics/noc_guard_crystal/attack_self(mob/living/user)
 	..()
 	var/choice = alert(user,"SUMMON?", , "YES", "NO" )
@@ -107,9 +113,8 @@
 		var/mob/living/simple_animal/hostile/retaliate/rogue/arcane/noc_guard/guard = new /mob/living/simple_animal/hostile/retaliate/rogue/arcane/noc_guard(invoker_turf)
 		qdel(src)
 
-		animate(guard, alpha = 155, time = 20, easing = EASE_IN, flags = ANIMATION_PARALLEL)
 		sleep(25)
-		guard.alpha = 155
+
 		guard.summoned_slaughter = FALSE
 
 		if(((invoker.get_skill_level(/datum/skill/magic/arcane)) == SKILL_LEVEL_NONE) || (invoker.summons_under.len >= 2))

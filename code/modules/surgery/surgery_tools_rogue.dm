@@ -249,3 +249,16 @@
 	wdefense = 3
 	wbalance = 1
 	tool_behaviour = TOOL_IMPROVISED_RETRACTOR
+
+/obj/item/rogueweapon/surgery/scalpel/improv
+	name = "improvised scalpel"
+	desc = "A jagged obsidian shard lashed to a stick with a coarse fiber."
+	icon_state = "scalpel_wood"
+	smeltresult = null
+	max_integrity = 20
+	max_blade_int = 50
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH
+	parrysound = list('sound/combat/parry/bladed/bladedsmall (1).ogg','sound/combat/parry/bladed/bladedsmall (2).ogg','sound/combat/parry/bladed/bladedsmall (3).ogg')
+	swingsound = list('sound/combat/wooshes/bladed/wooshsmall (1).ogg','sound/combat/wooshes/bladed/wooshsmall (2).ogg','sound/combat/wooshes/bladed/wooshsmall (3).ogg')
+	tool_behaviour = TOOL_IMPROVISED_SCALPEL

@@ -145,3 +145,6 @@
 
 /// used to do stuff with the guys we summoned
 	var/list/summons_under = list()
+
+	/// Assoc list of culinary preferences of the mob
+	var/list/culinary_preferences = list()

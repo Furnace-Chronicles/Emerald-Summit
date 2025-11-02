@@ -9,6 +9,7 @@
 	allowed_races = RACES_NOBILITY_ELIGIBLE_UP
 	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD)
 	display_order = JDO_MARSHAL
+	allowed_patrons = NON_PSYDON_PATRONS
 	tutorial = "You are an agent of the crown in matters of law and military, making sure that laws are pushed, verified and carried out by the retinue upon the citizenry of the realm. \
 				While you preside over the knights and men-at-arms, much of your work happens behind a desk, deferring to the Sergeant-at-Arms or the Knight Captain to make sure your will is carried out in the field."
 	whitelist_req = FALSE
@@ -16,7 +17,7 @@
 	outfit = /datum/outfit/job/roguetown/marshal
 	give_bank_account = 40
 	noble_income = 20
-	min_pq = 8
+	min_pq = 20
 	max_pq = null
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_guard.ogg'
@@ -173,7 +174,7 @@
 	set category = "Voice of Command"
 	if(stat)
 		return
-	var/inputty = input("Outlaw a person", "SHERIFF") as text|null
+	var/inputty = input("Outlaw a person", "MARSHAL") as text|null
 	if(inputty)
 		if(hasomen(OMEN_NOLORD))
 			make_outlaw(inputty)
@@ -194,7 +195,7 @@
 	return lord
 
 /proc/lord_law_requested(mob/living/bailiff, mob/living/carbon/human/lord, requested_law)
-	var/choice = alert(lord, "The sheriff requests a new law!\n[requested_law]", "SHERIFF LAW REQUEST", "Yes", "No")
+	var/choice = alert(lord, "The marshal requests a new law!\n[requested_law]", "MARSHAL LAW REQUEST", "Yes", "No")
 	if(choice != "Yes" || QDELETED(lord) || lord.stat > CONSCIOUS)
 		if(bailiff)
 			to_chat(span_warning("The lord has denied the request for a new law!"))
@@ -204,7 +205,7 @@
 /proc/lord_law_removal_requested(mob/living/bailiff, mob/living/carbon/human/lord, requested_law)
 	if(!requested_law || !GLOB.laws_of_the_land[requested_law])
 		return
-	var/choice = alert(lord, "The sheriff requests the removal of a law!\n[GLOB.laws_of_the_land[requested_law]]", "SHERIFF LAW REQUEST", "Yes", "No")
+	var/choice = alert(lord, "The marshal requests the removal of a law!\n[GLOB.laws_of_the_land[requested_law]]", "MARSHAL LAW REQUEST", "Yes", "No")
 	if(choice != "Yes" || QDELETED(lord) || lord.stat > CONSCIOUS)
 		if(bailiff)
 			to_chat(span_warning("The lord has denied the request for a law removal!"))
@@ -212,7 +213,7 @@
 	remove_law(requested_law)
 
 /proc/lord_purge_requested(mob/living/bailiff, mob/living/carbon/human/lord)
-	var/choice = alert(lord, "The sheriff requests a purge of all laws!", "SHERIFF PURGE REQUEST", "Yes", "No")
+	var/choice = alert(lord, "The marshal requests a purge of all laws!", "MARSHAL PURGE REQUEST", "Yes", "No")
 	if(choice != "Yes" || QDELETED(lord) || lord.stat > CONSCIOUS)
 		if(bailiff)
 			to_chat(span_warning("The lord has denied the request for a purge of all laws!"))
@@ -220,7 +221,7 @@
 	purge_laws()
 
 /proc/lord_outlaw_requested(mob/living/bailiff, mob/living/carbon/human/lord, requested_outlaw)
-	var/choice = alert(lord, "The sheriff requests to outlaw someone!\n[requested_outlaw]", "SHERIFF OUTLAW REQUEST", "Yes", "No")
+	var/choice = alert(lord, "The marshal requests to outlaw someone!\n[requested_outlaw]", "MARSHAL OUTLAW REQUEST", "Yes", "No")
 	if(choice != "Yes" || QDELETED(lord) || lord.stat > CONSCIOUS)
 		if(bailiff)
 			to_chat(span_warning("The lord has denied the request for declaring an outlaw!"))

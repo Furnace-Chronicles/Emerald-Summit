@@ -652,7 +652,7 @@
 					picked = TRUE
 					to_chat(user, "<span class='deadsay'>The locking mechanism gives.</span>")
 					record_featured_stat(FEATURED_STATS_CRIMINALS, user)
-					GLOB.scarlet_round_stats[STATS_LOCKS_PICKED]++
+					record_round_statistic(STATS_LOCKS_PICKED)
 					var/obj/effect/track/structure/new_track = new(get_turf(src))
 					new_track.handle_creation(user)
 					user.log_message("finished lockpicking door \"[src.name]\" (now [locked ? "unlocked" : "locked"]).", LOG_ATTACK)

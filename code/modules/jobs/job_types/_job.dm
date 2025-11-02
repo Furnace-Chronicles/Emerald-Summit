@@ -439,6 +439,12 @@
 	return (H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F)
 // LETHALSTONE EDIT END
 
+/datum/job/proc/get_informed_title(mob/mob)
+	if(mob.gender == FEMALE && f_title)
+		return f_title
+
+	return title
+
 /datum/job/Topic(href, list/href_list)
 	if(href_list["explainjob"])
 		var/list/dat = list()

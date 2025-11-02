@@ -10,6 +10,7 @@ SUBSYSTEM_DEF(iconcache)
 
 /obj/item
 	var/list/cached_appearances
+	var/vorpal = FALSE // does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
 
 /obj/item/proc/cache_key(tag, behind = FALSE, mirrored = FALSE, blood = FALSE, extra_index = "")
 	return "[type]_[icon_state][extra_index][blood ? "_b" : ""]_[tag]_[behind ? "behind" : "front"]_[mirrored ? "mirrored" : "normal"]"

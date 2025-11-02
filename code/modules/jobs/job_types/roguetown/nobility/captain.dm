@@ -8,6 +8,7 @@
 	allowed_races = RACES_NOBILITY_ELIGIBLE_UP
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD)
+	allowed_patrons = NON_PSYDON_PATRONS
 	tutorial = "Your lineage is noble, and generations of strong, loyal knights have come before you. You served your time \
 	gracefully as knight of his royal majesty, and now you've grown into a role which many men can only dream of becoming. \
 	Veteran among knights, you lead the crown's knights to battle and organize the training squires. Obey the Marshal and the Crown. \
@@ -18,7 +19,7 @@
 	outfit = /datum/outfit/job/roguetown/captain
 	give_bank_account = 26
 	noble_income = 16
-	min_pq = 9
+	min_pq = 15
 	max_pq = null
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_knight.ogg'

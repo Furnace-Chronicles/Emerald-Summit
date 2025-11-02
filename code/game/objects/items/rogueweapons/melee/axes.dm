@@ -424,6 +424,7 @@
 	bigboy = TRUE
 	gripsprite = TRUE
 	wlength = WLENGTH_GREAT
+	walking_stick = TRUE
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
 	equip_delay_self = 2.5 SECONDS

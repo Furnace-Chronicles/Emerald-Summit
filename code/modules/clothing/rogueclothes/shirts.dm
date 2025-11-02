@@ -714,3 +714,16 @@
 		src.last_repair = world.time
 		obj_integrity = min(obj_integrity + src.repair_amount, src.max_integrity)
 	..()
+
+/obj/item/clothing/suit/roguetown/shirt/undershirt/kimono
+	name = "traditional kimono"
+	desc = "A front-wrapped garment with long sleeves made from a long, narrow bolt of cloth used as a formal garment"
+	body_parts_covered = CHEST|GROIN|ARMS|VITALS
+	icon_state = "kimono"
+	icon = 'icons/roguetown/clothing/shirts.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+	boobed = TRUE
+	r_sleeve_status = SLEEVE_NORMAL
+	l_sleeve_status = SLEEVE_NORMAL
+	flags_inv = HIDECROTCH|HIDEBOOB

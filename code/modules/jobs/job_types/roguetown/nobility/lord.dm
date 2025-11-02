@@ -11,6 +11,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	spawn_positions = 1
 	selection_color = JCOLOR_NOBLE
 	allowed_races = RACES_NOBILITY_ELIGIBLE_UP
+	allowed_patrons = NON_PSYDON_PATRONS
 	advclass_cat_rolls = list(CTAG_LORD = 20)
 	allowed_sexes = list(MALE, FEMALE)
 
@@ -28,7 +29,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	display_order = JDO_LORD
 	tutorial = "Elevated upon your throne through a web of intrigue and political upheaval, you are the absolute authority of these lands and at the center of every plot within it. Every man, woman and child is envious of your position and would replace you in less than a heartbeat: Show them the error of their ways."
 	whitelist_req = FALSE
-	min_pq = 10
+	min_pq = 40
 	max_pq = null
 	round_contrib_points = 4
 	give_bank_account = 1000

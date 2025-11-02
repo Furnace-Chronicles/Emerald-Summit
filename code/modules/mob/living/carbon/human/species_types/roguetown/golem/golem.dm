@@ -194,8 +194,9 @@
 			to_chat(user, span_warning("[M] is not a Golem. It will have no effect."))
 		return
 	if(user.construct && !self_usable)
-		to_chat(user, span_warning("I am unable to modify Golems. I must ask another."))//Golems NEED to ask organics to modify them.
-		return
+		if(!isdoll(user))//dolls can install skill exhibitors in themselves or in other golems
+			to_chat(user, span_warning("I am unable to modify Golems. I must ask another."))//Golems NEED to ask organics to modify them.
+			return
 	if(user.get_skill_level(/datum/skill/craft/engineering) < SKILL_LEVEL_APPRENTICE && !self_usable) //need to be at least level 2 skill level in engineering to use this
 		to_chat(user, span_warning("I fiddle around trying to properly insert [src] into [M], but I'm not skilled enough."))
 		return
@@ -237,12 +238,13 @@
 					return
 				M.mind.sleep_adv.adjust_sleep_xp(real_skill, -M.mind.sleep_adv.get_requried_sleep_xp_for_skill(real_skill, 1))
 				M.adjust_skillrank(real_skill, 1, FALSE)
-				//GLOB.scarlet_round_stats[STATS_SKILLS_DREAMED]++ //up for debate whether golems gaining skills like this should count
+				//record_round_statistic(STATS_SKILLS_DREAMED) //up for debate whether golems gaining skills like this should count
 				M.visible_message(span_notice("[M] absorbs [src]."), span_notice("I absorb [src] into myself, becoming more skilled."))
 				if(M.get_skill_level(real_skill) >= 4)//if our skill is now expert or more, gain a triumph
 					to_chat(M, span_boldgreen("Gaining such exquisite expertise in [lowertext(skill_choice)] is a true TRIUMPH."))
 					M.adjust_triumphs(1)
 				M.allmig_reward++//we also need to do this for RCP and endround triumphs- it's the closest thing Golems have to sleeping.
+				add_sleep_experience(user, /datum/skill/craft/engineering, user.STAINT)//give some engi exp for the installer as a reward since it's a skill check
 				qdel(src)
 				return
 	else //if you click "cancel" in the dialog

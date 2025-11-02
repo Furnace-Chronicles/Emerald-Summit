@@ -7,6 +7,7 @@
 	total_positions = 3
 	spawn_positions = 3
 	allowed_races = RACES_NOBILITY_ELIGIBLE_UP
+	allowed_patrons = NON_PSYDON_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
 	tutorial = "Having proven yourself both loyal and capable, you have been knighted to serve the realm as the royal family's sentry. \
@@ -18,7 +19,7 @@
 
 	give_bank_account = 22
 	noble_income = 10
-	min_pq = 8
+	min_pq = 10
 	max_pq = null
 	round_contrib_points = 2
 

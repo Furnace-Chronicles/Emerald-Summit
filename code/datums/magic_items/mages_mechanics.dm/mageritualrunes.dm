@@ -566,7 +566,7 @@ GLOBAL_LIST(teleport_runes)
 	tier = 1
 	can_be_scribed = TRUE
 	var/summoning = FALSE
-	var/mob/living/simple_animal/summoned_mob
+	var/mob/living/simple_animal/hostile/retaliate/rogue/summoned_mob
 
 /obj/effect/decal/cleanable/roguerune/arcyne/summoning/Destroy()
 	if(summoning)
@@ -587,13 +587,15 @@ GLOBAL_LIST(teleport_runes)
 		do_invoke_glow()
 		clear_obstacles(user)
 		sleep(20)
-		animate(summoned_mob, color = null,time = 5)
+		animate(summoned_mob, color = null, time = 5, flags = ANIMATION_PARALLEL)
 		REMOVE_TRAIT(summoned_mob, TRAIT_PACIFISM, TRAIT_GENERIC)	//can't kill while planar bound.
 		summoned_mob.status_flags -= GODMODE//remove godmode
 		summoned_mob.candodge = TRUE
 		summoned_mob.binded = FALSE
 		summoned_mob.move_resist = MOVE_RESIST_DEFAULT
 		summoned_mob.SetParalyzed(0)
+		summoned_mob.Retaliate()
+		summoned_mob.GiveTarget(user)
 		summoned_mob = null
 		summoning = FALSE
 		return

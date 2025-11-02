@@ -118,7 +118,7 @@
 /atom/movable/screen/alert/bugged
 	name = "BUGGED"
 	desc = "AN AUDIO-PARASITE ON ME."
-	icon_state = "blackeye"	
+	icon_state = "blackeye"
 
 /atom/movable/screen/alert/bugged/Click()
 	var/mob/living/L = usr
@@ -148,7 +148,8 @@
 	status_type = STATUS_EFFECT_UNIQUE
 	duration = 3000 //Lasts five minutes
 	var/wheeleffect
-	
+	alert_type = /atom/movable/screen/alert/status_effect/wheel
+
 /datum/status_effect/wheel/on_apply()
 	. = ..()
 	wheeleffect = rand(-5,5)
@@ -168,7 +169,7 @@
 /atom/movable/screen/alert/status_effect/wheel
 	name = "Lucky(?)"
 	desc = "I feel different since my fortune was changed..."
-	icon_state = "asleep"
+	icon_state = "status"
 
 /atom/movable/screen/alert/status_effect/compliance
 	name = "Compliant"

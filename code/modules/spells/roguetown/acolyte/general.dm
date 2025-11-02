@@ -1,6 +1,7 @@
 // Lesser miracle
 /obj/effect/proc_holder/spell/invoked/lesser_heal
 	name = "Miracle"
+	desc = "Call upon your patron to heal your target."
 	overlay_state = "lesserheal"
 	releasedrain = 30
 	chargedrain = 0
@@ -250,6 +251,7 @@
 // Miracle
 /obj/effect/proc_holder/spell/invoked/heal
 	name = "Fortify"
+	desc = "Increases the amount of healing your target recieves for a time."
 	overlay_state = "astrata"
 	releasedrain = 30
 	chargedrain = 0

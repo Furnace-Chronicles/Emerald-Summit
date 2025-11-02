@@ -395,7 +395,7 @@
 		qdel(zombie)
 		return
 
-	GLOB.scarlet_round_stats[STATS_DEADITES_WOKEN_UP]++
+	record_round_statistic(STATS_DEADITES_WOKEN_UP)
 	// Heal the zombie
 	zombie.blood_volume = BLOOD_VOLUME_NORMAL
 	zombie.setOxyLoss(0, updating_health = FALSE, forced = TRUE) // Zombies don't breathe

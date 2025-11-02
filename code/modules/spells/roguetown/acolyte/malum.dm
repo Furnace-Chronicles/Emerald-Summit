@@ -1,5 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/vigorousexchange
 	name = "Vigorous Exchange"
+	desc = "Return energy to your target."
 	overlay_state = "vigorousexchange"
 	releasedrain = 0
 	chargedrain = 0
@@ -19,9 +20,10 @@
 	charging_slowdown = 3
 	chargedloop = /datum/looping_sound/invokegen
 	devotion_cost = 30
-	
+
 /obj/effect/proc_holder/spell/invoked/heatmetal
 	name = "Heat Metal"
+	desc = "Call upon Malum to smelt the target object into a usable ingot, if it can be smelted."
 	overlay_state = "heatmetal"
 	releasedrain = 30
 	chargedrain = 0
@@ -45,6 +47,7 @@
 
 /obj/effect/proc_holder/spell/invoked/hammerfall
 	name = "Hammerfall"
+	desc = "Invoke Malum's hammer to crush a target area, damaging structures and potentially knocking over those in its radius."
 	overlay_state = "Hammerfall"
 	releasedrain = 30
 	chargedrain = 0
@@ -68,6 +71,7 @@
 
 /obj/effect/proc_holder/spell/invoked/craftercovenant
 	name = "The Crafter’s Covenant"
+	desc = "Offer valuables to Malum for a potential reward based on their price."
 	overlay_state = "craftercovenant"
 	releasedrain = 30
 	chargedrain = 0
@@ -121,7 +125,7 @@
 
 /proc/handle_living_entity(mob/target, mob/user, list/nosmeltore)
 	var/obj/item/targeteditem = get_targeted_item(user, target)
-	if (!targeteditem || targeteditem.smeltresult == /obj/item/ash || target.anti_magic_check(TRUE,TRUE)) 
+	if (!targeteditem || targeteditem.smeltresult == /obj/item/ash || target.anti_magic_check(TRUE,TRUE))
 		show_visible_message(user, "After their incantation, [user] points at [target] but it seems to have no effect.", "After your incantation, you point at [target] but it seems to have no effect.")
 		return
 	if (istype(targeteditem, /obj/item/rogueweapon/tongs))
@@ -146,7 +150,7 @@
             if(target.get_item_by_slot(SLOT_ARMOR))
                 target_item = target.get_item_by_slot(SLOT_ARMOR)
             else if (target.get_item_by_slot(SLOT_SHIRT))
-                target_item = target.get_item_by_slot(SLOT_SHIRT)    
+                target_item = target.get_item_by_slot(SLOT_SHIRT)
         if (BODY_ZONE_PRECISE_NECK)
             target_item = target.get_item_by_slot(SLOT_NECK)
         if (BODY_ZONE_PRECISE_R_EYE)
@@ -207,7 +211,7 @@
 	var/obj/item/armor = target.get_item_by_slot(SLOT_ARMOR)
 	var/obj/item/shirt = target.get_item_by_slot(SLOT_SHIRT)
 	var/armor_can_heat = armor && armor.smeltresult && armor.smeltresult != /obj/item/ash
-	var/shirt_can_heat = shirt && shirt.smeltresult && shirt.smeltresult != /obj/item/ash // Full damage if no shirt 
+	var/shirt_can_heat = shirt && shirt.smeltresult && shirt.smeltresult != /obj/item/ash // Full damage if no shirt
 	var/damage_to_apply = 20 // How much damage should your armor burning you should do.
 	if (user.zone_selected == BODY_ZONE_CHEST)
 		if (armor_can_heat && (!shirt_can_heat && shirt))
@@ -240,7 +244,7 @@
 	. = ..()
 	var/const/starminatoregen = 500 // How much stamina should the spell give back to the caster.
 	var/mob/target = targets[1]
-	if (!iscarbon(target)) 
+	if (!iscarbon(target))
 		return
 	if (target == user)
 		target.energy_add(starminatoregen)
@@ -371,7 +375,7 @@ var/global/list/anvil_recipe_prices[][]
 			shaken.apply_effect(1 SECONDS, EFFECT_IMMOBILIZE, 0)
 			show_visible_message(shaken, null, "The ground quakes but I manage to keep my footing.")
 		else
-			shaken.apply_effect(1 SECONDS, EFFECT_KNOCKDOWN, 0)		
+			shaken.apply_effect(1 SECONDS, EFFECT_KNOCKDOWN, 0)
 			show_visible_message(shaken, null, "The ground quakes, making me fall over.")
 	for (var/obj/structure/damaged in view(radius, fallzone))
 		if(!istype(damaged, /obj/structure/flora/newbranch))

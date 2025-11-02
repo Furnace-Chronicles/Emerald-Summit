@@ -1,6 +1,9 @@
 //////////////////////////
-//Kumie donator items/////
-/////////////////////////
+///////Clothing//////////
+////////////////////////
+
+//Kumie stuff
+
 /obj/item/clothing/shoes/roguetown/boots/armor/aristocratic
 	name = "Aristocratic boots"
 	desc = "A pair of sturdy riding boots with an iron heel and brass spurs."
@@ -34,3 +37,25 @@
 	icon = 'modular_scarletreach/icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'modular_scarletreach/icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'modular_scarletreach/icons/clothing/onmob/donor_sleeves_armor.dmi'
+
+/obj/item/clothing/mask/rogue/lordmask/naledi/viz
+	name = "scarred warscholar's mask"
+	desc = "Runes and wards, meant for daemons; the gold has somehow rusted in unnatural, impossibly agony. Unlike typical Warscholar's masks, this one is mostly flat - though has a noticeable gouge taken out of its left eye."
+	item_state = "vizmask"
+	icon_state = "vizmask"
+	icon = 'modular_scarletreach/icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'modular_scarletreach/icons/clothing/onmob/donor_clothes.dmi'
+	adjustable = CANT_CADJUST
+
+//////////////////////////
+////////Weapons//////////
+////////////////////////
+
+//Shepard's donator item - worn staff
+
+/obj/item/rogueweapon/woodstaff/ruby/shepard
+	name = "worn rontz-focused staff"
+	desc = "A sanguine focus-gem hewn by pressure immense sits nestled in crown of this staff - This one looks worn."
+	icon_state = "rubystaff"
+	item_state = "rubystaff"
+	icon = 'modular_scarletreach/icons/obj/donor_weapons_64.dmi'

@@ -44,6 +44,9 @@
 	dodgetime = 30
 	aggressive = 1
 	var/flame_cd
+//Dungeon subtype.
+/mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound/dungeon
+	purge_worth = TRUE
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound/Initialize()
 	. = ..()

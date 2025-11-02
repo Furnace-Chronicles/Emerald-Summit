@@ -100,12 +100,14 @@
 
 /// Returns the total bleed rate on this bodypart
 /obj/item/bodypart/proc/get_bleed_rate()
-	var/bleed_rate = 0
+	var/bleed_rate = bleeding
 	if(bandage && !HAS_BLOOD_DNA(bandage))
+		try_bandage_expire()
 		return 0
+	/*
 	for(var/datum/wound/wound in wounds)
 		if(istype(wound, /datum/wound))
-			bleed_rate += wound.bleed_rate
+			bleed_rate += wound.bleed_rate*/
 	for(var/obj/item/embedded as anything in embedded_objects)
 		if(!embedded.embedding.embedded_bloodloss)
 			continue
@@ -113,9 +115,11 @@
 	for(var/obj/item/grabbing/grab in grabbedby)
 		bleed_rate *= grab.bleed_suppressing
 	bleed_rate = max(round(bleed_rate, 0.1), 0)
-	var/surgery_flags = get_surgery_flags()
+	
+	// temporarily disabling below because it is niche use and a LOT of performance drain
+	/*var/surgery_flags = get_surgery_flags()
 	if(surgery_flags & SURGERY_CLAMPED)
-		return min(bleed_rate, 0.5)
+		return min(bleed_rate, 0.5)*/
 	return bleed_rate
 
 /// Called after a bodypart is attacked so that wounds and critical effects can be applied
@@ -243,7 +247,7 @@
 		var/datum/wound/applied = add_wound(wound_type, silent, crit_message)
 		if(applied)
 			if(user?.client)
-				GLOB.scarlet_round_stats[STATS_CRITS_MADE]++
+				record_round_statistic(STATS_CRITS_MADE)
 			return applied
 	return FALSE
 
@@ -308,7 +312,7 @@
 		var/datum/wound/applied = add_wound(wound_type, silent, crit_message)
 		if(applied)
 			if(user?.client)
-				GLOB.scarlet_round_stats[STATS_CRITS_MADE]++
+				record_round_statistic(STATS_CRITS_MADE)
 			return applied
 	return FALSE
 
@@ -419,7 +423,7 @@
 		var/datum/wound/applied = add_wound(wound_type, silent, crit_message)
 		if(applied)
 			if(user?.client)
-				GLOB.scarlet_round_stats[STATS_CRITS_MADE]++
+				record_round_statistic(STATS_CRITS_MADE)
 			return applied
 	return FALSE
 
@@ -430,7 +434,7 @@
 	if(owner && ((owner.status_flags & GODMODE) || HAS_TRAIT(owner, TRAIT_PIERCEIMMUNE)))
 		return FALSE
 	if(istype(embedder, /obj/item/natural/worms/leech))
-		GLOB.scarlet_round_stats[STATS_LEECHES_EMBEDDED]++
+		record_round_statistic(STATS_LEECHES_EMBEDDED)
 	LAZYADD(embedded_objects, embedder)
 	embedder.is_embedded = TRUE
 	embedder.forceMove(src)
@@ -545,6 +549,7 @@
 
 /// Returns surgery flags applicable to this bodypart
 /obj/item/bodypart/proc/get_surgery_flags()
+	// oh sweet mother of christ what the FUCK is this. this is called EVERY TIME BLEED RATE IS CHECKED.
 	var/returned_flags = NONE
 	if(can_bloody_wound())
 		returned_flags |= SURGERY_BLOODY

@@ -46,6 +46,8 @@
 	attack_verb_simple = "claw"
 	dodgetime = 30
 	aggressive = 1
+/mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp/dungeon
+	purge_worth = TRUE
 
 /obj/projectile/magic/firebolt
 	name = "ball of fire"

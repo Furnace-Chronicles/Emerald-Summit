@@ -425,6 +425,15 @@
 	icon_state = "strawhat"
 	sewrepair = TRUE
 
+/obj/item/clothing/head/roguetown/gasa
+	name = "gasa"
+	desc = "A conical straw hat used to protect from the sun and rain.."
+	icon_state = "gasa"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	sewrepair = TRUE
+
 /obj/item/clothing/head/roguetown/puritan
 	name = "buckled hat"
 	icon_state = "puritan_hat"

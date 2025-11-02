@@ -782,11 +782,11 @@
 		if(istype(H))
 			H.visible_message("<span class='info'>[H] warms [user.p_their()] hand near the fire.</span>")
 
-			if(do_after(H, 100, target = src))
-				if(!H.construct)
-					H.apply_status_effect(/datum/status_effect/buff/healing, 1)
-				H.add_stress(/datum/stressevent/campfire)
-				to_chat(H, "<span class='info'>The warmth of the fire comforts me, affording me a short rest.</span>")
+			while(do_after(H, 105, target = src) && on)
+				if(!H.construct && !H.has_status_effect(/datum/status_effect/buff/healing/campfire))
+					H.apply_status_effect(/datum/status_effect/buff/healing/campfire, 1)
+					to_chat(H, "<span class='info'>The warmth of the fire comforts me, affording me a short rest.</span>")
+					H.add_stress(/datum/stressevent/campfire)
 		return TRUE //fires that are on always have this interaction with lmb unless its a torch
 
 /obj/machinery/light/rogue/campfire/densefire

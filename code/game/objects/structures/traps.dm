@@ -5,7 +5,7 @@
 	icon_state = "trap"
 	density = FALSE
 	anchored = TRUE
-	alpha = 60 //initially quite hidden when not "recharging"
+	alpha = 10 //initially quite hidden when not "recharging"
 	var/flare_message = span_warning("the trap flares brightly!")
 	var/last_trigger = 0
 	var/time_between_triggers = 600 //takes a minute to recharge
@@ -53,6 +53,9 @@
 	if(get_dist(user, src) <= FLOOR((luser.STAPER-4)/4,1))
 		to_chat(user,span_notice("I reveal and temporarily disarm \the [src]"))
 		flare()
+/obj/structure/trap/attacked_by(obj/item/I, mob/living/user)
+	..() // use your reach advantage or go fuck yourself.
+	Crossed(user) 
 
 /obj/structure/trap/attack_hand(mob/user)
 	var/mob/living/carbon/C = user
@@ -90,7 +93,7 @@
 			if(do_after(user, used_time, target = src))
 				armed = TRUE
 				update_icon()
-				alpha = 35
+				alpha = 10
 				C.visible_message(span_notice("[C] arms \the [src]."), \
 						span_notice("I arm \the [src]."))
 				return FALSE
@@ -166,8 +169,14 @@
 
 /obj/structure/trap/stun/hunter/flare()
 	..()
-	stored_item.forceMove(get_turf(src))
-	forceMove(stored_item)
+	if(!stored_item || QDELETED(stored_item))
+		return
+	var/turf/T = get_turf(src)
+	if(!T)
+		return
+	stored_item.forceMove(T)
+	if(!QDELETED(src))
+		forceMove(stored_item)
 	if(caught)
 		stored_item.announce_fugitive()
 		caught = FALSE

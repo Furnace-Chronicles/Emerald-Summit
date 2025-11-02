@@ -328,6 +328,7 @@
 /datum/virtue/utility/secondvoice/apply_to_human(mob/living/carbon/human/recipient)
 	recipient.verbs += /mob/living/carbon/human/proc/changevoice
 	recipient.verbs += /mob/living/carbon/human/proc/swapvoice
+	recipient.verbs += /mob/living/carbon/human/proc/changeaccent
 
 /datum/virtue/utility/keenears
 	name = "Keen Ears"

@@ -5,7 +5,7 @@
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-	min_pq = 0
+	min_pq = 15
 	selection_color = JCOLOR_YEOMAN
 
 	allowed_races = RACES_ALL_KINDS

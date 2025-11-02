@@ -17,7 +17,6 @@
         list("Staff of the Shepherd", /obj/item/rogueweapon/woodstaff/aries),
         list("Crown of Scarlet Reach", /obj/item/clothing/head/roguetown/crown/serpcrown),
         list("Bell Ringer", /obj/item/rogueweapon/mace/church),
-        list("Pepper Mill", /obj/item/reagent_containers/food/condiment/peppermill),
         list("Sword of the Mad Duke", /obj/item/rogueweapon/sword/rapier/lord),
         list("Judgement", /obj/item/rogueweapon/sword/long/judgement),
         list("Holy Book", /obj/item/book/rogue/bookofpriests),

@@ -75,6 +75,7 @@
 				"[user] tries to infuse [target] with lux, but it refuses to take.")
 			target.visible_message(span_danger("[target]'s body convulses violently, rejecting the light!"), span_warning("Something is terribly wrong..."))
 			return FALSE
+	target.setOxyLoss(0)
 	if(!target.revive(full_heal = FALSE))
 		display_results(user, target, span_notice("The lux refuses to meld with [target]'s heart. Their damage must be too severe still."),
 			"[user] works the lux into [target]'s innards, but nothing happens.",
@@ -97,8 +98,9 @@
 		"[user] works the lux into [target]'s innards.",
 		"[user] works the lux into [target]'s innards.")
 	target.emote("breathgasp")
+	target.setOxyLoss(150)
 	target.Jitter(100)
-	GLOB.scarlet_round_stats[STATS_LUX_REVIVALS]++
+	record_round_statistic(STATS_LUX_REVIVALS)
 	target.update_body()
 	target.visible_message(span_notice("[target] is dragged back from Necra's hold!"), span_green("I awake from the void."))
 	qdel(tool)

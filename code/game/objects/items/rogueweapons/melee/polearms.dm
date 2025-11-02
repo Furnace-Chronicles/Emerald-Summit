@@ -119,7 +119,7 @@
 	animname = "cut"
 	blade_class = BCLASS_CHOP
 	reach = 1
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = -100 // hard set to not penetrate armor as its original design intended
 	damfactor = 2.5
 	clickcd = CLICK_CD_CHARGED
 	no_early_release = TRUE
@@ -130,7 +130,7 @@
 
 /datum/intent/rend/reach
 	name = "long rend"
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = -100
 	misscost = 5
 	clickcd = CLICK_CD_HEAVY
 	damfactor = 2
@@ -773,7 +773,6 @@
 				return list("shrink" = 0.5,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
 
-
 /obj/item/rogueweapon/eaglebeak
 	force = 15
 	force_wielded = 30
@@ -1228,6 +1227,7 @@
 	It is also useful for parrying and stopping a charging opponent."
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	icon_state = "boarspear"
+	force =  22 // 10% base damage increase
 	force_wielded = 33 // 10% base damage increase
 	wdefense = 6 // A little bit extra
 	max_blade_int = 200 // 50% more sharpness but it barely matter lol

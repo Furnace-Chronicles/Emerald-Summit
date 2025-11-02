@@ -620,7 +620,7 @@
 
 /obj/item/scomstone/mattcoin/New(loc, ...)
 	. = ..()
-	name = pick("rontz ring", "gold ring")
+	name = pick("rontz ring", "gold ring", "ring of null magic", "fate weaver", "gemerald ring", "toper ring", "blortz ring", "saffira ring","signet ring","silver signet ring", "Dragon ring", "dorpel ring", "duelist's ring")
 
 /obj/item/scomstone/mattcoin/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_COMMIE))

@@ -25,41 +25,21 @@
 	if(!loc)
 		return
 
-	//Breathing, if applicable
-	handle_breathing(times_fired)
+	//Breathing, if applicable - CURRENTLY NOT IMPLEMENTED
+	//handle_breathing(times_fired)
+
 	if(HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
 		handle_wounds()
 		handle_embedded_objects()
 		handle_blood()
 		//passively heal even wounds with no passive healing
-	var/list/wounds = get_wounds()
-	if (islist(wounds))
-		for (var/entry in wounds)
-			// get_wounds() нередко возвращает вложенные списки (по конечностям и т.п.)
-			if (islist(entry))
-				for (var/sub in entry)
-					var/datum/wound/W = sub
-					W?.heal_wound(1)
-			else
-				var/datum/wound/W = entry
-				W?.heal_wound(1)
 
-	/// ENDVRE AS HE DOES.
-	if(HAS_TRAIT(src, TRAIT_PSYDONITE))
-		handle_wounds()
-		//passively heal wounds, even if you're dead. THE ALL-FATHER LIVES!
-	if (blood_volume > BLOOD_VOLUME_SURVIVE)
-		var/list/wounds2 = get_wounds()
-		if (islist(wounds2))
-			for (var/entry in wounds2)
-				if (islist(entry))
-					for (var/sub in entry)
-						var/datum/wound/W2 = sub
-						W2?.heal_wound(0.6)
-				else
-					var/datum/wound/W2 = entry
-					W2?.heal_wound(0.6)	
-
+	var/heal_amount = 1 + (blood_volume > BLOOD_VOLUME_SURVIVE ? 0.6 : 0)
+	// apparently this means NPCs should heal their wounds slowly over time,
+	// with a 60% bonus if they're not completely bled out.
+	// this is a strict replacement for two whole-ass block iteration things that did the same thing (or nothing at all)
+	heal_wounds(heal_amount)
+	
 	if (QDELETED(src)) // diseases can qdel the mob via transformations
 		return
 
@@ -161,14 +141,24 @@
 	location?.hotspot_expose(700, 50, 1)
 
 /mob/living/proc/handle_wounds()
+	// the commented block below appears to be pointless, as no wound implements on_death
+	// moreover, why are psydonites excluded from on_death wound events?
+	// zero clue what the intent with this was.
+
+	/*
 	if(!HAS_TRAIT(src, TRAIT_PSYDONITE) && stat >= DEAD)
 		for(var/datum/wound/wound as anything in get_wounds())
 			if(istype(wound, /datum/wound))
 				wound.on_death()
-		return
+		return*/
+
 	for(var/datum/wound/wound as anything in get_wounds())
 		if(istype(wound, /datum/wound))
-			wound.on_life()
+			if (stat != DEAD)
+				wound.on_life()
+			else
+				wound.on_death()
+
 
 /obj/item/proc/on_embed_life(mob/living/user, obj/item/bodypart/bodypart)
 	return
