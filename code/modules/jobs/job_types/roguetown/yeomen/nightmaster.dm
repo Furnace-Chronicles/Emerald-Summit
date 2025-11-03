@@ -12,7 +12,7 @@
 	outfit = /datum/outfit/job/roguetown/niteman
 	display_order = JDO_NITEMASTER
 	give_bank_account = 150
-	min_pq = 1
+	min_pq = 10
 	max_pq = null
 	bypass_lastclass = TRUE
 	round_contrib_points = 3
@@ -23,14 +23,6 @@
 	job_subclasses = list(
 		/datum/advclass/bathmaster
 	)
-
-/datum/job/roguetown/niteman/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
-	..()
-	if(ishuman(L))
-		var/mob/living/carbon/human/H = L
-		H.advsetup = 1
-		H.invisibility = INVISIBILITY_MAXIMUM
-		H.become_blind("advsetup")
 
 /datum/advclass/bathmaster
 	name = "Bathmaster"

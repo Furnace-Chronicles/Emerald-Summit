@@ -72,7 +72,7 @@
 
 /datum/wound/dynamic/puncture/upgrade(dam, armor)
 	whp += (dam * PUNC_UPG_WHPRATE)
-	bleed_rate += clamp((dam * PUNC_UPG_BLEEDRATE), 0.1, ((armor > 0) ? PUNC_UPG_CLAMP_ARMORED : PUNC_UPG_CLAMP_RAW))
+	set_bleed_rate(bleed_rate + clamp((dam * PUNC_UPG_BLEEDRATE), 0.1, ((armor > 0) ? PUNC_UPG_CLAMP_ARMORED : PUNC_UPG_CLAMP_RAW)))
 	sew_threshold += (dam * PUNC_UPG_SEWRATE)
 	woundpain += (dam * PUNC_UPG_PAINRATE)
 	armor_check(armor, PUNC_ARMORED_BLEED_CLAMP)
@@ -123,7 +123,7 @@
 
 /datum/wound/dynamic/gouge/upgrade(dam, armor)
 	whp += (dam * GOUGE_UPG_WHPRATE)
-	bleed_rate += clamp((dam * GOUGE_UPG_BLEEDRATE), 0.1, ((armor > 0) ? GOUGE_UPG_CLAMP_ARMORED : GOUGE_UPG_CLAMP_RAW))
+	set_bleed_rate(bleed_rate + clamp((dam * GOUGE_UPG_BLEEDRATE), 0.1, ((armor > 0) ? GOUGE_UPG_CLAMP_ARMORED : GOUGE_UPG_CLAMP_RAW)))
 	sew_threshold += (dam * GOUGE_UPG_SEWRATE)
 	woundpain += (dam * GOUGE_UPG_PAINRATE)
 	armor_check(armor, GOUGE_ARMORED_BLEED_CLAMP)

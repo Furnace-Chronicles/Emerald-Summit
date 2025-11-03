@@ -2,7 +2,7 @@
 // TODO: Implement per patron spell lists
 /obj/effect/proc_holder/spell/self/learnspell
 	name = "Attempt to learn a new spell"
-	desc = "Weave a new spell"
+	desc = "Draw upon your Arcyne knowledge to learn a new spell."
 	school = "transmutation"
 	overlay_state = "book1"
 	chargedrain = 0

@@ -90,12 +90,12 @@
 		if(known_skills[S] > old_level)
 			to_chat(current, span_nicegreen("My [S.name] grows to [SSskills.level_names[known_skills[S]]]!"))
 			SEND_SIGNAL(current, COMSIG_SKILL_RANK_INCREASED, S, known_skills[S], old_level)
-			GLOB.scarlet_round_stats[STATS_SKILLS_LEARNED]++
+			record_round_statistic(STATS_SKILLS_LEARNED)
 			S.skill_level_effect(known_skills[S], src)
 			if(istype(known_skills, /datum/skill/combat))
-				GLOB.scarlet_round_stats[STATS_COMBAT_SKILLS]++
+				record_round_statistic(STATS_COMBAT_SKILLS)
 			if(istype(known_skills, /datum/skill/craft))
-				GLOB.scarlet_round_stats[STATS_CRAFT_SKILLS]++
+				record_round_statistic(STATS_CRAFT_SKILLS)
 	else
 		to_chat(current, span_warning("My [S.name] has weakened to [SSskills.level_names[known_skills[S]]]!"))
 

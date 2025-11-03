@@ -10,7 +10,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	gender = PLURAL //placeholder
 
 	status_flags = CANPUSH
-
+	fire_stack_decay_rate = -3
 	var/icon_living = ""
 	///Icon when the animal is dead. Don't use animated icons for this.
 	var/icon_dead = ""
@@ -100,6 +100,9 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	///LETS SEE IF I CAN SET SPEEDS FOR SIMPLE MOBS WITHOUT DESTROYING EVERYTHING. Higher speed is slower, negative speed is faster.
 	var/speed = 1
 
+	///If the creature should have an innate TRAIT_MOVE_FLYING trait added on init that is also toggled off/on on death/revival.
+	var/is_flying_animal = FALSE
+
 	///Hot simple_animal baby making vars.
 	var/list/childtype = null
 	var/next_scan_time = 0
@@ -126,6 +129,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 	///List of things spawned at mob's loc when it dies.
 	var/list/loot = list()
+	//Devalue the worth of the items they drop, for things that inflate the economy BADLY 
+	var/purge_worth = FALSE 
 	///Causes mob to be deleted on death, useful for mobs that spawn lootable corpses.
 	var/del_on_death = 0
 	var/deathmessage = ""
@@ -143,9 +148,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/AIStatus = AI_ON
 	///once we have become sentient, we can never go back.
 	var/can_have_ai = TRUE
-
-	///convenience var for forcibly waking up an idling AI on next check.
-	var/shouldwakeup = FALSE
 
 	///Domestication.
 	var/tame = FALSE
@@ -182,6 +184,12 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 	var/list/inherent_spells = list()
 
+	///What distance should we be checking for interesting things when considering idling/deidling? Defaults to AI_DEFAULT_INTERESTING_DIST
+	var/interesting_dist = AI_DEFAULT_INTERESTING_DIST
+	///our current cell grid
+	var/datum/cell_tracker/our_cells
+
+
 /mob/living/simple_animal/Initialize()
 	. = ..()
 	GLOB.simple_animals[AIStatus] += src
@@ -192,13 +200,16 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(!loc)
 		stack_trace("Simple animal being instantiated in nullspace")
 	update_simplemob_varspeed()
-//	if(dextrous)
-//		AddComponent(/datum/component/personal_crafting)
 	for(var/spell in inherent_spells)
 		var/obj/effect/proc_holder/spell/newspell = new spell()
 		AddSpell(newspell)
+	if(is_flying_animal)
+		ADD_TRAIT(src, TRAIT_MOVE_FLYING, ROUNDSTART_TRAIT)
+	our_cells = new(interesting_dist, interesting_dist, 1)
+	set_new_cells()
 
 /mob/living/simple_animal/Destroy()
+	our_cells = null
 	GLOB.simple_animals[AIStatus] -= src
 	if (SSnpcpool.state == SS_PAUSED && LAZYLEN(SSnpcpool.currentrun))
 		SSnpcpool.currentrun -= src
@@ -412,7 +423,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 				if(user.mind)
 					used_time -= (user.get_skill_level(/datum/skill/labor/butchering) * 30)
 				playsound(src, 'sound/foley/gross.ogg', 100, FALSE)
-				if(do_after(user, 3 SECONDS, target = src))
+				if(used_time <= 0 || do_after(user, used_time, target = src))
 					butcher(user)
 
 	else if (stat != DEAD && istype(ssaddle, /obj/item/natural/saddle))		//Fallback saftey for saddles
@@ -555,8 +566,10 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 /mob/living/simple_animal/proc/drop_loot()
 	if(loot.len)
-		for(var/i in loot)
+		for(var/atom/movable/i in loot) // If someone puts a turf in this list I'm going to kill you.
 			new i(loc)
+			if(purge_worth)
+				i.sellprice  =0
 
 /mob/living/simple_animal/death(gibbed)
 	movement_type &= ~FLYING
@@ -576,6 +589,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		del_on_death = FALSE
 		qdel(src)
 	else
+		if(is_flying_animal)
+			REMOVE_TRAIT(src, TRAIT_MOVE_FLYING, ROUNDSTART_TRAIT)
 		health = 0
 		icon_state = icon_dead
 		if(flip_on_death)
@@ -598,30 +613,21 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			return FALSE
 	return TRUE
 
-/mob/living/simple_animal/handle_fire()
-	. = ..()
-	if(!on_fire)
-		return TRUE
-	if(fire_stacks + divine_fire_stacks > 0)
-		apply_damage(5, BURN)
-		if(fire_stacks + divine_fire_stacks > 5)
-			apply_damage(10, BURN)
-
-//mob/living/simple_animal/IgniteMob()
+//mob/living/simple_animal/ignite_mob()
 //	return FALSE
 
-///mob/living/simple_animal/ExtinguishMob()
+///mob/living/simple_animal/extinguish_mob()
 //	return
 
 /mob/living/simple_animal/revive(full_heal = FALSE, admin_revive = FALSE)
-	if(..()) //successfully ressuscitated from death
-		icon = initial(icon)
-		icon_state = icon_living
-		density = initial(density)
-		mobility_flags = MOBILITY_FLAGS_DEFAULT
-		update_mobility()
-		. = TRUE
-		setMovetype(initial(movement_type))
+	. = ..()
+	if(!.)
+		return
+	icon = initial(icon)
+	icon_state = icon_living
+	density = initial(density)
+	if(is_flying_animal)
+		ADD_TRAIT(src, TRAIT_MOVE_FLYING, ROUNDSTART_TRAIT)
 
 /mob/living/simple_animal/proc/make_babies() // <3 <3 <3
 	if(gender != FEMALE || stat || next_scan_time > world.time || !childtype || !animal_species || !SSticker.IsRoundInProgress())
@@ -832,7 +838,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 /mob/living/simple_animal/hostile/user_buckle_mob(mob/living/M, mob/user)
 	if(user != M)
 		return
-	var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding)
+	var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding/no_ocean)
 	if(riding_datum)
 		var/time2mount = 12
 		riding_datum.vehicle_move_delay = move_to_delay
@@ -864,7 +870,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if (stat == DEAD)
 		return
 	var/oldloc = loc
-	var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding)
+	var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding/no_ocean)
 	if(tame && riding_datum)
 		if(riding_datum.handle_ride(user, direction))
 			riding_datum.vehicle_move_delay = move_to_delay
@@ -927,8 +933,17 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			stack_trace("Something attempted to set simple animals AI to an invalid state: [togglestatus]")
 
 /mob/living/simple_animal/proc/consider_wakeup()
-	if (pulledby || shouldwakeup)
-		toggle_ai(AI_ON)
+	for(var/datum/spatial_grid_cell/grid as anything in our_cells.member_cells)
+		if(length(grid.client_contents))
+			GLOB.mob_living_list |= src
+			GLOB.idle_mob_list -= src
+			toggle_ai(AI_ON)
+			return TRUE
+
+	GLOB.mob_living_list -= src
+	GLOB.idle_mob_list |= src
+	toggle_ai(AI_OFF)
+	return FALSE
 
 /mob/living/simple_animal/adjustHealth(amount, updating_health = TRUE, forced = FALSE)
 	. = ..()
@@ -958,6 +973,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		food = max(food + 30, 100)
 
 /mob/living/simple_animal/Life()
+	if(!client && can_have_ai && (AIStatus == AI_Z_OFF || AIStatus == AI_OFF))
+		return
 	. = ..()
 	if(.)
 		if(food > 0)
@@ -974,3 +991,48 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		if(isturf(loc))
 			playsound(src, "fart", 100, TRUE)
 			new pooptype(loc)
+
+/mob/living/simple_animal/proc/on_client_enter(datum/source, atom/target)
+	SIGNAL_HANDLER
+	if(AIStatus == AI_IDLE)
+		GLOB.mob_living_list |= src
+		GLOB.idle_mob_list -= src
+		toggle_ai(AI_ON)
+
+/mob/living/simple_animal/proc/on_client_exit(datum/source, datum/exited)
+	SIGNAL_HANDLER
+	consider_wakeup()
+
+/mob/living/simple_animal/proc/set_new_cells()
+	var/turf/our_turf = get_turf(src)
+	if(isnull(our_turf))
+		return
+
+	var/list/cell_collections = our_cells.recalculate_cells(our_turf)
+
+	for(var/datum/old_grid as anything in cell_collections[2])
+		UnregisterSignal(old_grid, list(SPATIAL_GRID_CELL_ENTERED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS), SPATIAL_GRID_CELL_EXITED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS)))
+
+	for(var/datum/spatial_grid_cell/new_grid as anything in cell_collections[1])
+		RegisterSignal(new_grid, SPATIAL_GRID_CELL_ENTERED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS), PROC_REF(on_client_enter))
+		RegisterSignal(new_grid, SPATIAL_GRID_CELL_EXITED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS), PROC_REF(on_client_exit))
+	consider_wakeup()
+
+/mob/living/simple_animal/Moved()
+	. = ..()
+	update_grid()
+
+/mob/living/simple_animal/proc/update_grid()
+	var/turf/our_turf = get_turf(src)
+	if(isnull(our_turf))
+		return
+
+	var/list/cell_collections = our_cells.recalculate_cells(our_turf)
+
+	for(var/datum/old_grid as anything in cell_collections[2])
+		UnregisterSignal(old_grid, list(SPATIAL_GRID_CELL_ENTERED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS), SPATIAL_GRID_CELL_EXITED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS)))
+
+	for(var/datum/spatial_grid_cell/new_grid as anything in cell_collections[1])
+		RegisterSignal(new_grid, SPATIAL_GRID_CELL_ENTERED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS), PROC_REF(on_client_enter))
+		RegisterSignal(new_grid, SPATIAL_GRID_CELL_EXITED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS), PROC_REF(on_client_exit))
+	consider_wakeup()

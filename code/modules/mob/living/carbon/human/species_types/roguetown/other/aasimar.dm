@@ -13,7 +13,7 @@
 	Because of their upbringing, they make for natural conduits for godly powers. \
 	Scarlet Reaches' populace holds them with a mixture of uneasy mixture of fear and respect. \
 	Due to their celestial nature, it is widely believed that an Aasimar's death is a bad omen...<br>\
-	(+1 Fortune)"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 FOR</b></span> </br>"
 
 	skin_tone_wording = "Craft"
 

@@ -8,6 +8,7 @@
 	dropshrink = 1
 	drop_sound = 'sound/items/gem.ogg'
 	resistance_flags = FIRE_PROOF
+	is_silver = TRUE
 	var/miracle_use = 0
 	var/success = 0
 
@@ -164,48 +165,15 @@
 		REMOVE_TRAIT(M, TRAIT_VAMP_DREAMS, "/datum/antagonist/vampirelord/lesser")
 		REMOVE_TRAIT(M, TRAIT_HEAVYARMOR, "/datum/antagonist/vampirelord/lesser")
 		REMOVE_TRAIT(M, TRAIT_STEELHEARTED, "/datum/antagonist/vampirelord/lesser")
-		M.verbs -= /mob/living/carbon/human/proc/disguise_button
 		M.verbs -= /mob/living/carbon/human/proc/vampire_telepathy
-		M.verbs -= /mob/living/carbon/human/proc/vamp_regenerate
+		M.RemoveSpell(/obj/effect/proc_holder/spell/self/regenerate)
+		M.RemoveSpell(new /obj/effect/proc_holder/spell/self/disguise)
 		M.RemoveSpell(/obj/effect/proc_holder/spell/targeted/transfix)
 		ADD_TRAIT(M, TRAIT_SILVER_BLESSED, TRAIT_GENERIC)
 		M.Stun(30)
 		M.Knockdown(30)
 		M.Jitter(30)
 		return
-
-
-/obj/item/quicksilver/pickup(mob/user) //Akin to the psycross.
-	. = ..()
-	var/mob/living/carbon/human/H = user
-	if(!H.mind)
-		return
-	var/datum/antagonist/vampirelord/V_lord = H.mind.has_antag_datum(/datum/antagonist/vampirelord/)
-	var/datum/antagonist/werewolf/W = H.mind.has_antag_datum(/datum/antagonist/werewolf/)
-	if(ishuman(H))
-		if(H.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser))
-			to_chat(H, span_userdanger("I can't pick up the silver, it is my BANE!"))
-			H.Knockdown(20)
-			H.adjustFireLoss(60)
-			H.Paralyze(20)
-			H.fire_act(1,5)
-		if(V_lord)
-			if(V_lord.vamplevel < 4 && !H.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser))
-				to_chat(H, span_userdanger("I can't pick up the silver, it is my BANE!"))
-				H.Knockdown(10)
-				H.adjustFireLoss(25)
-		if(W && W.transformed == TRUE)
-			to_chat(H, span_userdanger("I can't pick up the silver, it is my BANE!"))
-			H.Knockdown(10)
-			H.Paralyze(10)
-			H.adjustFireLoss(25)
-			H.fire_act(1,10)
-		if(HAS_TRAIT(H, TRAIT_HOLLOW_LIFE))
-			to_chat(H, span_userdanger("I can't pick up the silver, for I am one of the damned!"))
-			H.adjustFireLoss(60)
-			H.fire_act(1,5)
-			H.Knockdown(10)
-			H.Paralyze(10)
 
 //A letter to give info on how to make this thing.
 /obj/item/paper/inquisition_poultice_info

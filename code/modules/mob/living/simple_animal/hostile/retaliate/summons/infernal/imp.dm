@@ -30,7 +30,7 @@
 	retreat_distance = 4
 	minimum_distance = 3
 	food_type = list()
-	movement_type = FLYING
+	is_flying_animal = TRUE
 	pooptype = null
 	STACON = 7
 	STASTR = 6
@@ -46,6 +46,12 @@
 	attack_verb_simple = "claw"
 	dodgetime = 30
 	aggressive = 1
+/mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp/dungeon
+	purge_worth = TRUE
+
+/mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
 
 /obj/projectile/magic/firebolt
 	name = "ball of fire"

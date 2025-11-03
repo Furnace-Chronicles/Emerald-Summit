@@ -128,10 +128,12 @@ SUBSYSTEM_DEF(adjacent_air)
 	if(!isturf(loc) && command)
 		return
 	var/turf/T = get_turf(loc)
-	T.air_update_turf(command)
+	T?.air_update_turf(command)
+
 /turf/air_update_turf(command = 0)
 	if(command)
 		ImmediateCalculateAdjacentTurfs()
+
 /atom/movable/proc/move_update_air(turf/T)
 	if(isturf(T))
 		T.air_update_turf(1)

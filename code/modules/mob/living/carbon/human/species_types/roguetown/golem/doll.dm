@@ -13,8 +13,10 @@
 	Over time, they were seen to prove as valuable asset and advisory role due to their intellectual prowess, it is \
 	unknown what provided them with such a gift. A master wanting more engaging conversation? A lord wanting a more \
 	efficient clerk? Regardless, who knows what thoughts their eyes of glass truly conceal?<br> \
-	(Insomnia, No hunger, no blood.) \
-	(+2 Intelligence, +1 Speed, -2 Strength)"
+	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>-2 STR</span> |<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'> +2 INT | +1 SPD</b></span> </br> \
+	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b><span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Hungerless, Insomnia, Bloodless. Extremely fragile.</span></b></br>\
+	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b><span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Capable of installing skill exhibitors in themselves or other Golems.</span></b></br>"
+
 
 	construct = 1
 	skin_tone_wording = "Paint"
@@ -89,13 +91,23 @@
 /datum/species/golem/porcelain/get_skin_list()
 	return list(
 		"Porcelain" = DOLL_PORCELAIN,
-		"Sienna" = DOLL_SIENNA
+		"Sienna" = DOLL_SIENNA,
+		"Lotus" = DOLL_KAZENGUN,
+		"Scarlet Reach" = DOLL_SCARLET_REACH,
+		"Walnut" = DOLL_WALNUT,
+		"Gloom" = DOLL_GLOOMHAVEN,
+		"Ebon" = DOLL_EBON,
 	)
 
 /datum/species/golem/porcelain/get_skin_list_tooltip()
 	return list(
 		"Porcelain <span style='border: 1px solid #161616; background-color: #[DOLL_PORCELAIN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = DOLL_PORCELAIN,
 		"Sienna <span style='border: 1px solid #161616; background-color: #[DOLL_SIENNA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = DOLL_SIENNA,
+		"Lotus <span style='border: 1px solid #161616; background-color: #[DOLL_KAZENGUN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = DOLL_KAZENGUN,
+		"Scarlet Reach <span style='border: 1px solid #161616; background-color: #[DOLL_SCARLET_REACH];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = DOLL_SCARLET_REACH,
+		"Walnut <span style='border: 1px solid #161616; background-color: #[DOLL_WALNUT];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = DOLL_WALNUT,
+		"Gloom <span style='border: 1px solid #161616; background-color: #[DOLL_GLOOMHAVEN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = DOLL_GLOOMHAVEN,
+		"Ebon <span style='border: 1px solid #161616; background-color: #[DOLL_EBON];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = DOLL_EBON,
 	)
 
 /datum/species/golem/porcelain/get_hairc_list()

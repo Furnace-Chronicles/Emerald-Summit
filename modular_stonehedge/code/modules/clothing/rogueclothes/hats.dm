@@ -53,13 +53,13 @@
 
 //RECIPES
 /datum/crafting_recipe/roguetown/leather/studhood
-	name = "leather padded hood (2 leather)"
+	name = "leather padded hood"
 	result = /obj/item/clothing/head/roguetown/helmet/leather/armorhood
 	reqs = list(/obj/item/natural/hide/cured = 2)
 	craftdiff = 2
 
 /datum/anvil_recipe/armor/studdedhood
-	name = "Studded Leather Hood (+Padded Hood)"
+	name = "Studded Leather Hood"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/clothing/head/roguetown/helmet/leather/armorhood)
 	created_item = /obj/item/clothing/head/roguetown/helmet/leather/armorhood/advanced

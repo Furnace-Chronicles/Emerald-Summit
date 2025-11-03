@@ -264,7 +264,7 @@
 	if(!HAS_TRAIT(user, TRAIT_HORDE))
 		to_chat(user, "<font color='red'>UNWORTHY HANDS TOUCHING THIS ARMOR, CEASE OR BE RENDED ASUNDER!</font>")
 		user.adjust_fire_stacks(5)
-		user.IgniteMob()
+		user.ignite_mob()
 		user.Stun(40)
 	..()
 
@@ -457,7 +457,7 @@
 	anvilrepair = /datum/skill/craft/carpentry
 
 
-//kazen update
+//kazengun stuff
 /obj/item/clothing/shoes/roguetown/armor/rumaclan
 	name = "raised sandals"
 	desc = "A pair of strange sandals that push you off the ground."
@@ -484,3 +484,13 @@
 	anvilrepair = null
 	smeltresult = /obj/item/ash
 	sewrepair = TRUE
+
+/obj/item/clothing/shoes/roguetown/armor/geta
+	name = "geta"
+	desc = "A normal wooden geta most suitable for those who need to roam"
+	icon_state = "geta"
+	item_state = "geta"
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
+	max_integrity = 150
+	armor = ARMOR_BOOTS
+	anvilrepair = /datum/skill/craft/carpentry

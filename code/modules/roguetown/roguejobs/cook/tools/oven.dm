@@ -7,6 +7,7 @@
 	base_state = "oven"
 	density = FALSE
 	on = FALSE
+	light_system = MOVABLE_LIGHT
 	var/list/food = list()
 	var/maxfood = 5
 	var/donefoods = FALSE
@@ -98,6 +99,7 @@
 		if(EAST)
 			pixel_x = -32
 	icon_state = "[base_state][on]"
+	set_light(on) //kind of a kludge but i don't really know how best to fix this
 
 	if(on)
 		var/burning

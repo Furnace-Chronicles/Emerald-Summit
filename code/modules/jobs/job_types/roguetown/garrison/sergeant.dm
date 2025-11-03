@@ -9,7 +9,9 @@
 	allowed_races = RACES_FEARED_UP//Identical to MAA.
 	disallowed_races = list(
 		/datum/species/lamia,
+		/datum/species/harpy,
 	)
+	allowed_patrons = NON_PSYDON_PATRONS
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
 	tutorial = "You are the most experienced of the Crown's Soldiery, leading the men-at-arms in maintaining order and attending to threats and crimes below the court's attention. \
 				See to those under your command and fill in the gaps knights leave in their wake. Obey the orders of your Marshal and the Crown."
@@ -22,7 +24,7 @@
 	advclass_cat_rolls = list(CTAG_SERGEANT = 20)
 
 	give_bank_account = 50
-	min_pq = 6
+	min_pq = 10
 	max_pq = null
 	cmode_music = 'sound/music/combat_ManAtArms.ogg'
 
@@ -39,9 +41,6 @@
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L
 		if(ishuman(L))
-			H.advsetup = 1
-			H.invisibility = INVISIBILITY_MAXIMUM
-			H.become_blind("advsetup")
 			if(istype(H.cloak, /obj/item/clothing/cloak/stabard/surcoat/guard))
 				var/obj/item/clothing/S = H.cloak
 				var/index = findtext(H.real_name, " ")

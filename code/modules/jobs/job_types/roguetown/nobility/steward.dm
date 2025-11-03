@@ -12,10 +12,13 @@
 	outfit = /datum/outfit/job/roguetown/steward
 	give_bank_account = 22
 	noble_income = 16
-	min_pq = 3 //Please don't give the vault keys to somebody that's going to lock themselves in on accident
+	min_pq = 10 //Please don't give the vault keys to somebody that's going to lock themselves in on accident
 	max_pq = null
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_noble.ogg'
+	disallowed_races = list(
+		/datum/species/harpy, // you WILL have to (pretend to) be nice to the steward if u want their shinies
+	)
 
 	advclass_cat_rolls = list(CTAG_STEWARD = 2)
 
@@ -25,14 +28,6 @@
 	job_subclasses = list(
 		/datum/advclass/steward
 	)
-
-/datum/job/roguetown/steward/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
-	..()
-	if(ishuman(L))
-		var/mob/living/carbon/human/H = L
-		H.advsetup = 1
-		H.invisibility = INVISIBILITY_MAXIMUM
-		H.become_blind("advsetup")
 
 /datum/advclass/steward
 	name = "Steward"

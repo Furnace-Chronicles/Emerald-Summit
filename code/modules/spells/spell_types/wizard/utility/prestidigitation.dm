@@ -93,9 +93,6 @@
 	var/skill_level = user.get_skill_level(attached_spell.associated_skill)
 	var/mote_power = clamp(4 + (skill_level - 3), 4, 7) // every step above journeyman should get us 1 more tile of brightness
 	mote.set_light_range(mote_power)
-	if(mote.light_system == STATIC_LIGHT)
-		mote.update_light()
-
 	if (mote.loc == src)
 		user.visible_message(span_notice("[user] holds open the palm of [user.p_their()] hand and concentrates..."), span_notice("I hold open the palm of my hand and concentrate on my arcyne power..."))
 		if (do_after(user, src.motespeed, target = user))
@@ -185,7 +182,7 @@
 	pixel_x = 20
 	light_outer_range =  4
 	light_color = "#3FBAFD"
-
+	light_system = MOVABLE_LIGHT
 	icon = 'icons/roguetown/items/lighting.dmi'
 	icon_state = "wisp"
 

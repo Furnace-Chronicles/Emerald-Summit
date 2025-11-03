@@ -188,6 +188,7 @@
 	/datum/species/goblinp,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
+	/datum/species/harpy,\
 )
 
 #define RACES_NOBILITY_ELIGIBLE \
@@ -210,6 +211,7 @@
 
 #define RACES_WILDKIN \
 	/datum/species/anthromorph,\
+	/datum/species/harpy,\
 
 #define RACES_SECOND_CLASS \
     /datum/species/vulpkanin,\
@@ -222,6 +224,7 @@
     /datum/species/dracon,\
     /datum/species/akula,\
 	/datum/species/lamia,\
+	/datum/species/harpy,\
 
 #define RACES_FEARED \
 	/datum/species/halforc,\
@@ -278,6 +281,7 @@
 	/datum/species/golem/porcelain,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
+	/datum/species/harpy,\
 )
 
 #define CLOTHED_RACES_TYPES list(\
@@ -305,6 +309,7 @@
 	/datum/species/golem/porcelain,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
+	/datum/species/harpy,\
 )
 // Non-dwarf non-kobold non-goblin mostly
 #define NON_DWARVEN_RACE_TYPES list(\
@@ -328,7 +333,31 @@
 	/datum/species/golem/porcelain,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
+	/datum/species/harpy,\
 )
+
+#define NON_DWARVEN_NON_GOLEM_RACE_TYPES list(\
+	/datum/species/human/northern,\
+	/datum/species/human/halfelf,\
+	/datum/species/elf/dark,\
+	/datum/species/elf/wood,\
+	/datum/species/tieberian,\
+	/datum/species/aasimar,\
+	/datum/species/lizardfolk,\
+	/datum/species/lupian,\
+	/datum/species/tabaxi,\
+	/datum/species/vulpkanin,\
+	/datum/species/akula,\
+	/datum/species/moth,\
+	/datum/species/dracon,\
+	/datum/species/anthromorph,\
+	/datum/species/demihuman,\
+	/datum/species/halforc,\
+	/datum/species/dullahan,\
+	/datum/species/lamia,\
+	/datum/species/harpy,\
+)
+
 // Non-elf non-dwarf non-kobold non-goblin mostly
 #define HUMANLIKE_RACE_TYPES list(\
 	/datum/species/human/northern,\
@@ -347,6 +376,7 @@
 	/datum/species/golem/porcelain,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
+	/datum/species/harpy,\
 )
 #define ALL_CLERIC_PATRONS list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/dendor, /datum/patron/divine/necra, /datum/patron/divine/pestra, /datum/patron/divine/ravox, /datum/patron/divine/malum, /datum/patron/divine/eora) // Currently unused.
 

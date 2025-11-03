@@ -7,9 +7,12 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	grid_height = 32
 	grid_width = 64
+	var/last_toot
 
 /obj/item/signal_horn/attack_self(mob/living/user)
 	. = ..()
+	if(world.time < last_toot + 15 SECONDS)
+		to_chat(user, span_notice("Not yet!"))
 	user.visible_message(span_warning("[user] is about to sound the [src]!"))
 	if(do_after(user, 15))
 		sound_horn(user)
@@ -70,8 +73,8 @@
 			if(80 to 160)
 				disttext = " far"
 			else
-				disttext = " very far" 
-		
+				disttext = " very far"
+
 		var/placetext
 		var/area/localarea = get_area_name(src)
 		switch(localarea)

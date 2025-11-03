@@ -41,6 +41,10 @@
 	name = "Ahoge"
 	icon_state = "antenna"
 
+/datum/sprite_accessory/hair/head/astolfo
+	name = "Astolfo"
+	icon_state = "astolfo"
+
 /datum/sprite_accessory/hair/head/balding
 	name = "Balding Hair"
 	icon_state = "balding"
@@ -914,6 +918,10 @@
 	name = "Single Braid"
 	icon_state = "singlebraid"
 
+/datum/sprite_accessory/hair/head/ghast
+	name = "Ghastly"
+	icon_state = "ghastly"
+
 /datum/sprite_accessory/hair/head/gloomy
 	name = "Gloomy"
 	icon_state = "gloomy"
@@ -994,6 +1002,10 @@
 	name = "Kobeni (Alt)"
 	icon_state = "kobeni_2"
 
+/datum/sprite_accessory/hair/head/kobeni_tail
+	name = "Kobeni (Ponytail)"
+	icon_state = "kobeni_tail"
+
 /datum/sprite_accessory/hair/head/gloomy_short
 	name = "Gloomy (Short)"
 	icon_state = "gloomy_short"
@@ -1053,6 +1065,10 @@
 /datum/sprite_accessory/hair/head/sabitsuki
 	name = "Sabitsuki"
 	icon_state = "sabitsuki"
+
+/datum/sprite_accessory/hair/head/sabitsuki_ponytail
+	name = "Sabitsuki (Ponytail)"
+	icon_state = "sabitsuki_ponytail"
 
 /datum/sprite_accessory/hair/head/cotton
 	name = "Cotton"
@@ -1589,6 +1605,19 @@
 /datum/sprite_accessory/hair/head/alsoprotagonist
 	name = "Alsoprotagonist"
 	icon_state = "alsoprotagonist"
+
+/datum/sprite_accessory/hair/head/generic
+	name = "Generic"
+	icon_state = "Generic"
+
+/datum/sprite_accessory/hair/head/polite
+	name = "Polite"
+	icon_state = "Polite"
+
+/datum/sprite_accessory/hair/head/protag
+	name = "Protagonist"
+	icon_state = "Protagonist"
+
 
 /datum/sprite_accessory/hair/head/vulpkian
 	abstract_type = /datum/sprite_accessory/hair/head/vulpkian

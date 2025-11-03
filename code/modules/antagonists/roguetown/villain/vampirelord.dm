@@ -11,7 +11,24 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	roundend_category = "Vampires"
 	antagpanel_category = "Vampire"
 	job_rank = ROLE_VAMPIRE
-	var/list/inherent_traits = list(TRAIT_STRONGBITE, TRAIT_NOBLE, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_NOPAIN, TRAIT_TOXIMMUNE, TRAIT_STEELHEARTED, TRAIT_NOSLEEP, TRAIT_VAMPMANSION, TRAIT_VAMP_DREAMS, TRAIT_INFINITE_STAMINA, TRAIT_GRABIMMUNE, TRAIT_HEAVYARMOR, TRAIT_COUNTERCOUNTERSPELL, TRAIT_STRENGTH_UNCAPPED, TRAIT_CRITICAL_WEAKNESS)
+	var/list/inherent_traits = list(
+		TRAIT_STRONGBITE, 
+		TRAIT_NOBLE, 
+		TRAIT_NOHUNGER, 
+		TRAIT_NOBREATH, 
+		TRAIT_NOPAIN,
+		TRAIT_TOXIMMUNE,
+		TRAIT_STEELHEARTED, 
+		TRAIT_NOSLEEP, 
+		TRAIT_VAMPMANSION, 
+		TRAIT_VAMP_DREAMS, 
+		TRAIT_INFINITE_STAMINA, 
+		TRAIT_HEAVYARMOR, 
+		TRAIT_COUNTERCOUNTERSPELL, 
+		TRAIT_STRENGTH_UNCAPPED, 
+		TRAIT_CRITICAL_WEAKNESS,
+		TRAIT_SILVER_WEAK
+	)	
 	antag_hud_type = ANTAG_HUD_VAMPIRE
 	antag_hud_name = "Vlord"
 	confess_lines = list(
@@ -21,6 +38,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	)
 	rogue_enabled = TRUE
 	var/isspawn = FALSE
+	var/isstray = FALSE
 	var/disguised = FALSE
 	var/ascended = FALSE
 	var/starved = FALSE
@@ -56,31 +74,34 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	remove_antag_hud(antag_hud_type, M)
 
 /datum/antagonist/vampirelord/on_gain()
-	SSmapping.retainer.vampires |= owner
+	if(!isstray)
+		SSmapping.retainer.vampires |= owner
 	. = ..()
 	owner.special_role = name
 	for(var/inherited_trait in inherent_traits)
 		ADD_TRAIT(owner.current, inherited_trait, "[type]")
 	owner.current.cmode_music = 'sound/music/combat_vamp2.ogg'
 	owner.current.AddSpell(new /obj/effect/proc_holder/spell/targeted/transfix)
-	owner.current.verbs |= /mob/living/carbon/human/proc/vamp_regenerate
-	owner.current.verbs |= /mob/living/carbon/human/proc/vampire_telepathy
+	owner.current.AddSpell(new /obj/effect/proc_holder/spell/self/regenerate)
 	vamp_look()
 	if(isspawn)
-		owner.current.verbs |= /mob/living/carbon/human/proc/disguise_button
-		add_objective(/datum/objective/vlordserve)
-		finalize_vampire_lesser()
-		for(var/obj/structure/vampire/bloodpool/mansion in GLOB.vampire_objects)
-			mypool = mansion
+		owner.current.AddSpell(new /obj/effect/proc_holder/spell/self/disguise)
 		equip_spawn()
-		greet()
-		addtimer(CALLBACK(owner.current, TYPE_PROC_REF(/mob/living/carbon/human, equipOutfit), /datum/outfit/job/roguetown/vampthrall), 5 SECONDS)
+		if(!isstray)
+			owner.current.verbs |= /mob/living/carbon/human/proc/vampire_telepathy
+			add_objective(/datum/objective/vlordserve)
+			finalize_vampire_lesser()
+			for(var/obj/structure/vampire/bloodpool/mansion in GLOB.vampire_objects)
+				mypool = mansion
+			greet()
+			addtimer(CALLBACK(owner.current, TYPE_PROC_REF(/mob/living/carbon/human, equipOutfit), /datum/outfit/job/roguetown/vampthrall), 5 SECONDS)
 
 	else
 		forge_vampirelord_objectives()
 		finalize_vampire()
 		owner.current.verbs |= /mob/living/carbon/human/proc/demand_submission
 		owner.current.verbs |= /mob/living/carbon/human/proc/punish_spawn
+		owner.current.verbs |= /mob/living/carbon/human/proc/vampire_telepathy
 		for(var/obj/structure/vampire/bloodpool/mansion in GLOB.vampire_objects)
 			mypool = mansion
 		equip_lord()
@@ -331,10 +352,10 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	V.update_hair()
 	V.update_body_parts(redraw = TRUE)
 	V.mob_biotypes = MOB_UNDEAD
-	V.vampire_disguise()
-	V.vampire_undisguise()
+	V.vampire_disguise(src, TRUE)
+	V.vampire_undisguise(src, TRUE)
 	if(isspawn)
-		V.vampire_disguise()
+		V.vampire_disguise(src, TRUE)
 
 /datum/antagonist/vampirelord/on_life(mob/user)
 	if(!user)
@@ -354,16 +375,13 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 				var/turf/T = H.loc
 				if(T.can_see_sky())
 					if(T.get_lumcount() > 0.15)
+						H.apply_status_effect(/datum/status_effect/debuff/sunspurn)
 						if(!isspawn)
 							if(!disguised)
-								to_chat(H, span_warning("Astrata spurns me! I must get out of her rays!")) // VLord is more punished for daylight excursions.
-								var/turf/N = H.loc
-								if(N.can_see_sky())
-									if(N.get_lumcount() > 0.15)
-										H.fire_act(3)
-										handle_vitae(-300)
-								to_chat(H, span_warning("THE SUN DESTROYS MY VERY ESSENCE!"))
-						else if (isspawn && !disguised)
+								H.fire_act(3)
+								handle_vitae(-300)
+								to_chat(H, span_warning("THE SUN DESTROYS MY VERY ESSENCE!"))  // VLord is more punished for daylight excursions.
+						else if(!disguised)
 							H.fire_act(1,5)
 							handle_vitae(-10)
 	if(H.on_fire)
@@ -427,7 +445,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 			to_chat(owner, "<font color='red'>I am refreshed and have grown stronger. The visage of the bat is once again available to me. I can also once again access my portals.</font>")
 		if(1)
 			vamplevel = 2
-			owner.current.verbs |= /mob/living/carbon/human/proc/vamp_regenerate
+			owner.current.AddSpell(new /obj/effect/proc_holder/spell/self/regenerate)
 			owner.current.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/bloodsteal)
 			owner.current.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/bloodlightning)
 			owner.current.adjust_skillrank(/datum/skill/magic/blood, 3, TRUE)
@@ -461,7 +479,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 				if(thrall.special_role == "Vampire Spawn")
 					thrall.current.verbs |= /mob/living/carbon/human/proc/blood_strength
 					thrall.current.verbs |= /mob/living/carbon/human/proc/blood_celerity
-					thrall.current.verbs |= /mob/living/carbon/human/proc/vamp_regenerate
+					thrall.current.AddSpell(new /obj/effect/proc_holder/spell/self/regenerate)
 	return
 
 // SPAWN
@@ -478,6 +496,16 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 
 /datum/antagonist/vampirelord/lesser/move_to_spawnpoint()
 	owner.current.forceMove(pick(GLOB.vlordspawn_starts))
+
+/datum/antagonist/vampirelord/lesser/stray //For virtue vampires
+	name = "Stray Vampire"
+	antag_hud_name = null
+	inherent_traits = list(TRAIT_STRONGBITE, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_NOPAIN, TRAIT_TOXIMMUNE, TRAIT_STEELHEARTED, TRAIT_NOSLEEP, TRAIT_VAMP_DREAMS)
+	isstray = TRUE
+	sired = TRUE
+
+/datum/antagonist/vampirelord/lesser/stray/equip_spawn()
+	owner.current.adjust_skillrank(/datum/skill/magic/blood, 1, TRUE)
 
 // NEW VERBS
 /mob/living/carbon/human/proc/demand_submission()
@@ -969,6 +997,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		return TRUE
 
 /datum/antagonist/vampirelord/roundend_report()
+	if(isstray)
+		return
 	var/traitorwin = TRUE
 
 	printplayer(owner)
@@ -1299,6 +1329,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 			return
 		if(L.cmode)
 			willroll += 10
+		if(L.compliance)
+			willroll = 0
 		var/found_psycross = FALSE
 		for(var/obj/item/clothing/neck/roguetown/psicross/silver/I in L.contents) //Subpath fix.
 			found_psycross = TRUE

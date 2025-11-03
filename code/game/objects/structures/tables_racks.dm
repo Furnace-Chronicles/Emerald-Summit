@@ -94,6 +94,10 @@
 /obj/structure/table/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover) && (mover.pass_flags & PASSTABLE))
 		return 1
+	if(isliving(mover))
+		var/mob/living/M = mover
+		if(M.movement_type & FLYING)
+			return 1
 	if(mover.throwing)
 		return 1
 	if(locate(/obj/structure/table) in get_turf(mover))
@@ -505,6 +509,10 @@
 /obj/structure/rack/CanPass(atom/movable/mover, turf/target)
 	if(src.density == 0) //Because broken racks -Agouri |TODO: SPRITE!|
 		return 1
+	if(isliving(mover))
+		var/mob/living/M = mover
+		if(M.movement_type & FLYING)
+			return 1
 	if(istype(mover) && (mover.pass_flags & PASSTABLE))
 		return 1
 	else
@@ -603,8 +611,7 @@
 	icon_state = "optable"
 	smooth = SMOOTH_FALSE
 	can_buckle = 1
-	buckle_lying = -1
-	buckle_requires_restraints = 1
+	buckle_lying = 90
 	var/mob/living/carbon/human/patient = null
 
 /obj/structure/table/optable/Initialize()

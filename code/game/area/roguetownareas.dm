@@ -500,6 +500,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound = 'sound/music/area/underdark.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
+	ceiling_protected = TRUE
 
 /area/rogue/under/cave/spider
 	icon_state = "spider"
@@ -510,6 +511,8 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = null
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/spidercave
+	ceiling_protected = TRUE
+
 /area/rogue/outdoors/spidercave
 	icon_state = "spidercave"
 	droning_sound = 'sound/music/area/spidercave.ogg'
@@ -525,6 +528,8 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = null
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/spidercave
+	ceiling_protected = TRUE
+
 /area/rogue/outdoors/spidercave
 	icon_state = "spidercave"
 	droning_sound = 'sound/music/area/spidercave.ogg'
@@ -551,6 +556,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = null
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/exposed/decap
+
 /area/rogue/outdoors/exposed/decap
 	icon_state = "decap"
 	droning_sound = 'sound/music/area/decap.ogg'
@@ -572,6 +578,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = null
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/dungeon1
+	ceiling_protected = TRUE
 
 /area/rogue/under/cave/licharena
 	name = "licharena"
@@ -581,6 +588,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = null
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/dungeon1
+	ceiling_protected = TRUE
 
 /area/rogue/under/cave/dragonden
 	name = "dragonnest"
@@ -590,6 +598,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = null
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/dungeon1
+	ceiling_protected = TRUE
 
 /area/rogue/under/cave/goblinfort
 	name = "goblinfort"
@@ -599,6 +608,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = null
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/dungeon1
+	ceiling_protected = TRUE
 
 /area/rogue/under/cave/scarymaze
 	name = "hauntedlabyrinth"
@@ -608,6 +618,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = 'sound/music/area/underworlddrone.ogg'
 	droning_sound_night = 'sound/music/area/underworlddrone.ogg'
 	converted_type = /area/rogue/outdoors/dungeon1
+	ceiling_protected = TRUE
 
 /area/rogue/under/cave/undeadmanor
 	name = "skelemansion"
@@ -617,6 +628,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = null
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/dungeon1
+	ceiling_protected = TRUE
 
 /area/rogue/outdoors/dungeon1
 	name = "smalldungeonoutdoors"
@@ -624,6 +636,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound = 'sound/music/area/dungeon.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
+	ceiling_protected = TRUE
 
 /area/rogue/under/cave/mazedungeon
 	name = "mazedungeon"
@@ -675,6 +688,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = null
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/dungeon1
+	ceiling_protected = TRUE
 
 /area/rogue/under/cave/inhumen
 	name = "inhumen"
@@ -684,6 +698,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = 'sound/music/unholy.ogg'
 	droning_sound_night = 'sound/music/unholy.ogg'
 	converted_type = /area/rogue/outdoors/dungeon1
+	ceiling_protected = TRUE
 
 /area/rogue/under/cave/inhumen/entrance // Only use these around traveltiles - Constantine
 	name = "inhumen"
@@ -1092,3 +1107,4 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = null
 	droning_sound_night = null
 	first_time_text = "The Forest of Repentence"
+	ceiling_protected = TRUE //LOL

@@ -197,3 +197,61 @@
 			add_overlay("unlocked")
 	else
 		add_overlay("glass_raised")
+
+//executioners blade
+/obj/structure/fireaxecabinet/dungeoneer
+	name = "Terminus Est mantle"
+	desc = "A fitting resting place for a wicked edge of justice."
+	icon = 'icons/obj/wallmounts.dmi'
+	icon_state = "fireaxe"
+	heirloom = /obj/item/rogueweapon/sword/long/exe/cloth
+
+/obj/structure/fireaxecabinet/dungeoneer/Initialize()
+	. = ..()
+	heirloom = new /obj/item/rogueweapon/sword/long/exe/cloth
+	desc = heirloom.desc
+	update_icon()
+
+/obj/structure/fireaxecabinet/dungeoneer/south
+	dir = SOUTH
+	pixel_y = 32
+
+/obj/structure/fireaxecabinet/dungeoneer/attackby(obj/item/I, mob/user, params)
+	if(I.tool_behaviour == TOOL_MULTITOOL)
+		toggle_lock(user)
+	else if(I.tool_behaviour == TOOL_WELDER && user.used_intent.type == INTENT_HELP && !obj_broken)
+		if(obj_integrity < max_integrity)
+			if(!I.tool_start_check(user, amount=2))
+				return
+
+	else if(open || obj_broken)
+		if(istype(I, /obj/item/rogueweapon/sword/long/exe/cloth) && !heirloom)
+			var/obj/item/rogueweapon/sword/long/exe/cloth/F = I
+			if(F.wielded)
+				to_chat(user, "<span class='warning'>Unwield the [F.name] first.</span>")
+				return
+			if(!user.transferItemToLoc(F, src))
+				return
+			heirloom = F
+			to_chat(user, "<span class='notice'>I place the [F.name] back in the [name].</span>")
+			desc = F.desc
+			update_icon()
+			return
+		else if(!obj_broken)
+			desc = initial(desc)
+			toggle_open()
+	else
+		return ..()
+
+/obj/structure/fireaxecabinet/dungeoneer/update_icon()
+	cut_overlays()
+	if(heirloom)
+		add_overlay("fireaxe_executioner")
+	if(!open)
+
+		if(locked)
+			add_overlay("locked")
+		else
+			add_overlay("unlocked")
+	else
+		add_overlay("glass_raised")

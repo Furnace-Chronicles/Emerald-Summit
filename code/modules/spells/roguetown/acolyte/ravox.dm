@@ -3,6 +3,7 @@
 //Divine Strike - Enhance your held weapon to have the next strike do extra damage and slow the target. Undead debuffed more.
 /obj/effect/proc_holder/spell/self/divine_strike
 	name = "Divine Strike"
+	desc = "Enhance your held weapon to deal additional damage and slow the victim. Undead take additional damage."
 	overlay = "createlight"
 	recharge_time = 1 MINUTES
 	movement_interrupt = FALSE
@@ -107,6 +108,7 @@
 //Persistence - Harms the shit out of an undead mob/player while causing bleeding/pain wounds to clot at higher rate for living ones. Basically a 'shittier' yet still good greater heal effect.
 /obj/effect/proc_holder/spell/invoked/persistence
 	name = "Persistence"
+	desc = "Slows the target's bleeding. Harms the undead."
 	overlay_state = "astrata"
 	releasedrain = 30
 	chargedrain = 0
@@ -173,19 +175,19 @@
 
 		if(iscarbon(target))
 			var/mob/living/carbon/C = target
-			var/obj/item/bodypart/affecting = get_most_damaged_limb(C) 
+			var/obj/item/bodypart/affecting = get_most_damaged_limb(C)
 			if(affecting)
 				for(var/datum/wound/bleeder in affecting.wounds)
 					bleeder.woundpain = max(bleeder.sewn_woundpain, bleeder.woundpain * 0.25)
 					if(!isnull(bleeder.clotting_threshold) && bleeder.bleed_rate > bleeder.clotting_threshold)
 						var/difference = bleeder.bleed_rate - bleeder.clotting_threshold
-						bleeder.bleed_rate = max(bleeder.clotting_threshold, bleeder.bleed_rate - difference * situational_bonus)
+						bleeder.set_bleed_rate(max(bleeder.clotting_threshold, bleeder.bleed_rate - difference * situational_bonus))
 		else if(HAS_TRAIT(target, TRAIT_SIMPLE_WOUNDS))
 			for(var/datum/wound/bleeder in target.simple_wounds)
 				bleeder.woundpain = max(bleeder.sewn_woundpain, bleeder.woundpain * 0.25)
 				if(!isnull(bleeder.clotting_threshold) && bleeder.bleed_rate > bleeder.clotting_threshold)
 					var/difference = bleeder.bleed_rate - bleeder.clotting_threshold
-					bleeder.bleed_rate = max(bleeder.clotting_threshold, bleeder.bleed_rate - difference * situational_bonus)
+					bleeder.set_bleed_rate(max(bleeder.clotting_threshold, bleeder.bleed_rate - difference * situational_bonus))
 		return TRUE
 	return FALSE
 
@@ -196,6 +198,7 @@
 
 /obj/effect/proc_holder/spell/invoked/tug_of_war
 	name = "Tug of War"
+	desc = "Pull a target toward you."
 	overlay_state = "ravox_tug"
 	recharge_time = 1 MINUTES
 	movement_interrupt = TRUE

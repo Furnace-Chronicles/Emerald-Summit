@@ -32,7 +32,8 @@
 							/obj/structure/closet/dirthole/closed/loot = 3,
 							/obj/structure/flora/roguegrass/swampweed = 10,
 							/obj/structure/flora/roguegrass/bush/westleach = 10,
-							/obj/structure/flora/roguegrass/maneater/real = 3)
+							/obj/structure/flora/roguegrass/maneater/real = 3,
+							/obj/structure/zizo_bane = 2)
 	spawnableTurfs = list(/turf/open/floor/rogue/dirt/road=2,
 						/turf/open/water/swamp=1)
 	allowed_areas = list(/area/rogue/outdoors/bog)
@@ -74,4 +75,5 @@
 	allowed_areas = list(/area/rogue/outdoors/bog)
 	spawnableAtoms = list(/obj/structure/glowshroom = 44,
 							/obj/item/restraints/legcuffs/beartrap/armed = 10,
-							/obj/structure/flora/roguetree/stump/log = 3)
+							/obj/structure/flora/roguetree/stump/log = 3,
+							/obj/structure/zizo_bane = 2)

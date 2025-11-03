@@ -93,7 +93,7 @@ GLOBAL_LIST_EMPTY(graggar_cullings)
 	weight = 8
 	earliest_start = 25 MINUTES
 	max_occurrences = 1
-	min_players = 40
+	min_players = 80
 	allowed_storytellers = list(/datum/storyteller/graggar)
 
 /datum/round_event_control/graggar_culling/canSpawnEvent(players_amt, gamemode, fake_check)

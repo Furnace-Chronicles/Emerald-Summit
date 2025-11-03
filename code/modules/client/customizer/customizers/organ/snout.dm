@@ -327,3 +327,31 @@
 		/datum/sprite_accessory/snout/stubby,
 		/datum/sprite_accessory/snout/stubbyalt,
 		)
+
+/datum/customizer/organ/snout/harpy
+	name = "Harpy Beak"
+	customizer_choices = list(/datum/customizer_choice/organ/snout/harpy)
+	allows_disabling = TRUE
+	default_disabled = TRUE
+
+/datum/customizer_choice/organ/snout/harpy
+	name = "Harpy Beak"
+	organ_type = /obj/item/organ/snout/harpy
+//	allows_accessory_color_customization = FALSE
+	sprite_accessories = list(
+		/datum/sprite_accessory/snout/thin_beak/bigbeak,
+		/datum/sprite_accessory/snout/thin_beak/bigbeakshort,
+		/datum/sprite_accessory/snout/thin_beak/slimbeak,
+		/datum/sprite_accessory/snout/thin_beak/slimbeakshort,
+		/datum/sprite_accessory/snout/thin_beak/slimbeakalt,
+		/datum/sprite_accessory/snout/thin_beak/hookbeak,
+		/datum/sprite_accessory/snout/thin_beak/hookbeakbig,
+		/datum/sprite_accessory/snout/bird,
+		/datum/sprite_accessory/snout/bigbeak,
+		/datum/sprite_accessory/snout/bigbeakshort,
+		/datum/sprite_accessory/snout/slimbeak,
+		/datum/sprite_accessory/snout/slimbeakshort,
+		/datum/sprite_accessory/snout/slimbeakalt,
+		/datum/sprite_accessory/snout/hookbeak,
+		/datum/sprite_accessory/snout/hookbeakbig,
+	)

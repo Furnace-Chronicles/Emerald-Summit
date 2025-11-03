@@ -276,3 +276,11 @@
 		message = lizard_hiSS.Replace(message, "Sss")
 	speech_args[SPEECH_MESSAGE] = message
 
+/obj/item/organ/tongue/harpy
+	name = "bird tongue"
+	desc = "Chirp chirp chirp chirp chirp!!"
+	icon_state = "tongue-con"
+	say_mod = "chirps"
+	taste_sensitivity = 5
+	modifies_speech = FALSE
+

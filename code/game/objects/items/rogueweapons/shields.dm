@@ -10,7 +10,7 @@
 	name = ""
 	desc = ""
 	icon_state = ""
-	icon = 'icons/roguetown/weapons/32.dmi'
+	icon = 'icons/roguetown/weapons/shields32.dmi'
 	slot_flags = ITEM_SLOT_BACK
 	flags_1 = null
 	force = 10
@@ -65,8 +65,11 @@
 	if(attacker && istype(attacker))
 		if (!owner.can_see_cone(attacker))
 			return FALSE
+		if(obj_broken) // No blocking with a broken shield you fool
+			return FALSE
 		if((owner.client?.chargedprog == 100 && owner.used_intent?.tranged) || prob(coverage))
 			owner.visible_message(span_danger("[owner] expertly blocks [hitby] with [src]!"))
+			src.take_damage(floor(damage / 2)) // Halved damage so they don't feel too fragile
 			return TRUE
 	return FALSE
 
@@ -211,24 +214,34 @@
 	name = "Covenant"
 	desc = "A Psydonian endures. A Psydonian preserves themselves. A Psydonian preserves His flock."
 	icon_state = "psyshield"
-	force = 20
-	throwforce = 10
+	force = 15
+	throwforce = 5
 	throw_speed = 1
 	throw_range = 3
 	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK, SHIELD_SMASH_METAL)
 	wlength = WLENGTH_NORMAL
 	resistance_flags = null
 	flags_1 = CONDUCT_1
-	wdefense = 11
+	wdefense = 14
 	coverage = 50
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
-	max_integrity = 300
+	max_integrity = 350
 	blade_dulling = DULLING_SHAFT_METAL
+	is_silver = TRUE
+	smeltresult = /obj/item/ingot/silver
+
 
 /obj/item/rogueweapon/shield/tower/metal/psy/ComponentInitialize()
-	. = ..()							//+0 force, +100 int, +1 def, make silver
-	AddComponent(/datum/component/psyblessed, TRUE, 0, FALSE, 100, 1, TRUE)	
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = -3,\
+		added_blade_int = 0,\
+		added_int = 100,\
+		added_def = 1,\
+	)
 
 /obj/item/rogueweapon/shield/tower/metal/alloy
 	name = "decrepit shield"
@@ -390,7 +403,7 @@
 	name = "'Order'"
 	desc = "A special buckler shield made out of blacksteel for the captain of the guard, adorned with the Scarlet Reach crest."
 	icon_state = "capbuckler"
-	icon = 'icons/roguetown/weapons/special/captain.dmi'
+	icon = 'icons/roguetown/weapons/shields32.dmi'
 	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BACK
 	force = 20
 	throwforce = 10

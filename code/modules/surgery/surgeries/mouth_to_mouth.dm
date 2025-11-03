@@ -39,8 +39,8 @@
 
 /datum/surgery_step/mouth_to_mouth/preop(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
 	display_results(user, target, span_notice("I attempt to breath air into [target]'s mouth."),
-			span_notice("[user] attempts to breath air into [target]'s mouth."),
-			span_notice("[user] attempts to breath air into [target]'s mouth."))
+			span_notice("[user] attempts to breathe air into [target]'s mouth."),
+			span_notice("[user] attempts to breathe air into [target]'s mouth."))
 	return TRUE
 
 /datum/surgery_step/mouth_to_mouth/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
