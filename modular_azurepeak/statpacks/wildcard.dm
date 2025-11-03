@@ -18,6 +18,7 @@
 /datum/statpack/wildcard/austere
 	name = "Austere"
 	desc = "You've kept your humors balanced, your body honed and mind sharp enough. Fate has left you mostly unchanged, in every way."
+	stat_array = list(STAT_FORTUNE = 1)
 
 /datum/statpack/wildcard/virtuous
 	name = "Virtuous"
