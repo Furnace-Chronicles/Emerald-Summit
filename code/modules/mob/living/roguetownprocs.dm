@@ -1,3 +1,11 @@
+#define ULTRA_PRECISE_ZONE 1 
+#define PRECISE_ZONE 2 
+#define NO_PENALTY_ZONE 3
+#define RANGED_MAX_ULTRA_PRECISE_HIT_CHANCE 50 // No matter what max 50% chance to hit
+#define RANGED_ULTRA_PRECISE_HIT_PENALTY -25 // -25 for you - THEN we clamp.
+#define RANGED_MAX_PRECISE_HIT_CHANCE 75 // No matter what max 75% chance to hit
+#define RANGED_PRECISE_HIT_PENALTY -10 // -10 - THEN we clamp.
+
 /proc/accuracy_check(zone, mob/living/user, mob/living/target, associated_skill, datum/intent/used_intent, obj/item/I)
 	if(!zone)
 		return
@@ -89,6 +97,55 @@
 		user.aftermiss()
 		return TRUE
 
+/proc/ranged_zone_difficulty(zone)
+	switch(zone)
+		//Hyper specific targetting is very difficult
+		if(BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE,
+		   BODY_ZONE_PRECISE_SKULL, BODY_ZONE_PRECISE_EARS,
+		   BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_MOUTH,
+		   BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND,
+		   BODY_ZONE_PRECISE_L_FOOT, BODY_ZONE_PRECISE_R_FOOT)
+			return ULTRA_PRECISE_ZONE
+
+		// Head, arms, legs are all harder to hit then chest, but doable
+		if(BODY_ZONE_HEAD, BODY_ZONE_PRECISE_NECK,
+		   BODY_ZONE_L_ARM, BODY_ZONE_R_ARM,
+		   BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+			return PRECISE_ZONE
+
+	return NO_PENALTY_ZONE // Groin, Stomach and Chest are OK and Center of Mass.
+
+// Based on the remaining accuracy of the projectile and the aimed zone, return the zone, precise zone or chest
+/mob/living/proc/bullet_hit_accuracy_check(final_accuracy, def_zone = BODY_ZONE_CHEST)
+	// No matter what, 5% chance to hit the zone. No benefit from overaccuracy (unlikely)
+	var/zone_type = ranged_zone_difficulty(def_zone)
+	var/chance2hit = final_accuracy
+	// If you aim very precisely, you take -25 on hit chance, and then no matter what, it is clamped at 50%
+	// If you aim precisely (at limb), -10, 75% max.
+	// Aiming very precise part has a chance of hitting the parent limb instead.
+
+	switch(zone_type)
+		if(ULTRA_PRECISE_ZONE)
+			chance2hit -= RANGED_ULTRA_PRECISE_HIT_PENALTY
+			chance2hit = CLAMP(chance2hit, 5, RANGED_MAX_ULTRA_PRECISE_HIT_CHANCE)
+		if(PRECISE_ZONE)
+			chance2hit -= RANGED_PRECISE_HIT_PENALTY
+			chance2hit = CLAMP(chance2hit, 5, RANGED_MAX_PRECISE_HIT_CHANCE)
+
+	if(prob(chance2hit))
+		return def_zone
+	else if(prob(chance2hit))
+		return check_zone(def_zone)
+	else
+		return BODY_ZONE_CHEST
+
+#undef ULTRA_PRECISE_ZONE
+#undef PRECISE_ZONE
+#undef NO_PENALTY_ZONE
+#undef RANGED_MAX_PRECISE_HIT_CHANCE
+#undef RANGED_ULTRA_PRECISE_HIT_PENALTY
+#undef RANGED_MAX_ULTRA_PRECISE_HIT_CHANCE
+#undef RANGED_PRECISE_HIT_PENALTY
 
 /mob/living/proc/checkdefense(datum/intent/intenty, mob/living/user)
 	testing("begin defense")
@@ -461,7 +518,7 @@
 			if(W)
 				playsound(get_turf(src), pick(W.parrysound), 100, FALSE)
 			if(src.client)
-				GLOB.scarlet_round_stats[STATS_PARRIES]++
+				record_round_statistic(STATS_PARRIES)
 			if(istype(rmb_intent, /datum/rmb_intent/riposte))
 				src.visible_message(span_boldwarning("<b>[src]</b> ripostes [user] with [W]!"))
 			else
@@ -486,14 +543,14 @@
 			playsound(get_turf(src), pick(parry_sound), 100, FALSE)
 			src.visible_message(span_warning("<b>[src]</b> parries [user]!"))
 			if(src.client)
-				GLOB.scarlet_round_stats[STATS_PARRIES]++
+				record_round_statistic(STATS_PARRIES)
 			return TRUE
 		else
 			to_chat(src, span_boldwarning("I'm too tired to parry!"))
 			return FALSE
 	else
 		if(src.client)
-			GLOB.scarlet_round_stats[STATS_PARRIES]++
+			record_round_statistic(STATS_PARRIES)
 		playsound(get_turf(src), pick(parry_sound), 100, FALSE)
 		return TRUE
 
@@ -746,10 +803,10 @@
 	if(!IU)	//The opponent is trying to rawdog us with their bare hands while we have Guard up. We get a free attack on their active hand.
 		var/obj/item/bodypart/affecting = H.get_bodypart("[(user.active_hand_index % 2 == 0) ? "r" : "l" ]_arm")
 		var/force = get_complex_damage(IM, src)
-		var/armor_block = H.run_armor_check(BODY_ZONE_PRECISE_L_HAND, used_intent.item_d_type, armor_penetration = used_intent.penfactor, damage = force)
+		var/armor_block = H.run_armor_check(BODY_ZONE_PRECISE_L_HAND, used_intent.item_d_type, armor_penetration = used_intent.penfactor, damage = force, used_weapon = IM)
 		if(H.apply_damage(force, IM.damtype, affecting, armor_block))
 			visible_message(span_suicide("[src] gores [user]'s hands with \the [IM]!"))
-			affecting.bodypart_attacked_by(used_intent.blade_class, force, crit_message = TRUE)
+			affecting.bodypart_attacked_by(used_intent.blade_class, force, crit_message = TRUE, weapon = IM)
 		else
 			visible_message(span_suicide("[src] clashes into [user]'s hands with \the [IM]!"))
 		playsound(src, pick(used_intent.hitsound), 80)

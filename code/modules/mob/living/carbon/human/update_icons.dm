@@ -68,8 +68,29 @@ There are several things that need to be remembered:
 	dna.species.handle_body(src)
 	..()
 
+#define SUNDER_FILTER "sunder_filter"
+
 /mob/living/carbon/human/update_fire()
-	if(fire_stacks + divine_fire_stacks < 10)
+	var/datum/status_effect/fire_handler/fire_stacks/sunder/sunder_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder)
+	var/datum/status_effect/fire_handler/fire_stacks/sunder/blessed/blessed_sunder = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
+	if(sunder_status?.on_fire || blessed_sunder?.on_fire)
+		var/filter = get_filter(SUNDER_FILTER)
+		if(!filter)
+			add_filter(SUNDER_FILTER, 2, list("type" = "outline", "color" = "#ffffff", "alpha" = 60, "size" = 1))
+		if(!sunder_light_obj)
+			sunder_light_obj = mob_light("#f5edda", 5, 5)
+		remove_overlay(SUNDER_LAYER)
+		var/mutable_appearance/new_fire_overlay = mutable_appearance('icons/mob/OnFire.dmi', "sunder_burning", -SUNDER_LAYER)
+		new_fire_overlay.appearance_flags = RESET_COLOR
+		overlays_standing[SUNDER_LAYER] = new_fire_overlay
+		apply_overlay(SUNDER_LAYER)
+		return
+	else
+		remove_filter(SUNDER_FILTER)
+		remove_overlay(SUNDER_LAYER)
+		QDEL_NULL(sunder_light_obj)
+
+	if(fire_stacks < 10)
 		return ..("Generic_mob_burning")
 	else
 		var/burning = dna.species.enflamed_icon
@@ -77,6 +98,7 @@ There are several things that need to be remembered:
 			return ..("widefire")
 		return ..(burning)
 
+#undef SUNDER_FILTER
 
 /mob/living/carbon/human/update_damage_overlays()
 	START_PROCESSING(SSdamoverlays,src)
@@ -465,7 +487,7 @@ There are several things that need to be remembered:
 
 			//add sleeve overlays, then offset
 			var/list/sleeves = list()
-			if(gloves.sleeved && armsindex > 0)
+			if(gloves.sleeved && armsindex > 0 && !should_hide_sleeves_for_layer(GLOVESLEEVE_LAYER))
 				sleeves = get_sleeves_layer(gloves,armsindex,GLOVESLEEVE_LAYER)
 
 			if(sleeves)
@@ -521,7 +543,7 @@ There are several things that need to be remembered:
 
 			//add sleeve overlays, then offset
 			var/list/sleeves = list()
-			if(wear_wrists.sleeved && armsindex > 0)
+			if(wear_wrists.sleeved && armsindex > 0 && !should_hide_sleeves_for_layer(WRISTSLEEVE_LAYER))
 				sleeves = get_sleeves_layer(wear_wrists,armsindex,WRISTSLEEVE_LAYER)
 
 			if(sleeves)
@@ -538,6 +560,7 @@ There are several things that need to be remembered:
 				overlays_standing[WRISTSLEEVE_LAYER] = sleeves
 
 	rebuild_obscured_flags()
+	update_inv_gloves()
 	apply_overlay(WRISTS_LAYER)
 	apply_overlay(WRISTSLEEVE_LAYER)
 
@@ -629,7 +652,7 @@ There are several things that need to be remembered:
 
 			//add sleeve overlays, then offset
 			var/list/sleeves = list()
-			if(shoes.sleeved && footindex > 0)
+			if(shoes.sleeved && footindex > 0 && !should_hide_sleeves_for_layer(SHOESLEEVE_LAYER))
 				sleeves = get_sleeves_layer(shoes,footindex,SHOESLEEVE_LAYER)
 			if(sleeves)
 				for(var/X in sleeves)
@@ -670,7 +693,7 @@ There are several things that need to be remembered:
 	return
 
 
-/mob/living/carbon/human/update_inv_head()
+/mob/living/carbon/human/update_inv_head(hide_nonstandard = FALSE)
 	remove_overlay(HEAD_LAYER)
 
 	if(!get_bodypart(BODY_ZONE_HEAD)) //Decapitated
@@ -700,7 +723,7 @@ There are several things that need to be remembered:
 	rebuild_obscured_flags()
 	update_hair() //hoodies
 
-/mob/living/carbon/human/update_inv_belt()
+/mob/living/carbon/human/update_inv_belt(hide_experimental = FALSE)
 	remove_overlay(BELT_LAYER)
 	remove_overlay(BELT_BEHIND_LAYER)
 
@@ -726,7 +749,7 @@ There are several things that need to be remembered:
 		if(!(cloak && (cloak.flags_inv & HIDEBELT)))
 			var/mutable_appearance/onbelt_overlay
 			var/mutable_appearance/onbelt_behind
-			if(beltr.experimental_onhip)
+			if(beltr.experimental_onhip && !hide_experimental)
 				var/list/prop
 				if(beltr.force_reupdate_inhand)
 					prop = beltr?.onprop?["onbelt"]
@@ -787,7 +810,7 @@ There are several things that need to be remembered:
 		if(!(cloak && (cloak.flags_inv & HIDEBELT)))
 			var/mutable_appearance/onbelt_overlay
 			var/mutable_appearance/onbelt_behind
-			if(beltl.experimental_onhip)
+			if(beltl.experimental_onhip && !hide_experimental)
 				var/list/prop
 				if(beltl.force_reupdate_inhand)
 					prop = beltl.onprop?["onbelt"]
@@ -942,7 +965,7 @@ There are several things that need to be remembered:
 		overlays_standing[MASK_LAYER] = mask_overlay
 		apply_overlay(MASK_LAYER)
 
-/mob/living/carbon/human/update_inv_back()
+/mob/living/carbon/human/update_inv_back(hide_experimental = FALSE)
 	remove_overlay(BACK_LAYER)
 	remove_overlay(BACK_BEHIND_LAYER)
 	remove_overlay(UNDER_CLOAK_LAYER)
@@ -963,7 +986,7 @@ There are several things that need to be remembered:
 			var/mutable_appearance/back_overlay
 			var/mutable_appearance/behindback_overlay
 			update_hud_backr(backr)
-			if(backr.experimental_onback)
+			if(backr.experimental_onback && !hide_experimental)
 				var/list/prop
 				if(backr.force_reupdate_inhand)
 					prop = backr.onprop?["onback"]
@@ -1016,7 +1039,7 @@ There are several things that need to be remembered:
 			update_hud_backl(backl)
 			var/mutable_appearance/back_overlay
 			var/mutable_appearance/behindback_overlay
-			if(backl.experimental_onback)
+			if(backl.experimental_onback && !hide_experimental)
 				var/list/prop
 				if(backl.force_reupdate_inhand)
 					prop = backl.onprop?["onback"]
@@ -1233,7 +1256,7 @@ There are several things that need to be remembered:
 
 			//add sleeve overlays, then offset
 			var/list/sleeves = list()
-			if(wear_shirt.sleeved && armsindex > 0)
+			if(wear_shirt.sleeved && armsindex > 0 && !should_hide_sleeves_for_layer(SHIRTSLEEVE_LAYER))
 				sleeves = get_sleeves_layer(wear_shirt,armsindex,SHIRTSLEEVE_LAYER)
 
 			if(sleeves)
@@ -1254,6 +1277,8 @@ There are several things that need to be remembered:
 		update_body_parts(redraw = TRUE)
 		dna.species.handle_body(src)
 	update_hair()
+	update_inv_wrists()
+	// Note: wrists will update gloves in its own update
 
 	apply_overlay(SHIRT_LAYER)
 	apply_overlay(SHIRTSLEEVE_LAYER)
@@ -1300,7 +1325,7 @@ There are several things that need to be remembered:
 
 			//add sleeve overlays, then offset
 			var/list/sleeves = list()
-			if(wear_armor.sleeved && armsindex > 0)
+			if(wear_armor.sleeved && armsindex > 0 && !should_hide_sleeves_for_layer(ARMORSLEEVE_LAYER))
 				sleeves = get_sleeves_layer(wear_armor,armsindex,ARMORSLEEVE_LAYER)
 
 			if(sleeves)
@@ -1373,7 +1398,7 @@ There are several things that need to be remembered:
 			//add sleeve overlays, then offset
 			var/list/sleeves = list()
 			var/femw = ((gender == FEMALE && !dna.species.use_m) || dna.species.use_f) ? "_f" : ""
-			if(wear_pants.sleeved && legsindex > 0 && wear_pants.adjustable != CADJUSTED)
+			if(wear_pants.sleeved && legsindex > 0 && wear_pants.adjustable != CADJUSTED && !should_hide_sleeves_for_layer(LEGSLEEVE_LAYER))
 				sleeves = get_sleeves_layer(wear_pants,legsindex,LEGSLEEVE_LAYER)
 			if(wear_pants.adjustable == CADJUSTED)
 				var/mutable_appearance/overleg = mutable_appearance(wear_pants.mob_overlay_icon, "[wear_pants.icon_state][femw][racecustom ? "_[racecustom]" : ""]", -LEGSLEEVE_LAYER)
@@ -1677,6 +1702,35 @@ generate/load female uniform sprites matching all previously decided variables
 		standing.filters += filter(type = "alpha", icon = clip_mask)
 
 	return standing
+
+/mob/living/carbon/human/proc/should_hide_sleeves_for_layer(layer)
+	// Check if any higher-layer clothing covers arms without having sleeve overlays
+	// This prevents lower-layer sleeve overlays from clipping through
+	switch(layer)
+		if(GLOVESLEEVE_LAYER)
+			if(wear_armor && (wear_armor.body_parts_covered & ARMS) && !wear_armor.sleeved)
+				return TRUE
+			if(wear_shirt && (wear_shirt.body_parts_covered & ARMS) && !wear_shirt.sleeved)
+				return TRUE
+			if(wear_wrists && (wear_wrists.body_parts_covered & ARMS) && !wear_wrists.sleeved)
+				return TRUE
+		if(ARMORSLEEVE_LAYER)
+			if(wear_armor && (wear_armor.body_parts_covered & ARMS) && !wear_armor.sleeved)
+				return TRUE
+			if(wear_shirt && (wear_shirt.body_parts_covered & ARMS) && !wear_shirt.sleeved)
+				return TRUE
+		if(WRISTSLEEVE_LAYER)
+			if(wear_armor && (wear_armor.body_parts_covered & ARMS) && !wear_armor.sleeved)
+				return TRUE
+			if(wear_shirt && (wear_shirt.body_parts_covered & ARMS) && !wear_shirt.sleeved)
+				return TRUE
+		if(SHIRTSLEEVE_LAYER)
+			if(wear_armor && (wear_armor.body_parts_covered & ARMS) && !wear_armor.sleeved)
+				return TRUE
+		if(SHOESLEEVE_LAYER, LEGSLEEVE_LAYER)
+			if(wear_pants && (wear_pants.body_parts_covered & LEGS) && !wear_pants.sleeved)
+				return TRUE
+	return FALSE
 
 /mob/living/carbon/proc/get_sleeves_layer(obj/item/I,sleeveindex,layer2use)
 	if(!I)

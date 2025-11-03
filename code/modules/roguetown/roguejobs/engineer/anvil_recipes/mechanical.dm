@@ -3,6 +3,15 @@
 	appro_skill = /datum/skill/craft/engineering
 	craftdiff = 1
 
+//--------- TIN RECIPES -----------
+
+/datum/anvil_recipe/engineering/nails
+	name = "3x nails"
+	req_bar = /obj/item/ingot/tin
+	created_item = /obj/item/construction/nail
+	createditem_num = 3
+	craftdiff = 1
+
 // --------- IRON RECIPES -----------
 
 /datum/anvil_recipe/engineering/jingle_bells
@@ -66,6 +75,14 @@
 	created_item = /obj/item/customblank
 	createditem_num = 2
 	craftdiff = 1
+
+/datum/anvil_recipe/engineering/bronze/wrench
+	name = "Engineering Wrench (+1 cog)"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/contraption/linker
+	additional_items = list(/obj/item/roguegear)
+	createditem_num = 1
+	craftdiff = 0
 
 /datum/anvil_recipe/engineering/bronze/cog
 	name = "Cog 2x"

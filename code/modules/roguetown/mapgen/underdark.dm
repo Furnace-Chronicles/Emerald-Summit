@@ -30,5 +30,6 @@
 							/obj/structure/flora/rogueshroom/happy/random = 40,
 							/obj/structure/flora/rogueshroom = 20,
 							/obj/structure/flora/tinymushrooms = 20,
+							/obj/structure/zizo_bane = 2,
 							/obj/structure/flora/roguegrass = 30,
 							/obj/structure/flora/roguegrass/herb/random = 5)

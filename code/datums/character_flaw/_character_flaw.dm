@@ -23,6 +23,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	"Critical Weakness"=/datum/charflaw/critweakness,
 	"Foreigner"=/datum/charflaw/foreigner,
 	"Damned"=/datum/charflaw/damned,
+	"Lawless"=/datum/charflaw/lawless,
 	"Random or No Flaw"=/datum/charflaw/randflaw,
 	"No Flaw (3 TRIUMPHS)"=/datum/charflaw/noflaw,
 	))

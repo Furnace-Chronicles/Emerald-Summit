@@ -14,6 +14,7 @@
 	name = "Reshape face"
 	implements = list(
 		TOOL_SCALPEL = 70,
+		TOOL_IMPROVISED_SCALPEL = 60,
 		TOOL_WIRECUTTER = 50,
 		TOOL_SHARP = 35,
 	)

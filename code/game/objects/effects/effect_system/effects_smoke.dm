@@ -64,6 +64,8 @@
 		return 0
 	if(istype(C.wear_mask, /obj/item/clothing/mask/rogue/facemask/steel/confessor))
 		return 0
+	if(HAS_TRAIT(C, TRAIT_NOBREATH) || HAS_TRAIT(C, TRAIT_NOMETABOLISM))
+		return 0
 	C.smoke_delay++
 	addtimer(CALLBACK(src, PROC_REF(remove_smoke_delay), C), 10)
 	return 1
@@ -137,6 +139,110 @@
 /datum/effect_system/smoke_spread/bad
 	effect_type = /obj/effect/particle_effect/smoke/bad
 
+
+/////////////////////////////////////////////
+// Poison gas
+/////////////////////////////////////////////
+
+/obj/effect/particle_effect/smoke/poison_gas
+	color = "#369c50"
+	lifetime = 10
+
+/obj/effect/particle_effect/smoke/poison_gas/smoke_mob(mob/living/carbon/M)
+	if(..())
+		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
+			return 0
+		M.adjustToxLoss(20, 0)
+		M.emote("cough")
+		return 1
+
+/datum/effect_system/smoke_spread/poison_gas
+	effect_type = /obj/effect/particle_effect/smoke/poison_gas
+
+/////////////////////////////////////////////
+// HEALING_GAS
+/////////////////////////////////////////////
+
+
+/obj/effect/particle_effect/smoke/healing_gas
+  color = "#da4011"
+  lifetime = 15
+
+/obj/effect/particle_effect/smoke/healing_gas/smoke_mob(mob/living/carbon/M)
+	if(..())
+		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
+			return 0
+		M.adjustBruteLoss(-5, 0)
+		M.adjustFireLoss(-2, 0)
+		M.adjustOxyLoss(-1, 0)
+		M.adjustToxLoss(-1, 0)
+		M.emote("cough")
+		return 1
+
+/datum/effect_system/smoke_spread/healing_gas
+	effect_type = /obj/effect/particle_effect/smoke/healing_gas
+
+
+/////////////////////////////////////////////
+// FIRE_GAS
+/////////////////////////////////////////////
+
+/obj/effect/particle_effect/smoke/fire_gas
+	color = "#d1b411"
+	lifetime = 10
+
+/obj/effect/particle_effect/smoke/fire_gas/smoke_mob(mob/living/carbon/M)
+	if(..())
+		M.adjustFireLoss(-3, 0)
+		M.adjust_fire_stacks(3)
+		M.ignite_mob()
+		M.emote("scream")
+		return 1
+
+/datum/effect_system/smoke_spread/fire_gas
+	effect_type = /obj/effect/particle_effect/smoke/fire_gas
+
+
+/////////////////////////////////////////////
+// BLIND_GAS
+/////////////////////////////////////////////
+
+/obj/effect/particle_effect/smoke/blind_gas
+	color = "#292822"
+	lifetime = 5
+
+/obj/effect/particle_effect/smoke/blind_gas/smoke_mob(mob/living/carbon/M)
+	if(..())
+		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
+			return 0
+		M.adjust_blurriness(3)
+		M.adjust_blindness(3)
+		M.emote("cry")
+		return 1
+
+/datum/effect_system/smoke_spread/blind_gas
+	effect_type = /obj/effect/particle_effect/smoke/blind_gas
+
+
+/////////////////////////////////////////////
+// MUTE_GAS
+/////////////////////////////////////////////
+
+/obj/effect/particle_effect/smoke/mute_gas
+	color = "#529bfc"
+	lifetime = 10
+
+/obj/effect/particle_effect/smoke/mute_gas/smoke_mob(mob/living/carbon/M)
+	if(..())
+		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
+			return 0
+		M.silent = max(M.silent, 8)
+		return 1
+
+/datum/effect_system/smoke_spread/mute_gas
+	effect_type = /obj/effect/particle_effect/smoke/mute_gas
+
+
 /////////////////////////////////////////////
 // Sleep smoke
 /////////////////////////////////////////////
@@ -147,12 +253,43 @@
 
 /obj/effect/particle_effect/smoke/sleeping/smoke_mob(mob/living/carbon/M)
 	if(..())
+		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
+			return 0
 		M.Sleeping(200)
 		M.emote("cough")
 		return 1
 
 /datum/effect_system/smoke_spread/sleeping
 	effect_type = /obj/effect/particle_effect/smoke/sleeping
+
+/*====================
+Zizo Bane sleep powder
+====================*/
+/datum/effect_system/smoke_spread/zizosleep
+	effect_type = /obj/effect/particle_effect/smoke/zizosleep
+
+/obj/effect/particle_effect/smoke/zizosleep/smoke_mob(mob/living/carbon/M)
+	if(..())
+		M.emote("cough")
+		M.apply_status_effect(/datum/status_effect/debuff/knockout)
+		return 1
+
+/obj/effect/particle_effect/smoke/zizosleep
+	name = "sleep spores"
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "sleep"
+	pixel_x = 0
+	pixel_y = 0
+	opacity = 0
+	layer = FLY_LAYER
+	plane = GAME_PLANE_UPPER
+	anchored = TRUE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	animate_movement = 0
+	amount = 4
+	lifetime = 8
+	density = 0
+	opaque =  0 //whether the smoke can block the view when in enough amount
 
 /////////////////////////////////////////////
 // Chem smoke
@@ -267,3 +404,39 @@
 	smoke.effect_type = smoke_type
 	smoke.set_up(range, location)
 	smoke.start()
+
+/*Cleansing smoke*/
+//for the necra censer.
+/obj/effect/particle_effect/smoke/necra_censer
+	name = "cleansing mist"
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "extinguish"
+	pixel_x = 0
+	pixel_y = 0
+	opacity = 0
+	layer = FLY_LAYER
+	plane = GAME_PLANE_UPPER
+	anchored = TRUE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	animate_movement = 0
+	amount = 4
+	lifetime = 1
+	density = 0
+	opaque =  0 //whether the smoke can block the view when in enough amount
+
+/obj/effect/particle_effect/smoke/necra_censer/New(loc, ...)
+	. = ..()
+	if(istype(loc, /turf))
+		var/turf/T = loc
+		for(var/obj/effect/decal/cleanable/C in T)
+			qdel(C)
+
+		for(var/obj/effect/decal/remains/R in T)
+			qdel(R) //clean remains up
+
+		for(var/atom/A in T)
+			wash_atom(A, CLEAN_STRONG)
+
+
+/datum/effect_system/smoke_spread/smoke/necra_censer
+	effect_type = /obj/effect/particle_effect/smoke/necra_censer

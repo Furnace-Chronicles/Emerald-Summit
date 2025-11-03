@@ -19,6 +19,7 @@
 	name = "Cut vein"
 	implements = list(
 		TOOL_SCALPEL = 75,
+		TOOL_IMPROVISED_SCALPEL = 60,
 		TOOL_SHARP = 30,
 	)
 	possible_locs = list(

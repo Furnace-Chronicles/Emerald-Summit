@@ -9,7 +9,7 @@
 	hardy bog-dwelling Zardmen, past their somewhat-similar appearance. Kobolds often dwell in caves or in the outskirts of civilization, preferring to keep to themselves in small homogeneous groups \
 	or alone rather than engage with tall-folk, given their widespread stereotype of being thieves or ne'er-do-wells. Scarlet Reach is no exception to this, and some Kobolds have even dared to brave the\
 	odds and try their luck amongst Humen society.<br>\
-	(+1 Fortune)"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 FOR</b></span> </br>"
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT

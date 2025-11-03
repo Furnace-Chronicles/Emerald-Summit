@@ -89,7 +89,7 @@
 	triumph_count = 5
 
 /datum/objective/aspirant/coup/one/check_completion()
-	if(owner.current == SSticker.rulermob)
+	if(owner?.current == SSticker.rulermob)
 		return TRUE
 	else
 		return FALSE
@@ -119,7 +119,7 @@
 	triumph_count = 3
 
 /datum/objective/aspirant/loyal/one/check_completion()
-	if(owner.current == SSticker.rulermob)
+	if(owner?.current == SSticker.rulermob)
 		return TRUE
 	else
 		return FALSE

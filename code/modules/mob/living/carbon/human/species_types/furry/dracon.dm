@@ -10,7 +10,7 @@
 	mountainous regions. Given this propensity, Drakians often find themselves near or amongst Dwarven settlements, either learning to coexist \
 	peacefully with the short-statured folk or finding themselves at odds with them. In recent years, they've been seen more and more frequently within Humen settlements along with \
 	the other races, although their draconic resemblance sometimes lends others to suspicion at first sight.<br>\
-	(+1 Strength)"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 STR</b></span> </br>"
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT

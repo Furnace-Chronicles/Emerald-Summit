@@ -1,6 +1,8 @@
 /mob/living/proc/Life(seconds, times_fired)
 	set waitfor = FALSE
 
+	SEND_SIGNAL(src, COMSIG_LIVING_LIFE, seconds, times_fired)
+
 	if (client)
 		var/turf/T = get_turf(src)
 		if(!T)
@@ -25,41 +27,21 @@
 	if(!loc)
 		return
 
-	//Breathing, if applicable
-	handle_breathing(times_fired)
+	//Breathing, if applicable - CURRENTLY NOT IMPLEMENTED
+	//handle_breathing(times_fired)
+
 	if(HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
 		handle_wounds()
 		handle_embedded_objects()
 		handle_blood()
 		//passively heal even wounds with no passive healing
-	var/list/wounds = get_wounds()
-	if (islist(wounds))
-		for (var/entry in wounds)
-			// get_wounds() нередко возвращает вложенные списки (по конечностям и т.п.)
-			if (islist(entry))
-				for (var/sub in entry)
-					var/datum/wound/W = sub
-					W?.heal_wound(1)
-			else
-				var/datum/wound/W = entry
-				W?.heal_wound(1)
 
-	/// ENDVRE AS HE DOES.
-	if(HAS_TRAIT(src, TRAIT_PSYDONITE))
-		handle_wounds()
-		//passively heal wounds, even if you're dead. THE ALL-FATHER LIVES!
-	if (blood_volume > BLOOD_VOLUME_SURVIVE)
-		var/list/wounds2 = get_wounds()
-		if (islist(wounds2))
-			for (var/entry in wounds2)
-				if (islist(entry))
-					for (var/sub in entry)
-						var/datum/wound/W2 = sub
-						W2?.heal_wound(0.6)
-				else
-					var/datum/wound/W2 = entry
-					W2?.heal_wound(0.6)	
-
+	var/heal_amount = 1 + (blood_volume > BLOOD_VOLUME_SURVIVE ? 0.6 : 0)
+	// apparently this means NPCs should heal their wounds slowly over time,
+	// with a 60% bonus if they're not completely bled out.
+	// this is a strict replacement for two whole-ass block iteration things that did the same thing (or nothing at all)
+	heal_wounds(heal_amount)
+	
 	if (QDELETED(src)) // diseases can qdel the mob via transformations
 		return
 
@@ -74,7 +56,6 @@
 	handle_status_effects() //all special effects, stun, knockdown, jitteryness, hallucination, sleeping, etc
 
 	update_sneak_invis()
-	handle_fire()
 
 	if(machine)
 		machine.check_eye(src)
@@ -99,7 +80,7 @@
 			if(istype(drownrelay.loc, /turf/open/water))
 				handle_inwater(drownrelay.loc, extinguish = FALSE, force_drown = TRUE)
 			if(istype(loc, /turf/open/water)) // Extinguish ourselves if our body is in water.	
-				ExtinguishMob()
+				extinguish_mob()
 			return
 	. =..()
 
@@ -115,7 +96,6 @@
 		handle_embedded_objects()
 		handle_blood()
 	update_sneak_invis()
-	handle_fire()
 	check_drowning()
 
 /mob/living/proc/handle_breathing(times_fired)
@@ -142,33 +122,25 @@
 /mob/living/proc/handle_environment()
 	return
 
-/mob/living/proc/handle_fire()
-	if(fire_stacks < 0) //If we've doused ourselves in water to avoid fire, dry off slowly
-		fire_stacks = min(0, fire_stacks + 1)//So we dry ourselves back to default, nonflammable.
-	if(!on_fire)
-//		testing("handlefyre0 [src]")
-		return TRUE //the mob is no longer on fire, no need to do the rest.
-//	testing("handlefyre1 [src]")
-	if(fire_stacks + divine_fire_stacks > 0)
-		adjust_divine_fire_stacks(-0.05)
-		if(fire_stacks > 0)
-			adjust_fire_stacks(-0.05) //the fire is slowly consumed
-	else
-		ExtinguishMob()
-		return TRUE //mob was put out, on_fire = FALSE via ExtinguishMob(), no need to update everything down the chain.
-	update_fire()
-	var/turf/location = get_turf(src)
-	location?.hotspot_expose(700, 50, 1)
-
 /mob/living/proc/handle_wounds()
+	// the commented block below appears to be pointless, as no wound implements on_death
+	// moreover, why are psydonites excluded from on_death wound events?
+	// zero clue what the intent with this was.
+
+	/*
 	if(!HAS_TRAIT(src, TRAIT_PSYDONITE) && stat >= DEAD)
 		for(var/datum/wound/wound as anything in get_wounds())
 			if(istype(wound, /datum/wound))
 				wound.on_death()
-		return
+		return*/
+
 	for(var/datum/wound/wound as anything in get_wounds())
 		if(istype(wound, /datum/wound))
-			wound.on_life()
+			if (stat != DEAD)
+				wound.on_life()
+			else
+				wound.on_death()
+
 
 /obj/item/proc/on_embed_life(mob/living/user, obj/item/bodypart/bodypart)
 	return
@@ -179,11 +151,12 @@
 			continue
 
 		if(prob(embedded.embedding.embedded_pain_chance))
-//			BP.receive_damage(I.w_class*I.embedding.embedded_pain_multiplier)
+			if(embedded.is_silver && HAS_TRAIT(src, TRAIT_SILVER_WEAK) && !has_status_effect(STATUS_EFFECT_ANTIMAGIC))
+				var/datum/component/silverbless/psyblessed = embedded.GetComponent(/datum/component/silverbless)
+				adjust_fire_stacks(1, psyblessed?.is_blessed ? /datum/status_effect/fire_handler/fire_stacks/sunder/blessed : /datum/status_effect/fire_handler/fire_stacks/sunder)
 			to_chat(src, span_danger("[embedded] in me hurts!"))
 
 		if(prob(embedded.embedding.embedded_fall_chance))
-//			BP.receive_damage(I.w_class*I.embedding.embedded_fall_pain_multiplier)
 			simple_remove_embedded_object(embedded)
 			to_chat(src,span_danger("[embedded] falls out of me!"))
 

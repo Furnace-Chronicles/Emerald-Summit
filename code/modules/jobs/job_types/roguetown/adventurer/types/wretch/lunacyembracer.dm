@@ -3,6 +3,7 @@
 	tutorial = "You have rejected and terrorized civilization in the name of nature. You run wild under the moon, a terror to the townsfolk and a champion of Dendor's wild domain."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
+	min_pq = 30 //less dogshit cryptids please 
 	disallowed_races = list(
 		/datum/species/harpy,
 	)

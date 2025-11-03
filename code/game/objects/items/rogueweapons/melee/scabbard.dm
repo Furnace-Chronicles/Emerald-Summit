@@ -134,7 +134,7 @@
 
 
 /obj/item/rogueweapon/scabbard/attack_hand(mob/user)
-	if(sheathed)
+	if(sheathed && loc == user)
 		return puke_sword(user)
 
 	..()

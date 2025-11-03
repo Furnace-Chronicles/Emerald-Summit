@@ -39,6 +39,15 @@
 	hitsound = 'sound/blank.ogg'
 	aoe_range = 0
 
+/obj/projectile/magic/aoe/fireball/rogue/fireball_noc
+	name = "luaflame"
+	damage = 80
+	damage_type = BURN
+	npc_damage_mult = 3 // STRAIGHTEST SHOOTER, FUCK YEAH, GYATDAMN!!
+	accuracy = 60 // Base accuracy is lower for burn projectiles because they bypass armor
+	icon_state = "fireball_noc"
+	light_color = "#18313b"
+	light_outer_range =  3
 
 /obj/projectile/magic/aoe/fireball/rogue/on_hit(target)
 	. = ..()

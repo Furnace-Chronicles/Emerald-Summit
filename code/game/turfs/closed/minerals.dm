@@ -227,9 +227,9 @@
 	/turf/closed/mineral/rogue/salt = 5,
 	/turf/closed/mineral/rogue/iron = 15,
 	/turf/closed/mineral/rogue/copper = 10,
-	/turf/closed/mineral/rogue/tin = 10,
+	/turf/closed/mineral/rogue/tin = 5,
 	/turf/closed/mineral/rogue/cinnabar = 5,
-	/turf/closed/mineral/rogue/coal = 25)
+	/turf/closed/mineral/rogue/coal = 10)
 	mineralChance = 23
 
 
@@ -243,7 +243,7 @@
 	/turf/closed/mineral/rogue/iron = 33,
 	/turf/closed/mineral/rogue/copper = 15,
 	/turf/closed/mineral/rogue/tin = 15,
-	/turf/closed/mineral/rogue/coal = 14,
+	/turf/closed/mineral/rogue/coal = 10,
 	/turf/closed/mineral/rogue/cinnabar = 15,
 	/turf/closed/mineral/rogue/gem = 1)
 
@@ -290,56 +290,56 @@
 	spread = 1
 
 /turf/closed/mineral/rogue/silver
-	icon_state = "mingold"
+	icon_state = "minsilver"
 	mineralType = /obj/item/rogueore/silver
 	rockType = /obj/item/natural/rock/silver
 	spreadChance = 5
 	spread = 1
 
 /turf/closed/mineral/rogue/salt
-	icon_state = "mingold"
+	icon_state = "minsalt"
 	mineralType = /obj/item/reagent_containers/powder/salt
 	rockType = /obj/item/natural/rock/salt
 	spreadChance = 33
 	spread = 15
 
 /turf/closed/mineral/rogue/iron
-	icon_state = "mingold"
+	icon_state = "miniron"
 	mineralType = /obj/item/rogueore/iron
 	rockType = /obj/item/natural/rock/iron
 	spreadChance = 23
 	spread = 5
 
 /turf/closed/mineral/rogue/copper
-	icon_state = "mingold"
+	icon_state = "mincopper"
 	mineralType = /obj/item/rogueore/copper
 	rockType = /obj/item/natural/rock/copper
 	spreadChance = 27
 	spread = 8
 
 /turf/closed/mineral/rogue/tin
-	icon_state = "mingold"
+	icon_state = "mintin"
 	mineralType = /obj/item/rogueore/tin
 	rockType = /obj/item/natural/rock/tin
 	spreadChance = 15
 	spread = 5
 
 /turf/closed/mineral/rogue/coal
-	icon_state = "mingold"
+	icon_state = "mincoal"
 	mineralType = /obj/item/rogueore/coal
 	rockType = /obj/item/natural/rock/coal
 	spreadChance = 33
 	spread = 11
 
 /turf/closed/mineral/rogue/cinnabar
-	icon_state = "mingold"
+	icon_state = "mincinna"
 	mineralType = /obj/item/rogueore/cinnabar
 	rockType = /obj/item/natural/rock/cinnabar
 	spreadChance = 23
 	spread = 5
 
 /turf/closed/mineral/rogue/gem
-	icon_state = "mingold"
+	icon_state = "mingem"
 	mineralType = /obj/item/roguegem/random
 	rockType = /obj/item/natural/rock/gem
 	spreadChance = 3

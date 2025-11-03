@@ -29,3 +29,6 @@
 #define COMSIG_CARBON_PRAY "carbon_prayed"
 ///Prevents the carbon's patron from hearing this prayer due to cancelation.
 #define CARBON_PRAY_CANCEL (1<<0)
+
+///From living/Life() (seconds, times_fired)
+#define COMSIG_LIVING_LIFE "living_life"

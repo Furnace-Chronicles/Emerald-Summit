@@ -106,6 +106,7 @@ GLOBAL_LIST(teleport_runes)
 			continue
 		runes[initial(rune.name)] = rune // Uses the invoker name for displaying purposes
 	return runes
+
 /proc/generate_t2rune_types()
 	RETURN_TYPE(/list)
 	var/list/runes = list()
@@ -116,6 +117,7 @@ GLOBAL_LIST(teleport_runes)
 			continue
 		runes[initial(rune.name)] = rune // Uses the invoker name for displaying purposes
 	return runes
+
 /proc/generate_t3rune_types()
 	RETURN_TYPE(/list)
 	var/list/runes = list()
@@ -135,7 +137,6 @@ GLOBAL_LIST(teleport_runes)
 			continue
 		runes[initial(rune.name)] = rune // Uses the invoker name for displaying purposes
 	return runes
-
 
 /obj/effect/decal/cleanable/roguerune/Initialize(mapload, set_keyword)
 	. = ..()
@@ -162,7 +163,7 @@ GLOBAL_LIST(teleport_runes)
 		return
 	if(.)
 		return
-	if(!ritual_number )					//Only one option of ritual for this rune
+	if(!ritual_number)					//Only one option of ritual for this rune
 		var/list/invokers = can_invoke(user)
 		if(length(invokers) >= req_invokers)		//Enough invokers? If Yes, invoke
 			invoke(invokers)
@@ -173,7 +174,7 @@ GLOBAL_LIST(teleport_runes)
 		var/list/invokers = can_invoke(user)
 		if(length(invokers) >= req_invokers)
 			var/list/rituals = list()
-			if(istype(src,/obj/effect/decal/cleanable/roguerune/arcyne/summoning))
+			if(istype(src, /obj/effect/decal/cleanable/roguerune/arcyne/summoning))
 				var/tier = src.tier
 				if(tier >= 4)
 					rituals += GLOB.t4summoningrunerituallist
@@ -183,19 +184,23 @@ GLOBAL_LIST(teleport_runes)
 					rituals += GLOB.t2summoningrunerituallist
 				else if(tier == 1)
 					rituals += GLOB.t1summoningrunerituallist
+
 			else if(istype(src,/obj/effect/decal/cleanable/roguerune/arcyne/wall))
 				var/tier = src.tier
 				if(tier >= 3)
 					rituals += GLOB.t4wallrunerituallist
 				else
 					rituals += GLOB.t2wallrunerituallist
+
 			else if(istype(src,/obj/effect/decal/cleanable/roguerune/arcyne/enchantment))
 				if(tier >= 3)
 					rituals += GLOB.t4enchantmentrunerituallist
 				else
 					rituals += GLOB.t2enchantmentrunerituallist
+
 			else if(istype(src,/obj/effect/decal/cleanable/roguerune/arcyne))
 				rituals += GLOB.allowedrunerituallist
+
 			var/ritualnameinput = input(user, "Rituals", "") as null|anything in rituals
 			var/datum/runeritual/pickritual1
 			pickritual1 = rituals[ritualnameinput]
@@ -346,9 +351,8 @@ GLOBAL_LIST(teleport_runes)
 		return
 	. = ..()
 
-
 /obj/effect/decal/cleanable/roguerune/arcyne/enchantment
-	name = "Imbuement Array"
+	name = "imbuement array"
 	desc = "arcane symbols pulse upon the ground..."
 	icon = 'icons/effects/96x96.dmi'
 	icon_state = "imbuement"
@@ -360,7 +364,6 @@ GLOBAL_LIST(teleport_runes)
 	layer = SIGIL_LAYER
 	can_be_scribed = TRUE
 	ritual_number = TRUE
-
 
 /obj/effect/decal/cleanable/roguerune/arcyne/enchantment/invoke(list/invokers, datum/runeritual/runeritual)
 	if(!..())	//VERY important. Calls parent and checks if it fails. parent/invoke has all the checks for ingredients
@@ -380,7 +383,7 @@ GLOBAL_LIST(teleport_runes)
 	do_invoke_glow()
 
 /obj/effect/decal/cleanable/roguerune/arcyne/enchantment/greater	//used for better quality of learning, grants temporary 2 minute INT bonus.
-	name = "Greater Imbuement Array"
+	name = "greater imbuement array"
 	desc = "arcane symbols pulse upon the ground..."
 	icon = 'icons/effects/160x160.dmi'
 	icon_state = "imbuement"
@@ -563,7 +566,8 @@ GLOBAL_LIST(teleport_runes)
 	tier = 1
 	can_be_scribed = TRUE
 	var/summoning = FALSE
-	var/mob/living/simple_animal/summoned_mob
+	var/mob/living/simple_animal/hostile/retaliate/rogue/summoned_mob
+
 /obj/effect/decal/cleanable/roguerune/arcyne/summoning/Destroy()
 	if(summoning)
 		REMOVE_TRAIT(summoned_mob, TRAIT_PACIFISM, TRAIT_GENERIC)	//can't kill while planar bound.
@@ -583,13 +587,15 @@ GLOBAL_LIST(teleport_runes)
 		do_invoke_glow()
 		clear_obstacles(user)
 		sleep(20)
-		animate(summoned_mob, color = null,time = 5)
+		animate(summoned_mob, color = null, time = 5, flags = ANIMATION_PARALLEL)
 		REMOVE_TRAIT(summoned_mob, TRAIT_PACIFISM, TRAIT_GENERIC)	//can't kill while planar bound.
 		summoned_mob.status_flags -= GODMODE//remove godmode
 		summoned_mob.candodge = TRUE
 		summoned_mob.binded = FALSE
 		summoned_mob.move_resist = MOVE_RESIST_DEFAULT
 		summoned_mob.SetParalyzed(0)
+		summoned_mob.Retaliate()
+		summoned_mob.GiveTarget(user)
 		summoned_mob = null
 		summoning = FALSE
 		return
@@ -640,7 +646,7 @@ GLOBAL_LIST(teleport_runes)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/summoning/adv	//160x160 rune t2(5x5 tile)
 	name = "warded sealate confinement matrix"
-	desc = "An thoroughly warded confinement matrix improved with the addition of a sealate matrix; used to hold larger, dangerous things when summoned."
+	desc = "A thoroughly warded confinement matrix improved with the addition of a sealate matrix; used to hold larger, dangerous things when summoned."
 	icon = 'icons/effects/160x160.dmi'
 	icon_state = "warded"
 	runesize = 2
@@ -652,7 +658,7 @@ GLOBAL_LIST(teleport_runes)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/summoning/max	//224x224 rune t3(7x7 tile)
 	name = "noc's eye warded sealate confinement matrix"
-	desc = "An thoroughly warded confinement matrix improved with a Noc's eye sealing measure and the addition of a sealate matrix; used to hold the largest, most dangerous things summonable."
+	desc = "A thoroughly warded confinement matrix improved with a Noc's eye sealing measure and the addition of a sealate matrix; used to hold the largest, most dangerous things summonable."
 	icon = 'icons/effects/224x224.dmi'
 	icon_state = "huge_runeblued"
 	runesize = 3

@@ -369,28 +369,62 @@
 	name = "silver war axe"
 	desc = "A one-handed war axe forged of silver."
 	icon_state = "silveraxe"
-	force = 24
+	force = 15
+	force_wielded = 21
 	possible_item_intents = list(/datum/intent/axe/cut,/datum/intent/axe/chop, /datum/intent/axe/bash)
-	minstr = 6
+	minstr = 11
 	max_blade_int = 400
 	smeltresult = /obj/item/ingot/silver
 	gripped_intents = null
-	wdefense = 4
+	wdefense = 5
 	is_silver = TRUE
+	blade_dulling = DULLING_SHAFT_METAL
+
+/obj/item/rogueweapon/stoneaxe/woodcut/silver/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_TENNITE,\
+		added_force = 0,\
+		added_blade_int = 50,\
+		added_int = 50,\
+		added_def = 2,\
+	)
 
 /obj/item/rogueweapon/stoneaxe/battle/psyaxe
-	name = "ornate war axe"
+	name = "psydonian war axe"
 	desc = "An ornate battle axe, plated in a ceremonial veneer of silver. The premiere instigator of conflict against elven attachees."
 	icon_state = "psyaxe"
-	smeltresult = /obj/item/ingot/steel
+	force = 20
+	force_wielded = 25
+	minstr = 11
+	wdefense = 6
+	blade_dulling = DULLING_SHAFT_METAL
+	is_silver = TRUE
+	smeltresult = /obj/item/ingot/silver
 
 /obj/item/rogueweapon/stoneaxe/battle/psyaxe/ComponentInitialize()
-	. = ..()								//+3 force, +50 blade int, +50 int, +1 def, make silver
-	AddComponent(/datum/component/psyblessed, FALSE, 3, 50, 50, 1, TRUE)
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 50,\
+		added_int = 50,\
+		added_def = 1,\
+	)
 
 /obj/item/rogueweapon/stoneaxe/battle/psyaxe/preblessed/ComponentInitialize()
 	. = ..()								//Pre-blessed, +3 force, +50 blade int, +50 int, +1 def, make silver
-	AddComponent(/datum/component/psyblessed, TRUE, 3, 50, 50, 1, TRUE)
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 50,\
+		added_int = 50,\
+		added_def = 1,\
+	)
 
 /obj/item/rogueweapon/stoneaxe/battle/steppesman
 	name = "aavnic valaška"
@@ -424,6 +458,7 @@
 	bigboy = TRUE
 	gripsprite = TRUE
 	wlength = WLENGTH_GREAT
+	walking_stick = TRUE
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
 	equip_delay_self = 2.5 SECONDS
@@ -491,7 +526,7 @@
 	if(!HAS_TRAIT(user, TRAIT_HORDE))
 		to_chat(user, "<font color='red'>UNWORTHY HANDS TOUCHING THIS AXE, CEASE OR BE PUNISHED!</font>")
 		user.adjust_fire_stacks(5)
-		user.IgniteMob()
+		user.ignite_mob()
 		user.Stun(40)
 	..()
 

@@ -26,7 +26,7 @@
 		return
 	to_chat(user, span_notice("I begin to gather the ammunition..."))
 	for(var/obj/item/ammo_casing/caseless/rogue/arrow in T.contents)
-		if(do_after(user, 5))
+		if(do_after(user, 1))
 			if(!eatarrow(arrow))
 				break
 
@@ -47,7 +47,7 @@
 		return
 	to_chat(user, span_warning("I begin to take out the arrows from [src], one by one..."))
 	for(var/obj/item/ammo_casing/caseless/rogue/arrow in arrows)
-		if(!do_after(user, 0.5 SECONDS))
+		if(!do_after(user, 0.1 SECONDS))
 			return
 		arrow.forceMove(user.loc)
 		arrows -= arrow

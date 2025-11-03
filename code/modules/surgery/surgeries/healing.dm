@@ -24,8 +24,8 @@
 	repeating = TRUE
 	repeatingonfail = TRUE
 	surgery_flags = SURGERY_BLOODY | SURGERY_CLAMPED
-	skill_min = SKILL_LEVEL_APPRENTICE
-	skill_median = SKILL_LEVEL_APPRENTICE
+	skill_min = SKILL_LEVEL_JOURNEYMAN
+	skill_median = SKILL_LEVEL_EXPERT
 	success_sound = 'sound/surgery/retractor2.ogg'
 	failure_sound = 'sound/surgery/organ2.ogg'
 	/// How much brute damage we heal per completion
@@ -87,7 +87,8 @@
 		urhealedamt_burn *= 0.55
 		umsg += " as best as you can while they have clothing on"
 		tmsg += " as best as they can while [target] has clothing on"
-	target.heal_bodypart_damage(urhealedamt_brute,urhealedamt_burn)
+	target.adjustBruteLoss(urhealedamt_brute * -1, 0) //We have to use a negative number to heal.
+	target.adjustFireLoss(urhealedamt_burn * -1, 0)
 	display_results(user, target, span_notice("[umsg]."),
 		"[tmsg].",
 		"[tmsg].")
@@ -105,81 +106,38 @@
 		urdamageamt_burn += round((target.getFireLoss()/(missinghpbonus*2)),0.1)
 
 	target.take_bodypart_damage(urdamageamt_brute, urdamageamt_burn)
+	switch (success_prob)
+		if (0 to 15)
+			target.reagents.add_reagent(/datum/reagent/infection/major, rand(2,5))
+		if (16 to 50)
+			target.reagents.add_reagent(/datum/reagent/infection, rand(1,3))
+		if (51 to 70)
+			target.reagents.add_reagent(/datum/reagent/infection/minor, rand(1,6))
 	target.update_damage_hud()
 	return TRUE
 
 /********************BRUTE STEPS********************/
-/datum/surgery_step/heal/brute/basic
+/datum/surgery_step/heal/brute
 	name = "Tend bruises"
-	brutehealing = 10
-	missinghpbonus = 6
+	brutehealing = 25
+	missinghpbonus = 5
 	requires_tech = FALSE
-	replaced_by = /datum/surgery_step/heal/brute/upgraded
-
-/datum/surgery_step/heal/brute/upgraded
-	name = "Tend bruises (Adv.)"
-	brutehealing = 20
-	missinghpbonus = 4
-	requires_tech = TRUE
-	replaced_by = /datum/surgery_step/heal/brute/upgraded/femto
-
-/datum/surgery_step/heal/brute/upgraded/femto
-	name = "Tend bruises (Exp.)"
-	brutehealing = 30
-	missinghpbonus = 2
-	requires_tech = TRUE
 	replaced_by = null
 
 /********************BURN STEPS********************/
-/datum/surgery_step/heal/burn/basic
+/datum/surgery_step/heal/burn
 	name = "Tend burns"
-	burnhealing = 10
-	missinghpbonus = 7.5
-	requires_tech = FALSE
-	replaced_by = /datum/surgery_step/heal/burn/upgraded
-
-/datum/surgery_step/heal/burn/upgraded
-	name = "Tend burns (Adv.)"
-	burnhealing = 10
+	burnhealing = 25
 	missinghpbonus = 5
-	requires_tech = TRUE
-	replaced_by = /datum/surgery_step/heal/burn/upgraded/femto
-
-/datum/surgery_step/heal/burn/upgraded/femto
-	name = "Tend burns (Exp.)"
-	burnhealing = 10
-	missinghpbonus = 2.5
-	requires_tech = TRUE
+	requires_tech = FALSE
 	replaced_by = null
+
 
 /********************COMBO STEPS********************/
 /datum/surgery_step/heal/combo
 	name = "Tend damage"
 	brutehealing = 6
 	burnhealing = 6
-	missinghpbonus = 7.5
+	missinghpbonus = 3
 	requires_tech = FALSE
-	replaced_by = /datum/surgery_step/heal/combo/upgraded
-
-/datum/surgery_step/heal/combo/upgraded
-	name = "Tend damage (Adv.)"
-	brutehealing = 6
-	burnhealing = 6
-	missinghpbonus = 5
-	requires_tech = TRUE
-	replaced_by = /datum/surgery_step/heal/combo/upgraded/femto
-
-/datum/surgery_step/heal/combo/upgraded/femto
-	name = "Tend damage (Exp.)"
-	brutehealing = 6
-	burnhealing = 6
-	missinghpbonus = 2.5
-	requires_tech = TRUE
 	replaced_by = null
-
-/datum/surgery_step/heal/combo/upgraded/femto/failure(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent, success_prob)
-	display_results(user, target, span_warning("I screwed up!"),
-		span_warning("[user] screws up!"),
-		span_notice("[user] fixes some of [target]'s wounds."), TRUE)
-	target.take_bodypart_damage(5,5)
-	return TRUE

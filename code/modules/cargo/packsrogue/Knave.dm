@@ -104,6 +104,11 @@
 	cost = 20
 	contains = list(/obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve)
 
+/datum/supply_pack/rogue/steel_weapons/Knave/shortsword
+	name = "Shortsword"
+	cost =20// 1 Steel Ingot
+	contains = list(/obj/item/rogueweapon/sword/short)
+
 /datum/supply_pack/rogue/Knave/dagger
 	name = "Iron Dagger"
 	cost = 10
@@ -126,7 +131,7 @@
 
 /datum/supply_pack/rogue/Knave/elfdagger
 	name = "Elven Dagger"
-	cost = 40
+	cost = 155
 	contains = list(/obj/item/rogueweapon/huntingknife/idagger/silver/elvish)
 
 /datum/supply_pack/rogue/Knave/steeltossblades
@@ -160,9 +165,9 @@
 	contains = list(/obj/item/quiver/bolts)
 
 /datum/supply_pack/rogue/Knave/Sarrows
-	name = "Steel Bodkin Arrow"
-	cost = 3
-	contains = list(/obj/item/ammo_casing/caseless/rogue/arrow/steel)
+	name = "Quiver of Bodkin Arrows"
+	cost = 25
+	contains = list(/obj/item/quiver/bodkin)
 
 /datum/supply_pack/rogue/Knave/Warrows
 	name = "Water Arrows (x5)"

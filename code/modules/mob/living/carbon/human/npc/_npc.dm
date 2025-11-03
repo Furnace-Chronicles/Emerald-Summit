@@ -46,6 +46,20 @@
 	/// When above this amount of stamina (Stamina is stamina damage), the NPC will not attempt to jump.
 	var/npc_max_jump_stamina = 50
 
+	///What distance should we be checking for interesting things when considering idling/deidling? Defaults to AI_DEFAULT_INTERESTING_DIST
+	var/interesting_dist = AI_DEFAULT_INTERESTING_DIST
+	///our current cell grid
+	var/datum/cell_tracker/our_cells
+
+/mob/living/carbon/human/Initialize()
+	. = ..()
+	our_cells = new(interesting_dist, interesting_dist, 1)
+	set_new_cells()
+
+/mob/living/carbon/human/Destroy()
+	our_cells = null
+	return ..()
+
 /mob/living/carbon/human/proc/IsStandingStill()
 	return doing || resisting || pickpocketing
 
@@ -77,25 +91,7 @@
 		return TRUE
 	return FALSE
 
-// Check if a player is in range of the AI
-// TODO: Note, we can nuke this once we put complex on spatial grid sleeping
-/mob/living/carbon/human/proc/scan_for_player_in_range()
-	for(var/i = GLOB.player_list.len; i > 0; i--)
-		var/mob/living/M = GLOB.player_list[i]
-		if(!istype(M))
-			continue
-		if(M.z != z) // not the same z sector
-			if(abs(M.y-y) > 6 || abs(M.x-x) > 6)
-				continue
-		else if(abs(M.y-y) > 14 || abs(M.x-x) > 14)
-			continue
-		return TRUE
-	return FALSE
-
 /mob/living/carbon/human/proc/process_ai()
-	// Prevent expensive pathing if it is in idle mode and there's no players
-	if((mode == NPC_AI_IDLE || mode == NPC_AI_OFF) && !scan_for_player_in_range())
-		return FALSE
 	if(IsDeadOrIncap())
 		walk_to(src,0)
 		return stat == DEAD // only stop processing if we're dead-dead
@@ -590,7 +586,7 @@
 				var/paine = get_complex_pain()
 				if(paine >= ((STAEND * 10)*0.9)) 
 					NPC_THINK("Ouch! Entering flee mode!")
-					mode = NPC_AI_FLEE
+					set_ai_mode(NPC_AI_FLEE)
 					m_intent = MOVE_INTENT_RUN
 					clear_path()
 					return TRUE
@@ -682,7 +678,7 @@
 	if(pulling)
 		stop_pulling()
 	myPath = list()
-	mode = NPC_AI_IDLE
+	set_ai_mode(NPC_AI_IDLE)
 	m_intent = MOVE_INTENT_WALK
 	target = null
 	a_intent = INTENT_HELP
@@ -862,7 +858,7 @@
 			if (!npc_detect_sneak(L, extra_chance))
 				return
 		NPC_THINK("Hunting [L]!")
-		mode = NPC_AI_HUNT
+		set_ai_mode(NPC_AI_HUNT)
 		// Interrupt ongoing actions on-hit, except for standing up or resisting.
 		if(!resisting && (mobility_flags & MOBILITY_STAND))
 			doing = FALSE
@@ -922,3 +918,67 @@
 		return TRUE
 	else
 		return FALSE
+
+/mob/living/carbon/human/proc/on_client_enter(datum/source, atom/target)
+	SIGNAL_HANDLER
+	if(mode == NPC_AI_OFF)
+		return
+
+	if(mode == NPC_AI_SLEEP)
+		set_ai_mode(NPC_AI_IDLE)
+
+/mob/living/carbon/human/proc/on_client_exit(datum/source, datum/exited)
+	SIGNAL_HANDLER
+	if(mode == NPC_AI_OFF)
+		return
+
+	consider_wakeup()
+
+/mob/living/carbon/human/proc/set_new_cells()
+	var/turf/our_turf = get_turf(src)
+	if(isnull(our_turf))
+		return
+
+	var/list/cell_collections = our_cells.recalculate_cells(our_turf)
+
+	for(var/datum/old_grid as anything in cell_collections[2])
+		UnregisterSignal(old_grid, list(SPATIAL_GRID_CELL_ENTERED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS), SPATIAL_GRID_CELL_EXITED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS)))
+
+	for(var/datum/spatial_grid_cell/new_grid as anything in cell_collections[1])
+		RegisterSignal(new_grid, SPATIAL_GRID_CELL_ENTERED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS), PROC_REF(on_client_enter))
+		RegisterSignal(new_grid, SPATIAL_GRID_CELL_EXITED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS), PROC_REF(on_client_exit))
+	consider_wakeup()
+
+/mob/living/carbon/human/proc/update_grid()
+	SIGNAL_HANDLER
+	set_new_cells()
+
+/mob/living/carbon/human/proc/consider_wakeup()
+	if(mode == NPC_AI_OFF)
+		return
+
+	for(var/datum/spatial_grid_cell/grid as anything in our_cells.member_cells)
+		if(length(grid.client_contents))
+			if(mode != NPC_AI_SLEEP || mode != NPC_AI_IDLE)
+				return TRUE
+			set_ai_mode(NPC_AI_IDLE)
+			return TRUE
+
+	set_ai_mode(NPC_AI_SLEEP)
+	return FALSE
+
+/mob/living/carbon/human/proc/set_ai_mode(new_mode)
+	if(mode == NPC_AI_SLEEP && new_mode != NPC_AI_SLEEP)
+		GLOB.idle_mob_list -= src
+		GLOB.mob_living_list |= src
+		START_PROCESSING(SShumannpc, src)
+	else if(new_mode == NPC_AI_SLEEP)
+		STOP_PROCESSING(SShumannpc, src)
+		GLOB.mob_living_list -= src
+		GLOB.idle_mob_list |= src
+	mode = new_mode
+
+/mob/living/carbon/human/Moved()
+	. = ..()
+	if(mode != NPC_AI_OFF)
+		update_grid()

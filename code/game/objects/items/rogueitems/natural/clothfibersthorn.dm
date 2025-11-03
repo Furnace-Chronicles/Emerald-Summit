@@ -34,7 +34,6 @@
 		/datum/crafting_recipe/roguetown/survival/stonesword,
 		/datum/crafting_recipe/roguetown/survival/woodsword,
 		/datum/crafting_recipe/roguetown/survival/bag,
-		/datum/crafting_recipe/roguetown/survival/bagx5,
 		/datum/crafting_recipe/roguetown/survival/rod,
 		/datum/crafting_recipe/roguetown/survival/pearlcross,
 		/datum/crafting_recipe/roguetown/survival/bpearlcross,
@@ -176,7 +175,6 @@
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/longbowpartial,
 		/datum/crafting_recipe/roguetown/survival/bag,
-		/datum/crafting_recipe/roguetown/survival/bagx5,
 		/datum/crafting_recipe/roguetown/survival/book_crafting_kit,
 		/datum/crafting_recipe/roguetown/survival/slingpouchcraft,
 		)
@@ -332,7 +330,7 @@
 		if(L.m_intent == MOVE_INTENT_RUN)
 			prob2break = 100
 		if(prob(prob2break))
-			if(!(HAS_TRAIT(L, TRAIT_AZURENATIVE) || (HAS_TRAIT(L, TRAIT_WOODWALKER)) && L.m_intent != MOVE_INTENT_RUN))
+			if(!(HAS_TRAIT(L, TRAIT_REACHNATIVE) || (HAS_TRAIT(L, TRAIT_WOODWALKER)) && L.m_intent != MOVE_INTENT_RUN))
 				playsound(src,'sound/items/seedextract.ogg', 100, FALSE)
 			qdel(src)
 			if (L.alpha == 0 && L.rogue_sneaking) // not anymore you're not

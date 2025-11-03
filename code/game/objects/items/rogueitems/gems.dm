@@ -215,7 +215,7 @@
 					M.adjust_fire_stacks(100)//You will burn. Horribly.
 					M.adjustFireLoss(250)//If you somehow put it out immediately, you still contend with this.
 					M.Paralyze(12 SECONDS, ignore_canstun = TRUE)//You lost the coin toss. Suffer the loss.
-					M.IgniteMob()
+					M.ignite_mob()
 					M.visible_message(span_deadsay("[src] explodes in a shower of arcyne fire and energy, violently engulfing [M]!"))
 					M.add_stress(/datum/stressevent/riddle_munch)//You still get the stress, even if you don't get the heal.
 				else//You won the toss, but you still lose. Because this is a waste of a riddle.

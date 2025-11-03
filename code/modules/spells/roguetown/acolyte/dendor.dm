@@ -1,6 +1,7 @@
 // Druid
 /obj/effect/proc_holder/spell/targeted/blesscrop
 	name = "Bless Crops"
+	desc = "Bless up to 5 nearby crops to revive them and provide nutrition as well as water if they need it."
 	range = 5
 	overlay_state = "blesscrop"
 	releasedrain = 30
@@ -33,6 +34,7 @@
 //At some point, this spell should Awaken beasts, allowing a ghost to possess them. Not for this PR though.
 /obj/effect/proc_holder/spell/targeted/beasttame
 	name = "Tame Beast"
+	desc = "Soothe a beast of its rage."
 	range = 5
 	overlay_state = "tamebeast"
 	releasedrain = 30
@@ -67,6 +69,7 @@
 
 /obj/effect/proc_holder/spell/targeted/conjure_glowshroom
 	name = "Fungal Illumination"
+	desc = "Summon kneestingers to electrocute those not loyal to Dendor."
 	range = 1
 	overlay_state = "blesscrop"
 	releasedrain = 30
@@ -91,6 +94,7 @@
 
 /obj/effect/proc_holder/spell/targeted/conjure_vines
 	name = "Vine Sprout"
+	desc = "Summon vines nearby."
 	overlay_state = "blesscrop"
 	releasedrain = 90
 	invocation = "Treefather, bring forth vines."
@@ -115,7 +119,7 @@
 		new /obj/structure/vine/dendor(target_turf_two)
 	if(!locate(/obj/structure/vine) in target_turf_three)
 		new /obj/structure/vine/dendor(target_turf_three)
-	
+
 	return TRUE
 
 
@@ -139,7 +143,7 @@
 	if (!user.has_language(/datum/language/beast))
 		user.grant_language(/datum/language/beast)
 		to_chat(user, span_boldnotice("The vestige of the hidden moon high above reveals His truth: the knowledge of beast-tongue was in me all along."))
-	
+
 	if (!first_cast)
 		to_chat(user, span_boldwarning("So it is murmured in the Earth and Air: the Call of the Moon is sacred, and to share knowledge gleaned from it with those not of Him is a SIN."))
 		to_chat(user, span_boldwarning("Ware thee well, child of Dendor."))
@@ -148,6 +152,7 @@
 
 /obj/effect/proc_holder/spell/invoked/spiderspeak
 	name = "Spider Speak"
+	desc = "Allow a target to speak with spiders, allowing them to avoid attack."
 	overlay_state = "tamebeast"
 	releasedrain = 15
 	chargedrain = 0

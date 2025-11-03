@@ -145,6 +145,7 @@ SUBSYSTEM_DEF(treasury)
 
 	if (amt > 0)
 		// Player received money
+		record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
 		if(source)
 			send_ooc_note("<b>MEISTER:</b> You received [amt]m. ([source])", name = target_name)
 			log_to_steward("+[amt] from treasury to [target_name] ([source])")
@@ -153,6 +154,7 @@ SUBSYSTEM_DEF(treasury)
 			log_to_steward("+[amt] from treasury to [target_name]")
 	else
 		// Player was fined
+		record_round_statistic(STATS_FINES_INCOME, amt)
 		if(source)
 			send_ooc_note("<b>MEISTER:</b> You were fined [amt]m. ([source])", name = target_name)
 			log_to_steward("[target_name] was fined [amt] ([source])")
@@ -186,7 +188,7 @@ SUBSYSTEM_DEF(treasury)
 
 	log_to_steward("+[original_amt] deposited by [character.real_name] of which taxed [taxed_amount]")
 
-	return TRUE
+	return list(original_amt, taxed_amount)
 
 
 /datum/controller/subsystem/treasury/proc/withdraw_money_account(amt, target)
@@ -232,6 +234,7 @@ SUBSYSTEM_DEF(treasury)
 /datum/controller/subsystem/treasury/proc/distribute_estate_incomes()
 	for(var/mob/living/welfare_dependant in noble_incomes)
 		var/how_much = noble_incomes[welfare_dependant]
+		record_round_statistic(STATS_NOBLE_INCOME_TOTAL, how_much)
 		give_money_treasury(how_much, silent = TRUE)
 		total_noble_income += how_much
 		if(welfare_dependant.job == "Merchant")
@@ -252,6 +255,7 @@ SUBSYSTEM_DEF(treasury)
 	SStreasury.treasury_value += amt
 	SStreasury.total_export += amt
 	SStreasury.log_to_steward("+[amt] exported [D.name]")
+	record_round_statistic(STATS_STOCKPILE_EXPORTS_VALUE, amt)
 	if(!silent && amt >= EXPORT_ANNOUNCE_THRESHOLD) //Only announce big spending.
 		scom_announce("Scarlet Reach exports [D.name] for [amt] mammon.")
 	D.lower_demand()

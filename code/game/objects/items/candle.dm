@@ -1,4 +1,4 @@
-#define CANDLE_LUMINOSITY	3
+
 /obj/item/candle
 	name = "candle"
 	desc = "A wick repeatedly dipped into melted beespiderwax to form a candle."
@@ -7,7 +7,10 @@
 	item_state = "candle1"
 	w_class = WEIGHT_CLASS_TINY
 	experimental_inhand = FALSE
-	light_color = LIGHT_COLOR_FIRE
+	light_system = MOVABLE_LIGHT
+	light_color =  LIGHT_COLOR_FIRE
+	light_outer_range = 3
+	light_on = FALSE
 	heat = 1000
 	var/wax = 1000
 	var/lit = FALSE
@@ -57,8 +60,9 @@
 		lit = TRUE
 		if(show_message)
 			usr.visible_message(show_message)
-		set_light(CANDLE_LUMINOSITY)
-		START_PROCESSING(SSobj, src)
+		set_light( l_on = TRUE)
+		if(!infinite)
+			START_PROCESSING(SSobj, src)
 		update_icon()
 
 /obj/item/candle/proc/put_out_candle()
@@ -66,7 +70,8 @@
 		return
 	lit = FALSE
 	update_icon()
-	set_light(0)
+	set_light(l_on = FALSE)
+	STOP_PROCESSING(SSobj, src)
 	return TRUE
 
 /obj/item/candle/extinguish()
@@ -207,5 +212,3 @@
 /obj/item/candle/silver/lit
 	icon_state = "scandle_lit"
 	start_lit = TRUE
-
-#undef CANDLE_LUMINOSITY

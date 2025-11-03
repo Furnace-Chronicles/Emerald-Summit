@@ -1,6 +1,7 @@
 // Lesser miracle
 /obj/effect/proc_holder/spell/invoked/lesser_heal
 	name = "Miracle"
+	desc = "Call upon your patron to heal your target."
 	overlay_state = "lesserheal"
 	releasedrain = 30
 	chargedrain = 0
@@ -250,6 +251,7 @@
 // Miracle
 /obj/effect/proc_holder/spell/invoked/heal
 	name = "Fortify"
+	desc = "Increases the amount of healing your target recieves for a time."
 	overlay_state = "astrata"
 	releasedrain = 30
 	chargedrain = 0
@@ -422,6 +424,7 @@
 	var/turf/origin
 	var/firestacks = 0
 	var/divinefirestacks = 0
+	var/sunderfirestacks = 0
 	var/blood = 0
 	miracle = TRUE
 	devotion_cost = 30
@@ -436,9 +439,13 @@
 		oxy = target.getOxyLoss()
 		toxin = target.getToxLoss()
 		origin = get_turf(target)
-		firestacks = target.fire_stacks
-		divinefirestacks = target.divine_fire_stacks
 		blood = target.blood_volume
+		var/datum/status_effect/fire_handler/fire_stacks/fire_status = target.has_status_effect(/datum/status_effect/fire_handler/fire_stacks)
+		firestacks = fire_status?.stacks
+		var/datum/status_effect/fire_handler/fire_stacks/sunder/sunder_status = target.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder)
+		sunderfirestacks = sunder_status?.stacks
+		var/datum/status_effect/fire_handler/fire_stacks/divine/divine_status = target.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/divine)
+		divinefirestacks = divine_status?.stacks
 		to_chat(target, span_warning("I feel a part of me was left behind..."))
 		play_indicator(target,'icons/mob/overhead_effects.dmi', "timestop", 100, OBJ_LAYER)
 		addtimer(CALLBACK(src, PROC_REF(remove_buff), target), wait = 10 SECONDS)
@@ -447,12 +454,13 @@
 
 /obj/effect/proc_holder/spell/invoked/stasis/proc/remove_buff(mob/living/carbon/target)
 	do_teleport(target, origin, no_effects=TRUE)
-	target.adjust_fire_stacks(target.fire_stacks*-1 + firestacks)
-	target.adjust_divine_fire_stacks(target.divine_fire_stacks*-1 + divinefirestacks)
 	var/brutenew = target.getBruteLoss()
 	var/burnnew = target.getFireLoss()
 	var/oxynew = target.getOxyLoss()
 	var/toxinnew = target.getToxLoss()
+	target.adjust_fire_stacks(firestacks)
+	target.adjust_fire_stacks(sunderfirestacks, /datum/status_effect/fire_handler/fire_stacks/sunder)
+	target.adjust_fire_stacks(divinefirestacks, /datum/status_effect/fire_handler/fire_stacks/divine)
 	if(target.has_status_effect(/datum/status_effect/buff/convergence))
 		if(brutenew>brute)
 			target.adjustBruteLoss(brutenew*-1 + brute)

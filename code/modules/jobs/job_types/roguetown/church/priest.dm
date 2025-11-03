@@ -3,7 +3,7 @@ GLOBAL_LIST_EMPTY(cursed_players)
 GLOBAL_LIST_EMPTY(excommunicated_players)
 GLOBAL_LIST_EMPTY(heretical_players)
 #define PRIEST_CURSE_COOLDOWN (15 MINUTES)
-#define PRIEST_APOSTASY_COOLDOWN (10 MINUTES)
+#define PRIEST_APOSTASY_COOLDOWN (5 MINUTES)
 
 /datum/job/roguetown/priest
 	title = "Priest"
@@ -30,13 +30,14 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 	display_order = JDO_PRIEST
 	give_bank_account = 115
-	min_pq = 5 // You should know the basics of things if you're going to lead the town's entire religious sector
+	min_pq = 20 // You should know the basics of things if you're going to lead the town's entire religious sector
 	max_pq = null
 	round_contrib_points = 3
 
 	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts.
 	virtue_restrictions = list(
 		/datum/virtue/utility/noble,
+		/datum/virtue/utility/blueblooded,
 		/datum/virtue/combat/hollow_life,
 	)
 
@@ -45,14 +46,6 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	job_subclasses = list(
 		/datum/advclass/bishop
 	)
-
-/datum/job/roguetown/priest/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
-	..()
-	if(ishuman(L))
-		var/mob/living/carbon/human/H = L
-		H.advsetup = 1
-		H.invisibility = INVISIBILITY_MAXIMUM
-		H.become_blind("advsetup")
 
 /datum/advclass/bishop
 	name = "Bishop"
@@ -275,15 +268,15 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	set category = "Priest"
 	if(stat)
 		return
-	if(!(devotion && devotion.devotion >= 750))
-		to_chat(src, span_warning("I need more devotion to channel Her voice! (750 required)"))
+	if(!(devotion && devotion.devotion >= 500))
+		to_chat(src, span_warning("I need more devotion to channel Her voice! (500 required)"))
 		return FALSE
 	var/inputty = input("Make an announcement", "SCARLET REACH") as text|null
 	if(inputty)
 		if(!istype(get_area(src), /area/rogue/indoors/town/church/chapel))
 			to_chat(src, span_warning("I need to do this from the chapel."))
 			return FALSE
-		devotion.update_devotion(-750)
+		devotion.update_devotion(-500)
 		priority_announce("[inputty]", title = "The Priest Speaks", sound = 'sound/misc/bell.ogg', sender = src)
 
 /mob/living/carbon/human/proc/churcheapostasy(var/mob/living/carbon/human/H in GLOB.player_list)
@@ -404,6 +397,10 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 	if (stat)
 		return
 
+	if(!(devotion && devotion.devotion >= 500))
+		to_chat(src, span_warning("I need more devotion to channel Her voice! (500 required)"))
+		return FALSE
+
 	var/target_name = input("Who shall receive a curse?", "Target Name") as text|null
 
 	if (!target_name)
@@ -443,7 +440,9 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 		var/datum/curse/temp = new curse_type()
 
 		if (H.is_cursed(temp))
+			devotion.update_devotion(-500)
 			H.remove_curse(temp)
+			
 			priority_announce("[real_name] has lifted [curse_pick] from [H.real_name]! They are once again part of the flock!", title = "REDEMPTION", sound = 'sound/misc/bell.ogg')
 			message_admins("DIVINE CURSE: [real_name] ([ckey]) has removed [curse_pick] from [H.real_name]) ") //[ADMIN_LOOKUPFLW(user)] Maybe add this here if desirable but dunno.
 			log_game("DIVINE CURSE: [real_name] ([ckey]) has removed [curse_pick] from [H.real_name])")
@@ -463,6 +462,7 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 				return
 
 			COOLDOWN_START(src, priest_curse, PRIEST_CURSE_COOLDOWN)
+			devotion.update_devotion(-500)
 			H.add_curse(curse_type)
 			
 			priority_announce("[real_name] has stricken [H.real_name] with [curse_pick]! SHAME!", title = "JUDGEMENT", sound = 'sound/misc/excomm.ogg')

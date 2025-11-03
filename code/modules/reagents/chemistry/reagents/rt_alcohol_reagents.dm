@@ -551,3 +551,29 @@
 
 /datum/reagent/consumable/ethanol/nocshine/on_mob_end_metabolize(mob/living/M)
 	M.remove_status_effect(/datum/status_effect/buff/nocshine)
+
+/datum/reagent/consumable/ethanol/luxwine
+	name = "Luxintebere"
+	boozepwr = 100 //get out of here nocshine this is made for true alcohol vicers
+	taste_description = "a green numbness and then a burning vigor in the heart"
+	color = "#86CCA3"
+	quality = DRINK_FANTASTIC //having this should get you fragged so it should be worth the risk
+	overdose_threshold = 10
+
+
+/datum/reagent/consumable/ethanol/luxwine/on_mob_life(mob/living/carbon/M)
+	M.apply_status_effect(/datum/status_effect/buff/vitae) //its still lux
+	..()
+	. = 1
+
+/datum/reagent/consumable/ethanol/luxwine/on_mob_life(mob/living/carbon/M)
+	if(M.has_flaw(/datum/charflaw/addiction/junkie))
+		M.sate_addiction()
+	M.apply_status_effect(/datum/status_effect/buff/vitae)
+	..()
+
+/datum/reagent/consumable/ethanol/luxwine/overdose_process(mob/living/M)
+	M.adjustOrganLoss(ORGAN_SLOT_HEART, 0.25*REM)
+	M.adjustFireLoss(0.25*REM, 0)
+	..()
+	. = 1
