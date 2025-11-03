@@ -10,8 +10,13 @@
 	invocation = "RAC'WA NO!"
 	invocation_type = "shout"
 	action_icon_state = "shapeshift"
+	var/do_gibs = TRUE
+	var/show_true_name = TRUE
+
+	var/shifted_speed_increase = 1 // this is applied as a NEGATIVE multiplicative_slowdown, so 1.25 would be a 25% speed increase
 
 	var/revert_on_death = TRUE
+	var/knockout_on_death = 0 // we will apply this value (as deciseconds) to our host mob as a knockout effect when punted out of the form
 	var/die_with_shapeshifted_form = TRUE
 	var/convert_damage = TRUE //If you want to convert the caster's health to the shift, and vice versa.
 	var/convert_damage_type = BRUTE //Since simplemobs don't have advanced damagetypes, what to convert damage back into.
@@ -68,16 +73,29 @@
 	if(H)
 		to_chat(caster, span_warning("You're already shapeshifted!"))
 		return
+		
+	// leave a track to indicate something's happened here
+	var/obj/effect/track/the_evidence = new(caster.loc)
+	the_evidence.handle_creation(caster)
+	the_evidence.track_type = "mixture of shifted animal and humanoid tracks"
+	the_evidence.ambiguous_track_type = "curious footprints"
+	the_evidence.base_diff = 6 // very noticable
 
 	var/mob/living/shape = new shapeshift_type(caster.loc)
+	if (shifted_speed_increase && shifted_speed_increase != 1)
+		shape.add_movespeed_modifier(type, update=TRUE, priority=100, multiplicative_slowdown=-shifted_speed_increase)
+
+
 	H = new(shape,src,caster)
-	shape.name = "[shape] ([caster.real_name])"
+	if (show_true_name)
+		shape.name = "[shape] ([caster.real_name])"
 
 	clothes_req = FALSE
 	human_req = FALSE
 
-	playsound(caster.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
-	caster.spawn_gibs(FALSE)
+	if (do_gibs)
+		playsound(caster.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
+		caster.spawn_gibs(FALSE)
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/proc/Restore(mob/living/shape)
 	var/obj/shapeshift_holder/H = locate() in shape

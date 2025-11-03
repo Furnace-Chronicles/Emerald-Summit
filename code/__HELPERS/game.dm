@@ -515,3 +515,12 @@
 		return FALSE
 
 	return pick(possible_loc)
+
+/// Returns this user's display ckey, used in OOC contexts.
+/proc/get_display_ckey(key)
+	var/ckey = ckey(key)
+	if(ckey in GLOB.anonymize)
+		return get_fake_key(ckey)
+	if(!ckey || !istext(ckey))
+		return "some invalid"
+	return ckey

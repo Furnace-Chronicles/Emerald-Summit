@@ -1,5 +1,4 @@
-//Dead mobs can exist whenever. This is needful
-
+// Dead mobs can exist whenever. This is needful
 INITIALIZE_IMMEDIATE(/mob/dead)
 
 /mob/dead
@@ -47,7 +46,6 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 	loc = destination
 	Moved(oldloc, NONE, TRUE)
 
-
 /mob/dead/new_player/proc/lobby_refresh()
 	set waitfor = 0
 //	src << browse(null, "window=lobby_window")
@@ -91,6 +89,12 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 		for(var/mob/dead/new_player/player in GLOB.player_list)
 			if(!player)
 				continue
+			if(!player.client)
+				continue
+			if(!player.client.prefs)
+				continue
+			if(!islist(player.client.prefs.job_preferences))
+				continue
 			if(player.client.prefs.job_preferences[job.title] == JP_HIGH)
 				if(player.ready == PLAYER_READY_TO_PLAY)
 					readiedas++
@@ -99,11 +103,20 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 							var/thing = "[player.client.prefs.real_name]"
 							if(istype(job, /datum/job/roguetown/hand))
 								if(player != src)
-									if(client.prefs.job_preferences["Grand Duke"] == JP_HIGH)
-										thing = "<a href='byond://?src=[REF(src)];sethand=[player.client.ckey]'>[player.client.prefs.real_name]</a>"
+									if(client && client.prefs && islist(client.prefs.job_preferences))
+										if(client.prefs.job_preferences["Grand Duke"] == JP_HIGH)
+											thing = "<a href='byond://?src=[REF(src)];sethand=[player.client.ckey]'>[player.client.prefs.real_name]</a>"
 								for(var/mob/dead/new_player/Lord in GLOB.player_list)
+									if(!Lord)
+										continue
+									if(!Lord.client)
+										continue
+									if(!Lord.client.prefs)
+										continue
+									if(!islist(Lord.client.prefs.job_preferences))
+										continue
 									if(Lord.client.prefs.job_preferences["Grand Duke"] == JP_HIGH)
-										if(Lord.brohand == player.ckey)
+										if(Lord.brohand == player.client.ckey)
 											thing = "*[thing]*"
 											break
 							if(wanderer_job)

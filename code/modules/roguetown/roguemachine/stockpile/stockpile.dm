@@ -124,6 +124,8 @@
 					SStreasury.economic_output += R.export_price * B.amount
 					if(!SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty") && message == TRUE)
 						say("No account found. Submit your fingers to a Meister for inspection.")
+					else
+						record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)
 			continue
 		else if(istype(I,R.item_type))
 			if(!R.check_item(I))

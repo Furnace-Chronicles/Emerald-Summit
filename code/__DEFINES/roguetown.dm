@@ -335,6 +335,29 @@
 	/datum/species/lamia,\
 	/datum/species/harpy,\
 )
+
+#define NON_DWARVEN_NON_GOLEM_RACE_TYPES list(\
+	/datum/species/human/northern,\
+	/datum/species/human/halfelf,\
+	/datum/species/elf/dark,\
+	/datum/species/elf/wood,\
+	/datum/species/tieberian,\
+	/datum/species/aasimar,\
+	/datum/species/lizardfolk,\
+	/datum/species/lupian,\
+	/datum/species/tabaxi,\
+	/datum/species/vulpkanin,\
+	/datum/species/akula,\
+	/datum/species/moth,\
+	/datum/species/dracon,\
+	/datum/species/anthromorph,\
+	/datum/species/demihuman,\
+	/datum/species/halforc,\
+	/datum/species/dullahan,\
+	/datum/species/lamia,\
+	/datum/species/harpy,\
+)
+
 // Non-elf non-dwarf non-kobold non-goblin mostly
 #define HUMANLIKE_RACE_TYPES list(\
 	/datum/species/human/northern,\

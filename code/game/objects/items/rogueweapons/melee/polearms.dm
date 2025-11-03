@@ -119,7 +119,7 @@
 	animname = "cut"
 	blade_class = BCLASS_CHOP
 	reach = 1
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = -100 // hard set to not penetrate armor as its original design intended
 	damfactor = 2.5
 	clickcd = CLICK_CD_CHARGED
 	no_early_release = TRUE
@@ -130,7 +130,7 @@
 
 /datum/intent/rend/reach
 	name = "long rend"
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = -100
 	misscost = 5
 	clickcd = CLICK_CD_HEAVY
 	damfactor = 2
@@ -266,7 +266,7 @@
 	if(ismob(target)) {
 		var/mob/living/M = target
 		M.adjust_fire_stacks(3)
-		M.IgniteMob()
+		M.ignite_mob()
 	}
 	return .
 
@@ -329,18 +329,38 @@
 
 
 /obj/item/rogueweapon/spear/psyspear
-	name = "ornate spear"
+	name = "psydonian spear"
 	desc = "An ornate spear, plated in a ceremonial veneer of silver. The barbs pierce your palm, and - for just a moment - you see red. Never forget that you are why the ten wept."
 	icon_state = "psyspear"
+	force = 15
+	force_wielded = 25
+	minstr = 11
+	wdefense = 6
 	resistance_flags = FIRE_PROOF	//It's meant to be smacked by a "lamptern", and is special enough to warrant overriding the spear weakness
+	is_silver = TRUE
+	smeltresult = /obj/item/ingot/silver
 
 /obj/item/rogueweapon/spear/psyspear/ComponentInitialize()
-	. = ..()								//+3 force, +50 blade int, +50 int, +1 def, make silver
-	AddComponent(/datum/component/psyblessed, FALSE, 3, 50, 50, 1, TRUE)
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 50,\
+		added_int = 50,\
+		added_def = 2,\
+	)
 
 /obj/item/rogueweapon/spear/psyspear/preblessed/ComponentInitialize()
-	. = ..()								//Pre-blessed, +3 force, +50 blade int, +50 int, +1 def, make silver
-	AddComponent(/datum/component/psyblessed, TRUE, 3, 50, 50, 1, TRUE)
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 50,\
+		added_int = 50,\
+		added_def = 2,\
+	)
 
 /obj/item/rogueweapon/spear/getonmobprop(tag)
 	. = ..()
@@ -738,17 +758,38 @@
 	desc = "Christened in the Siege of Lirvas, these silver-tipped poleaxes - wielded by a lonesome contingent of Saint Eora's paladins - kept the horrors at bay for forty daes-and-nites. Long-since-recovered from the rubble, this relic now serve as a bulwark for the defenseless."
 	icon_state = "psyhalberd"
 
-/obj/item/rogueweapon/halberd/psyhalberd/relic/ComponentInitialize()	//Pre-blessed, +5 force, +100 blade int, +100 int, +2 def, make silver.
-	AddComponent(/datum/component/psyblessed, TRUE, 5, 100, 100, 2, TRUE)
+/obj/item/rogueweapon/halberd/psyhalberd/relic/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 100,\
+		added_int = 100,\
+		added_def = 2,\
+	)
 
 /obj/item/rogueweapon/halberd/psyhalberd	
 	name = "psydonian halberd"
 	desc = "A reliable design that has served humenkind to fell the enemy and defend Psydon's flock - now fitted with a lengthier blade and twin, silver-tipped beaks."
 	icon_state = "silverhalberd"
+	force = 10
+	force_wielded = 25
+	minstr = 11
+	wdefense = 7
+	is_silver = TRUE
+	smeltresult = /obj/item/ingot/silver
 
 /obj/item/rogueweapon/halberd/psyhalberd/ComponentInitialize()
-	. = ..()							//+3 force, +50 int, +1 def, make silver
-	AddComponent(/datum/component/psyblessed, FALSE, 3, FALSE, 50, 1, TRUE)
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 0,\
+		added_int = 50,\
+		added_def = 2,\
+	)
 
 /obj/item/rogueweapon/halberd/glaive
 	possible_item_intents = list(/datum/intent/spear/thrust/eaglebeak, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
@@ -771,7 +812,6 @@
 				return list("shrink" = 0.6,"sx" = 3,"sy" = 4,"nx" = -1,"ny" = 4,"wx" = -8,"wy" = 3,"ex" = 7,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 15,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 			if("onback")
 				return list("shrink" = 0.5,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
-
 
 
 /obj/item/rogueweapon/eaglebeak
@@ -903,6 +943,8 @@
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 			if("altgrip")
 				return list("shrink" = 0.6,"sx" = 4,"sy" = 0,"nx" = -7,"ny" = 1,"wx" = -8,"wy" = 0,"ex" = 8,"ey" = -1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -135,"sturn" = -35,"wturn" = 45,"eturn" = 145,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
+			if("onback")
+				return list("shrink" = 0.6,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
 /obj/item/rogueweapon/greatsword/equipped(mob/user, slot, initial = FALSE)
 	pickup_sound = pickup_sound
@@ -975,10 +1017,23 @@
 	name = "psydonian greatsword"
 	desc = "It is said that a Psydonian smith was guided by Saint Malum himself to forge such a formidable blade, and given the task to slay a daemon preying on the Otavan farmlands. The design was retrieved, studied, and only a few replicas made - for they believe it dulls its edge."
 	icon_state = "silverexealt"
+	force = 8
+	force_wielded = 25
+	minstr = 11
+	wdefense = 6
+	is_silver = TRUE
+	smeltresult = /obj/item/ingot/silver
 
 /obj/item/rogueweapon/greatsword/psygsword/ComponentInitialize()
-	. = ..()							//+3 force, +50 int, +1 def, make silver
-	AddComponent(/datum/component/psyblessed, FALSE, 3, FALSE, 50, 1, TRUE)
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 0,\
+		added_int = 50,\
+		added_def = 2,\
+	)
 
 /obj/item/rogueweapon/greatsword/psygsword/relic
 	name = "Apocrypha"
@@ -986,25 +1041,50 @@
 	force = 25
 	icon_state = "psygsword"
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/peel, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/exe, /datum/intent/rend, /datum/intent/axe/chop)
+	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/peel, /datum/intent/rend, /datum/intent/axe/chop)
 
-/obj/item/rogueweapon/greatsword/psygsword/relic/ComponentInitialize()		//Pre-blessed, +100 Blade int, +100 int, +2 def, make it silver
-	AddComponent(/datum/component/psyblessed, TRUE, 5, 100, 100, 2, TRUE)
+/obj/item/rogueweapon/greatsword/psygsword/relic/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 100,\
+		added_int = 100,\
+		added_def = 2,\
+	)
 
 /obj/item/rogueweapon/greatsword/bsword/psy
 	name = "old psydonian broadsword"
 	desc = "Even the most ignorant of zealots know that the holy silver loses its properties when not blessed by Adjudicators and Priests of the Holy See for an extended period of time. Its edge remains as lethal as ever, however."
 	icon_state = "oldpsybroadsword"
-	force = 25
-	force_wielded = 30
+	force = 8
+	force_wielded = 25
+	minstr = 11
+	wdefense = 6
 	possible_item_intents = list(/datum/intent/sword/cut,/datum/intent/sword/chop,/datum/intent/stab,/datum/intent/rend/krieg)
 	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/chop, /datum/intent/sword/lunge, /datum/intent/sword/thrust/estoc)
 	alt_intents = list(/datum/intent/effect/daze, /datum/intent/sword/strike, /datum/intent/sword/bash)
+	is_silver = TRUE
+	smeltresult = /obj/item/ingot/silver
+
+/obj/item/rogueweapon/greatsword/bsword/psy/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 0,\
+		added_int = 50,\
+		added_def = 2,\
+	)
 
 /obj/item/rogueweapon/greatsword/bsword/psy/relic
 	name = "Creed"
 	desc = "Psydonian prayers and Tennite smiths, working as one to craft a weapon to slay the Four. A heavy and large blade, favored by Saint Ravox, to lay waste to those who threaten His flock. The crossguard's psycross reflects even the faintest of Noc's light. You're the light - show them the way."
 	icon_state = "psybroadsword"
+	is_silver = TRUE
+	smeltresult = /obj/item/ingot/silver
 
 /obj/item/rogueweapon/greatsword/bsword/psy/getonmobprop(tag)
 	. = ..()
@@ -1016,17 +1096,33 @@
 			if("onbelt") return list("shrink" = 0.3, "sx" = -4, "sy" = -6, "nx" = 5, "ny" = -6, "wx" = 0, "wy" = -6, "ex" = -1, "ey" = -6, "nturn" = 100, "sturn" = 156, "wturn" = 90, "eturn" = 180, "nflip" = 0, "sflip" = 0, "wflip" = 0, "eflip" = 0, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0)
 
 /obj/item/rogueweapon/greatsword/bsword/psy/relic/ComponentInitialize()
-	. = ..()					//Pre-blessed, +5 DMG, +100 Blade int, +100 int, +2 def, make it silver
-	AddComponent(/datum/component/psyblessed, TRUE, 5, 100, 100, 2, TRUE)
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 100,\
+		added_int = 100,\
+		added_def = 2,\
+	)
 
 /obj/item/rogueweapon/greatsword/bsword/psy/unforgotten
 	name = "unforgotten blade"
 	desc = "High Inquisitor Archibald once recorded an expedition of seven brave Adjudicators into Gronnian snow-felled wastes to root out evil. Its leader, Holy Ordinator Guillemin, was said to have held on for seven daes and seven nights against darksteel-clad heretics before Psydon acknowledged his endurance. Nothing but his blade remained - his psycross wrapped around its hilt in rememberance."
 	icon_state = "forgottenblade"
+	is_silver = TRUE
+	smeltresult = /obj/item/ingot/silver
 
 /obj/item/rogueweapon/greatsword/bsword/psy/unforgotten/ComponentInitialize()
-	. = ..()					//+50 Blade int, +3 DMG, +50 int, +1 def, make it silver
-	AddComponent(/datum/component/psyblessed, FALSE, 3, 50, 50, 1, TRUE)
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 50,\
+		added_int = 50,\
+		added_def = 2,\
+	)
 
 /obj/item/rogueweapon/estoc
 	name = "estoc"
@@ -1118,7 +1214,30 @@
 					"wflip" = 8,
 					"eflip" = 0,
 					)
-
+			if("onback")
+				return list(
+					"shrink" = 0.6,
+					"sx" = -1,
+					"sy" = 2,
+					"nx" = 0,
+					"ny" = 2,
+					"wx" = 2,
+					"wy" = 1,
+					"ex" = 0,
+					"ey" = 1,
+					"nturn" = 0,
+					"sturn" = 0,
+					"wturn" = 70,
+					"eturn" = 15,
+					"nflip" = 1,
+					"sflip" = 1,
+					"wflip" = 1,
+					"eflip" = 1,
+					"northabove" = 1,
+					"southabove" = 0,
+					"eastabove" = 0,
+					"westabove" = 0,
+					)
 
 /obj/item/rogueweapon/estoc/equipped(mob/user, slot, initial = FALSE)
 	pickup_sound = pickup_sound
@@ -1203,6 +1322,7 @@
 	It is also useful for parrying and stopping a charging opponent."
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	icon_state = "boarspear"
+	force =  22 // 10% base damage increase
 	force_wielded = 33 // 10% base damage increase
 	wdefense = 6 // A little bit extra
 	max_blade_int = 200 // 50% more sharpness but it barely matter lol

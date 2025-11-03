@@ -172,12 +172,12 @@
 					playsound(AM, pick('sound/foley/watermove (1).ogg','sound/foley/watermove (2).ogg'), 100, FALSE)
 				if(istype(oldLoc, type) && (get_dir(src, oldLoc) != SOUTH))
 					water_overlay.layer = ABOVE_MOB_LAYER
-					water_overlay.plane = GAME_PLANE_UPPER
+					water_overlay.plane = water_overlay.plane = GAME_PLANE_HIGHEST
 				else
 					spawn(6)
 						if(AM.loc == src)
 							water_overlay.layer = ABOVE_MOB_LAYER
-							water_overlay.plane = GAME_PLANE_UPPER
+							water_overlay.plane = GAME_PLANE_HIGHEST
 		if(!istype(L, /mob/living/carbon/human/species/skeleton))
 			return
 		if(!istype(src, /turf/open/water/sewer))
@@ -251,7 +251,8 @@
 	if(L.stat != CONSCIOUS)
 		return
 	if(do_after(L, 25, target = src))
-		var/list/waterl = list(/datum/reagent/water = 5)
+		var/list/waterl = list()
+		waterl[water_reagent] = 5
 		var/datum/reagents/reagents = new()
 		reagents.add_reagent_list(waterl)
 		reagents.trans_to(L, reagents.total_volume, transfered_by = user, method = INGEST)

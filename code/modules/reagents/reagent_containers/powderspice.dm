@@ -90,7 +90,7 @@
 		if(canconsume(C, silent = TRUE))
 			if(reagents.total_volume)
 				playsound(C, 'sound/items/sniff.ogg', 100, FALSE)
-				GLOB.scarlet_round_stats[STATS_DRUGS_SNORTED]++
+				record_round_statistic(STATS_DRUGS_SNORTED)
 				reagents.trans_to(C, 1, transfered_by = thrownthing.thrower, method = "swallow")
 	qdel(src)
 
@@ -117,13 +117,13 @@
 				return FALSE
 
 	playsound(M, 'sound/items/sniff.ogg', 100, FALSE)
-	GLOB.scarlet_round_stats[STATS_DRUGS_SNORTED]++
+	record_round_statistic(STATS_DRUGS_SNORTED)
 
 	if(reagents.total_volume)
 		reagents.trans_to(M, reagents.total_volume, transfered_by = user, method = "swallow")
 		SEND_SIGNAL(M, COMSIG_DRUG_SNIFFED, user)
 		record_featured_stat(FEATURED_STATS_CRIMINALS, user)
-		GLOB.scarlet_round_stats[STATS_DRUGS_SNORTED]++
+		record_round_statistic(STATS_DRUGS_SNORTED)
 	qdel(src)
 	return TRUE
 
@@ -494,3 +494,27 @@
 	M.adjustOxyLoss(4, 0)
 	..()
 	. = 1
+
+/datum/reagent/sleep_powder
+	name = "sleep powder"
+	description = ""
+	color = "#ddd3df" // rgb: 96, 165, 132
+	metabolization_rate = 1
+
+// TO DO: eventually rewrite drowsyness code to do this instead then it can be expanded
+// The reason why I haven't is because vampire lords have some special code for drowsyness I'll ave to get to...
+// this shit sucks ass and the person above should be fed feet first into a food processor for making this DOGSHIT
+/datum/reagent/sleep_powder/on_mob_metabolize(mob/living/carbon/M)
+	if (!HAS_TRAIT(M, TRAIT_TOXIMMUNE))
+		M.apply_status_effect(/datum/status_effect/debuff/knockout)
+	..()
+
+
+/obj/item/reagent_containers/powder/sleep_powder
+	name = "powder"
+	desc = ""
+	gender = PLURAL
+	icon_state = "flour"
+	list_reagents = list(/datum/reagent/sleep_powder = 5)
+	grind_results = null
+	volume = 10

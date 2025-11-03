@@ -15,6 +15,7 @@ GLOBAL_LIST_INIT(t4enchantmentrunerituallist,generate_t4enchantment_rituallist()
 	for(var/datum/runeritual/runeritual as anything in typesof(/datum/runeritual))
 		runerituals[initial(runeritual.name)] = runeritual
 	return runerituals
+
 /proc/generate_allowed_runeritual_types()	//list of all non-summoning rituals for player use
 	RETURN_TYPE(/list)
 	var/list/runerituals = list()

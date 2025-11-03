@@ -28,7 +28,7 @@
 	craftdiff = 0
 
 /datum/crafting_recipe/roguetown/survival/tribalrags
-	name = "tribal rags (1 fibers, 1 hide)"
+	name = "tribal rags"
 	category = "Clothes"
 	result = /obj/item/clothing/suit/roguetown/shirt/tribalrag
 	reqs = list(
@@ -43,7 +43,7 @@
 	craftdiff = 0
 
 /datum/crafting_recipe/roguetown/leather/neck/leather_collar
-	name = "leather collar (1 cured hide)"
+	name = "leather collar"
 	category = "Clothes"
 	result = /obj/item/clothing/neck/roguetown/collar/leather
 	reqs = list(/obj/item/natural/hide/cured = 1)
@@ -54,7 +54,7 @@
 	always_availible = TRUE
 
 /datum/crafting_recipe/roguetown/leather/neck/catbell_collar
-	name = "catbell collar (1 cured leather, catbell)"
+	name = "catbell collar"
 	result = /obj/item/clothing/neck/roguetown/collar/catbell
 	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/catbell = 1)
 	tools = list(/obj/item/needle)
@@ -64,7 +64,7 @@
 	always_availible = TRUE
 
 /datum/crafting_recipe/roguetown/leather/neck/cowbell_collar
-	name = "cowbell collar (1 curedleather, cowbell)"
+	name = "cowbell collar"
 	result = /obj/item/clothing/neck/roguetown/collar/cowbell
 	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/catbell/cow = 1)
 	tools = list(/obj/item/needle)
@@ -74,7 +74,7 @@
 	always_availible = TRUE
 
 /datum/crafting_recipe/roguetown/leather/neck/leather_leash
-	name = "leather leash (1 cured hide)"
+	name = "leather leash"
 	result = /obj/item/leash/leather
 	reqs = list(/obj/item/natural/hide/cured = 1)
 	tools = list(/obj/item/needle)

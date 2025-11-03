@@ -139,13 +139,26 @@
 	name = "silver war hammer"
 	desc = "A light war hammer forged of silver."
 	icon_state = "silverhammer"
-	force = 24
+	force = 18
+	force_wielded = 20
+	minstr = 9
+	wdefense = 5
 	gripped_intents = null
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/effect/daze)
-	wdefense = 4
 	smeltresult = /obj/item/ingot/silver
 	smelt_bar_num = 2
 	is_silver = TRUE
+
+/obj/item/rogueweapon/mace/silver/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_TENNITE,\
+		added_force = 0,\
+		added_blade_int = 100,\
+		added_int = 50,\
+		added_def = 2,\
+	)
 
 /obj/item/rogueweapon/mace/silver/getonmobprop(tag)
 	. = ..()
@@ -211,21 +224,38 @@
 /obj/item/rogueweapon/mace/cudgel/psy
 	name = "psydonian handmace"
 	desc = "A shorthanded mace, a convenient sleeping aid, or a means to root out heresy. It's all in the wrist."
+	icon_state = "psyflangedmace"
+	force = 20
+	force_wielded = 20
+	minstr = 9
+	wdefense = 5
 	wbalance = WBALANCE_SWIFT
 	blade_dulling = DULLING_SHAFT_REINFORCED
 	resistance_flags = FIRE_PROOF
-	icon_state = "psyflangedmace"
-	wdefense = 2
+	is_silver = TRUE
+	smeltresult = /obj/item/ingot/silver
 
 /obj/item/rogueweapon/mace/cudgel/psy/ComponentInitialize()
-	// +3 force, +100 blade int, +50 int, +1 def, make silver
-	AddComponent(/datum/component/psyblessed, FALSE, 3, 100, 50, 1, TRUE)	
-
-/obj/item/rogueweapon/mace/cudgel/psy/preblessed
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 100,\
+		added_int = 50,\
+		added_def = 1,\
+	)
 
 /obj/item/rogueweapon/mace/cudgel/psy/preblessed/ComponentInitialize()
-	// PREBLESS IT +3 force, +100 blade int, +50 int, +1 def, make silver
-	AddComponent(/datum/component/psyblessed, TRUE, 3, 100, 50, 1, TRUE)
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 100,\
+		added_int = 50,\
+		added_def = 1,\
+	)
 
 /obj/item/rogueweapon/mace/cudgel/psy/old
 	name = "old psydonian handmace"
@@ -233,9 +263,6 @@
 	force = 20
 	wbalance = WBALANCE_NORMAL
 	icon_state = "opsyflangedmace"
-
-/obj/item/rogueweapon/mace/cudgel/psy/old/ComponentInitialize()
-	return
 
 /obj/item/rogueweapon/mace/cudgel/copper
 	name = "copper bludgeon"
@@ -275,6 +302,7 @@
 	desc = "This wooden sword is great for training."
 	force = 5
 	force_wielded = 8
+	icon = 'icons/roguetown/weapons/swords32.dmi'
 	icon_state = "wsword"
 	//dropshrink = 0.75
 	possible_item_intents = list(/datum/intent/mace/strike/wood)
@@ -353,6 +381,7 @@
 	//dropshrink = 0.75
 	wlength = WLENGTH_LONG
 	w_class = WEIGHT_CLASS_BULKY
+	walking_stick = TRUE
 	associated_skill = /datum/skill/combat/maces
 	smeltresult = /obj/item/ash
 	swingsound = BLUNTWOOSH_MED
@@ -435,24 +464,41 @@
 	minstr = 15
 	slot_flags = ITEM_SLOT_BACK
 
-
 /obj/item/rogueweapon/mace/goden/psymace
-	name = "ornate mace"
+	name = "psydonian mace"
 	desc = "An ornate mace, plated in a ceremonial veneer of silver. Even the unholy aren't immune to discombobulation."
 	icon_state = "psymace"
-	force = 25
-	force_wielded = 32
+	force = 20
+	force_wielded = 25
+	minstr = 12
+	wdefense = 6
 	wbalance = WBALANCE_HEAVY
 	dropshrink = 0.75
 	smelt_bar_num = 2
+	is_silver = TRUE
+	smeltresult = /obj/item/ingot/silver
 
 /obj/item/rogueweapon/mace/goden/psymace/ComponentInitialize()
-	. = ..()								//+3 force, +50 int, +1 def, make silver
-	AddComponent(/datum/component/psyblessed, FALSE, 3, FALSE, 50, 1, TRUE)
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 0,\
+		added_int = 50,\
+		added_def = 1,\
+	)
 
 /obj/item/rogueweapon/mace/goden/psymace/preblessed/ComponentInitialize()
-	. = ..()								//Pre-blessed, +3 force, +50 int, +1 def, make silver
-	AddComponent(/datum/component/psyblessed, TRUE, 3, FALSE, 50, 1, TRUE)
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 0,\
+		added_int = 50,\
+		added_def = 1,\
+	)
 
 /obj/item/rogueweapon/mace/spiked
 	icon_state = "spiked_club"

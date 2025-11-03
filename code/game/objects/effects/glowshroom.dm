@@ -8,11 +8,15 @@
 	density = FALSE
 	icon = 'icons/roguetown/misc/foliage.dmi'
 	icon_state = "glowshroom1" //replaced in New
-	layer = ABOVE_NORMAL_TURF_LAYER
+	layer = SPACEVINE_LAYER //A bit high but keeps it from fucking layering UNDER EVERYTHING
+	light_system = MOVABLE_LIGHT
 	max_integrity = 30
 	blade_dulling = DULLING_CUT
 	resistance_flags = FLAMMABLE
-
+	light_outer_range = 2
+	light_inner_range = 1
+	light_power = 1.5
+	light_color = "#d4fcac"
 /obj/structure/glowshroom/fire_act(added, maxstacks)
 	visible_message(span_warning("[src] catches fire!"))
 	var/turf/T = get_turf(src)
@@ -107,8 +111,6 @@
 
 /obj/structure/glowshroom/New(loc, obj/item/seeds/newseed, mutate_stats)
 	..()
-	set_light(1.5, 1.5, 1.5, l_color ="#d4fcac")
-
 	icon_state = "glowshroom[rand(1,3)]"
 
 	pixel_x = rand(-4, 4)

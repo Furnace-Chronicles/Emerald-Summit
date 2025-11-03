@@ -1,5 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/wheel
 	name = "The Wheel"
+	desc = "Invoke pure random chance upon the target, altering their fortune."
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 3
@@ -11,19 +12,20 @@
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
 	recharge_time = 5 MINUTES
-	
+
 /obj/effect/proc_holder/spell/invoked/wheel/cast(list/targets, mob/user = usr)
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
 		if(target.anti_magic_check(TRUE, TRUE))
 			return FALSE
-		target.apply_status_effect(/datum/status_effect/wheel)		
+		target.apply_status_effect(/datum/status_effect/wheel)
 		return TRUE
 	revert_cast()
 	return FALSE
 
 /obj/effect/proc_holder/spell/invoked/mastersillusion
 	name = "Set Decoy"
+	desc = "Create a vanishing decoy in your likeness."
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
@@ -82,10 +84,11 @@
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal, death), TRUE), 7 SECONDS)
 	icon = I
 	name = copycat.name
-	
+
 
 /obj/effect/proc_holder/spell/invoked/mockery
 	name = "Vicious Mockery"
+	desc = "Mock your target. How fun!"
 	releasedrain = 50
 	associated_skill = /datum/skill/misc/music
 	recharge_time = 2 MINUTES
@@ -102,7 +105,7 @@
 			return FALSE
 		target.apply_status_effect(/datum/status_effect/debuff/viciousmockery)
 		SEND_SIGNAL(user, COMSIG_VICIOUSLY_MOCKED, target)
-		GLOB.scarlet_round_stats[STATS_PEOPLE_MOCKED]++
+		record_round_statistic(STATS_PEOPLE_MOCKED)
 		return TRUE
 	revert_cast()
 	return FALSE
@@ -150,6 +153,7 @@
 
 /obj/effect/proc_holder/spell/self/xylixslip
 	name = "Xylixian Slip"
+	desc = "Slip forward a moderate distance."
 	overlay_state = "xylix_slip"
 	releasedrain = 10
 	chargedrain = 0
@@ -163,7 +167,7 @@
 	miracle = TRUE
 	var/leap_dist = 4	//3 tiles (+1 to account for origin tile)
 	var/static/list/sounds = list('sound/magic/xylix_slip1.ogg','sound/magic/xylix_slip2.ogg','sound/magic/xylix_slip3.ogg','sound/magic/xylix_slip4.ogg')
-	
+
 /obj/effect/proc_holder/spell/self/xylixslip/cast(list/targets, mob/user = usr)
 	. = ..()
 	if(!ishuman(user))

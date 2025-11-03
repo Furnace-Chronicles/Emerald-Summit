@@ -26,7 +26,7 @@
 	var/garrisoncolor = DEFAULT_GARRISON_COLOR // NOTE: THIS IS THE SENDER'S COLOR, NOT THE RECEIVER'S
 	var/is_broken = FALSE
 	var/message_received_sound = 'sound/misc/scom.ogg'
-	var/message_received_volume = 100
+	var/message_received_volume = 50 //THIS SHIT GETS LOUD WHEN THE MAPPERS AIN'T THINKING
 	var/target = SCOM_TARGET_COMMONS
 	var/mute_commons = FALSE
 	var/mute_garrison = FALSE
@@ -620,7 +620,7 @@
 
 /obj/item/scomstone/mattcoin/New(loc, ...)
 	. = ..()
-	name = pick("rontz ring", "gold ring")
+	name = pick("rontz ring", "gold ring", "ring of null magic", "fate weaver", "gemerald ring", "toper ring", "blortz ring", "saffira ring","signet ring","silver signet ring", "Dragon ring", "dorpel ring", "duelist's ring")
 
 /obj/item/scomstone/mattcoin/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_COMMIE))
@@ -752,13 +752,14 @@
 	scominit()
 	become_hearing_sensitive()
 
+
 /obj/structure/broadcast_horn/Destroy()
 	lose_hearing_sensitivity()
 	return ..()
 
 /obj/structure/broadcast_horn/proc/scominit()
 	scom.setup(src, TRUE, TRUE, FALSE, FALSE, DEFAULT_GARRISON_COLOR, 'sound/vo/mobs/rat/rat_life.ogg', 100, SCOM_TARGET_LOUDMOUTH_STRONG, FALSE, FALSE, FALSE, FALSE)
-	scom.active_listening = FALSE
+	scom.active_listening = TRUE
 	scom.active_speaking = FALSE
 
 /obj/structure/broadcast_horn/examine(mob/user)

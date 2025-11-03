@@ -82,7 +82,7 @@
 	if(BP)
 		testing("projwound")
 		var/newdam = P.damage * (100-blocked)/100
-		BP.bodypart_attacked_by(P.woundclass, newdam, zone_precise = def_zone, crit_message = TRUE)
+		BP.bodypart_attacked_by(P.woundclass, newdam, zone_precise = def_zone, crit_message = TRUE, weapon = P)
 		return TRUE
 
 /mob/living/carbon/check_projectile_embed(obj/projectile/P, def_zone, blocked)
@@ -224,7 +224,7 @@
 	var/statforce = get_complex_damage(I, user)
 	if(statforce)
 		next_attack_msg.Cut()
-		affecting.bodypart_attacked_by(user.used_intent.blade_class, statforce, crit_message = TRUE)
+		affecting.bodypart_attacked_by(user.used_intent.blade_class, statforce, crit_message = TRUE, weapon = I)
 		apply_damage(statforce, I.damtype, affecting)
 		if(I.damtype == BRUTE && affecting.status == BODYPART_ORGANIC)
 			if(prob(statforce))
@@ -254,7 +254,7 @@
 
 	if(statforce)
 		var/probability = I.get_dismemberment_chance(affecting, user, useder)
-		if(prob(probability) && affecting.dismember(I.damtype, user.used_intent?.blade_class, user, user.zone_selected))
+		if(prob(probability) && affecting.dismember(I.damtype, user.used_intent?.blade_class, user, user.zone_selected, vorpal = I.vorpal))
 			I.add_mob_blood(src)
 			playsound(get_turf(src), I.get_dismember_sound(), 80, TRUE)
 		return TRUE //successful attack

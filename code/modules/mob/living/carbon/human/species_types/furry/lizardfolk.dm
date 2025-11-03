@@ -11,7 +11,7 @@
 	communities. To the civilized, they are considered little more than savages, for much of the history between them has \
 	been painted with blood and strife. In recent years, many Zardmen born outside of tribes have integrated into Humen \
 	societies -- often as laborers or mercenaries.<br> \
-	(+1 Constitution, +1 Endurance)"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 CON | +1 END</b></span> </br>"
 	skin_tone_wording = "Skin Colors"
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)
 	possible_ages = ALL_AGES_LIST

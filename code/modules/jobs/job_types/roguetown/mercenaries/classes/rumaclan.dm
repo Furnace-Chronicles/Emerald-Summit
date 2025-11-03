@@ -2,7 +2,7 @@
 	name = "Ruma Clan Kyodai"
 	tutorial = "A band of foreign Kazengites. The Ruma Clan isn't an organized group of soldiers - rather a loose collection of fighters, with strange tattoos that act as armor."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = NON_DWARVEN_RACE_TYPES //no dwarf sprites
+	allowed_races = NON_DWARVEN_NON_GOLEM_RACE_TYPES //no dwarf sprites
 	outfit = /datum/outfit/job/roguetown/mercenary/rumaclan
 	subclass_languages = list(/datum/language/kazengunese)
 	class_select_category = CLASS_CAT_KAZENGUN

@@ -294,7 +294,7 @@
 /datum/stressevent/tortured/on_apply(mob/living/user)
 	. = ..()
 	if(user.client)
-		GLOB.scarlet_round_stats[STATS_TORTURES]++
+		record_round_statistic(STATS_TORTURES)
 
 /datum/stressevent/noble_bad_manners
 	stressadd = 1
@@ -365,6 +365,11 @@
 	stressadd = 5
 	desc = span_red("My PATRON is NOT PROUD of ME!")
 	timer = 20 MINUTES
+
+/datum/stressevent/blessed_weapon
+	stressadd = -3
+	timer = 999 MINUTES
+	desc = span_green("I'm wielding a BLESSED weapon!")
 
 /datum/stressevent/lostchampion
 	stressadd = 8

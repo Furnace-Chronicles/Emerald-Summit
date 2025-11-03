@@ -189,3 +189,7 @@
 /obj/item/seeds/cucumber
 	seed_identity = "cucumber seeds"
 	plant_def_type = /datum/plant_def/cucumber
+
+/obj/item/seeds/pumpkin
+	seed_identity = "pumpkin seeds"
+	plant_def_type = /datum/plant_def/pumpkin

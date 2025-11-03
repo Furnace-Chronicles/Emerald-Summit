@@ -4,6 +4,7 @@
 	accept_hand = FALSE
 	implements = list(
 		TOOL_SCALPEL = 80,
+		TOOL_IMPROVISED_SCALPEL = 70,
 		TOOL_SAW = 60,
 		TOOL_IMPROVISED_SAW = 50,
 		TOOL_SHARP = 40,

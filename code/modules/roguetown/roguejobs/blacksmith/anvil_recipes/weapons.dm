@@ -813,43 +813,43 @@
 	created_item = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 
 /datum/anvil_recipe/weapons/iron/bolts
-	name = "Crossbow Bolts 10x (+2 Stick)"
+	name = "Crossbow Bolts 10x (+1 Stick)"
 	req_bar = /obj/item/ingot/iron
-	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
+	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/ammo_casing/caseless/rogue/bolt
 	createditem_num = 10
 	i_type = "Ammo"
 
 /datum/anvil_recipe/weapons/aalloy/bolts
-	name = "Decrepit Crossbow Bolts 10x (+2 Stick)"
+	name = "Decrepit Crossbow Bolts 10x (+1 Stick)"
 	req_bar = /obj/item/ingot/aalloy
-	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
+	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/ammo_casing/caseless/rogue/bolt/aalloy
 	createditem_num = 10
 	i_type = "Ammo"
 
 /datum/anvil_recipe/weapons/paalloy/bolts
-	name = "Ancient Crossbow Bolts 10x (+2 Stick)"
+	name = "Ancient Crossbow Bolts 10x (+1 Stick)"
 	req_bar = /obj/item/ingot/purifiedaalloy
-	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
+	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/ammo_casing/caseless/rogue/bolt/paalloy
 	createditem_num = 10
 	i_type = "Ammo"
 
 /// BOWS
 /datum/anvil_recipe/weapons/iron/arrows
-	name = "Iron Broadhead Arrows 10x (+2 Stick)"
+	name = "Iron Broadhead Arrows 10x (+1 Stick)"
 	req_bar = /obj/item/ingot/iron
-	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
+	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/ammo_casing/caseless/rogue/arrow/iron
 	createditem_num = 10
 	i_type = "Ammo"
 	craftdiff = 1
 
 /datum/anvil_recipe/weapons/aalloy/arrows
-	name = "Decrepit Broadhead Arrows 10x (+2 Stick)"
+	name = "Decrepit Broadhead Arrows 10x (+1 Stick)"
 	req_bar = /obj/item/ingot/aalloy
-	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
+	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy
 	createditem_num = 10
 	i_type = "Ammo"
@@ -858,18 +858,18 @@
 
 
 /datum/anvil_recipe/weapons/steel/arrows
-	name = "Steel Bodkin Arrows 10x (+2 Stick)"
+	name = "Steel Bodkin Arrows 10x (+1 Stick)"
 	req_bar = /obj/item/ingot/steel
-	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
+	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/ammo_casing/caseless/rogue/arrow/steel
 	createditem_num = 10
 	i_type = "Ammo"
 	craftdiff = 2
 
 /datum/anvil_recipe/weapons/paalloy/arrows
-	name = "Ancient Bodkin Arrows 10x (+2 Stick)"
+	name = "Ancient Bodkin Arrows 10x (+1 Stick)"
 	req_bar = /obj/item/ingot/purifiedaalloy
-	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
+	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy
 	createditem_num = 10
 	i_type = "Ammo"

@@ -18,7 +18,7 @@
 /datum/surgery_step/add_lamian_tail
 	name = "Transplant lamian tail"
 	implements = list(
-		/obj/item/bodypart/lamian_tail = 80, 
+		/obj/item/bodypart/lamian_tail = 80,
 	)
 	target_mobtypes = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
 	time = 3 SECONDS
@@ -27,6 +27,7 @@
 	requires_bodypart_type = NONE
 	skill_min = SKILL_LEVEL_JOURNEYMAN
 	skill_median = SKILL_LEVEL_EXPERT
+	visible_required_skill = TRUE
 
 /datum/surgery_step/add_lamian_tail/validate_bodypart(mob/user, mob/living/carbon/target, obj/item/bodypart/bodypart, target_zone)
 	var/obj/item/bodypart/left_leg = target.get_bodypart(BODY_ZONE_L_LEG)
@@ -87,6 +88,7 @@
 	requires_bodypart_type = NONE
 	skill_min = SKILL_LEVEL_JOURNEYMAN
 	skill_median = SKILL_LEVEL_EXPERT
+	visible_required_skill = TRUE
 
 /datum/surgery_step/add_prosthetic/tool_check(mob/user, obj/item/tool)
 	// Use Implant taur instead, which actually works correctly
@@ -119,7 +121,7 @@
 		if(istype(bodypart, /obj/item/bodypart/head/dullahan))
 			to_chat(user, span_warning("The head is refusing the body."))
 			return FALSE
-			
+
 	display_results(user, target, span_notice("I begin to replace [target]'s [parse_zone(target_zone)] with [tool]..."),
 		span_notice("[user] begins to replace [target]'s [parse_zone(target_zone)] with [tool]."),
 		span_notice("[user] begins to replace [target]'s [parse_zone(target_zone)]."))

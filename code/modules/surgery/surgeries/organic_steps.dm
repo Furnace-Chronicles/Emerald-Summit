@@ -5,6 +5,7 @@
 	name = "Incise"
 	implements = list(
 		TOOL_SCALPEL = 80,
+		TOOL_IMPROVISED_SCALPEL = 70,
 		TOOL_SHARP = 60,
 	) // 60% success with any sharp item.
 	target_mobtypes = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
@@ -81,8 +82,8 @@
 
 /datum/surgery_step/retract/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
 	display_results(user, target, span_notice("I retract [target]'s [parse_zone(target_zone)]."),
-		span_notice("[user] retract [target]'s [parse_zone(target_zone)]."),
-		span_notice("[user] retract [target]'s [parse_zone(target_zone)]."))
+		span_notice("[user] retracts [target]'s [parse_zone(target_zone)]."),
+		span_notice("[user] retracts [target]'s [parse_zone(target_zone)]."))
 	var/obj/item/bodypart/bodypart = target.get_bodypart(check_zone(target_zone))
 	bodypart?.add_embedded_object(tool, crit_message = FALSE)
 	return TRUE

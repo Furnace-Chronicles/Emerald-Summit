@@ -151,8 +151,6 @@
 		. += "It's from [mailer], addressed to [mailedto].</a>"
 
 /obj/item/paper/proc/read(mob/user)
-//	var/datum/asset/assets = get_asset_datum(/datum/asset/spritesheet/simple/paper)
-//	assets.send(user)
 	if(!user.client || !user.hud_used)
 		return
 	if(!user.hud_used.reads)
@@ -220,7 +218,7 @@
 		to_chat(user, span_warning("This parchment is full of strange symbols that start to glow. How odd. Wait-"))
 		sleep(5)
 		victim.adjust_fire_stacks(15)
-		victim.IgniteMob()
+		victim.ignite_mob()
 		victim.visible_message(span_danger("[user] bursts into flames upon reading [src]!"))
 	read(user)
 	if(rigged && (SSevents.holidays && SSevents.holidays[APRIL_FOOLS]))
@@ -361,7 +359,7 @@
 			to_chat(usr, span_warning("This parchment is full of strange symbols that start to glow. How odd. Wait-"))
 			sleep(5)
 			victim.adjust_fire_stacks(15)
-			victim.IgniteMob()
+			victim.ignite_mob()
 			victim.visible_message(span_danger("[usr] bursts into flames upon reading [src]!"))
 		read(usr)
 

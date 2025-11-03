@@ -4,11 +4,13 @@
 /datum/species/moth
 	name = "Fluvian"
 	id = "moth"
-	desc = "Many comparisons have been made to the common moths in an attempt to describe this unique species. From the appetite for clothing to the disconcertingly insectoid appearance, \
+	desc = "<b>Fluvian</b><br>\
+	Many comparisons have been made to the common moths in an attempt to describe this unique species. From the appetite for clothing to the disconcertingly insectoid appearance, \
 	the name 'Moth' is forever stamped onto the common vocabulary. The comparison, however, falls short on the matter of flight. This species generally congregates within lichen-laden \
 	cave regions or lush forests, given their capacity to digest fiber, and many Fluvian artisans take up the art of clothwork to create expensive export goods from cloth or silk (the latter \
 	of which is found in abundance from the spiders often near their settlements). <br>\
-	(+1 Speed)"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 SPD</b></span> </br>"
+
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS,HAIR)
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT

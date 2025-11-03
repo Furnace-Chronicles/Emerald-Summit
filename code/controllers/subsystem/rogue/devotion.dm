@@ -15,6 +15,7 @@
 #define CLERIC_REGEN_DEVOTEE 0.3
 #define CLERIC_REGEN_MINOR 0.5
 #define CLERIC_REGEN_MAJOR 1
+#define CLERIC_REGEN_WITCH 2
 #define CLERIC_REGEN_ABSOLVER 5
 
 // Cleric Holder Datums
@@ -177,6 +178,10 @@
 	if(!devotion)
 		return FALSE
 
+	if (HAS_TRAIT(src, TRAIT_WITCH))
+		to_chat(src, span_warning("What need have I to pray? I draw my power from the old ways, whether my patron likes it or not."))
+		return FALSE
+
 	var/prayersesh = 0
 	visible_message("[src] kneels their head in prayer to the Gods.", "I kneel my head in prayer to [devotion.patron.name].")
 	for(var/i in 1 to 50)
@@ -221,6 +226,19 @@
 	else
 		voice_color = original_voice
 		to_chat(src, span_info("I've returned to my natural voice."))
+	return TRUE
+
+/mob/living/carbon/human/proc/changeaccent()
+	set name = "Change Accent"
+	set category = "Virtue"
+
+	var/choice = input(src, "Choose an accent:", "Voice & Accent") as null|anything in GLOB.character_accents
+	if(!choice)
+		return FALSE
+
+	// Apply new accent
+	char_accent = choice
+	to_chat(src, span_info("I now speak with a [choice]."))
 	return TRUE
 
 /mob/living/carbon/human/proc/toggleblindness()

@@ -52,6 +52,7 @@
 /obj/item/organ/wings/harpy // we could... make it an arm subtype... but im lazy!
 	name = "harpy wings"
 	desc = "Oh, to fly again and feel the wind..."
+	should_regenerate = TRUE
 	var/list/nullspace_items = list()
 
 /obj/item/organ/wings/harpy/Insert(mob/living/carbon/human/M, special = FALSE, drop_if_replaced = TRUE)

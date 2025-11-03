@@ -146,7 +146,7 @@
 
 /datum/supply_pack/rogue/Brigand/silverwarhammer
 	name = "Silver Warhammer"
-	cost = 80
+	cost = 180
 	contains = list(/obj/item/rogueweapon/mace/silver)
 
 /datum/supply_pack/rogue/Brigand/steelwarhammer
@@ -199,7 +199,7 @@
 	cost = 10
 	contains = list(/obj/item/rogueweapon/shield/heater)
 
-/datum/supply_pack/rogue/Brigand/ironshield
+/datum/supply_pack/rogue/Brigand/heatshield
 	name = "Iron Shield"
 	cost = 10
 	contains = list(/obj/item/rogueweapon/shield/iron)

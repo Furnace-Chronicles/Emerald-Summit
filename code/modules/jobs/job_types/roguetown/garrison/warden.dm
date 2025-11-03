@@ -36,17 +36,8 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	belt = /obj/item/storage/belt/rogue/leather
 	backr = /obj/item/storage/backpack/rogue/satchel
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	id = /obj/item/scomstone/bad/garrison
 	job_bitflag = BITFLAG_GARRISON
-
-/datum/job/roguetown/warden/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
-	..()
-	if(ishuman(L))
-		var/mob/living/carbon/human/H = L
-		H.advsetup = 1
-		H.invisibility = INVISIBILITY_MAXIMUM
-		H.become_blind("advsetup")
 
 /datum/advclass/warden/ranger
 	name = "Ranger"
@@ -88,6 +79,7 @@
 	..()
 	neck = /obj/item/clothing/neck/roguetown/coif
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden
@@ -170,6 +162,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick
 	beltl = /obj/item/rogueweapon/huntingknife
 	r_hand = /obj/item/rogueweapon/spear
