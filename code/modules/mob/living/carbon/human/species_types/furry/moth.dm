@@ -4,11 +4,13 @@
 /datum/species/moth
 	name = "Fluvian"
 	id = "moth"
-	desc = "<b>Fluvian</b><br>\
-	Many comparisons have been made to the common moths in an attempt to describe this unique species. From the appetite for clothing to the disconcertingly insectoid appearance, \
-	the name 'Moth' is forever stamped onto the common vocabulary. The comparison, however, falls short on the matter of flight. This species generally congregates within lichen-laden \
-	cave regions or lush forests, given their capacity to digest fiber, and many Fluvian artisans take up the art of clothwork to create expensive export goods from cloth or silk (the latter \
-	of which is found in abundance from the spiders often near their settlements). <br>\
+	desc = "<b>Fluvian: Children of the Library</b><br>\
+	In an era long past there was a Great Library, containing the most powerful arcane tomes of the world in safety from those who would abuse them. \
+	In time it was abandoned and forgotten as its knights were called to service and died. \
+	But the moths of the library began to chew on the magic infused pages, and changed in both body and mind. \
+	Deeply inquisitive and alien in both shape and social engagement, \
+	the Fluvians skitter about the cities of man chewing old cloth and making new works in tailor shops and crafter’s guild halls, \
+	they are considered highly odd by most people.<br>\
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 SPD</b></span> </br>"
 
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS,HAIR)
