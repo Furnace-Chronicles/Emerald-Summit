@@ -150,6 +150,7 @@
 
 	var/armors = list(
 		"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
+		"Full set of plates"	= /obj/item/clothing/suit/roguetown/armor/plate/full,
 		"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates,
 		"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/half,
 		"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/half/fluted,
