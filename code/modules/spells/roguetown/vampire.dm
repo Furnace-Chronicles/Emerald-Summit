@@ -86,14 +86,16 @@
 	. = ..()
 	if(!ishuman(user))
 		return
-	for(var/datum/status_effect/debuff/silver_curse/silver_curse in user.status_effects)
-		to_chat(src, span_warning("My BANE is not letting me REGENERATE!"))
-		revert_cast()
+	if(user.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || user.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
+		if(prob(50))
+			to_chat(user, span_warning("I cannot regenerate while engulfed in holy fire!"))
+		else
+			to_chat(user, span_warning("Holy fire smothers my attempt to mend these wounds!"))
 		return
 	var/datum/antagonist/vampirelord/VD = user.mind.has_antag_datum(/datum/antagonist/vampirelord)
 	if(VD)
 		if(VD.disguised)
-			to_chat(src, span_warning("My curse is hidden."))
+			to_chat(user, span_warning("My curse is hidden."))
 			revert_cast()
 			return
 		if(VD.vitae < 600)
