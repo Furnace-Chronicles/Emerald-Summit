@@ -50,6 +50,10 @@
 	if(!prob(P.accuracy + P.bonus_accuracy))
 		def_zone = BODY_ZONE_CHEST
 	var/ap = (P.flag == "blunt") ? BLUNT_DEFAULT_PENFACTOR : P.armor_penetration
+	// Add PER-based armor penetration for ranged attacks
+	if(ishuman(P.firer))
+		var/mob/living/carbon/human/shooter = P.firer
+		ap += (shooter.STAPER - 10) * PER_PEN_FACTOR
 	var/armor = run_armor_check(def_zone, P.flag, "", "",armor_penetration = ap, damage = P.damage)
 
 	next_attack_msg.Cut()

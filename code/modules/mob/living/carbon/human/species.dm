@@ -1711,6 +1711,11 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(!apply_damage(raw_damage, I.damtype, def_zone, armor_block, H))
 			nodmg = TRUE
 			H.next_attack_msg += " <span class='warning'>Armor stops the damage.</span>"
+			// Drain stamina when armor completely blocks attack
+			// Stamina drain scales with armor damage taken
+			var/stamina_drain = min(armor_block * 0.1, 15)  // 10% of blocked damage, capped at 15
+			if(stamina_drain > 0)
+				H.stamina_add(-stamina_drain)
 			if(I)
 				I.take_damage(1, BRUTE, I.d_type)
 				SEND_SIGNAL(I, COMSIG_ITEM_ATTACKBY_BLOCKED, H, user, I.damtype, def_zone) // attack was blocked by armor or other variables
@@ -1720,13 +1725,14 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 			// Convert edged attacks to blunt if low damage through armor
 			var/wound_bclass = bladec
-			var/armor = H.checkarmor(selzone, bladec, 0, 0)
-			if(armor > 0 && actual_damage < 10)
+			var/armor = H.checkarmor(selzone, I.d_type, 0, 0)
+			if(armor > 0 && actual_damage < 15) // Threshold for edge-to-blunt conversion
 				var/is_edged = (bladec in list(BCLASS_CUT, BCLASS_CHOP, BCLASS_STAB, BCLASS_PICK, BCLASS_PIERCE, BCLASS_LASHING))
-				if(is_edged)  // Threshold for edge-to-blunt conversion
+				if(is_edged)
 					wound_bclass = BCLASS_BLUNT
 
-			var/datum/wound/crit_wound = affecting.bodypart_attacked_by(wound_bclass, actual_damage, user, selzone, crit_message = TRUE)
+			var/was_blunted = (wound_bclass == BCLASS_BLUNT && bladec != BCLASS_BLUNT && armor > 0 && actual_damage < 10)
+			var/datum/wound/crit_wound = affecting.bodypart_attacked_by(wound_bclass, actual_damage, user, selzone, crit_message = TRUE, was_blunted = was_blunted)
 			if(should_embed_weapon(crit_wound, I))
 				var/can_impale = TRUE
 				if(!affecting)

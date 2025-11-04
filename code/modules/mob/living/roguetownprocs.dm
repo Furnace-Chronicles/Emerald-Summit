@@ -457,7 +457,19 @@
 /mob/proc/do_parry(obj/item/W, parrydrain as num, mob/living/user)
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
-		if(H.stamina_add(parrydrain))
+		// Adjust parry stamina based on armor weight
+		var/adjusted_drain = parrydrain
+		if(H.wear_armor && istype(H.wear_armor, /obj/item/clothing))
+			var/obj/item/clothing/armor = H.wear_armor
+			switch(armor.armor_class)
+				if(ARMOR_CLASS_LIGHT)
+					adjusted_drain *= 0.75  // 25% less stamina cost for light armor
+				if(ARMOR_CLASS_HEAVY)
+					adjusted_drain *= 1.25   // 25% more stamina cost for heavy armor
+		else
+			adjusted_drain *= 0.5 // Not wearing armor cuts stamina cost in half
+
+		if(H.stamina_add(adjusted_drain))
 			if(W)
 				playsound(get_turf(src), pick(W.parrysound), 100, FALSE)
 			if(src.client)
@@ -482,7 +494,18 @@
 /mob/proc/do_unarmed_parry(parrydrain as num, mob/living/user)
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
-		if(H.stamina_add(parrydrain))
+		// Adjust parry stamina based on armor weight
+		var/adjusted_drain = parrydrain
+		if(H.wear_armor && istype(H.wear_armor, /obj/item/clothing))
+			var/obj/item/clothing/armor = H.wear_armor
+			switch(armor.armor_class)
+				if(ARMOR_CLASS_LIGHT)
+					adjusted_drain *= 0.75
+				if(ARMOR_CLASS_HEAVY)
+					adjusted_drain *= 1.25
+		else
+			adjusted_drain *= 0.5
+		if(H.stamina_add(adjusted_drain))
 			playsound(get_turf(src), pick(parry_sound), 100, FALSE)
 			src.visible_message(span_warning("<b>[src]</b> parries [user]!"))
 			if(src.client)
@@ -510,6 +533,16 @@
 	var/drained_npc = 5
 	if(ishuman(src))
 		H = src
+		// Adjust dodge stamina based on armor weight
+		if(H.wear_armor && istype(H.wear_armor, /obj/item/clothing))
+			var/obj/item/clothing/armor = H.wear_armor
+			switch(armor.armor_class)
+				if(ARMOR_CLASS_LIGHT)
+					drained *= 0.65  // 35% less stamina cost for light armor
+				if(ARMOR_CLASS_HEAVY)
+					drained *= 1.5   // 50% more stamina cost for heavy armor
+		else
+			drained *= 0.4 // Not wearing armor makes dodging much cheaper
 	if(ishuman(user))
 		UH = user
 		I = UH.used_intent.masteritem
@@ -523,10 +556,10 @@
 			prob2defend = prob2defend + (L.STASPD * 10)
 	if(U)
 		prob2defend = prob2defend - (U.STASPD * 10)
-	if(I)
-		if(I.wbalance == WBALANCE_SWIFT && U.STASPD > L.STASPD) //nme weapon is quick, so they get a bonus based on spddiff
+	if(I) // These changes now apply only when the related special intents are used to make combat more dynamic
+		if(I.wbalance == WBALANCE_SWIFT && istype(U.rmb_intent, /datum/rmb_intent/swift) && U.STASPD > L.STASPD) //nme weapon is quick, so they get a bonus based on spddiff
 			prob2defend = prob2defend - ( I.wbalance * ((U.STASPD - L.STASPD) * 10) )
-		if(I.wbalance == WBALANCE_HEAVY && L.STASPD > U.STASPD) //nme weapon is slow, so its easier to dodge if we're faster
+		if(I.wbalance == WBALANCE_HEAVY && istype(U.rmb_intent, /datum/rmb_intent/strong) && L.STASPD > U.STASPD) //nme weapon is slow, so its easier to dodge if we're faster
 			prob2defend = prob2defend + ( I.wbalance * ((U.STASPD - L.STASPD) * 10) )
 		if(!(H?.check_dodge_skill()))
 			prob2defend = prob2defend - (UH.get_skill_level(I.associated_skill) * 10)

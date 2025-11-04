@@ -392,22 +392,11 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 // Blank because it'll be overridden by wound code.
 /datum/wound/dynamic
 	var/is_maxed = FALSE
-	var/is_armor_maxed = FALSE
 	clotting_rate = 0.4
 	clotting_threshold = 0
 
 /datum/wound/dynamic/sew_wound()
 	heal_wound(whp)
-
-/datum/wound/dynamic/proc/armor_check(armor, cap)
-	if(armor)
-		if(!bodypart_owner.unlimited_bleeding)
-			if(bleed_rate >= cap)
-				set_bleed_rate(cap)
-				if(!is_armor_maxed)
-					playsound(owner, 'sound/combat/armored_wound.ogg', 100, TRUE)
-					owner.visible_message(span_crit("The wound tears open from [bodypart_owner.owner]'s <b>[lowertext(bodyzone2readablezone(bodypart_to_zone(bodypart_owner)))]</b>, the armor won't let it go any further!"))
-					is_armor_maxed = TRUE
 
 #define CLOT_THRESHOLD_INCREASE_PER_HIT 0.1	//This raises the MINIMUM bleed the wound can clot to.
 #define CLOT_DECREASE_PER_HIT 0.05	//This reduces the amount of clotting the wound has.

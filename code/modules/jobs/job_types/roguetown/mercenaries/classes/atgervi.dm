@@ -170,7 +170,7 @@
 				break
 		H.update_a_intents() // Refresh available intents
 
-/obj/item/clothing/gloves/roguetown/plate/atgervi/dropped(mob/user)
+/obj/item/clothing/gloves/roguetown/plate/atgervi/dropped(mob/user, slot)
 	. = ..()
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user

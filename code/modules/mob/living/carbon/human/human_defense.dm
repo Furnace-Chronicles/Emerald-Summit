@@ -22,6 +22,8 @@
 		def_zone = CBP.body_zone
 	var/protection = 0
 	var/obj/item/clothing/used
+	var/best_effective_armor = 0
+	var/armor_effectiveness = 1.0
 	var/list/body_parts = list(skin_armor, head, wear_mask, wear_wrists, gloves, wear_neck, cloak, wear_armor, wear_shirt, shoes, wear_pants, backr, backl, belt, s_store, glasses, ears, wear_ring) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
 	for(var/bp in body_parts)
 		if(!bp)
@@ -34,8 +36,28 @@
 						continue
 				var/val = C.armor.getRating(d_type)
 				if(val > 0)
-					if(val > protection)
+					// Calculate armor effectiveness based on damage and armor class
+					var/damage_percent = round(((C.obj_integrity / C.max_integrity) * 100), 1)
+					var/max_reduction = 0
+					switch(C.armor_class)
+						if(ARMOR_CLASS_HEAVY)
+							max_reduction = 40
+						if(ARMOR_CLASS_MEDIUM)
+							max_reduction = 60
+						if(ARMOR_CLASS_LIGHT)
+							max_reduction = 75
+
+					// Armor effectiveness scales linearly from 100% at full health to (100% - max_reduction) at 1% durability
+					var/effectiveness = 1.0
+					if(C.max_integrity && damage_percent < 100)
+						effectiveness = 1.0 - ((100 - damage_percent) / 100 * (max_reduction / 100))
+
+					var/effective_armor = val * effectiveness
+
+					if(effective_armor > best_effective_armor)
+						best_effective_armor = effective_armor
 						protection = val
+						armor_effectiveness = effectiveness
 						used = C
 	if(used)
 		if(!blade_dulling)
@@ -49,10 +71,39 @@
 			if(used.armor?.getRating("blunt") > 0)
 				var/bluntrating = used.armor.getRating("blunt")
 				intdamage -= intdamage * ((bluntrating / 2) / 100)	//Half of the blunt rating reduces blunt damage taken by %-age.
+
+		// Armor degradation multipliers based on damage type vs armor class
+		var/degradation_mult = 1.0
+		if(istype(used, /obj/item/clothing))
+			var/obj/item/clothing/armor_piece = used
+			switch(blade_dulling)
+				if(BCLASS_BLUNT, BCLASS_SMASH)
+					// Blunt damage: lowest vs light, highest vs heavy
+					switch(armor_piece.armor_class)
+						if(ARMOR_CLASS_LIGHT)
+							degradation_mult = 0.25
+						if(ARMOR_CLASS_HEAVY)
+							degradation_mult = 2.0
+				if(BCLASS_CUT, BCLASS_CHOP)
+					// Cutting damage: more vs light, lowest vs heavy
+					switch(armor_piece.armor_class)
+						if(ARMOR_CLASS_LIGHT)
+							degradation_mult = 1.5
+						if(ARMOR_CLASS_HEAVY)
+							degradation_mult = 0.25
+				if(BCLASS_STAB, BCLASS_PICK, BCLASS_PIERCE)
+					// Stabbing/piercing: more vs medium
+					if(armor_piece.armor_class == ARMOR_CLASS_MEDIUM)
+						degradation_mult = 1.25
+
+		intdamage *= degradation_mult
 		used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
 		if(damage)
 			if(blade_dulling == BCLASS_PEEL)
 				used.peel_coverage(def_zone, peeldivisor)
+	// Apply armor effectiveness reduction
+	protection *= armor_effectiveness
+
 	if(physiology)
 		protection += physiology.armor.getRating(d_type)
 	return protection

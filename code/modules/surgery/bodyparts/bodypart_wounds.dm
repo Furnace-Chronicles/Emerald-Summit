@@ -123,7 +123,7 @@
 	return bleed_rate
 
 /// Called after a bodypart is attacked so that wounds and critical effects can be applied
-/obj/item/bodypart/proc/bodypart_attacked_by(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, armor)
+/obj/item/bodypart/proc/bodypart_attacked_by(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, armor, was_blunted = FALSE)
 	if(!bclass || !dam || !owner || (owner.status_flags & GODMODE))
 		return FALSE
 	var/do_crit = TRUE
@@ -137,16 +137,21 @@
 			acheck_dflag = "stab"
 	armor = owner.run_armor_check(zone_precise, acheck_dflag, damage = 0)
 	if(ishuman(owner))
-		var/mob/living/carbon/human/human_owner = owner
-		if(human_owner.checkcritarmor(zone_precise, bclass))
+		// Prevent crits on armor-blunted attacks
+		if(was_blunted || istype(user.rmb_intent, /datum/rmb_intent/weak) || bclass == BCLASS_PEEL)
 			do_crit = FALSE
-		if(owner.mind && (get_damage() <= (max_damage * 0.9))) //No crits unless the damage is maxed out.
-			do_crit = FALSE // We used to check if they are buckled or lying down but being grounded is a big enough advantage.
-	if(user)
-		if(user.goodluck(2))
-			dam += 10
-		if(istype(user.rmb_intent, /datum/rmb_intent/weak) || bclass == BCLASS_PEEL)
-			do_crit = FALSE
+		else
+			var/probbonus = 0
+			var/mob/living/carbon/human/human_owner = owner
+			if(human_owner.checkcritarmor(zone_precise, bclass))
+				do_crit = FALSE
+			if(user)
+				if(user.goodluck(2))
+					probbonus = user.STALUC*3
+			if(!prob((get_damage()/max_damage)*(100 - (owner.STACON * 2) - (owner.STALUC) + probbonus)))
+				do_crit = FALSE
+			//if(owner.mind && (get_damage() <= (max_damage * 0.9))) //No crits unless the damage is maxed out.
+			//	do_crit = FALSE // We used to check if they are buckled or lying down but being grounded is a big enough advantage.
 	testing("bodypart_attacked_by() dam [dam]")
 
 	var/datum/wound/dynwound = manage_dynamic_wound(bclass, dam, armor)
