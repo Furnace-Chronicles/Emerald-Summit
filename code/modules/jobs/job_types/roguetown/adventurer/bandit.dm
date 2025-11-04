@@ -41,15 +41,16 @@
 		/datum/advclass/sellsword
 	)
 
+	virtue_restrictions = list(
+		/datum/virtue/combat/vampire,
+	)
+
 /datum/job/roguetown/bandit/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
 	if(L)
 		var/mob/living/carbon/human/H = L
 		if(!H.mind)
 			return
-		H.advsetup = 1
-		H.invisibility = INVISIBILITY_MAXIMUM
-		H.become_blind("advsetup")
 		H.ambushable = FALSE
 
 /datum/outfit/job/roguetown/bandit/post_equip(mob/living/carbon/human/H)

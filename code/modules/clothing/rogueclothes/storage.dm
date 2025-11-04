@@ -58,6 +58,12 @@
 	item_state = "blackbelt"
 	sellprice = 10
 
+/obj/item/storage/belt/rogue/leather/daisho
+	name = "daisho"
+	icon_state = "daisho"
+	item_state = "daisho"
+	sellprice = 10
+
 /obj/item/storage/belt/rogue/leather/plaquesilver
 	name = "plaque belt"
 	icon_state = "silverplaque"

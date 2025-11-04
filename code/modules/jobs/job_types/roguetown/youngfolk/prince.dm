@@ -8,6 +8,7 @@
 	spawn_positions = 2
 	f_title = "Princess"
 	allowed_races = RACES_NOBILITY_ELIGIBLE_UP //Maybe a system to force-pick lineage based on king and queen should be implemented. (No it shouldn't.)
+	allowed_patrons = NON_PSYDON_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT)
 	advclass_cat_rolls = list(CTAG_HEIR = 20)
@@ -17,10 +18,11 @@
 	display_order = JDO_PRINCE
 	give_bank_account = 30
 	noble_income = 20
-	min_pq = 1
+	min_pq = 7
 	max_pq = null
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_noble.ogg'
+	allowed_patrons = NON_PSYDON_PATRONS		//Same reason as lord. See Lord.
 
 	job_traits = list(TRAIT_NOBLE)
 	job_subclasses = list(
@@ -29,15 +31,6 @@
 		/datum/advclass/heir/aristocrat,
 		/datum/advclass/heir/inbred,
 	)
-
-/datum/job/roguetown/prince/after_spawn(mob/living/H, mob/M, latejoin)
-	. = ..()
-	if(ishuman(H))
-		var/mob/living/carbon/human/Q = H
-		Q.advsetup = 1
-		Q.invisibility = INVISIBILITY_MAXIMUM
-		Q.become_blind("advsetup")
-
 
 /datum/outfit/job/roguetown/heir/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -94,7 +87,7 @@
 		belt = /obj/item/storage/belt/rogue/leather
 		l_hand = /obj/item/rogueweapon/sword/sabre
 		beltl = /obj/item/rogueweapon/scabbard/sword
-		beltr = /obj/item/storage/keyring/heir
+		beltr = /obj/item/storage/keyring/heir/warrior
 		neck = /obj/item/storage/belt/rogue/pouch/coins/rich
 		backr = /obj/item/storage/backpack/rogue/satchel
 	else
@@ -107,7 +100,7 @@
 			shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess
 		head = /obj/item/clothing/head/roguetown/circlet
 		belt = /obj/item/storage/belt/rogue/leather/cloth/lady
-		beltr = /obj/item/storage/keyring/heir
+		beltr = /obj/item/storage/keyring/heir/warrior
 		beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/special
 		backr = /obj/item/storage/backpack/rogue/satchel
 		shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
@@ -149,7 +142,7 @@
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess
 	head = /obj/item/clothing/head/roguetown/circlet
 	belt = /obj/item/storage/belt/rogue/leather/cloth/lady
-	beltr = /obj/item/storage/keyring/heir
+	beltr = /obj/item/storage/keyring/heir/mage
 	beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/special
 	backr = /obj/item/storage/backpack/rogue/satchel
 	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot

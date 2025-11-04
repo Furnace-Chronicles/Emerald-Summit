@@ -10,7 +10,7 @@
 	not uncommon amongst Verminfolk, with many finding work as cutpurses or assassins; naturally agile forms working \
 	in their favor. In recent years, Verminfolk have spread to all corners of the world -- though much to society's \
 	dismay, for their negative reputation is one which they have difficulty parting with. <br> \
-	(+1 Speed)"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 SPD</b></span> </br>"
 	default_color = "444"
 	species_traits = list(
 		MUTCOLORS,

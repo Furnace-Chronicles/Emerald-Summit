@@ -15,14 +15,41 @@
 	grid_height = 32
 	resistance_flags = FLAMMABLE
 
+	var/chosen_icon_state = null
+	var/list/authors = list()
+	proc/add_author(mob/living/carbon/human/H)
+		if(!H || !H.real_name)
+			return
+		var/author_job = H.advjob ? H.advjob : "Adventurer"
+		if(!(H.real_name in authors))
+			authors[H.real_name] = author_job
+		else if(authors[H.real_name] != author_job)
+			authors[H.real_name] = author_job
+
+/obj/item/skillbook/proc/get_authors_text()
+	if(!authors || !authors.len)
+		return null
+	var/list/author_entries = list()
+	for(var/author_name in authors)
+		var/author_job = authors[author_name]
+		if(author_job)
+			author_entries += "[author_name] the [author_job]"
+		else
+			author_entries += author_name
+	return english_list(author_entries)
+
 /obj/item/skillbook/Initialize()
-	iconval = rand(0,9)//lets us randomize from all our books from books.dmi
+	if(!chosen_icon_state)
+		iconval = rand(0,9)//lets us randomize from all our books from books.dmi
 	update_icon()
 	..()
 
 
 /obj/item/skillbook/update_icon()
-	if(complete)
+	if(chosen_icon_state)
+		icon_state = "[chosen_icon_state]_[open]"
+		return
+	else if(complete)
 		switch(iconval)
 			if(0)
 				icon_state = "basic_book_[open]"
@@ -140,14 +167,100 @@
 			to_chat(user, span_warning("I can do nothing with [src]."))
 			return
 		if(alert("Are you ready to finish your book?", "Writer", "Yes", "No") == "Yes")
+			chosen_icon_state = null
+			var/final_desc = "A book to improve your skills."
+			var/custom_title_chosen = FALSE
+			var/final_name = null
+
+			if(user.real_name in authors)
+				var/obj/item/skillbook/temp_book = new /obj/item/skillbook()//Create a temporary book to get an automatic title
+				temp_book.set_bookstats(skill_req, skill_cap, subject)
+				var/auto_title = temp_book.name
+				qdel(temp_book)
+
+				if(alert("Would you like to choose a custom title for the book?", "Book Title", "Yes", "No") == "Yes")
+					var/new_title = input(user, "Enter book title (max 64 characters):", "Book Title", auto_title) as text|null
+					if(new_title)
+						if(length(new_title) > 64)
+							to_chat(user, span_warning("Title is too long! Maximum 64 characters."))
+							return
+						final_name = new_title
+						custom_title_chosen = TRUE
+
+				if(alert("Would you like to write a custom description for the book?", "Book Description", "Yes", "No") == "Yes")
+					var/new_desc = input(user, "Write the book's description (author information will be added automatically):", "Book Description", final_desc) as message|null
+					if(new_desc)
+						if(length(new_desc) > 256)
+							to_chat(user, span_warning("Description is too long! Maximum 256 characters."))
+							return
+						new_desc = trim(new_desc)
+						var/last_char = copytext(new_desc, length(new_desc))
+						if(last_char != "." && last_char != "!" && last_char != "?")
+							new_desc += "."
+						final_desc = new_desc
+			var/available_sprites = list(
+				"Basic Book" = "basic_book",
+    			"Fancy Book" = "book", 
+				"Fancy Book 2" = "book2",
+    			"Fancy Book 3" = "book3",
+    			"Fancy Book 4" = "book4",
+    			"Fancy Book 5" = "book5",
+    			"Fancy Book 6" = "book6",
+    			"Fancy Book 7" = "book7",
+    			"Fancy Book 8" = "book8",
+    			"Knowledge Tome" = "knowledge",
+    			"Swatch Book" = "swatchbook",
+    			"Bibble" = "bibble",
+    			"Psyble" = "psyble",
+    			"Law Tome" = "lawtome",
+    			"Ledger" = "ledger"
+			)
+			var/magical_sprites = list(
+				"Brown Spellbook" = "spellbookbrown",
+				"Green Spellbook" = "spellbookgreen",
+				"Yellow Spellbook" = "spellbookyellow",
+				"Steel Spellbook" = "spellbooksteel",
+				"Gem Spellbook" = "spellbookgem",
+				"Skin Spellbook" = "spellbookskin",
+				"Mimic Spellbook" = "spellbookmimic",
+			)
+			var/is_magical_topic = (subject == /datum/skill/magic/arcane || subject == /datum/skill/magic/holy)
+			var/is_legendary_level = (skill_cap >= 6)
+
+			if(is_legendary_level)
+				available_sprites += magical_sprites
+			else if(is_magical_topic && skill_cap >= 3)
+				available_sprites += magical_sprites
+
+			if(HAS_TRAIT(user, TRAIT_GOODWRITER))
+				if(alert("Would you like to choose a book appearance?", "Book Appearance", "Yes", "No") == "Yes")
+					var/sprite_choice = input(user, "Choose book appearance:", "Book Appearance") as null|anything in available_sprites
+					if(sprite_choice)
+						chosen_icon_state = available_sprites[sprite_choice]
+
 			to_chat(user,"I begin finalizing my writing...")
 			if(do_after(user, 50))
+				var/authors_line = get_authors_line()
 				to_chat(user, span_notice("I finish the book!"))
 				add_sleep_experience(user, /datum/skill/misc/reading, user.STAINT*1.5)//decently more than writing the book
 				var/obj/item/skillbook/newbook = new /obj/item/skillbook(get_turf(src))
 				newbook.set_bookstats(skill_req,skill_cap,subject)
+				if(custom_title_chosen && final_name)
+					newbook.name = final_name
+				if(chosen_icon_state)
+					newbook.chosen_icon_state = chosen_icon_state
+					newbook.iconval = 0
+					newbook.update_icon()
+				else
+					newbook.iconval = rand(0,9)
+					newbook.update_icon()
 				if(HAS_TRAIT(user, TRAIT_GOODWRITER))
 					newbook.wellwritten = TRUE
+				if(authors && authors.len)
+					newbook.authors = authors.Copy()
+					newbook.desc = "[final_desc][authors_line]"
+				else
+					newbook.desc = final_desc
 				GLOB.scarlet_round_stats[STATS_BOOKS_PRINTED]++
 				qdel(src)
 
@@ -208,6 +321,7 @@
 		if(!do_after(user, writing_duration))
 			to_chat(user, span_warning("I don't finish what I was writing."))
 			return
+		src.add_author(user)
 		user.visible_message(span_notice("[user] writes a page in [src]."), span_notice("I finish a page of [src]."))
 		skill_cap++
 		add_sleep_experience(user, /datum/skill/misc/reading, user.STAINT)
@@ -274,3 +388,13 @@
 			return "legendary"
 		else
 			return "any"//people who have 0 skill, aka SKILL_LEVEL_NONE
+
+/obj/item/skillbook/proc/get_authors_line()
+	if(authors && authors.len)
+		var/authors_text = get_authors_text()
+		if(authors_text)
+			if(authors.len == 1)
+				return " Author: [authors_text]."
+			else
+				return " Authors: [authors_text]."
+	return ""

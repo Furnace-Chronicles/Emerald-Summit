@@ -35,7 +35,7 @@
 	if(playing && user.get_active_held_item() != src)
 		playing = FALSE
 		groupplaying = FALSE
-		soundloop.stop()
+		soundloop.stop(user)
 		user.remove_status_effect(/datum/status_effect/buff/playing_music)
 
 /obj/item/rogue/instrument/getonmobprop(tag)
@@ -60,7 +60,7 @@
 	groupplaying = FALSE
 	playing = FALSE
 	if(soundloop)
-		soundloop.stop()
+		soundloop.stop(user)
 		user.remove_status_effect(/datum/status_effect/buff/playing_music)
 
 /obj/item/rogue/instrument/attack_self(mob/living/user)
@@ -72,10 +72,10 @@
 	if(playing)
 		playing = FALSE
 		groupplaying = FALSE
-		soundloop.stop()
+		soundloop.stop(user)
 		user.remove_status_effect(/datum/status_effect/buff/playing_music)
-//		if(not_held)
-//			user.remove_status_effect(/datum/status_effect/buff/harpy_sing)
+		if(not_held)
+			user.remove_status_effect(/datum/status_effect/buff/harpy_sing)
 		return
 	else
 		var/playdecision = alert(user, "Would you like to start a band?", "Band Play", "Yes", "No")
@@ -93,7 +93,7 @@
 			if(!choice || !user)
 				return
 				
-			if(playing || !(src in user.held_items) || user.get_inactive_held_item())
+			if(playing || !(src in user.held_items) && !(not_held) || user.get_inactive_held_item())
 				return
 				
 			if(choice == "Upload New Song")
@@ -105,7 +105,7 @@
 
 				if(!infile)
 					return
-				if(playing || !(src in user.held_items) || user.get_inactive_held_item())
+				if(playing || !(src in user.held_items) && !(not_held) || user.get_inactive_held_item())
 					return
 
 				var/filename = "[infile]"
@@ -126,7 +126,7 @@
 					song_list[songname] = curfile
 				return
 			curfile = song_list[choice]
-			if(!user || playing || !(src in user.held_items))
+			if(!user || playing || !(src in user.held_items) && !(not_held) )
 				return
 			if(user.mind)
 				switch(user.get_skill_level(/datum/skill/misc/music))
@@ -155,26 +155,26 @@
 						soundloop.stress2give = stressevent
 					else
 						soundloop.stress2give = stressevent
-			if(!(src in user.held_items))
+			if(!(src in user.held_items) && !(not_held))
 				return
 			if(user.get_inactive_held_item())
 				playing = FALSE
-				soundloop.stop()
+				soundloop.stop(user)
 				user.remove_status_effect(/datum/status_effect/buff/playing_music)
 				return
 			if(curfile)
 				playing = TRUE
 				soundloop.mid_sounds = list(curfile)
 				soundloop.cursound = null
-				soundloop.start()
+				soundloop.start(user)
 				user.apply_status_effect(/datum/status_effect/buff/playing_music, stressevent, note_color)
-//				if(not_held)
-//					user.apply_status_effect(/datum/status_effect/buff/harpy_sing)
-				GLOB.scarlet_round_stats[STATS_SONGS_PLAYED]++
+				if(not_held)
+					user.apply_status_effect(/datum/status_effect/buff/harpy_sing)
+				record_round_statistic(STATS_SONGS_PLAYED)
 			else
 				playing = FALSE
 				groupplaying = FALSE
-				soundloop.stop()
+				soundloop.stop(user)
 				user.remove_status_effect(/datum/status_effect/buff/playing_music)
 		if(groupplaying)
 			var/pplnearby =view(7,loc)
@@ -205,7 +205,7 @@
 					bandinstrumentsband.groupplaying = TRUE
 					bandinstrumentsband.soundloop.mid_sounds = bandinstrumentsband.curfile
 					bandinstrumentsband.soundloop.cursound = null
-					bandinstrumentsband.soundloop.start()
+					bandinstrumentsband.soundloop.start(user)
 					for(var/mob/living/carbon/human/A in bandmates)
 						A.apply_status_effect(/datum/status_effect/buff/playing_music, stressevent, note_color)
 
@@ -336,6 +336,22 @@
 	"The Power (Whistling)" = 'sound/music/instruments/vocalsx (2).ogg',
 	"Bard Dance (Whistling)" = 'sound/music/instruments/vocalsx (3).ogg',
 	"Old Time Battles (Whistling)" = 'sound/music/instruments/vocalsx (4).ogg')
+
+/obj/item/rogue/instrument/shamisen
+	name = "shamisen"
+	desc = "The shamisen, or simply «three strings», is an kazengunese stringed instrument with a washer, which is usually played with the help of a bachi."
+	icon_state = "shamisen"
+	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
+	song_list = list(
+	"Cursed Apple" = 'sound/music/instruments/shamisen (1).ogg',
+	"Fire Dance" = 'sound/music/instruments/shamisen (2).ogg',
+	"Lute" = 'sound/music/instruments/shamisen (3).ogg',
+	"Tsugaru Ripple" = 'sound/music/instruments/shamisen (4).ogg',
+	"Tsugaru" = 'sound/music/instruments/shamisen (5).ogg',
+	"Season" = 'sound/music/instruments/shamisen (6).ogg',
+	"Parade" = 'sound/music/instruments/shamisen (7).ogg',
+	"Koshiro" = 'sound/music/instruments/shamisen (8).ogg')
 
 /obj/item/rogue/instrument/vocals/harpy_vocals
 	name = "harpy's song"

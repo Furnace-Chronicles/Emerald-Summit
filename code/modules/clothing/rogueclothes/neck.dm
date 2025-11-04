@@ -230,8 +230,13 @@
 	slot_flags = ITEM_SLOT_NECK
 	body_parts_covered = NECK|MOUTH|NOSE
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
 	blocksound = PLATEHIT
 	cansnout = TRUE
+
+/obj/item/clothing/neck/roguetown/bevor/ComponentInitialize()
+	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/items/visor.ogg', null, (UPD_HEAD|UPD_MASK|UPD_NECK))	//adjustable falling buffe for the bevor
 
 /obj/item/clothing/neck/roguetown/gorget
 	name = "iron gorget"
@@ -391,6 +396,10 @@
 	grid_width = 32
 	grid_height = 32
 
+/obj/item/clothing/neck/roguetown/zcross/iron/New(loc, ...)
+	. = ..()
+	name = pick("inverted psycross", "psycross")
+
 /obj/item/clothing/neck/roguetown/psicross/astrata
 	name = "amulet of Astrata"
 	desc = "As sure as the sun rises, tomorrow will come."
@@ -454,74 +463,7 @@
 	icon_state = "psycross_s"
 	item_state = "psycross_s"
 	sellprice = 50
-
-/obj/item/clothing/neck/roguetown/psicross/silver/pickup(mob/user)
-	..()
-
-	if(!ishuman(user))
-		return
-	var/mob/living/carbon/human/H = user
-	if(!H.mind)
-		return
-	var/datum/antagonist/vampirelord/V_lord = H.mind.has_antag_datum(/datum/antagonist/vampirelord/)
-	var/datum/antagonist/werewolf/W = H.mind.has_antag_datum(/datum/antagonist/werewolf/)
-	if(H.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser))
-		to_chat(H, span_userdanger("I can't pick up the silver, it is my BANE!"))
-		H.Knockdown(20)
-		H.adjustFireLoss(60)
-		H.Paralyze(20)
-		H.fire_act(1,5)
-	if(V_lord)
-		if(V_lord.vamplevel < 4 && !H.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser))
-			to_chat(H, span_userdanger("I can't pick up the silver, it is my BANE!"))
-			H.Knockdown(10)
-			H.Paralyze(10)
-	if(W && W.transformed == TRUE)
-		to_chat(H, span_userdanger("I can't equip the silver, it is my BANE!"))
-		H.Knockdown(20)
-		H.Paralyze(20)
-	if(HAS_TRAIT(H, TRAIT_HOLLOW_LIFE))
-		to_chat(H, span_userdanger("I can't pick up the silver, for I am one of the damned!"))
-		H.adjustFireLoss(60)
-		H.fire_act(1,5)
-		H.Knockdown(5)
-		H.Paralyze(5)
-
-/obj/item/clothing/neck/roguetown/psicross/silver/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
-	..()
-
-	if(!ishuman(M))
-		return FALSE
-	var/mob/living/carbon/human/H = M
-	if(!H.mind)
-		return FALSE
-	var/datum/antagonist/vampirelord/V_lord = H.mind.has_antag_datum(/datum/antagonist/vampirelord/)
-	var/datum/antagonist/werewolf/W = H.mind.has_antag_datum(/datum/antagonist/werewolf/)
-	if(H.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser))
-		to_chat(H, span_userdanger("I can't equip the silver, it is my BANE!"))
-		H.Knockdown(20)
-		H.adjustFireLoss(60)
-		H.Paralyze(20)
-		H.fire_act(1,5)
-		return FALSE
-	if(V_lord && V_lord.vamplevel < 4 && !H.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser))
-		to_chat(H, span_userdanger("I can't equip the silver, it is my BANE!"))
-		H.Knockdown(10)
-		H.Paralyze(10)
-		return FALSE
-	if(W && W.transformed == TRUE)
-		to_chat(H, span_userdanger("I can't equip the silver, it is my BANE!"))
-		H.Knockdown(20)
-		H.Paralyze(20)
-		return FALSE
-	if(HAS_TRAIT(H, TRAIT_HOLLOW_LIFE))
-		to_chat(H, span_userdanger("I can't equip the silver, for I am one of the damned!"))
-		H.adjustFireLoss(60)
-		H.fire_act(1,5)
-		H.Knockdown(5)
-		H.Paralyze(5)
-		return FALSE
-	return TRUE
+	is_silver = TRUE
 
 /obj/item/clothing/neck/roguetown/psicross/g
 	name = "golden psycross"

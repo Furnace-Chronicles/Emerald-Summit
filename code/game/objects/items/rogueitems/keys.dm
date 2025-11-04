@@ -99,38 +99,6 @@
 	material = "silver"
 	is_silver = TRUE
 
-/obj/item/lockpick/goldpin/silver/pickup(mob/user)
-	. = ..()
-	var/mob/living/carbon/human/H = user
-	if(!H.mind)
-		return
-	var/datum/antagonist/vampirelord/V_lord = H.mind.has_antag_datum(/datum/antagonist/vampirelord/)
-	var/datum/antagonist/werewolf/W = H.mind.has_antag_datum(/datum/antagonist/werewolf/)
-	if(ishuman(H))
-		if(H.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser))
-			to_chat(H, span_userdanger("I can't pick up the silver, it is my BANE!"))
-			H.Knockdown(10)
-			H.Paralyze(10)
-			H.adjustFireLoss(25)
-			H.fire_act(1,10)
-		if(V_lord)
-			if(V_lord.vamplevel < 4 && !H.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser))
-				to_chat(H, span_userdanger("I can't pick up the silver, it is my BANE!"))
-				H.Knockdown(10)
-				H.adjustFireLoss(25)
-		if(W && W.transformed == TRUE)
-			to_chat(H, span_userdanger("I can't pick up the silver, it is my BANE!"))
-			H.Knockdown(10)
-			H.Paralyze(10)
-			H.adjustFireLoss(25)
-			H.fire_act(1,10)
-		if(HAS_TRAIT(H, TRAIT_HOLLOW_LIFE))
-			to_chat(H, span_userdanger("I can't pick up the silver, for I am one of the damned!"))
-			H.adjustFireLoss(25)
-			H.fire_act(1,10)
-			H.Knockdown(5)
-			H.Paralyze(5)
-
 /obj/item/roguekey/lord
 	name = "master key"
 	desc = "The Lord's key."
@@ -338,12 +306,17 @@
 	icon_state = "brownkey"
 	lockid = "roomvii"
 
-
 /obj/item/roguekey/roomviii
 	name = "room VIII key"
 	desc = "The key to the eight room."
 	icon_state = "brownkey"
 	lockid = "roomviii"
+
+/obj/item/roguekey/roomhunt
+	name = "HUNT room key"
+	desc = "The key to the HUNT room, the penthouse suite of the local inn."
+	icon_state = "brownkey"
+	lockid = "roomhunt"
 
 /obj/item/roguekey/fancyroomi
 	name = "luxury room I key"
@@ -739,3 +712,14 @@
 				KE.name = src.holdname
 			to_chat(user, span_notice("You add [src] to [K]."))
 			qdel(src)
+	if(istype(K, /obj/structure/englauncher))
+		var/obj/structure/englauncher/KE = K
+		if(KE.keylock == TRUE)
+			to_chat(user, span_warning("[K] already has a lock."))
+		else
+			KE.keylock = TRUE
+			KE.lockhash = src.lockhash
+			if(src.holdname)
+				KE.name = src.holdname
+			to_chat(user, span_notice("You add [src] to [K]."))
+			qdel(src)	

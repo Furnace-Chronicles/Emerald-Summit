@@ -92,7 +92,7 @@
 			if(!E)
 				continue
 			for(var/obj/I in T)
-				if(I.anchored || !isturf(I.loc) || istype(I, /obj/item/roguecoin))
+				if(I.anchored || !isturf(I.loc) || istype(I, /obj/item/roguecoin)|| istype(I, /obj/structure/handcart))
 					continue
 				var/prize = I.get_real_price() - (I.get_real_price() * (blackmarket ? 0.7 : SStreasury.queens_tax))
 				if(prize >= 1)
@@ -101,6 +101,7 @@
 					I.visible_message(span_warning("[I] is sucked into the air!"))
 					qdel(I)
 			budgie = round(budgie)
+			record_round_statistic(STATS_TRADE_VALUE_EXPORTED, budgie)
 			if(budgie > 0)
 				play_sound=TRUE
 				E.budget2change(budgie)

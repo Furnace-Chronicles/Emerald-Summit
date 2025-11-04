@@ -5,6 +5,7 @@
 	fueluse = 60 MINUTES
 	bulb_colour = "#f9ad80"
 	bulb_power = 1
+	light_system = STATIC_LIGHT
 	var/datum/looping_sound/soundloop = null // = /datum/looping_sound/fireloop
 	pass_flags = LETPASSTHROW
 	flags_1 = NODECONSTRUCT_1
@@ -31,7 +32,7 @@
 /obj/machinery/light/rogue/OnCrafted(dirin, user)
 	. = ..()
 	can_damage = TRUE
-	burn_out()
+	extinguish()
 
 /obj/machinery/light/rogue/examine(mob/user)
 	. = ..()
@@ -49,16 +50,17 @@
 				. += span_warning("The fire is burned out and hungry...")
 
 
-/obj/machinery/light/rogue/extinguish()
+/obj/machinery/light/rogue/extinguish(skip_sound = FALSE)
 	if(on)
-		burn_out()
-		new /obj/effect/temp_visual/small_smoke(src.loc)
+		burn_out(skip_sound)
+		on = FALSE
+		set_light(l_on = FALSE)
 	..()
 
-/obj/machinery/light/rogue/burn_out()
+/obj/machinery/light/rogue/burn_out(skip_sound)
 	if(soundloop)
 		soundloop.stop()
-	if(on)
+	if(on && !skip_sound)
 		playsound(src.loc, 'sound/items/firesnuff.ogg', 100)
 	..()
 	update_icon()
@@ -86,6 +88,7 @@
 		playsound(src.loc, 'sound/items/firelight.ogg', 100)
 		on = TRUE
 		update()
+		set_light(l_on = TRUE)
 		update_icon()
 		if(soundloop)
 			soundloop.start()
@@ -181,9 +184,7 @@
 			if(istype(W, /obj/item/natural/dirtclod))
 				if(!user.temporarilyRemoveItemFromInventory(W))
 					return
-				on = FALSE
-				set_light(0)
-				update_icon()
+				extinguish()//Just be sure.extinguish()
 				qdel(W)
 				src.visible_message("<span class='warning'>[user] snuffs the fire.</span>")
 				return

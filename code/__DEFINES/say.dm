@@ -79,6 +79,7 @@
 #define SPAN_AAVNIC "aavnic"
 #define SPAN_UNDEAD "undead" //nyi but file found
 #define SPAN_CAT "cat"		 //nyi but file found
+#define SPAN_MACHINA "machina"
 
 //bitflag #defines for return value of the radio() proc.
 #define ITALICS 1

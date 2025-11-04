@@ -23,10 +23,12 @@
 /datum/sex_action/grind_body/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/do_subtle
 	var/zone_text
-	if(user.sexcon.force < SEX_FORCE_EXTREME && user.sexcon.speed < SEX_SPEED_EXTREME)
-		do_subtle = !prob(user.sexcon.force > SEX_FORCE_MID ? 2 : 5)
+	if(user.sexcon.force < SEX_FORCE_MID && user.sexcon.speed < SEX_SPEED_MID) // always subtle
+		do_subtle = 1
+	else if(user.sexcon.force < SEX_FORCE_EXTREME && user.sexcon.speed < SEX_SPEED_EXTREME)
+		do_subtle = !prob(user.sexcon.force > SEX_FORCE_MID ? 5 : 2) // roll the dice, diceman
 	else
-		do_subtle = 0
+		do_subtle = 0 // we go loud
 	if(user.zone_selected == BODY_ZONE_PRECISE_GROIN)
 		zone_text = user.dir == target.dir ? "ass" : "crotch"
 	else

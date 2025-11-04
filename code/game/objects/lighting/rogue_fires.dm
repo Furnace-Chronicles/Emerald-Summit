@@ -14,6 +14,7 @@
 	density = TRUE
 //	pixel_y = 10
 	base_state = "stonefire"
+
 	climbable = TRUE
 	pass_flags = LETPASSTHROW
 	cookonme = TRUE
@@ -60,8 +61,8 @@
 /obj/machinery/light/rogue/firebowl/off
 	icon_state = "stonefire0"
 	base_state = "stonefire"
-	status = LIGHT_BURNED
-	desc = "The fire is gone!"
+	on = FALSE
+	light_on = FALSE
 
 /obj/machinery/light/rogue/firebowl/stump
 	icon_state = "stumpfire1"
@@ -73,12 +74,11 @@
 	icon_state = "churchfire1"
 	base_state = "churchfire"
 
-/obj/machinery/light/rogue/firebowl/church/off
+/obj/machinery/light/rogue/firebowl/church/offw
 	icon_state = "churchfire0"
 	base_state = "churchfire"
 	soundloop = null
-	status = LIGHT_BURNED
-	desc = "The fire is gone!"
+	light_on = FALSE
 
 /obj/machinery/light/rogue/firebowl/standing
 	name = "standing fire"
@@ -123,7 +123,7 @@
 			else
 				user.visible_message("<span class='warning'>[user] kicks over [src]!</span>", \
 					"<span class='warning'>I kick over [src]!</span>")
-			burn_out()
+			extinguish()
 			knock_over()
 		else
 			playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
@@ -149,6 +149,7 @@
 	desc = "Tiny flames flicker to the slightest breeze and offer enough light to see."
 	icon_state = "wallcandle1"
 	base_state = "wallcandle"
+	light_outer_range = 3 
 	crossfire = FALSE
 	cookonme = FALSE
 	pixel_y = 32
@@ -161,10 +162,10 @@
 	base_state = "wallcandle"
 	crossfire = FALSE
 	cookonme = FALSE
-	light_outer_range = 0
 	pixel_y = 32
 	soundloop = null
-	status = LIGHT_BURNED
+	light_on = FALSE
+	on = FALSE
 
 /obj/machinery/light/rogue/wallfire/candle/off/r
 	pixel_y = 0
@@ -190,7 +191,7 @@
 /obj/machinery/light/rogue/wallfire/candle/attack_hand(mob/user)
 	if(isliving(user) && on)
 		user.visible_message(span_warning("[user] snuffs [src]."))
-		burn_out()
+		extinguish()
 		return TRUE //fires that are on always have this interaction with lmb unless its a torch
 	. = ..()
 
@@ -252,7 +253,12 @@
 	var/torch_off_state = "torchwall0"
 	base_state = "torchwall"
 	density = FALSE
-	light_outer_range = 5 //same as the held torch, if you put a torch into a sconce, it shouldn't magically become twice as bright, it's inconsistent.
+	brightness = 0
+	light_outer_range = 0 //THIS REALLY SHOULDN'T BE A CHILD OF LIGHT.
+	light_inner_range = 0
+	light_color = ""
+	light_power = 0
+	light_on = 0
 	var/obj/item/flashlight/flare/torch/torchy
 	fueluse = FALSE //we use the torch's fuel
 	no_refuel = TRUE
@@ -260,6 +266,7 @@
 	crossfire = FALSE
 	plane = GAME_PLANE_UPPER
 	cookonme = FALSE
+	never_on = TRUE //neVER EVER EVER WORK ON PAPRIKA CODE
 
 /obj/machinery/light/rogue/torchholder/c
 	pixel_y = 32
@@ -285,6 +292,7 @@
 				return TRUE
 
 /obj/machinery/light/rogue/torchholder/Initialize()
+	set_light(0, l_on = 0) 
 	torchy = new /obj/item/flashlight/flare/torch(src)
 	torchy.spark_act()
 	torchy.weather_resistant = TRUE
@@ -294,7 +302,7 @@
 	dirin = turn(dirin, 180)
 	QDEL_NULL(torchy)
 	on = FALSE
-	set_light(0)
+	set_light(l_on = 0)
 	update_icon()
 
 	..(dirin, user)
@@ -303,9 +311,9 @@
 	if(on)
 		if(torchy)
 			if(torchy.fuel <= 0)
-				burn_out()
+				extinguish()
 			if(!torchy.on)
-				burn_out()
+				extinguish()
 		else
 			return PROCESS_KILL
 
@@ -319,7 +327,8 @@
 			torchy.forceMove(loc)
 		torchy = null
 		on = FALSE
-		set_light(0)
+		extinguish(TRUE)
+		src.set_light(l_inner_range= 0, l_on = 0) // FUCK IT WE'RE CALLING IT DIRECTLY WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 		update_icon()
 		playsound(src.loc, 'sound/foley/torchfixturetake.ogg', 70)
 
@@ -399,7 +408,7 @@
 /obj/machinery/light/rogue/chand/attack_hand(mob/user)
 	if(isliving(user) && on)
 		user.visible_message("<span class='warning'>[user] snuffs [src].</span>")
-		burn_out()
+		extinguish()
 		return TRUE //fires that are on always have this interaction with lmb unless its a torch
 	. = ..()
 
@@ -611,7 +620,7 @@
 		if(fueluse > 0)
 			fueluse = max(fueluse - 10, 0)
 		if(fueluse == 0)
-			burn_out()
+			extinguish()
 	if(attachment)
 		if(istype(attachment, /obj/item/cooking/pan))
 			if(food)
@@ -631,7 +640,7 @@
 /obj/machinery/light/rogue/hearth/onkick(mob/user)
 	if(isliving(user) && on)
 		user.visible_message(span_info("[user] snuffs [src]."))
-		burn_out()
+		extinguish()
 
 /obj/machinery/light/rogue/hearth/Destroy()
 	QDEL_NULL(boilloop)
@@ -651,7 +660,7 @@
 	layer = TABLE_LAYER
 	on = FALSE
 	no_refuel = TRUE
-	status = LIGHT_BURNED
+	light_on = FALSE
 	crossfire = FALSE
 	soundloop = /datum/looping_sound/blank  //datum path is a blank.ogg
 
@@ -701,7 +710,7 @@
 			H.update_damage_overlays()
 		var/obj/item/mobilestove/new_mobilestove = new /obj/item/mobilestove(get_turf(src))
 		new_mobilestove.color = src.color
-		burn_out()
+		extinguish()
 		qdel(src)
 		return
 
@@ -760,7 +769,7 @@
 	if(isliving(user) && on)
 		var/mob/living/L = user
 		L.visible_message("<span class='info'>[L] snuffs [src].</span>")
-		burn_out()
+		extinguish()
 
 /obj/machinery/light/rogue/campfire/attack_hand(mob/user)
 	. = ..()
@@ -773,11 +782,11 @@
 		if(istype(H))
 			H.visible_message("<span class='info'>[H] warms [user.p_their()] hand near the fire.</span>")
 
-			if(do_after(H, 100, target = src))
-				if(!H.construct)
-					H.apply_status_effect(/datum/status_effect/buff/healing, 1)
-				H.add_stress(/datum/stressevent/campfire)
-				to_chat(H, "<span class='info'>The warmth of the fire comforts me, affording me a short rest.</span>")
+			while(do_after(H, 105, target = src) && on)
+				if(!H.construct && !H.has_status_effect(/datum/status_effect/buff/healing/campfire))
+					H.apply_status_effect(/datum/status_effect/buff/healing/campfire, 1)
+					to_chat(H, "<span class='info'>The warmth of the fire comforts me, affording me a short rest.</span>")
+					H.add_stress(/datum/stressevent/campfire)
 		return TRUE //fires that are on always have this interaction with lmb unless its a torch
 
 /obj/machinery/light/rogue/campfire/densefire

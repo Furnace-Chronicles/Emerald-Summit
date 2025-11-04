@@ -2,7 +2,7 @@
 	name = "Kashira"
 	tutorial = "You are one of the finer examples of swordsmanship stemming from Kazengun. A singular representative of the Ruma Clan, and generally a respected leader."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = NON_DWARVEN_RACE_TYPES
+	allowed_races = NON_DWARVEN_NON_GOLEM_RACE_TYPES
 	outfit = /datum/outfit/job/roguetown/mercenary/kashira
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_KAZENGUN

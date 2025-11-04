@@ -148,5 +148,19 @@
 				used = 'sound/vo/male/gen/strain.ogg'
 			if("moan")
 				used = list('sound/vo/male/gen/sound_vo_male_gen_moan (1).ogg','sound/vo/male/gen/sound_vo_male_gen_moan (2).ogg','sound/vo/male/gen/sound_vo_male_gen_moan (3).ogg')
+			if("yip")
+				used = list('sound/vo/yip.ogg', 'sound/vo/yip2.ogg', 'sound/vo/yip3.ogg')
+			if("yap")
+				used = 'sound/vo/yap.ogg'
+			if("salute")
+				used = 'sound/vo/salute.ogg'
+			if("crack")
+				used = 'sound/vo/knuckles.ogg'
+			if("gulp")
+				used = list('sound/vo/gulp.ogg', 'sound/vo/gulp2.ogg')
+			if("sniff")
+				used = 'sound/vo/sniff.ogg'
+			if("sneeze")
+				used = 'sound/vo/male/male_sneeze.ogg'
 
 	return used

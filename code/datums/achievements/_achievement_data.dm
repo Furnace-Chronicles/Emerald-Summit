@@ -20,12 +20,11 @@
 	initialized = TRUE
 	load_all_achievements() //So we know which achievements we have unlocked so far.
 
-	var/datum/asset/spritesheet/simple/assets = get_asset_datum(/datum/asset/spritesheet/simple/achievements)
 	AchievementIcons = list()
 	for(var/achievement_type in SSachievements.achievements)
 		var/datum/award/achievement = SSachievements.achievements[achievement_type]
 		var/list/SL = list()
-		SL["htmltag"] = assets.icon_tag(achievement.icon)
+		SL["htmltag"] = null
 		AchievementIcons[achievement.name] += list(SL)
 
 ///Saves any out-of-date achievements to the hub.
@@ -77,50 +76,3 @@
 		data[achievement_type] = FALSE
 	else if(istype(A, /datum/award/score))
 		data[achievement_type] = 0
-
-/datum/achievement_data/ui_base_html(html)
-	var/datum/asset/spritesheet/simple/assets = get_asset_datum(/datum/asset/spritesheet/simple/achievements)
-	. = replacetext(html, "<!--customheadhtml-->", assets.css_tag())
-
-/datum/achievement_data/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.always_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
-	if(!ui)
-//		var/datum/asset/spritesheet/simple/assets = get_asset_datum(/datum/asset/spritesheet/simple/achievements)
-//		assets.send(user)
-		ui = new(user, src, ui_key, "achievements", "Achievements Menu", 800, 1000, master_ui, state)
-		ui.open()
-
-/datum/achievement_data/ui_data(mob/user)
-	var/ret_data = list() // screw standards (qustinnus you must rename src.data ok)
-	ret_data["categories"] = list("Bosses", "Misc")
-	ret_data["achievements"] = list()
-
-	var/datum/asset/spritesheet/simple/assets = get_asset_datum(/datum/asset/spritesheet/simple/achievements)
-
-	for(var/achievement_type in SSachievements.achievements)
-		if(!SSachievements.achievements[achievement_type].name) //No name? we a subtype.
-			continue
-		if(isnull(data[achievement_type])) //We're still loading
-			continue
-		var/list/this = list(
-			"name" = SSachievements.achievements[achievement_type].name,
-			"desc" = SSachievements.achievements[achievement_type].desc,
-			"category" = SSachievements.achievements[achievement_type].category,
-			"icon_class" = assets.icon_class_name(SSachievements.achievements[achievement_type].icon),
-			"achieved" = data[achievement_type]
-		)
-
-		ret_data["achievements"] += list(this)
-
-	return ret_data
-
-/client/verb/checkachievements()
-	set category = "OOC"
-	set name = "Check achievements"
-	set desc = ""
-	set hidden = 1
-	if(!holder)
-		return
-
-	player_details.achievements.ui_interact(usr)
-

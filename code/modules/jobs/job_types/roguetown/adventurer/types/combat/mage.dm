@@ -49,7 +49,7 @@
 		/obj/item/recipe_book/survival = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/recipe_book/magic = 1,
-		/obj/item/chalk = 1
+		/obj/item/ritechalk = 1,
 		)
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
@@ -189,7 +189,7 @@
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
-	var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Trumpet")
+	var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Trumpet", "Flute")
 	var/weapon_choice = input("Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
@@ -209,3 +209,68 @@
 			backr = /obj/item/rogue/instrument/vocals
 		if("Trumpet")
 			backr = /obj/item/rogue/instrument/trumpet
+		if("Flute")
+			backr = /obj/item/rogue/instrument/flute
+
+/datum/advclass/mage/spellthief
+	name = "Arcane Trickster"
+	tutorial = "Some Rogues enhance their fine-honed skills of stealth and agility with spells, learning magical tricks to aid them in their trade. Some use their talents as pickpockets and burglars, while others are pranksters."
+	outfit = /datum/outfit/job/roguetown/adventurer/spellthief
+
+	traits_applied = list(TRAIT_ARCYNE_T2, TRAIT_DODGEEXPERT, TRAIT_LIGHT_STEP) //dodge expert has the potential for being a big pain on spellcasters,  so we take away their mage armor as a trade.
+	subclass_stats = list(
+		STATKEY_STR = -1,
+		STATKEY_INT = 2,
+		STATKEY_PER = 1,
+		STATKEY_END = 1,
+		STATKEY_SPD = 2,
+	)
+
+	subclass_spellpoints = 12
+
+	subclass_skills = list(
+		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN, 
+		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE, //let's encourage bonking people on the head rogues don't do it enough
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/climbing = SKILL_LEVEL_MASTER, //not as cracked as full rogue
+		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE, //reading for robbers
+		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT,
+		/datum/skill/craft/traps = SKILL_LEVEL_JOURNEYMAN,
+	)
+
+/datum/outfit/job/roguetown/adventurer/spellthief/pre_equip(mob/living/carbon/human/H)
+	..()
+	to_chat(H, span_warning("Some Rogues enhance their fine-honed skills of stealth and agility with spells, learning magical tricks to aid them in their trade. Some use their talents as pickpockets and burglars, while others are pranksters."))
+	head = /obj/item/clothing/head/roguetown/witchhat //you can tell they're a spellthief by the pointy hat!
+	mask = /obj/item/clothing/mask/rogue/shepherd //to stay sneaky while wearing a pointy hat
+	armor = /obj/item/clothing/suit/roguetown/armor/leather
+	gloves = /obj/item/clothing/gloves/roguetown/fingerless
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
+	cloak = /obj/item/clothing/cloak/raincloak/mortus
+	backl = /obj/item/storage/backpack/rogue/satchel //backpack remains thief's special sauce 
+	shoes = /obj/item/clothing/shoes/roguetown/boots
+	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	belt = /obj/item/storage/belt/rogue/leather //no knifebelt, you can shoot magic n shit
+	beltr = /obj/item/rogueweapon/mace/cudgel //sovlful -1 STR mace gaming. pray to xylix for thine knockout crit, sire
+	backpack_contents = list(
+		/obj/item/flashlight/flare/torch = 1,
+		/obj/item/rogueweapon/huntingknife/idagger = 1, //take conjure weapon if you want a fancy dagger
+		/obj/item/recipe_book/survival = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1
+		)
+
+	if(H.mind)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery) //it's back. if they become op feintmeisters remove this
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/slick_trick_small) //1 tile slick trick
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/lesserknock) //they're a magic thief. i mean come on
+
+	H.cmode_music = 'sound/music/combat_rogue.ogg' //someone should really replace this aislop track with something good tbh

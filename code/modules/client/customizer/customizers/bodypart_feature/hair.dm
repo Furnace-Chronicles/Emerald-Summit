@@ -121,6 +121,7 @@
 		/datum/sprite_accessory/hair/head/afro,
 		/datum/sprite_accessory/hair/head/afro2,
 		/datum/sprite_accessory/hair/head/afro_large,
+		/datum/sprite_accessory/hair/head/astolfo,
 		/datum/sprite_accessory/hair/head/antenna,
 		/datum/sprite_accessory/hair/head/balding,
 		/datum/sprite_accessory/hair/head/bedhead,
@@ -507,6 +508,10 @@
 		/datum/sprite_accessory/hair/head/neuter,
 		/datum/sprite_accessory/hair/head/hprotagonist,
 		/datum/sprite_accessory/hair/head/alsoprotagonist,
+		/datum/sprite_accessory/hair/head/generic,
+		/datum/sprite_accessory/hair/head/ghast,
+		/datum/sprite_accessory/hair/head/polite,
+		/datum/sprite_accessory/hair/head/protag,
 		)
 
 /datum/customizer_choice/bodypart_feature/hair/head/humanoid/get_random_accessory(datum/customizer_entry/entry, datum/preferences/prefs)
@@ -992,6 +997,9 @@
 		/datum/sprite_accessory/hair/head/vulpkian/keid,
 		/datum/sprite_accessory/hair/head/vulpkian/mizar,
 		/datum/sprite_accessory/hair/head/vulpkian/raine,
+		/datum/sprite_accessory/hair/head/generic,
+		/datum/sprite_accessory/hair/head/polite,
+		/datum/sprite_accessory/hair/head/protag
 		)
 
 

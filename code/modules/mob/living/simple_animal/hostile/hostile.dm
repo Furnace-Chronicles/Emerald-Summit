@@ -519,7 +519,7 @@
 	if(environment_smash)
 		var/turf/V = get_turf(src)
 		for (var/obj/structure/O in V.contents)	//check for if a direction dense structure is on the same tile as the mob
-			if(isstructure(O) && !O in favored_structures)
+			if(isstructure(O) && !(O in favored_structures))
 				O.attack_animal(src)
 				continue
 		EscapeConfinement()
@@ -612,34 +612,6 @@
 	if(!value)
 		value = initial(search_objects)
 	search_objects = value
-
-/mob/living/simple_animal/hostile/consider_wakeup()
-	..()
-	var/turf/T = get_turf(src)
-
-	if (!T)
-		return
-
-//	if (!length(SSmobs.clients_by_zlevel[T.z])) // It's fine to use .len here but doesn't compile on 511
-//		toggle_ai(AI_Z_OFF)
-//		return
-
-//	var/cheap_search = isturf(T) && !is_station_level(T.z)
-//	if (cheap_search)
-//		tlist = ListTargetsLazy(T.z)
-//	else
-
-	if(world.time < next_seek)
-		return
-	next_seek = world.time + 3 SECONDS
-
-	var/list/tlist = ListTargets()
-
-	if(AIStatus == AI_IDLE && FindTarget(tlist, 1))
-//		if(cheap_search) //Try again with full effort
-//			FindTarget()
-		toggle_ai(AI_ON)
-		testing("becomeidle [src]")
 
 /mob/living/simple_animal/hostile/proc/ListTargetsLazy(_Z)//Step 1, find out what we can see
 	. = list()

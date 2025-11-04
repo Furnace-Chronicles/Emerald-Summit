@@ -20,7 +20,7 @@
 
 	give_bank_account = 40
 	noble_income = 20
-	min_pq = 1 //Probably a bad idea to have a complete newbie advising the monarch
+	min_pq = 5 //Probably a bad idea to have a complete newbie advising the monarch
 	max_pq = null
 	round_contrib_points = 2
 	cmode_music = 'sound/music/combat_noble.ogg'
@@ -29,14 +29,6 @@
 	job_subclasses = list(
 		/datum/advclass/councillor
 	)
-
-/datum/job/roguetown/councillor/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
-	..()
-	if(ishuman(L))
-		var/mob/living/carbon/human/H = L
-		H.advsetup = 1
-		H.invisibility = INVISIBILITY_MAXIMUM
-		H.become_blind("advsetup")
 
 /datum/advclass/councillor
 	name = "Councillor"

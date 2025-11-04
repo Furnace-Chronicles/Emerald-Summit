@@ -33,7 +33,7 @@
 
 //Destroyer of knowledge - for storytellers
 /obj/item/book/burn()
-	GLOB.scarlet_round_stats[STATS_BOOKS_BURNED]++
+	record_round_statistic(STATS_BOOKS_BURNED)
 	..()
 
 

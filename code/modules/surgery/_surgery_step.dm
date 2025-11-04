@@ -88,6 +88,7 @@
 	var/preop_sound //Sound played when the step is started
 	var/success_sound //Sound played if the step succeeded
 	var/failure_sound //Sound played if the step fails
+	var/visible_required_skill = FALSE //gives you a message about lacking skill, just used for re-adding limbs
 
 /datum/surgery_step/proc/can_do_step(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent, try_to_fail = FALSE)
 	if(!user || !target)
@@ -136,6 +137,8 @@
 		if(!found_intent)
 			return FALSE
 	if(skill_used && skill_min && (user.get_skill_level(skill_used) < skill_min))
+		if(visible_required_skill)
+			to_chat(user, span_warning("I'm not skilled enough to do this!"))
 		return FALSE
 	return TRUE
 
@@ -276,6 +279,12 @@
 		return FALSE
 
 	play_preop_sound(user, target, target_zone, tool) // Here because most steps overwrite preop
+	var/is_lying = !(target.mobility_flags & MOBILITY_STAND)
+	//Some hints to help the surgeon figure out when they're taking penalties
+	if(!is_lying)
+		to_chat(user, span_warning("It's hard to work when [target] isn't lying down."))
+	else if(!target.buckled)
+		to_chat(user, span_warning("It would be easier to work if [target.p_they()] were layed out properly on a bed or operating table."))
 
 	var/speed_mod = get_speed_modifier(user, target, target_zone, tool, intent)
 	var/success_prob = max(get_success_probability(user, target, target_zone, tool, intent), 0)
@@ -373,7 +382,7 @@
 		var/implement_type = tool_check(user, tool)
 		if(implement_type)
 			speed_mod *= implements_speed[implement_type] || 1
-	speed_mod *= get_location_modifier(target)
+	speed_mod *= get_location_modifier(target, user)
 
 	return speed_mod
 
@@ -383,9 +392,11 @@
 		var/implement_type = tool_check(user, tool)
 		if(implement_type)
 			success_prob *= (implements[implement_type]/100) || 1
-	success_prob *= get_location_modifier(target)
+	success_prob *= get_location_modifier(target, user)
 	success_prob *= get_skill_modifier(user, target, target_zone, tool, intent)
-
+	if(target.stat == CONSCIOUS && !HAS_TRAIT(target, TRAIT_NOPAIN) && !target.has_status_effect(/datum/status_effect/buff/drunk))
+		to_chat(user, span_warning("It's hard to work with [target.p_them()] squirming around. Maybe I should give [target.p_them()] something for the pain?"))
+		success_prob = max(success_prob - 20, 0) //Knock 'em out or give 'em painkillers. Flat 20% penalty if they're awake and squirming
 	return success_prob
 
 /datum/surgery_step/proc/get_skill_modifier(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
@@ -403,23 +414,13 @@
 	return max(modifier, 0)
 
 /datum/surgery_step/proc/get_location_modifier(mob/living/target)
-	var/turf/patient_turf = get_turf(target)
 	var/is_lying = !(target.mobility_flags & MOBILITY_STAND)
 	if(!is_lying)
-		return 0.6
-	if(locate(/obj/structure/bed) in patient_turf)
-		return 1
-	else if(locate(/obj/structure/table) in patient_turf)
-		return 0.8
-	return 0.7
-	/*
-	if(locate(/obj/structure/table/optable) in patient_turf)
-		return 1
-	else if(locate(/obj/machinery/stasis) in patient_turf)
+		return 0.2 //I'm sorry but nah, we're gonna go ahead and make it REALLY hard to do surgery on somebody who isn't lying down
+	if(istype(target.buckled, /obj/structure/table/optable))
+		return 1.2
+	else if(istype(target.buckled, /obj/structure/bed))
 		return 0.9
-	else if(locate(/obj/structure/table) in patient_turf)
-		return 0.8
-	else if(locate(/obj/structure/bed) in patient_turf)
+	else if(locate(/obj/structure/table) in get_turf(target))
 		return 0.7
 	return 0.5
-	*/

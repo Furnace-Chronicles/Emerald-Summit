@@ -1,5 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/projectile/lightningbolt/sacred_flame_rogue
 	name = "Sacred Flame"
+	desc = "Launch a laser of holy fire at your target, setting them aflame. Deals increased damage to undead."
 	overlay_state = "sacredflame"
 	sound = 'sound/magic/bless.ogg'
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
@@ -42,11 +43,11 @@
 			damage *= fuck_that_guy_multiplier
 			M.adjust_fire_stacks(10) //4 pats to put it out
 			visible_message(span_warning("[target] erupts in flame upon being struck by [src]!"))
-			M.IgniteMob()
+			M.ignite_mob()
 		else
 			M.adjust_fire_stacks(4) //2 pats to put it out
 			visible_message(span_warning("[src] ignites [target]!"))
-			M.IgniteMob()
+			M.ignite_mob()
 	return FALSE
 
 /obj/effect/proc_holder/spell/invoked/ignition
@@ -85,6 +86,7 @@
 
 /obj/effect/proc_holder/spell/invoked/revive
 	name = "Anastasis"
+	desc = "Call upon Her greatness to return lyfe to a dead target. Obliterates the undead."
 	overlay_state = "revive"
 	releasedrain = 90
 	chargedrain = 0
@@ -173,7 +175,7 @@
 		testing("revived2")
 		target.emote("breathgasp")
 		target.Jitter(100)
-		GLOB.scarlet_round_stats[STATS_ASTRATA_REVIVALS]++
+		record_round_statistic(STATS_ASTRATA_REVIVALS)
 		target.update_body()
 		target.visible_message(span_notice("[target] is revived by holy light!"), span_green("I awake from the void."))
 		if(revive_pq && !HAS_TRAIT(target, TRAIT_IWASREVIVED) && user?.ckey)
@@ -200,6 +202,7 @@
 //T0. Removes cone vision for a dynamic duration.
 /obj/effect/proc_holder/spell/self/astrata_gaze
 	name = "Astratan Gaze"
+	desc = "Call upon your patron to improve your sight to 360-degrees."
 	overlay_state = "astrata_gaze"
 	releasedrain = 10
 	chargedrain = 0

@@ -38,6 +38,8 @@
 		return FALSE // Thats the HEADEATER's job
 	if(istype(I, /obj/item/natural/head))
 		return FALSE  // Thats the HEADEATER's job
+	if(istype(I, /obj/item/storage))
+		return FALSE
 	if(I.get_real_price() > 0)
 		if(istype(I, /obj/item/roguestatue))
 			return TRUE

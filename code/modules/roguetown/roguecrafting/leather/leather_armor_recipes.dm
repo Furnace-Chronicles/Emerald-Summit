@@ -3,40 +3,40 @@
 	category = "Armor"
 
 /datum/crafting_recipe/roguetown/leather/armor/lgorget
-	name = "hardened leather gorget (1 fibers, 1 leather)"
+	name = "hardened leather gorget"
 	result = /obj/item/clothing/neck/roguetown/leather
 	reqs = list(/obj/item/natural/hide/cured = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/leather/armor/heavybracers
-	name = "hardened leather bracers (1 fibers, 2 leather)"
+	name = "hardened leather bracers"
 	result = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	reqs = list(/obj/item/natural/hide/cured = 2,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/leather/armor/bracers
-	name = "leather bracers (1 leather)"
+	name = "leather bracers"
 	result = list(/obj/item/clothing/wrists/roguetown/bracers/leather,
 			/obj/item/clothing/wrists/roguetown/bracers/leather)
 	reqs = list(/obj/item/natural/hide/cured = 1)
 	sellprice = 10
 
 /datum/crafting_recipe/roguetown/leather/armor/pants
-	name = "leather pants (2 leather)"
+	name = "leather pants"
 	result = list(/obj/item/clothing/under/roguetown/trou/leather)
 	reqs = list(/obj/item/natural/hide/cured = 2)
 	sellprice = 10
 
 /datum/crafting_recipe/roguetown/leather/armor/volfhelm
-	name = "volf helm (1 leather, 1 volf fur, 1 volf head)"
+	name = "volf helm"
 	result = list(/obj/item/clothing/head/roguetown/helmet/leather/volfhelm)
 	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/natural/fur/wolf = 1, /obj/item/natural/head/volf = 1)
 	sellprice = 20
 
 /datum/crafting_recipe/roguetown/leather/armor/volfmantle
-	name = "volf mantle (2 leather, 1 volf head)"
+	name = "volf mantle"
 	result = /obj/item/clothing/cloak/volfmantle
 	reqs = list(
 		/obj/item/natural/hide/cured = 2,
@@ -45,13 +45,13 @@
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/leather/armor/saigahelm
-	name = "saiga skull helm (1 leather, 2 hide, 1 saiga head)"
+	name = "saiga skull helm"
 	result = list(/obj/item/clothing/head/roguetown/helmet/leather/saiga)
 	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/natural/hide = 2, /obj/item/natural/head/saiga = 1)
 	sellprice = 20
 
 /datum/crafting_recipe/roguetown/leather/armor/heavy_leather_pants
-	name = "hardened leather pants (1 fibers, 3 leather, 1 tallow)"
+	name = "hardened leather pants"
 	result = list(/obj/item/clothing/under/roguetown/heavy_leather_pants)
 	reqs = list(
 		/obj/item/natural/hide/cured = 3,
@@ -62,7 +62,7 @@
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/leather/armor/heavy_leather_pants/shorts
-	name = "hardened leather shorts (1 fibers, 2 leather, 1 tallow)"
+	name = "hardened leather shorts"
 	result = list(/obj/item/clothing/under/roguetown/heavy_leather_pants/shorts)
 	reqs = list(
 		/obj/item/natural/hide/cured = 1, //they cover less, you see
@@ -72,7 +72,7 @@
 	sellprice = 20
 
 /datum/crafting_recipe/roguetown/leather/armor/helmet/advanced
-	name = "hardened leather helmet (1 fibers, 1 leather, 1 tallow)"
+	name = "hardened leather helmet"
 	result = /obj/item/clothing/head/roguetown/helmet/leather/advanced
 	reqs = list(/obj/item/natural/hide/cured = 1,
 				/obj/item/natural/fibers = 1,
@@ -80,24 +80,24 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/leather/armor/armor
-	name = "leather armor (2 leather)"
+	name = "leather armor"
 	result = /obj/item/clothing/suit/roguetown/armor/leather
 	reqs = list(/obj/item/natural/hide/cured = 2)
 
 /datum/crafting_recipe/roguetown/leather/armor/cuirass
-	name = "leather cuirass (2 leather)"
+	name = "leather cuirass"
 	result = /obj/item/clothing/suit/roguetown/armor/leather/cuirass
 	reqs = list(/obj/item/natural/hide/cured = 2)
 
 /datum/crafting_recipe/roguetown/leather/armor/hidearmor
-	name = "hide armor (2 leather, 1 fur)"
+	name = "hide armor"
 	result = /obj/item/clothing/suit/roguetown/armor/leather/hide
 	reqs = list(/obj/item/natural/hide/cured = 2,
 				/obj/item/natural/fur = 1)
 	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/leather/armor/heavy_leather_armor
-	name = "hardened leather armor (1 fibers, 2 leather, 1 tallow)"
+	name = "hardened leather armor"
 	result = /obj/item/clothing/suit/roguetown/armor/leather/heavy
 	reqs = list(
 		/obj/item/natural/hide/cured = 2,
@@ -107,7 +107,7 @@
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/leather/armor/freivest
-	name = "fencing jacket (4 leather, 4 fibers, 2 tallow)"	//Expensive on purpose.
+	name = "fencing jacket"	//Expensive on purpose.
 	result = /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter
 	reqs = list(
 		/obj/item/natural/hide/cured = 4,
@@ -116,7 +116,7 @@
 	)
 
 /datum/crafting_recipe/roguetown/leather/armor/heavy_leather_armor/coat
-	name = "hardened leather coat (1 fibers, 3 leather, 1 tallow)"
+	name = "hardened leather coat"
 	result = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	reqs = list(
 		/obj/item/natural/hide/cured = 3,
@@ -126,7 +126,7 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/leather/armor/heavy_leather_armor/jacket
-	name = "hardened leather jacket (1 fibers, 3 leather, 1 tallow)"
+	name = "hardened leather jacket"
 	result = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket
 	reqs = list(
 		/obj/item/natural/hide/cured = 3,
@@ -136,12 +136,12 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/leather/armor/helmet
-	name = "leather helmet (1 leather)"
+	name = "leather helmet"
 	result = /obj/item/clothing/head/roguetown/helmet/leather
 	reqs = list(/obj/item/natural/hide/cured = 1)
 
 /datum/crafting_recipe/roguetown/leather/armor/carapacecuirass
-	name = "carapace cuirass (4 fibers, 2 carapace)"
+	name = "carapace cuirass"
 	result = list(/obj/item/clothing/suit/roguetown/armor/carapace/cuirass)
 	reqs = list(/obj/item/natural/carapace = 2,
 				/obj/item/natural/fibers = 4)
@@ -149,7 +149,7 @@
 	sellprice = 22
 
 /datum/crafting_recipe/roguetown/leather/armor/carapacearmor
-	name = "carapace armor (6 fibers, 4 carapace)"
+	name = "carapace armor"
 	result = list(/obj/item/clothing/suit/roguetown/armor/carapace)
 	reqs = list(/obj/item/natural/carapace = 4,
 				/obj/item/natural/fibers = 6)
@@ -157,7 +157,7 @@
 	sellprice = 42
 
 /datum/crafting_recipe/roguetown/leather/armor/carapacelegs
-	name = "carapace chausses (2 fibers, 2 carapace)"
+	name = "carapace chausses"
 	result = list(/obj/item/clothing/under/roguetown/carapacelegs)
 	reqs = list(/obj/item/natural/carapace = 2,
 				/obj/item/natural/fibers = 2)
@@ -165,7 +165,7 @@
 	sellprice = 10
 
 /datum/crafting_recipe/roguetown/leather/armor/carapaceskirt
-	name = "carapace skirt (2 fibers, 2 carapace)"
+	name = "carapace skirt"
 	result = list(/obj/item/clothing/under/roguetown/carapacelegs/skirt)
 	reqs = list(/obj/item/natural/carapace = 2,
 				/obj/item/natural/fibers = 2)
@@ -173,7 +173,7 @@
 	sellprice = 10
 
 /datum/crafting_recipe/roguetown/leather/armor/carapacecap
-	name = "carapace cap (2 fibers, 1 carapace)"
+	name = "carapace cap"
 	result = list(/obj/item/clothing/head/roguetown/helmet/carapacecap)
 	reqs = list(/obj/item/natural/carapace = 1,
 				/obj/item/natural/fibers = 2)
@@ -181,7 +181,7 @@
 	sellprice = 10
 
 /datum/crafting_recipe/roguetown/leather/armor/carapacehelm
-	name = "carapace helmet (4 fibers 2 carapace)"
+	name = "carapace helmet"
 	result = list(/obj/item/clothing/head/roguetown/helmet/carapacehelm)
 	reqs = list(/obj/item/natural/carapace = 2,
 				/obj/item/natural/fibers = 4)
@@ -189,7 +189,7 @@
 	sellprice = 22
 
 /datum/crafting_recipe/roguetown/leather/armor/carapaceboots
-	name = "carapace boots (2 fibers, 2 carapace)"
+	name = "carapace boots"
 	result = list(/obj/item/clothing/shoes/roguetown/boots/carapace)
 	reqs = list(/obj/item/natural/carapace = 2,
 				/obj/item/natural/fibers = 2)
@@ -197,7 +197,7 @@
 	sellprice = 20
 
 /datum/crafting_recipe/roguetown/leather/armor/carapacegloves
-	name = "carapace gauntlets (2 fibers, 2 carapace)"
+	name = "carapace gauntlets"
 	result = list(/obj/item/clothing/gloves/roguetown/carapace)
 	reqs = list(/obj/item/natural/carapace = 2,
 				/obj/item/natural/fibers = 2)
@@ -205,7 +205,7 @@
 	sellprice = 20
 
 /datum/crafting_recipe/roguetown/leather/armor/carapacebracers
-	name = "carapace bracers (2 fibers, 2 carapace)"
+	name = "carapace bracers"
 	result = list(/obj/item/clothing/wrists/roguetown/bracers/carapace)
 	reqs = list(/obj/item/natural/carapace = 2,
 				/obj/item/natural/fibers = 2)

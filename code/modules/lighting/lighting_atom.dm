@@ -25,7 +25,9 @@
 		set_light_color(l_color)
 	if(!isnull(l_on))
 		set_light_on(l_on)
-	update_light()
+	
+	if (light_system == STATIC_LIGHT) // MOVABLE_LIGHT is handled by its component
+		update_light()
 
 #undef NONSENSICAL_VALUE
 
@@ -44,9 +46,9 @@
 /atom/proc/update_light()
 	SHOULD_NOT_SLEEP(TRUE)
 
-	if(light_system != STATIC_LIGHT)
+	if (light_system != STATIC_LIGHT)
 		CRASH("update_light() for [src] with following light_system value: [light_system]")
-
+	
 	if (!light_power || !light_outer_range || !light_on) // We won't emit light anyways, destroy the light source.
 		QDEL_NULL(light)
 	else
@@ -191,3 +193,13 @@
 /mob/living/proc/mob_light(_color, _range, _power, _duration)
 	var/obj/effect/dummy/lighting_obj/moblight/mob_light_obj = new (src, _color, _range, _power, _duration)
 	return mob_light_obj
+
+/atom/proc/set_light_flags(new_value)
+	if(new_value == light_flags)
+		return
+	if(SEND_SIGNAL(src, COMSIG_ATOM_SET_LIGHT_FLAGS, new_value) & COMPONENT_BLOCK_LIGHT_UPDATE)
+		return
+	. = light_flags
+	light_flags = new_value
+	SEND_SIGNAL(src, COMSIG_ATOM_UPDATE_LIGHT_FLAGS, .)
+	return .

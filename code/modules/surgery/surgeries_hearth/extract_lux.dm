@@ -14,6 +14,7 @@
 	name = "Extract Lux"
 	implements = list(
 		TOOL_SCALPEL = 80,
+		TOOL_IMPROVISED_SCALPEL = 70,
 	)
 	target_mobtypes = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
 	time = 8 SECONDS
@@ -50,6 +51,6 @@
 		new /obj/item/reagent_containers/lux(target.loc)
 		SEND_SIGNAL(user, COMSIG_LUX_EXTRACTED, target)
 		//record_featured_stat(FEATURED_STATS_CRIMINALS, user)	- This.. isn't normally criminal.
-		GLOB.scarlet_round_stats[STATS_LUX_HARVESTED]++
+		record_round_statistic(STATS_LUX_HARVESTED)
 		target.apply_status_effect(/datum/status_effect/debuff/devitalised)
 	return TRUE

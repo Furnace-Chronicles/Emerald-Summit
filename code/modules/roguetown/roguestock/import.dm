@@ -143,6 +143,30 @@
 	new /obj/item/storage/belt/rogue/leather/steel(src)
 	new /obj/item/rogueweapon/spear(src)
 
+/datum/roguestock/import/houndstone
+	name = "Houndstone Crate."
+	desc = "A crate with 3 Houndstones."
+	item_type = /obj/structure/closet/crate/chest/steward/houndstone
+	export_price = 600
+	importexport_amt = 1
+
+/obj/structure/closet/crate/chest/steward/houndstone/Initialize()
+	. = ..()
+	new /obj/item/scomstone/bad/garrison(src)
+	new /obj/item/scomstone/bad/garrison(src)
+	new /obj/item/scomstone/bad/garrison(src)	
+
+/datum/roguestock/import/crownstone
+	name = "Crownstone Crate"
+	desc = "A crate with a singular crownstone."
+	item_type = /obj/structure/closet/crate/chest/steward/crownstone
+	export_price = 1250
+	importexport_amt = 1
+
+/obj/structure/closet/crate/chest/steward/crownstone/Initialize()
+	. = ..()
+	new /obj/item/scomstone/garrison(src)
+
 /datum/roguestock/import/crossbow
 	name = "Crossbows Crate"
 	desc = "A crate with 3 crossbows with 3 full quivers."
