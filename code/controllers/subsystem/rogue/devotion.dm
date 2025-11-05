@@ -106,6 +106,8 @@
 	return TRUE
 
 /datum/devotion/proc/try_add_spells(silent = FALSE)
+	if(HAS_TRAIT(holder, TRAIT_CLERGY))
+		return FALSE
 	if(length(patron.miracles))
 		for(var/spell_type in patron.miracles)
 			if(patron.miracles[spell_type] <= level)
@@ -146,6 +148,11 @@
 	else
 		update_devotion(50, 50, silent = TRUE)
 	H.verbs += list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray)
+
+	if(HAS_TRAIT(H, TRAIT_CLERGY))
+		if(!H.mind.has_spell(/obj/effect/proc_holder/spell/self/learnmiracle))
+			var/obj/effect/proc_holder/spell/self/learnmiracle/L = new
+			H.mind.AddSpell(L)
 
 // Debug verb
 /mob/living/carbon/human/proc/devotionchange()

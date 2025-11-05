@@ -159,6 +159,18 @@
 	verbage_simple = "tied"
 	verbage = "ties"
 
+/datum/crafting_recipe/roguetown/survival/flowercrown_thorn
+	name = "thorny crown"
+	category = "Clothes"
+	result = /obj/item/flowercrown/thorny
+	reqs = list(
+		/obj/item/natural/thorn = 4,
+		/obj/item/natural/fibers = 2,
+		)
+	craftdiff = 0
+	verbage_simple = "tied"
+	verbage = "ties"
+
 /datum/crafting_recipe/roguetown/survival/flowercrown_salvia
 	name = "salvia crown"
 	category = "Clothes"

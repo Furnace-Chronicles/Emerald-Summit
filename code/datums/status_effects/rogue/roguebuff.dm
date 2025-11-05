@@ -1322,3 +1322,14 @@
 	var/obj/effect/temp_visual/recall_smoke/M = new /obj/effect/temp_visual/recall_smoke(get_turf(owner))
 	M.color = effect_color
 	pulse += 1
+
+/datum/status_effect/buff/parish_boon
+	id = "parish_boon"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/parish_boon
+	effectedstats = list("perception" = 1, "intelligence" = 1)
+	duration = 20 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/parish_boon
+	name = "Boon of the Parish"
+	desc = "You lent partial aid to the local church and bear a modest share of its blessing."
+	icon_state = "buff"

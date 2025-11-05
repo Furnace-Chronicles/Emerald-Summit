@@ -33,7 +33,7 @@
         var/obj/item/reagent_containers/food/snacks/zizo_bane/z =  new /obj/item/reagent_containers/food/snacks/zizo_bane/ (get_turf(src))
         user.put_in_active_hand(z)
         qdel(src)
-    
+
 /obj/item/reagent_containers/food/snacks/zizo_bane
     name = "Zizo's bane"
     desc = "A small purple mushroom that has been growing in areas of rot."
@@ -48,3 +48,4 @@
     mill_result = /obj/item/reagent_containers/powder/sleep_powder
     grind_results = list(/datum/reagent/consumable/nutriment = 1, /datum/reagent/sleep_powder = 5)
     rotprocess = 30 MINUTES
+

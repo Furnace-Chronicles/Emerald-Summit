@@ -59,3 +59,8 @@
 	name = "crown of salvia"
 	item_state = "salvia_crown"
 	icon_state = "salvia_crown"
+
+/obj/item/flowercrown/thorny
+	name = "crown of thorns"
+	item_state = "thorny_crown"
+	icon_state = "thorny_crown"
