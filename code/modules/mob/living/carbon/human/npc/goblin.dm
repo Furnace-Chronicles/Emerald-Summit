@@ -44,7 +44,7 @@
 	race = /datum/species/goblin/hell
 
 /datum/species/goblin/hell
-	name = "hell goblin"
+	name = "infernal goblin thrall"
 	id = "goblin_hell"
 	desc = "<b>Infernal Goblin Thrall: A Soul Burned</b><br> \
 	These are goblins of the Red Tribe of the southern islands of Etrusca, tainted by demonic energy just as those who became the tieflings were. \
@@ -68,6 +68,7 @@
 	race = /datum/species/goblin/cave
 
 /datum/species/goblin/cave
+	name = "cave goblin thrall"
 	id = "goblin_cave"
 	desc = "<b>Cave Goblin Thrall: A Soul Buried</b><br>\
 	These are goblins of the Taiga Tribe who were likely followers of Malum in their lives, \
@@ -87,6 +88,7 @@
 /mob/living/carbon/human/species/goblin/npc/ambush/sea
 	race = /datum/species/goblin/sea
 /datum/species/goblin/sea
+	name = "sea goblin thrall"
 	raceicon = "goblin_sea"
 	id = "goblin_sea"
 	desc = "<b>Sea Goblin Thrall: A Soul Keelhauled</b><br>\
@@ -106,6 +108,7 @@
 /mob/living/carbon/human/species/goblin/npc/ambush/moon
 	race = /datum/species/goblin/moon
 /datum/species/goblin/moon
+	name = "moon goblin thrall"
 	id = "goblin_moon"
 	desc = "<b>Moon Goblin Thrall: Scholar Turned Mad</b><br>\
 	These are goblins of the Bone Tribe who followed Noc in their lives and became skilled mages, \
@@ -148,8 +151,15 @@
 
 
 /datum/species/goblin
-	name = "goblin"
+	name = "goblin thrall"
 	id = "goblin"
+	desc = "<b>Goblin Thrall: Consumed by Hate</b><br>\
+	These are goblins of the Moss Tribe who were likely followers of Noc in their lives as the creator of their species, \
+	this race of goblins being native to the Reach and devastated as Graggar has consumed nearly all of their clans in the province. \
+	Traditionally farmers and militiamen, the wars between Grenzelhoft and Otava opened the way for Graggar to claim their souls as they were weakened by hate and uncertainty. \
+	Now empty husks, a bounty lays on their dangerous heads. While there is no bounty for unmutated goblins of this tribe, prejudice against them remains high.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Critical Weakness, Inhumen Digestion</b></span> </br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>LANGUAGE: Orcish - ,o</b></span> </br>"
 	species_traits = list(NO_UNDERWEAR,NOEYESPRITES)
 	inherent_traits = list(TRAIT_RESISTCOLD, TRAIT_RESISTHIGHPRESSURE, TRAIT_RESISTLOWPRESSURE, TRAIT_RADIMMUNE, TRAIT_CRITICAL_WEAKNESS, TRAIT_NASTY_EATER)
 	no_equip = list(SLOT_SHIRT, SLOT_WEAR_MASK, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS, SLOT_S_STORE)
