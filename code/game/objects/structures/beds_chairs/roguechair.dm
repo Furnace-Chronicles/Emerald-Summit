@@ -309,7 +309,7 @@
 	else if(broken_percentage >= 100) // clamp
 		broken_percentage = 100
 	else
-		playsound(src, pick(list('sound/misc/mat/bed squeak (1).ogg','sound/misc/mat/bed squeak (2).ogg','sound/misc/mat/bed squeak (3).ogg')), 50, TRUE, ignore_walls = FALSE)
+		playsound(src, pick(list('sound/misc/mat/bed squeak (1).ogg','sound/misc/mat/bed squeak (2).ogg','sound/misc/mat/bed squeak (3).ogg')), 30, TRUE, ignore_walls = FALSE)
 
 /obj/structure/bed/rogue/OnCrafted(dirin)
 	dirin = turn(dirin, 180)
