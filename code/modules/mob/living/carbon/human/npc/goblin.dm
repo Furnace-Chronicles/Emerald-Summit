@@ -46,6 +46,15 @@
 /datum/species/goblin/hell
 	name = "hell goblin"
 	id = "goblin_hell"
+	desc = "<b>Infernal Goblin Thrall: A Soul Burned</b><br> \
+	These are goblins of the Red Tribe of the southern islands of Etrusca, tainted by demonic energy just as those who became the tieflings were. \
+	Sailors and traders by tradition, at times madness lay claim to a boatswain, \
+	a heart weakened by desperation or greed will give in to hunger and rage. \
+	With their souls claimed in moments of hatred, their will consumed by Graggar, \
+	the goblin husks are often found congregating around demonic hotspots or dark mages, \
+	the infernal pollution in the empty vessels drawing them towards hellish fonts. Somewhat weaker than most other thralls.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Critical Weakness, Inhumen Digestion</b></span> </br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>LANGUAGE: Orcish - ,o</b></span> </br>"
 	raceicon = "goblin_hell"
 
 /mob/living/carbon/human/species/goblin/cave
@@ -60,6 +69,14 @@
 
 /datum/species/goblin/cave
 	id = "goblin_cave"
+	desc = "<b>Cave Goblin Thrall: A Soul Buried</b><br>\
+	These are goblins of the Taiga Tribe who were likely followers of Malum in their lives, \
+	native to the Ironwood Forests in northwest Grenzelhoft. Miners and woodcutters by trade, \
+	sometimes a goblin will wander too deep into the cavern depths, or be lost in the woodland mist to emerge days later with madness in their heart. \
+	With their souls claimed in a moment of doubt or fear, Graggar has consumed their will and left them a thralled husk to haunt the wild places. \
+	This one has likely fled across the border from Grenzelhoft to make it to the Reach alive, to finally die now at your hands.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Critical Weakness, Inhumen Digestion</b></span> </br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>LANGUAGE: Orcish - ,o</b></span> </br>"
 	raceicon = "goblin_cave"
 
 /mob/living/carbon/human/species/goblin/sea
@@ -72,6 +89,14 @@
 /datum/species/goblin/sea
 	raceicon = "goblin_sea"
 	id = "goblin_sea"
+	desc = "<b>Sea Goblin Thrall: A Soul Keelhauled</b><br>\
+	These are goblins of the Frost Tribe who were likely followers of Abyssor or Ravox in their lives, \
+	native to the cold northern isles of Hammerhold. Traditional carpenters and fishermen, at times a goblin will become a sea goblin, \
+	and join the raiding parties that raze the southern coastlines. In time some lose themselves to the violence, \
+	their wills consumed by Graggar and souls enthralled. These husks of northern goblins haunt the waterways and gather in simple raiding camps, \
+	ready to pillage their new surroundings. They are common where Hammerhold raiders can be found.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Critical Weakness, Inhumen Digestion</b></span> </br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>LANGUAGE: Orcish - ,o</b></span> </br>"
 
 /mob/living/carbon/human/species/goblin/moon
 	name = "moon goblin"
@@ -82,6 +107,15 @@
 	race = /datum/species/goblin/moon
 /datum/species/goblin/moon
 	id = "goblin_moon"
+	desc = "<b>Moon Goblin Thrall: Scholar Turned Mad</b><br>\
+	These are goblins of the Bone Tribe who followed Noc in their lives and became skilled mages, \
+	before Graggar had claimed their souls and consumed their will. Native to the Otavan woodlands, \
+	after being enthralled these nomads madly wander the wilderness, babbling and weeping for the knowledge they have lost. \
+	No longer can they cast magic as thralls of the Ascendent, \
+	the mana in their body having crystalized into narcotic moonsugar that spills out once they are cracked open. \
+	It is some small miracle this one made it all the way to the Reach alive, to die now at your hands.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Critical Weakness, Inhumen Digestion</b></span> </br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>LANGUAGE: Orcish - ,o</b></span> </br>"
 	raceicon = "goblin_moon"
 
 /datum/species/goblin/moon/spec_death(gibbed, mob/living/carbon/human/H)
