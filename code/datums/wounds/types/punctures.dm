@@ -60,12 +60,12 @@
 	)
 
 //Puncture (Stab -- not Pick) Omniwounds
-//Vaguely: Not nearly as painful, higher bleed cap, easier to sew / heal.
+//Vaguely: Moderately painful, higher bleed cap, easier to sew / heal.
 
 #define PUNC_UPG_BLEEDRATE 0.5
 #define PUNC_UPG_WHPRATE 0.75
 #define PUNC_UPG_SEWRATE 0.65
-#define PUNC_UPG_PAINRATE 0.05
+#define PUNC_UPG_PAINRATE 0.15
 #define PUNC_UPG_CLAMP 1.0
 
 /datum/wound/dynamic/puncture/upgrade(dam, armor)
@@ -105,13 +105,13 @@
 	)
 
 //Gouge (Pick) Omniwounds
-//Vaguely: Not very painful, not very bleedy, but you can't cauterize them. You're still better off using stab every time.
+//Vaguely: Moderately painful, not very bleedy, but you can't cauterize them. You're still better off using stab every time.
 //Addendum: This was made with the assumption that pick intent penetrates most armors (and being able to crit through them).
 
 #define GOUGE_UPG_BLEEDRATE 0.1
 #define GOUGE_UPG_WHPRATE 1.5
 #define GOUGE_UPG_SEWRATE 0.3
-#define GOUGE_UPG_PAINRATE 0.05
+#define GOUGE_UPG_PAINRATE 0.15
 #define GOUGE_UPG_CLAMP 0.8
 
 /datum/wound/dynamic/gouge/upgrade(dam, armor)

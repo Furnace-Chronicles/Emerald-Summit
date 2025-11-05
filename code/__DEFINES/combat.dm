@@ -367,5 +367,5 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define SHARPNESS_TIER2_THRESHOLD	0.25//%-age threshold when damage *really* falls off. Base damage value included.
 
 #define UNARMED_DAMAGE_DEFAULT		12
-#define STR_PEN_FACTOR			2
-#define PER_PEN_FACTOR		1
+#define STR_PEN_FACTOR			5
+#define PER_PEN_FACTOR		3

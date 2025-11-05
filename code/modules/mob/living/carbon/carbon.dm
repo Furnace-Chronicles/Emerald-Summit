@@ -150,6 +150,13 @@
 		var/mob/living/carbon/victim = hit_atom
 		if(victim.movement_type & FLYING)
 			return
+
+		// Check for tackle if conditions are met
+		if(ishuman(src) && cmode && m_intent == MOVE_INTENT_RUN && !get_active_held_item() && used_intent.type == INTENT_GRAB && is_jumping)
+			var/mob/living/carbon/human/H = src
+			if(H.try_tackle(victim))
+				hurt = FALSE
+
 		if(hurt)
 			victim.take_bodypart_damage(10,check_armor = TRUE)
 			take_bodypart_damage(10,check_armor = TRUE)

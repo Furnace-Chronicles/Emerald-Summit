@@ -1677,7 +1677,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(WBALANCE_NORMAL)
 			pen += (((user.STASTR - 10)+(user.STAPER - 10))/2) * floor((STR_PEN_FACTOR+PER_PEN_FACTOR)/2)
 		if(WBALANCE_SWIFT)
-			pen += (user.STASTR - 10) * PER_PEN_FACTOR
+			pen += (user.STAPER - 10) * PER_PEN_FACTOR
 
 //	var/armor_block = H.run_armor_check(affecting, "I.d_type", span_notice("My armor has protected my [hit_area]!"), span_warning("My armor has softened a hit to my [hit_area]!"),pen)
 
@@ -1697,17 +1697,40 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(higher_intfactor > 1)	//Make sure to keep your weapon and intent intfactors consistent to avoid problems here!
 		used_intfactor = higher_intfactor
 	
-	var/armor_block = H.run_armor_check(selzone, I.d_type, "", "",pen, damage = Iforce, blade_dulling=user.used_intent.blade_class, peeldivisor = user.used_intent.peel_divisor, intdamfactor = used_intfactor)
+	var/armor_block = 0
+	var/obj/item/clothing/bypassed_armor
+	if(user.cmode && istype(user.rmb_intent, /datum/rmb_intent/aimed) && I.wbalance == WBALANCE_SWIFT && (bladec in list(BCLASS_STAB, BCLASS_PIERCE, BCLASS_PICK)))
+		var/list/vulnerable_zones = list(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_PRECISE_NECK, BODY_ZONE_PRECISE_L_EYE, BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_GROIN)
+		if(selzone in vulnerable_zones)
+			var/mob/living/carbon/human/attacker = user
+			var/obj/item/clothing/outer_armor = H.get_best_armor(selzone, I.d_type)
+			if(outer_armor && outer_armor.armor_class == ARMOR_CLASS_HEAVY || istype(outer_armor, /obj/item/clothing/wrists/roguetown/bracers) || (istype(outer_armor, /obj/item/clothing/head/roguetown/helmet) && outer_armor:flags_cover & HEADCOVERSEYES))
+				var/precision_chance = max(pen - outer_armor.armor.getRating(I.d_type), 0) // This way, it's easier to find gaps in damaged armor, and easier to achieve with high-penetration attacks
+
+				if(I.associated_skill)
+					precision_chance += attacker.get_skill_level(I.associated_skill) * 10
+				precision_chance += (attacker.STAPER - 10) * 5
+				precision_chance -= (max(H.STASPD, H.STACON) - 10) * 5
+				precision_chance = clamp(precision_chance, 1, 95)
+
+
+				if(prob(precision_chance))
+					bypassed_armor = outer_armor
+					H.visible_message(span_danger("[user] strikes through a gap in [H]'s armor!"), span_userdanger("[user] finds a gap in my armor!"))
+
+	armor_block = H.run_armor_check(selzone, I.d_type, "", "",pen, damage = Iforce, blade_dulling=user.used_intent.blade_class, peeldivisor = user.used_intent.peel_divisor, intdamfactor = used_intfactor, bypass_item = bypassed_armor)
 
 	var/nodmg = FALSE
+	var/raw_damage = 0
+	var/actual_damage = 0
 
 	if(Iforce)
 		H.retaliate(user)
 
 		var/weakness = H.check_weakness(I, user)
 		H.next_attack_msg.Cut()
-		var/raw_damage = Iforce * weakness
-		var/actual_damage = max(raw_damage - armor_block, 0)
+		raw_damage = Iforce * weakness
+		actual_damage = max(raw_damage - armor_block, 0)
 		if(!apply_damage(raw_damage, I.damtype, def_zone, armor_block, H))
 			nodmg = TRUE
 			H.next_attack_msg += " <span class='warning'>Armor stops the damage.</span>"
@@ -1726,12 +1749,21 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			// Convert edged attacks to blunt if low damage through armor
 			var/wound_bclass = bladec
 			var/armor = H.checkarmor(selzone, I.d_type, 0, 0)
+			var/was_blunted = FALSE
 			if(armor > 0 && actual_damage < 15) // Threshold for edge-to-blunt conversion
 				var/is_edged = (bladec in list(BCLASS_CUT, BCLASS_CHOP, BCLASS_STAB, BCLASS_PICK, BCLASS_PIERCE, BCLASS_LASHING))
 				if(is_edged)
 					wound_bclass = BCLASS_BLUNT
+					was_blunted = TRUE
+					actual_damage = ceil(actual_damage * 0.5)
 
-			var/was_blunted = (wound_bclass == BCLASS_BLUNT && bladec != BCLASS_BLUNT && armor > 0 && actual_damage < 10)
+			H.last_attack_was_blunted = was_blunted
+
+			if(armor_block > 0 && actual_damage > 0)
+				H.next_attack_msg += " <span class='warning'>Armor softens the blow.</span>"
+			if(was_blunted)
+				H.next_attack_msg += " <span class='warning'>The attack was blunted by armor.</span>"
+
 			var/datum/wound/crit_wound = affecting.bodypart_attacked_by(wound_bclass, actual_damage, user, selzone, crit_message = TRUE, was_blunted = was_blunted)
 			if(should_embed_weapon(crit_wound, I))
 				var/can_impale = TRUE
@@ -1743,7 +1775,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 					//affecting.add_embedded_object(I, silent = FALSE, crit_message = TRUE)
 					H.emote("embed")
 					H.Stun(10)
-					playsound(H.loc, "genblunt", 100, FALSE, -1)
+					playsound(get_turf(H), "genstab", 100, FALSE, -1)
 					user.visible_message(span_notice("[user] embeds [I] within [H]'s [affecting.name]!"), span_notice("I embed my [I] in [H]'s [affecting.name]."))
 					var/list/targets = list(H)
 					if(do_after_mob(user,targets, 10, progress = 0, uninterruptible = 1, required_mobility_flags = null))
@@ -1751,9 +1783,19 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 						H.emote("paincrit", TRUE)
 						playsound(H, 'sound/foley/flesh_rem.ogg', 100, TRUE, -2)
 						user.visible_message(span_notice("[user] rips [I] out of [H]'s [affecting.name]!"), span_notice("I rip [I] from [H]'s [affecting.name]."))
-//		if(H.used_intent.blade_class == BCLASS_BLUNT && I.force >= 15 && affecting.body_zone == "chest")
-//			var/turf/target_shove_turf = get_step(H.loc, get_dir(user.loc,H.loc))
-//			H.throw_at(target_shove_turf, 1, 1, H, spin = FALSE)
+
+		// Get thrown if hit hard enough by a blunt weapon while not downed
+		if(user.used_intent.blade_class == BCLASS_BLUNT && !H.lying && !H.resting && !H.buckled && !H.buckle_lying)
+			if((!HAS_TRAIT(H, TRAIT_BIGGUY) || (HAS_TRAIT(user, TRAIT_BIGGUY) && HAS_TRAIT(H, TRAIT_BIGGUY)))) // Only big guys can launch other big guys
+				var/throw_power = generic_stat_comparison(user.STASTR, max(H.STACON, H.STASTR))
+				if(HAS_TRAIT(user, TRAIT_BIGGUY))
+					throw_power += 25
+				var/throw_damage_bonus = floor(actual_damage/2)
+				if(throw_power + throw_damage_bonus >= 50 || (!H.cmode && user.cmode && throw_power + throw_damage_bonus >= 25))
+					throw_power = max(floor(throw_power / 10)-3, 1) // Massive stat difference or GIANTISM is needed to move someone more than 1 turf
+					var/throw_dir = get_dir(get_turf(user), get_turf(H))
+					var/turf/target_turf = get_ranged_target_turf(get_turf(H), throw_dir, throw_power)
+					H.throw_at(target_turf, throw_power, throw_power, H, spin = FALSE)
 
 	I.funny_attack_effects(H, user, nodmg)
 
@@ -1765,8 +1807,16 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	//dismemberment
 	var/bloody = 0
 	var/probability = I.get_dismemberment_chance(affecting, user, selzone)
-	if(I.wlength == WLENGTH_SHORT && user.STASTR < 15)
+	if(I.wlength == WLENGTH_SHORT && user.STASTR < 16)
 		probability /= 4
+
+	// Armor significantly reduces dismemberment chance based on damage absorption ratio
+	if(armor_block > 0 && raw_damage > 0)
+		var/absorption_ratio = armor_block / raw_damage  // 0.0 to 1.0
+		// Exponential reduction: even 50% absorption gives 75% reduction in dismemberment chance
+		var/dismember_multiplier = (1 - absorption_ratio) ** 2
+		probability *= dismember_multiplier
+
 	if(affecting.brute_dam && prob(probability) && affecting.dismember(I.damtype, user.used_intent?.blade_class, user, selzone, vorpal = I.vorpal))
 		bloody = 1
 		I.add_mob_blood(H)
