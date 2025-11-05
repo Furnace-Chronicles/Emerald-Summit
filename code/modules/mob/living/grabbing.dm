@@ -261,23 +261,26 @@
 			if(limb_grabbed && grab_state > GRAB_PASSIVE)
 				if(ishuman(M) && M != user)
 					var/mob/living/carbon/human/H = M
-					if((istabaxi(H) || islupian(H)) && sublimb_grabbed == BODY_ZONE_PRECISE_NECK)
-						if(get_location_accessible(H, BODY_ZONE_PRECISE_NECK))
-							if(H.age == AGE_ADULT)
-								// extra bit of balancing, only gonna work from behind
-								if(user && (H.dir == turn(get_dir(H, user), 180)))
-									user.stamina_add(rand(2,5))
-									H.Paralyze(20) // 2 seconds of paralysis, might be a bit much...?
-									H.visible_message(span_danger("[user] grabs [H] by the scruff, causing them to go limp!"), \
-											span_userdanger("You go limp as your scruff is twisted!"), span_hear("I hear aggressive shuffling!"), COMBAT_MESSAGE_RANGE, user)
-									to_chat(user, span_warning("You twist [H]'s scruff, causing them to go limp!"))
-									log_combat(user, H, "scruffed")
+					if((istabaxi(H) || islupian(H) || ishalfkin(H)) && sublimb_grabbed == BODY_ZONE_PRECISE_NECK)
+						if(!M.compliance)
+							if(get_location_accessible(H, BODY_ZONE_PRECISE_NECK))
+								if(H.age == AGE_ADULT)
+									// extra bit of balancing, only gonna work from behind
+									if(user && (H.dir == turn(get_dir(H, user), 180)))
+										user.stamina_add(rand(2,5))
+										H.Paralyze(20) // 2 seconds of paralysis, might be a bit much...?
+										H.visible_message(span_danger("[user] grabs [H] by the scruff, causing them to go limp!"), \
+												span_userdanger("You go limp as your scruff is twisted!"), span_hear("I hear aggressive shuffling!"), COMBAT_MESSAGE_RANGE, user)
+										to_chat(user, span_warning("You twist [H]'s scruff, causing them to go limp!"))
+										log_combat(user, H, "scruffed")
+									else
+										to_chat(user, span_warning("I need to be behind [H] to scruff them!"))
 								else
-									to_chat(user, span_warning("I need to be behind [H] to scruff them!"))
+									to_chat(user, span_warning("Scruffing doesn't work on older adults!"))
 							else
-								to_chat(user, span_warning("Scruffing doesn't work on older adults!"))
+								to_chat(user, span_warning("[H]'s neck is covered!"))
 						else
-							to_chat(user, span_warning("[H]'s neck is covered!"))
+							to_chat(user, span_warning("[H] must be compliant, to be scruffed!"))
 		if(/datum/intent/grab/twist)
 			if(user.buckled)
 				to_chat(user, span_warning("I can't do this while buckled!"))
