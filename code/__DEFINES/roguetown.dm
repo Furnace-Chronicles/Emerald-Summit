@@ -563,8 +563,6 @@ GLOBAL_LIST_EMPTY(round_join_times)
 
 #define BASE_PARRY_STAMINA_DRAIN 5 	// Unmodified stamina drain for parry, now a var instead of setting on simplemobs
 #define BAD_GUARD_FATIGUE_DRAIN 20 	// Percentage of your green bar lost on letting a guard expire.
-#define GUARD_PEEL_REDUCTION 2		// How many Peel stacks to lose if a Guard is hit.
-#define BAIT_PEEL_REDUCTION 1		// How many Peel stacks to lose if we perfectly bait.
 
 /*
 Medical defines

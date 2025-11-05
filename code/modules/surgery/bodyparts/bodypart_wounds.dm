@@ -138,7 +138,7 @@
 	armor = owner.run_armor_check(zone_precise, acheck_dflag, damage = 0)
 	if(ishuman(owner))
 		// Prevent crits on armor-blunted attacks
-		if(was_blunted || istype(user.rmb_intent, /datum/rmb_intent/weak) || bclass == BCLASS_PEEL)
+		if(was_blunted || istype(user.rmb_intent, /datum/rmb_intent/weak))
 			do_crit = FALSE
 		else
 			var/probbonus = 0

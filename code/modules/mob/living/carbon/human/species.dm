@@ -1433,9 +1433,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			var/selzone = accuracy_check(user.zone_selected, user, target, /datum/skill/combat/unarmed, user.used_intent)
 			var/obj/item/bodypart/affecting = target.get_bodypart(check_zone(selzone))
 			var/damage = user.get_punch_dmg() * 1.4
-			// Add strength-based armor penetration for stomp: +2 AP per point of STR above 10
 			var/stomp_pen = BLUNT_DEFAULT_PENFACTOR
-			stomp_pen += (user.STASTR - 10) * 2
+			stomp_pen += (user.STASTR - 10) * STR_PEN_FACTOR
 			var/armor_block = target.run_armor_check(selzone, "blunt", armor_penetration = stomp_pen, blade_dulling = BCLASS_BLUNT, damage = damage)
 			target.next_attack_msg.Cut()
 			var/nodmg = FALSE
@@ -1578,7 +1577,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			affecting = target.get_bodypart(BODY_ZONE_CHEST)
 		// Add strength-based armor penetration for kick: +2 AP per point of STR above 10
 		var/kick_pen = BLUNT_DEFAULT_PENFACTOR
-		kick_pen += (user.STASTR - 10) * 2
+		kick_pen += (user.STASTR - 10) * STR_PEN_FACTOR
 		var/armor_block = target.run_armor_check(selzone, "blunt", armor_penetration = kick_pen, blade_dulling = BCLASS_BLUNT)
 		var/damage = user.get_punch_dmg()
 		var/actual_damage = max(damage - armor_block, 0)
@@ -1686,8 +1685,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(user.get_num_arms(FALSE) < 2 || user.get_inactive_held_item())
 			Iforce = 0
 	var/bladec = user.used_intent.blade_class
-	if(H == user && bladec == BCLASS_PEEL)
-		bladec = BCLASS_BLUNT
 	
 	var/higher_intfactor = max(user.used_intent.masteritem?.intdamage_factor, user.used_intent.intent_intdamage_factor)
 	var/lowest_intfactor = min(user.used_intent.masteritem?.intdamage_factor, user.used_intent.intent_intdamage_factor)
@@ -1703,7 +1700,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		var/list/vulnerable_zones = list(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_PRECISE_NECK, BODY_ZONE_PRECISE_L_EYE, BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_GROIN)
 		if(selzone in vulnerable_zones)
 			var/mob/living/carbon/human/attacker = user
-			var/obj/item/clothing/outer_armor = H.get_best_armor(selzone, I.d_type)
+			var/obj/item/clothing/outer_armor = H.get_best_armor(selzone, I.d_type, bladec, pen)
 			if(outer_armor && outer_armor.armor_class == ARMOR_CLASS_HEAVY || istype(outer_armor, /obj/item/clothing/wrists/roguetown/bracers) || (istype(outer_armor, /obj/item/clothing/head/roguetown/helmet) && outer_armor:flags_cover & HEADCOVERSEYES))
 				var/precision_chance = max(pen - outer_armor.armor.getRating(I.d_type), 0) // This way, it's easier to find gaps in damaged armor, and easier to achieve with high-penetration attacks
 
@@ -1718,7 +1715,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 					bypassed_armor = outer_armor
 					H.visible_message(span_danger("[user] strikes through a gap in [H]'s armor!"), span_userdanger("[user] finds a gap in my armor!"))
 
-	armor_block = H.run_armor_check(selzone, I.d_type, "", "",pen, damage = Iforce, blade_dulling=user.used_intent.blade_class, peeldivisor = user.used_intent.peel_divisor, intdamfactor = used_intfactor, bypass_item = bypassed_armor)
+	armor_block = H.run_armor_check(selzone, I.d_type, "", "",pen, damage = Iforce, blade_dulling=user.used_intent.blade_class, intdamfactor = used_intfactor, bypass_item = bypassed_armor)
 
 	var/nodmg = FALSE
 	var/raw_damage = 0
@@ -1750,12 +1747,25 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			var/wound_bclass = bladec
 			var/armor = H.checkarmor(selzone, I.d_type, 0, 0)
 			var/was_blunted = FALSE
-			if(armor > 0 && actual_damage < 15) // Threshold for edge-to-blunt conversion
+			if(armor > 0) // Only check if armor exists
 				var/is_edged = (bladec in list(BCLASS_CUT, BCLASS_CHOP, BCLASS_STAB, BCLASS_PICK, BCLASS_PIERCE, BCLASS_LASHING))
 				if(is_edged)
-					wound_bclass = BCLASS_BLUNT
-					was_blunted = TRUE
-					actual_damage = ceil(actual_damage * 0.5)
+					// Get the armor piece that actually blocked the attack
+					var/obj/item/clothing/blocking_armor = H.get_best_armor(selzone, I.d_type, bladec, pen)
+					var/blunt_threshold = 15 // Default for light armor
+					if(blocking_armor)
+						switch(blocking_armor.armor_class)
+							if(ARMOR_CLASS_LIGHT)
+								blunt_threshold = 15
+							if(ARMOR_CLASS_MEDIUM)
+								blunt_threshold = 20
+							if(ARMOR_CLASS_HEAVY)
+								blunt_threshold = 25
+
+					if(actual_damage < blunt_threshold)
+						wound_bclass = BCLASS_BLUNT
+						was_blunted = TRUE
+						actual_damage = ceil(actual_damage * 0.5)
 
 			H.last_attack_was_blunted = was_blunted
 
