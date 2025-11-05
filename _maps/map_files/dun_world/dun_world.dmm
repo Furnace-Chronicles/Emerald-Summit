@@ -24969,10 +24969,6 @@
 /obj/item/reagent_containers/glass/cup/wooden,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/shelter)
-"gXm" = (
-/mob/living/simple_animal/hostile/rogue/mirespider_paralytic/angry,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/beach/forest)
 "gXq" = (
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/outdoors/mountains/decap)
@@ -34111,10 +34107,6 @@
 "juE" = (
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/cave)
-"jvc" = (
-/mob/living/simple_animal/hostile/rogue/mirespider_paralytic/angry,
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/beach/forest)
 "jvi" = (
 /obj/structure/fermentation_keg,
 /turf/open/floor/rogue/dirt/road,
@@ -36854,10 +36846,6 @@
 /obj/structure/bars/cemetery,
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors/shelter/woods)
-"kiK" = (
-/mob/living/simple_animal/hostile/rogue/mirespider_paralytic/angry,
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/woods)
 "kjb" = (
 /obj/structure/fluff/pillow/magenta{
 	dir = 1
@@ -67418,10 +67406,6 @@
 	},
 /turf/closed/mineral/random/rogue,
 /area/rogue/outdoors/beach/forest)
-"sDZ" = (
-/mob/living/simple_animal/hostile/rogue/mirespider_paralytic/angry,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/woods)
 "sEc" = (
 /obj/structure/table/wood{
 	icon_state = "longtable"
@@ -86098,10 +86082,6 @@
 "xIJ" = (
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/cave/dukecourt)
-"xIM" = (
-/mob/living/simple_animal/hostile/rogue/mirespider_paralytic/angry,
-/turf/open/floor/rogue/naturalstone,
-/area/rogue/outdoors/beach/forest)
 "xIQ" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -235394,7 +235374,7 @@ jFA
 jFA
 jFA
 jFA
-kiK
+jFA
 xkH
 niV
 uWS
@@ -250310,7 +250290,7 @@ xkH
 xkH
 xkH
 jFA
-kiK
+jFA
 niV
 niV
 uWS
@@ -262023,7 +262003,7 @@ psx
 jFA
 gwa
 jFA
-kiK
+jFA
 jFA
 xlx
 ixl
@@ -262489,7 +262469,7 @@ xkH
 jFA
 niV
 niV
-kiK
+jFA
 jFA
 jFA
 jWF
@@ -267913,7 +267893,7 @@ jFA
 sZa
 jFA
 jFA
-kiK
+jFA
 xkH
 xkH
 jFA
@@ -271057,7 +271037,7 @@ xkH
 eTA
 xkH
 jFA
-kiK
+jFA
 jFA
 xkH
 niV
@@ -272004,7 +271984,7 @@ jFA
 jFA
 jFA
 jFA
-sDZ
+xkH
 xkH
 xkH
 xkH
@@ -272426,7 +272406,7 @@ xkH
 jFA
 jFA
 sZa
-kiK
+jFA
 jFA
 xkH
 jFA
@@ -382952,7 +382932,7 @@ dCq
 dCq
 dCq
 dCq
-gXm
+dCq
 dCq
 dCq
 sJx
@@ -387479,7 +387459,7 @@ sJx
 sJx
 dCq
 dCq
-gXm
+dCq
 dCq
 dCq
 qPv
@@ -388367,7 +388347,7 @@ ujm
 ujm
 dCq
 dCq
-gXm
+dCq
 dCq
 dCq
 dCq
@@ -389276,7 +389256,7 @@ dCq
 dCq
 dCq
 dCq
-gXm
+dCq
 dCq
 sJx
 sJx
@@ -399213,7 +399193,7 @@ dCq
 dCq
 dCq
 dCq
-gXm
+dCq
 dCq
 dCq
 sJx
@@ -404185,7 +404165,7 @@ lpq
 lpq
 dCq
 dCq
-gXm
+dCq
 dCq
 dCq
 sJx
@@ -410027,7 +410007,7 @@ lpq
 lpq
 dCq
 dCq
-gXm
+dCq
 xLl
 xwO
 xwO
@@ -414993,7 +414973,7 @@ dCq
 aBZ
 aBZ
 uIq
-xIM
+uIq
 dCq
 dCq
 dCq
@@ -416383,7 +416363,7 @@ tOc
 dCq
 dCq
 dCq
-gXm
+dCq
 dCq
 dCq
 tOc
@@ -418173,7 +418153,7 @@ dCq
 dCq
 dCq
 dCq
-gXm
+dCq
 dCq
 dCq
 dCq
@@ -419109,7 +419089,7 @@ dCq
 dCq
 dCq
 dCq
-jvc
+lpq
 lpq
 iYn
 iYn
@@ -419536,7 +419516,7 @@ dCq
 dCq
 dCq
 dCq
-gXm
+dCq
 dCq
 dCq
 fQF
