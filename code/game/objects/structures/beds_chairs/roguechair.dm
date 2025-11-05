@@ -298,7 +298,7 @@
 	var/broken_percentage = 0
 
 /obj/structure/bed/rogue/proc/damage_bed(dam_value)
-	if(sleepy <= 1) // the bed is already pretty awful and broken (i.e: straw bed), so don't break it even further
+	if(sleepy <= 2) // the bed is already pretty awful and broken (i.e: straw bed/bedroll), so don't break it even further
 		return
 	broken_percentage += dam_value
 	if(!broken_matress && (broken_percentage >= 100))
