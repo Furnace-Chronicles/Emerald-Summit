@@ -802,7 +802,6 @@
 	id = "collar_debuff"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/collar_debuff
 	effectedstats = list("strength" = -2, "endurance" = -2)
-	duration = 12 SECONDS
 
 /atom/movable/screen/alert/status_effect/debuff/collar_debuff
 	name = "Cursed Collar"
