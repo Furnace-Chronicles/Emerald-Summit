@@ -650,6 +650,18 @@
 	set category = "Options"
 	set desc = "Toggles between legacy and miacraft"
 	usr.client.legacycraft = !legacycraft
+	if(!prefs)
+		return
+	if(prefs.legacycraft == TRUE)
+		prefs.legacycraft = FALSE
+		prefs.save_preferences()
+		to_chat(src, "Legacy Crafting is <font color='gray'>OFF.</font>")
+		legacycraft = FALSE
+	else
+		prefs.legacy = TRUE
+		prefs.save_preferences()
+		to_chat(src, "Legacy Crafting is <font color='#007fff'>ON.</font>")
+		legacycraft = TRUE
 
 /client
 	var/legacycraft = FALSE
