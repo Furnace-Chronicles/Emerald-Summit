@@ -797,3 +797,14 @@
 	name = "Silver Curse"
 	desc = "My BANE!"
 	icon_state = "hunger3"
+
+/datum/status_effect/debuff/cursed_collar
+	id = "cursed_collar"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/cursed_collar
+	effectedstats = list("strength" = -2, "endurance" = -2)
+	duration = 12 SECONDS
+
+/atom/movable/screen/alert/status_effect/debuff/cursed_collar
+	name = "Cursed Collar"
+	desc = "My magic is repressed, my strength is sapped and I'm unable to fight!\n"
+	icon_state = "restrained"
