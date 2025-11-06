@@ -1,6 +1,6 @@
 /datum/sex_action/toy_other_oral
 	name = "Use toy on their mouth"
-	category = SEX_CATEGORY_PENETRATE
+	category = SEX_CATEGORY_PENETRATE|SEX_CATEGORY_HANDS
 	target_sex_part = SEX_PART_JAWS
 
 /datum/sex_action/toy_other_oral/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)

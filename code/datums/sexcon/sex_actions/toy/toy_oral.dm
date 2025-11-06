@@ -1,6 +1,6 @@
 /datum/sex_action/toy_oral
 	name = "Swallow toy"
-	category = SEX_CATEGORY_PENETRATE
+	category = SEX_CATEGORY_PENETRATE|SEX_CATEGORY_HANDS
 	user_sex_part = SEX_PART_JAWS
 	target_sex_part = SEX_PART_JAWS
 
