@@ -51,10 +51,16 @@
 
 /obj/projectile/magic/aoe/fireball/rogue/on_hit(target)
 	. = ..()
-	if(ismob(target))
-		var/mob/M = target
+	if(isliving(target))
+		var/mob/living/M = target
 		if(M.anti_magic_check())
 			visible_message(span_warning("[src] fizzles on contact with [target]!"))
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
+		else
+			M.adjust_fire_stacks(2) //1 pats to put it out
+			visible_message(span_warning("[src] ignites [target]!"))
+			M.ignite_mob()
+	return FALSE
+

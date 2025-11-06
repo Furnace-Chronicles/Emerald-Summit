@@ -86,6 +86,7 @@
 
 	var/fingers = TRUE
 	var/is_prosthetic = FALSE
+	var/limb_material = "flesh" //used for icon_state
 
 	/// Visaul markings to be rendered alongside the bodypart
 	var/list/markings
@@ -240,6 +241,43 @@
 			user.visible_message(span_danger("[user] cuts [src] open!"),\
 				span_notice("You finish cutting [src] open."))
 		return
+	if(istype(I, /obj/item/organ))
+		var/obj/item/organ/organ = I
+		for(var/obj/item/organ/organ_already_inside in src.contents) // gotta check if we got item with the same slot aka putting fucking hearts inside heads... UNLESS?
+			if(organ.slot == organ_already_inside.slot)
+				to_chat(user, span_warning("[src] already has [organ] inside!"))
+				return FALSE
+		if(!(organ.zone in src.grabtargets)) // cant check for user.zone_selected because well yeah, you can just plop down heart inside of the head if u select head
+			to_chat(user, span_warning("[organ] does not belong in [src]!"))
+			return FALSE
+		visible_message(span_notice("[user] begins to insert [organ] into [src]!"), \
+		span_notice("I begin inserting [organ] into [src]!"))
+		playsound(src.loc, 'sound/surgery/organ2.ogg', 75, TRUE, -2)
+		if(do_after(user, 30, target = src))
+			if(ishuman(user))
+				var/mob/living/carbon/human/doctor = user
+				doctor.mind.add_sleep_experience(/datum/skill/misc/medicine, doctor.STAINT * 1)
+			var/success_chance = max(0 + (user.get_skill_level(/datum/skill/misc/medicine)*15), 0)
+			if(prob(success_chance))
+				user.dropItemToGround(organ, TRUE)
+				organ.moveToNullspace()
+				if(istype(organ, /obj/item/organ/brain))
+					src.brain = organ
+				if(istype(organ, /obj/item/organ/eyes))
+					src.eyes = organ
+				if(istype(organ, /obj/item/organ/ears))
+					src.ears = organ
+				if(istype(organ, /obj/item/organ/tongue))
+					src.tongue = organ
+				visible_message(span_notice("[user] successfully inserts [organ] into [src]!"), \
+				span_notice("I have successfully inserted [organ] into [src]!"))
+				playsound(src.loc, 'sound/surgery/organ1.ogg', 75, TRUE, -2)
+				src.contents += organ
+				src.update_icon_dropped()
+				to_chat(user, span_hierophant("<b>Success!</b> Your success chance was [success_chance]%."))
+			else
+				to_chat(user, span_warning("<b>Failure!</b> Your success chance was [success_chance]%."))
+				return FALSE
 	return ..()
 
 /obj/item/bodypart/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
@@ -504,7 +542,18 @@
 			species_icon = S.limbs_icon_f
 		species_flags_list = H.dna.species.species_traits
 
-
+/* //alternative way where we use a unified spritesheet but i've come to realize there's no point, best to store icons in the species spritesheet instead. i think
+		if(src.status == BODYPART_ORGANIC)
+			if(H.gender == MALE) // this here setsup your limb icon
+				species_icon = S.limbs_icon_m
+			else
+				species_icon = S.limbs_icon_f
+		else
+			species_icon = 'icons/roguetown/mob/bodies/prosthetics_onmob.dmi' // brahhh
+			if(H.dna.species.type in SHORT_RACE_TYPES) // have to specify .type idk why
+				species_shortness = "_short" // replace with species id if problems arise brah
+		species_flags_list = H.dna.species.species_traits
+*/
 		if(S.use_skintones)
 			skin_tone = H.skin_tone
 			should_draw_greyscale = TRUE
@@ -539,14 +588,18 @@
 //to update the bodypart's icon when not attached to a mob
 /obj/item/bodypart/proc/update_icon_dropped()
 	cut_overlays()
-	var/list/standing = get_limb_icon(1)
-	if(!standing.len)
-		icon_state = initial(icon_state)//no overlays found, we default back to initial icon.
+	if(is_organic_limb())
+		var/list/standing = get_limb_icon(1)
+		if(!standing.len)
+			icon_state = initial(icon_state)//no overlays found, we default back to initial icon.
+			return
+		for(var/image/I in standing)
+			I.pixel_x = px_x
+			I.pixel_y = px_y
+		add_overlay(standing)
+	else
+		icon_state = initial(icon_state)
 		return
-	for(var/image/I in standing)
-		I.pixel_x = px_x
-		I.pixel_y = px_y
-	add_overlay(standing)
 
 ///since organs aren't actually stored in the bodypart themselves while attached to a person, we have to query the owner for what we should have
 /obj/item/bodypart/proc/get_organs()
@@ -627,10 +680,10 @@
 
 	else
 		limb.icon = species_icon
-		limb.icon_state = "pr_[body_zone]"
+		limb.icon_state = "pr_[limb_material]_[body_zone]"
 		if(aux_zone)
 			if(!hideaux)
-				aux = image(limb.icon, "pr_[aux_zone]", -aux_layer, image_dir)
+				aux = image(limb.icon, "pr_[limb_material]_[aux_zone]", -aux_layer, image_dir)
 				. += aux
 
 
@@ -683,7 +736,7 @@
 	return ..()
 
 /obj/item/bodypart/chest
-	name = BODY_ZONE_CHEST
+	name = "chest"
 	desc = ""
 	icon_state = "default_human_chest"
 	max_damage = 300

@@ -16,6 +16,7 @@
 	max_pq = null
 	bypass_lastclass = TRUE
 	round_contrib_points = 3
+	social_rank = SOCIAL_RANK_YEOMAN
 
 	job_traits = list(TRAIT_SEEPRICES_SHITTY, TRAIT_CICERONE, TRAIT_NUTCRACKER, TRAIT_GOODLOVER)
 

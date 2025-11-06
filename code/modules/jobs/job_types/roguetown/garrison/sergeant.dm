@@ -18,6 +18,7 @@
 	display_order = JDO_SERGEANT
 	whitelist_req = TRUE
 	round_contrib_points = 3
+	social_rank = SOCIAL_RANK_YEOMAN
 
 
 	outfit = /datum/outfit/job/roguetown/sergeant

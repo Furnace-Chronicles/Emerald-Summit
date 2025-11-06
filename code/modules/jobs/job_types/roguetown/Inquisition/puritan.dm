@@ -23,7 +23,8 @@
 	give_bank_account = 30
 	min_pq = 20
 	max_pq = null
-	round_contrib_points = 2
+	round_contrib_points = 4
+	social_rank = SOCIAL_RANK_NOBLE
 
 	virtue_restrictions = list(
 		/datum/virtue/combat/hollow_life,

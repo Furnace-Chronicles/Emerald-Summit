@@ -25,6 +25,7 @@
 	round_contrib_points = 2
 	cmode_music = 'sound/music/combat_bandit_mage.ogg'
 	advclass_cat_rolls = list(CTAG_COURTMAGE = 2)
+	social_rank = SOCIAL_RANK_YEOMAN
 
 	// Can't get very far as a magician if you can't chant spells now can you?
 	vice_restrictions = list(/datum/charflaw/mute)

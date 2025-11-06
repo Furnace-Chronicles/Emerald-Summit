@@ -22,6 +22,7 @@
 	max_pq = null
 	round_contrib_points = 2
 	cmode_music = 'sound/music/combat_druid.ogg'
+	social_rank = SOCIAL_RANK_YEOMAN
 
 	//You're.. not REALLY a full-on church member, but being a druid implies you became a clergy-man of some sort; even if it's non-organized. So, still shouldn't be noble.
 	virtue_restrictions = list(
@@ -29,7 +30,7 @@
 		/datum/virtue/utility/blueblooded,
 	)
 
-	job_traits = list(TRAIT_SEEDKNOW, TRAIT_OUTDOORSMAN, TRAIT_RITUALIST)
+	job_traits = list(TRAIT_SEEDKNOW, TRAIT_OUTDOORSMAN, TRAIT_RITUALIST, TRAIT_CLERGY)
 
 	advclass_cat_rolls = list(CTAG_DRUID = 2)
 	job_subclasses = list(
@@ -100,3 +101,4 @@
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.
+	H.miracle_points = max(H.miracle_points, 8)

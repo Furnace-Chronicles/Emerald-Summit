@@ -29,6 +29,9 @@
 /mob/proc/print_levels()
 	return ensure_skills().print_levels(src)
 
+/mob/proc/set_current_skill_holder(mob/M)
+	return ensure_skills().set_current(M)
+
 /datum/skill_holder
 	///our current host
 	var/mob/living/current

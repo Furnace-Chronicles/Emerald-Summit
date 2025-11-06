@@ -19,6 +19,7 @@
 	max_pq = null
 	round_contrib_points = 3
 	advjob_examine = TRUE // So that everyone know which subjob they have picked
+	social_rank = SOCIAL_RANK_YEOMAN
 
 	job_subclasses = list(
 		/datum/advclass/guildsman/artificer,

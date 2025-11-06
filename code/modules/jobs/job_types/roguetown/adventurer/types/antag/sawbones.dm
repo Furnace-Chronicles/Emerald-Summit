@@ -7,6 +7,7 @@
 	category_tags = list(CTAG_BANDIT)
 	maximum_possible_slots = 2 // We only want one of these because of master in swords.
 	cmode_music = 'sound/music/combat_physician.ogg'
+	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	traits_applied = list(
 		TRAIT_NOSTINK,

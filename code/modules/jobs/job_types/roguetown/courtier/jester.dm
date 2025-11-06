@@ -20,6 +20,7 @@
 	min_pq = -4 //silly jesters are funny so low PQ requirement
 	max_pq = null
 	round_contrib_points = 2
+	social_rank = SOCIAL_RANK_NOBLE
 
 /datum/outfit/job/roguetown/jester/pre_equip(mob/living/carbon/human/H)
 	..()

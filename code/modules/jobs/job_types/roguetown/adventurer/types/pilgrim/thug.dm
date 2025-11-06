@@ -6,6 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/thug
 	cmode_music = 'sound/music/combat_bum.ogg'
 	total_positions = 8 // i dont want an army of towner thugs
+	social_rank = SOCIAL_RANK_DIRT
 
 	job_subclasses = list(
 		/datum/advclass/thug/goon,
@@ -96,6 +97,7 @@
 	tutorial = "You're smarter than the rest, by a stone's throw - and you know better than to get up close and personal. Unlike most others, you can read."
 	outfit = /datum/outfit/job/roguetown/thug/wiseguy
 	category_tags = list(CTAG_TOWNER)
+	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	subclass_languages = list(/datum/language/thievescant)
 

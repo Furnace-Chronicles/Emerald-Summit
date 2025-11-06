@@ -1058,7 +1058,7 @@
 	name = "old psydonian broadsword"
 	desc = "Even the most ignorant of zealots know that the holy silver loses its properties when not blessed by Adjudicators and Priests of the Holy See for an extended period of time. Its edge remains as lethal as ever, however."
 	icon_state = "oldpsybroadsword"
-	force = 8
+	force = 20
 	force_wielded = 25
 	minstr = 11
 	wdefense = 6

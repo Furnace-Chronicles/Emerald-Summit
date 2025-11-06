@@ -21,6 +21,7 @@
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_physician.ogg'
 	advclass_cat_rolls = list(CTAG_COURTPHYS = 2)
+	social_rank = SOCIAL_RANK_YEOMAN
 
 	job_traits = list(TRAIT_NOSTINK, TRAIT_EMPATH)
 	job_subclasses = list(

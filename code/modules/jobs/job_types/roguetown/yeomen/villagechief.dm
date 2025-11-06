@@ -20,6 +20,7 @@
 	max_pq = null
 	give_bank_account = 16
 	round_contrib_points = 3
+	social_rank = SOCIAL_RANK_YEOMAN
 
 	cmode_music = 'sound/music/combat_old.ogg'//He is old so he gets old
 

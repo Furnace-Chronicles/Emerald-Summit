@@ -83,9 +83,9 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 	. = ..()
 	. += span_notice("Reading it once per day allows you to unbind two spells and refund its spell point.")
 	if(born_of_rock)
-		. += span_notice("This tome was made from a magical stone instead of a proper gem. Holding it in your hand with it open reduces spell charge time by [ROCK_CHARGE_REDUCTION * 100]%")
+		. += span_notice("This tome was made from a magical stone instead of a proper gem. Holding it in your hand with it open reduces spell casting time by [ROCK_CHARGE_REDUCTION * 100]%")
 	else
-		. += span_notice("This tome was made from a gem. Holding it in your hand with it open reduces spell charge time by [GEM_CHARGE_REDUCTION * 100]%")
+		. += span_notice("This tome was made from a gem. Holding it in your hand with it open reduces spell casting time by [GEM_CHARGE_REDUCTION * 100]%")
 
 /obj/item/book/spellbook/attack_self(mob/user)
 	if(!open)
@@ -136,7 +136,7 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 	if(!unlearn_success)
 		user_mind.has_changed_spell = FALSE //If we didn't unlearn anything, reset
 
-/obj/item/book/spellbook/proc/get_cdr()
+/obj/item/book/spellbook/proc/get_castred()
 	if(born_of_rock)
 		return ROCK_CHARGE_REDUCTION
 	else

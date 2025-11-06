@@ -306,3 +306,19 @@
 	)
 	craftdiff = 4
 	verbage_simple = "mix"
+
+/datum/crafting_recipe/roguetown/alchemy/continuity_head
+	name = "Continuity Head"
+	category = "Fleshcrafting"
+	result = list(/obj/item/bodypart/head/prosthetic/continuity_head)
+	reqs = list(
+		/obj/item/bodypart/head = 1,
+		/obj/item/rogueore/gold = 1, // you should insert the organs yourself before doing the ritual
+//		/obj/item/organ/eyes,
+//		/obj/item/organ/ears,
+//		/obj/item/organ/tongue,
+//		/obj/item/organ/brain,
+	)
+	craftdiff = 2
+	skillcraft = /datum/skill/misc/medicine
+	verbage_simple = "fleshcraft"

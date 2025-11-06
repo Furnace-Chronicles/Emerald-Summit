@@ -7,6 +7,7 @@
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_NALEDI
 	cmode_music = 'sound/music/warscholar.ogg'
+	subclass_social_rank = SOCIAL_RANK_YEOMAN
 
 	subclass_languages = list(
 		/datum/language/celestial,

@@ -53,7 +53,7 @@
 	//Update the body's icon so it doesnt appear debrained anymore
 	C.update_hair()
 
-/obj/item/organ/brain/Remove(mob/living/carbon/C, special = 0, no_id_transfer = FALSE)
+/obj/item/organ/brain/Remove(mob/living/carbon/C, special = FALSE, no_id_transfer = FALSE)
 	. = ..()
 	for(var/X in traumas)
 		var/datum/brain_trauma/BT = X

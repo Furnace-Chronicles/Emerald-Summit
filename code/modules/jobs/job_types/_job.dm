@@ -163,6 +163,8 @@
 	///Whether this class can be clicked on for details.
 	var/class_setup_examine = TRUE
 
+	///The social rank of the job, determines the examine text when examining others or being examined
+	var/social_rank = SOCIAL_RANK_DIRT
 
 /datum/job/proc/special_job_check(mob/dead/new_player/player)
 	return TRUE
@@ -229,6 +231,9 @@
 
 	if(cmode_music)
 		H.cmode_music = cmode_music
+
+	if(social_rank)
+		H.social_rank = social_rank
 
 	if(H.mind.special_role == "Court Agent" || H.mind.assigned_role == "Bandit" || H.mind.assigned_role == "Wretch") //For obfuscating Court Agents & Bandits in Actors list
 		if (istype(H, /mob/living/carbon/human)) //For determining if the actor has a species name to display

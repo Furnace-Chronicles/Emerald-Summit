@@ -311,6 +311,15 @@
 	/datum/species/lamia,\
 	/datum/species/harpy,\
 )
+
+// they usually share the same clothing sprites, so like.... BRAH...
+#define SHORT_RACE_TYPES list(\
+	/datum/species/dwarf/mountain,\
+	/datum/species/anthromorphsmall,\
+	/datum/species/kobold,\
+	/datum/species/goblinp,\
+)
+
 // Non-dwarf non-kobold non-goblin mostly
 #define NON_DWARVEN_RACE_TYPES list(\
 	/datum/species/human/northern,\
@@ -547,6 +556,14 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CLASS_CAT_OTAVA "Otava"
 #define CLASS_CAT_KAZENGUN "Kazengun"
 #define CLASS_CAT_RACIAL "Race Exclusive" //Used for black oaks, grudgebearer dwarves, etc.
+
+// Social rank defines
+#define SOCIAL_RANK_DIRT 1
+#define SOCIAL_RANK_PEASANT 2
+#define SOCIAL_RANK_YEOMAN 3
+#define SOCIAL_RANK_MINOR_NOBLE 4
+#define SOCIAL_RANK_NOBLE 5
+#define SOCIAL_RANK_ROYAL 6
 
 /*
 	Defines for the triumph buy datum categories

@@ -1013,7 +1013,6 @@
 	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
 	force = 17
-	force_wielded = 20
 	minstr = 7
 	wdefense = 9
 	last_used = 0
@@ -1166,8 +1165,7 @@
 	icon_state = "psyrapier"
 	max_integrity = 300
 	max_blade_int = 300
-	force = 17
-	force_wielded = 20
+	force = 20
 	minstr = 8
 	wdefense = 8
 	smeltresult = /obj/item/ingot/silver

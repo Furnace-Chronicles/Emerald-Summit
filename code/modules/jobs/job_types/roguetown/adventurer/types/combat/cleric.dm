@@ -7,6 +7,7 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/cleric
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	class_select_category = CLASS_CAT_CLERIC
+	subclass_social_rank = SOCIAL_RANK_YEOMAN
 
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_CIVILIZEDBARBARIAN)
 	subclass_stats = list(
@@ -32,10 +33,62 @@
 /datum/outfit/job/roguetown/adventurer/cleric/pre_equip(mob/living/carbon/human/H)
 	..()
 
-	// Add druidic skill for Dendor followers
+	// Add druidic skill for Dendor followers	
+	if(H.patron?.type == /datum/patron/inhumen/graggar)
+		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
+		H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/inhumen/matthios)
+		H.grant_language(/datum/language/thievescant)
+		H.adjust_skillrank(/datum/skill/misc/sneaking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/stealing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
+	if(H.patron?.type == /datum/patron/inhumen/zizo)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/inhumen/baotha)
+		H.adjust_skillrank(/datum/skill/misc/music, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/cooking, 2, TRUE)
+		ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
 	if(istype(H.patron, /datum/patron/divine/dendor))
 		H.adjust_skillrank(/datum/skill/magic/druidic, 3, TRUE)
 		to_chat(H, span_notice("As a follower of Dendor, you have innate knowledge of druidic magic."))
+	if(H.patron?.type == /datum/patron/divine/astrata)
+		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/noc)
+		H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/abyssor)
+		H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/necra)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/pestra)
+		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/eora)
+		ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/malum)
+		H.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/armorsmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/smelting, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/ravox)
+		H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/xylix)
+		H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
+	// -- End of section for god specific bonuses --
 
 	to_chat(H, span_warning("You are a wandering acolyte, versed in both miracles and martial arts. You forego the heavy armor paladins wear in favor of a more nimble approach to combat, utilizing your fists."))
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
@@ -134,6 +187,7 @@
 	name = "Paladin"
 	tutorial = "A holy warrior. Where others of the clergy may have spent their free time studying scriptures, you have instead honed your skills with a blade."
 	outfit = /datum/outfit/job/roguetown/adventurer/paladin
+	subclass_social_rank = SOCIAL_RANK_YEOMAN
 
 	traits_applied = list(TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
@@ -172,7 +226,62 @@
 		/obj/item/flashlight/flare/torch = 1, 
 		/obj/item/recipe_book/survival = 1,
 		)
-
+	// -- Start of section for god specific bonuses --
+	if(H.patron?.type == /datum/patron/inhumen/graggar)
+		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
+		H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/inhumen/matthios)
+		H.grant_language(/datum/language/thievescant)
+		H.adjust_skillrank(/datum/skill/misc/sneaking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/stealing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
+	if(H.patron?.type == /datum/patron/inhumen/zizo)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/inhumen/baotha)
+		H.adjust_skillrank(/datum/skill/misc/music, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/cooking, 2, TRUE)
+		ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/astrata)
+		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/dendor)
+		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/noc)
+		H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/abyssor)
+		H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/necra)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/pestra)
+		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/eora)
+		ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/malum)
+		H.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/armorsmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/smelting, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/ravox)
+		H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/xylix)
+		H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
+	// -- End of section for god specific bonuses --
 	H.cmode_music = 'sound/music/combat_holy.ogg'
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
@@ -283,6 +392,7 @@
 	name = "Cantor"
 	tutorial = "You were a bard once - but you've found a new calling. Your eyes have been opened to the divine, now you wander from city to city singing songs and telling tales of your patron's greatness."
 	outfit = /datum/outfit/job/roguetown/adventurer/cantor
+	subclass_social_rank = SOCIAL_RANK_YEOMAN
 
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_EMPATH)
 	subclass_stats = list(
@@ -371,7 +481,62 @@
 			backr = /obj/item/rogue/instrument/vocals
 		if("Trumpet")
 			backr = /obj/item/rogue/instrument/trumpet
-
+				// -- Start of section for god specific bonuses --						
+	if(H.patron?.type == /datum/patron/inhumen/graggar)
+		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
+		H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/inhumen/matthios)
+		H.grant_language(/datum/language/thievescant)
+		H.adjust_skillrank(/datum/skill/misc/sneaking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/stealing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
+	if(H.patron?.type == /datum/patron/inhumen/zizo)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/inhumen/baotha)
+		H.adjust_skillrank(/datum/skill/misc/music, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/cooking, 2, TRUE)
+		ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/astrata)
+		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/dendor)
+		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/noc)
+		H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/abyssor)
+		H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/necra)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/pestra)
+		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/eora)
+		ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/malum)
+		H.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/armorsmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/smelting, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/ravox)
+		H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/xylix)
+		H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
+	// -- End of section for god specific bonuses --
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			neck = /obj/item/clothing/neck/roguetown/psicross
@@ -414,6 +579,7 @@
 	name = "Missionary"
 	tutorial = "You are a devout worshipper of the divine with a strong connection to your patron god. You've spent years studying scriptures and serving your deity - now you wander into foreign lands, spreading the word of your faith."
 	outfit = /datum/outfit/job/roguetown/adventurer/missionary
+	subclass_social_rank = SOCIAL_RANK_YEOMAN
 
 	traits_applied = list()
 	subclass_stats = list(
@@ -488,6 +654,62 @@
 			head = /obj/item/clothing/head/roguetown/roguehood
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_4)	//Minor regen, capped to T4.
+		// -- Start of section for god specific bonuses --	
+	if(H.patron?.type == /datum/patron/inhumen/graggar)
+		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
+		H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/inhumen/matthios)
+		H.grant_language(/datum/language/thievescant)
+		H.adjust_skillrank(/datum/skill/misc/sneaking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/stealing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
+	if(H.patron?.type == /datum/patron/inhumen/zizo)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/inhumen/baotha)
+		H.adjust_skillrank(/datum/skill/misc/music, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/cooking, 2, TRUE)
+		ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/astrata)
+		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/dendor)
+		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/noc)
+		H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/abyssor)
+		H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/necra)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/pestra)
+		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/eora)
+		ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/malum)
+		H.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/armorsmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/smelting, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/ravox)
+		H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/xylix)
+		H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
+	// -- End of section for god specific bonuses --
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			neck = /obj/item/clothing/neck/roguetown/psicross

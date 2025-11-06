@@ -35,6 +35,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	give_bank_account = 1000
 	required = TRUE
 	cmode_music = 'sound/music/combat_noble.ogg'
+	social_rank = SOCIAL_RANK_ROYAL
 
 	job_subclasses = list(
 		/datum/advclass/lord/warrior,

@@ -1,0 +1,411 @@
+// Base config was lifted from Tieflings, however changed to cursed humen based on programmer lore.
+// Supposed to be temporary, needless to say.
+
+/mob/living/carbon/human/species/dullahan
+	race = /datum/species/dullahan
+
+/datum/species/dullahan
+	name = "Dullahan"
+	id = "dullahan"
+	desc = "<b>Dullahan: Business Unfinished</b><br>\
+	At times mistaken for a type of deadite, the Dullahan is not a rotting ghoul or bloodsucking beast. \
+	These are living elves, humans and tieflings, whose souls are in the brain instead of the heart; \
+	the heart still beats, but Lux does not flow through it. They can remove their heads at will, \
+	which most fencers and thieves use to dodge about with their vital skull to be out of an opponent’s reach. \
+	The people afflicted by this condition claim they do not recall how they came to be this way, \
+	but some pious souls claim these are a foul abomination, an accursed creature that masquerades as human. \
+	Tennites in the west have come to associate them with Zizo, as a mockery of Psydon’s creation.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> Easy decapitation</b></span> </br>"
+	// Stat balancing. Per-server decision. Preferably keep neutral until analysis post testmerges.
+	//race_bonus = list(STAT_INTELLIGENCE = 1, STAT_CONSTITUTION = 1)
+	skin_tone_wording = "Catalyst"
+
+	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,MUTCOLORS_PARTSONLY)
+	default_features = MANDATORY_FEATURE_LIST
+	inherent_traits = list(TRAIT_EASYDECAPITATION)
+	use_skintones = 1
+	disliked_food = NONE
+	liked_food = NONE
+	possible_ages = ALL_AGES_LIST
+	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
+	limbs_icon_m = 'icons/roguetown/mob/bodies/m/human.dmi'
+	limbs_icon_f = 'icons/roguetown/mob/bodies/f/human.dmi'
+	dam_icon = 'icons/roguetown/mob/bodies/dam/dam_male.dmi'
+	dam_icon_f = 'icons/roguetown/mob/bodies/dam/dam_female.dmi'
+	soundpack_m = /datum/voicepack/male
+	soundpack_f = /datum/voicepack/female
+	offset_features = list(
+		OFFSET_ID = list(0,1), OFFSET_GLOVES = list(0,1), OFFSET_WRISTS = list(0,1),\
+		OFFSET_CLOAK = list(0,1), OFFSET_FACEMASK = list(0,1), OFFSET_HEAD = list(0,1), \
+		OFFSET_FACE = list(0,1), OFFSET_BELT = list(0,1), OFFSET_BACK = list(0,1), \
+		OFFSET_NECK = list(0,1), OFFSET_MOUTH = list(0,1), OFFSET_PANTS = list(0,1), \
+		OFFSET_SHIRT = list(0,1), OFFSET_ARMOR = list(0,1), OFFSET_HANDS = list(0,1), OFFSET_UNDIES = list(0,1), \
+		OFFSET_ID_F = list(0,-1), OFFSET_GLOVES_F = list(0,0), OFFSET_WRISTS_F = list(0,0), OFFSET_HANDS_F = list(0,0), \
+		OFFSET_CLOAK_F = list(0,0), OFFSET_FACEMASK_F = list(0,-1), OFFSET_HEAD_F = list(0,-1), \
+		OFFSET_FACE_F = list(0,-1), OFFSET_BELT_F = list(0,0), OFFSET_BACK_F = list(0,-1), \
+		OFFSET_NECK_F = list(0,-1), OFFSET_MOUTH_F = list(0,-1), OFFSET_PANTS_F = list(0,0), \
+		OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,-1), \
+		)
+	enflamed_icon = "widefire"
+	bodypart_overrides = list(
+		BODY_ZONE_HEAD = /obj/item/bodypart/head/dullahan,
+	)
+	organs = list(
+		ORGAN_SLOT_BRAIN = /obj/item/organ/brain/dullahan,
+		ORGAN_SLOT_HEART = /obj/item/organ/heart,
+		ORGAN_SLOT_LUNGS = /obj/item/organ/lungs,
+		ORGAN_SLOT_EYES = /obj/item/organ/eyes,
+		ORGAN_SLOT_EARS = /obj/item/organ/ears,
+		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue/wild_tongue,
+		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
+		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
+		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,
+		// Customizable eyes means overriden eyes get thrown out.
+		// HUD organ deals with less parenting problems aswell.
+		ORGAN_SLOT_HUD = /obj/item/organ/dullahan_vision,
+		)
+	bodypart_features = list(
+		/datum/bodypart_feature/hair/head,
+		/datum/bodypart_feature/hair/facial,
+	)
+	customizers = list(
+		/datum/customizer/organ/eyes/humanoid,
+		/datum/customizer/bodypart_feature/hair/head/humanoid,
+		/datum/customizer/bodypart_feature/hair/facial/humanoid,
+		/datum/customizer/bodypart_feature/accessory,
+		/datum/customizer/bodypart_feature/face_detail,
+		/datum/customizer/bodypart_feature/underwear,
+		/datum/customizer/bodypart_feature/legwear,
+		/datum/customizer/organ/horns/demihuman,
+		/datum/customizer/organ/wings/anthro,
+		/datum/customizer/organ/horns/tusks,
+		/datum/customizer/organ/soul/fire,
+		/datum/customizer/organ/tail/dullahan,
+		/datum/customizer/organ/ears/dullahan,
+		/datum/customizer/organ/testicles/anthro,
+		/datum/customizer/organ/penis/anthro,
+		/datum/customizer/organ/breasts/animal,
+		/datum/customizer/organ/vagina/animal,
+
+		)
+	body_marking_sets = list(
+		/datum/body_marking_set/none,
+		/datum/body_marking_set/belly,
+		/datum/body_marking_set/socks,
+		/datum/body_marking_set/tiger,
+		/datum/body_marking_set/tiger_dark,
+	)
+	body_markings = list(
+		/datum/body_marking/flushed_cheeks,
+		/datum/body_marking/eyeliner,
+		/datum/body_marking/tonage,
+		/datum/body_marking/socklonger,
+		/datum/body_marking/tips,
+		/datum/body_marking/nose,
+		/datum/body_marking/bangs,
+		/datum/body_marking/bun,
+		/datum/body_marking/plain,
+	)
+	descriptor_choices = list(
+		/datum/descriptor_choice/height,
+		/datum/descriptor_choice/body,
+		/datum/descriptor_choice/stature,
+		/datum/descriptor_choice/face,
+		/datum/descriptor_choice/face_exp,
+		/datum/descriptor_choice/skin,
+		/datum/descriptor_choice/voice,
+		/datum/descriptor_choice/prominent_one_wild,
+		/datum/descriptor_choice/prominent_two_wild,
+		/datum/descriptor_choice/prominent_three_wild,
+		/datum/descriptor_choice/prominent_four_wild,
+	)
+	languages = list(
+		/datum/language/common,
+	)
+
+	stress_examine = TRUE
+	stress_desc = span_red("Accursed. I should keep my distance...")
+	// Faster to check the head directly than looping through with get_bodypart.
+	var/headless = FALSE
+	var/obj/item/bodypart/head/dullahan/my_head
+	var/obj/effect/dummy/lighting_obj/moblight/mob_light_obj
+
+/datum/species/dullahan/check_roundstart_eligible()
+	return TRUE
+
+/datum/species/dullahan/qualifies_for_rank(rank, list/features)
+	return TRUE
+
+
+/datum/species/demihuman/get_random_features()
+	var/list/returned = MANDATORY_FEATURE_LIST
+	var/main_color
+	var/random = rand(1,8)
+	//Choose from a variety of mostly brightish, animal, matching colors
+	switch(random)
+		if(1)
+			main_color = ORANGE_FUR
+		if(2)
+			main_color = LIGHTGREY_FUR
+		if(3)
+			main_color = DARKGREY_FUR
+		if(4)
+			main_color = LIGHTORANGE_FUR
+		if(5)
+			main_color = LIGHTBROWN_FUR
+		if(6)
+			main_color = WHITEBROWN_FUR
+		if(7)
+			main_color = DARKBROWN_FUR
+		if(8)
+			main_color = BLACK_FUR
+	returned["mcolor"] = main_color
+	returned["mcolor2"] = main_color
+	returned["mcolor3"] = main_color
+	return returned
+
+/datum/species/dullahan/get_skin_list()
+	return list(
+		"Ghost" = SKIN_COLOR_GHOST,
+		"Grenzelhoft" = SKIN_COLOR_PALE_GRENZELHOFT,
+		"Hammerhold" = SKIN_COLOR_PALE_HAMMERHOLD,
+		"Avar" = SKIN_COLOR_PALE_AVAR,
+		"Scarlet Reach" = SKIN_COLOR_PALE_SCARLET_REACH,
+		"Otava" = SKIN_COLOR_PALE_OTAVA,
+		"Etrusca" = SKIN_COLOR_PALE_ETRUSCA,
+		"Gronn" = SKIN_COLOR_PALE_GRONN,
+		"Giza" = SKIN_COLOR_PALE_GIZA,
+		"Shalvistine" = SKIN_COLOR_PALE_SHALVISTINE,
+		"Lalvestine" = SKIN_COLOR_PALE_LALVESTINE,
+		"Ebon" = SKIN_COLOR_PALE_EBON,
+		"Kazengun" = SKIN_COLOR_PALE_KAZENGUN,
+		"Naledi" = SKIN_COLOR_PALE_NALEDI,
+		"Nessyss" = SKIN_COLOR_NESSYSS,
+		"Vheslyn" = SKIN_COLOR_VHESLYN,
+		"Sarvyra" = SKIN_COLOR_SARVYRA,
+		"Jehoel" = SKIN_COLOR_JEHOEL,
+		"Urvix" = SKIN_COLOR_URVIX,
+		"Arlenneth" = SKIN_COLOR_ARLENNETH,
+		"Helixia" = SKIN_COLOR_HELIXIA,
+		"Nymsea" = SKIN_COLOR_NYMSEA,
+		"Calvus" = SKIN_COLOR_CALVUS,
+		"Voibion" = SKIN_COLOR_VOIBION,
+		"Chyerno" = SKIN_COLOR_CHYERNO,
+		"Drema" = SKIN_COLOR_DREMA,
+		"Chir" = SKIN_COLOR_CHIR,
+		"Vesyl" = SKIN_COLOR_VESYL,
+		"Commorah" = SKIN_COLOR_COMMORAH,
+		"Gloomhaven" = SKIN_COLOR_GLOOMHAVEN,
+		"Darkpila" = SKIN_COLOR_DARKPILA,
+		"Sshanntynlan" = SKIN_COLOR_SSHANNTYNLAN,
+		"Llurth Dreir" = SKIN_COLOR_LLURTH_DREIR,
+		"Tafravma" = SKIN_COLOR_TAFRAVMA,
+		"Yuethindrynn" = SKIN_COLOR_YUETHINDRYNN,
+		"Koredynn" = SKIN_COLOR_KOREDYNN,
+		"Aiseedrynn" = SKIN_COLOR_AISEEDRYNN,
+		"Grenduskra" = SKIN_COLOR_GRENDUSKRA,
+	)
+
+/datum/species/dullahan/get_skin_list_tooltip()
+	return list(
+		"Ghost <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_GHOST];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_GHOST,
+		"Grenzelhoft <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_PALE_GRENZELHOFT];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_PALE_GRENZELHOFT,
+		"Hammerhold <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_PALE_HAMMERHOLD];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_PALE_HAMMERHOLD,
+		"Avar <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_PALE_AVAR];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_PALE_AVAR,
+		"Scarlet Reach <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_PALE_SCARLET_REACH];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_PALE_SCARLET_REACH,
+		"Otava <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_PALE_OTAVA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_PALE_OTAVA,
+		"Etrusca <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_PALE_ETRUSCA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_PALE_ETRUSCA,
+		"Gronn <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_PALE_GRONN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_PALE_GRONN,
+		"Giza <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_PALE_GIZA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_PALE_GIZA,
+		"Shalvistine <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_PALE_SHALVISTINE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_PALE_SHALVISTINE,
+		"Lalvestine <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_PALE_LALVESTINE];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_PALE_LALVESTINE,
+		"Ebon <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_PALE_EBON];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_PALE_EBON,
+		"Kazengun <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_PALE_KAZENGUN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_PALE_KAZENGUN,
+		"Naledi <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_PALE_NALEDI];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_PALE_NALEDI,
+		"Nessyss <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_NESSYSS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_NESSYSS,
+		"Vheslyn <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_VHESLYN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_VHESLYN,
+		"Sarvyra <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_SARVYRA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_SARVYRA,
+		"Jehoel <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_JEHOEL];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_JEHOEL,
+		"Urvix <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_URVIX];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_URVIX,
+		"Arlenneth <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_ARLENNETH];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_ARLENNETH,
+		"Helixia <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_HELIXIA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_HELIXIA,
+		"Nymsea <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_NYMSEA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_NYMSEA,
+		"Calvus <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_CALVUS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_CALVUS,
+		"Voibion <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_VOIBION];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_VOIBION,
+		"Chyerno <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_CHYERNO];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_CHYERNO,
+		"Drema <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_DREMA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_DREMA,
+		"Chir <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_CHIR];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_CHIR,
+		"Vesyl <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_VESYL];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_VESYL,
+		"Commorah <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_COMMORAH];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_COMMORAH,
+		"Gloomhaven <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_GLOOMHAVEN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_GLOOMHAVEN,
+		"Darkpila <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_DARKPILA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_DARKPILA,
+		"Sshanntynlan <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_SSHANNTYNLAN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_SSHANNTYNLAN,
+		"Llurth Dreir <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_LLURTH_DREIR];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_LLURTH_DREIR,
+		"Tafravma <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_TAFRAVMA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_TAFRAVMA,
+		"Yuethindrynn <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_YUETHINDRYNN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_YUETHINDRYNN,
+		"Koredynn <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_KOREDYNN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_KOREDYNN,
+		"Aiseedrynn <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_AISEEDRYNN];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_AISEEDRYNN,
+		"Grenduskra <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_GRENDUSKRA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_GRENDUSKRA
+	)
+
+/datum/species/dullahan/get_hairc_list()
+	return sortList(list(
+		"blond - pale" = "9d8d6e",
+		"blond - dirty" = "88754f",
+		"blond - drywheat" = "d5ba7b",
+		"blond - strawberry" = "c69b71",
+
+		"brown - mud" = "362e25",
+		"brown - oats" = "584a3b",
+		"brown - grain" = "58433b",
+		"brown - soil" = "48322a",
+
+		"black - oil" = "181a1d",
+		"black - cave" = "201616",
+		"black - rogue" = "2b201b",
+		"black - midnight" = "1d1b2b",
+
+		"red - berry" = "48322a",
+		"red - wine" = "82534c",
+		"red - sunset" = "82462b",
+		"red - blood" = "822b2b"
+	))
+
+/obj/item/organ/brain/dullahan
+	organ_flags = ORGAN_ORGANIC
+	decoy_override = TRUE
+
+// May bug out if you lose or gain species while in-game.
+// I don't know if that is possible, may have some cases relating to eye signals.
+/datum/species/dullahan/on_species_gain(mob/living/carbon/user, datum/species/old_species)
+	..()
+	RegisterSignal(user, COMSIG_MOB_SAY, PROC_REF(handle_speech))
+	RegisterSignal(user, COMSIG_MOB_SAY_POSTPROCESS, PROC_REF(on_say_postprocess))
+	RegisterSignal(user, COMSIG_ERP_LOCATION_ACCESSIBLE, PROC_REF(on_erp_location_accessible))
+	RegisterSignal(user, COMSIG_LIVING_REVIVE, PROC_REF(on_aheal))
+	my_head = user.get_bodypart(BODY_ZONE_HEAD)
+	RegisterSignal(my_head, COMSIG_QDELETING, PROC_REF(on_head_destroyed))
+
+/datum/species/dullahan/on_species_loss(mob/living/carbon/user)
+	. = ..()
+
+	UnregisterSignal(user, COMSIG_MOB_SAY)
+	UnregisterSignal(user, COMSIG_MOB_SAY_POSTPROCESS)
+	UnregisterSignal(user, COMSIG_ERP_LOCATION_ACCESSIBLE)
+	if(my_head.owner ~= user)
+		// Give their head back instead?
+		// In TG Dullahan heads are always off, thus they give back heads.
+		// Warn that they're going to die?
+		if(!(user.status_flags & GODMODE))
+			user.death()
+
+	UnregisterSignal(my_head, COMSIG_QDELETING)
+	my_head = null
+	soul_light_off()
+	mob_light_obj = null
+
+/datum/species/dullahan/proc/on_aheal(datum/source, full_heal, admin_revive)
+	if(!admin_revive)
+		return
+	var/mob/living/carbon/user = my_head.original_owner
+	if(!headless)
+		return
+
+	my_head.attach_limb(user)
+	headless = FALSE
+
+	var/obj/item/organ/dullahan_vision/vision = user.getorganslot(ORGAN_SLOT_HUD)
+	vision.viewing_head = FALSE
+	user.reset_perspective()
+
+// Butchering a head permas their user as the organs don't drop, that is bad.
+// I'll not fix that as it may be on purpose in some codebases.
+/datum/species/dullahan/proc/on_head_destroyed()
+	var/mob/living/carbon/user = my_head.original_owner
+	if(!(user.status_flags & GODMODE))
+		user.death()
+
+	UnregisterSignal(my_head, COMSIG_QDELETING)
+	my_head = null
+
+/datum/species/dullahan/proc/soul_light_on(mob/living/carbon/human/user)
+	var/obj/item/organ/soul/soul_accessory = user.getorganslot(ORGAN_SLOT_SOUL)
+	if(soul_accessory && user.stat != DEAD)
+		mob_light_obj = user.mob_light(soul_accessory.accessory_colors, 2, 2)
+
+/datum/species/dullahan/proc/soul_light_off()
+	qdel(mob_light_obj)
+
+/datum/species/dullahan/proc/on_say_postprocess(datum/source, list/speech_args)
+	var/mob/living/carbon/human/human = my_head.original_owner
+
+	if(!headless)
+		return
+
+	var/message_mode = speech_args[SPEECH_MODE]
+	var/fullcrit = human.InFullCritical()
+	var/message_range = 7
+	if((human.InCritical() && !fullcrit) || message_mode == MODE_WHISPER)
+		message_range = 1
+
+	var/radio_return = human.radio(speech_args[SPEECH_MESSAGE], message_mode, speech_args[SPEECH_SPANS], speech_args[SPEECH_LANGUAGE])
+	if(radio_return & REDUCE_RANGE)
+		message_range = 1
+
+	my_head.say(speech_args[SPEECH_MESSAGE], spans = speech_args[SPEECH_SPANS], sanitize = FALSE, message_range = message_range, message_mode = speech_args[SPEECH_MODE])
+	speech_args[SPEECH_MESSAGE] = ""
+
+/datum/species/dullahan/proc/on_erp_location_accessible(datum/source, list/check_args)
+	// Allows Dullahan heads but not necro.
+	var/obj/item/bodypart/bodypart = check_args[ERP_BODYPART]
+	var/mob/living/carbon/human/target = check_args[ERP_TARGET]
+	var/mob/living/carbon/human/user = check_args[ERP_USER]
+	var/self_target = check_args[ERP_SELF_TARGET]
+	var/datum/sex_action/action = check_args[ERP_ACTION]
+
+	var/success_flags = 0
+	// This datum is the user, get target's species.
+	if(check_zone(check_args[ERP_LOCATION]) == BODY_ZONE_HEAD && !bodypart && isdullahan(target))
+		var/datum/species/dullahan/dullahan = target.dna.species
+		bodypart = dullahan.my_head
+
+		// Not close to the bodypart they want to interact with.
+		var/same_tile = (get_turf(bodypart) == get_turf(user))
+		if(!same_tile && !user.is_holding(bodypart))
+			return SIG_CHECK_FAIL
+		success_flags |= SKIP_ADJACENCY_CHECK
+	check_args[ERP_BODYPART] = bodypart
+
+	if(action.check_same_tile && (user != target || self_target))
+		var/same_tile = (get_turf(user) == get_turf(target))
+		var/grab_bypass = (action.aggro_grab_instead_same_tile && user.get_highest_grab_state_on(target) == GRAB_AGGRESSIVE)
+		var/same_tile_bodypart = (get_turf(bodypart) == get_turf(user)) || user.is_holding(bodypart)
+
+		if(!same_tile && !grab_bypass && !same_tile_bodypart)
+			return SIG_CHECK_FAIL
+		success_flags |= SKIP_TILE_CHECK
+
+	if(action.require_grab && (user != target || self_target))
+		var/grabstate = user.get_highest_grab_state_on(target)
+
+		if((grabstate == null || grabstate < action.required_grab_state) && !user.is_holding(bodypart))
+			return SIG_CHECK_FAIL
+		success_flags |= SKIP_GRAB_CHECK
+
+	return success_flags
+
+/datum/species/dullahan/proc/get_nodrop_head()
+	var/obj/item/bodypart/head/dullahan/head = my_head
+	var/mob/living/carbon/human/user = head.original_owner
+	for(var/obj/item/equipped_item in user.get_equipped_items(include_pockets = FALSE, include_beltslots = FALSE))
+		if(HAS_TRAIT(equipped_item, TRAIT_NODROP))
+			if(equipped_item.slot_flags & (ITEM_SLOT_MOUTH | ITEM_SLOT_HEAD | ITEM_SLOT_NECK | ITEM_SLOT_MASK))
+				return equipped_item
+	return FALSE
+
+/datum/species/dullahan/can_equip(obj/item/item, slot, disable_warning, mob/living/carbon/human/user, bypass_equip_delay_self = FALSE)
+	if(slot == SLOT_MOUTH && istype(item, /obj/item/grabbing/bite/))
+		if(user.mouth)
+			return FALSE
+		return equip_delay_self_check(item, user, bypass_equip_delay_self)
+	return ..()

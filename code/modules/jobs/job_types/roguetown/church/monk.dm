@@ -17,6 +17,7 @@
 	min_pq = 1 //A step above Churchling, should funnel new players to the churchling role to learn miracles at a more sedate pace
 	max_pq = null
 	round_contrib_points = 2
+	social_rank = SOCIAL_RANK_MINOR_NOBLE
 
 	var/church_favor = 0
 
@@ -31,6 +32,18 @@
 	job_subclasses = list(
 		/datum/advclass/acolyte
 	)
+
+/datum/job/roguetown/monk/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		var/prev_real_name = H.real_name
+		var/prev_name = H.name
+		var/honorary = "Brother"
+		if(should_wear_femme_clothes(H))
+			honorary = "Sister"
+		H.real_name = "[honorary] [prev_real_name]"
+		H.name = "[honorary] [prev_name]"
 
 /datum/advclass/acolyte
 	name = "Acolyte"

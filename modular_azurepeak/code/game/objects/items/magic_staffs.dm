@@ -11,6 +11,13 @@
 /obj/item/rogueweapon/woodstaff
 	var/cast_time_reduction = null
 
+/obj/item/rogueweapon/woodstaff/examine(mob/user)
+	.=..()
+	if(cast_time_reduction)
+		. += span_notice("This staff has been augmented with a gem, reducing a mage's spell casting time by [cast_time_reduction * 100]% when they hold it in their hand.")
+	else
+		return
+
 /obj/item/rogueweapon/woodstaff/Initialize()
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(

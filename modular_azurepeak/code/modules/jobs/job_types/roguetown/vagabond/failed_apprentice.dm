@@ -5,6 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/vagabond/mage
 	category_tags = list(CTAG_VAGABOND)
+	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2)
 	subclass_stats = list(

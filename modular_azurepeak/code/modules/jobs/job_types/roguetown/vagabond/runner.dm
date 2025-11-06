@@ -5,6 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/vagabond/runner
 	category_tags = list(CTAG_VAGABOND)
+	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	subclass_stats = list(
 		STATKEY_END = 1,

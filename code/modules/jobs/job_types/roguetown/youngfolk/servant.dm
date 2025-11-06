@@ -20,6 +20,7 @@
 	round_contrib_points = 2
 	advjob_examine = TRUE
 	cmode_music = 'sound/music/combat_bard.ogg'
+	social_rank = SOCIAL_RANK_PEASANT
 
 	job_subclasses = list(
 		/datum/advclass/servant/servant,

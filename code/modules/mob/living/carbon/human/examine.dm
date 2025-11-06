@@ -71,6 +71,9 @@
 			used_title = "[used_title]" + " Regent"
 		var/display_as_wanderer = FALSE
 		var/is_returning = FALSE
+		var/is_clergy = FALSE
+		var/is_jester = FALSE
+		var/is_druid = FALSE 
 		if(observer_privilege)
 			used_name = real_name
 		if(migrant_type)
@@ -83,6 +86,12 @@
 				display_as_wanderer = TRUE
 			if(islatejoin)
 				is_returning = TRUE
+			if(J.department_flag == CHURCHMEN) //There may be a better way to check who is clergy, but this will do for now
+				is_clergy = TRUE
+			if(J.title == "Jester")
+				is_jester = TRUE
+			if(J.title == "Druid")
+				is_druid = TRUE
 		if(display_as_wanderer)
 			. = list(span_info("ø ------------ ø\nThis is <EM>[used_name]</EM>, the wandering [race_name]."))
 		else if(used_title)
@@ -106,6 +115,39 @@
 				. += span_notice("A fellow noble.")
 			else
 				. += span_notice("A noble!")
+
+		//Social rank
+		if(social_rank && !HAS_TRAIT(user, TRAIT_OUTLANDER))
+			var/examiner_rank = user.social_rank
+			var/rank_name
+			if(HAS_TRAIT(src, TRAIT_NOBLE) && social_rank < 4) //anyone with the noble trait that wasn't a noble is now at least a minor noble
+				social_rank = SOCIAL_RANK_MINOR_NOBLE
+			switch(social_rank)
+				if(SOCIAL_RANK_DIRT)
+					rank_name = "dirt"
+				if(SOCIAL_RANK_PEASANT)
+					rank_name = "a peasant"
+				if(SOCIAL_RANK_YEOMAN)
+					rank_name = "a yeoman"
+				if(SOCIAL_RANK_MINOR_NOBLE)
+					rank_name = is_clergy ? "low clergy" : "lower nobility"
+				if(SOCIAL_RANK_NOBLE)
+					rank_name = is_clergy ? "clergy" : "nobility"
+				if(SOCIAL_RANK_ROYAL)
+					rank_name = is_clergy ? "head of the clergy" : "upper nobility"
+			if(HAS_TRAIT(src, TRAIT_DISGRACED_NOBLE))
+				rank_name = "a disgraced noble"
+				social_rank = 3
+			if(is_jester)
+				rank_name = "the jester"
+			if(is_druid)
+				rank_name = "a druid"
+			if(social_rank > examiner_rank)
+				. += span_notice("This person is <EM>[rank_name]</EM>, they are my better.")
+			if(social_rank == examiner_rank)
+				. += span_notice("This person is <EM>[rank_name]</EM>, they are my equal.")
+			if(social_rank < examiner_rank)
+				. += span_notice("This person is <EM>[rank_name]</EM>, they are my lesser.")
 
 		if(HAS_TRAIT(src, TRAIT_CHOSEN))
 			. += span_notice("The ordained voice of the Ten!")

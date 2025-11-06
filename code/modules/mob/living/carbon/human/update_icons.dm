@@ -1373,7 +1373,7 @@ There are several things that need to be remembered:
 			var/legsindex = get_limbloss_index(LEG_RIGHT, LEG_LEFT)
 			var/mutable_appearance/pants_overlay
 			if(isharpy(src))
-				clip_mask_init = icon(icon = 'icons/roguetown/mob/bodies/f/harpy_f.dmi', icon_state = "harpy_clipmask")
+				clip_mask_init = icon(icon = 'icons/roguetown/mob/bodies/f/harpy.dmi', icon_state = "harpy_clipmask")
 				c_mask = clip_mask_init
 			if(dna.species.custom_clothes) // should prolly make it a separate limb or just use clipmask then
 				racecustom = dna.species.clothes_id

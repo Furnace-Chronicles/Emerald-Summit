@@ -353,6 +353,16 @@
 	desc = "This is my sanctuary. I can overpower any opposition that dares breach it."
 	icon_state = "buff"
 
+/atom/movable/screen/alert/status_effect/buff/churchbuff
+	name = "Church Defender"
+	desc = "This holy ground grants me the power to quash any dissent here."
+	icon_state = "tenbless"
+
+/datum/status_effect/buff/churchbuff
+	id = "churchbuff"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/churchbuff
+	effectedstats = list("constitution" = 2,"endurance" = 2, "speed" = 1, "strength" = 1) //Their church. They are isolated a bit and not supposed to be easy frags
+
 /datum/status_effect/buff/wardenbuff
 	id = "wardenbuff"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/wardenbuff
@@ -379,6 +389,14 @@
 	id = "dungeoneerbuff"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/dungeoneerbuff
 	effectedstats = list("constitution" = 1,"endurance" = 1, "strength" = 2)//This only works in 2 small areas on the entire map
+
+/datum/status_effect/buff/churchbuff/process()
+
+	.=..()
+	var/area/rogue/our_area = get_area(owner)
+	if(!(our_area.church_area))
+		owner.remove_status_effect(/datum/status_effect/buff/churchbuff)
+
 
 /datum/status_effect/buff/guardbuffone/process()
 

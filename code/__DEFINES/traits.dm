@@ -122,6 +122,7 @@
 #define TRAIT_CURSE_XYLIX "Curse of Xylix" //no fortune
 #define TRAIT_CURSE_EORA "Eora's Curse" //world is ugly
 #define TRAIT_CURSE_RESIST "Curse Resistance" //Some folk with a tendency to get cursed are resistant
+#define TRAIT_RITES_BLOCKED "Rites Expended" // used to block using rites
 
 //ASCENDANT GOD CURSES
 
@@ -202,7 +203,7 @@
 #define TRAIT_SILVER_WEAK "Silver Weakness"
 #define TRAIT_DEADITE "Deadite"
 #define TRAIT_PUZZLEMASTER "Puzzle Master"
-#define TRAIT_CLERGY "Clergy" // Access to church gameloop
+#define TRAIT_CLERGY "Clergy" // City clergy
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
 
@@ -214,6 +215,7 @@
 #define TRAIT_MASTER_MASON "Master Masonry"
 
 GLOBAL_LIST_INIT(roguetraits, list(
+	TRAIT_RITES_BLOCKED = span_bloody("I can't perform any rites for now."),
 	TRAIT_HERETIC_DEVOUT = span_necrosis("The scorn of Astrata shan't make me waiver, for my faith holds true."),
 	TRAIT_PACIFISM = span_info("I shall never harm a living being. Directly."),
 	TRAIT_STEELHEARTED = span_info("I have hardened nerves, and do not waiver from the sight of violence in battle."),
@@ -382,8 +384,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_PUZZLEMASTER = span_notice("I've solved an impossible puzzle!"),
 	TRAIT_ENGINEERING_GOGGLES = span_warning("I can see structural details others can't"),
 	TRAIT_MASTER_CARPENTER = span_warning("I've been trained to make the most of wood"), 
-	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"),
-	TRAIT_CLERGY = span_notice("I am a servant of the local House of the Ten.")
+	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"), 
+	TRAIT_CLERGY = span_notice("I am a servant of the local House of the Ten."),
 ))
 
 // trait accessor defines

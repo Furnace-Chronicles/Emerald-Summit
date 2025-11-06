@@ -23,6 +23,7 @@
 	same_job_respawn_delay = 0
 	class_setup_examine = FALSE	//Nooo thank you
 	cmode_music = 'sound/music/combat_towner.ogg'
+	social_rank = SOCIAL_RANK_PEASANT
 
 /*
 /datum/job/roguetown/adventurer/villager/New()

@@ -163,6 +163,7 @@
 	name = "Squire Errant"
 	tutorial = "You are a squire who has traveled far in search of a master to train you and a lord to knight you."
 	outfit = /datum/outfit/job/roguetown/adventurer/squire
+	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	traits_applied = list(TRAIT_SQUIRE_REPAIR)
 	subclass_stats = list(

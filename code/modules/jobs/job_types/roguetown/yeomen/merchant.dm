@@ -19,6 +19,7 @@
 	required = TRUE
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_noble.ogg'
+	social_rank = SOCIAL_RANK_YEOMAN
 
 
 	virtue_restrictions = list(/datum/virtue/utility/blacksmith)

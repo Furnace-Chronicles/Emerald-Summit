@@ -19,6 +19,7 @@
 	min_pq = 0
 	max_pq = null
 	round_contrib_points = 3
+	social_rank = SOCIAL_RANK_YEOMAN
 
 	advclass_cat_rolls = list(CTAG_TAILOR = 2)
 	job_subclasses = list(

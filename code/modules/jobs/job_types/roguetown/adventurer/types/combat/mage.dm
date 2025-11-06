@@ -6,6 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/mage
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	class_select_category = CLASS_CAT_MAGE
+	subclass_social_rank = SOCIAL_RANK_YEOMAN
 
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3)
 	subclass_stats = list(
@@ -216,6 +217,7 @@
 	name = "Arcane Trickster"
 	tutorial = "Some Rogues enhance their fine-honed skills of stealth and agility with spells, learning magical tricks to aid them in their trade. Some use their talents as pickpockets and burglars, while others are pranksters."
 	outfit = /datum/outfit/job/roguetown/adventurer/spellthief
+	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	traits_applied = list(TRAIT_ARCYNE_T2, TRAIT_DODGEEXPERT, TRAIT_LIGHT_STEP) //dodge expert has the potential for being a big pain on spellcasters,  so we take away their mage armor as a trade.
 	subclass_stats = list(

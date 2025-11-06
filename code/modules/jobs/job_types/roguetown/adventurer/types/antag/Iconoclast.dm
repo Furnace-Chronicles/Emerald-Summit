@@ -7,6 +7,7 @@
 	category_tags = list(CTAG_BANDIT)
 	maximum_possible_slots = 1 // We only want one of these.
 	cmode_music = 'sound/music/Iconoclast.ogg'
+	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	traits_applied = list(
 		TRAIT_HEAVYARMOR,// We are going to be the lord's first heavy armor unarmed class

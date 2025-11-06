@@ -382,8 +382,11 @@
 		var/implement_type = tool_check(user, tool)
 		if(implement_type)
 			speed_mod *= implements_speed[implement_type] || 1
-	speed_mod *= get_location_modifier(target, user)
-
+	speed_mod *= get_location_speed_modifier(target, user)
+	if(target.stat == CONSCIOUS && !HAS_TRAIT(target, TRAIT_NOPAIN) && !target.has_status_effect(/datum/status_effect/buff/drunk))
+		to_chat(user, span_warning("It's hard to work with [target.p_them()] squirming around. Maybe I should give [target.p_them()] something for the pain?"))
+	else
+		speed_mod *= 0.8 //Painkillers make surgery 20% faster
 	return speed_mod
 
 /datum/surgery_step/proc/get_success_probability(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
@@ -392,11 +395,8 @@
 		var/implement_type = tool_check(user, tool)
 		if(implement_type)
 			success_prob *= (implements[implement_type]/100) || 1
-	success_prob *= get_location_modifier(target, user)
+	success_prob *= get_location_success_modifier(target, user)
 	success_prob *= get_skill_modifier(user, target, target_zone, tool, intent)
-	if(target.stat == CONSCIOUS && !HAS_TRAIT(target, TRAIT_NOPAIN) && !target.has_status_effect(/datum/status_effect/buff/drunk))
-		to_chat(user, span_warning("It's hard to work with [target.p_them()] squirming around. Maybe I should give [target.p_them()] something for the pain?"))
-		success_prob = max(success_prob - 20, 0) //Knock 'em out or give 'em painkillers. Flat 20% penalty if they're awake and squirming
 	return success_prob
 
 /datum/surgery_step/proc/get_skill_modifier(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
@@ -413,14 +413,27 @@
 		modifier += skill_maluses[skill_difference]
 	return max(modifier, 0)
 
-/datum/surgery_step/proc/get_location_modifier(mob/living/target)
+/datum/surgery_step/proc/get_location_success_modifier(mob/living/target)
 	var/is_lying = !(target.mobility_flags & MOBILITY_STAND)
 	if(!is_lying)
-		return 0.2 //I'm sorry but nah, we're gonna go ahead and make it REALLY hard to do surgery on somebody who isn't lying down
+		return 0.6
 	if(istype(target.buckled, /obj/structure/table/optable))
 		return 1.2
 	else if(istype(target.buckled, /obj/structure/bed))
-		return 0.9
+		return 1
 	else if(locate(/obj/structure/table) in get_turf(target))
-		return 0.7
-	return 0.5
+		return 0.9
+	return 0.8
+
+
+/datum/surgery_step/proc/get_location_speed_modifier(mob/living/target)
+	var/is_lying = !(target.mobility_flags & MOBILITY_STAND)
+	if(!is_lying)
+		return 3
+	if(istype(target.buckled, /obj/structure/table/optable))
+		return 0.5
+	else if(istype(target.buckled, /obj/structure/bed))
+		return 1
+	else if(locate(/obj/structure/table) in get_turf(target))
+		return 1.3
+	return 2

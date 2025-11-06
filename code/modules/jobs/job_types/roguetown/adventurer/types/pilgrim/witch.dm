@@ -6,6 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/witch
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	cmode_music = 'sound/music/combat_cult.ogg'
+	subclass_social_rank = SOCIAL_RANK_DIRT
 
 	traits_applied = list(TRAIT_DEATHSIGHT, TRAIT_RITUALIST, TRAIT_WITCH)
 	subclass_stats = list(

@@ -6,6 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/bandit/roguemage
 	category_tags = list(CTAG_BANDIT)
 	cmode_music = 'sound/music/combat_bandit_mage.ogg'
+	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	traits_applied = list(
 		TRAIT_MAGEARMOR,

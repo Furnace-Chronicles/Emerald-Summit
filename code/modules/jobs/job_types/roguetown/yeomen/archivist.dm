@@ -12,6 +12,7 @@
 		/datum/species/lamia,
 	)
 	allowed_ages = ALL_AGES_LIST
+	social_rank = SOCIAL_RANK_YEOMAN
 
 	outfit = /datum/outfit/job/roguetown/archivist
 	display_order = JDO_ARCHIVIST

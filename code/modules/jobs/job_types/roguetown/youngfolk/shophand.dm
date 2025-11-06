@@ -15,6 +15,7 @@
 	min_pq = -10
 	max_pq = null
 	round_contrib_points = 2
+	social_rank = SOCIAL_RANK_PEASANT
 
 	job_traits = list(TRAIT_SEEPRICES_SHITTY)
 

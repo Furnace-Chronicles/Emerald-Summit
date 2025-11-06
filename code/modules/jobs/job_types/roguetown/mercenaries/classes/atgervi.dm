@@ -158,6 +158,7 @@
 	desc = "A menacing pair of plated claws, A closely protected tradition of the Shamans. The four claws embodying the four great beasts. Decorated with symbols of the gods they praise and the Gods they reject."
 	icon_state = "atgervi_shaman_gloves"
 	item_state = "atergvi_shaman_gloves"
+	unarmed_bonus = 1.25
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/atgervi
 	name = "owl helmet"

@@ -9,6 +9,7 @@
 	spells = list(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 	allowed_races = RACES_MANMADE_UP
 	allowed_ages = ALL_AGES_LIST
+	social_rank = SOCIAL_RANK_YEOMAN
 
 	outfit = /datum/outfit/job/roguetown/loudmouth
 	display_order = JDO_LOUDMOUTH

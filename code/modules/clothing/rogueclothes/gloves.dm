@@ -68,6 +68,7 @@
 	anvilrepair = null
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/fur
+	unarmed_bonus = 1.15
 
 /obj/item/clothing/gloves/roguetown/fingerless_leather
 	name = "fingerless leather gloves"
@@ -166,6 +167,7 @@
 	anvilrepair = null
 	sewrepair = TRUE
 	allowed_race = NON_DWARVEN_RACE_TYPES
+	unarmed_bonus = 1.15
 
 /obj/item/clothing/gloves/roguetown/otavan/inqgloves
 	name = "inquisitorial leather gloves"
@@ -212,6 +214,7 @@
 	desc = "Plate gauntlets which carry the motive force of this world, violence."
 	max_integrity = 500
 	icon_state = "graggarplategloves"
+	unarmed_bonus = 1.25
 
 /obj/item/clothing/gloves/roguetown/plate/graggar/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_HORDE))
@@ -226,6 +229,7 @@
 	desc = "Many a man his life hath sold,"
 	icon_state = "matthiosgloves"
 	max_integrity = 500
+	unarmed_bonus = 1.25
 
 /obj/item/clothing/gloves/roguetown/plate/matthios/Initialize()
 	. = ..()
@@ -243,6 +247,7 @@
 	desc = "darksteel plate gauntlets. Called forth from the edge of what should be known. In Her name."
 	icon_state = "zizogauntlets"
 	max_integrity = 500
+	unarmed_bonus = 1.25
 
 /obj/item/clothing/gloves/roguetown/plate/zizo/Initialize()
 	. = ..()
@@ -296,6 +301,7 @@
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/blacksteel
+	unarmed_bonus = 1.25
 
 /obj/item/clothing/gloves/roguetown/blacksteel/plategloves
 	name = "ancient blacksteel plate gauntlets"
@@ -314,6 +320,7 @@
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/blacksteel
+	unarmed_bonus = 1.25
 
 /obj/item/clothing/gloves/roguetown/angle/pontifex
 	name = "rune-scrybed wrappings"
@@ -336,6 +343,7 @@
 	blocksound = SOFTHIT
 	max_integrity = 200
 	anvilrepair = /datum/skill/craft/carpentry
+	unarmed_bonus = 1.1
 
 //eastern content
 /obj/item/clothing/gloves/roguetown/otavan/psygloves
@@ -360,6 +368,7 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	anvilrepair = null
 	sewrepair = TRUE
+	unarmed_bonus = 1.1
 
 /obj/item/clothing/gloves/roguetown/eastgloves2
 	name = "stylish gloves"
@@ -375,6 +384,7 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	anvilrepair = null
 	sewrepair = TRUE
+	unarmed_bonus = 1.1
 
 /obj/item/clothing/gloves/roguetown/carapace
 	name = "carapace gauntlets"
@@ -391,3 +401,4 @@
 	smeltresult = /obj/item/ash
 	anvilrepair = null
 	sewrepair = TRUE
+	unarmed_bonus = 1.15

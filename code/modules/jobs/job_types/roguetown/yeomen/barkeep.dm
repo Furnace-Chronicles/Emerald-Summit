@@ -5,6 +5,7 @@
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
+	social_rank = SOCIAL_RANK_YEOMAN
 
 	allowed_races = RACES_ALL_KINDS
 

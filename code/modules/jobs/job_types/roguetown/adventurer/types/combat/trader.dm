@@ -6,6 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/trader
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	class_select_category = CLASS_CAT_TRADER
+	subclass_social_rank = SOCIAL_RANK_YEOMAN
 
 	traits_applied = list(TRAIT_SEEPRICES)
 	subclass_stats = list(
@@ -57,6 +58,7 @@
 	name = "Doomsayer"
 	tutorial = "THE WORLD IS ENDING!!! At least, that's what you want your clients to believe. You'll offer them a safe place in the new world, of course - built by yours truly."
 	outfit = /datum/outfit/job/roguetown/adventurer/doomsayer
+	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	subclass_stats = list(
 		STATKEY_INT = 3,
@@ -156,6 +158,7 @@
 	name = "Harlequin"
 	tutorial = "You are a travelling entertainer - a jester by trade. Where you go, chaos follows - and mischief is made."
 	outfit = /datum/outfit/job/roguetown/adventurer/harlequin
+	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	cmode_music = 'sound/music/combat_jester.ogg'
 
@@ -223,6 +226,7 @@
 	name = "Peddler"
 	tutorial = "You make your coin peddling in spices and performing back-alley 'medical' procedures. Hope your patient didn't need that kidney."
 	outfit = /datum/outfit/job/roguetown/adventurer/peddler
+	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	subclass_stats = list(
 		STATKEY_INT = 3,
@@ -272,6 +276,7 @@
 	name = "Brewer"
 	tutorial = "You make your coin peddling imported alcohols from all over the world, though you're no stranger to the craft, and have experience brewing your own ale in a pinch. You have the equipments and know how on how to make your own distiller, too."
 	outfit = /datum/outfit/job/roguetown/adventurer/brewer
+	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	traits_applied = list(TRAIT_SEEPRICES, TRAIT_CICERONE)
 	subclass_stats = list(
@@ -325,6 +330,7 @@
 	tutorial = "Whether a disciple of a culinary school, a storied royal chef, or a mercenary cook for hire, your trade is plied at the counter, \
 	the cutting board, and the hearth."
 	outfit = /datum/outfit/job/roguetown/adventurer/cuisiner
+	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	traits_applied = list(TRAIT_SEEPRICES, TRAIT_GOODLOVER)
 	subclass_stats = list(

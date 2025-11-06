@@ -6,6 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/ranger
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	class_select_category = CLASS_CAT_RANGER
+	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	cmode_music = 'sound/music/combat_condottiero.ogg'
 

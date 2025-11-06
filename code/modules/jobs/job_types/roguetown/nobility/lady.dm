@@ -21,6 +21,7 @@
 	min_pq = 10
 	max_pq = null
 	round_contrib_points = 3
+	social_rank = SOCIAL_RANK_ROYAL
 
 /datum/job/roguetown/exlady
 	title = "Consort Dowager"

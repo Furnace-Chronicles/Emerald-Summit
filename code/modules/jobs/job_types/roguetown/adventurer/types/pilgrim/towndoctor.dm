@@ -6,6 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/doctor
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	cmode_music = 'sound/music/combat_physician.ogg'
+	subclass_social_rank = SOCIAL_RANK_YEOMAN
 
 	traits_applied = list(TRAIT_EMPATH, TRAIT_NOSTINK)
 	subclass_stats = list(

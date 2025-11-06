@@ -131,6 +131,7 @@
 	name = "Bard"
 	tutorial = "You make your fortune in brothels, flop houses, and taverns – gaining fame for your songs and legends. If there is any truth to them, that is."
 	outfit = /datum/outfit/job/roguetown/adventurer/bard
+	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	cmode_music = 'sound/music/combat_bard.ogg'
 
@@ -206,6 +207,7 @@
 	name = "Swashbuckler"
 	tutorial = "You are a daring rogue of the seas! Swashbucklers wield agile swordplay and acrobatic prowess - fighting dirty to outmaneuver foes with flair."
 	outfit = /datum/outfit/job/roguetown/adventurer/swashbuckler
+	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	cmode_music = 'sound/music/jukeboxes/oldschool/Sea_Shanty2.ogg'
 

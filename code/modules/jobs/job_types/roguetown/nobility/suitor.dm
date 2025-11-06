@@ -16,6 +16,7 @@
 	min_pq = 7
 	max_pq = null
 	round_contrib_points = 3
+	social_rank = SOCIAL_RANK_MINOR_NOBLE
 	cmode_music = 'sound/music/combat_noble.ogg'
 
 /datum/outfit/job/roguetown/suitor

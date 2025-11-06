@@ -211,7 +211,8 @@
 	update_icon_dropped()
 	was_owner.update_health_hud() //update the healthdoll
 	was_owner.update_body()
-	was_owner.update_hair()
+//	was_owner.update_hair() // dk how it's gonna fly
+	was_owner.update_body_parts()
 	was_owner.update_mobility()
 
 	// drop_location = null happens when a "dummy human" used for rendering icons on prefs screen gets its limbs replaced.
@@ -456,9 +457,9 @@
 		H.facial_hairstyle = facial_hairstyle
 		H.lip_style = lip_style
 		H.lip_color = lip_color
-	if(real_name)
-		C.real_name = real_name
-	real_name = ""
+	if(head_real_name)
+		C.real_name = head_real_name
+	head_real_name = ""
 	name = initial(name)
 
 	return ..()
