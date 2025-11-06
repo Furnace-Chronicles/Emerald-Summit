@@ -1,5 +1,5 @@
 /datum/sex_action/force_blowjob
-	name = "Force them to suck"
+	name = "Force them to suck cock"
 	require_grab = TRUE
 	stamina_cost = 1.0
 	category = SEX_CATEGORY_PENETRATE
