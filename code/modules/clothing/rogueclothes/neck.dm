@@ -342,11 +342,17 @@
 /obj/item/clothing/neck/rogue/gorget/prisoner
 	name = "cursed collar"
 	icon_state = "cursed_collar"
+	item_state = "cursed_collar"
 	desc = "A metal collar that seals around the neck, making it impossible to remove. It seems to be enchanted with some kind of vile magic..."
-	body_parts_covered = NONE //So that surgery can be done through the mask.
+	armor = ARMOR_CLOTHING
+	slot_flags = ITEM_SLOT_NECK
+	resistance_flags = FIRE_PROOF	
+	body_parts_covered = NECK // are there surgeries that affect specifically the neck?
+	prevent_crits = list()
+	blocksound = PLATEHIT
 	var/active_item
 	var/bounty_amount
-	cansnout = TRUE
+	leashable = TRUE
 
 /obj/item/clothing/neck/rogue/gorget/prisoner/Initialize()
 	. = ..()
@@ -356,7 +362,7 @@
 	. = ..()
 	REMOVE_TRAIT(user, TRAIT_PACIFISM, "cursedmask")
 	REMOVE_TRAIT(user, TRAIT_SPELLCOCKBLOCK, "cursedmask")
-	user.remove_status_effect(/datum/status_effect/debuff/cursed_collar)
+	user.remove_status_effect(/datum/status_effect/debuff/collar_debuff)
 	if(QDELETED(src))
 		return
 	qdel(src)
@@ -364,7 +370,7 @@
 /obj/item/clothing/neck/rogue/gorget/prisoner/proc/timerup(mob/living/carbon/human/user)
 	REMOVE_TRAIT(user, TRAIT_PACIFISM, "cursedmask")
 	REMOVE_TRAIT(user, TRAIT_SPELLCOCKBLOCK, "cursedmask")
-	user.remove_status_effect(/datum/status_effect/debuff/cursed_collar)
+	user.remove_status_effect(/datum/status_effect/debuff/collar_debuff)
 	visible_message(span_warning("The cursed collar opens with a click, falling off of [user]'s neck and crumbling apart on the ground, their penance complete."))
 	say("YOUR PENANCE IS COMPLETE.")
 	for(var/name in GLOB.outlawed_players)
@@ -386,7 +392,7 @@
 		to_chat(user, span_warning("This accursed collar pacifies me!"))
 		ADD_TRAIT(user, TRAIT_PACIFISM, "cursedmask")
 		ADD_TRAIT(user, TRAIT_SPELLCOCKBLOCK, "cursedmask")
-		user.apply_status_effect(/datum/status_effect/debuff/cursed_collar)
+		user.apply_status_effect(/datum/status_effect/debuff/collar_debuff)
 		if(HAS_TRAIT(user, TRAIT_RITUALIST))
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 		var/timer = 5 MINUTES //Base timer is 5 minutes, additional time added per bounty amount

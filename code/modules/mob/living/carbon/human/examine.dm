@@ -159,8 +159,8 @@
 			. += span_userdanger("DEADITE!")
 
 		//cursed collar examine
-		if(has_status_effect(/datum/status_effect/debuff/cursed_collar))
-			. += span_warning("[p_them()] are fitted with a cursed collar. [m1] are pacified, paying penance for crimes committed.")
+		if(has_status_effect(/datum/status_effect/debuff/collar_debuff))
+			. += span_warning("[m1] fitted with a cursed collar. [m1] pacified, paying penance for crimes committed.")
 
 		//For tennite schism god-event
 		if(length(GLOB.tennite_schisms))
