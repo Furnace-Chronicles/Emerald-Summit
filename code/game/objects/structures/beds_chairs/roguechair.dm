@@ -306,6 +306,7 @@
 		sleepy = 0 // beds no longer give sleeping bonus
 		visible_message(span_warning("\The [src] gives an violent snap, it looks broken!"))
 		playsound(src, 'sound/misc/mat/bed break.ogg', 50, TRUE, ignore_walls = FALSE)
+		desc += " The bed looks stained and seen better days."
 	else if(broken_percentage >= 100) // clamp
 		broken_percentage = 100
 	else
