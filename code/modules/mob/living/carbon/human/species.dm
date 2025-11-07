@@ -1706,10 +1706,13 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 				if(I.associated_skill)
 					precision_chance += attacker.get_skill_level(I.associated_skill) * 10
+				if((user in H.grabbedby) || (H in user.grabbedby))
+					precision_chance += 50 // Way easier to find gaps when you're holding the enemy or vice versa
+				if(I.wlength > WLENGTH_SHORT)
+					precision_chance -= 10*I.wlength
 				precision_chance += (attacker.STAPER - 10) * 5
 				precision_chance -= (max(H.STASPD, H.STACON) - 10) * 5
 				precision_chance = clamp(precision_chance, 1, 95)
-
 
 				if(prob(precision_chance))
 					bypassed_armor = outer_armor
@@ -1774,7 +1777,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			if(was_blunted)
 				H.next_attack_msg += " <span class='warning'>The attack was blunted by armor.</span>"
 
-			var/datum/wound/crit_wound = affecting.bodypart_attacked_by(wound_bclass, actual_damage, user, selzone, crit_message = TRUE, was_blunted = was_blunted)
+			var/datum/wound/crit_wound = affecting.bodypart_attacked_by(wound_bclass, actual_damage, user, selzone, crit_message = TRUE, was_blunted = was_blunted, raw_damage = raw_damage, armor_block = armor_block)
 			if(should_embed_weapon(crit_wound, I))
 				var/can_impale = TRUE
 				if(!affecting)

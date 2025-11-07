@@ -1,7 +1,7 @@
 // Base NPC man-at-arms type
 /mob/living/carbon/human/species/npc/manatarms
 	name = "man-at-arms"
-	race = /datum/species/human
+	race = /datum/species/human/northern
 	gender = MALE
 	bodyparts = list(/obj/item/bodypart/chest, /obj/item/bodypart/head, /obj/item/bodypart/l_arm,
 					/obj/item/bodypart/r_arm, /obj/item/bodypart/r_leg, /obj/item/bodypart/l_leg)
@@ -21,13 +21,10 @@
 
 /mob/living/carbon/human/species/npc/manatarms/Initialize()
 	. = ..()
-	set_species(/datum/species/human)
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
 /mob/living/carbon/human/species/npc/manatarms/after_creation()
 	..()
-	if(manatarms_outfit)
-		equipOutfit(new manatarms_outfit)
 
 	ADD_TRAIT(src, TRAIT_GUARDSMAN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_STEELHEARTED, TRAIT_GENERIC)
@@ -40,8 +37,14 @@
 	/datum/rmb_intent/weak)
 	swap_rmb_intent(num=1)
 
+	if(manatarms_outfit)
+		var/datum/outfit/O = new manatarms_outfit
+		if(O)
+			equipOutfit(O)
+
 	update_hair()
 	update_body()
+	update_body_parts()
 
 // Footsman man-at-arms NPC
 /mob/living/carbon/human/species/npc/manatarms/footsman

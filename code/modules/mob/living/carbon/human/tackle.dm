@@ -55,6 +55,10 @@
 		playsound(get_turf(src), "bodyfall", 100, TRUE)
 		return FALSE
 
+	var/turf/target_turf = get_turf(target)
+	if(target_turf && target_turf != get_turf(src))
+		forceMove(target_turf)
+
 	target.Knockdown(30)
 	Knockdown(30)
 

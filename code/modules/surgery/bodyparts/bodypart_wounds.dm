@@ -122,8 +122,30 @@
 		return min(bleed_rate, 0.5)*/
 	return bleed_rate
 
+/obj/item/bodypart/proc/calculate_lethal_death_chance(raw_damage, armor_block, mob/living/user)
+	if(!owner || !raw_damage)
+		return 0
+
+	var/death_chance = min(raw_damage, 100)
+	var/damage_ratio = (get_damage() / max_damage) * 100
+	death_chance += damage_ratio * 0.5
+
+	if(armor_block > 0)
+		var/absorption_ratio = armor_block / (raw_damage + armor_block)
+		death_chance *= (1 - absorption_ratio)
+
+	var/con_modifier = (owner.STACON - 10) * 5
+	death_chance -= con_modifier
+
+	if(user && user.goodluck(3))
+		death_chance += user.STALUC * 2
+
+	death_chance = clamp(death_chance, 1, 40)
+
+	return death_chance
+
 /// Called after a bodypart is attacked so that wounds and critical effects can be applied
-/obj/item/bodypart/proc/bodypart_attacked_by(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, armor, was_blunted = FALSE)
+/obj/item/bodypart/proc/bodypart_attacked_by(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, armor, was_blunted = FALSE, raw_damage = 0, armor_block = 0)
 	if(!bclass || !dam || !owner || (owner.status_flags & GODMODE))
 		return FALSE
 	var/do_crit = TRUE
@@ -138,7 +160,7 @@
 	armor = owner.run_armor_check(zone_precise, acheck_dflag, damage = 0)
 	if(ishuman(owner))
 		// Prevent crits on armor-blunted attacks
-		if(was_blunted || istype(user.rmb_intent, /datum/rmb_intent/weak))
+		if(was_blunted)
 			do_crit = FALSE
 		else
 			var/probbonus = 0
@@ -157,7 +179,7 @@
 	var/datum/wound/dynwound = manage_dynamic_wound(bclass, dam, armor)
 
 	if(do_crit)
-		var/crit_attempt = try_crit(bclass, dam, user, zone_precise, silent, crit_message)
+		var/crit_attempt = try_crit(bclass, dam, user, zone_precise, silent, crit_message, raw_damage, armor_block)
 		if(crit_attempt)
 			return crit_attempt
 	return dynwound
@@ -195,7 +217,7 @@
 	return dynwound
 
 /// Behemoth of a proc used to apply a wound after a bodypart is damaged in an attack
-/obj/item/bodypart/proc/try_crit(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE)
+/obj/item/bodypart/proc/try_crit(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, raw_damage = 0, armor_block = 0)
 	if(!bclass || !dam || (owner.status_flags & GODMODE))
 		return FALSE
 	var/list/attempted_wounds = list()
@@ -209,6 +231,11 @@
 	if((bclass == BCLASS_PUNCH) && (user && dam))
 		if(user && HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN))
 			dam += 15
+
+	var/con_threshold = owner.STACON * (1 - damage_dividend)
+	if(dam < con_threshold)
+		return FALSE
+
 	if(bclass in GLOB.dislocation_bclasses)
 		used = round(damage_dividend * 20 + (dam / 3 - 10 * resistance), 1)
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
@@ -256,7 +283,7 @@
 			return applied
 	return FALSE
 
-/obj/item/bodypart/chest/try_crit(bclass, dam, mob/living/user, zone_precise, silent = FALSE, crit_message = FALSE)
+/obj/item/bodypart/chest/try_crit(bclass, dam, mob/living/user, zone_precise, silent = FALSE, crit_message = FALSE, raw_damage = 0, armor_block = 0)
 	if(!bclass || !dam || (owner.status_flags & GODMODE))
 		return FALSE
 	var/list/attempted_wounds = list()
@@ -313,6 +340,25 @@
 			else
 				attempted_wounds += /datum/wound/scarring
 
+	if(bclass in list(BCLASS_STAB, BCLASS_PIERCE, BCLASS_PICK))
+		var/actual_damage = dam
+		var/limb_damage_bypass = (actual_damage >= 35)
+		used = round(damage_dividend * 20 + (dam / 2) - 12 * resistance, 1)
+		if(user && istype(user.rmb_intent, /datum/rmb_intent/aimed))
+			used += 12
+
+		if((damage_dividend >= 0.7 || limb_damage_bypass) && prob(used))
+			if(zone_precise == BODY_ZONE_CHEST)
+				if(prob(40))
+					attempted_wounds += new /datum/wound/lethal/heart_penetration()
+				else
+					attempted_wounds += new /datum/wound/lethal/lung_penetration()
+			else if(zone_precise == BODY_ZONE_PRECISE_STOMACH)
+				if(prob(50))
+					attempted_wounds += new /datum/wound/lethal/liver_penetration()
+				else
+					attempted_wounds += new /datum/wound/lethal/stomach_penetration()
+
 	for(var/wound_type in shuffle(attempted_wounds))
 		var/datum/wound/applied = add_wound(wound_type, silent, crit_message)
 		if(applied)
@@ -321,7 +367,7 @@
 			return applied
 	return FALSE
 
-/obj/item/bodypart/head/try_crit(bclass, dam, mob/living/user, zone_precise, silent = FALSE, crit_message = FALSE)
+/obj/item/bodypart/head/try_crit(bclass, dam, mob/living/user, zone_precise, silent = FALSE, crit_message = FALSE, raw_damage = 0, armor_block = 0)
 	var/static/list/eyestab_zones = list(BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE)
 	var/static/list/tonguestab_zones = list(BODY_ZONE_PRECISE_MOUTH)
 	var/static/list/nosestab_zones = list(BODY_ZONE_PRECISE_NOSE)
@@ -362,10 +408,12 @@
 		var/dislocation_type
 		var/fracture_type = /datum/wound/fracture/head
 		var/necessary_damage = 0.9
+		var/is_lethal_fracture = FALSE
 		if(resistance)
 			fracture_type = /datum/wound/fracture
 		else if(zone_precise == BODY_ZONE_PRECISE_SKULL)
 			fracture_type = /datum/wound/fracture/head/brain
+			is_lethal_fracture = TRUE
 		else if(zone_precise== BODY_ZONE_PRECISE_EARS)
 			fracture_type = /datum/wound/fracture/head/ears
 			necessary_damage = 0.8
@@ -378,10 +426,18 @@
 		else if(zone_precise == BODY_ZONE_PRECISE_NECK)
 			fracture_type = /datum/wound/fracture/neck
 			dislocation_type = /datum/wound/dislocation/neck
+			is_lethal_fracture = TRUE
 		if(prob(used) && (damage_dividend >= necessary_damage))
 			if(dislocation_type)
 				attempted_wounds += dislocation_type
-			attempted_wounds += fracture_type
+			if(is_lethal_fracture)
+				var/death_prob = calculate_lethal_death_chance(raw_damage, armor_block, user)
+				death_prob *= 0.6
+				var/datum/wound/fracture/lethal_fracture = new fracture_type()
+				lethal_fracture.death_probability = death_prob
+				attempted_wounds += lethal_fracture
+			else
+				attempted_wounds += fracture_type
 	if(bclass in GLOB.artery_bclasses)
 		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
 		if(user)
@@ -423,6 +479,15 @@
 						attempted_wounds +=/datum/wound/fracture/head/nose
 					else
 						attempted_wounds += /datum/wound/facial/disfigurement/nose
+
+	if((bclass in list(BCLASS_STAB, BCLASS_PIERCE, BCLASS_PICK)) && (zone_precise in list(BODY_ZONE_PRECISE_SKULL, BODY_ZONE_HEAD)))
+		var/actual_damage = dam
+		var/limb_damage_bypass = (actual_damage >= 40)
+		used = round(damage_dividend * 25 + (dam / 2) - 15 * resistance, 1)
+		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
+			used += 15
+		if((damage_dividend >= 0.8 || limb_damage_bypass) && prob(used))
+			attempted_wounds += new /datum/wound/lethal/brain_penetration()
 
 	for(var/wound_type in shuffle(attempted_wounds))
 		var/datum/wound/applied = add_wound(wound_type, silent, crit_message)

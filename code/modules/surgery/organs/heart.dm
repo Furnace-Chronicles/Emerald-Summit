@@ -105,17 +105,30 @@
 
 /obj/item/organ/heart/on_life()
 	..()
-	if(owner.client && beating)
+	var/mob/living/carbon/H = owner
+	if(!istype(H))
+		return
+
+	if(damage > 0 && damage < maxHealth)
+		var/damage_ratio = damage / maxHealth
+		if(damage >= high_threshold)
+			var/self_damage = damage_ratio * 0.3
+			applyOrganDamage(self_damage)
+			if(prob(5) && !H.stat)
+				to_chat(H, span_warning("My heart aches!"))
+		else if(damage > 0)
+			H.adjustStaminaLoss(damage_ratio * 2)
+			if(prob(2) && !H.stat)
+				to_chat(H, span_warning("My chest feels tight."))
+
+	if(H.client && beating)
 		failed = FALSE
 		var/sound/slowbeat = sound('sound/health/slowbeat.ogg', repeat = TRUE)
 		var/sound/fastbeat = sound('sound/health/fastbeat.ogg', repeat = TRUE)
-		var/mob/living/carbon/H = owner
-
 
 		if(H.health <= H.crit_threshold && beat != BEAT_SLOW)
 			beat = BEAT_SLOW
 			H.playsound_local(get_turf(H), slowbeat,40,0, channel = CHANNEL_HEARTBEAT)
-//			to_chat(owner, span_notice("I feel my heart slow down..."))
 		if(beat == BEAT_SLOW && H.health > H.crit_threshold)
 			H.stop_sound_channel(CHANNEL_HEARTBEAT)
 			beat = BEAT_NONE
@@ -129,10 +142,10 @@
 			beat = BEAT_NONE
 
 	if(organ_flags & ORGAN_FAILING)	//heart broke, stopped beating, death imminent
-		if(owner.stat == CONSCIOUS)
-			owner.visible_message(span_danger("[owner] clutches at [owner.p_their()] chest as if [owner.p_their()] heart is stopping!"), \
-				span_danger("I feel a terrible pain in my chest, as if my heart has stopped!"))
-		owner.set_heartattack(TRUE)
+		if(H.stat == CONSCIOUS)
+			H.visible_message(span_danger("[H] clutches [H.p_their()] chest!"), \
+				span_userdanger("MY HEART!"))
+		H.set_heartattack(TRUE)
 		failed = TRUE
 /obj/item/organ/heart/golem
 	name = "golem core"

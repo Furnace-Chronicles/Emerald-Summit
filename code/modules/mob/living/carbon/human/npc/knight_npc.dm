@@ -1,7 +1,7 @@
 // Base NPC knight type
 /mob/living/carbon/human/species/npc/knight
 	name = "knight"
-	race = /datum/species/human
+	race = /datum/species/human/northern
 	gender = MALE
 	bodyparts = list(/obj/item/bodypart/chest, /obj/item/bodypart/head, /obj/item/bodypart/l_arm,
 					/obj/item/bodypart/r_arm, /obj/item/bodypart/r_leg, /obj/item/bodypart/l_leg)
@@ -21,13 +21,10 @@
 
 /mob/living/carbon/human/species/npc/knight/Initialize()
 	. = ..()
-	set_species(/datum/species/human)
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
 /mob/living/carbon/human/species/npc/knight/after_creation()
 	..()
-	if(knight_outfit)
-		equipOutfit(new knight_outfit)
 
 	ADD_TRAIT(src, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
@@ -40,8 +37,14 @@
 	/datum/rmb_intent/weak)
 	swap_rmb_intent(num=1)
 
+	if(knight_outfit)
+		var/datum/outfit/O = new knight_outfit
+		if(O)
+			equipOutfit(O)
+
 	update_hair()
 	update_body()
+	update_body_parts()
 
 /mob/living/carbon/human/species/npc/knight/heavy
 	name = "heavy knight"
