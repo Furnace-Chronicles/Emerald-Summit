@@ -156,6 +156,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/wlength = WLENGTH_NORMAL
 	/// Weapon's balance. Swift uses SPD difference between attacker and defender to increase hit%. Heavy increases parry stamina drain based on STR diff.
 	var/wbalance = WBALANCE_NORMAL
+	/// Can this weapon perform precision strikes through armor gaps when wielded? (longswords, estocs, etc.)
+	var/can_precision_strike = FALSE
 	/// Weapon's defense. Multiplied by 10 and added to the defender's parry / dodge %-age.
 	var/wdefense = 0 
 	/// Weapon's defense bonus from wielding it. Added to wdefense upon wielding.

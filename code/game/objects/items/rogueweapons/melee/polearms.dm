@@ -909,6 +909,7 @@
 	associated_skill = /datum/skill/combat/swords
 	max_blade_int = 200
 	wdefense = 5
+	can_precision_strike = TRUE
 	smelt_bar_num = 3
 	pickup_sound = 'modular_helmsguard/sound/sheath_sounds/draw_greatsword.ogg'
 	sheathe_sound = 'modular_helmsguard/sound/sheath_sounds/put_back_sword2.ogg'
@@ -1140,6 +1141,7 @@
 	associated_skill = /datum/skill/combat/swords
 	max_blade_int = 300
 	wdefense = 5
+	can_precision_strike = TRUE
 	smelt_bar_num = 2
 	pickup_sound = 'modular_helmsguard/sound/sheath_sounds/draw_greatsword.ogg'
 	sheathe_sound = 'modular_helmsguard/sound/sheath_sounds/put_back_sword2.ogg'

@@ -1704,7 +1704,14 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 	
 	var/armor_block = 0
 	var/obj/item/clothing/bypassed_armor
-	if(user.cmode && istype(user.rmb_intent, /datum/rmb_intent/aimed) && I.wbalance == WBALANCE_SWIFT && (bladec in GLOB.stab_bclasses))
+	// Precision strikes: Swift weapons always, or NORMAL balance weapons with can_precision_strike when wielded
+	var/can_do_precision = FALSE
+	if(I.wbalance == WBALANCE_SWIFT)
+		can_do_precision = TRUE
+	else if(I.wbalance == WBALANCE_NORMAL && I.can_precision_strike && I.wielded)
+		can_do_precision = TRUE
+
+	if(user.cmode && istype(user.rmb_intent, /datum/rmb_intent/aimed) && can_do_precision && (bladec in GLOB.stab_bclasses))
 		if(selzone in GLOB.precision_vulnerable_zones)
 			var/mob/living/carbon/human/attacker = user
 			var/obj/item/clothing/outer_armor = H.get_best_armor(selzone, I.d_type, bladec, pen)
@@ -1713,10 +1720,12 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 
 				if(I.associated_skill)
 					precision_chance += attacker.get_skill_level(I.associated_skill) * 10
-				if((user in H.grabbedby) || (H in user.grabbedby))
+				if(((user in H.grabbedby) || (H in user.grabbedby)) && I.wbalance == WBALANCE_SWIFT)
 					precision_chance += 50 // Way easier to find gaps when you're holding the enemy or vice versa
 				if(I.wlength > WLENGTH_SHORT)
 					precision_chance -= 10*I.wlength
+				if(I.wbalance == WBALANCE_NORMAL)
+					precision_chance -= 15
 				precision_chance += (attacker.STAPER - 10) * 5
 				precision_chance -= (max(H.STASPD, H.STACON) - 10) * 5
 				precision_chance = clamp(precision_chance, 1, 95)
