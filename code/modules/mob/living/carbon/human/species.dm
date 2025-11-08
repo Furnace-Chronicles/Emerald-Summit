@@ -1816,10 +1816,13 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 
 	// Armor significantly reduces dismemberment chance based on damage absorption ratio
 	if(armor_block > 0 && raw_damage > 0)
-		var/absorption_ratio = armor_block / raw_damage  // 0.0 to 1.0
-		// Exponential reduction: even 50% absorption gives 75% reduction in dismemberment chance
-		var/dismember_multiplier = (1 - absorption_ratio) ** 2
-		probability *= dismember_multiplier
+		if(actual_damage < armor_block)
+			probability = 0	// If more damage is absorbed than dealt, no dismemberment can occur
+		else
+			var/absorption_ratio = armor_block / raw_damage  // 0.0 to 1.0
+			// Exponential reduction: even 50% absorption gives 75% reduction in dismemberment chance
+			var/dismember_multiplier = (1 - absorption_ratio) ** 2
+			probability *= dismember_multiplier
 
 	if(affecting.brute_dam && prob(probability) && affecting.dismember(I.damtype, user.used_intent?.blade_class, user, selzone, vorpal = I.vorpal))
 		bloody = 1
