@@ -43,7 +43,7 @@
 #define COST_ORG_T2      5
 #endif
 #ifndef COST_ORG_T3
-#define COST_ORG_T3      5
+#define COST_ORG_T3      5000
 #endif
 #ifndef COST_UNITY
 #define COST_UNITY       5
@@ -92,10 +92,7 @@ var/global/list/inhumen_miracles_cache = list()
 var/global/miracle_caches_built = FALSE
 
 var/global/list/unity_miracles_list = list(
-	/obj/effect/proc_holder/spell/invoked/mending,
 	/obj/effect/proc_holder/spell/invoked/guidance,
-	/obj/effect/proc_holder/spell/invoked/healingtouch,
-	/obj/effect/proc_holder/spell/targeted/shapeshift/crow,
 	/obj/effect/proc_holder/spell/invoked/projectile/divineblast
 )
 
@@ -224,6 +221,9 @@ var/global/list/PATRON_ARTIFACTS = list(
 	if(!miracle_caches_built)
 		build_miracle_caches()
 
+	var/skill_level = H.get_skill_level(/datum/skill/magic/holy)
+	var/max_tier = clamp(skill_level - 1, 0, 4)
+
 	var/tier = 0
 	if(("clergy_learn_tier" in D.vars) && isnum(D.vars["clergy_learn_tier"]))
 		tier = max(tier, D.vars["clergy_learn_tier"])
@@ -266,6 +266,36 @@ var/global/list/PATRON_ARTIFACTS = list(
 		var/divine   = is_divine_spell(S)
 		var/inhumen  = is_inhumen_spell(S)
 		var/is_unity = (unity_miracles_list && unity_miracles_list.Find(st))
+
+		// Get the miracle's tier from the appropriate miracle list
+		var/miracle_tier = null
+		if(is_unity)
+			// Unity miracles have no tier restrictions
+			miracle_tier = null
+		else if(own && D.patron.miracles)
+			miracle_tier = D.patron.miracles[st]
+		else if(divine || inhumen)
+			// For non-patron miracles, search through all divine and inhumen patrons to find the tier
+			var/list/patron_roots = list()
+			if(divine)
+				patron_roots += typesof(/datum/patron/divine)
+			if(inhumen)
+				patron_roots += typesof(/datum/patron/inhumen)
+
+			for(var/patron_type in patron_roots)
+				if(patron_type == /datum/patron/divine || patron_type == /datum/patron/inhumen)
+					continue  // Skip the base types
+				var/datum/patron/patron_instance = new patron_type()
+				if(patron_instance.miracles && (st in patron_instance.miracles))
+					miracle_tier = patron_instance.miracles[st]
+					qdel(patron_instance)
+					break
+				qdel(patron_instance)
+
+		// Check if player's skill level allows this miracle tier
+		if(miracle_tier != null && miracle_tier > max_tier)
+			qdel(S)
+			continue
 
 		var/allow = FALSE
 		var/cost = 0

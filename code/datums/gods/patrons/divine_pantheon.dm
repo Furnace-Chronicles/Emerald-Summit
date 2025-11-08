@@ -15,8 +15,8 @@
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/lightningbolt/sacred_flame_rogue	= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/heal					= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/revive				= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/revive				= CLERIC_T4
 	)
 	confess_lines = list(
 		"ASTRATA IS MY LIGHT!",
@@ -39,8 +39,8 @@
 					/obj/effect/proc_holder/spell/invoked/invisibility/miracle	= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blindness				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/silence 				= CLERIC_T2,
-					/obj/effect/proc_holder/spell/self/noc_spell_bundle			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T3,
+					/obj/effect/proc_holder/spell/self/noc_spell_bundle			= CLERIC_T4
 	)
 	confess_lines = list(
 		"NOC IS NIGHT!",
@@ -65,7 +65,7 @@
 					/obj/effect/proc_holder/spell/targeted/conjure_glowshroom	= CLERIC_T3,
 					/obj/effect/proc_holder/spell/targeted/conjure_vines 		= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T3,
-					/obj/effect/proc_holder/spell/self/howl/call_of_the_moon	= CLERIC_T4,
+					/obj/effect/proc_holder/spell/self/howl/call_of_the_moon	= CLERIC_T4
 	)
 	confess_lines = list(
 		"DENDOR PROVIDES!",
@@ -136,8 +136,8 @@
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/targeted/abrogation			= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/speakwithdead			= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/fieldburials			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/fieldburials			= CLERIC_T4
 	)
 	confess_lines = list(
 		"ALL SOULS FIND THEIR WAY TO NECRA!",
