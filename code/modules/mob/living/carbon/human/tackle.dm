@@ -11,6 +11,15 @@
 	if(stat || target.stat)
 		return FALSE
 
+	// Auto-fail if target is using defense intent (Guard active)
+	if(target.has_status_effect(/datum/status_effect/buff/clash))
+		Knockdown(30)
+		Immobilize(2 SECONDS)
+		stamina_add(-20)
+		visible_message(span_warning("[src] charges at [target] but is repelled by their guard!"), span_warning("I charge at [target] but am repelled by their guard!"))
+		playsound(get_turf(src), "bodyfall", 100, TRUE)
+		return FALSE
+
 	var/tackle_dir = get_dir(src, target)
 	var/target_dir = target.dir
 
