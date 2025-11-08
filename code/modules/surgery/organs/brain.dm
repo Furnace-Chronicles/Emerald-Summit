@@ -1,7 +1,7 @@
-GLOBAL_LIST_INIT(allowed_traumas, list( /datum/brain_trauma/mild/stuttering,
+GLOBAL_LIST_INIT(allowed_traumas, list(/datum/brain_trauma/mild/stuttering,
 										/datum/brain_trauma/mild/concussion,
 										/datum/brain_trauma/mild/muscle_weakness,
-										/datum/brain_trauma/mild/muscle_spasms
+										/datum/brain_trauma/mild/muscle_spasms,
 										/datum/brain_trauma/severe/paralysis,
 										/datum/brain_trauma/severe/discoordination
 	))

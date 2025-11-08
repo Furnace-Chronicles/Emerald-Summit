@@ -499,7 +499,7 @@ GLOBAL_LIST_INIT(lung_penetration_messages, list(
 	crit_message = list(
 		"The heart is pierced!",
 		"The blade penetrates straight through the heart!",
-		"The heart is impaled!",
+		"The heart is skewered!",
 		"Steel runs through %VICTIM's heart!"
 	)
 	bleed_rate = 35

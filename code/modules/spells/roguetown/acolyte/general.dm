@@ -191,10 +191,6 @@
 					C.update_damage_overlays()
 				if(affecting.heal_wounds(25))
 					C.update_damage_overlays()
-			// Heal internal organs
-			for(var/obj/item/organ/O in C.internal_organs)
-				if(O.damage > 0)
-					O.applyOrganDamage(-25)
 		else
 			target.adjustBruteLoss(-25)
 			target.adjustFireLoss(-25)
@@ -442,10 +438,6 @@
 					H.update_damage_overlays()
 					to_chat(H, span_notice("The miracle mends my [most_damaged_limb.name]!"))
 
-				// Heal internal organs
-				for(var/obj/item/organ/O in H.internal_organs)
-					if(O.damage > 0)
-						O.applyOrganDamage(-(healing * 2))
 			else
 				message_out = span_warning("The wounds tear and rip around the embedded objects!")
 				message_self = span_warning("Agonising pain shoots through your body as magycks try to sew around the embedded objects!")
@@ -572,10 +564,6 @@
 				// Heal the most damaged/bleeding limb
 				target_limb.heal_damage(healing * 10, healing * 10) // Convert healing to damage values
 				H.update_damage_overlays()
-			// Heal internal organs
-			for(var/obj/item/organ/O in H.internal_organs)
-				if(O.damage > 0)
-					O.applyOrganDamage(-(healing * 10))
 		return TRUE
 	revert_cast()
 	return FALSE
@@ -783,8 +771,20 @@
 			to_chat(user, span_warning("We were interrupted!"))
 			return FALSE
 		var/foundwound = FALSE
-		if(length(affecting.wounds))
-			for(var/datum/wound/wound in affecting.wounds)
+
+		var/list/internal_organs = target.getorganszone(def_zone)
+		var/list/internal_wounds
+		if(length(internal_organs))
+			for(var/obj/item/bodypart/organ in internal_organs)
+				if(length(organ.wounds))
+					if(!internal_wounds)
+						internal_wounds = list()
+					internal_wounds += organ.wounds
+
+		var/list/all_wounds = affecting.wounds + internal_wounds
+
+		if(length(all_wounds))
+			for(var/datum/wound/wound in all_wounds)
 				if(!isnull(wound) && wound.healable_by_miracles)
 					wound.heal_wound(wound.whp)
 					foundwound = TRUE
@@ -794,11 +794,6 @@
 				playsound(target, 'sound/magic/woundheal_crunch.ogg', 100, TRUE)
 			affecting.change_bodypart_status(BODYPART_ORGANIC, heal_limb = TRUE)
 			affecting.update_disabled()
-			// Heal internal organs completely
-			for(var/obj/item/organ/O in target.internal_organs)
-				if(O.damage > 0)
-					O.applyOrganDamage(-O.damage)
-					user.visible_message(("<font color = '#488f33'>[target]'s [O.name] mends itself!</font>"))
 			target.update_damage_hud()
 			return TRUE
 		else
