@@ -175,15 +175,18 @@
 
 			// Progressive oxygen damage based on blood loss severity
 			// Much lower rates for extended bleedout time (120-160 seconds)
+			var/oxy_adjustment = 0
 			if(blood_volume <= 40) // Death threshold - ~7% blood
-				adjustOxyLoss(2) // Rapid death
+				oxy_adjustment = 2 // Rapid death
 			else if(blood_volume <= soft_crit_threshold)
-				adjustOxyLoss(0.4) // Soft crit - very slow
+				oxy_adjustment = 0.4 // Soft crit - very slow
 			else if(blood_volume <= BLOOD_VOLUME_BAD)
-				adjustOxyLoss(0.2) // Below BAD threshold - minimal
+				oxy_adjustment = 0.2 // Below BAD threshold - minimal
 			else if((blood_volume > soft_crit_threshold) || HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
 				if(getOxyLoss())
-					adjustOxyLoss(-1.6)
+					oxy_adjustment = -1.6
+			if(oxy_adjustment)
+				adjustOxyLoss(oxy_adjustment)
 
 	//Bleeding out
 	bleed_rate = get_bleed_rate() // expensive proc, but we zero it on bled-out mobs
@@ -244,6 +247,7 @@
 	blood_volume = max(blood_volume - amt, 0)
 	if (old_volume > 0 && !blood_volume) // it looks like we've just bled out. bummer.
 		to_chat(src, span_userdanger("The last of your lyfeblood ebbs from your ravaged body and soaks the cold earth below..."))
+		death()
 
 	GLOB.scarlet_round_stats[STATS_BLOOD_SPILT] += amt
 	if(isturf(src.loc)) //Blood loss still happens in locker, floor stays clean

@@ -538,21 +538,9 @@
 /mob/proc/do_parry(obj/item/W, parrydrain as num, mob/living/user, balance_diff = 0)
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
-		// Adjust parry stamina based on armor weight
-		var/adjusted_drain = parrydrain
-		if(H.wear_armor && istype(H.wear_armor, /obj/item/clothing))
-			var/obj/item/clothing/armor = H.wear_armor
-			switch(armor.armor_class)
-				if(ARMOR_CLASS_LIGHT)
-					adjusted_drain *= 0.75  // 25% less stamina cost for light armor
-				if(ARMOR_CLASS_HEAVY)
-					adjusted_drain *= 1.25   // 25% more stamina cost for heavy armor
-		else
-			adjusted_drain *= 0.5 // Not wearing armor cuts stamina cost in half
-
 		var/stamina_before = H.stamina
-		if(H.stamina_add(adjusted_drain))
-			if(stamina_before + adjusted_drain >= H.max_stamina && ishuman(user))
+		if(H.stamina_add(parrydrain))
+			if(stamina_before + parrydrain >= H.max_stamina && ishuman(user))
 				var/mob/living/carbon/human/attacker = user
 				var/disarm_chance = (attacker.STASTR - H.STASTR) * 10 - (balance_diff * 15)
 				if(prob(disarm_chance))
@@ -582,18 +570,7 @@
 /mob/proc/do_unarmed_parry(parrydrain as num, mob/living/user)
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
-		// Adjust parry stamina based on armor weight
-		var/adjusted_drain = parrydrain
-		if(H.wear_armor && istype(H.wear_armor, /obj/item/clothing))
-			var/obj/item/clothing/armor = H.wear_armor
-			switch(armor.armor_class)
-				if(ARMOR_CLASS_LIGHT)
-					adjusted_drain *= 0.75
-				if(ARMOR_CLASS_HEAVY)
-					adjusted_drain *= 1.25
-		else
-			adjusted_drain *= 0.5
-		if(H.stamina_add(adjusted_drain))
+		if(H.stamina_add(parrydrain))
 			playsound(get_turf(src), pick(parry_sound), 100, FALSE)
 			src.visible_message(span_warning("<b>[src]</b> parries [user]!"))
 			if(src.client)

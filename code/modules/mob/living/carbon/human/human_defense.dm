@@ -156,28 +156,28 @@
 					// Blunt damage: lowest vs light, highest vs heavy
 					switch(armor_piece.armor_class)
 						if(ARMOR_CLASS_LIGHT)
-							degradation_mult = 0.15
+							degradation_mult = ARMOR_DEGR_BLUNT_LIGHT
 						if(ARMOR_CLASS_MEDIUM)
-							degradation_mult = 0.35
+							degradation_mult = ARMOR_DEGR_BLUNT_MEDIUM
 						if(ARMOR_CLASS_HEAVY)
-							degradation_mult = 1.25
+							degradation_mult = ARMOR_DEGR_BLUNT_HEAVY
 				if(BCLASS_CUT, BCLASS_CHOP)
 					// Cutting damage: more vs light, lowest vs heavy
 					switch(armor_piece.armor_class)
 						if(ARMOR_CLASS_LIGHT)
-							degradation_mult = 1.1
+							degradation_mult = ARMOR_DEGR_CUT_LIGHT
 						if(ARMOR_CLASS_MEDIUM)
-							degradation_mult = 0.25
+							degradation_mult = ARMOR_DEGR_CUT_MEDIUM
 						if(ARMOR_CLASS_HEAVY)
-							degradation_mult = 0.15
+							degradation_mult = ARMOR_DEGR_CUT_HEAVY
 				if(BCLASS_STAB, BCLASS_PICK, BCLASS_PIERCE)
 					switch(armor_piece.armor_class)
 						if(ARMOR_CLASS_LIGHT)
-							degradation_mult = 0.65
+							degradation_mult = ARMOR_DEGR_PIERCE_LIGHT
 						if(ARMOR_CLASS_MEDIUM)
-							degradation_mult = 1
+							degradation_mult = ARMOR_DEGR_PIERCE_MEDIUM
 						if(ARMOR_CLASS_HEAVY)
-							degradation_mult = 0.55
+							degradation_mult = ARMOR_DEGR_PIERCE_HEAVY
 
 		intdamage *= degradation_mult
 		used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)

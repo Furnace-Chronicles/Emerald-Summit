@@ -36,11 +36,11 @@
 		handle_blood()
 		//passively heal even wounds with no passive healing
 
-	var/heal_amount = 1 + (blood_volume > BLOOD_VOLUME_SURVIVE ? 0.6 : 0)
-	// apparently this means NPCs should heal their wounds slowly over time,
-	// with a 60% bonus if they're not completely bled out.
-	// this is a strict replacement for two whole-ass block iteration things that did the same thing (or nothing at all)
-	heal_wounds(heal_amount)
+		var/heal_amount = 1 + (blood_volume > BLOOD_VOLUME_SURVIVE ? 0.6 : 0)
+		// apparently this means NPCs should heal their wounds slowly over time,
+		// with a 60% bonus if they're not completely bled out.
+		// this is a strict replacement for two whole-ass block iteration things that did the same thing (or nothing at all)
+		heal_wounds(heal_amount)
 	
 	if (QDELETED(src)) // diseases can qdel the mob via transformations
 		return
