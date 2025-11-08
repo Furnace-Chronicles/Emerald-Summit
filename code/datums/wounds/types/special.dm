@@ -451,7 +451,6 @@ GLOBAL_LIST_INIT(lung_penetration_messages, list(
 	critical = TRUE
 	mortal = TRUE
 	sleep_healing = 0
-	var/death_probability = 0
 	var/organ_damage = 0
 	var/attack_damage = 0
 
@@ -522,12 +521,13 @@ GLOBAL_LIST_INIT(lung_penetration_messages, list(
 
 /datum/wound/lethal/heart_penetration/on_life()
 	. = ..()
+	var/oxydamage = organ_damage < 100 ? organ_damage / 10 : organ_damage
 	if(!iscarbon(owner))
 		return
 	var/mob/living/carbon/carbon_owner = owner
 	if(!carbon_owner.stat && prob(15))
 		carbon_owner.vomit(1, blood = TRUE, stun = FALSE)
-	carbon_owner.adjustOxyLoss(2)
+	carbon_owner.adjustOxyLoss(oxydamage)
 
 /datum/wound/lethal/lung_penetration
 	name = "lung penetration"
