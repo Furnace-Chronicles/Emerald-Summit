@@ -46,7 +46,7 @@
 #define COST_ORG_T3      5000
 #endif
 #ifndef COST_UNITY
-#define COST_UNITY       5
+#define COST_UNITY       0 // it's empty chief
 #endif
 #ifndef COST_TEN
 #define COST_TEN         5
@@ -92,8 +92,7 @@ var/global/list/inhumen_miracles_cache = list()
 var/global/miracle_caches_built = FALSE
 
 var/global/list/unity_miracles_list = list(
-	/obj/effect/proc_holder/spell/invoked/guidance,
-	/obj/effect/proc_holder/spell/invoked/projectile/divineblast
+	// fill this at some point
 )
 
 var/global/list/divine_patrons_index = list()
