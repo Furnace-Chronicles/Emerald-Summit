@@ -191,6 +191,10 @@
 					C.update_damage_overlays()
 				if(affecting.heal_wounds(25))
 					C.update_damage_overlays()
+			// Heal internal organs
+			for(var/obj/item/organ/O in C.internal_organs)
+				if(O.damage > 0)
+					O.applyOrganDamage(-25)
 		else
 			target.adjustBruteLoss(-25)
 			target.adjustFireLoss(-25)
@@ -437,6 +441,11 @@
 					most_damaged_limb.heal_damage(healing * 2, healing * 2, healing * 2)
 					H.update_damage_overlays()
 					to_chat(H, span_notice("The miracle mends my [most_damaged_limb.name]!"))
+
+				// Heal internal organs
+				for(var/obj/item/organ/O in H.internal_organs)
+					if(O.damage > 0)
+						O.applyOrganDamage(-(healing * 2))
 			else
 				message_out = span_warning("The wounds tear and rip around the embedded objects!")
 				message_self = span_warning("Agonising pain shoots through your body as magycks try to sew around the embedded objects!")
@@ -563,6 +572,10 @@
 				// Heal the most damaged/bleeding limb
 				target_limb.heal_damage(healing * 10, healing * 10) // Convert healing to damage values
 				H.update_damage_overlays()
+			// Heal internal organs
+			for(var/obj/item/organ/O in H.internal_organs)
+				if(O.damage > 0)
+					O.applyOrganDamage(-(healing * 10))
 		return TRUE
 	revert_cast()
 	return FALSE
@@ -781,6 +794,11 @@
 				playsound(target, 'sound/magic/woundheal_crunch.ogg', 100, TRUE)
 			affecting.change_bodypart_status(BODYPART_ORGANIC, heal_limb = TRUE)
 			affecting.update_disabled()
+			// Heal internal organs completely
+			for(var/obj/item/organ/O in target.internal_organs)
+				if(O.damage > 0)
+					O.applyOrganDamage(-O.damage)
+					user.visible_message(("<font color = '#488f33'>[target]'s [O.name] mends itself!</font>"))
 			target.update_damage_hud()
 			return TRUE
 		else

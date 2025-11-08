@@ -89,6 +89,13 @@
 		tmsg += " as best as they can while [target] has clothing on"
 	target.adjustBruteLoss(urhealedamt_brute * -1, 0) //We have to use a negative number to heal.
 	target.adjustFireLoss(urhealedamt_burn * -1, 0)
+	// Heal internal organs
+	if(iscarbon(target))
+		var/mob/living/carbon/C = target
+		var/organ_healing = (urhealedamt_brute + urhealedamt_burn) / 2
+		for(var/obj/item/organ/O in C.internal_organs)
+			if(O.damage > 0)
+				O.applyOrganDamage(-organ_healing)
 	display_results(user, target, span_notice("[umsg]."),
 		"[tmsg].",
 		"[tmsg].")

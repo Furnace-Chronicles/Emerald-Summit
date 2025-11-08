@@ -1,3 +1,5 @@
+GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZONE_HEAD, BODY_ZONE_PRECISE_MOUTH, BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_L_EYE, BODY_ZONE_PRECISE_R_EYE))
+
 /obj/item/bodypart
 	/// List of /datum/wound instances affecting this bodypart
 	var/list/datum/wound/wounds
@@ -348,7 +350,7 @@
 			else
 				attempted_wounds += /datum/wound/scarring
 
-	if(bclass in list(BCLASS_STAB, BCLASS_PIERCE, BCLASS_PICK))
+	if(bclass in GLOB.stab_bclasses)
 		var/actual_damage = dam
 		var/limb_damage_bypass = (actual_damage >= 35)
 		used = round(damage_dividend * 20 + (dam / 2) - 12 * resistance, 1)
@@ -358,14 +360,33 @@
 		if((damage_dividend >= 0.7 || limb_damage_bypass) && prob(used))
 			if(zone_precise == BODY_ZONE_CHEST)
 				if(prob(40))
-					attempted_wounds += new /datum/wound/lethal/heart_penetration()
+					attempted_wounds += new /datum/wound/lethal/heart_penetration(dam)
 				else
-					attempted_wounds += new /datum/wound/lethal/lung_penetration()
+					attempted_wounds += new /datum/wound/lethal/lung_penetration(dam)
 			else if(zone_precise == BODY_ZONE_PRECISE_STOMACH)
 				if(prob(50))
-					attempted_wounds += new /datum/wound/lethal/liver_penetration()
+					attempted_wounds += new /datum/wound/lethal/liver_penetration(dam)
 				else
-					attempted_wounds += new /datum/wound/lethal/stomach_penetration()
+					attempted_wounds += new /datum/wound/lethal/stomach_penetration(dam)
+
+	if(bclass in GLOB.artery_bclasses)
+		var/actual_damage = dam
+		var/limb_damage_bypass = (actual_damage >= 45)
+		used = round(damage_dividend * 15 + (dam / 3) - 15 * resistance, 1)
+		if(user && istype(user.rmb_intent, /datum/rmb_intent/aimed))
+			used += 10
+
+		if((damage_dividend >= 0.8 || limb_damage_bypass) && prob(used))
+			if(zone_precise == BODY_ZONE_CHEST)
+				if(prob(40))
+					attempted_wounds += new /datum/wound/lethal/heart_penetration(dam)
+				else
+					attempted_wounds += new /datum/wound/lethal/lung_penetration(dam)
+			else if(zone_precise == BODY_ZONE_PRECISE_STOMACH)
+				if(prob(50))
+					attempted_wounds += new /datum/wound/lethal/liver_penetration(dam)
+				else
+					attempted_wounds += new /datum/wound/lethal/stomach_penetration(dam)
 
 	for(var/wound_type in shuffle(attempted_wounds))
 		var/datum/wound/applied = add_wound(wound_type, silent, crit_message)
@@ -493,14 +514,14 @@
 			if(prob(used))
 				attempted_wounds += /datum/wound/sunder
 
-	if((bclass in list(BCLASS_STAB, BCLASS_PIERCE, BCLASS_PICK)) && (zone_precise in list(BODY_ZONE_PRECISE_SKULL, BODY_ZONE_HEAD)))
+	if((bclass in GLOB.stab_bclasses) && (zone_precise in GLOB.brain_penetration_zones))
 		var/actual_damage = dam
 		var/limb_damage_bypass = (actual_damage >= 40)
 		used = round(damage_dividend * 25 + (dam / 2) - 15 * resistance, 1)
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
 			used += 15
 		if((damage_dividend >= 0.8 || limb_damage_bypass) && prob(used))
-			attempted_wounds += new /datum/wound/lethal/brain_penetration()
+			attempted_wounds += new /datum/wound/lethal/brain_penetration(dam)
 
 	for(var/wound_type in shuffle(attempted_wounds))
 		var/datum/wound/applied = add_wound(wound_type, silent, crit_message)

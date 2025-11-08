@@ -1,3 +1,21 @@
+GLOBAL_LIST_INIT(brain_penetration_messages, list(
+	"MY HEAD!",
+	"I CAN'T THINK!",
+	"EVERYTHING IS GOING DARK!",
+))
+
+GLOBAL_LIST_INIT(heart_penetration_messages, list(
+	"MY HEART!",
+	"MY CHEST!",
+	"I'M DYING!",
+))
+
+GLOBAL_LIST_INIT(lung_penetration_messages, list(
+	"I CAN'T BREATHE!",
+	"MY LUNG!",
+	"I'M CHOKING!",
+))
+
 /datum/wound/facial
 	name = "facial trauma"
 	sound_effect = 'sound/combat/crit.ogg'
@@ -434,13 +452,17 @@
 	mortal = TRUE
 	sleep_healing = 0
 	var/death_probability = 0
-	var/organ_damage = 0 // Organ damage to apply, set during wound creation
-	var/attack_damage = 0 // Store the attack damage that caused this wound
+	var/organ_damage = 0
+	var/attack_damage = 0
+
+/datum/wound/lethal/New(damage = 0)
+	. = ..()
+	if(damage > 0)
+		attack_damage = damage
+		organ_damage = clamp(damage * (rand(10, 20)/10), 40, 100) // (rand(10, 20)/10) is a little trick to get a random 2-digit float between 1.0 and 2.0
 
 /datum/wound/lethal/on_mob_gain(mob/living/affected)
 	. = ..()
-	if(organ_damage == 0 && attack_damage > 0)
-		organ_damage = clamp(attack_damage * 1.5, 40, 100)
 
 /datum/wound/lethal/brain_penetration
 	name = "brain penetration"
@@ -449,8 +471,8 @@
 	crit_message = list(
 		"The brain is pierced!",
 		"The blade penetrates the skull into the brain!",
-		"The brain is impaled!",
-		"Steel pierces through the cranium into the brain!"
+		"The brain is skewered!",
+		"The edge pierces through the cranium into the brain!"
 	)
 	bleed_rate = 20
 	woundpain = 200
@@ -458,20 +480,17 @@
 
 /datum/wound/lethal/brain_penetration/on_mob_gain(mob/living/affected)
 	. = ..()
-	ADD_TRAIT(affected, TRAIT_PARALYSIS, "[type]")
-	ADD_TRAIT(affected, TRAIT_NOPAIN, "[type]")
-	affected.Unconscious(5 MINUTES)
 	if(iscarbon(affected))
 		var/mob/living/carbon/carbon_affected = affected
-		carbon_affected.update_disabled_bodyparts()
+		var/obj/item/organ/brain/B = carbon_affected.getorganslot(ORGAN_SLOT_BRAIN)
+		if(B)
+			B.applyOrganDamage(organ_damage)
+	affected.Unconscious(30 SECONDS)
+	affected.Stun(30)
+	to_chat(affected, span_userdanger("[pick(GLOB.brain_penetration_messages)]"))
 
 /datum/wound/lethal/brain_penetration/on_mob_loss(mob/living/affected)
 	. = ..()
-	REMOVE_TRAIT(affected, TRAIT_PARALYSIS, "[type]")
-	REMOVE_TRAIT(affected, TRAIT_NOPAIN, "[type]")
-	if(iscarbon(affected))
-		var/mob/living/carbon/carbon_affected = affected
-		carbon_affected.update_disabled_bodyparts()
 
 /datum/wound/lethal/heart_penetration
 	name = "heart penetration"
@@ -499,12 +518,7 @@
 				addtimer(CALLBACK(carbon_affected, TYPE_PROC_REF(/mob/living/carbon, set_heartattack), TRUE), 3 SECONDS)
 	affected.Stun(30)
 	shake_camera(affected, 4, 4)
-	var/static/list/heartaches = list(
-		"MY HEART!",
-		"MY CHEST!",
-		"I'M DYING!",
-	)
-	to_chat(affected, span_userdanger("[pick(heartaches)]"))
+	to_chat(affected, span_userdanger("[pick(GLOB.heart_penetration_messages)]"))
 
 /datum/wound/lethal/heart_penetration/on_life()
 	. = ..()
@@ -532,12 +546,7 @@
 /datum/wound/lethal/lung_penetration/on_mob_gain(mob/living/affected)
 	. = ..()
 	affected.Stun(20)
-	var/static/list/lung_messages = list(
-		"I CAN'T BREATHE!",
-		"MY LUNG!",
-		"I'M CHOKING!",
-	)
-	to_chat(affected, span_userdanger("[pick(lung_messages)]"))
+	to_chat(affected, span_userdanger("[pick(GLOB.lung_penetration_messages)]"))
 	if(iscarbon(affected))
 		var/mob/living/carbon/carbon_affected = affected
 		var/obj/item/organ/lungs/L = carbon_affected.getorganslot(ORGAN_SLOT_LUNGS)
