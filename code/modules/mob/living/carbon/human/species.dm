@@ -1743,7 +1743,7 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 			H.next_attack_msg += " <span class='warning'>Armor stops the damage.</span>"
 			// Drain stamina when armor completely blocks attack
 			// Stamina drain scales with armor damage taken
-			var/stamina_drain = max(armor_block * 0.1, 15)  // 10% of blocked damage, capped at 15
+			var/stamina_drain = min(armor_block * 0.05, 10)  // 5% of blocked damage, capped at 10
 			if(stamina_drain > 0)
 				H.stamina_add(-stamina_drain)
 			if(I)
