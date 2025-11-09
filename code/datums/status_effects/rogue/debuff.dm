@@ -858,3 +858,24 @@
 	name = "Silver Curse"
 	desc = "My BANE!"
 	icon_state = "hunger3"
+
+/datum/status_effect/debuff/defeated
+	id = "defeated"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/defeated
+	effectedstats = list("strength" = -2,"perception" = -2,"intelligence" = -2, "constitution" = -2, "endurance" = -2, "speed" = -2)
+	duration = 25 MINUTES
+
+/atom/movable/screen/alert/status_effect/debuff/defeated
+	name = "DEFEATED"
+	desc = "You are utterly broken and unable to return to combat."
+	icon_state = "defeat"
+
+/datum/status_effect/debuff/defeated/on_apply(mob/living/M)
+	. = ..()
+	if (M)
+		ADD_TRAIT(M, TRAIT_DEFEATED, "[type]")
+
+/datum/status_effect/debuff/defeated/on_remove(mob/living/M)
+	. = ..()
+	if (M)
+		REMOVE_TRAIT(M, TRAIT_DEFEATED, "[type]")	

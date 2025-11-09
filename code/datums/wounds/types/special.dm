@@ -395,6 +395,11 @@
 	can_cauterize = FALSE
 	var/immunity_time = 12 SECONDS // how long the wound actively prevents further dismemberment attempts for
 
+/datum/wound/grievous/on_mob_gain(mob/living/affected)
+    . = ..()
+    if (affected)
+        affected.apply_status_effect(/datum/status_effect/debuff/defeated)
+
 /datum/wound/grievous/on_bodypart_gain(obj/item/bodypart/affected)
 	. = ..()
 	// ostensibly, the entire point of grievous wounds is that you DIE when you get one, critical weakness or not.
