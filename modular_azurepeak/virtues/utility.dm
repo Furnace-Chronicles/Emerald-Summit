@@ -210,6 +210,7 @@
 	added_skills = list(list(/datum/skill/craft/crafting, 2, 2),
 						list(/datum/skill/craft/carpentry, 2, 2),
 						list(/datum/skill/craft/masonry, 2, 2),
+						list(/datum/skill/craft/blacksmithing, 2, 2),
 						list(/datum/skill/craft/engineering, 2, 2),
 						list(/datum/skill/craft/smelting, 2, 2),
 						list(/datum/skill/misc/ceramics, 2, 2)
