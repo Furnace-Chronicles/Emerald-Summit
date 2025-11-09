@@ -72,6 +72,7 @@
 #define TRAIT_PERMAMUTE "Permanent Mute"
 #define TRAIT_HERESIARCH "Forbidden Knowledge" //allows entry to ascendant church
 #define TRAIT_EXCOMMUNICATED "Excommunicated" //cannot be target of healing miracles of Ten or anastasia or cure rot
+#define TRAIT_DEFEATED "Defeated" //applies defeated status effect on grievous wound gain
 
 
 //Hearthstone port (Tracking)
@@ -386,6 +387,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_MASTER_CARPENTER = span_warning("I've been trained to make the most of wood"), 
 	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"), 
 	TRAIT_CLERGY = span_notice("I am a servant of the local House of the Ten."),
+	TRAIT_DEFEATED = span_warning("I am utterly broken and unable to return to combat"),	
 ))
 
 // trait accessor defines

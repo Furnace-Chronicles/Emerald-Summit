@@ -878,4 +878,81 @@
 /datum/status_effect/debuff/defeated/on_remove(mob/living/M)
 	. = ..()
 	if (M)
-		REMOVE_TRAIT(M, TRAIT_DEFEATED, "[type]")	
+		REMOVE_TRAIT(M, TRAIT_DEFEATED, "[type]")
+
+
+
+// HELPA 
+
+/proc/prompt_ghost_takeover(mob/dead/observer/ghost, mob/living/target)
+	if(!ghost || !ghost.client)
+		return FALSE
+
+	var/title = "Return to body?"
+	var/msg = "Do you want to place ghost control of mob [target ? target.real_name : ""]?"
+	var/choice = alert(ghost, msg, title, "place ghost control of mob", "stay as ghost")
+	return choice == "place ghost control of mob"
+
+
+//ITEM
+
+/obj/item/ritual/true_head_relic
+    name = "Relic of True Restoration"
+    desc = "Regrows a true head and brain for the fallen, then invites their spirit back after a short delay."
+    w_class = WEIGHT_CLASS_TINY
+
+    var/datum/weakref/_pending_recall
+
+/obj/item/ritual/true_head_relic/afterattack(atom/target, mob/living/user, proximity)
+    if(!proximity || !isliving(target) || !ishuman(target))
+        return ..()
+
+    var/mob/living/carbon/human/H = target
+
+    if(H.stat != DEAD)
+        to_chat(user, span_warning("[H] is not dead. The relic refuses to work."))
+        return ..()
+
+    H.visible_message(
+        span_info("[user] presses an ancient relic to [H]'s neck stump; flesh begins to weave..."),
+        span_notice("Warmth blossoms at the stump as bone and skin knit!")
+    )
+    H.regenerate_limbs(0)
+    var/obj/item/organ/brain/BR = H.getorganslot(ORGAN_SLOT_BRAIN)
+    if(!BR)
+        BR = new /obj/item/organ/brain
+        if(hascall(BR, "Insert"))
+            BR.Insert(H)         
+        else
+            BR.forceMove(H)     
+    if(!(H.mob_biotypes & MOB_UNDEAD))
+        for(var/obj/item/bodypart/L as anything in H.bodyparts)
+            L.rotted = FALSE
+            L.skeletonized = FALSE
+    H.update_body()
+    if(hascall(H, "update_hair")) H.update_hair()
+    if(hascall(H, "update_body_parts")) H.update_body_parts()
+    if(hascall(H, "regenerate_icons")) H.regenerate_icons()
+    src._pending_recall = WEAKREF(H)
+    addtimer(CALLBACK(src, PROC_REF(_recall_spirit_like_revive_and_grab)), 5 SECONDS)
+    return ..()
+
+/obj/item/ritual/true_head_relic/proc/_recall_spirit_like_revive_and_grab()
+    var/mob/living/carbon/human/H = _pending_recall ? _pending_recall.resolve() : null
+    if(!H || QDELETED(H))
+        return
+    var/mob/dead/observer/spirit = H.get_spirit()
+    if(spirit)
+        var/mob/dead/observer/ghost = spirit.ghostize()
+        qdel(spirit)
+        if(ghost?.mind)
+            ghost.mind.transfer_to(H, TRUE)
+
+    H.grab_ghost(force = TRUE)
+    if(H.stat == DEAD && hascall(H, "revive"))
+        H.revive(FALSE)
+    if(hascall(H, "apply_status_effect"))
+        H.apply_status_effect(/datum/status_effect/debuff/revived)
+
+    if(H.client)
+        to_chat(H, span_notice("Your renewed body welcomes your spirit..."))
