@@ -88,6 +88,12 @@
 	name = "sailor's pants"
 	icon_state = "sailorpants"
 
+/obj/item/clothing/under/roguetown/tights/explorerpants
+	name = "explorer's pants"
+	desc = "Practical and modest, you hope that it will survive the next cavedive."
+	icon_state = "explorerpants"
+	item_state = "explorerpants"
+
 /obj/item/clothing/under/roguetown/webs
 	name = "webbing"
 	desc = "a fine webbing made from spidersilk, popular fashion within the underdark"
@@ -274,6 +280,12 @@
 
 /obj/item/clothing/under/roguetown/skirt/brown
 	color = CLOTHING_BROWN
+
+/obj/item/clothing/under/roguetown/skirt/desert
+	name = "desert skirt"
+	desc = "At least it cools me off, but what of the modesty?"
+	icon_state = "desertskirt"
+	item_state = "desertskirt"
 
 /obj/item/clothing/under/roguetown/chainlegs
 	name = "steel chain chausses"

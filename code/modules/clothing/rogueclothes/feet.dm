@@ -215,7 +215,7 @@
 	salvage_result = /obj/item/natural/hide/cured
 	sewrepair = TRUE
 
-/obj/item/clothing/shoes/roguetown/grenzelhoft
+/obj/item/clothing/shoes/roguetown/boots/grenzelhoft
 	name = "grenzelhoft boots"
 	icon_state = "grenzelboots"
 	item_state = "grenzelboots"

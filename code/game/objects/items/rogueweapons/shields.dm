@@ -231,7 +231,6 @@
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 
-
 /obj/item/rogueweapon/shield/tower/metal/psy/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
@@ -242,6 +241,36 @@
 		added_int = 100,\
 		added_def = 1,\
 	)
+
+/obj/item/rogueweapon/shield/tower/metal/holysee
+	name = "decablessed shield"
+	desc = "Protection of the Ten upon the wielder. A final, staunch line against the darkness. For it's not what is before the shield-carrier that matters, but the home behind them."
+	icon_state = "gsshield"
+	var/swapped = FALSE
+	flags_1 = CONDUCT_1
+	sellprice = 30
+
+/obj/item/rogueweapon/shield/tower/metal/holysee/MiddleClick(mob/user, params)
+	. = ..()
+	swapped = !swapped
+	update_icon()
+
+/obj/item/rogueweapon/shield/tower/metal/holysee/update_icon()
+	. = ..()
+	if(swapped)
+		icon_state = "gsshielddark"
+	else
+		icon_state = "gsshield"
+
+
+/obj/item/rogueweapon/shield/tower/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -5,"sy" = -1,"nx" = 6,"ny" = -1,"wx" = 0,"wy" = -2,"ex" = 0,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0)
+			if("onback")
+				return list("shrink" = 0.6,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = 0,"ey" = 2,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
 /obj/item/rogueweapon/shield/tower/metal/alloy
 	name = "decrepit shield"

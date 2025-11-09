@@ -99,6 +99,11 @@
 			return
 		lensmoved = FALSE
 
+/obj/item/clothing/mask/rogue/spectacles/black
+	name = "nocshade lens-pair"
+	icon_state = "sglasses"
+	desc = "Darkened pectacles with modified lenses, so people can see your pretty eyes."
+
 /obj/item/clothing/mask/rogue/spectacles/golden
 	name = "golden spectacles"
 	icon_state = "goggles"

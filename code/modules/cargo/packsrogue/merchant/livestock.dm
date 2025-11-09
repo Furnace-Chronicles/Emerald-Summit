@@ -74,3 +74,24 @@
 	contains = list(
 					/obj/item/queen_bee,
 				)
+
+
+/datum/supply_pack/rogue/livestock/antiviral
+	name = "foulbrood tincture"
+	cost = 40
+	contains = list(
+					/obj/item/bee_treatment/antiviral,
+				)
+/datum/supply_pack/rogue/livestock/miticide
+	name = "mitebane tincture"
+	cost = 40
+	contains = list(
+					/obj/item/bee_treatment/miticide,
+				)
+/datum/supply_pack/rogue/livestock/insecticide
+	name = "mothbane tincture"
+	cost = 40
+	contains = list(
+					/obj/item/bee_treatment/insecticide,
+				)
+

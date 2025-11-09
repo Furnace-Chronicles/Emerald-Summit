@@ -61,6 +61,8 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	var/ghostize_time = 0
 	move_resist = INFINITY
 
+	flying = TRUE
+
 /mob/dead/observer/rogue
 //	see_invisible = SEE_INVISIBLE_LIVING
 	sight = 0

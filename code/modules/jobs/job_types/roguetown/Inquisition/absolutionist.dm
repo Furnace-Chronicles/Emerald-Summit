@@ -36,7 +36,8 @@
 		TRAIT_SILVER_BLESSED,
 		TRAIT_STEELHEARTED,
 		TRAIT_INQUISITION,
-		TRAIT_OUTLANDER
+		TRAIT_OUTLANDER,
+		TRAIT_RITUALIST
 	)
 
 	advclass_cat_rolls = list(CTAG_ABSOLVER = 2)
@@ -106,12 +107,13 @@
 	id = /obj/item/clothing/ring/signet/silver
 	backpack_contents = list(
 		/obj/item/book/rogue/bibble/psy = 1,
-		/obj/item/natural/bundle/cloth/roll = 2,
+		/obj/item/natural/bundle/cloth/roll = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 2,
 		/obj/item/paper/inqslip/arrival/abso = 1,
 		/obj/item/needle = 1,
 		/obj/item/natural/worms/leech/cheele = 1,
 		/obj/item/roguekey/inquisition = 1,
+		/obj/item/ritechalk = 1,
 		)
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)

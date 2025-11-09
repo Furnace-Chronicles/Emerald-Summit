@@ -610,6 +610,7 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 			return FALSE
 
 	var/is_nudist = HAS_TRAIT(H, TRAIT_NUDIST)
+	var/is_slayer = HAS_TRAIT(H, TRAIT_SLAYER)
 	var/is_inhumen = HAS_TRAIT(H, TRAIT_INHUMEN_ANATOMY)
 	var/num_arms = H.get_num_arms(FALSE)
 	var/num_legs = H.get_num_legs(FALSE)
@@ -671,6 +672,8 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 			if(H.wear_armor)
 				return FALSE
 			if(is_nudist)
+				return FALSE
+			if(is_slayer)
 				return FALSE
 			if(I.blocking_behavior & BULKYBLOCKS)
 				if(H.cloak)
@@ -737,6 +740,8 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 		if(SLOT_HEAD)
 			if(H.head)
 				return FALSE
+			if(is_slayer)
+				return FALSE
 			if(is_inhumen)
 				return FALSE
 			if(!(I.slot_flags & ITEM_SLOT_HEAD))
@@ -756,6 +761,8 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 			if(H.wear_shirt)
 				return FALSE
 			if(is_nudist)
+				return FALSE
+			if(is_slayer)
 				return FALSE
 			if(I.blocking_behavior & BULKYBLOCKS)
 				if(H.cloak)

@@ -327,6 +327,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Leather Jacket"
 	path = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor
 
+/datum/loadout_item/velvetcoat
+	name = "Velvet Coat"
+	path = /obj/item/clothing/suit/roguetown/armor/velvetcoat
+
 /datum/loadout_item/priestrobe
 	name = "Undervestments"
 	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest

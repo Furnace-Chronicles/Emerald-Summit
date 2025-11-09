@@ -110,6 +110,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
 	alternate_worn_layer  = 8.9 //On top of helmet
 	body_parts_covered = HEAD|HAIR|EARS|NECK
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH //Yeah it's redundant but guess who wrote this shit
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	sleevetype = null
 	sleeved = null
@@ -538,6 +539,19 @@
 	item_state = "flathat"
 	sewrepair = TRUE
 
+/obj/item/clothing/head/roguetown/explorerhat
+	name = "explorer's hat"
+	desc = "How many secrets can I uncover this week?"
+	icon_state = "explorerhat"
+	item_state = "explorerhat"
+	sewrepair = TRUE
+
+/obj/item/clothing/head/roguetown/deserthood
+	name = "desert hood"
+	desc = "If only it was this warm."
+	icon_state = "exotichood"
+	item_state = "exotichood"
+	sewrepair = TRUE
 
 /obj/item/clothing/head/roguetown/chaperon
 	name = "chaperon hat"
@@ -2188,6 +2202,13 @@
 	icon_state = "bucklehat"
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/hide/cured
+
+/obj/item/clothing/head/roguetown/bucklehat/monsterhunter //monster hunter variant w/ armor
+	name = "hunter's cap"
+	desc = "A plain leather hat with decorative buckle. An Otavan variant, reinforced with heavy leather."
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+	armor = ARMOR_HEAD_PSYDON
+	max_integrity = 200 
 
 /obj/item/clothing/head/roguetown/duelhat //lifeweb sprite
 	name = "duelist's hat"

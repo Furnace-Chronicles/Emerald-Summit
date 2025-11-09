@@ -34,6 +34,7 @@
 	base_intents = list(/datum/intent/bite)
 	
 	var/fly_time = 5 //5 ticks because vampire bats are agile
+	flying = TRUE
 
 	var/max_co2 = 0 //to be removed once metastation map no longer use those for Sgt Araneus
 	var/min_oxy = 0

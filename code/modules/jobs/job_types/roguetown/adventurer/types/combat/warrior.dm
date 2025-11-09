@@ -207,7 +207,7 @@
 
 /datum/advclass/sfighter/monster_hunter
 	name = "Monster Hunter"
-	tutorial = "You specialize in hunting down monsters and the undead, carrying two blades - one of silver, one of steel."
+	tutorial = "Otavan lamplighters, Tennite Saintsmen and heathens looking to make their coin hunting the most dangerous game: all make up the profession known as being a 'Monster Hunter.' Warriors who carry two blades - one of silver for monsters, and one of steel for men."
 	outfit = /datum/outfit/job/roguetown/adventurer/monster_hunter
 	traits_applied = list(TRAIT_MEDIUMARMOR)
 	subclass_social_rank = SOCIAL_RANK_YEOMAN
@@ -221,6 +221,7 @@
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
@@ -229,31 +230,69 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/butchering = SKILL_LEVEL_JOURNEYMAN, //they hunt monsters. they should be able to get their trophies (heads) reasonably easy
+		/datum/skill/magic/holy = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/roguetown/adventurer/monster_hunter/pre_equip(mob/living/carbon/human/H)
 	H.cmode_music = 'sound/music/inquisitorcombat.ogg'
-	beltr = /obj/item/rogueweapon/sword/silver
-	backr = /obj/item/rogueweapon/sword
-	backl = /obj/item/storage/backpack/rogue/satchel/black
-	wrists = /obj/item/clothing/neck/roguetown/psicross/silver
-	armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
+	if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT)) 
+		backl = /obj/item/storage/backpack/rogue/satchel/otavan
+	else
+		backl = /obj/item/storage/backpack/rogue/satchel/black
+	wrists = /obj/item/clothing/neck/roguetown/psicross/silver //there's no silver crosses of the ten so we just give everyone a psicross
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fluted/ornate //host request
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq //drippy, doesn't cover legs. Could be psydon-locked but the normal paddy gamby covers legs which is too much for an adv imo
 	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/steel
-	shoes = /obj/item/clothing/shoes/roguetown/boots
-	pants = /obj/item/clothing/under/roguetown/tights/black
-	cloak = /obj/item/clothing/cloak/cape/puritan
+	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots //not actually blacksteel 
+	pants = /obj/item/clothing/under/roguetown/splintlegs //these are worse iron chain pants that are cooler drip iirc
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
-	head = /obj/item/clothing/head/roguetown/bucklehat
 	gloves = /obj/item/clothing/gloves/roguetown/angle
-	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/rogueweapon/huntingknife = 1, /obj/item/recipe_book/survival = 1)
-	beltl = pick(/obj/item/reagent_containers/glass/bottle/alchemical/strpot,
+	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/rogueweapon/huntingknife = 1, /obj/item/recipe_book/survival = 1, pick(/obj/item/reagent_containers/glass/bottle/alchemical/strpot,
 				/obj/item/reagent_containers/glass/bottle/alchemical/conpot,
 				/obj/item/reagent_containers/glass/bottle/alchemical/endpot,
 				/obj/item/reagent_containers/glass/bottle/alchemical/spdpot,
 				/obj/item/reagent_containers/glass/bottle/alchemical/perpot,
 				/obj/item/reagent_containers/glass/bottle/alchemical/intpot,
-				/obj/item/reagent_containers/glass/bottle/alchemical/lucpot)
+				/obj/item/reagent_containers/glass/bottle/alchemical/lucpot))
+	if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT)) //psydonites get inquisition hood and tabard, everyone else gets old fit (hat has identical armor value to hood)
+		head = /obj/item/clothing/head/roguetown/roguehood/psydon
+		cloak = /obj/item/clothing/cloak/psydontabard
+	else
+		head = /obj/item/clothing/head/roguetown/bucklehat/monsterhunter
+		cloak = /obj/item/clothing/cloak/cape/puritan
+	//miracles 
+	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	C.grant_miracles(H, cleric_tier = CLERIC_T0, passive_gain = FALSE, devotion_limit = (CLERIC_REQ_1 - 20))
+	var/steel = list("Arming Sword","Short Sword", "Dagger","Longsword","Slurbow")
+	var/steel_choice = input("Choose your steel, for slaying men.", "TAKE UP ARMS") as anything in steel
+	switch(steel_choice)
+		if("Arming Sword") //flat worse than the longsword so you get a shield
+			backr = /obj/item/rogueweapon/shield/wood // wood so you can carve a psycross/astratan cross on it
+			beltl = /obj/item/rogueweapon/sword
+		if("Short Sword") //swift balance option
+			backr = /obj/item/rogueweapon/sword/short
+		if("Dagger")
+			r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
+		if("Longsword") //both options have same stats
+			if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
+				backr = /obj/item/rogueweapon/sword/long/oldpsysword //desc calls it silver but it's not actually silver. sovl
+			else
+				backr = /obj/item/rogueweapon/sword/long //there's a church longsword but it has no sprite. we should give them it when theres a sprite tho
+		if("Slurbow") //WHOA!! Don't worry, they don't start with any crossbow skill or bonus PER. The Slurbow's description implies it's a common weapon for highwaymen, so it's not impossible to see it in the hands of an adventurer.
+			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow/old //their powered-down version of the inquisition slurbow
+			beltl = /obj/item/quiver/bolts
+	var/silver = list("Arming Sword","Short Sword", "Dagger","Tossblades")
+	var/silver_choice = input("Choose your silver, for slaying monsters.", "TAKE UP ARMS") as anything in silver
+	switch(silver_choice)
+		if("Arming Sword")
+			beltr = /obj/item/rogueweapon/sword/silver
+		if("Short Sword")
+			beltr = /obj/item/rogueweapon/sword/short/psy //there's no generic short silver sword so everyone gets the psydon one. this is basically the arming sword but swift iirc
+		if("Dagger")
+			l_hand = /obj/item/rogueweapon/huntingknife/idagger/silver
+		if("Tossblades") //funny inquisition tossblades
+			belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/psydon
 
 /datum/advclass/sfighter/flagellant
 	name = "Flagellant"

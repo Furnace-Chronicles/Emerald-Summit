@@ -35,6 +35,7 @@
 
 /datum/outfit/job/roguetown/mercenary/kashira/pre_equip(mob/living/carbon/human/H)
 	..()
+	head = /obj/item/clothing/head/roguetown/mentorhat
 	armor = /obj/item/clothing/suit/roguetown/armor/basiceast/captainrobe
 	shirt = /obj/item/clothing/suit/roguetown/armor/skin_armor/easttats
 	cloak = /obj/item/clothing/cloak/eastcloak1

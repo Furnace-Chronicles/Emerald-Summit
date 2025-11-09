@@ -198,3 +198,13 @@
 	movingreload = FALSE
 	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_HIP
 
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow/old //slightly shittier slurbow for monster hunters
+	name = "old slurbow"
+	desc = "A lighter weight crossbow with a distinct barrel shroud holding the bolt in place. Light enough to arm by hand. <br>They're popular among among highwaymen and the patrolling lamplighters of Otava. <br>This one has seen better daes."
+	chargingspeed = 20
+	damfactor = 0.5
+	accfactor = 1.1
+	reloadtime = 25
+	hasloadedsprite = TRUE
+	movingreload = FALSE

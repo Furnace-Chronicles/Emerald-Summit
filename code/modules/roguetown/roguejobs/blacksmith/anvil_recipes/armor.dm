@@ -129,11 +129,11 @@
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/aalloy
 	craftdiff = 1
 
-/datum/anvil_recipe/armor/paalloy/halfplate
-	name = "Half-Plate Armour (+2 Purified Alloy, +1 Cured Leather)"
+/datum/anvil_recipe/armor/paalloy/fullplate
+	name = "Full Plate Armour (+2 Purified Alloy, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/purifiedaalloy
 	additional_items = list(/obj/item/ingot/purifiedaalloy,/obj/item/ingot/purifiedaalloy,/obj/item/natural/hide/cured)
-	created_item = /obj/item/clothing/suit/roguetown/armor/plate/paalloy
+	created_item = /obj/item/clothing/suit/roguetown/armor/plate/full/paalloy // we dont have purifiedaalloy here anymore, so i think this is fine
 	craftdiff = 3
 
 /datum/anvil_recipe/armor/aalloy/chainmail

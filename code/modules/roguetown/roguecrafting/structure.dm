@@ -864,6 +864,16 @@
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 2
 
+
+/datum/crafting_recipe/roguetown/structure/bee_smoker
+	name = "bee smoker"
+	result = /obj/item/bee_smoker
+	reqs = list(/obj/item/grown/log/tree/small = 2, /obj/item/natural/cloth = 2)
+	verbage_simple = "build"
+	verbage = "builds"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 2
+
 // Here for now until we get a new file for anything trap related.
 /datum/crafting_recipe/roguetown/structure/spike_pit
 	name = "spike pit (Dirt Floor needed)"

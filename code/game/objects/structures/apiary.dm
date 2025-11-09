@@ -29,6 +29,7 @@
 	// Seasonal variables
 	var/last_season_check = 0
 	var/seasonal_activity = 1.0 // Modifier for bee activity
+	var/visual_delay =1 //copypasted.
 
 /obj/effect/bees/update_overlays()
 	. = ..()
@@ -51,6 +52,7 @@
 
 /obj/effect/bees/process()
 	// Handle movement and merging
+	set_glide_size(MOVEMENT_ADJUSTED_GLIDE_SIZE(SSobj.wait,  MC_AVERAGE_FAST(visual_delay, max((world.time-SSobj.last_fire) / SSobj.wait, 1))))// Try to hide how fucking fake this shit is
 	if(merge_target)
 		var/turf/turf = get_step_towards2(src, merge_target)
 		Move(turf, get_dir(src, turf))
@@ -247,6 +249,52 @@
 	)
 
 
+/obj/structure/apiary/examine(mob/user)
+	. = ..()
+	//TODO: switchify all this.
+	//report disease and severity
+	if(has_disease)
+		switch(disease_type)
+			if("varroa_mites")
+				to_chat(user, span_warning("You spot tiny mites crawling on the bees!"))
+			if("foulbrood")
+				to_chat(user, span_warning("The honeycomb has a foul smell and appears discolored!"))
+			if("wax_moths")
+				to_chat(user, span_warning("You see small moths and their larvae in the hive!"))
+		switch(disease_severity)
+			if(0 to 30)
+				to_chat(user, span_notice("The infection appears to be mild."))
+			if(31 to 70)
+				to_chat(user, span_warning("The infection is moderately severe."))
+			else
+				to_chat(user, span_danger("The infection is very severe! The colony may collapse soon!"))
+	else
+		to_chat(user, span_notice("The bees appear to be healthy."))
+
+
+	// Report on bee count
+	var/bee_total = bee_count +outside_bees
+	switch(bee_total)
+		if(0)
+			to_chat(user, span_warning("The hive is empty!"))
+		if(1 to 5)
+			to_chat(user, span_warning("The colony is very small."))
+		if(6 to 15)
+			to_chat(user, span_notice("The colony is moderate in size."))
+		else
+			to_chat(user, span_notice("The colony is thriving with many bees!"))
+	//TODO: report on COMB count
+	//TODO: report on queen health.
+	//report on pollen
+	if(pollen)
+		to_chat(user, span_notice("There is pollen in the hive."))
+	if(comb_progress)
+		to_chat(user,span_notice("The bees are working on filling combs."))
+	if(stored_combs)
+		to_chat(user, span_notice("The bees have stored [stored_combs] harvestable honeycombs."))
+	if(swarm_progress)
+		to_chat(user, span_notice("The bees are swarming!"))
+	//TODO: Report swarm progress.
 
 /obj/structure/apiary/Initialize()
 	. = ..()
@@ -298,7 +346,7 @@
 		process_swarm()
 
 /obj/structure/apiary/attack_hand(mob/user)
-	if(queen_bee && user.a_intent == INTENT_HELP && is_wearing_bee_protection(user))
+	if(queen_bee && user.a_intent == INTENT_HELP && is_wearing_bee_protection(user)) //TODO: Remove bee protect check, just turn the bees into attacks
 		user.visible_message("[user] carefully reaches into [src].", "You carefully extract the queen bee from [src].")
 
 		if(!do_after(user, 5 SECONDS, src))
@@ -625,8 +673,9 @@
 
 /obj/structure/apiary/proc/create_new_queen()
 	queen_maturity = 0
-	pollen -= 50
-	stored_combs -= 2
+	
+	pollen = min(0, pollen-50)
+	stored_combs = min(0, stored_combs-50)
 	update_icon_state()
 
 	var/obj/item/queen_bee/new_queen = new(get_turf(src))
@@ -780,6 +829,7 @@
 
 /obj/item/magnifying_glass/afterattack(atom/target, mob/user, proximity)
 	. = ..()
+	//TODO: make this read out bee genes instead.
 	if(!proximity)
 		return
 
@@ -867,19 +917,19 @@
 
 // Specific disease treatments
 /obj/item/bee_treatment/antiviral
-	name = "bee antiviral"
+	name = "foulbrood tincture"
 	desc = "A treatment for viral bee diseases like foulbrood."
 	treatment_type = "foulbrood"
 	treatment_strength = 40
 
 /obj/item/bee_treatment/miticide
-	name = "bee miticide"
+	name = "mitebane tincture"
 	desc = "A treatment for varroa mites that infest bee colonies."
 	treatment_type = "varroa_mites"
 	treatment_strength = 40
 
 /obj/item/bee_treatment/insecticide
-	name = "targeted insecticide"
+	name = "mothbane tincture"
 	desc = "A treatment for wax moths and other hive pests."
 	treatment_type = "wax_moths"
 	treatment_strength = 40

@@ -76,25 +76,25 @@
 /datum/alch_cauldron_recipe/per_potion
 	name = "Potion of Keen Eye"
 	smells_like = "fire"
-	skill_required = SKILL_LEVEL_EXPERT
+	skill_required = SKILL_LEVEL_APPRENTICE
 	output_reagents = list(/datum/reagent/buff/perception = 27)
 
 /datum/alch_cauldron_recipe/end_potion
 	name = "Potion of Enduring Fortitude"
 	smells_like = "mountain air"
-	skill_required = SKILL_LEVEL_EXPERT
+	skill_required = SKILL_LEVEL_APPRENTICE
 	output_reagents = list(/datum/reagent/buff/endurance = 27)
 
 /datum/alch_cauldron_recipe/con_potion
 	name = "Potion of Stone Flesh"
 	smells_like = "earth"
-	skill_required = SKILL_LEVEL_EXPERT
+	skill_required = SKILL_LEVEL_APPRENTICE
 	output_reagents = list(/datum/reagent/buff/constitution = 27)
 
 /datum/alch_cauldron_recipe/int_potion
 	name = "Potion of Keen Mind"
 	smells_like = "water"
-	skill_required = SKILL_LEVEL_EXPERT
+	skill_required = SKILL_LEVEL_APPRENTICE
 	output_reagents = list(/datum/reagent/buff/intelligence = 27)
 
 /datum/alch_cauldron_recipe/spd_potion
@@ -106,7 +106,7 @@
 /datum/alch_cauldron_recipe/lck_potion
 	name = "Potion of Seven Clovers"
 	smells_like = "calming"
-	skill_required = SKILL_LEVEL_EXPERT
+	skill_required = SKILL_LEVEL_APPRENTICE
 	output_reagents = list(/datum/reagent/buff/fortune = 27)
 
 /datum/alch_cauldron_recipe/aphrodisiac
