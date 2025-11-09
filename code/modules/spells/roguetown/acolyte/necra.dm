@@ -377,10 +377,10 @@
     else
         to_chat(user, "<span style='color:#aaaaaa'><i>No spirit answers your call.</i></span>")
 
-// BODY INTO COIN
+// FIELD BURIALS
 
 /obj/effect/proc_holder/spell/invoked/fieldburials
-	name = "Collect Coins"
+	name = "Field burials"
 	overlay_state = "consecrateburial"
 	antimagic_allowed = TRUE
 	devotion_cost = 10
@@ -388,33 +388,38 @@
 	invocation_type = "whisper"
 
 /obj/effect/proc_holder/spell/invoked/fieldburials/cast(list/targets, mob/living/user)
-    . = ..()
+	. = ..()
+	if(!targets || !length(targets) || !isliving(targets[1]))
+		revert_cast()
+		return FALSE
 
-    if(!isliving(targets[1]))
-        revert_cast()
-        return FALSE
+	var/mob/living/target = targets[1]
 
-    var/mob/living/target = targets[1]
-    if(target.stat < DEAD)
-        to_chat(user, span_warning("They're still alive!"))
-        revert_cast()
-        return FALSE
+	if(istype(target, /mob/living/carbon/human))
+		if(target.client || target.mind)
+			to_chat(user, span_warning("The rite refuses a soulbearing body."))
+			revert_cast()
+			return FALSE
 
-    if(world.time <= target.mob_timers["lastdied"] + 15 MINUTES)
-        to_chat(user, span_warning("The body is too fresh for the rite."))
-        revert_cast()
-        return FALSE
+	if(target.stat < DEAD)
+		to_chat(user, span_warning("They're still alive!"))
+		revert_cast()
+		return FALSE
 
-    var/obj/item/roguecoin/silver/C = new(get_turf(target))
-    C.pixel_x = rand(-6, 6)
-    C.pixel_y = rand(-6, 6)
+	if(world.time <= ((target.mob_timers?["lastdied"]) || 0) + 15 MINUTES)
+		to_chat(user, span_warning("The body is too fresh for the rite."))
+		revert_cast()
+		return FALSE
 
-    to_chat(user, span_notice("You gather coins from [target.real_name]'s remains."))
-    to_chat(target, span_danger("Your worldly wealth slips away with the rite..."))
+	var/turf/T = get_turf(target)
+	if(T)
+		var/obj/item/roguecoin/silver/C = new(T)
+		C.pixel_x = rand(-6, 6)
+		C.pixel_y = rand(-6, 6)
 
-    qdel(target)
-
-    return TRUE
+	to_chat(user, span_notice("You gather coins from [target.real_name]'s remains."))
+	qdel(target)
+	return TRUE
 
 /*
 	SOUL SPEAK OLD LEGACY
