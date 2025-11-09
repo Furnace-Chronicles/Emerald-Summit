@@ -794,6 +794,7 @@
 	grid_width = 64
 	experimental_onhip = TRUE
 	experimental_inhand = TRUE
+	var/gets_bellrung = FALSE
 
 /obj/item/clothing/head/roguetown/helmet/MiddleClick(mob/user)
 	if(!ishuman(user))
@@ -820,6 +821,7 @@
 	smeltresult = /obj/item/ingot/copper
 	armor = ARMOR_HEAD_HELMET_BAD
 	max_integrity = 150
+	gets_bellrung = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/skullcap
 	name = "skull cap"
@@ -827,6 +829,7 @@
 	icon_state = "skullcap"
 	body_parts_covered = HEAD|HAIR
 	smeltresult = /obj/item/ingot/iron
+	gets_bellrung = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/horned
 	name = "horned cap"
@@ -835,6 +838,7 @@
 	max_integrity = 225
 	body_parts_covered = HEAD|HAIR
 	smeltresult = /obj/item/ingot/iron
+	gets_bellrung = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/winged
 	name = "winged cap"
@@ -846,6 +850,7 @@
 	worn_x_dimension = 64
 	worn_y_dimension = 64
 	body_parts_covered = HEAD|HAIR
+	gets_bellrung = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/kettle
 	name = "kettle helmet"
@@ -854,6 +859,7 @@
 	max_integrity = 215
 	body_parts_covered = HEAD|HAIR|EARS
 	armor = ARMOR_HEAD_HELMET
+	gets_bellrung = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/kettle/wide
 	name = "wide kettle helmet"
@@ -889,6 +895,7 @@
 	max_integrity = 215
 	smeltresult = /obj/item/ingot/steel
 	body_parts_covered = HEAD|HAIR|EARS
+	gets_bellrung = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/sallet/beastskull
 	name = "beast skull"
@@ -1035,6 +1042,7 @@
 	block2add = FOV_BEHIND
 	smeltresult = /obj/item/ingot/steel
 	max_integrity = 350
+	gets_bellrung = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
 	name = "decrepit barbute"
@@ -1615,6 +1623,7 @@
 	block2add = FOV_BEHIND
 	max_integrity = 250
 	smeltresult = /obj/item/ingot/steel
+	gets_bellrung = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface
 	name = "pigface bascinet"
@@ -1630,6 +1639,7 @@
 	block2add = FOV_BEHIND
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
+	gets_bellrung = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
@@ -2072,6 +2082,9 @@
 
 //----------------- BLACKSTEEL ---------------------
 
+/obj/item/clothing/head/roguetown/helmet/blacksteel
+	gets_bellrung = TRUE
+
 /obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet
 	name = "blacksteel armet"
 	desc = "An armet forged of durable blacksteel, utilizing a modern design."
@@ -2272,6 +2285,7 @@
 	blocksound = SOFTHIT
 	experimental_inhand = FALSE
 	experimental_onhip = FALSE
+	gets_bellrung = TRUE
 
 
 /obj/item/clothing/head/roguetown/helmet/elvenbarbute
@@ -2288,6 +2302,7 @@
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	clothing_flags = 0
 	block2add = FOV_BEHIND
+	gets_bellrung = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged
 	name = "winged elven barbute"

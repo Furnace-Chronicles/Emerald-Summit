@@ -39,12 +39,21 @@
 				if(blade_dulling in list(BCLASS_BLUNT, BCLASS_SMASH) && d_type == "blunt")
 					var/blunt_modifier = 0
 					switch(C.armor_class)
+						if(ARMOR_CLASS_NONE)
+							var/ishelmet = (istype(C, /obj/item/clothing/head/roguetown/helmet))
+							if(ishelmet)
+								if(C:gets_bellrung)
+									blunt_modifier = 50
+								else if(istype(C, /obj/item/clothing/head/roguetown/helmet/leather))
+									blunt_modifier = -25
+								else
+									blunt_modifier = 20
 						if(ARMOR_CLASS_LIGHT)
 							blunt_modifier = -25  // Penalty against light armor
 						if(ARMOR_CLASS_MEDIUM)
-							blunt_modifier = 0    // Neutral against medium
+							blunt_modifier = 20    // Stable bonus against medium armor
 						if(ARMOR_CLASS_HEAVY)
-							blunt_modifier = 50   // Bonus against heavy armor
+							blunt_modifier = 35   // Bonus against heavy armor
 					// Effective penetration for this armor
 					var/effective_pen = armor_penetration + blunt_modifier
 					// Reduce armor value by how much penetration we have
@@ -103,8 +112,17 @@
 					// Apply blunt weapon modifiers based on armor class
 					if(d_type == "blunt")
 						var/blunt_modifier = 0
-						var/ishelmet = (istype(used, /obj/item/clothing/head/roguetown/helmet) && used.armor_class == ARMOR_CLASS_NONE)
+						
 						switch(C.armor_class)
+							if(ARMOR_CLASS_NONE)
+								var/ishelmet = (istype(used, /obj/item/clothing/head/roguetown/helmet))
+								if(ishelmet)
+									if(used:gets_bellrung)
+										blunt_modifier = 50
+									else if(istype(C, /obj/item/clothing/head/roguetown/helmet/leather))
+										blunt_modifier = -25
+									else
+										blunt_modifier = 20
 							if(ARMOR_CLASS_LIGHT)
 								blunt_modifier = -25
 							if(ARMOR_CLASS_MEDIUM)
@@ -112,11 +130,6 @@
 							if(ARMOR_CLASS_HEAVY)
 								blunt_modifier = 35
 
-						if(ishelmet)
-							if(istype(used, /obj/item/clothing/head/roguetown/helmet/bascinet) || istype(used, /obj/item/clothing/head/roguetown/helmet/heavy) || istype(used, /obj/item/clothing/head/roguetown/helmet/sallet) || istype(used, /obj/item/clothing/head/roguetown/helmet/kettle) || istype(used, /obj/item/clothing/head/roguetown/helmet/skullcap) || istype(used, /obj/item/clothing/head/roguetown/helmet/coppercap) || istype(used, /obj/item/clothing/head/roguetown/helmet/horned) || istype(used, /obj/item/clothing/head/roguetown/helmet/winged) || istype(used, /obj/item/clothing/head/roguetown/helmet/elvenbarbute) || istype(used, /obj/item/clothing/head/roguetown/helmet/blacksteel)) // I hate this, PLEASE clean up your typetree or assign these a fucking armor class bros
-								blunt_modifier = 50
-							else if(!istype(used, /obj/item/clothing/head/roguetown/helmet/leather) && !istype(used, /obj/item/clothing/head/roguetown/helmet/bandana))
-								blunt_modifier = 20
 						var/modified_pen = armor_penetration + blunt_modifier
 						effective_armor = max(effective_armor - modified_pen, 0)
 					else
@@ -155,6 +168,7 @@
 				if(BCLASS_BLUNT, BCLASS_SMASH)
 					// Blunt damage: lowest vs light, highest vs heavy
 					switch(armor_piece.armor_class)
+						if(ARMOR_CLASS_NONE)
 						if(ARMOR_CLASS_LIGHT)
 							degradation_mult = ARMOR_DEGR_BLUNT_LIGHT
 						if(ARMOR_CLASS_MEDIUM)
@@ -164,6 +178,7 @@
 				if(BCLASS_CUT, BCLASS_CHOP)
 					// Cutting damage: more vs light, lowest vs heavy
 					switch(armor_piece.armor_class)
+						if(ARMOR_CLASS_NONE)
 						if(ARMOR_CLASS_LIGHT)
 							degradation_mult = ARMOR_DEGR_CUT_LIGHT
 						if(ARMOR_CLASS_MEDIUM)
@@ -172,6 +187,7 @@
 							degradation_mult = ARMOR_DEGR_CUT_HEAVY
 				if(BCLASS_STAB, BCLASS_PICK, BCLASS_PIERCE)
 					switch(armor_piece.armor_class)
+						if(ARMOR_CLASS_NONE)
 						if(ARMOR_CLASS_LIGHT)
 							degradation_mult = ARMOR_DEGR_PIERCE_LIGHT
 						if(ARMOR_CLASS_MEDIUM)

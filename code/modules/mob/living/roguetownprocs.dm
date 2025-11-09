@@ -622,13 +622,16 @@
 	var/obj/item/I
 	var/drained = 10
 	var/drained_npc = 5
+	var/chest_armored = FALSE
+	var/legs_armored = FALSE
+	var/armor_class = null
 	if(ishuman(src))
 		H = src
 		// Adjust dodge stamina based on armor weight
-		var/chest_armored = H.wear_armor && istype(H.wear_armor, /obj/item/clothing) 
-		var/legs_armored = H.wear_pants && istype(H.wear_pants, /obj/item/clothing)
+		chest_armored = H.wear_armor && istype(H.wear_armor, /obj/item/clothing) 
+		legs_armored = H.wear_pants && istype(H.wear_pants, /obj/item/clothing)
 		if(chest_armored || legs_armored)
-			var/armor_class = highest_ac_worn()
+			armor_class = highest_ac_worn()
 			switch(armor_class)
 				if(ARMOR_CLASS_LIGHT)
 					drained *= 0.65  // 35% less stamina cost for light armor
@@ -1048,8 +1051,10 @@
 		emote("strain", forced = TRUE)
 	remove_status_effect(/datum/status_effect/buff/clash)
 
+/mob/proc/highest_ac_worn()
+	return // Stub
 
-/mob/living/carbon/human/proc/highest_ac_worn()
+/mob/living/carbon/human/highest_ac_worn()
 	var/list/slots = list(wear_armor, wear_pants, wear_wrists, wear_shirt, gloves, head, shoes, wear_neck, wear_mask, wear_ring)
 	for(var/slot in slots)
 		if(isnull(slot) || !istype(slot, /obj/item/clothing))
