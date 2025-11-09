@@ -626,8 +626,8 @@
 		H = src
 		// Adjust dodge stamina based on armor weight
 		if(H.wear_armor && istype(H.wear_armor, /obj/item/clothing))
-			var/obj/item/clothing/armor = H.wear_armor
-			switch(armor.armor_class)
+			var/armor_class = highest_ac_worn()
+			switch(armor_class)
 				if(ARMOR_CLASS_LIGHT)
 					drained *= 0.65  // 35% less stamina cost for light armor
 				if(ARMOR_CLASS_HEAVY)
