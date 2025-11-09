@@ -215,7 +215,8 @@
 	var/old_volume = blood_volume
 	blood_volume = max(blood_volume - amt, 0)
 	if (old_volume > 0 && !blood_volume) // it looks like we've just bled out. bummer.
-		to_chat(src, span_userdanger("The last of your lyfeblood ebbs from your ravaged body and soaks the cold earth below..."))
+		to_chat(src, span_userdanger("The last of your lyfeblood ebbs from your ravaged body and soaks the cold earth below... Woe, you are perished!"))
+		death(src)
 
 	GLOB.scarlet_round_stats[STATS_BLOOD_SPILT] += amt
 	if(isturf(src.loc)) //Blood loss still happens in locker, floor stays clean
