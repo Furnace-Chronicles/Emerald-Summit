@@ -189,6 +189,7 @@
 						list(/datum/skill/craft/weaponsmithing, 2, 2),
 						list(/datum/skill/craft/armorsmithing, 2, 2),
 						list(/datum/skill/craft/blacksmithing, 2, 2),
+						list(/datum/skill/craft/engineering, 2, 2),
 						list(/datum/skill/craft/smelting, 2, 2)
 	)
 
