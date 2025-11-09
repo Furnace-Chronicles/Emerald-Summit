@@ -625,7 +625,7 @@
 	if(ishuman(src))
 		H = src
 		// Adjust dodge stamina based on armor weight
-		if(H.wear_armor && istype(H.wear_armor, /obj/item/clothing))
+		if(H.wear_armor && istype(H.wear_armor, /obj/item/clothing) || H.wear_pants && istype(H.wear_pants, /obj/item/clothing))
 			var/armor_class = highest_ac_worn()
 			switch(armor_class)
 				if(ARMOR_CLASS_LIGHT)
