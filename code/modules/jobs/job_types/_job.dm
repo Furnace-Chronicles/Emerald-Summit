@@ -200,6 +200,7 @@
 		for(var/S in spells)
 			H.mind.AddSpell(new S)
 
+
 	if(length(job_stats))
 		for(var/stat in job_stats)
 			H.change_stat(stat, job_stats[stat])
@@ -246,17 +247,13 @@
 			var/mob/living/carbon/human/Hu = H
 			GLOB.actors_list[H.mobid] = "[H.real_name] as the [Hu.dna.species.name] [H.mind.assigned_role]<BR>"
 	if (!hidden_job)
-		var/mob/living/carbon/human/Hu = H 
-		if (istype(H, /mob/living/carbon/human))
-			if (obsfuscated_job)
-				GLOB.actors_list[H.mobid] = "[H.real_name] as the [Hu.dna.species.name] Adventurer<BR>"
-			else
-				GLOB.actors_list[H.mobid] = "[H.real_name] as the [Hu.dna.species.name] [H.mind.assigned_role]<BR>"
+		var/mob_name = H.real_name
+		var/mob_rank
+		if (obsfuscated_job)
+			mob_rank = "Adventurer"
 		else
-			if (obsfuscated_job)
-				GLOB.actors_list[H.mobid] = "[H.real_name] as Adventurer<BR>"
-			else
-				GLOB.actors_list[H.mobid] = "[H.real_name] as [H.mind.assigned_role]<BR>"
+			mob_rank = H.mind.assigned_role
+		GLOB.actors_list[H.mobid] = list("name" = mob_name, "rank" = mob_rank)
 
 	if(islist(advclass_cat_rolls))
 		hugboxify_for_class_selection(H)
