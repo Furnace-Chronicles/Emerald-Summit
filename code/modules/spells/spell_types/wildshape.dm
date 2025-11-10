@@ -60,7 +60,7 @@
 
 /mob/living/carbon/human/species/wildshape/proc/gain_inherent_skills()
 	if(src.mind)
-		src.adjust_skillrank(/datum/skill/magic/holy, 3, TRUE)
+		src.adjust_skillrank(/datum/skill/magic/holy, 4, TRUE)
 		var/datum/devotion/D = src.devotion
 		if(!D)
 			D = new /datum/devotion(src, src.patron)
