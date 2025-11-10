@@ -8,7 +8,7 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 										BODY_ZONE_PRECISE_NECK = 15, 
 										BODY_ZONE_PRECISE_L_EYE = 20, 
 										BODY_ZONE_PRECISE_R_EYE = 20, 
-										BODY_ZONE_PRECISE_GROIN = 5))
+										BODY_ZONE_PRECISE_GROIN = 10))
 
 /datum/species
 	var/id	// if the game needs to manually check my race to do something not included in a proc here, it will use this
