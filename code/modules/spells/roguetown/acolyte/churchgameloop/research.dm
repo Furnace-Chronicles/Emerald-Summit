@@ -20,7 +20,7 @@
 #define CLERIC_PRICE_DIVINE 3
 #endif
 #ifndef CLERIC_PRICE_SHUNNED
-#define CLERIC_PRICE_SHUNNED 3
+#define CLERIC_PRICE_SHUNNED 5 // We'll try this out, they're not really being abused but it's hard to watch everyone.
 #endif
 
 #ifndef MIRACLE_MP_PRICE_FLAVOR
@@ -197,59 +197,46 @@ var/global/list/PATRON_ARTIFACTS = list(
 	name = "Miracles"
 	desc = "Open miracle actions."
 	overlay_state = "startmiracle"
-
 	var/current_org_tab = "none"
 	var/current_miracle_tab = "none"
 	var/current_art_tab = "none"
 
 /obj/effect/proc_holder/spell/self/learnmiracle/proc/do_learn_miracle(mob/user)
 	if(!user || !user.mind) return
-
 	var/mob/living/carbon/human/H = istype(user, /mob/living/carbon/human) ? user : null
 	if(!H) return
-
 	if(!HAS_TRAIT(user, TRAIT_CLERGY))
 		to_chat(user, span_warning("Only clergy may contemplate new miracles."))
 		return
-
 	var/datum/devotion/D = H.devotion
 	if(!D || !D.patron)
 		to_chat(user, span_warning("Your faith has no patron."))
 		return
-
 	if(!miracle_caches_built)
 		build_miracle_caches()
-
-	var/skill_level = H.get_skill_level(/datum/skill/magic/holy)
-	var/max_tier = clamp(skill_level - 1, 0, 4)
-
+	
 	var/tier = 0
 	if(("clergy_learn_tier" in D.vars) && isnum(D.vars["clergy_learn_tier"]))
 		tier = max(tier, D.vars["clergy_learn_tier"])
-
 	if(H.unlocked_research_ten)
 		tier = max(tier, 1)
 	if(H.unlocked_research_shunned)
 		tier = max(tier, 2)
-
+	
 	var/list/spell_types = list()
-
 	if(length(D.patron.miracles))
 		for(var/st in D.patron.miracles)
 			spell_types[st] = TRUE
-
 	if(H.unlocked_research_unity)
 		for(var/st in unity_miracles_list)
 			spell_types[st] = TRUE
-
 	if(tier >= 1)
 		for(var/st in divine_miracles_cache)
 			spell_types[st] = TRUE
-
 	if(tier >= 2)
 		for(var/st in inhumen_miracles_cache)
 			spell_types[st] = TRUE
-
+	
 	var/list/choices = list()
 	for(var/st in spell_types)
 		var/already = FALSE
@@ -258,47 +245,47 @@ var/global/list/PATRON_ARTIFACTS = list(
 				already = TRUE
 				break
 		if(already) continue
-
+		
 		var/obj/effect/proc_holder/spell/S = new st
-
 		var/own      = is_patron_spell(D, S)
 		var/divine   = is_divine_spell(S)
 		var/inhumen  = is_inhumen_spell(S)
 		var/is_unity = (unity_miracles_list && unity_miracles_list.Find(st))
-
+		
 		// Get the miracle's tier from the appropriate miracle list
 		var/miracle_tier = null
-		if(is_unity)
-			// Unity miracles have no tier restrictions
-			miracle_tier = null
-		else if(own && D.patron.miracles)
-			miracle_tier = D.patron.miracles[st]
-		else if(divine || inhumen)
-			// For non-patron miracles, search through all divine and inhumen patrons to find the tier
-			var/list/patron_roots = list()
-			if(divine)
-				patron_roots += typesof(/datum/patron/divine)
-			if(inhumen)
-				patron_roots += typesof(/datum/patron/inhumen)
-
-			for(var/patron_type in patron_roots)
-				if(patron_type == /datum/patron/divine || patron_type == /datum/patron/inhumen)
-					continue  // Skip the base types
-				var/datum/patron/patron_instance = new patron_type()
-				if(patron_instance.miracles && (st in patron_instance.miracles))
-					miracle_tier = patron_instance.miracles[st]
-					qdel(patron_instance)
-					break
-				qdel(patron_instance)
-
-		// Check if player's skill level allows this miracle tier
-		if(miracle_tier != null && miracle_tier > max_tier)
+		if(!is_unity)  // Unity miracles have no tier restrictions, once we add them again. This may be revisited
+			if(own && D.patron.miracles)
+				miracle_tier = D.patron.miracles[st]
+			else if(divine || inhumen)
+				// Search through patron definitions to find the tier
+				// This code fucking sucks. I fucking hate my life
+				// I wish the divine miracles list was a global list
+				if(divine)
+					for(var/patron_type in subtypesof(/datum/patron/divine))
+						var/datum/patron/patron_instance = new patron_type()
+						if(patron_instance.miracles && (st in patron_instance.miracles))
+							miracle_tier = patron_instance.miracles[st]
+							qdel(patron_instance)
+							break
+						qdel(patron_instance)
+				
+				if(miracle_tier == null && inhumen)
+					for(var/patron_type in subtypesof(/datum/patron/inhumen))
+						var/datum/patron/patron_instance = new patron_type()
+						if(patron_instance.miracles && (st in patron_instance.miracles))
+							miracle_tier = patron_instance.miracles[st]
+							qdel(patron_instance)
+							break
+						qdel(patron_instance)
+		
+		// Check if devotion level allows this miracle tier
+		if(miracle_tier != null && D.level != null && miracle_tier > D.level)
 			qdel(S)
 			continue
-
+		
 		var/allow = FALSE
 		var/cost = 0
-
 		if(is_unity && H.unlocked_research_unity)
 			allow = TRUE
 			cost = CLERIC_PRICE_DIVINE
@@ -308,56 +295,65 @@ var/global/list/PATRON_ARTIFACTS = list(
 					if(own) { allow = TRUE; cost = CLERIC_PRICE_PATRON }
 				if(1)
 					if(own)        { allow = TRUE; cost = CLERIC_PRICE_PATRON }
-					else if(divine){ allow = TRUE; cost = CLERIC_PRICE_DIVINE }
+					else if(divine)
+						allow = TRUE
+						cost = CLERIC_PRICE_DIVINE
+						if(miracle_tier)
+							cost *= miracle_tier
 				if(2)
 					if(own)         { allow = TRUE; cost = CLERIC_PRICE_PATRON }
-					else if(divine) { allow = TRUE; cost = CLERIC_PRICE_DIVINE }
-					else if(inhumen){ allow = TRUE; cost = CLERIC_PRICE_SHUNNED }
-
+					else if(divine)
+						allow = TRUE
+						cost = CLERIC_PRICE_DIVINE
+						if(miracle_tier)
+							cost *= miracle_tier
+					else if(inhumen)
+						allow = TRUE
+						cost = CLERIC_PRICE_SHUNNED
+						if(miracle_tier)
+							cost *= miracle_tier
+		
 		if(!allow)
 			qdel(S)
 			continue
-
+		
 		choices["[S.name] ([cost])"] = list(
 			"type" = st,
 			"cost" = cost,
 			"desc" = S.desc,
 			"name" = S.name
 		)
-
 		qdel(S)
-
+	
 	if(!choices.len)
 		to_chat(user, span_warning("No miracles available to learn right now."))
 		return
-
+	
 	var/left = max(0, H.miracle_points)
 	var/pick = input(user, "Choose a miracle to learn. Miracle points left: [left]", "Learn a Miracle") as null|anything in choices
 	if(!pick) return
-
+	
 	var/sel = choices[pick]
 	var/typepath  = sel["type"]
 	var/calc_cost = sel["cost"]
 	var/sname     = sel["name"]
 	var/sdesc     = sel["desc"]
-
+	
 	if(calc_cost > H.miracle_points)
 		to_chat(user, span_warning("Not enough miracle points."))
 		return
-
+	
 	if(alert(user, "[sdesc]", "[sname]", "Learn", "Cancel") == "Cancel")
 		return
-
+	
 	for(var/obj/effect/proc_holder/spell/K2 in user.mind.spell_list)
 		if(K2.type == typepath)
 			to_chat(user, span_warning("You already know this one!"))
 			return
-
+	
 	H.miracle_points = max(0, H.miracle_points - calc_cost)
-
 	var/obj/effect/proc_holder/spell/new_spell = new typepath
 	user.mind.AddSpell(new_spell)
-
 	to_chat(user, span_notice("You have learned [new_spell.name]."))
 	return
 
