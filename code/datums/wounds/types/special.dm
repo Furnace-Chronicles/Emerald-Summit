@@ -442,8 +442,18 @@
 		attack_damage = damage
 		organ_damage = clamp(damage * (rand(10, 20)/10), 40, 100) // (rand(10, 20)/10) is a little trick to get a random 2-digit float between 1.0 and 2.0
 
-/datum/wound/lethal/on_mob_gain(mob/living/affected)
+/datum/wound/lethal/heal_wound(heal_amount)
 	. = ..()
+	if(iscarbon(owner) && organ_damage > 0)
+		var/mob/living/carbon/C = owner
+		var/obj/item/bodypart/BP = bodypart_owner
+		if(BP)
+			var/list/organs = C.getorganszone(BP.body_zone)
+			if(length(organs))
+				for(var/obj/item/organ/O in organs)
+					if(O && O.damage > 0)
+						O.setOrganDamage(0)
+						organ_damage = 0
 
 /datum/wound/lethal/brain_penetration
 	name = "brain penetration"
@@ -473,9 +483,6 @@
 	affected.Unconscious(30 SECONDS)
 	affected.Stun(30)
 	to_chat(affected, span_userdanger("[pick(penetration_messages)]"))
-
-/datum/wound/lethal/brain_penetration/on_mob_loss(mob/living/affected)
-	. = ..()
 
 /datum/wound/lethal/heart_penetration
 	name = "heart penetration"

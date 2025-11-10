@@ -437,7 +437,6 @@
 					most_damaged_limb.heal_damage(healing * 2, healing * 2, healing * 2)
 					H.update_damage_overlays()
 					to_chat(H, span_notice("The miracle mends my [most_damaged_limb.name]!"))
-
 			else
 				message_out = span_warning("The wounds tear and rip around the embedded objects!")
 				message_self = span_warning("Agonising pain shoots through your body as magycks try to sew around the embedded objects!")
@@ -771,20 +770,8 @@
 			to_chat(user, span_warning("We were interrupted!"))
 			return FALSE
 		var/foundwound = FALSE
-
-		var/list/internal_organs = target.getorganszone(def_zone)
-		var/list/internal_wounds
-		if(length(internal_organs))
-			for(var/obj/item/bodypart/organ in internal_organs)
-				if(length(organ.wounds))
-					if(!internal_wounds)
-						internal_wounds = list()
-					internal_wounds += organ.wounds
-
-		var/list/all_wounds = affecting.wounds + internal_wounds
-
-		if(length(all_wounds))
-			for(var/datum/wound/wound in all_wounds)
+		if(length(affecting.wounds))
+			for(var/datum/wound/wound in affecting.wounds)
 				if(!isnull(wound) && wound.healable_by_miracles)
 					wound.heal_wound(wound.whp)
 					foundwound = TRUE
