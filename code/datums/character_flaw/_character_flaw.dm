@@ -517,6 +517,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	var/mob/living/carbon/human/H = user
 	H.mob_biotypes |= MOB_UNDEAD
 	ADD_TRAIT(user, TRAIT_HOLLOW_LIFE, TRAIT_GENERIC)
+	ADD_TRAIT(user, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
 
 /datum/charflaw/foreigner
 	name = "Foreigner"

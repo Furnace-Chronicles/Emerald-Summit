@@ -439,20 +439,6 @@
 		else if(new_turf && !old_turf)
 			SSspatial_grid.enter_cell(src, new_turf)
 
-	if(HAS_SPATIAL_GRID_CONTENTS(src))
-		if(old_turf && new_turf && (old_turf.z != new_turf.z \
-			|| GET_SPATIAL_INDEX(old_turf.x) != GET_SPATIAL_INDEX(new_turf.x) \
-			|| GET_SPATIAL_INDEX(old_turf.y) != GET_SPATIAL_INDEX(new_turf.y)))
-
-			SSspatial_grid.exit_cell(src, old_turf)
-			SSspatial_grid.enter_cell(src, new_turf)
-
-		else if(old_turf && !new_turf)
-			SSspatial_grid.exit_cell(src, old_turf)
-
-		else if(new_turf && !old_turf)
-			SSspatial_grid.enter_cell(src, new_turf)
-
 	return TRUE
 
 /atom/movable/Destroy(force)
