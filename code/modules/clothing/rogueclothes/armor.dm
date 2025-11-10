@@ -585,7 +585,7 @@
 	prevent_crits = list(BCLASS_STAB, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_PICK, BCLASS_TWIST)
 	max_integrity = 300
 	sellprice = 100
-	effective_armor_class = ARMOR_CLASS_LIGHT
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 
 /obj/item/clothing/suit/roguetown/armor/leather/bikini
 	name = "leather corslet"

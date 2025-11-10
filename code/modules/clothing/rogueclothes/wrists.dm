@@ -50,7 +50,6 @@
 	item_state = "bracers" // Lacks their own iron bracers sprite
 	max_integrity = 260
 	armor = ARMOR_BOOTS_PLATED_IRON
-	integ_armor_mod = ARMOR_CLASS_HEAVY
 	smeltresult = /obj/item/ingot/iron
 
 /obj/item/clothing/wrists/roguetown/bracers/psythorns
@@ -60,7 +59,6 @@
 	icon_state = "psybarbs"
 	item_state = "psybarbs"
 	armor = ARMOR_PLATE_BSTEEL
-	integ_armor_mod = ARMOR_CLASS_HEAVY
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PICK)
 	blocksound = PLATEHIT
 	resistance_flags = FIRE_PROOF

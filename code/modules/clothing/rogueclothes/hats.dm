@@ -1043,7 +1043,6 @@
 	block2add = FOV_BEHIND
 	smeltresult = /obj/item/ingot/steel
 	max_integrity = 350
-	gets_bellrung = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
 	name = "decrepit barbute"
@@ -1624,7 +1623,6 @@
 	block2add = FOV_BEHIND
 	max_integrity = 250
 	smeltresult = /obj/item/ingot/steel
-	gets_bellrung = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface
 	name = "pigface bascinet"
@@ -1640,7 +1638,6 @@
 	block2add = FOV_BEHIND
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
-	gets_bellrung = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
@@ -2085,9 +2082,6 @@
 
 //----------------- BLACKSTEEL ---------------------
 
-/obj/item/clothing/head/roguetown/helmet/blacksteel
-	gets_bellrung = TRUE
-
 /obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet
 	name = "blacksteel armet"
 	desc = "An armet forged of durable blacksteel, utilizing a modern design."
@@ -2288,14 +2282,13 @@
 	blocksound = SOFTHIT
 	experimental_inhand = FALSE
 	experimental_onhip = FALSE
-	gets_bellrung = TRUE
 
 
 /obj/item/clothing/head/roguetown/helmet/elvenbarbute
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_HIP
 	name = "elven barbute"
 	desc = "It fits snugly on one's elven head, with special slots for their pointier ears."
-	body_parts_covered = FULL_HEAD
+	// body_parts_covered = FULL_HEAD
 	body_parts_covered = HEAD|HAIR|NOSE
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
@@ -2305,7 +2298,6 @@
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	clothing_flags = 0
 	block2add = FOV_BEHIND
-	gets_bellrung = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged
 	name = "winged elven barbute"
