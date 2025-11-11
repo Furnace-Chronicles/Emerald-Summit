@@ -86,7 +86,7 @@
 				display_as_wanderer = TRUE
 			if(islatejoin)
 				is_returning = TRUE
-			if(J.department_flag == CHURCHMEN) //There may be a better way to check who is clergy, but this will do for now
+			if(J.department_flag &&J.department_flag == CHURCHMEN) //There may be a better way to check who is clergy, but this will do for now
 				is_clergy = TRUE
 			if(J.title == "Jester")
 				is_jester = TRUE
