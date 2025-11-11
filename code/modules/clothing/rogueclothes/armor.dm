@@ -1067,6 +1067,7 @@
 	icon_state = "ornateplate"
 
 	max_integrity = 500
+	sellprice = 300
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/equipped(mob/living/user, slot)
 	. = ..()
