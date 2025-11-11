@@ -257,27 +257,24 @@ var/global/list/PATRON_ARTIFACTS = list(
 		if(!is_unity)  // Unity miracles have no tier restrictions, once we add them again. This may be revisited
 			if(own && D.patron.miracles)
 				miracle_tier = D.patron.miracles[st]
-			else if(divine || inhumen)
-				// Search through patron definitions to find the tier
-				// This code fucking sucks. I fucking hate my life
-				// I wish the divine miracles list was a global list
-				if(divine)
-					for(var/patron_type in subtypesof(/datum/patron/divine))
-						var/datum/patron/patron_instance = new patron_type()
-						if(patron_instance.miracles && (st in patron_instance.miracles))
-							miracle_tier = patron_instance.miracles[st]
-							qdel(patron_instance)
-							break
+			else if(divine)
+				// Search through divine patrons to find the tier
+				for(var/patron_type in subtypesof(/datum/patron/divine))
+					var/datum/patron/patron_instance = new patron_type()
+					if(patron_instance.miracles && (st in patron_instance.miracles))
+						miracle_tier = patron_instance.miracles[st]
 						qdel(patron_instance)
-				
-				if(miracle_tier == null && inhumen)
-					for(var/patron_type in subtypesof(/datum/patron/inhumen))
-						var/datum/patron/patron_instance = new patron_type()
-						if(patron_instance.miracles && (st in patron_instance.miracles))
-							miracle_tier = patron_instance.miracles[st]
-							qdel(patron_instance)
-							break
+						break
+					qdel(patron_instance)
+			else if(inhumen)
+				// Search through inhumen patrons to find the tier
+				for(var/patron_type in subtypesof(/datum/patron/inhumen))
+					var/datum/patron/patron_instance = new patron_type()
+					if(patron_instance.miracles && (st in patron_instance.miracles))
+						miracle_tier = patron_instance.miracles[st]
 						qdel(patron_instance)
+						break
+					qdel(patron_instance)
 		
 		// Check if devotion level allows this miracle tier
 		if(miracle_tier != null && D.level != null && miracle_tier > D.level)
@@ -298,19 +295,19 @@ var/global/list/PATRON_ARTIFACTS = list(
 					else if(divine)
 						allow = TRUE
 						cost = CLERIC_PRICE_DIVINE
-						if(miracle_tier)
+						if(miracle_tier > 0)
 							cost *= miracle_tier
 				if(2)
 					if(own)         { allow = TRUE; cost = CLERIC_PRICE_PATRON }
 					else if(divine)
 						allow = TRUE
 						cost = CLERIC_PRICE_DIVINE
-						if(miracle_tier)
+						if(miracle_tier > 0)
 							cost *= miracle_tier
 					else if(inhumen)
 						allow = TRUE
 						cost = CLERIC_PRICE_SHUNNED
-						if(miracle_tier)
+						if(miracle_tier > 0)
 							cost *= miracle_tier
 		
 		if(!allow)
