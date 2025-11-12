@@ -257,56 +257,83 @@
 /obj/effect/proc_holder/spell/invoked/craftercovenant/cast(list/targets, mob/user = usr)
 	. = ..()
 	var/tithe = 0
-	var/list/doable[][] = list()
 	var/const/divine_tax = 2 // Multiplier used to adjust the price that should be paid.
 	var/buyprice = 0
-	var/turf/altar
+	var/turf/altar = get_turf(targets[1])
 	var/datum/effect_system/spark_spread/sparks = new()
-	altar = get_turf(targets[1])
 	if(!altar)
 		return
+
 	for (var/obj/item/sacrifice in altar.contents)
-	{
 		if (istype(sacrifice, /obj/item/roguecoin/))
 			var/obj/item/roguecoin/coincrifice = sacrifice
 			tithe += (coincrifice.quantity * coincrifice.sellprice)
 		else if (istype(sacrifice, /obj/item/roguestatue/) || istype(sacrifice, /obj/item/clothing/ring/) || istype(sacrifice, /obj/item/roguegem/))
 			tithe += sacrifice.sellprice
 		qdel(sacrifice)
-	}
+
 	buyprice = tithe / divine_tax
+
+	var/list/doable[][] = list()
 	for (var/list/entry in anvil_recipe_prices)
-	{
-		var/obj/item/tentative_item = entry[1] // The recipe
-		var/total_sellprice = entry[2] // The precompiled material price
+		var/obj/item/tentative_item = entry[1]
+		var/total_sellprice = entry[2]
 		if (total_sellprice <= buyprice)
 			var/obj/itemtorecord = tentative_item
 			doable += list(list(itemtorecord.name, itemtorecord))
-	}
+
+	if (tithe >= 500) // add your unique snowflake stuff here as exception. Man you dont need the plate that gives +1 con + 1 end for 40. Its 500 now
+		var/special_type = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate
+		var/exists = FALSE
+		for (var/list/opt in doable)
+			var/val = opt[2]
+			if (ispath(val, special_type) || (isobj(val) && istype(val, special_type)))
+				exists = TRUE
+				break
+		if (!exists)
+			var/obj/item/tmp = new special_type
+			var/sname = tmp.name
+			qdel(tmp)
+			doable += list(list(sname, special_type))
+
 	if (!doable.len)
-		show_visible_message(usr, "A wave of heat washes over the pile as [user] speaks Malum's name. The pile of valuables crumble into dust.", "A wave of heat washes over the pile as you speak Malum's name. The pile of valuables crumble into dust. Malum accepted your sacrifice. Yet it seems it wasn't enough.")
+		user.visible_message("<font color='yellow'>A wave of heat washes over the pile as [user] speaks Malum's name. The pile of valuables crumble into dust.</font>", "<font color='yellow'>A wave of heat washes over the pile as you speak Malum's name. The pile of valuables crumble into dust. Malum accepted your sacrifice. Yet it seems it wasn't enough.</font>")
 		return
+
 	var/list/doablename = list()
 	var/list/item_map = list()
 	for (var/list/doableextract in doable)
-	{
 		doablename += list(doableextract[1])
 		item_map[doableextract[1]] = doableextract[2]
-	}
-	var/itemchoice = input(user, "Choose your boon", "Available boons") in (doablename)
-	if (itemchoice)
-		var/obj/item/itemtospawn = item_map[itemchoice]
-		if (itemtospawn)
+
+	var/itemchoice = input(user, "Choose your boon", "Available boons") as null|anything in doablename
+	if(itemchoice)
+		var/choice_val = item_map[itemchoice]
+		if (ispath(choice_val))
+			new choice_val(altar)
+		else
+			var/obj/item/itemtospawn = choice_val
 			new itemtospawn.type(altar)
-			sparks.set_up(1, 1, altar)
-			sparks.start()
-			show_visible_message(usr, "A wave of heat washes over the pile as [user] speaks Malum's name. The pile of valuables crumble into dust, only for the dust to reform into an item as if reborn from the flames. Malum has accepted the offering.", "A wave of heat washes over the pile as you speak Malum's name. The pile of valuables crumble into dust, only for the dust to reform into an item as if reborn from the flames. Malum has accepted the offering.")
+		sparks.set_up(1, 1, altar)
+		sparks.start()
+		user.visible_message("<font color='yellow'>A wave of heat washes over the pile as [user] speaks Malum's name. The pile of valuables crumble into dust, only for the dust to reform into an item as if reborn from the flames. Malum has accepted the offering.</font>", "<font color='yellow'>A wave of heat washes over the pile as you speak Malum's name. The pile of valuables crumble into dust, only for the dust to reform into an item as if reborn from the flames. Malum has accepted the offering.</font>")
+
 
 var/global/list/anvil_recipe_prices[][]
+
 /proc/add_recipe_to_global(var/datum/anvil_recipe/recipe)
 	var/total_sellprice = 0
 	var/obj/item/ingot/bar = recipe.req_bar
 	var/obj/item/itemtosend = null
+	var/special_path = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate
+
+	if (ispath(recipe.created_item, special_path))
+		return
+	if (istype(recipe.created_item, /list))
+		for (var/E in recipe.created_item)
+			if (ispath(E, special_path))
+				return
+
 	if (bar)
 		total_sellprice += bar.sellprice
 		itemtosend = recipe.created_item
@@ -315,40 +342,39 @@ var/global/list/anvil_recipe_prices[][]
 			total_sellprice += additional_item.sellprice
 	if (istype(recipe.created_item, /list))
 		var/list/itemlist = recipe.created_item
-		total_sellprice = total_sellprice/itemlist.len
-		itemtosend = recipe.created_item[1]
-	if (!istype(recipe.created_item, /list))
+		if (itemlist.len)
+			total_sellprice = total_sellprice / itemlist.len
+			itemtosend = recipe.created_item[1]
+	else
 		itemtosend = recipe.created_item
-	if (total_sellprice > 0)
+
+	if (total_sellprice > 0 && itemtosend)
 		global.anvil_recipe_prices += list(list(itemtosend, total_sellprice))
+
 
 /proc/initialize_anvil_recipe_prices()
 	for (var/datum/anvil_recipe/armor/recipe)
-	{
 		add_recipe_to_global(recipe)
-	}
 	for (var/datum/anvil_recipe/tools/recipe)
-	{
 		add_recipe_to_global(recipe)
-	}
 	for (var/datum/anvil_recipe/weapons/recipe)
-	{
 		add_recipe_to_global(recipe)
-	}
-	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/flute, 10))
-	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/drum, 10))
-	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/harp, 20))
+
+	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/flute,   10))
+	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/drum,    10))
+	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/harp,    20))
 	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/trumpet, 20))
-	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/lute, 20))
-	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/guitar, 30))
-	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/accord, 30))
-	global.anvil_recipe_prices += list(list(new /obj/item/riddleofsteel, 400))
-	global.anvil_recipe_prices += list(list(new /obj/item/dmusicbox, 500))
+	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/lute,    20))
+	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/guitar,  30))
+	global.anvil_recipe_prices += list(list(new /obj/item/rogue/instrument/accord,  30))
+	global.anvil_recipe_prices += list(list(new /obj/item/riddleofsteel,           400))
+	global.anvil_recipe_prices += list(list(new /obj/item/dmusicbox,               500))
 	// Add any other recipe types if needed
 
 /world/New()
 	..()
-	initialize_anvil_recipe_prices() // Precompute recipe prices on startup
+	initialize_anvil_recipe_prices()
+
 
 /obj/effect/proc_holder/spell/invoked/hammerfall/cast(list/targets, mob/user = usr)
 	var/turf/fallzone = null
