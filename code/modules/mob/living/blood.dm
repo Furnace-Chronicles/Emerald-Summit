@@ -205,13 +205,15 @@
 
 	//For each CON above 10, we bleed slower.
 	//Consequently, for each CON under 10 we bleed faster.
-	var/conbonus = 1
-	if(STACON >= CONSTITUTION_BLEEDRATE_CAP)
-		conbonus = CONSTITUTION_BLEEDRATE_CAP - 10
+	var/conbonus = 0
+	var/concappedbonus = 0
+	if(STACON >= CONSTITUTION_BLEEDRATE_SOFTCAP)
+		conbonus = CONSTITUTION_BLEEDRATE_SOFTCAP - 10
+		concappedbonus = STACON - CONSTITUTION_BLEEDRATE_SOFTCAP
 	else if(STACON != 10)
 		conbonus = STACON - 10
 	if(mind)
-		amt -= amt * (conbonus * CONSTITUTION_BLEEDRATE_MOD)
+		amt -= amt * ((conbonus * CONSTITUTION_BLEEDRATE_MOD) + (concappedbonus * CONSTITUTION_BLEEDRATE_CAPPEDMOD))
 	var/old_volume = blood_volume
 	blood_volume = max(blood_volume - amt, 0)
 	if (old_volume > 0 && !blood_volume) // it looks like we've just bled out. bummer.

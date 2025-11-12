@@ -4,13 +4,15 @@
 	var/delay = (HAS_TRAIT(src, TRAIT_APRICITY) && GLOB.tod == "day") ? 13 : 20		//Astrata 
 	if(world.time > last_fatigued + delay) //regen fatigue
 		var/added = energy / max_energy
-		added = round(-10 + (added * - 40))
+		added = round(BASE_STAMINA_REGEN + (added * ENERGY_STAMINA_MOD))
 		if(src.climbing) // no stam regen while climbing guh
 			added = 0
 		if(HAS_TRAIT(src, TRAIT_MISSING_NOSE))
 			added = round(added * 0.5, 1)
 		if(HAS_TRAIT(src, TRAIT_MONK_ROBE))
 			added = round(added * 1.25, 1)
+		if(STAEND != 10)
+			added = round(added * (1 + ((STAEND - 10) * ENDURANCE_STAMINA_MOD)), 1)
 		if(stamina >= 1)
 			stamina_add(added)
 		else
