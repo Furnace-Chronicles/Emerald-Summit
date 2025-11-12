@@ -64,6 +64,29 @@
 	chance2hit = CLAMP(chance2hit, 5, 93)
 
 	if(prob(chance2hit))
+		if(check_zone(zone) == zone)
+			return zone
+		else
+			if(prob(chance2hit - 10))
+				return zone
+			else
+				return BODY_ZONE_CHEST
+	else
+		if(prob(chance2hit+(user.STAPER - 10)))
+			if(check_zone(zone) == zone)
+				return zone
+			to_chat(user, span_warning("Accuracy fail! [chance2hit]%"))
+			if(user.STAPER >= 11)
+				if(user.client?.prefs.showrolls)
+					return check_zone(zone)
+			else
+				return BODY_ZONE_CHEST
+		else
+			if(user.client?.prefs.showrolls)
+				to_chat(user, span_warning("Double accuracy fail! [chance2hit]%"))
+			return BODY_ZONE_CHEST
+
+	if(prob(chance2hit))
 		return zone
 	else
 		if(prob(chance2hit+(user.STAPER - 10)))
