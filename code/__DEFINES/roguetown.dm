@@ -589,7 +589,7 @@ Medical defines
 #define ARTERY_LIMB_BLEEDRATE 20	//This is used as a reference point for dynamic wounds, so it's better off as a define.
 #define CONSTITUTION_BLEEDRATE_MOD 0.1	//How much slower we'll be bleeding for every CON point up until the softcap. 0.1 = 10% slower.
 #define CONSTITUTION_BLEEDRATE_SOFTCAP 15	//The CON value up to which we get diminishing returns for bleedrate reduction.
-#define CONSTITUTION_BLEEDRATE_CAPPEDMOD 0.034 // CON slowdown per point above the softcap.
+#define CONSTITUTION_BLEEDRATE_CAPPEDMOD 0.05 // CON slowdown per point above the softcap.
 
 /*
 Stamina Defines
