@@ -712,6 +712,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Chain Leash"
 	path = /obj/item/leash/chain
 
+/datum/loadout_item/wood_dildo
+	name = "Wooden Dildo"
+	path = /obj/item/dildo/wood
+
 /datum/loadout_item/magic_recipes
 	name = "Guide to Arcyne"
 	path = /obj/item/recipe_book/magic
