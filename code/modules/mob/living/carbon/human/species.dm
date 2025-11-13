@@ -1337,14 +1337,9 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 				// Gloves take damage from the impact
 				user_gloves.take_damage(blocked_damage * 0.3, "blunt", "melee", 0)
 
-				if(recoil_damage <= 0)
-					user.visible_message(span_info("[user]'s [user_gloves.name] absorbs the impact!"), \
-						span_info("My [user_gloves.name] absorbs the impact!"))
-
 			// Apply remaining recoil damage to hand
 			if(recoil_damage > 0 && punching_hand)
 				user.apply_damage(recoil_damage, BRUTE, punching_hand, 0)
-				to_chat(user, span_warning("My hand hurts from punching [target]'s armor!"))
 	return
 
 /datum/species/proc/disarm(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
