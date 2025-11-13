@@ -355,6 +355,7 @@
 	l_sleeve_status = SLEEVE_NOMOD
 	resistance_flags = FIRE_PROOF
 	armor_class = ARMOR_CLASS_LIGHT
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 
 /obj/item/clothing/under/roguetown/chainlegs/iron
 	name = "iron chain chausses"
