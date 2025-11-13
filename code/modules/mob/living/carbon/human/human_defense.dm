@@ -33,29 +33,36 @@
 						continue
 				var/val = C.armor.getRating(d_type)
 
-				// For blunt attacks, adjust effective armor value based on armor class
-				var/effective_val = val
+				// Calculate armor effectiveness based on durability
+				var/effectiveness = 1.0
+				if(C.max_integrity && val > 0)
+					var/damage_percent = round(((C.obj_integrity / C.max_integrity) * 100), 1)
+					var/max_reduction = (C.armor_class == ARMOR_CLASS_HEAVY) ? 40 : ((C.armor_class == ARMOR_CLASS_MEDIUM) ? 60 : 75)
+					if(damage_percent < 100)
+						effectiveness = 1.0 - ((100 - damage_percent) / 100 * (max_reduction / 100))
+
+				var/effective_val = val * effectiveness
+
+				// For blunt attacks, adjust based on armor class with scaled modifiers
 				if(blade_dulling in list(BCLASS_BLUNT, BCLASS_SMASH) && d_type == "blunt")
 					var/blunt_modifier = 0
 					var/effective_class = C.armor_class == ARMOR_CLASS_NONE && C.integ_armor_mod != ARMOR_CLASS_NONE ? C.integ_armor_mod : C.armor_class
 
 					switch(effective_class)
 						if(ARMOR_CLASS_LIGHT)
-							blunt_modifier = -15  // Slight penalty against light armor
-						if(ARMOR_CLASS_MEDIUM)
-							blunt_modifier = 10   // Slight bonus against medium armor
+							blunt_modifier = -10 * effectiveness  // Scale penalty towards 0
 						if(ARMOR_CLASS_HEAVY)
-							blunt_modifier = 20   // Significant bonus against heavy armor
+							blunt_modifier = 20 * effectiveness   // Scale bonus towards 0
 							if(istype(C, /obj/item/clothing/head/helmet))
-								blunt_modifier += 10 // Extra bonus against heavy helmets
-					
+								blunt_modifier += 10 * effectiveness // Scale helmet bonus towards 0
+
 					// Effective penetration for this armor
 					var/effective_pen = armor_penetration + blunt_modifier
 					// Reduce armor value by how much penetration we have
-					effective_val = max(val - effective_pen, 0)
+					effective_val = max(effective_val - effective_pen, 0)
 				else
 					// For non-blunt attacks, just use regular penetration
-					effective_val = max(val - armor_penetration, 0)
+					effective_val = max(effective_val - armor_penetration, 0)
 
 				if(effective_val > best_effective_value)
 					best_effective_value = effective_val
@@ -104,20 +111,18 @@
 
 					var/effective_armor = val * effectiveness
 
-					// Apply blunt weapon modifiers based on armor class
+					// Apply blunt weapon modifiers based on armor class (scaled by effectiveness)
 					if(d_type == "blunt")
 						var/blunt_modifier = 0
 						var/effective_class = C.armor_class == ARMOR_CLASS_NONE ? C.integ_armor_mod : C.armor_class
 
 						switch(effective_class)
 							if(ARMOR_CLASS_LIGHT)
-								blunt_modifier = -25
-							if(ARMOR_CLASS_MEDIUM)
-								blunt_modifier = 20
+								blunt_modifier = -10 * effectiveness // Scale penalty towards 0 as armor degrades
 							if(ARMOR_CLASS_HEAVY)
-								blunt_modifier = 35
+								blunt_modifier = 20 * effectiveness  // Scale bonus towards 0 as armor degrades
 								if(istype(C, /obj/item/clothing/head/helmet))
-									blunt_modifier += 15
+									blunt_modifier += 15 * effectiveness // Scale helmet bonus towards 0
 
 						var/modified_pen = armor_penetration + blunt_modifier
 						effective_armor = max(effective_armor - modified_pen, 0)
