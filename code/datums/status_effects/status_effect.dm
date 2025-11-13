@@ -30,7 +30,14 @@
 		return
 	if(duration != -1)
 		duration = world.time + duration
-	tick_interval = world.time + tick_interval
+
+	// RANDOM XYLIX RANDOM
+	var/base_interval = initial(tick_interval)
+	if(base_interval <= 0)
+		tick_interval = world.time
+	else
+		tick_interval = world.time + rand(0, base_interval)
+
 	if(alert_type)
 		var/atom/movable/screen/alert/status_effect/A = owner.throw_alert(id, alert_type)
 		A?.attached_effect = src //so the alert can reference us, if it needs to
@@ -141,7 +148,6 @@
 /mob/living/proc/apply_status_effect(effect, ...)
 	. = FALSE
 	LAZYINITLIST(status_effects)
-
 	// ID from TYPE
 	var/datum/status_effect/template = effect
 	var/effect_id = initial(template.id)
@@ -149,19 +155,19 @@
 	var/list/arguments = args.Copy()
 	arguments[1] = src
 
-	// Look for ID
+	/// Look for ID
 	var/datum/status_effect/current = status_effects[effect_id]
 
 	if(current && current.status_type)
 		if(current.status_type == STATUS_EFFECT_REPLACE)
-			// Remove old apply new
+			// Remove old apply new 
 			current.be_replaced(arglist(arguments))
 		else if(current.status_type == STATUS_EFFECT_REFRESH)
-			// update+refresh
+			// update+refresh if same already present
 			current.refresh(arglist(arguments))
 			return
 		else
-			// STATUS_EFFECT_UNIQUE 
+			// STATUS_EFFECT_UNIQUE we dont need second one same effect
 			return
 
 	// No effect or old one removed
