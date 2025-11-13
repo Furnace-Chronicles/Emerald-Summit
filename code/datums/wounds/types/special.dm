@@ -457,7 +457,6 @@
 		C.blood_volume = max(0, C.blood_volume - (internal_bleed_rate * 0.1)) // Internal bleeding affects blood volume directly
 
 /datum/wound/lethal/heal_wound(heal_amount)
-	. = ..()
 	if(iscarbon(owner) && organ_damage > 0)
 		var/mob/living/carbon/C = owner
 		var/obj/item/bodypart/BP = bodypart_owner
@@ -467,7 +466,7 @@
 				for(var/obj/item/organ/O in organs)
 					if(O && O.damage > 0)
 						O.setOrganDamage(0)
-						organ_damage = 0
+	. = ..()
 
 /datum/wound/lethal/on_mob_gain(mob/living/affected)
 	. = ..()

@@ -129,7 +129,7 @@
 			if(length(BP.wounds))
 				for(var/datum/wound/lethal/L in BP.wounds)
 					if(L.internal_bleed_rate > 0)
-						L.internal_bleed_rate = 0
+						L.heal_wound()
 	M.adjustBruteLoss(-8, 0) // 48u (1 bottle) = 384 brute damage healed. Enough to fully fix any one limb.
 	M.adjustFireLoss(-8, 0)
 	M.adjustOxyLoss(-15, 0) //You cannot die if this is fed to you, realistically.
