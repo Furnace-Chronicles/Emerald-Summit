@@ -1318,27 +1318,33 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 
 
 /datum/species/proc/spec_unarmedattacked(mob/living/carbon/human/user, mob/living/carbon/human/target, damage, armor_block, actual_damage, obj/item/bodypart/affecting)
-	// Recoil damage from punching armor
+	// Handle punch recoil damage for non-expert pugilists
 	if(!HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN) && armor_block > 0)
 		var/blocked_damage = damage - actual_damage
 		var/recoil_damage = blocked_damage * 0.5
 
 		if(recoil_damage > 0)
-			var/obj/item/bodypart/punching_hand = user.get_active_hand()
+			// Get the hand bodypart being used to punch
+			var/obj/item/bodypart/punching_hand = user.hand_bodyparts[user.active_hand_index]
 
-			// Check if wearing gloves that can protect us
+			// Check if wearing gloves that can protect
 			var/obj/item/clothing/gloves/user_gloves = user.gloves
-			if(user_gloves)
-				if(user_gloves.max_integrity && user_gloves.obj_integrity > 0)
-					var/glove_armor = user_gloves.armor?.getRating("blunt") || 0
-					var/glove_protection = min(glove_armor, recoil_damage)
-					recoil_damage = max(recoil_damage - glove_protection, 0)
+			if(user_gloves && user_gloves.max_integrity && user_gloves.obj_integrity > 0)
+				var/glove_armor = user_gloves.armor?.getRating("blunt") || 0
+				var/glove_protection = min(glove_armor, recoil_damage)
+				recoil_damage = max(recoil_damage - glove_protection, 0)
 
-					var/glove_damage = blocked_damage * 0.3
-					user_gloves.take_damage(glove_damage, "blunt", "melee", 0)
+				// Gloves take damage from the impact
+				user_gloves.take_damage(blocked_damage * 0.3, "blunt", "melee", 0)
 
+				if(recoil_damage <= 0)
+					user.visible_message(span_info("[user]'s [user_gloves.name] absorbs the impact!"), \
+						span_info("My [user_gloves.name] absorbs the impact!"))
+
+			// Apply remaining recoil damage to hand
 			if(recoil_damage > 0 && punching_hand)
 				user.apply_damage(recoil_damage, BRUTE, punching_hand, 0)
+				to_chat(user, span_warning("My hand hurts from punching [target]'s armor!"))
 	return
 
 /datum/species/proc/disarm(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)

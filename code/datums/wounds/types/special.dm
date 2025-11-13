@@ -553,8 +553,8 @@
 	if(!HAS_TRAIT(owner, TRAIT_NOBREATH))
 		carbon_owner.adjustOxyLoss(oxydamage)
 	
-	var/obj/item/organ/heart/H = carbon_affected.getorganslot(ORGAN_SLOT_HEART)
-	if(H.damage > round(H.max_damage/2))
+	var/obj/item/organ/heart/H = carbon_owner.getorganslot(ORGAN_SLOT_HEART)
+	if(H.damage > round(H.maxHealth/2))
 		H.applyOrganDamage(1)
 		if(prob(5))
 			to_chat(carbon_owner, span_warning("MY HEART HURTS!"))
