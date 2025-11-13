@@ -425,22 +425,36 @@
 	sound_effect = 'sound/combat/crit.ogg'
 	whp = 250
 	woundpain = 100
-	sewn_whp = 25
-	bleed_rate = 25
-	sewn_bleed_rate = 0.5
-	can_sew = TRUE
-	can_cauterize = TRUE
 	critical = TRUE
-	mortal = TRUE
 	sleep_healing = 0
+	sewn_whp = 25
+	bleed_rate = 25 // Represents bleeding from the entry wound, so you can sew this up but still bleed internally
+	can_sew = TRUE
+	sewn_bleed_rate = 0 // Stops external bleeding when sewn
 	var/organ_damage = 0
 	var/attack_damage = 0
+	var/internal_bleed_rate = 0 // Internal bleeding rate, set when wound is sewn
 
 /datum/wound/lethal/New(damage = 0)
 	. = ..()
 	if(damage > 0)
 		attack_damage = damage
 		organ_damage = clamp(damage * (rand(10, 20)/10), 40, 100) // (rand(10, 20)/10) is a little trick to get a random 2-digit float between 1.0 and 2.0
+
+/datum/wound/lethal/sew_wound()
+	. = ..()
+	if(.)
+		// When sewn, external bleeding stops but internal bleeding continues at 1/4 speed
+		internal_bleed_rate = initial(bleed_rate) * 0.25
+		if(owner)
+			owner.visible_message(span_warning("The external bleeding from [owner]'s [name] stops, but the wound still seeps internally..."))
+
+/datum/wound/lethal/on_life()
+	. = ..()
+	// Apply internal bleeding if the wound is sewn
+	if(is_sewn() && internal_bleed_rate > 0 && iscarbon(owner))
+		var/mob/living/carbon/C = owner
+		C.blood_volume = max(0, C.blood_volume - (internal_bleed_rate * 0.1)) // Internal bleeding affects blood volume directly
 
 /datum/wound/lethal/heal_wound(heal_amount)
 	. = ..()
@@ -455,6 +469,11 @@
 						O.setOrganDamage(0)
 						organ_damage = 0
 
+/datum/wound/lethal/on_mob_gain(mob/living/affected)
+	. = ..()
+	if(HAS_TRAIT(affected, TRAIT_DEADITE) && !istype(src, /datum/wound/lethal/brain_penetration))
+		return // Deadites are immune to organ wounds except brain penetration
+
 /datum/wound/lethal/brain_penetration
 	name = "brain penetration"
 	check_name = span_userdanger("<B>BRAIN PIERCED</B>")
@@ -465,11 +484,11 @@
 		"The brain is skewered!",
 		"The edge pierces through the cranium into the brain!"
 	)
-	bleed_rate = 20
 	mortal = TRUE
 
 /datum/wound/lethal/brain_penetration/on_mob_gain(mob/living/affected)
 	. = ..()
+
 	var/static/list/penetration_messages = list(
 		"MY HEAD!",
 		"I CAN'T THINK!",
@@ -480,8 +499,12 @@
 		var/obj/item/organ/brain/B = carbon_affected.getorganslot(ORGAN_SLOT_BRAIN)
 		if(B)
 			B.applyOrganDamage(organ_damage)
-	affected.Unconscious(30 SECONDS)
-	affected.Stun(30)
+	
+	if(prob(80-affected.STACON*3))
+		affected.Unconscious((rand(20,30)-affected.STACON) SECONDS)
+	else
+		affected.Stun(30)
+	
 	to_chat(affected, span_userdanger("[pick(penetration_messages)]"))
 
 /datum/wound/lethal/heart_penetration
@@ -494,9 +517,9 @@
 		"The heart is skewered!",
 		"The blade runs through %VICTIM's heart!"
 	)
-	bleed_rate = 35
 	woundpain = 250
 	mortal = TRUE
+	bleed_rate = 35
 
 /datum/wound/lethal/heart_penetration/on_mob_gain(mob/living/affected)
 	. = ..()
@@ -516,6 +539,7 @@
 				addtimer(CALLBACK(carbon_affected, TYPE_PROC_REF(/mob/living/carbon, set_heartattack), TRUE), 3 SECONDS)
 	affected.Stun(30)
 	shake_camera(affected, 4, 4)
+	affected.emote("painscream")
 	to_chat(affected, span_userdanger("[pick(penetration_messages)]"))
 
 /datum/wound/lethal/heart_penetration/on_life()
@@ -526,7 +550,14 @@
 	var/mob/living/carbon/carbon_owner = owner
 	if(!carbon_owner.stat && prob(15))
 		carbon_owner.vomit(1, blood = TRUE, stun = FALSE)
-	carbon_owner.adjustOxyLoss(oxydamage)
+	if(!HAS_TRAIT(owner, TRAIT_NOBREATH))
+		carbon_owner.adjustOxyLoss(oxydamage)
+	
+	var/obj/item/organ/heart/H = carbon_affected.getorganslot(ORGAN_SLOT_HEART)
+	if(H.damage > round(H.max_damage/2))
+		H.applyOrganDamage(1)
+		if(prob(5))
+			to_chat(carbon_owner, span_warning("MY HEART HURTS!"))
 
 /datum/wound/lethal/lung_penetration
 	name = "lung penetration"
@@ -551,16 +582,17 @@
 		"I'M CHOKING!")
 
 	affected.Stun(20)
-	to_chat(affected, span_userdanger("[pick(penetration_messages)]"))
-	if(iscarbon(affected))
-		var/mob/living/carbon/carbon_affected = affected
-		var/obj/item/organ/lungs/L = carbon_affected.getorganslot(ORGAN_SLOT_LUNGS)
-		if(L)
-			L.applyOrganDamage(organ_damage)
+	if(!HAS_TRAIT(affected, TRAIT_NOBREATH))
+		to_chat(affected, span_userdanger("[pick(penetration_messages)]"))
+		if(iscarbon(affected))
+			var/mob/living/carbon/carbon_affected = affected
+			var/obj/item/organ/lungs/L = carbon_affected.getorganslot(ORGAN_SLOT_LUNGS)
+			if(L)
+				L.applyOrganDamage(organ_damage)
 
 /datum/wound/lethal/lung_penetration/on_life()
 	. = ..()
-	if(!iscarbon(owner))
+	if(!iscarbon(owner) || HAS_TRAIT(owner, TRAIT_NOBREATH))
 		return
 	var/mob/living/carbon/carbon_owner = owner
 	if(!carbon_owner.stat && prob(15))
@@ -627,7 +659,7 @@
 
 /datum/wound/lethal/stomach_penetration/on_life()
 	. = ..()
-	if(!iscarbon(owner))
+	if(!iscarbon(owner) || HAS_TRAIT(owner, TRAIT_NOHUNGER))
 		return
 	var/mob/living/carbon/carbon_owner = owner
 	if(!carbon_owner.stat && prob(12))

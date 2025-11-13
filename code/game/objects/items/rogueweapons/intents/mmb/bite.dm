@@ -84,7 +84,7 @@
 	user.do_attack_animation(src, "bite")
 	playsound(user, 'sound/gore/flesh_eat_01.ogg', 100)
 	var/nodmg = FALSE
-	var/dam2do = 10*(user.STASTR/20)
+	var/dam2do = user.get_punch_dmg()
 	if(HAS_TRAIT(user, TRAIT_STRONGBITE))
 		dam2do *= 2
 	if(!HAS_TRAIT(user, TRAIT_STRONGBITE))

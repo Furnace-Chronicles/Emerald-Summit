@@ -1231,7 +1231,9 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 			return 0
 		
 		var/bonus_pen = 0
-		bonus_pen = (user.STASTR - 10) * STR_PEN_FACTOR
+		// Only expert pugilists can punch through armor
+		if(HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN))
+			bonus_pen = (user.STASTR - 10) * STR_PEN_FACTOR
 		
 		var/d_type = "blunt"
 		if(user.used_intent?.item_d_type)
@@ -1243,12 +1245,12 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 		if(target.mind)
 			target.mind.attackedme[user.real_name] = world.time
 		target.lastattackerckey = user.ckey
-		user.dna.species.spec_unarmedattacked(user, target)
 
 		target.next_attack_msg.Cut()
 
 		var/nodmg = FALSE
 		var/actual_damage = max(damage - armor_block, 0)
+		user.dna.species.spec_unarmedattacked(user, target, damage, armor_block, actual_damage, affecting)
 
 		if(!target.apply_damage(damage, user.dna.species.attack_type, affecting, armor_block))
 			nodmg = TRUE
@@ -1257,6 +1259,7 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 			affecting.bodypart_attacked_by(user.used_intent.blade_class, actual_damage, user, selzone, crit_message = TRUE)
 			if(affecting.body_zone == BODY_ZONE_HEAD)
 				SEND_SIGNAL(user, COMSIG_HEAD_PUNCHED, target)
+
 		log_combat(user, target, "punched")
 
 		if(!nodmg)
@@ -1304,7 +1307,28 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 			playsound(target.loc, user.used_intent.hitsound, 100, FALSE)
 
 
-/datum/species/proc/spec_unarmedattacked(mob/living/carbon/human/user, mob/living/carbon/human/target)
+/datum/species/proc/spec_unarmedattacked(mob/living/carbon/human/user, mob/living/carbon/human/target, damage, armor_block, actual_damage, obj/item/bodypart/affecting)
+	// Recoil damage from punching armor
+	if(!HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN) && armor_block > 0)
+		var/blocked_damage = damage - actual_damage
+		var/recoil_damage = blocked_damage * 0.5
+
+		if(recoil_damage > 0)
+			var/obj/item/bodypart/punching_hand = user.get_active_hand()
+
+			// Check if wearing gloves that can protect us
+			var/obj/item/clothing/gloves/user_gloves = user.gloves
+			if(user_gloves)
+				if(user_gloves.max_integrity && user_gloves.obj_integrity > 0)
+					var/glove_armor = user_gloves.armor?.getRating("blunt") || 0
+					var/glove_protection = min(glove_armor, recoil_damage)
+					recoil_damage = max(recoil_damage - glove_protection, 0)
+
+					var/glove_damage = blocked_damage * 0.3
+					user_gloves.take_damage(glove_damage, "blunt", "melee", 0)
+
+			if(recoil_damage > 0 && punching_hand)
+				user.apply_damage(recoil_damage, BRUTE, punching_hand, 0)
 	return
 
 /datum/species/proc/disarm(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
@@ -1449,7 +1473,8 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 			var/obj/item/bodypart/affecting = target.get_bodypart(check_zone(selzone))
 			var/damage = user.get_punch_dmg() * 1.4
 			var/stomp_pen = BLUNT_DEFAULT_PENFACTOR
-			stomp_pen += (user.STASTR - 10) * STR_PEN_FACTOR
+			if(HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN))
+				stomp_pen += (user.STASTR - 10) * STR_PEN_FACTOR
 			var/armor_block = target.run_armor_check(selzone, "blunt", armor_penetration = stomp_pen, blade_dulling = BCLASS_BLUNT, damage = damage)
 			target.next_attack_msg.Cut()
 			var/nodmg = FALSE
@@ -1592,7 +1617,8 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 			affecting = target.get_bodypart(BODY_ZONE_CHEST)
 		// Add strength-based armor penetration for kick: +2 AP per point of STR above 10
 		var/kick_pen = BLUNT_DEFAULT_PENFACTOR
-		kick_pen += (user.STASTR - 10) * STR_PEN_FACTOR
+		if(HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN))
+			kick_pen += (user.STASTR - 10) * STR_PEN_FACTOR
 		var/armor_block = target.run_armor_check(selzone, "blunt", armor_penetration = kick_pen, blade_dulling = BCLASS_BLUNT)
 		var/damage = user.get_punch_dmg()
 		var/actual_damage = max(damage - armor_block, 0)

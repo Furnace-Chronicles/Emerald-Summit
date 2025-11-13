@@ -41,13 +41,13 @@
 
 					switch(effective_class)
 						if(ARMOR_CLASS_LIGHT)
-							blunt_modifier = -25  // Penalty against light armor
+							blunt_modifier = -15  // Slight penalty against light armor
 						if(ARMOR_CLASS_MEDIUM)
-							blunt_modifier = 20    // Slight bonus against medium armor
+							blunt_modifier = 10   // Slight bonus against medium armor
 						if(ARMOR_CLASS_HEAVY)
-							blunt_modifier = 35   // Significant bonus against heavy armor
+							blunt_modifier = 20   // Significant bonus against heavy armor
 							if(istype(C, /obj/item/clothing/head/helmet))
-								blunt_modifier += 15 // Extra bonus against heavy helmets
+								blunt_modifier += 10 // Extra bonus against heavy helmets
 					
 					// Effective penetration for this armor
 					var/effective_pen = armor_penetration + blunt_modifier
@@ -352,7 +352,7 @@
 			return spec_return
 	var/obj/item/I
 	var/throwpower = 30
-	if(has_status_effect(/datum/status_effect/buff/clash))
+	if(has_status_effect(/datum/status_effect/buff/clash) && !isliving(AM))
 		bad_guard(span_warning("The thrown object ruins my focus!"))
 	if(istype(AM, /obj/item))
 		I = AM

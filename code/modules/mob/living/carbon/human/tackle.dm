@@ -52,7 +52,7 @@
 	tackle_chance = clamp(tackle_chance, 5, 99)
 
 	if(client?.prefs.showrolls)
-		to_chat(src, span_info("Tackle chance: [tackle_chance]%"))
+		to_chat(src, span_info("[tackle_chance]"))
 
 	visible_message(span_danger("[src] charges at [target]!"), span_danger("I charge at [target]!"))
 
@@ -78,8 +78,6 @@
 	playsound(get_turf(src), "punch_hard", 100, TRUE)
 	playsound(get_turf(src), "bodyfall", 100, TRUE)
 
-	target.grabbedby(src, supress_message = TRUE)
-
 	spawn(1)
 		tackle_grapple_check(target)
 
@@ -88,17 +86,7 @@
 /mob/living/carbon/human/proc/tackle_grapple_check(mob/living/carbon/human/target)
 	if(!target || QDELETED(target))
 		return
+		
+	target.grabbedby(src, TRUE)
 
-	if(!pulling || pulling != target)
-		return
-
-	var/obj/item/grabbing/G
-	if(active_hand_index == 1 && r_grab)
-		G = r_grab
-	else if(active_hand_index == 2 && l_grab)
-		G = l_grab
-
-	if(!G || G.grabbed != target)
-		return
-
-	target.grippedby(src, instant = FALSE)
+	target.grippedby(src, FALSE)

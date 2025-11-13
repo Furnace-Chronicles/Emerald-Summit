@@ -437,7 +437,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 	// I literally have NO STOMACH. I am gonna die, son
 	stamina_add(-5)
 	if(dna && dna.species && !(NOBLOOD in dna.species.species_traits))
-		blood_volume = max(blood_volume - 20, 0) // Extremely severe internal bleeding
+		blood_volume = max(blood_volume - 10, 0) // Extremely severe internal bleeding
 	if(prob(5) && !stat)
 		emote("painscream")
 		to_chat(src, span_warning("My insides burn with horrible agony!"))
