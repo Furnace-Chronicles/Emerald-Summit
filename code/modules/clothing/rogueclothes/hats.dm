@@ -2818,3 +2818,14 @@
     desc = "A yellow iris, bright like defiance. Once worn by those who marched into oblivion, unafraid."
     icon_state = "dflower23"
     item_state = "dflower23"
+
+/obj/item/clothing/head/roguetown/helmet/heavy/beakhelm
+	name = "beak helmet"
+	desc = "An oddsphericalhelmet with a beaklike visor."
+	icon = 'icons/roguetown/clothing/head.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
+	icon_state = "beakhelm"
+	item_state = "beakhelm"
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR
+	block2add = FOV_BEHIND
+	smeltresult = /obj/item/ingot/steel

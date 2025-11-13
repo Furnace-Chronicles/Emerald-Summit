@@ -398,6 +398,13 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/bascinet/wizardhelm
 	craftdiff = 3
 
+/datum/anvil_recipe/armor/steel/helmet/beakhelm
+	name = "Beak helmet (+1 Steel)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/beakhelm
+	craftdiff = 3
+
 /datum/anvil_recipe/armor/steel/helmet/salletv
 	name = "Sallet Visored (+1 Steel)"
 	req_bar = /obj/item/ingot/steel
