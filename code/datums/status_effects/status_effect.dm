@@ -2,6 +2,10 @@
 //This file contains their code, plus code for applying and removing them.
 //When making a new status effect, add a define to status_effects.dm in __DEFINES for ease of use!
 
+/mob/living
+	/// ass list [id] = /datum/status_effect. ATTENTION THE CODER IS A RETARD THIS IS NOT SUPPOSED TO BE HERE I REPEART!!!!!!
+	var/list/status_effects_by_id
+
 /datum/status_effect
 	var/id = "effect" //Used for screen alerts.
 	var/duration = -1 //How long the status effect lasts in DECISECONDS. Enter -1 for an effect that never ends unless removed through some means.
@@ -35,7 +39,7 @@
 	if(duration != -1)
 		duration = world.time + duration
 
-	// xylix random man
+	// xylix random
 	var/base_interval = initial(tick_interval)
 	if(base_interval <= 0)
 		tick_interval = world.time
@@ -56,7 +60,7 @@
 		linked_alert = null
 		owner.clear_alert(id)
 
-		// REMOVE+REMOVE
+		// Remove+remove probably twice
 		LAZYREMOVE(owner.status_effects, src)
 		if(owner.status_effects_by_id && owner.status_effects_by_id[id] == src)
 			owner.status_effects_by_id -= id
@@ -140,10 +144,10 @@
 
 	for(var/S in attached_effect?.effectedstats)
 		if(attached_effect.effectedstats[S] > 0)
-			inspec += "<br><span class='purple'>[S]</span> \\Roman [attached_effect.effectedstats[S]]"
+			inspec += "<br><span class='purple'>[S]</span> \Roman [attached_effect.effectedstats[S]]"
 		if(attached_effect.effectedstats[S] < 0)
 			var/newnum = attached_effect.effectedstats[S] * -1
-			inspec += "<br><span class='danger'>[S]</span> \\Roman [newnum]"
+			inspec += "<br><span class='danger'>[S]</span> \Roman [newnum]"
 
 	inspec += "<br>----------------------"
 	to_chat(user, "[inspec.Join()]")
@@ -173,17 +177,17 @@
 
 	if(current && current.status_type)
 		if(current.status_type == STATUS_EFFECT_REPLACE)
-			// remove current effect and replace with new one
+			// Remove old create one
 			current.be_replaced(arglist(arguments))
 		else if(current.status_type == STATUS_EFFECT_REFRESH)
-			// Refresh current effect
+			// Refresh update current's timer if we already have the effect
 			current.refresh(arglist(arguments))
 			return
 		else
-			// STATUS_EFFECT_UNIQUE 
+			// STATUS_EFFECT_UNIQUE we need only 1 per time
 			return
 
-	// No effect/old removed
+	// No old effect or its been removed (apply brand new)
 	var/datum/status_effect/new_effect = new effect(arguments)
 	. = new_effect
 
