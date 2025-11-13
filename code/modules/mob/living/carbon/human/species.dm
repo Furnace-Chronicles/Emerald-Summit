@@ -1759,7 +1759,7 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 		if(selzone in GLOB.precision_vulnerable_zones)
 			var/mob/living/carbon/human/attacker = user
 			var/obj/item/clothing/outer_armor = H.get_best_armor(selzone, I.d_type, bladec, pen)
-			var/armor_class = outer_armor.armor_class == ARMOR_CLASS_NONE ? outer_armor.integ_armor_mod : outer_armor.armor_class
+			var/armor_class = outer_armor.armor_class == ARMOR_CLASS_NONE && outer_armor.integ_armor_mod != ARMOR_CLASS_NONE ? outer_armor.integ_armor_mod : outer_armor.armor_class
 			if(outer_armor && armor_class == ARMOR_CLASS_HEAVY || (istype(outer_armor, /obj/item/clothing/head/roguetown/helmet) && outer_armor:flags_cover & HEADCOVERSEYES))
 				var/precision_chance = max(pen - outer_armor.armor.getRating(I.d_type) - GLOB.precision_vulnerable_zones[selzone], 0) // This way, it's easier to find gaps in damaged armor, and easier to achieve with high-penetration attacks
 

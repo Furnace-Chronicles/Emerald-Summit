@@ -37,7 +37,7 @@
 				var/effective_val = val
 				if(blade_dulling in list(BCLASS_BLUNT, BCLASS_SMASH) && d_type == "blunt")
 					var/blunt_modifier = 0
-					var/effective_class = C.armor_class == ARMOR_CLASS_NONE ? C.integ_armor_mod : C.armor_class
+					var/effective_class = C.armor_class == ARMOR_CLASS_NONE && C.integ_armor_mod != ARMOR_CLASS_NONE ? C.integ_armor_mod : C.armor_class
 
 					switch(effective_class)
 						if(ARMOR_CLASS_LIGHT)

@@ -382,6 +382,7 @@
 	desc = "More form over function, this armor is fit for demonstration of might rather than open combat. The aged gilding slowly tarnishes away."
 	icon_state = "shadowplate"
 	item_state = "shadowplate"
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	name = "arming jacket"
@@ -462,7 +463,6 @@
 	desc = "A light armor of wildbeast hide. Far more durable than leather."
 	icon_state = "hidearmor"
 	max_integrity = 250
-	armor_class = ARMOR_CLASS_LIGHT
 
 /obj/item/clothing/suit/roguetown/armor/leather/studded/warden
 	name = "forester's armor"
@@ -963,6 +963,7 @@
 	equip_delay_self = 4 SECONDS
 	armor_class = ARMOR_CLASS_MEDIUM
 	smelt_bar_num = 2
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 
 /obj/item/clothing/suit/roguetown/armor/plate/scale/steppe
 	name = "steel heavy lamellar"
@@ -990,6 +991,7 @@
 	equip_delay_self = 4 SECONDS
 	unequip_delay_self = 4 SECONDS
 	armor_class = ARMOR_CLASS_HEAVY
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	smelt_bar_num = 3
 
 /obj/item/clothing/suit/roguetown/armor/plate/ComponentInitialize()
