@@ -22,7 +22,9 @@
 	if(new_owner)
 		owner = new_owner
 	if(owner)
-		LAZYADD(owner.status_effects, src)
+		// ASS LIST
+		LAZYINITLIST(owner.status_effects)
+		owner.status_effects[id] = src
 	if(!owner || !on_apply())
 		qdel(src)
 		return
@@ -41,7 +43,9 @@
 	if(owner)
 		linked_alert = null
 		owner.clear_alert(id)
-		LAZYREMOVE(owner.status_effects, src)
+		if(owner.status_effects)
+			if(owner.status_effects[id] == src)
+				owner.status_effects[id] = null
 		on_remove()
 		owner = null
 	effectedstats = list()
@@ -81,7 +85,9 @@
 	for(var/S in effectedstats)
 		owner.change_stat(S, -(effectedstats[S]))
 	owner.clear_alert(id)
-	LAZYREMOVE(owner.status_effects, src)
+	if(owner && owner.status_effects)
+		if(owner.status_effects[id] == src)
+			owner.status_effects[id] = null
 	owner = null
 	qdel(src)
 
@@ -131,49 +137,71 @@
 // HELPER PROCS //
 //////////////////
 
-/mob/living/proc/apply_status_effect(effect, ...) //applies a given status effect to this mob, returning the effect if it was successful
+// applies a given status effect to this mob, returning the effect if it was successful
+/mob/living/proc/apply_status_effect(effect, ...)
 	. = FALSE
-	var/datum/status_effect/S1 = effect
 	LAZYINITLIST(status_effects)
+
+	// ID from TYPE
+	var/datum/status_effect/template = effect
+	var/effect_id = initial(template.id)
+
 	var/list/arguments = args.Copy()
 	arguments[1] = src
-	for(var/datum/status_effect/S in status_effects)
-		if(S.id == initial(S1.id) && S.status_type)
-			if(S.status_type == STATUS_EFFECT_REPLACE)
-				S.be_replaced(arglist(arguments))
-			else if(S.status_type == STATUS_EFFECT_REFRESH)
-				S.refresh(arglist(arguments))
-				return
-			else
-				return
-	S1 = new effect(arguments)
-	. = S1
 
-/mob/living/proc/remove_status_effect(effect) //removes all of a given status effect from this mob, returning TRUE if at least one was removed
+	// Look for ID
+	var/datum/status_effect/current = status_effects[effect_id]
+
+	if(current && current.status_type)
+		if(current.status_type == STATUS_EFFECT_REPLACE)
+			// Remove old apply new
+			current.be_replaced(arglist(arguments))
+		else if(current.status_type == STATUS_EFFECT_REFRESH)
+			// update+refresh
+			current.refresh(arglist(arguments))
+			return
+		else
+			// STATUS_EFFECT_UNIQUE 
+			return
+
+	// No effect or old one removed
+	var/datum/status_effect/new_effect = new effect(arguments)
+	. = new_effect
+
+// removes all of a given status effect from this mob, returning TRUE if at least one was removed
+/mob/living/proc/remove_status_effect(effect)
 	. = FALSE
-	if(status_effects)
-		var/datum/status_effect/S1 = effect
-		for(var/datum/status_effect/S in status_effects)
-			if(initial(S1.id) == S.id)
-				qdel(S)
-				. = TRUE
+	if(!status_effects)
+		return
+
+	var/datum/status_effect/template = effect
+	var/effect_id = initial(template.id)
+
+	var/datum/status_effect/S = status_effects[effect_id]
+	if(S)
+		qdel(S)
+		. = TRUE
 
 /mob/living/proc/has_status_effect(datum/status_effect/checked_effect)
 	RETURN_TYPE(/datum/status_effect)
 
-	for(var/datum/status_effect/present_effect as anything in status_effects)
-		if(present_effect.id == initial(checked_effect.id))
-			return present_effect
+	if(!status_effects)
+		return null
 
-	return null
+	var/effect_id = initial(checked_effect.id)
+	return status_effects[effect_id]
 
 /mob/living/proc/has_status_effect_list(datum/status_effect/checked_effect)
 	RETURN_TYPE(/list)
 
 	var/list/effects_found = list()
-	for(var/datum/status_effect/present_effect as anything in status_effects)
-		if(present_effect.id == initial(checked_effect.id))
-			effects_found += present_effect
+	if(!status_effects)
+		return effects_found
+
+	var/effect_id = initial(checked_effect.id)
+	var/datum/status_effect/S = status_effects[effect_id]
+	if(S)
+		effects_found += S
 
 	return effects_found
 
