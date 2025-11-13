@@ -2819,6 +2819,7 @@
     icon_state = "dflower23"
     item_state = "dflower23"
 
+// beak helmet, yippie
 /obj/item/clothing/head/roguetown/helmet/heavy/beakhelm
 	name = "beak helmet"
 	desc = "An oddsphericalhelmet with a beaklike visor."
