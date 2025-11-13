@@ -25,7 +25,13 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 	var/list/possible_ages = ALL_AGES_LIST
 	var/sexes = 1		// whether or not the race has sexual characteristics. at the moment this is only 0 for skeletons and shadows
 	var/patreon_req = 0
+	var/base_name
+	var/sub_name
+	var/psydonic = FALSE
+	var/origin = "Scarlet Reach"
+	var/origin_default = /datum/virtue/origin/racial/reach
 	var/max_age = 75
+	var/is_subrace = FALSE
 	var/list/offset_features = list(OFFSET_ID = list(0,0), OFFSET_GLOVES = list(0,0),\
 	OFFSET_CLOAK = list(0,0), OFFSET_FACEMASK = list(0,0), OFFSET_HEAD = list(0,0), \
 	OFFSET_FACE = list(0,0), OFFSET_BELT = list(0,0), OFFSET_BACK = list(0,0), \
@@ -114,7 +120,7 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 	var/changesource_flags = NONE
 
 	/// Wording for skin tone on examine and on character setup
-	var/skin_tone_wording = "Skin Tone"
+	var/skin_tone_wording = "Ancestry"
 
 	/// Bodyparts to override base ones.
 	var/list/bodypart_overrides = list()
@@ -199,6 +205,10 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 		limbs_id = name
 	if(!clothes_id)
 		clothes_id = id
+	if(!sub_name)
+		sub_name = name
+	if(!base_name)
+		base_name = name
 	..()
 
 /datum/species/proc/after_creation(mob/living/carbon/human/H)

@@ -4,6 +4,10 @@
 /datum/species/moth
 	name = "Fluvian"
 	id = "moth"
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/racial/underdark
+	origin = "the Underdark"
+	base_name = "Beastvolk"
 	desc = "<b>Fluvian: Children of the Library</b><br>\
 	In an era long past there was a Great Library, containing the most powerful arcane tomes of the world in safety from those who would abuse them. \
 	In time it was abandoned and forgotten as its knights were called to service and died. \

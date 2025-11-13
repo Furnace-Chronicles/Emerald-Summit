@@ -8,6 +8,11 @@
 /datum/species/demihuman
 	name = "Half-Kin"
 	id = "demihuman"
+	psydonic = TRUE
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/grenzelhoft
+	origin = "Grenzelhoft"
+	base_name = "Humen"
 	desc = "<b>Half-Kin: A Beastblood Thinned	</b><br>\
 	The result of union between the major or minor furskinned species, and the humanlike races of the world. \
 	In some parts of Enigma they are shunned as bastards or impure forms of humanity, while other kingdoms treat them as regular citizens, \

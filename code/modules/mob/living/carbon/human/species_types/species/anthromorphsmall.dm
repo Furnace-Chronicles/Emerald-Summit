@@ -4,6 +4,8 @@
 /datum/species/anthromorphsmall
 	name = "Verminvolk"
 	id = "anthromorphsmall"
+	is_subrace = TRUE
+	base_name = "Beastvolk"
 	desc = "<b>Verminvolk: Outcasts of the World</b><br>\
 	A catch-all for various races of the world, too few in number and too insignificant in deeds to be remembered by the commoners of the kingdoms. \
 	They are seen as untrustworthy scavengers to most citizens, \

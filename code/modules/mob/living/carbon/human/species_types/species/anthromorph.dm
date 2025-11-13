@@ -4,6 +4,7 @@
 /datum/species/anthromorph
 	name = "Wild-Kin"
 	id = "anthromorph"
+	base_name = "Beastvolk"
 	desc = "<b>Wild-Kin: Minor Races of the World</b><br>\
 	A catch-all for various races of the planet too few in number to be properly remembered by the common citizens of the kingdoms. \
 	They are individual species with wildly varied origins, the rumor of crossbreeding or divine curses being a common prejudice no matter where they end up. \

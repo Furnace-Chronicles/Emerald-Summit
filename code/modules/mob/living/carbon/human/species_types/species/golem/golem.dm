@@ -5,6 +5,9 @@
 /datum/species/golem/metal
 	name = "Golem"
 	id = "golem"
+	origin_default = /datum/virtue/origin/naledi
+	origin = "Naledi"
+	base_name = "Construct"
 	desc = "<b>Golem: Guardians of the Mountainhome</b><br>\
 	For centuries the dwarven city-states grew in number, splendor and tightly guarded secrets. \
 	Soon the nations of man grew jealous and began to covet them greatly, culminating in a siege of the Platinum Citadel by the Grenzelhoft Freikorps. \

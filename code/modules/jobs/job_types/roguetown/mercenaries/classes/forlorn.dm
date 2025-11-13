@@ -54,3 +54,5 @@
 		/obj/item/roguekey/mercenary,
 		/obj/item/rogueweapon/scabbard/sheath,
 	)
+
+	change_origin(H, /datum/virtue/origin/raneshen)

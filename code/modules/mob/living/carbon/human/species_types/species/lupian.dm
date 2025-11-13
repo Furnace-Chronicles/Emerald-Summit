@@ -4,6 +4,10 @@
 /datum/species/lupian
 	name = "Lupian"
 	id = "lupian"
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/hammerhold
+	origin = "Hammerhold"
+	base_name = "Beastvolk"
 	desc = "<b>Lupian: Wolves of the Northland</b><br>\
 	Created by Dendor’s hand in the cold of Hammerhold, the Lupians were expected to survive by themselves as had his other races. \
 	But as they suffered from cold and malnutrition, intervention came by the spark of Noc’s ingenuity, who taught them how to not just survive, \

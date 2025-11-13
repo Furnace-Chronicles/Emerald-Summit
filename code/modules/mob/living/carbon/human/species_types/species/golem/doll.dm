@@ -5,6 +5,10 @@
 /datum/species/golem/porcelain
 	name = "Doll"
 	id = "doll"
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/otava
+	origin = "Otava"
+	base_name = "Construct"
 	desc = "<b>Porcelain Doll: Servants of Civility</b><br>\
 	After the discovery of the dwarven golems, wizards around the world attempted to replicate the miracle of the Automata to mixed results. \
 	The imperial wizards of the far east made the Doll as an arcane piece of engineering leaned towards administrative and hospitality \
@@ -17,7 +21,7 @@
 
 
 	construct = 1
-	skin_tone_wording = "Paint"
+	skin_tone_wording = "Material"
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,NOBLOOD)
 	default_features = MANDATORY_FEATURE_LIST

@@ -70,6 +70,8 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 
+	change_origin(H, /datum/virtue/origin/grenzelhoft)
+
 /datum/advclass/mercenary/grenzelhoft/halberdier
 	name = "Halberdier"
 	tutorial = "You're an experienced soldier skilled in the use of polearms and axes. Your equals make up the bulk of the mercenary guild's forces."
@@ -132,6 +134,8 @@
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
+
+	change_origin(H, /datum/virtue/origin/grenzelhoft)
 
 //crossbow and axe class. Rearguard. Utility skills, no medium armor, no dodge expert. This is NOT a go-face-first-into-war class.
 /datum/advclass/mercenary/grenzelhoft/crossbowman
@@ -203,3 +207,5 @@
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
+
+	change_origin(H, /datum/virtue/origin/grenzelhoft)

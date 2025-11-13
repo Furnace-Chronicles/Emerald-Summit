@@ -364,7 +364,7 @@
 
 /datum/crafting_recipe/roguetown/sewing/kimono
 	name = "kimono (2 fibers, 4 silk)"
-	result = list(/obj/item/clothing/suit/roguetown/shirt/robe)
+	result = list(/obj/item/clothing/suit/roguetown/shirt/undershirt/kimono)
 	reqs = list(/obj/item/natural/silk = 4,
 				/obj/item/natural/fibers = 2)
 	craftdiff = 4

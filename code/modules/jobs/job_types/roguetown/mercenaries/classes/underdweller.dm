@@ -65,6 +65,8 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1
 	)
 
+	change_origin(H, /datum/virtue/origin/racial/underdark)
+
 //Clothing here to avoid overcrowding the hats.dm with snowflake gear. It's just a kettle with a light.
 /obj/item/clothing/head/roguetown/helmet/kettle/minershelm
 	name = "reinforced miners helmet"

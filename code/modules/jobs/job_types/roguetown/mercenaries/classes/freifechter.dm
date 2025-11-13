@@ -59,6 +59,8 @@
 
 	backpack_contents = list(/obj/item/roguekey/mercenary)
 
+	change_origin(H, /datum/virtue/origin/avar)
+
 /datum/advclass/mercenary/freelancer/lancer
 	name = "Lancer"
 	tutorial = "You put complete trust in your polearm, the most effective weapon the world has seen. Why wear armour when you cannot be hit? You can choose your polearm, and are exceptionally accurate."
@@ -114,3 +116,5 @@
 	backr = /obj/item/storage/backpack/rogue/satchel/short
 
 	backpack_contents = list(/obj/item/roguekey/mercenary)
+
+	change_origin(H, /datum/virtue/origin/avar)

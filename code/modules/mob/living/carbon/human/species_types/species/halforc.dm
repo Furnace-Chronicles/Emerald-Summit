@@ -2,8 +2,11 @@
 	race = /datum/species/halforc
 
 /datum/species/halforc
-	name = "Half Orc"
+	name = "Half-Orc"
 	id = "halforc"
+	origin_default = /datum/virtue/origin/racial/gronn
+	origin = "Gronn"
+	base_name = "Ogroid"
 	desc = "<b>Half Orcs: Conquerors yet Conquered</b><br>\
 	Created by the hand of Ravox to serve his law and justice, orcs were dutiful and strong people. \
 	Yet when the orcish slave Graggar ascended he dominated a large swath of the species, stealing them away from his creator’s control. \

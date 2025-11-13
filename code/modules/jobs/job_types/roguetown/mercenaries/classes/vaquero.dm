@@ -88,3 +88,5 @@
 			backr = /obj/item/rogue/instrument/flute
 		if("Trumpet")
 			backr = /obj/item/rogue/instrument/trumpet
+
+	change_origin(H, /datum/virtue/origin/etrusca)

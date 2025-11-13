@@ -4,6 +4,10 @@
 /datum/species/dwarf/mountain
 	name = "Dwarf"
 	id = "dwarfm"
+	psydonic = TRUE
+	origin_default = /datum/virtue/origin/hammerhold
+	origin = "Hammerhold"
+	sub_name = "Mountain Dwarf"
 	clothes_id = "dwarf"
 	desc = "<b>Dwarf: Builders of the Cities</b><br>\
 	Created by the hand of Malum as the hammer that would build and forge civilization, \

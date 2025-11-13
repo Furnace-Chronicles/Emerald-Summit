@@ -7,12 +7,7 @@
 	noaa = TRUE
 
 /datum/intent/steal/on_mmb(atom/target, mob/living/user, params)
-	var/list/_mods = list("chance_add" = 0, "range_add" = 0)
-	SEND_SIGNAL(user, "steal_mods_query", _mods)
-
-	var/extra_range = max(0, _mods["range_add"] || 0)
-	var/allowed_range = 1 + extra_range
-	if(get_dist(user, target) > allowed_range)
+	if(!target.Adjacent(user))
 		return
 
 	if(ishuman(target))
@@ -32,11 +27,8 @@
 		to_chat(user, span_notice("I try to steal from [target_human]..."))
 
 		if(do_after(user, 5, target = target_human, progress = 0))
-			var/base_success = (stealroll > targetperception)
-			var/bonus_success = (!base_success && (_mods["chance_add"] > 0) && prob(_mods["chance_add"]))
-			var/final_success = base_success || bonus_success
-
-			if(final_success)
+			if(stealroll > targetperception)
+				//TODO add exp here
 				// RATWOOD MODULAR START
 				if(target_human.cmode)
 					to_chat(user, "<span class='warning'>[target_human] is alert. I can't pickpocket them like this.</span>")
@@ -89,27 +81,20 @@
 						to_chat(user, span_warning("I didn't find anything there. Perhaps I should look elsewhere."))
 				else
 					to_chat(user, "<span class='warning'>They can see me!")
-			else
-				if(stealroll <= 5)
-					target_human.log_message("has had an attempted pickpocket by [key_name(user_human)]", LOG_ATTACK, color="white")
-					user_human.log_message("has attempted to pickpocket [key_name(target_human)]", LOG_ATTACK, color="white")
-					user_human.visible_message(span_danger("[user_human] failed to pickpocket [target_human]!"))
-					to_chat(target_human, span_danger("[user_human] tried pickpocketing me!"))
-
-				if(stealroll < targetperception)
-					target_human.log_message("has had an attempted pickpocket by [key_name(user_human)]", LOG_ATTACK, color="white")
-					user_human.log_message("has attempted to pickpocket [key_name(target_human)]", LOG_ATTACK, color="white")
-					to_chat(user, span_danger("I failed to pick the pocket!"))
-					to_chat(target_human, span_danger("Someone tried pickpocketing me!"))
-					exp_to_gain /= 5
+			if(stealroll <= 5)
+				target_human.log_message("has had an attempted pickpocket by [key_name(user_human)]", LOG_ATTACK, color="white")
+				user_human.log_message("has attempted to pickpocket [key_name(target_human)]", LOG_ATTACK, color="white")
+				user_human.visible_message(span_danger("[user_human] failed to pickpocket [target_human]!"))
+				to_chat(target_human, span_danger("[user_human] tried pickpocketing me!"))
+			if(stealroll < targetperception)
+				target_human.log_message("has had an attempted pickpocket by [key_name(user_human)]", LOG_ATTACK, color="white")
+				user_human.log_message("has attempted to pickpocket [key_name(target_human)]", LOG_ATTACK, color="white")
+				to_chat(user, span_danger("I failed to pick the pocket!"))
+				to_chat(target_human, span_danger("Someone tried pickpocketing me!"))
+				exp_to_gain /= 5 // these can be removed or changed on reviewer's discretion
+			// If we're pickpocketing someone else, and that person is conscious, grant XP
 			if(user != target_human && target_human.stat == CONSCIOUS)
-				var/xp_gain = exp_to_gain
-				var/list/xpmods = list("xp_mult" = 1)
-				SEND_SIGNAL(user, "steal_xp_query", xpmods, /datum/skill/misc/stealing)
-				var/xpm = isnum(xpmods["xp_mult"]) ? xpmods["xp_mult"] : 1
-				xp_gain *= xpm
-				if(user?.mind)
-					user.mind.add_sleep_experience(/datum/skill/misc/stealing, xp_gain, FALSE)
+				user.mind.add_sleep_experience(/datum/skill/misc/stealing, exp_to_gain, FALSE)
 			user.changeNext_move(clickcd)
 
 	. = ..()

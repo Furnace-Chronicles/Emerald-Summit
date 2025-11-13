@@ -54,6 +54,8 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 	)
 
+	change_origin(H, /datum/virtue/origin/kazengun)
+
 /datum/advclass/wretch/swordhunter
 	name = "Sword Hunter"
 	tutorial = "Hailing from Lingyue, yours is an unique art: You seek the swords of worthy foes and add them to your collection, all in worship of Matiosu."
@@ -139,6 +141,8 @@
 			l_hand = /obj/item/rogueweapon/sword/iron/short/gladius
 	wretch_select_bounty(H)
 
+	change_origin(H, /datum/virtue/origin/kazengun)
+
 /datum/advclass/wretch/sohei
 	name = "Disgraced Custodian"
 	tutorial = "Once, you proudly defended a quiet place of worship. Now, you've turned your back on faith and duty, living the lyfe of a would-be Kazengite warlord."
@@ -200,3 +204,5 @@
 		if("Jumonji yari")
 			l_hand = /obj/item/rogueweapon/spear/boar/kazengun
 	wretch_select_bounty(H)
+
+	change_origin(H, /datum/virtue/origin/kazengun)

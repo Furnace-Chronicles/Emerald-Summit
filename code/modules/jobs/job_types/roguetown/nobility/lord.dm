@@ -110,6 +110,8 @@ GLOBAL_LIST_EMPTY(lord_titles)
 			mask = /obj/item/clothing/mask/rogue/lordmask/l
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 
+	change_origin(H, /datum/virtue/origin/racial/reach, "Royal line")
+
 //	SSticker.rulermob = H
 /** 
 	Warrior Lord subclass. An evolution from the Daring Twit. This is the original Lord Class.
@@ -147,6 +149,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 
 /datum/outfit/job/roguetown/lord/warrior/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.dna.species.soundpack_m = new /datum/voicepack/male/tyrant()
 	l_hand = /obj/item/rogueweapon/lordscepter // If you put something in l hand with a mother outfit
 	// It will dupe
 	if(H.age == AGE_OLD)
@@ -192,6 +195,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 
 /datum/outfit/job/roguetown/lord/merchant/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.dna.species.soundpack_m = new /datum/voicepack/male/tyrant()
 	l_hand = /obj/item/rogueweapon/lordscepter
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
@@ -233,6 +237,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 
 /datum/outfit/job/roguetown/lord/inbred/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.dna.species.soundpack_m = new /datum/voicepack/male/tyrant()
 	l_hand = /obj/item/rogueweapon/lordscepter
 
 	H.adjust_skillrank(/datum/skill/combat/crossbows, pick(0,1), TRUE)

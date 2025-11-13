@@ -69,6 +69,8 @@
 		/obj/item/paper/inqslip/arrival/ortho = 1
 		)
 
+	change_origin(H, /datum/virtue/origin/otava, "Holy order")
+
 /datum/outfit/job/roguetown/confessor/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/weapons = list("Shortsword", "Handmace", "Dagger")

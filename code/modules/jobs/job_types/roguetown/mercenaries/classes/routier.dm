@@ -79,3 +79,5 @@
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	backl = /obj/item/rogueweapon/shield/tower/metal
 	backpack_contents = list(/obj/item/roguekey/mercenary = 1, /obj/item/flashlight/flare/torch = 1)
+
+	change_origin(H, /datum/virtue/origin/otava)

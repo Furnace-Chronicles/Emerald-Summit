@@ -41,8 +41,8 @@
 	outfit = /datum/outfit/orcmarauder
 
 /datum/outfit/orcmarauder
-	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
-	pants =	/obj/item/clothing/under/roguetown/chainlegs/iron
+	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/orcish
+	pants =	/obj/item/clothing/under/roguetown/chainlegs/orcish
 	shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedboots
 	head = /obj/item/clothing/head/roguetown/helmet/leather
 
@@ -55,13 +55,43 @@
 	outfit = /datum/outfit/orcravager
 
 /datum/outfit/orcravager
-	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
-	pants =	/obj/item/clothing/under/roguetown/chainlegs/iron
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
-	head = /obj/item/clothing/head/roguetown/helmet/skullcap
-	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
+	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/orcish
+	pants =	/obj/item/clothing/under/roguetown/chainlegs/orcish
+	shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedboots
+	head = /obj/item/clothing/head/roguetown/helmet/leather
+	gloves = /obj/item/clothing/gloves/roguetown/chain/orcish
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/orcish
 	mask = /obj/item/clothing/mask/rogue/skullmask
+
+// Orcish armor variants - crude, unsalvageable scrap
+/obj/item/clothing/suit/roguetown/armor/chainmail/orcish
+	name = "crude orcish chainmail"
+	desc = "Poorly maintained chainmail worn by orcs. The rings are corroded and worthless for smelting."
+	smeltresult = null
+	max_integrity = 150
+	sellprice = 5
+
+/obj/item/clothing/under/roguetown/chainlegs/orcish
+	name = "crude orcish chausses"
+	desc = "Corroded chain leggings scavenged from orc equipment. Too damaged to salvage."
+	icon_state = "ichain_legs"
+	smeltresult = null
+	max_integrity = 150
+	sellprice = 3
+
+/obj/item/clothing/gloves/roguetown/chain/orcish
+	name = "crude orcish chain gauntlets"
+	desc = "Rusted chain gloves from orc armor. Worthless scrap."
+	smeltresult = null
+	max_integrity = 100
+	sellprice = 2
+
+/obj/item/clothing/neck/roguetown/chaincoif/orcish
+	name = "crude orcish coif"
+	desc = "A damaged chain coif from orc armor. Too corroded to smelt."
+	smeltresult = null
+	max_integrity = 100
+	sellprice = 2
 
 
 

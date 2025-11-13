@@ -4,6 +4,10 @@
 /datum/species/harpy
 	name = "Harpy"
 	id = "harpy"
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/etrusca
+	origin = "Etrusca"
+	base_name = "Beastvolk"
 	desc = "<b>Harpy: Songbirds in Flight</b><br>\
 	Called ‘magpies’ by those distrusting or irritated, some mistake this species for a halfkin race. \
 	The harpies are native to the coastal cliffs of Etrusca yet their colonies have spread to great sequoia forests and the chilly tops of mountains far across the world. \

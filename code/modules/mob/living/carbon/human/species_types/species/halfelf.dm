@@ -4,6 +4,9 @@
 /datum/species/human/halfelf
 	name = "Half-Elf"
 	id = "helf"
+	psydonic = TRUE
+	is_subrace = TRUE
+	base_name = "Humen"
 	desc = "<b>Half-Elf: A history divided</b><br>\
 	Between the elves of the hidden sacred groves or those of the undercities, and the humans of  Enigma, at times a bond is formed. \
 	While most species can crossbreed the odds of a healthy birth or even conception remains low between two species, \
@@ -13,7 +16,7 @@
 	They enjoy both the robust healthiness of humanity, and the keen senses of the elves.<br>\
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 CON | +1 PER</b></span> </br>"
 
-	skin_tone_wording = "Identity"
+	skin_tone_wording = "Tribal Identity"
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY)
 	inherent_traits = list(TRAIT_NOMOBSWAP)

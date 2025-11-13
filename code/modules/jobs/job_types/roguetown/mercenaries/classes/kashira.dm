@@ -51,3 +51,5 @@
 		/obj/item/flashlight/flare/torch/lantern,
 	)
 	H.adjust_blindness(-3)
+
+	change_origin(H, /datum/virtue/origin/kazengun)

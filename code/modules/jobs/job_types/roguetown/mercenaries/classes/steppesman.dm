@@ -40,6 +40,8 @@
 		/obj/item/rogueweapon/scabbard/sheath
 		)
 
+	change_origin(H, /datum/virtue/origin/avar)
+
 	// CLASS ARCHETYPES
 	H.adjust_blindness(-3)
 	var/classes = list("Szabrista - Saber Veteran", "Árkász - Elite Sapper", "Druzhina - Light Archer","Kozak - Light Infantry")

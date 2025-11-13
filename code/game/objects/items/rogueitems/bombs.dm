@@ -264,9 +264,9 @@
 	throw_speed = 1
 
 	// Define a base explodes() proc that subtypes can override because its now explodes proc
-	proc/explodes()
-		STOP_PROCESSING(SSfastprocess, src)
-		qdel(src) // Delete the grenade after use boy (ALWAYS USE IT)
+/obj/item/impact_grenade/proc/explodes()
+	STOP_PROCESSING(SSfastprocess, src)
+	qdel(src) // Delete the grenade after use boy (ALWAYS USE IT)
 
 /obj/item/impact_grenade/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	..()
@@ -280,81 +280,81 @@
 	name = "Impact grenade"
 	desc = "Some substance, hidden under some paper and skin. This one sparks..."
 
-	explodes() 
-		STOP_PROCESSING(SSfastprocess, src)
-		var/turf/T = get_turf(src)
-		if(T)
-			explosion(T, heavy_impact_range = 1, light_impact_range = 2, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
-			qdel(src)
+/obj/item/impact_grenade/explosion/explodes() 
+	STOP_PROCESSING(SSfastprocess, src)
+	var/turf/T = get_turf(src)
+	if(T)
+		explosion(T, heavy_impact_range = 1, light_impact_range = 2, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+		qdel(src)
 
 /obj/item/impact_grenade/smoke
 	name = "Impact grenade"
 	desc = "Some substance, hidden under some paper and skin. This one emits clouds of harmless smoke..."
 
-	explodes()
-		STOP_PROCESSING(SSfastprocess, src)
-		var/turf/T = get_turf(src)
-		playsound(T, 'sound/misc/explode/incendiary (1).ogg', 100)
-		for(T in view(1, T))
-			new /obj/effect/particle_effect/smoke(T)
-		qdel(src)
+/obj/item/impact_grenade/smoke/explodes()
+	STOP_PROCESSING(SSfastprocess, src)
+	var/turf/T = get_turf(src)
+	playsound(T, 'sound/misc/explode/incendiary (1).ogg', 100)
+	for(T in view(1, T))
+		new /obj/effect/particle_effect/smoke(T)
+	qdel(src)
 
 /obj/item/impact_grenade/poison_gas
 	name = "Impact grenade"
 	desc = "Some substance, hidden under some paper and skin. The smell of this one makes you to gasp..."
 
-	explodes() 
-		STOP_PROCESSING(SSfastprocess, src)
-		var/turf/T = get_turf(src)
-		playsound(T, 'sound/misc/explode/incendiary (1).ogg', 100)
-		for(T in view(2, T))
-			new /obj/effect/particle_effect/smoke/poison_gas(T)
-		qdel(src)
+/obj/item/impact_grenade/poison_gas/explodes() 
+	STOP_PROCESSING(SSfastprocess, src)
+	var/turf/T = get_turf(src)
+	playsound(T, 'sound/misc/explode/incendiary (1).ogg', 100)
+	for(T in view(2, T))
+		new /obj/effect/particle_effect/smoke/poison_gas(T)
+	qdel(src)
 
 /obj/item/impact_grenade/healing_gas
 	name = "impact grenade"
 	desc = "Some substance, hidden under some paper and skin. The smell of this one reminds you the taste of red..."
 
-	explodes() 
-		STOP_PROCESSING(SSfastprocess, src)
-		var/turf/T = get_turf(src)
-		playsound(T, 'sound/misc/explode/incendiary (1).ogg', 100)
-		for(T in view(2, T))
-			new /obj/effect/particle_effect/smoke/healing_gas(T)
-		qdel(src)
+/obj/item/impact_grenade/healing_gas/explodes() 
+	STOP_PROCESSING(SSfastprocess, src)
+	var/turf/T = get_turf(src)
+	playsound(T, 'sound/misc/explode/incendiary (1).ogg', 100)
+	for(T in view(2, T))
+		new /obj/effect/particle_effect/smoke/healing_gas(T)
+	qdel(src)
 
 /obj/item/impact_grenade/fire_gas
 	name = "impact grenade"
 	desc = "Some substance, hidden under some paper and skin. Smells like a chicken and burns your hand..."
 
-	explodes() 
-		STOP_PROCESSING(SSfastprocess, src)
-		var/turf/T = get_turf(src)
-		playsound(T, 'sound/misc/explode/incendiary (1).ogg', 100)
-		for(T in view(2, T))
-			new /obj/effect/particle_effect/smoke/fire_gas(T)
-		qdel(src)
+/obj/item/impact_grenade/fire_gas/explodes() 
+	STOP_PROCESSING(SSfastprocess, src)
+	var/turf/T = get_turf(src)
+	playsound(T, 'sound/misc/explode/incendiary (1).ogg', 100)
+	for(T in view(2, T))
+		new /obj/effect/particle_effect/smoke/fire_gas(T)
+	qdel(src)
 
 /obj/item/impact_grenade/blind_gas
 	name = "impact grenade"
 	desc = "Some substance, hidden under some paper and skin. The smell that comes from this one makes your eyes to cry."
 
-	explodes() 
-		STOP_PROCESSING(SSfastprocess, src)
-		var/turf/T = get_turf(src)
-		playsound(T, 'sound/misc/explode/incendiary (1).ogg', 100)
-		for(T in view(2, T))
-			new /obj/effect/particle_effect/smoke/blind_gas(T)
-		qdel(src)
+/obj/item/impact_grenade/blind_gas/explodes() 
+	STOP_PROCESSING(SSfastprocess, src)
+	var/turf/T = get_turf(src)
+	playsound(T, 'sound/misc/explode/incendiary (1).ogg', 100)
+	for(T in view(2, T))
+		new /obj/effect/particle_effect/smoke/blind_gas(T)
+	qdel(src)
 
 /obj/item/impact_grenade/mute_gas
 	name = "impact grenade"
 	desc = "Some substance, hidden under some paper and skin. Smell of this one makes your mind clean and not able to say a word."
 
-	explodes() 
-		STOP_PROCESSING(SSfastprocess, src)
-		var/turf/T = get_turf(src)
-		playsound(T, 'sound/misc/explode/incendiary (1).ogg', 100)
-		for(T in view(2, T))
-			new /obj/effect/particle_effect/smoke/mute_gas(T)
-		qdel(src)		
+/obj/item/impact_grenade/mute_gas/explodes() 
+	STOP_PROCESSING(SSfastprocess, src)
+	var/turf/T = get_turf(src)
+	playsound(T, 'sound/misc/explode/incendiary (1).ogg', 100)
+	for(T in view(2, T))
+		new /obj/effect/particle_effect/smoke/mute_gas(T)
+	qdel(src)		

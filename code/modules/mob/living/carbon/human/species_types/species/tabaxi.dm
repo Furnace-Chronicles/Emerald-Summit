@@ -4,6 +4,10 @@
 /datum/species/tabaxi
 	name = "Tabaxi"
 	id = "tabaxi"
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/raneshen
+	origin = "Raneshen"
+	base_name = "Beastvolk"
 	desc = "<b>Tabaxi: Of A Mood Mercurial</b><br>\
 		Slender and taller than a typical human, these wildkin tend to stand equally with elves, \
 		infuriating dwarves with their height. Hailing first from the deep jungles of Etrusca, \
@@ -13,7 +17,6 @@
 		yet still most of humanity would not trust them not to snatch their coinpurse; some even think they were made by Matthios, \
 		that they are given to both thievery and treachery.<br>\
 		<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 SPD</b></span> </br>"
-	skin_tone_wording = "Fur Colors"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE, MUTCOLORS)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | SLIME_EXTRACT
 	possible_ages = ALL_AGES_LIST

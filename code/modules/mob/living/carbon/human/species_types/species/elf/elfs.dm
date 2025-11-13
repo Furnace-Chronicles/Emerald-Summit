@@ -4,7 +4,9 @@
 /datum/species/elf/wood
 	name = "Elf"
 	id = "elfw"
-	desc = "<b>Elf: Guardians of the Grove</b><br>\
+	psydonic = TRUE
+	sub_name = "Wood Elf"
+	desc = "<b>Wood Elf: Guardians of the Grove</b><br>\
 	In the creation of Enigma, Abyssor and Dendor were tasked with making its creatures and lands. \
 	Dendor wanted appreciation for his works, and he made the first race of the world, and the elves looked upon the wilds and praised him. \
 	Typically living 500 years they would carefully protect his sacred groves, \

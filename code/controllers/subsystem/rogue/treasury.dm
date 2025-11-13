@@ -1,6 +1,7 @@
 #define RURAL_TAX 50 // Free money. A small safety pool for lowpop mostly
 #define TREASURY_TICK_AMOUNT 6 MINUTES
 #define EXPORT_ANNOUNCE_THRESHOLD 100
+#define FOREIGNER_TAX_MULTIPLIER 1.5 //Amount that the tax rate is multiplied by for foreigners
 
 /proc/send_ooc_note(msg, name, job)
 	var/list/names_to = list()
@@ -31,7 +32,7 @@ SUBSYSTEM_DEF(treasury)
 	var/treasury_value = 0
 	var/mint_multiplier = 0.8 // 1x is meant to leave a margin after standard 80% collectable. Less than Bathmatron.
 	var/minted = 0
-	var/autoexport_percentage = 0.6 // Percentage above which stockpiles will automatically export  
+	var/autoexport_percentage = 0.6 // Percentage above which stockpiles will automatically export
 	var/list/bank_accounts = list()
 	var/list/noble_incomes = list()
 	var/list/stockpile_datums = list()
@@ -168,6 +169,10 @@ SUBSYSTEM_DEF(treasury)
 	if(character in bank_accounts)
 		if(HAS_TRAIT(character, TRAIT_NOBLE))
 			bank_accounts[character] += amt
+		else if(HAS_TRAIT(character, TRAIT_OUTLANDER) && !HAS_TRAIT(character, TRAIT_INQUISITION)) //Outsiders who aren't inquisition get taxed extra
+			taxed_amount = round(amt * tax_value * FOREIGNER_TAX_MULTIPLIER)
+			amt -= taxed_amount
+			bank_accounts[character] += amt
 		else
 			taxed_amount = round(amt * tax_value)
 			amt -= taxed_amount
@@ -241,7 +246,7 @@ SUBSYSTEM_DEF(treasury)
 	return amt
 
 /datum/controller/subsystem/treasury/proc/auto_export()
-	var/total_value_exported = 0 
+	var/total_value_exported = 0
 	for(var/datum/roguestock/D in stockpile_datums)
 		if(!D.importexport_amt)
 			continue

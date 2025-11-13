@@ -4,6 +4,10 @@
 /datum/species/goblinp
 	name = "Goblin"
 	id = "goblinp"
+	origin_default = /datum/virtue/origin/racial/gronn
+	origin = "Gronn"
+	is_subrace = TRUE
+	base_name = "Ogroid"
 	desc = "<b>Goblin: Nomadic Tribes of the Night</b><br>\
 	Created by the hand of Noc as a creative and inquisitive species, \
 	tribes of goblins spread across the world from the wind-whipped steppes of Gronn. \
@@ -19,7 +23,6 @@
 	inherent_traits = list(TRAIT_NASTY_EATER)
 	possible_ages = ALL_AGES_LIST
 	use_skintones = TRUE
-	skin_tone_wording = "Skin Color"
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/goblin.dmi'
 	limbs_icon_f = 'icons/roguetown/mob/bodies/f/dwarf.dmi'
 	dam_icon = 'icons/roguetown/mob/bodies/dam/dam_male.dmi'

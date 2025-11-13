@@ -63,3 +63,5 @@
 		/obj/item/rogueweapon/huntingknife/idagger/navaja,
 		/obj/item/lockpick = 1
 	)
+
+	change_origin(H, /datum/virtue/origin/etrusca)

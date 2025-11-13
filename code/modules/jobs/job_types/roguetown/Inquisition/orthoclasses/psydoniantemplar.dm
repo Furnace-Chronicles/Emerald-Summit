@@ -65,6 +65,7 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = FALSE, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles. ENDURE.
 
+	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 
 /datum/outfit/job/roguetown/psydoniantemplar/choose_loadout(mob/living/carbon/human/H)
 	. = ..()

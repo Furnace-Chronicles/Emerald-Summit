@@ -4,6 +4,10 @@
 /datum/species/human/northern
 	name = "Humen"
 	id = "humen"
+	psydonic = TRUE
+	origin_default = /datum/virtue/origin/grenzelhoft
+	origin = "Grenzelhoft"
+	sub_name = "Northern Humen"
 	desc = "<b>Humen: Objectively the Best</b><br>\
 	Created directly by Psydon’s hands the humans were made in his image, determined and proud. \
 	Found across the world they are diverse in belief and culture, yet their differences strengthen the bond of this species. \

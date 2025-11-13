@@ -78,6 +78,8 @@
 	)
 
 /datum/outfit/job/roguetown/marshal/classic/pre_equip(mob/living/carbon/human/H)
+	..()
+	H.dna.species.soundpack_m = new /datum/voicepack/male/tyrant()
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/sheriff
 	cloak = /obj/item/clothing/cloak/stabard/surcoat/bailiff
 	backr = /obj/item/rogueweapon/mace/cudgel/justice
@@ -117,6 +119,8 @@
 	)
 
 /datum/outfit/job/roguetown/marshal/kcommander/pre_equip(mob/living/carbon/human/H)
+	..()
+	H.dna.species.soundpack_m = new /datum/voicepack/male/tyrant()
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/sheriff/coat
 	backr = /obj/item/rogueweapon/sword/long/oathkeeper
 	belt = /obj/item/storage/belt/rogue/leather

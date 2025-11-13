@@ -75,7 +75,6 @@
 #define TRAIT_SLAYER "Slayer Oath"
 #define TRAIT_NODEF "Recklessness"
 
-
 //Hearthstone port (Tracking)
 #define TRAIT_PERFECT_TRACKER "Perfect Tracker" //Will always find any tracks and analyzes them perfectly.
 #define TRAIT_ZIZOSIGHT "Blessing of Zizo" // I can see just a bit more clearly in darkness.
@@ -215,6 +214,8 @@
 //role related traits
 #define TRAIT_MASTER_CARPENTER "Master Carpenter"
 #define TRAIT_MASTER_MASON "Master Masonry"
+#define TRAIT_ROYALSERVANT "Household Insight" // Let's you see the royals liked/hated food/drink
+
 
 GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_RITES_BLOCKED = span_bloody("I can't perform any rites for now."),
@@ -387,6 +388,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ENGINEERING_GOGGLES = span_warning("I can see structural details others can't"),
 	TRAIT_MASTER_CARPENTER = span_warning("I've been trained to make the most of wood"), 
 	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"),
+	TRAIT_ROYALSERVANT = span_greentext("I've been serving the royal family for long enough to know their exotic tastes."), 
 	TRAIT_SLAYER = span_warning("My vows forbid me from protecting my weakspots with armor."),
 	TRAIT_NODEF = span_warning("I expose myself in battle completely."),
 	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"), 

@@ -38,7 +38,6 @@
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/invisibility/miracle	= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blindness				= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/silence 				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/self/noc_spell_bundle			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T3,
 	)
@@ -196,8 +195,6 @@
 					/obj/effect/proc_holder/spell/invoked/attach_bodypart		= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/cure_rot				= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/regrow_limbs			= CLERIC_T4,
-					/obj/effect/proc_holder/spell/invoked/pestratouch			= CLERIC_T4,
 	)
 	confess_lines = list(
 		"PESTRA SOOTHES ALL ILLS!",

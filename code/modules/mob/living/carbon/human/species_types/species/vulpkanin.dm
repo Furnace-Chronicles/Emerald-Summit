@@ -4,6 +4,10 @@
 /datum/species/vulpkanin
 	name = "Vulpkian"
 	id = "vulpkanin"
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/grenzelhoft
+	origin = "Grenzelhoft"
+	base_name = "Beastvolk"
 	desc = "<b>Vulpkian: Creatives of the Forest</b><br>\
 	Created by the hand of Dendor in the earliest era, Xylix took to favor these fox-like wildkin and blessed them with his creative spark. \
 	Native to the mountains and woods of Grenzelhoft, they have spread across the world as explorers and poets, creating art and testing the limits of luck. \

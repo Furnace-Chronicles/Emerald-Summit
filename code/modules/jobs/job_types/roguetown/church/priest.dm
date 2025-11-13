@@ -25,7 +25,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	whitelist_req = FALSE
 
 
-	spells = list(/obj/effect/proc_holder/spell/self/convertrole/templar, /obj/effect/proc_holder/spell/self/convertrole/monk)
+	spells = list(/obj/effect/proc_holder/spell/invoked/cure_rot, /obj/effect/proc_holder/spell/self/convertrole/templar, /obj/effect/proc_holder/spell/self/convertrole/monk)
 	outfit = /datum/outfit/job/roguetown/priest
 
 	display_order = JDO_PRIEST
@@ -111,7 +111,6 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		H.adjust_skillrank_up_to(/datum/skill/magic/holy, 6, TRUE)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron) // This creates the cleric holder used for devotion spells
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.
-	H.miracle_points = max(H.miracle_points, 20)
 
 	H.verbs |= /mob/living/carbon/human/proc/coronate_lord
 	H.verbs |= /mob/living/carbon/human/proc/churchexcommunicate //your button against clergy
@@ -119,7 +118,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	H.verbs |= /mob/living/carbon/human/proc/churchpriestcurse //snowflake priests button. Will not sacrifice them
 	H.verbs |= /mob/living/carbon/human/proc/churcheapostasy //punish the lamb reward the wolf
 	H.verbs |= /mob/living/carbon/human/proc/completesermon
-	H.verbs |= /mob/living/carbon/human/proc/change_patron
+	H.verbs |= /mob/living/carbon/human/proc/change_miracle_set
 
 //	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)		- You are literally disinherited. Begone......
 
@@ -131,8 +130,8 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	total_positions = 0
 	spawn_positions = 0
 
-/mob/living/carbon/human/proc/change_patron(mob/living/user)
-	set name = "Change Patron"
+/mob/living/carbon/human/proc/change_miracle_set(mob/living/user)
+	set name = "Change Miracle Set"
 	set category = "Priest"
 	if(!mind)
 		return
@@ -140,28 +139,23 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	var/list/god_type = list()
 	for(var/path as anything in GLOB.patrons_by_faith[/datum/faith/divine])
 		var/datum/patron/patron = GLOB.patronlist[path]
-		if(!patron || !patron.name)
-			continue
 		god_choice += list("[patron.name]" = icon(icon = 'icons/mob/overhead_effects.dmi', icon_state = "sign_[patron.name]"))
 		god_type[patron.name] = patron
 	var/string_choice = show_radial_menu(src, src, god_choice, require_near = FALSE)
 	if(!string_choice)
 		return
-	var/datum/patron/new_patron = god_type[string_choice]
-	if(!new_patron)
-		return
-	if(patron && istype(patron, new_patron.type))
-		to_chat(src, span_info("You already follow [string_choice]."))
-		return
-	patron = new_patron
-	if(devotion && ("patron" in devotion.vars))
-		devotion.patron = new_patron
+	var/datum/patron/god = god_type[string_choice]
+	mind.RemoveAllSpells()
+	var/datum/devotion/patrondev = new /datum/devotion(src, god)
+	patrondev.grant_miracles(src, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, devotion_limit = CLERIC_REQ_4)
 	if (string_choice == "Astrata")
 		to_chat(src, "<font color='yellow'>HEAVEN SHALL THEE RECOMPENSE. THOU BEAREST MY POWER ONCE MORE.</font>")
 	else
-		to_chat(src, "<font color='yellow'>Thou now professes faith in [string_choice].</font>")
-
-	to_chat(src, "<font color='yellow'>Your miracles remain unchanged.</font>")
+		to_chat(src, "<font color='yellow'>Thou wieldeth now the power of [string_choice].</font>")
+	to_chat(src, "<font color='yellow'>TThe strain of changing your miracles has consumed all your devotion.</font>")
+	mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/cure_rot)
+	mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/monk)
+	mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/templar)
 
 /mob/living/carbon/human/proc/coronate_lord()
 	set name = "Coronate"

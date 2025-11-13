@@ -4,6 +4,8 @@
 /datum/species/aasimar
 	name = "Aasimar"
 	id = "aasimar"
+	origin_default = /datum/virtue/origin/otava
+	origin = "Otava"
 	desc = "<b>Aasimar: Child of Destiny</b><br>\
 	Created by Psydon was the Divine Family, ten sibling gods who helped to create \
 	the world and safeguard it from decay and destruction; and from the gods came the angels, \
@@ -13,8 +15,6 @@
 	Their very blood brings fortune, and their deaths are ill omens. <br>\
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 FOR</b></span> </br>\
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> LANGUAGE: Celestial - ,c</b></span> </br>"
-
-	skin_tone_wording = "Craft"
 
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY)
 	inherent_traits = list(TRAIT_NOMOBSWAP)

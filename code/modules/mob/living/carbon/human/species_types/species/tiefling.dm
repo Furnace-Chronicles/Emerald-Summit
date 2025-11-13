@@ -4,6 +4,8 @@
 /datum/species/tieberian
 	name = "Tiefling"
 	id = "tiefling"
+	origin_default = /datum/virtue/origin/etrusca
+	origin = "Etrusca"
 	desc = "<b>Tiefling: Enemies of Hell</b><br>\
 	In the first demonic incursion of Enigma, the infernal legions came to our world without hesitation. \
 	As great portals opened in the atolls of Etrusca’s southern isles, the kings of the city-states stood in the defense of the planet; \

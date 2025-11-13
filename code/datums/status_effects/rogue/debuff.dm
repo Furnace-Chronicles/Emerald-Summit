@@ -839,24 +839,3 @@
 /////////////////////////////
 ///HARPY FLIGHT STUFF END///
 ///////////////////////////
-
-/datum/status_effect/debuff/quest_lock
-	id = "quest_lock"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/quest_lock
-	duration = 20 MINUTES
-
-/atom/movable/screen/alert/status_effect/debuff/quest_lock
-	name = "Edict of the Ten"
-	desc = "A sliver of sacred favor clings to you. Followers of the Ten will not enlist your aid in their routine."
-	icon_state = "debuff"
-
-/datum/status_effect/debuff/silver_curse
-	id = "silver_curse"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/silver_curse
-	effectedstats = list("strength" = -2,"perception" = -2,"intelligence" = -2, "constitution" = -2, "endurance" = -2, "speed" = -2)
-	duration = 45 SECONDS
-
-/atom/movable/screen/alert/status_effect/debuff/silver_curse
-	name = "Silver Curse"
-	desc = "My BANE!"
-	icon_state = "hunger3"

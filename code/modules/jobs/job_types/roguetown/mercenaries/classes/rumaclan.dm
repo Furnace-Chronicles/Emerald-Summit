@@ -49,6 +49,8 @@
 		/obj/item/flashlight/flare/torch/lantern,
 		)
 
+	change_origin(H, /datum/virtue/origin/kazengun)
+
 /datum/advclass/mercenary/rumaclan/ishu
 	name = "Ruma Clan Ishu"
 	tutorial = "A band of foreign Kazengites. The Ruma Clan isn't an organized group of soldiers - rather a loose collection of fighters, with strange tattoos that act as armor."
@@ -102,3 +104,5 @@
 			belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun
 		if("Smokebombs")
 			belt = /obj/item/storage/belt/rogue/leather/smokebelt/black
+
+	change_origin(H, /datum/virtue/origin/kazengun)

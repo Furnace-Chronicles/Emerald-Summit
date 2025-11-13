@@ -4,6 +4,10 @@
 /datum/species/akula
 	name = "Axian"
 	id = "akula"
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/etrusca
+	origin = "Etrusca"
+	base_name = "Beastvolk"
 	desc = "<b>Axian: Sharks of Etrusca</b><br>\
 	During Psydon’s battle with Zizo, great floods threatened people on the coasts of the province of Etrusca. \
 	Abyssor heard these prayers and stepped in, transforming those threatened by the flood into fishy abominations. \

@@ -71,6 +71,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/datum/statpack/statpack	= new /datum/statpack/wildcard/fated // LETHALSTONE EDIT: the statpack we're giving our char instead of racial bonuses
 	var/datum/virtue/virtue = new /datum/virtue/none // LETHALSTONE EDIT: the virtue we get for not picking a statpack
 	var/datum/virtue/virtuetwo = new /datum/virtue/none
+	var/datum/virtue/virtue_origin = new /datum/virtue/none
 	var/age = AGE_ADULT						//age of character
 	var/origin = "Default"
 	var/accessory = "Nothing"
@@ -226,7 +227,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			return
 	//Set the race to properly run race setter logic
 	set_new_race(pref_species, null)
-	
+	virtue_origin = new pref_species.origin_default
+
+
 
 	
 
@@ -265,6 +268,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	reset_all_customizer_accessory_colors()
 	randomize_all_customizer_accessories()
 	reset_descriptors()
+	virtue_origin = new pref_species.origin_default
 	tail_type = /obj/item/bodypart/lamian_tail/lamian_tail
 
 #define APPEARANCE_CATEGORY_COLUMN "<td valign='top' width='14%'>"
@@ -378,10 +382,13 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			// LETHALSTONE EDIT END
 
 			dat += "<BR>"
-			dat += "<b>Race:</b> <a href='?_src_=prefs;preference=species;task=input'>[pref_species.name]</a>[spec_check(user) ? "" : " (!)"]<BR>"
+			dat += "<b>Race:</b> <a href='?_src_=prefs;preference=species;task=input'>[pref_species.base_name]</a>[spec_check(user) ? "" : " (!)"]<BR>"
+			dat += "<b>Subrace:</b> <a href='?_src_=prefs;preference=subspecies;task=input'>[pref_species.sub_name]</a>[spec_check(user) ? "" : " (!)"] <a href='?_src_=prefs;preference=racehelp;task=input'>[pref_species.psydonic ? "<font color='#1cb308'>ᛉ</font>" : "<font color='#aa0202'>ᛣ</font>"]</a><BR>"
+			dat += "<b>Origin:</b> <a href='?_src_=prefs;preference=origin;task=input'>[virtue_origin]</a> <a href='?_src_=prefs;preference=originhelp;task=input'>❖</a><BR>"
 
 			// LETHALSTONE EDIT BEGIN: add statpack selection
 			dat += "<b>Statpack:</b> <a href='?_src_=prefs;preference=statpack;task=input'>[statpack.name]</a><BR>"
+			dat += "<BR>"
 //			dat += "<a href='?_src_=prefs;preference=species;task=random'>Random Species</A> "
 //			dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_SPECIES]'>Always Random Species: [(randomise[RANDOM_SPECIES]) ? "Yes" : "No"]</A><br>"
 
@@ -494,7 +501,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			if(ispath(extra_language, /datum/language))
 				selected_lang = extra_language
 				lang_output = initial(selected_lang.name)
-			dat += "<b>Extra Language: </b><a href='?_src_=prefs;preference=extra_language;task=input'>[lang_output]</a>"
+
+			dat += "<b>Free Language: </b><a href='?_src_=prefs;preference=extra_language;task=input'>[lang_output]</a>"
 			dat += "<br><b>Voice Color: </b><a href='?_src_=prefs;preference=voice;task=input'>Change</a>"
 			dat += "<br><b>Nickname Color: </b> </b><a href='?_src_=prefs;preference=highlight_color;task=input'>Change</a>"
 			dat += "<br><b>Voice Pitch: </b><a href='?_src_=prefs;preference=voice_pitch;task=input'>[voice_pitch]</a>"
@@ -968,6 +976,13 @@ GLOBAL_LIST_EMPTY(chosen_names)
 						name = virtuetwo.name
 				if(!isnull(name))
 					HTML += "<font color='#a59461'>[used_name] (Disallowed by Virtue: [name])</font></td> <td> </td></tr>"
+					continue
+			if(length(job.virtue_restrictions))
+				var/name
+				if(virtue_origin.type in job.virtue_restrictions)
+					name = virtue_origin.name
+				if(!isnull(name))
+					HTML += "<font color='#a59461'>[used_name] (Disallowed by Origin: [name])</font></td> <td> </td></tr>"
 					continue
 			if(length(job.vice_restrictions))
 				if(charflaw.type in job.vice_restrictions)
@@ -1687,22 +1702,12 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							to_chat(user, "<font color='red'>This voice color is too dark for mortals.</font>")
 							return
 						voice_color = sanitize_hexcolor(new_voice)
-				
+
 				if("extra_language")
 					var/static/list/selectable_languages = list(
-						/datum/language/elvish,
-						/datum/language/dwarvish,
-						/datum/language/orcish, 
-						/datum/language/hellspeak,
-						/datum/language/draconic,
-						/datum/language/celestial,
 						/datum/language/grenzelhoftian,
-						/datum/language/kazengunese,
 						/datum/language/etruscan,
-						/datum/language/gronnic,
 						/datum/language/otavan,
-						/datum/language/aavnic,
-						/datum/language/abyssal,
 					)
 					var/list/choices = list("None")
 					for(var/language in selectable_languages)
@@ -1710,9 +1715,10 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							continue
 						var/datum/language/a_language = new language()
 						choices[a_language.name] = language
-					
+
 					var/chosen_language = tgui_input_list(user, "Choose your character's extra language:", "EXTRA LANGUAGE", choices)
 					if(chosen_language)
+						to_chat(user, "<span class='notice'>Language will not be applied unless selected Origin provides a free language.</span>")
 						if(chosen_language == "None")
 							extra_language = "None"
 						else
@@ -1776,6 +1782,22 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					dat += "Minimum Flavortext: <b>[MINIMUM_FLAVOR_TEXT]</b> characters.<br>"
 					dat += "Minimum OOC Notes: <b>[MINIMUM_OOC_NOTES]</b> characters."
 					var/datum/browser/popup = new(user, "Formatting Help", nwidth = 400, nheight = 350)
+					popup.set_content(dat.Join())
+					popup.open(FALSE)
+				if("racehelp")
+					var/list/dat = list()
+					dat += "A <font color='#1cb308'>ᛉ</font> symbol indicates a <b>PSYDONIC</b> race, created by <b>Him</b> before his demise.<br>"
+					dat += "These races are eligible for royal nobility.<br>"
+					dat += "A <font color='#aa0202'>ᛣ</font> symbol indicates an <b>INHUMEN</b> race, beings of origins other than <b>PSYDON</b>.<br>"
+					dat += "These races are not eligible for royal nobility."
+					var/datum/browser/popup = new(user, "Race Help", nwidth = 400, nheight = 350)
+					popup.set_content(dat.Join())
+					popup.open(FALSE)
+				if("originhelp")
+					var/list/dat = list()
+					dat +="<b>Origin Description:</b><br>"
+					dat += "[virtue_origin.origin_desc]"
+					var/datum/browser/popup = new(user, "Race Help", nwidth = 600, nheight = 450)
 					popup.set_content(dat.Join())
 					popup.open(FALSE)
 				if("skin_color_ref_list")
@@ -2031,14 +2053,39 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if(user.client)
 							if(race.patreon_req > user.client.patreonlevel())
 								continue
+							if(race.is_subrace == TRUE)
+								continue
+							if(race.base_name == pref_species.base_name)
+								continue
 						else
 							continue
-						species += race
+						species[race.base_name] += race
 
 					var/result = tgui_input_list(user, "By what shape are you bound?", "RACE", species)
 
 					if(result)
-						set_new_race(result, user)
+						var/datum/virtue/race_chosen = species[result]
+						set_new_race(race_chosen, user)
+
+				if("subspecies")
+					var/list/species = list()
+					for(var/A in GLOB.roundstart_races)
+						var/datum/species/race = GLOB.species_list[A]
+						race = new race()
+						if(user.client)
+							if(race.base_name != pref_species.base_name)
+								continue
+							if(race.sub_name == pref_species.sub_name)
+								continue
+						else
+							continue
+						species[race.sub_name] += race
+
+					var/result = tgui_input_list(user, "By what shape are you bound?", "SUBRACE", species)
+
+					if(result)
+						var/datum/virtue/subrace_chosen = species[result]
+						set_new_race(subrace_chosen, user)
 
 				if("update_mutant_colors")
 					update_mutant_colors = !update_mutant_colors
@@ -2051,10 +2098,13 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							continue
 						if (V.name == virtue.name || V.name == virtuetwo.name)
 							continue
+						if (istype(V, /datum/virtue/origin))
+							continue
 						if (istype(V, /datum/virtue/heretic) && !istype(selected_patron, /datum/patron/inhumen))
 							continue
-						if (istype(V, /datum/virtue/utility/noble) && (pref_species == /datum/species/golem/metal))		//Stops bypass of nobility for constructs.
-							continue
+						if (V.restricted == TRUE)
+							if((pref_species.type in V.races))
+								continue
 						virtue_choices[V.name] = V
 					var/result = tgui_input_list(user, "What strength shall you wield?", "VIRTUES",virtue_choices)
 
@@ -2071,10 +2121,13 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							continue
 						if (V.name == virtue.name || V.name == virtuetwo.name)
 							continue
+						if (istype(V, /datum/virtue/origin))
+							continue
 						if (istype(V, /datum/virtue/heretic) && !istype(selected_patron, /datum/patron/inhumen))
 							continue
-						if (istype(V, /datum/virtue/utility/noble) && (pref_species == /datum/species/golem/metal))		//Stops bypass of nobility for constructs.
-							continue
+						if (V.restricted == TRUE)
+							if((pref_species.type in V.races))
+								continue
 						virtue_choices[V.name] = V
 					var/result = tgui_input_list(user, "What strength shall you wield?", "VIRTUES",virtue_choices)
 
@@ -2085,6 +2138,30 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					/*	if (statpack.type != /datum/statpack/wildcard/virtuous)
 							statpack = new /datum/statpack/wildcard/virtuous
 							to_chat(user, span_purple("Your statpack has been set to virtuous (no stats) due to selecting a virtue.")) */
+
+				if("origin")
+					var/list/virtue_choices = list()
+					for (var/path as anything in GLOB.virtues)
+						var/datum/virtue/V = GLOB.virtues[path]
+						if (!V.name)
+							continue
+						if (V.name == virtue_origin.name)
+							continue
+						if (!istype(V, /datum/virtue/origin))
+							continue
+						if (V.restricted == TRUE)
+							if((pref_species.type in V.races))
+								continue
+						if (istype(V, /datum/virtue/origin/racial))
+							if(!(pref_species.type in V.races))
+								continue
+						virtue_choices[V.name] = V
+					var/result = tgui_input_list(user, "From where do you come?", "ORIGINS",virtue_choices)
+
+					if (result)
+						var/datum/virtue/virtue_chosen = virtue_choices[result]
+						virtue_origin = virtue_chosen
+						to_chat(user, process_virtue_text(virtue_chosen))
 
 				if("charflaw")
 					var/list/coom = GLOB.character_flaws.Copy()
@@ -2633,8 +2710,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	character.nickname = nickname
 
 	character.eye_color = eye_color
-	if(extra_language && extra_language != "None")
-		character.grant_language(extra_language)
 	character.voice_color = voice_color
 	character.voice_pitch = voice_pitch
 	var/obj/item/organ/eyes/organ_eyes = character.getorgan(/obj/item/organ/eyes)
@@ -2842,7 +2917,10 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	if(V.desc)
 		dat += "<font size = 3>[span_purple(V.desc)]</font><br>"
 	if(length(V.added_skills))
-		dat += "<font color = '#a3e2ff'><font size = 3>This Virtue adds the following skills: <br>"
+		if(istype(V, /datum/virtue/origin))
+			dat += "<font color = '#a3e2ff'><font size = 3>This Origin adds the following skills: <br>"
+		else
+			dat += "<font color = '#a3e2ff'><font size = 3>This Virtue adds the following skills: <br>"
 		for(var/list/L in V.added_skills)
 			var/name
 			if(ispath(L[1],/datum/skill))
@@ -2851,17 +2929,26 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 			dat += "["\Roman[L[2]]"] level[L[2] > 1 ? "s" : ""] of <b>[name]</b>[L[3] ? ", up to <b>[SSskills.level_names_plain[L[3]]]</b>" : ""] <br>"
 		dat += "</font>"
 	if(length(V.added_traits))
-		dat += "<font color = '#a3ffe0'><font size = 3>This Virtue grants the following traits: <br>"
+		if(istype(V, /datum/virtue/origin))
+			dat += "<font color = '#a3e2ff'><font size = 3>This Origin grants the following traits: <br>"
+		else
+			dat += "<font color = '#a3ffe0'><font size = 3>This Virtue grants the following traits: <br>"
 		for(var/TR in V.added_traits)
 			dat += "[TR] — <font size = 2>[GLOB.roguetraits[TR]]</font><br>"
 		dat += "</font>"
 	if(length(V.added_stashed_items))
-		dat += "<font color = '#eeffa3'><font size = 3>This Virtue adds the following items to your stash: <br>"
+		if(istype(V, /datum/virtue/origin))
+			dat += "<font color = '#a3e2ff'><font size = 3>This Origin adds the following items to your stash: <br>"
+		else
+			dat += "<font color = '#eeffa3'><font size = 3>This Virtue adds the following items to your stash: <br>"
 		for(var/I in V.added_stashed_items)
 			dat += "<i>[I]</i> <br>"
 		dat += "</font>"
 	if(V.custom_text)
-		dat += "<font color = '#ffffff'><font size = 3>This Virtue has this special behaviour: <br>"
+		if(istype(V, /datum/virtue/origin))
+			dat += "<font color = '#a3e2ff'><font size = 3>This Origin has this special behaviour: <br>"
+		else
+			dat += "<font color = '#ffffff'><font size = 3>This Virtue has this special behaviour: <br>"
 		dat += "[V.custom_text]"
 		dat += "</font>"
 	return dat

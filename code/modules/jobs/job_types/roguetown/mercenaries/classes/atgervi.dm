@@ -67,6 +67,8 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 
+	change_origin(H, /datum/virtue/origin/racial/gronn)
+
 /datum/advclass/mercenary/atgervi/shaman
 	name = "Atgervi Shaman"
 	tutorial = "You are a Shaman of the Fjall, The Northern Empty. Savage combatants who commune with the Ecclesical Beast gods through ritualistic violence, rather than idle prayer."
@@ -128,6 +130,7 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 
+	change_origin(H, /datum/virtue/origin/racial/gronn)
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/atgervi
 	name = "vagarian hauberk"
