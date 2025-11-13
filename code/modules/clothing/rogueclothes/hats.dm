@@ -2822,7 +2822,7 @@
 // beak helmet, yippie
 /obj/item/clothing/head/roguetown/helmet/heavy/beakhelm
 	name = "beak helmet"
-	desc = "An oddsphericalhelmet with a beaklike visor."
+	desc = "An odd spherical helmet with a beaklike visor."
 	icon = 'icons/roguetown/clothing/head.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
 	icon_state = "beakhelm"
