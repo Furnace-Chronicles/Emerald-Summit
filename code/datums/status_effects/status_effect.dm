@@ -22,16 +22,20 @@
 	if(new_owner)
 		owner = new_owner
 	if(owner)
-		// ASS LIST
+		// ass list
 		LAZYINITLIST(owner.status_effects)
-		owner.status_effects[id] = src
+		LAZYINITLIST(owner.status_effects_by_id)
+		LAZYADD(owner.status_effects, src)
+		owner.status_effects_by_id[id] = src
+
 	if(!owner || !on_apply())
 		qdel(src)
 		return
+
 	if(duration != -1)
 		duration = world.time + duration
 
-	// RANDOM XYLIX RANDOM
+	// xylix random man
 	var/base_interval = initial(tick_interval)
 	if(base_interval <= 0)
 		tick_interval = world.time
@@ -42,6 +46,7 @@
 		var/atom/movable/screen/alert/status_effect/A = owner.throw_alert(id, alert_type)
 		A?.attached_effect = src //so the alert can reference us, if it needs to
 		linked_alert = A //so we can reference the alert, if we need to
+
 	START_PROCESSING(SSfastprocess, src)
 	return TRUE
 
@@ -50,11 +55,15 @@
 	if(owner)
 		linked_alert = null
 		owner.clear_alert(id)
-		if(owner.status_effects)
-			if(owner.status_effects[id] == src)
-				owner.status_effects[id] = null
+
+		// REMOVE+REMOVE
+		LAZYREMOVE(owner.status_effects, src)
+		if(owner.status_effects_by_id && owner.status_effects_by_id[id] == src)
+			owner.status_effects_by_id -= id
+
 		on_remove()
 		owner = null
+
 	effectedstats = list()
 	return ..()
 
@@ -92,10 +101,13 @@
 	for(var/S in effectedstats)
 		owner.change_stat(S, -(effectedstats[S]))
 	owner.clear_alert(id)
-	if(owner && owner.status_effects)
-		if(owner.status_effects[id] == src)
-			owner.status_effects[id] = null
-	owner = null
+
+	if(owner)
+		LAZYREMOVE(owner.status_effects, src)
+		if(owner.status_effects_by_id && owner.status_effects_by_id[id] == src)
+			owner.status_effects_by_id -= id
+		owner = null
+
 	qdel(src)
 
 /datum/status_effect/proc/refresh()
@@ -128,10 +140,10 @@
 
 	for(var/S in attached_effect?.effectedstats)
 		if(attached_effect.effectedstats[S] > 0)
-			inspec += "<br><span class='purple'>[S]</span> \Roman [attached_effect.effectedstats[S]]"
+			inspec += "<br><span class='purple'>[S]</span> \\Roman [attached_effect.effectedstats[S]]"
 		if(attached_effect.effectedstats[S] < 0)
 			var/newnum = attached_effect.effectedstats[S] * -1
-			inspec += "<br><span class='danger'>[S]</span> \Roman [newnum]"
+			inspec += "<br><span class='danger'>[S]</span> \\Roman [newnum]"
 
 	inspec += "<br>----------------------"
 	to_chat(user, "[inspec.Join()]")
@@ -148,42 +160,43 @@
 /mob/living/proc/apply_status_effect(effect, ...)
 	. = FALSE
 	LAZYINITLIST(status_effects)
-	// ID from TYPE
+	LAZYINITLIST(status_effects_by_id)
+
 	var/datum/status_effect/template = effect
 	var/effect_id = initial(template.id)
 
 	var/list/arguments = args.Copy()
 	arguments[1] = src
 
-	/// Look for ID
-	var/datum/status_effect/current = status_effects[effect_id]
+	// ID CHECK
+	var/datum/status_effect/current = status_effects_by_id[effect_id]
 
 	if(current && current.status_type)
 		if(current.status_type == STATUS_EFFECT_REPLACE)
-			// Remove old apply new 
+			// remove current effect and replace with new one
 			current.be_replaced(arglist(arguments))
 		else if(current.status_type == STATUS_EFFECT_REFRESH)
-			// update+refresh if same already present
+			// Refresh current effect
 			current.refresh(arglist(arguments))
 			return
 		else
-			// STATUS_EFFECT_UNIQUE we dont need second one same effect
+			// STATUS_EFFECT_UNIQUE 
 			return
 
-	// No effect or old one removed
+	// No effect/old removed
 	var/datum/status_effect/new_effect = new effect(arguments)
 	. = new_effect
 
 // removes all of a given status effect from this mob, returning TRUE if at least one was removed
 /mob/living/proc/remove_status_effect(effect)
 	. = FALSE
-	if(!status_effects)
+	if(!status_effects_by_id)
 		return
 
 	var/datum/status_effect/template = effect
 	var/effect_id = initial(template.id)
 
-	var/datum/status_effect/S = status_effects[effect_id]
+	var/datum/status_effect/S = status_effects_by_id[effect_id]
 	if(S)
 		qdel(S)
 		. = TRUE
@@ -191,21 +204,21 @@
 /mob/living/proc/has_status_effect(datum/status_effect/checked_effect)
 	RETURN_TYPE(/datum/status_effect)
 
-	if(!status_effects)
+	if(!status_effects_by_id)
 		return null
 
 	var/effect_id = initial(checked_effect.id)
-	return status_effects[effect_id]
+	return status_effects_by_id[effect_id]
 
 /mob/living/proc/has_status_effect_list(datum/status_effect/checked_effect)
 	RETURN_TYPE(/list)
 
 	var/list/effects_found = list()
-	if(!status_effects)
+	if(!status_effects_by_id)
 		return effects_found
 
 	var/effect_id = initial(checked_effect.id)
-	var/datum/status_effect/S = status_effects[effect_id]
+	var/datum/status_effect/S = status_effects_by_id[effect_id]
 	if(S)
 		effects_found += S
 
