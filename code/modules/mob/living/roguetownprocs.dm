@@ -600,6 +600,14 @@
 		if(!H?.check_armor_skill() || H?.legcuffed)
 			H.Knockdown(1)
 			return FALSE
+		if(H.IsOffBalanced())
+			H.Knockdown(1)
+			to_chat(H, span_danger("I tried to dodge off-balance!"))
+			if(isturf(loc))
+				var/turf/T = loc
+				if(T.landsound)
+					playsound(T, T.landsound, 100, FALSE)
+			return FALSE
 		if(I) //the enemy attacked us with a weapon
 			if(!I.associated_skill) //the enemy weapon doesn't have a skill because its improvised, so penalty to attack
 				prob2defend = prob2defend + 10
@@ -704,16 +712,6 @@
 	dodgecd = TRUE
 	playsound(src, 'sound/combat/dodge.ogg', 100, FALSE)
 	throw_at(turfy, 1, 2, src, FALSE)
-	
-	// Check off-balance and landing effects for humans
-	if(H)
-		if(H.IsOffBalanced())
-			H.Knockdown(1)
-			to_chat(H, span_danger("I tried to dodge off-balance!"))
-	if(isturf(loc))
-		var/turf/T = loc
-		if(T.landsound)
-			playsound(T, T.landsound, 100, FALSE)
 	
 	if(drained > 0)
 		src.visible_message(span_warning("<b>[src]</b> dodges [user]'s attack!"))
