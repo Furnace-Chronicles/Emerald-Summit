@@ -664,6 +664,7 @@
 
 // MOB PROCS //END
 
+/*
 /mob/living/proc/mob_sleep()
 	set name = "Sleep"
 	set category = "IC"
@@ -675,6 +676,20 @@
 		if(alert(src, "You sure you want to sleep for a while?", "Sleep", "Yes", "No") == "Yes")
 			SetSleeping(400) //Short nap
 	update_mobility()
+*/
+
+/mob/living/proc/mob_sleep() //New SLeep Verb
+	set name = "Sleep"
+	set category = "IC"
+	set hidden = 1
+	if(HAS_TRAIT(src, TRAIT_NOSLEEP))
+		to_chat(src, span_warning("I do not sleep."))
+		return
+	if(IsSleeping())
+		to_chat(src, span_warning("I am already asleep. Maybe I should try opening my eyes to wake up."))
+		return
+	else
+		to_chat(src, span_warning("In order to fall asleep, I must have my eyes closed, and either lay down or be buckled to an object."))
 
 /mob/proc/get_contents()
 	return
