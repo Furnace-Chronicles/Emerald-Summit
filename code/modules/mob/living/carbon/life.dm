@@ -686,7 +686,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 						if(fallingas > 25)
 							Sleeping(300)
 					else
-						if(fallingas > 60)
+						if(fallingas > 45)
 							Sleeping(300)
 			else
 				energy_add(10)
