@@ -95,7 +95,6 @@
 			return
 		if(nightcall == scom_number)
 			to_chat(user, span_warning("Nothing but rats squeaking back at you."))
-			playsound(parent_object, 'sound/vo/mobs/rat/rat_life.ogg', 100, TRUE, -1)
 			return
 		if(SSroguemachine.scomm_jabberlines.len < nightcall)
 			parent_object.say("There are no rats running this jabberline.", spans = list("info"))
@@ -172,7 +171,6 @@
 	parent_object.update_icon()
 
 /datum/scommodule/proc/ring_ring()
-	playsound(parent_object, 'sound/vo/mobs/rat/rat_life.ogg', 100, TRUE, 3)
 	var/oldx = parent_object.pixel_x
 	animate(parent_object, pixel_x = oldx+1, time = 0.5)
 	animate(pixel_x = oldx-1, time = 0.5)
@@ -417,7 +415,7 @@
 /obj/structure/roguemachine/scomm/Initialize()
 	. = ..()
 //	icon_state = "scomm[rand(1,2)]"
-	scom.setup(src, FALSE, TRUE, TRUE, TRUE, DEFAULT_GARRISON_COLOR, 'sound/vo/mobs/rat/rat_life.ogg', 100, SCOM_TARGET_COMMONS, TRUE, TRUE, FALSE, FALSE, scom_tag)
+	scom.setup(src, FALSE, TRUE, TRUE, TRUE, DEFAULT_GARRISON_COLOR, SCOM_TARGET_COMMONS, TRUE, TRUE, FALSE, FALSE, scom_tag)
 	scom.mute_garrison = TRUE
 
 	START_PROCESSING(SSroguemachine, src)
@@ -579,7 +577,7 @@
 	grid_height = 32
 
 /obj/item/scomstone/listenstone/scominit()
-	scom.setup(src, TRUE, TRUE, TRUE, FALSE, DEFAULT_GARRISON_COLOR, 'sound/vo/mobs/rat/rat_life.ogg', 100, SCOM_TARGET_COMMONS, TRUE, FALSE, FALSE)
+	scom.setup(src, TRUE, TRUE, TRUE, FALSE, DEFAULT_GARRISON_COLOR, SCOM_TARGET_COMMONS, TRUE, FALSE, FALSE)
 
 /obj/item/scomstone/listenstone/MiddleClick(mob/user)
 	if(.)
@@ -665,7 +663,7 @@
 	hearrange = 0
 
 /obj/item/scomstone/speakerinq/scominit()
-	scom.setup(src, FALSE, FALSE, TRUE, FALSE, DEFAULT_GARRISON_COLOR, 'sound/vo/mobs/rat/rat_life.ogg', 20, SCOM_TARGET_INQUISITOR, FALSE, FALSE, FALSE, TRUE)
+	scom.setup(src, FALSE, FALSE, TRUE, FALSE, DEFAULT_GARRISON_COLOR, SCOM_TARGET_INQUISITOR, FALSE, FALSE, FALSE, TRUE)
 
 /obj/item/scomstone/speakerinq/MiddleClick(mob/user)
 	user.changeNext_move(CLICK_CD_INTENTCAP)
@@ -715,7 +713,7 @@
 
 /obj/structure/listeningdeviceactive/Initialize()
 	. = ..()
-	scom.setup(src, TRUE, TRUE, FALSE, FALSE, DEFAULT_GARRISON_COLOR, 'sound/vo/mobs/rat/rat_life.ogg', 100, SCOM_TARGET_INQUISITOR, FALSE, FALSE, FALSE, FALSE)
+	scom.setup(src, TRUE, TRUE, FALSE, FALSE, DEFAULT_GARRISON_COLOR, SCOM_TARGET_INQUISITOR, FALSE, FALSE, FALSE, FALSE)
 	become_hearing_sensitive()
 
 /obj/structure/listeningdeviceactive/attack_right(mob/user)
@@ -758,7 +756,7 @@
 	return ..()
 
 /obj/structure/broadcast_horn/proc/scominit()
-	scom.setup(src, TRUE, TRUE, FALSE, FALSE, DEFAULT_GARRISON_COLOR, 'sound/vo/mobs/rat/rat_life.ogg', 100, SCOM_TARGET_LOUDMOUTH_STRONG, FALSE, FALSE, FALSE, FALSE)
+	scom.setup(src, TRUE, TRUE, FALSE, FALSE, DEFAULT_GARRISON_COLOR, SCOM_TARGET_LOUDMOUTH_STRONG, FALSE, FALSE, FALSE, FALSE)
 	scom.active_listening = TRUE
 	scom.active_speaking = FALSE
 
@@ -796,7 +794,7 @@
 	var/speech_color = COLOR_ASSEMBLY_GOLD
 
 /obj/structure/broadcast_horn/loudmouth/scominit()
-	scom.setup(src, TRUE, TRUE, FALSE, FALSE, DEFAULT_GARRISON_COLOR, 'sound/vo/mobs/rat/rat_life.ogg', 100, SCOM_TARGET_LOUDMOUTH, FALSE, FALSE, FALSE, FALSE)
+	scom.setup(src, TRUE, TRUE, FALSE, FALSE, DEFAULT_GARRISON_COLOR, SCOM_TARGET_LOUDMOUTH, FALSE, FALSE, FALSE, FALSE)
 	scom.active_listening = FALSE
 	scom.active_speaking = FALSE
 
