@@ -638,15 +638,15 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 					if(!fallingas)
 						if(helmet_blocked || armor_blocked)
 							if(armor_blocked && helmet_blocked)
-								to_chat(src, span_warning("I struggle to sleep like this. My armor and helmet burdens me."))
+								to_chat(src, span_warning("I struggle to sleep like this. My armor and helmet burdens me..."))
 							else if(armor_blocked)
-								to_chat(src, span_warning("I struggle to sleep like this. My armor is burdening me."))
+								to_chat(src, span_warning("I struggle to sleep like this. My armor burdens me..."))
 							else
-								to_chat(src, span_warning("I struggle to sleep like this. My helmet is burdening me."))
+								to_chat(src, span_warning("I struggle to sleep like this. My helmet burdens me..."))
 						else if(sleepy_mod >= 0.5)
 							to_chat(src, span_warning("I'll fall asleep soon..."))
 						else
-							to_chat(src, span_warning("I'll fall asleep soon, although a bed would be more comfortable..."))
+							to_chat(src, span_warning("I struggle to sleep like this..."))
 					fallingas++
 					if(HAS_TRAIT(src, TRAIT_FASTSLEEP))
 						fallingas++
@@ -672,11 +672,11 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 					if(!fallingas)
 						if(helmet_blocked || armor_blocked)
 							if(armor_blocked && helmet_blocked)
-								to_chat(src, span_warning("I struggle to sleep like this. My armor and helmet burdens me."))
+								to_chat(src, span_warning("I struggle to sleep like this. My armor and helmet burdens me..."))
 							else if(armor_blocked)
-								to_chat(src, span_warning("I struggle to sleep like this. My armor is burdening me."))
+								to_chat(src, span_warning("I struggle to sleep like this. My armor burdens me..."))
 							else
-								to_chat(src, span_warning("I struggle to sleep like this. My helmet is burdening me."))
+								to_chat(src, span_warning("I struggle to sleep like this. My helmet burdens me..."))
 						else
 							to_chat(src, span_warning("I'll fall asleep soon, although a bed would be more comfortable..."))
 					fallingas++
