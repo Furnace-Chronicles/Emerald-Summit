@@ -656,7 +656,7 @@
 		if(I.wbalance == WBALANCE_SWIFT && istype(U.rmb_intent, /datum/rmb_intent/swift) && U.STASPD > L.STASPD) //nme weapon is quick, so they get a bonus based on spddiff
 			prob2defend = prob2defend - ( I.wbalance * ((U.STASPD - L.STASPD) * 10) )
 		if(I.wbalance == WBALANCE_HEAVY && istype(U.rmb_intent, /datum/rmb_intent/strong) && L.STASPD > U.STASPD) //nme weapon is slow, so its easier to dodge if we're faster
-			prob2defend = prob2defend + ( I.wbalance * ((U.STASPD - L.STASPD) * 10) )
+			prob2defend = prob2defend + ( I.wbalance * ((L.STASPD - U.STASPD) * 10) )
 		if(!(H?.check_dodge_skill()))
 			prob2defend = prob2defend - (UH.get_skill_level(I.associated_skill) * 10)
 	if(H)
