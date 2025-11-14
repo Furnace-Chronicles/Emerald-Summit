@@ -585,7 +585,7 @@
 		else
 			prob2defend = prob2defend + (min(L.STASPD, 15) * 10)
 	if(U)
-		prob2defend = prob2defend - (U.STASPD * 10)
+		prob2defend = prob2defend - (min(U.STASPD, 15) * 10)
 	if(I)
 		if(I.wbalance == WBALANCE_SWIFT && U.STASPD > L.STASPD) //nme weapon is quick, so they get a bonus based on spddiff
 			prob2defend = prob2defend - ( I.wbalance * ((U.STASPD - L.STASPD) * 10) )
