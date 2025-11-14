@@ -590,7 +590,7 @@
 		if(I.wbalance == WBALANCE_SWIFT && U.STASPD > L.STASPD) //nme weapon is quick, so they get a bonus based on spddiff
 			prob2defend = prob2defend - ( I.wbalance * ((U.STASPD - L.STASPD) * 10) )
 		if(I.wbalance == WBALANCE_HEAVY && L.STASPD > U.STASPD) //nme weapon is slow, so its easier to dodge if we're faster
-			prob2defend = prob2defend + ( I.wbalance * ((U.STASPD - L.STASPD) * 10) )
+			prob2defend = prob2defend + ( I.wbalance * ((L.STASPD - U.STASPD) * 10) )
 		prob2defend = prob2defend - (UH.get_skill_level(I.associated_skill) * 10)
 	if(H)
 		if(!H?.check_armor_skill() || H?.legcuffed)
