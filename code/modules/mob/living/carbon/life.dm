@@ -623,49 +623,71 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 					var/obj/structure/flora/newbranch/branch = locate() in loc
 					if(branch)
 						sleepy_mod = 0.5 // equivalent to leaning against a wall, since you get this while NOT asleep
+		else if(buckled)
+			sleepy_mod = 0.25 //You are sleeping uncomfortably, probably chained to a wall, someone's arms, or a horse.
 		if(sleepy_mod > 0)
 			if(eyesclosed)
 				var/armor_blocked = FALSE
+				var/helmet_blocked = FALSE
 				if(ishuman(src) && stat == CONSCIOUS)
 					var/mob/living/carbon/human/H = src
-					if(H.head && H.head.armor?.blunt > 70 && !(HAS_TRAIT(H.head.armor, TRAIT_NODROP)))
-						armor_blocked = TRUE
+					if(H.head && H.head.armor?.stab > 60 && !(HAS_TRAIT(H.head.armor, TRAIT_NODROP)))
+						helmet_blocked = TRUE
 					if(H.wear_armor && (H.wear_armor.armor_class in list(ARMOR_CLASS_HEAVY, ARMOR_CLASS_MEDIUM)) && !(HAS_TRAIT(H.wear_armor, TRAIT_NODROP)))
 						armor_blocked = TRUE
-					if(armor_blocked && !fallingas)
-						to_chat(src, span_warning("I can't sleep like this. My armor is burdening me."))
-						fallingas = TRUE
-				if(!armor_blocked)
 					if(!fallingas)
-						to_chat(src, span_warning("I'll fall asleep soon..."))
+						if(helmet_blocked || armor_blocked)
+							if(armor_blocked && helmet_blocked)
+								to_chat(src, span_warning("I struggle to sleep like this. My armor and helmet burdens me."))
+							else if(armor_blocked)
+								to_chat(src, span_warning("I struggle to sleep like this. My armor is burdening me."))
+							else
+								to_chat(src, span_warning("I struggle to sleep like this. My helmet is burdening me."))
+						else if(sleepy_mod >= 0.5)
+							to_chat(src, span_warning("I'll fall asleep soon..."))
+						else
+							to_chat(src, span_warning("I'll fall asleep soon, although a bed would be more comfortable..."))
 					fallingas++
 					if(HAS_TRAIT(src, TRAIT_FASTSLEEP))
 						fallingas++
-					if(fallingas > 15)
-						Sleeping(300)
+					if(sleepy_mod >= 0.5 && !armor_blocked && !helmet_blocked)
+						if(fallingas > 10)
+							Sleeping(300)
+					else 
+						if(fallingas > 35)
+							Sleeping(300)
 			else
 				energy_add(sleepy_mod * 10)
 		// Resting on the ground (not sleeping or with eyes closed and about to fall asleep)
 		else if(!(mobility_flags & MOBILITY_STAND))
 			if(eyesclosed)
 				var/armor_blocked = FALSE
+				var/helmet_blocked = FALSE
 				if(ishuman(src) && stat == CONSCIOUS)
 					var/mob/living/carbon/human/H = src
-					if(H.head && H.head.armor?.blunt > 70)
+					if(H.head && H.head.armor?.stab > 60 && !(HAS_TRAIT(H.head.armor, TRAIT_NODROP)))
+						helmet_blocked = TRUE
+					if(H.wear_armor && (H.wear_armor.armor_class in list(ARMOR_CLASS_HEAVY, ARMOR_CLASS_MEDIUM)) && !(HAS_TRAIT(H.wear_armor, TRAIT_NODROP)))
 						armor_blocked = TRUE
-					if(H.wear_armor && (H.wear_armor.armor_class in list(ARMOR_CLASS_HEAVY, ARMOR_CLASS_MEDIUM)))
-						armor_blocked = TRUE
-					if(armor_blocked && !fallingas)
-						to_chat(src, span_warning("I can't sleep like this. My armor is burdening me."))
-						fallingas = TRUE
-				if(!armor_blocked)
 					if(!fallingas)
-						to_chat(src, span_warning("I'll fall asleep soon, although a bed would be more comfortable..."))
+						if(helmet_blocked || armor_blocked)
+							if(armor_blocked && helmet_blocked)
+								to_chat(src, span_warning("I struggle to sleep like this. My armor and helmet burdens me."))
+							else if(armor_blocked)
+								to_chat(src, span_warning("I struggle to sleep like this. My armor is burdening me."))
+							else
+								to_chat(src, span_warning("I struggle to sleep like this. My helmet is burdening me."))
+						else
+							to_chat(src, span_warning("I'll fall asleep soon, although a bed would be more comfortable..."))
 					fallingas++
 					if(HAS_TRAIT(src, TRAIT_FASTSLEEP))
 						fallingas++
-					if(fallingas > 25)
-						Sleeping(300)
+					if(!armor_blocked && !helmet_blocked)
+						if(fallingas > 25)
+							Sleeping(300)
+					else
+						if(fallingas > 60)
+							Sleeping(300)
 			else
 				energy_add(10)
 		else if(fallingas)
