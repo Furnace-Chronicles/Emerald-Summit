@@ -4,6 +4,11 @@
 	var/datum/language_holder/stored_language
 	var/list/stored_skills
 	var/list/stored_experience
+	
+	//These are here purely to future proof the mob for possible future use as an NPC, or for admin spawning
+	STASTR = 20
+	STACON = 20
+	STAEND = 20
 
 /mob/living/carbon/human/species/werewolf/male
 	gender = MALE

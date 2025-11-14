@@ -113,10 +113,11 @@
 
 
 	if(attributes_applied)
-		//
-		W.STASTR -= attribute_magnitude // LOCK IN
-		W.STACON -= attribute_magnitude
-		W.STAEND -= attribute_magnitude
+
+		W.change_stat(STATKEY_STR, -attribute_magnitude)
+		W.change_stat(STATKEY_CON, -attribute_magnitude)
+		W.change_stat(STATKEY_END, -attribute_magnitude)
+
 		attributes_applied = FALSE
 
 	if (transformed)
@@ -125,9 +126,13 @@
 		else
 			attribute_magnitude = day_attribute_magnitude
 
-	W.STASTR += attribute_magnitude
-	W.STACON += attribute_magnitude
-	W.STAEND += attribute_magnitude
+	//W.STASTR += attribute_magnitude
+	//W.STACON += attribute_magnitude
+	//W.STAEND += attribute_magnitude
+
+	W.change_stat(STATKEY_STR, attribute_magnitude)
+	W.change_stat(STATKEY_CON, attribute_magnitude)
+	W.change_stat(STATKEY_END, attribute_magnitude)
 	attributes_applied = TRUE
 
 

@@ -159,6 +159,8 @@
 
 	var/mob/living/carbon/human/species/werewolf/W = new ww_path(loc)
 
+
+
 	if (istype(WolfAntag) && WolfAntag.wolfname)
 		W.real_name = WolfAntag.wolfname
 		W.name = WolfAntag.wolfname
@@ -182,7 +184,13 @@
 	W.stored_experience = ensure_skills().skill_experience.Copy()
 	W.cmode_music_override = cmode_music_override
 	W.cmode_music_override_name = cmode_music_override_name
-	mind.transfer_to(W)
+
+	//These are zeroed out here because update_attributes will handle them
+	W.STASTR = 0
+	W.STACON = 0
+	W.STAEND = 0
+
+	mind.transfer_to(W)	//The attributes will get updated here
 	skills?.known_skills = list()
 	skills?.skill_experience = list()
 	W.grant_language(/datum/language/beast)
@@ -206,6 +214,7 @@
 	W.adjust_skillrank(/datum/skill/combat/unarmed, 5, TRUE)
 	W.adjust_skillrank(/datum/skill/misc/climbing, 6, TRUE)
 	W.adjust_skillrank(/datum/skill/misc/swimming, 5, TRUE)
+
 
 
 
