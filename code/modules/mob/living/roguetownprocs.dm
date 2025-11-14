@@ -581,9 +581,9 @@
 		return FALSE
 	if(L)
 		if(H?.check_dodge_skill())
-			prob2defend = prob2defend + (L.STASPD * 15)
+			prob2defend = prob2defend + (min(L.STASPD, 15) * 12)
 		else
-			prob2defend = prob2defend + (L.STASPD * 10)
+			prob2defend = prob2defend + (min(L.STASPD, 15) * 10)
 	if(U)
 		prob2defend = prob2defend - (U.STASPD * 10)
 	if(I)
@@ -591,8 +591,7 @@
 			prob2defend = prob2defend - ( I.wbalance * ((U.STASPD - L.STASPD) * 10) )
 		if(I.wbalance == WBALANCE_HEAVY && L.STASPD > U.STASPD) //nme weapon is slow, so its easier to dodge if we're faster
 			prob2defend = prob2defend + ( I.wbalance * ((U.STASPD - L.STASPD) * 10) )
-		if(!(H?.check_dodge_skill()))
-			prob2defend = prob2defend - (UH.get_skill_level(I.associated_skill) * 10)
+		prob2defend = prob2defend - (UH.get_skill_level(I.associated_skill) * 10)
 	if(H)
 		if(!H?.check_armor_skill() || H?.legcuffed)
 			H.Knockdown(1)
@@ -601,8 +600,7 @@
 			if(!I.associated_skill) //the enemy weapon doesn't have a skill because its improvised, so penalty to attack
 				prob2defend = prob2defend + 10
 			else
-				if(!(H?.check_dodge_skill()))
-					prob2defend = prob2defend + (H.get_skill_level(I.associated_skill) * 10)
+				prob2defend = prob2defend + (H.get_skill_level(I.associated_skill) * 10)
 		else //the enemy attacked us unarmed or is nonhuman
 			if(UH)
 				if(UH.used_intent.unarmed)
