@@ -118,11 +118,7 @@
 
 /mob/living/carbon/human/get_punch_dmg()
 
-	var/damage
-	if(STASTR > UNARMED_DAMAGE_DEFAULT || STASTR < 10)
-		damage = STASTR
-	else
-		damage = UNARMED_DAMAGE_DEFAULT
+	var/damage = (STASTR > UNARMED_DAMAGE_DEFAULT || STASTR < 10) ? STASTR : UNARMED_DAMAGE_DEFAULT // Plz just use ternary statements instead of defining null variables above an if/else bros
 
 	var/used_str = STASTR
 
@@ -130,8 +126,10 @@
 	if(domhand)
 		used_str = get_str_arms(used_hand)
 
+	// Apply strength scaling with soft cap (unarmed uses 3x weapon scaling)
 	if(used_str >= 11)
-		damage = max(damage + (damage * ((used_str - 10) * 0.3)), 1)
+		var/strmod = (used_str > STRENGTH_SOFTCAP && !HAS_TRAIT(src, TRAIT_STRENGTH_UNCAPPED)) ? (((STRENGTH_SOFTCAP - 10) * STRENGTH_MULT * 3) + ((used_str - STRENGTH_SOFTCAP) * STRENGTH_CAPPEDMULT * 3)) : ((used_str - 10) * STRENGTH_MULT * 3)
+		damage = max(damage + (damage * strmod), 1)
 
 	if(used_str <= 9)
 		damage = max(damage - (damage * ((10 - used_str) * 0.1)), 1)

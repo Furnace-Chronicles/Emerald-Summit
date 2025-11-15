@@ -1,9 +1,9 @@
-/mob/living/carbon/human/getarmor(def_zone, type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor, used_weapon)
+/mob/living/carbon/human/getarmor(def_zone, type, damage, armor_penetration, blade_dulling, intdamfactor, bypass_item = null, obj/item/used_weapon)
 	var/armorval = 0
 	var/organnum = 0
 
 	if(def_zone)
-		return checkarmor(def_zone, type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor, used_weapon)
+		return checkarmor(def_zone, type, damage, armor_penetration, blade_dulling, intdamfactor, bypass_item, used_weapon)
 		//If a specific bodypart is targetted, check how that bodypart is protected and return the value.
 
 	//If you don't specify a bodypart, it checks ALL my bodyparts for protection, and averages out the values
@@ -13,8 +13,63 @@
 		organnum++
 	return (armorval/max(organnum, 1))
 
+/mob/living/carbon/human/proc/get_best_armor(def_zone, d_type, blade_dulling = null, armor_penetration = 0)
+	if(!d_type)
+		return null
+	if(isbodypart(def_zone))
+		var/obj/item/bodypart/CBP = def_zone
+		def_zone = CBP.body_zone
+	var/obj/item/clothing/best_armor
+	var/best_effective_value = 0
+	var/list/body_parts = list(skin_armor, head, wear_mask, wear_wrists, gloves, wear_neck, cloak, wear_armor, wear_shirt, shoes, wear_pants, backr, backl, belt, s_store, glasses, ears, wear_ring)
+	for(var/bp in body_parts)
+		if(!bp)
+			continue
+		if(bp && istype(bp, /obj/item/clothing))
+			var/obj/item/clothing/C = bp
+			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
+				if(C.max_integrity)
+					if(C.obj_integrity <= 0)
+						continue
+				var/val = C.armor.getRating(d_type)
 
-/mob/living/carbon/human/proc/checkarmor(def_zone, d_type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor = 1, obj/item/used_weapon)
+				// Calculate armor effectiveness based on durability
+				var/effectiveness = 1.0
+				if(C.max_integrity && val > 0)
+					var/damage_percent = round(((C.obj_integrity / C.max_integrity) * 100), 1)
+					var/max_reduction = (C.armor_class == ARMOR_CLASS_HEAVY) ? 40 : ((C.armor_class == ARMOR_CLASS_MEDIUM) ? 60 : 75)
+					if(damage_percent < 100)
+						effectiveness = 1.0 - ((100 - damage_percent) / 100 * (max_reduction / 100))
+
+				var/effective_val = val * effectiveness
+
+				// For blunt attacks, adjust based on armor class with scaled modifiers
+				if(blade_dulling in list(BCLASS_BLUNT, BCLASS_SMASH) && d_type == "blunt")
+					var/blunt_modifier = 0
+					var/effective_class = C.armor_class == ARMOR_CLASS_NONE && C.integ_armor_mod != ARMOR_CLASS_NONE ? C.integ_armor_mod : C.armor_class
+
+					switch(effective_class)
+						if(ARMOR_CLASS_LIGHT)
+							blunt_modifier = -10 * effectiveness  // Scale penalty towards 0
+						if(ARMOR_CLASS_HEAVY)
+							blunt_modifier = 20 * effectiveness   // Scale bonus towards 0
+							if(istype(C, /obj/item/clothing/head/helmet))
+								blunt_modifier += 10 * effectiveness // Scale helmet bonus towards 0
+
+					// Effective penetration for this armor
+					var/effective_pen = armor_penetration + blunt_modifier
+					// Reduce armor value by how much penetration we have
+					effective_val = max(effective_val - effective_pen, 0)
+				else
+					// For non-blunt attacks, just use regular penetration
+					effective_val = max(effective_val - armor_penetration, 0)
+
+				if(effective_val > best_effective_value)
+					best_effective_value = effective_val
+					best_armor = C
+	return best_armor
+
+/mob/living/carbon/human/proc/checkarmor(def_zone, d_type, damage, armor_penetration, blade_dulling, intdamfactor = 1, bypass_item = null, obj/item/used_weapon)
 	if(!d_type)
 		return 0
 	if(isbodypart(def_zone))
@@ -22,20 +77,63 @@
 		def_zone = CBP.body_zone
 	var/protection = 0
 	var/obj/item/clothing/used
+	var/best_effective_armor = 0
+	var/armor_effectiveness = 1.0
 	var/list/body_parts = list(skin_armor, head, wear_mask, wear_wrists, gloves, wear_neck, cloak, wear_armor, wear_shirt, shoes, wear_pants, backr, backl, belt, s_store, glasses, ears, wear_ring) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
 	for(var/bp in body_parts)
 		if(!bp)
 			continue
 		if(bp && istype(bp , /obj/item/clothing))
 			var/obj/item/clothing/C = bp
+			if(bypass_item && C == bypass_item)
+				continue
 			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
 				if(C.max_integrity)
 					if(C.obj_integrity <= 0)
 						continue
 				var/val = C.armor.getRating(d_type)
 				if(val > 0)
-					if(val > protection)
+					// Calculate armor effectiveness based on damage and armor class
+					var/damage_percent = round(((C.obj_integrity / C.max_integrity) * 100), 1)
+					var/max_reduction = 0
+					switch(C.armor_class)
+						if(ARMOR_CLASS_HEAVY)
+							max_reduction = 40
+						if(ARMOR_CLASS_MEDIUM)
+							max_reduction = 60
+						if(ARMOR_CLASS_LIGHT)
+							max_reduction = 75
+
+					// Armor effectiveness scales linearly from 100% at full health to (100% - max_reduction) at 1% durability
+					var/effectiveness = 1.0
+					if(C.max_integrity && damage_percent < 100)
+						effectiveness = 1.0 - ((100 - damage_percent) / 100 * (max_reduction / 100))
+
+					var/effective_armor = val * effectiveness
+
+					// Apply blunt weapon modifiers based on armor class (scaled by effectiveness)
+					if(d_type == "blunt")
+						var/blunt_modifier = 0
+						var/effective_class = C.armor_class == ARMOR_CLASS_NONE ? C.integ_armor_mod : C.armor_class
+
+						switch(effective_class)
+							if(ARMOR_CLASS_LIGHT)
+								blunt_modifier = -10 * effectiveness // Scale penalty towards 0 as armor degrades
+							if(ARMOR_CLASS_HEAVY)
+								blunt_modifier = 20 * effectiveness  // Scale bonus towards 0 as armor degrades
+								if(istype(C, /obj/item/clothing/head/helmet))
+									blunt_modifier += 15 * effectiveness // Scale helmet bonus towards 0
+
+						var/modified_pen = armor_penetration + blunt_modifier
+						effective_armor = max(effective_armor - modified_pen, 0)
+					else
+						// Non-blunt attacks use standard penetration
+						effective_armor = max(effective_armor - armor_penetration, 0)
+
+					if(effective_armor > best_effective_armor)
+						best_effective_armor = effective_armor
 						protection = val
+						armor_effectiveness = effectiveness
 						used = C
 	if(used)
 		if(!blade_dulling)
@@ -55,10 +153,46 @@
 			if(bless.is_blessed)
 				// Apply multiplier if the blessing is active.
 				intdamage = round(intdamage * bless.cursed_item_intdamage)
+
+		// Armor degradation multipliers based on damage type vs armor class
+		var/degradation_mult = 1.0
+		if(istype(used, /obj/item/clothing))
+			var/obj/item/clothing/armor_piece = used
+			var/degrad_class = armor_piece.armor_class == ARMOR_CLASS_NONE ? armor_piece.integ_armor_mod : armor_piece.armor_class
+
+			switch(blade_dulling)
+				if(BCLASS_BLUNT, BCLASS_SMASH)
+					// Blunt damage: lowest vs light, highest vs heavy
+					switch(degrad_class)
+						if(ARMOR_CLASS_LIGHT)
+							degradation_mult = ARMOR_DEGR_BLUNT_LIGHT
+						if(ARMOR_CLASS_MEDIUM)
+							degradation_mult = ARMOR_DEGR_BLUNT_MEDIUM
+						if(ARMOR_CLASS_HEAVY)
+							degradation_mult = ARMOR_DEGR_BLUNT_HEAVY
+				if(BCLASS_CUT, BCLASS_CHOP)
+					// Cutting damage: more vs light, lowest vs heavy
+					switch(degrad_class)
+						if(ARMOR_CLASS_LIGHT)
+							degradation_mult = ARMOR_DEGR_CUT_LIGHT
+						if(ARMOR_CLASS_MEDIUM)
+							degradation_mult = ARMOR_DEGR_CUT_MEDIUM
+						if(ARMOR_CLASS_HEAVY)
+							degradation_mult = ARMOR_DEGR_CUT_HEAVY
+				if(BCLASS_STAB, BCLASS_PICK, BCLASS_PIERCE)
+					switch(degrad_class)
+						if(ARMOR_CLASS_LIGHT)
+							degradation_mult = ARMOR_DEGR_PIERCE_LIGHT
+						if(ARMOR_CLASS_MEDIUM)
+							degradation_mult = ARMOR_DEGR_PIERCE_MEDIUM
+						if(ARMOR_CLASS_HEAVY)
+							degradation_mult = ARMOR_DEGR_PIERCE_HEAVY
+
+		intdamage *= degradation_mult
 		used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
-		if(damage)
-			if(blade_dulling == BCLASS_PEEL)
-				used.peel_coverage(def_zone, peeldivisor)
+	// Apply armor effectiveness reduction from lost integrity
+	protection *= armor_effectiveness
+
 	if(physiology)
 		protection += physiology.armor.getRating(d_type)
 	return protection
@@ -223,7 +357,7 @@
 			return spec_return
 	var/obj/item/I
 	var/throwpower = 30
-	if(has_status_effect(/datum/status_effect/buff/clash))
+	if(has_status_effect(/datum/status_effect/buff/clash) && !isliving(AM))
 		bad_guard(span_warning("The thrown object ruins my focus!"))
 	if(istype(AM, /obj/item))
 		I = AM

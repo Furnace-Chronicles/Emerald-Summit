@@ -162,11 +162,31 @@
 						remove_status_effect(/datum/status_effect/debuff/bleeding)
 						remove_status_effect(/datum/status_effect/debuff/bleedingworse)
 
-			if(blood_volume <= BLOOD_VOLUME_BAD)
-				adjustOxyLoss(blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1)
-			else if((blood_volume > BLOOD_VOLUME_SURVIVE) || HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
+			// Automatic unconsciousness at BAD threshold
+			if(blood_volume <= BLOOD_VOLUME_BAD && !IsUnconscious())
+				Unconscious(10 SECONDS)
+				to_chat(src, span_userdanger("The world fades to black..."))
+
+			// CON-based soft crit threshold: higher CON = survive at lower blood levels
+			// Base is 122 at 10 CON, -10 blood per CON point above 10
+			// This means high CON characters enter soft crit later (at lower blood volume)
+			var/soft_crit_threshold = BLOOD_VOLUME_SURVIVE - ((STACON - 10) * 10)
+			soft_crit_threshold = clamp(soft_crit_threshold, 40, 200)
+
+			// Progressive oxygen damage based on blood loss severity
+			// Much lower rates for extended bleedout time (120-160 seconds)
+			var/oxy_adjustment = 0
+			if(blood_volume <= 40) // Death threshold - ~7% blood
+				oxy_adjustment = 2 // Rapid death
+			else if(blood_volume <= soft_crit_threshold)
+				oxy_adjustment = 0.4 // Soft crit - very slow
+			else if(blood_volume <= BLOOD_VOLUME_BAD)
+				oxy_adjustment = 0.2 // Below BAD threshold - minimal
+			else if((blood_volume > soft_crit_threshold) || HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
 				if(getOxyLoss())
-					adjustOxyLoss(-1.6)
+					oxy_adjustment = -1.6
+			if(oxy_adjustment)
+				adjustOxyLoss(oxy_adjustment)
 
 	//Bleeding out
 	bleed_rate = get_bleed_rate() // expensive proc, but we zero it on bled-out mobs
@@ -194,6 +214,17 @@
 		return 0
 	for(var/obj/item/bodypart/bodypart as anything in bodyparts)
 		bleed_rate += bodypart.get_bleed_rate()
+
+	// Blood pressure system: less blood = lower blood pressure = slower bleeding
+	// Uses exponential curve for more dramatic slowdown near death
+	if(bleed_rate > 0 && blood_volume < BLOOD_VOLUME_NORMAL)
+		var/blood_pressure = blood_volume / BLOOD_VOLUME_NORMAL
+		// Square the pressure ratio for exponential slowdown
+		// At 50% blood: 0.5^2 = 25% bleed rate
+		// At 25% blood: 0.25^2 = 6.25% bleed rate
+		// At 10% blood: 0.1^2 = 1% bleed rate
+		bleed_rate *= (blood_pressure ** 2)
+
 	return bleed_rate
 
 //Makes a blood drop, leaking amt units of blood from the mob
@@ -216,6 +247,7 @@
 	blood_volume = max(blood_volume - amt, 0)
 	if (old_volume > 0 && !blood_volume) // it looks like we've just bled out. bummer.
 		to_chat(src, span_userdanger("The last of your lyfeblood ebbs from your ravaged body and soaks the cold earth below..."))
+		death()
 
 	GLOB.scarlet_round_stats[STATS_BLOOD_SPILT] += amt
 	if(isturf(src.loc)) //Blood loss still happens in locker, floor stays clean

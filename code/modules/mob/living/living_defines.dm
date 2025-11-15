@@ -11,6 +11,7 @@
 	var/resize = 1 //Badminnery resize
 	var/lastattacker = null
 	var/lastattackerckey = null
+	var/last_attack_was_blunted = FALSE // Track if the last attack was blunted by armor
 
 	//Health and life related vars
 	var/maxHealth = 100 //Maximum health that should be possible.

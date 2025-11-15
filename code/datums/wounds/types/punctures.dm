@@ -60,22 +60,19 @@
 	)
 
 //Puncture (Stab -- not Pick) Omniwounds
-//Vaguely: Not nearly as painful, higher bleed cap, easier to sew / heal.
+//Vaguely: Moderately painful, higher bleed cap, easier to sew / heal.
 
-#define PUNC_UPG_BLEEDRATE 0.5	//Balanced with the idea of penetrative (through armor) damage being the main source of these.
+#define PUNC_UPG_BLEEDRATE 0.5
 #define PUNC_UPG_WHPRATE 0.75
 #define PUNC_UPG_SEWRATE 0.65
-#define PUNC_UPG_PAINRATE 0.05
-#define PUNC_UPG_CLAMP_ARMORED 0.75
-#define PUNC_UPG_CLAMP_RAW 2.6
-#define PUNC_ARMORED_BLEED_CLAMP 6
+#define PUNC_UPG_PAINRATE 0.15
+#define PUNC_UPG_CLAMP 1.0
 
 /datum/wound/dynamic/puncture/upgrade(dam, armor)
 	whp += (dam * PUNC_UPG_WHPRATE)
-	set_bleed_rate(bleed_rate + clamp((dam * PUNC_UPG_BLEEDRATE), 0.1, ((armor > 0) ? PUNC_UPG_CLAMP_ARMORED : PUNC_UPG_CLAMP_RAW)))
+	set_bleed_rate(bleed_rate + clamp((dam * PUNC_UPG_BLEEDRATE), 0.1, PUNC_UPG_CLAMP))
 	sew_threshold += (dam * PUNC_UPG_SEWRATE)
 	woundpain += (dam * PUNC_UPG_PAINRATE)
-	armor_check(armor, PUNC_ARMORED_BLEED_CLAMP)
 	update_name()
 	..()
 
@@ -83,9 +80,7 @@
 #undef PUNC_UPG_WHPRATE
 #undef PUNC_UPG_SEWRATE
 #undef PUNC_UPG_PAINRATE
-#undef PUNC_UPG_CLAMP_ARMORED
-#undef PUNC_UPG_CLAMP_RAW
-#undef PUNC_ARMORED_BLEED_CLAMP
+#undef PUNC_UPG_CLAMP
 
 /datum/wound/dynamic/gouge
 	name = "gouge"
@@ -110,23 +105,20 @@
 	)
 
 //Gouge (Pick) Omniwounds
-//Vaguely: Not very painful, not very bleedy, but you can't cauterize them. You're still better off using stab every time.
+//Vaguely: Moderately painful, not very bleedy, but you can't cauterize them. You're still better off using stab every time.
 //Addendum: This was made with the assumption that pick intent penetrates most armors (and being able to crit through them).
 
 #define GOUGE_UPG_BLEEDRATE 0.1
 #define GOUGE_UPG_WHPRATE 1.5
 #define GOUGE_UPG_SEWRATE 0.3
-#define GOUGE_UPG_PAINRATE 0.05
-#define GOUGE_UPG_CLAMP_ARMORED 0.75
-#define GOUGE_UPG_CLAMP_RAW 1
-#define GOUGE_ARMORED_BLEED_CLAMP 6
+#define GOUGE_UPG_PAINRATE 0.15
+#define GOUGE_UPG_CLAMP 0.8
 
 /datum/wound/dynamic/gouge/upgrade(dam, armor)
 	whp += (dam * GOUGE_UPG_WHPRATE)
-	set_bleed_rate(bleed_rate + clamp((dam * GOUGE_UPG_BLEEDRATE), 0.1, ((armor > 0) ? GOUGE_UPG_CLAMP_ARMORED : GOUGE_UPG_CLAMP_RAW)))
+	set_bleed_rate(bleed_rate + clamp((dam * GOUGE_UPG_BLEEDRATE), 0.1, GOUGE_UPG_CLAMP))
 	sew_threshold += (dam * GOUGE_UPG_SEWRATE)
 	woundpain += (dam * GOUGE_UPG_PAINRATE)
-	armor_check(armor, GOUGE_ARMORED_BLEED_CLAMP)
 	update_name()
 	..()
 
@@ -134,9 +126,7 @@
 #undef GOUGE_UPG_WHPRATE
 #undef GOUGE_UPG_SEWRATE
 #undef GOUGE_UPG_PAINRATE
-#undef GOUGE_UPG_CLAMP_ARMORED
-#undef GOUGE_UPG_CLAMP_RAW
-#undef GOUGE_ARMORED_BLEED_CLAMP
+#undef GOUGE_UPG_CLAMP
 
 /datum/wound/puncture/drilling
 	name = "drilling"

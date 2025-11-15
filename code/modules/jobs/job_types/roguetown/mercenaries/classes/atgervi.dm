@@ -158,10 +158,32 @@
 
 /obj/item/clothing/gloves/roguetown/plate/atgervi
 	name = "beast claws"
-	desc = "A menacing pair of plated claws, A closely protected tradition of the Shamans. The four claws embodying the four great beasts. Decorated with symbols of the gods they praise and the Gods they reject."
+	desc = "A menacing pair of plated claws, a closely protected tradition of the Atgervi Shamans. The four claws embody the four great beasts. Decorated with symbols of the gods they praise and the Gods they reject."
 	icon_state = "atgervi_shaman_gloves"
 	item_state = "atergvi_shaman_gloves"
 	unarmed_bonus = 1.25
+
+/obj/item/clothing/gloves/roguetown/plate/atgervi/equipped(mob/user, slot)
+	. = ..()
+	if(slot == SLOT_GLOVES && ishuman(user) && HAS_TRAIT(user,TRAIT_CIVILIZEDBARBARIAN))
+		var/mob/living/carbon/human/H = user
+		// Replace punch with claw attack
+		for(var/i = 1 to length(H.base_intents))
+			if(H.base_intents[i] == /datum/intent/unarmed/punch)
+				H.base_intents[i] = /datum/intent/unarmed/claw
+				break
+		H.update_a_intents()
+
+/obj/item/clothing/gloves/roguetown/plate/atgervi/dropped(mob/user, slot)
+	. = ..()
+	if(ishuman(user) && HAS_TRAIT(user,TRAIT_CIVILIZEDBARBARIAN))
+		var/mob/living/carbon/human/H = user
+		// Restore punch intent
+		for(var/i = 1 to length(H.base_intents))
+			if(H.base_intents[i] == /datum/intent/unarmed/claw)
+				H.base_intents[i] = /datum/intent/unarmed/punch
+				break
+		H.update_a_intents()
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/atgervi
 	name = "owl helmet"

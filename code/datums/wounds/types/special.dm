@@ -419,6 +419,252 @@
 	bodypart_owner?.grievously_wounded = FALSE
 	. = ..()
 
+/datum/wound/lethal // for wounds that cause organ penetration and similar, can't use greivous for this since that prevents dismemberment
+	name = "lethal wound"
+	severity = WOUND_SEVERITY_FATAL
+	sound_effect = 'sound/combat/crit.ogg'
+	whp = 250
+	woundpain = 100
+	critical = TRUE
+	sleep_healing = 0
+	sewn_whp = 25
+	bleed_rate = 25 // Represents bleeding from the entry wound, so you can sew this up but still bleed internally
+	can_sew = TRUE
+	sewn_bleed_rate = 0 // Stops external bleeding when sewn
+	var/organ_damage = 0
+	var/attack_damage = 0
+	var/internal_bleed_rate = 0 // Internal bleeding rate, set when wound is sewn
+
+/datum/wound/lethal/New(damage = 0)
+	. = ..()
+	if(damage > 0)
+		attack_damage = damage
+		organ_damage = clamp(damage * (rand(10, 20)/10), 40, 100) // (rand(10, 20)/10) is a little trick to get a random 2-digit float between 1.0 and 2.0
+
+/datum/wound/lethal/sew_wound()
+	. = ..()
+	if(.)
+		// When sewn, external bleeding stops but internal bleeding continues at 1/4 speed
+		internal_bleed_rate = initial(bleed_rate) * 0.25
+		if(owner)
+			owner.visible_message(span_warning("The external bleeding from [owner]'s [name] stops, but the wound still seeps internally..."))
+
+/datum/wound/lethal/on_life()
+	. = ..()
+	// Apply internal bleeding if the wound is sewn
+	if(is_sewn() && internal_bleed_rate > 0 && iscarbon(owner))
+		var/mob/living/carbon/C = owner
+		C.blood_volume = max(0, C.blood_volume - (internal_bleed_rate * 0.1)) // Internal bleeding affects blood volume directly
+
+/datum/wound/lethal/heal_wound(heal_amount)
+	if(iscarbon(owner) && organ_damage > 0)
+		var/mob/living/carbon/C = owner
+		var/obj/item/bodypart/BP = bodypart_owner
+		if(BP)
+			var/list/organs = C.getorganszone(BP.body_zone)
+			if(length(organs))
+				for(var/obj/item/organ/O in organs)
+					if(O && O.damage > 0)
+						O.setOrganDamage(0)
+	. = ..()
+
+/datum/wound/lethal/on_mob_gain(mob/living/affected)
+	. = ..()
+	if(HAS_TRAIT(affected, TRAIT_DEADITE) && !istype(src, /datum/wound/lethal/brain_penetration))
+		return // Deadites are immune to organ wounds except brain penetration
+
+/datum/wound/lethal/brain_penetration
+	name = "brain penetration"
+	check_name = span_userdanger("<B>BRAIN PIERCED</B>")
+	severity = WOUND_SEVERITY_FATAL
+	crit_message = list(
+		"The brain is pierced!",
+		"The blade penetrates the skull into the brain!",
+		"The brain is skewered!",
+		"The edge pierces through the cranium into the brain!"
+	)
+	mortal = TRUE
+
+/datum/wound/lethal/brain_penetration/on_mob_gain(mob/living/affected)
+	. = ..()
+
+	var/static/list/penetration_messages = list(
+		"MY HEAD!",
+		"I CAN'T THINK!",
+		"EVERYTHING IS GOING DARK!")
+
+	if(iscarbon(affected))
+		var/mob/living/carbon/carbon_affected = affected
+		var/obj/item/organ/brain/B = carbon_affected.getorganslot(ORGAN_SLOT_BRAIN)
+		if(B)
+			B.applyOrganDamage(organ_damage)
+	
+	if(prob(80-affected.STACON*3))
+		affected.Unconscious((rand(20,30)-affected.STACON) SECONDS)
+	else
+		affected.Stun(30)
+	
+	to_chat(affected, span_userdanger("[pick(penetration_messages)]"))
+
+/datum/wound/lethal/heart_penetration
+	name = "heart penetration"
+	check_name = span_userdanger("<B>HEART PIERCED</B>")
+	severity = WOUND_SEVERITY_FATAL
+	crit_message = list(
+		"The heart is pierced!",
+		"The blade penetrates straight through the heart!",
+		"The heart is skewered!",
+		"The blade runs through %VICTIM's heart!"
+	)
+	woundpain = 250
+	mortal = TRUE
+	bleed_rate = 35
+
+/datum/wound/lethal/heart_penetration/on_mob_gain(mob/living/affected)
+	. = ..()
+	var/static/list/penetration_messages = list(
+		"MY HEART!",
+		"MY CHEST!",
+		"I'M DYING!",
+		"OH GODS, THE PAIN!")
+
+	if(iscarbon(affected))
+		var/mob/living/carbon/carbon_affected = affected
+		carbon_affected.vomit(blood = TRUE)
+		var/obj/item/organ/heart/H = carbon_affected.getorganslot(ORGAN_SLOT_HEART)
+		if(H)
+			H.applyOrganDamage(organ_damage)
+			if(organ_damage >= 80)
+				addtimer(CALLBACK(carbon_affected, TYPE_PROC_REF(/mob/living/carbon, set_heartattack), TRUE), 3 SECONDS)
+	affected.Stun(30)
+	shake_camera(affected, 4, 4)
+	affected.emote("painscream")
+	to_chat(affected, span_userdanger("[pick(penetration_messages)]"))
+
+/datum/wound/lethal/heart_penetration/on_life()
+	. = ..()
+	var/oxydamage = organ_damage < 100 ? organ_damage / 10 : organ_damage
+	if(!iscarbon(owner))
+		return
+	var/mob/living/carbon/carbon_owner = owner
+	if(!carbon_owner.stat && prob(15))
+		carbon_owner.vomit(1, blood = TRUE, stun = FALSE)
+	if(!HAS_TRAIT(owner, TRAIT_NOBREATH))
+		carbon_owner.adjustOxyLoss(oxydamage)
+	
+	var/obj/item/organ/heart/H = carbon_owner.getorganslot(ORGAN_SLOT_HEART)
+	if(H.damage > round(H.maxHealth/2))
+		H.applyOrganDamage(1)
+		if(prob(5))
+			to_chat(carbon_owner, span_warning("MY HEART HURTS!"))
+
+/datum/wound/lethal/lung_penetration
+	name = "lung penetration"
+	check_name = span_userdanger("<B>LUNG PIERCED</B>")
+	severity = WOUND_SEVERITY_FATAL
+	crit_message = list(
+		"The lung is pierced!",
+		"Air escapes from the punctured lung!",
+		"The lung collapses!",
+		"The blade runs through %VICTIM's lung!"
+	)
+	bleed_rate = 15
+	woundpain = 100
+	mortal = TRUE
+
+/datum/wound/lethal/lung_penetration/on_mob_gain(mob/living/affected)
+	. = ..()
+
+	var/static/list/penetration_messages = list(
+		"I CAN'T BREATHE!",
+		"MY LUNGS!",
+		"I'M CHOKING!")
+
+	affected.Stun(20)
+	if(!HAS_TRAIT(affected, TRAIT_NOBREATH))
+		to_chat(affected, span_userdanger("[pick(penetration_messages)]"))
+		if(iscarbon(affected))
+			var/mob/living/carbon/carbon_affected = affected
+			var/obj/item/organ/lungs/L = carbon_affected.getorganslot(ORGAN_SLOT_LUNGS)
+			if(L)
+				L.applyOrganDamage(organ_damage)
+
+/datum/wound/lethal/lung_penetration/on_life()
+	. = ..()
+	if(!iscarbon(owner) || HAS_TRAIT(owner, TRAIT_NOBREATH))
+		return
+	var/mob/living/carbon/carbon_owner = owner
+	if(!carbon_owner.stat && prob(15))
+		carbon_owner.emote("cough")
+
+/datum/wound/lethal/liver_penetration
+	name = "liver penetration"
+	check_name = span_userdanger("<B>LIVER PIERCED</B>")
+	severity = WOUND_SEVERITY_FATAL
+	crit_message = list(
+		"The liver is pierced!",
+		"The blade punctures through the liver!",
+		"The liver is punctured!",
+		"The liver is torn open!"
+	)
+	bleed_rate = 25
+	woundpain = 120
+	mortal = TRUE
+
+/datum/wound/lethal/liver_penetration/on_mob_gain(mob/living/affected)
+	. = ..()
+	if(iscarbon(affected))
+		var/mob/living/carbon/carbon_affected = affected
+		carbon_affected.vomit(blood = TRUE)
+		var/obj/item/organ/liver/L = carbon_affected.getorganslot(ORGAN_SLOT_LIVER)
+		if(L)
+			L.applyOrganDamage(organ_damage)
+	affected.Stun(15)
+	to_chat(affected, span_userdanger("MY GUTS!"))
+
+/datum/wound/lethal/liver_penetration/on_life()
+	. = ..()
+	if(!iscarbon(owner))
+		return
+	var/mob/living/carbon/carbon_owner = owner
+	if(!carbon_owner.stat && prob(8))
+		carbon_owner.vomit(1, blood = TRUE, stun = FALSE)
+	carbon_owner.adjustToxLoss(0.5)
+
+/datum/wound/lethal/stomach_penetration
+	name = "stomach penetration"
+	check_name = span_userdanger("<B>STOMACH PIERCED</B>")
+	severity = WOUND_SEVERITY_FATAL
+	crit_message = list(
+		"The stomach is pierced!",
+		"The blade punctures through the stomach!",
+		"The stomach is torn open!",
+		"Stomach contents spill from the wound!"
+	)
+	bleed_rate = 20
+	woundpain = 110
+	mortal = TRUE
+
+/datum/wound/lethal/stomach_penetration/on_mob_gain(mob/living/affected)
+	. = ..()
+	if(iscarbon(affected))
+		var/mob/living/carbon/carbon_affected = affected
+		carbon_affected.vomit(blood = TRUE)
+		var/obj/item/organ/stomach/S = carbon_affected.getorganslot(ORGAN_SLOT_STOMACH)
+		if(S)
+			S.applyOrganDamage(organ_damage)
+	affected.Stun(15)
+	to_chat(affected, span_userdanger("MY GUTS!"))
+
+/datum/wound/lethal/stomach_penetration/on_life()
+	. = ..()
+	if(!iscarbon(owner) || HAS_TRAIT(owner, TRAIT_NOHUNGER))
+		return
+	var/mob/living/carbon/carbon_owner = owner
+	if(!carbon_owner.stat && prob(12))
+		carbon_owner.vomit(1, blood = TRUE, stun = FALSE)
+		to_chat(carbon_owner, span_warning("I taste blood!"))
+
 /datum/wound/grievous/pre_decapitation
 	name = "massacred spinal column"
 

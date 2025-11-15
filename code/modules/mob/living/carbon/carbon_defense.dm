@@ -77,12 +77,15 @@
 	..()
 
 
-/mob/living/carbon/check_projectile_wounding(obj/projectile/P, def_zone, blocked)
+/mob/living/carbon/check_projectile_wounding(obj/projectile/P, def_zone, wound_class = null, damage = null)
 	var/obj/item/bodypart/BP = get_bodypart(check_zone(def_zone))
 	if(BP)
 		testing("projwound")
-		var/newdam = P.damage * (100-blocked)/100
-		BP.bodypart_attacked_by(P.woundclass, newdam, zone_precise = def_zone, crit_message = TRUE, weapon = P)
+		if(!wound_class)
+			wound_class = P.woundclass
+		if(!damage)
+			damage = P.damage
+		BP.bodypart_attacked_by(wound_class, damage, zone_precise = def_zone, crit_message = TRUE, weapon = P)
 		return TRUE
 
 /mob/living/carbon/check_projectile_embed(obj/projectile/P, def_zone, blocked)

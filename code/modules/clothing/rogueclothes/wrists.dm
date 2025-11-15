@@ -34,6 +34,7 @@
 	item_state = "bracers"
 	max_integrity = 300
 	armor = ARMOR_BOOTS_PLATED
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	blocksound = PLATEHIT
 	resistance_flags = FIRE_PROOF
@@ -108,6 +109,7 @@
 	item_state = "lbracers"
 	max_integrity = 250
 	armor = ARMOR_LEATHER
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
@@ -124,6 +126,7 @@
 	desc = "Hardened leather braces that will keep your wrists safe from bludgeoning."
 	icon_state = "albracers"
 	armor = ARMOR_LEATHER_GOOD
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_CHOP, BCLASS_SMASH)
 	max_integrity = 265
 	salvage_amount = 1
@@ -137,6 +140,7 @@
 	max_integrity = 225
 	smeltresult = /obj/item/ingot/copper
 	armor = ARMOR_MASK_METAL_BAD
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 
 /obj/item/clothing/wrists/roguetown/wrappings
 	name = "solar wrappings"
@@ -193,6 +197,7 @@
 	icon_state = "splintarms"
 	item_state = "splintarms"
 	armor = ARMOR_LEATHER_STUDDED
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
 	blocksound = SOFTHIT
 	max_integrity = 285

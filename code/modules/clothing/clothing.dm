@@ -53,6 +53,7 @@
 	var/list/allowed_race = CLOTHED_RACES_TYPES
 	var/immune_to_genderswap = FALSE
 	var/armor_class = ARMOR_CLASS_NONE
+	var/integ_armor_mod = ARMOR_CLASS_NONE  // Used for blunt AP and armor degradation calculation when armor_class is ARMOR_CLASS_NONE
 
 	sellprice = 1
 	var/naledicolor = FALSE

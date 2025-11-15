@@ -85,15 +85,15 @@
 #define ARMOR_LIGHTCUIRASS list("blunt" = 30, "slash" = 70, "stab" = 70, "piercing" = 30, "fire" = 0, "acid" = 0)
 
 #define ARMOR_LEATHER list("blunt" = 60, "slash" = 50, "stab" = 40, "piercing" = 20, "fire" = 0, "acid" = 0)
-#define ARMOR_LEATHER_GOOD list("blunt" = 100, "slash" = 70, "stab" = 50, "piercing" = 30, "fire" = 0, "acid" = 0)
-#define ARMOR_LEATHER_STUDDED list("blunt" = 80, "slash" = 80, "stab" = 60, "piercing" = 20, "fire" = 0, "acid" = 0)
+#define ARMOR_LEATHER_GOOD list("blunt" = 100, "slash" = 45, "stab" = 50, "piercing" = 30, "fire" = 0, "acid" = 0)
+#define ARMOR_LEATHER_STUDDED list("blunt" = 80, "slash" = 70, "stab" = 60, "piercing" = 20, "fire" = 0, "acid" = 0)
 
 // Medium AC | Chest
 #define ARMOR_CUIRASS list("blunt" = 40, "slash" = 100, "stab" = 80, "piercing" = 60, "fire" = 0, "acid" = 0)
 #define ARMOR_MAILLE list("blunt" = 40, "slash" = 100, "stab" = 80, "piercing" = 50, "fire" = 0, "acid" = 0)
 
 // Heavy AC | Chest
-#define ARMOR_PLATE list("blunt" = 10, "slash" = 100, "stab" = 80, "piercing" = 75, "fire" = 0, "acid" = 0)
+#define ARMOR_PLATE list("blunt" = 50, "slash" = 100, "stab" = 80, "piercing" = 75, "fire" = 0, "acid" = 0)
 #define ARMOR_PLATE_GOOD list("blunt" = 50, "slash" = 100, "stab" = 80, "piercing" = 80, "fire" = 0, "acid" = 0)
 #define ARMOR_PLATE_BSTEEL list("blunt" = 80, "slash" = 100, "stab" = 90, "piercing" = 80, "fire" = 0, "acid" = 0) // It's EVIL. OH GOD.
 
@@ -578,10 +578,23 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define ARMOR_CLASS_MEDIUM 2
 #define ARMOR_CLASS_HEAVY 3
 
+// Armor integrity degradation multipliers - blunt damage
+#define ARMOR_DEGR_BLUNT_LIGHT 0.15
+#define ARMOR_DEGR_BLUNT_MEDIUM 0.35
+#define ARMOR_DEGR_BLUNT_HEAVY 1.25
+
+// Armor integrity degradation multipliers - cutting damage
+#define ARMOR_DEGR_CUT_LIGHT 1.1
+#define ARMOR_DEGR_CUT_MEDIUM 0.25
+#define ARMOR_DEGR_CUT_HEAVY 0.15
+
+// Armor integrity degradation multipliers - piercing damage
+#define ARMOR_DEGR_PIERCE_LIGHT 0.65
+#define ARMOR_DEGR_PIERCE_MEDIUM 1.0
+#define ARMOR_DEGR_PIERCE_HEAVY 0.55
+
 #define BASE_PARRY_STAMINA_DRAIN 5 	// Unmodified stamina drain for parry, now a var instead of setting on simplemobs
 #define BAD_GUARD_FATIGUE_DRAIN 20 	// Percentage of your green bar lost on letting a guard expire.
-#define GUARD_PEEL_REDUCTION 2		// How many Peel stacks to lose if a Guard is hit.
-#define BAIT_PEEL_REDUCTION 1		// How many Peel stacks to lose if we perfectly bait.
 
 /*
 Medical defines

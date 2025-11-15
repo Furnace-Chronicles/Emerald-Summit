@@ -89,6 +89,14 @@
 		tmsg += " as best as they can while [target] has clothing on"
 	target.adjustBruteLoss(urhealedamt_brute * -1, 0) //We have to use a negative number to heal.
 	target.adjustFireLoss(urhealedamt_burn * -1, 0)
+	if(iscarbon(target))
+		var/mob/living/carbon/C = target
+		var/obj/item/bodypart/affecting = C.get_bodypart(target_zone)
+		for(var/datum/wound/W as anything in affecting.wounds)
+			if(istype(W, /datum/wound/lethal))
+				W.heal_wound()
+				umsg += ", carefully treating the internal injuries"
+				tmsg += ", carefully treating the internal injuries"
 	display_results(user, target, span_notice("[umsg]."),
 		"[tmsg].",
 		"[tmsg].")

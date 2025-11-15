@@ -152,7 +152,6 @@
 #define SWORD_THRUST	 /datum/intent/sword/thrust
 #define SWORD_CHOP		 /datum/intent/sword/chop //2h swords only
 #define SWORD_STRIKE	 /datum/intent/sword/strike //mordhau grip
-#define SWORD_PEEL		/datum/intent/sword/peel
 
 #define ELFSWORD_CUT		/datum/intent/sword/cut/elf
 #define ELFSWORD_THRUST		/datum/intent/sword/thrust/elf
@@ -165,7 +164,6 @@
 #define SPEAR_CUT			/datum/intent/spear/cut
 #define SPEAR_CAST          /datum/intent/spear/cast
 #define PARTIZAN_REND		/datum/intent/rend/reach/partizan
-#define PARTIZAN_PEEL		/datum/intent/partizan/peel
 
 #define MESSER_CHOP			/datum/intent/sword/chop/messer
 
@@ -212,7 +210,6 @@
 #define BCLASS_PUNCH		"punch"
 #define BCLASS_BITE			"bite"
 #define BCLASS_BURN			"charring"
-#define BCLASS_PEEL			"peel"
 #define BCLASS_EFFECT		"effect"
 #define BCLASS_PUNISH		"punish"
 #define BCLASS_SUNDER       "sunder"
@@ -368,6 +365,8 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define SHARPNESS_TIER2_THRESHOLD	0.25//%-age threshold when damage *really* falls off. Base damage value included.
 
 #define UNARMED_DAMAGE_DEFAULT		12
+#define STR_PEN_FACTOR			3.5
+#define PER_PEN_FACTOR		2
 
 /// Damage multiplier of silver weapons against mobs with TRAIT_SIMPLE_WOUNDS
 #define SILVER_SIMPLEMOB_DAM_MULT 2
