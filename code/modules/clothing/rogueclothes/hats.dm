@@ -2825,8 +2825,8 @@
 	desc = "An oddsphericalhelmet with a beaklike visor."
 	icon = 'icons/roguetown/clothing/head.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
-	icon_state = "beakhelm"
-	item_state = "beakhelm"
+	icon_state = "beakhelmet"
+	item_state = "beakhelmet"
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR
 	block2add = FOV_BEHIND
 	smeltresult = /obj/item/ingot/steel
