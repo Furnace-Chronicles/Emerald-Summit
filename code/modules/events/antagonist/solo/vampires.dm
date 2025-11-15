@@ -32,6 +32,7 @@
 		"Woman-at-Arms",
 		"Marshal",
 		"Merchant",
+		"Court Chaplain",
 		"Priest",
 		"Priestess",
 		"Acolyte",

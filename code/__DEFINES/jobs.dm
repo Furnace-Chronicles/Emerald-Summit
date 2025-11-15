@@ -132,6 +132,7 @@
 #define PHYSICIAN 	(1<<2)
 #define BUTLER		(1<<3)
 #define COUNCILLOR	(1<<4)
+#define CHAPLAIN	(1<<5)
 
 #define YEOMEN		(1<<4)
 
@@ -237,6 +238,7 @@
 #define JDO_COUNCILLOR 4.1
 
 // Courtiers
+#define JDO_CHAPLAIN 4.2
 #define JDO_MAGICIAN 5
 #define JDO_MAGEAPPRENTICE 5.1
 #define JDO_PHYSICIAN 6
@@ -331,6 +333,7 @@
 
 #define NOBLE_ROLES \
 	/datum/job/roguetown/prince,\
+	/datum/job/roguetown/chaplain,\
 	/datum/job/roguetown/councillor,\
 	/datum/job/roguetown/physician,\
 	/datum/job/roguetown/marshal,\

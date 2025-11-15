@@ -31,6 +31,7 @@
 		"Men-at-arms",
 		"Marshal",
 		"Merchant",
+		"Court Chaplain",
 		"Priest",
 		"Acolyte",
 		"Martyr",
