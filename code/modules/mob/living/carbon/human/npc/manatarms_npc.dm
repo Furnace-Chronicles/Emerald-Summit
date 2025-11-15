@@ -144,7 +144,6 @@
 
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 
-	// Default to xbow + dagger
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 	pants = /obj/item/clothing/under/roguetown/trou/leather

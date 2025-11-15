@@ -83,12 +83,6 @@
 				display_as_wanderer = TRUE
 			if(islatejoin)
 				is_returning = TRUE
-			if(J.department_flag &&J.department_flag == CHURCHMEN) //There may be a better way to check who is clergy, but this will do for now
-				is_clergy = TRUE
-			if(J.title == "Jester")
-				is_jester = TRUE
-			if(J.title == "Druid")
-				is_druid = TRUE
 		var/rank_color = "725D4C"
 		if(HAS_TRAIT(src, TRAIT_NOBLE) && social_rank < 4)
 			social_rank = SOCIAL_RANK_MINOR_NOBLE
