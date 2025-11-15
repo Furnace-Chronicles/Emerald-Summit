@@ -46,6 +46,14 @@
 	update_body()
 	update_body_parts()
 
+	var/obj/item/weapon = get_item_by_slot(SLOT_BELT_R)
+	var/obj/item/offhand = get_item_by_slot(SLOT_BACK_L)
+
+	if(weapon)
+		put_in_hands(weapon, forced = TRUE)
+	if(offhand)
+		put_in_hands(offhand, forced = TRUE)
+
 // Footsman man-at-arms NPC
 /mob/living/carbon/human/species/npc/manatarms/footsman
 	name = "footman"
@@ -148,7 +156,6 @@
 	belt = /obj/item/storage/belt/rogue/leather/black
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 
-	r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 	beltr = /obj/item/quiver/bolts
 	beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/special
 	head = /obj/item/clothing/head/roguetown/helmet
