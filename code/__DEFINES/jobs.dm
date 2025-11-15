@@ -37,7 +37,7 @@
 #define CARGOTECH		(1<<7)
 //#define MINER			(1<<8) //This is redefined below, and is a ss13 leftover.
 #define LAWYER			(1<<9)
-#define CHAPLAIN		(1<<10)
+#define CHAPLAINSS13		(1<<10)
 #define CLOWN			(1<<11)
 #define MIME			(1<<12)
 #define ASSISTANT		(1<<13)
