@@ -199,8 +199,7 @@
 			// Check offhand for skill
 			if(offhand && offhand.can_parry && offhand.associated_skill)
 				skill_cooldown_reduction = max(skill_cooldown_reduction, H.get_skill_level(offhand.associated_skill))
-			// Check unarmed skill if no weapon can parry
-			if(skill_cooldown_reduction == 0)
+			if(!mainhand || !mainhand.can_parry && !offhand)
 				skill_cooldown_reduction = H.get_skill_level(/datum/skill/combat/unarmed)
 
 			var/actual_parry_cooldown = max(setparrytime - skill_cooldown_reduction, 0)
