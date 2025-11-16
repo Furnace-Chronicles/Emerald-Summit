@@ -40,8 +40,11 @@
 			chance2hit += 25
 		if(used_intent.blade_class == BCLASS_CUT)
 			chance2hit += 6
-		if((used_intent.blade_class == BCLASS_BLUNT || used_intent.blade_class == BCLASS_SMASH) && check_zone(zone) != zone)	//A mace can't hit the eyes very well
-			chance2hit -= 10
+		if(used_intent.blade_class == BCLASS_PUNCH) //Punches are rather swift, short weapons.
+			chance2hit += 12
+//		if((used_intent.blade_class == BCLASS_BLUNT || used_intent.blade_class == BCLASS_SMASH) && check_zone(zone) != zone)	//A mace can't hit the eyes very well
+//			chance2hit -= 10
+		//disabled due to the fact this includes skull hits, makes blunt weapons really too hard to hit skulls.
 
 	if(I)
 		if(I.wlength == WLENGTH_SHORT)
