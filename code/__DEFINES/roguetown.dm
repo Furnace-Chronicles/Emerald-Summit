@@ -142,6 +142,7 @@
 #define ARMOR_SPELLSINGER list("blunt" = 70, "slash" = 70, "stab" = 50, "piercing" = 30, "fire" = 0, "acid" = 0)
 #define ARMOR_GRUDGEBEARER list("blunt" = 40, "slash" = 200, "stab" = 200, "piercing" = 100, "fire" = 0, "acid" = 0)
 #define ARMOR_ZIZOCONCSTRUCT list("blunt" = 60, "slash" = 70, "stab" = 70, "piercing" = 60, "fire" = 40, "acid" = 10)
+#define ARMOR_DRAGONHIDE list("blunt" = 20, "slash" = 20, "stab" = 20, "piercing" = 20, "fire" = 80, "acid" = 0) // notably makes this have higher fire resistance than its AP counterpart, sacraficing overall protection for pure fire resistance
 
 // Weapon balance defines
 #define WBALANCE_NORMAL 0
