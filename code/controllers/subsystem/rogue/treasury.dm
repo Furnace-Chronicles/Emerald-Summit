@@ -180,6 +180,7 @@ SUBSYSTEM_DEF(treasury)
 	else
 		return FALSE
 
+	total_deposit_tax+= taxed_amount
 	log_to_steward("+[original_amt] deposited by [character.real_name] of which taxed [taxed_amount]")
 
 	return list(original_amt, taxed_amount)
