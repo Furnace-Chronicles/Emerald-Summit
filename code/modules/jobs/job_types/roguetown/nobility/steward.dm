@@ -103,3 +103,28 @@ GLOBAL_VAR_INIT(steward_tax_cooldown, -50000) // Antispam
 		SStreasury.tax_value = newtax / 100
 		priority_announce("The new tax in Scarlet Reach shall be [newtax] percent.", "The Steward Meddles", pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain")
 		GLOB.steward_tax_cooldown = world.time
+
+
+
+/mob/living/carbon/human/proc/request_announcement()
+	set name = "Request Announcement"
+	set category = "Stewardry"
+	if(stat)
+		return
+	var/lord = find_lord()
+	if(lord)
+		INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(lord_announce_requested), src, lord, inputty)
+
+	//TODO: WRITE MESSAGE PROC
+
+
+
+
+
+/proc/lord_announce_requested(mob/living/steward, mob/living/carbon/human/lord, requested_message)
+	var/choice = alert(lord, "The steward requests to make an announcement!\n[requested_message]", "STEWARD ANNOUNCEMENT REQUEST", "Yes", "No")
+	if(choice != "Yes" || QDELETED(lord) || lord.stat > CONSCIOUS)
+		if(steward)
+			to_chat(span_warning("The lord has denied the request to make an announcement!"))
+		return
+	SScommunications.make_announcement(steward, FALSE, raw_message)
