@@ -59,17 +59,18 @@ GLOBAL_LIST_INIT(nonhuman_positions, list(
 	"Cyborg",
 	ROLE_PAI))
 
+//WHY AREN'T THESE BUILT AT ROUNDSTART!!!!!!!!!!
 GLOBAL_LIST_INIT(noble_positions, list(
 	"Grand Duke",
 	"Consort",
 	"Suitor",
 	"Prince",
 	"Hand",
-	"Knight Captain",
 	"Marshal",
 	"Councillor",
 	"Steward",
 	"Knight",
+	"Knight Captain",
 ))
 
 GLOBAL_LIST_INIT(courtier_positions, list(
@@ -87,13 +88,12 @@ GLOBAL_LIST_INIT(garrison_positions, list(
 	"Man at Arms",
 	"Squire",
 	"Dungeoneer",
+	"Veteran",
 ))
 
 GLOBAL_LIST_INIT(church_positions, list(
 	"Priest",
-	"Confessor",
 	"Acolyte",
-	"Mortician",
 	"Templar",
 	"Druid",
 	"Martyr",
@@ -103,6 +103,7 @@ GLOBAL_LIST_INIT(inquisition_positions, list(
 	"Inquisitor",
 	"Orthodoxist",
 	"Absolver",
+	"Confessor",
 ))
 
 
@@ -123,30 +124,18 @@ GLOBAL_LIST_INIT(peasant_positions, list(
 	"Soilson",
 	"Cook",
 	"Lunatic",
-	"Miner",
-	"Hunter",
-	"Fisher",
-	"Lumberjack",
 	"Towner",
-	"Grabber",
 	"Nightmaster",
 	"Tapster",
 	"Nightswain",
-	"Docker",
 	"Prisoner",
-	"Beggar",
 	"Adventurer",
-	"Pilgrim",
 	"Bandit",
 	"Court Agent",
-	"Wretch",
 ))
 
 GLOBAL_LIST_INIT(mercenary_positions, list(
 	"Mercenary",
-	"Grenzelhoft Mercenary",
-	"Desert Rider Mercenary",
-	"Veteran",
 ))
 
 GLOBAL_LIST_INIT(youngfolk_positions, list(
