@@ -116,6 +116,7 @@
 			animate(pixel_z = prev_pixel_z, transform = turn(transform, pick(-12, 0, 12)), time=2)
 			animate(transform = prev_transform, time = 0)
 
+		is_jumping = TRUE
 		if(jextra)
 			throw_at(A, jrange, 1, src, spin = FALSE)
 			while(src.throwing)
@@ -123,8 +124,7 @@
 			throw_at(get_step(src, src.dir), 1, 1, src, spin = FALSE)
 		else
 			throw_at(A, jrange, 1, src, spin = FALSE)
-			while(src.throwing)
-				sleep(1)
+
 		if(!HAS_TRAIT(src, TRAIT_ZJUMP) && (m_intent == MOVE_INTENT_RUN))	//Jesters and werewolves don't get immobilized at all
 			Immobilize((HAS_TRAIT(src, TRAIT_LEAPER) ? 5 : 10))	//Acrobatics get half the time
 		if(isopenturf(src.loc))

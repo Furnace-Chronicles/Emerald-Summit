@@ -57,6 +57,7 @@
 	worn_x_dimension = 64
 	worn_y_dimension = 64
 	sewrepair = TRUE
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 
 /obj/item/clothing/head/roguetown/spellcasterhat/light
 	name = "tattered spellsinger hat"	//meant to be a weaker version you can spawn with in the loadout menu
@@ -95,6 +96,7 @@
 	max_integrity = 100
 	sewrepair = TRUE
 	block2add = FOV_BEHIND
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 
 /obj/item/clothing/head/roguetown/roguehood/ComponentInitialize()
 	. = ..()
@@ -632,6 +634,7 @@
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/hide/cured
 	//dropshrink = 0.75
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 
 /obj/item/clothing/head/roguetown/knitcap
 	name = "knit cap"
@@ -661,6 +664,7 @@
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
 	armor = ARMOR_SPELLSINGER // spellsinger hat stats
 	sewrepair = TRUE
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 
 /obj/item/clothing/head/roguetown/headband/red
 	color = CLOTHING_RED
@@ -685,6 +689,7 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	sellprice = 50
 	anvilrepair = /datum/skill/craft/armorsmithing
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 
 /obj/item/clothing/head/roguetown/nyle
 	name = "jewel of nyle"
@@ -695,6 +700,7 @@
 	sellprice = 100
 	resistance_flags = FIRE_PROOF
 	anvilrepair = /datum/skill/craft/armorsmithing
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 
 /obj/item/clothing/head/roguetown/nyle/consortcrown
 	name = "gem-encrusted crown"
@@ -727,6 +733,7 @@
 	icon_state = "reqhat"
 	sellprice = 100
 	anvilrepair = /datum/skill/craft/armorsmithing
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 
 /obj/item/clothing/head/roguetown/headdress
 	name = "nemes"
@@ -769,6 +776,7 @@
 	max_integrity = 75
 	color = "#463C2B"
 	sewrepair = TRUE
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 
 /obj/item/clothing/head/roguetown/helmet
 	icon = 'icons/roguetown/clothing/head.dmi'
@@ -794,6 +802,7 @@
 	grid_width = 64
 	experimental_onhip = TRUE
 	experimental_inhand = TRUE
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 
 /obj/item/clothing/head/roguetown/helmet/MiddleClick(mob/user)
 	if(!ishuman(user))
@@ -1127,7 +1136,6 @@
 	adjustable = CAN_CADJUST
 	icon_state = "zizobarbute"
 	max_integrity = 600
-	peel_threshold = 4
 	var/frogstyle = FALSE
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizo/MiddleClick(mob/user)
@@ -1794,6 +1802,7 @@
 	sewrepair = TRUE
 	blocksound = SOFTHIT
 	salvage_result = /obj/item/natural/hide/cured
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 
 /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_HIP
@@ -1970,6 +1979,7 @@
 	color = "#262927"
 	detail_color = "#FFFFFF"
 	altdetail_color = "#9c2525"
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 
 /obj/item/clothing/head/roguetown/grenzelhofthat/attack_right(mob/user)
 	..()
@@ -2279,7 +2289,7 @@
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_HIP
 	name = "elven barbute"
 	desc = "It fits snugly on one's elven head, with special slots for their pointier ears."
-	body_parts_covered = FULL_HEAD
+	// body_parts_covered = FULL_HEAD
 	body_parts_covered = HEAD|HAIR|NOSE
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH

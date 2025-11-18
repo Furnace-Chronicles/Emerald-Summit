@@ -411,11 +411,57 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 /mob/living/carbon/proc/liver_failure()
 	reagents.end_metabolization(src, keep_liverless = TRUE) //Stops trait-based effects on reagents, to prevent permanent buffs
 	reagents.metabolize(src, can_overdose=FALSE, liverless = TRUE)
-	if(HAS_TRAIT(src, TRAIT_STABLELIVER) || HAS_TRAIT(src, TRAIT_NOMETABOLISM))
+	if(mind && (HAS_TRAIT(src, TRAIT_STABLELIVER) || HAS_TRAIT(src, TRAIT_NOMETABOLISM)))
 		return
 	adjustToxLoss(4, TRUE,  TRUE)
 //	if(prob(30))
 //		to_chat(src, span_warning("I feel a stabbing pain in your abdomen!"))
+
+////////////
+//STOMACH//
+///////////
+
+// Do we have a stomach?
+/mob/living/carbon/proc/handle_stomach()
+	if(!dna)
+		return
+	var/obj/item/organ/stomach/stomach = getorganslot(ORGAN_SLOT_STOMACH)
+	if(!stomach)
+		stomach_failure()
+
+// OH MY GOD MY STOMACH IS GOOOONE!!!
+/mob/living/carbon/proc/stomach_failure()
+	if(mind && (HAS_TRAIT(src, TRAIT_NOHUNGER) || HAS_TRAIT(src, TRAIT_NOMETABOLISM)))
+		return // If you don't need to eat, you don't need a stomach, I guess.
+	
+	// I literally have NO STOMACH. I am gonna die, son
+	stamina_add(-5)
+	if(dna && dna.species && !(NOBLOOD in dna.species.species_traits))
+		blood_volume = max(blood_volume - 10, 0) // Extremely severe internal bleeding
+	if(prob(5) && !stat)
+		emote("painscream")
+		to_chat(src, span_warning("My insides burn with horrible agony!"))
+
+//////////
+//LUNGS//
+/////////
+
+// DO WE HAVE lungs bro?
+/mob/living/carbon/proc/handle_lungs()
+	if(!dna)
+		return
+	var/obj/item/organ/lungs/lungs = getorganslot(ORGAN_SLOT_LUNGS)
+	if(!lungs)
+		lungs_failure()
+
+/mob/living/carbon/proc/lungs_failure()
+	if(HAS_TRAIT(src, TRAIT_NOBREATH))
+		return // Well you definitely don't need lungs then, so whatever.
+	// We have NO LUNGS. We are going to Die.
+	adjustOxyLoss(5, TRUE)
+	if(prob(10) && !stat)
+		emote("gasp")
+		to_chat(src, span_warning("I gasp for air, but nothing comes!"))
 
 /////////////
 //CREMATION//

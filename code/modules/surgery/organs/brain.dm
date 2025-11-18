@@ -1,3 +1,11 @@
+GLOBAL_LIST_INIT(allowed_traumas, list(/datum/brain_trauma/mild/stuttering,
+										/datum/brain_trauma/mild/concussion,
+										/datum/brain_trauma/mild/muscle_weakness,
+										/datum/brain_trauma/mild/muscle_spasms,
+										/datum/brain_trauma/severe/paralysis,
+										/datum/brain_trauma/severe/discoordination
+	))
+
 /obj/item/organ/brain
 	name = "brain"
 	desc = ""
@@ -16,7 +24,7 @@
 
 	maxHealth	= BRAIN_DAMAGE_DEATH
 	low_threshold = 45
-	high_threshold = 120
+	high_threshold = 80
 
 	var/suicided = FALSE
 	var/mob/living/brain/brainmob = null
@@ -184,7 +192,7 @@
 
 /obj/item/organ/brain/on_life()
 	if(damage >= BRAIN_DAMAGE_DEATH) //rip
-		to_chat(owner, span_danger("The last spark of life in your brain fizzles out..."))
+		to_chat(owner, span_danger("The world turns black and silent as life slips away..."))
 		owner.death()
 		brain_death = TRUE
 
@@ -194,6 +202,11 @@
 	if(damage <= prev_damage)
 		return
 	damage_delta = damage - prev_damage
+
+	if(damage_delta > damage)
+		gain_random_trauma()
+
+/*
 	if(damage > BRAIN_DAMAGE_MILD)
 		if(prob(damage_delta * (1 + max(0, (damage - BRAIN_DAMAGE_MILD)/100)))) //Base chance is the hit damage; for every point of damage past the threshold the chance is increased by 1% //learn how to do your bloody math properly goddamnit
 			gain_trauma_type(BRAIN_TRAUMA_MILD)
@@ -218,6 +231,7 @@
 				. += "\n[brain_message]"
 			else
 				return brain_message
+*/
 
 /obj/item/organ/brain/alien
 	name = "alien brain"
@@ -313,6 +327,11 @@
 	SSblackbox.record_feedback("tally", "traumas", 1, actual_trauma.type)
 
 //Add a random trauma of a certain subtype
+/obj/item/organ/brain/proc/gain_random_trauma()
+	for(var/datum/brain_trauma/BT in GLOB.allowed_traumas)
+		gain_trauma(BT, TRAUMA_RESILIENCE_BASIC)
+
+
 /obj/item/organ/brain/proc/gain_trauma_type(brain_trauma_type = /datum/brain_trauma, resilience)
 	var/list/datum/brain_trauma/possible_traumas = list()
 	for(var/T in subtypesof(brain_trauma_type))

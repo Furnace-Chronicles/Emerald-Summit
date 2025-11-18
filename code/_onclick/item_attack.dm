@@ -201,11 +201,29 @@
 
 	if(M.attacked_by(src, user))
 		if(user.used_intent == cached_intent)
-			var/tempsound = user.used_intent.hitsound
-			if(tempsound)
-				playsound(M.loc,  tempsound, 100, FALSE, -1)
+			// Check if attack was blunted by armor
+			if(M.last_attack_was_blunted && ishuman(M))
+				var/mob/living/carbon/human/H = M
+				var/obj/item/bodypart/affecting = H.get_bodypart(check_zone(user.zone_selected))
+				if(affecting)
+					var/obj/item/clothing/armor = H.get_best_armor(affecting.body_zone, d_type)
+					if(armor && armor.blocksound)
+						playsound(M.loc, get_armor_sound(armor.blocksound, user.used_intent.blade_class), 100, FALSE, -1)
+						M.last_attack_was_blunted = FALSE
+					else
+						var/tempsound = user.used_intent.hitsound
+						if(tempsound)
+							playsound(M.loc, tempsound, 100, FALSE, -1)
+						else
+							playsound(M.loc, "nodmg", 100, FALSE, -1)
+						M.last_attack_was_blunted = FALSE
 			else
-				playsound(M.loc,  "nodmg", 100, FALSE, -1)
+				var/tempsound = user.used_intent.hitsound
+				if(tempsound)
+					playsound(M.loc,  tempsound, 100, FALSE, -1)
+				else
+					playsound(M.loc,  "nodmg", 100, FALSE, -1)
+				M.last_attack_was_blunted = FALSE
 
 	log_combat(user, M, "attacked", src.name, "(INTENT: [uppertext(user.used_intent.name)]) (DAMTYPE: [uppertext(damtype)])")
 	add_fingerprint(user)

@@ -7,6 +7,7 @@
 	allowed_race = list(/datum/species/goblin, /datum/species/goblin/hell, /datum/species/goblin/cave, /datum/species/goblin/sea, /datum/species/goblin/moon)
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 	sellprice = 0
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 
 /obj/item/clothing/suit/roguetown/armor/leather/goblin
 	name = "goblin armor"
@@ -16,6 +17,7 @@
 	body_parts_covered = CHEST|GROIN|ARMS|VITALS
 	allowed_race = list(/datum/species/goblin, /datum/species/goblin/hell, /datum/species/goblin/cave, /datum/species/goblin/sea, /datum/species/goblin/moon)
 	sellprice = 0
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 
 /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 	name = "goblin loincloth"
@@ -25,6 +27,7 @@
 	allowed_race = list(/datum/species/goblin, /datum/species/goblin/hell, /datum/species/goblin/cave, /datum/species/goblin/sea, /datum/species/goblin/moon)
 	armor = null
 	sellprice = 0
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 
 /obj/item/clothing/head/roguetown/helmet/leather/goblin
 	name = "goblin helmet"
@@ -33,6 +36,7 @@
 	icon = 'icons/roguetown/mob/monster/goblins.dmi'
 	allowed_race = list(/datum/species/goblin, /datum/species/goblin/hell, /datum/species/goblin/cave, /datum/species/goblin/sea, /datum/species/goblin/moon)
 	sellprice = 0
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 
 /obj/item/clothing/head/roguetown/helmet/goblin
 	name = "goblin helmet"
@@ -43,3 +47,4 @@
 	body_parts_covered = HEAD|EARS|HAIR|EYES
 	sellprice = 0
 	smeltresult = /obj/item/ingot/iron
+	integ_armor_mod = ARMOR_CLASS_HEAVY

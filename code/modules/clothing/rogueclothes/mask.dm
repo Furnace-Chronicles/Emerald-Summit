@@ -210,7 +210,8 @@
 	body_parts_covered = FACE|HEAD
 	block2add = FOV_BEHIND
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
-	armor = ARMOR_PADDED 
+	armor = ARMOR_PADDED
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	sewrepair = TRUE
 
 /obj/item/clothing/mask/rogue/sack/psy
@@ -223,8 +224,9 @@
 	desc = "It is said that the original version of this mask was used for obscure rituals prior to the fall of the Empire of the Holy Celestia, and now it has been repurposed as a veil for the cunning hand of the Otavan Holy See.<br> <br>Others say it is a piece of heresy, a necessary evil, capable of keeping its user safe from left-handed magicks. You can taste copper whenever you draw breath."
 	icon_state = "confessormask"
 	max_integrity = 200
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	equip_sound = 'sound/items/confessormaskon.ogg'
-	smeltresult = /obj/item/ingot/steel	
+	smeltresult = /obj/item/ingot/steel
 	var/worn = FALSE
 	slot_flags = ITEM_SLOT_MASK
 
@@ -296,6 +298,7 @@
 	max_integrity = 100
 	resistance_flags = FIRE_PROOF
 	armor = ARMOR_MASK_METAL
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
 	flags_inv = HIDEFACE|HIDESNOUT
 	body_parts_covered = FACE
@@ -314,6 +317,7 @@
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 	resistance_flags = FIRE_PROOF
 	armor = ARMOR_MASK_METAL
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
 	flags_inv = HIDEFACE|HIDESNOUT
 	body_parts_covered = FACE
@@ -328,6 +332,7 @@
 	desc = "A decrepit creepy old mask. Aeon's grasp is upon it."
 	icon_state = "ancientmask"
 	max_integrity = 75
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	smeltresult = /obj/item/ingot/aalloy
 
 /obj/item/clothing/mask/rogue/facemask/copper
@@ -335,6 +340,7 @@
 	icon_state = "cmask"
 	desc = "A heavy copper mask which protects the eyes, nose and mouth yet not all that effectively while also obscuring the face it."
 	armor = ARMOR_MASK_METAL_BAD
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/copper
 
 /obj/item/clothing/mask/rogue/facemask/hound
@@ -347,6 +353,7 @@
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 	resistance_flags = FIRE_PROOF
 	armor = ARMOR_MASK_METAL
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
 	flags_inv = HIDEFACE|HIDESNOUT
 	body_parts_covered = FACE
@@ -427,6 +434,7 @@
 	desc = "A mask of steel which protects the eyes, nose and mouth while also obscuring the face it."
 	icon_state = "smask"
 	max_integrity = 200
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun
@@ -481,6 +489,7 @@
 	body_parts_covered = FULL_HEAD
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	slot_flags = ITEM_SLOT_MASK
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PICK)
 
 	anvilrepair = /datum/skill/craft/armorsmithing
@@ -490,6 +499,7 @@
 	name = "gold mask"
 	icon_state = "goldmask"
 	max_integrity = 150
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	sellprice = 100
 	smeltresult = /obj/item/ingot/gold
 
@@ -497,11 +507,13 @@
 	name = "oni mask"
 	desc = "A steel mask in the visage of demons said to stalk the mountains of Kazengun."
 	icon_state = "oni"
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 
 /obj/item/clothing/mask/rogue/facemask/yoruku_kitsune
 	name = "kitsune mask"
 	desc = "A steel mask in the visage of the fox spirits said to ply their tricks in the forests of Kazengun."
 	icon_state = "kitsune"
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 
 /obj/item/clothing/mask/rogue/facemask/cheap_oni
 	name = "handcarved oni mask"
@@ -510,6 +522,7 @@
 	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	armor = ARMOR_PADDED_BAD
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
 	armor = list("blunt" = 10, "slash" = 10, "stab" = 10, "piercing" = 10, "fire" = 0, "acid" = 0)
 	anvilrepair = /datum/skill/craft/carpentry
@@ -521,6 +534,7 @@
 	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	armor = ARMOR_PADDED_BAD
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
 	armor = list("blunt" = 10, "slash" = 10, "stab" = 10, "piercing" = 10, "fire" = 0, "acid" = 0)
 	anvilrepair = /datum/skill/craft/carpentry
@@ -562,6 +576,7 @@
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
 	resistance_flags = FIRE_PROOF
 	armor = ARMOR_HEAD_BAD
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	prevent_crits = null
 	flags_inv = HIDEFACE|HIDESNOUT
 	body_parts_covered = FACE
@@ -594,6 +609,7 @@
 	desc = "Runes and wards, meant for daemons; the gold has somehow rusted in unnatural, impossible agony. The most prominent of these etchings is in the shape of the Naledian psycross. Armored to protect the wearer's face."
 	max_integrity = 100
 	armor = ARMOR_MASK_METAL
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
 	adjustable = CAN_CADJUST
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)

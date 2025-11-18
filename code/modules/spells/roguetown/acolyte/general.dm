@@ -235,6 +235,13 @@
 					most_damaged_limb.heal_damage(healing * 2, healing * 2, healing * 2)
 					H.update_damage_overlays()
 					to_chat(H, span_notice("The miracle mends my [most_damaged_limb.name]!"))
+
+				// Clear internal bleeding from lethal wounds
+				for(var/obj/item/bodypart/BP in H.bodyparts)
+					if(length(BP.wounds))
+						for(var/datum/wound/lethal/L in BP.wounds)
+							if(L.internal_bleed_rate > 0)
+								L.internal_bleed_rate = 0
 			else
 				message_out = span_warning("The wounds tear and rip around the embedded objects!")
 				message_self = span_warning("Agonising pain shoots through your body as magycks try to sew around the embedded objects!")

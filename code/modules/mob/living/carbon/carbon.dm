@@ -139,6 +139,10 @@
 /mob/living/carbon/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	. = ..()
 	var/hurt = TRUE
+	var/was_jumping = is_jumping
+	if(is_jumping)
+		is_jumping = FALSE
+
 	if(hit_atom.density && isturf(hit_atom))
 		if(hurt)
 			take_bodypart_damage(10,check_armor = TRUE)
@@ -148,6 +152,13 @@
 		var/mob/living/carbon/victim = hit_atom
 		if(victim.movement_type & FLYING)
 			return
+
+		if(ishuman(src))
+			if(cmode && m_intent == MOVE_INTENT_RUN && !get_active_held_item() && a_intent.type == INTENT_GRAB && was_jumping)
+				var/mob/living/carbon/human/H = src
+				if(H.try_tackle(victim))
+					hurt = FALSE
+
 		if(hurt)
 			victim.take_bodypart_damage(10,check_armor = TRUE)
 			take_bodypart_damage(10,check_armor = TRUE)

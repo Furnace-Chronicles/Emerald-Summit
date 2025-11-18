@@ -77,10 +77,6 @@
 /datum/intent/sword/cut/miaodao/fast
 	clickcd = 9
 
-/datum/intent/sword/peel/miaodao
-	name = "long sword armor peel"
-	peel_divisor = 4
-	reach = 2
 
 /datum/intent/sword/thrust/zwei
 	reach = 2
@@ -148,20 +144,6 @@
 	no_early_release = TRUE
 	intent_intdamage_factor = 0.1
 
-/datum/intent/partizan/peel
-	name = "armor peel"
-	icon_state = "inpeel"
-	attack_verb = list("snags")
-	animname = "cut"
-	blade_class = BCLASS_PEEL
-	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	clickcd = CLICK_CD_CHARGED
-	penfactor = 200
-	swingdelay = 5
-	damfactor = 0.05
-	item_d_type = "slash"
-	peel_divisor = 4
-	reach = 2
 
 
 
@@ -906,7 +888,7 @@
 	force = 12
 	force_wielded = 30
 	possible_item_intents = list(/datum/intent/sword/chop,/datum/intent/sword/strike) //bash is for nonlethal takedowns, only targets limbs
-	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/chop, /datum/intent/sword/thrust/zwei, /datum/intent/sword/peel/big)
+	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/chop, /datum/intent/sword/thrust/zwei)
 	alt_intents = list(/datum/intent/effect/daze, /datum/intent/sword/strike, /datum/intent/sword/bash)
 	name = "greatsword"
 	desc = "Might be able to chop anything in half!"
@@ -933,6 +915,7 @@
 	associated_skill = /datum/skill/combat/swords
 	max_blade_int = 200
 	wdefense = 5
+	can_precision_strike = TRUE
 	smelt_bar_num = 3
 	pickup_sound = 'modular_helmsguard/sound/sheath_sounds/draw_greatsword.ogg'
 	sheathe_sound = 'modular_helmsguard/sound/sheath_sounds/put_back_sword2.ogg'
@@ -1046,8 +1029,8 @@
 	desc = "In the Otavan mosaics, Saint Ravox - bare in all but a beaked helmet and loincloth - is often depicted wielding such an imposing greatweapon against the Dark Star, Graggar. Regardless of whether this relic was actually wielded by divinity-or-not, its unparallel strength will nevertheless command even the greatest foes to fall."
 	force = 25
 	icon_state = "psygsword"
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/peel, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/peel, /datum/intent/rend, /datum/intent/axe/chop)
+	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/rend, /datum/intent/axe/chop)
 
 /obj/item/rogueweapon/greatsword/psygsword/relic/ComponentInitialize()
 	AddComponent(\
@@ -1164,6 +1147,7 @@
 	associated_skill = /datum/skill/combat/swords
 	max_blade_int = 300
 	wdefense = 5
+	can_precision_strike = TRUE
 	smelt_bar_num = 2
 	pickup_sound = 'modular_helmsguard/sound/sheath_sounds/draw_greatsword.ogg'
 	sheathe_sound = 'modular_helmsguard/sound/sheath_sounds/put_back_sword2.ogg'
@@ -1304,7 +1288,7 @@
 	force = 8	//Not a possible one-handed weapon. Also too heavy!
 	force_wielded = 30
 	possible_item_intents = list(SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
-	gripped_intents = list(SPEAR_THRUST, PARTIZAN_REND, PARTIZAN_PEEL)
+	gripped_intents = list(SPEAR_THRUST, PARTIZAN_REND)
 	icon_state = "partizan"
 	icon = 'icons/roguetown/weapons/64.dmi'
 	minstr = 10
@@ -1337,7 +1321,7 @@
 	name = "jūmonji yari"
 	icon_state = "jumonjiyari"
 	desc = "A spear with a long, straight head and a pair of curved blades pointing upward. A Lingyunese design, the side-blades parallel an Aavnic partizan. Its function is certainly similar, tearing the flesh of any unfortunate enough to be pierced by it."
-	gripped_intents = list(SPEAR_THRUST, /datum/intent/spear/cut/naginata, PARTIZAN_REND) //Gets rend and an usable cut, but no peel.
+	gripped_intents = list(SPEAR_THRUST, /datum/intent/spear/cut/naginata, PARTIZAN_REND)
 
 /obj/item/rogueweapon/spear/boar/frei
 	name = "Aavnic lándzsa"
@@ -1365,7 +1349,7 @@
 	force = 16
 	force_wielded = 30
 	possible_item_intents = list(/datum/intent/spear/cut/naginata, SPEAR_BASH) // no stab for you little chuddy, it's a slashing weapon
-	gripped_intents = list(/datum/intent/spear/cut/naginata, /datum/intent/rend/reach, PARTIZAN_PEEL, SPEAR_BASH)
+	gripped_intents = list(/datum/intent/spear/cut/naginata, /datum/intent/rend/reach, SPEAR_BASH)
 	icon_state = "naginata"
 	icon = 'icons/roguetown/weapons/64.dmi'
 	wbalance = WBALANCE_SWIFT

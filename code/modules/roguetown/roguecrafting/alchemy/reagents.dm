@@ -24,6 +24,14 @@
 		M.update_damage_overlays()
 		if(prob(10))
 			to_chat(M, span_nicegreen("I feel my wounds mending."))
+	// Clear internal bleeding from lethal wounds
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		for(var/obj/item/bodypart/BP in H.bodyparts)
+			if(length(BP.wounds))
+				for(var/datum/wound/lethal/L in BP.wounds)
+					if(L.internal_bleed_rate > 0)
+						L.internal_bleed_rate = 0
 	for(var/datum/reagent/toxin/R in M.reagents.reagent_list)
 		if(R != src)
 			M.reagents.remove_reagent(R.type,1)
@@ -79,6 +87,14 @@
 		M.update_damage_overlays()
 		if(prob(10))
 			to_chat(M, span_nicegreen("I feel my wounds mending."))
+	// Clear internal bleeding from lethal wounds
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		for(var/obj/item/bodypart/BP in H.bodyparts)
+			if(length(BP.wounds))
+				for(var/datum/wound/lethal/L in BP.wounds)
+					if(L.internal_bleed_rate > 0)
+						L.internal_bleed_rate = 0
 	M.adjustBruteLoss(-5, 0) //25 brute damage healed per sip. More than before, but blood recovery and wound healing were nerfed.
 	M.adjustFireLoss(-5, 0)
 	M.adjustOxyLoss(-8, 0) //200 oxyloss kills you, this reduces it by 40 each sip.
@@ -102,10 +118,18 @@
 	else
 		M.blood_volume = min(M.blood_volume+10, BLOOD_VOLUME_MAXIMUM)
 	if(wCount.len > 0)
-		M.heal_wounds(12) //Less wound healing. Two sips will fix an artery, but only barely. 
+		M.heal_wounds(12) //Less wound healing. Two sips will fix an artery, but only barely.
 		M.update_damage_overlays()
 		if(prob(10))
 			to_chat(M, span_nicegreen("I feel my wounds mending."))
+	// Clear internal bleeding from lethal wounds
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		for(var/obj/item/bodypart/BP in H.bodyparts)
+			if(length(BP.wounds))
+				for(var/datum/wound/lethal/L in BP.wounds)
+					if(L.internal_bleed_rate > 0)
+						L.heal_wound()
 	M.adjustBruteLoss(-8, 0) // 48u (1 bottle) = 384 brute damage healed. Enough to fully fix any one limb.
 	M.adjustFireLoss(-8, 0)
 	M.adjustOxyLoss(-15, 0) //You cannot die if this is fed to you, realistically.

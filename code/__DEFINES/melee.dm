@@ -1,5 +1,7 @@
 //Martial arts defines
 
+#define PARRY_DISARM 2
+
 #define MARTIALART_BOXING "boxing"
 #define MARTIALART_WRESTLING "wrestling"
 #define MARTIALART_SLEEPINGCARP "sleeping carp"

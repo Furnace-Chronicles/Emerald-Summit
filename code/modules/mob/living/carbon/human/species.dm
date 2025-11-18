@@ -1,6 +1,14 @@
 // This code handles different species in the game.
 
 GLOBAL_LIST_EMPTY(roundstart_races)
+GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5, 
+										BODY_ZONE_R_ARM = 5, 
+										BODY_ZONE_L_LEG = 5, 
+										BODY_ZONE_R_LEG = 5, 
+										BODY_ZONE_PRECISE_NECK = 15, 
+										BODY_ZONE_PRECISE_L_EYE = 20, 
+										BODY_ZONE_PRECISE_R_EYE = 20, 
+										BODY_ZONE_PRECISE_GROIN = 10))
 
 /datum/species
 	var/id	// if the game needs to manually check my race to do something not included in a proc here, it will use this
@@ -1153,6 +1161,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 ///This proc handles punching damage. IMPORTANT: Our owner is the TARGET and not the USER in this proc. For whatever reason...
 /datum/species/proc/harm(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
+	set waitfor = FALSE
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
 		to_chat(user, span_warning("I don't want to harm [target]!"))
 		return FALSE
@@ -1230,26 +1239,37 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 		if(!target.lying_attack_check(user))
 			return 0
+		
+		var/bonus_pen = 0
+		// Only expert pugilists can punch through armor
+		if(HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN))
+			bonus_pen = (user.STASTR - 10) * STR_PEN_FACTOR
+		
+		var/d_type = "blunt"
+		if(user.used_intent?.item_d_type)
+			d_type = user.used_intent.item_d_type
 
-		var/armor_block = target.run_armor_check(selzone, "blunt", armor_penetration = BLUNT_DEFAULT_PENFACTOR, blade_dulling = user.used_intent.blade_class, damage = damage)
+		var/armor_block = target.run_armor_check(selzone, d_type, armor_penetration = bonus_pen + user.used_intent.penfactor, blade_dulling = user.used_intent.blade_class, damage = damage)
 
 		target.lastattacker = user.real_name
 		if(target.mind)
 			target.mind.attackedme[user.real_name] = world.time
 		target.lastattackerckey = user.ckey
-		user.dna.species.spec_unarmedattacked(user, target)
 
 		target.next_attack_msg.Cut()
 
 		var/nodmg = FALSE
+		var/actual_damage = max(damage - armor_block, 0)
+		user.dna.species.spec_unarmedattacked(user, target, damage, armor_block, actual_damage, affecting)
 
 		if(!target.apply_damage(damage, user.dna.species.attack_type, affecting, armor_block))
 			nodmg = TRUE
 			target.next_attack_msg += " <span class='warning'>Armor stops the damage.</span>"
 		else
-			affecting.bodypart_attacked_by(user.used_intent.blade_class, damage, user, selzone, crit_message = TRUE)
+			affecting.bodypart_attacked_by(user.used_intent.blade_class, actual_damage, user, selzone, crit_message = TRUE)
 			if(affecting.body_zone == BODY_ZONE_HEAD)
 				SEND_SIGNAL(user, COMSIG_HEAD_PUNCHED, target)
+
 		log_combat(user, target, "punched")
 
 		if(!nodmg)
@@ -1297,7 +1317,29 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			playsound(target.loc, user.used_intent.hitsound, 100, FALSE)
 
 
-/datum/species/proc/spec_unarmedattacked(mob/living/carbon/human/user, mob/living/carbon/human/target)
+/datum/species/proc/spec_unarmedattacked(mob/living/carbon/human/user, mob/living/carbon/human/target, damage, armor_block, actual_damage, obj/item/bodypart/affecting)
+	// Handle punch recoil damage for non-expert pugilists
+	if(!HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN) && armor_block > 0)
+		var/blocked_damage = damage - actual_damage
+		var/recoil_damage = blocked_damage * 0.5
+
+		if(recoil_damage > 0)
+			// Get the hand bodypart being used to punch
+			var/obj/item/bodypart/punching_hand = user.hand_bodyparts[user.active_hand_index]
+
+			// Check if wearing gloves that can protect
+			var/obj/item/clothing/gloves/user_gloves = user.gloves
+			if(user_gloves && user_gloves.max_integrity && user_gloves.obj_integrity > 0)
+				var/glove_armor = user_gloves.armor?.getRating("blunt") || 0
+				var/glove_protection = min(glove_armor, recoil_damage)
+				recoil_damage = max(recoil_damage - glove_protection, 0)
+
+				// Gloves take damage from the impact
+				user_gloves.take_damage(blocked_damage * 0.3, "blunt", "melee", 0)
+
+			// Apply remaining recoil damage to hand
+			if(recoil_damage > 0 && punching_hand)
+				user.apply_damage(recoil_damage, BRUTE, punching_hand, 0)
 	return
 
 /datum/species/proc/disarm(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
@@ -1441,15 +1483,19 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			var/selzone = accuracy_check(user.zone_selected, user, target, /datum/skill/combat/unarmed, user.used_intent)
 			var/obj/item/bodypart/affecting = target.get_bodypart(check_zone(selzone))
 			var/damage = user.get_punch_dmg() * 1.4
-			var/armor_block = target.run_armor_check(selzone, "blunt", blade_dulling = BCLASS_BLUNT, damage = damage)
+			var/stomp_pen = BLUNT_DEFAULT_PENFACTOR
+			if(HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN))
+				stomp_pen += (user.STASTR - 10) * STR_PEN_FACTOR
+			var/armor_block = target.run_armor_check(selzone, "blunt", armor_penetration = stomp_pen, blade_dulling = BCLASS_BLUNT, damage = damage)
 			target.next_attack_msg.Cut()
 			var/nodmg = FALSE
+			var/actual_damage = max(damage - armor_block, 0)
 			if(!target.apply_damage(damage, user.dna.species.attack_type, affecting, armor_block))
 				nodmg = TRUE
 				target.next_attack_msg += " <span class='warning'>Armor stops the damage.</span>"
 			else
 				if(affecting)
-					affecting.bodypart_attacked_by(BCLASS_BLUNT, damage, user, user.zone_selected, crit_message = TRUE)
+					affecting.bodypart_attacked_by(BCLASS_BLUNT, actual_damage, user, user.zone_selected, crit_message = TRUE)
 					if(!HAS_TRAIT(user, TRAIT_LAMIAN_TAIL))
 						target.visible_message(span_danger("[user] stomps [target]![target.next_attack_msg.Join()]"), \
 						span_danger("I'm stomped by [user]![target.next_attack_msg.Join()]"), span_hear("I hear a sickening kick!"), COMBAT_MESSAGE_RANGE, user)
@@ -1580,12 +1626,17 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		var/obj/item/bodypart/affecting = target.get_bodypart(check_zone(selzone))
 		if(!affecting)
 			affecting = target.get_bodypart(BODY_ZONE_CHEST)
-		var/armor_block = target.run_armor_check(selzone, "blunt", blade_dulling = BCLASS_BLUNT)
+		// Add strength-based armor penetration for kick: +2 AP per point of STR above 10
+		var/kick_pen = BLUNT_DEFAULT_PENFACTOR
+		if(HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN))
+			kick_pen += (user.STASTR - 10) * STR_PEN_FACTOR
+		var/armor_block = target.run_armor_check(selzone, "blunt", armor_penetration = kick_pen, blade_dulling = BCLASS_BLUNT)
 		var/damage = user.get_punch_dmg()
+		var/actual_damage = max(damage - armor_block, 0)
 		if(!target.apply_damage(damage, user.dna.species.attack_type, affecting, armor_block))
 			target.next_attack_msg += " <span class='warning'>Armor stops the damage.</span>"
 		else
-			affecting.bodypart_attacked_by(BCLASS_BLUNT, damage, user, selzone)
+			affecting.bodypart_attacked_by(BCLASS_BLUNT, actual_damage, user, selzone)
 		playsound(target, 'sound/combat/hits/kick/kick.ogg', 100, TRUE, -1)
 		target.lastattacker = user.real_name
 		target.lastattackerckey = user.ckey
@@ -1671,6 +1722,13 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		pen = I.armor_penetration + user.used_intent.penfactor
 	if(I.d_type == "blunt")
 		pen = BLUNT_DEFAULT_PENFACTOR
+	switch(I.wbalance)
+		if(WBALANCE_HEAVY)
+			pen += (user.STASTR - 10) * STR_PEN_FACTOR
+		if(WBALANCE_NORMAL)
+			pen += (((user.STASTR - 10)+(user.STAPER - 10))/2) * floor((STR_PEN_FACTOR+PER_PEN_FACTOR)/2)
+		if(WBALANCE_SWIFT)
+			pen += (user.STAPER - 10) * PER_PEN_FACTOR
 
 //	var/armor_block = H.run_armor_check(affecting, "I.d_type", span_notice("My armor has protected my [hit_area]!"), span_warning("My armor has softened a hit to my [hit_area]!"),pen)
 
@@ -1679,8 +1737,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(user.get_num_arms(FALSE) < 2 || user.get_inactive_held_item())
 			Iforce = 0
 	var/bladec = user.used_intent.blade_class
-	if(H == user && bladec == BCLASS_PEEL)
-		bladec = BCLASS_BLUNT
 	
 	var/higher_intfactor = max(user.used_intent.masteritem?.intdamage_factor, user.used_intent.intent_intdamage_factor)
 	var/lowest_intfactor = min(user.used_intent.masteritem?.intdamage_factor, user.used_intent.intent_intdamage_factor)
@@ -1690,25 +1746,82 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(higher_intfactor > 1)	//Make sure to keep your weapon and intent intfactors consistent to avoid problems here!
 		used_intfactor = higher_intfactor
 	
-	var/armor_block = H.run_armor_check(selzone, I.d_type, "", "",pen, damage = Iforce, blade_dulling=bladec, peeldivisor = user.used_intent.peel_divisor, intdamfactor = used_intfactor, used_weapon = I)
+	var/armor_block = 0
+	var/obj/item/clothing/bypassed_armor
+	// Precision strikes: Swift weapons always, or NORMAL balance weapons with can_precision_strike when wielded
+	var/can_do_precision = FALSE
+	if(I.wbalance == WBALANCE_SWIFT)
+		can_do_precision = TRUE
+	else if(I.wbalance == WBALANCE_NORMAL && I.can_precision_strike && I.wielded)
+		can_do_precision = TRUE
+
+	if(user.cmode && istype(user.rmb_intent, /datum/rmb_intent/aimed) && can_do_precision && (bladec in GLOB.stab_bclasses))
+		if(selzone in GLOB.precision_vulnerable_zones)
+			var/mob/living/carbon/human/attacker = user
+			var/obj/item/clothing/outer_armor = H.get_best_armor(selzone, I.d_type, bladec, pen)
+			var/armor_class = outer_armor.armor_class == ARMOR_CLASS_NONE && outer_armor.integ_armor_mod != ARMOR_CLASS_NONE ? outer_armor.integ_armor_mod : outer_armor.armor_class
+			if(outer_armor && armor_class == ARMOR_CLASS_HEAVY || (istype(outer_armor, /obj/item/clothing/head/roguetown/helmet) && outer_armor:flags_cover & HEADCOVERSEYES))
+				var/precision_chance = max(pen - outer_armor.armor.getRating(I.d_type) - GLOB.precision_vulnerable_zones[selzone], 0) // This way, it's easier to find gaps in damaged armor, and easier to achieve with high-penetration attacks
+
+				if(I.associated_skill)
+					precision_chance += attacker.get_skill_level(I.associated_skill) * 10
+				if(((user in H.grabbedby) || (H in user.grabbedby)) && I.wbalance == WBALANCE_SWIFT)
+					precision_chance += 50 // Way easier to find gaps when you're holding the enemy or vice versa
+				if(I.wlength > WLENGTH_SHORT)
+					precision_chance -= 10*I.wlength
+				if(I.wbalance == WBALANCE_NORMAL)
+					precision_chance -= 15
+				precision_chance += (attacker.STAPER - 10) * 5
+				precision_chance -= (max(H.STASPD, H.STACON) - 10) * 5
+				precision_chance = clamp(precision_chance, 1, 95)
+
+				if(prob(precision_chance))
+					bypassed_armor = outer_armor
+					H.visible_message(span_danger("[user] strikes through a gap in [H]'s armor!"), span_userdanger("[user] finds a gap in my armor!"))
+
+	armor_block = H.run_armor_check(selzone, I.d_type, "", "",pen, damage = Iforce, blade_dulling=user.used_intent.blade_class, intdamfactor = used_intfactor, bypass_item = bypassed_armor, used_weapon = I)
 
 	var/nodmg = FALSE
+	var/raw_damage = 0
+	var/actual_damage = 0
 
 	if(Iforce)
 		H.retaliate(user)
 
 		var/weakness = H.check_weakness(I, user)
 		H.next_attack_msg.Cut()
-		if(!apply_damage(Iforce * weakness, I.damtype, def_zone, armor_block, H))
+		raw_damage = Iforce * weakness
+		actual_damage = max(raw_damage - armor_block, 0)
+		if(!apply_damage(raw_damage, I.damtype, def_zone, armor_block, H))
 			nodmg = TRUE
 			H.next_attack_msg += " <span class='warning'>Armor stops the damage.</span>"
+			// Drain stamina when armor completely blocks attack
+			// Stamina drain scales with armor damage taken
+			var/stamina_drain = min(armor_block * 0.05, 10)  // 5% of blocked damage, capped at 10
+			if(stamina_drain > 0)
+				H.stamina_add(-stamina_drain)
 			if(I)
 				I.take_damage(1, BRUTE, I.d_type)
 				SEND_SIGNAL(I, COMSIG_ITEM_ATTACKBY_BLOCKED, H, user, I.damtype, def_zone) // attack was blocked by armor or other variables
 		if(!nodmg)
 			if(I)
-				SEND_SIGNAL(I, COMSIG_ITEM_ATTACKBY_SUCCESS, H, user, Iforce * weakness, I.damtype, def_zone) // attack was not blocked by armor or other variables
-			var/datum/wound/crit_wound = affecting.bodypart_attacked_by(user.used_intent.blade_class, (Iforce * weakness) * ((100-(armor_block+armor))/100), user, selzone, crit_message = TRUE, weapon = I)
+				SEND_SIGNAL(I, COMSIG_ITEM_ATTACKBY_SUCCESS, H, user, raw_damage, I.damtype, def_zone)
+
+			var/wound_bclass = bladec
+			var/was_blunted = H.check_armor_blunting(actual_damage, armor_block, bladec, selzone, I.d_type, pen)
+
+			if(was_blunted)
+				wound_bclass = BCLASS_BLUNT
+				actual_damage = ceil(actual_damage * 0.5)
+
+			H.last_attack_was_blunted = was_blunted
+
+			if(armor_block > 0 && actual_damage > 0)
+				H.next_attack_msg += " <span class='warning'>Armor softens the blow.</span>"
+			if(was_blunted)
+				H.next_attack_msg += " <span class='warning'>The attack was blunted by armor.</span>"
+
+			var/datum/wound/crit_wound = affecting.bodypart_attacked_by(wound_bclass, actual_damage, user, selzone, crit_message = TRUE, was_blunted = was_blunted, raw_damage = raw_damage, armor_block = armor_block, weapon = I)
 			if(should_embed_weapon(crit_wound, I))
 				var/can_impale = TRUE
 				if(!affecting)
@@ -1719,7 +1832,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 					//affecting.add_embedded_object(I, silent = FALSE, crit_message = TRUE)
 					H.emote("embed")
 					H.Stun(10)
-					playsound(H.loc, "genblunt", 100, FALSE, -1)
+					playsound(get_turf(H), "genstab", 100, FALSE, -1)
 					user.visible_message(span_notice("[user] embeds [I] within [H]'s [affecting.name]!"), span_notice("I embed my [I] in [H]'s [affecting.name]."))
 					var/list/targets = list(H)
 					if(do_after_mob(user,targets, 10, progress = 0, uninterruptible = 1, required_mobility_flags = null))
@@ -1728,9 +1841,19 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 						playsound(H, 'sound/foley/flesh_rem.ogg', 100, TRUE, -2)
 						user.visible_message(span_notice("[user] rips [I] out of [H]'s [affecting.name]!"), span_notice("I rip [I] from [H]'s [affecting.name]."))
 			I.do_special_attack_effect(user, affecting, intent, H, selzone)
-//		if(H.used_intent.blade_class == BCLASS_BLUNT && I.force >= 15 && affecting.body_zone == "chest")
-//			var/turf/target_shove_turf = get_step(H.loc, get_dir(user.loc,H.loc))
-//			H.throw_at(target_shove_turf, 1, 1, H, spin = FALSE)
+
+		// Get thrown if hit hard enough by a smash attack while not downed
+		if(user.used_intent.blade_class == BCLASS_SMASH && !H.lying && !H.resting && !H.buckled && !H.buckle_lying)
+			if((!HAS_TRAIT(H, TRAIT_BIGGUY) || (HAS_TRAIT(user, TRAIT_BIGGUY) && HAS_TRAIT(H, TRAIT_BIGGUY)))) // Only big guys can launch other big guys
+				var/throw_power = generic_stat_comparison(user.STASTR, max(H.STACON, H.STASTR))
+				if(HAS_TRAIT(user, TRAIT_BIGGUY))
+					throw_power += 25
+				var/throw_damage_bonus = floor(actual_damage/2)
+				if(throw_power + throw_damage_bonus >= 50 || (!H.cmode && user.cmode && throw_power + throw_damage_bonus >= 25))
+					throw_power = max(floor(throw_power / 10)-3, 1) // Massive stat difference or GIANTISM is needed to move someone more than 1 turf
+					var/throw_dir = get_dir(get_turf(user), get_turf(H))
+					var/turf/target_turf = get_ranged_target_turf(get_turf(H), throw_dir, throw_power)
+					H.throw_at(target_turf, throw_power, throw_power, H, spin = FALSE)
 
 	I.funny_attack_effects(H, user, nodmg)
 
@@ -1742,6 +1865,19 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	//dismemberment
 	var/bloody = 0
 	var/probability = I.get_dismemberment_chance(affecting, user, selzone)
+	if(I.wlength == WLENGTH_SHORT && user.STASTR < 16)
+		probability /= 4
+
+	// Armor significantly reduces dismemberment chance based on damage absorption ratio
+	if(armor_block > 0 && raw_damage > 0)
+		if(actual_damage < armor_block)
+			probability = 0	// If more damage is absorbed than dealt, no dismemberment can occur
+		else
+			var/absorption_ratio = armor_block / raw_damage  // 0.0 to 1.0
+			// Exponential reduction: even 50% absorption gives 75% reduction in dismemberment chance
+			var/dismember_multiplier = (1 - absorption_ratio) ** 2
+			probability *= dismember_multiplier
+
 	if(affecting.brute_dam && prob(probability) && affecting.dismember(I.damtype, user.used_intent?.blade_class, user, selzone, vorpal = I.vorpal))
 		bloody = 1
 		I.add_mob_blood(H)
@@ -1899,7 +2035,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				if(BP.receive_damage(0, 0, damage_amount))
 					H.update_stamina()
 			else
-				H.adjustStaminaLoss(damage_amount)
+				H.stamina_add(damage_amount)
 		if(BRAIN)
 			var/damage_amount = forced ? damage : damage * hit_percent * H.physiology.brain_mod
 			H.adjustOrganLoss(ORGAN_SLOT_BRAIN, damage_amount)
