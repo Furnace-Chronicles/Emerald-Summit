@@ -2091,6 +2091,7 @@
 /area/rogue/under/cave/inhumen)
 "oP" = (
 /obj/effect/decal/cleanable/blood,
+/obj/effect/landmark/start/hostage,
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/banditcamp)
 "oR" = (
@@ -3405,6 +3406,10 @@
 "Ja" = (
 /obj/machinery/light/rogue/forge,
 /turf/open/floor/rogue/naturalstone,
+/area/rogue/indoors/banditcamp)
+"Jb" = (
+/obj/effect/landmark/start/hostage,
+/turf/open/floor/rogue/twig,
 /area/rogue/indoors/banditcamp)
 "Jc" = (
 /turf/open/floor/rogue/naturalstone,
@@ -4754,7 +4759,7 @@ oP
 Pq
 nR
 Pq
-Pq
+Jb
 HH
 pu
 pu

@@ -1,15 +1,14 @@
 /datum/job/roguetown/hostage
-	title = "Hostage"
+	title = "Hostage (Bandit)"
 	flag = HOSTAGE
-	department_flag = NOBLEMEN
+	department_flag = PEASANTS
 	faction = "Station"
-	total_positions = 0
+	total_positions = 2
 	spawn_positions = 2
-
 
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	tutorial = "You're too valuable to outright kill yet not a free person. You either messed up really bad or got very unlucky. Either way, the crown has held you hostage until you home country pays your ransom, as if that would ever happen. Might as well start praying to whatever god you find solace in."
+	tutorial = "You're too valuable to outright kill yet not a free person. You either messed up really bad or got very unlucky. Either way, the bandits have held you hostage until your ransom is paid, as if that would ever happen. Might as well start praying to whatever god you find solace in."
 
 	outfit = /datum/outfit/job/roguetown/hostage
 	bypass_jobban = TRUE
@@ -19,36 +18,23 @@
 	max_pq = null
 	can_random = FALSE
 
-/datum/outfit/job/roguetown/hostage/pre_equip(mob/living/carbon/human/H)
-	..()
-	mask = /obj/item/clothing/mask/rogue/facemask/prisoner
-	if(H.wear_mask)
-		var/obj/I = H.wear_mask
-		H.dropItemToGround(H.wear_mask, TRUE)
-		qdel(I)
-	shoes = /obj/item/clothing/shoes/roguetown/shortboots
-	id = /obj/item/clothing/ring/gold
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/sneaking, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
-	H.change_stat("intelligence", 1)
-	H.change_stat("fortune", 2)
-	if(H.mind)
-		var/datum/antagonist/new_antag = new /datum/antagonist/prisoner()
-		H.mind.add_antag_datum(new_antag)
-	ADD_TRAIT(H, TRAIT_BANDITCAMP, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_DISGRACED_NOBLE, TRAIT_GENERIC)
-	if(should_wear_femme_clothes(H))
-		H.change_stat("strength", -1)
-		armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/purple
-		head = /obj/item/clothing/head/roguetown/hatblu
-	else if(should_wear_masc_clothes(H))
-		H.change_stat("strength", -1)
-		pants = /obj/item/clothing/under/roguetown/tights/purple
-		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
-		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/blue
-		head = /obj/item/clothing/head/roguetown/fancyhat
+	cmode_music = 'sound/music/combat_bum.ogg'
+
+	advclass_cat_rolls = list(CTAG_HOSTAGE = 20)
+
+/datum/outfit/job/roguetown/hostage/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(!H) return
+	neck = /obj/item/clothing/neck/roguetown/gorget/cursed_collar
+	pants = /obj/item/clothing/under/roguetown/tights/black
+	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/white
+
+/datum/job/roguetown/hostage/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	. = ..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		H.advsetup = 1
+		H.invisibility = INVISIBILITY_MAXIMUM
+		H.become_blind("advsetup")
+
+/datum/job/roguetown/hostage/special_check_latejoin(client/C)
+	return FALSE
