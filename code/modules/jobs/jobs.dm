@@ -134,6 +134,7 @@ GLOBAL_LIST_INIT(peasant_positions, list(
 	"Nightswain",
 	"Docker",
 	"Prisoner",
+	"Hostage",
 	"Beggar",
 	"Adventurer",
 	"Pilgrim",
