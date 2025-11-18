@@ -42,6 +42,11 @@
 #define BLOOD_VOLUME_BAD 224
 #define BLOOD_VOLUME_SURVIVE 122
 
+//Fracture Ratings
+#define FRACTURE_RATING_CRACKED 10
+#define FRACTURE_RATING_BROKEN 25
+#define FRACTURE_RATING_SHATTERED 40
+
 //Sizes of mobs, used by mob/living/var/mob_size
 #define MOB_SIZE_TINY 0
 #define MOB_SIZE_SMALL 1

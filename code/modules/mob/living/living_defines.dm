@@ -153,6 +153,8 @@
 	var/bleed_rate = 0 //how much are we bleeding
 	var/bleedsuppress = 0 //for stopping bloodloss, eventually this will be limb-based like bleeding
 
+	var/fracture_rating = 0
+
 	var/list/next_attack_msg = list()
 
 	///The NAME (not the reference) of the mob's summoner and probable master.

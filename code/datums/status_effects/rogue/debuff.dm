@@ -154,6 +154,39 @@
 	desc = ""
 	icon_state = "bleed3"
 
+/datum/status_effect/debuff/fracture
+	id = "fracturet1"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/bleedingt1
+	effectedstats = list("constitution" = -2, "strength" = -1)
+	duration = -1
+
+/atom/movable/screen/alert/status_effect/debuff/fracturet1
+	name = "Cracked"
+	desc = ""
+	icon_state = "fracture1"
+
+/datum/status_effect/debuff/fractureworse
+	id = "fracturet2"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/bleedingt2
+	effectedstats = list("constitution" = -3, "strength" = -2, "speed" = -2)
+	duration = -1
+
+/atom/movable/screen/alert/status_effect/debuff/fracturet2
+	name = "Broken"
+	desc = ""
+	icon_state = "fracture2"
+
+/datum/status_effect/debuff/fractureworst
+	id = "fracturet3"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/bleedingt3
+	effectedstats = list("constitution" = -5, "speed" = -4, "endurance" = -3, "strength" = -3)
+	duration = -1
+
+/atom/movable/screen/alert/status_effect/debuff/fracturet3
+	name = "Shattered"
+	desc = ""
+	icon_state = "fracture3"
+
 /datum/status_effect/debuff/sleepytime
 	id = "sleepytime"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/sleepytime

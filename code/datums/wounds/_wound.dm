@@ -79,6 +79,9 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	/// Some wounds make no sense on a dismembered limb and need to go
 	var/qdel_on_droplimb = FALSE
 
+	/// Bone damage rating of fracture or dislocation wounds. Stacks.
+	var/wound_fracture_rating = 0	
+
 	/// Severity names, assoc list.
 	var/list/severity_names = list()
 	/// Whether miracles heal it.
@@ -164,6 +167,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	bodypart_owner = affected
 	owner = bodypart_owner.owner
 	bodypart_owner.bleeding += bleed_rate // immediately apply our base bleeding
+	owner.fracture_rating += wound_fracture_rating
 	on_bodypart_gain(affected)
 	INVOKE_ASYNC(src, PROC_REF(on_mob_gain), affected.owner) //this is literally a fucking lint error like new species cannot possible spawn with wounds until after its ass
 	if(crit_message)
@@ -183,6 +187,8 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 		affected.bandage_expire() //new bleeding wounds always expire bandages, fuck you
 	if(disabling)
 		affected.update_disabled()
+	if(wound_fracture_rating)
+		handle_fracture_rating()
 
 /// Removes this wound from a given bodypart
 /datum/wound/proc/remove_from_bodypart()
@@ -191,6 +197,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	set_bleed_rate(0)
 	var/obj/item/bodypart/was_bodypart = bodypart_owner
 	var/mob/living/was_owner = owner
+	owner.fracture_rating -= wound_fracture_rating
 	LAZYREMOVE(bodypart_owner.wounds, src)
 	bodypart_owner = null
 	owner = null
@@ -202,6 +209,8 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 /datum/wound/proc/on_bodypart_loss(obj/item/bodypart/affected)
 	if(disabling)
 		affected.update_disabled()
+	if(wound_fracture_rating)
+		handle_fracture_rating()
 
 /// Returns whether or not this wound can be applied to a given mob
 /datum/wound/proc/can_apply_to_mob(mob/living/affected)
@@ -281,6 +290,27 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 		heal_wound(0.6) // psydonites are supposed to apparently slightly heal wounds whether dead or alive
 	
 	return TRUE
+
+/// Handles fractures/dislocations debuffs
+/datum/wound/proc/handle_fracture_rating()
+	fracture_rating = max(fracture_rating, 0)
+	switch(fracture_rating)
+		if (0 to FRACTURE_RATING_CRACKED)
+			remove_status_effect(/datum/status_effect/debuff/fractureworst)
+			remove_status_effect(/datum/status_effect/debuff/fractureworse)
+			remove_status_effect(/datum/status_effect/debuff/fracture)
+		if (FRACTURE_RATING_CRACKED to FRACTURE_RATING_BROKEN)
+			remove_status_effect(/datum/status_effect/debuff/fractureworst)
+			remove_status_effect(/datum/status_effect/debuff/fractureworse)
+			apply_status_effect(/datum/status_effect/debuff/fracture)
+		if (FRACTURE_RATING_BROKEN to FRACTURE_RATING_SHATTERED)
+			remove_status_effect(/datum/status_effect/debuff/fractureworst)
+			apply_status_effect(/datum/status_effect/debuff/fractureworse)
+			remove_status_effect(/datum/status_effect/debuff/fracture)
+		else
+			apply_status_effect(/datum/status_effect/debuff/fractureworst)
+			remove_status_effect(/datum/status_effect/debuff/fractureworse)
+			remove_status_effect(/datum/status_effect/debuff/fracture)
 
 /// Setter for any adjustments we make to our bleed_rate, propagating them to the host bodypart.
 /datum/wound/proc/set_bleed_rate(amount)
