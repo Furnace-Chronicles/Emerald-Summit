@@ -85,6 +85,7 @@
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/abyssor_bends			= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/abyssor_undertow		= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/abyssheal				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/call_mossback			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T3,

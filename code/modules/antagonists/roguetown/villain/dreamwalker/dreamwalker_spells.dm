@@ -7,7 +7,7 @@
 	chargetime = 1.5 SECONDS
 	recharge_time = 25 MINUTES
 	overlay_state = "dream_mark"
-	invocation = list("Dream... manifest my vision, bend to my will.")
+	invocation = "Dream... manifest my vision, bend to my will."
 	invocation_type = "whisper"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -114,7 +114,7 @@
 	chargedrain = 1
 	chargetime = 0
 	overlay_state = "dream_track"
-	invocation = list("Dream... Find them.")
+	invocation = "Dream... Find them."
 	invocation_type = "whisper"
 	no_early_release = TRUE
 	movement_interrupt = FALSE
@@ -128,7 +128,7 @@
 	chargetime = 2 SECONDS
 	recharge_time = 15 MINUTES
 	invocation_type = "whisper"
-	invocation = list("Whisper of the dream...")
+	invocation = "Whisper of the dream..."
 	movement_interrupt = FALSE
 	charging_slowdown = 1
 	associated_skill = /datum/skill/magic/arcane
@@ -193,7 +193,7 @@
 	chargetime = 1.5 SECONDS
 	recharge_time = 30 SECONDS
 	invocation_type = "whisper"
-	invocation = list("I invoke the dream connection, come to me!")
+	invocation = "I invoke the dream connection, come to me!"
 	movement_interrupt = FALSE
 	charging_slowdown = 1
 	associated_skill = /datum/skill/magic/arcane
@@ -261,7 +261,7 @@
 	chargetime = 0.5 SECONDS
 	recharge_time = 10 SECONDS
 	invocation_type = "whisper"
-	invocation = list("From dream to hand...")
+	invocation = "From dream to hand..."
 	movement_interrupt = FALSE
 	charging_slowdown = 0
 	associated_skill = /datum/skill/magic/arcane
@@ -310,7 +310,7 @@
 	chargetime = 0
 	recharge_time = 10 SECONDS
 	invocation_type = "whisper"
-	invocation = list("Humm...")
+	invocation = "Humm..."
 	movement_interrupt = TRUE
 	charging_slowdown = 0
 	associated_skill = /datum/skill/magic/arcane
