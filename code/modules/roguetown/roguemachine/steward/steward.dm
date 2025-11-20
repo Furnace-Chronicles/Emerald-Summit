@@ -316,20 +316,18 @@
 			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
 				if(A.category != current_category)
 					continue
-				contents += "<b>[A.name]:</b>"
-				var/mypercentage = (A.held_items[1] + A.held_items[2])/A.stockpile_limit * 100
-				var/mycolor = gradient(list("red","green"), mypercentage)
-				
-				contents += "<span style='color:[mycolor]'> [A.held_items[1] + A.held_items[2]]</span>" //colorize string.
+
+				contents += "[A.held_items[1] + A.held_items[2]]</span>"
 				contents += " | SELL: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]m</a>"
-				contents += " / BUY: <a href='?src=\ref[src];setprice=\ref[A]'>[A.withdraw_price]m</a>"
-				contents += " / LIMIT: <a href='?src=\ref[src];setlimit=\ref[A]'>[A.stockpile_limit]</a>"
+				contents += " | BUY: <a href='?src=\ref[src];setprice=\ref[A]'>[A.withdraw_price]m</a>"
+				contents += " | LIMIT: <a href='?src=\ref[src];setlimit=\ref[A]'>[A.stockpile_limit]</a>"
 
 				if(A.importexport_amt)
+					contents += "Trade value: [round((A.export_price) * (A.demand/100))]m/u"
 					if(!A.export_only)
-						contents += " <a href='?src=\ref[src];import=\ref[A]'>\[IMP [A.importexport_amt] ([A.get_import_price()]/unit)([A.importexport_amt*A.get_import_price()]/total)\]</a> "
-					contents += "<a href='?src=\ref[src];export=\ref[A]'>\[EXP [A.importexport_amt] ([A.get_export_price()]/unit)  ([A.importexport_amt*A.get_export_price()]/total)\]</a> "
-					contents += "<a href='?src=\ref[src];togglewithdraw=\ref[A]'>\[[A.withdraw_disabled ? "Enable" : "Disable"] Withdrawing\]</a><BR>"
+						contents += " <a href='?src=\ref[src];import=\ref[A]'>\[IMP [A.importexport_amt], [A.get_import_price()]m total)\]</a> "
+					contents += "<a href='?src=\ref[src];export=\ref[A]'>\[EXP [A.importexport_amt], [A.get_export_price()]m total\]</a> "
+					contents += "<a href='?src=\ref[src];togglewithdraw=\ref[A]'>\[Withdrawing [A.withdraw_disabled ? "Off" : "On"] \]</a><BR>"
 			
 					
 		if(TAB_IMPORT)
