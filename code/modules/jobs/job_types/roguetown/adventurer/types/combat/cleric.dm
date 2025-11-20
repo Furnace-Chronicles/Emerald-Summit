@@ -819,7 +819,7 @@ switch(H.patron?.type)
         cloak = /obj/item/clothing/suit/roguetown/shirt/robe
         head = /obj/item/clothing/head/roguetown/roguehood
 	var/datum/devotion/D = new /datum/devotion(H, H.patron)
-	D.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = FALSE, devotion_limit = CLERIC_REQ_1)
+	D.grant_miracles(H, cleric_tier = CLERIC_T0, passive_gain = FALSE, devotion_limit = CLERIC_REQ_0)
 		// -- Start of section for god specific bonuses --	
 	if(H.patron?.type == /datum/patron/inhumen/graggar)
 		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
