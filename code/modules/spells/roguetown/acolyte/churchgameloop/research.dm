@@ -1171,7 +1171,7 @@ var/global/list/PATRON_ARTIFACTS = list(
 		to_chat(H, span_notice("Your Diagnose has been upgraded to Greater Diagnose (-2 MP)."))
 		open_upgrade_ui(H); return
 
-// DONT CHANGE IT PLEASE
+// DONT CHANGE IT PLEASE1111
 /obj/effect/proc_holder/spell/self/learnmiracle/cast(list/targets, mob/user)
 	if(!..()) return
 	if(!user) return
