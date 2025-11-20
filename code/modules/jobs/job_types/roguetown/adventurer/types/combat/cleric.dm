@@ -775,7 +775,7 @@
 
 /datum/outfit/job/roguetown/adventurer/flagellant/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("You are a wandering ascetic of faith who embraces suffering, believing pain is the path to enlightenment."))
+	to_chat(H, span_warning("You are a wandering ascetic who embraces suffering, believing pain is the path to enlightenment. You take the suffering of others upon yourself in you patrons name."))
 
 	H.set_blindness(0)
 
