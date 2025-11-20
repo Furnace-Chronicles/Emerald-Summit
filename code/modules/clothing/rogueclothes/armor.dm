@@ -1616,8 +1616,8 @@
 	smeltresult = /obj/item/ingot/steel
 	sellprice = 150
 	clothing_flags = CANT_SLEEP_IN
-	armor_class = ARMOR_CLASS_MEDIUM
-	armor = ARMOR_PLATE_GOOD
+	armor_class = ARMOR_CLASS_HEAVY
+	armor = ARMOR_CUIRASS
 	body_parts_covered = COVERAGE_ALL_BUT_LEGS
 	max_integrity = 350
 	prevent_crits = list(BCLASS_BLUNT, BCLASS_TWIST, BCLASS_PICK, BCLASS_SMASH, BCLASS_CUT, BCLASS_CHOP)
