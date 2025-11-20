@@ -99,6 +99,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/sound/attack_sound = 'sound/combat/hits/punch/punch (1).ogg'
 	var/sound/miss_sound = 'sound/blank.ogg'
 
+	var/use_titles = FALSE
+	var/list/race_titles = list()
+
 	var/enflamed_icon = "Standing"
 
 	//Breathing!

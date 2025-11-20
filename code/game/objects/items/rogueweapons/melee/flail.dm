@@ -230,3 +230,4 @@
 	force = 27
 	wdefense = 3
 	wbalance = WBALANCE_HEAVY
+	item_flags = PEASANT_WEAPON

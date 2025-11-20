@@ -72,6 +72,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/datum/virtue/virtue = new /datum/virtue/none // LETHALSTONE EDIT: the virtue we get for not picking a statpack
 	var/datum/virtue/virtuetwo = new /datum/virtue/none
 	var/datum/virtue/virtue_origin = new /datum/virtue/none
+	var/selected_title = "None"
 	var/age = AGE_ADULT						//age of character
 	var/origin = "Default"
 	var/accessory = "Nothing"
@@ -263,6 +264,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	accessory = "Nothing"
 
 	nsfw_headshot_link = null
+	selected_title = "None"
 
 	customizer_entries = list()
 	validate_customizer_entries()
@@ -397,7 +399,11 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 			// LETHALSTONE EDIT BEGIN: add statpack selection
 			dat += "<b>Statpack:</b> <a href='?_src_=prefs;preference=statpack;task=input'>[statpack.name]</a><BR>"
-			dat += "<BR>"
+			if(pref_species.use_titles)
+				var/display_title = selected_title ? selected_title : "None"
+				dat += "<b>Race Title:</b> <a href='?_src_=prefs;preference=race_title;task=input'>[display_title]</a><BR>"
+			else
+				dat += "<BR>"
 //			dat += "<a href='?_src_=prefs;preference=species;task=random'>Random Species</A> "
 //			dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_SPECIES]'>Always Random Species: [(randomise[RANDOM_SPECIES]) ? "Yes" : "No"]</A><br>"
 
@@ -517,7 +523,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			if(agevetted)
 				dat += "<br><b>Headshot:</b> <a href='?_src_=prefs;preference=headshot;task=input'>Change</a>"
 				if(headshot_link != null)
-					dat += "<br><img src='[headshot_link]' width='150px' height='175px'>"
+					dat += "<br><img src='[headshot_link]' width='150px' height='150px'>"
 				dat += "<br><b>NSFW Bodyshot:</b> <a href='?_src_=prefs;preference=nsfw_headshot;task=input'>Change</a>"
 				if(nsfw_headshot_link != null)
 					dat += "<br><img src='[nsfw_headshot_link]' width='125px' height='175px'>"
@@ -1730,6 +1736,22 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						else
 							extra_language = choices[chosen_language]
 
+				if("race_title")
+					var/list/titles = pref_species.race_titles
+					var/list/choices = list("None")
+					for(var/A in titles)
+						if(A == pref_species.languages)
+							continue
+						choices += list(A)
+					if(user?.client)
+						var/result = tgui_input_list(user, "What do they call your kind?", "RACE TITLE", choices)
+
+						if(result)
+							if(result == "None")
+								selected_title = "None"
+							else
+								selected_title = result
+
 				if("voice_pitch")
 					var/new_voice_pitch = input(user, "Choose your character's voice pitch ([MIN_VOICE_PITCH] to [MAX_VOICE_PITCH], lower is deeper):", "Voice Pitch") as null|num
 					if(new_voice_pitch)
@@ -2744,6 +2766,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		character.charflaw.on_mob_creation(character)
 
 	character.dna.real_name = character.real_name
+
+	if((selected_title != "None" && pref_species.use_titles) && selected_title != null)
+		character.dna.species.name = selected_title
 
 	character.headshot_link = headshot_link
 

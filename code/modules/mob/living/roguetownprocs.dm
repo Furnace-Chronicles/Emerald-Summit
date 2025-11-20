@@ -46,6 +46,8 @@
 	if(I)
 		if(I.wlength == WLENGTH_SHORT)
 			chance2hit += 10
+		if(I.item_flags & PEASANT_WEAPON && HAS_TRAIT(user, TRAIT_PEASANTMILITIA))
+			chance2hit += 8 //+1 skill equivalent
 
 	if(user.STAPER > 10)
 		chance2hit += (min((user.STAPER-10)*8, 40))
@@ -251,6 +253,8 @@
 			else
 				if(used_weapon)
 					defender_skill = H.get_skill_level(used_weapon.associated_skill)
+					if(used_weapon.item_flags & PEASANT_WEAPON && HAS_TRAIT(H, TRAIT_PEASANTMILITIA))
+						prob2defend += 20 //Identical to +1 defender skill
 				else
 					defender_skill = H.get_skill_level(/datum/skill/combat/unarmed)
 				prob2defend += highest_defense
@@ -273,6 +277,8 @@
 						if(mind)
 							finalmod = clamp(spdmod, 0, 30)
 						prob2defend -= finalmod
+					if(intenty.masteritem.item_flags & PEASANT_WEAPON && HAS_TRAIT(U, TRAIT_PEASANTMILITIA))
+						prob2defend -= 20 //Identical to +1 attacker skill
 				else
 					attacker_skill = U.get_skill_level(/datum/skill/combat/unarmed)
 					prob2defend -= (attacker_skill * 20)

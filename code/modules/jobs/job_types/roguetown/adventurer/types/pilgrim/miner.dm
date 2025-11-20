@@ -8,7 +8,7 @@
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 
-	traits_applied = list(TRAIT_DARKVISION)
+	traits_applied = list(TRAIT_DARKVISION, TRAIT_PEASANTMILITIA)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 2,

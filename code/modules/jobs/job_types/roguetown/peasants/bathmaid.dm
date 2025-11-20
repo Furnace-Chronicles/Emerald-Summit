@@ -27,7 +27,7 @@
 	job_traits = list(TRAIT_EMPATH, TRAIT_GOODLOVER)
 	job_subclasses = list(
 		/datum/advclass/nightmaiden,
-		/datum/advclass/nightmaiden/concubine,
+		/datum/advclass/nightmaiden/harlot,
 		/datum/advclass/nightmaiden/courtesan
 	)
 
@@ -89,82 +89,63 @@
 		belt = /obj/item/storage/belt/rogue/leather
 		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shorts
 
-/datum/advclass/nightmaiden/concubine
-	name = "Concubine"
-	tutorial = "Unlike your fellow bath attendants who maintain a professional facade, you have abandoned all pretense. You are a prized possession of the nobility, adorned in exotic silks and gold. Your role is to provide companionship, entertainment, and pleasure. Working underneath the finespun courtesans, you're a step above the bath attendants in your craft."
-	outfit = /datum/outfit/job/roguetown/nightmaiden/concubine
+
+/datum/advclass/nightmaiden/harlot
+	name = "Harlot"
+	tutorial = "You're no stranger to selling your flesh, a veteran whore who's done your business in back alleys and brothels long enough to know the game. Yours has been a hard life, and you've learned a few things doing what you've needed to survive. You may not be fit for a noble's bed, but the workers and soldiers pay well enough."
+	outfit = /datum/outfit/job/roguetown/nightmaiden/harlot
 	category_tags = list(CTAG_NIGHTMAIDEN)
 
-	traits_applied = list(TRAIT_LIGHT_STEP, TRAIT_BEAUTIFUL)
+	traits_applied = list(TRAIT_LIGHT_STEP, TRAIT_NUTCRACKER)
 	subclass_stats = list(
-		STATKEY_PER = 3,
+		STATKEY_PER = 2,
 		STATKEY_END = 2,
-		STATKEY_STR = 1
+		STATKEY_SPD = 2
 	)
 
 	subclass_skills = list(
-		/datum/skill/combat/whipsflails = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/stealing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/music = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/music = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/sewing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/whipsflails = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 	)
 	subclass_languages = list(
 		/datum/language/thievescant,
 	)
 
-/datum/outfit/job/roguetown/nightmaiden/concubine/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/nightmaiden/harlot/pre_equip(mob/living/carbon/human/H)
 	..()
+	head = /obj/item/clothing/head/roguetown/armingcap
+	neck = /obj/item/clothing/neck/roguetown/collar/leather
 	beltl = /obj/item/roguekey/nightmaiden
+	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backl = /obj/item/storage/backpack/rogue/satchel
+	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	backpack_contents = list(
-		/obj/item/rope = 1,
-		/obj/item/candle/eora = 1,
-		/obj/item/rogueweapon/whip = 1,
-		/obj/item/clothing/mask/rogue/blindfold = 1,
+		/obj/item/soap/bath = 1,
+		/obj/item/lockpickring/mundane = 1
 	)
 	if(should_wear_femme_clothes(H))
-		mask = /obj/item/clothing/mask/rogue/exoticsilkmask
-		neck = /obj/item/clothing/neck/roguetown/collar/leather
-		shirt = /obj/item/clothing/suit/roguetown/shirt/exoticsilkbra
-		shoes = /obj/item/clothing/shoes/roguetown/anklets
-		belt = /obj/item/storage/belt/rogue/leather/exoticsilkbelt
+		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/gen/sexy/random
+		armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/corset
+		pants = /obj/item/clothing/under/roguetown/skirt/brown
+		belt =	/obj/item/storage/belt/rogue/leather/cloth/lady
 	else
-		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
-		neck = /obj/item/clothing/neck/roguetown/collar/catbell
-		pants = /obj/item/clothing/under/roguetown/trou/leathertights
-		belt = /obj/item/storage/belt/rogue/leather/black
-		shoes = /obj/item/clothing/shoes/roguetown/sandals
+		belt = /obj/item/storage/belt/rogue/leather
+		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shorts
 
-	var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Flute","Trumpet")
-	var/weapon_choice = input("Choose your instrument.", "TAKE UP ARMS") as anything in weapons
-	H.set_blindness(0)
-	switch(weapon_choice)
-		if("Harp")
-			backr = /obj/item/rogue/instrument/harp
-		if("Lute")
-			backr = /obj/item/rogue/instrument/lute
-		if("Accordion")
-			backr = /obj/item/rogue/instrument/accord
-		if("Guitar")
-			backr = /obj/item/rogue/instrument/guitar
-		if("Hurdy-Gurdy")
-			backr = /obj/item/rogue/instrument/hurdygurdy
-		if("Viola")
-			backr = /obj/item/rogue/instrument/viola
-		if("Vocal Talisman")
-			backr = /obj/item/rogue/instrument/vocals
-		if("Flute")
-			backr = /obj/item/rogue/instrument/flute
-		if("Trumpet")
-			backr = /obj/item/rogue/instrument/trumpet
+
 
 
 /datum/advclass/nightmaiden/courtesan

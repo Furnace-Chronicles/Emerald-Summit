@@ -32,7 +32,7 @@
 	outfit = /datum/outfit/job/roguetown/tailor/basic
 	category_tags = list(CTAG_TAILOR)
 
-	traits_applied = list(TRAIT_DYES)
+	traits_applied = list(TRAIT_DYES, TRAIT_PEASANTMILITIA)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_PER = 1,
@@ -49,6 +49,8 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE
 	)
 
 /datum/outfit/job/roguetown/tailor/basic/pre_equip(mob/living/carbon/human/H)

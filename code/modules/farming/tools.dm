@@ -13,6 +13,7 @@
 	sharpness = IS_BLUNT
 	//dropshrink = 0.8
 	slot_flags = ITEM_SLOT_BACK
+	item_flags = PEASANT_WEAPON
 	wlength = 33
 	gripsprite = TRUE
 	drop_sound = 'sound/foley/dropsound/wooden_drop.ogg'
@@ -78,6 +79,7 @@
 	//dropshrink = 0.8
 	wlength = 10
 	slot_flags = ITEM_SLOT_HIP
+	item_flags = PEASANT_WEAPON
 	max_blade_int = 300
 	smeltresult = /obj/item/ingot/iron
 
@@ -110,6 +112,7 @@
 	desc = "A tool for tiling soil. It's all dirty and worn."
 	icon_state = "hoe"
 	slot_flags = ITEM_SLOT_BACK
+	item_flags = PEASANT_WEAPON
 	icon = 'icons/roguetown/weapons/tools.dmi'
 	item_state = "pitchfork"
 	lefthand_file = 'icons/mob/inhands/weapons/polearms_lefthand.dmi'
@@ -287,6 +290,7 @@
 	lefthand_file = 'icons/mob/inhands/weapons/polearms_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/polearms_righthand.dmi'
 	sharpness = IS_BLUNT
+	item_flags = PEASANT_WEAPON
 	associated_skill = /datum/skill/combat/polearms
 	//dropshrink = 0.8
 	wlength = 33

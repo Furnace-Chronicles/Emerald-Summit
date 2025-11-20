@@ -6,7 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/fisher
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
-
+	traits_applied = list(TRAIT_PEASANTMILITIA)
 	subclass_stats = list(
 		STATKEY_PER = 2,
 		STATKEY_LCK = 2,

@@ -5,6 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/seamstress
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
+	traits_applied = list(TRAIT_DYES, TRAIT_PEASANTMILITIA)
 	subclass_social_rank = SOCIAL_RANK_YEOMAN
 
 	traits_applied = (TRAIT_DYES)

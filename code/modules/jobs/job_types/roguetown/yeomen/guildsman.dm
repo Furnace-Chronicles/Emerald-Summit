@@ -34,7 +34,7 @@
 
 	category_tags = list(CTAG_GUILDSMEN)
 
-	traits_applied = list(TRAIT_TRAINED_SMITH)
+	traits_applied = list(TRAIT_TRAINED_SMITH, TRAIT_MEDIUMARMOR, TRAIT_PEASANTMILITIA)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_END = 2,
@@ -97,7 +97,7 @@
 	outfit = /datum/outfit/job/roguetown/guildsman/artificer
 	category_tags = list(CTAG_GUILDSMEN)
 
-	traits_applied = list(TRAIT_ARCYNE_T1)
+	traits_applied = list(TRAIT_ARCYNE_T1, TRAIT_PEASANTMILITIA)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_END = 2,
@@ -164,7 +164,7 @@
 	outfit = /datum/outfit/job/roguetown/guildsman/architect
 	category_tags = list(CTAG_GUILDSMEN)
 
-	traits_applied = list()
+	traits_applied = list(TRAIT_PEASANTMILITIA)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_END = 2,
