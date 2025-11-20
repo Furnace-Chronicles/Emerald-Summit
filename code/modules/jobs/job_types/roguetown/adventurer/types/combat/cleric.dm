@@ -750,7 +750,7 @@
 
 /datum/advclass/cleric/flagellant
 	name = "Flagellant"
-	tutorial = "You are a wandering ascetic who embraces suffering, believing pain is the path to enlightenment. You take the suffering of others upon yourself."
+	tutorial = "You are a wandering ascetic who embraces suffering, believing pain is the path to enlightenment. You take the suffering of others upon yourself in you patrons name."
 	outfit = /datum/outfit/job/roguetown/adventurer/flagellant
 	subclass_social_rank = SOCIAL_RANK_DIRT
 
