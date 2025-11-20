@@ -747,3 +747,169 @@
 		if(/datum/patron/divine/xylix)
 			neck = /obj/item/clothing/neck/roguetown/luckcharm
 			H.cmode_music = 'sound/music/combat_jester.ogg'
+
+/datum/advclass/cleric/flagellant
+	name = "Flagellant"
+	tutorial = "You are a wandering ascetic who embraces suffering, believing pain is the path to enlightenment. You take the suffering of others upon yourself."
+	outfit = /datum/outfit/job/roguetown/adventurer/flagellant
+	subclass_social_rank = SOCIAL_RANK_DIRT
+
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_DODGEEXPERT)
+	subclass_stats = list(
+		STATKEY_CON = 5,
+		STATKEY_END = 5,
+		STATKEY_SPD = 1,
+		STATKEY_STR = -2,
+		STATKEY_INT = -2,
+	)
+
+	subclass_skills = list(
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/whipsflails = SKILL_LEVEL_MASTER,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
+	)
+
+/datum/outfit/job/roguetown/adventurer/flagellant/pre_equip(mob/living/carbon/human/H)
+	..()
+	to_chat(H, span_warning("You are a wandering ascetic of faith who embraces suffering, believing pain is the path to enlightenment."))
+
+	H.set_blindness(0)
+
+	pants = /obj/item/clothing/under/roguetown/tights/black
+	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/black
+	shoes = /obj/item/clothing/shoes/roguetown/boots
+	backl = /obj/item/storage/backpack/rogue/satchel
+	belt = /obj/item/storage/belt/rogue/rope
+	beltr = /obj/item/rogueweapon/whip
+	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
+	backpack_contents = list(
+		/obj/item/recipe_book/survival = 1,
+		/obj/item/flashlight/flare/torch = 1,
+		)
+
+switch(H.patron?.type)
+    if(/datum/patron/old_god)
+        head = /obj/item/clothing/mask/rogue/sack/psy  //sovl
+    if(/datum/patron/divine/astrata)
+        head = /obj/item/clothing/head/roguetown/roguehood/astrata
+    if(/datum/patron/divine/noc)
+        head =  /obj/item/clothing/head/roguetown/nochood
+    if(/datum/patron/divine/abyssor)
+        head = /obj/item/clothing/head/roguetown/roguehood/abyssor
+    if(/datum/patron/divine/dendor)
+        head = /obj/item/clothing/head/roguetown/dendormask
+    if(/datum/patron/divine/necra)
+        head = /obj/item/clothing/head/roguetown/necrahood
+    if(/datum/patron/divine/malum)
+        head = /obj/item/clothing/head/roguetown/roguehood // placeholder
+    if(/datum/patron/divine/eora)
+        head = /obj/item/clothing/head/roguetown/eoramask
+    if(/datum/patron/divine/xylix)
+        head = /obj/item/clothing/head/roguetown/roguehood
+    if(/datum/patron/inhumen/zizo)
+        head = /obj/item/clothing/head/roguetown/roguehood
+        H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
+        H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
+    else
+        // true default
+        cloak = /obj/item/clothing/suit/roguetown/shirt/robe
+        head = /obj/item/clothing/head/roguetown/roguehood
+	var/datum/devotion/D = new /datum/devotion(H, H.patron)
+	D.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
+		// -- Start of section for god specific bonuses --	
+	if(H.patron?.type == /datum/patron/inhumen/graggar)
+		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
+		H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/inhumen/matthios)
+		H.grant_language(/datum/language/thievescant)
+		H.adjust_skillrank(/datum/skill/misc/sneaking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/stealing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
+	if(H.patron?.type == /datum/patron/inhumen/zizo)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/inhumen/baotha)
+		H.adjust_skillrank(/datum/skill/misc/music, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/cooking, 2, TRUE)
+		ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/astrata)
+		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/dendor)
+		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/noc)
+		H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/abyssor)
+		H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/necra)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/pestra)
+		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/eora)
+		ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/malum)
+		H.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/armorsmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/smelting, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/ravox)
+		H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/xylix)
+		H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
+	// -- End of section for god specific bonuses --
+	switch(H.patron?.type)
+		if(/datum/patron/old_god)
+			neck = /obj/item/clothing/neck/roguetown/psicross
+		if(/datum/patron/divine/astrata)
+			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
+		if(/datum/patron/divine/noc)
+			neck = /obj/item/clothing/neck/roguetown/psicross/noc
+		if(/datum/patron/divine/abyssor)
+			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
+		if(/datum/patron/divine/dendor)
+			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
+			H.cmode_music = 'sound/music/combat_druid.ogg'
+		if(/datum/patron/divine/necra)
+			neck = /obj/item/clothing/neck/roguetown/psicross/necra
+		if(/datum/patron/divine/pestra)
+			neck = /obj/item/clothing/neck/roguetown/psicross/pestra
+		if(/datum/patron/divine/ravox)
+			neck = /obj/item/clothing/neck/roguetown/psicross/ravox
+		if(/datum/patron/divine/malum)
+			neck = /obj/item/clothing/neck/roguetown/psicross/malum
+		if(/datum/patron/divine/eora)
+			neck = /obj/item/clothing/neck/roguetown/psicross/eora
+		if(/datum/patron/inhumen/zizo)
+			H.cmode_music = 'sound/music/combat_heretic.ogg'
+			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
+		if(/datum/patron/inhumen/matthios)
+			H.cmode_music = 'sound/music/combat_matthios.ogg'
+			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
+		if(/datum/patron/inhumen/graggar)
+			H.cmode_music = 'sound/music/combat_graggar.ogg'
+			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
+		if(/datum/patron/inhumen/baotha)
+			H.cmode_music = 'sound/music/combat_baotha.ogg'
+			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
+		if(/datum/patron/divine/xylix)
+			neck = /obj/item/clothing/neck/roguetown/psicross/xylix
+			H.cmode_music = 'sound/music/combat_jester.ogg'
