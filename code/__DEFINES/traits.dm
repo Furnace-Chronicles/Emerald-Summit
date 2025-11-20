@@ -79,6 +79,7 @@
 #define TRAIT_PEASANTMILITIA "Angry Peasant" //Skill is treated as one higher with appropriate weapons
 #define TRAIT_SLAYER "Slayer Oath"
 #define TRAIT_NODEF "Recklessness"
+#define TRAIT_NECRATOUCHED "Vice" //player is touched by necra, gives stress on examine and applies debuff
 
 //Hearthstone port (Tracking)
 #define TRAIT_PERFECT_TRACKER "Perfect Tracker" //Will always find any tracks and analyzes them perfectly.
@@ -402,7 +403,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"), 
 	TRAIT_PEASANTMILITIA = span_info("I am a commoner. When the Lord's soldiers do not come, I needs fend off villains and nite creechurs with the tools at hand. I fight best with simple tools and militia weapons."),
 	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"),
-	TRAIT_CLERGY = span_notice("I am a servant of the local House of the Ten.")
+	TRAIT_CLERGY = span_notice("I am a servant of the local House of the Ten."),
+	TRAIT_TRAIT_NECRATOUCHED = span_warning("The hand of Necra has touched my soul. My visage inspires superstitious dread"),
 ))
 
 // trait accessor defines

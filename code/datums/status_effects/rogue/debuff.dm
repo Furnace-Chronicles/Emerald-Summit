@@ -589,6 +589,17 @@
 	desc = "Astrata spurns me! I feel so weak..."
 	icon_state = "muscles"
 
+/atom/movable/screen/alert/status_effect/debuff/necratouched
+	name = "Necra's Touch"
+	desc = "Just looking at their death-touched face rattles you."
+	icon_state = "necravow"
+
+/datum/status_effect/debuff/necratouched
+	id = "necratouched"
+	alert_type =  /atom/movable/screen/alert/status_effect/debuff/necratouched
+	effectedstats = list("intelligence" = -1, "endurance" = -1, "fortune" = -1)
+	duration = 3 MINUTES	
+
 ///////////////////////
 /// CLIMBING STUFF ///
 /////////////////////

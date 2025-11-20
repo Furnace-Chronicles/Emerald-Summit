@@ -395,3 +395,8 @@
 	stressadd = 6
 	desc = span_boldred("AAAGGHHH!! MY PRECIOUS WINGS!!")
 	timer = 40 MINUTES
+
+/datum/stressevent/necratouched
+	stressadd = 8
+	desc = span_boldred("Their face... An ill omen of death!")
+	timer = 10 MINUTES

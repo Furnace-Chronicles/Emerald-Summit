@@ -11,6 +11,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	"Sadist"=/datum/charflaw/addiction/sadist,
 	"Masochist"=/datum/charflaw/masochist,
 	"Paranoid"=/datum/charflaw/paranoid,
+	"Necra-Touched"=/datum/charflaw/necratouched,
 	"Clingy"=/datum/charflaw/clingy,
 	"Isolationist"=/datum/charflaw/isolationist,
 	"Bad Sight"=/datum/charflaw/badsight,
@@ -518,6 +519,14 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	H.mob_biotypes |= MOB_UNDEAD
 	ADD_TRAIT(user, TRAIT_HOLLOW_LIFE, TRAIT_GENERIC)
 	ADD_TRAIT(user, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+
+/datum/charflaw/necratouched
+	name = "Necra-Touched"
+	desc = "The hand of Necra has touched my soul. My visage inspires superstitious dread."
+
+/datum/charflaw/necratouched/on_mob_creation(mob/user)
+	..()
+	ADD_TRAIT(user, TRAIT_NECRATOUCHED, TRAIT_GENERIC)
 
 /datum/charflaw/foreigner
 	name = "Foreigner"

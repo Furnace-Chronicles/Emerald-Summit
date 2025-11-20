@@ -6,6 +6,11 @@
 	if(user.has_flaw(/datum/charflaw/paranoid))	//We hate different species, that are stronger than us, and aren't racist themselves
 		if(dna.species.name != user.dna.species.name && (STASTR - user.STASTR) > 1 && !has_flaw(/datum/charflaw/paranoid))
 			user.add_stress(/datum/stressevent/parastr)
+	if(HAS_TRAIT(src, TRAIT_NECRATOUCHED) && user != src)
+		user.add_stress(/datum/stressevent/necratouched)
+		user.apply_status_effect(/datum/status_effect/debuff/necratouched)
+		to_chat(user, span_phobia("Just looking at their face fills me with an unnatural dread..."))
+		freak_out(user) 	
 	if(HAS_TRAIT(user, TRAIT_JESTERPHOBIA) && job == "Jester")
 		user.add_stress(/datum/stressevent/jesterphobia)
 	if(HAS_TRAIT(src, TRAIT_BEAUTIFUL) && user != src)//it doesn't really make sense that you can examine your own face
