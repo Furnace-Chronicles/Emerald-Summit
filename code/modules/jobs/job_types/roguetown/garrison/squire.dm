@@ -3,8 +3,8 @@
 	flag = SQUIRE
 	department_flag = GARRISON
 	faction = "Station"
-	total_positions = 4
-	spawn_positions = 4
+	total_positions = 2
+	spawn_positions = 2
 	allowed_races = RACES_FEARED_UP
 	disallowed_races = list(
 		/datum/species/lamia,
