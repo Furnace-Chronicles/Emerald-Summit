@@ -791,7 +791,7 @@
 		/obj/item/flashlight/flare/torch = 1,
 		)
 
-switch(H.patron?.type)
+switch(H.patron?.type) // everyone gets basic robes, suffer
     if(/datum/patron/old_god)
         head = /obj/item/clothing/mask/rogue/sack/psy  //sovl
     if(/datum/patron/divine/astrata)
