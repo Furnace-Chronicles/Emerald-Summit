@@ -4,14 +4,14 @@
 	flag = KNIGHT
 	department_flag = NOBLEMEN
 	faction = "Station"
-	total_positions = 3
-	spawn_positions = 3
+	total_positions = 4
+	spawn_positions = 4
 	allowed_races = RACES_NOBILITY_ELIGIBLE_UP
 	allowed_patrons = NON_PSYDON_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
 	tutorial = "Having proven yourself both loyal and capable, you have been knighted to serve the realm as the royal family's sentry. \
-				You listen to your Liege, the Marshal, and the Knight Captain, defending your Lord and realm - the last beacon of chivalry in these dark times."
+				You listen to your Liege and the Marshal, defending your Lord and realm - the last beacon of chivalry in these dark times."
 	display_order = JDO_KNIGHT
 	whitelist_req = TRUE
 	outfit = /datum/outfit/job/roguetown/knight
@@ -64,13 +64,13 @@
 					H.mind.person_knows_me(MF)
 
 /datum/outfit/job/roguetown/knight
-	cloak = /obj/item/clothing/cloak/stabard/surcoat/guard
+	cloak = /obj/item/clothing/cloak/captain
 	neck = /obj/item/clothing/neck/roguetown/bevor
 	gloves = /obj/item/clothing/gloves/roguetown/plate
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
 	belt = /obj/item/storage/belt/rogue/leather/steel
-	backr = /obj/item/storage/backpack/rogue/satchel/black
+	backr = /obj/item/storage/backpack/rogue/satchel
 	id = /obj/item/scomstone/bad/garrison
 	backpack_contents = list(/obj/item/storage/keyring/guardknight = 1)
 
@@ -130,7 +130,7 @@
 			r_hand = /obj/item/rogueweapon/spear/partizan
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-	pants = /obj/item/clothing/under/roguetown/chainlegs
+	pants = /obj/item/clothing/under/roguetown/platelegs/captain
 
 	var/helmets = list(
 		"Pigface Bascinet" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
@@ -143,20 +143,13 @@
 		"Hounskull Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
 		"Etruscan Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
 		"Slitted Kettle" = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
-		"None"
+		"Knight's Barbute"	= /obj/item/clothing/head/roguetown/helmet/visored/captain
 	)
 	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
-	var/armors = list(
-		"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
-		"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates,
-		"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/half,
-		"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/half/fluted,
-	)
-	var/armorchoice = input("Choose your armor.", "TAKE UP ARMOR") as anything in armors
-	armor = armors[armorchoice]
+	armor = /obj/item/clothing/suit/roguetown/armor/captain
 
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
@@ -218,7 +211,7 @@
 			l_hand = /obj/item/rogueweapon/sword/sabre
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-	pants = /obj/item/clothing/under/roguetown/chainlegs
+	pants = /obj/item/clothing/under/roguetown/platelegs/captain
 	backl = /obj/item/rogueweapon/shield/tower/metal
 
 	var/helmets = list(
@@ -232,20 +225,13 @@
 		"Hounskull Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
 		"Etruscan Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
 		"Slitted Kettle"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
-		"None"
+		"Knight's Barbute"	= /obj/item/clothing/head/roguetown/helmet/visored/captain
 	)
 	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
-	var/armors = list(
-		"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
-		"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates,
-		"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/half,
-		"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/half/fluted,
-	)
-	var/armorchoice = input("Choose your armor.", "TAKE UP ARMOR") as anything in armors
-	armor = armors[armorchoice]
+	armor = /obj/item/clothing/suit/roguetown/armor/captain
 
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
@@ -294,40 +280,55 @@
 
 	H.adjust_blindness(-3)
 	var/weapons = list(
-		"Longsword + Crossbow",
-		"Billhook + Recurve Bow",
-		"Grand Mace + Longbow", 
-		"Sabre + Recurve Bow",
-		"Lance + Kite Shield"
+		"Longsword",
+		"Halberd",
+		"Grand Mace",
+		"Sabre",
+		"Lance"
 	)
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/sidearms = list(
+		"Crossbow",
+		"Recurve Bow",
+		"Longbow",
+		"Recurve Bow",
+		"Kite Shield"
+	)
+	var/weapon_choice_one = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice_two = input("Choose your sidearm.", "TAKE UP SIDEARMS") as anything in sidearms
 	H.set_blindness(0)
-	switch(weapon_choice)
-		if("Longsword + Crossbow")
+	switch(weapon_choice_one)
+		if("Longsword")
 			beltl = /obj/item/rogueweapon/scabbard/sword
 			r_hand = /obj/item/rogueweapon/sword/long
-			beltr = /obj/item/quiver/bolts
-			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-		if("Billhook + Recurve Bow")
-			r_hand = /obj/item/rogueweapon/spear/billhook
-			beltr = /obj/item/quiver/arrows
-			beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-		if("Grand Mace + Longbow")
-			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
-			beltr = /obj/item/quiver/arrows
+		if("Halberd")
+			r_hand = /obj/item/rogueweapon/halberd
+		if("Grand Mace")
 			beltl = /obj/item/rogueweapon/mace/goden/steel
-		if("Sabre + Recurve Bow")
+		if("Sabre")
 			l_hand = /obj/item/rogueweapon/scabbard/sword
 			r_hand = /obj/item/rogueweapon/sword/sabre
+		if("Lance")
+			r_hand = /obj/item/rogueweapon/spear/lance
+
+	switch(weapon_choice_two)
+		if("Crossbow")
+			beltr = /obj/item/quiver/bolts
+			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+		if("Recurve Bow")
 			beltr = /obj/item/quiver/arrows
 			beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-		if("Lance + Kite Shield")
-			r_hand = /obj/item/rogueweapon/spear/lance
+		if("Longbow")
+			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
+			beltr = /obj/item/quiver/arrows
+		if("Recurve Bow")
+			beltr = /obj/item/quiver/arrows
+			beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+		if("Kite Shield")
 			backl = /obj/item/rogueweapon/shield/tower/metal
 			H.adjust_skillrank_up_to(/datum/skill/combat/shields, 2, TRUE) // Let them skip dummy hitting
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-	pants = /obj/item/clothing/under/roguetown/chainlegs
+	pants = /obj/item/clothing/under/roguetown/platelegs/captain
 
 	var/helmets = list(
 		"Pigface Bascinet" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
@@ -340,20 +341,13 @@
 		"Hounskull Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
 		"Etruscan Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
 		"Slitted Kettle"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
-		"None"
+		"Knight's Barbute"	= /obj/item/clothing/head/roguetown/helmet/visored/captain
 	)
 	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
-	var/armors = list(
-		"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
-		"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates,
-		"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/half,
-		"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/half/fluted,
-	)
-	var/armorchoice = input("Choose your armor.", "TAKE UP ARMOR") as anything in armors
-	armor = armors[armorchoice]
+	armor = /obj/item/clothing/suit/roguetown/armor/captain
 
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
@@ -400,40 +394,53 @@
 	H.verbs |= /mob/proc/haltyell
 
 	H.adjust_blindness(-3)
-	var/weapons = list("Rapier + Longbow","Estoc + Recurve Bow","Sabre + Buckler","Whip + Crossbow","Greataxe + Sling")
+	var/weapons = list("Rapier","Estoc","Sabre","Whip","Greataxe")
+	var/sidearms = list("Longbow","Recurve Bow","Buckler","Crossbow","Sling")
 	var/armor_options = list("Light Armor", "Medium Armor", "Medium Cuirass")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice_one = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice_two = input("Choose your sidearm.", "TAKE UP SIDEARMS") as anything in sidearms
 	var/armor_choice = input("Choose your armor.", "TAKE UP ARMS") as anything in armor_options
 	H.set_blindness(0)
-	switch(weapon_choice)
-		if("Rapier + Longbow") 
+	switch(weapon_choice_one)
+		if("Rapier")
 			r_hand = /obj/item/rogueweapon/sword/rapier
 			beltl = /obj/item/rogueweapon/scabbard/sword
+
+		if("Estoc")
+			r_hand = /obj/item/rogueweapon/estoc
+
+		if("Sabre")
+			beltl = /obj/item/rogueweapon/scabbard/sword
+			r_hand = /obj/item/rogueweapon/sword/sabre
+
+		if("Whip")
+			beltl = /obj/item/rogueweapon/whip
+
+		if("Greataxe")
+			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
+			r_hand = /obj/item/rogueweapon/greataxe/steel
+
+	switch(weapon_choice_two)
+		if("Longbow")
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
 			beltr = /obj/item/quiver/arrows
 
-		if("Estoc + Recurve Bow")
-			r_hand = /obj/item/rogueweapon/estoc
+		if("Recurve Bow")
 			beltr = /obj/item/quiver/arrows
 			beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-		
-		if("Sabre + Buckler")
-			beltl = /obj/item/rogueweapon/scabbard/sword
-			r_hand = /obj/item/rogueweapon/sword/sabre
+
+		if("Knight's Buckler")
 			backl = /obj/item/rogueweapon/shield/buckler
 
-		if("Whip + Crossbow")
-			beltl = /obj/item/rogueweapon/whip
+		if("Crossbow")
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 			beltr = /obj/item/quiver/bolts
-		
-		if("Greataxe + Sling")
+
+		if("Sling")
 			H.adjust_skillrank(/datum/skill/combat/slings, 4, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
-			r_hand = /obj/item/rogueweapon/greataxe/steel
 			beltr = /obj/item/quiver/sling/iron
 			beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
-	
+
 	switch(armor_choice)
 		if("Light Armor")
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
@@ -441,11 +448,11 @@
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 		if("Medium Armor")
 			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-			pants = /obj/item/clothing/under/roguetown/chainlegs
+			pants = /obj/item/clothing/under/roguetown/platelegs/captain
 			armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light
 		if("Medium Cuirass")
 			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-			pants = /obj/item/clothing/under/roguetown/chainlegs
+			pants = /obj/item/clothing/under/roguetown/platelegs/captain
 			armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fluted
 
 	var/helmets = list(
@@ -459,9 +466,9 @@
 		"Hounskull Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
 		"Etruscan Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
 		"Slitted Kettle" = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
-		"None"
+		"Knight's Barbute"	= /obj/item/clothing/head/roguetown/helmet/visored/captain
 	)
-	
+
 	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]

@@ -1844,9 +1844,9 @@
 	. = ..()
 	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
 
-// new knight captain drip
+// knight drip, previously the knight captain's
 /obj/item/clothing/cloak/captain
-	name = "captain's cape"
+	name = "knight's cape"
 	desc = "A cape with a gold embroided heraldry of Scarlet Reach."
 	icon = 'icons/roguetown/clothing/special/captain.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/captain.dmi'

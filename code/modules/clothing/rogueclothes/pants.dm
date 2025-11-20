@@ -616,10 +616,10 @@
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	flags_inv = HIDECROTCH
 
-// new knight captain drip
+// knight drip, previously the knight captain's
 /obj/item/clothing/under/roguetown/platelegs/captain
-	name = "captain's chausses"
-	desc = "Cuisses made of plated steel, offering additional protection against blunt force. These are specially fitted for the captain."
+	name = "knight's chausses"
+	desc = "Cuisses made of plated steel, offering additional protection against blunt force. These are specially smithed for an honored knight."
 	icon_state = "capplateleg"
 	item_state = "capplateleg"
 	icon = 'icons/roguetown/clothing/special/captain.dmi'

@@ -1599,10 +1599,10 @@
 
 // this robe spawns on a role that offers no leg protection nor further upgrades to the loadout, in exchange for better roundstart gear
 
-// new knight captain drip
+// knight drip, previously the knight captain's
 /obj/item/clothing/suit/roguetown/armor/captain
-	name = "captain's brigandine"
-	desc = "A coat with plates specifically tailored and forged for the captain of Scarlet Reach."
+	name = "knight's brigandine"
+	desc = "A coat with plates specifically tailored and forged for a knight of Scarlet Reach."
 	icon_state = "capplate"
 	icon = 'icons/roguetown/clothing/special/captain.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/captain.dmi'
@@ -1619,9 +1619,9 @@
 	armor_class = ARMOR_CLASS_HEAVY
 	armor = ARMOR_PLATE_GOOD
 	body_parts_covered = COVERAGE_ALL_BUT_LEGS
-	max_integrity = 500
+	max_integrity = 350
 	prevent_crits = list(BCLASS_BLUNT, BCLASS_TWIST, BCLASS_PICK, BCLASS_SMASH, BCLASS_CUT, BCLASS_CHOP)
-	
+
 /obj/item/clothing/suit/roguetown/armor/captain/lordcolor(primary,secondary)
 	detail_color = primary
 	update_icon()
