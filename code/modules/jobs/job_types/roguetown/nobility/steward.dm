@@ -73,7 +73,8 @@
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold/steward
 	beltr = /obj/item/storage/keyring/steward
 	backr = /obj/item/storage/backpack/rogue/satchel
-	id = /obj/item/scomstone
+	id = /obj/item/scomstone/garrison
+
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
@@ -105,26 +106,3 @@ GLOBAL_VAR_INIT(steward_tax_cooldown, -50000) // Antispam
 		GLOB.steward_tax_cooldown = world.time
 
 
-
-/mob/living/carbon/human/proc/request_announcement()
-	set name = "Request Announcement"
-	set category = "Stewardry"
-	if(stat)
-		return
-	var/lord = find_lord()
-	if(lord)
-		INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(lord_announce_requested), src, lord, inputty)
-
-	//TODO: WRITE MESSAGE PROC
-
-
-
-
-
-/proc/lord_announce_requested(mob/living/steward, mob/living/carbon/human/lord, requested_message)
-	var/choice = alert(lord, "The steward requests to make an announcement!\n[requested_message]", "STEWARD ANNOUNCEMENT REQUEST", "Yes", "No")
-	if(choice != "Yes" || QDELETED(lord) || lord.stat > CONSCIOUS)
-		if(steward)
-			to_chat(span_warning("The lord has denied the request to make an announcement!"))
-		return
-	SScommunications.make_announcement(steward, FALSE, raw_message)
