@@ -294,49 +294,6 @@
 		if("Tossblades") //funny inquisition tossblades
 			belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/psydon
 
-/datum/advclass/sfighter/flagellant
-	name = "Flagellant"
-	tutorial = "You are a pacifistic warrior who embraces suffering, believing pain is the path to enlightenment. You take the suffering of others upon yourself."
-	outfit = /datum/outfit/job/roguetown/adventurer/flagellant
-	subclass_social_rank = SOCIAL_RANK_DIRT
-
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_DODGEEXPERT)
-	subclass_stats = list(
-		STATKEY_CON = 5,
-		STATKEY_END = 5,
-		STATKEY_SPD = 1,
-		STATKEY_STR = -2,
-		STATKEY_INT = -2,
-	)
-
-	subclass_skills = list(
-		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
-	)
-
-/datum/outfit/job/roguetown/adventurer/flagellant/pre_equip(mob/living/carbon/human/H, visualsOnly)
-	..()
-	to_chat(H, span_warning("You are a pacifistic warrior who embraces suffering, believing pain is the path to enlightenment."))
-
-	H.set_blindness(0)
-
-	pants = /obj/item/clothing/under/roguetown/tights/black
-	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/black
-	shoes = /obj/item/clothing/shoes/roguetown/boots
-	backl = /obj/item/storage/backpack/rogue/satchel
-	belt = /obj/item/storage/belt/rogue/leather
-	beltr = /obj/item/rogueweapon/whip
-	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
-	backpack_contents = list(
-		/obj/item/recipe_book/survival = 1,
-		/obj/item/flashlight/flare/torch = 1,
-		)
-
 /datum/advclass/sfighter/amazon
 	name = "Amazon"
 	tutorial = "Fierce warrior women from distant lands, Amazons choose their armor based on their preferred fighting style - from light and agile to heavily protected."
