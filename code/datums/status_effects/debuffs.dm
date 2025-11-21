@@ -105,8 +105,9 @@
 	return ..()
 
 /datum/status_effect/incapacitating/sleeping/tick()
-	if(owner.health < owner.crit_threshold) // no sleep-healing while we're dying.
-		return
+	if(!(owner.mob_biotypes & MOB_UNDEAD))
+		if(owner.health < owner.crit_threshold) // no sleep-healing while we're dying.
+			return
 
 	if(owner.maxHealth)
 		var/health_ratio = owner.health / owner.maxHealth

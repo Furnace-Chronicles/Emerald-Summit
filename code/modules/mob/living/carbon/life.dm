@@ -560,11 +560,12 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 */
 
 /mob/living/carbon/proc/handle_sleep()
-	if (!client) // not really relevant to NPCs at the moment
+	if(!client) // not really relevant to NPCs at the moment
 		return
 
-	if (health < crit_threshold) // no healing while we're dying, yo.
-		return
+	if(!(mob_biotypes & MOB_UNDEAD))
+		if(health < crit_threshold) // no healing while we're dying, yo.
+			return
 
 	if(HAS_TRAIT(src, TRAIT_NOSLEEP) && !(mobility_flags & MOBILITY_STAND))
 		energy_add(5)

@@ -669,9 +669,10 @@
 	set category = "IC"
 	set hidden = 1
 
-	if (src.stat >= SOFT_CRIT || src.health < src.crit_threshold)
-		to_chat(src, span_boldwarning("...oblivion..."))
-		return
+	if(!(mob_biotypes & MOB_UNDEAD))
+		if(src.stat >= SOFT_CRIT || src.health < src.crit_threshold)
+			to_chat(src, span_boldwarning("...oblivion..."))
+			return
 
 	if(IsSleeping())
 		to_chat(src, span_warning("I am already sleeping!"))
