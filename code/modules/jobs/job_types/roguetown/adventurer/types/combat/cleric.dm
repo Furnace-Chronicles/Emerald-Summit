@@ -783,7 +783,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/black
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	backl = /obj/item/storage/backpack/rogue/satchel
-	belt = /obj/item/storage/belt/rogue/rope
+	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/rogueweapon/whip
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backpack_contents = list(
