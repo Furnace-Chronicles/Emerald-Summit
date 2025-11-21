@@ -185,8 +185,6 @@
 		to_chat(player, span_notice("*-----------------*"))
 		to_chat(player, span_notice(tutorial))
 
-//Only override this proc
-//H is usually a human unless an /equip override transformed it
 /// Populates known_people lists after equipment is complete
 /datum/job/proc/populate_job_knowledge(mob/living/carbon/human/H, latejoin)
 	if(!H || !H.mind)
@@ -221,6 +219,8 @@
 				if(target_job?.give_bank_account)
 					H.mind.i_know_person(MF)
 
+//Only override this proc
+//H is usually a human unless an /equip override transformed it
 /datum/job/proc/after_spawn(mob/living/H, mob/M, latejoin = FALSE)
 	SHOULD_CALL_PARENT(TRUE)
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_JOB_AFTER_SPAWN, src)
