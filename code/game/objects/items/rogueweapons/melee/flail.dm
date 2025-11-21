@@ -43,7 +43,7 @@
 	attack_verb = list("strikes", "hits")
 	hitsound = list('sound/combat/hits/blunt/flailhit.ogg')
 	chargetime = 0
-	recovery = 15
+	recovery = 13
 	penfactor = BLUNT_DEFAULT_PENFACTOR
 	reach = 2
 	icon_state = "instrike"
