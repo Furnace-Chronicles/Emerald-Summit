@@ -792,10 +792,10 @@
 		)
 
 	switch(H.patron?.type) // everyone gets basic robes, suffer
-    	if(/datum/patron/old_god)
+		if(/datum/patron/old_god)
         	head = /obj/item/clothing/mask/rogue/sack/psy  //sovl
     	if(/datum/patron/divine/astrata)
-        	head = /obj/item/clothing/head/roguetown/roguehood/astrata
+			head = /obj/item/clothing/head/roguetown/roguehood/astrata
     	if(/datum/patron/divine/noc)
         	head =  /obj/item/clothing/head/roguetown/nochood
     	if(/datum/patron/divine/abyssor)
@@ -814,10 +814,10 @@
         	head = /obj/item/clothing/head/roguetown/roguehood
         	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
         	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
-    else
+		else
         // true default
-        cloak = /obj/item/clothing/suit/roguetown/shirt/robe
-        head = /obj/item/clothing/head/roguetown/roguehood
+        	cloak = /obj/item/clothing/suit/roguetown/shirt/robe
+        	head = /obj/item/clothing/head/roguetown/roguehood
 	var/datum/devotion/D = new /datum/devotion(H, H.patron)
 	D.grant_miracles(H, cleric_tier = CLERIC_T0, passive_gain = FALSE, devotion_limit = CLERIC_REQ_0)
 		// -- Start of section for god specific bonuses --	
