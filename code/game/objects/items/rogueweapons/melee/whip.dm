@@ -1,5 +1,5 @@
 /obj/item/rogueweapon/whip
-	force = 21
+	force = 22
 	possible_item_intents = list(/datum/intent/whip/lash, /datum/intent/whip/crack, /datum/intent/whip/punish)
 	name = "whip"
 	desc = "A leather whip. Built to last, with a sharp stone for a tip."
