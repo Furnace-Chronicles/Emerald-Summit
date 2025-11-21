@@ -37,7 +37,7 @@
 	hitsound = list('sound/combat/hits/blunt/flailhit.ogg')
 	chargetime = 0
 	recovery = 7
-	penfactor = 30
+	penfactor = 35
 	reach = 3
 	icon_state = "inlash"
 	item_d_type = "slash"
@@ -50,8 +50,8 @@
 	hitsound = list('sound/combat/hits/blunt/flailhit.ogg')
 	chargetime = 0
 	recovery = 10
-	damfactor = 1.1
-	penfactor = 20
+	damfactor = 1.2
+	penfactor = 25
 	reach = 2
 	icon_state = "incrack"
 	item_d_type = "slash"
@@ -64,7 +64,7 @@
 	hitsound = list('sound/combat/hits/blunt/flailhit.ogg')
 	chargetime = 0
 	recovery = 5
-	damfactor = 1.2							//No range, gets bonus damage - using this even on weak SHOULD let you get perma-scars then.
+	damfactor = 1.3							//No range, gets bonus damage - using this even on weak SHOULD let you get perma-scars then.
 	penfactor = BLUNT_DEFAULT_PENFACTOR		//No pen cus punishment intent.
 	reach = 1								//No range, cus not meant to be a flat-out combat intent.
 	icon_state = "inpunish"
