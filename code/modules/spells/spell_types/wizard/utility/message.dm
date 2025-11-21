@@ -1,7 +1,7 @@
 /obj/effect/proc_holder/spell/self/message
 	name = "Message"
-	desc = "Latch onto the mind of one who is familiar to you, whispering a message or sending a wordless projection into their head."
-	cost = 2 // Message is quite powefrful so 1 cost is too low
+	desc = "Latch onto the mind of one who is familiar to you, whispering a message or sending an intuitive projection into their head."
+	cost = 2
 	xp_gain = TRUE
 	releasedrain = 30
 	recharge_time = 60 SECONDS
@@ -39,16 +39,17 @@
 			// Standard message color, for anonymous communications.
 			var/message_color = "7246ff"
 
-			// Is this a message or a projection? Messages are whispered words, a projection is a projected image or feeling.
+			// Is this a message or a projection? Messages are whispered words, a projection is a projected image or vision.
 			// Projections do have the benefit of not being whispered, but your saviours will have to make do with non-explicit
 			// imagery from which they'll have to figure out what you're trying to tell them.
 			var/is_projection = FALSE
 
 			// Are we sending a message or a projection?
-			if(alert(user, "Broadcast as a wordless projection representing an image or feeling, or as a message of comprehensible words?", "", "Projection", "Message") == "Projection")
+			if(alert(user, "Transmit as a worldessly projected vision or as a whispered message?", "", "Projection", "Message") == "Projection")
 				is_projection = TRUE
 
-			var/message = input(user, "You make a connection. What are you trying to [is_projection == TRUE ? "project into their mind" : "whisper into their mind"]?")
+			var/message = input(user, "You successfully make a connection! [is_projection == TRUE ? "What sensory vision are you trying to send into their mind?" : "What are you trying to whisper into their mind?"]")
+
 			if(!message)
 				revert_cast()
 				return
@@ -73,20 +74,20 @@
 
 						// If this a projection or not?
 						if(!is_projection)
-							to_chat(HL, span_italics("Arcyne whispers fill the back of my head, resolving into [user]'s voice: <font color=#[message_color]>[message]</font>"))
-							to_chat(user, span_italics("You slip a whisper in your own voice into the back of [HL]'s mind: <font color=#[message_color]>[message]</font>"))
+							to_chat(HL, span_italics("Arcyne whispers slip into my mind, resolving into [user]'s voice: <font color=#[message_color]>[message]</font>"))
+							to_chat(user, span_italics("You whisper into [HL]'s mind, identifying yourself in the process: <font color=#[message_color]>[message]</font>"))
 						else
-							to_chat(HL, span_italics("A foreign thought slips by Arcyne means into the back of my mind, familiar as originating from [user]'s mind: <font color=#[message_color]>[message]</font>"))
-							to_chat(user, span_italics("You slip a foreign thought into the back of [HL]'s mind, identifying yourself in the process: <font color=#[message_color]>[message]</font>"))
+							to_chat(HL, span_italics("A brief vision suddenly flashes in my mind, familiar as originating from [user]'s headspace: <font color=#[message_color]>[message]</font>"))
+							to_chat(user, span_italics("You slip a brief vision into [HL]'s mind, identifying yourself in the process: <font color=#[message_color]>[message]</font>"))
 
 			// We failed the check OR we just dont know who that is
 			if(!identified)
 				if(!is_projection)
-					to_chat(HL, span_italics("Arcyne whispers fill the back of my head, resolving into an unknown [user.gender == FEMALE ? "woman" : "man"]'s voice: <font color=#[message_color]>[message]</font>"))
-					to_chat(user, span_italics("You slip a foreign thought anonymously into the back of [HL]'s mind: <font color=#[message_color]>[message]</font>"))
+					to_chat(HL, span_italics("Arcyne whispers slip into my mind, resolving into an unknown [user.gender == FEMALE ? "woman" : "man"]'s voice: <font color=#[message_color]>[message]</font>"))
+					to_chat(user, span_italics("You whisper anonymously into [HL]'s mind: <font color=#[message_color]>[message]</font>"))
 				else
-					to_chat(HL, span_italics("A foreign thought slips by Arcyne means into the back of my mind from an unknown source: <font color=#[message_color]>[message]</font>"))
-					to_chat(user, span_italics("You slip a foreign thought anonymously into the back of [HL]'s mind: <font color=#[message_color]>[message]</font>"))
+					to_chat(HL, span_italics("A brief vision suddenly flashes in my mind, originating from an unknown source: <font color=#[message_color]>[message]</font>"))
+					to_chat(user, span_italics("You anonymously slip a brief vision into [HL]'s mind: <font color=#[message_color]>[message]</font>"))
 
 			// Messages are whispered out loud, projections are just a silent murmur.
 			if(!is_projection)
