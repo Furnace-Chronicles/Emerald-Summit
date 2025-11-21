@@ -791,33 +791,32 @@
 		/obj/item/flashlight/flare/torch = 1,
 		)
 
-	switch(H.patron?.type) // everyone gets basic robes, suffer
+	switch(H.patron?.type)
 		if(/datum/patron/old_god)
-        	head = /obj/item/clothing/mask/rogue/sack/psy  //sovl
-    	if(/datum/patron/divine/astrata)
+			head = /obj/item/clothing/mask/rogue/sack/psy
+		if(/datum/patron/divine/astrata)
 			head = /obj/item/clothing/head/roguetown/roguehood/astrata
-    	if(/datum/patron/divine/noc)
-        	head =  /obj/item/clothing/head/roguetown/nochood
-    	if(/datum/patron/divine/abyssor)
-        	head = /obj/item/clothing/head/roguetown/roguehood/abyssor
-    	if(/datum/patron/divine/dendor)
-        	head = /obj/item/clothing/head/roguetown/dendormask
-    	if(/datum/patron/divine/necra)
-        	head = /obj/item/clothing/head/roguetown/necrahood
-    	if(/datum/patron/divine/malum)
-        	head = /obj/item/clothing/head/roguetown/roguehood // placeholder
-    	if(/datum/patron/divine/eora)
-        	head = /obj/item/clothing/head/roguetown/eoramask
-    	if(/datum/patron/divine/xylix)
-        	head = /obj/item/clothing/head/roguetown/roguehood
-    	if(/datum/patron/inhumen/zizo)
-        	head = /obj/item/clothing/head/roguetown/roguehood
-        	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
-        	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
+		if(/datum/patron/divine/noc)
+			head = /obj/item/clothing/head/roguetown/nochood
+		if(/datum/patron/divine/abyssor)
+			head = /obj/item/clothing/head/roguetown/roguehood/abyssor
+		if(/datum/patron/divine/dendor)
+			head = /obj/item/clothing/head/roguetown/dendormask
+		if(/datum/patron/divine/necra)
+			head = /obj/item/clothing/head/roguetown/necrahood
+		if(/datum/patron/divine/malum)
+			head = /obj/item/clothing/head/roguetown/roguehood
+		if(/datum/patron/divine/eora)
+			head = /obj/item/clothing/head/roguetown/eoramask
+		if(/datum/patron/divine/xylix)
+			head = /obj/item/clothing/head/roguetown/roguehood
+		if(/datum/patron/inhumen/zizo)
+			head = /obj/item/clothing/head/roguetown/roguehood
+			H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
+			H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
 		else
-        // true default
-        	cloak = /obj/item/clothing/suit/roguetown/shirt/robe
-        	head = /obj/item/clothing/head/roguetown/roguehood
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe
+			head = /obj/item/clothing/head/roguetown/roguehood
 	var/datum/devotion/D = new /datum/devotion(H, H.patron)
 	D.grant_miracles(H, cleric_tier = CLERIC_T0, passive_gain = FALSE, devotion_limit = CLERIC_REQ_0)
 		// -- Start of section for god specific bonuses --	
