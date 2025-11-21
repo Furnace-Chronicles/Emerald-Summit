@@ -180,7 +180,7 @@
 
 	if((direct & (direct - 1)) && mob.loc == n) //moved diagonally successfully
 		add_delay *= 2
-	mob.set_glide_size(DELAY_TO_GLIDE_SIZE(add_delay))
+	mob.set_glide_size(MOVEMENT_ADJUSTED_GLIDE_SIZE(add_delay, 1)) // TODO: jck this into the movement loop somehow so we can derive a delta time.
 	move_delay += add_delay
 	if(.) // If mob is null here, we deserve the runtime
 		if(mob.throwing)
