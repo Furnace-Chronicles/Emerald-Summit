@@ -750,7 +750,7 @@
 
 /datum/advclass/cleric/flagellant
 	name = "Flagellant"
-	tutorial = "You are a wandering ascetic who embraces suffering, believing pain is the path to enlightenment. You take the suffering of others upon yourself in you patrons name."
+	tutorial = "You are a wandering ascetic who embraces suffering, believing pain is the path to enlightenment. You take the suffering of others upon yourself in your patrons name."
 	outfit = /datum/outfit/job/roguetown/adventurer/flagellant
 	subclass_social_rank = SOCIAL_RANK_DIRT
 
@@ -775,15 +775,15 @@
 
 /datum/outfit/job/roguetown/adventurer/flagellant/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("You are a wandering ascetic who embraces suffering, believing pain is the path to enlightenment. You take the suffering of others upon yourself in you patrons name."))
+	to_chat(H, span_warning("You are a wandering ascetic who embraces suffering, believing pain is the path to enlightenment. You take the suffering of others upon yourself in your patrons name."))
 
 	H.set_blindness(0)
 
 	pants = /obj/item/clothing/under/roguetown/tights/black
-	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/black
-	shoes = /obj/item/clothing/shoes/roguetown/boots
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
+	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
 	backl = /obj/item/storage/backpack/rogue/satchel
-	belt = /obj/item/storage/belt/rogue/leather
+	belt = /obj/item/storage/belt/rogue/leather/rope
 	beltr = /obj/item/rogueweapon/whip
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backpack_contents = list(
@@ -815,7 +815,6 @@
 			H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
 			H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
 		else
-			cloak = /obj/item/clothing/suit/roguetown/shirt/robe
 			head = /obj/item/clothing/head/roguetown/roguehood
 	var/datum/devotion/D = new /datum/devotion(H, H.patron)
 	D.grant_miracles(H, cleric_tier = CLERIC_T0, passive_gain = FALSE, devotion_limit = CLERIC_REQ_0)
