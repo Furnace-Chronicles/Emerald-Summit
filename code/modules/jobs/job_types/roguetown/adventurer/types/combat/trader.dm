@@ -194,7 +194,7 @@
 	neck = /obj/item/storage/belt/rogue/pouch/coins/mid
 
 	backpack_contents = list(
-		/obj/item/smokebomb = 3,
+		/obj/item/bomb/smoke = 3,
 		/obj/item/storage/pill_bottle/dice = 1,
 		/obj/item/toy/cards/deck = 1,
 		/obj/item/recipe_book/survival = 1,

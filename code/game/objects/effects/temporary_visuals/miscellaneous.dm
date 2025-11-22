@@ -482,3 +482,12 @@
 	alpha = 180
 	pixel_x = rand(-15, 15)
 	pixel_y = rand(-15, 15)
+
+/obj/effect/temp_visual/special_intent
+	layer = HUD_LAYER
+	plane = ABOVE_LIGHTING_PLANE
+
+/obj/effect/temp_visual/special_intent/Initialize(mapload, customdur)
+	if(customdur)
+		duration = customdur
+	. = ..()

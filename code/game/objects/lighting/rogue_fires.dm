@@ -144,6 +144,20 @@
 	crossfire = FALSE
 	cookonme = TRUE
 
+/obj/machinery/light/rogue/wallfirecrafted
+	name = "fireplace"
+	desc = "A warm fire dances between a pile of half-burnt logs upon a bed of glowing embers."
+	icon_state = "wallfire1"
+	base_state = "wallfire"
+	light_outer_range = 4 //slightly weaker than a torch
+	bulb_colour = "#ffa35c"
+	density = FALSE
+	fueluse = 0
+	no_refuel = TRUE
+	crossfire = FALSE
+	pixel_y = 32
+	cookonme = TRUE
+
 /obj/machinery/light/rogue/wallfire/candle
 	name = "candles"
 	desc = "Tiny flames flicker to the slightest breeze and offer enough light to see."

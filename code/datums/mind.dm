@@ -109,6 +109,11 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 	var/list/special_people = list()
 
+	// Priest miracle set switching
+	var/list/stored_miracle_sets				// Associative: god_name = devotion_datum
+	var/active_miracle_set						// Currently active god name
+	var/list/miracle_button_states				// Associative: spell_type = list("locked", "moved") - persists across all gods
+
 /datum/mind/New(key)
 	src.key = key
 	soulOwner = src

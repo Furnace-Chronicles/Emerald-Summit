@@ -12,6 +12,14 @@
 	var/obj/item/pouch = new /obj/item/storage/belt/rogue/pouch/coins/virtuepouch(get_turf(recipient))
 	recipient.put_in_hands(pouch, forced = TRUE)
 
+/datum/virtue/utility/noble/handle_traits(mob/living/carbon/human/recipient)
+	..()
+	if(HAS_TRAIT(recipient, TRAIT_PEASANTMILITIA))
+		to_chat(recipient, "Your noble upbringing left you without the experience to truly wield a common man's tools.")
+		REMOVE_TRAIT(recipient, TRAIT_PEASANTMILITIA, JOB_TRAIT)
+		REMOVE_TRAIT(recipient, TRAIT_PEASANTMILITIA, ADVENTURER_TRAIT)
+
+
 /datum/virtue/utility/blueblooded
 	name = "Blueblooded"
 	desc = "I have been raised since birth in the throes of a noble lineage, and bear exceptional beauty and the social standing to show for it - though none of the material benefits."
@@ -27,6 +35,10 @@
 		to_chat(recipient, "Your social grace is cancelled out! You become normal.")
 		REMOVE_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
 		REMOVE_TRAIT(recipient, TRAIT_UNSEEMLY, TRAIT_VIRTUE)
+	if(HAS_TRAIT(recipient, TRAIT_PEASANTMILITIA))
+		to_chat(recipient, "Your noble upbringing left you without the experience to truly wield a common man's tools.")
+		REMOVE_TRAIT(recipient, TRAIT_PEASANTMILITIA, JOB_TRAIT)
+		REMOVE_TRAIT(recipient, TRAIT_PEASANTMILITIA, ADVENTURER_TRAIT)
 
 /datum/virtue/utility/socialite
 	name = "Socialite"

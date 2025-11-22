@@ -8,6 +8,7 @@
 	subclass_social_rank = SOCIAL_RANK_YEOMAN
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
+	traits_applied = list(TRAIT_PEASANTMILITIA)
 
 	subclass_stats = list(
 		STATKEY_END = 2,

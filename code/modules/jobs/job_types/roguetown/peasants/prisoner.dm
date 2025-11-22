@@ -65,15 +65,18 @@
 		H.adjust_skillrank(/datum/skill/misc/riding, 3, TRUE)
 		H.adjust_skillrank(/datum/skill/labor/butchering, 5, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
 		if(H.age == AGE_OLD)
 			H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/labor/butchering, 1, TRUE)
 		H.change_stat("strength", 1)
 		H.change_stat("constitution", 1)
+		H.change_stat("endurance", 2)
 		H.change_stat("speed", 1)
 		ADD_TRAIT(H, TRAIT_SEEDKNOW, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_LONGSTRIDER, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_PEASANTMILITIA, JOB_TRAIT)
 
 /datum/advclass/prisoner_farmer
 	parent_type = /datum/advclass
@@ -139,7 +142,7 @@
 	H.change_stat("strength", 1)
 	H.change_stat("endurance", 2)
 	H.change_stat("constitution", 1)
-	H.change_stat("intelligence", 1)
+	H.change_stat("intelligence", 2)
 	H.change_stat("speed", -1)
 
 /datum/advclass/prisoner_carpenter
@@ -153,6 +156,7 @@
 
 /datum/outfit/job/roguetown/prisoner_blacksmith/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
+	H.adjust_skillrank(/datum/skill/misc/athletics, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
@@ -168,6 +172,7 @@
 	H.change_stat("endurance", 2)
 	H.change_stat("constitution", 2)
 	ADD_TRAIT(H, TRAIT_TRAINED_SMITH, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_PEASANTMILITIA, JOB_TRAIT)
 
 /datum/advclass/prisoner_blacksmith
 	parent_type = /datum/advclass
@@ -181,6 +186,7 @@
 /datum/outfit/job/roguetown/prisoner_hunter/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	..() // Call base prisoner outfit for collar/loincloth
+	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/crossbows, 2, TRUE)
@@ -256,19 +262,22 @@
 /datum/outfit/job/roguetown/prisoner_butcher/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	..() // Call base prisoner outfit for collar/loincloth
+	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/cooking, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/tanning, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/labor/butchering, 5, TRUE)
-	H.change_stat("strength", 1)
-	H.change_stat("endurance", 2)
+	H.change_stat("strength", 2)
+	H.change_stat("endurance", 1)
 	H.change_stat("constitution", 2)
+	H.change_stat("speed", -1)
+	ADD_TRAIT(H, TRAIT_PEASANTMILITIA, JOB_TRAIT)
 
 /datum/advclass/prisoner_cheesemaker
 	parent_type = /datum/advclass
@@ -296,6 +305,7 @@
 	H.change_stat("intelligence", 2)
 	H.change_stat("constitution", 2)
 	H.change_stat("endurance", 1)
+	ADD_TRAIT(H, TRAIT_PEASANTMILITIA, JOB_TRAIT)
 
 /datum/advclass/prisoner_seamstress
 	parent_type = /datum/advclass
@@ -318,6 +328,7 @@
 	H.change_stat("speed", 2)
 	H.change_stat("perception", 1)
 	H.change_stat("strength", -1)
+	ADD_TRAIT(H, TRAIT_PEASANTMILITIA, JOB_TRAIT)
 
 /datum/advclass/prisoner_potter
 	parent_type = /datum/advclass
@@ -341,6 +352,7 @@
 	H.change_stat("constitution", 1)
 	H.change_stat("perception", 2)
 	H.change_stat("speed", -1)
+	ADD_TRAIT(H, TRAIT_PEASANTMILITIA, JOB_TRAIT)
 
 /datum/advclass/prisoner_towndoctor
 	parent_type = /datum/advclass
@@ -364,7 +376,9 @@
 	H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
 	H.change_stat("intelligence", 3)
 	H.change_stat("fortune", 1)
-	ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_NOSTINK)
+	ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+
 
 /datum/advclass/prisoner_drunkard
 	parent_type = /datum/advclass
@@ -380,7 +394,10 @@
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
 	H.change_stat("intelligence", -2)
 	H.change_stat("constitution", 1)
 	H.change_stat("strength", 1)
@@ -454,6 +471,7 @@
 	H.change_stat("constitution", 2)
 	H.change_stat("fortune", 2)
 	ADD_TRAIT(H, TRAIT_DARKVISION, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_PEASANTMILITIA, JOB_TRAIT)
 
 /datum/advclass/prisoner_woodcutter
 	parent_type = /datum/advclass
@@ -487,6 +505,7 @@
 	H.change_stat("endurance", 1)
 	H.change_stat("constitution", 1)
 	H.change_stat("perception", 1)
+	ADD_TRAIT(H, TRAIT_PEASANTMILITIA, JOB_TRAIT)
 
 // Cleric Prisoner subclass
 /datum/advclass/prisonercleric

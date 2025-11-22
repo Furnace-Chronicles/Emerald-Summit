@@ -50,6 +50,7 @@
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/holy
 	recharge_time = 60 SECONDS
+	miracle = TRUE
 
 /obj/effect/proc_holder/spell/invoked/bud/cast(list/targets, mob/living/user)
 	var/target = targets[1]
@@ -87,7 +88,7 @@
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
 	recharge_time = 10 SECONDS
-	miracle = FALSE
+	miracle = TRUE
 
 /obj/effect/proc_holder/spell/invoked/eoracurse/cast(list/targets, mob/living/user)
 	if(isliving(targets[1]))
@@ -348,6 +349,7 @@
 	recharge_time = 90 SECONDS
 	overlay_state = "bread"
 	associated_skill = /datum/skill/magic/holy
+	miracle = TRUE
 	var/base_recharge_time = 90 SECONDS
 
 /obj/effect/proc_holder/spell/invoked/bless_food/cast(list/targets, mob/living/user)
@@ -385,6 +387,7 @@
 	chargetime = 1 SECONDS
 	overlay_state = "tree"
 	associated_skill = /datum/skill/magic/holy
+	miracle = TRUE
 	var/obj/structure/eoran_pomegranate_tree/my_little_tree = null
 
 /obj/effect/proc_holder/spell/invoked/pomegranate/cast(list/targets, mob/living/user)

@@ -318,6 +318,7 @@
 	recharge_time = 10 SECONDS
 	miracle = TRUE
 	devotion_cost = 10
+	req_items = list(/obj/item/clothing/mask/rogue)
 
 /obj/effect/proc_holder/spell/invoked/regression/proc/get_most_damaged_limb(mob/living/carbon/C)
 	var/obj/item/bodypart/most_damaged_limb = null
@@ -376,7 +377,7 @@
 	movement_interrupt = FALSE
 //	chargedloop = /datum/looping_sound/invokeholy
 	chargedloop = null
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross, /obj/item/clothing/mask/rogue)
 	sound = list('sound/magic/convergence1.ogg','sound/magic/convergence2.ogg','sound/magic/convergence3.ogg','sound/magic/convergence4.ogg')
 	invocation_type = "none"
 	associated_skill = /datum/skill/magic/holy
@@ -428,6 +429,7 @@
 	var/blood = 0
 	miracle = TRUE
 	devotion_cost = 30
+	req_items = list(/obj/item/clothing/mask/rogue)
 
 /obj/effect/proc_holder/spell/invoked/stasis/cast(list/targets, mob/user = usr)
 	if(isliving(targets[1]))

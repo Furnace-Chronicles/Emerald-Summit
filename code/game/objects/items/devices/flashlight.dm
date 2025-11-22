@@ -139,6 +139,7 @@
 	flags_1 = null
 	possible_item_intents = list(/datum/intent/use, /datum/intent/hit)
 	slot_flags = ITEM_SLOT_HIP
+	item_flags = PEASANT_WEAPON
 	//remove the = null to re-add the torch crackle sounds. (???? what the fuck)
 	var/datum/looping_sound/torchloop/soundloop = null
 	//added for torch burnout
@@ -303,6 +304,7 @@
 	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_HIP
 	obj_flags = CAN_BE_HIT
+	item_flags = NONE
 	force = 1
 	on_damage = 5
 	fuel = 120 MINUTES
@@ -385,7 +387,7 @@
 	blade_dulling = DULLING_BASH
 	sellprice = 500 // who sells a holy relic?
 	resistance_flags = FIRE_PROOF
-
+	
 /obj/item/flashlight/flare/torch/lantern/bronzelamptern/malums_lamptern/pickup(mob/living/user)
 	if(HAS_TRAIT(user, TRAIT_CABAL))
 		to_chat(user, "<font color='yellow'> You attempt to take the lamptern. Runic flames of creation lap up the length of your arm in defiance of your Dark Mistress! Curses!</font>")

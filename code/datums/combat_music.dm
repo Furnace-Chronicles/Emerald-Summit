@@ -385,7 +385,7 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	musicpath = list('sound/music/combat_noble.ogg')
 
 /datum/combat_music/ozium
-	name = "Ozium Abuse (loud!)"
+	name = "Ozium Abuse"
 	desc = "Alas, I must acquire a fast hold."
 	shortname = "Ozium"
 	credits = "Light Club - FAHKEET"

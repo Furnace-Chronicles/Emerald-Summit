@@ -319,13 +319,11 @@
 	if(!iscarbon(user.mob))
 		return FALSE
 	var/mob/living/carbon/C = user.mob
-	var/list/datum/action/actions = C.actions
-	if(actions.len < action_taken) // Dodge a runtime
-		return FALSE
-	var/datum/action/action = actions[action_taken]
-	if(!action)
-		return FALSE
-	action.Trigger()
+	for(var/datum/action/action in C.actions)
+		if(action.slot == action_taken)
+			action.Trigger()
+			return TRUE
+	return FALSE
 
 /datum/keybinding/carbon/actions/action_1
 	hotkey_keys = list("Alt1")

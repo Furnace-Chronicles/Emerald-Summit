@@ -116,5 +116,5 @@
 	desc = "Handles crafting and making of clay into vases and other fine-craft works."
 	dreams = list(
 		"...the wheel spins, and spins.. yet you watch as a work of art grows from its center...",
-		"...a slab of clay is molded into a beautiful statue. A testiment to Malum's blessings, and Xylix's insperation. A pure work of beauty..."
+		"...a slab of clay is molded into a beautiful statue. A testiment to Malum's blessings, and Xylix's inspiration. A pure work of beauty..."
 	)

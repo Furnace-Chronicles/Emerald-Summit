@@ -50,7 +50,7 @@
 	)
 
 	subclass_stats = list(
-		STATKEY_INT = 4,
+		STATKEY_INT = 6, //The Archivist must always be the smartest guy in the realm, this is essential for the sovl. Duke has +5.
 		STATKEY_CON = -1,
 		STATKEY_STR = -1
 	)

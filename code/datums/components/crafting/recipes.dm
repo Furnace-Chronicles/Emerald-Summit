@@ -24,8 +24,10 @@
 	var/structurecraft = null
 	var/buildsame = FALSE //allows palisades to be built on top of each other just not the same dir
 	var/wallcraft = FALSE
+	var/diagonal = FALSE //allows diagonal structures to have their direction chosen.
 	var/craftdiff = 1
 	var/sellprice = 0
+	var/ignoredensity = FALSE //used on objects that we want to build into walls or atop other structures
 	/// Whether this recipe will transmit a message in a 7x7 column around the source.
 	var/loud = FALSE
 	//crafting diff, every diff removes 25% chance to craft

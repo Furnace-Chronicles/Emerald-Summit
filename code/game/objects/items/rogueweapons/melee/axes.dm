@@ -78,6 +78,7 @@
 	resistance_flags = FLAMMABLE
 	pickup_sound = 'modular_helmsguard/sound/sheath_sounds/draw_polearm.ogg'
 	sheathe_sound = 'sound/items/wood_sharpen.ogg'
+	special = /datum/special_intent/axe_swing
 
 
 /obj/item/rogueweapon/stoneaxe/equipped(mob/user, slot, initial = FALSE)
@@ -210,6 +211,7 @@
 	smeltresult = /obj/item/ingot/iron
 	gripped_intents = list(/datum/intent/axe/cut,/datum/intent/axe/chop, /datum/intent/sword/peel)
 	wdefense = 2
+	item_flags = PEASANT_WEAPON
 
 
 
@@ -241,6 +243,7 @@
 	smeltresult = /obj/item/ingot/steel
 	wlength = WLENGTH_NORMAL
 	toolspeed = 2
+	item_flags = NONE
 
 /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick
 	name = "Wardens' axe"
@@ -253,6 +256,7 @@
 	smeltresult = /obj/item/ingot/steel
 	wlength = WLENGTH_NORMAL
 	toolspeed = 2
+	item_flags = NONE
 
 
 /obj/item/rogueweapon/stoneaxe/handaxe/equipped(mob/user, slot, initial = FALSE)
@@ -378,6 +382,7 @@
 	gripped_intents = null
 	wdefense = 5
 	is_silver = TRUE
+	item_flags = NONE
 	blade_dulling = DULLING_SHAFT_METAL
 
 /obj/item/rogueweapon/stoneaxe/woodcut/silver/ComponentInitialize()
@@ -553,3 +558,4 @@
 	max_blade_int = 300
 	minstr = 13							//Heavy, but still good.
 	wdefense = 3						//Slightly better than norm, has 6 defense 2 handing it.
+	item_flags = NONE

@@ -25,7 +25,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	whitelist_req = FALSE
 
 
-	spells = list(/obj/effect/proc_holder/spell/invoked/cure_rot, /obj/effect/proc_holder/spell/self/convertrole/templar, /obj/effect/proc_holder/spell/self/convertrole/monk)
+	spells = list(/obj/effect/proc_holder/spell/self/convertrole/templar, /obj/effect/proc_holder/spell/self/convertrole/monk)
 	outfit = /datum/outfit/job/roguetown/priest
 
 	display_order = JDO_PRIEST
@@ -75,7 +75,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/magic/holy = SKILL_LEVEL_MASTER,
+		/datum/skill/magic/holy = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
 	)
 
@@ -107,10 +107,20 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	)
 
 	H.cmode_music = 'sound/music/combat_holy.ogg'
-	if(H.age == AGE_OLD)
-		H.adjust_skillrank_up_to(/datum/skill/magic/holy, 6, TRUE)
+
+	// Initialize the miracle set storage
+	if(H.mind)
+		LAZYINITLIST(H.mind.stored_miracle_sets)
+		LAZYINITLIST(H.mind.miracle_button_states)
+
+	// Create initial devotion for Astrata
 	var/datum/devotion/C = new /datum/devotion(H, H.patron) // This creates the cleric holder used for devotion spells
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.
+
+	// Store Astrata's miracle set
+	if(H.mind)
+		H.mind.stored_miracle_sets["Astrata"] = C
+		H.mind.active_miracle_set = "Astrata"
 
 	H.verbs |= /mob/living/carbon/human/proc/coronate_lord
 	H.verbs |= /mob/living/carbon/human/proc/churchexcommunicate //your button against clergy
@@ -130,44 +140,158 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	total_positions = 0
 	spawn_positions = 0
 
-/mob/living/carbon/human/proc/change_miracle_set(mob/living/user)
+/mob/living/carbon/human/proc/change_miracle_set()
 	set name = "Change Miracle Set"
 	set category = "Priest"
+
 	if(!mind)
 		return
+
+	if(!devotion)
+		return
+
+	// Ensure storage exists for miracle sets
+	LAZYINITLIST(mind.stored_miracle_sets)
+	if(!mind.active_miracle_set)
+		mind.active_miracle_set = "Astrata"
+
 	var/list/god_choice = list()
-	var/list/god_type = list()
 	for(var/path as anything in GLOB.patrons_by_faith[/datum/faith/divine])
 		var/datum/patron/patron = GLOB.patronlist[path]
-		god_choice += list("[patron.name]" = icon(icon = 'icons/mob/overhead_effects.dmi', icon_state = "sign_[patron.name]"))
-		god_type[patron.name] = patron
+		if(!patron?.name)
+			continue
+		// Only add patrons that have valid sign icons
+		var/icon/test_icon = icon('icons/mob/overhead_effects.dmi', "sign_[patron.name]")
+		if(test_icon)
+			god_choice[patron.name] = test_icon
+	
 	var/string_choice = show_radial_menu(src, src, god_choice, require_near = FALSE)
 	if(!string_choice)
 		return
-	var/datum/patron/god = god_type[string_choice]
-	mind.RemoveAllSpells()
-	var/datum/devotion/patrondev = new /datum/devotion(src, god)
-	patrondev.grant_miracles(src, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, devotion_limit = CLERIC_REQ_4)
-	if (string_choice == "Astrata")
+	if(string_choice == mind.active_miracle_set)
+		to_chat(src, span_info("You are already channeling the power of [string_choice]."))
+		return
+
+	// Retrieve the selected patron by searching through patrons_by_faith
+	var/datum/patron/god
+	for(var/path in GLOB.patrons_by_faith[/datum/faith/divine])
+		var/datum/patron/p = GLOB.patronlist[path]
+		if(p?.name == string_choice)
+			god = p
+			break
+	if(!god)
+		return
+
+	// Update devotion and load the selected patron's miracles
+	var/current_devotion_value = devotion ? devotion.devotion : 0
+
+	// Store old devotion in the stored sets if switching away
+	if(devotion && mind.active_miracle_set && mind.active_miracle_set != string_choice)
+		STOP_PROCESSING(SSobj, devotion)
+		mind.stored_miracle_sets[mind.active_miracle_set] = devotion
+
+	// Create or retrieve the new devotion set
+	if(!mind.stored_miracle_sets[string_choice])
+		var/datum/devotion/new_devotion = new /datum/devotion(src, god)
+		// Manually configure the devotion without adding spells to mind.spell_list yet
+		new_devotion.level = CLERIC_T4
+		new_devotion.max_devotion = CLERIC_REQ_4
+		new_devotion.max_progression = CLERIC_REQ_4
+		new_devotion.passive_devotion_gain = CLERIC_REGEN_MAJOR
+		new_devotion.passive_progression_gain = CLERIC_REGEN_MAJOR
+		new_devotion.devotion = 50
+		new_devotion.progression = 50
+		// Populate granted_spells without adding to mind.spell_list
+		if(length(god.miracles))
+			for(var/spell_type in god.miracles)
+				if(god.miracles[spell_type] <= CLERIC_T4)
+					var/obj/effect/proc_holder/spell/newspell = new spell_type
+					LAZYADD(new_devotion.granted_spells, newspell)
+		mind.stored_miracle_sets[string_choice] = new_devotion
+
+	devotion = mind.stored_miracle_sets[string_choice]
+	START_PROCESSING(SSobj, devotion)
+
+	var/static/list/always_keep_spells = list(
+		/obj/effect/proc_holder/spell/self/convertrole/templar,
+		/obj/effect/proc_holder/spell/self/convertrole/monk,
+		/obj/effect/proc_holder/spell/targeted/touch/orison,
+		/obj/effect/proc_holder/spell/invoked/lesser_heal,
+		/obj/effect/proc_holder/spell/invoked/blood_heal,
+		/obj/effect/proc_holder/spell/invoked/wound_heal
+	)
+
+	// Remove all current spell actions from the player
+	// Store button states globally before removing
+	LAZYINITLIST(mind.miracle_button_states)
+	for(var/obj/effect/proc_holder/spell/S in mind.spell_list)
+		if(S.action?.button)
+			// Store current button state globally for this spell type
+			mind.miracle_button_states[S.type] = list("locked" = S.action.button.locked, "moved" = S.action.button.moved)
+		S.action?.Remove(src)
+
+	// Build the new spell list
+	var/list/merged_spells = list()
+	var/list/present_spells = list()
+
+	// Keep spells that should always be retained (non-miracle spells from virtues/traits + core priest spells)
+	for(var/obj/effect/proc_holder/spell/S in mind.spell_list)
+		// Keep if it's in the always_keep list OR if it's not a miracle (from virtues, etc.)
+		if((S.type in always_keep_spells) || !S.miracle)
+			merged_spells += S
+			present_spells[S.type] = S
+
+	// Add spells from the new devotion set
+	for(var/obj/effect/proc_holder/spell/S in devotion.granted_spells)
+		if(S.type in present_spells)
+			continue
+		merged_spells += S
+		present_spells[S.type] = S
+
+	// Update spell list
+	mind.spell_list = merged_spells
+
+	// Grant all actions for the new spell list
+	for(var/obj/effect/proc_holder/spell/S in mind.spell_list)
+		S.action?.Grant(src)
+		// Restore button state from global storage, or default to locked
+		if(S.action?.button)
+			if(S.type in mind.miracle_button_states)
+				var/list/state = mind.miracle_button_states[S.type]
+				S.action.button.locked = state["locked"]
+				S.action.button.moved = state["moved"]
+			else
+				// Default to locked for new spells
+				S.action.button.locked = TRUE
+	
+	// Update action buttons to apply screen_loc changes from moved property
+	if(client)
+		update_action_buttons()
+	
+	devotion.update_devotion(round(current_devotion_value / 2) - devotion.devotion)
+	mind.active_miracle_set = string_choice
+
+	to_chat(src, "<font color='yellow'>The strain of changing your miracles has halved your devotion.</font>")
+	if(string_choice == "Astrata")
 		to_chat(src, "<font color='yellow'>HEAVEN SHALL THEE RECOMPENSE. THOU BEAREST MY POWER ONCE MORE.</font>")
 	else
 		to_chat(src, "<font color='yellow'>Thou wieldeth now the power of [string_choice].</font>")
-	to_chat(src, "<font color='yellow'>TThe strain of changing your miracles has consumed all your devotion.</font>")
-	mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/cure_rot)
-	mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/monk)
-	mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/templar)
 
 /mob/living/carbon/human/proc/coronate_lord()
 	set name = "Coronate"
 	set category = "Priest"
+
 	if(!mind)
 		return
+
 	if(world.time < 30 MINUTES)
 		to_chat(src, span_warning("It is a bad omen to coronate so early in the week."))
 		return FALSE
+
 	if(!istype(get_area(src), /area/rogue/indoors/town/church/chapel))
 		to_chat(src, span_warning("I need to do this in the chapel."))
 		return FALSE
+
 	for(var/mob/living/carbon/human/HU in get_step(src, src.dir))
 		if(!HU.mind)
 			continue
@@ -178,11 +302,12 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		if(!istype(HU.head, /obj/item/clothing/head/roguetown/crown/serpcrown))
 			continue
 
-		//Abdicate previous King
+		// Abdicate previous Duke
 		for(var/mob/living/carbon/human/HL in GLOB.human_list)
-			if(HL.mind)
-				if(HL.mind.assigned_role == "Grand Duke")
-					HL.mind.assigned_role = "Towner" //So they don't get the innate traits of the king
+			if(!HL.mind)
+				continue
+			if(HL.mind.assigned_role == "Grand Duke")
+				HL.mind.assigned_role = "Towner" //So they don't get the innate traits of the duke
 			//would be better to change their title directly, but that's not possible since the title comes from the job datum
 			if(HL.job == "Grand Duke")
 				HL.job = "Duke Emeritus"
@@ -209,61 +334,61 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	set name = "Excommunicate"
 	set category = "Priest"
 
-	if (stat)
+	if(stat)
 		return
 
 	var/inputty = input("Excommunicate someone, away from the Ten... Or show to their heretical gods that they are worthy... (excommunicate them again to remove it)", "Sinner Name") as text|null
+	if(!inputty)
+		return
 
-	if (inputty)
-		if (!istype(get_area(src), /area/rogue/indoors/town/church/chapel))
-			to_chat(src, span_warning("I need to do this from the Church."))
-			return FALSE
+	if(!istype(get_area(src), /area/rogue/indoors/town/church/chapel))
+		to_chat(src, span_warning("I need to do this from the Church."))
+		return FALSE
 
-		if (inputty in GLOB.excommunicated_players)
-			GLOB.excommunicated_players -= inputty
-			priority_announce("[real_name] has forgiven [inputty]. Their patron hears their prayer once more!", title = "Hail the Ten!", sound = 'sound/misc/bell.ogg')
+	if(inputty in GLOB.excommunicated_players)
+		GLOB.excommunicated_players -= inputty
+		priority_announce("[real_name] has forgiven [inputty]. Their patron hears their prayer once more!", title = "Hail the Ten!", sound = 'sound/misc/bell.ogg')
 
-			for (var/mob/living/carbon/human/H in GLOB.player_list)
-				if (H.real_name == inputty)
-					REMOVE_TRAIT(H, TRAIT_EXCOMMUNICATED, TRAIT_GENERIC)
+		for(var/mob/living/carbon/human/H in GLOB.player_list)
+			if(H.real_name == inputty)
+				REMOVE_TRAIT(H, TRAIT_EXCOMMUNICATED, TRAIT_GENERIC)
 
-					if (H.patron)
-						if((istype(H.patron, /datum/patron/divine)) && !HAS_TRAIT(H, TRAIT_HERETIC_DEVOUT))
-							H.remove_stress(/datum/stressevent/excommunicated)
-							H.remove_status_effect(/datum/status_effect/debuff/excomm)
-						else if((istype(H.patron, /datum/patron/inhumen)) || HAS_TRAIT(H, TRAIT_HERETIC_DEVOUT))
-							H.remove_stress(/datum/stressevent/gazeuponme)
-							H.remove_status_effect(/datum/status_effect/buff/gazeuponme)
-						else
-							continue
-			return
-
-		var/found = FALSE
-
-		for (var/mob/living/carbon/human/H in GLOB.player_list)
-			if (H == src)
-				continue
-			if (H.real_name == inputty)
-				found = TRUE
-				ADD_TRAIT(H, TRAIT_EXCOMMUNICATED, TRAIT_GENERIC)
-
-				if (H.patron)
+				if(H.patron)
 					if((istype(H.patron, /datum/patron/divine)) && !HAS_TRAIT(H, TRAIT_HERETIC_DEVOUT))
-						H.add_stress(/datum/stressevent/excommunicated)
-						H.apply_status_effect(/datum/status_effect/debuff/excomm)
-						to_chat(H, span_warning("Your divine patron recoils from your excommunication."))
+						H.remove_stress(/datum/stressevent/excommunicated)
+						H.remove_status_effect(/datum/status_effect/debuff/excomm)
 					else if((istype(H.patron, /datum/patron/inhumen)) || HAS_TRAIT(H, TRAIT_HERETIC_DEVOUT))
-						H.add_stress(/datum/stressevent/gazeuponme)
-						H.apply_status_effect(/datum/status_effect/buff/gazeuponme)
-						to_chat(H, span_notice("Your patron embraces your rejection from the Ten."))
-					else
-						continue
+						H.remove_stress(/datum/stressevent/gazeuponme)
+						H.remove_status_effect(/datum/status_effect/buff/gazeuponme)
+				break
+		return
 
-		if (!found)
-			return FALSE
+	// Find target for excommunication
+	var/mob/living/carbon/human/target
+	for(var/mob/living/carbon/human/H in GLOB.player_list)
+		if(H == src)
+			continue
+		if(H.real_name == inputty)
+			target = H
+			break
 
-		GLOB.excommunicated_players += inputty
-		priority_announce("[real_name] has excommunicated [inputty]!", title = "SHAME", sound = 'sound/misc/excomm.ogg')
+	if(!target)
+		return FALSE
+
+	ADD_TRAIT(target, TRAIT_EXCOMMUNICATED, TRAIT_GENERIC)
+
+	if(target.patron)
+		if((istype(target.patron, /datum/patron/divine)) && !HAS_TRAIT(target, TRAIT_HERETIC_DEVOUT))
+			target.add_stress(/datum/stressevent/excommunicated)
+			target.apply_status_effect(/datum/status_effect/debuff/excomm)
+			to_chat(target, span_warning("Your divine patron recoils from your excommunication."))
+		else if((istype(target.patron, /datum/patron/inhumen)) || HAS_TRAIT(target, TRAIT_HERETIC_DEVOUT))
+			target.add_stress(/datum/stressevent/gazeuponme)
+			target.apply_status_effect(/datum/status_effect/buff/gazeuponme)
+			to_chat(target, span_notice("Your patron embraces your rejection from the Ten."))
+
+	GLOB.excommunicated_players += inputty
+	priority_announce("[real_name] has excommunicated [inputty]!", title = "SHAME", sound = 'sound/misc/excomm.ogg')
 
 /mob/living/carbon/human/proc/churchannouncement()
 	set name = "Announcement"
@@ -281,109 +406,103 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		devotion.update_devotion(-500)
 		priority_announce("[inputty]", title = "The Priest Speaks", sound = 'sound/misc/bell.ogg', sender = src)
 
-/mob/living/carbon/human/proc/churcheapostasy(var/mob/living/carbon/human/H in GLOB.player_list)
+/mob/living/carbon/human/proc/churcheapostasy()
 	set name = "Apostasy"
 	set category = "Priest"
 
-	if (stat)
+	if(stat)
 		return
 
-	var/found = FALSE
+	// Check cooldown and show remaining time BEFORE input
+	if(!COOLDOWN_FINISHED(src, priest_apostasy))
+		to_chat(src, span_warning("You must wait [DisplayTimeText(priest_apostasy - world.time)] before marking another."))
+		return
+
 	var/inputty = input("Put an apostasy on someone, removing their ability to use miracles... (apostasy them again to remove it)", "Sinner Name") as text|null
-
-	if (!inputty)
+	if(!inputty)
 		return
 
-	if (!istype(get_area(src), /area/rogue/indoors/town/church/chapel))
+	if(!istype(get_area(src), /area/rogue/indoors/town/church/chapel))
 		to_chat(src, span_warning("I need to do this from the House of the Ten."))
 		return FALSE
 
-	if(!src.key)
-		return
+	// Find target
+	var/mob/living/carbon/human/target
+	for(var/mob/living/carbon/human/H in GLOB.player_list)
+		if(H.real_name == inputty)
+			target = H
+			break
 
-	if(!src.mind || !src.mind.do_i_know(name=inputty))
-		to_chat(src, span_warning("I don't know anyone by that name."))
-		return
-
-	if (inputty in GLOB.apostasy_players)
-		GLOB.apostasy_players -= inputty
-		priority_announce("[real_name] has forgiven [inputty]. Their patron hears their prayer once more!", title = "APOSTASY LIFTED", sound = 'sound/misc/bell.ogg')
-		message_admins("APOSTASY: [real_name] ([ckey]) has used forgiven apostasy at [H.real_name] ([H.ckey])")
-		log_game("APOSTASY: [real_name] ([ckey]) has used forgiven apostasy at [H.real_name] ([H.ckey])")
-
-		if (H.real_name == inputty)
-			if (istype(H.patron, /datum/patron/divine) && H.devotion)
-				H.remove_status_effect(/datum/status_effect/debuff/apostasy)
-				H.remove_stress(/datum/stressevent/apostasy)
-
-		return TRUE
-
-	if (H.real_name == inputty)
-		if (!COOLDOWN_FINISHED(src, priest_apostasy))
-			to_chat(src, span_warning("You must wait until you can mark another."))
-			return
-
-		//Check if we can curse this person.
-		if(!churchecancurse(H))
-			return
-
-		found = TRUE
-		GLOB.apostasy_players += inputty
-		COOLDOWN_START(src, priest_apostasy, PRIEST_APOSTASY_COOLDOWN)
-
-		var/curse_resist = HAS_TRAIT(H, TRAIT_CURSE_RESIST)
-
-		if (istype(H.patron, /datum/patron/divine) && H.devotion && !HAS_TRAIT(H, TRAIT_HERETIC_DEVOUT))
-			H.devotion.excommunicate()
-			H.apply_status_effect(/datum/status_effect/debuff/apostasy, curse_resist)
-			H.add_stress(/datum/stressevent/apostasy)
-			to_chat(H, span_warning("A holy silence falls upon you. Your Patron cannot hear you anymore..."))
-		else
-			to_chat(H, span_warning("A holy silence falls upon you..."))
-
-		priority_announce("[real_name] has placed mark of shame upon [inputty]. Their prayers fall on deaf ears.", title = "APOSTASY", sound = 'sound/misc/excomm.ogg')
-		message_admins("APOSTASY: [real_name] ([ckey]) has used apostasy at [H.real_name] ([H.ckey])")
-		log_game("APOSTASY: [real_name] ([ckey]) has used apostasy at [H.real_name] ([H.ckey])")
-		return TRUE
-
-	if (!found)
+	if(!target)
 		return FALSE
 
-	return
+	// Check if lifting apostasy
+	if(inputty in GLOB.apostasy_players)
+		GLOB.apostasy_players -= inputty
+		priority_announce("[real_name] has forgiven [inputty]. Their patron hears their prayer once more!", title = "APOSTASY LIFTED", sound = 'sound/misc/bell.ogg')
+		message_admins("APOSTASY: [real_name] ([ckey]) has forgiven apostasy on [target.real_name] ([target.ckey])")
+		log_game("APOSTASY: [real_name] ([ckey]) has forgiven apostasy on [target.real_name] ([target.ckey])")
+
+		if(istype(target.patron, /datum/patron/divine) && target.devotion)
+			target.remove_status_effect(/datum/status_effect/debuff/apostasy)
+			target.remove_stress(/datum/stressevent/apostasy)
+
+		return TRUE
+
+	// Apply apostasy
+	// Check if we can curse this person
+	if(!churchecancurse(target))
+		return
+
+	GLOB.apostasy_players += inputty
+	COOLDOWN_START(src, priest_apostasy, PRIEST_APOSTASY_COOLDOWN)
+
+	var/curse_resist = HAS_TRAIT(target, TRAIT_CURSE_RESIST)
+
+	if(istype(target.patron, /datum/patron/divine) && target.devotion && !HAS_TRAIT(target, TRAIT_HERETIC_DEVOUT))
+		target.devotion.excommunicate()
+		target.apply_status_effect(/datum/status_effect/debuff/apostasy, curse_resist)
+		target.add_stress(/datum/stressevent/apostasy)
+		to_chat(target, span_warning("A holy silence falls upon you. Your Patron cannot hear you anymore..."))
+	else
+		to_chat(target, span_warning("A holy silence falls upon you..."))
+
+	priority_announce("[real_name] has placed mark of shame upon [inputty]. Their prayers fall on deaf ears.", title = "APOSTASY", sound = 'sound/misc/excomm.ogg')
+	message_admins("APOSTASY: [real_name] ([ckey]) has used apostasy on [target.real_name] ([target.ckey])")
+	log_game("APOSTASY: [real_name] ([ckey]) has used apostasy on [target.real_name] ([target.ckey])")
+	return TRUE
 
 /mob/living/carbon/human/proc/completesermon()
 	set name = "Sermon"
 	set category = "Priest"
 
-	if (!mind)
+	if(!mind)
 		return
 
-	if (!istype(get_area(src), /area/rogue/indoors/town/church/chapel))
+	if(!istype(get_area(src), /area/rogue/indoors/town/church/chapel))
 		to_chat(src, span_warning("I need to do this in the chapel."))
 		return FALSE
 
-	src.visible_message(span_notice("[src] begins preaching a sermon..."))
+	visible_message(span_notice("[src] begins preaching a sermon..."))
 
-	if (!do_after(src, 300, target = src)) // 30 seconds
-		src.visible_message(span_warning("[src] stops preaching."))
+	if(!do_after(src, 300, target = src))
+		visible_message(span_warning("[src] stops preaching."))
 		return
 
-	src.visible_message(span_notice("[src] finishes the sermon, inspiring those nearby!"))
+	visible_message(span_notice("[src] finishes the sermon, inspiring those nearby!"))
 
-	for (var/mob/living/carbon/human/H in view(7, src))
-		if (!H.patron)
+	for(var/mob/living/carbon/human/H in view(7, src))
+		if(!H.patron)
 			continue
 
-		if (istype(H.patron, /datum/patron/divine))
+		if(istype(H.patron, /datum/patron/divine))
 			H.apply_status_effect(/datum/status_effect/buff/sermon)
 			H.add_stress(/datum/stressevent/sermon)
 			to_chat(H, span_notice("You feel a divine affirmation from your patron."))
-
-		else if (istype(H.patron, /datum/patron/inhumen))
+		else if(istype(H.patron, /datum/patron/inhumen))
 			H.apply_status_effect(/datum/status_effect/debuff/hereticsermon)
 			H.add_stress(/datum/stressevent/heretic_on_sermon)
 			to_chat(H, span_warning("Your patron seethes with disapproval."))
-
 		else
 			// Other patrons - fluff only
 			to_chat(H, span_notice("Nothing seems to happen to you."))
@@ -392,32 +511,39 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 /* PRIEST CURSE - powerful debuffs to punish ppl outside church otherwise use apostasy
 code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep that updated if this gets any changes.*/
-/mob/living/carbon/human/proc/churchpriestcurse(mob/living/carbon/human/H in GLOB.player_list)
+/mob/living/carbon/human/proc/churchpriestcurse()
 	set name = "Divine Curse"
 	set category = "Priest"
 
-	if (stat)
+	if(stat)
 		return
 
 	if(!(devotion && devotion.devotion >= 500))
 		to_chat(src, span_warning("I need more devotion to channel Her voice! (500 required)"))
 		return FALSE
 
-	var/target_name = input("Who shall receive a curse?", "Target Name") as text|null
-
-	if (!target_name)
+	// Check cooldown and show remaining time BEFORE input
+	if(!COOLDOWN_FINISHED(src, priest_curse))
+		to_chat(src, span_warning("You must wait [DisplayTimeText(priest_curse - world.time)] before invoking another curse."))
 		return
 
-	if (!istype(get_area(src), /area/rogue/indoors/town/church/chapel))
+	var/target_name = input("Who shall receive a curse?", "Target Name") as text|null
+	if(!target_name)
+		return
+
+	if(!istype(get_area(src), /area/rogue/indoors/town/church/chapel))
 		to_chat(src, span_warning("I need to do this from the House of the Ten."))
 		return FALSE
 
-	if(!src.key)
-		return
+	// Find target
+	var/mob/living/carbon/human/target
+	for(var/mob/living/carbon/human/H in GLOB.player_list)
+		if(H.real_name == target_name)
+			target = H
+			break
 
-	if(!src.mind || !src.mind.do_i_know(name=target_name))
-		to_chat(src, span_warning("I don't know anyone by that name."))
-		return
+	if(!target)
+		return FALSE
 
 	var/list/curse_choices = list(
 		"Curse of Astrata" = /datum/curse/astrata, // cannot sleep and burn up in sunlight
@@ -433,45 +559,40 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 	)
 
 	var/curse_pick = input("Choose a curse to apply or lift.", "Select Curse") as null|anything in curse_choices
-	if (!curse_pick)
+	if(!curse_pick)
 		return
 
 	var/curse_type = curse_choices[curse_pick]
+	var/datum/curse/temp = new curse_type()
 
-	if (H.real_name == target_name)
-		var/datum/curse/temp = new curse_type()
+	// Check if lifting curse
+	if(target.is_cursed(temp))
+		devotion.update_devotion(-500)
+		target.remove_curse(temp)
 
-		if (H.is_cursed(temp))
-			devotion.update_devotion(-500)
-			H.remove_curse(temp)
-
-			priority_announce("[real_name] has lifted [curse_pick] from [H.real_name]! They are once again part of the flock!", title = "REDEMPTION", sound = 'sound/misc/bell.ogg')
-			message_admins("DIVINE CURSE: [real_name] ([ckey]) has removed [curse_pick] from [H.real_name]) ") //[ADMIN_LOOKUPFLW(user)] Maybe add this here if desirable but dunno.
-			log_game("DIVINE CURSE: [real_name] ([ckey]) has removed [curse_pick] from [H.real_name])")
-		else
-			if (length(H.curses) >= 1)
-				to_chat(src, span_syndradio("[H.real_name] is already afflicted by another curse."))
-				message_admins("DIVINE CURSE: [real_name] ([ckey]) has attempted to strike [H.real_name] ([H.ckey] with [curse_pick])")
-				log_game("DIVINE CURSE: [real_name] ([ckey]) has attempted to strike [H.real_name] ([H.ckey] with [curse_pick])")
-				return
-
-			if (!COOLDOWN_FINISHED(src, priest_curse))
-				to_chat(src, span_warning("You must wait before invoking a curse again."))
-				return
-
-			//Check if we can curse this person.
-			if(!churchecancurse(H))
-				return
-
-			COOLDOWN_START(src, priest_curse, PRIEST_CURSE_COOLDOWN)
-			devotion.update_devotion(-500)
-			H.add_curse(curse_type)
-
-			priority_announce("[real_name] has stricken [H.real_name] with [curse_pick]! SHAME!", title = "JUDGEMENT", sound = 'sound/misc/excomm.ogg')
-			message_admins("DIVINE CURSE: [real_name] ([ckey]) has stricken [H.real_name] ([H.ckey] with [curse_pick])")
-			log_game("DIVINE CURSE: [real_name] ([ckey]) has stricken [H.real_name] ([H.ckey] with [curse_pick])")
-
+		priority_announce("[real_name] has lifted [curse_pick] from [target.real_name]! They are once again part of the flock!", title = "REDEMPTION", sound = 'sound/misc/bell.ogg')
+		message_admins("DIVINE CURSE: [real_name] ([ckey]) has removed [curse_pick] from [target.real_name]")
+		log_game("DIVINE CURSE: [real_name] ([ckey]) has removed [curse_pick] from [target.real_name]")
 		return
+
+	// Applying curse
+	if(length(target.curses) >= 1)
+		to_chat(src, span_syndradio("[target.real_name] is already afflicted by another curse."))
+		message_admins("DIVINE CURSE: [real_name] ([ckey]) has attempted to strike [target.real_name] ([target.ckey]) with [curse_pick]")
+		log_game("DIVINE CURSE: [real_name] ([ckey]) has attempted to strike [target.real_name] ([target.ckey]) with [curse_pick]")
+		return
+
+	// Check if we can curse this person
+	if(!churchecancurse(target))
+		return
+
+	COOLDOWN_START(src, priest_curse, PRIEST_CURSE_COOLDOWN)
+	devotion.update_devotion(-500)
+	target.add_curse(curse_type)
+
+	priority_announce("[real_name] has stricken [target.real_name] with [curse_pick]! SHAME!", title = "JUDGEMENT", sound = 'sound/misc/excomm.ogg')
+	message_admins("DIVINE CURSE: [real_name] ([ckey]) has stricken [target.real_name] ([target.ckey]) with [curse_pick]")
+	log_game("DIVINE CURSE: [real_name] ([ckey]) has stricken [target.real_name] ([target.ckey]) with [curse_pick]")
 
 /mob/living/carbon/human/proc/churchecancurse(var/mob/living/carbon/human/H, apostasy = FALSE)
 	if (!H.devotion && apostasy)

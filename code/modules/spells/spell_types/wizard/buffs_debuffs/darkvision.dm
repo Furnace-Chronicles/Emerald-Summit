@@ -21,6 +21,7 @@
 	cost = 0
 	spell_tier = 0
 	associated_skill = /datum/skill/magic/holy
+	miracle = TRUE
 
 /obj/item/melee/touch_attack/darkvision
 	name = "\improper arcyne focus"

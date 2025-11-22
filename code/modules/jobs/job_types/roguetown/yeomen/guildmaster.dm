@@ -27,7 +27,7 @@
 	round_contrib_points = 3
 	advclass_cat_rolls = list(CTAG_GUILDMASTER = 2)
 
-	job_traits = list(TRAIT_TRAINED_SMITH, TRAIT_SEEPRICES)
+	job_traits = list(TRAIT_TRAINED_SMITH, TRAIT_SEEPRICES, TRAIT_MEDIUMARMOR, TRAIT_PEASANTMILITIA)
 	job_subclasses = list(
 		/datum/advclass/guildmaster
 	)

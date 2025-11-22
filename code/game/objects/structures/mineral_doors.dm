@@ -59,7 +59,7 @@
 	var/resident_role
 	/// The requied advclass of the resident
 	var/list/resident_advclass
-	//a door name a skilled artisan can make 
+	//a door name a skilled artisan can make
 	var/doorname = null
 
 /obj/structure/mineral_door/onkick(mob/user)
@@ -567,6 +567,30 @@
 	if(lockbroken)
 		to_chat(user, span_warning("The lock to this door is broken."))
 	user.changeNext_move(CLICK_CD_INTENTCAP)
+
+	// Handle belt items that contain keys
+	if(I.contents && I.contents.len && !istype(I, /obj/item/storage/keyring))
+		var/obj/item/found_key = null
+		for(var/obj/item/contained_item in I.contents)
+			if(istype(contained_item, /obj/item/roguekey))
+				var/obj/item/roguekey/K = contained_item
+				if(K.lockhash == lockhash || istype(K, /obj/item/roguekey/lord))
+					found_key = contained_item
+					break
+			if(istype(contained_item, /obj/item/storage/keyring))
+				if(keyring_has_matching_key(contained_item))
+					found_key = contained_item
+					break
+
+		if(found_key)
+			// Use the found key instead of the belt
+			trykeylock(found_key, user, autobump)
+			return
+		else
+			to_chat(user, span_warning("No matching key found in [I]."))
+			door_rattle()
+			return
+
 	if(istype(I,/obj/item/storage/keyring))
 		var/obj/item/storage/keyring/R = I
 		if(!R.contents.len)
@@ -1180,4 +1204,4 @@
 	resident_advclass = list(/datum/advclass/nightmaiden)
 
 /obj/structure/mineral_door/wood/bath/courtesan
-	resident_advclass = list(/datum/advclass/nightmaiden/concubine, /datum/advclass/nightmaiden/courtesan)
+	resident_advclass = list(/datum/advclass/nightmaiden/courtesan)

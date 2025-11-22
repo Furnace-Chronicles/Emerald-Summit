@@ -79,6 +79,7 @@
 	icon_angle_wielded = 50
 	pickup_sound = 'modular_helmsguard/sound/sheath_sounds/draw_blunt.ogg'
 	sheathe_sound = 'sound/items/wood_sharpen.ogg'
+	special = /datum/special_intent/ground_smash
 
 /obj/item/rogueweapon/mace/equipped(mob/user, slot, initial = FALSE)
 	pickup_sound = pick("modular_helmsguard/sound/sheath_sounds/draw_blunt.ogg", "modular_helmsguard/sound/sheath_sounds/draw_mace.ogg", "modular_helmsguard/sound/sheath_sounds/draw_blunt2.ogg")

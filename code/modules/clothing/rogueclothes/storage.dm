@@ -522,13 +522,13 @@
 		to_chat(user, span_warning("Your [src.name] is full!"))
 		return
 	to_chat(user, span_notice("You begin to gather the ammunition..."))
-	for(var/obj/item/smokebomb/K in T.contents)
+	for(var/obj/item/bomb/smoke/K in T.contents)
 		if(do_after(user, 5))
 			if(!eatknife(K))
 				break
 
 /obj/item/storage/belt/rogue/leather/smokebelt/proc/eatknife(obj/A)
-	if(A.type in typesof(/obj/item/smokebomb))
+	if(A.type in typesof(/obj/item/bomb/smoke))
 		if(knives.len < max_storage)
 			A.forceMove(src)
 			knives += A
@@ -538,7 +538,7 @@
 			return FALSE
 
 /obj/item/storage/belt/rogue/leather/smokebelt/attackby(obj/A, loc, params)
-	if(A.type in typesof(/obj/item/smokebomb))
+	if(A.type in typesof(/obj/item/bomb/smoke))
 		if(knives.len < max_storage)
 			if(ismob(loc))
 				var/mob/M = loc
@@ -575,6 +575,6 @@
 /obj/item/storage/belt/rogue/leather/smokebelt/Initialize()
 	. = ..()
 	for(var/i in 1 to max_storage)
-		var/obj/item/smokebomb/K = new()
+		var/obj/item/bomb/smoke/K = new()
 		knives += K
 	update_icon()

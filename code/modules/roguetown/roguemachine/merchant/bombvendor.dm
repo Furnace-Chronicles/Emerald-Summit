@@ -26,7 +26,7 @@
 	)
 // autismo tablets no tab
 	var/list/bombs = list(
-		list("name"="Smoke bomb",               "type"=/obj/item/smokebomb,                 "price"=50),
+		list("name"="Smoke bomb",               "type"=/obj/item/bomb/smoke,                 "price"=50),
 		list("name"="Impact grenade (contact)", "type"=/obj/item/impact_grenade/explosion,  "price"=50),
 		list("name"="Impact grenade (smoke)",   "type"=/obj/item/impact_grenade/smoke,      "price"=50),
 		list("name"="Impact grenade (poison)",  "type"=/obj/item/impact_grenade/poison_gas, "price"=50),
