@@ -160,7 +160,7 @@ GLOBAL_LIST_INIT(youngfolk_positions, list(
 	"Vagabond",
 ))
 
-GLOBAL_LIST_INIT(allmig_positions, list(
+GLOBAL_LIST_INIT(wanderer_positions, list(
 	"Adventurer",
 	"Pilgrim",
 ))
