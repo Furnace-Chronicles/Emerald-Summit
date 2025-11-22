@@ -224,7 +224,6 @@
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_INTELLECTUAL, TRAIT_STEELHEARTED)
 	subclass_stats = list(
 		STATKEY_INT = 3,
-		STATKEY_WIL = 3,
 		STATKEY_STR = -1,
 		STATKEY_PER = 3,
 		STATKEY_SPD = 1
