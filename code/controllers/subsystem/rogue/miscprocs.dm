@@ -18,6 +18,17 @@
 #define CLERIC_REGEN_WITCH 2
 #define CLERIC_REGEN_ABSOLVER 5
 
+
+// church gameloop auto spell stuff 
+
+/proc/_is_learnmiracle_eligible(mob/living/carbon/human/H)
+	if(!H || !H.mind) return FALSE
+	if(!HAS_TRAIT(H, TRAIT_CLERGY)) return FALSE
+	var/txt = lowertext("[H.mind.assigned_role]")
+	return findtext(txt, "druid") || findtext(txt, "acolyte") || findtext(txt, "templar")
+
+	return FALSE
+
 // Cleric Holder Datums
 
 /datum/devotion
@@ -106,6 +117,12 @@
 	return TRUE
 
 /datum/devotion/proc/try_add_spells(silent = FALSE)
+	if(holder?.mind)
+		var/role = lowertext("[holder.mind.assigned_role]")
+		if(findtext(role, "druid") || findtext(role, "acolyte") || findtext(role, "templar"))
+			return FALSE
+	if(!holder || !holder.mind || !patron)
+		return FALSE
 	if(length(patron.miracles))
 		for(var/spell_type in patron.miracles)
 			if(patron.miracles[spell_type] <= level)
@@ -146,6 +163,11 @@
 	else
 		update_devotion(50, 50, silent = TRUE)
 	H.verbs += list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray)
+
+	if(_is_learnmiracle_eligible(H))
+		if(!H.mind.has_spell(/obj/effect/proc_holder/spell/self/learnmiracle))
+			var/obj/effect/proc_holder/spell/self/learnmiracle/L = new
+			H.mind.AddSpell(L)
 
 // Debug verb
 /mob/living/carbon/human/proc/devotionchange()
@@ -261,21 +283,21 @@
 	to_chat(src, "I will see [HAS_TRAIT(src, TRAIT_COMBAT_AWARE) ? "more" : "less"] combat information now.")
 
 /datum/devotion/proc/excommunicate(mob/living/carbon/human/H)
-    if (!devotion)
-        return
+	if (!devotion)
+		return
 
-    prayer_effectiveness = 0
-    devotion = 0
-    passive_devotion_gain = 0
-    passive_progression_gain = 0
-    STOP_PROCESSING(SSobj, src)
-    to_chat(H, span_boldnotice("I have been excommunicated. I am now unable to gain devotion."))
+	prayer_effectiveness = 0
+	devotion = 0
+	passive_devotion_gain = 0
+	passive_progression_gain = 0
+	STOP_PROCESSING(SSobj, src)
+	to_chat(H, span_boldnotice("I have been excommunicated. I am now unable to gain devotion."))
 
 /datum/devotion/proc/recommunicate(mob/living/carbon/human/H)
-    prayer_effectiveness = 2
-    if (!passive_devotion_gain && !passive_progression_gain)
-        passive_devotion_gain = CLERIC_REGEN_DEVOTEE
-        passive_progression_gain = CLERIC_REGEN_DEVOTEE
-        START_PROCESSING(SSobj, src)
+	prayer_effectiveness = 2
+	if (!passive_devotion_gain && !passive_progression_gain)
+		passive_devotion_gain = CLERIC_REGEN_DEVOTEE
+		passive_progression_gain = CLERIC_REGEN_DEVOTEE
+		START_PROCESSING(SSobj, src)
 
-    to_chat(H, span_boldnotice("I have been welcomed back to the Church. I am now able to gain devotion again."))
+	to_chat(H, span_boldnotice("I have been welcomed back to the Church. I am now able to gain devotion again."))
