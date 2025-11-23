@@ -969,6 +969,10 @@ h2.alert {
 	color: #d146f5;
 	font-size: 75%;
 }
+.aphrodisiac {
+	color: #d146f5;
+	font-size: 125%;
+}
 /*
 @keyframes hypnocolor {
 	0%		{color: #202020;}

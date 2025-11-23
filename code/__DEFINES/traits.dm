@@ -209,7 +209,7 @@
 #define TRAIT_DEADITE "Deadite"
 #define TRAIT_PUZZLEMASTER "Puzzle Master"
 #define TRAIT_CLERGY "Clergy" // City clergy
-#define TRAIT_BAOTHA_FERTILITY_BOON "Marked by Baotha"
+#define TRAIT_BAOTHA_FERTILITY_BOON "Mark of Baotha"
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
 
@@ -400,7 +400,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SLAYER = span_warning("My vows forbid me from protecting my weakspots with armor."),
 	TRAIT_NODEF = span_warning("I expose myself in battle completely."),
 	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"), 
-	TRAIT_CLERGY = span_notice("I am a servant of the local House of the Ten.")
+	TRAIT_CLERGY = span_notice("I am a servant of the local House of the Ten."),
+	TRAIT_BAOTHA_FERTILITY_BOON = span_warning("My abdomen glows with a strange purple marking, and my nethers constantly ache with warmth...")
 ))
 
 // trait accessor defines
