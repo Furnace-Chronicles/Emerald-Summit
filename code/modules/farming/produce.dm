@@ -265,7 +265,6 @@
 	tastes = list("berry" = 1)
 	bitesize = 5
 	list_reagents = list(/datum/reagent/consumable/nutriment = 3, /datum/reagent/water = 5)
-	faretype = FARE_NEUTRAL
 	dropshrink = 0.75
 	var/color_index = "good"
 	rotprocess = 15 MINUTES
