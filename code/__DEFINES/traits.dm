@@ -79,7 +79,7 @@
 #define TRAIT_PEASANTMILITIA "Angry Peasant" //Skill is treated as one higher with appropriate weapons
 #define TRAIT_SLAYER "Slayer Oath"
 #define TRAIT_NODEF "Recklessness"
-#define TRAIT_NECRATOUCHED "Vice" //player is touched by necra, gives stress on examine and applies debuff
+#define TRAIT_NECRATOUCHED "Fearsome visage" //player is touched by necra, gives stress on examine and applies debuff
 
 //Hearthstone port (Tracking)
 #define TRAIT_PERFECT_TRACKER "Perfect Tracker" //Will always find any tracks and analyzes them perfectly.
