@@ -227,7 +227,7 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/steel
 	resistance_flags = FIRE_PROOF
-	slot_flags = ITEM_SLOT_NECK
+	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_MASK
 	body_parts_covered = NECK|MOUTH|NOSE
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	adjustable = CAN_CADJUST
@@ -296,8 +296,8 @@
 		add_overlay(pic)
 
 /obj/item/clothing/neck/roguetown/fencerguard/Initialize()
-	. = ..()		
-	update_icon()		
+	. = ..()
+	update_icon()
 
 /obj/item/clothing/neck/roguetown/gorget/forlorncollar
 	name = "forlorn collar"
@@ -367,7 +367,7 @@
 	if(slot == SLOT_NECK)
 		mob_overlay_icon = initial(mob_overlay_icon)
 		sleeved = initial(sleeved)
-	
+
 	return TRUE
 
 /obj/item/clothing/neck/roguetown/psicross/attack_right(mob/user)
