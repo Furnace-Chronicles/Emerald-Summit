@@ -214,7 +214,7 @@
 		if("Flail")
 			beltr = /obj/item/rogueweapon/flail/sflail
 		if ("Warhammer")
-			beltr = /obj/item/rogueweapon/mace/warhammer //Iron warhammer. This is one-handed and pairs well with shields. They can upgrade to steel in-round.
+			beltr = /obj/item/rogueweapon/mace/warhammer/steel
 		if("Sabre")
 			beltl = /obj/item/rogueweapon/scabbard/sword
 			l_hand = /obj/item/rogueweapon/sword/sabre

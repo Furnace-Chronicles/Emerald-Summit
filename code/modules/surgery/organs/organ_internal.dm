@@ -408,33 +408,3 @@
 		return
 	else
 		regenerate_organs()
-
-/obj/item/organ
-	parent_type = /obj/item/reagent_containers/food/snacks/rogue/meat // <--- This line makes them cookable like meat. Doesn't affect surgery, if it's possibility is present.
-
-/obj/item/organ/heart
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/organ/heart/fried
-
-/obj/item/organ/liver
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/organ/liver/fried
-
-/obj/item/organ/stomach
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/organ/stomach/fried
-
-/obj/item/organ/lungs
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/organ/lungs/fried
-	
-/obj/item/organ/tongue
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/organ/tongue/fried
-
-/obj/item/organ/tongue/harpy
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/organ/tongue/harpy/fried
-
-/obj/item/organ/tongue/lizard
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/organ/tongue/lizard/fried
-
-/obj/item/organ/ears
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/organ/ears/fried
-
-/obj/item/organ/eyes
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/organ/eye/fried
