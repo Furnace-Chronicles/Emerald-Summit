@@ -599,20 +599,20 @@
 					W.take_damage(INTEG_PARRY_DECAY, BRUTE, "slash")
 				else
 					var/shield_damage = INTEG_PARRY_DECAY_NOSHARP
-				if(istype(W, /obj/item/rogueweapon/shield) && attacker_bclass)
-					var/degradation_mult = 1.0
-					if(istype(W, /obj/item/rogueweapon/shield/wood) && attacker_bclass == BCLASS_CHOP)
-						degradation_mult = ARMOR_DEGR_CUT_LIGHT
-					else
-						switch(attacker_bclass)
-							if(BCLASS_BLUNT, BCLASS_SMASH)
-								degradation_mult = ARMOR_DEGR_BLUNT_HEAVY
-							if(BCLASS_CUT, BCLASS_CHOP)
-								degradation_mult = ARMOR_DEGR_CUT_HEAVY
-							if(BCLASS_STAB, BCLASS_PICK, BCLASS_PIERCE)
-								degradation_mult = ARMOR_DEGR_PIERCE_HEAVY
-						shield_damage *= degradation_mult
-				W.take_damage(shield_damage, BRUTE, "slash")
+					if(istype(W, /obj/item/rogueweapon/shield) && attacker_bclass)
+						var/degradation_mult = 1.0
+						if(istype(W, /obj/item/rogueweapon/shield/wood) && attacker_bclass == BCLASS_CHOP)
+							degradation_mult = ARMOR_DEGR_CUT_LIGHT
+						else
+							switch(attacker_bclass)
+								if(BCLASS_BLUNT, BCLASS_SMASH)
+									degradation_mult = ARMOR_DEGR_BLUNT_HEAVY
+								if(BCLASS_CUT, BCLASS_CHOP)
+									degradation_mult = ARMOR_DEGR_CUT_HEAVY
+								if(BCLASS_STAB, BCLASS_PICK, BCLASS_PIERCE)
+									degradation_mult = ARMOR_DEGR_PIERCE_HEAVY
+							shield_damage *= degradation_mult
+					W.take_damage(shield_damage, BRUTE, "slash")
 			return TRUE
 		else
 			to_chat(src, span_warning("I'm too tired to parry!"))
@@ -1109,10 +1109,6 @@
 		if(bait_stacks > 0)
 			bait_stacks = 0
 			to_chat(src, span_info("My focus and balance returns. I won't lose my footing if I am baited again."))
-
-/mob/living/carbon/human/proc/expire_peel()
-	if(!cmode)
-		purge_peel(99)
 
 /mob/living/carbon/human/proc/measured_statcheck(mob/living/carbon/human/HT)
 	var/finalprob = 40

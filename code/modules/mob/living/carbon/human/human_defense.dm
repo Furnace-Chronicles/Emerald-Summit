@@ -75,6 +75,7 @@
 	if(isbodypart(def_zone))
 		var/obj/item/bodypart/CBP = def_zone
 		def_zone = CBP.body_zone
+	var/protection = 0
 	var/obj/item/clothing/used
 	var/best_effective_armor = 0
 	var/armor_effectiveness = 1.0
