@@ -762,13 +762,6 @@
 	created_item = /obj/item/rogueweapon/knuckles/bronzeknuckles
 	craftdiff = 2
 
-/datum/anvil_recipe/weapons/bronze/golemknuckle
-	name = "Golem Knuckle"
-	req_bar = /obj/item/ingot/bronze
-	additional_items = list(/obj/item/ingot/bronze, /obj/item/ingot/bronze, /obj/item/ingot/steel)
-	created_item = /obj/item/rogueweapon/knuckles/bronzeknuckles/zizoconstruct
-	craftdiff = 4
-
 /// SHIELDS
 /datum/anvil_recipe/weapons/steel/kiteshield
 	name = "Kite Shield (+1 Steel, +1 Cured Leather)"

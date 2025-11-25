@@ -347,6 +347,17 @@
 		// Might need re-wording.
 		to_chat(user, span_alert("There is no exposed flesh or thin material [above_neck(target_zone) ? "on [p_their()] head" : "on [p_their()] body"]."))
 
+
+//port from vanderlin, proc used to redraw a mob anfter they've been skeletonized
+/mob/living/carbon/human/proc/skele_look()
+	dna.species.go_bald()
+	underwear = "Nude"
+	facial_hairstyle = "Shaved"
+	update_body()
+	update_hair()
+	update_body_parts(redraw = TRUE)
+
+
 //Used for new human mobs created by cloning/goleming/podding
 /mob/living/carbon/human/proc/set_cloned_appearance()
 	if(gender == MALE)
@@ -933,3 +944,5 @@
 
 /mob/living/carbon/human/Topic(href, href_list)
 	..()
+
+
