@@ -1959,6 +1959,7 @@
 	item_state = "grenzelhat"
 	icon = 'icons/roguetown/clothing/head.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi' //Overrides slot icon behavior
 	slot_flags = ITEM_SLOT_HEAD
 	detail_tag = "_detail"
 	altdetail_tag = "_detailalt"
@@ -1972,6 +1973,8 @@
 	color = "#262927"
 	detail_color = "#FFFFFF"
 	altdetail_color = "#9c2525"
+	alternate_worn_layer  = 8.9 //On top of helmet
+	var/swapped = FALSE
 
 /obj/item/clothing/head/roguetown/grenzelhofthat/attack_right(mob/user)
 	..()
@@ -2002,7 +2005,24 @@
 			pic2.color = get_altdetail_color()
 		add_overlay(pic2)
 
-
+/obj/item/clothing/head/roguetown/grenzelhofthat/MiddleClick(mob/user, params)
+	..()
+	if(user.loc)
+		user.doUnEquip(src, TRUE, get_turf(user), silent = TRUE) // Forcibly unequips it.
+	else
+		return
+	swapped = !swapped
+	if(swapped)
+		slot_flags = ITEM_SLOT_MASK
+		armor = getArmor(0, 0, 0, 0, 0, 0)
+		prevent_crits = list()
+		desc = "Whether it's monsters or fair maidens, a true Grenzelhoftian slays both. This hat has had the hidden metallic cap underneath removed."
+	else
+		slot_flags = initial(slot_flags) // initial doesn't work for armor :sob:
+		armor = getArmor(70, 70, 50, 30, 0, 0) // Resets it back to ARMOR_SPELLSINGER (UPDATE THIS IF ANY BALANCEJACKS COME BY)
+		prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+		desc = initial(desc)
+	user.visible_message("[user] adjusts [src]", "I adjust [src].", vision_distance = 1)
 
 /obj/item/clothing/head/roguetown/helmet/tricorn
 	slot_flags = ITEM_SLOT_HEAD
