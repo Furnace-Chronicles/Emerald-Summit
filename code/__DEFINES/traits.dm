@@ -362,7 +362,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SLEUTH = span_info("I can spot my tracked Mark's trail without needing to approach it, and can spot them at a distance. I can track more frequently, and the act is not impaired by movement. I can examine tracks right away, and others will not notice my efforts to search."),
 	TRAIT_HARDSHELL = span_info("The bulk of this armor prevents me from parrying effectively, but I can still move out of the way."),
 	TRAIT_MATTHIOS_EYES = span_notice("I have a sense for what the most valuable item someone has is."),
-	TRAIT_CULTIC_THIEF = span_notice("Matthios tips fortune in my favor when I steal from others.")
+	TRAIT_CULTIC_THIEF = span_notice("Matthios tips fortune in my favor when I steal from others."),
 	TRAIT_WOODWALKER = span_notice("I can climb trees quicker, and gain climbing experience twice as quickly. I can step on thorns and branches safely in the woods. I can get twice as many things from searching bushes, and I can stand on leaves in trees safely."),
 	TRAIT_ARCYNE_T1 = span_notice("I have received basic training in the Arcyne arts, allowing me access to a small variety of spells useful outside of combat."),
 	TRAIT_ARCYNE_T2 = span_notice("I have received advanced training in the Arcyne arts, allowing me to learn basic combat spells"),
