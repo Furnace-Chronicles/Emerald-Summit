@@ -82,7 +82,6 @@
 	associated_skill = /datum/skill/magic/holy
 	invocation = "Treefather light the way."
 	invocation_type = "whisper" //can be none, whisper, emote and shout
-	miracle = TRUE
 	devotion_cost = 30
 	miracle = TRUE
 
