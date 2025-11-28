@@ -47,6 +47,8 @@ SUBSYSTEM_DEF(familytree)
 		"Nightswain",
 		"Churchling",
 		"Acolyte",
+		"Templar",
+		"Martyr",
 		"Priest",
 		)
 	//This creates 2 families for each race roundstart so that siblings dont fail to be added to a family.
