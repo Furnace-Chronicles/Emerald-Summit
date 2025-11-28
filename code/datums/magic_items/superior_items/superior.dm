@@ -37,7 +37,7 @@
 	else
 		active_item = TRUE
 		ADD_TRAIT(user, TRAIT_LIGHT_STEP, "[type]")
-		ADD_TRAIT(user, TRAIT_LEAPER, "[type]")
+		ADD_TRAIT(user, TRAIT_NOFALLDAMAGE1, "[type]")
 		to_chat(user, span_notice("I feel much more nimble!"))
 
 
