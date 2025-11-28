@@ -144,34 +144,41 @@
 	surgery_flags = SURGERY_INCISED | SURGERY_RETRACTED | SURGERY_BROKEN | SURGERY_CONSTRUCT
 
 /// Manipulate Organs
-/datum/surgery_step/manipulate_organs
+/datum/surgery_step/manipulate_organs/construct
 	name = "Manipulate internal components"
 	skill_used = /datum/skill/craft/engineering
 	surgery_flags = SURGERY_INCISED | SURGERY_RETRACTED | SURGERY_CONSTRUCT
+	surgery_flags_blocked = null
 
 /// Mold organs
 /datum/surgery_step/make_organs/construct
 	name = "Mold auxiliary components"
 	skill_used = /datum/skill/craft/engineering
 	surgery_flags = SURGERY_INCISED | SURGERY_RETRACTED | SURGERY_CONSTRUCT
+	surgery_flags_blocked = null
 
 /datum/surgery_step/amputate/construct
 	skill_used = /datum/skill/craft/engineering
 	surgery_flags = SURGERY_INCISED | SURGERY_BROKEN | SURGERY_CONSTRUCT
+	surgery_flags_blocked = null
 
 /datum/surgery_step/relocate_bone/construct
 	name = "Resecure internal support structure"
 	skill_used = /datum/skill/craft/engineering
 	surgery_flags = SURGERY_DISLOCATED | SURGERY_CONSTRUCT
+	surgery_flags_blocked = null
 
 /datum/surgery_step/remove_external_organs/construct
 	surgery_flags = SURGERY_INCISED | SURGERY_CONSTRUCT
 	skill_used = /datum/skill/craft/engineering
+	surgery_flags_blocked = null
 
 /datum/surgery_step/add_prosthetic/construct
 	surgery_flags = SURGERY_CONSTRUCT
 	skill_used = /datum/skill/craft/engineering
+	surgery_flags_blocked = null
 
 /datum/surgery_step/remove_prosthetic/construct
 	surgery_flags = SURGERY_CONSTRUCT
 	skill_used = /datum/skill/craft/engineering
+	surgery_flags_blocked = null
