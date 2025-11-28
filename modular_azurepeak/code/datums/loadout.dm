@@ -670,7 +670,7 @@ GLOBAL_LIST_EMPTY(loadout_items)
 
 /datum/loadout_item/scabbard
 	name = "scabbard"
-	path = /obj/item/rogueweapon/scabbard
+	path = /obj/item/rogueweapon/scabbard/sword
 
 /datum/loadout_item/sheath
 	name = "dagger sheath"
