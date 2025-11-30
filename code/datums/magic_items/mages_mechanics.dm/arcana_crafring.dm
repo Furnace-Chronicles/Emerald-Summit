@@ -103,7 +103,7 @@
 	reqs = list(/obj/item/rope/chain/bindingshackles = 1,
 				/obj/item/magic/melded/t2 = 1)
 	craftdiff = 2
-
+/*
 /datum/crafting_recipe/roguetown/arcana/bindingt3
 	name = "binding shackles (T3)"
 	result = /obj/item/rope/chain/bindingshackles/t3
@@ -124,7 +124,7 @@
 	reqs = list(/obj/item/rope/chain/bindingshackles/t4 = 1,
 				/obj/item/magic/melded/t5 = 1)
 	craftdiff = 2
-
+*/
 /datum/crafting_recipe/roguetown/arcana/forge
 	name = "infernal forge"
 	req_table = FALSE
