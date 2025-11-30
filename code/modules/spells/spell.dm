@@ -440,14 +440,6 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 				source_turf = get_step_multiz(source_turf, UP)
 			if(A.z < user.z)
 				source_turf = get_step_multiz(source_turf, DOWN)
-			if(!(target_turf in view(source_turf)))
-				to_chat(user, span_warning("I do not have line of sight! Casting on nearest tile."))
-				var/list/possible_targets = getline(source_turf, target_turf)
-				for(var/i = possible_targets.len; i > 0; i--) // Since turfs added by the getline are in ordered by distance, we need to start from the end
-					var/atom/closest_tile = possible_targets[i]
-					if(closest_tile in view(source_turf))
-						targets[1] = closest_tile
-						break; // Found furthest tile, do not self-frag
 
 	before_cast(targets, user = user)
 	if(user && user.ckey)
