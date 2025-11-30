@@ -125,7 +125,10 @@
 	backpack_contents = list(
 		/obj/item/roguegem/amethyst = 1,
 		/obj/item/seeds/swampweed = 1,
-		/obj/item/seeds/pipeweed = 1,
+		/obj/item/herbseed/calendula = 1,
+		/obj/item/herbseed/urtica = 1,
+		/obj/item/herbseed/salvia = 1,
+		/obj/item/herbseed/symphitum = 1,
 		/obj/item/recipe_book/alchemy = 1,
 		/obj/item/recipe_book/magic = 1,
 		/obj/item/ritechalk = 1,

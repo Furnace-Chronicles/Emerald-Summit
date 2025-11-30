@@ -322,3 +322,46 @@
 	craftdiff = 2
 	skillcraft = /datum/skill/misc/medicine
 	verbage_simple = "fleshcraft"
+
+/datum/crafting_recipe/roguetown/alchemy/medicinal
+	skillcraft = /datum/skill/misc/medicine
+
+/datum/crafting_recipe/roguetown/alchemy/medicinal/medherbs
+	name = "Herbes de Medicia"
+	category = "Transmutation"
+	result = list(/obj/item/alch/medherbs = 1)
+	reqs = list(/obj/item/alch/salvia = 1, /obj/item/alch/calendula = 1, /obj/item/alch/urtica = 1)
+	craftdiff = 3
+	verbage_simple = "mix"
+
+/datum/crafting_recipe/roguetown/alchemy/medicinal/brutemed
+	name = "Precursor to Calendugoric"
+	category = "Transmutation"
+	result = list(/obj/item/reagent_containers/glass/bottle/alchemical/brutemed = 1)
+	reqs = list(/obj/item/reagent_containers/glass/bottle/alchemical = 1, /datum/reagent/precursor = 27, /obj/item/alch/calendula = 1)
+	craftdiff = 3
+	verbage_simple = "mix"
+
+/datum/crafting_recipe/roguetown/alchemy/medicinal/woundmed
+	name = "Precursor to Milk of Urtica"
+	category = "Transmutation"
+	result = list(/obj/item/reagent_containers/glass/bottle/alchemical/woundmed = 1)
+	reqs = list(/obj/item/reagent_containers/glass/bottle/alchemical = 1, /datum/reagent/precursor = 27, /obj/item/alch/urtica = 1)
+	craftdiff = 3
+	verbage_simple = "mix"
+
+/datum/crafting_recipe/roguetown/alchemy/medicinal/burnmed
+	name = "Precursor to Saluvanum"
+	category = "Transmutation"
+	result = list(/obj/item/reagent_containers/glass/bottle/alchemical/burnmed = 1)
+	reqs = list(/obj/item/reagent_containers/glass/bottle/alchemical = 1, /datum/reagent/precursor = 27, /obj/item/alch/salvia = 1)
+	craftdiff = 3
+	verbage_simple = "mix"
+
+/datum/crafting_recipe/roguetown/alchemy/medicinal/bloodmed
+	name = "Precursor to Symphebrim"
+	category = "Transmutation"
+	result = list(/obj/item/reagent_containers/glass/bottle/alchemical/bloodmed = 1)
+	reqs = list(/obj/item/reagent_containers/glass/bottle/alchemical = 1, /datum/reagent/precursor = 27, /obj/item/alch/symphitum = 1)
+	craftdiff = 4
+	verbage_simple = "mix"

@@ -49,6 +49,17 @@
 	craftsound = null
 	skillcraft = null
 
+/datum/crafting_recipe/roguetown/survival/drymanabloom
+	name = "dry mana bloom"
+	result = /obj/item/alch/driedbloom
+	reqs = list(/obj/item/reagent_containers/food/snacks/grown/manabloom = 1)
+	structurecraft = /obj/machinery/tanningrack
+	time = 2 SECONDS
+	verbage_simple = "dry"
+	verbage = "dries"
+	craftsound = null
+	skillcraft = null
+
 /datum/crafting_recipe/roguetown/survival/dryrosa
 	name = "dry rosa petals"
 	result = /obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals_dried

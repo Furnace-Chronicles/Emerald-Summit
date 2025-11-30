@@ -3,7 +3,8 @@
 	var/name = "" //The name of the recipe, kinda there just in case.
 	var/category = "Potions"
 	var/smells_like = "nothing" //cauldron emits this smell when done, and alchemists can sniff ingredients to find what they do
-	var/skill_required = SKILL_LEVEL_APPRENTICE // Minimum skill to create this recipe successfully (It just won't mix otherwise) - Minimum Apprentice 
+	var/fillreagent = /datum/reagent/water
+	var/skill_required = SKILL_LEVEL_APPRENTICE // Minimum skill to create this recipe successfully (It just won't mix otherwise) - Minimum Apprentice
 	var/list/output_reagents = list() //list of paths of new reagents to create in the cauldron. Remember, 1 oz is 3 units! [reagent = amnt]
 	var/list/output_items = list() //List of paths for new items that should be created, [path = chance to be created]
 

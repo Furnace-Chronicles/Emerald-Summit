@@ -229,6 +229,27 @@
 	med_pot = /datum/alch_cauldron_recipe/lck_potion
 	minor_pot = /datum/alch_cauldron_recipe/int_potion
 
+/obj/item/alch/meld
+	name = "arcanic dust"
+	desc = "An arcanic meld processed for alchemical use."
+	icon_state = "bluepowder"
+
+	major_pot = /datum/alch_cauldron_recipe/mana_buffer
+
+/obj/item/alch/driedbloom
+	name = "dried mana bloom"
+	desc = "The dried out petals of a mana bloom."
+	icon_state = "driedbloom"
+
+	med_pot = /datum/alch_cauldron_recipe/mana_buffer
+
+/obj/item/alch/medherbs
+	name = "herbes de medicia"
+	desc = "A mixture of calendula, urtica, and salvia prepared for medicinal use."
+	icon_state = "herbmix"
+
+	major_pot = /datum/alch_cauldron_recipe/precursor
+
 /obj/item/alch/transisdust
 	name = "sui dust"
 	desc = "A long mix of herbs resulting in a special dust. For you. Use it while held."
@@ -309,7 +330,7 @@
 	icon_state = "symphitum"
 
 	major_pot = /datum/alch_cauldron_recipe/health_potion
-	med_pot = /datum/alch_cauldron_recipe/stam_poison
+	med_pot = /datum/alch_cauldron_recipe/precursor
 	minor_pot = /datum/alch_cauldron_recipe/antidote
 
 /obj/item/alch/taraxacum
@@ -394,8 +415,8 @@
 	icon_state = "valeriana"
 
 	major_pot = /datum/alch_cauldron_recipe/health_potion
-	med_pot = /datum/alch_cauldron_recipe/spd_potion
-	minor_pot = /datum/alch_cauldron_recipe/stam_poison
+	med_pot = /datum/alch_cauldron_recipe/stam_poison
+	minor_pot = /datum/alch_cauldron_recipe/spd_potion
 
 /obj/item/alch/artemisia
 	name = "artemisia"

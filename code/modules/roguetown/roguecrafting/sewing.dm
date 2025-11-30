@@ -727,7 +727,7 @@ datum/crafting_recipe/roguetown/sewing/Purdress
 				/obj/item/natural/fibers = 4,
 				/obj/item/natural/silk = 4)
 	tools = list(/obj/item/needle)
-	craftdiff = 7
+	craftdiff = 6
 	sellprice = 65
 
 /datum/crafting_recipe/roguetown/sewing/regalrobes

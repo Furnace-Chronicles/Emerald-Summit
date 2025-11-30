@@ -75,12 +75,12 @@
 		M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_MAXIMUM)
 	if(wCount.len > 0)
 		//some peeps dislike the church, this allows an alternative thats not a doctor or sleep.
-		M.heal_wounds(8)
+		M.heal_wounds(6)
 		M.update_damage_overlays()
 		if(prob(10))
 			to_chat(M, span_nicegreen("I feel my wounds mending."))
-	M.adjustBruteLoss(-5, 0) //25 brute damage healed per sip. More than before, but blood recovery and wound healing were nerfed.
-	M.adjustFireLoss(-5, 0)
+	M.adjustBruteLoss(-4, 0) //25 brute damage healed per sip. More than before, but blood recovery and wound healing were nerfed.
+	M.adjustFireLoss(-4, 0)
 	M.adjustOxyLoss(-8, 0) //200 oxyloss kills you, this reduces it by 40 each sip.
 	M.adjustCloneLoss(-3, 0)
 	for(var/obj/item/organ/organny in M.internal_organs)
@@ -113,6 +113,77 @@
 	for(var/obj/item/organ/organny in M.internal_organs)
 		M.adjustOrganLoss(organny.slot, -7)
 	..()
+	. = 1
+
+/datum/reagent/medicine/brutemed
+	name = "Calendugoric"
+	description = "Efficiently converts burns into toxins, but causes nausea."
+	color = "#9e5721"
+	taste_description = "warm honey"
+	metabolization_rate = REAGENTS_METABOLISM
+
+/datum/reagent/medicine/brutemed/on_mob_life(mob/living/carbon/M)
+	var/list/wCount = M.get_wounds()
+	if(wCount.len > 0)
+		M.heal_wounds(6)
+		M.update_damage_overlays()
+		if(prob(10))
+			to_chat(M, span_nicegreen("I feel my wounds mending."))
+	M.adjustBruteLoss(-10, 0)
+	M.adjustToxLoss(2, 0)
+	M.add_nausea(2)
+	..()
+	. = 1
+
+/datum/reagent/medicine/woundmed
+	name = "Milk of Urtica"
+	description = "Quickly heals wounds, but causes blood loss."
+	color = "#595489"
+	taste_description = "mushrooms"
+	metabolization_rate = REAGENTS_METABOLISM
+
+/datum/reagent/medicine/woundmed/on_mob_life(mob/living/carbon/M)
+	var/list/wCount = M.get_wounds()
+	if(wCount.len > 0)
+		M.heal_wounds(16)
+		M.update_damage_overlays()
+		if(prob(10))
+			to_chat(M, span_nicegreen("I feel my wounds mending."))
+	M.adjustBruteLoss(-2, 0)
+	for(var/obj/item/organ/organny in M.internal_organs)
+		M.adjustOrganLoss(organny.slot, -10)
+	M.blood_volume = max(M.blood_volume - 5, 0)
+	..()
+	. = 1
+
+/datum/reagent/medicine/burnmed
+	name = "Saluvanum"
+	description = "Efficiently converts burns into toxins."
+	color = "#724770"
+	taste_description = "flowers"
+	metabolization_rate = REAGENTS_METABOLISM
+
+/datum/reagent/medicine/burnmed/on_mob_life(mob/living/carbon/M)
+	M.adjustFireLoss(-12, 0)
+	M.adjustToxLoss(3, 0)
+	..()
+	. = 1
+
+/datum/reagent/medicine/bloodmed
+	name = "Symphebrim"
+	description = "Quickly regenerates blood, but induces exhaustion and nausea."
+	color = "#5d3436"
+	taste_description = "paper"
+	metabolization_rate = REAGENTS_METABOLISM
+
+/datum/reagent/medicine/bloodmed/on_mob_life(mob/living/carbon/M)
+	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+		M.blood_volume = min(M.blood_volume+30, BLOOD_VOLUME_MAXIMUM)
+	else
+		M.blood_volume = min(M.blood_volume+10, BLOOD_VOLUME_MAXIMUM)
+	..()
+	M.stamina_add(5)
+	M.add_nausea(2)
 	. = 1
 
 /datum/chemical_reaction/manapotdilution
@@ -475,6 +546,22 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	color = "#330066"
 	taste_description = "tombstones"
 	metabolization_rate = 0.1
+
+/datum/reagent/precursor
+	name = "Medicia Precursor"
+	description = ""
+	reagent_state = LIQUID
+	color = "#9C6870"
+	taste_description = "medicine"
+	metabolization_rate = 0.5
+
+/datum/reagent/manabuffer
+	name = "Mana Buffer"
+	description = ""
+	reagent_state = LIQUID
+	color = "#46745F"
+	taste_description = "magic"
+	metabolization_rate = 0.5
 
 /datum/reagent/toxin/fyritiusnectar
 	name = "fyritius nectar"

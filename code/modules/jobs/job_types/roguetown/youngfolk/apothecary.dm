@@ -64,6 +64,10 @@
 	backpack_contents = list(
 		/obj/item/natural/worms/leech/cheele = 1,
 		/obj/item/recipe_book/alchemy = 1,
+		/obj/item/herbseed/calendula = 1,
+		/obj/item/herbseed/urtica = 1,
+		/obj/item/herbseed/salvia = 1,
+		/obj/item/herbseed/symphitum = 1,
 	)
 
 	if(H.mind)

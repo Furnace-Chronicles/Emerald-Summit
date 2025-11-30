@@ -59,10 +59,9 @@
 	if(on)
 		if(ingredients.len)
 			if(brewing < 20)
-				if(src.reagents.has_reagent(/datum/reagent/water,90))
-					brewing++
-					if(prob(10))
-						playsound(src, "bubbles", 100, FALSE)
+				brewing++
+				if(prob(10))
+					playsound(src, "bubbles", 100, FALSE)
 			else if(brewing == 20)
 				var/list/outcomes = list()
 				for(var/obj/item/ing in src.ingredients)
@@ -89,17 +88,21 @@
 					var/result_path = outcomes[1]
 					var/datum/alch_cauldron_recipe/found_recipe = new result_path
 					var/amt2raise = lastuser?.STAINT*2
-					var/in_cauldron = src?.reagents?.get_reagent_amount(/datum/reagent/water)
+					var/in_cauldron = src?.reagents?.get_reagent_amount(found_recipe.fillreagent)
 					// Handle skillgating
 					if(!lastuser)
 						brewing = 0
 						src.visible_message(span_info("The cauldron can't brew anything without an alchemist to guide it."))
 						return
+					if(!src.reagents.has_reagent(found_recipe.fillreagent, 90))
+						brewing = 0
+						src.visible_message(span_info("This is not enough of the required reagent!"))
+						return
 					if(found_recipe.skill_required > lastuser?.get_skill_level(/datum/skill/craft/alchemy))
 						brewing = 0
 						src.visible_message(span_warning("The ingredients in the cauldron melds together into a disgusting mess! Perhaps a more skilled alchemist is needed for this recipe."))
 						if(reagents)
-							src.reagents.remove_reagent(/datum/reagent/water, in_cauldron)
+							src.reagents.remove_reagent(found_recipe.fillreagent, in_cauldron)
 						for(var/obj/item/ing in src.ingredients)
 							qdel(ing)
 						src.reagents.add_reagent(/datum/reagent/yuck, in_cauldron) // 1 to 1 transmutation of yuck
@@ -109,7 +112,7 @@
 					for(var/obj/item/ing in src.ingredients)
 						qdel(ing)
 					if(reagents)
-						src.reagents.remove_reagent(/datum/reagent/water, in_cauldron)
+						src.reagents.remove_reagent(found_recipe.fillreagent, in_cauldron)
 					if(found_recipe.output_reagents.len)
 						src.reagents.add_reagent_list(found_recipe.output_reagents)
 					if(found_recipe.output_items.len)

@@ -81,7 +81,19 @@
 	list_reagents = list(/datum/reagent/medicine/manapot = 27)
 
 /obj/item/reagent_containers/glass/bottle/alchemical/strongmanapot
-	list_reagents = list(/datum/reagent/medicine/strongmana = 27)	
+	list_reagents = list(/datum/reagent/medicine/strongmana = 27)
+
+/obj/item/reagent_containers/glass/bottle/alchemical/brutemed
+	list_reagents = list(/datum/reagent/medicine/brutemed = 27)
+
+/obj/item/reagent_containers/glass/bottle/alchemical/woundmed
+	list_reagents = list(/datum/reagent/medicine/woundmed = 27)
+
+/obj/item/reagent_containers/glass/bottle/alchemical/burnmed
+	list_reagents = list(/datum/reagent/medicine/burnmed = 27)
+
+/obj/item/reagent_containers/glass/bottle/alchemical/bloodmed
+	list_reagents = list(/datum/reagent/medicine/bloodmed = 27)
 
 //////////////////////////
 /// ALCOHOLIC BOTTLES ///

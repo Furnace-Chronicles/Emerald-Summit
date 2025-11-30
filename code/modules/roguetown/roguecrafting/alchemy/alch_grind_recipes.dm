@@ -299,3 +299,9 @@
 	name = "Herb Seed (Rosa)"
 	valid_input = /obj/item/alch/rosa
 	valid_outputs = list(/obj/item/herbseed/rosa = 1)
+
+/datum/alch_grind_recipe/meld
+	name = "Arcanic Dust"
+	valid_input = /obj/item/magic/melded/t1
+	valid_outputs = list(/obj/item/alch/meld = 1)
+	bonus_chance_outputs = list(/obj/item/alch/meld = 66)
