@@ -339,7 +339,7 @@
 	category = "Transmutation"
 	result = list(/obj/item/reagent_containers/glass/bottle/alchemical/brutemed = 1)
 	reqs = list(/obj/item/reagent_containers/glass/bottle/alchemical = 1, /datum/reagent/precursor = 27, /obj/item/alch/calendula = 1)
-	craftdiff = 3
+	craftdiff = 4
 	verbage_simple = "mix"
 
 /datum/crafting_recipe/roguetown/alchemy/medicinal/woundmed
@@ -347,7 +347,7 @@
 	category = "Transmutation"
 	result = list(/obj/item/reagent_containers/glass/bottle/alchemical/woundmed = 1)
 	reqs = list(/obj/item/reagent_containers/glass/bottle/alchemical = 1, /datum/reagent/precursor = 27, /obj/item/alch/urtica = 1)
-	craftdiff = 3
+	craftdiff = 4
 	verbage_simple = "mix"
 
 /datum/crafting_recipe/roguetown/alchemy/medicinal/burnmed
@@ -355,7 +355,7 @@
 	category = "Transmutation"
 	result = list(/obj/item/reagent_containers/glass/bottle/alchemical/burnmed = 1)
 	reqs = list(/obj/item/reagent_containers/glass/bottle/alchemical = 1, /datum/reagent/precursor = 27, /obj/item/alch/salvia = 1)
-	craftdiff = 3
+	craftdiff = 4
 	verbage_simple = "mix"
 
 /datum/crafting_recipe/roguetown/alchemy/medicinal/bloodmed
