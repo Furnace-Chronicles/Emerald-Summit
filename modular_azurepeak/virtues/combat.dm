@@ -203,3 +203,10 @@
 		else
 			recipient.mob_biotypes |= MOB_UNDEAD //Undead biotype is already applied by damned vice.
 
+/datum/virtue/combat/crimson_curse
+	name = "Crimson Curse"
+	desc = "Whether by embrace, dark rituals, or other means, you are a thin-blood - The weakest of Kaine's children. You thirst for blood and shun the light of day, yet possess few powers from this 'gift'. Some whisper you might surpass your by devouring more powerful Kindred in the terrible sin of Dialberie."
+
+/datum/virtue/combat/crimson_curse/apply_to_human(mob/living/carbon/human/recipient)
+	var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(forced_clan = FALSE, generation = GENERATION_THINBLOOD, has_crimson_curse = TRUE)
+	recipient.mind.add_antag_datum(new_antag)
