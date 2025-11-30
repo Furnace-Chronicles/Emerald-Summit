@@ -27,9 +27,11 @@
 	always_show_on_latechoices = TRUE
 	job_reopens_slots_on_death = TRUE
 	same_job_respawn_delay = 1 MINUTES
-	virtue_restrictions = list(/datum/virtue/heretic/zchurch_keyholder) //all wretch classes automatically get this
+	virtue_restrictions = list(
+		/datum/virtue/heretic/zchurch_keyholder, //all wretch classes automatically get this
+		/datum/virtue/combat/crimson_curse, //Impossible to balance because of the combination of clan stuff + wretch traits. Maybe could be enabled later. 
+	 ) 
 	carebox_table = /datum/carebox_table/wretch
-
 	job_traits = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_OUTLAW, TRAIT_HERESIARCH)
 	job_subclasses = list(
 		/datum/advclass/wretch/licker,

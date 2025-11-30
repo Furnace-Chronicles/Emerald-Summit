@@ -27,10 +27,11 @@
 		/datum/advclass/templar/crusader
 	)
 
-	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts.
+	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts. No vampires either
 	virtue_restrictions = list(
 		/datum/virtue/utility/noble,
 		/datum/virtue/utility/blueblooded,
+		/datum/virtue/combat/crimson_curse,
 	)
 
 /datum/job/roguetown/templar/after_spawn(mob/living/L, mob/M, latejoin = TRUE)

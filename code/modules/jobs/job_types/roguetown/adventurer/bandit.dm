@@ -40,6 +40,9 @@
 		/datum/advclass/sawbones,
 		/datum/advclass/sellsword
 	)
+	virtue_restrictions = list(
+		/datum/virtue/combat/crimson_curse,
+	)
 
 /datum/job/roguetown/bandit/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
