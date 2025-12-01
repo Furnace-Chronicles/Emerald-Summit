@@ -284,9 +284,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				icon_state = "[initial(icon_state)]1"
 				var/datum/component/decal/blood/B = GetComponent(/datum/component/decal/blood)
 				if(B)
-					B.remove()
-					B.generate_appearance()
-					B.apply()
+					update_bloody_state()
 				if (obj_broken)
 					update_damaged_state()
 			return
@@ -295,9 +293,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				icon_state = "[initial(icon_state)]1"
 				var/datum/component/decal/blood/B = GetComponent(/datum/component/decal/blood)
 				if(B)
-					B.remove()
-					B.generate_appearance()
-					B.apply()
+					update_bloody_state()
 				if (obj_broken)
 					update_damaged_state()
 			if(toggle_state)
@@ -310,9 +306,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				icon_state = "[toggle_state]"
 			var/datum/component/decal/blood/B = GetComponent(/datum/component/decal/blood)
 			if(B)
-				B.remove()
-				B.generate_appearance()
-				B.apply()
+				update_bloody_state()
 			if (obj_broken)
 				update_damaged_state()
 
@@ -1391,7 +1385,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		return TRUE
 	if (ismob(loc) && !always_destroy)
 		return FALSE
-
+	
 	obj_destroyed = TRUE
 	if(destroy_sound)
 		playsound(src, destroy_sound, 100, TRUE)
@@ -1402,15 +1396,21 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	return TRUE
 
 /obj/item/proc/update_damaged_state()
-	cut_overlays()
+	remove_filter("damagedfilter")
 	if (!obj_broken)
 		return
-	var/icon/damaged_icon = icon(initial(icon), icon_state, , TRUE)
-	damaged_icon.Blend("#fff", ICON_ADD)
-	damaged_icon.Blend(icon(dam_icon, dam_icon_state), ICON_MULTIPLY)
-	var/mutable_appearance/damage = new(damaged_icon)
-	damage.alpha = 150
-	add_overlay(damage)
+		
+	var/icon/damaged_icon = icon(dam_icon, dam_icon_state)
+	add_filter("damagedfilter", 1, list("type" = "layer", icon = damaged_icon, blend_mode = BLEND_INSET_OVERLAY, color = rgb(255,255,255,155) , transform = src.transform) )
+
+
+/obj/item/proc/update_bloody_state()
+
+	remove_filter("bloodyfilter")
+	if(!GetComponent(/datum/component/decal/blood))
+		return //There's almost certainly a cleaner way to do this.
+	var/icon/damaged_icon = icon(bloody_icon, bloody_icon_state)
+	add_filter("bloodyfilter", 1, list("type" = "layer", icon = damaged_icon, blend_mode = BLEND_INSET_OVERLAY, color = rgb(255,255,255,150), transform = src.Transform) )
 
 /// Proc that is only called with the Peel intent. Stacks consecutive hits, shreds coverage once a threshold is met. Thresholds are defined on /obj/item
 /obj/item/proc/peel_coverage(bodypart, divisor, mob/living/carbon/human/owner)

@@ -8,7 +8,7 @@
 	RegisterSignal(parent, COMSIG_ATOM_GET_EXAMINE_NAME, PROC_REF(get_examine_name))
 
 /datum/component/decal/blood/generate_appearance(_icon, _icon_state, _dir, _layer, _color)
-	testing("genappearance")
+/*	testing("genappearance")
 	var/obj/item/I = parent
 	if(I.bigboy)
 		if(!_icon)
@@ -37,9 +37,16 @@
 		blood_splatter_appearances[index] = pic
 	pic.alpha = 150
 	return TRUE
-
+*/
 /datum/component/decal/blood/proc/get_examine_name(datum/source, mob/user, list/override)
 	var/atom/A = parent
 	override[EXAMINE_POSITION_ARTICLE] = A.gender == PLURAL? "some" : "a"
 	override[EXAMINE_POSITION_BEFORE] = " <span class='bloody'>bloody</span> "
 	return COMPONENT_EXNAME_CHANGED
+
+/datum/component/decal/blood/Destroy()
+	if(isitem(parent))
+		var/obj/item/I = parent
+		I.remove_filter("bloodyfilter")
+	. = ..()
+	
