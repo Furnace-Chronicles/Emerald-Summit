@@ -914,7 +914,7 @@
 	icon_state = "flutedcuirass"
 	desc = "A sturdy steel cuirass with tassets. Supposedly protective, though maybe not against crossbow bolts."
 
-	body_parts_covered = COVERAGE_ALL_BUT_ARMS
+	body_parts_covered = COVERAGE_TORSO
 	max_integrity = 350
 
 /obj/item/clothing/suit/roguetown/armor/plate/half/fluted/ornate
