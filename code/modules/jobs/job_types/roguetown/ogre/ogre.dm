@@ -3,8 +3,8 @@
 	flag = OGRE
 	department_flag = PEASANTS
 	faction = "Station"
-	total_positions = 1
-	spawn_positions = 1
+	total_positions = 5
+	spawn_positions = 5
 	allowed_races = OGRE_RACE_TYPES
 	allowed_sexes = list(MALE)
 	tutorial = "You are a travelling Ogre, who once originated from Gronn. You're so, so very hungry."
@@ -22,3 +22,4 @@
 	cmode_music = 'sound/music/combat.ogg'
 
 	job_traits = list(TRAIT_OUTLANDER)
+

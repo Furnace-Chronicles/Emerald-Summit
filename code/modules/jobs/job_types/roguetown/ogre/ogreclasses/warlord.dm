@@ -10,8 +10,8 @@
 	traits_applied = list(TRAIT_NOPAINSTUN, TRAIT_CALTROPIMMUNE, TRAIT_STRONGBITE, TRAIT_MEDIUMARMOR) //strongbite might be funny
 	subclass_stats = list( 
 		STATKEY_STR = 3, 
-		STATKEY_CON = 2,
-		STATKEY_END = 2,
+		STATKEY_CON = 4,
+		STATKEY_END = 3,
 	)
 
 	subclass_skills = list(

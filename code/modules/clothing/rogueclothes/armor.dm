@@ -1739,5 +1739,5 @@
 	desc = "An absurdly large piece of armor, meant for an absurdly large man."
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
 	icon_state = "ogre_cuirass"
-	max_integrity = 450 // i think this is fine for a one slot role
+	max_integrity = 600 // wow these guys are super weak
 	allowed_race = OGRE_RACE_TYPES
