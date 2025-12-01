@@ -113,13 +113,17 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)	//Capped to T1 miracles.
 
-	var/weapons = list("Katar","Knuckle Dusters")
+	var/weapons = list("Katar","Knuckle Dusters","Quarterstaff")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Katar")
 			backpack_contents += list(/obj/item/rogueweapon/katar = 1)
 		if("Knuckle Dusters")
 			backpack_contents += list(/obj/item/rogueweapon/knuckles/bronzeknuckles = 1)
+		if("Quarterstaff")
+			H.put_in_hands += list(/obj/item/rogueweapon/woodstaff/quarterstaff/steel = 1)
+			H.adjust_skillrank(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/unarmed, SKILL_LEVEL_NOVICE, TRUE)
 	H.cmode_music = 'sound/music/combat_holy.ogg' // left in bc i feel like monk players want their darktide
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
