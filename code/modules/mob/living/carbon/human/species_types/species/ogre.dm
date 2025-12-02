@@ -23,7 +23,7 @@
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/ogre.dmi'
-	limbs_icon_f = 'icons/roguetown/mob/bodies/f/ogre.dmi' //same sprite as the male vers
+	limbs_icon_f = 'icons/roguetown/mob/bodies/f/ogre.dmi'
 	dam_icon = 'icons/roguetown/mob/bodies/dam/ogre.dmi' //honestly super fucked & needs an entirely new sprite but it'll be fine for now, probably
 	dam_icon_f = 'icons/roguetown/mob/bodies/dam/ogre.dmi' // see above
 	use_m = TRUE

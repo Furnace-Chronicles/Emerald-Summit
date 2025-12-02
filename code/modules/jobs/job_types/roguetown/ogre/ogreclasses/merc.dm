@@ -1,7 +1,7 @@
 /datum/advclass/ogre/mercenary
 	name = "Mercenary" 
 	tutorial = "Hailing from Gronn, you've learned that ogres are tolerated if they provide their massive strength to others, and coin can help you get more ale and meat if you got enough of it. You've come to Scarlet Reach with a simple goal. Get paid, get food."
-	allowed_sexes = list(MALE) // sorry ladies
+	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = /datum/species/ogre
 	outfit = /datum/outfit/job/roguetown/ogre/mercenary
 	category_tags = list(CTAG_OGRE)

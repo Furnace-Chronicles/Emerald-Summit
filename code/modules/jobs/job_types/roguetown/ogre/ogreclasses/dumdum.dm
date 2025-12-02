@@ -1,7 +1,7 @@
 /datum/advclass/ogre/dumdum
 	name = "Dum Dum" 
 	tutorial = " You left Gronn because you could not find enough to eat there, and mean men kept firing arrows at you! Now you are here, and you are hungry. Time to find food!"
-	allowed_sexes = list(MALE) // sorry ladies
+	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = /datum/species/ogre
 	outfit = /datum/outfit/job/roguetown/ogre/dumdum
 	category_tags = list(CTAG_OGRE)
