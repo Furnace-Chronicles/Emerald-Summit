@@ -1,4 +1,6 @@
+#ifdef MIRACLE_RADIAL_DMI
 #undef  MIRACLE_RADIAL_DMI
+#endif
 #define MIRACLE_RADIAL_DMI 'icons/mob/actions/roguespells.dmi'
 
 //  CONFIG Me BAlancerS
