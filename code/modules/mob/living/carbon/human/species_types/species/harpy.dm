@@ -7,6 +7,8 @@
 	is_subrace = TRUE
 	origin_default = /datum/virtue/origin/etrusca
 	origin = "Etrusca"
+	use_titles = TRUE
+	race_titles = list("Bat-Harpy", "Stork-Harpy", "Finch-Harpy", "Owl-Harpy", "Shrike-Harpy", "Condor-Harpy", "Parrot-Harpy", "Chicken-Harpy", "Turkey-Harpy", "Zad-Harpy", "Osprey-Harpy", "Pigeon-Harpy", "Dove-Harpy", "Gull-Harpy")
 	base_name = "Beastvolk"
 	desc = "<b>Harpy: Songbirds in Flight</b><br>\
 	Called ‘magpies’ by those distrusting or irritated, some mistake this species for a halfkin race. \

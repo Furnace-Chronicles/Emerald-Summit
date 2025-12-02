@@ -20,7 +20,10 @@
 	round_contrib_points = 3
 	social_rank = SOCIAL_RANK_YEOMAN
 
-
+	virtue_restrictions = list(
+		/datum/virtue/utility/failed_squire,
+		/datum/virtue/utility/blacksmith, // we don't want you repairing your stuff in combat, sorry...
+	)
 	outfit = /datum/outfit/job/roguetown/sergeant
 	advclass_cat_rolls = list(CTAG_SERGEANT = 20)
 
@@ -121,6 +124,7 @@
 		/obj/item/rope/chain = 1,
 		/obj/item/storage/keyring/guardsergeant = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/signal_horn = 1,
 	)
 	H.adjust_blindness(-3)
 	//triage fix - loadout is busted, needs fix. See https://github.com/Scarlet-Reach/Scarlet-Reach/issues/1226
@@ -358,7 +362,6 @@
 /obj/effect/proc_holder/spell/invoked/order/focustarget
 	name = "Focus target!"
 	overlay_state = "focustarget"
-
 
 /obj/effect/proc_holder/spell/invoked/order/focustarget/cast(list/targets, mob/living/user)
 	. = ..()

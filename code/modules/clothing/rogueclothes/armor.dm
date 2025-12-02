@@ -1141,7 +1141,7 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 3
 
-/obj/item/clothing/suit/roguetown/armor/heartfelt/lord
+/obj/item/clothing/suit/roguetown/armor/heartfelt
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "coat of armor"
 	desc = "A lordly coat of armor."
@@ -1160,22 +1160,35 @@
 	smelt_bar_num = 4
 
 /obj/item/clothing/suit/roguetown/armor/heartfelt/hand
-	slot_flags = ITEM_SLOT_ARMOR
-	name = "coat of armor"
-	desc = "A lordly coat of armor."
-	body_parts_covered = COVERAGE_FULL
 	icon_state = "heartfelt_hand"
 	item_state = "heartfelt_hand"
+
+/obj/item/clothing/suit/roguetown/armor/heartfelt/knight
+	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
+	icon_state = "bkarmor"
+	item_state = "bkarmor"
+	color = "#550000"
+
+/obj/item/clothing/suit/roguetown/armor/brigandine/heartfelt //Using brigandine for fancy coloring
+	slot_flags = ITEM_SLOT_ARMOR
+	name = "heartfeltian brigandine"
+	desc = "Lightweight composite armour made according to an Etruscan tradition. It's a high-quality arched plate cuirass sewn with dyed leather and fitted with a wide skirt at the bottom to cover the thighs."
+	icon_state = "brigandine"
+	blocksound = SOFTHIT
+	body_parts_covered = COVERAGE_FULL
 	armor = ARMOR_PLATE
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	allowed_sex = list(MALE, FEMALE)
 	nodismemsleeves = TRUE
-	blocking_behavior = null
-	max_integrity = 400
+	max_integrity = 300
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/steel
-	armor_class = ARMOR_CLASS_HEAVY
-	smelt_bar_num = 4
+	equip_delay_self = 4 SECONDS
+	armor_class = ARMOR_CLASS_MEDIUM // Medium to not give them heavy armor training
+	sleeved_detail = FALSE
+	boobed_detail = FALSE
 
 /obj/item/clothing/suit/roguetown/armor/plate/otavan
 	name = "otavan half-plate"

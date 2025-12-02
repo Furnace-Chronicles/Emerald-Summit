@@ -24,9 +24,13 @@
 	round_contrib_points = 2
 	social_rank = SOCIAL_RANK_MINOR_NOBLE
 
+	virtue_restrictions = list(
+		/datum/virtue/utility/failed_squire,
+		/datum/virtue/utility/blacksmith, // we don't want you repairing your stuff in combat, sorry...
+	)
 	cmode_music = 'sound/music/combat_knight.ogg'
 
-	job_traits = list(TRAIT_NOBLE, TRAIT_STEELHEARTED, TRAIT_GOODTRAINER, TRAIT_GUARDSMAN)
+	job_traits = list(TRAIT_NOBLE, TRAIT_STEELHEARTED, TRAIT_GOODTRAINER, TRAIT_GUARDSMAN_NOBLE)
 	job_subclasses = list(
 		/datum/advclass/knight/heavy,
 		/datum/advclass/knight/footknight,
@@ -85,7 +89,7 @@
 	traits_applied = list(TRAIT_HEAVYARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 3,//Heavy hitters. Less con/end, high strength.
-		STATKEY_INT = 4,
+		STATKEY_INT = 2,
 		STATKEY_CON = 1,
 		STATKEY_END = 1,
 		STATKEY_SPD = -1)
@@ -176,7 +180,7 @@
 	traits_applied = list(TRAIT_HEAVYARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 1,//Tanky, less strength, but high con/end.
-		STATKEY_INT = 3,
+		STATKEY_INT = 2,
 		STATKEY_CON = 3,
 		STATKEY_END = 3,
 	)
@@ -214,7 +218,7 @@
 		if("Flail")
 			beltr = /obj/item/rogueweapon/flail/sflail
 		if ("Warhammer")
-			beltr = /obj/item/rogueweapon/mace/warhammer //Iron warhammer. This is one-handed and pairs well with shields. They can upgrade to steel in-round.
+			beltr = /obj/item/rogueweapon/mace/warhammer/steel
 		if("Sabre")
 			beltl = /obj/item/rogueweapon/scabbard/sword
 			l_hand = /obj/item/rogueweapon/sword/sabre
@@ -266,7 +270,7 @@
 	//Decent all-around stats. Nothing spectacular. Ranged/melee hybrid class on horseback.
 	subclass_stats = list(
 		STATKEY_STR = 2,
-		STATKEY_INT = 3,
+		STATKEY_INT = 2,
 		STATKEY_CON = 1,
 		STATKEY_END = 1,
 		STATKEY_PER = 2
@@ -374,7 +378,7 @@
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_DODGEEXPERT)
 	subclass_stats = list(
 		STATKEY_STR = 1,
-		STATKEY_INT = 3,
+		STATKEY_INT = 2,
 		STATKEY_END = 2,
 		STATKEY_SPD = 2)
 

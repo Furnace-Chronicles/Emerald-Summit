@@ -61,7 +61,7 @@
 	name = "Crate of Lesser Health Potions"
 	desc = "Red that MIGHT keep men alive, on a budget."
 	item_type = /obj/structure/closet/crate/chest/steward/redpotionweak
-	export_price = 50
+	export_price = 75
 	importexport_amt = 1
 
 /obj/structure/closet/crate/chest/steward/redpotionweak/Initialize()
@@ -76,7 +76,7 @@
 	name = "Crate of Health Potions"
 	desc = "Red that keeps men alive."
 	item_type = /obj/structure/closet/crate/chest/steward/redpotion
-	export_price = 100
+	export_price = 200
 	importexport_amt = 1
 
 /obj/structure/closet/crate/chest/steward/redpotion/Initialize()
@@ -117,7 +117,7 @@
 	new /obj/item/clothing/suit/roguetown/armor/chainmail(src)
 	new /obj/item/clothing/suit/roguetown/armor/plate/full(src)
 	new /obj/item/clothing/shoes/roguetown/boots/armor(src)
-	new /obj/item/storage/keyring/guardcastle(src)
+	new /obj/item/storage/keyring/guardknight(src)
 	new /obj/item/storage/belt/rogue/leather/steel(src)
 	new /obj/item/rogueweapon/sword/long(src)
 
@@ -376,14 +376,85 @@
 	new /obj/item/natural/glass(src)
 	new /obj/item/natural/glass(src)
 
+/datum/roguestock/import/manorkeys
+	name = "Manor Keys Crate"
+	desc = "Three sets of keyrings issued to servants."
+	item_type = /obj/structure/closet/crate/chest/steward/manorkeys
+	export_price = 30
+	importexport_amt = 1
 
+/obj/structure/closet/crate/chest/steward/manorkeys/Initialize()
+	. = ..()
+	new /obj/item/storage/keyring/servant(src)
+	new /obj/item/storage/keyring/servant(src)
+	new /obj/item/storage/keyring/servant(src)
 
+/datum/roguestock/import/maakeys
+	name = "Man-at-Arms Keys Crate"
+	desc = "Three sets of keyrings issued to men at arms."
+	item_type = /obj/structure/closet/crate/chest/steward/manorkeys
+	export_price = 50
+	importexport_amt = 1
 
+/obj/structure/closet/crate/chest/steward/manorkeys/Initialize()
+	. = ..()
+	new /obj/item/storage/keyring/guardcastle(src)
+	new /obj/item/storage/keyring/guardcastle(src)
+	new /obj/item/storage/keyring/guardcastle(src)
 
+/datum/roguestock/import/knightkeys
+	name = "Knight Keys Crate"
+	desc = "One replacement keyring set for a poor knight."
+	item_type = /obj/structure/closet/crate/chest/steward/knightkeys
+	export_price = 50
+	importexport_amt = 1
 
+/obj/structure/closet/crate/chest/steward/knightkeys/Initialize()
+	. = ..()
+	new /obj/item/storage/keyring/guardknight(src)
 
+/datum/roguestock/import/dungeoneerkeys
+	name = "Dungeoneer Keys Crate"
+	desc = "One replacement keyring set for a dungeoneer."
+	item_type = /obj/structure/closet/crate/chest/steward/dungeoneerkeys
+	export_price = 40
+	importexport_amt = 1
 
+/obj/structure/closet/crate/chest/steward/dungeoneerkeys/Initialize()
+	. = ..()
+	new /obj/item/storage/keyring/dungeoneer(src)
 
+/datum/roguestock/import/judgekeys
+	name = "Marshal Keys Crate"
+	desc = "One replacement keyring set for the Marshal."
+	item_type = /obj/structure/closet/crate/chest/steward/judgekeys
+	export_price = 70
+	importexport_amt = 1
 
+/obj/structure/closet/crate/chest/steward/judgekeys/Initialize()
+	. = ..()
+	new /obj/item/storage/keyring/judge(src)
 
+/datum/roguestock/import/magekeys
+	name = "Court Magos Keys Crate"
+	desc = "One replacement keyring set for a court mage."
+	item_type = /obj/structure/closet/crate/chest/steward/magekeys
+	export_price = 80
+	importexport_amt = 1
 
+/obj/structure/closet/crate/chest/steward/magekeys/Initialize()
+	. = ..()
+	new /obj/item/storage/keyring/mage(src)
+
+/datum/roguestock/import/mageapprenticekeys
+	name = "Mage Apprentice Keys Crate"
+	desc = "Three replacement keyrings for some thralls."
+	item_type = /obj/structure/closet/crate/chest/steward/mageapprenticekeys
+	export_price = 60
+	importexport_amt = 1
+
+/obj/structure/closet/crate/chest/steward/mageapprenticekeys/Initialize()
+	. = ..()
+	new /obj/item/storage/keyring/mageapprentice(src)
+	new /obj/item/storage/keyring/mageapprentice(src)
+	new /obj/item/storage/keyring/mageapprentice(src)

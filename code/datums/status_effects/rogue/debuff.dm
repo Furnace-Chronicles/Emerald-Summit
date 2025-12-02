@@ -530,6 +530,44 @@
 	icon_state = "debuff"
 	color ="#7a0606"
 
+// Disgraced Knight debuff for town buff cancellation: -1 END, -1 SPE, -1 PER
+/datum/status_effect/debuff/disgracedknight_town
+	id = "Disgraced Knight (Town)!"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/disgracedknight_town
+	effectedstats = list("endurance" = -1, "speed" = -1, "perception" = -1)
+	duration = 999 MINUTES
+
+/atom/movable/screen/alert/status_effect/debuff/disgracedknight_town
+	name = "Disgraced Knight!"
+	desc = "I have been stripped of my honor and knighthood!"
+	icon_state = "muscles"
+	color = "#6d1313"
+
+/datum/status_effect/debuff/disgracedknight_town/process()
+	.=..()
+	var/area/rogue/our_area = get_area(owner)
+	if(!(our_area.town_area))
+		owner.remove_status_effect(/datum/status_effect/debuff/disgracedknight_town)
+
+// Disgraced Knight debuff for keep buff cancellation: -1 CON, -1 PER
+/datum/status_effect/debuff/disgracedknight_keep
+	id = "Disgraced Knight (Keep)!"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/disgracedknight_keep
+	effectedstats = list("constitution" = -1, "perception" = -1)
+	duration = 999 MINUTES
+
+/atom/movable/screen/alert/status_effect/debuff/disgracedknight_keep
+	name = "Disgraced Knight!"
+	desc = "I have been stripped of my honor and knighthood!"
+	icon_state = "muscles"
+	color = "#6d1313"
+
+/datum/status_effect/debuff/disgracedknight_keep/process()
+	.=..()
+	var/area/rogue/our_area = get_area(owner)
+	if(!(our_area.keep_area))
+		owner.remove_status_effect(/datum/status_effect/debuff/disgracedknight_keep)
+
 /datum/status_effect/debuff/hereticsermon
 	id = "Heretic on sermon!"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/hereticsermon
@@ -577,17 +615,6 @@
 	if(!(our_area.outdoors) || GLOB.tod != "day")
 		owner.remove_status_effect(/datum/status_effect/debuff/sensitivity)
 		owner.remove_stress(/datum/stressevent/sensitivity)
-
-/datum/status_effect/debuff/sunspurn
-	id = "Sunspurn"
-	alert_type =  /atom/movable/screen/alert/status_effect/debuff/sunspurn
-	effectedstats = list("strength" = -2, "endurance" = -3, "constitution" = -3)
-	duration = 1 MINUTES
-
-/atom/movable/screen/alert/status_effect/debuff/sunspurn
-	name = "Sunspurned"
-	desc = "Astrata spurns me! I feel so weak..."
-	icon_state = "muscles"
 
 ///////////////////////
 /// CLIMBING STUFF ///
@@ -655,6 +682,17 @@
 	name = "Climbing..."
 	desc = ""
 	icon_state = "muscles"
+
+/datum/status_effect/debuff/mesmerised
+	id = "mesmerised"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/mesmerised
+	effectedstats = list(STATKEY_STR = -2, STATKEY_LCK = -2, STATKEY_PER = -2, STATKEY_SPD = -2)
+	duration = 30 SECONDS
+
+/atom/movable/screen/alert/status_effect/debuff/mesmerised
+	name = "Mesmerised"
+	desc = span_warning("Their beauty is otherwordly..")
+	icon_state = "acid"
 
 /////////////////////////
 ///HARPY FLIGHT STUFF///

@@ -1,3 +1,6 @@
+#define DISGRACE_KNIGHT_COOLDOWN (30 SECONDS)
+#define FIRE_GUARD_COOLDOWN (30 SECONDS)
+
 /datum/job/roguetown/hand
 	title = "Hand"
 	flag = HAND
@@ -50,6 +53,12 @@
 
 /datum/job/roguetown/hand/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	. = ..()
+	if(L)
+		var/mob/living/carbon/human/H = L
+		if(istype(H))
+			H.verbs |= list(/mob/living/carbon/human/proc/disgrace_knight, /mob/living/carbon/human/proc/fire_guard)
+			H.hand_disgrace_cooldown = 0
+			H.hand_fire_guard_cooldown = 0
 	addtimer(CALLBACK(src, PROC_REF(know_agents), L), 5 SECONDS)
 
 /datum/job/roguetown/hand/proc/know_agents(var/mob/living/carbon/human/H)
@@ -59,6 +68,130 @@
 		to_chat(H, span_notice("We begun the week with these agents:"))
 		for(var/name in GLOB.court_agents)
 			to_chat(H, span_notice(name))
+
+// Disgrace Knight verb - available to Duke and Hand
+/mob/living/carbon/human
+	var/hand_disgrace_cooldown = 0
+	var/hand_fire_guard_cooldown = 0
+
+/mob/living/carbon/human/proc/disgrace_knight()
+	set name = "Disgrace Knight"
+	set category = "Nobility"
+
+	if(stat)
+		return
+
+	// Check cooldown and show remaining time BEFORE input
+	if(hand_disgrace_cooldown > world.time)
+		to_chat(src, span_warning("I need to wait [DisplayTimeText(hand_disgrace_cooldown - world.time)] before disgracing another knight."))
+		return FALSE
+
+	// Must be in the throne room
+	if(!istype(get_area(src), /area/rogue/indoors/town/manor))
+		to_chat(src, span_warning("I need to do this from the keep's manor."))
+		return FALSE
+
+	var/inputty = input("Disgrace or restore a knight's honor. Enter their name:", "Knight Honor") as text|null
+	if(!inputty)
+		return
+
+	// Find target knight
+	var/mob/living/carbon/human/target
+	for(var/mob/living/carbon/human/H in GLOB.player_list)
+		if(H == src)
+			continue
+		if(H.real_name == inputty)
+			target = H
+			break
+
+	if(!target)
+		to_chat(src, span_warning("Could not find anyone by that name."))
+		return FALSE
+
+	// Check if target is actually a Knight or Knight Captain
+	if(!(target.job == "Knight" || target.job == "Dame" || target.job == "Knight Captain"))
+		to_chat(src, span_warning("[target.real_name] is not a knight."))
+		return FALSE
+
+	hand_disgrace_cooldown = world.time + DISGRACE_KNIGHT_COOLDOWN
+
+	// If already disgraced, restore their honor
+	if(HAS_TRAIT(target, TRAIT_DISGRACED_KNIGHT))
+		REMOVE_TRAIT(target, TRAIT_DISGRACED_KNIGHT, TRAIT_GENERIC)
+		target.remove_stress(/datum/stressevent/disgracedknight)
+		target.remove_status_effect(/datum/status_effect/debuff/disgracedknight_town)
+		target.remove_status_effect(/datum/status_effect/debuff/disgracedknight_keep)
+		
+		to_chat(target, span_notice("Your honor and knighthood have been restored by [real_name]!"))
+		priority_announce("[real_name] has restored [inputty]'s honor and knighthood!", title = "Honor Restored", sound = 'sound/misc/bell.ogg')
+		return TRUE
+
+	// Otherwise, disgrace them
+	ADD_TRAIT(target, TRAIT_DISGRACED_KNIGHT, TRAIT_GENERIC)
+	target.add_stress(/datum/stressevent/disgracedknight)
+	// Add two debuffs to cancel out the knight town and keep buffs because of the perma-testmerged PR
+	// I'll fix this implementation after that PR gets merged, or closed.
+	target.apply_status_effect(/datum/status_effect/debuff/disgracedknight_town)
+	target.apply_status_effect(/datum/status_effect/debuff/disgracedknight_keep)
+	
+	to_chat(target, span_boldwarning("You have been stripped of your knighthood and honor by order of [real_name]!"))
+	priority_announce("[real_name] has disgraced [inputty], stripping them of their knighthood!", title = "DISHONOR", sound = 'sound/misc/excomm.ogg')
+	
+	return TRUE
+
+// Fire Guard verb - available to Duke, Hand, and Marshal
+/mob/living/carbon/human/proc/fire_guard()
+	set name = "Fire Guard"
+	set category = "Nobility"
+
+	if(stat)
+		return
+
+	// Check cooldown and show remaining time BEFORE input
+	if(hand_fire_guard_cooldown > world.time)
+		to_chat(src, span_warning("I need to wait [DisplayTimeText(hand_fire_guard_cooldown - world.time)] before firing another guard."))
+		return FALSE
+
+	var/inputty = input("Fire a guard from service. They cannot be re-hired. Enter their name:", "Fire Guard") as text|null
+	if(!inputty)
+		return
+
+	// Find target
+	var/mob/living/carbon/human/target
+	for(var/mob/living/carbon/human/H in GLOB.player_list)
+		if(H == src)
+			continue
+		if(H.real_name == inputty)
+			target = H
+			break
+
+	if(!target)
+		to_chat(src, span_warning("Could not find anyone by that name."))
+		return FALSE
+
+	// Check if target is actually a Man at Arms (guard with TRAIT_GUARDSMAN)
+	if(!(target.job == "Man at Arms" || target.job == "Woman at Arms"))
+		to_chat(src, span_warning("[target.real_name] is not a guard."))
+		return FALSE
+
+	if(!HAS_TRAIT(target, TRAIT_GUARDSMAN))
+		to_chat(src, span_warning("[target.real_name] is not currently serving as a guard."))
+		return FALSE
+
+	hand_fire_guard_cooldown = world.time + FIRE_GUARD_COOLDOWN
+
+	// Fire them - remove guard trait and change job to Towner
+	REMOVE_TRAIT(target, TRAIT_GUARDSMAN, JOB_TRAIT)
+	target.remove_status_effect(/datum/status_effect/buff/guardbuffone) // Remove the guard buff immediately
+	target.job = "Towner"
+	target.advjob = null // Clear their subclass so they don't show as their old advclass, yes I know this is hacky.
+	if(target.mind)
+		target.mind.assigned_role = "Towner"
+
+	to_chat(target, span_boldwarning("You have been dismissed from the guard by [real_name]!"))
+	priority_announce("[real_name] has dismissed [inputty] from the guard!", title = "Dismissal", sound = 'sound/misc/bell.ogg')
+
+	return TRUE
 
 
 
@@ -162,7 +295,7 @@
 
 /datum/advclass/hand/advisor
 	name = "Advisor"
-	tutorial = "You serve as both scholar and advisor to the Noble-Family, wielding knowledge and magicks with potent ability. Let no man forget whose ear you whisper into, your sage advice has saved more lives than any strategist’s orders or spymaster’s schemes could ever claim to."
+	tutorial = "You serve as both scholar and advisor to the Noble-Family, wielding knowledge and magicks with potent ability. Let no man forget whose ear you whisper into, your sage advice has saved more lives than any strategist's orders or spymaster's schemes could ever claim to."
 	outfit = /datum/outfit/job/roguetown/hand/advisor
 	category_tags = list(CTAG_HAND)
 

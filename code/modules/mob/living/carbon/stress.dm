@@ -82,6 +82,11 @@ GLOBAL_LIST_INIT(stress_messages, world.file2list("strings/rt/stress_messages.tx
 	else
 		remove_stress(/datum/stressevent/bleeding)
 
+	// Non-vampiric bloodpool regen.
+	// We assume that in non-vampires bloodpool represents "usable" blood that is regenerated slower than blood_volume
+	if(!clan && blood_volume > BLOOD_VOLUME_SAFE)
+		adjust_bloodpool(BLOODPOL_REGEN, FALSE)
+
 	var/ascending = (new_stress > oldstress)
 
 	if(new_stress != oldstress)

@@ -28,7 +28,7 @@
 
 /obj/structure/glowshroom/CanPass(atom/movable/mover, turf/target)
 	if(isliving(mover) && mover.z == z)
-//		var/throwdir = get_dir(src, mover)
+		var/throwdir = get_dir(src, mover)
 		var/mob/living/L = mover
 
 		if(HAS_TRAIT(L, TRAIT_KNEESTINGER_IMMUNITY)) //Dendor kneestinger immunity
@@ -44,12 +44,12 @@
 
 		if(L.electrocute_act(electrodam, src))
 			L.mob_timers["kneestinger"] = world.time
-			src.take_damage(15)
+			src.take_damage(30)
 			L.consider_ambush(always = TRUE)
 			if(L.throwing)
 				L.throwing.finalize(FALSE)
-//			if(mover.loc != loc && L.stat == CONSCIOUS)
-//				L.throw_at(get_step(L, throwdir), 1, 1, L, spin = FALSE)
+			if(mover.loc != loc && L.stat == CONSCIOUS)
+				L.throw_at(get_step(L, throwdir), pick(1,5), 1, L, spin = FALSE)
 			return FALSE
 	. = ..()
 
@@ -64,8 +64,10 @@
 			return FALSE
 	if(victim.throwing)	//Exemption from floor hazard, you're thrown over it.
 		victim.throwing.finalize(FALSE)
-	//if(victim.is_floor_hazard_immune)	//Floating, flying, etc
-		//return FALSE
+	if(ismob(movable_victim))
+		var/mob/mob_victim = movable_victim
+		if(mob_victim.is_floor_hazard_immune())	//Floating, flying, etc
+			return FALSE //why was this fucking commented out
 	return TRUE
 
 /obj/structure/glowshroom/proc/do_zap(atom/movable/movable_victim)
@@ -133,7 +135,7 @@
 	qdel(src)
 
 /obj/structure/glowshroom/dendorite
-	var/timeleft = 5 MINUTES
+	var/timeleft = null //5 MINUTES //balancing factor no longer relevant, uncommoent if gay. 
 
 /obj/structure/glowshroom/dendorite/Initialize()
 	. = ..()

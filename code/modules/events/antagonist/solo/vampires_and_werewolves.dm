@@ -8,14 +8,14 @@
 	roundstart = TRUE
 	antag_flag = ROLE_NBEAST
 	shared_occurence_type = SHARED_HIGH_THREAT
-	denominator = 40 // this is the lower chance higher threat version
+	denominator = 80
 
 	base_antags = 2
 	maximum_antags = 4
 
 	earliest_start = 0 SECONDS
 
-	weight = 3 // less likely because this is total chaos
+	weight = 1		//Disabled cus vampires too strong.
 	max_occurrences = 1
 
 	typepath = /datum/round_event/antagonist/solo/vampires_and_werewolves
@@ -23,16 +23,13 @@
 	restricted_roles = list(
 		"Grand Duke",
 		"Grand Duchess",
-		"Knight Captain",
 		"Consort",
 		"Dungeoneer",
 		"Sergeant",
-		"Men-at-Arms",
-		"Woman-at-Arms",
+		"Men-at-arms",
 		"Marshal",
 		"Merchant",
 		"Priest",
-		"Priestess",
 		"Acolyte",
 		"Martyr",
 		"Templar",
@@ -42,17 +39,12 @@
 		"Princess",
 		"Hand",
 		"Steward",
-		"Clerk",
-		"Magos Thrall",
-		"Jester",
-		"Servant",
-		"Seneschal",
-		"Court Physician",
-		"Town Elder",
+		"Head Physician",
+		"Town Crier",
+		"Keeper",
 		"Captain",
-		"Loudmouth",
+		"Archivist",
 		"Knight",
-		"Dame",
 		"Court Magician",
 		"Inquisitor",
 		"Orthodoxist",
@@ -83,13 +75,13 @@
 		var/datum/job/J = SSjob.GetJob(antag_mind.current?.job)
 		J?.current_positions = max(J?.current_positions-1, 0)
 		antag_mind.current.unequip_everything()
-		antag_mind.add_antag_datum(/datum/antagonist/vampirelord/lesser)
+		antag_mind.add_antag_datum(antag_datum)
 		leader = TRUE
 		return
 	else
-		if(!antag_mind.has_antag_datum(/datum/antagonist/vampirelord))
+		if(!antag_mind.has_antag_datum(/datum/antagonist/vampire))
 			var/datum/job/J = SSjob.GetJob(antag_mind.current?.job)
 			J?.current_positions = max(J?.current_positions-1, 0)
 			antag_mind.current.unequip_everything()
-			antag_mind.add_antag_datum(/datum/antagonist/vampirelord/lesser)
+			antag_mind.add_antag_datum(/datum/antagonist/vampire)
 		return

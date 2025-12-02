@@ -333,6 +333,11 @@
 	desc = "My home. I watch vigilantly and respond swiftly."
 	icon_state = "buff"
 
+/atom/movable/screen/alert/status_effect/buff/knightbufftown
+	name = "Vigilant Knight"
+	desc = "My home. I watch vigilantly and respond swiftly."
+	icon_state = "buff"
+
 /atom/movable/screen/alert/status_effect/buff/barkeepbuff
 	name = "Vigilant Tavernkeep"
 	desc = "My home. I watch vigilantly and respond swiftly."
@@ -390,6 +395,16 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/guardbuffone
 	effectedstats = list("constitution" = 1,"endurance" = 1, "speed" = 1, "perception" = 2)
 
+/datum/status_effect/buff/knightbuff
+	id = "knightbuff"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/knightbuff
+	effectedstats = list("constitution" = 1, "perception" = 1)
+	
+/datum/status_effect/buff/knightbufftown
+	id = "knightbufftown"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/knightbufftown
+	effectedstats = list("endurance" = 1, "speed" = 1, "perception" = 1) // lesser buff for being in town, lets them move around
+
 /datum/status_effect/buff/dungeoneerbuff
 	id = "dungeoneerbuff"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/dungeoneerbuff
@@ -414,6 +429,20 @@
 	var/area/rogue/our_area = get_area(owner)
 	if(!(our_area.town_area))
 		owner.remove_status_effect(/datum/status_effect/buff/guardbuffone)
+
+/datum/status_effect/buff/knightbuff/process()
+
+	.=..()
+	var/area/rogue/our_area = get_area(owner)
+	if(!(our_area.keep_area))
+		owner.remove_status_effect(/datum/status_effect/buff/knightbuff)
+
+/datum/status_effect/buff/knightbufftown/process()
+
+	.=..()
+	var/area/rogue/our_area = get_area(owner)
+	if(!(our_area.town_area))
+		owner.remove_status_effect(/datum/status_effect/buff/knightbufftown)
 
 /datum/status_effect/buff/wardenbuff/process()
 
@@ -1385,13 +1414,18 @@
 	M.color = effect_color
 	pulse += 1
 
-/datum/status_effect/buff/parish_boon
-	id = "parish_boon"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/parish_boon
-	effectedstats = list("perception" = 1, "intelligence" = 1)
-	duration = 20 MINUTES
+/datum/status_effect/buff/celerity
+	id = "celerity"
+	alert_type = /atom/movable/screen/alert/status_effect/buff
+	effectedstats = list(STATKEY_SPD = 1)
+	status_type = STATUS_EFFECT_REPLACE
 
-/atom/movable/screen/alert/status_effect/buff/parish_boon
-	name = "Boon of the Parish"
-	desc = "You lent partial aid to the local church and bear a modest share of its blessing."
-	icon_state = "buff"
+/datum/status_effect/buff/celerity/New(list/arguments)
+	effectedstats[STATKEY_SPD] = arguments[2]
+	. = ..()
+
+/datum/status_effect/buff/fotv
+	id = "fotv"
+	alert_type = /atom/movable/screen/alert/status_effect/buff
+	effectedstats = list(STATKEY_SPD = 3, STATKEY_END = 1, STATKEY_CON = 1)
+	status_type = STATUS_EFFECT_REPLACE

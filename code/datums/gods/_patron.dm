@@ -41,6 +41,8 @@ GLOBAL_LIST_EMPTY(prayers)
 	if(HAS_TRAIT(pious, TRAIT_XYLIX))
 		pious.grant_language(/datum/language/thievescant)
 		pious.verbs += /mob/living/carbon/human/proc/emote_ffsalute
+	if (HAS_TRAIT(pious, TRAIT_COMMIE))
+		pious.grant_language(/datum/language/thievescant) // the thieves god people get god damn thieves cant.
 	if (HAS_TRAIT(pious, TRAIT_CABAL))
 		pious.faction |= "cabal"
 

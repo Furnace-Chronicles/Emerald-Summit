@@ -115,8 +115,8 @@
 /datum/mob_descriptor/face_exp/salacious
 	name = "Salacious"
 
-/datum/mob_descriptor/face_exp/contemptous
-	name = "Contemptous"
+/datum/mob_descriptor/face_exp/contemptuous
+	name = "Contemptuous"
 
 /datum/mob_descriptor/face_exp/mocking
 	name = "Mocking"

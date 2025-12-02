@@ -40,7 +40,6 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		/datum/virtue/utility/noble,
 		/datum/virtue/utility/blueblooded,
 		/datum/virtue/combat/hollow_life,
-		/datum/virtue/combat/vampire,
 	)
 
 	job_traits = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_SOUL_EXAMINE, TRAIT_CLERGY)
@@ -75,7 +74,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/magic/holy = SKILL_LEVEL_MASTER,
+		/datum/skill/magic/holy = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
 	)
 
@@ -107,8 +106,6 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	)
 
 	H.cmode_music = 'sound/music/combat_holy.ogg'
-	if(H.age == AGE_OLD)
-		H.adjust_skillrank_up_to(/datum/skill/magic/holy, 6, TRUE)
 
 	// Initialize the miracle set storage
 	if(H.mind)

@@ -98,6 +98,7 @@
 	plane = LIGHTING_PLANE
 	blend_mode = BLEND_MULTIPLY
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	render_target = "lighting"
 
 /atom/movable/screen/plane_master/lighting/Initialize()
 	. = ..()
@@ -195,6 +196,13 @@
 	layer = O_LIGHTING_VISUAL_LAYER
 	plane = O_LIGHTING_VISUAL_PLANE
 	render_target = O_LIGHTING_VISUAL_RENDER_TARGET
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	blend_mode = BLEND_MULTIPLY
+
+/atom/movable/screen/plane_master/fog_cutter
+	name = "fog cutting plane master"
+	plane = PLANE_FOG_CUTTER
+	render_target = FOG_RENDER_TARGET
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	blend_mode = BLEND_MULTIPLY
 

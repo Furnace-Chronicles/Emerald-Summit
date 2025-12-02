@@ -464,7 +464,6 @@
 		/datum/virtue/combat/dualwielder,
 		/datum/virtue/heretic/zchurch_keyholder,
 		/datum/virtue/combat/hollow_life,
-		/datum/virtue/combat/vampire,
 	)
 
 	advclass_cat_rolls = list(CTAG_MARTYR = 2)

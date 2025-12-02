@@ -55,7 +55,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/apothshirt
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/black
 	belt = /obj/item/storage/belt/rogue/leather/rope
-	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
+	neck = /obj/item/storage/belt/rogue/pouch/coins/mid
 	beltl = /obj/item/storage/belt/rogue/surgery_bag/full/physician
 	beltr = /obj/item/roguekey/physician
 	id = /obj/item/scomstone/bad

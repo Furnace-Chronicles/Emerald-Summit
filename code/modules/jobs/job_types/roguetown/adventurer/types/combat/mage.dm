@@ -182,7 +182,7 @@
 	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/recipe_book/survival = 1)
 
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery/bard)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/conjure_weapon)
 
@@ -271,7 +271,7 @@
 		)
 
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery) //it's back. if they become op feintmeisters remove this
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery/bard) //it's back. if they become op feintmeisters remove this
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/slick_trick_small) //1 tile slick trick
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/lesserknock) //they're a magic thief. i mean come on
 

@@ -73,6 +73,7 @@
 		ADD_TRAIT(src, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
 	else
 		ADD_TRAIT(src, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC) // Not touching lich balance in a fix PR - for now
+		ADD_TRAIT(src, TRAIT_SLOW_SWIMMER, TRAIT_GENERIC)
 	var/obj/item/organ/eyes/eyes = src.getorganslot(ORGAN_SLOT_EYES)
 	if(eyes)
 		eyes.Remove(src,1)

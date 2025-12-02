@@ -32,6 +32,7 @@
 
 	job_traits = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_OUTLAW, TRAIT_HERESIARCH)
 	job_subclasses = list(
+		/datum/advclass/wretch/licker,
 		/datum/advclass/wretch/deserter,
 		/datum/advclass/wretch/deserter/maa,
 		/datum/advclass/wretch/berserker,

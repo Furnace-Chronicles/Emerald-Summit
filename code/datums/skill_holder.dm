@@ -39,6 +39,8 @@
 	var/list/known_skills = list()
 	///Assoc list of skills - exp
 	var/list/skill_experience = list()
+	///Cooldown for level up effects. Duplicate from sleep_adv
+	COOLDOWN_DECLARE(level_up)
 
 /datum/skill_holder/New()
 	. = ..()
@@ -92,6 +94,11 @@
 	if(known_skills[S] >= old_level)
 		if(known_skills[S] > old_level)
 			to_chat(current, span_nicegreen("My [S.name] grows to [SSskills.level_names[known_skills[S]]]!"))
+			if(!COOLDOWN_FINISHED(src, level_up))
+				if(current.client?.prefs.floating_text_toggles & XP_TEXT)
+					current.balloon_alert(current, "<font color = '#9BCCD0'>Level up...</font>")
+				current.playsound_local(current, pick(LEVEL_UP_SOUNDS), 100, TRUE)
+				COOLDOWN_START(src, level_up, XP_SHOW_COOLDOWN)
 			SEND_SIGNAL(current, COMSIG_SKILL_RANK_INCREASED, S, known_skills[S], old_level)
 			record_round_statistic(STATS_SKILLS_LEARNED)
 			S.skill_level_effect(known_skills[S], src)
@@ -167,9 +174,12 @@
 
 /datum/skill_holder/proc/get_skill_level(skill)
 	var/datum/skill/S = GetSkillRef(skill)
+	var/modifier = 0
+	if(S?.abstract_type in list(/datum/skill/labor, /datum/skill/craft))
+		modifier = current?.get_inspirational_bonus()
 	if(!(S in known_skills))
 		return SKILL_LEVEL_NONE
-	return known_skills[S] || SKILL_LEVEL_NONE
+	return known_skills[S] + modifier || SKILL_LEVEL_NONE
 
 /datum/skill_holder/proc/print_levels(user)
 	var/list/shown_skills = list()
@@ -190,3 +200,13 @@
 	msg += "</span>"
 
 	to_chat(user, msg)
+
+/mob/proc/get_inspirational_bonus()
+	return 0
+
+/mob/living/carbon/get_inspirational_bonus()
+	var/bonus = 0
+	for(var/event_type in stressors)
+		var/datum/stressevent/event = stressors[event_type]
+		bonus += event.quality_modifier
+	return bonus

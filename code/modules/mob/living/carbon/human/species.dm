@@ -170,6 +170,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/stress_examine = FALSE
 	var/stress_desc = null
 
+	var/punch_damage
+
 ///////////
 // PROCS //
 ///////////
@@ -1240,6 +1242,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(target.mind)
 			target.mind.attackedme[user.real_name] = world.time
 		target.lastattackerckey = user.ckey
+		target.lastattacker_weakref = WEAKREF(user)
 		user.dna.species.spec_unarmedattacked(user, target)
 
 		target.next_attack_msg.Cut()
@@ -1254,6 +1257,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			if(affecting.body_zone == BODY_ZONE_HEAD)
 				SEND_SIGNAL(user, COMSIG_HEAD_PUNCHED, target)
 		log_combat(user, target, "punched")
+		if(ishuman(user) && user.mind)
+			var/text = "[bodyzone2readablezone(selzone)]..."
+			user.filtered_balloon_alert(TRAIT_COMBAT_AWARE, text)
 
 		if(!nodmg)
 			if(user.limb_destroyer)
@@ -1439,6 +1445,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(!stander)
 			target.lastattacker = user.real_name
 			target.lastattackerckey = user.ckey
+			target.lastattacker_weakref = WEAKREF(user)	
 			if(target.mind)
 				target.mind.attackedme[user.real_name] = world.time
 			var/selzone = accuracy_check(user.zone_selected, user, target, /datum/skill/combat/unarmed, user.used_intent)
@@ -1463,6 +1470,11 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 						to_chat(user, span_danger("I crush [target] underneath myself![target.next_attack_msg.Join()]"))
 			target.next_attack_msg.Cut()
 			log_combat(user, target, "kicked")
+
+			if(ishuman(user) && user.mind)
+				var/text = "[bodyzone2readablezone(selzone)]..."
+				user.filtered_balloon_alert(TRAIT_COMBAT_AWARE, text)
+
 			user.do_attack_animation(target, ATTACK_EFFECT_DISARM)
 			if(!nodmg)
 				playsound(target, 'sound/combat/hits/kick/stomp.ogg', 100, TRUE, -1)
@@ -1592,6 +1604,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		playsound(target, 'sound/combat/hits/kick/kick.ogg', 100, TRUE, -1)
 		target.lastattacker = user.real_name
 		target.lastattackerckey = user.ckey
+		target.lastattacker_weakref = WEAKREF(user)
 		if(target.mind)
 			target.mind.attackedme[user.real_name] = world.time
 		user.stamina_add(15)
@@ -1682,6 +1695,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(user.get_num_arms(FALSE) < 2 || user.get_inactive_held_item())
 			Iforce = 0
 	var/bladec = user.used_intent.blade_class
+
+	// No self-peeling. Useful for debug, though.
 	if(H == user && bladec == BCLASS_PEEL)
 		bladec = BCLASS_BLUNT
 	
@@ -1693,6 +1708,15 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(higher_intfactor > 1)	//Make sure to keep your weapon and intent intfactors consistent to avoid problems here!
 		used_intfactor = higher_intfactor
 	
+	if(ishuman(user) && user.mind && user.used_intent.blade_class != BCLASS_PEEL)
+		var/text = "[bodyzone2readablezone(selzone)]..."
+		if(HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS))
+			if(prob(10))
+				text = "<i>I can't tell...</i>"
+				user.filtered_balloon_alert(TRAIT_COMBAT_AWARE, text)
+		else
+			user.filtered_balloon_alert(TRAIT_COMBAT_AWARE, text)
+
 	var/armor_block = H.run_armor_check(selzone, I.d_type, "", "",pen, damage = Iforce, blade_dulling=bladec, peeldivisor = user.used_intent.peel_divisor, intdamfactor = used_intfactor, used_weapon = I)
 
 	var/nodmg = FALSE
@@ -1737,7 +1761,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 	I.funny_attack_effects(H, user, nodmg)
 
-	H.send_item_attack_message(I, user, parse_zone(selzone, affecting))
+	H.send_item_attack_message(I, user, selzone, affecting, bladec)
 
 	if(nodmg)
 		return FALSE //dont play a sound

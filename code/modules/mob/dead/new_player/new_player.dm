@@ -382,12 +382,12 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	if(QDELETED(src))
 		return JOB_UNAVAILABLE_GENERIC
 	if(has_world_trait(/datum/world_trait/skeleton_siege))
-		if(rank != "Skeleton")
+		if(rank != "Besieger Skeleton")
 			return JOB_UNAVAILABLE_GENERIC
 		else
 			return JOB_AVAILABLE
 	else
-		if(rank == "Skeleton")
+		if(rank == "Besieger Skeleton")
 			return JOB_UNAVAILABLE_GENERIC
 
 	if(has_world_trait(/datum/world_trait/goblin_siege))
@@ -397,15 +397,6 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 			return JOB_AVAILABLE
 	else
 		if(rank == "Goblin")
-			return JOB_UNAVAILABLE_GENERIC
-
-	if(has_world_trait(/datum/world_trait/death_knight))
-		if(rank != "Death Knight")
-			return JOB_UNAVAILABLE_GENERIC
-		else
-			return JOB_AVAILABLE
-	else
-		if(rank == "Death Knight")
 			return JOB_UNAVAILABLE_GENERIC
 
 	var/datum/job/job = SSjob.GetJob(rank)
@@ -652,7 +643,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 			dat += "<legend align='center' style='font-weight: bold; color: [cat_color]'>[cat_name]</legend>"
 
 			if(has_world_trait(/datum/world_trait/skeleton_siege))
-				dat += "<a class='job command' href='byond://?src=[REF(src)];SelectedJob=Skeleton'>BECOME AN EVIL SKELETON</a>"
+				dat += "<a class='job command' href='byond://?src=[REF(src)];SelectedJob=Besieger Skeleton'>BECOME AN EVIL SKELETON</a>"
 				dat += "</fieldset><br>"
 				column_counter++
 				if(column_counter > 0 && (column_counter % 3 == 0))
@@ -663,14 +654,8 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 				column_counter++
 				if(column_counter > 0 && (column_counter % 3 == 0))
 					dat += "</td><td valign='top'>"
-			if(has_world_trait(/datum/world_trait/death_knight))
-				dat += "<a class='job command' href='byond://?src=[REF(src)];SelectedJob=Death Knight'>JOIN THE VAMPIRE LORD AS A DEATH KNIGHT</a>"
-				dat += "</fieldset><br>"
-				column_counter++
-				if(column_counter > 0 && (column_counter % 3 == 0))
-					dat += "</td><td valign='top'>"
 
-			if(has_world_trait(/datum/world_trait/skeleton_siege) || has_world_trait(/datum/world_trait/death_knight) || has_world_trait(/datum/world_trait/goblin_siege))
+			if(has_world_trait(/datum/world_trait/skeleton_siege)|| has_world_trait(/datum/world_trait/goblin_siege))
 				break
 
 			for(var/job in available_jobs)

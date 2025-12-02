@@ -51,7 +51,7 @@
 		STATKEY_INT = 2,
 		STATKEY_END = 2,
 		STATKEY_SPD = 1,
-		STATKEY_PER = -1
+		STATKEY_PER = 1
 	)
 
 	subclass_skills = list(
@@ -72,7 +72,11 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT, //Druids know the forest and when it has been disturbed
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/polearms = SKILL_LEVEL_NOVICE, //To help them defend themselves with parrying
+		/datum/skill/combat/polearms = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
+		/datum/skill/labor/fishing = SKILL_LEVEL_NOVICE,
+		/datum/skill/labor/butchering = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/roguetown/druid

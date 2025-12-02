@@ -174,6 +174,7 @@
 	item_state = "hijab"
 	icon_state = "deserthood"
 	hidesnoutADJ = FALSE
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_NECK
 	flags_inv = HIDEHAIR	//Does not hide face.
 	block2add = null
 
@@ -185,6 +186,7 @@
 	desc = "A common sight amongst those travelling the long desert routes, it offers protection from the heat and a modicum of it against the beasts that prowl its more comfortable nites."
 	max_integrity = 100
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_NECK
 	armor = ARMOR_HEAD_PSYDON //basically the same as a warscholar hood
 	item_state = "hijab"
 	icon_state = "deserthood"
@@ -221,7 +223,7 @@
 	icon = 'icons/roguetown/clothing/head.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi' //Overrides slot icon behavior
 	alternate_worn_layer  = 8.9 //On top of helmet
-	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_MOUTH
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_MOUTH|ITEM_SLOT_NECK
 	armor = list("blunt" = 0, "slash" = 0, "stab" = 0, "piercing" = 0, "fire" = 0, "acid" = 0)
 	dynamic_hair_suffix = ""
 	edelay_type = 1
@@ -1933,10 +1935,10 @@
 
 /obj/item/clothing/head/roguetown/witchhat
 	name = "witch hat"
-	desc = ""
+	desc = "A wide brimmed hat that smells faintly of herbs, and viscera."
 	icon_state = "witch"
-	item_state = "witch"
-	icon = 'icons/roguetown/clothing/head.dmi'
+	detail_tag = "_detail"
+	color = COLOR_ALMOST_BLACK
 	sewrepair = TRUE
 
 /obj/item/clothing/head/roguetown/archercap
@@ -2000,40 +2002,7 @@
 			pic2.color = get_altdetail_color()
 		add_overlay(pic2)
 
-//Eora content from Stonekeep
 
-/obj/item/clothing/head/roguetown/eoramask
-	name = "eoran mask"
-	desc = "A silver mask in the likeness of a rabbit. Usually worn by the faithful of Eora during their rituals, but it's not like anyone's going to stop you. Right?"
-	color = null
-	icon_state = "eoramask"
-	item_state = "eoramask"
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
-	worn_x_dimension = 64
-	worn_y_dimension = 64
-	bloody_icon = 'icons/effects/blood64.dmi'
-	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDEHAIR
-	dynamic_hair_suffix = ""
-	resistance_flags = FIRE_PROOF // Made of metal
-
-/obj/item/clothing/head/roguetown/eoramask/equipped(mob/living/carbon/human/user, slot) //Copying Eora bud pacifism
-	. = ..()
-	if(slot == SLOT_HEAD)
-		ADD_TRAIT(user, TRAIT_PACIFISM, "eoramask_[REF(src)]")
-
-/obj/item/clothing/head/roguetown/eoramask/dropped(mob/living/carbon/human/user)
-	..()
-	REMOVE_TRAIT(user, TRAIT_PACIFISM, "eoramask_[REF(src)]")
-
-/obj/item/clothing/head/roguetown/eoramask/attack_hand(mob/user)
-	if(iscarbon(user))
-		var/mob/living/carbon/C = user
-		if(src == C.head)
-			to_chat(user, "<span class='warning'>I need some time to remove the mask peacefully.</span>")
-			if(do_after(user, 50))
-				return ..()
-			return
-	return ..()
 
 /obj/item/clothing/head/roguetown/helmet/tricorn
 	slot_flags = ITEM_SLOT_HEAD
@@ -2182,6 +2151,7 @@
 	desc = "A thick hood that covers one's entire head, should they desire, or merely acts as a scarf otherwise. Made with spell-laced fabric to provide some protection against daemons and mortals alike."
 	max_integrity = 100
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_NECK
 	armor = ARMOR_HEAD_PSYDON
 	icon_state = "deserthood"
 	item_state = "deserthood"
@@ -2474,6 +2444,7 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	max_integrity = 150
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_NECK
 	armor = ARMOR_HEAD_PSYDON //basically the same as a warscholar hood
 	color = CLOTHING_BLACK
 
@@ -2667,157 +2638,158 @@
 	smelt_bar_num = 2
 
 /obj/item/clothing/head/flowers
-    name = "Flowers"
-    desc = " "
-    icon_state = "dflower"
-    item_state = "dflower"
-    icon = 'icons/roguetown/misc/flowerspack.dmi'
-    mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
-    slot_flags = ITEM_SLOT_HEAD
-    body_parts_covered = NONE
-    force = 0
-    throwforce = 0
-    w_class = WEIGHT_CLASS_TINY
-    throw_speed = 1
-    throw_range = 3
+	name = "Flowers"
+	desc = " "
+	icon_state = "dflower"
+	item_state = "dflower"
+	icon = 'icons/roguetown/misc/flowerspack.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	alternate_worn_layer = 8.9 //On top of helmet
+	body_parts_covered = NONE
+	force = 0
+	throwforce = 0
+	w_class = WEIGHT_CLASS_TINY
+	throw_speed = 1
+	throw_range = 3
 
 /obj/item/clothing/head/flowers/purple_lily
-    name = "Purple lily"
-    desc = "A purple lily, steeped in the hues of twilight. It whispers of forgotten prayers beneath a dying sun."
-    icon_state = "dflower1"
-    item_state = "dflower1"
+	name = "Purple lily"
+	desc = "A purple lily, steeped in the hues of twilight. It whispers of forgotten prayers beneath a dying sun."
+	icon_state = "dflower1"
+	item_state = "dflower1"
 
 /obj/item/clothing/head/flowers/snapdragon
-    name = "Snapdragon"
-    desc = "A snapdragon, vibrant yet fragile. Its blooms mimic a beast’s maw-silent, but ever hungry for remembrance."
-    icon_state = "dflower2"
-    item_state = "dflower2"
+	name = "Snapdragon"
+	desc = "A snapdragon, vibrant yet fragile. Its blooms mimic a beast’s maw-silent, but ever hungry for remembrance."
+	icon_state = "dflower2"
+	item_state = "dflower2"
 
 /obj/item/clothing/head/flowers/redpurple_rose
-    name = "Red-purple rose"
-    desc = "A red-purple rose, blooming like a wound upon memory. Its petals weep in silence for fallen kings."
-    icon_state = "dflower3"
-    item_state = "dflower3"
+	name = "Red-purple rose"
+	desc = "A red-purple rose, blooming like a wound upon memory. Its petals weep in silence for fallen kings."
+	icon_state = "dflower3"
+	item_state = "dflower3"
 
 /obj/item/clothing/head/flowers/burdock_flower_purple
-    name = "Purple burdock flower"
-    desc = "A purple burdock flower, tangled and wild. Said to bloom on cursed soil, where no light lingers."
-    icon_state = "dflower4"
-    item_state = "dflower4"
+	name = "Purple burdock flower"
+	desc = "A purple burdock flower, tangled and wild. Said to bloom on cursed soil, where no light lingers."
+	icon_state = "dflower4"
+	item_state = "dflower4"
 
 /obj/item/clothing/head/flowers/yellow_lily
-    name = "Yellow lily"
-    desc = "A yellow lily, bright as false hope. Carried once by a maiden who walked into the abyss."
-    icon_state = "dflower5"
-    item_state = "dflower5"
+	name = "Yellow lily"
+	desc = "A yellow lily, bright as false hope. Carried once by a maiden who walked into the abyss."
+	icon_state = "dflower5"
+	item_state = "dflower5"
 
 /obj/item/clothing/head/flowers/burdock_flower_pink
-    name = "Pink burdock flower"
-    desc = "A pink burdock flower, soft in color, bitter in tale. Legends say it grew from the tears of exiled witches."
-    icon_state = "dflower6"
-    item_state = "dflower6"
+	name = "Pink burdock flower"
+	desc = "A pink burdock flower, soft in color, bitter in tale. Legends say it grew from the tears of exiled witches."
+	icon_state = "dflower6"
+	item_state = "dflower6"
 
 /obj/item/clothing/head/flowers/yarrow_white
-    name = "White yarrow"
-    desc = "A white yarrow, pale as bone. It grows in graves where even time dares not tread."
-    icon_state = "dflower7"
-    item_state = "dflower7"
+	name = "White yarrow"
+	desc = "A white yarrow, pale as bone. It grows in graves where even time dares not tread."
+	icon_state = "dflower7"
+	item_state = "dflower7"
 
 /obj/item/clothing/head/flowers/rose_pink
-    name = "Pink rose"
-    desc = "A pink rose, delicate and silent. Its scent recalls a lullaby sung on the eve of ruin."
-    icon_state = "dflower8"
-    item_state = "dflower8"
+	name = "Pink rose"
+	desc = "A pink rose, delicate and silent. Its scent recalls a lullaby sung on the eve of ruin."
+	icon_state = "dflower8"
+	item_state = "dflower8"
 
 /obj/item/clothing/head/flowers/roses_red
-    name = "Red roses rose"
-    desc = "A cluster of red roses, rich and sanguine. Their beauty is as fleeting as the breath of the slain."
-    icon_state = "dflower9"
-    item_state = "dflower9"
+	name = "Red roses rose"
+	desc = "A cluster of red roses, rich and sanguine. Their beauty is as fleeting as the breath of the slain."
+	icon_state = "dflower9"
+	item_state = "dflower9"
 
 /obj/item/clothing/head/flowers/peony
-    name = "Peony"
-    desc = "A peony, lush and secretive. In its folds lie whispers of ancient sorrow."
-    icon_state = "dflower10"
-    item_state = "dflower10"
+	name = "Peony"
+	desc = "A peony, lush and secretive. In its folds lie whispers of ancient sorrow."
+	icon_state = "dflower10"
+	item_state = "dflower10"
 
 /obj/item/clothing/head/flowers/forget_me_not_alt
-    name = "Pink-forget-me-not"
-    desc = "A pink forget-me-not, gentle and strange. A flower of promises never kept."
-    icon_state = "dflower11"
-    item_state = "dflower11"
+	name = "Pink-forget-me-not"
+	desc = "A pink forget-me-not, gentle and strange. A flower of promises never kept."
+	icon_state = "dflower11"
+	item_state = "dflower11"
 
 /obj/item/clothing/head/flowers/forget_me_not
-    name = "Forget-me-not"
-    desc = "A blue forget-me-not, eternal in mourning. It blooms only where memories die."
-    icon_state = "dflower12"
-    item_state = "dflower12"
+	name = "Forget-me-not"
+	desc = "A blue forget-me-not, eternal in mourning. It blooms only where memories die."
+	icon_state = "dflower12"
+	item_state = "dflower12"
 
 /obj/item/clothing/head/flowers/blue_rose
-    name = "Blue rose"
-    desc = "A blue rose, cold and unnatural. Said to bloom only in places where reality frays."
-    icon_state = "dflower13"
-    item_state = "dflower13"
+	name = "Blue rose"
+	desc = "A blue rose, cold and unnatural. Said to bloom only in places where reality frays."
+	icon_state = "dflower13"
+	item_state = "dflower13"
 
 /obj/item/clothing/head/flowers/orange_rose
-    name = "Orange rose"
-    desc = "An orange rose, burning like embered pride. Fades as quickly as ambition in the dark."
-    icon_state = "dflower14"
-    item_state = "dflower14"
+	name = "Orange rose"
+	desc = "An orange rose, burning like embered pride. Fades as quickly as ambition in the dark."
+	icon_state = "dflower14"
+	item_state = "dflower14"
 
 /obj/item/clothing/head/flowers/sunflower
-    name = "Sunflower"
-    desc = "A sunflower, ever-turning toward light long gone. A cruel symbol of futile hope."
-    icon_state = "dflower15"
-    item_state = "dflower15"
+	name = "Sunflower"
+	desc = "A sunflower, ever-turning toward light long gone. A cruel symbol of futile hope."
+	icon_state = "dflower15"
+	item_state = "dflower15"
 
 /obj/item/clothing/head/flowers/yellow_bells
-    name = "Yellow bells"
-    desc = "Yellow bells, ringing in silence. In old songs, they mark the hour of a warrior's last breath."
-    icon_state = "dflower16"
-    item_state = "dflower16"
+	name = "Yellow bells"
+	desc = "Yellow bells, ringing in silence. In old songs, they mark the hour of a warrior's last breath."
+	icon_state = "dflower16"
+	item_state = "dflower16"
 
 /obj/item/clothing/head/flowers/poppy
-    name = "Poppy"
-    desc = "A poppy, crimson and still. Grows where blood once sang through shattered hearts."
-    icon_state = "dflower17"
-    item_state = "dflower17"
+	name = "Poppy"
+	desc = "A poppy, crimson and still. Grows where blood once sang through shattered hearts."
+	icon_state = "dflower17"
+	item_state = "dflower17"
 
 /obj/item/clothing/head/flowers/blue_purple_bells
-    name = "Blue and purple bells"
-    desc = "Blue and purple bells, swaying in unseen winds. Their chime echoes through forgotten catacombs."
-    icon_state = "dflower18"
-    item_state = "dflower18"
+	name = "Blue and purple bells"
+	desc = "Blue and purple bells, swaying in unseen winds. Their chime echoes through forgotten catacombs."
+	icon_state = "dflower18"
+	item_state = "dflower18"
 
 /obj/item/clothing/head/flowers/iris
-    name = "Iris"
-    desc = "An iris of deep hue, regal yet sorrowed. A herald of endings, cloaked in grace."
-    icon_state = "dflower19"
-    item_state = "dflower19"
+	name = "Iris"
+	desc = "An iris of deep hue, regal yet sorrowed. A herald of endings, cloaked in grace."
+	icon_state = "dflower19"
+	item_state = "dflower19"
 
 /obj/item/clothing/head/flowers/muscaris
-    name = "Muscaris"
-    desc = "A muscaris bloom, clustered like whispers. Found near ruins where no laughter remains."
-    icon_state = "dflower20"
-    item_state = "dflower20"
+	name = "Muscaris"
+	desc = "A muscaris bloom, clustered like whispers. Found near ruins where no laughter remains."
+	icon_state = "dflower20"
+	item_state = "dflower20"
 
 /obj/item/clothing/head/flowers/lavander
-    name = "Lavander"
-    desc = "Lavander, soft and spectral. Used to anoint the dead in lands now nameless."
-    icon_state = "dflower21"
-    item_state = "dflower21"
+	name = "Lavander"
+	desc = "Lavander, soft and spectral. Used to anoint the dead in lands now nameless."
+	icon_state = "dflower21"
+	item_state = "dflower21"
 
 /obj/item/clothing/head/flowers/milva
-    name = "Milva"
-    desc = "A milva blossom, name lost to time. Said to bloom for those who choose exile over chains."
-    icon_state = "dflower22"
-    item_state = "dflower22"
+	name = "Milva"
+	desc = "A milva blossom, name lost to time. Said to bloom for those who choose exile over chains."
+	icon_state = "dflower22"
+	item_state = "dflower22"
 
 /obj/item/clothing/head/flowers/yellow_iris
-    name = "Yellow iris"
-    desc = "A yellow iris, bright like defiance. Once worn by those who marched into oblivion, unafraid."
-    icon_state = "dflower23"
-    item_state = "dflower23"
+	name = "Yellow iris"
+	desc = "A yellow iris, bright like defiance. Once worn by those who marched into oblivion, unafraid."
+	icon_state = "dflower23"
+	item_state = "dflower23"
 
 // beak helmet, yippie
 /obj/item/clothing/head/roguetown/helmet/heavy/beakhelm
