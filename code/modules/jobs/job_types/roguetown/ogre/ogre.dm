@@ -3,8 +3,8 @@
 	flag = OGRE
 	department_flag = PEASANTS
 	faction = "Station"
-	total_positions = 5
-	spawn_positions = 5
+	total_positions = 8
+	spawn_positions = 8
 	allowed_races = OGRE_RACE_TYPES
 	allowed_sexes = list(MALE, FEMALE)
 	tutorial = "You are a travelling Ogre, who once originated from Gronn. You're so, so very hungry."
