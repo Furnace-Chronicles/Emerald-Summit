@@ -1170,8 +1170,8 @@
 	if(user.mind)
 		if(user.mind.assigned_role == "Priest" || user.mind.assigned_role == "Priestess")
 			if(istype(W, /obj/item/reagent_containers/food/snacks/grown/apple))
-				if(!istype(get_area(user), /area/rogue/indoors/town/church/chapel))
-					to_chat(user, span_warning("I need to do this in the chapel."))
+				if(!(istype(get_area(user), /area/rogue/indoors/town/church/chapel) || istype(get_area(user), /area/rogue/outdoors/rtfield/eora)))
+					to_chat(user, span_warning("I need to perform this ritual somewhere more sacred."))
 					return FALSE
 				var/marriage = FALSE
 				var/obj/item/reagent_containers/food/snacks/grown/apple/A = W
