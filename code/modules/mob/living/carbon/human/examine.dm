@@ -786,6 +786,8 @@
 			if(H.dna.species.name != dna.species.name)
 				if(dna.species.stress_examine)//some species don't have a stress desc
 					. += dna.species.stress_desc
+				if(istype(src.dna.species, /datum/species/moth))
+					. += span_red("Bug-eyes... <a href='?src=[REF(src)];mothtip=1'>Wings are valuable, though</a>.")
 
 	if((user != src) && isliving(user))
 		var/mob/living/L = user

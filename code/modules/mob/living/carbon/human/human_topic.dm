@@ -184,6 +184,9 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 			if(social_rank < examiner_rank)
 				to_chat(usr, span_notice("This person is <EM>[rank_name]</EM>, they are my lesser."))
 
+	if(href_list["mothtip"])
+		to_chat(usr, span_notice("Can cut wings off the back of their <B>chest</B> down the <B>middle</B> using a <B>knife</B>."))
+
 	if(href_list["undiesthing"]) //canUseTopic check for this is handled by mob/Topic()
 		if(!get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
 			to_chat(usr, span_warning("I can't reach that! Something is covering it."))
