@@ -39,6 +39,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	virtue_restrictions = list(
 		/datum/virtue/utility/noble,
 		/datum/virtue/utility/blueblooded,
+		/datum/virtue/combat/crimson_curse,
 		/datum/virtue/combat/hollow_life,
 	)
 
