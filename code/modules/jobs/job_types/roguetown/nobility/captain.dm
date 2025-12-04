@@ -27,6 +27,7 @@
 
 	virtue_restrictions = list(
 		/datum/virtue/utility/failed_squire,
+		/datum/virtue/combat/crimson_curse, //no gamer Knight vampire abuse, sorry
 		/datum/virtue/utility/blacksmith, // we don't want you repairing your stuff in combat, sorry...
 	)
 	job_traits = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_NOBLE, TRAIT_GUARDSMAN_NOBLE)

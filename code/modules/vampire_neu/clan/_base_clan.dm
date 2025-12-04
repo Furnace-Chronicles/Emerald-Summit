@@ -321,8 +321,6 @@ And it also helps for the character set panel
 /datum/clan/proc/handle_leadership_succession()
 	// Find someone else with a position to promote
 	var/mob/living/carbon/human/new_leader
-	if(HAS_TRAIT(new_leader, TRAIT_CRIMSONCURSE)) // NO CRIMSON CURSE CLAN LEADERS!!!
-		return FALSE  
 
 	// Look for someone with can_assign_positions (like a lieutenant)
 	for(var/datum/clan_hierarchy_node/position in all_positions)
@@ -395,7 +393,7 @@ And it also helps for the character set panel
 /datum/clan/proc/post_gain(mob/living/carbon/human/H)
 	SHOULD_CALL_PARENT(TRUE)
 	if(!clan_leader && ispath(leader))
-		if(HAS_TRAIT(H, TRAIT_CRIMSONCURSE))
+		if(HAS_TRAIT(H, TRAIT_CRIMSONCURSE)) // NOOOOOOOOO CRIMSON CURSE LEADERSSSSSSSSSSSS!
 			return FALSE
 		else 
 			var/datum/clan_leader/new_leader = new leader()

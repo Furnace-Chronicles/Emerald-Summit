@@ -26,6 +26,7 @@
 
 	virtue_restrictions = list(
 		/datum/virtue/utility/failed_squire,
+		/datum/virtue/combat/crimson_curse, //no gamer Knight vampire abuse, sorry
 		/datum/virtue/utility/blacksmith, // we don't want you repairing your stuff in combat, sorry...
 	)
 	cmode_music = 'sound/music/combat_knight.ogg'

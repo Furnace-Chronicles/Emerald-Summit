@@ -23,7 +23,9 @@
 	cmode_music = 'sound/music/combat_guard.ogg'
 	advclass_cat_rolls = list (CTAG_MARSHAL = 20)
 	social_rank = SOCIAL_RANK_NOBLE
-
+	virtue_restrictions = list(
+		/datum/virtue/combat/crimson_curse, //no gamer Knight vampire abuse, sorry...
+	)
 	job_traits = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_PERFECT_TRACKER)
 	job_subclasses = list(
 		/datum/advclass/marshal/classic,
