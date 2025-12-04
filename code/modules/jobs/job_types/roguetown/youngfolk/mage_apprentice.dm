@@ -6,7 +6,7 @@
 	total_positions = 4
 	spawn_positions = 4
 	allowed_races = RACES_ALL_KINDS
-	spells = list(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+	spells = list(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation, /obj/effect/proc_holder/spell/self/message)
 	advclass_cat_rolls = list(CTAG_WAPPRENTICE = 20)
 	social_rank = SOCIAL_RANK_YEOMAN
 

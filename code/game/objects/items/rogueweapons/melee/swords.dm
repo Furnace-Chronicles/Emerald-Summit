@@ -696,6 +696,34 @@
 			if("onbelt")
 				return list("shrink" = 0.5,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
+/obj/item/rogueweapon/sword/long/judgement/vlord
+	name = "\"Ichor Fang\""
+	desc = "An unholy longsword made of odd steel. A green crystalline mass covers the blade and pommel, its edges and serrations tougher and sharper than anything forged by a master swordsmith."
+	force = 40
+	force_wielded = 55
+	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/peel, /datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/sword/chop)
+	icon_state = "vlord"
+	item_state = "vlord"
+	wbalance = WBALANCE_NORMAL
+	max_integrity = 9999
+	sellprice = 363
+	static_price = TRUE
+	equip_delay_self = 0
+	unequip_delay_self = 0
+
+/obj/item/rogueweapon/sword/long/judgement/vlord/Initialize()
+	. = ..()
+	SEND_GLOBAL_SIGNAL(COMSIG_NEW_ICHOR_FANG_SPAWNED, src)
+	RegisterSignal(SSdcs, COMSIG_NEW_ICHOR_FANG_SPAWNED, PROC_REF(on_recall))
+
+/obj/item/rogueweapon/sword/long/judgement/vlord/proc/on_recall(obj/new_sword)
+	if(new_sword == src)
+		return
+
+	src.visible_message(span_warning("\The [src] crumbles to dust, the ashes spiriting away."))
+	qdel(src)
+
 /obj/item/rogueweapon/sword/long/marlin
 	name = "shalal saber"
 	desc = "A large yet surprisingly agile curved blade meant to be wielded in two hands. It has a similar composition to northwestern Psydonian longswords, but it's notably lighter."
@@ -1154,9 +1182,7 @@
 
 /obj/item/rogueweapon/sword/rapier/dec
 	name = "decorated rapier"
-	desc = "A fine duelist's instrument with a tapered thrusting blade. Its hilt is gilt in gold and inlaid, \
-	and its blade bears twin inscriptions on either side. One reads, \"CAST IN THE NAME OF GODS\" while the \
-	obverse reads, \"YE NOT GUILTY\"."
+	desc = "A strange, cheap ring devoid of purpose, yet carrying an uncanny sense of nostalgia of grand upsets, felled short.\n<i>'You shall know his name. You shall know his purpose. You shall die.'</i>"
 	icon_state = "decrapier"
 	sheathe_icon = "decrapier"
 	sellprice = 140

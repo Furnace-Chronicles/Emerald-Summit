@@ -15,6 +15,9 @@
 		CRASH("shapeshift holder created outside mob/living")
 	stored = caster
 	if(stored.mind)
+		// Store spell list before transferring mind
+		if(stored.mind.can_store_spells)
+			stored.mind.stored_transformation_spells = stored.mind.store_spell_list()
 		stored.mind.transfer_to(shape)
 	stored.forceMove(src)
 	stored.notransform = TRUE
@@ -83,6 +86,10 @@
 
 	if(shape && shape.mind)
 		shape.mind?.transfer_to(stored)
+		// Restore spell list after mind transfer (use stored.mind since mind has transferred)
+		if(stored.mind && stored.mind.can_store_spells && stored.mind.stored_transformation_spells)
+			stored.mind.restore_spell_list(stored.mind.stored_transformation_spells)
+			stored.mind.stored_transformation_spells = null
 	if(death)
 		stored.death()
 	else if(stored && source.convert_damage)

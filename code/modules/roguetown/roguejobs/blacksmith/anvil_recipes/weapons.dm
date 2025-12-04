@@ -762,13 +762,6 @@
 	created_item = /obj/item/rogueweapon/knuckles/bronzeknuckles
 	craftdiff = 2
 
-/datum/anvil_recipe/weapons/bronze/golemknuckle
-	name = "Golem Knuckle"
-	req_bar = /obj/item/ingot/bronze
-	additional_items = list(/obj/item/ingot/bronze, /obj/item/ingot/bronze, /obj/item/ingot/steel)
-	created_item = /obj/item/rogueweapon/knuckles/bronzeknuckles/zizoconstruct
-	craftdiff = 4
-
 /// SHIELDS
 /datum/anvil_recipe/weapons/steel/kiteshield
 	name = "Kite Shield (+1 Steel, +1 Cured Leather)"
@@ -1102,6 +1095,97 @@
 /datum/anvil_recipe/weapons/psy/whip
 	name = "Psydonian Whip (+2 Cured Leather)"
 	req_bar = /obj/item/ingot/silverblessed
+	craftdiff = 3
+	created_item = /obj/item/rogueweapon/whip/psywhip_lesser
+	additional_items = list(/obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
+	i_type = "Weapons"
+
+// BLESSED SILVER, BULLION VARIANTS
+/datum/anvil_recipe/weapons/psy/axe/inq
+	name = "Psydonian War Axe (+1 B. Silver, +1 Stick)"
+	req_bar = /obj/item/ingot/silverblessed/bullion
+	craftdiff = 3
+	created_item = /obj/item/rogueweapon/stoneaxe/battle/psyaxe
+	additional_items = list(/obj/item/ingot/silverblessed/bullion, /obj/item/grown/log/tree/stick)
+	i_type = "Weapons"
+
+/datum/anvil_recipe/weapons/psy/mace/inq
+	name = "Psydonian Mace (+1 B. Silver, +1 Stick)"
+	req_bar = /obj/item/ingot/silverblessed/bullion
+	craftdiff = 3
+	created_item = /obj/item/rogueweapon/mace/goden/psymace
+	additional_items = list(/obj/item/ingot/silverblessed/bullion, /obj/item/grown/log/tree/stick)
+	i_type = "Weapons"
+
+/datum/anvil_recipe/weapons/psy/spear/inq
+	name = "Psydonian Spear (+1 Small Log)"
+	req_bar = /obj/item/ingot/silverblessed/bullion
+	craftdiff = 3
+	created_item = /obj/item/rogueweapon/spear/psyspear
+	additional_items = list(/obj/item/grown/log/tree/small)
+	i_type = "Weapons"
+
+/datum/anvil_recipe/weapons/psy/dagger/inq
+	name = "Psydonian Dagger"
+	req_bar = /obj/item/ingot/silverblessed/bullion
+	craftdiff = 3
+	created_item = /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger
+	i_type = "Weapons"
+
+/datum/anvil_recipe/weapons/psy/shortsword/inq
+	name = "Psydonian Shortsword"
+	req_bar = /obj/item/ingot/silverblessed/bullion
+	craftdiff = 3
+	created_item = /obj/item/rogueweapon/sword/short/psy
+	i_type = "Weapons"
+
+/datum/anvil_recipe/weapons/psy/katar/inq
+	name = "Psydonian Katar"
+	req_bar = /obj/item/ingot/silverblessed/bullion
+	craftdiff = 3
+	created_item = /obj/item/rogueweapon/katar/psydon
+	i_type = "Weapons"
+
+/datum/anvil_recipe/weapons/psy/knuckles/inq
+	name = "Psydonian Knuckles"
+	req_bar = /obj/item/ingot/silverblessed/bullion
+	craftdiff = 3
+	created_item = /obj/item/rogueweapon/knuckles/psydon
+	i_type = "Weapons"
+
+/datum/anvil_recipe/weapons/psy/cudgel/inq
+	name = "Psydonian Handmace"
+	req_bar = /obj/item/ingot/silverblessed/bullion
+	craftdiff = 3
+	created_item = /obj/item/rogueweapon/mace/cudgel/psy
+	i_type = "Weapons"
+
+/datum/anvil_recipe/weapons/psy/halberd/inq
+	name = "Psydonian Halberd (+1 B. Silver, +1 Small Log)"
+	req_bar = /obj/item/ingot/silverblessed/bullion
+	craftdiff = 3
+	created_item = /obj/item/rogueweapon/halberd/psyhalberd
+	additional_items = list(/obj/item/ingot/silverblessed/bullion, /obj/item/grown/log/tree/small)
+	i_type = "Weapons"
+
+/datum/anvil_recipe/weapons/psy/gsword/inq
+	name = "Psydonian Greatsword (+1 B. Silver)"
+	req_bar = /obj/item/ingot/silverblessed/bullion
+	craftdiff = 3
+	created_item = /obj/item/rogueweapon/greatsword/psygsword
+	additional_items = list(/obj/item/ingot/silverblessed/bullion)
+	i_type = "Weapons"
+
+/datum/anvil_recipe/weapons/psy/sword/inq
+	name = "Psydonian Sword"
+	req_bar = /obj/item/ingot/silverblessed/bullion
+	craftdiff = 3
+	created_item = /obj/item/rogueweapon/sword/long/psysword
+	i_type = "Weapons"
+
+/datum/anvil_recipe/weapons/psy/whip/inq
+	name = "Psydonian Whip (+2 Cured Leather)"
+	req_bar = /obj/item/ingot/silverblessed/bullion
 	craftdiff = 3
 	created_item = /obj/item/rogueweapon/whip/psywhip_lesser
 	additional_items = list(/obj/item/natural/hide/cured, /obj/item/natural/hide/cured)

@@ -134,7 +134,7 @@
 								to_chat(user, "<span class='notice'>Something tugs the line!</span>")
 								target.balloon_alert_to_viewers("Tug!")
 								playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
-								if(!do_after(user,ow, target = target, same_direction = TRUE))
+								if(!do_after(user,ow, target = target))
 									if(ismob(A)) // TODO: Baits with mobs on their fishloot lists OR water tiles with their own fish loot pools
 										var/mob/M = A
 										if(M.type in subtypesof(/mob/living/simple_animal/hostile))

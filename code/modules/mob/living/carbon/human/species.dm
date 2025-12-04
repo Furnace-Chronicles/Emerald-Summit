@@ -170,6 +170,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/stress_examine = FALSE
 	var/stress_desc = null
 
+	var/punch_damage
+
 ///////////
 // PROCS //
 ///////////
@@ -1240,6 +1242,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(target.mind)
 			target.mind.attackedme[user.real_name] = world.time
 		target.lastattackerckey = user.ckey
+		target.lastattacker_weakref = WEAKREF(user)
 		user.dna.species.spec_unarmedattacked(user, target)
 
 		target.next_attack_msg.Cut()
@@ -1429,6 +1432,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		return FALSE
 	if(user == target)
 		return FALSE
+	SEND_SIGNAL(user, COMSIG_MOB_KICKED, target)
 	if(!HAS_TRAIT(user, TRAIT_GARROTED))	
 		if(user.check_leg_grabbed(1) || user.check_leg_grabbed(2))
 			to_chat(user, span_notice("I can't move my leg!"))
@@ -1442,6 +1446,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(!stander)
 			target.lastattacker = user.real_name
 			target.lastattackerckey = user.ckey
+			target.lastattacker_weakref = WEAKREF(user)	
 			if(target.mind)
 				target.mind.attackedme[user.real_name] = world.time
 			var/selzone = accuracy_check(user.zone_selected, user, target, /datum/skill/combat/unarmed, user.used_intent)
@@ -1471,7 +1476,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				var/text = "[bodyzone2readablezone(selzone)]..."
 				user.filtered_balloon_alert(TRAIT_COMBAT_AWARE, text)
 
-			user.do_attack_animation(target, ATTACK_EFFECT_DISARM)
+			user.do_attack_animation_simple(target, ATTACK_EFFECT_KICK, TRUE)
 			if(!nodmg)
 				playsound(target, 'sound/combat/hits/kick/stomp.ogg', 100, TRUE, -1)
 
@@ -1482,7 +1487,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	else
 		if(!target.kick_attack_check(user))
 			return 0
-		user.do_attack_animation(target, ATTACK_EFFECT_DISARM)
+		user.do_attack_animation_simple(target, ATTACK_EFFECT_KICK, TRUE)
 		playsound(target, 'sound/combat/hits/kick/kick.ogg', 100, TRUE, -1)
 
 		if (target.pulling && target.grab_state < GRAB_AGGRESSIVE)
@@ -1600,14 +1605,11 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		playsound(target, 'sound/combat/hits/kick/kick.ogg', 100, TRUE, -1)
 		target.lastattacker = user.real_name
 		target.lastattackerckey = user.ckey
+		target.lastattacker_weakref = WEAKREF(user)
 		if(target.mind)
 			target.mind.attackedme[user.real_name] = world.time
 		user.stamina_add(15)
 		target.forcesay(GLOB.hit_appends)
-		if(user.has_status_effect(/datum/status_effect/buff/clash))
-			user.bad_guard(span_warning("The kick throws my stance off!"))
-		if(target.has_status_effect(/datum/status_effect/buff/clash))
-			target.bad_guard(span_warning("The kick throws my stance off!"))
 
 /datum/species/proc/spec_hitby(atom/movable/AM, mob/living/carbon/human/H)
 	return
@@ -1629,6 +1631,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		to_chat(M, span_warning("I attempt to touch [H]!"))
 		return 0
 	SEND_SIGNAL(M, COMSIG_MOB_ATTACK_HAND, M, H, attacker_style)
+	if(SEND_SIGNAL(H, COMSIG_MOB_ATTACKED_BY_HAND, M, H, attacker_style) & COMPONENT_HAND_NO_ATTACK)
+		return FALSE
 	switch(M.used_intent.type)
 		if(INTENT_HELP)
 			help(M, H, attacker_style)

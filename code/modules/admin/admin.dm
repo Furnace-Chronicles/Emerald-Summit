@@ -247,7 +247,7 @@
 	if(!check_rights())
 		return
 
-	M.fully_heal(admin_revive = TRUE)
+	M.fully_heal(admin_revive = TRUE, break_restraints = TRUE)
 	message_admins(span_danger("Admin [key_name_admin(usr)] healed [key_name_admin(M)]!"))
 	log_admin("[key_name(usr)] healed [key_name(M)].")
 

@@ -135,7 +135,7 @@
 #define ARMOR_PANTS_BRIGANDINE list("blunt" = 40, "slash" = 70, "stab" = 70, "piercing" = 50, "fire" = 0, "acid" = 0)
 
 //Antag / Special / Unique armor defines
-#define ARMOR_VAMP list("blunt" = 80, "slash" = 200, "stab" = 100, "piercing" = 80, "fire" = 80, "acid" = 0) // vulnerable to blunt and piercing attacks
+#define ARMOR_VAMP list("blunt" = 100, "slash" = 100, "stab" = 90, "piercing" = 80, "fire" = 0, "acid" = 0)
 #define ARMOR_WWOLF list("blunt" = 100, "slash" = 90, "stab" = 80, "piercing" = 70, "fire" = 40, "acid" = 0)
 #define ARMOR_DRAGONSCALE list("blunt" = 100, "slash" = 100, "stab" = 100, "fire" = 50, "acid" = 0)
 #define ARMOR_ASCENDANT list("blunt" = 50, "slash" = 100, "stab" = 80, "piercing" = 80, "fire" = 0, "acid" = 0)
@@ -485,6 +485,7 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_WRETCH			"CAT_WRETCH"		// Wretch classes untethered from adventurer
 #define CTAG_LSKELETON		"CAT_LSKELETON"		// Lich Fortified Skeleton classes
 #define CTAG_NSKELETON		"CAT_NSKELETON"		// Necromancer Greater Skeleton classes
+#define CTAG_LICKER_WRETCH  "CAT_LICKER_WRETCH" // Licker wretch. Nuff said.
 
 #define CTAG_WARDEN			"CAT_WARDEN"		// Warden class - Handles warden class selector.
 #define CTAG_WATCH			"CAT_WATCH"			// Watch class - Handles Town Watch class selector
@@ -509,6 +510,11 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_GUILDSMEN 		"CAT_GUILDSMEN"		// Guildsmen class - Handles Guildsmen class selector
 #define CTAG_NIGHTMAIDEN	"CAT_NIGHTMAIDEN"	// Bathhouse Attendant's aesthetic choices.
 #define CTAG_PRISONER "CAT_PRISONER"
+
+#define CTAG_HFT_LORD "CAT_HFT_LORD"  // Heartfelt Lord Class - Handles Heartfelt Lord class selector.
+#define CTAG_HFT_HAND "CAT_HFT_HAND"  // Heartfelt Hand Class - Handles Heartfelt Hand class selector.
+#define CTAG_HFT_KNIGHT "CAT_HFT_KNIGHT"  // Heartfelt Knight Class - Handles Heartfelt Knight class selector.
+#define CTAG_HFT_RETINUE "CAT_HFT_RETINUE"  // Heartfelt Retinue Class - Handles Heartfelt Retinue class selector.
 
 // List of mono-class categories. Only here for standardisation sake, but can be added on if desired.
 #define CTAG_DUNGEONEER		"CAT_DUNGEONEER"
@@ -565,6 +571,13 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CLASS_CAT_KAZENGUN "Kazengun"
 #define CLASS_CAT_RACIAL "Race Exclusive" //Used for black oaks, grudgebearer dwarves, etc.
 
+//Migrant categories
+#define CLASS_CAT_HFT_COURT "Upper Court"
+#define CLASS_CAT_HFT_GUARD "House Guard"
+#define CLASS_CAT_HFT_WORKER "Workers"
+
+
+
 // Social rank defines
 #define SOCIAL_RANK_DIRT 1
 #define SOCIAL_RANK_PEASANT 2
@@ -597,3 +610,8 @@ Medical defines
 #define ARTERY_LIMB_BLEEDRATE 20	//This is used as a reference point for dynamic wounds, so it's better off as a define.
 #define CONSTITUTION_BLEEDRATE_MOD 0.1	//How much slower we'll be bleeding for every CON point. 0.1 = 10% slower.
 #define CONSTITUTION_BLEEDRATE_CAP 15	//The CON value up to which we get a bleedrate reduction.
+
+/*
+	Red Potion defines
+*/
+#define BLOOD_VOLUME_POTION_MAX 600

@@ -766,6 +766,7 @@
 	layer = 2.8
 	brightness = 5
 	on = FALSE
+	crossfire = TRUE
 	fueluse = 15 MINUTES
 	bulb_colour = "#da5e21"
 	cookonme = TRUE

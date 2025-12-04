@@ -18,9 +18,9 @@
 /datum/reagent/medicine/minorhealthpot/on_mob_life(mob/living/carbon/M) // Heals half as much as health potion, but not wounds.
 	var/list/wCount = M.get_wounds()
 	if(M.blood_volume < BLOOD_VOLUME_NORMAL) //can not overfill
-		M.blood_volume = min(M.blood_volume+20, BLOOD_VOLUME_MAXIMUM)
+		M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_NORMAL)
 	if(wCount.len > 0)
-		M.heal_wounds(10)
+		M.heal_wounds(3)
 		M.update_damage_overlays()
 		if(prob(10))
 			to_chat(M, span_nicegreen("I feel my wounds mending."))
@@ -29,7 +29,6 @@
 			M.reagents.remove_reagent(R.type,1)
 	M.adjustBruteLoss(-1, 0)
 	M.adjustFireLoss(-1, 0)
-	M.adjustToxLoss(-1, 0)
 	M.adjustOxyLoss(-1.5, 0)
 	M.adjustCloneLoss(-1, 0)
 	for(var/obj/item/organ/organny in M.internal_organs)
@@ -68,11 +67,11 @@
 /datum/reagent/medicine/healthpot/on_mob_life(mob/living/carbon/M)
 	var/list/wCount = M.get_wounds()
 	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
-		M.blood_volume = min(M.blood_volume+10, BLOOD_VOLUME_MAXIMUM) //Each sip restores 10%~ of your total blood, given every person has a max of 560 blood.
+		M.blood_volume = min(M.blood_volume+10, BLOOD_VOLUME_POTION_MAX) //Each sip restores 10%~ of your total blood, given every person has a max of 560 blood.
 		//Yes this is the same amount that water recovers, but this is the 'normal' health potion.
 	else
 		//can overfill you with blood, but at a slower rate
-		M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_MAXIMUM)
+		M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_POTION_MAX)
 	if(wCount.len > 0)
 		//some peeps dislike the church, this allows an alternative thats not a doctor or sleep.
 		M.heal_wounds(8)
@@ -98,9 +97,9 @@
 /datum/reagent/medicine/stronghealth/on_mob_life(mob/living/carbon/M)
 	var/list/wCount = M.get_wounds()
 	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
-		M.blood_volume = min(M.blood_volume+20, BLOOD_VOLUME_MAXIMUM) //+100 blood per sip, 960 blood per bottle. Still enough to fill up your blood twice over.
+		M.blood_volume = min(M.blood_volume+20, BLOOD_VOLUME_POTION_MAX) //+100 blood per sip, 960 blood per bottle. Still enough to fill up your blood twice over.
 	else
-		M.blood_volume = min(M.blood_volume+10, BLOOD_VOLUME_MAXIMUM)
+		M.blood_volume = min(M.blood_volume+10, BLOOD_VOLUME_POTION_MAX)
 	if(wCount.len > 0)
 		M.heal_wounds(12) //Less wound healing. Two sips will fix an artery, but only barely. 
 		M.update_damage_overlays()
@@ -353,6 +352,29 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 		else
 			M.add_nausea(6) //So a poison bolt (2u) will eventually cause puking at least once
 			M.adjustToxLoss(4.5) // just enough so 5u will kill you dead with no help
+	return ..()
+
+/datum/reagent/toxin/bloodacid // Quietus Poison for Vampires
+	name = "Vitae Acid"
+	description = ""
+	reagent_state = LIQUID
+	color = "#ff3300"
+	taste_description = "burning"
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	harmful = TRUE
+
+/datum/reagent/toxin/bloodacid/on_mob_life(mob/living/carbon/M)
+	if(volume > 0.09)
+		if(isdwarf(M))
+			M.add_nausea(5.5)
+			M.adjustToxLoss(7.5) 
+			to_chat(M, span_userdanger("MY HEART! I'VE BEEN POISONED."))
+			M.playsound_local('sound/magic/heartbeat.ogg', 50)
+		else
+			M.add_nausea(6.5) 
+			M.adjustToxLoss(8.5) 
+			to_chat(M, span_userdanger("MY HEART! I'VE BEEN POISONED."))
+			M.playsound_local('sound/magic/heartbeat.ogg', 50)
 	return ..()
 
 /datum/reagent/toxin/organpoison

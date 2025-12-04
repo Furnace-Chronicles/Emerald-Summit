@@ -4,6 +4,8 @@
 #define MAX_PLANT_WEEDS 100
 #define SOIL_DECAY_TIME 10 MINUTES
 
+GLOBAL_LIST_EMPTY(soil_list)
+
 /obj/structure/soil
 	name = "soil"
 	desc = "Dirt, ready to give life like a womb."
@@ -44,6 +46,14 @@
 	var/fertilized_time = 0
 	///Cached var to determine whether we need to call an icon update or not.
 	var/needs_icon_update = FALSE
+
+/obj/structure/soil/Initialize()
+	. = ..()
+	GLOB.soil_list += src
+
+/obj/structure/soil/Destroy()
+	GLOB.soil_list -= src
+	return ..()
 
 /obj/structure/soil/Crossed(atom/movable/AM)
 	. = ..()

@@ -57,6 +57,12 @@
 	if(istype(H.patron, /datum/patron/divine/dendor))
 		H.adjust_skillrank(/datum/skill/magic/druidic, 3, TRUE)
 		to_chat(H, span_notice("As a follower of Dendor, you have innate knowledge of druidic magic."))
+		ADD_TRAIT(H, TRAIT_SEEDKNOW, TRAIT_GENERIC)
+		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE) // we are a litteral forest dweller, we should atleast not be cluess about such things, even abyssorites get badass combat stuff
+		H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/labor/fishing, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/astrata)
 		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/noc)
@@ -107,13 +113,17 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)	//Capped to T1 miracles.
 
-	var/weapons = list("Katar","Knuckle Dusters")
+	var/weapons = list("Katar","Knuckle Dusters","Quarterstaff")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Katar")
 			backpack_contents += list(/obj/item/rogueweapon/katar = 1)
 		if("Knuckle Dusters")
 			backpack_contents += list(/obj/item/rogueweapon/knuckles/bronzeknuckles = 1)
+		if("Quarterstaff")
+			H.put_in_hands(new /obj/item/rogueweapon/woodstaff/quarterstaff/steel(H), TRUE)
+			H.adjust_skillrank(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/unarmed, SKILL_LEVEL_NOVICE, TRUE)
 	H.cmode_music = 'sound/music/combat_holy.ogg' // left in bc i feel like monk players want their darktide
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
@@ -250,8 +260,12 @@
 	if(H.patron?.type == /datum/patron/divine/astrata)
 		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/dendor)
+		ADD_TRAIT(H, TRAIT_SEEDKNOW, TRAIT_GENERIC)
 		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE) // we are a litteral forest dweller, we should atleast not be cluess about such things, even abyssorites get badass combat stuff
+		H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/labor/fishing, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/noc)
 		H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
 		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
@@ -505,8 +519,12 @@
 	if(H.patron?.type == /datum/patron/divine/astrata)
 		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/dendor)
+		ADD_TRAIT(H, TRAIT_SEEDKNOW, TRAIT_GENERIC)
 		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE) // we are a litteral forest dweller, we should atleast not be cluess about such things, even abyssorites get badass combat stuff
+		H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/labor/fishing, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/noc)
 		H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
 		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
@@ -586,6 +604,7 @@
 		STATKEY_INT = 2,
 		STATKEY_PER = 2,
 		STATKEY_END = 1,
+		STATKEY_CON = 1,
 		STATKEY_SPD = 1,
 	)
 
@@ -678,8 +697,16 @@
 	if(H.patron?.type == /datum/patron/divine/astrata)
 		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/dendor)
+		ADD_TRAIT(H, TRAIT_SEEDKNOW, TRAIT_GENERIC)
 		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE) // we are a litteral forest dweller, we should atleast not be cluess about such things, even abyssorites get badass combat stuff
+		H.adjust_skillrank(/datum/skill/craft/carpentry, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/tanning, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/labor/fishing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/labor/butchering, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/noc)
 		H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
 		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)

@@ -12,7 +12,7 @@
 		/datum/species/lamia,
 	)
 	allowed_sexes = list(MALE, FEMALE)
-	spells = list(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+	spells = list(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation, /obj/effect/proc_holder/spell/self/message)
 	display_order = JDO_MAGICIAN
 	tutorial = "Your creed is one dedicated to the conquering of the arcane arts and the constant thrill of knowledge. \
 		You owe your life to the Lord, for it was his coin that allowed you to continue your studies in these dark times. \
@@ -25,12 +25,12 @@
 	round_contrib_points = 2
 	cmode_music = 'sound/music/combat_bandit_mage.ogg'
 	advclass_cat_rolls = list(CTAG_COURTMAGE = 2)
-	social_rank = SOCIAL_RANK_YEOMAN
+	social_rank = SOCIAL_RANK_NOBLE // "as justicar and trusted advisor to their reign" to the duke, basically the duke's right hand guy after the Hand
 
 	// Can't get very far as a magician if you can't chant spells now can you?
 	vice_restrictions = list(/datum/charflaw/mute)
 
-	job_traits = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T4, TRAIT_SEEPRICES, TRAIT_INTELLECTUAL)
+	job_traits = list(TRAIT_NOBLE, TRAIT_MAGEARMOR, TRAIT_ARCYNE_T4, TRAIT_SEEPRICES, TRAIT_INTELLECTUAL)
 	job_subclasses = list(
 		/datum/advclass/courtmage
 	)
@@ -78,12 +78,7 @@
 		H.change_stat("intelligence", 1)
 		H.change_stat("perception", 1)
 		H?.mind.adjust_spellpoints(6)
-		if(ishumannorthern(H))
-			belt = /obj/item/storage/belt/rogue/leather/plaquegold
-			cloak = null
-			head = /obj/item/clothing/head/roguetown/wizhat
-			armor = /obj/item/clothing/suit/roguetown/shirt/robe/wizard
-			H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
+		H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo,
 	  		/datum/patron/inhumen/matthios,
@@ -96,17 +91,23 @@
 	..()
 	H.adjust_blindness(-3)
 	neck = /obj/item/clothing/neck/roguetown/talkstone
-	cloak = /obj/item/clothing/cloak/black_cloak
-	armor = /obj/item/clothing/suit/roguetown/shirt/robe/black
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 	pants = /obj/item/clothing/under/roguetown/tights/random
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
-	belt = /obj/item/storage/belt/rogue/leather/plaquesilver
 	beltr = /obj/item/storage/keyring/mage
 	beltl = /obj/item/storage/magebag/starter
 	id = /obj/item/clothing/ring/gold
 	r_hand = /obj/item/rogueweapon/woodstaff/riddle_of_steel/magos
 	backl = /obj/item/storage/backpack/rogue/satchel
+	. = ..()
+	if(H.age == AGE_OLD)
+		belt = /obj/item/storage/belt/rogue/leather/plaquegold
+		head = /obj/item/clothing/head/roguetown/wizhat
+		armor = /obj/item/clothing/suit/roguetown/shirt/robe/wizard
+	else
+		armor = /obj/item/clothing/suit/roguetown/shirt/robe/black
+		belt = /obj/item/storage/belt/rogue/leather/plaquesilver
+		cloak = /obj/item/clothing/cloak/black_cloak
 
 	backpack_contents = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/poison, 

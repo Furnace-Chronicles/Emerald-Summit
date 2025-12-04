@@ -93,7 +93,7 @@
 			r_hand = /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons
 
 /datum/advclass/thug/wiseguy
-	name = "Wise Guy"
+	name = "Miscreant"
 	tutorial = "You're smarter than the rest, by a stone's throw - and you know better than to get up close and personal. Unlike most others, you can read."
 	outfit = /datum/outfit/job/roguetown/thug/wiseguy
 	category_tags = list(CTAG_TOWNER)

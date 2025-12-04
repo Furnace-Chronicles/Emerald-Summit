@@ -6,7 +6,7 @@
 	id = "anthromorph"
 	base_name = "Beastvolk"
 	use_titles = TRUE
-	race_titles = list("Cat-Kin", "Dog-Kin", "Volf-Kin", "Lion-Kin", "Venard-Kin", "Tiger-Kin", "Sheep-Kin", "Goat-Kin", "Rous-Kin", "Possum-Kin", "Pig-Kin", "Boar-Kin", "Rabbit-Kin", "Horse-Kin", "Donkey-Kin", "Hyena-Kin", "Deer-Kin", "Bear-Kin", "Panda-Kin", "Coyote-Kin", "Moose-Kin", "Jackal-Kin", "Panther-Kin", "Lynx-Kin", "Leopard-Kin", "Monkey-Kin", "Bird-Kin", "Seal-Kin", "Bat-Kin", "Otter-Kin", "Cow-Kin", "Bull-Kin", "Monster-Kin", "Chimera")
+	race_titles = list("Cat-Kin", "Dog-Kin", "Volf-Kin", "Lion-Kin", "Venard-Kin", "Tiger-Kin", "Sheep-Kin", "Goat-Kin", "Rous-Kin", "Possum-Kin", "Pig-Kin", "Boar-Kin", "Rabbit-Kin", "Cabbit-Kin", "Horse-Kin", "Donkey-Kin", "Hyena-Kin", "Deer-Kin", "Bear-Kin", "Panda-Kin", "Coyote-Kin", "Moose-Kin", "Jackal-Kin", "Panther-Kin", "Lynx-Kin", "Leopard-Kin", "Monkey-Kin", "Bird-Kin", "Seal-Kin", "Bat-Kin", "Otter-Kin", "Cow-Kin", "Bull-Kin", "Monster-Kin", "Chimera")
 	desc = "<b>Wild-Kin: Minor Races of the World</b><br>\
 	A catch-all for various races of the planet too few in number to be properly remembered by the common citizens of the kingdoms. \
 	They are individual species with wildly varied origins, the rumor of crossbreeding or divine curses being a common prejudice no matter where they end up. \

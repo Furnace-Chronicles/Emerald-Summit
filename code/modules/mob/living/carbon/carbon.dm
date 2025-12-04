@@ -51,6 +51,7 @@
 	AdjustKnockdown(levels * 20)
 
 /mob/living/carbon/swap_hand(held_index)
+	SEND_SIGNAL(src, COMSIG_CARBON_SWAPHANDS)
 	if(!held_index)
 		held_index = (active_hand_index % held_items.len)+1
 
@@ -763,7 +764,8 @@
 	for(var/obj/item/bodypart/bodypart as anything in bodyparts) //hardcoded to streamline things a bit
 		if(!(bodypart.body_zone in lethal_zones))
 			continue
-		var/my_burn = abs((bodypart.burn_dam / bodypart.max_damage) * DAMAGE_THRESHOLD_FIRE_CRIT)
+		var/hardcrit_divisor = !mind ? FIRE_HARDCRIT_DIVISOR_MINDLESS : FIRE_HARDCRIT_DIVISOR
+		var/my_burn = abs((bodypart.burn_dam / bodypart.max_damage) * hardcrit_divisor)
 		total_burn = max(total_burn, my_burn)
 		used_damage = max(used_damage, my_burn)
 	if(used_damage < total_tox)
@@ -1120,7 +1122,7 @@
 	update_hud_handcuffed()
 	update_mobility()
 
-/mob/living/carbon/fully_heal(admin_revive = FALSE)
+/mob/living/carbon/fully_heal(admin_revive = FALSE, break_restraints = FALSE)
 	if(reagents)
 		reagents.clear_reagents()
 		for(var/addi in reagents.addiction_list)
@@ -1142,17 +1144,18 @@
 		suiciding = FALSE
 		regenerate_limbs()
 		regenerate_organs()
+		if(reagents)
+			reagents.addiction_list = list()
+	if(break_restraints)
 		handcuffed = initial(handcuffed)
 		for(var/obj/item/restraints/R in contents) //actually remove cuffs from inventory
 			qdel(R)
 		update_handcuffed()
-		if(reagents)
-			reagents.addiction_list = list()
 	cure_all_traumas(TRAUMA_RESILIENCE_MAGIC)
 	var/list/wCount = get_wounds()
 	if(wCount.len > 0)
 		heal_wounds(INFINITY)
-	..()
+	. = ..()
 	// heal ears after healing traits, since ears check TRAIT_DEAF trait
 	// when healing.
 	restoreEars()
@@ -1389,3 +1392,22 @@
 			to_chat(src, "<span class='warning'>[src] has removed their leash!</span>")
 			src.remove_status_effect(/datum/status_effect/leash_pet)
 
+//port of various procs used for undead from Vanderlin
+/mob/living/carbon/proc/grant_undead_eyes()
+	var/obj/item/organ/eyes/eyes = getorganslot(ORGAN_SLOT_EYES)
+	var/eyecolor = eyes.eye_color
+	var/eyesecond = eyes.second_color
+	if(eyes)
+		eyes.Remove(src,1)
+		QDEL_NULL(eyes)
+
+	eyes = new /obj/item/organ/eyes/night_vision/zombie
+	eyes.eye_color = eyecolor
+	eyes.second_color = eyesecond
+	eyes.Insert(src)
+
+/// skeletonize all limbs of a carbon mob, pass TRUE as an argument if it's lethal, FALSE if it's not.
+/mob/living/carbon/proc/skeletonize(lethal = TRUE)
+	for(var/obj/item/bodypart/B in bodyparts)
+		B.skeletonize(lethal)
+	update_body_parts()

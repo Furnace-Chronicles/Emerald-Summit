@@ -46,6 +46,9 @@
 /datum/status_effect/incapacitating/immobilized
 	id = "immobilized"
 	alert_type = /atom/movable/screen/alert/status_effect/immobilized
+	mob_effect_icon = 'icons/mob/mob_effects.dmi'
+	mob_effect_icon_state = "eff_immobilized"
+	mob_effect_offset_x = 3
 
 /atom/movable/screen/alert/status_effect/immobilized
 	name = "Immobilized"
@@ -503,20 +506,45 @@ obj/effect/temp_visual/curse/Initialize()
 	duration = 30 SECONDS
 
 /atom/movable/screen/alert/status_effect/debuff/feintcd
-	name = "Feint Cooldown"
+	name = "Feint Cool down"
 	desc = "I used it. I must wait, or risk a lower chance of success."
 	icon_state = "feintcd"
 
 
 /atom/movable/screen/alert/status_effect/debuff/clashcd
-	name = "Guard Cooldown"
+	name = "Riposte / Guard Cooldown"
 	desc = "I used it. I must wait."
 	icon_state = "guardcd"
+
+/datum/status_effect/debuff/strikecd
+	id = "strikecd"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/precisestrikecd
+	duration = 30 SECONDS
+
+/atom/movable/screen/alert/status_effect/debuff/precisestrikecd
+	name = "Precise Strike Cooldown"
+	desc = "I used it. I must wait."
+	icon_state = "strikecd"
 
 /datum/status_effect/debuff/clashcd
 	id = "clashcd"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/clashcd
 	duration = 30 SECONDS
+
+/datum/status_effect/debuff/specialcd
+	id = "specialcd"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/specialcd
+	duration = 30 SECONDS
+
+/datum/status_effect/debuff/specialcd/on_creation(mob/living/new_owner, new_dur)
+	if(new_dur)
+		duration = new_dur
+	return ..()
+
+/atom/movable/screen/alert/status_effect/debuff/specialcd
+	name = "Precise Strike Cooldown"
+	desc = "I used it. I must wait."
+	icon_state = "strikecd"
 
 /atom/movable/screen/alert/status_effect/debuff/exposed
 	name = "Exposed"
@@ -527,6 +555,9 @@ obj/effect/temp_visual/curse/Initialize()
 	id = "nofeint"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/exposed
 	duration = 10 SECONDS
+	mob_effect_icon = 'icons/mob/mob_effects.dmi'
+	mob_effect_icon_state = "eff_exposed"
+	mob_effect_layer = MOB_EFFECT_LAYER_EXPOSED
 
 /datum/status_effect/debuff/exposed/on_creation(mob/living/new_owner, new_dur)
 	if(new_dur)
@@ -537,6 +568,11 @@ obj/effect/temp_visual/curse/Initialize()
 	id = "feintcd"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/feintcd
 	duration = 30 SECONDS
+
+/datum/status_effect/debuff/feintcd/on_creation(mob/living/new_owner, new_dur)
+	if(new_dur)
+		duration = new_dur
+	return ..()
 
 //Unused
 /datum/status_effect/debuff/riposted

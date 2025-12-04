@@ -100,7 +100,7 @@
 				if(blade_int >= max_blade_int)
 					to_chat(user, span_info("Fully sharpened."))
 					break
-				if(do_after(user, 1.5 SECONDS, same_direction = TRUE))
+				if(do_after(user, 1.5 SECONDS))
 					sharpen(ST, user, 0.3)
 				else
 					break

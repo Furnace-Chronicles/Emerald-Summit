@@ -11,7 +11,7 @@
 
 /datum/skill/magic/blood
 	name = "Blood Sorcery"
-	desc = "Currently does not affect anything."
+	desc = "Affects Vampiric weapons, and Vampiric Disciplines."
 
 /datum/skill/magic/arcane
 	name = "Arcane Magic"

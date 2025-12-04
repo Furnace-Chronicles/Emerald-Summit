@@ -203,12 +203,3 @@
 		else
 			recipient.mob_biotypes |= MOB_UNDEAD //Undead biotype is already applied by damned vice.
 
-/datum/virtue/combat/vampire
-	name = "Crimson Curse"
-	desc = "The dark gift of vampirism courses through my veins. I thirst for blood, shun the light of day, and possess unnatural resilience and strength. And yet these fools dare call me monster..."
-
-/datum/virtue/combat/vampire/apply_to_human(mob/living/carbon/human/recipient)
-	var/datum/antagonist/vampirelord/lesser/new_antag = new /datum/antagonist/vampirelord/lesser/stray()
-	recipient.mind.add_antag_datum(new_antag)
-	recipient.energy = recipient.max_energy
-	recipient.update_health_hud()

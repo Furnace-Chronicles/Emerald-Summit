@@ -52,7 +52,9 @@
 #define TRAIT_SQUIRE_REPAIR "Squire Knowledge"
 #define TRAIT_TRAINED_SMITH "Trained Smith"
 #define TRAIT_GUARDSMAN "Vigilant Guardsman"
+#define TRAIT_GUARDSMAN_NOBLE "Noble Guardsman"
 #define TRAIT_TAVERN_FIGHTER "Tavern Fighter"
+#define TRAIT_FROZEN_STAMINA "Frozen Stamina"
 #define TRAIT_WOODSMAN "Talented Woodsman"
 #define TRAIT_LAMIAN_TAIL "Lamian Tail"
 #define TRAIT_DUNGEONMASTER "Ruthless Jailor"
@@ -70,6 +72,7 @@
 #define TRAIT_INTELLECTUAL "Intellectual"
 #define TRAIT_GRAVEROBBER "Experienced Grave Robber"
 #define TRAIT_PURITAN "Puritan"
+#define TRAIT_HEARTFELT "Heartfelt"
 #define TRAIT_MIRROR_MAGIC "Mirror Magic"
 #define TRAIT_WITCH "They fear me, but I am useful to them."
 #define TRAIT_WINGS "Bewinged"
@@ -77,9 +80,11 @@
 #define TRAIT_PERMAMUTE "Permanent Mute"
 #define TRAIT_HERESIARCH "Forbidden Knowledge" //allows entry to ascendant church
 #define TRAIT_EXCOMMUNICATED "Excommunicated" //cannot be target of healing miracles of Ten or anastasia or cure rot
+#define TRAIT_DISGRACED_KNIGHT "Disgraced Knight" //knight who has been stripped of their honor
 #define TRAIT_PEASANTMILITIA "Angry Peasant" //Skill is treated as one higher with appropriate weapons
 #define TRAIT_SLAYER "Slayer Oath"
 #define TRAIT_NODEF "Recklessness"
+#define TRAIT_WAGES_SUSPENDED "Wages Suspended" //steward has suspended your wages
 
 //Hearthstone port (Tracking)
 #define TRAIT_PERFECT_TRACKER "Perfect Tracker" //Will always find any tracks and analyzes them perfectly.
@@ -221,6 +226,7 @@
 //role related traits
 #define TRAIT_MASTER_CARPENTER "Master Carpenter"
 #define TRAIT_MASTER_MASON "Master Masonry"
+#define TRAIT_FOOD_STIPEND "Vomitorium-known"
 #define TRAIT_ROYALSERVANT "Household Insight" // Let's you see the royals liked/hated food/drink
 
 
@@ -233,7 +239,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_OUTLAW = span_info("This land's meisters and castificos reject my touch."),
 	TRAIT_LEPROSY = span_necrosis("I'm a disgusting leper..."),
 	TRAIT_TAVERN_FIGHTER = span_info("I am vigilant in my duties. The Tavern is my home, none shall dare oppose me or skip out on payment."),
-	TRAIT_GUARDSMAN = span_info("I am vigilant in my duties. In the town Scarlet Reach, my abilities are sharper due to my routine and familiarity."),
+	TRAIT_GUARDSMAN = span_info("I am vigilant in my duties. In the town of Scarlet Reach, my abilities are sharper due to my routine and familiarity."),
+	TRAIT_GUARDSMAN_NOBLE = span_info ("I am vigilant in my duties. In the Keep of Scarlet Reach, my abilities are sharper due to my routine and familiarity."),
 	TRAIT_WOODSMAN = span_info("I am vigilant in my duties. In the grove and coast of Scarlet Reach, my abilities are sharper due to my routine and familiarity."),
 	TRAIT_DEATHBARGAIN = span_info("A horrible deal has been prepared in your name. May you never see it fulfilled..."),
 	TRAIT_RITUALIST = span_info("I am skilled in the holy arts. Using ritual chalk, I can more deftly channel my God's powers via runes."),
@@ -271,6 +278,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CYCLOPS_LEFT = span_warning("My left eye has been poked out..."),
 	TRAIT_CYCLOPS_RIGHT = span_warning("My right eye has been poked out..."),
 	TRAIT_LEECHIMMUNE = "Leeches are reluctant to bite me.",
+	TRAIT_BITERHELM = "Whether through design or symbiosis, I can now bite into others while wearing a visored helmet.",
 	TRAIT_INHUMEN_ANATOMY = "My anatomy is inhumen, preventing me from wearing hats and shoes.",
 	TRAIT_NASTY_EATER = span_dead("I can eat bad food, and water that would be toxic to humen will not affect me."),
 	TRAIT_WILD_EATER = span_info("I can eat raw food and drink from dirty water."),
@@ -336,6 +344,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SCREENSHAKE = span_suicide("I don't feel very steady anymore..."),
 	TRAIT_GRAVEROBBER = span_info("My experience with 'post-mortem artifact recovery' has allowed me to resist Necra's curse placed upon those who disturb resting places."),
 	TRAIT_PURITAN = span_info("I lead the Sect of the Psydonic Otavan Inquisition sent here from Otava."),
+	TRAIT_HEARTFELT = span_info("I serve the interests of the Lord of Heartfelt."),
 	TRAIT_MIRROR_MAGIC = span_info("Mirror, mirror on the wall, who's the fairest of them all?"),
 	TRAIT_JUSTICARSIGHT = span_info("I am able to remember someone's crimes by looking at them, and how much their bounty is."),
 	TRAIT_CICERONE = span_info("I am well-versed in the differences of brews and spirits, and can tell them apart at a glance."),
@@ -391,6 +400,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CURSE_MALUM = span_warning("I am forsaken by the Maker. My hands tremble and fog overwhelms my mind."),
 	TRAIT_CURSE_EORA = span_warning("I am forsaken by the Lover. There is no beauty to be found for me in this world."),
 	TRAIT_EXCOMMUNICATED = span_warning("I have been excommunicated."),
+	TRAIT_DISGRACED_KNIGHT = span_warning("I have been disgraced and stripped of my knighthood."),
 	TRAIT_CURSE_ZIZO = span_warning("I am forsaken by the Architect. Her grasp reaches for my heart."),
 	TRAIT_CURSE_GRAGGAR = span_warning("I am forsaken by the Warlord. Bloodlust is only thing I know for real."),
 	TRAIT_CURSE_MATTHIOS = span_warning("I am forsaken by the Dragon. Greed will be my only salvation."),
@@ -404,9 +414,11 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SLAYER = span_warning("My vows forbid me from protecting my weakspots with armor."),
 	TRAIT_NODEF = span_warning("I expose myself in battle completely."),
 	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"), 
+	TRAIT_FOOD_STIPEND = span_notice("The creachers of the vomitorium know my touch, and will pull costs for their products directly from the treasury for me."),
+	TRAIT_CLERGY = span_notice("I am a servant of the local House of the Ten."),
+	TRAIT_WAGES_SUSPENDED = span_warning("The Stewardry has halted my daily wages!"),
 	TRAIT_PEASANTMILITIA = span_info("I am a commoner. When the Lord's soldiers do not come, I needs fend off villains and nite creechurs with the tools at hand. I fight best with simple tools and militia weapons."),
 	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"),
-	TRAIT_CLERGY = span_notice("I am a servant of the local House of the Ten.")
 ))
 
 // trait accessor defines
@@ -418,6 +430,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 			_L = target.status_traits; \
 			_L[trait] = list(source); \
 			SEND_SIGNAL(target, SIGNAL_ADDTRAIT(trait), trait); \
+			SEND_GLOBAL_SIGNAL(COMSIG_ATOM_ADD_TRAIT, target, trait); \
 		} else { \
 			_L = target.status_traits; \
 			if (_L[trait]) { \
@@ -425,6 +438,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 			} else { \
 				_L[trait] = list(source); \
 				SEND_SIGNAL(target, SIGNAL_ADDTRAIT(trait), trait); \
+				SEND_GLOBAL_SIGNAL(COMSIG_ATOM_ADD_TRAIT, target, trait); \
 			}; \
 		} \
 	} while (0)
@@ -462,6 +476,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 				if (!length(_L[_T])) { \
 					_L -= _T; \
 					SEND_SIGNAL(target, SIGNAL_REMOVETRAIT(_T), _T); \
+					SEND_GLOBAL_SIGNAL(COMSIG_ATOM_REMOVE_TRAIT, target, trait); \
 				}; \
 			};\
 			if (!length(_L)) { \
@@ -589,7 +604,12 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_BURIED_COIN_GIVEN "buried_coin_given" // prevents a human corpse from being used for a corpse multiple times
 #define TRAIT_BLOODLOSS_IMMUNE "bloodloss_immune" // can bleed, but will never die from blood loss
 #define TRAIT_NO_BITE "no_bite" //prevents biting
+#define TRAIT_BITERHELM "Helmetbiter" // just use this to get helmets which are bitey.
 #define TRAIT_LEGENDARY_ALCHEMIST		"Expert Herb Finder"
+/// Used to track if a player has rejected vampire convert
+#define TRAIT_REFUSED_VAMP_CONVERT "refused_vampire_conversion"
+/// makes your footsteps completely silent
+#define TRAIT_SILENT_FOOTSTEPS "silent_footsteps"
 
 //bodypart traits
 #define TRAIT_PARALYSIS	"paralysis" //Used for limb-based paralysis and full body paralysis
@@ -628,6 +648,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 
 // common trait sources
 #define TRAIT_GENERIC "generic"
+#define TRAIT_STATUS_EFFECT	"status_effect"
 #define TRAIT_VIRTUE "virtue"
 #define TRAIT_MIRACLE "miracle"
 #define UNCONSCIOUS_BLIND "unconscious_blind"
@@ -749,5 +770,17 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_AREA_SENSITIVE "area-sensitive"
 ///every hearing sensitive atom has this trait
 #define TRAIT_HEARING_SENSITIVE "hearing_sensitive"
+
+#define TRAIT_CLAN_LEADER "clan_leader"
+#define TRAIT_IN_FRENZY "in_frenzy"
+#define TRAIT_VIOLATOR "Violator of the Coven"
+#define TRAIT_TORPOR "Endless Slumber"
+/// Trait given as a result of vampiric activities
+#define VAMPIRE_TRAIT "vampire"
+#define TABOO_TRAIT "taboo"
+#define TRAIT_COVEN_BANE "coven_bane"
+#define TRAIT_COVEN_RESISTANT "coven_resistance"
+#define TRAIT_MOVEMENT_BLOCKED "movement_blocked"
 /// Mobs that have this trait cannot be extinguished
 #define TRAIT_NO_EXTINGUISH "no_extinguish"
+

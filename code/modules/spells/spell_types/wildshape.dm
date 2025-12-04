@@ -20,8 +20,11 @@
 
 
 	var/list/possible_shapes = list(
+		/mob/living/carbon/human/species/wildshape/bear,
 		/mob/living/carbon/human/species/wildshape/volf,
+		/mob/living/carbon/human/species/wildshape/fox,
 		/mob/living/carbon/human/species/wildshape/cat,
+		/mob/living/carbon/human/species/wildshape/cabbit,
 		/mob/living/carbon/human/species/wildshape/saiga,
 		/mob/living/carbon/human/species/wildshape/spider
 	)
@@ -61,6 +64,15 @@
 /mob/living/carbon/human/species/wildshape/proc/gain_inherent_skills()
 	if(src.mind)
 		src.adjust_skillrank(/datum/skill/magic/holy, 3, TRUE) //Any dendorite using this should be a holy magic user
+
+		// Remove existing devotion-based miracles before adding T2 miracles
+		// BUT keep the wildshape spell itself so we can transform back
+		if(src.mind.can_store_spells)
+			// Remove all miracle spells from current list EXCEPT wildshape spell
+			for(var/obj/effect/proc_holder/spell/S in src.mind.spell_list)
+				if(S.miracle && !istype(S, /obj/effect/proc_holder/spell/targeted/wildshape))
+					S.action?.Remove(src)
+					src.mind.spell_list -= S
 
 		var/datum/devotion/C = new /datum/devotion(src, src.patron) //If we don't do this, Dendorites can't be clerics and they can't revert back to their true forms
 		C.grant_miracles(src, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MAJOR)	//Major regen as no matter the previous level, it gets reset on transform. More connection to dendor I guess? Can level up to T4.

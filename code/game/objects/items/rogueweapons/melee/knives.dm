@@ -419,6 +419,7 @@
 	icon_state = "psydagger"
 	sheathe_icon = "psydagger"
 	sellprice = 70
+	
 
 	picklvl = 1.175
 
@@ -443,38 +444,6 @@
 		added_int = 100,\
 		added_def = 2,\
 	)
-
-/obj/item/rogueweapon/huntingknife/idagger/silver/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
-	. = ..()
-	if(ishuman(M) && M.mind)
-		var/mob/living/carbon/human/H = M
-		var/datum/antagonist/vampirelord/V_lord = H.mind.has_antag_datum(/datum/antagonist/vampirelord/)
-		var/datum/antagonist/werewolf/W = H.mind.has_antag_datum(/datum/antagonist/werewolf/)
-		if(H.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser))
-			to_chat(H, span_userdanger("I can't equip the silver, it is my BANE!"))
-			H.Knockdown(10)
-			H.Paralyze(10)
-			H.adjustFireLoss(25)
-			H.fire_act(1,10)
-		if(V_lord)
-			if(V_lord.vamplevel < 4 && !H.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser))
-				to_chat(H, span_userdanger("I can't equip the silver, it is my BANE!"))
-				H.Knockdown(5)
-				H.Paralyze(5)
-				H.adjustFireLoss(25)
-				H.fire_act(1,5)
-		if(W && W.transformed == TRUE)
-			to_chat(H, span_userdanger("I can't equip the silver, it is my BANE!"))
-			H.Knockdown(10)
-			H.Paralyze(10)
-			H.adjustFireLoss(25)
-			H.fire_act(1,10)
-		if(HAS_TRAIT(H, TRAIT_HOLLOW_LIFE))
-			to_chat(H, span_userdanger("I can't equip the silver, for I am one of the damned!"))
-			H.adjustFireLoss(25)
-			H.fire_act(1,10)
-			H.Knockdown(5)
-			H.Paralyze(5)
 
 /obj/item/rogueweapon/huntingknife/stoneknife
 	possible_item_intents = list(/datum/intent/dagger/cut,/datum/intent/dagger/chop)

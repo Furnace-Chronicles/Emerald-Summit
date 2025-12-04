@@ -23,25 +23,29 @@
 	// If you're floored, you will aim feet and legs easily. There's a check for whether the victim is laying down already.
 	if(!(user.mobility_flags & MOBILITY_STAND) && (zone in list(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_PRECISE_L_FOOT)))
 		return zone
-	if( (target.dir == turn(get_dir(target,user), 180)))
+	if((target.dir == turn(get_dir(target,user), 180)))
 		return zone
 
 	var/chance2hit = 0
 
-	if(check_zone(zone) == zone)	//Are we targeting a big limb or chest?
-		chance2hit += 15
+	var/accuracy_bonus = 15
+	var/precision_bonus = 0
 
 	chance2hit += (user.get_skill_level(associated_skill) * 8)
 
 	if(used_intent)
 		if(used_intent.blade_class == BCLASS_STAB)
-			chance2hit += 10
+			chance2hit += 6
+			precision_bonus += 8
 		if(used_intent.blade_class == BCLASS_PEEL)
 			chance2hit += 25
 		if(used_intent.blade_class == BCLASS_CUT)
-			chance2hit += 6
-		if((used_intent.blade_class == BCLASS_BLUNT || used_intent.blade_class == BCLASS_SMASH) && check_zone(zone) != zone)	//A mace can't hit the eyes very well
-			chance2hit -= 10
+			chance2hit += 5
+			accuracy_bonus += 8
+		if((used_intent.blade_class == BCLASS_BLUNT || used_intent.blade_class == BCLASS_SMASH))	//A mace can't hit the eyes very well
+			precision_bonus -= 10
+		if((used_intent.blade_class == BCLASS_PUNCH))
+			accuracy_bonus += 5
 
 	if(I)
 		if(I.wlength == WLENGTH_SHORT)
@@ -56,36 +60,41 @@
 		chance2hit += (min((user.STAPER-15)*3, 15))
 
 	if(user.STAPER < 10)
-		chance2hit -= ((10-user.STAPER)*10)
+		chance2hit -= ((10-user.STAPER)*8)
+		precision_bonus -= ((10-user.STAPER)*2)
 
 	if(istype(user.rmb_intent, /datum/rmb_intent/aimed))
 		chance2hit += 20
+		precision_bonus += 5
 	if(istype(user.rmb_intent, /datum/rmb_intent/swift))
 		chance2hit -= 20
+		precision_bonus -= 5
 
 	if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
-		chance2hit -= 30
+		chance2hit -= 25
+		precision_bonus -= 10
 
-	chance2hit = CLAMP(chance2hit, 5, 93)
+	var/accuracy_chance = CLAMP(chance2hit + accuracy_bonus, 5, 93)
+	var/precision_chance = CLAMP(chance2hit + precision_bonus, 5, 93)
 
 	var/precision_roll = FALSE
 	var/accuracy_roll = FALSE
 
-	accuracy_roll = prob(chance2hit)
+	accuracy_roll = prob(accuracy_chance)
 	if(accuracy_roll)
 		if(check_zone(zone) == zone)
 			return zone
 		else
-			precision_roll = prob(chance2hit)
+			precision_roll = prob(precision_chance)
 			if(precision_roll)
 				return zone
 			else
 				if(user.client?.prefs.showrolls)
-					to_chat(user, span_warning("Precision fail! [chance2hit]%"))
+					to_chat(user, span_warning("Precision fail! [precision_chance]%"))
 				return check_zone(zone)
 	else
 		if(user.client?.prefs.showrolls)
-			to_chat(user, span_warning("Accuracy fail! [chance2hit]%"))
+			to_chat(user, span_warning("Accuracy fail! [accuracy_chance]%"))
 		return BODY_ZONE_CHEST		
 
 /mob/proc/get_generic_parry_drain()
@@ -840,27 +849,22 @@
 	if(H.has_status_effect(/datum/status_effect/buff/clash))	//They also have Clash active. It'll trigger the special event.
 		clash(user, IM, IU)
 	else	//Otherwise, we just riposte them.
-		var/sharpnesspenalty = SHARPNESS_ONHIT_DECAY * 5
+		var/sharpnesspenalty = 0.15
 		if(IM.wbalance == WBALANCE_HEAVY || IU.blade_dulling == DULLING_SHAFT_CONJURED)
-			sharpnesspenalty *= 2
+			sharpnesspenalty += 0.05
 		if(IU.max_blade_int)
-			IU.remove_bintegrity(sharpnesspenalty, user)
+			IU.remove_bintegrity((IU.blade_int * sharpnesspenalty), user)
 		else
-			var/integdam = INTEG_PARRY_DECAY_NOSHARP * 5
+			var/integdam = max((IU.max_integrity / 5), (INTEG_PARRY_DECAY_NOSHARP * 5))
 			if(IU.blade_dulling == DULLING_SHAFT_CONJURED)
 				integdam *= 2
 			IU.take_damage(integdam, BRUTE, IM.d_type)
 		visible_message(span_suicide("[src] ripostes [H] with \the [IM]!"))
 		playsound(src, 'sound/combat/clash_struck.ogg', 100)
-		var/staminadef = (stamina * 100) / max_stamina
-		var/staminaatt = (H.stamina * 100) / H.max_stamina
-		if(staminadef > staminaatt)
-			H.apply_status_effect(/datum/status_effect/debuff/exposed, 2 SECONDS)
-			H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
-			H.Slowdown(3)
-			to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
-		else
-			H.changeNext_move(CLICK_CD_MELEE)
+		H.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
+		H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+		H.Slowdown(3)
+		to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
 		remove_status_effect(/datum/status_effect/buff/clash)
 		apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
 		purge_peel(GUARD_PEEL_REDUCTION)
@@ -941,7 +945,6 @@
 		S.start()
 		var/success
 		if(prob(prob_us))
-			HU.remove_status_effect(/datum/status_effect/buff/clash)
 			HU.play_overhead_indicator('icons/mob/overhead_effects.dmi', "clashtwo", 1 SECONDS, OBJ_LAYER, soundin = 'sound/combat/clash_disarm_us.ogg', y_offset = 24)
 			disarmed(IM)
 			Slowdown(5)
@@ -949,7 +952,6 @@
 		if(prob(prob_opp))
 			HU.disarmed(IU)
 			HU.Slowdown(5)
-			remove_status_effect(/datum/status_effect/buff/clash)
 			play_overhead_indicator('icons/mob/overhead_effects.dmi', "clashtwo", 1 SECONDS, OBJ_LAYER, soundin = 'sound/combat/clash_disarm_opp.ogg', y_offset = 24)
 			success = TRUE
 		if(!success)
@@ -965,6 +967,9 @@
 	remove_status_effect(/datum/status_effect/buff/clash)
 	HU.remove_status_effect(/datum/status_effect/buff/clash)
 
+///Proc that will try to throw the src's held I and throw it 1 - 5 tiles to their side. 
+///At the moment it doesn't have a get_active_held_item() failsafe, so the I has to be defined first.
+///This is due to, uh, bad code.
 /mob/living/carbon/human/proc/disarmed(obj/item/I)
 	visible_message(span_suicide("[src] is disarmed!"),
 					span_boldwarning("I'm disarmed!"))
@@ -976,16 +981,18 @@
 	throw_item(target_turf, FALSE)
 	apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 
-/mob/living/carbon/human/proc/bad_guard(msg, cheesy = FALSE)
-	stamina_add(((max_stamina * BAD_GUARD_FATIGUE_DRAIN) / 100))
-	if(cheesy)	//We tried to hit someone with Guard up. Unfortunately this must be super punishing to prevent cheese.
-		energy_add(-((max_energy * BAD_GUARD_FATIGUE_DRAIN) / 100))
+///Proc that cancels Riposte with a small stamina penalty, unless it's an extreme case.
+/mob/living/carbon/human/proc/bad_guard(msg, cheesy = FALSE, custom_value)
+	stamina_add(((max_stamina * (custom_value ? custom_value : BAD_GUARD_FATIGUE_DRAIN)) / 100))
+	if(cheesy)	//We tried to hit someone with Riposte (Not Limb Guard) up. Unfortunately this must be super punishing to prevent cheese.
+		energy_add(-((max_energy * (custom_value ? custom_value : BAD_GUARD_FATIGUE_DRAIN)) / 100))
 		Immobilize(2 SECONDS)
 	if(msg)
 		to_chat(src, msg)
 		emote("strain", forced = TRUE)
 	remove_status_effect(/datum/status_effect/buff/clash)
 
+///Reduces Peel by some amount. Usually called after waiting out of combat for a while or by other effects (riposte / bait)
 /mob/living/carbon/human/proc/purge_peel(amt)
 	//Equipment slots manually picked out cus we don't have a proc for this apparently
 	var/list/slots = list(wear_armor, wear_pants, wear_wrists, wear_shirt, gloves, head, shoes, wear_neck, wear_mask, wear_ring)
@@ -1018,16 +1025,24 @@
 			return TRUE
 	return FALSE
 
+///Purges the singular possible bait stack after waiting for a bit out of combat.
 /mob/living/carbon/human/proc/purge_bait()
 	if(!cmode)
 		if(bait_stacks > 0)
 			bait_stacks = 0
 			to_chat(src, span_info("My focus and balance returns. I won't lose my footing if I am baited again."))
 
+///Called by a timer after toggling cmode off.
 /mob/living/carbon/human/proc/expire_peel()
 	if(!cmode)
 		purge_peel(99)
 
+///A Unique Stat comparison between src and HT.
+///It takes the highest stats up to 14 and lowest stats 'up to' 14.
+///It compares the highest and the lowest of both targets and adds them to the probability.
+///-Lower- stats are multiplied by 3. Higher stats are added as-is.
+///This in essence favors someone with a more balanced statblock rather than someone who is specced 16+ into one, and 7 elsewhere.
+///eg (14 Hi. & 7 Lo.) will be at a disadvantage vs (11 Hi. & 10 Lo.) (14 + 21) vs (11 + 30)
 /mob/living/carbon/human/proc/measured_statcheck(mob/living/carbon/human/HT)
 	var/finalprob = 40
 

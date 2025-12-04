@@ -18,8 +18,8 @@
 	invocation = "Noc blinds thee of thy sins!"
 	invocation_type = "shout" //can be none, whisper, emote and shout
 	associated_skill = /datum/skill/magic/holy
-	devotion_cost = 15
-	recharge_time = 15 SECONDS
+	devotion_cost = 50
+	recharge_time = 25 SECONDS
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	miracle = TRUE
 	cost = 3

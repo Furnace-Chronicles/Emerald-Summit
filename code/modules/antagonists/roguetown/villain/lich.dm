@@ -74,12 +74,9 @@
 
 /datum/antagonist/lich/proc/skele_look()
 	var/mob/living/carbon/human/L = owner.current
-	L.hairstyle = "Bald"
-	L.facial_hairstyle = "Shaved"
-	L.update_body()
-	L.update_hair()
-	L.update_body_parts(redraw = TRUE)
-
+	L.skeletonize(FALSE)
+	L.skele_look()
+	
 /datum/antagonist/lich/proc/equip_lich()
 	owner.unknow_all_people()
 	for (var/datum/mind/MF in get_minds())
@@ -93,7 +90,7 @@
 		QDEL_NULL(L.charflaw)
 
 	L.mob_biotypes |= MOB_UNDEAD
-	replace_eyes(L)
+	L.grant_undead_eyes()
 
 	for (var/obj/item/bodypart/B in L.bodyparts)
 		B.skeletonize(FALSE)
@@ -144,14 +141,6 @@
 	H.ambushable = FALSE
 
 	addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "LICH"), 5 SECONDS)
-
-/datum/antagonist/lich/proc/replace_eyes(mob/living/carbon/human/L)
-	var/obj/item/organ/eyes/eyes = L.getorganslot(ORGAN_SLOT_EYES)
-	if (eyes)
-		eyes.Remove(L, TRUE)
-		QDEL_NULL(eyes)
-	eyes = new /obj/item/organ/eyes/night_vision/zombie
-	eyes.Insert(L)
 
 /datum/outfit/job/roguetown/lich/post_equip(mob/living/carbon/human/H)
 	..()
@@ -233,12 +222,11 @@
 	new_body.mob_biotypes |= MOB_UNDEAD
 	new_body.faction = list("undead")
 	new_body.set_patron(/datum/patron/inhumen/zizo)
+	new_body.grant_undead_eyes()
 	new_body.mind.grab_ghost(force = TRUE)
 
 	for (var/obj/item/bodypart/body_part in new_body.bodyparts)
 		body_part.skeletonize(FALSE)
-		
-	replace_eyes(new_body)
 	set_stats()
 	skele_look()
 	equip_and_traits()

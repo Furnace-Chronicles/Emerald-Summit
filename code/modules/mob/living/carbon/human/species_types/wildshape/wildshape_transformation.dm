@@ -33,7 +33,13 @@
 	W.stored_language.copy_known_languages_from(src)
 	W.stored_skills = ensure_skills().known_skills.Copy()
 	W.stored_experience = ensure_skills().skill_experience.Copy()
-	W.stored_spells = mind.spell_list.Copy()
+
+	// Store spell list using new system if enabled
+	if(mind && mind.can_store_spells)
+		mind.stored_transformation_spells = mind.store_spell_list()
+	else
+		W.stored_spells = mind.spell_list.Copy() // Fallback for non-storage-enabled minds
+
 	W.voice_color = voice_color
 	W.cmode_music_override = cmode_music_override
 	W.cmode_music_override_name = cmode_music_override_name
@@ -78,11 +84,25 @@
 	skills?.known_skills = WA.stored_skills.Copy()
 	skills?.skill_experience = WA.stored_experience.Copy()
 
-	//Compares the list of spells we had before transformation with those we do now. If there are any that don't match, we remove them
-	for(var/obj/effect/proc_holder/spell/self/originspell in WA.stored_spells)
-		for(var/obj/effect/proc_holder/spell/self/wildspell in W.mind.spell_list)
-			if(wildspell != originspell)
-				W.RemoveSpell(wildspell)
+	// Restore spells using new system if storage was enabled
+	if(W.mind && W.mind.can_store_spells && W.mind.stored_transformation_spells)
+		// Remove T2 miracles granted during wildshape, keep transformation spells
+		var/list/always_keep = list(
+			/obj/effect/proc_holder/spell/targeted/wildshape
+		)
+		W.mind.restore_spell_list(W.mind.stored_transformation_spells, always_keep)
+		W.mind.stored_transformation_spells = null
+	else
+		// Fallback: old buggy logic for non-storage-enabled minds
+		// Remove spells that weren't in the original list
+		for(var/obj/effect/proc_holder/spell/wildspell in W.mind.spell_list)
+			var/found = FALSE
+			for(var/obj/effect/proc_holder/spell/originspell in WA.stored_spells)
+				if(wildspell == originspell)
+					found = TRUE
+					break
+			if(!found)
+				W.mind.RemoveSpell(wildspell)
 
 	W.regenerate_icons()
 

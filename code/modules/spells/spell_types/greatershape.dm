@@ -1,0 +1,43 @@
+/obj/effect/proc_holder/spell/targeted/shapeshift/dendormole
+	name = "Borrowed Power"
+	desc = "Greater power bestowed upon you, use it to shape into Dendor's special beest."
+	invocation = ""
+	overlay_state = "tamebeast"
+	human_req = FALSE
+	range = -1
+	include_user = TRUE
+	recharge_time = 120 SECONDS // cause too little is cheaty, too much is pain
+	cooldown_min = 50
+	invocation = "Blood shall feed the flowers!"
+	invocation_type = "shout"
+	action_icon_state = "shapeshift"
+	associated_skill = /datum/skill/magic/druidic
+	chargetime = 5 SECONDS
+	die_with_shapeshifted_form = FALSE
+	shapeshift_type = /mob/living/carbon/human/species/wildshape/dendormole
+	devotion_cost = 200
+	convert_damage = TRUE
+	do_gibs = FALSE
+	shifted_speed_increase = -1.3
+
+/obj/effect/proc_holder/spell/targeted/shapeshift/mireboi
+	name = "Crawler Form"
+	desc = "Rare power bestowed by Druids from the manic depths of Dendor's domain, used to take the form of an agile arachnoid critter."
+	invocation = ""
+	overlay_state = "tamebeast"
+	human_req = FALSE
+	range = -1
+	include_user = TRUE
+	recharge_time = 60 SECONDS
+	cooldown_min = 60
+	invocation = "Spin and Skitter!"
+	invocation_type = "shout"
+	action_icon_state = "shapeshift"
+	associated_skill = /datum/skill/magic/holy
+	chargetime = 10 SECONDS
+	die_with_shapeshifted_form = FALSE
+	shapeshift_type = /mob/living/carbon/human/species/wildshape/mirecrawler
+	devotion_cost = 100
+	convert_damage = TRUE
+	do_gibs = FALSE
+	shifted_speed_increase = 0.6
