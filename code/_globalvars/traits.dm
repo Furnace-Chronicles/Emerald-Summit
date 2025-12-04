@@ -155,6 +155,7 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		TRAIT_PUZZLEMASTER,
 		TRAIT_ENGINEERING_GOGGLES,
 		TRAIT_SLAYER,
+		TRAIT_CRIMSONCURSE,
 		TRAIT_NODEF
 	),
 	/obj/item/bodypart = list(

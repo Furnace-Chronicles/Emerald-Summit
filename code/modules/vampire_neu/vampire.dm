@@ -22,10 +22,9 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	var/forced = FALSE
 	var/datum/clan/forcing_clan
 	var/generation
-	var/has_crimson_curse
 	var/research_points = 10
 
-/datum/antagonist/vampire/New(incoming_clan = /datum/clan/nosferatu, forced_clan = FALSE, generation, has_crimson_curse = FALSE)
+/datum/antagonist/vampire/New(incoming_clan = /datum/clan/nosferatu, forced_clan = FALSE, generation)
 	. = ..()
 	if(forced_clan)
 		forced = forced_clan
@@ -43,8 +42,6 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 			research_points = 9
 		if(GENERATION_THINBLOOD)
 			research_points = 0
-	if(has_crimson_curse)
-		src.has_crimson_curse = has_crimson_curse
 
 /datum/antagonist/vampire/examine_friendorfoe(datum/antagonist/examined_datum, mob/examiner, mob/examined)
 	if(istype(examined_datum, /datum/antagonist/vampire/lord))

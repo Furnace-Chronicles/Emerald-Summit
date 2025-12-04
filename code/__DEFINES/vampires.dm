@@ -30,9 +30,6 @@
 /// Given to the vampire in case their victim refuses to be converted. Given only once per unique vamp victim.
 #define VITAE_PER_UNIQUE_CONVERSION_REJECT 500
 
-//Used for Crimson Curse so we can tell them apart from other vampires. Mainly used so they don't spawn as Clan Leaders. 
-#define HAS_CRIMSON_CURSE
-
 GLOBAL_LIST_INIT(vamp_generation_to_text, list(
 	"Thin Blood",
 	"Neonate",

@@ -171,18 +171,20 @@ And it also helps for the character set panel
 	return TRUE
 
 /datum/clan/proc/handle_member_joining(mob/living/carbon/human/H, is_vampire = TRUE)
-	var/datum/antagonist/vampire/VMind = H.mind.has_antag_datum(/datum/antagonist/vampire)
 	// If no clan leader exists, make this person the leader (vampires only). 
-	if(!clan_leader && is_vampire && !VMind.has_crimson_curse == TRUE) // We check if they're a Crimson Curse vampire so they don't spawn as a Vampire Lord
-		hierarchy_root.assign_member(H)
-		if(ispath(leader))
-			var/datum/clan_leader/new_leader = new leader()
-			leader = new_leader
-		leader.lord_title = leader_title
-		leader.make_new_leader(H)
-		clan_leader = H
-		to_chat(H, "<span class='notice'>You have been appointed as the [leader_title] of [name]!</span>")
-		return
+	if(!clan_leader && is_vampire)
+		if(HAS_TRAIT(H, TRAIT_CRIMSONCURSE)) //No crimson curse clan leaders 
+			return FALSE 
+		else 
+			hierarchy_root.assign_member(H)
+			if(ispath(leader))
+				var/datum/clan_leader/new_leader = new leader()
+				leader = new_leader
+			leader.lord_title = leader_title
+			leader.make_new_leader(H)
+			clan_leader = H
+			to_chat(H, "<span class='notice'>You have been appointed as the [leader_title] of [name]!</span>")
+			return
 
 	// Otherwise, they join as an unassigned member
 	var/member_type = is_vampire ? "vampire" : non_vampire_title
@@ -319,6 +321,8 @@ And it also helps for the character set panel
 /datum/clan/proc/handle_leadership_succession()
 	// Find someone else with a position to promote
 	var/mob/living/carbon/human/new_leader
+	if(HAS_TRAIT(new_leader, TRAIT_CRIMSONCURSE)) // NO CRIMSON CURSE CLAN LEADERS!!!
+		return FALSE  
 
 	// Look for someone with can_assign_positions (like a lieutenant)
 	for(var/datum/clan_hierarchy_node/position in all_positions)
@@ -391,11 +395,14 @@ And it also helps for the character set panel
 /datum/clan/proc/post_gain(mob/living/carbon/human/H)
 	SHOULD_CALL_PARENT(TRUE)
 	if(!clan_leader && ispath(leader))
-		var/datum/clan_leader/new_leader = new leader()
-		leader = new_leader
-		leader.lord_title = leader_title
-		leader.make_new_leader(H)
-		clan_leader = H
+		if(HAS_TRAIT(H, TRAIT_CRIMSONCURSE))
+			return FALSE
+		else 
+			var/datum/clan_leader/new_leader = new leader()
+			leader = new_leader
+			leader.lord_title = leader_title
+			leader.make_new_leader(H)
+			clan_leader = H
 
 
 /datum/clan/proc/add_coven_to_clan(datum/coven/new_coven, give_to_all = TRUE)
