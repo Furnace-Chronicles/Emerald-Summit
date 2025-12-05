@@ -284,6 +284,8 @@
 	desc = "A leather satchel that's meant to  clip to a belt or to a pair of pants, freeing the shoulders from any weight."
 	icon_state = "satchelshort"
 	item_state = "satchelshort"
+	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_HIP
+	component_type = /datum/component/storage/concrete/roguetown/short_satchel
 
 /obj/item/storage/backpack/rogue/backpack
 	name = "backpack"
