@@ -19,7 +19,6 @@
 
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
@@ -118,10 +117,12 @@
 	switch(weapon_choice)
 		if("Katar")
 			backpack_contents += list(/obj/item/rogueweapon/katar = 1)
+			H.adjust_skillrank(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 		if("Knuckle Dusters")
 			backpack_contents += list(/obj/item/rogueweapon/knuckles/bronzeknuckles = 1)
+			H.adjust_skillrank(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 		if("Quarterstaff")
-			H.put_in_hands(new /obj/item/rogueweapon/woodstaff/quarterstaff/steel(H), TRUE)
+			r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel
 			H.adjust_skillrank(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/unarmed, SKILL_LEVEL_NOVICE, TRUE)
 	H.cmode_music = 'sound/music/combat_holy.ogg' // left in bc i feel like monk players want their darktide
