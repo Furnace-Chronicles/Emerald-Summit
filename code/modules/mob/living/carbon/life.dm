@@ -648,6 +648,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 						fallingas = TRUE
 				if(!armor_blocked)
 					if(!fallingas)
+						mob_sleep()
 						to_chat(src, span_warning("I'll fall asleep soon..."))
 					fallingas++
 					if(HAS_TRAIT(src, TRAIT_FASTSLEEP))
