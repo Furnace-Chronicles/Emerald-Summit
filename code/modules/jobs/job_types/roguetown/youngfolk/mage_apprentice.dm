@@ -3,8 +3,8 @@
 	flag = MAGEAPPRENTICE
 	department_flag = YOUNGFOLK
 	faction = "Station"
-	total_positions = 4
-	spawn_positions = 4
+	total_positions = 3
+	spawn_positions = 3
 	allowed_races = RACES_ALL_KINDS
 	spells = list(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation, /obj/effect/proc_holder/spell/self/message)
 	advclass_cat_rolls = list(CTAG_WAPPRENTICE = 20)
@@ -52,7 +52,7 @@
 		STATKEY_SPD = 1
 	)
 
-	subclass_spellpoints = 21
+	subclass_spellpoints = 20
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
@@ -102,7 +102,7 @@
 		STATKEY_END = 1
 	)
 
-	subclass_spellpoints = 18
+	subclass_spellpoints = 17
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_NOVICE,
@@ -153,7 +153,7 @@
 		STATKEY_LCK = 1 // this is just a carrot for the folk who are mad enough to take this role...
 	)
 
-	subclass_spellpoints = 18
+	subclass_spellpoints = 17
 
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
