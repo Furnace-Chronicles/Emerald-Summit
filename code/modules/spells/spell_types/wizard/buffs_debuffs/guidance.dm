@@ -2,7 +2,7 @@
 	name = "Guidance"
 	overlay_state = "guidance"
 	desc = "Makes one's hand travel true, blessing them with arcyne luck in combat. (+20% chance to bypass parry / dodge, +20% chance to parry / dodge)"
-	cost = 2
+	cost = 3
 	xp_gain = TRUE
 	releasedrain = 60
 	chargedrain = 1
@@ -16,7 +16,7 @@
 	glow_color = GLOW_COLOR_BUFF
 	glow_intensity = GLOW_INTENSITY_LOW
 	no_early_release = TRUE
-	movement_interrupt = FALSE
+	movement_interrupt = TRUE
 	charging_slowdown = 2
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
