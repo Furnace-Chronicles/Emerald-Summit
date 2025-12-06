@@ -211,8 +211,8 @@
 	sound = 'sound/magic/astrata_choir.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
-	invocation = "Astrata show me true."
-	invocation_type = "shout"
+	invocation = "Astrata, show me true."
+	invocation_type = "whisper"
 	recharge_time = 120 SECONDS
 	devotion_cost = 30
 	miracle = TRUE
@@ -234,9 +234,10 @@
 /datum/status_effect/buff/astrata_gaze
 	id = "astratagaze"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/astrata_gaze
-	duration = 20 SECONDS
+	duration = 60 SECONDS
 	var/skill_level = 0
 	status_type = STATUS_EFFECT_REPLACE
+	examine_text = "SUBJECTPRONOUN bears a golden gaze!"
 
 /datum/status_effect/buff/astrata_gaze/on_creation(mob/living/new_owner, slevel)
     // Only store skill level here
