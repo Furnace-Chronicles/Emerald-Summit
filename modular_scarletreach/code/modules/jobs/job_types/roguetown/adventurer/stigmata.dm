@@ -94,6 +94,11 @@
 		return FALSE
 	
 	var/mob/living/carbon/human/H = targets[1]
+
+	if (!user.Adjacent(H))
+		to_chat(user, span_warning("You must be next to whoever you wish to AMEND!"))
+		revert_cast()
+		return FALSE
 	
 	if(H == user)
 		to_chat(user, span_warning("You cannot AMEND yourself!"))
@@ -115,6 +120,12 @@
 		if (alert(user, "THEY ARE ASHEN WITH STILLED BREATH. AMENDMENT MAY INSTANTLY KILL YOU, STIGMATA. PROCEED?", "SELF-PRESERVATION", "YES", "NO") != "YES")
 			revert_cast()
 			return
+	
+	user.visible_message(span_warning("[user] kneels down besides [H] and gently lays their hands upon them..."))
+	if (!do_after(user, 3 SECONDS, target = H))
+		to_chat(user, span_warning("Your AMENDMENT was interrupted!"))
+		revert_cast()
+		return FALSE
 	
 	// Heal the target
 	H.adjustBruteLoss(-brute_transfer)
