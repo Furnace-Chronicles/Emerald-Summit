@@ -124,6 +124,10 @@
 	check_pq_menu(theykey)
 
 /proc/check_pq_menu(ckey)
+	var/time_remaining = SSticker.GetTimeLeft()
+	if ((SSticker.current_state == GAME_STATE_PREGAME || SSticker.current_state == GAME_STATE_SETTING_UP) && time_remaining <= 30 SECONDS)
+		to_chat(usr, span_boldwarning("Checking PQ is temporarily disabled until the round starts!"))
+		return
 	if(!fexists("data/player_saves/[copytext(ckey,1,2)]/[ckey]/preferences.sav"))
 		to_chat(usr, span_boldwarning("User does not exist."))
 		return

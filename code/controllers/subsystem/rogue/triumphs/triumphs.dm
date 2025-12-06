@@ -303,6 +303,9 @@ SUBSYSTEM_DEF(triumphs)
 
 // Return a value of the triumphs they got
 /datum/controller/subsystem/triumphs/proc/get_triumphs(target_ckey)
+	var/time_remaining = SSticker.GetTimeLeft()
+	if ((SSticker.current_state == GAME_STATE_PREGAME || SSticker.current_state == GAME_STATE_SETTING_UP) && time_remaining <= 30 SECONDS) // temporarily disable this while the round is getting ready to start
+		return 0
 	if(!(target_ckey in triumph_amount_cache))
 		var/target_file = file("data/player_saves/[target_ckey[1]]/[target_ckey]/triumphs.json")
 		if(!fexists(target_file)) // no file or new player, write them in something
@@ -335,7 +338,10 @@ SUBSYSTEM_DEF(triumphs)
 */
 // Display leaderboard browser popup
 /datum/controller/subsystem/triumphs/proc/show_triumph_leaderboard(client/C)
-
+	var/time_remaining = SSticker.GetTimeLeft()
+	if ((SSticker.current_state == GAME_STATE_PREGAME || SSticker.current_state == GAME_STATE_SETTING_UP) && time_remaining <= 30 SECONDS)
+		to_chat(C, span_boldwarning("This view is temporarily disabled until the round starts!"))
+		return
 	var/webpagu = "<B>CHAMPIONS OF SCARLET REACH</B><br>"
 	webpagu += "Current Season: [GLOB.triumph_wipe_season]"
 	webpagu += "<hr><br>"
