@@ -1,10 +1,10 @@
 /obj/effect/proc_holder/spell/invoked/counterspell
 	name = "Counterspell"
 	desc = "Briefly nullify the arcyne energy surrounding a target. Either preventing magic from being used outright, or preventing most magics from affecting the subject."
-	cost = 3
+	cost = 2
 	releasedrain = 35
 	chargedrain = 1
-	chargetime = 15
+	chargetime = 10
 	recharge_time = 80 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
