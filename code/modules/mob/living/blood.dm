@@ -212,25 +212,45 @@
 	return bleed_rate
 
 /mob/living/carbon/get_bleed_rate()
-	var/bleed_rate = 0
-	if (!blood_volume) // if we have no blood, we can't rightly bleed, can we?
+	if (!blood_volume)
 		return 0
 	if(NOBLOOD in dna?.species?.species_traits)
 		return 0
-	for(var/obj/item/bodypart/bodypart as anything in bodyparts)
-		bleed_rate += bodypart.get_bleed_rate()
 
-	// Blood pressure system: less blood = lower blood pressure = slower bleeding
-	// Uses exponential curve for more dramatic slowdown near death
-	if(bleed_rate > 0 && blood_volume < BLOOD_VOLUME_NORMAL)
+	var/normal_bleed = 0
+	var/critical_bleed = 0
+
+	for(var/obj/item/bodypart/BP as anything in bodyparts)
+		if(BP.bandage && !HAS_BLOOD_DNA(BP.bandage))
+			BP.try_bandage_expire()
+			continue
+
+		var/bp_bleed = BP.bleeding
+		var/bp_critical = 0
+
+		for(var/datum/wound/W as anything in BP.wounds)
+			if(W?.bleed_rate)
+				if(istype(W, /datum/wound/artery) || istype(W, /datum/wound/lethal) || istype(W, /datum/wound/grievous))
+					bp_critical += W.bleed_rate
+				else
+					bp_bleed += W.bleed_rate
+
+		for(var/obj/item/I as anything in BP.embedded_objects)
+			if(I.embedding?.embedded_bloodloss)
+				bp_bleed += I.embedding.embedded_bloodloss
+
+		for(var/obj/item/grabbing/G in BP.grabbedby)
+			bp_bleed *= G.bleed_suppressing
+			bp_critical *= G.bleed_suppressing
+
+		normal_bleed += bp_bleed
+		critical_bleed += bp_critical
+
+	if(normal_bleed > 0 && blood_volume < BLOOD_VOLUME_NORMAL)
 		var/blood_pressure = blood_volume / BLOOD_VOLUME_NORMAL
-		// Square the pressure ratio for exponential slowdown
-		// At 50% blood: 0.5^2 = 25% bleed rate
-		// At 25% blood: 0.25^2 = 6.25% bleed rate
-		// At 10% blood: 0.1^2 = 1% bleed rate
-		bleed_rate *= (blood_pressure ** 2)
+		normal_bleed *= (blood_pressure ** 2)
 
-	return bleed_rate
+	return normal_bleed + critical_bleed
 
 //Makes a blood drop, leaking amt units of blood from the mob
 /mob/living/proc/bleed(amt)
