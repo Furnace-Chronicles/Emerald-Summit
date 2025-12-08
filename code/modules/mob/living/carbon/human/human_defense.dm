@@ -136,8 +136,9 @@
 								blunt_modifier = -10 * effectiveness // Scale penalty towards 0 as armor degrades
 							if(ARMOR_CLASS_HEAVY)
 								blunt_modifier = 20 * effectiveness  // Scale bonus towards 0 as armor degrades
-								if(istype(C, /obj/item/clothing/head/helmet))
-									blunt_modifier += 15 * effectiveness // Scale helmet bonus towards 0
+						
+						if(istype(C, /obj/item/clothing/head/helmet))
+							blunt_modifier += 15 * effectiveness // Scale helmet bonus towards 0
 
 						var/modified_pen = armor_penetration + blunt_modifier
 						effective_armor = max(effective_armor - modified_pen, 0)

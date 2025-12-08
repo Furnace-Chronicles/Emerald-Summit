@@ -141,6 +141,14 @@
 			else
 				wound.on_death()
 
+/mob/living/carbon/handle_wounds() // Carbons now directly access these lists for performance reasons
+	for(var/obj/item/bodypart/BP as anything in bodyparts)
+		for(var/datum/wound/W as anything in BP.wounds)
+			if (stat != DEAD)
+				W.on_life()
+			else
+				W.on_death()
+
 
 /obj/item/proc/on_embed_life(mob/living/user, obj/item/bodypart/bodypart)
 	return

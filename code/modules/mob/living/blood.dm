@@ -220,35 +220,54 @@
 	var/normal_bleed = 0
 	var/critical_bleed = 0
 
+	var/grab_suppression = 1.0
 	for(var/obj/item/bodypart/BP as anything in bodyparts)
-		if(BP.bandage && !HAS_BLOOD_DNA(BP.bandage))
-			BP.try_bandage_expire()
-			continue
+		if(length(BP.grabbedby))
+			for(var/obj/item/grabbing/G in BP.grabbedby)
+				grab_suppression *= G.bleed_suppressing
 
+	for(var/obj/item/bodypart/BP as anything in bodyparts)
 		var/bp_bleed = BP.bleeding
 		var/bp_critical = 0
+		var/bp_max_bleed = 0
 
 		for(var/datum/wound/W as anything in BP.wounds)
-			if(W?.bleed_rate)
+			if(!W)
+				continue
+
+			if(W.bleed_rate)
+				if(W.bleed_rate > bp_max_bleed)
+					bp_max_bleed = W.bleed_rate
+
 				if(W.severity >= WOUND_SEVERITY_CRITICAL)
 					bp_critical += W.bleed_rate
-				else
-					bp_bleed += W.bleed_rate
+					bp_bleed -= W.bleed_rate
 
 		for(var/obj/item/I as anything in BP.embedded_objects)
 			if(I.embedding?.embedded_bloodloss)
-				bp_bleed += I.embedding.embedded_bloodloss
+				var/embed_bleed = I.embedding.embedded_bloodloss
+				if(embed_bleed > bp_max_bleed)
+					bp_max_bleed = embed_bleed
 
-		for(var/obj/item/grabbing/G in BP.grabbedby)
-			bp_bleed *= G.bleed_suppressing
-			bp_critical *= G.bleed_suppressing
+		if(BP.bandage && !HAS_BLOOD_DNA(BP.bandage))
+			var/bandage_effectiveness = 0.5
+			if(istype(BP.bandage, /obj/item/natural/cloth))
+				var/obj/item/natural/cloth/cloth = BP.bandage
+				bandage_effectiveness = cloth.bandage_effectiveness
+			if(bandage_effectiveness < round(bp_max_bleed, 0.1))
+				BP.bandage_expire()
 
 		normal_bleed += bp_bleed
 		critical_bleed += bp_critical
 
+	if(grab_suppression != 1.0)
+		normal_bleed *= grab_suppression
+		critical_bleed *= grab_suppression * 0.5
+
 	if(normal_bleed > 0 && blood_volume < BLOOD_VOLUME_NORMAL)
 		var/blood_pressure = blood_volume / BLOOD_VOLUME_NORMAL
 		normal_bleed *= (blood_pressure ** 2)
+		critical_bleed *= min(blood_pressure * 1.5, 1)
 
 	return normal_bleed + critical_bleed
 
