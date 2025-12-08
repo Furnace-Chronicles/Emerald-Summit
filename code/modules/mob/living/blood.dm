@@ -254,7 +254,7 @@
 			if(istype(BP.bandage, /obj/item/natural/cloth))
 				var/obj/item/natural/cloth/cloth = BP.bandage
 				bandage_effectiveness = cloth.bandage_effectiveness
-			if(bandage_effectiveness < bp_max_bleed, 0.1)
+			if(bandage_effectiveness < bp_max_bleed)
 				BP.bandage_expire()
 
 		normal_bleed += bp_bleed
