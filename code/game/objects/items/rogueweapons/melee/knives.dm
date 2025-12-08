@@ -88,6 +88,7 @@
 	gripsprite = FALSE
 	//dropshrink = 0.75
 	wlength = WLENGTH_SHORT
+	waccuracybonus = 10
 	w_class = WEIGHT_CLASS_SMALL
 	parrysound = list('sound/combat/parry/bladed/bladedsmall (1).ogg','sound/combat/parry/bladed/bladedsmall (2).ogg','sound/combat/parry/bladed/bladedsmall (3).ogg')
 	max_blade_int = 200

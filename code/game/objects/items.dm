@@ -150,6 +150,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/gripsprite = FALSE //use alternate grip sprite for inhand
 	var/wieldsound = FALSE
 
+	/// Additional bonus to a specific weapon, mostly for very short/light weapons (i.e. daggers)
+	var/wchance2hit_bonus = 0
+
 	var/dropshrink = 0
 	/// Force value that is force or force_wielded, with any added bonuses from external sources. (Mainly components for enchantments)
 	var/force_dynamic = 0
@@ -511,76 +514,41 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			var/obj/item/clothing/C = src
 			inspec += "<br>"
 			inspec += C.defense_examine()
-			inspec += "<table align='center'; width='100%'; height='100%';border: 1px solid white;border-collapse: collapse><tr style='vertical-align:top'><td width = 35%>"
-			inspec += "<b>COVERAGE: <br></b>"
-			if(!C.body_parts_covered)
-				inspec += "<b>NONE!</b>"
-			if(C.body_parts_covered == C.body_parts_covered_dynamic)
-				var/count = 1
-				var/list/zonelist = body_parts_covered2organ_names(C.body_parts_covered)
-				for(var/zone in zonelist)
-					var/add_divider = TRUE
-					if(count % 2 == 0 || count == (length(zonelist)))
-						add_divider = FALSE
-					inspec += "<b>[capitalize(zone)]</b> [add_divider ? "| " : ""]"
-					if(count % 2 == 0)
-						inspec += "<br>"
-					count++
-			else
-				var/list/zones = list()
-				//We have some part peeled, so we turn the printout into precise mode and highlight the missing coverage.
-				var/count = 1
-				for(var/zoneorg in body_parts_covered2organ_names(C.body_parts_covered, precise = TRUE))
-					zones += zoneorg
-				var/list/dynlist = body_parts_covered2organ_names(C.body_parts_covered_dynamic, precise = TRUE)
-				for(var/zonedyn in dynlist)
-					var/add_divider = TRUE
-					if(count % 2 == 0 || count == (length(dynlist)))
-						add_divider = FALSE
-
-					inspec += "<b>[capitalize(zonedyn)]</b> [add_divider ? "| " : ""]"
-					if(zonedyn in zones)
-						zones.Remove(zonedyn)
-
-					if(count % 2 == 0)
-						inspec += "<br>"
-					count++
-				for(var/zone in zones)
-					var/add_divider = TRUE
-					if(count % 2 == 0 || count == (length(dynlist)))
-						add_divider = FALSE
-					inspec += "<b><font color = '#7e0000'>[capitalize(zone)]</font></b> [add_divider ? "| " : ""]"
-					if(count % 2 == 0)
-						inspec += "<br>"
-					count++
-			inspec += "<br>"
-			inspec += "</td>"
-			inspec += "<td width = 60%><b>PREVENTS CRITS:</b><br>"
-			if(!length(C.prevent_crits))
-				inspec += "\n<b>NONE!</b>"
-			var/count = 1
-			for(var/X in C.prevent_crits)
-				if(X == BCLASS_PICK)	//BCLASS_PICK is named "stab", and "stabbing" is its own damage class. Prevents confusion.
-					X = "pick"
-				var/add_divider = TRUE
-				if(count % 2 == 0 || count == (length(C.prevent_crits)))
-					add_divider = FALSE
-				inspec += ("<b>[capitalize(X)]</b> [add_divider ? "| " : ""]")
-				if(count % 2 == 0)
-					inspec += "<br>"
-				count++
-			inspec += "<br></td>"
-			inspec += "</tr></table>"
+			if(C.body_parts_covered)
+				inspec += "\n<b>COVERAGE: <br></b>"
+				inspec += " | "
+				if(C.body_parts_covered == C.body_parts_covered_dynamic)
+					for(var/zone in body_parts_covered2organ_names(C.body_parts_covered))
+						inspec += "<b>[capitalize(zone)]</b> | "
+				else
+					var/list/zones = list()
+					//We have some part peeled, so we turn the printout into precise mode and highlight the missing coverage.
+					for(var/zoneorg in body_parts_covered2organ_names(C.body_parts_covered, precise = TRUE))
+						zones += zoneorg
+					for(var/zonedyn in body_parts_covered2organ_names(C.body_parts_covered_dynamic, precise = TRUE))
+						inspec += "<b>[capitalize(zonedyn)]</b> | "
+						if(zonedyn in zones)
+							zones.Remove(zonedyn)
+					for(var/zone in zones)
+						inspec += "<b><font color = '#7e0000'>[capitalize(zone)]</font></b> | "
+				inspec += "<br>"
 			if(C.body_parts_inherent)
 				inspec += "<b>CANNOT BE PEELED: </b>"
-				var/peelcolor = "#77cde2"
 				var/list/inherentList = body_parts_covered2organ_names(C.body_parts_inherent)
 				if(length(inherentList) == 1)
-					inspec += "<b><font color = [peelcolor]>[capitalize(inherentList[1])]</font></b>"
+					inspec += "<b><font color = '#77cde2'>[capitalize(inherentList[1])]</font></b>"
 				else
 					inspec += "| "
 					for(var/zone in inherentList)
-						inspec += "<b><font color = [peelcolor]>[capitalize(zone)]</b></font> | "
+						inspec += "<b><font color = '#77cde2'>[capitalize(zone)]</b></font> | "
+			if(C.prevent_crits)
+				if(length(C.prevent_crits))
+					inspec += "\n<b>PREVENTS CRITS:</b>"
+					for(var/X in C.prevent_crits)
+						if(X == BCLASS_PICK)	//BCLASS_PICK is named "stab", and "stabbing" is its own damage class. Prevents confusion.
+							X = "pick"
+						inspec += ("\n<b>[capitalize(X)]</b>")
+				inspec += "<br>"
 
 //**** General durability
 
@@ -591,21 +559,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			var/ratio =	(eff_currint / eff_maxint)
 			var/percent = round((ratio * 100), 1)
 			inspec += "[percent]% ([floor(eff_currint)])"
-			if(force >= 5) // Durability is rather obvious for non-weapons
-				inspec += " <span class='info'><a href='?src=[REF(src)];explaindurability=1'>{?}</a></span>"
-		if(istype(src, /obj/item/clothing))	//awful
-			var/obj/item/clothing/C = src
-			var/str
-			switch(C.armor_class)
-				if(ARMOR_CLASS_NONE)
-					str = "None"
-				if(ARMOR_CLASS_LIGHT)
-					str = "Light"
-				if(ARMOR_CLASS_MEDIUM)
-					str = "Medium"
-				if(ARMOR_CLASS_HEAVY)
-					str = "Heavy"
-			inspec += "\n<b>ARMOR CLASS:</b> [str]"
 
 		var/output = inspec.Join()
 		if(!usr.client.prefs.no_examine_blocks)

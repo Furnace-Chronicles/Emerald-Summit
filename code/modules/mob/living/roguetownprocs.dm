@@ -52,6 +52,8 @@
 			chance2hit += 10
 		if(I.item_flags & PEASANT_WEAPON && HAS_TRAIT(user, TRAIT_PEASANTMILITIA))
 			chance2hit += 8 //+1 skill equivalent
+		if(I.wchance2hit_bonus)
+			chance2hit += wchance2hit_bonus
 
 	if(user.STAPER > 10)
 		chance2hit += (min((user.STAPER-10)*8, 40))
