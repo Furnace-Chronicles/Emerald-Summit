@@ -488,6 +488,7 @@
 	item_state = "elfdag"
 	var/extended = 0
 	wdefense = 2
+	max_integrity = 15
 	sellprice = 30 //shiny :o
 
 	picklvl = 0
@@ -498,6 +499,7 @@
 	if(extended)
 		force = 20
 		wdefense = 6
+		wdefense_dynamic = 6
 		w_class = WEIGHT_CLASS_NORMAL
 		throwforce = 23
 		icon_state = "navaja_o"
@@ -513,6 +515,7 @@
 		attack_verb = list("stubbed", "poked")
 		sharpness = IS_BLUNT
 		wdefense = 2
+		wdefense_dynamic = 2
 
 /obj/item/rogueweapon/huntingknife/throwingknife
 	name = "iron tossblade"
