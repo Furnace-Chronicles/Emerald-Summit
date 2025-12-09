@@ -59,6 +59,7 @@
 		TRAIT_SILVER_BLESSED,
 		TRAIT_INQUISITION,
 		TRAIT_PERFECT_TRACKER,
+		TRAIT_LIGHT_STEP,
 		TRAIT_PURITAN,
 		TRAIT_OUTLANDER
 		)
@@ -180,6 +181,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/tracking = SKILL_LEVEL_MASTER,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/puritan/ordinator/pre_equip(mob/living/carbon/human/H)
