@@ -501,23 +501,63 @@
 
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
-		variance_center += (H.STALUC - 10) * 0.15
+		variance_center += (H.STALUC - 10) * 0.1
 
 		if(I.associated_skill)
 			var/skill_level = H.get_skill_level(I.associated_skill)
-			variance_center += skill_level * 0.2
+			variance_center += skill_level * 0.1
 
-	var/variance_roll = (rand(-50, 50) + rand(-50, 50) + rand(-50, 50)) / 3
+	var/variance_roll = get_damage_variance(I.associated_skill, variance_center)
 
-	variance_roll += variance_center * 100
-
-	variance_roll = clamp(variance_roll, -50, 50)
 
 	newforce = newforce * (1 + (variance_roll / 100))
 	newforce = max(round(newforce, 1), 1)
 
 	testing("endforce [newforce]")
 	return newforce
+
+/proc/get_damage_variance(wep_type, variance_center)
+	var/variance_range = 0
+	var/variance_roll = 0
+	var/curve_depth = 3
+
+	switch(wep_type)
+		if(/datum/skill/combat/knives) // Low variance, but tend to roll high with a big curve
+			variance_range = 35
+			curve_depth = 4
+			variance_center += 0.5
+		if(/datum/skill/combat/swords)
+			variance_range = 50
+			curve_depth = 3
+			variance_center += 0.2
+		if(/datum/skill/combat/axes, /datum/skill/labor/lumberjacking)
+			variance_range = 100
+			curve_depth = 6
+		if(/datum/skill/combat/maces, /datum/skill/combat/shields, /datum/skill/craft/blacksmithing, /datum/skill/labor/mining)
+			variance_range = 15
+			curve_depth = 3
+		if(/datum/skill/combat/polearms, /datum/skill/labor/farming)
+			variance_range = 50
+			curve_depth = 2
+			variance_center += 0.3
+		if(/datum/skill/combat/whipsflails)
+			variance_range = 100
+			curve_depth = 3
+			variance_center -= 0.15
+		if(/datum/skill/combat/unarmed)
+			variance_range = 10
+			curve_depth = 3
+		if(/datum/skill/combat/bows, /datum/skill/combat/crossbows, /datum/skill/combat/slings)
+			variance_range = 20
+			curve_depth = 4
+
+	for(var/i = 0, i < curve_depth, i++)
+		variance_roll += rand(-variance_range, variance_range)
+
+
+	variance_roll = (variance_roll / curve_depth) + (variance_center * variance_range)
+
+	return clamp(variance_roll, -variance_range, variance_range)
 
 /obj/attacked_by(obj/item/I, mob/living/user)
 	user.changeNext_move(CLICK_CD_INTENTCAP)
