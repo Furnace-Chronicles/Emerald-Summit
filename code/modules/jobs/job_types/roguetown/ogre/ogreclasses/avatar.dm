@@ -8,7 +8,7 @@
 	cmode_music = 'sound/music/combat_maniac.ogg' // this one is good
 	maximum_possible_slots = 1
 
-	traits_applied = list(TRAIT_STRENGTH_UNCAPPED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_CALTROPIMMUNE, TRAIT_STRONGBITE, TRAIT_MEDIUMARMOR) //strongbite might be funny
+	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_CALTROPIMMUNE, TRAIT_STRONGBITE, TRAIT_MEDIUMARMOR) //strongbite might be funny
 	subclass_stats = list( 
 		STATKEY_STR = 4, 
 		STATKEY_CON = 6,
