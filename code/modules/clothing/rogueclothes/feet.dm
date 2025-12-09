@@ -495,7 +495,7 @@
 	armor = ARMOR_BOOTS
 	anvilrepair = /datum/skill/craft/carpentry
 
-/obj/item/clothing/shoes/roguetown/armor/ogre
+/obj/item/clothing/shoes/roguetown/boots/armor/ogre
 	name = "oversized plated boots"
 	desc = "Huge, iron boots - the size of a human waist."
 	sleeved = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
