@@ -282,6 +282,7 @@
 		if("Slurbow") //WHOA!! Don't worry, they don't start with any crossbow skill or bonus PER. The Slurbow's description implies it's a common weapon for highwaymen, so it's not impossible to see it in the hands of an adventurer.
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow/old //their powered-down version of the inquisition slurbow
 			beltl = /obj/item/quiver/bolts
+			H.change_stat("perception", 3)
 	var/silver = list("Arming Sword","Short Sword", "Dagger","Tossblades")
 	var/silver_choice = input("Choose your silver, for slaying monsters.", "TAKE UP ARMS") as anything in silver
 	switch(silver_choice)
