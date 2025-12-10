@@ -70,3 +70,28 @@
 	name = "Aged Psydonian Longsword"
 	cost = 80
 	contains = list(/obj/item/rogueweapon/sword/long/oldpsysword)
+
+/datum/supply_pack/rogue/merc_weapons/oldslurbow
+	name = "Surplus Slurbow"
+	cost = 190 // high cost as it's quite good
+	contains = list(/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow/old)
+
+/datum/supply_pack/rogue/merc_weapons/fechtfeder
+	name = "Fechtfeder"
+	cost = 60 // it's a training sword
+	contains = list(/obj/item/rogueweapon/sword/long/frei)
+
+/datum/supply_pack/rogue/merc_weapons/longsabre
+	name = "Shalal Sabre"
+	cost = 80
+	contains = list(/obj/item/rogueweapon/sword/long/marlin)
+
+/datum/supply_pack/rogue/merc_weapons/estrucsword
+	name = "Basket-Hilted Longsword"
+	cost = 100
+	contains = list(/obj/item/rogueweapon/sword/long/etruscan)
+
+/datum/supply_pack/rogue/merc_weapon/ridingbow
+	name = "Aavnic Riding Bow"
+	cost = 90
+	contains = list(/obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/steppesman)
