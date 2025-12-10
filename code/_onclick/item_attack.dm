@@ -525,7 +525,7 @@
 		if(/datum/skill/combat/knives) // Low variance, but tend to roll high with a big curve
 			variance_range = 25
 			curve_depth = 4
-			variance_center += 0.5
+			variance_center += 0.4
 		if(/datum/skill/combat/swords)
 			variance_range = 35
 			curve_depth = 2
@@ -553,7 +553,7 @@
 	for(var/i = 0, i < curve_depth, i++)
 		variance_roll += rand(-variance_range, variance_range)
 
-	variance_center = clamp(variance_center, -0.5, 0.5)
+	variance_center = clamp(variance_center, -0.7, 0.7)
 
 
 	variance_roll = (variance_roll / curve_depth) + (variance_center * variance_range)
