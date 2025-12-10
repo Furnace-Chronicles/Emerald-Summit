@@ -39,8 +39,8 @@
 						to_chat(user, span_info("[I]'s shorn layers mend together. ([I.peel_count])."))
 					else
 						if(I.body_parts_covered_dynamic != I.body_parts_covered)
-						I.repair_coverage()
-						to_chat(user, span_info("[I]'s shorn layers mend together, completely."))
+							I.repair_coverage()
+							to_chat(user, span_info("[I]'s shorn layers mend together, completely."))
 		else
 			to_chat(user, span_info("[I] appears to be in perfect condition."))
 			revert_cast()
