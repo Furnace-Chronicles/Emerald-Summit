@@ -35,6 +35,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Hand Mirror"
 	path = /obj/item/handmirror
 
+/datum/loadout_item/short_satchel
+	name = "Short Satchel"
+	path = /obj/item/storage/backpack/rogue/satchel/short
+
 //HATS
 /datum/loadout_item/shalal
 	name = "Keffiyeh"
