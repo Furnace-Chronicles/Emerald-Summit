@@ -260,7 +260,7 @@
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 			H.change_stat(STATKEY_SPD, 1)
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
-			pants = /obj/item/clothing/under/roguetown/trou/shadowpants
+			pants = /obj/item/clothing/under/roguetown/trou/leather
 			head = /obj/item/clothing/head/roguetown/bucklehat
 		if("Cuirass + Rotbite Immune") //Closer to traditional Monster Hunter. You are a tinge smarter - and immune to deadite bites)
 			ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
