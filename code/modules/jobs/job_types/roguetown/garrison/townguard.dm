@@ -19,6 +19,10 @@
 
 	outfit = /datum/outfit/job/roguetown/guardsman
 	advclass_cat_rolls = list(CTAG_WATCH = 20)
+	
+	virtue_restrictions = list(
+		/datum/virtue/combat/crimson_curse, //no gamer MAA vampire abuse, sorry
+	)
 
 	give_bank_account = 16
 	min_pq = 1 //Introductory guard role, but still requires knowledge of escalation.

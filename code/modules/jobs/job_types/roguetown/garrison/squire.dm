@@ -26,6 +26,10 @@
 	round_contrib_points = 2
 	social_rank = SOCIAL_RANK_PEASANT
 
+	virtue_restrictions = list(
+		/datum/virtue/combat/crimson_curse, //no gamer vampire abuse, sorry
+	)
+
 	cmode_music = 'sound/music/combat_squire.ogg'
 
 	job_subclasses = list(

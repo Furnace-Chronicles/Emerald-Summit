@@ -20,6 +20,10 @@
 	round_contrib_points = 2
 	social_rank = SOCIAL_RANK_YEOMAN
 
+	virtue_restrictions = list(
+		/datum/virtue/combat/crimson_curse, //no gamer vampire abuse, sorry
+	)
+
 	cmode_music = 'sound/music/combat_veteran.ogg'
 
 	job_subclasses = list(

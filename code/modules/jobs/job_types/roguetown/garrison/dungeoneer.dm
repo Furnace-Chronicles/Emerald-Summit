@@ -29,6 +29,10 @@
 	round_contrib_points = 2
 	social_rank = SOCIAL_RANK_PEASANT
 
+	
+	virtue_restrictions = list(
+		/datum/virtue/combat/crimson_curse, //no gamer MAA vampire abuse, sorry
+	)
 	cmode_music = 'sound/music/combat_dungeoneer.ogg'
 
 	job_subclasses = list(
