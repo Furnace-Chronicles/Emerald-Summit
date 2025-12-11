@@ -11,7 +11,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	tutorial = ""
 
-	outfit = /datum/outfit/job/roguetown/vampire_guard
+	outfit = /datum/outfit/job/vampire_guard
 	show_in_credits = FALSE
 	give_bank_account = FALSE
 	announce_latejoin = FALSE
@@ -21,7 +21,7 @@
 	SSmapping.retainer.death_knights |= L.mind
 	return ..()
 
-/datum/outfit/job/roguetown/vampire_guard/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/vampire_guard/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	var/list/possible_classes = list()

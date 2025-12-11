@@ -7,7 +7,7 @@
 		/datum/species/human/halfelf,
 		/datum/species/elf/wood,
 	)
-	outfit = /datum/outfit/job/roguetown/mercenary/blackoak
+	outfit = /datum/outfit/job/mercenary/blackoak
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_RACIAL
 	cmode_music = 'sound/music/combat_blackoak.ogg'
@@ -40,11 +40,11 @@
 	/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/mercenary/blackoak/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/blackoak/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	var/weapons = list("Glaive", "Boar Spear + Kite",  "Elven Sabre & Buckler")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Glaive")
 			r_hand = /obj/item/rogueweapon/halberd/glaive
@@ -83,7 +83,7 @@
 /datum/advclass/mercenary/blackoak/ranger
 	name = "Black Oak's Ranger"
 	tutorial = "A shady guardian of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Reach. Thankfully, you are not here today to shed the blood of the Duke's men — unless someone pays you to..."
-	outfit = /datum/outfit/job/roguetown/mercenary/blackoak_ranger
+	outfit = /datum/outfit/job/mercenary/blackoak_ranger
 
 	traits_applied = list(TRAIT_REACHNATIVE, TRAIT_OUTDOORSMAN, TRAIT_DODGEEXPERT, TRAIT_WOODSMAN)
 	subclass_stats = list(
@@ -111,7 +111,7 @@
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/mercenary/blackoak_ranger/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/blackoak_ranger/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/elven

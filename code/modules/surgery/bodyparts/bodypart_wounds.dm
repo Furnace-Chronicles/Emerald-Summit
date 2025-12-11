@@ -7,6 +7,8 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 	var/list/obj/item/embedded_objects = list()
 	/// Bandage, if this ever hard dels thats fucking silly lol
 	var/obj/item/bandage
+	/// Cached bitflag of our last get_surgery_flags call. Used pretty much exclusively to swiftly check bleed rate calls.
+	var/cached_surgery_flags = 0
 
 /// Checks if we have any embedded objects whatsoever
 /obj/item/bodypart/proc/has_embedded_objects()
@@ -120,10 +122,9 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 		bleed_rate *= grab.bleed_suppressing
 	bleed_rate = max(round(bleed_rate, 0.1), 0)
 	
-	// temporarily disabling below because it is niche use and a LOT of performance drain
-	/*var/surgery_flags = get_surgery_flags()
-	if(surgery_flags & SURGERY_CLAMPED)
-		return min(bleed_rate, 0.5)*/
+	if(cached_surgery_flags & SURGERY_CLAMPED)
+		return min(bleed_rate, 0.5)
+
 	return bleed_rate
 
 /obj/item/bodypart/proc/calculate_lethal_death_chance(raw_damage, armor_block, mob/living/user)
@@ -585,6 +586,8 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 			owner.clear_alert("embeddedobject")
 			SEND_SIGNAL(owner, COMSIG_CLEAR_MOOD_EVENT, "embedded")
 		update_disabled()
+	if (embedder.embedding?.clamp_limbs)
+		get_surgery_flags() // hacky workaround that ensures cached clamp flag status updates properly
 	return TRUE
 
 /obj/item/bodypart/proc/try_bandage(obj/item/new_bandage)
@@ -662,6 +665,7 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 /// Returns surgery flags applicable to this bodypart
 /obj/item/bodypart/proc/get_surgery_flags()
 	// oh sweet mother of christ what the FUCK is this. this is called EVERY TIME BLEED RATE IS CHECKED.
+	// why do we BUILD THIS every time instead of applying the appropriate flags??? i'm SO CONFUSED.
 	var/returned_flags = NONE
 	if(can_bloody_wound())
 		returned_flags |= SURGERY_BLOODY
@@ -704,4 +708,6 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 		returned_flags |= SURGERY_DRILLED
 	if(skeletonized)
 		returned_flags |= SURGERY_INCISED | SURGERY_RETRACTED | SURGERY_DRILLED //ehh... we have access to whatever organ is there
+	
+	cached_surgery_flags = returned_flags
 	return returned_flags

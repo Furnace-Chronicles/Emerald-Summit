@@ -17,7 +17,7 @@
 	tutorial = "Your creed is one dedicated to the conquering of the arcane arts and the constant thrill of knowledge. \
 		You owe your life to the Lord, for it was his coin that allowed you to continue your studies in these dark times. \
 		In return, you have proven time and time again as justicar and trusted advisor to their reign."
-	outfit = /datum/outfit/job/roguetown/magician
+	outfit = /datum/outfit/job/magician
 	whitelist_req = TRUE
 	give_bank_account = 47
 	min_pq = 15 //High potential for abuse, lovepotion/killersice/greater fireball is not for the faint of heart
@@ -40,7 +40,7 @@
 	tutorial = "Your creed is one dedicated to the conquering of the arcane arts and the constant thrill of knowledge. \
 		You owe your life to the Lord, for it was his coin that allowed you to continue your studies in these dark times. \
 		In return, you have proven time and time again as justicar and trusted advisor to their reign."
-	outfit = /datum/outfit/job/roguetown/magician/basic
+	outfit = /datum/outfit/job/magician/basic
 	category_tags = list(CTAG_COURTMAGE)
 
 	subclass_stats = list(
@@ -66,11 +66,11 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/magician
+/datum/outfit/job/magician
 	job_bitflag = BITFLAG_ROYALTY
 	has_loadout = TRUE
 
-/datum/outfit/job/roguetown/magician/choose_loadout(mob/living/carbon/human/H)
+/datum/outfit/job/magician/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, 6, TRUE)
@@ -87,7 +87,7 @@
 			H.cmode_music = 'sound/music/combat_cult.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 
-/datum/outfit/job/roguetown/magician/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/magician/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	neck = /obj/item/clothing/neck/roguetown/talkstone

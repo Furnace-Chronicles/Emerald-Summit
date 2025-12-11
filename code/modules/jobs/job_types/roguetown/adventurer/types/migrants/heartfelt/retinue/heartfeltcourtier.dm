@@ -5,7 +5,7 @@
 	With your home in ruins, you look to the Reach, hoping to find new purpose or refuge amidst the chaos."
 	allowed_sexes = list(FEMALE)
 	allowed_races = RACES_NO_GOLEM
-	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/courtier
+	outfit = /datum/outfit/job/heartfelt/retinue/courtier
 	maximum_possible_slots = 1
 	pickprob = 100
 	category_tags = list(CTAG_HFT_RETINUE)
@@ -14,7 +14,7 @@
 	
 // HIGH COURT - /ONE SLOT/ Roles that were previously in the Court, but moved here.
 
-/datum/outfit/job/roguetown/heartfelt/retinue/courtier/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heartfelt/retinue/courtier/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/circlet
 	neck = /obj/item/storage/belt/rogue/pouch/coins/rich

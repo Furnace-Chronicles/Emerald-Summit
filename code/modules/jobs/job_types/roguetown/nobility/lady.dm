@@ -13,7 +13,7 @@
 
 	spells = list(/obj/effect/proc_holder/spell/self/convertrole/servant,
 	/obj/effect/proc_holder/spell/self/grant_nobility)
-	outfit = /datum/outfit/job/roguetown/lady
+	outfit = /datum/outfit/job/lady
 
 	display_order = JDO_LADY
 	give_bank_account = 50
@@ -33,10 +33,10 @@
 	display_order = JDO_LADY
 	give_bank_account = TRUE
 
-/datum/outfit/job/roguetown/lady
+/datum/outfit/job/lady
 	job_bitflag = BITFLAG_ROYALTY
 
-/datum/outfit/job/roguetown/lady/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/lady/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 	ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)

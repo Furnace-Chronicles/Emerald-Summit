@@ -11,7 +11,7 @@
 	allowed_races = RACES_ALL_KINDS
 	tutorial = "You're too valuable to outright kill yet not a free person. You either messed up really bad or got very unlucky. Either way, the crown has held you hostage until you home country pays your ransom, as if that would ever happen. Might as well start praying to whatever god you find solace in."
 
-	outfit = /datum/outfit/job/roguetown/hostage
+	outfit = /datum/outfit/job/hostage
 	bypass_jobban = TRUE
 	display_order = JDO_HOSTAGE
 	give_bank_account = 10
@@ -19,7 +19,7 @@
 	max_pq = null
 	can_random = FALSE
 
-/datum/outfit/job/roguetown/hostage/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/hostage/pre_equip(mob/living/carbon/human/H)
 	..()
 	mask = /obj/item/clothing/mask/rogue/facemask/prisoner
 	if(H.wear_mask)

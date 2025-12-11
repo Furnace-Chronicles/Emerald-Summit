@@ -12,7 +12,7 @@
 
 	tutorial = "Your master once saw potential in you, although you are uncertain if they still do, given how rigorous and difficult your studies have been. The path to using magic is a treacherous and untamed one, and you are still decades away from calling yourself even a journeyman in the field. Listen and serve, and someday you will earn your hat."
 
-	outfit = /datum/outfit/job/roguetown/wapprentice
+	outfit = /datum/outfit/job/wapprentice
 
 	display_order = JDO_MAGEAPPRENTICE
 	give_bank_account = TRUE
@@ -30,7 +30,7 @@
 		/datum/advclass/wapprentice/apprentice
 	)
 
-/datum/outfit/job/roguetown/wapprentice
+/datum/outfit/job/wapprentice
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 	pants = /obj/item/clothing/under/roguetown/tights/random
 	belt = /obj/item/storage/belt/rogue/leather
@@ -43,7 +43,7 @@
 /datum/advclass/wapprentice/associate
 	name = "Magician's Associate"
 	tutorial = "You were once an apprentice, though through your studies and practice you've mastered the basics of the arcyne. You now spend your days working under your master, honing your skills so that you might one day be considered a true master yourself."
-	outfit = /datum/outfit/job/roguetown/wapprentice/associate
+	outfit = /datum/outfit/job/wapprentice/associate
 	category_tags = list(CTAG_WAPPRENTICE)
 
 	subclass_stats = list(
@@ -70,7 +70,7 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/wapprentice/associate/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/wapprentice/associate/pre_equip(mob/living/carbon/human/H)
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/mage
 	head = /obj/item/clothing/head/roguetown/roguehood/mage
 	backpack_contents = list(
@@ -92,7 +92,7 @@
 /datum/advclass/wapprentice/alchemist
 	name = "Alchemist Associate"
 	tutorial = "During your studies, you became less focused on the arcyne and instead turned yourself to your true passion, alchemy. Through the art of transmutation, you have learned that the elements (much like the arcyne) can be maniupulated and bent to your will."
-	outfit = /datum/outfit/job/roguetown/wapprentice/alchemist
+	outfit = /datum/outfit/job/wapprentice/alchemist
 	category_tags = list(CTAG_WAPPRENTICE)
 
 	traits_applied = list(TRAIT_SEEDKNOW)
@@ -121,7 +121,7 @@
 		/datum/skill/labor/fishing = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/wapprentice/alchemist/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/wapprentice/alchemist/pre_equip(mob/living/carbon/human/H)
 	backpack_contents = list(
 		/obj/item/roguegem/amethyst = 1,
 		/obj/item/seeds/swampweed = 1,
@@ -143,7 +143,7 @@
 /datum/advclass/wapprentice/apprentice
 	name = "Magician's Apprentice"
 	tutorial = "Your master once saw potential in you, although you are uncertain if they still do, given how rigorous and difficult your studies have been. The path to using magic is a treacherous and untamed one, and you are still decades away from calling yourself even a journeyman in the field. Listen and serve, and someday you will earn your hat."
-	outfit = /datum/outfit/job/roguetown/wapprentice/apprentice
+	outfit = /datum/outfit/job/wapprentice/apprentice
 	category_tags = list(CTAG_WAPPRENTICE)
 
 	subclass_stats = list(
@@ -163,7 +163,7 @@
 		/datum/skill/combat/polearms = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/wapprentice/apprentice/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/wapprentice/apprentice/pre_equip(mob/living/carbon/human/H)
 	backpack_contents = list(
 		/obj/item/roguegem/amethyst = 1,
 		/obj/item/recipe_book/alchemy = 1,

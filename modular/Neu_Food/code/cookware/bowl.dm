@@ -42,6 +42,61 @@
 	icon_state = "bowl_tin"
 	sellprice = 20
 
+/obj/item/reagent_containers/glass/bowl/carved
+	name = "carved bowl"
+	desc = "You shouldn't be seeing this."
+	icon_state = "abowl"
+	sellprice = 0
+
+/obj/item/reagent_containers/glass/bowl/carved/jade
+	name = "joapstone bowl"
+	desc = "A bowl carved out of joapstone."
+	icon_state = "bowl_jade"
+	sellprice = 55
+
+/obj/item/reagent_containers/glass/bowl/carved/onyxa
+	name = "onyxa bowl"
+	desc = "A bowl carved out of onyxa."
+	icon_state = "bowl_onyxa"
+	sellprice = 35
+
+/obj/item/reagent_containers/glass/bowl/carved/rose
+	name = "rosellusk bowl"
+	desc = "A bowl carved out of rosellusk."
+	icon_state = "bowl_rose"
+	sellprice = 20
+
+/obj/item/reagent_containers/glass/bowl/carved/amber
+	name = "petriamber bowl"
+	desc = "A bowl carved out of petriamber."
+	icon_state = "bowl_amber"
+	sellprice = 55
+
+/obj/item/reagent_containers/glass/bowl/carved/turq
+	name = "ceruleabaster bowl"
+	desc = "A bowl carved out of ceruleabaster."
+	icon_state = "bowl_turq"
+	sellprice = 80
+
+/obj/item/reagent_containers/glass/bowl/carved/shell
+	name = "shell bowl"
+	desc = "A bowl carved out of shell."
+	icon_state = "bowl_shell"
+	sellprice = 15
+
+
+/obj/item/reagent_containers/glass/bowl/carved/coral
+	name = "aoetal bowl"
+	desc = "A bowl carved out of aoetal."
+	icon_state = "bowl_coral"
+	sellprice = 65
+
+/obj/item/reagent_containers/glass/bowl/carved/opal
+	name = "opaloise bowl"
+	desc = "A bowl carved out of opaloise."
+	icon_state = "bowl_opal"
+	sellprice = 85
+
 /obj/item/reagent_containers/glass/bowl/update_icon()
 	cut_overlays()
 	if(reagents)

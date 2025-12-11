@@ -6,7 +6,7 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 	name_override = "Bronze Golem"
 	desc = "A bio-mechanical Golem given life by dubious magics. This one is made almost entirely of bronze. It seems poorly made."
 	faction = list("dundead")
-	var/zc_outfit = /datum/outfit/job/roguetown/human/species/construct/metal/zizoconstruct
+	var/zc_outfit = /datum/outfit/job/human/species/construct/metal/zizoconstruct
 	ambushable = FALSE
 	mode = NPC_AI_IDLE
 	wander = FALSE
@@ -63,7 +63,7 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 		if(OU)
 			equipOutfit(OU)
 
-/datum/outfit/job/roguetown/human/species/construct/metal/zizoconstruct/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/human/species/construct/metal/zizoconstruct/pre_equip(mob/living/carbon/human/H)
 	..()
 	shirt = /obj/item/clothing/suit/roguetown/armor/skin_armor/zizoconstructarmor
 	l_hand = /obj/item/rogueweapon/knuckles/bronzeknuckles/zizoconstruct

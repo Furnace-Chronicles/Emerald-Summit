@@ -7,7 +7,7 @@
 	disallowed_races = list(
 		/datum/species/harpy,
 	)
-	outfit = /datum/outfit/job/roguetown/wretch/lunacyembracer
+	outfit = /datum/outfit/job/wretch/lunacyembracer
 	category_tags = list(CTAG_WRETCH)
 	extra_context = "Minimum PQ Required: 30"
 
@@ -56,7 +56,7 @@
 		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/wretch/lunacyembracer/pre_equip(mob/living/carbon/human/H)		
+/datum/outfit/job/wretch/lunacyembracer/pre_equip(mob/living/carbon/human/H)		
 	// -- Start of section for god specific bonuses --
 	if(H.patron?.type == /datum/patron/inhumen/graggar)
 		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)

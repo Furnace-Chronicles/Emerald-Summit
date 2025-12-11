@@ -96,12 +96,12 @@
 		B.skeletonize(FALSE)
 
 	equip_and_traits()
-	L.equipOutfit(/datum/outfit/job/roguetown/lich)
+	L.equipOutfit(/datum/outfit/job/lich)
 	L.set_patron(/datum/patron/inhumen/zizo)
 	owner.current.forceMove(pick(GLOB.vlord_starts)) // as opposed to spawning at their normal role spot as a skeleton; which is le bad
 
 
-/datum/outfit/job/roguetown/lich/pre_equip(mob/living/carbon/human/H) //Equipment is located below
+/datum/outfit/job/lich/pre_equip(mob/living/carbon/human/H) //Equipment is located below
 	..()
 
 	H.adjust_skillrank(/datum/skill/misc/reading, 6, TRUE)
@@ -142,7 +142,7 @@
 
 	addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "LICH"), 5 SECONDS)
 
-/datum/outfit/job/roguetown/lich/post_equip(mob/living/carbon/human/H)
+/datum/outfit/job/lich/post_equip(mob/living/carbon/human/H)
 	..()
 	var/datum/antagonist/lich/lichman = H.mind.has_antag_datum(/datum/antagonist/lich)
 	// One phylactery instead of 3 so that they don't need to get chased down non-stop.

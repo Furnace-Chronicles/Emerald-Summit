@@ -11,7 +11,7 @@
 	allowed_races = RACES_ALL_KINDS
 	tutorial = "How does it feel to be the rat in the cage? You're alone and at the mercy of your captors, kept around as a hostage. You spend your days waiting for the oft chance someone comes to pay your ransom. Might as well start praying to whatever god you find solace in."
 
-	outfit = /datum/outfit/job/roguetown/prisonerr
+	outfit = /datum/outfit/job/prisonerr
 	bypass_jobban = TRUE
 	display_order = JDO_PRISONERR
 	give_bank_account = 10
@@ -23,7 +23,7 @@
 
 	advclass_cat_rolls = list(CTAG_PRISONER = 20)
 
-/datum/outfit/job/roguetown/prisonerr/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/prisonerr/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	// Equip collar and loincloth only
 	neck = /obj/item/clothing/neck/roguetown/collar/leather
@@ -42,10 +42,10 @@
 	return FALSE
 
 // Prisoner-specific subclasses, inheriting from towner roles
-/datum/outfit/job/roguetown/prisoner_farmer
+/datum/outfit/job/prisoner_farmer
 	name = "Prisoner Farmer"
 
-/datum/outfit/job/roguetown/prisoner_farmer/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/prisoner_farmer/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	..() // Call base prisoner outfit for collar/loincloth
 	if(H.mind)
@@ -80,14 +80,14 @@
 
 /datum/advclass/prisoner_farmer
 	parent_type = /datum/advclass
-	outfit = /datum/outfit/job/roguetown/prisoner_farmer
+	outfit = /datum/outfit/job/prisoner_farmer
 	name = "Prisoner Farmer"
 	category_tags = list(CTAG_PRISONER)
 
-/datum/outfit/job/roguetown/prisoner_thug
+/datum/outfit/job/prisoner_thug
 	name = "Prisoner Thug"
 
-/datum/outfit/job/roguetown/prisoner_thug/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/prisoner_thug/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
@@ -113,14 +113,14 @@
 
 /datum/advclass/prisoner_thug
 	parent_type = /datum/advclass
-	outfit = /datum/outfit/job/roguetown/prisoner_thug
+	outfit = /datum/outfit/job/prisoner_thug
 	name = "Prisoner Thug"
 	category_tags = list(CTAG_PRISONER)
 
-/datum/outfit/job/roguetown/prisoner_carpenter
+/datum/outfit/job/prisoner_carpenter
 	name = "Prisoner Carpenter"
 
-/datum/outfit/job/roguetown/prisoner_carpenter/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/prisoner_carpenter/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
@@ -147,14 +147,14 @@
 
 /datum/advclass/prisoner_carpenter
 	parent_type = /datum/advclass
-	outfit = /datum/outfit/job/roguetown/prisoner_carpenter
+	outfit = /datum/outfit/job/prisoner_carpenter
 	name = "Prisoner Carpenter"
 	category_tags = list(CTAG_PRISONER)
 
-/datum/outfit/job/roguetown/prisoner_blacksmith
+/datum/outfit/job/prisoner_blacksmith
 	name = "Prisoner Blacksmith"
 
-/datum/outfit/job/roguetown/prisoner_blacksmith/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/prisoner_blacksmith/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	H.adjust_skillrank(/datum/skill/misc/athletics, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
@@ -176,14 +176,14 @@
 
 /datum/advclass/prisoner_blacksmith
 	parent_type = /datum/advclass
-	outfit = /datum/outfit/job/roguetown/prisoner_blacksmith
+	outfit = /datum/outfit/job/prisoner_blacksmith
 	name = "Prisoner Blacksmith"
 	category_tags = list(CTAG_PRISONER)
 
-/datum/outfit/job/roguetown/prisoner_hunter
+/datum/outfit/job/prisoner_hunter
 	name = "Prisoner Hunter"
 
-/datum/outfit/job/roguetown/prisoner_hunter/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/prisoner_hunter/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	..() // Call base prisoner outfit for collar/loincloth
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
@@ -216,14 +216,14 @@
 
 /datum/advclass/prisoner_hunter
 	parent_type = /datum/advclass
-	outfit = /datum/outfit/job/roguetown/prisoner_hunter
+	outfit = /datum/outfit/job/prisoner_hunter
 	name = "Prisoner Hunter"
 	category_tags = list(CTAG_PRISONER)
 
-/datum/outfit/job/roguetown/prisoner_minstrel
+/datum/outfit/job/prisoner_minstrel
 	name = "Prisoner Minstrel"
 
-/datum/outfit/job/roguetown/prisoner_minstrel/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/prisoner_minstrel/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	if(H) to_chat(H, "DEBUG: prisoner_minstrel pre_equip called")
 	..() // Call base prisoner outfit for collar/loincloth
@@ -249,17 +249,17 @@
 
 /datum/advclass/prisoner_minstrel
 	parent_type = /datum/advclass
-	outfit = /datum/outfit/job/roguetown/prisoner_minstrel
+	outfit = /datum/outfit/job/prisoner_minstrel
 	name = "Prisoner Minstrel"
 	category_tags = list(CTAG_PRISONER)
 
 /datum/advclass/prisoner_butcher
 	parent_type = /datum/advclass
-	outfit = /datum/outfit/job/roguetown/prisoner_butcher
+	outfit = /datum/outfit/job/prisoner_butcher
 	name = "Prisoner Butcher"
 	category_tags = list(CTAG_PRISONER)
 
-/datum/outfit/job/roguetown/prisoner_butcher/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/prisoner_butcher/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	..() // Call base prisoner outfit for collar/loincloth
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
@@ -281,11 +281,11 @@
 
 /datum/advclass/prisoner_cheesemaker
 	parent_type = /datum/advclass
-	outfit = /datum/outfit/job/roguetown/prisoner_cheesemaker
+	outfit = /datum/outfit/job/prisoner_cheesemaker
 	name = "Prisoner Cheesemaker"
 	category_tags = list(CTAG_PRISONER)
 
-/datum/outfit/job/roguetown/prisoner_cheesemaker/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/prisoner_cheesemaker/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
@@ -309,11 +309,11 @@
 
 /datum/advclass/prisoner_seamstress
 	parent_type = /datum/advclass
-	outfit = /datum/outfit/job/roguetown/prisoner_seamstress
+	outfit = /datum/outfit/job/prisoner_seamstress
 	name = "Prisoner Seamster"
 	category_tags = list(CTAG_PRISONER)
 
-/datum/outfit/job/roguetown/prisoner_seamstress/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/prisoner_seamstress/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	..() // Call base prisoner outfit for collar/loincloth
 	H.adjust_skillrank(/datum/skill/misc/sewing, 4, TRUE)
@@ -332,11 +332,11 @@
 
 /datum/advclass/prisoner_potter
 	parent_type = /datum/advclass
-	outfit = /datum/outfit/job/roguetown/prisoner_potter
+	outfit = /datum/outfit/job/prisoner_potter
 	name = "Prisoner Potter"
 	category_tags = list(CTAG_PRISONER)
 
-/datum/outfit/job/roguetown/prisoner_potter/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/prisoner_potter/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
@@ -356,11 +356,11 @@
 
 /datum/advclass/prisoner_towndoctor
 	parent_type = /datum/advclass
-	outfit = /datum/outfit/job/roguetown/prisoner_towndoctor
+	outfit = /datum/outfit/job/prisoner_towndoctor
 	name = "Prisoner Barber Surgeon"
 	category_tags = list(CTAG_PRISONER)
 
-/datum/outfit/job/roguetown/prisoner_towndoctor/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/prisoner_towndoctor/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
@@ -382,11 +382,11 @@
 
 /datum/advclass/prisoner_drunkard
 	parent_type = /datum/advclass
-	outfit = /datum/outfit/job/roguetown/prisoner_drunkard
+	outfit = /datum/outfit/job/prisoner_drunkard
 	name = "Prisoner Gambler"
 	category_tags = list(CTAG_PRISONER)
 
-/datum/outfit/job/roguetown/prisoner_drunkard/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/prisoner_drunkard/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	H.adjust_skillrank(/datum/skill/misc/stealing, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE)
@@ -405,11 +405,11 @@
 
 /datum/advclass/prisoner_witch
 	parent_type = /datum/advclass
-	outfit = /datum/outfit/job/roguetown/prisoner_witch
+	outfit = /datum/outfit/job/prisoner_witch
 	name = "Prisoner Witch"
 	category_tags = list(CTAG_PRISONER)
 
-/datum/outfit/job/roguetown/prisoner_witch/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/prisoner_witch/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	..() // Call base prisoner outfit for collar/loincloth
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/witch/crow)
@@ -443,11 +443,11 @@
 
 /datum/advclass/prisoner_miner
 	parent_type = /datum/advclass
-	outfit = /datum/outfit/job/roguetown/prisoner_miner
+	outfit = /datum/outfit/job/prisoner_miner
 	name = "Prisoner Miner"
 	category_tags = list(CTAG_PRISONER)
 
-/datum/outfit/job/roguetown/prisoner_miner/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/prisoner_miner/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
@@ -475,11 +475,11 @@
 
 /datum/advclass/prisoner_woodcutter
 	parent_type = /datum/advclass
-	outfit = /datum/outfit/job/roguetown/prisoner_woodcutter
+	outfit = /datum/outfit/job/prisoner_woodcutter
 	name = "Prisoner Woodcutter"
 	category_tags = list(CTAG_PRISONER)
 
-/datum/outfit/job/roguetown/prisoner_woodcutter/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/prisoner_woodcutter/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	..() // Call base prisoner outfit for collar/loincloth
 	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
@@ -513,10 +513,10 @@
 	tutorial = "You cling to your religious symbols for comfort."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/prisoner/cleric
+	outfit = /datum/outfit/job/prisoner/cleric
 	category_tags = list(CTAG_PRISONER)
 
-/datum/outfit/job/roguetown/prisoner/cleric/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/prisoner/cleric/pre_equip(mob/living/carbon/human/H)
 	..()
 	// Add druidic skill for Dendor followers
 	if(H.patron?.type == /datum/patron/inhumen/graggar)
@@ -636,9 +636,9 @@
 	tutorial = "You are a cunning thief, even in chains. If you're ever to escape, you'll have an array of skills at your disposal to get you planted right back in the cells you came"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/prisoner_thief
+	outfit = /datum/outfit/job/prisoner_thief
 	category_tags = list(CTAG_PRISONER)
-/datum/outfit/job/roguetown/prisoner_thief/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/prisoner_thief/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H) return
 	..() // Call base prisoner outfit for collar/loincloth
 	H.cmode_music = 'sound/music/combat_rogue.ogg'

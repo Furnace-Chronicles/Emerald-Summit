@@ -14,7 +14,7 @@
 				You listen to your Liege, the Marshal, and the Knight Captain, defending your Lord and realm - the last beacon of chivalry in these dark times."
 	display_order = JDO_KNIGHT
 	whitelist_req = TRUE
-	outfit = /datum/outfit/job/roguetown/knight
+	outfit = /datum/outfit/job/knight
 	advclass_cat_rolls = list(CTAG_ROYALGUARD = 20)
 
 	give_bank_account = 22
@@ -38,7 +38,7 @@
 		/datum/advclass/knight/irregularknight
 		)
 
-/datum/outfit/job/roguetown/knight
+/datum/outfit/job/knight
 	job_bitflag = BITFLAG_GARRISON
 
 /datum/job/roguetown/knight/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
@@ -69,7 +69,7 @@
 					MF.known_people -= prev_real_name
 					H.mind.person_knows_me(MF)
 
-/datum/outfit/job/roguetown/knight
+/datum/outfit/job/knight
 	cloak = /obj/item/clothing/cloak/stabard/surcoat/guard
 	neck = /obj/item/clothing/neck/roguetown/bevor
 	gloves = /obj/item/clothing/gloves/roguetown/plate
@@ -83,7 +83,7 @@
 /datum/advclass/knight/heavy
 	name = "Heavy Knight"
 	tutorial = "You've trained thoroughly and hit far harder than most - adept with massive swords, axes, maces, and polearms. People may fear the mounted knights, but they should truly fear those who come off their mount..."
-	outfit = /datum/outfit/job/roguetown/knight/heavy
+	outfit = /datum/outfit/job/knight/heavy
 	category_tags = list(CTAG_ROYALGUARD)
 
 	traits_applied = list(TRAIT_HEAVYARMOR)
@@ -110,14 +110,14 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/knight/heavy/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/knight/heavy/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()	
 	H.verbs |= /mob/proc/haltyell
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Zweihander","Great Mace","Battle Axe","Greataxe","Estoc","Lucerne", "Partizan")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Zweihander")
@@ -151,7 +151,7 @@
 		"Slitted Kettle" = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
 		"None"
 	)
-	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
@@ -161,7 +161,7 @@
 		"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/half,
 		"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/half/fluted,
 	)
-	var/armorchoice = input("Choose your armor.", "TAKE UP ARMOR") as anything in armors
+	var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 	armor = armors[armorchoice]
 
 	backpack_contents = list(
@@ -173,7 +173,7 @@
 /datum/advclass/knight/footknight
 	name = "Foot Knight"
 	tutorial = "You are accustomed to traditional foot-soldier training in one-handed weapons such as flails, swords, and maces. Your fortitude and mastery with the versatile combination of a shield and weapon makes you a fearsome opponent to take down!"
-	outfit = /datum/outfit/job/roguetown/knight/footknight
+	outfit = /datum/outfit/job/knight/footknight
 
 	category_tags = list(CTAG_ROYALGUARD)
 
@@ -201,15 +201,15 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/knight/footknight/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/knight/footknight/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	H.verbs |= /mob/proc/haltyell
 
 	H.adjust_blindness(-3)
-	var/weapons = list("Longsword","Flail","Warhammer","Sabre")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapons = list(H, "Longsword","Flail","Warhammer","Sabre")
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Longsword")
@@ -240,7 +240,7 @@
 		"Slitted Kettle"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
 		"None"
 	)
-	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
@@ -250,7 +250,7 @@
 		"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/half,
 		"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/half/fluted,
 	)
-	var/armorchoice = input("Choose your armor.", "TAKE UP ARMOR") as anything in armors
+	var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 	armor = armors[armorchoice]
 
 	backpack_contents = list(
@@ -262,7 +262,7 @@
 /datum/advclass/knight/mountedknight
 	name = "Mounted Knight"
 	tutorial = "You are the picture-perfect knight from a high tale, knowledgeable in riding steeds into battle. You specialize in weapons most useful on a saiga including spears, swords, maces, and a variety of ranged weaponry."
-	outfit = /datum/outfit/job/roguetown/knight/mountedknight
+	outfit = /datum/outfit/job/knight/mountedknight
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	category_tags = list(CTAG_ROYALGUARD)
 
@@ -293,7 +293,7 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/knight/mountedknight/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/knight/mountedknight/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	H.verbs |= /mob/proc/haltyell
@@ -306,7 +306,7 @@
 		"Sabre + Recurve Bow",
 		"Lance + Kite Shield"
 	)
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Longsword + Crossbow")
@@ -348,7 +348,7 @@
 		"Slitted Kettle"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
 		"None"
 	)
-	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
@@ -358,7 +358,7 @@
 		"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/half,
 		"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/half/fluted,
 	)
-	var/armorchoice = input("Choose your armor.", "TAKE UP ARMOR") as anything in armors
+	var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 	armor = armors[armorchoice]
 
 	backpack_contents = list(
@@ -371,7 +371,7 @@
 /datum/advclass/knight/irregularknight
 	name = "Royal Champion"
 	tutorial = "Your skillset is abnormal for a knight. Your swift maneuvers and masterful technique impress both lords and ladies alike, and you have a preference for quicker, more elegant blades. While you are an effective fighting force in medium armor, your evasive skills will only truly shine if you don even lighter protection."
-	outfit = /datum/outfit/job/roguetown/knight/irregularknight
+	outfit = /datum/outfit/job/knight/irregularknight
 
 	category_tags = list(CTAG_ROYALGUARD)
 
@@ -400,7 +400,7 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/knight/irregularknight/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/knight/irregularknight/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	H.verbs |= /mob/proc/haltyell
@@ -408,8 +408,8 @@
 	H.adjust_blindness(-3)
 	var/weapons = list("Rapier + Longbow","Estoc + Recurve Bow","Sabre + Buckler","Whip + Crossbow","Greataxe + Sling")
 	var/armor_options = list("Light Armor", "Medium Armor", "Medium Cuirass")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
-	var/armor_choice = input("Choose your armor.", "TAKE UP ARMS") as anything in armor_options
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armor_options
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Rapier + Longbow") 
@@ -468,7 +468,7 @@
 		"None"
 	)
 	
-	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 	backpack_contents = list(

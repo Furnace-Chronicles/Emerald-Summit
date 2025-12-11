@@ -11,7 +11,7 @@
 	allowed_races = RACES_ALL_KINDS	//Duke selects his hand.
 	allowed_patrons = NON_PSYDON_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
-	outfit = /datum/outfit/job/roguetown/hand
+	outfit = /datum/outfit/job/hand
 	advclass_cat_rolls = list(CTAG_HAND = 20)
 	display_order = JDO_HAND
 	tutorial = "Whether by outstanding merit or petty favoritism, you are the Archduke’s most trusted representative and advisor. Your authority is second only to the Archduke themselves. The weight of your words can shape policy, stir conflict, or silence dissent. Let none forget whose will you carry, and do not fail your benefactor."
@@ -43,7 +43,7 @@
 				return TRUE
 */
 
-/datum/outfit/job/roguetown/hand
+/datum/outfit/job/hand
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	belt = /obj/item/storage/belt/rogue/leather/steel
 	r_hand = /obj/item/rogueweapon/sword/rapier/dec
@@ -198,7 +198,7 @@
 /datum/advclass/hand/hand
 	name = "Hand"
 	tutorial = "You serve as both soldier and strategist to the Noble-Family, wielding steel and intrigue with potent ability. Let no man forget whose ear you whisper into, your stratagems have claimed more lives than any spymaster's plots ever could."
-	outfit = /datum/outfit/job/roguetown/hand/handclassic
+	outfit = /datum/outfit/job/hand/handclassic
 
 	category_tags = list(CTAG_HAND)
 
@@ -226,7 +226,7 @@
 	)
 
 //Classical hand start - same as before, nothing changed.
-/datum/outfit/job/roguetown/hand/handclassic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/hand/handclassic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.dna.species.soundpack_m = new /datum/voicepack/male/tyrant()
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
@@ -239,7 +239,7 @@
 /datum/advclass/hand/spymaster
 	name = "Spymaster"
 	tutorial = "You serve as both spymaster and confidant to the Noble-Family, wielding cloak and dagger schemes with potent ability. Let no man forget whose ear you whisper into, your plots have claimed more lives than any strategist's steel ever could."
-	outfit = /datum/outfit/job/roguetown/hand/spymaster
+	outfit = /datum/outfit/job/hand/spymaster
 	category_tags = list(CTAG_HAND)
 
 	subclass_languages = list(
@@ -273,7 +273,7 @@
 	)
 
 //Spymaster start. More similar to the rogue adventurer - loses heavy armor for more sneaky stuff.
-/datum/outfit/job/roguetown/hand/spymaster/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/hand/spymaster/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.dna.species.soundpack_m = new /datum/voicepack/male/tyrant()
 	backr = /obj/item/storage/backpack/rogue/satchel/black
@@ -296,7 +296,7 @@
 /datum/advclass/hand/advisor
 	name = "Advisor"
 	tutorial = "You serve as both scholar and advisor to the Noble-Family, wielding knowledge and magicks with potent ability. Let no man forget whose ear you whisper into, your sage advice has saved more lives than any strategist's orders or spymaster's schemes could ever claim to."
-	outfit = /datum/outfit/job/roguetown/hand/advisor
+	outfit = /datum/outfit/job/hand/advisor
 	category_tags = list(CTAG_HAND)
 
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2, TRAIT_INTELLECTUAL, TRAIT_SEEPRICES_SHITTY)
@@ -325,7 +325,7 @@
 	)
 
 //Advisor start. Trades combat skills for more knowledge and skills - for older hands, hands that don't do combat - people who wanna play wizened old advisors.
-/datum/outfit/job/roguetown/hand/advisor/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/hand/advisor/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.dna.species.soundpack_m = new /datum/voicepack/male/tyrant()
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard

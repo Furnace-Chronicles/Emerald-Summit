@@ -3,7 +3,7 @@
 	tutorial = "You are the person folk fear at night - use your cunning and speed to strike fast and get out with your spoils before anyone notices."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/wretch/outlaw
+	outfit = /datum/outfit/job/wretch/outlaw
 	category_tags = list(CTAG_WRETCH)
 	cmode_music = 'sound/music/combat_vaquero.ogg'
 
@@ -34,7 +34,7 @@
 		/datum/skill/craft/traps = SKILL_LEVEL_MASTER,
 	)
 
-/datum/outfit/job/roguetown/wretch/outlaw/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/wretch/outlaw/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are the person folk fear at night - use your cunning and speed to strike fast and get out with your spoils before anyone notices."))
 	head = /obj/item/clothing/head/roguetown/helmet/kettle
@@ -63,7 +63,7 @@
 		)
 
 	var/weapons = list("Rapier","Dagger", "Whip")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Rapier")
@@ -82,7 +82,7 @@
 /datum/advclass/wretch/outlaw/marauder
 	name = "Marauder"
 	tutorial = "You are a brigand and a pillager - you prefer to get your coins with direct means from unfortunate victims."
-	outfit = /datum/outfit/job/roguetown/wretch/marauder
+	outfit = /datum/outfit/job/wretch/marauder
 	cmode_music = 'sound/music/combat_bandit_brigand.ogg'
 
 	subclass_languages = list(/datum/language/thievescant)
@@ -113,7 +113,7 @@
 		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
 	)
 
-/datum/outfit/job/roguetown/wretch/marauder/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/wretch/marauder/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a brigand and a pillager - you prefer to get your coins with direct means from unfortunate victims."))
 	head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
@@ -137,7 +137,7 @@
 		)
 
 	var/weapons = list("Just An Iron Shield","Dagger + Crossbow", "Militia Warpick + Heater Shield", "Militia Spear + Heater Shield")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Just An Iron Shield")

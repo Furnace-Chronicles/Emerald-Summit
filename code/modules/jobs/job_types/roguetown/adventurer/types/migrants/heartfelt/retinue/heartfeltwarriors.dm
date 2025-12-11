@@ -5,7 +5,7 @@
 	Guided by the Magos, you journey to the Peak, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_GOLEM
-	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/houseguard
+	outfit = /datum/outfit/job/heartfelt/retinue/houseguard
 	maximum_possible_slots = 4
 	pickprob = 100
 	category_tags = list(CTAG_HFT_RETINUE)
@@ -39,7 +39,7 @@
 	/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/heartfelt/retinue/houseguard/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heartfelt/retinue/houseguard/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	cloak = /obj/item/clothing/cloak/raincloak/furcloak/black // Fur cloak, instead using the brigandine for 'identification'
@@ -106,7 +106,7 @@
 	tutorial = "You are a Missilite for the Lord of Heartfelt, a ranged combatant of the once-prosperous barony now in ruin. \
 	Guided by the Magos, you journey to the Peak, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
 	allowed_sexes = list(MALE, FEMALE)
-	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/housearb
+	outfit = /datum/outfit/job/heartfelt/retinue/housearb
 	category_tags = list(CTAG_HFT_RETINUE)
 	class_select_category = CLASS_CAT_HFT_GUARD
 	traits_applied = list(TRAIT_MEDIUMARMOR) // Medium Armor Forced - Heavier 'Defensive' Class
@@ -135,7 +135,7 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/heartfelt/retinue/housearb/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heartfelt/retinue/housearb/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	cloak = /obj/item/clothing/cloak/raincloak/furcloak/black // Fur cloak, instead of tabard due to using the brigandine for 'identification'
@@ -206,7 +206,7 @@
 	Guided by the Magos, you journey to the Peak, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_GOLEM
-	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/squire
+	outfit = /datum/outfit/job/heartfelt/retinue/squire
 	maximum_possible_slots = 2 // Knight and Hand/Lord. 
 	pickprob = 100
 	category_tags = list(CTAG_HFT_RETINUE)
@@ -239,7 +239,7 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/heartfelt/retinue/squire/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heartfelt/retinue/squire/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/heartfelt

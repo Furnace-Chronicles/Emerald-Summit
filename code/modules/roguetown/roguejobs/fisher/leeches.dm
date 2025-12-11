@@ -29,6 +29,7 @@
 		/obj/item/reagent_containers/food/snacks/fish/lobster = 180,
 		/obj/item/reagent_containers/food/snacks/fish/bass = 230,
 		/obj/item/reagent_containers/food/snacks/fish/clam = 50,
+		/obj/item/roguegem/oyster = 100, //Probably best to have one clam type instead of two, but whatever
 		/obj/item/reagent_containers/food/snacks/fish/clownfish = 40,
 		/obj/item/grown/log/tree/stick = 3,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,

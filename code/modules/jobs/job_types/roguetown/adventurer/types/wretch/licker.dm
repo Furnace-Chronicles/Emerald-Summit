@@ -3,7 +3,7 @@
 	tutorial = "You have recently been embraced as a vampire. You do not know whom your sire is, strange urges, unnatural strength, a thirst you can barely control. You were outed as a monster and are now on the run."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_GOLEM
-	outfit = /datum/outfit/job/roguetown/wretch/licker
+	outfit = /datum/outfit/job/wretch/licker
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(
 		TRAIT_STEELHEARTED,
@@ -18,7 +18,7 @@
 	maximum_possible_slots = 2
 	applies_post_equipment = FALSE
 
-/datum/outfit/job/roguetown/wretch/licker/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/wretch/licker/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
 		H.adjust_blindness(-3)

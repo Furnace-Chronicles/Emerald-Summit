@@ -10,12 +10,12 @@
 	allowed_patrons = list(/datum/patron/inhumen/graggar)
 	tutorial = "Goblin Guards rensposible for their kingdom and his majesty King."
 	display_order = JDO_GOBLINGUARD
-	outfit = /datum/outfit/job/roguetown/goblinguard
+	outfit = /datum/outfit/job/goblinguard
 	min_pq = 1
 	max_pq = null
 
 
-/datum/outfit/job/roguetown/goblinguard/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/goblinguard/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 	head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin

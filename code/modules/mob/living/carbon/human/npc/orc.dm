@@ -3,7 +3,7 @@
 	skin_tone = SKIN_COLOR_GROONN
 	hairstyle = "Bald"
 	facial_hairstyle = "Shaved"
-	var/orc_outfit = /datum/outfit/job/roguetown/orc/npc
+	var/orc_outfit = /datum/outfit/job/orc/npc
 
 	race = /datum/species/orc
 	gender = MALE
@@ -23,7 +23,7 @@
 	wander = FALSE
 	cmode_music = FALSE
 
-/datum/outfit/job/roguetown/orc/npc/pre_equip(mob/living/carbon/human/H) //gives some default skills and equipment for player controlled orcs
+/datum/outfit/job/orc/npc/pre_equip(mob/living/carbon/human/H) //gives some default skills and equipment for player controlled orcs
 	..()
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide

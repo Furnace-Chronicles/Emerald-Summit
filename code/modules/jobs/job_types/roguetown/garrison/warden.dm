@@ -16,7 +16,7 @@
 				Serve their will and recieve what a ranger craves the most - freedom and safety."
 	display_order = JDO_TOWNGUARD
 	whitelist_req = TRUE
-	outfit = /datum/outfit/job/roguetown/warden
+	outfit = /datum/outfit/job/warden
 	advclass_cat_rolls = list(CTAG_WARDEN = 20)
 	give_bank_account = 50
 	min_pq = 0
@@ -35,7 +35,7 @@
 		/datum/advclass/warden/forester
 	)
 
-/datum/outfit/job/roguetown/warden
+/datum/outfit/job/warden
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/warden
 	cloak = /obj/item/clothing/cloak/wardencloak
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
@@ -47,7 +47,7 @@
 /datum/advclass/warden/ranger
 	name = "Ranger"
 	tutorial = "You are a ranger, a hunter who volunteered to become a part of the wardens. You have experience using bows and daggers."
-	outfit = /datum/outfit/job/roguetown/warden/ranger
+	outfit = /datum/outfit/job/warden/ranger
 	category_tags = list(CTAG_WARDEN)
 
 	traits_applied = list(TRAIT_DODGEEXPERT)
@@ -80,7 +80,7 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE, // This should let them fry meat on fires.
 	)
 
-/datum/outfit/job/roguetown/warden/ranger/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/warden/ranger/pre_equip(mob/living/carbon/human/H)
 	..()
 	neck = /obj/item/clothing/neck/roguetown/coif
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
@@ -108,7 +108,7 @@
 		"Path of the Rous"		= /obj/item/clothing/head/roguetown/helmet/sallet/warden/rat,
 		"None"
 	)
-	var/helmchoice = input("Choose your Path.", "HELMET SELECTION") as anything in helmets
+	var/helmchoice = input(H, "Choose your Path.", "HELMET SELECTION") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
@@ -117,7 +117,7 @@
 		"Antlered Shroud"		= /obj/item/clothing/head/roguetown/roguehood/warden/antler,
 		"None"
 	)
-	var/hoodchoice = input("Choose your Shroud.", "HOOD SELECTION") as anything in hoods
+	var/hoodchoice = input(H, "Choose your Shroud.", "HOOD SELECTION") as anything in hoods
 	if(helmchoice != "None")
 		mask = hoods[hoodchoice]
 
@@ -125,7 +125,7 @@
 /datum/advclass/warden/forester
 	name = "Forester"
 	tutorial = "You are a forester, a woodsman who volunteered to become a part of the wardens. You have experience using axes and polearms."
-	outfit = /datum/outfit/job/roguetown/warden/forester
+	outfit = /datum/outfit/job/warden/forester
 	category_tags = list(CTAG_WARDEN)
 
 	traits_applied = list(TRAIT_MEDIUMARMOR)
@@ -161,7 +161,7 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE, // This should let them fry meat on fires.
 	)
 
-/datum/outfit/job/roguetown/warden/forester/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/warden/forester/pre_equip(mob/living/carbon/human/H)
 	..()
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
@@ -188,7 +188,7 @@
 		"Path of the Bear"		= /obj/item/clothing/head/roguetown/helmet/sallet/warden/bear,
 		"None"
 	)
-	var/helmchoice = input("Choose your Path.", "HELMET SELECTION") as anything in helmets
+	var/helmchoice = input(H, "Choose your Path.", "HELMET SELECTION") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
@@ -197,6 +197,6 @@
 		"Antlered Shroud"		= /obj/item/clothing/head/roguetown/roguehood/warden/antler,
 		"None"
 	)
-	var/hoodchoice = input("Choose your Shroud.", "HOOD SELECTION") as anything in hoods
+	var/hoodchoice = input(H, "Choose your Shroud.", "HOOD SELECTION") as anything in hoods
 	if(helmchoice != "None")
 		mask = hoods[hoodchoice]

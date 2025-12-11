@@ -5,6 +5,7 @@
 	icon = 'icons/roguetown/mob/monster/maneater.dmi'
 	icon_state = "maneater-hidden"
 	max_integrity = 5
+	layer = 4.82 // above trees
 
 /obj/structure/flora/roguegrass/maneater/update_icon()
 	return

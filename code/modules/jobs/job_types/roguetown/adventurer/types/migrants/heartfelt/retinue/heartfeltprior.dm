@@ -5,7 +5,7 @@
 	delaying it indefinitely. Still guided by the blessings of Astrata, you journey to the Reach, determined to offer what aid and solace you can."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_GOLEM
-	outfit = /datum/outfit/job/roguetown/heartfelt/prior
+	outfit = /datum/outfit/job/heartfelt/prior
 	maximum_possible_slots = 1
 	pickprob = 100
 	category_tags = list(CTAG_HFT_RETINUE)
@@ -14,7 +14,7 @@
 
 // HIGH COURT - /ONE SLOT/ Roles that were previously in the Court, but moved here.
 
-/datum/outfit/job/roguetown/heartfelt/prior/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heartfelt/prior/pre_equip(mob/living/carbon/human/H)
 	..()
 	neck = /obj/item/clothing/neck/roguetown/psicross/astrata
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest

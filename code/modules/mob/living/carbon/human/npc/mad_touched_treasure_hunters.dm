@@ -32,7 +32,7 @@
 	ADD_TRAIT(src, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_DISFIGURED, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
-	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/mad_touched_treasure_hunter)
+	equipOutfit(new /datum/outfit/job/human/species/human/northern/mad_touched_treasure_hunter)
 	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
 	if(organ_eyes)
 		organ_eyes.eye_color = pick("27becc", "35cc27", "000000")
@@ -57,7 +57,7 @@
 	if(!wander && prob(10))
 		face_atom(get_step(src,pick(GLOB.cardinals)))
 
-/datum/outfit/job/roguetown/human/species/human/northern/mad_touched_treasure_hunter/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/human/species/human/northern/mad_touched_treasure_hunter/pre_equip(mob/living/carbon/human/H)
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/paalloy/mad_touched
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy

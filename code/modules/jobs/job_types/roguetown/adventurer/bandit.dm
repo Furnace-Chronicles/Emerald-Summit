@@ -50,7 +50,7 @@
 			return
 		H.ambushable = FALSE
 
-/datum/outfit/job/roguetown/bandit/post_equip(mob/living/carbon/human/H)
+/datum/outfit/job/bandit/post_equip(mob/living/carbon/human/H)
 	..()
 	var/datum/antagonist/new_antag = new /datum/antagonist/bandit()
 	H.mind.add_antag_datum(new_antag)

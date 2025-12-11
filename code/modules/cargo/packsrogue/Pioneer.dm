@@ -124,6 +124,11 @@
 	cost = 20
 	contains = list(/obj/item/rogueweapon/huntingknife/idagger/navaja)
 
+/datum/supply_pack/rogue/Pioneer/Saperka
+	name = "Saperka Shovel"
+	cost = 20
+	contains = list(/obj/item/rogueweapon/shovel/saperka)
+
 /datum/supply_pack/rogue/Pioneer/steeltossblades
 	name = "Steel Tossblade Belt"
 	cost = 20

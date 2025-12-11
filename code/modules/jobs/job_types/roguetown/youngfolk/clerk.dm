@@ -10,7 +10,7 @@
 
 	tutorial = "Clerk, tax-collector, blessed fool. You help the Steward with anything they need and perform their tasks when they are unavailable. Although you aren't a noble, it's not the worst position. The caveat? If money is misplaced or goes missing, a noble could probably weasel out of the stockades as punishment. You? Eh...well, Etrusca is lovely this time of year."
 
-	outfit = /datum/outfit/job/roguetown/clerk
+	outfit = /datum/outfit/job/clerk
 	display_order = JDO_CLERK
 	give_bank_account = TRUE
 	min_pq = -10
@@ -29,7 +29,7 @@
 /datum/advclass/clerk
 	name = "Clerk"
 	tutorial = "Clerk, tax-collector, blessed fool. You help the Steward with anything they need and perform their tasks when they are unavailable. Although you aren't a noble, it's not the worst position. The caveat? If money is misplaced or goes missing, a noble could probably weasel out of the stockades as punishment. You? Eh...well, Etrusca is lovely this time of year."
-	outfit = /datum/outfit/job/roguetown/clerk/basic
+	outfit = /datum/outfit/job/clerk/basic
 	category_tags = list(CTAG_CLERK)
 
 	subclass_stats = list(
@@ -51,7 +51,7 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/clerk/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/clerk/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	if(H.mind)

@@ -126,6 +126,9 @@
 			if(!user.mind?.has_spell(/obj/effect/proc_holder/spell/invoked/diagnose/secular))
 				var/secular_diagnose = new /obj/effect/proc_holder/spell/invoked/diagnose/secular
 				user.mind?.AddSpell(secular_diagnose)
+			if(!user.mind?.has_spell(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation))
+				var/prestidigitation = new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation
+				user.mind?.AddSpell(prestidigitation)
 			add_spells(user, utility_bundle, choice_count = 2)
 		if("Offense")
 			add_spells(user, offensive_bundle, grant_all = TRUE)

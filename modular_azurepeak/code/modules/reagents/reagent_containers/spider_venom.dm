@@ -15,7 +15,6 @@
 	desc = "A squishy pale gland, filled to the brim with venom of the deadly Aragn spider. Feels cold to the touch."
 	icon = 'modular/Mapping/icons/webbing.dmi'
 	icon_state = "gland"
-	juice_results = list(/datum/reagent/toxin/spidervenom_inert = 10)
 
 /datum/reagent/toxin/spidervenom_paralytic
 	name = "Aragn Essence"

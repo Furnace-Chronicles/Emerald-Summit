@@ -3,7 +3,7 @@
 	tutorial = "A band of foreign Kazengites. The Ruma Clan isn't an organized group of soldiers - rather a loose collection of fighters, with strange tattoos that act as armor."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = NON_DWARVEN_NON_GOLEM_RACE_TYPES //no dwarf sprites
-	outfit = /datum/outfit/job/roguetown/mercenary/rumaclan
+	outfit = /datum/outfit/job/mercenary/rumaclan
 	subclass_languages = list(/datum/language/kazengunese)
 	class_select_category = CLASS_CAT_KAZENGUN
 	category_tags = list(CTAG_MERCENARY)
@@ -30,7 +30,7 @@
 	)
 	extra_context = "This subclass is race-limited from: Dwarves."
 
-/datum/outfit/job/roguetown/mercenary/rumaclan/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/rumaclan/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are relatively versed in the art of \"swinging a sword until enemy death.\" - You would gladly take up most jobs for money, or a chance to cut loose."))
 	head = /obj/item/clothing/head/roguetown/mentorhat
@@ -54,7 +54,7 @@
 /datum/advclass/mercenary/rumaclan/ishu
 	name = "Ruma Clan Ishu"
 	tutorial = "A band of foreign Kazengites. The Ruma Clan isn't an organized group of soldiers - rather a loose collection of fighters, with strange tattoos that act as armor."
-	outfit = /datum/outfit/job/roguetown/mercenary/rumaclan_ishu
+	outfit = /datum/outfit/job/mercenary/rumaclan_ishu
 	subclass_stats = list(
 		STATKEY_SPD = 4,
 		STATKEY_PER = 2,
@@ -76,7 +76,7 @@
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/mercenary/rumaclan_ishu/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/rumaclan_ishu/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.set_blindness(0)
 	to_chat(H, span_warning("You are an archer. Pretty good in the art of \"pelting until enemy death.\" - You would gladly take up most jobs for money, or a chance to shoot loose."))
@@ -98,7 +98,7 @@
 		)
 
 	var/belts = list("Shurikens","Smokebombs")
-	var/belt_choice = input("Choose your belt.", "BELT YOURSELF") as anything in belts
+	var/belt_choice = input(H, "Choose your belt.", "BELT YOURSELF") as anything in belts
 	switch(belt_choice)
 		if("Shurikens")
 			belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun

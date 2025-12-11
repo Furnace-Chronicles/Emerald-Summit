@@ -11,14 +11,14 @@
 	allowed_ages = ALL_AGES_LIST
 	tutorial = "Some say you're a strange individual, some say you're a cheat, while some claim you're a savant in the art of sausage making. Without your skilled hands and knifework, most of the livestocks' meat around the town would rot to waste before it could be eaten."
 
-	outfit = /datum/outfit/job/roguetown/beastmaster
+	outfit = /datum/outfit/job/beastmaster
 	display_order = JDO_BUTCHER
 	give_bank_account = TRUE
 	min_pq = -10
 	max_pq = null
 	round_contrib_points = 2
 
-/datum/outfit/job/roguetown/beastmaster/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/beastmaster/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)

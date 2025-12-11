@@ -8,7 +8,7 @@
 	bodyparts = list(/obj/item/bodypart/chest/goblin, /obj/item/bodypart/head/goblin, /obj/item/bodypart/l_arm/goblin,
 					/obj/item/bodypart/r_arm/goblin, /obj/item/bodypart/r_leg/goblin, /obj/item/bodypart/l_leg/goblin)
 	rot_type = /datum/component/rot/corpse/goblin
-	var/gob_outfit = /datum/outfit/job/roguetown/npc/goblin
+	var/gob_outfit = /datum/outfit/job/npc/goblin
 	ambushable = FALSE
 	base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
 	a_intent = INTENT_HELP
@@ -331,7 +331,7 @@
 
 //////////////////   OUTFITS	//////////////////
 
-/datum/outfit/job/roguetown/npc/goblin/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/npc/goblin/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 8
 	var/chance_zjumper = 5
