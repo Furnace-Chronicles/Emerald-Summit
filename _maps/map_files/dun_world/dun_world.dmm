@@ -10685,6 +10685,15 @@
 /obj/structure/bars,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/town/basement/keep)
+"cUI" = (
+/obj/structure/roguewindow,
+/obj/structure/bars{
+	color = "#755f48";
+	name = "rusted bars";
+	layer = 1.4
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town)
 "cUM" = (
 /obj/effect/decal/cobbleedge{
 	dir = 1;
@@ -13159,6 +13168,15 @@
 	},
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/town/physician)
+"dFx" = (
+/obj/structure/roguewindow,
+/obj/structure/bars{
+	color = "#755f48";
+	name = "rusted bars";
+	layer = 1.4
+	},
+/turf/open/floor/rogue/blocks,
+/area/rogue/indoors/town)
 "dFy" = (
 /obj/structure/table/wood,
 /obj/effect/spawner/lootdrop/potion_ingredient/herb,
@@ -62211,6 +62229,17 @@
 	icon_state = "rockwd"
 	},
 /area/rogue/under/underdark)
+"qDz" = (
+/obj/structure/roguewindow,
+/obj/structure/bars{
+	color = "#755f48";
+	name = "rusted bars";
+	layer = 1.4
+	},
+/turf/open/floor/rogue/ruinedwood{
+	icon_state = "weird1"
+	},
+/area/rogue/indoors/town)
 "qDC" = (
 /mob/living/carbon/human/species/skeleton/npc/ambush,
 /turf/open/floor/rogue/twig,
@@ -65972,6 +66001,15 @@
 /obj/item/soap/bath,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/under/town/basement/keep)
+"rDy" = (
+/obj/structure/roguewindow,
+/obj/structure/bars{
+	color = "#755f48";
+	name = "rusted bars";
+	layer = 1.4
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town)
 "rDA" = (
 /obj/structure/closet/crate/roguecloset/inn,
 /turf/open/floor/rogue/ruinedwood,
@@ -67296,12 +67334,6 @@
 /obj/structure/flora/roguetree/burnt,
 /turf/open/floor/rogue/grass,
 /area/rogue/under/cavewet/bogcaves/sunkencity)
-"rUf" = (
-/obj/structure/roguemachine/scomm/r,
-/turf/open/floor/rogue/ruinedwood{
-	icon_state = "weird1"
-	},
-/area/rogue/indoors/town)
 "rUp" = (
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/effect/decal/wood/herringbone2{
@@ -87156,6 +87188,11 @@
 /area/rogue/under/cave/goblindungeon)
 "wZm" = (
 /obj/structure/roguewindow,
+/obj/structure/bars{
+	color = "#755f48";
+	name = "rusted bars";
+	layer = 1.4
+	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/town)
 "wZo" = (
@@ -258982,7 +259019,7 @@ crw
 pxF
 pxF
 uBc
-rUf
+sYZ
 sYZ
 jKv
 icF
@@ -259437,7 +259474,7 @@ cDX
 uBc
 vmB
 uBc
-flT
+qDz
 uBc
 cDX
 ibp
@@ -275631,8 +275668,8 @@ rBC
 cDX
 cDX
 uBc
-flT
-flT
+qDz
+qDz
 uBc
 cDX
 cDX
@@ -281055,8 +281092,8 @@ rBC
 cDX
 cDX
 uBc
-wSz
-wSz
+cUI
+cUI
 uBc
 cDX
 cDX
@@ -286039,7 +286076,7 @@ uBc
 rDA
 mPL
 xMx
-vUD
+rDy
 jTP
 exD
 exD
@@ -286943,7 +286980,7 @@ uBc
 oJE
 hRn
 apZ
-vUD
+rDy
 jTP
 exD
 exD
@@ -287847,7 +287884,7 @@ uBc
 vDG
 apZ
 lzp
-vUD
+rDy
 mhx
 exD
 exD
@@ -288277,7 +288314,7 @@ cDX
 lbY
 cMj
 nHx
-wSz
+cUI
 pWT
 aZo
 daQ
@@ -288299,7 +288336,7 @@ phl
 rZE
 apZ
 tfs
-vUD
+rDy
 mhx
 exD
 exD
@@ -288729,7 +288766,7 @@ fXC
 eEU
 cMj
 vQm
-wSz
+cUI
 njB
 daQ
 cOj
@@ -288751,7 +288788,7 @@ uBc
 cTF
 xgE
 faB
-vUD
+rDy
 mhx
 njB
 exD
@@ -289177,11 +289214,11 @@ exD
 exD
 exD
 crS
-wSz
+cUI
 mjw
 bIp
 paZ
-wSz
+cUI
 daQ
 daQ
 rYO
@@ -292783,7 +292820,7 @@ uBc
 cDX
 keu
 mqt
-vUD
+rDy
 pQi
 sBN
 fpx
@@ -294149,8 +294186,8 @@ exD
 qTF
 hbM
 cDX
-wSz
-wSz
+cUI
+cUI
 uBc
 uBc
 cDX
@@ -295138,7 +295175,7 @@ eCc
 exD
 exD
 exD
-vUD
+rDy
 hIp
 hcB
 hes
@@ -296042,7 +296079,7 @@ lVW
 exD
 exD
 exD
-vUD
+rDy
 mML
 hcB
 hcB
@@ -298669,8 +298706,8 @@ exD
 gUN
 vhG
 cDX
-wSz
-wSz
+cUI
+cUI
 cDX
 toe
 cDX
@@ -298752,7 +298789,7 @@ uBc
 uYh
 pql
 jew
-vUD
+rDy
 pWT
 exD
 exD
@@ -299204,7 +299241,7 @@ uBc
 cDX
 dPB
 jew
-vUD
+rDy
 jiQ
 exD
 exD
@@ -300109,7 +300146,7 @@ jew
 oZh
 jew
 uOR
-vUD
+rDy
 exD
 exD
 tEe
@@ -301013,7 +301050,7 @@ jew
 jew
 jew
 lWQ
-vUD
+rDy
 exD
 exD
 eCc
@@ -301916,7 +301953,7 @@ uBc
 iOE
 rBL
 puO
-vUD
+rDy
 exD
 exD
 exD
@@ -302368,7 +302405,7 @@ uBc
 aYq
 xcL
 aCX
-vUD
+rDy
 exD
 exD
 exD
@@ -305080,7 +305117,7 @@ uBc
 awp
 dra
 dra
-vUD
+rDy
 bZZ
 exD
 exD
@@ -305984,7 +306021,7 @@ uBc
 itv
 mTw
 dra
-vUD
+rDy
 bZZ
 exD
 exD
@@ -307341,7 +307378,7 @@ ryX
 jdu
 jdu
 bHY
-vUD
+rDy
 exD
 exD
 exD
@@ -307793,7 +307830,7 @@ uZM
 jdu
 psz
 nNr
-vUD
+rDy
 exD
 exD
 exD
@@ -309599,8 +309636,8 @@ gJF
 pWT
 njB
 eKH
-iHO
-iHO
+dFx
+dFx
 eKH
 lnE
 pWT
@@ -310506,7 +310543,7 @@ gpn
 gXS
 has
 eBE
-iHO
+dFx
 pWT
 exD
 sXa
@@ -310958,7 +310995,7 @@ cPe
 dyE
 htB
 uVm
-iHO
+dFx
 pWT
 exD
 sXa
@@ -311864,7 +311901,7 @@ pVO
 eSl
 jdu
 eKH
-wjW
+exD
 exD
 fwp
 fwp
