@@ -1423,3 +1423,8 @@
 	for(var/obj/item/bodypart/B in bodyparts)
 		B.skeletonize(lethal)
 	update_body_parts()
+
+/// Invalidates the bleed rate cache, forcing recalculation on the next get_bleed_rate() call.
+/// Call this when wounds, embeds, grabs, or bandages change on any bodypart.
+/mob/living/carbon/proc/invalidate_bleed_cache()
+	bleed_cache_dirty = TRUE

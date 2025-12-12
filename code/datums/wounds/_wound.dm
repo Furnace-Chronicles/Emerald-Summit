@@ -164,6 +164,11 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	bodypart_owner = affected
 	owner = bodypart_owner.owner
 	bodypart_owner.bleeding += bleed_rate // immediately apply our base bleeding
+	// Invalidate bleed caches since we added a new wound
+	affected.invalidate_bp_bleed_cache()
+	if(iscarbon(owner))
+		var/mob/living/carbon/C = owner
+		C.invalidate_bleed_cache()
 	on_bodypart_gain(affected)
 	INVOKE_ASYNC(src, PROC_REF(on_mob_gain), affected.owner) //this is literally a fucking lint error like new species cannot possible spawn with wounds until after its ass
 	if(crit_message)
@@ -192,8 +197,13 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	var/obj/item/bodypart/was_bodypart = bodypart_owner
 	var/mob/living/was_owner = owner
 	LAZYREMOVE(bodypart_owner.wounds, src)
+	// Invalidate bleed caches since we removed a wound
+	was_bodypart.invalidate_bp_bleed_cache()
 	bodypart_owner = null
 	owner = null
+	if(iscarbon(was_owner))
+		var/mob/living/carbon/C = was_owner
+		C.invalidate_bleed_cache()
 	on_bodypart_loss(was_bodypart)
 	on_mob_loss(was_owner)
 	return TRUE
@@ -284,18 +294,24 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 
 /// Setter for any adjustments we make to our bleed_rate, propagating them to the host bodypart.
 /datum/wound/proc/set_bleed_rate(amount)
-    if(!bodypart_owner || !owner)
-        return
+	if(!bodypart_owner || !owner)
+		return
 
-    // do simple bleeding
-    if(owner.simple_wounds?.len)
-        owner.simple_bleeding -= bleed_rate
-        bleed_rate = amount
-        owner.simple_bleeding += bleed_rate
-    else
-        bodypart_owner.bleeding -= bleed_rate
-        bleed_rate = amount
-        bodypart_owner.bleeding += bleed_rate
+	// do simple bleeding
+	if(owner.simple_wounds?.len)
+		owner.simple_bleeding -= bleed_rate
+		bleed_rate = amount
+		owner.simple_bleeding += bleed_rate
+	else
+		bodypart_owner.bleeding -= bleed_rate
+		bleed_rate = amount
+		bodypart_owner.bleeding += bleed_rate
+
+	// Invalidate bleed caches since bleed rate changed
+	bodypart_owner.invalidate_bp_bleed_cache()
+	if(iscarbon(owner))
+		var/mob/living/carbon/C = owner
+		C.invalidate_bleed_cache()
 
 /// Heals this wound by the given amount, and deletes it if it's healed completely
 /datum/wound/proc/heal_wound(heal_amount)

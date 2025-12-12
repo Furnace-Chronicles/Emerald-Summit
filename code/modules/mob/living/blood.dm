@@ -211,62 +211,66 @@
 		bleed_rate += embedded.embedding?.embedded_bloodloss
 	return bleed_rate
 
+/// Returns the total bleed rate for this carbon mob.
+/// Separates critical bleeding (from severe wounds) which is harder to suppress.
+/// Performance-optimized: uses caching and delegates to bodypart.get_bleed_data()
 /mob/living/carbon/get_bleed_rate()
 	if (!blood_volume)
 		return 0
 	if(NOBLOOD in dna?.species?.species_traits)
 		return 0
 
-	var/normal_bleed = 0
-	var/critical_bleed = 0
+	// Recalculate cached values only when dirty AND not already updated this tick
+	// This prevents multiple recalculations when multiple wounds clot in the same tick
+	if(bleed_cache_dirty && bleed_cache_last_update != world.time)
+		recalculate_bleed_cache()
 
-	var/grab_suppression = 1.0
-	for(var/obj/item/bodypart/BP as anything in bodyparts)
-		if(length(BP.grabbedby))
-			for(var/obj/item/grabbing/G in BP.grabbedby)
-				grab_suppression *= G.bleed_suppressing
+	// Apply blood pressure scaling to cached values (this changes every tick based on blood_volume)
+	var/normal_bleed = cached_normal_bleed
+	var/critical_bleed = cached_critical_bleed
 
-	for(var/obj/item/bodypart/BP as anything in bodyparts)
-		var/bp_bleed = BP.bleeding
-		var/bp_critical = 0
-		var/bp_max_bleed = 0
+	// Apply grab suppression from cache
+	if(cached_grab_suppression != 1.0)
+		normal_bleed *= cached_grab_suppression
+		critical_bleed *= cached_grab_suppression * 0.5  // Critical bleeds harder to suppress
 
-		for(var/datum/wound/W as anything in BP.wounds)
-			if(W.bleed_rate)
-				if(W.bleed_rate > bp_max_bleed)
-					bp_max_bleed = W.bleed_rate
-
-				if(W.severity >= WOUND_SEVERITY_CRITICAL)
-					bp_critical += W.bleed_rate
-					bp_bleed -= W.bleed_rate
-
-		for(var/obj/item/I as anything in BP.embedded_objects)
-			if(I.embedding?.embedded_bloodloss)
-				var/embed_bleed = I.embedding.embedded_bloodloss
-				if(embed_bleed > bp_max_bleed)
-					bp_max_bleed = embed_bleed
-
-		if(BP.bandage && !HAS_BLOOD_DNA(BP.bandage))
-			var/bandage_effectiveness = 0.5
-			if(istype(BP.bandage, /obj/item/natural/cloth))
-				var/obj/item/natural/cloth/cloth = BP.bandage
-				bandage_effectiveness = cloth.bandage_effectiveness
-			if(bandage_effectiveness < bp_max_bleed)
-				BP.bandage_expire()
-
-		normal_bleed += bp_bleed
-		critical_bleed += bp_critical
-
-	if(grab_suppression != 1.0)
-		normal_bleed *= grab_suppression
-		critical_bleed *= grab_suppression * 0.5
-
+	// Apply blood pressure scaling - lower blood = lower pressure = less bleeding
 	if(normal_bleed > 0 && blood_volume < BLOOD_VOLUME_NORMAL)
 		var/blood_pressure = blood_volume / BLOOD_VOLUME_NORMAL
 		normal_bleed *= (blood_pressure ** 2)
 		critical_bleed *= min(blood_pressure * 1.5, 1)
 
 	return normal_bleed + critical_bleed
+
+/// Recalculates the bleed cache by aggregating data from all bodyparts.
+/// Called when bleed_cache_dirty is TRUE.
+/mob/living/carbon/proc/recalculate_bleed_cache()
+	var/total_normal = 0
+	var/total_critical = 0
+	var/total_grab_suppress = 1.0
+
+	for(var/obj/item/bodypart/BP as anything in bodyparts)
+		// Check if bandaged - handle expiry and skip if effective
+		if(BP.is_bandaged())
+			var/bandage_effectiveness = 0.5
+			var/obj/item/bp_bandage = BP.bandage
+			if(istype(bp_bandage, /obj/item/natural/cloth))
+				var/obj/item/natural/cloth/cloth = bp_bandage
+				bandage_effectiveness = cloth.bandage_effectiveness
+			if(bandage_effectiveness < BP.get_max_bleed())
+				BP.bandage_expire()
+			else
+				continue  // Bandaged limbs don't contribute to bleeding
+
+		total_normal += BP.get_normal_bleed()
+		total_critical += BP.get_critical_bleed()
+		total_grab_suppress *= BP.get_grab_suppression()
+
+	cached_normal_bleed = total_normal
+	cached_critical_bleed = total_critical
+	cached_grab_suppression = total_grab_suppress
+	bleed_cache_dirty = FALSE
+	bleed_cache_last_update = world.time
 
 //Makes a blood drop, leaking amt units of blood from the mob
 /mob/living/proc/bleed(amt)
