@@ -1130,6 +1130,8 @@
 					continue
 				if(HAS_TRAIT(target, TRAIT_NECRAS_VOW))
 					continue
+				if(HAS_TRAIT(target, TRAIT_DNR))
+					continue
 				if(target.mob_biotypes & MOB_UNDEAD)
 					continue
 				if(target.has_status_effect(/datum/status_effect/debuff/eoran_wilting))

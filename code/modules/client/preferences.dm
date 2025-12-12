@@ -161,6 +161,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	var/crt = FALSE
 	var/grain = TRUE
+	var/dnr_pref = FALSE
 
 	var/list/customizer_entries = list()
 	var/list/list/body_markings = list()
@@ -454,6 +455,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			var/musicname = (combat_music.shortname ? combat_music.shortname : combat_music.name)
 			dat += "<b>Combat Music:</b> <a href='?_src_=prefs;preference=combat_music;task=input'>[musicname || "FUCK!"]</a><BR>"
 			dat += "<b>Food Preferences:</b> <a href='?_src_=prefs;preference=culinary;task=menu'>Change</a><BR>"
+			dat += "<b>Unrevivable:</b> <a href='?_src_=prefs;preference=dnr;task=input'>[dnr_pref ? "Yes" : "No"]</a><BR>"
 
 /*
 			dat += "<br><br><b>Special Names:</b><BR>"
@@ -2108,6 +2110,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 				if("update_mutant_colors")
 					update_mutant_colors = !update_mutant_colors
+				
+				if("dnr")
+					dnr_pref =!dnr_pref
 
 				if("virtue")
 					var/list/virtue_choices = list()
@@ -2751,6 +2756,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	if(charflaw)
 		character.charflaw = new charflaw.type()
 		character.charflaw.on_mob_creation(character)
+	if(dnr_pref)
+		character.charflaw = new /datum/charflaw/dnr
 
 	character.dna.real_name = character.real_name
 
