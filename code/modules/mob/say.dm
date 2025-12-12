@@ -9,7 +9,7 @@
 	set category = "IC"
 	
 	display_typing_indicator()
-	var/message = input(usr, "", "say") as text|null
+	var/message = tgui_input_text(usr, "", "say")
 	// If they don't type anything just drop the message.
 	clear_typing_indicator()
 	if(!length(message))
@@ -52,7 +52,7 @@
 	set category = "IC"
 
 	display_typing_indicator()
-	var/message = input(usr, "", "me") as text|null
+	var/message = tgui_input_text(usr, "", "me")
 	// If they don't type anything just drop the message.
 	clear_typing_indicator()		// clear it immediately!
 	if(!length(message))
@@ -87,7 +87,7 @@
 	set hidden = 1
 
 	display_typing_indicator()
-	var/message = input(usr, "", "me") as message|null
+	var/message = tgui_input_text(usr, "", "me", multiline = TRUE,bigmodal = TRUE)
 	// If they don't type anything just drop the message.
 	clear_typing_indicator()
 	if(!length(message))
@@ -99,9 +99,6 @@
 	set name = "Me(big)"
 	set category = "IC"
 	set hidden = 1
-#ifndef MATURESERVER
-	return
-#endif
 	// If they don't type anything just drop the message.
 	clear_typing_indicator()
 	if(!length(message))
