@@ -20735,11 +20735,6 @@
 /obj/effect/spawner/lootdrop/potion_vitals,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/cave/skeletoncrypt)
-"fBx" = (
-/obj/machinery/light/rogue/wallfire/candle,
-/obj/item/roguebin/water,
-/turf/open/floor/rogue/hexstone,
-/area/rogue/indoors/town)
 "fBz" = (
 /turf/closed/wall/mineral/rogue/wooddark/vertical,
 /area/rogue/indoors/town/church/chapel)
@@ -40761,6 +40756,12 @@
 /obj/effect/spawner/lootdrop/general_loot_mid/x3,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/bog)
+"kTA" = (
+/obj/structure/roguemachine/mail{
+	mailtag = "Warden's Tower"
+	},
+/turf/open/floor/rogue/twig,
+/area/rogue/indoors/shelter/woods)
 "kTC" = (
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/blocks/platform,
@@ -50686,7 +50687,7 @@
 /obj/structure/mineral_door/wood{
 	locked = 1;
 	lockid = "warden";
-	name = "warden's watchtower"
+	name = "warden's barracks"
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town)
@@ -57605,6 +57606,11 @@
 /obj/structure/flora/roguetree/pine/dead,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/mountains/decap)
+"puy" = (
+/obj/machinery/light/rogue/wallfire/candle,
+/obj/item/roguebin/water,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/indoors/town)
 "puz" = (
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/water/cleanshallow,
@@ -59571,12 +59577,6 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement/keep)
-"pTu" = (
-/obj/structure/roguemachine/mail{
-	mailtag = "Warden's Tower"
-	},
-/turf/open/floor/rogue/twig,
-/area/rogue/indoors/shelter/woods)
 "pTv" = (
 /obj/structure/chair/wood/rogue/chair3{
 	dir = 1
@@ -265837,7 +265837,7 @@ xkH
 jFA
 dfe
 dpy
-pTu
+kTA
 tlX
 slI
 lQr
@@ -291494,7 +291494,7 @@ sns
 sns
 sns
 eKH
-fBx
+puy
 puO
 puO
 puO
