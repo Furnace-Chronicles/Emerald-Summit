@@ -506,14 +506,6 @@ GLOBAL_LIST_INIT(character_flaws, list(
 /datum/charflaw/critweakness/on_mob_creation(mob/user)
 	ADD_TRAIT(user, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
 
-/datum/charflaw/dnr
-	name = "Unrevivable"
-	desc = "My lux has always been weaker than that of my peers. There is no hope for me after I perish."
-
-/datum/charflow/dnr/apply_post_equipment(mob/user)
-	if(user.client.prefs.dnr_pref)
-		ADD_TRAIT(user, TRAIT_DNR, TRAIT_GENERIC)
-
 /datum/charflaw/damned
 	name = "Damned"
 	desc = "I am cursed! Holy magic and silver metal burns my body."

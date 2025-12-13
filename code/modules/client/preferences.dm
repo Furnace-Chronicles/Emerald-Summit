@@ -2756,8 +2756,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	if(charflaw)
 		character.charflaw = new charflaw.type()
 		character.charflaw.on_mob_creation(character)
-	if(dnr_pref)
-		character.charflaw = new /datum/charflaw/dnr
 
 	character.dna.real_name = character.real_name
 

@@ -109,14 +109,6 @@
 		. = list("[display1] [display2]")
 		. += span_info("[capitalize(m2)] [dna.species.skin_tone_wording ? lowertext(dna.species.skin_tone_wording) : "skin tone"] originates in [dna.species.origin].")
 
-		if(HAS_TRAIT(user, TRAIT_DNR) && src != user)
-			if(HAS_TRAIT(src, TRAIT_CABAL))
-				. += span_danger("Their soul [user.stat == DEAD ? "is" : "will be"] Hers. This is it for them.")
-			else if(HAS_TRAIT(src, TRAIT_SOUL_EXAMINE))
-				. += span_danger("They extrude a pale aura. Necra [user.stat == DEAD ? "does not" : "will not"] have them.")
-			else if(user.stat == DEAD)
-				. += span_danger("This was their only chance at lyfe.")
-
 		if(HAS_TRAIT(src, TRAIT_WITCH))
 			if(HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_INQUISITION) || HAS_TRAIT(user, TRAIT_WITCH))
 				. += span_warning("A witch! Their presence brings an unsettling aura.")
@@ -273,6 +265,17 @@
 					. += span_redtext("[m1] repugnant!")
 				if (THEY_THEM, THEY_THEM_F, IT_ITS)
 					. += span_redtext("[m1] repulsive!")
+
+		// Shouldn't be able to tell they are unrevivable through a mask as a Necran
+		if(HAS_TRAIT(src, TRAIT_DNR) && src != user)
+			if(HAS_TRAIT(user, TRAIT_DEATHSIGHT) || stat == DEAD)
+				. += span_danger("They extrude a pale aura. Their soul [stat == DEAD ? "was not" : "is not"] clean. This [stat == DEAD ? "was" : "is"] their only chance at lyfe.")
+
+	// Real medical role can tell at a glance it is a waste of time, but only if the Necra message don't come first.
+
+	if(user.get_skill_level(/datum/skill/misc/medicine) >= SKILL_LEVEL_EXPERT && src.stat == DEAD)
+		if(HAS_TRAIT(src, TRAIT_DNR) && src != user && !HAS_TRAIT(user, TRAIT_DEATHSIGHT)) // A lot of conditional to avoid a redundant message, but we also want unknown DNRs to be covered.
+			. += span_danger("Their body holds not even a glimmer of life. No medicine can bring them back.")
 
 	if (HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS) && (!HAS_TRAIT(src, TRAIT_VAMP_DREAMS)))
 		if(isliving(user))
