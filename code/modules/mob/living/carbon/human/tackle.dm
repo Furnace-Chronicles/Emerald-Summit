@@ -47,13 +47,14 @@
 
 	var/tackler_armor_weight = highest_ac_worn()
 	var/target_armor_weight = ishuman(target) ? target:highest_ac_worn() : 0
-	var/armor_bonus = (tackler_armor_weight - target_armor_weight) * 5
+	var/tackler_is_lighter = target_armor_weight > tackler_armor_weight
+	var/armor_bonus = tackler_is_lighter ? ((target_armor_weight - tackler_armor_weight) * 5) : ((tackler_armor_weight - target_armor_weight) * 5)
 
 	var/tackle_chance = 50 + direction_bonus // Becomes 0 if tackling someone in combat mode from the front
 	tackle_chance += (STASTR - target.STASTR) * 3
 	tackle_chance += (STACON - target.STACON) * 3
 	tackle_chance += (tackler_wrestling - target_wrestling) * 8
-	tackle_chance += armor_bonus
+	tackle_chance = tackler_is_lighter ? tackle_chance + armor_bonus : tackle_chance - armor_bonus
 	tackle_chance = clamp(tackle_chance, 5, 95)
 
 	if(client?.prefs.showrolls)
@@ -77,17 +78,32 @@
 	forceMove(target_turf)
 
 	target.Knockdown(30)
-	target.Stun(15)
 	Knockdown(30)
 
-	target.drop_all_held_items()
+	var/resist_chance = 50
+	resist_chance += (target.STASTR - STASTR) * 3
+	resist_chance += (target.STACON - STACON) * 3
+	resist_chance += (target_wrestling - tackler_wrestling) * 8
+	resist_chance = tackler_is_lighter ? resist_chance - armor_bonus : resist_chance + armor_bonus
+	resist_chance = clamp(resist_chance, 5, 95)
 
-	visible_message(span_boldwarning("[src] tackles [target] to the ground!"), span_boldwarning("I tackle [target] to the ground!"))
-	playsound(get_turf(src), "punch_hard", 100, TRUE)
-	playsound(get_turf(src), "bodyfall", 100, TRUE)
+	if(target.client?.prefs.showrolls)
+		to_chat(target, span_info("Tackle resistance chance: [resist_chance]%!"))
 
-	spawn(1)
-		tackle_grapple_check(target)
+	if(prob(resist_chance))
+		visible_message(span_boldwarning("[src] tackles [target] to the ground, but [target] resists the grapple!"), span_boldwarning("I tackle [target] to the ground, but they resist my grapple!"))
+		playsound(get_turf(src), "punch_hard", 100, TRUE)
+		playsound(get_turf(src), "bodyfall", 100, TRUE)
+	else
+		target.Stun(15)
+		target.drop_all_held_items()
+
+		visible_message(span_boldwarning("[src] tackles [target] to the ground!"), span_boldwarning("I tackle [target] to the ground!"))
+		playsound(get_turf(src), "punch_hard", 100, TRUE)
+		playsound(get_turf(src), "bodyfall", 100, TRUE)
+
+		spawn(1)
+			tackle_grapple_check(target)
 
 	return TRUE
 
