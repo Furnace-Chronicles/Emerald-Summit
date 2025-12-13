@@ -7321,7 +7321,8 @@
 "bYB" = (
 /obj/structure/mineral_door/wood{
 	locked = 1;
-	lockid = "walls"
+	lockid = "warden";
+	name = "warden's barracks"
 	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/town)
@@ -13582,12 +13583,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/shelter/woods)
-"dKL" = (
-/obj/structure/roguemachine/mail{
-	mailtag = "Warden's Tower (South)"
-	},
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/woods)
 "dKM" = (
 /obj/machinery/light/rogue/wallfire/candle/weak/l,
 /turf/open/floor/rogue/cobble,
@@ -20740,6 +20735,11 @@
 /obj/effect/spawner/lootdrop/potion_vitals,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/cave/skeletoncrypt)
+"fBx" = (
+/obj/machinery/light/rogue/wallfire/candle,
+/obj/item/roguebin/water,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/indoors/town)
 "fBz" = (
 /turf/closed/wall/mineral/rogue/wooddark/vertical,
 /area/rogue/indoors/town/church/chapel)
@@ -43974,7 +43974,7 @@
 	dir = 4
 	},
 /obj/structure/roguemachine/scomm/r{
-	scom_tag = "Wardens' Watchtower"
+	scom_tag = "Wardens' Barracks"
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
@@ -47909,7 +47909,7 @@
 /obj/structure/mineral_door/wood{
 	locked = 1;
 	lockid = "warden";
-	name = "warden's watchtower"
+	name = "warden's barracks"
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
@@ -50874,7 +50874,7 @@
 /obj/structure/mineral_door/wood{
 	locked = 1;
 	lockid = "warden";
-	name = "warden's watchtower"
+	name = "warden's barracks"
 	},
 /turf/open/floor/rogue/ruinedwood{
 	icon_state = "weird1"
@@ -59572,10 +59572,11 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement/keep)
 "pTu" = (
-/obj/machinery/light/rogue/wallfire/candle,
-/obj/item/roguebin/water,
-/turf/open/floor/rogue/hexstone,
-/area/rogue/indoors/town)
+/obj/structure/roguemachine/mail{
+	mailtag = "Warden's Tower"
+	},
+/turf/open/floor/rogue/twig,
+/area/rogue/indoors/shelter/woods)
 "pTv" = (
 /obj/structure/chair/wood/rogue/chair3{
 	dir = 1
@@ -88747,7 +88748,7 @@
 /area/rogue/indoors/town/garrison)
 "xuV" = (
 /obj/structure/roguemachine/mail{
-	mailtag = "Warden's Tower (West)";
+	mailtag = "Warden's Barracks";
 	pixel_y = -32
 	},
 /obj/machinery/light/rogue/wallfire/candle/l,
@@ -265836,7 +265837,7 @@ xkH
 jFA
 dfe
 dpy
-tlX
+pTu
 tlX
 slI
 lQr
@@ -268554,7 +268555,7 @@ qzg
 qzg
 dXq
 apU
-dKL
+xkH
 jFA
 jFA
 jFA
@@ -291493,7 +291494,7 @@ sns
 sns
 sns
 eKH
-pTu
+fBx
 puO
 puO
 puO
