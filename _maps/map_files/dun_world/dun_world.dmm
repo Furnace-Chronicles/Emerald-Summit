@@ -21810,7 +21810,9 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/shelter)
 "fSt" = (
-/obj/structure/roguemachine/mail/l,
+/obj/structure/roguemachine/mail/l{
+	mailtag = "Tailor's Shop"
+	},
 /turf/open/floor/rogue/wood/herringbone{
 	smooth_icon = null
 	},
@@ -33967,7 +33969,9 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/beach)
 "jcT" = (
-/obj/structure/roguemachine/mail/l,
+/obj/structure/roguemachine/mail/l{
+	mailtag = "Seneschal's Quarters"
+	},
 /turf/open/floor/rogue/ruinedwood{
 	icon_state = "weird1"
 	},
@@ -34872,7 +34876,7 @@
 /area/rogue/outdoors/beach/forest)
 "jpv" = (
 /obj/structure/roguemachine/mail/r{
-	mailtag = "Veteran";
+	mailtag = "Veteran's House";
 	pixel_x = -32
 	},
 /turf/open/floor/carpet/royalblack,
@@ -38158,7 +38162,8 @@
 "kjL" = (
 /obj/structure/roguemachine/mail/r{
 	pixel_x = 0;
-	pixel_y = -30
+	pixel_y = -30;
+	mailtag = "Merchant"
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/shop)
@@ -39580,7 +39585,9 @@
 	pixel_y = 32
 	},
 /obj/structure/globe,
-/obj/structure/roguemachine/mail/r,
+/obj/structure/roguemachine/mail/r{
+	mailtag = "Meeting Room (Keep)"
+	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/manor)
 "kCt" = (
@@ -41265,7 +41272,9 @@
 /obj/structure/fluff/railing/border{
 	dir = 10
 	},
-/obj/structure/roguemachine/mail/r,
+/obj/structure/roguemachine/mail/r{
+	mailtag = "Reach's Inn Kitchen"
+	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/tavern)
 "laF" = (
@@ -72876,7 +72885,9 @@
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/town)
 "tqL" = (
-/obj/structure/roguemachine/mail/l,
+/obj/structure/roguemachine/mail/l{
+	mailtag = "Mercenaries Guild"
+	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town)
 "tqO" = (
@@ -74014,7 +74025,9 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town)
 "tES" = (
-/obj/structure/roguemachine/mail/r,
+/obj/structure/roguemachine/mail/r{
+	mailtag = "Loudmouth's Studio"
+	},
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors/town)
 "tFc" = (
@@ -81750,7 +81763,9 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
 	},
-/obj/structure/roguemachine/mail/r,
+/obj/structure/roguemachine/mail/r{
+	mailtag = "Inquisition's Inner Chambers"
+	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/inq/basement)
 "vFS" = (
@@ -82498,7 +82513,9 @@
 	},
 /area/rogue/indoors/town/vault)
 "vPX" = (
-/obj/structure/roguemachine/mail/r,
+/obj/structure/roguemachine/mail/r{
+	mailtag = "Inquisitor's Chambers"
+	},
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/inq/office)
 "vPZ" = (
