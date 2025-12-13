@@ -7936,7 +7936,7 @@
 	dir = 8
 	},
 /obj/structure/roguemachine/mail{
-	mailtag = "Warehouse"
+	mailtag = "Stewardry"
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
@@ -10443,8 +10443,8 @@
 /obj/item/candle/skull/lit{
 	pixel_y = 6
 	},
-/obj/structure/fluff/walldeco/med3{
-	pixel_y = 32
+/obj/structure/roguemachine/mail{
+	mailtag = "Witch's Den"
 	},
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/town)
@@ -10690,7 +10690,6 @@
 	dir = 1;
 	icon_state = "borderfall"
 	},
-/obj/structure/roguemachine/mail,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/mountains)
 "cUR" = (
@@ -11417,7 +11416,7 @@
 /area/rogue/indoors/shelter/woods)
 "dfP" = (
 /obj/structure/roguemachine/mail{
-	mailtag = "Physician";
+	mailtag = "Physician's Office";
 	pixel_x = -32;
 	pixel_y = 2
 	},
@@ -12354,12 +12353,6 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
-"dsU" = (
-/obj/structure/roguewindow/openclose/reinforced{
-	dir = 1
-	},
-/turf/closed,
-/area/rogue/indoors)
 "dtb" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -12538,7 +12531,9 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/dwarfin)
 "dvV" = (
-/obj/structure/roguemachine/mail,
+/obj/structure/roguemachine/mail{
+	mailtag = "Outside - Blacksmith"
+	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
 "dwd" = (
@@ -13589,7 +13584,7 @@
 /area/rogue/indoors/shelter/woods)
 "dKL" = (
 /obj/structure/roguemachine/mail{
-	mailtag = "Bog"
+	mailtag = "Warden's Tower (South)"
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods)
@@ -14953,9 +14948,6 @@
 /obj/structure/fluff/walldeco/bigpainting,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/tavern)
-"edl" = (
-/turf/open/water/swamp,
-/area/rogue/indoors/town)
 "edm" = (
 /obj/machinery/light/rogue/torchholder{
 	dir = 1
@@ -19329,10 +19321,6 @@
 	},
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/under/town/sewer)
-"fje" = (
-/obj/structure/flora/roguegrass/bush/wall/tall,
-/turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town)
 "fjg" = (
 /obj/structure/chair/wood/rogue/chair3{
 	dir = 8
@@ -20752,9 +20740,6 @@
 /obj/effect/spawner/lootdrop/potion_vitals,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/cave/skeletoncrypt)
-"fBx" = (
-/turf/closed,
-/area/rogue/outdoors/town/roofs)
 "fBz" = (
 /turf/closed/wall/mineral/rogue/wooddark/vertical,
 /area/rogue/indoors/town/church/chapel)
@@ -23048,9 +23033,6 @@
 /obj/machinery/light/rogue/wallfire/candle/l,
 /turf/open/floor/rogue/woodturned,
 /area/rogue/indoors)
-"gkv" = (
-/turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town)
 "gkF" = (
 /mob/living/simple_animal/hostile/rogue/skeleton/bow,
 /turf/open/water/swamp,
@@ -23333,7 +23315,7 @@
 	},
 /obj/effect/spawner/roguemap/stump,
 /turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town)
+/area/rogue/outdoors/rtfield)
 "goN" = (
 /obj/structure/closet/crate/chest/trapped/locked,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/misc,
@@ -26990,7 +26972,9 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/beach)
 "hmR" = (
-/obj/structure/roguemachine/mail,
+/obj/structure/roguemachine/mail{
+	mailtag = "Old Hamlet Inn"
+	},
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/indoors/shelter)
 "hmW" = (
@@ -27657,10 +27641,6 @@
 	},
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/inq/office)
-"hve" = (
-/obj/structure/bars,
-/turf/closed,
-/area/rogue/indoors/town/cell)
 "hvg" = (
 /obj/effect/decal/cobbleedge{
 	dir = 9
@@ -30280,6 +30260,9 @@
 	dir = 1
 	},
 /obj/item/reagent_containers/glass/bucket,
+/obj/structure/fluff/walldeco/med3{
+	pixel_y = 32
+	},
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town)
 "ifN" = (
@@ -32429,7 +32412,7 @@
 	pixel_x = 32
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town)
+/area/rogue/outdoors/rtfield)
 "iJg" = (
 /obj/structure/table/wood/long_table/right,
 /obj/structure/fluff/railing/border/east,
@@ -40771,10 +40754,6 @@
 /obj/effect/spawner/lootdrop/general_loot_mid/x3,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/bog)
-"kTA" = (
-/obj/effect/spawner/roguemap/stump,
-/turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town)
 "kTC" = (
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/blocks/platform,
@@ -42413,7 +42392,7 @@
 /obj/structure/table/church{
 	icon_state = "churchtable_end_alt"
 	},
-/turf/closed,
+/turf/open/floor/rogue/metal,
 /area/rogue/outdoors/mountains/decap)
 "loV" = (
 /turf/closed/wall/mineral/rogue/wooddark/vertical,
@@ -43477,7 +43456,9 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "lBQ" = (
-/obj/structure/roguemachine/mail,
+/obj/structure/roguemachine/mail{
+	mailtag = "Reach's Inn"
+	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/tavern)
 "lBU" = (
@@ -46244,7 +46225,7 @@
 /area/rogue/indoors/shelter/woods)
 "mow" = (
 /obj/structure/roguemachine/mail{
-	mailtag = "Streets (East)";
+	mailtag = "Outside - Stewardry";
 	pixel_x = -32;
 	pixel_y = 0
 	},
@@ -51443,7 +51424,7 @@
 	},
 /obj/effect/spawner/roguemap/stump,
 /turf/open/floor/rogue/grassred,
-/area/rogue/indoors/town)
+/area/rogue/outdoors/rtfield)
 "nHZ" = (
 /obj/structure/stairs,
 /turf/open/floor/rogue/wood,
@@ -52258,7 +52239,7 @@
 "nSM" = (
 /obj/structure/closet/crate/drawer,
 /obj/structure/roguemachine/mail{
-	mailtag = "Guildmaster"
+	mailtag = "Guildmaster's Office"
 	},
 /obj/item/roguekey/tailor,
 /obj/item/roguekey/tailor,
@@ -53480,7 +53461,7 @@
 /area/rogue/indoors/town)
 "okN" = (
 /obj/structure/fluff/walldeco/goblet{
-	name = "Azurian Pints Inn and Bath"
+	name = "Reach Pints Inn and Bath"
 	},
 /obj/machinery/light/rogue/torchholder/c,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -53998,7 +53979,7 @@
 /obj/structure/table/wood,
 /obj/item/paper/scroll,
 /obj/structure/roguemachine/mail{
-	mailtag = "Priest";
+	mailtag = "Priest's Room";
 	dir = 24;
 	step_x = -32
 	},
@@ -57615,10 +57596,6 @@
 /obj/structure/flora/roguetree/pine/dead,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/mountains/decap)
-"puy" = (
-/obj/structure/bars/cemetery,
-/turf/closed,
-/area/rogue/outdoors/town)
 "puz" = (
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/water/cleanshallow,
@@ -59586,9 +59563,10 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement/keep)
 "pTu" = (
-/obj/item/dice,
-/turf/closed/wall/mineral/rogue/wooddark,
-/area/rogue/indoors/town/tavern)
+/obj/machinery/light/rogue/wallfire/candle,
+/obj/item/roguebin/water,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/indoors/town)
 "pTv" = (
 /obj/structure/chair/wood/rogue/chair3{
 	dir = 1
@@ -62986,7 +62964,9 @@
 	},
 /area/rogue/indoors/town/manor)
 "qND" = (
-/obj/structure/roguemachine/mail,
+/obj/structure/roguemachine/mail{
+	mailtag = "Keep's Barracks"
+	},
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/garrison)
 "qNH" = (
@@ -71308,9 +71288,8 @@
 /area/rogue/outdoors/beach/forest)
 "sWc" = (
 /obj/structure/roguemachine/mail{
-	mailtag = "Warehouse"
+	mailtag = "Stewardry - Warehouse"
 	},
-/obj/item/roguebin/water,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
 "sWf" = (
@@ -72762,7 +72741,7 @@
 /obj/structure/table/church{
 	icon_state = "churchtable_mid_alt"
 	},
-/turf/closed,
+/turf/open/floor/rogue/metal,
 /area/rogue/outdoors/mountains/decap)
 "toD" = (
 /obj/structure/flora/roguegrass,
@@ -78454,7 +78433,11 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/item/reagent_containers/glass/cup/wooden,
+/obj/item/dice,
+/obj/item/reagent_containers/glass/cup/wooden{
+	pixel_x = 11;
+	pixel_y = 13
+	},
 /turf/open/floor/carpet/inn,
 /area/rogue/indoors/town/tavern)
 "uKR" = (
@@ -80628,7 +80611,9 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/cave)
 "vqd" = (
-/obj/structure/roguemachine/mail,
+/obj/structure/roguemachine/mail{
+	mailtag = "Spider Hot Springs"
+	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/mountains)
 "vql" = (
@@ -85611,7 +85596,9 @@
 /obj/structure/fluff/railing/border{
 	dir = 10
 	},
-/obj/structure/roguemachine/mail,
+/obj/structure/roguemachine/mail{
+	mailtag = "Wizard Tower"
+	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/magician)
 "wEU" = (
@@ -86057,10 +86044,9 @@
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors)
 "wKh" = (
-/obj/structure/table/wood{
-	icon_state = "tablewood1"
+/obj/structure/handcart{
+	dir = 4
 	},
-/obj/item/rogueweapon/huntingknife,
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/town)
 "wKk" = (
@@ -86733,9 +86719,10 @@
 /area/rogue/indoors)
 "wTz" = (
 /obj/structure/rogue/trophy/deer,
-/obj/structure/handcart{
-	dir = 4
+/obj/structure/table/wood{
+	icon_state = "tablewood1"
 	},
+/obj/item/rogueweapon/huntingknife,
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/town)
 "wTH" = (
@@ -88743,7 +88730,7 @@
 /area/rogue/indoors/town/garrison)
 "xuV" = (
 /obj/structure/roguemachine/mail{
-	mailtag = "Wardens";
+	mailtag = "Warden's Tower (West)";
 	pixel_y = -32
 	},
 /obj/machinery/light/rogue/wallfire/candle/l,
@@ -91745,7 +91732,7 @@
 /area/rogue/outdoors/rtfield)
 "yju" = (
 /obj/structure/roguemachine/mail{
-	mailtag = "Steward";
+	mailtag = "Steward's Office";
 	pixel_y = -32
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -91781,7 +91768,9 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains/decap)
 "yka" = (
-/obj/structure/roguemachine/mail,
+/obj/structure/roguemachine/mail{
+	mailtag = "Old Inn"
+	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
 "ykl" = (
@@ -264358,22 +264347,22 @@ dYq
 ibp
 pxF
 pxF
-gkv
-gkv
-iEx
-hzG
-hzG
-hzG
-hzG
+pxF
+pxF
+bsL
+rZO
+rZO
+rZO
+rZO
 jSt
 iYc
 ssK
-gkv
-iEx
-edl
-iEx
-iEx
-gkv
+pxF
+bsL
+cFz
+bsL
+bsL
+pxF
 pxF
 emv
 pxF
@@ -264810,7 +264799,7 @@ ibp
 pxF
 emv
 pxF
-kTA
+xFw
 cDX
 xdi
 oIx
@@ -264821,9 +264810,9 @@ crI
 iYc
 ebg
 iIZ
-fje
-fje
-fje
+gdz
+gdz
+gdz
 cDX
 nHW
 pxF
@@ -269800,7 +269789,7 @@ avX
 pWT
 teB
 teB
-puy
+nKf
 teB
 pWT
 pMG
@@ -291487,7 +291476,7 @@ sns
 sns
 sns
 eKH
-deO
+pTu
 puO
 puO
 puO
@@ -297828,11 +297817,11 @@ ihW
 prN
 prN
 oDW
-hve
+vBT
 ihW
 vBT
 ihW
-hve
+vBT
 ihW
 vBT
 oDW
@@ -332757,7 +332746,7 @@ aBB
 obt
 xvK
 tcC
-dsU
+aLG
 ldS
 xGD
 xGD
@@ -386417,7 +386406,7 @@ rbu
 rbu
 rbu
 fVj
-pTu
+dJN
 vDZ
 uKP
 fLM
@@ -399048,7 +399037,7 @@ spC
 bGf
 bGf
 bGf
-fBx
+bGf
 bGf
 rxw
 bGf
