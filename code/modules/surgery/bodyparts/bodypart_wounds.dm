@@ -174,8 +174,8 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 				do_crit = FALSE
 			if(user)
 				if(user.goodluck(2))
-					probbonus = user.STALUC*3
-			if(!prob((get_damage()/max_damage)*(100 - (owner.STACON * 2) - (owner.STALUC) + probbonus)))
+					probbonus = user.STALUC*2
+			if(!prob((get_damage()/max_damage)*(100 - (owner.STACON * 2) + probbonus)))
 				do_crit = FALSE
 			//if(owner.mind && (get_damage() <= (max_damage * 0.9))) //No crits unless the damage is maxed out.
 			//	do_crit = FALSE // We used to check if they are buckled or lying down but being grounded is a big enough advantage.
@@ -353,20 +353,18 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 
 	if(bclass in GLOB.stab_bclasses)
 		var/actual_damage = dam
-		var/limb_damage_bypass = (actual_damage >= 35)
+		var/limb_damage_bypass = (actual_damage >= 65 + owner.STACON)
 		used = round(damage_dividend * 20 + (dam / 2) - 12 * resistance, 1)
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/aimed))
 			used += 12
 
-		if((damage_dividend >= 0.7 || limb_damage_bypass) && prob(used))
+		if((damage_dividend >= 0.8 || limb_damage_bypass) && prob(used))
 			if(zone_precise == BODY_ZONE_CHEST)
-				// Check for heart first, then lungs
-				if(prob(40) && owner.getorganslot(ORGAN_SLOT_HEART))
+				if(prob(20) && owner.getorganslot(ORGAN_SLOT_HEART))
 					attempted_wounds += new /datum/wound/lethal/heart_penetration(dam)
 				else if(owner.getorganslot(ORGAN_SLOT_LUNGS))
 					attempted_wounds += new /datum/wound/lethal/lung_penetration(dam)
 			else if(zone_precise == BODY_ZONE_PRECISE_STOMACH)
-				// Check for liver first, then stomach
 				if(prob(50) && owner.getorganslot(ORGAN_SLOT_LIVER))
 					attempted_wounds += new /datum/wound/lethal/liver_penetration(dam)
 				else if(owner.getorganslot(ORGAN_SLOT_STOMACH))
@@ -374,24 +372,40 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 
 	if(bclass in GLOB.artery_bclasses)
 		var/actual_damage = dam
-		var/limb_damage_bypass = (actual_damage >= 45)
+		var/limb_damage_bypass = (actual_damage >= 65 + owner.STACON)
 		used = round(damage_dividend * 15 + (dam / 3) - 15 * resistance, 1)
-		if(user && istype(user.rmb_intent, /datum/rmb_intent/aimed))
+		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
 			used += 10
 
-		if((damage_dividend >= 0.8 || limb_damage_bypass) && prob(used))
+		if((damage_dividend >= 0.9 || limb_damage_bypass) && prob(used))
 			if(zone_precise == BODY_ZONE_CHEST)
-				// Check for heart first, then lungs
-				if(prob(40) && owner.getorganslot(ORGAN_SLOT_HEART))
+				if(prob(10) && owner.getorganslot(ORGAN_SLOT_HEART))
 					attempted_wounds += new /datum/wound/lethal/heart_penetration(dam)
 				else if(owner.getorganslot(ORGAN_SLOT_LUNGS))
 					attempted_wounds += new /datum/wound/lethal/lung_penetration(dam)
 			else if(zone_precise == BODY_ZONE_PRECISE_STOMACH)
-				// Check for liver first, then stomach
 				if(prob(50) && owner.getorganslot(ORGAN_SLOT_LIVER))
 					attempted_wounds += new /datum/wound/lethal/liver_penetration(dam)
 				else if(owner.getorganslot(ORGAN_SLOT_STOMACH))
 					attempted_wounds += new /datum/wound/lethal/stomach_penetration(dam)
+
+	// Blunt attacks on fractured ribs can drive bone fragments into organs
+	if((bclass in GLOB.fracture_bclasses) && owner.has_wound(/datum/wound/fracture/chest) && (zone_precise == BODY_ZONE_CHEST))
+		var/actual_damage = dam
+		var/limb_damage_bypass = (actual_damage >= 55 + owner.STACON)
+		used = round(damage_dividend * 18 + (dam / 3) - 12 * resistance, 1)
+		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
+			used += 10
+
+		if((damage_dividend >= 0.7 || limb_damage_bypass) && prob(used))
+			if(prob(20) && owner.getorganslot(ORGAN_SLOT_HEART))
+				var/datum/wound/lethal/heart_penetration/bone_frag_wound = new /datum/wound/lethal/heart_penetration(dam)
+				bone_frag_wound.from_fracture = TRUE
+				attempted_wounds += bone_frag_wound
+			else if(owner.getorganslot(ORGAN_SLOT_LUNGS))
+				var/datum/wound/lethal/lung_penetration/bone_frag_wound = new /datum/wound/lethal/lung_penetration(dam)
+				bone_frag_wound.from_fracture = TRUE
+				attempted_wounds += bone_frag_wound
 
 	for(var/wound_type in shuffle(attempted_wounds))
 		var/datum/wound/applied = add_wound(wound_type, silent, crit_message)
@@ -466,7 +480,6 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 				attempted_wounds += dislocation_type
 			if(is_lethal_fracture)
 				var/death_prob = calculate_lethal_death_chance(raw_damage, armor_block, user)
-				death_prob *= 0.6
 				var/datum/wound/fracture/lethal_fracture = new fracture_type()
 				lethal_fracture.death_probability = death_prob
 				attempted_wounds += lethal_fracture
@@ -521,12 +534,24 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 
 	if((bclass in GLOB.stab_bclasses) && (zone_precise in GLOB.brain_penetration_zones))
 		var/actual_damage = dam
-		var/limb_damage_bypass = (actual_damage >= 40)
+		var/limb_damage_bypass = (actual_damage >= 60 + owner.STACON)
 		used = round(damage_dividend * 25 + (dam / 2) - 15 * resistance, 1)
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
 			used += 15
 		if((damage_dividend >= 0.8 || limb_damage_bypass) && prob(used) && owner.getorganslot(ORGAN_SLOT_BRAIN))
 			attempted_wounds += new /datum/wound/lethal/brain_penetration(dam)
+
+	// Blunt attacks on fractured skulls can drive bone fragments into the brain
+	if((bclass in GLOB.fracture_bclasses) && owner.has_wound(/datum/wound/fracture/head))
+		var/actual_damage = dam
+		var/limb_damage_bypass = (actual_damage >= 50 + owner.STACON)
+		used = round(damage_dividend * 20 + (dam / 3) - 12 * resistance, 1)
+		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
+			used += 12
+		if((damage_dividend >= 0.7 || limb_damage_bypass) && prob(used) && owner.getorganslot(ORGAN_SLOT_BRAIN))
+			var/datum/wound/lethal/brain_penetration/bone_frag_wound = new /datum/wound/lethal/brain_penetration(dam)
+			bone_frag_wound.from_fracture = TRUE
+			attempted_wounds += bone_frag_wound
 
 	for(var/wound_type in shuffle(attempted_wounds))
 		var/datum/wound/applied = add_wound(wound_type, silent, crit_message)

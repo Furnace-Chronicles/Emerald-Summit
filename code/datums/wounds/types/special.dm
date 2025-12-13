@@ -471,6 +471,7 @@
 	)
 	mortal = TRUE
 	var/obj/item/organ/brain/cached_brain
+	var/from_fracture = FALSE
 
 /datum/wound/lethal/brain_penetration/on_mob_gain(mob/living/affected)
 	. = ..()
@@ -479,6 +480,14 @@
 		"MY HEAD!",
 		"I CAN'T THINK!",
 		"EVERYTHING IS GOING DARK!")
+
+	if(from_fracture)
+		crit_message = list(
+			"Bone fragments pierce the brain!",
+			"The skull caves in, driving shards into the brain!",
+			"Bone splinters penetrate deep into the brain!",
+			"The fractured skull crushes inward into the brain!"
+		)
 
 	if(iscarbon(affected))
 		var/mob/living/carbon/carbon_affected = affected
@@ -507,6 +516,7 @@
 	mortal = TRUE
 	bleed_rate = 35
 	var/obj/item/organ/heart/cached_heart
+	var/from_fracture = FALSE
 
 /datum/wound/lethal/heart_penetration/on_mob_gain(mob/living/affected)
 	. = ..()
@@ -515,6 +525,14 @@
 		"MY CHEST!",
 		"I'M DYING!",
 		"OH GODS, THE PAIN!")
+
+	if(from_fracture)
+		crit_message = list(
+			"A rib pierces the heart!",
+			"Broken ribs puncture straight through the heart!",
+			"Bone fragments skewer the heart!",
+			"The shattered ribcage crushes into the heart!"
+		)
 
 	if(iscarbon(affected))
 		var/mob/living/carbon/carbon_affected = affected
@@ -561,6 +579,7 @@
 	woundpain = 100
 	mortal = TRUE
 	var/obj/item/organ/lungs/cached_lungs
+	var/from_fracture = FALSE
 
 /datum/wound/lethal/lung_penetration/on_mob_gain(mob/living/affected)
 	. = ..()
@@ -569,6 +588,14 @@
 		"I CAN'T BREATHE!",
 		"MY LUNGS!",
 		"I'M CHOKING!")
+
+	if(from_fracture)
+		crit_message = list(
+			"A rib pierces the lung!",
+			"Broken ribs puncture the lung!",
+			"Bone fragments collapse the lung!",
+			"The shattered ribcage crushes into the lung!"
+		)
 
 	affected.Stun(20)
 	if(!HAS_TRAIT(affected, TRAIT_NOBREATH))
