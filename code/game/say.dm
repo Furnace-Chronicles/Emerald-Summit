@@ -74,6 +74,8 @@ GLOBAL_LIST_INIT(freqtospan, list(
 
 	var/arrowpart = ""
 
+	var/numpart = ""
+
 	if(istype(src,/mob/living))
 		var/atom/movable/tocheck = src
 		// Check relay instead.
@@ -108,9 +110,20 @@ GLOBAL_LIST_INIT(freqtospan, list(
 			if(speakturf.z < sourceturf.z)
 				arrowpart += " ⇊"
 
+			var/dist = get_dist(speakturf, sourceturf)
+			var/mob/living/M = src
+			var/hear_limit = 7 + M.extra_hearing_range
+			var/yelling = say_test(raw_message)
+			if(yelling == "2")
+				hear_limit += 3
+			else if(yelling == "3")
+				hear_limit += 6
+
 			var/hidden = TRUE
 			if(HAS_TRAIT(src, TRAIT_KEENEARS))
 				if(ishuman(speaker) && ishuman(src))
+					hear_limit += 1
+					numpart = "[dist]"
 					var/mob/living/carbon/human/HS = speaker
 					var/mob/living/carbon/human/HL = src
 					if(length(HL.mind?.known_people))
@@ -131,14 +144,23 @@ GLOBAL_LIST_INIT(freqtospan, list(
 					namepart = "Unknown [(L.gender == FEMALE) ? "Woman" : "Man"]"
 				else
 					namepart = "Unknown"
-			spanpart1 = "<span class='smallyell'>"
+			if(dist > hear_limit)
+				if(yelling == "3")
+					messagepart = " <B>yells something unintelligible!</B>"
+				else if(yelling == "2")
+					messagepart = " exclaims something unintelligible!"
+				else
+					messagepart = " says something unintelligible."
+				spanpart1 = "<span class='small'>"
+			else
+				spanpart1 = "<span class='smallyell'>"
 
 	var/languageicon = ""
 	// var/datum/language/D = GLOB.language_datum_instances[message_language]
 	// if(istype(D) && D.display_icon(src))
 	// 	languageicon = "[D.get_icon()] "
 
-	return "[spanpart1][spanpart2][colorpart][freqpart][languageicon][compose_track_href(speaker, namepart)][namepart][compose_job(speaker, message_language, raw_message, radio_freq)][arrowpart][endspanpart][messagepart]"
+	return "[spanpart1][spanpart2][colorpart][freqpart][languageicon][compose_track_href(speaker, namepart)][namepart][compose_job(speaker, message_language, raw_message, radio_freq)][arrowpart][numpart][endspanpart][messagepart]"
 
 /atom/movable/proc/compose_track_href(atom/movable/speaker, message_langs, raw_message, radio_freq)
 	return ""

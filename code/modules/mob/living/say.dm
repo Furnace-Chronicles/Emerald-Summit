@@ -190,7 +190,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		to_chat(src, span_warning("I can't talk."))
 		return
 
-	var/message_range = 7
+	var/message_range = 9
 
 	var/succumbed = FALSE
 
@@ -410,9 +410,10 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if(message_mode != MODE_WHISPER)
 		Zs_too = TRUE
 		if(say_test(message) == "2")	//CIT CHANGE - ditto
-			message_range += 10
+			message_range += 4
 			Zs_yell = TRUE
 		if(say_test(message) == "3")	//Big "!!" shout
+			message_range += 7
 			Zs_all = TRUE
 	// AZURE EDIT: thaumaturgical loudness (from orisons) //Vrell - This is so fucking scuffed.
 	if (has_status_effect(/datum/status_effect/thaumaturgy))
