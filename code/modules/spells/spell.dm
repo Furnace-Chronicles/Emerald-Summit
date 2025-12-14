@@ -440,6 +440,9 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 				source_turf = get_step_multiz(source_turf, UP)
 			if(A.z < user.z)
 				source_turf = get_step_multiz(source_turf, DOWN)
+			if(!is_in_sight(target_turf, source_turf))
+				to_chat(user, span_warning("I do not have line of effect!"))
+				revert_cast()
 
 	before_cast(targets, user = user)
 	if(user && user.ckey)
