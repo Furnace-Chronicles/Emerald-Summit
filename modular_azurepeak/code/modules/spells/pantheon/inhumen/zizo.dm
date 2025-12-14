@@ -154,7 +154,7 @@
 		user.mind.rituos_spell = null
 
 	user.mind.has_rituos = TRUE
-	
+
 	var/post_rituos = check_ritual_progress(user) // need someone else to rewrite ritous with how it functions now im too inexperienced and drained to do this now (doing this not fun too)
 	if (post_rituos)
 	else
@@ -178,16 +178,212 @@
 	miracle = TRUE
 	devotion_cost = 30
 	range = 2
-	
+
 /obj/effect/proc_holder/spell/self/zizo_snuff/cast(list/targets, mob/user = usr)
 	. = ..()
 	if(!ishuman(user))
 		revert_cast()
 		return FALSE
 	var/checkrange = (range + user.get_skill_level(/datum/skill/magic/holy)) //+1 range per holy skill up to a potential of 8.
-	for(var/obj/O in range(checkrange, user))	
+	for(var/obj/O in range(checkrange, user))
 		O.extinguish()
 	for(var/mob/M in range(checkrange, user))
 		for(var/obj/O in M.contents)
 			O.extinguish()
 	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/zizo_silence
+
+	name = "Silence of Progress"
+	desc = "An unholy hush that stifles prayer and mercy alike. The stillness clicks with Zizo's design."
+	overlay_state = "zizosilence"
+	clothes_req = FALSE
+	releasedrain = 30
+	chargedrain = 0
+	chargetime = 0
+	range = 7
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	sound = 'sound/magic/churn.ogg'
+	invocation = "This is the sound of progress!"
+	invocation_type = "shout"
+	associated_skill = /datum/skill/magic/holy
+	devotion_cost = 20
+	recharge_time = 20 SECONDS
+	miracle = TRUE
+
+/obj/effect/proc_holder/spell/invoked/sacred_silence/cast(list/targets, mob/user = usr)
+	if(!isliving(targets[1]))
+		revert_cast()
+		return FALSE
+
+	var/mob/living/target = targets[1]
+	if(target.anti_magic_check(TRUE, TRUE))
+		return FALSE
+
+	target.visible_message(
+		span_warning("[user] sketches a crooked sigil in the air - the sound around [target] stutters and dies!" ),
+		span_warning("A cold, clockwork hush clamps my throat - prayers turn to static!")
+	)
+
+	var/skill = max(1, user.get_skill_level(associated_skill))
+	var/dur_s  = clamp(skill * 4, 4, 20)
+	var/dur_ds = dur_s SECONDS
+
+	if(istype(target, /mob/living/carbon/human))
+		var/mob/living/carbon/human/H = target
+		if(H.devotion && istype(H.devotion.patron, /datum/patron/divine))
+			dur_ds *= 2
+
+			var/tier = max(1, H.devotion.level)
+			var/drain = 50 * tier
+			H.devotion.update_devotion(-drain, 0, silent = TRUE)
+
+			to_chat(H, span_warning("My patron's blessing wanes! (-[drain] devotion)"))
+
+	target.set_silence(dur_ds)
+
+	addtimer(
+		CALLBACK(target, TYPE_PROC_REF(/atom/movable, visible_message),
+			span_notice("My voice returns… thin, like it has been filed down.")
+		),
+		dur_ds
+	)
+
+	return TRUE
+
+// BAD MEDICINE 
+
+/obj/effect/proc_holder/spell/invoked/bad_medicine
+	name = "Bad Medicine"
+	desc = "A heretical hush of Zizo: while mercy mends, it also bites back."
+	overlay_state = "badmedicine"
+	clothes_req = FALSE
+	range = 7
+	movement_interrupt = FALSE
+	sound = 'sound/magic/churn.ogg'
+	invocation = "Iterate."
+	invocation_type = "shout"
+	associated_skill = /datum/skill/magic/holy
+	devotion_cost = 30
+	recharge_time = 30 SECONDS
+	miracle = TRUE
+
+/obj/effect/proc_holder/spell/invoked/zizo_feedback/cast(list/targets, mob/user = usr)
+	if(!isliving(targets[1]))
+		revert_cast()
+		return FALSE
+
+	var/mob/living/target = targets[1]
+	if(target.anti_magic_check(TRUE, TRUE))
+		return FALSE
+
+	user.visible_message(
+		span_warning("[user] sketches a crooked Ascendant sigil toward [target]!"),
+		span_warning("I invoke the Lady of Progress - let healing betray you.")
+	)
+
+	var/holy_lvl = max(0, user.get_skill_level(/datum/skill/magic/holy))
+	var/dur = (5 + (5 * holy_lvl)) SECONDS
+
+	var/stripped = FALSE
+	if(istype(target, /mob/living/carbon/human))
+		var/mob/living/carbon/human/H = target
+
+		// 1) remove healing status effect =>>> /datum/status_effect/buff/healing
+		var/datum/status_effect/healSE = H.has_status_effect(/datum/status_effect/buff/healing)
+		if(healSE)
+			qdel(healSE)
+			stripped = TRUE
+		if(H.reagents && H.reagents.reagent_list)
+			var/list/to_remove = list() // type -> amount
+			for(var/datum/reagent/R in H.reagents.reagent_list)
+				if(istype(R, /datum/reagent/medicine))
+					to_remove[R.type] = (to_remove[R.type] || 0) + R.volume
+
+			for(var/T in to_remove)
+				H.reagents.remove_reagent(T, to_remove[T])
+				stripped = TRUE
+
+	if(stripped)
+		target.visible_message(
+			span_warning("[target]'s mercy stutters—then grinds to a halt!"),
+			span_danger("My healing is torn away—then threatens to turn against me!")
+		)
+
+	// Накладываем статус-эффект на dur
+	target.apply_status_effect(/datum/status_effect/zizo_healing_feedback, dur)
+
+	return TRUE
+
+/datum/status_effect/zizo_healing_feedback
+	var/end_time = 0
+	var/next_tick = 0
+	var/tick_delay = 1 SECONDS
+
+	var/damage_per_tick = 7.5
+	var/damage_type = BURN  
+
+	var/knockdown_done = FALSE
+
+/datum/status_effect/zizo_healing_feedback/New(mob/living/new_owner, dur)
+	. = ..()
+	if(new_owner)
+		owner = new_owner
+
+	if(isnum(dur))
+		end_time = world.time + dur
+	else
+		end_time = world.time + 10 SECONDS
+
+	next_tick = world.time
+	START_PROCESSING(SSobj, src)
+
+		owner.visible_message(
+			span_warning("[owner] jerks as comfort becomes consequence!"),
+			span_danger("Healing inside me screams—turning into pain!")
+		)
+
+/datum/status_effect/zizo_healing_feedback/Destroy()
+	STOP_PROCESSING(SSobj, src)
+	. = ..()
+
+/datum/status_effect/zizo_healing_feedback/process()
+	if(!owner || !isliving(owner))
+		qdel(src)
+		return PROCESS_KILL
+
+	if(world.time >= end_time)
+		qdel(src)
+		return PROCESS_KILL
+
+	if(world.time < next_tick)
+		return
+
+	next_tick = world.time + tick_delay
+
+	if(!src.is_being_healed(owner))
+		return
+
+	if(hascall(owner, "apply_damage"))
+		call(owner, "apply_damage")(damage_per_tick, damage_type)
+	else
+		if(damage_type == BURN)
+			if(hascall(owner, "adjustFireLoss"))
+				call(owner, "adjustFireLoss")(damage_per_tick)
+		else
+			if(hascall(owner, "adjustBruteLoss"))
+				call(owner, "adjustBruteLoss")(damage_per_tick)
+
+/datum/status_effect/zizo_healing_feedback/proc/is_being_healed(mob/living/L)
+	if(L.has_status_effect(/datum/status_effect/buff/healing))
+		return TRUE
+
+	if(istype(L, /mob/living/carbon/human))
+		var/mob/living/carbon/human/H = L
+		if(H.reagents && H.reagents.reagent_list)
+			for(var/datum/reagent/R in H.reagents.reagent_list)
+				if(istype(R, /datum/reagent/medicine))
+					return TRUE
+
+	return FALSE
