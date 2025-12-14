@@ -1607,6 +1607,7 @@
 /area/rogue/under/cave/inhumen)
 "oP" = (
 /obj/effect/decal/cleanable/blood,
+/obj/effect/landmark/start/hostage,
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/banditcamp)
 "oR" = (
@@ -2433,6 +2434,10 @@
 	icon_state = "chess"
 	},
 /area/rogue/indoors/vampire_manor)
+"An" = (
+/obj/effect/landmark/start/hostage,
+/turf/open/floor/rogue/twig,
+/area/rogue/indoors/banditcamp)
 "Ap" = (
 /obj/structure/chair/wood/rogue{
 	dir = 1
@@ -4752,7 +4757,7 @@ oP
 Pq
 nR
 Pq
-Pq
+An
 HH
 pu
 pu

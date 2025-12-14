@@ -208,7 +208,7 @@
 	H.verbs |= /mob/proc/haltyell
 
 	H.adjust_blindness(-3)
-	var/weapons = list(H, "Longsword","Flail","Warhammer","Sabre")
+	var/weapons = list("Longsword","Flail","Warhammer","Sabre")
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)

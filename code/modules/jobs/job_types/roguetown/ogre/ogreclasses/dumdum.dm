@@ -8,7 +8,7 @@
 	cmode_music = 'sound/music/combat_guard3.ogg' // i think this is unused, but i like the song
 
 
-	traits_applied = list(TRAIT_NOPAINSTUN, TRAIT_CALTROPIMMUNE, TRAIT_STRONGBITE, TRAIT_STRENGTH_UNCAPPED, TRAIT_MEDIUMARMOR, TRAIT_NASTY_EATER, TRAIT_CRITICAL_RESISTANCE) //strongbite might be funny
+	traits_applied = list(TRAIT_BASHDOORS, TRAIT_NOPAINSTUN, TRAIT_CALTROPIMMUNE, TRAIT_STRONGBITE, TRAIT_STRENGTH_UNCAPPED, TRAIT_MEDIUMARMOR, TRAIT_NASTY_EATER, TRAIT_CRITICAL_RESISTANCE) //strongbite might be funny
 	subclass_stats = list( 
 		STATKEY_STR = 4, 
 		STATKEY_CON = 4,

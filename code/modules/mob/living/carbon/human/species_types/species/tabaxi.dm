@@ -8,14 +8,14 @@
 	origin_default = /datum/virtue/origin/raneshen
 	origin = "Raneshen"
 	base_name = "Beastvolk"
-	desc = "<b>Tabaxi: Of A Mood Mercurial</b><br>\
-		Slender and taller than a typical human, these wildkin tend to stand equally with elves, \
-		infuriating dwarves with their height. Hailing first from the deep jungles of Etrusca, \
-		they have spread across the world and developed spotted and striped fur of different colorations depending on the biome. \
-		Blessed to be suited as athletes with a sharp sense of awareness, there is some debate on which God may have shown them favor. \
-		Some say Necra guides their sight, Noc their sharp minds, Xylix their curiosity and wit, \
-		yet still most of humanity would not trust them not to snatch their coinpurse; some even think they were made by Matthios, \
-		that they are given to both thievery and treachery.<br>\
+	desc = "<b>Tabaxi</b><br>\
+		Tabaxi are taller than most humans at six to seven feet. \
+		Their bodies are slender and covered in spotted or striped fur. \
+		Like most felines, Tabaxi have long tails and retractable claws. \
+		Tabaxi fur color ranges from light yellow to brownish red. \
+		Tabaxi eyes are slit-pupilled and usually green or yellow. \
+		Tabaxi are competent swimmers and climbers as well as speedy runners. \
+		They have a good sense of balance and an acute sense of smell.<br>\
 		<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 SPD</b></span> </br>"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE, MUTCOLORS)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | SLIME_EXTRACT

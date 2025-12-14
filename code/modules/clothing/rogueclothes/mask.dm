@@ -368,7 +368,7 @@
 	desc = "A silver mask, forever locked in a rigor of uncontestable joy. The Order of Saint Xylix can't decide on whether it's meant to represent Psydon's 'mirthfulness,' 'theatricality,' or the unpredictable melding of both."
 	icon_state = "psydonmask"
 	item_state = "psydonmask"
-
+/*
 /obj/item/clothing/mask/rogue/facemask/prisoner
 	name = "cursed mask"
 	icon_state = "cursemask"
@@ -428,7 +428,7 @@
 		addtimer(CALLBACK(src, PROC_REF(timerup), user), timer)
 		say("YOUR PENANCE WILL BE COMPLETE IN [timer_minutes] MINUTES.")
 	return
-
+*/
 /obj/item/clothing/mask/rogue/facemask/steel
 	name = "steel mask"
 	desc = "A mask of steel which protects the eyes, nose and mouth while also obscuring the face it."

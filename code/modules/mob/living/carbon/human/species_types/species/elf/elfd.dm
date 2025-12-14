@@ -8,17 +8,24 @@
 	origin_default = /datum/virtue/origin/otava
 	origin = "Otava"
 	base_name = "Elf"
-	desc = "<b>Dark Elf: A People Divided</b><br>\
-	When the elves were created, some took an arrogant pride that was undue to them, some even claimed themselves equal to Psydon. \
-	When he was about to unleash his wrath, the most arrogant elves tapped into another plane to combat him. \
-	Thus began the first demonic incursion; between the infernal armies and divine wrath, \
-	some made a pact with the demons and hid underground to follow the ascendants. \
-	There the worship of the ascendants is absolute, where the brutal and selfish of society are seen as virtuous, \
-	and the compassionate and gentle are seen as weak fools. They are the source of the Dark Crusade, armies in darksteel plate followed by thralled undead, \
-	burning surface settlements. Entire cities under Otava emptied out when their people turned on the cruel lords and priests, \
-	slaughtering them to rejoin the surface after Psydon’s great sacrifice.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 INT | +1 PER</b></span> </br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> LANGUAGE: Elvish - ,e</b></span> </br>"
+	desc = "<b>Dark Elf</b><br>\
+	\"Elf\" is a catch-all term used for tall, pointy-eared humanoids who can trace their \
+	heritage to the ancient and mysterious Snow Elves. This species of elf, less frequently \
+	seen, are also referred to by some as \"drow,\" and have several key differences \
+	that set them apart from their more well-known and surface-dwelling kin. Chief among these \
+	differences are their dark complexions and origins from the Underdark; a massive subterranean \
+	landscape made up of a vast network of interconnected caves, caverns and tunnels. In this world \
+	hidden deep beneath the soil are several dark elven cities who exist and function far from the \
+	reaches of the rest of the surface-dwelling societies. These are a large part of what has earned \
+	the dark elves their notoriety, for in these cities the worship of the ascendant pantheon is \
+	normalized, and their cruel and bloodthirsty culture reflects this. It was rare to see dark \
+	elves outside of their underground homes, but in recent years, more and more of them have fled \
+	to the surface. The reasons for each dark elf fleeing the Underdark vary depending on the \
+	individual, such as a kinder heart fleeing from a brutal society that scorns them for their \
+	less cruel nature. However, not every dark elf seen on the surface can be safely assumed as \
+	kind, for some leave the Underdark simply to find their own greater heights of power.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 INT | +1 PER</b></span> </br>"
+
 /*
 	Former RT Desc: These guys were undead which doesn't really fit considering now you have a ton of them walking around.
 

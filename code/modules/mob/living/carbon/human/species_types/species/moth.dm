@@ -9,13 +9,11 @@
 	origin = "the Underdark"
 	base_name = "Beastvolk"
 	desc = "<b>Fluvian</b><br>\
-	An insectoid species native to the Underdark. Indigenous to Effluvia, a loathsome underground region known for its poisonous waters.<br>\
-	Fluvians are known as the archetypal species for drow slaves, few surface-dwellers realize they have a city of their own: \
-	The sole settlement in Effluvia, Mercuriam. It is here that Pestra's arts are honored; \
-	only the educated are allowed to pass its bronze gates. Denied fluvians must eke out a primitive life in the rotting wilds of Effluvia.<br>\
-	According to the fluvians of Mercuriam, their god, Pestra, has not yet been born. She lies in a nascent cocoon, bestowing wisdom from a time to come.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 SPD | -1 CON</b></span> </br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Long Jump | Can Eat Clothes</b></span>"
+	Many comparisons have been made to the common moths in an attempt to describe this unique species. From the appetite for clothing to the disconcertingly insectoid appearance, \
+	the name 'Moth' is forever stamped onto the common vocabulary. The comparison, however, falls short on the matter of flight. This species generally congregates within lichen-laden \
+	cave regions or lush forests, given their capacity to digest fiber, and many Fluvian artisans take up the art of clothwork to create expensive export goods from cloth or silk (the latter \
+	of which is found in abundance from the spiders often near their settlements). <br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 SPD</b></span> </br>"
 
 	species_traits = list(EYECOLOR,LIPS,MUTCOLORS,HAIR)
 	possible_ages = ALL_AGES_LIST

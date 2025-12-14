@@ -8,12 +8,14 @@
 	origin_default = /datum/virtue/origin/grenzelhoft
 	origin = "Grenzelhoft"
 	sub_name = "Northern Humen"
-	desc = "<b>Humen: Objectively the Best</b><br>\
-	Created directly by Psydon’s hands the humans were made in his image, determined and proud. \
-	Found across the world they are diverse in belief and culture, yet their differences strengthen the bond of this species. \
-	Even if they hail from nations historically at odds, evolutionary design urges them to help another human in need. \
-	Their people are found in every continent, in the worship of all the Gods, serving as a commonality. \
-	If civilization has touched any corner of the world then humans have left their bootprints in the sand. They hold no dominant traits but a sense of pride.<br>\
+	desc = "<b>Humen</b><br>\
+	Humens (or \"Humans\") are the eldest of the Weeping God's creations. Noted for their \
+	tenacity and overwhelming population, humens are the most commonly seen race across the lands, \
+	at a rate of about ten to one in regions such as Grenzelhoft. However, to the west \
+	the opposite is true. Humens come from a vast swathe of cultures and ethnicities, most of which \
+	have historically been at odds with one another. Being the eldest creations of the Weeping God, humens \
+	tend to find fortune easier than the other races, and are so diverse that no other racial traits \
+	are dominant in their species.<br>\
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 END | +1 INT</b></span> </br>"
 
 	skin_tone_wording = "Ancestry"

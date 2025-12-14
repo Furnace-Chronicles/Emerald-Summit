@@ -537,8 +537,8 @@
 
 
 /obj/item/rogueweapon/greataxe/steel/doublehead/graggar/ogre
-	name = "imposing greataxe"
-	desc = "GRAAAAAHHHHHH!!!"
+	name = "executioner's folly"
+	desc = "Attempts have been made to cut off an ogre's head. Those who try forget how easily they break their chains, and how thick their necks are."
 	icon_state = "ogre_axe"
 	force = 20
 	force_wielded = 40

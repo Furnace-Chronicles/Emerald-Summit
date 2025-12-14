@@ -1041,3 +1041,48 @@
 	req_bar = /obj/item/ingot/blacksteel
 	created_item = /obj/item/clothing/shoes/roguetown/boots/blacksteel/plateboots
 	craftdiff = 5
+
+/////// OGRE - GIANT GEAR /////
+
+/datum/anvil_recipe/armor/iron/ogrebreastplate
+	name = "Ogre breastplate (+2 Iron)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron)
+	created_item = /obj/item/clothing/suit/roguetown/armor/plate/half/ogre
+
+/datum/anvil_recipe/armor/iron/ogremaille
+	name = "Ogre maille (+3 Iron)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron, /obj/item/ingot/iron)
+	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ogre
+
+/datum/anvil_recipe/armor/iron/ogrechausses
+	name = "Ogre chain chausses (+3 Iron)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron, /obj/item/ingot/iron)
+	created_item = /obj/item/clothing/under/roguetown/chainlegs/ogre
+
+/datum/anvil_recipe/armor/iron/ogrebarbute
+	name = "Ogre barbute (+2 Iron)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ogre
+
+/datum/anvil_recipe/armor/iron/ogregloves
+	name = "Ogre plate gloves (+2 Iron)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron)
+	created_item = /obj/item/clothing/gloves/roguetown/plate/ogre
+
+/datum/anvil_recipe/armor/iron/ogrebracers
+	name = "Ogre plate bracers (+2 Iron)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron)
+	created_item = /obj/item/clothing/wrists/roguetown/bracers/ogre
+
+/datum/anvil_recipe/armor/iron/ogregorget
+	name = "Ogre plate gorget (+2 Iron)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/steel, /obj/item/ingot/steel)
+	created_item = /obj/item/clothing/neck/roguetown/gorget/ogre
+

@@ -33,9 +33,14 @@
 	// play the attack animation even when kicking non-mobs
 	if(mmb_intent) // why this would be null and not INTENT_KICK i have no clue, but the check already existed
 		do_attack_animation_simple(A, visual_effect_icon = mmb_intent.animname)
+	var/atom/target = A
+	if(isturf(A))
+		for(var/mob/living/M in A)
+			target = M
+			break
 	// but the rest of the logic is pretty much mob-only
-	if(ismob(A) && mmb_intent)
-		var/mob/living/M = A
+	if(ismob(target) && mmb_intent)
+		var/mob/living/M = target
 		sleep(mmb_intent.swingdelay)
 		if(M.has_status_effect(/datum/status_effect/buff/clash) && ishuman(M))
 			var/mob/living/carbon/human/HT = M
@@ -56,7 +61,7 @@
 		else
 			M.onkick(src)
 	else
-		A.onkick(src)
+		target.onkick(src)
 	OffBalance(3 SECONDS)
 	return TRUE
 

@@ -755,9 +755,10 @@
 	flags_inv = HIDECROTCH|HIDEBOOB
 
 /obj/item/clothing/suit/roguetown/shirt/ogre
-	name = "gigantic shirt"
-	desc = "This thing's three times the size of a normal human body!"
+	name = "giant shirt"
+	desc = " The difference between you and a more uncivilized giant is, you got this fancy dyed cloth that means you're cultured and important."
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/32x64/ogre_onmob_sleeves.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
 	icon_state = "ogre_shirt"
 	allowed_race = OGRE_RACE_TYPES
+	max_integrity = 250
