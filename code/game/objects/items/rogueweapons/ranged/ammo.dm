@@ -9,6 +9,29 @@
 /obj/item/ammo_casing/caseless/rogue/
 	firing_effect_type = null
 
+/obj/item/ammo_casing/caseless/rogue/ready_proj()
+	var/obj/projectile/P = ..(arglist(args))
+	if(!P)
+		return P
+
+	if(reagents && reagents.total_volume)
+		if(!P.reagents)
+			P.create_reagents(2) 
+		// use poison only once
+		reagents.trans_to(P, reagents.total_volume)
+	return P
+
+/obj/projectile/proc/apply_tipped_reagents(atom/target, mob/living/user)
+	if(!reagents || !reagents.total_volume)
+		return
+	if(!isliving(target))
+		return
+	var/mob/living/M = target
+	if(HAS_TRAIT(M, TRAIT_NOMETABOLISM))
+		reagents.clear_reagents()
+		return
+	reagents.trans_to(M, reagents.total_volume, transfered_by = user)
+
 //bolts ฅ^•ﻌ•^ฅ
 
 /obj/item/ammo_casing/caseless/rogue/bolt
@@ -22,6 +45,10 @@
 	dropshrink = 0.6
 	max_integrity = 10
 	force = 10
+
+/obj/item/ammo_casing/caseless/rogue/bolt/ComponentInitialize()
+	. = ..()
+	AddElement(/datum/element/tipped_item)
 
 /obj/item/ammo_casing/caseless/rogue/bolt/aalloy
 	name = "decrepit bolt"
@@ -62,6 +89,12 @@
 /obj/projectile/bullet/reusable/bolt/on_hit(atom/target)
 	. = ..()
 
+	apply_tipped_reagents(target, firer)
+
+	var/mob/living/L = firer
+	if(!L || !L.mind)
+		return
+
 	var/mob/living/L = firer
 	if(!L || !L.mind) 
 		return
@@ -91,6 +124,10 @@
 	dropshrink = 0.6
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	max_integrity = 10
+
+/obj/item/ammo_casing/caseless/rogue/arrow/ComponentInitialize()
+	. = ..()
+	AddElement(/datum/element/tipped_item)
 
 /obj/item/ammo_casing/caseless/rogue/arrow/stone
 	name = "stone arrow"
@@ -145,6 +182,12 @@
 
 /obj/projectile/bullet/reusable/arrow/on_hit(atom/target)
 	..()
+
+	apply_tipped_reagents(target, firer)
+
+	var/mob/living/L = firer
+	if(!L || !L.mind)
+		return
 
 	var/mob/living/L = firer
 	if(!L || !L.mind) 

@@ -252,11 +252,4 @@
 
 	target.set_silence(dur_ds)
 
-	addtimer(
-		CALLBACK(target, TYPE_PROC_REF(/atom/movable, visible_message),
-			span_notice("My voice returns.")
-		),
-		dur_ds
-	)
-
 	return TRUE
