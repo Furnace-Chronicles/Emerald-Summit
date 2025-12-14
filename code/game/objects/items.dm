@@ -139,6 +139,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/datum/skill/associated_skill
 
 	var/list/possible_item_intents = list(/datum/intent/use)
+	var/saved_intent_index = 1 // Stores the last selected intent index when item is dropped
 
 	var/bigboy = FALSE //used to center screen_loc when in hand
 	var/wielded = FALSE
@@ -245,6 +246,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	/// Angle of the icon while wielded, these are used for attack animations. Generally it's flat, but not always.
 	var/icon_angle_wielded = 0
+
+	var/no_use_cd = FALSE //if true, no cooldown when interacting with it
 
 	var/leashable = FALSE // More elegant solution to leash checks
 	var/bellsound = FALSE //Sanitycheck for bell jingles
@@ -508,48 +511,101 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			var/obj/item/clothing/C = src
 			inspec += "<br>"
 			inspec += C.defense_examine()
-			if(C.body_parts_covered)
-				inspec += "\n<b>COVERAGE: <br></b>"
-				inspec += " | "
-				if(C.body_parts_covered == C.body_parts_covered_dynamic)
-					for(var/zone in body_parts_covered2organ_names(C.body_parts_covered))
-						inspec += "<b>[capitalize(zone)]</b> | "
-				else
-					var/list/zones = list()
-					//We have some part peeled, so we turn the printout into precise mode and highlight the missing coverage.
-					for(var/zoneorg in body_parts_covered2organ_names(C.body_parts_covered, precise = TRUE))
-						zones += zoneorg
-					for(var/zonedyn in body_parts_covered2organ_names(C.body_parts_covered_dynamic, precise = TRUE))
-						inspec += "<b>[capitalize(zonedyn)]</b> | "
-						if(zonedyn in zones)
-							zones.Remove(zonedyn)
-					for(var/zone in zones)
-						inspec += "<b><font color = '#7e0000'>[capitalize(zone)]</font></b> | "
-				inspec += "<br>"
+			inspec += "<table align='center'; width='100%'; height='100%';border: 1px solid white;border-collapse: collapse><tr style='vertical-align:top'><td width = 35%>"
+			inspec += "<b>COVERAGE: <br></b>"
+			if(!C.body_parts_covered)
+				inspec += "<b>NONE!</b>"
+			if(C.body_parts_covered == C.body_parts_covered_dynamic)
+				var/count = 1
+				var/list/zonelist = body_parts_covered2organ_names(C.body_parts_covered)
+				for(var/zone in zonelist)
+					var/add_divider = TRUE
+					if(count % 2 == 0 || count == (length(zonelist)))
+						add_divider = FALSE
+					inspec += "<b>[capitalize(zone)]</b> [add_divider ? "| " : ""]"
+					if(count % 2 == 0)
+						inspec += "<br>"
+					count++
+			else
+				var/list/zones = list()
+				//We have some part peeled, so we turn the printout into precise mode and highlight the missing coverage.
+				var/count = 1
+				for(var/zoneorg in body_parts_covered2organ_names(C.body_parts_covered, precise = TRUE))
+					zones += zoneorg
+				var/list/dynlist = body_parts_covered2organ_names(C.body_parts_covered_dynamic, precise = TRUE)
+				for(var/zonedyn in dynlist)
+					var/add_divider = TRUE
+					if(count % 2 == 0 || count == (length(dynlist)))
+						add_divider = FALSE
+
+					inspec += "<b>[capitalize(zonedyn)]</b> [add_divider ? "| " : ""]"
+					if(zonedyn in zones)
+						zones.Remove(zonedyn)
+
+					if(count % 2 == 0)
+						inspec += "<br>"
+					count++
+				for(var/zone in zones)
+					var/add_divider = TRUE
+					if(count % 2 == 0 || count == (length(dynlist)))
+						add_divider = FALSE
+					inspec += "<b><font color = '#7e0000'>[capitalize(zone)]</font></b> [add_divider ? "| " : ""]"
+					if(count % 2 == 0)
+						inspec += "<br>"
+					count++
+			inspec += "<br>"
+			inspec += "</td>"
+			inspec += "<td width = 60%><b>PREVENTS CRITS:</b><br>"
+			if(!length(C.prevent_crits))
+				inspec += "\n<b>NONE!</b>"
+			var/count = 1
+			for(var/X in C.prevent_crits)
+				if(X == BCLASS_PICK)	//BCLASS_PICK is named "stab", and "stabbing" is its own damage class. Prevents confusion.
+					X = "pick"
+				var/add_divider = TRUE
+				if(count % 2 == 0 || count == (length(C.prevent_crits)))
+					add_divider = FALSE
+				inspec += ("<b>[capitalize(X)]</b> [add_divider ? "| " : ""]")
+				if(count % 2 == 0)
+					inspec += "<br>"
+				count++
+			inspec += "<br></td>"
+			inspec += "</tr></table>"
 			if(C.body_parts_inherent)
 				inspec += "<b>CANNOT BE PEELED: </b>"
+				var/peelcolor = "#77cde2"
 				var/list/inherentList = body_parts_covered2organ_names(C.body_parts_inherent)
 				if(length(inherentList) == 1)
-					inspec += "<b><font color = '#77cde2'>[capitalize(inherentList[1])]</font></b>"
+					inspec += "<b><font color = [peelcolor]>[capitalize(inherentList[1])]</font></b>"
 				else
 					inspec += "| "
 					for(var/zone in inherentList)
-						inspec += "<b><font color = '#77cde2'>[capitalize(zone)]</b></font> | "
-			if(C.prevent_crits)
-				if(length(C.prevent_crits))
-					inspec += "\n<b>PREVENTS CRITS:</b>"
-					for(var/X in C.prevent_crits)
-						if(X == BCLASS_PICK)	//BCLASS_PICK is named "stab", and "stabbing" is its own damage class. Prevents confusion.
-							X = "pick"
-						inspec += ("\n<b>[capitalize(X)]</b>")
-				inspec += "<br>"
+						inspec += "<b><font color = [peelcolor]>[capitalize(zone)]</b></font> | "
 
 //**** General durability
 
 		if(max_integrity)
 			inspec += "\n<b>DURABILITY:</b> "
-			var/percent = round(((obj_integrity / max_integrity) * 100), 1)
-			inspec += "[percent]% ([obj_integrity])"
+			var/eff_maxint = max_integrity - (max_integrity * integrity_failure)
+			var/eff_currint = max(obj_integrity - (max_integrity * integrity_failure), 0)
+			var/ratio =	(eff_currint / eff_maxint)
+			var/percent = round((ratio * 100), 1)
+			inspec += "[percent]% ([floor(eff_currint)])"
+			if(force >= 5) // Durability is rather obvious for non-weapons
+				inspec += " <span class='info'><a href='?src=[REF(src)];explaindurability=1'>{?}</a></span>"
+		if(istype(src, /obj/item/clothing))	//awful
+			var/obj/item/clothing/C = src
+			var/str
+			switch(C.armor_class)
+				if(ARMOR_CLASS_NONE)
+					str = "None"
+				if(ARMOR_CLASS_LIGHT)
+					str = "Light"
+				if(ARMOR_CLASS_MEDIUM)
+					str = "Medium"
+				if(ARMOR_CLASS_HEAVY)
+					str = "Heavy"
+			inspec += "\n<b>ARMOR CLASS:</b> [str]"
 
 		var/output = inspec.Join()
 		if(!usr.client.prefs.no_examine_blocks)
@@ -725,6 +781,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			var/oldy = pixel_y
 			pixel_y = pixel_y+5
 			animate(src, pixel_y = oldy, time = 0.5)
+			if(istype(loc, /turf/open/water))
+				extinguish()
 	if(altgripped || wielded)
 		ungrip(user, FALSE)
 	item_flags &= ~IN_INVENTORY
@@ -809,8 +867,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 //Set disable_warning to TRUE if you wish it to not give you outputs.
 /obj/item/proc/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
 	if((is_silver || smeltresult == /obj/item/ingot/silver) && (HAS_TRAIT(M, TRAIT_SILVER_WEAK) &&  !M.has_status_effect(STATUS_EFFECT_ANTIMAGIC)))
-		var/datum/antagonist/vampirelord/V_lord = M.mind?.has_antag_datum(/datum/antagonist/vampirelord/)
-		if(V_lord.vamplevel >= 4 && !M.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser))
+		var/datum/antagonist/vampire/V_lord = M.mind?.has_antag_datum(/datum/antagonist/vampire/)
+		if(V_lord?.generation >= GENERATION_METHUSELAH)
 			return
 
 		to_chat(M, span_userdanger("I can't pick up the silver, it is my BANE!"))
@@ -934,20 +992,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		var/itempush = 0
 		if(w_class < 4)
 			itempush = 0 //too light to push anything
-		if(istype(hit_atom, /mob/living)) //Living mobs handle hit sounds differently.
-			var/volume = get_volume_by_throwforce_and_or_w_class()
-			if (throwforce > 0)
-				if (mob_throw_hit_sound)
-					playsound(hit_atom, mob_throw_hit_sound, volume, TRUE, -1)
-				else if(hitsound)
-					playsound(hit_atom, pick(hitsound), volume, TRUE, -1)
-				else
-					playsound(hit_atom, 'sound/blank.ogg',volume, TRUE, -1)
-			else
-				playsound(hit_atom, 'sound/blank.ogg', 1, volume, -1)
-
-		else
-			playsound(src, drop_sound, YEET_SOUND_VOLUME, TRUE, ignore_walls = FALSE)
 		return hit_atom.hitby(src, 0, itempush, throwingdatum=throwingdatum, damage_flag = thrown_damage_flag)
 
 /obj/item/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback, force)
@@ -1408,31 +1452,46 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	add_overlay(damage)
 
 /// Proc that is only called with the Peel intent. Stacks consecutive hits, shreds coverage once a threshold is met. Thresholds are defined on /obj/item
-/obj/item/proc/peel_coverage(bodypart, divisor)
+/obj/item/proc/peel_coverage(bodypart, divisor, mob/living/carbon/human/owner)
 	var/coveragezone = attackzone2coveragezone(bodypart)
-	if(!(body_parts_inherent & coveragezone))
-		if(!last_peeled_limb || coveragezone == last_peeled_limb)
-			if(divisor >= peel_threshold)
-				peel_count += divisor ? (peel_threshold / divisor ) : 1
-			else if(divisor < peel_threshold)
-				peel_count++
-			if(peel_count >= peel_threshold)
-				body_parts_covered_dynamic &= ~coveragezone
-				playsound(src, 'sound/foley/peeled_coverage.ogg', 100)
-				var/list/peeledpart = body_parts_covered2organ_names(coveragezone, precise = TRUE)
-				var/parttext
-				if(length(peeledpart))
-					parttext = peeledpart[1]	//There should really only be one bodypart that gets exposed here.
-				visible_message("<font color = '#f5f5f5'><b>[parttext ? parttext : "Coverage"]</font></b> gets peeled off of [src]!")
-				reset_peel(success = TRUE)
-			else
-				visible_message(span_info("Peel strikes [src]! <b>[ROUND_UP(peel_count)]</b>!"))
-		else
-			last_peeled_limb = coveragezone
-			reset_peel()
-	else
+	if((body_parts_inherent & coveragezone))
+		playsound(src, 'sound/combat/failpeel.ogg', 100, TRUE)
+		visible_message(span_warning("Peel struck an area too thick!"))
 		last_peeled_limb = coveragezone
 		reset_peel()
+		return
+	if(!last_peeled_limb || coveragezone == last_peeled_limb)
+		var/peel_goal = peel_threshold
+		if(divisor > peel_goal)
+			peel_goal = divisor
+			
+		var/list/peeledpart = body_parts_covered2organ_names(coveragezone, precise = TRUE)
+
+		if(peel_count < peel_goal)
+			peel_count++
+
+		if(peel_count >= peel_goal)
+			body_parts_covered_dynamic &= ~coveragezone
+			playsound(src, 'sound/foley/peeled_coverage.ogg', 100)
+			var/parttext
+			if(length(peeledpart))
+				parttext = peeledpart[1]	//There should really only be one bodypart that gets exposed here.
+			visible_message("<font color = '#f5f5f5'><b>[parttext ? parttext : "Coverage"]</font></b> gets peeled off of [src]!")
+			var/balloon_msg = "<font color = '#bb1111'>[parttext] peeled!</font>"
+			if(length(peeledpart))
+				balloon_alert_to_viewers(balloon_msg, balloon_msg, DEFAULT_MESSAGE_RANGE)
+			reset_peel(success = TRUE)
+		else
+			if(owner)
+				owner.visible_message(span_info("Peel strikes [src]! <b>[ROUND_UP(peel_count)]</b>!"))
+			var/balloon_msg = "Peel! \Roman[ROUND_UP(peel_count)] <br><font color = '#8b7330'>[peeledpart[1]]!</font>"
+			var/has_guarded = HAS_TRAIT(owner, TRAIT_DECEIVING_MEEKNESS)
+			if(length(peeledpart) && !has_guarded)
+				filtered_balloon_alert(TRAIT_COMBAT_AWARE, balloon_msg)
+			else if(length(peeledpart) && has_guarded)
+				if(prob(10))
+					balloon_msg = "<i>Guarded...</i>"
+					filtered_balloon_alert(TRAIT_COMBAT_AWARE, balloon_msg)
 
 /obj/item/proc/repair_coverage()
 	body_parts_covered_dynamic = body_parts_covered
@@ -1450,7 +1509,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		peel_count = 0
 	visible_message(span_info("Peel reduced to [peel_count == 0 ? "none" : "[peel_count]"] on [src]!"))
 
-/obj/item/proc/attackzone2coveragezone(location)
+/proc/attackzone2coveragezone(location)
 	switch(location)
 		if(BODY_ZONE_HEAD)
 			return HEAD

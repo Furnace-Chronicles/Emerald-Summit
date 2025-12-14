@@ -27,8 +27,6 @@
 
 //user-readable body parts
 #define READABLE_ZONE_HEAD 		"Head"
-#define READABLE_ZONE_SKULL		"Skull"
-#define READABLE_ZONE_EARS 		"Ears"
 #define READABLE_ZONE_CHEST		"Chest"
 #define READABLE_ZONE_ARMS		"Arms"
 #define READABLE_ZONE_L_ARM		"Left arm"
@@ -38,7 +36,9 @@
 #define READABLE_ZONE_R_LEG		"Right leg"
 #define READABLE_ZONE_LAMIAN_TAIL "Tail"
 
+#define READABLE_ZONE_SKULL		"Skull"
 #define READABLE_ZONE_NOSE		"Nose"
+#define READABLE_ZONE_EARS		"Ears"
 #define READABLE_ZONE_MOUTH		"Mouth"
 #define READABLE_ZONE_EYES		"Eyes"
 #define READABLE_ZONE_NECK		"Neck"
@@ -101,6 +101,7 @@
 #define BODYPART_FEATURE_UNDERWEAR "underwear"
 #define BODYPART_FEATURE_CREST "crest"
 #define BODYPART_FEATURE_LEGWEAR "legwear"
+#define BODYPART_FEATURE_BRAND "brand"
 
 //flags for requirements for a surgery step
 #define SURGERY_BLOODY (1<<0)
@@ -111,6 +112,7 @@
 #define SURGERY_BROKEN (1<<5)
 #define SURGERY_DRILLED (1<<6)
 #define SURGERY_CUTVEIN (1<<7)
+#define SURGERY_CONSTRUCT (1<<8)
 
 //flags for the organ_flags var on /obj/item/organ
 /// Synthetic organs, or cybernetic organs. Reacts to EMPs and don't deteriorate or heal

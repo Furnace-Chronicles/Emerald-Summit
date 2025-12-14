@@ -910,6 +910,49 @@
 	wallcraft = FALSE
 	skillcraft = /datum/skill/craft/masonry
 
+/datum/crafting_recipe/roguetown/structure/floorcandle
+    name = "floor candles"
+    result = /obj/machinery/light/rogue/wallfire/candle/floorcandle
+    reqs = list(/obj/item/candle/yellow = 2)
+    verbage_simple = "build"
+    verbage = "builds"
+    skillcraft = /datum/skill/craft/masonry
+    wallcraft = FALSE
+    craftdiff = 0
+
+
+/datum/crafting_recipe/roguetown/structure/floorcandlealt
+    name = "alt floor candles"
+    result = /obj/machinery/light/rogue/wallfire/candle/floorcandle/alt
+    reqs = list(/obj/item/candle/yellow = 2)
+    verbage_simple = "build"
+    verbage = "builds"
+    skillcraft = /datum/skill/craft/masonry
+    wallcraft = FALSE
+    craftdiff = 0
+
+
+/datum/crafting_recipe/roguetown/structure/floorcandlepink
+    name = "eoran floor candles"
+    result = /obj/machinery/light/rogue/wallfire/candle/floorcandle/pink
+    reqs = list(/obj/item/candle/eora = 2)
+    verbage_simple = "build"
+    verbage = "builds"
+    skillcraft = /datum/skill/craft/masonry
+    wallcraft = FALSE
+    craftdiff = 0
+
+
+/datum/crafting_recipe/roguetown/structure/floorcandlealtpink
+    name = "alt eoran floor candles"
+    result = /obj/machinery/light/rogue/wallfire/candle/floorcandle/alt/pink
+    reqs = list(/obj/item/candle/eora = 2)
+    verbage_simple = "build"
+    verbage = "builds"
+    skillcraft = /datum/skill/craft/masonry
+    wallcraft = FALSE
+    craftdiff = 0
+
 /datum/crafting_recipe/roguetown/structure/wallcandle
 	name = "wall candles"
 	result = /obj/machinery/light/rogue/wallfire/candle
@@ -1001,6 +1044,7 @@
 	result = /obj/structure/curtain
 	reqs = list(/obj/item/natural/cloth = 2)
 	craftdiff = 0
+	ignoredensity = TRUE
 
 /datum/crafting_recipe/roguetown/structure/apiary
 	name = "apiary"

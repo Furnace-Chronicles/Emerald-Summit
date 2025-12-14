@@ -1,11 +1,11 @@
 /datum/migrant_role/slaver/master
 	name = "Zybantynian Master"
 	greet_text = "The leader of the Zybantynian slave troop. You have came to the mainlands from the western deserts of Zybantine in the hopes of gathering wealth through the training of and trade of unfortunate laborers. The practice can be called despicable by some, but it is without a doubt efficient in filling your pockets before you return to the deserts of the Zybantines"
-	outfit = /datum/outfit/job/roguetown/slaver/master
+	outfit = /datum/outfit/job/slaver/master
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 
-/datum/outfit/job/roguetown/slaver/master/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/slaver/master/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 	mask = /obj/item/clothing/head/roguetown/roguehood/shalal/purple
@@ -50,13 +50,13 @@
 /datum/migrant_role/slaver/slavemercsword
 	name = "Zybantynian Blade Mercenary"
 	greet_text = "A hired arm for the Zybantine Slave troop. You have come from the deserts of Zybantine and are hired under contract by the Zybantynian Master."
-	outfit = /datum/outfit/job/roguetown/slaver/slavemercsword
+	outfit = /datum/outfit/job/slaver/slavemercsword
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	grant_lit_torch = TRUE
 	show_wanderer_examine = TRUE
 
-/datum/outfit/job/roguetown/slaver/slavemercsword/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/slaver/slavemercsword/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/helmet/sallet
 	mask = /obj/item/clothing/head/roguetown/roguehood/shalal/purple
@@ -102,12 +102,12 @@
 /datum/migrant_role/slaver/slavemercwhip
 	name = "Zybantynian Whip Mercenary"
 	greet_text = "A hired arm for the Zybantine Slave troop. You have come from the deserts of Zybantine and are hired under contract by the Zybantynian Master."
-	outfit = /datum/outfit/job/roguetown/slaver/slavemercwhip
+	outfit = /datum/outfit/job/slaver/slavemercwhip
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	grant_lit_torch = TRUE
 
-/datum/outfit/job/roguetown/slaver/slavemercwhip/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/slaver/slavemercwhip/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/helmet/sallet
 	mask = /obj/item/clothing/head/roguetown/roguehood/shalal/purple
@@ -153,12 +153,12 @@
 /datum/migrant_role/slaver/slavemercbow
 	name = "Zybantynian Light Crossbow Mercenary"
 	greet_text = "A hired arm for the Zybantine Slave troop, also trained in first aid. You have come from the deserts of Zybantine and are hired under contract by the Zybantynian Master."
-	outfit = /datum/outfit/job/roguetown/slaver/slavemercbow
+	outfit = /datum/outfit/job/slaver/slavemercbow
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	grant_lit_torch = TRUE
 
-/datum/outfit/job/roguetown/slaver/slavemercbow/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/slaver/slavemercbow/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/helmet/sallet
 	mask = /obj/item/clothing/head/roguetown/roguehood/shalal/purple
@@ -204,13 +204,13 @@
 /datum/migrant_role/slaver/slavez
 	name = "Slave"
 	greet_text = "An unlucky slave, captured from their home, moved to the Zybantines and trained for slave labor and obediency, for long enough to where you can only faintly remember who you were before... You are now being transported from the deserts to harsher lands to be sold."
-	outfit = /datum/outfit/job/roguetown/slaver/slavez
+	outfit = /datum/outfit/job/slaver/slavez
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	grant_lit_torch = TRUE
 	show_wanderer_examine = FALSE
 
-/datum/outfit/job/roguetown/slaver/slavez/pre_equip(mob/living/carbon/human/H) 
+/datum/outfit/job/slaver/slavez/pre_equip(mob/living/carbon/human/H) 
 	..()
 	shirt = /obj/item/clothing/suit/roguetown/shirt/exoticsilkbra 
 	neck = /obj/item/clothing/neck/roguetown/collar/leather

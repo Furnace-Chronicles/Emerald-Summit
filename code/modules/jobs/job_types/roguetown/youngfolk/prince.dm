@@ -33,7 +33,7 @@
 		/datum/advclass/heir/inbred,
 	)
 
-/datum/outfit/job/roguetown/heir/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heir/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.verbs |= /mob/living/carbon/human/proc/declarechampion
 
@@ -42,7 +42,7 @@
 /datum/advclass/heir/daring
 	name = "Daring Twit"
 	tutorial = "You're a somebody, someone important. It only makes sense you want to make a name for yourself, to gain your own glory so people see how great you really are beyond your bloodline. Plus, if you're beloved by the people for your exploits you'll be chosen! Probably. Shame you're as useful and talented as a squire, despite your delusions to the contrary."
-	outfit = /datum/outfit/job/roguetown/heir/daring
+	outfit = /datum/outfit/job/heir/daring
 	category_tags = list(CTAG_HEIR)
 
 	traits_applied = list(TRAIT_MEDIUMARMOR)
@@ -74,7 +74,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/heir/daring/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heir/daring/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	// Equipment choice - only affects clothing/gear, not skills
@@ -113,7 +113,7 @@
 /datum/advclass/heir/bookworm
 	name = "Introverted Bookworm"
 	tutorial = "Despite your standing, sociability is not your strong suit, and you have kept mostly to yourself and your books. This hardly makes you a favourite among the lords and ladies of the court, and an exit from your room is often met with amusement from nobility and servants alike. But maybe... just maybe, some of your reading interests may be bearing fruit."
-	outfit = /datum/outfit/job/roguetown/heir/bookworm
+	outfit = /datum/outfit/job/heir/bookworm
 	category_tags = list(CTAG_HEIR)
 
 	traits_applied = list(TRAIT_ARCYNE_T2, TRAIT_MAGEARMOR)
@@ -135,7 +135,7 @@
 		/datum/skill/combat/knives = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/heir/bookworm/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heir/bookworm/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_masc_clothes(H))
 		pants = /obj/item/clothing/under/roguetown/tights/random
@@ -155,7 +155,7 @@
 /datum/advclass/heir/aristocrat
 	name = "Sheltered Aristocrat"
 	tutorial = "Life has been kind to you; you've an entire keep at your disposal, servants to wait on you, and a whole retinue of guards to guard you. You've nothing to prove; just live the good life and you'll be a lord someday, too. A lack of ambition translates into a lacking skillset beyond schooling, though, and your breaks from boredom consist of being a damsel or court gossip."
-	outfit = /datum/outfit/job/roguetown/heir/aristocrat
+	outfit = /datum/outfit/job/heir/aristocrat
 	category_tags = list(CTAG_HEIR)
 
 	traits_applied = list(TRAIT_SEEPRICES_SHITTY, TRAIT_GOODLOVER)
@@ -180,7 +180,7 @@
 		/datum/skill/misc/sewing = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/heir/aristocrat/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heir/aristocrat/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/circlet
 	belt = /obj/item/storage/belt/rogue/leather
@@ -204,7 +204,7 @@
 /datum/advclass/heir/inbred
 	name = "Inbred wastrel"
 	tutorial = "Your bloodline ensures Psydon smiles upon you by divine right, the blessing of nobility... until you were born, anyway. You are a child forsaken, and even though your body boils as you go about your day, your spine creaks, and your drooling form needs to be waited on tirelessly you are still considered more important then the peasant that keeps the town fed and warm. Remind them of that fact when your lungs are particularly pus free."
-	outfit = /datum/outfit/job/roguetown/heir/inbred
+	outfit = /datum/outfit/job/heir/inbred
 	category_tags = list(CTAG_HEIR)
 
 	traits_applied = list(TRAIT_CRITICAL_WEAKNESS, TRAIT_NORUN)
@@ -229,7 +229,7 @@
 		/datum/skill/misc/sewing = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/heir/inbred/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heir/inbred/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/circlet
 	belt = /obj/item/storage/belt/rogue/leather

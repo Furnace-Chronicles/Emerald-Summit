@@ -148,7 +148,7 @@
 //Eora content from Stonekeep
 /datum/crafting_recipe/roguetown/weaving/eoramask
 	name = "eora mask"
-	result = list(/obj/item/clothing/head/roguetown/eoramask)
+	result = list(/obj/item/clothing/mask/rogue/eoramask)
 	reqs = list(/obj/item/ingot/silver,
 				/obj/item/natural/silk = 4)
 	craftdiff = 3

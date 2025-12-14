@@ -61,7 +61,7 @@
 	say_mod = "crackles"
 	taste_sensitivity = 30 //It's dead, jim.
 	
-/obj/item/organ/tongue/lizard
+/obj/item/organ/tongue/wild_tongue/lizard
 	name = "forked tongue"
 	desc = ""
 	icon_state = "tonguelizard"
@@ -69,7 +69,7 @@
 	taste_sensitivity = 10 // combined nose + tongue, extra sensitive
 //	modifies_speech = TRUE
 /*
-/obj/item/organ/tongue/lizard/handle_speech(datum/source, list/speech_args)
+/obj/item/organ/tongue/wild_tongue/lizard/handle_speech(datum/source, list/speech_args)
 	var/static/regex/lizard_hiss = new("s+", "g")
 	var/static/regex/lizard_hiSS = new("S+", "g")
 	var/message = speech_args[SPEECH_MESSAGE]

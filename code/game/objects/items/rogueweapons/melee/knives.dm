@@ -419,6 +419,7 @@
 	icon_state = "psydagger"
 	sheathe_icon = "psydagger"
 	sellprice = 70
+	
 
 	picklvl = 1.175
 
@@ -444,38 +445,6 @@
 		added_def = 2,\
 	)
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
-	. = ..()
-	if(ishuman(M) && M.mind)
-		var/mob/living/carbon/human/H = M
-		var/datum/antagonist/vampirelord/V_lord = H.mind.has_antag_datum(/datum/antagonist/vampirelord/)
-		var/datum/antagonist/werewolf/W = H.mind.has_antag_datum(/datum/antagonist/werewolf/)
-		if(H.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser))
-			to_chat(H, span_userdanger("I can't equip the silver, it is my BANE!"))
-			H.Knockdown(10)
-			H.Paralyze(10)
-			H.adjustFireLoss(25)
-			H.fire_act(1,10)
-		if(V_lord)
-			if(V_lord.vamplevel < 4 && !H.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser))
-				to_chat(H, span_userdanger("I can't equip the silver, it is my BANE!"))
-				H.Knockdown(5)
-				H.Paralyze(5)
-				H.adjustFireLoss(25)
-				H.fire_act(1,5)
-		if(W && W.transformed == TRUE)
-			to_chat(H, span_userdanger("I can't equip the silver, it is my BANE!"))
-			H.Knockdown(10)
-			H.Paralyze(10)
-			H.adjustFireLoss(25)
-			H.fire_act(1,10)
-		if(HAS_TRAIT(H, TRAIT_HOLLOW_LIFE))
-			to_chat(H, span_userdanger("I can't equip the silver, for I am one of the damned!"))
-			H.adjustFireLoss(25)
-			H.fire_act(1,10)
-			H.Knockdown(5)
-			H.Paralyze(5)
-
 /obj/item/rogueweapon/huntingknife/stoneknife
 	possible_item_intents = list(/datum/intent/dagger/cut,/datum/intent/dagger/chop)
 	name = "stone knife"
@@ -488,6 +457,28 @@
 	resistance_flags = FLAMMABLE
 
 	picklvl = 0.8
+
+/obj/item/rogueweapon/huntingknife/stoneknife/kukri
+	name = "joapstone kukri"
+	desc = "A kukri made out of joapstone. Its more of a ceremonial piece than it is an implement of war, its somewhat fragile. Be gentle with it."
+	icon = 'icons/roguetown/gems/gem_jade.dmi'
+	icon_state = "kukri_jade"
+	max_integrity = 75
+	max_blade_int = 50
+	wdefense = 3
+	resistance_flags = FIRE_PROOF | ACID_PROOF
+	sellprice = 75
+
+/obj/item/rogueweapon/huntingknife/stoneknife/opalknife
+	name = "opaloise knife"
+	desc = "A beautiful knife carved out of opaloise. Its not intended for combat. It's presence is vital in some Crimson Elven ceremonies."
+	icon = 'icons/roguetown/gems/gem_opal.dmi'
+	icon_state = "knife_opal"
+	max_integrity = 75
+	max_blade_int = 50
+	wdefense = 3
+	resistance_flags = FIRE_PROOF | ACID_PROOF
+	sellprice = 105
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/elvish
 	name = "elvish dagger"
@@ -519,6 +510,7 @@
 	item_state = "elfdag"
 	var/extended = 0
 	wdefense = 2
+	max_integrity = 15
 	sellprice = 30 //shiny :o
 
 	picklvl = 0
@@ -529,6 +521,7 @@
 	if(extended)
 		force = 20
 		wdefense = 6
+		wdefense_dynamic = 6
 		w_class = WEIGHT_CLASS_NORMAL
 		throwforce = 23
 		icon_state = "navaja_o"
@@ -544,6 +537,7 @@
 		attack_verb = list("stubbed", "poked")
 		sharpness = IS_BLUNT
 		wdefense = 2
+		wdefense_dynamic = 2
 
 /obj/item/rogueweapon/huntingknife/throwingknife
 	name = "iron tossblade"
@@ -915,3 +909,16 @@
 			user.overlay_fullscreen("painflash", /atom/movable/screen/fullscreen/painflash)
 			return
 	..()
+
+/obj/item/rogueweapon/huntingknife/cleaver/ogre
+	name = "Meat Choppah"
+	desc = "Any good cook needs to prep their meat. Chop it, slice it, maybe even kill it before you do all that. Meant for the hands of a giant."
+	icon = 'icons/roguetown/weapons/64.dmi'
+	icon_state = "ogre_cleaver"
+	force = 25
+	wbalance = WBALANCE_HEAVY
+	wdefense = 10 //im experimenting here
+	minstr = 13
+	pixel_y = -16
+	pixel_x = -16
+	bigboy = TRUE

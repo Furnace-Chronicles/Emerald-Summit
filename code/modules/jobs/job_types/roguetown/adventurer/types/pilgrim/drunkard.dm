@@ -3,7 +3,7 @@
 	tutorial = "You are a gambler. Everyone in your life has given up on you, and the stress of losing it all over and over has taken its toll on your body. All you have left to your name are some cards, dice and whatever is in this bottle. At least you're still in Baotha's good graces, whether you reciprocate such feelings or not..."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/drunkard
+	outfit = /datum/outfit/job/adventurer/drunkard
 	category_tags = list(CTAG_TOWNER)
 	traits_applied = list(TRAIT_CICERONE)
 	subclass_social_rank = SOCIAL_RANK_DIRT
@@ -28,7 +28,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/drunkard/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/drunkard/pre_equip(mob/living/carbon/human/H)
 	..()
 	pants = /obj/item/clothing/under/roguetown/tights/vagrant
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless

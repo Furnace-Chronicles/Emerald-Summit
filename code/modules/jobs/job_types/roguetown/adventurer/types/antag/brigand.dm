@@ -3,7 +3,7 @@
 	tutorial = "Cast from society, you use your powerful physical might and endurance to take from those who are weaker from you."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/bandit/brigand
+	outfit = /datum/outfit/job/bandit/brigand
 	category_tags = list(CTAG_BANDIT)
 	cmode_music = 'sound/music/combat_bandit_brigand.ogg'
 
@@ -40,7 +40,7 @@
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/bandit/brigand/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/bandit/brigand/pre_equip(mob/living/carbon/human/H)
 	..()
 	if (!(istype(H.patron, /datum/patron/inhumen/zizo) || istype(H.patron, /datum/patron/inhumen/matthios) || istype(H.patron, /datum/patron/inhumen/graggar) || istype(H.patron, /datum/patron/inhumen/baotha)))
 		to_chat(H, span_warning("My former deity has abandoned me.. Matthios is my new master."))
@@ -63,7 +63,7 @@
 	id = /obj/item/scomstone/mattcoin
 	H.adjust_blindness(-3)
 	var/weapons = list("Battleaxe & Cudgel","Flail & Shield")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Battleaxe & Cudgel") //one weapon to hurt people one weapon to kill people

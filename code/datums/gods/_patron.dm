@@ -33,6 +33,9 @@ GLOBAL_LIST_EMPTY(prayers)
 	/// List of traits associated with rank. Trait = Cleric_Tier
 	var/list/traits_tier = list()
 
+	/// List of lines we can pick for miracle healing, for flavor and stuff.
+	var/list/miracle_healing_lines = list()
+
 	var/datum/storyteller/storyteller
 
 /datum/patron/proc/on_gain(mob/living/pious)
@@ -41,6 +44,8 @@ GLOBAL_LIST_EMPTY(prayers)
 	if(HAS_TRAIT(pious, TRAIT_XYLIX))
 		pious.grant_language(/datum/language/thievescant)
 		pious.verbs += /mob/living/carbon/human/proc/emote_ffsalute
+	if (HAS_TRAIT(pious, TRAIT_COMMIE))
+		pious.grant_language(/datum/language/thievescant) // the thieves god people get god damn thieves cant.
 	if (HAS_TRAIT(pious, TRAIT_CABAL))
 		pious.faction |= "cabal"
 
@@ -109,3 +114,7 @@ GLOBAL_LIST_EMPTY(prayers)
 	SHOULD_CALL_PARENT(TRUE)
 	follower.playsound_local(follower, 'sound/misc/notice (2).ogg', 100, FALSE)
 	follower.add_stress(/datum/stressevent/psyprayer)
+
+/// Can we benefit from a situational bonus to our miracles? Returns a list where [0] is TRUE/FALSE and [1] is the bonus.
+/datum/patron/proc/situational_bonus(mob/living/follower, mob/living/target)
+	return list(FALSE, 0)

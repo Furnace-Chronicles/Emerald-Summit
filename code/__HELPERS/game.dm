@@ -312,7 +312,7 @@
 
 /proc/flick_overlay_view(image/I, atom/target, duration) //wrapper for the above, flicks to everyone who can see the target atom
 	var/list/viewing = list()
-	for(var/m in viewers(target))
+	for(var/m in get_hearers_in_view(world.view, target, RECURSIVE_CONTENTS_CLIENT_MOBS))
 		var/mob/M = m
 		if(M.client)
 			viewing += M.client
@@ -515,6 +515,10 @@
 		return FALSE
 
 	return pick(possible_loc)
+
+/// Removes an image from a client's `.images`. Useful as a callback.
+/proc/remove_image_from_client(image/image_to_remove, client/remove_from)
+	remove_from?.images -= image_to_remove
 
 /// Returns this user's display ckey, used in OOC contexts.
 /proc/get_display_ckey(key)

@@ -20,29 +20,24 @@
 	if(isbodypart(def_zone))
 		var/obj/item/bodypart/CBP = def_zone
 		def_zone = CBP.body_zone
-	var/protection = 0
 	var/obj/item/clothing/used
-	var/list/body_parts = list(skin_armor, head, wear_mask, wear_wrists, gloves, wear_neck, cloak, wear_armor, wear_shirt, shoes, wear_pants, backr, backl, belt, s_store, glasses, ears, wear_ring) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
-	for(var/bp in body_parts)
-		if(!bp)
-			continue
-		if(bp && istype(bp , /obj/item/clothing))
-			var/obj/item/clothing/C = bp
-			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
-				if(C.max_integrity)
-					if(C.obj_integrity <= 0)
-						continue
-				var/val = C.armor.getRating(d_type)
-				if(val > 0)
-					if(val > protection)
-						protection = val
-						used = C
+	var/protection = 0
+	used = get_best_worn_armor(def_zone, d_type)
 	if(used)
+		protection = used.armor.getRating(d_type)
 		if(!blade_dulling)
 			blade_dulling = BCLASS_BLUNT
+		if(blade_dulling == BCLASS_PEEL)	//Peel shouldn't be dealing any damage through armor, or to armor itself.
+			used.peel_coverage(def_zone, peeldivisor, src)
+			damage = 0
+			if(def_zone == BODY_ZONE_CHEST)
+				purge_peel(99)
 		if(used.blocksound)
 			playsound(loc, get_armor_sound(used.blocksound, blade_dulling), 100)
 		var/intdamage = damage
+		// Penetrative damage deals significantly less to the armor. Tentative.
+		if((damage + armor_penetration) > protection && d_type != "blunt")
+			intdamage = (damage + armor_penetration) - protection
 		if(intdamfactor != 1)
 			intdamage *= intdamfactor
 		if(d_type == "blunt")
@@ -56,16 +51,13 @@
 				// Apply multiplier if the blessing is active.
 				intdamage = round(intdamage * bless.cursed_item_intdamage)
 		used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
-		if(damage)
-			if(blade_dulling == BCLASS_PEEL)
-				used.peel_coverage(def_zone, peeldivisor)
 	if(physiology)
 		protection += physiology.armor.getRating(d_type)
 	return protection
 
 /mob/living/carbon/human/proc/checkcritarmor(def_zone, d_type)
 	if(!d_type)
-		return 0
+		return FALSE
 	if(isbodypart(def_zone))
 		var/obj/item/bodypart/CBP = def_zone
 		def_zone = CBP.body_zone
@@ -79,6 +71,7 @@
 				if(C.obj_integrity > 1)
 					if(d_type in C.prevent_crits)
 						return TRUE
+
 
 //This proc returns obj/item/clothing, the armor that has "soaked" the crit. Using it for dismemberment check
 /mob/living/carbon/human/proc/checkcritarmorreference(def_zone, bclass)
@@ -223,8 +216,6 @@
 			return spec_return
 	var/obj/item/I
 	var/throwpower = 30
-	if(has_status_effect(/datum/status_effect/buff/clash))
-		bad_guard(span_warning("The thrown object ruins my focus!"))
 	if(istype(AM, /obj/item))
 		I = AM
 		throwpower = I.throwforce
@@ -237,7 +228,23 @@
 		hitpush = FALSE
 		skipcatch = TRUE
 		blocked = TRUE
-	else if(I)
+
+	//Thrown item deflection -- this RETURNS if successful!
+	var/obj/item/W = get_active_held_item()
+	if(!blocked && I && cmode)
+		if(W && get_dir(src, AM) == turn(get_dir(AM, src), 180))	//We are directly facing the thrown item.
+			var/diceroll = (get_skill_level(W.associated_skill)) * 10
+			if(projectile_parry_timer > world.time)
+				diceroll *= 2
+			diceroll = min(diceroll, 90)
+			if(prob(diceroll))
+				var/turf/current_turf = get_turf(I)
+				I.get_deflected(src)
+				do_sparks(2, TRUE, current_turf)
+				visible_message(span_warning("[src] deflects \the [I]!"))
+				return
+
+	if(I && !blocked)
 		if(((throwingdatum ? throwingdatum.speed : I.throw_speed) >= EMBED_THROWSPEED_THRESHOLD) || I.embedding.embedded_ignore_throwspeed_threshold)
 			if(can_embed(I) && prob(I.embedding.embed_chance) && !HAS_TRAIT(src, TRAIT_PIERCEIMMUNE))
 				//throw_alert("embeddedobject", /atom/movable/screen/alert/embeddedobject)
@@ -805,6 +812,27 @@
 
 	for(var/obj/item/I in torn_items)
 		I.take_damage(damage_amount, damage_type, damage_flag, 0)
+
+/// Helper proc that returns the worn item ref that has the highest rating covering the def_zone (targeted zone) for the d_type (damage type)
+/mob/living/carbon/human/proc/get_best_worn_armor(def_zone, d_type)
+	var/protection = 0
+	var/obj/item/clothing/used
+	var/list/body_parts = list(skin_armor, head, wear_mask, wear_wrists, gloves, wear_neck, cloak, wear_armor, wear_shirt, shoes, wear_pants, backr, backl, belt, s_store, glasses, ears, wear_ring) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
+	for(var/bp in body_parts)
+		if(!bp)
+			continue
+		if(bp && istype(bp, /obj/item/clothing))
+			var/obj/item/clothing/C = bp
+			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
+				if(C.max_integrity)
+					if(C.obj_integrity <= 0)
+						continue
+				var/val = C.armor.getRating(d_type)
+				if(val > 0)
+					if(val > protection)
+						protection = val
+						used = C
+	return used
 
 /mob/living/carbon/human/on_fire_stack(seconds_per_tick, datum/status_effect/fire_handler/fire_stacks/fire_handler)
 	//SEND_SIGNAL(src, COMSIG_HUMAN_BURNING)

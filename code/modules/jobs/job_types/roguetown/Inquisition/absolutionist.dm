@@ -5,7 +5,7 @@
 	faction = "Station"
 	total_positions = 1 // THE ONE.
 	spawn_positions = 1
-	allowed_races = RACES_CHURCH_FAVORED_UP_PLUS_WILDKIN		//An incredibly bigoted organization. They would only allow races PSYDON Himself created into such an esteemed role. Aasimar are given a pass, as they consider the Ten to be saints, and Aasimar have far more direct connections to them then the other races. Wildkin allowed for absolver due to sacrificial lamb symbolism.
+	allowed_races = RACES_ABSOLVER //An incredibly bigoted organization. They would only allow races PSYDON Himself created into such an esteemed role. Aasimar are given a pass, as they consider the Ten to be saints, and Aasimar have far more direct connections to them then the other races. Wildkin allowed for absolver due to sacrificial lamb symbolism.
 	disallowed_races = list(
 		/datum/species/lamia,
 		/datum/species/harpy,
@@ -13,7 +13,7 @@
 	allowed_patrons = list(/datum/patron/old_god) //You MUST have a Psydonite character to start. Just so people don't get japed into Oops Suddenly Psydon!
 	tutorial = "The Orthodoxy claims you are naught more than a 'cleric', but you know the truth; you are a sacrifical lamb. Your hands, unmarred through prayer and pacifism, have been gifted with the power to manipulate lux - to siphon away the wounds of others, so that you may endure in their stead. Let your censer's light shepherd the Inquisitor's retinue forth, lest they're led astray by wrath and temptation."
 	selection_color = JCOLOR_INQUISITION
-	outfit = /datum/outfit/job/roguetown/absolver
+	outfit = /datum/outfit/job/absolver
 	display_order = JDO_ABSOLVER
 	min_pq = 13 // Low potential for grief. A pacifist by trade. Also needs to know wtf a PSYDON is.
 	max_pq = null
@@ -25,7 +25,6 @@
 
 	virtue_restrictions = list(
 		/datum/virtue/combat/hollow_life,
-		/datum/virtue/combat/vampire,
 	)
 
 	job_traits = list(
@@ -48,7 +47,7 @@
 /datum/advclass/absolver
 	name = "Absolver"
 	tutorial = "The Orthodoxy claims you are naught more than a 'cleric', but you know the truth; you are a sacrifical lamb. Your hands, unmarred through prayer and pacifism, have been gifted with the power to manipulate lux - to siphon away the wounds of others, so that you may endure in their stead. Let your censer's light shepherd the Inquisitor's retinue forth, lest they're led astray by wrath and temptation."
-	outfit = /datum/outfit/job/roguetown/absolver/basic
+	outfit = /datum/outfit/job/absolver/basic
 	subclass_languages = list(/datum/language/otavan)
 	category_tags = list(CTAG_ABSOLVER)
 	subclass_stats = list(
@@ -86,7 +85,7 @@
 			H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/qsabsolution)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 
-/datum/outfit/job/roguetown/absolver/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/absolver/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 

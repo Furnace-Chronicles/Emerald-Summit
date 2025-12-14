@@ -3,7 +3,7 @@
 	tutorial = "You have rejected society and its laws, choosing life in the wilderness instead. Simple thieving highwayman or freedom fighter, you take from those who have and give to the have-nots. Fancy, how the latter includes yourself!"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/wretch/poacher
+	outfit = /datum/outfit/job/wretch/poacher
 	cmode_music = 'sound/music/combat_poacher.ogg'
 	category_tags = list(CTAG_WRETCH)
 
@@ -37,7 +37,7 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/wretch/poacher/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/wretch/poacher/pre_equip(mob/living/carbon/human/H)
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/matt
 	mask = /obj/item/clothing/mask/rogue/wildguard
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
@@ -60,7 +60,7 @@
 		/obj/item/rope/chain = 1,
 		)
 	var/weapons = list("Dagger","Axe", "Cudgel", "My Bow Is Enough")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Dagger")

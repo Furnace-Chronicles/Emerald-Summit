@@ -753,3 +753,11 @@
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
 	flags_inv = HIDECROTCH|HIDEBOOB
+
+/obj/item/clothing/suit/roguetown/shirt/ogre
+	name = "gigantic shirt"
+	desc = "This thing's three times the size of a normal human body!"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/32x64/ogre_onmob_sleeves.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	icon_state = "ogre_shirt"
+	allowed_race = OGRE_RACE_TYPES

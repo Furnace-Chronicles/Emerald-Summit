@@ -13,7 +13,7 @@
 	origin_default = /datum/virtue/origin/grenzelhoft
 	origin = "Grenzelhoft"
 	use_titles = TRUE
-	race_titles = list("Half-Cat", "Half-Dog", "Half-Volf", "Half-Lion", "Half-Venard", "Half-Tiger", "Half-Sheep", "Half-Goat", "Half-Rous", "Half-Possum", "Half-Pig", "Half-Boar", "Half-Rabbit", "Half-Horse", "Half-Donkey", "Half-Hyena", "Half-Deer", "Half-Bear", "Half-Panda", "Half-Coyote", "Half-Moose", "Half-Jackal", "Half-Panther", "Half-Lynx", "Half-Leopard", "Half-Monkey", "Half-Bird", "Half-Seal", "Half-Bat", "Half-Otter", "Half-Cow", "Half-Bull", "Half-Monster", "Kitsune")
+	race_titles = list("Half-Cat", "Half-Dog", "Half-Volf", "Half-Lion", "Half-Venard", "Half-Tiger", "Half-Sheep", "Half-Goat", "Half-Rous", "Half-Possum", "Half-Pig", "Half-Boar", "Half-Rabbit", "Half-Cabbit", "Half-Horse", "Half-Donkey", "Half-Hyena", "Half-Deer", "Half-Bear", "Half-Panda", "Half-Coyote", "Half-Moose", "Half-Jackal", "Half-Panther", "Half-Lynx", "Half-Leopard", "Half-Monkey", "Half-Bird", "Half-Seal", "Half-Bat", "Half-Otter", "Half-Cow", "Half-Bull", "Half-Monster", "Kitsune")
 	base_name = "Humen"
 	desc = "<b>Half-Kin: A Beastblood Thinned	</b><br>\
 	The result of union between the major or minor furskinned species, and the humanlike races of the world. \

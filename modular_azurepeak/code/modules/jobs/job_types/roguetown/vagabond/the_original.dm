@@ -3,7 +3,7 @@
 	tutorial = "Fate's twists and turns lead many towards a wanderer's life. Find your fortunes in the shadows or in the pockets of another."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/vagabond/original
+	outfit = /datum/outfit/job/vagabond/original
 	category_tags = list(CTAG_VAGABOND)
 
 	subclass_stats = list(
@@ -18,7 +18,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 	)
 
-/datum/outfit/job/roguetown/vagabond/original/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/vagabond/original/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/rags

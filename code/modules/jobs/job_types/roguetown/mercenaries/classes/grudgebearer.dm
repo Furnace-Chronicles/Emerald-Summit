@@ -7,7 +7,7 @@
 		/datum/species/dwarf,
 		/datum/species/dwarf/mountain
 	)
-	outfit = /datum/outfit/job/roguetown/mercenary/grudgebearer
+	outfit = /datum/outfit/job/mercenary/grudgebearer
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_RACIAL
 	cmode_music = 'sound/music/combat_dwarf.ogg'
@@ -41,7 +41,7 @@
 	)
 
 //Because the armor is race-exclusive for repairs, these guys *should* be able to repair their own guys armor layers. A Dwarf smith isn't guaranteed, after all.
-/datum/outfit/job/roguetown/mercenary/grudgebearer/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/grudgebearer/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
 		shoes = /obj/item/clothing/shoes/roguetown/boots/armor/dwarven
@@ -72,7 +72,7 @@
 /datum/advclass/mercenary/grudgebearer/soldier
 	name = "Grudgebearer Soldier"
 	tutorial = "Bound by eternal grudges of eons past that have not been forgotten, the Grudgebearers are left to wander the surface, as every other clan has a grudge against you, and you against them. This putrid swampland of a Duchy has also wronged you and your people, you care little for it. Coins are a means to an end -- something you can mine and forge yourself. Trinkets -- made by true smiths, now that will carry respect among your clan. However, such artifacts might not buy you food, or a roof."
-	outfit = /datum/outfit/job/roguetown/mercenary/grudgebearer_soldier
+	outfit = /datum/outfit/job/mercenary/grudgebearer_soldier
 
 	traits_applied = list(TRAIT_HEAVYARMOR)
 	subclass_stats = list(
@@ -97,7 +97,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/mercenary/grudgebearer_soldier/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/grudgebearer_soldier/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
 
@@ -120,7 +120,7 @@
 			/obj/item/natural/feather,
 			)
 		var/weapons = list("Warpick + Dwarven Shield", "Warhammer + Dwarven Shield", "Battle Axe + Dwarven Shield", "Great Axe", "Grandmace")
-		var/wepchoice = input("Choose your weapon", "Available weapons") as anything in weapons
+		var/wepchoice = input(H, "Choose your weapon", "Available weapons") as anything in weapons
 		switch(wepchoice)
 
 			if("Warpick + Dwarven Shield")

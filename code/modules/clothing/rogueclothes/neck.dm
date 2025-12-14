@@ -41,7 +41,7 @@
 	item_state = "coif"
 	max_integrity = 125
 	flags_inv = HIDEHAIR
-	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD
 	blocksound = SOFTHIT
 	body_parts_covered = NECK|HAIR|EARS|HEAD
 	armor = ARMOR_LEATHER
@@ -62,7 +62,7 @@
 	item_state = "coif" // Lacks its own sprite/grey-sprite.
 	max_integrity = 100
 	flags_inv = HIDEHAIR
-	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD
 	blocksound = SOFTHIT
 	body_parts_covered = NECK|HAIR|EARS|HEAD
 	armor = ARMOR_PADDED_BAD
@@ -97,7 +97,7 @@
 	flags_inv = HIDEHAIR
 	armor = ARMOR_MAILLE
 	resistance_flags = FIRE_PROOF
-	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD
 	body_parts_covered = NECK|HAIR|EARS|HEAD
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
 	adjustable = CAN_CADJUST
@@ -706,3 +706,73 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	grid_width = 32
 	grid_height = 32
+
+/obj/item/clothing/neck/roguetown/carved
+	name = "carved amulet"
+	desc = "You shouldn't be seeing this."
+	icon_state = "psycross_w"
+	item_state = "psycross_w"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 0
+
+/obj/item/clothing/neck/roguetown/carved/jadeamulet
+	name = "joapstone amulet"
+	desc = "An amulet carved from joapstone."
+	icon_state = "amulet_jade"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 60
+
+/obj/item/clothing/neck/roguetown/carved/turqamulet
+	name = "ceruleabaster amulet"
+	desc = "An amulet carved from ceruleabaster."
+	icon_state = "amulet_turq"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 85
+
+/obj/item/clothing/neck/roguetown/carved/onyxaamulet
+	name = "onyxa amulet"
+	desc = "An amulet carved from onyxa."
+	icon_state = "amulet_onyxa"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 40
+
+/obj/item/clothing/neck/roguetown/carved/coralamulet
+	name = "aoetal amulet"
+	desc = "An amulet carved from aoetal."
+	icon_state = "amulet_coral"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 70
+
+/obj/item/clothing/neck/roguetown/carved/amberamulet
+	name = "petriamber amulet"
+	desc = "An amulet carved from petriamber."
+	icon_state = "amulet_amber"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 60
+
+/obj/item/clothing/neck/roguetown/carved/opalamulet
+	name = "opaloise amulet"
+	desc = "An amulet carved from opaloise."
+	icon_state = "amulet_opal"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 90
+
+/obj/item/clothing/neck/roguetown/carved/roseamulet
+	name = "rosellusk amulet"
+	desc = "An amulet carved from rosellusk."
+	icon_state = "amulet_rose"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 25
+
+/obj/item/clothing/neck/roguetown/carved/shellamulet
+	name = "shell amulet"
+	desc = "An amulet carved from shells."
+	icon_state = "amulet_shell"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 25
+/obj/item/clothing/neck/roguetown/gorget/steel/ogre
+	name = "weirdly big gorget"
+	desc = "It might be possible to fit this ontop of some human shoulders."
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	icon_state = "ogre_gorget"
+	allowed_race = OGRE_RACE_TYPES

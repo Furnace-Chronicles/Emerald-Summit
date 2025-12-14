@@ -4,7 +4,7 @@
 	only after building a forge for themselves of course"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/blacksmith
+	outfit = /datum/outfit/job/adventurer/blacksmith
 	subclass_social_rank = SOCIAL_RANK_YEOMAN
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
@@ -38,7 +38,7 @@
 		/datum/skill/craft/smelting = SKILL_LEVEL_EXPERT,
 	)
 
-/datum/outfit/job/roguetown/adventurer/blacksmith/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/blacksmith/pre_equip(mob/living/carbon/human/H)
 	..()
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/rogueweapon/hammer/iron

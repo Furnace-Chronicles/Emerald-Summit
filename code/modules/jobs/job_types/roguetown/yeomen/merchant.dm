@@ -11,7 +11,7 @@
 
 	display_order = JDO_MERCHANT
 
-	outfit = /datum/outfit/job/roguetown/merchant
+	outfit = /datum/outfit/job/merchant
 	give_bank_account = 22
 	noble_income = 100 // Guild Support - The sole Money Role outside of the keep, should help them keep pace a bit + pick up if they get completely knocked out of coin.
 	min_pq = 10
@@ -37,7 +37,7 @@
 	Counting coins is a simple pleasure for any person, but you've made it an art form. \
 	These people are addicted to your wares, and you are the literal beating heart of this economy: \
 	Don't let these filth-covered troglodytes ever forget that."
-	outfit = /datum/outfit/job/roguetown/merchant/basic
+	outfit = /datum/outfit/job/merchant/basic
 	category_tags = list(CTAG_MERCH)
 
 	subclass_stats = list(
@@ -63,7 +63,7 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/merchant/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/merchant/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 

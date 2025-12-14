@@ -14,7 +14,7 @@
 
 	tutorial = "Dancing, music, or practicioners of the body. You've worked up a reputation as an entertainer, and sometime in life, the bathmaster has chosen to onboard you for one of these talents. In the bathhouse, your place on the hierarchy is determined by how long you've been in the game - and how much mammon you're worth."
 
-	outfit = /datum/outfit/job/roguetown/nightmaiden
+	outfit = /datum/outfit/job/nightmaiden
 	advclass_cat_rolls = list(CTAG_NIGHTMAIDEN = 20)
 	display_order = JDO_WENCH
 	give_bank_account = TRUE
@@ -31,14 +31,14 @@
 		/datum/advclass/nightmaiden/courtesan
 	)
 
-/datum/outfit/job/roguetown/nightmaiden
+/datum/outfit/job/nightmaiden
 	name = "Nightmaiden"
 	// This is just a base outfit, the actual outfits are defined in the advclasses
 
 /datum/advclass/nightmaiden
 	name = "Bathmaid"
 	tutorial = "A fresh initiate, most would decry the humble bath maid as a desperate fool tempting others into bedsheets for money--only sometimes, you say! You work underneath your betters in the communal bathhouse, keeping it and the guests in turn as tidy as they please. Wash laundry, tend mild wounds, and deftly wash your patrons with soap, for this is your craft."
-	outfit = /datum/outfit/job/roguetown/nightmaiden/attendant
+	outfit = /datum/outfit/job/nightmaiden/attendant
 	category_tags = list(CTAG_NIGHTMAIDEN)
 
 	traits_applied = list(TRAIT_NUTCRACKER, TRAIT_CICERONE)
@@ -69,7 +69,7 @@
 		/datum/language/thievescant,
 	)
 
-/datum/outfit/job/roguetown/nightmaiden/attendant/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/nightmaiden/attendant/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/armingcap
 	neck = /obj/item/clothing/neck/roguetown/collar/leather
@@ -93,7 +93,7 @@
 /datum/advclass/nightmaiden/harlot
 	name = "Harlot"
 	tutorial = "You're no stranger to selling your flesh, a veteran whore who's done your business in back alleys and brothels long enough to know the game. Yours has been a hard life, and you've learned a few things doing what you've needed to survive. You may not be fit for a noble's bed, but the workers and soldiers pay well enough."
-	outfit = /datum/outfit/job/roguetown/nightmaiden/harlot
+	outfit = /datum/outfit/job/nightmaiden/harlot
 	category_tags = list(CTAG_NIGHTMAIDEN)
 
 	traits_applied = list(TRAIT_LIGHT_STEP, TRAIT_NUTCRACKER)
@@ -124,7 +124,7 @@
 		/datum/language/thievescant,
 	)
 
-/datum/outfit/job/roguetown/nightmaiden/harlot/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/nightmaiden/harlot/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/armingcap
 	neck = /obj/item/clothing/neck/roguetown/collar/leather
@@ -151,7 +151,7 @@
 /datum/advclass/nightmaiden/courtesan
 	name = "Courtesan"
 	tutorial = "Overcoming mind games, deceit and competition, you came into your own as one of the bathhouse's most prized moneymakers and socialites. Dressed in lavish gifts left behind by your patrons, not just anyone can have you. Under the matron, you do most of the social heavylifting and provide entertainment of all forms - behind a heavy price tag. "
-	outfit = /datum/outfit/job/roguetown/nightmaiden/courtesan
+	outfit = /datum/outfit/job/nightmaiden/courtesan
 	category_tags = list(CTAG_NIGHTMAIDEN)
 	subclass_social_rank = SOCIAL_RANK_PEASANT
 
@@ -180,7 +180,7 @@
 		/datum/language/thievescant,
 	)
 
-/datum/outfit/job/roguetown/nightmaiden/courtesan/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/nightmaiden/courtesan/pre_equip(mob/living/carbon/human/H)
 	..()
 	var/pinroll = rand(1, 20)
 	switch(pinroll)
@@ -220,7 +220,7 @@
 		shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
 
 	var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Flute","Trumpet")
-	var/weapon_choice = input("Choose your instrument.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Harp")

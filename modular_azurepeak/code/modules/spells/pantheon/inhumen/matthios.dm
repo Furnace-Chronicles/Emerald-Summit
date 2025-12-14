@@ -229,7 +229,6 @@
 	recharge_time = 2 MINUTES
 	range = 4
 
-
 /obj/effect/proc_holder/spell/invoked/churnwealthy/cast(list/targets, mob/living/user)
 	if(ishuman(targets[1]))
 		var/mob/living/carbon/human/target = targets[1]
@@ -241,54 +240,65 @@
 		var/mammonsonperson = get_mammons_in_atom(target)
 		var/mammonsinbank = SStreasury.bank_accounts[target]
 		var/totalvalue = mammonsinbank + mammonsonperson
+
 		if(HAS_TRAIT(target, TRAIT_NOBLE))
 			totalvalue += 101 // We're ALWAYS going to do a medium level smite minimum to nobles.
-		if(totalvalue <=10)
-			to_chat(user, "<font color='yellow'>[target] one has no wealth to hold against them.</font>")
-			revert_cast()
-			return
-		if(totalvalue <=30)
-			user.say("Wealth becomes woe!")
-			target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth burning at my soul!"))
-			target.adjustFireLoss(30)
-			playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
-			return
-		if(totalvalue <=60)
-			user.say("Wealth becomes woe!")
-			target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth burning at my soul!"))
-			target.adjustFireLoss(60)
-			playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
-			return
-		if(totalvalue <=100)
-			user.say("Wealth becomes woe!")
-			target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth burning at my soul!"))
-			target.adjustFireLoss(80)
-			target.Stun(20)
-			playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
-			return
-		if(totalvalue <=200)
-			user.say("The Free-God rebukes!")
-			target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth tearing at my soul!"))
-			target.adjustFireLoss(100)
-			target.adjust_fire_stacks(7, /datum/status_effect/fire_handler/fire_stacks/divine)
-			target.Stun(20)
-			target.ignite_mob()
-			playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
-			return
-		if(totalvalue <=500)
-			user.say("The Free-God rebukes!")
-			target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth tearing at my soul!"))
-			target.adjustFireLoss(120)
-			target.adjust_fire_stacks(9, /datum/status_effect/fire_handler/fire_stacks/divine)
-			target.ignite_mob()
-			target.Stun(40)
-			playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
-			return
-		if(totalvalue >= 501)
-			target.visible_message(span_danger("[target] is smited with holy light!"), span_userdanger("I feel the weight of my wealth rend my soul apart!"))
-			user.say("Your final transaction! The Free-God rebukes!!")
-			target.Stun(60)
+
+		var/fire_dmg = 0
+		var/oxy_dmg = 0
+		var/stun_to_apply = 0
+		var/thing_to_say = "Wealth becomes woe!"
+		var/fire_stacks = 0
+
+		switch (totalvalue)
+			if (0 to 10)
+				to_chat(user, "<font color='yellow'>[target] one has no wealth to hold against them.</font>")
+				revert_cast()
+				return
+			if (11 to 30)
+				fire_dmg = 30
+			if (31 to 60)
+				fire_dmg = 60
+			if (61 to 100)
+				thing_to_say = "The Free-God rebukes!"
+				fire_dmg = 80
+				stun_to_apply = 20
+			if (101 to 200)
+				fire_dmg = 100
+				stun_to_apply = 20
+				fire_stacks = 7
+			if (201 to 500)
+				fire_dmg = 120
+				fire_stacks = 9
+				stun_to_apply = 40
+			if (501 to INFINITY)
+				thing_to_say = "YOUR FINAL TRANSACTION! THE FREE-GOD REBUKES!!"
+				stun_to_apply = 60
+				fire_stacks = 10
+				fire_dmg = 150
+				oxy_dmg = 50
+				explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
+
+		if (thing_to_say)
+			user.say(thing_to_say)
+
+		if (fire_dmg)
+			target.adjustFireLoss(fire_dmg)
+		
+		if (oxy_dmg)
+			target.adjustOxyLoss(oxy_dmg)
+
+		var/combined_dmg = fire_dmg + oxy_dmg
+
+		if (combined_dmg >= 150)
 			target.emote("agony")
-			playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
-			explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
-			return
+
+		if (stun_to_apply)
+			target.Stun(stun_to_apply)
+		
+		if (fire_stacks)
+			target.adjust_fire_stacks(fire_stacks, /datum/status_effect/fire_handler/fire_stacks/divine)
+			target.ignite_mob()
+		
+		target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth burning at my soul!"))
+		playsound(user, 'sound/magic/churn.ogg', 100, TRUE)

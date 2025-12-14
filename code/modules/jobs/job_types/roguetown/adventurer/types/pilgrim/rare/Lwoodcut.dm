@@ -7,7 +7,7 @@
 	so they don't wander in the forest."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/masterwoodcutter
+	outfit = /datum/outfit/job/adventurer/masterwoodcutter
 	maximum_possible_slots = 1
 	pickprob = 5
 	category_tags = list(CTAG_TOWNER)
@@ -37,7 +37,7 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/masterwoodcutter/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/masterwoodcutter/pre_equip(mob/living/carbon/human/H)
 	..()
 	belt = /obj/item/storage/belt/rogue/leather
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt/random

@@ -199,13 +199,14 @@
 		if(C.flying)
 			var/turf/open/transparent/openspace/turf_above = get_step_multiz(C, UP)
 			if(C.canZMove(UP, turf_above))
-				if(do_after(C, 3))
-					var/athletics_skill = max(C.get_skill_level(/datum/skill/misc/athletics), SKILL_LEVEL_NOVICE)
-					var/stamina_cost_final = round((10 - athletics_skill), 1)
-					C.stamina_add(stamina_cost_final)
-					var/mob/living/carbon/human/pulling = C.pulling
-					if(ismob(pulling))
-						C.pulling.forceMove(turf_above)
+				var/athletics_skill = max(C.get_skill_level(/datum/skill/misc/athletics), SKILL_LEVEL_NOVICE)
+				var/stamina_cost_final = round((10 - athletics_skill), 1)
+				var/mob/living/carbon/human/pulling = C.pulling
+				var/time_taken = 1.5 SECONDS
+				if(ismob(pulling))
+					stamina_cost_final *= 2 //double our stamina cost if we're pulling someone with us
+					time_taken *= 2
+				if(do_after(C, time_taken))
 					C.forceMove(turf_above)
 					C.start_pulling(pulling, state = 1, supress_message = TRUE)
 					if(C.pulling)
@@ -213,11 +214,14 @@
 						var/obj/item/grabbing/I = C.get_inactive_held_item()
 						if(istype(I, /obj/item/grabbing/))
 							I.icon_state = null
+						if(ismob(C.pulling))
+							C.pulling.forceMove(turf_above)
+					C.stamina_add(stamina_cost_final)
 					to_chat(C, span_notice("I fly upwards."))
 			else
 				to_chat(C, span_red("I can't fly up there!!"))
 		else
-			to_chat(C, span_red("I can't farking fly!!"))
+			to_chat(C, span_red("I'm not flying!"))
 	else if(istype(user.mob, /mob/living/simple_animal/hostile/retaliate/bat))
 		var/mob/living/simple_animal/hostile/retaliate/bat/mobius = user.mob
 		var/turf/open/transparent/openspace/turf_above = get_step_multiz(mobius, UP)
@@ -246,13 +250,14 @@
 		if(C.flying)
 			var/turf/open/transparent/openspace/turf_below = get_step_multiz(C, DOWN)
 			if(C.canZMove(DOWN, turf_below))
-				if(do_after(C, 3))
-					var/athletics_skill = max(C.get_skill_level(/datum/skill/misc/athletics), SKILL_LEVEL_NOVICE)
-					var/stamina_cost_final = round((10 - athletics_skill), 1)
-					C.stamina_add(stamina_cost_final)
-					var/mob/living/carbon/human/pulling = C.pulling
-					if(ismob(pulling))
-						C.pulling.forceMove(turf_below)
+				var/athletics_skill = max(C.get_skill_level(/datum/skill/misc/athletics), SKILL_LEVEL_NOVICE)
+				var/stamina_cost_final = round((10 - athletics_skill), 1)
+				var/mob/living/carbon/human/pulling = C.pulling
+				var/time_taken = 1.5 SECONDS
+				if(ismob(pulling))
+					stamina_cost_final *= 2 //double our stamina cost if we're pulling someone with us
+					time_taken *= 2
+				if(do_after(C, time_taken))
 					C.forceMove(turf_below)
 					C.start_pulling(pulling, state = 1, supress_message = TRUE)
 					if(C.pulling)
@@ -260,11 +265,14 @@
 						var/obj/item/grabbing/I = C.get_inactive_held_item()
 						if(istype(I, /obj/item/grabbing/))
 							I.icon_state = null
+						if(ismob(C.pulling))
+							C.pulling.forceMove(turf_below)
+					C.stamina_add(stamina_cost_final)
 					to_chat(C, span_notice("I fly downwards."))
 			else
-				to_chat(C, span_red("I can't fly up there!!"))
+				to_chat(C, span_red("I can't fly down there!!"))
 		else
-			to_chat(C, span_red("I can't farking fly!!"))
+			to_chat(C, span_red("I'm not flying!"))
 	else if(istype(user.mob, /mob/living/simple_animal/hostile/retaliate/bat))
 		var/mob/living/simple_animal/hostile/retaliate/bat/mobius = user.mob
 		var/turf/open/transparent/openspace/turf_below = get_step_multiz(mobius, DOWN)

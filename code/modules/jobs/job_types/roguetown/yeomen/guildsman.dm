@@ -11,7 +11,7 @@
 	allowed_races = RACES_ALL_KINDS
 	tutorial = "You are a member of the Scarlet Reach Guild of Crafts, a massive guild formed to represent the interests of all craftsmen in the township of Scarlet Reach.\
 	As a Guildsman, you hail from the three most important constituent guilds: The Smith's Guild, the Artificer's Guild, and the Architect's Guild. The Guildsmaster has sway over you, but it is not absolute."
-	outfit = /datum/outfit/job/roguetown/guildsman
+	outfit = /datum/outfit/job/guildsman
 	selection_color = JCOLOR_YEOMAN
 	display_order = JDO_GUILDSMAN
 	give_bank_account = 15
@@ -30,7 +30,7 @@
 /datum/advclass/guildsman/blacksmith
 	name = "Guild Blacksmith"
 	tutorial = "You've studied for many yils under quite a number of master smiths. Whether it's cookware or tools of war, you're unmatched at the art of bending metal to your will."
-	outfit = /datum/outfit/job/roguetown/guildsman/blacksmith
+	outfit = /datum/outfit/job/guildsman/blacksmith
 
 	category_tags = list(CTAG_GUILDSMEN)
 
@@ -56,7 +56,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/guildsman/blacksmith/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/guildsman/blacksmith/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/hatfur
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith
@@ -94,7 +94,7 @@
 	tutorial = "You are an Artificer, oft known by the longer name of Artificer-Enchanter. You have basic training in the arts of smithing, and can substitute for a blacksmith's work if needed.\
 	But your true calling is the creation and enchantment of magical items, alongside feats of engineering, creating mechanical and magical wonders whose art of creation has been passed down\
 	from a certain elven Artificer..."
-	outfit = /datum/outfit/job/roguetown/guildsman/artificer
+	outfit = /datum/outfit/job/guildsman/artificer
 	category_tags = list(CTAG_GUILDSMEN)
 
 	traits_applied = list(TRAIT_ARCYNE_T1, TRAIT_PEASANTMILITIA)
@@ -125,7 +125,7 @@
 		/datum/skill/misc/ceramics = SKILL_LEVEL_JOURNEYMAN,	//Just for basic pottery/glass stuff.
 	)
 
-/datum/outfit/job/roguetown/guildsman/artificer/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/guildsman/artificer/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	head = /obj/item/clothing/head/roguetown/articap
@@ -161,7 +161,7 @@
 	name = "Guild Architect"
 	tutorial = "You are a Guild Architect, a master of the art of building and construction. You build castles, fortifications and entire cities with your own hands. And you know how to source those materials yourself too.\
 	When there is no construction work around, your fellow Guildsmen appreciate your help with gathering materials."
-	outfit = /datum/outfit/job/roguetown/guildsman/architect
+	outfit = /datum/outfit/job/guildsman/architect
 	category_tags = list(CTAG_GUILDSMEN)
 
 	traits_applied = list(TRAIT_PEASANTMILITIA)
@@ -192,7 +192,7 @@
 		/datum/skill/misc/ceramics = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/guildsman/architect/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/guildsman/architect/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	head = /obj/item/clothing/head/roguetown/hatblu

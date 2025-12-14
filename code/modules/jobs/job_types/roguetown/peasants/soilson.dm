@@ -19,7 +19,7 @@
 
 
 	f_title = "Soilbride"
-	outfit = /datum/outfit/job/roguetown/farmer
+	outfit = /datum/outfit/job/farmer
 	display_order = 24
 	give_bank_account = 17
 	min_pq = -10
@@ -37,7 +37,7 @@
 /datum/advclass/soilson
 	name = "Soilson"
 	tutorial = "It is a simple life you live, your basic understanding of life is something many would be envious of if they knew just how perfect it was. You know a good day's work, the sweat on your brow is yours: Famines and plague may take their toll, but you know how to celebrate life well. Till the soil and produce fresh food for those around you, and maybe you'll be more than an unsung hero someday."
-	outfit = /datum/outfit/job/roguetown/farmer/basic
+	outfit = /datum/outfit/job/farmer/basic
 	category_tags = list(CTAG_SOILBRIDE)
 
 	subclass_stats = list(
@@ -67,7 +67,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/farmer/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/farmer/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/armingcap
 	mask = /obj/item/clothing/head/roguetown/roguehood

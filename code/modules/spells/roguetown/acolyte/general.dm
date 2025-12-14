@@ -6,7 +6,7 @@
 	releasedrain = 30
 	chargedrain = 0
 	chargetime = 0
-	range = 4
+	range = 7
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = 'sound/magic/heal.ogg'
@@ -16,6 +16,7 @@
 	recharge_time = 10 SECONDS
 	miracle = TRUE
 	devotion_cost = 10
+	var/base_healing = 2.5 // how much we heal per tick
 
 /obj/effect/proc_holder/spell/invoked/lesser_heal/free //using this for a simplemob spell
 	releasedrain = 0
@@ -47,204 +48,151 @@
 
 	return most_damaged_limb
 
+/obj/effect/proc_holder/spell/invoked/lesser_heal/proc/range_check(mob/living/carbon/human/user, mob/living/target)
+	// we can only miracle someone if we're adjacent to them, unless we're a t4 cleric
+	if (target == user) // we can always lay hands on ourself
+		return TRUE
+
+	if (user.devotion?.level == CLERIC_T4)
+		if (get_dist(user, target) >= range)
+			to_chat(user, span_warning("I need to be closer to them to call forth a healing miracle!"))
+			return FALSE
+		return TRUE
+	
+	if (!user.Adjacent(target))
+		to_chat(user, span_warning("I need to be beside them to perform miraculous healing!"))
+		return FALSE
+	
+	return TRUE	
+
+/obj/effect/proc_holder/spell/invoked/lesser_heal/proc/can_heal(mob/living/user, mob/living/target)
+	if (!range_check(user, target))
+		revert_cast()
+		return FALSE
+
+	if(HAS_TRAIT(target, TRAIT_PSYDONITE))
+		target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+		user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		return FALSE
+
+	if(user.patron?.undead_hater && (target.mob_biotypes & MOB_UNDEAD)) //positive energy harms the undead
+		target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I'm burned by holy light!"))
+		target.adjustFireLoss(10)
+		target.fire_act(1,10)
+		return FALSE
+
+	if(target.has_status_effect(/datum/status_effect/buff/healing))
+		to_chat(user, span_warning("They are already under the effects of a healing aura!"))
+		revert_cast()
+		return FALSE
+
+	var/is_divine = ispath(user.patron?.type, /datum/patron/divine)
+	if(is_divine && (target.real_name in GLOB.excommunicated_players))
+		to_chat(user, span_danger("The gods recoil from [target]! Divine fire scorches your hands as your plea is rejected!"))
+		target.visible_message(span_danger("[target] is seared by divine wrath! The gods hate them!"), span_userdanger("I am seared by divine wrath! The gods hate me!"))
+		revert_cast()
+		return FALSE
+
+	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/lesser_heal/proc/check_embeds(mob/living/target, mob/living/user)
+	var/no_embeds = TRUE
+	var/list/embeds = target.get_embedded_objects()
+	if(length(embeds))
+		for(var/object in embeds)
+			if(!istype(object, /obj/item/natural/worms/leech))	//Leeches and surgical cheeles are made an exception.
+				no_embeds = FALSE
+	else
+		no_embeds = TRUE
+
+	return no_embeds
+
+/obj/effect/proc_holder/spell/invoked/lesser_heal/proc/apply_healing(mob/living/target, mob/living/user, amount)
+	if (ishuman(target))
+		var/no_embeds = check_embeds(target, user)
+		if(no_embeds)
+			// Always apply the status effect for visual effects
+			target.apply_status_effect(/datum/status_effect/buff/healing, amount)
+
+			// Find and heal the most damaged limb
+			var/obj/item/bodypart/most_damaged_limb = get_most_damaged_limb(target)
+			if(most_damaged_limb && most_damaged_limb.get_damage() > 0)
+				most_damaged_limb.heal_damage(amount * 2, amount * 2, amount * 2)
+				target.update_damage_overlays()
+				to_chat(target, span_notice("The miracle mends my [most_damaged_limb.name]!"))
+		else
+			target.visible_message(span_warning("The wounds tear and rip around the embedded objects!"), span_warning("Agonising pain shoots through your body as magycks try to sew around the embedded objects!"))
+			target.adjustBruteLoss(20)
+			playsound(target, 'sound/combat/dismemberment/dismem (2).ogg', 100)
+			target.emote("agony")
+	else
+		target.apply_status_effect(/datum/status_effect/buff/healing, amount)
+
+	charge_counter = 0
+	if(action)
+		action.UpdateButtonIcon()
+
+	var/the_line = pick(user.patron.miracle_healing_lines)
+	the_line = replacetext(the_line, "%TARGET", "[target]")
+	target.visible_message(span_info(the_line))
+
+/obj/effect/proc_holder/spell/invoked/lesser_heal/proc/get_situational_bonus(mob/living/user, mob/living/target)
+	var/situational_info = user.patron.situational_bonus(user, target)
+	var/conditional_buff = situational_info[1] ? TRUE : FALSE
+	var/situational_bonus = situational_info[2] ? situational_info[2] : 0
+
+	var/healing = base_healing
+	if (conditional_buff)
+		to_chat(user, span_info("Channeling my patron's power is easier in these conditions!"))
+		healing += situational_bonus
+	
+	return healing
+
 /obj/effect/proc_holder/spell/invoked/lesser_heal/cast(list/targets, mob/living/user)
 	. = ..()
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
-		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
-			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
-			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		var/mob/living/carbon/human/H = user
+
+		if (!user.patron || !H)
 			return FALSE
-		if(user.patron?.undead_hater && (target.mob_biotypes & MOB_UNDEAD)) //positive energy harms the undead
-			target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I'm burned by holy light!"))
-			target.adjustFireLoss(10)
-			target.fire_act(1,10)
+		
+		// perform all of our pre-heal checks inside can_heal, including revert_casts, if needed
+		if (!can_heal(user, target))
+			return FALSE
+		
+		if (target != user)
+			if (H.devotion?.level == CLERIC_T4)
+				user.visible_message(span_notice("[user] gestures towards [target] with a whispered prayer!"))
+			else
+				user.visible_message(span_notice("[user] lays their hands upon [target], willing flesh and bone to mend..."))
+
+			var/datum/beam/healing_beam = user.Beam(target, icon_state="medbeam", time=5 MINUTES)
+			apply_healing(target, user, get_situational_bonus(user, target))
+			playsound(target, 'sound/magic/heal.ogg', 100)
+			while (do_after(user, 10.5 SECONDS, target = target))
+				if (H.devotion?.check_devotion(src))
+					if (can_heal(user, target))
+						playsound(target, 'sound/magic/heal.ogg', 100)
+						apply_healing(target, user, get_situational_bonus(user, target))
+						H.devotion?.update_devotion(-devotion_cost)
+						to_chat(user, "<font color='purple'>I lose [devotion_cost] devotion!</font>")
+					else
+						healing_beam.End()
+						return TRUE
+				else
+					to_chat(user, span_warning("My devotion runs dry - I can call upon [user.patron.name] no further for the moment!"))
+					healing_beam.End()
+					return TRUE
+
+			healing_beam.End()
 			return TRUE
-		if(target.has_status_effect(/datum/status_effect/buff/healing))
-			to_chat(user, span_warning("They are already under the effects of a healing aura!"))
-			revert_cast()
-			return FALSE
-		var/conditional_buff = FALSE
-		var/situational_bonus = 1
-		var/message_out
-		var/message_self
-		//this if chain is stupid, replace with variables on /datum/patron when possible?
-		switch(user.patron.type)
-			if(/datum/patron/divine/astrata)
-				message_out = span_info("A wreath of gentle light passes over [target]!")
-				message_self = ("I'm bathed in holy light!")
-				// during the day, heal 1 more (basic as fuck)
-				if (GLOB.tod == "day")
-					conditional_buff = TRUE
-					situational_bonus = 2
-				// Day is 1/4th as long as night. Noc priests get a bonus for four times as long and during peak conflict hours, thus Astratans should have more powerful heals
-			if(/datum/patron/divine/noc)
-				message_out = span_info("A shroud of soft moonlight falls upon [target]!")
-				message_self = span_notice("I'm shrouded in gentle moonlight!")
-				// during the night, heal 1 more (i wish this was more interesting but they're twins so whatever)
-				if (GLOB.tod == "night")
-					conditional_buff = TRUE
-			if(/datum/patron/divine/dendor)
-				message_out = span_info("A rush of primal energy spirals about [target]!")
-				message_self = span_notice("I'm infused with primal energies!")
-				var/list/natural_stuff = list(/obj/structure/flora/roguegrass, /obj/structure/flora/roguetree, /obj/structure/flora/rogueshroom, /obj/structure/soil, /obj/structure/flora/newtree, /obj/structure/flora/tree, /obj/structure/glowshroom)
-				situational_bonus = 0
-				// the more natural stuff around US, the more we heal
-				for (var/obj/O in oview(5, user))
-					if (O in natural_stuff)
-						situational_bonus = min(situational_bonus + 0.1, 2)
-				for (var/obj/structure/flora/roguetree/wise/O in oview(5, user))
-					situational_bonus += 1.5
-				// Healing before the oaken avatar of Dendor in the Druid Grove (exceptionally rare otherwise) supercharges their healing
-				if (situational_bonus > 0)
-					conditional_buff = TRUE
-			if(/datum/patron/divine/abyssor)
-				message_out = span_info("A mist of salt-scented vapour settles on [target]!")
-				message_self = span_notice("I'm invigorated by healing vapours!")
-				// if our target is standing in water, heal a flat amount extra
-				if (istype(get_turf(target), /turf/open/water))
-					conditional_buff = TRUE
-					situational_bonus = 1.5
-			if(/datum/patron/divine/ravox)
-				message_out = span_info("An air of righteous defiance rises near [target]!")
-				message_self = span_notice("I'm filled with an urge to fight on!")
-				situational_bonus = 0
-				// the bloodier the area around our target is, the more we heal
-				for (var/obj/effect/decal/cleanable/blood/O in oview(5, target))
-					situational_bonus = min(situational_bonus + 0.1, 2)
-				conditional_buff = TRUE
-			if(/datum/patron/divine/necra)
-				message_out = span_info("A sense of quiet respite radiates from [target]!")
-				message_self = span_notice("I feel the Undermaiden's gaze turn from me for now!")
-				if (iscarbon(target))
-					var/mob/living/carbon/C = target
-					// if the target is "close to death" (at or below 25% health)
-					if (C.health <= (C.maxHealth * 0.25))
-						conditional_buff = TRUE
-						situational_bonus = 2.5
-			if(/datum/patron/divine/xylix)
-				message_out = span_info("A fugue seems to manifest briefly across [target]!")
-				message_self = span_notice("My wounds vanish as if they had never been there! ")
-				// half of the time, heal a little (or a lot) more - flip the coin
-				if (prob(50))
-					conditional_buff = TRUE
-					situational_bonus = rand(1, 2.5)
-			if(/datum/patron/divine/pestra)
-				message_out = span_info("An aura of clinical care encompasses [target]!")
-				message_self = span_notice("I'm sewn back together by sacred medicine!")
-				// pestra always heals a little more toxin damage and restores a bit more blood
-				target.adjustToxLoss(-situational_bonus)
-				target.blood_volume += BLOOD_VOLUME_SURVIVE/3
-			if(/datum/patron/divine/malum)
-				message_out = span_info("A tempering heat is discharged out of [target]!")
-				message_self = span_info("I feel the heat of a forge soothing my pains!")
-				var/list/firey_stuff = list(/obj/machinery/light/rogue/torchholder, /obj/machinery/light/rogue/campfire, /obj/machinery/light/rogue/hearth, /obj/machinery/light/rogue/wallfire, /obj/machinery/light/rogue/wallfire/candle, /obj/machinery/light/rogue/forge)
-				// extra healing for every source of fire/light near us
-				situational_bonus = 0
-				for (var/obj/O in oview(5, user))
-					if (O.type in firey_stuff)
-						situational_bonus = min(situational_bonus + 0.5, 2.5)
-				if (situational_bonus > 0)
-					conditional_buff = TRUE
-			if(/datum/patron/divine/eora)
-				message_out = span_info("An emanance of love blossoms around [target]!")
-				message_self = span_notice("I'm filled with the restorative warmth of love!")
-				// if they're wearing an eoran bud (or are a pacifist), pretty much double the healing. if we're also wearing a bud at any point or a pacifist from any other source, apply another +15 bonus
-				situational_bonus = 0
-				if (HAS_TRAIT(target, TRAIT_PACIFISM))
-					conditional_buff = TRUE
-					situational_bonus = 2.5
-				if (HAS_TRAIT(user, TRAIT_PACIFISM))
-					conditional_buff = TRUE
-					situational_bonus += 1.5
-			if(/datum/patron/inhumen/zizo)
-				message_out = span_info("Vital energies are sapped towards [target]!")
-				message_self = span_notice("The life around me pales as I am restored!")
-				// set up a ritual pile of bones (or just cast near a stack of bones whatever) around us for massive bonuses, cap at 50 for 75 healing total (wowie)
-				situational_bonus = 0
-				for (var/obj/item/natural/bone/O in oview(5, user))
-					situational_bonus += (0.5)
-				for (var/obj/item/natural/bundle/bone/S in oview(5, user))
-					situational_bonus += (S.amount * 0.5)
-				if (situational_bonus > 0)
-					conditional_buff = TRUE
-					situational_bonus = min(situational_bonus, 5)
-			if(/datum/patron/inhumen/graggar)
-				message_out = span_info("Foul fumes billow outward as [target] is restored!")
-				message_self = span_notice("A noxious scent burns my nostrils, but I feel better!")
-				// if you've got lingering toxin damage, you get healed more, but your bonus healing doesn't affect toxin
-				var/toxloss = target.getToxLoss()
-				if (toxloss >= 10)
-					conditional_buff = TRUE
-					situational_bonus = 2.5
-					target.adjustToxLoss(situational_bonus) // remember we do a global toxloss adjust down below so this is okay
-			if(/datum/patron/inhumen/matthios)
-				message_out = span_info("A wreath of... strange light passes over [target]?")
-				message_self = span_notice("I'm bathed in a... strange holy light?")
-				// COMRADES! WE MUST BAND TOGETHER!
-				if (HAS_TRAIT(target, TRAIT_COMMIE))
-					conditional_buff = TRUE
-					situational_bonus = 2.5
-			if(/datum/patron/inhumen/baotha)
-				message_out = span_info("Hedonistic impulses and emotions throb all about from [target].")
-				message_self = span_notice("An intoxicating rush of narcotic delight wipes away my pains!")
-				// i wanted to do something with pain here but it doesn't seem like pain is actually parameterized anywhere so... better necra it is - if they're below 50% health, they get 25 extra healing
-				if (iscarbon(target))
-					var/mob/living/carbon/C = target
-					if (C.health <= (C.maxHealth * 0.5))
-						conditional_buff = TRUE
-						situational_bonus = 2.5
-			if(/datum/patron/godless)
-				message_out = span_info("Without any particular cause or reason, [target] is healed!")
-				message_self = span_notice("My wounds close without cause.")
-			else
-				message_out = span_info("A choral sound comes from above and [target] is healed!")
-				message_self = span_notice("I am bathed in healing choral hymns!")
-
-		var/healing = 2.5
-		if (conditional_buff)
-			to_chat(user, "Channeling my patron's power is easier in these conditions!")
-			healing += situational_bonus
-
-		// Block excommunicated targets from receiving divine healing
-		var/is_divine = ispath(user.patron?.type, /datum/patron/divine)
-		if(is_divine && (target.real_name in GLOB.excommunicated_players))
-			to_chat(user, span_danger("The gods recoil from [target]! Divine fire scorches your hands as your plea is rejected!"))
-			target.visible_message(span_danger("[target] is seared by divine wrath! The gods hate them!"), span_userdanger("I am seared by divine wrath! The gods hate me!"))
-			revert_cast()
-			return FALSE
-
-		if(ishuman(target))
-			var/mob/living/carbon/human/H = target
-			var/no_embeds = TRUE
-			var/list/embeds = H.get_embedded_objects()
-			if(length(embeds))
-				for(var/object in embeds)
-					if(!istype(object, /obj/item/natural/worms/leech))	//Leeches and surgical cheeles are made an exception.
-						no_embeds = FALSE
-			else
-				no_embeds = TRUE
-			if(no_embeds)
-				// Always apply the status effect for visual effects
-				target.apply_status_effect(/datum/status_effect/buff/healing, healing)
-
-				// Find and heal the most damaged limb
-				var/obj/item/bodypart/most_damaged_limb = get_most_damaged_limb(H)
-				if(most_damaged_limb && most_damaged_limb.get_damage() > 0)
-					most_damaged_limb.heal_damage(healing * 2, healing * 2, healing * 2)
-					H.update_damage_overlays()
-					to_chat(H, span_notice("The miracle mends my [most_damaged_limb.name]!"))
-			else
-				message_out = span_warning("The wounds tear and rip around the embedded objects!")
-				message_self = span_warning("Agonising pain shoots through your body as magycks try to sew around the embedded objects!")
-				H.adjustBruteLoss(20)
-				playsound(target, 'sound/combat/dismemberment/dismem (2).ogg', 100)
-				H.emote("agony")
 		else
-			target.apply_status_effect(/datum/status_effect/buff/healing, healing)
-		target.visible_message(message_out, message_self)
-		return TRUE
+			user.visible_message(span_info("[user] quickly lays their hands upon themselves!"))
+			apply_healing(target, user, get_situational_bonus(user, target))
+			return TRUE
+	
 	revert_cast()
 	return FALSE
 
@@ -592,8 +540,8 @@
 
 
 /obj/effect/proc_holder/spell/invoked/blood_heal
-	name = "Blood transfer Miracle"
-	desc = "Transfers the blood from myself to the target with divine magycks. Ratio of transfer scales with holy skill."
+	name = "Bloodbond"
+	desc = "Transfers some of my lyfeblood to a target in need."
 	overlay_icon = 'icons/mob/actions/genericmiracles.dmi'
 	overlay_state = "bloodheal"
 	action_icon_state = "bloodheal"
@@ -609,65 +557,89 @@
 	invocation_type = "none"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
-	recharge_time = 45 SECONDS
+	recharge_time = 15 SECONDS
 	miracle = TRUE
 	devotion_cost = 50
-	var/blood_price = 5
-	var/blood_vol_restore = 7.5 //30 every 2 seconds.
-	var/vol_per_skill = 1	//54 with legendary
-	var/delay = 0.5 SECONDS
+	var/blood_price_coefficient = 1.25
+	var/blood_vol_restore = 7.5 // base value
+	var/vol_per_skill = 3.75 // double at apprentice, triple at expert, quadruple at legendary
+	var/delay = 1.5 SECONDS
+
+/obj/effect/proc_holder/spell/invoked/blood_heal/proc/bond_check(mob/living/carbon/human/user, mob/living/target, revert = TRUE)
+	if (!istype(user, /mob/living/carbon/human) || !istype(target, /mob/living/carbon/human))
+		to_chat(user, span_warning("I can only forge a bloodbond with other humanoids!"))
+		if (revert)
+			revert_cast()
+		return FALSE
+	if (target == user)
+		to_chat(user, span_warning("I can't start a bloodbond on myself! It has to be on someone else!"))
+		if (revert)
+			revert_cast()
+		return
+	if (!user.Adjacent(target))
+		to_chat(user, span_warning("I need to be next to my target to maintain a bloodbond with them!"))
+		if (revert)
+			revert_cast()
+		return FALSE
+	if(NOBLOOD in user.dna?.species?.species_traits)
+		to_chat(user, span_warning("I have no blood to provide."))
+		if (revert)
+			revert_cast()
+		return FALSE
+	if(target.blood_volume >= BLOOD_VOLUME_NORMAL)
+		to_chat(user, span_warning("Their lyfeblood is at capacity. There is no need."))
+		if (revert)
+			revert_cast()
+		return FALSE
+	if(HAS_TRAIT(target, TRAIT_PSYDONITE))
+		target.visible_message(span_info("[target] stirs for a moment, then the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+		user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		return FALSE
+
+	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/blood_heal/cast(list/targets, mob/user = usr)
 	if(ishuman(targets[1]))
 		var/mob/living/carbon/human/target = targets[1]
+		// Check if user is human before accessing dna
+		if(!ishuman(user))
+			to_chat(user, span_warning("I cannot transfer blood in this form!"))
+			revert_cast()
+			return FALSE
 		var/mob/living/carbon/human/UH = user
-		if(NOBLOOD in UH.dna?.species?.species_traits)
-			to_chat(UH, span_warning("I have no blood to provide."))
-			revert_cast()
-			return FALSE
-		if(target.blood_volume >= BLOOD_VOLUME_NORMAL)
-			to_chat(UH, span_warning("Their lyfeblood is at capacity. There is no need."))
-			revert_cast()
-			return FALSE
-		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
-			target.visible_message(span_info("[target] stirs for a moment, then the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
-			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+
+		if (!bond_check(UH, target, revert = TRUE))
 			return FALSE
 
 		UH.visible_message(span_warning("Tiny strands of red link between [UH] and [target], and droplets of blood flow through it!"))
 		playsound(UH, 'sound/magic/bloodheal_start.ogg', 100, TRUE)
 		var/user_skill = UH.get_skill_level(associated_skill)
-		var/user_informed = FALSE
-		switch(user_skill)	//Bleeding happens every life(), which is every 2 seconds. Multiply these numbers by 4 to get the "bleedrate" equivalent values.
-			if(SKILL_LEVEL_APPRENTICE)
-				blood_price = 3.75
-			if(SKILL_LEVEL_JOURNEYMAN)
-				blood_price = 2.5
-			if(SKILL_LEVEL_EXPERT)
-				blood_price = 2
-			if(SKILL_LEVEL_MASTER)
-				blood_price = 1.625
-			if(SKILL_LEVEL_LEGENDARY)
-				blood_price = 1.25
-		if(user_skill > SKILL_LEVEL_NOVICE)
-			blood_vol_restore += vol_per_skill * user_skill
-		var/max_loops = round(UH.blood_volume / blood_price, 1) * 2	// x2 just in case the user is trying to fill themselves up while using it.
+		
+		// higher miracle skills let us transfer more of our blood at once, but don't really affect the efficiency all that much.
+		var/actual_blood_vol_restore = blood_vol_restore
+		actual_blood_vol_restore += (vol_per_skill * user_skill)
+
+		// a cheele restores 300% of the original blood volume over a LONG period of time
+		// we want bloodbond to be about 125% since it doesn't require an external item, is much faster, and uses two renewable resources (blood & devotion)
+		var/actual_blood_price = actual_blood_vol_restore / blood_price_coefficient
+
+		var/max_loops = max(round(UH.blood_volume / actual_blood_price, 1), 1)
 		var/datum/beam/bloodbeam = user.Beam(target,icon_state="blood",time=(max_loops * 5))
+
 		for(var/i in 1 to max_loops)
 			if(UH.blood_volume > (BLOOD_VOLUME_SURVIVE / 2))
-				if(do_after(UH, delay))
-					target.blood_volume = min((target.blood_volume + blood_vol_restore), BLOOD_VOLUME_NORMAL)
-					UH.blood_volume = max((UH.blood_volume - blood_price), 0)
-					if(target.blood_volume >= BLOOD_VOLUME_NORMAL && !user_informed)
-						to_chat(UH, span_info("They're at a healthy blood level, but I can keep going."))
-						user_informed = TRUE
+				if(do_after(UH, delay) && bond_check(UH, target, revert = FALSE) && UH.devotion?.check_devotion(src))
+					target.blood_volume = min((target.blood_volume + actual_blood_vol_restore), BLOOD_VOLUME_NORMAL)
+					UH.blood_volume = max((UH.blood_volume - actual_blood_price), 0)
+					var/devo_cost = round(0 - (devotion_cost / max_loops), 1)
+					UH.devotion?.update_devotion(devo_cost)
 				else
-					UH.visible_message(span_warning("[UH] severs the bloodlink from [target]!"))
+					UH.visible_message(span_warning("The bloodbond between [UH] and [target] breaks!"))
 					bloodbeam.End()
 					return TRUE
 			else
-				UH.visible_message(span_warning("[UH] severs the bloodlink from [target]!"))
+				UH.visible_message(span_warning("The bloodbond between [UH] and [target] breaks!"))
 				bloodbeam.End()
 				return TRUE
 		bloodbeam.End()

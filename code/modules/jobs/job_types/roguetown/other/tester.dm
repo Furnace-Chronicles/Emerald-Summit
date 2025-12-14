@@ -14,11 +14,11 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	tutorial = ""
-	outfit = /datum/outfit/job/roguetown/tester
+	outfit = /datum/outfit/job/tester
 	plevel_req = 0
 	display_order = JDO_MERCENARY
 
-/datum/outfit/job/roguetown/tester/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/tester/pre_equip(mob/living/carbon/human/H)
 	..()
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers

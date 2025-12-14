@@ -535,6 +535,25 @@
 		user.Stun(40)
 	..()
 
+
+/obj/item/rogueweapon/greataxe/steel/doublehead/graggar/ogre
+	name = "imposing greataxe"
+	desc = "GRAAAAAHHHHHH!!!"
+	icon_state = "ogre_axe"
+	force = 20
+	force_wielded = 40
+	icon = 'icons/roguetown/weapons/64.dmi'
+	max_blade_int = 250
+	wbalance = WBALANCE_HEAVY // i looove to experiment
+
+/obj/item/rogueweapon/greataxe/steel/doublehead/graggar/ogre/pickup(mob/living/user)
+	if(!HAS_TRAIT(user, TRAIT_HORDE))
+		to_chat(user, "<font color='red'>WEAK HANDS CANNOT HANDLE MY STRENGTH. BE PUNISHED.</font>")
+		user.adjust_fire_stacks(5)
+		user.ignite_mob()
+		user.Stun(40)
+	..()
+
 ////////////////////////////////////////
 // Unique loot axes; mostly from mobs //
 ////////////////////////////////////////
@@ -559,3 +578,5 @@
 	minstr = 13							//Heavy, but still good.
 	wdefense = 3						//Slightly better than norm, has 6 defense 2 handing it.
 	item_flags = NONE
+
+// end mob stuff

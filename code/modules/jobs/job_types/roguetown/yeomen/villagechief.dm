@@ -15,7 +15,7 @@
 	job_traits = list(TRAIT_PEASANTMILITIA, TRAIT_SEEPRICES_SHITTY, TRAIT_EMPATH)
 	tutorial = "You are as venerable and ancient as the trees themselves, wise even for your years spent with the first Wardens. The people look up to you both as a teacher and a guide to solve lesser issues before violence is involved. Not everything must end in bloodshed, no matter how much the retinue wish it were the case. Lead your fellow townsfolk in these troubling times lest they incur wrath of the nobility with their ignorance."
 	whitelist_req = TRUE
-	outfit = /datum/outfit/job/roguetown/elder
+	outfit = /datum/outfit/job/elder
 	display_order = JDO_CHIEF
 	min_pq = 2 //mentor role, not a high PQ requirement but not zero
 	max_pq = null
@@ -25,11 +25,11 @@
 
 	cmode_music = 'sound/music/combat_old.ogg'//He is old so he gets old
 
-/datum/outfit/job/roguetown/elder
+/datum/outfit/job/elder
 	name = "Town Elder"
 	jobtype = /datum/job/roguetown/elder
 
-/datum/outfit/job/roguetown/elder/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/elder/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/militia)

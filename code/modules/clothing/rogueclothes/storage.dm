@@ -203,6 +203,22 @@
 			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, G, null, TRUE, TRUE))
 				qdel(G)
 
+/obj/item/storage/belt/pouch/coins/veryrich/Initialize()
+	. = ..()
+	var/obj/item/roguecoin/gold/pile/H = new(loc)
+	if(istype(H))
+		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
+			qdel(H)
+	H = new(loc)
+	if(istype(H))
+		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
+			qdel(H)
+	if(prob(50))
+		H = new(loc)
+		if(istype(H))
+			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
+				qdel(H)
+
 /obj/item/storage/belt/rogue/pouch/coins/virtuepouch/Initialize()
 	. = ..()
 	var/obj/item/roguecoin/gold/virtuepile/H = new(loc)
@@ -268,6 +284,8 @@
 	desc = "A leather satchel that's meant to  clip to a belt or to a pair of pants, freeing the shoulders from any weight."
 	icon_state = "satchelshort"
 	item_state = "satchelshort"
+	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_HIP
+	component_type = /datum/component/storage/concrete/roguetown/short_satchel
 
 /obj/item/storage/backpack/rogue/backpack
 	name = "backpack"
@@ -578,3 +596,10 @@
 		var/obj/item/bomb/smoke/K = new()
 		knives += K
 	update_icon()
+
+/obj/item/storage/belt/rogue/leather/ogre
+	name = "gigantic belt"
+	desc = "This one's too large for normal people."
+	sleeved = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	icon_state = "ogre_belt"

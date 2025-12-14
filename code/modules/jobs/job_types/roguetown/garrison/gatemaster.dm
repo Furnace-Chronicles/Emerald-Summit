@@ -14,7 +14,7 @@
 	tutorial = "Tales speak of the Gatemaster's legendary ability to stand still at a gate and ask people questions."
 	display_order = JDO_GATEMASTER
 
-	outfit = /datum/outfit/job/roguetown/gatemaster
+	outfit = /datum/outfit/job/gatemaster
 	advclass_cat_rolls = list(CTAG_GATEMASTER = 20)
 	give_bank_account = 3
 	min_pq = 4
@@ -22,6 +22,9 @@
 	round_contrib_points = 3
 	social_rank = SOCIAL_RANK_YEOMAN
 
+	virtue_restrictions = list(
+		/datum/virtue/utility/failed_squire,
+	)
 	cmode_music = 'sound/music/combat_guard.ogg'
 
 	job_traits = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR)
@@ -40,7 +43,7 @@
 /datum/advclass/gatemaster
 	name = "Gatemaster"
 	tutorial = "Tales speak of the Gatemaster's legendary ability to stand still at a gate and ask people questions."
-	outfit = /datum/outfit/job/roguetown/gatemaster
+	outfit = /datum/outfit/job/gatemaster
 	category_tags = list(CTAG_GATEMASTER)
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -67,13 +70,13 @@
 		/datum/skill/craft/engineering = SKILL_LEVEL_JOURNEYMAN, //lets them change stuff like the levers and gate
 	)
 
-/datum/outfit/job/roguetown/gatemaster
+/datum/outfit/job/gatemaster
 	name = "Gatemaster"
 	has_loadout = TRUE
 	jobtype = /datum/job/roguetown/gatemaster
 	job_bitflag = BITFLAG_GARRISON
 
-/datum/outfit/job/roguetown/gatemaster/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/gatemaster/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/roguehood/red
 	neck = /obj/item/clothing/neck/roguetown/gorget

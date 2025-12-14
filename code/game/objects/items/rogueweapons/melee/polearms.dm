@@ -119,6 +119,7 @@
 	animname = "cut"
 	blade_class = BCLASS_CHOP
 	reach = 1
+	swingdelay = 15
 	penfactor = -100 // hard set to not penetrate armor as its original design intended
 	damfactor = 2.5
 	clickcd = CLICK_CD_CHARGED
@@ -126,12 +127,13 @@
 	hitsound = list('sound/combat/hits/bladed/genslash (1).ogg', 'sound/combat/hits/bladed/genslash (2).ogg', 'sound/combat/hits/bladed/genslash (3).ogg')
 	item_d_type = "slash"
 	misscost = 10
-	intent_intdamage_factor = 0.25
+	intent_intdamage_factor = 0.5
 
 /datum/intent/rend/reach
 	name = "long rend"
 	penfactor = -100
 	misscost = 5
+	swingdelay = 15
 	clickcd = CLICK_CD_HEAVY
 	damfactor = 2
 	reach = 2
@@ -156,11 +158,11 @@
 	blade_class = BCLASS_PEEL
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 	clickcd = CLICK_CD_CHARGED
-	penfactor = 200
+	penfactor = BLUNT_DEFAULT_PENFACTOR
 	swingdelay = 5
 	damfactor = 0.05
 	item_d_type = "slash"
-	peel_divisor = 4
+	peel_divisor = 5
 	reach = 2
 
 
@@ -1408,3 +1410,51 @@
 				return list("shrink" = 0.6,"sx" = -7,"sy" = 2,"nx" = 7,"ny" = 3,"wx" = -2,"wy" = 1,"ex" = 1,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 30,"eturn" = -30,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
 			if("wielded")
 				return list("shrink" = 0.6,"sx" = 5,"sy" = -3,"nx" = -5,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+
+
+/obj/item/rogueweapon/greatsword/zwei/ogre
+	name = "Better Sword"
+	desc = "The mind of an ogre does not see trash in a field of discarded swords and corpses. He sees material to make a new weapon, with a light snack.."
+	icon_state = "ogre_sword"
+	minstr = 15 //have you seen the size of this thing??
+	smelt_bar_num = 2
+	force = 20
+	force_wielded = 35
+	max_blade_int = 250
+	max_integrity = 260
+	wbalance = WBALANCE_HEAVY
+
+/obj/item/rogueweapon/mace/goden/steel/ogre
+	name = "Mace of Malum"
+	desc = "Sometimes an ogre comes across an abandoned blacksmith's forge, and finds an intact anvil. Few minds but an ogre's can think to use a tool of pure creation to beat people to paste."
+	icon_state = "ogre_anvil"
+	force = 20
+	force_wielded = 40
+	possible_item_intents = list(/datum/intent/mace/strike/reach)
+	gripped_intents = list(/datum/intent/mace/strike/reach, /datum/intent/mace/smash/reach, /datum/intent/effect/daze)
+	smeltresult = /obj/item/ingot/steel
+	smelt_bar_num = 2
+	minstr = 15
+	force_wielded = 35
+	max_integrity = 260
+
+/obj/item/rogueweapon/mace/goden/steel/ogre/graggar
+	name = "Ogre's Mace"
+	desc = "Only a giant can effectively make use of this weapon. It has fed one at the expense of many lives."
+	icon_state = "ogre_mace"
+	force = 25
+	force_wielded = 50 // i dont even think thisll do much, compare it to the tetsubo
+	gripped_intents = list(/datum/intent/mace/strike/reach, /datum/intent/mace/smash/reach, /datum/intent/mace/rangedthrust, /datum/intent/effect/daze)
+	smelt_bar_num = 2
+	minstr = 15
+	force_wielded = 35
+	max_blade_int = 250
+	max_integrity = 280
+
+/obj/item/rogueweapon/mace/goden/steel/ogre/graggar/pickup(mob/living/user)
+	if(!HAS_TRAIT(user, TRAIT_HORDE))
+		to_chat(user, "<font color='red'>WEAK HANDS CANNOT TOUCH ME. PUNISHMENT FOR YOU!</font>")
+		user.adjust_fire_stacks(5)
+		user.ignite_mob()
+		user.Stun(40)
+	..()

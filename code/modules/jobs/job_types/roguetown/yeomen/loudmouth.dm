@@ -11,7 +11,7 @@
 	allowed_ages = ALL_AGES_LIST
 	social_rank = SOCIAL_RANK_YEOMAN
 
-	outfit = /datum/outfit/job/roguetown/loudmouth
+	outfit = /datum/outfit/job/loudmouth
 	display_order = JDO_LOUDMOUTH
 	give_bank_account = 15
 	min_pq = 5 // Now has actual responsibility and is a key figure in town.
@@ -28,7 +28,7 @@
 /datum/advclass/loudmouth
 	name = "Loudmouth"
 	tutorial = "Keeper of the Horn, Master of the Jabberline, and self-appointed Voice of Reason. From your desk in the SCOM atelier, you decide which words will thunder across the realm and which will die in the throats of petitioners who didn�t pay enough ratfeed. Nobles and cutpurses alike shuffle up to your counter, coins in hand, desperate for a moment in the golden glow of the broadcast horn. In your upstairs �studio,� you host debates, recite gossip, and spin tales that will ripple through every corner of town. After all, you hold the true power: the power to decide what all of the city hears... and how loudly. You work closely with the Archivist, though it's obvious which of you the people truly respect."
-	outfit = /datum/outfit/job/roguetown/loudmouth/basic
+	outfit = /datum/outfit/job/loudmouth/basic
 	category_tags = list(CTAG_LOUDMOUTH)
 
 	subclass_languages = list(
@@ -64,7 +64,7 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/loudmouth/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/loudmouth/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	if(should_wear_femme_clothes(H))

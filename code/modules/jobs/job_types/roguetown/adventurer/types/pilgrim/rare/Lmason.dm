@@ -6,7 +6,7 @@
 	There is nothing in this world that you can't build, your creed and hardwork has revealed all the secrets of the stone."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/grandmastermason
+	outfit = /datum/outfit/job/adventurer/grandmastermason
 	category_tags = list(CTAG_TOWNER)
 	maximum_possible_slots = 1
 	pickprob = 5
@@ -40,7 +40,7 @@
 	/datum/skill/misc/ceramics = SKILL_LEVEL_EXPERT,
 	)
 
-/datum/outfit/job/roguetown/adventurer/grandmastermason/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/grandmastermason/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/hatblu
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest

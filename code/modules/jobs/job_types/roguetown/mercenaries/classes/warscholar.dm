@@ -3,7 +3,7 @@
 	tutorial ="You are a Naledi Hierophant, a magician who studied under cloistered sages, well-versed in all manners of arcyne. You prioritize enhancing your teammates and distracting foes while staying in the backline. Keep your face covered, or else the Djinni will siphon your magics and claim your soul."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/mercenary/warscholar
+	outfit = /datum/outfit/job/mercenary/warscholar
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_NALEDI
 	cmode_music = 'sound/music/warscholar.ogg'
@@ -39,11 +39,11 @@
 		/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/mercenary/warscholar
+/datum/outfit/job/mercenary/warscholar
 	var/detailcolor
 	allowed_patrons = list(/datum/patron/old_god)
 
-/datum/outfit/job/roguetown/mercenary/warscholar/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/warscholar/pre_equip(mob/living/carbon/human/H)
 	..()
 	var/list/naledicolors = sortList(list(
 		"GOLD" = "#C8BE6D",
@@ -59,7 +59,7 @@
 		"MAROON" = "#5F1F34",
 		"BLACK" = "#242526"
 	))
-	detailcolor = input("Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
+	detailcolor = input(H, "Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
 	detailcolor = naledicolors[detailcolor]
 	to_chat(H, span_warning("You are a Naledi Hierophant, a magician who studied under cloistered sages, well-versed in all manners of arcyne. You prioritize enhancing your teammates and distracting foes while staying in the backline. Keep your face covered, or else the Djinni will siphon your magics and claim your soul."))
 
@@ -103,7 +103,7 @@
 /datum/advclass/mercenary/warscholar/pontifex
 	name = "Naledi Pontifex"
 	tutorial = "You are a Naledi Pontifex, a warrior trained into a hybridized style of movement-controlling magic and hand-to-hand combat. Though your abilities in magical fields are lacking, you are far more dangerous than other magi in a straight fight. You manifest your calm, practiced skill into a killing intent that takes the shape of an arcyne blade. Keep your face covered, or else the Djinni will siphon your magics and claim your soul."
-	outfit = /datum/outfit/job/roguetown/mercenary/warscholar_pontifex
+	outfit = /datum/outfit/job/mercenary/warscholar_pontifex
 
 	subclass_languages = list(
 		/datum/language/celestial,
@@ -133,11 +133,11 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/mercenary/warscholar_pontifex
+/datum/outfit/job/mercenary/warscholar_pontifex
 	var/detailcolor
 	allowed_patrons = list(/datum/patron/old_god)
 
-/datum/outfit/job/roguetown/mercenary/warscholar_pontifex/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/warscholar_pontifex/pre_equip(mob/living/carbon/human/H)
 	..()
 	var/list/naledicolors = sortList(list(
 		"GOLD" = "#C8BE6D",
@@ -153,7 +153,7 @@
 		"MAROON" = "#5F1F34",
 		"BLACK" = "#242526"
 	))
-	detailcolor = input("Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
+	detailcolor = input(H, "Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
 	detailcolor = naledicolors[detailcolor]
 	to_chat(H, span_warning("You are a Naledi Pontifex, a warrior trained into a hybridized style of movement-controlling magic and hand-to-hand combat. Though your abilities in magical fields are lacking, you are far more dangerous than other magi in a straight fight. You manifest your calm, practiced skill into a killing intent that takes the shape of an arcyne blade. Keep your face covered, or else the Djinni will siphon your magics and claim your soul."))
 
@@ -190,7 +190,7 @@
 /datum/advclass/mercenary/warscholar/vizier
 	name = "Naledi Vizier"
 	tutorial = "You are a Naledi Vizier. Your research into miracles and holy incantations has lead you to esoteric magycks. Though Psydonites have long struggled to channel their all-father's divinity, a combination of the saint's power may be similar enough. Keep your face covered, or else the Djinni will siphon your magics and claim your soul."
-	outfit = /datum/outfit/job/roguetown/mercenary/warscholar_vizier
+	outfit = /datum/outfit/job/mercenary/warscholar_vizier
 
 	subclass_languages = list(
 		/datum/language/celestial,
@@ -218,11 +218,11 @@
 		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
 	)
 
-/datum/outfit/job/roguetown/mercenary/warscholar_vizier
+/datum/outfit/job/mercenary/warscholar_vizier
 	var/detailcolor
 	allowed_patrons = list(/datum/patron/old_god)
 
-/datum/outfit/job/roguetown/mercenary/warscholar_vizier/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/warscholar_vizier/pre_equip(mob/living/carbon/human/H)
 	..()
 	var/list/naledicolors = sortList(list(
 		"GOLD" = "#C8BE6D",
@@ -238,7 +238,7 @@
 		"MAROON" = "#5F1F34",
 		"BLACK" = "#242526"
 	))
-	detailcolor = input("Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
+	detailcolor = input(H, "Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
 	detailcolor = naledicolors[detailcolor]
 	to_chat(H, span_warning("You are a Naledi Vizier. Your research into miracles and holy incantations has lead you to esoteric magycks. Though Psydonites have long struggled to channel their all-father's divinity, a combination of the saint's power may be similar enough. Keep your face covered, or else the Djinni will siphon your magics and claim your soul."))
 
@@ -275,7 +275,7 @@
 
 	change_origin(H, /datum/virtue/origin/naledi)
 
-/datum/outfit/job/roguetown/mercenary/warscholar/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/mercenary/warscholar/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	. = ..()
 
 	for(var/obj/item/clothing/V in H.get_equipped_items(FALSE))

@@ -23,6 +23,7 @@
 #define STATS_ALIVE_MOTHS "alive_moths"
 #define STATS_ALIVE_LAMIA "alive_lamia"
 #define STATS_ALIVE_HARPIES "alive_harpies"
+#define STATS_ALIVE_OGRES "alive_ogres"
 
 #define STATS_VAMPIRES "vampires"
 

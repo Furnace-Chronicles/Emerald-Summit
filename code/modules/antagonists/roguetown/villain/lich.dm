@@ -74,12 +74,9 @@
 
 /datum/antagonist/lich/proc/skele_look()
 	var/mob/living/carbon/human/L = owner.current
-	L.hairstyle = "Bald"
-	L.facial_hairstyle = "Shaved"
-	L.update_body()
-	L.update_hair()
-	L.update_body_parts(redraw = TRUE)
-
+	L.skeletonize(FALSE)
+	L.skele_look()
+	
 /datum/antagonist/lich/proc/equip_lich()
 	owner.unknow_all_people()
 	for (var/datum/mind/MF in get_minds())
@@ -93,18 +90,18 @@
 		QDEL_NULL(L.charflaw)
 
 	L.mob_biotypes |= MOB_UNDEAD
-	replace_eyes(L)
+	L.grant_undead_eyes()
 
 	for (var/obj/item/bodypart/B in L.bodyparts)
 		B.skeletonize(FALSE)
 
 	equip_and_traits()
-	L.equipOutfit(/datum/outfit/job/roguetown/lich)
+	L.equipOutfit(/datum/outfit/job/lich)
 	L.set_patron(/datum/patron/inhumen/zizo)
 	owner.current.forceMove(pick(GLOB.vlord_starts)) // as opposed to spawning at their normal role spot as a skeleton; which is le bad
 
 
-/datum/outfit/job/roguetown/lich/pre_equip(mob/living/carbon/human/H) //Equipment is located below
+/datum/outfit/job/lich/pre_equip(mob/living/carbon/human/H) //Equipment is located below
 	..()
 
 	H.adjust_skillrank(/datum/skill/misc/reading, 6, TRUE)
@@ -145,15 +142,7 @@
 
 	addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "LICH"), 5 SECONDS)
 
-/datum/antagonist/lich/proc/replace_eyes(mob/living/carbon/human/L)
-	var/obj/item/organ/eyes/eyes = L.getorganslot(ORGAN_SLOT_EYES)
-	if (eyes)
-		eyes.Remove(L, TRUE)
-		QDEL_NULL(eyes)
-	eyes = new /obj/item/organ/eyes/night_vision/zombie
-	eyes.Insert(L)
-
-/datum/outfit/job/roguetown/lich/post_equip(mob/living/carbon/human/H)
+/datum/outfit/job/lich/post_equip(mob/living/carbon/human/H)
 	..()
 	var/datum/antagonist/lich/lichman = H.mind.has_antag_datum(/datum/antagonist/lich)
 	// One phylactery instead of 3 so that they don't need to get chased down non-stop.
@@ -233,12 +222,11 @@
 	new_body.mob_biotypes |= MOB_UNDEAD
 	new_body.faction = list("undead")
 	new_body.set_patron(/datum/patron/inhumen/zizo)
+	new_body.grant_undead_eyes()
 	new_body.mind.grab_ghost(force = TRUE)
 
 	for (var/obj/item/bodypart/body_part in new_body.bodyparts)
 		body_part.skeletonize(FALSE)
-		
-	replace_eyes(new_body)
 	set_stats()
 	skele_look()
 	equip_and_traits()

@@ -3,7 +3,7 @@
 	tutorial = "It was an accident! Your patient wasn't using his second kidney, anyway. After an unfortunate 'misunderstanding' with the town and your medical practice, you know practice medicine on the run with your new associates. Business has never been better!"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/bandit/sawbones
+	outfit = /datum/outfit/job/bandit/sawbones
 	category_tags = list(CTAG_BANDIT)
 	maximum_possible_slots = 1 // We only want one of these because of master in swords. (enforcing this comment)
 	cmode_music = 'sound/music/combat_physician.ogg'
@@ -39,7 +39,7 @@
 		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/bandit/sawbones/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/bandit/sawbones/pre_equip(mob/living/carbon/human/H)
 	..()
 	if (!(istype(H.patron, /datum/patron/inhumen/zizo) || istype(H.patron, /datum/patron/inhumen/matthios) || istype(H.patron, /datum/patron/inhumen/graggar) || istype(H.patron, /datum/patron/inhumen/baotha)))
 		to_chat(H, span_warning("My former deity has abandoned me.. Matthios is my new master."))

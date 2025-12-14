@@ -356,6 +356,11 @@
 	desc = span_boldred("The Ten have forsaken me!")
 	timer = 999 MINUTES
 
+/datum/stressevent/disgracedknight
+	stressadd = 5
+	desc = span_boldred("I have been stripped of my honor and knighthood!")
+	timer = 999 MINUTES
+
 /datum/stressevent/apostasy
 	stressadd = 3
 	desc = span_boldred("The apostasy's mark is upon me!")
@@ -395,3 +400,8 @@
 	stressadd = 6
 	desc = span_boldred("AAAGGHHH!! MY PRECIOUS WINGS!!")
 	timer = 40 MINUTES
+
+/datum/stressevent/vampiric_reality
+	stressadd = 3
+	desc = span_boldred("The holy sun returns, it's only a matter of time until I turn to ash. I wish to be Mortal again.")
+	timer = 30 SECONDS

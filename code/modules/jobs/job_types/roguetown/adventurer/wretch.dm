@@ -7,6 +7,7 @@
 	total_positions = 10
 	spawn_positions = 10
 	allowed_races = RACES_ALL_KINDS
+	disallowed_races = /datum/species/ogre
 	tutorial = "Somewhere in your lyfe, you fell to the wrong side of civilization. Hounded by the consequences of your actions, you now threaten the peace of those who still heed the authority that condemned you."
 	outfit = null
 	outfit_female = null
@@ -32,6 +33,7 @@
 
 	job_traits = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_OUTLAW, TRAIT_HERESIARCH)
 	job_subclasses = list(
+		/datum/advclass/wretch/licker,
 		/datum/advclass/wretch/deserter,
 		/datum/advclass/wretch/deserter/maa,
 		/datum/advclass/wretch/berserker,

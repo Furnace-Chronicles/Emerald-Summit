@@ -177,6 +177,14 @@
 	desc = "Whether it's by having an annoying sibling that kept prodding me with a stick, or years of study and observation, I've become adept at both parrying and dodging stronger opponents, by learning their moves and studying them."
 	added_traits = list(TRAIT_SENTINELOFWITS)
 
+/datum/virtue/combat/combat_aware
+	name = "Combat Aware"
+	desc = "The opponent's flick of their wrist. The sound of maille snapping. The desperate breath as the opponent's stamina wanes. All of this is made more clear to you through intuition or experience."
+	custom_text = "Shows a lot more combat information via floating text. Has a toggle."
+	added_traits = list(TRAIT_COMBAT_AWARE)
+
+/datum/virtue/combat/combat_aware/apply_to_human(mob/living/carbon/human/recipient)
+	recipient.verbs += /mob/living/carbon/human/proc/togglecombatawareness
 
 /datum/virtue/combat/hollow_life
 	name = "Hollow Lyfe"
@@ -195,12 +203,3 @@
 		else
 			recipient.mob_biotypes |= MOB_UNDEAD //Undead biotype is already applied by damned vice.
 
-/datum/virtue/combat/vampire
-	name = "Crimson Curse"
-	desc = "The dark gift of vampirism courses through my veins. I thirst for blood, shun the light of day, and possess unnatural resilience and strength. And yet these fools dare call me monster..."
-
-/datum/virtue/combat/vampire/apply_to_human(mob/living/carbon/human/recipient)
-	var/datum/antagonist/vampirelord/lesser/new_antag = new /datum/antagonist/vampirelord/lesser/stray()
-	recipient.mind.add_antag_datum(new_antag)
-	recipient.energy = recipient.max_energy
-	recipient.update_health_hud()

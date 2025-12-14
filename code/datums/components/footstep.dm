@@ -80,6 +80,8 @@
 	return T
 var/list/kick_verb
 /datum/component/footstep/proc/play_simplestep()
+	if(HAS_TRAIT(parent, TRAIT_SILENT_FOOTSTEPS))
+		return
 	var/turf/open/T = prepare_step()
 	if(!T)
 		return
@@ -107,6 +109,8 @@ var/list/kick_verb
 /datum/component/footstep/proc/play_humanstep()
 	var/turf/open/T = prepare_step()
 	if(!T)
+		return
+	if(HAS_TRAIT(parent, TRAIT_SILENT_FOOTSTEPS))
 		return
 	var/mob/living/carbon/human/H = parent
 	var/feetCover = (H.wear_armor && (H.wear_armor.body_parts_covered & FEET)) || (H.wear_pants && (H.wear_pants.body_parts_covered & FEET))
