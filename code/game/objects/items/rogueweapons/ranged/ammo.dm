@@ -9,17 +9,45 @@
 /obj/item/ammo_casing/caseless/rogue/
 	firing_effect_type = null
 
-/obj/item/ammo_casing/caseless/rogue/ready_proj()
-	var/obj/projectile/P = ..(arglist(args))
+/obj/item/ammo_casing/caseless/rogue/arrow/ready_proj()
+	var/obj/projectile/P = ..()
 	if(!P)
 		return P
 
-	if(reagents && reagents.total_volume)
-		if(!P.reagents)
-			P.create_reagents(2) 
-		// use poison only once
-		reagents.trans_to(P, reagents.total_volume)
+	if(attached_payload)
+		var/obj/item/PAY = attached_payload
+		attached_payload = null
+
+		P.attached_payload = PAY
+		PAY.forceMove(P)
+
+		update_payload_visual() 
+
 	return P
+
+/obj/projectile/proc/trigger_payload_on_hit(atom/target)
+	if(!attached_payload)
+		return
+
+	var/obj/item/P = attached_payload
+	attached_payload = null
+
+	var/turf/T = get_turf(target)
+	if(!T)
+		T = get_turf(src)
+
+	P.forceMove(T)
+
+	if(istype(P, /obj/item/impact_grenade))
+		var/obj/item/impact_grenade/G = P
+		G.explodes()
+		return
+
+	if(istype(P, /obj/item/tntstick))
+		var/obj/item/tntstick/B = P
+		B.lit = TRUE
+		B.explode(TRUE)
+		return
 
 /obj/projectile/proc/apply_tipped_reagents(atom/target, mob/living/user)
 	if(!reagents || !reagents.total_volume)
@@ -92,15 +120,10 @@
 	apply_tipped_reagents(target, firer)
 
 	var/mob/living/L = firer
-	if(!L || !L.mind)
-		return
-
-	var/mob/living/L = firer
 	if(!L || !L.mind) 
 		return
 
 	var/skill_multiplier = 0
-
 	if(isliving(target)) // If the target theyre shooting at is a mob/living
 		var/mob/living/T = target
 		if(T.stat != DEAD) // If theyre alive
@@ -184,6 +207,7 @@
 	..()
 
 	apply_tipped_reagents(target, firer)
+	trigger_payload_on_hit(target)
 
 	var/mob/living/L = firer
 	if(!L || !L.mind)
@@ -784,3 +808,87 @@
 #undef ARROW_PENETRATION
 #undef BOLT_PENETRATION
 #undef BULLET_PENETRATION
+
+
+// ===== !!Arrow payload!! ===
+
+/obj/item/ammo_casing/caseless/rogue/arrow
+	var/obj/item/attached_payload = null
+	var/base_icon_state = null
+
+/obj/item/ammo_casing/caseless/rogue/arrow/Initialize()
+	. = ..()
+	base_icon_state = icon_state
+
+/obj/item/ammo_casing/caseless/rogue/arrow/examine(mob/user)
+	. = ..()
+	if(attached_payload)
+		. += span_notice("Something is tied to it: [attached_payload.name].")
+
+/obj/item/ammo_casing/caseless/rogue/arrow/proc/update_payload_visual()
+	overlays.Cut()
+	if(base_icon_state)
+		icon_state = base_icon_state
+
+	if(!attached_payload)
+		return
+
+	var/ov = null
+	if(istype(attached_payload, /obj/item/impact_grenade))
+		ov = "arrowimpact"
+	else if(istype(attached_payload, /obj/item/tntstick))
+		ov = "arrowtnt"
+	else
+		ov = "arrowimpact" 
+
+	overlays += image(icon, ov)
+
+	if(ismob(loc))
+		var/mob/M = loc
+		M.update_inv_hands()
+
+/obj/item/ammo_casing/caseless/rogue/arrow/attackby(obj/item/I, mob/user, params)
+	if(!(I in user.contents) || !(src in user.contents))
+		return ..()
+
+	if(attached_payload && I && I.tool_behaviour == TOOL_KNIFE)
+		var/obj/item/P = attached_payload
+		attached_payload = null
+		P.forceMove(get_turf(user))
+		user.put_in_hands(P)
+		to_chat(user, span_notice("You cut [P] free from the arrow."))
+		update_payload_visual()
+		return TRUE
+
+	if(attached_payload)
+		to_chat(user, span_warning("This arrow already has something tied to it."))
+		return TRUE
+
+	if(istype(I, /obj/item/tntstick))
+		var/obj/item/tntstick/T = I
+		if(T.lit)
+			to_chat(user, span_warning("You probably shouldn't tie a lit fuse to an arrow."))
+			return TRUE
+
+		user.visible_message(
+			span_notice("[user] ties [I] onto \the [src]."),
+			span_notice("You tie [I] onto the arrow.")
+		)
+		user.dropItemToGround(I)
+		I.forceMove(src)
+		attached_payload = I
+		update_payload_visual()
+		return TRUE
+
+	if(istype(I, /obj/item/impact_grenade))
+		user.visible_message(
+			span_notice("[user] ties [I] onto \the [src]."),
+			span_notice("You tie [I] onto the arrow.")
+		)
+		user.dropItemToGround(I)
+		I.forceMove(src)
+		attached_payload = I
+		update_payload_visual()
+		return TRUE
+
+	return ..()
