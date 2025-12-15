@@ -964,6 +964,7 @@
 	wbalance = WBALANCE_HEAVY
 	wdefense = 10 //im experimenting here
 	minstr = 13
+	item_flags = GIANT_WEAPON
 	pixel_y = -16
 	pixel_x = -16
 	bigboy = TRUE

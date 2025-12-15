@@ -1417,6 +1417,7 @@
 	desc = "The mind of an ogre does not see trash in a field of discarded swords and corpses. He sees material to make a new weapon, with a light snack.."
 	icon_state = "ogre_sword"
 	minstr = 15 //have you seen the size of this thing??
+	item_flags = GIANT_WEAPON
 	smelt_bar_num = 2
 	force = 20
 	force_wielded = 35
@@ -1435,6 +1436,7 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 	minstr = 15
+	item_flags = GIANT_WEAPON
 	force_wielded = 35
 	max_integrity = 260
 
@@ -1447,6 +1449,7 @@
 	gripped_intents = list(/datum/intent/mace/strike/reach, /datum/intent/mace/smash/reach, /datum/intent/mace/rangedthrust, /datum/intent/effect/daze)
 	smelt_bar_num = 2
 	minstr = 15
+	item_flags = GIANT_WEAPON
 	force_wielded = 35
 	max_blade_int = 250
 	max_integrity = 280
