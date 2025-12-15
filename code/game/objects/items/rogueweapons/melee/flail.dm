@@ -231,3 +231,13 @@
 	wdefense = 3
 	wbalance = WBALANCE_HEAVY
 	item_flags = PEASANT_WEAPON
+
+/obj/item/rogueweapon/flail/kazenogre
+	force = 35
+	possible_item_intents = list(/datum/intent/flail/strike/smashrange, /datum/intent/dagger/thrust, /datum/intent/dagger/cut)
+	name = "hand of the shadow"
+	desc = "If you are anything less than a master of the flail, you will disembowel yourself with this before you even hit your opponent. It can be used as both a dagger and flail at a distance, useful against both lightly wrapped and heavily tinned food."
+	icon_state = "kazenflail"
+	minstr = 15
+	icon = 'icons/roguetown/weapons/whips32.dmi'
+	sharpness = IS_BLUNT

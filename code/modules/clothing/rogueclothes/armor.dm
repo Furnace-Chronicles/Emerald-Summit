@@ -1754,3 +1754,20 @@
 	icon_state = "ogre_cuirass"
 	max_integrity = 600 // wow these guys are super weak
 	allowed_race = OGRE_RACE_TYPES
+
+/obj/item/clothing/suit/roguetown/armor/leather/studded/ogre
+	name = "irongut shadow robe"
+	desc = " A heavily padded kimono has been fitted with a bellyplate worthy of an irongut shadow, the elusive mercenary ogres of the eastern isles."
+	item_state = "kazen_armor"
+	icon_state = "kazen_armor"
+	max_integrity = 350 
+	allowed_race = OGRE_RACE_TYPES
+	blocksound = SOFTHIT
+	armor = ARMOR_LEATHER_STUDDED
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_CHOP, BCLASS_SMASH)
+	nodismemsleeves = TRUE
+	body_parts_covered = COVERAGE_ALL_BUT_ARMS
+	max_integrity = 300
+	smeltresult = /obj/item/ingot/iron
+	sellprice = 25
+	armor_class = ARMOR_CLASS_LIGHT

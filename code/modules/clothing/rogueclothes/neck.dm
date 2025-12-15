@@ -839,3 +839,13 @@
 	icon_state = "ogre_gorget"
 	allowed_race = OGRE_RACE_TYPES
 	max_integrity = 350
+
+/obj/item/clothing/neck/roguetown/chaincoif/iron/ogre
+	name = "irongut shadow hood"
+	desc = " A coif of padded cloth with maille, ear protectors and a skullcap cleverly integrated. The irongut shadows are the craftiest of the ogre mercenaries, and well feared when upset."
+	icon_state = "kazen_helmet"
+	max_integrity = 250
+	allowed_race = OGRE_RACE_TYPES
+	body_parts_covered = HEAD | NOSE | EARS | HAIR //they can bite and are vulnerable to mouthsmashing
+	anvilrepair = /datum/skill/craft/armorsmithing
+	smeltresult = /obj/item/ingot/iron

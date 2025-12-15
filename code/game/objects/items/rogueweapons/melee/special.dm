@@ -443,6 +443,24 @@
 	force = 25
 	icon_state = "eoraknuckle"
 
+/obj/item/rogueweapon/knuckles/ogre
+	name = "meat tenderizers"
+	desc = "Custom crafted for a giant's grip, these iron knuckles are fitted with sharp animal fangs that tear ragged wounds as the fist drags on impact. You won't get a nice steak out of these, but some good ground meat."
+	force = 27 //10% more power than eora knuckles
+	possible_item_intents = list(/datum/intent/knuckles/strike,/datum/intent/knuckles/smash, /datum/intent/claw/rend)
+	icon = 'icons/roguetown/weapons/blunt32.dmi'
+	icon_state = "ogre_knuckle"
+	minstr = 14 // not so collosal compared to other ogre's gear
+
+/obj/item/rogueweapon/knuckles/ogre/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.2,"sx" = -7,"sy" = -4,"nx" = 7,"ny" = -4,"wx" = -3,"wy" = -4,"ex" = 1,"ey" = -4,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 110,"sturn" = -110,"wturn" = -110,"eturn" = 110,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.1,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
 ///Peasantry / Militia Weapon Pack///
 
 /obj/item/rogueweapon/woodstaff/militia
