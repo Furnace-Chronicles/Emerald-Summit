@@ -849,3 +849,4 @@
 	body_parts_covered = HEAD | NOSE | EARS | HAIR //they can bite and are vulnerable to mouthsmashing
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/iron
+

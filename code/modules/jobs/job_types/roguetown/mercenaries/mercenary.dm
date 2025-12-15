@@ -50,6 +50,5 @@
 		/datum/advclass/mercenary/grudgebearer,
 		/datum/advclass/mercenary/grudgebearer/soldier,
 		/datum/advclass/mercenary/grudgekeeper,
-		/datum/advclass/mercenary/trollslayer,
-		/datum/advclass/mercenary/irongut
+		/datum/advclass/mercenary/trollslayer
 	)

@@ -1758,8 +1758,9 @@
 /obj/item/clothing/suit/roguetown/armor/leather/studded/ogre
 	name = "irongut shadow robe"
 	desc = " A heavily padded kimono has been fitted with a bellyplate worthy of an irongut shadow, the elusive mercenary ogres of the eastern isles."
-	item_state = "kazen_armor"
-	icon_state = "kazen_armor"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/32x64/ogre_onmob_sleeves.dmi'
+	icon_state = "kazen_ogre"
 	max_integrity = 350 
 	allowed_race = OGRE_RACE_TYPES
 	blocksound = SOFTHIT
