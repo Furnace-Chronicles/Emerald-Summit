@@ -95,7 +95,7 @@
 	outfit = /datum/outfit/job/wapprentice/alchemist
 	category_tags = list(CTAG_WAPPRENTICE)
 
-	traits_applied = list(TRAIT_SEEDKNOW)
+	traits_applied = list(TRAIT_SEEDKNOW, TRAIT_TALENTED_ALCHEMIST)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 3,

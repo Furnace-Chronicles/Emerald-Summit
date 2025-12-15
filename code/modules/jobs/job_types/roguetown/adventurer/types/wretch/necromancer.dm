@@ -8,7 +8,7 @@
 	cmode_music = 'sound/music/combat_cult.ogg'
 	extra_context = "Only those that worship ZIZO may be necromancers."
 
-	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_GRAVEROBBER, TRAIT_ARCYNE_T3, TRAIT_RITUALIST) // removing zombie immunity cos zizo gives u it by default
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_GRAVEROBBER, TRAIT_ARCYNE_T3, TRAIT_RITUALIST, TRAIT_TALENTED_ALCHEMIST) // removing zombie immunity cos zizo gives u it by default
 	// Necromancer get the most +4 Int, +2 Perception just like Sorc (Adv Mage), and a bit of endurance / speed
 	subclass_stats = list(
 		STATKEY_INT = 4,

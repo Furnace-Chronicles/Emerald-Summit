@@ -76,7 +76,7 @@
 		show_xp = FALSE
 	if((L.get_skill_level(skill) < SKILL_LEVEL_APPRENTICE) && !is_considered_sleeping())
 		var/org_lvl = L.get_skill_level(skill)
-		L.adjust_experience(skill, amt)
+		L.adjust_experience(skill, amt, FALSE, FALSE) // Bypass trait requirements for sleep XP (skillbooks, etc.)
 		var/new_lvl = L.get_skill_level(skill)
 		var/capped_post_check = enough_sleep_xp_to_advance(skill, 2)
 		if(COOLDOWN_FINISHED(src, xp_show))

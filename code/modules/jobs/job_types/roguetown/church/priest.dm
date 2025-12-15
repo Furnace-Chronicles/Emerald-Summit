@@ -42,7 +42,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		/datum/virtue/combat/hollow_life,
 	)
 
-	job_traits = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_SOUL_EXAMINE, TRAIT_CLERGY)
+	job_traits = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_SOUL_EXAMINE, TRAIT_CLERGY, TRAIT_TALENTED_ALCHEMIST)
 	advclass_cat_rolls = list(CTAG_BISHOP = 2)
 	job_subclasses = list(
 		/datum/advclass/bishop

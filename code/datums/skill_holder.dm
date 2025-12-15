@@ -58,8 +58,42 @@
 	UnregisterSignal(source, COMSIG_MIND_TRANSFER)
 	set_current(destination)
 
-/datum/skill_holder/proc/adjust_experience(skill, amt, silent = FALSE)
+/datum/skill_holder/proc/adjust_experience(skill, amt, silent = FALSE, check_apprentice = TRUE)
 	var/datum/skill/S = GetSkillRef(skill)
+	
+	// Check if advancement is blocked by missing required traits
+	if(check_apprentice && S.advancement_traits)
+		var/current_level = known_skills[S] || SKILL_LEVEL_NONE
+		for(var/required_level in S.advancement_traits)
+			if(current_level >= required_level)
+				continue // Already past this threshold
+			// Check if we would cross this threshold with this XP gain
+			var/new_exp = skill_experience[S] + amt
+			var/threshold_exp
+			switch(required_level)
+				if(SKILL_LEVEL_LEGENDARY)
+					threshold_exp = SKILL_EXP_LEGENDARY
+				if(SKILL_LEVEL_MASTER)
+					threshold_exp = SKILL_EXP_MASTER
+				if(SKILL_LEVEL_EXPERT)
+					threshold_exp = SKILL_EXP_EXPERT
+				if(SKILL_LEVEL_JOURNEYMAN)
+					threshold_exp = SKILL_EXP_JOURNEYMAN
+				if(SKILL_LEVEL_APPRENTICE)
+					threshold_exp = SKILL_EXP_APPRENTICE
+				if(SKILL_LEVEL_NOVICE)
+					threshold_exp = SKILL_EXP_NOVICE
+				else
+					threshold_exp = 0
+			if(new_exp >= threshold_exp)
+				// Would cross threshold - check for required traits
+				var/list/required_traits = S.advancement_traits[required_level]
+				for(var/trait in required_traits)
+					if(!HAS_TRAIT(current, trait))
+						if(!silent)
+							to_chat(current, span_warning("My [S.name] knowledge feels... blocked. Perhaps I need some natural talent for this."))
+						return
+	
 	skill_experience[S] = max(0, skill_experience[S] + amt) //Prevent going below 0
 	var/old_level = known_skills[S]
 	switch(skill_experience[S])
