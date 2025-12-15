@@ -993,6 +993,66 @@
 			top.werewolf_infect_attempt()
 			return
 
+/datum/status_effect/buff/baothasbanquet
+	id = "baothasbanquet"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/baothasbanquet
+	effectedstats = list("strength" = 1, "intelligence" = 1, "perception" = 1 , "speed" = 1, "endurance" = 1, "constitution" = 1)
+	duration = 15 MINUTES
+	var/tier = 1
+	var/list/poor_bastards = list()
+
+/atom/movable/screen/alert/status_effect/buff/baothasbanquet
+	name = "Baotha's Banquet (I)"
+	desc = "I feel invigorated after partaking in another's energy."
+	icon_state = "baothasbanquet"
+
+/datum/status_effect/buff/baothasbanquet/proc/tier_up(var/mob/living/poor_sod)
+	refresh()
+	if(poor_sod in poor_bastards)
+		return
+	poor_bastards += poor_sod
+	if(tier < 3)
+		on_remove()
+		tier++
+		switch(tier)
+			if(2)
+				effectedstats = list("strength" = 2, "intelligence" = 2, "perception" = 2 , "speed" = 2, "endurance" = 2, "constitution" = 2)
+				linked_alert.name = "Baotha's Banquet (II)"
+				linked_alert.desc = "The strength of others nourishes me!"
+			if(3)
+				effectedstats = list("strength" = 3, "intelligence" = 3, "perception" = 3 , "speed" = 3, "endurance" = 3, "constitution" = 3)
+				linked_alert.name = "Baotha's Banquet (III)"
+				linked_alert.desc = "This power is ADDICTING!"
+		on_apply()
+
+/datum/status_effect/debuff/baothadrained
+	id = "baothadrained"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/baothadrained
+	effectedstats = list("strength" = -1, "intelligence" = -1, "perception" = -1 , "speed" = -1, "endurance" = -1, "constitution" = -1)
+	duration = 15 MINUTES
+	var/tier = 1
+
+/atom/movable/screen/alert/status_effect/debuff/baothadrained
+	name = "Vitality Drained (I)"
+	desc = "That was exhausting..."
+	icon_state = "baothadrained"
+
+/datum/status_effect/debuff/baothadrained/proc/tier_up()
+	refresh()
+	if(tier < 3)
+		on_remove()
+		tier++
+		switch(tier)
+			if(2)
+				effectedstats = list("strength" = -2, "intelligence" = -2, "perception" = -2 , "speed" = -2, "endurance" = -2, "constitution" = -2)
+				linked_alert.name = "Vitality Drained (II)"
+				linked_alert.desc = "That really took it out of me..."
+			if(3)
+				effectedstats = list("strength" = -3, "intelligence" = -3, "perception" = -3 , "speed" = -3, "endurance" = -3, "constitution" = -3)
+				linked_alert.name = "Vitality Drained (III)"
+				linked_alert.desc = "I feel like I lost a part of myself..."
+		on_apply()
+
 #undef SEX_ZONE_NULL
 #undef SEX_ZONE_GROIN
 #undef SEX_ZONE_GROIN_GRAB

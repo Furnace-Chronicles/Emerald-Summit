@@ -963,30 +963,3 @@
 	desc = "I used it. I must wait."
 	icon_state = "debuff"
 
-/datum/status_effect/debuff/baothadrained
-	id = "baothadrained"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/baothadrained
-	effectedstats = list("strength" = -1, "intelligence" = -1, "perception" = -1 , "speed" = -1, "endurance" = -1, "constitution" = -1)
-	duration = 15 MINUTES
-	var/tier = 1
-
-/atom/movable/screen/alert/status_effect/debuff/baothadrained
-	name = "Vitality Drained (I)"
-	desc = "That was exhausting..."
-	icon_state = "baothadrained"
-
-/datum/status_effect/debuff/baothadrained/proc/tier_up()
-	refresh()
-	if(tier < 3)
-		on_remove()
-		tier++
-		switch(tier)
-			if(2)
-				effectedstats = list("strength" = -2, "intelligence" = -2, "perception" = -2 , "speed" = -2, "endurance" = -2, "constitution" = -2)
-				linked_alert.name = "Vitality Drained (II)"
-				linked_alert.desc = "That really took it out of me..."
-			if(3)
-				effectedstats = list("strength" = -3, "intelligence" = -3, "perception" = -3 , "speed" = -3, "endurance" = -3, "constitution" = -3)
-				linked_alert.name = "Vitality Drained (III)"
-				linked_alert.desc = "I feel like I lost a part of myself..."
-		on_apply()
