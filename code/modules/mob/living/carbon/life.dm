@@ -112,6 +112,9 @@
 		return TRUE
 	if(HAS_TRAIT(src, TRAIT_HOLDBREATH))
 		adjustOxyLoss(10)
+	var/list/lethal_zones = list(BODY_ZONE_HEAD, BODY_ZONE_CHEST);
+	if(health <= HEALTH_THRESHOLD_FULLCRIT && getFireLoss(lethal_zones) >= (100 / FIRE_HARDCRIT_DIVISOR) * getMaxHealth(lethal_zones))
+		adjustOxyLoss(10)
 	if(istype(loc, /obj/structure/closet/dirthole))
 		adjustOxyLoss(5)
 	if(istype(loc, /obj/structure/closet/burial_shroud))
