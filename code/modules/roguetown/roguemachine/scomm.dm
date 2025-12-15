@@ -300,7 +300,7 @@
 	icon_state = "scomm1"
 	density = FALSE
 	blade_dulling = DULLING_BASH
-	max_integrity = 0
+	max_integrity = 500
 	pixel_y = 32
 	flags_1 = HEAR_1
 	anchored = TRUE
