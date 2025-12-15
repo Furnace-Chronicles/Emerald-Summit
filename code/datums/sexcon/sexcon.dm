@@ -284,6 +284,33 @@
 		else
 			splashed_type.refresh_cum()
 	after_ejaculation()
+
+	//EVIL ASS LEVELDRAIN
+	if(HAS_TRAIT(user, TRAIT_DEPRAVED) && user.cmode)
+		var/datum/status_effect/buff/baothasbanquet/boost_buff = user.has_status_effect(/datum/status_effect/buff/baothasbanquet)
+		if(boost_buff)
+			boost_buff.tier_up(target)
+		else
+			boost_buff = user.apply_status_effect(/datum/status_effect/buff/baothasbanquet)
+			boost_buff.poor_bastards += target
+		var/datum/status_effect/debuff/baothadrained/drain_debuff = target.has_status_effect(/datum/status_effect/debuff/baothadrained)
+		if(drain_debuff)
+			drain_debuff.tier_up()
+		else
+			target.apply_status_effect(/datum/status_effect/debuff/baothadrained)
+	if(HAS_TRAIT(target, TRAIT_DEPRAVED) && target.cmode)
+		var/datum/status_effect/buff/baothasbanquet/boost_buff = target.has_status_effect(/datum/status_effect/buff/baothasbanquet)
+		if(boost_buff)
+			boost_buff.tier_up(user)
+		else
+			boost_buff = target.apply_status_effect(/datum/status_effect/buff/baothasbanquet)
+			boost_buff.poor_bastards += user
+		var/datum/status_effect/debuff/baothadrained/drain_debuff = user.has_status_effect(/datum/status_effect/debuff/baothadrained)
+		if(drain_debuff)
+			drain_debuff.tier_up()
+		else
+			user.apply_status_effect(/datum/status_effect/debuff/baothadrained)
+		
 	if(!oral)
 		after_intimate_climax()
 
@@ -372,6 +399,8 @@
 /datum/sex_controller/proc/handle_charge(dt)
 	if(user.has_flaw(/datum/charflaw/addiction/lovefiend))
 		dt *= 2
+	if(HAS_TRAIT(user, TRAIT_DEPRAVED))
+		dt *= 2
 	adjust_charge(dt * CHARGE_RECHARGE_RATE)
 	if(is_spent())
 		if(arousal > 60)
@@ -430,6 +459,9 @@
 	if(user.stat == DEAD)
 		arousal_amt = 0
 		pain_amt = 0
+
+	if(HAS_TRAIT(user, TRAIT_DEPRAVED))
+		pain_amt *= 0.66
 
 	if(!arousal_frozen)
 		adjust_arousal(arousal_amt)
@@ -835,15 +867,9 @@
 /datum/sex_controller/proc/get_force_pleasure_multiplier(passed_force, giving)
 	switch(passed_force)
 		if(SEX_FORCE_LOW)
-			if(giving)
-				return 0.8
-			else
-				return 0.8
+			return 0.8
 		if(SEX_FORCE_MID)
-			if(giving)
-				return 1.2
-			else
-				return 1.2
+			return 1.2
 		if(SEX_FORCE_HIGH)
 			if(giving)
 				return 1.6
