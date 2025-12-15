@@ -88,7 +88,7 @@
 				if(outcomes[outcomes[1]] >= 5)
 					var/result_path = outcomes[1]
 					var/datum/alch_cauldron_recipe/found_recipe = new result_path
-					var/amt2raise = lastuser?.STAINT*2
+					var/amt2raise = lastuser?.STAINT*0.4  // Reduced from STAINT*2 (80% reduction)
 					var/in_cauldron = src?.reagents?.get_reagent_amount(/datum/reagent/water)
 					// Handle skillgating
 					if(!lastuser)
@@ -104,7 +104,7 @@
 							qdel(ing)
 						src.reagents.add_reagent(/datum/reagent/yuck, in_cauldron) // 1 to 1 transmutation of yuck
 						// Learn from your failure (Yeah you can technically still grind this way you just blow through a lot of ingredients)
-						lastuser?.adjust_experience(/datum/skill/craft/alchemy, amt2raise, FALSE) 
+					lastuser?.adjust_experience(/datum/skill/craft/alchemy, amt2raise, FALSE) 
 						return
 					for(var/obj/item/ing in src.ingredients)
 						qdel(ing)
@@ -120,7 +120,7 @@
 					record_featured_stat(FEATURED_STATS_ALCHEMISTS, lastuser)
 					record_round_statistic(STATS_POTIONS_BREWED)
 					//give xp for /datum/skill/craft/alchemy
-					lastuser?.adjust_experience(/datum/skill/craft/alchemy, amt2raise, FALSE)
+				lastuser?.adjust_experience(/datum/skill/craft/alchemy, amt2raise, FALSE)
 					playsound(src, "bubbles", 100, TRUE)
 					playsound(src,'sound/misc/smelter_fin.ogg', 30, FALSE)
 					ingredients = list()
