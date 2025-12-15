@@ -180,37 +180,44 @@
 
 // ------------ Rings ----------------
 /datum/anvil_recipe/engineering/serfstone
-	name = "Serf Stone (+1 cog, +1 Topar)"
-	req_bar = /obj/item/ingot/steel
+	name = "Serf Stone (+1 cog, +1 Toper)"
+	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/roguegear, /obj/item/roguegem/yellow) //using topar since the description calls it a "dull gem"
 	created_item = /obj/item/scomstone/bad
 	craftdiff = 5
 
-/*	For future updates, if people like the serfstones
+
 /datum/anvil_recipe/engineering/houndstone
-	name = "Houndstone (+1 cog, +1 Topar)"
-	req_bar = /obj/item/ingot/Steel
-	additional_items = list(/obj/item/roguegear, /obj/item/roguegem/yellow)
+	name = "Houndstone (+1 Purified Alloy, +1 Cog, +1 Rontz)"
+	req_bar = /obj/item/ingot/gold
+	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/roguegear, /obj/item/roguegem/ruby)
 	created_item = /obj/item/scomstone/bad/garrison
 	craftdiff = 5
 
 /datum/anvil_recipe/engineering/scomstone
-	name = "SCOM Stone (+1 cog, +1 Gemerald, Arcyne)"
-	req_bar = /obj/item/ingot/Gold
-	additional_items = list(/obj/item/roguegear, /obj/item/roguegem/green)
+	name = "SCOM Stone (Arcyne, +1 Cog, +1 Gold, +1 Gemerald)"
+	req_bar = /obj/item/ingot/gold
+	additional_items = list(/obj/item/roguegear, /obj/item/ingot/gold, /obj/item/roguegem/green)
 	created_item = /obj/item/scomstone
-	skillcraft = /datum/skill/magic/arcane
+	appro_skill = /datum/skill/magic/arcane
 	craftdiff = 5
 
 /datum/anvil_recipe/engineering/emeraldchoker
-	name = "emerald choker (+1 cog, +Gold, +1 Gemerald, Arcyne)"
-	req_bar = /obj/item/ingot/Gold
-	additional_items = list(/obj/item/roguegear, /obj/item/ingot/Gold, /obj/item/roguegem/green)
+	name = "emerald choker (Arcyne, +1 Cog, +1 Gold, +1 Gemerald)"
+	req_bar = /obj/item/ingot/gold
+	additional_items = list(/obj/item/roguegear, /obj/item/ingot/gold, /obj/item/ingot/iron, /obj/item/roguegem/green)
 	created_item = /obj/item/scomstone/listenstone
-	skillcraft = /datum/skill/magic/arcane
+	appro_skill = /datum/skill/magic/arcane
 	craftdiff = 5
-	*/
+	
 
+/datum/anvil_recipe/engineering/crownstone
+	name = "Crownstone (Arcyne, Houndstone, +2 Purified Alloy, +1 Gold, +1 Cog, +1 Rontz, +2 Dorpel)"
+	req_bar = /obj/item/ingot/gold
+	additional_items = list(/obj/item/scomstone/bad/garrison, /obj/item/ingot/purifiedaalloy, /obj/item/ingot/purifiedaalloy, /obj/item/ingot/gold, /obj/item/roguegear, /obj/item/roguegem/ruby, /obj/item/roguegem/diamond, /obj/item/roguegem/diamond)
+	created_item = /obj/item/scomstone/garrison
+	appro_skill = /datum/skill/magic/arcane
+	craftdiff = 6
 
 //golem skill up component, check golem.dm
 /datum/anvil_recipe/engineering/golem_skill_core
