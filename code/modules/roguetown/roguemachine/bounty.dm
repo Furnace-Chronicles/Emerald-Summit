@@ -166,16 +166,16 @@
 	SStreasury.log_entries += "+[royal_tax] to treasury (bounty tax)"
 
 	amount -= royal_tax
-
+/*
 	var/race = target.dna.species
 	var/gender = target.gender
 	var/list/d_list = target.get_mob_descriptors()
 	var/descriptor_height = build_coalesce_description_nofluff(d_list, target, list(MOB_DESCRIPTOR_SLOT_HEIGHT), "%DESC1%")
 	var/descriptor_body = build_coalesce_description_nofluff(d_list, target, list(MOB_DESCRIPTOR_SLOT_BODY), "%DESC1%")
 	var/descriptor_voice = build_coalesce_description_nofluff(d_list, target, list(MOB_DESCRIPTOR_SLOT_VOICE), "%DESC1%")
-
+*/
 	// Finally create bounty
-	add_bounty(target.real_name, race, gender, descriptor_height, descriptor_body, descriptor_voice, amount, FALSE, reason, user.real_name)
+	add_bounty(target.real_name, amount, FALSE, reason, user.real_name)
 
 	//Announce it locally and on scomm
 	playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
