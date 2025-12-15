@@ -465,7 +465,7 @@
 		C.remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN)
 
 /atom/movable/screen/alert/status_effect/emberwine
-	name = "Aphrodisiac"
+	name = "Aphrodesiac"
 	desc = "The warmth is spreading through my body..."
 	icon_state = "emberwine"
 
@@ -962,4 +962,3 @@
 	name = "Special Manouevre Cooldown"
 	desc = "I used it. I must wait."
 	icon_state = "debuff"
-
