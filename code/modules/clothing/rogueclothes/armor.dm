@@ -1754,6 +1754,7 @@
 	icon_state = "ogre_cuirass"
 	max_integrity = 600 // wow these guys are super weak
 	allowed_race = OGRE_RACE_TYPES
+	armor_class = ARMOR_CLASS_LIGHT // the simplest armor shouldn't be too restricted after feedback from the players + allows dumdum and etc to wear it
 
 /obj/item/clothing/suit/roguetown/armor/leather/studded/ogre
 	name = "irongut shadow robe"

@@ -8,7 +8,7 @@
 	cmode_music = 'sound/music/combat_guard3.ogg' // i think this is unused, but i like the song
 
 
-	traits_applied = list(TRAIT_BASHDOORS, TRAIT_NOPAINSTUN, TRAIT_CALTROPIMMUNE, TRAIT_STRONGBITE, TRAIT_STRENGTH_UNCAPPED, TRAIT_MEDIUMARMOR, TRAIT_NASTY_EATER, TRAIT_CRITICAL_RESISTANCE) //strongbite might be funny
+	traits_applied = list(TRAIT_HARDDISMEMBER, TRAIT_BASHDOORS, TRAIT_NOPAINSTUN, TRAIT_CALTROPIMMUNE, TRAIT_STRONGBITE, TRAIT_STRENGTH_UNCAPPED, TRAIT_NASTY_EATER, TRAIT_CRITICAL_RESISTANCE) // removed medium armor
 	subclass_stats = list( 
 		STATKEY_STR = 4, 
 		STATKEY_CON = 4,
@@ -32,11 +32,11 @@
 	..()
 	if(H.mind)
 		to_chat(H, span_warning("You no Dum Dum, me Dum Dum. Dum Dum kill that bum-bum!"))
-		shoes = /obj/item/clothing/shoes/roguetown/armor/ogre
+		shoes = /obj/item/clothing/shoes/roguetown/boots/ogre
 		head = /obj/item/clothing/head/roguetown/helmet/skullcap/ogrecap
 		neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 		pants = /obj/item/clothing/under/roguetown/tights/ogre
-		gloves = /obj/item/clothing/gloves/roguetown/plate/ogre
+		gloves = /obj/item/clothing/gloves/roguetown/leather/ogre
 		wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy/ogre
 		belt = /obj/item/storage/belt/rogue/leather/ogre
 		armor = /obj/item/clothing/suit/roguetown/armor/plate/half/ogre

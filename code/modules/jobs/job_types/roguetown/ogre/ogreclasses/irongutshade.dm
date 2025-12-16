@@ -11,13 +11,13 @@
 
 	subclass_languages = list(/datum/language/kazengunese)
 
-	traits_applied = list(TRAIT_LEAPER, TRAIT_STEELHEARTED, TRAIT_LIGHT_STEP, TRAIT_DODGEEXPERT, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_HARDDISMEMBER)
+	traits_applied = list(TRAIT_LEAPER, TRAIT_STEELHEARTED, TRAIT_LIGHT_STEP, TRAIT_DODGEEXPERT, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
 	subclass_stats = list(
 		STATKEY_CON = 1,
 		STATKEY_END = 2,
 		STATKEY_STR = 1, // weaker than other ogres in exchange for some speed
 		STATKEY_PER = 1,
-		STATKEY_SPD = 5 //they get a -3 racial debuff so a +2 in total without virtues
+		STATKEY_SPD = 3 //they get a -1 racial debuff so a +2 in total without virtues
 	)
 
 	subclass_skills = list(
