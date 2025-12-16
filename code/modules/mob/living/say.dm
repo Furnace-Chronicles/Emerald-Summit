@@ -356,6 +356,12 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 // Whether the mob can see runechat from the speaker, assuming he will see his message on the text box
 /mob/proc/can_see_runechat(atom/movable/speaker)
+	var/atom/movable/tocheck = src
+	var/turf/speakturf = get_turf(speaker)
+	var/turf/sourceturf = get_turf(tocheck)
+	var/dist = get_dist(speakturf, sourceturf)
+	if(dist > 7)
+		return FALSE
 	if(!client || !client.prefs)
 		return FALSE
 	if(!client.prefs.chat_on_map)
