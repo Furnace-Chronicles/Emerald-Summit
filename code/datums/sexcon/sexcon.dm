@@ -997,7 +997,7 @@
 	id = "baothasbanquet"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/baothasbanquet
 	effectedstats = list("strength" = 1, "intelligence" = 1, "perception" = 1 , "speed" = 1, "endurance" = 1, "constitution" = 1)
-	duration = 15 MINUTES
+	duration = 30 MINUTES
 	var/tier = 1
 	var/list/poor_bastards = list()
 
@@ -1029,7 +1029,7 @@
 	id = "baothadrained"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/baothadrained
 	effectedstats = list("strength" = -1, "intelligence" = -1, "perception" = -1 , "speed" = -1, "endurance" = -1, "constitution" = -1)
-	duration = 15 MINUTES
+	duration = 30 MINUTES
 	var/tier = 1
 
 /atom/movable/screen/alert/status_effect/debuff/baothadrained
