@@ -279,3 +279,17 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
 	icon_state = "ogre_bracers"
 	allowed_race = OGRE_RACE_TYPES
+
+/obj/item/clothing/wrists/roguetown/bracers/leather/heavy/ogre
+	name = "hardened leather bracers"
+	desc = "Hardened leather braces that will keep your wrists safe from bludgeoning."
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/32x64/ogre_onmob_sleeves.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	icon_state = "ogre_leather_b"
+	allowed_race = OGRE_RACE_TYPES
+	armor = ARMOR_LEATHER_GOOD
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_CHOP, BCLASS_SMASH)
+	max_integrity = 265
+	salvage_amount = 1
+	salvage_result = /obj/item/natural/hide/cured
+

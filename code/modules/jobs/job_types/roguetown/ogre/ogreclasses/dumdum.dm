@@ -33,12 +33,14 @@
 	if(H.mind)
 		to_chat(H, span_warning("You no Dum Dum, me Dum Dum. Dum Dum kill that bum-bum!"))
 		shoes = /obj/item/clothing/shoes/roguetown/armor/ogre
+		head = /obj/item/clothing/head/roguetown/helmet/skullcap/ogrecap
 		neck = /obj/item/storage/belt/rogue/pouch/coins/poor
-		pants = /obj/item/clothing/under/roguetown/chainlegs/ogre
+		pants = /obj/item/clothing/under/roguetown/tights/ogre
 		gloves = /obj/item/clothing/gloves/roguetown/plate/ogre
-		wrists = /obj/item/clothing/wrists/roguetown/bracers/ogre
+		wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy/ogre
 		belt = /obj/item/storage/belt/rogue/leather/ogre
 		armor = /obj/item/clothing/suit/roguetown/armor/plate/half/ogre
+		shirt = /obj/item/clothing/suit/roguetown/shirt/ogre
 		beltr = /obj/item/rogueweapon/huntingknife/cleaver/ogre
 		backr = /obj/item/storage/backpack/rogue/satchel
 		backpack_contents = list(

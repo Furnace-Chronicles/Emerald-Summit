@@ -833,6 +833,7 @@
 	icon_state = "amulet_shell"
 	slot_flags = ITEM_SLOT_NECK
 	sellprice = 25
+
 /obj/item/clothing/neck/roguetown/gorget/ogre
 	name = "giant gorget"
 	desc = "For the hardest working neck in the province, since you know people are going to target it first."

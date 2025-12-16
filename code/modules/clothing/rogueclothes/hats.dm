@@ -2877,3 +2877,15 @@
 	item_state = "warlhelmet"
 	allowed_race = OGRE_RACE_TYPES
 	flags_inv = HIDEEARS|HIDEHAIR
+
+/obj/item/clothing/head/roguetown/helmet/skullcap/ogrecap
+	name = "hardened circlet"
+	desc = "A strange mix of circlets, rivets and hardened leather designed to cover the neck, head and nose from blades."
+	icon_state = "ogre_studded_helmet"
+	item_state = "ogre_studded_helmet"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	body_parts_covered = HEAD | NOSE | EARS | HAIR | NECK
+	smeltresult = /obj/item/ingot/iron
+	allowed_race = OGRE_RACE_TYPES
+	flags_inv = HIDEEARS|HIDEHAIR
+	max_integrity = 250
