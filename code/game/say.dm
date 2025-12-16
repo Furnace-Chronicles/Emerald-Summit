@@ -151,9 +151,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 					messagepart = " exclaims something unintelligible!"
 				else
 					messagepart = " says something unintelligible."
-				spanpart1 = "<span class='small'>"
-			else
-				spanpart1 = "<span class='smallyell'>"
+			spanpart1 = "<span class='smallyell'>"
 
 	var/languageicon = ""
 	// var/datum/language/D = GLOB.language_datum_instances[message_language]
