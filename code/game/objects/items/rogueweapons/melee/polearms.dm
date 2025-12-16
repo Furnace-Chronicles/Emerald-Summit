@@ -244,14 +244,14 @@
 	force = 25
 	force_wielded = 28
 	icon_state = "aries"
-	icon = 'icons/roguetown/weapons/misc32.dmi'
+	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	pixel_y = 0
 	pixel_x = 0
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 	bigboy = FALSE
-	gripsprite = FALSE
-	gripped_intents = null
+	gripsprite = TRUE
+	gripped_intents = list(/datum/intent/spear/bash/ranged, /datum/intent/mace/smash/wood)
 	cast_time_reduction = 0.4
 
 /obj/item/rogueweapon/woodstaff/aries/getonmobprop(tag)
