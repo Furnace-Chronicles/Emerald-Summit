@@ -9,60 +9,6 @@
 /obj/item/ammo_casing/caseless/rogue/
 	firing_effect_type = null
 
-/obj/projectile
-	var/obj/item/attached_payload = null
-
-/obj/item/ammo_casing/caseless/rogue/arrow/ready_proj()
-	var/obj/projectile/P = ..()
-	if(!P)
-		return P
-
-	if(attached_payload)
-		var/obj/item/PAY = attached_payload
-		attached_payload = null
-
-		P.attached_payload = PAY
-		PAY.forceMove(P)
-
-		update_payload_visual()
-
-	return P
-
-/obj/projectile/proc/trigger_payload_on_hit(atom/target)
-	if(!attached_payload)
-		return
-
-	var/obj/item/P = attached_payload
-	attached_payload = null
-
-	var/turf/T = get_turf(target)
-	if(!T)
-		T = get_turf(src)
-
-	P.forceMove(T)
-
-	if(istype(P, /obj/item/impact_grenade))
-		var/obj/item/impact_grenade/G = P
-		G.explodes()
-		return
-
-	if(istype(P, /obj/item/tntstick))
-		var/obj/item/tntstick/B = P
-		B.lit = TRUE
-		B.explode(TRUE)
-		return
-
-/obj/projectile/proc/apply_tipped_reagents(atom/target, mob/living/user)
-	if(!reagents || !reagents.total_volume)
-		return
-	if(!isliving(target))
-		return
-	var/mob/living/M = target
-	if(HAS_TRAIT(M, TRAIT_NOMETABOLISM))
-		reagents.clear_reagents()
-		return
-	reagents.trans_to(M, reagents.total_volume, transfered_by = user)
-
 //bolts ฅ^•ﻌ•^ฅ
 
 /obj/item/ammo_casing/caseless/rogue/bolt
@@ -76,10 +22,6 @@
 	dropshrink = 0.6
 	max_integrity = 10
 	force = 10
-
-/obj/item/ammo_casing/caseless/rogue/bolt/ComponentInitialize()
-	. = ..()
-	AddElement(/datum/element/tipped_item)
 
 /obj/item/ammo_casing/caseless/rogue/bolt/aalloy
 	name = "decrepit bolt"
@@ -120,13 +62,12 @@
 /obj/projectile/bullet/reusable/bolt/on_hit(atom/target)
 	. = ..()
 
-	apply_tipped_reagents(target, firer)
-
 	var/mob/living/L = firer
-	if(!L || !L.mind)
+	if(!L || !L.mind) 
 		return
 
 	var/skill_multiplier = 0
+
 	if(isliving(target)) // If the target theyre shooting at is a mob/living
 		var/mob/living/T = target
 		if(T.stat != DEAD) // If theyre alive
@@ -151,10 +92,6 @@
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	max_integrity = 10
 
-/obj/item/ammo_casing/caseless/rogue/arrow/ComponentInitialize()
-	. = ..()
-	AddElement(/datum/element/tipped_item)
-
 /obj/item/ammo_casing/caseless/rogue/arrow/stone
 	name = "stone arrow"
 	desc = "A simple dowel sports lashed flint knapped and honed to a razor edge. Folk \
@@ -171,7 +108,7 @@
 	shooters will."
 	projectile_type = /obj/projectile/bullet/reusable/arrow/iron
 
-/obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy
+/obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy 
 	name = "decrepit broadhead arrow"
 	desc = "A decrepit old arrow. Seems unlikely to penetrate anything."
 	icon_state = "ancientarrow"
@@ -209,11 +146,8 @@
 /obj/projectile/bullet/reusable/arrow/on_hit(atom/target)
 	..()
 
-	apply_tipped_reagents(target, firer)
-	trigger_payload_on_hit(target)
-
 	var/mob/living/L = firer
-	if(!L || !L.mind)
+	if(!L || !L.mind) 
 		return
 
 	var/skill_multiplier = 0
@@ -284,7 +218,7 @@
 
 /obj/projectile/bullet/reusable/arrow/poison
 	name = "poison iron arrow"
-	damage = 20
+	damage = 20	
 	damage_type = BRUTE
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "arrow_proj"
@@ -596,7 +530,7 @@
 	wlength = WLENGTH_NORMAL
 	w_class = WEIGHT_CLASS_BULKY
 	armor_penetration = 40					//Redfined because.. it's not a weapon, it's an 'arrow' basically.
-	max_integrity = 50						//Breaks semi-easy, stops constant re-use.
+	max_integrity = 50						//Breaks semi-easy, stops constant re-use. 
 	wdefense = 3							//Worse than a spear
 	thrown_bclass = BCLASS_STAB				//Knives are slash, lets try out stab and see if it's too strong in terms of wounding.
 	throwforce = 25							//throwing knife is 22, slightly better for being bulkier.
@@ -658,7 +592,7 @@
 
 //Snowflake code to make sure the silver-bane is applied on hit to targeted mob. Thanks to Aurorablade for getting this code to work.
 /obj/item/ammo_casing/caseless/rogue/javelin/silver/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
-	..()
+	..() 
 	if(!iscarbon(hit_atom))
 		return//abort
 
@@ -676,7 +610,7 @@
 	dropshrink = 0.6
 	possible_item_intents = list(INTENT_GENERIC) //not intended to attack with them
 	max_integrity = 20
-
+	
 /obj/item/ammo_casing/caseless/rogue/sling_bullet/stone //these should be seen
 	name = "stone sling bullet"
 	desc = "A stone refined for wrath."
@@ -736,7 +670,7 @@
 
 	if(skill_multiplier && can_train_combat_skill(L, /datum/skill/combat/slings, SKILL_LEVEL_LEGENDARY))
 		L.mind.add_sleep_experience(/datum/skill/combat/slings, L.STAINT * skill_multiplier)
-
+		
 /obj/projectile/bullet/reusable/sling_bullet //parent for proper reusable sling bullets
 	name = "sling bullet"
 	desc = "If you're reading this: duck."
@@ -751,7 +685,7 @@
 	embedchance = 0
 	woundclass = BCLASS_BLUNT
 	flag = "piercing"
-	speed = 0.4
+	speed = 0.4		
 
 /obj/projectile/bullet/reusable/sling_bullet/on_hit(atom/target)
 	. = ..()
@@ -776,10 +710,10 @@
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/stone
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "musketball_proj"
-
+	
 /obj/projectile/bullet/reusable/sling_bullet/aalloy
 	name = "decrepit sling bullet"
-	damage = 15
+	damage = 15 
 	armor_penetration = 0
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy
 	icon = 'icons/roguetown/weapons/ammo.dmi'
@@ -807,78 +741,3 @@
 #undef ARROW_PENETRATION
 #undef BOLT_PENETRATION
 #undef BULLET_PENETRATION
-
-
-// ===== !!Arrow payload!! ===
-
-/obj/item/ammo_casing/caseless/rogue/arrow
-	var/obj/item/attached_payload = null
-	var/base_icon_state = null
-
-/obj/item/ammo_casing/caseless/rogue/arrow/Initialize()
-	. = ..()
-	base_icon_state = icon_state
-
-/obj/item/ammo_casing/caseless/rogue/arrow/examine(mob/user)
-	. = ..()
-	if(attached_payload)
-		. += span_notice("Something is tied to it: [attached_payload.name].")
-
-/obj/item/ammo_casing/caseless/rogue/arrow/proc/update_payload_visual()
-	overlays.Cut()
-	if(base_icon_state)
-		icon_state = base_icon_state
-
-	if(!attached_payload)
-		return
-
-	var/ov = null
-	if(istype(attached_payload, /obj/item/impact_grenade))
-		ov = "arrowimpact"
-	else if(istype(attached_payload, /obj/item/tntstick))
-		ov = "arrowtnt"
-	else
-		ov = "arrowimpact"
-
-	overlays += image(icon, ov)
-
-	if(ismob(loc))
-		var/mob/M = loc
-		M.update_inv_hands()
-
-/obj/item/ammo_casing/caseless/rogue/arrow/attackby(obj/item/I, mob/user, params)
-	if(!(I in user.contents) || !(src in user.contents))
-		return ..()
-
-	if(attached_payload)
-		to_chat(user, span_warning("This arrow already has something tied to it."))
-		return TRUE
-
-	if(istype(I, /obj/item/tntstick))
-		var/obj/item/tntstick/T = I
-		if(T.lit)
-			to_chat(user, span_warning("You probably shouldn't tie a lit fuse to an arrow."))
-			return TRUE
-
-		user.visible_message(
-			span_notice("[user] ties [I] onto \the [src]."),
-			span_notice("You tie [I] onto the arrow.")
-		)
-		user.dropItemToGround(I)
-		I.forceMove(src)
-		attached_payload = I
-		update_payload_visual()
-		return TRUE
-
-	if(istype(I, /obj/item/impact_grenade))
-		user.visible_message(
-			span_notice("[user] ties [I] onto \the [src]."),
-			span_notice("You tie [I] onto the arrow.")
-		)
-		user.dropItemToGround(I)
-		I.forceMove(src)
-		attached_payload = I
-		update_payload_visual()
-		return TRUE
-
-	return ..()
