@@ -151,6 +151,10 @@
 				used = list('sound/vo/yip.ogg', 'sound/vo/yip2.ogg', 'sound/vo/yip3.ogg')
 			if("yap")
 				used = 'sound/vo/yap.ogg'
+			if("sexmoanlight")
+				used = list('sound/vo/male/gen/moan (1).ogg','sound/vo/male/gen/moan (2).ogg','sound/vo/male/gen/moan (3).ogg')
+			if("sexmoanhvy")
+				used = list('sound/vo/male/gen/moan (1).ogg','sound/vo/male/gen/moan (2).ogg','sound/vo/male/gen/moan (3).ogg')
 			if("salute")
 				used = 'sound/vo/salute.ogg'
 			if("crack")

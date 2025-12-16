@@ -137,7 +137,7 @@
 	name = "sinew"
 	icon_state = "sinew"
 	dropshrink = 0.9
-	major_pot = /datum/alch_cauldron_recipe/aphrodisiac
+	major_pot = /datum/alch_cauldron_recipe/big_stam_poison
 	med_pot = /datum/alch_cauldron_recipe/end_potion
 	minor_pot = /datum/alch_cauldron_recipe/health_potion
 
@@ -159,7 +159,7 @@
 	name = "swampweed dust"
 	icon_state = "swampdust"
 	major_pot = /datum/alch_cauldron_recipe/berrypoison
-	med_pot = /datum/alch_cauldron_recipe/aphrodisiac
+	med_pot = /datum/alch_cauldron_recipe/big_stam_poison
 	minor_pot = /datum/alch_cauldron_recipe/end_potion
 
 /obj/item/alch/tobaccodust
@@ -325,7 +325,7 @@
 	icon_state = "euphrasia"
 
 	major_pot = /datum/alch_cauldron_recipe/spd_potion
-	med_pot = /datum/alch_cauldron_recipe/aphrodisiac
+	med_pot = /datum/alch_cauldron_recipe/stam_poison
 	minor_pot = /datum/alch_cauldron_recipe/int_potion
 
 /obj/item/alch/paris
@@ -358,7 +358,7 @@
 
 	major_pot = /datum/alch_cauldron_recipe/health_potion
 	med_pot = /datum/alch_cauldron_recipe/spd_potion
-	minor_pot = /datum/alch_cauldron_recipe/aphrodisiac
+	minor_pot = /datum/alch_cauldron_recipe/stamina_potion
 
 /obj/item/alch/salvia
 	name = "salvia"
@@ -403,7 +403,8 @@
 
 	major_pot = /datum/alch_cauldron_recipe/lck_potion
 	med_pot = /datum/alch_cauldron_recipe/spd_potion
-	minor_pot = /datum/alch_cauldron_recipe/aphrodisiac
+	minor_pot = /datum/alch_cauldron_recipe/health_potion
+
 
 /obj/item/alch/rosa
 	name = "rosa"

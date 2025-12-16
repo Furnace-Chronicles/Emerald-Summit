@@ -87,10 +87,12 @@
 	cost =	50	//gooner items more expensive so they're prestigious
 	contains = list(/obj/item/leash/chain)
 
+/* TO DO: Rewrite for Sexcon2
 /datum/supply_pack/rogue/blackmarket_diplomacy/emberwine
 	name = "Emberwine"
 	cost =	150	//formidable poison
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/emberwine)
+*/
 
 /datum/supply_pack/rogue/blackmarket_diplomacy/bomb
 	name = "Potion of Liquid Flame"

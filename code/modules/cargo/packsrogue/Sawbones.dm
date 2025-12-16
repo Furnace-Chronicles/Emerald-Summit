@@ -189,8 +189,11 @@
 	cost = 10
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/strong_antidote)
 
+/* TO DO: Rewrite for Sexcon 2 
+
 /datum/supply_pack/rogue/Sawbones/emberwine
 	name = "Emberwine"
 	cost = 100
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/emberwine)
-	
+
+*/

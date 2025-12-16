@@ -163,18 +163,8 @@
 	var/obj/item/leash/pullingg_freepet_leash
 	// leashes automatically handle "reattachment" to the "master" so we can just move them
 
-	// handle unknotting
-	if(ishuman(L))
-		var/mob/living/carbon/human/knot_haver = L
-		if(knot_haver.sexcon.knotted_status)
-			knot_haver.sexcon.knot_remove()
-
 	L.recent_travel = world.time
 	if(pullingg)
-		if(ishuman(pullingg)) // also check if pulled mob is knotted
-			var/mob/living/carbon/human/H = pullingg
-			if(H.sexcon.knotted_status)
-				H.sexcon.knot_remove()
 		pullingg_freepet_leash = get_freepet_leash(pullingg)
 		if(pullingg_freepet_leash)
 			pullingg_freepet_leash.forceMove(T.loc)

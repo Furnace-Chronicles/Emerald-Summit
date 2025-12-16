@@ -98,9 +98,6 @@
 
 	handle_gas_mask_sound()
 
-	if(sexcon && client?.prefs?.sexable)
-		sexcon.process_sexcon(1 SECONDS)
-
 	if(stat != DEAD)
 		return 1
 

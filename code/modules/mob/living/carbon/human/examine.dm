@@ -140,6 +140,10 @@
 		if(has_status_effect(/datum/status_effect/knot_tied))
 			. += span_warning("A knot is locked inside [p_them()]. [m1] being pulled around like a pet.")
 
+/*
+
+TODO: Rewrite for Sexcon2
+
 		// Facial/Creampie effect message
 		var/datum/status_effect/facial/facial = has_status_effect(/datum/status_effect/facial)
 		var/datum/status_effect/facial/internal/creampie = null
@@ -168,6 +172,8 @@
 				. += (L.STAPER >= 8 && L.STAINT >= 5) ? span_aiprivradio("[m1] [wet_or_dry]!") : span_warning("[m1] letting out some glossy stuff!")
 			else
 				. += span_aiprivradio("[m1] [wet_or_dry]!")
+
+*/
 
 		if (HAS_TRAIT(src, TRAIT_OUTLANDER) && !HAS_TRAIT(user, TRAIT_OUTLANDER)) 
 			. += span_phobia("A foreigner...")

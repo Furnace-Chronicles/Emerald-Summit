@@ -234,7 +234,6 @@ LICH SKELETONS
 /datum/job/roguetown/greater_skeleton/lich/besieger/after_spawn(mob/living/L, mob/M, client/player_client)
 	..()
 	var/mob/living/carbon/human/H = L
-	L.can_do_sex = FALSE //literaly 1984
 	if(L.mind)
 		L.mind.special_role = "Besieger Skeleton"
 		L.mind.assigned_role = "Besieger Skeleton"
