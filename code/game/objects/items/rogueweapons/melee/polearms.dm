@@ -245,11 +245,11 @@
 	force_wielded = 28
 	icon_state = "aries"
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
-	pixel_y = 0
-	pixel_x = 0
+	pixel_y = -16
+	pixel_x = -16
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
-	bigboy = FALSE
+	bigboy = TRUE
 	gripsprite = TRUE
 	gripped_intents = list(/datum/intent/spear/bash/ranged, /datum/intent/mace/smash/wood)
 	cast_time_reduction = 0.4
