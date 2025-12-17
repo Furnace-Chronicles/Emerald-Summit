@@ -488,10 +488,28 @@ SUBSYSTEM_DEF(ticker)
 			if(player.mind.assigned_role != player.mind.special_role)
 				valid_characters[player] = new_player
 	sortTim(valid_characters, GLOBAL_PROC_REF(cmp_assignedrole_dsc))
+	
+	var/player_count = 0
+	var/start_time = world.timeofday
+	log_game("EQUIP START: Processing [valid_characters.len] players")
+	
 	for(var/mob/character as anything in valid_characters)
+		player_count++
+		var/player_start = world.timeofday
 		var/mob/new_player = valid_characters[character]
 		SSjob.EquipRank(new_player, character.mind.assigned_role, joined_late = FALSE)
+		var/player_time = world.timeofday - player_start
+		
+		if(player_time > 10) // Log if any single player takes >1 second
+			log_game("EQUIP SLOW: Player [player_count]/[valid_characters.len] ([character.mind.assigned_role]) took [player_time/10]s")
+		
+		if(player_count % 10 == 0) // Progress update every 10 players
+			log_game("EQUIP PROGRESS: [player_count]/[valid_characters.len] done, [world.timeofday - start_time]/10]s elapsed")
+		
 		CHECK_TICK
+	
+	var/total_time = world.timeofday - start_time
+	log_game("EQUIP COMPLETE: [valid_characters.len] players in [total_time/10]s (avg [total_time/valid_characters.len/10]s per player)")
 
 /datum/controller/subsystem/ticker/proc/transfer_characters()
 	var/list/livings = list()

@@ -651,6 +651,9 @@ SUBSYSTEM_DEF(job)
 
 //Gives the player the stuff he should have with his rank
 /datum/controller/subsystem/job/proc/EquipRank(mob/M, rank, joined_late = FALSE)
+	var/debug_timing = (SSticker.current_state == GAME_STATE_STARTUP && !joined_late)
+	var/equip_start = world.timeofday
+	
 	var/mob/dead/new_player/N
 	var/mob/living/H
 	if(!joined_late)
@@ -735,7 +738,18 @@ SUBSYSTEM_DEF(job)
 //		var/mob/living/carbon/human/wageslave = H
 //		H.add_memory("Your account ID is [wageslave.account_id].")
 	if(job && H)
+		if(debug_timing)
+			var/phase_time = world.timeofday - equip_start
+			if(phase_time > 5)
+				log_game("EQUIP PHASE: Pre-equip for [rank] took [phase_time/10]s")
+		
 		job.after_spawn(H, M, joined_late) // note: this happens before the mob has a key! M will always have a client, H might not.
+		
+		if(debug_timing)
+			var/after_spawn_time = world.timeofday - equip_start
+			if(after_spawn_time > 10)
+				log_game("EQUIP PHASE: after_spawn for [rank] took [after_spawn_time/10]s total")
+		
 		// Send signal that equipment is complete and knowledge can be populated
 		// For jobs with advclasses, this signal is sent from finish_class_handler() instead
 		if(!job.job_subclasses || !length(job.job_subclasses))
@@ -952,7 +966,7 @@ SUBSYSTEM_DEF(job)
 	job_minds_cache[M.assigned_role] += M
 	log_game("KNOWLEDGE CACHE: Added [M.assigned_role] to cache")
 
-/// Removes a single mind from the job cache (for far travel/logout)
+/// Removes a single mind from the job cache (for far travel)
 /datum/controller/subsystem/job/proc/remove_mind_from_cache(datum/mind/M)
 	if(!job_minds_cache)
 		return
