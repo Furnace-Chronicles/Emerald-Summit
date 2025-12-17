@@ -403,6 +403,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		reset_culinary_preferences()
 
 /datum/preferences/proc/_load_statpack(S)
+#ifdef EXTENDED_STATPACKS
 	var/statpack_type
 	S["statpack"] >> statpack_type
 	if (statpack_type)
@@ -411,6 +412,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		statpack = pick(GLOB.statpacks)
 		statpack = GLOB.statpacks[statpack]
 		//statpack = new statpack
+#endif
 
 /datum/preferences/proc/_load_virtue(S)
 	var/virtue_type

@@ -69,7 +69,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/gender = MALE					//gender of character (well duh) (LETHALSTONE EDIT: this no longer references anything but whether the masculine or feminine model is used)
 	var/pronouns = HE_HIM				// LETHALSTONE EDIT: character's pronouns (well duh)
 	var/voice_type = VOICE_TYPE_MASC	// LETHALSTONE EDIT: the type of soundpack the mob should use
-	var/datum/statpack/statpack	= new /datum/statpack/wildcard/fated // LETHALSTONE EDIT: the statpack we're giving our char instead of racial bonuses
+	var/datum/statpack/statpack	= new /datum/statpack/wildcard/virtuous // LETHALSTONE EDIT: the statpack we're giving our char instead of racial bonuses
 	var/datum/virtue/virtue = new /datum/virtue/none // LETHALSTONE EDIT: the virtue we get for not picking a statpack
 	var/datum/virtue/virtuetwo = new /datum/virtue/none
 	var/datum/virtue/virtue_origin = new /datum/virtue/none
@@ -399,7 +399,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "[virtue_origin.extra_language ? "<b>Free Language: </b>" : "<s><b>Free Language:</b></s> "]<a href='?_src_=prefs;preference=extra_language;task=input'>[lang_output]</a><BR>"
 
 			// LETHALSTONE EDIT BEGIN: add statpack selection
+#ifdef EXTENDED_STATPACKS
 			dat += "<b>Statpack:</b> <a href='?_src_=prefs;preference=statpack;task=input'>[statpack.name]</a><BR>"
+#endif
 			if(pref_species.use_titles)
 				var/display_title = selected_title ? selected_title : "None"
 				dat += "<b>Race Title:</b> <a href='?_src_=prefs;preference=race_title;task=input'>[display_title]</a><BR>"
@@ -1587,6 +1589,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						to_chat(user, "<font color='red'>Classes reset.</font>")
 
 				// LETHALSTONE EDIT: add statpack selection
+#ifdef EXTENDED_STATPACKS
 				if ("statpack")
 					var/list/statpacks_available = list()
 					for (var/path as anything in GLOB.statpacks)
@@ -1607,6 +1610,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if (!istype(statpack, /datum/statpack/wildcard/virtuous) && virtue.type != /datum/virtue/none)
 							virtue = new /datum/virtue/none
 							to_chat(user, span_info("Your virtue has been removed due to taking a stat-altering statpack.")) */
+#endif
 				// LETHALSTONE EDIT: add pronouns
 				if ("pronouns")
 					var pronouns_input = tgui_input_list(user, "Choose your character's pronouns", "PRONOUNS", GLOB.pronouns_list)
@@ -2166,10 +2170,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
 						virtuetwo = virtue_chosen
 						to_chat(user, process_virtue_text(virtue_chosen))
-					/*	if (statpack.type != /datum/statpack/wildcard/virtuous)
-							statpack = new /datum/statpack/wildcard/virtuous
-							to_chat(user, span_purple("Your statpack has been set to virtuous (no stats) due to selecting a virtue.")) */
-
 				if("origin")
 					var/list/virtue_choices = list()
 					for (var/path as anything in GLOB.virtues)

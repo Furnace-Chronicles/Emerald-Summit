@@ -1,4 +1,5 @@
 GLOBAL_LIST_EMPTY(statpacks)
+//#DEFINE EXTENDED_STATPACKS //Uncomment this to turn statpacks back on.
 
 /datum/statpack
 	/// Name of the statpack
