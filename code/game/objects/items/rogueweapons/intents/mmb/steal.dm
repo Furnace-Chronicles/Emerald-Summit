@@ -17,7 +17,8 @@
 		var/thiefskill = user.get_skill_level(/datum/skill/misc/stealing) + (has_world_trait(/datum/world_trait/matthios_fingers) ? 1 : 0)
 		var/initialstealroll = roll("1d12") + (thiefskill * 2) + (user.STASPD / 3)
 		var/advantageroll = 0
-		var/targetperception = (target_human.STAPER)
+		var/bonusperception = max((target_human.STAPER) - 10, 0)
+		var/targetperception = (target_human.STAPER) + (bonusperception)
 
 		if(target_human.cmode)
 			targetperception += 6 // Target is alert, gain +6 extra effective perception
