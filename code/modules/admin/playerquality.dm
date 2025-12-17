@@ -1,44 +1,10 @@
 // PQ cache to avoid file spam during roundstart job assignment
 GLOBAL_LIST_EMPTY(pq_cache) // ckey => pq_value
-GLOBAL_LIST_EMPTY(pq_load_queue) // Queue of ckeys waiting to have PQ loaded
-GLOBAL_VAR_INIT(pq_batch_processing, FALSE) // Is batch processor currently running
 
 // Queue a ckey for batched PQ loading (called on client login)
+// DEPRECATED - Use SSplayer_data_loader.queue_player() instead
 /proc/queue_pq_load(ckey_to_load)
-	if(!ckey_to_load)
-		return
-	var/ckey_normalized = ckey(ckey_to_load)
-	// Don't queue if already cached or already in queue
-	if(ckey_normalized in GLOB.pq_cache)
-		return
-	if(ckey_normalized in GLOB.pq_load_queue)
-		return
-	
-	GLOB.pq_load_queue += ckey_normalized
-	
-	// Start batch processor if not already running
-	if(!GLOB.pq_batch_processing)
-		GLOB.pq_batch_processing = TRUE
-		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(process_pq_batch)), 1, TIMER_STOPPABLE)
-
-// Process PQ load queue in batches to avoid file handle exhaustion
-/proc/process_pq_batch()
-	var/batch_size = 25 // Process 25 files at a time
-	var/processed = 0
-	
-	while(processed < batch_size && GLOB.pq_load_queue.len)
-		var/ckey_to_load = GLOB.pq_load_queue[1]
-		GLOB.pq_load_queue -= ckey_to_load
-		
-		// Actually load the PQ (will cache it)
-		get_playerquality(ckey_to_load)
-		processed++
-	
-	// If more items in queue, schedule next batch
-	if(GLOB.pq_load_queue.len > 0)
-		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(process_pq_batch)), 1, TIMER_STOPPABLE)
-	else
-		GLOB.pq_batch_processing = FALSE
+	SSplayer_data_loader?.queue_player(ckey_to_load)
 
 /proc/get_playerquality(key, text)
 	if(!key)
@@ -46,13 +12,7 @@ GLOBAL_VAR_INIT(pq_batch_processing, FALSE) // Is batch processor currently runn
 	
 	var/ckey_normalized = ckey(key)
 	
-	// Check if still queued for loading
-	if(ckey_normalized in GLOB.pq_load_queue)
-		if(text)
-			return "<span style='color: #888888;'>Loading...</span>"
-		else
-			return 0 // Assume 0 for job checks while loading
-	
+
 	// Check cache first (populated on client login)
 	// Use 'in' operator to detect 0 values (0 is falsy but valid)
 	if(ckey_normalized in GLOB.pq_cache)
@@ -174,6 +134,7 @@ GLOBAL_VAR_INIT(pq_batch_processing, FALSE) // Is batch processor currently runn
 		rustg_file_write("{}", json_file)
 		file_content = "{}"
 	
+	// FILE I/O CAN FAIL YOU DIMWIT
 	var/list/json
 	try
 		json = json_decode(file_content)
@@ -274,11 +235,6 @@ GLOBAL_VAR_INIT(pq_batch_processing, FALSE) // Is batch processor currently runn
 	check_pq_menu(theykey)
 
 /proc/check_pq_menu(ckey)
-	// Check if PQ is still loading
-	if(ckey(ckey) in GLOB.pq_load_queue)
-		to_chat(usr, span_warning("Player Quality data is still loading. Please wait a moment and try again."))
-		return
-	
 	if(!fexists("data/player_saves/[copytext(ckey,1,2)]/[ckey]/preferences.sav"))
 		to_chat(usr, span_boldwarning("User does not exist."))
 		return

@@ -469,9 +469,9 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	check_ip_intel()
 	validate_key_in_db()
 	
-	// Queue PQ value for batched loading to avoid file handle exhaustion
-	// during mass reconnects (e.g., server restart)
-	queue_pq_load(ckey)
+	// Queue all player data (PQ, Triumphs, Curses, Rounds) for batched loading
+	// to avoid file handle exhaustion during mass reconnects (e.g., server restart)
+	SSplayer_data_loader?.queue_player(ckey)
 
 //	send_resources()
 
