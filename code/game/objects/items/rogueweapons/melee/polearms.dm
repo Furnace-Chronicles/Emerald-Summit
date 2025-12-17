@@ -254,6 +254,29 @@
 	gripped_intents = list(/datum/intent/spear/bash/ranged, /datum/intent/mace/smash/wood)
 	cast_time_reduction = 0.4
 
+/obj/item/rogueweapon/woodstaff/aries/pickup(mob/living/user)
+	..()
+	if(HAS_TRAIT(user, TRAIT_ROTMAN) || user.mob_biotypes & MOB_UNDEAD)
+		to_chat(user, "<font color='yellow'>FOOL! YOU DARE TOUCH THE HOLY STAFF?</font>")
+		user.doUnEquip(src, TRUE, get_turf(user), silent = TRUE) // Forcibly unequips it.
+		user.Knockdown(10)
+		user.Paralyze(10)
+		user.adjustFireLoss(25)
+		user.adjust_fire_stacks(5)
+		user.ignite_mob()
+		return
+	var/datum/job/J = SSjob.GetJob(user.mind?.assigned_role)
+	if(J.title != "Priest" && J.title != "Martyr")
+		to_chat(user, "<font color='yellow'>UNWORTHY HANDS TOUCH THE HOLY STAFF, CEASE OR BE PUNISHED</font>")
+		spawn(30)
+			if(loc == user)
+				to_chat(user, "<font color='yellow'>FOOL, YOU DID NOT HEED MY WARNING!</font>")
+				user.doUnEquip(src, TRUE, get_turf(user), silent = TRUE) // Forcibly unequips it.
+				user.Knockdown(10)
+				user.Paralyze(10)
+				user.adjust_fire_stacks(5)
+				user.ignite_mob()
+
 /obj/item/rogueweapon/woodstaff/aries/getonmobprop(tag)
 	. = ..()
 	if(tag)
