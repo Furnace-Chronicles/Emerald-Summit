@@ -298,6 +298,7 @@
 			drain_debuff.tier_up()
 		else
 			target.apply_status_effect(/datum/status_effect/debuff/baothadrained)
+		target.playsound_local(user, 'sound/misc/mat/lvldown.ogg', 100)
 	if(HAS_TRAIT(target, TRAIT_DEPRAVED) && target.cmode)
 		var/datum/status_effect/buff/baothasbanquet/boost_buff = target.has_status_effect(/datum/status_effect/buff/baothasbanquet)
 		if(boost_buff)
@@ -310,6 +311,7 @@
 			drain_debuff.tier_up()
 		else
 			user.apply_status_effect(/datum/status_effect/debuff/baothadrained)
+		user.playsound_local(user, 'sound/misc/mat/lvldown.ogg', 100)
 		
 	if(!oral)
 		after_intimate_climax()
