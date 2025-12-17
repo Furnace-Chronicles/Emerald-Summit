@@ -356,6 +356,9 @@
 					span_userdanger("My prosthetic [parse_zone(sublimb_grabbed)] was twisted off of me![C.next_attack_msg.Join()]"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE, user)
 		to_chat(user, span_warning("I twisted [C]'s prosthetic [parse_zone(sublimb_grabbed)] off.[C.next_attack_msg.Join()]"))
 		limb_grabbed.drop_limb(TRUE)
+	if(ishuman(user) && user.mind)
+		var/text = "[bodyzone2readablezone(user.zone_selected)]..."
+		user.filtered_balloon_alert(TRAIT_COMBAT_AWARE, text)
 
 	if(limb_grabbed.body_zone == sublimb_grabbed && isdoll(C))
 		var/mob/living/carbon/human/target = C
@@ -549,6 +552,9 @@
 	to_chat(user, span_warning("I smash [C]'s [limb_grabbed] against [A].[C.next_attack_msg.Join()]"))
 	C.next_attack_msg.Cut()
 	log_combat(user, C, "limbsmashed [limb_grabbed] ")
+	if(ishuman(user) && user.mind)
+		var/text = "[bodyzone2readablezone(user.zone_selected)]..."
+		user.filtered_balloon_alert(TRAIT_COMBAT_AWARE, text)
 
 /datum/intent/grab
 	unarmed = TRUE
@@ -604,3 +610,29 @@
 	name = "remove"
 	desc = ""
 	icon_state = "intake"
+
+/obj/item/grabbing/bite
+	name = "bite"
+	icon_state = "bite"
+	d_type = "stab"
+	slot_flags = ITEM_SLOT_MOUTH
+	bleed_suppressing = 1
+
+/obj/item/grabbing/bite/Click(location, control, params)
+	var/list/modifiers = params2list(params)
+	if(!valid_check())
+		return
+	if(iscarbon(usr))
+		var/mob/living/carbon/C = usr
+		if(C != grabbee || C.incapacitated() || C.stat == DEAD)
+			qdel(src)
+			return 1
+		if(modifiers["right"])
+			qdel(src)
+			return 1
+		var/_y = text2num(params2list(params)["icon-y"])
+		if(_y>=17)
+			bitelimb(C)
+		else
+			drinklimb(C)
+	return 1

@@ -1277,7 +1277,6 @@ There are several things that need to be remembered:
 		update_body_parts(redraw = TRUE)
 		dna.species.handle_body(src)
 	update_hair()
-	update_inv_wrists()
 	// Note: wrists will update gloves in its own update
 
 	apply_overlay(SHIRT_LAYER)

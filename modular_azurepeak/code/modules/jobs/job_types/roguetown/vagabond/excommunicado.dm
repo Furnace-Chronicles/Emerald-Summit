@@ -58,6 +58,8 @@
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
+		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
+		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
 	if(H.patron?.type == /datum/patron/inhumen/baotha)
 		H.adjust_skillrank(/datum/skill/misc/music, 2, TRUE)
 		H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)

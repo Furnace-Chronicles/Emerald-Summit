@@ -150,7 +150,7 @@
 			mask = /obj/item/clothing/mask/rogue/facemask/steel/pestra_beakmask
 			wrists = /obj/item/clothing/wrists/roguetown/wrappings
 		if(/datum/patron/divine/eora) //Eora content from Stonekeep
-			head = /obj/item/clothing/head/roguetown/eoramask
+			mask = /obj/item/clothing/mask/rogue/eoramask
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/eora

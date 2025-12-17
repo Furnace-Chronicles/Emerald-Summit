@@ -78,12 +78,7 @@
 		H.change_stat("intelligence", 1)
 		H.change_stat("perception", 1)
 		H?.mind.adjust_spellpoints(6)
-		if(ishumannorthern(H))
-			belt = /obj/item/storage/belt/rogue/leather/plaquegold
-			cloak = null
-			head = /obj/item/clothing/head/roguetown/wizhat
-			armor = /obj/item/clothing/suit/roguetown/shirt/robe/wizard
-			H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
+		H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo,
 	  		/datum/patron/inhumen/matthios,
@@ -96,17 +91,23 @@
 	..()
 	H.adjust_blindness(-3)
 	neck = /obj/item/clothing/neck/roguetown/talkstone
-	cloak = /obj/item/clothing/cloak/black_cloak
-	armor = /obj/item/clothing/suit/roguetown/shirt/robe/black
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 	pants = /obj/item/clothing/under/roguetown/tights/random
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
-	belt = /obj/item/storage/belt/rogue/leather/plaquesilver
 	beltr = /obj/item/storage/keyring/mage
 	beltl = /obj/item/storage/magebag/starter
 	id = /obj/item/clothing/ring/gold
 	r_hand = /obj/item/rogueweapon/woodstaff/riddle_of_steel/magos
 	backl = /obj/item/storage/backpack/rogue/satchel
+	. = ..()
+	if(H.age == AGE_OLD)
+		belt = /obj/item/storage/belt/rogue/leather/plaquegold
+		head = /obj/item/clothing/head/roguetown/wizhat
+		armor = /obj/item/clothing/suit/roguetown/shirt/robe/wizard
+	else
+		armor = /obj/item/clothing/suit/roguetown/shirt/robe/black
+		belt = /obj/item/storage/belt/rogue/leather/plaquesilver
+		cloak = /obj/item/clothing/cloak/black_cloak
 
 	backpack_contents = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/poison, 

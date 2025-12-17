@@ -188,9 +188,10 @@
 		return FALSE
 
 	var/moveup = 10
-	var/medskill = doctor.get_skill_level(/datum/skill/misc/medicine)
+	var/skill_used = target.construct ? /datum/skill/craft/engineering : /datum/skill/misc/medicine
+	var/doctor_skill = doctor.get_skill_level(skill_used)
 	var/informed = FALSE
-	moveup = (medskill+1) * 5
+	moveup = (doctor_skill+1) * 5
 	while(!QDELETED(target_wound) && !QDELETED(src) && \
 		!QDELETED(user) && (target_wound.sew_progress < target_wound.sew_threshold) && \
 		stringamt >= 1)
@@ -199,7 +200,7 @@
 		playsound(loc, 'sound/foley/sewflesh.ogg', 100, TRUE, -2)
 		target_wound.sew_progress = min(target_wound.sew_progress + moveup, target_wound.sew_threshold)
 
-		var/bleedreduction = max((medskill / 2), 1)	//Half of medicine skill, or 1, whichever is higher.
+		var/bleedreduction = max((doctor_skill / 2), 1)	//Half of medicine skill, or 1, whichever is higher.
 		target_wound.set_bleed_rate(max( (target_wound.bleed_rate - bleedreduction), 0))
 		if(target_wound.bleed_rate == 0 && !informed)
 			patient.visible_message(span_smallgreen("One last drop of blood trickles from the [(target_wound.name)] on [patient]'s [affecting.name] before it closes."), span_smallgreen("The throbbing warmth coming out of [target_wound] soothes and stops. It no longer bleeds."))
@@ -213,7 +214,7 @@
 		if(target_wound.sew_progress < target_wound.sew_threshold)
 			continue
 		if(doctor.mind)
-			doctor.mind.add_sleep_experience(/datum/skill/misc/medicine, doctor.STAINT * 2.5)
+			doctor.mind.add_sleep_experience(skill_used, doctor.STAINT * 2.5)
 		use(1)
 		target_wound.sew_wound()
 		if(patient == doctor)

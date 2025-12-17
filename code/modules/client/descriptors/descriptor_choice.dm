@@ -48,7 +48,7 @@
 		/datum/mob_descriptor/face_exp/spiteful,
 		/datum/mob_descriptor/face_exp/warm,
 		/datum/mob_descriptor/face_exp/salacious,
-		/datum/mob_descriptor/face_exp/contemptous,
+		/datum/mob_descriptor/face_exp/contemptuous,
 		/datum/mob_descriptor/face_exp/mocking,
 		/datum/mob_descriptor/face_exp/knowing,
 		/datum/mob_descriptor/face_exp/cocky,

@@ -58,7 +58,7 @@
 		if(eyes)
 			eyes.Remove(H,1)
 			QDEL_NULL(eyes)
-		eyes = new /obj/item/organ/eyes/night_vision/zombie
+		eyes = new /obj/item/organ/eyes/night_vision/wild_goblin
 		eyes.Insert(H)
 		H.ambushable = FALSE
 		H.underwear = "Nude"

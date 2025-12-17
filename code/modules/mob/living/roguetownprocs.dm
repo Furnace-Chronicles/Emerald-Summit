@@ -23,25 +23,29 @@
 	// If you're floored, you will aim feet and legs easily. There's a check for whether the victim is laying down already.
 	if(!(user.mobility_flags & MOBILITY_STAND) && (zone in list(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_PRECISE_L_FOOT)))
 		return zone
-	if( (target.dir == turn(get_dir(target,user), 180)))
+	if((target.dir == turn(get_dir(target,user), 180)))
 		return zone
 
 	var/chance2hit = 0
 
-	if(check_zone(zone) == zone)	//Are we targeting a big limb or chest?
-		chance2hit += 15
+	var/accuracy_bonus = 15
+	var/precision_bonus = 0
 
 	chance2hit += (user.get_skill_level(associated_skill) * 8)
 
 	if(used_intent)
 		if(used_intent.blade_class == BCLASS_STAB)
-			chance2hit += 10
+			chance2hit += 6
+			precision_bonus += 8
 		if(used_intent.blade_class == BCLASS_PEEL)
 			chance2hit += 25
 		if(used_intent.blade_class == BCLASS_CUT)
-			chance2hit += 6
-		if((used_intent.blade_class == BCLASS_BLUNT || used_intent.blade_class == BCLASS_SMASH) && check_zone(zone) != zone)	//A mace can't hit the eyes very well
-			chance2hit -= 10
+			chance2hit += 5
+			accuracy_bonus += 8
+		if((used_intent.blade_class == BCLASS_BLUNT || used_intent.blade_class == BCLASS_SMASH))	//A mace can't hit the eyes very well
+			precision_bonus -= 10
+		if((used_intent.blade_class == BCLASS_PUNCH))
+			accuracy_bonus += 5
 
 	if(I)
 		if(I.wlength == WLENGTH_SHORT)
@@ -56,36 +60,41 @@
 		chance2hit += (min((user.STAPER-15)*3, 15))
 
 	if(user.STAPER < 10)
-		chance2hit -= ((10-user.STAPER)*10)
+		chance2hit -= ((10-user.STAPER)*8)
+		precision_bonus -= ((10-user.STAPER)*2)
 
 	if(istype(user.rmb_intent, /datum/rmb_intent/aimed))
 		chance2hit += 20
+		precision_bonus += 5
 	if(istype(user.rmb_intent, /datum/rmb_intent/swift))
 		chance2hit -= 20
+		precision_bonus -= 5
 
 	if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
-		chance2hit -= 30
+		chance2hit -= 25
+		precision_bonus -= 10
 
-	chance2hit = CLAMP(chance2hit, 5, 93)
+	var/accuracy_chance = CLAMP(chance2hit + accuracy_bonus, 5, 93)
+	var/precision_chance = CLAMP(chance2hit + precision_bonus, 5, 93)
 
 	var/precision_roll = FALSE
 	var/accuracy_roll = FALSE
 
-	accuracy_roll = prob(chance2hit)
+	accuracy_roll = prob(accuracy_chance)
 	if(accuracy_roll)
 		if(check_zone(zone) == zone)
 			return zone
 		else
-			precision_roll = prob(chance2hit)
+			precision_roll = prob(precision_chance)
 			if(precision_roll)
 				return zone
 			else
 				if(user.client?.prefs.showrolls)
-					to_chat(user, span_warning("Precision fail! [chance2hit]%"))
+					to_chat(user, span_warning("Precision fail! [precision_chance]%"))
 				return check_zone(zone)
 	else
 		if(user.client?.prefs.showrolls)
-			to_chat(user, span_warning("Accuracy fail! [chance2hit]%"))
+			to_chat(user, span_warning("Accuracy fail! [accuracy_chance]%"))
 		return BODY_ZONE_CHEST		
 
 /mob/proc/get_generic_parry_drain()
@@ -540,10 +549,12 @@
 				src.visible_message(span_boldwarning("<b>[src]</b> ripostes [user] with [W]!"))
 			else
 				src.visible_message(span_boldwarning("<b>[src]</b> parries [user] with [W]!"))
-			if(W.max_blade_int)
-				W.remove_bintegrity(SHARPNESS_ONHIT_DECAY, user)
-			else
-				W.take_damage(INTEG_PARRY_DECAY_NOSHARP, BRUTE, "slash")
+			if(!iscarbon(user))	//Non-carbon mobs never make it to the proper parry proc where the other calculations are done.
+				if(W.max_blade_int)
+					W.remove_bintegrity(SHARPNESS_ONHIT_DECAY, user)
+					W.take_damage(INTEG_PARRY_DECAY, BRUTE, "slash")
+				else
+					W.take_damage(INTEG_PARRY_DECAY_NOSHARP, BRUTE, "slash")
 			return TRUE
 		else
 			to_chat(src, span_warning("I'm too tired to parry!"))
@@ -1021,6 +1032,10 @@
 		if(bait_stacks > 0)
 			bait_stacks = 0
 			to_chat(src, span_info("My focus and balance returns. I won't lose my footing if I am baited again."))
+
+/mob/living/carbon/human/proc/expire_peel()
+	if(!cmode)
+		purge_peel(99)
 
 /mob/living/carbon/human/proc/measured_statcheck(mob/living/carbon/human/HT)
 	var/finalprob = 40

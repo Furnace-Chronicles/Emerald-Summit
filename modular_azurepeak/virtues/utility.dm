@@ -86,6 +86,9 @@
 
 	if(mapswitch == 0)
 		return
+	if(HAS_TRAIT(recipient, TRAIT_OUTLANDER))
+		to_chat(recipient, "You may have originated from another land, but you have lived here long enough and become a true citizen.")
+		REMOVE_TRAIT(recipient, TRAIT_OUTLANDER, JOB_TRAIT)
 	if(recipient.mind?.assigned_role == "Adventurer" || recipient.mind?.assigned_role == "Mercenary" || recipient.mind?.assigned_role == "Court Agent")
 		// Find tavern area for spawning
 		var/area/spawn_area

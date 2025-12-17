@@ -645,3 +645,40 @@
 	detail_tag = "_detail"
 	detail_color = COLOR_SILVER
 	sewrepair = TRUE
+
+
+
+
+//Eora content from Stonekeep
+
+/obj/item/clothing/mask/rogue/eoramask
+	name = "eoran mask"
+	desc = "A silver mask in the likeness of a rabbit. Usually worn by the faithful of Eora during their rituals, but it's not like anyone's going to stop you. Right?"
+	color = null
+	icon_state = "eoramask"
+	item_state = "eoramask"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	bloody_icon = 'icons/effects/blood64.dmi'
+	flags_inv = HIDEFACE
+	resistance_flags = FIRE_PROOF // Made of metal
+
+/obj/item/clothing/mask/rogue/eoramask/equipped(mob/living/carbon/human/user, slot) //Copying Eora bud pacifism
+	. = ..()
+	if(slot == SLOT_HEAD)
+		ADD_TRAIT(user, TRAIT_PACIFISM, "eoramask_[REF(src)]")
+
+/obj/item/clothing/mask/rogue/eoramask/dropped(mob/living/carbon/human/user)
+	..()
+	REMOVE_TRAIT(user, TRAIT_PACIFISM, "eoramask_[REF(src)]")
+
+/obj/item/clothing/mask/rogue/eoramask/attack_hand(mob/user)
+	if(iscarbon(user))
+		var/mob/living/carbon/C = user
+		if(src == C.head)
+			to_chat(user, "<span class='warning'>I need some time to remove the mask peacefully.</span>")
+			if(do_after(user, 50))
+				return ..()
+			return
+	return ..()

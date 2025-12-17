@@ -392,7 +392,7 @@
 /obj/structure/roguemachine/scomm/MiddleClick(mob/living/carbon/human/user)
 	if(.)
 		return
-	if((HAS_TRAIT(user, TRAIT_GUARDSMAN) || (user.job == "Warden") || (user.job == "Hand") || (user.job == "Watchman") || (user.job == "Squire") || (user.job == "Marshal") || (user.job == "Grand Duke") || (user.job == "Knight Captain") || (user.job == "Consort")))
+	if((HAS_TRAIT(user, TRAIT_GUARDSMAN) || HAS_TRAIT(user, TRAIT_GUARDSMAN_NOBLE) || (user.job == "Warden") || (user.job == "Hand") || (user.job == "Watchman") || (user.job == "Squire") || (user.job == "Marshal") || (user.job == "Grand Duke") || (user.job == "Knight Captain") || (user.job == "Knight") || (user.job == "Consort")))
 		if(alert("Would you like to swap lines or connect to a jabberline?",, "swap", "jabberline") != "jabberline")
 			if(scom.target != SCOM_TARGET_GARRISON)
 				scom.target = SCOM_TARGET_GARRISON
@@ -559,9 +559,9 @@
 
 //LISTENSTONE		LISTENSTONE
 /obj/item/scomstone/listenstone //Vrell - WHY WASN'T THIS DERIVED FROM THE SCOMSTONE IN THE FIRST PLACE?
-	name = "emerald choker"
+	name = "gemerald choker"
 	icon_state = "listenstone"
-	desc = "An iron and gold choker with an emerald gem."
+	desc = "An iron and gold choker with a gemerald gem."
 	gripped_intents = null
 	dropshrink = 0
 	possible_item_intents = list(INTENT_GENERIC)
@@ -598,7 +598,7 @@
 /obj/item/scomstone/mattcoin
 	name = "rontz ring"
 	icon_state = "mattcoin"
-	desc = "A faded coin with a ruby laid into its center."
+	desc = "A faded coin with a rontz laid into its center."
 	gripped_intents = null
 	dropshrink = 0.75
 	possible_item_intents = list(INTENT_GENERIC)
@@ -620,7 +620,7 @@
 
 /obj/item/scomstone/mattcoin/New(loc, ...)
 	. = ..()
-	name = pick("rontz ring", "gold ring", "ring of null magic", "fate weaver", "gemerald ring", "toper ring", "blortz ring", "saffira ring","signet ring","silver signet ring", "Dragon ring", "dorpel ring", "duelist's ring")
+	name = pick("rontz ring", "gold ring", "fate weaver", "gemerald ring", "toper ring", "blortz ring", "saffira ring","signet ring","silver signet ring", "dorpel ring")
 
 /obj/item/scomstone/mattcoin/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_COMMIE))

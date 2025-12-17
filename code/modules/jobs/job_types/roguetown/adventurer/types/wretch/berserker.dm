@@ -82,4 +82,6 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 			beltr = /obj/item/rogueweapon/scabbard/sword
 			r_hand = /obj/item/rogueweapon/sword/falx
+	if(isgolemp(H))
+		REMOVE_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, ADVENTURER_TRAIT)
 	wretch_select_bounty(H)

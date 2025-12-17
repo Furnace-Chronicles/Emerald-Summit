@@ -4,6 +4,10 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 /mob/living/carbon/human/Topic(href, href_list)
 	var/observer_privilege = isobserver(usr)
 
+	if(href_list["task"] == "bloodpoolinfo")
+		to_chat(usr, span_notice("Usable blood that yields Vitae and total blood is not the same thing. It takes some time for blood to become nourishing for us."))
+		return
+
 	if(href_list["task"] == "view_headshot")
 		if(!ismob(usr))
 			return
@@ -89,9 +93,11 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		if(do_after(usr, time_taken, needhand = TRUE, target = src))
 			if(QDELETED(I) || QDELETED(L) || !L.remove_embedded_object(I))
 				return
-			L.receive_damage(I.embedding.embedded_unsafe_removal_pain_multiplier*I.w_class)//It hurts to rip it out, get surgery you dingus.
+			var/hort = FALSE
+			hort = L.receive_damage(I.embedding.embedded_unsafe_removal_pain_multiplier*I.w_class)//It hurts to rip it out, get surgery you dingus.
 			usr.put_in_hands(I)
-			emote("pain", TRUE)
+			if (hort)
+				emote("pain", TRUE)
 			playsound(loc, 'sound/foley/flesh_rem.ogg', 100, TRUE, -2)
 			if(usr == src)
 				usr.visible_message("<span class='notice'>[usr] rips [I] out of [usr.p_their()] [L.name]!</span>", "<span class='notice'>I successfully remove [I] from my [L.name].</span>")
@@ -611,28 +617,28 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 /proc/skilldiff_report(var/input)
 	switch (input)
 		if(-6)
-			return "<font color = '#ff4ad2'>I know nothing. They -- everything.</font>"
+			return "<font color = '#ff4ad2'>I know nothing. They -- everything</font>"
 		if(-5)
-			return "<font color = '#eb0000'<i>I stand no chance against them.</i></font>"
+			return "<font color = '#eb0000'><i>I stand no chance against them</i></font>"
 		if(-4)
-			return "<font color = '#c53c3c'<i>I am inferior.</i></font>"
+			return "<font color = '#c53c3c'><i>I am inferior</i></font>"
 		if(-3)
-			return "<font color = '#db8484'<i>I am notably worse.</i></font>"
+			return "<font color = '#db8484'><i>I am notably worse</i></font>"
 		if(-2)
-			return "<font color = '#e4a1a1'<i>I am worse.</i></font>"
+			return "<font color = '#e4a1a1'><i>I am worse</i></font>"
 		if(-1)
-			return "<font color = '#f8d3d3'<i>I am slightly worse.</i></font>"
+			return "<font color = '#f8d3d3'><i>I am slightly worse</i></font>"
 		if(0)
-			return "We are equal."
+			return "We are equal"
 		if(1)
-			return "<font color = '#3f6343'> I am slightly better.</font>"
+			return "<font color = '#3f6343'>I am slightly better</font>"
 		if(2)
-			return "<font color = '#49944f'> I am better.</font>"
+			return "<font color = '#49944f'>I am better</font>"
 		if(3)
-			return "<font color = '#44db51'> I am notably better.</font>"
+			return "<font color = '#44db51'>I am notably better</font>"
 		if(4)
-			return"<font color = '#62b4be'> I am superior.</font>"
+			return"<font color = '#62b4be'>I am superior</font>"
 		if(5)
-			return "<font color = '#2bdcfc'> They have no chance in this field.</font>"
+			return "<font color = '#2bdcfc'>They have no chance in this field</font>"
 		if(6)
-			return "<font color = '#ff4ad2'> They know nothing. A whelp.</font>"
+			return "<font color = '#ff4ad2'>They know nothing. A whelp</font>"

@@ -137,7 +137,7 @@
     result = /obj/item/ammo_casing/caseless/rogue/arrow/poison
     reqs = list(
                 /obj/item/ammo_casing/caseless/rogue/arrow/iron = 1,
-                /datum/reagent/toxin/stampoison = 5
+                /datum/reagent/toxin/berrypoison = 5
                 )
     req_table = TRUE
 
@@ -147,7 +147,7 @@
     result = /obj/item/ammo_casing/caseless/rogue/arrow/stone/poison
     reqs = list(
                 /obj/item/ammo_casing/caseless/rogue/arrow/stone = 1,
-                /datum/reagent/toxin/stampoison = 5
+                /datum/reagent/toxin/berrypoison = 5
                 )
     req_table = TRUE
 
@@ -163,7 +163,7 @@
         )
     reqs = list(
         /obj/item/ammo_casing/caseless/rogue/arrow/iron = 5,
-        /datum/reagent/toxin/stampoison = 25,
+        /datum/reagent/toxin/berrypoison = 25,
         )
 
     req_table = TRUE
@@ -180,7 +180,7 @@
         )
     reqs = list(
         /obj/item/ammo_casing/caseless/rogue/arrow/stone = 5,
-        /datum/reagent/toxin/stampoison = 25,
+        /datum/reagent/toxin/berrypoison = 25,
         )
 
     req_table = TRUE
