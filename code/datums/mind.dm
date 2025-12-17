@@ -39,6 +39,11 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/mob/living/current
 	var/active = 0
 
+	// TODO: TEMPORARY WORKAROUND - Remove once roundstart hang issue is fixed
+	// Deferred equipment for players who disconnect during roundstart processing
+	var/pending_equipment_job = null	// Job rank to equip
+	var/pending_equipment_latejoin = FALSE	// Was this latejoin?
+
 	var/memory
 
 	var/datum/job/assigned_role

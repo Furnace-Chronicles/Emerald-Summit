@@ -468,6 +468,10 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	get_message_output("watchlist entry", ckey)
 	check_ip_intel()
 	validate_key_in_db()
+	
+	// Queue PQ value for batched loading to avoid file handle exhaustion
+	// during mass reconnects (e.g., server restart)
+	queue_pq_load(ckey)
 
 //	send_resources()
 

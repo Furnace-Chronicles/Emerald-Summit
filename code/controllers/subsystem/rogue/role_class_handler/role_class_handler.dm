@@ -75,6 +75,10 @@ SUBSYSTEM_DEF(role_class_handler)
 	We will cache it per server session via an assc list with a ckey leading to the datum.
 */
 /datum/controller/subsystem/role_class_handler/proc/setup_class_handler(mob/living/carbon/human/H, advclass_rolls_override = null, register_id = null)
+	if(!H.client)
+		log_game("CLASS HANDLER WARNING: [H] has no client, skipping advclass setup")
+		return
+	
 	if(!register_id)
 		if(H.job == "Towner")
 			register_id = "towner"

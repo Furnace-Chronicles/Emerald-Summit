@@ -714,9 +714,18 @@ SUBSYSTEM_DEF(job)
 			else
 				M = H
 
-		SSpersistence.antag_rep_change[M.client.ckey] += job.GetAntagRep()
+		if(M.client) // Client may have disconnected during processing
+			SSpersistence.antag_rep_change[M.client.ckey] += job.GetAntagRep()
+		else
+			// TODO: TEMPORARY WORKAROUND - Remove once roundstart hang issue is fixed
+			// Client disconnected - defer equipment until they reconnect
+			if(H.mind)
+				H.mind.pending_equipment_job = rank
+				H.mind.pending_equipment_latejoin = joined_late
+				log_game("EQUIP DEFERRED: [rank] for [H] will complete on reconnect")
+			return // Don't continue processing without client
 
-		if(M.client.holder)
+		if(M.client?.holder)
 			if(CONFIG_GET(flag/auto_deadmin_players) || (M.client.prefs?.toggles & DEADMIN_ALWAYS))
 				M.client.holder.auto_deadmin()
 			else
