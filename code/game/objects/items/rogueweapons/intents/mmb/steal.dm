@@ -25,10 +25,10 @@
 			to_chat(user, span_notice("[target_human] is tense and is more likely to detect me."))
 
 		if(HAS_TRAIT(user, TRAIT_CULTIC_THIEF)) // Matthios blesses his devout with rolling advantage on thieving checks.
-			advantageroll = roll("1d12") + (thiefskill * 2) + (user.STASPD / 3)
+			advantageroll = roll("1d10") + (thiefskill * 2) + (user.STASPD / 3)
 		
 		// Used for showing fail chance.
-		var/chance2steal = max(round(((12 + (thiefskill * 2) + (user.STASPD / 3) - (targetperception)) / 12 ) * 100, 1), 0)
+		var/chance2steal = max(round(((10 + (thiefskill * 2) + (user.STASPD / 3) - (targetperception)) / 10 ) * 100, 1), 0)
 
 		//Mathematically:
 		// SPD stat is to give an initial baseline to lower skilled thieves and reward speedy thieves slightly.
