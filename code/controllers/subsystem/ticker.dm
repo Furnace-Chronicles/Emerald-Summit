@@ -333,19 +333,32 @@ SUBSYSTEM_DEF(ticker)
 		log_game("GAME SETUP: create characters success")
 		collect_minds()
 		log_game("GAME SETUP: collect minds success")
-		equip_characters()
-		log_game("GAME SETUP: equip characters success")
-
-		GLOB.data_core.manifest()
-		log_game("GAME SETUP: manifest success")
-
-		transfer_characters()	//transfer keys to the new mobs
-		log_game("GAME SETUP: transfer characters success")
-
-	// Build job knowledge cache now that all roundstart minds are in SSticker.minds
-	// This happens BEFORE any EquipRank() calls, so cache is ready when players spawn
+	
+	// Build job knowledge cache now that minds are collected
+	// This happens BEFORE equip_characters() so cache is ready when populate_job_knowledge() is called
 	SSjob.build_job_minds_cache()
 	log_game("GAME SETUP: job knowledge cache built")
+	
+	equip_characters()
+	log_game("GAME SETUP: equip characters success")
+
+	GLOB.data_core.manifest()
+	log_game("GAME SETUP: manifest success")
+
+	transfer_characters()	//transfer keys to the new mobs
+	log_game("GAME SETUP: transfer characters success")
+
+	for(var/I in round_start_events)
+		var/datum/callback/cb = I
+		cb.InvokeAsync()
+
+	log_game("GAME SETUP: round start events success")
+	LAZYCLEARLIST(round_start_events)
+	CHECK_TICK
+	if(isrogueworld)
+		for(var/obj/structure/fluff/traveltile/TT in GLOB.traveltiles)
+			if(TT.aallmig)
+				TT.aportalgoesto = TT.aallmig
 		for(var/i in GLOB.mob_living_list)
 			var/mob/living/L = i
 			var/turf/T = get_turf(L)

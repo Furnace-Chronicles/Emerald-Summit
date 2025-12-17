@@ -201,7 +201,7 @@
 		if(M.known_people && M.known_people[H.real_name])
 			// Update the cached FJOB field with the new advjob title
 			var/list/person_data = M.known_people[H.real_name]
-			person_data[FJOB] = new_title
+			person_data["FJOB"] = new_title
 
 /// Populates known_people lists immediately (uses default job title for advjobs, updated later by signal)
 /datum/job/proc/populate_job_knowledge(mob/living/carbon/human/H, latejoin)
