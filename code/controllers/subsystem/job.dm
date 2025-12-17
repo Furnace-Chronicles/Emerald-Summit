@@ -9,6 +9,9 @@ SUBSYSTEM_DEF(job)
 	var/list/unassigned = list()		//Players who need jobs
 	var/initial_players_to_assign = 0 	//used for checking against population caps
 
+	// Knowledge system optimization - caches job category lookups
+	var/list/job_minds_cache = null	// job_title => list(minds)
+
 	var/list/prioritized_jobs = list()
 	var/list/latejoin_trackers = list()	//Don't read this list, use GetLateJoinTurfs() instead
 
@@ -273,6 +276,10 @@ SUBSYSTEM_DEF(job)
 
 /datum/controller/subsystem/job/proc/ResetOccupations()
 	JobDebug("Occupations reset.")
+	
+	// Invalidate knowledge cache for new round
+	invalidate_job_minds_cache()
+	
 	for(var/i in GLOB.new_player_list)
 		var/mob/dead/new_player/player = i
 		if((player) && (player.mind))
@@ -914,33 +921,27 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/JobDebug(message)
 	log_job_debug(message)
 
-/// Initialize known_people lists for all roundstart players after all jobs are assigned
-/datum/controller/subsystem/job/proc/InitializeRoundstartKnowledge()
+/// Builds a cache of job title => minds for fast knowledge population
+/// Called explicitly in ticker.dm after transfer_characters() for roundstart
+/// Called explicitly in populate_job_knowledge() for latejoin (after invalidation)
+/datum/controller/subsystem/job/proc/build_job_minds_cache()
+	if(job_minds_cache)
+		return // Already built
+	
+	job_minds_cache = list()
+	
+	// Build job title => list of minds mapping
 	for(var/datum/mind/M in SSticker.minds)
-		if(!M.current || !ishuman(M.current))
+		if(!M.assigned_role)
 			continue
 		
-		var/mob/living/carbon/human/H = M.current
-		var/datum/job/my_job = GetJob(H.job)
-		if(!my_job)
-			continue
+		if(!job_minds_cache[M.assigned_role])
+			job_minds_cache[M.assigned_role] = list()
 		
-		// Everyone knows universal jobs (nobles for now)
-		for(var/job_title in my_job.universal_known_jobs)
-			for(var/datum/mind/other_mind in get_minds(job_title))
-				if(other_mind.current && ishuman(other_mind.current))
-					var/mob/living/carbon/human/other = other_mind.current
-					M.i_know_person(other)
-		
-		// Mutual knowledge system (only for jobs with bank accounts)
-		if(!my_job.give_bank_account)
-			continue
-		
-		for(var/job_title in my_job.peopleiknow)
-			for(var/datum/mind/other_mind in get_minds(job_title))
-				if(other_mind.current && ishuman(other_mind.current))
-					var/mob/living/carbon/human/other = other_mind.current
-					var/datum/job/other_job = GetJob(other.job)
-					// Only add if the other person also has give_bank_account
-					if(other_job?.give_bank_account)
-						M.i_know_person(other)
+		job_minds_cache[M.assigned_role] += M
+	
+	log_game("KNOWLEDGE CACHE: Built with [SSticker.minds.len] total minds, [job_minds_cache.len] unique jobs")
+
+/// Invalidates the job minds cache (called when someone joins or changes job)
+/datum/controller/subsystem/job/proc/invalidate_job_minds_cache()
+	job_minds_cache = null

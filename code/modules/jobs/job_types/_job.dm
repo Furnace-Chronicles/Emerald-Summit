@@ -185,14 +185,45 @@
 		to_chat(player, span_notice("*-----------------*"))
 		to_chat(player, span_notice(tutorial))
 
-/// Populates known_people lists after equipment is complete
+/// Signal handler for advjob selection completion - updates cached job title in everyone's known_people
+/datum/job/proc/update_job_title_in_known_lists(mob/living/carbon/human/H)
+	if(!H || !H.mind)
+		return
+	
+	var/new_title = H.get_role_title()
+	
+	// Update the cached job title in everyone who knows this person
+	for(var/datum/mind/M in SSticker.minds)
+		if(!M.current || M == H.mind)
+			continue
+		
+		// Check if they know this person
+		if(M.known_people && M.known_people[H.real_name])
+			// Update the cached FJOB field with the new advjob title
+			var/list/person_data = M.known_people[H.real_name]
+			person_data[FJOB] = new_title
+
+/// Populates known_people lists immediately (uses default job title for advjobs, updated later by signal)
 /datum/job/proc/populate_job_knowledge(mob/living/carbon/human/H, latejoin)
 	if(!H || !H.mind)
 		return
 	
+	// For latejoin, rebuild cache since new player joined
+	if(latejoin)
+		SSjob.invalidate_job_minds_cache()
+		SSjob.build_job_minds_cache()
+	
+	// Cache is guaranteed to exist at this point:
+	// - Roundstart: Built in ticker.dm after transfer_characters()
+	// - Latejoin: Rebuilt above
+	
 	// Everyone knows universal jobs (nobles for now)
 	for(var/X in universal_known_jobs)
-		for(var/datum/mind/MF in get_minds(X))
+		var/list/minds_in_job = SSjob.job_minds_cache[X]
+		if(!minds_in_job)
+			continue
+		
+		for(var/datum/mind/MF in minds_in_job)
 			if(MF.current && ishuman(MF.current))
 				H.mind.i_know_person(MF.current)
 	
@@ -201,7 +232,11 @@
 		return
 	
 	for(var/X in peopleknowme)
-		for(var/datum/mind/MF in get_minds(X))
+		var/list/minds_in_job = SSjob.job_minds_cache[X]
+		if(!minds_in_job)
+			continue
+		
+		for(var/datum/mind/MF in minds_in_job)
 			// Only add ourselves to their list if they also have give_bank_account
 			// This prevents Bandits/Wretches from learning about latejoiners
 			if(MF.current && ishuman(MF.current))
@@ -209,8 +244,13 @@
 				var/datum/job/target_job = SSjob.GetJob(target.job)
 				if(target_job?.give_bank_account)
 					H.mind.person_knows_me(MF)
+	
 	for(var/X in peopleiknow)
-		for(var/datum/mind/MF in get_minds(X))
+		var/list/minds_in_job = SSjob.job_minds_cache[X]
+		if(!minds_in_job)
+			continue
+		
+		for(var/datum/mind/MF in minds_in_job)
 			// Only add them to our list if they also have give_bank_account
 			// This prevents knowing Bandits/Mercenaries who don't participate in the system
 			if(MF.current && ishuman(MF.current))
@@ -240,11 +280,12 @@
 		for(var/stat in job_stats)
 			H.change_stat(stat, job_stats[stat])
 
-	// Register signal handler to populate knowledge AFTER equipment is complete
-	// This fires for both roundstart via ticker calling InitializeRoundstartKnowledge
-	// and latejoin via COMSIG_JOB_EQUIPPED signal
-	if(latejoin)
-		RegisterSignal(H, COMSIG_JOB_EQUIPPED, PROC_REF(populate_job_knowledge))
+	// Populate knowledge immediately with default job titles
+	// For advjobs, this uses the base job title initially
+	populate_job_knowledge(H, latejoin)
+	
+	// Register signal handler to UPDATE cached job titles after advclass selection
+	RegisterSignal(H, COMSIG_JOB_EQUIPPED, PROC_REF(update_job_title_in_known_lists))
 
 	if(H.islatejoin && announce_latejoin)
 		var/used_title = title

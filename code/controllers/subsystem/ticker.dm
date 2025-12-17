@@ -342,22 +342,10 @@ SUBSYSTEM_DEF(ticker)
 		transfer_characters()	//transfer keys to the new mobs
 		log_game("GAME SETUP: transfer characters success")
 
-		// Initialize known_people lists for all roundstart players
-		SSjob.InitializeRoundstartKnowledge()
-		log_game("GAME SETUP: initialize roundstart knowledge success")
-
-
-	for(var/I in round_start_events)
-		var/datum/callback/cb = I
-		cb.InvokeAsync()
-
-	log_game("GAME SETUP: round start events success")
-	LAZYCLEARLIST(round_start_events)
-	CHECK_TICK
-	if(isrogueworld)
-		for(var/obj/structure/fluff/traveltile/TT in GLOB.traveltiles)
-			if(TT.aallmig)
-				TT.aportalgoesto = TT.aallmig
+	// Build job knowledge cache now that all roundstart minds are in SSticker.minds
+	// This happens BEFORE any EquipRank() calls, so cache is ready when players spawn
+	SSjob.build_job_minds_cache()
+	log_game("GAME SETUP: job knowledge cache built")
 		for(var/i in GLOB.mob_living_list)
 			var/mob/living/L = i
 			var/turf/T = get_turf(L)
