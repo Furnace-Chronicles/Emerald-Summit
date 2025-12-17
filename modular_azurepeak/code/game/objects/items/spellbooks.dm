@@ -81,7 +81,7 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 
 /obj/item/book/spellbook/examine(mob/user)
 	. = ..()
-	. += span_notice("Reading it once per day allows you to unbind two spells and refund its spell point.")
+	. += span_notice("Reading it once per day allows you to unbind up to two spells and refund their spell points.")
 	if(born_of_rock)
 		. += span_notice("This tome was made from a magical stone instead of a proper gem. Holding it in your hand with it open reduces spell casting time by [ROCK_CHARGE_REDUCTION * 100]%")
 	else
@@ -146,10 +146,10 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 	if(!picked)
 		var/list/designlist = list("green", "yellow", "brown")
 		var/mob/living/carbon/human/gamer = user
-		if(gamer.job == "Court Magician")
-			designlist = list("steel", "gem", "skin", "mimic")
+		if(gamer.get_skill_level(/datum/skill/magic/arcane) >= 4)
+			designlist = list("green", "yellow", "brown", "steel", "gem", "skin", "mimic", "wyrdbark", "sunfire", "abyssal", "cinder", "vessel", "edgebound", "sovereign")
 		var/the_time = world.time
-		var/design = input(user, "Select a design.","Spellbook Design") as null|anything in designlist
+		var/design = tgui_input_list(user, "Select a design.","Spellbook Design", designlist)		
 		if(!design)
 			return
 		if(world.time > (the_time + 30 SECONDS))
@@ -157,6 +157,37 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 		base_icon_state = "spellbook[design]"
 		update_icon()
 		picked = TRUE
+		name = "\improper [design] tome"
+		switch(design) //super lazy but idrc
+			if("green")
+				return
+			if("yellow")
+				return
+			if("brown") //preserve default name and desc for the basic options
+				return
+			if("steel")
+				desc = "A metallic tome adorned with alignments of runes and alchemical symbols. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+			if("gem")
+				desc = "The pages form a window to the breadth of the stars. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+			if("skin")
+				desc = "Profane symbols adorn this spellbook- is that blood dripping off the pages? Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+			if("mimic")
+				desc = "This book seems to be reading you, instead. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+			if("wyrdbark")
+				desc = "Formed of heartwood and fae magics, leaves flutter about when it opens. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+			if("sunfire")
+				desc = "Astrata's radiance pours freely from this book's enchanted parchment. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+			if("abyssal")
+				desc = "Frigid and numb to the touch; you feel so much smaller just looking at it. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+			if("cinder")
+				desc = "Wafting smoke and smoldering crackles come from the papyrus, though it never catches alight. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+			if("vessel")
+				desc = "A stoppered bottle of ink that forms into a fully-fledged tome when uncorked. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+				name = "\improper arcyne vessel" //calling it 'vessel tome' is weird as fuck
+			if("edgebound")
+				desc = "Harsh, sturdy, and practical; can a war-mage ask for more? Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+			if("sovereign")
+				desc = "Regal and opulent, you feel a stronge urge to call this tome some title of reverence. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
 		return
 	if(!open)
 		slot_flags &= ~ITEM_SLOT_HIP

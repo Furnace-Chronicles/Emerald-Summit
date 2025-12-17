@@ -224,6 +224,13 @@
 				"Gem Spellbook" = "spellbookgem",
 				"Skin Spellbook" = "spellbookskin",
 				"Mimic Spellbook" = "spellbookmimic",
+				"Wyrdbark Spellbook" = "spellbookwyrdbark",
+				"Sunfire Spellbook" = "spellbooksunfire",
+				"Abyssal Spellbook" = "spellbookabyssal",
+				"Cinder Spellbook" = "spellbookcinder",
+				"Arcyne Vessel" = "spellbookvessel",
+				"Edgebound Spellbook" = "spellbookedgebound",
+				"Sovereign Spellbook" = "spellbooksovereign"
 			)
 			var/is_magical_topic = (subject == /datum/skill/magic/arcane || subject == /datum/skill/magic/holy)
 			var/is_legendary_level = (skill_cap >= 6)
