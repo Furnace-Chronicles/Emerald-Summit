@@ -208,14 +208,13 @@
 	if(!H || !H.mind)
 		return
 	
-	// For latejoin, rebuild cache since new player joined
+	// For latejoin, add this new player to the existing cache
 	if(latejoin)
-		SSjob.invalidate_job_minds_cache()
-		SSjob.build_job_minds_cache()
+		SSjob.add_mind_to_cache(H.mind)
 	
 	// Cache is guaranteed to exist at this point:
-	// - Roundstart: Built in ticker.dm after transfer_characters()
-	// - Latejoin: Rebuilt above
+	// - Roundstart: Built in ticker.dm after collect_minds()
+	// - Latejoin: New player added to existing cache above
 	
 	// Everyone knows universal jobs (nobles for now)
 	for(var/X in universal_known_jobs)

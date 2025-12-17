@@ -938,6 +938,32 @@ SUBSYSTEM_DEF(job)
 	
 	log_game("KNOWLEDGE CACHE: Built with [SSticker.minds.len] total minds, [job_minds_cache.len] unique jobs")
 
+/// Adds a single mind to the existing job cache (for latejoin)
+/datum/controller/subsystem/job/proc/add_mind_to_cache(datum/mind/M)
+	if(!job_minds_cache)
+		return // Cache doesn't exist, shouldn't happen
+	
+	if(!M || !M.assigned_role)
+		return
+	
+	if(!job_minds_cache[M.assigned_role])
+		job_minds_cache[M.assigned_role] = list()
+	
+	job_minds_cache[M.assigned_role] += M
+	log_game("KNOWLEDGE CACHE: Added [M.assigned_role] to cache")
+
+/// Removes a single mind from the job cache (for far travel/logout)
+/datum/controller/subsystem/job/proc/remove_mind_from_cache(datum/mind/M)
+	if(!job_minds_cache)
+		return
+	
+	if(!M || !M.assigned_role)
+		return
+	
+	if(job_minds_cache[M.assigned_role])
+		job_minds_cache[M.assigned_role] -= M
+		log_game("KNOWLEDGE CACHE: Removed [M.assigned_role] from cache")
+
 /// Invalidates the job minds cache (called when someone joins or changes job)
 /datum/controller/subsystem/job/proc/invalidate_job_minds_cache()
 	job_minds_cache = null
