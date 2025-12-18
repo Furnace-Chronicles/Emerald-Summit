@@ -1120,6 +1120,7 @@
 			remove_status_effect(/datum/status_effect/buff/tempo_three)
 
 /mob/living/carbon/human/proc/cull_tempo_list()
+	list_clear_nulls(tempo_attackers)
 	for(var/mob in tempo_attackers)
 		if(tempo_attackers[mob] < world.time)
 			if(mob in tempo_mobs_attacked)
