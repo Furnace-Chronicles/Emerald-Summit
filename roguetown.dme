@@ -578,6 +578,7 @@
 #include "code\datums\components\after_image.dm"
 #include "code\datums\components\anti_magic.dm"
 #include "code\datums\components\art.dm"
+#include "code\datums\components\baothajoyride.dm"
 #include "code\datums\components\beauty.dm"
 #include "code\datums\components\beetlejuice.dm"
 #include "code\datums\components\butchering.dm"
