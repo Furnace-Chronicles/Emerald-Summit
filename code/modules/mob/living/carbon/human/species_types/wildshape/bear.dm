@@ -26,8 +26,11 @@
 		update_move_intent_slowdown() // Apply speed changes
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/bearclaws)
-		real_name = "Direbear ([stored_mob.real_name])" //So we don't get a random name
 		faction += "bears" // It IS a bear
+		if (src.client.prefs?.wildshape_name)
+			real_name = "direbear ([stored_mob.real_name])"
+		else
+			real_name = "direbear"
 
 // BEAR SPECIES DATUM //
 /datum/species/shapebear
