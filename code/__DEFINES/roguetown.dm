@@ -466,6 +466,23 @@ GLOBAL_LIST_EMPTY(premium_noticeboardposts)
 GLOBAL_LIST_EMPTY(job_respawn_delays)
 GLOBAL_LIST_EMPTY(round_join_times)
 
+//preference stuff
+#define FAMILY_NONE "None"
+#define FAMILY_PARTIAL "Siblings"
+#define FAMILY_NEWLYWED "Newlywed"
+#define FAMILY_FULL "Parent"
+
+#define ANY_GENDER "Any gender"
+#define SAME_GENDER "Same gender"
+#define DIFFERENT_GENDER "Different gender"
+
+#define FAMILY_FATHER "Father"
+#define FAMILY_MOTHER "Mother"
+#define FAMILY_PROGENY "Progeny"
+#define FAMILY_ADOPTED "Adoptive Progeny"
+#define FAMILY_OMMER "Parents Sibling"
+#define FAMILY_INLAW "In Law"
+
 //stress levels
 #define STRESS_MAX 30
 #define STRESS_INSANE 7
