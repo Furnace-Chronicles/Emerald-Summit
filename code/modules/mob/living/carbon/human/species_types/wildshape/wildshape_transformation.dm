@@ -19,7 +19,7 @@
 	
 	Paralyze(1, ignore_canstun = TRUE)
 	for(var/obj/item/I in src)
-		if (I != underwear) // keep just the underwear on our host mob because refreshing it otherwise is a pain in the ass
+		if (I != underwear && I != cloak) // keep underwear and our cloak, even if said cloak remains inaccessible.
 			dropItemToGround(I)
 	regenerate_icons()
 	icon = null
