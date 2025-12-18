@@ -304,6 +304,22 @@
 	createditem_num = 1
 	craftdiff = 0
 
+/datum/anvil_recipe/armor/iron/mask/yoroku_oni
+	name = "Iron Oni Mask"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/hair_dye_cream, /obj/item/natural/cloth)
+	created_item = /obj/item/clothing/mask/rogue/facemask/hound/yoruku_oni
+	createditem_num = 1
+	craftdiff = 1
+
+/datum/anvil_recipe/armor/iron/mask/yoroku_kitsune
+	name = "Iron Kitsune Mask"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/hair_dye_cream, /obj/item/natural/cloth)
+	created_item = /obj/item/clothing/mask/rogue/facemask/hound/yoruku_kitsune
+	createditem_num = 1
+	craftdiff = 1
+
 /datum/anvil_recipe/armor/iron/splintarms
 	name = "Brigandine Rerebraces (+1 Cloth)"
 	req_bar = /obj/item/ingot/iron
@@ -869,6 +885,13 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/absolver
 	craftdiff = 3
 
+/datum/anvil_recipe/armor/steel/holythorns
+	name = "Holy silver thorns (+1 Steel, +1 Blessed Silver)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel, /obj/item/ingot/silverblessed)
+	created_item = /obj/item/clothing/head/roguetown/helmet/sallet/thorns
+	craftdiff = 3
+
 /datum/anvil_recipe/armor/steel/bevor
 	name = "Bevor"
 	req_bar = /obj/item/ingot/steel
@@ -908,26 +931,26 @@
 	createditem_num = 1
 	craftdiff = 2
 
-/datum/anvil_recipe/armor/steel/yoroku_oni
-	name = "Oni Mask"
-	req_bar = /obj/item/ingot/steel
-	additional_items = list(/obj/item/hair_dye_cream, /obj/item/natural/cloth)
-	created_item = /obj/item/clothing/mask/rogue/facemask/yoruku_oni
-	createditem_num = 1
-	craftdiff = 3
-
-/datum/anvil_recipe/armor/steel/yoroku_kitsune
-	name = "Kitsune Mask"
-	req_bar = /obj/item/ingot/steel
-	additional_items = list(/obj/item/hair_dye_cream, /obj/item/natural/cloth)
-	created_item = /obj/item/clothing/mask/rogue/facemask/yoruku_kitsune
-	createditem_num = 1
-	craftdiff = 3
-
 /datum/anvil_recipe/armor/steel/mempo
 	name = "Steel Mempo"
 	req_bar = /obj/item/ingot/steel
 	created_item = /obj/item/clothing/mask/rogue/facemask/steel/kazengun
+	createditem_num = 1
+	craftdiff = 3
+
+/datum/anvil_recipe/armor/steel/yoroku_oni
+	name = "Steel Oni Mask"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel, /obj/item/natural/cloth)
+	created_item = /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full
+	createditem_num = 1
+	craftdiff = 3
+
+/datum/anvil_recipe/armor/steel/yoroku_kitsune
+	name = "Steel Kitsune Mask"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/hair_dye_cream, /obj/item/natural/cloth)
+	created_item = /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full/kitsune
 	createditem_num = 1
 	craftdiff = 3
 

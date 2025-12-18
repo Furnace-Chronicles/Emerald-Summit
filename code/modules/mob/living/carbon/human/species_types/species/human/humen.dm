@@ -8,15 +8,15 @@
 	origin_default = /datum/virtue/origin/grenzelhoft
 	origin = "Grenzelhoft"
 	sub_name = "Northern Humen"
+	shortdesc = "<b>Humen</b><br>\
+	Humens are a well-known, populous race. Numerous cities of the world teem with their numbers, and just as many ruins show marks of their craftsmanship.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 END | +1 INT</b></span>"
 	desc = "<b>Humen</b><br>\
-	Humens (or \"Humans\") are the eldest of the Weeping God's creations. Noted for their \
-	tenacity and overwhelming population, humens are the most commonly seen race across the lands, \
-	at a rate of about ten to one in regions such as Grenzelhoft. However, to the west \
-	the opposite is true. Humens come from a vast swathe of cultures and ethnicities, most of which \
-	have historically been at odds with one another. Being the eldest creations of the Weeping God, humens \
-	tend to find fortune easier than the other races, and are so diverse that no other racial traits \
-	are dominant in their species.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 END | +1 INT</b></span> </br>"
+	Humens are a well-known, populous race. Numerous cities of the world teem with their numbers, and just as many ruins show marks of their craftsmanship.<br>\
+	As a people, humens are creatures of contradiction: stubborn but adaptable, social yet bellicose. Their goals are as mercurial and short-lived as they are.<br>\
+	The current era of history is undoubtedly theirs, for however long that may be.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 END | +1 INT</b></span> <br><br>\
+	<span style='color: #8B0000'>The Ascendant Matthios, patron of the greedy, rose from the ranks of the humen race. Many other races consider this indicative of Humenity's nature as rude, avaricious beings.</span>"
 
 	skin_tone_wording = "Ancestry"
 

@@ -13,7 +13,7 @@
 	cmode_music = 'sound/music/combat_blackoak.ogg'
 	extra_context = "This subclass is race-restricted to: Half-Elves, Elves."
 
-	traits_applied = list(TRAIT_REACHNATIVE, TRAIT_OUTDOORSMAN, TRAIT_MEDIUMARMOR, TRAIT_WOODSMAN)
+	traits_applied = list(TRAIT_REACHNATIVE, TRAIT_OUTDOORSMAN, TRAIT_MEDIUMARMOR, TRAIT_WOODSMAN, TRAIT_WOODWALKER)
 	subclass_stats = list(
 		STATKEY_STR = 3,
 		STATKEY_END = 2,
@@ -85,7 +85,7 @@
 	tutorial = "A shady guardian of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Reach. Thankfully, you are not here today to shed the blood of the Duke's men — unless someone pays you to..."
 	outfit = /datum/outfit/job/mercenary/blackoak_ranger
 
-	traits_applied = list(TRAIT_REACHNATIVE, TRAIT_OUTDOORSMAN, TRAIT_DODGEEXPERT, TRAIT_WOODSMAN)
+	traits_applied = list(TRAIT_REACHNATIVE, TRAIT_OUTDOORSMAN, TRAIT_DODGEEXPERT, TRAIT_WOODSMAN, TRAIT_WOODWALKER)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_END = 2,

@@ -646,7 +646,7 @@
 
 /obj/item/clothing/neck/roguetown/collar/cowbell/Initialize(mapload)
 		. = ..()
-		AddComponent(/datum/component/squeak, SFX_COLLARJINGLE, 50, 100, 1) //We want squeak so wearer jingles if touched while wearing collar
+		AddComponent(/datum/component/squeak, SFX_COLLARJANGLE, 50, 100, 1) //We want squeak so wearer jingles if touched while wearing collar
 
 /obj/item/clothing/neck/roguetown/collar/catbell
 	name = "catbell collar"
@@ -851,4 +851,4 @@
 	desc = "For the hardest working neck in the province, since you know people are going to target it first."
 	icon_state = "ogre_gorget"
 	allowed_race = OGRE_RACE_TYPES
-	max_integrity = 350
+	max_integrity = 300

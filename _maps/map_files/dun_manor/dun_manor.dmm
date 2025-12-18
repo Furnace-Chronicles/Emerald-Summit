@@ -33575,7 +33575,7 @@
 "xzF" = (
 /obj/structure/mineral_door/wood/fancywood{
 	lockid = "manor";
-	name = "Councilor's Chambers";
+	name = "Councillor's Chambers";
 	locked = 1
 	},
 /turf/open/floor/rogue/cobble,

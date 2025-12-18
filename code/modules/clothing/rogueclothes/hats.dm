@@ -346,6 +346,7 @@
 	flags_inv = HIDENECK
 	dynamic_hair_suffix = ""
 	sewrepair = TRUE
+	block2add = null
 
 /obj/item/clothing/head/roguetown/priestmask
 	name = "solar visage"
@@ -946,6 +947,14 @@
 	icon_state = "sallet"
 	desc = "A steel helmet which protects the ears."
 	max_integrity = 215
+	smeltresult = /obj/item/ingot/steel
+	body_parts_covered = HEAD|HAIR|EARS
+
+/obj/item/clothing/head/roguetown/helmet/sallet/thorns
+	name = "holysteel thorns"
+	icon_state = "holythorns"
+	desc = "A crown of thorns made with silver and steel wires. It protects your head and ears despite pricking them."
+	max_integrity = 225
 	smeltresult = /obj/item/ingot/steel
 	body_parts_covered = HEAD|HAIR|EARS
 

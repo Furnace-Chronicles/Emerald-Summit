@@ -118,6 +118,7 @@
 #define AGE_ADULT			"Adult"
 #define AGE_MIDDLEAGED		"Middle-Aged"
 #define AGE_OLD				"Old"
+#define AGE_IMMORTAL		"Immortal"
 
 #define AGE_VALUES list(AGE_ADULT = 1, AGE_MIDDLEAGED = 2, AGE_OLD = 3)
 

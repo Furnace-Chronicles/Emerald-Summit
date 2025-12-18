@@ -9,6 +9,7 @@
 	)
 	outfit = /datum/outfit/job/wretch/lunacyembracer
 	category_tags = list(CTAG_WRETCH)
+	maximum_possible_slots = 2
 	extra_context = "Minimum PQ Required: 30"
 
 	traits_applied = list(

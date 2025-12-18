@@ -163,9 +163,9 @@
 	var/mask_choice = input(H, "Choose your mask.", "HIDE YOURSELF") as anything in masks
 	switch(mask_choice)
 		if("Oni")
-			mask = /obj/item/clothing/mask/rogue/facemask/yoruku_oni
+			mask = /obj/item/clothing/mask/rogue/facemask/hound/yoruku_oni
 		if("Kitsune")
-			mask = /obj/item/clothing/mask/rogue/facemask/yoruku_kitsune
+			mask = /obj/item/clothing/mask/rogue/facemask/hound/yoruku_kitsune
 
 	var/belts = list("Shurikens","Smokebombs")
 	var/belt_choice = input(H, "Choose your belt.", "BELT YOURSELF") as anything in belts

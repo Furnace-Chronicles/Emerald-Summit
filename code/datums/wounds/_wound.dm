@@ -85,7 +85,6 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	var/healable_by_miracles = TRUE
 
 /datum/wound/Destroy(force)
-	. = ..()
 	if(bodypart_owner)
 		remove_from_bodypart()
 	else if(owner)
@@ -95,6 +94,8 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 		werewolf_infection_timer = null
 	bodypart_owner = null
 	owner = null
+	. = ..()
+	return QDEL_HINT_IWILLGC
 
 /// Description of this wound returned to the player when a bodypart is examined and such
 /datum/wound/proc/get_visible_name(mob/user)

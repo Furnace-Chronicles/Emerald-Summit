@@ -186,6 +186,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/moth,\
 	/datum/species/dracon,\
 	/datum/species/anthromorph,\
+	/datum/species/anthromorphsmall,\
 	/datum/species/demihuman,\
 	/datum/species/halforc,\
 	/datum/species/kobold,\
@@ -464,6 +465,23 @@ GLOBAL_LIST_EMPTY(noticeboard_posts)
 GLOBAL_LIST_EMPTY(premium_noticeboardposts)
 GLOBAL_LIST_EMPTY(job_respawn_delays)
 GLOBAL_LIST_EMPTY(round_join_times)
+
+//preference stuff
+#define FAMILY_NONE "None"
+#define FAMILY_PARTIAL "Siblings"
+#define FAMILY_NEWLYWED "Newlywed"
+#define FAMILY_FULL "Parent"
+
+#define ANY_GENDER "Any gender"
+#define SAME_GENDER "Same gender"
+#define DIFFERENT_GENDER "Different gender"
+
+#define FAMILY_FATHER "Father"
+#define FAMILY_MOTHER "Mother"
+#define FAMILY_PROGENY "Progeny"
+#define FAMILY_ADOPTED "Adoptive Progeny"
+#define FAMILY_OMMER "Parents Sibling"
+#define FAMILY_INLAW "In Law"
 
 //stress levels
 #define STRESS_MAX 30
