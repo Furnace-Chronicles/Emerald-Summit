@@ -91,7 +91,8 @@
 		return
 
 	HU.visible_message(span_danger("[HU] baits an attack from [HT]!"))
-	HU.apply_status_effect(/datum/status_effect/debuff/baitcd)
+	var/newcd = 30 SECONDS - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)
+	HU.apply_status_effect(/datum/status_effect/debuff/baitcd, newcd)
 	HU.stamina_add(HU.max_stamina * 0.2)
 
 	if((target_zone != user_zone) || ((target_zone == BODY_ZONE_CHEST) || (user_zone == BODY_ZONE_CHEST))) //Our zones match and it's not the chest | Our zones do not match, or we were targeting chest
@@ -225,7 +226,8 @@
 	if(L.has_status_effect(/datum/status_effect/debuff/exposed))
 		perc = 0
 
-	user.apply_status_effect(/datum/status_effect/debuff/feintcd)
+	var/newcd = 30 SECONDS - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)
+	user.apply_status_effect(/datum/status_effect/debuff/feintcd, newcd)
 	perc = CLAMP(perc, 0, 90)
 
 	if(!prob(perc)) //feint intent increases the immobilize duration significantly
