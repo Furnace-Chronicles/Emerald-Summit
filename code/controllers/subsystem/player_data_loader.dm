@@ -21,14 +21,19 @@ SUBSYSTEM_DEF(player_data_loader)
 		return
 	
 	load_queue += ckey_normalized
+	log_game("PLAYER_DATA_LOADER: Queued [ckey_normalized] (queue size: [load_queue.len])")
 	
 	// Start processor if not running
 	if(!processing)
 		processing = TRUE
+		log_game("PLAYER_DATA_LOADER: Starting batch processor")
 		addtimer(CALLBACK(src, PROC_REF(process_batch)), batch_delay, TIMER_STOPPABLE)
 
 /datum/controller/subsystem/player_data_loader/proc/process_batch()
+	var/batch_start = world.time
 	var/processed = 0
+	
+	log_game("PLAYER_DATA_LOADER: Processing batch (queue: [load_queue.len] remaining)")
 	
 	while(processed < batch_size && load_queue.len)
 		var/ckey_to_load = load_queue[1]
@@ -38,13 +43,19 @@ SUBSYSTEM_DEF(player_data_loader)
 		load_player_data(ckey_to_load)
 		processed++
 	
+	var/batch_time = (world.time - batch_start) / 10
+	log_game("PLAYER_DATA_LOADER: Batch complete - processed [processed] players in [batch_time]s (queue: [load_queue.len] remaining)")
+	
 	// Schedule next batch if more items
 	if(load_queue.len > 0)
 		addtimer(CALLBACK(src, PROC_REF(process_batch)), batch_delay, TIMER_STOPPABLE)
 	else
 		processing = FALSE
+		log_game("PLAYER_DATA_LOADER: All batches complete")
 
 /datum/controller/subsystem/player_data_loader/proc/load_player_data(ckey_to_load)
+	var/load_start = world.time
+	
 	// Load PQ
 	get_playerquality(ckey_to_load)
 	
@@ -56,3 +67,7 @@ SUBSYSTEM_DEF(player_data_loader)
 	
 	// Load Rounds Played (global proc, not subsystem)
 	get_nightsurvive(ckey_to_load)
+	
+	var/load_time = (world.time - load_start) / 10
+	if(load_time > 0.5) // Log if loading took longer than expected
+		log_game("PLAYER_DATA_LOADER: WARNING - [ckey_to_load] took [load_time]s to load (expected <0.1s)")
