@@ -19,7 +19,7 @@
 	
 	Paralyze(1, ignore_canstun = TRUE)
 	for(var/obj/item/I in src)
-		if (I != underwear && I != cloak) // keep underwear and our cloak, even if said cloak remains inaccessible.
+		if (I != underwear && I != cloak && I != legwear_socks) // keep underwear (+ socks) and our cloak, even if said cloak remains inaccessible.
 			dropItemToGround(I)
 	regenerate_icons()
 	icon = null
