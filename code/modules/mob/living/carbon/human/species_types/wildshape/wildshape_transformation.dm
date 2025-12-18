@@ -19,7 +19,8 @@
 	
 	Paralyze(1, ignore_canstun = TRUE)
 	for(var/obj/item/I in src)
-		dropItemToGround(I)
+		if (I != underwear) // keep just the underwear on our host mob because refreshing it otherwise is a pain in the ass
+			dropItemToGround(I)
 	regenerate_icons()
 	icon = null
 	var/oldinv = invisibility
