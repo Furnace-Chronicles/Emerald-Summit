@@ -947,7 +947,7 @@
 
 	var/datum/antagonist/werewolf/WWtop
 	var/datum/antagonist/werewolf/WWbottom
-	var/infection_probability = 100
+	var/infection_probability = 40
 	if(top.mind.has_antag_datum(/datum/antagonist/werewolf))
 		WWtop = top.mind.has_antag_datum(/datum/antagonist/werewolf/)
 
