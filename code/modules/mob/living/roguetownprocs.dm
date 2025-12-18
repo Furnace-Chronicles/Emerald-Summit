@@ -212,7 +212,9 @@
 				return FALSE
 			if(pulledby || pulling)
 				return FALSE
-			if(world.time < last_parry + setparrytime)
+			var/parrydelay = setparrytime
+			parrydelay -= get_tempo_bonus(TEMPO_TAG_PARRYCD_BONUS)
+			if(world.time < last_parry + parrydelay)
 				if(!istype(rmb_intent, /datum/rmb_intent/riposte))
 					return FALSE
 			if(has_status_effect(/datum/status_effect/debuff/exposed))
@@ -1174,7 +1176,7 @@
 				return TRUE
 			else
 				return FALSE
-		//How much armor integ we lose on hit. Multiplier. (0 to 1)
+		//How much less armor integ we lose on hit. Multiplier. (0 to 1)
 		if(TEMPO_TAG_ARMOR_INTEGFACTOR)
 			if(has_status_effect(/datum/status_effect/buff/tempo_one))
 				return 0.8

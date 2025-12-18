@@ -377,10 +377,10 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define PROJ_PARRY_TIMER	0.65 SECONDS	//The time after an attack (swinging in the air counts) when a thrown item would be deflected at a higher chance.
 #define TEMPO_CULL_DELAY 	15 SECONDS	//Interval for checking our tempo lists. Only relevant to player mobs with TRAIT_TEMPO
 #define TEMPO_DELAY 30 SECONDS
-#define TEMPO_CAP 7
-#define TEMPO_MAX 3 //!4
-#define TEMPO_TWO 2 //!3
-#define TEMPO_ONE 1 //!2
+#define TEMPO_CAP 6
+#define TEMPO_MAX 4 
+#define TEMPO_TWO 3 
+#define TEMPO_ONE 2 
 
 #define TEMPO_TAG_STAMLOSS_PARRY "parry"
 #define TEMPO_TAG_STAMLOSS_DODGE "dodge"
@@ -390,3 +390,4 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define TEMPO_TAG_DEF_INTEGFACTOR "parryinteg"
 #define TEMPO_TAG_PARRYCD_BONUS	"parrycd"
 #define TEMPO_TAG_RCLICK_CD_BONUS "rclickcd"
+#define TEMPO_TAG_DEF_BONUS	"defbonus"
