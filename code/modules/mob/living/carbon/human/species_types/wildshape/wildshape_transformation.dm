@@ -18,6 +18,11 @@
 			grab_data += list(list(G.grabbee, G.grab_state, tackle_status, src.lying))
 	
 	Paralyze(1, ignore_canstun = TRUE)
+
+	//before we shed our items, save our neck and ring, if we have any, so we can quickly rewear them
+	var/obj/item/stored_neck = wear_neck
+	var/obj/item/stored_ring = wear_ring
+
 	for(var/obj/item/I in src)
 		if (I != underwear && I != cloak && I != legwear_socks) // keep underwear (+ socks) and our cloak, even if said cloak remains inaccessible.
 			dropItemToGround(I)
@@ -42,6 +47,13 @@
 		playsound(W.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
 		W.spawn_gibs(FALSE)
 	src.forceMove(W)
+
+	// re-equip our stored neck and ring items, if we have them
+	if (stored_ring)
+		W.equip_to_slot_if_possible(stored_ring, SLOT_RING) // have to do this because we can wear psycrosses as rings even though we shouldn't be able to
+
+	if (stored_neck)
+		W.equip_to_slot_if_possible(stored_neck, SLOT_NECK)
 
 	W.after_creation()
 	W.stored_language = new
@@ -114,6 +126,10 @@
 			grab_data += list(list(G.grabbee, G.grab_state, tackle_status, src.lying))
 	
 	Paralyze(1, ignore_canstun = TRUE)
+
+	// as before, save our worn stuff and prepare to move it back to the mob
+	var/obj/item/stored_neck = wear_neck
+	var/obj/item/stored_ring = wear_ring
 	for(var/obj/item/W in src)
 		dropItemToGround(W)
 	icon = null
@@ -123,6 +139,13 @@
 	stored_mob = null
 
 	REMOVE_TRAIT(W, TRAIT_NOSLEEP, TRAIT_GENERIC)
+
+	// re-equip our stored neck and ring items, if we have them
+	if (stored_ring)
+		W.equip_to_slot_if_possible(stored_ring, SLOT_RING) // have to do this because we can wear psycrosses as rings even though we shouldn't be able to
+
+	if (stored_neck)
+		W.equip_to_slot_if_possible(stored_neck, SLOT_NECK)
 
 	if(dead)
 		W.death()
