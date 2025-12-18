@@ -1430,7 +1430,6 @@
 /datum/status_effect/buff/griefflower
 	id = "griefflower"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/griefflower
-	effectedstats = list("constitution" = 1,"endurance" = 1) 
 
 /datum/status_effect/buff/griefflower/on_apply()
 	. = ..()

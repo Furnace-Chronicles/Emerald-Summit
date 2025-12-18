@@ -177,7 +177,7 @@
 		if(volume >= 60)
 			M.reagents.remove_reagent(/datum/reagent/medicine/loversruin, 2)
 		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
-			M.blood_volume = min(M.blood_volume+40, BLOOD_VOLUME_MAXIMUM)
+			M.blood_volume = min(M.blood_volume+10, BLOOD_VOLUME_MAXIMUM)
 		var/list/wCount = M.get_wounds()
 		if(wCount.len > 0)
 			M.heal_wounds(4.5)
