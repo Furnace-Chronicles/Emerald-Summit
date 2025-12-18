@@ -191,11 +191,7 @@
 
 	if(!can_see_cone(user))
 		if(d_intent == INTENT_PARRY)
-			if(ishuman(H))
-				var/mob/living/carbon/human/Hdef = H
-				if(!Hdef.get_tempo_bonus(TEMPO_TAG_NOLOS_PARRY))
-					return FALSE
-			else
+			if(!H.get_tempo_bonus(TEMPO_TAG_NOLOS_PARRY))
 				return FALSE
 		else
 			prob2defend = max(prob2defend-15,0)
