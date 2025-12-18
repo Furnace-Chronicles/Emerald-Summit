@@ -191,7 +191,12 @@
 
 	if(!can_see_cone(user))
 		if(d_intent == INTENT_PARRY)
-			return FALSE
+			if(ishuman(H))
+				var/mob/living/carbon/human/Hdef = H
+				if(!Hdef.get_tempo_bonus(TEMPO_TAG_NOLOS_PARRY))
+					return FALSE
+			else
+				return FALSE
 		else
 			prob2defend = max(prob2defend-15,0)
 
@@ -415,6 +420,9 @@
 					var/dam2take = round((get_complex_damage(AB,user,used_weapon.blade_dulling)/2),1)
 					if(dam2take)
 						var/intdam = used_weapon.max_blade_int ? INTEG_PARRY_DECAY : INTEG_PARRY_DECAY_NOSHARP
+						var/tempobonus = H.get_tempo_bonus(TEMPO_TAG_DEF_INTEGFACTOR)
+						if(tempobonus)	//It is either null or 0.1 to 1, multiplication by null results in 0, so we check.
+							intdam *= tempobonus
 						if(used_weapon == offhand)
 							intdam = INTEG_PARRY_DECAY_NOSHARP
 						used_weapon.take_damage(intdam, BRUTE, used_weapon.d_type)
@@ -540,6 +548,10 @@
 /mob/proc/do_parry(obj/item/W, parrydrain as num, mob/living/user)
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
+
+		//Tempo bonus
+		parrydrain -= H.get_tempo_bonus(TEMPO_TAG_STAMLOSS_PARRY)
+
 		if(H.stamina_add(parrydrain))
 			if(W)
 				playsound(get_turf(src), pick(W.parrysound), 100, FALSE)
@@ -712,6 +724,10 @@
 			return FALSE
 		if(!UH?.mind) // For NPC, reduce the drained to 5 stamina
 			drained = drained_npc
+
+		//Tempo bonus
+		drained -= H.get_tempo_bonus(TEMPO_TAG_STAMLOSS_DODGE)
+
 		if(!H.stamina_add(max(drained,5)))
 			to_chat(src, span_warning("I'm too tired to dodge!"))
 			return FALSE
@@ -1070,3 +1086,115 @@
 		finalprob -= rand(1, rand(1,25))
 
 	return prob(finalprob)
+
+
+/mob/living/carbon/human/proc/process_tempo_attack(mob/living/carbon/attacker)
+	if(iscarbon(attacker) && attacker.mind && attacker != src)
+		if(length(tempo_attackers) < TEMPO_CAP)	//This list auto-culls so we don't need to flood it. If you're fighting 6 dudes at the same time you've got other problems.
+			var/newtime = world.time + TEMPO_DELAY
+			tempo_attackers[attacker] = newtime
+			next_tempo_cull = world.time + TEMPO_CULL_DELAY	//We reset the autocull timer on a hit from a valid person.
+		manage_tempo()
+
+/mob/living/carbon/human/proc/manage_tempo()
+	var/newcount
+	newcount = length(tempo_attackers)
+	switch(newcount)
+		if(TEMPO_MAX to TEMPO_CAP)
+			apply_status_effect(/datum/status_effect/buff/tempo_three)
+			remove_status_effect(/datum/status_effect/buff/tempo_two)
+			remove_status_effect(/datum/status_effect/buff/tempo_one)
+		if(TEMPO_TWO)
+			apply_status_effect(/datum/status_effect/buff/tempo_two)
+			remove_status_effect(/datum/status_effect/buff/tempo_three)
+			remove_status_effect(/datum/status_effect/buff/tempo_one)
+		if(TEMPO_ONE)
+			apply_status_effect(/datum/status_effect/buff/tempo_one)
+			remove_status_effect(/datum/status_effect/buff/tempo_three)
+			remove_status_effect(/datum/status_effect/buff/tempo_two)
+		if(0 to (TEMPO_ONE - 1))
+			remove_status_effect(/datum/status_effect/buff/tempo_one)
+			remove_status_effect(/datum/status_effect/buff/tempo_two)
+			remove_status_effect(/datum/status_effect/buff/tempo_three)
+
+/mob/living/carbon/human/proc/cull_tempo_list()
+	for(var/mob in tempo_attackers)
+		if(tempo_attackers[mob] < world.time)
+			if(mob in tempo_mobs_attacked)
+				tempo_mobs_attacked -= mob
+			tempo_attackers.Remove(mob)
+	manage_tempo()
+
+/mob/living/carbon/human/proc/clear_tempo_all()
+	LAZYCLEARLIST(tempo_mobs_attacked)
+	LAZYCLEARLIST(tempo_attackers)
+	to_chat(src, span_info("My muscles relax. My tempo is gone."))
+
+/mob/living/proc/get_tempo_bonus(id)
+	switch(id)
+		//Bonus CDR for rclicks
+		if(TEMPO_TAG_RCLICK_CD_BONUS)
+			if(has_status_effect(/datum/status_effect/buff/tempo_one))
+				return 5 SECONDS
+			if(has_status_effect(/datum/status_effect/buff/tempo_two))
+				return 10 SECONDS
+			if(has_status_effect(/datum/status_effect/buff/tempo_three))
+				return 15 SECONDS
+		//Bonus parry CDR. Note that default is 1.2 SECONDS
+		if(TEMPO_TAG_PARRYCD_BONUS)
+			if(has_status_effect(/datum/status_effect/buff/tempo_one))
+				return 0.2 SECONDS
+			if(has_status_effect(/datum/status_effect/buff/tempo_two))
+				return 0.4 SECONDS
+			if(has_status_effect(/datum/status_effect/buff/tempo_three))
+				return 0.6 SECONDS
+		//Modifier for how much integ damage the weapon we parry with takes. Multiplier.
+		if(TEMPO_TAG_DEF_INTEGFACTOR)
+			if(has_status_effect(/datum/status_effect/buff/tempo_one))
+				return 0.75
+			if(has_status_effect(/datum/status_effect/buff/tempo_two))
+				return 0.5
+			if(has_status_effect(/datum/status_effect/buff/tempo_three))
+				return 0.25
+		//Modifier for how much LESS sharpness we lose with the weapon we parry. Flat number.
+		if(TEMPO_TAG_DEF_SHARPNESSFACTOR)
+			if(has_status_effect(/datum/status_effect/buff/tempo_one))
+				return 1
+			if(has_status_effect(/datum/status_effect/buff/tempo_two))
+				return 2
+			if(has_status_effect(/datum/status_effect/buff/tempo_three))
+				return 3	//No sharpness lost at max Tempo.
+		//Whether we can parry without seeing the enemy
+		if(TEMPO_TAG_NOLOS_PARRY)
+			if(has_status_effect(/datum/status_effect/buff/tempo_one))
+				return FALSE
+			if(has_status_effect(/datum/status_effect/buff/tempo_two))
+				return TRUE
+			if(has_status_effect(/datum/status_effect/buff/tempo_three))
+				return TRUE
+			else
+				return FALSE
+		//How much armor integ we lose on hit. Multiplier. (0 to 1)
+		if(TEMPO_TAG_ARMOR_INTEGFACTOR)
+			if(has_status_effect(/datum/status_effect/buff/tempo_one))
+				return 0.8
+			if(has_status_effect(/datum/status_effect/buff/tempo_two))
+				return 0.6
+			if(has_status_effect(/datum/status_effect/buff/tempo_three))
+				return 0.4
+		//How much stamloss we take away from dodging. Flat number.
+		if(TEMPO_TAG_STAMLOSS_DODGE)
+			if(has_status_effect(/datum/status_effect/buff/tempo_one))
+				return 2
+			if(has_status_effect(/datum/status_effect/buff/tempo_two))
+				return 4
+			if(has_status_effect(/datum/status_effect/buff/tempo_three))
+				return 6
+		//How much stamloss we take away from parrying. Flat number.
+		if(TEMPO_TAG_STAMLOSS_PARRY)
+			if(has_status_effect(/datum/status_effect/buff/tempo_one))
+				return 1
+			if(has_status_effect(/datum/status_effect/buff/tempo_two))
+				return 2
+			if(has_status_effect(/datum/status_effect/buff/tempo_three))
+				return 3
