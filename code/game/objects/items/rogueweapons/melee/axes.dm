@@ -543,7 +543,7 @@
 	force = 20
 	force_wielded = 40
 	icon = 'icons/roguetown/weapons/64.dmi'
-	max_blade_int = 250
+	max_blade_int = 200
 	wbalance = WBALANCE_HEAVY // i looove to experiment
 	item_flags = GIANT_WEAPON
 
@@ -552,7 +552,7 @@
 		to_chat(user, "<font color='red'>WEAK HANDS CANNOT HANDLE MY STRENGTH. BE PUNISHED.</font>")
 		user.adjust_fire_stacks(5)
 		user.ignite_mob()
-		user.Stun(40)
+		user.Stun(10)
 	..()
 
 ////////////////////////////////////////

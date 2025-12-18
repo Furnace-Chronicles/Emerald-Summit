@@ -35,10 +35,6 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Hand Mirror"
 	path = /obj/item/handmirror
 
-/datum/loadout_item/short_satchel
-	name = "Short Satchel"
-	path = /obj/item/storage/backpack/rogue/satchel/short
-
 //HATS
 /datum/loadout_item/shalal
 	name = "Keffiyeh"
@@ -551,6 +547,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/dendormask
 	name = "Briar Mask"
 	path = /obj/item/clothing/head/roguetown/dendormask
+
+/datum/loadout_item/dendorbriars
+	name = "Briar thorns"
+	path = /obj/item/clothing/head/roguetown/padded/briarthorns
 
 /datum/loadout_item/exoticsilkmask
 	name = "Exotic Silk Mask"

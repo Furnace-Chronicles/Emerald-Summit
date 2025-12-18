@@ -864,12 +864,14 @@
 				var/datum/crafting_recipe/R = recipe
 				if(R.name == "")
 					continue
-				if(!R.result.len)
-					continue
 				if(R.skillcraft != /datum/skill/misc/sewing && R.skillcraft != /datum/skill/craft/tanning)
 					continue
-				var/obj/item/recipe_result = R.result[1]
-				if(recipe_result.name == initial(item.name)) // initial() check for player name changed items
+				var/obj/item/recipe_result
+				if(R.result.len)
+					recipe_result = R.result[1]
+				else
+					recipe_result = R.result
+				if(lowertext(recipe_result.name) == lowertext(initial(item.name))) // initial() check for player name changed items
 					if(R.result.len > 1) // We return early and cancel the scrapping if the recipe to make it gives multiple of the item. (Reason? one cured leather makes three shoes, at legendary sewing you'd get 3 leather back.)
 						to_chat(user, span_warning("I can't seem to get any proper salvage from [item]."))
 						return
@@ -877,7 +879,7 @@
 					break
 			user.mind.add_sleep_experience(/datum/skill/misc/sewing, (user.STAINT)) // You get XP regardless of failing or not.
 			if(prob(20 - (skill_level * 10))) // IF YOU REALLLLLY FUCK UP? You get jackshit. Skill Level: (20% ----> -40%)
-				to_chat(user, span_info("I ruined some of the materials due to my lack of skill..."))
+				to_chat(user, span_danger("I ruined the [item] due to my lack of skill..."))
 				playsound(item, 'sound/foley/cloth_rip.ogg', 50, TRUE)
 				qdel(item)
 				return //We are returning early if the skill check fails critically!
@@ -885,33 +887,43 @@
 				var/obj/item/storage/bag = item
 				bag.emptyStorage()
 			// We found a recipe! Time to use its requirements to give back a portion of what they used
-			// Skill Level: Novice 20% ----> Legendary (100%) return rates
+			// Skill Level: Novice 20% ----> Legendary (100%) return rates (not linear between skill jumps)
 			var/list/skill_bonuses = list(
 				1 = 0.2,
 				2 = 0.3,
-				3 = 0.4,
+				3 = 0.4, // Here and beyond in skill level they will receive ATLEAST one of each ingredient back.
 				4 = 0.5,
 				5 = 0.75,
 				6 = 1,
 			)
 			if(item_recipe) // null check
+				if(skill_level == SKILL_LEVEL_NONE)
+					skill_level++ //Give them a LITTLE bone to start off with. 20% isn't crazy. Expensive recipes that have 5+ of an ingredient will yield at least 1. 
 				var/list/results = item_recipe.reqs
+				if(item.torn_sleeve_number)
+					to_chat(user, span_danger("I am losing [item.torn_sleeve_number] from each salvage attempt due to the torn sleeves.")) // Feedback if you lose some.
 				for(var/ingredient in results)
+					var/obj/item/I = ingredient
 					if(!results[ingredient])
 						results[ingredient] = 1 // Set it to one for the case of spawning something (ie, the reqs doesn't have a value set for the key).
 					if(prob(50 - (skill_level * 10))) // 50% base to fail -----> -10% at Legendary
 						results[ingredient] = 0 // Woops! Next ingredient
+						playsound(item, 'sound/foley/cloth_rip.ogg', 50, TRUE)
+						to_chat(user, span_danger("I ruined [I.name] while salvaging [item]. (Critical fail)")) // Feedback if you lose some.
 						continue
 					else
-						if(skill_level > SKILL_LEVEL_JOURNEYMAN) // Better than journeyman? You'll always get ATLEAST one back.
+						if(skill_level >= SKILL_LEVEL_JOURNEYMAN) // Better than or equal to journeyman? You'll always get ATLEAST one back.
 							results[ingredient] = max(1, results[ingredient] * skill_bonuses[skill_level]) // Refer to skill_bonuses (You're guaranteed to get ATLEAST 1)
 						else
 							results[ingredient] *= skill_bonuses[skill_level]
 						results[ingredient] = round(results[ingredient])
 					results[ingredient] -= item.torn_sleeve_number // Removes one of EVERY ingredient amount on the return.
 					if(results[ingredient] > 0) // whole numbers only homie!
+						to_chat(user, span_info("I was able to salvage some [I.name] from [item], gaining [results[ingredient]].")) // Feedback to the player on how much they gained
 						for(var/i = 0; i < results[ingredient]; i++)
 							new ingredient(T)
+					else
+						to_chat(user, span_info("I wasn't able to salvage any usable [I.name], there wasn't enough.")) // Feedback if you lose some.
 					qdel(item_recipe) // Clean up :)
 			else
 				if(item.salvage_result) // no recipe found, defaulting to salvage result
@@ -961,8 +973,7 @@
 	icon = 'icons/roguetown/weapons/64.dmi'
 	icon_state = "ogre_cleaver"
 	force = 25
-	wbalance = WBALANCE_HEAVY
-	wdefense = 10 //im experimenting here
+	wdefense = 4
 	minstr = 13
 	item_flags = GIANT_WEAPON
 	pixel_y = -16

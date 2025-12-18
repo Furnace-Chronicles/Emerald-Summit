@@ -62,7 +62,7 @@
 	cloak = /obj/item/clothing/cloak/psydontabard/alt
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = FALSE, devotion_limit = CLERIC_REQ_1)	//Capped to T2 miracles. It's just a self-heal.
+	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)	//Capped to T2 miracles. It's just a self-heal.
 
 	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 

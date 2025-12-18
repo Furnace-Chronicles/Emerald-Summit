@@ -10,6 +10,7 @@
 	use_titles = TRUE
 	race_titles = list("Mervolk", "Eelvolk", "Naga", "Siren", "Gorgon")
 	base_name = "Beastvolk"
+	sub_name = "Lamia"
 	desc = "<b>Lamia</b><br>\
 	The monstrous spawn of Abyssor, snake and humen conjoined together, the deepkin and merfolk. \
 	Sirens, mermaids, nagas and many others fall into 'lamia' categorization. While one could consider them to be of Dendor's, he had no hand in their creation. \

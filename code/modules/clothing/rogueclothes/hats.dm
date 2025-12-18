@@ -941,6 +941,14 @@
 	smeltresult = /obj/item/ingot/steel
 	body_parts_covered = HEAD|HAIR|EARS
 
+/obj/item/clothing/head/roguetown/helmet/sallet/thorns
+	name = "holysteel thorns"
+	icon_state = "holythorns"
+	desc = "A crown of thorns made with silver and steel wires. It protects your head and ears despite pricking them."
+	max_integrity = 225
+	smeltresult = /obj/item/ingot/steel
+	body_parts_covered = HEAD|HAIR|EARS
+
 /obj/item/clothing/head/roguetown/helmet/sallet/beastskull
 	name = "beast skull"
 	desc = "The skull of a horned beast, carved and fashioned into a helmet. An iron skull cap has been inserted on the inside."
