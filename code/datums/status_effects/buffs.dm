@@ -324,17 +324,17 @@
 
 /atom/movable/screen/alert/status_effect/tempo_one
 	name = "Tempo One"
-	desc = "Three cowardly foes are attacking me. The need to focus has given me some light boons."
+	desc = "Two cowardly foes are attacking me. The need to focus has given me some light boons."
 	icon_state = "tempo1"
 
 /atom/movable/screen/alert/status_effect/tempo_two
 	name = "Tempo Two"
-	desc = "Four on one! I am locked in. Greater boons come to me in the heat of battle."
+	desc = "Three on one! I am locked in. Greater boons come to me in the heat of battle."
 	icon_state = "tempo2"
 
 /atom/movable/screen/alert/status_effect/tempo_three
 	name = "Full Tempo"
-	desc = "FIVE AND MORE! COME AND GET ME! I WILL NOT GO DOWN LIKE A KNAVE!"
+	desc = "FOUR AND MORE! COME AND GET ME! I WILL NOT GO DOWN LIKE A KNAVE!"
 	icon_state = "tempo3"
 
 

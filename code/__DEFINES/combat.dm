@@ -378,9 +378,9 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define TEMPO_CULL_DELAY 	15 SECONDS	//Interval for checking our tempo lists. Only relevant to player mobs with TRAIT_TEMPO
 #define TEMPO_DELAY 30 SECONDS
 #define TEMPO_CAP 6
-#define TEMPO_MAX 4 
-#define TEMPO_TWO 3 
-#define TEMPO_ONE 2 
+#define TEMPO_MAX 4
+#define TEMPO_TWO 3
+#define TEMPO_ONE 2
 
 #define TEMPO_TAG_STAMLOSS_PARRY "parry"
 #define TEMPO_TAG_STAMLOSS_DODGE "dodge"
