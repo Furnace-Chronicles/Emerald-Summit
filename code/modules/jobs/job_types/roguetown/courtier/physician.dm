@@ -13,7 +13,7 @@
 		but leprosy took away your younger years. \
 		Out of desperation, you followed the ways of Pestra and managed to be cured. \
 		Now you serve in the Duke's court ensuring the good health of those inhabiting the keep."
-	outfit = /datum/outfit/job/roguetown/physician
+	outfit = /datum/outfit/job/physician
 	whitelist_req = TRUE
 	give_bank_account = 30
 	min_pq = 3 //Please don't kill the duke by operating on strong intent. Play apothecary until you're deserving of the great white beak of doom
@@ -21,9 +21,9 @@
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_physician.ogg'
 	advclass_cat_rolls = list(CTAG_COURTPHYS = 2)
-	social_rank = SOCIAL_RANK_YEOMAN
+	social_rank = SOCIAL_RANK_NOBLE // "department_flag = NOBLEMEN", and direct servant of the COURT
 
-	job_traits = list(TRAIT_NOSTINK, TRAIT_EMPATH)
+	job_traits = list(TRAIT_NOBLE, TRAIT_NOSTINK, TRAIT_EMPATH)
 	job_subclasses = list(
 		/datum/advclass/physician
 	)
@@ -35,11 +35,12 @@
 		but leprosy took away your younger years. \
 		Out of desperation, you followed the ways of Pestra and managed to be cured. \
 		Now you serve in the Duke's court ensuring the good health of those inhabiting the keep."
-	outfit = /datum/outfit/job/roguetown/physician/basic
+	outfit = /datum/outfit/job/physician/basic
 	category_tags = list(CTAG_COURTPHYS)
 
 	subclass_stats = list(
 		STATKEY_INT = 4,
+		STATKEY_PER = 3,
 		STATKEY_END = 1,
 		STATKEY_LCK = 1,
 		STATKEY_STR = -1,
@@ -56,16 +57,17 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sewing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_LEGENDARY,
+		/datum/skill/labor/farming = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/physician
+/datum/outfit/job/physician
 	job_bitflag = BITFLAG_ROYALTY
 
-/datum/outfit/job/roguetown/physician
+/datum/outfit/job/physician
 	name = "Physician"
 	jobtype = /datum/job/roguetown/physician
 
-/datum/outfit/job/roguetown/physician/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/physician/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	head = /obj/item/clothing/head/roguetown/physician

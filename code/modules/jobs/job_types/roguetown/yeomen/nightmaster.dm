@@ -9,7 +9,7 @@
 	allowed_races = RACES_ALL_KINDS
 	tutorial = "You own the brothel in the city. You provide security to the nightmaidens and help them to find work-- when you're not being a trouble-making rake that others suffer to tolerate."
 	allowed_sexes = list(MALE, FEMALE)
-	outfit = /datum/outfit/job/roguetown/niteman
+	outfit = /datum/outfit/job/niteman
 	display_order = JDO_NITEMASTER
 	give_bank_account = 150
 	min_pq = 10
@@ -28,7 +28,7 @@
 /datum/advclass/bathmaster
 	name = "Bathmaster"
 	tutorial = "You are renting out the bathhouse in a joint operation with the Innkeep. You provide security for the bathwenches and help them to find work--when you're not being a trouble-making rake that others suffer to tolerate."
-	outfit = /datum/outfit/job/roguetown/niteman/basic
+	outfit = /datum/outfit/job/niteman/basic
 	category_tags = list(CTAG_BATHMOM)
 
 	subclass_languages = list(
@@ -58,7 +58,7 @@
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/niteman/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/niteman/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	head = /obj/item/lockpick/goldpin/silver

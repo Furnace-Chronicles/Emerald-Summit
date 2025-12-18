@@ -10,7 +10,7 @@
 	allowed_races = RACES_ALL_KINDS
 	tutorial = "You have a simple role at the Scarlet Pint; please. You wait tables and help guests, clean the rooms, grow and brew more drink, and assist in the kitchens as need be. Bring a smile to the masses--and those cheapsake townsfolk and adventures might just give you an extra coin...assuming you've not already pilfered their pouch while they're in a drunken stupor off your latest brew."
 
-	outfit = /datum/outfit/job/roguetown/knavewench
+	outfit = /datum/outfit/job/knavewench
 	display_order = JDO_KNAVEWENCH
 	give_bank_account = 10
 	min_pq = -10
@@ -28,7 +28,7 @@
 /datum/advclass/tapster
 	name = "Tapster"
 	tutorial = "You have a simple role at the Scarlet Pint; please. You wait tables and help guests, clean the rooms, grow and brew more drink, and assist in the kitchens as need be. Bring a smile to the masses--and those cheapsake townsfolk and adventures might just give you an extra coin...assuming you've not already pilfered their pouch while they're in a drunken stupor off your latest brew."
-	outfit = /datum/outfit/job/roguetown/knavewench/basic
+	outfit = /datum/outfit/job/knavewench/basic
 	category_tags = list(CTAG_TAPSTER)
 
 	subclass_stats = list(
@@ -53,11 +53,11 @@
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/knavewench
+/datum/outfit/job/knavewench
 	has_loadout = TRUE
 
 
-/datum/outfit/job/roguetown/knavewench/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/knavewench/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	belt = /obj/item/storage/belt/rogue/leather
@@ -75,7 +75,7 @@
 		/obj/item/bottle_kit
 	)
 
-/datum/outfit/job/roguetown/knavewench/choose_loadout(mob/living/carbon/human/H)
+/datum/outfit/job/knavewench/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	if(H.age == AGE_MIDDLEAGED)
 		H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)

@@ -3,7 +3,7 @@
 	tutorial = "Maybe you've never been the smartest person in town, but you may have been the sturdiest; Good enough for soilers to pay you to cart around saigashit, good enough for miners to offload some of their work to you, good enough for a carpenter who doesn't want to pay top mams for chopped wood, and good enough for just about anyone who wants a meathead to look scary with."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/thug
+	outfit = /datum/outfit/job/thug
 	cmode_music = 'sound/music/combat_bum.ogg'
 	total_positions = 8 // i dont want an army of towner thugs
 	social_rank = SOCIAL_RANK_DIRT
@@ -14,7 +14,7 @@
 		/datum/advclass/thug/bigman
 	)
 
-/datum/outfit/job/roguetown/thug
+/datum/outfit/job/thug
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
 	pants = /obj/item/clothing/under/roguetown/tights/random
@@ -36,7 +36,7 @@
 /datum/advclass/thug/goon
 	name = "Goon"
 	tutorial = "You're a goon, a low-lyfe thug in a painful world - not good enough for war, not smart enough for peace. What you lack in station you make up for in daring."
-	outfit = /datum/outfit/job/roguetown/thug/goon
+	outfit = /datum/outfit/job/thug/goon
 	category_tags = list(CTAG_TOWNER)
 
 	subclass_languages = list(/datum/language/thievescant)
@@ -68,11 +68,11 @@
 		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/thug/goon/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/thug/goon/pre_equip(mob/living/carbon/human/H)
 	to_chat(H, span_warning("You're a goon, a low-lyfe thug in a painful world - not good enough for war, not smart enough for peace. What you lack in station you make up for in daring."))
 	H.set_blindness(0)
 	var/options = list("Frypan", "Knuckles", "Navaja", "Bare Hands", "Whatever I Can Find")
-	var/option_choice = input("Choose your means.", "TAKE UP ARMS") as anything in options
+	var/option_choice = input(H, "Choose your means.", "TAKE UP ARMS") as anything in options
 	switch(option_choice)
 		if("Frypan")
 			H.adjust_skillrank_up_to(/datum/skill/craft/cooking, SKILL_LEVEL_EXPERT, TRUE)
@@ -95,7 +95,7 @@
 /datum/advclass/thug/wiseguy
 	name = "Miscreant"
 	tutorial = "You're smarter than the rest, by a stone's throw - and you know better than to get up close and personal. Unlike most others, you can read."
-	outfit = /datum/outfit/job/roguetown/thug/wiseguy
+	outfit = /datum/outfit/job/thug/wiseguy
 	category_tags = list(CTAG_TOWNER)
 	subclass_social_rank = SOCIAL_RANK_PEASANT
 
@@ -126,11 +126,11 @@
 		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/thug/wiseguy/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/thug/wiseguy/pre_equip(mob/living/carbon/human/H)
 	to_chat(H, span_warning("You're smarter than the rest, by a stone's throw - and you know better than to get up close and personal. Unlike most others, you can read."))
 	H.set_blindness(0)
 	var/options = list("Stone Sling", "Magic Bricks", "Lockpicking Equipment")
-	var/option_choice = input("Choose your means.", "TAKE UP ARMS") as anything in options
+	var/option_choice = input(H, "Choose your means.", "TAKE UP ARMS") as anything in options
 	switch(option_choice)
 		if("Stone Sling")
 			H.adjust_skillrank_up_to(/datum/skill/combat/slings, SKILL_LEVEL_EXPERT, TRUE)
@@ -149,7 +149,7 @@
 /datum/advclass/thug/bigman
 	name = "Big Man"
 	tutorial = "More akin to a corn-fed monster than a normal man, your size and strength are your greatest weapons; though they hardly supplement what's missing of your brains."
-	outfit = /datum/outfit/job/roguetown/thug/bigman
+	outfit = /datum/outfit/job/thug/bigman
 	category_tags = list(CTAG_TOWNER)
 
 	subclass_languages = list(/datum/language/thievescant)
@@ -174,11 +174,11 @@
 		/datum/skill/labor/lumberjacking = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/thug/bigman/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/thug/bigman/pre_equip(mob/living/carbon/human/H)
 	to_chat(H, span_warning("More akin to a corn-fed monster than a normal man, your size and strength are your greatest weapons; though they hardly supplement what's missing of your brains."))
 	H.set_blindness(0)
 	var/options = list("Hands-On", "Big Axe")
-	var/option_choice = input("Choose your means.", "TAKE UP ARMS") as anything in options
+	var/option_choice = input(H, "Choose your means.", "TAKE UP ARMS") as anything in options
 	switch(option_choice) // you are big dumb guy, none of your options give you expert-level weapons skill
 		if("Hands-On")
 			ADD_TRAIT(H, TRAIT_BASHDOORS, TRAIT_GENERIC) // deal 200 damage to a door you sprint-charge into

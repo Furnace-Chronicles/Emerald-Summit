@@ -7,15 +7,9 @@
 /datum/species/dullahan
 	name = "Dullahan"
 	id = "dullahan"
-	desc = "<b>Dullahan: Business Unfinished</b><br>\
-	At times mistaken for a type of deadite, the Dullahan is not a rotting ghoul or bloodsucking beast. \
-	These are living elves, humans and tieflings, whose souls are in the brain instead of the heart; \
-	the heart still beats, but Lux does not flow through it. They can remove their heads at will, \
-	which most fencers and thieves use to dodge about with their vital skull to be out of an opponent’s reach. \
-	The people afflicted by this condition claim they do not recall how they came to be this way, \
-	but some pious souls claim these are a foul abomination, an accursed creature that masquerades as human. \
-	Tennites in the west have come to associate them with Zizo, as a mockery of Psydon’s creation.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> Easy decapitation</b></span> </br>"
+	desc = "<b>Dullahan</b><br>\
+	The origins of Dullahans are widely unknown. Rumored to be humen accursed with a powerful arcyne energy binding mind to soul, until that connection is forcefully snuffed out. \
+	Such power affects some more than others, altering complexion and even their touch with magic. Their soul burns bright, yet their unknown origins makes them frightening to most."
 	// Stat balancing. Per-server decision. Preferably keep neutral until analysis post testmerges.
 	//race_bonus = list(STAT_INTELLIGENCE = 1, STAT_CONSTITUTION = 1)
 	skin_tone_wording = "Catalyst"

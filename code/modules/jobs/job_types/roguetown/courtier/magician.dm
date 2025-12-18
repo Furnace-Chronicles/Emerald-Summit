@@ -12,12 +12,12 @@
 		/datum/species/lamia,
 	)
 	allowed_sexes = list(MALE, FEMALE)
-	spells = list(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+	spells = list(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation, /obj/effect/proc_holder/spell/self/message)
 	display_order = JDO_MAGICIAN
 	tutorial = "Your creed is one dedicated to the conquering of the arcane arts and the constant thrill of knowledge. \
 		You owe your life to the Lord, for it was his coin that allowed you to continue your studies in these dark times. \
 		In return, you have proven time and time again as justicar and trusted advisor to their reign."
-	outfit = /datum/outfit/job/roguetown/magician
+	outfit = /datum/outfit/job/magician
 	whitelist_req = TRUE
 	give_bank_account = 47
 	min_pq = 15 //High potential for abuse, lovepotion/killersice/greater fireball is not for the faint of heart
@@ -25,12 +25,12 @@
 	round_contrib_points = 2
 	cmode_music = 'sound/music/combat_bandit_mage.ogg'
 	advclass_cat_rolls = list(CTAG_COURTMAGE = 2)
-	social_rank = SOCIAL_RANK_YEOMAN
+	social_rank = SOCIAL_RANK_NOBLE // "as justicar and trusted advisor to their reign" to the duke, basically the duke's right hand guy after the Hand
 
 	// Can't get very far as a magician if you can't chant spells now can you?
 	vice_restrictions = list(/datum/charflaw/mute)
 
-	job_traits = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T4, TRAIT_SEEPRICES, TRAIT_INTELLECTUAL)
+	job_traits = list(TRAIT_NOBLE, TRAIT_MAGEARMOR, TRAIT_ARCYNE_T4, TRAIT_SEEPRICES, TRAIT_INTELLECTUAL)
 	job_subclasses = list(
 		/datum/advclass/courtmage
 	)
@@ -40,7 +40,7 @@
 	tutorial = "Your creed is one dedicated to the conquering of the arcane arts and the constant thrill of knowledge. \
 		You owe your life to the Lord, for it was his coin that allowed you to continue your studies in these dark times. \
 		In return, you have proven time and time again as justicar and trusted advisor to their reign."
-	outfit = /datum/outfit/job/roguetown/magician/basic
+	outfit = /datum/outfit/job/magician/basic
 	category_tags = list(CTAG_COURTMAGE)
 
 	subclass_stats = list(
@@ -66,11 +66,11 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/magician
+/datum/outfit/job/magician
 	job_bitflag = BITFLAG_ROYALTY
 	has_loadout = TRUE
 
-/datum/outfit/job/roguetown/magician/choose_loadout(mob/living/carbon/human/H)
+/datum/outfit/job/magician/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, 6, TRUE)
@@ -87,7 +87,7 @@
 			H.cmode_music = 'sound/music/combat_cult.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 
-/datum/outfit/job/roguetown/magician/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/magician/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	neck = /obj/item/clothing/neck/roguetown/talkstone

@@ -217,6 +217,11 @@
 		conbonus = STACON - 10
 	if(mind)
 		amt -= amt * (conbonus * CONSTITUTION_BLEEDRATE_MOD)
+
+	// if we are yielding, our total effective bloodloss is reduced by 80%. encourages people to like, capture dudes and stitch them up and stuff
+	if (has_status_effect(/datum/status_effect/debuff/submissive)) // WE CAN DO THIS NOW BECAUSE STATUS_EFFECTS ARE SUPER CHEAP! YAAAYYYY!!
+		amt = amt * 0.2
+	
 	var/old_volume = blood_volume
 	blood_volume = max(blood_volume - amt, 0)
 	if (old_volume > 0 && !blood_volume) // it looks like we've just bled out. bummer.

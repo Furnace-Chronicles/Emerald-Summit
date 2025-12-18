@@ -132,3 +132,59 @@ What it does:
 	resistance_flags = FIRE_PROOF
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 	sellprice = 60
+
+/obj/item/cooking/platter/carved
+	name = "carved platter"
+	desc = "You shouldn't be seeing this."
+	icon_state = "aplatter"
+	resistance_flags = FIRE_PROOF
+	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
+	sellprice = 0
+
+/obj/item/cooking/platter/carved/jade
+	name = "joapstone platter"
+	desc = "A fancy platter carved out of joapstone."
+	icon_state = "platter_jade"
+	sellprice = 60
+
+/obj/item/cooking/platter/carved/onyxa
+	name = "onyxa platter"
+	desc = "A fancy platter carved out of onyxa."
+	icon_state = "platter_onyxa"
+	sellprice = 40
+
+/obj/item/cooking/platter/carved/shell
+	name = "shell platter"
+	desc = "A fancy platter carved out of shell."
+	icon_state = "platter_shell"
+	sellprice = 20
+
+/obj/item/cooking/platter/carved/rose
+	name = "rosellusk platter"
+	desc = "A fancy platter carved out of rosellusk."
+	icon_state = "platter_rose"
+	sellprice = 25
+
+/obj/item/cooking/platter/carved/amber
+	name = "petriamber platter"
+	desc = "A fancy platter carved out of petriamber."
+	icon_state = "platter_amber"
+	sellprice = 60
+
+/obj/item/cooking/platter/carved/opal
+	name = "opaloise platter"
+	desc = "A fancy platter carved out of opaloise."
+	icon_state = "platter_opal"
+	sellprice = 90
+
+/obj/item/cooking/platter/carved/coral
+	name = "aoetal platter"
+	desc = "A fancy platter carved out of aoetal."
+	icon_state = "platter_coral"
+	sellprice = 70
+
+/obj/item/cooking/platter/carved/turq
+	name = "ceruleabaster platter"
+	desc = "A fancy platter carved out of ceruleabaster."
+	icon_state = "platter_turq"
+	sellprice = 85

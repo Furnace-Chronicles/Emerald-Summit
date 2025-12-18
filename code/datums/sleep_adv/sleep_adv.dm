@@ -152,7 +152,9 @@
 		to_chat(mind.current, span_notice("My creative thinking enhances them..."))
 
 	var/stress_median = stress_amount / stress_cycles
-
+	if(HAS_TRAIT(mind.current, TRAIT_NOCINSPIRE))
+		to_chat(mind.current, span_notice("Noc grants me a lucid vision from another perspective. I understand more, now."))
+		inspirations++
 	if(stress_median <= -1)
 		// Unstressed, happy
 		to_chat(mind.current, span_notice("With no stresses throughout the day I dream vividly..."))

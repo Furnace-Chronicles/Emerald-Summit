@@ -18,7 +18,7 @@
 	tutorial = "You are the leader of the Scarlet Reach Guild of Crafts. You represents the interests of all of the craftsmen underneath you - including the Tailor\
 	the Blacksmiths, the Artificers and the Architects. Other townspeople may look to you for guidance, but they are not under your control. You are an experienced smith and artificer, and can do their work easily. Protect the craftsmen's interests."  
 
-	outfit = /datum/outfit/job/roguetown/guildmaster
+	outfit = /datum/outfit/job/guildmaster
 	selection_color = JCOLOR_YEOMAN
 	display_order = JDO_GUILDMASTER
 	give_bank_account = 25
@@ -36,7 +36,7 @@
 	name = "Guildmaster"
 	tutorial = "You are the leader of the Scarlet Reach Guild of Crafts. You represents the interests of all of the craftsmen underneath you - including the Tailor\
 	the Blacksmiths, the Artificers and the Architects. Other townspeople may look to you for guidance, but they are not under your control. You are an experienced smith and artificer, and can do their work easily. Protect the craftsmen's interests."  
-	outfit = /datum/outfit/job/roguetown/guildmaster/basic
+	outfit = /datum/outfit/job/guildmaster/basic
 	category_tags = list(CTAG_GUILDMASTER)
 
 	subclass_stats = list(
@@ -69,10 +69,10 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/guildmaster
+/datum/outfit/job/guildmaster
 	has_loadout = TRUE
 
-/datum/outfit/job/roguetown/guildmaster/choose_loadout(mob/living/carbon/human/H)
+/datum/outfit/job/guildmaster/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)
@@ -82,7 +82,7 @@
 		H.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE) // Worse than the real tailor, so can't steal their job right away 
 		H.adjust_skillrank(/datum/skill/craft/tanning, 1, TRUE)
 
-/datum/outfit/job/roguetown/guildmaster/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/guildmaster/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	head = /obj/item/clothing/head/roguetown/chaperon/noble/guildmaster

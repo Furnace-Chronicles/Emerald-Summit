@@ -3,7 +3,7 @@
 	tutorial = "Psydonite monks trained in the martial arts. They excel at shrugging off terrible blows while wrestling foes into submission."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/disciple
+	outfit = /datum/outfit/job/disciple
 	category_tags = list(CTAG_INQUISITION)
 
 	subclass_languages = list(/datum/language/otavan)
@@ -36,13 +36,13 @@
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/disciple
+/datum/outfit/job/disciple
 	job_bitflag = BITFLAG_CHURCH
 
 /obj/item/storage/belt/rogue/leather/rope/dark
 	color = "#505050"
 
-/datum/outfit/job/roguetown/disciple/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/disciple/pre_equip(mob/living/carbon/human/H)
 	..()
 	has_loadout = TRUE
 
@@ -62,11 +62,11 @@
 	cloak = /obj/item/clothing/cloak/psydontabard/alt
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = FALSE, devotion_limit = CLERIC_REQ_1)	//Capped to T2 miracles. It's just a self-heal.
+	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)	//Capped to T2 miracles. It's just a self-heal.
 
 	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 
-/datum/outfit/job/roguetown/disciple/choose_loadout(mob/living/carbon/human/H)
+/datum/outfit/job/disciple/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/weapons = list("MY BARE HANDS", "Katar", "Knuckles")
 	var/weapon_choice = input(H,"Choose your PSYDONIAN weapon.", "TAKE UP PSYDON'S ARMS") as anything in weapons

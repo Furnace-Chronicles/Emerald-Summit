@@ -24,7 +24,7 @@
 
 /datum/advclass/vampire_spawn
 	name = "Vampire Spawn"
-	outfit = /datum/outfit/job/roguetown/vampire_spawn
+	outfit = /datum/outfit/job/vampire_spawn
 
 	category_tags = list(CTAG_VAMPIRE_SPAWN)
 
@@ -53,7 +53,7 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/vampire_spawn/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/vampire_spawn/pre_equip(mob/living/carbon/human/H)
 	..()
 	neck = /obj/item/clothing/neck/roguetown/bevor
 	gloves = /obj/item/clothing/gloves/roguetown/plate

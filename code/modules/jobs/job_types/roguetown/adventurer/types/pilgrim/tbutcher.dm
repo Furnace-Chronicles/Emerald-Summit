@@ -3,7 +3,7 @@
 	tutorial = "Some say you're a strange individual, some say you're a cheat, while some claim you're a savant in the art of sausage making. Without your skilled hands and knifework, most of the livestock around the town would be wasted. "
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/butcher
+	outfit = /datum/outfit/job/adventurer/butcher
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	traits_applied = list(TRAIT_PEASANTMILITIA)
 	maximum_possible_slots = 4
@@ -30,7 +30,7 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE //Golly mister how come you know so much about people's insides?
 	)
 
-/datum/outfit/job/roguetown/adventurer/butcher/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/butcher/pre_equip(mob/living/carbon/human/H)
 	..()
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
 	backl = /obj/item/storage/backpack/rogue/satchel

@@ -357,7 +357,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/hostage
-	name = "Hostage"
+	name = "Hostage (Bandit)"
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/jester
@@ -390,6 +390,10 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 
 /obj/effect/landmark/start/adventurer
 	name = "Adventurer"
+	icon_state = "arrow"
+
+/obj/effect/landmark/start/ogre
+	name = "Ogre"
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/courtagent

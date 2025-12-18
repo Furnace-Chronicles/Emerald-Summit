@@ -3,7 +3,7 @@
 	tutorial = "Entrusted with a message of great import, your fortunes fell by the roadside at the behest of a group of Matthiosian scum. Bereft of mount and master, you now wander the realm for purpose and sustenance."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/vagabond/courier
+	outfit = /datum/outfit/job/vagabond/courier
 	category_tags = list(CTAG_VAGABOND)
 	subclass_social_rank = SOCIAL_RANK_PEASANT
 
@@ -19,7 +19,7 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/vagabond/courier/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/vagabond/courier/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/rags

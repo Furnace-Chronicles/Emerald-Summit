@@ -14,7 +14,7 @@
 		/datum/species/lamia,
 	)
 	display_order = JDO_TAILOR
-	outfit = /datum/outfit/job/roguetown/tailor
+	outfit = /datum/outfit/job/tailor
 	give_bank_account = 16
 	min_pq = 0
 	max_pq = null
@@ -29,7 +29,7 @@
 /datum/advclass/tailor
 	name = "Tailor"
 	tutorial = "You have worked sleepless nights on honing your craft. From sacks, to tapestry and luxurious clothing, there is little you cannot sew into existence. Use your storefront to turn even the ugliest peasant into a proper gentleman; who knows, even the nobility may pay you a visit."
-	outfit = /datum/outfit/job/roguetown/tailor/basic
+	outfit = /datum/outfit/job/tailor/basic
 	category_tags = list(CTAG_TAILOR)
 
 	traits_applied = list(TRAIT_DYES, TRAIT_PEASANTMILITIA)
@@ -53,7 +53,7 @@
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE
 	)
 
-/datum/outfit/job/roguetown/tailor/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/tailor/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt

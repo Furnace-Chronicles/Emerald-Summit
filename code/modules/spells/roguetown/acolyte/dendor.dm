@@ -69,7 +69,7 @@
 	return tamed
 
 /obj/effect/proc_holder/spell/targeted/conjure_glowshroom
-	name = "Fungal Illumination"
+	name = "Summon Kneestingers"
 	desc = "Summon kneestingers to electrocute those not loyal to Dendor."
 	range = 1
 	overlay_state = "blesscrop"
@@ -81,13 +81,17 @@
 	cast_without_targets = TRUE
 	sound = 'sound/items/dig_shovel.ogg'
 	associated_skill = /datum/skill/magic/holy
-	invocation = "Treefather light the way."
-	invocation_type = "whisper" //can be none, whisper, emote and shout
+	invocation = "Treefather light the way!"
+	invocation_type = "shout"
 	miracle = TRUE
 	devotion_cost = 30
-	miracle = TRUE
 
 /obj/effect/proc_holder/spell/targeted/conjure_glowshroom/cast(list/targets, mob/user = usr)
+	// Prevent wildshape forms from casting
+	if(istype(user, /mob/living/carbon/human/species/wildshape))
+		to_chat(user, span_warning("I cannot cast this in beast form!"))
+		revert_cast()
+		return FALSE
 	. = ..()
 	var/turf/target_turf = get_step(user, user.dir)
 	var/turf/target_turf_two = get_step(target_turf, turn(user.dir, 90))
@@ -96,7 +100,7 @@
 	if(!locate(/obj/structure/glowshroom) in target_turf)
 		new /obj/structure/glowshroom/dendorite(target_turf)
 
-	if(!locate(/obj/structure/glowshroom in target_turf_two))
+	if(!locate(/obj/structure/glowshroom) in target_turf_two)
 		new /obj/structure/glowshroom/dendorite(target_turf_two)
 
 	if(!locate(/obj/structure/glowshroom) in target_turf_three)

@@ -2,7 +2,7 @@
 	name = "Crusader"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/crusader
+	outfit = /datum/outfit/job/adventurer/crusader
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_MEDIUMARMOR)
 
 	maximum_possible_slots = 1 // Disabled Role
@@ -14,10 +14,10 @@
 
 	category_tags = list(CTAG_DISABLED)
 
-/datum/outfit/job/roguetown/adventurer/crusader
+/datum/outfit/job/adventurer/crusader
 	name = "Crusader"
 
-/datum/outfit/job/roguetown/adventurer/crusader/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/crusader/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/crossbows, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)

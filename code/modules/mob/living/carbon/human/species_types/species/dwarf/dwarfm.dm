@@ -9,16 +9,22 @@
 	origin = "Hammerhold"
 	sub_name = "Mountain Dwarf"
 	clothes_id = "dwarf"
-	desc = "<b>Dwarf: Builders of the Cities</b><br>\
-	Created by the hand of Malum as the hammer that would build and forge civilization, \
-	the dwarves are a people proud in the martial defense of their city-state fortresses, and their local traditions. \
-	A dwarf is often stubborn and prideful, but loyal and dedicated to their personal craft. \
-	The fortresses are named after their most plentiful resource and ruled by councils or kings, \
-	and engage in trade with the nations of man around them. At times a fortress might develop a positive relationship with those around it, \
-	with dwarves living among men or sharing their talents in the guild halls of cities.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 CON | +1 END</b></span> </br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> Drunk Healing</b></span> </br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> LANGUAGE: Dwarvish - ,d</b></span> </br>"
+	desc = "<b>Dwarf</b><br>\
+	A proud and robust race of short mountain folk, \
+	the dwarves are known for their pride in martial strength \
+	and the tenacity with which they adhere to their ancient traditions. \
+	A Dwarf, much like the rock that they carve their fortresses out of, \
+	is stubborn and ancient, with their race being the longest lived of all \
+	of the Weeping God's creations. They, like stone, also rarely change \
+	and tend to shun the modernization of the world around them. \
+	Instead, a Dwarf looks to their ancestorial heritage for guidance on \
+	the various challenges they face. Even if, ironically, this behaviour \
+	leads their kind towards technological advacement as they continue \
+	to improve their crafts, both in engineering workshops and the forges. \
+	Dwarves are hearty, but are not known for their speed or eyesight... \
+	Each dwarf hails from a ancient fortress named after the most plentiful mineral.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 CON | +1 END</b></span> </br>"
+
 
 	skin_tone_wording = "Dwarf Fortress"
 

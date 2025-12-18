@@ -21,6 +21,7 @@
 		src.STAEND = 11
 		src.STAPER = 12
 		src.STASPD = 14
+		update_move_intent_slowdown() // Apply speed changes
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/spiderfangs)
 		AddSpell(new /obj/effect/proc_holder/spell/self/createhoney)

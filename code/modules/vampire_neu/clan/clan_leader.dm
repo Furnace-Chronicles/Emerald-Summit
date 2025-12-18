@@ -11,7 +11,7 @@
 /datum/clan_leader/lord
 	lord_spells = list(
 		/obj/effect/proc_holder/spell/targeted/shapeshift/vampire/bat,
-		/obj/effect/proc_holder/spell/targeted/shapeshift/gaseousform,
+		/obj/effect/proc_holder/spell/targeted/shapeshift/vampire/gaseousform,
 	)
 	lord_verbs = list(
 		/mob/living/carbon/human/proc/punish_spawn

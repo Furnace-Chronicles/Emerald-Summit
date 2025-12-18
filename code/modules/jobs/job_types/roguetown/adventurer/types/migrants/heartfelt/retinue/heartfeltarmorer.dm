@@ -4,7 +4,7 @@
 	tutorial = "You are the Heartfeltian's Armorer destined for greatness, but fate intervened with the barony's downfall,\
 	With your home in ruins, you look to the Peak, hoping to find new purpose or refuge amidst the chaos."
 	allowed_sexes = list(MALE, FEMALE)
-	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/armorer
+	outfit = /datum/outfit/job/heartfelt/retinue/armorer
 	maximum_possible_slots = 1
 	pickprob = 100
 	category_tags = list(CTAG_HFT_RETINUE)
@@ -41,7 +41,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/heartfelt/retinue/armorer/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heartfelt/retinue/armorer/pre_equip(mob/living/carbon/human/H)
 	..()
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/rogueweapon/hammer/iron

@@ -1,7 +1,7 @@
 /// Toreador from Temu.
 /datum/clan_leader/eoran
 	lord_spells = list(
-		/obj/effect/proc_holder/spell/targeted/shapeshift/cabbit,
+		/obj/effect/proc_holder/spell/targeted/shapeshift/vampire/cabbit
 	)
 	lord_verbs = list(
 		/mob/living/carbon/human/proc/punish_spawn

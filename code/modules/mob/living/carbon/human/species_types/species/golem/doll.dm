@@ -9,12 +9,14 @@
 	origin_default = /datum/virtue/origin/otava
 	origin = "Otava"
 	base_name = "Construct"
-	desc = "<b>Porcelain Doll: Servants of Civility</b><br>\
-	After the discovery of the dwarven golems, wizards around the world attempted to replicate the miracle of the Automata to mixed results. \
-	The imperial wizards of the far east made the Doll as an arcane piece of engineering leaned towards administrative and hospitality \
-	needs for a court that valued beauty and civility in its servants. They were made to be elegant and intelligent, \
-	and more than a few are unnerved as these quiet constructs begin to fill courts across the world as advisors and clerks in various guildhouses. \
-	Some folk even suspect there is some foul conspiracy involved.<br> \
+	desc = "<b>Porcelain Doll</b><br>\
+	The pinnacle of both art and craftsmanship, originally made to provide companionship for ladies and wealthy women \
+	alike. Created to be simply toys or novelty decorations for the wealthy, they do not sleep, eat or bleed. However, \
+	due to the dark magic and heretical connotation that they share with the Golems of Giza, they were made to be incredibly \
+	brittle as to promote their subservience and remove any chance these somber creations have of harming their masters. \
+	Over time, they were seen to prove as valuable asset and advisory role due to their intellectual prowess, it is \
+	unknown what provided them with such a gift. A master wanting more engaging conversation? A lord wanting a more \
+	efficient clerk? Regardless, who knows what thoughts their eyes of glass truly conceal?<br> \
 	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>-2 STR</span> |<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'> +2 INT | +1 SPD</b></span> </br> \
 	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b><span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Hungerless, Insomnia, Bloodless. Extremely fragile.</span></b></br>\
 	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b><span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Capable of installing skill exhibitors in themselves or other Golems.</span></b></br>"

@@ -361,7 +361,7 @@
 	desc = "A silver mask, forever locked in a rigor of uncontestable joy. The Order of Saint Xylix can't decide on whether it's meant to represent Psydon's 'mirthfulness,' 'theatricality,' or the unpredictable melding of both."
 	icon_state = "psydonmask"
 	item_state = "psydonmask"
-
+/*
 /obj/item/clothing/mask/rogue/facemask/prisoner
 	name = "cursed mask"
 	icon_state = "cursemask"
@@ -421,7 +421,7 @@
 		addtimer(CALLBACK(src, PROC_REF(timerup), user), timer)
 		say("YOUR PENANCE WILL BE COMPLETE IN [timer_minutes] MINUTES.")
 	return
-
+*/
 /obj/item/clothing/mask/rogue/facemask/steel
 	name = "steel mask"
 	desc = "A mask of steel which protects the eyes, nose and mouth while also obscuring the face it."
@@ -436,13 +436,16 @@
 	body_parts_covered = NECK|MOUTH|NOSE
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full
+	name = "steel oni mask"
 	desc = "A steel mask of Kazengun origin. Cast in the visage of a fiend, it fits snugly around the neck, offering additional protection at the cost of head mobility."
 	icon_state = "steelyoroi"
 	body_parts_covered = NECK|FACE
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full/kitsune
-	desc = "A steel mask of Kazengun origin. Cast in the visage of a vulpine monster, it fits snugly around the neck, offering additional protection at the cost of head mobility."
+	name = "steel kitsune mask"
+	desc = "A steel mask of Kazengun origin. Cast in the visage of a vulpine monster, it offers additional protection at the cost of head mobility."
 	icon_state = "kitsuneyoroi"
+	body_parts_covered = FACE
 
 /obj/item/clothing/mask/rogue/facemask/steel/paalloy
 	name = "ancient mask"
@@ -493,14 +496,14 @@
 	sellprice = 100
 	smeltresult = /obj/item/ingot/gold
 
-/obj/item/clothing/mask/rogue/facemask/yoruku_oni
+/obj/item/clothing/mask/rogue/facemask/hound/yoruku_oni
 	name = "oni mask"
-	desc = "A steel mask in the visage of demons said to stalk the mountains of Kazengun."
+	desc = "An iron mask in the visage of demons said to stalk the mountains of Kazengun."
 	icon_state = "oni"
 
-/obj/item/clothing/mask/rogue/facemask/yoruku_kitsune
+/obj/item/clothing/mask/rogue/facemask/hound/yoruku_kitsune
 	name = "kitsune mask"
-	desc = "A steel mask in the visage of the fox spirits said to ply their tricks in the forests of Kazengun."
+	desc = "An iron mask in the visage of the fox spirits said to ply their tricks in the forests of Kazengun."
 	icon_state = "kitsune"
 
 /obj/item/clothing/mask/rogue/facemask/cheap_oni
@@ -682,3 +685,77 @@
 				return ..()
 			return
 	return ..()
+
+//gemcarved masks from Vanderlin.
+
+/obj/item/clothing/mask/rogue/facemask/carved
+	name = "carved mask"
+	icon_state = "ancientmask"
+	desc = "You shouldn't be seeing this."
+	max_integrity = 50
+	blocksound = PLATEHIT
+	break_sound = 'sound/foley/breaksound.ogg'
+	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
+	armor = ARMOR_MASK_METAL
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
+	flags_inv = HIDEFACE
+	body_parts_covered = FACE
+	block2add = FOV_BEHIND
+	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
+	anvilrepair = /datum/skill/craft/armorsmithing //Maybe these shouldn't be repairable, someone else can do that if they want.
+	clothing_flags = CANT_SLEEP_IN
+	sellprice = 70
+
+/obj/item/clothing/mask/rogue/facemask/carved/jademask
+	name = "joapstone mask "
+	icon_state = "mask_jade"
+	desc = "A joapstone mask that both conceals and protects the face."
+	sellprice = 70
+
+/obj/item/clothing/mask/rogue/facemask/carved/jademask
+	name = "joapstone mask"
+	icon_state = "mask_jade"
+	desc = "A joapstone mask that both conceals and protects the face."
+	sellprice = 70
+
+/obj/item/clothing/mask/rogue/facemask/carved/turqmask
+	name = "ceruleabaster mask"
+	icon_state = "mask_turq"
+	desc = "A ceruleabaster mask that both conceals and protects the face."
+	sellprice = 95
+
+/obj/item/clothing/mask/rogue/facemask/carved/rosemask
+	name = "rosellusk mask"
+	icon_state = "mask_rose"
+	desc = "A rosellusk mask that both conceals and protects the face."
+	sellprice = 35
+
+/obj/item/clothing/mask/rogue/facemask/carved/shellmask
+	name = "shell mask"
+	icon_state = "mask_shell"
+	desc = "A shell mask that both conceals and protects the face."
+	sellprice = 30
+
+/obj/item/clothing/mask/rogue/facemask/carved/coralmask
+	name = "aoetal mask"
+	icon_state = "mask_coral"
+	desc = "An aoetal mask that both conceals and protects the face."
+	sellprice = 80
+
+/obj/item/clothing/mask/rogue/facemask/carved/ambermask
+	name = "petriamber mask"
+	icon_state = "mask_amber"
+	desc = "A petriamber mask that both conceals and protects the face."
+	sellprice = 70
+
+/obj/item/clothing/mask/rogue/facemask/carved/onyxamask
+	name = "onyxa mask"
+	icon_state = "mask_onyxa"
+	desc = "An onyxa mask that both conceals and protects the face."
+	sellprice = 50
+
+/obj/item/clothing/mask/rogue/facemask/carved/opalmask
+	name = "opaloise mask"
+	icon_state = "mask_opal"
+	desc = "An opaloise mask that both conceals and protects the face."
+	sellprice = 100

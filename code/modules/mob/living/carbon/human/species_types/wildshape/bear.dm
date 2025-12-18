@@ -23,6 +23,7 @@
 		src.STAEND = 12
 		src.STAPER = 10
 		src.STASPD = 6 // You are a hulking mass of muscle, and this is for balance reasons
+		update_move_intent_slowdown() // Apply speed changes
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/bearclaws)
 		real_name = "Direbear ([stored_mob.real_name])" //So we don't get a random name

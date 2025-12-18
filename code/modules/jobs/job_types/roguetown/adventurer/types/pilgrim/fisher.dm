@@ -3,7 +3,7 @@
 	tutorial = "You are a fisherman, with your bag of bait and your fishing rod, you are one of few who can reliably get a stable source of meat around here"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/fisher
+	outfit = /datum/outfit/job/adventurer/fisher
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	traits_applied = list(TRAIT_PEASANTMILITIA)
@@ -36,7 +36,7 @@
 		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/fisher/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/fisher/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank_up_to(/datum/skill/labor/fishing, SKILL_LEVEL_MASTER, TRUE)

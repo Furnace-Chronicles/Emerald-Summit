@@ -10,14 +10,14 @@
 	allowed_patrons = list(/datum/patron/inhumen/graggar)
 	tutorial = "Goblin King is a fatty lazy pig who wishes to do nothing but eat apple pies and fart while sitting on his stone throne."
 	whitelist_req = FALSE
-	outfit = /datum/outfit/job/roguetown/goblinking
+	outfit = /datum/outfit/job/goblinking
 
 	display_order = JDO_GOBLINKING
 	min_pq = 2
 	max_pq = null
 
 
-/datum/outfit/job/roguetown/goblinking/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/goblinking/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.verbs |= /mob/living/carbon/human/proc/goblinannouncement
 	//H.verbs |= /mob/living/carbon/human/proc/goblinopenslot

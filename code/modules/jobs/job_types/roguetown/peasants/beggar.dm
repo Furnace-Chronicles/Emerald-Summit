@@ -9,7 +9,7 @@
 
 	allowed_races = RACES_ALL_KINDS
 	allowed_ages = ALL_AGES_LIST
-	outfit = /datum/outfit/job/roguetown/vagrant
+	outfit = /datum/outfit/job/vagrant
 	bypass_lastclass = TRUE
 	bypass_jobban = FALSE
 	min_pq = -30
@@ -29,7 +29,7 @@
 	/// Maximum amount of wise beggars that can be spawned
 	var/wise_max = 3
 	/// Outfit to use when wise beggar triggers
-	var/wise_outfit = /datum/outfit/job/roguetown/vagrant/wise
+	var/wise_outfit = /datum/outfit/job/vagrant/wise
 
 /datum/job/roguetown/beggar/New()
 	. = ..()
@@ -41,7 +41,7 @@
 		return wise_outfit
 	return ..()
 
-/datum/outfit/job/roguetown/vagrant/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/vagrant/pre_equip(mob/living/carbon/human/H)
 	..()
 	// wise beggar!!!
 	// guaranteed full beggar gear + random stats
@@ -125,11 +125,11 @@
 	ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NASTY_EATER, TRAIT_GENERIC)
 
-/datum/outfit/job/roguetown/vagrant
+/datum/outfit/job/vagrant
 	name = "Beggar"
 	/// Whether or not we get wise gear and stats
 	var/is_wise = FALSE
 
-/datum/outfit/job/roguetown/vagrant/wise
+/datum/outfit/job/vagrant/wise
 	name = "Wise Beggar"
 	is_wise = TRUE

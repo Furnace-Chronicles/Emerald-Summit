@@ -7,7 +7,7 @@
 		/datum/species/dwarf,
 		/datum/species/dwarf/mountain
 	)
-	outfit = /datum/outfit/job/roguetown/mercenary/grudgekeeper
+	outfit = /datum/outfit/job/mercenary/grudgekeeper
 	maximum_possible_slots = 1
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_RACIAL
@@ -37,7 +37,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/mercenary/grudgekeeper/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/grudgekeeper/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
 
@@ -60,7 +60,7 @@
 			/obj/item/natural/feather,
 			)
 		var/weapons = list("Warpick + Dwarven Shield", "Warhammer + Dwarven Shield", "Battle Axe + Dwarven Shield", "Great Axe", "Grandmace")
-		var/wepchoice = input("Choose your weapon", "Available weapons") as anything in weapons
+		var/wepchoice = input(H, "Choose your weapon", "Available weapons") as anything in weapons
 		switch(wepchoice)
 
 			if("Warpick + Dwarven Shield")

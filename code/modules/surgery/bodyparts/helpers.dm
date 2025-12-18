@@ -85,12 +85,8 @@
 
 /mob/living/carbon/get_num_arms(check_disabled = TRUE)
 	. = 0
-	for(var/X in bodyparts)
-		var/obj/item/bodypart/affecting = X
-		if(affecting.body_part == ARM_RIGHT)
-			if(!check_disabled || !affecting.disabled)
-				.++
-		if(affecting.body_part == ARM_LEFT)
+	for(var/obj/item/bodypart/affecting as anything in bodyparts)
+		if(affecting.body_part == ARM_RIGHT || affecting.body_part == ARM_LEFT)
 			if(!check_disabled || !affecting.disabled)
 				.++
 
@@ -103,14 +99,13 @@
 
 /mob/living/carbon/get_num_legs(check_disabled = TRUE)
 	. = 0
-	for(var/X in bodyparts)
-		var/obj/item/bodypart/affecting = X
-		if(affecting.body_part & LEG_RIGHT)
+	for(var/obj/item/bodypart/affecting as anything in bodyparts)
+		if(affecting.body_part & (LEG_RIGHT | LEG_LEFT))
 			if(!check_disabled || !affecting.disabled)
-				.++
-		if(affecting.body_part & LEG_LEFT)
-			if(!check_disabled || !affecting.disabled)
-				.++
+				if((affecting.body_part & LEGS) == LEGS)
+					. += 2
+				else
+					.++
 
 //sometimes we want to ignore that we don't have the required amount of legs.
 /mob/proc/get_leg_ignore()
@@ -170,8 +165,7 @@
 	return null
 
 /mob/living/carbon/get_lamian_tail()
-	for(var/X in bodyparts)
-		var/obj/item/bodypart/affecting = X
+	for(var/obj/item/bodypart/affecting as anything in bodyparts)
 		if(affecting.body_zone == BODY_ZONE_LAMIAN_TAIL)
 			return affecting
 	return null

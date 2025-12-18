@@ -8,7 +8,7 @@
 	bodyparts = list(/obj/item/bodypart/chest/goblin, /obj/item/bodypart/head/goblin, /obj/item/bodypart/l_arm/goblin,
 					/obj/item/bodypart/r_arm/goblin, /obj/item/bodypart/r_leg/goblin, /obj/item/bodypart/l_leg/goblin)
 	rot_type = /datum/component/rot/corpse/goblin
-	var/gob_outfit = /datum/outfit/job/roguetown/npc/goblin
+	var/gob_outfit = /datum/outfit/job/npc/goblin
 	ambushable = FALSE
 	base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
 	a_intent = INTENT_HELP
@@ -43,17 +43,8 @@
 	race = /datum/species/goblin/hell
 
 /datum/species/goblin/hell
-	name = "infernal goblin thrall"
+	name = "hell goblin"
 	id = "goblin_hell"
-	desc = "<b>Infernal Goblin Thrall: A Soul Burned</b><br> \
-	These are goblins of the Red Tribe of the southern islands of Etrusca, tainted by demonic energy just as those who became the tieflings were. \
-	Sailors and traders by tradition, at times madness lay claim to a boatswain, \
-	a heart weakened by desperation or greed will give in to hunger and rage. \
-	With their souls claimed in moments of hatred, their will consumed by Graggar, \
-	the goblin husks are often found congregating around demonic hotspots or dark mages, \
-	the infernal pollution in the empty vessels drawing them towards hellish fonts. Somewhat weaker than most other thralls.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Critical Weakness, Inhumen Digestion</b></span> </br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>LANGUAGE: Orcish - ,o</b></span> </br>"
 	raceicon = "goblin_hell"
 
 /mob/living/carbon/human/species/goblin/cave
@@ -67,16 +58,7 @@
 	race = /datum/species/goblin/cave
 
 /datum/species/goblin/cave
-	name = "cave goblin thrall"
 	id = "goblin_cave"
-	desc = "<b>Cave Goblin Thrall: A Soul Buried</b><br>\
-	These are goblins of the Taiga Tribe who were likely followers of Malum in their lives, \
-	native to the Ironwood Forests in northwest Grenzelhoft. Miners and woodcutters by trade, \
-	sometimes a goblin will wander too deep into the cavern depths, or be lost in the woodland mist to emerge days later with madness in their heart. \
-	With their souls claimed in a moment of doubt or fear, Graggar has consumed their will and left them a thralled husk to haunt the wild places. \
-	This one has likely fled across the border from Grenzelhoft to make it to the Reach alive, to finally die now at your hands.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Critical Weakness, Inhumen Digestion</b></span> </br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>LANGUAGE: Orcish - ,o</b></span> </br>"
 	raceicon = "goblin_cave"
 
 /mob/living/carbon/human/species/goblin/sea
@@ -87,17 +69,8 @@
 /mob/living/carbon/human/species/goblin/npc/ambush/sea
 	race = /datum/species/goblin/sea
 /datum/species/goblin/sea
-	name = "sea goblin thrall"
 	raceicon = "goblin_sea"
 	id = "goblin_sea"
-	desc = "<b>Sea Goblin Thrall: A Soul Keelhauled</b><br>\
-	These are goblins of the Frost Tribe who were likely followers of Abyssor or Ravox in their lives, \
-	native to the cold northern isles of Hammerhold. Traditional carpenters and fishermen, at times a goblin will become a sea goblin, \
-	and join the raiding parties that raze the southern coastlines. In time some lose themselves to the violence, \
-	their wills consumed by Graggar and souls enthralled. These husks of northern goblins haunt the waterways and gather in simple raiding camps, \
-	ready to pillage their new surroundings. They are common where Hammerhold raiders can be found.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Critical Weakness, Inhumen Digestion</b></span> </br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>LANGUAGE: Orcish - ,o</b></span> </br>"
 
 /mob/living/carbon/human/species/goblin/moon
 	name = "moon goblin"
@@ -107,17 +80,7 @@
 /mob/living/carbon/human/species/goblin/npc/ambush/moon
 	race = /datum/species/goblin/moon
 /datum/species/goblin/moon
-	name = "moon goblin thrall"
 	id = "goblin_moon"
-	desc = "<b>Moon Goblin Thrall: Scholar Turned Mad</b><br>\
-	These are goblins of the Bone Tribe who followed Noc in their lives and became skilled mages, \
-	before Graggar had claimed their souls and consumed their will. Native to the Otavan woodlands, \
-	after being enthralled these nomads madly wander the wilderness, babbling and weeping for the knowledge they have lost. \
-	No longer can they cast magic as thralls of the Ascendent, \
-	the mana in their body having crystalized into narcotic moonsugar that spills out once they are cracked open. \
-	It is some small miracle this one made it all the way to the Reach alive, to die now at your hands.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Critical Weakness, Inhumen Digestion</b></span> </br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>LANGUAGE: Orcish - ,o</b></span> </br>"
 	raceicon = "goblin_moon"
 
 /datum/species/goblin/moon/spec_death(gibbed, mob/living/carbon/human/H)
@@ -150,15 +113,8 @@
 
 
 /datum/species/goblin
-	name = "goblin thrall"
+	name = "goblin"
 	id = "goblin"
-	desc = "<b>Goblin Thrall: Consumed by Hate</b><br>\
-	These are goblins of the Moss Tribe who were likely followers of Noc in their lives as the creator of their species, \
-	this race of goblins being native to the Reach and devastated as Graggar has consumed nearly all of their clans in the province. \
-	Traditionally farmers and militiamen, the wars between Grenzelhoft and Otava opened the way for Graggar to claim their souls as they were weakened by hate and uncertainty. \
-	Now empty husks, a bounty lays on their dangerous heads. While there is no bounty for unmutated goblins of this tribe, prejudice against them remains high.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Critical Weakness, Inhumen Digestion</b></span> </br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>LANGUAGE: Orcish - ,o</b></span> </br>"
 	species_traits = list(NO_UNDERWEAR,NOEYESPRITES)
 	inherent_traits = list(TRAIT_RESISTCOLD, TRAIT_RESISTHIGHPRESSURE, TRAIT_RESISTLOWPRESSURE, TRAIT_RADIMMUNE, TRAIT_CRITICAL_WEAKNESS, TRAIT_NASTY_EATER)
 	no_equip = list(SLOT_SHIRT, SLOT_WEAR_MASK, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS, SLOT_S_STORE)
@@ -182,6 +138,9 @@
 	G.update_wearable()
 	H.update_transform()
 	return TRUE
+
+/mob/living/carbon/human/species/goblin/update_body_parts(redraw)
+	update_body()
 
 /mob/living/carbon/human/species/goblin/update_body()
 	remove_overlay(BODY_LAYER)
@@ -331,7 +290,7 @@
 
 //////////////////   OUTFITS	//////////////////
 
-/datum/outfit/job/roguetown/npc/goblin/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/npc/goblin/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 8
 	var/chance_zjumper = 5

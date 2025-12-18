@@ -3,7 +3,7 @@
 	tutorial = "You are one of the finer examples of swordsmanship stemming from Kazengun. A singular representative of the Ruma Clan, and generally a respected leader."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = NON_DWARVEN_NON_GOLEM_RACE_TYPES
-	outfit = /datum/outfit/job/roguetown/mercenary/kashira
+	outfit = /datum/outfit/job/mercenary/kashira
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_KAZENGUN
 	cmode_music = 'sound/music/combat_kazengite.ogg'
@@ -33,7 +33,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/mercenary/kashira/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/kashira/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/mentorhat
 	armor = /obj/item/clothing/suit/roguetown/armor/basiceast/captainrobe

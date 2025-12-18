@@ -18,7 +18,7 @@
 				Obey your Sergeant-at-Arms, the Marshal, and the Crown. Show the nobles and knights your respect, so that you may earn it in turn. Not as a commoner, but as a soldier.."
 	display_order = JDO_CASTLEGUARD
 	whitelist_req = TRUE
-	outfit = /datum/outfit/job/roguetown/manorguard
+	outfit = /datum/outfit/job/manorguard
 	advclass_cat_rolls = list(CTAG_MENATARMS = 20)
 	give_bank_account = 22
 	min_pq = 3
@@ -39,7 +39,7 @@
 		/datum/advclass/manorguard/cavalry
 	)
 
-/datum/outfit/job/roguetown/manorguard
+/datum/outfit/job/manorguard
 	job_bitflag = BITFLAG_GARRISON
 
 /datum/job/roguetown/manorguard/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
@@ -55,7 +55,7 @@
 				index = H.real_name
 			S.name = "man-at-arms jupon ([index])"
 
-/datum/outfit/job/roguetown/manorguard
+/datum/outfit/job/manorguard
 	cloak = /obj/item/clothing/cloak/stabard/surcoat/guard
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
@@ -69,7 +69,7 @@
 /datum/advclass/manorguard/footsman
 	name = "Footman"
 	tutorial = "You are a professional soldier of the realm, specializing in melee warfare. Stalwart and hardy, your body can both withstand and dish out powerful strikes.."
-	outfit = /datum/outfit/job/roguetown/manorguard/footsman
+	outfit = /datum/outfit/job/manorguard/footsman
 
 	category_tags = list(CTAG_MENATARMS)
 
@@ -100,7 +100,7 @@
 	/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/manorguard/footsman/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/manorguard/footsman/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord		//Bit worse shirt protection than the archer
@@ -110,7 +110,7 @@
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Warhammer & Shield","Axe & Shield","Sword & Shield","Halberd","Spear")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Warhammer & Shield")
@@ -147,7 +147,7 @@
 	"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
 	"None"
 	)
-	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
@@ -155,7 +155,7 @@
 /datum/advclass/manorguard/skirmisher
 	name = "Skirmisher"
 	tutorial = "You are a professional soldier of the realm, specializing in ranged implements and daggers. You sport a keen eye, looking for your enemies weaknesses."
-	outfit = /datum/outfit/job/roguetown/manorguard/skirmisher
+	outfit = /datum/outfit/job/manorguard/skirmisher
 
 	category_tags = list(CTAG_MENATARMS)
 
@@ -186,7 +186,7 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/manorguard/skirmisher/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/manorguard/skirmisher/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord			// Cant wear chainmail anymoooree
@@ -196,7 +196,7 @@
 
 	H.adjust_blindness(-3)
 	var/rweapons = list("Crossbow","Bow","Sling")
-	var/rweapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in rweapons
+	var/rweapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in rweapons
 	H.set_blindness(0)
 	switch(rweapon_choice)
 		if("Crossbow")
@@ -209,7 +209,7 @@
 			beltr = /obj/item/quiver/sling/iron
 			r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling // Both are belt slots and it's not worth setting where the cugel goes for everyone else, sad.
 	var/weapons = list("Sword","Dagger","Trusty Cudgel")
-	var/weapons_choice = input("Choose your melee weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapons_choice = input(H, "Choose your melee weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapons_choice)
 		if("Sword")
 			r_hand = /obj/item/rogueweapon/sword
@@ -234,14 +234,14 @@
 	"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
 	"None"
 	)
-	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
 /datum/advclass/manorguard/cavalry
 	name = "Cavalryman"
 	tutorial = "You are a professional soldier of the realm, specializing in the steady beat of hoof falls. Lighter and more expendable then the knights, you charge with lance in hand."
-	outfit = /datum/outfit/job/roguetown/manorguard/cavalry
+	outfit = /datum/outfit/job/manorguard/cavalry
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled //Since knights start with the Buck
 
 	category_tags = list(CTAG_MENATARMS)
@@ -273,7 +273,7 @@
 	/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,	//Best tracker. Might as well give it something to stick-out utility wise.
 	)
 
-/datum/outfit/job/roguetown/manorguard/cavalry/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/manorguard/cavalry/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord		//Bit worse shirt protection than the archer -- as foot soldier.
@@ -283,7 +283,7 @@
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Bardiche","Sword & Shield")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Bardiche")
@@ -312,6 +312,6 @@
 	"Studded Leather Hood" = /obj/item/clothing/head/roguetown/helmet/leather/armorhood/advanced,
 	"None"
 	)
-	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]

@@ -216,3 +216,66 @@
 	anvilrepair = null
 	smeltresult = /obj/item/ash
 	sewrepair = TRUE
+
+/obj/item/clothing/wrists/roguetown/gem
+	name = "gem bracelet base"
+	desc = "You shouldn't be seeing this."
+	slot_flags = ITEM_SLOT_WRISTS
+	icon = 'icons/roguetown/clothing/wrists.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/gembracelet.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_gembracelet.dmi'
+
+/obj/item/clothing/wrists/roguetown/gem/jadebracelet
+	name = "joapstone bracelets"
+	desc = "A set of bracelets carved out of joapstone."
+	icon_state = "br_jade"
+	sellprice = 65
+
+/obj/item/clothing/wrists/roguetown/gem/turqbracelet
+	name = "ceruleabaster bracelets"
+	desc = "A set of bracelets carved out of ceruleabaster."
+	icon_state = "br_turq"
+	sellprice = 90
+
+/obj/item/clothing/wrists/roguetown/gem/onyxabracelet
+	name = "onyxa bracelets"
+	desc = "A set of bracelets carved out of onyxa."
+	icon_state = "br_onyxa"
+	sellprice = 45
+
+/obj/item/clothing/wrists/roguetown/gem/coralbracelet
+	name = "aoetal bracelets"
+	desc = "A set of bracelets carved out of aoetal."
+	icon_state = "br_coral"
+	sellprice = 75
+
+/obj/item/clothing/wrists/roguetown/gem/amberbracelet
+	name = "petriamber bracelets"
+	desc = "A set of bracelets carved out of petriamber."
+	icon_state = "br_amber"
+	sellprice = 65
+
+/obj/item/clothing/wrists/roguetown/gem/shellbracelet
+	name = "shell bracelets"
+	desc = "A set of bracelets carved out of shell."
+	icon_state = "br_shell"
+	sellprice = 25
+
+/obj/item/clothing/wrists/roguetown/gem/rosebracelet
+	name = "rosellusk bracelets"
+	desc = "A set of bracelets carved out of rosellusk."
+	icon_state = "br_rose"
+	sellprice = 30
+
+/obj/item/clothing/wrists/roguetown/gem/opalbracelet
+	name = "opaloise bracelets"
+	desc = "A set of bracelets carved out of opaloise."
+	icon_state = "br_opal"
+	sellprice = 95
+/obj/item/clothing/wrists/roguetown/bracers/ogre
+	name = "thick bracers"
+	desc = "Normal humans can fit a leg through this hunk of steel."
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/32x64/ogre_onmob_sleeves.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	icon_state = "ogre_bracers"
+	allowed_race = OGRE_RACE_TYPES

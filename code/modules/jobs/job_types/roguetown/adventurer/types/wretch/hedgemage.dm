@@ -4,7 +4,7 @@
 	tutorial = "They reject your genius, they cast you out, they call you unethical. They do not understand the SACRIFICES you must make. But it does not matter anymore, your power eclipse any of those fools, save for the Court Magos themselves. Show them true magic. Why do I have an eyepatch?"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/wretch/hedgemage
+	outfit = /datum/outfit/job/wretch/hedgemage
 	category_tags = list(CTAG_WRETCH)
 	cmode_music = 'sound/music/combat_bandit_mage.ogg'
 	extra_context = "Choose between 2 options: 27 spellpoints or 21 spellpoints and Dodge Expert."
@@ -32,7 +32,7 @@
 	)
 
 // Hedge Mage on purpose has nearly the same fit as a Adv Mage / Mage Associate who cast conjure armor roundstart. Call it meta disguise.
-/datum/outfit/job/roguetown/wretch/hedgemage/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/wretch/hedgemage/pre_equip(mob/living/carbon/human/H)
 	mask = /obj/item/clothing/mask/rogue/eyepatch // Chuunibyou up to 11.
 	head = /obj/item/clothing/head/roguetown/roguehood/black
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
@@ -69,7 +69,7 @@
 		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_MASTER, TRUE)
 		H?.mind.adjust_spellpoints(6)
 	var/classes = list("Hedge Mage","Rogue Mage")
-	var/classchoice = input("Choose your archetypes", "Available archetypes") as anything in classes
+	var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes
 	switch(classchoice)
 		if("Hedge Mage")
 			H?.mind.adjust_spellpoints(6)

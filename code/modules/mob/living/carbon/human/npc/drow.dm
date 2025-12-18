@@ -45,7 +45,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_INFINITE_ENERGY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	equipOutfit(new /datum/outfit/job/roguetown/human/species/elf/dark/drowraider)
+	equipOutfit(new /datum/outfit/job/human/species/elf/dark/drowraider)
 	gender = pick(FEMALE)
 	regenerate_icons()
 
@@ -109,7 +109,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 			emote("laugh")
 	. = ..()
 
-/datum/outfit/job/roguetown/human/species/elf/dark/drowraider/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/human/species/elf/dark/drowraider/pre_equip(mob/living/carbon/human/H)
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/iron
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron

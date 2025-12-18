@@ -7,7 +7,7 @@
 	Now you wander, free to experiment, cook exotic dishes and gourmet meals, worthy for a king"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/masterchef
+	outfit = /datum/outfit/job/adventurer/masterchef
 
 	maximum_possible_slots = 1
 	pickprob = 5
@@ -29,7 +29,7 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_LEGENDARY,
 	)
 
-/datum/outfit/job/roguetown/adventurer/masterchef/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/masterchef/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	belt = /obj/item/storage/belt/rogue/leather

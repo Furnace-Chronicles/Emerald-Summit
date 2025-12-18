@@ -11,7 +11,7 @@
 				/datum/species/vulpkanin,
 				/datum/species/anthromorphsmall,
 				/datum/species/lizardfolk,
-				/datum/species/dullahan
+				/datum/species/dullahan,
 )
 	origin_desc = "An independent domain sandwiched between Otava and Grenzelhoft, positioned the eastern edge of the Greywall mountain range.<br> Scarlet Reach sits on a key \
 	passageway through the Greywall, and its harbor offers a neutral port for merchants and travelers. As a result, the Reach is host to a number of foreigners, including \
@@ -72,7 +72,8 @@
 				/datum/species/human/northern,
 				/datum/species/lupian,
 				/datum/species/kobold,
-				/datum/species/anthromorph
+				/datum/species/anthromorph,
+				/datum/species/ogre
 )
 	origin_desc = "A tribal confederation of northmen and half-orcs nestled in the Skol River Valley.<br> Centuries of war between humen and orcs have stained these grassy \
 	plains, but a shaky peace was eventually brought when the half-orc warlord Gronn used a clever mix of force and diplomacy to unite the people of the valley into one \

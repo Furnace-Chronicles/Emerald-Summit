@@ -9,8 +9,8 @@
 	active = FALSE
 	releasedrain = 7
 	chargedrain = 0
-	chargetime = 20
-	recharge_time = 15 SECONDS
+	chargetime = 10
+	recharge_time = 5 SECONDS
 	warnie = "spellwarning"
 	overlay_state = "fetch"
 	no_early_release = TRUE

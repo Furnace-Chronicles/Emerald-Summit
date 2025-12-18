@@ -62,7 +62,7 @@
 	var/mob/living/carbon/human/H = owner.current
 	H.cmode_music = 'sound/music/combat_cult.ogg'
 	H.faction = list("undead")
-	H.equipOutfit(/datum/outfit/job/roguetown/unbound_deathknight)
+	H.equipOutfit(/datum/outfit/job/unbound_deathknight)
 
 /datum/antagonist/unbound_death_knight/greet()
 	sleep(5 SECONDS) // Lets all other messages finish before we start.
@@ -133,7 +133,7 @@
 	to_chat(owner, "<span class='pulsedeath'>Suddenly, you remember your master's last commandment...</span>")
 	owner.announce_objectives()
 
-/datum/outfit/job/roguetown/unbound_deathknight/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/unbound_deathknight/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)

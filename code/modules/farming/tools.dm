@@ -82,6 +82,9 @@
 	item_flags = PEASANT_WEAPON
 	max_blade_int = 300
 	smeltresult = /obj/item/ingot/iron
+	grid_height = 64
+	grid_width = 32
+	w_class = WEIGHT_CLASS_SMALL
 
 /obj/item/rogueweapon/sickle/examine(mob/user)
 	. = ..()

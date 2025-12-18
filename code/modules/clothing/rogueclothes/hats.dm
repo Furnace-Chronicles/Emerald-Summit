@@ -344,6 +344,7 @@
 	flags_inv = HIDENECK
 	dynamic_hair_suffix = ""
 	sewrepair = TRUE
+	block2add = null
 
 /obj/item/clothing/head/roguetown/priestmask
 	name = "solar visage"
@@ -710,6 +711,54 @@
 	item_state = "circlet"
 	sellprice = 50
 
+/obj/item/clothing/head/roguetown/circlet/jade
+	name = "joapstone circlet"
+	desc = "An ornate circlet carved out of joapstone."
+	icon_state = "circlet_jade"
+	sellprice = 65
+
+/obj/item/clothing/head/roguetown/circlet/amber
+	name = "petriamber circlet"
+	desc = "An ornate circlet carved out of petriamber."
+	icon_state = "circlet_amber"
+	sellprice = 65
+
+/obj/item/clothing/head/roguetown/circlet/shell
+	name = "shell circlet"
+	desc = "An ornate circlet carved out of shell."
+	icon_state = "circlet_shell"
+	sellprice = 25
+
+/obj/item/clothing/head/roguetown/circlet/rose
+	name = "rosellusk circlet"
+	desc = "An ornate circlet carved out of rosellusk."
+	icon_state = "circlet_rose"
+	sellprice = 30
+
+/obj/item/clothing/head/roguetown/circlet/turq
+	name = "ceruleabaster circlet"
+	desc = "An ornate circlet carved out of ceruleabaster."
+	icon_state = "circlet_turq"
+	sellprice = 90
+
+/obj/item/clothing/head/roguetown/circlet/onyxa
+	name = "onyxa circlet"
+	desc = "An ornate circlet carved out of onyxa."
+	icon_state = "circlet_onyxa"
+	sellprice = 45
+
+/obj/item/clothing/head/roguetown/circlet/coral
+	name = "aoetal circlet"
+	desc = "An ornate circlet carved out of aoetal."
+	icon_state = "circlet_coral"
+	sellprice = 75
+
+/obj/item/clothing/head/roguetown/circlet/opal
+	name = "opaloise circlet"
+	desc = "An ornate circlet carved out of opaloise."
+	icon_state = "circlet_opal"
+	sellprice = 95
+
 /obj/item/clothing/head/roguetown/priesthat
 	name = "priest's hat"
 	desc = ""
@@ -889,6 +938,14 @@
 	icon_state = "sallet"
 	desc = "A steel helmet which protects the ears."
 	max_integrity = 215
+	smeltresult = /obj/item/ingot/steel
+	body_parts_covered = HEAD|HAIR|EARS
+
+/obj/item/clothing/head/roguetown/helmet/sallet/thorns
+	name = "holysteel thorns"
+	icon_state = "holythorns"
+	desc = "A crown of thorns made with silver and steel wires. It protects your head and ears despite pricking them."
+	max_integrity = 225
 	smeltresult = /obj/item/ingot/steel
 	body_parts_covered = HEAD|HAIR|EARS
 
@@ -1963,6 +2020,7 @@
 	detail_tag = "_detail"
 	altdetail_tag = "_detailalt"
 	dynamic_hair_suffix = ""
+	resistance_flags = FIRE_PROOF //It's treated with magickal seed oils or some shit. Trust.
 	max_integrity = 150
 	body_parts_covered = HEAD|HAIR|EARS
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
@@ -2802,3 +2860,29 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR
 	block2add = FOV_BEHIND
 	smeltresult = /obj/item/ingot/steel
+
+/obj/item/clothing/head/roguetown/cookhat/ogre
+	name = "giant chef's hat"
+	desc = "This is the badge of a true gourmand. None should ever look upon you with anything less than utter respect."
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	icon_state = "cookhat"
+	item_state = "cookhat"
+	allowed_race = OGRE_RACE_TYPES
+
+/obj/item/clothing/head/roguetown/helmet/heavy/ogre
+	name = "giant iron barbute"
+	desc = "When you have a big head, it needs a big helmet. This one is modeled after old imperial armor designs."
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	icon_state = "merchelmet"
+	item_state = "merchelmet"
+	allowed_race = OGRE_RACE_TYPES
+	flags_inv = HIDEEARS|HIDEHAIR
+
+/obj/item/clothing/head/roguetown/helmet/heavy/graggar/ogre
+	name = "graggar's champion helmet"
+	desc = "The mark of graggar's rampage, this is the helmet of his greatest warrior, his favorite child. Kill in the name of the father, inflict pain and torment."
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	icon_state = "warlhelmet"
+	item_state = "warlhelmet"
+	allowed_race = OGRE_RACE_TYPES
+	flags_inv = HIDEEARS|HIDEHAIR

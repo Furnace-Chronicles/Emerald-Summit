@@ -22,7 +22,7 @@
 				You fall under the garrison's command, obeying orders of the Sergeant, Knight Captain, Marshal, and the Crown. Tending to those awaiting condemning and dishing punishment are your specialties.."
 
 	announce_latejoin = FALSE
-	outfit = /datum/outfit/job/roguetown/dungeoneer
+	outfit = /datum/outfit/job/dungeoneer
 	give_bank_account = 25
 	min_pq = 10
 	max_pq = null
@@ -45,13 +45,13 @@
 	for(var/X in GLOB.courtier_positions)
 		peopleknowme += X
 
-/datum/outfit/job/roguetown/dungeoneer
+/datum/outfit/job/dungeoneer
 	job_bitflag = BITFLAG_GARRISON
 
 /datum/advclass/dungeoneer
 	name = "Dungeoneer"
 	tutorial = "Penance, filthy sense of sadism or a queer outlook on justice, something has led you to don the shunned mask and fulfill the whims of the Nobility. Their whims are your guidance, as you've no 'moral quandaries' to care for."
-	outfit = /datum/outfit/job/roguetown/dungeoneer/base
+	outfit = /datum/outfit/job/dungeoneer/base
 
 	category_tags = list(CTAG_DUNGEONEER)
 	subclass_stats = list(
@@ -74,7 +74,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/dungeoneer/base/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/dungeoneer/base/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	pants = /obj/item/clothing/under/roguetown/trou/leather/mourning

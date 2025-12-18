@@ -211,3 +211,24 @@
 				/obj/item/natural/fibers = 2)
 	craftdiff = 3
 	sellprice = 20
+
+////// OGRE - GIANT LEATHER GEAR /////
+/datum/crafting_recipe/roguetown/leather/gloves_ogre
+	name = "big leather gloves"
+	result = /obj/item/clothing/gloves/roguetown/leather/ogre
+	reqs = list(
+		/obj/item/natural/hide/cured = 3,
+		/obj/item/reagent_containers/food/snacks/tallow = 1,
+		/obj/item/natural/fibers = 1,
+		)
+	craftdiff = 1
+
+/datum/crafting_recipe/roguetown/leather/boots_ogre
+	name = "big leather boots"
+	result = /obj/item/clothing/shoes/roguetown/boots/ogre
+	reqs = list(
+		/obj/item/natural/hide/cured = 3,
+		/obj/item/reagent_containers/food/snacks/tallow = 1,
+		/obj/item/natural/fibers = 1,
+		)
+	craftdiff = 1

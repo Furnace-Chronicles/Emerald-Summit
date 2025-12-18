@@ -15,12 +15,11 @@
 	use_titles = TRUE
 	race_titles = list("Half-Cat", "Half-Dog", "Half-Volf", "Half-Lion", "Half-Venard", "Half-Tiger", "Half-Sheep", "Half-Goat", "Half-Rous", "Half-Possum", "Half-Pig", "Half-Boar", "Half-Rabbit", "Half-Cabbit", "Half-Horse", "Half-Donkey", "Half-Hyena", "Half-Deer", "Half-Bear", "Half-Panda", "Half-Coyote", "Half-Moose", "Half-Jackal", "Half-Panther", "Half-Lynx", "Half-Leopard", "Half-Monkey", "Half-Bird", "Half-Seal", "Half-Bat", "Half-Otter", "Half-Cow", "Half-Bull", "Half-Monster", "Kitsune")
 	base_name = "Humen"
-	desc = "<b>Half-Kin: A Beastblood Thinned	</b><br>\
-	The result of union between the major or minor furskinned species, and the humanlike races of the world. \
-	In some parts of Enigma they are shunned as bastards or impure forms of humanity, while other kingdoms treat them as regular citizens, \
-	accepted among both peasants and nobles. In the Scarlet Reach they are accepted as legitimate children and inherit parental titles, \
-	though some see them as impulsive due to their beastblood. Most try to live regular lives as yeomen, scratching up a living in cities, \
-	while others shed inhibition and stigma, living among dendorites.<br> \
+	sub_name = "Half-Kin"
+	desc = "<b>Half-Kin</b><br>\
+	The inevitable union between wildkin and some form of humanity or another. \
+	While they also experience animalistic tendencies akin to their full-blooded ancestors, \
+	their intermingling with others has stemmed the severity of such primordial impulses.<br> \
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 PER | +1 END</b></span> </br> \
 	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>(Half-kin are not a template race to play your own custom race. If you play a half-kin, \
 	you are expected to roleplay to the setting and the race's lore.)</b></span> </br>"
