@@ -11,6 +11,8 @@ SUBSYSTEM_DEF(job)
 
 	// Knowledge system optimization - caches job category lookups
 	var/list/job_minds_cache = null	// job_title => list(minds)
+	
+	var/list/landmark_errors_logged = null	// Tracks which job landmarks have had errors logged (prevents spam)
 
 	var/list/prioritized_jobs = list()
 	var/list/latejoin_trackers = list()	//Don't read this list, use GetLateJoinTurfs() instead
@@ -367,6 +369,7 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/DivideOccupations(list/required_jobs)
 	//Setup new player list and get the jobs list
 	JobDebug("Running DO")
+	var/timing_start = world.timeofday
 
 	//Get the players who are ready
 	for(var/i in GLOB.new_player_list)
@@ -375,6 +378,7 @@ SUBSYSTEM_DEF(job)
 			unassigned += player
 
 	initial_players_to_assign = unassigned.len
+	log_game("DO: [unassigned.len] unassigned players")
 
 	JobDebug("DO, Len: [unassigned.len]")
 	if(unassigned.len == 0)
@@ -394,7 +398,9 @@ SUBSYSTEM_DEF(job)
 	//Shuffle players and jobs
 	unassigned = shuffle(unassigned)
 
+	var/feedback_start = world.timeofday
 	HandleFeedbackGathering()
+	log_game("DO: Feedback gathering took [DisplayTimeText((world.timeofday - feedback_start) * 0.1)]")
 
 	//People who wants to be the overflow role, sure, go on.
 //	JobDebug("DO, Running Overflow Check 1")
@@ -409,8 +415,10 @@ SUBSYSTEM_DEF(job)
 
 	//Select one head
 	JobDebug("DO, Running Head Check")
+	var/required_start = world.timeofday
 //	FillHeadPosition()
 	do_required_jobs()
+	log_game("DO: Required jobs took [DisplayTimeText((world.timeofday - required_start) * 0.1)]")
 	JobDebug("DO, Head Check end")
 
 	//Check for an AI
@@ -420,6 +428,7 @@ SUBSYSTEM_DEF(job)
 
 	//Other jobs are now checked
 	JobDebug("DO, Running Standard Check")
+	var/assignment_start = world.timeofday
 
 
 	// New job giving system by Donkie
@@ -428,104 +437,116 @@ SUBSYSTEM_DEF(job)
 
 	// Loop through all levels from high to low
 	var/list/shuffledoccupations = shuffle(occupations)
+	var/assignments_made = 0
+	
+	// Cache blacklist checks (expensive)
+	var/list/blacklisted_players = list()
+	for(var/mob/dead/new_player/player in unassigned)
+		if(check_blacklist(player.ckey))
+			blacklisted_players[player] = TRUE
+	
 	for(var/level in level_order)
-		//Check the head jobs first each level
-//		CheckHeadPositions(level)
-
 		// Loop through all unassigned players
 		for(var/mob/dead/new_player/player in unassigned)
 			if(PopcapReached())
 				RejectPlayer(player)
+				continue
+
+			var/client/C = player.client
+			if(!C)
+				continue
+			
+			var/is_blacklisted = blacklisted_players[player]
 
 			// Loop through all jobs
-			for(var/datum/job/job in shuffledoccupations) // SHUFFLE ME BABY
+			for(var/datum/job/job in shuffledoccupations)
 				if(!job)
 					continue
 
+				// Quick filter: Does player want this job at this level?
+				if(C.prefs.job_preferences[job.title] != level)
+					continue
+				
+				// Quick filter: Is job full?
+				if(job.spawn_positions != -1 && job.current_positions >= job.spawn_positions)
+					continue
+
+				// Cached checks first
+				if(is_blacklisted && !job.bypass_jobban)
+					continue
+
+				// Ban check (relatively expensive)
 				if(is_banned_from(player.ckey, job.title))
-					JobDebug("DO isbanned failed, Player: [player], Job:[job.title]")
 					continue
 
 				if(QDELETED(player))
-					JobDebug("DO player deleted during job ban check")
 					break
 
-				if(!job.player_old_enough(player.client))
-					JobDebug("DO player not old enough, Player: [player], Job:[job.title]")
+				// Age/XP checks
+				if(!job.player_old_enough(C) || job.required_playtime_remaining(C))
 					continue
 
-				if(job.required_playtime_remaining(player.client))
-					JobDebug("DO player not enough xp, Player: [player], Job:[job.title]")
-					continue
-
+				// Mind checks
 				if(player.mind && (job.title in player.mind.restricted_roles))
-					JobDebug("DO incompatible with antagonist role, Player: [player], Job:[job.title]")
 					continue
 
-				if(length(job.allowed_races) && !(player.client.prefs.pref_species.type in job.allowed_races))
-					JobDebug("DO incompatible with species, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+				// Preference checks (use cached client prefs)
+				var/datum/preferences/P = C.prefs
+				if(length(job.allowed_races) && !(P.pref_species.type in job.allowed_races))
 					continue
 
-				if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron.type in job.allowed_patrons))
-					JobDebug("DO incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+				if(length(job.allowed_patrons) && !(P.selected_patron.type in job.allowed_patrons))
 					continue
 
-				if(length(job.virtue_restrictions) && ((player.client.prefs.virtue.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
-					JobDebug("DO incompatible with virtues, Player: [player], Job: [job.title], Virtue 1: [player.client.prefs.virtue.name]")
+				if(length(job.virtue_restrictions) && ((P.virtue.type in job.virtue_restrictions) || (P.virtuetwo?.type in job.virtue_restrictions) || (P.virtue_origin?.type in job.virtue_restrictions)))
 					continue
 
-				if(length(job.vice_restrictions) && (player.client.prefs.charflaw.type in job.vice_restrictions))
-					JobDebug("DO incompatible with vices, Player: [player], Job: [job.title], Vice: [player.client.prefs.charflaw.name]")
+				if(length(job.vice_restrictions) && (P.charflaw.type in job.vice_restrictions))
 					continue
 
-				if(job.plevel_req > player.client.patreonlevel())
-					JobDebug("DO incompatible with PATREON LEVEL, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+				if(job.plevel_req > C.patreonlevel())
 					continue
 
-				if(!isnull(job.min_pq) && (get_playerquality(player.ckey) < job.min_pq))
-					continue
-
-				if(!isnull(job.max_pq) && (get_playerquality(player.ckey) > job.max_pq))
-					continue
-
-				if((player.client.prefs.lastclass == job.title) && (!job.bypass_lastclass))
-					continue
-
-				if(check_blacklist(player.client.ckey) && !job.bypass_jobban)
-					JobDebug("DO incompatible with blacklist, Player: [player], Job: [job.title]")
-					continue
-
-				if(CONFIG_GET(flag/usewhitelist))
-					if(job.whitelist_req && (!player.client.whitelisted()))
+				// PQ checks
+				if(!isnull(job.min_pq) || !isnull(job.max_pq))
+					var/pq = get_playerquality(player.ckey)
+					if(!isnull(job.min_pq) && pq < job.min_pq)
+						continue
+					if(!isnull(job.max_pq) && pq > job.max_pq)
 						continue
 
-				if(length(job.allowed_ages) && !(player.client.prefs.age in job.allowed_ages))
-					JobDebug("DO incompatible with age, Player: [player], Job: [job.title]")
+				if((P.lastclass == job.title) && (!job.bypass_lastclass))
 					continue
 
-				if(length(job.allowed_sexes) && !(player.client.prefs.gender in job.allowed_sexes))
-					JobDebug("DO incompatible with gender preference, Player: [player], Job: [job.title]")
+				if(CONFIG_GET(flag/usewhitelist) && job.whitelist_req && !C.whitelisted())
+					continue
+
+				if(length(job.allowed_ages) && !(P.age in job.allowed_ages))
+					continue
+
+				if(length(job.allowed_sexes) && !(P.gender in job.allowed_sexes))
 					continue
 
 				if(!job.special_job_check(player))
-					JobDebug("DO player did not pass special check, Player: [player], Job:[job.title]")
 					continue
 
-				// If the player wants that job on this level, then try give it to him.
-				if(player.client.prefs.job_preferences[job.title] == level)
-					// If the job isn't filled
-					if((job.current_positions < job.spawn_positions) || job.spawn_positions == -1)
-						testing("DO pass, Player: [player], Level:[level], Job:[job.title]")
-						AssignRole(player, job.title)
-						unassigned -= player
-						break
+				// All checks passed - assign the job!
+				testing("DO pass, Player: [player], Level:[level], Job:[job.title]")
+				AssignRole(player, job.title)
+				unassigned -= player
+				assignments_made++
+				break
+	
+	log_game("DO: Made [assignments_made] job assignments in [DisplayTimeText((world.timeofday - assignment_start) * 0.1)]")
 
 
 	JobDebug("DO, Handling unassigned.")
+	var/unassigned_start = world.timeofday
 	// Hand out random jobs to the people who didn't get any in the last check
 	// Also makes sure that they got their preference correct
 	for(var/mob/dead/new_player/player in unassigned)
 		HandleUnassigned(player)
+	log_game("DO: Handling unassigned took [DisplayTimeText((world.timeofday - unassigned_start) * 0.1)]")
 
 	JobDebug("DO, Handling unrejectable unassigned")
 	//Mop up people who can't leave.
@@ -535,6 +556,8 @@ SUBSYSTEM_DEF(job)
 //			if(!AssignRole(player, SSjob.overflow_role)) //If everything is already filled, make them an assistant
 //				return FALSE //Living on the edge, the forced antagonist couldn't be assigned to overflow role (bans, client age) - just reroll
 
+	var/total_time = world.timeofday - timing_start
+	log_game("DO: Total DivideOccupations took [DisplayTimeText(total_time * 0.1)]")
 	return validate_required_jobs(required_jobs)
 
 
@@ -672,27 +695,28 @@ SUBSYSTEM_DEF(job)
 	//If we joined at roundstart we should be positioned at our workstation
 	if(!joined_late)
 		var/obj/S = null
+		
+		// Jobs that can stack on same landmark (don't mark as used)
+		var/static/list/stackable_jobs = list("Adventurer", "Mercenary", "Wretch", "Bandit")
+		var/can_stack = (rank in stackable_jobs)
+		
+		// Single loop - find first matching landmark (used or unused based on can_stack)
 		for(var/obj/effect/landmark/start/sloc in GLOB.start_landmarks_list)
 			if(sloc.name != rank)
 				continue
-			if(locate(/mob/living) in sloc.loc)
+			if(!can_stack && (sloc.used || locate(/mob/living) in sloc.loc))
 				continue
 			S = sloc
-			sloc.used = TRUE
+			if(!can_stack)
+				sloc.used = TRUE
 			break
-		if(!S)
-			for(var/obj/effect/landmark/start/sloc in GLOB.start_landmarks_list)
-				if(sloc.name != rank)
-					continue
-				S = sloc
-				sloc.used = TRUE
-				break
+		
 		if(!S)//danger will robinson something went wrong
-			log_game("Could not find a landmark for [rank]!!!!!!")
-			for(var/obj/effect/landmark/start/sloc in GLOB.start_landmarks_list)
-				S = sloc
-				sloc.used = TRUE
-				break
+			// Don't spam - only log once per rank
+			if(!(rank in SSjob.landmark_errors_logged))
+				LAZYINITLIST(SSjob.landmark_errors_logged)
+				SSjob.landmark_errors_logged[rank] = TRUE
+				log_game("Could not find a landmark for [rank] - check map for missing spawn points")
 		if(length(GLOB.jobspawn_overrides[rank]))
 			S = pick(GLOB.jobspawn_overrides[rank])
 		if(S)
@@ -722,7 +746,8 @@ SUBSYSTEM_DEF(job)
 			if(H.mind)
 				H.mind.pending_equipment_job = rank
 				H.mind.pending_equipment_latejoin = joined_late
-				log_game("EQUIP DEFERRED: [rank] for [H] will complete on reconnect")
+				var/player_ckey = H.ckey || "UNKNOWN"
+				log_game("EQUIP DEFERRED: [rank] for [player_ckey] will complete on reconnect")
 			return // Don't continue processing without client
 
 		if(M.client?.holder)
@@ -948,18 +973,18 @@ SUBSYSTEM_DEF(job)
 		return // Already built
 	
 	job_minds_cache = list()
+	var/mind_count = 0
 	
 	// Build job title => list of minds mapping
 	for(var/datum/mind/M in SSticker.minds)
 		if(!M.assigned_role)
 			continue
 		
-		if(!job_minds_cache[M.assigned_role])
-			job_minds_cache[M.assigned_role] = list()
-		
+		LAZYINITLIST(job_minds_cache[M.assigned_role])
 		job_minds_cache[M.assigned_role] += M
+		mind_count++
 	
-	log_game("KNOWLEDGE CACHE: Built with [SSticker.minds.len] total minds, [job_minds_cache.len] unique jobs")
+	log_game("KNOWLEDGE CACHE: Built with [mind_count] minds, [job_minds_cache.len] unique jobs")
 
 /// Adds a single mind to the existing job cache (for latejoin)
 /datum/controller/subsystem/job/proc/add_mind_to_cache(datum/mind/M)

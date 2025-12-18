@@ -2,7 +2,6 @@
 GLOBAL_LIST_EMPTY(pq_cache) // ckey => pq_value
 
 // Queue a ckey for batched PQ loading (called on client login)
-// DEPRECATED - Use SSplayer_data_loader.queue_player() instead
 /proc/queue_pq_load(ckey_to_load)
 	SSplayer_data_loader?.queue_player(ckey_to_load)
 

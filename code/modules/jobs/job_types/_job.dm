@@ -187,21 +187,19 @@
 
 /// Signal handler for advjob selection completion - updates cached job title in everyone's known_people
 /datum/job/proc/update_job_title_in_known_lists(mob/living/carbon/human/H)
-	if(!H || !H.mind)
+	if(!H?.mind || !H.real_name)
 		return
 	
 	var/new_title = H.get_role_title()
+	if(!new_title)
+		return
 	
-	// Update the cached job title in everyone who knows this person
+	// Only update people who actually know this person (cached in their known_people)
+	// Much more efficient than looping all minds
 	for(var/datum/mind/M in SSticker.minds)
-		if(!M.current || M == H.mind)
+		if(M == H.mind || !M.known_people?[H.real_name])
 			continue
-		
-		// Check if they know this person
-		if(M.known_people && M.known_people[H.real_name])
-			// Update the cached FJOB field with the new advjob title
-			var/list/person_data = M.known_people[H.real_name]
-			person_data["FJOB"] = new_title
+		M.known_people[H.real_name]["FJOB"] = new_title
 
 /// Populates known_people lists immediately (uses default job title for advjobs, updated later by signal)
 /datum/job/proc/populate_job_knowledge(mob/living/carbon/human/H, latejoin)
@@ -215,6 +213,21 @@
 	// Cache is guaranteed to exist at this point:
 	// - Roundstart: Built in ticker.dm after collect_minds()
 	// - Latejoin: New player added to existing cache above
+	
+	// OPTIMIZATION: At roundstart, defer to batch processor (called from transfer_characters)
+	// This prevents O(n²) nested loops from blocking equipment phase
+	if(!latejoin && SSticker.current_state == GAME_STATE_STARTUP)
+		// Store flag to process knowledge after transfer
+		H.mind.needs_knowledge_processing = TRUE
+		return
+	
+	// Latejoin or after roundstart: populate immediately
+	do_populate_job_knowledge(H)
+
+/// Actually performs the knowledge population (can be deferred)
+/datum/job/proc/do_populate_job_knowledge(mob/living/carbon/human/H)
+	if(!H || !H.mind)
+		return
 	
 	// Everyone knows universal jobs (nobles for now)
 	for(var/X in universal_known_jobs)
@@ -327,11 +340,6 @@
 				GLOB.actors_list[H.mobid] = "[H.real_name] as the [Hu.dna.species.name] Adventurer<BR>"
 			else
 				GLOB.actors_list[H.mobid] = "[H.real_name] as the [Hu.dna.species.name] [H.mind.assigned_role]<BR>"
-		else
-			if (obsfuscated_job)
-				GLOB.actors_list[H.mobid] = "[H.real_name] as Adventurer<BR>"
-			else
-				GLOB.actors_list[H.mobid] = "[H.real_name] as [H.mind.assigned_role]<BR>"
 
 	if(islist(advclass_cat_rolls))
 		hugboxify_for_class_selection(H)

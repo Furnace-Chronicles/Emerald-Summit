@@ -306,7 +306,7 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/proc/setup()
 	message_admins(span_boldannounce("Starting game..."))
 	var/init_start = world.timeofday
-		
+	var/phase_time = 0
 
 	CHECK_TICK
 	//Configure mode and assign player to special mode stuff
@@ -314,11 +314,15 @@ SUBSYSTEM_DEF(ticker)
 
 	CHECK_TICK
 
+	phase_time = world.timeofday
 	can_continue =	SSgamemode.pre_setup()
+	log_game("TIMING: gamemode.pre_setup took [DisplayTimeText((world.timeofday - phase_time) * 0.1)]")
 
 	CHECK_TICK
 
+	phase_time = world.timeofday
 	can_continue = can_continue && SSjob.DivideOccupations(list()) 				//Distribute jobs
+	log_game("TIMING: DivideOccupations took [DisplayTimeText((world.timeofday - phase_time) * 0.1)]")
 
 	CHECK_TICK
 
@@ -332,23 +336,33 @@ SUBSYSTEM_DEF(ticker)
 	CHECK_TICK
 	GLOB.start_landmarks_list = shuffle(GLOB.start_landmarks_list) //Shuffle the order of spawn points so they dont always predictably spawn bottom-up and right-to-left
 	if(!isrogueworld && !isroguefight)
+		phase_time = world.timeofday
 		create_characters() //Create player characters
+		log_game("TIMING: create_characters took [DisplayTimeText((world.timeofday - phase_time) * 0.1)]")
 		log_game("GAME SETUP: create characters success")
 		collect_minds()
 		log_game("GAME SETUP: collect minds success")
 	
 	// Build job knowledge cache now that minds are collected
 	// This happens BEFORE equip_characters() so cache is ready when populate_job_knowledge() is called
+	phase_time = world.timeofday
 	SSjob.build_job_minds_cache()
+	log_game("TIMING: build_job_minds_cache took [DisplayTimeText((world.timeofday - phase_time) * 0.1)]")
 	log_game("GAME SETUP: job knowledge cache built")
 	
+	phase_time = world.timeofday
 	equip_characters()
+	log_game("TIMING: equip_characters took [DisplayTimeText((world.timeofday - phase_time) * 0.1)]")
 	log_game("GAME SETUP: equip characters success")
 
+	phase_time = world.timeofday
 	GLOB.data_core.manifest()
+	log_game("TIMING: manifest took [DisplayTimeText((world.timeofday - phase_time) * 0.1)]")
 	log_game("GAME SETUP: manifest success")
 
+	phase_time = world.timeofday
 	transfer_characters()	//transfer keys to the new mobs
+	log_game("TIMING: transfer_characters took [DisplayTimeText((world.timeofday - phase_time) * 0.1)]")
 	log_game("GAME SETUP: transfer characters success")
 
 	for(var/I in round_start_events)
@@ -359,22 +373,24 @@ SUBSYSTEM_DEF(ticker)
 	LAZYCLEARLIST(round_start_events)
 	CHECK_TICK
 	if(isrogueworld)
+		// Cache valid z-levels list once
+		var/static/list/valid_z_levels = list(2,3,4,5)
+		
 		for(var/obj/structure/fluff/traveltile/TT in GLOB.traveltiles)
 			if(TT.aallmig)
 				TT.aportalgoesto = TT.aallmig
-		for(var/i in GLOB.mob_living_list)
-			var/mob/living/L = i
-			var/turf/T = get_turf(L)
-			if(!T || !(T.z in list(2,3,4,5)))
+		
+		for(var/mob/living/L as anything in GLOB.mob_living_list)
+			var/turf/T = L.loc
+			if(isturf(T) && (T.z in valid_z_levels))
 				continue
 			qdel(L)
-		for(var/i in SSmachines.processing)
-			var/obj/machinery/light/L = i
-			if(istype(L))
-				var/turf/T = get_turf(L)
-				if(!T || !(T.z in list(2,3,4,5)))
-					continue
-				qdel(L)
+		
+		for(var/obj/machinery/light/L as anything in SSmachines.processing)
+			var/turf/T = L.loc
+			if(isturf(T) && (T.z in valid_z_levels))
+				continue
+			qdel(L)
 
 	log_game("GAME SETUP: Game start took [(world.timeofday - init_start)/10]s")
 	round_start_time = world.time
@@ -458,6 +474,7 @@ SUBSYSTEM_DEF(ticker)
 			explosion(epi, 0, 256, 512, 0, TRUE, TRUE, 0, TRUE)
 
 /datum/controller/subsystem/ticker/proc/create_characters()
+	// Combined loop: create characters AND collect minds simultaneously
 	for(var/i in GLOB.new_player_list)
 		var/mob/dead/new_player/player = i
 		if(!player)
@@ -471,22 +488,27 @@ SUBSYSTEM_DEF(ticker)
 			player.create_character(FALSE)
 		else
 			player.new_player_panel()
+		
+		// Collect mind immediately after character creation
+		if(player.new_character && player.new_character.mind)
+			SSticker.minds += player.new_character.mind
 		CHECK_TICK
 
 /datum/controller/subsystem/ticker/proc/collect_minds()
-	for(var/i in GLOB.new_player_list)
-		var/mob/dead/new_player/P = i
-		if(P.new_character && P.new_character.mind)
-			SSticker.minds += P.new_character.mind
-		CHECK_TICK
+	// DEPRECATED - now combined with create_characters()
+	// Left for compatibility
+	return
 
 /datum/controller/subsystem/ticker/proc/equip_characters()
 	var/list/valid_characters = list()
 	for(var/mob/dead/new_player/new_player as anything in GLOB.new_player_list)
 		var/mob/living/carbon/human/player = new_player.new_character
-		if(istype(player) && player.mind?.assigned_role)
-			if(player.mind.assigned_role != player.mind.special_role)
-				valid_characters[player] = new_player
+		if(!ishuman(player))
+			continue
+		var/datum/mind/M = player.mind
+		if(!M?.assigned_role || M.assigned_role == M.special_role)
+			continue
+		valid_characters[player] = new_player
 	sortTim(valid_characters, GLOBAL_PROC_REF(cmp_assignedrole_dsc))
 	
 	var/player_count = 0
@@ -513,6 +535,11 @@ SUBSYSTEM_DEF(ticker)
 
 /datum/controller/subsystem/ticker/proc/transfer_characters()
 	var/list/livings = list()
+	var/transferred = 0
+	var/advclass_count = 0
+	var/loadout_count = 0
+	var/start_time = world.timeofday
+	
 	for(var/i in GLOB.new_player_list)
 		var/mob/dead/new_player/player = i
 		var/mob/living = player?.transfer_character()
@@ -523,11 +550,36 @@ SUBSYSTEM_DEF(ticker)
 				var/atom/movable/screen/splash/S = new(living.client, TRUE)
 				S.Fade(TRUE)
 			livings += living
+			transferred++
+			
 			if(ishuman(living))
-				SSrole_class_handler.setup_class_handler(living)
+				var/mob/living/carbon/human/H = living
+				var/datum/job/J = H.job ? SSjob.GetJob(H.job) : null
+				var/has_advclass = (J && length(J.advclass_cat_rolls))
+				
+				if(has_advclass)
+					// Advclass jobs handle loadout after class selection
+					SSrole_class_handler.setup_class_handler(living)
+					advclass_count++
+				else if(H.mind?.needs_loadout_prompt && J?.outfit)
+					// Non-advclass jobs: trigger loadout now that client exists
+					var/datum/outfit/job/roguetown/RO = new J.outfit()
+					addtimer(CALLBACK(RO, TYPE_PROC_REF(/datum/outfit/job/roguetown, choose_loadout), H), 1 SECONDS)
+					H.mind.needs_loadout_prompt = FALSE
+					loadout_count++
+				
+				// Process deferred knowledge population
+				if(H.mind?.needs_knowledge_processing && J)
+					J.do_populate_job_knowledge(H)
+					H.mind.needs_knowledge_processing = FALSE
+				
 				try_apply_character_post_equipment(living)
 		else
 			continue
+	
+	var/total_time = world.timeofday - start_time
+	log_game("TRANSFER: [transferred] players transferred in [DisplayTimeText(total_time * 0.1)] ([advclass_count] advclass, [loadout_count] loadouts)")
+	
 	if(livings.len)
 		addtimer(CALLBACK(src, PROC_REF(release_characters), livings), 30, TIMER_CLIENT_TIME)
 
