@@ -537,7 +537,6 @@ SUBSYSTEM_DEF(ticker)
 	var/list/livings = list()
 	var/transferred = 0
 	var/advclass_count = 0
-	var/loadout_count = 0
 	var/start_time = world.timeofday
 	
 	for(var/i in GLOB.new_player_list)
@@ -561,12 +560,12 @@ SUBSYSTEM_DEF(ticker)
 					// Advclass jobs handle loadout after class selection
 					SSrole_class_handler.setup_class_handler(living)
 					advclass_count++
-				else if(H.mind?.needs_loadout_prompt && H.mind.cached_outfit)
-					// Non-advclass jobs: trigger loadout now that client exists (uses cached instance)
-					H.mind.cached_outfit.choose_loadout(H)
-					H.mind.needs_loadout_prompt = FALSE
-					H.mind.cached_outfit = null  // Clear cached reference
-					loadout_count++
+				else if(J?.outfit)
+					// Non-advclass: trigger loadout immediately (no timer wait)
+					var/datum/outfit/job/roguetown/RO = J.outfit
+					if(initial(RO.has_loadout))
+						var/datum/outfit/job/roguetown/outfit_inst = new J.outfit()
+						outfit_inst.choose_loadout(H)
 				
 				// Process deferred knowledge population
 				if(H.mind?.needs_knowledge_processing && J)
@@ -578,7 +577,7 @@ SUBSYSTEM_DEF(ticker)
 			continue
 	
 	var/total_time = world.timeofday - start_time
-	log_game("TRANSFER: [transferred] players transferred in [DisplayTimeText(total_time * 0.1)] ([advclass_count] advclass, [loadout_count] loadouts)")
+	log_game("TRANSFER: [transferred] players transferred in [DisplayTimeText(total_time * 0.1)] ([advclass_count] advclass)")
 	
 	if(livings.len)
 		addtimer(CALLBACK(src, PROC_REF(release_characters), livings), 30, TIMER_CLIENT_TIME)

@@ -96,18 +96,12 @@
 	for(var/list_key in SStriumphs.post_equip_calls)
 		var/datum/triumph_buy/thing = SStriumphs.post_equip_calls[list_key]
 		thing.on_activate(H)
-	
-	// Store loadout callback for later - will be called after key transfer
-	if(has_loadout && H.mind)
-		// Cache outfit instance and set flag for loadout selection after transfer
-		H.mind.cached_outfit = src
-		H.mind.needs_loadout_prompt = TRUE
+	// Loadout handled during transfer_characters() or finish_class_handler()
 	return
 
 /datum/outfit/job/roguetown/proc/choose_loadout(mob/living/carbon/human/H)
 	if(!has_loadout)
 		return
 	if(!H.client)
-		log_game("LOADOUT WARNING: [H] has no client during choose_loadout, skipping")
-		return
+		return // Client doesn't exist, skip
 	// Loadout selection happens here - override in specific job outfits

@@ -44,14 +44,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/pending_equipment_job = null	// Job rank to equip
 	var/pending_equipment_latejoin = FALSE	// Was this latejoin?
 	
-	// Loadout selection flag - set during equipment, triggered after key transfer
-	var/needs_loadout_prompt = FALSE
-	
 	// Knowledge processing flag - set during equipment, triggered after key transfer
 	var/needs_knowledge_processing = FALSE
-	
-	// Cached outfit instance from equipment phase (avoids duplicate instantiation)
-	var/datum/outfit/job/roguetown/cached_outfit = null
 
 	var/memory
 

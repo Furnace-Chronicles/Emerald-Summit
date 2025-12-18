@@ -150,12 +150,13 @@ SUBSYSTEM_DEF(role_class_handler)
 		add_class_register_msg(related_handler.register_id, "[H.real_name] is the [picked_class.name]", related_handler.linked_client.mob)
 
 	// Trigger loadout after advclass selection completes
-	if(H.mind?.needs_loadout_prompt && H.job)
+	if(H.job)
 		var/datum/job/J = SSjob.GetJob(H.job)
 		if(J?.outfit)
-			var/datum/outfit/job/roguetown/RO = new J.outfit()
-			addtimer(CALLBACK(RO, TYPE_PROC_REF(/datum/outfit/job/roguetown, choose_loadout), H), 1 SECONDS)
-		H.mind.needs_loadout_prompt = FALSE
+			var/datum/outfit/job/roguetown/RO = J.outfit
+			if(initial(RO.has_loadout))
+				var/datum/outfit/job/roguetown/outfit_inst = new J.outfit()
+				outfit_inst.choose_loadout(H)
 
 
 	// In retrospect, If I don't just delete these Ill have to actually attempt to keep track of when a byond browser window is actually open lol

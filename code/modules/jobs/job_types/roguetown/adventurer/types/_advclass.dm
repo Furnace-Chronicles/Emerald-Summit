@@ -55,8 +55,59 @@
 	if(!H)
 		return FALSE
 
+	// ALL OF THIS FUCKING SLOP IS TEMPORARY TO PREVENT RUNTIMES DURING INPUT() CALLS OF LOADOUT SELECTION
+	// IT SHOULD BE REMOVED ONCE THE LOADOUT SELECTION IS TGUI BASED AND NO LONGER USES INPUT()
+	// Store client reference before equipment (input() can cause disconnect)
+	var/client/original_client = H.client
+	var/original_ckey = H.ckey
+
 	if(outfit)
-		H.equipOutfit(outfit)
+		// Wrap in try/catch to handle "bad client" runtime during input()
+		try
+			H.equipOutfit(outfit)
+		catch(var/exception/e)
+			// Runtime occurred (likely "bad client" from disconnect during input())
+			log_game("LOADOUT RUNTIME: [original_ckey] caused runtime during [name] equipment: [e]")
+			
+			// Always cleanup on runtime - client may be detached
+			log_game("LOADOUT CLEANUP: Cleaning up [original_ckey] after runtime")
+			
+			// Free up the job slot
+			var/job_name = H.job || "Unknown"
+			if(H.job)
+				var/datum/job/J = SSjob.GetJob(H.job)
+				if(J)
+					J.current_positions = max(0, J.current_positions - 1)
+					log_game("LOADOUT CLEANUP: Freed [H.job] slot (now [J.current_positions]/[J.total_positions])")
+			
+			// Delete the character
+			if(H.mind)
+				H.mind.current = null
+			log_game("LOADOUT CLEANUP: Deleting mob for [original_ckey]")
+			qdel(H)
+			
+			// Notify admins
+			message_admins(span_boldwarning("Player [original_ckey] has disconnected during loadout equipment. Their mob has been deleted and a [job_name] slot has been opened up."))
+			
+			return FALSE
+	
+	// Check if client disconnected during equipOutfit (input() calls)
+	if(original_client && !H.client)
+		log_game("LOADOUT DISCONNECT: [original_ckey] disconnected during [name] equipment, cleaning up")
+		
+		// Free up the job slot
+		if(H.job)
+			var/datum/job/J = SSjob.GetJob(H.job)
+			if(J)
+				J.current_positions = max(0, J.current_positions - 1)
+				log_game("LOADOUT DISCONNECT: Freed [H.job] slot (now [J.current_positions]/[J.total_positions])")
+		
+		// Delete the character
+		if(H.mind)
+			H.mind.current = null
+		qdel(H)
+		
+		return FALSE
 
 	post_equip(H)
 
