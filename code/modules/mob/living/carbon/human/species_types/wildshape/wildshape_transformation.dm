@@ -38,8 +38,9 @@
 	W.regenerate_icons()
 	W.stored_mob = src
 	W.cmode_music = 'sound/music/combat_druid.ogg'
-	playsound(W.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
-	W.spawn_gibs(FALSE)
+	if (W.dna.species?.gibs_on_shapeshift)
+		playsound(W.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
+		W.spawn_gibs(FALSE)
 	src.forceMove(W)
 
 	W.after_creation()
