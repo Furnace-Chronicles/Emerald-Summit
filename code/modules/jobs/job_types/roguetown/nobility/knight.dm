@@ -4,14 +4,14 @@
 	flag = KNIGHT
 	department_flag = NOBLEMEN
 	faction = "Station"
-	total_positions = 3
-	spawn_positions = 3
+	total_positions = 4
+	spawn_positions = 4
 	allowed_races = RACES_NOBILITY_ELIGIBLE_UP
 	allowed_patrons = NON_PSYDON_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
 	tutorial = "Having proven yourself both loyal and capable, you have been knighted to serve the realm as the royal family's sentry. \
-				You listen to your Liege, the Marshal, and the Knight Captain, defending your Lord and realm - the last beacon of chivalry in these dark times."
+				You listen to your Liege the Marshal, and the nobility of the court, defending your Lord and realm - the last beacon of chivalry in these dark times."
 	display_order = JDO_KNIGHT
 	whitelist_req = TRUE
 	outfit = /datum/outfit/job/knight
@@ -30,12 +30,13 @@
 	)
 	cmode_music = 'sound/music/combat_knight.ogg'
 
-	job_traits = list(TRAIT_NOBLE, TRAIT_STEELHEARTED, TRAIT_GOODTRAINER, TRAIT_GUARDSMAN_NOBLE)
+	job_traits = list(TRAIT_NOBLE, TRAIT_STEELHEARTED, TRAIT_GUARDSMAN_NOBLE)
 	job_subclasses = list(
 		/datum/advclass/knight/heavy,
 		/datum/advclass/knight/footknight,
 		/datum/advclass/knight/mountedknight,
-		/datum/advclass/knight/irregularknight
+		/datum/advclass/knight/irregularknight,
+		/datum/advclass/knight/champion
 		)
 
 /datum/outfit/job/knight
@@ -70,7 +71,6 @@
 					H.mind.person_knows_me(MF)
 
 /datum/outfit/job/knight
-	cloak = /obj/item/clothing/cloak/stabard/surcoat/guard
 	neck = /obj/item/clothing/neck/roguetown/bevor
 	gloves = /obj/item/clothing/gloves/roguetown/plate
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
@@ -86,7 +86,7 @@
 	outfit = /datum/outfit/job/knight/heavy
 	category_tags = list(CTAG_ROYALGUARD)
 
-	traits_applied = list(TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_GOODTRAINER)
 	subclass_stats = list(
 		STATKEY_STR = 3,//Heavy hitters. Less con/end, high strength.
 		STATKEY_INT = 2,
@@ -114,6 +114,8 @@
 	..()
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()	
 	H.verbs |= /mob/proc/haltyell
+
+	cloak = /obj/item/clothing/cloak/stabard/surcoat/guard
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Zweihander","Great Mace","Battle Axe","Greataxe","Estoc","Lucerne", "Partizan")
@@ -177,7 +179,7 @@
 
 	category_tags = list(CTAG_ROYALGUARD)
 
-	traits_applied = list(TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_GOODTRAINER)
 	subclass_stats = list(
 		STATKEY_STR = 1,//Tanky, less strength, but high con/end.
 		STATKEY_INT = 2,
@@ -206,6 +208,8 @@
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	H.verbs |= /mob/proc/haltyell
+
+	cloak = /obj/item/clothing/cloak/stabard/surcoat/guard
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Longsword","Flail","Warhammer","Sabre")
@@ -266,7 +270,7 @@
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	category_tags = list(CTAG_ROYALGUARD)
 
-	traits_applied = list(TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_GOODTRAINER)
 	//Decent all-around stats. Nothing spectacular. Ranged/melee hybrid class on horseback.
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -297,6 +301,8 @@
 	..()
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	H.verbs |= /mob/proc/haltyell
+
+	cloak = /obj/item/clothing/cloak/stabard/surcoat/guard
 
 	H.adjust_blindness(-3)
 	var/weapons = list(
@@ -369,13 +375,13 @@
 
 
 /datum/advclass/knight/irregularknight
-	name = "Royal Champion"
+	name = "Irregular Knight"
 	tutorial = "Your skillset is abnormal for a knight. Your swift maneuvers and masterful technique impress both lords and ladies alike, and you have a preference for quicker, more elegant blades. While you are an effective fighting force in medium armor, your evasive skills will only truly shine if you don even lighter protection."
 	outfit = /datum/outfit/job/knight/irregularknight
 
 	category_tags = list(CTAG_ROYALGUARD)
 
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_DODGEEXPERT)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_DODGEEXPERT, TRAIT_GOODTRAINER)
 	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_INT = 2,
@@ -404,6 +410,8 @@
 	..()
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	H.verbs |= /mob/proc/haltyell
+
+	cloak = /obj/item/clothing/cloak/stabard/surcoat/guard
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Rapier + Longbow","Estoc + Recurve Bow","Sabre + Buckler","Whip + Crossbow","Greataxe + Sling")
@@ -476,3 +484,126 @@
 		/obj/item/rope/chain = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 	)
+
+/datum/advclass/knight/champion
+	name = "Champion of the Duchy" // TODO: Rename to Royal Champion later
+	tutorial = "Veteran among knights, you've proven yourself time and again in service to the crown. \
+	Your experience with both infantry and cavalry tactics makes you a versatile combatant, \
+	equally adept whether on foot or mounted. You are a champion of the realm."
+	outfit = /datum/outfit/job/knight/champion
+	category_tags = list(CTAG_ROYALGUARD)
+	maximum_possible_slots = 1
+
+	traits_applied = list(TRAIT_HEAVYARMOR)
+	subclass_stats = list(
+		STATKEY_STR = 2,
+		STATKEY_CON = 2,
+		STATKEY_END = 2,
+		STATKEY_INT = 2,
+		STATKEY_PER = 1,
+		STATKEY_SPD = -1,	// Since this was KC and KC was locked to middle-aged, this ensures a base -1 SPD
+		STATKEY_LCK = 1
+	)
+
+	subclass_skills = list(
+		/datum/skill/combat/swords = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/polearms = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/riding = SKILL_LEVEL_EXPERT,
+	)
+
+/datum/outfit/job/knight/champion/pre_equip(mob/living/carbon/human/H)
+	..()
+	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+	H.verbs |= /mob/proc/haltyell
+
+	// Champion-specific armor
+	cloak = /obj/item/clothing/cloak/captain
+	armor = /obj/item/clothing/suit/roguetown/armor/captain
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
+	pants = /obj/item/clothing/under/roguetown/chainlegs
+	head = /obj/item/clothing/head/roguetown/helmet/visored/captain
+	
+	// Age-based stat and skill bonuses
+	var/char_age = H.age
+	if(char_age == AGE_MIDDLEAGED)
+		H.change_stat(STATKEY_SPD, 1) // +1 SPD for middle aged
+		H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE) 
+	else if(char_age == AGE_OLD)
+		H.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
+
+	H.adjust_blindness(-3)
+	var/weapons = list(
+		"Zweihander",
+		"Great Mace",
+		"Battle Axe",
+		"Greataxe",
+		"Estoc",
+		"Longsword & Shield",
+		"Flail & Shield",
+		"Law & Order (Sabre & Buckler)",
+		"Spear & Shield",
+		"Deliverer (Glaive)",
+		"Lance + Kite Shield",
+		"Longsword & Recurve Bow",
+		"Mace & Crossbow"
+	)
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	H.set_blindness(0)
+	switch(weapon_choice)
+		if("Zweihander")
+			r_hand = /obj/item/rogueweapon/greatsword/zwei
+		if("Great Mace")
+			r_hand = /obj/item/rogueweapon/mace/goden/steel
+		if("Battle Axe")
+			r_hand = /obj/item/rogueweapon/stoneaxe/battle
+		if("Greataxe")
+			r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead
+		if("Estoc")
+			r_hand = /obj/item/rogueweapon/estoc
+		if("Longsword & Shield")
+			beltr = /obj/item/rogueweapon/sword/long
+			backl = /obj/item/rogueweapon/shield/tower/metal
+			r_hand = /obj/item/rogueweapon/scabbard/sword
+		if("Flail & Shield")
+			beltr = /obj/item/rogueweapon/flail/sflail
+			backl = /obj/item/rogueweapon/shield/tower/metal
+		if("Law & Order (Sabre & Buckler)")
+			beltr = /obj/item/rogueweapon/sword/championsabre
+			backl = /obj/item/rogueweapon/shield/championbuckler
+		if("Spear & Shield")
+			r_hand = /obj/item/rogueweapon/spear
+			backl = /obj/item/rogueweapon/shield/tower/metal
+		if("Deliverer (Glaive)")
+			r_hand = /obj/item/rogueweapon/halberd/championglaive
+		if("Lance + Kite Shield")
+			r_hand = /obj/item/rogueweapon/spear/lance
+			backl = /obj/item/rogueweapon/shield/tower/metal
+		if("Longsword & Recurve Bow")
+			r_hand = /obj/item/rogueweapon/sword/long
+			beltr = /obj/item/quiver/arrows
+			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+			l_hand = /obj/item/rogueweapon/scabbard/sword
+		if("Mace & Crossbow")
+			r_hand = /obj/item/rogueweapon/mace
+			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+			beltr = /obj/item/quiver/bolts
+
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+	)
+

@@ -1614,8 +1614,8 @@
 
 // new knight captain drip
 /obj/item/clothing/suit/roguetown/armor/captain
-	name = "captain's brigandine"
-	desc = "A coat with plates specifically tailored and forged for the captain of Scarlet Reach."
+	name = "champion's brigandine"
+	desc = "A coat with plates specifically tailored and forged for the champion of Scarlet Reach."
 	icon_state = "capplate"
 	icon = 'icons/roguetown/clothing/special/captain.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/captain.dmi'

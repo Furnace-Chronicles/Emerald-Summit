@@ -3,8 +3,8 @@
 	flag = GUARD_CAPTAIN
 	department_flag = NOBLEMEN
 	faction = "Station"
-	total_positions = 1
-	spawn_positions = 1
+	total_positions = 0
+	spawn_positions = 0
 	allowed_races = RACES_NOBILITY_ELIGIBLE_UP
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD)
@@ -161,9 +161,9 @@
 		if("Flail & Shield")
 			beltr = /obj/item/rogueweapon/flail/sflail
 			backl = /obj/item/rogueweapon/shield/tower/metal
-		if("Law & Order (Sabre & Buckler)") // felt the need to specify
+		/*if("Law & Order (Sabre & Buckler)") // felt the need to specify
 			beltr = /obj/item/rogueweapon/sword/capsabre
-			backl = /obj/item/rogueweapon/shield/capbuckler
+			backl = /obj/item/rogueweapon/shield/capbuckler*/
 
 /datum/advclass/captain/cavalry
 	name = "Cavalry Captain"
@@ -241,8 +241,8 @@
 		if("Spear & Shield")
 			r_hand = /obj/item/rogueweapon/spear
 			backl = /obj/item/rogueweapon/shield/tower/metal
-		if("Deliverer (Glaive)")
-			r_hand = /obj/item/rogueweapon/halberd/capglaive
+		/*if("Deliverer (Glaive)")
+			r_hand = /obj/item/rogueweapon/halberd/capglaive*/
 		if("Lance + Kite Shield")
 			r_hand = /obj/item/rogueweapon/spear/lance
 			backl = /obj/item/rogueweapon/shield/tower/metal

@@ -2452,8 +2452,8 @@
 // new knight captain drip
 
 /obj/item/clothing/head/roguetown/helmet/visored/captain
-	name = "captain's helmet"
-	desc = "An elegant barbute, fitted with the gold trim and polished metal of nobility."
+	name = "champion's helmet"
+	desc = "An elegant barbute, fitted with the gold trim and polished metal befitting a champion of the realm."
 	adjustable = CAN_CADJUST
 	icon = 'icons/roguetown/clothing/special/captain.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/captain.dmi'

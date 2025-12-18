@@ -777,7 +777,7 @@
 		added_def = 2,\
 	)
 
-/obj/item/rogueweapon/halberd/psyhalberd	
+/obj/item/rogueweapon/halberd/psyhalberd
 	name = "psydonian halberd"
 	desc = "A reliable design that has served humenkind to fell the enemy and defend Psydon's flock - now fitted with a lengthier blade and twin, silver-tipped beaks."
 	icon_state = "silverhalberd"
@@ -1386,11 +1386,11 @@
 			if("wielded")
 				return list("shrink" = 0.6,"sx" = 4,"sy" = -2,"nx" = -3,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 
-/obj/item/rogueweapon/halberd/capglaive
+/obj/item/rogueweapon/halberd/championglaive
 	possible_item_intents = list(/datum/intent/spear/thrust/eaglebeak, SPEAR_BASH)
 	gripped_intents = list(/datum/intent/spear/thrust/glaive, /datum/intent/spear/cut/glaive, /datum/intent/axe/chop/scythe, SPEAR_BASH)
 	name = "'Deliverer'"
-	desc = "As if glaives werent hard enough to produce, this one in particular is made out of blacksteel. A piece of art made for the captain of the guard, its a tool to deliver justice and help those weaker than the wielder."
+	desc = "As if glaives werent hard enough to produce, this one in particular is made out of blacksteel. A piece of art made for the realm's champion, its a tool to deliver valor and protect those weaker than the wielder."
 	force = 17
 	force_wielded = 35
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
