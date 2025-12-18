@@ -23,7 +23,7 @@
 	)
 	tutorial = ""
 
-	outfit = /datum/outfit/job/roguetown/npc/goblin
+	outfit = /datum/outfit/job/npc/goblin
 	show_in_credits = FALSE
 	give_bank_account = FALSE
 /datum/job/roguetown/goblin/equip(mob/living/carbon/human/H, visualsOnly, announce, latejoin, datum/outfit/outfit_override, client/preference_source)

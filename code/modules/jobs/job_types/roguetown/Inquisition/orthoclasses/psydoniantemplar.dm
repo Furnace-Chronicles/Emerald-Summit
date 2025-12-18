@@ -3,7 +3,7 @@
 	tutorial = "Psydonite knights, clad in fluted chainmaille and blessed with the capacity to invoke lesser miracles. In lieu of greater miracles and rituals, they compensate through martial discipline and blessed weaponry."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/psydoniantemplar
+	outfit = /datum/outfit/job/psydoniantemplar
 	category_tags = list(CTAG_INQUISITION)
 	cmode_music = 'sound/music/templarofpsydonia.ogg'
 
@@ -37,10 +37,10 @@
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/psydoniantemplar
+/datum/outfit/job/psydoniantemplar
 	job_bitflag = BITFLAG_CHURCH
 
-/datum/outfit/job/roguetown/psydoniantemplar/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/psydoniantemplar/pre_equip(mob/living/carbon/human/H)
 	..()
 	has_loadout = TRUE
 	wrists = /obj/item/clothing/neck/roguetown/psicross/silver
@@ -63,11 +63,11 @@
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = FALSE, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles. ENDURE.
+	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles. ENDURE.
 
 	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 
-/datum/outfit/job/roguetown/psydoniantemplar/choose_loadout(mob/living/carbon/human/H)
+/datum/outfit/job/psydoniantemplar/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/helmets = list("Barbute", "Sallet", "Armet", "Bucket Helm")
 	var/helmet_choice = input(H,"Choose your PSYDONIAN helmet.", "TAKE UP PSYDON'S HELMS") as anything in helmets

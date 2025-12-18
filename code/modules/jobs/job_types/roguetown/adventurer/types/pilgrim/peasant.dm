@@ -5,7 +5,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	traits_applied = list(TRAIT_PEASANTMILITIA, TRAIT_SEEDKNOW)
-	outfit = /datum/outfit/job/roguetown/adventurer/peasant
+	outfit = /datum/outfit/job/adventurer/peasant
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	cmode_music = 'sound/music/combat_soilson.ogg'
 
@@ -28,7 +28,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT
 	)
 
-/datum/outfit/job/roguetown/adventurer/peasant/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/peasant/pre_equip(mob/living/carbon/human/H)
 	..()
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random

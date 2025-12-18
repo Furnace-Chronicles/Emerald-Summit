@@ -633,7 +633,7 @@
 
 /obj/item/clothing/neck/roguetown/collar/cowbell/Initialize(mapload)
 		. = ..()
-		AddComponent(/datum/component/squeak, SFX_COLLARJINGLE, 50, 100, 1) //We want squeak so wearer jingles if touched while wearing collar
+		AddComponent(/datum/component/squeak, SFX_COLLARJANGLE, 50, 100, 1) //We want squeak so wearer jingles if touched while wearing collar
 
 /obj/item/clothing/neck/roguetown/collar/catbell
 	name = "catbell collar"
@@ -650,6 +650,69 @@
 /obj/item/clothing/neck/roguetown/collar/catbell/Initialize(mapload)
 		. = ..()
 		AddComponent(/datum/component/squeak, SFX_COLLARJINGLE, 50, 100, 1) //We want squeak so wearer jingles if touched while wearing collar
+
+/obj/item/clothing/neck/roguetown/collar/prisoner
+	name = "castifico collar"
+	icon_state = "castifico_collar"
+	item_state = "castifico_collar"
+	desc = "A metal collar that seals around the neck, making it impossible to remove. It seems to be enchanted with some kind of vile magic..."
+	var/active_item
+	var/bounty_amount
+	resistance_flags = FIRE_PROOF
+	slot_flags = ITEM_SLOT_NECK
+	body_parts_covered = NONE //it's not armor
+	leashable = TRUE
+
+/obj/item/clothing/neck/roguetown/collar/prisoner/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/neck/roguetown/collar/prisoner/dropped(mob/living/carbon/human/user)
+	. = ..()
+	REMOVE_TRAIT(user, TRAIT_PACIFISM, "castificocollar")
+	REMOVE_TRAIT(user, TRAIT_SPELLCOCKBLOCK, "castificocollar")
+	if(QDELETED(src))
+		return
+	qdel(src)
+
+/obj/item/clothing/neck/roguetown/collar/prisoner/proc/timerup(mob/living/carbon/human/user)
+	REMOVE_TRAIT(user, TRAIT_PACIFISM, "castificocollar")
+	REMOVE_TRAIT(user, TRAIT_SPELLCOCKBLOCK, "castificocollar")
+	visible_message(span_warning("The castifico collar opens with a click, falling off of [user]'s neck and clambering apart on the ground, their penance complete."))
+	say("YOUR PENANCE IS COMPLETE.")
+	for(var/name in GLOB.outlawed_players)
+		if(user.real_name == name)
+			GLOB.outlawed_players -= user.real_name
+			priority_announce("[user.real_name] has completed their penance. Justice has been served in the eyes of Ravox.", "PENANCE", 'sound/misc/bell.ogg')
+	playsound(src.loc, pick('sound/items/pickgood1.ogg','sound/items/pickgood2.ogg'), 5, TRUE)
+	if(QDELETED(src))
+		return
+	qdel(src)
+
+/obj/item/clothing/neck/roguetown/collar/prisoner/equipped(mob/living/user, slot)
+	. = ..()
+	if(active_item)
+		return
+	else if(slot == SLOT_NECK)
+		active_item = TRUE
+		to_chat(user, span_warning("This accursed collar pacifies me!"))
+		ADD_TRAIT(user, TRAIT_PACIFISM, "castificocollar")
+		ADD_TRAIT(user, TRAIT_SPELLCOCKBLOCK, "castificocollar")
+		if(HAS_TRAIT(user, TRAIT_RITUALIST))
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
+		var/timer = 5 MINUTES //Base timer is 5 minutes, additional time added per bounty amount
+
+		if(bounty_amount >= 10)
+			var/additional_time = bounty_amount * 0.1 // 10 mammon = 1 minute
+			additional_time = round(additional_time)
+			timer += additional_time MINUTES
+
+		var/timer_minutes = timer / 600
+
+		addtimer(CALLBACK(src, PROC_REF(timerup), user), timer)
+		say("YOUR PENANCE WILL BE COMPLETE IN [timer_minutes] MINUTES.")
+	return
+
 
 /obj/item/clothing/neck/roguetown/collar/feldcollar
 	name = "feldcollar"
@@ -706,3 +769,73 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	grid_width = 32
 	grid_height = 32
+
+/obj/item/clothing/neck/roguetown/carved
+	name = "carved amulet"
+	desc = "You shouldn't be seeing this."
+	icon_state = "psycross_w"
+	item_state = "psycross_w"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 0
+
+/obj/item/clothing/neck/roguetown/carved/jadeamulet
+	name = "joapstone amulet"
+	desc = "An amulet carved from joapstone."
+	icon_state = "amulet_jade"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 60
+
+/obj/item/clothing/neck/roguetown/carved/turqamulet
+	name = "ceruleabaster amulet"
+	desc = "An amulet carved from ceruleabaster."
+	icon_state = "amulet_turq"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 85
+
+/obj/item/clothing/neck/roguetown/carved/onyxaamulet
+	name = "onyxa amulet"
+	desc = "An amulet carved from onyxa."
+	icon_state = "amulet_onyxa"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 40
+
+/obj/item/clothing/neck/roguetown/carved/coralamulet
+	name = "aoetal amulet"
+	desc = "An amulet carved from aoetal."
+	icon_state = "amulet_coral"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 70
+
+/obj/item/clothing/neck/roguetown/carved/amberamulet
+	name = "petriamber amulet"
+	desc = "An amulet carved from petriamber."
+	icon_state = "amulet_amber"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 60
+
+/obj/item/clothing/neck/roguetown/carved/opalamulet
+	name = "opaloise amulet"
+	desc = "An amulet carved from opaloise."
+	icon_state = "amulet_opal"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 90
+
+/obj/item/clothing/neck/roguetown/carved/roseamulet
+	name = "rosellusk amulet"
+	desc = "An amulet carved from rosellusk."
+	icon_state = "amulet_rose"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 25
+
+/obj/item/clothing/neck/roguetown/carved/shellamulet
+	name = "shell amulet"
+	desc = "An amulet carved from shells."
+	icon_state = "amulet_shell"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 25
+/obj/item/clothing/neck/roguetown/gorget/ogre
+	name = "giant gorget"
+	desc = "For the hardest working neck in the province, since you know people are going to target it first."
+	icon_state = "ogre_gorget"
+	allowed_race = OGRE_RACE_TYPES
+	max_integrity = 300

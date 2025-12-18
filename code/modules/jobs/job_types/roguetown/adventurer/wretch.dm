@@ -7,6 +7,7 @@
 	total_positions = 10
 	spawn_positions = 10
 	allowed_races = RACES_ALL_KINDS
+	disallowed_races = /datum/species/ogre
 	tutorial = "Somewhere in your lyfe, you fell to the wrong side of civilization. Hounded by the consequences of your actions, you now threaten the peace of those who still heed the authority that condemned you."
 	outfit = null
 	outfit_female = null
@@ -56,14 +57,6 @@
 		H.advsetup = 1
 		H.invisibility = INVISIBILITY_MAXIMUM
 		H.become_blind("advsetup")
-		H.change_stat("strength", 1)
-		H.change_stat("perception", 1)
-		H.change_stat("intelligence", 1)
-		H.change_stat("constitution", 1)
-		H.change_stat("endurance", 1)
-		H.change_stat("speed", 1)
-		H.change_stat("fortune", 1)
-
 
 		if(GLOB.adventurer_hugbox_duration)
 			addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, adv_hugboxing_start)), 1)
@@ -91,6 +84,13 @@
 		if (!my_crime)
 			my_crime = "crimes against the Crown"
 		add_bounty(H.real_name, bounty_total, FALSE, my_crime, bounty_poster)
+		H.change_stat("strength", 1)
+		H.change_stat("perception", 1)
+		H.change_stat("intelligence", 1)
+		H.change_stat("constitution", 1)
+		H.change_stat("endurance", 1)
+		H.change_stat("speed", 1)
+		H.change_stat("fortune", 1)
 	if(bounty_face_noface == "No")
 		var/race = H.dna.species
 		var/gender = H.gender

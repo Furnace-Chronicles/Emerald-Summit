@@ -8,7 +8,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	tutorial = "You work the largest store in the Reach by grace of the Merchant who has shackled you to this drudgery. The work of stocking shelves and taking inventory for your employer is mind-numbing and repetitive--but at least you have a roof over your head and comfortable surroundings. With time, perhaps you will one day be more than a glorified servant."
-	outfit = /datum/outfit/job/roguetown/shophand
+	outfit = /datum/outfit/job/shophand
 	display_order = JDO_SHOPHAND
 	give_bank_account = TRUE
 	min_pq = -10
@@ -28,7 +28,7 @@
 	tutorial = "You work the largest store in the Peaks by grace of the Merchant who has shackled you to this drudgery. \
 	The work of stocking shelves and taking inventory for your employer is mind-numbing and repetitive--but at least you have a roof over your head and comfortable surroundings. \
 	With time, perhaps you will one day be more than a glorified servant."
-	outfit = /datum/outfit/job/roguetown/shophand/basic
+	outfit = /datum/outfit/job/shophand/basic
 	category_tags = list(CTAG_SHOPHAND)
 
 	subclass_stats = list(
@@ -51,7 +51,7 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/shophand/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/shophand/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	if(should_wear_femme_clothes(H))

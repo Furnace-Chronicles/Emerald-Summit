@@ -758,3 +758,23 @@
 	wdefense = 3
 	wbalance = WBALANCE_HEAVY
 	intdamage_factor = 0.6
+
+/datum/intent/claw/rend
+	name = "rend"
+	icon_state = "inrend"
+	attack_verb = list("rends")
+	animname = "cut"
+	blade_class = BCLASS_CHOP
+	reach = 1
+	penfactor = BLUNT_DEFAULT_PENFACTOR
+	swingdelay = 20
+	damfactor = 2.5
+	clickcd = CLICK_CD_HEAVY
+	no_early_release = TRUE
+	hitsound = list('sound/combat/hits/bladed/genslash (1).ogg', 'sound/combat/hits/bladed/genslash (2).ogg', 'sound/combat/hits/bladed/genslash (3).ogg')
+	item_d_type = "slash"
+	misscost = 10
+	intent_intdamage_factor = 0.05
+
+/datum/intent/claw/rend/steel
+	damfactor = 3

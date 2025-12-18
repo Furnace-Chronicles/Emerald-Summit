@@ -12,7 +12,7 @@
 		/datum/species/golem/metal,
 	)
 	tutorial = "Servitude unto death; that is your motto. You are the manor's major-domo, commanding over the house servants and seeing to the administrative affairs, day to day of the estate. This role has style options for chief butlers and head maids."
-	outfit = /datum/outfit/job/roguetown/seneschal
+	outfit = /datum/outfit/job/seneschal
 	advclass_cat_rolls = list(CTAG_SENESCHAL = 20)
 	display_order = JDO_BUTLER
 	give_bank_account = 30
@@ -34,7 +34,7 @@
 /datum/advclass/seneschal/seneschal
 	name = "Seneschal"
 	tutorial = "While still expected to fill in for the duties of the household servantry as needed, you have styled yourself as a figure beyond them."
-	outfit = /datum/outfit/job/roguetown/seneschal/seneschal
+	outfit = /datum/outfit/job/seneschal/seneschal
 
 	subclass_stats = list(
 		STATKEY_INT = 2,
@@ -57,11 +57,11 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/seneschal
+/datum/outfit/job/seneschal
 	has_loadout = TRUE
 
 //This applies to all Seneschal subclasses
-/datum/outfit/job/roguetown/seneschal/choose_loadout(mob/living/carbon/human/H)
+/datum/outfit/job/seneschal/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	if(H.age == AGE_MIDDLEAGED)
 		H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
@@ -74,7 +74,7 @@
 		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
 
 
-/datum/outfit/job/roguetown/seneschal/seneschal/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/seneschal/seneschal/pre_equip(mob/living/carbon/human/H)
 	..()
 	pants = /obj/item/clothing/under/roguetown/tights
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
@@ -90,7 +90,7 @@
 /datum/advclass/seneschal/headmaid
 	name = "Head Maid"
 	tutorial = "Whether you were promoted from one or just like the frills, you stylize yourself as a head maid. Your duties and talents remain the same, though."
-	outfit = /datum/outfit/job/roguetown/seneschal/headmaid
+	outfit = /datum/outfit/job/seneschal/headmaid
 
 	subclass_stats = list(
 		STATKEY_INT = 2,
@@ -113,7 +113,7 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/seneschal/headmaid/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/seneschal/headmaid/pre_equip(mob/living/carbon/human/H)
 	..()
 	armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/black
 	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
@@ -127,7 +127,7 @@
 /datum/advclass/seneschal/chiefbutler
 	name = "Chief Butler"
 	tutorial = "You are the ruling class of butler and your ability to clear your throat and murmur 'I say' is without peer. Your duties and talents as seneschal remain the same, though."
-	outfit = /datum/outfit/job/roguetown/seneschal/chiefbutler
+	outfit = /datum/outfit/job/seneschal/chiefbutler
 
 	subclass_stats = list(
 		STATKEY_INT = 2,
@@ -150,7 +150,7 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/seneschal/chiefbutler/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/seneschal/chiefbutler/pre_equip(mob/living/carbon/human/H)
 	..() // They need a monocle.
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt

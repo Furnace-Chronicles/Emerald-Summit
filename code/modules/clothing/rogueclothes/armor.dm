@@ -1738,3 +1738,19 @@
 /obj/item/clothing/suit/roguetown/armor/haori/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ogre
+	name = "giant hauberk"
+	desc = "A gigantic chainmail shirt, absurd to even think it would fit someone of normal size."
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/32x64/ogre_onmob_sleeves.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	icon_state = "ogre_maille"
+	allowed_race = OGRE_RACE_TYPES
+
+/obj/item/clothing/suit/roguetown/armor/plate/half/ogre
+	name = "giant cuirass"
+	desc = "An absurdly large piece of armor, meant for an absurdly large man."
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	icon_state = "ogre_cuirass"
+	max_integrity = 600 // wow these guys are super weak
+	allowed_race = OGRE_RACE_TYPES

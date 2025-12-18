@@ -548,6 +548,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Briar Mask"
 	path = /obj/item/clothing/head/roguetown/dendormask
 
+/datum/loadout_item/dendorbriars
+	name = "Briar thorns"
+	path = /obj/item/clothing/head/roguetown/padded/briarthorns
+
 /datum/loadout_item/exoticsilkmask
 	name = "Exotic Silk Mask"
 	path = /obj/item/clothing/mask/rogue/exoticsilkmask

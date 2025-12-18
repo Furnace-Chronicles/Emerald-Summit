@@ -14,7 +14,7 @@
 		You command a position of a fool, envious of the position your superiors have upon you. \
 		Your cheap tricks and illusions of intelligence will only work for so long, \
 		and someday you'll find yourself at the end of something sharper than you."
-	outfit = /datum/outfit/job/roguetown/jester
+	outfit = /datum/outfit/job/jester
 	display_order = JDO_JESTER
 	give_bank_account = TRUE
 	min_pq = -4 //silly jesters are funny so low PQ requirement
@@ -22,7 +22,7 @@
 	round_contrib_points = 2
 	social_rank = SOCIAL_RANK_NOBLE
 
-/datum/outfit/job/roguetown/jester/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/jester/pre_equip(mob/living/carbon/human/H)
 	..()
 	shoes = /obj/item/clothing/shoes/roguetown/jester
 	pants = /obj/item/clothing/under/roguetown/tights

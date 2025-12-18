@@ -3,7 +3,7 @@
 	tutorial = "You make your coin peddling exotic jewelry, gems, and shiny things."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/trader
+	outfit = /datum/outfit/job/adventurer/trader
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT, CTAG_LICKER_WRETCH)
 	class_select_category = CLASS_CAT_TRADER
 	subclass_social_rank = SOCIAL_RANK_YEOMAN
@@ -28,7 +28,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/trader/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/trader/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You make your coin peddling exotic jewelry, gems, and shiny things."))
 
@@ -57,7 +57,7 @@
 /datum/advclass/trader/doomsayer
 	name = "Doomsayer"
 	tutorial = "THE WORLD IS ENDING!!! At least, that's what you want your clients to believe. You'll offer them a safe place in the new world, of course - built by yours truly."
-	outfit = /datum/outfit/job/roguetown/adventurer/doomsayer
+	outfit = /datum/outfit/job/adventurer/doomsayer
 	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	subclass_stats = list(
@@ -79,7 +79,7 @@
 	/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/doomsayer/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/doomsayer/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("THE WORLD IS ENDING!!! At least, that's what you want your clients to believe. You'll offer them a safe place in the new world, of course - built by yours truly."))
 
@@ -107,7 +107,7 @@
 /datum/advclass/trader/scholar
 	name = "Scholar"
 	tutorial = "You are a scholar traveling the world in order to write a book about your ventures. You trade in stories and tales of your travels."
-	outfit = /datum/outfit/job/roguetown/adventurer/scholar
+	outfit = /datum/outfit/job/adventurer/scholar
 
 	subclass_stats = list(
 		STATKEY_INT = 3,
@@ -126,7 +126,7 @@
 		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
 	)
 
-/datum/outfit/job/roguetown/adventurer/scholar/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/scholar/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a scholar traveling the world in order to write a book about your ventures. You trade in stories and tales of your travels."))
 
@@ -157,7 +157,7 @@
 /datum/advclass/trader/harlequin
 	name = "Harlequin"
 	tutorial = "You are a travelling entertainer - a jester by trade. Where you go, chaos follows - and mischief is made."
-	outfit = /datum/outfit/job/roguetown/adventurer/harlequin
+	outfit = /datum/outfit/job/adventurer/harlequin
 	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	cmode_music = 'sound/music/combat_jester.ogg'
@@ -180,7 +180,7 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/harlequin/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/harlequin/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning ("You are a travelling entertainer - a jester by trade. Where you go, chaos follows - and mischief is made."))
 	shoes = /obj/item/clothing/shoes/roguetown/jester
@@ -202,7 +202,7 @@
 		)
 
 	var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Trumpet")
-	var/weapon_choice = input("Choose your instrument.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Harp")
@@ -225,7 +225,7 @@
 /datum/advclass/trader/peddler
 	name = "Peddler"
 	tutorial = "You make your coin peddling in spices and performing back-alley 'medical' procedures. Hope your patient didn't need that kidney."
-	outfit = /datum/outfit/job/roguetown/adventurer/peddler
+	outfit = /datum/outfit/job/adventurer/peddler
 	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	subclass_stats = list(
@@ -248,7 +248,7 @@
 		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/adventurer/peddler/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/peddler/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You make your coin peddling in spices and performing back-alley 'medical' procedures. Hope your patient didn't need that kidney."))
 
@@ -275,7 +275,7 @@
 /datum/advclass/trader/brewer
 	name = "Brewer"
 	tutorial = "You make your coin peddling imported alcohols from all over the world, though you're no stranger to the craft, and have experience brewing your own ale in a pinch. You have the equipments and know how on how to make your own distiller, too."
-	outfit = /datum/outfit/job/roguetown/adventurer/brewer
+	outfit = /datum/outfit/job/adventurer/brewer
 	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	traits_applied = list(TRAIT_SEEPRICES, TRAIT_CICERONE)
@@ -298,7 +298,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/brewer/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/brewer/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You make your coin peddling imported alcohols from all over the world, though you're no stranger to the craft, and have experience brewing your own ale in a pinch. You have the equipments and know how on how to make your own distiller, too."))
 
@@ -329,7 +329,7 @@
 	name = "Cuisiner"
 	tutorial = "Whether a disciple of a culinary school, a storied royal chef, or a mercenary cook for hire, your trade is plied at the counter, \
 	the cutting board, and the hearth."
-	outfit = /datum/outfit/job/roguetown/adventurer/cuisiner
+	outfit = /datum/outfit/job/adventurer/cuisiner
 	subclass_social_rank = SOCIAL_RANK_PEASANT
 
 	traits_applied = list(TRAIT_SEEPRICES, TRAIT_GOODLOVER)
@@ -352,7 +352,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/cuisiner/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/cuisiner/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("Whether a disciple of a culinary school, a storied royal chef, or a mercenary cook for hire, your trade is plied at the counter, \
 	the cutting board, and the hearth."))

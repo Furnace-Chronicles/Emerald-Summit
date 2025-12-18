@@ -879,21 +879,33 @@
 
 /mob/living/carbon/human/adjust_nutrition(change) //Honestly FUCK the oldcoders for putting nutrition on /mob someone else can move it up because holy hell I'd have to fix SO many typechecks
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
+		remove_status_effect(/datum/status_effect/debuff/hungryt1)
+		remove_status_effect(/datum/status_effect/debuff/hungryt2)
+		remove_status_effect(/datum/status_effect/debuff/hungryt3)
 		return FALSE
 	return ..()
 
 /mob/living/carbon/human/set_nutrition(change) //Seriously fuck you oldcoders.
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
+		remove_status_effect(/datum/status_effect/debuff/hungryt1)
+		remove_status_effect(/datum/status_effect/debuff/hungryt2)
+		remove_status_effect(/datum/status_effect/debuff/hungryt3)
 		return FALSE
 	return ..()
 
 /mob/living/carbon/human/adjust_hydration(change)
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
+		remove_status_effect(/datum/status_effect/debuff/thirstyt1)
+		remove_status_effect(/datum/status_effect/debuff/thirstyt2)
+		remove_status_effect(/datum/status_effect/debuff/thirstyt3)
 		return FALSE
 	return ..()
 
 /mob/living/carbon/human/set_hydration(change)
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
+		remove_status_effect(/datum/status_effect/debuff/thirstyt1)
+		remove_status_effect(/datum/status_effect/debuff/thirstyt2)
+		remove_status_effect(/datum/status_effect/debuff/thirstyt3)
 		return FALSE
 	return ..()
 
@@ -940,4 +952,10 @@
 /mob/living/carbon/human/Topic(href, href_list)
 	..()
 
+/mob/living/carbon/human/do_attack_animation(atom/A, visual_effect_icon, obj/item/used_item, no_effect, item_animation_override, datum/intent/used_intent, simplified)
+	update_proj_parry_timer()
+	. = ..()
 
+///This is used to allow the thrown item "deflect". Minor and mostly just for aurafarming. Hooks into do_attack_animation because it's the most reliable access to a "valid" attack.
+/mob/living/carbon/human/proc/update_proj_parry_timer()
+	projectile_parry_timer = (world.time + PROJ_PARRY_TIMER)

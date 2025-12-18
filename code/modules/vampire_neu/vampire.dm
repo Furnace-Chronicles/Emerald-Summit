@@ -23,6 +23,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	var/datum/clan/forcing_clan
 	var/generation
 	var/research_points = 10
+	/// List of weak references to thralls created by this vampire
+	var/list/datum/weakref/thralls = list()
 
 /datum/antagonist/vampire/New(incoming_clan = /datum/clan/nosferatu, forced_clan = FALSE, generation)
 	. = ..()
@@ -149,6 +151,28 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 
 /datum/antagonist/vampire/proc/equip()
 	return
+
+/// Checks if the vampire can convert a new thrall. feedback = TRUE to notify the vampire why they can't.
+/datum/antagonist/vampire/proc/can_convert(feedback = FALSE)
+	if(generation <= GENERATION_THINBLOOD)
+		if(feedback)
+			to_chat(owner.current, span_warning("My generation is too low to sire a new vampire."))
+		return FALSE
+	if(generation == GENERATION_NEONATE)
+		var/living_thralls = 0
+		for(var/datum/weakref/thrall_ref in thralls)
+			var/mob/living/thrall_mob = thrall_ref?.resolve()
+			if(thrall_mob && !QDELETED(thrall_mob) && thrall_mob.stat != DEAD)
+				living_thralls += 1
+			else // Cleaning up weakrefs to dead
+				thralls -= thrall_ref
+				qdel(thrall_ref)
+		if(living_thralls >= THRALLS_PER_NEONATE)
+			if(feedback)
+				to_chat(owner.current, span_warning("I have already sired two thin-blooded thralls. I cannot sire another."))
+			return FALSE
+
+	return TRUE
 
 // Custom clan datum for player-created clans
 /datum/clan/custom

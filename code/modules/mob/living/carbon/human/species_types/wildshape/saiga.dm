@@ -22,6 +22,7 @@
 		src.STACON = 13
 		src.STAEND = 16 //Because I don't want to give it TRAIT_INFINITE_STAMINA
 		src.STASPD = 15
+		update_move_intent_slowdown() // Apply speed changes
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/saigahoofs)
 		real_name = "Saiga ([stored_mob.real_name])" //So we don't get a random name

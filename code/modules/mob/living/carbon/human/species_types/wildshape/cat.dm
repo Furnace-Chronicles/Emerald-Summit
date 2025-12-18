@@ -23,6 +23,7 @@
 		src.STAPER = 14
 		src.STASPD = 18 //May be overtuned with dodge expert, but this thing is so fragile
 		src.STALUC = 12 //Xylyx's critters
+		update_move_intent_slowdown() // Apply speed changes
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/catclaws)
 		AddSpell(new /obj/effect/proc_holder/spell/targeted/woundlick)

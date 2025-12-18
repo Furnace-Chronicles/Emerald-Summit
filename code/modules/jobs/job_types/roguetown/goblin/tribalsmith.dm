@@ -10,12 +10,12 @@
 	allowed_patrons = list(/datum/patron/inhumen/graggar)
 	tutorial = "Goblin rensposible for fresh iron and steel"
 	display_order = JDO_GOBLINSMITH
-	outfit = /datum/outfit/job/roguetown/goblinsmith
+	outfit = /datum/outfit/job/goblinsmith
 	min_pq = 0
 	max_pq = null
 
 
-/datum/outfit/job/roguetown/goblinsmith/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/goblinsmith/pre_equip(mob/living/carbon/human/H)
 	..()
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 	belt = /obj/item/storage/belt/rogue/leather

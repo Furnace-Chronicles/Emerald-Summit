@@ -4,7 +4,7 @@
 
 /datum/clan_leader/nosferatu
 	lord_spells = list(
-		/obj/effect/proc_holder/spell/targeted/shapeshift/rat
+		/obj/effect/proc_holder/spell/targeted/shapeshift/vampire/rat
 	)
 	lord_verbs = list(
 		/mob/living/carbon/human/proc/punish_spawn

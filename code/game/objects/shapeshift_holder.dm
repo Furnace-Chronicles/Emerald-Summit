@@ -81,6 +81,7 @@
 		the_evidence.base_diff = 6
 		if (knockout)
 			stored.Unconscious(knockout, TRUE, TRUE)
+			stored.Knockdown(knockout)  // Ensure they actually fall down
 			stored.visible_message(span_boldwarning("[stored] twists and shifts back into humen guise in a sickening lurch of flesh and bone, and promptly passes out!"), span_userdanger("I quickly flee the waning vitality of my former shape, but the strain is too much--"))
 			to_chat(stored, span_crit("...DARKNESS..."))
 

@@ -284,6 +284,8 @@
 	desc = "A leather satchel that's meant to  clip to a belt or to a pair of pants, freeing the shoulders from any weight."
 	icon_state = "satchelshort"
 	item_state = "satchelshort"
+	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_HIP
+	component_type = /datum/component/storage/concrete/roguetown/short_satchel
 
 /obj/item/storage/backpack/rogue/backpack
 	name = "backpack"
@@ -594,3 +596,10 @@
 		var/obj/item/bomb/smoke/K = new()
 		knives += K
 	update_icon()
+
+/obj/item/storage/belt/rogue/leather/ogre
+	name = "giant belt"
+	desc = "When you have to tighten a belt of this size, best start keeping your tastiest allies close."
+	sleeved = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	icon_state = "ogre_belt"

@@ -4,7 +4,7 @@
 	Despite doubts from others, your loyalty remains steadfast as you journey to the Reach, determined to fulfill your duties."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/heartfelt/hand
+	outfit = /datum/outfit/job/heartfelt/hand
 	total_positions = 1
 	spawn_positions = 0
 	job_traits = list(TRAIT_NOBLE, TRAIT_HEARTFELT)
@@ -17,7 +17,7 @@
 		/datum/advclass/heartfelt/hand/advisor,
 		)
 
-/datum/outfit/job/roguetown/heartfelt/hand/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heartfelt/hand/pre_equip(mob/living/carbon/human/H)
 	..()
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 	belt = /obj/item/storage/belt/rogue/leather/black
@@ -37,7 +37,7 @@
 	name = "Marshal of Heartfelt"
 	tutorial = "Renowned for your command of war, you laid down your blade in peaceful years, but peace died with Heartfelt. \
 	Pressed once more into service by tragedy, you climb towards the Reach."
-	outfit = /datum/outfit/job/roguetown/heartfelt/hand/marshal
+	outfit = /datum/outfit/job/heartfelt/hand/marshal
 	category_tags = list(CTAG_HFT_HAND)
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_NOBLE, TRAIT_HEARTFELT)
 	subclass_stats = list(
@@ -48,7 +48,7 @@
 		STATKEY_END = 1,
 	)
 
-/datum/outfit/job/roguetown/heartfelt/hand/marshal/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heartfelt/hand/marshal/pre_equip(mob/living/carbon/human/H)
 	..()
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
 	armor = /obj/item/clothing/suit/roguetown/armor/heartfelt/hand
@@ -80,7 +80,7 @@
 		// H.mind.AddSpell(new/obj/effect/proc_holder/spell/invoked/order/heartfelt/focustarget)
 		H.verbs |= list(/mob/living/carbon/human/mind/proc/setordersheartfelt)
 	var/helmet = list("Etruscan Bascinet","Beak Helmet","Visored Sallet",)
-	var/helmet_choice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmet
+	var/helmet_choice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmet
 	switch(helmet_choice)
 		if("Etruscan Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan
@@ -100,7 +100,7 @@
 	tutorial = "You are the Steward of Heartfelt, once the quiet architect behind the barony's \
 	order—keeper of ledgers, harvests, and the lifeblood that sustained your people. \
 	Pressed once more into service by tragedy, you climb towards the Reach."
-	outfit = /datum/outfit/job/roguetown/heartfelt/hand/steward
+	outfit = /datum/outfit/job/heartfelt/hand/steward
 	category_tags = list(CTAG_HFT_HAND)
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_SEEPRICES, TRAIT_HEARTFELT)
 	subclass_stats = list(
@@ -111,7 +111,7 @@
 		STATKEY_END = 2,
 	)
 
-/datum/outfit/job/roguetown/heartfelt/hand/steward/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heartfelt/hand/steward/pre_equip(mob/living/carbon/human/H)
 	..()
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/heartfelt
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
@@ -148,7 +148,7 @@
 	name = "Advisor of Heartfelt"
 	tutorial = "You are the Advisor of Heartfelt, trusted for your measured counsel and keen insight into matters of state. \
 	Bound once more to serve in the wake of ruin, you climb towards the Reach."
-	outfit = /datum/outfit/job/roguetown/heartfelt/hand/advisor
+	outfit = /datum/outfit/job/heartfelt/hand/advisor
 	category_tags = list(CTAG_HFT_HAND)
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2, TRAIT_INTELLECTUAL, TRAIT_SEEPRICES_SHITTY, TRAIT_HEARTFELT)
 	subclass_stats = list(
@@ -178,7 +178,7 @@
 	var/list/spells = list(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 
 //Advisor start. Trades combat skills for more knowledge and skills - for older hands, hands that don't do combat - people who wanna play wizened old advisors.
-/datum/outfit/job/roguetown/heartfelt/hand/advisor/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heartfelt/hand/advisor/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.dna.species.soundpack_m = new /datum/voicepack/male/tyrant()
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard

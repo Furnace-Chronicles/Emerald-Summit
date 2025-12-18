@@ -3,7 +3,7 @@
 	tutorial = "Unlike those so-called 'bards' who traipse around in fancy cloth and swordfight in the woods, you follow the calling of a true musician. You've simply... yet to find a receptive audience."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/minstrel
+	outfit = /datum/outfit/job/adventurer/minstrel
 	category_tags = list(CTAG_TOWNER)
 
 	traits_applied = list(TRAIT_EMPATH, TRAIT_GOODLOVER)
@@ -23,11 +23,12 @@
 		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/minstrel/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/minstrel/pre_equip(mob/living/carbon/human/H)
 	..()
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	cloak = /obj/item/clothing/cloak/half
 	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/white
+	l_hand = /obj/item/storage/pill_bottle/dice/farkle
 	r_hand = /obj/item/rogue/instrument/accord
 	pants = /obj/item/clothing/under/roguetown/tights/random
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots

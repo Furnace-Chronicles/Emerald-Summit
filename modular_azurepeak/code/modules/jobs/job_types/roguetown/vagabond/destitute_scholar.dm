@@ -3,7 +3,7 @@
 	tutorial = "Knowledge is often both a boon and a curse. Whatever you know has left you with little to your name but your wits, and even then..."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/vagabond/scholar
+	outfit = /datum/outfit/job/vagabond/scholar
 	category_tags = list(CTAG_VAGABOND)
 	subclass_social_rank = SOCIAL_RANK_PEASANT
 
@@ -23,7 +23,7 @@
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/vagabond/scholar/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/vagabond/scholar/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/rags

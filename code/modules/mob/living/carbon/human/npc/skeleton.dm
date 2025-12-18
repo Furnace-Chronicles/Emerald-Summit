@@ -6,7 +6,7 @@
 	bodyparts = list(/obj/item/bodypart/chest, /obj/item/bodypart/head, /obj/item/bodypart/l_arm,
 					 /obj/item/bodypart/r_arm, /obj/item/bodypart/r_leg, /obj/item/bodypart/l_leg)
 	faction = list("undead")
-	var/skel_outfit = /datum/outfit/job/roguetown/npc/skeleton
+	var/skel_outfit = /datum/outfit/job/npc/skeleton
 	var/skel_fragile = FALSE
 	ambushable = FALSE
 	rot_type = null
@@ -88,7 +88,7 @@
 		if(OU)
 			equipOutfit(OU)
 
-/datum/outfit/job/roguetown/npc/skeleton/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/npc/skeleton/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 14
 	H.STASPD = 8
@@ -181,9 +181,9 @@
     skel_outfit = null
 
 /mob/living/carbon/human/species/skeleton/npc/bogguard
-	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/npc/bogguard
+	skel_outfit = /datum/outfit/job/npc/skeleton/npc/bogguard
 
-/datum/outfit/job/roguetown/npc/skeleton/npc/bogguard/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/npc/skeleton/npc/bogguard/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(prob(50))//WRIST
 		wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
@@ -228,9 +228,9 @@
 	H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
 
 /mob/living/carbon/human/species/skeleton/npc/bogguard/master
-	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/npc/bogguard/master
+	skel_outfit = /datum/outfit/job/npc/skeleton/npc/bogguard/master
 
-/datum/outfit/job/roguetown/npc/skeleton/npc/bogguard/master/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/npc/skeleton/npc/bogguard/master/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 	head = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull
 	gloves = /obj/item/clothing/gloves/roguetown/plate

@@ -1914,3 +1914,11 @@
 /obj/item/clothing/cloak/absolutionistrobe/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+
+
+/obj/item/clothing/cloak/apron/ogre
+	name = "giant apron"
+	desc = "An apron of such grand size could take the brunt of a whole spilled soup pot and still leave the cook dry..."
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	icon_state = "cookapron"
+	allowed_race = OGRE_RACE_TYPES

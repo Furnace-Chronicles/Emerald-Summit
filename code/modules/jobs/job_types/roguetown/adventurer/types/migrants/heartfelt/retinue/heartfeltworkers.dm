@@ -4,7 +4,7 @@
 	Guided by the Magos, you journey to the Peak, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_GOLEM
-	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/servant
+	outfit = /datum/outfit/job/heartfelt/retinue/servant
 	maximum_possible_slots = 4
 	pickprob = 100
 	category_tags = list(CTAG_HFT_RETINUE)
@@ -36,7 +36,7 @@
 
 // HIGH COURT - /ONE SLOT/ Roles that were previously in the Court, but moved here.
 
-/datum/outfit/job/roguetown/heartfelt/retinue/servant/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heartfelt/retinue/servant/pre_equip(mob/living/carbon/human/H)
 	..()
 	pants = /obj/item/clothing/under/roguetown/trou
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard

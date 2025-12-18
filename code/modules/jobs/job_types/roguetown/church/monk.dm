@@ -9,7 +9,7 @@
 	allowed_races = RACES_ALL_KINDS
 	allowed_patrons = ALL_DIVINE_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
-	outfit = /datum/outfit/job/roguetown/monk
+	outfit = /datum/outfit/job/monk
 	tutorial = "Chores, some more chores- Even more chores. Oh, how the life of a humble acolyte is exhausting… You have faith, but even you know you gave up a life of adventure for that of the security in the Church. Assist the Priest in their daily tasks, maybe today will be the day something interesting happens."
 
 	display_order = JDO_MONK
@@ -54,7 +54,7 @@
 /datum/advclass/acolyte
 	name = "Acolyte"
 	tutorial = "Chores, some more chores- Even more chores. Oh, how the life of a humble acolyte is exhausting… You have faith, but even you know you gave up a life of adventure for that of the security in the Church. Assist the Priest in their daily tasks, maybe today will be the day something interesting happens."
-	outfit = /datum/outfit/job/roguetown/monk/basic
+	outfit = /datum/outfit/job/monk/basic
 	category_tags = list(CTAG_ACOLYTE)
 	cmode_music = 'sound/music/combat_holy.ogg'
 
@@ -78,7 +78,7 @@
 		/datum/skill/magic/holy = SKILL_LEVEL_MASTER,
 	)
 
-/datum/outfit/job/roguetown/monk
+/datum/outfit/job/monk
 	name = "Acolyte"
 	jobtype = /datum/job/roguetown/monk
 	job_bitflag = BITFLAG_CHURCH
@@ -96,7 +96,7 @@
 
 	has_loadout = TRUE
 
-/datum/outfit/job/roguetown/monk/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/monk/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	belt = /obj/item/storage/belt/rogue/leather/rope
@@ -187,7 +187,7 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
 
-/datum/outfit/job/roguetown/monk/basic/choose_loadout(mob/living/carbon/human/H)
+/datum/outfit/job/monk/basic/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)

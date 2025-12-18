@@ -3,7 +3,7 @@
 	tutorial = "You are a Doppelsoldner - \"Double-pay Mercenary\" - an experienced frontline swordsman trained by the Zenitstadt fencing guild."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft
+	outfit = /datum/outfit/job/mercenary/grenzelhoft
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_GRENZELHOFT
 	cmode_music = 'sound/music/combat_grenzelhoft.ogg'
@@ -38,13 +38,13 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,		//Trust me, they'll need it due to stamina drain on their base-sword.
 	)
 
-/datum/outfit/job/roguetown/mercenary/grenzelhoft/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/grenzelhoft/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a Doppelsoldner - \"Double-pay Mercenary\" - an experienced frontline swordsman trained by the Zenitstadt fencing guild."))
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/blacksteel_half_plate
 	var/weapons = list("Zweihander", "Kriegmesser & Buckler")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Zweihander")
 			r_hand = /obj/item/rogueweapon/greatsword/grenz
@@ -75,7 +75,7 @@
 /datum/advclass/mercenary/grenzelhoft/halberdier
 	name = "Halberdier"
 	tutorial = "You're an experienced soldier skilled in the use of polearms and axes. Your equals make up the bulk of the mercenary guild's forces."
-	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft_halberdier
+	outfit = /datum/outfit/job/mercenary/grenzelhoft_halberdier
 
 	subclass_languages = list(
 		/datum/language/grenzelhoftian,
@@ -105,13 +105,13 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/mercenary/grenzelhoft_halberdier/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/grenzelhoft_halberdier/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You're an experienced soldier skilled in the use of polearms and axes. Your equals make up the bulk of the mercenary guild's forces."))
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/blacksteel_half_plate
 	var/weapons = list("Halberd", "Partizan")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Halberd")
 			r_hand = /obj/item/rogueweapon/halberd
@@ -141,7 +141,7 @@
 /datum/advclass/mercenary/grenzelhoft/crossbowman
 	name = "Armbrustschutze"
 	tutorial = "You're a proved marksman with a crossbow, and learned how to set up camp and defenses in the wild. The guild needs you."
-	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft_crossbowman
+	outfit = /datum/outfit/job/mercenary/grenzelhoft_crossbowman
 
 	subclass_languages = list(
 		/datum/language/grenzelhoftian,
@@ -176,7 +176,7 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,	// crafting for pallisades, lumberjacking for not fucking up wood
 	)
 
-/datum/outfit/job/roguetown/mercenary/grenzelhoft_crossbowman/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/grenzelhoft_crossbowman/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You're a proved marksman with a crossbow, and learned how to set up camp and defenses in the wild. The guild needs you."))
 
@@ -184,7 +184,7 @@
 	beltl = /obj/item/rogueweapon/stoneaxe/woodcut/steel
 	r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 	var/armor_options = list("Light Brigandine", "Studded Leather Vest")
-	var/armor_choice = input("Choose your armor.", "DRESS UP") as anything in armor_options
+	var/armor_choice = input(H, "Choose your armor.", "DRESS UP") as anything in armor_options
 	switch(armor_choice)
 		if("Light Brigandine")
 			armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light	// find a smithy to fix it

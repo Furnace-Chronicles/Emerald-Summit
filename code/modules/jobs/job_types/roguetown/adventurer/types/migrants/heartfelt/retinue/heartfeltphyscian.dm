@@ -5,7 +5,7 @@
 	Haunted by those you could not protect, you ascend toward the Peak—seeking redemption, renewed purpose, and perhaps a cure for the wounds the world has inflicted."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_GOLEM
-	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/physician
+	outfit = /datum/outfit/job/heartfelt/retinue/physician
 	maximum_possible_slots = 1
 	pickprob = 100
 	category_tags = list(CTAG_HFT_RETINUE)
@@ -34,7 +34,7 @@
 	)
 // HIGH COURT - /ONE SLOT/ Roles that were previously in the Court, but moved here.
 
-/datum/outfit/job/roguetown/heartfelt/retinue/physician/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heartfelt/retinue/physician/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	head = /obj/item/clothing/head/roguetown/physician

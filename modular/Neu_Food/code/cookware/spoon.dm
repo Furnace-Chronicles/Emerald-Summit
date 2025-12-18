@@ -31,6 +31,51 @@
 	icon_state = "spoon_silver"
 	sellprice = 24
 
+/obj/item/kitchen/spoon/carved
+	name = "carved spoon"
+	icon_state = "aspoon"
+	sellprice = 0
+
+/obj/item/kitchen/spoon/carved/shell
+	name = "shell spoon"
+	icon_state = "spoon_shell"
+	sellprice = 15
+
+/obj/item/kitchen/spoon/carved/rose
+	name = "rosellusk spoon"
+	icon_state = "spoon_rose"
+	sellprice = 20
+
+/obj/item/kitchen/spoon/carved/jade
+	name = "joapstone spoon"
+	icon_state = "spoon_jade"
+	sellprice = 55
+
+/obj/item/kitchen/spoon/carved/onyxa
+	name = "onyxa spoon"
+	icon_state = "spoon_onyxa"
+	sellprice = 35
+
+/obj/item/kitchen/spoon/carved/turq
+	name = "ceruleabaster spoon"
+	icon_state = "spoon_turq"
+	sellprice = 80
+
+/obj/item/kitchen/spoon/carved/coral
+	name = "aoetal spoon"
+	icon_state = "spoon_coral"
+	sellprice = 65
+
+/obj/item/kitchen/spoon/carved/amber
+	name = "petriamber spoon"
+	icon_state= "spoon_amber"
+	sellprice = 55
+
+/obj/item/kitchen/spoon/carved/opal
+	name = "opaloise spoon"
+	icon_state = "spoon_opal"
+	sellprice = 85
+
 // NUKE THIS FUCKING TYPEPATH WHEN WE HAVE TIME
 /obj/item/kitchen/spoon/plastic
 	name = "wooden spoon"

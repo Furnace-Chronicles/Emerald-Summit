@@ -5,7 +5,7 @@
 	Guided by your Magos, you journey to the Peak, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_GOLEM
-	outfit = /datum/outfit/job/roguetown/heartfelt/lord
+	outfit = /datum/outfit/job/heartfelt/lord
 	total_positions = 1
 	spawn_positions = 0
 	job_traits = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_HEARTFELT)
@@ -21,13 +21,13 @@
 	Guided by your Magos, you journey to the Peak, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
 	category_tags = list(CTAG_HFT_LORD)
 	maximum_possible_slots = 1
-	outfit = /datum/outfit/job/roguetown/heartfelt/lord
+	outfit = /datum/outfit/job/heartfelt/lord
 	pickprob = 100
 	class_select_category = CLASS_CAT_HFT_COURT
 	subclass_social_rank = SOCIAL_RANK_NOBLE
 	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_HEARTFELT)
 
-/datum/outfit/job/roguetown/heartfelt/lord/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heartfelt/lord/pre_equip(mob/living/carbon/human/H)
 	..()
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 	belt = /obj/item/storage/belt/rogue/leather/black

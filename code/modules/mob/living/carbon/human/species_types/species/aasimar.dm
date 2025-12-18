@@ -6,15 +6,16 @@
 	id = "aasimar"
 	origin_default = /datum/virtue/origin/otava
 	origin = "Otava"
-	desc = "<b>Aasimar: Child of Destiny</b><br>\
-	Created by Psydon was the Divine Family, ten sibling gods who helped to create \
-	the world and safeguard it from decay and destruction; and from the gods came the angels, \
-	made by the ten to serve as they had for Psydon as caretakers and shepherds. \
-	Rarely an angel and mortal will create life together, and these children often grow up told about the great destiny they will surely fulfill. \
-	Compared to a standard human they are on average more frail and tall, and have an otherworldly beauty no matter their parentage. \
-	Their very blood brings fortune, and their deaths are ill omens. <br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 FOR</b></span> </br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> LANGUAGE: Celestial - ,c</b></span> </br>"
+	desc = "<b>Aasimar</b><br>\
+	Aasimar are born of a rare union between Humens and Angels. \
+	They bear the mark of their celestial touch through their many varying physical features. \
+	Their looks resemble the traditional characteristics of whichever of the Gods their Angel parent was associated with. \
+	Most commonly, Aasimar are similar to Humens, albeit taller, and commonly possess an uncanny beauty. \
+	When compared to the average Humen, they have strangely colored skin and are more physically frail. \
+	Because of their upbringing, they make for natural conduits for godly powers. \
+	Scarlet Reaches' populace holds them with a mixture of uneasy mixture of fear and respect. \
+	Due to their celestial nature, it is widely believed that an Aasimar's death is a bad omen...<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 FOR</b></span> </br>"
 
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY)
 	inherent_traits = list(TRAIT_NOMOBSWAP)

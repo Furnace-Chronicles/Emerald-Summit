@@ -5,7 +5,7 @@
 	Drawn by a guiding star to the Peak, you seek answers and perhaps a new purpose in the wake of destruction."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_GOLEM
-	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/magos
+	outfit = /datum/outfit/job/heartfelt/retinue/magos
 	maximum_possible_slots = 1
 	pickprob = 100
 	category_tags = list(CTAG_HFT_RETINUE)
@@ -14,7 +14,7 @@
 
 // HIGH COURT - /ONE SLOT/ Roles that were previously in the Court, but moved here.
 
-/datum/outfit/job/roguetown/heartfelt/retinue/magos/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heartfelt/retinue/magos/pre_equip(mob/living/carbon/human/H)
 	..()
 	neck = /obj/item/clothing/neck/roguetown/talkstone
 	cloak = /obj/item/clothing/cloak/black_cloak
@@ -67,7 +67,6 @@
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 1)
 		H.change_stat("perception", 1)
-	if(H.mind)
 		H?.mind.adjust_spellpoints(6)
 	if(ishumannorthern(H))
 		belt = /obj/item/storage/belt/rogue/leather/plaquegold

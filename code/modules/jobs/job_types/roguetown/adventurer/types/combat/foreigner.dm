@@ -3,7 +3,7 @@
 	tutorial = "You are a foreign swordsman, carrying nothing but your sword and your skill."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = NON_DWARVEN_RACE_TYPES //roughneck & custodian sprites dont have dwarf variants - adjust if/when a second update comes out with dwarf sprites
-	outfit = /datum/outfit/job/roguetown/adventurer/foreigner
+	outfit = /datum/outfit/job/adventurer/foreigner
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT, CTAG_LICKER_WRETCH)
 	class_select_category = CLASS_CAT_NOMAD
 	cmode_music = 'sound/music/combat_kazengite.ogg'
@@ -28,7 +28,7 @@
 		/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/foreigner/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/foreigner/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a foreign swordsman, carrying nothing but your sword and your skill."))
 	head = /obj/item/clothing/head/roguetown/mentorhat
@@ -54,7 +54,7 @@
 	name = "Custodian"
 	tutorial = "You are an ex-guardian, whenever that be for a petty noble, or a small shrine. You excel in defense with quarterstaffs, or have taken up the Naginata's offensive martial capabilities."
 	allowed_races = NON_DWARVEN_RACE_TYPES //roughneck & custodian sprites dont have dwarf variants - adjust if/when a second update comes out with dwarf sprites
-	outfit = /datum/outfit/job/roguetown/adventurer/custodian
+	outfit = /datum/outfit/job/adventurer/custodian
 	cmode_music = 'sound/music/combat_kazengite.ogg'
 	subclass_languages = list(/datum/language/kazengunese)
 
@@ -76,7 +76,7 @@
 		/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/custodian/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/custodian/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are an ex-guardian, whenever that be for a petty noble, or a small shrine. You excel in defense with quarterstaffs, or have taken up the Naginata's offensive martial capabilities."))
 	head = /obj/item/clothing/head/roguetown/mentorhat
@@ -92,7 +92,7 @@
 	backpack_contents = list(/obj/item/recipe_book/survival = 1)
 	H.set_blindness(0)
 	var/weapons = list("Naginata","Quarterstaff")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Naginata")
 			r_hand = /obj/item/rogueweapon/spear/naginata
@@ -106,7 +106,7 @@
 	tutorial = "You are a Kazengunese agent trained in assassination, sabotage, and irregular combat. You are armed with daggers or a short sword, perfect \
 	for combat in the tight confines of castles and back alleys."
 	allowed_races = NON_DWARVEN_RACE_TYPES //Clothing has no dwarf sprites.
-	outfit = /datum/outfit/job/roguetown/adventurer/yoruku
+	outfit = /datum/outfit/job/adventurer/yoruku
 	subclass_languages = list(/datum/language/kazengunese)
 	cmode_music = 'sound/music/combat_kazengite.ogg'
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_DODGEEXPERT, TRAIT_LIGHT_STEP, TRAIT_KEENEARS)
@@ -130,7 +130,7 @@
 		/datum/skill/craft/traps = SKILL_LEVEL_EXPERT,
 	)
 
-/datum/outfit/job/roguetown/adventurer/yoruku/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/yoruku/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a Kazengunese agent trained in assassination, sabotage, and irregular combat. You are armed with daggers or a short sword, perfect \
 	for combat in the tight confines of castles and back alleys."))
@@ -149,7 +149,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	H.set_blindness(0)
 	var/weapons = list("Tanto","Kodachi")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Tanto")
 			beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/kazengun
@@ -160,15 +160,15 @@
 			beltl = /obj/item/rogueweapon/scabbard/sword/kazengun/kodachi
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 	var/masks = list("Oni","Kitsune")
-	var/mask_choice = input("Choose your mask.", "HIDE YOURSELF") as anything in masks
+	var/mask_choice = input(H, "Choose your mask.", "HIDE YOURSELF") as anything in masks
 	switch(mask_choice)
 		if("Oni")
-			mask = /obj/item/clothing/mask/rogue/facemask/yoruku_oni
+			mask = /obj/item/clothing/mask/rogue/facemask/hound/yoruku_oni
 		if("Kitsune")
-			mask = /obj/item/clothing/mask/rogue/facemask/yoruku_kitsune
+			mask = /obj/item/clothing/mask/rogue/facemask/hound/yoruku_kitsune
 
 	var/belts = list("Shurikens","Smokebombs")
-	var/belt_choice = input("Choose your belt.", "BELT YOURSELF") as anything in belts
+	var/belt_choice = input(H, "Choose your belt.", "BELT YOURSELF") as anything in belts
 	switch(belt_choice)
 		if("Shurikens")
 			belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun

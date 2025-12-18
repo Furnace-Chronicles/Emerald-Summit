@@ -11,3 +11,11 @@
 		user.changeNext_move(clickcd)
 		if(releasedrain)
 			user.stamina_add(releasedrain)
+
+/datum/intent/spell/can_charge()
+	if(mastermob?.next_move > world.time)
+		if(mastermob.client.last_cooldown_warn + 10 < world.time)
+			to_chat(mastermob, span_warning("I'm not ready to do that yet!"))
+			mastermob.client.last_cooldown_warn = world.time
+		return FALSE
+	return TRUE

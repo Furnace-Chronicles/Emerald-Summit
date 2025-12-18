@@ -6,7 +6,7 @@
 	create masterful weapons and armor, be a legend among those who interest in your mighty forge"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/masterblacksmith
+	outfit = /datum/outfit/job/adventurer/masterblacksmith
 
 	maximum_possible_slots = 1
 	pickprob = 5
@@ -36,7 +36,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/masterblacksmith/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/masterblacksmith/pre_equip(mob/living/carbon/human/H)
 	..()
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/rogueweapon/hammer/iron

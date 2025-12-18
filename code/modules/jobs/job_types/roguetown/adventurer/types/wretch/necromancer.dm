@@ -3,7 +3,7 @@
 	tutorial = "You have been ostracized and hunted by society for your dark magics and perversion of life."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/wretch/necromancer
+	outfit = /datum/outfit/job/wretch/necromancer
 	category_tags = list(CTAG_WRETCH)
 	cmode_music = 'sound/music/combat_cult.ogg'
 	extra_context = "Only those that worship ZIZO may be necromancers."
@@ -30,7 +30,7 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
 	)
 
-/datum/outfit/job/roguetown/wretch/necromancer/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/wretch/necromancer/pre_equip(mob/living/carbon/human/H)
 	H.mind.current.faction += "[H.name]_faction"
 	H.set_patron(/datum/patron/inhumen/zizo)
 	head = /obj/item/clothing/head/roguetown/roguehood/black

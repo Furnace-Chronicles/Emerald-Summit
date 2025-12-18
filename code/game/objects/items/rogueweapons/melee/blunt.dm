@@ -222,6 +222,15 @@
 	grid_width = 32
 	grid_height = 96
 
+/obj/item/rogueweapon/mace/cudgel/shellrungu
+	name = "shell rungu"
+	desc = "A ceremonial rungu carved out of clam shell. Not intended for combat. Its used in various Sea and Coastal Elven rituals and ceremonies."
+	icon = 'icons/roguetown/gems/gem_shell.dmi'
+	icon_state = "rungu_shell"
+
+	max_integrity = 75
+	sellprice = 35
+
 /obj/item/rogueweapon/mace/cudgel/psy
 	name = "psydonian handmace"
 	desc = "A shorthanded mace, a convenient sleeping aid, or a means to root out heresy. It's all in the wrist."
@@ -579,3 +588,14 @@
 	penfactor = 80
 	damfactor = 0.9
 	item_d_type = "stab"
+
+/obj/item/rogueweapon/mace/cudgel/ogre
+	name = "Head Knockah"
+	desc = "A bell ringer that's been repurposed by a crafty set of hands, its size can only be wielded effectively by a giant."
+	force = 25
+	icon = 'icons/roguetown/weapons/64.dmi'
+	icon_state = "ogre_cudgel"
+	minstr = 13
+	pixel_y = -16
+	pixel_x = -16
+	bigboy = TRUE
