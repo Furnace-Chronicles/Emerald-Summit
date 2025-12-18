@@ -44,14 +44,6 @@
 	back = null
 	shoes = null
 	box = null
-	/// List of patrons we are allowed to use
-	var/list/allowed_patrons
-	/// Default patron in case the patron is not allowed
-	var/datum/patron/default_patron
-	/// This is our bitflag for storyteller rolling.
-	var/job_bitflag = NONE
-	/// Can select equipment after you spawn in.
-	var/has_loadout = FALSE
 
 /datum/outfit/job/roguetown/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	. = ..()
@@ -98,10 +90,3 @@
 		thing.on_activate(H)
 	// Loadout handled during transfer_characters() or finish_class_handler()
 	return
-
-/datum/outfit/job/roguetown/proc/choose_loadout(mob/living/carbon/human/H)
-	if(!has_loadout)
-		return
-	if(!H.client)
-		return // Client doesn't exist, skip
-	// Loadout selection happens here - override in specific job outfits

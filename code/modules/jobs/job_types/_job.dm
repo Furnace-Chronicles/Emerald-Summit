@@ -553,8 +553,8 @@
 	if(!has_loadout)
 		return
 	if(!H.client)
-		addtimer(CALLBACK(src, PROC_REF(choose_loadout), H), 50)
-		return
+		return // Client doesn't exist, skip
+	// Loadout selection happens here - override in specific job outfits
 
 //Warden and regular officers add this result to their get_access()
 /datum/job/proc/check_config_for_sec_maint()
