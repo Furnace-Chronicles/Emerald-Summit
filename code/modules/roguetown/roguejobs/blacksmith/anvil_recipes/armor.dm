@@ -885,6 +885,13 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/absolver
 	craftdiff = 3
 
+/datum/anvil_recipe/armor/steel/holythorns
+	name = "Holy silver thorns (+1 Steel, +1 Blessed Silver)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel, /obj/item/ingot/silverblessed)
+	created_item = /obj/item/clothing/head/roguetown/helmet/sallet/thorns
+	craftdiff = 3
+
 /datum/anvil_recipe/armor/steel/bevor
 	name = "Bevor"
 	req_bar = /obj/item/ingot/steel

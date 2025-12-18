@@ -15,6 +15,7 @@
 	use_titles = TRUE
 	race_titles = list("Half-Cat", "Half-Dog", "Half-Volf", "Half-Lion", "Half-Venard", "Half-Tiger", "Half-Sheep", "Half-Goat", "Half-Rous", "Half-Possum", "Half-Pig", "Half-Boar", "Half-Rabbit", "Half-Cabbit", "Half-Horse", "Half-Donkey", "Half-Hyena", "Half-Deer", "Half-Bear", "Half-Panda", "Half-Coyote", "Half-Moose", "Half-Jackal", "Half-Panther", "Half-Lynx", "Half-Leopard", "Half-Monkey", "Half-Bird", "Half-Seal", "Half-Bat", "Half-Otter", "Half-Cow", "Half-Bull", "Half-Monster", "Kitsune")
 	base_name = "Humen"
+	sub_name = "Half-Kin"
 	desc = "<b>Half-Kin</b><br>\
 	The inevitable union between wildkin and some form of humanity or another. \
 	While they also experience animalistic tendencies akin to their full-blooded ancestors, \

@@ -33,6 +33,11 @@
 		/datum/advclass/heir/inbred,
 	)
 
+/datum/job/roguetown/prince/after_spawn(mob/living/carbon/spawned, client/player_client)
+	. = ..()
+	var/mob/living/carbon/human/H = spawned
+	addtimer(CALLBACK(SSfamilytree, TYPE_PROC_REF(/datum/controller/subsystem/familytree, AddRoyal), H, FAMILY_PROGENY), 45 SECONDS)
+
 /datum/outfit/job/heir/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.verbs |= /mob/living/carbon/human/proc/declarechampion
