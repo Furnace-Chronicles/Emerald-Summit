@@ -561,11 +561,11 @@ SUBSYSTEM_DEF(ticker)
 					// Advclass jobs handle loadout after class selection
 					SSrole_class_handler.setup_class_handler(living)
 					advclass_count++
-				else if(H.mind?.needs_loadout_prompt && J?.outfit)
-					// Non-advclass jobs: trigger loadout now that client exists
-					var/datum/outfit/job/roguetown/RO = new J.outfit()
-					addtimer(CALLBACK(RO, TYPE_PROC_REF(/datum/outfit/job/roguetown, choose_loadout), H), 1 SECONDS)
+				else if(H.mind?.needs_loadout_prompt && H.mind.cached_outfit)
+					// Non-advclass jobs: trigger loadout now that client exists (uses cached instance)
+					H.mind.cached_outfit.choose_loadout(H)
 					H.mind.needs_loadout_prompt = FALSE
+					H.mind.cached_outfit = null  // Clear cached reference
 					loadout_count++
 				
 				// Process deferred knowledge population

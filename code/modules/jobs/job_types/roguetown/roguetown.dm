@@ -99,6 +99,8 @@
 	
 	// Store loadout callback for later - will be called after key transfer
 	if(has_loadout && H.mind)
+		// Cache outfit instance and set flag for loadout selection after transfer
+		H.mind.cached_outfit = src
 		H.mind.needs_loadout_prompt = TRUE
 	return
 
