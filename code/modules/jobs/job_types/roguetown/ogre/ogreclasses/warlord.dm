@@ -1,13 +1,13 @@
 /datum/advclass/ogre/warlord
 	name = "Warlord" 
 	tutorial = "A great war horn sounds from the bog land, the call of war from a monster of noble blood."
-	allowed_sexes = list(MALE) // sorry ladies
+	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = /datum/species/ogre
 	outfit = /datum/outfit/job/roguetown/ogre/warlord
 	category_tags = list(CTAG_OGRE)
 	cmode_music = 'sound/music/combat_highgrain.ogg'
 
-	traits_applied = list(TRAIT_NOPAINSTUN, TRAIT_CALTROPIMMUNE, TRAIT_STRONGBITE, TRAIT_MEDIUMARMOR) //strongbite might be funny
+	traits_applied = list(TRAIT_BASHDOORS, TRAIT_STEELHEARTED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_CALTROPIMMUNE, TRAIT_STRONGBITE, TRAIT_MEDIUMARMOR) //strongbite might be funny
 	subclass_stats = list( 
 		STATKEY_STR = 3, 
 		STATKEY_CON = 4,
@@ -24,7 +24,7 @@
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
-	) //trust me this'll be fine - they'll only have a cuirass and a hauberk for armor i swear
+	) 
 
 /datum/outfit/job/roguetown/ogre/warlord/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -33,7 +33,7 @@
 		to_chat(H, span_warning("A great war horn sounds from the bog land, the call of war from a monster of noble blood."))
 		shoes = /obj/item/clothing/shoes/roguetown/armor/ogre
 		shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ogre
-		neck = /obj/item/clothing/neck/roguetown/gorget/steel/ogre
+		neck = /obj/item/clothing/neck/roguetown/gorget/ogre
 		pants = /obj/item/clothing/under/roguetown/chainlegs/ogre
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/ogre
 		gloves = /obj/item/clothing/gloves/roguetown/plate/ogre

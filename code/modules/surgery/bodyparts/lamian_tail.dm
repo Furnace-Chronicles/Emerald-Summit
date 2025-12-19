@@ -35,7 +35,15 @@
 /obj/item/bodypart/lamian_tail/New()
 	. = ..()
 
+/obj/item/bodypart/lamian_tail/generate_limb_cache_key(dropped, hideaux)
+	var/key = ..()
+	return "[key]-[tail_icon_state]-[tail_tip_icon_state]-[tail_markings_icon_state]-[tail_markings_tip_icon_state]-[tail_color]-[tail_markings_color]"
+
 /obj/item/bodypart/lamian_tail/get_limb_icon(dropped, hideaux = FALSE)
+	var/new_cache_key = generate_limb_cache_key(dropped, hideaux)
+	if(limb_appearance_cache_key == new_cache_key && cached_base_appearances)
+		return cached_base_appearances.Copy()
+
 	// List of overlays
 	. = list()
 
@@ -78,6 +86,9 @@
 	working.pixel_x = offset_x
 
 	. += working
+
+	cached_base_appearances = _list_copy(.)
+	limb_appearance_cache_key = new_cache_key
 
 
 

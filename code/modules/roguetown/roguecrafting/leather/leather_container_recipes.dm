@@ -109,3 +109,9 @@
 		/obj/item/grown/log/tree/stick = 2,
 	)
 	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/leather/container/beltogre
+	name = "collosal leather belt"
+	result = /obj/item/storage/belt/rogue/leather/ogre
+	reqs = list(/obj/item/natural/hide/cured = 3,
+				/obj/item/natural/fibers = 2)

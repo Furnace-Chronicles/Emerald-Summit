@@ -29,16 +29,16 @@
 	use_m = TRUE
 	soundpack_m = /datum/voicepack/male/warrior
 	soundpack_f = /datum/voicepack/female/dwarf //idfk bruh
-	offset_features = list(OFFSET_ID = list(0,1), OFFSET_GLOVES = list(0,0), OFFSET_WRISTS = list(0,1),\
-	OFFSET_CLOAK = list(0,1), OFFSET_FACEMASK = list(0,6), OFFSET_HEAD = list(0,0), \
-	OFFSET_FACE = list(0,6), OFFSET_BELT = list(0,1), OFFSET_BACK = list(0,1), \
-	OFFSET_NECK = list(0,1), OFFSET_MOUTH = list(0,1), OFFSET_PANTS = list(0,0), \
-	OFFSET_SHIRT = list(0,1), OFFSET_ARMOR = list(0,1), OFFSET_HANDS = list(0,1), OFFSET_UNDIES = list(0,1), \
-	OFFSET_ID_F = list(0,1), OFFSET_GLOVES_F = list(0,1), OFFSET_WRISTS_F = list(0,1), OFFSET_HANDS_F = list(0,1), \
-	OFFSET_CLOAK_F = list(0,1), OFFSET_FACEMASK_F = list(0,6), OFFSET_HEAD_F = list(0,1), \
-	OFFSET_FACE_F = list(0,6), OFFSET_BELT_F = list(0,1), OFFSET_BACK_F = list(0,1), \
-	OFFSET_NECK_F = list(0,1), OFFSET_MOUTH_F = list(0,1), OFFSET_PANTS_F = list(0,1), \
-	OFFSET_SHIRT_F = list(0,1), OFFSET_ARMOR_F = list(0,1), OFFSET_UNDIES_F = list(0,8))
+	offset_features = list(OFFSET_ID = list(0,1), OFFSET_GLOVES = list(0,0), OFFSET_WRISTS = list(0,0),\
+	OFFSET_CLOAK = list(0,0), OFFSET_FACEMASK = list(0,6), OFFSET_HEAD = list(0,0), \
+	OFFSET_FACE = list(0,6), OFFSET_BELT = list(0,0), OFFSET_BACK = list(0,6), \
+	OFFSET_NECK = list(0,6), OFFSET_MOUTH = list(0,6), OFFSET_PANTS = list(0,0), \
+	OFFSET_SHIRT = list(0,0), OFFSET_ARMOR = list(0,0), OFFSET_HANDS = list(0,0), OFFSET_UNDIES = list(0,0), \
+	OFFSET_ID_F = list(0,1), OFFSET_GLOVES_F = list(0,1), OFFSET_WRISTS_F = list(0,0), OFFSET_HANDS_F = list(0,0), \
+	OFFSET_CLOAK_F = list(0,0), OFFSET_FACEMASK_F = list(0,6), OFFSET_HEAD_F = list(0,0), \
+	OFFSET_FACE_F = list(0,6), OFFSET_BELT_F = list(0,0), OFFSET_BACK_F = list(0,6), \
+	OFFSET_NECK_F = list(0,6), OFFSET_MOUTH_F = list(0,6), OFFSET_PANTS_F = list(0,0), \
+	OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,-1))
 	race_bonus = list(STAT_STRENGTH = 2, STAT_CONSTITUTION = 2, STAT_ENDURANCE = 1, STAT_INTELLIGENCE = -3, STAT_SPEED = -1)
 	enflamed_icon = "widefire"
 	body_marking_sets = list(
@@ -51,7 +51,7 @@
 	body_markings = list(
 		/datum/body_marking/flushed_cheeks,
 		/datum/body_marking/eyeliner,
-		/datum/body_marking/tonage,
+		/datum/body_marking/bigtonage,
 	)
 	customizers = list(
 		/datum/customizer/organ/eyes/humanoid,
@@ -61,10 +61,6 @@
 		/datum/customizer/bodypart_feature/face_detail,
 		/datum/customizer/bodypart_feature/underwear,
 		/datum/customizer/bodypart_feature/legwear,
-		/datum/customizer/organ/testicles/anthro,
-		/datum/customizer/organ/penis/anthro,
-		/datum/customizer/organ/breasts/human,
-		/datum/customizer/organ/vagina/human_anthro,
 		)
 	stress_examine = TRUE
 	stress_desc = span_red("HOLY SHIT! AN OGRE!")

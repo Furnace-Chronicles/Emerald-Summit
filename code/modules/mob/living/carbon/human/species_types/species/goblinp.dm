@@ -8,17 +8,12 @@
 	origin = "Gronn"
 	is_subrace = TRUE
 	base_name = "Ogroid"
-	desc = "<b>Goblin: Nomadic Tribes of the Night</b><br>\
-	Created by the hand of Noc as a creative and inquisitive species, \
-	tribes of goblins spread across the world from the wind-whipped steppes of Gronn. \
-	While their worship and their culture is different across the nations, a commonality is the nomadic nature of their clans across the wilds. \
-	They have become a favorite of Graggar to capture and devour the souls, releasing empty violent husks into the world’s cities. \
-	These well traveled peoples at times do settle down into villages or join established settlements, \
-	where fast feet aid them when they are mistaken for portal-thralls. \
-	Graggar’s hunger has led to there being more soulless husks in his armies than surviving goblins.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 SPD</b></span> </br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> Inhumen Digestion</b></span> </br>"
-	
+	desc = "<b>Goblin</b><br>\
+	A clever and stubborn nature are two charitable qualities of a goblin - scheming and selfish are less so. The Fell Gods use them as an avatar of malice, sending out \
+	mindless, enthralled waves of the creatures to attack civilization from lunar portals. It leaves the typical goblinoid to cloister in their hidden away tribes, stealing \
+	from the scraps out of fear of reprisal while shooing away outsiders. The cities of Man typically shun them, but it's not unheard of to see one pushing their luck in a \
+	town square or out on a well-traveled road, as even the most backwater peasant can tell the difference between a sapient one and portal-spawn. Usually.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 SPD</b></span> </br>"
 	species_traits = list(EYECOLOR,LIPS,STUBBLE)
 	inherent_traits = list(TRAIT_NASTY_EATER)
 	possible_ages = ALL_AGES_LIST

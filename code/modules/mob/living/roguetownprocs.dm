@@ -376,7 +376,7 @@
 			if(weapon_parry == TRUE)
 				if(do_parry(used_weapon, drained, user)) //show message
 					if ((mobility_flags & MOBILITY_STAND))
-						var/skill_target = attacker_skill
+						var/skill_target = max(SKILL_LEVEL_JOURNEYMAN, attacker_skill)
 						if(!HAS_TRAIT(U, TRAIT_GOODTRAINER))
 							skill_target -= SKILL_LEVEL_NOVICE
 						if (can_train_combat_skill(src, used_weapon.associated_skill, skill_target))
@@ -393,7 +393,7 @@
 						else
 							attacker_skill_type = /datum/skill/combat/unarmed
 						if ((mobility_flags & MOBILITY_STAND))
-							var/skill_target = defender_skill
+							var/skill_target = max(SKILL_LEVEL_JOURNEYMAN, defender_skill)
 							if(!HAS_TRAIT(src, TRAIT_GOODTRAINER))
 								skill_target -= SKILL_LEVEL_NOVICE
 							if (can_train_combat_skill(U, attacker_skill_type, skill_target))
@@ -425,7 +425,7 @@
 			if(weapon_parry == FALSE)
 				if(do_unarmed_parry(drained, user))
 					if((mobility_flags & MOBILITY_STAND))
-						var/skill_target = attacker_skill
+						var/skill_target = max(SKILL_LEVEL_JOURNEYMAN, attacker_skill)
 						if(!HAS_TRAIT(U, TRAIT_GOODTRAINER))
 							skill_target -= SKILL_LEVEL_NOVICE
 						if(can_train_combat_skill(H, /datum/skill/combat/unarmed, skill_target))
@@ -806,13 +806,10 @@
 /mob/living/carbon/human/proc/calculate_sentinel_bonus()
 	if(STAINT > 10)
 		var/fakeint = STAINT
-		if(status_effects.len)
-			for(var/S in status_effects)
-				var/datum/status_effect/status = S
-				if(status.effectedstats.len)
-					if(status.effectedstats["intelligence"])
-						if(status.effectedstats["intelligence"] > 0)
-							fakeint -= status.effectedstats["intelligence"]
+		if(length(status_effects))
+			for(var/datum/status_effect/status as anything in status_effects)
+				if(length(status.effectedstats) && status.effectedstats["intelligence"] > 0)
+					fakeint -= status.effectedstats["intelligence"]
 		if(fakeint > 10)
 			var/bonus = round(((fakeint - 10) / 2)) * 10
 			if(bonus > 0)

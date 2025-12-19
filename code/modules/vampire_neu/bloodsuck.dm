@@ -60,6 +60,12 @@
 		return
 
 	if(VVictim)
+		if(HAS_TRAIT(src, TRAIT_CRIMSON_CURSE))
+			to_chat(src, span_warning("I am too weak to commit Diablerie!."))
+			return
+		if(HAS_TRAIT(victim, TRAIT_CRIMSON_CURSE))
+			to_chat(src, span_warning("Their vitae is too weak for Diablerie!"))
+			return
 		to_chat(src, span_userdanger("<b>YOU TRY TO COMMIT DIABLERIE ON [victim].</b>"))
 
 	var/blood_handle

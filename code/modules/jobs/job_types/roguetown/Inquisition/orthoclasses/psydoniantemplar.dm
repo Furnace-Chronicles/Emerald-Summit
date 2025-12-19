@@ -63,7 +63,7 @@
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = FALSE, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles. ENDURE.
+	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles. ENDURE.
 
 	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 

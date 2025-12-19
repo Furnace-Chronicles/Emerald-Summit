@@ -86,9 +86,6 @@ And it also helps for the character set panel
 /datum/clan/proc/on_gain(mob/living/carbon/human/H, is_vampire = TRUE)
 	SHOULD_CALL_PARENT(TRUE)
 
-	var/datum/action/clan_menu/menu_action = new /datum/action/clan_menu(H.mind)
-	menu_action.Grant(H)
-
 	// Add to appropriate member lists
 	clan_members |= H
 	if(is_vampire)
@@ -114,6 +111,10 @@ And it also helps for the character set panel
 
 		setup_vampire_abilities(H)
 		apply_vampire_look(H)
+		if(HAS_TRAIT(H, TRAIT_CRIMSON_CURSE))
+			var/datum/component/vampire_disguise/disguise_comp = H.GetComponent(/datum/component/vampire_disguise)
+			if(disguise_comp)
+				disguise_comp.apply_disguise(H)
 
 		H.playsound_local(get_turf(H), 'sound/music/vampintro.ogg', 80, FALSE, pressure_affected = FALSE)
 		for(var/datum/coven/coven as anything in clane_covens)
@@ -135,6 +136,9 @@ And it also helps for the character set panel
 	if(!hierarchy_root)
 		initialize_hierarchy()
 
+	if(!HAS_TRAIT(H, TRAIT_CRIMSON_CURSE)) // Sorry, you don't get any fancy toys!!
+		var/datum/action/clan_menu/menu_action = new /datum/action/clan_menu(H.mind)
+		menu_action.Grant(H)
 	handle_member_joining(H, is_vampire)
 	post_gain(H)
 
@@ -172,6 +176,8 @@ And it also helps for the character set panel
 
 /datum/clan/proc/handle_member_joining(mob/living/carbon/human/H, is_vampire = TRUE)
 	// If no clan leader exists, make this person the leader (vampires only)
+	if(HAS_TRAIT(H, TRAIT_CRIMSON_CURSE)) //No crimson curse clan leaders 
+		return FALSE 
 	if(!clan_leader && is_vampire)
 		hierarchy_root.assign_member(H)
 		if(ispath(leader))
@@ -271,7 +277,7 @@ And it also helps for the character set panel
 	if(disguise_comp)
 		qdel(disguise_comp)
 
-	vampire.verbs -= /mob/living/carbon/human/proc/disguise_verb
+	vampire.mind.RemoveSpell(/obj/effect/proc_holder/spell/self/disguise)
 
 
 	// Restore normal eyes
@@ -361,7 +367,7 @@ And it also helps for the character set panel
 	H.process_vampire_life()
 
 /datum/clan/proc/setup_vampire_abilities(mob/living/carbon/human/H)
-	H.verbs |= /mob/living/carbon/human/proc/disguise_verb
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/disguise)
 
 	H.cmode_music = 'sound/music/combat_thrall.ogg'
 
@@ -390,6 +396,8 @@ And it also helps for the character set panel
 /datum/clan/proc/post_gain(mob/living/carbon/human/H)
 	SHOULD_CALL_PARENT(TRUE)
 	if(!clan_leader && ispath(leader))
+		if(HAS_TRAIT(H, TRAIT_CRIMSON_CURSE)) // NOOOOOOOOO CRIMSON CURSE LEADERSSSSSSSSSSSS!
+			return FALSE
 		var/datum/clan_leader/new_leader = new leader()
 		leader = new_leader
 		leader.lord_title = leader_title

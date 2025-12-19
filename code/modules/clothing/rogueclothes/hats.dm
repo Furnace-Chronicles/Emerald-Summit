@@ -344,6 +344,7 @@
 	flags_inv = HIDENECK
 	dynamic_hair_suffix = ""
 	sewrepair = TRUE
+	block2add = null
 
 /obj/item/clothing/head/roguetown/priestmask
 	name = "solar visage"
@@ -937,6 +938,14 @@
 	icon_state = "sallet"
 	desc = "A steel helmet which protects the ears."
 	max_integrity = 215
+	smeltresult = /obj/item/ingot/steel
+	body_parts_covered = HEAD|HAIR|EARS
+
+/obj/item/clothing/head/roguetown/helmet/sallet/thorns
+	name = "holysteel thorns"
+	icon_state = "holythorns"
+	desc = "A crown of thorns made with silver and steel wires. It protects your head and ears despite pricking them."
+	max_integrity = 225
 	smeltresult = /obj/item/ingot/steel
 	body_parts_covered = HEAD|HAIR|EARS
 
@@ -2853,25 +2862,27 @@
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/clothing/head/roguetown/cookhat/ogre
-	name = "oversized cook-hat"
-	desc = "Prepare the slop."
+	name = "giant chef's hat"
+	desc = "This is the badge of a true gourmand. None should ever look upon you with anything less than utter respect."
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
 	icon_state = "cookhat"
 	item_state = "cookhat"
 	allowed_race = OGRE_RACE_TYPES
 
 /obj/item/clothing/head/roguetown/helmet/heavy/ogre
-	name = "iron barbute"
-	desc = "This one's too large for normal people."
+	name = "giant iron barbute"
+	desc = "When you have a big head, it needs a big helmet. This one is modeled after old imperial armor designs."
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
 	icon_state = "merchelmet"
 	item_state = "merchelmet"
 	allowed_race = OGRE_RACE_TYPES
+	flags_inv = HIDEEARS|HIDEHAIR
 
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar/ogre
-	name = "crushing barbute"
-	desc = "KILL! CRUSH! MAIM!"
+	name = "graggar's champion helmet"
+	desc = "The mark of graggar's rampage, this is the helmet of his greatest warrior, his favorite child. Kill in the name of the father, inflict pain and torment."
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
 	icon_state = "warlhelmet"
 	item_state = "warlhelmet"
 	allowed_race = OGRE_RACE_TYPES
+	flags_inv = HIDEEARS|HIDEHAIR

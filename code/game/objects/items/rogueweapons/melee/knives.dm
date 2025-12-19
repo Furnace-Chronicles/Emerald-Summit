@@ -852,32 +852,89 @@
 /obj/item/rogueweapon/huntingknife/scissors/attack_obj(obj/O, mob/living/user)
 	if(user.used_intent.type == /datum/intent/snip && istype(O, /obj/item))
 		var/obj/item/item = O
-		if(item.sewrepair && item.salvage_result) // We can only salvage objects which can be sewn!
-			var/salvage_time = 70
-			salvage_time = (70 - ((user.get_skill_level(/datum/skill/misc/sewing)) * 10))
+		if(item.sewrepair)
+			var/salvage_time = 7 SECONDS // If you put this below six, make sure to add a min() check.
+			var/skill_level = user.get_skill_level(/datum/skill/misc/sewing)
+			salvage_time = (salvage_time - ((skill_level) * 1 SECONDS))
 			if(!do_after(user, salvage_time, target = user))
 				return
-
-			if(item.fiber_salvage) //We're getting fiber as base if fiber is present on the item
-				new /obj/item/natural/fibers(get_turf(item))
-			if(istype(item, /obj/item/storage))
-				var/obj/item/storage/bag = item
-				bag.emptyStorage()
-			var/skill_level = user.get_skill_level(/datum/skill/misc/sewing)
-			if(prob(50 - (skill_level * 10))) // We are dumb and we failed!
-				to_chat(user, span_info("I ruined some of the materials due to my lack of skill..."))
+			var/turf/T = get_turf(item)
+			var/datum/crafting_recipe/item_recipe
+			for(var/recipe in GLOB.crafting_recipes) // Loops through sewing / weaving & leatherworking (skincraft) recipes 
+				var/datum/crafting_recipe/R = recipe
+				if(R.name == "")
+					continue
+				if(R.skillcraft != /datum/skill/misc/sewing && R.skillcraft != /datum/skill/craft/tanning)
+					continue
+				var/obj/item/recipe_result
+				if(R.result.len)
+					recipe_result = R.result[1]
+				else
+					recipe_result = R.result
+				if(lowertext(recipe_result.name) == lowertext(initial(item.name))) // initial() check for player name changed items
+					if(R.result.len > 1) // We return early and cancel the scrapping if the recipe to make it gives multiple of the item. (Reason? one cured leather makes three shoes, at legendary sewing you'd get 3 leather back.)
+						to_chat(user, span_warning("I can't seem to get any proper salvage from [item]."))
+						return
+					item_recipe = new R.type // This is qdel'd later.
+					break
+			user.mind.add_sleep_experience(/datum/skill/misc/sewing, (user.STAINT)) // You get XP regardless of failing or not.
+			if(prob(20 - (skill_level * 10))) // IF YOU REALLLLLY FUCK UP? You get jackshit. Skill Level: (20% ----> -40%)
+				to_chat(user, span_danger("I ruined the [item] due to my lack of skill..."))
 				playsound(item, 'sound/foley/cloth_rip.ogg', 50, TRUE)
 				qdel(item)
-				user.mind.add_sleep_experience(/datum/skill/misc/sewing, (user.STAINT)) //Getting exp for failing
-				return //We are returning early if the skill check fails!
-			item.salvage_amount -= item.torn_sleeve_number
-			for(var/i = 1; i <= item.salvage_amount; i++) // We are spawning salvage result for the salvage amount minus the torn sleves!
-				var/obj/item/Sr = new item.salvage_result(get_turf(item))
-				Sr.color = item.color
+				return //We are returning early if the skill check fails critically!
+			if(istype(item, /obj/item/storage)) // Bag? Yeet that shit out.
+				var/obj/item/storage/bag = item
+				bag.emptyStorage()
+			// We found a recipe! Time to use its requirements to give back a portion of what they used
+			// Skill Level: Novice 20% ----> Legendary (100%) return rates (not linear between skill jumps)
+			var/list/skill_bonuses = list(
+				1 = 0.2,
+				2 = 0.3,
+				3 = 0.4, // Here and beyond in skill level they will receive ATLEAST one of each ingredient back.
+				4 = 0.5,
+				5 = 0.75,
+				6 = 1,
+			)
+			if(item_recipe) // null check
+				if(skill_level == SKILL_LEVEL_NONE)
+					skill_level++ //Give them a LITTLE bone to start off with. 20% isn't crazy. Expensive recipes that have 5+ of an ingredient will yield at least 1. 
+				var/list/results = item_recipe.reqs
+				if(item.torn_sleeve_number)
+					to_chat(user, span_danger("I am losing [item.torn_sleeve_number] from each salvage attempt due to the torn sleeves.")) // Feedback if you lose some.
+				for(var/ingredient in results)
+					var/obj/item/I = ingredient
+					if(!results[ingredient])
+						results[ingredient] = 1 // Set it to one for the case of spawning something (ie, the reqs doesn't have a value set for the key).
+					if(prob(50 - (skill_level * 10))) // 50% base to fail -----> -10% at Legendary
+						results[ingredient] = 0 // Woops! Next ingredient
+						playsound(item, 'sound/foley/cloth_rip.ogg', 50, TRUE)
+						to_chat(user, span_danger("I ruined [I.name] while salvaging [item]. (Critical fail)")) // Feedback if you lose some.
+						continue
+					else
+						if(skill_level >= SKILL_LEVEL_JOURNEYMAN) // Better than or equal to journeyman? You'll always get ATLEAST one back.
+							results[ingredient] = max(1, results[ingredient] * skill_bonuses[skill_level]) // Refer to skill_bonuses (You're guaranteed to get ATLEAST 1)
+						else
+							results[ingredient] *= skill_bonuses[skill_level]
+						results[ingredient] = round(results[ingredient])
+					results[ingredient] -= item.torn_sleeve_number // Removes one of EVERY ingredient amount on the return.
+					if(results[ingredient] > 0) // whole numbers only homie!
+						to_chat(user, span_info("I was able to salvage some [I.name] from [item], gaining [results[ingredient]].")) // Feedback to the player on how much they gained
+						for(var/i = 0; i < results[ingredient]; i++)
+							new ingredient(T)
+					else
+						to_chat(user, span_info("I wasn't able to salvage any usable [I.name], there wasn't enough.")) // Feedback if you lose some.
+					qdel(item_recipe) // Clean up :)
+			else
+				if(item.salvage_result) // no recipe found, defaulting to salvage result
+					item.salvage_amount -= item.torn_sleeve_number
+					for(var/i = 0; i < item.salvage_amount; i++) // We are spawning salvage result for the salvage amount minus the torn sleeves!
+						new item.salvage_result(T)
+				if(item.fiber_salvage) //We're getting fiber as base if fiber is present on the item
+					new /obj/item/natural/fibers(T)
 			user.visible_message(span_notice("[user] salvages [item] into usable materials."))
 			playsound(item, 'sound/items/flint.ogg', 100, TRUE)
 			qdel(item)
-			user.mind.add_sleep_experience(/datum/skill/misc/sewing, (user.STAINT))
 	return ..()
 
 /obj/item/rogueweapon/huntingknife/attack(mob/living/M, mob/living/user)
@@ -916,8 +973,7 @@
 	icon = 'icons/roguetown/weapons/64.dmi'
 	icon_state = "ogre_cleaver"
 	force = 25
-	wbalance = WBALANCE_HEAVY
-	wdefense = 10 //im experimenting here
+	wdefense = 4
 	minstr = 13
 	pixel_y = -16
 	pixel_x = -16

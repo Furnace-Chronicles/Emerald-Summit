@@ -1422,7 +1422,6 @@
 	force_wielded = 35
 	max_blade_int = 250
 	max_integrity = 260
-	wbalance = WBALANCE_HEAVY
 
 /obj/item/rogueweapon/mace/goden/steel/ogre
 	name = "Mace of Malum"
@@ -1443,8 +1442,8 @@
 	desc = "Only a giant can effectively make use of this weapon. It has fed one at the expense of many lives."
 	icon_state = "ogre_mace"
 	force = 25
-	force_wielded = 50 // i dont even think thisll do much, compare it to the tetsubo
-	gripped_intents = list(/datum/intent/mace/strike/reach, /datum/intent/mace/smash/reach, /datum/intent/mace/rangedthrust, /datum/intent/effect/daze)
+	force_wielded = 45 // i dont even think thisll do much, compare it to the tetsubo
+	gripped_intents = list(/datum/intent/mace/strike/reach, /datum/intent/mace/smash/reach, /datum/intent/effect/daze)
 	smelt_bar_num = 2
 	minstr = 15
 	force_wielded = 35

@@ -83,6 +83,12 @@
 	if(HT.has_status_effect(/datum/status_effect/debuff/baited) || user.has_status_effect(/datum/status_effect/debuff/baitcd))
 		return	//We don't do anything if either of us is affected by bait statuses
 
+	if(user.STAINT < 8) //We don't want this happening if their intelligence is 7 or below.
+		to_chat(HU, span_danger("Argh! This is too complicated, I've made a fool of myself!"))
+		HU.stamina_add(HU.max_stamina * 0.2)
+		HU.emote("huh")
+		return
+
 	HU.visible_message(span_danger("[HU] baits an attack from [HT]!"))
 	HU.apply_status_effect(/datum/status_effect/debuff/baitcd)
 	HU.stamina_add(HU.max_stamina * 0.2)

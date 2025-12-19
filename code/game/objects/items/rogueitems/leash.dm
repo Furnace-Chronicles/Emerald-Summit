@@ -439,6 +439,13 @@
 	flick("bell_commonpressed", src)
 	last_ring = world.time
 
+/obj/item/catbell/cow/attack_self(mob/living/user)
+	if(world.time < last_ring + 600) //Bells are have a dangling weight, and because I don't want to go insane
+		return
+	user.visible_message(span_info("[user] starts ringing the [src]."))
+	playsound(src, 'sound/items/cowbell1.ogg', 100, extrarange = 8, ignore_walls = TRUE)
+	flick("bell_commonpressed", src)
+	last_ring = world.time
 
 //Bell attachment onto collars
 /obj/item/catbell/attack(mob/living/carbon/target, mob/living/user)
@@ -457,15 +464,16 @@
 	user.visible_message(span_warning("[target] has had \a [src] clipped onto [target.p_their()] [collar.name] by [user]!"), span_warning("I clip \a [src] onto [target]'s [collar.name]!"))
 	collar.bell = TRUE
 	collar.bellsound = TRUE
-	collar.AddComponent(/datum/component/squeak, SFX_COLLARJINGLE, 50, 100, 1)
 	if(istype(src, /obj/item/catbell/cow))
 		collar.icon_state = /obj/item/clothing/neck/roguetown/collar/cowbell::icon_state
 		collar.desc = "A leather collar with a jingly cowbell attached."
 		collar.name = "cowbell collar"
+		collar.AddComponent(/datum/component/squeak, SFX_COLLARJANGLE, 50, 100, 1)
 	else
 		collar.icon_state = /obj/item/clothing/neck/roguetown/collar/catbell::icon_state
 		collar.desc = "A leather collar with a jingling catbell attached."
 		collar.name = "catbell collar"
+		collar.AddComponent(/datum/component/squeak, SFX_COLLARJINGLE, 50, 100, 1)
 	target.update_inv_neck()
 	forceMove(collar) // move us inside the collar so that if we salvage it, we get the bell back
 

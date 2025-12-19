@@ -649,16 +649,17 @@
 	item_state = "carapace_skirt"
 
 /obj/item/clothing/under/roguetown/tights/ogre
-	name = "oversized pants"
-	desc = "A goblin could make a bedroll out of this."
+	name = "giant pants"
+	desc = "These pants provide a vital service to society"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/32x64/ogre_onmob_sleeves.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
 	icon_state = "ogre_pants"
 	allowed_race = OGRE_RACE_TYPES
+	max_integrity = 250
 
 /obj/item/clothing/under/roguetown/chainlegs/ogre
-	name = "oversized chain chausses"
-	desc = "A single pant leg could fit a human body."
+	name = "giant chain chausses"
+	desc = "The amount of chainmail used for these could make a regular sized hauberk for a humble town guard."
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/32x64/ogre_onmob_sleeves.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
 	icon_state = "ogre_chain"

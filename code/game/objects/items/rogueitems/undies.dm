@@ -44,6 +44,18 @@
 	icon_state = "bikini"
 	covers_breasts = TRUE
 
+/obj/item/undies/ogre
+	name = "big briefs"
+	desc = "An absolute necessity."
+	icon_state = "under"
+	icon = 'icons/mob/sprite_accessory/big_underwear.dmi'
+
+/obj/item/undies/bikini/ogre
+	name = "big bikini"
+	icon_state = "ogre_bra"
+	icon = 'icons/mob/sprite_accessory/big_underwear.dmi'
+	covers_breasts = TRUE
+
 /obj/item/undies/panties
 	name = "panties"
 	icon_state = "panties"

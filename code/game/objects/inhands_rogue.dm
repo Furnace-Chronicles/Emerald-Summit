@@ -135,7 +135,7 @@ GLOBAL_LIST_EMPTY(icon_state_cache)
 
 	if(behind)
 		if(isnull(has_behind_state))
-			has_behind_state = check_state_in_icon(icon, "[used_index]_behind")
+			has_behind_state = check_state_in_icon("[used_index]_behind", icon)
 		if(has_behind_state)
 			blended = icon("icon"=icon, "icon_state"="[used_index]_behind")
 			skipoverlays = TRUE

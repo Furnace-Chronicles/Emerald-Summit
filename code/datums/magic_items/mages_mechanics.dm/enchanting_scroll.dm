@@ -8,6 +8,10 @@ T1 Enchantments below here*/
 	desc = "A scroll imbued with an arcane enchantment. Can be used on certain items to imbue them."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "enchantment"
+	grid_height = 32
+	grid_width = 32
+	slot_flags = ITEM_SLOT_HIP
+	w_class = WEIGHT_CLASS_NORMAL
 	var/component
 	possible_item_intents = list(/datum/intent/use)
 

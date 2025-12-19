@@ -1346,3 +1346,20 @@ datum/crafting_recipe/roguetown/sewing/Purdress
 	reqs = list(/obj/item/clothing/mask/rogue/sack = 1)
 	tools = list(/obj/item/ritechalk)
 	craftdiff = 0
+
+////// OGRE - GIANT CLOTHES ///////
+/datum/crafting_recipe/roguetown/sewing/giant_shirt
+	name = "giant shirt"
+	reqs = list(
+		/obj/item/natural/cloth = 4,
+		/obj/item/natural/fibers = 2,
+	)
+	result = /obj/item/clothing/suit/roguetown/shirt/ogre
+
+/datum/crafting_recipe/roguetown/sewing/giant_pants
+	name = "giant pants"
+	reqs = list(
+		/obj/item/natural/cloth = 4,
+		/obj/item/natural/fibers = 2,
+	)
+	result = /obj/item/clothing/under/roguetown/tights/ogre

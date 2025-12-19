@@ -7,13 +7,17 @@
 	psydonic = TRUE
 	is_subrace = TRUE
 	base_name = "Humen"
-	desc = "<b>Half-Elf: A history divided</b><br>\
-	Between the elves of the hidden sacred groves or those of the undercities, and the humans of  Enigma, at times a bond is formed. \
-	While most species can crossbreed the odds of a healthy birth or even conception remains low between two species, \
-	yet elves and humans enjoy near-perfect compatibility. They are as diverse as elves and humans across the world. \
-	In the past hatred against them was significant, but they are now considered as equals often in both their parental cultures, \
-	yet some traditional kingdoms such as Otava still believe elves and humans should be separate. \
-	They enjoy both the robust healthiness of humanity, and the keen senses of the elves.<br>\
+	desc = "<b>Half-Elf</b><br>\
+	The child of an Elf and Humen, Half-Elves are generally frowned \
+	upon by the more conservatively minded. However, as racial tensions lower, \
+	the rate of Half-Elf births has continues to increase. So common has it become that some scholars \
+	worry that someday it may be impossible to distinguish the Humens and Elves from one another. \
+	From physical to cultural characteristics, Half-Elves are an incredibly diverse people, \
+	thanks in no small part to the incredibly varied nature of their Humen halves. Indeed, no other race \
+	embodies the term \"melting pot\" quite like the Half-Elves. Due to their half-breed nature, their physical \
+	characteristics can be either more Elvish or more Humen, depending on which of their parents' genes \
+	are more predominant. In terms of cultural identity, a Half-Elf will typically choose to lean more \
+	towards either their Humen or Elvish heritages.<br>\
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 CON | +1 PER</b></span> </br>"
 
 	skin_tone_wording = "Tribal Identity"
