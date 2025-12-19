@@ -670,7 +670,7 @@
 
 		if(!can_see_cone(U) || (!turfy || turfy == get_turf(src)))
 			if(HAS_TRAIT(H, TRAIT_DODGEEXPERT))
-				var/special_dodge = TRUE
+				special_dodge = TRUE
 			else
 				return FALSE
 
