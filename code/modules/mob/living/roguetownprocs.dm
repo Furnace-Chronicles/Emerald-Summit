@@ -375,11 +375,11 @@
 						var/str_bonus = 0
 						switch(intenty.masteritem.wbalance)
 							if(WBALANCE_SWIFT)
-								str_bonus = 2
+								str_bonus = 1
 							if(WBALANCE_NORMAL)
-								str_bonus = 3.5
+								str_bonus = 2
 							else
-								str_bonus = 5
+								str_bonus = 3
 						drained = drained + ((user.STASTR - src.STASTR) * str_bonus)
 			else
 				to_chat(src, span_warning("The enemy defeated my parry!"))
@@ -663,8 +663,17 @@
 	var/chest_armored = FALSE
 	var/legs_armored = FALSE
 	var/armor_class = null
+	var/special_dodge = FALSE
+
 	if(ishuman(src))
 		H = src
+
+		if(!can_see_cone(U) || (!turfy || turfy == get_turf(src)))
+			if(HAS_TRAIT(H, TRAIT_DODGEEXPERT))
+				var/special_dodge = TRUE
+			else
+				return FALSE
+
 		// Adjust dodge stamina based on armor weight
 		chest_armored = H.wear_armor && istype(H.wear_armor, /obj/item/clothing) 
 		legs_armored = H.wear_pants && istype(H.wear_pants, /obj/item/clothing)
@@ -736,20 +745,20 @@
 		if(HAS_TRAIT(H, TRAIT_CURSE_RAVOX))
 			prob2defend -= 30
 
-		if(chest_armored || legs_armored)
-			switch(armor_class)
-				if(ARMOR_CLASS_LIGHT, ARMOR_CLASS_NONE)
-					if(HAS_TRAIT(H, TRAIT_DODGEEXPERT))
-						prob2defend += max(5, 20 - ((H.STASPD - 10) * 5))
-					else
-						prob2defend += 5
-				if(ARMOR_CLASS_HEAVY)
-					if(HAS_TRAIT(H, TRAIT_HEAVYARMOR))
-						prob2defend -= 5
-					else
-						prob2defend -= 20
+		var/armored = (chest_armored || legs_armored) ? armor_class : ARMOR_CLASS_NONE
+		switch(armored)
+			if(ARMOR_CLASS_LIGHT, ARMOR_CLASS_NONE)
+				if(HAS_TRAIT(H, TRAIT_DODGEEXPERT))
+					prob2defend += max(5, 20 - ((H.STASPD - 10) * 5))
+				else
+					prob2defend += 5
+			if(ARMOR_CLASS_HEAVY)
+				if(HAS_TRAIT(H, TRAIT_HEAVYARMOR))
+					prob2defend -= 5
+				else
+					prob2defend -= 20
 
-		prob2defend = clamp(prob2defend, 5, 95)
+		prob2defend = special_dodge ? clamp(prob2defend/2, 5, 50) : clamp(prob2defend, 5, 95)
 
 		//------------Dual Wielding Checks------------
 		var/attacker_dualw
