@@ -1,6 +1,6 @@
-/datum/job/roguetown/captain
-	title = "Knight Captain" //The Knight Captain is clearly not drawn from the ranks of guardsmen, or sergeants. They're drawn from the Knightly ranks and should be treated as such.
-	flag = GUARD_CAPTAIN
+/datum/job/roguetown/champion
+	title = "Royal Champion" //The Royal Champion is clearly not drawn from the ranks of guardsmen, or sergeants. They're drawn from the Knightly ranks and should be treated as such.
+	flag = ROYAL_CHAMPION
 	department_flag = NOBLEMEN
 	faction = "Station"
 	total_positions = 1
@@ -11,15 +11,14 @@
 	allowed_patrons = NON_PSYDON_PATRONS
 	tutorial = "Your lineage is noble, and generations of strong, loyal knights have come before you. You served your time \
 	gracefully as knight of his royal majesty, and now you've grown into a role which many men can only dream of becoming. \
-	Veteran among knights, you lead the crown's knights to battle and organize the training squires. Obey the Marshal and the Crown. \
-	Lead your men to victory--and keep them in line--and you will see this realm prosper under a thousand suns."
-	display_order = JDO_GUARD_CAPTAIN
-	advclass_cat_rolls = list(CTAG_CAPTAIN = 20)
-	spells = list(/obj/effect/proc_holder/spell/self/convertrole/guard)
-	outfit = /datum/outfit/job/captain
+	Veteran among knights, you are the Royal Champion and steadfast defender of the Crown. Obey the Crown and the Hand. \
+	Be lead by the Crown until death--and keep the Court in line--and you will see this realm prosper under a thousand suns."
+	display_order = JDO_ROYAL_CHAMPION
+	advclass_cat_rolls = list(CTAG_CHAMPION = 20)
+	outfit = /datum/outfit/job/champion
 	give_bank_account = 26
 	noble_income = 16
-	min_pq = 15
+	min_pq = 20
 	max_pq = null
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_knight.ogg'
@@ -31,11 +30,11 @@
 	)
 	job_traits = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_NOBLE, TRAIT_GUARDSMAN_NOBLE)
 	job_subclasses = list(
-		/datum/advclass/captain/infantry,
-		/datum/advclass/captain/cavalry
+		/datum/advclass/champion/infantry,
+		/datum/advclass/champion/cavalry
 	)
 
-/datum/outfit/job/captain
+/datum/outfit/job/champion
 	neck = /obj/item/clothing/neck/roguetown/bevor
 	armor = /obj/item/clothing/suit/roguetown/armor/captain
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
@@ -49,7 +48,7 @@
 	id = /obj/item/scomstone/garrison
 	job_bitflag = BITFLAG_ROYALTY | BITFLAG_GARRISON
 
-/datum/job/roguetown/captain/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+/datum/job/roguetown/champion/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	. = ..()
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L
@@ -60,7 +59,7 @@
 				index = copytext(H.real_name, 1,index)
 			if(!index)
 				index = H.real_name
-			S.name = "Captain Tabard ([index])"
+			S.name = "Champion Tabard ([index])"
 		var/prev_real_name = H.real_name
 		var/prev_name = H.name
 		var/honorary = "Ser"
@@ -77,13 +76,13 @@
 					MF.known_people -= prev_real_name
 					H.mind.person_knows_me(MF)
 
-/datum/advclass/captain/infantry
-	name = "Infantry Captain"
+/datum/advclass/champion/infantry
+	name = "Plucked from the Infantry"
 	tutorial = "You've fought shoulder to shoulder with the realm's worthiest Knights while embedded directly within \
 	massed infantry formations. As a peerless armed combatant and tactician both, you are a formidable presence \
-	on any battlefield."
-	outfit = /datum/outfit/job/captain/infantry
-	category_tags = list(CTAG_CAPTAIN)
+	by the Crown's side."
+	outfit = /datum/outfit/job/champion/infantry
+	category_tags = list(CTAG_CHAMPION)
 
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -113,7 +112,7 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/captain/infantry/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/champion/infantry/pre_equip(mob/living/carbon/human/H)
 	..()
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	backpack_contents = list(
@@ -129,7 +128,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/hold)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/focustarget)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
-	H.verbs |= list(/mob/living/carbon/human/proc/request_outlaw, /mob/proc/haltyell, /mob/living/carbon/human/mind/proc/setorders)
+	H.verbs |= list(/mob/proc/haltyell)
 	H.adjust_blindness(-3)
 	var/weapons = list(
 		"Zweihander",
@@ -165,13 +164,13 @@
 			beltr = /obj/item/rogueweapon/sword/capsabre
 			backl = /obj/item/rogueweapon/shield/capbuckler
 
-/datum/advclass/captain/cavalry
-	name = "Cavalry Captain"
-	tutorial = "As the first among finest you ride at the speartip of cavalier forces, barreling saiga and blades through \
-	the soft flanks and hard fronts of enemy formations, remember Agincourt, and do not hit the dirt below."
-	outfit = /datum/outfit/job/captain/cavalry
+/datum/advclass/champion/cavalry
+	name = "Plucked from the Cavalry"
+	tutorial = "As the first among finest you rode at the speartip of cavalier forces, barreling saiga and blades through \
+	the soft flanks and hard fronts of enemy formations, remember Agincourt, and do not let the Crown hit the dirt below."
+	outfit = /datum/outfit/job/champion/cavalry
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
-	category_tags = list(CTAG_CAPTAIN)
+	category_tags = list(CTAG_CHAMPION)
 
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -200,7 +199,7 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_EXPERT,
 	)
 
-/datum/outfit/job/captain/cavalry/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/champion/cavalry/pre_equip(mob/living/carbon/human/H)
 	..()
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	backpack_contents = list(
@@ -217,13 +216,13 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/focustarget)
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
-	H.verbs |= list(/mob/living/carbon/human/proc/request_outlaw, /mob/proc/haltyell, /mob/living/carbon/human/mind/proc/setorders)
+	H.verbs |= list(/mob/proc/haltyell)
 	H.adjust_blindness(-3)
 	var/weapons = list(
 		"Longsword & Recurve Bow",
 		"Mace & Crossbow",
 		"Spear & Shield",
-		"Deliverer (Glaive)", // new, unique weapon, different from the infantry captain's
+		"Deliverer (Glaive)", // new, unique weapon, different from the other class
 		"Lance + Kite Shield"
 		)
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons

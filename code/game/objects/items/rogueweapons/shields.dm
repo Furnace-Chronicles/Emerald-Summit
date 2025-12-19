@@ -448,9 +448,9 @@
 	max_integrity = 200
 	possible_item_intents = list(SHIELD_BLOCK, FENCER_DAZE) */
 
-/obj/item/rogueweapon/shield/capbuckler // unique, better buckler for knight captain
+/obj/item/rogueweapon/shield/capbuckler // unique, better buckler for the Royal Champion
 	name = "'Order'"
-	desc = "A special buckler shield made out of blacksteel for the captain of the guard, adorned with the Scarlet Reach crest."
+	desc = "A special buckler shield made out of blacksteel for the Royal Champion of the Reach, adorned with the Scarlet Reach crest."
 	icon_state = "capbuckler"
 	icon = 'icons/roguetown/weapons/shields32.dmi'
 	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BACK

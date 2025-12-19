@@ -41919,7 +41919,7 @@
 /obj/structure/mineral_door/wood/window{
 	locked = 1;
 	lockid = "sheriff";
-	name = "captains room door"
+	name = "Champion's Quarters"
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/garrison)

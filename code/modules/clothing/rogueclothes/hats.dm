@@ -2457,10 +2457,10 @@
 	. = ..()
 	AddComponent(/datum/component/adjustable_clothing, (NECK|HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/foley/equip/cloak (3).ogg', null, (UPD_HEAD|UPD_MASK))
 
-// new knight captain drip
+// new Royal Champion drip
 
 /obj/item/clothing/head/roguetown/helmet/visored/captain
-	name = "captain's helmet"
+	name = "champion's helmet"
 	desc = "An elegant barbute, fitted with the gold trim and polished metal of nobility."
 	adjustable = CAN_CADJUST
 	icon = 'icons/roguetown/clothing/special/captain.dmi'

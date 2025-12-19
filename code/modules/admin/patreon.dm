@@ -5,7 +5,7 @@
 #define HIGHESTPATREONLEVEL 9
 
 // V - Yeah not sure if there's a better way to do this but fuck it, it works.
-GLOBAL_LIST_INIT(patreonlevelnames, list("Squire", "Knight", "Knight Captain", "Marshal", "Jester", "Steward", "Heir", "Consort", "Grand Baron"))
+GLOBAL_LIST_INIT(patreonlevelnames, list("Squire", "Knight", "Royal Champion", "Marshal", "Jester", "Steward", "Heir", "Consort", "Grand Baron"))
 GLOBAL_LIST_INIT(patreonlevelcolors, list("#f2f2f2", "#f2f2f2", "#9e004f", "#b30000", "#ff66ff", "#009900", "#0000cc", "#cc00cc", "#ff7a05")) // TODO - REPLACE THESE COLOR CODES WITH ONES OF YOUR CHOOSING!!! I KINDA JUST PICKED SOME.
 
 GLOBAL_LIST_INIT(patreonlevels, new/list(HIGHESTPATREONLEVEL))
