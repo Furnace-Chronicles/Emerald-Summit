@@ -525,17 +525,491 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 
 /obj/structure/ritualcircle/abyssor
 	name = "Rune of Storm"
-	desc = "A Holy Rune of Abyssor. You sense your mind getting pulled into the drawn spiral."
-	icon_state = "abyssor_chalky" // mortosasye
-	var/stormrites = list("Rite of the Abyssal Call")
+	desc = "A Holy Rune of Abyssor"
+	icon_state = "abyssor_chalky"
+	var/stormrites = list("Rite of the Crystal Spire")
 
-/obj/structure/ritualcircle/abyssor_alt // For future use with more malicious rituals, for example.
-	name = "Rune of Stirring"
-	desc = "A Holy Rune of Abyssor. This one seems different to the rest. Something observes."
-	icon_state = "abyssoralt_active" // change to abyssoralt_chalky if adding a new ritual, and use the active state instead for it.
-
+// Ritual implementation
 /obj/structure/ritualcircle/abyssor/attack_hand(mob/living/user)
 	if((user.patron?.type) != /datum/patron/divine/abyssor)
+		to_chat(user,span_smallred("I don't know the proper rites for this..."))
+		return
+	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
+		to_chat(user,span_smallred("I don't know the proper rites for this..."))
+		return
+	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
+		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
+		return
+	var/riteselection = input(user, "Rituals of Storm", src) as null|anything in stormrites
+	switch(riteselection)
+		if("Rite of the Crystal Spire")
+			if(do_after(user, 50))
+				user.say("Deep Father, hear my call!")
+				if(do_after(user, 50))
+					user.say("From the Abyss, split the earth!")
+					if(do_after(user, 50))
+						icon_state = "abyssor_active"
+						user.say("Let your tempest chase away the craven ones!")
+						to_chat(user, span_cultsmall("A crystalline shard forms at the center of the rune, humming with Abyssor's power."))
+						new /obj/item/abyssal_marker(loc)
+						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+						spawn(240)
+							icon_state = "abyssor_chalky"
+
+/obj/item/abyssal_marker
+	name = "abyssal marker"
+	desc = "A pulsating crystal shard that hums with otherworldly energy."
+	icon = 'icons/roguetown/misc/rituals.dmi'
+	icon_state = "abyssal_marker"
+	w_class = WEIGHT_CLASS_SMALL
+	var/turf/marked_location
+	var/effect_desc = " Use in-hand to mark a location, then activate it to break the barrier between the dream and this realm where you put a mark down earlier. You recall the teachings of your Hierophant... these things are dangerous to all."
+	var/obj/rune_type = /obj/structure/active_abyssor_rune
+	var/faith_locked = TRUE
+	var/obj/upgraded_rune_type = /obj/structure/active_abyssor_rune/greater
+
+/obj/item/abyssal_marker/volatile
+	name = "volatile abyssal marker"
+	effect_desc = " Whispers fill your head. The crystal yearns to be used, it shall bring forth a beautiful dream. The first use shall mark, the second shall unleash. Seems fragile, like it might explode violently with energies when thrown..."
+	faith_locked = FALSE
+	icon_state = "abyssal_marker_volatile"
+	var/cooldown = 0
+	var/creation_time
+
+/obj/item/abyssal_marker/tidal
+	name = "tidal abyssal marker"
+	desc = "A pulsating crystal shard that hums with the power of the deep. It feels wet to the touch."
+	icon_state = "abyssal_marker_tidal"
+	effect_desc = " Use in-hand to mark a location, then activate it to break the barrier between the dream and this realm where you put a mark down earlier. This one calls forth the tidal waters of the abyss."
+	rune_type = /obj/structure/active_abyssor_rune/tidal
+	upgraded_rune_type = null
+
+/obj/item/abyssal_marker/volatile/Initialize()
+	. = ..()
+	creation_time = world.time
+	var/area/A = get_area(src)
+	if(istype(A, /area/rogue/underworld/dream))
+		cooldown = 3 MINUTES
+
+/obj/item/abyssal_marker/volatile/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
+	if(cooldown > 0 && world.time < creation_time + cooldown)
+		visible_message(span_warning("[src] bounces off the floor. It doesn't seem ready yet."))
+		return ..()
+
+	var/turf/T = get_turf(hit_atom)
+	if(T)
+		marked_location = T
+		visible_message(span_warning("[src] shatters on impact!"))
+		playsound(src, 'sound/magic/lightning.ogg', 50, TRUE)
+		var/mob/thrower = throwingdatum?.thrower
+		if(thrower && HAS_TRAIT(thrower, TRAIT_HERESIARCH) && upgraded_rune_type)
+			rune_type = upgraded_rune_type
+		new rune_type(T)
+		qdel(src)
+	else
+		return ..()
+
+/obj/item/abyssal_marker/examine(mob/user)
+	. = ..()
+	if(iscarbon(user))
+		var/mob/living/carbon/c = user
+		if(c.patron.type == /datum/patron/divine/abyssor || !faith_locked)
+			. += span_info(effect_desc)
+
+/obj/item/abyssal_marker/attack_self(mob/user)
+	if(iscarbon(user))
+		var/mob/living/carbon/c = user
+		if(c.patron.type != /datum/patron/divine/abyssor && faith_locked)
+			to_chat(user, span_warning("My connection to Abyssor's dream is too weak to invoke his power with this crystal."))
+			return ..()
+		//Heretics get FAR stronger spires!
+		if(HAS_TRAIT(user, TRAIT_HERESIARCH) && upgraded_rune_type)
+			rune_type = upgraded_rune_type
+	if(do_after(user, 2 SECONDS) && !marked_location)
+		marked_location = get_turf(user)
+		to_chat(user, span_notice("You charge the crystal with the essence of this location."))
+		playsound(src, 'sound/magic/vlightning.ogg', 50, TRUE)
+	else if (marked_location)
+		user.visible_message(span_warning("[user] crushes the [src] in their hands!"))
+		playsound(src, 'sound/magic/lightning.ogg', 50, TRUE)
+		new rune_type(marked_location)
+		qdel(src)
+
+/obj/item/abyssal_marker/volatile/attack_self(mob/user)
+	if(cooldown > 0 && world.time < creation_time + cooldown)
+		to_chat(user, span_warning("The crystal is still unstable. It needs more time to attune to this realm. Try again later."))
+		return
+	return ..()
+
+/obj/structure/active_abyssor_rune
+	name = "awakened abyssal rune"
+	desc = "A violently pulsating rune emitting storm energy."
+	icon = 'icons/roguetown/misc/rituals.dmi'
+	icon_state = "abyssoralt_active"
+	anchored = TRUE
+	layer = BELOW_OBJ_LAYER
+	density = FALSE
+	light_outer_range = 3
+	light_color = LIGHT_COLOR_BLUE
+	var/spawn_time = 10 SECONDS
+	var/obj/spire_type = /obj/structure/crystal_spire
+
+/obj/structure/active_abyssor_rune/tidal
+	spire_type = /obj/structure/crystal_spire/tidal
+	icon_state = "abyssor_active"
+
+/obj/structure/active_abyssor_rune/greater
+	spire_type = /obj/structure/crystal_spire/greater
+
+/obj/structure/active_abyssor_rune/Initialize()
+	. = ..()
+	addtimer(CALLBACK(src, .proc/spawn_spire), spawn_time)
+	src.visible_message(span_userdanger("A glowing, pulsating rune etches itself into the ground. Reality cracks visibly around it! Something is coming!"))
+
+/obj/structure/active_abyssor_rune/proc/spawn_spire()
+	new spire_type(get_turf(src))
+
+#define ABYSSAL_GLOW_FILTER "abyssal_glow"
+
+// Crystal Spire Structure
+/obj/structure/crystal_spire
+	name = "crystal spire"
+	desc = "A massive crystalline structure pulsing with abyssal energy. Dark ice spreads from its base."
+	icon = 'icons/roguetown/misc/rituals.dmi'
+	icon_state = "crystal_spire"
+	anchored = TRUE
+	density = TRUE
+	resistance_flags = FIRE_PROOF | ACID_PROOF
+	max_integrity = 500
+	var/current_radius = 1
+	var/max_radius = 4
+	var/fiend_count = 0
+	var/max_fiends = 3
+	// Holds all the turf data so it can be unconverted.
+	var/list/turf_data = list()
+	var/expansion_timer = 3 MINUTES
+	var/next_expansion_time = 0
+	var/spawn_timer = 45 SECONDS
+	var/next_fiend_time = 0
+	var/awakened = FALSE
+	var/converting = FALSE
+	var/mob/living/initial_fiend = /mob/living/simple_animal/hostile/rogue/dreamfiend/major/unbound
+	pixel_y = 8
+
+/obj/structure/crystal_spire/greater
+	name = "greater crystal spire"
+	initial_fiend = /mob/living/simple_animal/hostile/rogue/dreamfiend/ancient/unbound
+	max_integrity = 1000
+	max_radius = 5
+	max_fiends = 10
+
+/obj/structure/crystal_spire/tidal/process()
+	if(world.time >= next_expansion_time && current_radius < max_radius || !awakened)
+		if(!awakened)
+			awakened = TRUE
+		expand_radius()
+		next_expansion_time = world.time + expansion_timer
+
+/obj/structure/crystal_spire/Destroy()
+	for(var/turf/T in turf_data)
+		T.ChangeTurf(turf_data[T], flags = CHANGETURF_IGNORE_AIR)
+	turf_data.Cut()
+
+	for(var/obj/structure/active_abyssor_rune/R in range(1, src))
+		qdel(R)
+
+	src.visible_message(span_danger("The spire shatters with a painful ringing. In an instant the dream recedes back to Abyssor's realm, restoring the world as it was."))
+	STOP_PROCESSING(SSobj, src)
+	playsound(src, 'sound/foley/glassbreak.ogg', 50, TRUE)
+	new /obj/effect/particle_effect/smoke(src.loc)
+
+	var/list/witnesses = view(7, src)
+	for(var/mob/living/carbon/human/H in witnesses)
+		teleport_to_dream(H, 1000, 1)
+
+	return ..()
+
+/obj/structure/crystal_spire/proc/start_conversion()
+	converting = TRUE
+	resistance_flags |= INDESTRUCTIBLE
+
+	add_filter(ABYSSAL_GLOW_FILTER, 2, list("type" = "outline", "color" = "#6A0DAD", "alpha" = 0, "size" = 2))
+	update_icon()
+
+/obj/structure/crystal_spire/proc/end_conversion()
+	converting = FALSE
+	resistance_flags &= ~INDESTRUCTIBLE
+
+	remove_filter(ABYSSAL_GLOW_FILTER)
+	update_icon()
+
+/obj/structure/crystal_spire/proc/convert_surroundings()
+	start_conversion()
+	var/turf/center = get_turf(src)
+	var/radius_sq = current_radius * current_radius
+
+	for(var/turf/T in spiral_range_turfs(current_radius, center))
+		// Skip if already converted
+		if(istype(T, /turf/open/floor/rogue/dark_ice))
+			continue
+
+		// Calculate distance from center
+		// P.S I hate math :)
+		var/dx = abs(T.x - center.x)
+		var/dy = abs(T.y - center.y)
+		var/dist_sq = dx*dx + dy*dy
+
+		// Skip corners with higher probability
+		var/is_corner = (dx == dy) || (dx == current_radius && dy == current_radius)
+		if(is_corner && prob(60))
+			continue
+
+		// Skip random tiles (10% chance)
+		if(prob(10))
+			continue
+
+		// Only convert tiles within circular radius
+		if(dist_sq <= radius_sq)
+			turf_data[T] = T.type
+			T.ChangeTurf(/turf/open/floor/rogue/dark_ice, flags = CHANGETURF_IGNORE_AIR)
+			playsound(T, 'sound/magic/fleshtostone.ogg', 30, TRUE)
+			sleep(10)
+
+	end_conversion()
+
+/obj/structure/crystal_spire/proc/expand_radius()
+	if(current_radius >= max_radius)
+		return
+
+	current_radius++
+	convert_surroundings()
+
+/obj/structure/crystal_spire/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armour_penetration)
+	if(converting)
+		visible_message(span_warning("The spire pulses with abyssal energy, deflecting the attack!"))
+		playsound(src, 'sound/magic/repulse.ogg', 50, TRUE)
+		return FALSE
+	return ..()
+
+/obj/structure/crystal_spire/proc/spawn_spire_fiend(turf/spawn_turf, obj/structure/crystal_spire/spire, mob/living/fiend_type = /mob/living/simple_animal/hostile/rogue/dreamfiend/unbound)
+	if(!spawn_turf || !spire || !ispath(fiend_type))
+		return FALSE
+
+	var/mob/living/F = new fiend_type(spawn_turf)
+	F.visible_message(span_danger("[F] manifests, countless teeth bared in hostility towards all life!"))
+
+	var/datum/component/comp = F.AddComponent(/datum/component/spire_fiend, spire)
+	return comp ? TRUE : FALSE
+
+/obj/structure/crystal_spire/proc/spawn_fiends(amount, mob/living/fiend_type = /mob/living/simple_animal/hostile/rogue/dreamfiend/unbound)
+	if(fiend_count >= max_fiends)
+		return
+
+	for(var/i in 1 to amount)
+		if(fiend_count >= max_fiends)
+			break
+
+		var/turf/T = find_safe_spawn()
+		if(T && spawn_spire_fiend(T, src, fiend_type))
+			fiend_count++
+
+/obj/structure/crystal_spire/proc/find_safe_spawn(outer_tele_radius = 3, inner_tele_radius = 2, include_dense = FALSE, include_teleport_restricted = FALSE)
+	var/turf/target_turf = get_turf(src)
+	var/list/turfs = list()
+
+	for(var/turf/T in range(target_turf, outer_tele_radius))
+		if(T in range(target_turf, inner_tele_radius))
+			continue
+		if(istransparentturf(T))
+			continue
+		if(T.density && !include_dense)
+			continue
+		if(T.teleport_restricted && !include_teleport_restricted)
+			continue
+		if(T.x>world.maxx-outer_tele_radius || T.x<outer_tele_radius)
+			continue
+		if(T.y>world.maxy-outer_tele_radius || T.y<outer_tele_radius)
+			continue
+		turfs += T
+
+	if(!length(turfs))
+		for(var/turf/T in orange(target_turf, outer_tele_radius))
+			if(!(T in orange(target_turf, inner_tele_radius)))
+				turfs += T
+
+	if(!length(turfs))
+		return null
+
+	return pick(turfs)
+
+/obj/structure/crystal_spire/proc/fiend_died()
+	fiend_count = max(fiend_count - 1, 0)
+
+/datum/component/spire_fiend
+	var/obj/structure/crystal_spire/linked_spire
+
+/datum/component/spire_fiend/Initialize(obj/structure/crystal_spire/spire)
+	if(!isliving(parent))
+		return COMPONENT_INCOMPATIBLE
+
+	linked_spire = spire
+	RegisterSignal(parent, COMSIG_LIVING_DEATH, .proc/on_death)
+
+/datum/component/spire_fiend/proc/on_death()
+	SIGNAL_HANDLER
+	if(linked_spire)
+		linked_spire.fiend_died()
+	qdel(src)
+
+/obj/structure/ritualcircle/abyssor_alt
+	name = "Rune of Stirring"
+	desc = "A Holy Rune of Abyssor. This one seems different to the rest. Something observes."
+	icon_state = "abyssoralt_active"
+
+/obj/structure/ritualcircle/abyssor_alt_inactive
+	name = "Rune of Stirring"
+	desc = "A Holy Rune of Abyssor. This one seems different to the rest. Something observes."
+	icon_state = "abyssoralt_chalky"
+	var/stirringrites = list("Rite of the Crystal Spire")
+	var/list/dreamwalker_rites = list("Rite of Dreamcraft")
+
+// Ritual implementation
+/obj/structure/ritualcircle/abyssor_alt_inactive/attack_hand(mob/living/user)
+	if((user.patron?.type) != /datum/patron/divine/abyssor)
+		to_chat(user,span_smallred("I don't know the proper rites for this..."))
+		return
+	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
+		to_chat(user,span_smallred("I don't know the proper rites for this..."))
+		return
+	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
+		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
+		return
+
+	// Build available rites based on user's status
+	var/list/available_rites = list()
+
+	// Abyssorites get access to stirring rites
+	if(user.patron?.type == /datum/patron/divine/abyssor)
+		available_rites += stirringrites
+
+		// Time check for Rite of the Crystal Spire
+		var/time_elapsed = STATION_TIME_PASSED() / (1 MINUTES)
+		if(time_elapsed < 30 && ("Rite of the Crystal Spire" in available_rites))
+			var/time_left = 30 - time_elapsed
+			to_chat(user, span_smallred("The veil is too thin to summon crystal spires. Wait another [round(time_left, 0.1)] minutes."))
+			available_rites -= "Rite of the Crystal Spire"
+
+	if(HAS_TRAIT(user, TRAIT_DREAMWALKER))
+		available_rites += dreamwalker_rites
+
+	if(!length(available_rites))
+		to_chat(user,span_smallred("No rites are currently available."))
+		return
+	var/riteselection = input(user, "Rites of his dream", src) as null|anything in available_rites
+	switch(riteselection)
+		if("Rite of the Crystal Spire")
+			if(do_after(user, 50))
+				user.say("Deep Father, hear my call!")
+				if(do_after(user, 50))
+					user.say("From the Abyss, split the earth!")
+					if(do_after(user, 50))
+						icon_state = "abyssoralt_active"
+						user.say("Let your tempest chase away the craven ones!")
+						to_chat(user, span_cultsmall("A crystalline shard forms at the center of the rune, humming with Abyssor's power."))
+						new /obj/item/abyssal_marker(loc)
+						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+						spawn(240)
+							icon_state = "abyssoralt_chalky"
+		if("Rite of Dreamcraft")
+			if(!HAS_TRAIT(user, TRAIT_DREAMWALKER))
+				return
+
+			var/list/weapon_options = list(
+				"Dreamreaver Greataxe" = image(icon = 'icons/roguetown/weapons/64.dmi', icon_state = "dreamaxe"),
+				"Harmonious Spear" = image(icon = 'icons/roguetown/weapons/64.dmi', icon_state = "dreamspear"),
+				"Oozing Sword" = image(icon = 'icons/roguetown/weapons/64.dmi', icon_state = "dreamsword"),
+				"Thunderous Trident" = image(icon = 'icons/roguetown/weapons/64.dmi', icon_state = "dreamtri")
+			)
+
+			var/choice = show_radial_menu(user, src, weapon_options, require_near = TRUE, tooltips = TRUE)
+			if(!choice)
+				return
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("DREAM! DREAM! MANIFEST MY VISION!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("DREAM! DREAM! BEND TO MY WILL!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("DREAM! DREAM! FORGE MY WEAPON!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+
+			icon_state = "abyssoralt_active"
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			dreamarmor(user)
+			dreamcraft_weapon(user, choice)
+			if(ishuman(user))
+				var/mob/living/carbon/human/H = user
+				if(H.mind)
+					H.mind.special_role = "dreamwalker"
+			spawn(240)
+				icon_state = "abyssoralt_chalky"
+
+/obj/structure/ritualcircle/abyssor_alt_inactive/proc/dreamcraft_weapon(mob/living/user, choice)
+	var/obj/item/new_weapon
+	var/datum/skill/skill_to_teach
+
+	switch(choice)
+		if("Harmonious Spear")
+			new_weapon = new /obj/item/rogueweapon/halberd/glaive/dreamscape(user.loc)
+			skill_to_teach = /datum/skill/combat/polearms
+		if("Oozing Sword")
+			new_weapon = new /obj/item/rogueweapon/greatsword/bsword/dreamscape(user.loc)
+			skill_to_teach = /datum/skill/combat/swords
+		if("Dreamreaver Greataxe")
+			new_weapon = new /obj/item/rogueweapon/greataxe/dreamscape(user.loc)
+			skill_to_teach = /datum/skill/combat/axes
+		if("Thunderous Trident")
+			new_weapon = new /obj/item/rogueweapon/spear/dreamscape_trident(user.loc)
+			skill_to_teach = /datum/skill/combat/polearms
+
+	if(new_weapon)
+		user.put_in_hands(new_weapon)
+		to_chat(user, span_warning("The dream solidifies into a [choice]!"))
+
+		var/current_skill = user.get_skill_level(skill_to_teach)
+		var/current_athletics = user.get_skill_level(/datum/skill/misc/athletics)
+		if(current_skill < 4)
+			user.adjust_skillrank_up_to(skill_to_teach, 4)
+			to_chat(user, span_notice("Knowledge of [skill_to_teach] floods your mind!"))
+		if(current_athletics < 6)
+			user.adjust_skillrank_up_to(/datum/skill/misc/athletics, 6)
+			to_chat(user, span_notice("Your endurance swells!"))
+	else
+		to_chat(user, span_warning("The dream fails to take shape."))
+
+/obj/structure/ritualcircle/abyssor_alt_inactive/proc/dreamarmor(mob/living/carbon/human/target)
+	if(!HAS_TRAIT(target, TRAIT_DREAMWALKER))
+		loc.visible_message(span_cult("THE RITE REJECTS ONE WHO DOES NOT BEND THE DREAMS TO THEIR WILL."))
+		return
+	target.Stun(60)
+	target.Knockdown(60)
+	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
+	target.emote("Agony")
+	playsound(loc, 'sound/combat/newstuck.ogg', 50)
+	loc.visible_message(span_cult("Ethereal tendrils emerge from the rune, wrapping around [target]'s body. Their form shifts and warps as dream-stuff solidifies into armor."))
+	spawn(20)
+		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
+		target.equipOutfit(/datum/outfit/job/roguetown/dreamwalker_armorrite)
+		target.apply_status_effect(/datum/status_effect/debuff/devitalised)
+		spawn(40)
+			to_chat(target, span_purple("Reality is but a fragile dream. You are the dreamer, and your will is law."))
+
+/obj/structure/ritualcircle/abyssor/attack_hand(mob/living/user)
+	// Allow both Abyssorites and Dreamwalkers to use the rune
+	if((user.patron?.type) != /datum/patron/divine/abyssor && !HAS_TRAIT(user, TRAIT_DREAMWALKER))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
@@ -1086,6 +1560,11 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead/graggar
 
 /obj/structure/ritualcircle/baotha
-	name = "Rune of Desire"
+	name = "Rune of Hedonism"
 	desc = "A Holy Rune of Baotha. Relief for the broken hearted."
-	icon_state = "baotha_chalky" // mortosasye
+	icon_state = "baotha_chalky"
+
+/obj/structure/ritualcircle/psydon // done as a joke, but it is good for Psydonites to decorate with.
+	name = "Rune of Enduring"
+	desc = "A Holy Rune of Psydon. It depicts His holy symbol, yet nothing stirs within you."
+	icon_state = "psydon_chalky"

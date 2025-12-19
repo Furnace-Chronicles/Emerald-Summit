@@ -55,6 +55,9 @@
 				ritechoices += "[rune.name]"
 				runes_to_draw_names += "[rune.name]"
 
+	if(HAS_TRAIT(user, TRAIT_DREAMWALKER) && !("Rune of Stirring" in ritechoices))
+		ritechoices+="Rune of Stirring"
+
 	var/runeselection = input(user, "Which rune shall I inscribe?", src) as null|anything in ritechoices
 	var/turf/step_turf = get_turf(user)
 	switch(runeselection)
@@ -113,6 +116,11 @@
 			if(do_after(user, 30, src))
 				playsound(src, 'sound/foley/scribble.ogg', 40, TRUE)
 				new /obj/structure/ritualcircle/psydon(step_turf)
+		if("Rune of Stirring")
+			to_chat(user,span_cultsmall("I begin inscribing the rune of His Dream..."))
+			if(do_after(user, 30, src))
+				playsound(src, 'sound/foley/scribble.ogg', 40, TRUE)
+				new /obj/structure/ritualcircle/abyssor_alt_inactive(step_turf)
 		if("Rune of ZIZO")
 			to_chat(user,span_cultsmall("I begin inscribing the rune of Her Knowledge..."))
 			if(do_after(user, 30, src))
