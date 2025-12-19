@@ -491,8 +491,10 @@
 	Your experience with both infantry and cavalry tactics makes you a versatile combatant, \
 	equally adept whether on foot or mounted. You are a champion of the realm."
 	outfit = /datum/outfit/job/knight/champion
+	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	category_tags = list(CTAG_ROYALGUARD)
 	maximum_possible_slots = 1
+	min_pq = 30 // "stick larp knight at 30 or something just so there's less speedclicking competitions among knights that want to powergame"
 
 	traits_applied = list(TRAIT_HEAVYARMOR)
 	subclass_stats = list(
@@ -530,13 +532,12 @@
 	H.verbs |= /mob/proc/haltyell
 
 	// Champion-specific armor
-	cloak = /obj/item/clothing/cloak/captain
-	armor = /obj/item/clothing/suit/roguetown/armor/captain
+	cloak = /obj/item/clothing/cloak/champion
+	armor = /obj/item/clothing/suit/roguetown/armor/champion
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-	pants = /obj/item/clothing/under/roguetown/chainlegs
-	head = /obj/item/clothing/head/roguetown/helmet/visored/captain
+	pants = /obj/item/clothing/under/roguetown/platelegs/champion
+	head = /obj/item/clothing/head/roguetown/helmet/visored/champion
 	
-	// Age-based stat and skill bonuses
 	var/char_age = H.age
 	if(char_age == AGE_MIDDLEAGED)
 		H.change_stat(STATKEY_SPD, 1) // +1 SPD for middle aged
