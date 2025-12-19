@@ -132,6 +132,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Desert Hood"
 	path = /obj/item/clothing/head/roguetown/deserthood
 
+/datum/loadout_item/rosacrown
+	name = "Rosa Crown"
+	path = /obj/item/flowercrown/rosa
+
 
 //CLOAKS
 /datum/loadout_item/tabard
@@ -339,6 +343,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/velvetcoat
 	name = "Velvet Coat"
 	path = /obj/item/clothing/suit/roguetown/armor/velvetcoat
+
+/datum/loadout_item/fancycoat
+	name = "Fancy Coat"
+	path = /obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat
 
 /datum/loadout_item/priestrobe
 	name = "Undervestments"
