@@ -1179,6 +1179,11 @@
 	resist_chance *= combat_modifier
 	resist_chance = clamp(resist_chance, 5, 95)
 
+	if(!L.compliance || !compliance)
+		if(badluck(7))
+			badluckmessage(src)
+			return
+
 	if(L.compliance)
 		resist_chance = 100
 

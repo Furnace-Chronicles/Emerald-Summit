@@ -224,6 +224,10 @@
 	else if(!user.cmode && cmode)
 		combat_modifier -= 0.3
 
+	if(!instant && !surrendering && !restrained() && !compliance)
+		if(user.badluck(10))
+			badluckmessage(user)
+			return
 	var/probby
 	if(!compliance)
 		probby = clamp((((4 + (((user.STASTR - STASTR)/2) + skill_diff)) * 10 + rand(-5, 5)) * combat_modifier), 5, 95)
@@ -242,6 +246,9 @@
 		user.changeNext_move(2 SECONDS)
 		src.Immobilize(1 SECONDS)
 		src.changeNext_move(1 SECONDS)
+		if(user.badluck(5))
+			badluckmessage(user)
+			user.stop_pulling()
 		return
 
 	if(!instant)

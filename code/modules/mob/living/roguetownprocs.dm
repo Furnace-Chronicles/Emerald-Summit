@@ -108,11 +108,14 @@
 	if(!(mobility_flags & MOBILITY_STAND))
 		return FALSE
 	if(user.badluck(4))
-		var/list/usedp = list("Critical miss!", "Damn! Critical miss!", "No! Critical miss!", "It can't be! Critical miss!", "Xylix laughs at me! Critical miss!", "Bad luck! Critical miss!", "Curse creation! Critical miss!", "What?! Critical miss!")
-		to_chat(user, span_boldwarning("[pick(usedp)]"))
-		flash_fullscreen("blackflash2")
-		user.aftermiss()
+		badluckmessage(user)
 		return TRUE
+
+/proc/badluckmessage(mob/living/user)
+	var/static/list/usedp = list("Critical miss!", "Damn! Critical miss!", "No! Critical miss!", "It can't be! Critical miss!", "Xylix laughs at me! Critical miss!", "Bad luck! Critical miss!", "Curse creation! Critical miss!", "What?! Critical miss!")
+	to_chat(user, span_boldwarning("[pick(usedp)]"))
+	user.flash_fullscreen("blackflash2")
+	user.aftermiss()
 
 /proc/ranged_zone_difficulty(zone)
 	switch(zone)
@@ -823,6 +826,17 @@
 	else
 		return 0
 
+/// Gets the "true" value of a stat on a human mob by eliminating all status effect modifiers that affect that stat.
+/mob/living/proc/get_true_stat(stat)
+	var/fakestat = get_stat(stat)
+	if(status_effects.len)
+		for(var/S in status_effects)
+			var/datum/status_effect/status = S
+			if(status.effectedstats.len)
+				if(status.effectedstats[stat])
+					if(status.effectedstats[stat] > 0)
+						fakestat -= status.effectedstats[stat]
+	return fakestat
 
 /mob/living/carbon/human/proc/process_clash(mob/user, obj/item/IM, obj/item/IU)
 	if(!ishuman(user))
