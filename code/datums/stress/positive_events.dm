@@ -336,6 +336,11 @@
 	desc = span_green("I am near my ward!")
 	timer = 1 MINUTES
 
+/datum/stressevent/fermented_crab_good
+	stressadd = -1
+	desc = span_green("That fermented crab was not the most pleasant dish ever, but youthful vigor in my body was worth the sacrifice!")
+	timer = 3 MINUTES
+
 /datum/stressevent/ward
 	stressadd = -3
 	desc = span_green("I am near my Champion! Oh, oh, Champion!")

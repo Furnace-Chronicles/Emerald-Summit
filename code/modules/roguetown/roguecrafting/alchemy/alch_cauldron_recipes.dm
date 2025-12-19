@@ -109,7 +109,10 @@
 	skill_required = SKILL_LEVEL_APPRENTICE
 	output_reagents = list(/datum/reagent/buff/fortune = 27)
 
+/* TO DO: Rewrite for Sexcon2
+
 /datum/alch_cauldron_recipe/aphrodisiac
 	name = "Aphrodisiac Wine"
 	smells_like = "ardent sweetness"
 	output_reagents = list(/datum/reagent/consumable/ethanol/beer/emberwine = 54)
+*/
