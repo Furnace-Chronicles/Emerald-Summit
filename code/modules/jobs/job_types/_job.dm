@@ -186,6 +186,8 @@
 		to_chat(player, span_notice(tutorial))
 
 /// Signal handler for advjob selection completion - updates cached job title in everyone's known_people
+/// NOTE: With lazy evaluation in display_known_people(), this cache update is optional
+/// We keep it for performance when displaying lists (avoids O(n) lookup per person)
 /datum/job/proc/update_job_title_in_known_lists(mob/living/carbon/human/H)
 	if(!H?.mind || !H.real_name)
 		return
@@ -194,8 +196,8 @@
 	if(!new_title)
 		return
 	
-	// Only update people who actually know this person (cached in their known_people)
-	// Much more efficient than looping all minds
+	// Update cached title for faster display
+	// The display code will use get_known_person_job() as fallback if cache is stale
 	for(var/datum/mind/M in SSticker.minds)
 		if(M == H.mind || !M.known_people?[H.real_name])
 			continue
