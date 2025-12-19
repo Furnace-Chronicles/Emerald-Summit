@@ -1,10 +1,10 @@
 /obj/effect/proc_holder/spell/invoked/projectile/arcynebolt
 	name = "Arcyne Bolt"
-	desc = "Shoot out a rapid bolt of arcyne magic. Inflicts blunt damage similar to a slingstone. \n\
+	desc = "Shoot out a rapid bolt of arcyne magic. Inflicts blunt damage, and applies one stack of <b>Arcane Mark</b> on the target. At three marks, it instead does piercing damage and consumes all <b>marks</b> \n\
 	Damage is increased by 50% versus simple-minded creechurs."
 	clothes_req = FALSE
 	range = 12
-	projectile_type = /obj/projectile/energy/rogue3
+	projectile_type = /obj/projectile/energy/arcynebolt
 	overlay_state = "force_dart"
 	sound = list('sound/magic/vlightning.ogg')
 	active = FALSE
@@ -26,7 +26,7 @@
 	associated_skill = /datum/skill/magic/arcane
 	cost = 3
 
-/obj/projectile/energy/rogue3
+/obj/projectile/energy/arcynebolt
 	name = "Arcyne Bolt"
 	icon_state = "arcane_barrage"
 	damage = 40
@@ -35,16 +35,29 @@
 	npc_damage_mult = 1.5 // Makes it more effective against NPCs.
 	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg'
 	speed = 1
+	var/apply_mark = TRUE
 
-/obj/projectile/energy/rogue3/on_hit(target)
-	. = ..()
+/obj/projectile/energy/arcynebolt/on_hit(target)
+
+	var/mob/living/carbon/M = target
 	if(ismob(target))
-		var/mob/living/carbon/M = target
+		var/datum/status_effect/debuff/arcanemark/mark = M.has_status_effect(/datum/status_effect/debuff/arcanemark)
+		if(mark && mark.stacks == mark.max_stacks)
+			armor_penetration = 50
+			woundclass = BCLASS_STAB
+			apply_mark = FALSE
+			consume_arcane_mark_stacks(M)
+
+	. = ..()
+
+	if(ismob(target))
 		if(M.anti_magic_check())
 			visible_message(span_warning("[src] fizzles on contact with [target]!"))
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
 		playsound(get_turf(target), 'sound/combat/hits/blunt/shovel_hit2.ogg', 100) //CLANG
+		if(istype(M, /mob/living/carbon) && (src.apply_mark == TRUE))
+			apply_arcane_mark(M)
 	else
 		return

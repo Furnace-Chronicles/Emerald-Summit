@@ -1,11 +1,11 @@
 
 /obj/effect/proc_holder/spell/invoked/projectile/spitfire
 	name = "Spitfire"
-	desc = "Shoot out a low-powered ball of fire that shines brightly on impact, potentially blinding a target. \n\
+	desc = "Shoot out a low-powered ball of fire that ignites a target with a small amount of fire on impact. Builds a stack of <b>Arcane Mark</b> on the target. \n\
 	Damage is increased by 100% versus simple-minded creechurs."
 	clothes_req = FALSE
 	range = 8
-	projectile_type = /obj/projectile/magic/aoe/fireball/rogue2
+	projectile_type = /obj/projectile/magic/aoe/fireball/spitfire
 	overlay_state = "fireball_multi"
 	sound = list('sound/magic/whiteflame.ogg')
 	active = FALSE
@@ -26,7 +26,7 @@
 	associated_skill = /datum/skill/magic/arcane
 	cost = 3
 
-/obj/projectile/magic/aoe/fireball/rogue2
+/obj/projectile/magic/aoe/fireball/spitfire
 	name = "spitfire"
 	exp_heavy = 0
 	exp_light = 0
@@ -40,7 +40,7 @@
 	hitsound = 'sound/blank.ogg'
 	aoe_range = 0
 
-/obj/projectile/magic/aoe/fireball/rogue2/on_hit(target)
+/obj/projectile/magic/aoe/fireball/spitfire/on_hit(target)
 	. = ..()
 	if(ismob(target))
 		var/mob/M = target
@@ -59,4 +59,6 @@
 				qdel(src)
 				return BULLET_ACT_BLOCK
 			new /obj/effect/temp_visual/snap_freeze(get_turf(L))
+		if(istype(M, /mob/living/carbon))
+			apply_arcane_mark(M)
 	qdel(src)
