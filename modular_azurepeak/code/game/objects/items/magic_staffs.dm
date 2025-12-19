@@ -73,7 +73,7 @@
 
 /obj/item/rogueweapon/woodstaff/emerald/blacksteelstaff
 	name = "blacksteel staff"
-	desc = "A fine wood staff that is reinforced with blacksteel rivets commonly wielded by noble magicians in the Grenzelhoftian Imperiate. Perched atop it is an less efficient though equally beautiful alchemical Dorpel. Perhaps I could enhance it with a better Dorpel?"
+	desc = "A fine wood staff that is reinforced with blacksteel rivets commonly wielded by noble magicians in the Grenzelhoftian Empire. Perched atop it is an less efficient though equally beautiful alchemical Dorpel. Perhaps I could enhance it with a better Dorpel?"
 	icon_state = "blacksteelstaff"
 	max_integrity = 300 // Not sure why it has integrity, might be able to be used as a quarterstaff but magical?
 
@@ -125,7 +125,7 @@
 
 /obj/item/rogueweapon/woodstaff/diamond/blacksteelstaff // Upgraded version, more CDR can be crafted by combining a base Blacksteel Staff with a dorpel
 	name = "refined blacksteel staff"
-	desc = "A fine wood staff that is reinforced with blacksteel rivets and furnishings often used by War-Magos that have graduated from the Celestial Academy of Magos. Perched atop it is a new beautiful Dorpel that shimmers with magical energies"
+	desc = "A fine wood staff that is reinforced with blacksteel rivets commonly wielded by noble magicians in the Grenzelhoftian Empire. Perched atop it is a new beautiful Dorpel that shimmers with magical energies"
 	icon_state = "blacksteelstaff"
 	max_integrity = 300 // 
 
