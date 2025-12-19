@@ -2,7 +2,7 @@ SUBSYSTEM_DEF(tracks)
 	name = "Tracks"
 	priority = FIRE_PRIORITY_TRACKS
 	wait = 100
-	flags = SS_NO_INIT | SS_BACKGROUND
+	flags = SS_BACKGROUND
 	runlevels = RUNLEVEL_GAME | RUNLEVEL_POSTGAME
 
 	var/list/processing

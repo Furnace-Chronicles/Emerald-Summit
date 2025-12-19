@@ -246,3 +246,17 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 
 /datum/antagonist/vampire/licker/New(incoming_clan = /datum/clan/nosferatu, forced_clan = FALSE, generation = GENERATION_NEONATE)
 	. = ..(incoming_clan, forced_clan, generation)
+
+/// crimsmssieee curseee
+/datum/antagonist/vampire/stray
+	name = "Stray Vampire"
+	antag_hud_type = null
+	antag_hud_name = null
+	default_clan = /datum/clan/strays
+	clan_selected = TRUE
+
+/datum/antagonist/vampire/stray/New(incoming_clan = /datum/clan/strays, forced_clan = FALSE, generation = GENERATION_THINBLOOD)
+	. = ..(incoming_clan, forced_clan, generation)
+
+/datum/antagonist/vampire/stray/add_antag_hud(antag_hud_type, antag_hud_name, mob/living/mob_override)
+	return
