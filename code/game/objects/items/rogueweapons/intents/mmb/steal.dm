@@ -26,6 +26,7 @@
 		// Roll: 1d12 + (skill × 2) + (SPD / 6) vs Target Perception + Slot Difficulty
 		// Slot Difficulties: Belt +4, Back +6, Necklace +14, Ring +10
 		// SPD provides minor bonus - skill is the primary factor
+		// SPD also now influences the speed of your pickpocket attempt, 10s at SPD 10, down to 1s at SPD 20
 		// Novice thieves can attempt belts with ~17% chance at average stats (PER 10, no combat mode)
 		// Journeyman thieves have ~50% on belts, can start attempting back slots
 		// Expert thieves have reliable success on belts/backs, can attempt rings
@@ -65,7 +66,7 @@
 		to_chat(user, span_notice("I try to steal from [target_human]..."))
 
 		// Pickpocketing delay scales with SPD: 10s at SPD 10, 1s at SPD 20 (deciseconds)
-		var/delay = clamp(round(100 - 9 * (user.STASPD - 10)), 10, 100) // 100 deci at SPD 10, 10 deci at SPD 20
+		var/delay = clamp(round(100 - 10 * (user.STASPD - 10)), 10, 100) // 10 seconds at SPD 10, 9 seconds at SPD 11, ..., 1 second at SPD 20
 		if(do_after(user, delay, target = target_human, progress = 0))
 
 			if(target_human.IsUnconscious() || target_human.stat != CONSCIOUS) //They're out of it bro.
