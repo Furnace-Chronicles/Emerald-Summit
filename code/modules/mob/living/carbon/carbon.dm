@@ -387,7 +387,7 @@
 		visible_message(span_warning("[src] rolls on the ground, trying to put [p_them()]self out!"))
 	else
 		visible_message(span_notice("[src] pats the flames to extinguish them."))
-		if (fire_status?.stacks + sunder_status?.stacks + divine_status?.stacks + blessed_sunder?.stacks > 10) // might be worth rolling
+		if (fire_status?.stacks + sunder_status?.stacks + divine_status?.stacks + blessed_sunder?.stacks > 5) // might be worth rolling
 			to_chat(src, "<span class='warning'>These flames are intense! I should try rolling on the ground!</span>")
 
 /mob/living/carbon/proc/check_try_extinguish()
