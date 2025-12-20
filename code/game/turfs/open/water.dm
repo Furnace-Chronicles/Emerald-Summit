@@ -82,7 +82,7 @@
 
 /turf/open/water/proc/get_stamina_drain(mob/living/swimmer, travel_dir)
 	var/const/BASE_STAM_DRAIN = 5
-	var/const/MIN_STAM_DRAIN = 1
+	var/const/MIN_STAM_DRAIN = 0
 	var/const/UNSKILLED_ARMOR_PENALTY = 40
 	if(!isliving(swimmer))
 		return 0
@@ -95,7 +95,6 @@
 	if(swimmer.buckled)
 		return 0
 	var/abyssor_swim_bonus = HAS_TRAIT(swimmer, TRAIT_ABYSSOR_SWIM) ? 5 : 0
-	var/swimming_skill_level = 3 // Everyone has journeyman swimming now
 	. = max(BASE_STAM_DRAIN - abyssor_swim_bonus, MIN_STAM_DRAIN)
 //	. += (swimmer.checkwornweight()*2)
 	if(!swimmer.check_armor_skill())
