@@ -65,6 +65,6 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather/plaquesilver
-	beltl = /obj/item/storage/keyring/steward // If this turns out to be overbearing re:stewardry bump down to the clerk keyring instead.
+	beltl = /obj/item/storage/keyring/clerk
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
 	cloak = /obj/item/clothing/cloak/stabard/surcoat/councillor
