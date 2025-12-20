@@ -65,8 +65,8 @@
 
 		to_chat(user, span_notice("I try to steal from [target_human]..."))
 
-		// Pickpocketing delay scales with SPD: 10s at SPD 10, 1s at SPD 20 (deciseconds)
-		var/delay = clamp(round(100 - 10 * (user.STASPD - 10)), 10, 100) // 10 seconds at SPD 10, 9 seconds at SPD 11, ..., 1 second at SPD 20
+		// Pickpocketing delay scales with SPD: 5s at SPD 10, 0.5s at SPD 19+ (deciseconds)
+		var/delay = clamp(round(50 - 5 * (user.STASPD - 10)), 5, 50) // 5 seconds at SPD 10, 4.5 seconds at SPD 11, ..., 0.5 seconds at SPD 19+
 		if(do_after(user, delay, target = target_human, progress = 0))
 
 			if(target_human.IsUnconscious() || target_human.stat != CONSCIOUS) //They're out of it bro.
