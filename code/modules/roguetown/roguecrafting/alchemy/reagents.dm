@@ -17,8 +17,9 @@
 
 /datum/reagent/medicine/minorhealthpot/on_mob_life(mob/living/carbon/M) // Heals half as much as health potion, but not wounds.
 	var/list/wCount = M.get_wounds()
-	if(M.blood_volume < BLOOD_VOLUME_NORMAL) //can not overfill
-		M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_NORMAL)
+	var/blood_restore = M.blood_volume <= BLOOD_VOLUME_BAD ? 7 : 6
+	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+		M.blood_volume = min(M.blood_volume + blood_restore, BLOOD_VOLUME_POTION_MAX)
 	if(wCount.len > 0)
 		M.heal_wounds(3)
 		M.update_damage_overlays()
@@ -66,12 +67,11 @@
 
 /datum/reagent/medicine/healthpot/on_mob_life(mob/living/carbon/M)
 	var/list/wCount = M.get_wounds()
+	var/blood_restore = M.blood_volume <= BLOOD_VOLUME_BAD ? 8 : 6
 	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
-		M.blood_volume = min(M.blood_volume+10, BLOOD_VOLUME_POTION_MAX) //Each sip restores 10%~ of your total blood, given every person has a max of 560 blood.
-		//Yes this is the same amount that water recovers, but this is the 'normal' health potion.
+		M.blood_volume = min(M.blood_volume + blood_restore, BLOOD_VOLUME_POTION_MAX) //+100 blood per sip, 960 blood per bottle. Still enough to fill up your blood twice over.
 	else
-		//can overfill you with blood, but at a slower rate
-		M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_POTION_MAX)
+		M.blood_volume = min(M.blood_volume+ (blood_restore / 2), BLOOD_VOLUME_POTION_MAX)
 	if(wCount.len > 0)
 		//some peeps dislike the church, this allows an alternative thats not a doctor or sleep.
 		M.heal_wounds(8)
@@ -96,10 +96,11 @@
 
 /datum/reagent/medicine/stronghealth/on_mob_life(mob/living/carbon/M)
 	var/list/wCount = M.get_wounds()
+	var/blood_restore = M.blood_volume <= BLOOD_VOLUME_BAD ? 15 : 8
 	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
-		M.blood_volume = min(M.blood_volume+20, BLOOD_VOLUME_POTION_MAX) //+100 blood per sip, 960 blood per bottle. Still enough to fill up your blood twice over.
+		M.blood_volume = min(M.blood_volume + blood_restore, BLOOD_VOLUME_POTION_MAX) //+100 blood per sip, 960 blood per bottle. Still enough to fill up your blood twice over.
 	else
-		M.blood_volume = min(M.blood_volume+10, BLOOD_VOLUME_POTION_MAX)
+		M.blood_volume = min(M.blood_volume+ (blood_restore / 2), BLOOD_VOLUME_POTION_MAX)
 	if(wCount.len > 0)
 		M.heal_wounds(12) //Less wound healing. Two sips will fix an artery, but only barely. 
 		M.update_damage_overlays()

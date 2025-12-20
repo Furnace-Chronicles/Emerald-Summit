@@ -71,6 +71,7 @@
 	var/boobed_detail = TRUE
 	var/sleeved_detail = TRUE
 	var/list/original_armor //For restoring broken armor
+	var/shoddy_repair = FALSE // if we've been field repaired by an unskilled person, set this to true
 
 /obj/item/clothing/New()
 	..()
