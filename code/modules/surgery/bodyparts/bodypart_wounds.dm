@@ -260,7 +260,7 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 		if(HAS_TRAIT(src, TRAIT_BRITTLE))
 			used += 10
 		if(prob(used))
-			if(damage_dividend >= 0.6)
+			if(damage_dividend >= CRIT_LIMB_FRACTURE_DIVISOR)
 				attempted_wounds += /datum/wound/fracture		//More sevre wound
 			else
 				attempted_wounds += /datum/wound/dislocation	//Less sevre wound
@@ -323,7 +323,7 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 			used += 10
 		var/fracture_type = /datum/wound/fracture/chest
 		if(zone_precise == BODY_ZONE_PRECISE_GROIN)
-			if(damage_dividend >= 0.7)
+			if(damage_dividend >= CRIT_GROIN_FRACTURE_DIVISOR)
 				fracture_type = /datum/wound/fracture/groin	//Paralyzes lower body
 		if(prob(used))
 			attempted_wounds += fracture_type
@@ -359,7 +359,7 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/aimed))
 			used += 12
 
-		if((damage_dividend >= 0.3 || limb_damage_bypass) && prob(used))
+		if((damage_dividend >= CRIT_CHEST_ORGAN_STAB_DIVISOR || limb_damage_bypass) && prob(used))
 			if(zone_precise == BODY_ZONE_CHEST)
 				if(prob(20) && owner.getorganslot(ORGAN_SLOT_HEART))
 					attempted_wounds += new /datum/wound/lethal/heart_penetration(dam)
@@ -378,7 +378,7 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
 			used += 10
 
-		if((damage_dividend >= 0.5 || limb_damage_bypass) && prob(used))
+		if((damage_dividend >= CRIT_CHEST_ORGAN_SLASH_DIVISOR || limb_damage_bypass) && prob(used))
 			if(zone_precise == BODY_ZONE_CHEST)
 				if(prob(10) && owner.getorganslot(ORGAN_SLOT_HEART))
 					attempted_wounds += new /datum/wound/lethal/heart_penetration(dam)
@@ -398,7 +398,7 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
 			used += 10
 
-		if((damage_dividend >= 0.75 || limb_damage_bypass) && prob(used))
+		if((damage_dividend >= CRIT_CHEST_ORGAN_BLUNT_DIVISOR || limb_damage_bypass) && prob(used))
 			if(prob(20) && owner.getorganslot(ORGAN_SLOT_HEART))
 				var/datum/wound/lethal/heart_penetration/bone_frag_wound = new /datum/wound/lethal/heart_penetration(dam)
 				bone_frag_wound.from_fracture = TRUE
@@ -540,7 +540,7 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 		used = round(damage_dividend * 25 + (dam / 2) - 15 * resistance, 1)
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
 			used += 15
-		if((damage_dividend >= 0.8 || limb_damage_bypass) && prob(used) && owner.getorganslot(ORGAN_SLOT_BRAIN))
+		if((damage_dividend >= CRIT_BRAIN_PENETRATION_DIVISOR || limb_damage_bypass) && prob(used) && owner.getorganslot(ORGAN_SLOT_BRAIN))
 			attempted_wounds += new /datum/wound/lethal/brain_penetration(dam)
 
 	// Blunt attacks on fractured skulls can drive bone fragments into the brain
@@ -550,7 +550,7 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 		used = round(damage_dividend * 20 + (dam / 3) - 12 * resistance, 1)
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
 			used += 12
-		if((damage_dividend >= 0.8 || limb_damage_bypass) && prob(used) && owner.getorganslot(ORGAN_SLOT_BRAIN))
+		if((damage_dividend >= CRIT_BRAIN_PENETRATION_DIVISOR || limb_damage_bypass) && prob(used) && owner.getorganslot(ORGAN_SLOT_BRAIN))
 			var/datum/wound/lethal/brain_penetration/bone_frag_wound = new /datum/wound/lethal/brain_penetration(dam)
 			bone_frag_wound.from_fracture = TRUE
 			attempted_wounds += bone_frag_wound
