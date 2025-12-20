@@ -44,7 +44,7 @@
 	to_chat(H, span_warning("You are a Varangian of the Gronn Highlands. Warrior-Traders most known for their exploits into the Raneshen Empire, which will be forever remembered by historians."))
 
 	head = /obj/item/clothing/head/roguetown/helmet/bascinet/atgervi
-	gloves = /obj/item/clothing/gloves/roguetown/plate/atgervi
+	gloves = /obj/item/clothing/gloves/roguetown/angle/atgervi
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/atgervi
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/gronn	//This is in armor and not shirt just to avoid seeing titty through it.
 	pants = /obj/item/clothing/under/roguetown/trou/leather/atgervi
