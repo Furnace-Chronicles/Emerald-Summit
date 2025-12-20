@@ -940,6 +940,33 @@
 		return FALSE
 	return TRUE
 
+/proc/werewolf_sex_infect_attempt(mob/living/carbon/human/top, mob/living/carbon/human/bottom)
+
+	if(!top || !bottom || !top.mind || !bottom.mind)
+		return
+
+	var/datum/antagonist/werewolf/WWtop
+	var/datum/antagonist/werewolf/WWbottom
+	var/infection_probability = 40
+	if(top.mind.has_antag_datum(/datum/antagonist/werewolf))
+		WWtop = top.mind.has_antag_datum(/datum/antagonist/werewolf/)
+
+	if(bottom.mind.has_antag_datum(/datum/antagonist/werewolf))
+		WWbottom = bottom.mind.has_antag_datum(/datum/antagonist/werewolf/)
+
+	if(WWtop && WWbottom)
+		return
+
+	if(WWtop && WWtop.transformed && !WWbottom)
+		if(prob(infection_probability))
+			bottom.werewolf_infect_attempt()
+			return
+
+	if(WWbottom && WWbottom.transformed && !WWtop)
+		if(prob(infection_probability))
+			top.werewolf_infect_attempt()
+			return
+
 #undef SEX_ZONE_NULL
 #undef SEX_ZONE_GROIN
 #undef SEX_ZONE_GROIN_GRAB

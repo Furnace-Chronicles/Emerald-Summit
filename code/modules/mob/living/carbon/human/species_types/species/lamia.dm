@@ -10,6 +10,7 @@
 	use_titles = TRUE
 	race_titles = list("Mervolk", "Eelvolk", "Naga", "Siren", "Gorgon")
 	base_name = "Beastvolk"
+	sub_name = "Lamia"
 	desc = "<b>Lamia</b><br>\
 	The monstrous spawn of Abyssor, snake and humen conjoined together, the deepkin and merfolk. \
 	Sirens, mermaids, nagas and many others fall into 'lamia' categorization. While one could consider them to be of Dendor's, he had no hand in their creation. \
@@ -29,6 +30,7 @@
 	dam_icon_f = 'icons/roguetown/mob/bodies/dam/dam_female.dmi'
 //	clothes_id = "lamia"
 //	custom_clothes = TRUE
+	no_equip = list(SLOT_SHOES, SLOT_PANTS)
 	soundpack_m = /datum/voicepack/male
 	soundpack_f = /datum/voicepack/female
 	offset_features = list(

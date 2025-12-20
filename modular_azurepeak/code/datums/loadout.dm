@@ -312,6 +312,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Robe"
 	path = /obj/item/clothing/suit/roguetown/shirt/robe
 
+/datum/loadout_item/qaba
+	name = "Black Qaba"
+	path = /obj/item/clothing/suit/roguetown/shirt/robe/qaba
+
 /datum/loadout_item/spellcasterrobe
 	name = "Tattered Spellcaster Robe"
 	path = /obj/item/clothing/suit/roguetown/shirt/robe/spellcasterrobe/light
@@ -547,6 +551,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/dendormask
 	name = "Briar Mask"
 	path = /obj/item/clothing/head/roguetown/dendormask
+
+/datum/loadout_item/dendorbriars
+	name = "Briar thorns"
+	path = /obj/item/clothing/head/roguetown/padded/briarthorns
 
 /datum/loadout_item/exoticsilkmask
 	name = "Exotic Silk Mask"

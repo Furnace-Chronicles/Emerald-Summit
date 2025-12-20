@@ -29,7 +29,7 @@
 		/datum/virtue/utility/failed_squire,
 		/datum/virtue/utility/blacksmith, // we don't want you repairing your stuff in combat, sorry...
 	)
-	job_traits = list(TRAIT_OUTDOORSMAN, TRAIT_WOODSMAN)
+	job_traits = list(TRAIT_OUTDOORSMAN, TRAIT_WOODSMAN, TRAIT_WOODWALKER)
 	job_subclasses = list(
 		/datum/advclass/warden/ranger,
 		/datum/advclass/warden/forester
@@ -64,7 +64,7 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/axes = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
@@ -94,6 +94,7 @@
 		/obj/item/storage/keyring/guard = 1,
 		/obj/item/flashlight/flare/torch/lantern = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/warden_horn = 1
 	)
 
 	H.verbs |= /mob/proc/haltyell
@@ -175,6 +176,7 @@
 		/obj/item/storage/keyring/guard = 1,
 		/obj/item/flashlight/flare/torch/lantern = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/warden_horn = 1
 	)
 
 	H.verbs |= /mob/proc/haltyell
