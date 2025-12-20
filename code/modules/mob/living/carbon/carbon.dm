@@ -367,26 +367,28 @@
 		buckled.user_unbuckle_mob(src,src)
 
 /mob/living/carbon/resist_fire()
-	adjust_fire_stacks(-2, /datum/status_effect/fire_handler/fire_stacks)
-	adjust_fire_stacks(-2, /datum/status_effect/fire_handler/fire_stacks/sunder)
-	adjust_fire_stacks(-2, /datum/status_effect/fire_handler/fire_stacks/divine)
+	adjust_fire_stacks(-1, /datum/status_effect/fire_handler/fire_stacks)
+	adjust_fire_stacks(-1, /datum/status_effect/fire_handler/fire_stacks/sunder)
+	adjust_fire_stacks(-1, /datum/status_effect/fire_handler/fire_stacks/divine)
+	adjust_fire_stacks(-1, /datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
 
 	var/datum/status_effect/fire_handler/fire_stacks/fire_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks)
 	var/datum/status_effect/fire_handler/fire_stacks/sunder_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder)
 	var/datum/status_effect/fire_handler/fire_stacks/divine_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/divine)
 	var/datum/status_effect/fire_handler/fire_stacks/sunder/blessed/blessed_sunder = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
 
-	if(fire_status?.stacks + sunder_status?.stacks + divine_status?.stacks + blessed_sunder?.stacks > 10 || !(mobility_flags & MOBILITY_STAND))
+	if(!(mobility_flags & MOBILITY_STAND)) // roll if lying down
 		Paralyze(50, TRUE, TRUE)
 		spin(32,2)
-		adjust_fire_stacks(-5, /datum/status_effect/fire_handler/fire_stacks)
-		adjust_fire_stacks(-5, /datum/status_effect/fire_handler/fire_stacks/sunder)
-		adjust_fire_stacks(-5, /datum/status_effect/fire_handler/fire_stacks/divine)
-		adjust_fire_stacks(-5, /datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
+		adjust_fire_stacks(-10, /datum/status_effect/fire_handler/fire_stacks)
+		adjust_fire_stacks(-10, /datum/status_effect/fire_handler/fire_stacks/sunder)
+		adjust_fire_stacks(-10, /datum/status_effect/fire_handler/fire_stacks/divine)
+		adjust_fire_stacks(-10, /datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
 		visible_message(span_warning("[src] rolls on the ground, trying to put [p_them()]self out!"))
 	else
 		visible_message(span_notice("[src] pats the flames to extinguish them."))
-	addtimer(CALLBACK(src, PROC_REF(check_try_extinguish)), 3 SECONDS)
+		if (fire_status?.stacks + sunder_status?.stacks + divine_status?.stacks + blessed_sunder?.stacks > 10) // might be worth rolling
+			to_chat(src, "<span class='warning'>These flames are intense! I should try rolling on the ground!</span>")
 
 /mob/living/carbon/proc/check_try_extinguish()
 	if(!has_status_effect(/datum/status_effect/fire_handler))
@@ -585,7 +587,7 @@
 
 /mob/living/carbon
 	var/nausea = 0
-	var/bleeding_tier = 0 
+	var/bleeding_tier = 0
 
 /mob/living/carbon/proc/add_nausea(amt)
 	nausea = clamp(nausea + amt, 0, 300)
