@@ -23,6 +23,9 @@
 /obj/effect/proc_holder/spell/invoked/mending/cast(list/targets, mob/living/user)
 	if(istype(targets[1], /obj/item))
 		var/obj/item/I = targets[1]
+		if (I.shoddy_repair && user.get_skill_level(/datum/skill/magic/arcane) >= SKILL_LEVEL_JOURNEYMAN)
+			I.shoddy_repair = FALSE
+			user.visible_message(span_info("[I] glows gently, arcyne magic amending the damage wrought by hasty repairs."))
 
 		// Check if this is clothing with zone tracking
 		if(istype(I, /obj/item/clothing))
@@ -31,7 +34,7 @@
 			var/needs_repair = FALSE
 
 			// Repair all zones simultaneously
-			var/list/zones = list(BODY_ZONE_CHEST, BODY_ZONE_PRECISE_GROIN, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+			var/static/list/zones = list(BODY_ZONE_CHEST, BODY_ZONE_PRECISE_GROIN, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 			for(var/zone in zones)
 				if(C.has_zone_integrity(zone))
 					var/old_integrity = C.get_zone_integrity(zone)

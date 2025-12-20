@@ -21,19 +21,47 @@
 	range = 5
 
 	cooldown_length = 1 MINUTES
+	var/faetrick
 
 /datum/coven_power/fae_trickery/darkling_trickery/activate(mob/living/target)
 	. = ..()
-	target.visible_message(span_suicide("[target] is disarmed!"),
-					span_boldwarning("I'm disarmed!"))
-	playsound(get_turf(target), 'sound/magic/mockery.ogg', 40, FALSE)
-	var/turnangle = (prob(50) ? 270 : 90)
-	var/turndir = turn(target.dir, turnangle)
-	var/dist = rand(1, owner.get_vampire_generation())
-	var/current_turf = get_turf(target)
-	var/target_turf = get_ranged_target_turf(current_turf, turndir, dist)
-	target.throw_item(target_turf, FALSE)
-	target.apply_status_effect(/datum/status_effect/debuff/clickcd, (owner.get_vampire_generation() - 1) SECONDS)
+	faetrick = rand(1,6)
+	switch(faetrick)
+		if(1) // meowy
+			target.visible_message(span_suicide("[target] opens their mouth and meows!"))
+			playsound(get_turf(target), 'sound/vo/mobs/cat/cat_meow4.ogg', 40, FALSE)
+		if(2) // dizzy
+			target.visible_message(span_suicide("[target]'s eyes begin to rapidly dart around!"))
+			playsound(get_turf(target), 'sound/magic/faerie.ogg', 40, FALSE)
+			target.confused += 10
+			target.dizziness += 10
+			target.jitteriness += 10
+		if(3) // sorry
+			target.visible_message(span_suicide("[target]'s eyes go wide for a moment."))
+			playsound(get_turf(target), 'sound/magic/faerie.ogg', 40, FALSE)
+			target.psydo_nyte()
+			target.Immobilize(3)
+		if(4) // blindy
+			target.visible_message(span_suicide("[target]'s eyes close!"),
+							span_boldwarning("It's dark!"))
+			playsound(get_turf(target), 'sound/magic/faerie.ogg', 40, FALSE)
+			target.eyesclosed = TRUE
+			target.become_blind("eyelids")
+		if(5) // trippy
+			target.visible_message(span_suicide("[target] clumsily falls over!"),
+							span_boldwarning("Something pulls my leg!"))
+			playsound(get_turf(target), 'sound/magic/faerie2.ogg', 40, FALSE)
+			target.Knockdown(10)
+		if(6) // droppy
+			target.visible_message(span_suicide("[target] is disarmed!"),
+							span_boldwarning("Something grabbed my hand!"))
+			playsound(get_turf(target), 'sound/magic/faerie.ogg', 40, FALSE)
+			var/turnangle = (prob(50) ? 270 : 90)
+			var/turndir = turn(target.dir, turnangle)
+			var/dist = rand(1, owner.get_vampire_generation())
+			var/current_turf = get_turf(target)
+			var/target_turf = get_ranged_target_turf(current_turf, turndir, dist)
+			target.throw_item(target_turf, FALSE)
 
 //GOBLINISM
 /datum/coven_power/fae_trickery/goblinism
@@ -231,19 +259,20 @@
 		if(!C.apply_damage(5, BRUTE, BODY_ZONE_HEAD, C.run_armor_check(BODY_ZONE_HEAD, "stab", damage = 5)))
 			to_chat(C, span_warning("Armor stops the damage."))
 
-/obj/fae_trickery_trap
+/obj/structure/fae_trickery_trap
 	name = "fae trap"
 	desc = "Creates a fae trap to protect your domain."
 	anchored = TRUE
 	density = FALSE
-	alpha = 64
+	max_integrity = 20
+	alpha = 25
 	icon = 'icons/effects/clan.dmi'
 	icon_state = "rune1"
 	color = "#4182ad"
 	var/unique = FALSE
 	var/mob/owner
 
-/obj/fae_trickery_trap/Crossed(atom/movable/AM, oldloc)
+/obj/structure/fae_trickery_trap/Crossed(atom/movable/AM, oldloc)
 	..()
 	if(isliving(AM) && owner)
 		if(AM != owner)
@@ -254,11 +283,12 @@
 					throw_target = get_edge_target_turf(AM, pick(GLOB.cardinals))
 				else
 					throw_target = get_edge_target_turf(AM, get_dir(AM, oldloc))
-				L.apply_damage(20, BRUTE)
+				L.apply_damage(45, BRUTE)
+				L.OffBalance(2 SECONDS)
 				AM.throw_at(throw_target, rand(8,10), 4, owner, spin = TRUE)
 				qdel(src)
 
-/obj/fae_trickery_trap/disorient
+/obj/structure/fae_trickery_trap/disorient
 	name = "fae trap"
 	desc = "Creates a fae trap to protect your domain."
 	anchored = TRUE
@@ -266,7 +296,7 @@
 	unique = TRUE
 	icon_state = "rune2"
 
-/obj/fae_trickery_trap/disorient/Crossed(atom/movable/AM)
+/obj/structure/fae_trickery_trap/disorient/Crossed(atom/movable/AM)
 	..()
 	if(isliving(AM) && owner)
 		if(AM != owner)
@@ -282,7 +312,7 @@
 					animate(whole_screen, transform = matrix(), time = 0.5 SECONDS, easing = QUAD_EASING)
 			qdel(src)
 
-/obj/fae_trickery_trap/drop
+/obj/structure/fae_trickery_trap/drop
 	name = "fae trap"
 	desc = "Creates a fae trap to protect your domain."
 	anchored = TRUE
@@ -290,7 +320,7 @@
 	unique = TRUE
 	icon_state = "rune3"
 
-/obj/fae_trickery_trap/drop/Crossed(mob/living/carbon/AM)
+/obj/structure/fae_trickery_trap/drop/Crossed(mob/living/carbon/AM)
 	..()
 	if(iscarbon(AM) && owner)
 		if(AM != owner)
@@ -326,13 +356,13 @@
 
 	switch(try_trap)
 		if("Brutal")
-			var/obj/fae_trickery_trap/trap = new (get_turf(owner))
+			var/obj/structure/fae_trickery_trap/trap = new (get_turf(owner))
 			trap.owner = owner
 		if("Spin")
-			var/obj/fae_trickery_trap/disorient/trap = new (get_turf(owner))
+			var/obj/structure/fae_trickery_trap/disorient/trap = new (get_turf(owner))
 			trap.owner = owner
 		if("Drop")
-			var/obj/fae_trickery_trap/drop/trap = new (get_turf(owner))
+			var/obj/structure/fae_trickery_trap/drop/trap = new (get_turf(owner))
 			trap.owner = owner
 
 //RIDDLE PHANTASTIQUE

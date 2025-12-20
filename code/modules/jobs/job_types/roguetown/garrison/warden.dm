@@ -26,7 +26,6 @@
 	social_rank = SOCIAL_RANK_PEASANT
 
 	virtue_restrictions = list(
-		/datum/virtue/utility/failed_squire,
 		/datum/virtue/utility/blacksmith, // we don't want you repairing your stuff in combat, sorry...
 	)
 	job_traits = list(TRAIT_OUTDOORSMAN, TRAIT_WOODSMAN, TRAIT_WOODWALKER)
@@ -94,6 +93,7 @@
 		/obj/item/storage/keyring/guard = 1,
 		/obj/item/flashlight/flare/torch/lantern = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/warden_horn = 1
 	)
 
 	H.verbs |= /mob/proc/haltyell
@@ -175,6 +175,7 @@
 		/obj/item/storage/keyring/guard = 1,
 		/obj/item/flashlight/flare/torch/lantern = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/warden_horn = 1
 	)
 
 	H.verbs |= /mob/proc/haltyell

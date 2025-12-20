@@ -40,8 +40,6 @@
 
 	// Werewolf reverts to human form during the day
 	else if(transformed)
-		H.real_name = wolfname
-		H.name = wolfname
 
 		if(GLOB.tod != "night")
 			if(!untransforming)
@@ -91,6 +89,12 @@
 	W.gender = gender
 	W.regenerate_icons()
 	W.stored_mob = src
+
+	// Set the werewolf's name from the antagonist datum
+	var/datum/antagonist/werewolf/Were = mind.has_antag_datum(/datum/antagonist/werewolf/)
+	if(Were)
+		W.real_name = Were.wolfname
+		W.name = Were.wolfname
 	W.limb_destroyer = TRUE
 	W.ambushable = FALSE
 	W.cmode_music = 'sound/music/combat_druid.ogg'
