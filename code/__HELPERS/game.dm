@@ -392,7 +392,7 @@ GLOBAL_VAR(image_cleanup_timer_id)
 		GLOB.image_removal_schedule -= I
 
 	if(anything_added && !GLOB.image_cleanup_timer_id)
-		GLOB.image_cleanup_timer_id = addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(process_image_cleanup)), IMAGE_CLEANUP_INTERVAL, TIMER_STOPPABLE | TIMER_LOOP)
+		GLOB.image_cleanup_timer_id = addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(process_image_cleanup)), IMAGE_CLEANUP_INTERVAL, TIMER_UNIQUE | TIMER_OVERRIDE | TIMER_STOPPABLE | TIMER_LOOP)
 
 /proc/flick_overlay_view(image/I, atom/target, duration) //wrapper for the above, flicks to everyone who can see the target atom
 	var/list/viewing = list()
