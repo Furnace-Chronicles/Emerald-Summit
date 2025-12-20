@@ -80,6 +80,86 @@
 	id = /obj/item/scomstone/bad/garrison
 	backpack_contents = list(/obj/item/storage/keyring/guardknight = 1)
 
+/datum/advclass/knight/champion
+	name = "Champion of the Duchy" // TODO: Rename to Royal Champion later
+	tutorial = "Veteran among knights, you've proven yourself time and again in service to the crown. \
+	Your experience with both infantry and cavalry tactics makes you a versatile combatant, \
+	equally adept whether on foot or mounted. You are a champion of the realm."
+	outfit = /datum/outfit/job/knight/champion
+	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
+	category_tags = list(CTAG_ROYALGUARD)
+	maximum_possible_slots = 1
+	min_pq = 30 // "stick larp knight at 30 or something just so there's less speedclicking competitions among knights that want to powergame"
+
+	traits_applied = list(TRAIT_HEAVYARMOR)
+	subclass_stats = list(
+		STATKEY_STR = 2,
+		STATKEY_CON = 2,
+		STATKEY_END = 2,
+		STATKEY_INT = 2,
+		STATKEY_PER = 1,
+		STATKEY_SPD = -1,	// Since this was KC and KC was locked to middle-aged, this ensures a base -1 SPD
+		STATKEY_LCK = 1
+	)
+
+	subclass_skills = list(
+		/datum/skill/combat/swords = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/polearms = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/riding = SKILL_LEVEL_EXPERT,
+	)
+
+/datum/outfit/job/knight/champion/pre_equip(mob/living/carbon/human/H)
+	..()
+	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+	H.verbs |= /mob/proc/haltyell
+
+	// Champion-specific armor
+	cloak = /obj/item/clothing/cloak/champion
+	armor = /obj/item/clothing/suit/roguetown/armor/champion
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
+	pants = /obj/item/clothing/under/roguetown/platelegs/champion	// They're unique and also this is the champion
+	head = /obj/item/clothing/head/roguetown/helmet/visored/champion
+	
+	var/char_age = H.age
+	if(char_age == AGE_MIDDLEAGED)
+		H.change_stat(STATKEY_SPD, 1) // +1 SPD for middle aged
+		H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE) 
+	else if(char_age == AGE_OLD)
+		H.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
+
+	H.adjust_blindness(-3)
+	var/weapons = list(
+		"Law & Order (Sabre & Buckler)",
+		"Deliverer (Glaive)"
+	)
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	H.set_blindness(0)
+	switch(weapon_choice)
+		if("Law & Order (Sabre & Buckler)") // felt the need to specify
+			beltr = /obj/item/rogueweapon/sword/championsabre
+			backl = /obj/item/rogueweapon/shield/championbuckler
+		if("Deliverer (Glaive)")
+			r_hand = /obj/item/rogueweapon/halberd/championglaive
+
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+	)
+
 /datum/advclass/knight/heavy
 	name = "Heavy Knight"
 	tutorial = "You've trained thoroughly and hit far harder than most - adept with massive swords, axes, maces, and polearms. People may fear the mounted knights, but they should truly fear those who come off their mount..."
@@ -479,129 +559,6 @@
 	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
-	backpack_contents = list(
-		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rope/chain = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1,
-	)
-
-/datum/advclass/knight/champion
-	name = "Champion of the Duchy" // TODO: Rename to Royal Champion later
-	tutorial = "Veteran among knights, you've proven yourself time and again in service to the crown. \
-	Your experience with both infantry and cavalry tactics makes you a versatile combatant, \
-	equally adept whether on foot or mounted. You are a champion of the realm."
-	outfit = /datum/outfit/job/knight/champion
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
-	category_tags = list(CTAG_ROYALGUARD)
-	maximum_possible_slots = 1
-	min_pq = 30 // "stick larp knight at 30 or something just so there's less speedclicking competitions among knights that want to powergame"
-
-	traits_applied = list(TRAIT_HEAVYARMOR)
-	subclass_stats = list(
-		STATKEY_STR = 2,
-		STATKEY_CON = 2,
-		STATKEY_END = 2,
-		STATKEY_INT = 2,
-		STATKEY_PER = 1,
-		STATKEY_SPD = -1,	// Since this was KC and KC was locked to middle-aged, this ensures a base -1 SPD
-		STATKEY_LCK = 1
-	)
-
-	subclass_skills = list(
-		/datum/skill/combat/swords = SKILL_LEVEL_MASTER,
-		/datum/skill/combat/polearms = SKILL_LEVEL_MASTER,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_MASTER,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/riding = SKILL_LEVEL_EXPERT,
-	)
-
-/datum/outfit/job/knight/champion/pre_equip(mob/living/carbon/human/H)
-	..()
-	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
-	H.verbs |= /mob/proc/haltyell
-
-	// Champion-specific armor
-	cloak = /obj/item/clothing/cloak/champion
-	armor = /obj/item/clothing/suit/roguetown/armor/champion
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-	pants = /obj/item/clothing/under/roguetown/platelegs/champion
-	head = /obj/item/clothing/head/roguetown/helmet/visored/champion
-	
-	var/char_age = H.age
-	if(char_age == AGE_MIDDLEAGED)
-		H.change_stat(STATKEY_SPD, 1) // +1 SPD for middle aged
-		H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE) 
-	else if(char_age == AGE_OLD)
-		H.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
-
-	H.adjust_blindness(-3)
-	var/weapons = list(
-		"Zweihander",
-		"Great Mace",
-		"Battle Axe",
-		"Greataxe",
-		"Estoc",
-		"Longsword & Shield",
-		"Flail & Shield",
-		"Law & Order (Sabre & Buckler)",
-		"Spear & Shield",
-		"Deliverer (Glaive)",
-		"Lance + Kite Shield",
-		"Longsword & Recurve Bow",
-		"Mace & Crossbow"
-	)
-	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
-	H.set_blindness(0)
-	switch(weapon_choice)
-		if("Zweihander")
-			r_hand = /obj/item/rogueweapon/greatsword/zwei
-		if("Great Mace")
-			r_hand = /obj/item/rogueweapon/mace/goden/steel
-		if("Battle Axe")
-			r_hand = /obj/item/rogueweapon/stoneaxe/battle
-		if("Greataxe")
-			r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead
-		if("Estoc")
-			r_hand = /obj/item/rogueweapon/estoc
-		if("Longsword & Shield")
-			beltr = /obj/item/rogueweapon/sword/long
-			backl = /obj/item/rogueweapon/shield/tower/metal
-			r_hand = /obj/item/rogueweapon/scabbard/sword
-		if("Flail & Shield")
-			beltr = /obj/item/rogueweapon/flail/sflail
-			backl = /obj/item/rogueweapon/shield/tower/metal
-		if("Law & Order (Sabre & Buckler)")
-			beltr = /obj/item/rogueweapon/sword/championsabre
-			backl = /obj/item/rogueweapon/shield/championbuckler
-		if("Spear & Shield")
-			r_hand = /obj/item/rogueweapon/spear
-			backl = /obj/item/rogueweapon/shield/tower/metal
-		if("Deliverer (Glaive)")
-			r_hand = /obj/item/rogueweapon/halberd/championglaive
-		if("Lance + Kite Shield")
-			r_hand = /obj/item/rogueweapon/spear/lance
-			backl = /obj/item/rogueweapon/shield/tower/metal
-		if("Longsword & Recurve Bow")
-			r_hand = /obj/item/rogueweapon/sword/long
-			beltr = /obj/item/quiver/arrows
-			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-			l_hand = /obj/item/rogueweapon/scabbard/sword
-		if("Mace & Crossbow")
-			r_hand = /obj/item/rogueweapon/mace
-			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-			beltr = /obj/item/quiver/bolts
-
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rope/chain = 1,

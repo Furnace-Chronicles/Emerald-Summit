@@ -1394,7 +1394,7 @@
 	force = 17
 	force_wielded = 35
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
-	icon_state = "capglaive"
+	icon_state = "champglaive"
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/blacksteel
 	max_integrity = 290 //blacksteel, so its gotta be more durable

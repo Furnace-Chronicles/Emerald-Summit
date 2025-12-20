@@ -2451,19 +2451,19 @@
 
 // new knight captain drip
 
-/obj/item/clothing/head/roguetown/helmet/visored/captain
+/obj/item/clothing/head/roguetown/helmet/visored/champion
 	name = "champion's helmet"
 	desc = "An elegant barbute, fitted with the gold trim and polished metal befitting a champion of the realm."
 	adjustable = CAN_CADJUST
-	icon = 'icons/roguetown/clothing/special/captain.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/captain.dmi'
-	icon_state = "capbarbute"
+	icon = 'icons/roguetown/clothing/special/champion.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/champion.dmi'
+	icon_state = "champbarbute"
 	block2add = FOV_BEHIND
 	max_integrity = 350
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT|HIDEEYES
 	body_parts_covered = HEAD|HAIR|EARS|MOUTH|NOSE|EYES
 
-/obj/item/clothing/head/roguetown/helmet/visored/captain/ComponentInitialize()
+/obj/item/clothing/head/roguetown/helmet/visored/champion/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), HIDEHAIR, null, 'sound/items/visor.ogg', null, UPD_HEAD)
 
 // the klappenlonger
