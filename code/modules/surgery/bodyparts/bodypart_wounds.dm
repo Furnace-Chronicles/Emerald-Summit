@@ -456,7 +456,7 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 				winset(owner.client, "outputwindow.output", "max-lines=100")
 		var/dislocation_type
 		var/fracture_type = /datum/wound/fracture/head
-		var/necessary_damage = 0.9
+		var/necessary_damage = 0.65
 		var/is_lethal_fracture = FALSE
 		if(resistance)
 			fracture_type = /datum/wound/fracture
@@ -465,13 +465,14 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 			is_lethal_fracture = TRUE
 		else if(zone_precise== BODY_ZONE_PRECISE_EARS)
 			fracture_type = /datum/wound/fracture/head/ears
-			necessary_damage = 0.8
+			necessary_damage = 0.4
 		else if(zone_precise == BODY_ZONE_PRECISE_NOSE)
 			fracture_type = /datum/wound/fracture/head/nose
-			necessary_damage = 0.7
+			necessary_damage = 0.4
+			is_lethal_fracture = TRUE
 		else if(zone_precise == BODY_ZONE_PRECISE_MOUTH)
 			fracture_type = /datum/wound/fracture/mouth
-			necessary_damage = 0.7
+			necessary_damage = 0.3
 		else if(zone_precise == BODY_ZONE_PRECISE_NECK)
 			fracture_type = /datum/wound/fracture/neck
 			dislocation_type = /datum/wound/dislocation/neck
