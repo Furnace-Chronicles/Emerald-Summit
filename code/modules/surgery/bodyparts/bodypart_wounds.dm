@@ -354,12 +354,12 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 
 	if(bclass in GLOB.stab_bclasses)
 		var/actual_damage = dam
-		var/limb_damage_bypass = (actual_damage >= (65 + owner.STACON) * (1 - damage_dividend * 0.5))
+		var/limb_damage_bypass = (actual_damage >= (30 + owner.STACON) * (1 - damage_dividend * 0.5))
 		used = round(damage_dividend * 20 + (dam / 2) - 12 * resistance, 1)
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/aimed))
 			used += 12
 
-		if((damage_dividend >= 0.8 || limb_damage_bypass) && prob(used))
+		if((damage_dividend >= 0.3 || limb_damage_bypass) && prob(used))
 			if(zone_precise == BODY_ZONE_CHEST)
 				if(prob(20) && owner.getorganslot(ORGAN_SLOT_HEART))
 					attempted_wounds += new /datum/wound/lethal/heart_penetration(dam)
@@ -373,12 +373,12 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 
 	if(bclass in GLOB.artery_bclasses)
 		var/actual_damage = dam
-		var/limb_damage_bypass = (actual_damage >= (65 + owner.STACON) * (1 - damage_dividend * 0.5))
+		var/limb_damage_bypass = (actual_damage >= (35 + owner.STACON) * (1 - damage_dividend * 0.5))
 		used = round(damage_dividend * 15 + (dam / 3) - 15 * resistance, 1)
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
 			used += 10
 
-		if((damage_dividend >= 0.9 || limb_damage_bypass) && prob(used))
+		if((damage_dividend >= 0.5 || limb_damage_bypass) && prob(used))
 			if(zone_precise == BODY_ZONE_CHEST)
 				if(prob(10) && owner.getorganslot(ORGAN_SLOT_HEART))
 					attempted_wounds += new /datum/wound/lethal/heart_penetration(dam)
@@ -393,12 +393,12 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 	// Blunt attacks on fractured ribs can drive bone fragments into organs
 	if((bclass in GLOB.fracture_bclasses) && owner.has_wound(/datum/wound/fracture/chest) && (zone_precise == BODY_ZONE_CHEST))
 		var/actual_damage = dam
-		var/limb_damage_bypass = (actual_damage >= (55 + owner.STACON) * (1 - damage_dividend * 0.5))
+		var/limb_damage_bypass = (actual_damage >= (40 + owner.STACON) * (1 - damage_dividend * 0.5))
 		used = round(damage_dividend * 18 + (dam / 3) - 12 * resistance, 1)
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
 			used += 10
 
-		if((damage_dividend >= 0.7 || limb_damage_bypass) && prob(used))
+		if((damage_dividend >= 0.75 || limb_damage_bypass) && prob(used))
 			if(prob(20) && owner.getorganslot(ORGAN_SLOT_HEART))
 				var/datum/wound/lethal/heart_penetration/bone_frag_wound = new /datum/wound/lethal/heart_penetration(dam)
 				bone_frag_wound.from_fracture = TRUE
@@ -535,7 +535,7 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 
 	if((bclass in GLOB.stab_bclasses) && (zone_precise in GLOB.brain_penetration_zones))
 		var/actual_damage = dam
-		var/limb_damage_bypass = (actual_damage >= (60 + owner.STACON) * (1 - damage_dividend * 0.5))
+		var/limb_damage_bypass = (actual_damage >= (30 + owner.STACON) * (1 - damage_dividend * 0.5))
 		used = round(damage_dividend * 25 + (dam / 2) - 15 * resistance, 1)
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
 			used += 15
@@ -545,11 +545,11 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 	// Blunt attacks on fractured skulls can drive bone fragments into the brain
 	if((bclass in GLOB.fracture_bclasses) && owner.has_wound(/datum/wound/fracture/head))
 		var/actual_damage = dam
-		var/limb_damage_bypass = (actual_damage >= (50 + owner.STACON) * (1 - damage_dividend * 0.5))
+		var/limb_damage_bypass = (actual_damage >= (30 + owner.STACON) * (1 - damage_dividend * 0.5))
 		used = round(damage_dividend * 20 + (dam / 3) - 12 * resistance, 1)
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
 			used += 12
-		if((damage_dividend >= 0.7 || limb_damage_bypass) && prob(used) && owner.getorganslot(ORGAN_SLOT_BRAIN))
+		if((damage_dividend >= 0.8 || limb_damage_bypass) && prob(used) && owner.getorganslot(ORGAN_SLOT_BRAIN))
 			var/datum/wound/lethal/brain_penetration/bone_frag_wound = new /datum/wound/lethal/brain_penetration(dam)
 			bone_frag_wound.from_fracture = TRUE
 			attempted_wounds += bone_frag_wound
