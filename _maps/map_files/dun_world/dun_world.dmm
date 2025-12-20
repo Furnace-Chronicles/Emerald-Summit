@@ -21470,6 +21470,7 @@
 /area/rogue/outdoors/beach)
 "fLY" = (
 /obj/structure/chair/bench/couchablack,
+/obj/effect/landmark/start/marshal,
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/indoors/town/garrison)
 "fMd" = (
@@ -43474,6 +43475,7 @@
 /obj/structure/fluff/walldeco/customflag{
 	pixel_x = -32
 	},
+/obj/effect/landmark/start/marshal,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/garrison)
 "lBi" = (
@@ -80519,6 +80521,7 @@
 /area/rogue/indoors/town)
 "vmI" = (
 /obj/structure/chair/wood/rogue/throne,
+/obj/effect/landmark/start/marshal,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/garrison)
 "vmL" = (
