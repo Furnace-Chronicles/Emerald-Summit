@@ -165,7 +165,7 @@
 		return
 	if(!valid_check())
 		return FALSE
-	user.changeNext_move(CLICK_CD_MELEE * 2 - user.STASPD) // 24 - the user's speed
+	user.changeNext_move(CLICK_CD_TRACKING)
 
 	var/skill_diff = 0
 	var/combat_modifier = 1

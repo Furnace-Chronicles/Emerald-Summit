@@ -488,13 +488,6 @@
 		O.update_hands(src)
 		update_grab_intents()
 
-	if(isliving(AM))
-		var/mob/living/M = AM
-		if(M.mind)
-			if(M.cmode && M.stat == CONSCIOUS && !M.restrained(ignore_grab = TRUE))
-				if(M.get_skill_level(/datum/skill/combat/wrestling) > 4 || src.get_skill_level(/datum/skill/combat/wrestling) < 5) //Grabber skill less than Master OR grabbed skill at Master or above.
-					M.resist_grab(freeresist = TRUE) //Automatically attempt to break a passive grab if defender's combat mode is on. Anti-grabspam measure.
-
 /mob/living/proc/send_pull_message(mob/living/target)
 	target.visible_message(span_warning("[src] grabs [target]."), \
 					span_warning("[src] grabs me."), span_hear("I hear shuffling."), null, src)
@@ -1130,7 +1123,7 @@
 /mob/proc/resist_grab(moving_resist)
 	return TRUE //returning 0 means we successfully broke free
 
-/mob/living/resist_grab(moving_resist, freeresist = FALSE)
+/mob/living/resist_grab(moving_resist)
 	. = TRUE
 
 	if(HAS_TRAIT(src, TRAIT_PARALYSIS))
@@ -1189,8 +1182,6 @@
 
 	if(moving_resist && client) //we resisted by trying to move
 		client.move_delay = world.time + 20
-	if(!freeresist)
-		stamina_add(rand(5,15))
 
 	if(!prob(resist_chance))
 		var/rchance = ""
