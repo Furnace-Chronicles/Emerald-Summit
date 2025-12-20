@@ -37,7 +37,6 @@
 	if(should_wear_femme_clothes(H))
 		pants = /obj/item/clothing/under/roguetown/tights/black
 		beltr = /obj/item/rogueweapon/sword/sabre
-	H.adjust_skillrank(/datum/skill/misc/swimming, rand(1,5), TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, rand(1,5), TRUE)
 	H.adjust_skillrank(/datum/skill/misc/sneaking, rand(1,5), TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, rand(1,5), TRUE)

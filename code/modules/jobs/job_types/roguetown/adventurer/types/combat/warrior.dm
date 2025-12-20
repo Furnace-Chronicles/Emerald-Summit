@@ -23,7 +23,6 @@
 		/datum/skill/combat/shields = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
@@ -98,7 +97,6 @@
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 	)
@@ -171,7 +169,6 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
@@ -223,7 +220,6 @@
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,	//they get a hunting knife, it's just in case.
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
@@ -351,7 +347,6 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
@@ -401,7 +396,6 @@
 			H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-			H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/sewing, 2, TRUE)
@@ -453,7 +447,6 @@
 			H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-			H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/sewing, 2, TRUE)
@@ -505,7 +498,6 @@
 			H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-			H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
@@ -552,7 +544,6 @@
 			H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)			
 			H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-			H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
@@ -597,7 +588,6 @@
 			H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)			
 			H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-			H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/athletics, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)

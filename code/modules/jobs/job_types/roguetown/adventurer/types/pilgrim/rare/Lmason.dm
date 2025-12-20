@@ -32,7 +32,6 @@
 	/datum/skill/craft/engineering = SKILL_LEVEL_MASTER,
 	/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/craft/smelting = SKILL_LEVEL_LEGENDARY,
-	/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 	/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 	/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,

@@ -78,7 +78,6 @@
 	/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
-	/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 	/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 	/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 	/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
@@ -138,7 +137,6 @@
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN, // two handed weapons require a LOT of stamina.
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
@@ -209,7 +207,6 @@
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
@@ -322,7 +319,6 @@
 			H.adjust_skillrank(/datum/skill/combat/crossbows, 3, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, 3, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
-			H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/athletics, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
@@ -381,7 +377,6 @@
 			H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/riding, 3, TRUE)
-			H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/sneaking, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
@@ -437,7 +432,6 @@
 			H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/sneaking, 4, TRUE)
-			H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/stealing, 3, TRUE)
@@ -490,7 +484,6 @@
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
@@ -562,7 +555,6 @@
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,

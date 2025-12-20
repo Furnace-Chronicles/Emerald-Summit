@@ -64,7 +64,6 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 	)
@@ -148,7 +147,6 @@
     /datum/skill/craft/smelting,
 	/datum/skill/misc/sneaking,
 	/datum/skill/misc/stealing,
-	/datum/skill/misc/swimming,
 
 	/datum/skill/craft/tanning,
 	/datum/skill/misc/tracking,

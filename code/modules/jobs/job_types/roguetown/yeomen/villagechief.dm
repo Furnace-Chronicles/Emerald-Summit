@@ -64,7 +64,6 @@
 	H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/tracking, 3, TRUE)

@@ -13,7 +13,6 @@
 	if(src.mind)
 		src.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
 		src.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-		src.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 		src.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
 		src.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE) //'Tracker' transformation
 		src.adjust_skillrank(/datum/skill/misc/sneaking, 5, TRUE)

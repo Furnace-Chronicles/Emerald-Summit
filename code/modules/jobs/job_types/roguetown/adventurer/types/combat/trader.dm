@@ -24,7 +24,6 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/mining = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/smelting = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 	)
 
@@ -75,7 +74,6 @@
 	/datum/skill/craft/masonry = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 	/datum/skill/labor/lumberjacking = SKILL_LEVEL_APPRENTICE,
-	/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 	/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 	)
 
@@ -121,7 +119,6 @@
 		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
 	)
@@ -243,7 +240,6 @@
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
 	)
@@ -294,7 +290,6 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/engineering = SKILL_LEVEL_NOVICE, // CBT to make a copper distillery
 		/datum/skill/labor/farming = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 	)
 
@@ -348,7 +343,6 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_EXPERT,
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 	)
 

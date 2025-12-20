@@ -17,7 +17,6 @@
 	if(src.mind)
 		src.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE) //We don't want this thing wrestling people.
 		src.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
-		src.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 		src.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 		src.adjust_skillrank(/datum/skill/misc/tracking, 5, TRUE) //'Tracker' transformation
 		src.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE) //Stalking

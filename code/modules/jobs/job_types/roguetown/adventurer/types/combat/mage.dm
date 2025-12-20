@@ -26,7 +26,6 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/adventurer/mage/pre_equip(mob/living/carbon/human/H)
@@ -86,7 +85,6 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/adventurer/spellblade/pre_equip(mob/living/carbon/human/H)
@@ -160,7 +158,6 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/adventurer/spellsinger/pre_equip(mob/living/carbon/human/H)
@@ -235,7 +232,6 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN, 
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE, //let's encourage bonking people on the head rogues don't do it enough
-		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,

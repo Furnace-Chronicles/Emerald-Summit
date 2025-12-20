@@ -20,7 +20,6 @@
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
@@ -71,8 +70,8 @@
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/abyssor)
 		H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_ABYSSOR_SWIM, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/necra)
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
@@ -214,7 +213,6 @@
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
@@ -273,8 +271,8 @@
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/abyssor)
 		H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_ABYSSOR_SWIM, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/necra)
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
@@ -422,7 +420,6 @@
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
@@ -532,8 +529,8 @@
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/abyssor)
 		H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_ABYSSOR_SWIM, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/necra)
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
@@ -615,7 +612,6 @@
 		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
@@ -716,8 +712,8 @@
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/abyssor)
 		H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_ABYSSOR_SWIM, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/necra)
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)

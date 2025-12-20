@@ -24,7 +24,6 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 
 	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, pick(0,0,1), TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, pick(1,1,2), TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2 , TRUE)
 	H.adjust_skillrank(/datum/skill/craft/masonry, 3, TRUE)

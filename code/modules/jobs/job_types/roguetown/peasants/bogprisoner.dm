@@ -27,7 +27,6 @@
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/sneaking, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)

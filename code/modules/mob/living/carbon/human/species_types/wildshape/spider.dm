@@ -11,7 +11,6 @@
 	if(src.mind)
 		src.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 		src.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
-		src.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE) //For the bog mainly
 		src.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 		src.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE)
 		src.adjust_skillrank(/datum/skill/misc/climbing, 5, TRUE)

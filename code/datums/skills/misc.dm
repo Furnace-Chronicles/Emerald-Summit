@@ -27,16 +27,6 @@
 		"...you cut into your meal, juices leaking from the edges of the book. Your mind expands throughout your meal, and you are about halfway through the meal when an old, bearded chef asks you how you like his specialty..."
 	)
 
-/datum/skill/misc/swimming
-	name = "Swimming"
-	desc = "Reduces stamina spent swimming slightly per level."
-	dreams = list(
-		"...there is no light in the suffocating dark. You choose a direction and your arms and legs tear at the thick, oily waters in a desperate attempt to reach the surface. Your heart pounds, and your body yearns for another breath...",
-		"...a wave rocks to the side of the boat, and you tumble into the yawning abyss. Lightning splits the sky as the old captain hurls a buoy into the churning sea. Salt water burns your lungs as you thrash and claw, struggling towards your lifeline...",
-		"...the current  the beach draws you out further into the ocean, relentless and fast. Your muscles burn as you struggle, every stroke a battle. 'Across, not against!' a voice from your past chides, guiding you as you break free of the riptide's grasp..."
-		
-	)
-
 /datum/skill/misc/stealing
 	name = "Pickpocketing"
 	desc = "Increases your chance to steal successfully without being caught."

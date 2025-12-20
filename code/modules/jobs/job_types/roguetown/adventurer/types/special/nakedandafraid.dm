@@ -21,7 +21,6 @@
 	H.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/labor/lumberjacking, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/labor/farming, 3, TRUE)

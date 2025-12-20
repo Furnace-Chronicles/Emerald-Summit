@@ -11,7 +11,6 @@
 	if(src.mind)
 		src.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
 		src.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
-		src.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 		src.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
 		src.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE) //Run and hide if you can
 

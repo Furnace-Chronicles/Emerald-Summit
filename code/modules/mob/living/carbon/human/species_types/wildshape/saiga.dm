@@ -15,7 +15,6 @@
 	if(src.mind)
 		src.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
 		src.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-		src.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE)
 		src.adjust_skillrank(/datum/skill/misc/athletics, 5, TRUE)
 
 		src.STASTR = 10
