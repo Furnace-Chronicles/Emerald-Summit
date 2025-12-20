@@ -11,7 +11,6 @@
 	)
 	disallowed_races = list(
 		/datum/species/harpy,
-		/datum/species/lamia,
 		/datum/species/golem/metal,
 		/datum/species/golem/porcelain,
 	)
