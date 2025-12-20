@@ -262,7 +262,7 @@
 /obj/item/rogueweapon/katar
 	slot_flags = ITEM_SLOT_HIP
 	force = 22
-	possible_item_intents = list(/datum/intent/katar/cut, /datum/intent/katar/thrust, /datum/intent/sword/peel)
+	possible_item_intents = list(/datum/intent/katar/cut, /datum/intent/katar/thrust)
 	name = "katar"
 	desc = "A blade that sits above the users fist. Commonly used by those proficient at unarmed fighting"
 	icon_state = "katar"

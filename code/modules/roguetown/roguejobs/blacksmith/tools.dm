@@ -147,9 +147,9 @@
 				attacked_item.obj_integrity = min(attacked_item.obj_integrity + repair_percent, attacked_item.max_integrity)
 				integrity_percentage = (attacked_item.obj_integrity / attacked_item.max_integrity) * 100
 			if(repair_percent == 0.01)
-					to_chat(user, span_warning("You fumble your way into slightly repairing [attacked_item]."))
-				else
-					user.visible_message(span_info("[user] repairs [attacked_item]!"))
+				to_chat(user, span_warning("You fumble your way into slightly repairing [attacked_item]."))
+			else
+				user.visible_message(span_info("[user] repairs [attacked_item]!"))
 
 			if(attacked_item.body_parts_covered != attacked_item.body_parts_covered_dynamic)
 				user.visible_message(span_info("[user] repairs [attacked_item]'s coverage!"))
