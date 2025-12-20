@@ -82,8 +82,8 @@
 		if(user.is_holding(src))
 			user.dropItemToGround(src)
 			user.put_in_hands(P)
-		P.obj_integrity = src.obj_integrity
-		user.adjustBruteLoss(25)	
+		P.copy_zone_integrity(src)
+		user.adjustBruteLoss(25)
 		qdel(src)
 	else
 		user.visible_message(span_warning("[user] stops reshaping [src]."))

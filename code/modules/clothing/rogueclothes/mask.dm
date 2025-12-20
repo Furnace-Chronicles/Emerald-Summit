@@ -250,7 +250,7 @@
 			if(user.is_holding(src))
 				user.dropItemToGround(src)
 				user.put_in_hands(P)
-			P.obj_integrity = src.obj_integrity
+			P.copy_zone_integrity(src)
 			qdel(src)
 			qdel(I)
 		else

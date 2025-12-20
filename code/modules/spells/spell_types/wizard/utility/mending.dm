@@ -23,18 +23,61 @@
 /obj/effect/proc_holder/spell/invoked/mending/cast(list/targets, mob/living/user)
 	if(istype(targets[1], /obj/item))
 		var/obj/item/I = targets[1]
-		if(I.obj_integrity < I.max_integrity)
-			var/repair_percent = 0.25
-			repair_percent *= I.max_integrity
-			I.obj_integrity = min(I.obj_integrity + repair_percent, I.max_integrity)
-			user.visible_message(span_info("[I] glows in a faint mending light."))
-			playsound(I, 'sound/foley/sewflesh.ogg', 50, TRUE, -2)
-			if(I.obj_broken && I.obj_integrity >= I.max_integrity)
-				I.obj_integrity = I.max_integrity
-				I.obj_fix()
+
+		// Check if this is clothing with zone tracking
+		if(istype(I, /obj/item/clothing))
+			var/obj/item/clothing/C = I
+			var/target_zone = user.zone_selected
+			var/zone_integrity = C.get_zone_integrity(target_zone)
+			var/zone_max = C.get_zone_max_integrity(target_zone)
+
+			if(zone_integrity < zone_max)
+				var/repair_amount = zone_max * 0.25
+
+				// Repair the specific zone being targeted
+				switch(target_zone)
+					if(BODY_ZONE_CHEST)
+						if(C.zone_integrity_chest != null)
+							C.zone_integrity_chest = min(C.zone_integrity_chest + repair_amount, zone_max)
+					if(BODY_ZONE_PRECISE_GROIN)
+						if(C.zone_integrity_groin != null)
+							C.zone_integrity_groin = min(C.zone_integrity_groin + repair_amount, zone_max)
+					if(BODY_ZONE_L_ARM)
+						if(C.zone_integrity_l_arm != null)
+							C.zone_integrity_l_arm = min(C.zone_integrity_l_arm + repair_amount, zone_max)
+					if(BODY_ZONE_R_ARM)
+						if(C.zone_integrity_r_arm != null)
+							C.zone_integrity_r_arm = min(C.zone_integrity_r_arm + repair_amount, zone_max)
+					if(BODY_ZONE_L_LEG)
+						if(C.zone_integrity_l_leg != null)
+							C.zone_integrity_l_leg = min(C.zone_integrity_l_leg + repair_amount, zone_max)
+					if(BODY_ZONE_R_LEG)
+						if(C.zone_integrity_r_leg != null)
+							C.zone_integrity_r_leg = min(C.zone_integrity_r_leg + repair_amount, zone_max)
+
+				C.update_overall_integrity()
+				user.visible_message(span_info("[I] glows in a faint mending light."))
+				playsound(I, 'sound/foley/sewflesh.ogg', 50, TRUE, -2)
+
+				if(I.obj_broken && I.obj_integrity >= I.max_integrity)
+					I.obj_fix()
+			else
+				to_chat(user, span_info("[I] appears to be in perfect condition."))
+				revert_cast()
 		else
-			to_chat(user, span_info("[I] appears to be in perfect condition."))
-			revert_cast()
+			// Non-clothing items use standard repair
+			if(I.obj_integrity < I.max_integrity)
+				var/repair_percent = 0.25
+				repair_percent *= I.max_integrity
+				I.obj_integrity = min(I.obj_integrity + repair_percent, I.max_integrity)
+				user.visible_message(span_info("[I] glows in a faint mending light."))
+				playsound(I, 'sound/foley/sewflesh.ogg', 50, TRUE, -2)
+				if(I.obj_broken && I.obj_integrity >= I.max_integrity)
+					I.obj_integrity = I.max_integrity
+					I.obj_fix()
+			else
+				to_chat(user, span_info("[I] appears to be in perfect condition."))
+				revert_cast()
 	else if(ishuman(targets[1]))
 		var/mob/living/carbon/human/H = targets[1]
 		if(H.construct)

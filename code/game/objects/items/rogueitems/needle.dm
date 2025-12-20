@@ -82,8 +82,22 @@
 			to_chat(user, span_warning("The needle has no thread left!"))
 			return
 		if(I.sewrepair && I.max_integrity)
-			if(I.obj_integrity == I.max_integrity)
-				to_chat(user, span_warning("This is not broken."))
+			var/target_zone = user.zone_selected
+			var/zone_needs_repair = FALSE
+			var/zone_integrity = I.obj_integrity
+
+			if(istype(I, /obj/item/clothing))
+				var/obj/item/clothing/C = I
+				zone_integrity = C.get_zone_integrity(target_zone)
+				var/zone_max = C.get_zone_max_integrity(target_zone)
+				if(zone_integrity < zone_max)
+					zone_needs_repair = TRUE
+			else
+				if(I.obj_integrity < I.max_integrity)
+					zone_needs_repair = TRUE
+
+			if(!zone_needs_repair)
+				to_chat(user, span_warning("This [target_zone ? "part is" : "is"] not broken."))
 				return
 			if(!I.ontable())
 				to_chat(user, span_warning("I should put this on a table first."))
@@ -134,9 +148,14 @@
 				return
 			if(failed)
 				// We do DAMAGE_REDUCTION_PER_LEVEL less damage per level.
-				// You could write this as I.obj_integrity - BASE_SEW_DAMAGE + (skill * DAMAGE_REDUCTION_PER_LEVEL)
-				// but that's less obvious and makes it look like it could repair it if your skill was high enough (false).
-				I.obj_integrity = max(0, I.obj_integrity - (BASE_SEW_DAMAGE - (skill * DAMAGE_REDUCTION_PER_LEVEL)))
+				var/damage_amount = BASE_SEW_DAMAGE - (skill * DAMAGE_REDUCTION_PER_LEVEL)
+
+				if(istype(I, /obj/item/clothing))
+					var/obj/item/clothing/C = I
+					C.damage_zone(target_zone, damage_amount)
+				else
+					I.obj_integrity = max(0, I.obj_integrity - damage_amount)
+
 				user.visible_message(span_info("[user] damages [I] due to a lack of skill!"))
 				playsound(src, 'sound/foley/cloth_rip.ogg', 50, TRUE)
 				if(XP_ON_FAIL > 0)
@@ -146,13 +165,49 @@
 				return
 			else
 				playsound(loc, 'sound/foley/sewflesh.ogg', 50, TRUE, -2)
-				user.visible_message(span_info("[user] repairs [I]!"))
+				var/repair_amount = BASE_SEW_REPAIR + skill * SEW_REPAIR_PER_LEVEL
+
+				if(istype(I, /obj/item/clothing))
+					var/obj/item/clothing/C = I
+					// Repair the specific zone being worked on
+					var/zone_name = target_zone
+					var/zone_max = C.get_zone_max_integrity(target_zone)
+					switch(target_zone)
+						if(BODY_ZONE_CHEST)
+							if(C.zone_integrity_chest != null)
+								C.zone_integrity_chest = min(C.zone_integrity_chest + repair_amount, zone_max)
+								zone_name = "chest"
+						if(BODY_ZONE_PRECISE_GROIN)
+							if(C.zone_integrity_groin != null)
+								C.zone_integrity_groin = min(C.zone_integrity_groin + repair_amount, zone_max)
+								zone_name = "groin"
+						if(BODY_ZONE_L_ARM)
+							if(C.zone_integrity_l_arm != null)
+								C.zone_integrity_l_arm = min(C.zone_integrity_l_arm + repair_amount, zone_max)
+								zone_name = "left arm"
+						if(BODY_ZONE_R_ARM)
+							if(C.zone_integrity_r_arm != null)
+								C.zone_integrity_r_arm = min(C.zone_integrity_r_arm + repair_amount, zone_max)
+								zone_name = "right arm"
+						if(BODY_ZONE_L_LEG)
+							if(C.zone_integrity_l_leg != null)
+								C.zone_integrity_l_leg = min(C.zone_integrity_l_leg + repair_amount, zone_max)
+								zone_name = "left leg"
+						if(BODY_ZONE_R_LEG)
+							if(C.zone_integrity_r_leg != null)
+								C.zone_integrity_r_leg = min(C.zone_integrity_r_leg + repair_amount, zone_max)
+								zone_name = "right leg"
+					C.update_overall_integrity()
+					user.visible_message(span_info("[user] repairs [I]'s [zone_name]!"))
+				else
+					I.obj_integrity = min(I.obj_integrity + repair_amount, I.max_integrity)
+					user.visible_message(span_info("[user] repairs [I]!"))
+
 				if(I.body_parts_covered != I.body_parts_covered_dynamic)
 					user.visible_message(span_info("[user] repairs [I]'s coverage!"))
 					I.repair_coverage()
 				if(XP_ON_SUCCESS > 0)
 					user.mind.add_sleep_experience(/datum/skill/misc/sewing, user.STAINT * XP_ON_SUCCESS)
-				I.obj_integrity = min(I.obj_integrity + BASE_SEW_REPAIR + skill * SEW_REPAIR_PER_LEVEL, I.max_integrity)
 				if(I.obj_broken && istype(I, /obj/item/clothing) && I.obj_integrity >= I.max_integrity)
 					var/obj/item/clothing/cloth = I
 					cloth.obj_fix()

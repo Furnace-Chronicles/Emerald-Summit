@@ -68,7 +68,24 @@
 
 	if(isitem(attacked_object) && !user.cmode)
 		var/obj/item/attacked_item = attacked_object
-		if(!attacked_item.anvilrepair || (attacked_item.obj_integrity >= attacked_item.max_integrity) || !isturf(attacked_item.loc))
+		if(!attacked_item.anvilrepair || !isturf(attacked_item.loc))
+			return
+
+		var/target_zone = user.zone_selected
+		var/zone_needs_repair = FALSE
+		var/zone_integrity = attacked_item.obj_integrity
+
+		if(istype(attacked_item, /obj/item/clothing))
+			var/obj/item/clothing/C = attacked_item
+			zone_integrity = C.get_zone_integrity(target_zone)
+			var/zone_max = C.get_zone_max_integrity(target_zone)
+			if(zone_integrity < zone_max)
+				zone_needs_repair = TRUE
+		else
+			if(attacked_item.obj_integrity < attacked_item.max_integrity)
+				zone_needs_repair = TRUE
+
+		if(!zone_needs_repair)
 			return
 
 		if(!attacked_item.ontable())
@@ -92,15 +109,63 @@
 		playsound(src,'sound/items/bsmithfail.ogg', 40, FALSE)
 		if(repair_percent)
 			repair_percent *= attacked_item.max_integrity
-			exp_gained = min(attacked_item.obj_integrity + repair_percent, attacked_item.max_integrity) - attacked_item.obj_integrity
-			attacked_item.obj_integrity = min(attacked_item.obj_integrity + repair_percent, attacked_item.max_integrity)
-			if(repair_percent == 0.01) // If an inexperienced repair attempt has been successful
-				to_chat(user, span_warning("You fumble your way into slightly repairing [attacked_item]."))
+
+			if(istype(attacked_item, /obj/item/clothing))
+				var/obj/item/clothing/C = attacked_item
+				var/zone_name = target_zone
+				var/max_zone_integrity = C.get_zone_max_integrity(target_zone)
+				var/old_zone_integrity = zone_integrity
+
+				switch(target_zone)
+					if(BODY_ZONE_CHEST)
+						if(C.zone_integrity_chest != null)
+							C.zone_integrity_chest = min(C.zone_integrity_chest + repair_percent, max_zone_integrity)
+							zone_integrity = C.zone_integrity_chest
+							zone_name = "torso"
+					if(BODY_ZONE_PRECISE_GROIN)
+						if(C.zone_integrity_groin != null)
+							C.zone_integrity_groin = min(C.zone_integrity_groin + repair_percent, max_zone_integrity)
+							zone_integrity = C.zone_integrity_groin
+							zone_name = "groin"
+					if(BODY_ZONE_L_ARM)
+						if(C.zone_integrity_l_arm != null)
+							C.zone_integrity_l_arm = min(C.zone_integrity_l_arm + repair_percent, max_zone_integrity)
+							zone_integrity = C.zone_integrity_l_arm
+							zone_name = "left arm"
+					if(BODY_ZONE_R_ARM)
+						if(C.zone_integrity_r_arm != null)
+							C.zone_integrity_r_arm = min(C.zone_integrity_r_arm + repair_percent, max_zone_integrity)
+							zone_integrity = C.zone_integrity_r_arm
+							zone_name = "right arm"
+					if(BODY_ZONE_L_LEG)
+						if(C.zone_integrity_l_leg != null)
+							C.zone_integrity_l_leg = min(C.zone_integrity_l_leg + repair_percent, max_zone_integrity)
+							zone_integrity = C.zone_integrity_l_leg
+							zone_name = "left leg"
+					if(BODY_ZONE_R_LEG)
+						if(C.zone_integrity_r_leg != null)
+							C.zone_integrity_r_leg = min(C.zone_integrity_r_leg + repair_percent, max_zone_integrity)
+							zone_integrity = C.zone_integrity_r_leg
+							zone_name = "right leg"
+
+				C.update_overall_integrity()
+				exp_gained = zone_integrity - old_zone_integrity
+
+				if(repair_percent == 0.01)
+					to_chat(user, span_warning("You fumble your way into slightly repairing [attacked_item]'s [zone_name]."))
+				else
+					user.visible_message(span_info("[user] repairs [attacked_item]'s [zone_name]!"))
 			else
-				user.visible_message(span_info("[user] repairs [attacked_item]!"))
-				if(attacked_item.body_parts_covered != attacked_item.body_parts_covered_dynamic)
-					user.visible_message(span_info("[user] repairs [attacked_item]'s coverage!"))
-					attacked_item.repair_coverage()
+				exp_gained = min(attacked_item.obj_integrity + repair_percent, attacked_item.max_integrity) - attacked_item.obj_integrity
+				attacked_item.obj_integrity = min(attacked_item.obj_integrity + repair_percent, attacked_item.max_integrity)
+				if(repair_percent == 0.01)
+					to_chat(user, span_warning("You fumble your way into slightly repairing [attacked_item]."))
+				else
+					user.visible_message(span_info("[user] repairs [attacked_item]!"))
+
+			if(attacked_item.body_parts_covered != attacked_item.body_parts_covered_dynamic)
+				user.visible_message(span_info("[user] repairs [attacked_item]'s coverage!"))
+				attacked_item.repair_coverage()
 			if(attacked_item.obj_broken && attacked_item.obj_integrity == attacked_item.max_integrity)
 				attacked_item.obj_fix()
 			blacksmith.mind.add_sleep_experience(attacked_item.anvilrepair, exp_gained/2) //We gain as much exp as we fix divided by 2

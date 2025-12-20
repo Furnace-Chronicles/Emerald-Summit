@@ -31,21 +31,24 @@
 	var/obj/item/clothing/best_armor
 	var/best_effective_value = 0
 	var/list/body_parts = list(skin_armor, head, wear_mask, wear_wrists, gloves, wear_neck, cloak, wear_armor, wear_shirt, shoes, wear_pants, backr, backl, belt, s_store, glasses, ears, wear_ring)
+	var/static/list/blunt_weps = list(BCLASS_BLUNT, BCLASS_SMASH)
 	for(var/bp in body_parts)
 		if(!bp)
 			continue
 		if(bp && istype(bp, /obj/item/clothing))
 			var/obj/item/clothing/C = bp
 			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
+				// Get zone-specific integrity if available
+				var/zone_integrity = C.get_zone_integrity(def_zone)
 				if(C.max_integrity)
-					if(C.obj_integrity <= 0)
+					if(zone_integrity <= 0)
 						continue
 				var/val = C.armor.getRating(d_type)
 
-				// Calculate armor effectiveness based on durability
+				// Calculate armor effectiveness based on zone's durability
 				var/effectiveness = 1.0
 				if(C.max_integrity && val > 0)
-					var/damage_percent = round(((C.obj_integrity / C.max_integrity) * 100), 1)
+					var/damage_percent = round(((zone_integrity / C.max_integrity) * 100), 1)
 					var/max_reduction = (C.armor_class == ARMOR_CLASS_HEAVY) ? 40 : ((C.armor_class == ARMOR_CLASS_MEDIUM) ? 60 : 75)
 					if(damage_percent < 100)
 						effectiveness = 1.0 - ((100 - damage_percent) / 100 * (max_reduction / 100))
@@ -53,7 +56,7 @@
 				var/effective_val = val * effectiveness
 
 				// For blunt attacks, adjust based on armor class with scaled modifiers
-				if(blade_dulling in list(BCLASS_BLUNT, BCLASS_SMASH) && d_type == "blunt")
+				if(d_type == "blunt")
 					var/blunt_modifier = 0
 					var/effective_class = C.armor_class == ARMOR_CLASS_NONE && C.integ_armor_mod != ARMOR_CLASS_NONE ? C.integ_armor_mod : C.armor_class
 
@@ -61,9 +64,10 @@
 						if(ARMOR_CLASS_LIGHT)
 							blunt_modifier = -10 * effectiveness
 						if(ARMOR_CLASS_HEAVY)
-							blunt_modifier = 20 * effectiveness
-							if(istype(C, /obj/item/clothing/head/helmet))
-								blunt_modifier += 10 * effectiveness
+							if(blade_dulling in blunt_weps)
+								blunt_modifier = 20 * effectiveness
+								if(istype(C, /obj/item/clothing/head/helmet))
+									blunt_modifier += 10 * effectiveness
 
 					// Effective penetration for this armor
 					var/effective_pen = armor_penetration + blunt_modifier
@@ -102,13 +106,15 @@
 			if(bypass_item && C == bypass_item)
 				continue
 			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
+				// Get zone-specific integrity if available
+				var/zone_integrity = C.get_zone_integrity(def_zone)
 				if(C.max_integrity)
-					if(C.obj_integrity <= 0)
+					if(zone_integrity <= 0)
 						continue
 				var/val = C.armor.getRating(d_type)
 				if(val > 0)
-					// Calculate armor effectiveness based on damage and armor class
-					var/damage_percent = round(((C.obj_integrity / C.max_integrity) * 100), 1)
+					// Calculate armor effectiveness based on zone-specific durability and armor class
+					var/damage_percent = round(((zone_integrity / C.max_integrity) * 100), 1)
 					var/max_reduction = 0
 					switch(C.armor_class)
 						if(ARMOR_CLASS_HEAVY)
@@ -218,7 +224,10 @@
 							degradation_mult = ARMOR_DEGR_PIERCE_HEAVY
 
 		intdamage *= degradation_mult
-		used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
+		if(used.zone_integrity_chest != null || used.zone_integrity_groin != null || used.zone_integrity_l_arm != null || used.zone_integrity_r_arm != null || used.zone_integrity_l_leg != null || used.zone_integrity_r_leg != null)
+			used.damage_zone(def_zone, intdamage, damage_flag = d_type, sound_effect = FALSE)
+		else
+			used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
 	// Apply armor effectiveness reduction from lost integrity
 	protection *= armor_effectiveness
 
@@ -239,10 +248,12 @@
 		if(bp && istype(bp , /obj/item/clothing))
 			var/obj/item/clothing/C = bp
 			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
-				if(C.obj_integrity > 1)
+				// Get zone-specific integrity if available
+				var/zone_integrity = C.get_zone_integrity(def_zone)
+				if(zone_integrity > 1)
 					if(d_type in C.prevent_crits)
-						// Crit resistance scales with armor durability: 100% at full durability, 0% at 0 durability
-						var/durability_percent = (C.obj_integrity / C.max_integrity) * 100
+						// Crit resistance scales with zone-specific durability: 100% at full durability, 0% at 0 durability
+						var/durability_percent = (zone_integrity / C.max_integrity) * 100
 						return durability_percent
 
 
@@ -261,12 +272,17 @@
 		if(bp && istype(bp , /obj/item/clothing))
 			var/obj/item/clothing/C = bp
 			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
-				if(C.obj_integrity > 1)
+				// Get zone-specific integrity if available
+				var/zone_integrity = C.get_zone_integrity(def_zone)
+				if(zone_integrity > 1)
 					if(bclass in C.prevent_crits)
 						if(!best_armor)
 							best_armor = C
-						else if (round(((best_armor.obj_integrity / best_armor.max_integrity) * 100), 1) < round(((C.obj_integrity / C.max_integrity) * 100), 1)) //We want the armor with highest % integrity 
-							best_armor = C
+						else
+							// We want the armor with highest % integrity for this zone
+							var/best_zone_integrity = best_armor.get_zone_integrity(def_zone)
+							if(round(((best_zone_integrity / best_armor.max_integrity) * 100), 1) < round(((zone_integrity / C.max_integrity) * 100), 1))
+								best_armor = C
 	return best_armor
 /*
 /mob/proc/checkwornweight()
@@ -1014,7 +1030,12 @@
 			torn_items |= leg_clothes
 
 	for(var/obj/item/I as anything in torn_items)
-		I.take_damage(damage_amount, damage_type, damage_flag, 0)
+		// Use zone-specific damage for clothing with zone tracking
+		if(istype(I, /obj/item/clothing))
+			var/obj/item/clothing/C = I
+			C.damage_zone(def_zone, damage_amount)
+		else
+			I.take_damage(damage_amount, damage_type, damage_flag, 0)
 
 /// Helper proc that returns the worn item ref that has the highest rating covering the def_zone (targeted zone) for the d_type (damage type)
 /mob/living/carbon/human/proc/get_best_worn_armor(def_zone, d_type)
@@ -1028,7 +1049,9 @@
 			var/obj/item/clothing/C = bp
 			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
 				if(C.max_integrity)
-					if(C.obj_integrity <= 0)
+					// Check zone-specific integrity if available
+					var/zone_integrity = C.get_zone_integrity(def_zone)
+					if(zone_integrity <= 0)
 						continue
 				var/val = C.armor.getRating(d_type)
 				if(val > 0)

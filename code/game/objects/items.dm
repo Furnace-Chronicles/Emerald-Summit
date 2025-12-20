@@ -543,12 +543,70 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 //**** General durability
 
 		if(max_integrity)
-			inspec += "\n<b>DURABILITY:</b> "
-			var/eff_maxint = max_integrity - (max_integrity * integrity_failure)
-			var/eff_currint = max(obj_integrity - (max_integrity * integrity_failure), 0)
-			var/ratio =	(eff_currint / eff_maxint)
-			var/percent = round((ratio * 100), 1)
-			inspec += "[percent]% ([floor(eff_currint)])"
+			// Check if this is armor with zone-specific durability
+			var/has_zone_durability = FALSE
+			if(istype(src, /obj/item/clothing))
+				var/obj/item/clothing/C = src
+				if(C.zone_integrity_chest != null || C.zone_integrity_groin != null || C.zone_integrity_l_arm != null || C.zone_integrity_r_arm != null || C.zone_integrity_l_leg != null || C.zone_integrity_r_leg != null)
+					has_zone_durability = TRUE
+
+			if(has_zone_durability)
+				// Display zone-specific durability for armor
+				var/obj/item/clothing/C = src
+				var/has_torso = (C.body_parts_covered & (CHEST | GROIN))
+				var/limb_mult = has_torso ? 0.8 : 1.0
+				inspec += "\n<b>DURABILITY:</b>"
+
+				if(C.zone_integrity_chest != null)
+					var/zone_max = max_integrity
+					var/eff_max = zone_max - (zone_max * integrity_failure)
+					var/eff_curr = max(C.zone_integrity_chest - (zone_max * integrity_failure), 0)
+					var/percent = round(((eff_curr / eff_max) * 100), 1)
+					inspec += "\n  <b>Chest:</b> [percent]% ([floor(eff_curr)])"
+
+				if(C.zone_integrity_groin != null)
+					var/zone_max = max_integrity
+					var/eff_max = zone_max - (zone_max * integrity_failure)
+					var/eff_curr = max(C.zone_integrity_groin - (zone_max * integrity_failure), 0)
+					var/percent = round(((eff_curr / eff_max) * 100), 1)
+					inspec += "\n  <b>Groin:</b> [percent]% ([floor(eff_curr)])"
+
+				if(C.zone_integrity_l_arm != null)
+					var/zone_max = max_integrity * limb_mult
+					var/eff_max = zone_max - (zone_max * integrity_failure)
+					var/eff_curr = max(C.zone_integrity_l_arm - (zone_max * integrity_failure), 0)
+					var/percent = round(((eff_curr / eff_max) * 100), 1)
+					inspec += "\n  <b>Left Arm:</b> [percent]% ([floor(eff_curr)])"
+
+				if(C.zone_integrity_r_arm != null)
+					var/zone_max = max_integrity * limb_mult
+					var/eff_max = zone_max - (zone_max * integrity_failure)
+					var/eff_curr = max(C.zone_integrity_r_arm - (zone_max * integrity_failure), 0)
+					var/percent = round(((eff_curr / eff_max) * 100), 1)
+					inspec += "\n  <b>Right Arm:</b> [percent]% ([floor(eff_curr)])"
+
+				if(C.zone_integrity_l_leg != null)
+					var/zone_max = max_integrity * limb_mult
+					var/eff_max = zone_max - (zone_max * integrity_failure)
+					var/eff_curr = max(C.zone_integrity_l_leg - (zone_max * integrity_failure), 0)
+					var/percent = round(((eff_curr / eff_max) * 100), 1)
+					inspec += "\n  <b>Left Leg:</b> [percent]% ([floor(eff_curr)])"
+
+				if(C.zone_integrity_r_leg != null)
+					var/zone_max = max_integrity * limb_mult
+					var/eff_max = zone_max - (zone_max * integrity_failure)
+					var/eff_curr = max(C.zone_integrity_r_leg - (zone_max * integrity_failure), 0)
+					var/percent = round(((eff_curr / eff_max) * 100), 1)
+					inspec += "\n  <b>Right Leg:</b> [percent]% ([floor(eff_curr)])"
+			else
+				// Standard single durability display
+				inspec += "\n<b>DURABILITY:</b> "
+				var/eff_maxint = max_integrity - (max_integrity * integrity_failure)
+				var/eff_currint = max(obj_integrity - (max_integrity * integrity_failure), 0)
+				var/ratio =	(eff_currint / eff_maxint)
+				var/percent = round((ratio * 100), 1)
+				inspec += "[percent]% ([floor(eff_currint)])"
+
 			if(force >= 5) // Durability is rather obvious for non-weapons
 				inspec += " <span class='info'><a href='?src=[REF(src)];explaindurability=1'>{?}</a></span>"
 		if(istype(src, /obj/item/clothing))	//awful

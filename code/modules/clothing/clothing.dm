@@ -61,6 +61,14 @@
 	var/cansnout = FALSE //for masks - can we MMB this to change it into a snouty sprite?
 	var/snouting = FALSE //do we have the snout-snug sprite toggled?
 
+	// Per-zone durability tracking for armor pieces
+	var/zone_integrity_chest
+	var/zone_integrity_groin
+	var/zone_integrity_l_arm
+	var/zone_integrity_r_arm
+	var/zone_integrity_l_leg
+	var/zone_integrity_r_leg
+
 /obj/item
 	var/blocking_behavior
 	var/wetness = 0
@@ -77,6 +85,7 @@
 	..()
 	if(armor_class)
 		has_inspect_verb = TRUE
+	initialize_zone_durability()
 
 /obj/item/clothing/examine(mob/user)
 	. = ..()
@@ -85,6 +94,202 @@
 			. += span_notice("It has one torn sleeve.")
 		else
 			. += span_notice("Both its sleeves have been torn!")
+
+/obj/item/clothing/proc/initialize_zone_durability()
+	var/limb_coverage = body_parts_covered & (CHEST | GROIN | ARMS | LEGS | HANDS | FEET)
+	if(!limb_coverage)
+		return
+
+	var/base_durability = max_integrity
+
+	// Torso zones get 100% durability
+	if(body_parts_covered & CHEST)
+		zone_integrity_chest = base_durability
+	if(body_parts_covered & GROIN)
+		zone_integrity_groin = base_durability
+
+	// Determine durability for limbs based on coverage
+	// Items covering ONLY hands/feet (bracers, gauntlets, boots) get 100%
+	// Items covering chest+arms or chest+legs (full armor) get 80% on limbs
+	var/has_torso = (body_parts_covered & (CHEST | GROIN))
+	var/limb_durability = has_torso ? ceil(base_durability * 0.8) : base_durability
+
+	if(body_parts_covered & (ARM_LEFT | HAND_LEFT))
+		zone_integrity_l_arm = limb_durability
+	if(body_parts_covered & (ARM_RIGHT | HAND_RIGHT))
+		zone_integrity_r_arm = limb_durability
+	if(body_parts_covered & (LEG_LEFT | FOOT_LEFT))
+		zone_integrity_l_leg = limb_durability
+	if(body_parts_covered & (LEG_RIGHT | FOOT_RIGHT))
+		zone_integrity_r_leg = limb_durability
+
+/// Get the current integrity for a specific body zone
+/// Returns the zone-specific integrity if tracked, otherwise returns obj_integrity
+/obj/item/clothing/proc/get_zone_integrity(def_zone)
+	switch(def_zone)
+		if(BODY_ZONE_CHEST)
+			if(zone_integrity_chest != null)
+				return zone_integrity_chest
+		if(BODY_ZONE_PRECISE_GROIN)
+			if(zone_integrity_groin != null)
+				return zone_integrity_groin
+		if(BODY_ZONE_L_ARM)
+			if(zone_integrity_l_arm != null)
+				return zone_integrity_l_arm
+		if(BODY_ZONE_R_ARM)
+			if(zone_integrity_r_arm != null)
+				return zone_integrity_r_arm
+		if(BODY_ZONE_L_LEG)
+			if(zone_integrity_l_leg != null)
+				return zone_integrity_l_leg
+		if(BODY_ZONE_R_LEG)
+			if(zone_integrity_r_leg != null)
+				return zone_integrity_r_leg
+	return obj_integrity
+
+/// Get the maximum integrity for a specific body zone
+/// Returns the zone-specific max if tracked, otherwise returns max_integrity
+/obj/item/clothing/proc/get_zone_max_integrity(def_zone)
+	var/has_torso = (body_parts_covered & (CHEST | GROIN))
+	var/limb_mult = has_torso ? 0.8 : 1.0
+
+	switch(def_zone)
+		if(BODY_ZONE_CHEST)
+			if(zone_integrity_chest != null)
+				return max_integrity
+		if(BODY_ZONE_PRECISE_GROIN)
+			if(zone_integrity_groin != null)
+				return max_integrity
+		if(BODY_ZONE_L_ARM)
+			if(zone_integrity_l_arm != null)
+				return max_integrity * limb_mult
+		if(BODY_ZONE_R_ARM)
+			if(zone_integrity_r_arm != null)
+				return max_integrity * limb_mult
+		if(BODY_ZONE_L_LEG)
+			if(zone_integrity_l_leg != null)
+				return max_integrity * limb_mult
+		if(BODY_ZONE_R_LEG)
+			if(zone_integrity_r_leg != null)
+				return max_integrity * limb_mult
+	return max_integrity
+
+/// Show armor damage notification based on integrity change
+/obj/item/clothing/proc/show_damage_notification(old_integrity, new_integrity)
+	var/eff_maxint = max_integrity - (max_integrity * integrity_failure)
+	var/eff_currint_old = max(old_integrity - (max_integrity * integrity_failure), 0)
+	var/eff_currint_new = max(new_integrity - (max_integrity * integrity_failure), 0)
+	var/ratio = (eff_currint_old / eff_maxint)
+	var/ratio_newinteg = (eff_currint_new / eff_maxint)
+	var/text
+	var/y_offset
+	if(ratio > 0.75 && ratio_newinteg < 0.75)
+		text = "Armor <br><font color = '#8aaa4d'>marred</font>"
+		y_offset = -5
+	if(ratio > 0.5 && ratio_newinteg < 0.5)
+		text = "Armor <br><font color = '#d4d36c'>damaged</font>"
+		y_offset = 15
+	if(ratio > 0.25 && ratio_newinteg < 0.25)
+		text = "Armor <br><font color = '#a8705a'>sundered</font>"
+		y_offset = 30
+	if(text)
+		filtered_balloon_alert(TRAIT_COMBAT_AWARE, text, -20, y_offset)
+
+/// Damage a specific body zone on this armor piece
+/// Handles zone-specific damage and triggers all the normal take_damage effects
+/obj/item/clothing/proc/damage_zone(def_zone, damage_amount, damage_type = BRUTE, damage_flag = "", sound_effect = TRUE)
+	var/old_integrity = obj_integrity
+
+	switch(def_zone)
+		if(BODY_ZONE_CHEST)
+			if(zone_integrity_chest != null)
+				zone_integrity_chest = max(0, zone_integrity_chest - damage_amount)
+		if(BODY_ZONE_PRECISE_GROIN)
+			if(zone_integrity_groin != null)
+				zone_integrity_groin = max(0, zone_integrity_groin - damage_amount)
+		if(BODY_ZONE_L_ARM)
+			if(zone_integrity_l_arm != null)
+				zone_integrity_l_arm = max(0, zone_integrity_l_arm - damage_amount)
+		if(BODY_ZONE_R_ARM)
+			if(zone_integrity_r_arm != null)
+				zone_integrity_r_arm = max(0, zone_integrity_r_arm - damage_amount)
+		if(BODY_ZONE_L_LEG)
+			if(zone_integrity_l_leg != null)
+				zone_integrity_l_leg = max(0, zone_integrity_l_leg - damage_amount)
+		if(BODY_ZONE_R_LEG)
+			if(zone_integrity_r_leg != null)
+				zone_integrity_r_leg = max(0, zone_integrity_r_leg - damage_amount)
+
+	update_overall_integrity()
+	show_damage_notification(old_integrity, obj_integrity)
+
+/// Update the overall obj_integrity based on zone-specific durabilities
+/// For torso armor (has chest zone), uses chest integrity for visual state
+/// For other items (gloves, boots, pants), uses maximum of zones
+/obj/item/clothing/proc/update_overall_integrity()
+	if(zone_integrity_chest != null)
+		obj_integrity = zone_integrity_chest
+		return
+
+	if(zone_integrity_groin != null)
+		obj_integrity = zone_integrity_groin
+		return
+
+	var/max_integrity = 0
+
+	if(zone_integrity_l_arm != null)
+		max_integrity = max(max_integrity, zone_integrity_l_arm)
+	if(zone_integrity_r_arm != null)
+		max_integrity = max(max_integrity, zone_integrity_r_arm)
+	if(zone_integrity_l_leg != null)
+		max_integrity = max(max_integrity, zone_integrity_l_leg)
+	if(zone_integrity_r_leg != null)
+		max_integrity = max(max_integrity, zone_integrity_r_leg)
+
+	obj_integrity = max_integrity
+
+/// Copy zone-specific integrity from another clothing item
+/// Used when transforming items (e.g., combining armor pieces)
+/obj/item/clothing/proc/copy_zone_integrity(obj/item/clothing/source)
+	if(!istype(source))
+		return
+
+	if(source.zone_integrity_chest != null && zone_integrity_chest != null)
+		zone_integrity_chest = source.zone_integrity_chest
+	if(source.zone_integrity_groin != null && zone_integrity_groin != null)
+		zone_integrity_groin = source.zone_integrity_groin
+	if(source.zone_integrity_l_arm != null && zone_integrity_l_arm != null)
+		zone_integrity_l_arm = source.zone_integrity_l_arm
+	if(source.zone_integrity_r_arm != null && zone_integrity_r_arm != null)
+		zone_integrity_r_arm = source.zone_integrity_r_arm
+	if(source.zone_integrity_l_leg != null && zone_integrity_l_leg != null)
+		zone_integrity_l_leg = source.zone_integrity_l_leg
+	if(source.zone_integrity_r_leg != null && zone_integrity_r_leg != null)
+		zone_integrity_r_leg = source.zone_integrity_r_leg
+
+	update_overall_integrity()
+
+/// Override obj_fix for clothing to restore all zone integrities
+/obj/item/clothing/obj_fix(mob/user)
+	var/has_torso = (body_parts_covered & (CHEST | GROIN))
+	var/limb_mult = has_torso ? 0.8 : 1.0
+
+	if(zone_integrity_chest != null)
+		zone_integrity_chest = max_integrity
+	if(zone_integrity_groin != null)
+		zone_integrity_groin = max_integrity
+	if(zone_integrity_l_arm != null)
+		zone_integrity_l_arm = max_integrity * limb_mult
+	if(zone_integrity_r_arm != null)
+		zone_integrity_r_arm = max_integrity * limb_mult
+	if(zone_integrity_l_leg != null)
+		zone_integrity_l_leg = max_integrity * limb_mult
+	if(zone_integrity_r_leg != null)
+		zone_integrity_r_leg = max_integrity * limb_mult
+
+	..()
+
+	update_overall_integrity()
 
 /obj/item/proc/get_detail_tag() //this is for extra layers on clothes
 	return detail_tag
@@ -507,25 +712,35 @@ BLIND     // can't see anything
 	return 0
 
 /obj/item/clothing/take_damage(damage_amount, damage_type = BRUTE, damage_flag, sound_effect, attack_dir, armor_penetration)
-	var/newdam = run_obj_armor(damage_amount, damage_type, damage_flag, attack_dir, armor_penetration)
-	var/eff_maxint = max_integrity - (max_integrity * integrity_failure)
-	var/eff_currint = max(obj_integrity - (max_integrity * integrity_failure), 0)
-	var/ratio =	(eff_currint / eff_maxint)
-	var/ratio_newinteg = (eff_currint - newdam) / eff_maxint
-	var/text
-	var/y_offset
-	if(ratio > 0.75 && ratio_newinteg < 0.75)
-		text = "Armor <br><font color = '#8aaa4d'>marred</font>"
-		y_offset = -5
-	if(ratio > 0.5 && ratio_newinteg < 0.5)
-		text = "Armor <br><font color = '#d4d36c'>damaged</font>"
-		y_offset = 15
-	if(ratio > 0.25 && ratio_newinteg < 0.25)
-		text = "Armor <br><font color = '#a8705a'>sundered</font>"
-		y_offset = 30
-	if(text)
-		filtered_balloon_alert(TRAIT_COMBAT_AWARE, text, -20, y_offset)
-	. = ..()
+	var/old_integrity = obj_integrity
+
+	var/has_zones = (zone_integrity_chest != null || zone_integrity_groin != null || zone_integrity_l_arm != null || zone_integrity_r_arm != null || zone_integrity_l_leg != null || zone_integrity_r_leg != null)
+	if(has_zones)
+		// Damage all zones when take_damage is called (non-targeted damage like fire/acid)
+		if(zone_integrity_chest != null)
+			zone_integrity_chest = max(0, zone_integrity_chest - damage_amount)
+		if(zone_integrity_groin != null)
+			zone_integrity_groin = max(0, zone_integrity_groin - damage_amount)
+		if(zone_integrity_l_arm != null)
+			zone_integrity_l_arm = max(0, zone_integrity_l_arm - damage_amount)
+		if(zone_integrity_r_arm != null)
+			zone_integrity_r_arm = max(0, zone_integrity_r_arm - damage_amount)
+		if(zone_integrity_l_leg != null)
+			zone_integrity_l_leg = max(0, zone_integrity_l_leg - damage_amount)
+		if(zone_integrity_r_leg != null)
+			zone_integrity_r_leg = max(0, zone_integrity_r_leg - damage_amount)
+
+		update_overall_integrity()
+		show_damage_notification(old_integrity, obj_integrity)
+
+		// Call parent without letting it change obj_integrity
+		var/current_integrity = obj_integrity
+		. = ..()
+		obj_integrity = current_integrity
+		update_overall_integrity()
+	else
+		. = ..()
+		show_damage_notification(old_integrity, obj_integrity)
 
 
 /obj/proc/generate_tooltip(examine_text, showcrits)
