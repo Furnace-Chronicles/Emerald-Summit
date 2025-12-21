@@ -1088,8 +1088,16 @@
 
 /mob/living/carbon/human/proc/process_tempo_attack(mob/living/carbon/attacker)
 	if(iscarbon(attacker) && attacker.mind && attacker != src)
-		if(length(tempo_attackers) < TEMPO_CAP)	//This list auto-culls so we don't need to flood it. If you're fighting 6 dudes at the same time you've got other problems.
-			var/newtime = world.time + TEMPO_DELAY
+		if(length(tempo_attackers) <= TEMPO_CAP || (attacker in tempo_attackers))	//This list auto-culls so we don't need to flood it. If you're fighting 6 dudes at the same time you've got other problems.
+			var/newtime
+			var/att_count = length(tempo_attackers)
+			switch(att_count)
+				if(0 to TEMPO_ONE)
+					newtime = world.time + TEMPO_DELAY_ONE
+				if(TEMPO_TWO)
+					newtime = world.time + TEMPO_DELAY_TWO
+				if(TEMPO_MAX to TEMPO_CAP)
+					newtime = world.time + TEMPO_DELAY_MAX
 			tempo_attackers[attacker] = newtime
 			next_tempo_cull = world.time + TEMPO_CULL_DELAY	//We reset the autocull timer on a hit from a valid person.
 		manage_tempo()
@@ -1116,18 +1124,17 @@
 			remove_status_effect(/datum/status_effect/buff/tempo_three)
 
 /mob/living/carbon/human/proc/cull_tempo_list()
-	list_clear_nulls(tempo_attackers)
+	list_clear_nulls(tempo_attackers)	//I pray this never returns TRUE
 	for(var/mob in tempo_attackers)
 		if(tempo_attackers[mob] < world.time)
-			if(mob in tempo_mobs_attacked)
-				tempo_mobs_attacked -= mob
 			tempo_attackers.Remove(mob)
 	manage_tempo()
 
 /mob/living/carbon/human/proc/clear_tempo_all()
-	LAZYCLEARLIST(tempo_mobs_attacked)
-	LAZYCLEARLIST(tempo_attackers)
-	to_chat(src, span_info("My muscles relax. My tempo is gone."))
+	if(length(tempo_attackers) && HAS_TRAIT(src, TRAIT_TEMPO))
+		LAZYCLEARLIST(tempo_attackers)
+		to_chat(src, span_info("My muscles relax. My tempo is gone."))
+		manage_tempo()
 
 /mob/living/proc/get_tempo_bonus(id)
 	switch(id)
@@ -1162,7 +1169,7 @@
 			if(has_status_effect(/datum/status_effect/buff/tempo_two))
 				return 2
 			if(has_status_effect(/datum/status_effect/buff/tempo_three))
-				return 3	//No sharpness lost at max Tempo.
+				return 3	//No default sharpness lost at max Tempo.
 		//Whether we can parry without seeing the enemy
 		if(TEMPO_TAG_NOLOS_PARRY)
 			if(has_status_effect(/datum/status_effect/buff/tempo_one))
