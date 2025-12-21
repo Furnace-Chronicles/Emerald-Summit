@@ -543,15 +543,14 @@
 	force = 20
 	force_wielded = 40
 	icon = 'icons/roguetown/weapons/64.dmi'
-	max_blade_int = 250
-	wbalance = WBALANCE_HEAVY // i looove to experiment
+	max_blade_int = 200
 
 /obj/item/rogueweapon/greataxe/steel/doublehead/graggar/ogre/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_HORDE))
 		to_chat(user, "<font color='red'>WEAK HANDS CANNOT HANDLE MY STRENGTH. BE PUNISHED.</font>")
 		user.adjust_fire_stacks(5)
 		user.ignite_mob()
-		user.Stun(40)
+		user.Stun(10)
 	..()
 
 ////////////////////////////////////////

@@ -32,7 +32,10 @@
 		if(T.can_see_sky())
 			if(!in_sunlight)
 				in_sunlight = TRUE
-				to_chat(H, span_danger("The sunlight burns my flesh!"))
+				if(HAS_TRAIT(H, TRAIT_CRIMSON_CURSE))
+					to_chat(H, span_danger("I can barely bear this accursed sun's gaze!"))
+				else
+					to_chat(H, span_danger("THE SUNLIGHT BURNS AND SEARS MY FLESH!!"))
 
 			apply_sunlight_damage(H)
 		else
@@ -43,6 +46,9 @@
 		in_sunlight = FALSE
 
 /datum/component/sunlight_vulnerability/proc/apply_sunlight_damage(mob/living/carbon/human/H)
+	if(HAS_TRAIT(H, TRAIT_CRIMSON_CURSE))
+		H.apply_status_effect(/datum/status_effect/debuff/sunspurn)
+		return
 	H.adjust_bloodpool(-bloodpool_drain)
 	var/datum/component/vampire_disguise/disguise_comp = H.GetComponent(/datum/component/vampire_disguise)
 	if(disguise_comp && disguise_comp.disguised)
@@ -52,7 +58,9 @@
 		to_chat(H, span_warning("The sunlight breaks my disguise!"))
 
 	// Apply fire damage
-	H.fire_act(1, burn_damage)
+	H.adjustFireLoss(40)
+	H.adjust_fire_stacks(6, /datum/status_effect/fire_handler/fire_stacks/sunder)
+	H.ignite_mob()
 
 	// Freak out if on fire
 	if(H.on_fire)

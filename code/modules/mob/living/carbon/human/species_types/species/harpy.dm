@@ -10,6 +10,7 @@
 	use_titles = TRUE
 	race_titles = list("Bat-Harpy", "Stork-Harpy", "Finch-Harpy", "Owl-Harpy", "Shrike-Harpy", "Condor-Harpy", "Parrot-Harpy", "Chicken-Harpy", "Turkey-Harpy", "Zad-Harpy", "Osprey-Harpy", "Pigeon-Harpy", "Dove-Harpy", "Gull-Harpy")
 	base_name = "Beastvolk"
+	sub_name = "Harpy"
 	desc = "<b>Harpy</b><br>\
 	Harpies, or less ceremoniously known as 'magpies,' resemble the half-kin in appearance at first glance. \
 	One would rightfully assume they are similar in nature- with accuracy even, much to the harpies' chagrin. \

@@ -24,7 +24,7 @@
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
-	) //trust me this'll be fine - they'll only have a cuirass and a hauberk for armor i swear
+	) 
 
 /datum/outfit/job/roguetown/ogre/warlord/pre_equip(mob/living/carbon/human/H)
 	..()

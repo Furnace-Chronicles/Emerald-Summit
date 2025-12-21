@@ -973,8 +973,7 @@
 	icon = 'icons/roguetown/weapons/64.dmi'
 	icon_state = "ogre_cleaver"
 	force = 25
-	wbalance = WBALANCE_HEAVY
-	wdefense = 10 //im experimenting here
+	wdefense = 4
 	minstr = 13
 	pixel_y = -16
 	pixel_x = -16

@@ -113,6 +113,7 @@
 #define TRAIT_EXTEROCEPTION	"Exteroception" //See others' hunger and thirst; pairs well with empath.
 #define TRAIT_BLACKLEG	"Blackleg" //Rig coin, dice, cards in your favor - UNUSED FOR NOW
 #define TRAIT_BETTER_SLEEP	"Better Sleep" //Recover more energy (blue bar) when sleeping
+#define TRAIT_NOCINSPIRE "Lunar Inspiration" //Guaranteed inspiration in addition to your normal one when sleeping.
 #define TRAIT_LEECHIMMUNE "Unleechable" //leeches wont attach in bog squares + dendor boon.
 #define TRAIT_LONGSTRIDER "Longstrider"
 #define TRAIT_PSYDONIAN_GRIT "Psydonian Grit" // Pain Tolerance. Through faith, ENDURE.
@@ -160,7 +161,6 @@
 #define TRAIT_BANDITCAMP "banditcamp"
 #define TRAIT_VAMPMANSION "vampiremansion"
 #define TRAIT_VAMP_DREAMS "vamp_dreams"
-#define TRAIT_SEXPASS "sexpass"
 #define TRAIT_STEELHEARTED "Steelhearted" //no bad mood from dismembering or seeing this
 #define TRAIT_IWASREVIVED "iwasrevived" //prevents PQ gain from reviving the same person twice
 #define TRAIT_IWASUNZOMBIFIED "iwasunzombified" //prevents PQ gain from curing a zombie twice
@@ -218,6 +218,7 @@
 #define TRAIT_DEADITE "Deadite"
 #define TRAIT_PUZZLEMASTER "Puzzle Master"
 #define TRAIT_CLERGY "Clergy" // City clergy
+#define TRAIT_CRIMSON_CURSE "Crimson Curse" //Crimson Curse Virtue
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
 
@@ -350,12 +351,14 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_JUSTICARSIGHT = span_info("I am able to remember someone's crimes by looking at them, and how much their bounty is."),
 	TRAIT_CICERONE = span_info("I am well-versed in the differences of brews and spirits, and can tell them apart at a glance."),
 	TRAIT_BETTER_SLEEP = span_info("I recover more energy when sleeping."),
+	TRAIT_NOCINSPIRE = span_info("The moon inspires me, and whispers knowledge in my dreams. I will recieve an extra inspiration when sleeping."),
 	TRAIT_ROTMAN = span_info("I am partially undead. My heart does not beat."),
 	TRAIT_EASYDISMEMBER = span_info("My limbs are frail and fragile. They can be dismembered with greater ease, including my neck."),
 	TRAIT_NOPAIN = span_info("I feel no pain."),
 	TRAIT_NOPAINSTUN = span_info("Pain does not impair me."),
 	TRAIT_NOBREATH = span_info("I do not breathe."),
 	TRAIT_HOLLOW_LIFE = span_bloody("I am a half-lyfe, closer to a deadite than to the living. I can feel astrata's scorn upon me, even now."),
+	TRAIT_CRIMSON_CURSE = span_bloody("You suffer from the Crimson Curse, a weak form of Vampirism acquired from dark rites or a particularly cruel hex. Unlike a 'true' Vampire, you are incapable of converting others or commiting Diablerie."),
 	TRAIT_TOXIMMUNE = span_info("Poisons do nothing to me."),
 	TRAIT_ZOMBIE_IMMUNE = span_info("Deadite bites cannot infect me."),
 	TRAIT_NOHUNGER = span_info("I do not hunger, or thirst."),
@@ -411,7 +414,6 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_PUZZLEMASTER = span_notice("I've solved an impossible puzzle!"),
 	TRAIT_ENGINEERING_GOGGLES = span_warning("I can see structural details others can't"),
 	TRAIT_MASTER_CARPENTER = span_warning("I've been trained to make the most of wood"), 
-	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"),
 	TRAIT_ROYALSERVANT = span_greentext("I've been serving the royal family for long enough to know their exotic tastes."), 
 	TRAIT_SLAYER = span_warning("My vows forbid me from protecting my weakspots with armor."),
 	TRAIT_NODEF = span_warning("I expose myself in battle completely."),

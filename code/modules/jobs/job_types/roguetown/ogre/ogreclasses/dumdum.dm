@@ -13,8 +13,8 @@
 		STATKEY_STR = 4, 
 		STATKEY_CON = 4,
 		STATKEY_END = 4,
-		STATKEY_INT = -1,
-	) //4 (class) + 2 (race) strength is 16 base strength - 15 is min strength for their weapons and i think itd be cool for people to play around with statpacks
+		STATKEY_INT = -2,
+	)
 
 	subclass_skills = list(
 		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
@@ -26,7 +26,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/labor/butchering = SKILL_LEVEL_EXPERT,
-	) //trust me this'll be fine - he only gets a cuirass
+	) 
 
 /datum/outfit/job/roguetown/ogre/dumdum/pre_equip(mob/living/carbon/human/H)
 	..()
