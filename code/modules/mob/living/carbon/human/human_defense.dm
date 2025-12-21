@@ -184,9 +184,6 @@
 			intdamage = damage * 0.3 + (blocked_damage * 0.15)
 		if(intdamfactor != 1)
 			intdamage *= intdamfactor
-		if(d_type == "blunt")
-			if(used.armor?.getRating("blunt") > 0)
-				var/bluntrating = used.armor.getRating("blunt")
 		if(istype(used_weapon) && used_weapon.is_silver && ((used.smeltresult in list(/obj/item/ingot/aaslag, /obj/item/ingot/aalloy, /obj/item/ingot/purifiedaalloy)) || used.GetComponent(/datum/component/cursed_item)))
 			// Blessed silver delivers more int damage against "cursed" alloys, see component for multiplier values
 			var/datum/component/silverbless/bless = used_weapon.GetComponent(/datum/component/silverbless)
