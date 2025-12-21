@@ -1971,6 +1971,7 @@
 #include "code\modules\mob\living\carbon\human\species_types\species\dwarf\_dwarf.dm"
 #include "code\modules\mob\living\carbon\human\species_types\species\dwarf\dwarfm.dm"
 #include "code\modules\mob\living\carbon\human\species_types\species\elf\_elf.dm"
+#include "code\modules\mob\living\carbon\human\species_types\species\elf\elfc.dm"
 #include "code\modules\mob\living\carbon\human\species_types\species\elf\elfd.dm"
 #include "code\modules\mob\living\carbon\human\species_types\species\elf\elfs.dm"
 #include "code\modules\mob\living\carbon\human\species_types\species\golem\_golem.dm"

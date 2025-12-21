@@ -105,6 +105,11 @@
 		"...the smell of sulfur singes your nostrils... you taste iron... the smoke clears as you stare down at the reflection in your cauldron... the Queen stares back at you... she looks like she's crying..."
 	)
 
+/datum/skill/craft/alchemy/New()
+	. = ..()
+	advancement_traits = list()
+	advancement_traits["[SKILL_LEVEL_APPRENTICE]"] = list(TRAIT_TALENTED_ALCHEMIST)
+
 /datum/skill/craft/alchemy/skill_level_effect(level, datum/mind/mind)
 	if(level > SKILL_LEVEL_MASTER)
 		ADD_TRAIT(mind?.current, TRAIT_LEGENDARY_ALCHEMIST, type)

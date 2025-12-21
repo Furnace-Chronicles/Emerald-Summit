@@ -6,7 +6,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/wretch/wretchedtoiler
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_RITUALIST, TRAIT_ARCYNE_T2)
+	traits_applied = list(TRAIT_RITUALIST, TRAIT_ARCYNE_T2, TRAIT_TALENTED_ALCHEMIST)
 	cmode_music = 'sound/music/combat_mastermind.ogg' //evil ass mastermind music
 	extra_context = "Choose between 2 options: being an EVIL mastermind or a WRETCHED servant" //choose between master and servant
 	maximum_possible_slots = 5 // We can toil a LOT but if the entire wretch slot is just omnicrafters this will become problematic

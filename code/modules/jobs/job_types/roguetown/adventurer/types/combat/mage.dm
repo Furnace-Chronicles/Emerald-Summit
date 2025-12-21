@@ -8,7 +8,7 @@
 	class_select_category = CLASS_CAT_MAGE
 	subclass_social_rank = SOCIAL_RANK_YEOMAN
 
-	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3)
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3, TRAIT_TALENTED_ALCHEMIST)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 2,

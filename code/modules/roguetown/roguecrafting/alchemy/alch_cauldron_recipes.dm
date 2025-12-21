@@ -11,7 +11,7 @@
 /datum/alch_cauldron_recipe/berrypoison
 	name = "Poison (Berry)"
 	smells_like = "death"
-	skill_required = SKILL_LEVEL_JOURNEYMAN // Basic poison should be harder to handle
+	skill_required = SKILL_LEVEL_APPRENTICE 
 	output_reagents = list(/datum/reagent/toxin/berrypoison = 81)
 
 /datum/alch_cauldron_recipe/doompoison
@@ -23,7 +23,7 @@
 /datum/alch_cauldron_recipe/stam_poison
 	name = "Stamina Poison"
 	smells_like = "a slow breeze"
-	skill_required = SKILL_LEVEL_JOURNEYMAN // Basic poison should be harder to handle
+	skill_required = SKILL_LEVEL_APPRENTICE
 	output_reagents = list(/datum/reagent/toxin/stampoison = 81)
 
 /datum/alch_cauldron_recipe/big_stam_poison
