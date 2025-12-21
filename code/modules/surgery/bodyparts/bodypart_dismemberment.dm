@@ -208,11 +208,15 @@
 	was_owner.bodyparts -= src
 	owner = null
 
+	if(ishuman(was_owner))
+		var/mob/living/carbon/human/H = was_owner
+		H.body_overlay_cache_key = null
+		H.damage_overlay_cache_key = null
+		H.icon_render_key = null
+
 	update_icon_dropped()
 	was_owner.update_health_hud() //update the healthdoll
-	was_owner.update_body()
-//	was_owner.update_hair() // dk how it's gonna fly
-	was_owner.update_body_parts()
+	was_owner.queue_icon_update(PENDING_UPDATE_BODY)
 	was_owner.update_mobility()
 
 	// drop_location = null happens when a "dummy human" used for rendering icons on prefs screen gets its limbs replaced.
@@ -425,10 +429,20 @@
 
 	update_bodypart_damage_state()
 
+	if(ishuman(C))
+		var/mob/living/carbon/human/H = C
+		H.body_overlay_cache_key = null
+		H.damage_overlay_cache_key = null
+		// Clear limb cache entries for both old and new states in an attempt to prevent orphaned aux_zone overlays >:/
+		var/old_key = H.icon_render_key
+		if(old_key)
+			H.limb_icon_cache -= old_key
+		H.icon_render_key = null
+		var/new_key = H.generate_icon_render_key()
+		H.limb_icon_cache -= new_key
+
 	C.updatehealth()
-	C.update_body()
-	C.update_hair()
-	C.update_damage_overlays()
+	C.queue_icon_update(PENDING_UPDATE_BODY | PENDING_UPDATE_HAIR | PENDING_UPDATE_DAMAGE)
 	C.update_mobility()
 	return TRUE
 

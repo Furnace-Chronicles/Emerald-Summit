@@ -131,7 +131,7 @@
 
 	cmode_music = 'sound/music/combat_condottiero.ogg'
 
-	traits_applied = list(TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_TALENTED_ALCHEMIST)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_INT = 2,

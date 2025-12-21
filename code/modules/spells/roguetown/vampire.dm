@@ -36,3 +36,19 @@
 	name = "Cabbit Form"
 	desc = ""
 	shapeshift_type = /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit
+
+/obj/effect/proc_holder/spell/self/disguise
+	name = "Disguise"
+	desc = ""
+	invocation = ""
+	recharge_time = 30 SECONDS
+
+/obj/effect/proc_holder/spell/self/disguise/cast(list/targets, mob/living/carbon/human/user)
+	var/datum/component/vampire_disguise/disguise_comp = user.GetComponent(/datum/component/vampire_disguise)
+	if(!disguise_comp)
+		to_chat(user, span_warning("I cannot disguise myself."))
+		return
+	if(disguise_comp.disguised)
+		disguise_comp.remove_disguise(user)
+	else
+		disguise_comp.apply_disguise(user)

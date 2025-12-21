@@ -41,6 +41,8 @@
 	var/list/skill_experience = list()
 	///Cooldown for level up effects. Duplicate from sleep_adv
 	COOLDOWN_DECLARE(level_up)
+	///Cooldown for trait block warning message
+	COOLDOWN_DECLARE(trait_block_warning)
 
 /datum/skill_holder/New()
 	. = ..()
@@ -58,8 +60,25 @@
 	UnregisterSignal(source, COMSIG_MIND_TRANSFER)
 	set_current(destination)
 
-/datum/skill_holder/proc/adjust_experience(skill, amt, silent = FALSE)
+/datum/skill_holder/proc/adjust_experience(skill, amt, silent = FALSE, check_apprentice = TRUE)
 	var/datum/skill/S = GetSkillRef(skill)
+	
+	// Check if advancement is blocked by missing required traits
+	if(check_apprentice && S.advancement_traits)
+		var/current_level = known_skills[S] || SKILL_LEVEL_NONE
+		
+		for(var/level_string in S.advancement_traits)
+			var/required_level = text2num(level_string)
+			// If we're at or past the level that requires the trait, block all XP if trait missing
+			if(current_level >= required_level)
+				var/list/required_traits = S.advancement_traits[level_string]
+				for(var/trait in required_traits)
+					if(!HAS_TRAIT(current, trait))
+						if(COOLDOWN_FINISHED(src, trait_block_warning))
+							to_chat(current, span_warning("My [S.name] knowledge feels... blocked. Perhaps I need some natural talent for this."))
+							COOLDOWN_START(src, trait_block_warning, 60 SECONDS)
+						return FALSE // Return FALSE to indicate XP was blocked
+	
 	skill_experience[S] = max(0, skill_experience[S] + amt) //Prevent going below 0
 	var/old_level = known_skills[S]
 	switch(skill_experience[S])
