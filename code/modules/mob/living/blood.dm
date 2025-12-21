@@ -227,7 +227,11 @@
 		normal_bleed *= (blood_pressure ** 2)
 		critical_bleed *= min(blood_pressure * 1.5, 1)
 
-	return normal_bleed + critical_bleed
+	var/total_bleed = normal_bleed + critical_bleed
+
+	if(total_bleed < 1)
+		return 0
+	return total_bleed
 
 
 /mob/living/carbon/proc/recalculate_bleed_cache()
