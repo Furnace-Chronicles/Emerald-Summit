@@ -385,5 +385,6 @@
 
 /datum/status_effect/buff/tempo_three/on_remove()
 	. = ..()
+	owner.remove_filter(TEMPO_MAX_FILTER)
 	REMOVE_TRAIT(owner, TRAIT_GRABIMMUNE,  TRAIT_STATUS_EFFECT)
 	REMOVE_TRAIT(owner, TRAIT_STRONGKICK, TRAIT_STATUS_EFFECT)
