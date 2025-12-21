@@ -95,6 +95,16 @@
 	H.STACON = 4
 	H.STAEND = 15
 	H.STAINT = 1
+	//Some moron ard put this after the returns.
+	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
 	var/skeletonclass = rand(1,15)
 	if(skeletonclass < 4) // basic ass skele. Kinda sucks.
@@ -148,6 +158,7 @@
 		gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
 		r_hand = /obj/item/rogueweapon/sword/sabre/alloy
 		l_hand = /obj/item/rogueweapon/sword/sabre/alloy
+		ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
 		return
 	if(skeletonclass == 15) // Withered Dread Knight
 		cloak = /obj/item/clothing/cloak/tabard/blkknight
@@ -164,15 +175,7 @@
 		else
 			r_hand = /obj/item/rogueweapon/mace/goden/aalloy
 		return
-	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+
 
 /mob/living/carbon/human/species/skeleton/npc/no_equipment
     skel_outfit = null

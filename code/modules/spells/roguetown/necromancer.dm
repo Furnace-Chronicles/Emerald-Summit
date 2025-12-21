@@ -85,26 +85,37 @@
 	var/cabal_affine = FALSE
 	var/is_summoned = FALSE
 	hide_charge_effect = TRUE
-
+	var/list/summonlist = list(/mob/living/carbon/human/species/skeleton/npc/ambush)
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/cast(list/targets, mob/living/user)
 	. = ..()
 	var/turf/T = get_turf(targets[1])
-	var/skeleton_roll = rand(1,100)
 	if(!isopenturf(T))
 		to_chat(user, span_warning("The targeted location is blocked. My summon fails to come forth."))
+		revert_cast()
 		return FALSE
-	switch(skeleton_roll)
-		if(1 to 20)
-			new /mob/living/simple_animal/hostile/rogue/skeleton/axe(T, user, cabal_affine)
-		if(21 to 40)
-			new /mob/living/simple_animal/hostile/rogue/skeleton/spear(T, user, cabal_affine)
-		if(41 to 60)
-			new /mob/living/simple_animal/hostile/rogue/skeleton/guard(T, user, cabal_affine)
-		if(61 to 80)
-			new /mob/living/simple_animal/hostile/rogue/skeleton/bow(T, user, cabal_affine)
-		if(81 to 100)
-			new /mob/living/simple_animal/hostile/rogue/skeleton(T, user, cabal_affine)
+	var/mob/living/summon = pick(summonlist)
+	new summon(T, user, cabal_affine)
 	return TRUE
+
+
+/obj/effect/proc_holder/spell/invoked/raise_lesser_undead/minor
+	name = "Raise Minor Undead"
+	desc = ""
+	clothes_req = FALSE
+	overlay_state = "animate"
+	range = 7
+	sound = list('sound/magic/magnet.ogg')
+	releasedrain = 40
+	chargetime = 5 SECONDS
+	recharge_time = 20 SECONDS
+	releasedrain = 10 //MEANINGLESS CHAFF.
+	summonlist = list(\
+	/mob/living/simple_animal/hostile/rogue/skeleton/axe, \
+	/mob/living/simple_animal/hostile/rogue/skeleton/spear, \
+	/mob/living/simple_animal/hostile/rogue/skeleton/guard, \
+	/mob/living/simple_animal/hostile/rogue/skeleton/bow, \
+	/mob/living/simple_animal/hostile/rogue/skeleton)
+
 
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/necromancer
 	cabal_affine = TRUE
@@ -138,7 +149,7 @@
 	movement_interrupt = FALSE
 	chargedloop = null
 	antimagic_allowed = TRUE
-	recharge_time = 15 SECONDS
+	recharge_time = 1 SECONDS
 	hide_charge_effect = TRUE
 
 /obj/effect/proc_holder/spell/invoked/gravemark/cast(list/targets, mob/living/user)
