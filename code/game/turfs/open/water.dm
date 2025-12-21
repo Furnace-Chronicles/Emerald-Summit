@@ -81,8 +81,9 @@
 				addtimer(CALLBACK(user, TYPE_PROC_REF(/mob/living, Knockdown), 30), 1 SECONDS)
 
 /turf/open/water/proc/get_stamina_drain(mob/living/swimmer, travel_dir)
-	var/const/BASE_STAM_DRAIN = 5
-	var/const/MIN_STAM_DRAIN = 0
+	var/const/BASE_STAM_DRAIN = 15
+	var/const/MIN_STAM_DRAIN = 1
+	var/const/STAM_PER_LEVEL = 5
 	var/const/UNSKILLED_ARMOR_PENALTY = 40
 	if(!isliving(swimmer))
 		return 0
@@ -95,7 +96,8 @@
 	if(swimmer.buckled)
 		return 0
 	var/abyssor_swim_bonus = HAS_TRAIT(swimmer, TRAIT_ABYSSOR_SWIM) ? 5 : 0
-	. = max(BASE_STAM_DRAIN - abyssor_swim_bonus, MIN_STAM_DRAIN)
+	var/athletics_skill_level = swimmer.get_skill_level(/datum/skill/misc/athletics)
+	. = max(BASE_STAM_DRAIN - (athletics_skill_level * STAM_PER_LEVEL) - abyssor_swim_bonus, MIN_STAM_DRAIN)
 //	. += (swimmer.checkwornweight()*2)
 	if(!swimmer.check_armor_skill())
 		. += UNSKILLED_ARMOR_PENALTY
@@ -273,7 +275,7 @@
 
 /turf/open/water/get_slowdown(mob/user)
 	var/returned = slowdown
-	returned = 3 // Everyone has journeyman swimming now
+	returned = max(returned - SKILL_LEVEL_JOURNEYMAN, 0) // Everyone has journeyman swimming now
 	if(HAS_TRAIT(user, TRAIT_SLOW_SWIMMER))
 		returned += 3
 	return returned
