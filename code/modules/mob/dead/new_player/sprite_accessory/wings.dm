@@ -49,11 +49,7 @@
 /datum/sprite_accessory/wings/moth
 	abstract_type = /datum/sprite_accessory/wings/moth
 	icon = 'icons/mob/sprite_accessory/wings/moth_wings.dmi'
-	default_colors = list("#FFFFFF")
-
-/datum/sprite_accessory/wings/moth/plain
-	name = "Plain"
-	icon_state = "plain"
+	default_colors = list("#9E9671")
 
 /datum/sprite_accessory/wings/moth/monarch
 	name = "Monarch"
@@ -67,18 +63,6 @@
 	name = "Atlas"
 	icon_state = "atlas"
 
-/datum/sprite_accessory/wings/moth/reddish
-	name = "Reddish"
-	icon_state = "redish"
-
-/datum/sprite_accessory/wings/moth/royal
-	name = "Royal"
-	icon_state = "royal"
-
-/datum/sprite_accessory/wings/moth/gothic
-	name = "Gothic"
-	icon_state = "gothic"
-
 /datum/sprite_accessory/wings/moth/lovers
 	name = "Lovers"
 	icon_state = "lovers"
@@ -91,14 +75,6 @@
 	name = "Burnt Off"
 	icon_state = "burnt_off"
 
-/datum/sprite_accessory/wings/moth/firewatch
-	name = "Firewatch"
-	icon_state = "firewatch"
-
-/datum/sprite_accessory/wings/moth/deathhead
-	name = "Deathshead"
-	icon_state = "deathhead"
-
 /datum/sprite_accessory/wings/moth/poison
 	name = "Poison"
 	icon_state = "poison"
@@ -106,10 +82,6 @@
 /datum/sprite_accessory/wings/moth/ragged
 	name = "Ragged"
 	icon_state = "ragged"
-
-/datum/sprite_accessory/wings/moth/moonfly
-	name = "Moon Fly"
-	icon_state = "moonfly"
 
 /datum/sprite_accessory/wings/moth/snow
 	name = "Snow"
@@ -138,10 +110,6 @@
 /datum/sprite_accessory/wings/moth/brown
 	name = "Brown"
 	icon_state = "brown"
-
-/datum/sprite_accessory/wings/moth/plasmafire
-	name = "Plasmafire"
-	icon_state = "plasmafire"
 
 /datum/sprite_accessory/wings/wide
 	abstract_type = /datum/sprite_accessory/wings/wide
@@ -268,3 +236,7 @@
 /datum/sprite_accessory/wings/large/harpybat_alt
 	name = "Harpy Bat Alt"
 	icon_state = "harpybat_alt"
+
+/datum/sprite_accessory/wings/large/gargoyle
+	name = "Gargoyle"
+	icon_state = "gargoyle"

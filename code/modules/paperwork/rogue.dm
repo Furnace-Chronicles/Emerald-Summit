@@ -149,6 +149,20 @@
 	update_icon_state()
 	user.update_inv_hands()
 
+/obj/item/paper/scroll/grudge/grand
+	name = "Grand Book of Grudges"
+	desc = "A certified and well-made copy you've taken with you. Unfortunately the dampness of Scarlet Reach made it unreadable. You can still add new entries, however. It looks bulky enough to act as a decent blunt weapon."
+	force = 20
+	icon_state ="grand_grudge_closed"
+
+/obj/item/paper/scroll/grudge/grand/update_icon_state()
+	if(open)
+		if(info)
+			icon_state = "grudgewrite"
+		else
+			icon_state = "grudge"
+	else
+		icon_state = "grand_grudge_closed"
 
 /obj/item/paper/scroll/cargo
 	name = "shipping order"
@@ -378,6 +392,9 @@
 /obj/item/paper/inqslip/attacked_by(obj/item/I, mob/living/user)	
 	if(istype(I, /obj/item/clothing/ring/signet))
 		var/obj/item/clothing/ring/signet/S = I
+		if(waxed)
+			to_chat(user,  span_warning("It's already wax-sealed."))
+			return
 		if(S.tallowed && sealed)
 			waxed = TRUE
 			update_icon()

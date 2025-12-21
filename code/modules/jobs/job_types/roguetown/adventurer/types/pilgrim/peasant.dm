@@ -4,13 +4,16 @@
 	Join the local Soilsmen at their farm, or make your own little orchard."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/peasant
+	traits_applied = list(TRAIT_PEASANTMILITIA, TRAIT_SEEDKNOW)
+	outfit = /datum/outfit/job/adventurer/peasant
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	cmode_music = 'sound/music/combat_soilson.ogg'
 
 	subclass_stats = list(
 		STATKEY_STR = 1,
-		STATKEY_INT = -1
+		STATKEY_INT = -1,
+		STATKEY_END = 2,
+		STATKEY_CON = 1
 		)
 
 	subclass_skills = list(
@@ -22,9 +25,10 @@
 		/datum/skill/labor/farming = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT
 	)
 
-/datum/outfit/job/roguetown/adventurer/peasant/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/peasant/pre_equip(mob/living/carbon/human/H)
 	..()
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
@@ -37,7 +41,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/workervest
 	mouth = /obj/item/rogueweapon/huntingknife
 	beltr = /obj/item/flint
-	if(H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F)
+	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/random
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 		pants = null

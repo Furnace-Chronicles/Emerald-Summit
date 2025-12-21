@@ -184,6 +184,10 @@
 						'sound/ambience/noises/birds (6).ogg',\
 						'sound/ambience/noises/birds (7).ogg')
 
+#define LEVEL_UP_SOUNDS list('sound/misc/levelup1.ogg',\
+					'sound/misc/levelup2.ogg',\
+					'sound/misc/levelup3.ogg')
+
 #define SFX_CHAIN_STEP "chain_step"
 #define SFX_PLATE_STEP	"plate_step"
 #define SFX_PLATE_COAT_STEP "plate_coat_step"
@@ -196,6 +200,13 @@
 							'sound/items/jinglebell4.ogg',\
 							'sound/items/jinglebell5.ogg',\
 							'sound/items/jinglebell6.ogg')
+
+#define SFX_COLLARJANGLE list('sound/items/cowbell1.ogg',\
+							'sound/items/cowbell2.ogg',\
+							'sound/items/cowbell3.ogg',\
+							'sound/items/cowbell4.ogg',\
+							'sound/items/cowbell5.ogg',\
+							'sound/items/cowbell6.ogg')
 
 #define INTERACTION_SOUND_RANGE_MODIFIER 0
 #define EQUIP_SOUND_VOLUME 100

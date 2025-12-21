@@ -70,6 +70,26 @@
 		return "braies_f"
 	return "braies"
 
+/datum/sprite_accessory/underwear/big_briefs
+	name = "Big briefs"
+	icon_state = "under"
+	icon = 'icons/mob/sprite_accessory/big_underwear.dmi'
+	underwear_type = /obj/item/undies/ogre
+
+/datum/sprite_accessory/underwear/big_briefs/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+	if(is_species(owner,/datum/species/ogre))
+		return "under_ogre"
+	if(owner.gender == FEMALE)
+		return "ogre_bra"
+	return "under_ogre"
+
+/datum/sprite_accessory/underwear/big_bikini
+	name = "Big bikini"
+	icon_state = "ogre_bra"
+	icon = 'icons/mob/sprite_accessory/big_underwear.dmi'
+	underwear_type = /obj/item/undies/bikini/ogre
+	hides_breasts = TRUE
+
 /datum/sprite_accessory/legwear
 	abstract_type = /datum/sprite_accessory/legwear
 	icon = 'modular_hearthstone/icons/obj/items/clothes/on_mob/stockings.dmi'

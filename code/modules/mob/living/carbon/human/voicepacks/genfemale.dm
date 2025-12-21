@@ -161,5 +161,9 @@
 				used = 'sound/vo/sniff.ogg'
 			if("sneeze")
 				used = 'sound/vo/female/female_sneeze.ogg'
+			if("flap")
+				used = 'sound/foley/footsteps/flight_sounds/wingflap1.ogg'
+			if("aflap")
+				used = 'sound/vo/moth/moth_flutter.ogg'
 
 	return used

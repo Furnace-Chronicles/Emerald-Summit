@@ -39,6 +39,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/wander = 1
 	///When set to 1 this stops the animal from moving when someone is pulling it.
 	var/stop_automated_movement_when_pulled = 1
+	///Next time we can perform a grid update (throttled to avoid excessive updates)
+	var/next_grid_update_time = 0
 
 	var/obj/item/handcuffed = null //Whether or not the mob is handcuffed
 	var/obj/item/legcuffed = null  //Same as handcuffs but for legs. Bear traps use this.
@@ -209,7 +211,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	set_new_cells()
 
 /mob/living/simple_animal/Destroy()
-	our_cells = null
 	GLOB.simple_animals[AIStatus] -= src
 	if (SSnpcpool.state == SS_PAUSED && LAZYLEN(SSnpcpool.currentrun))
 		SSnpcpool.currentrun -= src
@@ -226,7 +227,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if (T && AIStatus == AI_Z_OFF)
 		SSidlenpcpool.idle_mobs_by_zlevel[T.z] -= src
 
-	return ..()
+	. = ..()
+	our_cells = null
 
 /mob/living/simple_animal/attackby(obj/item/O, mob/user, params)
 	if(!is_type_in_list(O, food_type))
@@ -566,10 +568,10 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 /mob/living/simple_animal/proc/drop_loot()
 	if(loot.len)
-		for(var/atom/movable/i in loot) // If someone puts a turf in this list I'm going to kill you.
-			new i(loc)
+		for(var/i in loot) // If someone puts a turf in this list I'm going to kill you.
+			var/atom/movable/spawned_loot = new i(loc)
 			if(purge_worth)
-				i.sellprice  =0
+				spawned_loot.sellprice = 0
 
 /mob/living/simple_animal/death(gibbed)
 	movement_type &= ~FLYING
@@ -1020,9 +1022,11 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 /mob/living/simple_animal/Moved()
 	. = ..()
-	update_grid()
+	if(world.time >= next_grid_update_time)
+		update_grid()
 
 /mob/living/simple_animal/proc/update_grid()
+	next_grid_update_time = world.time + 5
 	var/turf/our_turf = get_turf(src)
 	if(isnull(our_turf))
 		return

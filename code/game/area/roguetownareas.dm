@@ -20,6 +20,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	var/tavern_area = FALSE
 	var/warden_area = FALSE
 	var/cell_area = FALSE
+	var/underdark_area = FALSE
 	var/church_area = FALSE
 	var/ceiling_protected = FALSE //Prevents tunneling into these from above
 
@@ -28,6 +29,18 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	. = ..()
 	if((src.town_area == TRUE) && HAS_TRAIT(guy, TRAIT_GUARDSMAN) && !guy.has_status_effect(/datum/status_effect/buff/guardbuffone)) //man at arms
 		guy.apply_status_effect(/datum/status_effect/buff/guardbuffone)
+
+/area/rogue/Entered(mob/living/carbon/human/guy)
+
+	. = ..()
+	if((src.keep_area == TRUE) && HAS_TRAIT(guy, TRAIT_GUARDSMAN_NOBLE) && !guy.has_status_effect(/datum/status_effect/buff/knightbuff)) //knights
+		guy.apply_status_effect(/datum/status_effect/buff/knightbuff)
+
+/area/rogue/Entered(mob/living/carbon/human/guy)
+
+	. = ..()
+	if((src.town_area == TRUE) && HAS_TRAIT(guy, TRAIT_GUARDSMAN_NOBLE) && !guy.has_status_effect(/datum/status_effect/buff/knightbufftown)) //knights
+		guy.apply_status_effect(/datum/status_effect/buff/knightbufftown)
 
 /area/rogue/Entered(mob/living/carbon/human/guy)
 
@@ -50,8 +63,31 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 /area/rogue/Entered(mob/living/carbon/human/guy)
 
 	. = ..()
+	if(HAS_TRAIT(guy, TRAIT_UNDERDARK))
+		if((src.underdark_area == TRUE) && !guy.has_status_effect(/datum/status_effect/buff/underdark)) // Underdark races
+			guy.apply_status_effect(/datum/status_effect/buff/underdark)
+		if(GLOB.tod == "day")
+			if((src.outdoors == TRUE) && !guy.has_status_effect(/datum/status_effect/debuff/sensitivity))
+				guy.apply_status_effect(/datum/status_effect/debuff/sensitivity)
+				guy.add_stress(/datum/stressevent/sensitivity)
+
+/area/rogue/Entered(mob/living/carbon/human/guy)
+
+	. = ..()
 	if((src.church_area == TRUE) && HAS_TRAIT(guy, TRAIT_CLERGY) && !guy.has_status_effect(/datum/status_effect/buff/churchbuff)) // Templar/Priest/Churchling/Acolyte
 		guy.apply_status_effect(/datum/status_effect/buff/churchbuff)
+
+/area/rogue/Entered(mob/living/carbon/human/guy)
+
+	. = ..()
+	if((src.town_area == TRUE) && HAS_TRAIT(guy, TRAIT_DISGRACED_KNIGHT) && !guy.has_status_effect(/datum/status_effect/debuff/disgracedknight_town))
+		guy.apply_status_effect(/datum/status_effect/debuff/disgracedknight_town)
+
+/area/rogue/Entered(mob/living/carbon/human/guy)
+
+	. = ..()
+	if((src.keep_area == TRUE) && HAS_TRAIT(guy, TRAIT_DISGRACED_KNIGHT) && !guy.has_status_effect(/datum/status_effect/debuff/disgracedknight_keep))
+		guy.apply_status_effect(/datum/status_effect/debuff/disgracedknight_keep)
 
 /area/rogue/indoors
 	name = "indoors rt"
@@ -76,12 +112,17 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = 'sound/music/area/banditcamp.ogg'
 	droning_sound_night = 'sound/music/area/banditcamp.ogg'
 
+/area/rogue/indoors/vampire_manor
+	name = "Vampire Manor"
+	droning_sound = 'sound/music/area/manor2.ogg'
+
 /area/rogue/indoors/cave
 	name = "latejoin cave"
 	icon_state = "cave"
 	ambientsounds = AMB_GENCAVE
 	ambientnight = AMB_GENCAVE
 	soundenv = 8
+	underdark_area = TRUE
 
 /area/rogue/indoors/cave/late/can_craft_here()
 	return FALSE
@@ -164,8 +205,10 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 				new /datum/ambush_config/trio_of_highwaymen = 10,
 				new /datum/ambush_config/singular_minotaur = 10,
 				new /datum/ambush_config/duo_minotaur = 5,
-				new /datum/ambush_config/solo_treasure_hunter = 10,
-				new /datum/ambush_config/duo_treasure_hunter = 1
+				new /datum/ambush_config/solo_treasure_hunter = 15,
+				new /datum/ambush_config/duo_treasure_hunter = 2,
+				new /datum/ambush_config/medium_skeleton_party = 10,
+				new /datum/ambush_config/heavy_skeleton_party = 5,
 				)
 	droning_sound = 'sound/music/area/decap.ogg'
 	droning_sound_dusk = null
@@ -173,12 +216,14 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	first_time_text = "MOUNT DECAPITATION"
 	ambush_times = list("night","dawn","dusk","day")
 	converted_type = /area/rogue/indoors/shelter/mountains/decap
+	threat_region = THREAT_REGION_MOUNT_DECAP
 
 /area/rogue/indoors/shelter/mountains/decap
 	icon_state = "decap"
 	droning_sound = 'sound/music/area/decap.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
+	threat_region = THREAT_REGION_MOUNT_DECAP
 
 
 /area/rogue/outdoors/mountains/decap/stepbelow
@@ -205,6 +250,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	first_time_text = "TARICHEA, VALLEY OF LOSS"
 	ambush_times = list("night","dawn","dusk","day")
 	converted_type = /area/rogue/indoors/shelter/mountains/decap
+	threat_region = THREAT_REGION_MOUNT_DECAP
 
 /area/rogue/outdoors/mountains/decap/gunduzirak
 	name = "mt decapitation gundu-zirak"
@@ -224,6 +270,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	ambush_times = list("night","dawn","dusk","day")
 	converted_type = /area/rogue/indoors/shelter/mountains/decap
 	ceiling_protected = TRUE
+	threat_region = THREAT_REGION_MOUNT_DECAP
 
 /area/rogue/outdoors/rtfield
 	name = "black basin"
@@ -236,14 +283,14 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	ambush_mobs = list(
 				/mob/living/simple_animal/hostile/retaliate/rogue/wolf/bobcat = 20,
 				/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 30,
-				/mob/living/carbon/human/species/skeleton/npc/ambush = 50,
-				/mob/living/carbon/human/species/human/northern/highwayman/ambush = 30,
-				/mob/living/carbon/human/species/npc/deadite = 30)
+				/mob/living/simple_animal/hostile/retaliate/rogue/fox = 30,
+				/mob/living/carbon/human/species/skeleton/npc/supereasy = 30)
 	first_time_text = "BLACK BASIN"
 	droning_sound = 'sound/music/area/field.ogg'
 	droning_sound_dusk = 'sound/music/area/septimus.ogg'
 	droning_sound_night = 'sound/music/area/sleeping.ogg'
 	converted_type = /area/rogue/indoors/shelter/rtfield
+	threat_region = THREAT_REGION_BLACK_BASIN
 
 /area/rogue/indoors/shelter/rtfield
 	icon_state = "rtfield"
@@ -300,20 +347,81 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 				/turf/open/floor/rogue/grass)
 	ambush_mobs = list(
 				/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 40,
-				/mob/living/carbon/human/species/skeleton/npc/ambush = 10,
-				/mob/living/carbon/human/species/npc/deadite = 10,
-				/mob/living/carbon/human/species/human/northern/highwayman/ambush = 30,
-				/mob/living/carbon/human/species/goblin/npc/ambush = 30)
+				/mob/living/carbon/human/species/skeleton/npc/easy = 10,
+				/mob/living/carbon/human/species/goblin/npc/ambush = 30,
+				/mob/living/carbon/human/species/human/northern/highwayman/ambush = 30)
 	first_time_text = "THE SCARLET GROVE"
 	converted_type = /area/rogue/indoors/shelter/woods
+	threat_region = THREAT_REGION_SCARLET_GROVE
 
 /area/rogue/indoors/shelter/woods
 	icon_state = "woods"
 	droning_sound = 'sound/music/area/forest.ogg'
 	droning_sound_dusk = 'sound/music/area/septimus.ogg'
 	droning_sound_night = 'sound/music/area/forestnight.ogg'
+	threat_region = THREAT_REGION_SCARLET_GROVE
 
+//Azure Peak port, some more threat regions so we can adjust the ambush pool
+/area/rogue/outdoors/woods/north
+	name = "Scarlet Grove - North"
+	// This section shouldn't have any sea mobs, but is close to the old warden tower
+	// So should be relatively easy
+	ambush_mobs = list(
+		/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 40,
+		/mob/living/carbon/human/species/skeleton/npc/easy = 20,
+		/mob/living/carbon/human/species/goblin/npc/ambush = 30,
+		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 30)
+	threat_region = THREAT_REGION_SCARLET_GROVE
 
+/area/rogue/outdoors/woods/northeast
+	name = "Scarlet Grove - Northeast"
+	// Ambush list here is "easier" with some pirates mob, possibility of sea goblin
+	ambush_mobs = list(
+			/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 40,
+			/mob/living/carbon/human/species/skeleton/npc/easy = 10,
+			/mob/living/carbon/human/species/skeleton/npc/pirate = 10,
+			/mob/living/carbon/human/species/goblin/npc/ambush = 20,
+			/mob/living/carbon/human/species/goblin/npc/sea = 10,
+			/mob/living/carbon/human/species/human/northern/highwayman/ambush = 30)
+	threat_region = THREAT_REGION_SCARLET_GROVE
+
+/area/rogue/outdoors/woods/southeast
+	name = "Azure Grove - Southeast"
+	ambush_mobs = list(
+		/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 40,
+		/mob/living/carbon/human/species/skeleton/npc/easy = 10,
+		/mob/living/carbon/human/species/skeleton/npc/pirate = 10,
+		/mob/living/carbon/human/species/goblin/npc/ambush = 20,
+		/mob/living/carbon/human/species/goblin/npc/sea = 10,
+		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 30)
+// Below three areas is pretty deep into the wild, lean toward medium / hard skeletons
+
+/area/rogue/outdoors/woods/south
+	name = "Scarlet Grove - South"
+	ambush_mobs = list(
+		/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 40,
+		/mob/living/carbon/human/species/skeleton/npc/medium = 10,
+		/mob/living/carbon/human/species/skeleton/npc/hard = 10,
+		/mob/living/carbon/human/species/goblin/npc/ambush = 30,
+		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 20)
+
+/area/rogue/outdoors/woods/southwest
+	name = "Scarlet Grove - Southwest"
+	ambush_mobs = list(
+		/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 40,
+		/mob/living/carbon/human/species/skeleton/npc/medium = 10,
+		/mob/living/carbon/human/species/skeleton/npc/hard = 10,
+		/mob/living/carbon/human/species/goblin/npc/ambush = 30,
+		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 20)
+
+/area/rogue/outdoors/woods/northwest
+	name = "Scarlet Grove - Northwest"
+	ambush_mobs = list(
+		/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 40,
+		/mob/living/carbon/human/species/skeleton/npc/medium = 10,
+		/mob/living/carbon/human/species/skeleton/npc/hard = 10,
+		/mob/living/carbon/human/species/goblin/npc/ambush = 30,
+		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 20)
 /area/rogue/outdoors/river
 	name = "river"
 	icon_state = "river"
@@ -345,24 +453,32 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 				/turf/open/water)
 	//Minotaurs too strong for the lazy amount of places this area covers
 	ambush_mobs = list(
-				/mob/living/carbon/human/species/skeleton/npc/ambush = 20,
-				/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 20,
 				/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = 20,
 				/mob/living/simple_animal/hostile/retaliate/rogue/spider = 40,
 				/mob/living/carbon/human/species/skeleton/npc/bogguard = 20,
 				/mob/living/carbon/human/species/goblin/npc/ambush/cave = 30,
+				new /datum/ambush_config/bog_guard_deserters = 50,		
+				new /datum/ambush_config/bog_guard_deserters/hard = 25,
 				new /datum/ambush_config/mirespiders_ambush = 110,
 				new /datum/ambush_config/mirespiders_crawlers = 25,
 				new /datum/ambush_config/mirespiders_aragn = 10,
 				new /datum/ambush_config/mirespiders_unfair = 5)
 	first_time_text = "THE TERRORBOG"
 	converted_type = /area/rogue/indoors/shelter/bog
+	threat_region = THREAT_REGION_TERRORBOG
 
 /area/rogue/indoors/shelter/bog
 	icon_state = "bog"
 	droning_sound = 'sound/music/area/bog.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
+
+//Not currently used for anything, but ported incase it's useful later.
+/area/rogue/outdoors/bog/north
+	name = "Northern Terrorbog"
+
+/area/rogue/outdoors/bog/south
+	name = "Southern Terrorbog"
 
 /area/rogue/outdoors/bog/dense
 	name = "dense bog"
@@ -377,6 +493,27 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = 'sound/music/area/septimus.ogg'
 	droning_sound_night = 'sound/music/area/sleeping.ogg'
 	converted_type = /area/rogue/under/lake
+	first_time_text = "CENTRAL COAST"
+/area/rogue/outdoors/beach/north
+	name = "Northern Coast"
+	ambush_mobs = list(
+		/mob/living/carbon/human/species/human/northern/searaider/ambush = 10,
+		/mob/living/carbon/human/species/goblin/npc/ambush/sea = 20,
+		/mob/living/carbon/human/species/orc/npc/berserker = 10,
+		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 40
+	)
+	first_time_text = "NORTHERN COAST"
+
+/area/rogue/outdoors/beach/south
+	name = "Southern Coast"
+	ambush_mobs = list(
+		/mob/living/carbon/human/species/human/northern/searaider/ambush = 5,
+		/mob/living/carbon/human/species/goblin/npc/ambush/sea = 20,
+		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 10,
+		new /datum/ambush_config/triple_deepone = 30,
+		new /datum/ambush_config/deepone_party = 20,
+	)
+	first_time_text = "SOUTHERN COAST"
 
 /area/rogue/outdoors/beach/forest
 	name = "coastforest"
@@ -399,11 +536,26 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 				/mob/living/simple_animal/hostile/retaliate/rogue/mole = 10,
 				/mob/living/simple_animal/hostile/retaliate/rogue/wolf/bobcat = 20,
 				/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 15,
-				/mob/living/carbon/human/species/human/northern/searaider/ambush = 10,
-				/mob/living/carbon/human/species/human/northern/highwayman/ambush = 30,
+				/mob/living/carbon/human/species/human/northern/searaider/ambush = 25,
+				/mob/living/carbon/human/species/human/northern/highwayman/ambush = 45,
 				/mob/living/carbon/human/species/goblin/npc/ambush/sea = 40)
 	first_time_text = "THE SCARLET COAST"
 	converted_type = /area/rogue/indoors/shelter/woods
+	threat_region = THREAT_REGION_SCARLET_COAST
+
+/area/rogue/outdoors/beach/forest/hamlet
+	name = "The Scarlet Coast - Hamlet"
+	first_time_text = "THE HAMLET"
+	ambush_mobs = null // We don't want actual ambushes in Hamlet but we also don't want to misuse outdoors/beach lol
+	threat_region = THREAT_REGION_SCARLET_COAST
+
+/area/rogue/outdoors/beach/forest/north
+	name = "The Scarlet Coast - North"
+	threat_region = THREAT_REGION_SCARLET_COAST
+
+/area/rogue/outdoors/beach/forest/south
+	name = "The Scarlet Coast - South"
+	threat_region = THREAT_REGION_SCARLET_COAST
 
 //// UNDER AREAS (no indoor rain sound usually)
 
@@ -426,6 +578,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 /area/rogue/under/cave
 	name = "cave"
 	warden_area = TRUE
+	underdark_area = TRUE
 	icon_state = "cave"
 	ambientsounds = AMB_GENCAVE
 	ambientnight = AMB_GENCAVE
@@ -455,6 +608,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	name = "cavewet"
 	icon_state = "cavewet"
 	warden_area = TRUE
+	underdark_area = TRUE
 	first_time_text = "The Undersea"
 	ambientsounds = AMB_CAVEWATER
 	ambientnight = AMB_CAVEWATER
@@ -478,6 +632,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	name = "The Underdark"
 	icon_state = "cavewet"
 	warden_area = FALSE
+	underdark_area = TRUE
 	first_time_text = "The Underdark"
 	ambientsounds = AMB_CAVEWATER
 	ambientnight = AMB_CAVEWATER
@@ -606,6 +761,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/dungeon1
 	ceiling_protected = TRUE
+	threat_region = THREAT_REGION_MOUNT_DECAP
 
 /area/rogue/under/cave/goblinfort
 	name = "goblinfort"
@@ -616,6 +772,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/dungeon1
 	ceiling_protected = TRUE
+	threat_region = THREAT_REGION_MOUNT_DECAP
 
 /area/rogue/under/cave/scarymaze
 	name = "hauntedlabyrinth"
@@ -626,6 +783,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_night = 'sound/music/area/underworlddrone.ogg'
 	converted_type = /area/rogue/outdoors/dungeon1
 	ceiling_protected = TRUE
+	threat_region = THREAT_REGION_MOUNT_DECAP
 
 /area/rogue/under/cave/undeadmanor
 	name = "skelemansion"
@@ -696,6 +854,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/dungeon1
 	ceiling_protected = TRUE
+	threat_region = THREAT_REGION_SCARLET_COAST
 
 /area/rogue/under/cave/inhumen
 	name = "inhumen"
@@ -1042,6 +1201,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	droning_sound_dusk = null
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/exposed/under/town
+	underdark_area = TRUE
 /area/rogue/outdoors/exposed/under/town
 	icon_state = "town"
 	droning_sound = 'sound/music/area/catacombs.ogg'

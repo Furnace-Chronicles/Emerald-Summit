@@ -2,9 +2,10 @@
 	name = "Stigmata"
 	tutorial = "PSYDON weeps. You are a devout cleric of the Allfather whom takes the suffering of others upon themselves. You have eschewn violence. You will suffer. You will endure."
 	vampcompat = FALSE
-	outfit = /datum/outfit/job/roguetown/adventurer/stigmata
+	outfit = /datum/outfit/job/adventurer/stigmata
 	class_select_category = CLASS_CAT_CLERIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
+	allowed_races = RACES_NO_GOLEM
 
 	subclass_stats = list(
 		STATKEY_CON = 5,
@@ -37,10 +38,10 @@
 		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN
 	)
 
-/datum/outfit/job/roguetown/adventurer/stigmata
+/datum/outfit/job/adventurer/stigmata
 	allowed_patrons = list(/datum/patron/old_god)
 
-/datum/outfit/job/roguetown/adventurer/stigmata/pre_equip(mob/living/carbon/human/H, visualsOnly)
+/datum/outfit/job/adventurer/stigmata/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
 	H.adjust_blindness(-3)
 

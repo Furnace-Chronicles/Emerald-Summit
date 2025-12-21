@@ -182,7 +182,7 @@
 
 /obj/item/organ/eyes/night_vision/wild_goblin/on_life()
 	. = ..()
-	if (!isgoblinp(owner))
+	if (!isgoblinp(owner) && !istype(owner, /mob/living/carbon/human/species/goblin))
 		if (prob(50))
 			owner.adjustToxLoss(5)
 			applyOrganDamage(10)
@@ -193,6 +193,25 @@
 /obj/item/organ/eyes/night_vision/mushroom
 	name = "fung-eye"
 	desc = ""
+
+/obj/item/organ/eyes/night_vision/vampire/ui_action_click()
+	sight_flags = initial(sight_flags)
+	var/atom/movable/screen/plane_master/weather_plane = usr.hud_used?.plane_masters?["[WEATHER_EFFECT_PLANE]"]
+	switch(lighting_alpha)
+		if(LIGHTING_PLANE_ALPHA_VISIBLE)
+			lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
+			weather_plane?.alpha = 225
+		if(LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE)
+			lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
+			weather_plane?.alpha = 200
+		if(LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE)
+			lighting_alpha = LIGHTING_PLANE_ALPHA_INVISIBLE
+			weather_plane?.alpha = 170
+		else
+			lighting_alpha = LIGHTING_PLANE_ALPHA_VISIBLE
+			weather_plane?.alpha = 255
+			sight_flags &= ~SEE_BLACKNESS
+	owner.update_sight()
 
 /obj/item/organ/eyes/elf
 	name = "elf eyes"
@@ -471,37 +490,3 @@
 	if(eyes.owner)
 		eyes.owner.update_body_parts(TRUE)
 
-/obj/item/organ/eyes/t1
-	parent_type = /obj/item/organ/eyes/robotic/glow
-
-	name = "Eyes of the Scholar of Noс."
-	desc = "In the past, it was an honor for many students to be blessed with such eyes - proof that you had found knowledge…"
-	icon_state = "burning_eyes"
-	eye_color = "#24128a"
-
-	max_light_beam_distance = 3
-	light_beam_distance = 3
-	light_object_power = 1
-
-	emp_act(severity)
-		return
-
-/obj/item/organ/eyes/t2
-	name = "Blessed dendorite eyes"
-	desc = "Eyes, that will allow you to see your prey... Be blessed, hunter..."
-	color = "#c2ae40"
-	eye_color = "#864896"
-	see_in_dark = 5
-	sight_flags = SEE_OBJS | SEE_TURFS
-	flash_protect = FLASH_PROTECTION_WELDER
-
-/obj/item/organ/eyes/t3
-	name = "Cursed necran eyes"
-	desc = "Pair of eyes that been stolen from one of Her hounds..."
-	icon_state = "burning_eyes"
-	color = "#c2ae40"
-	eye_color = "#3c6696"
-	sight_flags = SEE_MOBS | SEE_OBJS | SEE_TURFS
-	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
-	flash_protect = FLASH_PROTECTION_WELDER
-	see_in_dark = 10

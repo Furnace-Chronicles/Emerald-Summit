@@ -11,7 +11,7 @@
 	var/drilled = FALSE
 	var/has_reported = FALSE
 	var/location_tag
-	
+
 /obj/structure/roguemachine/atm/attack_hand(mob/user)
 	if(!ishuman(user))
 		return
@@ -19,11 +19,11 @@
 	if(HAS_TRAIT(user, TRAIT_OUTLAW))
 		to_chat(H, span_warning("The machine rejects you, sensing your status as an outlaw in these lands."))
 		return
-	if(HAS_TRAIT(user, TRAIT_OUTLANDER) && !HAS_TRAIT(user, TRAIT_NOBLE) && !HAS_TRAIT(user, TRAIT_INQUISITION))
+	/*if(HAS_TRAIT(user, TRAIT_OUTLANDER) && !HAS_TRAIT(user, TRAIT_NOBLE) && !HAS_TRAIT(user, TRAIT_INQUISITION))
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		loc.visible_message(span_warning("The meister turns its nose up at [user]'s hand."))
 		to_chat(user, span_danger("The machine spits on your ignoble foreign blood."))
-		return
+		return*/
 	if(drilled)
 		if(HAS_TRAIT(H, TRAIT_NOBLE))
 			if(!HAS_TRAIT(H, TRAIT_COMMIE))
@@ -37,7 +37,7 @@
 				spawn(5)
 				say("Blueblood for the Freefolk!")
 				playsound(src, 'sound/vo/mobs/ghost/laugh (5).ogg', 100, TRUE)
-				return	
+				return
 	if(H in SStreasury.bank_accounts)
 		var/amt = SStreasury.bank_accounts[H]
 		if(!amt)
@@ -65,14 +65,14 @@
 		coin_amt = round(coin_amt)
 		if(coin_amt < 1)
 			return
-		
+
 		// Check maximum coin limit before deducting balance
 		var/max_coins = 20
 		if(coin_amt > max_coins)
 			to_chat(user, span_warning("Maximum withdrawal limit exceeded. You can only withdraw up to [max_coins] coins at once."))
 			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 			return
-		
+
 		amt = SStreasury.bank_accounts[H]
 		if(!Adjacent(user))
 			return
@@ -109,11 +109,11 @@
 
 /obj/structure/roguemachine/atm/attackby(obj/item/P, mob/user, params)
 	if(ishuman(user))
-		if(istype(P, /obj/item/roguecoin/aalloy))	
-			return	
-		
+		if(istype(P, /obj/item/roguecoin/aalloy))
+			return
+
 		if(istype(P, /obj/item/roguecoin/inqcoin))
-			return		
+			return
 
 		if(istype(P, /obj/item/roguecoin))
 			var/mob/living/carbon/human/H = user
@@ -165,7 +165,7 @@
 
 /obj/structure/roguemachine/atm/examine(mob/user)
 	. += ..()
-	. += span_info("The current tax rate on deposits is [SStreasury.tax_value * 100] percent. Nobles exempt.")
+	. += span_info("The current tax rate on deposits is [SStreasury.tax_value * 100] percent. Nobles exempt. Non-noble foreigners are taxed at a 50% higher rate.")
 
 
 /obj/structure/roguemachine/atm/proc/drill(obj/structure/roguemachine/atm)
@@ -179,7 +179,7 @@
 		drilling = FALSE
 		has_reported = FALSE
 		return
-	if(mammonsiphoned >199) // The cap variable for siphoning. 
+	if(mammonsiphoned >199) // The cap variable for siphoning.
 		new /obj/item/coveter(loc)
 		loc.visible_message(span_warning("Maximum withdrawal reached! The meister weeps."))
 		playsound(src, 'sound/misc/DrillDone.ogg', 70, TRUE)

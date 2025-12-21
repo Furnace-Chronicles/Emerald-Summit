@@ -58,22 +58,14 @@
 	if(!skipcatch)	//ugly, but easy
 		if(can_catch_item())
 			if(istype(AM, /obj/item))
-				if(!istype(AM, /obj/item/net))
-					var/obj/item/I = AM
-					if(isturf(I.loc))
-						I.attack_hand(src)
-						if(get_active_held_item() == I) //if our attack_hand() picks up the item...
-							visible_message("<span class='warning'>[src] catches [I]!</span>", \
-											"<span class='danger'>I catch [I] in mid-air!</span>")
-							throw_mode_off()
-							return 1
-				else
-					var/obj/item/net/N
-					visible_message("<span class='warning'>[src] tries to catch \the [N] but gets snared by it!</span>", \
-									"<span class='danger'>Why did I even try to do this...?</span>") // Hahaha dumbass!!!
-					throw_mode_off()
-					N.ensnare(src)
-					return
+				var/obj/item/I = AM
+				if(isturf(I.loc))
+					I.attack_hand(src)
+					if(get_active_held_item() == I) //if our attack_hand() picks up the item...
+						visible_message("<span class='warning'>[src] catches [I]!</span>", \
+										"<span class='danger'>I catch [I] in mid-air!</span>")
+						throw_mode_off()
+						return 1
 	..()
 
 
@@ -248,9 +240,9 @@
 						update_inv_head()
 
 	if(user == src || pulledby == user)
-		send_item_attack_message(I, user, precise_attack_check(useder, affecting))
+		send_item_attack_message(I, user, precise_attack_check(useder, affecting), affecting)
 	else
-		send_item_attack_message(I, user, affecting.name)
+		send_item_attack_message(I, user, affecting.name, affecting)
 
 	if(statforce)
 		var/probability = I.get_dismemberment_chance(affecting, user, useder)
@@ -331,8 +323,7 @@
 	. = ..()
 	if(. & EMP_PROTECT_CONTENTS)
 		return
-	for(var/X in internal_organs)
-		var/obj/item/organ/O = X
+	for(var/obj/item/organ/O as anything in internal_organs)
 		O.emp_act(severity)
 
 ///Adds to the parent by also adding functionality to propagate shocks through pulling and doing some fluff effects.

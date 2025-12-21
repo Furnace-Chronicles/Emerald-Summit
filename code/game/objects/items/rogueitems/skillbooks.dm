@@ -17,14 +17,15 @@
 
 	var/chosen_icon_state = null
 	var/list/authors = list()
-	proc/add_author(mob/living/carbon/human/H)
-		if(!H || !H.real_name)
-			return
-		var/author_job = H.advjob ? H.advjob : "Adventurer"
-		if(!(H.real_name in authors))
-			authors[H.real_name] = author_job
-		else if(authors[H.real_name] != author_job)
-			authors[H.real_name] = author_job
+
+/obj/item/skillbook/proc/add_author(mob/living/carbon/human/H)
+	if(!H || !H.real_name)
+		return
+	var/author_job = H.advjob ? H.advjob : "Adventurer"
+	if(!(H.real_name in authors))
+		authors[H.real_name] = author_job
+	else if(authors[H.real_name] != author_job)
+		authors[H.real_name] = author_job
 
 /obj/item/skillbook/proc/get_authors_text()
 	if(!authors || !authors.len)

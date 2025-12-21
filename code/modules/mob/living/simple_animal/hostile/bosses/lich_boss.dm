@@ -334,9 +334,9 @@
 
 /mob/living/carbon/human/species/skeleton/npc/dungeon/lich
 	skel_fragile = FALSE
-	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/dungeon/lich
+	skel_outfit = /datum/outfit/job/npc/skeleton/dungeon/lich
 
-/datum/outfit/job/roguetown/npc/skeleton/dungeon/lich/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/npc/skeleton/dungeon/lich/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.set_patron(/datum/patron/inhumen/zizo)
 	wrists = /obj/item/clothing/wrists/roguetown/bracers

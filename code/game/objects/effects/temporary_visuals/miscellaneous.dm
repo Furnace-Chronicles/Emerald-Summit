@@ -237,6 +237,9 @@
 	light_color = LIGHT_COLOR_FIRE
 	duration = 10
 
+/obj/effect/temp_visual/fire/shortduration
+	duration = 2
+
 /obj/effect/temp_visual/revenant
 	name = "spooky lights"
 	icon_state = "purplesparkles"
@@ -482,3 +485,12 @@
 	alpha = 180
 	pixel_x = rand(-15, 15)
 	pixel_y = rand(-15, 15)
+
+/obj/effect/temp_visual/special_intent
+	layer = HUD_LAYER
+	plane = ABOVE_LIGHTING_PLANE
+
+/obj/effect/temp_visual/special_intent/Initialize(mapload, customdur)
+	if(customdur)
+		duration = customdur
+	. = ..()

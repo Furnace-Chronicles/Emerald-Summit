@@ -7,12 +7,7 @@
 	noaa = TRUE
 
 /datum/intent/steal/on_mmb(atom/target, mob/living/user, params)
-	var/list/_mods = list("chance_add" = 0, "range_add" = 0)
-	SEND_SIGNAL(user, "steal_mods_query", _mods)
-
-	var/extra_range = max(0, _mods["range_add"] || 0)
-	var/allowed_range = 1 + extra_range
-	if(get_dist(user, target) > allowed_range)
+	if(!target.Adjacent(user))
 		return
 
 	if(ishuman(target))
@@ -20,8 +15,27 @@
 		var/mob/living/carbon/human/target_human = target
 
 		var/thiefskill = user.get_skill_level(/datum/skill/misc/stealing) + (has_world_trait(/datum/world_trait/matthios_fingers) ? 1 : 0)
-		var/stealroll = roll("[thiefskill]d6")
+		var/initialstealroll = roll("1d12") + (thiefskill * 2) + (user.STASPD / 3)
+		var/advantageroll = 0
 		var/targetperception = (target_human.STAPER)
+
+		if(target_human.cmode)
+			targetperception += 6 // Target is alert, gain +6 extra effective perception
+			to_chat(user, span_notice("[target_human] is tense and is more likely to detect me."))
+
+		if(HAS_TRAIT(user, TRAIT_CULTIC_THIEF)) // Matthios blesses his devout with rolling advantage on thieving checks.
+			advantageroll = roll("1d12") + (thiefskill * 2) + (user.STASPD / 3)
+		
+		// Used for showing fail chance.
+		var/chance2steal = max(round(((12 + (thiefskill * 2) + (user.STASPD / 3) - (targetperception)) / 12 ) * 100, 1), 0)
+
+		//Mathematically:
+		// SPD stat is to give an initial baseline to lower skilled thieves and reward speedy thieves slightly.
+		// Journeyman thief will struggle to steal someone with combat mode on at 10 spd vs 10 perception. Otherwise will steal most of the time.
+		// Very high skilled thieves will be able to manage it quite handily, as long as they're out of sight.
+		// Matthios thieves get a substantial advantage to pickpocketing.
+
+		var/stealroll = max(initialstealroll, advantageroll)
 
 		var/list/stealablezones = list("chest", "neck", "groin", "r_hand", "l_hand")
 		var/list/stealpos = list()
@@ -32,16 +46,15 @@
 		to_chat(user, span_notice("I try to steal from [target_human]..."))
 
 		if(do_after(user, 5, target = target_human, progress = 0))
-			var/base_success = (stealroll > targetperception)
-			var/bonus_success = (!base_success && (_mods["chance_add"] > 0) && prob(_mods["chance_add"]))
-			var/final_success = base_success || bonus_success
 
-			if(final_success)
-				// RATWOOD MODULAR START
-				if(target_human.cmode)
-					to_chat(user, "<span class='warning'>[target_human] is alert. I can't pickpocket them like this.</span>")
-					return
-				// RATWOOD MODULAR END
+			if(target_human.IsUnconscious() || target_human.stat != CONSCIOUS) //They're out of it bro.
+				targetperception = 0
+
+			if(stealroll > targetperception)
+				//TODO add exp here
+
+				if(HAS_TRAIT(user, TRAIT_CULTIC_THIEF) && initialstealroll < targetperception)
+					to_chat(user, span_green("Matthios tips fate in my favor..."))
 
 				if(user_human.get_active_held_item())
 					to_chat(user, span_warning("I can't pickpocket while my hand is full!"))
@@ -84,32 +97,34 @@
 							record_featured_stat(FEATURED_STATS_THIEVES, user_human)
 							record_featured_stat(FEATURED_STATS_CRIMINALS, user_human)
 							record_round_statistic(STATS_ITEMS_PICKPOCKETED)
+						if (stealroll < 2 * targetperception && target_human.STAINT > 8)
+							to_chat(target_human, span_warning("Huh? My [picked] is gone!"))
+							to_chat(user, span_warning("The target noticed the missing item."))
 					else
 						exp_to_gain /= 2
 						to_chat(user, span_warning("I didn't find anything there. Perhaps I should look elsewhere."))
 				else
 					to_chat(user, "<span class='warning'>They can see me!")
-			else
-				if(stealroll <= 5)
+			if(stealroll < targetperception)
+				if(stealroll <= 8)
 					target_human.log_message("has had an attempted pickpocket by [key_name(user_human)]", LOG_ATTACK, color="white")
 					user_human.log_message("has attempted to pickpocket [key_name(target_human)]", LOG_ATTACK, color="white")
 					user_human.visible_message(span_danger("[user_human] failed to pickpocket [target_human]!"))
 					to_chat(target_human, span_danger("[user_human] tried pickpocketing me!"))
-
-				if(stealroll < targetperception)
+				else
 					target_human.log_message("has had an attempted pickpocket by [key_name(user_human)]", LOG_ATTACK, color="white")
 					user_human.log_message("has attempted to pickpocket [key_name(target_human)]", LOG_ATTACK, color="white")
-					to_chat(user, span_danger("I failed to pick the pocket!"))
+					if(HAS_TRAIT(user, TRAIT_CULTIC_THIEF))
+						to_chat(user, span_danger("I failed to pick the pocket! [1 - ((1 - chance2steal) * (1 - chance2steal))]%!"))
+					else
+						to_chat(user, span_danger("I failed to pick the pocket! [chance2steal]%!"))
 					to_chat(target_human, span_danger("Someone tried pickpocketing me!"))
-					exp_to_gain /= 5
+				exp_to_gain /= 5 // these can be removed or changed on reviewer's discretion
+			// If we're pickpocketing someone else, and that person is conscious, grant XP
 			if(user != target_human && target_human.stat == CONSCIOUS)
-				var/xp_gain = exp_to_gain
-				var/list/xpmods = list("xp_mult" = 1)
-				SEND_SIGNAL(user, "steal_xp_query", xpmods, /datum/skill/misc/stealing)
-				var/xpm = isnum(xpmods["xp_mult"]) ? xpmods["xp_mult"] : 1
-				xp_gain *= xpm
-				if(user?.mind)
-					user.mind.add_sleep_experience(/datum/skill/misc/stealing, xp_gain, FALSE)
+				user.mind.add_sleep_experience(/datum/skill/misc/stealing, exp_to_gain, FALSE)
 			user.changeNext_move(clickcd)
+		else
+			to_chat(user, span_warning("I lost contact with them!"))
 
 	. = ..()

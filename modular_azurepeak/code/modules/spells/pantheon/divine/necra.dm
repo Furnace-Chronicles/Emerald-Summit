@@ -94,8 +94,8 @@
 		if(L.stat == DEAD)
 			continue
 		if (L.mind)
-			var/datum/antagonist/vampirelord/lesser/V = L.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser)
-			if (V && !V.disguised)
+			var/datum/antagonist/vampire/V = L.mind.has_antag_datum(/datum/antagonist/vampire)
+			if(V && SEND_SIGNAL(L, COMSIG_DISGUISE_STATUS))
 				is_vampire = TRUE
 			if (L.mind.has_antag_datum(/datum/antagonist/zombie))
 				is_zombie = TRUE
@@ -112,11 +112,6 @@
 			user.visible_message(span_warning("A frigid blue glower suddenly erupts in [user]'s eyes as a whispered prayer summons forth a winding veil of ghostly mists!"), span_notice("I perform the sacred rite of Abrogation, bringing forth Her servants to harry and weaken the unliving!"))
 			for(var/mob/living/thing in things_to_churn)
 				thing.apply_status_effect(/datum/status_effect/churned, user, debuff_power)
-		if(LAZYLEN(things_to_stun))
-			for(var/mob/living/thing in things_to_churn)
-				thing.Stun(100)
-				thing.Knockdown(50)
-				thing.emote("scream")
 		if(!LAZYLEN(things_to_churn))
 			to_chat(user, span_notice("The rite of Abrogation passes from my lips in silence, having found nothing to assail."))
 			return
@@ -221,7 +216,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/necras_vow
 	name = "Vow to Necra"
-	desc = "I have pledged a promise to Necra. Undeath shall be harmed or lit aflame if they strike me. Rot will not claim me. Lost limbs can only be restored if they are myne."
+	desc = "I have pledged a promise to Necra, and She will claim me quickly as I approach death. Undeath shall be harmed or lit aflame if they strike me. Rot will not claim me. Lost limbs can only be restored if they are myne."
 	icon_state = "necravow"
 
 #define NECRAVOW_FILTER "necravow_glow"

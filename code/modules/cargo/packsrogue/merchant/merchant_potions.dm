@@ -19,17 +19,17 @@
 
 /datum/supply_pack/rogue/potions/healthpot
 	name = "Healing Potion"
-	cost = 35
+	cost = 50
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/healthpot)
 
 /datum/supply_pack/rogue/potions/manapot
 	name = "Mana Potion"
-	cost = 35
+	cost = 50
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/manapot)
 
 /datum/supply_pack/rogue/potions/stamina
 	name = "Stamina Potion"
-	cost = 35
+	cost = 50
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/stampot)
 
 /datum/supply_pack/rogue/potions/antidote
@@ -39,35 +39,35 @@
 
 /datum/supply_pack/rogue/potions/strpot
 	name = "Strength Potion"
-	cost = 50
+	cost = 60
 	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical/strpot)
 
 /datum/supply_pack/rogue/potions/perpot
 	name = "Perception Potion"
-	cost = 50
+	cost = 60
 	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical/perpot)
 
 /datum/supply_pack/rogue/potions/endpot
 	name = "Endurance Potion"
-	cost = 50
+	cost = 60
 	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical/endpot)
 
 /datum/supply_pack/rogue/potions/conpot
 	name = "Constitution Potion"
-	cost = 50
+	cost = 60
 	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical/conpot)
 					
 /datum/supply_pack/rogue/potions/intpot
 	name = "Intelligence Potion"
-	cost = 50
+	cost = 60
 	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical/intpot)
 
 /datum/supply_pack/rogue/potions/spdpot
 	name = "Speed Potion"
-	cost = 50
+	cost = 60
 	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical/spdpot)
 
 /datum/supply_pack/rogue/potions/lucpot
 	name = "Luck Potion"
-	cost = 50
+	cost = 60
 	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical/lucpot)

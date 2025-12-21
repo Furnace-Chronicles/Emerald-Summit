@@ -6,7 +6,7 @@
         /datum/species/dwarf,
         /datum/species/dwarf/mountain
         )
-    outfit = /datum/outfit/job/roguetown/mercenary/trollslayer
+    outfit = /datum/outfit/job/mercenary/trollslayer
     category_tags = list(CTAG_MERCENARY)
     class_select_category = CLASS_CAT_RACIAL
     cmode_music = 'sound/music/combat_dwarf.ogg'
@@ -30,7 +30,7 @@
         /datum/skill/labor/butchering = SKILL_LEVEL_NOVICE,
     )
     
-/datum/outfit/job/roguetown/mercenary/trollslayer/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/trollslayer/pre_equip(mob/living/carbon/human/H)
     ..()
     if(H.mind)
 
@@ -49,7 +49,7 @@
             /obj/item/natural/head/troll = 1 // will spawn inside of the belt but I can't be bothered to make it spawn in the headhook
         )
         var/weapons = list("Hatchets", "Greataxe")
-        var/weapon_choice = input("Choose your weapon", "How will you channel your rage?") as anything in weapons
+        var/weapon_choice = input(H, "Choose your weapon", "How will you channel your rage?") as anything in weapons
         switch(weapon_choice)
             if("Greataxe")
                 backl = /obj/item/rogueweapon/stoneaxe/battle/slayer

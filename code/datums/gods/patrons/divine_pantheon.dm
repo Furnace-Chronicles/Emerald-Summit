@@ -16,38 +16,48 @@
 					/obj/effect/proc_holder/spell/invoked/projectile/lightningbolt/sacred_flame_rogue	= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/heal					= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/revive				= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T4,
 	)
 	confess_lines = list(
 		"ASTRATA IS MY LIGHT!",
 		"ASTRATA BRINGS LAW!",
 		"I SERVE THE GLORY OF THE SUN!",
 	)
+	miracle_healing_lines = list(
+		"A wreath of gentle light passes over %TARGET!"
+	)
 	storyteller = /datum/storyteller/astrata
+
+/datum/patron/divine/astrata/situational_bonus(mob/living/follower, mob/living/target)
+	return list((GLOB.tod == "day"), 2)
 
 /datum/patron/divine/noc
 	name = "Noc"
 	domain = "Twinned God of the Moon, Night, and Knowledge"
 	desc = "The he-form of the Twinned Gods, the combined amalgam of single-bodied Noc and Astrata that opens his eyes during pondorous Night. He gifted man knowledge of divinity and magicks. A single form begets two Gods that shift at Dusk and Dawn but always endures, even at dae."
 	worshippers = "Wizards and Scholars"
-	mob_traits = list(TRAIT_NIGHT_OWL, TRAIT_DARKVISION)
+	mob_traits = list(TRAIT_NIGHT_OWL, TRAIT_NOCINSPIRE)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/noc_sight				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/targeted/touch/darkvision/miracle	= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/invisibility/miracle	= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/blindness				= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/silence 				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/self/noc_spell_bundle			= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T4,
 	)
 	confess_lines = list(
 		"NOC IS NIGHT!",
 		"NOC SEES ALL!",
 		"I SEEK THE MYSTERIES OF THE MOON!",
 	)
+	miracle_healing_lines = list(
+		"A shroud of soft moonlight falls upon %TARGET!"
+	)
 	storyteller = /datum/storyteller/noc
+
+/datum/patron/divine/noc/situational_bonus(mob/living/follower, mob/living/target)
+	return list((GLOB.tod == "night"), 2)
 
 /datum/patron/divine/dendor
 	name = "Dendor"
@@ -64,7 +74,7 @@
 					/obj/effect/proc_holder/spell/targeted/beasttame			= CLERIC_T2,
 					/obj/effect/proc_holder/spell/targeted/conjure_glowshroom	= CLERIC_T3,
 					/obj/effect/proc_holder/spell/targeted/conjure_vines 		= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T4,
 					/obj/effect/proc_holder/spell/self/howl/call_of_the_moon	= CLERIC_T4,
 	)
 	confess_lines = list(
@@ -72,7 +82,21 @@
 		"THE TREEFATHER BRINGS BOUNTY!",
 		"I ANSWER THE CALL OF THE WILD!",
 	)
+	miracle_healing_lines = list(
+		"A rush of primal energy spirals about %TARGET!"
+	)
 	storyteller = /datum/storyteller/dendor
+
+/datum/patron/divine/dendor/situational_bonus(mob/living/follower, mob/living/target)
+	var/list/natural_stuff = list(/obj/structure/flora/roguegrass, /obj/structure/flora/roguetree, /obj/structure/flora/rogueshroom, /obj/structure/soil, /obj/structure/flora/newtree, /obj/structure/flora/tree, /obj/structure/glowshroom)
+	var/situational_bonus = 0
+	// the more natural stuff around US, the more we heal
+	for (var/obj/O in oview(5, follower))
+		if (O in natural_stuff)
+			situational_bonus = min(situational_bonus + 0.1, 2)
+	for (var/obj/structure/flora/roguetree/wise/O in oview(5, follower))
+		situational_bonus += 1.5
+	return list((situational_bonus > 0), situational_bonus)
 
 /datum/patron/divine/abyssor
 	name = "Abyssor"
@@ -88,7 +112,7 @@
 					/obj/effect/proc_holder/spell/invoked/abyssor_bends			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/abyssheal				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/call_mossback			= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/call_dreamfiend		= CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/abyssal_infusion		= CLERIC_T4
 	)
@@ -97,15 +121,22 @@
 		"THE OCEAN'S FURY IS ABYSSOR'S WILL!",
 		"I AM DRAWN BY THE PULL OF THE TIDE!",
 	)
+	miracle_healing_lines = list(
+		"A mist of salt-scented vapour settles on %TARGET!"
+	)
 
 	storyteller = /datum/storyteller/abyssor
+
+/datum/patron/divine/abyssor/situational_bonus(mob/living/follower, mob/living/target)
+	// if we're standing in water
+	return list((istype(get_turf(follower), /turf/open/water)), 1.5)
 
 /datum/patron/divine/ravox
 	name = "Ravox"
 	domain = "God of Justice, Glory, Battle"
 	desc = "Stalwart warrior, glorious justicier; legends say he came down to the Basin to repel the vile hordes of demons with his own hands, and that he seeks warriors for his divine army among mortals."
 	worshippers = "Warriors, Sellswords & those who seek Justice"
-	mob_traits = list(TRAIT_SHARPER_BLADES, TRAIT_JUSTICARSIGHT)
+	mob_traits = list(TRAIT_SHARPER_BLADES)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/tug_of_war			= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
@@ -113,14 +144,24 @@
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/self/call_to_arms				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/persistence			= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T4,
 	)
 	confess_lines = list(
 		"RAVOX IS JUSTICE!",
 		"THROUGH STRIFE, GRACE!",
 		"THROUGH PERSISTENCE, GLORY!",
 	)
+	miracle_healing_lines = list(
+		"An air of righteous defiance rises near %TARGET!"
+	)
 	storyteller = /datum/storyteller/ravox
+
+/datum/patron/divine/ravox/situational_bonus(mob/living/follower, mob/living/target)
+	var/situational_bonus = 0
+	// the bloodier the area around our target is, the more we heal
+	for (var/obj/effect/decal/cleanable/blood/O in oview(5, follower))
+		situational_bonus = min(situational_bonus + 0.1, 2)
+	return list((situational_bonus > 0), situational_bonus)
 
 /datum/patron/divine/necra
 	name = "Necra"
@@ -137,14 +178,21 @@
 					/obj/effect/proc_holder/spell/targeted/abrogation			= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/speakwithdead			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/fieldburials			= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T4,
 	)
 	confess_lines = list(
 		"ALL SOULS FIND THEIR WAY TO NECRA!",
 		"THE UNDERMAIDEN IS OUR FINAL REPOSE!",
 		"I FEAR NOT DEATH, MY LADY AWAITS ME!",
 	)
+	miracle_healing_lines = list(
+		"A sense of quiet respite radiates from %TARGET."
+	)
 	storyteller = /datum/storyteller/necra
+
+/datum/patron/divine/necra/situational_bonus(mob/living/follower, mob/living/target)
+	// if the target is closer to death
+	return list((target.health <= target.maxHealth * 0.25), 2.5)
 
 /datum/patron/divine/xylix
 	name = "Xylix"
@@ -152,14 +200,15 @@
 	desc = "The Laughing God, both famous and infamous for his sway over the forces of luck. Xylix is known for the inspiration of many a bards lyric. Speaks through his gift to man; the Tarot deck."
 	worshippers = "Gamblers, Bards, Artists, and the Silver-Tongued"
 	mob_traits = list(TRAIT_XYLIX)
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
-					/obj/effect/proc_holder/spell/self/xylixslip				= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/wheel					= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/mockery				= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/mastersillusion		= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T3,
+	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison				= CLERIC_ORI,
+					/obj/effect/proc_holder/spell/self/xylixslip					= CLERIC_T0,
+					/obj/effect/proc_holder/spell/invoked/lesser_heal 				= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/projectile/fetch/miracle 	= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/projectile/repel/miracle 	= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/mockery					= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/blood_heal				= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/mastersillusion			= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/wound_heal				= CLERIC_T4,
 	)
 	confess_lines = list(
 		"ASTRATA IS MY LIGHT!",
@@ -178,7 +227,14 @@
 		"BAOTHA IS MY JOY!",
 		"REBUKE THE HERETICAL- PSYDON ENDURES!",
 	)
+	miracle_healing_lines = list(
+		"A mirthful breeze swirls around %TARGET!"
+	)
 	storyteller = /datum/storyteller/xylix
+
+/datum/patron/divine/xylix/situational_bonus(mob/living/follower, mob/living/target)
+	// half of the time, heal a little (or a lot) more - flip the coin
+	return list(prob(50), rand(1, 2.5))
 
 /datum/patron/divine/pestra
 	name = "Pestra"
@@ -195,16 +251,25 @@
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/attach_bodypart		= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/cure_rot				= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/regrow_limbs			= CLERIC_T4,
-					/obj/effect/proc_holder/spell/invoked/pestratouch			= CLERIC_T4,
+					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T4,
 	)
 	confess_lines = list(
 		"PESTRA SOOTHES ALL ILLS!",
 		"DECAY IS A CONTINUATION OF LIFE!",
 		"MY AFFLICTION IS MY TESTAMENT!",
 	)
+	miracle_healing_lines = list(
+		"An aura of clinical care encompasses %TARGET!"
+	)
 	storyteller = /datum/storyteller/pestra
+
+/datum/patron/divine/pestra/situational_bonus(mob/living/follower, mob/living/target)
+	if (!iscarbon(follower))
+		return list(FALSE, 0)
+
+	// situational bonus only if whatever we're healing is low on blood
+	var/mob/living/carbon/C = target
+	return list((C.blood_volume <= (BLOOD_VOLUME_NORMAL / 2)), 2.5)
 
 /datum/patron/divine/malum
 	name = "Malum"
@@ -220,16 +285,25 @@
 					/obj/effect/proc_holder/spell/invoked/heatmetal				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/hammerfall			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/craftercovenant		= CLERIC_T4,
 	)
 	confess_lines = list(
 		"MALUM IS MY MUSE!",
 		"TRUE VALUE IS IN THE TOIL!",
 		"I AM AN INSTRUMENT OF CREATION!",
 	)
-
+	miracle_healing_lines = list(
+		"A dispassionate glow smoulders around %TARGET!"
+	)
 	storyteller = /datum/storyteller/malum
 
+/datum/patron/divine/malum/situational_bonus(mob/living/follower, mob/living/target)
+	// extra healing for every source of fire/light near us
+	var/list/firey_stuff = list(/obj/machinery/light/rogue/torchholder, /obj/machinery/light/rogue/campfire, /obj/machinery/light/rogue/hearth, /obj/machinery/light/rogue/wallfire, /obj/machinery/light/rogue/wallfire/candle, /obj/machinery/light/rogue/forge)
+	var/situational_bonus = 0
+	for (var/obj/O in oview(5, follower))
+		if (O.type in firey_stuff)
+			situational_bonus = min(situational_bonus + 0.5, 2.5)
+	return list((situational_bonus > 0), situational_bonus)
 
 /datum/patron/divine/eora
 	name = "Eora"
@@ -245,7 +319,7 @@
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/heartweave			= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/eoracurse				= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/pomegranate			= CLERIC_T4,
 	)
 	confess_lines = list(
@@ -253,8 +327,20 @@
 		"HER BEAUTY IS EVEN IN THIS TORMENT!",
 		"I LOVE YOU, EVEN AS YOU TRESPASS AGAINST ME!",
 	)
+	miracle_healing_lines = list(
+		"A gentle light blossoms around %TARGET!"
+	)
 	traits_tier = list(TRAIT_EORAN_CALM = CLERIC_T0, TRAIT_EORAN_SERENE = CLERIC_T2)
 	storyteller = /datum/storyteller/eora
+
+/datum/patron/divine/eora/situational_bonus(mob/living/follower, mob/living/target)
+	// if the either the target or we are a pacifist, increase bonuses
+	var/situational_bonus = 0
+	if (HAS_TRAIT(target, TRAIT_PACIFISM))
+		situational_bonus = 2.5
+	if (HAS_TRAIT(follower, TRAIT_PACIFISM))
+		situational_bonus += 1.5
+	return list((situational_bonus > 0), situational_bonus)
 
 /////////////////////////////////
 // Does God Hear Your Prayer ? //
@@ -308,7 +394,7 @@
 	// Allows prayer near psycross
 	for(var/obj/structure/fluff/psycross/cross in view(4, get_turf(follower)))
 		if(cross.divine == FALSE)
-			to_chat(follower, span_danger("That defiled cross interupts my prayers!"))
+			to_chat(follower, span_danger("That defiled cross interrupts my prayers!"))
 			return FALSE
 		return TRUE
 	// Allows prayer in the druid tower + houses in the forest
@@ -319,7 +405,7 @@
 		return TRUE
 	for(var/obj/structure/flora/roguetree/wise in view(4, get_turf(follower)))
 		return TRUE
-	to_chat(follower, span_danger("I must either be in Dendor's wilds, the Grove, near a wise tree, or near a Panetheon Cross for the 'Tree Father' to hear my prays..."))
+	to_chat(follower, span_danger("I must either be in Dendor's wilds, the Grove, near a wise tree, or near a pantheon cross for the 'Tree Father' to hear my prayers..."))
 	return FALSE
 
 
@@ -329,7 +415,7 @@
 	// Allows prayer near psycross
 	for(var/obj/structure/fluff/psycross/cross in view(4, get_turf(follower)))
 		if(cross.divine == FALSE)
-			to_chat(follower, span_danger("That defiled cross interupts my prayers!"))
+			to_chat(follower, span_danger("That defiled cross interrupts my prayers!"))
 			return FALSE
 		return TRUE
 	// Allows prayer in the church
@@ -338,7 +424,7 @@
 	// Allows prayer near any body of water turf.
 	for(var/turf/open/water in view(4, get_turf(follower)))
 		return TRUE
-	to_chat(follower, span_danger("For Abyssor to hear my prayer I must either pray within the church, near a psycross, or at any body of water so that the tides of prayer may flow.."))
+	to_chat(follower, span_danger("For Abyssor to hear my prayer I must either pray within the church, near a pantheon cross, or at any body of water so that the tides of prayer may flow.."))
 	return FALSE
 
 
@@ -348,7 +434,7 @@
 	// Allows prayer near psycross
 	for(var/obj/structure/fluff/psycross/cross in view(4, get_turf(follower)))
 		if(cross.divine == FALSE)
-			to_chat(follower, span_danger("That defiled cross interupts my prayers!"))
+			to_chat(follower, span_danger("That defiled cross interrupts my prayers!"))
 			return FALSE
 		return TRUE
 	// Allows prayer in the church
@@ -357,7 +443,7 @@
 	// Allows prayer near any knight statue and its subtypes.
 	for(var/obj/structure/fluff/statue/knight/K in view(4, get_turf(follower)))
 		return TRUE
-	to_chat(follower, span_danger("For Ravox to hear my prayer I must either pray within the church, near a psycross, or near a knighly statue in memorium of the fallen.."))
+	to_chat(follower, span_danger("For Ravox to hear my prayer I must either pray within the church, near a pantheon cross, or near a knighly statue in memorium of the fallen.."))
 	return FALSE
 
 
@@ -367,7 +453,7 @@
 	// Allows prayer near psycross
 	for(var/obj/structure/fluff/psycross/cross in view(4, get_turf(follower)))
 		if(cross.divine == FALSE)
-			to_chat(follower, span_danger("That defiled cross interupts my prayers!"))
+			to_chat(follower, span_danger("That defiled cross interrupts my prayers!"))
 			return FALSE
 		return TRUE
 	// Allows prayer in the church
@@ -376,7 +462,7 @@
 	// Allows prayer near a grave.
 	for(var/obj/structure/closet/dirthole/grave/G in view(4, get_turf(follower)))
 		return TRUE
-	to_chat(follower, span_danger("For Necra to hear my prayer I must either pray within the church, near a psycross, or near a grave where we all go to be given our final embrace.."))
+	to_chat(follower, span_danger("For Necra to hear my prayer I must either pray within the church, near a pantheon cross, or near a grave where we all go to be given our final embrace.."))
 	return FALSE
 
 
@@ -386,7 +472,7 @@
 	// Allows prayer near psycross
 	for(var/obj/structure/fluff/psycross/cross in view(4, get_turf(follower)))
 		if(cross.divine == FALSE)
-			to_chat(follower, span_danger("That defiled cross interupts my prayers!"))
+			to_chat(follower, span_danger("That defiled cross interrupts my prayers!"))
 			return FALSE
 		return TRUE
 	// Allows prayer in the church
@@ -395,7 +481,7 @@
 	// Allows prayer near gambling machines.
 	for(var/obj/structure/roguemachine/lottery_roguetown/L in view(4, get_turf(follower)))
 		return TRUE
-	to_chat(follower, span_danger("For Xylix to hear my prayer I must either pray within the church, near a psycross, or near a machine of fortune blessed by the grand jester.."))
+	to_chat(follower, span_danger("For Xylix to hear my prayer I must either pray within the church, near a pantheon cross, or near a machine of fortune blessed by the grand jester.."))
 	return FALSE
 
 
@@ -405,7 +491,7 @@
 	// Allows prayer near psycross
 	for(var/obj/structure/fluff/psycross/cross in view(4, get_turf(follower)))
 		if(cross.divine == FALSE)
-			to_chat(follower, span_danger("That defiled cross interupts my prayers!"))
+			to_chat(follower, span_danger("That defiled cross interrupts my prayers!"))
 			return FALSE
 		return TRUE
 	// Allows prayer in the church
@@ -427,7 +513,7 @@
 	// Allows prayer near psycross
 	for(var/obj/structure/fluff/psycross/cross in view(4, get_turf(follower)))
 		if(cross.divine == FALSE)
-			to_chat(follower, span_danger("That defiled cross interupts my prayers!"))
+			to_chat(follower, span_danger("That defiled cross interrupts my prayers!"))
 			return FALSE
 		return TRUE
 	// Allows prayer in the church
@@ -442,7 +528,7 @@
 	// Allows prayer near smelters.
 	for(var/obj/machinery/light/rogue/smelter/H in view(4, get_turf(follower)))
 		return TRUE
-	to_chat(follower, span_danger("For Malum to hear my prayer I must either pray within the church, the smithy's workshop, near a psycross, near a smelter, or hearth to bask in Malum's glory.."))
+	to_chat(follower, span_danger("For Malum to hear my prayer I must either pray within the church, the smithy's workshop, near a pantheon cross, near a smelter, or hearth to bask in Malum's glory.."))
 	return FALSE
 
 // Eora - Near a gambling machine, cross, or within the church
@@ -465,5 +551,5 @@
 	// Allows player to pray while wearing eoran bud.
 	if(HAS_TRAIT(follower, TRAIT_PACIFISM))
 		return TRUE
-	to_chat(follower, span_danger("For Eora to hear my prayer I must either pray within the church, near a psycross, offering her poppy flowers, or wearing one of her blessed flowers atop my head.."))
+	to_chat(follower, span_danger("For Eora to hear my prayer I must either pray within the church, near a pantheon cross, offering her poppy flowers, or wearing one of her blessed flowers atop my head.."))
 	return FALSE

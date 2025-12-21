@@ -93,6 +93,17 @@
 		else
 			to_chat(src, "You will no longer be notified in chat when toggling Compliance Mode.")
 
+/client/verb/toggle_examine_blocks()
+	set category = "Options"
+	set name = "Toggle Examine Blocks"
+	if(prefs)
+		prefs.no_examine_blocks = !prefs.no_examine_blocks
+		prefs.save_preferences()
+		if(prefs.no_examine_blocks)
+			to_chat(src, "You will no longer see examined items in boxes.")
+		else
+			to_chat(src, "You will now see examined items in boxes.")
+
 /client/verb/toggle_lobby_music()
 	set name = "Toggle Lobby Music"
 	set category = "Options"
@@ -135,6 +146,22 @@
 		prefs.toggles ^= CMODE_STRIPPING
 		prefs.save_preferences()
 	to_chat(src, "You will [prefs.toggles & CMODE_STRIPPING ? "" : "not"] be able to open the strip menu in combat mode.")
+
+/client/verb/toggle_xptext() // Whether the user can see the balloon XP pop ups.
+	set category = "Options"
+	set name = "Toggle XP Text"
+	if(prefs)
+		prefs.floating_text_toggles ^= XP_TEXT
+		prefs.save_preferences()
+	to_chat(src, "You will[prefs.floating_text_toggles & XP_TEXT ? "" : " not"] see XP pop ups.")
+
+/client/verb/toggle_floatingtext() // Whether the user can see the balloon pop ups at all.
+	set category = "Options"
+	set name = "Toggle Floating Text"
+	if(prefs)
+		prefs.floating_text_toggles ^= FLOATING_TEXT
+		prefs.save_preferences()
+	to_chat(src, "You will [prefs.floating_text_toggles & FLOATING_TEXT ? "see" : "not see any"] floating text.")
 
 /*
 //toggles

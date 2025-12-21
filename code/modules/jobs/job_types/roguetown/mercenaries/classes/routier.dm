@@ -6,7 +6,7 @@
 	disallowed_races = list(
 		/datum/species/lamia,
 	)
-	outfit = /datum/outfit/job/roguetown/mercenary/routier
+	outfit = /datum/outfit/job/mercenary/routier
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_OTAVA
 	cmode_music = 'sound/music/combat_routier.ogg'
@@ -42,13 +42,13 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/mercenary/routier/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/routier/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	// CLASS ARCHETYPES
 	H.adjust_blindness(-3)
 	var/classes = list("Swordsman","Macebearer","Flailman", "Foot Lancer")
-	var/classchoice = input("Choose your archetypes", "Available archetypes") as anything in classes
+	var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes
 	H.set_blindness(0)
 	to_chat(H, span_warning("You are a Knight of Otava, well experienced in the use of your chosen arms."))
 
@@ -79,3 +79,5 @@
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	backl = /obj/item/rogueweapon/shield/tower/metal
 	backpack_contents = list(/obj/item/roguekey/mercenary = 1, /obj/item/flashlight/flare/torch = 1)
+
+	change_origin(H, /datum/virtue/origin/otava)

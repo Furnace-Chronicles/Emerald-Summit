@@ -28,7 +28,6 @@
 		/obj/item/reagent_containers/food/snacks/fish/angler = 170,
 		/obj/item/reagent_containers/food/snacks/fish/lobster = 180,
 		/obj/item/reagent_containers/food/snacks/fish/bass = 230,
-		/obj/item/reagent_containers/food/snacks/fish/clam = 50,
 		/obj/item/reagent_containers/food/snacks/fish/clownfish = 40,
 		/obj/item/grown/log/tree/stick = 3,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
@@ -51,6 +50,8 @@
 	// This is super trimmed down from the ratwood list to focus entirely on shellfishes
 	cageloot = list(
 		/obj/item/reagent_containers/food/snacks/fish/oyster = 214,
+		/obj/item/roguegem/oyster = 150, //Probably best to have one clam type instead of two, but whatever
+		/obj/item/reagent_containers/food/snacks/fish/clam = 150,
 		/obj/item/reagent_containers/food/snacks/fish/shrimp = 214,
 		/obj/item/reagent_containers/food/snacks/fish/crab = 214,
 		/obj/item/reagent_containers/food/snacks/fish/lobster = 214,
@@ -302,6 +303,15 @@
 	blood_storage = BLOOD_VOLUME_BAD
 	blood_maximum = BLOOD_VOLUME_NORMAL
 	mindless_attach = FALSE
+	embedding = list(
+		"embed_chance" = 100,
+		"embedded_unsafe_removal_time" = 0,
+		"embedded_pain_chance" = 0,
+		"embedded_fall_chance" = 0,
+		"embedded_bloodloss"= 0,
+		"embedded_ignore_throwspeed_threshold" = TRUE,
+		"embedded_unsafe_removal_pain_multiplier" = 0, 
+	) // the humble cheele is gentle. so gentle.
 
 /obj/item/natural/worms/leech/cheele/attack_self(mob/user)
 	. = ..()

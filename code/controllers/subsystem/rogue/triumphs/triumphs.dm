@@ -83,7 +83,7 @@ SUBSYSTEM_DEF(triumphs)
 	// This is a list of all active datums
 	var/list/active_triumph_buy_queue = list()
 
-	// These get on_activate() called in /datum/outfit/job/roguetown/post_equip() in roguetown.dm
+	// These get on_activate() called in /datum/outfit/job/post_equip() in roguetown.dm
 	var/list/post_equip_calls = list()
 
 /datum/controller/subsystem/triumphs/Initialize()

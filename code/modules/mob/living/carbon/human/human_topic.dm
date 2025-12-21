@@ -4,6 +4,10 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 /mob/living/carbon/human/Topic(href, href_list)
 	var/observer_privilege = isobserver(usr)
 
+	if(href_list["task"] == "bloodpoolinfo")
+		to_chat(usr, span_notice("Usable blood that yields Vitae and total blood is not the same thing. It takes some time for blood to become nourishing for us."))
+		return
+
 	if(href_list["task"] == "view_headshot")
 		if(!ismob(usr))
 			return
@@ -89,9 +93,11 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		if(do_after(usr, time_taken, needhand = TRUE, target = src))
 			if(QDELETED(I) || QDELETED(L) || !L.remove_embedded_object(I))
 				return
-			L.receive_damage(I.embedding.embedded_unsafe_removal_pain_multiplier*I.w_class)//It hurts to rip it out, get surgery you dingus.
+			var/hort = FALSE
+			hort = L.receive_damage(I.embedding.embedded_unsafe_removal_pain_multiplier*I.w_class)//It hurts to rip it out, get surgery you dingus.
 			usr.put_in_hands(I)
-			emote("pain", TRUE)
+			if (hort)
+				emote("pain", TRUE)
 			playsound(loc, 'sound/foley/flesh_rem.ogg', 100, TRUE, -2)
 			if(usr == src)
 				usr.visible_message("<span class='notice'>[usr] rips [I] out of [usr.p_their()] [L.name]!</span>", "<span class='notice'>I successfully remove [I] from my [L.name].</span>")
@@ -133,6 +139,61 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		popup.set_content(dna.species.desc)
 		popup.open()
 		return
+
+	if(href_list["social_strata"])
+		var/is_clergy = FALSE
+		var/is_jester = FALSE
+		var/is_druid = FALSE
+		if(job)
+			var/datum/job/J = SSjob.GetJob(job)
+			if(J.department_flag == CHURCHMEN) //There may be a better way to check who is clergy, but this will do for now
+				is_clergy = TRUE
+			if(J.title == "Jester")
+				is_jester = TRUE
+			if(J.title == "Druid")
+				is_druid = TRUE
+		if(social_rank && !HAS_TRAIT(usr, TRAIT_OUTLANDER))
+			var/examiner_rank = usr.social_rank
+			var/rank_name
+			if(HAS_TRAIT(src, TRAIT_NOBLE) && social_rank < 4) //anyone with the noble trait that wasn't a noble is now at least a minor noble
+				social_rank = SOCIAL_RANK_MINOR_NOBLE
+			switch(social_rank)
+				if(SOCIAL_RANK_DIRT)
+					rank_name = "dirt"
+				if(SOCIAL_RANK_PEASANT)
+					rank_name = "a peasant"
+				if(SOCIAL_RANK_YEOMAN)
+					rank_name = "a yeoman"
+				if(SOCIAL_RANK_MINOR_NOBLE)
+					rank_name = is_clergy ? "low clergy" : "lower nobility"
+				if(SOCIAL_RANK_NOBLE)
+					rank_name = is_clergy ? "clergy" : "nobility"
+				if(SOCIAL_RANK_ROYAL)
+					rank_name = is_clergy ? "head of the clergy" : "upper nobility"
+			if(HAS_TRAIT(src, TRAIT_DISGRACED_NOBLE))
+				rank_name = "a disgraced noble"
+				social_rank = 3
+			if(is_jester)
+				rank_name = "the jester"
+			if(is_druid)
+				rank_name = "a druid"
+			if(social_rank > examiner_rank)
+				to_chat(usr, span_notice("This person is <EM>[rank_name]</EM>, they are my better."))
+			if(social_rank == examiner_rank)
+				to_chat(usr, span_notice("This person is <EM>[rank_name]</EM>, they are my equal."))
+			if(social_rank < examiner_rank)
+				to_chat(usr, span_notice("This person is <EM>[rank_name]</EM>, they are my lesser."))
+			if(family_datum)
+				var/datum/family_member/FM = family_datum.GetMemberForPerson(src)
+				var/spousetext = ""
+				if(FM && FM.spouses.len)
+					var/list/spouse_list = list()
+					for(var/datum/family_member/S in FM.spouses)
+						if(S.person)
+							spouse_list += S.person.real_name
+					if(spouse_list.len)
+						spousetext = jointext(spouse_list, ", ")
+				to_chat(usr, span_notice("They are a member of house[family_datum.housename].[spousetext ? " Married to [spousetext]." : ""]"))
 
 	if(href_list["undiesthing"]) //canUseTopic check for this is handled by mob/Topic()
 		if(!get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
@@ -567,28 +628,28 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 /proc/skilldiff_report(var/input)
 	switch (input)
 		if(-6)
-			return "<font color = '#ff4ad2'>I know nothing. They -- everything.</font>"
+			return "<font color = '#ff4ad2'>I know nothing. They -- everything</font>"
 		if(-5)
-			return "<font color = '#eb0000'<i>I stand no chance against them.</i></font>"
+			return "<font color = '#eb0000'><i>I stand no chance against them</i></font>"
 		if(-4)
-			return "<font color = '#c53c3c'<i>I am inferior.</i></font>"
+			return "<font color = '#c53c3c'><i>I am inferior</i></font>"
 		if(-3)
-			return "<font color = '#db8484'<i>I am notably worse.</i></font>"
+			return "<font color = '#db8484'><i>I am notably worse</i></font>"
 		if(-2)
-			return "<font color = '#e4a1a1'<i>I am worse.</i></font>"
+			return "<font color = '#e4a1a1'><i>I am worse</i></font>"
 		if(-1)
-			return "<font color = '#f8d3d3'<i>I am slightly worse.</i></font>"
+			return "<font color = '#f8d3d3'><i>I am slightly worse</i></font>"
 		if(0)
-			return "We are equal."
+			return "We are equal"
 		if(1)
-			return "<font color = '#3f6343'> I am slightly better.</font>"
+			return "<font color = '#3f6343'>I am slightly better</font>"
 		if(2)
-			return "<font color = '#49944f'> I am better.</font>"
+			return "<font color = '#49944f'>I am better</font>"
 		if(3)
-			return "<font color = '#44db51'> I am notably better.</font>"
+			return "<font color = '#44db51'>I am notably better</font>"
 		if(4)
-			return"<font color = '#62b4be'> I am superior.</font>"
+			return"<font color = '#62b4be'>I am superior</font>"
 		if(5)
-			return "<font color = '#2bdcfc'> They have no chance in this field.</font>"
+			return "<font color = '#2bdcfc'>They have no chance in this field</font>"
 		if(6)
-			return "<font color = '#ff4ad2'> They know nothing. A whelp.</font>"
+			return "<font color = '#ff4ad2'>They know nothing. A whelp</font>"

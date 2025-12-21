@@ -129,7 +129,7 @@
 /datum/anvil_recipe/engineering/bronze/smokebomb
 	name = "Smoke Bomb 3x (+Cog, +Ash)"
 	req_bar = /obj/item/ingot/bronze
-	created_item = /obj/item/smokebomb
+	created_item = /obj/item/bomb/smoke
 	additional_items = list(/obj/item/roguegear, /obj/item/ash)
 	createditem_num = 3
 	craftdiff = 3

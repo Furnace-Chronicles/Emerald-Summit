@@ -24,6 +24,7 @@
 		src.STACON = 7
 		src.STAPER = 12
 		src.STASPD = 13
+		update_move_intent_slowdown() // Apply speed changes
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/wolfclaws)
 		real_name = "Volf ([stored_mob.real_name])" //So we don't get a random name

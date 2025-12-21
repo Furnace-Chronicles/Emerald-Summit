@@ -52,6 +52,28 @@
 	craftdiff = 6
 	sellprice = 30
 
+/datum/crafting_recipe/roguetown/leather/unique/otavanleathergloves
+	name = "otavan leather gloves"
+	result = list(/obj/item/clothing/gloves/roguetown/otavan)
+	reqs = list(/obj/item/reagent_containers/food/snacks/tallow = 1,
+	            /obj/item/natural/fibers = 1,
+	            /obj/item/natural/hide/cured = 1,
+				/obj/item/natural/fur = 1)
+	tools = list(/obj/item/needle)
+	craftdiff = 6
+	sellprice = 30
+
+/datum/crafting_recipe/roguetown/leather/unique/otavanleathersatchel
+	name = "otavan leather satchel"
+	result = list(/obj/item/storage/backpack/rogue/satchel/otavan)
+	reqs = list(/obj/item/reagent_containers/food/snacks/tallow = 1,
+	            /obj/item/natural/fibers = 2,
+	            /obj/item/natural/hide/cured = 2,
+				/obj/item/natural/fur = 1)
+	tools = list(/obj/item/needle)
+	craftdiff = 6
+	sellprice = 30
+
 /datum/crafting_recipe/roguetown/leather/unique/fencingbreeches
 	name = "frencing breeches"
 	result = list(/obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic)

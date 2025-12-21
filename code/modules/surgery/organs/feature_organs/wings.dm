@@ -24,6 +24,17 @@
 	name = "fluvian wings"
 	desc = "A pair of fuzzy moth wings."
 	flight_for_species = list("moth")
+	sellprice = 40
+
+/obj/item/organ/wings/moth/Insert(mob/living/carbon/M)
+	..()
+	if(M)
+		ADD_TRAIT(M, TRAIT_WINGS, TRAIT_GENERIC)
+
+/obj/item/organ/wings/moth/Remove(mob/living/carbon/M, special = 0)
+	..()
+	if(M)
+		REMOVE_TRAIT(M, TRAIT_WINGS, TRAIT_GENERIC)
 
 /obj/item/organ/wings/dracon
 	name = "drakian wings"
@@ -48,6 +59,12 @@
 /obj/item/organ/wings/flight/megamoth
 	name = "megamoth wings"
 	desc = "A pair of horrifyingly large, fuzzy wings. They look strong enough to lift you up in the air."
+
+/obj/item/organ/wings/flight/night_kin
+	name = "Vampire Wings"
+	accessory_type = /datum/sprite_accessory/wings/large/gargoyle
+	/// Flight datum
+	var/datum/action/item_action/organ_action/use/flight/fly
 
 /obj/item/organ/wings/harpy // we could... make it an arm subtype... but im lazy!
 	name = "harpy wings"
@@ -100,7 +117,8 @@
 							to_chat(user, span_bloody("I am too energetic to control my flight!</br>AGHH!!"))
 							user.Knockdown(10)
 						else
-							if(do_after(user, 10))
+							user.visible_message(span_notice("[user] prepares to take flight."))
+							if(do_after(user, 3 SECONDS))
 								var/athletics_skill = max(user.get_skill_level(/datum/skill/misc/athletics), SKILL_LEVEL_NOVICE)
 								var/stamina_cost_final = round((baseline_stamina_cost - athletics_skill), 1)
 								user.apply_status_effect(/datum/status_effect/debuff/harpy_flight, stamina_cost_final)

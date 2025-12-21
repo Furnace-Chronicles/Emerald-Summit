@@ -3,7 +3,7 @@
 	tutorial = "You are without coin and without worth. The pity of others is your bread, and their mercy is your butter. Having sat by waystones and watched many a traveller pass in the hopes for alms, you've nursed a surprising talent for thievery, and have even cajoled knowledge of lockpicking out of an especially sentimental rogue."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/vagabond/beggar
+	outfit = /datum/outfit/job/vagabond/beggar
 	category_tags = list(CTAG_VAGABOND)
 
 	subclass_languages = list(/datum/language/thievescant)
@@ -21,7 +21,7 @@
 		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
 	)
 
-/datum/outfit/job/roguetown/vagabond/beggar/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/vagabond/beggar/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(prob(20))
 		head = /obj/item/clothing/head/roguetown/knitcap

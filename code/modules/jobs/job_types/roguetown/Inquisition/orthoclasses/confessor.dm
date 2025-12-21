@@ -3,7 +3,7 @@
 	tutorial = "Psydonite hunters, unmatched in the fields of subterfuge and investigation. There is no suspect too powerful to investigate, no room too guarded to infiltrate, and no weakness too hidden to exploit."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/confessor
+	outfit = /datum/outfit/job/confessor
 	category_tags = list(CTAG_INQUISITION)
 	cmode_music = 'sound/music/combat_deadlyshadows.ogg'
 
@@ -39,10 +39,10 @@
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
 	)
 
-/datum/outfit/job/roguetown/confessor
+/datum/outfit/job/confessor
 	job_bitflag = BITFLAG_CHURCH
 
-/datum/outfit/job/roguetown/confessor/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/confessor/pre_equip(mob/living/carbon/human/H)
 	..()
 	has_loadout = TRUE
 	wrists = /obj/item/clothing/neck/roguetown/psicross/silver
@@ -69,7 +69,9 @@
 		/obj/item/paper/inqslip/arrival/ortho = 1
 		)
 
-/datum/outfit/job/roguetown/confessor/choose_loadout(mob/living/carbon/human/H)
+	change_origin(H, /datum/virtue/origin/otava, "Holy order")
+
+/datum/outfit/job/confessor/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/weapons = list("Shortsword", "Handmace", "Dagger")
 	var/weapon_choice = input(H,"Choose your PSYDONIAN weapon.", "TAKE UP PSYDON'S ARMS") as anything in weapons

@@ -79,6 +79,7 @@
 	icon_angle_wielded = 50
 	pickup_sound = 'modular_helmsguard/sound/sheath_sounds/draw_blunt.ogg'
 	sheathe_sound = 'sound/items/wood_sharpen.ogg'
+	special = /datum/special_intent/ground_smash
 
 /obj/item/rogueweapon/mace/equipped(mob/user, slot, initial = FALSE)
 	pickup_sound = pick("modular_helmsguard/sound/sheath_sounds/draw_blunt.ogg", "modular_helmsguard/sound/sheath_sounds/draw_mace.ogg", "modular_helmsguard/sound/sheath_sounds/draw_blunt2.ogg")
@@ -220,6 +221,15 @@
 	resistance_flags = FLAMMABLE
 	grid_width = 32
 	grid_height = 96
+
+/obj/item/rogueweapon/mace/cudgel/shellrungu
+	name = "shell rungu"
+	desc = "A ceremonial rungu carved out of clam shell. Not intended for combat. Its used in various Sea and Coastal Elven rituals and ceremonies."
+	icon = 'icons/roguetown/gems/gem_shell.dmi'
+	icon_state = "rungu_shell"
+
+	max_integrity = 75
+	sellprice = 35
 
 /obj/item/rogueweapon/mace/cudgel/psy
 	name = "psydonian handmace"
@@ -578,3 +588,14 @@
 	penfactor = 80
 	damfactor = 0.9
 	item_d_type = "stab"
+
+/obj/item/rogueweapon/mace/cudgel/ogre
+	name = "Head Knockah"
+	desc = "A bell ringer that's been repurposed by a crafty set of hands, its size can only be wielded effectively by a giant."
+	force = 25
+	icon = 'icons/roguetown/weapons/64.dmi'
+	icon_state = "ogre_cudgel"
+	minstr = 13
+	pixel_y = -16
+	pixel_x = -16
+	bigboy = TRUE

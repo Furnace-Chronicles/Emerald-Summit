@@ -4,6 +4,7 @@
 	color_key_name = "Tail"
 	relevant_layers = list(BODY_FRONT_LAYER, BODY_BEHIND_LAYER)
 	var/can_wag = FALSE
+	var/can_suck = FALSE
 
 /datum/sprite_accessory/tail/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	return is_human_part_visible(owner, HIDETAIL)
@@ -51,6 +52,20 @@
 
 /datum/sprite_accessory/tail/bats
 	name = "Bat (Short)"
+	icon_state = "bats"
+	color_keys = 2
+	color_key_names = list("Tail", "Tip")
+	can_wag = TRUE
+
+/datum/sprite_accessory/tail/batlmaw
+	name = "Bat (Long, Maw)"
+	icon_state = "batl"
+	color_keys = 2
+	color_key_names = list("Tail", "Tip")
+	can_wag = TRUE
+
+/datum/sprite_accessory/tail/batsmaw
+	name = "Bat (Short, Maw)"
 	icon_state = "bats"
 	color_keys = 2
 	color_key_names = list("Tail", "Tip")
@@ -246,6 +261,12 @@
 	color_key_names = list("Tails", "Tips")
 	can_wag = TRUE
 
+/datum/sprite_accessory/tail/tentaclemaw
+	name = "Tentacle (Maw)"
+	icon_state = "tentacle"
+	can_wag = TRUE
+	can_suck = TRUE
+
 /datum/sprite_accessory/tail/tentacle
 	name = "Tentacle"
 	icon_state = "tentacle"
@@ -287,6 +308,11 @@
 /datum/sprite_accessory/tail/spade
 	name = "Succubus Spade Tail"
 	icon_state = "spade"
+
+/datum/sprite_accessory/tail/spademaw
+	name = "Succubus Spade Tail (Maw)"
+	icon_state = "spade"
+	can_suck = TRUE
 
 /datum/sprite_accessory/tail/leopard
 	name = "Leopard"
@@ -353,6 +379,14 @@
 	color_key_defaults = list(KEY_SKIN_COLOR)
 	can_wag = TRUE
 
+/datum/sprite_accessory/tail/tiefling/heartmaw
+	name = "Succubus (Maw)"
+	icon = 'icons/mob/sprite_accessory/tails/tiefling.dmi'
+	icon_state = "hearttail"
+	color_key_defaults = list(KEY_SKIN_COLOR)
+	can_wag = TRUE
+	can_suck = TRUE
+
 /datum/sprite_accessory/tail/tiefling/spade
 	name = "Spade"
 	icon = 'icons/mob/sprite_accessory/tails/tiefling.dmi'
@@ -375,6 +409,13 @@
 
 /datum/sprite_accessory/tail/rattlesnake
 	name = "Rattlesnake"
+	icon_state = "rattlesnake"
+	color_keys = 2
+	color_key_names = list("Tail", "Tip")
+	can_wag = TRUE
+
+/datum/sprite_accessory/tail/rattlesnakemaw
+	name = "Rattlesnake (Maw)"
 	icon_state = "rattlesnake"
 	color_keys = 2
 	color_key_names = list("Tail", "Tip")

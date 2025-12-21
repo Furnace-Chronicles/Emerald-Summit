@@ -34,6 +34,8 @@
 	if (QDELETED(src))
 		return 0
 
+	SEND_SIGNAL(src, COMSIG_HUMAN_LIFE)
+
 	if(. && (mode != NPC_AI_OFF))
 		handle_ai()
 
@@ -42,7 +44,7 @@
 
 	if(mind)
 		mind.sleep_adv.add_stress_cycle(get_stress_amount())
-		for(var/datum/antagonist/A in mind.antag_datums)
+		for(var/datum/antagonist/A as anything in mind.antag_datums)
 			A.on_life(src)
 
 	if(mode == NPC_AI_OFF)
@@ -109,7 +111,7 @@
 		return
 
 	if(mind)
-		for(var/datum/antagonist/A in mind.antag_datums)
+		for(var/datum/antagonist/A as anything in mind.antag_datums)
 			A.on_life(src)
 
 	. = ..()

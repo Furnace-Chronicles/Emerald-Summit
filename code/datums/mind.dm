@@ -109,6 +109,14 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 	var/list/special_people = list()
 
+	// Spell persistence system for transformations
+	var/list/stored_transformation_spells	// Preserves spells across forms
+	var/can_store_spells = FALSE			// Trait to enable spell storage
+	// Priest miracle set switching
+	var/list/stored_miracle_sets				// Associative: god_name = devotion_datum
+	var/active_miracle_set						// Currently active god name
+	var/list/miracle_button_states				// Associative: spell_type = list("locked", "moved") - persists across all gods
+
 /datum/mind/New(key)
 	src.key = key
 	soulOwner = src
@@ -166,6 +174,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		if(H.dna && H.dna.species)
 			known_people[H.real_name]["FSPECIES"] = H.dna.species.name
 		known_people[H.real_name]["FAGE"] = H.age
+		if(H.family_datum)
+			known_people[H.real_name]["FHOUSE"] = H.family_datum.housename
 		if (ishuman(current))
 			var/mob/living/carbon/human/C = current
 			var/heretic_text = H.get_heretic_symbol(C)
@@ -203,12 +213,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 				M.known_people[H.real_name]["FGENDER"] = referred_gender
 				M.known_people[H.real_name]["FSPECIES"] = H.dna.species.name
 				M.known_people[H.real_name]["FAGE"] = H.age
-				if(ishuman(M.current))
-					var/mob/living/carbon/human/C = M.current
-					var/heretic_text = C.get_heretic_symbol(H)
-					if (heretic_text)
-						M.known_people[H.real_name]["FHERESY"] = heretic_text
-				
+				if(H.family_datum)
+					M.known_people[H.real_name]["FHOUSE"] = H.family_datum.housename
 
 /datum/mind/proc/do_i_know(datum/mind/person, name)
 	if(!person && !name)
@@ -255,11 +261,12 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		var/fgender = known_people[P]["FGENDER"]
 		var/fspecies = known_people[P]["FSPECIES"]
 		var/fage = known_people[P]["FAGE"]
+		var/fhouse = known_people[P]["FHOUSE"]
 		var/fheresy = known_people[P]["FHERESY"]
 		if(fcolor && fjob)
 			if (fheresy)
 				contents +="<B><font color=#f1d669>[fheresy]</font></B> "
-			contents += "<B><font color=#[fcolor];text-shadow:0 0 10px #8d5958, 0 0 20px #8d5958, 0 0 30px #8d5958, 0 0 40px #8d5958, 0 0 50px #e60073, 0 0 60px #8d5958, 0 0 70px #8d5958;>[P]</font></B><BR>[fjob], [fspecies], [capitalize(fgender)], [fage]"
+			contents += "<B><font color=#[fcolor];text-shadow:0 0 10px #8d5958, 0 0 20px #8d5958, 0 0 30px #8d5958, 0 0 40px #8d5958, 0 0 50px #e60073, 0 0 60px #8d5958, 0 0 70px #8d5958;>[P]</font></B><BR>[fjob], [fspecies], [capitalize(fgender)], [fage][fhouse ? "<br><b>House [fhouse]</b>" : ""]"
 			contents += "<BR>"
 
 	var/datum/browser/popup = new(user, "PEOPLEIKNOW", "", 260, 400)
@@ -701,6 +708,9 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(!S)
 		return
 	spell_list += S
+	// Automatically enable spell storage for transformation spells
+	if(istype(S, /obj/effect/proc_holder/spell/targeted/shapeshift) || istype(S, /obj/effect/proc_holder/spell/targeted/wildshape))
+		enable_spell_storage()
 	S.action.Grant(current)
 
 /datum/mind/proc/check_learnspell()
@@ -893,6 +903,53 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 /datum/mind/proc/get_special_person_colour(mob/M)
 	if (special_people[M.real_name])
 		return special_people[M.real_name]
+
+/datum/mind/proc/enable_spell_storage()
+	can_store_spells = TRUE
+
+/datum/mind/proc/store_spell_list()
+	if(!can_store_spells)
+		return null
+	if(!spell_list || !length(spell_list))
+		return list()
+	// Return a copy of the spell_list (the actual spell objects, not types)
+	return spell_list.Copy()
+
+/datum/mind/proc/restore_spell_list(list/stored_spells, list/always_keep_types)
+	if(!current)
+		return FALSE
+	
+	// Remove all current spell actions
+	for(var/obj/effect/proc_holder/spell/S in spell_list)
+		S.action?.Remove(current)
+	
+	// Build new spell list
+	var/list/new_spell_list = list()
+	var/list/present_types = list()
+	
+	// Add spells that should always be kept (by type)
+	if(always_keep_types && length(always_keep_types))
+		for(var/obj/effect/proc_holder/spell/S in spell_list)
+			if(S.type in always_keep_types)
+				new_spell_list += S
+				present_types[S.type] = TRUE
+	
+	// Add stored spells (actual spell objects)
+	if(stored_spells && length(stored_spells))
+		for(var/obj/effect/proc_holder/spell/S in stored_spells)
+			if(present_types[S.type])
+				continue
+			new_spell_list += S
+			present_types[S.type] = TRUE
+	
+	// Update spell_list
+	spell_list = new_spell_list
+	
+	// Grant all actions for the new spell list
+	for(var/obj/effect/proc_holder/spell/S in spell_list)
+		S.action?.Grant(current)
+	
+	return TRUE
 
 /proc/handle_special_items_retrieval(mob/user, atom/host_object)
 	// Attempts to retrieve an item from a player's stash, and applies any base colors, where preferable.

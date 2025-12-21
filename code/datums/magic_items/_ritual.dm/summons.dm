@@ -47,7 +47,7 @@
 	desc = "summons a noc guard"
 	blacklisted = FALSE
 	tier = 2
-	required_atoms = list(/obj/item/reagent_containers/food/snacks/grown/manabloom = 1, /obj/item/magic/obsidian = 1, /obj/item/magic/melded/t1 = 1)
+	required_atoms = list(/obj/item/reagent_containers/food/snacks/grown/manabloom = 1, /obj/item/magic/obsidian = 1, /obj/item/magic/melded/t2 = 1)
 	mob_to_summon = /mob/living/simple_animal/hostile/retaliate/rogue/arcane/noc_guard
 
 /datum/runeritual/summoning/imp

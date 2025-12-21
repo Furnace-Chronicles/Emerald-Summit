@@ -13,15 +13,11 @@
 	abstract_type = /datum/sprite_accessory/antenna/moth
 	icon = 'icons/mob/sprite_accessory/antenna/moth_antenna.dmi'
 	relevant_layers = list(BODY_BEHIND_LAYER, BODY_FRONT_LAYER)
-	default_colors = list("#FFFFFF")
+	default_colors = list("#4C3F2F")
 
 /datum/sprite_accessory/antenna/moth/plain
 	name = "Plain"
 	icon_state = "plain"
-
-/datum/sprite_accessory/antenna/moth/reddish
-	name = "Reddish"
-	icon_state = "reddish"
 
 /datum/sprite_accessory/antenna/moth/royal
 	name = "Royal"
@@ -47,17 +43,9 @@
 	name = "Firewatch"
 	icon_state = "firewatch"
 
-/datum/sprite_accessory/antenna/moth/deathhead
-	name = "Deathshead"
-	icon_state = "deathhead"
-
 /datum/sprite_accessory/antenna/moth/poison
 	name = "Poison"
 	icon_state = "poison"
-
-/datum/sprite_accessory/antenna/moth/ragged
-	name = "Ragged"
-	icon_state = "ragged"
 
 /datum/sprite_accessory/antenna/moth/moonfly
 	name = "Moon Fly"

@@ -9,26 +9,26 @@
 	death()
 
 /mob/living/carbon/human/species/skeleton/dead/adventurer
-	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/dead/adventurer
+	skel_outfit = /datum/outfit/job/npc/skeleton/dead/adventurer
 
 /mob/living/carbon/human/species/skeleton/dead/manatarms
-	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/dead/manatarms
+	skel_outfit = /datum/outfit/job/npc/skeleton/dead/manatarms
 
 /mob/living/carbon/human/species/skeleton/dead/knight
-	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/dead/knight
+	skel_outfit = /datum/outfit/job/npc/skeleton/dead/knight
 
 /mob/living/carbon/human/species/skeleton/dead/noble
-	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/dead/noble
+	skel_outfit = /datum/outfit/job/npc/skeleton/dead/noble
 
 /mob/living/carbon/human/species/skeleton/dead/peasant
-	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/dead/peasant
+	skel_outfit = /datum/outfit/job/npc/skeleton/dead/peasant
 
 /mob/living/carbon/human/species/skeleton/dead/freitrupp
-	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/dead/freitrupp
+	skel_outfit = /datum/outfit/job/npc/skeleton/dead/freitrupp
 
 
 // OUTFIT DEAD ADVENTURER
-/datum/outfit/job/roguetown/npc/skeleton/dead/adventurer/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/npc/skeleton/dead/adventurer/pre_equip(mob/living/carbon/human/H)
 
 
 	shirt = pick(
@@ -197,7 +197,7 @@
 			/obj/item/flint,
 			/obj/item/needle,
 			/obj/item/bomb,
-			/obj/item/smokebomb,
+			/obj/item/bomb/smoke,
 			/obj/item/clothing/mask/cigarette/rollie/nicotine,
 			/obj/item/clothing/mask/cigarette/rollie/cannabis,
 			/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
@@ -212,7 +212,7 @@
 			/obj/item/flint,
 			/obj/item/needle,
 			/obj/item/bomb,
-			/obj/item/smokebomb,
+			/obj/item/bomb/smoke,
 			/obj/item/clothing/mask/cigarette/rollie/nicotine,
 			/obj/item/clothing/mask/cigarette/rollie/cannabis,
 			/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
@@ -221,7 +221,7 @@
 
 
 // OUTFIT DEAD SOLDIER
-/datum/outfit/job/roguetown/npc/skeleton/dead/manatarms/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/npc/skeleton/dead/manatarms/pre_equip(mob/living/carbon/human/H)
 
 
 	shirt = pick(
@@ -330,7 +330,7 @@
 			/obj/item/flint,
 			/obj/item/needle,
 			/obj/item/bomb,
-			/obj/item/smokebomb,
+			/obj/item/bomb/smoke,
 			/obj/item/clothing/mask/cigarette/rollie/nicotine,
 			/obj/item/clothing/mask/cigarette/rollie/cannabis,
 			/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
@@ -345,7 +345,7 @@
 			/obj/item/flint,
 			/obj/item/needle,
 			/obj/item/bomb,
-			/obj/item/smokebomb,
+			/obj/item/bomb/smoke,
 			/obj/item/clothing/mask/cigarette/rollie/nicotine,
 			/obj/item/clothing/mask/cigarette/rollie/cannabis,
 			/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
@@ -357,7 +357,7 @@
 
 // OUTFIT KNIGHT
 
-/datum/outfit/job/roguetown/npc/skeleton/dead/knight/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/npc/skeleton/dead/knight/pre_equip(mob/living/carbon/human/H)
 
 	if(prob(80))
 		head = pick(/obj/item/clothing/head/roguetown/helmet/heavy/guard,
@@ -420,7 +420,7 @@
 			/obj/item/flint,
 			/obj/item/needle,
 			/obj/item/bomb,
-			/obj/item/smokebomb,
+			/obj/item/bomb/smoke,
 			/obj/item/clothing/mask/cigarette/rollie/nicotine,
 			/obj/item/clothing/mask/cigarette/rollie/cannabis,
 			/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
@@ -434,14 +434,14 @@
 			/obj/item/flint,
 			/obj/item/needle,
 			/obj/item/bomb,
-			/obj/item/smokebomb,
+			/obj/item/bomb/smoke,
 			/obj/item/clothing/mask/cigarette/rollie/nicotine,
 			/obj/item/clothing/mask/cigarette/rollie/cannabis,
 			/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
 			)
 
 
-/datum/outfit/job/roguetown/npc/skeleton/dead/noble/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/npc/skeleton/dead/noble/pre_equip(mob/living/carbon/human/H)
 
 	if(H.gender == MALE)
 		if(prob(60))
@@ -532,7 +532,7 @@
 
 
 // OUTFIT DEAD PEASANT
-/datum/outfit/job/roguetown/npc/skeleton/dead/peasant/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/npc/skeleton/dead/peasant/pre_equip(mob/living/carbon/human/H)
 
 	if(H.gender == MALE)
 		head = pick(
@@ -592,7 +592,7 @@
 
 
 // OUTFIT DEAD FREITRUPP
-/datum/outfit/job/roguetown/npc/skeleton/dead/freitrupp/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/npc/skeleton/dead/freitrupp/pre_equip(mob/living/carbon/human/H)
 
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	neck = /obj/item/clothing/neck/roguetown/gorget
@@ -615,7 +615,7 @@
 			/obj/item/flint,
 			/obj/item/needle,
 			/obj/item/bomb,
-			/obj/item/smokebomb,
+			/obj/item/bomb/smoke,
 			/obj/item/clothing/mask/cigarette/rollie/nicotine,
 			/obj/item/clothing/mask/cigarette/rollie/cannabis,
 			/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
@@ -629,7 +629,7 @@
 			/obj/item/flint,
 			/obj/item/needle,
 			/obj/item/bomb,
-			/obj/item/smokebomb,
+			/obj/item/bomb/smoke,
 			/obj/item/clothing/mask/cigarette/rollie/nicotine,
 			/obj/item/clothing/mask/cigarette/rollie/cannabis,
 			/obj/item/reagent_containers/glass/bottle/rogue/healthpot,

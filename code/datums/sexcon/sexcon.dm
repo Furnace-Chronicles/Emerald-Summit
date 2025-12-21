@@ -354,9 +354,6 @@
 			target.adjust_triumphs(1)
 			to_chat(target, span_love("Our loving is a true TRIUMPH!"))
 
-	if(ishuman(user) && ishuman(target) && user.client && target.client)
-		eora_register_consensual_pair(user, target)		
-
 /datum/sex_controller/proc/just_ejaculated()
 	return (last_ejaculation_time + 2 SECONDS >= world.time)
 
@@ -942,6 +939,33 @@
 	if(user.construct && !user.getorganslot(ORGAN_SLOT_VAGINA) && !user.getorganslot(ORGAN_SLOT_PENIS))
 		return FALSE
 	return TRUE
+
+/proc/werewolf_sex_infect_attempt(mob/living/carbon/human/top, mob/living/carbon/human/bottom)
+
+	if(!top || !bottom || !top.mind || !bottom.mind)
+		return
+
+	var/datum/antagonist/werewolf/WWtop
+	var/datum/antagonist/werewolf/WWbottom
+	var/infection_probability = 40
+	if(top.mind.has_antag_datum(/datum/antagonist/werewolf))
+		WWtop = top.mind.has_antag_datum(/datum/antagonist/werewolf/)
+
+	if(bottom.mind.has_antag_datum(/datum/antagonist/werewolf))
+		WWbottom = bottom.mind.has_antag_datum(/datum/antagonist/werewolf/)
+
+	if(WWtop && WWbottom)
+		return
+
+	if(WWtop && WWtop.transformed && !WWbottom)
+		if(prob(infection_probability))
+			bottom.werewolf_infect_attempt()
+			return
+
+	if(WWbottom && WWbottom.transformed && !WWtop)
+		if(prob(infection_probability))
+			top.werewolf_infect_attempt()
+			return
 
 #undef SEX_ZONE_NULL
 #undef SEX_ZONE_GROIN

@@ -8,16 +8,16 @@ LICH SKELETONS
 	advclass_cat_rolls = list(CTAG_LSKELETON = 20)
 	tutorial = "You are bygone. Your will belongs to your master. Fulfil and kill."
 
-	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich
+	outfit = /datum/outfit/job/greater_skeleton/lich
 
-/datum/outfit/job/roguetown/greater_skeleton/lich
+/datum/outfit/job/greater_skeleton/lich
 	cloak = /obj/item/clothing/cloak/half	//starts black, so they can be identified.
 	belt = /obj/item/storage/belt/rogue/leather/black
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
 	backl = /obj/item/storage/backpack/rogue/satchel
 	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
 
-/datum/outfit/job/roguetown/greater_skeleton/lich/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/greater_skeleton/lich/pre_equip(mob/living/carbon/human/H)
 	..()
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	REMOVE_TRAIT(H, TRAIT_EASYDISMEMBER, TRAIT_GENERIC)
@@ -26,11 +26,11 @@ LICH SKELETONS
 /datum/advclass/greater_skeleton/lich/legionnaire
 	name = "Ancient Legionnaire"
 	tutorial = "A veteran lineman. How far you've fallen."
-	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich/legionnaire
+	outfit = /datum/outfit/job/greater_skeleton/lich/legionnaire
 
 	category_tags = list(CTAG_LSKELETON)
 
-/datum/outfit/job/roguetown/greater_skeleton/lich/legionnaire/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/greater_skeleton/lich/legionnaire/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	H.STASTR = 12
@@ -69,7 +69,7 @@ LICH SKELETONS
 	beltl = /obj/item/quiver/javelin/paalloy
 	H.adjust_blindness(-3)
 	var/weapons = list("Gladius","Kopesh","Shortsword","Axe", "Flail", "Greatsword", "Bardiche", "Mace + Shield", "Spear", "Warhammer + Shield")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Gladius")
@@ -102,6 +102,7 @@ LICH SKELETONS
 			r_hand = /obj/item/rogueweapon/mace/steel/palloy
 			l_hand = /obj/item/rogueweapon/shield/wood
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
 		if("Spear")
 			r_hand = /obj/item/rogueweapon/spear/paalloy
 			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
@@ -115,11 +116,11 @@ LICH SKELETONS
 /datum/advclass/greater_skeleton/lich/ballistiares
 	name = "Ancient Ballistiares"
 	tutorial = "Your frame has wept off your skin. Your fingers are mere peaks. Yet your aim remains true."
-	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich/ballistiares
+	outfit = /datum/outfit/job/greater_skeleton/lich/ballistiares
 
 	category_tags = list(CTAG_LSKELETON)
 
-/datum/outfit/job/roguetown/greater_skeleton/lich/ballistiares/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/greater_skeleton/lich/ballistiares/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	H.STASTR = 10
@@ -156,7 +157,7 @@ LICH SKELETONS
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
 	H.adjust_blindness(-3)
 	var/weapons = list("Recurve Bow","Yew Longbow","Sling")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Recurve Bow")
@@ -176,11 +177,11 @@ LICH SKELETONS
 /datum/advclass/greater_skeleton/lich/sapper
 	name = "Broken-Bone Sapper"
 	tutorial = "Simple. Obedient. Like an ant in a colony."
-	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich/sapper
+	outfit = /datum/outfit/job/greater_skeleton/lich/sapper
 
 	category_tags = list(CTAG_LSKELETON)
 
-/datum/outfit/job/roguetown/greater_skeleton/lich/sapper/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/greater_skeleton/lich/sapper/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	H.STASTR = 10
@@ -221,3 +222,51 @@ LICH SKELETONS
 
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut
 	beltl = /obj/item/rogueweapon/pick/copper
+
+
+// Skeleton Job used only for the Skeleton Siege event. This spawn the skeletons using advclasses for fortified skeletons
+//Code is based off the the existing lich.dm and deathknight.dm code,as well as the skeleton.dm job from Vanderlin 
+/datum/job/roguetown/greater_skeleton/lich/besieger
+	title = "Besieger Skeleton"
+	advclass_cat_rolls = list(CTAG_LSKELETON = 20)
+	outfit = /datum/outfit/job/greater_skeleton/lich 
+
+/datum/job/roguetown/greater_skeleton/lich/besieger/after_spawn(mob/living/L, mob/M, client/player_client)
+	..()
+	var/mob/living/carbon/human/H = L
+	L.can_do_sex = FALSE //literaly 1984
+	if(L.mind)
+		L.mind.special_role = "Besieger Skeleton"
+		L.mind.assigned_role = "Besieger Skeleton"
+	if(H.dna && H.dna.species)
+		H.dna.species.species_traits |= NOBLOOD
+		H.dna.species.soundpack_m = new /datum/voicepack/skeleton()
+		H.dna.species.soundpack_f = new /datum/voicepack/skeleton()
+//Skeletonizes our body
+	H.skeletonize(FALSE)
+	H.grant_undead_eyes()
+	H.ambushable = FALSE
+	if(H.charflaw)
+		QDEL_NULL(H.charflaw)
+	H.mob_biotypes = MOB_UNDEAD
+	H.faction = list("undead")
+	H.name = "Skeleton"
+	H.real_name = "Skeleton"
+	H.skele_look()
+
+
+//Adds our skeleton traits, then allows us to choose a new name, pronouns, and body frame. Also gives us a spell to explode ourselves if we get stuck.
+	ADD_TRAIT(H, TRAIT_NOMOOD, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_NOHUNGER, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_EASYDISMEMBER, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_NOBREATH, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_NOPAIN, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_NOSLEEP, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_SHOCKIMMUNE, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_LIMBATTACHMENT, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+	addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "BESIEGER SKELETON"), 3 SECONDS)
+	addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_pronouns_and_body)), 7 SECONDS)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser)

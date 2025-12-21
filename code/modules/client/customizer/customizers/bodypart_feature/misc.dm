@@ -74,6 +74,8 @@
 		/datum/sprite_accessory/underwear/leotard,
 		/datum/sprite_accessory/underwear/athletic_leotard,
 		/datum/sprite_accessory/underwear/braies,
+		/datum/sprite_accessory/underwear/big_bikini,
+		/datum/sprite_accessory/underwear/big_briefs,
 		)
 
 /datum/customizer/bodypart_feature/legwear

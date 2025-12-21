@@ -31,6 +31,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Tarot Deck"
 	path = /obj/item/toy/cards/deck/tarot
 
+/datum/loadout_item/hand_mirror
+	name = "Hand Mirror"
+	path = /obj/item/handmirror
+
 //HATS
 /datum/loadout_item/shalal
 	name = "Keffiyeh"
@@ -123,6 +127,11 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/papakha
 	name = "Papakha"
 	path = /obj/item/clothing/head/roguetown/papakha
+
+/datum/loadout_item/deserthood
+	name = "Desert Hood"
+	path = /obj/item/clothing/head/roguetown/deserthood
+
 
 //CLOAKS
 /datum/loadout_item/tabard
@@ -303,6 +312,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Robe"
 	path = /obj/item/clothing/suit/roguetown/shirt/robe
 
+/datum/loadout_item/qaba
+	name = "Black Qaba"
+	path = /obj/item/clothing/suit/roguetown/shirt/robe/qaba
+
 /datum/loadout_item/spellcasterrobe
 	name = "Tattered Spellcaster Robe"
 	path = /obj/item/clothing/suit/roguetown/shirt/robe/spellcasterrobe/light
@@ -451,6 +464,11 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "White Foreign Shirt"
 	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
 
+/datum/loadout_item/desertbra
+	name = "Desert Bra"
+	path = /obj/item/clothing/suit/roguetown/shirt/desertbra
+
+
 //PANTS
 /datum/loadout_item/tights
 	name = "Cloth Tights"
@@ -483,6 +501,11 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/skirt
 	name = "Skirt"
 	path = /obj/item/clothing/under/roguetown/skirt
+
+/datum/loadout_item/desertskirt
+	name = "Desert Skirt"
+	path = /obj/item/clothing/under/roguetown/skirt/desert
+
 
 //ACCESSORIES
 /datum/loadout_item/wrappings
@@ -528,6 +551,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/dendormask
 	name = "Briar Mask"
 	path = /obj/item/clothing/head/roguetown/dendormask
+
+/datum/loadout_item/dendorbriars
+	name = "Briar thorns"
+	path = /obj/item/clothing/head/roguetown/padded/briarthorns
 
 /datum/loadout_item/exoticsilkmask
 	name = "Exotic Silk Mask"
@@ -649,6 +676,14 @@ GLOBAL_LIST_EMPTY(loadout_items)
     name = "Jester's Shoes"
     path = /obj/item/clothing/shoes/roguetown/jester
 
+/datum/loadout_item/scabbard
+	name = "scabbard"
+	path = /obj/item/rogueweapon/scabbard/sword
+
+/datum/loadout_item/sheath
+	name = "dagger sheath"
+	path = /obj/item/rogueweapon/scabbard/sheath
+
 //Donator Section
 //All these items are stored in the donator_fluff.dm in the azure modular folder for simplicity.
 //All should be subtypes of existing weapons/clothes/armor/gear, whatever, to avoid balance issues I guess. Idk, I'm not your boss.
@@ -751,3 +786,7 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/cooking_recipes
 	name = "Guide to Cooking"
 	path = /obj/item/recipe_book/cooking
+
+/datum/loadout_item/matthios_amulet
+	name = "Amulet of Matthios"
+	path = /obj/item/clothing/neck/roguetown/zcross/matthios

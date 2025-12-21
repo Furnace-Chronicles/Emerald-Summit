@@ -48,10 +48,13 @@
 	basetime = 20
 
 /datum/intent/shoot/crossbow/can_charge()
-	if(mastermob)
-		if(mastermob.get_num_arms(FALSE) < 2)
+	if(mastermob?.next_move > world.time)
+		if(mastermob.client.last_cooldown_warn + 10 < world.time)
+			to_chat(mastermob, span_warning("I'm not ready to do that yet!"))
+			mastermob.client.last_cooldown_warn = world.time
 			return FALSE
-		if(mastermob.get_inactive_held_item())
+		if(mastermob.get_num_arms(FALSE) < 2 || mastermob.get_inactive_held_item())
+			to_chat(mastermob, span_warning("I need a free hand to draw [masteritem]!"))
 			return FALSE
 	return TRUE
 
@@ -79,12 +82,16 @@
 	chargedrain = 0
 
 /datum/intent/arc/crossbow/can_charge()
-	if(mastermob)
-		if(mastermob.get_num_arms(FALSE) < 2)
+	if(mastermob?.next_move > world.time)
+		if(mastermob.client.last_cooldown_warn + 10 < world.time)
+			to_chat(mastermob, span_warning("I'm not ready to do that yet!"))
+			mastermob.client.last_cooldown_warn = world.time
 			return FALSE
-		if(mastermob.get_inactive_held_item())
+		if(mastermob.get_num_arms(FALSE) < 2 || mastermob.get_inactive_held_item())
+			to_chat(mastermob, span_warning("I need a free hand to draw [masteritem]!"))
 			return FALSE
 	return TRUE
+
 
 /datum/intent/arc/crossbow/get_chargetime()
 	if(mastermob && chargetime)
@@ -156,9 +163,6 @@
 		BB.bonus_accuracy += (user.get_skill_level(/datum/skill/combat/crossbows) * 5) // +5 per XBow level.
 		BB.damage *= damfactor
 	cocked = FALSE
-	if(user.has_status_effect(/datum/status_effect/buff/clash) && ishuman(user))
-		var/mob/living/carbon/human/H = user
-		H.bad_guard(span_warning("I can't focus on my Guard and loose bolts! This drains me!"), cheesy = TRUE)
 	..()
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/update_icon()

@@ -3,7 +3,7 @@
 	tutorial = "The Janissaries are the Empire's elite infantry units, shield and weapon in hand. We do not break."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/mercenary/desert_rider
+	outfit = /datum/outfit/job/mercenary/desert_rider
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_RANESHENI
 	cmode_music = 'sound/music/combat_desertrider.ogg' //GREATEST COMBAT TRACK IN THE GAME SO FAR BESIDES MAYBE MANIAC2.OGG
@@ -36,7 +36,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/mercenary/desert_rider/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/desert_rider/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("The Janissaries are the Empire's elite infantry units, shield and weapon in hand. We do not break."))
 
@@ -58,7 +58,7 @@
 		)
 
 	var/weapons = list("Axe and Shield","Shamshir and Shield","Spear and Shield")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Axe and Shield")
@@ -80,10 +80,12 @@
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
 
+	change_origin(H, /datum/virtue/origin/raneshen)
+
 /datum/advclass/mercenary/desert_rider/zeybek
 	name = "Desert Rider Zeybek"
 	tutorial = "Ranesheni 'Blade Dancers' are famed and feared the world over. Their expertise in blades both long and short is well known."
-	outfit = /datum/outfit/job/roguetown/mercenary/desert_rider_zeybek
+	outfit = /datum/outfit/job/mercenary/desert_rider_zeybek
 
 	subclass_languages = list(
 		/datum/language/celestial,
@@ -114,7 +116,7 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/mercenary/desert_rider_zeybek/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/desert_rider_zeybek/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("Ranesheni 'Blade Dancers' are famed and feared the world over. Their expertise in blades both long and short is well known."))
 
@@ -137,7 +139,7 @@
 		)
 
 	var/weapons = list("Shamshir and Javelin","Whips and Knives", "Recurve Bow")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Shamshir and Javelin")
@@ -158,10 +160,12 @@
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
 
+	change_origin(H, /datum/virtue/origin/raneshen)
+
 /datum/advclass/mercenary/desert_rider/almah
 	name = "Desert Rider Almah"
 	tutorial = "Almah are those skilled in both magyck and swordsmanship, but excelling in nothing."
-	outfit = /datum/outfit/job/roguetown/mercenary/desert_rider_almah
+	outfit = /datum/outfit/job/mercenary/desert_rider_almah
 
 	subclass_languages = list(
 		/datum/language/celestial,
@@ -193,7 +197,7 @@
 		/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/mercenary/desert_rider_almah/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/desert_rider_almah/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("Almah are those skilled in both magyck and swordsmanship, but excelling in nothing."))
 
@@ -225,3 +229,5 @@
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	beltr = /obj/item/rogueweapon/scabbard/sword
 	l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
+
+	change_origin(H, /datum/virtue/origin/raneshen)

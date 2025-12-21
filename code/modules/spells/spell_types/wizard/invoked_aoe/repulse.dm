@@ -1,7 +1,7 @@
 /obj/effect/proc_holder/spell/invoked/repulse
 	name = "Repulse"
 	desc = "Conjure forth a wave of energy, repelling anyone around you."
-	cost = 3
+	cost = 2
 	xp_gain = TRUE
 	releasedrain = 50
 	chargedrain = 1
@@ -58,7 +58,7 @@
 			new sparkle_path(get_turf(AM), get_dir(user, AM)) //created sparkles will disappear on their own
 			if(isliving(AM))
 				var/mob/living/M = AM
-				M.Paralyze(stun_amt)
+				M.Knockdown(stun_amt)
 				to_chat(M, "<span class='danger'>You're thrown back by [user]!</span>")
 			AM.safe_throw_at(throwtarget, ((CLAMP((maxthrow - (CLAMP(distfromcaster - 2, 0, distfromcaster))), 3, maxthrow))), 1,user, force = repulse_force)//So stuff gets tossed around at the same time.
 	return TRUE

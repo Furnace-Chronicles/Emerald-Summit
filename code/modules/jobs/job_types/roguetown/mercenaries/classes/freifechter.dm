@@ -3,7 +3,7 @@
 	tutorial = "You are a graduate of the Aavnic Freifechters - \"Freelancers\" - a prestigious fighting guild localized in the independent City-state of Szöréndnížina, recognized as an encomium to Ravox by the Holy See. It has formed an odd thirty yils ago, but its visitors come from all over Western Psydonia. You have swung one weapon ten-thousand times, and not the other way around. This class is for experienced combatants who have a solid grasp on footwork and stamina management, master skills alone won't save your lyfe."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/mercenary/freelancer
+	outfit = /datum/outfit/job/mercenary/freelancer
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_AAVNR
 	cmode_music = 'sound/music/combat_noble.ogg'
@@ -28,14 +28,14 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,	//I got told that having zero climbing is a PITA. Bare minimum for a combat class.
 	)
 
-/datum/outfit/job/roguetown/mercenary/freelancer/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/freelancer/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a master in the arts of the longsword. Wielder of Psydonia's most versatile and noble weapon, you needn't anything else. You can choose a regional longsword."))
 
 	l_hand = /obj/item/rogueweapon/scabbard/sword
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fencer	//Experimental.
 	var/weapons = list("Modified Training Sword !!!CHALLENGE!!!", "Etruscan Longsword", "Kriegsmesser", "Field Longsword")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Modified Training Sword !!!CHALLENGE!!!")		//A sharp feder. Less damage, better defense. Definitely not a good choice.
 			r_hand = /obj/item/rogueweapon/sword/long/frei
@@ -59,10 +59,12 @@
 
 	backpack_contents = list(/obj/item/roguekey/mercenary)
 
+	change_origin(H, /datum/virtue/origin/avar)
+
 /datum/advclass/mercenary/freelancer/lancer
 	name = "Lancer"
 	tutorial = "You put complete trust in your polearm, the most effective weapon the world has seen. Why wear armour when you cannot be hit? You can choose your polearm, and are exceptionally accurate."
-	outfit = /datum/outfit/job/roguetown/mercenary/freelancer_lancer
+	outfit = /datum/outfit/job/mercenary/freelancer_lancer
 
 	subclass_languages = list(
 		/datum/language/aavnic,	//Your character could not have possibly "graduated" without atleast some basic knowledge of Aavnic.
@@ -87,13 +89,13 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,	//I got told that having zero climbing is a PITA. Bare minimum for a combat class.
 	)
 
-/datum/outfit/job/roguetown/mercenary/freelancer_lancer/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/freelancer_lancer/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You put complete trust in your polearm, the most effective weapon the world has seen. Why wear armour when you cannot be hit? You can choose your polearm, and are exceptionally accurate."))
 
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter
 	var/weapons = list("Graduate's Spear", "Boar Spear", "Lucerne")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Graduate's Spear")		//A steel spear with a cool-looking stick & a banner sticking out of it.
 			r_hand = /obj/item/rogueweapon/spear/boar/frei
@@ -114,3 +116,5 @@
 	backr = /obj/item/storage/backpack/rogue/satchel/short
 
 	backpack_contents = list(/obj/item/roguekey/mercenary)
+
+	change_origin(H, /datum/virtue/origin/avar)

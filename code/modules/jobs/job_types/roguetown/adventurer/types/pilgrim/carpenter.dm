@@ -4,10 +4,11 @@
 	building forts and stores, carpenting floors, putting up crosses. You can do it all with enough logs"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/carpenter
+	outfit = /datum/outfit/job/adventurer/carpenter
 	subclass_social_rank = SOCIAL_RANK_YEOMAN
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
+	traits_applied = list(TRAIT_PEASANTMILITIA)
 
 	subclass_stats = list(
 		STATKEY_END = 2,
@@ -36,7 +37,7 @@
 		/datum/skill/labor/lumberjacking = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/adventurer/carpenter/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/carpenter/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/hatfur
 	if(prob(50))

@@ -133,6 +133,55 @@
 	sellprice = 121
 	desc = "Beautifully clear, it demands respect."
 
+/obj/item/roguegem/onyxa
+	name = "onyxa"
+	desc = "A sinister, glimmering stone. Valuable to the drow, it is sometimes used in necromantic rituals. Mirrors made of this are said to never show your own face."
+	icon = 'icons/roguetown/gems/gem_onyxa.dmi'
+	icon_state = "raw_onyxa"
+	sellprice = 30
+
+/obj/item/roguegem/jade
+	name = "joapstone"
+	desc = "A dull green gem. Joapstone is valuable among humens, and thought to bring good fortune.  Amulets carved from joapstone are sometimes worn by merchants and traders."
+	icon = 'icons/roguetown/gems/gem_jade.dmi'
+	icon_state = "raw_jade"
+	sellprice = 50
+
+/obj/item/roguegem/oyster
+	name = "fossilized clam"
+	desc = "A fossilized clam shell. It would be a good idea to pry it open with a knife."
+	icon = 'icons/roguetown/gems/gem_shell.dmi'
+	icon_state = "oyster_closed"
+	sellprice = 5
+
+/obj/item/roguegem/coral
+	name = "aoetal"
+	desc = "Jagged like a hounds tooth. Aoetal is speculated to be the crystalized blood of fallen sailors. It is sacred to Abyssorians and is used in numerous Abyssorian rituals."
+	icon = 'icons/roguetown/gems/gem_coral.dmi'
+	icon_state = "raw_coral"
+	sellprice = 60
+
+/obj/item/roguegem/turq
+	name = "ceruleabaster"
+	desc = "A beautiful teal gem that is easily carved. Beloved by mages, its remarkable clarity sees it used by the astrologer-mages of Naledi for divinatory purposes."
+	icon = 'icons/roguetown/gems/gem_turq.dmi'
+	icon_state = "raw_turq"
+	sellprice = 75
+
+/obj/item/roguegem/amber
+	name = "petriamber"
+	desc = "A chunk of fossilized sunlight. Believed to have been shed during the shattering of the First Sun, its remnants are prized among Astratans. Raaneshi sometimes use fragments as currency, instead of mammon."
+	icon = 'icons/roguetown/gems/gem_amber.dmi'
+	icon_state = "raw_amber"
+	sellprice = 50
+
+/obj/item/roguegem/opal
+	name = "opaloise"
+	desc = "A dazzling gem that is remarkably valuable. Opaloise is widely speculated to be the crystallized essence left behind by rainbows."
+	icon = 'icons/roguetown/gems/gem_opal.dmi'
+	icon_state = "raw_opal"
+	sellprice = 80
+
 /obj/item/roguegem/diamond/Initialize()
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/gemstaff/diamond_staff,)
@@ -163,7 +212,7 @@
 
 /obj/item/roguegem/random/Initialize()
 	..()
-	var/newgem = list(/obj/item/roguegem/ruby = 5, /obj/item/roguegem/green = 15, /obj/item/roguegem/blue = 10, /obj/item/roguegem/yellow = 20, /obj/item/roguegem/violet = 10, /obj/item/roguegem/diamond = 5, /obj/item/riddleofsteel = 1, /obj/item/rogueore/silver = 3)
+	var/newgem = list(/obj/item/roguegem/ruby = 5, /obj/item/roguegem/green = 15, /obj/item/roguegem/blue = 10, /obj/item/roguegem/yellow = 20, /obj/item/roguegem/violet = 10, /obj/item/roguegem/diamond = 5, /obj/item/riddleofsteel = 1, /obj/item/rogueore/silver = 3, /obj/item/roguegem/onyxa = 5, /obj/item/roguegem/jade = 3, /obj/item/roguegem/coral = 3, /obj/item/roguegem/turq = 3, /obj/item/roguegem/amber = 3, /obj/item/roguegem/opal = 3)
 	var/pickgem = pickweight(newgem)
 	new pickgem(get_turf(src))
 	qdel(src)

@@ -23,14 +23,14 @@
 /datum/crafting_recipe/roguetown/alchemy/sbomb
 	name = "smoke bomb"
 	category = "Table"
-	result = list(/obj/item/smokebomb)
+	result = list(/obj/item/bomb/smoke)
 	reqs = list(/obj/item/reagent_containers/glass/bottle = 1, /obj/item/ash = 2, /obj/item/reagent_containers/powder/salt = 1, /obj/item/natural/cloth = 1)
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/alchemy/sbomb_x3
 	name = "smoke bomb (x3)"
 	category = "Table"
-	result = list(/obj/item/smokebomb, /obj/item/smokebomb, /obj/item/smokebomb)
+	result = list(/obj/item/bomb/smoke, /obj/item/bomb/smoke, /obj/item/bomb/smoke)
 	reqs = list(/obj/item/reagent_containers/glass/bottle = 3, /obj/item/ash = 6, /obj/item/reagent_containers/powder/salt = 3, /obj/item/natural/cloth = 3)
 	craftdiff = 3
 

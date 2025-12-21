@@ -3,7 +3,7 @@
 	tutorial = "Hailing from the Kingdom of Etrusca, Condottieri are soldiers of fortune oft found in the employ of powerful merchants. Without a war to fight back home, the Grand Duchy has become a much-needed source of contracts. Afterall, this land is rich in coin yet poor in manpower..."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/mercenary/condottiero
+	outfit = /datum/outfit/job/mercenary/condottiero
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_ETRUSCA
 	cmode_music = 'sound/music/combat_condottiero.ogg'
@@ -38,7 +38,7 @@
 		/datum/skill/craft/traps = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/mercenary/condottiero/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/condottiero/pre_equip(mob/living/carbon/human/H)
 	..()
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	cloak = /obj/item/clothing/cloak/half/red
@@ -63,3 +63,5 @@
 		/obj/item/rogueweapon/huntingknife/idagger/navaja,
 		/obj/item/lockpick = 1
 	)
+
+	change_origin(H, /datum/virtue/origin/etrusca)

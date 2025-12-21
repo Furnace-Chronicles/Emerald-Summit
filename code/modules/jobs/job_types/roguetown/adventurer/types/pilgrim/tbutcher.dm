@@ -3,29 +3,34 @@
 	tutorial = "Some say you're a strange individual, some say you're a cheat, while some claim you're a savant in the art of sausage making. Without your skilled hands and knifework, most of the livestock around the town would be wasted. "
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/butcher
+	outfit = /datum/outfit/job/adventurer/butcher
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
+	traits_applied = list(TRAIT_PEASANTMILITIA)
+	maximum_possible_slots = 4
 
 	subclass_stats = list(
 		STATKEY_CON = 2,
-		STATKEY_END = 2,
-		STATKEY_STR = 1
+		STATKEY_END = 1,
+		STATKEY_STR = 2,
+		STATKEY_SPD = -2 //Slow, plodding, tough, strong and wielding a butcher knife. That's right, slasher villain butcher is back on the menu
 	)
 
 	subclass_skills = list(
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/axes = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT, //For handling unruly... Sausages...
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/tanning = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/butchering = SKILL_LEVEL_MASTER,
+		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE //Golly mister how come you know so much about people's insides?
 	)
 
-/datum/outfit/job/roguetown/adventurer/butcher/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/butcher/pre_equip(mob/living/carbon/human/H)
 	..()
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
 	backl = /obj/item/storage/backpack/rogue/satchel
@@ -41,7 +46,7 @@
 						/obj/item/reagent_containers/food/snacks/fat = 2, // make sausages :)
 						/obj/item/rogueweapon/scabbard/sheath = 1,
 						)
-	if(H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F)
+	if(should_wear_femme_clothes(H))
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/gen/random
 	else
 		pants = /obj/item/clothing/under/roguetown/trou

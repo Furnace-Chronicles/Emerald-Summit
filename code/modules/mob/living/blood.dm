@@ -72,6 +72,11 @@
 	else if(blood_volume < BLOOD_VOLUME_NORMAL)
 		blood_volume = min(blood_volume + 1, BLOOD_VOLUME_NORMAL)
 
+	// Non-vampiric bloodpool regen.
+	// We assume that in non-vampires bloodpool represents "usable" blood that is regenerated slower than blood_volume
+	if(!clan && blood_volume > BLOOD_VOLUME_SAFE)
+		adjust_bloodpool(BLOODPOL_REGEN, FALSE)
+
 // Takes care blood loss and regeneration
 /mob/living/carbon/handle_blood()
 	if((bodytemperature <= TCRYO) || HAS_TRAIT(src, TRAIT_HUSK)) //cryosleep or husked people do not pump the blood.
@@ -212,6 +217,11 @@
 		conbonus = STACON - 10
 	if(mind)
 		amt -= amt * (conbonus * CONSTITUTION_BLEEDRATE_MOD)
+
+	// if we are yielding, our total effective bloodloss is reduced by 80%. encourages people to like, capture dudes and stitch them up and stuff
+	if (has_status_effect(/datum/status_effect/debuff/submissive)) // WE CAN DO THIS NOW BECAUSE STATUS_EFFECTS ARE SUPER CHEAP! YAAAYYYY!!
+		amt = amt * 0.2
+	
 	var/old_volume = blood_volume
 	blood_volume = max(blood_volume - amt, 0)
 	if (old_volume > 0 && !blood_volume) // it looks like we've just bled out. bummer.

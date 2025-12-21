@@ -17,7 +17,7 @@
 	display_order = JDO_TOWNGUARD
 	whitelist_req = TRUE
 
-	outfit = /datum/outfit/job/roguetown/guardsman
+	outfit = /datum/outfit/job/guardsman
 	advclass_cat_rolls = list(CTAG_WATCH = 20)
 
 	give_bank_account = 16
@@ -27,7 +27,7 @@
 
 	cmode_music = 'sound/music/combat_guard.ogg'
 
-/datum/outfit/job/roguetown/guardsman
+/datum/outfit/job/guardsman
 	job_bitflag = BITFLAG_GARRISON
 
 /datum/job/roguetown/guardsman/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
@@ -43,7 +43,7 @@
 				index = H.real_name
 			S.name = "watchman tabard ([index])"
 
-/datum/outfit/job/roguetown/guardsman
+/datum/outfit/job/guardsman
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	cloak = /obj/item/clothing/cloak/stabard/guard
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
@@ -60,11 +60,11 @@ Archer is basically a 'bounty-catcher' in function, less specialized at close-qu
 /datum/advclass/watchman/footsman
 	name = "Watch Footsman"
 	tutorial = "You are a footsman of the Town Watch. Well versed in various close-quarters weapons and aprehending street-savy criminals."
-	outfit = /datum/outfit/job/roguetown/guardsman/footsman
+	outfit = /datum/outfit/job/guardsman/footsman
 
 	category_tags = list(CTAG_WATCH)
 
-/datum/outfit/job/roguetown/guardsman/footsman/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/guardsman/footsman/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
@@ -104,11 +104,11 @@ Archer is basically a 'bounty-catcher' in function, less specialized at close-qu
 /datum/advclass/watchman/archer
 	name = "Watch Archer"
 	tutorial = "You are an archer of the Town Watch. Once a hunter, now a man-hunter for your lord. Rooftops, bows, and daggers are your best friend."
-	outfit = /datum/outfit/job/roguetown/guardsman/archer
+	outfit = /datum/outfit/job/guardsman/archer
 
 	category_tags = list(CTAG_WATCH)
 
-/datum/outfit/job/roguetown/guardsman/archer/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/guardsman/archer/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/crossbows, 5, TRUE)		//Why master? Because all it does is effect draw time, which is strength x skill / 1.2. (Bow is just skill / 1.0). You get poor bonus strength, so you get skill to offset.

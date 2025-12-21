@@ -6,7 +6,7 @@
 	total_positions = 1
 	spawn_positions = 1
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_CHURCH_FAVORED_UP		//An incredibly bigoted organization. They would only allow races PSYDON Himself created into such an esteemed role. Aasimar are given a pass, as they consider the Ten to be saints, and Aasimar have far more direct connections to them then the other races.
+	allowed_races = RACES_INQUISITOR //An incredibly bigoted organization. They would only allow races PSYDON Himself created into such an esteemed role. Aasimar are given a pass, as they consider the Ten to be saints, and Aasimar have far more direct connections to them then the other races.
 	disallowed_races = list(
 		/datum/species/lamia,
 		/datum/species/harpy,
@@ -17,7 +17,7 @@
 	cmode_music = 'sound/music/inquisitorcombat.ogg'
 	selection_color = JCOLOR_INQUISITION
 
-	outfit = /datum/outfit/job/roguetown/puritan
+	outfit = /datum/outfit/job/puritan
 	display_order = JDO_PURITAN
 	advclass_cat_rolls = list(CTAG_PURITAN = 20)
 	give_bank_account = 30
@@ -28,7 +28,7 @@
 
 	virtue_restrictions = list(
 		/datum/virtue/combat/hollow_life,
-		/datum/virtue/combat/vampire,
+		/datum/virtue/combat/crimson_curse,
 	)
 
 	job_subclasses = list(
@@ -36,7 +36,7 @@
 		/datum/advclass/puritan/ordinator
 	)
 
-/datum/outfit/job/roguetown/puritan
+/datum/outfit/job/puritan
 	name = "Inquisitor"
 	jobtype = /datum/job/roguetown/puritan
 	job_bitflag = BITFLAG_CHURCH	//Counts as church.
@@ -47,7 +47,7 @@
 /datum/advclass/puritan/inspector
 	name = "Inquisitor"
 	tutorial = "Investigators from countless backgrounds, personally chosen by the High Bishop of the Otavan Sovereignty to root out heresy all across the world. Dressed in fashionable leathers and armed with a plethora of equipment, these beplumed officers are ready to tackle the inhumen: anywhere, anytime. Ideal for those who prefer sleuthy-and-clandestine affairs."
-	outfit = /datum/outfit/job/roguetown/puritan/inspector
+	outfit = /datum/outfit/job/puritan/inspector
 	category_tags = list(CTAG_PURITAN)
 
 	subclass_languages = list(/datum/language/otavan)
@@ -89,14 +89,14 @@
 		/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/puritan/inspector/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/puritan/inspector/pre_equip(mob/living/carbon/human/H)
 	..()
 	has_loadout = TRUE
 
 	H.verbs |= /mob/living/carbon/human/proc/faith_test
 	H.verbs |= /mob/living/carbon/human/proc/torture_victim
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = FALSE, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles.
+	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles.
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
 	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/psydon
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
@@ -124,10 +124,11 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
 
+	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 
-/datum/outfit/job/roguetown/puritan/inspector/choose_loadout(mob/living/carbon/human/H)
+/datum/outfit/job/puritan/inspector/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
-	var/weapons = list("Eucharist (Rapier)", "Daybreak (Whip)", "Stigmata (Halberd)")
+	var/weapons = list("Eucharist (Rapier)", "Daybreak (Whip)", "Stigmata (Halberd)", "Apocrypha (Greatsword)")
 	var/weapon_choice = input(H,"CHOOSE YOUR RELIQUARY PIECE.", "WIELD THEM IN HIS NAME.") as anything in weapons
 	switch(weapon_choice)
 		if("Eucharist (Rapier)")
@@ -140,6 +141,9 @@
 		if("Stigmata (Halberd)")
 			H.put_in_hands(new /obj/item/rogueweapon/halberd/psyhalberd/relic(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 5, TRUE)
+		if("Apocrypha (Greatsword)")
+			H.put_in_hands(new /obj/item/rogueweapon/greatsword/psygsword/relic(H), TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
 
 
 ///The dirty, violent side of the Inquisition. Meant for confrontational, conflict-driven situations as opposed to simply sneaking around and asking questions. Templar with none of the miracles, but with all the muscles and more. 
@@ -147,7 +151,7 @@
 /datum/advclass/puritan/ordinator
 	name = "Ordinator"
 	tutorial = "Adjudicators who - through valor and martiality - have proven themselves to be champions in all-but-name. Now, they have been personally chosen by the High Bishop of the Otavan Sovereignty for a mission-most-imperative: to hunt down and destroy the monsters threatening this fief. Ideal for those who prefer overt-and-chivalrous affairs."
-	outfit = /datum/outfit/job/roguetown/puritan/ordinator
+	outfit = /datum/outfit/job/puritan/ordinator
 	cmode_music = 'sound/music/combat_inqordinator.ogg'
 	category_tags = list(CTAG_PURITAN)
 
@@ -182,12 +186,12 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_MASTER,
 	)
 
-/datum/outfit/job/roguetown/puritan/ordinator/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/puritan/ordinator/pre_equip(mob/living/carbon/human/H)
 	..()
 	has_loadout = TRUE
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = FALSE, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles.
+	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles.
 	H.verbs |= /mob/living/carbon/human/proc/faith_test
 	H.verbs |= /mob/living/carbon/human/proc/torture_victim
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
@@ -208,9 +212,11 @@
 		/obj/item/paper/inqslip/arrival/inq = 1
 		)
 
-/datum/outfit/job/roguetown/puritan/ordinator/choose_loadout(mob/living/carbon/human/H)
+	change_origin(H, /datum/virtue/origin/otava, "Holy order")
+
+/datum/outfit/job/puritan/ordinator/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
-	var/weapons = list("Covenant And Creed (Broadsword + Shield)", "Covenant and Consecratia (Flail + Shield)", "Apocrypha (Greatsword) and a Silver Dagger")
+	var/weapons = list("Covenant And Creed (Broadsword + Shield)", "Covenant and Consecratia (Flail + Shield)", "Apocrypha (Greatsword) and a Silver Dagger", "Stigmata (Halberd)")
 	var/weapon_choice = input(H,"CHOOSE YOUR RELIQUARY PIECE.", "WIELD THEM IN HIS NAME.") as anything in weapons
 	switch(weapon_choice)
 		if("Covenant And Creed (Broadsword + Shield)")
@@ -233,6 +239,10 @@
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sheath, SLOT_BELT_L, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
+		if("Stigmata (Halberd)")
+			H.put_in_hands(new /obj/item/rogueweapon/halberd/psyhalberd/relic(H), TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 5, TRUE)
+
 
 
 /obj/item/clothing/gloves/roguetown/chain/blk

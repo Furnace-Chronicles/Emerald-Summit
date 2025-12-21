@@ -3,7 +3,7 @@
 	tutorial = "Once serving a Hetmen from the frontiers, you have been rented out as a mercenary in the distant realms to bring coin home. There are three things you value most; saigas, freedom, and coin."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/mercenary/steppesman
+	outfit = /datum/outfit/job/mercenary/steppesman
 	class_select_category = CLASS_CAT_AAVNR
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_steppe.ogg'
@@ -23,7 +23,7 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/mercenary/steppesman/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/steppesman/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	//Universal gear
@@ -40,10 +40,12 @@
 		/obj/item/rogueweapon/scabbard/sheath
 		)
 
+	change_origin(H, /datum/virtue/origin/avar)
+
 	// CLASS ARCHETYPES
 	H.adjust_blindness(-3)
 	var/classes = list("Szabrista - Saber Veteran", "Árkász - Elite Sapper", "Druzhina - Light Archer","Kozak - Light Infantry")
-	var/classchoice = input("Choose your archetypes", "Available archetypes") as anything in classes
+	var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes
 
 	switch(classchoice)
 		if("Szabrista - Saber Veteran")	//Tl;dr - medium armor class for Mount and Blade larpers who still get a saiga. Akin to Vaquero with specific drip.
@@ -78,7 +80,7 @@
 			"Beast"		= /obj/item/clothing/mask/rogue/facemask/steel/steppesman/anthro,
 			"None"
 	)
-			var/maskchoice = input("What fits your face?", "MASK SELECTION") as anything in masks
+			var/maskchoice = input(H, "What fits your face?", "MASK SELECTION") as anything in masks
 			if(maskchoice != "None")
 				mask = masks[maskchoice]
 
@@ -116,7 +118,7 @@
 			"Beast"		= /obj/item/clothing/mask/rogue/facemask/steel/steppesman/anthro,
 			"None"
 	)
-			var/maskchoice = input("What fits your face?", "MASK SELECTION") as anything in masks
+			var/maskchoice = input(H, "What fits your face?", "MASK SELECTION") as anything in masks
 			if(maskchoice != "None")
 				mask = masks[maskchoice]
 

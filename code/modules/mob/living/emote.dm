@@ -265,6 +265,7 @@
 /datum/emote/living/flap
 	key = "flap"
 	key_third_person = "flaps"
+	emote_type = EMOTE_AUDIBLE | EMOTE_VISIBLE
 	message = "flaps their wings."
 	restraint_check = TRUE
 	var/wing_time = 20

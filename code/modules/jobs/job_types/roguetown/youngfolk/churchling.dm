@@ -12,7 +12,7 @@
 
 	tutorial = "Your family were zealots. They scolded you with a studded belt and prayed like sinners every waking hour of the day they weren't toiling in the fields. You escaped them by becoming a churchling--and a guaranteed education isn't so bad."
 
-	outfit = /datum/outfit/job/roguetown/churchling
+	outfit = /datum/outfit/job/churchling
 	display_order = JDO_CHURCHLING
 	give_bank_account = TRUE
 	min_pq = -10
@@ -28,7 +28,7 @@
 /datum/advclass/churchling
 	name = "Churchling"
 	tutorial = "Your family were zealots. They scolded you with a studded belt and prayed like sinners every waking hour of the day they weren't toiling in the fields. You escaped them by becoming a churchling--and a guaranteed education isn't so bad."
-	outfit = /datum/outfit/job/roguetown/churchling/basic
+	outfit = /datum/outfit/job/churchling/basic
 	category_tags = list(CTAG_CHURCHLING)
 	cmode_music = 'sound/music/combat_holy.ogg'
 
@@ -48,7 +48,7 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/churchling/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/churchling/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	neck = /obj/item/clothing/neck/roguetown/psicross

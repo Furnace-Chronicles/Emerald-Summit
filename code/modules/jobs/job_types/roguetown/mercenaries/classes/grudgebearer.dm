@@ -7,13 +7,13 @@
 		/datum/species/dwarf,
 		/datum/species/dwarf/mountain
 	)
-	outfit = /datum/outfit/job/roguetown/mercenary/grudgebearer
+	outfit = /datum/outfit/job/mercenary/grudgebearer
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_RACIAL
 	cmode_music = 'sound/music/combat_dwarf.ogg'
 	extra_context = "This subclass is race-limited to: Dwarves."
 
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_TRAINED_SMITH)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_TRAINED_SMITH, TRAIT_SEEPRICES)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_END = 3,
@@ -24,31 +24,38 @@
 
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
-		/datum/skill/craft/armorsmithing = SKILL_LEVEL_EXPERT,	//Shouldn't be better than the smith (though the stats are already)
-		/datum/skill/craft/blacksmithing = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/smelting = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN, //Gives them an actual chance to be useful, but still not a frontliner
 		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN, // For warpicks
+		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/mining = SKILL_LEVEL_EXPERT, // For normal picks 
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/armorsmithing = SKILL_LEVEL_EXPERT,	//Shouldn't be better than the smith (though the stats are already)
+		/datum/skill/craft/blacksmithing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/smelting = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 	)
 
 //Because the armor is race-exclusive for repairs, these guys *should* be able to repair their own guys armor layers. A Dwarf smith isn't guaranteed, after all.
-/datum/outfit/job/roguetown/mercenary/grudgebearer/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/grudgebearer/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
 		shoes = /obj/item/clothing/shoes/roguetown/boots/armor/dwarven
 		cloak = /obj/item/clothing/cloak/forrestercloak/snow
 		belt = /obj/item/storage/belt/rogue/leather/black
 		beltr = /obj/item/rogueweapon/mace
-		beltl = /obj/item/flashlight/flare/torch
+		beltl = /obj/item/quiver/bolts
 		backl = /obj/item/storage/backpack/rogue/backpack
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
 		gloves = /obj/item/clothing/gloves/roguetown/plate/dwarven
 		pants = /obj/item/clothing/under/roguetown/trou/leather
-		armor = /obj/item/clothing/suit/roguetown/armor/plate/half
+		armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fluted/dwarven
+		mask = /obj/item/clothing/head/roguetown/paddedcap
+		r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 		backpack_contents = list(
 			/obj/item/roguekey/mercenary,
 			/obj/item/storage/belt/rogue/pouch/coins/poor,
@@ -56,13 +63,16 @@
 			/obj/item/paper/scroll/grudge,
 			/obj/item/natural/feather,
 			/obj/item/rogueweapon/tongs = 1,
-			/obj/item/clothing/head/roguetown/helmet/heavy/dwarven,
+			/obj/item/clothing/head/roguetown/helmet/heavy/dwarven/smith,
+			/obj/item/flashlight/flare/torch/lantern,
 			)
+
+	change_origin(H, /datum/virtue/origin/hammerhold)
 
 /datum/advclass/mercenary/grudgebearer/soldier
 	name = "Grudgebearer Soldier"
 	tutorial = "Bound by eternal grudges of eons past that have not been forgotten, the Grudgebearers are left to wander the surface, as every other clan has a grudge against you, and you against them. This putrid swampland of a Duchy has also wronged you and your people, you care little for it. Coins are a means to an end -- something you can mine and forge yourself. Trinkets -- made by true smiths, now that will carry respect among your clan. However, such artifacts might not buy you food, or a roof."
-	outfit = /datum/outfit/job/roguetown/mercenary/grudgebearer_soldier
+	outfit = /datum/outfit/job/mercenary/grudgebearer_soldier
 
 	traits_applied = list(TRAIT_HEAVYARMOR)
 	subclass_stats = list(
@@ -73,10 +83,13 @@
 	)
 
 	subclass_skills = list(
-		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
@@ -84,7 +97,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/mercenary/grudgebearer_soldier/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/mercenary/grudgebearer_soldier/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
 
@@ -98,6 +111,7 @@
 		pants = /obj/item/clothing/under/roguetown/trou/leather
 		armor = /obj/item/clothing/suit/roguetown/armor/plate/full/dwarven
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/dwarven
+		mask = /obj/item/clothing/head/roguetown/paddedcap
 		backpack_contents = list(
 			/obj/item/roguekey/mercenary,
 			/obj/item/storage/belt/rogue/pouch/coins/poor,
@@ -105,14 +119,53 @@
 			/obj/item/paper/scroll/grudge,
 			/obj/item/natural/feather,
 			)
-		var/weapons = list("Axe", "Mace")
-		var/wepchoice = input("Choose your weapon", "Available weapons") as anything in weapons
+		var/weapons = list("Warpick + Dwarven Shield", "Warhammer + Dwarven Shield", "Battle Axe + Dwarven Shield", "Great Axe", "Grandmace")
+		var/wepchoice = input(H, "Choose your weapon", "Available weapons") as anything in weapons
 		switch(wepchoice)
-			if("Axe")
-				backr = /obj/item/rogueweapon/stoneaxe/battle
-			if("Mace")
-				backr = /obj/item/rogueweapon/mace/goden/steel
 
+			if("Warpick + Dwarven Shield")
+				backr = /obj/item/rogueweapon/shield/tower/metal/dwarf
+				r_hand = /obj/item/rogueweapon/pick/heavy/steel/dwarf
+				H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE) //It uses axe skill instead of mining.
+			if("Warhammer + Dwarven Shield")
+				backr = /obj/item/rogueweapon/shield/tower/metal/dwarf
+				r_hand = /obj/item/rogueweapon/mace/warhammer/steel
+				H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+			if("Battle Axe + Dwarven Shield")
+				backr = /obj/item/rogueweapon/shield/tower/metal/dwarf
+				r_hand = /obj/item/rogueweapon/stoneaxe/battle
+				H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
+			if("Great Axe") //No special shield, however gains flexibility in polearms for upgrades.
+				r_hand = /obj/item/rogueweapon/greataxe/steel
+				H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
+				H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+			if("Grandmace")
+				r_hand = /obj/item/rogueweapon/mace/goden/steel
+				H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+				H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+
+	change_origin(H, /datum/virtue/origin/hammerhold)
+
+// Dwarf Smith Armor
+
+/obj/item/clothing/suit/roguetown/armor/plate/half/fluted/dwarven //Sprite has a tasset, making it fluted now.
+	name = "grudgebearer splint apron"
+	desc = "A standard, layered mixture of plate and maille, worn by many dwarven smiths."
+	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
+	allowed_race = list(/datum/species/dwarf, /datum/species/dwarf/mountain)
+	icon_state = "dsmithchest"
+	item_state = "dsmithchest"
+	smelt_bar_num = 2
+
+/obj/item/clothing/head/roguetown/helmet/heavy/dwarven/smith
+	name = "grudgesmith dwarven helm"
+	desc = "A hardy, layered helmet. It lets one's dwarvenly beard to poke out. \
+	This one is intended for the smiths of the clan. No less protective. All the more stylish."
+	icon_state = "dsmithhead"
+	item_state = "dsmithhead"
+
+// Dwarf Soldier Armor
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/dwarven
 	name = "grudgebearer dwarven plate"

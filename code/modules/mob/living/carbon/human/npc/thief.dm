@@ -40,7 +40,7 @@
 	ADD_TRAIT(src, TRAIT_LIGHT_STEP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_INFINITE_ENERGY, TRAIT_GENERIC)
-	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/thief)
+	equipOutfit(new /datum/outfit/job/human/species/human/northern/thief)
 	gender = pick(MALE, FEMALE)
 	regenerate_icons()
 
@@ -110,7 +110,7 @@
 	if(!wander && prob(10))
 		face_atom(get_step(src,pick(GLOB.cardinals)))
 
-/datum/outfit/job/roguetown/human/species/human/northern/thief/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/human/species/human/northern/thief/pre_equip(mob/living/carbon/human/H)
 	cloak = /obj/item/clothing/cloak/raincloak/mortus
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	if(prob(50))

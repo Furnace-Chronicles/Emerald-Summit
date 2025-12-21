@@ -373,7 +373,7 @@
 	name = "Rune of Beasts"
 	desc = "A Holy Rune of Dendor. Becoming one with nature is to connect with ones true instinct."
 	icon_state = "dendor_chalky"
-	var/bestialrites = list("Rite of the Lesser Wolf")
+	var/bestialrites = list("Rite of the Lesser Wolf","Borrowed Madness","Spider Kinship")
 
 /obj/structure/ritualcircle/dendor/attack_hand(mob/living/user)
 	if((user.patron?.type) != /datum/patron/divine/dendor)
@@ -405,12 +405,76 @@
 							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 							spawn(120)
 								icon_state = "dendor_chalky"
+		if("Borrowed Madness")
+			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
+				to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
+				return
+			if(do_after(user, 50))
+				user.say("I pray for strength...")
+				playsound(loc, 'sound/vo/mobs/vw/idle (1).ogg', 100, FALSE, -1)
+				if(do_after(user, 50))
+					user.say("I pray for pain...")
+					playsound(loc, 'sound/vo/mobs/vw/idle (4).ogg', 100, FALSE, -1)
+					if(do_after(user, 50))
+						loc.visible_message(span_warning("[user] produces an eerie as they titter quietly, softly weeping. Their body twitches ever so slightly..."))
+						playsound(loc, 'sound/vo/mobs/vw/bark (1).ogg', 100, FALSE, -1)
+						if(do_after(user, 30))
+							icon_state = "dendor_active"
+							loc.visible_message(span_warning("[user] suddenly snaps their head upward, letting out a twisted howl!"))
+							playsound(loc, 'sound/vo/mobs/wwolf/howl (2).ogg', 100, FALSE, -1)
+							requestmadness(src)
+							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
+							spawn(120)
+								icon_state = "dendor_chalky"
+		if("Spider Kinship")
+			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
+				to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
+				return
+			if(do_after(user, 50))
+				user.say("I call to the ruthless wilds,")
+				playsound(loc, 'sound/vo/mobs/spider/idle (1).ogg', 100, FALSE, -1)
+				if(do_after(user, 50))
+					user.say("... grant me an agile form of your dominion..!")
+					playsound(loc, 'sound/vo/mobs/spider/idle (3).ogg', 100, FALSE, -1)
+					if(do_after(user, 30))
+						icon_state = "dendor_active"
+						loc.visible_message(span_warning("[user] seizes up, suddenly covered in a mess of silky webs, which then slough away into a sticky pile!"))
+						playsound(loc, 'sound/vo/mobs/spider/pain.ogg', 100, FALSE, -1)
+						spiderkin(src)
+						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
+						spawn(120)
+							icon_state = "dendor_chalky"								
 
 /obj/structure/ritualcircle/dendor/proc/lesserwolf(src)
 	var/ritualtargets = range(1, loc)
 	for(var/mob/living/carbon/human/target in ritualtargets)
 		target.apply_status_effect(/datum/status_effect/buff/lesserwolf)
 
+/obj/structure/ritualcircle/dendor/proc/requestmadness(src)
+	var/ritualtargets = range(0, loc)
+	for(var/mob/living/carbon/human/target in ritualtargets)
+		if((target.patron?.type) != /datum/patron/divine/dendor)
+			to_chat(target, span_warning("The ritual's power does not recognize me..."))
+			continue
+		to_chat(target,span_userdanger("Do you like hurting other people?"))
+		target.flash_fullscreen("redflash3")
+		target.emote("agony")
+		target.Unconscious(200)
+		target.Knockdown(200)
+		target.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/dendormole)
+
+/obj/structure/ritualcircle/dendor/proc/spiderkin(src)
+	var/ritualtargets = range(0, loc)
+	for(var/mob/living/carbon/human/target in ritualtargets)
+		if((target.patron?.type) != /datum/patron/divine/dendor)
+			to_chat(target, span_warning("The ritual's power does not recognize me..."))
+			continue
+		to_chat(target,span_userdanger("The webs of madness and nature whisper to me. The webs are eternal. Long live the Nest!"))
+		target.flash_fullscreen("redflash3")
+		target.emote("agony")
+		target.Unconscious(100)
+		target.Knockdown(200)
+		target.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/mireboi)
 
 /obj/structure/ritualcircle/malum
 	name = "Rune of Forge"
@@ -756,11 +820,11 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		loc.visible_message(span_cult("Great hooks come from the rune, embedding into [target]'s ankles, pulling them onto the rune. Then, into their wrists. Their lux is torn from their chest, and reforms into armor. "))
 	spawn(20)
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
-		target.equipOutfit(/datum/outfit/job/roguetown/darksteelrite)
+		target.equipOutfit(/datum/outfit/job/darksteelrite)
 		spawn(40)
 			to_chat(target, span_purple("They are ignorant, backwards, without hope. You. You will be powerful."))
 
-/datum/outfit/job/roguetown/darksteelrite/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/darksteelrite/pre_equip(mob/living/carbon/human/H)
 	..()
 	var/list/items = list()
 	items |= H.get_equipped_items(TRUE)
@@ -786,7 +850,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	if (target.mob_biotypes & MOB_UNDEAD)
 		loc.visible_message(span_cult("YOU HAVE NO MORE LYFE TO GIVE, FOR YOUR HEART DOES NOT BEAT!"))
 		return
-	if (target.mind?.has_antag_datum(/datum/antagonist/vampire/lesser))
+	if (target.mind?.has_antag_datum(/datum/antagonist/vampire))
 		loc.visible_message(span_cult("YOU HAVE NO MORE LYFE TO GIVE, FOR YOUR HEART DOES NOT BEAT, CHILDE OF KAIN!"))
 		return
 	if (target.mind?.has_antag_datum(/datum/antagonist/werewolf/lesser))
@@ -808,6 +872,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		ADD_TRAIT(target, TRAIT_TOXIMMUNE, "[type]")
 		ADD_TRAIT(target, TRAIT_STEELHEARTED, "[type]")
 		ADD_TRAIT(target, TRAIT_INFINITE_STAMINA, "[type]")
+		ADD_TRAIT(target, TRAIT_SLOW_SWIMMER, "[type]")
 		ADD_TRAIT(target, TRAIT_BLOODLOSS_IMMUNE, "[type]")
 		ADD_TRAIT(target, TRAIT_LIMBATTACHMENT, "[type]")
 		ADD_TRAIT(target, TRAIT_EASYDISMEMBER, "[type]")
@@ -909,13 +974,13 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	loc.visible_message(span_cult("[target]'s lux pours from their nose, into the rune, gleaming golds sizzles. Molten gold and metals swirl into armor, seered to their skin."))
 	spawn(20)
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
-		target.equipOutfit(/datum/outfit/job/roguetown/gildedrite)
+		target.equipOutfit(/datum/outfit/job/gildedrite)
 		// target.apply_status_effect(/datum/status_effect/debuff/devitalised) // Removed: do not consume lux
 		spawn(40)
 			to_chat(target, span_cult("More to the maw, this shall help feed our greed."))
 
 
-/datum/outfit/job/roguetown/gildedrite/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/gildedrite/pre_equip(mob/living/carbon/human/H)
 	..()
 	var/list/items = list()
 	items |= H.get_equipped_items(TRUE)
@@ -999,12 +1064,12 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	loc.visible_message(span_cult("[target]'s lux pours from their nose, into the rune, motive and metals swirl into armor, snug around their form!"))
 	spawn(20)
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
-		target.equipOutfit(/datum/outfit/job/roguetown/viciousrite)
+		target.equipOutfit(/datum/outfit/job/viciousrite)
 		// target.apply_status_effect(/datum/status_effect/debuff/devitalised) // Removed: do not consume lux
 		spawn(40)
 			to_chat(target, span_cult("Break them."))
 
-/datum/outfit/job/roguetown/viciousrite/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/viciousrite/pre_equip(mob/living/carbon/human/H)
 	..()
 	var/list/items = list()
 	items |= H.get_equipped_items(TRUE)

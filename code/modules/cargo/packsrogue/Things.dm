@@ -6,17 +6,17 @@
 
 /datum/supply_pack/rogue/Things/healthpotnew
 	name = "Health Potion"
-	cost = 10
+	cost = 20
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/healthpotnew)
 
 /datum/supply_pack/rogue/Things/manapot
 	name = "Mana Potion"
-	cost = 10
+	cost = 20
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/strongmanapot)
 
 /datum/supply_pack/rogue/Things/stampot
 	name = "Stamina Potion"
-	cost = 10
+	cost = 20
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/strongstampot)
 
 /datum/supply_pack/rogue/Things/chain
@@ -87,4 +87,4 @@
 /datum/supply_pack/rogue/Things/smokebomb
 	name = "Smoke Bomb"
 	cost = 30
-	contains = list(/obj/item/smokebomb)
+	contains = list(/obj/item/bomb/smoke)

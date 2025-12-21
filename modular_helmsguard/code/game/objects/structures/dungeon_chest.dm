@@ -301,7 +301,7 @@
 
 	//throwing
 		/obj/item/bomb = 15,
-		/obj/item/smokebomb	= 15,
+		/obj/item/bomb/smoke = 15,
 	)
 	var/I = pickweight(loot)
 	var/O = pickweight(loot)

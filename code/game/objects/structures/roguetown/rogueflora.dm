@@ -304,7 +304,7 @@
 	var/bushtype
 
 /obj/structure/flora/roguegrass/bush/Initialize()
-	if(prob(88) && isnull(bushtype))
+	if(prob(10) && isnull(bushtype))
 		bushtype = pickweight(list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue=5,
 					/obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison=3,
 					/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed=1))
@@ -407,6 +407,21 @@
 
 /obj/structure/flora/roguegrass/bush/westleach/Initialize()
 	bushtype = /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed
+	return ..()
+
+
+/obj/structure/flora/roguegrass/bush/jackberry
+	name = "jackberry bush"
+	desc = "Fat, succulent berries grow amidst the leaves."
+	icon_state = "bush2"
+	color = "#6cd0ff"
+
+/obj/structure/flora/roguegrass/bush/jackberry/Initialize()
+	if(prob(88) && isnull(bushtype))
+		bushtype = pickweight(list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue=5,
+					/obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison=3))
+	loot_replenish()
+	pixel_x += rand(-3,3)
 	return ..()
 
 /obj/structure/flora/roguegrass/bush/wall

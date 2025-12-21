@@ -23,8 +23,8 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/obj/effect/proc_holder/spell/self/grant_nobility,
 		/obj/effect/proc_holder/spell/self/convertrole/bog
 	)
-	outfit = /datum/outfit/job/roguetown/lord
-	visuals_only_outfit = /datum/outfit/job/roguetown/lord/visuals
+	outfit = /datum/outfit/job/lord
+	visuals_only_outfit = /datum/outfit/job/lord/visuals
 
 	display_order = JDO_LORD
 	tutorial = "Elevated upon your throne through a web of intrigue and political upheaval, you are the absolute authority of these lands and at the center of every plot within it. Every man, woman and child is envious of your position and would replace you in less than a heartbeat: Show them the error of their ways."
@@ -40,6 +40,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	job_subclasses = list(
 		/datum/advclass/lord/warrior,
 		/datum/advclass/lord/merchant,
+		/datum/advclass/lord/sorcerer,
 		/datum/advclass/lord/inbred
 	)
 
@@ -47,12 +48,15 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/virtue/combat/hollow_life,
 	)
 
-/datum/outfit/job/roguetown/lord
+/datum/outfit/job/lord
 	job_bitflag = BITFLAG_ROYALTY
 
 /datum/job/roguetown/lord/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	. = ..()
 	if(L)
+		var/mob/living/carbon/human/H = L
+		if(istype(H))
+			H.verbs |= list(/mob/living/carbon/human/proc/disgrace_knight, /mob/living/carbon/human/proc/fire_guard)
 		var/list/chopped_name = splittext(L.real_name, " ")
 		if(length(chopped_name) > 1)
 			chopped_name -= chopped_name[1]
@@ -74,7 +78,9 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		if(STATION_TIME_PASSED() <= 10 MINUTES) //Late to the party? Stuck with default colors, sorry!
 			addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, lord_color_choice)), 50)
 
-/datum/outfit/job/roguetown/lord
+		addtimer(CALLBACK(SSfamilytree, TYPE_PROC_REF(/datum/controller/subsystem/familytree, AddRoyal), H, (H.gender == FEMALE) ? FAMILY_MOTHER : FAMILY_FATHER), 41 SECONDS)
+
+/datum/outfit/job/lord
 	neck = /obj/item/storage/belt/rogue/pouch/coins/rich
 	cloak = /obj/item/clothing/cloak/lordcloak
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
@@ -82,7 +88,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1)
 	id = /obj/item/scomstone/garrison
 
-/datum/outfit/job/roguetown/lord/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/lord/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(SSroguemachine.crown == null || (QDELETED(SSroguemachine.crown)))
 		SSroguemachine.crown = null
@@ -110,6 +116,8 @@ GLOBAL_LIST_EMPTY(lord_titles)
 			mask = /obj/item/clothing/mask/rogue/lordmask/l
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 
+	change_origin(H, /datum/virtue/origin/racial/reach, "Royal line")
+
 //	SSticker.rulermob = H
 /** 
 	Warrior Lord subclass. An evolution from the Daring Twit. This is the original Lord Class.
@@ -117,7 +125,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 /datum/advclass/lord/warrior
 	name = "Valiant Warrior"
 	tutorial = "You're a noble warrior. You rose to your rank through your own strength and skill, whether by leading your men or by fighting alongside them. Or perhaps you are none of that, but simply a well-trained heir elevated to the position of Lord. You're trained in the usage of heavy armor, and knows swordsmanship well."
-	outfit = /datum/outfit/job/roguetown/lord/warrior
+	outfit = /datum/outfit/job/lord/warrior
 	category_tags = list(CTAG_LORD)
 
 	traits_applied = list(TRAIT_HEAVYARMOR)
@@ -145,8 +153,9 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/lord/warrior/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/lord/warrior/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.dna.species.soundpack_m = new /datum/voicepack/male/tyrant()
 	l_hand = /obj/item/rogueweapon/lordscepter // If you put something in l hand with a mother outfit
 	// It will dupe
 	if(H.age == AGE_OLD)
@@ -163,7 +172,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	name = "Merchant Lord"
 	tutorial = "You were always talented with coins and trade. And your talents have brought you to the position of the Lord of Scarlet Reach. You could be a merchant who bought his way into nobility and power, or an exceptionally talented noble who were inclined to be good with coins. Fighting directly is not your forte\
 	But you have plenty of wealth, keen ears, and know a good deal from a bad one."
-	outfit = /datum/outfit/job/roguetown/lord/merchant
+	outfit = /datum/outfit/job/lord/merchant
 	category_tags = list(CTAG_LORD)
 	noble_income = 400 // Let's go crazy. This is +400 per day for a total of 2400 per round at the end of a day. This is probably equal to doubling passive incomes of the keep.
 
@@ -190,23 +199,71 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/lord/merchant/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/lord/merchant/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.dna.species.soundpack_m = new /datum/voicepack/male/tyrant()
 	l_hand = /obj/item/rogueweapon/lordscepter
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
+
+/**
+	Philosopher Lord subclass. The evolution of the Introverted Bookworm.
+	Nearly identical statline to Merchant Lord, just trades the 1 SPD for 1 END.
+	Gets T2 magic with 12 spellpoints (+3 if old), the Message spell,  Journeyman Arcyne and Alchemy. Shitty weapon skills.
+	Gets the Mage Armor and Intellectual traits, but the main power of this class is being a caster.
+**/
+/datum/advclass/lord/sorcerer
+	name = "Philosopher Lord"
+	tutorial = "Growing up you were always more interested in books and magic than you were with interacting with others. Alas, the royal blood does not make allowances for personality and like it or not, you rule Scarlet Reach. Hopefully your magical training and keen intellect will serve you well."
+	outfit = /datum/outfit/job/lord/sorcerer
+	category_tags = list(CTAG_LORD)
+	
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2, TRAIT_INTELLECTUAL)
+	subclass_stats = list(
+		STATKEY_LCK = 5,
+		STATKEY_INT = 5,
+		STATKEY_PER = 4,
+		STATKEY_END = 1,
+	)
+
+	subclass_spellpoints = 12
+
+	subclass_skills = list(
+		/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/polearms = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/maces = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/swords = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE, //Your only non-novice weapon skill, because you're a NERD who read books instead of studying the blade
+		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
+		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
+	)
+
+/datum/outfit/job/lord/sorcerer/pre_equip(mob/living/carbon/human/H)
+	..()
+	H.dna.species.soundpack_m = new /datum/voicepack/male/tyrant()
+	l_hand = /obj/item/rogueweapon/lordscepter
+	if(H.mind)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/message) //Useful administrative spell, put here to not be basically a tax
+	if(H.age == AGE_OLD)
+		H?.mind.adjust_spellpoints(3)
 
 /** 
 	Inbred Lord subclass. A joke class, evolution of the Inbred Wastrel.
 	Literally the same stat line and skills line, but with one exception - 10 Fortune.
 	Why? Because it is funny, that's why. They also have heavy armor training.
-	The fact that the inbred wastrel with 20 fortune and critical weakness 
+	The fact that the inbred wastrel with 20 fortune and critical weakness
 	can get into heavy armor and try to fight is hilarious.
 */
 /datum/advclass/lord/inbred
 	name = "Inbred Lord"
 	tutorial = "Psydon and Astrata smiles upon you. For despite your inbred and weak body, and your family's conspiracies to remove you from succession, you have somehow become the Lord of Scarlet Reach. May your reign lasts a hundred years."
-	outfit = /datum/outfit/job/roguetown/lord/inbred
+	outfit = /datum/outfit/job/lord/inbred
 	category_tags = list(CTAG_LORD)
 
 	traits_applied = list(TRAIT_CRITICAL_WEAKNESS, TRAIT_NORUN, TRAIT_HEAVYARMOR)
@@ -231,15 +288,16 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/skill/misc/sewing = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/lord/inbred/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/lord/inbred/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.dna.species.soundpack_m = new /datum/voicepack/male/tyrant()
 	l_hand = /obj/item/rogueweapon/lordscepter
 
 	H.adjust_skillrank(/datum/skill/combat/crossbows, pick(0,1), TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, pick(0,0,1), TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, pick(0,1), TRUE)
 
-/datum/outfit/job/roguetown/lord/visuals/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/lord/visuals/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/crown/fakecrown //Prevents the crown of woe from happening again.
 

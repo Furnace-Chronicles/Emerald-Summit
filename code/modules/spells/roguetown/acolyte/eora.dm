@@ -26,12 +26,22 @@
 	..()
 	REMOVE_TRAIT(user, TRAIT_PACIFISM, "peaceflower_[REF(src)]")
 
-/obj/item/clothing/head/peaceflower/attack_hand(mob/user)
+/obj/item/clothing/head/peaceflower/proc/at_peace_check(mob/user)
 	if(iscarbon(user))
-		var/mob/living/carbon/C = user
-		if(src == C.head)
-			to_chat(user, "<span class='warning'>I feel at peace. <b style='color:pink'>Why would you want anything else?</b></span>")
-			return
+		var/mob/living/carbon/carbon_user = user
+		if(src == carbon_user.head)
+			to_chat(user, "<span class='warning'>You feel at peace. <b style='color:pink'>Why would you want anything else?</b></span>")
+			return TRUE
+	return FALSE
+
+/obj/item/clothing/head/peaceflower/attack_hand(mob/user, list/modifiers)
+	if(at_peace_check(user))
+		return
+	return ..()
+
+/obj/item/clothing/head/peaceflower/MouseDrop(atom/over, src_location, over_location, src_control, over_control, params)
+	if(at_peace_check(usr))
+		return
 	return ..()
 
 /obj/effect/proc_holder/spell/invoked/bud
@@ -41,7 +51,7 @@
 	range = 7
 	overlay_state = "love"
 	sound = list('sound/magic/magnet.ogg')
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross/eora)
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	releasedrain = 40
 	chargetime = 60
 	warnie = "spellwarning"
@@ -50,6 +60,7 @@
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/holy
 	recharge_time = 60 SECONDS
+	miracle = TRUE
 
 /obj/effect/proc_holder/spell/invoked/bud/cast(list/targets, mob/living/user)
 	var/target = targets[1]
@@ -82,12 +93,12 @@
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	chargedloop = null
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross/eora)
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	sound = 'sound/magic/whiteflame.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
 	recharge_time = 10 SECONDS
-	miracle = FALSE
+	miracle = TRUE
 
 /obj/effect/proc_holder/spell/invoked/eoracurse/cast(list/targets, mob/living/user)
 	if(isliving(targets[1]))
@@ -343,11 +354,12 @@
 	invocation = "Eora, nourish this offering!"
 	desc = "Bless a food item. Items that take longer to eat heal slower. Skilled clergy can bless food more often. Finer food heals more."
 	sound = 'sound/magic/magnet.ogg'
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross/eora)
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	devotion_cost = 25
 	recharge_time = 90 SECONDS
 	overlay_state = "bread"
 	associated_skill = /datum/skill/magic/holy
+	miracle = TRUE
 	var/base_recharge_time = 90 SECONDS
 
 /obj/effect/proc_holder/spell/invoked/bless_food/cast(list/targets, mob/living/user)
@@ -374,17 +386,20 @@
 	else
 		recharge_time = base_recharge_time
 
+	START_PROCESSING(SSfastprocess, src)
+
 /obj/effect/proc_holder/spell/invoked/pomegranate
 	name = "Amaranth Sanctuary"
 	invocation = "Eora, provide sanctuary for your beauty!"
 	desc = "Grow a cool tree."
 	sound = 'sound/magic/magnet.ogg'
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross/eora)
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	devotion_cost = 500
 	recharge_time = 5 SECONDS
 	chargetime = 1 SECONDS
 	overlay_state = "tree"
 	associated_skill = /datum/skill/magic/holy
+	miracle = TRUE
 	var/obj/structure/eoran_pomegranate_tree/my_little_tree = null
 
 /obj/effect/proc_holder/spell/invoked/pomegranate/cast(list/targets, mob/living/user)

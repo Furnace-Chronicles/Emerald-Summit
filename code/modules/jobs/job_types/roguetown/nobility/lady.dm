@@ -13,7 +13,7 @@
 
 	spells = list(/obj/effect/proc_holder/spell/self/convertrole/servant,
 	/obj/effect/proc_holder/spell/self/grant_nobility)
-	outfit = /datum/outfit/job/roguetown/lady
+	outfit = /datum/outfit/job/lady
 
 	display_order = JDO_LADY
 	give_bank_account = 50
@@ -22,6 +22,11 @@
 	max_pq = null
 	round_contrib_points = 3
 	social_rank = SOCIAL_RANK_ROYAL
+
+/datum/job/roguetown/lady/after_spawn(mob/living/spawned, client/player_client)
+	. = ..()
+	var/mob/living/carbon/human/H = spawned
+	addtimer(CALLBACK(SSfamilytree, TYPE_PROC_REF(/datum/controller/subsystem/familytree, AddRoyal), H, (H.gender == FEMALE) ? FAMILY_MOTHER : FAMILY_FATHER), 43 SECONDS)
 
 /datum/job/roguetown/exlady
 	title = "Consort Dowager"
@@ -33,10 +38,10 @@
 	display_order = JDO_LADY
 	give_bank_account = TRUE
 
-/datum/outfit/job/roguetown/lady
+/datum/outfit/job/lady
 	job_bitflag = BITFLAG_ROYALTY
 
-/datum/outfit/job/roguetown/lady/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/lady/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 	ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)

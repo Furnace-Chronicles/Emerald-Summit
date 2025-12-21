@@ -287,6 +287,26 @@
 	icon_state = "ancientsh"
 	smeltresult = /obj/item/ingot/purifiedaalloy
 
+/obj/item/rogueweapon/shield/tower/metal/dwarf
+	name = "dwarven shield"
+	desc = "A intricately forged kite-shield of dwarven make and use. To protect the hardiest of dwarves."
+	icon_state = "dwshield"
+	force = 22 //10% More damage, why not?
+	throwforce = 10
+	throw_speed = 1
+	throw_range = 2 //Heavy
+	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK, SHIELD_SMASH_METAL)
+	wlength = WLENGTH_NORMAL
+	resistance_flags = null
+	flags_1 = CONDUCT_1
+	wdefense = 11
+	coverage = 60
+	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
+	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
+	max_integrity = 360 //20% more integrity. It's unique and race-locked.
+	sellprice = 60
+	smeltresult = /obj/item/ingot/steel
+
 /obj/item/rogueweapon/shield/tower/raneshen
 	name = "rider shield"
 	desc = "A shield of Raneshen design. Clever usage of wood, iron, and leather make an impressive match for any weapon."

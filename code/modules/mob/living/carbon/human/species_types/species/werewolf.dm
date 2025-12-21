@@ -14,13 +14,6 @@
 /datum/species/werewolf
 	name = "verewolf"
 	id = "werewolf"
-	desc = "<b>Werewolf: Abandoned Warband</b><br>\
-	Once the warriors of Dendor in his abandoned war against the other Gods, \
-	these creatures are left over as soldiers of the wild now unwanted. \
-	They are forgotten by their creator, and remain as enemies of civilization who assail \
-	the frontier outposts and urban city centers. Through bite and claw they infect their victims \
-	to create new conscripts against modern society, turning from man to beast with the shifting of dawn and dusk. \
-	Sheltering in sanctified ground will stop transformations, but poultice must be made with a bloodied fyritius flower, holy water, and silver dust to cure them.<br>"
 	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES)
 	inherent_traits = list(
 		TRAIT_STRONGBITE,

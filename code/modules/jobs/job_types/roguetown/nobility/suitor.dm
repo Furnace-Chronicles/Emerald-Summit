@@ -9,7 +9,7 @@
 	allowed_races = RACES_NOBILITY_ELIGIBLE_UP
 	advclass_cat_rolls = list(CTAG_CONSORT = 20)
 	tutorial = "You are a noble from a foreign court who has travelled to Scarlet Reach in order to win the hand of Scarlet's most eligible bachelor and secure a political ally for your house. Competition is fierce, and it seems you're not the only one vying for the duke's favor..."
-	outfit = /datum/outfit/job/roguetown/suitor
+	outfit = /datum/outfit/job/suitor
 	display_order = JDO_SUITOR
 	give_bank_account = 40
 	noble_income = 20
@@ -19,16 +19,16 @@
 	social_rank = SOCIAL_RANK_MINOR_NOBLE
 	cmode_music = 'sound/music/combat_noble.ogg'
 
-/datum/outfit/job/roguetown/suitor
+/datum/outfit/job/suitor
 	job_bitflag = BITFLAG_ROYALTY
 
 /datum/advclass/suitor/envoy
 	name = "Envoy"
 	tutorial = "You're a graceful envoy - fluent in flattery, courtesy, and calculated sincerity. You'll charm your way into the Duke's heart, winning favor with warmth, wit, and well-timed smiles."
-	outfit = /datum/outfit/job/roguetown/suitor/envoy
+	outfit = /datum/outfit/job/suitor/envoy
 	category_tags = list(CTAG_CONSORT)
 
-/datum/outfit/job/roguetown/suitor/envoy/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/suitor/envoy/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_femme_clothes(H))
 		neck = /obj/item/roguekey/manor
@@ -82,10 +82,10 @@
 /datum/advclass/suitor/schemer
 	name = "Schemer"
 	tutorial = "You're a silver-tongued snake - master of whispers, poison, and perfectly timed accidents. Why win hearts when you can twist them? With rivals removed and secrets weaponized, the Duke will have no choice but to choose you."
-	outfit = /datum/outfit/job/roguetown/suitor/schemer
+	outfit = /datum/outfit/job/suitor/schemer
 	category_tags = list(CTAG_CONSORT)
 
-/datum/outfit/job/roguetown/suitor/schemer/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/suitor/schemer/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
@@ -128,10 +128,10 @@
 /datum/advclass/suitor/gallant
 	name = "Gallant"
 	tutorial = "With honor and the flash of your steel, you meet your rivals in open challenge. You'll win the Duke's favor not with whispers or warmth, but with roaring applause."
-	outfit = /datum/outfit/job/roguetown/suitor/gallant
+	outfit = /datum/outfit/job/suitor/gallant
 	category_tags = list(CTAG_CONSORT)
 
-/datum/outfit/job/roguetown/suitor/gallant/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/suitor/gallant/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)

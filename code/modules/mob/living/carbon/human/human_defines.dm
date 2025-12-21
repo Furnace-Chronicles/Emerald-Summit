@@ -61,8 +61,8 @@
 	var/obj/item/belt = null
 	var/obj/item/beltl = null
 	var/obj/item/beltr = null
-	var/obj/item/wear_ring = null
-	var/obj/item/wear_wrists = null
+	var/obj/item/clothing/wear_ring = null
+	var/obj/item/clothing/wear_wrists = null
 	var/obj/item/r_store = null
 	var/obj/item/l_store = null
 	var/obj/item/s_store = null
@@ -100,6 +100,18 @@
 
 	var/canseebandits = FALSE
 
+	//Familytree datum
+	//I dont know how to do UI huds so this will have to do for now.
+	var/family_UI = FALSE
+	var/mob/living/carbon/spouse_mob
+	var/image/spouse_indicator
+	var/setspouse
+	var/gender_choice_pref = ANY_GENDER
+	var/familytree_pref = FAMILY_NONE
+	var/datum/heritage/family_datum
+	var/list/temp_ui_list = list()
+	var/xenophobe = FALSE
+
 	var/marriedto
 
 	var/has_stubble = TRUE
@@ -110,6 +122,7 @@
 	var/funeral = FALSE // Whether the body has received rites or not.
 
 	var/datum/devotion/devotion = null // Used for cleric_holder for priests
+	var/datum/family_member/family_member_datum
 
 	var/headshot_link = null
 	var/flavortext = null
@@ -128,7 +141,8 @@
 	/datum/rmb_intent/strong,\
 	/datum/rmb_intent/swift,\
 	/datum/rmb_intent/riposte,\
-	/datum/rmb_intent/weak)
+	/datum/rmb_intent/weak,\
+	/datum/rmb_intent/omni)
 
 	rot_type = /datum/component/rot/corpse
 

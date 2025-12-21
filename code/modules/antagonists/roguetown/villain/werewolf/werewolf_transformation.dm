@@ -40,8 +40,6 @@
 
 	// Werewolf reverts to human form during the day
 	else if(transformed)
-		H.real_name = wolfname
-		H.name = wolfname
 
 		if(GLOB.tod != "night")
 			if(!untransforming)
@@ -91,6 +89,12 @@
 	W.gender = gender
 	W.regenerate_icons()
 	W.stored_mob = src
+
+	// Set the werewolf's name from the antagonist datum
+	var/datum/antagonist/werewolf/Were = mind.has_antag_datum(/datum/antagonist/werewolf/)
+	if(Were)
+		W.real_name = Were.wolfname
+		W.name = Were.wolfname
 	W.limb_destroyer = TRUE
 	W.ambushable = FALSE
 	W.cmode_music = 'sound/music/combat_druid.ogg'
@@ -136,7 +140,7 @@
 	W.STACON = 20
 	W.STAEND = 20
 
-	W.AddSpell(new /obj/effect/proc_holder/spell/self/howl/call_of_the_moon)
+	W.AddSpell(new /obj/effect/proc_holder/spell/self/howl)
 	W.AddSpell(new /obj/effect/proc_holder/spell/self/claws)
 
 	ADD_TRAIT(src, TRAIT_NOSLEEP, TRAIT_GENERIC)
@@ -197,7 +201,7 @@
 	skills?.known_skills = WA.stored_skills.Copy()
 	skills?.skill_experience = WA.stored_experience.Copy()
 
-	W.RemoveSpell(new /obj/effect/proc_holder/spell/self/howl/call_of_the_moon)
+	W.RemoveSpell(new /obj/effect/proc_holder/spell/self/howl)
 	W.RemoveSpell(new /obj/effect/proc_holder/spell/self/claws)
 
 	W.regenerate_icons()

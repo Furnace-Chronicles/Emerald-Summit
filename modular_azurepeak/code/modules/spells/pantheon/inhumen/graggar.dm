@@ -48,9 +48,10 @@
 	nodamage = TRUE	//No damage, just ensnaring a target.
 
 /obj/projectile/magic/unholy_grasp/on_hit(atom/hit_atom, datum/thrownthing/throwingdatum)
-	if(..() || !iscarbon(hit_atom))	//if it gets caught or the target can't be cuffed.
-		return	//Abort
-	ensnare(hit_atom)
+	if(!iscarbon(hit_atom))	//Check if target can be ensnared
+		return ..()	//Not a valid target, just do normal projectile behavior
+	ensnare(hit_atom)	//Ensnare the target first
+	. = ..()	//Then handle projectile cleanup
 
 /obj/projectile/magic/unholy_grasp/proc/ensnare(mob/living/carbon/C)		//Same code as net but with le flavor.
 	if(!C.legcuffed && C.get_num_legs(FALSE) >= 2)
@@ -69,6 +70,7 @@
 	name = "Revel in Slaughter"
 	desc = "The blood of your enemy shall boil, their skin feeling as if it's being ripped apart! Gaggar demands their blood must FLOW!!!."
 	overlay_state = "bloodsteal"
+	range = 5
 	recharge_time = 5 MINUTES
 	invocation = "YOUR BLOOD WILL BOIL TILL IT'S SPILLED!"
 	invocation_type = "shout"
@@ -116,7 +118,7 @@
 	/datum/status_effect/incapacitating/immobilized,
 	/datum/status_effect/incapacitating/paralyzed,
 	/datum/status_effect/incapacitating/stun,
-	/datum/status_effect/incapacitating/knockdown,)
+	/datum/status_effect/incapacitating/knockdown)
 
 /obj/effect/proc_holder/spell/self/graggar_bloodrage/cast(list/targets, mob/user)
 	. = ..()

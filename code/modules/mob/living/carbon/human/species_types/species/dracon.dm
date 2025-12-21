@@ -4,14 +4,17 @@
 /datum/species/dracon
 	name = "Drakian"
 	id = "dracon"
-	desc = "<b>Drakian: Destined for the Crown</b><br>\
-	A sturdy dragon-like race that lives up to 250 years, it is disputed if their ancestors were draconically-blessed zardmen or cursed by greed. \
-	They have been known to rise to positions of leadership amongst levies and petty nobility of kingdoms, \
-	attracting followers with confidence and a willingness to dirty their hands. Common in the east, they can be found across the world, \
-	yet those who settle in the west find they become associated with Matthios by most commoners. With war across their various homelands, \
-	at times one will rise to lead their community from the front of the conflict. Some say it is bravery and leadership, others say it is delusional egotism.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 STR</b></span> </br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> LANGUAGE: Draconic - ,s</b></span>"
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/grenzelhoft
+	origin = "Grenzelhoft"
+	base_name = "Zard"
+	desc = "<b>Drakian</b><br>\
+	Mighty, scaled individuals that are particularly reminiscent of the ancient dragons of yore- their true origins are often called into question given that dragons \
+	are so seldom seen in todae's age. They are extremely long-lived compared to other, more fleshy races, and they lack a true homeland- past their tendency to settle in \
+	mountainous regions. Given this propensity, Drakians often find themselves near or amongst Dwarven settlements, either learning to coexist \
+	peacefully with the short-statured folk or finding themselves at odds with them. In recent years, they've been seen more and more frequently within Humen settlements along with \
+	the other races, although their draconic resemblance sometimes lends others to suspicion at first sight.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 STR</b></span> </br>"
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
@@ -44,7 +47,7 @@
 		ORGAN_SLOT_LUNGS = /obj/item/organ/lungs,
 		ORGAN_SLOT_EYES = /obj/item/organ/eyes,
 		ORGAN_SLOT_EARS = /obj/item/organ/ears,
-		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue/lizard,
+		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue/wild_tongue/lizard,
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,

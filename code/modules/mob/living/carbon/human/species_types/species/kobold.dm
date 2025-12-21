@@ -4,15 +4,16 @@
 /datum/species/kobold
 	name = "Kobold"
 	id = "kobold"
-	desc = "<b>Kobold: Slaves of the Burrow</b><br>\
-	Collectives of kobolds once inhabited the great mountain ranges of Gronn, \
-	these tribes safe from the savage whipping winds of the plains and well defended by their terrain from mounted raiders. \
-	But then came the Iron Dwarves, who besieged the mountains by justification of Malum’s will. The dwarves formed the Iron Burrow, \
-	and the native tribes were made to slave in the mines for gems. Many kobolds follow Matthios as their liberator, \
-	breaking chains and fleeing west for safer lands. Some end up dead fleeing across the steppes of Gronn, but others make it to less cruel regimes.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 FOR</b></span> </br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> LANGUAGE: Draconic - ,s</b></span> </br>"
-
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/racial/gronn
+	origin = "Gronn"
+	base_name = "Zard"
+	desc = "<b>Kobold</b><br>\
+	Short in stature and typically scrawny, these little lizards make up for it in their natural agility. Interestingly, no historical relation has been found between this race and that of the \
+	hardy bog-dwelling Zardmen, past their somewhat-similar appearance. Kobolds often dwell in caves or in the outskirts of civilization, preferring to keep to themselves in small homogeneous groups \
+	or alone rather than engage with tall-folk, given their widespread stereotype of being thieves or ne'er-do-wells. Scarlet Reach is no exception to this, and some Kobolds have even dared to brave the\
+	odds and try their luck amongst Humen society.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 FOR</b></span> </br>"
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
@@ -48,7 +49,7 @@
 		ORGAN_SLOT_LUNGS = /obj/item/organ/lungs,
 		ORGAN_SLOT_EYES = /obj/item/organ/eyes,
 		ORGAN_SLOT_EARS = /obj/item/organ/ears,
-		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue/lizard,
+		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue/wild_tongue/lizard,
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,

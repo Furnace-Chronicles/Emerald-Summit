@@ -177,6 +177,14 @@
 	desc = "Whether it's by having an annoying sibling that kept prodding me with a stick, or years of study and observation, I've become adept at both parrying and dodging stronger opponents, by learning their moves and studying them."
 	added_traits = list(TRAIT_SENTINELOFWITS)
 
+/datum/virtue/combat/combat_aware
+	name = "Combat Aware"
+	desc = "The opponent's flick of their wrist. The sound of maille snapping. The desperate breath as the opponent's stamina wanes. All of this is made more clear to you through intuition or experience."
+	custom_text = "Shows a lot more combat information via floating text. Has a toggle."
+	added_traits = list(TRAIT_COMBAT_AWARE)
+
+/datum/virtue/combat/combat_aware/apply_to_human(mob/living/carbon/human/recipient)
+	recipient.verbs += /mob/living/carbon/human/proc/togglecombatawareness
 
 /datum/virtue/combat/hollow_life
 	name = "Hollow Lyfe"
@@ -195,12 +203,15 @@
 		else
 			recipient.mob_biotypes |= MOB_UNDEAD //Undead biotype is already applied by damned vice.
 
-/datum/virtue/combat/vampire
+/datum/virtue/combat/crimson_curse
 	name = "Crimson Curse"
-	desc = "The dark gift of vampirism courses through my veins. I thirst for blood, shun the light of day, and possess unnatural resilience and strength. And yet these fools dare call me monster..."
+	desc = "You suffer from the Crimson Curse, a weak form of Vampirism acquired from dark rites or a particularly cruel hex. Unlike a 'true' Vampire, you are incapable of converting others or commiting Diablerie."
 
-/datum/virtue/combat/vampire/apply_to_human(mob/living/carbon/human/recipient)
-	var/datum/antagonist/vampirelord/lesser/new_antag = new /datum/antagonist/vampirelord/lesser/stray()
+/datum/virtue/combat/crimson_curse/apply_to_human(mob/living/carbon/human/recipient)
+	//Hacky but we need to do this, otherwise the CC trait isn't applied before vampire checks for the trait and stops us from being Clan Leader
+	ADD_TRAIT(recipient, TRAIT_CRIMSON_CURSE, TRAIT_GENERIC)
+	addtimer(CALLBACK(src, .proc/crimson_apply, recipient), 30)
+
+/datum/virtue/combat/crimson_curse/proc/crimson_apply(mob/living/carbon/human/recipient)
+	var/datum/antagonist/vampire/stray/new_antag = new /datum/antagonist/vampire/stray(incoming_clan = /datum/clan/strays, generation = GENERATION_THINBLOOD)
 	recipient.mind.add_antag_datum(new_antag)
-	recipient.energy = recipient.max_energy
-	recipient.update_health_hud()
