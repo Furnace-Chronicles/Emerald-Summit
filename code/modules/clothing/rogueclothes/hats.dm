@@ -1163,6 +1163,7 @@
 	icon_state = "graggarplatehelm"
 	max_integrity = 600
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEFACIALHAIR
+	var/active_item = FALSE
 
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_HORDE))
@@ -1171,6 +1172,21 @@
 		user.ignite_mob()
 		user.Stun(40)
 	..()
+
+/obj/item/clothing/head/roguetown/helmet/heavy/graggar/equipped(mob/living/user, slot)
+	. = ..()
+	if(active_item)
+		return
+	if(slot == SLOT_HEAD)
+		active_item = TRUE
+		ADD_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)
+
+/obj/item/clothing/head/roguetown/helmet/heavy/graggar/dropped(mob/living/user)
+	..()
+	if(!active_item)
+		return
+	active_item = FALSE
+	REMOVE_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/matthios/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_COMMIE))
@@ -2265,6 +2281,29 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
+
+
+/obj/item/clothing/head/roguetown/helmet/heavy/volfplate/berserker
+	name = "volfskulle bascinet"
+	desc = "A steel bascinet helmet with a snarling visor that protects the entire head and face. Just like the nitebeasts it mimics, so too does the helmet's teeth glisten with flesh-sundering sharpness."
+	adjustable = CANT_CADJUST
+	var/active_item = FALSE
+
+/obj/item/clothing/head/roguetown/helmet/heavy/volfplate/berserker/equipped(mob/living/user, slot)
+	. = ..()
+	if(slot == SLOT_HEAD)
+		active_item = TRUE
+		ADD_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)
+		to_chat(user, span_red("The bascinet's visor chitters, and your jaw tightens with symbiotic intent.."))
+	return
+
+/obj/item/clothing/head/roguetown/helmet/heavy/volfplate/berserker/dropped(mob/living/user)
+	..()
+	if(!active_item)
+		return
+	active_item = FALSE
+	REMOVE_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)
+	to_chat(user, span_red("..and like that, the bascinet's visor goes dormant once more - a strange pressure, relieved from your jaw."))
 
 /obj/item/clothing/head/roguetown/helmet/leather/advanced
 	name = "hardened leather helmet"
