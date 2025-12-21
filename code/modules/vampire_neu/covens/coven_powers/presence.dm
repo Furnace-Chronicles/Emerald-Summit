@@ -21,28 +21,42 @@
 	vitae_cost = 100
 	range = 4
 	multi_activate = TRUE
-	cooldown_length = 60 SECONDS
-
-/datum/coven_power/presence/awe/pre_activation_checks(mob/living/target)
-	var/mypower = owner.STAINT
-	var/theirpower = target.STAINT - 5
-	if((theirpower >= mypower))
-		to_chat(owner, span_warning("[target]'s mind is too powerful to sway!"))
-		return FALSE
-
-	return TRUE
+	cooldown_length = 30 SECONDS
 
 /datum/coven_power/presence/awe/activate(mob/living/carbon/human/target)
 	. = ..()
+	var/mypower = owner.STAINT
+	var/theirpower = target.STAINT
+	var/difference = mypower - theirpower
+
+	if(difference < -2)
+		to_chat(target, "<span class='userlove'><b>You hesitate for a moment.</b></span>")
+		target.visible_message(span_suicide("[target] hesitates for a moment."))
+		target.Immobilize(2)
 	target.remove_overlay(MUTATIONS_LAYER)
 	var/mutable_appearance/presence_overlay = mutable_appearance('icons/effects/clan.dmi', "presence", -MUTATIONS_LAYER)
 	presence_overlay.pixel_z = 1
 	target.overlays_standing[MUTATIONS_LAYER] = presence_overlay
 	target.apply_overlay(MUTATIONS_LAYER)
-	to_chat(target, "<span class='userlove'><b>It wouldn't hurt to listen...</b></span>")
-	playsound(target,'sound/villain/wonder.ogg', 40)
-	target.create_walk_to(3 SECONDS, owner)
-
+	switch(difference)
+		if(-2)
+			to_chat(target, "<span class='userlove'><b>You hesitate.</b></span>")
+			target.visible_message(span_suicide("[target] hesitates."))
+			target.Immobilize(3)
+		if(-1)
+			to_chat(target, "<span class='userlove'><b>The world becomes a little foggy...</b></span>")
+			target.visible_message(span_suicide("[target] looks dazed for a moment."))
+			target.Immobilize(4)
+		if(0 to INFINITY)
+			if(!target.cmode)
+				to_chat(target, "<span class='userlove'><b>It wouldn't hurt to listen...</b></span>")
+				playsound(target,'sound/villain/wonder.ogg', 40)
+				target.create_walk_to(3 SECONDS, owner)
+			else
+				to_chat(target, "<span class='userdanger'><b>My legs won't stop moving!</b></span>")
+				playsound(target,'sound/villain/wonder_secret_known.ogg', 40)
+				target.create_walk_to(1.5 SECONDS, owner)
+	
 	if(!owner.cmode)
 		to_chat(target, "<span class='userlove'><b>Follow me~</b></span>")
 		owner.say("Follow me~")
@@ -68,10 +82,18 @@
 	vitae_cost = 100
 
 	multi_activate = TRUE
-	cooldown_length = 60 SECONDS
+	cooldown_length = 30 SECONDS
 
 /datum/coven_power/presence/dread_gaze/activate(mob/living/carbon/human/target)
 	. = ..()
+	var/mypower = owner.STAINT
+	var/theirpower = target.STAINT
+	var/difference = mypower - theirpower
+
+	if(difference < -2)
+		to_chat(target, "<span class='userlove'><b>You hesitate for a moment.</b></span>")
+		target.visible_message(span_suicide("[target] hesitates for a moment."))
+		target.Immobilize(2)
 	target.remove_overlay(MUTATIONS_LAYER)
 	var/mutable_appearance/presence_overlay = mutable_appearance('icons/effects/clan.dmi', "presence", -MUTATIONS_LAYER)
 	presence_overlay.pixel_z = 1
@@ -80,13 +102,23 @@
 
 	to_chat(target, "<span class='userlove'><b>FEAR ME</b></span>")
 	owner.say("FEAR ME!!")
-	var/datum/cb = CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, step_away_caster), owner)
-	for(var/i in 1 to 30)
-		addtimer(cb, (i - 1) * target.total_multiplicative_slowdown())
-	target.emote("scream")
-	target.do_jitter_animation(3 SECONDS)
-	to_chat(target, "<span class='userlove'><b>OH GOD, PLEASE SAVE ME!.</b></span>")
-	playsound(target,'sound/villain/wonder.ogg', 40)
+	switch(difference)
+		if(-2)
+			to_chat(target, "<span class='userlove'><b>You hesitate.</b></span>")
+			target.visible_message(span_suicide("[target] hesitates."))
+			target.Immobilize(3)
+		if(-1)
+			to_chat(target, "<span class='userdanger'><b>You're paralyzed with fear.</b></span>")
+			target.visible_message(span_suicide("[target] freezes up."))
+			target.Immobilize(4)
+		if(0 to INFINITY)
+			var/datum/cb = CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, step_away_caster), owner)
+			for(var/i in 1 to 30)
+				addtimer(cb, (i - 1) * target.total_multiplicative_slowdown())
+			target.emote("scream")
+			target.do_jitter_animation(3 SECONDS)
+			to_chat(target, "<span class='userlove'><b>OH GOD, PLEASE SAVE ME!</b></span>")
+			playsound(target,'sound/villain/wonder.ogg', 40)
 
 /datum/coven_power/presence/dread_gaze/deactivate(mob/living/carbon/human/target)
 	. = ..()
@@ -114,18 +146,36 @@
 
 /datum/coven_power/presence/fall/activate(mob/living/carbon/human/target)
 	. = ..()
+	var/mypower = owner.STAINT
+	var/theirpower = target.STAINT
+	var/difference = mypower - theirpower
+
+	if(difference < -2)
+		to_chat(target, "<span class='userlove'><b>You hesitate for a moment.</b></span>")
+		target.visible_message(span_suicide("[target] hesitates for a moment."))
+		target.Immobilize(2)
+		return FALSE
 	target.remove_overlay(MUTATIONS_LAYER)
 	var/mutable_appearance/presence_overlay = mutable_appearance('icons/effects/clan.dmi', "presence", -MUTATIONS_LAYER)
 	presence_overlay.pixel_z = 1
 	target.overlays_standing[MUTATIONS_LAYER] = presence_overlay
 	target.apply_overlay(MUTATIONS_LAYER)
-
-	target.Immobilize(3 SECONDS)
-	to_chat(target, "<span class='userlove'><b>KNEEL</b></span>")
-	to_chat(target, "<span class='userlove'><b>MY NEW GOD!</b></span>")
-	playsound(target,'sound/villain/wonder_secret_known.ogg', 40)
 	owner.say("KNEEL!!")
-	target.set_resting(TRUE, TRUE)
+	switch(difference)
+		if(-2)
+			to_chat(target, "<span class='userlove'><b>You hesitate.</b></span>")
+			target.visible_message(span_suicide("[target] hesitates."))
+			target.Immobilize(3)
+		if(-1)
+			to_chat(target, "<span class='userlove'><b>The world fogs up for a moment.</b></span>")
+			target.visible_message(span_suicide("[target] looks dazed for a moment."))
+			target.Immobilize(4)
+		if(0 to INFINITY)
+			target.Immobilize(4 SECONDS)
+			to_chat(target, "<span class='userlove'><b>KNEEL</b></span>")
+			to_chat(target, "<span class='userlove'><b>MY NEW GOD!</b></span>")
+			target.set_resting(TRUE, TRUE)
+			playsound(target,'sound/villain/wonder_secret_known.ogg', 40)
 
 /datum/coven_power/presence/fall/deactivate(mob/living/carbon/human/target)
 	. = ..()
@@ -193,7 +243,7 @@
 	level = 5
 	research_cost = 4
 	check_flags = COVEN_CHECK_CAPABLE|COVEN_CHECK_SPEAK
-	vitae_cost = 35
+	vitae_cost = 125
 	toggled = TRUE
 	cooldown_length = 90 SECONDS
 	duration_length = 5 SECONDS

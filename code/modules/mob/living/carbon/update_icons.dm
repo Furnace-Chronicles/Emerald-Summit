@@ -55,6 +55,77 @@
 	if(client)
 		update_vision_cone()
 
+/// Schedule a deferred icon update - batches multiple calls in the same tick
+/mob/living/carbon/proc/queue_icon_update(update_type)
+	pending_icon_updates |= update_type
+	if(!icon_update_scheduled_time || icon_update_scheduled_time < world.time)
+		icon_update_scheduled_time = world.time
+		addtimer(CALLBACK(src, PROC_REF(process_pending_icon_updates)), 0, TIMER_UNIQUE | TIMER_OVERRIDE)
+
+/// Process all pending icon updates in a single batch
+/mob/living/carbon/proc/process_pending_icon_updates()
+	if(!pending_icon_updates)
+		return
+	var/updates = pending_icon_updates
+	pending_icon_updates = NONE
+	icon_update_scheduled_time = 0
+
+	if(updates & PENDING_UPDATE_BODY)
+		update_body_parts()
+	if(updates & PENDING_UPDATE_HAIR)
+		update_hair()
+	if(updates & PENDING_UPDATE_DAMAGE)
+		update_damage_overlays()
+	if(updates & PENDING_UPDATE_INV_HANDS)
+		update_inv_hands()
+	if(updates & PENDING_UPDATE_INV_GLOVES)
+		update_inv_gloves_real()
+	if(updates & PENDING_UPDATE_INV_SHOES)
+		update_inv_shoes_real()
+	if(updates & PENDING_UPDATE_INV_HEAD)
+		update_inv_head_real()
+	if(updates & PENDING_UPDATE_INV_BELT)
+		update_inv_belt_real()
+	if(updates & PENDING_UPDATE_INV_BACK)
+		update_inv_back_real()
+	if(updates & PENDING_UPDATE_INV_ARMOR)
+		update_inv_armor_real()
+	if(updates & PENDING_UPDATE_INV_SHIRT)
+		update_inv_shirt_real()
+	if(updates & PENDING_UPDATE_INV_PANTS)
+		update_inv_pants_real()
+	if(updates & PENDING_UPDATE_INV_CLOAK)
+		update_inv_cloak_real()
+
+// Base implementations for carbon mobs - these are just stubs in case someone makes a non-human carbon mob some day
+// /mob/living/carbon/human will override these
+/mob/living/carbon/proc/update_inv_gloves_real()
+	return
+
+/mob/living/carbon/proc/update_inv_shoes_real()
+	return
+
+/mob/living/carbon/proc/update_inv_head_real()
+	return
+
+/mob/living/carbon/proc/update_inv_belt_real()
+	return
+
+/mob/living/carbon/proc/update_inv_back_real()
+	return
+
+/mob/living/carbon/proc/update_inv_armor_real()
+	return
+
+/mob/living/carbon/proc/update_inv_shirt_real()
+	return
+
+/mob/living/carbon/proc/update_inv_pants_real()
+	return
+
+/mob/living/carbon/proc/update_inv_cloak_real()
+	return
+
 /mob/living/carbon/regenerate_icons()
 	if(notransform)
 		return 1
@@ -229,13 +300,13 @@
 	var/mutable_appearance/damage_overlay = mutable_appearance('icons/mob/dam_mob.dmi', "blank", -DAMAGE_LAYER)
 	overlays_standing[DAMAGE_LAYER] = damage_overlay
 
-	for(var/X in bodyparts)
-		var/obj/item/bodypart/BP = X
-		if(BP.dmg_overlay_type)
-			if(BP.brutestate)
-				damage_overlay.add_overlay("[BP.dmg_overlay_type]_[BP.body_zone]_[BP.brutestate]0")	//we're adding icon_states of the base image as overlays
-			if(BP.burnstate)
-				damage_overlay.add_overlay("[BP.dmg_overlay_type]_[BP.body_zone]_0[BP.burnstate]")
+	for(var/obj/item/bodypart/BP as anything in bodyparts)
+		if(!BP.dmg_overlay_type)
+			continue
+		if(BP.brutestate)
+			damage_overlay.add_overlay("[BP.dmg_overlay_type]_[BP.body_zone]_[BP.brutestate]0")
+		if(BP.burnstate)
+			damage_overlay.add_overlay("[BP.dmg_overlay_type]_[BP.body_zone]_0[BP.burnstate]")
 
 	apply_overlay(DAMAGE_LAYER)
 
@@ -397,7 +468,6 @@
 	update_body_parts()
 
 /mob/living/carbon/proc/update_body_parts()
-	//CHECK FOR UPDATE
 	var/oldkey = icon_render_key
 	icon_render_key = generate_icon_render_key()
 	if(oldkey == icon_render_key)
@@ -405,21 +475,16 @@
 
 	remove_overlay(BODYPARTS_LAYER)
 
-	for(var/X in bodyparts)
-		var/obj/item/bodypart/BP = X
-		BP.update_limb()
-
-	//LOAD ICONS
 	if(limb_icon_cache[icon_render_key])
 		load_limb_from_cache()
 		return
 
-	//GENERATE NEW LIMBS
 	var/list/new_limbs = list()
-	for(var/X in bodyparts)
-		var/obj/item/bodypart/BP = X
+	for(var/obj/item/bodypart/BP as anything in bodyparts)
+		BP.update_limb()
 		new_limbs += BP.get_limb_icon()
-	if(new_limbs.len)
+
+	if(length(new_limbs))
 		overlays_standing[BODYPARTS_LAYER] = new_limbs
 		limb_icon_cache[icon_render_key] = new_limbs
 
@@ -446,8 +511,7 @@
 
 /mob/living/carbon/proc/generate_icon_render_key()
 	. = list()
-	for(var/X in bodyparts)
-		var/obj/item/bodypart/BP = X
+	for(var/obj/item/bodypart/BP as anything in bodyparts)
 		. += BP.body_zone
 		switch(BP.use_digitigrade)
 			if(FULL_DIGITIGRADE)
@@ -456,10 +520,7 @@
 				. += "digitigrade_squashed"
 		if(BP.animal_origin)
 			. += BP.animal_origin
-		if(BP.status == BODYPART_ORGANIC)
-			. += "organic"
-		else
-			. += "robotic"
+		. += (BP.status == BODYPART_ORGANIC) ? "organic" : "robotic"
 
 	if(HAS_TRAIT(src, TRAIT_HUSK))
 		. += "husk"

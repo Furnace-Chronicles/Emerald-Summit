@@ -415,9 +415,14 @@
 					var/dam2take = round((get_complex_damage(AB,user,used_weapon.blade_dulling)/2),1)
 					if(dam2take)
 						var/intdam = used_weapon.max_blade_int ? INTEG_PARRY_DECAY : INTEG_PARRY_DECAY_NOSHARP
+						var/sharp_loss = SHARPNESS_ONHIT_DECAY
 						if(used_weapon == offhand)
 							intdam = INTEG_PARRY_DECAY_NOSHARP
+						if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+							sharp_loss += STRONG_SHP_BONUS
+							intdam += STRONG_INTG_BONUS
 						used_weapon.take_damage(intdam, BRUTE, used_weapon.d_type)
+						used_weapon.remove_bintegrity(sharp_loss, user)
 					return TRUE
 				else
 					return FALSE
@@ -545,6 +550,9 @@
 				playsound(get_turf(src), pick(W.parrysound), 100, FALSE)
 			if(src.client)
 				record_round_statistic(STATS_PARRIES)
+
+			var/def_verb = "parries"
+			var/att_verb = ""
 			if(istype(rmb_intent, /datum/rmb_intent/riposte))
 				src.visible_message(span_boldwarning("<b>[src]</b> ripostes [user] with [W]!"))
 			else
@@ -745,8 +753,13 @@
 			probclip += lucmod * 10
 		if(prob(probclip) && IS && IU)
 			var/intdam = IS.max_blade_int ? INTEG_PARRY_DECAY : INTEG_PARRY_DECAY_NOSHARP
+			var/sharp_loss = SHARPNESS_ONHIT_DECAY
+			if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+				sharp_loss += STRONG_SHP_BONUS
+				intdam += STRONG_INTG_BONUS
+
 			IS.take_damage(intdam, BRUTE, IU.d_type)
-			IS.remove_bintegrity(SHARPNESS_ONHIT_DECAY, src)
+			IS.remove_bintegrity(sharp_loss, src)
 
 			user.visible_message(span_warning("<b>[user]</b> clips [src]'s weapon!"))
 			playsound(user, 'sound/misc/weapon_clip.ogg', 100)
@@ -806,13 +819,10 @@
 /mob/living/carbon/human/proc/calculate_sentinel_bonus()
 	if(STAINT > 10)
 		var/fakeint = STAINT
-		if(status_effects.len)
-			for(var/S in status_effects)
-				var/datum/status_effect/status = S
-				if(status.effectedstats.len)
-					if(status.effectedstats["intelligence"])
-						if(status.effectedstats["intelligence"] > 0)
-							fakeint -= status.effectedstats["intelligence"]
+		if(length(status_effects))
+			for(var/datum/status_effect/status as anything in status_effects)
+				if(length(status.effectedstats) && status.effectedstats["intelligence"] > 0)
+					fakeint -= status.effectedstats["intelligence"]
 		if(fakeint > 10)
 			var/bonus = round(((fakeint - 10) / 2)) * 10
 			if(bonus > 0)

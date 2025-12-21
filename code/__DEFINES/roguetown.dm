@@ -142,7 +142,8 @@
 #define ARMOR_SPELLSINGER list("blunt" = 70, "slash" = 70, "stab" = 50, "piercing" = 30, "fire" = 0, "acid" = 0)
 #define ARMOR_GRUDGEBEARER list("blunt" = 40, "slash" = 200, "stab" = 200, "piercing" = 100, "fire" = 0, "acid" = 0)
 #define ARMOR_ZIZOCONCSTRUCT list("blunt" = 60, "slash" = 70, "stab" = 70, "piercing" = 60, "fire" = 40, "acid" = 10)
-
+// Blocks every hit, at least once
+#define ARMOR_GRONN_LIGHT list("blunt" = 80, "slash" = 80, "stab" = 30, "piercing" = 30, "fire" = 0, "acid" = 0)
 // Weapon balance defines
 #define WBALANCE_NORMAL 0
 #define WBALANCE_HEAVY -1
@@ -175,6 +176,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/human/halfelf,\
 	/datum/species/elf/dark,\
 	/datum/species/elf/wood,\
+	/datum/species/elf/sun,\
 	/datum/species/dwarf/mountain,\
 	/datum/species/tieberian,\
 	/datum/species/aasimar,\
@@ -200,6 +202,7 @@ Balloon Alert / Floating Text defines
 #define RACES_NOBILITY_ELIGIBLE \
     /datum/species/human/northern,\
     /datum/species/elf/wood,\
+    /datum/species/elf/sun,\
     /datum/species/human/halfelf,\
     /datum/species/demihuman,\
     /datum/species/dwarf/mountain,\
@@ -276,6 +279,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/human/halfelf,\
 	/datum/species/elf/dark,\
 	/datum/species/elf/wood,\
+	/datum/species/elf/sun,\
 	/datum/species/dwarf/mountain,\
 	/datum/species/tieberian,\
 	/datum/species/aasimar,\
@@ -303,6 +307,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/human/halfelf,\
 	/datum/species/elf/dark,\
 	/datum/species/elf/wood,\
+	/datum/species/elf/sun,\
 	/datum/species/dwarf/mountain,\
 	/datum/species/tieberian,\
 	/datum/species/aasimar,\
@@ -345,6 +350,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/human/halfelf,\
 	/datum/species/elf/dark,\
 	/datum/species/elf/wood,\
+	/datum/species/elf/sun,\
 	/datum/species/tieberian,\
 	/datum/species/aasimar,\
 	/datum/species/lizardfolk,\
@@ -369,6 +375,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/human/halfelf,\
 	/datum/species/elf/dark,\
 	/datum/species/elf/wood,\
+	/datum/species/elf/sun,\
 	/datum/species/tieberian,\
 	/datum/species/aasimar,\
 	/datum/species/lizardfolk,\
@@ -465,6 +472,23 @@ GLOBAL_LIST_EMPTY(noticeboard_posts)
 GLOBAL_LIST_EMPTY(premium_noticeboardposts)
 GLOBAL_LIST_EMPTY(job_respawn_delays)
 GLOBAL_LIST_EMPTY(round_join_times)
+
+//preference stuff
+#define FAMILY_NONE "None"
+#define FAMILY_PARTIAL "Siblings"
+#define FAMILY_NEWLYWED "Newlywed"
+#define FAMILY_FULL "Parent"
+
+#define ANY_GENDER "Any gender"
+#define SAME_GENDER "Same gender"
+#define DIFFERENT_GENDER "Different gender"
+
+#define FAMILY_FATHER "Father"
+#define FAMILY_MOTHER "Mother"
+#define FAMILY_PROGENY "Progeny"
+#define FAMILY_ADOPTED "Adoptive Progeny"
+#define FAMILY_OMMER "Parents Sibling"
+#define FAMILY_INLAW "In Law"
 
 //stress levels
 #define STRESS_MAX 30

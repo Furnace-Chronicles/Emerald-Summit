@@ -110,6 +110,7 @@
 
 	var/converted_type
 
+	var/threat_region = "" // Key used to look up threat region this area belongs to 
 	var/coven_protected = FALSE
 
 /**
