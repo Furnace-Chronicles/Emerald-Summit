@@ -9,6 +9,7 @@
 	chargetime = 0
 	hitsound = list('sound/combat/hits/bladed/genslash (1).ogg', 'sound/combat/hits/bladed/genslash (2).ogg', 'sound/combat/hits/bladed/genslash (3).ogg')
 	swingdelay = 0
+	penfactor = 10
 	damfactor = 1.1
 	item_d_type = "slash"
 
@@ -30,7 +31,7 @@
 	animname = "stab"
 	blade_class = BCLASS_STAB
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 20
+	penfactor = 35
 	chargetime = 0
 	swingdelay = 0
 	item_d_type = "stab"

@@ -105,8 +105,12 @@
 			continue
 		if(bp && istype(bp , /obj/item/clothing))
 			var/obj/item/clothing/C = bp
-			if(bypass_item && C == bypass_item)
-				continue
+			if(bypass_item)
+				if(islist(bypass_item))
+					if(C in bypass_item)
+						continue
+				else if(C == bypass_item)
+					continue
 			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
 				// Get zone-specific integrity if available
 				var/zone_integrity = C.get_zone_integrity(def_zone)
@@ -183,7 +187,6 @@
 		if(d_type == "blunt")
 			if(used.armor?.getRating("blunt") > 0)
 				var/bluntrating = used.armor.getRating("blunt")
-				intdamage -= intdamage * ((bluntrating / 2) / 100)
 		if(istype(used_weapon) && used_weapon.is_silver && ((used.smeltresult in list(/obj/item/ingot/aaslag, /obj/item/ingot/aalloy, /obj/item/ingot/purifiedaalloy)) || used.GetComponent(/datum/component/cursed_item)))
 			// Blessed silver delivers more int damage against "cursed" alloys, see component for multiplier values
 			var/datum/component/silverbless/bless = used_weapon.GetComponent(/datum/component/silverbless)

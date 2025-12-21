@@ -1825,14 +1825,12 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 
 	var/armor_block = 0
 	var/obj/item/clothing/bypassed_armor
-	// Precision strikes: Swift weapons always, or NORMAL balance weapons with can_precision_strike when wielded
+	var/list/bypassed_armors = list()
 	var/can_do_precision = FALSE
-	if(I.wbalance == WBALANCE_SWIFT)
-		can_do_precision = TRUE
-	else if(I.wbalance == WBALANCE_NORMAL && I.can_precision_strike && I.wielded)
+	if(I.wbalance != WBALANCE_HEAVY && (bladec in GLOB.stab_bclasses))
 		can_do_precision = TRUE
 
-	if(user.cmode && istype(user.rmb_intent, /datum/rmb_intent/aimed) && can_do_precision && (bladec in GLOB.stab_bclasses))
+	if(user.cmode && istype(user.rmb_intent, /datum/rmb_intent/aimed) && can_do_precision)
 		if(selzone in GLOB.precision_vulnerable_zones)
 			var/mob/living/carbon/human/attacker = user
 			var/obj/item/clothing/outer_armor = H.get_best_armor(selzone, I.d_type, bladec, pen)
@@ -1854,14 +1852,30 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 					precision_chance -= (max(H.STASPD, H.STACON) - 10) * 5
 					precision_chance = clamp(precision_chance, 1, 95)
 
-					if(prob(precision_chance))
-						bypassed_armor = outer_armor
+					var/rolled = roll(1, 100)
+					var/success = rolled <= precision_chance
+
+					if(attacker.client?.prefs?.showrolls)
+						to_chat(attacker, span_notice("Precision strike: [rolled]/[precision_chance]%"))
+
+					if(success)
+						bypassed_armors += outer_armor
+						if(selzone == BODY_ZONE_L_ARM || selzone == BODY_ZONE_R_ARM)
+							var/obj/item/clothing/torso_armor = H.get_best_worn_armor(BODY_ZONE_CHEST, I.d_type)
+							if(torso_armor && torso_armor != outer_armor && (torso_armor.body_parts_covered_dynamic & ARMS))
+								bypassed_armors += torso_armor
+
 						H.visible_message(span_danger("[user] strikes through a gap in [H]'s armor!"), span_userdanger("[user] finds a gap in my armor!"))
+						attacker.filtered_balloon_alert(TRAIT_COMBAT_AWARE, "Gap found!")
+					else
+						H.visible_message(span_warning("[user] attempts to strike through a gap in [H]'s armor, but fails!"), span_warning("[user] searches for a gap in my armor, but fails to find one!"))
+						attacker.filtered_balloon_alert(TRAIT_COMBAT_AWARE, "Gap not found")
 
 	var/intent_damage_mult = user.used_intent.damfactor
 	var/combined_intdamfactor = used_intfactor * intent_damage_mult
 
-	armor_block = H.run_armor_check(selzone, I.d_type, "", "",pen, damage = Iforce, blade_dulling=user.used_intent.blade_class, intdamfactor = combined_intdamfactor, bypass_item = bypassed_armor, used_weapon = I)
+	var/bypass_param = length(bypassed_armors) > 0 ? bypassed_armors : bypassed_armor
+	armor_block = H.run_armor_check(selzone, I.d_type, "", "",pen, damage = Iforce, blade_dulling=user.used_intent.blade_class, intdamfactor = combined_intdamfactor, bypass_item = bypass_param, used_weapon = I)
 
 	var/nodmg = FALSE
 	var/raw_damage = 0
