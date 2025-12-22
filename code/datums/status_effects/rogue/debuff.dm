@@ -390,7 +390,7 @@
 	id = "revived"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/revived
 	effectedstats = list("strength" = -1, "perception" = -1, "intelligence" = -1, "endurance" = -1, "constitution" = -2, "speed" = -1, "fortune" = -1)
-	duration = 1.5 HOURS		//Punishing, meant to last for the rest of the round if it happened about halfway through.
+	duration = 1 HOURS		//Punishing, meant to last for the rest of the round if it happened about halfway through.
 
 /atom/movable/screen/alert/status_effect/debuff/revived
 	name = "Revival Sickness"
