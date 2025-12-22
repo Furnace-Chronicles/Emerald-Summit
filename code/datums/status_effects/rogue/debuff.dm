@@ -210,8 +210,8 @@
 /datum/status_effect/debuff/devitalised
 	id = "devitalised"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/devitalised
-	effectedstats = list("strength" = -1, "endurance" = -1, "constitution" = -1, "speed" = -1, "fortune" = -1)	//Slightly punishing.
-	duration = 1.5 HOURS	//Punishing, same time as revival, but mildly less punishing than revival itself.
+	effectedstats = list("strength" = -1, "endurance" = -1, "constitution" = -2, "perception" = -1, "speed" = -1, "fortune" = -1)	//Mildly punishing.
+	duration = 1.5 HOURS	//Punishing, meant to last for the rest of the round if it happened about halfway through.
 
 /atom/movable/screen/alert/status_effect/debuff/devitalised
 	name = "Devitalised"
