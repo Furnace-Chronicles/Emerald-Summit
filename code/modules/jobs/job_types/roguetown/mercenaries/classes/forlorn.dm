@@ -8,6 +8,7 @@
 	cmode_music = 'sound/music/combat_blackstar.ogg'
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_RANESHENI
+	origin_override_type = /datum/virtue/origin/raneshen
 
 	// tuff boys
 	traits_applied = list(TRAIT_MEDIUMARMOR)
@@ -54,5 +55,3 @@
 		/obj/item/roguekey/mercenary,
 		/obj/item/rogueweapon/scabbard/sheath,
 	)
-
-	change_origin(H, /datum/virtue/origin/raneshen)

@@ -6,6 +6,7 @@
 	cmode_music = 'sound/music/combat_vaquero.ogg'
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_ETRUSCA
+	origin_override_type = /datum/virtue/origin/etrusca
 
 	subclass_languages = list(
 		/datum/language/etruscan,
@@ -88,5 +89,3 @@
 			backr = /obj/item/rogue/instrument/flute
 		if("Trumpet")
 			backr = /obj/item/rogue/instrument/trumpet
-
-	change_origin(H, /datum/virtue/origin/etrusca)

@@ -8,6 +8,7 @@
 	class_select_category = CLASS_CAT_KAZENGUN
 	cmode_music = 'sound/music/combat_kazengite.ogg'
 	maximum_possible_slots = 1
+	origin_override_type =  /datum/virtue/origin/kazengun
 
 	subclass_languages = list(/datum/language/kazengunese)
 
@@ -51,5 +52,3 @@
 		/obj/item/flashlight/flare/torch/lantern,
 	)
 	H.adjust_blindness(-3)
-
-	change_origin(H, /datum/virtue/origin/kazengun)

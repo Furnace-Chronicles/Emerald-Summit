@@ -12,6 +12,7 @@
 	class_select_category = CLASS_CAT_RACIAL
 	cmode_music = 'sound/music/combat_dwarf.ogg'
 	extra_context = "This subclass is race-limited to: Dwarves."
+	origin_override_type = /datum/virtue/origin/hammerhold
 
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_TRAINED_SMITH, TRAIT_SEEPRICES)
 	subclass_stats = list(
@@ -66,8 +67,6 @@
 			/obj/item/clothing/head/roguetown/helmet/heavy/dwarven/smith,
 			/obj/item/flashlight/flare/torch/lantern,
 			)
-
-	change_origin(H, /datum/virtue/origin/hammerhold)
 
 /datum/advclass/mercenary/grudgebearer/soldier
 	name = "Grudgebearer Soldier"
@@ -143,8 +142,6 @@
 				r_hand = /obj/item/rogueweapon/mace/goden/steel
 				H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 				H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
-
-	change_origin(H, /datum/virtue/origin/hammerhold)
 
 // Dwarf Smith Armor
 

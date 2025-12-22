@@ -7,6 +7,7 @@
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_ETRUSCA
 	cmode_music = 'sound/music/combat_condottiero.ogg'
+	origin_override_type = /datum/virtue/origin/etrusca
 
 	subclass_languages = list(
 		/datum/language/etruscan,
@@ -63,5 +64,3 @@
 		/obj/item/rogueweapon/huntingknife/idagger/navaja,
 		/obj/item/lockpick = 1
 	)
-
-	change_origin(H, /datum/virtue/origin/etrusca)

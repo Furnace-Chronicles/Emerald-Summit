@@ -23,7 +23,7 @@
 		STATKEY_PER = 1,
 		STATKEY_SPD = -1
 	)
-
+	origin_override_type = /datum/virtue/origin/otava
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
@@ -79,5 +79,3 @@
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	backl = /obj/item/rogueweapon/shield/tower/metal
 	backpack_contents = list(/obj/item/roguekey/mercenary = 1, /obj/item/flashlight/flare/torch = 1)
-
-	change_origin(H, /datum/virtue/origin/otava)

@@ -7,6 +7,7 @@
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_RANESHENI
 	cmode_music = 'sound/music/combat_desertrider.ogg' //GREATEST COMBAT TRACK IN THE GAME SO FAR BESIDES MAYBE MANIAC2.OGG
+	origin_override_type = /datum/virtue/origin/raneshen
 
 	subclass_languages = list(
 		/datum/language/celestial,
@@ -79,8 +80,6 @@
 	belt = /obj/item/storage/belt/rogue/leather/shalal
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
-
-	change_origin(H, /datum/virtue/origin/raneshen)
 
 /datum/advclass/mercenary/desert_rider/zeybek
 	name = "Desert Rider Zeybek"
@@ -160,8 +159,6 @@
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
 
-	change_origin(H, /datum/virtue/origin/raneshen)
-
 /datum/advclass/mercenary/desert_rider/almah
 	name = "Desert Rider Almah"
 	tutorial = "Almah are those skilled in both magyck and swordsmanship, but excelling in nothing."
@@ -229,5 +226,3 @@
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	beltr = /obj/item/rogueweapon/scabbard/sword
 	l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
-
-	change_origin(H, /datum/virtue/origin/raneshen)

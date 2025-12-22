@@ -6,7 +6,7 @@
 	outfit = /datum/outfit/job/mercenary/atgervi
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_GRONN
-
+	origin_override_type = /datum/virtue/origin/racial/gronn
 	subclass_languages = list(/datum/language/gronnic)
 
 	traits_applied = list(TRAIT_MEDIUMARMOR)
@@ -66,8 +66,6 @@
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
-
-	change_origin(H, /datum/virtue/origin/racial/gronn)
 
 /datum/advclass/mercenary/atgervi/shaman
 	name = "Atgervi Shaman"
@@ -129,8 +127,6 @@
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
-
-	change_origin(H, /datum/virtue/origin/racial/gronn)
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/atgervi
 	name = "vagarian hauberk"

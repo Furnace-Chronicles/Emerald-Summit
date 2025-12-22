@@ -8,6 +8,7 @@
 	class_select_category = CLASS_CAT_KAZENGUN
 	category_tags = list(CTAG_MERCENARY)
 	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_HARDDISMEMBER, TRAIT_NOPAINSTUN)
+	origin_override_type = /datum/virtue/origin/kazengun
 	cmode_music = 'sound/music/combat_kazengite.ogg'
 	subclass_stats = list(
 		STATKEY_CON = 3,
@@ -48,8 +49,6 @@
 		/obj/item/roguekey/mercenary,
 		/obj/item/flashlight/flare/torch/lantern,
 		)
-
-	change_origin(H, /datum/virtue/origin/kazengun)
 
 /datum/advclass/mercenary/rumaclan/ishu
 	name = "Ruma Clan Ishu"
@@ -104,5 +103,3 @@
 			belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun
 		if("Smokebombs")
 			belt = /obj/item/storage/belt/rogue/leather/smokebelt/black
-
-	change_origin(H, /datum/virtue/origin/kazengun)
