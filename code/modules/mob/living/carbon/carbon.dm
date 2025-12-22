@@ -154,6 +154,10 @@
 			take_bodypart_damage(10,check_armor = TRUE)
 			if(IsOffBalanced())
 				Paralyze(20)
+			else
+				Immobilize(2 SECONDS)
+			if(prob(20))
+				emote("scream") // lifeweb reference ?? xd
 	if(iscarbon(hit_atom) && hit_atom != src)
 		var/mob/living/carbon/victim = hit_atom
 		if(victim.movement_type & FLYING)
@@ -219,10 +223,7 @@
 					if(!throwable_mob.buckled)
 						thrown_thing = throwable_mob
 						thrown_speed = 1
-						if(STASTR > throwable_mob.STACON)
-							thrown_range = 4
-						else
-							thrown_range = 1
+						thrown_range = max(round((STASTR/throwable_mob.STACON)*2), 1)
 						stop_pulling()
 						if(G.grab_state < GRAB_AGGRESSIVE)		//If we have the Giant Virtue, and aren't throwing another Giant, we can do it w/o aggro grab
 							if(HAS_TRAIT(throwable_mob, TRAIT_BIGGUY))
