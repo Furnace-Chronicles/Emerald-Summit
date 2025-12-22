@@ -39,7 +39,7 @@
 	OFFSET_FACE_F = list(0,6), OFFSET_BELT_F = list(0,1), OFFSET_BACK_F = list(0,1), \
 	OFFSET_NECK_F = list(0,1), OFFSET_MOUTH_F = list(0,1), OFFSET_PANTS_F = list(0,1), \
 	OFFSET_SHIRT_F = list(0,1), OFFSET_ARMOR_F = list(0,1), OFFSET_UNDIES_F = list(0,8))
-	race_bonus = list(STAT_STRENGTH = 2, STAT_CONSTITUTION = 2, STAT_ENDURANCE = 1, STAT_INTELLIGENCE = -3, STAT_SPEED = -1)
+	race_bonus = list(STATKEY_STR = 2, STATKEY_CON = 2, STATKEY_END = 1, STATKEY_INT = -3, STATKEY_SPD = -1)
 	enflamed_icon = "widefire"
 	body_marking_sets = list(
 		/datum/body_marking_set/none,

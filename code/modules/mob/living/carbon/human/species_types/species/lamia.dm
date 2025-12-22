@@ -46,7 +46,7 @@
 		)
 	inherent_traits = list(TRAIT_LONGSTRIDER, TRAIT_WILD_EATER, TRAIT_LAMIAN_TAIL, TRAIT_CALTROPIMMUNE)
 	disliked_food = NONE
-	race_bonus = list(STAT_STRENGTH = 1, STAT_SPEED = -1) // SMOKINGRAWOCB
+	race_bonus = list(STATKEY_STR = 1, STATKEY_SPD = -1) // SMOKINGRAWOCB
 	enflamed_icon = "widefire"
 /* I have no idea how rendering works and I can't figure it out!!
 	bodypart_overrides = list(

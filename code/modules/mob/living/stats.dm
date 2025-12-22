@@ -35,7 +35,7 @@
 	return TRUE
 
 /datum/species
-	// Associative list of stat (STAT_STRENGTH, etc) bonuses used to differentiate each race. They should ALWAYS be positive.
+	// Associative list of stat (STATKEY_STR, etc) bonuses used to differentiate each race. They should ALWAYS be positive.
 	var/list/race_bonus = list()
 	var/construct = 0
 

@@ -17,7 +17,7 @@
 	Tennites in the west have come to associate them with Zizo, as a mockery of Psydon’s creation.<br>\
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> Easy decapitation</b></span> </br>"
 	// Stat balancing. Per-server decision. Preferably keep neutral until analysis post testmerges.
-	//race_bonus = list(STAT_INTELLIGENCE = 1, STAT_CONSTITUTION = 1)
+	//race_bonus = list(STATKEY_INT = 1, STATKEY_CON = 1)
 	skin_tone_wording = "Catalyst"
 
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,MUTCOLORS_PARTSONLY)
