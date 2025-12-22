@@ -69,7 +69,7 @@
 		bleed_rate = FALSE
 	if(bleed_rate)
 		bleed(bleed_rate)
-	else if(blood_volume < BLOOD_VOLUME_NORMAL)
+	else if(blood_volume < BLOOD_VOLUME_NORMAL && stat != DEAD)
 		blood_volume = min(blood_volume + 1, BLOOD_VOLUME_NORMAL)
 
 	// Non-vampiric bloodpool regen.
