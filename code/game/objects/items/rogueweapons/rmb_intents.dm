@@ -252,9 +252,9 @@
 
 	if(!L.can_see_cone(user) && L.mind)
 		perc = 0
-    newcd = 10 SECONDS
+		newcd = 10 SECONDS
 		special_msg = span_warning("They need to see me for me to feint them!")
-    
+
   user.apply_status_effect(/datum/status_effect/debuff/feintcd, newcd)
 
 	perc = CLAMP(perc, 0, 90)
