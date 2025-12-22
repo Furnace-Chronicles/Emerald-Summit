@@ -210,8 +210,8 @@
 /datum/status_effect/debuff/devitalised
 	id = "devitalised"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/devitalised
-	effectedstats = list("strength" = -1, "endurance" = -1, "constitution" = -2, "perception" = -1, "speed" = -1, "fortune" = -1)	//Mildly punishing.
-	duration = 1.5 HOURS	//Punishing, meant to last for the rest of the round if it happened about halfway through.
+	effectedstats = list("strength" = -1, "endurance" = -1, "constitution" = -1, "speed" = -1, "fortune" = -1)	//Mildly punishing.
+	duration = 30 MINUTES	//Punishing, meant to last for the rest of the round if it happened about halfway through.
 
 /atom/movable/screen/alert/status_effect/debuff/devitalised
 	name = "Devitalised"
@@ -389,8 +389,8 @@
 /datum/status_effect/debuff/revived
 	id = "revived"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/revived
-	effectedstats = list("strength" = -1, "perception" = -1, "intelligence" = -1, "endurance" = -1, "constitution" = -1, "speed" = -1, "fortune" = -1)
-	duration = 15 MINUTES		//Should be long enough to stop someone from running back into battle. Plus, this stacks with body-rot debuff. RIP.
+	effectedstats = list("strength" = -1, "perception" = -1, "intelligence" = -1, "endurance" = -1, "constitution" = -2, "speed" = -1, "fortune" = -1)
+	duration = 1.5 HOURS		//Should be long enough to stop someone from running back into battle. Plus, this stacks with body-rot debuff. RIP.
 
 /atom/movable/screen/alert/status_effect/debuff/revived
 	name = "Revival Sickness"

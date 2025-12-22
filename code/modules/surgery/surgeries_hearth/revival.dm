@@ -36,6 +36,8 @@
 	if(!target.mind)
 		to_chat(user, "[target]'s heart is inert.")
 		return FALSE
+	if(target.job == "Grand Duke")
+		to_chat(user, "[target] is bound by the Astratan Oath. As all suns set, no ruler shall reign twice..."
 	if(HAS_TRAIT(target, TRAIT_NECRAS_VOW))
 		to_chat(user, "[target] has pledged a vow to Necra. This will not work.")
 		return FALSE
