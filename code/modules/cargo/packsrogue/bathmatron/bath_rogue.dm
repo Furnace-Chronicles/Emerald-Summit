@@ -76,3 +76,8 @@
 	contains = list(
 					/obj/item/storage/belt/rogue/leather/smokebelt
 				)
+
+/datum/supply_pack/rogue/bath_rogue/mirror_transform //This is here for...err...you know what people use mirror transform for, also it changes your appearance so..thieves logically would want that
+	name = "Scroll of Mirror Transform"
+	cost = 100			// its a scroll that gives you a spell, if you can't afford it find a mage to cast it on you instead
+	contains = list(/obj/item/book/granter/spell/blackstone/mirror_transform)

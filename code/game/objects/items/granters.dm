@@ -208,6 +208,13 @@
 	icon_state ="scrolldarkred"
 	remarks = list("Redi damnatos..", "Exitio ad Necram scriptor exolvuntur..", "Ossa in propinquus..")
 
+/obj/item/book/granter/spell/blackstone/mirror_transform
+	name = "Scroll of Mirror Transform"
+	spell = /obj/effect/proc_holder/spell/invoked/mirror_transform
+	spellname = "Mirror Transform"
+	icon_state ="scrolldarkred"
+	remarks = list("Figura mea..", "Meum est mutare..", "Species mea transferet..")
+
 /obj/item/book/granter/spell/blackstone/sicknessray
 	name = "Scroll of Sickness Ray"
 	spell = /obj/effect/proc_holder/spell/invoked/projectile/sickness
