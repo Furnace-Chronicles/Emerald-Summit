@@ -246,9 +246,7 @@
 		var/letter = text[i]
 		if(prob(chance))
 			if(replace_characters)
-				letter = ""
-			for(var/j in 1 to rand(0, 2))
-				letter += pick("#","@","*","&","%","$","/", "<", ">", ";","*","*","*","*","*","*","*")
+				letter = "*"
 		. += letter
 
 
