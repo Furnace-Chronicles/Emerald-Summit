@@ -1416,6 +1416,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/obj_fix()
 	..()
 	update_damaged_state()
+	if (shoddy_repair) // if we've been jury-rig repaired, ensure our integrity is only restored to 60%
+		obj_integrity = max_integrity * 0.6
 
 /obj/item/obj_destruction(damage_flag)
 	if (damage_flag == "acid")

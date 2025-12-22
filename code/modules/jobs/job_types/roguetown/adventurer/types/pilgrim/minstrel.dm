@@ -28,6 +28,7 @@
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	cloak = /obj/item/clothing/cloak/half
 	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/white
+	l_hand = /obj/item/storage/pill_bottle/dice/farkle
 	r_hand = /obj/item/rogue/instrument/accord
 	pants = /obj/item/clothing/under/roguetown/tights/random
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots

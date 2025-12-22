@@ -25,7 +25,6 @@
 	social_rank = SOCIAL_RANK_MINOR_NOBLE
 
 	virtue_restrictions = list(
-		/datum/virtue/utility/failed_squire,
 		/datum/virtue/utility/blacksmith, // we don't want you repairing your stuff in combat, sorry...
 	)
 	cmode_music = 'sound/music/combat_knight.ogg'
@@ -208,7 +207,7 @@
 	H.verbs |= /mob/proc/haltyell
 
 	H.adjust_blindness(-3)
-	var/weapons = list(H, "Longsword","Flail","Warhammer","Sabre")
+	var/weapons = list("Longsword","Flail","Warhammer","Sabre")
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)

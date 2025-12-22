@@ -9,7 +9,7 @@
 	cmode_music = 'sound/music/combat_bandit_mage.ogg'
 	extra_context = "Choose between 2 options: 27 spellpoints or 21 spellpoints and Dodge Expert."
 
-	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3)
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3, TRAIT_TALENTED_ALCHEMIST)
 	// Same stat spread as necromancer, same reasoning
 	subclass_stats = list(
 		STATKEY_INT = 4,

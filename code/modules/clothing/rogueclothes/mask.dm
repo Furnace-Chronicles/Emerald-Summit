@@ -361,7 +361,7 @@
 	desc = "A silver mask, forever locked in a rigor of uncontestable joy. The Order of Saint Xylix can't decide on whether it's meant to represent Psydon's 'mirthfulness,' 'theatricality,' or the unpredictable melding of both."
 	icon_state = "psydonmask"
 	item_state = "psydonmask"
-
+/*
 /obj/item/clothing/mask/rogue/facemask/prisoner
 	name = "cursed mask"
 	icon_state = "cursemask"
@@ -421,7 +421,7 @@
 		addtimer(CALLBACK(src, PROC_REF(timerup), user), timer)
 		say("YOUR PENANCE WILL BE COMPLETE IN [timer_minutes] MINUTES.")
 	return
-
+*/
 /obj/item/clothing/mask/rogue/facemask/steel
 	name = "steel mask"
 	desc = "A mask of steel which protects the eyes, nose and mouth while also obscuring the face it."
@@ -436,13 +436,16 @@
 	body_parts_covered = NECK|MOUTH|NOSE
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full
+	name = "steel oni mask"
 	desc = "A steel mask of Kazengun origin. Cast in the visage of a fiend, it fits snugly around the neck, offering additional protection at the cost of head mobility."
 	icon_state = "steelyoroi"
 	body_parts_covered = NECK|FACE
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full/kitsune
-	desc = "A steel mask of Kazengun origin. Cast in the visage of a vulpine monster, it fits snugly around the neck, offering additional protection at the cost of head mobility."
+	name = "steel kitsune mask"
+	desc = "A steel mask of Kazengun origin. Cast in the visage of a vulpine monster, it offers additional protection at the cost of head mobility."
 	icon_state = "kitsuneyoroi"
+	body_parts_covered = FACE
 
 /obj/item/clothing/mask/rogue/facemask/steel/paalloy
 	name = "ancient mask"
@@ -493,14 +496,14 @@
 	sellprice = 100
 	smeltresult = /obj/item/ingot/gold
 
-/obj/item/clothing/mask/rogue/facemask/yoruku_oni
+/obj/item/clothing/mask/rogue/facemask/hound/yoruku_oni
 	name = "oni mask"
-	desc = "A steel mask in the visage of demons said to stalk the mountains of Kazengun."
+	desc = "An iron mask in the visage of demons said to stalk the mountains of Kazengun."
 	icon_state = "oni"
 
-/obj/item/clothing/mask/rogue/facemask/yoruku_kitsune
+/obj/item/clothing/mask/rogue/facemask/hound/yoruku_kitsune
 	name = "kitsune mask"
-	desc = "A steel mask in the visage of the fox spirits said to ply their tricks in the forests of Kazengun."
+	desc = "An iron mask in the visage of the fox spirits said to ply their tricks in the forests of Kazengun."
 	icon_state = "kitsune"
 
 /obj/item/clothing/mask/rogue/facemask/cheap_oni

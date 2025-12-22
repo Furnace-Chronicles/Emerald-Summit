@@ -209,7 +209,7 @@
 	name = "Monster Hunter"
 	tutorial = "Otavan lamplighters, Tennite Saintsmen and heathens looking to make their coin hunting the most dangerous game: all make up the profession known as being a 'Monster Hunter.' Warriors who carry two blades - one of silver for monsters, and one of steel for men."
 	outfit = /datum/outfit/job/adventurer/monster_hunter
-	traits_applied = list(TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_STEELHEARTED)	//You hunt beasts for a living, you saaw some #shit
 	subclass_social_rank = SOCIAL_RANK_YEOMAN
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -219,10 +219,9 @@
 	)
 
 	subclass_skills = list(
-		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,	//they get a hunting knife, it's just in case.
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
@@ -241,58 +240,97 @@
 	else
 		backl = /obj/item/storage/backpack/rogue/satchel/black
 	wrists = /obj/item/clothing/neck/roguetown/psicross/silver //there's no silver crosses of the ten so we just give everyone a psicross
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fluted/ornate //host request
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq //drippy, doesn't cover legs. Could be psydon-locked but the normal paddy gamby covers legs which is too much for an adv imo
 	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/steel
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots //not actually blacksteel 
-	pants = /obj/item/clothing/under/roguetown/splintlegs //these are worse iron chain pants that are cooler drip iirc
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	gloves = /obj/item/clothing/gloves/roguetown/angle
-	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/rogueweapon/huntingknife = 1, /obj/item/recipe_book/survival = 1, pick(/obj/item/reagent_containers/glass/bottle/alchemical/strpot,
-				/obj/item/reagent_containers/glass/bottle/alchemical/conpot,
-				/obj/item/reagent_containers/glass/bottle/alchemical/endpot,
-				/obj/item/reagent_containers/glass/bottle/alchemical/spdpot,
-				/obj/item/reagent_containers/glass/bottle/alchemical/perpot,
-				/obj/item/reagent_containers/glass/bottle/alchemical/intpot,
-				/obj/item/reagent_containers/glass/bottle/alchemical/lucpot))
+	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/rogueweapon/huntingknife = 1, /obj/item/recipe_book/survival = 1)
 	if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT)) //psydonites get inquisition hood and tabard, everyone else gets old fit (hat has identical armor value to hood)
-		head = /obj/item/clothing/head/roguetown/roguehood/psydon
 		cloak = /obj/item/clothing/cloak/psydontabard
 	else
-		head = /obj/item/clothing/head/roguetown/bucklehat/monsterhunter
 		cloak = /obj/item/clothing/cloak/cape/puritan
 	//miracles 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T0, passive_gain = FALSE, devotion_limit = (CLERIC_REQ_1 - 20))
-	var/steel = list("Arming Sword","Short Sword", "Dagger","Longsword","Slurbow")
-	var/steel_choice = input(H, "Choose your steel, for slaying men.", "TAKE UP ARMS") as anything in steel
+	var/armor = list("Dodge Expert + Studded Leathers", "Cuirass + Rotbite Immune")
+	var/armor_choice = input("How will you survive?", "DRESS YOURSELF") as anything in armor
+	switch(armor_choice)
+		if("Dodge Expert + Studded Leathers") //Be the swift little shit you always wanted to be. Nothing on your head or legs to save you though!
+			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+			H.change_stat(STATKEY_SPD, 1)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/leather/studded, SLOT_ARMOR, TRUE)
+			pants = /obj/item/clothing/under/roguetown/trou/leather
+			head = /obj/item/clothing/head/roguetown/bucklehat
+		if("Cuirass + Rotbite Immune") //Closer to traditional Monster Hunter. You are a tinge smarter - and immune to deadite bites)
+			ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_ZOMBIE_IMMUNE, TRAIT_GENERIC)
+			H.change_stat(STATKEY_INT, 1)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/half/fluted/ornate, SLOT_ARMOR, TRUE)
+			pants = /obj/item/clothing/under/roguetown/splintlegs
+			beltl = pick(
+					/obj/item/reagent_containers/glass/bottle/alchemical/strpot,
+					/obj/item/reagent_containers/glass/bottle/alchemical/conpot,
+					/obj/item/reagent_containers/glass/bottle/alchemical/endpot,
+					/obj/item/reagent_containers/glass/bottle/alchemical/spdpot,
+					/obj/item/reagent_containers/glass/bottle/alchemical/perpot,
+					/obj/item/reagent_containers/glass/bottle/alchemical/intpot,
+					/obj/item/reagent_containers/glass/bottle/alchemical/lucpot,
+					)
+			if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT)) //psydonites get inquisition hood. If not, funny hat.
+				head = /obj/item/clothing/head/roguetown/roguehood/psydon
+			else
+				head = /obj/item/clothing/head/roguetown/bucklehat/monsterhunter
+	var/steel = list("Arming Sword", "Short Sword", "Dagger", "Longsword", "Slurbow", "Whip & Buckler", "Axe")
+	var/steel_choice = input("Choose your weapon for slaying men.", "TAKE UP ARMS") as anything in steel
 	switch(steel_choice)
 		if("Arming Sword") //flat worse than the longsword so you get a shield
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			backr = /obj/item/rogueweapon/shield/wood // wood so you can carve a psycross/astratan cross on it
-			beltl = /obj/item/rogueweapon/sword
+			r_hand = /obj/item/rogueweapon/sword
 		if("Short Sword") //swift balance option
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			backr = /obj/item/rogueweapon/sword/short
 		if("Dagger")
+			H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
 		if("Longsword") //both options have same stats
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
 				backr = /obj/item/rogueweapon/sword/long/oldpsysword //desc calls it silver but it's not actually silver. sovl
 			else
 				backr = /obj/item/rogueweapon/sword/long //there's a church longsword but it has no sprite. we should give them it when theres a sprite tho
 		if("Slurbow") //WHOA!! Don't worry, they don't start with any crossbow skill or bonus PER. The Slurbow's description implies it's a common weapon for highwaymen, so it's not impossible to see it in the hands of an adventurer.
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow/old //their powered-down version of the inquisition slurbow
-			beltl = /obj/item/quiver/bolts
-	var/silver = list("Arming Sword","Short Sword", "Dagger","Tossblades")
-	var/silver_choice = input(H, "Choose your silver, for slaying monsters.", "TAKE UP ARMS") as anything in silver
+			r_hand = /obj/item/quiver/bolts
+		if("Whip & Buckler")	//any Simon Belmonts in chat?
+			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			backr =	/obj/item/rogueweapon/shield/buckler
+			r_hand = /obj/item/rogueweapon/whip
+		if("Axe")
+			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			backr = /obj/item/rogueweapon/stoneaxe/woodcut/steel //regular steel axe. Short reach means more accuracy. Yummy
+	var/silver = list("Arming Sword", "Short Sword", "Dagger", "Tossblades")
+	var/silver_choice = input("Choose your silver, for slaying monsters.", "TAKE UP ARMS") as anything in silver
 	switch(silver_choice)
 		if("Arming Sword")
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			beltr = /obj/item/rogueweapon/sword/silver
 		if("Short Sword")
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			beltr = /obj/item/rogueweapon/sword/short/psy //there's no generic short silver sword so everyone gets the psydon one. this is basically the arming sword but swift iirc
 		if("Dagger")
+			H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			l_hand = /obj/item/rogueweapon/huntingknife/idagger/silver
 		if("Tossblades") //funny inquisition tossblades
+			H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/psydon
+	if(H.age == AGE_OLD)	//be wary of the old men in a business where people die young sorta deal. You get a LOT of debuffs for being old - so have them be a little glass cannon.
+		H.change_stat(STATKEY_INT, 1)
+		H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
 
 /datum/advclass/sfighter/flagellant
 	name = "Flagellant"
@@ -317,6 +355,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE
 	)
 
 /datum/outfit/job/adventurer/flagellant/pre_equip(mob/living/carbon/human/H, visualsOnly)
@@ -325,6 +364,7 @@
 
 	H.set_blindness(0)
 
+	head = /obj/item/clothing/head/roguetown/helmet/bascinet/klapplong
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/black
 	shoes = /obj/item/clothing/shoes/roguetown/boots

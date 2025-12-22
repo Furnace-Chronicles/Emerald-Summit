@@ -104,8 +104,7 @@
 #define KNIGHT		(1<<4)
 #define GUARD_CAPTAIN		(1<<5)
 #define MARSHAL		(1<<6)
-#define HOSTAGE		(1<<7)
-#define SUITOR		(1<<8)
+#define SUITOR		(1<<7)
 
 #define GARRISON		(1<<1)
 
@@ -168,6 +167,7 @@
 #define COURTAGENT	(1<<20)
 #define WRETCH		(1<<21)
 #define OGRE	    (1<<22)
+#define HOSTAGE		(1<<23)
 
 #define YOUNGFOLK	(1<<6)
 

@@ -24,13 +24,14 @@
 
 	job_subclasses = list(
 		/datum/advclass/templar/monk,
-		/datum/advclass/templar/crusader
+		/datum/advclass/templar/crusader,
 	)
 
 	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts.
 	virtue_restrictions = list(
 		/datum/virtue/utility/noble,
 		/datum/virtue/utility/blueblooded,
+		/datum/virtue/combat/crimson_curse,
 	)
 
 /datum/job/roguetown/templar/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
@@ -182,6 +183,7 @@
 		H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
 		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
+		ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/abyssor)
 		H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
@@ -193,6 +195,7 @@
 		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/eora)
 		ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
@@ -247,8 +250,13 @@
 	switch(H.patron?.type)
 		if(/datum/patron/divine/astrata)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/astrata
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm
 			cloak = /obj/item/clothing/cloak/templar/astratan
+			var/astrata_helmets = list(
+				"Astratan Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm,
+				"Astratan Bucket Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/astratan
+			)
+			var/astrata_choice = input(H, "Choose your helmet.", "Patron's Gift") as anything in astrata_helmets
+			head = astrata_helmets[astrata_choice]
 		if(/datum/patron/divine/abyssor)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/abyssor
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/abyssorgreathelm
@@ -263,8 +271,13 @@
 			cloak = /obj/item/clothing/cloak/tabard/crusader/dendor
 		if(/datum/patron/divine/necra)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/necra
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/necran
 			cloak = /obj/item/clothing/cloak/templar/necran
+			var/necra_helmets = list(
+				"Necran Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/necran,
+				"Necran Skull Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/necrahelm
+			)
+			var/necra_choice = input(H, "Choose your helmet.", "Patron's Gift") as anything in necra_helmets
+			head = necra_helmets[necra_choice]
 		if(/datum/patron/divine/pestra)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/pestra
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/pestran

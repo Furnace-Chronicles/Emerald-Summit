@@ -6,15 +6,15 @@
 	id = "anthromorphsmall"
 	is_subrace = TRUE
 	base_name = "Beastvolk"
+	sub_name = "Verminvolk"
 	use_titles = TRUE
 	race_titles = list("Catvolk", "Dogvolk", "Venardvolk", "Rousvolk", "Possumvolk", "Pigvolk", "Rabbitvolk", "Raccoonvolk", "Red Pandavolk", "Sealvolk", "Hyenavolk", "Coyotevolk", "Jackalvolk", "Batvolk", "Ottervolk", "Monstervolk")
-	desc = "<b>Verminvolk: Outcasts of the World</b><br>\
-	A catch-all for various races of the world, too few in number and too insignificant in deeds to be remembered by the commoners of the kingdoms. \
-	They are seen as untrustworthy scavengers to most citizens, \
-	seen rooting around in ancient ruins or picking over the corpses of ambushes and the aftermath of large battles. \
-	Locals of the Scarlet Reach tend to associate these diminutive wildkin with crime and low intelligence, \
-	but some use these low expectations to their advantage. Relegated to the fringe of society in outposts, \
-	their diets are often poor in nutrition and unreliable. They commonly work in the city factories yet live under-street, away from the eye of decent folk.<br> \
+	desc = "<b>Verminvolk</b><br>\
+	Verminfolk (also simply called 'vermin') are diminutive creachures, with their origins tracing back to the east. \
+	Though most commonly marsupial, they come in all shapes, but not necessarily all sizes. A penchant for crime is \
+	not uncommon amongst Verminfolk, with many finding work as cutpurses or assassins; naturally agile forms working \
+	in their favor. In recent years, Verminfolk have spread to all corners of the world -- though much to society's \
+	dismay, for their negative reputation is one which they have difficulty parting with. <br> \
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 SPD</b></span> </br>"
 	default_color = "444"
 	species_traits = list(

@@ -3411,7 +3411,7 @@
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/cave/skeletoncrypt)
 "aUk" = (
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/exposed/town/keep)
 "aUm" = (
@@ -6084,7 +6084,7 @@
 /obj/structure/fluff/railing/border{
 	dir = 6
 	},
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/woodturned,
@@ -6536,7 +6536,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/mountains)
 "bMl" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /obj/structure/fluff/railing/border/north,
@@ -7002,7 +7002,7 @@
 /obj/structure/fluff/railing/border{
 	dir = 9
 	},
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
 "bTY" = (
@@ -9952,7 +9952,7 @@
 /obj/effect/decal/cobbleedge{
 	dir = 5
 	},
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
 "cLC" = (
@@ -12722,7 +12722,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/tavern)
 "dzh" = (
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /obj/structure/fluff/walldeco/wantedposter/l,
 /obj/structure/fluff/walldeco/customflag{
 	pixel_y = 32
@@ -14300,7 +14300,7 @@
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/under/town/sewer)
 "dUu" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /obj/structure/fluff/railing/border,
@@ -14417,7 +14417,7 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/bog)
 "dVI" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/cobble,
@@ -20722,7 +20722,7 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/indoors/cave)
 "fBd" = (
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/exposed/town/keep)
 "fBe" = (
@@ -21418,7 +21418,6 @@
 /area/rogue/indoors/town/tavern)
 "fLP" = (
 /obj/structure/bed/rogue,
-/obj/effect/landmark/start/hostage,
 /turf/open/floor/rogue/wood,
 /area/rogue/under/town/basement/keep)
 "fLQ" = (
@@ -21858,7 +21857,7 @@
 	dir = 10;
 	icon_state = "cobbleedge-e"
 	},
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
 "fSG" = (
@@ -22196,7 +22195,7 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/exposed/town/keep)
 "fXm" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/dirt/road,
@@ -22538,7 +22537,7 @@
 	},
 /area/rogue/indoors/shelter/woods)
 "gcG" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/grass,
@@ -25479,7 +25478,7 @@
 /obj/structure/fluff/railing/border{
 	dir = 1
 	},
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/grass,
@@ -25659,7 +25658,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
 "gUZ" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/cobble/mossy,
@@ -26879,7 +26878,7 @@
 	dir = 8
 	},
 /obj/structure/fluff/railing/border,
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/woodturned,
 /area/rogue/outdoors/beach)
 "hlh" = (
@@ -29107,7 +29106,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement/keep)
 "hNW" = (
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /obj/effect/decal/mossy{
 	dir = 1
 	},
@@ -29977,7 +29976,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cavewet/bogcaves/sunkencity)
 "ibU" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /obj/item/reagent_containers/glass/bucket,
@@ -31472,7 +31471,7 @@
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
 "ivJ" = (
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
 "ivK" = (
@@ -35159,7 +35158,7 @@
 /obj/structure/fluff/railing/border{
 	dir = 10
 	},
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/AzureSand,
 /area/rogue/outdoors/beach)
 "jtr" = (
@@ -35227,7 +35226,7 @@
 /obj/structure/fluff/walldeco/customflag{
 	pixel_y = -32
 	},
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/cobble/mossy,
@@ -39362,7 +39361,7 @@
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "kzy" = (
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
@@ -40580,7 +40579,7 @@
 /obj/effect/decal/mossy{
 	dir = 4
 	},
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/dirt,
@@ -42285,7 +42284,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
 "lnE" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/grass,
@@ -42727,7 +42726,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/cave)
 "lsC" = (
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/AzureSand,
 /area/rogue/outdoors/beach)
 "lsE" = (
@@ -47049,7 +47048,7 @@
 /obj/structure/fluff/railing/border{
 	dir = 8
 	},
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	pixel_x = 10
 	},
 /turf/open/floor/rogue/cobblerock,
@@ -47096,7 +47095,7 @@
 	},
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "mAB" = (
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/roguegrass/herb/salvia,
 /turf/open/floor/rogue/grass,
@@ -48027,7 +48026,7 @@
 /obj/structure/fluff/railing/border{
 	dir = 1
 	},
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/woodturned,
@@ -48863,7 +48862,7 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/goblinfort)
 "mZv" = (
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
 "mZC" = (
@@ -49832,7 +49831,7 @@
 /area/rogue/under/town/sewer)
 "nlO" = (
 /obj/structure/fluff/railing/border/east,
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1;
 	pixel_x = -11;
 	pixel_y = 0
@@ -50275,7 +50274,7 @@
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/inq/basement)
 "nqN" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/cobble,
@@ -50505,7 +50504,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/rtfield/eora)
 "ntZ" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/grassyel,
@@ -51274,7 +51273,7 @@
 /turf/open/floor/carpet/inn,
 /area/rogue/indoors/town/tavern)
 "nFq" = (
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/rtfield)
 "nFz" = (
@@ -51887,7 +51886,7 @@
 /obj/structure/mineral_door/wood/fancywood{
 	locked = 1;
 	lockid = "manor";
-	name = "Councilor's Chambers"
+	name = "Councillor's Chambers"
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement/keep)
@@ -52497,7 +52496,7 @@
 	},
 /area/rogue/indoors/shelter/woods)
 "nWF" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/dirt/road,
@@ -53656,7 +53655,7 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/cell)
 "ooI" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/grass,
@@ -58664,7 +58663,7 @@
 /obj/structure/fluff/walldeco/customflag{
 	pixel_y = -32
 	},
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
 "pGd" = (
@@ -59210,7 +59209,7 @@
 /area/rogue/indoors/shelter/mountains/decap)
 "pNM" = (
 /obj/structure/fluff/railing/corner,
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/wood,
@@ -60054,7 +60053,7 @@
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/town/basement/keep)
 "pZH" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1;
 	pixel_x = 11;
 	pixel_y = 0
@@ -60336,7 +60335,7 @@
 /turf/open/floor/rogue/dirt/ambush,
 /area/rogue/indoors/cave)
 "qdA" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/cobble/mossy,
@@ -60506,7 +60505,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/scarymaze)
 "qgd" = (
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
 "qgf" = (
@@ -63698,7 +63697,7 @@
 /turf/open/floor/rogue/hay,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "qXH" = (
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
 "qXJ" = (
@@ -64152,7 +64151,7 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/goblinfort)
 "rdh" = (
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/beach)
 "rdk" = (
@@ -66670,7 +66669,7 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/shop)
 "rLU" = (
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/exposed/town/keep)
 "rLW" = (
@@ -66806,7 +66805,7 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/town/basement)
 "rNF" = (
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/town)
 "rNN" = (
@@ -67068,7 +67067,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
 "rRD" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /obj/structure/fluff/walldeco/customflag{
@@ -68023,7 +68022,7 @@
 /obj/effect/decal/cobbleedge{
 	dir = 8
 	},
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/cobblerock,
@@ -68269,13 +68268,11 @@
 	dir = 10;
 	icon_state = "largetable"
 	},
-/obj/item/book/random/triple,
 /obj/item/natural/bundle/cloth{
 	amount = 8;
 	pixel_x = 4;
 	pixel_y = 3
 	},
-/obj/item/book/random/triple,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/physician)
 "shz" = (
@@ -69767,7 +69764,7 @@
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/under/town/basement/keep)
 "syA" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/dirt,
@@ -73486,7 +73483,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave)
 "txI" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	pixel_x = 0;
 	pixel_y = 12
 	},
@@ -75847,14 +75844,14 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/under/town/basement/keep)
 "udL" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
 "udM" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1;
 	pixel_x = 11
 	},
@@ -76506,7 +76503,7 @@
 /obj/structure/fluff/railing/border{
 	dir = 4
 	},
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/woodturned,
@@ -76868,7 +76865,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/orcdungeon)
 "uqL" = (
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/town)
 "uqZ" = (
@@ -77059,7 +77056,7 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/orcdungeon)
 "utC" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/AzureSand,
@@ -78599,7 +78596,7 @@
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/mountains)
 "uNE" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/cobblerock,
@@ -79153,7 +79150,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/stepbelow)
 "uVT" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1;
 	pixel_x = 11
 	},
@@ -80472,7 +80469,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
 "vnq" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /obj/effect/decal/cobbleedge{
@@ -84460,7 +84457,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/mountains/decap)
 "wns" = (
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/beach)
 "wnu" = (
@@ -85677,7 +85674,7 @@
 /area/rogue/under/cave/orcdungeon)
 "wFA" = (
 /obj/structure/flora/ausbushes/lavendergrass,
-/obj/machinery/light/rogue/lanternpost,
+/obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
 "wFB" = (
@@ -88443,7 +88440,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/sewer)
 "xpk" = (
-/obj/machinery/light/rogue/lanternpost{
+/obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
 	},
 /turf/open/floor/rogue/dirt/road,
@@ -172220,7 +172217,7 @@ fce
 fce
 fce
 fce
-fce
+hsI
 fce
 fce
 ygi
@@ -172671,7 +172668,7 @@ wPM
 fce
 fce
 fce
-fce
+hsI
 fce
 fce
 fce
@@ -173574,7 +173571,7 @@ oHH
 oHH
 csA
 fce
-hsI
+fce
 iTM
 fce
 sTT

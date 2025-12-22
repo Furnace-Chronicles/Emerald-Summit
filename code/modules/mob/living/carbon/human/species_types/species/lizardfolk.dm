@@ -5,15 +5,15 @@
 	name = "Zardman"
 	id = "lizardfolk"
 	base_name = "Zard"
-	desc = "<b>Zardman: Children of the Wetland</b><br>\
-	Created by Abyssor’s hand they are believed to be savage, some even think them Graggarites. \
-	Native to the wetlands of the Scarlet Reach so infused with mana and crawling with undead, \
-	the Zardmen are naturally suited to survive the mire and thrive in it. The bog hosts isolationist tribes that do not trust softskins, \
-	violently reacting to those who encroach on their lands in skirmishes with both settlers and the wardens who scout ahead. \
-	With hardened scales and an ability to take punishment they are still valuable to keep around, \
-	and individual zardmen have trickled into the cities with the promise of generous payments, rich foods and delicious ale from weaker cityfolk.<br> \
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 CON | +1 END</b></span> </br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> LANGUAGE: Draconic - ,s</b></span> </br>"
+	desc = "<b>Zardman</b><br>\
+	Zardmen are a reptilian people originating from various morasses across the world. They are resilient and enduring \
+	creachures who flourish environments such as swamps and bogs. Zardmen are considered to be fearsome predators on \
+	account of their hardened scales, razor-sharp talons and teeth, but owe much of their survival to close-knit tribal \
+	communities. To the civilized, they are considered little more than savages, for much of the history between them has \
+	been painted with blood and strife. In recent years, many Zardmen born outside of tribes have integrated into Humen \
+	societies -- often as laborers or mercenaries.<br> \
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 CON | +1 END</b></span> </br>"
+	skin_tone_wording = "Skin Colors"
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT

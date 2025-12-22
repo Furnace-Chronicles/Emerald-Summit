@@ -1,3 +1,35 @@
+// These are all constants used for tuning the balance of sewing.
+/// The chance to damage an item when entirely unskilled.
+#define BASE_FAIL_CHANCE 60
+/// The (combined) skill level at or above which repairs can't fail.
+#define SKILL_NO_FAIL SKILL_LEVEL_JOURNEYMAN
+/// Each level in tanning/sewing reduces the skill chance by this much, so that at SKILL_NO_FAIL you don't fail anymore.
+#define FAIL_REDUCTION_PER_LEVEL BASE_FAIL_CHANCE / SKILL_NO_FAIL
+/// The damage done to an item when sewing fails while entirely unskilled.
+#define BASE_SEW_DAMAGE 30
+/// Each level in either tanning or sewing reduces the damage caused by a failure by this many points
+#define DAMAGE_REDUCTION_PER_LEVEL 5
+/// The base integrity repaired when sewing succeeds while entirely unskilled.
+#define BASE_SEW_REPAIR 10
+/// The additional integrity repaired per combined level in sewing/tanning.
+#define SEW_REPAIR_PER_LEVEL 10
+/// How many seconds does unskilled sewing take?
+#define BASE_SEW_TIME 4 SECONDS
+/// At what (combined) level do we
+#define SKILL_FASTEST_SEW SKILL_LEVEL_LEGENDARY
+/// The reduction in sewing time for each (combined) level in sewing/tanning.
+#define SEW_TIME_REDUCTION_PER_LEVEL 1 SECONDS
+/// The minimum sewing time to prevent instant sewing at max level.
+#define SEW_MIN_TIME 0.5 SECONDS
+/// The maximum sewing time for squires.
+#define SQUIRE_MAX_TIME BASE_SEW_TIME / 3 // always at least twice as fast as the base time / Apparently takes too long so dunno we will see at 2 seconds
+/// The XP granted by failure. Scaled by INT. If 0, no XP is granted on failure.
+#define XP_ON_FAIL 0.25
+/// The XP granted by success. Scaled by INT. If 0, no XP is granted on success.
+#define XP_ON_SUCCESS 0.5
+/// The minimum delay between automatic sewing attempts.
+#define AUTO_SEW_DELAY CLICK_CD_MELEE
+
 /obj/item/needle
 	name = "needle"
 	icon_state = "needle"
@@ -84,81 +116,83 @@
 		if(I.sewrepair && I.max_integrity)
 			if(I.obj_integrity == I.max_integrity)
 				to_chat(user, span_warning("This is not broken."))
+				to_chat(user, span_warning("I can't do anything else to fix this right now - I should see a skilled craftsman."))
 				return
 			if(!I.ontable())
 				to_chat(user, span_warning("I should put this on a table first."))
 				return
-			playsound(loc, 'sound/foley/sewflesh.ogg', 100, TRUE, -2)
 
-			// These are all constants used for tuning the balance of sewing.
-			/// The chance to damage an item when entirely unskilled.
-			var/const/BASE_FAIL_CHANCE = 60
-			/// The (combined) skill level at or above which repairs can't fail.
-			var/const/SKILL_NO_FAIL = SKILL_LEVEL_JOURNEYMAN
-			/// Each level in tanning/sewing reduces the skill chance by this much, so that at SKILL_NO_FAIL you don't fail anymore.
-			var/const/FAIL_REDUCTION_PER_LEVEL = BASE_FAIL_CHANCE / SKILL_NO_FAIL
-			/// The damage done to an item when sewing fails while entirely unskilled.
-			var/const/BASE_SEW_DAMAGE = 30
-			/// Each level in either tanning or sewing reduces the damage caused by a failure by this many points
-			var/const/DAMAGE_REDUCTION_PER_LEVEL = 5
-			/// The base integrity repaired when sewing succeeds while entirely unskilled.
-			var/const/BASE_SEW_REPAIR = 10
-			/// The additional integrity repaired per combined level in sewing/tanning.
-			var/const/SEW_REPAIR_PER_LEVEL = 10
-			/// How many seconds does unskilled sewing take?
-			var/const/BASE_SEW_TIME = 6 SECONDS
-			/// At what (combined) level do we
-			var/const/SKILL_FASTEST_SEW = SKILL_LEVEL_LEGENDARY
-			/// The reduction in sewing time for each (combined) level in sewing/tanning.
-			var/const/SEW_TIME_REDUCTION_PER_LEVEL = 1 SECONDS
-			/// The minimum sewing time to prevent instant sewing at max level.
-			var/const/SEW_MIN_TIME = 0.5 SECONDS
-			/// The maximum sewing time for squires.
-			var/const/SQUIRE_MAX_TIME = BASE_SEW_TIME / 3 // always at least twice as fast as the base time / Apparently takes too long so dunno we will see at 2 seconds
-			/// The XP granted by failure. Scaled by INT. If 0, no XP is granted on failure.
-			var/const/XP_ON_FAIL = 0.5
-			/// The XP granted by success. Scaled by INT. If 0, no XP is granted on success.
-			var/const/XP_ON_SUCCESS = 1
-			/// The minimum delay between automatic sewing attempts.
-			var/const/AUTO_SEW_DELAY = CLICK_CD_MELEE
-
-			// This is the actual code that applies those constants.
-			// If you want to adjust the balance please try just tweaking the above constants first!
-			var/skill = user.get_skill_level(/datum/skill/misc/sewing) + user.get_skill_level(/datum/skill/craft/tanning)
-			// The more knowlegeable we are the less chance we damage the object
+			// basic principles: instead of failing and doing nothing, we instead do something but much less.
+			// if the item is broken and we fix it at low skill, we cap the quality of our repair to 60% total integrity
+			// only skilled craftsmen can fix things at 100% integrity.
+			
+			var/skill = max(user.get_skill_level(/datum/skill/misc/sewing), user.get_skill_level(/datum/skill/craft/tanning))
 			var/failed = prob(BASE_FAIL_CHANCE - (skill * FAIL_REDUCTION_PER_LEVEL))
 			var/sewtime = max(SEW_MIN_TIME, BASE_SEW_TIME - (SEW_TIME_REDUCTION_PER_LEVEL * skill))
-			if(HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR))
-				failed = FALSE // Make sure they can't fail but let them suffer sewtime
+			var/unskilled = skill < SKILL_NO_FAIL
+			var/obj/item/clothing/cloth = I
+			var/integrity_percentage = (cloth.obj_integrity / cloth.max_integrity) * 100
+
+			if (!istype(cloth, /obj/item/clothing))
+				to_chat(user, span_warning("I can't repair that with a needle."))
+				return
+
+			if (HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR)) // squires are always considered skilled w/o other bonuses for the purposes of repair
+				unskilled = FALSE
+
+			// if we're stupid and the object isn't broken and it's had a field repair, we can't fix it any further for the moment
+			if (unskilled && !cloth.obj_broken && cloth.shoddy_repair && integrity_percentage >= 60)
+				to_chat(user, span_warning("I can't do anything else to fix this right now - I should see a skilled craftsman."))
+				return
+
 			if(!do_after(user, sewtime, target = I))
 				return
-			if(failed)
-				// We do DAMAGE_REDUCTION_PER_LEVEL less damage per level.
-				// You could write this as I.obj_integrity - BASE_SEW_DAMAGE + (skill * DAMAGE_REDUCTION_PER_LEVEL)
-				// but that's less obvious and makes it look like it could repair it if your skill was high enough (false).
-				I.obj_integrity = max(0, I.obj_integrity - (BASE_SEW_DAMAGE - (skill * DAMAGE_REDUCTION_PER_LEVEL)))
-				user.visible_message(span_info("[user] damages [I] due to a lack of skill!"))
-				playsound(src, 'sound/foley/cloth_rip.ogg', 50, TRUE)
-				if(XP_ON_FAIL > 0)
-					user.mind.add_sleep_experience(/datum/skill/misc/sewing, user.STAINT * XP_ON_FAIL)
-				if(do_after(user, AUTO_SEW_DELAY, target = I))
-					attack_obj(I, user)
-				return
-			else
-				playsound(loc, 'sound/foley/sewflesh.ogg', 50, TRUE, -2)
-				user.visible_message(span_info("[user] repairs [I]!"))
-				if(I.body_parts_covered != I.body_parts_covered_dynamic)
-					user.visible_message(span_info("[user] repairs [I]'s coverage!"))
-					I.repair_coverage()
-				if(XP_ON_SUCCESS > 0)
-					user.mind.add_sleep_experience(/datum/skill/misc/sewing, user.STAINT * XP_ON_SUCCESS)
-				I.obj_integrity = min(I.obj_integrity + BASE_SEW_REPAIR + skill * SEW_REPAIR_PER_LEVEL, I.max_integrity)
-				if(I.obj_broken && istype(I, /obj/item/clothing) && I.obj_integrity >= I.max_integrity)
-					var/obj/item/clothing/cloth = I
+
+			var/total_repair = BASE_SEW_REPAIR + skill * SEW_REPAIR_PER_LEVEL
+			var/repair_line = "[user] repairs [cloth]!"
+			var/total_XP = failed ? XP_ON_FAIL : XP_ON_SUCCESS
+		
+			if (failed)
+				total_repair = total_repair * 0.5 // 50% reduction on failed repairs, but we still repair!
+				repair_line = "[user] makes a little progress towards repairing [cloth]..."
+
+			if(cloth.body_parts_covered != cloth.body_parts_covered_dynamic)
+				user.visible_message(span_info("[user] repairs [cloth]'s coverage!"))
+				cloth.repair_coverage()
+
+			if(total_XP)
+				user.mind.add_sleep_experience(/datum/skill/misc/sewing, user.STAINT * total_XP)
+
+			cloth.obj_integrity = min(cloth.obj_integrity + total_repair, cloth.max_integrity)
+			integrity_percentage = (cloth.obj_integrity / cloth.max_integrity) * 100
+
+			playsound(loc, 'sound/foley/sewflesh.ogg', 50, TRUE, -2)
+			user.visible_message(span_info(repair_line))
+	
+			if(cloth.obj_broken)
+				var/do_fix = FALSE
+				if(unskilled && integrity_percentage >= 60)
+					user.visible_message(span_info("[user] finishes field-repairing [I]."))
+					to_chat(user, span_warning("I should get this properly fixed by a skilled craftsman later."))
+					cloth.shoddy_repair = TRUE
+					do_fix = TRUE
+				else if (!unskilled && integrity_percentage >= 100)
+					user.visible_message(span_info("[user] fully repairs [I]."))
+					if (cloth.shoddy_repair)
+						to_chat(user, span_notice("My skilled hand has fully repaired this item."))
+						cloth.shoddy_repair = FALSE
+					do_fix = TRUE
+
+				if(do_fix)
 					cloth.obj_fix()
+					stringamt -= 1
 					return
-				if(do_after(user, AUTO_SEW_DELAY, target = I))
-					attack_obj(I, user)
+			else if (!cloth.obj_broken && !unskilled && cloth.shoddy_repair && integrity_percentage >= 100)
+				cloth.shoddy_repair = FALSE
+				to_chat(user, span_notice("My skilled hand has fully repaired this item."))
+			
+			if(do_after(user, AUTO_SEW_DELAY, target = I))
+				attack_obj(I, user)
 		return
 	return ..()
 
@@ -247,3 +281,19 @@
 	desc = "This decrepit old needle doesn't seem helpful for much."
 	stringamt = 5
 	maxstring = 5
+
+#undef BASE_FAIL_CHANCE
+#undef SKILL_NO_FAIL
+#undef FAIL_REDUCTION_PER_LEVEL
+#undef BASE_SEW_DAMAGE
+#undef DAMAGE_REDUCTION_PER_LEVEL
+#undef BASE_SEW_REPAIR
+#undef SEW_REPAIR_PER_LEVEL
+#undef BASE_SEW_TIME
+#undef SKILL_FASTEST_SEW
+#undef SEW_TIME_REDUCTION_PER_LEVEL
+#undef SEW_MIN_TIME
+#undef SQUIRE_MAX_TIME
+#undef XP_ON_FAIL
+#undef XP_ON_SUCCESS
+#undef AUTO_SEW_DELAY

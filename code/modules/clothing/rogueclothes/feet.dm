@@ -496,17 +496,23 @@
 	anvilrepair = /datum/skill/craft/carpentry
 
 /obj/item/clothing/shoes/roguetown/armor/ogre
-	name = "oversized plated boots"
-	desc = "Huge, iron boots - the size of a human waist."
+	name = "giant plate boots"
+	desc = "When giants march to war, they need two things above all else. Something to eat, and boots to stomp around."
 	sleeved = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
 	icon_state = "ogre_plateboots"
 	allowed_race = OGRE_RACE_TYPES
+	max_integrity = 250
+	armor = ARMOR_BOOTS_PLATED_IRON
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 
 /obj/item/clothing/shoes/roguetown/boots/ogre
 	name = "oversized boots"
-	desc = "Huge, leather boots - the size of a human waist."
+	desc = "The hardest working set of boots this side of the mountains."
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/32x64/ogre_onmob_sleeves.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
 	icon_state = "ogre_boots"
 	allowed_race = OGRE_RACE_TYPES
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)	//Same as gloves
+	max_integrity = 150	
+	armor = ARMOR_BOOTS

@@ -6,14 +6,20 @@
 	id = "elfw"
 	psydonic = TRUE
 	sub_name = "Wood Elf"
-	desc = "<b>Wood Elf: Guardians of the Grove</b><br>\
-	In the creation of Enigma, Abyssor and Dendor were tasked with making its creatures and lands. \
-	Dendor wanted appreciation for his works, and he made the first race of the world, and the elves looked upon the wilds and praised him. \
-	Typically living 500 years they would carefully protect his sacred groves, \
-	which have become the only wilds untainted by the corruption of a sickened mind. Many elves mourn Dendor but still believe he can be healed, \
-	feverishly protecting the groves and keeping their locations secret. At times they leave for the cities, even siring children with humans.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 SPD</b></span> </br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> LANGUAGE: Elvish - ,e</b></span> </br>"
+	desc = "<b>Elf</b><br>\
+	\"Elf\" is a catch-all term used for tall, pointy-eared humanoids who can trace \
+	their heritage to the ancient and mysterious Snow Elves. This particular species \
+	of elf are what most imagine when they hear the word, and are also known among \
+	the elder races as \"Wood-Elves\". Considering their diverse history, it is extremely \
+	difficult for other mortals to even conceive the various intricacies found in elven \
+	society, thanks in no small part to the hundreds if not thousands of tribes that exist \
+	within their culture. Although ancient and complex, Elves tend to be looked poorly upon by \
+	Humens, as historically the two races have been rivals in various conflicts and \
+	territorial disputes. This, however, does not stop many Humens and Elves from forming \
+	relationships, which are capable of producing half-elven children. Elves are known for \
+	their intelligence and sharp eyes, but their graceful nature typically leaves their bodies \
+	more frail and fragile than most. In these lands, only a handful of the many Elvish tribes are seen.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 SPD</b></span> </br>"
 
 	skin_tone_wording = "Tribal Identity"
 

@@ -21,7 +21,7 @@
 	max_pq = null
 	round_contrib_points = 3
 
-	job_traits = list(TRAIT_ARCYNE_T2, TRAIT_MAGEARMOR, TRAIT_INTELLECTUAL, TRAIT_SEEPRICES_SHITTY, TRAIT_GOODWRITER)
+	job_traits = list(TRAIT_ARCYNE_T2, TRAIT_MAGEARMOR, TRAIT_INTELLECTUAL, TRAIT_SEEPRICES_SHITTY, TRAIT_GOODWRITER, TRAIT_TALENTED_ALCHEMIST)
 	advclass_cat_rolls = list(CTAG_ARCHIVIST = 2)
 	job_subclasses = list(
 		/datum/advclass/archivist

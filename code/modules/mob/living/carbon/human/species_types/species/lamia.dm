@@ -10,16 +10,16 @@
 	use_titles = TRUE
 	race_titles = list("Mervolk", "Eelvolk", "Naga", "Siren", "Gorgon")
 	base_name = "Beastvolk"
-	desc = "<b>Lamia: Raiders of the Coast</b><br>\
-	Like the wildkin of the lands of Enigma, Lamia are a catch-all umbrella term for various humanized spawn of the deep made by Abyssor’s hand. \
-	Mermaids, naga, and sirens all fall into this category. \
-	They are common in warm coastal regions, where their tribes formed villages after being spat out from the tide. \
-	Their history is of conducting raids of terror against the civilized coastal regions, \
-	and the burning of helpless trade vessels that neared their waters. Widely shunned and hardly trusted, many sailors have died at their hands. \
-	Even as some move inland, their bloody reputation follows.<br>\
+	sub_name = "Lamia"
+	desc = "<b>Lamia</b><br>\
+	The monstrous spawn of Abyssor, snake and humen conjoined together, the deepkin and merfolk. \
+	Sirens, mermaids, nagas and many others fall into 'lamia' categorization. While one could consider them to be of Dendor's, he had no hand in their creation. \
+	Lamia are widespread in the southern coastal regions, where their tribes have settled in aeons ago, much of their written and oral history is filled with accounts \
+	of grand raids on coastal regions, for they have been terrorizing any race that has dared to settle near their waters. For this, they are widely shunned by the other races, \
+	with the exception of Axians and some coast-dwelling Zardmen with whom they share their natural heartlands. Many a sailor has met their end at the claws of Lamias. \
+	Yet... not all of them have stayed in the depths of the abyss, for some of the clans have moved far away from the coastal regions, settling in swamps, forests and even deserts, having spread themselves far and wide aeons ago.<br>\
 	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>-1 SPD</span> |<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'> +1 STR</b></span> </br> \
-	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Can't wear boots</span> | <span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Strong kicks, Longstrider, Strong stomach</span></b>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'> LANGUAGE: Abyssal - ,p</b></span> </br>"
+	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Can't wear boots</span> | <span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Strong kicks, Longstrider, Strong stomach</span></b>"
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR, LIPS, HAIR, LAMIAN_TAIL, OLDGREY, MUTCOLORS)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
@@ -30,6 +30,7 @@
 	dam_icon_f = 'icons/roguetown/mob/bodies/dam/dam_female.dmi'
 //	clothes_id = "lamia"
 //	custom_clothes = TRUE
+	no_equip = list(SLOT_SHOES, SLOT_PANTS)
 	soundpack_m = /datum/voicepack/male
 	soundpack_f = /datum/voicepack/female
 	offset_features = list(

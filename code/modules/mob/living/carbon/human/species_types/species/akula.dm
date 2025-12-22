@@ -8,17 +8,15 @@
 	origin_default = /datum/virtue/origin/etrusca
 	origin = "Etrusca"
 	base_name = "Beastvolk"
-	desc = "<b>Axian: Sharks of Etrusca</b><br>\
-	During Psydon’s battle with Zizo, great floods threatened people on the coasts of the province of Etrusca. \
-	Abyssor heard these prayers and stepped in, transforming those threatened by the flood into fishy abominations. \
-	They survived the crisis, and became reliable for strength and durability. \
-	They then spread across the world through trade and job contracts, anywhere the tide will go. \
-	A wanderlust afflicts most Axians, they travel through ports looking for work and opportunity often. \
-	Often they end up in mercenary companies or as dockhands and sailors to the Merchant Guild.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 CON | +1 END</b></span> </br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> Waterbreathing|Denizen of the Deep</b></span> </br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> LANGUAGE: Abyssal - ,p</b></span> </br>"
-
+	desc = "<b>Axian</b><br>\
+	Axians are a proud, shark-like people that have a heritage founded in maritime trade, \
+	tax evasion, and piracy. They have a strong distaste for the nobility and taxation, \
+	making them a target of discrimination in the Scarlet lands. They are oftentimes scapegoats for crime. \
+	Due to their penchant for trade and travel, they can be found all over the world, oftentimes \
+	seeing places many could not even dream of. They look down at those they considered the 'settled' \
+	and often uproot themselves quite often in their lifetimes. However, due to the isolation in Scarlet Reach, many Axians \
+	find their sanity being clawed away as they find themselves stuck in one place.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 CON | +1 END</b></span> </br>"
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)
 	inherent_traits = list(TRAIT_WATERBREATHING, TRAIT_SEA_DRINKER)

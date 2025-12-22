@@ -8,13 +8,13 @@
 	origin_default = /datum/virtue/origin/hammerhold
 	origin = "Hammerhold"
 	base_name = "Beastvolk"
-	desc = "<b>Lupian: Wolves of the Northland</b><br>\
-	Created by Dendor’s hand in the cold of Hammerhold, the Lupians were expected to survive by themselves as had his other races. \
-	But as they suffered from cold and malnutrition, intervention came by the spark of Noc’s ingenuity, who taught them how to not just survive, \
-	but to even thrive. These are resilient people with a knack for planning ahead, \
-	who have spread from the frozen northern isles not just as raiders but as settlers, gaining a reputation above other wildkin races as a civilized species. \
-	They are more at home in castles and towns than the untamed wilderness, \
-	yet some still associate them with a dim animalistic nature, created as they were by Dendor’s hand.<br>\
+	desc = "<b>Lupian</b><br>\
+	Lupians are the sons and daughters of Noc. They are a volf-like people hailing from the Northern Regions of the world. \
+	They are resilient, cunning and fight ready creachures capable of surviving the north thanks to their rugged pelts, \
+	sharp teeth and deep-rooted spirit of community. They are very dutiful individuals and make fantastic and fearsome \
+	warriors to those who earn their loyalty. Thanks to their pack minded nature they are slow to trust the other races \
+	but form deep connections with those they do. In recent years they have been driven from the forests by unrest and pressed \
+	into cohabitation with races they'd deem lesser.<br>\
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 CON | +1 INT</b></span> </br>"
 	skin_tone_wording = "Pack"
 	species_traits = list(

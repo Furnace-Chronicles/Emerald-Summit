@@ -1,19 +1,19 @@
 /datum/advclass/ogre/avatar
 	name = "Avatar of Graggar" 
 	tutorial = "A foul stench of death spreads from the bog across the entire land, none can escape it. For the Avatar of Graggar arises from the muck to devour in the name of his father. Prepare now!"
-	allowed_sexes = list(MALE) // sorry ladies
+	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = /datum/species/ogre
 	outfit = /datum/outfit/job/roguetown/ogre/avatar
 	category_tags = list(CTAG_OGRE)
 	cmode_music = 'sound/music/combat_maniac.ogg' // this one is good
 	maximum_possible_slots = 1
 
-	traits_applied = list(TRAIT_STRENGTH_UNCAPPED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_CALTROPIMMUNE, TRAIT_STRONGBITE, TRAIT_MEDIUMARMOR) //strongbite might be funny
+	traits_applied = list(TRAIT_BASHDOORS, TRAIT_STEELHEARTED, TRAIT_STRENGTH_UNCAPPED, TRAIT_CALTROPIMMUNE, TRAIT_STRONGBITE, TRAIT_MEDIUMARMOR) //strongbite might be funny
 	subclass_stats = list( 
-		STATKEY_STR = 4, 
+		STATKEY_STR = 3, 
 		STATKEY_CON = 6,
 		STATKEY_END = 5,
-	) //4 (class) + 2 (race) strength is 16 base strength - 15 is min strength for their weapons and i think itd be cool for people to play around with statpacks
+	) 
 
 	subclass_skills = list(
 		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
@@ -33,7 +33,7 @@
 		H.set_patron(/datum/patron/inhumen/graggar) // why would you be an avatar of graggar without following graggar
 		to_chat(H, span_warning("Do what comes naturally."))
 		shoes = /obj/item/clothing/shoes/roguetown/armor/ogre
-		neck = /obj/item/clothing/neck/roguetown/gorget/steel/ogre
+		neck = /obj/item/clothing/neck/roguetown/gorget/ogre
 		pants = /obj/item/clothing/under/roguetown/chainlegs/ogre
 		shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ogre
 		gloves = /obj/item/clothing/gloves/roguetown/plate/ogre

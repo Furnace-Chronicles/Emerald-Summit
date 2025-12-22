@@ -18,7 +18,7 @@
 	social_rank = SOCIAL_RANK_YEOMAN
 
 	advclass_cat_rolls = list(CTAG_APOTH = 2)
-	job_traits = list(TRAIT_NOSTINK, TRAIT_EMPATH)
+	job_traits = list(TRAIT_NOSTINK, TRAIT_EMPATH, TRAIT_TALENTED_ALCHEMIST)
 	job_subclasses = list(
 		/datum/advclass/apothecary
 	)

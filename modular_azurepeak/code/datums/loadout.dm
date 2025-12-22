@@ -35,10 +35,6 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Hand Mirror"
 	path = /obj/item/handmirror
 
-/datum/loadout_item/short_satchel
-	name = "Short Satchel"
-	path = /obj/item/storage/backpack/rogue/satchel/short
-
 //HATS
 /datum/loadout_item/shalal
 	name = "Keffiyeh"
@@ -135,6 +131,14 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/deserthood
 	name = "Desert Hood"
 	path = /obj/item/clothing/head/roguetown/deserthood
+
+/datum/loadout_item/rosacrown
+	name = "Rosa Crown"
+	path = /obj/item/flowercrown/rosa
+
+/datum/loadout_item/salviacrown
+	name = "Salvia Crown"
+	path = /obj/item/flowercrown/salvia
 
 
 //CLOAKS
@@ -316,6 +320,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Robe"
 	path = /obj/item/clothing/suit/roguetown/shirt/robe
 
+/datum/loadout_item/qaba
+	name = "Black Qaba"
+	path = /obj/item/clothing/suit/roguetown/shirt/robe/qaba
+
 /datum/loadout_item/spellcasterrobe
 	name = "Tattered Spellcaster Robe"
 	path = /obj/item/clothing/suit/roguetown/shirt/robe/spellcasterrobe/light
@@ -343,6 +351,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/velvetcoat
 	name = "Velvet Coat"
 	path = /obj/item/clothing/suit/roguetown/armor/velvetcoat
+
+/datum/loadout_item/fancycoat
+	name = "Fancy Coat"
+	path = /obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat
 
 /datum/loadout_item/priestrobe
 	name = "Undervestments"
@@ -551,6 +563,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/dendormask
 	name = "Briar Mask"
 	path = /obj/item/clothing/head/roguetown/dendormask
+
+/datum/loadout_item/dendorbriars
+	name = "Briar thorns"
+	path = /obj/item/clothing/head/roguetown/padded/briarthorns
 
 /datum/loadout_item/exoticsilkmask
 	name = "Exotic Silk Mask"

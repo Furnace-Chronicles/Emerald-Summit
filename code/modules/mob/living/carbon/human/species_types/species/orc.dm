@@ -4,14 +4,10 @@
 /datum/species/orc
 	name = "Orc"
 	id = "orc"
-	desc = "<b>Orcs: Forged by Strength</b><br>\
-	Created by the hand of Ravox to serve his law and justice, orcs were dutiful and strong people. \
-	Yet when the orcish slave Graggar ascended he dominated a large swath of the species, stealing them away from his creator’s control. \
-	Some have managed to escape the notice of the Ascendent and have fled to safer regions as the Ironmask warband spreads across Gronn, \
-	yet most warriors of the Orcish clans have ended up either thralled or willingly serving the all-hungering war-maw. \
-	Orcs remain of great health and strength, but Graggar’s grip has dimmed independent thought.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 STR | +1 CON | -1 INT | -1 SPD</b></span> </br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> LANGUAGE: Orcish - ,o</b></span> </br>"
+	desc = "<b>Orcs</b><br>\
+	This is made for events. You shouldn't be able to use this as a normal person, \
+	For courtesies sake however, I've tried to half-assedly balance it for use by players\
+	(+1 Strength, +1 Constitution, -1 Intelligence, -1 Speed)"
 
 	skin_tone_wording = "Clan"
 

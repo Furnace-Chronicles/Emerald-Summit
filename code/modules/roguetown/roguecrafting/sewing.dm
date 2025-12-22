@@ -981,15 +981,6 @@ datum/crafting_recipe/roguetown/sewing/Purdress
 	craftdiff = 5
 	sellprice = 20
 
-/datum/crafting_recipe/roguetown/sewing/desertgown
-	name = "hierophant's kandys"
-	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/hierophant)
-	reqs = list(/obj/item/natural/cloth = 6,
-	            /obj/item/natural/fibers = 4)
-	tools = list(/obj/item/needle)
-	craftdiff = 4
-	sellprice = 17
-
 /datum/crafting_recipe/roguetown/sewing/halfrobe
 	name = "hierophant's shawl"
 	result = list(/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant)
@@ -999,14 +990,14 @@ datum/crafting_recipe/roguetown/sewing/Purdress
 	craftdiff = 4
 	sellprice = 15
 
-/datum/crafting_recipe/roguetown/sewing/monkrobe
-	name = "pontifex's qaba"
-	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/pointfex)
-	reqs = list(/obj/item/natural/cloth = 6,
-	            /obj/item/natural/fibers = 5)
+/datum/crafting_recipe/roguetown/sewing/qaba
+	name = "black qaba"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/qaba)
+	reqs = list(/obj/item/natural/cloth = 5,
+	            /obj/item/natural/fibers = 4)
 	tools = list(/obj/item/needle)
-	craftdiff = 4
-	sellprice = 15
+	craftdiff = 3
+	sellprice = 13
 
 /datum/crafting_recipe/roguetown/sewing/otavangambeson
 	name = "otavan gambeson"
@@ -1015,6 +1006,14 @@ datum/crafting_recipe/roguetown/sewing/Purdress
 	            /obj/item/natural/fibers = 5)
 	tools = list(/obj/item/needle)
 	craftdiff = 6
+
+/datum/crafting_recipe/roguetown/sewing/caftan
+	name = "padded caftan"
+	result = list(/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/chargah)
+	reqs = list(/obj/item/natural/cloth = 6,
+	            /obj/item/natural/fibers = 5)
+	tools = list(/obj/item/needle)
+	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/sewing/sleevelessrobe
 	name = "feldsher's robe"
@@ -1346,3 +1345,20 @@ datum/crafting_recipe/roguetown/sewing/Purdress
 	reqs = list(/obj/item/clothing/mask/rogue/sack = 1)
 	tools = list(/obj/item/ritechalk)
 	craftdiff = 0
+
+////// OGRE - GIANT CLOTHES ///////
+/datum/crafting_recipe/roguetown/sewing/giant_shirt
+	name = "giant shirt"
+	reqs = list(
+		/obj/item/natural/cloth = 4,
+		/obj/item/natural/fibers = 2,
+	)
+	result = /obj/item/clothing/suit/roguetown/shirt/ogre
+
+/datum/crafting_recipe/roguetown/sewing/giant_pants
+	name = "giant pants"
+	reqs = list(
+		/obj/item/natural/cloth = 4,
+		/obj/item/natural/fibers = 2,
+	)
+	result = /obj/item/clothing/under/roguetown/tights/ogre

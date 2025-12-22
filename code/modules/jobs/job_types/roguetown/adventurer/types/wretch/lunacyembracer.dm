@@ -9,12 +9,13 @@
 	)
 	outfit = /datum/outfit/job/wretch/lunacyembracer
 	category_tags = list(CTAG_WRETCH)
+	maximum_possible_slots = 2
 	extra_context = "Minimum PQ Required: 30"
 
 	traits_applied = list(
 		TRAIT_NUDIST,
 		TRAIT_CRITICAL_RESISTANCE,
-		TRAIT_NOPAIN,
+		TRAIT_NOPAINSTUN,
 		TRAIT_DODGEEXPERT,
 		TRAIT_CIVILIZEDBARBARIAN,
 		TRAIT_STRONGBITE,
@@ -77,6 +78,7 @@
 		H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_MASTER, TRUE)
 		H.adjust_skillrank_up_to(/datum/skill/craft/cooking, SKILL_LEVEL_MASTER, TRUE) // holy shit they can COOK
 		ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 	// if(H.patron?.type == /datum/patron/divine/astrata) I'm too lasy to ban Astratan LE but I'm certainly not dumb enough to give them +1 holy
 	//	H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
 	if(H.patron?.type == /datum/patron/divine/dendor)
@@ -87,6 +89,7 @@
 		H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_JOURNEYMAN, TRUE) // Really good at reading... almost actually useful for LE.
 		H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_EXPERT, TRUE) 
 		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
+		ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/abyssor)
 		H.adjust_skillrank_up_to(/datum/skill/labor/fishing, SKILL_LEVEL_MASTER, TRUE)
 		H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE)
@@ -98,6 +101,7 @@
 		H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_NOVICE, TRUE)
 		H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_EXPERT, TRUE)
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/eora)
 		ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)

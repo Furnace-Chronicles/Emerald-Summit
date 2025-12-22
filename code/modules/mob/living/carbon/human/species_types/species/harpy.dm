@@ -10,13 +10,17 @@
 	use_titles = TRUE
 	race_titles = list("Bat-Harpy", "Stork-Harpy", "Finch-Harpy", "Owl-Harpy", "Shrike-Harpy", "Condor-Harpy", "Parrot-Harpy", "Chicken-Harpy", "Turkey-Harpy", "Zad-Harpy", "Osprey-Harpy", "Pigeon-Harpy", "Dove-Harpy", "Gull-Harpy")
 	base_name = "Beastvolk"
-	desc = "<b>Harpy: Songbirds in Flight</b><br>\
-	Called ‘magpies’ by those distrusting or irritated, some mistake this species for a halfkin race. \
-	The harpies are native to the coastal cliffs of Etrusca yet their colonies have spread to great sequoia forests and the chilly tops of mountains far across the world. \
-	As their tribes developed culture and discovered music, they were noticed and favored by Eora, who blessed them with divine ability. \
-	While they can fly with their hollow bones that leave them comparatively frail and weak, they must rely on updrafts and swooping movements, \
-	aided in flight by keen eyes, wit, and a rapid speed. The sight of shadows from above alerts most men, as harpies can lift and drop victims to maim them; \
-	in Grenzelhoft and the Scarlet Reach harpies are not trusted, as they can fly above walls.</br> \
+	sub_name = "Harpy"
+	desc = "<b>Harpy</b><br>\
+	Harpies, or less ceremoniously known as 'magpies,' resemble the half-kin in appearance at first glance. \
+	One would rightfully assume they are similar in nature- with accuracy even, much to the harpies' chagrin. \
+	Harpies have been uplifted and reconnected to divinity by Eora, having developed culture of music and song which caught the attention of such a goddess. \
+	Their songs and voices may be their own, or proud mimicking other voices they've heard with unnatural accuracy. \
+	\
+	Whilst harpies may fly, their freedom is weighed by corruption of fleshcrafting to this day. Complete open-air freedom is still foreign to them. \
+	Harpies tend to live and gather in colonies at the tops of great sequoia forests and in nearby cliffs. Due to their laden flight, they must employ use of updrafts and proximity to large objects or structures to bolster their limited range and air-dancing performances. \
+	Their serene songs and blissful music can be heard echoing far below, guiding travelers and thieves both to respite... or treasure. For as lifted into grace as they might be, these 'magpies' earn such a nickname from instinctual Matthiosan greed and love for anything that shines. \
+	Yet if one can work past that distrust and compensate them well, harpies make for unparalleled couriers. </br> \
 	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>-3 CON | -2 STR</span> |<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'> +1 PER | +1 INT | +2 SPD</b></span> </br> \
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Flight | Innate Singing | Strong Bites</b></span> </br> \
 	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Can't wear boots</span> | <span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Slight Fall Damage Reduction </span></b>"
