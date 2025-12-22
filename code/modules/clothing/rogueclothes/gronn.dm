@@ -190,6 +190,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/gronn.dmi'
 	icon_state = "gronnchain"
 	item_state = "gronnchain"
+	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/iron
 
 /obj/item/clothing/gloves/roguetown/chain/gronn
