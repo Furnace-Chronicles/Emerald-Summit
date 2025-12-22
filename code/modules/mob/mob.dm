@@ -470,6 +470,8 @@ GLOBAL_VAR_INIT(mobids, 1)
 	if(isliving(src) && src.m_intent != MOVE_INTENT_SNEAK && src.stat != DEAD)
 		var/message = "[src] looks at"
 		var/target = "\the [A]"
+		var/mob/living/living_target = A
+		var/mob/living/living_source = src
 		if(!isturf(A))
 			if(A == src)
 				message = "[src] looks over"
@@ -479,14 +481,20 @@ GLOBAL_VAR_INIT(mobids, 1)
 			else if(A.loc.loc == src)
 				message = "[src] looks into"
 				target = "[src.p_their()] [A.loc.name]"
-			else if(isliving(A) && src.cmode)
-				var/mob/living/T = A
-				if(!iscarbon(T))
-					target = "\the [T.name]'s [T.simple_limb_hit(zone_selected)]"
-				if(iscarbon(T) && T != src)
-					target = "[T]'s [parse_zone(zone_selected)]"
+			else if(istype(living_target) && cmode)
+				if(!iscarbon(living_target))
+					target = "\the [living_target.name]'s [living_target.simple_limb_hit(zone_selected)]"
+				if(iscarbon(living_target) && living_target != src)
+					target = "[living_target]'s [parse_zone(zone_selected)]"
 			if(m_intent != MOVE_INTENT_SNEAK)
-				visible_message(span_emote("[message] [target]."))
+				if(A != src && !cmode && istype(living_source) && living_source.sexcon?.arousal >= AROUSAL_HARD_ON_THRESHOLD && living_target.stat != DEAD)
+					if(prob(80))
+						message = pick("[src] ogles", "[src] salaciously stares at", "[src] lecherously eyes")
+						visible_message(span_love("[message] [target]!"))
+					else
+						visible_message(span_love("[src] undresses [A] with [p_their()] eyes!"))
+				else
+					visible_message(span_emote("[message] [target]."))
 
 	var/list/result = A.examine(src)
 	if(result)
