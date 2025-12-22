@@ -775,3 +775,20 @@
 		QDEL_IN(thing, duration)
 	if(cleanup)
 		cleanup_beam_segments()
+
+/obj/projectile/bullet/reusable/proc/apply_tipped_reagents(atom/target, blocked = FALSE)
+	if(!reagents || !reagents.total_volume)
+		return
+	if(!isliving(target))
+		return
+	if(isnum(blocked) && blocked >= 100)
+		return
+	if(nodamage || damage <= 0)
+		return
+	var/mob/living/T = target
+	if(HAS_TRAIT(T, TRAIT_NOMETABOLISM))
+		reagents.clear_reagents()
+		return
+	var/amt = reagents.trans_to(T, reagents.total_volume, transfered_by = firer)
+	if(amt > 0)
+		log_combat(firer, T, "poisoned", addition="(tipped transferred [amt]u)")

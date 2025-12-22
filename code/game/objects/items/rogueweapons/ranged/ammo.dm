@@ -9,6 +9,14 @@
 /obj/item/ammo_casing/caseless/rogue/
 	firing_effect_type = null
 
+/obj/item/ammo_casing/caseless/rogue/arrow/Initialize()
+	. = ..()
+	AddElement(/datum/element/tipped_item)
+
+/obj/item/ammo_casing/caseless/rogue/bolt/Initialize()
+	. = ..()
+	AddElement(/datum/element/tipped_item)
+
 //bolts ฅ^•ﻌ•^ฅ
 
 /obj/item/ammo_casing/caseless/rogue/bolt
@@ -59,7 +67,7 @@
 	damage = 50
 	armor_penetration = 35
 
-/obj/projectile/bullet/reusable/bolt/on_hit(atom/target)
+/obj/projectile/bullet/reusable/bolt/on_hit(atom/target, blocked = FALSE)
 	. = ..()
 
 	var/mob/living/L = firer
@@ -75,7 +83,8 @@
 
 	if(skill_multiplier && can_train_combat_skill(L, /datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT))
 		L.mind.add_sleep_experience(/datum/skill/combat/crossbows, L.STAINT * skill_multiplier)
-
+	apply_tipped_reagents(target, blocked)
+	
 //arrows ฅ^•ﻌ•^ฅ
 
 /obj/item/ammo_casing/caseless/rogue/arrow
@@ -143,7 +152,7 @@
 	flag = "piercing"
 	speed = 0.4
 
-/obj/projectile/bullet/reusable/arrow/on_hit(atom/target)
+/obj/projectile/bullet/reusable/arrow/on_hit(atom/target, blocked = FALSE)
 	..()
 
 	var/mob/living/L = firer
@@ -159,6 +168,7 @@
 
 	if(skill_multiplier && can_train_combat_skill(L, /datum/skill/combat/bows, SKILL_LEVEL_EXPERT))
 		L.mind.add_sleep_experience(/datum/skill/combat/bows, L.STAINT * skill_multiplier)
+	apply_tipped_reagents(target, blocked)
 
 /obj/projectile/bullet/reusable/arrow/stone
 	name = "stone arrow"

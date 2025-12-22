@@ -157,7 +157,10 @@
 		spread = 0
 	for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))
 		var/obj/projectile/BB = CB.BB
-
+		if(CB.reagents && CB.reagents.total_volume)
+			if(!BB.reagents)
+				BB.create_reagents(2)
+			CB.reagents.trans_to(BB, CB.reagents.total_volume, transfered_by = user)
 		BB.accuracy += accfactor * (user.STAPER - 8) * 3 // 8+ PER gives +3 per level. Exponential.
 		BB.bonus_accuracy += (user.STAPER - 8) // 8+ PER gives +1 per level. Does not decrease over range.
 		BB.bonus_accuracy += (user.get_skill_level(/datum/skill/combat/crossbows) * 5) // +5 per XBow level.
@@ -175,7 +178,7 @@
 		add_overlay(ammo)
 	if(chambered && hasloadedsprite)
 		icon_state = "[item_state][2]"
-	
+
 	if(!ismob(loc))
 		return
 	var/mob/M = loc
