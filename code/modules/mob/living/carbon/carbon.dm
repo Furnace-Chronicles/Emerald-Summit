@@ -1127,7 +1127,8 @@
 		reagents.clear_reagents()
 		for(var/addi in reagents.addiction_list)
 			reagents.remove_addiction(addi)
-	for(var/obj/item/organ/organ as anything in internal_organs)
+	for(var/O in internal_organs)
+		var/obj/item/organ/organ = O
 		organ.setOrganDamage(0)
 	var/obj/item/organ/brain/B = getorgan(/obj/item/organ/brain)
 	if(B)
@@ -1181,9 +1182,10 @@
 
 /mob/living/carbon/extinguish_mob(itemz = TRUE)
 	if(itemz)
-		for(var/obj/item/I as anything in get_equipped_items())
+		for(var/X in get_equipped_items())
+			var/obj/item/I = X
 			if(I.extinguishable)
-				I.extinguish()
+				I.extinguish() //extinguishes our clothes
 			I.acid_level = 0 //washes off the acid on our clothes
 		var/obj/item/I = get_active_held_item()
 		if(I && I.extinguishable)
@@ -1235,7 +1237,8 @@
 		I.Insert(src)
 
 /mob/living/carbon/proc/update_disabled_bodyparts()
-	for(var/obj/item/bodypart/BP as anything in bodyparts)
+	for(var/B in bodyparts)
+		var/obj/item/bodypart/BP = B
 		BP.update_disabled()
 
 /mob/living/carbon/vv_get_dropdown()
@@ -1258,13 +1261,13 @@
 			return
 		var/list/limb_list = list()
 		if(edit_action == "remove" || edit_action == "augment")
-			for(var/obj/item/bodypart/B as anything in bodyparts)
+			for(var/obj/item/bodypart/B in bodyparts)
 				limb_list += B.body_zone
 			if(edit_action == "remove")
 				limb_list -= BODY_ZONE_CHEST
 		else
 			limb_list = list(BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-			for(var/obj/item/bodypart/B as anything in bodyparts)
+			for(var/obj/item/bodypart/B in bodyparts)
 				limb_list -= B.body_zone
 		var/result = input(usr, "Please choose which body part to [edit_action]","[capitalize(edit_action)] Body Part") as null|anything in sortList(limb_list)
 		if(result)

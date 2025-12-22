@@ -79,9 +79,9 @@
 
 		on_remove()
 		owner = null
-	effectedstats = null
-	. = ..()
-	return QDEL_HINT_IWILLGC
+
+	effectedstats = list()
+	return ..()
 
 /datum/status_effect/process(wait)
 	if(QDELETED(owner))

@@ -804,7 +804,8 @@
 		if(mind)
 			if(admin_revive)
 				mind.remove_antag_datum(/datum/antagonist/zombie)
-			for(var/obj/effect/proc_holder/spell/spell as anything in mind.spell_list)
+			for(var/S in mind.spell_list)
+				var/obj/effect/proc_holder/spell/spell = S
 				spell.updateButtonIcon()
 		qdel(GetComponent(/datum/component/rot))
 
@@ -821,7 +822,8 @@
 
 /mob/living/Crossed(atom/movable/AM)
 	. = ..()
-	for(var/obj/item/item as anything in get_equipped_items())
+	for(var/i in get_equipped_items())
+		var/obj/item/item = i
 		SEND_SIGNAL(item, COMSIG_ITEM_WEARERCROSSED, AM, src)
 
 /// proc used to completely heal a mob. admin_revive = TRUE is used in other procs, for example mob/living/carbon/fully_heal()
@@ -1116,7 +1118,6 @@
 		client.chargedprog = 0
 		client.tcompare = null //so we don't shoot the attack off
 		client.mouse_pointer_icon = 'icons/effects/mousemice/human.dmi'
-		STOP_PROCESSING(SSmousecharge, client)
 	if(used_intent)
 		used_intent.on_mouse_up()
 	if(mmb_intent)

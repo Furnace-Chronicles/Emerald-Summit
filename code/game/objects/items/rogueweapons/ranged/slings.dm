@@ -5,12 +5,7 @@
 	chargedrain = 2
 	charging_slowdown = 3
 
-/datum/intent/swing/sling/can_charge()
-	if(mastermob?.next_move > world.time)
-		if(mastermob.client.last_cooldown_warn + 10 < world.time)
-			to_chat(mastermob, span_warning("I'm not ready to do that yet!"))
-			mastermob.client.last_cooldown_warn = world.time
-			return FALSE
+/datum/intent/swing/sling/can_charge() //checks for arms and spare empty hand removed since it can fire with one hand
 	return TRUE
 
 /datum/intent/swing/sling/prewarning()
@@ -37,12 +32,7 @@
 	chargedrain = 2
 	charging_slowdown = 3
 
-/datum/intent/arc/sling/can_charge()
-	if(mastermob?.next_move > world.time)
-		if(mastermob.client.last_cooldown_warn + 10 < world.time)
-			to_chat(mastermob, span_warning("I'm not ready to do that yet!"))
-			mastermob.client.last_cooldown_warn = world.time
-			return FALSE
+/datum/intent/arc/sling/can_charge() //checks for arms and spare empty hand removed since it can fire with one hand
 	return TRUE
 
 /datum/intent/arc/sling/prewarning()
