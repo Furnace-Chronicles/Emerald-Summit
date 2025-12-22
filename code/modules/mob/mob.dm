@@ -487,7 +487,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 				if(iscarbon(living_target) && living_target != src)
 					target = "[living_target]'s [parse_zone(zone_selected)]"
 			if(m_intent != MOVE_INTENT_SNEAK)
-				if(A != src && !cmode && istype(living_source) && living_source.sexcon?.arousal >= AROUSAL_HARD_ON_THRESHOLD && living_target.stat != DEAD)
+				if(A != src && !cmode && istype(living_source) && living_source.sexcon?.arousal >= (AROUSAL_HARD_ON_THRESHOLD * 2) && living_target.stat != DEAD)
 					if(prob(80))
 						message = pick("[src] ogles", "[src] salaciously stares at", "[src] lecherously eyes")
 						visible_message(span_love("[message] [target]!"))
