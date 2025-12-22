@@ -99,6 +99,7 @@
 /// Helper proc to count covered body parts and calculate integrity multiplier
 /obj/item/clothing/proc/get_coverage_integrity_mult()
 	var/covered_parts = 0
+
 	if(body_parts_covered & CHEST)
 		covered_parts++
 	if(body_parts_covered & GROIN)
@@ -115,30 +116,39 @@
 	if(covered_parts == 0)
 		return 1.0
 
-	// Divide integrity by covered parts, with minimum of 1/3
-	return max(1.0 / covered_parts, 1.0 / 3.0)
+	return covered_parts
+
+/obj/item/clothing/proc/calculate_zone_integrity(zone)
+	var/integrity_mult = get_coverage_integrity_mult()
+	if(integrity_mult > 3)
+		integrity_mult = 3
+		if(zone)
+			switch(zone)
+				if(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
+					return round((max_integrity * (1 / integrity_mult)) * 0.75, 10)
+				if(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+					return round((max_integrity * (1 / integrity_mult)) * 0.85, 10)
+				
+	return round(max_integrity * (1 / integrity_mult), 10)
 
 /obj/item/clothing/proc/initialize_zone_durability()
 	var/limb_coverage = body_parts_covered & (CHEST | GROIN | ARMS | LEGS | HANDS | FEET)
 	if(!limb_coverage)
 		return
 
-	var/integrity_mult = get_coverage_integrity_mult()
-	var/zone_durability = round(max_integrity * integrity_mult, 10)
-
 	// Assign durability to each covered zone
 	if(body_parts_covered & CHEST)
-		zone_integrity_chest = zone_durability
+		zone_integrity_chest = calculate_zone_integrity()
 	if(body_parts_covered & GROIN)
-		zone_integrity_groin = zone_durability
+		zone_integrity_groin = calculate_zone_integrity()
 	if(body_parts_covered & (ARM_LEFT | HAND_LEFT))
-		zone_integrity_l_arm = zone_durability
+		zone_integrity_l_arm = calculate_zone_integrity(BODY_ZONE_L_ARM)
 	if(body_parts_covered & (ARM_RIGHT | HAND_RIGHT))
-		zone_integrity_r_arm = zone_durability
+		zone_integrity_r_arm = calculate_zone_integrity(BODY_ZONE_R_ARM)
 	if(body_parts_covered & (LEG_LEFT | FOOT_LEFT))
-		zone_integrity_l_leg = zone_durability
+		zone_integrity_l_leg = calculate_zone_integrity(BODY_ZONE_L_LEG)
 	if(body_parts_covered & (LEG_RIGHT | FOOT_RIGHT))
-		zone_integrity_r_leg = zone_durability
+		zone_integrity_r_leg = calculate_zone_integrity(BODY_ZONE_R_LEG)
 
 /// Check if this clothing uses zone-specific integrity tracking at all
 /obj/item/clothing/proc/uses_zone_integrity()
@@ -237,8 +247,7 @@
 /// Get the maximum integrity for a specific body zone
 /// Returns the zone-specific max if tracked, otherwise returns max_integrity
 /obj/item/clothing/proc/get_zone_max_integrity(def_zone)
-	var/integrity_mult = get_coverage_integrity_mult()
-	var/zone_max = round(max_integrity * integrity_mult, 5)
+	var/zone_max = calculate_zone_integrity(def_zone)
 
 	switch(def_zone)
 		if(BODY_ZONE_CHEST, BODY_ZONE_PRECISE_STOMACH)
@@ -340,21 +349,18 @@
 
 /// Override obj_fix for clothing to restore all zone integrities
 /obj/item/clothing/obj_fix(mob/user)
-	var/integrity_mult = get_coverage_integrity_mult()
-	var/zone_durability = round(max_integrity * integrity_mult, 5)
-
 	if(zone_integrity_chest != null)
-		zone_integrity_chest = zone_durability
+		zone_integrity_chest = get_zone_max_integrity(BODY_ZONE_CHEST)
 	if(zone_integrity_groin != null)
-		zone_integrity_groin = zone_durability
+		zone_integrity_groin = get_zone_max_integrity(BODY_ZONE_PRECISE_GROIN)
 	if(zone_integrity_l_arm != null)
-		zone_integrity_l_arm = zone_durability
+		zone_integrity_l_arm = get_zone_max_integrity(BODY_ZONE_L_ARM)
 	if(zone_integrity_r_arm != null)
-		zone_integrity_r_arm = zone_durability
+		zone_integrity_r_arm = get_zone_max_integrity(BODY_ZONE_R_ARM)
 	if(zone_integrity_l_leg != null)
-		zone_integrity_l_leg = zone_durability
+		zone_integrity_l_leg = get_zone_max_integrity(BODY_ZONE_L_LEG)
 	if(zone_integrity_r_leg != null)
-		zone_integrity_r_leg = zone_durability
+		zone_integrity_r_leg = get_zone_max_integrity(BODY_ZONE_R_LEG)
 
 	..()
 

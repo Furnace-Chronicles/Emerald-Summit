@@ -343,7 +343,7 @@
 	playsound(C.loc, "genblunt", 100, FALSE, -1)
 	C.next_attack_msg.Cut()
 
-	var/actual_damage = ishuman(C) ? C:get_actual_damage(damage, armor_block, limb_grabbed, "twist") : max(damage - armor_block, 0)
+	var/actual_damage = ishuman(C) ? C:get_actual_damage(damage, armor_block, limb_grabbed, "twist", user) : max(damage - armor_block, 0)
 
 	if(isdoll(C))
 		armor_block = C.getarmor(sublimb_grabbed, "blunt")

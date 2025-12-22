@@ -16,7 +16,7 @@
 	if(best_armor_cache)
 		best_armor_cache.len = 0
 
-/mob/living/carbon/human/proc/get_best_armor(def_zone, d_type, blade_dulling = null, armor_penetration = 0)
+/mob/living/carbon/human/proc/get_best_armor(def_zone, d_type, blade_dulling = null, armor_penetration = 0, mob/living/attacker)
 	if(!d_type)
 		return null
 	if(isbodypart(def_zone))
@@ -48,15 +48,20 @@
 				// Calculate armor effectiveness based on zone's durability
 				var/effectiveness = 1.0
 				if(C.max_integrity && val > 0)
-					var/damage_percent = round(((zone_integrity / C.max_integrity) * 100), 1)
-					var/max_reduction = (C.armor_class == ARMOR_CLASS_HEAVY) ? 40 : ((C.armor_class == ARMOR_CLASS_MEDIUM) ? 60 : 75)
+					var/damage_percent = round(((zone_integrity / C.get_zone_max_integrity(def_zone)) * 100), 1)
+					var/max_reduction = (C.armor_class == ARMOR_CLASS_HEAVY) ? 50 : ((C.armor_class == ARMOR_CLASS_MEDIUM) ? 60 : 70)
 					if(damage_percent < 100)
 						effectiveness = 1.0 - ((100 - damage_percent) / 100 * (max_reduction / 100))
 
 				var/effective_val = val * effectiveness
 
 				// For blunt attacks, adjust based on armor class with scaled modifiers
+				var/apply_blunt_modifier = FALSE
 				if(d_type == "blunt")
+					if(blade_dulling == BCLASS_BLUNT || blade_dulling == BCLASS_SMASH || blade_dulling == BCLASS_PUNCH && (attacker && HAS_TRAIT(attacker, TRAIT_CIVILIZEDBARBARIAN)))
+						apply_blunt_modifier = TRUE
+				
+				if(apply_blunt_modifier)
 					var/blunt_modifier = 0
 					var/effective_class = C.armor_class == ARMOR_CLASS_NONE && C.integ_armor_mod != ARMOR_CLASS_NONE ? C.integ_armor_mod : C.armor_class
 
@@ -120,15 +125,15 @@
 				var/val = C.armor.getRating(d_type)
 				if(val > 0)
 					// Calculate armor effectiveness based on zone-specific durability and armor class
-					var/damage_percent = round(((zone_integrity / C.max_integrity) * 100), 1)
+					var/damage_percent = round(((zone_integrity / C.get_zone_max_integrity(def_zone)) * 100), 1)
 					var/max_reduction = 0
 					switch(C.armor_class)
 						if(ARMOR_CLASS_HEAVY)
-							max_reduction = 40
+							max_reduction = 50
 						if(ARMOR_CLASS_MEDIUM)
 							max_reduction = 60
 						if(ARMOR_CLASS_LIGHT)
-							max_reduction = 75
+							max_reduction = 70
 
 					// Armor effectiveness scales linearly from 100% at full health to (100% - max_reduction) at 1% durability
 					var/effectiveness = 1.0
@@ -226,7 +231,7 @@
 							degradation_mult = ARMOR_DEGR_PIERCE_HEAVY
 
 		intdamage *= degradation_mult
-		if(used.zone_integrity_chest != null || used.zone_integrity_groin != null || used.zone_integrity_l_arm != null || used.zone_integrity_r_arm != null || used.zone_integrity_l_leg != null || used.zone_integrity_r_leg != null)
+		if(used.uses_zone_integrity())
 			used.damage_zone(def_zone, intdamage, damage_flag = d_type, sound_effect = FALSE)
 		else
 			used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
@@ -254,8 +259,9 @@
 				var/zone_integrity = C.get_zone_integrity(def_zone)
 				if(zone_integrity > 1)
 					if(d_type in C.prevent_crits)
+						var/zone_max = C.get_zone_max_integrity(def_zone)
 						// Crit resistance scales with zone-specific durability: 100% at full durability, 0% at 0 durability
-						var/durability_percent = (zone_integrity / C.max_integrity) * 100
+						var/durability_percent = (zone_integrity / zone_max) * 100
 						return durability_percent
 
 
@@ -844,8 +850,8 @@
 		else
 			. = ARMOR_DT_DIVISOR_LIGHT
 
-/mob/living/carbon/human/proc/get_actual_damage(raw_damage, armor, def_zone, damage_type)
-	var/armor_piece = get_best_armor(def_zone, damage_type)
+/mob/living/carbon/human/proc/get_actual_damage(raw_damage, armor, def_zone, damage_type, mob/living/attacker)
+	var/armor_piece = get_best_armor(def_zone, damage_type, attacker)
 	var/dt_divisor = get_dt_divisor(armor_piece)
 
 	var/damage_threshold = armor / dt_divisor

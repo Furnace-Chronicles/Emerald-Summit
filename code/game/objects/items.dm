@@ -553,47 +553,45 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			if(has_zone_durability)
 				// Display zone-specific durability for armor
 				var/obj/item/clothing/C = src
-				var/has_torso = (C.body_parts_covered & (CHEST | GROIN))
-				var/limb_mult = has_torso ? 0.8 : 1.0
 				inspec += "\n<b>DURABILITY:</b>"
 
 				if(C.zone_integrity_chest != null)
-					var/zone_max = max_integrity
+					var/zone_max = C.get_zone_max_integrity(BODY_ZONE_CHEST)
 					var/eff_max = zone_max - (zone_max * integrity_failure)
 					var/eff_curr = max(C.zone_integrity_chest - (zone_max * integrity_failure), 0)
 					var/percent = round(((eff_curr / eff_max) * 100), 1)
 					inspec += "\n  <b>Chest:</b> [percent]% ([floor(eff_curr)])"
 
 				if(C.zone_integrity_groin != null)
-					var/zone_max = max_integrity
+					var/zone_max = C.get_zone_max_integrity(BODY_ZONE_PRECISE_GROIN)
 					var/eff_max = zone_max - (zone_max * integrity_failure)
 					var/eff_curr = max(C.zone_integrity_groin - (zone_max * integrity_failure), 0)
 					var/percent = round(((eff_curr / eff_max) * 100), 1)
 					inspec += "\n  <b>Groin:</b> [percent]% ([floor(eff_curr)])"
 
 				if(C.zone_integrity_l_arm != null)
-					var/zone_max = max_integrity * limb_mult
+					var/zone_max = C.get_zone_max_integrity(BODY_ZONE_L_ARM)
 					var/eff_max = zone_max - (zone_max * integrity_failure)
 					var/eff_curr = max(C.zone_integrity_l_arm - (zone_max * integrity_failure), 0)
 					var/percent = round(((eff_curr / eff_max) * 100), 1)
 					inspec += "\n  <b>Left Arm:</b> [percent]% ([floor(eff_curr)])"
 
 				if(C.zone_integrity_r_arm != null)
-					var/zone_max = max_integrity * limb_mult
+					var/zone_max = C.get_zone_max_integrity(BODY_ZONE_R_ARM)
 					var/eff_max = zone_max - (zone_max * integrity_failure)
 					var/eff_curr = max(C.zone_integrity_r_arm - (zone_max * integrity_failure), 0)
 					var/percent = round(((eff_curr / eff_max) * 100), 1)
 					inspec += "\n  <b>Right Arm:</b> [percent]% ([floor(eff_curr)])"
 
 				if(C.zone_integrity_l_leg != null)
-					var/zone_max = max_integrity * limb_mult
+					var/zone_max = C.get_zone_max_integrity(BODY_ZONE_L_LEG)
 					var/eff_max = zone_max - (zone_max * integrity_failure)
 					var/eff_curr = max(C.zone_integrity_l_leg - (zone_max * integrity_failure), 0)
 					var/percent = round(((eff_curr / eff_max) * 100), 1)
 					inspec += "\n  <b>Left Leg:</b> [percent]% ([floor(eff_curr)])"
 
 				if(C.zone_integrity_r_leg != null)
-					var/zone_max = max_integrity * limb_mult
+					var/zone_max = C.get_zone_max_integrity(BODY_ZONE_R_LEG)
 					var/eff_max = zone_max - (zone_max * integrity_failure)
 					var/eff_curr = max(C.zone_integrity_r_leg - (zone_max * integrity_failure), 0)
 					var/percent = round(((eff_curr / eff_max) * 100), 1)

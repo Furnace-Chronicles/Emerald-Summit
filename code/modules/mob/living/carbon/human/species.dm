@@ -1310,7 +1310,7 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 		target.next_attack_msg.Cut()
 
 		var/nodmg = FALSE
-		var/actual_damage = ishuman(target) ? target:get_actual_damage(damage, armor_block, selzone, d_type) : max(damage - armor_block, 0)
+		var/actual_damage = ishuman(target) ? target:get_actual_damage(damage, armor_block, selzone, d_type, user) : max(damage - armor_block, 0)
 
 		user.dna.species.spec_unarmedattacked(user, target, damage, armor_block, actual_damage, affecting)
 
@@ -1553,7 +1553,7 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 			var/armor_block = target.run_armor_check(selzone, "blunt", armor_penetration = stomp_pen, blade_dulling = BCLASS_BLUNT, damage = damage)
 			target.next_attack_msg.Cut()
 			var/nodmg = FALSE
-			var/actual_damage = ishuman(target) ? target:get_actual_damage(damage, armor_block, selzone, "blunt") : max(damage - armor_block, 0)
+			var/actual_damage = ishuman(target) ? target:get_actual_damage(damage, armor_block, selzone, "blunt", user) : max(damage - armor_block, 0)
 
 			if(!target.apply_damage(actual_damage, user.dna.species.attack_type, affecting, 0))
 				nodmg = TRUE
@@ -1702,7 +1702,7 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 			kick_pen += (user.STASTR - 10) * STR_PEN_FACTOR
 		var/armor_block = target.run_armor_check(selzone, "blunt", armor_penetration = kick_pen, blade_dulling = BCLASS_BLUNT)
 		var/damage = user.get_punch_dmg()
-		var/actual_damage = ishuman(target) ? target:get_actual_damage(damage, armor_block, selzone, "blunt") : max(damage - armor_block, 0)
+		var/actual_damage = ishuman(target) ? target:get_actual_damage(damage, armor_block, selzone, "blunt", user) : max(damage - armor_block, 0)
 		if(!target.apply_damage(actual_damage, user.dna.species.attack_type, affecting, 0))
 			target.next_attack_msg += " <span class='warning'>Armor stops the damage.</span>"
 		else
@@ -1833,7 +1833,7 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 	if(user.cmode && istype(user.rmb_intent, /datum/rmb_intent/aimed) && can_do_precision)
 		if(selzone in GLOB.precision_vulnerable_zones)
 			var/mob/living/carbon/human/attacker = user
-			var/obj/item/clothing/outer_armor = H.get_best_armor(selzone, I.d_type, bladec, pen)
+			var/obj/item/clothing/outer_armor = H.get_best_armor(selzone, I.d_type, bladec, pen, attacker)
 
 			if(outer_armor)
 				var/armor_class = outer_armor.armor_class == ARMOR_CLASS_NONE && outer_armor.integ_armor_mod != ARMOR_CLASS_NONE ? outer_armor.integ_armor_mod : outer_armor.armor_class
@@ -1887,7 +1887,7 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 		var/weakness = H.check_weakness(I, user)
 		H.next_attack_msg.Cut()
 		raw_damage = Iforce * weakness
-		actual_damage = H.get_actual_damage(raw_damage, armor_block, selzone, I.d_type)
+		actual_damage = H.get_actual_damage(raw_damage, armor_block, selzone, I.d_type, user)
 
 		if(!apply_damage(actual_damage, I.damtype, def_zone, 0, H))
 			nodmg = TRUE
