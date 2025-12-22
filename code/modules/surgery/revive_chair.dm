@@ -279,6 +279,9 @@
 	if(HAS_TRAIT(occupant, TRAIT_NECRAS_VOW))
 		to_chat(H, span_warning("This soul belongs to Necra and cannot be reclaimed! You feel her fury!"))
 		return
+	if(occupant.job == "Grand Duke")
+		to_chat(user, "[occupant]'s body lays still and peaceful, refusing to stir.")
+		return
 	if(!occupant.mind.active)
 		to_chat(H, span_warning("The spirit has moved beyond recall."))
 		return
