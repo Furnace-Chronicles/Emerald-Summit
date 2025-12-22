@@ -32,7 +32,7 @@
 	hitscan = TRUE
 	movement_type = UNSTOPPABLE
 	light_color = LIGHT_COLOR_WHITE
-	damage = 60
+	damage = 40
 	damage_type = BURN
 	accuracy = 40 // Base accuracy is lower for burn projectiles because they bypass armor
 	nodamage = FALSE
@@ -52,10 +52,14 @@
 			return BULLET_ACT_BLOCK
 		if(isliving(target))
 			var/mob/living/L = target
+			var/mark_stacks = consume_arcane_mark_stacks(L)
 			L.Immobilize(0.2 SECONDS)
-			L.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+			if(mark_stacks)
+				L.apply_status_effect(/datum/status_effect/debuff/clickcd, (1 SECONDS*mark_stacks))
+				L.apply_damage((mark_stacks*15), BURN)
+			if(mark_stacks == 3)
+				for(var/obj/item/W in L.held_items)
+					L.dropItemToGround(W)
 			L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
-			for(var/obj/item/W in L.held_items)
-				L.dropItemToGround(W)
 			L.apply_status_effect(/datum/status_effect/buff/lightningstruck, 1.2 SECONDS)
 	qdel(src)
