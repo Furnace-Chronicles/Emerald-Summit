@@ -459,6 +459,9 @@
 	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
 		variance_center = 1
 
+	if(istype(user.rmb_intent, /datum/rmb_intent/weak))
+		variance_center = -1
+
 	var/variance_roll = get_damage_variance(I.associated_skill, variance_center)
 
 	newforce = newforce * (1 + (variance_roll / 100))
@@ -477,11 +480,13 @@
 		if(/datum/skill/combat/knives) // Low variance, but tend to roll high with a big curve
 			variance_range = 25
 			curve_depth = 4
-			variance_center += 0.3
+			if(variance_center > 0)
+				variance_center += 0.3
 		if(/datum/skill/combat/swords)
 			variance_range = 35
 			curve_depth = 2
-			variance_center += 0.15
+			if(variance_center > 0)
+				variance_center += 0.15
 		if(/datum/skill/combat/axes, /datum/skill/labor/lumberjacking)
 			variance_range = 70
 			curve_depth = 6
@@ -491,7 +496,8 @@
 		if(/datum/skill/combat/polearms, /datum/skill/labor/farming)
 			variance_range = 40
 			curve_depth = 2
-			variance_center += 0.1
+			if(variance_center > 0)
+				variance_center += 0.1
 		if(/datum/skill/combat/whipsflails)
 			variance_range = 70
 			curve_depth = 3
@@ -505,7 +511,7 @@
 	for(var/i = 0, i < curve_depth, i++)
 		variance_roll += rand(-variance_range, variance_range)
 
-	variance_center = clamp(variance_center, -0.7, 0.7)
+	variance_center = clamp(variance_center, -1, 1)
 
 
 	variance_roll = (variance_roll / curve_depth) + (variance_center * variance_range)
