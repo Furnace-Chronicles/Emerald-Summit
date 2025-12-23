@@ -136,7 +136,7 @@
 /datum/crafting_recipe/roguetown/turfs/wood/murderhole
 	name = "murder hole (wood)"
 	result = /turf/closed/wall/mineral/rogue/wood/window
-	reqs = list(/obj/item/grown/log/tree/small = 2)
+	reqs = ist(/obj/item/natural/wood/plank = 2)
 	skillcraft = /datum/skill/craft/carpentry
 	verbage_simple = "construct"
 	verbage = "constructs"
@@ -145,7 +145,7 @@
 /datum/crafting_recipe/roguetown/turfs/wood/darkwoodwall
 	name = "Dark Wood Wall"
 	result = /turf/closed/wall/mineral/rogue/wooddark
-	reqs = list(/obj/item/grown/log/tree/small = 2)
+	reqs = list(/obj/item/natural/wood/plank = 2)
 	skillcraft = /datum/skill/craft/carpentry
 	verbage_simple = "construct"
 	verbage = "constructs"
@@ -154,7 +154,7 @@
 /datum/crafting_recipe/roguetown/turfs/wood/darkwoodwindow
 	name =	"Dark Wood Murderhole"
 	result = /turf/closed/wall/mineral/rogue/wooddark/window
-	reqs = list(/obj/item/grown/log/tree/small = 2)
+	reqs = list(/obj/item/natural/wood/plank = 2)
 	skillcraft = /datum/skill/craft/carpentry
 	verbage_simple = "construct"
 	verbage = "constructs"
