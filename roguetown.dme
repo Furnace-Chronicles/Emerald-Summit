@@ -2703,6 +2703,4 @@
 #include "modular_scarletreach\code\modules\mob\living\carbon\human\voicepacks\female\tabaxi.dm"
 #include "modular_scarletreach\code\modules\mob\living\carbon\human\voicepacks\male\tabaxi.dm"
 #include "modular_stonehedge\code\modules\clothing\rogueclothes\hats.dm"
-#include "modular_azurepeak\code\modules\mob\living\ambushes\human\npc\soldiers\bog_deserters.dm"
-#include "modular_azurepeak\code\modules\mob\living\ambushes\human\npc\soldiers\orc_ambushers.dm"
 // END_INCLUDE
