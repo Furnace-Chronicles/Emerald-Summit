@@ -43,7 +43,7 @@
 	tutorial = "You are adroit in the art of bureaucracy. Paperwork, record-keeping, and the endless red tape of noble life are your specialties. You make an excellent assistant to the men in charge, ensuring that everything runs smoothly behind the scenes. Assisting the Steward and Marshal in maintaining the economy and security of the realm sees you presented with pleanty of opportunities to prove your dilligence... or line your own pockets."
 	outfit = /datum/outfit/job/councillor/admin
 	category_tags = list(CTAG_COUNCILLOR)
-	traits_applied = list(TRAIT_SEEPRICES, TRAIT_INTELLECTUAL, TRAIT_PERFECT_TRACKER)
+	traits_applied = list(TRAIT_SEEPRICES_SHITTY, TRAIT_INTELLECTUAL, TRAIT_PERFECT_TRACKER)
 	subclass_stats = list(
 		STATKEY_PER = 3,
 		STATKEY_INT = 2,
