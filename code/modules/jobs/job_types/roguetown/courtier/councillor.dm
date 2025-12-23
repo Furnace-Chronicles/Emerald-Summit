@@ -47,10 +47,8 @@
 	subclass_stats = list(
 		STATKEY_PER = 3,
 		STATKEY_INT = 2,
-		STATKEY_END = 2,
 		STATKEY_STR = 1,
 		STATKEY_SPD = -1,
-		STATKEY_LCK = 1,
 	)
 
 	subclass_skills = list(
@@ -95,7 +93,6 @@
 	category_tags = list(CTAG_COUNCILLOR)
 	traits_applied = list(TRAIT_KEENEARS, TRAIT_LIGHT_STEP, TRAIT_CICERONE)
 	subclass_stats = list(
-		STATKEY_PER = 3,
 		STATKEY_INT = 2,
 		STATKEY_SPD = 2,
 		STATKEY_STR = -1,
@@ -148,9 +145,7 @@
 	traits_applied = list(TRAIT_EMPATH, TRAIT_GOODLOVER, TRAIT_NUTCRACKER)
 	subclass_stats = list(
 		STATKEY_PER = 1,
-		STATKEY_INT = 2,
-		STATKEY_SPD = 1,
-		STATKEY_STR = 1,
+		STATKEY_INT = 3,
 		STATKEY_LCK = 1,
 	)
 
