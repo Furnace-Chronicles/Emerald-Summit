@@ -4887,7 +4887,7 @@
 "bpb" = (
 /obj/structure/mineral_door/wood/fancywood{
 	locked = 1;
-	lockid = "manor";
+	lockid = "council";
 	name = "Council Office"
 	},
 /turf/open/floor/rogue/cobble,
@@ -11992,7 +11992,7 @@
 "dok" = (
 /obj/structure/mineral_door/wood/fancywood{
 	locked = 1;
-	lockid = "manor";
+	lockid = "council";
 	name = "Council Office"
 	},
 /turf/open/floor/rogue/cobble,
@@ -22528,6 +22528,7 @@
 /obj/machinery/light/rogue/wallfire/candle{
 	pixel_y = -32
 	},
+/obj/item/roguekey/council,
 /turf/open/floor/rogue/tile/tilerg,
 /area/rogue/indoors/town)
 "gcy" = (
@@ -30609,7 +30610,7 @@
 /obj/structure/closet/crate/drawer{
 	keylock = 1;
 	locked = 1;
-	lockid = "councillor";
+	lockid = "council";
 	pixel_y = 8
 	},
 /obj/structure/mirror{
@@ -40877,7 +40878,7 @@
 "kVf" = (
 /obj/structure/mineral_door/wood/fancywood{
 	locked = 1;
-	lockid = "manor";
+	lockid = "council";
 	name = "Council Office"
 	},
 /turf/open/floor/rogue/wood,
@@ -51885,7 +51886,7 @@
 "nOC" = (
 /obj/structure/mineral_door/wood/fancywood{
 	locked = 1;
-	lockid = "manor";
+	lockid = "council";
 	name = "Councillor's Chambers"
 	},
 /turf/open/floor/rogue/cobble,
@@ -53245,7 +53246,7 @@
 "ogR" = (
 /obj/structure/mineral_door/wood/fancywood{
 	locked = 1;
-	lockid = "manor";
+	lockid = "council";
 	name = "Council Office"
 	},
 /turf/open/floor/rogue/wood,
@@ -60265,6 +60266,14 @@
 /obj/machinery/light/rogue/torchholder/c,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/shelter)
+"qcK" = (
+/obj/structure/mineral_door/wood{
+	locked = 1;
+	lockid = "council";
+	name = "wine cellar"
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/under/town/basement/keep)
 "qcR" = (
 /obj/effect/decal/cleanable/greenglow{
 	name = "alchemycal spill";
@@ -196095,7 +196104,7 @@ guM
 gkX
 wCC
 wCC
-wSC
+qcK
 wCC
 wCC
 rTT

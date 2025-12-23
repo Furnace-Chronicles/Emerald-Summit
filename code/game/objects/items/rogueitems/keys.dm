@@ -512,6 +512,12 @@
 	icon_state = "cheesekey"
 	lockid = "steward"
 
+/obj/item/roguekey/council
+	name = "councillor's key"
+	desc = "This key belongs to the court's scheming Councillors."
+	icon_state = "cheesekey"
+	lockid = "council"
+
 /obj/item/roguekey/archive
 	name = "archive key"
 	desc = "This key looks barely used."
