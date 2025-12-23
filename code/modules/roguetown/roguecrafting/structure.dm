@@ -129,6 +129,26 @@
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 3
 
+/datum/crafting_recipe/roguetown/structure/metaldoor
+	name = "Wooden Metal Door"
+	result = /obj/structure/mineral_door/bars
+	reqs = list(/obj/item/grown/log/tre/small = 2
+				/obj/item/ingot/iron = 2)
+	verbage_simple = "construct
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/structure/metaldoorslotted
+	name = "Wooden Metal Slotted Door"
+	result = /obj/structure/mineral_door/wood/donjon
+	reqs = list(/obj/item/grown/log/tre/small = 2
+				/obj/item/ingot/iron = 2)
+	verbage_simple = "construct
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 4
+
 /datum/crafting_recipe/roguetown/structure/barrel
 	name = "wooden barrel"
 	result = /obj/structure/fermentation_keg/crafted
