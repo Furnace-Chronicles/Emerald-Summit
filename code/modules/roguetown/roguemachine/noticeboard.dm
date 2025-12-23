@@ -76,6 +76,10 @@
 	return ..()
 
 /obj/structure/roguemachine/noticeboard/proc/merc_message(mob/living/carbon/human/user, obj/item/roguecoin/coin)
+	if(user.has_status_effect(/datum/status_effect/debuff/mercdmcooldown))
+		to_chat(user, span_warning("I must wait a time until contacting another sellsword..."))
+		return
+
 	var/list/available_mercs = list()
 	for(var/datum/noticeboardpost/saved_post in GLOB.sellsword_noticeboardposts)
 		if(saved_post.posterstitle != MERC_STATUS_AVAILABLE)
@@ -104,8 +108,13 @@
 
 	to_chat(choice, span_boldnotice("The mercenary statue whispers in my mind: <i>[message]</i> - [user.real_name]<br><a href='?src=[REF(src)];direct_response=yae;caller_weakref=[WEAKREF(user)]'>\[YAE\]</a> | <a href='?src=[REF(src)];direct_response=nae;caller_weakref=[WEAKREF(user)]'>\[NAE\]</a>"))
 	playsound(choice.loc, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
+	user.apply_status_effect(/datum/status_effect/debuff/mercdmcooldown)
 
 /obj/structure/roguemachine/noticeboard/proc/merc_broadcast(mob/living/carbon/human/user, obj/item/roguecoin/coin)
+	if(user.has_status_effect(/datum/status_effect/debuff/mercbroadcastcooldown))
+		to_chat(user, span_warning("I must wait a time until broadcasting to sellswords again..."))
+		return
+
 	var/list/available_mercs = list()
 	for(var/datum/noticeboardpost/saved_post in GLOB.sellsword_noticeboardposts)
 		if(saved_post.posterstitle == MERC_STATUS_DND)
@@ -134,7 +143,8 @@
 
 	to_chat(user, span_notice("My message has been broadcast to [LAZYLEN(available_mercs)] mercenary[LAZYLEN(available_mercs) == 1 ? "" : "s"]."))
 	user.log_talk(message, LOG_SAY, tag="noticeboard merc broadcast (to [merc_ckeys.Join(", ")])")
-	
+	user.apply_status_effect(/datum/status_effect/debuff/mercbroadcastcooldown)
+
 /obj/structure/roguemachine/noticeboard/Topic(href, href_list)
 	. = ..()
 	if(!usr.canUseTopic(src, BE_CLOSE))
@@ -402,29 +412,16 @@
 	name = "Recent messenger"
 	desc = "I'll have to wait a bit before making another posting!"
 
-/datum/status_effect/debuff/postcooldown
-	id = "postcooldown"
-	duration = 5 MINUTES
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/postcooldown
-
-/atom/movable/screen/alert/status_effect/debuff/postcooldown
-	name = "Recent messenger"
-	desc = "I'll have to wait a bit before contacting another mercenary!"
-
 /datum/status_effect/debuff/mercdmcooldown
 	id = "mercdmcooldown"
-	duration = 5 MINUTES
+	duration = 30 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/mercdmcooldown
 
 /atom/movable/screen/alert/status_effect/debuff/mercdmcooldown
 	name = "Mercenary Contacted"
 	desc = "I'll have to wait a bit before contacting another mercenary!"
 
-/datum/status_effect/debuff/mercdmcooldown
-	id = "mercdmcooldown"
-	duration = 5 MINUTES
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/mercdmcooldown
-
-/atom/movable/screen/alert/status_effect/debuff/mercdmcooldown
-	name = "Mercenary Contacted"
-	desc = "I'll have to wait a bit before contacting another mercenary!"
+/datum/status_effect/debuff/mercbroadcastcooldown
+	id = "mercbroadcastcooldown"
+	duration = 10 MINUTES
+	alert_type = null // It hangs for a long time, no need show a screen alert for so long
