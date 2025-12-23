@@ -595,6 +595,11 @@
 /mob/proc/do_parry(obj/item/W, parrydrain as num, mob/living/user, balance_diff = 0, attacker_bclass = null)
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
+
+		//Tempo bonus
+		parrydrain -= H.get_tempo_bonus(TEMPO_TAG_STAMLOSS_PARRY)
+
+		var/stamina_before = H.stamina
 		if(H.stamina_add(parrydrain))
 			if(stamina_before + parrydrain >= H.max_stamina && ishuman(user))
 				var/mob/living/carbon/human/attacker = user
