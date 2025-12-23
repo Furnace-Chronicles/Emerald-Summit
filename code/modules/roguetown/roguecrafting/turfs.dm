@@ -226,7 +226,7 @@
 /datum/crafting_recipe/roguetown/turfs/stone/marblefloor
 	name = "Marble Floor (stone)"
 	result = /turf/open/floor/rogue/churchmarble
-	reqs = list(/obj/item/natural/stoneblock =4)
+	reqs = list(/obj/item/natural/stoneblock = 4)
 	craftdiff = 4
 // intentionally expensive and hard to make, its marble
 
