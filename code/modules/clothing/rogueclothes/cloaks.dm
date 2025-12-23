@@ -833,6 +833,9 @@
 		for(var/obj/item/I in things)
 			STR.remove_from_storage(I, get_turf(src))
 
+/obj/item/clothing/cloak/darkcloak/minotaur/red
+	color = CLOTHING_RED
+
 /obj/item/clothing/cloak/darkcloak/bear
 	name = "direbear cloak"
 	desc = "Made from the finest, warmest bear pelt. It might be worth more than your life."

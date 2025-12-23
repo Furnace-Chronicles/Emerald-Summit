@@ -5,29 +5,33 @@
 	Guided by your Magos, you journey to the Peak, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_GOLEM
-	outfit = /datum/outfit/job/heartfelt/lord
+	outfit = null
 	total_positions = 1
 	spawn_positions = 0
 	job_traits = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_HEARTFELT)
 	advclass_cat_rolls = list(CTAG_HFT_LORD)
 	social_rank = SOCIAL_RANK_NOBLE
 	job_subclasses = list(
-		/datum/advclass/heartfelt/lord
+		/datum/advclass/heartfelt/lord/lord,
+		/datum/advclass/heartfelt/lord/archmage,
+		/datum/advclass/heartfelt/lord/chief,
 		)
 
-/datum/advclass/heartfelt/lord
+// DEFAULT - STANDARD OLD CLASS
+
+/datum/advclass/heartfelt/lord/lord
 	name = "Lord of Heartfelt"
 	tutorial = "You are the Lord of Heartfelt, ruler of a once-prosperous barony now in ruin. \
-	Guided by your Magos, you journey to the Peak, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
+	Guided by your Magos, you journey to the Reach, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
 	category_tags = list(CTAG_HFT_LORD)
 	maximum_possible_slots = 1
-	outfit = /datum/outfit/job/heartfelt/lord
+	outfit = /datum/outfit/job/heartfelt/lord/lord
 	pickprob = 100
 	class_select_category = CLASS_CAT_HFT_COURT
 	subclass_social_rank = SOCIAL_RANK_NOBLE
 	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_HEARTFELT)
 
-/datum/outfit/job/heartfelt/lord/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heartfelt/lord/lord/pre_equip(mob/living/carbon/human/H)
 	..()
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 	belt = /obj/item/storage/belt/rogue/leather/black
@@ -35,7 +39,7 @@
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	cloak = /obj/item/clothing/cloak/heartfelt
 	armor = /obj/item/clothing/suit/roguetown/armor/heartfelt
-	neck = /obj/item/storage/belt/rogue/pouch/coins/rich
+	neck = /obj/item/clothing/neck/roguetown/gorget/steel
 	beltl =/obj/item/rogueweapon/scabbard/sword
 	r_hand = /obj/item/rogueweapon/sword/long/marlin
 	beltr = /obj/item/rogueweapon/huntingknife
@@ -43,7 +47,8 @@
 	backl = /obj/item/storage/backpack/rogue/satchel/heartfelt // Paper and Feather
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1)
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/rich = 2,)
 	id = /obj/item/scomstone
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)
@@ -57,8 +62,8 @@
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
@@ -76,6 +81,221 @@
 	H.change_stat("fortune", 5)
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+
+/datum/advclass/heartfelt/lord/archmage
+	name = "Archmagos of Heartfelt"
+	tutorial = "You are the Archmagos of Heartfelt, ruler of a once-prosperous acryne-barony now in ruin. \
+	Guided by visions of the great beyond, you journey to the Reach, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
+	category_tags = list(CTAG_HFT_LORD)
+	maximum_possible_slots = 1
+	outfit = /datum/outfit/job/heartfelt/lord/archmage
+	pickprob = 100
+	class_select_category = CLASS_CAT_HFT_COURT
+	subclass_social_rank = SOCIAL_RANK_NOBLE
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3, TRAIT_INTELLECTUAL, TRAIT_HEARTFELT)
+
+/datum/outfit/job/heartfelt/lord/archmage/pre_equip(mob/living/carbon/human/H)
+	..()
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
+	belt = /obj/item/storage/belt/rogue/leather/black
+	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
+	pants = /obj/item/clothing/under/roguetown/tights/black
+	cloak = /obj/item/clothing/cloak/heartfelt
+	armor = /obj/item/clothing/cloak/poncho/fancycoat
+	neck = /obj/item/storage/belt/rogue/pouch/coins/rich
+	beltl = /obj/item/flashlight/flare/torch/lantern
+	r_hand = /obj/item/rogueweapon/woodstaff/diamond
+	beltr = /obj/item/rogueweapon/huntingknife
+	gloves = /obj/item/clothing/gloves/roguetown/leather/black
+	backl = /obj/item/storage/backpack/rogue/satchel/heartfelt // Paper and Feather
+	backpack_contents = list(
+		/obj/item/recipe_book/alchemy,
+		/obj/item/roguegem/amethyst,
+		/obj/item/spellbook_unfinished/pre_arcyne,
+		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne,
+	)
+	id = /obj/item/scomstone
+	if(H.mind)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)
+	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/magic/arcane, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/sneaking, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/riding, 3, TRUE)
+	H.change_stat("intelligence", 3)
+	H.change_stat("endurance", 1)
+	H.change_stat("speed", 1)
+	H.change_stat("perception", 2)
+	H.change_stat("fortune", 5)
+	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_ARCYNE_T3, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_HEARTFELT, TRAIT_GENERIC)
+	if(H.mind)
+		H?.mind.adjust_spellpoints(24)
+	if(H.age == AGE_OLD)
+		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+		H.change_stat("speed", -1)
+		H.change_stat("intelligence", 1)
+		H.change_stat("perception", 1)
+		H?.mind.adjust_spellpoints(6)
+
+// Semi-Antag role. Similar to Lord, just different background and stats change a bit
+//datum/advclass/heartfelt/lord/conqueror
+//	name = "Conqueror of Heartfelt"
+//	tutorial = "You are the new Lord of Heartfelt of Heartfelt, conquering the a once-prosperous barony now in ruin. \
+	Guided by your Magos, you journey to the Reach, seeking aid to expand your domain, or perhaps claim a new throne."
+//	category_tags = list(CTAG_HFT_LORD)
+//	maximum_possible_slots = 1
+//	outfit = /datum/outfit/job/heartfelt/lord/conqueror
+//	pickprob = 100
+//	class_select_category = CLASS_CAT_HFT_COURT
+//	subclass_social_rank = SOCIAL_RANK_NOBLE
+//	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_HEARTFELT)
+
+//datum/outfit/job/heartfelt/lord/conqueror/pre_equip(mob/living/carbon/human/H)
+//	..()
+//	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
+//	belt = /obj/item/storage/belt/rogue/leather/black
+//	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
+//	pants = /obj/item/clothing/under/roguetown/tights/black
+//	cloak = /obj/item/clothing/cloak/heartfelt
+//	neck = /obj/item/clothing/neck/roguetown/gorget/steel
+//	beltl =/obj/item/rogueweapon/scabbard/sword
+//	r_hand = /obj/item/rogueweapon/sword/long/marlin
+//	beltr = /obj/item/rogueweapon/huntingknife
+//	gloves = /obj/item/clothing/gloves/roguetown/leather/black
+//	backl = /obj/item/storage/backpack/rogue/satchel/heartfelt // Paper and Feather
+//	backpack_contents = list(
+//		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+//		/obj/item/rogueweapon/scabbard/sheath = 1,
+//		/obj/item/storage/belt/rogue/pouch/coins/rich = 1)
+//	id = /obj/item/scomstone
+//	if(H.mind)
+//		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)
+//		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/retreat)
+//		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/bolster)
+//		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/charge)
+//		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/forheartfelt)
+		// H.mind.AddSpell(new/obj/effect/proc_holder/spell/invoked/order/heartfelt/focustarget)
+//		H.verbs |= list(/mob/living/carbon/human/mind/proc/setordersheartfelt)
+//	H.adjust_skillrank(/datum/skill/combat/crossbows, 3, TRUE)
+//	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
+//	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
+//	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+//	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
+//	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
+//	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+//	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+//	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
+//	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
+//	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
+//	H.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
+//	H.adjust_skillrank(/datum/skill/misc/sneaking, 2, TRUE)
+//	H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
+// H.adjust_skillrank(/datum/skill/misc/riding, 3, TRUE)
+//	H.change_stat("strength", 2)
+//	H.change_stat("constitution", 2)
+//	H.change_stat("endurance", 2)
+//	H.change_stat("intelligence", 1)
+//	H.change_stat("perception", 2)
+//	H.change_stat("fortune", 5)
+//	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
+//	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+
+
+// Funny role I thought I'd make. Reminded me of Canute and his Jarldom
+
+/datum/advclass/heartfelt/lord/chief
+	name = "Chief of Heartfelt"
+	tutorial = "You are the Chieftain of Heartfelt, ruler of a once-prosperous barony now in ruin. \
+	Guided by your Magos, you journey to the Reach, seeking aid to restore your domain to its former glory, or perhaps claim a new throne."
+	category_tags = list(CTAG_HFT_LORD)
+	maximum_possible_slots = 1
+	outfit = /datum/outfit/job/heartfelt/lord/chief
+	pickprob = 100
+	class_select_category = CLASS_CAT_HFT_COURT
+	subclass_social_rank = SOCIAL_RANK_NOBLE
+	traits_applied = list(TRAIT_NOBLE, TRAIT_MEDIUMARMOR, TRAIT_CIVILIZEDBARBARIAN, TRAIT_STRONGBITE, TRAIT_HEARTFELT)
+
+/datum/outfit/job/heartfelt/lord/chief/pre_equip(mob/living/carbon/human/H)
+	..()
+	head = /obj/item/clothing/head/roguetown/helmet/sallet/beastskull
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
+	belt = /obj/item/storage/belt/rogue/leather/battleskirt/faulds
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+	cloak = /obj/item/clothing/cloak/darkcloak/minotaur/red
+	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/heartfelt
+	neck = /obj/item/clothing/neck/roguetown/leather
+	beltr = /obj/item/rogueweapon/huntingknife
+	gloves = /obj/item/clothing/gloves/roguetown/leather/black
+	backl = /obj/item/storage/backpack/rogue/satchel/heartfelt // Paper and Feather
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/rich = 1,)
+	id = /obj/item/scomstone
+	if(H.mind)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/retreat)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/bolster)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/charge)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/forheartfelt)
+		// H.mind.AddSpell(new/obj/effect/proc_holder/spell/invoked/order/heartfelt/focustarget)
+		H.verbs |= list(/mob/living/carbon/human/mind/proc/setordersheartfelt)
+	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/sneaking, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/riding, 3, TRUE)
+	H.change_stat("strength", 3)
+	H.change_stat("endurance", 3)
+	H.change_stat("speed", 1)
+	H.change_stat("constitution", 2)
+	H.change_stat("perception", -2)
+	H.change_stat("intelligence", -1)
+	H.change_stat("fortune", 5)
+	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+	var/weapons = list("Tetsubo", "Double-head Greataxe", "Great Mace + Shield", "Battle Axe + Shield", , "Warhammer + Shield")
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	H.set_blindness(0)
+	switch(weapon_choice)
+		if("Tetsubo")
+			r_hand = /obj/item/rogueweapon/mace/goden/steel/tetsubo
+		if("Double-head Greataxe")
+			r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead
+		if("Great Mace + Shield")
+			r_hand = /obj/item/rogueweapon/mace/goden/steel
+			l_hand = /obj/item/rogueweapon/shield/tower/metal
+		if("Battle Axe + Shield")
+			r_hand = /obj/item/rogueweapon/stoneaxe/battle
+			l_hand = /obj/item/rogueweapon/shield/tower/metal
+		if("Warhammer + Shield")
+			r_hand = /obj/item/rogueweapon/mace/warhammer
+			l_hand = /obj/item/rogueweapon/shield/tower/metal
+		else //In case they DC or don't choose close the panel, etc
+			r_hand = /obj/item/rogueweapon/mace/goden/steel/tetsubo
 
 
 // Spells + Orders (Orders are ONLY For HFT Lord job and the Hand Marshal Subclass)
@@ -109,6 +329,12 @@
 	if(target == user)
 		to_chat(user, span_alert("I cannot order myself!"))
 		return 0
+	if(HAS_TRAIT(target, TRAIT_HEARTFELT))
+		if(target == user)
+			to_chat(user, span_alert("I cannot order myself!"))
+			return 0
+		else
+			return 1
 	if(!(target.job in list("Heartfeltian Retinue", "Knight of Heartfelt")))
 		to_chat(user, span_alert("I cannot order one not in our cause!"))
 		return 0
