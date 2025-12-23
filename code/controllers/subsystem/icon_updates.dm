@@ -6,14 +6,24 @@ PROCESSING_SUBSYSTEM_DEF(iconupdates)
 	processing_flag = PROCESSING_ICON_UPDATES
 
 	var/list/image_removal_schedule = list()
+	var/list/cleanup_run = list()
 
 /datum/controller/subsystem/processing/iconupdates/fire(resumed = 0)
 	if(!resumed)
-		process_image_cleanup()
-
-	if (!resumed || !src.currentrun.len)
+		src.cleanup_run = image_removal_schedule.Copy()
 		src.currentrun = processing.Copy()
 
+	var/list/cleanup_run = src.cleanup_run
+	while(length(cleanup_run))
+		var/image/I = cleanup_run[length(cleanup_run)]
+		cleanup_run.len--
+
+		process_image(I)
+
+		if(MC_TICK_CHECK)
+			return
+		else
+			CHECK_TICK
 
 	var/list/currentrun = src.currentrun
 
@@ -24,6 +34,8 @@ PROCESSING_SUBSYSTEM_DEF(iconupdates)
 			processing -= thing
 			if(MC_TICK_CHECK)
 				return
+			else
+				CHECK_TICK
 			continue
 		
 		if(thing.pending_icon_updates)
@@ -34,46 +46,42 @@ PROCESSING_SUBSYSTEM_DEF(iconupdates)
 		
 		if(MC_TICK_CHECK)
 			return
+		else
+			CHECK_TICK
 
-/datum/controller/subsystem/processing/iconupdates/proc/process_image_cleanup()
-	if(!length(image_removal_schedule))
+/datum/controller/subsystem/processing/iconupdates/proc/process_image(image/I)
+	if(!image_removal_schedule[I])
+		return
+
+	if(!I || QDELETED(I))
+		var/list/client_schedule = image_removal_schedule[I]
+		if(client_schedule)
+			for(var/client/C as anything in client_schedule)
+				if(C && !QDELETED(C))
+					C.images -= I
+		image_removal_schedule -= I
+		return
+
+	var/list/client_schedule = image_removal_schedule[I]
+	if(!client_schedule || !length(client_schedule))
+		image_removal_schedule -= I
 		return
 
 	var/current_time = world.time
-	var/list/images_to_remove = list()
+	var/list/clients_to_remove = list()
 
-	for(var/image/I as anything in image_removal_schedule)
-		if(!I || QDELETED(I))
-			var/list/client_schedule = image_removal_schedule[I]
-			if(client_schedule && I)
-				for(var/client/C as anything in client_schedule)
-					if(C && !QDELETED(C))
-						C.images -= I
-			images_to_remove += I
+	for(var/client/C as anything in client_schedule)
+		if(!C || QDELETED(C))
+			clients_to_remove += C
 			continue
 
-		var/list/client_schedule = image_removal_schedule[I]
-		if(!client_schedule || !length(client_schedule))
-			images_to_remove += I
-			continue
+		var/expire_time = client_schedule[C]
+		if(current_time >= expire_time)
+			C.images -= I
+			clients_to_remove += C
 
-		var/list/clients_to_remove = list()
+	for(var/client/C as anything in clients_to_remove)
+		client_schedule -= C
 
-		for(var/client/C as anything in client_schedule)
-			if(!C || QDELETED(C))
-				clients_to_remove += C
-				continue
-
-			var/expire_time = client_schedule[C]
-			if(current_time >= expire_time)
-				C.images -= I
-				clients_to_remove += C
-
-		for(var/client/C as anything in clients_to_remove)
-			client_schedule -= C
-
-		if(!length(client_schedule))
-			images_to_remove += I
-
-	for(var/image/I as anything in images_to_remove)
+	if(!length(client_schedule))
 		image_removal_schedule -= I
