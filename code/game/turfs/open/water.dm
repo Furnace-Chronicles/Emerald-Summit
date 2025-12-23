@@ -275,7 +275,7 @@
 
 /turf/open/water/get_slowdown(mob/user)
 	var/returned = slowdown
-	returned = max(returned - SKILL_LEVEL_JOURNEYMAN, 0) // Everyone has journeyman swimming now
+	returned = max(returned - SKILL_LEVEL_MASTER, 0) // Everyone has journeyman swimming now
 	if(HAS_TRAIT(user, TRAIT_SLOW_SWIMMER))
 		returned += 3
 	return returned
