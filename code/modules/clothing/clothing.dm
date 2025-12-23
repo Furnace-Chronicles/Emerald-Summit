@@ -821,10 +821,14 @@ BLIND     // can't see anything
 
 	if(uses_zone_integrity())
 		// Damage all zones when take_damage is called (non-targeted damage like fire/acid)
+		var/integrity_mult = get_coverage_integrity_mult()
+		if(integrity_mult > 3)
+			integrity_mult = 3
+		var/split_damage = round(damage_amount / integrity_mult, 1)
 		var/list/all_zones = list(BODY_ZONE_CHEST, BODY_ZONE_PRECISE_GROIN, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 		for(var/zone in all_zones)
 			if(has_zone_integrity(zone))
-				modify_zone_integrity(zone, -damage_amount)
+				modify_zone_integrity(zone, -split_damage)
 
 		update_overall_integrity()
 		show_damage_notification(old_integrity, obj_integrity)
