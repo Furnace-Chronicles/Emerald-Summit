@@ -99,14 +99,33 @@
 	if(!choice || !Adjacent(user))
 		return
 
-	var/message = tgui_input_text(user, "Enter your message to [choice]. Remember, they will be able to answer only yae or nae.", "Mercenary Contact", max_length = 300, bigmodal = TRUE)
+	var/message = tgui_input_text(
+		user, 
+		"Enter your message to [choice]. Remember, they will be able to answer only yae or nae.", 
+		"Mercenary Contact", 
+		max_length = 300, 
+		bigmodal = TRUE
+	)
 	if(!message || !Adjacent(user))
 		return
 	
 	playsound(src, 'sound/ambience/noises/birds (7).ogg', 30, FALSE, -1)
 	to_chat(user, span_notice("My message has been sent to [choice.real_name]."))
 
-	to_chat(choice, span_boldnotice("The mercenary statue whispers in my mind: <i>[message]</i> - [user.real_name]<br><a href='?src=[REF(src)];direct_response=yae;caller_weakref=[WEAKREF(user)]'>\[YAE\]</a> | <a href='?src=[REF(src)];direct_response=nae;caller_weakref=[WEAKREF(user)]'>\[NAE\]</a>"))
+	to_chat(
+		choice, 
+		span_boldnotice(
+			"A potential employer contacts me: <i>[message]</i> - [user.real_name]<br>\
+			<script>\
+  			function clickAndDisable(link) {\
+     			link.onclick = function(event) {\
+        		event.preventDefault();\
+     		}\
+			}</script>\
+			<a href='?src=[REF(src)];direct_response=yae;caller_weakref=[WEAKREF(user)];timestamp=[world.time]' onclick='clickAndDisable(this)'>\[YAE\]</a> | \
+			<a href='?src=[REF(src)];direct_response=nae;caller_weakref=[WEAKREF(user)];timestamp=[world.time]' onclick='clickAndDisable(this)'>\[NAE\]</a>"\
+		)
+	)
 	playsound(choice.loc, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
 	user.apply_status_effect(/datum/status_effect/debuff/mercdmcooldown)
 
@@ -147,6 +166,39 @@
 
 /obj/structure/roguemachine/noticeboard/Topic(href, href_list)
 	. = ..()
+	if(href_list["direct_response"])// Merc DM response, handled before CanUseTopic
+		if(!ishuman(usr))
+			return
+		var/mob/living/carbon/human/responder = usr
+		var/response_type = href_list["direct_response"]
+		var/datum/weakref/caller_weakref = href_list["response_id"]
+		var/mob/living/carbon/human/sender = caller_weakref?.resolve()
+		if(QDELETED(sender))
+			to_chat(responder, span_warning("There is no one to resond to..."))
+			return
+
+		if(href_list["timestamp"] + 5 MINUTES <= world.time)
+			to_chat(responder, span_warning("It must be too late..."))
+			return
+
+		if(responder.mind?.assigned_role != "Mercenary")
+			to_chat(responder, span_warning("I am not a mercenary."))
+			return
+
+		// Send response to sender
+		if(response_type == "yae")
+			to_chat(sender, span_notice("[responder.real_name] responded in affirmation to my message."))
+			to_chat(responder, span_notice("I responded in affirmation to [sender.real_name]."))
+		else // nae
+			to_chat(sender, span_notice("[responder.real_name] responded negatively to my message."))
+			to_chat(responder, span_notice("I responded negatively to [sender.real_name]."))
+
+		playsound(sender.loc, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
+		playsound(responder.loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
+
+		responder.log_talk("direct response: [response_type]", LOG_SAY, tag="mercenary noticeboard response (to [key_name(sender)])")
+		return
+
 	if(!usr.canUseTopic(src, BE_CLOSE))
 		return
 	if(href_list["changecategory"])
@@ -208,6 +260,7 @@
 				board_empty = FALSE
 		if(NOTICEBOARD_CAT_SELLSWORDS)
 			if(LAZYLEN(GLOB.sellsword_noticeboardposts))
+				board_empty = FALSE
 				var/merc_count = 0
 				var/available_count = 0
 				var/contracted_count = 0
@@ -228,8 +281,7 @@
 							dnd_count++
 							dnd_mercs += saved_post
 
-				contents += "<b>Registered Mercenaries:</b><br>"
-				contents += "<br><center>"
+				contents += "<center><b>Registered Mercenaries:</b><br>"
 				contents += "Total: <b>[merc_count]</b> | "
 				contents += "<span style='color:green;'>Available: [available_count]</span> | "
 				contents += "<span style='color:orange;'>Contracted: [contracted_count]</span> | "
