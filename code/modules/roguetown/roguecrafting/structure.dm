@@ -130,24 +130,152 @@
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/structure/metaldoor
-	name = "Wooden Metal Door"
+	name = "Wood Metal Door"
 	result = /obj/structure/mineral_door/bars
-	reqs = list(/obj/item/grown/log/tre/small = 2
+	reqs = list(/obj/item/grown/log/tree/small = 2,
 				/obj/item/ingot/iron = 2)
-	verbage_simple = "construct
+	verbage_simple = "construst"
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
-	craftdiff = 4
+	craftdiff = 3	
 
 /datum/crafting_recipe/roguetown/structure/metaldoorslotted
 	name = "Wooden Metal Slotted Door"
 	result = /obj/structure/mineral_door/wood/donjon
-	reqs = list(/obj/item/grown/log/tre/small = 2
+	reqs = list(/obj/item/grown/log/tree/small = 2,
 				/obj/item/ingot/iron = 2)
-	verbage_simple = "construct
+	verbage_simple = "construst"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/structure/glassdoor
+	name = "Wooden Glass Door"
+	result = /obj/structure/mineral_door/wood/window
+	reqs = list(/obj/item/grown/log/tree/small = 2, /obj/item/natural/glass = 2)
+	verbage_simple = "construst"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 3
+
+// furnishings
+
+/datum/crafting_recipe/roguetown/structure/floorclock
+	name = "Floor Clock"
+	result = /obj/structure/fluff/clock
+	reqs = list(/obj/item/natural/wood/plank = 2,/obj/item/roguegear = 1, /obj/item/ingot/iron = 1)
+	verbage_simple = "construst"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/structure/drawer1// oh boy time to add drawers for all five of them, drawers are randomized and theres five different sprites that are all unique enough
+	name = "Long Dresser"
+	result = /obj/structure/closet/crate/drawer/drawer2
+	req s= list(/obj/item/natural/wood/plank = 2)
+	verbage_simple = "construst"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/structure/drawer2
+	name = "Long Dresser (Alt)"
+	result = /obj/structure/closet/crate/drawer/drawer2
+	reqs = list(/obj/item/natural/wood/plank = 2)
+	verbage_simple = "construst"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/structure/drawer3
+	name = "Tall and long Dresser"
+	result = /obj/structure/closet/crate/drawer/drawer3
+	reqs = list(/obj/item/natural/wood/plank = 2)
+	verbage_simple = "construst"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/structure/drawer4
+	name = "Tall and skinny Dresser"
+	result = /obj/structure/closet/crate/drawer/drawer4
+	reqs = list(/obj/item/natural/wood/plank = 2)
+	verbage_simple = "construst"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/structure/drawer5
+	name = "Bedside Drawer"
+	result = /obj/structure/closet/crate/drawer/drawer5
+	reqs = list(/obj/item/natural/wood/plank = 2)
+	verbage_simple = "construst"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/structure/telescope
+	name = "Telescope"
+	result = /obj/structure/telescope
+	req = list(/obj/item/grown/log/tree/stick = 2, /obj/item/ingot/iron = 1, /obj/item/natural/glass = 1)
+	verbage_simple = "construst"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/structure/globe
+	name = "Globe"
+	result = /obj/structure/globe
+	reqs = list(/obj/item/grown/log/tree/stick = 2, /obj/item/natural/wood/plank = 3)
+	verbage_simple = "construst"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/structure/bookcase // this may not have a south facing sprite, it shouldn't be a problem
+	name = "Bookcase"
+	result = /obj/structure/bookcase
+	reqs = list(/obj/item/natural/wood/plank = 2)
+	verbage_simple = "construst"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/structure/goldchest
+	name = "Gold Chest"
+	result = /obj/structure/closet/crate/chest/gold
+	reqs = list(/obj/item/natural/wood/plank = 2, /obj/item/alch/golddust = 1)
+	verbage_simple = "construst"
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/structure/shelvingrack
+	name = "Shelving Rack"
+	result = /obj/structure/rack
+	reqs = list(/obj/item/natural/wood/plank = 1)
+	verbage_simple = "construst"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/structure/tablewood3
+	name = "Wooden Table (Alt)"
+	result = /obj/structure/table/wood/poor/alt_alt
+	reqs = list(/obj/item/natural/wood/plank = 1)
+	verbage_simple = "construst"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/structure/ornatetable
+	name = "Ornate Wooden Table"
+	result = /obj/structure/table/fine
+	reqs = list(/obj/item/natural/wood/plank = 2)
+	verbage_simple = "construst"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 3	
 
 /datum/crafting_recipe/roguetown/structure/barrel
 	name = "wooden barrel"
