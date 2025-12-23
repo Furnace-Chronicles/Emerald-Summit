@@ -1,7 +1,7 @@
 
 /obj/effect/proc_holder/spell/invoked/projectile/spitfire
 	name = "Spitfire"
-	desc = "Shoot out a low-powered ball of fire that ignites a target with a small amount of fire on impact. Builds a stack of <b>Arcane Mark</b> on the target. \n\
+	desc = "Shoot out a low-powered ball of fire that shines brightly on impact, potentially blinding a target. Builds a stack of <b>Arcane Mark</b> on the target. \n\
 	Damage is increased by 100% versus simple-minded creechurs."
 	clothes_req = FALSE
 	range = 8
