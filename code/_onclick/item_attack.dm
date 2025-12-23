@@ -66,6 +66,11 @@
 	var/adf = user.used_intent.clickcd
 	if(istype(user.rmb_intent, /datum/rmb_intent/aimed))
 		adf = round(adf * CLICK_CD_MOD_AIMED)
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			var/per_mult = 1 - ((H.STAPER - 10	) * 0.05)
+			per_mult = clamp(per_mult, 0.5, 2.0) 
+			adf = max(round(adf * per_mult), CLICK_CD_INTENTCAP)
 	if(istype(user.rmb_intent, /datum/rmb_intent/swift))
 		adf = max(round(adf * CLICK_CD_MOD_SWIFT), CLICK_CD_INTENTCAP)
 	user.changeNext_move(adf)
@@ -158,15 +163,7 @@
 				if(get_dist(get_turf(user), get_turf(M)) <= user.used_intent.reach)
 					user.do_attack_animation(M, user.used_intent.animname, used_item = src, used_intent = user.used_intent, simplified = TRUE)
 			return
-	var/rmb_stam_penalty = 0
-	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
-		rmb_stam_penalty = EXTRA_STAMDRAIN_SWIFSTRONG
-	if(istype(user.rmb_intent, /datum/rmb_intent/swift))
-		if(user.used_intent.clickcd > CLICK_CD_INTENTCAP)	//If we're on Swift and our intent is not already at the cap by default, we consume extra stamina.
-			rmb_stam_penalty = EXTRA_STAMDRAIN_SWIFSTRONG
-	// Release drain on attacks besides unarmed attacks/grabs is 1, so it'll just be whatever the penalty is + 1.
-	// Unarmed attacks are the only ones right now that have differing releasedrain, see unarmed attacks for their calc.
-	user.stamina_add(user.used_intent.releasedrain + rmb_stam_penalty)
+	user.stamina_add(get_stamina_cost(src, user))
 	if(user.mob_biotypes & MOB_UNDEAD)
 		if(M.has_status_effect(/datum/status_effect/buff/necras_vow))
 			if(isnull(user.mind))
@@ -266,6 +263,39 @@
 /atom/movable/proc/attacked_by()
 	return FALSE
 
+
+/proc/get_stamina_cost(obj/item/I, mob/living/carbon/human/user)
+	if(!I || !user)
+		return 0
+
+	var/rmb_stam_penalty = 0
+	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+		rmb_stam_penalty = round(EXTRA_STAMDRAIN_SWIFSTRONG * (1 - (user.STASTR/100)), 1)
+	if(istype(user.rmb_intent, /datum/rmb_intent/swift))
+		if(user.used_intent.clickcd > CLICK_CD_INTENTCAP)
+			rmb_stam_penalty = round(EXTRA_STAMDRAIN_SWIFSTRONG * (1 - (user.STASPD/100)), 1)
+
+	var/stamina_drain = 0
+	if(user.used_intent)
+		stamina_drain = user.used_intent.releasedrain + rmb_stam_penalty
+	else
+		stamina_drain = 1 + rmb_stam_penalty // Fallback
+
+		stamina_drain += max(I.wbalance + I.wlength, 0)
+
+	if(I.minstr)
+		var/used_str = user.STASTR
+		if(user.domhand)
+			used_str = user.get_str_arms(user.used_hand)
+
+		var/effective_minstr = I.minstr
+		if(I.wielded)
+			effective_minstr = max(I.minstr / 2, 1)
+
+		if(used_str < effective_minstr)
+			stamina_drain += (effective_minstr - used_str) * 2
+
+	return stamina_drain
 
 /proc/get_complex_damage(obj/item/I, mob/living/user, blade_dulling, turf/closed/mineral/T)
 	var/dullfactor = 1
@@ -572,16 +602,17 @@
 	if(user.used_intent.no_attack)
 		return 0
 	log_combat(user, src, "attacked", I)
-	var/verbu = "hits"
-	verbu = pick(user.used_intent.attack_verb)
+	var/attack_verb_string = "hits"
+	if(user.used_intent.attack_verb && length(user.used_intent.attack_verb))
+		attack_verb_string = pick(user.used_intent.attack_verb)
 	if(newforce > 1)
-		if(user.stamina_add(5))
-			user.visible_message(span_danger("[user] [verbu] [src] with [I]!"))
+		if(user.stamina_add(get_stamina_cost(I, user)))
+			user.visible_message(span_danger("[user] [attack_verb_string] [src] with [I]!"))
 		else
-			user.visible_message(span_warning("[user] [verbu] [src] with [I]!"))
+			user.visible_message(span_warning("[user] [attack_verb_string] [src] with [I]!"))
 			newforce = 1
 	else
-		user.visible_message(span_warning("[user] [verbu] [src] with [I]!"))
+		user.visible_message(span_warning("[user] [attack_verb_string] [src] with [I]!"))
 	take_damage(newforce, I.damtype, I.d_type, 1)
 	if(newforce > 1)
 		I.take_damage(1, BRUTE, I.d_type)
@@ -599,16 +630,17 @@
 		return 0
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	log_combat(user, src, "attacked", I)
-	var/verbu = "hits"
-	verbu = pick(user.used_intent.attack_verb)
+	var/attack_verb_string = "hits"
+	if(user.used_intent.attack_verb && length(user.used_intent.attack_verb))
+		attack_verb_string = pick(user.used_intent.attack_verb)
 	if(newforce > 1)
-		if(user.stamina_add(5))
-			user.visible_message(span_danger("[user] [verbu] [src] with [I]!"))
+		if(user.stamina_add(get_stamina_cost(I, user)))
+			user.visible_message(span_danger("[user] [attack_verb_string] [src] with [I]!"))
 		else
-			user.visible_message(span_warning("[user] [verbu] [src] with [I]!"))
+			user.visible_message(span_warning("[user] [attack_verb_string] [src] with [I]!"))
 			newforce = 1
 	else
-		user.visible_message(span_warning("[user] [verbu] [src] with [I]!"))
+		user.visible_message(span_warning("[user] [attack_verb_string] [src] with [I]!"))
 
 	if(multiplier)
 		newforce = newforce * multiplier

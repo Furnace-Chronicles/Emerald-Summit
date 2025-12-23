@@ -1827,37 +1827,36 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 	var/obj/item/clothing/bypassed_armor
 	var/list/bypassed_armors = list()
 	var/can_do_precision = FALSE
-	if(I.wbalance != WBALANCE_HEAVY && (bladec in GLOB.stab_bclasses))
+	if(I.wbalance != WBALANCE_HEAVY || I.can_precision_strike || (bladec in GLOB.stab_bclasses))
 		can_do_precision = TRUE
 
 	if(user.cmode && istype(user.rmb_intent, /datum/rmb_intent/aimed) && can_do_precision)
 		if(selzone in GLOB.precision_vulnerable_zones)
 			var/mob/living/carbon/human/attacker = user
 			var/obj/item/clothing/outer_armor = H.get_best_armor(selzone, I.d_type, bladec, pen, attacker)
-
 			if(outer_armor)
 				var/armor_class = outer_armor.armor_class == ARMOR_CLASS_NONE && outer_armor.integ_armor_mod != ARMOR_CLASS_NONE ? outer_armor.integ_armor_mod : outer_armor.armor_class
 				if(armor_class == ARMOR_CLASS_HEAVY || (istype(outer_armor, /obj/item/clothing/head/roguetown/helmet) && outer_armor:flags_cover & HEADCOVERSEYES))
 					var/precision_chance = max(pen - outer_armor.armor.getRating(I.d_type) - GLOB.precision_vulnerable_zones[selzone], 0) // This way, it's easier to find gaps in damaged armor, and easier to achieve with high-penetration attacks
-					if(H.incapacitated())
+					if(!H.cmode || H.incapacitated() || H.IsImmobilized())
 						precision_chance = 100
 					else 
 						if(I.associated_skill)
-							precision_chance += attacker.get_skill_level(I.associated_skill) * 15
-						if(((user in H.grabbedby) || (H in user.grabbedby)) && I.wbalance == WBALANCE_SWIFT)
+							precision_chance += attacker.get_skill_level(I.associated_skill) * 10
+						if(((user in H.grabbedby) || (H in user.grabbedby)) && (I.wbalance == WBALANCE_SWIFT || I.can_precision_strike))
 							precision_chance += 50 // Way easier to find gaps when you're holding the enemy or vice versa
-						if(I.wlength > WLENGTH_SHORT)
+						if(I.wlength > WLENGTH_SHORT && !I.can_precision_strike)
 							precision_chance -= 10*I.wlength
 						if(I.wbalance == WBALANCE_NORMAL && !I.can_precision_strike)
-							precision_chance -= 15
-						precision_chance += (attacker.STAPER - 10) * 10
-						precision_chance -= (max(H.STASPD, H.STACON) - 10) * 5
+							precision_chance -= 25
+						precision_chance += (attacker.STAPER - 10) * 5
+						precision_chance -= max(H.STASPD, H.STACON)
 						precision_chance = clamp(precision_chance, 1, 95)
 
 					var/success = prob(precision_chance)
 
 					if(attacker.client?.prefs?.showrolls)
-						to_chat(attacker, span_notice("Precision strike: [precision_chance]%"))
+						to_chat(attacker, span_info("Precision strike: [precision_chance]%"))
 
 					if(success)
 						bypassed_armors += outer_armor
