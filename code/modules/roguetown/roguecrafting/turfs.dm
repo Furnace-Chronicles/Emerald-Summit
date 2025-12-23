@@ -245,50 +245,55 @@
 /datum/crafting_recipe/roguetown/turfs/stone/masonic
 	name = "Masonic Decorative Floor"
 	result = /turf/open/floor/rogue/tile/masonic
-	req = list(/obj/item/natural/stoneblock = 2)
+	reqs = list(/obj/item/natural/stoneblock = 2)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/turfs/stone/masonicalt
 	name = "Masonic Inverse Decorative Floor"
 	result = /turf/open/floor/rogue/tile/masonic/inverted
-	req = list(/obj/item/natural/stoneblock = 2)
+	reqs = list(/obj/item/natural/stoneblock = 2)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/turfs/stone/masonicspiral
 	name = "Masonic Spiral Decorative Floor"
 	result = /turf/open/floor/rogue/tile/masonic/spiral
-	req = list(/obj/item/natural/stoneblock = 2)
+	reqs = list(/obj/item/natural/stoneblock = 2)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/turfs/stone/bluelargetile
 	name = "Blue Large Tiles"
 	result = /turf/open/floor/rogue/tile/bfloorz
-	req = list(/obj/item/natural/stoneblock = 2)
+	reqs = list(/obj/item/natural/stoneblock = 2)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/turfs/stone/churchredbrick
 	name = "Large Red Masonic Bricks"
 	result = /turf/open/floor/rogue/churchbrick
-	req = list(/obj/item/natural/stoneblock = 2)
+	reqs = list(/obj/item/natural/stoneblock = 2)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/turfs/stone/haremgreenbricks
 	name = "Harm Green Bricks"
 	result = /turf/open/floor/rogue/tile/harem1
-	req = list(/obj/item/natural/stoneblock = 2)
+	reqs = list(/obj/item/natural/stoneblock = 2)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/turfs/stone/haremredbricks
 	name = "Harem Red Bricks"
 	result = /turf/open/floor/rogue/tile/harem
-	req = list(/obj/item/natural/stoneblock = 2)
+	reqs = list(/obj/item/natural/stoneblock = 2)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/turfs/stone/harempink
 	name = "Harem Pink Bricks"
 	result = /turf/open/floor/rogue/tile/harem2
-	req = list(/obj/item/natural/stoneblock = 2)
+	reqs = list(/obj/item/natural/stoneblock = 2)
 	craftdiff = 3
+/datum/crafting_recipe/roguetown/turf/stone/glassfloors
+	name = "Stone Glass Flooring"
+	result = /turf/open/transparent/glass
+	reqs = list(/obj/item/natural/stoneblock = 2, /obj/item/natural/glass = 2)
+	craftdiff = 5 //you should be a master in whatever trade you do to make literal floors out of glass that won't crack
 
 
 /datum/crafting_recipe/roguetown/turfs/stone/platform/TurfCheck(mob/user, turf/T)
