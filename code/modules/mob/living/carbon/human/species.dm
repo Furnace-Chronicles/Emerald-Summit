@@ -1222,6 +1222,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			var/obj/item/IM = target.get_active_held_item()
 			target.process_clash(user, IM)
 			return
+		
+		if(HAS_TRAIT(target, TRAIT_TEMPO))
+			if(ishuman(target) && ishuman(user) && user.mind && user != target)
+				target.process_tempo_attack(user)
 
 		if(user.mob_biotypes & MOB_UNDEAD)
 			if(target.has_status_effect(/datum/status_effect/buff/necras_vow))
@@ -1543,7 +1547,15 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 					target_table = locate(/obj/structure/table) in target_shove_turf.contents
 					shove_blocked = TRUE
 			else
-				if((stander && target.stamina >= target.max_stamina) || target.IsOffBalanced()) //if you are kicked while fatigued, you are knocked down no matter what
+				if(HAS_TRAIT(user, TRAIT_STRONGKICK))
+					target.Knockdown(SHOVE_KNOCKDOWN_HUMAN)
+					var/throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(target, user)))
+					target.throw_at(throwtarget, 2, 2)
+					target.visible_message(span_danger("[user.name] kicks [target.name], knocking them back!"),
+					span_danger("I'm knocked back from a kick by [user.name]!"), span_hear("I hear aggressive shuffling followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
+					to_chat(user, span_danger("I kick [target.name], knocking them back!"))
+					log_combat(user, target, "kicked", "knocking them back")
+				else if((stander && target.stamina >= target.max_stamina) || target.IsOffBalanced()) //if you are kicked while fatigued, you are knocked down no matter what
 					target.Knockdown(target.IsOffBalanced() ? SHOVE_KNOCKDOWN_SOLID : 100)
 					if(!HAS_TRAIT(user, TRAIT_LAMIAN_TAIL))
 						target.visible_message(span_danger("[user.name] kicks [target.name], knocking them down!"),
