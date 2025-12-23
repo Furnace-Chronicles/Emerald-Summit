@@ -21,6 +21,7 @@
 		LIPS,
 		HAIR,
 	)
+	inherent_traits = list(TRAIT_TEMPO)
 	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	attack_verb = "slash"
 	liked_food = GROSS | MEAT | FRIED

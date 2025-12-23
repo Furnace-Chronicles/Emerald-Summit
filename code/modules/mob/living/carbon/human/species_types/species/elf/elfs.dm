@@ -24,6 +24,7 @@
 	skin_tone_wording = "Tribal Identity"
 
 	default_color = "FFFFFF"
+	inherent_traits = list(TRAIT_TEMPO)
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,OLDGREY)
 	default_features = MANDATORY_FEATURE_LIST
 	use_skintones = 1

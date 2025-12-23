@@ -15,7 +15,7 @@
 	town square or out on a well-traveled road, as even the most backwater peasant can tell the difference between a sapient one and portal-spawn. Usually.<br>\
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 SPD</b></span> </br>"
 	species_traits = list(EYECOLOR,LIPS,STUBBLE)
-	inherent_traits = list(TRAIT_NASTY_EATER)
+	inherent_traits = list(TRAIT_NASTY_EATER, TRAIT_TEMPO)
 	possible_ages = ALL_AGES_LIST
 	use_skintones = TRUE
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/goblin.dmi'

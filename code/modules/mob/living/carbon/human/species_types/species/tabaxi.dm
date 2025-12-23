@@ -18,6 +18,7 @@
 		They have a good sense of balance and an acute sense of smell.<br>\
 		<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 SPD</b></span> </br>"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE, MUTCOLORS)
+	inherent_traits = list(TRAIT_TEMPO)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | SLIME_EXTRACT
 	possible_ages = ALL_AGES_LIST
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/furry.dmi'

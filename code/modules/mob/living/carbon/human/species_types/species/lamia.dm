@@ -22,6 +22,7 @@
 	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Can't wear boots</span> | <span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Strong kicks, Longstrider, Strong stomach</span></b>"
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR, LIPS, HAIR, LAMIAN_TAIL, OLDGREY, MUTCOLORS)
+	inherent_traits = list(TRAIT_TEMPO)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
 	possible_ages = ALL_AGES_LIST
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/human.dmi' // lips
