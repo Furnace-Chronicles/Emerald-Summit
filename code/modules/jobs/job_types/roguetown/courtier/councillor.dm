@@ -81,7 +81,7 @@
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather/plaquesilver
-	beltr = /obj/item/storage/keyring/steward
+	beltr = /obj/item/storage/keyring/councillor
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	r_hand = /obj/item/rogueweapon/sword/short/messer //A burgher's sword
 	head = /obj/item/clothing/head/roguetown/chaperon/councillor
@@ -134,7 +134,7 @@
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather/plaquesilver
-	beltr = /obj/item/storage/keyring/steward
+	beltr = /obj/item/storage/keyring/councillor
 	beltl = /obj/item/rogueweapon/scabbard/sheath
 	r_hand = /obj/item/rogueweapon/huntingknife/idagger/silver/elvish/drow //A fancy evil cunt dagger for a fancy evil cunt. It is silver, so if it is abused, it shall have to be changed out. I doubt it will be, considering they have terrible skills/traits for combat.
 	head = /obj/item/clothing/head/roguetown/chaperon/councillor
@@ -184,7 +184,7 @@
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather/plaquesilver
-	beltr = /obj/item/storage/keyring/steward
+	beltr = /obj/item/storage/keyring/councillor
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	r_hand = /obj/item/rogueweapon/sword/decorated //A fancy CEREMONIAL sword.
 	head = /obj/item/clothing/head/roguetown/chaperon/councillor
