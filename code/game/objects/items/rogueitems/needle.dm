@@ -114,28 +114,22 @@
 			to_chat(user, span_warning("The needle has no thread left!"))
 			return
 		if(I.sewrepair && I.max_integrity)
-			var/target_zone = user.zone_selected
-			var/zone_needs_repair = FALSE
-			var/zone_integrity = I.obj_integrity
-			var/zone_max = I.max_integrity
+			var/needs_repair = FALSE
+			var/obj/item/clothing/cloth_to_fix = null
 
 			if(istype(I, /obj/item/clothing) && I:uses_zone_integrity())
-				var/obj/item/clothing/C = I
-				// Clothing with zone tracking - check if this specific zone exists
-				if(!C.has_zone_integrity(target_zone))
-					to_chat(user, span_warning("This armor doesn't cover the [parse_zone(target_zone)]."))
-					return
-				zone_integrity = C.get_zone_integrity(target_zone)
-				zone_max = C.get_zone_max_integrity(target_zone)
-				if(zone_integrity < zone_max)
-					zone_needs_repair = TRUE
+				cloth_to_fix = I
+				for(var/check_zone in GLOB.armor_check_zones)
+					if(cloth_to_fix.has_zone_integrity(check_zone))
+						if(cloth_to_fix.get_zone_integrity(check_zone) < cloth_to_fix.get_zone_max_integrity(check_zone))
+							needs_repair = TRUE
+							break
 			else
-				// Non-clothing or clothing without zone tracking
 				if(I.obj_integrity < I.max_integrity)
-					zone_needs_repair = TRUE
+					needs_repair = TRUE
 
-			if(!zone_needs_repair)
-				to_chat(user, span_warning("This [target_zone ? "part is" : "is"] not broken."))
+			if(!needs_repair)
+				to_chat(user, span_warning("It is not broken."))
 				if(istype(I, /obj/item/clothing))
 					var/obj/item/clothing/cloth = I
 					if(cloth.shoddy_repair)
@@ -154,7 +148,7 @@
 			var/sewtime = max(SEW_MIN_TIME, BASE_SEW_TIME - (SEW_TIME_REDUCTION_PER_LEVEL * skill))
 			var/unskilled = skill < SKILL_NO_FAIL
 			var/obj/item/clothing/cloth = I
-			var/integrity_percentage = (zone_integrity / zone_max) * 100
+			var/integrity_percentage = (cloth.obj_integrity / cloth.max_integrity) * 100
 
 			if (!istype(cloth, /obj/item/clothing))
 				to_chat(user, span_warning("I can't repair that with a needle."))
@@ -163,9 +157,36 @@
 			if (HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR)) // squires are always considered skilled w/o other bonuses for the purposes of repair
 				unskilled = FALSE
 
-			// if we're stupid and the object isn't broken and it's had a field repair, we can't fix it any further for the moment
-			if (unskilled && !cloth.obj_broken && cloth.shoddy_repair && integrity_percentage >= 60)
-				to_chat(user, span_warning("I can't do anything else to fix this right now - I should see a skilled craftsman."))
+			var/can_repair_any = FALSE
+			var/blocked_by_skill = FALSE
+
+			if(cloth_to_fix)
+				for(var/check_zone in GLOB.armor_check_zones)
+					if(!cloth_to_fix.has_zone_integrity(check_zone))
+						continue
+					var/max_possible = cloth_to_fix.get_zone_max_integrity(check_zone)
+					var/current = cloth_to_fix.get_zone_integrity(check_zone)
+					var/skill_cap = max_possible
+					if(unskilled && (check_zone in cloth_to_fix.broken_zones))
+						skill_cap = max_possible * 0.6
+
+					if(current < skill_cap)
+						can_repair_any = TRUE
+						break
+					if(current < max_possible)
+						blocked_by_skill = TRUE
+			else
+				if(cloth.obj_integrity < cloth.max_integrity)
+					if(unskilled && cloth.shoddy_repair && integrity_percentage >= 60)
+						blocked_by_skill = TRUE
+					else
+						can_repair_any = TRUE
+
+			if(!can_repair_any)
+				if(blocked_by_skill)
+					to_chat(user, span_warning("I can't do anything else to fix this right now - I should see a skilled craftsman."))
+				else
+					to_chat(user, span_warning("There is nothing to further repair on [cloth]."))
 				return
 
 			if(!do_after(user, sewtime, target = I))
@@ -187,15 +208,33 @@
 				user.mind.add_sleep_experience(/datum/skill/misc/sewing, user.STAINT * total_XP)
 
 			// Apply repair to zone or overall integrity
-			if(istype(I, /obj/item/clothing) && I:uses_zone_integrity() && cloth.has_zone_integrity(target_zone))
-				cloth.modify_zone_integrity(target_zone, total_repair)
-				cloth.update_overall_integrity()
-				zone_integrity = cloth.get_zone_integrity(target_zone)
-			else
-				cloth.obj_integrity = min(cloth.obj_integrity + total_repair, cloth.max_integrity)
-				zone_integrity = cloth.obj_integrity
+			if(cloth_to_fix)
+				for(var/fix_zone in GLOB.armor_check_zones)
+					if(cloth_to_fix.has_zone_integrity(fix_zone))
+						var/max_repairable_int = cloth_to_fix.get_zone_max_integrity(fix_zone)
+						if(unskilled && (fix_zone in cloth_to_fix.broken_zones))
+							max_repairable_int = max_repairable_int * 0.6
+						
+						var/current_zone_int = cloth_to_fix.get_zone_integrity(fix_zone)
+						if(current_zone_int < max_repairable_int)
+							// Cap repair amount
+							var/actual_repair = min(total_repair, max_repairable_int - current_zone_int)
+							if(actual_repair > 0)
+								cloth_to_fix.modify_zone_integrity(fix_zone, actual_repair)
+								
+						// Check if skilled repair resolved the broken state
+						if(!unskilled && (fix_zone in cloth_to_fix.broken_zones))
+							if(cloth_to_fix.get_zone_integrity(fix_zone) >= cloth_to_fix.get_zone_max_integrity(fix_zone))
+								cloth_to_fix.broken_zones -= fix_zone
 
-			integrity_percentage = (zone_integrity / zone_max) * 100
+				cloth_to_fix.update_overall_integrity()
+			else
+				var/repair_cap = cloth.max_integrity
+				if(unskilled && (cloth.obj_broken || cloth.shoddy_repair))
+					repair_cap = cloth.max_integrity * 0.6
+				cloth.obj_integrity = min(cloth.obj_integrity + total_repair, repair_cap)
+
+			integrity_percentage = (cloth.obj_integrity / cloth.max_integrity) * 100
 
 			playsound(loc, 'sound/foley/sewflesh.ogg', 50, TRUE, -2)
 			user.visible_message(span_info(repair_line))
@@ -215,7 +254,10 @@
 					do_fix = TRUE
 
 				if(do_fix)
-					cloth.obj_fix()
+					if(unskilled)
+						cloth.obj_broken = FALSE
+					else
+						cloth.obj_fix()
 					stringamt -= 1
 					return
 			else if (!cloth.obj_broken && !unskilled && cloth.shoddy_repair && integrity_percentage >= 100)

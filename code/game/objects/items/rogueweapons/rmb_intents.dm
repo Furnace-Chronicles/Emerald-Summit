@@ -58,7 +58,7 @@
 
 /datum/rmb_intent/aimed
 	name = "aimed"
-	desc = "Your attacks are more precise but have a longer recovery time. Higher critrate with precise attacks.\n(RMB WHILE COMBAT MODE IS ACTIVE) Bait out your targeted limb to the enemy. If it matches where they're aiming, they will be thrown off balance."
+	desc = "Your attacks are more precise but have a longer recovery time. Your precise attacks will critically hit more often, and you can STAB through the gaps in heavy armor by aiming for a LIMB, the NECK, the GROIN or an EYE. .\n(RMB WHILE COMBAT MODE IS ACTIVE) Bait out your targeted limb to the enemy. If it matches where they're aiming, they will be thrown off balance."
 	icon_state = "rmbaimed"
 
 /mob/living/proc/attempt_bait(mob/living/user, atom/target)

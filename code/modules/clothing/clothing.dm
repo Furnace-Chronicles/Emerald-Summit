@@ -69,6 +69,8 @@
 	var/zone_integrity_l_leg
 	var/zone_integrity_r_leg
 
+	var/list/broken_zones
+
 /obj/item
 	var/blocking_behavior
 	var/wetness = 0
@@ -132,6 +134,7 @@
 	return round(max_integrity * (1 / integrity_mult), 10)
 
 /obj/item/clothing/proc/initialize_zone_durability()
+	broken_zones = list()
 	var/limb_coverage = body_parts_covered & (CHEST | GROIN | ARMS | LEGS | HANDS | FEET)
 	if(!limb_coverage)
 		return
@@ -296,7 +299,9 @@
 /obj/item/clothing/proc/damage_zone(def_zone, damage_amount, damage_type = BRUTE, damage_flag = "", sound_effect = TRUE)
 	var/old_integrity = obj_integrity
 
-	modify_zone_integrity(def_zone, -damage_amount)
+	var/new_zone_int = modify_zone_integrity(def_zone, -damage_amount)
+	if(new_zone_int != null && new_zone_int <= 0)
+		broken_zones |= def_zone
 
 	update_overall_integrity()
 	show_damage_notification(old_integrity, obj_integrity)
@@ -362,6 +367,7 @@
 	if(zone_integrity_r_leg != null)
 		zone_integrity_r_leg = get_zone_max_integrity(BODY_ZONE_R_LEG)
 
+	broken_zones.len = 0
 	..()
 
 	update_overall_integrity()

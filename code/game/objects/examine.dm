@@ -56,9 +56,24 @@
 	if(obj_broken)
 		return span_warning("It's broken.")
 
-	var/eff_maxint = max_integrity - (max_integrity * integrity_failure)
-	var/eff_currint = max(obj_integrity - (max_integrity * integrity_failure), 0)
-	var/ratio =	(eff_currint / eff_maxint)
+	var/current_integrity = obj_integrity
+	var/maximum_integrity = max_integrity
+
+	if(uses_zone_integrity())
+		current_integrity = 0
+		maximum_integrity = 0
+		var/list/check_zones = list(BODY_ZONE_CHEST, BODY_ZONE_PRECISE_GROIN, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+		for(var/zone in check_zones)
+			if(has_zone_integrity(zone))
+				current_integrity += get_zone_integrity(zone)
+				maximum_integrity += get_zone_max_integrity(zone)
+
+	var/eff_maxint = maximum_integrity - (maximum_integrity * integrity_failure)
+	var/eff_currint = max(current_integrity - (maximum_integrity * integrity_failure), 0)
+	var/ratio = 1
+	if(eff_maxint > 0)
+		ratio = (eff_currint / eff_maxint)
+	
 	var/percent = round((ratio * 100), 1)
 	var/result
 	if(percent < 100)
