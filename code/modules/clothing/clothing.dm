@@ -301,7 +301,20 @@
 
 	var/new_zone_int = modify_zone_integrity(def_zone, -damage_amount)
 	if(new_zone_int != null && new_zone_int <= 0)
-		broken_zones |= def_zone
+		var/canonical_zone = def_zone
+		switch(def_zone)
+			if(BODY_ZONE_PRECISE_STOMACH)
+				canonical_zone = BODY_ZONE_CHEST
+			if(BODY_ZONE_PRECISE_L_HAND)
+				canonical_zone = BODY_ZONE_L_ARM
+			if(BODY_ZONE_PRECISE_R_HAND)
+				canonical_zone = BODY_ZONE_R_ARM
+			if(BODY_ZONE_PRECISE_L_FOOT)
+				canonical_zone = BODY_ZONE_L_LEG
+			if(BODY_ZONE_PRECISE_R_FOOT)
+				canonical_zone = BODY_ZONE_R_LEG
+		
+		broken_zones |= canonical_zone
 
 	update_overall_integrity()
 	show_damage_notification(old_integrity, obj_integrity)
@@ -614,6 +627,17 @@
 		how_cool_are_your_threads += "</span>"
 		. += how_cool_are_your_threads.Join()
 */
+
+/obj/item/clothing/take_damage(damage_amount, damage_type = BRUTE, damage_flag = "", sound_effect = TRUE, attack_dir, armor_penetration = 0)
+	var/actual_damage = ..()
+	if(actual_damage && uses_zone_integrity())
+		for(var/zone in GLOB.armor_check_zones)
+			if(has_zone_integrity(zone))
+				var/new_int = modify_zone_integrity(zone, -actual_damage)
+				if(new_int != null && new_int <= 0)
+					broken_zones |= zone
+		update_overall_integrity()
+	return actual_damage
 
 /obj/item/clothing/obj_break(damage_flag)
 	original_armor = armor
