@@ -151,9 +151,32 @@
 	color = CLOTHING_WHITE
 	boobed = TRUE
 	detail_tag = "_detail"
-	detail_color = CLOTHING_BLACK
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
+
+/obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat/councillor
+	name = "Councillor's coat"
+	desc = "A fancy tunic and coat combo made for the court's Councillors. Dyed in the Duchy's colors"
+	icon_state = "noblecoat"
+	item_state = "noblecoat"
+	sleevetype = "noblecoat"
+	detail_tag = "_detail"
+	detail_color = CLOTHING_SCARLET
+	color = CLOTHING_BLACK
+	boobed = TRUE
+	detail_tag = "_detail"
+	r_sleeve_status = SLEEVE_NORMAL
+	l_sleeve_status = SLEEVE_NORMAL
+
+/obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat/councillor/Initialize()
+	. = ..()
+	if(GLOB.lordprimary)
+		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
+	GLOB.lordcolor += src
+
+/obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat/councillor/Destroy()
+	GLOB.lordcolor -= src
+	return ..()
 
 /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer
 	name = "tinker suit"
@@ -285,6 +308,25 @@
 	icon_state = "wintergown"
 	boobed = TRUE
 	detail_color = "#45749d"
+
+/obj/item/clothing/suit/roguetown/shirt/dress/gown/wintergown/councillor
+	name = "councillor's gown"
+	desc = "An elegant gown made for the court's Councillors. It is dyed with the lord's colors."
+	icon_state = "wintergown"
+	boobed = TRUE
+	color = CLOTHING_SCARLET
+	detail_color = CLOTHING_BLACK
+
+/obj/item/clothing/suit/roguetown/shirt/dress/gown/wintergown/councillor/Initialize()
+	. = ..()
+	if(GLOB.lordprimary)
+		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
+	GLOB.lordcolor += src
+
+/obj/item/clothing/suit/roguetown/shirt/dress/gown/wintergown/councillor/Destroy()
+	GLOB.lordcolor -= src
+	return ..()
+
 
 /obj/item/clothing/suit/roguetown/shirt/undershirt/sailor
 	icon_state = "sailorblues"
