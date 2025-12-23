@@ -18,8 +18,4 @@
 		author = H
 	)
 	/// GLOBAL SIGNAL THIS, DUMB FUCK!!!
-	if(SSticker.current_state >= GAME_STATE_PLAYING)
-		for(var/obj/structure/roguemachine/noticeboard/board in SSroguemachine.noticeboards)
-			board.update_icon()
-			playsound(board, 'sound/ambience/noises/birds (7).ogg', 50, FALSE, -1)
-			board.visible_message(span_smallred("A ZAD lands, delivering a new posting!"))
+	SEND_GLOBAL_SIGNAL(COMSIG_NOTICEBOARD_POST_ADDED, null)

@@ -23,6 +23,13 @@
 /obj/structure/roguemachine/noticeboard/Initialize()
 	. = ..()
 	SSroguemachine.noticeboards += src
+	RegisterSignal(SSdcs, COMSIG_NOTICEBOARD_POST_ADDED, PROC_REF(post_added))
+	RegisterSignal(SSdcs, COMSIG_NOTICEBOARD_POST_REMOVED, PROC_REF(post_removed))
+
+/obj/structure/roguemachine/noticeboard/Destroy()
+	. = ..()
+	SSroguemachine.noticeboards -= src
+	UnregisterSignal(SSdcs, list(COMSIG_NOTICEBOARD_POST_ADDED,	COMSIG_NOTICEBOARD_POST_REMOVED))
 
 /datum/noticeboardpost
 	var/title
@@ -263,11 +270,24 @@
 	add_post(inputmessage, inputtitle, inputname, inputrole, guy.real_name, NOTICEBOARD_CAT_PREMIUM, guy)
 	guy.apply_status_effect(/datum/status_effect/debuff/postcooldown)
 	message_admins("[ADMIN_LOOKUPFLW(guy)] has made a notice board post. The message was: [inputmessage]")
-	for(var/obj/structure/roguemachine/noticeboard/board in SSroguemachine.noticeboards)
-		if(board != src)
-			playsound(board, 'sound/ambience/noises/birds (7).ogg', 50, FALSE, -1)
-			board.visible_message(span_smallred("A ZAD lands, delivering a new posting!"))
-			board.update_icon()
+
+/obj/structure/roguemachine/noticeboard/proc/post_added(ssdcs, source)
+	SIGNAL_HANDLER
+	if(src == source) // This board is the one from which new posts originated, ignore it
+		return
+
+	playsound(src, 'sound/ambience/noises/birds (7).ogg', 50, FALSE, -1)
+	visible_message(span_smallred("A ZAD lands, delivering a new posting!"))
+	update_icon()
+
+/obj/structure/roguemachine/noticeboard/proc/post_removed(ssdcs, source)
+	SIGNAL_HANDLER
+	if(src == source) // This board is the one from which new posts originated, ignore it
+		return
+
+	playsound(src, 'sound/ambience/noises/birds (7).ogg', 50, FALSE, -1)
+	visible_message(span_smallred("A ZAD lands, removing an old posting!"))
+	update_icon()
 
 /obj/structure/roguemachine/noticeboard/proc/make_post(mob/living/carbon/human/guy)
 	if(guy.has_status_effect(/datum/status_effect/debuff/postcooldown))
@@ -299,11 +319,8 @@
 	add_post(inputmessage, inputtitle, inputname, inputrole, guy.real_name, NOTICEBOARD_CAT_POSTINGS, guy)
 	guy.apply_status_effect(/datum/status_effect/debuff/postcooldown)
 	message_admins("[ADMIN_LOOKUPFLW(guy)] has made a notice board post. The message was: [inputmessage]")
-	for(var/obj/structure/roguemachine/noticeboard/board in SSroguemachine.noticeboards)
-		board.update_icon()
-		if(board != src)
-			playsound(board, 'sound/ambience/noises/birds (7).ogg', 50, FALSE, -1)
-			board.visible_message(span_smallred("A ZAD lands, delivering a new posting!"))
+	SEND_GLOBAL_SIGNAL(COMSIG_NOTICEBOARD_POST_ADDED, src)
+	update_icon()
 
 /obj/structure/roguemachine/noticeboard/proc/remove_post(mob/living/carbon/human/guy)
 	var/list/myposts_list = list()
@@ -329,11 +346,8 @@
 		if(post2remove == removing_post.title && removing_post.truepostername == guy.real_name)
 			GLOB.premium_noticeboardposts -= removing_post
 			message_admins("[ADMIN_LOOKUPFLW(guy)] has removed their post, the message was [removing_post.message]")
-	for(var/obj/structure/roguemachine/noticeboard/board in SSroguemachine.noticeboards)
-		board.update_icon()
-		if(board != src)
-			playsound(board, 'sound/ambience/noises/birds (7).ogg', 50, FALSE, -1)
-			board.visible_message(span_smallred("A ZAD lands, removing an old posting!"))
+	SEND_GLOBAL_SIGNAL(COMSIG_NOTICEBOARD_POST_REMOVED, src)
+	update_icon()
 
 /obj/structure/roguemachine/noticeboard/proc/authority_removepost(mob/living/carbon/human/guy)
 	var/list/posts_list = list()
@@ -395,6 +409,15 @@
 
 /atom/movable/screen/alert/status_effect/debuff/postcooldown
 	name = "Recent messenger"
+	desc = "I'll have to wait a bit before contacting another mercenary!"
+
+/datum/status_effect/debuff/mercdmcooldown
+	id = "mercdmcooldown"
+	duration = 5 MINUTES
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/mercdmcooldown
+
+/atom/movable/screen/alert/status_effect/debuff/mercdmcooldown
+	name = "Mercenary Contacted"
 	desc = "I'll have to wait a bit before contacting another mercenary!"
 
 /datum/status_effect/debuff/mercdmcooldown
