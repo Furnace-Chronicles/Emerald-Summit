@@ -107,7 +107,6 @@ If a corpse won't accept Lux, try giving their lungs some air.
 Golems and Dolls can be upgraded with skill exhibitors, either fabricated by an engineer or purchased. Some say the usage of these tools is an affront to Golems' original design.
 Golems were created in the Republic of Giza to be the perfect servants, prior to their rebellion. Many question whether they can even be considered living beings.
 Golems and Dolls can be revived just by pressing Lux against their lifeless forms.
-Defilement is not a sin punished by the Ten; as long as the defiled is one of lesser class.
 Defilement falls within Eora's domain over lust, and is a sanctioned act for this reason alone; extremists even see it as a form of worship.
 The Otavan Inquisition's role in the Reach concerns the finding and confirmation of heresy, for this is their specialty. However, they are not responsible for sentencing and execution as this would undermine the Reach's authority.
 Astrata strongly advocates for the use and trade of slaves, as to do so is to enforce a rigid hierarchy with the powerful at the top. Though Xylix detests it, he lacks for the means to completely unfetter them.
@@ -121,3 +120,4 @@ Do unto others.
 The topic of Baotha as a member of the Ascendents does not mesh well with their definitions, for Baotha herself was the twin sister of Eora. The Holy Ecclesial teaches that not only can these inconsistencies be reconciled; they aren't inconsistent.
 Witches are friends.
 Witches are not friends.
+Snow elves are not extinct, they simply cannot be if elves were to walk Psydonia as they do now. Or that's what they would have you believe.
