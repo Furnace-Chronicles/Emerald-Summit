@@ -205,6 +205,74 @@
 	reqs = list(/obj/item/natural/stoneblock = 2)
 	craftdiff = 2
 
+/datum/crafting_recipe/roguetown/turfs/stone/marblefloor
+	name = "Marble Floor (stone)"
+	result = /turf/open/floor/rogue/churchmarble
+	reqs = list(/obj/item/natural/stoneblock =4)
+	craftdiff = 4
+// intentionally expensive and hard to make, its marble
+
+/datum/crafting_recipe/roguetown/turfs/stone/bluestone2
+	name = "Bluestone Slabs"
+	result = /turf/open/floor/rogue/blocks/bluestone
+	reqs = list(/obj/item/natural/stoneblock = 3)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/stone/concreteslab
+	name = "Large Stone Slabs"
+	result = /turf/open/floor/rogue/concrete
+	reqs = list(/obj/item/natural/stoneblock = 2)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/turfs/stone/masonic
+	name = "Masonic Decorative Floor"
+	result = /turf/open/floor/rogue/tile/masonic
+	req = list(/obj/item/natural/stoneblock = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/stone/masonicalt
+	name = "Masonic Inverse Decorative Floor"
+	result = /turf/open/floor/rogue/tile/masonic/inverted
+	req = list(/obj/item/natural/stoneblock = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/stone/masonicspiral
+	name = "Masonic Spiral Decorative Floor"
+	result = /turf/open/floor/rogue/tile/masonic/spiral
+	req = list(/obj/item/natural/stoneblock = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/stone/bluelargetile
+	name = "Blue Large Tiles"
+	result = /turf/open/floor/rogue/tile/bfloorz
+	req = list(/obj/item/natural/stoneblock = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/stone/churchredbrick
+	name = "Large Red Masonic Bricks"
+	result = /turf/open/floor/rogue/churchbrick
+	req = list(/obj/item/natural/stoneblock = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/stone/haremgreenbricks
+	name = "Harm Green Bricks"
+	result = /turf/open/floor/rogue/tile/harem1
+	req = list(/obj/item/natural/stoneblock = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/stone/haremredbricks
+	name = "Harem Red Bricks"
+	result = /turf/open/floor/rogue/tile/harem
+	req = list(/obj/item/natural/stoneblock = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/stone/harempink
+	name = "Harem Pink Bricks"
+	result = /turf/open/floor/rogue/tile/harem2
+	req = list(/obj/item/natural/stoneblock = 2)
+	craftdiff = 3
+
+
 /datum/crafting_recipe/roguetown/turfs/stone/platform/TurfCheck(mob/user, turf/T)
 	if(isclosedturf(T))
 		return
