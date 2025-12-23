@@ -79,23 +79,23 @@
 
 // Light AC | Chest
 #define ARMOR_CLOTHING list("blunt" = 5, "slash" = 10, "stab" = 15, "piercing" = 5, "fire" = 0, "acid" = 0)
-#define ARMOR_PADDED_GOOD list("blunt" = 65, "slash" = 50, "stab" = 59, "piercing" = 50, "fire" = 0, "acid" = 0)
-#define ARMOR_PADDED list("blunt" = 57, "slash" = 40, "stab" = 48, "piercing" = 45, "fire" = 0, "acid" = 0)
-#define ARMOR_PADDED_BAD list("blunt" = 53, "slash" = 35, "stab" = 42, "piercing" = 38, "fire" = 0, "acid" = 0)
-#define ARMOR_LIGHTCUIRASS list("blunt" = 53, "slash" = 70, "stab" = 68, "piercing" = 55, "fire" = 0, "acid" = 0)
+#define ARMOR_PADDED_GOOD list("blunt" = 75, "slash" = 50, "stab" = 59, "piercing" = 50, "fire" = 0, "acid" = 0)
+#define ARMOR_PADDED list("blunt" = 67, "slash" = 40, "stab" = 48, "piercing" = 45, "fire" = 0, "acid" = 0)
+#define ARMOR_PADDED_BAD list("blunt" = 63, "slash" = 35, "stab" = 42, "piercing" = 38, "fire" = 0, "acid" = 0)
+#define ARMOR_LIGHTCUIRASS list("blunt" = 63, "slash" = 70, "stab" = 68, "piercing" = 55, "fire" = 0, "acid" = 0)
 
 #define ARMOR_LEATHER list("blunt" = 50, "slash" = 50, "stab" = 55, "piercing" = 42, "fire" = 0, "acid" = 0)
-#define ARMOR_LEATHER_GOOD list("blunt" = 63, "slash" = 60, "stab" = 70, "piercing" = 45, "fire" = 0, "acid" = 0)
-#define ARMOR_LEATHER_STUDDED list("blunt" = 65, "slash" = 65, "stab" = 73, "piercing" = 48, "fire" = 0, "acid" = 0)
+#define ARMOR_LEATHER_GOOD list("blunt" = 53, "slash" = 60, "stab" = 70, "piercing" = 45, "fire" = 0, "acid" = 0)
+#define ARMOR_LEATHER_STUDDED list("blunt" = 65, "slash" = 65, "stab" = 68, "piercing" = 48, "fire" = 0, "acid" = 0)
 
 // Medium AC | Chest
-#define ARMOR_CUIRASS list("blunt" = 49, "slash" = 100, "stab" = 82, "piercing" = 81, "fire" = 0, "acid" = 0)
+#define ARMOR_CUIRASS list("blunt" = 59, "slash" = 100, "stab" = 82, "piercing" = 81, "fire" = 0, "acid" = 0)
 #define ARMOR_MAILLE list("blunt" = 67, "slash" = 85, "stab" = 63, "piercing" = 36, "fire" = 0, "acid" = 0)
 
 // Heavy AC | Chest
-#define ARMOR_PLATE list("blunt" = 51, "slash" = 100, "stab" = 89, "piercing" = 57, "fire" = 0, "acid" = 0)
-#define ARMOR_PLATE_GOOD list("blunt" = 53, "slash" = 100, "stab" = 92, "piercing" = 70, "fire" = 0, "acid" = 0)
-#define ARMOR_PLATE_BSTEEL list("blunt" = 56, "slash" = 100, "stab" = 96, "piercing" = 74, "fire" = 0, "acid" = 0) // It's EVIL. OH GOD.
+#define ARMOR_PLATE list("blunt" = 61, "slash" = 100, "stab" = 89, "piercing" = 57, "fire" = 0, "acid" = 0)
+#define ARMOR_PLATE_GOOD list("blunt" = 63, "slash" = 100, "stab" = 92, "piercing" = 70, "fire" = 0, "acid" = 0)
+#define ARMOR_PLATE_BSTEEL list("blunt" = 66, "slash" = 100, "stab" = 96, "piercing" = 74, "fire" = 0, "acid" = 0) // It's EVIL. OH GOD.
 
 // Boot Armor
 #define ARMOR_BOOTS_PLATED list("blunt" = 50, "slash" = 100, "stab" = 87, "piercing" = 75, "fire" = 0, "acid" = 0)
@@ -113,11 +113,11 @@
 //  Head Armor
 #define ARMOR_HEAD_CLOTHING list("blunt" = 10, "slash" = 20, "stab" = 37, "piercing" = 44, "fire" = 0, "acid" = 0)
 #define ARMOR_HEAD_BAD list("blunt" = 44, "slash" = 20, "stab" = 49, "piercing" = 53, "fire" = 0, "acid" = 0)
-#define ARMOR_HEAD_HELMET_BAD list("blunt" = 51, "slash" = 50, "stab" = 67, "piercing" = 66, "fire" = 0, "acid" = 0)
-#define ARMOR_HEAD_HELMET list("blunt" = 56, "slash" = 100, "stab" = 89, "piercing" = 57, "fire" = 0, "acid" = 0)
-#define ARMOR_HEAD_HELMET_VISOR list("blunt" = 57, "slash" = 100, "stab" = 90, "piercing" = 88, "fire" = 0, "acid" = 0)
-#define ARMOR_HEAD_PSYDON list("blunt" = 52, "slash" = 70, "stab" = 71, "piercing" = 39, "fire" = 0, "acid" = 0)	//Yeah they just have their own thing going on.
-#define ARMOR_HEAD_LEATHER list("blunt" = 49, "slash" = 55, "stab" = 62, "piercing" = 30, "fire" = 0, "acid" = 0)
+#define ARMOR_HEAD_HELMET_BAD list("blunt" = 61, "slash" = 50, "stab" = 67, "piercing" = 66, "fire" = 0, "acid" = 0)
+#define ARMOR_HEAD_HELMET list("blunt" = 66, "slash" = 100, "stab" = 89, "piercing" = 77, "fire" = 0, "acid" = 0)
+#define ARMOR_HEAD_HELMET_VISOR list("blunt" = 67, "slash" = 100, "stab" = 90, "piercing" = 88, "fire" = 0, "acid" = 0)
+#define ARMOR_HEAD_PSYDON list("blunt" = 62, "slash" = 70, "stab" = 71, "piercing" = 39, "fire" = 0, "acid" = 0)	//Yeah they just have their own thing going on.
+#define ARMOR_HEAD_LEATHER list("blunt" = 70, "slash" = 55, "stab" = 62, "piercing" = 30, "fire" = 0, "acid" = 0)
 
 // Mask Armor
 #define ARMOR_MASK_EYEPATCH list("blunt" = 10, "slash" = 10, "stab" = 5, "piercing" = 2, "fire" = 0, "acid" = 0)

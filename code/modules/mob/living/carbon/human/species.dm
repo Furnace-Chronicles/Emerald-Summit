@@ -1839,32 +1839,53 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 				var/armor_class = outer_armor.armor_class == ARMOR_CLASS_NONE && outer_armor.integ_armor_mod != ARMOR_CLASS_NONE ? outer_armor.integ_armor_mod : outer_armor.armor_class
 				if(armor_class == ARMOR_CLASS_HEAVY || (istype(outer_armor, /obj/item/clothing/head/roguetown/helmet) && outer_armor:flags_cover & HEADCOVERSEYES))
 					var/precision_chance = max(pen - outer_armor.armor.getRating(I.d_type) - GLOB.precision_vulnerable_zones[selzone], 0) // This way, it's easier to find gaps in damaged armor, and easier to achieve with high-penetration attacks
+					if(H.incapacitated())
+						precision_chance = 100
+					else 
+						if(I.associated_skill)
+							precision_chance += attacker.get_skill_level(I.associated_skill) * 15
+						if(((user in H.grabbedby) || (H in user.grabbedby)) && I.wbalance == WBALANCE_SWIFT)
+							precision_chance += 50 // Way easier to find gaps when you're holding the enemy or vice versa
+						if(I.wlength > WLENGTH_SHORT)
+							precision_chance -= 10*I.wlength
+						if(I.wbalance == WBALANCE_NORMAL && !I.can_precision_strike)
+							precision_chance -= 15
+						precision_chance += (attacker.STAPER - 10) * 10
+						precision_chance -= (max(H.STASPD, H.STACON) - 10) * 5
+						precision_chance = clamp(precision_chance, 1, 95)
 
-					if(I.associated_skill)
-						precision_chance += attacker.get_skill_level(I.associated_skill) * 10
-					if(((user in H.grabbedby) || (H in user.grabbedby)) && I.wbalance == WBALANCE_SWIFT)
-						precision_chance += 50 // Way easier to find gaps when you're holding the enemy or vice versa
-					if(I.wlength > WLENGTH_SHORT)
-						precision_chance -= 10*I.wlength
-					if(I.wbalance == WBALANCE_NORMAL)
-						precision_chance -= 15
-					precision_chance += (attacker.STAPER - 10) * 5
-					precision_chance -= (max(H.STASPD, H.STACON) - 10) * 5
-					precision_chance = clamp(precision_chance, 1, 95)
-
-					var/rolled = roll(1, 100)
-					var/success = rolled <= precision_chance
+					var/success = prob(precision_chance)
 
 					if(attacker.client?.prefs?.showrolls)
-						to_chat(attacker, span_notice("Precision strike: [rolled]/[precision_chance]%"))
+						to_chat(attacker, span_notice("Precision strike: [precision_chance]%"))
 
 					if(success)
 						bypassed_armors += outer_armor
-						if(selzone == BODY_ZONE_L_ARM || selzone == BODY_ZONE_R_ARM)
-							var/obj/item/clothing/torso_armor = H.get_best_worn_armor(BODY_ZONE_CHEST, I.d_type)
-							if(torso_armor && torso_armor != outer_armor && (torso_armor.body_parts_covered_dynamic & ARMS))
-								bypassed_armors += torso_armor
+						if(!(outer_armor.body_parts_covered & CHEST))
+							if(H.wear_armor && outer_armor != H.wear_armor)
+								bypassed_armors += H.wear_armor
 
+						switch(selzone)
+							if(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM)
+								if(H.wear_wrists && outer_armor != H.wear_wrists)
+									if(H.wear_wrists.armor_class == ARMOR_CLASS_HEAVY || H.wear_wrists.integ_armor_mod == ARMOR_CLASS_HEAVY)
+										bypassed_armors += H.wear_wrists
+							
+							if(BODY_ZONE_R_LEG, BODY_ZONE_L_LEG, BODY_ZONE_PRECISE_GROIN)
+								if(H.wear_pants && outer_armor != H.wear_pants)
+									if(H.wear_pants.armor_class == ARMOR_CLASS_HEAVY || H.wear_pants.integ_armor_mod == ARMOR_CLASS_HEAVY)
+										bypassed_armors += H.wear_pants
+							
+							if(BODY_ZONE_PRECISE_NECK)
+								if(H.wear_neck && outer_armor != H.wear_neck)
+									if(H.wear_neck.armor_class == ARMOR_CLASS_HEAVY || H.wear_neck.integ_armor_mod == ARMOR_CLASS_HEAVY)
+										bypassed_armors += H.wear_neck
+							
+							if(BODY_ZONE_PRECISE_L_EYE, BODY_ZONE_PRECISE_R_EYE)
+								if(H.head && outer_armor != H.head)
+									if(H.head.armor_class == ARMOR_CLASS_HEAVY || H.head.integ_armor_mod == ARMOR_CLASS_HEAVY)
+										bypassed_armors += H.head
+						
 						H.visible_message(span_danger("[user] strikes through a gap in [H]'s armor!"), span_userdanger("[user] finds a gap in my armor!"))
 						attacker.filtered_balloon_alert(TRAIT_COMBAT_AWARE, "Gap found!")
 					else
