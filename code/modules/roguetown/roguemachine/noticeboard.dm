@@ -9,8 +9,8 @@
 	blade_dulling = DULLING_BASH
 	layer = ABOVE_MOB_LAYER
 	plane = GAME_PLANE_UPPER
-	var/current_category = "Postings"
-	var/list/categories = list("Postings", "Premium Postings")
+	var/current_category = NOTICEBOARD_CAT_POSTINGS
+	var/list/categories = NOTICEBOARD_ALL_CATEGORIES
 
 /obj/structure/roguemachine/boardbarrier //Blocks sprite locations
 	name = ""
@@ -23,6 +23,13 @@
 /obj/structure/roguemachine/noticeboard/Initialize()
 	. = ..()
 	SSroguemachine.noticeboards += src
+	RegisterSignal(SSdcs, COMSIG_NOTICEBOARD_POST_ADDED, PROC_REF(post_added))
+	RegisterSignal(SSdcs, COMSIG_NOTICEBOARD_POST_REMOVED, PROC_REF(post_removed))
+
+/obj/structure/roguemachine/noticeboard/Destroy()
+	. = ..()
+	SSroguemachine.noticeboards -= src
+	UnregisterSignal(SSdcs, list(COMSIG_NOTICEBOARD_POST_ADDED,	COMSIG_NOTICEBOARD_POST_REMOVED))
 
 /datum/noticeboardpost
 	var/title
@@ -30,7 +37,10 @@
 	var/posterstitle
 	var/poster
 	var/message
+	/// Composed HTML banner for quick display
 	var/banner
+	/// Weakref to the poster's mob
+	var/datum/weakref/posterweakref
 
 /obj/structure/roguemachine/noticeboard/examine(mob/living/carbon/human/user)
 	. = ..()
@@ -55,8 +65,140 @@
 		else
 			icon_state = "noticeboard3"
 
+/obj/structure/roguemachine/noticeboard/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/roguecoin))
+		var/obj/item/roguecoin/coin = I
+		switch(coin.get_real_price())
+			if(1) // One silver coin
+				merc_message(user, coin)
+			if(10) // One gold coin
+				merc_broadcast(user, coin)	
+	return ..()
+
+/obj/structure/roguemachine/noticeboard/proc/merc_message(mob/living/carbon/human/user, obj/item/roguecoin/coin)
+	if(user.has_status_effect(/datum/status_effect/debuff/mercdmcooldown))
+		to_chat(user, span_warning("I must wait a time until contacting another sellsword..."))
+		return
+
+	var/list/available_mercs = list()
+	for(var/datum/noticeboardpost/saved_post in GLOB.sellsword_noticeboardposts)
+		if(saved_post.posterstitle != MERC_STATUS_AVAILABLE)
+			continue
+
+		var/mob/living/L = saved_post.posterweakref?.resolve()
+		if(QDELETED(L) || L.stat == DEAD)
+			continue
+		
+		available_mercs += L
+
+	if(!available_mercs.len)
+		to_chat(user, span_warning("No sellswords are willing to earn mammons todae."))
+		return
+
+	var/mob/living/choice = tgui_input_list(user, "Select a mercenary to contact", "Mercenary Contact", available_mercs)
+	if(!choice || !Adjacent(user))
+		return
+
+	var/message = tgui_input_text(
+		user, 
+		"Enter your message to [choice]. Remember, they will be able to answer only yae or nae.", 
+		"Mercenary Contact", 
+		max_length = 300, 
+		bigmodal = TRUE
+	)
+	if(!message || !Adjacent(user))
+		return
+	
+	playsound(src, 'sound/ambience/noises/birds (7).ogg', 30, FALSE, -1)
+	to_chat(user, span_notice("My message has been sent to [choice.real_name]."))
+
+	to_chat(
+		choice, 
+		span_boldnotice(
+			"A potential employer contacts me: <i>[message]</i> - [user.real_name]<br>\
+			<script>\
+  			function clickAndDisable(link) {\
+     			link.onclick = function(event) {\
+        		event.preventDefault();\
+     		}\
+			}</script>\
+			<a href='?src=[REF(src)];direct_response=yae;caller_weakref=[WEAKREF(user)];timestamp=[world.time]' onclick='clickAndDisable(this)'>\[YAE\]</a> | \
+			<a href='?src=[REF(src)];direct_response=nae;caller_weakref=[WEAKREF(user)];timestamp=[world.time]' onclick='clickAndDisable(this)'>\[NAE\]</a>"\
+		)
+	)
+	playsound(choice.loc, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
+	user.apply_status_effect(/datum/status_effect/debuff/mercdmcooldown)
+
+/obj/structure/roguemachine/noticeboard/proc/merc_broadcast(mob/living/carbon/human/user, obj/item/roguecoin/coin)
+	if(user.has_status_effect(/datum/status_effect/debuff/mercbroadcastcooldown))
+		to_chat(user, span_warning("I must wait a time until broadcasting to sellswords again..."))
+		return
+
+	var/list/available_mercs = list()
+	for(var/datum/noticeboardpost/saved_post in GLOB.sellsword_noticeboardposts)
+		if(saved_post.posterstitle == MERC_STATUS_DND)
+			continue
+
+		var/mob/living/L = saved_post.posterweakref?.resolve()
+		if(QDELETED(L) || L.stat == DEAD)
+			continue
+			
+		available_mercs += L
+
+	if(!available_mercs.len)
+		to_chat(user, span_warning("No sellswords are willing to earn mammons todae."))
+		return
+
+	var/message = tgui_input_text(user, "Enter your message to broadcast to all sellswords in the Reach.", "Mercenary Contact", max_length = 300, bigmodal = TRUE)
+	if(!message || !Adjacent(user))
+		return
+
+	playsound(src, 'sound/ambience/noises/birds (7).ogg', 30, FALSE, -1)
+	var/list/merc_ckeys = list()
+	for(var/mob/living/L in available_mercs)
+		merc_ckeys += key_name(L)
+		playsound(L.loc, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
+		to_chat(user, span_boldannounce("The mercenary statue calls out: <i>[message]</i> - [user.real_name]<br>"))
+
+	to_chat(user, span_notice("My message has been broadcast to [LAZYLEN(available_mercs)] mercenary[LAZYLEN(available_mercs) == 1 ? "" : "s"]."))
+	user.log_talk(message, LOG_SAY, tag="noticeboard merc broadcast (to [merc_ckeys.Join(", ")])")
+	user.apply_status_effect(/datum/status_effect/debuff/mercbroadcastcooldown)
+
 /obj/structure/roguemachine/noticeboard/Topic(href, href_list)
 	. = ..()
+	if(href_list["direct_response"])// Merc DM response, handled before CanUseTopic
+		if(!ishuman(usr))
+			return
+		var/mob/living/carbon/human/responder = usr
+		var/response_type = href_list["direct_response"]
+		var/datum/weakref/caller_weakref = href_list["response_id"]
+		var/mob/living/carbon/human/sender = caller_weakref?.resolve()
+		if(QDELETED(sender))
+			to_chat(responder, span_warning("There is no one to resond to..."))
+			return
+
+		if(href_list["timestamp"] + 5 MINUTES <= world.time)
+			to_chat(responder, span_warning("It must be too late..."))
+			return
+
+		if(responder.mind?.assigned_role != "Mercenary")
+			to_chat(responder, span_warning("I am not a mercenary."))
+			return
+
+		// Send response to sender
+		if(response_type == "yae")
+			to_chat(sender, span_notice("[responder.real_name] responded in affirmation to my message."))
+			to_chat(responder, span_notice("I responded in affirmation to [sender.real_name]."))
+		else // nae
+			to_chat(sender, span_notice("[responder.real_name] responded negatively to my message."))
+			to_chat(responder, span_notice("I responded negatively to [sender.real_name]."))
+
+		playsound(sender.loc, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
+		playsound(responder.loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
+
+		responder.log_talk("direct response: [response_type]", LOG_SAY, tag="mercenary noticeboard response (to [key_name(sender)])")
+		return
+
 	if(!usr.canUseTopic(src, BE_CLOSE))
 		return
 	if(href_list["changecategory"])
@@ -97,24 +239,72 @@
 		else
 			selection += "<a href='?src=[REF(src)];changecategory=[category]'>[category]</a> "
 	contents += selection + "<BR>"
-	contents += "<a href='?src=[REF(src)];makepost=1'>Make a Posting</a>"
-	if(can_premium)
-		contents += " | <a href='?src=[REF(src)];premiumpost=1'>Make a Premium Posting</a><br>"
-	else
-		contents += "<br>"
-	contents += "<a href='?src=[REF(src)];removepost=1'>Remove my Posting</a><br>"
-	if(can_remove)
-		contents += "<a href='?src=[REF(src)];authorityremovepost=1'>Authority: Remove a Posting</a>"
+	if(current_category in list(NOTICEBOARD_CAT_POSTINGS, NOTICEBOARD_CAT_PREMIUM))
+		contents += "<a href='?src=[REF(src)];makepost=1'>Make a Posting</a>"
+		if(can_premium)
+			contents += " | <a href='?src=[REF(src)];premiumpost=1'>Make a Premium Posting</a><br>"
+		else
+			contents += "<br>"
+		contents += "<a href='?src=[REF(src)];removepost=1'>Remove my Posting</a><br>"
+		if(can_remove)
+			contents += "<a href='?src=[REF(src)];authorityremovepost=1'>Authority: Remove a Posting</a>"
 	var/board_empty = TRUE
 	switch(current_category)
-		if("Postings")
+		if(NOTICEBOARD_CAT_POSTINGS)
 			for(var/datum/noticeboardpost/saved_post in GLOB.noticeboard_posts)
 				contents += saved_post.banner
 				board_empty = FALSE
-		if("Premium Postings")
+		if(NOTICEBOARD_CAT_PREMIUM)
 			for(var/datum/noticeboardpost/saved_post in GLOB.premium_noticeboardposts)
 				contents += saved_post.banner
 				board_empty = FALSE
+		if(NOTICEBOARD_CAT_SELLSWORDS)
+			if(LAZYLEN(GLOB.sellsword_noticeboardposts))
+				board_empty = FALSE
+				var/merc_count = 0
+				var/available_count = 0
+				var/contracted_count = 0
+				var/dnd_count = 0
+				var/list/available_mercs = list()
+				var/list/contracted_mercs = list()
+				var/list/dnd_mercs = list()
+				for(var/datum/noticeboardpost/saved_post in GLOB.sellsword_noticeboardposts)
+					merc_count++
+					switch(saved_post.posterstitle)
+						if(MERC_STATUS_AVAILABLE)
+							available_count++
+							available_mercs += saved_post
+						if(MERC_STATUS_CONTRACTED)
+							contracted_count++
+							contracted_mercs += saved_post
+						if(MERC_STATUS_DND)
+							dnd_count++
+							dnd_mercs += saved_post
+
+				contents += "<center><b>Registered Mercenaries:</b><br>"
+				contents += "Total: <b>[merc_count]</b> | "
+				contents += "<span style='color:green;'>Available: [available_count]</span> | "
+				contents += "<span style='color:orange;'>Contracted: [contracted_count]</span> | "
+				contents += "<span style='color:red;'>DND: [dnd_count]</span>"
+				contents += "</center><br><hr>"
+
+				if(LAZYLEN(available_mercs))
+					contents += "<b><span style='color:green;'>Available for Contract:</span></b><br>"
+					for(var/datum/noticeboardpost/mercpost in available_mercs)
+						contents += mercpost.banner
+					contents += "<br>"
+
+				if(LAZYLEN(contracted_mercs))
+					contents += "<b><span style='color:orange;'>Currently Contracted:</span></b><br>"
+					for(var/datum/noticeboardpost/mercpost in contracted_mercs)
+						contents += mercpost.banner
+					contents += "<br>"
+
+				if(LAZYLEN(dnd_mercs))
+					contents += "<b><span style='color:red;'>Do Not Disturb:</span></b><br>"
+					for(var/datum/noticeboardpost/mercpost in dnd_mercs)
+						contents += mercpost.banner
+				contents += "<center><i>Silver for one, Gold for all.</i></center>"
 	if(board_empty)
 		contents += "<br><span class='notice'>No postings have been made yet!</span>"
 	var/datum/browser/popup = new(user, "NOTICEBOARD", "", 800, 650)
@@ -139,14 +329,27 @@
 	if(!inputname)
 		return
 	var/inputrole = input(guy, "What personal title shall I use on the posting?", "NOTICEBOARD", null)
-	add_post(inputmessage, inputtitle, inputname, inputrole, guy.real_name, TRUE)
+	add_post(inputmessage, inputtitle, inputname, inputrole, guy.real_name, NOTICEBOARD_CAT_PREMIUM, guy)
 	guy.apply_status_effect(/datum/status_effect/debuff/postcooldown)
 	message_admins("[ADMIN_LOOKUPFLW(guy)] has made a notice board post. The message was: [inputmessage]")
-	for(var/obj/structure/roguemachine/noticeboard/board in SSroguemachine.noticeboards)
-		if(board != src)
-			playsound(board, 'sound/ambience/noises/birds (7).ogg', 50, FALSE, -1)
-			board.visible_message(span_smallred("A ZAD lands, delivering a new posting!"))
-			board.update_icon()
+
+/obj/structure/roguemachine/noticeboard/proc/post_added(ssdcs, source)
+	SIGNAL_HANDLER
+	if(src == source) // This board is the one from which new posts originated, ignore it
+		return
+
+	playsound(src, 'sound/ambience/noises/birds (7).ogg', 50, FALSE, -1)
+	visible_message(span_smallred("A ZAD lands, delivering a new posting!"))
+	update_icon()
+
+/obj/structure/roguemachine/noticeboard/proc/post_removed(ssdcs, source)
+	SIGNAL_HANDLER
+	if(src == source) // This board is the one from which new posts originated, ignore it
+		return
+
+	playsound(src, 'sound/ambience/noises/birds (7).ogg', 50, FALSE, -1)
+	visible_message(span_smallred("A ZAD lands, removing an old posting!"))
+	update_icon()
 
 /obj/structure/roguemachine/noticeboard/proc/make_post(mob/living/carbon/human/guy)
 	if(guy.has_status_effect(/datum/status_effect/debuff/postcooldown))
@@ -175,14 +378,11 @@
 	if(length(inputrole) > 50)
 		to_chat(guy, span_warning("Too long! You shall surely overburden the zad with this novel!"))
 		return
-	add_post(inputmessage, inputtitle, inputname, inputrole, guy.real_name, FALSE)
+	add_post(inputmessage, inputtitle, inputname, inputrole, guy.real_name, NOTICEBOARD_CAT_POSTINGS, guy)
 	guy.apply_status_effect(/datum/status_effect/debuff/postcooldown)
 	message_admins("[ADMIN_LOOKUPFLW(guy)] has made a notice board post. The message was: [inputmessage]")
-	for(var/obj/structure/roguemachine/noticeboard/board in SSroguemachine.noticeboards)
-		board.update_icon()
-		if(board != src)
-			playsound(board, 'sound/ambience/noises/birds (7).ogg', 50, FALSE, -1)
-			board.visible_message(span_smallred("A ZAD lands, delivering a new posting!"))
+	SEND_GLOBAL_SIGNAL(COMSIG_NOTICEBOARD_POST_ADDED, src)
+	update_icon()
 
 /obj/structure/roguemachine/noticeboard/proc/remove_post(mob/living/carbon/human/guy)
 	var/list/myposts_list = list()
@@ -208,11 +408,8 @@
 		if(post2remove == removing_post.title && removing_post.truepostername == guy.real_name)
 			GLOB.premium_noticeboardposts -= removing_post
 			message_admins("[ADMIN_LOOKUPFLW(guy)] has removed their post, the message was [removing_post.message]")
-	for(var/obj/structure/roguemachine/noticeboard/board in SSroguemachine.noticeboards)
-		board.update_icon()
-		if(board != src)
-			playsound(board, 'sound/ambience/noises/birds (7).ogg', 50, FALSE, -1)
-			board.visible_message(span_smallred("A ZAD lands, removing an old posting!"))
+	SEND_GLOBAL_SIGNAL(COMSIG_NOTICEBOARD_POST_REMOVED, src)
+	update_icon()
 
 /obj/structure/roguemachine/noticeboard/proc/authority_removepost(mob/living/carbon/human/guy)
 	var/list/posts_list = list()
@@ -231,23 +428,23 @@
 			GLOB.noticeboard_posts -= removing_post
 			message_admins("[ADMIN_LOOKUPFLW(guy)] has authoritavely removed a post, the message was [removing_post.message]")
 
-
-
-/proc/add_post(message, chosentitle, chosenname, chosenrole, truename, premium)
+/proc/add_post(message, chosentitle, chosenname, chosenrole, truename, category, mob/author)
 	var/datum/noticeboardpost/new_post = new /datum/noticeboardpost
 	new_post.poster = chosenname
 	new_post.title = chosentitle
 	new_post.message = message
 	new_post.posterstitle = chosenrole
 	new_post.truepostername = truename
+	new_post.posterweakref = WEAKREF(author)
 	compose_post(new_post)
 	GLOB.board_viewers = list()
-	if(!premium)
-		GLOB.noticeboard_posts += new_post
-	else
-		GLOB.premium_noticeboardposts += new_post
-
-
+	switch(category)
+		if(NOTICEBOARD_CAT_PREMIUM)
+			GLOB.premium_noticeboardposts += new_post
+		if(NOTICEBOARD_CAT_SELLSWORDS)
+			GLOB.sellsword_noticeboardposts += new_post
+		if(NOTICEBOARD_CAT_POSTINGS)
+			GLOB.noticeboard_posts += new_post
 
 /proc/compose_post(datum/noticeboardpost/new_post)
 	new_post.banner += "<center><b>[new_post.title]</b><BR>"
@@ -266,3 +463,17 @@
 /atom/movable/screen/alert/status_effect/debuff/postcooldown
 	name = "Recent messenger"
 	desc = "I'll have to wait a bit before making another posting!"
+
+/datum/status_effect/debuff/mercdmcooldown
+	id = "mercdmcooldown"
+	duration = 30 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/mercdmcooldown
+
+/atom/movable/screen/alert/status_effect/debuff/mercdmcooldown
+	name = "Mercenary Contacted"
+	desc = "I'll have to wait a bit before contacting another mercenary!"
+
+/datum/status_effect/debuff/mercbroadcastcooldown
+	id = "mercbroadcastcooldown"
+	duration = 10 MINUTES
+	alert_type = null // It hangs for a long time, no need show a screen alert for so long

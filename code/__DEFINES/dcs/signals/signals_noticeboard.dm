@@ -1,0 +1,2 @@
+#define COMSIG_NOTICEBOARD_POST_ADDED "noticeboard_post_added"
+#define COMSIG_NOTICEBOARD_POST_REMOVED "noticeboard_post_removed"
