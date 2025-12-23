@@ -195,6 +195,9 @@
 			if(bless.is_blessed)
 				// Apply multiplier if the blessing is active.
 				intdamage = round(intdamage * bless.cursed_item_intdamage)
+		var/tempo_bonus = get_tempo_bonus(TEMPO_TAG_ARMOR_INTEGFACTOR)
+		if(tempo_bonus)
+			intdamage *= tempo_bonus
 
 		// Armor degradation multipliers based on damage type vs armor class
 		var/degradation_mult = 1.0

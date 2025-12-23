@@ -384,3 +384,21 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define SILVER_SIMPLEMOB_DAM_MULT 2
 
 #define PROJ_PARRY_TIMER	0.65 SECONDS	//The time after an attack (swinging in the air counts) when a thrown item would be deflected at a higher chance.
+#define TEMPO_CULL_DELAY 	12 SECONDS	//Interval for checking our tempo lists. Only relevant to player mobs with TRAIT_TEMPO
+#define TEMPO_DELAY_ONE 30 SECONDS
+#define TEMPO_DELAY_TWO	15 SECONDS
+#define TEMPO_DELAY_MAX	8 SECONDS
+#define TEMPO_CAP 7
+#define TEMPO_MAX 4
+#define TEMPO_TWO 3
+#define TEMPO_ONE 2
+
+#define TEMPO_TAG_STAMLOSS_PARRY "parry"
+#define TEMPO_TAG_STAMLOSS_DODGE "dodge"
+#define TEMPO_TAG_ARMOR_INTEGFACTOR "integ"
+#define TEMPO_TAG_NOLOS_PARRY "nolosparry"
+#define TEMPO_TAG_DEF_SHARPNESSFACTOR "sharpness"
+#define TEMPO_TAG_DEF_INTEGFACTOR "parryinteg"
+#define TEMPO_TAG_PARRYCD_BONUS	"parrycd"
+#define TEMPO_TAG_RCLICK_CD_BONUS "rclickcd"
+#define TEMPO_TAG_DEF_BONUS	"defbonus"

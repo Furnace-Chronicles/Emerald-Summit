@@ -12,6 +12,7 @@
 /mob/living/carbon/human/on_cmode()
 	if(!cmode)	//We just toggled it off.
 		addtimer(CALLBACK(src, PROC_REF(purge_bait)), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+		addtimer(CALLBACK(src, PROC_REF(clear_tempo_all)), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 	if(!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 		filtered_balloon_alert(TRAIT_COMBAT_AWARE, (cmode ? ("<i><font color = '#831414'>Tense</font></i>") : ("<i><font color = '#c7c6c6'>Relaxed</font></i>")), y_offset = 32)
 
@@ -89,7 +90,8 @@
 		return
 
 	HU.visible_message(span_danger("[HU] baits an attack from [HT]!"))
-	HU.apply_status_effect(/datum/status_effect/debuff/baitcd)
+	var/newcd = 30 SECONDS - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)
+	HU.apply_status_effect(/datum/status_effect/debuff/baitcd, newcd)
 	HU.stamina_add(HU.max_stamina * 0.2)
 
 	if((target_zone != user_zone) || ((target_zone == BODY_ZONE_CHEST) || (user_zone == BODY_ZONE_CHEST))) //Our zones match and it's not the chest | Our zones do not match, or we were targeting chest
@@ -241,13 +243,17 @@
 	if(L.has_status_effect(/datum/status_effect/debuff/exposed))
 		perc = 0
 
+	var/newcd = 30 SECONDS - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)
 	if(L.has_status_effect(/datum/status_effect/debuff/feinted))
 		perc = 0
 		special_msg = span_warning("Too soon! They were expecting it!")
 
 	if(!L.can_see_cone(user) && L.mind)
 		perc = 0
+		newcd = 10 SECONDS
 		special_msg = span_warning("They need to see me for me to feint them!")
+
+  user.apply_status_effect(/datum/status_effect/debuff/feintcd, newcd)
 
 	perc = CLAMP(perc, 0, 90)
 

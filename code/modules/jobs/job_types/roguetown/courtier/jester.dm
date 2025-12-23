@@ -16,6 +16,7 @@
 		and someday you'll find yourself at the end of something sharper than you."
 	outfit = /datum/outfit/job/jester
 	display_order = JDO_JESTER
+	job_traits = list(TRAIT_TEMPO)
 	give_bank_account = TRUE
 	min_pq = -4 //silly jesters are funny so low PQ requirement
 	max_pq = null
