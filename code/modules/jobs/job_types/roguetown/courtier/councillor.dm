@@ -45,11 +45,11 @@
 	category_tags = list(CTAG_COUNCILLOR)
 	traits_applied = list(TRAIT_SEEPRICES, TRAIT_INTELLECTUAL, TRAIT_PERFECT_TRACKER)
 	subclass_stats = list(
-		STATKEY_PER = 1,
-		STATKEY_CON = 2,
+		STATKEY_PER = 3,
 		STATKEY_INT = 2,
 		STATKEY_END = 2,
 		STATKEY_STR = 1,
+		STATKEY_SPD = -1,
 		STATKEY_LCK = 1,
 	)
 
@@ -97,8 +97,7 @@
 	subclass_stats = list(
 		STATKEY_PER = 3,
 		STATKEY_INT = 2,
-		STATKEY_END = 2,
-		STATKEY_SPD = 3,
+		STATKEY_SPD = 2,
 		STATKEY_STR = -1,
 		STATKEY_LCK = 1,
 	)
@@ -148,9 +147,8 @@
 	category_tags = list(CTAG_COUNCILLOR)
 	traits_applied = list(TRAIT_EMPATH, TRAIT_GOODLOVER, TRAIT_NUTCRACKER)
 	subclass_stats = list(
-		STATKEY_PER = 3,
+		STATKEY_PER = 1,
 		STATKEY_INT = 2,
-		STATKEY_END = 2,
 		STATKEY_SPD = 1,
 		STATKEY_STR = 1,
 		STATKEY_LCK = 1,
