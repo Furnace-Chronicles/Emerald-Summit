@@ -67,6 +67,7 @@
 	name = "blacksteel staff"
 	desc = "A fine wood staff that is reinforced with blacksteel rivets commonly wielded by noble magicians in the Grenzelhoftian Empire. Perched atop it is an less efficient though equally beautiful alchemical Dorpel. Perhaps I could enhance it with a better Dorpel?"
 	icon_state = "blacksteelstaff"
+	resistance_flags = FIRE_PROOF
 	max_integrity = 300
 	sellprice = 60 // Not sure why it has integrity, might be able to be used as a quarterstaff but magical?
 
@@ -76,6 +77,7 @@
 	icon = 'modular_azurepeak/icons/obj/items/staffs.dmi'
 	icon_state = "sapphirestaff"
 	cast_time_reduction = SAPPHIRE_CAST_TIME_REDUCTION
+	resistance_flags = FIRE_PROOF
 	sellprice = 56
 
 /obj/item/rogueweapon/woodstaff/quartz
@@ -93,6 +95,7 @@
 	icon = 'modular_azurepeak/icons/obj/items/staffs.dmi'
 	icon_state = "rubystaff"
 	cast_time_reduction = RUBY_CAST_TIME_REDUCTION
+	resistance_flags = FIRE_PROOF
 	sellprice = 100
 
 /obj/item/rogueweapon/woodstaff/diamond
@@ -101,6 +104,7 @@
 	icon = 'modular_azurepeak/icons/obj/items/staffs.dmi'
 	icon_state = "diamondstaff"
 	cast_time_reduction = DIAMOND_CAST_TIME_REDUCTION
+	resistance_flags = FIRE_PROOF
 	sellprice = 121
 
 /obj/item/rogueweapon/woodstaff/diamond/blacksteelstaff // Upgraded version, more CDR can be crafted by combining a base Blacksteel Staff with a dorpel
@@ -108,6 +112,7 @@
 	desc = "A fine wood staff that is reinforced with blacksteel rivets commonly wielded by noble magicians in the Grenzelhoftian Empire. Perched atop it is a new beautiful Dorpel that shimmers with magical energies"
 	icon_state = "blacksteelstaff"
 	max_integrity = 300 //
+	resistance_flags = FIRE_PROOF
 	sellprice = 135
 
 /obj/item/rogueweapon/woodstaff/riddle_of_steel
@@ -117,6 +122,7 @@
 	icon = 'modular_azurepeak/icons/obj/items/staffs.dmi'
 	icon_state = "riddlestaff"
 	cast_time_reduction = RIDDLE_OF_STEEL_CAST_TIME_REDUCTION
+	resistance_flags = FIRE_PROOF
 	sellprice = 400
 
 /obj/item/rogueweapon/woodstaff/riddle_of_steel/magos
