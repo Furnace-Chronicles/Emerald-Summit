@@ -82,11 +82,11 @@
 #define ARMOR_PADDED_GOOD list("blunt" = 75, "slash" = 50, "stab" = 59, "piercing" = 50, "fire" = 0, "acid" = 0)
 #define ARMOR_PADDED list("blunt" = 67, "slash" = 40, "stab" = 48, "piercing" = 45, "fire" = 0, "acid" = 0)
 #define ARMOR_PADDED_BAD list("blunt" = 63, "slash" = 35, "stab" = 42, "piercing" = 38, "fire" = 0, "acid" = 0)
-#define ARMOR_LIGHTCUIRASS list("blunt" = 63, "slash" = 70, "stab" = 68, "piercing" = 55, "fire" = 0, "acid" = 0)
+#define ARMOR_LIGHTCUIRASS list("blunt" = 63, "slash" = 75, "stab" = 68, "piercing" = 75, "fire" = 0, "acid" = 0)
 
-#define ARMOR_LEATHER list("blunt" = 50, "slash" = 50, "stab" = 55, "piercing" = 42, "fire" = 0, "acid" = 0)
-#define ARMOR_LEATHER_GOOD list("blunt" = 53, "slash" = 60, "stab" = 70, "piercing" = 45, "fire" = 0, "acid" = 0)
-#define ARMOR_LEATHER_STUDDED list("blunt" = 65, "slash" = 65, "stab" = 68, "piercing" = 48, "fire" = 0, "acid" = 0)
+#define ARMOR_LEATHER list("blunt" = 66, "slash" = 50, "stab" = 55, "piercing" = 52, "fire" = 0, "acid" = 0)
+#define ARMOR_LEATHER_GOOD list("blunt" = 77, "slash" = 60, "stab" = 75, "piercing" = 55, "fire" = 0, "acid" = 0)
+#define ARMOR_LEATHER_STUDDED list("blunt" = 85, "slash" = 65, "stab" = 68, "piercing" = 63, "fire" = 0, "acid" = 0)
 
 // Medium AC | Chest
 #define ARMOR_CUIRASS list("blunt" = 59, "slash" = 100, "stab" = 82, "piercing" = 81, "fire" = 0, "acid" = 0)
