@@ -1,0 +1,14 @@
+GLOBAL_LIST_EMPTY(board_viewers)
+GLOBAL_LIST_EMPTY(noticeboard_posts)
+GLOBAL_LIST_EMPTY(premium_noticeboardposts)
+GLOBAL_LIST_EMPTY(sellsword_noticeboardposts)
+
+#define NOTICEBOARD_CAT_POSTINGS "Postings"
+#define NOTICEBOARD_CAT_PREMIUM "Premium Postings"
+#define NOTICEBOARD_CAT_SELLSWORDS "Sellswords"
+
+#define MERC_STATUS_AVAILABLE "Available"
+#define MERC_STATUS_CONTRACTED "Contracted"
+#define MERC_STATUS_DND "Do Not Disturb"
+
+#define NOTICEBOARD_ALL_CATEGORIES list(NOTICEBOARD_CAT_POSTINGS, NOTICEBOARD_CAT_PREMIUM, NOTICEBOARD_CAT_SELLSWORDS)
