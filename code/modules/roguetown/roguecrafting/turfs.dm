@@ -136,7 +136,7 @@
 /datum/crafting_recipe/roguetown/turfs/wood/murderhole
 	name = "murder hole (wood)"
 	result = /turf/closed/wall/mineral/rogue/wood/window
-	reqs = ist(/obj/item/natural/wood/plank = 2)
+	reqs = list(/obj/item/grown/log/tree/small = 2)
 	skillcraft = /datum/skill/craft/carpentry
 	verbage_simple = "construct"
 	verbage = "constructs"
