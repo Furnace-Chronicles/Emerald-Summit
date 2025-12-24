@@ -1,22 +1,14 @@
 /mob/dead/new_player/Login()
-	if(!client)
-		return FALSE
 
 	if(CONFIG_GET(flag/use_exp_tracking))
-		client?.set_exp_from_db()
-		client?.set_db_player_flags()
-		if(!client)
-			// Client disconnected during one of the db queries
-			return FALSE
-			
+		client.set_exp_from_db()
+		client.set_db_player_flags()
 	if(!mind)
 		mind = new /datum/mind(key)
 		mind.active = 1
 		mind.current = src
 
-	. = ..()
-	if(!. || !client)
-		return FALSE
+	..()
 
 	sight |= SEE_TURFS
 
@@ -25,8 +17,6 @@
 
 	if(client)
 		client.playtitlemusic()
-		
-	return TRUE
 
 /mob/dead/new_player/proc/do_after_login()
 	PRIVATE_PROC(TRUE)

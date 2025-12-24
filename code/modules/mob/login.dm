@@ -1,9 +1,6 @@
 /**
   * Run when a client is put in this mob or reconnects to byond and their client was on this mob
   *
-  * * WARNING: Anything that sleeps can result in the client reference being dropped, 
-  * * due to byond using that sleep to handle a client disconnect.
-  * * Client can be deleted mid-execution of this proc, especially after operations that may lag.
   * Things it does:
   * * Adds player to player_list
   * * sets lastKnownIP
@@ -12,7 +9,7 @@
   * * tells the world to update it's status (for player count)
   * * create mob huds for the mob if needed
   * * reset next_move to 1
-  * * DO NOT CALL PARENT. parent does expensive turf iteration (see below)
+  * * parent call
   * * if the client exists set the perspective to the mob loc
   * * call on_log on the loc (sigh)
   * * reload the huds for the mob
@@ -27,9 +24,6 @@
 
 
 /mob/Login()
-	if(!client)
-		return FALSE
-		
 	GLOB.player_list |= src
 	lastKnownIP	= client.address
 	computer_id	= client.computer_id
@@ -40,31 +34,14 @@
 
 	if(!hud_used)
 		create_mob_hud()
-		if(!client)
-			return FALSE
-			
 	if(hud_used && client && client.prefs)
 		hud_used.show_hud(hud_used.hud_version)
-		if(!client)
-			return FALSE
 		hud_used.update_ui_style(ui_style2icon(client.prefs.UI_style))
 
 	next_move = 1
 
-	// DO NOT CALL PARENT HERE
-	// BYOND's internal implementation of Login() does two things:
-	// 1: Set statobj to the mob being logged into (we handle this ourselves)
-	// 2: "If the mob has no location, place it near (1,1,1) if possible"
-	// The second operation is extremely expensive - it loops through ALL turfs in the area containing (1,1,1)
-	// attempting to Move() into each one until successful.
-	// For space tiles, this can mean 200,000+ Move() calls PER player login.
-	// With 80 players logging in during roundstart, that's 16 MILLION unnecessary Move() calls.
-	// We don't allow moves from nullspace anyway, so this loop just wastes CPU.
-	
-	if(!client)
-		return FALSE
-		
-	if (key != client.key)
+	..()
+	if (client && key != client.key)
 		key = client.key
 	reset_perspective(loc)
 
@@ -113,8 +90,6 @@
 	log_message("Client [key_name(src)] has taken ownership of mob [src]([src.type])", LOG_OWNERSHIP)
 	enable_client_mobs_in_contents(client)
 	SEND_SIGNAL(src, COMSIG_MOB_CLIENT_LOGIN, client)
-	
-	return TRUE
 
 /**
   * Checks if the attached client is an admin and may deadmin them
