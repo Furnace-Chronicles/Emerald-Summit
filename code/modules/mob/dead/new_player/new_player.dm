@@ -731,7 +731,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		dna.species.after_creation(src)
 	roll_stats()
 
-/mob/dead/new_player/proc/transfer_character()
+/mob/dead/new_player/proc/transfer_character(delay_deletion = FALSE)
 	. = new_character
 	if(.)
 		new_character.key = key		//Manually transfer the key to log them in
@@ -741,7 +741,10 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 			joined_area.on_joining_game(new_character)
 		new_character.update_fov_angles()
 		new_character = null
-		qdel(src)
+		if(!delay_deletion)
+			// Latejoins - delete immediately
+			qdel(src)
+		// Roundstart transfers pass TRUE - caller handles delayed cleanup after Login() completes
 
 /mob/dead/new_player/proc/ViewManifest()
 	var/dat = "<html><body>"

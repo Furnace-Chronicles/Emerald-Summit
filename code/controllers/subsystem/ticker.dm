@@ -537,6 +537,7 @@ SUBSYSTEM_DEF(ticker)
 
 /datum/controller/subsystem/ticker/proc/transfer_characters()
 	var/list/livings = list()
+	var/list/transferred_new_players = list() // Cache for cleanup after Login() completes
 	var/transferred = 0
 	var/advclass_count = 0
 	var/disconnected_count = 0
@@ -547,12 +548,18 @@ SUBSYSTEM_DEF(ticker)
 	for(var/i in GLOB.new_player_list)
 		var/mob/dead/new_player/player = i
 		
+		// Skip lobby players - only transfer those with new_character set
+		if(!player.new_character)
+			continue
+		
 		// Track disconnects during transfer
 		var/player_ckey = player?.ckey || "Unknown"
 		var/had_client = (player?.client ? TRUE : FALSE)
 		
-		var/mob/living = player?.transfer_character()
+		var/mob/living = player?.transfer_character(delay_deletion = TRUE)
 		if(living)
+			// Cache this for cleanup after Login() completes
+			transferred_new_players += player
 			living.notransform = TRUE
 			if(living.client)
 				var/atom/movable/screen/splash/S = new(living.client, TRUE)
@@ -599,12 +606,39 @@ SUBSYSTEM_DEF(ticker)
 	
 	if(livings.len)
 		addtimer(CALLBACK(src, PROC_REF(release_characters), livings), 30, TIMER_CLIENT_TIME)
+	
+	// Schedule cleanup of transferred new_player mobs after Login() completes
+	// 60 seconds to be safe - gives plenty of time for all logins to finish even under heavy load
+	if(transferred_new_players.len)
+		addtimer(CALLBACK(src, PROC_REF(cleanup_transferred_new_players), transferred_new_players), 600, TIMER_STOPPABLE)
+		log_game("TRANSFER: Scheduled cleanup of [transferred_new_players.len] new_player mobs in 60 seconds")
 
 /datum/controller/subsystem/ticker/proc/release_characters(list/livings)
 	for(var/I in livings)
 		var/mob/living/L = I
 		if(L)
 			L?.notransform = FALSE
+
+/datum/controller/subsystem/ticker/proc/cleanup_transferred_new_players(list/transferred_mobs)
+	log_game("CLEANUP: Deleting [transferred_mobs.len] transferred new_player mobs")
+	var/deleted_count = 0
+	var/skipped_count = 0
+	
+	for(var/mob/dead/new_player/NP in transferred_mobs)
+		if(!NP)
+			continue
+		
+		// Safety check: Don't delete if client still exists (shouldn't happen, but be safe)
+		if(NP.client)
+			log_game("CLEANUP WARNING: Skipping [NP.ckey] - client still attached to new_player mob")
+			message_admins(span_warning("CLEANUP: Skipped deleting new_player for [NP.ckey] - client still attached"))
+			skipped_count++
+			continue
+		
+		qdel(NP)
+		deleted_count++
+	
+	log_game("CLEANUP: Deleted [deleted_count] new_player mobs ([skipped_count] skipped)")
 
 /datum/controller/subsystem/ticker/proc/send_tip_of_the_round()
 	return
