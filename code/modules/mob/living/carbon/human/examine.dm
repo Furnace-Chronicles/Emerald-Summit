@@ -97,7 +97,7 @@
 				rank_color = "ECB20A"
 			if(SOCIAL_RANK_ROYAL)
 				rank_color = "FFBF00"
-		var/strata_icon = family_datum ? "⛯" : "⚜"
+		var/strata_icon = family_datum ? "⛯" : "⛭"
 		var/social_strata = SPAN_TOOLTIP_DANGEROUS_HTML(generate_strata(user), "<font color='#[rank_color]'>[strata_icon]</font></A>")
 		var/display1
 		var/display2 = "[!HAS_TRAIT(usr, TRAIT_OUTLANDER) ? "[social_strata]" : " "]"
