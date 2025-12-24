@@ -1033,6 +1033,13 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 /client/proc/update_movement_keys()
 	if(!prefs?.key_bindings)
 		return
+	if(!length(prefs.key_bindings))
+		// Empty key_bindings is a bug - log it but preserve existing movement_keys
+		// to prevent stuck keys during roundstart
+		if(length(movement_keys))
+			log_game("WARNING: [ckey] has empty key_bindings, preserving existing movement_keys")
+		return
+		
 	movement_keys = list()
 	for(var/key in prefs.key_bindings)
 		for(var/kb_name in prefs.key_bindings[key])
