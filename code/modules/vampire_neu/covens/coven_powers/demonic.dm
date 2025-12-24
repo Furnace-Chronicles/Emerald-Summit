@@ -12,7 +12,7 @@
 //SENSE THE SIN
 /datum/coven_power/demonic/deny_the_mother
 	name = "Deny the Mother"
-	desc = "Immunity to being set on fire for twenty seconds."
+	desc = "Become immune to being set on fire for twenty seconds. Become passively, partially resistant to fire."
 
 	level = 1
 	research_cost = 0
@@ -23,7 +23,6 @@
 /datum/coven_power/demonic/deny_the_mother/activate()
 	. = ..()
 	ADD_TRAIT(owner, TRAIT_NOFIRE, VAMPIRE_TRAIT)
-	owner.physiology.burn_mod /= 100
 	owner.color = "#884200"
 	owner.add_stress(/datum/stressevent/vampiric_nostalgia)
 	playsound(get_turf(owner), 'sound/misc/carriage4.ogg', 40, TRUE)
@@ -33,10 +32,12 @@
 	. = ..()
 	owner.color = initial(owner.color)
 	REMOVE_TRAIT(owner, TRAIT_NOFIRE, VAMPIRE_TRAIT)
-	owner.physiology.burn_mod *= 100
 	owner.add_stress(/datum/stressevent/vampiric_reality)
 	playsound(get_turf(owner), 'sound/misc/carriage2.ogg', 40, TRUE)
 
+/datum/coven_power/demonic/deny_the_mother/post_gain() 
+	. = ..()
+	owner.physiology.burn_mod = 0.5
 
 /datum/coven_power/demonic/fear_of_the_void_below
 	name = "Fear of the Void"

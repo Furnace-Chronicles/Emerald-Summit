@@ -38,8 +38,10 @@
 		var/mob/living/carbon/human/H = L
 		var/prev_real_name = H.real_name
 		var/prev_name = H.name
-		var/honorary = "Brother"
-		if(should_wear_femme_clothes(H))
+		var/honorary = "Sibling"
+		if(get_pronoun_gender(H) == "MASC")
+			honorary = "Brother"
+		if(get_pronoun_gender(H) == "FEM")
 			honorary = "Sister"
 		GLOB.chosen_names -= prev_real_name
 		H.real_name = "[honorary] [prev_real_name]"

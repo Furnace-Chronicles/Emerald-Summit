@@ -55,7 +55,7 @@
 		var/prev_real_name = H.real_name
 		var/prev_name = H.name
 		var/honorary = "Ser"
-		if(should_wear_femme_clothes(H))
+		if(get_pronoun_gender(H) == "FEM")
 			honorary = "Dame"
 		GLOB.chosen_names -= prev_real_name
 		H.real_name = "[honorary] [prev_real_name]"
