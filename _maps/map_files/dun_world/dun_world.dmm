@@ -23605,6 +23605,12 @@
 /obj/machinery/light/rogue/hearth,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/manor)
+"gro" = (
+/obj/structure/roguemachine/mail/l{
+	mailtag = "Inquisition"
+	},
+/turf/open/floor/rogue/blocks,
+/area/rogue/indoors/inq)
 "grs" = (
 /obj/machinery/light/rogue/wallfire/candle,
 /turf/open/floor/rogue/ruinedwood{
@@ -34712,8 +34718,8 @@
 "jlo" = (
 /obj/structure/mineral_door/wood/violet{
 	locked = 1;
-	lockid = "sheriff";
-	name = "Office"
+	lockid = "tavern";
+	name = "STAFF"
 	},
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/indoors/town/tavern)
@@ -42200,10 +42206,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat/gethsmane,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/dungeon1/gethsmane)
-"llF" = (
-/obj/structure/mineral_door/wood/fancywood,
-/turf/closed/mineral/random/rogue/high,
-/area/rogue/under/cave)
 "llI" = (
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/cobble,
@@ -141553,7 +141555,7 @@ miF
 miF
 miF
 miF
-llF
+qHj
 qHj
 qHj
 qHj
@@ -367050,7 +367052,7 @@ tYz
 hqS
 nxq
 qfM
-nxq
+gro
 wsx
 tYz
 gAp
