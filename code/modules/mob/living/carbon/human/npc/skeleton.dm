@@ -34,8 +34,7 @@
 	. = ..()
 	cut_overlays()
 	//This cuases a linting error sorry
-	after_creation()
-
+	
 	if (is_summoned || cabal_affine)
 		faction += "cabal"
 	// adds the name of the summoner to the faction, to avoid the hooded "Unknown" bug with Skeleton IDs
@@ -45,6 +44,10 @@
 		var/datum/antagonist/lich/lich_antag = user.mind.has_antag_datum(/datum/antagonist/lich)
 		if(lich_antag && user.real_name)
 			faction += "[user.real_name]_faction"
+	return INITIALIZE_HINT_LATELOAD
+/mob/living/carbon/human/species/skeleton/LateInitialize()
+	after_creation()
+
 
 /mob/living/carbon/human/species/skeleton/after_creation()
 	..()
