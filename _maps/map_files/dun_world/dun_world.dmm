@@ -41708,10 +41708,6 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
-"lfb" = (
-/obj/effect/landmark/start/guard_captain,
-/turf/open/floor/carpet/royalblack,
-/area/rogue/indoors/town/manor)
 "lfc" = (
 /obj/structure/closet/crate/roguecloset,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/food,
@@ -421768,7 +421764,7 @@ xkq
 qNn
 wNb
 lLP
-lfb
+fAA
 kFL
 pIl
 fSz
