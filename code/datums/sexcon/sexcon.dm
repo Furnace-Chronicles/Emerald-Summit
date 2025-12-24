@@ -284,6 +284,35 @@
 		else
 			splashed_type.refresh_cum()
 	after_ejaculation()
+
+	//EVIL ASS LEVELDRAIN
+	if(HAS_TRAIT(user, TRAIT_DEPRAVED) && user.cmode)
+		var/datum/status_effect/buff/baothasbanquet/boost_buff = user.has_status_effect(/datum/status_effect/buff/baothasbanquet)
+		if(boost_buff)
+			boost_buff.tier_up(target)
+		else
+			boost_buff = user.apply_status_effect(/datum/status_effect/buff/baothasbanquet)
+			boost_buff.poor_bastards += target
+		var/datum/status_effect/debuff/baothadrained/drain_debuff = target.has_status_effect(/datum/status_effect/debuff/baothadrained)
+		if(drain_debuff)
+			drain_debuff.tier_up()
+		else
+			target.apply_status_effect(/datum/status_effect/debuff/baothadrained)
+		target.playsound_local(user, 'sound/misc/mat/lvldown.ogg', 100)
+	if(HAS_TRAIT(target, TRAIT_DEPRAVED) && target.cmode)
+		var/datum/status_effect/buff/baothasbanquet/boost_buff = target.has_status_effect(/datum/status_effect/buff/baothasbanquet)
+		if(boost_buff)
+			boost_buff.tier_up(user)
+		else
+			boost_buff = target.apply_status_effect(/datum/status_effect/buff/baothasbanquet)
+			boost_buff.poor_bastards += user
+		var/datum/status_effect/debuff/baothadrained/drain_debuff = user.has_status_effect(/datum/status_effect/debuff/baothadrained)
+		if(drain_debuff)
+			drain_debuff.tier_up()
+		else
+			user.apply_status_effect(/datum/status_effect/debuff/baothadrained)
+		user.playsound_local(user, 'sound/misc/mat/lvldown.ogg', 100)
+		
 	if(!oral)
 		after_intimate_climax()
 
@@ -372,6 +401,8 @@
 /datum/sex_controller/proc/handle_charge(dt)
 	if(user.has_flaw(/datum/charflaw/addiction/lovefiend))
 		dt *= 2
+	if(HAS_TRAIT(user, TRAIT_DEPRAVED))
+		dt *= 2
 	adjust_charge(dt * CHARGE_RECHARGE_RATE)
 	if(is_spent())
 		if(arousal > 60)
@@ -430,6 +461,9 @@
 	if(user.stat == DEAD)
 		arousal_amt = 0
 		pain_amt = 0
+
+	if(HAS_TRAIT(user, TRAIT_DEPRAVED))
+		pain_amt *= 0.66
 
 	if(!arousal_frozen)
 		adjust_arousal(arousal_amt)
@@ -835,15 +869,9 @@
 /datum/sex_controller/proc/get_force_pleasure_multiplier(passed_force, giving)
 	switch(passed_force)
 		if(SEX_FORCE_LOW)
-			if(giving)
-				return 0.8
-			else
-				return 0.8
+			return 0.8
 		if(SEX_FORCE_MID)
-			if(giving)
-				return 1.2
-			else
-				return 1.2
+			return 1.2
 		if(SEX_FORCE_HIGH)
 			if(giving)
 				return 1.6
@@ -966,6 +994,66 @@
 		if(prob(infection_probability))
 			top.werewolf_infect_attempt()
 			return
+
+/datum/status_effect/buff/baothasbanquet
+	id = "baothasbanquet"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/baothasbanquet
+	effectedstats = list("strength" = 1, "intelligence" = 1, "perception" = 1 , "speed" = 1, "endurance" = 1, "constitution" = 1)
+	duration = 30 MINUTES
+	var/tier = 1
+	var/list/poor_bastards = list()
+
+/atom/movable/screen/alert/status_effect/buff/baothasbanquet
+	name = "Baotha's Banquet (I)"
+	desc = "I feel invigorated after partaking in another's energy."
+	icon_state = "baothasbanquet"
+
+/datum/status_effect/buff/baothasbanquet/proc/tier_up(var/mob/living/poor_sod)
+	refresh()
+	if(poor_sod in poor_bastards)
+		return
+	poor_bastards += poor_sod
+	if(tier < 3)
+		on_remove()
+		tier++
+		switch(tier)
+			if(2)
+				effectedstats = list("strength" = 2, "intelligence" = 2, "perception" = 2 , "speed" = 2, "endurance" = 2, "constitution" = 2)
+				linked_alert.name = "Baotha's Banquet (II)"
+				linked_alert.desc = "The strength of others nourishes me!"
+			if(3)
+				effectedstats = list("strength" = 3, "intelligence" = 3, "perception" = 3 , "speed" = 3, "endurance" = 3, "constitution" = 3)
+				linked_alert.name = "Baotha's Banquet (III)"
+				linked_alert.desc = "This power is ADDICTING!"
+		on_apply()
+
+/datum/status_effect/debuff/baothadrained
+	id = "baothadrained"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/baothadrained
+	effectedstats = list("strength" = -1, "intelligence" = -1, "perception" = -1 , "speed" = -1, "endurance" = -1, "constitution" = -1)
+	duration = 30 MINUTES
+	var/tier = 1
+
+/atom/movable/screen/alert/status_effect/debuff/baothadrained
+	name = "Vitality Drained (I)"
+	desc = "That was exhausting..."
+	icon_state = "baothadrained"
+
+/datum/status_effect/debuff/baothadrained/proc/tier_up()
+	refresh()
+	if(tier < 3)
+		on_remove()
+		tier++
+		switch(tier)
+			if(2)
+				effectedstats = list("strength" = -2, "intelligence" = -2, "perception" = -2 , "speed" = -2, "endurance" = -2, "constitution" = -2)
+				linked_alert.name = "Vitality Drained (II)"
+				linked_alert.desc = "That really took it out of me..."
+			if(3)
+				effectedstats = list("strength" = -3, "intelligence" = -3, "perception" = -3 , "speed" = -3, "endurance" = -3, "constitution" = -3)
+				linked_alert.name = "Vitality Drained (III)"
+				linked_alert.desc = "I feel like I lost a part of myself..."
+		on_apply()
 
 #undef SEX_ZONE_NULL
 #undef SEX_ZONE_GROIN

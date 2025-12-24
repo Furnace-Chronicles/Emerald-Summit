@@ -1007,6 +1007,14 @@ datum/crafting_recipe/roguetown/sewing/Purdress
 	tools = list(/obj/item/needle)
 	craftdiff = 6
 
+/datum/crafting_recipe/roguetown/sewing/caftan
+	name = "padded caftan"
+	result = list(/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/chargah)
+	reqs = list(/obj/item/natural/cloth = 6,
+	            /obj/item/natural/fibers = 5)
+	tools = list(/obj/item/needle)
+	craftdiff = 5
+
 /datum/crafting_recipe/roguetown/sewing/sleevelessrobe
 	name = "feldsher's robe"
 	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/phys)
