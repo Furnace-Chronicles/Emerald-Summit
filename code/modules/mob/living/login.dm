@@ -1,6 +1,9 @@
 /mob/living/Login()
 	login_fade()
-	..()
+	. = ..()
+	if(!. || !client)
+		return FALSE
+		
 	//Mind updates
 	sync_mind()
 	mind.show_memory(src, 0)
@@ -55,6 +58,8 @@
 		ranged_ability.deactivate()
 
 	set_ssd_indicator(FALSE)
+	
+	return TRUE
 
 /mob/living/proc/login_fade()
 	set waitfor = FALSE

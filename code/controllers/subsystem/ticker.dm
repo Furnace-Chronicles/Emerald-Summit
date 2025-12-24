@@ -363,13 +363,10 @@ SUBSYSTEM_DEF(ticker)
 	log_game("GAME SETUP: manifest success")
 
 	phase_time = world.timeofday
-	transfer_characters()	//transfer keys to the new mobs (async, completes via callback)
-	log_game("TIMING: transfer_characters started (async processing)")
-	log_game("GAME SETUP: transfer characters started (waiting for batches to complete)")
-	// Rest of roundstart continues after transfer_characters completes via finish_roundstart()
+	transfer_characters()	//transfer keys to the new mobs
+	log_game("TIMING: transfer_characters took [DisplayTimeText((world.timeofday - phase_time) * 0.1)]")
+	log_game("GAME SETUP: transfer characters success")
 
-// Called when all transfer batches complete
-/datum/controller/subsystem/ticker/proc/finish_roundstart()
 	for(var/I in round_start_events)
 		var/datum/callback/cb = I
 		cb.InvokeAsync()
@@ -377,7 +374,6 @@ SUBSYSTEM_DEF(ticker)
 	log_game("GAME SETUP: round start events success")
 	LAZYCLEARLIST(round_start_events)
 	CHECK_TICK
-	
 	if(isrogueworld)
 		// Cache valid z-levels list once
 		var/static/list/valid_z_levels = list(2,3,4,5)
@@ -540,29 +536,16 @@ SUBSYSTEM_DEF(ticker)
 	log_game("EQUIP COMPLETE: [valid_characters.len] players in [total_time/10]s (avg [total_time/valid_characters.len/10]s per player)")
 
 /datum/controller/subsystem/ticker/proc/transfer_characters()
-	set waitfor = FALSE // Async execution - don't block roundstart setup
-	
-	var/list/to_process = GLOB.new_player_list.Copy()
-	var/total_players = to_process.len
+	var/list/livings = list()
+	var/transferred = 0
+	var/advclass_count = 0
+	var/disconnected_count = 0
 	var/start_time = world.timeofday
-	var/batch_size = 10 // Process 10 players per batch
-	var/batch_delay = 3 // 0.3 second delay between batches (reduced from 0.5s for faster processing)
 	
-	log_game("TRANSFER: Starting async batch transfer of [total_players] players (batch_size=[batch_size], delay=[batch_delay])")
+	log_game("TRANSFER: Starting transfer of [GLOB.new_player_list.len] players")
 	
-	// Start first batch immediately
-	process_transfer_batch(to_process, list(), 0, 0, 0, start_time, batch_size, batch_delay, total_players)
-
-/datum/controller/subsystem/ticker/proc/process_transfer_batch(list/to_process, list/livings, transferred, advclass_count, disconnected_count, start_time, batch_size, batch_delay, total_players)
-	set waitfor = FALSE
-	
-	var/batch_start = world.timeofday
-	var/batch_count = 0
-	
-	// Process one batch
-	for(var/i = 1 to min(batch_size, to_process.len))
-		var/mob/dead/new_player/player = to_process[1]
-		to_process.Cut(1, 2)
+	for(var/i in GLOB.new_player_list)
+		var/mob/dead/new_player/player = i
 		
 		// Track disconnects during transfer
 		var/player_ckey = player?.ckey || "Unknown"
@@ -570,14 +553,12 @@ SUBSYSTEM_DEF(ticker)
 		
 		var/mob/living = player?.transfer_character()
 		if(living)
-			qdel(player)
 			living.notransform = TRUE
 			if(living.client)
 				var/atom/movable/screen/splash/S = new(living.client, TRUE)
 				S.Fade(TRUE)
 			livings += living
 			transferred++
-			batch_count++
 			
 			if(ishuman(living))
 				var/mob/living/carbon/human/H = living
@@ -613,23 +594,11 @@ SUBSYSTEM_DEF(ticker)
 			message_admins(span_boldwarning("Player [player_ckey] disconnected during character transfer"))
 			disconnected_count++
 	
-	var/batch_time = world.timeofday - batch_start
-	log_game("TRANSFER BATCH: Processed [batch_count] players in [DisplayTimeText(batch_time * 0.1)] ([to_process.len] remaining)")
+	var/total_time = world.timeofday - start_time
+	log_game("TRANSFER COMPLETE: [transferred] players transferred in [DisplayTimeText(total_time * 0.1)] ([advclass_count] advclass, [disconnected_count] disconnected)")
 	
-	// Schedule next batch or complete
-	if(to_process.len > 0)
-		// More batches to process - schedule next batch after delay
-		addtimer(CALLBACK(src, PROC_REF(process_transfer_batch), to_process, livings, transferred, advclass_count, disconnected_count, start_time, batch_size, batch_delay, total_players), batch_delay)
-	else
-		// All batches complete
-		var/total_time = world.timeofday - start_time
-		log_game("TRANSFER COMPLETE: [transferred] players transferred in [DisplayTimeText(total_time * 0.1)] ([advclass_count] advclass, [disconnected_count] disconnected)")
-		
-		if(livings.len)
-			addtimer(CALLBACK(src, PROC_REF(release_characters), livings), 30, TIMER_CLIENT_TIME)
-		
-		// Continue roundstart after all transfers complete
-		finish_roundstart()
+	if(livings.len)
+		addtimer(CALLBACK(src, PROC_REF(release_characters), livings), 30, TIMER_CLIENT_TIME)
 
 /datum/controller/subsystem/ticker/proc/release_characters(list/livings)
 	for(var/I in livings)
