@@ -290,6 +290,14 @@
 	reqs = list(/obj/item/natural/stoneblock = 2)
 	craftdiff = 3
 
+/datum/crafting_recipe/roguetown/turf/stone/glassfloors
+	name = "Stone Glass Flooring"
+	result = /turf/open/transparent/glass
+	skillcraft = /datum/skill/craft/masonry
+	reqs = list(/obj/item/natural/stoneblock = 2, /obj/item/natural/glass = 2)
+	craftdiff = 5 //you should be a master in whatever trade you do to make literal floors out of glass that won't crack
+
+
 /datum/crafting_recipe/roguetown/turfs/stone/platform/TurfCheck(mob/user, turf/T)
 	if(isclosedturf(T))
 		return
