@@ -172,7 +172,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/bloodstarvedt1
 	name = "Bloodstarved"
-	desc = ""
+	desc = "Hunger is pulsing through you."
 	icon_state = "bleed1"
 
 /datum/status_effect/debuff/bloodstarvedworse
@@ -184,7 +184,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/bloodstarvedt2
 	name = "Bloodstarved"
-	desc = ""
+	desc = "It's impossible to think, the hunger inside you is screaming."
 	icon_state = "bleed2"
 
 /datum/status_effect/debuff/bloodstarvedworst
@@ -196,7 +196,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/bloodstarvedt3
 	name = "Bloodstarved"
-	desc = ""
+	desc = "It's almost impossible to move. The hunger is unending..."
 	icon_state = "bleed3"
 
 
