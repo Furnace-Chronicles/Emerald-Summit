@@ -58,9 +58,9 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER, //Sovfvl
-		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/knives = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/bows = SKILL_LEVEL_NOVICE, //Hunting
 	)
@@ -87,8 +87,8 @@
 	backpack_contents = list(/obj/item/book/rogue/law, /obj/item/paper/scroll, /obj/item/natural/feather, /obj/item/rogueweapon/huntingknife/idagger/steel)
 
 /datum/advclass/councillor/intrigue
-	name = "Intriguer"
-	tutorial = "You are adroit in the art of scheming. Eaves-dropping, poisoning, and the endless courtly gossip of noble life are your specialties. You make an excellent ear and mouth for the court's shadowier leaders, ensuring that no secrets escape the ever present paranoia of the Court. A knowledge of poison and keen ears allow you to see your lords' schemes fufilled... but surely something slipped into their own goblets would see you rise."
+	name = "Conspirator"
+	tutorial = "You are adroit in the art of intrigue. Eaves-dropping, poisoning, and the endless courtly gossip of noble life are your specialties. You make an excellent ear and mouth for the court's shadowier leaders, ensuring that no secrets escape the ever present paranoia of the Court. A knowledge of poison and keen ears allow you to see your lords' schemes fufilled... but surely something slipped into their own goblets would see you rise."
 	outfit = /datum/outfit/job/councillor/intrigue
 	category_tags = list(CTAG_COUNCILLOR)
 	traits_applied = list(TRAIT_KEENEARS, TRAIT_LIGHT_STEP, TRAIT_CICERONE)
@@ -106,14 +106,14 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/swords = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/stealing = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/bows = SKILL_LEVEL_NOVICE, //Hunting
-		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/councillor/intrigue/pre_equip(mob/living/carbon/human/H)
@@ -156,10 +156,10 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/swords = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/knives = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/bows = SKILL_LEVEL_NOVICE, //Hunting
 	)
 
