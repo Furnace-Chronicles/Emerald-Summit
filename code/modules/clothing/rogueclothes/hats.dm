@@ -36,7 +36,7 @@
 	item_state = "antlerhood"
 	icon = 'icons/roguetown/clothing/head.dmi'
 	body_parts_covered = HEAD|HAIR|EARS|NECK
-	slot_flags = ITEM_SLOT_HEAD
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	dynamic_hair_suffix = ""
 	max_integrity = 80
 	armor = ARMOR_HEAD_CLOTHING
