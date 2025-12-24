@@ -367,7 +367,7 @@
 			flash_fullscreen("redflash3")
 			to_chat(victim, span_danger("Ow! It hurts. I feel horrible... REALLY horrible..."))
 
-	victim.zombie_check_can_convert() //They are given zombie antag mind here unless they're already an antag.
+	victim.zombie_check_can_convert(infection_type) //They are given zombie antag mind here unless they're already an antag.
 
 //Delay on waking up as a zombie. /proc/wake_zombie(mob/living/carbon/zombie, infected_wake = FALSE, converted = FALSE)
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(wake_zombie), victim, FALSE, TRUE), wake_delay, TIMER_STOPPABLE)
@@ -431,9 +431,9 @@
 		zombie.Knockdown(1)
 
 ///Making sure they're not any other antag as well as adding the zombie datum to their mind
-/mob/living/carbon/human/proc/zombie_check_can_convert()
+/mob/living/carbon/human/proc/zombie_check_can_convert(infection_type)
 	if(!mind)
-		return
+		mind_initialize()
 	if(mind.has_antag_datum(/datum/antagonist/vampire))
 		return
 	if(mind.has_antag_datum(/datum/antagonist/werewolf))
@@ -442,7 +442,7 @@
 		return
 	if(mind.has_antag_datum(/datum/antagonist/skeleton))
 		return
-	if(HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE))
+	if(HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE) && !istype(patron, /datum/patron/inhumen/zizo) && isnull(infection_type) )//Zizoids can gain zombification 
 		return
 	return mind.add_antag_datum(/datum/antagonist/zombie)
 

@@ -7,7 +7,6 @@
 	gender = MALE
 	bodyparts = list(/obj/item/bodypart/chest/goblin, /obj/item/bodypart/head/goblin, /obj/item/bodypart/l_arm/goblin,
 					/obj/item/bodypart/r_arm/goblin, /obj/item/bodypart/r_leg/goblin, /obj/item/bodypart/l_leg/goblin)
-	rot_type = /datum/component/rot/corpse/goblin
 	var/gob_outfit = /datum/outfit/job/npc/goblin
 	ambushable = FALSE
 	base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
@@ -247,46 +246,6 @@
 		var/datum/outfit/O = new gob_outfit
 		if(O)
 			equipOutfit(O)
-
-/datum/component/rot/corpse/goblin/process()
-	var/amt2add = 10 //1 second
-	var/time_elapsed = last_process ? (world.time - last_process)/10 : 1
-	if(last_process)
-		amt2add = ((world.time - last_process)/10) * amt2add
-	last_process = world.time
-	amount += amt2add
-	if(has_world_trait(/datum/world_trait/pestra_mercy))
-		amount -= 5 * time_elapsed
-	var/mob/living/carbon/C = parent
-	if(!C)
-		qdel(src)
-		return
-	if(C.stat != DEAD)
-		qdel(src)
-		return
-	var/should_update = FALSE
-	if(amount > 20 MINUTES)
-		for(var/obj/item/bodypart/B in C.bodyparts)
-			if(!B.skeletonized)
-				B.skeletonized = TRUE
-				should_update = TRUE
-	else if(amount > 12 MINUTES)
-		for(var/obj/item/bodypart/B in C.bodyparts)
-			if(!B.rotted)
-				B.rotted = TRUE
-				should_update = TRUE
-			if(B.rotted)
-				var/turf/open/T = C.loc
-				if(istype(T))
-					T.pollute_turf(/datum/pollutant/rot, 1)
-	if(should_update)
-		if(amount > 20 MINUTES)
-			C.update_body()
-			qdel(src)
-			return
-		else if(amount > 12 MINUTES)
-			C.update_body()
-
 
 //////////////////   OUTFITS	//////////////////
 
