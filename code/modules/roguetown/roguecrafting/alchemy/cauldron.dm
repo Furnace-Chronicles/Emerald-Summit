@@ -3,7 +3,7 @@
 	desc = "Bubble, Bubble, toil and trouble. A great iron cauldron for brewing potions."
 	icon = 'icons/roguetown/misc/alchemy.dmi'
 	icon_state = "cum_cauldron1"
-	base_state = "cauldron"
+	base_state = "cum_cauldron"
 	density = TRUE
 	opacity = FALSE
 	anchored = TRUE
