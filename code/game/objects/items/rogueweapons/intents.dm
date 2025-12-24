@@ -211,27 +211,29 @@
 	if(mastermob.curplaying)
 		mastermob.curplaying.chargedloop.stop()
 		mastermob.curplaying = null
+
+	mastermob.curplaying = src
+	
 	if(chargedloop)
 		if(!istype(chargedloop, /datum/looping_sound))
 			chargedloop = new chargedloop(mastermob)
 		else
 			chargedloop.stop()
 		chargedloop.start(chargedloop.parent)
-		mastermob.curplaying = src
-	if(glow_color && glow_intensity)
+	if(glow_color && glow_intensity && !mob_light)
 		mob_light = mastermob.mob_light(glow_color, glow_intensity)
 	if(mob_charge_effect)
-		mastermob.vis_contents += mob_charge_effect
+		mastermob.vis_contents |= mob_charge_effect
 
 /datum/intent/proc/on_mouse_up()
 	if(chargedloop)
 		chargedloop.stop()
-	if(mastermob?.curplaying == src)
-		mastermob?.curplaying = null
+	if(mastermob.curplaying == src)
+		mastermob.curplaying = null
 	if(mob_light)
-		qdel(mob_light)
+		QDEL_NULL(mob_light)
 	if(mob_charge_effect)
-		mastermob?.vis_contents -= mob_charge_effect
+		mastermob.vis_contents -= mob_charge_effect
 
 
 /datum/intent/proc/on_mmb(atom/target, mob/living/user, params)
