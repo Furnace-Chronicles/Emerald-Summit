@@ -82,8 +82,8 @@
 	gesture_required = TRUE // Summon spell
 	associated_skill = /datum/skill/magic/arcane
 	recharge_time = 30 SECONDS
-	var/cabal_affine = FALSE
-	var/is_summoned = FALSE
+	var/cabal_affine = TRUE
+	var/is_summoned = TRUE
 	hide_charge_effect = TRUE
 	var/list/summonlist = list(/mob/living/carbon/human/species/skeleton/npc/ambush)
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/cast(list/targets, mob/living/user)
@@ -95,6 +95,7 @@
 		return FALSE
 	var/mob/living/summon = pick(summonlist)
 	new summon(T, user, cabal_affine)
+	
 	return TRUE
 
 
@@ -123,7 +124,7 @@
 	recharge_time = 45 SECONDS
 
 /obj/effect/proc_holder/spell/invoked/projectile/sickness
-	name = "Ray of Sickness"
+	name = "Ray of Sickening"
 	desc = ""
 	clothes_req = FALSE
 	range = 15
@@ -173,10 +174,18 @@
 				target.faction -= faction_tag
 				user.say("Hostis declaratus es.")
 			else
-				target.faction |= faction_tag
+				if(istype(target, /mob/living/simple_animal/hostile/rogue/skeleton)) //If there was a better undead check, I'd use that. But I don't.
+					target.faction += faction_tag
+					user.say("Amicus declaratus es.")
+					var/mob/living/simple_animal/hostile/hostile_target = target
+					hostile_target.revalidate_target_on_faction_change()
+		else if(istype(target, /mob/living/carbon/human/species/skeleton/npc))//I wish I had a better way to do this....
+			if (faction_tag in target.faction)
+				target.faction -= faction_tag
+				user.say("Hostis declaratus es.")
+			else
+				target.faction += faction_tag
 				user.say("Amicus declaratus es.")
-			if(istype(target, /mob/living/simple_animal/hostile))
-				var/mob/living/simple_animal/hostile/hostile_target = target
-				hostile_target.revalidate_target_on_faction_change()
+
 		return TRUE
 	return FALSE

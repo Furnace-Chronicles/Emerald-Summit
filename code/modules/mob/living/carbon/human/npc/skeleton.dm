@@ -30,11 +30,21 @@
 	mode = NPC_AI_IDLE
 	wander = FALSE
 
-/mob/living/carbon/human/species/skeleton/Initialize()
+/mob/living/carbon/human/species/skeleton/Initialize(mapload, mob/user, cabal_affine, is_summoned)
 	. = ..()
 	cut_overlays()
-	spawn(10)
-		after_creation()
+	//This cuases a linting error sorry
+	after_creation()
+
+	if (is_summoned || cabal_affine)
+		faction += "cabal"
+	// adds the name of the summoner to the faction, to avoid the hooded "Unknown" bug with Skeleton IDs
+	if(user && user.mind && user.mind.current)
+		faction += "[user.mind.current.real_name]_faction"
+		// lich also gets to have friendlies, as a treat
+		var/datum/antagonist/lich/lich_antag = user.mind.has_antag_datum(/datum/antagonist/lich)
+		if(lich_antag && user.real_name)
+			faction += "[user.real_name]_faction"
 
 /mob/living/carbon/human/species/skeleton/after_creation()
 	..()

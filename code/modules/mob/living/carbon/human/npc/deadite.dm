@@ -26,7 +26,7 @@
 	set_species(pick(species))
 	gender = pick(MALE, FEMALE)
 
-	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(after_creation)), 0 SECONDS)
 
 /mob/living/carbon/human/species/npc/deadite/after_creation()
 	. = ..()

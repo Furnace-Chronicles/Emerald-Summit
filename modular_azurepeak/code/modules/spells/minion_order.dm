@@ -74,7 +74,7 @@
 		else
 			if( istype(other_mob, /mob/living/carbon/human) && !other_mob.client)
 				var/mob/living/carbon/human/H = other_mob
-				if (!faction_ordering && faction_tag && (faction_tag in H.faction))
+				if ((faction_ordering && caster.faction_check_mob(H)) || (!faction_ordering && faction_tag && (faction_tag in H.faction)))
 					switch (order_type)
 						if ("goto")
 							H.start_pathing_to(target)
