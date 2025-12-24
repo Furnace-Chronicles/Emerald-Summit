@@ -1114,6 +1114,6 @@
 					spouse_list += the_person.real_name
 			if(spouse_list.len)
 				spousetext = jointext(spouse_list, ", ")
-		output += " They are a member of house [family_datum.housename][spousetext ? ", and are married to [spousetext]." : "."]"
-		
+		output += "<BR>They are a member of house [family_datum.housename][spousetext ? ", and are married to [spousetext]." : "."]"
+
 	return output
