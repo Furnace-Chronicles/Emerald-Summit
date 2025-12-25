@@ -373,7 +373,7 @@
 
 /datum/patron/divine/pestra/effluvia
 	name = "Saint's Cocoon"
-	desc = "The saint's cocoon, a nascent Goddess who rules from a time hereafter. She whispers discordant secrets to her followers."
+	desc = "The Saint's Cocoon, a nascent Goddess who rules from a time hereafter. She whispers discordant secrets to her followers."
 	associated_faith = /datum/faith/divine/effluvia
 
 /datum/patron/divine/malum
