@@ -22,6 +22,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/sub_name
 	var/psydonic = FALSE
 	var/origin = "Scarlet Reach"
+	var/region
 	var/origin_default = /datum/virtue/origin/racial/reach
 	var/max_age = 75
 	var/is_subrace = FALSE

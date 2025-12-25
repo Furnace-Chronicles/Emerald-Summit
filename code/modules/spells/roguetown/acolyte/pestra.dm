@@ -282,11 +282,11 @@
 		if(target == user)
 			return FALSE
 		if(ispath(user.patron?.type, /datum/patron/divine) && (target.real_name in GLOB.excommunicated_players))
-			to_chat(user, span_warning("Pestra gives no answer back to clean their body from the rot."))
+			to_chat(user, span_warning("They can not be cleansed of rot."))
 			revert_cast()
 			return FALSE
 		if(HAS_TRAIT(target, TRAIT_CURSE_NECRA))
-			to_chat(user, span_warning("Pestra gives no answer to even clean their body from the rot."))
+			to_chat(user, span_warning("They can not be cleansed of rot."))
 			revert_cast()
 			return FALSE
 

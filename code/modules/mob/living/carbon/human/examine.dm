@@ -108,7 +108,19 @@
 		else
 			display1 = span_info("ø ------------ ø\nThis is the <EM>[used_name]</EM>, the [race_name].")
 		. = list("[display1] [display2]")
-		. += span_info("[capitalize(m2)] [dna.species.skin_tone_wording ? lowertext(dna.species.skin_tone_wording) : "skin tone"] originates in [dna.species.origin].")
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			if(H.dna.species.origin == dna.species.origin && src != H)
+				if(dna.species.region)
+					var/region = SPAN_TOOLTIP_DANGEROUS_HTML(generate_origin(user), "<EM><U>[dna.species.region]</U></EM>")
+					if(src == H)
+						. += span_info("[capitalize(m2)] [dna.species.skin_tone_wording ? lowertext(dna.species.skin_tone_wording) : "skin tone"] originates in [region].")
+					else
+						. += span_info("<font color='f1d669' size='-1%'>Compatriot!</font> [capitalize(m2)] [dna.species.skin_tone_wording ? lowertext(dna.species.skin_tone_wording) : "skin tone"] originates in [region].")
+				else if(src != H)
+					. += span_info("<font color='f1d669' size='-1%'>Compatriot!</font> [capitalize(m2)] [dna.species.skin_tone_wording ? lowertext(dna.species.skin_tone_wording) : "skin tone"] originates in [dna.species.origin].")
+			else
+				. += span_info("[capitalize(m2)] [dna.species.skin_tone_wording ? lowertext(dna.species.skin_tone_wording) : "skin tone"] originates in [dna.species.origin].")
 
 		if(HAS_TRAIT(src, TRAIT_WITCH))
 			if(HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_INQUISITION) || HAS_TRAIT(user, TRAIT_WITCH))
@@ -848,7 +860,7 @@
 		if(headshot_link)
 			. += "<span class='info'><img src=[headshot_link] width=100 height=100/></span>"
 
-	var/medical_text = ""
+	var/medical_text
 	if(Adjacent(user))
 		if(observer_privilege)
 			var/static/list/check_zones = list(
@@ -871,8 +883,8 @@
 			if(!(mobility_flags & MOBILITY_STAND) && user != src && (user.zone_selected == BODY_ZONE_CHEST))
 				heartbeat = "<a href='?src=[REF(src)];check_hb=1'>Listen to Heartbeat</a>"
 			medical_text = "[heartbeat ? "[heartbeat] | " : ""]<a href='?src=[REF(src)];inspect_limb=[checked_zone]'>Inspect [parse_zone(checked_zone)]</a>"
-
-	. += medical_text
+	if(medical_text)
+		. += medical_text
 
 	if(!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) && user != src)
 		if(isliving(user))
@@ -1115,5 +1127,13 @@
 			if(spouse_list.len)
 				spousetext = jointext(spouse_list, ", ")
 		output += " They are a member of house [family_datum.housename][spousetext ? ", and are married to [spousetext]." : "."]"
-		
+
+	return output
+
+/mob/living/carbon/human/proc/generate_origin(mob/user)
+	var/output = ""
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		output += "Located in [H.dna.species.origin]."
+
 	return output

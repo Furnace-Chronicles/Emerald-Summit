@@ -204,7 +204,7 @@
 		var/healing = 6.5
 		target.adjustFireLoss(-80)
 		if (conditional_buff)
-			to_chat(user, "Calling upon Abyssor's power is easier in these conditions!")
+			to_chat(user, "Calling upon His power is easier in these conditions!")
 			healing += situational_bonus
 			target.adjustFireLoss(-40)
 		target.apply_status_effect(/datum/status_effect/buff/healing, healing)
@@ -365,7 +365,7 @@
 		return FALSE
 
 	if(target.mind.has_spell(/obj/effect/proc_holder/spell/invoked/abyssal_strength))
-		to_chat(user, span_warning("[target] is already blessed with Abyssor's strength."))
+		to_chat(user, span_warning("[target] is already blessed with His strength."))
 		revert_cast()
 		return FALSE
 

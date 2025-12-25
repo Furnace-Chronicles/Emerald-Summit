@@ -1,6 +1,10 @@
 GLOBAL_LIST_EMPTY(faithlist)
 
 GLOBAL_LIST_EMPTY(preference_faiths)
+GLOBAL_LIST_EMPTY(kazfaith)
+GLOBAL_LIST_EMPTY(linfaith)
+GLOBAL_LIST_EMPTY(gronnfaith)
+GLOBAL_LIST_EMPTY(fluvfaith)
 
 /datum/faith
 	/// Name of the faith
@@ -13,3 +17,4 @@ GLOBAL_LIST_EMPTY(preference_faiths)
 	var/datum/patron/godhead = /datum/patron
 	/// Whether or not this faith can be accessed in preferences
 	var/preference_accessible = TRUE
+	var/list/uniquelist

@@ -134,3 +134,10 @@
 	H.apply_status_effect(/datum/status_effect/buff/bloodrage)
 	H.visible_message(span_danger("[H] rises upward, boiling with immense rage!"))
 	return TRUE
+
+/obj/effect/proc_holder/spell/self/graggar_bloodrage/kazengun
+	invocation = "GAIYUKE!! GAIYUKE!! GAIYUKE!!"
+
+/obj/effect/proc_holder/spell/self/graggar_bloodrage/gronn
+	invocation = "RAAAAARGH!!"
+

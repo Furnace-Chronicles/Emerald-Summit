@@ -5,7 +5,7 @@
 	name = "Fluvian"
 	id = "moth"
 	is_subrace = TRUE
-	origin_default = /datum/virtue/origin/racial/underdark
+	origin_default = /datum/virtue/origin/racial/underdark/effluvia
 	origin = "the Underdark"
 	base_name = "Beastvolk"
 	shortdesc = "<b>Fluvian</b><br>\

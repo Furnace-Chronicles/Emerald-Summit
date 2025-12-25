@@ -139,7 +139,7 @@
 			revert_cast()
 			return FALSE
 		if(HAS_TRAIT(target, TRAIT_NECRAS_VOW))
-			to_chat(user, "This one has pledged themselves whole to Necra. They are Hers.")
+			to_chat(user, "This one has pledged themselves whole to the Undermaiden. They are Hers.")
 			revert_cast()
 			return FALSE
 		if(!target.mind.active)
@@ -154,7 +154,7 @@
 			revert_cast()
 			return FALSE
 		if(HAS_TRAIT(target, TRAIT_HOLLOW_LIFE))
-			to_chat(user, span_bloody("Astrata scorns this one, for reasons unknown. Lux infusal is the only option."))
+			to_chat(user, span_bloody("She scorns this one, for reasons unknown. Lux infusal is the only option."))
 			target.adjustFireLoss(30)
 			target.fire_act(1,5)
 			revert_cast()
@@ -211,11 +211,15 @@
 	sound = 'sound/magic/astrata_choir.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
-	invocation = "Astrata show me true."
+	invocation = "Astrata show me true!"
 	invocation_type = "shout"
 	recharge_time = 120 SECONDS
 	devotion_cost = 30
 	miracle = TRUE
+
+/obj/effect/proc_holder/spell/self/astrata_gaze/kazengun
+	name = "Aisatan Gaze"
+	invocation = "Aisata show me true!"
 
 /obj/effect/proc_holder/spell/self/astrata_gaze/cast(list/targets, mob/user)
 	if(!ishuman(user))
