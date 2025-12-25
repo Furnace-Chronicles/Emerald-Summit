@@ -424,7 +424,7 @@
 */
 /obj/item/clothing/mask/rogue/facemask/steel
 	name = "steel mask"
-	desc = "A mask of steel which protects the eyes, nose and mouth while also obscuring the face it."
+	desc = "A mask of steel which obscures the face while also protecting the eyes, nose, and mouth."
 	icon_state = "smask"
 	max_integrity = 200
 	smeltresult = /obj/item/ingot/steel
@@ -437,13 +437,13 @@
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full
 	name = "steel oni mask"
-	desc = "A steel mask of Kazengun origin. Cast in the visage of a fiend, it fits snugly around the neck, offering additional protection at the cost of head mobility."
+	desc = "A steel mask of Kazengun origin, cast in the visage of a fiend. In addition to protecting the face, an integrated neckguard fits snugly around the neck, offering additional protection.
 	icon_state = "steelyoroi"
 	body_parts_covered = NECK|FACE
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full/kitsune
 	name = "steel kitsune mask"
-	desc = "A steel mask of Kazengun origin. Cast in the visage of a vulpine monster, it offers additional protection at the cost of head mobility."
+	desc = "A steel mask of Kazengun origin, cast in the visage of a vulpine monster. It obscures one's identity while protecting the eyes, nose, and mouth."
 	icon_state = "kitsuneyoroi"
 	body_parts_covered = FACE
 
