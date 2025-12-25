@@ -442,7 +442,11 @@
 		return
 	if(mind.has_antag_datum(/datum/antagonist/skeleton))
 		return
-	if(HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE) || (istype(patron, /datum/patron/inhumen/zizo) && !isnull(infection_type)) )//Zizoids can gain zombification thru rotting.
-		return
-	return mind.add_antag_datum(/datum/antagonist/zombie)
+	if(!isnull(infection_type))
+		if(HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE)) //For bites and cuts, no infections for zombie immunity.
+			return
+	else
+		if(HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE) && !istype(patron, /datum/patron/inhumen/zizo)) //For natural death, but not zizoids, you will not rot. Zizoids, however, pass this check and become zombified.
+			return
 
+	return mind.add_antag_datum(/datum/antagonist/zombie)

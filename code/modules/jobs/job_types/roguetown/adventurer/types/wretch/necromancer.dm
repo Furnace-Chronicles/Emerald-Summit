@@ -64,6 +64,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/necromancer)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/minor)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/animate_dead)
 	wretch_select_bounty(H)
 
 	var/staffs = list(

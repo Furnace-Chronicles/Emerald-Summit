@@ -33,13 +33,12 @@
 /mob/living/carbon/human/species/skeleton/Initialize(mapload, mob/user, cabal_affine, is_summoned)
 	. = ..()
 	cut_overlays()
-	//This cuases a linting error sorry
-	
+
 	if (is_summoned || cabal_affine)
 		faction += "cabal"
+		faction += "[user.mind.current.real_name]_faction"
 	// adds the name of the summoner to the faction, to avoid the hooded "Unknown" bug with Skeleton IDs
 	if(user && user.mind && user.mind.current)
-		faction += "[user.mind.current.real_name]_faction"
 		// lich also gets to have friendlies, as a treat
 		var/datum/antagonist/lich/lich_antag = user.mind.has_antag_datum(/datum/antagonist/lich)
 		if(lich_antag && user.real_name)

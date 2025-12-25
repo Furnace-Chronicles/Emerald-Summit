@@ -94,8 +94,9 @@
 		revert_cast()
 		return FALSE
 	var/mob/living/summon = pick(summonlist)
-	new summon(T, user, cabal_affine)
-	
+	var/mob/living/carbon/human/skeleton = new summon(T, user, cabal_affine)
+	skeleton.faction += "[user.mind.current.real_name]_faction"
+
 	return TRUE
 
 
@@ -139,7 +140,7 @@
 	charging_slowdown = 1
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
-	recharge_time = 15 SECONDS
+
 
 /obj/effect/proc_holder/spell/invoked/gravemark
 	name = "Gravemark"
@@ -169,12 +170,23 @@
 				target.mind.current.faction += faction_tag
 				user.say("Amicus declaratus es.")
 			target.notify_faction_change()
+
+		if(target.mob_biotypes & MOB_UNDEAD)
+			if (faction_tag in target.faction)
+				target.faction -= faction_tag
+				user.say("Hostis declaratus es.")			
+			else
+				target.faction += faction_tag
+				user.say("Amicus declaratus es.")
+				var/mob/living/simple_animal/hostile/hostile_target = target
+				hostile_target.revalidate_target_on_faction_change()
+/*
 		else if(istype(target, /mob/living/simple_animal))
 			if (faction_tag in target.faction)
 				target.faction -= faction_tag
 				user.say("Hostis declaratus es.")
 			else
-				if(istype(target, /mob/living/simple_animal/hostile/rogue/skeleton)) //If there was a better undead check, I'd use that. But I don't.
+				if(target.mob_biotypes & MOB_UNDEAD) //If there was a better undead check, I'd use that. But I don't.
 					target.faction += faction_tag
 					user.say("Amicus declaratus es.")
 					var/mob/living/simple_animal/hostile/hostile_target = target
@@ -186,7 +198,7 @@
 			else
 				target.faction += faction_tag
 				user.say("Amicus declaratus es.")
-
+*/
 		return TRUE
 	return FALSE
 
@@ -201,12 +213,15 @@
 	antimagic_allowed = TRUE
 	recharge_time = 1 SECONDS
 	hide_charge_effect = TRUE
+	releasedrain = 30
+	chargetime = 5 SECONDS
+	recharge_time = 30 SECONDS
 
 //raise crit targets and animals that can raise naturally.
 /obj/effect/proc_holder/spell/invoked/animate_dead/cast(list/targets, mob/living/user)
 	. = ..()
+	var/success
 	var/faction_tag = "[user.mind.current.real_name]_faction"
-	var/successful_raise = 0
 	if(ishuman(targets[1]))
 		var/mob/living/carbon/human/target = targets[1]
 		if(target.InCritical())
@@ -214,13 +229,15 @@
 				target.mind_initialize()
 			target.zombie_check_can_convert(target)
 			wake_zombie(target, infected_wake = TRUE, converted = FALSE)
-			successful_raise++
 			target.faction += faction_tag
 			target.notify_faction_change() //Stop hitting me!!!!
+			success++
 	if(isanimal(targets[1]))
 		var/mob/living/simple_animal/animal = targets[1]
 		var/datum/component/deadite_animal_reanimation/deadite = animal.GetComponent(/datum/component/deadite_animal_reanimation)
 		if(deadite)
-			animal = deadite.reanimate()
-			successful_raise++
+			animal = deadite.reanimate(forced=TRUE)
 			animal.faction += faction_tag
+			success++
+	if(!success)
+		revert_cast(user)
