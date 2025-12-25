@@ -7,7 +7,7 @@
 	base_name = "Beastvolk"
 	sub_name = "Wild-Kin"
 	use_titles = TRUE
-	race_titles = list("Bat-Kin", "Bee-Kin", "Bear-Kin", "Bird-Kin", "Boar-Kin", "Bull-Kin", "Cabbit-Kin", "Cat-Kin", "Cow-Kin", "Coyote-Kin", "Crocodile-Kin", "Dragon-Kin", "Deer-Kin", "Dog-Kin", "Donkey-Kin", "Fish-Kin", "Goat-Kin", "Horse-Kin", "Hyena-Kin", "Jackal-Kin", "Leech-Kin", "Leopard-Kin", "Lion-Kin", "Lynx-Kin", "Moose-Kin", "Monkey-Kin", "Otter-Kin", "Panda-Kin", "Panther-Kin", "Pig-Kin", "Possum-Kin", "Rabbit-Kin", "Rous-Kin", "Seal-Kin", "Shark-Kin", "Sheep-Kin", "Snake-Kin", "Spider-Kin", "Tiger-Kin", "Venard-Kin", "Volf-Kin", "Monster-Kin", "Chimera")
+	race_titles = list("Bat-Kin", "Bee-Kin", "Bear-Kin", "Bird-Kin", "Boar-Kin", "Bull-Kin", "Cabbit-Kin", "Cat-Kin", "Cow-Kin", "Coyote-Kin", "Crocodile-Kin", "Deer-Kin", "Deep-Kin", "Dog-Kin", "Donkey-Kin", "Dragon-Kin",  "Fish-Kin", "Goat-Kin", "Horse-Kin", "Hyena-Kin", "Jackal-Kin", "Leech-Kin", "Leopard-Kin", "Lion-Kin", "Lynx-Kin", "Moose-Kin", "Monkey-Kin", "Otter-Kin", "Panda-Kin", "Panther-Kin", "Pig-Kin", "Possum-Kin", "Rabbit-Kin", "Raccoon-Kin", "Rous-Kin", "Seal-Kin", "Shark-Kin", "Sheep-Kin", "Snake-Kin", "Spider-Kin", "Tiger-Kin", "Venard-Kin", "Volf-Kin", "Monster-Kin", "Chimera")
 	desc = "<b>Wild-Kin</b><br>\
 	A product of enigmatic meddling of the Gods in the offspring of the mortal races. The average Wild-kin suffers from animalistic urges that vary in severity, \
 	from simply avoiding certain foods to smoldering desires to howl at the moon or chase prey. Usually these urges are tied to the animal that the wild-kin is melded with, \
