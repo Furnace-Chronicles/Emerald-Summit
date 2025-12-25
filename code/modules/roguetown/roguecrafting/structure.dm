@@ -172,7 +172,7 @@
 /datum/crafting_recipe/roguetown/structure/drawer1// oh boy time to add drawers for all five of them, drawers are randomized and theres five different sprites that are all unique enough
 	name = "Long Dresser"
 	result = /obj/structure/closet/crate/drawer/drawer2
-	req s= list(/obj/item/natural/wood/plank = 2)
+	reqs= list(/obj/item/natural/wood/plank = 2)
 	verbage_simple = "construst"
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
