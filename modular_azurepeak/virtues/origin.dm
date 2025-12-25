@@ -119,9 +119,9 @@
 	uniquefaith = GLOB.gronnfaith
 
 /datum/virtue/origin/racial/gronn/wastes
-	name = "Gronn - Chaos Wastes"
-	region_title = "Chaos Wastes"
-	desc = "I originate from the terrifying Chaos Wastes, a region of Gronn heavily scarred by Arcyne warfare. Infernals prowl the burning wasteland, clawing forth from cracks in the broken earth."
+	name = "Gronn - Stygian Wastes"
+	region_title = "Stygian Wastes"
+	desc = "I originate from the terrifying Stygian Wastes, a region of Gronn heavily scarred by Arcyne warfare. Infernals prowl the burning wasteland, clawing forth from cracks in the broken earth."
 	origin_desc = null
 
 /datum/virtue/origin/raneshen
