@@ -431,13 +431,13 @@
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun
 	name = "steel mempo"
-	desc = "A steel half-mask of Kazengun origin. With a facial guard resembling the visage of a demon, it fits snugly around the neck, offering additional protection at the cost of head mobility."
+	desc = "A steel half-mask of Kazengun origin. With a facial guard resembling the visage of demons, it fits snugly around the neck, offering additional protection at the cost of head mobility."
 	icon_state = "steelmempo"
 	body_parts_covered = NECK|MOUTH|NOSE
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full
 	name = "steel oni mask"
-	desc = "A steel mask of Kazengun origin, cast in the visage of a demon. In addition to protecting the face, an integrated neckguard fits snugly around the neck, offering additional protection.
+	desc = "A steel mask of Kazengun origin, cast in the visage of demons. In addition to protecting the face, an integrated neckguard fits snugly around the neck, offering additional protection.
 	icon_state = "steelyoroi"
 	body_parts_covered = NECK|FACE
 
@@ -508,7 +508,7 @@
 
 /obj/item/clothing/mask/rogue/facemask/cheap_oni
 	name = "handcarved oni mask"
-	desc = "A wood mask carved in the visage of a demon said to stalk the mountains of Kazengun, painted to further invoke the image of crimson Oni."
+	desc = "A wood mask carved in the visage of demons said to stalk the mountains of Kazengun, painted to further invoke the image of crimson Oni."
 	icon_state = "oni"
 	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
