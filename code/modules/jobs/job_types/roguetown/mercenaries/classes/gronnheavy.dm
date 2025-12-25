@@ -12,7 +12,7 @@
 	subclass_languages = list(/datum/language/gronnic)
 	subclass_stats = list(
 		STATKEY_END = 3, //People see big numbers and start shitting their pants, but their weighted stats are 7 and it's limited to one, singular slot. This is fine. 
-		STATKEY_STR = 3, //TO WIELD THE MAUL. THEY CAN'T USE ANY OTHER WEAPON TYPE BUT MACES ANYWAY.
+		STATKEY_STR = 3,
 		STATKEY_INT = 2,
 		STATKEY_CON = 3,
 		STATKEY_PER = -1, //CAN'T SEE SHIT OUTTA THIS THING!!
@@ -45,10 +45,10 @@
 	gloves = /obj/item/clothing/gloves/roguetown/plate/iron/gronn
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/iron/gronn
 	cloak = /obj/item/clothing/cloak/volfmantle			//Aura farming.
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron //Weakspot.
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
 	pants = /obj/item/clothing/under/roguetown/platelegs/iron/gronn
-	r_hand = /obj/item/rogueweapon/mace //this is literally the only weapon type they'll get to use. No alternatives.
-	neck = /obj/item/clothing/neck/roguetown/gorget //Their weakspot. Go replace it if you're a chud I guess
+	r_hand = /obj/item/rogueweapon/mace/goden/steel //this is literally the only weapon type they'll get to use. No alternatives.
+	neck = /obj/item/clothing/neck/roguetown/gorget
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
