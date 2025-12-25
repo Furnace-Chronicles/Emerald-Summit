@@ -31,11 +31,11 @@
 
 	job_traits = list(TRAIT_NOBLE, TRAIT_STEELHEARTED, TRAIT_GUARDSMAN_NOBLE)
 	job_subclasses = list(
+		/datum/advclass/knight/champion,
 		/datum/advclass/knight/heavy,
 		/datum/advclass/knight/footknight,
 		/datum/advclass/knight/mountedknight,
-		/datum/advclass/knight/irregularknight,
-		/datum/advclass/knight/champion
+		/datum/advclass/knight/irregularknight
 		)
 
 /datum/outfit/job/knight
