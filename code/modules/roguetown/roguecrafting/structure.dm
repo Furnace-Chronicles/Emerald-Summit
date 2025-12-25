@@ -207,7 +207,7 @@
 
 /datum/crafting_recipe/roguetown/structure/drawer5
 	name = "Bedside Drawer"
-	result = /obj/structure/closet/crate/drawer/drawer5
+	result = /obj/structure/closet/crate/drawer
 	reqs = list(/obj/item/natural/wood/plank = 2)
 	verbage_simple = "construst"
 	verbage = "constructs"
@@ -217,7 +217,7 @@
 /datum/crafting_recipe/roguetown/structure/telescope
 	name = "Telescope"
 	result = /obj/structure/telescope
-	req = list(/obj/item/grown/log/tree/stick = 2, /obj/item/ingot/iron = 1, /obj/item/natural/glass = 1)
+	reqs = list(/obj/item/grown/log/tree/stick = 2, /obj/item/ingot/iron = 1, /obj/item/natural/glass = 1)
 	verbage_simple = "construst"
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
