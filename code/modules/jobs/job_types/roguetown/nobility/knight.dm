@@ -41,18 +41,19 @@
 /datum/outfit/job/knight
 	job_bitflag = BITFLAG_GARRISON
 
+/datum/outfit/job/knight/proc/name_tabard(mob/living/carbon/human/H)
+	if(!istype(H.cloak, /obj/item/clothing/cloak/stabard/surcoat/guard))
+		return
+	
+	var/list/name_parts = splittext(H.real_name, " ")
+	var/first_name = name_parts[2]
+	H.cloak.name = "knight's tabard ([first_name])"
+
 /datum/job/roguetown/knight/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L
-		if(istype(H.cloak, /obj/item/clothing/cloak/stabard/surcoat/guard))
-			var/obj/item/clothing/S = H.cloak
-			var/index = findtext(H.real_name, " ")
-			if(index)
-				index = copytext(H.real_name, 1,index)
-			if(!index)
-				index = H.real_name
-			S.name = "knight's tabard ([index])"
+		
 		var/prev_real_name = H.real_name
 		var/prev_name = H.name
 		var/honorary = "Ser"
@@ -251,6 +252,10 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1
 	)
 
+/datum/outfit/job/knight/heavy/post_equip(mob/living/carbon/human/H, visualsOnly)
+	..()
+	name_tabard(H)
+
 /datum/advclass/knight/footknight
 	name = "Foot Knight"
 	tutorial = "You are accustomed to traditional foot-soldier training in one-handed weapons such as flails, swords, and maces. Your fortitude and mastery with the versatile combination of a shield and weapon makes you a fearsome opponent to take down!"
@@ -341,6 +346,10 @@
 		/obj/item/rope/chain = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 	)
+
+/datum/outfit/job/knight/footknight/post_equip(mob/living/carbon/human/H, visualsOnly)
+	..()
+	name_tabard(H)
 
 /datum/advclass/knight/mountedknight
 	name = "Mounted Knight"
@@ -452,6 +461,9 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 	)
 
+/datum/outfit/job/knight/mountedknight/post_equip(mob/living/carbon/human/H, visualsOnly)
+	..()
+	name_tabard(H)
 
 /datum/advclass/knight/irregularknight
 	name = "Irregular Knight"
@@ -564,3 +576,6 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 	)
 
+/datum/outfit/job/knight/irregularknight/post_equip(mob/living/carbon/human/H, visualsOnly)
+	..()
+	name_tabard(H)

@@ -14928,6 +14928,14 @@
 "ecM" = (
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/exposed/church)
+"ecR" = (
+/obj/structure/mirror{
+	pixel_y = -32
+	},
+/obj/structure/table/wood/poor/alt_alt,
+/obj/item/candle/silver/lit,
+/turf/open/floor/rogue/carpet/lord/center,
+/area/rogue/indoors/town/garrison)
 "ecS" = (
 /obj/structure/hotspring/border/five,
 /turf/open/floor/rogue/grasscold,
@@ -57491,12 +57499,6 @@
 /obj/structure/closet/crate/roguecloset/inn,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
-"pqR" = (
-/obj/structure/mirror{
-	pixel_y = -32
-	},
-/turf/open/floor/rogue/carpet/lord/center,
-/area/rogue/indoors/town/garrison)
 "prg" = (
 /mob/living/simple_animal/hostile/rogue/haunt,
 /turf/open/floor/rogue/ruinedwood/turned,
@@ -62981,7 +62983,6 @@
 /obj/item/scomstone/bad/garrison,
 /obj/item/scomstone/bad/garrison,
 /obj/machinery/light/rogue/wallfire/candle/l,
-/obj/item/candle/silver,
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/indoors/town/garrison)
 "qMJ" = (
@@ -64488,6 +64489,12 @@
 "rgo" = (
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/outdoors/town/roofs)
+"rgp" = (
+/obj/effect/decal/carpet/kover_black{
+	pixel_x = -16
+	},
+/turf/open/floor/rogue/carpet/lord/center,
+/area/rogue/indoors/town/garrison)
 "rgv" = (
 /obj/effect/landmark/chest_or_mimic/gold,
 /obj/machinery/light/rogue/wallfire{
@@ -529382,8 +529389,8 @@ vHy
 jWw
 dAU
 gDG
-gDG
-pqR
+rgp
+dUg
 jWw
 kSN
 kSN
@@ -529835,7 +529842,7 @@ jWw
 fLY
 gDG
 gDG
-dUg
+ecR
 jWw
 nZB
 kSN
