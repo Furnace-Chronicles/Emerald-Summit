@@ -305,17 +305,17 @@
 	craftdiff = 0
 
 /datum/anvil_recipe/armor/iron/mask/yoroku_oni
-	name = "Iron Oni Mask"
+	name = "Iron Oni Mask (+ Hair Dye Cream)"
 	req_bar = /obj/item/ingot/iron
-	additional_items = list(/obj/item/hair_dye_cream, /obj/item/natural/cloth)
+	additional_items = list(/obj/item/hair_dye_cream)
 	created_item = /obj/item/clothing/mask/rogue/facemask/hound/yoruku_oni
 	createditem_num = 1
 	craftdiff = 1
 
 /datum/anvil_recipe/armor/iron/mask/yoroku_kitsune
-	name = "Iron Kitsune Mask"
+	name = "Iron Kitsune Mask (+ Hair Dye Cream)"
 	req_bar = /obj/item/ingot/iron
-	additional_items = list(/obj/item/hair_dye_cream, /obj/item/natural/cloth)
+	additional_items = list(/obj/item/hair_dye_cream)
 	created_item = /obj/item/clothing/mask/rogue/facemask/hound/yoruku_kitsune
 	createditem_num = 1
 	craftdiff = 1
@@ -939,9 +939,9 @@
 	craftdiff = 3
 
 /datum/anvil_recipe/armor/steel/yoroku_oni
-	name = "Steel Oni Mask"
+	name = "Steel Oni Mask (+1 Steel)"
 	req_bar = /obj/item/ingot/steel
-	additional_items = list(/obj/item/ingot/steel, /obj/item/natural/cloth)
+	additional_items = list(/obj/item/ingot/steel)
 	created_item = /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full
 	createditem_num = 1
 	craftdiff = 3
@@ -949,7 +949,6 @@
 /datum/anvil_recipe/armor/steel/yoroku_kitsune
 	name = "Steel Kitsune Mask"
 	req_bar = /obj/item/ingot/steel
-	additional_items = list(/obj/item/hair_dye_cream, /obj/item/natural/cloth)
 	created_item = /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full/kitsune
 	createditem_num = 1
 	craftdiff = 3
