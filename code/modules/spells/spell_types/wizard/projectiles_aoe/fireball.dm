@@ -30,7 +30,7 @@
 	exp_light = 0
 	exp_flash = 0
 	exp_fire = 1
-	damage = 40
+	damage = 60
 	damage_type = BURN
 	npc_damage_mult = 2 // HAHAHA
 	accuracy = 40 // Base accuracy is lower for burn projectiles because they bypass armor
@@ -60,8 +60,8 @@
 			return BULLET_ACT_BLOCK
 		var/mark_stacks = consume_arcane_mark_stacks(M)
 		if(mark_stacks)
-			M.apply_damage((mark_stacks*15), BURN) //hey fuck you dude
-		if(mark_stacks == 3)
+			M.apply_damage((mark_stacks*10), BURN) //hey fuck you dude
+		if(mark_stacks >= 3)
 			to_chat(M, "<span class='userdanger'>SCALDING HELLFIRE; TRYPTICH-MARKE DETONATION!</span>")
 		M.adjust_fire_stacks(2) //1 pats to put it out
 		visible_message(span_warning("[src] ignites [target]!"))

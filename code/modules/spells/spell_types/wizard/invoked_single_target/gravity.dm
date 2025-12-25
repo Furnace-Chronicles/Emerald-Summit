@@ -54,7 +54,7 @@
 			if(L.STASTR <= 15)
 				L.adjustBruteLoss(60+(extra_time))
 				L.Knockdown(5+(extra_time))
-				if(mark_stacks == 3)
+				if(mark_stacks >= 3)
 					to_chat(L, "<span class='userdanger'>GRAVITAS COLLAPSE; TRYPTICH-MARKE DETONATION!</span>")
 				else
 					to_chat(L, "<span class='userdanger'>I'm magically weighed down, losing my footing!</span>")

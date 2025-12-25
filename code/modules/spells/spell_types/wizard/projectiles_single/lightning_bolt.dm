@@ -32,7 +32,7 @@
 	hitscan = TRUE
 	movement_type = UNSTOPPABLE
 	light_color = LIGHT_COLOR_WHITE
-	damage = 40
+	damage = 60
 	damage_type = BURN
 	accuracy = 40 // Base accuracy is lower for burn projectiles because they bypass armor
 	nodamage = FALSE
@@ -56,8 +56,8 @@
 			L.Immobilize(0.2 SECONDS)
 			if(mark_stacks)
 				L.apply_status_effect(/datum/status_effect/debuff/clickcd, (1 SECONDS*mark_stacks))
-				L.apply_damage((mark_stacks*15), BURN)
-			if(mark_stacks == 3)
+				L.apply_damage((mark_stacks*10), BURN)
+			if(mark_stacks >= 3)
 				for(var/obj/item/W in L.held_items)
 					L.dropItemToGround(W)
 			L.electrocute_act(1, src, 1, SHOCK_NOSTUN)

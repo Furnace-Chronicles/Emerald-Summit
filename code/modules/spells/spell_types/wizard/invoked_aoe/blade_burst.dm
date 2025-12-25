@@ -73,7 +73,7 @@
 			var/mark_stacks = consume_arcane_mark_stacks(L)
 			if(mark_stacks)
 				L.adjustBruteLoss(20 * (mark_stacks))
-			if(mark_stacks == 3)
+			if(mark_stacks >= 3)
 				to_chat(L, "<span class='userdanger'>THOUSAND-NEEDLE MADRIPOLE; TRYPTICH-MARKE DETONATION!</span>")
 			playsound(affected_turf, "genslash", 80, TRUE)
 			to_chat(L, "<span class='userdanger'>You're cut by arcyne force!</span>")
