@@ -459,7 +459,7 @@ SUBSYSTEM_DEF(job)
 			var/is_blacklisted = blacklisted_players[player]
 
 			// Loop through all jobs
-			for(var/datum/job/job in shuffledoccupations)
+			for(var/datum/job/job in shuffledoccupations) // SHUFFLE ME BABY
 				if(!job)
 					continue
 
@@ -741,7 +741,7 @@ SUBSYSTEM_DEF(job)
 		if(M.client) // Client may have disconnected during processing
 			SSpersistence.antag_rep_change[M.client.ckey] += job.GetAntagRep()
 		else
-			// TODO: TEMPORARY WORKAROUND - Remove once roundstart hang issue is fixed
+			// This was a Temporary Workaround, but it's too good to remove even though hangups are fixed
 			// Client disconnected - defer equipment until they reconnect
 			if(H.mind)
 				H.mind.pending_equipment_job = rank
@@ -965,9 +965,9 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/JobDebug(message)
 	log_job_debug(message)
 
-/// Builds a cache of job title => minds for fast knowledge population
-/// Called explicitly in ticker.dm after transfer_characters() for roundstart
-/// Called explicitly in populate_job_knowledge() for latejoin (after invalidation)
+// Builds a cache of job title => minds for fast knowledge population
+// Called explicitly in ticker.dm after transfer_characters() for roundstart
+// Called explicitly in populate_job_knowledge() for latejoin (after invalidation)
 /datum/controller/subsystem/job/proc/build_job_minds_cache()
 	if(job_minds_cache)
 		return // Already built
@@ -986,7 +986,7 @@ SUBSYSTEM_DEF(job)
 	
 	log_game("KNOWLEDGE CACHE: Built with [mind_count] minds, [job_minds_cache.len] unique jobs")
 
-/// Adds a single mind to the existing job cache (for latejoin)
+// Adds a single mind to the existing job cache (for latejoin)
 /datum/controller/subsystem/job/proc/add_mind_to_cache(datum/mind/M)
 	if(!job_minds_cache)
 		return // Cache doesn't exist, shouldn't happen
@@ -1000,7 +1000,7 @@ SUBSYSTEM_DEF(job)
 	job_minds_cache[M.assigned_role] += M
 	log_game("KNOWLEDGE CACHE: Added [M.assigned_role] to cache")
 
-/// Removes a single mind from the job cache (for far travel)
+// Removes a single mind from the job cache (for far travel)
 /datum/controller/subsystem/job/proc/remove_mind_from_cache(datum/mind/M)
 	if(!job_minds_cache)
 		return
@@ -1012,6 +1012,6 @@ SUBSYSTEM_DEF(job)
 		job_minds_cache[M.assigned_role] -= M
 		log_game("KNOWLEDGE CACHE: Removed [M.assigned_role] from cache")
 
-/// Invalidates the job minds cache (called when someone joins or changes job)
+// Invalidates the job minds cache (called when someone joins or changes job)
 /datum/controller/subsystem/job/proc/invalidate_job_minds_cache()
 	job_minds_cache = null

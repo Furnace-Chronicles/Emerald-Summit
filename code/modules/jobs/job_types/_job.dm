@@ -106,31 +106,31 @@
 	//is the job required for game progression
 	var/required = FALSE
 
-	/// Some jobs have unique combat mode music, because why not?
+	// Some jobs have unique combat mode music, because why not?
 	var/cmode_music
 
-	/// This job is a "wanderer" on examine
+	// This job is a "wanderer" on examine
 	var/wanderer_examine = FALSE
 
-	/// This job uses adventurer classes on examine
+	// This job uses adventurer classes on examine
 	var/advjob_examine = FALSE
 
-	/// This job always shows on latechoices
+	// This job always shows on latechoices
 	var/always_show_on_latechoices = FALSE
 
-	/// Cooldown for joining as this job again, if it was your last job
+	// Cooldown for joining as this job again, if it was your last job
 	var/same_job_respawn_delay = FALSE
 
-	/// This job re-opens slots if someone dies as it
+	// This job re-opens slots if someone dies as it
 	var/job_reopens_slots_on_death = FALSE
 
-	/// This job is immune to species-based swapped gender locks
+	// This job is immune to species-based swapped gender locks
 	var/immune_to_genderswap = FALSE
 
-	/// Jobs that are obsfuscated on actor screen
+	// Jobs that are obsfuscated on actor screen
 	var/obsfuscated_job = FALSE
 
-	///Jobs that are hidden from actor screen
+	//Jobs that are hidden from actor screen
 	var/hidden_job = FALSE
 
 /*
@@ -185,9 +185,9 @@
 		to_chat(player, span_notice("*-----------------*"))
 		to_chat(player, span_notice(tutorial))
 
-/// Signal handler for advjob selection completion - updates cached job title in everyone's known_people
-/// NOTE: With lazy evaluation in display_known_people(), this cache update is optional
-/// We keep it for performance when displaying lists (avoids O(n) lookup per person)
+// Signal handler for advjob selection completion - updates cached job title in everyone's known_people
+// NOTE: With lazy evaluation in display_known_people(), this cache update is optional
+// We keep it for performance when displaying lists (avoids O(n) lookup per person)
 /datum/job/proc/update_job_title_in_known_lists(mob/living/carbon/human/H)
 	if(!H?.mind || !H.real_name)
 		return
@@ -203,7 +203,7 @@
 			continue
 		M.known_people[H.real_name]["FJOB"] = new_title
 
-/// Populates known_people lists immediately (uses default job title for advjobs, updated later by signal)
+// Populates known_people lists immediately (uses default job title for advjobs, updated later by signal)
 /datum/job/proc/populate_job_knowledge(mob/living/carbon/human/H, latejoin)
 	if(!H || !H.mind)
 		return
@@ -226,7 +226,7 @@
 	// Latejoin or after roundstart: populate immediately
 	do_populate_job_knowledge(H)
 
-/// Actually performs the knowledge population (can be deferred)
+// Actually performs the knowledge population (can be deferred)
 /datum/job/proc/do_populate_job_knowledge(mob/living/carbon/human/H)
 	if(!H || !H.mind)
 		return
@@ -490,13 +490,13 @@
 	box = null
 
 	var/jobtype = null
-	/// List of patrons we are allowed to use
+	// List of patrons we are allowed to use
 	var/list/allowed_patrons
-	/// Default patron in case the patron is not allowed
+	// Default patron in case the patron is not allowed
 	var/datum/patron/default_patron
-	/// This is our bitflag for storyteller rolling.
+	// This is our bitflag for storyteller rolling.
 	var/job_bitflag = NONE
-	/// Can select equipment after you spawn in.
+	// Can select equipment after you spawn in.
 	var/has_loadout = FALSE
 
 /datum/outfit/job/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)

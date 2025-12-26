@@ -39,7 +39,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/mob/living/current
 	var/active = 0
 
-	// TODO: TEMPORARY WORKAROUND - Remove once roundstart hang issue is fixed
+	// This was a Temporary Workaround, but it's too good to remove even though hangups are fixed
 	// Deferred equipment for players who disconnect during roundstart processing
 	var/pending_equipment_job = null	// Job rank to equip
 	var/pending_equipment_latejoin = FALSE	// Was this latejoin?
@@ -282,7 +282,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	popup.set_content(contents)
 	popup.open()
 
-/// Helper to get current job title for a known person (looks up by name)
+// Helper to get current job title for a known person (looks up by name)
 /datum/mind/proc/get_known_person_job(person_name)
 	// Try to find the person by name and get their current title
 	for(var/datum/mind/M in SSticker.minds)

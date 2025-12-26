@@ -1034,8 +1034,6 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	if(!prefs?.key_bindings)
 		return
 	if(!length(prefs.key_bindings))
-		// Empty key_bindings is a bug - log it but preserve existing movement_keys
-		// to prevent stuck keys during roundstart
 		if(length(movement_keys))
 			log_game("WARNING: [ckey] has empty key_bindings, preserving existing movement_keys")
 		return

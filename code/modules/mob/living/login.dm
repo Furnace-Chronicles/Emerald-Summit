@@ -8,7 +8,7 @@
 	sync_mind()
 	mind.show_memory(src, 0)
 	
-	// TODO: TEMPORARY WORKAROUND - Remove once roundstart hang issue is fixed
+	// This was a Temporary Workaround, but it's too good to remove even though hangups are fixed
 	// Handle deferred equipment if player reconnected after timeout during roundstart
 	if(ishuman(src) && mind?.pending_equipment_job)
 		var/deferred_job = mind.pending_equipment_job
