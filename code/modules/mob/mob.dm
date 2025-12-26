@@ -33,18 +33,24 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	for (var/alert in alerts)
 		clear_alert(alert, TRUE)
-	if(observers && observers.len)
-		for(var/M in observers)
-			var/mob/dead/observe = M
+
+	// Reset observers
+	if(observers?.len)
+		for(var/mob/dead/observe as anything in observers)
 			observe.reset_perspective(null)
 	qdel(hud_used)
-	for(var/cc in client_colours)
-		qdel(cc)
-	client_colours = null
-	testing("EPICWIN!! [src] [type]")
-	ghostize(drawskip=TRUE)
+	QDEL_LIST(client_colours)
+
+	// Ghostize any remaining client
+	ghostize(can_reenter_corpse = FALSE, drawskip = TRUE)
+
+	// Clean up mind reference
+	if(mind?.current == src)
+		mind.current = null
+
 	..()
-	return QDEL_HINT_HARDDEL
+	// Queue delete all mobs ghostize() handles client transfer
+	return QDEL_HINT_QUEUE
 
 /**
  * Intialize a mob
