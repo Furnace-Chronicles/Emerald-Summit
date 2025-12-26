@@ -43,8 +43,7 @@
 	return
 #endif
 
-
-/obj/item/clothing/under/roguetown/ShiftRightClick(mob/user)
+/obj/item/clothing/under/roguetown/MiddleClick(mob/user)
 	var/mob/living/carbon/H = user
 	if(!ishuman(user))
 		return
