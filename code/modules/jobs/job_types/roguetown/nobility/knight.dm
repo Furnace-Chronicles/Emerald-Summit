@@ -85,7 +85,8 @@
 	tutorial = "Veteran among knights, you've proven yourself time and again in service to the crown. \
 	Your experience with both infantry and cavalry tactics makes you a versatile combatant, \
 	equally adept whether on foot or mounted. You are a champion of the realm."
-	extra_context = "Middle aged champions get a +1 SPD, nullifying the -1 from the subclass."
+	extra_context = "This is a unique, one person, slot. \
+	Middle aged champions get a +1 SPD, nullifying the -1 from the subclass."
 	outfit = /datum/outfit/job/knight/champion
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	category_tags = list(CTAG_ROYALGUARD)
