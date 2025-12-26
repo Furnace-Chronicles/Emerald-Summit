@@ -9,6 +9,7 @@
 	var/datum/mind/mind = null
 	COOLDOWN_DECLARE(xp_show)
 	COOLDOWN_DECLARE(level_up)
+	COOLDOWN_DECLARE(trait_block_warning)
 
 /datum/sleep_adv/New(datum/mind/passed_mind)
 	. = ..()
@@ -29,12 +30,29 @@
 		sleep_exp[skill] = 0
 	return sleep_exp[skill]
 
-/datum/sleep_adv/proc/adjust_sleep_xp(skill, adjust)
+/datum/sleep_adv/proc/adjust_sleep_xp(skill, adjust, check_traits = TRUE)
+	// Check trait requirements before adding sleep XP
+	if(check_traits)
+		var/datum/skill/S = GetSkillRef(skill)
+		if(S.advancement_traits)
+			var/current_level = mind.current.get_skill_level(skill)
+			for(var/level_string in S.advancement_traits)
+				var/required_level = text2num(level_string)
+				if(current_level >= required_level)
+					var/list/required_traits = S.advancement_traits[level_string]
+					for(var/trait in required_traits)
+						if(!HAS_TRAIT(mind.current, trait))
+							if(COOLDOWN_FINISHED(src, trait_block_warning))
+								to_chat(mind.current, span_warning("My [S.name] knowledge feels... blocked. Perhaps I need some natural talent for this."))
+								COOLDOWN_START(src, trait_block_warning, 60 SECONDS)
+							return FALSE // Return FALSE to indicate XP was blocked
+	
 	var/current_xp = get_sleep_xp(skill)
 	var/target_xp = current_xp + adjust
 	var/cap_exp = get_requried_sleep_xp_for_skill(skill, 2)
 	target_xp = clamp(target_xp, 0, cap_exp)
 	sleep_exp[skill] = target_xp
+	return TRUE // Return TRUE to indicate XP was added
 
 /datum/sleep_adv/proc/needed_xp_for_level(skill_level)
 	switch(skill_level)
@@ -69,14 +87,16 @@
 		needed_xp += needed_xp_for_level(next_skill_level)
 	return needed_xp
 
-/datum/sleep_adv/proc/add_sleep_experience(skill, amt, silent = FALSE)
+/datum/sleep_adv/proc/add_sleep_experience(skill, amt, silent = FALSE, check_traits = TRUE)
 	var/mob/living/L = mind.current
 	var/show_xp = TRUE
 	if(!(L.client?.prefs.floating_text_toggles & XP_TEXT))
 		show_xp = FALSE
 	if((L.get_skill_level(skill) < SKILL_LEVEL_APPRENTICE) && !is_considered_sleeping())
 		var/org_lvl = L.get_skill_level(skill)
-		L.adjust_experience(skill, amt)
+		var/xp_gained = L.adjust_experience(skill, amt, FALSE, check_traits)
+		if(xp_gained == FALSE) // XP was blocked by trait requirement
+			return
 		var/new_lvl = L.get_skill_level(skill)
 		var/capped_post_check = enough_sleep_xp_to_advance(skill, 2)
 		if(COOLDOWN_FINISHED(src, xp_show))
@@ -86,7 +106,9 @@
 		return
 	var/capped_pre = enough_sleep_xp_to_advance(skill, 2)
 	var/can_advance_pre = enough_sleep_xp_to_advance(skill, 1)
-	adjust_sleep_xp(skill, amt)
+	var/sleep_xp_added = adjust_sleep_xp(skill, amt, check_traits)
+	if(sleep_xp_added == FALSE) // Sleep XP was blocked by trait requirement
+		return
 	var/can_advance_post = enough_sleep_xp_to_advance(skill, 1)
 	var/capped_post = enough_sleep_xp_to_advance(skill, 2)
 

@@ -124,6 +124,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/cooking, SKILL_LEVEL_JOURNEYMAN, TRUE) // jessie we have to cook
 			ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/graggar)
 			H.cmode_music = 'sound/music/combat_graggar.ogg'
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/grag, SLOT_HEAD, TRUE)
@@ -176,6 +177,7 @@
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 			H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE, TRUE)
+			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 //		if(/datum/patron/divine/eora) // I like Eora but I find it impossible to come up with a reason for an Eoran to be a wretch heretic
 //			cloak = /obj/item/clothing/cloak/templar/eoran
 //			id = /obj/item/clothing/neck/roguetown/psicross/eora
@@ -190,6 +192,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_LEGENDARY, TRUE)// Really good at reading... does this really do anything? No. BUT it's soulful.
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
+			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 //		if(/datum/patron/divine/ravox) //validhunting god, not even Ares. Whiteknight the god, so no.
 //			cloak = /obj/item/clothing/cloak/templar/ravox
 //			id = /obj/item/clothing/neck/roguetown/psicross/ravox
@@ -330,6 +333,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/cooking, SKILL_LEVEL_JOURNEYMAN, TRUE) // Jessie we have to cook
 			ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/graggar)
 			H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/facemask/copper, SLOT_WEAR_MASK, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/cape/crusader, SLOT_CLOAK, TRUE)
@@ -374,6 +378,7 @@
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 			H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE, TRUE)
+			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 //		if(/datum/patron/divine/eora)
 //			id = /obj/item/clothing/neck/roguetown/psicross/eora
 //			ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
@@ -385,6 +390,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_LEGENDARY, TRUE)// Really good at reading... does this really do anything? No. BUT it's soulful.
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
+			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 //		if(/datum/patron/divine/ravox)
 //			id = /obj/item/clothing/neck/roguetown/psicross/ravox
 //			H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)

@@ -487,6 +487,14 @@
 	return (H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F)
 // LETHALSTONE EDIT END
 
+// Checks for character gender agnostic of body type. Made for honorific assignment.
+/proc/get_pronoun_gender(mob/living/carbon/human/H) 
+	if(H.pronouns == HE_HIM || H.pronouns == HE_HIM_F)
+		return "MASC"
+	else if (H.pronouns == SHE_HER || H.pronouns == SHE_HER_M)
+		return "FEM"
+	return
+
 /datum/job/proc/get_informed_title(mob/mob)
 	if(mob.gender == FEMALE && f_title)
 		return f_title

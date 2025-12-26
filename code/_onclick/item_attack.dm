@@ -114,6 +114,11 @@
 		to_chat(user, span_warning("I don't want to harm other living beings!"))
 		return
 
+	if(HAS_TRAIT(M, TRAIT_TEMPO))
+		if(ishuman(M) && ishuman(user) && user.mind && user != M)
+			var/mob/living/carbon/human/H = M
+			H.process_tempo_attack(user)
+
 	M.lastattacker = user.real_name
 	M.lastattackerckey = user.ckey
 	M.lastattacker_weakref = WEAKREF(user)
@@ -268,10 +273,6 @@
 			used_str = C.get_str_arms(C.used_hand)
 	if(istype(user.rmb_intent, /datum/rmb_intent/weak))
 		used_str--
-	if(ishuman(user))
-		var/mob/living/carbon/human/user_human = user
-		if(user_human.clan) // For each level of potence user gains 0.5 STR, at 5 Potence their STR buff is 2.5
-			used_str += floor(0.5 * user_human.potence_weapon_buff)
 	if(used_str >= 11)
 		var/strmod
 		if(used_str > STRENGTH_SOFTCAP && !HAS_TRAIT(user, TRAIT_STRENGTH_UNCAPPED))

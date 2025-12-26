@@ -769,7 +769,16 @@
 		if(!user.is_literate())
 			to_chat(user, span_warning("I do not know how to write."))
 			return
+
+		var/can_write = FALSE
 		if((user.used_intent.blade_class == BCLASS_STAB) && (W.wlength == WLENGTH_SHORT))
+			can_write = TRUE
+		if(istype(W, /obj/item/natural/thorn))
+			can_write = TRUE
+		if(istype(W, /obj/item/natural/feather))
+			can_write = TRUE
+
+		if(can_write)
 			if(wrotesign)
 				to_chat(user, span_warning("Something is already carved here."))
 				return
@@ -950,32 +959,37 @@
 		if(W.associated_skill)
 			if(user.mind)
 				if(isliving(user))
+					if(user.doing)
+						return
 					var/mob/living/L = user
-					var/probby = (L.STALUC / 10) * 100
-					probby = min(probby, 99)
-					user.changeNext_move(CLICK_CD_MELEE)
-					if(W.max_blade_int)
-						W.remove_bintegrity(5)
-					L.stamina_add(rand(4,6))
-					if(!(L.mobility_flags & MOBILITY_STAND))
-						probby = 0
-					if(L.STAINT < 3)
-						probby = 0
-					if(prob(probby) && !user.buckled)
-						user.visible_message(span_info("[user] trains on [src]!"))
-						var/amt2raise = L.STAINT * 0.35
+					user.visible_message(span_notice("[user] begins training on [src]..."))
+					while(do_after(user, 1 SECONDS, target = src))
+						if(!(L.mobility_flags & MOBILITY_STAND))
+							to_chat(user, span_warning("You are knocked down and stop training."))
+							break
+						var/probby = (L.STALUC / 10) * 100
+						probby = min(probby, 99)
+						user.changeNext_move(CLICK_CD_MELEE)
+						if(W.max_blade_int)
+							W.remove_bintegrity(5)
+						L.stamina_add(rand(4,6))
+						if(L.STAINT < 3)
+							probby = 0
 						if(!can_train_combat_skill(user, W.associated_skill, SKILL_LEVEL_APPRENTICE))
 							to_chat(user, span_warning("I've learned all I can from doing this, it's time for the real thing."))
-							amt2raise = 0
-						if(amt2raise > 0)
-							user.mind.add_sleep_experience(W.associated_skill, amt2raise, FALSE)
-						playsound(loc,pick('sound/combat/hits/onwood/education1.ogg','sound/combat/hits/onwood/education2.ogg','sound/combat/hits/onwood/education3.ogg'), rand(50,100), FALSE)
-					else
-						user.visible_message(span_danger("[user] trains on [src], but [src] ripostes!"))
-						L.AdjustKnockdown(1)
-						L.throw_at(get_step(L, get_dir(src,L)), 2, 2, L, spin = FALSE)
-						playsound(loc, 'sound/combat/hits/kick/stomp.ogg', 100, TRUE, -1)
-					flick(pick("p_dummy_smashed","p_dummy_smashedalt"),src)
+							break
+						if(prob(probby) && !user.buckled)
+							user.visible_message(span_info("[user] trains on [src]!"))
+							var/amt2raise = L.STAINT * 0.35
+							if(amt2raise > 0)
+								user.mind.add_sleep_experience(W.associated_skill, amt2raise, FALSE)
+							playsound(loc,pick('sound/combat/hits/onwood/education1.ogg','sound/combat/hits/onwood/education2.ogg','sound/combat/hits/onwood/education3.ogg'), rand(50,100), FALSE)
+						else
+							user.visible_message(span_danger("[user] trains on [src], but [src] ripostes!"))
+							L.AdjustKnockdown(1)
+							L.throw_at(get_step(L, get_dir(src,L)), 2, 2, L, spin = FALSE)
+							playsound(loc, 'sound/combat/hits/kick/stomp.ogg', 100, TRUE, -1)
+						flick(pick("p_dummy_smashed","p_dummy_smashedalt"),src)
 					return
 	..()
 

@@ -448,3 +448,15 @@
 	icon_state = "expi"
 	color_keys = 2
 	color_key_names = list("Upper", "Tip")
+
+/datum/sprite_accessory/tail/tailmaw
+    name = "Tailmaw"
+    icon_state = "tailmaw"
+    can_wag = FALSE
+    can_suck = TRUE
+
+/datum/sprite_accessory/tail/tailmaw2
+    name = "Tailmaw (Wag)"
+    icon_state = "tailmaw2"
+    can_wag = TRUE
+    can_suck = TRUE

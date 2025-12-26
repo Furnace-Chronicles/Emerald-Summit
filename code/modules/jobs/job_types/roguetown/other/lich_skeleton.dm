@@ -20,6 +20,7 @@ LICH SKELETONS
 /datum/outfit/job/greater_skeleton/lich/pre_equip(mob/living/carbon/human/H)
 	..()
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+	REMOVE_TRAIT(H, TRAIT_EASYDISMEMBER, TRAIT_GENERIC)
 
 // Melee goon w/ javelins. All-rounder.
 /datum/advclass/greater_skeleton/lich/legionnaire
@@ -34,30 +35,35 @@ LICH SKELETONS
 
 	H.STASTR = 12
 	H.STASPD = 10
-	H.STACON = 8
+	H.STACON = 10
 	H.STAEND = 12
 	H.STAINT = 5
 	H.STAPER = 11
 
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 
+	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/whipsflails, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
 
 	H.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/masonry, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/sewing, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
 
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/paalloy
-	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/paalloy
+	neck = /obj/item/clothing/neck/roguetown/gorget/paalloy
+	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/paalloy
 
 	beltl = /obj/item/quiver/javelin/paalloy
@@ -69,40 +75,42 @@ LICH SKELETONS
 		if("Gladius")
 			beltr = /obj/item/rogueweapon/sword/iron/short/gladius/pagladius
 			backr = /obj/item/rogueweapon/shield/wood
-			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Kopesh")
 			beltr = /obj/item/rogueweapon/sword/sabre/palloy
 			backr = /obj/item/rogueweapon/shield/wood
-			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Shortsword")
 			beltr = /obj/item/rogueweapon/sword/short/pashortsword
 			backr = /obj/item/rogueweapon/shield/wood
-			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Axe")
 			beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
 			backr = /obj/item/rogueweapon/shield/wood
-			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
 		if("Flail")
 			beltr = /obj/item/rogueweapon/flail/sflail/paflail
 			backr = /obj/item/rogueweapon/shield/wood
-			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
 		if("Greatsword")
 			r_hand = /obj/item/rogueweapon/greatsword/paalloy
-			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Bardiche")
 			r_hand = /obj/item/rogueweapon/halberd/bardiche/paalloy
-			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 		if("Mace + Shield")
 			r_hand = /obj/item/rogueweapon/mace/steel/palloy
 			l_hand = /obj/item/rogueweapon/shield/wood
-			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
 		if("Spear")
 			r_hand = /obj/item/rogueweapon/spear/paalloy
-			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 		if("Warhammer + Shield")
 			r_hand = /obj/item/rogueweapon/mace/warhammer/steel/paalloy
 			l_hand = /obj/item/rogueweapon/shield/wood
-			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
 
 // Ranged goon w/ a dumb bow. Ranger, what else is there to say.
 /datum/advclass/greater_skeleton/lich/ballistiares
@@ -117,16 +125,16 @@ LICH SKELETONS
 
 	H.STASTR = 10
 	H.STASPD = 12
-	H.STACON = 8
+	H.STACON = 10
 	H.STAEND = 14
 	H.STAINT = 7
 	H.STAPER = 15
 
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
-	H.adjust_skillrank(/datum/skill/combat/bows , 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/crossbows, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/slings, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/bows , 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/slings, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
@@ -209,14 +217,9 @@ LICH SKELETONS
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy
-	backl = /obj/item/storage/backpack/rogue/backpack
-	backpack_contents = list(
-						/obj/item/flint = 1,
-						/obj/item/rogueweapon/chisel = 1, 
-						/obj/item/rogueweapon/hammer/wood = 1,
-						/obj/item/recipe_book/survival = 1,
-						/obj/item/recipe_book/builder = 1,
-						/obj/item/rogueweapon/handsaw = 1,
+	mask = /obj/item/clothing/mask/rogue/facemask/steel/paalloy
+	backl = /obj/item/storage/backpack/rogue/satchel
+
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut
 	beltl = /obj/item/rogueweapon/pick/copper
 

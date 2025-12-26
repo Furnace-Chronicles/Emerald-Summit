@@ -108,6 +108,7 @@
 	name = "Scholar"
 	tutorial = "You are a scholar traveling the world in order to write a book about your ventures. You trade in stories and tales of your travels."
 	outfit = /datum/outfit/job/adventurer/scholar
+	traits_applied = list(TRAIT_TALENTED_ALCHEMIST)
 
 	subclass_stats = list(
 		STATKEY_INT = 3,
