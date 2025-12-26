@@ -1,5 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/bonechill
 	name = "Bone Chill"
+	desc = "Unleashes a deathly cold that harms the living from within, yet restores undead flesh and bone."
 	overlay_state = "raiseskele"
 	releasedrain = 30
 	chargetime = 5
@@ -39,6 +40,7 @@
 
 /obj/effect/proc_holder/spell/invoked/eyebite
 	name = "Eyebite"
+	desc = "Conjures arcyne teeth that snap shut upon the target's eyes, inflicting pain and temporarily shattering their vision."
 	overlay_state = "raiseskele"
 	releasedrain = 30
 	chargetime = 15
@@ -59,7 +61,7 @@
 	if(!isliving(targets[1]))
 		return FALSE
 	var/mob/living/carbon/target = targets[1]
-	target.visible_message(span_info("A loud crunching sound has come from [target]!"), span_userdanger("I feel arcane teeth biting into my eyes!"))
+	target.visible_message(span_info("A loud crunching sound has come from [target]!"), span_userdanger("I feel arcyne teeth biting into my eyes!"))
 	target.adjustBruteLoss(30)
 	target.blind_eyes(2)
 	target.blur_eyes(10)
@@ -68,7 +70,7 @@
 
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead
 	name = "Raise Lesser Undead"
-	desc = ""
+	desc = "Summons a lesser skeletal undead at the targeted location."
 	clothes_req = FALSE
 	overlay_state = "animate"
 	range = 7
