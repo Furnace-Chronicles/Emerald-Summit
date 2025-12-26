@@ -304,6 +304,10 @@
 	force = 25	
 	max_integrity = 120
 
+/datum/intent/dagger/thrust/pick/punchdagger
+	clickcd = 10
+	swingdelay = 6
+
 /obj/item/rogueweapon/katar/punchdagger
 	name = "punch dagger"
 	desc = "A weapon that combines the ergonomics of the Ranesheni katar with the capabilities of the Western Psydonian \"knight-killers\". It can be tied around the wrist."
@@ -313,7 +317,7 @@
 	throwforce = 8
 	wdefense = 1	//Hell no!
 	thrown_bclass = BCLASS_STAB
-	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick)
+	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick/punchdagger)
 	icon_state = "plug"
 
 /obj/item/rogueweapon/katar/punchdagger/frei

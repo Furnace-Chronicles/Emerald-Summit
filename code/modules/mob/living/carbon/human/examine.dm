@@ -97,7 +97,7 @@
 				rank_color = "ECB20A"
 			if(SOCIAL_RANK_ROYAL)
 				rank_color = "FFBF00"
-		var/strata_icon = family_datum ? "⛯" : "⚜"
+		var/strata_icon = family_datum ? "⛯" : "⛭"
 		var/social_strata = SPAN_TOOLTIP_DANGEROUS_HTML(generate_strata(user), "<font color='#[rank_color]'>[strata_icon]</font></A>")
 		var/display1
 		var/display2 = "[!HAS_TRAIT(usr, TRAIT_OUTLANDER) ? "[social_strata]" : " "]"
@@ -1114,6 +1114,6 @@
 					spouse_list += the_person.real_name
 			if(spouse_list.len)
 				spousetext = jointext(spouse_list, ", ")
-		output += " They are a member of house [family_datum.housename][spousetext ? ", and are married to [spousetext]." : "."]"
-		
+		output += "<BR>They are a member of house [family_datum.housename][spousetext ? ", and are married to [spousetext]." : "."]"
+
 	return output

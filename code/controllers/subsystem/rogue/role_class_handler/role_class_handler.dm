@@ -75,6 +75,10 @@ SUBSYSTEM_DEF(role_class_handler)
 	We will cache it per server session via an assc list with a ckey leading to the datum.
 */
 /datum/controller/subsystem/role_class_handler/proc/setup_class_handler(mob/living/carbon/human/H, advclass_rolls_override = null, register_id = null)
+	if(!H.client)
+		log_game("CLASS HANDLER WARNING: [H] has no client, skipping advclass setup")
+		return
+	
 	if(!register_id)
 		if(H.job == "Towner")
 			register_id = "towner"
@@ -133,6 +137,10 @@ SUBSYSTEM_DEF(role_class_handler)
 	var/atom/movable/screen/advsetup/GET_IT_OUT = locate() in H.hud_used.static_inventory // dis line sux its basically a loop anyways if i remember
 	qdel(GET_IT_OUT)
 	H.cure_blind("advsetup")
+	
+	// Send signal that advclass equipment is complete and knowledge can be populated
+	// This ensures advjob is set before knowledge population happens
+	SEND_SIGNAL(H, COMSIG_JOB_EQUIPPED, H.islatejoin)
 
 	//If we get any plus factor at all, we run the datums boost proc on the human also.
 	if(plus_factor)
@@ -140,6 +148,15 @@ SUBSYSTEM_DEF(role_class_handler)
 
 	if(related_handler.register_id)
 		add_class_register_msg(related_handler.register_id, "[H.real_name] is the [picked_class.name]", related_handler.linked_client.mob)
+
+	// Trigger loadout after advclass selection completes
+	if(H.job)
+		var/datum/job/J = SSjob.GetJob(H.job)
+		if(J?.outfit)
+			var/datum/outfit/job/roguetown/RO = J.outfit
+			if(initial(RO.has_loadout))
+				var/datum/outfit/job/roguetown/outfit_inst = new J.outfit()
+				outfit_inst.choose_loadout(H)
 
 
 	// In retrospect, If I don't just delete these Ill have to actually attempt to keep track of when a byond browser window is actually open lol
