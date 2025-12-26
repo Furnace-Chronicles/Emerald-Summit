@@ -257,13 +257,13 @@
 /obj/item/rogueweapon/woodstaff/aries/pickup(mob/living/user)
 	..()
 	if(HAS_TRAIT(user, TRAIT_ROTMAN) || user.mob_biotypes & MOB_UNDEAD)
-		to_chat(user, "<font color='yellow'>FOOL! YOU DARE TOUCH THE HOLY STAFF?</font>\n[src] starts to heat up... Uh oh.")
-		addtimer(CALLBACK(src, PROC_REF(smite), user = user, paralyze = 2 SECONDS, fireloss = 25, msg = "SO BE IT!"), 1 SECONDS)
+		to_chat(user, "<font color='yellow'>FOOL! YOU DARE TOUCH THE HOLY STAFF?</font>\n<font color = 'red'>[src] starts to heat up... Uh oh.</font>")
+		addtimer(CALLBACK(src, PROC_REF(smite), user, 1 SECONDS, 2 SECONDS, 25, 5, "SO BE IT!"), 3 SECONDS)
 		return
 	var/datum/job/J = SSjob.GetJob(user.mind?.assigned_role)
 	if(J.title != "Priest" && J.title != "Martyr")
-		to_chat(user, "<font color='yellow'>UNWORTHY HANDS TOUCH THE HOLY STAFF, CEASE OR BE PUNISHED</font>")
-		addtimer(CALLBACK(src, PROC_REF(smite), user = user, msg = "FOOL, YOU DID NOT HEED MY WARNING!"), 3 SECONDS)
+		to_chat(user, "<font color='yellow'>UNWORTHY HANDS TOUCH THE HOLY STAFF, CEASE OR BE PUNISHED.</font>")
+		addtimer(CALLBACK(src, PROC_REF(smite), user, 1 SECONDS, 1 SECONDS, 0, 5, "FOOL, YOU DID NOT HEED MY WARNING!"), 5 SECONDS)
 
 /obj/item/rogueweapon/woodstaff/aries/proc/smite(mob/living/user, knockdown = 1 SECONDS, paralyze = 1 SECONDS, fireloss = 0, fire_stacks = 5, msg = "")
 	if(loc == user)
