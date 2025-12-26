@@ -544,7 +544,6 @@
 	force_wielded = 40
 	icon = 'icons/roguetown/weapons/64.dmi'
 	max_blade_int = 200
-	wbalance = WBALANCE_HEAVY // i looove to experiment
 	item_flags = GIANT_WEAPON
 
 /obj/item/rogueweapon/greataxe/steel/doublehead/graggar/ogre/pickup(mob/living/user)
