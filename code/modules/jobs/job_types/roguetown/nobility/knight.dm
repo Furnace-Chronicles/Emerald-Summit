@@ -25,7 +25,7 @@
 	social_rank = SOCIAL_RANK_MINOR_NOBLE
 
 	virtue_restrictions = list(
-		/datum/virtue/utility/blacksmith, // we don't want you repairing your stuff in combat, sorry...
+		/datum/virtue/utility/blacksmith // we don't want you repairing your stuff in combat, sorry...
 	)
 	cmode_music = 'sound/music/combat_knight.ogg'
 
@@ -83,15 +83,20 @@
 /datum/advclass/knight/champion
 	name = "Champion of the Duchy" // TODO: Rename to Royal Champion later
 	tutorial = "Veteran among knights, you've proven yourself time and again in service to the crown. \
+	Your loyalty is unwaveringly strong, with the sole purpose of defending your liege and their realm. \
 	Your experience with both infantry and cavalry tactics makes you a versatile combatant, \
 	equally adept whether on foot or mounted. You are a champion of the realm."
-	extra_context = "This is a unique, one person, slot. \
+	extra_context = "This is a unique, one person, slot. You cannot choose this subclass as a Vampyre. \
 	Middle aged champions get a +1 SPD, nullifying the -1 from the subclass."
 	outfit = /datum/outfit/job/knight/champion
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	category_tags = list(CTAG_ROYALGUARD)
 	maximum_possible_slots = 1
 	min_pq = 30 // "stick larp knight at 30 or something just so there's less speedclicking competitions among knights that want to powergame"
+
+	virtue_restrictions = list(
+		/datum/virtue/combat/crimson_curse
+	)
 
 	traits_applied = list(TRAIT_HEAVYARMOR)
 	subclass_stats = list(

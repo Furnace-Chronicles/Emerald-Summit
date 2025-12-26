@@ -49,6 +49,9 @@
 	/// Subclass social rank, used to overwrite the job social rank
 	var/subclass_social_rank
 
+	/// Virtue restrictions for this subclass
+	var/list/virtue_restrictions
+
 /datum/advclass/proc/equipme(mob/living/carbon/human/H)
 	// input sleeps....
 	set waitfor = FALSE
@@ -132,6 +135,10 @@
 
 	if(length(allowed_patrons) && !(H.patron in allowed_patrons))
 		return FALSE
+
+	if(length(virtue_restrictions) && H.client)
+		if((H.client.prefs.virtue?.type in virtue_restrictions) || (H.client.prefs.virtuetwo?.type in virtue_restrictions) || (H.client.prefs.virtue_origin?.type in virtue_restrictions))
+			return FALSE
 
 	if(maximum_possible_slots > -1)
 		if(total_slots_occupied >= maximum_possible_slots)
