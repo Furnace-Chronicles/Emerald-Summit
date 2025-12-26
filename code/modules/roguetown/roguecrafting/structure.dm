@@ -250,15 +250,6 @@
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 4
 
-/datum/crafting_recipe/roguetown/structure/shelvingrack
-	name = "Shelving Rack"
-	result = /obj/structure/rack
-	reqs = list(/obj/item/natural/wood/plank = 1)
-	verbage_simple = "construst"
-	verbage = "constructs"
-	skillcraft = /datum/skill/craft/carpentry
-	craftdiff = 2
-
 /datum/crafting_recipe/roguetown/structure/tablewood3
 	name = "Wooden Table (Alt)"
 	result = /obj/structure/table/wood/poor/alt_alt
