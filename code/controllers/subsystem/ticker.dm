@@ -518,15 +518,15 @@ SUBSYSTEM_DEF(ticker)
 		var/player_time = world.timeofday - player_start
 		
 		if(player_time > 10) // Log if any single player takes >1 second
-			log_game("EQUIP SLOW: Player [player_count]/[valid_characters.len] ([character.mind.assigned_role]) took [player_time/10]s")
+			log_game("EQUIP SLOW: Player [player_count]/[valid_characters.len] ([character.mind.assigned_role]) took [DisplayTimeText(player_time * 0.1)]")
 		
 		if(player_count % 10 == 0) // Progress update every 10 players
-			log_game("EQUIP PROGRESS: [player_count]/[valid_characters.len] done, [world.timeofday - start_time]/10]s elapsed")
+			log_game("EQUIP PROGRESS: [player_count]/[valid_characters.len] done, [DisplayTimeText((world.timeofday - start_time) * 0.1)] elapsed")
 		
 		CHECK_TICK
 	
 	var/total_time = world.timeofday - start_time
-	log_game("EQUIP COMPLETE: [valid_characters.len] players in [total_time/10]s (avg [total_time/valid_characters.len/10]s per player)")
+	log_game("EQUIP COMPLETE: [valid_characters.len] players in [DisplayTimeText(total_time * 0.1)] (avg [DisplayTimeText(total_time / valid_characters.len * 0.1)] per player)")
 
 /datum/controller/subsystem/ticker/proc/transfer_characters()
 	var/list/livings = list()
@@ -579,11 +579,11 @@ SUBSYSTEM_DEF(ticker)
 					// Non-advclass: trigger loadout immediately (no timer wait)
 					var/datum/outfit/job/roguetown/RO = J.outfit
 					if(initial(RO.has_loadout))
-						var/datum/outfit/job/roguetown/outfit_inst = new J.outfit()
-						outfit_inst.choose_loadout(H)
+						// Call choose_loadout without instantiating new outfit (already equipped)
+						call(RO, "choose_loadout")(H)
 				
-				// Process deferred knowledge population
-				if(H.mind?.needs_knowledge_processing && J)
+				// Process deferred knowledge population (for all jobs)
+				if(H.mind?.needs_knowledge_processing && J && hascall(J, "do_populate_job_knowledge"))
 					J.do_populate_job_knowledge(H)
 					H.mind.needs_knowledge_processing = FALSE
 				
@@ -632,7 +632,138 @@ SUBSYSTEM_DEF(ticker)
 		deleted_count++
 	
 	log_game("CLEANUP: Deleted [deleted_count] new_player mobs ([skipped_count] skipped)")
-e()] are underway after an elite Syndicate death squad was wiped out by the crew."
+
+/datum/controller/subsystem/ticker/proc/send_tip_of_the_round()
+	return
+/*	var/m
+	if(selected_tip)
+		m = selected_tip
+	else
+		var/list/randomtips = world.file2list("strings/tips.txt")
+//		var/list/memetips = world.file2list("strings/sillytips.txt")
+//		if(randomtips.len && prob(95))
+		m = pick(randomtips)
+//		else if(memetips.len)
+//			m = pick(memetips)
+	if(m)
+		to_chat(world, span_purple("Before we begin, remember: [html_encode(m)]"))
+*/
+/datum/controller/subsystem/ticker/proc/check_queue()
+	if(!queued_players.len)
+		return
+	var/hpc = CONFIG_GET(number/hard_popcap)
+	if(!hpc)
+		listclearnulls(queued_players)
+		for (var/mob/dead/new_player/NP in queued_players)
+			to_chat(NP, span_danger("The alive players limit has been released!<br><a href='?src=[REF(NP)];late_join=override'>[html_encode(">>Join Game<<")]</a>"))
+			SEND_SOUND(NP, sound('sound/blank.ogg'))
+			NP.LateChoices()
+		queued_players.len = 0
+		queue_delay = 0
+		return
+
+	queue_delay++
+	var/mob/dead/new_player/next_in_line = queued_players[1]
+
+	switch(queue_delay)
+		if(5) //every 5 ticks check if there is a slot available
+			listclearnulls(queued_players)
+			if(living_player_count() < hpc)
+				if(next_in_line && next_in_line.client)
+					to_chat(next_in_line, span_danger("A slot has opened! You have approximately 20 seconds to join. <a href='?src=[REF(next_in_line)];late_join=override'>>>Join Game<<</a>"))
+					SEND_SOUND(next_in_line, sound('sound/blank.ogg'))
+					next_in_line.LateChoices()
+					return
+				queued_players -= next_in_line //Client disconnected, remove he
+			queue_delay = 0 //No vacancy: restart timer
+		if(25 to INFINITY)  //No response from the next in line when a vacancy exists, remove he
+			to_chat(next_in_line, span_danger("No response received. You have been removed from the line."))
+			queued_players -= next_in_line
+			queue_delay = 0
+
+/datum/controller/subsystem/ticker/proc/check_maprotate()
+	if (!CONFIG_GET(flag/maprotation))
+		return
+	if (maprotatechecked)
+		return
+
+	maprotatechecked = 1
+
+	//map rotate chance defaults to 75% of the length of the round (in minutes)
+	if (!prob((world.time/600)*CONFIG_GET(number/maprotatechancedelta)))
+		return
+	INVOKE_ASYNC(SSmapping, TYPE_PROC_REF(/datum/controller/subsystem/mapping, maprotate))
+
+/datum/controller/subsystem/ticker/proc/HasRoundStarted()
+	return current_state >= GAME_STATE_PLAYING
+
+/datum/controller/subsystem/ticker/proc/IsRoundInProgress()
+	return current_state == GAME_STATE_PLAYING
+
+/datum/controller/subsystem/ticker/Recover()
+	current_state = SSticker.current_state
+	force_ending = SSticker.force_ending
+
+	login_music = SSticker.login_music
+	round_end_sound = SSticker.round_end_sound
+
+	minds = SSticker.minds
+
+	delay_end = SSticker.delay_end
+
+	triai = SSticker.triai
+	tipped = SSticker.tipped
+	selected_tip = SSticker.selected_tip
+
+	timeLeft = SSticker.timeLeft
+
+	totalPlayers = SSticker.totalPlayers
+	totalPlayersReady = SSticker.totalPlayersReady
+
+	queue_delay = SSticker.queue_delay
+	queued_players = SSticker.queued_players
+	maprotatechecked = SSticker.maprotatechecked
+	round_start_time = SSticker.round_start_time
+	round_start_irl = SSticker.round_start_irl
+
+	queue_delay = SSticker.queue_delay
+	queued_players = SSticker.queued_players
+	maprotatechecked = SSticker.maprotatechecked
+
+	switch (current_state)
+		if(GAME_STATE_SETTING_UP)
+			Master.SetRunLevel(RUNLEVEL_SETUP)
+		if(GAME_STATE_PLAYING)
+			Master.SetRunLevel(RUNLEVEL_GAME)
+		if(GAME_STATE_FINISHED)
+			Master.SetRunLevel(RUNLEVEL_POSTGAME)
+
+/datum/controller/subsystem/ticker/proc/send_news_report()
+	var/news_message
+	var/news_source = "Nanotrasen News Network"
+	switch(news_report)
+		if(NUKE_SYNDICATE_BASE)
+			news_message = "In a daring raid, the heroic crew of [station_name()] detonated a nuclear device in the heart of a terrorist base."
+		if(STATION_DESTROYED_NUKE)
+			news_message = "We would like to reassure all employees that the reports of a Syndicate backed nuclear attack on [station_name()] are, in fact, a hoax. Have a secure day!"
+		if(STATION_EVACUATED)
+			news_message = "The crew of [station_name()] has been evacuated amid unconfirmed reports of enemy activity."
+		if(BLOB_WIN)
+			news_message = "[station_name()] was overcome by an unknown biological outbreak, killing all crew on board. Don't let it happen to you! Remember, a clean work station is a safe work station."
+		if(BLOB_NUKE)
+			news_message = "[station_name()] is currently undergoing decontanimation after a controlled burst of radiation was used to remove a biological ooze. All employees were safely evacuated prior, and are enjoying a relaxing vacation."
+		if(BLOB_DESTROYED)
+			news_message = "[station_name()] is currently undergoing decontamination procedures after the destruction of a biological hazard. As a reminder, any crew members experiencing cramps or bloating should report immediately to security for incineration."
+		if(CULT_ESCAPE)
+			news_message = "Security Alert: A group of religious fanatics have escaped from [station_name()]."
+		if(CULT_FAILURE)
+			news_message = "Following the dismantling of a restricted cult aboard [station_name()], we would like to remind all employees that worship outside of the Chapel is strictly prohibited, and cause for termination."
+		if(CULT_SUMMON)
+			news_message = "Company officials would like to clarify that [station_name()] was scheduled to be decommissioned following meteor damage earlier this year. Earlier reports of an unknowable eldritch horror were made in error."
+		if(NUKE_MISS)
+			news_message = "The Syndicate have bungled a terrorist attack [station_name()], detonating a nuclear weapon in empty space nearby."
+		if(OPERATIVES_KILLED)
+			news_message = "Repairs to [station_name()] are underway after an elite Syndicate death squad was wiped out by the crew."
 		if(OPERATIVE_SKIRMISH)
 			news_message = "A skirmish between security forces and Syndicate agents aboard [station_name()] ended with both sides bloodied but intact."
 		if(REVS_WIN)
