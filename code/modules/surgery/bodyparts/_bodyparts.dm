@@ -405,7 +405,6 @@
 		owner.updatehealth()
 		if(stamina > DAMAGE_PRECISION)
 			owner.update_stamina()
-			owner.stam_regen_start_time = world.time + STAMINA_REGEN_BLOCK_TIME
 			. = TRUE
 	consider_processing()
 	update_disabled()
@@ -823,6 +822,22 @@
 	dismemberable = 0
 	max_damage = 5000
 	animal_origin = DEVIL_BODYPART
+
+/obj/item/bodypart/chest/bodypart_attacked_by(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, armor, was_blunted = FALSE, raw_damage = 0, armor_block = 0, obj/item/weapon)
+	. = ..()
+	if(owner && dam > 0 && zone_precise == BODY_ZONE_PRECISE_STOMACH)
+		if(bclass == BCLASS_BLUNT)
+			var/stamina_loss = round(dam*0.2)
+			var/owner_con = owner.STACON
+			if(armor_block < raw_damage/2)
+				if(dam > owner_con*2)
+					if(prob(owner_con*5))
+						stamina_loss = round(dam*0.1)
+					else
+						owner.vomit()
+						stamina_loss = round(dam*0.75)
+					
+				owner.stamina_add(-stamina_loss)
 
 /obj/item/bodypart/l_arm
 	name = "left arm"
