@@ -385,10 +385,14 @@
 		adjust_fire_stacks(-10, /datum/status_effect/fire_handler/fire_stacks/divine)
 		adjust_fire_stacks(-10, /datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
 		visible_message(span_warning("[src] rolls on the ground, trying to put [p_them()]self out!"))
+		if (fire_status?.stacks + sunder_status?.stacks + divine_status?.stacks + blessed_sunder?.stacks <= 5)
+			addtimer(CALLBACK(src, PROC_REF(check_try_extinguish)), 2 SECONDS) // shitcode but we need this or else clothes won't extinguish after rolling
 	else
 		visible_message(span_notice("[src] pats the flames to extinguish them."))
 		if (fire_status?.stacks + sunder_status?.stacks + divine_status?.stacks + blessed_sunder?.stacks > 5) // might be worth rolling
 			to_chat(src, "<span class='warning'>These flames are intense! I should try rolling on the ground!</span>")
+		if (fire_status?.stacks + sunder_status?.stacks + divine_status?.stacks + blessed_sunder?.stacks <= 1)
+			addtimer(CALLBACK(src, PROC_REF(check_try_extinguish)), 2 SECONDS) // shitcode but we need this or else clothes won't extinguish after patting
 
 /mob/living/carbon/proc/check_try_extinguish()
 	if(!has_status_effect(/datum/status_effect/fire_handler))
