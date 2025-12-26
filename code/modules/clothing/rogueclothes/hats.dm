@@ -663,6 +663,7 @@
 	max_integrity = 200
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
 	armor = ARMOR_SPELLSINGER // spellsinger hat stats
+	resistance_flags = FIRE_PROOF // leather typically doesn't burn
 	sewrepair = TRUE
 
 /obj/item/clothing/head/roguetown/headband/red
