@@ -359,15 +359,17 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 			used += 12
 
 		if((damage_dividend >= CRIT_CHEST_ORGAN_STAB_DIVISOR || overkill_threshold) && prob(used))
+			// Golems and dolls are immune to all organ damage except heart (their lux core)
+			var/is_construct = isgolemp(owner) || isdoll(owner)
 			if(zone_precise == BODY_ZONE_CHEST)
 				if(prob(20) && owner.getorganslot(ORGAN_SLOT_HEART))
 					attempted_wounds += new /datum/wound/lethal/heart_penetration(dam)
-				else if(owner.getorganslot(ORGAN_SLOT_LUNGS))
+				else if(!is_construct && owner.getorganslot(ORGAN_SLOT_LUNGS))
 					attempted_wounds += new /datum/wound/lethal/lung_penetration(dam)
 			else if(zone_precise == BODY_ZONE_PRECISE_STOMACH)
-				if(prob(50) && owner.getorganslot(ORGAN_SLOT_LIVER))
+				if(!is_construct && prob(50) && owner.getorganslot(ORGAN_SLOT_LIVER))
 					attempted_wounds += new /datum/wound/lethal/liver_penetration(dam)
-				else if(owner.getorganslot(ORGAN_SLOT_STOMACH))
+				else if(!is_construct && owner.getorganslot(ORGAN_SLOT_STOMACH))
 					attempted_wounds += new /datum/wound/lethal/stomach_penetration(dam)
 
 	if(bclass in GLOB.artery_bclasses)
@@ -377,15 +379,17 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 			used += 10
 
 		if((damage_dividend >= CRIT_CHEST_ORGAN_SLASH_DIVISOR || overkill_threshold) && prob(used))
+			// Golems and dolls are immune to all organ damage except heart (their lux core)
+			var/is_construct = isgolemp(owner) || isdoll(owner)
 			if(zone_precise == BODY_ZONE_CHEST)
 				if(prob(10) && owner.getorganslot(ORGAN_SLOT_HEART))
 					attempted_wounds += new /datum/wound/lethal/heart_penetration(dam)
-				else if(owner.getorganslot(ORGAN_SLOT_LUNGS))
+				else if(!is_construct && owner.getorganslot(ORGAN_SLOT_LUNGS))
 					attempted_wounds += new /datum/wound/lethal/lung_penetration(dam)
 			else if(zone_precise == BODY_ZONE_PRECISE_STOMACH)
-				if(prob(50) && owner.getorganslot(ORGAN_SLOT_LIVER))
+				if(!is_construct && prob(50) && owner.getorganslot(ORGAN_SLOT_LIVER))
 					attempted_wounds += new /datum/wound/lethal/liver_penetration(dam)
-				else if(owner.getorganslot(ORGAN_SLOT_STOMACH))
+				else if(!is_construct && owner.getorganslot(ORGAN_SLOT_STOMACH))
 					attempted_wounds += new /datum/wound/lethal/stomach_penetration(dam)
 
 	// Blunt attacks on fractured ribs can drive bone fragments into organs
@@ -396,11 +400,13 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 			used += 10
 
 		if((damage_dividend >= CRIT_CHEST_ORGAN_BLUNT_DIVISOR || overkill_threshold) && prob(used))
+			// Golems and dolls are immune to all organ damage except heart (their lux core)
+			var/is_construct = isgolemp(owner) || isdoll(owner)
 			if(prob(20) && owner.getorganslot(ORGAN_SLOT_HEART))
 				var/datum/wound/lethal/heart_penetration/bone_frag_wound = new /datum/wound/lethal/heart_penetration(dam)
 				bone_frag_wound.from_fracture = TRUE
 				attempted_wounds += bone_frag_wound
-			else if(owner.getorganslot(ORGAN_SLOT_LUNGS))
+			else if(!is_construct && owner.getorganslot(ORGAN_SLOT_LUNGS))
 				var/datum/wound/lethal/lung_penetration/bone_frag_wound = new /datum/wound/lethal/lung_penetration(dam)
 				bone_frag_wound.from_fracture = TRUE
 				attempted_wounds += bone_frag_wound
@@ -531,7 +537,9 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 			if(prob(used))
 				attempted_wounds += /datum/wound/sunder
 
-	if((bclass in GLOB.stab_bclasses) && (zone_precise in GLOB.brain_penetration_zones))
+	// Golems and dolls are immune to brain damage
+	var/is_construct = isgolemp(owner) || isdoll(owner)
+	if(!is_construct && (bclass in GLOB.stab_bclasses) && (zone_precise in GLOB.brain_penetration_zones))
 		var/overkill_threshold = get_overkill_threshold(CRIT_OVERKILL_THRESHOLD_VERY_HARD, damage_dividend, dam, resistance)
 		used = round(damage_dividend * 25 + (dam / 2) - 15 * resistance, 1)
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
@@ -540,7 +548,7 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 			attempted_wounds += new /datum/wound/lethal/brain_penetration(dam)
 
 	// Blunt attacks on fractured skulls can drive bone fragments into the brain
-	if((bclass in GLOB.fracture_bclasses) && owner.has_wound(/datum/wound/fracture/head))
+	if(!is_construct && (bclass in GLOB.fracture_bclasses) && owner.has_wound(/datum/wound/fracture/head))
 		var/overkill_threshold = get_overkill_threshold(CRIT_OVERKILL_THRESHOLD_NORMAL, damage_dividend, dam, resistance)
 		used = round(damage_dividend * 20 + (dam / 3) - 12 * resistance, 1)
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))

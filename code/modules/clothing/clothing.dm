@@ -387,10 +387,9 @@
 	if(zone_integrity_r_leg != null)
 		zone_integrity_r_leg = get_zone_max_integrity(BODY_ZONE_R_LEG)
 
+	update_overall_integrity()
 	broken_zones.len = 0
 	..()
-
-	update_overall_integrity()
 
 /obj/item/proc/get_detail_tag() //this is for extra layers on clothes
 	return detail_tag

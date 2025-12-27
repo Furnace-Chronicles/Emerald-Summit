@@ -43,11 +43,18 @@
 						needs_repair = TRUE
 						C.modify_zone_integrity(zone, zone_max * repair_percent)
 
-			if(needs_repair)
+			if(needs_repair || I.obj_broken)
 				C.update_overall_integrity()
 				user.visible_message(span_info("[I] glows in a faint mending light."))
 				playsound(I, 'sound/foley/sewflesh.ogg', 50, TRUE, -2)
-				if(I.obj_broken && I.obj_integrity >= I.max_integrity)
+				// Check if all zones are at max integrity to determine if we should fix the broken state
+				var/all_zones_full = TRUE
+				for(var/zone in zones)
+					if(C.has_zone_integrity(zone))
+						if(C.get_zone_integrity(zone) < C.get_zone_max_integrity(zone))
+							all_zones_full = FALSE
+							break
+				if(I.obj_broken && all_zones_full)
 					I.obj_fix()
 			else
 				to_chat(user, span_info("[I] appears to be in perfect condition."))

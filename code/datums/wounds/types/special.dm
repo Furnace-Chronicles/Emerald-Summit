@@ -557,23 +557,44 @@
 
 /datum/wound/lethal/heart_penetration/on_mob_gain(mob/living/affected)
 	. = ..()
+	var/is_construct = isgolemp(affected) || isdoll(affected)
+
+	// Constructs don't bleed
+	if(is_construct)
+		bleed_rate = 0
+		woundpain = 0 // They also don't feel pain
+
 	var/static/list/penetration_messages = list(
 		"MY HEART!",
 		"MY CHEST!",
 		"I'M DYING!",
 		"OH GODS, THE PAIN!")
 
+	var/static/list/construct_penetration_messages = list(
+		"MY LUX CORE IS DAMAGED!",
+		"I'M LOSING POWER!",
+		"THE LIGHT DIMS!")
+
 	if(from_fracture)
-		crit_message = list(
-			"A rib pierces the heart!",
-			"Broken ribs puncture straight through the heart!",
-			"Bone fragments skewer the heart!",
-			"The shattered ribcage crushes into the heart!"
-		)
+		if(is_construct)
+			crit_message = list(
+				"The golem core is punctured!",
+				"Fragments pierce the lux core!",
+				"The core cracks and splinters!",
+				"The shattered shell crushes into the core!"
+			)
+		else
+			crit_message = list(
+				"A rib pierces the heart!",
+				"Broken ribs puncture straight through the heart!",
+				"Bone fragments skewer the heart!",
+				"The shattered ribcage crushes into the heart!"
+			)
 
 	if(iscarbon(affected))
 		var/mob/living/carbon/carbon_affected = affected
-		carbon_affected.vomit(blood = TRUE)
+		if(!is_construct)
+			carbon_affected.vomit(blood = TRUE)
 		cached_heart = carbon_affected.getorganslot(ORGAN_SLOT_HEART)
 		if(cached_heart)
 			cached_heart.applyOrganDamage(organ_damage)
@@ -581,26 +602,40 @@
 				addtimer(CALLBACK(carbon_affected, TYPE_PROC_REF(/mob/living/carbon, set_heartattack), TRUE), 3 SECONDS)
 	affected.Stun(30)
 	shake_camera(affected, 4, 4)
-	affected.emote("painscream")
-	to_chat(affected, span_userdanger("[pick(penetration_messages)]"))
+	if(!is_construct)
+		affected.emote("painscream")
+	to_chat(affected, span_userdanger("[pick(is_construct ? construct_penetration_messages : penetration_messages)]"))
 
 /datum/wound/lethal/heart_penetration/on_life()
 	. = ..()
 	if(!iscarbon(owner))
 		return
 	var/mob/living/carbon/carbon_owner = owner
+	var/is_construct = isgolemp(owner) || isdoll(owner)
 
-	if(!carbon_owner.stat && prob(15))
-		carbon_owner.vomit(1, blood = TRUE, stun = FALSE)
+	if(is_construct)
+		// Golems and dolls lose energy instead of blood and oxygen
+		var/energy_drain = floor(organ_damage / 10)
+		carbon_owner.energy_add(-energy_drain)
 
-	if(!HAS_TRAIT(owner, TRAIT_NOBREATH))
-		var/oxydamage = organ_damage < 100 ? organ_damage / 10 : organ_damage
-		carbon_owner.adjustOxyLoss(oxydamage)
+		if(cached_heart && !QDELETED(cached_heart))
+			// Causes damage over time to the lux core as mana leaks
+			if(cached_heart.damage < cached_heart.maxHealth)
+				cached_heart.applyOrganDamage(0.5)
+			if(prob(3))
+				to_chat(carbon_owner, span_warning("My lux core flickers and dims..."))
+	else
+		if(!carbon_owner.stat && prob(15))
+			carbon_owner.vomit(1, blood = TRUE, stun = FALSE)
 
-	if(cached_heart && !QDELETED(cached_heart) && cached_heart.damage > round(cached_heart.maxHealth/2))
-		cached_heart.applyOrganDamage(1)
-		if(prob(5))
-			to_chat(carbon_owner, span_warning("MY HEART HURTS!"))
+		if(!HAS_TRAIT(owner, TRAIT_NOBREATH))
+			var/oxydamage = organ_damage < 100 ? organ_damage / 10 : organ_damage
+			carbon_owner.adjustOxyLoss(oxydamage)
+
+		if(cached_heart && !QDELETED(cached_heart) && cached_heart.damage > round(cached_heart.maxHealth/2))
+			cached_heart.applyOrganDamage(1)
+			if(prob(5))
+				to_chat(carbon_owner, span_warning("MY HEART HURTS!"))
 
 /datum/wound/lethal/lung_penetration
 	name = "lung penetration"
