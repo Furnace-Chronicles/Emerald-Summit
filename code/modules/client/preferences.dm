@@ -210,7 +210,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/gossip
 	var/gossip_display
 
-	// backward-compatible alias used by some examine code
+	/// backward-compatible alias used by some examine code
 	var/rumour_noble
 	var/rumour_noble_display
 
