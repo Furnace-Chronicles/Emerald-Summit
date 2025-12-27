@@ -433,6 +433,7 @@
 	sewn_bleed_rate = 0 // Stops external bleeding when sewn
 	var/organ_damage = 0
 	var/attack_damage = 0
+	var/total_hits = 1 // Track how many hits contributed to this wound
 
 /datum/wound/lethal/New(damage = 0)
 	. = ..()
@@ -440,6 +441,42 @@
 		attack_damage = damage
 		organ_damage = clamp(damage * (rand(10, 20)/10), 40, 100) // (rand(10, 20)/10) is a little trick to get a random 2-digit float between 1.0 and 2.0
 
+/datum/wound/lethal/can_stack_with(datum/wound/other)
+	if(type == other.type)
+		return FALSE
+	return TRUE
+
+/datum/wound/lethal/can_apply_to_bodypart(obj/item/bodypart/affected)
+	. = ..()
+	if(!.)
+		return FALSE
+
+	var/datum/wound/lethal/existing = affected.has_wound(type, specific = TRUE)
+	if(existing)
+		existing.merge_damage(attack_damage, organ_damage)
+		return FALSE
+
+	return TRUE
+
+/datum/wound/lethal/proc/merge_damage(new_attack_damage, new_organ_damage)
+	if(!bodypart_owner || !owner)
+		return
+
+	total_hits++
+
+	var/damage_multiplier = 1.0 / sqrt(total_hits)
+	attack_damage += new_attack_damage * damage_multiplier
+
+	if(new_organ_damage > 0)
+		organ_damage = min(100, organ_damage + (new_organ_damage * damage_multiplier * 0.5))
+
+		if(iscarbon(owner))
+			var/mob/living/carbon/C = owner
+			var/list/organs = C.getorganszone(bodypart_owner.body_zone)
+			if(length(organs))
+				for(var/obj/item/organ/O in organs)
+					if(O && O.damage > 0 && !QDELETED(O))
+						O.applyOrganDamage(new_organ_damage * damage_multiplier * 0.3)
 
 
 /datum/wound/lethal/heal_wound(heal_amount)
