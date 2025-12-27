@@ -142,6 +142,10 @@
 			to_chat(user, "This one has pledged themselves whole to Necra. They are Hers.")
 			revert_cast()
 			return FALSE
+		if(target.job == "Grand Duke")
+			to_chat(user, "[target] is bound by the Astratan Oath. As all suns set, no ruler shall reign twice...")
+			revert_cast()
+			return FALSE
 		if(!target.mind.active)
 			to_chat(user, "[target] will not return from afterlife.")
 			revert_cast()
