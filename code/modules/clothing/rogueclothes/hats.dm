@@ -2298,7 +2298,7 @@
 	return
 
 /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/berserker/dropped(mob/living/user)
-	..()
+	. = ..()
 	if(!active_item)
 		return
 	active_item = FALSE
