@@ -975,6 +975,7 @@
 	force = 25
 	wdefense = 4
 	minstr = 13
+	item_flags = GIANT_WEAPON
 	pixel_y = -16
 	pixel_x = -16
 	bigboy = TRUE

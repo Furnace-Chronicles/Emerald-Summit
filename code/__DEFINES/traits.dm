@@ -177,6 +177,8 @@
 #define TRAIT_OUTLAW "Outlaw"
 #define TRAIT_KNOWNCRIMINAL "Known Criminal"
 #define TRAIT_BIGGUY "Big Guy"
+#define TRAIT_GIANT_WEAPON_WIELDER "Giant Weapon Wielder" // Allows use of giant weapons without doubling minstr
+#define TRAIT_OGRE_STRENGTH "Ogre Strength"				// This is practically the same as above, but just for ogres. This is avoid a fringe case
 #define TRAIT_RESIDENT "Resident"
 #define TRAIT_COUNTERCOUNTERSPELL "Counter Counterspell"
 #define TRAIT_UNSEEMLY "Ugly"
@@ -337,6 +339,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_BADTRAINER = span_info("I've spent yils studying the art of a single weapon, but unfortunately I've no patience to train anyone else. Everyone learning from me will only learn up to two skill levels below mine."),
 	TRAIT_SEA_DRINKER = span_info("As a denizen of the deep, I can drink salty ocean water safely."),
 	TRAIT_BIGGUY = span_info("My immense frame and size allows me to smash through wooden doors, and throw people more easily."),
+	TRAIT_GIANT_WEAPON_WIELDER = span_info("My giant heritage allows me to wield massive weapons without penalty."),
+	TRAIT_OGRE_STRENGTH = span_info("My ogre heritage grants me the strength to wield massive weapons."),
 	TRAIT_OUTDOORSMAN = span_info("My experience in the wilds allows me to fall asleep on surfaces like treebranches as if they were beds."),
 	TRAIT_STUDENT =  span_info("I am overwhelmed by all this knowledge!"),
 	TRAIT_LEGENDARY_ALCHEMIST = span_info("An expert in the art of finding herbs in the wild."),

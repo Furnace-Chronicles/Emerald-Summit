@@ -962,3 +962,40 @@
 	name = "Special Manouevre Cooldown"
 	desc = "I used it. I must wait."
 	icon_state = "debuff"
+
+//baotha stuff
+/datum/status_effect/debuff/joybringer_druqks
+	id = "joybringer_druqks"
+	effectedstats = list(STATKEY_LCK = -2)
+	duration = 3 SECONDS
+	alert_type = null
+
+/datum/status_effect/debuff/joybringer_druqks/on_apply()
+	. = ..()
+	owner.overlay_fullscreen("joybringer_weeds", /atom/movable/screen/fullscreen/weedsm)
+	owner.overlay_fullscreen("joybringer_druqks", /atom/movable/screen/fullscreen/druqks)
+
+	ADD_TRAIT(owner, TRAIT_DRUQK, src)
+
+	if(owner.client)
+		SSdroning.play_area_sound(get_area(owner), owner.client)
+
+/datum/status_effect/debuff/joybringer_druqks/on_remove()
+	. = ..()
+	owner.clear_fullscreen("joybringer_druqks")
+	owner.clear_fullscreen("joybringer_weeds")
+
+	REMOVE_TRAIT(owner, TRAIT_DRUQK, src)
+
+	if(owner.client)
+		SSdroning.play_area_sound(get_area(owner), owner.client)
+
+/datum/status_effect/debuff/joybringer_druqks/tick()
+	owner.hallucination += 3
+	owner.Jitter(1)
+
+	if(!prob(10))
+		return
+
+	owner.emote(pick("chuckle", "giggle"))
+//baotha stuff end
