@@ -1180,6 +1180,7 @@
 	if(slot == SLOT_HEAD)
 		active_item = TRUE
 		ADD_TRAIT(user, TRAIT_BITERHELM, "graggar")
+		to_chat(user, span_red("The helmet's visor creaks and groans, misshapen metal moving along with your own muscles.."))
 
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar/dropped(mob/living/user)
 	. = ..()
@@ -1187,6 +1188,7 @@
 		return
 	active_item = FALSE
 	REMOVE_TRAIT(user, TRAIT_BITERHELM, "graggar")
+	to_chat(user, span_red("..the helmet's metal stops twisting, and a strange pressure, relieves itself from your jaw."))
 
 /obj/item/clothing/head/roguetown/helmet/heavy/matthios/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_COMMIE))
