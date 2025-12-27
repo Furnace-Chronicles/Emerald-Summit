@@ -787,7 +787,7 @@
 	if(!mind)
 		return FALSE
 	if(!mind.active)
-		to_chat(user, span_warning("Astrata is not done with [src], yet."))
+		to_chat(user, span_warning("Necra is not done with [src], yet."))
 		return FALSE
 	if(HAS_TRAIT(src, TRAIT_DNR))
 		to_chat(user, span_danger("None of the Ten have them. Their only chance is spent. Where did they go?"))
