@@ -2118,12 +2118,36 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 				if(damage_amount > 10 && !HAS_TRAIT(H, TRAIT_NOPAINSTUN))
 					H.Slowdown(clamp(damage_amount/10, 1, 5))
 					shake_camera(H, 1, 1)
-				if(damage_amount < 10)
-					H.flash_fullscreen("redflash1")
-				else if(damage_amount < 20)
-					H.flash_fullscreen("redflash2")
-				else if(damage_amount >= 20)
-					H.flash_fullscreen("redflash3")
+
+			// Interrupt bow/crossbow drawing when taking damage
+			if(damage_amount > 0 && H.client?.charging)
+				var/obj/item/held_item = H.get_active_held_item()
+				if(held_item)
+					// Check if it's a bow - drop the arrow. I hope this shit works.
+					if(istype(held_item, /obj/item/gun/ballistic/revolver/grenadelauncher/bow))
+						var/obj/item/gun/ballistic/revolver/grenadelauncher/bow/bow = held_item
+						if(bow.chambered)
+							bow.chambered = null
+							var/num_unloaded = 0
+							for(var/obj/item/ammo_casing/CB in bow.get_ammo_list(FALSE, TRUE))
+								CB.forceMove(get_turf(H))
+								num_unloaded++
+							if(num_unloaded)
+								bow.update_icon()
+						H.visible_message(
+							span_warning("[H]'s draw is interrupted, dropping the arrow!"),
+							span_warning("I flinch from the hit, dropping my arrow!")
+						)
+						H.stop_attack()
+
+					// Check if it's a crossbow - keep the bolt but interrupt
+					else if(istype(held_item, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow))
+						H.visible_message(
+							span_warning("[H]'s aim is disrupted!"),
+							span_warning("The hit disrupts my aim!")
+						)
+						H.stop_attack()
+
 			if(BP)
 				if(zone_sel)
 					zone_sel.flash_limb(BP.body_zone, "#FF0000") 

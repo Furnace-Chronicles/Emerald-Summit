@@ -190,6 +190,13 @@
 			BB.damage = BB.damage
 		BB.damage = BB.damage * (((user.STAPER / 1.25) + (user.STASTR / 5)) / 10) * damfactor + bonus_stone_force
 		// each point of perception is 8% damage. each point of strength is 2% damage. 100% damage at 10 in both. the stone's bonus force is added as a flat amount
+
+		// Set damage falloff parameters - slings: 3 base + 1 per 2 STR over 10
+		BB.falloff_start_distance = 3 + max(0, floor((user.STASTR - 10) / 2))
+		BB.falloff_damage_per_turf = 5
+		BB.falloff_ap_per_turf = 5
+		BB.firer_skill_level = user.get_skill_level(/datum/skill/combat/slings)
+
 		if (temp_stone != null) //reseting after stone ammo use
 			bonus_stone_force = 0 //stone is thrown, so the bonus is lost
 			temp_stone = null //stone is gone, forever.

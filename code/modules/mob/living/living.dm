@@ -851,6 +851,9 @@
 			qdel(wound)
 		else
 			wound.heal_wound(wound.whp)
+	if(iscarbon(src))
+		var/mob/living/carbon/C = src
+		C.invalidate_bleed_cache()
 	extinguish_mob()
 	confused = 0
 	dizziness = 0

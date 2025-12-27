@@ -122,16 +122,23 @@
 
 /obj/item/clothing/proc/calculate_zone_integrity(zone)
 	var/integrity_mult = get_coverage_integrity_mult()
-	if(integrity_mult > 3)
-		integrity_mult = 3
-		if(zone)
-			switch(zone)
-				if(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
-					return round((max_integrity * (1 / integrity_mult)) * 0.75, 10)
-				if(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-					return round((max_integrity * (1 / integrity_mult)) * 0.85, 10)
+	if(integrity_mult >= 3)
+		integrity_mult *= 0.5
+	else if(integrity_mult == 2)
+		integrity_mult *= 0.75
+
+	var/amount = round(max_integrity * (1 / integrity_mult), 10)
+
+	if(zone)
+		switch(zone)
+			if(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
+				if(!(slot_flags & (ITEM_SLOT_HANDS | ITEM_SLOT_WRISTS)))
+					amount = round((max_integrity * (1 / integrity_mult)) * 0.75, 10)
+			if(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+				if(!(slot_flags & (ITEM_SLOT_SHOES | ITEM_SLOT_PANTS)))
+					amount = round((max_integrity * (1 / integrity_mult)) * 0.85, 10)
 				
-	return round(max_integrity * (1 / integrity_mult), 10)
+	return amount
 
 /obj/item/clothing/proc/initialize_zone_durability()
 	broken_zones = list()

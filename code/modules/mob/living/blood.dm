@@ -241,7 +241,7 @@
 
 	for(var/obj/item/bodypart/BP as anything in bodyparts)
 		// Calculate this bodypart's bleed inline (avoid function call overhead)
-		var/bp_normal = BP.bleeding  // Base bleeding from wounds
+		var/bp_normal_wounds = 0
 		var/bp_critical = 0
 		var/bp_max_bleed = 0
 
@@ -255,7 +255,13 @@
 						bp_max_bleed = w_bleed
 					if(W.severity >= WOUND_SEVERITY_CRITICAL)
 						bp_critical += w_bleed
-						bp_normal -= w_bleed  // Move from normal to critical
+					else
+						bp_normal_wounds += w_bleed
+
+		// Auto-correct BP.bleeding (handle desyncs)
+		BP.bleeding = bp_normal_wounds + bp_critical
+
+		var/bp_normal = bp_normal_wounds
 
 		// Process embedded objects
 		var/list/embeds = BP.embedded_objects
@@ -285,7 +291,7 @@
 		var/bp_grab_suppress = 1.0
 		var/list/grabs = BP.grabbedby
 		if(length(grabs))
-			for(var/obj/item/grabbing/G as anything in grabs)
+			for(var/obj/item/grabbing/G in grabs)
 				bp_grab_suppress *= G.bleed_suppressing
 
 		// Apply surgery clamp if present

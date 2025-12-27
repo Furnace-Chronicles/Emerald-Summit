@@ -162,6 +162,13 @@
 		BB.bonus_accuracy += (user.STAPER - 8) // 8+ PER gives +1 per level. Does not decrease over range.
 		BB.bonus_accuracy += (user.get_skill_level(/datum/skill/combat/crossbows) * 5) // +5 per XBow level.
 		BB.damage *= damfactor
+
+		// Set damage falloff parameters - crossbows have fixed 7 turf range, no stat scaling
+		BB.falloff_start_distance = 7
+		BB.falloff_damage_per_turf = 5
+		BB.falloff_ap_per_turf = 5
+		BB.firer_skill_level = user.get_skill_level(/datum/skill/combat/crossbows)
+
 	cocked = FALSE
 	..()
 

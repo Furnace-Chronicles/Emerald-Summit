@@ -244,6 +244,19 @@
 		else
 			BB.damage = BB.damage
 		BB.damage *= damfactor * (user.STAPER > 10 ? user.STAPER / 10 : 1)
+
+		// Set damage falloff parameters
+		BB.falloff_damage_per_turf = 5
+		BB.falloff_ap_per_turf = 5
+		BB.firer_skill_level = user.get_skill_level(/datum/skill/combat/bows)
+
+		// Longbow: 4 base + 1 per 2 STR over 10
+		if(istype(src, /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow))
+			BB.falloff_start_distance = 4 + max(0, floor((user.STASTR - 10) / 2))
+		// Recurve/other bows: 2 base + 1 per 2 PER over 10
+		else
+			BB.falloff_start_distance = 2 + max(0, floor((user.STAPER - 10) / 2))
+
 	. = ..()
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/update_icon()

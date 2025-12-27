@@ -7,7 +7,7 @@
 		/datum/surgery_step/cauterize,
 	)
 	target_mobtypes = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
-	possible_locs = list(BODY_ZONE_CHEST)
+	possible_locs = list(BODY_ZONE_CHEST, BODY_ZONE_HEAD)
 
 /datum/surgery_step/heal
 	name = "Repair body"

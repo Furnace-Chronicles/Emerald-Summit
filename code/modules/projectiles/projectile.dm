@@ -126,6 +126,12 @@
 
 	var/target_z = 0
 
+	// Damage falloff variables
+	var/falloff_start_distance = 0 // Distance before falloff starts (0 = no falloff)
+	var/falloff_damage_per_turf = 0 // Damage reduction per turf after falloff_start_distance
+	var/falloff_ap_per_turf = 0 // AP reduction per turf after falloff_start_distance
+	var/firer_skill_level = 0 // Skill level of the firer (for falloff reduction)
+
 /obj/projectile/proc/handle_drop()
 	return
 
@@ -220,6 +226,34 @@
 		return BULLET_ACT_HIT
 
 	var/mob/living/L = target
+
+	// Apply distance-based damage falloff
+	if(starting && falloff_start_distance > 0)
+		var/distance = get_dist(starting, target_loca)
+		if(distance > falloff_start_distance)
+			var/turfs_past_falloff = distance - falloff_start_distance
+
+			// Calculate skill-based falloff reduction
+			// First 3 skill points reduce damage falloff (up to -3)
+			// Remaining skill points reduce AP falloff (up to -3)
+			var/damage_reduction = falloff_damage_per_turf
+			var/ap_reduction = falloff_ap_per_turf
+
+			if(firer_skill_level > 0)
+				var/damage_skill_bonus = min(firer_skill_level, 3)
+				damage_reduction = max(damage_reduction - damage_skill_bonus, 2) // Minimum 2 per turf
+
+				if(firer_skill_level > 3)
+					var/ap_skill_bonus = min(firer_skill_level - 3, 3)
+					ap_reduction = max(ap_reduction - ap_skill_bonus, 2) // Minimum 2 per turf
+
+			// Apply damage falloff
+			damage -= (damage_reduction * turfs_past_falloff)
+			damage = max(damage, 0)
+
+			// Apply AP falloff
+			armor_penetration -= (ap_reduction * turfs_past_falloff)
+			armor_penetration = max(armor_penetration, 0)
 
 	if (!L.mind)
 		damage *= npc_damage_mult // bonus damage against NPCs.

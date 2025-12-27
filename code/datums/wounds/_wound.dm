@@ -246,6 +246,8 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 
 /// Effects when this wound is applied to a given mob
 /datum/wound/proc/on_mob_gain(mob/living/affected)
+	if(!owner || bodypart_owner)
+		return FALSE
 	if(mob_overlay)
 		affected.update_damage_overlays()
 	if(werewolf_infection_timer)
@@ -257,7 +259,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 
 /// Removes this wound from a given, simpler than adding to a bodypart - No extra effects
 /datum/wound/proc/remove_from_mob()
-	if(!owner)
+	if(!owner || bodypart_owner)
 		return FALSE
 	on_mob_loss(owner)
 	set_bleed_rate(0)
@@ -272,6 +274,8 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 
 /// Called on handle_wounds(), on the life() proc
 /datum/wound/proc/on_life()
+	if(!owner || !bodypart_owner)
+		return FALSE
 	if(!isnull(clotting_threshold) && clotting_rate && (bleed_rate > clotting_threshold))
 		set_bleed_rate(max(clotting_threshold, bleed_rate - clotting_rate))
 	if (HAS_TRAIT(owner, TRAIT_PSYDONITE) && !passive_healing)
@@ -283,8 +287,8 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 /// Called on handle_wounds(), on the life() proc
 /datum/wound/proc/on_death()
 	// for optimization's sake, only do dead wound healing if the mob has a client.
-	if (!owner.client)
-		return
+	if (!owner || !owner.client)
+		return FALSE
 
 	if (HAS_TRAIT(owner, TRAIT_PSYDONITE) && !passive_healing)
 		heal_wound(0.6) // psydonites are supposed to apparently slightly heal wounds whether dead or alive
@@ -293,26 +297,24 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 
 /// Setter for any adjustments we make to our bleed_rate, propagating them to the host bodypart.
 /datum/wound/proc/set_bleed_rate(amount)
-	if(!bodypart_owner || !owner)
-		return
-
-	// do simple bleeding
-	if(owner.simple_wounds?.len)
-		owner.simple_bleeding -= bleed_rate
-		bleed_rate = amount
-		owner.simple_bleeding += bleed_rate
-	else
+	if(bodypart_owner)
 		bodypart_owner.bleeding -= bleed_rate
 		bleed_rate = amount
 		bodypart_owner.bleeding += bleed_rate
+	else if(owner)
+		owner.simple_bleeding -= bleed_rate
+		bleed_rate = amount
+		owner.simple_bleeding += bleed_rate
 
 	// Invalidate bleed cache since bleed rate changed
-	if(iscarbon(owner))
+	if(owner && iscarbon(owner))
 		var/mob/living/carbon/C = owner
 		C.invalidate_bleed_cache()
 
 /// Heals this wound by the given amount, and deletes it if it's healed completely
 /datum/wound/proc/heal_wound(heal_amount)
+	if(!owner || !bodypart_owner)
+		return FALSE
 	// Wound cannot be healed normally, whp is null
 	if(isnull(whp))
 		return 0
