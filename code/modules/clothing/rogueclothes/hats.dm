@@ -1182,7 +1182,7 @@
 		ADD_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar/dropped(mob/living/user)
-	..()
+	. = ..()
 	if(!active_item)
 		return
 	active_item = FALSE
