@@ -1179,14 +1179,14 @@
 		return
 	if(slot == SLOT_HEAD)
 		active_item = TRUE
-		ADD_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)
+		ADD_TRAIT(user, TRAIT_BITERHELM, "graggar")
 
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar/dropped(mob/living/user)
 	. = ..()
 	if(!active_item)
 		return
 	active_item = FALSE
-	REMOVE_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)
+	REMOVE_TRAIT(user, TRAIT_BITERHELM, "graggar")
 
 /obj/item/clothing/head/roguetown/helmet/heavy/matthios/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_COMMIE))
@@ -2293,7 +2293,7 @@
 	. = ..()
 	if(slot == SLOT_HEAD)
 		active_item = TRUE
-		ADD_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)
+		ADD_TRAIT(user, TRAIT_BITERHELM, "berserker")
 		to_chat(user, span_red("The bascinet's visor chitters, and your jaw tightens with symbiotic intent.."))
 	return
 
@@ -2302,7 +2302,7 @@
 	if(!active_item)
 		return
 	active_item = FALSE
-	REMOVE_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)
+	REMOVE_TRAIT(user, TRAIT_BITERHELM, "berserker")
 	to_chat(user, span_red("..and like that, the bascinet's visor goes dormant once more - a strange pressure, relieved from your jaw."))
 
 /obj/item/clothing/head/roguetown/helmet/leather/advanced
