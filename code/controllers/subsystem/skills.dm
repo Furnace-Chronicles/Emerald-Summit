@@ -42,4 +42,6 @@ SUBSYSTEM_DEF(skills)
 /proc/skill_to_string(var/skill_level)
 	if(!skill_level)
 		return "None"
+	// Clears a runtime
+	skill_level = clamp(skill_level, 0, SKILL_LEVEL_LEGENDARY)
 	return SSskills.level_names_plain[skill_level]

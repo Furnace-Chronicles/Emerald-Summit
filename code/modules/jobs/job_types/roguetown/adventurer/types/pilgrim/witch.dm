@@ -8,7 +8,7 @@
 	cmode_music = 'sound/music/combat_cult.ogg'
 	subclass_social_rank = SOCIAL_RANK_DIRT
 
-	traits_applied = list(TRAIT_DEATHSIGHT, TRAIT_RITUALIST, TRAIT_WITCH)
+	traits_applied = list(TRAIT_DEATHSIGHT, TRAIT_RITUALIST, TRAIT_WITCH, TRAIT_TALENTED_ALCHEMIST)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_SPD = 2,

@@ -295,6 +295,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	// End
 
 /datum/preferences/proc/save_preferences()
+	if(!parent || !parent.mob)
+		return FALSE
 	if(!path)
 		return FALSE
 	var/savefile/S = new /savefile(path)

@@ -544,6 +544,7 @@
 	force_wielded = 40
 	icon = 'icons/roguetown/weapons/64.dmi'
 	max_blade_int = 200
+	item_flags = GIANT_WEAPON
 
 /obj/item/rogueweapon/greataxe/steel/doublehead/graggar/ogre/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_HORDE))
@@ -563,7 +564,8 @@
 	icon_state = "minotaurgreataxe"
 	force = 20							//Same as Graggar axe, only cus it's rare enough. Plus has the high strength req and crap starting-shaft.
 	force_wielded = 40
-	minstr = 15							//Boo-womp
+	minstr = 15						//Boo-womp
+	item_flags = GIANT_WEAPON
 	max_blade_int = 175
 
 /obj/item/rogueweapon/stoneaxe/woodcut/troll
@@ -575,7 +577,7 @@
 	max_integrity = 150					//50% less than normal axe
 	max_blade_int = 300
 	minstr = 13							//Heavy, but still good.
+	item_flags = GIANT_WEAPON
 	wdefense = 3						//Slightly better than norm, has 6 defense 2 handing it.
-	item_flags = NONE
 
 // end mob stuff

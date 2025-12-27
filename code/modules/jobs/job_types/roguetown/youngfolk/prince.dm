@@ -87,7 +87,7 @@
 
 	if(equipment_choice == "Wartime Outfit")
 		// Original daring twit equipment
-		head = /obj/item/clothing/head/roguetown/circlet
+		head = /obj/item/clothing/head/roguetown/nyle/consortcrown
 		armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/royal
 		pants = /obj/item/clothing/under/roguetown/tights
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
@@ -106,7 +106,7 @@
 			shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
 		if(should_wear_femme_clothes(H))
 			shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess
-		head = /obj/item/clothing/head/roguetown/circlet
+		head = /obj/item/clothing/head/roguetown/nyle/consortcrown
 		belt = /obj/item/storage/belt/rogue/leather/cloth/lady
 		beltr = /obj/item/storage/keyring/heir/warrior
 		beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/special
@@ -148,7 +148,7 @@
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
 	if(should_wear_femme_clothes(H))
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess
-	head = /obj/item/clothing/head/roguetown/circlet
+	head = /obj/item/clothing/head/roguetown/nyle/consortcrown
 	belt = /obj/item/storage/belt/rogue/leather/cloth/lady
 	beltr = /obj/item/storage/keyring/heir/mage
 	beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/special
@@ -187,7 +187,7 @@
 
 /datum/outfit/job/heir/aristocrat/pre_equip(mob/living/carbon/human/H)
 	..()
-	head = /obj/item/clothing/head/roguetown/circlet
+	head = /obj/item/clothing/head/roguetown/nyle/consortcrown
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/keyring/heir
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
@@ -236,7 +236,7 @@
 
 /datum/outfit/job/heir/inbred/pre_equip(mob/living/carbon/human/H)
 	..()
-	head = /obj/item/clothing/head/roguetown/circlet
+	head = /obj/item/clothing/head/roguetown/nyle/consortcrown
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/keyring/heir
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich

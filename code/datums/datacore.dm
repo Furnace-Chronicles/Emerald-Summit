@@ -143,23 +143,28 @@ GLOBAL_LIST_EMPTY(fake_ckeys)
 		return foundname
 
 /datum/datacore/proc/manifest()
-	for(var/i in GLOB.new_player_list)
-		var/mob/dead/new_player/N = i
-		if(N.new_character)
-			log_manifest(N.ckey,N.new_character.mind,N.new_character)
-		if(ishuman(N.new_character))
-//			manifest_inject(N.new_character, N.client)
-			var/fakekey = N.ckey
-			if(N.ckey in GLOB.anonymize)
-				fakekey = get_fake_key(N.ckey)
-			if(N.new_character.real_name)
-				GLOB.character_list[N.new_character.mobid] = "[fakekey] was [N.new_character.real_name] ([N.new_character.mind.assigned_role])<BR>"
-				GLOB.character_ckey_list[N.new_character.real_name] = N.ckey
-			else
-				log_game("GAME SETUP: MANIFEST BIG ERROR")
-			log_character("[N.ckey] ([fakekey]) - [N.new_character.real_name] - [N.new_character.mind.assigned_role]")
-//		add_roundplayed(N.ckey)
+	var/processed = 0
+	for(var/mob/dead/new_player/N as anything in GLOB.new_player_list)
+		var/mob/living/carbon/human/character = N.new_character
+		if(!ishuman(character) || !character.mind?.assigned_role)
+			continue
+		
+		log_manifest(N.ckey, character.mind, character)
+		
+		if(!character.real_name)
+			log_game("MANIFEST ERROR: Character has no real_name - [N.ckey]")
+			continue
+		
+		// Cache fake key lookup
+		var/fakekey = (N.ckey in GLOB.anonymize) ? get_fake_key(N.ckey) : N.ckey
+		
+		GLOB.character_list[character.mobid] = "[fakekey] was [character.real_name] ([character.mind.assigned_role])<BR>"
+		GLOB.character_ckey_list[character.real_name] = N.ckey
+		log_character("[N.ckey] ([fakekey]) - [character.real_name] - [character.mind.assigned_role]")
+		processed++
 		CHECK_TICK
+	
+	log_game("MANIFEST: Processed [processed] characters")
 
 /datum/datacore/proc/manifest_modify(name, assignment)
 	var/datum/data/record/foundrecord = find_record("name", name, GLOB.data_core.general)

@@ -8,7 +8,7 @@
 	cmode_music = 'sound/music/combat_physician.ogg'
 	subclass_social_rank = SOCIAL_RANK_YEOMAN
 
-	traits_applied = list(TRAIT_EMPATH, TRAIT_NOSTINK)
+	traits_applied = list(TRAIT_EMPATH, TRAIT_NOSTINK, TRAIT_TALENTED_ALCHEMIST)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_LCK = 1

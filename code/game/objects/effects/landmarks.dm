@@ -143,10 +143,6 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Town Sheriff"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/guard_captain
-	name = "Knight Captain"
-	icon_state = "arrow"
-
 /obj/effect/landmark/start/barkeep
 	name = "Barkeep"
 	icon_state = "arrow"

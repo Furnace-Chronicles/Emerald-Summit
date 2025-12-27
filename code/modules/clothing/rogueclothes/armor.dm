@@ -1613,13 +1613,13 @@
 // this robe spawns on a role that offers no leg protection nor further upgrades to the loadout, in exchange for better roundstart gear
 
 // new knight captain drip
-/obj/item/clothing/suit/roguetown/armor/captain
-	name = "captain's brigandine"
-	desc = "A coat with plates specifically tailored and forged for the captain of Scarlet Reach."
-	icon_state = "capplate"
-	icon = 'icons/roguetown/clothing/special/captain.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/captain.dmi'
-	sleeved = 'icons/roguetown/clothing/special/onmob/captain.dmi'
+/obj/item/clothing/suit/roguetown/armor/champion
+	name = "champion's brigandine"
+	desc = "A coat with plates specifically tailored and forged for the champion of Scarlet Reach."
+	icon_state = "champplate"
+	icon = 'icons/roguetown/clothing/special/champion.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/champion.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/champion.dmi'
 	detail_tag = "_detail"
 	detail_color = CLOTHING_BLUE
 	blocksound = SOFTHIT
@@ -1635,18 +1635,18 @@
 	max_integrity = 500
 	prevent_crits = list(BCLASS_BLUNT, BCLASS_TWIST, BCLASS_PICK, BCLASS_SMASH, BCLASS_CUT, BCLASS_CHOP)
 	
-/obj/item/clothing/suit/roguetown/armor/captain/lordcolor(primary,secondary)
+/obj/item/clothing/suit/roguetown/armor/champion/lordcolor(primary,secondary)
 	detail_color = primary
 	update_icon()
 
-/obj/item/clothing/suit/roguetown/armor/captain/Initialize()
+/obj/item/clothing/suit/roguetown/armor/champion/Initialize()
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
 	else
 		GLOB.lordcolor += src
 
-/obj/item/clothing/suit/roguetown/armor/captain/Destroy()
+/obj/item/clothing/suit/roguetown/armor/champion/Destroy()
 	GLOB.lordcolor -= src
 	return..()
 	

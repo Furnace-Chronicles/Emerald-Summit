@@ -225,7 +225,7 @@
 				r_hand = /obj/item/rogueweapon/sword/iron
 			if("Shortsword + Shield")
 				backl = /obj/item/rogueweapon/shield/wood
-				r_hand = /obj/item/rogueweapon/sword/short/iron
+				r_hand = /obj/item/rogueweapon/sword/short
 			if("Bow & Arrow")
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve

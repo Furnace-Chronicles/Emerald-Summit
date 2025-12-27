@@ -2,8 +2,8 @@
 	name = "cauldron"
 	desc = "Bubble, Bubble, toil and trouble. A great iron cauldron for brewing potions."
 	icon = 'icons/roguetown/misc/alchemy.dmi'
-	icon_state = "cauldron1"
-	base_state = "cauldron"
+	icon_state = "cum_cauldron1"
+	base_state = "cum_cauldron"
 	density = TRUE
 	opacity = FALSE
 	anchored = TRUE
@@ -20,12 +20,12 @@
 	cut_overlays()
 	if(reagents.total_volume > 0)
 		if(!brewing)
-			var/mutable_appearance/filling = mutable_appearance('icons/roguetown/misc/alchemy.dmi', "cauldron_full")
+			var/mutable_appearance/filling = mutable_appearance('icons/roguetown/misc/alchemy.dmi', "cum_full")
 			filling.color = mix_color_from_reagents(reagents.reagent_list)
 			filling.alpha = mix_alpha_from_reagents(reagents.reagent_list)
 			add_overlay(filling)
 		if(brewing > 0)
-			var/mutable_appearance/filling = mutable_appearance('icons/roguetown/misc/alchemy.dmi', "cauldron_boiling")
+			var/mutable_appearance/filling = mutable_appearance('icons/roguetown/misc/alchemy.dmi', "cum_boiling")
 			filling.color = mix_color_from_reagents(reagents.reagent_list)
 			filling.alpha = mix_alpha_from_reagents(reagents.reagent_list)
 			add_overlay(filling)
@@ -104,7 +104,7 @@
 							qdel(ing)
 						src.reagents.add_reagent(/datum/reagent/yuck, in_cauldron) // 1 to 1 transmutation of yuck
 						// Learn from your failure (Yeah you can technically still grind this way you just blow through a lot of ingredients)
-						lastuser?.adjust_experience(/datum/skill/craft/alchemy, amt2raise, FALSE) 
+						lastuser?.adjust_experience(/datum/skill/craft/alchemy, amt2raise, FALSE)
 						return
 					for(var/obj/item/ing in src.ingredients)
 						qdel(ing)

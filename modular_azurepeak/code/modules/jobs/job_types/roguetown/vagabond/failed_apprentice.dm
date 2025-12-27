@@ -7,7 +7,7 @@
 	category_tags = list(CTAG_VAGABOND)
 	subclass_social_rank = SOCIAL_RANK_PEASANT
 
-	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2)
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2, TRAIT_TALENTED_ALCHEMIST)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_CON = -1,

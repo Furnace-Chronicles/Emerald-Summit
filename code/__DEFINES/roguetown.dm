@@ -539,7 +539,6 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_MARSHAL		"CAT_MARSHAL"		// Marshal class
 #define CTAG_SENESCHAL		"CAT_SENESCHAL"		// Seneschal's aesthetic choices.
 #define CTAG_SERVANT		"CAT_SERVANT"		// Servant's aesthetic choices.
-#define CTAG_CAPTAIN		"CAT_CAPTAIN"		// Handles Captain class selector
 #define CTAG_WAPPRENTICE	"CTAG_WAPPRENTICE"	// Mage Apprentice Classes - Handles Mage Apprentices class selector
 #define CTAG_GUILDMASTER 	"CAT_GUILDMASTER"	// Guildmaster class - Handles Guildmaster class selector
 #define CTAG_GUILDSMEN 		"CAT_GUILDSMEN"		// Guildsmen class - Handles Guildsmen class selector

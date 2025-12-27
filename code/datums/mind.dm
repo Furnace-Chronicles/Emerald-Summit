@@ -39,6 +39,14 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/mob/living/current
 	var/active = 0
 
+	// This was a Temporary Workaround, but it's too good to remove even though hangups are fixed
+	// Deferred equipment for players who disconnect during roundstart processing
+	var/pending_equipment_job = null	// Job rank to equip
+	var/pending_equipment_latejoin = FALSE	// Was this latejoin?
+	
+	// Knowledge processing flag - set during equipment, triggered after key transfer
+	var/needs_knowledge_processing = FALSE
+
 	var/memory
 
 	var/datum/job/assigned_role
@@ -257,7 +265,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		var/fcolor = known_people[P]["VCOLOR"]
 		if(!fcolor)
 			continue
-		var/fjob = known_people[P]["FJOB"]
+		// Get fresh job title on display (handles wildshape/job changes dynamically)
+		var/fjob = get_known_person_job(P)
 		var/fgender = known_people[P]["FGENDER"]
 		var/fspecies = known_people[P]["FSPECIES"]
 		var/fage = known_people[P]["FAGE"]
@@ -272,6 +281,17 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/datum/browser/popup = new(user, "PEOPLEIKNOW", "", 260, 400)
 	popup.set_content(contents)
 	popup.open()
+
+// Helper to get current job title for a known person (looks up by name)
+/datum/mind/proc/get_known_person_job(person_name)
+	// Try to find the person by name and get their current title
+	for(var/datum/mind/M in SSticker.minds)
+		if(ishuman(M.current))
+			var/mob/living/carbon/human/H = M.current
+			if(H.real_name == person_name)
+				return H.get_role_title() || "unknown"
+	// Fallback to cached title if person not found (offline/dead)
+	return known_people[person_name]?["FJOB"] || "unknown"
 
 
 /datum/mind/proc/get_language_holder()
@@ -871,8 +891,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	mind.assigned_role = ROLE_PAI
 	mind.special_role = ""
 
-/datum/mind/proc/add_sleep_experience(skill, amt, silent = FALSE)
-	sleep_adv.add_sleep_experience(skill, amt, silent)
+/datum/mind/proc/add_sleep_experience(skill, amt, silent = FALSE, check_traits = TRUE)
+	sleep_adv.add_sleep_experience(skill, amt, silent, check_traits)
 
 /datum/mind/proc/add_personal_objective(datum/objective/O)
 	if(!istype(O))

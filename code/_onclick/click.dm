@@ -923,6 +923,8 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 	if(stat)
 		return
 	if(get_dist(src, A) <= 2)
+		if(A.loc == src)
+			A.ShiftRightClick(src)
 		if(T == loc)
 			look_up()
 		else

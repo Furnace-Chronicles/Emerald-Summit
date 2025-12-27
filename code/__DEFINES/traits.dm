@@ -56,6 +56,7 @@
 #define TRAIT_TAVERN_FIGHTER "Tavern Fighter"
 #define TRAIT_FROZEN_STAMINA "Frozen Stamina"
 #define TRAIT_WOODSMAN "Talented Woodsman"
+#define TRAIT_TALENTED_ALCHEMIST "Talented Alchemist" // Allows alchemy XP gain past apprentice
 #define TRAIT_LAMIAN_TAIL "Lamian Tail"
 #define TRAIT_DUNGEONMASTER "Ruthless Jailor"
 #define TRAIT_DEATHBARGAIN "Death Bargain" // Used by UNDERMAIDEN'S BARGAIN
@@ -176,6 +177,8 @@
 #define TRAIT_OUTLAW "Outlaw"
 #define TRAIT_KNOWNCRIMINAL "Known Criminal"
 #define TRAIT_BIGGUY "Big Guy"
+#define TRAIT_GIANT_WEAPON_WIELDER "Giant Weapon Wielder" // Allows use of giant weapons without doubling minstr
+#define TRAIT_OGRE_STRENGTH "Ogre Strength"				// This is practically the same as above, but just for ogres. This is avoid a fringe case
 #define TRAIT_RESIDENT "Resident"
 #define TRAIT_COUNTERCOUNTERSPELL "Counter Counterspell"
 #define TRAIT_UNSEEMLY "Ugly"
@@ -214,6 +217,8 @@
 #define TRAIT_GOODWRITER "Great Writer"
 #define TRAIT_ADRENALINE_RUSH "Adrenaline Rush"
 #define TRAIT_COMBAT_AWARE	"Combat Aware"
+#define TRAIT_TEMPO	"Tempo Capable"
+#define TRAIT_STRONGKICK	"Strong Kick"
 #define TRAIT_SILVER_WEAK "Silver Weakness"
 #define TRAIT_DEADITE "Deadite"
 #define TRAIT_PUZZLEMASTER "Puzzle Master"
@@ -244,6 +249,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_GUARDSMAN = span_info("I am vigilant in my duties. In the town of Scarlet Reach, my abilities are sharper due to my routine and familiarity."),
 	TRAIT_GUARDSMAN_NOBLE = span_info ("I am vigilant in my duties. In the Keep of Scarlet Reach, my abilities are sharper due to my routine and familiarity."),
 	TRAIT_WOODSMAN = span_info("I am vigilant in my duties. In the grove and coast of Scarlet Reach, my abilities are sharper due to my routine and familiarity."),
+	TRAIT_TALENTED_ALCHEMIST = span_info("I possess a natural talent for alchemy, allowing me to progress beyond the apprentice level in this craft."),
 	TRAIT_DEATHBARGAIN = span_info("A horrible deal has been prepared in your name. May you never see it fulfilled..."),
 	TRAIT_RITUALIST = span_info("I am skilled in the holy arts. Using ritual chalk, I can more deftly channel my God's powers via runes."),
 	TRAIT_INQUISITION = span_info("I am a member of the Otavan Inquisition. I can easily identify others of my Sect at a glance."),
@@ -333,6 +339,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_BADTRAINER = span_info("I've spent yils studying the art of a single weapon, but unfortunately I've no patience to train anyone else. Everyone learning from me will only learn up to two skill levels below mine."),
 	TRAIT_SEA_DRINKER = span_info("As a denizen of the deep, I can drink salty ocean water safely."),
 	TRAIT_BIGGUY = span_info("My immense frame and size allows me to smash through wooden doors, and throw people more easily."),
+	TRAIT_GIANT_WEAPON_WIELDER = span_info("My giant heritage allows me to wield massive weapons without penalty."),
+	TRAIT_OGRE_STRENGTH = span_info("My ogre heritage grants me the strength to wield massive weapons."),
 	TRAIT_OUTDOORSMAN = span_info("My experience in the wilds allows me to fall asleep on surfaces like treebranches as if they were beds."),
 	TRAIT_STUDENT =  span_info("I am overwhelmed by all this knowledge!"),
 	TRAIT_LEGENDARY_ALCHEMIST = span_info("An expert in the art of finding herbs in the wild."),
@@ -390,6 +398,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_BLOODLOSS_IMMUNE = span_notice("While I may bleed, I will feel nothing from it."),
 	TRAIT_ADRENALINE_RUSH = span_notice("I'm invigorated in the midst of battle! I don't feel my wounds!"),
 	TRAIT_COMBAT_AWARE = span_notice("My honed senses and intuition allow me to spot notable things in the midst of battle with ease."),
+	TRAIT_TEMPO	= span_greentext("I can keep up with multiple opponents at once."),
+	TRAIT_STRONGKICK = span_info("My kicks knock people down and back a step, consistently. There's no need for obstacles."),
 	TRAIT_SILVER_WEAK = span_notice("Silver is my bane."),
 	TRAIT_WINGS = span_info("My wings allow me to jump farther."),
 	TRAIT_UNDERDARK = span_info("My eyes are sensitive to Astrata's sunlight, but well-acclimated to the darkness of deep caverns."),

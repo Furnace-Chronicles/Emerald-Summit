@@ -472,6 +472,7 @@
 	sharpness = IS_SHARP
 	icon = 'icons/roguetown/weapons/64.dmi'
 	minstr = 15
+	item_flags = GIANT_WEAPON
 	slot_flags = ITEM_SLOT_BACK
 
 /obj/item/rogueweapon/mace/goden/psymace
@@ -596,6 +597,7 @@
 	icon = 'icons/roguetown/weapons/64.dmi'
 	icon_state = "ogre_cudgel"
 	minstr = 13
+	item_flags = GIANT_WEAPON
 	pixel_y = -16
 	pixel_x = -16
 	bigboy = TRUE

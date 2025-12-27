@@ -114,6 +114,11 @@
 		to_chat(user, span_warning("I don't want to harm other living beings!"))
 		return
 
+	if(HAS_TRAIT(M, TRAIT_TEMPO))
+		if(ishuman(M) && ishuman(user) && user.mind && user != M)
+			var/mob/living/carbon/human/H = M
+			H.process_tempo_attack(user)
+
 	M.lastattacker = user.real_name
 	M.lastattackerckey = user.ckey
 	M.lastattacker_weakref = WEAKREF(user)
@@ -268,10 +273,6 @@
 			used_str = C.get_str_arms(C.used_hand)
 	if(istype(user.rmb_intent, /datum/rmb_intent/weak))
 		used_str--
-	if(ishuman(user))
-		var/mob/living/carbon/human/user_human = user
-		if(user_human.clan) // For each level of potence user gains 0.5 STR, at 5 Potence their STR buff is 2.5
-			used_str += floor(0.5 * user_human.potence_weapon_buff)
 	if(used_str >= 11)
 		var/strmod
 		if(used_str > STRENGTH_SOFTCAP && !HAS_TRAIT(user, TRAIT_STRENGTH_UNCAPPED))
@@ -292,15 +293,17 @@
 
 	if(I.minstr)
 		var/effective = I.minstr
+		// Check if weapon is for giants
+		if((I.item_flags & GIANT_WEAPON) && !HAS_TRAIT(user, TRAIT_GIANT_WEAPON_WIELDER) && !HAS_TRAIT(user, TRAIT_OGRE_STRENGTH))
+			effective = I.minstr * 2
 		if(I.wielded)
-			effective = max(I.minstr / 2, 1)
+			effective = max(effective / 2, 1)
 		if(effective > user.STASTR)
 			newforce = max(newforce*0.3, 1)
-			if(prob(33))
-				if(I.wielded)
-					to_chat(user, span_info("I am too weak to wield this weapon properly with both hands."))
-				else
-					to_chat(user, span_info("I am too weak to wield this weapon properly with one hand."))
+			if(I.wielded)
+				to_chat(user, span_warning("I struggle to control this massive weapon with both hands!"))
+			else
+				to_chat(user, span_warning("This weapon is far too heavy for me to wield properly!"))
 
 	switch(blade_dulling)
 		if(DULLING_CUT) //wooden that can't be attacked by clubs (trees, bushes, grass)

@@ -942,7 +942,7 @@
 	additional_items = list(/obj/item/ingot/steelholy)
 	created_item = /obj/item/rogueweapon/sword/long/malumflamm
 	i_type = "Weapons"
-/*
+
 /datum/anvil_recipe/weapons/holy/abyssor_katar
 	name = "Barotrauma"
 	req_bar = /obj/item/ingot/steelholy
@@ -966,10 +966,10 @@
 	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/holy/necra_flail
-	name = "Swift End"
+	name = "Swift Journey"
 	req_bar = /obj/item/ingot/steelholy
 	craftdiff = 3
-	created_item = /obj/item/rogueweapon/flail/necraflail
+	created_item = /obj/item/rogueweapon/flail/sflail/necraflail
 	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/holy/pestra_dagger
@@ -1008,7 +1008,7 @@
 	craftdiff = 3
 	created_item = /obj/item/rogueweapon/knuckles/eora
 	i_type = "Weapons"
-*/
+
 //Psydonian weapon smithing
 /datum/anvil_recipe/weapons/psy/axe
 	name = "Psydonian War Axe (+1 B. Silver, +1 Stick)"
