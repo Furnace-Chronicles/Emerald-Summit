@@ -397,9 +397,6 @@
 			// Example: "SCOM grumbles loudly" or "scomstone grumbles loudly"
 			// This maintains anonymity while allowing expressive communication
 			
-			// Apply voice color with text shadow for readability
-			var/colorpart = tcolor ? "<span style='color:#[tcolor];text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>" : "<span style='text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>"
-			
 			var/emote_message = message
 			// TEXT FORMATTING BASED ON YELL LEVEL
 			if(yell_level == 2)
@@ -409,8 +406,11 @@
 				// Exclaiming - just bold
 				emote_message = "<b>[message]</b>"
 			
-			// Use visible_message to avoid quote wrapping
-			parent_object.visible_message("<span class='emote'><span class='name'>[colorpart][parent_object.name]</span></span> [emote_message]</span>")
+			// Apply voice color if provided and format output
+			if(tcolor)
+				parent_object.visible_message("<span class='emote'><span class='name' style='color:#[tcolor]'>[parent_object.name]</span> [emote_message]</span>")
+			else
+				parent_object.visible_message("<span class='emote'><span class='name'>[parent_object.name]</span> [emote_message]</span>")
 		else
 			// REGULAR SPEECH OUTPUT
 			// Format as normal quoted speech: "[device name] says, \"message\""
