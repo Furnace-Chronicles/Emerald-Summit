@@ -71,15 +71,10 @@
 						minion.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target)
 						msg = "attack [target.name]"
 
+/*30 dollar bounty to whomever can make this work, contact chaoko99 on discord
 		else
 			if( istype(other_mob, /mob/living/carbon/human) && !other_mob.client)
 				var/mob/living/carbon/human/H = other_mob
-				if ((faction_ordering && caster.faction_check_mob(H)))
-					world.log << "Check 1 successful"
-				if(!faction_ordering && faction_tag && (faction_tag in H.faction))
-					world.log  << "Check 2 successful"
-				else
-					world.log  <<"faction ordering: [faction_ordering], faction_tag = [faction_tag], H.faction: [H.faction]"
 				if ((faction_ordering && caster.faction_check_mob(H)) || (!faction_ordering && faction_tag && (faction_tag in H.faction)))
 					count += 1
 					switch (order_type)
@@ -87,7 +82,8 @@
 							H.start_pathing_to(target)
 							msg = "go to [target_location]"
 						if ("follow")
-							H.target = target
+							H.retaliate(target)
+							//H.target = target
 							msg = "follow you."
 						if ("aggressive")
 							H.back_to_idle()
@@ -95,6 +91,7 @@
 						if ("attack")
 							H.retaliate(target)
 							msg = "attack [target.name]"
+*/
 	if(count>0)
 		to_chat(caster, "Ordered [count] minions to " + msg)
 	else

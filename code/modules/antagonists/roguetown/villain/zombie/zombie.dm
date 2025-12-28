@@ -44,7 +44,6 @@
 		TRAIT_NOPAIN,
 		TRAIT_NOPAINSTUN,
 		TRAIT_NOBREATH,
-		TRAIT_NOBREATH,
 		TRAIT_TOXIMMUNE,
 		TRAIT_CHUNKYFINGERS,
 		TRAIT_NOSLEEP,
@@ -291,7 +290,7 @@
 		SLOT_MOUTH,
 		//SLOT_NECK,
 	)
-	for(var/slot in removed_slots)
+	for(var/slot in removed_slots) //I will literally pay someone to write a check that makes them only drop what prevents them from biting.
 		zombie.dropItemToGround(zombie.get_item_by_slot(slot), TRUE)
 
 // Infected wake param is just a transition from living to zombie, via zombie_infect()

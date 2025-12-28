@@ -1,5 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/bonechill
 	name = "Bone Chill"
+	desc = "Unleashes a deathly cold that harms the living from within, yet restores undead flesh and bone."
 	overlay_state = "raiseskele"
 	releasedrain = 30
 	chargetime = 5
@@ -39,6 +40,7 @@
 
 /obj/effect/proc_holder/spell/invoked/eyebite
 	name = "Eyebite"
+	desc = "Conjures arcyne teeth that snap shut upon the target's eyes, inflicting pain and temporarily shattering their vision."
 	overlay_state = "raiseskele"
 	releasedrain = 30
 	chargetime = 15
@@ -59,7 +61,7 @@
 	if(!isliving(targets[1]))
 		return FALSE
 	var/mob/living/carbon/target = targets[1]
-	target.visible_message(span_info("A loud crunching sound has come from [target]!"), span_userdanger("I feel arcane teeth biting into my eyes!"))
+	target.visible_message(span_info("A loud crunching sound has come from [target]!"), span_userdanger("I feel arcyne teeth biting into my eyes!"))
 	target.adjustBruteLoss(30)
 	target.blind_eyes(2)
 	target.blur_eyes(10)
@@ -67,14 +69,14 @@
 
 
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead
-	name = "Raise Lesser Undead"
-	desc = ""
+	name = "Summon Lesser Undead"
+	desc = "Summons a mindless skeleton at the targeted location."
 	clothes_req = FALSE
 	overlay_state = "animate"
 	range = 7
 	sound = list('sound/magic/magnet.ogg')
 	releasedrain = 40
-	chargetime = 60
+	chargetime = 5 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	charging_slowdown = 1
@@ -102,7 +104,7 @@
 
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/minor
 	name = "Raise Minor Undead"
-	desc = ""
+	desc = "Summons a weak skeleton at the targeted location."
 	clothes_req = FALSE
 	overlay_state = "animate"
 	range = 7
@@ -126,7 +128,7 @@
 
 /obj/effect/proc_holder/spell/invoked/projectile/sickness
 	name = "Ray of Sickening"
-	desc = ""
+	desc = "Fires a ray of negative energy that fools the body to believe it is poisoned. Extended use of this spell can make the victim spill their guts."
 	clothes_req = FALSE
 	range = 15
 	projectile_type = /obj/projectile/magic/sickness
@@ -162,7 +164,7 @@
 		if (target == user)
 			to_chat(user, span_warning("It would be unwise to make an enemy of your own skeletons."))
 			return FALSE
-		if(target.mind && target.mind.current)
+		if(target.mind && target.mind.current) // No using gravemark to pacify highwaymen npcs lmfao
 			if (faction_tag in target.mind.current.faction)
 				target.mind.current.faction -= faction_tag
 				user.say("Hostis declaratus es.")
@@ -227,7 +229,12 @@
 		if(target.InCritical())
 			if(!target.mind)
 				target.mind_initialize()
-			target.zombie_check_can_convert(target)
+			if(target.zombie_check_can_convert(target))
+				INVOKE_ASYNC(src, PROC_REF(giveup), target)
+			else
+				revert_cast()
+				return
+			sleep(10 SECONDS)
 			wake_zombie(target, infected_wake = TRUE, converted = FALSE)
 			target.faction += faction_tag
 			target.notify_faction_change() //Stop hitting me!!!!
@@ -241,3 +248,9 @@
 			success++
 	if(!success)
 		revert_cast(user)
+
+/obj/effect/proc_holder/spell/invoked/animate_dead/proc/giveup(mob/living/carbon/human/M) //Need to remove the faction datum during zombie cures.
+	if(alert(M, "Do you accept ZIZO and soar, or will you wriggle like the filth you are?", "CHOICE OF SUBMISSION", "BIRD", "WORM") == "WORM")
+		message_admins("[M.real_name] chose to respawn instead of becoming a zombie.")
+		log_admin("[M.real_name] chose to respawn instead of becoming a zombie.")
+		M.ghostize(can_reenter_corpse = TRUE, pissbaby_override = TRUE)
