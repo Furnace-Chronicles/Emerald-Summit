@@ -252,8 +252,9 @@
  * * raw_message - The unprocessed message text
  * * crown - Whether this is from the crown (applies special formatting)
  * * tspans - List of text spans for formatting
+ * * text_color - Optional color to apply to the message text (for loudmouth horns)
  */
-/datum/scommodule/proc/scom_hear(atom/movable/speaker, message_language, raw_message, crown = FALSE, list/tspans = list())
+/datum/scommodule/proc/scom_hear(atom/movable/speaker, message_language, raw_message, crown = FALSE, list/tspans = list(), text_color = null)
 	if(!is_setup)
 		throw EXCEPTION("YOU MUST CALL 'setup()' ON A SCOMMODULE BEFORE USING IT!!!")
 	if(!ishuman(speaker))
@@ -277,6 +278,8 @@
 		// Extract the emote text (everything after the prefix)
 		var/emote_text = trim(copytext_char(raw_message, 2))
 		if(emote_text)
+			// Apply markdown parsing to support inline formatting
+			emote_text = parsemarkdown_basic(emote_text, limited = TRUE, barebones = TRUE)
 			// Keep just the emote text, device name will be prepended in repeat_message
 			// Example: "! grumbles loudly" becomes just "grumbles loudly"
 			raw_message = emote_text
@@ -293,15 +296,13 @@
 		yell_level = 2 // Yelling - very loud, bold + big text
 	else if(findtext(check_text, "!"))
 		yell_level = 1 // Exclaiming - louder, bold text
-	if(length(raw_message) > 100) //When these people talk too much, put that shit in slow motion, yeah
-		/*if(length(raw_message) > 200)
-			if(!spawned_rat)
-				visible_message(span_warning("An angered rous emerges from the SCOMlines!"))
-				new /mob/living/simple_animal/hostile/retaliate/rogue/bigrat(get_turf(src))
-				spawned_rat = TRUE
-			return*/
-		raw_message = "<small>[raw_message]</small>"
+	
+	// Apply text color from source (e.g., loudmouth horn color)
 	var/colored_message = raw_message
+	if(text_color)
+		colored_message = "<span style='color:[text_color]'>[raw_message]</span>"
+	else
+		colored_message = raw_message
 	if(H.client.patreon_colored_say_allowed && H.client.prefs.patreon_say_color_enabled)
 		colored_message = "<span style='color:#[H.client.prefs.patreon_say_color]'>[raw_message]</span>"
 	if(calling)
@@ -406,11 +407,27 @@
 				// Exclaiming - just bold
 				emote_message = "<b>[message]</b>"
 			
-			// Apply voice color if provided and format output
+			// Format name with 'The' prefix for items, plain for structures
+			// For consistency with say.() turning into "The [name] squeaks..."
+			var/display_name = parent_object.name
+			if(isitem(parent_object))
+				display_name = "The [parent_object.name]"
+			
+			// Format the full emote message
+			var/formatted_msg
 			if(tcolor)
-				parent_object.visible_message("<span class='emote'><span class='name' style='color:#[tcolor]'>[parent_object.name]</span> [emote_message]</span>")
+				formatted_msg = "<span style='color:#[tcolor]'><b>[display_name]</b></span> [emote_message]"
 			else
-				parent_object.visible_message("<span class='emote'><span class='name'>[parent_object.name]</span> [emote_message]</span>")
+				formatted_msg = "<b>[display_name]</b> [emote_message]"
+			
+			// Manually handle duplicate detection and message display
+			// Can't use Hear() because it recomposes the message, breaking our formatting
+			for(var/mob/living/L in get_hearers_in_view(7, parent_object))
+				// Check for duplicate using same system as say
+				if(message == L.last_heard_raw_message)
+					continue
+				L.last_heard_raw_message = message
+				L.show_message(formatted_msg, MSG_AUDIBLE)
 		else
 			// REGULAR SPEECH OUTPUT
 			// Format as normal quoted speech: "[device name] says, \"message\""
@@ -663,20 +680,19 @@
 	if(!input_text)
 		return
 	
-	// EMOTE PREFIX DETECTION
 	// Check if it's an emote (! or * prefix)
 	var/prefix = copytext_char(input_text, 1, 2)
 	if(prefix == "!" || prefix == "*")
-		// Make user visibly emote locally so players nearby see the action
-		var/emote_text = trim(copytext_char(input_text, 2))
-		if(emote_text)
-			user.emote("me", 1, emote_text, TRUE)
+		// Show local emote with markdown parsing
+		var/emote_text = copytext_char(input_text, 2)
+		emote_text = parsemarkdown_basic(emote_text, limited = TRUE, barebones = TRUE)
+		user.emote("me", 1, emote_text, TRUE)
+		// Send through SCOM network with prefix so it's recognized as emote
+		scom.scom_hear(user, null, input_text, FALSE)
 	else
-		// Not an emote, whisper locally for context
+		// Not an emote, just whisper locally and send to SCOM
 		user.whisper(input_text)
-	
-	// Send to SCOM system for anonymous broadcast
-	scom.scom_hear(user, null, input_text, FALSE)
+		scom.scom_hear(user, null, input_text, FALSE)
 
 /obj/item/scomstone/MiddleClick(mob/user)
 	if(.)
@@ -974,8 +990,9 @@
 		return
 	var/list/tspans = list()
 	tspans |= speech_span
-	raw_message = "<span style='color: [speech_color]'>[raw_message]</span>"
-	scom.scom_hear(speaker, message_language, raw_message, FALSE, tspans)
+	// Pass the loudmouth's speech_color as text_color so the message text is colored
+	// Don't override the speaker's voice color - it will be used for the name
+	scom.scom_hear(speaker, message_language, raw_message, FALSE, tspans, speech_color)
 
 /obj/structure/broadcast_horn/loudmouth/attack_hand(mob/living/user)
 	. = ..()
@@ -1070,19 +1087,19 @@
 	if(!input_text)
 		return
 	
-	// EMOTE PREFIX DETECTION
+	// Check if it's an emote (! or * prefix)
 	var/prefix = copytext_char(input_text, 1, 2)
 	if(prefix == "!" || prefix == "*")
-		// Make user visibly emote locally
-		var/emote_text = trim(copytext_char(input_text, 2))
-		if(emote_text)
-			user.emote("me", 1, emote_text, TRUE)
+		// Show local emote with markdown parsing
+		var/emote_text = copytext_char(input_text, 2)
+		emote_text = parsemarkdown_basic(emote_text, limited = TRUE, barebones = TRUE)
+		user.emote("me", 1, emote_text, TRUE)
+		// Send through SCOM network with prefix so it's recognized as emote
+		scom.scom_hear(user, null, input_text, TRUE)
 	else
-		// Not an emote, whisper locally
+		// Not an emote, just whisper locally and send to SCOM
 		user.whisper(input_text)
-	
-	// Send to SCOM system with crown flag for special formatting
-	scom.scom_hear(user, null, input_text, TRUE)
+		scom.scom_hear(user, null, input_text, TRUE)
 
 /obj/item/clothing/head/roguetown/crown/serpcrown/attack_self(mob/living/user)
 	if(.)

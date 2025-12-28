@@ -123,17 +123,9 @@
 /**
  * Check if this message is an emote prefix (! or *) and handle it accordingly.
  *
- * This proc handles two types of emote prefixes:
- * - * prefix: Local emote only, does not transmit over SCOM devices
- * - ! prefix: Local emote that ALSO transmits to nearby SCOM structures (walk-up SCOMs)
- *
- * The ! prefix allows players to emote while speaking into SCOM structures, maintaining
- * the anonymity of the SCOM system while providing local context. For example:
- * - Player sees: "Brooke Farrowglint grumbles loudly"
- * - SCOM broadcasts: "SCOM grumbles loudly"
- *
- * Note: Portable SCOM items (scomstones, crowns) use input() boxes and bypass this entirely,
- * handling emotes in their attack_right() procs.
+ * Extracts emote text, applies markdown formatting, and calls the emote system.
+ * - * prefix: Local emote only
+ * - ! prefix: Local emote + broadcasts to nearby SCOM structures
  *
  * Arguments:
  * * message - The raw message text to check for emote prefixes
@@ -146,28 +138,15 @@
 /mob/proc/check_emote(message, forced)
 	var/prefix = copytext_char(message, 1, 2)
 	
-	if(prefix == "*")
-		// * prefix: local emote only, does not transmit to SCOM structures
-		emote(copytext_char(message, 2), intentional = !forced, custom_me = TRUE)
-		return TRUE
-	
-	else if(prefix == "!")
-		// ! prefix: local emote that ALSO transmits to nearby SCOM structures
+	if(prefix == "*" || prefix == "!")
+		// Extract and parse emote text with markdown support
 		var/emote_text = copytext_char(message, 2)
-		// Execute the local emote for players in view
-		emote(emote_text, intentional = !forced, custom_me = TRUE)
+		emote_text = parsemarkdown_basic(emote_text, limited = TRUE, barebones = TRUE)
 		
-		// Manually notify SCOM structures in hearing range
-		// This bypasses normal say() processing but allows SCOMs to pick up the message
-		if(isliving(src))
-			var/mob/living/speaker = src
-			for(var/atom/movable/potential_scom in get_hearers_in_view(7, speaker))
-				// SCOM devices and structures have the HEAR_1 flag set
-				if(potential_scom.flags_1 & HEAR_1)
-					// Call Hear() with the original message (including prefix) so scom_hear() can parse it
-					potential_scom.Hear(null, speaker, null, message, null, list(), null, message)
-		
-		return TRUE // Stop normal say() process to prevent duplicate speech output
+		// * prefix: local only, ! prefix: broadcasts to nearby SCOMs
+		var/broadcast_to_scom = (prefix == "!")
+		emote(emote_text, intentional = !forced, custom_me = TRUE, broadcast_to_scom = broadcast_to_scom)
+		return TRUE
 
 /mob/proc/check_whisper(message, forced)
 	if(copytext_char(message, 1, 2) == "+")
@@ -176,22 +155,12 @@
 		whisper(copytext_char(message, boldcheck ? 1 : 2),sanitize = FALSE)//already sani'd
 		return 1
 
-///Check if the mob has a hivemind channel
 /mob/proc/hivecheck()
 	return 0
 
-///Check if the mob has a ling hivemind
 /mob/proc/lingcheck()
 	return LINGHIVE_NONE
 
-/**
-  * Get the mode of a message
-  *
-  * Result can be
-  * * MODE_WHISPER (Quiet speech)
-  * * MODE_HEADSET (Common radio channel)
-  * * A department radio (lots of values here)
-  */
 /mob/proc/get_message_mode(message)
 	var/key = copytext_char(message, 1, 2)
 	if(key == "#")
