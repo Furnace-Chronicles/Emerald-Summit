@@ -128,7 +128,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	outfit = /datum/outfit/job/lord/warrior
 	category_tags = list(CTAG_LORD)
 
-	traits_applied = list(TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 3,
@@ -176,7 +176,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	category_tags = list(CTAG_LORD)
 	noble_income = 400 // Let's go crazy. This is +400 per day for a total of 2400 per round at the end of a day. This is probably equal to doubling passive incomes of the keep.
 
-	traits_applied = list(TRAIT_SEEPRICES, TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_SEEPRICES, TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_MEDIUMARMOR, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 5,
@@ -218,7 +218,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	outfit = /datum/outfit/job/lord/sorcerer
 	category_tags = list(CTAG_LORD)
 	
-	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2, TRAIT_INTELLECTUAL)
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2, TRAIT_INTELLECTUAL, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 5,
@@ -266,7 +266,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	outfit = /datum/outfit/job/lord/inbred
 	category_tags = list(CTAG_LORD)
 
-	traits_applied = list(TRAIT_CRITICAL_WEAKNESS, TRAIT_NORUN, TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_CRITICAL_WEAKNESS, TRAIT_NORUN, TRAIT_HEAVYARMOR, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 10,
 		STATKEY_INT = -2,
