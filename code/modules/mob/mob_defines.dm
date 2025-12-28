@@ -80,6 +80,8 @@
 	/// can this mob move freely in space (should be a trait)
 	var/spacewalk = FALSE
 
+	var/extra_hearing_range = 0
+
 	/**
 	  * back up of the real name during admin possession
 	  *

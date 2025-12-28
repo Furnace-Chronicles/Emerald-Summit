@@ -304,8 +304,8 @@ SUBSYSTEM_DEF(triumphs)
 // Return a value of the triumphs they got
 /datum/controller/subsystem/triumphs/proc/get_triumphs(target_ckey)
 	if(!(target_ckey in triumph_amount_cache))
-		var/target_file = file("data/player_saves/[target_ckey[1]]/[target_ckey]/triumphs.json")
-		if(!fexists(target_file)) // no file or new player, write them in something
+		var/target_file = "data/player_saves/[target_ckey[1]]/[target_ckey]/triumphs.json"
+		if(!rustg_file_exists(target_file)) // no file or new player, write them in something
 			var/triumph_amount = 0
 			// If it is the first triumph wipe season, inherit previous triumphs
 			if(GLOB.triumph_wipe_season <= 1)
@@ -313,12 +313,47 @@ SUBSYSTEM_DEF(triumphs)
 
 			var/list/new_guy = list("triumph_count" = triumph_amount, "triumph_wipe_season" = GLOB.triumph_wipe_season)
 
-			WRITE_FILE(target_file, json_encode(new_guy))
+			rustg_file_write(json_encode(new_guy), target_file)
 			triumph_amount_cache[target_ckey] = triumph_amount
 			return triumph_amount
 
-		// This is not a new guy
-		var/list/not_new_guy = json_decode(file2text(target_file))
+		// Retry file read up to 3 times
+		var/file_content
+		var/read_attempts = 0
+		while(read_attempts < 3)
+			file_content = rustg_file_read(target_file)
+			if(file_content && length(file_content) >= 2)
+				break
+			read_attempts++
+			if(read_attempts < 3)
+				sleep(1)
+		
+		if(!file_content || length(file_content) < 2)
+			log_game("TRIUMPH ERROR: File for [target_ckey] corrupt after [read_attempts] attempts, recreating")
+			var/list/reset_data = list("triumph_count" = 0, "triumph_wipe_season" = GLOB.triumph_wipe_season)
+			rustg_file_write(json_encode(reset_data), target_file)
+			triumph_amount_cache[target_ckey] = 0
+			return 0
+		
+		// This is not a new guy - decode with try/catch
+		// FILE I/O CAN FAIL YOU DIMWIT
+		var/list/not_new_guy
+		try
+			not_new_guy = json_decode(file_content)
+		catch
+			log_game("TRIUMPH ERROR: JSON decode failed for [target_ckey], recreating")
+			var/list/reset_data = list("triumph_count" = 0, "triumph_wipe_season" = GLOB.triumph_wipe_season)
+			rustg_file_write(json_encode(reset_data), target_file)
+			triumph_amount_cache[target_ckey] = 0
+			return 0
+		
+		if(!not_new_guy)
+			log_game("TRIUMPH ERROR: JSON returned null for [target_ckey], recreating")
+			var/list/reset_data = list("triumph_count" = 0, "triumph_wipe_season" = GLOB.triumph_wipe_season)
+			rustg_file_write(json_encode(reset_data), target_file)
+			triumph_amount_cache[target_ckey] = 0
+			return 0
+		
 		if(GLOB.triumph_wipe_season > not_new_guy["triumph_wipe_season"]) // Their file is behind in wipe seasons, time to be set to 0
 			triumph_amount_cache[target_ckey] = 0
 			return 0

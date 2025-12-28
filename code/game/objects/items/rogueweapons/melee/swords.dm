@@ -1694,10 +1694,10 @@
 			return
 	..()
 
-/obj/item/rogueweapon/sword/capsabre // just a better sabre, unique knight captain weapon
+/obj/item/rogueweapon/sword/championsabre // just a better sabre, unique knight champion weapon
 	name = "'Law'"
-	desc = "A lavish sabre made for the captain, this one of a kind blacksteel beauty is meant to be used to uphold the law."
-	icon_state = "capsabre"
+	desc = "A lavish sabre made for the champion, this one of a kind blacksteel beauty is meant to be used to uphold the law."
+	icon_state = "champsabre"
 	icon = 'icons/roguetown/weapons/swords32.dmi'
 	force = 25 // same as elvish sabre
 	max_integrity = 200 // more integrity because blacksteel, a bit less than the flamberge

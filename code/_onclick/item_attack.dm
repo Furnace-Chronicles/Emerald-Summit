@@ -293,15 +293,17 @@
 
 	if(I.minstr)
 		var/effective = I.minstr
+		// Check if weapon is for giants
+		if((I.item_flags & GIANT_WEAPON) && !HAS_TRAIT(user, TRAIT_GIANT_WEAPON_WIELDER) && !HAS_TRAIT(user, TRAIT_OGRE_STRENGTH))
+			effective = I.minstr * 2
 		if(I.wielded)
-			effective = max(I.minstr / 2, 1)
+			effective = max(effective / 2, 1)
 		if(effective > user.STASTR)
 			newforce = max(newforce*0.3, 1)
-			if(prob(33))
-				if(I.wielded)
-					to_chat(user, span_info("I am too weak to wield this weapon properly with both hands."))
-				else
-					to_chat(user, span_info("I am too weak to wield this weapon properly with one hand."))
+			if(I.wielded)
+				to_chat(user, span_warning("I struggle to control this massive weapon with both hands!"))
+			else
+				to_chat(user, span_warning("This weapon is far too heavy for me to wield properly!"))
 
 	switch(blade_dulling)
 		if(DULLING_CUT) //wooden that can't be attacked by clubs (trees, bushes, grass)

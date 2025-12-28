@@ -58,9 +58,7 @@
 /// Schedule a deferred icon update - batches multiple calls in the same tick
 /mob/living/carbon/proc/queue_icon_update(update_type)
 	pending_icon_updates |= update_type
-	if(!icon_update_scheduled_time || icon_update_scheduled_time < world.time)
-		icon_update_scheduled_time = world.time
-		addtimer(CALLBACK(src, PROC_REF(process_pending_icon_updates)), 0, TIMER_UNIQUE | TIMER_OVERRIDE)
+	START_PROCESSING(SSiconupdates, src)
 
 /// Process all pending icon updates in a single batch
 /mob/living/carbon/proc/process_pending_icon_updates()
@@ -68,7 +66,6 @@
 		return
 	var/updates = pending_icon_updates
 	pending_icon_updates = NONE
-	icon_update_scheduled_time = 0
 
 	if(updates & PENDING_UPDATE_BODY)
 		update_body_parts()

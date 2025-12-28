@@ -899,6 +899,14 @@
 	over_state = "fancy_woodopen"
 	smashable = TRUE
 
+/obj/structure/mineral_door/wood/fancywood/knight
+	locked = TRUE
+	keylock = TRUE
+	grant_resident_key = TRUE
+	resident_key_type = /obj/item/roguekey/knight
+	resident_role = /datum/job/roguetown/knight
+	lockid = null //Will be randomized
+
 /obj/structure/mineral_door/wood/deadbolt
 	desc = "This door comes with a deadbolt."
 	icon_state = "wooddir"
