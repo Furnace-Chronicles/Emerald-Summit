@@ -9,7 +9,7 @@
 	origin_default = /datum/virtue/origin/otava
 	origin = "Otava"
 	use_titles = TRUE
-	race_titles = list("Homunculus", "Manikin", "Marionette", "Puppet")
+	race_titles = list("Homunculus", "Mannequin", "Marionette", "Puppet")
 	base_name = "Construct"
 	desc = "<b>Porcelain Doll</b><br>\
 	The pinnacle of both art and craftsmanship, originally made to provide companionship for ladies and wealthy women \
