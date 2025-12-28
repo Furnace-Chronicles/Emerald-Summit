@@ -10,11 +10,11 @@
 	clickcd = CLICK_CD_CHARGED
 	warnie = "mobwarning"
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 50
+	penfactor = 40
 	item_d_type = "stab"
 
 /datum/intent/spear/thrust/militia
-	penfactor = 40
+	penfactor = 35
 
 /datum/intent/spear/bash
 	name = "bash"
