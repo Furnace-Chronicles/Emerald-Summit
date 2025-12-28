@@ -120,11 +120,54 @@
 
 	return // RTCHANGE
 
-///Check if this message is an emote
+/**
+ * Check if this message is an emote prefix (! or *) and handle it accordingly.
+ *
+ * This proc handles two types of emote prefixes:
+ * - * prefix: Local emote only, does not transmit over SCOM devices
+ * - ! prefix: Local emote that ALSO transmits to nearby SCOM structures (walk-up SCOMs)
+ *
+ * The ! prefix allows players to emote while speaking into SCOM structures, maintaining
+ * the anonymity of the SCOM system while providing local context. For example:
+ * - Player sees: "Brooke Farrowglint grumbles loudly"
+ * - SCOM broadcasts: "SCOM grumbles loudly"
+ *
+ * Note: Portable SCOM items (scomstones, crowns) use input() boxes and bypass this entirely,
+ * handling emotes in their attack_right() procs.
+ *
+ * Arguments:
+ * * message - The raw message text to check for emote prefixes
+ * * forced - Whether this emote was forced (affects intentionality)
+ *
+ * Returns:
+ * * TRUE if an emote prefix was found and processed (stops normal say() flow)
+ * * FALSE if no emote prefix was found (continues normal say() flow)
+ */
 /mob/proc/check_emote(message, forced)
-	if(copytext_char(message, 1, 2) == "*")
+	var/prefix = copytext_char(message, 1, 2)
+	
+	if(prefix == "*")
+		// * prefix: local emote only, does not transmit to SCOM structures
 		emote(copytext_char(message, 2), intentional = !forced, custom_me = TRUE)
-		return 1
+		return TRUE
+	
+	else if(prefix == "!")
+		// ! prefix: local emote that ALSO transmits to nearby SCOM structures
+		var/emote_text = copytext_char(message, 2)
+		// Execute the local emote for players in view
+		emote(emote_text, intentional = !forced, custom_me = TRUE)
+		
+		// Manually notify SCOM structures in hearing range
+		// This bypasses normal say() processing but allows SCOMs to pick up the message
+		if(isliving(src))
+			var/mob/living/speaker = src
+			for(var/atom/movable/potential_scom in get_hearers_in_view(7, speaker))
+				// SCOM devices and structures have the HEAR_1 flag set
+				if(potential_scom.flags_1 & HEAR_1)
+					// Call Hear() with the original message (including prefix) so scom_hear() can parse it
+					potential_scom.Hear(null, speaker, null, message, null, list(), null, message)
+		
+		return TRUE // Stop normal say() process to prevent duplicate speech output
 
 /mob/proc/check_whisper(message, forced)
 	if(copytext_char(message, 1, 2) == "+")

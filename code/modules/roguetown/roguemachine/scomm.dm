@@ -223,6 +223,36 @@
 	SSroguemachine.scomm_garrison -= src
 	SSroguemachine.scomm_matthios -= src
 
+/**
+ * Process and broadcast a message heard by this SCOM device.
+ *
+ * This is the core message processing proc for the SCOM system. It handles:
+ * - Emote prefix detection (! or *) and extraction
+ * - Yelling level detection (! or !!) for volume/formatting
+ * - Message length limiting and formatting
+ * - Patron color application
+ * - Message routing to appropriate SCOM channels (commons, garrison, matthios, etc.)
+ *
+ * The proc maintains SCOM anonymity by never including the speaker's actual name,
+ * only the device name ("SCOM", "scomstone", etc.).
+ *
+ * Emote Handling:
+ * Messages starting with ! or * are treated as emotes, with the prefix stripped
+ * and the text formatted as "[device name] [emote text]" instead of the normal
+ * "[device name] says, \"message\"" format.
+ *
+ * Yelling Detection:
+ * - 0 = normal speech
+ * - 1 = exclaim (contains !) - 1.5x volume, bold text
+ * - 2 = yell (contains !!) - 2x volume, bold + big text
+ *
+ * Arguments:
+ * * speaker - The atom/movable that is speaking (usually a human)
+ * * message_language - The language datum being spoken
+ * * raw_message - The unprocessed message text
+ * * crown - Whether this is from the crown (applies special formatting)
+ * * tspans - List of text spans for formatting
+ */
 /datum/scommodule/proc/scom_hear(atom/movable/speaker, message_language, raw_message, crown = FALSE, list/tspans = list())
 	if(!is_setup)
 		throw EXCEPTION("YOU MUST CALL 'setup()' ON A SCOMMODULE BEFORE USING IT!!!")
@@ -232,10 +262,37 @@
 		return
 	if(!raw_message) // WHY THE FUCK WASN'T THIS UP HERE TO BEGIN WITH?!?!?!?!?!
 		return
+	
 	var/mob/living/carbon/human/H = speaker
 	var/usedcolor = H.voice_color
 	if(H.voicecolor_override)
 		usedcolor = H.voicecolor_override
+	
+	// EMOTE PREFIX DETECTION
+	// Check for emote prefixes (! or *) and format as emote-style message
+	// This allows players to use emote-like messages over SCOM while maintaining anonymity
+	var/is_emote = FALSE
+	var/prefix = copytext_char(raw_message, 1, 2)
+	if(prefix == "!" || prefix == "*")
+		// Extract the emote text (everything after the prefix)
+		var/emote_text = trim(copytext_char(raw_message, 2))
+		if(emote_text)
+			// Keep just the emote text, device name will be prepended in repeat_message
+			// Example: "! grumbles loudly" becomes just "grumbles loudly"
+			raw_message = emote_text
+			is_emote = TRUE
+	
+	// YELLING LEVEL DETECTION
+	// Check for yelling punctuation (! or !!) in the message
+	// Skip the emote prefix when checking to avoid false positives
+	var/yell_level = 0 // 0 = normal, 1 = exclaim (!), 2 = yell (!!)
+	var/check_text = raw_message
+	if(prefix == "!" || prefix == "*") // Skip emote prefix when checking for yelling
+		check_text = copytext_char(raw_message, 2)
+	if(findtext(check_text, "!!"))
+		yell_level = 2 // Yelling - very loud, bold + big text
+	else if(findtext(check_text, "!"))
+		yell_level = 1 // Exclaiming - louder, bold text
 	if(length(raw_message) > 100) //When these people talk too much, put that shit in slow motion, yeah
 		/*if(length(raw_message) > 200)
 			if(!spawned_rat)
@@ -249,7 +306,7 @@
 		colored_message = "<span style='color:#[H.client.prefs.patreon_say_color]'>[raw_message]</span>"
 	if(calling)
 		if(calling.calling == src)
-			calling.repeat_message(colored_message, src, usedcolor, message_language, tspans, SCOM_TARGET_JABBERLINE)
+			calling.repeat_message(colored_message, src, usedcolor, message_language, tspans, SCOM_TARGET_JABBERLINE, is_emote, yell_level)
 		return
 	switch(target)
 		if(SCOM_TARGET_GARRISON)
@@ -257,40 +314,118 @@
 			if(crown)
 				colored_message = "<big>[colored_message]</big>"
 			for(var/datum/scommodule/S in SSroguemachine.scomm_garrison)
-				S.repeat_message(colored_message, src, usedcolor, message_language, tspans, target)
+				S.repeat_message(colored_message, src, usedcolor, message_language, tspans, target, is_emote, yell_level)
 		if(SCOM_TARGET_MATTHIOS)
 			for(var/datum/scommodule/S in SSroguemachine.scomm_matthios)
-				S.repeat_message(colored_message, src, usedcolor, message_language, tspans, target)
+				S.repeat_message(colored_message, src, usedcolor, message_language, tspans, target, is_emote, yell_level)
 		if(SCOM_TARGET_INQUISITOR)
 			for(var/datum/scommodule/S in SSroguemachine.scomm_inquisitor)
-				S.repeat_message(colored_message, src, usedcolor, message_language, tspans, target)
+				S.repeat_message(colored_message, src, usedcolor, message_language, tspans, target, is_emote, yell_level)
 		if(SCOM_TARGET_LOUDMOUTH)
 			for(var/datum/scommodule/S in SSroguemachine.scomm_commons)
-				S.repeat_message(colored_message, src, usedcolor, message_language, tspans, target)
+				S.repeat_message(colored_message, src, usedcolor, message_language, tspans, target, is_emote, yell_level)
 		else
 			if(common_talk_allowed)
 				for(var/datum/scommodule/S in SSroguemachine.scomm_commons)
-					S.repeat_message(colored_message, src, usedcolor, message_language, tspans, target)
+					S.repeat_message(colored_message, src, usedcolor, message_language, tspans, target, is_emote, yell_level)
 
-/datum/scommodule/proc/repeat_message(message, datum/scommodule/A, tcolor, message_language = null, list/tspans = list(), target = SCOM_TARGET_COMMONS)
+/**
+ * Broadcast a message from another SCOM device to this device's output.
+ *
+ * This proc is the receiving end of the SCOM broadcast system. When scom_hear()
+ * processes a message and routes it to appropriate channels, this proc handles
+ * the actual output on each receiving device.
+ *
+ * Key Features:
+ * - Volume adjustment based on yell_level (1.5x for exclaim, 2x for yell)
+ * - Text formatting based on yell_level (bold for exclaim, bold+big for yell)
+ * - Different output methods for emotes (visible_message) vs speech (say)
+ * - Maintains SCOM anonymity by using parent_object.name instead of speaker name
+ * - Respects mute settings per channel type
+ *
+ * Arguments:
+ * * message - The processed message text (already formatted/colored)
+ * * A - The source SCOM module that sent this message
+ * * tcolor - Voice color override for the speaker
+ * * message_language - Language datum for the message
+ * * tspans - List of text spans for formatting
+ * * target - The SCOM channel target (COMMONS, GARRISON, MATTHIOS, etc.)
+ * * is_emote - If TRUE, formats as emote instead of quoted speech
+ * * yell_level - Speech intensity: 0=normal, 1=exclaim, 2=yell
+ */
+/datum/scommodule/proc/repeat_message(message, datum/scommodule/A, tcolor, message_language = null, list/tspans = list(), target = SCOM_TARGET_COMMONS, is_emote = FALSE, yell_level = 0)
 	if(!is_setup || !parent_object)
 		throw EXCEPTION("YOU MUST CALL 'setup()' ON A SCOMMODULE BEFORE USING IT!!! Object:[parent_object]")
+	
+	// Don't echo back to the source device
 	if(A == src)
 		return
-	//Vrell - moved these checks to the repeat side to make the code look less ass and make it a bit more dynamic.
+	
+	// CHANNEL MUTE CHECKS
+	// Check if this device has muted the specific channel this message is on
 	if(target == SCOM_TARGET_COMMONS && mute_commons)
 		return
 	if(target == SCOM_TARGET_GARRISON && mute_garrison)
 		return
 	if(target == SCOM_TARGET_LOUDMOUTH && mute_loudmouth)
 		return
-	if(calling && target != SCOM_TARGET_JABBERLINE) // MAKES IT SO JABBERLINES DON'T OUTPUT OTHER STUFF!!!!
+	
+	// Don't output other channels when on a jabberline call
+	if(calling && target != SCOM_TARGET_JABBERLINE)
 		return
+	
+	// Apply voice color override
 	if(tcolor)
 		parent_object.voicecolor_override = tcolor
+	
+	// OUTPUT PROCESSING
 	if(active_speaking && speaking && message)
-		playsound(parent_object, message_received_sound, message_received_volume, TRUE, -1)
-		parent_object.say(message, spans = tspans, language = message_language)
+		// VOLUME ADJUSTMENT BASED ON YELL LEVEL
+		// Yell level 1 (exclaim) = 1.5x volume
+		// Yell level 2 (yell) = 2x volume
+		var/adjusted_volume = message_received_volume
+		if(yell_level == 1)
+			adjusted_volume = min(message_received_volume * 1.5, 100)
+		else if(yell_level == 2)
+			adjusted_volume = min(message_received_volume * 2, 100)
+		
+		playsound(parent_object, message_received_sound, adjusted_volume, TRUE, -1)
+		
+		// EMOTE OUTPUT
+		if(is_emote)
+			// For emotes, format as "[device name] [emote text]"
+			// Example: "SCOM grumbles loudly" or "scomstone grumbles loudly"
+			// This maintains anonymity while allowing expressive communication
+			
+			// Apply voice color with text shadow for readability
+			var/colorpart = tcolor ? "<span style='color:#[tcolor];text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>" : "<span style='text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>"
+			
+			var/emote_message = message
+			// TEXT FORMATTING BASED ON YELL LEVEL
+			if(yell_level == 2)
+				// Yelling - big and bold
+				emote_message = "<big><b>[message]</b></big>"
+			else if(yell_level == 1)
+				// Exclaiming - just bold
+				emote_message = "<b>[message]</b>"
+			
+			// Use visible_message to avoid quote wrapping
+			parent_object.visible_message("<span class='emote'><span class='name'>[colorpart][parent_object.name]</span></span> [emote_message]</span>")
+		else
+			// REGULAR SPEECH OUTPUT
+			// Format as normal quoted speech: "[device name] says, \"message\""
+			
+			// TEXT FORMATTING BASED ON YELL LEVEL
+			if(yell_level == 2)
+				// Yelling - big and bold
+				message = "<big><b>[message]</b></big>"
+			else if(yell_level == 1)
+				// Exclaiming - just bold
+				message = "<b>[message]</b>"
+			
+			parent_object.say(message, spans = tspans, language = message_language)
+	
+	// Clear voice color override
 	parent_object.voicecolor_override = null
 
 /obj/structure/roguemachine/scomm
@@ -501,13 +636,46 @@
 	grid_height = 32
 	var/datum/scommodule/scom = new/datum/scommodule()
 
+/**
+ * Right-click interaction to speak into the scomstone via input box.
+ *
+ * This proc allows players to send messages through portable SCOM devices
+ * using an input dialog. Supports both normal speech and emote prefixes.
+ *
+ * Emote Prefix Behavior:
+ * - Messages starting with ! or * are treated as emotes
+ * - The user will visibly emote locally using the emote() proc
+ * - The message (with prefix) is sent to scom_hear() for SCOM broadcast
+ * - SCOM broadcasts as: "scomstone [emote text]"
+ *
+ * Normal Speech:
+ * - Messages without emote prefixes are whispered locally
+ * - The message is sent to scom_hear() for SCOM broadcast
+ * - SCOM broadcasts as: "scomstone says, \"message\""
+ *
+ * Arguments:
+ * * user - The mob interacting with the scomstone
+ */
 //wip
 /obj/item/scomstone/attack_right(mob/living/carbon/human/user)
 	user.changeNext_move(CLICK_CD_INTENTCAP)
-	var/input_text = input(user, "Enter your message:", "Message")
+	var/input_text = input(user, "Enter your message (use ! or * prefix for emotes):", "Message")
 	if(!input_text)
 		return
-	user.whisper(input_text)
+	
+	// EMOTE PREFIX DETECTION
+	// Check if it's an emote (! or * prefix)
+	var/prefix = copytext_char(input_text, 1, 2)
+	if(prefix == "!" || prefix == "*")
+		// Make user visibly emote locally so players nearby see the action
+		var/emote_text = trim(copytext_char(input_text, 2))
+		if(emote_text)
+			user.emote("me", 1, emote_text, TRUE)
+	else
+		// Not an emote, whisper locally for context
+		user.whisper(input_text)
+	
+	// Send to SCOM system for anonymous broadcast
 	scom.scom_hear(user, null, input_text, FALSE)
 
 /obj/item/scomstone/MiddleClick(mob/user)
@@ -887,12 +1055,33 @@
 	SSroguemachine.crown = null //Do not harddel.
 	qdel(src) //Anti-stall
 
+/**
+ * Right-click interaction to broadcast ducal messages via the crown's SCOM.
+ *
+ * Similar to scomstone but with crown-specific formatting (crown flag set to TRUE)
+ * which applies special highlighting to garrison messages.
+ *
+ * Arguments:
+ * * user - The mob wearing/using the crown
+ */
 /obj/item/clothing/head/roguetown/crown/serpcrown/attack_right(mob/living/carbon/human/user)
 	user.changeNext_move(CLICK_CD_MELEE)
-	var/input_text = input(user, "Enter your ducal message:", "Crown SCOM")
+	var/input_text = input(user, "Enter your ducal message (use ! or * prefix for emotes):", "Crown SCOM")
 	if(!input_text)
 		return
-	user.whisper(input_text)
+	
+	// EMOTE PREFIX DETECTION
+	var/prefix = copytext_char(input_text, 1, 2)
+	if(prefix == "!" || prefix == "*")
+		// Make user visibly emote locally
+		var/emote_text = trim(copytext_char(input_text, 2))
+		if(emote_text)
+			user.emote("me", 1, emote_text, TRUE)
+	else
+		// Not an emote, whisper locally
+		user.whisper(input_text)
+	
+	// Send to SCOM system with crown flag for special formatting
 	scom.scom_hear(user, null, input_text, TRUE)
 
 /obj/item/clothing/head/roguetown/crown/serpcrown/attack_self(mob/living/user)
