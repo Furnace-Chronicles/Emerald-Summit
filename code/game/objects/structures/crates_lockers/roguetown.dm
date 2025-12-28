@@ -18,7 +18,6 @@
 /obj/structure/closet/crate/chest/gold
 	icon_state = "chest3"
 	base_icon_state = "chest3"
-	sellprice = 70
 
 /obj/structure/closet/crate/chest/inqreliquary
 	name = "otavan reliquary"
