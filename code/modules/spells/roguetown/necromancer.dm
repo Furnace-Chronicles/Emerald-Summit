@@ -229,20 +229,26 @@
 		if(target.InCritical())
 			if(!target.mind)
 				target.mind_initialize()
-			if(target.zombie_check_can_convert(target))
-				INVOKE_ASYNC(src, PROC_REF(giveup), target)
+			if(target.zombie_check_can_convert(target) || target.mind.has_antag_datum(/datum/antagonist/zombie))
+				if(target.client)
+					to_chat(user, span_warning("ZIZO's rot sinks into [target]'s mind..."))
+					INVOKE_ASYNC(src, PROC_REF(giveup), target)
 			else
 				revert_cast()
+				to_chat(user, span_warning("ZIZO denies this corpse her gift!"))
 				return
 			sleep(10 SECONDS)
 			wake_zombie(target, infected_wake = TRUE, converted = FALSE)
 			target.faction += faction_tag
 			target.notify_faction_change() //Stop hitting me!!!!
 			success++
+		else
+			to_chat(user, span_warning("This one hasn't slipped out quite yet..."))
 	if(isanimal(targets[1]))
 		var/mob/living/simple_animal/animal = targets[1]
 		var/datum/component/deadite_animal_reanimation/deadite = animal.GetComponent(/datum/component/deadite_animal_reanimation)
 		if(deadite)
+			to_chat(user, span_warning("ZIZO's gift takes root."))
 			animal = deadite.reanimate(forced=TRUE)
 			animal.faction += faction_tag
 			success++

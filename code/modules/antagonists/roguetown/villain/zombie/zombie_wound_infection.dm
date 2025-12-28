@@ -9,7 +9,7 @@
 /*
 	ZOMBIFICATION
 */
-/datum/wound/proc/zombie_infect_attempt()
+/datum/wound/proc/zombie_infect_attempt(mob/biter)
 	if (QDELETED(src) || QDELETED(owner) || QDELETED(bodypart_owner))
 		return
 	if (zombie_infection_timer || werewolf_infection_timer || !ishuman(owner)) //Other timers present
@@ -19,7 +19,7 @@
 
 	var/mob/living/carbon/human/wound_owner = owner
 
-	wound_owner.attempt_zombie_infection(source = usr, infection_type = "wound", wake_delay = ZOMBIE_INFECTION_TIME) //Infect the unit
+	wound_owner.attempt_zombie_infection(source = biter, infection_type = "wound", wake_delay = ZOMBIE_INFECTION_TIME) //Infect the unit
 
 	severity = WOUND_SEVERITY_BIOHAZARD //Show the wound
 	if (bodypart_owner)
