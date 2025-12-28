@@ -130,6 +130,9 @@
 			else
 				. += span_notice("Something about them seems... different.")
 
+		if (HAS_TRAIT(src, TRAIT_AVATAR_GRAGGAR))
+			. += "<span class='big' style='color: #8B4513;'>A MARAUDING OGRE!</span>"
+
 		if(HAS_TRAIT(src, TRAIT_DISGRACED_KNIGHT))
 			. += "<span class='big' style='color: #8B4513;'>DISGRACED KNIGHT!</span>"
 
@@ -936,6 +939,10 @@
 	if(flavorcheck)
 		. += "<a href='?src=[REF(src)];task=view_headshot;'>Examine closer</a> [showassess ? " | <a href='?src=[REF(src)];task=assess;'>Assess</a>" : ""]"
 		//tiny picture when you are not examining closer, shouldnt take too much space.
+	/// Rumours & Gossip
+	if((!obscure_name) && (length(rumour)) || ((HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_ROYALSERVANT)) || observer_privilege && length(gossip)))
+		. += "<a href='?src=[REF(src)];task=view_rumours_gossip;'>Recall Rumours & Gossip</a>"
+
 	var/list/lines
 	if((get_face_name() != real_name) && !observer_privilege)
 		lines = build_cool_description_unknown(get_mob_descriptors(obscure_name, user), src)

@@ -674,8 +674,8 @@
 /obj/structure/apiary/proc/create_new_queen()
 	queen_maturity = 0
 	
-	pollen = min(0, pollen-50)
-	stored_combs = min(0, stored_combs-50)
+	pollen = max(0, pollen-50)
+	stored_combs = max(0, stored_combs-5)
 	update_icon_state()
 
 	var/obj/item/queen_bee/new_queen = new(get_turf(src))

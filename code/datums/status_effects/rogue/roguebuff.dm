@@ -1396,6 +1396,16 @@
 	owner.emote("breathgasp", forced = TRUE)
 	owner.Slowdown(3)
 
+/datum/status_effect/buff/motive
+	id = "motive"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/motive
+	effectedstats = list("strength" = 1,"endurance" = 1)
+
+/atom/movable/screen/alert/status_effect/buff/motive
+	name = "Motive"
+	desc = span_bloody("GRAGGAR'S ARMAMENTS CALL ME TO SLAUGHTER!! KILL!! RIP!! CONSUME!!")
+	icon_state = "call_to_slaughter"
+
 /datum/status_effect/buff/psydonic_endurance
 	id = "psydonic_endurance"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/psydonic_endurance

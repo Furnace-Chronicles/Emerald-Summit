@@ -1400,6 +1400,18 @@
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
 
+/obj/item/clothing/cloak/wickercloak/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+
+/obj/item/clothing/cloak/wickercloak/dropped(mob/living/carbon/human/user)
+	..()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	if(STR)
+		var/list/things = STR.contents()
+		for(var/obj/item/I in things)
+			STR.remove_from_storage(I, get_turf(src))
+
 /obj/item/clothing/cloak/tribal
 	name = "tribal pelt"
 	desc = "A haphazardly cured pelt of a creecher, thrown on top of one's body or armor, to serve as additional protection against the cold. Itchy."
@@ -1735,6 +1747,10 @@
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
+
+/obj/item/clothing/cloak/graggar/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
 
 /obj/item/clothing/cloak/graggar/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_HORDE))

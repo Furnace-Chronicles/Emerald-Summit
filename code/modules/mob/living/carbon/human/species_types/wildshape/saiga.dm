@@ -25,8 +25,11 @@
 		update_move_intent_slowdown() // Apply speed changes
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/saigahoofs)
-		real_name = "Saiga ([stored_mob.real_name])" //So we don't get a random name
 		faction += "saiga" // It IS a saiga
+		if (src.client.prefs?.wildshape_name)
+			real_name = "saiga ([stored_mob.real_name])"
+		else
+			real_name = "saiga"
 
 // SAIGA SPECIES DATUM //
 /datum/species/shapesaiga

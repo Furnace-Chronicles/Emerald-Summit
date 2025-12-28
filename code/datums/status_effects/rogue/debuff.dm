@@ -177,7 +177,7 @@
 	id = "net"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/netted
 	effectedstats = list("speed" = -5, "endurance" = -2)
-	duration = 3 MINUTES
+	duration = 10 SECONDS
 
 /datum/status_effect/debuff/netted/on_apply()
 		. = ..()
@@ -227,6 +227,16 @@
 	desc = "With some sleep in a coffin I feel like I could become better."
 	icon_state = "sleepy"
 
+/datum/status_effect/debuff/ritualdefiled
+	id = "ritualdefiled"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/ritualdefiled
+	effectedstats = list(STATKEY_STR = -1, STATKEY_END = -1, STATKEY_CON = -1, STATKEY_SPD = -1, STATKEY_LCK = -1)
+	duration = 1 HOURS // Punishing AS FUCK, but not as punishing as being dead.
+
+/atom/movable/screen/alert/status_effect/debuff/ritualdefiled
+	name = "Tainted Lux"
+	desc = "My Lux has been tainted in a vile heretic ritual."
+
 /// SURRENDERING DEBUFFS
 
 /datum/status_effect/debuff/breedable
@@ -273,6 +283,24 @@
 	name = "Chilled"
 	desc = "I can barely feel my limbs!"
 	icon_state = "chilled"
+
+/datum/status_effect/debuff/ritesexpended_severe
+	id = "ritesexpended_severe"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/ritesexpended_severe
+	duration = 60 MINUTES
+
+/atom/movable/screen/alert/status_effect/debuff/ritesexpended_severe
+	name = "Rites Complete"
+	desc = "It will take time before I can next perform a rite."
+	icon_state = "ritesexpended"
+
+/datum/status_effect/debuff/ritesexpended_severe/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_RITES_BLOCKED, TRAIT_MIRACLE)
+
+/datum/status_effect/debuff/ritesexpended_severe/on_remove()
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_RITES_BLOCKED, TRAIT_MIRACLE)
 
 /datum/status_effect/debuff/ritesexpended_high
 	id = "ritesexpended_high"

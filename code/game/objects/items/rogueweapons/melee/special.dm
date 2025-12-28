@@ -310,8 +310,8 @@
 
 /obj/item/rogueweapon/katar/punchdagger
 	name = "punch dagger"
-	desc = "A weapon that combines the ergonomics of the Ranesheni katar with the capabilities of the Western Psydonian \"knight-killers\". It can be tied around the wrist."
-	slot_flags = ITEM_SLOT_WRISTS
+	desc = "A weapon that combines the ergonomics of the Ranesheni katar with the capabilities of the Western Psydonian \"knight-killers\"."
+	slot_flags = ITEM_SLOT_HIP
 	max_integrity = 120		//Steel dagger -30
 	force = 15		//Steel dagger -5
 	throwforce = 8
@@ -324,7 +324,7 @@
 	name = "vývrtka"
 	desc = "A type of punch dagger of Aavnic make initially designed to level the playing field with an orc in fisticuffs, its serrated edges and longer, thinner point are designed to maximize pain for the recipient. It's aptly given the name of \"corkscrew\", and this specific one has the colours of Szöréndnížina. Can be worn on your ring slot."
 	icon_state = "freiplug"
-	slot_flags = ITEM_SLOT_RING
+	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_RING
 
 /obj/item/rogueweapon/katar/psydon
 	name = "psydonian katar"

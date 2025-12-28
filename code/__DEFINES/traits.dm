@@ -153,6 +153,7 @@
 #define TRAIT_DEPRAVED "Fallen" //Baothans also recognize each other
 #define TRAIT_MATTHIOS_EYES	"Eyes of Matthios" //Examine to see the most expensive item someone has (Replaces shitty-appraisal)
 #define TRAIT_CULTIC_THIEF "Blessed Pickpocket" // Roll advantage when pickpocketing, taking the highest roll and disregarding the other.
+#define TRAIT_AVATAR_GRAGGAR "The Darkstar's Avatar" // shows a horrible thing on examine even when helmeted (for ogres)
 
 #define TRAIT_BASHDOORS "Door Basher"
 #define TRAIT_NOMOOD "Moodless"
@@ -174,6 +175,7 @@
 #define TRAIT_LEPROSY "Leprosy"
 #define TRAIT_NUDE_SLEEPER "Nude Sleeper"
 #define TRAIT_SILVER_BLESSED "Silver Blessed"
+#define TRAIT_SILVER_BLOOD "Silver Blood"
 #define TRAIT_OUTLANDER "Outlander"
 #define TRAIT_OUTLAW "Outlaw"
 #define TRAIT_KNOWNCRIMINAL "Known Criminal"
@@ -337,6 +339,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_GUIDANCE = span_info("The arcyne aides me in battle."),
 	TRAIT_DEPRAVED = span_info("The languid scent of Her debauchery is known to me."),
 	TRAIT_SILVER_BLESSED = span_info("I am anointed with holy silver, which preserves me from curses that bite."),
+	TRAIT_SILVER_BLOOD = span_info("My blood has been blessed with silver, burning any deadite that tries to feed on me. It will not protect me from their curse, however."),
 	TRAIT_GOODTRAINER = span_info("I am a good teacher, and when it comes to weaponry I can train others to be just as skilled as I am."),
 	TRAIT_BADTRAINER = span_info("I've spent yils studying the art of a single weapon, but unfortunately I've no patience to train anyone else. Everyone learning from me will only learn up to two skill levels below mine."),
 	TRAIT_SEA_DRINKER = span_info("As a denizen of the deep, I can drink salty ocean water safely."),
@@ -382,6 +385,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_HARDSHELL = span_info("The bulk of this armor prevents me from parrying effectively, but I can still move out of the way."),
 	TRAIT_MATTHIOS_EYES = span_notice("I have a sense for what the most valuable item someone has is."),
 	TRAIT_CULTIC_THIEF = span_notice("Matthios tips fortune in my favor when I steal from others."),
+	TRAIT_AVATAR_GRAGGAR = span_notice("I AM THE DARKSTAR'S CRUSHING HAND. THE WEAK SHALL PERISH!!"),
 	TRAIT_WOODWALKER = span_notice("I can climb trees quicker, and gain climbing experience twice as quickly. I can step on thorns and branches safely in the woods. I can get twice as many things from searching bushes, and I can stand on leaves in trees safely."),
 	TRAIT_ARCYNE_T1 = span_notice("I have received basic training in the Arcyne arts, allowing me access to a small variety of spells useful outside of combat."),
 	TRAIT_ARCYNE_T2 = span_notice("I have received advanced training in the Arcyne arts, allowing me to learn basic combat spells"),

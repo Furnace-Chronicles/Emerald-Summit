@@ -61,6 +61,20 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		popup.open(FALSE)
 		return
 
+	if(href_list["task"] == "view_rumours_gossip")
+		if(!ismob(usr))
+			return
+		var/msg = ""
+		if(rumour && length(rumour))
+			msg += "<b>You recall what you heard around Town about [src]...</b><br>[rumour]"
+		if((HAS_TRAIT(usr, TRAIT_NOBLE) || HAS_TRAIT(usr, TRAIT_ROYALSERVANT)) || observer_privilege && length(gossip))
+			if(msg) 
+				msg += "<br><br>"
+			msg += "<b>You recall what the other Blue-bloods hushed about [src]...</b><br>[gossip]"
+		if(msg)
+			to_chat(usr, "<span class='info'>[msg]</span>")
+		return
+
 	if(href_list["inspect_limb"] && (observer_privilege || usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY)))
 		var/list/msg = list()
 		var/mob/user = usr
