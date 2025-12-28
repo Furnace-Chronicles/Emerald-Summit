@@ -81,10 +81,10 @@
 			ZOMBIFICATION BY DEATH BEGINS HERE
 		*/
 		if(!has_world_trait(/datum/world_trait/necra_requiem))
-			if(!is_in_roguetown(src) || has_world_trait(/datum/world_trait/zizo_defilement))
-				if(!zombie_check_can_convert()) //Gives the dead unit the zombie antag flag
-					to_chat(src, span_userdanger("..is this to be my end..?"))
-					to_chat(src, span_danger("The cold consumes the final flicker of warmth in your chest and begins to seep into your limbs...")) 
+			//if(/*!is_in_roguetown(src) ||*/ has_world_trait(/datum/world_trait/zizo_defilement)) //Perhaps jack this into churchloop... Or just add better ways to make necra dominant. 
+			if(!zombie_check_can_convert()) //Gives the dead unit the zombie antag flag
+				to_chat(src, span_userdanger("..is this to be my end..?"))
+				to_chat(src, span_danger("The cold consumes the final flicker of warmth in your chest and begins to seep into your limbs...")) 
 
 	stop_sound_channel(CHANNEL_HEARTBEAT)
 	var/obj/item/organ/heart/H = getorganslot(ORGAN_SLOT_HEART)
@@ -96,9 +96,9 @@
 		var/tris2take = 0
 		if(istype(A, /area/rogue/indoors/town/cell))
 			tris2take += -2
-//		else
-//			if(get_triumphs() > 0)
-//				tris2take += -1
+		else
+			if(get_triumphs() > 0)
+				tris2take += -1
 		if(H in SStreasury.bank_accounts)
 			for(var/obj/structure/roguemachine/camera/C in view(7, src))
 				var/area_name = A.name
@@ -115,13 +115,13 @@
 					tris2take += -2
 				if(real_name in GLOB.outlawed_players)
 					yeae = FALSE
-/*
+
 		if(get_triumphs() > 0)
 			if(tris2take)
 				adjust_triumphs(tris2take)
 			else
 				adjust_triumphs(-1)
-*/
+
 		switch(job)
 			if("Grand Duke")
 				//omen gets added separately, after a few minutes

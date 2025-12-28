@@ -66,7 +66,7 @@
 	//give minion orders if they're a zizite
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order/lich)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
 			H.mind.current.faction += "[H.name]_faction"
 	var/classes = list("MALICIOUS Mastermind","SNIVELLING servant")

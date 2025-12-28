@@ -189,3 +189,38 @@
 
 		return TRUE
 	return FALSE
+
+/obj/effect/proc_holder/spell/invoked/animate_dead
+	name = "Animate Dead and Dying"
+	desc = "Allows you to forcefully raise a corpse in critical condition or animals that Zizo may infest naturally."
+	overlay_state = "raiseskele"
+	range = 7
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	chargedloop = null
+	antimagic_allowed = TRUE
+	recharge_time = 1 SECONDS
+	hide_charge_effect = TRUE
+
+//raise crit targets and animals that can raise naturally.
+/obj/effect/proc_holder/spell/invoked/animate_dead/cast(list/targets, mob/living/user)
+	. = ..()
+	var/faction_tag = "[user.mind.current.real_name]_faction"
+	var/successful_raise = 0
+	if(ishuman(targets[1]))
+		var/mob/living/carbon/human/target = targets[1]
+		if(target.InCritical())
+			if(!target.mind)
+				target.mind_initialize()
+			target.zombie_check_can_convert(target)
+			wake_zombie(target, infected_wake = TRUE, converted = FALSE)
+			successful_raise++
+			target.faction += faction_tag
+			target.notify_faction_change() //Stop hitting me!!!!
+	if(isanimal(targets[1]))
+		var/mob/living/simple_animal/animal = targets[1]
+		var/datum/component/deadite_animal_reanimation/deadite = animal.GetComponent(/datum/component/deadite_animal_reanimation)
+		if(deadite)
+			animal = deadite.reanimate()
+			successful_raise++
+			animal.faction += faction_tag

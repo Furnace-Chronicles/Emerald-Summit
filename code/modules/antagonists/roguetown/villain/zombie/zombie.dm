@@ -442,7 +442,7 @@
 		return
 	if(mind.has_antag_datum(/datum/antagonist/skeleton))
 		return
-	if(HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE) && !istype(patron, /datum/patron/inhumen/zizo) && isnull(infection_type) )//Zizoids can gain zombification 
+	if(HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE) || (istype(patron, /datum/patron/inhumen/zizo) && !isnull(infection_type)) )//Zizoids can gain zombification thru rotting.
 		return
 	return mind.add_antag_datum(/datum/antagonist/zombie)
 
