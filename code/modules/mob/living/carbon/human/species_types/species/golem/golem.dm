@@ -8,7 +8,7 @@
 	origin_default = /datum/virtue/origin/naledi
 	origin = "Naledi"
 	use_titles = TRUE
-	race_titles = list("Automaton", "Construct", "Luxforged")
+	race_titles = list("Automaton", "Luxforged")
 	base_name = "Construct"
 	desc = "<b>Golem</b><br>\
 	Masterworks of craftsmanship, the first Golems were constructed in the Republic of Giza with similar designs \
