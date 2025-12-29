@@ -22,7 +22,7 @@
 	var/current_tab = TAB_MAIN
 	var/compact = TRUE
 	var/total_deposit = 0
-	var/list/excluded_jobs = list("Wretch","Vagabond","Adventurer")
+	var/list/excluded_jobs = list("Wretch","Vagabond","Adventurer", "Bandit")
 	var/current_category = "Raw Materials"
 	var/list/categories = list("Raw Materials", "Foodstuffs", "Fruits")
 	var/list/daily_payments = list() // Associative list: job name -> payment amount
@@ -212,7 +212,7 @@
 					return
 				SStreasury.give_money_account(-newtax, A, "NERVE MASTER")
 				break
-	if(href_list["payroll"])
+	if(href_list["payroll"]) //TODO: make this populate from the fucking accounts that exist rather than this disgusting kludge.
 		var/list/L = list(GLOB.noble_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.yeoman_positions) + list(GLOB.peasant_positions) + list(GLOB.youngfolk_positions) + list(GLOB.inquisition_positions)
 		var/list/things = list()
 		for(var/list/category in L)
@@ -363,114 +363,79 @@
 			for(var/bank_account in SStreasury.bank_accounts)
 				total_deposit += SStreasury.bank_accounts[bank_account]
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
-			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
+
 			contents += "<center>Bank<BR>"
 			contents += "--------------<BR>"
 			contents += "Treasury: [SStreasury.treasury_value]m<BR>"
 			contents += "Reserve Ratio: [round(SStreasury.treasury_value / total_deposit * 100)]%</center><BR>"
 			contents += "<a href='?src=\ref[src];payroll=1'>\[Pay by Class\]</a><BR><BR>"
-			if(compact)
-				for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
-					if(ishuman(A))
-						var/mob/living/carbon/human/tmp = A
-						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [SStreasury.bank_accounts[A]]m"
-					else
-						contents += "[A.real_name] - [SStreasury.bank_accounts[A]]m"
-					var/wage_status = HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED) ? "UNSUSPEND" : "SUSPEND"
-					contents += " / <a href='?src=\ref[src];givemoney=\ref[A]'>\[PAY\]</a> <a href='?src=\ref[src];fineaccount=\ref[A]'>\[FINE\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status]\]</a><BR><BR>"
-			else
-				for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
-					if(ishuman(A))
-						var/mob/living/carbon/human/tmp = A
-						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [SStreasury.bank_accounts[A]]m<BR>"
-					else
-						contents += "[A.real_name] - [SStreasury.bank_accounts[A]]m<BR>"
-					var/wage_status = HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED) ? "Unsuspend Wages" : "Suspend Wages"
-					contents += "<a href='?src=\ref[src];givemoney=\ref[A]'>\[Give Money\]</a> <a href='?src=\ref[src];fineaccount=\ref[A]'>\[Fine Account\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status]\]</a><BR><BR>"
+			for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
+				if(ishuman(A))
+					var/mob/living/carbon/human/tmp = A
+					contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [SStreasury.bank_accounts[A]]m"
+				else
+					contents += "[A.real_name] - [SStreasury.bank_accounts[A]]m"
+				var/wage_status = HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED) ? "UNSUSPEND" : "SUSPEND"
+				contents += " / <a href='?src=\ref[src];givemoney=\ref[A]'>\[PAY\]</a> <a href='?src=\ref[src];fineaccount=\ref[A]'>\[FINE\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status]\]</a><BR>"
+			for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
+				if(ishuman(A))
+					var/mob/living/carbon/human/tmp = A
+					contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [SStreasury.bank_accounts[A]]m"
+				else
+					contents += "[A.real_name] - [SStreasury.bank_accounts[A]]m"
+				contents += " / <a href='?src=\ref[src];givemoney=\ref[A]'>\[PAY\]</a> <a href='?src=\ref[src];fineaccount=\ref[A]'>\[FINE\]</a><BR>"
+
+
 		if(TAB_STOCK)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
-			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
+
 			contents += "<center>Stockpile<BR>"
 			contents += "--------------<BR>"
-			if(compact)
-				contents += "Treasury: [SStreasury.treasury_value]m"
-				contents += " / Lord's Tax: [SStreasury.tax_value*100]%"
-				contents += " / Guild's Tax: [SStreasury.queens_tax*100]%</center><BR>"
-				contents += "<center>Auto Export Stockpile Above: "
-				contents += "<a href='?src=\ref[src];changeautoexport=1'>[SStreasury.autoexport_percentage * 100]%</a></center><BR>"
-				var/selection = "<center>Categories: "
-				for(var/category in categories)
-					if(category == current_category)
-						selection += "<b>[current_category]</b> "
-					else
-						selection += "<a href='?src=[REF(src)];changecat=[category]'>[category]</a> "
-				contents += selection + "<BR>"
-				contents += "--------------</center><BR>"
-				for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
-					if(A.category != current_category)
-						continue
-					contents += "<b>[A.name]:</b>"
-					contents += " [A.held_items[1] + A.held_items[2]]"
-					contents += " | SELL: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]m</a>"
-					contents += " / BUY: <a href='?src=\ref[src];setprice=\ref[A]'>[A.withdraw_price]m</a>"
-					contents += " / LIMIT: <a href='?src=\ref[src];setlimit=\ref[A]'>[A.stockpile_limit]</a>"
+			contents += "Treasury: [SStreasury.treasury_value]m"
+			contents += " / Lord's Tax: [SStreasury.tax_value*100]%"
+			contents += " / Guild's Tax: [SStreasury.queens_tax*100]%</center><BR>"
+			contents += "<center>Auto Export Stockpile Above: "
+			contents += "<a href='?src=\ref[src];changeautoexport=1'>[SStreasury.autoexport_percentage * 100]%</a></center><BR>"
+			var/selection = "<center>Categories: "
+			for(var/category in categories)
+				if(category == current_category)
+					selection += "<b>[current_category]</b> "
+				else
+					selection += "<a href='?src=[REF(src)];changecat=[category]'>[category]</a> "
+			contents += selection + "<BR>"
+			contents += "--------------</center><BR>"
+			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
+				if(A.category != current_category)
+					continue
+				contents += "<b>[A.name]:</b>"
+				var/mypercentage = max((A.held_items[1])/A.importexport_amt * 100, 100)
+				var/mycolor = gradient(list("red","green"), mypercentage)
+				
+				contents += "<span style='color:[mycolor]'> [A.held_items[1]]</span>" //colorize string.
+				contents += " | SELL: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]m</a>"
+				contents += " / BUY: <a href='?src=\ref[src];setprice=\ref[A]'>[A.withdraw_price]m</a>"
+				contents += " / LIMIT: <a href='?src=\ref[src];setlimit=\ref[A]'>[A.stockpile_limit]</a>"
+
+				if(A.importexport_amt)
 					if(!A.export_only)
-						if(A.importexport_amt)
-							contents += " <a href='?src=\ref[src];import=\ref[A]'>\[IMP [A.importexport_amt] ([A.get_import_price()])\]</a> <a href='?src=\ref[src];export=\ref[A]'>\[EXP [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
-					else
-						if(A.importexport_amt)
-							contents += " <a href='?src=\ref[src];export=\ref[A]'>\[EXP [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
+						contents += " <a href='?src=\ref[src];import=\ref[A]'>\[IMP [A.importexport_amt] ([A.get_import_price()/A.importexport_amt]/unit)([A.get_import_price()]/total)\]</a> "
+					contents += "<a href='?src=\ref[src];export=\ref[A]'>\[EXP [A.importexport_amt] ([A.get_export_price()/A.importexport_amt]/unit)  ([A.get_export_price()]/total)\]</a> "
+					contents += "<a href='?src=\ref[src];togglewithdraw=\ref[A]'>\[[A.withdraw_disabled ? "Enable" : "Disable"] Withdrawing\]</a><BR>"
 			
-			else
-				contents += "Treasury: [SStreasury.treasury_value]m<BR>"
-				contents += "Lord's Tax: [SStreasury.tax_value*100]%<BR>"
-				contents += "Guild's Tax: [SStreasury.queens_tax*100]%</center><BR>"
-				var/selection = "<center>Categories: "
-				for(var/category in categories)
-					if(category == current_category)
-						selection += "<b>[current_category]</b> "
-					else
-						selection += "<a href='?src=[REF(src)];changecat=[category]'>[category]</a> "
-				contents += selection + "<BR>"
-				contents += "--------------</center><BR>"
-				for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
-					if(A.category != current_category)
-						continue
-					contents += "[A.name]<BR>"
-					contents += "[A.desc]<BR>"
-					contents += "Stockpiled Amount: [A.held_items[1] + A.held_items[2]]<BR>"
-					contents += "Bounty Price: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]</a><BR>"
-					contents += "Withdraw Price: <a href='?src=\ref[src];setprice=\ref[A]'>[A.withdraw_price]</a><BR>"
-					contents += "Demand: [A.demand2word()]<BR>"
-					if(!A.export_only)
-						if(A.importexport_amt)
-							contents += "<a href='?src=\ref[src];import=\ref[A]'>\[Import [A.importexport_amt] ([A.get_import_price()])\]</a> <a href='?src=\ref[src];export=\ref[A]'>\[Export [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
-					else
-						if(A.importexport_amt)
-							contents += " <a href='?src=\ref[src];export=\ref[A]'>\[Export [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
-					contents += "<a href='?src=\ref[src];togglewithdraw=\ref[A]'>\[[A.withdraw_disabled ? "Enable" : "Disable"] Withdrawing\]</a><BR><BR>"
+					
 		if(TAB_IMPORT)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
-			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
 			contents += "<center>Imports<BR>"
 			contents += "--------------<BR>"
-			if(compact)
-				contents += "Treasury: [SStreasury.treasury_value]m"
-				contents += " / Lord's Tax: [SStreasury.tax_value*100]%"
-				contents += " / Guild's Tax: [SStreasury.queens_tax*100]%</center><BR>"
-				for(var/datum/roguestock/import/A in SStreasury.stockpile_datums)
-					contents += "<b>[A.name]:</b>"
-					contents += " <a href='?src=\ref[src];import=\ref[A]'>\[Import [A.importexport_amt] ([A.get_import_price()])\]</a><BR><BR>"
-			else
-				contents += "Treasury: [SStreasury.treasury_value]m<BR>"
-				contents += "Lord's Tax: [SStreasury.tax_value*100]%<BR>"
-				contents += "Guild's Tax: [SStreasury.queens_tax*100]%</center><BR>"
-				for(var/datum/roguestock/import/A in SStreasury.stockpile_datums)
-					contents += "[A.name]<BR>"
-					contents += "[A.desc]<BR>"
-					if(!A.stable_price)
-						contents += "Demand: [A.demand2word()]<BR>"
-					contents += "<a href='?src=\ref[src];import=\ref[A]'>\[Import [A.importexport_amt] ([A.get_import_price()])\]</a><BR><BR>"
+
+			contents += "Treasury: [SStreasury.treasury_value]m"
+			contents += " / Lord's Tax: [SStreasury.tax_value*100]%"
+			contents += " / Guild's Tax: [SStreasury.queens_tax*100]%</center><BR>"
+			for(var/datum/roguestock/import/A in SStreasury.stockpile_datums)
+				contents += "<b>[A.name]:</b>"
+				if(!A.stable_price)
+					contents += " Demand: [A.demand2word()] "
+				contents += " <a href='?src=\ref[src];import=\ref[A]'>\[Import [A.importexport_amt] ([A.get_import_price()])\]</a><BR><BR>"
 		if(TAB_BOUNTIES)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
 			contents += "<center>Bounties<BR>"
@@ -491,6 +456,7 @@
 			contents += "--------------</center><BR><BR>"
 			for(var/i = SStreasury.log_entries.len to 1 step -1)
 				contents += "<span class='info'>[SStreasury.log_entries[i]]</span><BR>"
+
 		if(TAB_STATISTICS)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
 			contents += "<center>Statistics:<BR>"
@@ -500,8 +466,8 @@
 			contents += "Total Noble Estate Income: [SStreasury.total_noble_income]m<BR>"
 			contents += "Total Import: [SStreasury.total_import]m<BR>"
 			contents += "Total Export: [SStreasury.total_export]m<BR>"
-			contents += "Total Mammons Minted: [SStreasury.minted]m<BR>"
 			contents += "Trade Balance: [SStreasury.total_export - SStreasury.total_import]m<BR>"
+			contents += "Total Mammons Minted: [SStreasury.minted]m<BR>"
 			contents  += "</center><BR>"
 		if(TAB_PAYDAY)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
