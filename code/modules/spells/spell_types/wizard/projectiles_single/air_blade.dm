@@ -80,9 +80,18 @@
 	hitsound = 'sound/combat/hits/bladed/genstab (3).ogg' // Different sound for stab
 
 /obj/projectile/energy/airblade/on_hit(target)
-	. = ..()
+
+	var/mob/living/carbon/M = target
 	if(ismob(target))
-		var/mob/living/carbon/M = target
+		var/datum/status_effect/debuff/arcanemark/mark = M.has_status_effect(/datum/status_effect/debuff/arcanemark)
+		if(mark && mark.stacks == mark.max_stacks)
+			damage = 60
+			armor_penetration = 50
+			consume_arcane_mark_stacks(M)
+
+	. = ..()
+
+	if(ismob(target))
 		if(M.anti_magic_check())
 			visible_message(span_warning("[src] fizzles on contact with [target]!"))
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)

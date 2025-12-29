@@ -46,6 +46,8 @@
 			return
 		L.Immobilize(duration)
 		L.OffBalance(duration)
+		if(istype(L, /mob/living/carbon))
+			apply_arcane_mark(L)
 		L.visible_message("<span class='warning'>[L] is held by tendrils of arcyne force!</span>")
 		new /obj/effect/temp_visual/ensnare/long(get_turf(L))
 

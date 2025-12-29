@@ -87,6 +87,8 @@
 					L.apply_status_effect(/datum/status_effect/buff/frost)
 			playsound(affected_turf, "genslash", 80, TRUE)
 			to_chat(L, "<span class='userdanger'>The air chills your bones!</span>")
+			if(istype(L, /mob/living/carbon))
+				apply_arcane_mark(L)
 
 	if(play_cleave)
 		playsound(T, 'sound/combat/newstuck.ogg', 80, TRUE, soundping = TRUE) // this also kinda sounds like ice ngl

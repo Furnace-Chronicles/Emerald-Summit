@@ -65,6 +65,15 @@
 			playsound(effect_layer, 'sound/magic/magic_nulled.ogg', 100)
 			continue
 		L.electrocute_act(damage * damage_mod, src, 1, SHOCK_NOSTUN) // Hopefully the SHOCK_NOSTUN handles any CC effects this might otherwise cause
+		L.apply_status_effect(/datum/status_effect/buff/lightningstruck, 1.2 SECONDS)
+		var/datum/status_effect/debuff/arcanemark/mark = L.has_status_effect(/datum/status_effect/debuff/arcanemark)
+		if(mark && mark.stacks == mark.max_stacks)
+			consume_arcane_mark_stacks(L)
+			L.apply_status_effect(/datum/status_effect/debuff/clickcd, (3 SECONDS))
+			for(var/obj/item/W in L.held_items)
+				L.dropItemToGround(W)
+		if(istype(L, /mob/living/carbon))
+			apply_arcane_mark(L)
 		return
 
 /obj/effect/temp_visual/trap/thunderstrike

@@ -67,4 +67,6 @@
 				else
 					L.apply_status_effect(/datum/status_effect/buff/frost)
 			new /obj/effect/temp_visual/snap_freeze(get_turf(L))
+		if(istype(M, /mob/living/carbon))
+			apply_arcane_mark(M)
 	qdel(src)
