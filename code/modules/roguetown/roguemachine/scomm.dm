@@ -421,8 +421,19 @@
 				formatted_msg = "<b>[display_name]</b> [emote_message]"
 			
 			// Manually handle duplicate detection and message display
-			// Can't use Hear() because it recomposes the message, breaking our formatting
-			for(var/mob/living/L in get_hearers_in_view(7, parent_object))
+			// Can't use Hear() because it recomposes the message, breaking the formatting
+			var/list/targets = list()
+			if(isitem(parent_object))
+				// Items: only the holder sees the message
+				var/obj/item/I = parent_object
+				var/mob/living/holder = I.loc
+				if(istype(holder))
+					targets = list(holder)
+			else
+				// Structures: everyone in view range sees it
+				targets = get_hearers_in_view(7, parent_object)
+			
+			for(var/mob/living/L in targets)
 				// Check for duplicate using same system as say
 				if(message == L.last_heard_raw_message)
 					continue
