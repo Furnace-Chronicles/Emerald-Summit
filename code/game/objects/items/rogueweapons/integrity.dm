@@ -13,6 +13,8 @@
 	var/sharpness_mod = 1
 
 /obj/item/proc/remove_bintegrity(amt as num, mob/user)
+	if(sharpness == IS_BLUNT)
+		return FALSE
 	if(sharpness_mod != 1)
 		amt *= sharpness_mod
 	if(user && HAS_TRAIT(user, TRAIT_SHARPER_BLADES))
@@ -24,6 +26,9 @@
 	else	//If we're sending messages it should be sent to a mob
 		if(loc && ishuman(loc))
 			L = loc
+
+	amt -= L.get_tempo_bonus(TEMPO_TAG_DEF_SHARPNESSFACTOR)
+	amt = max(amt, 0)
 
 	if(L && max_blade_int)	
 		var/ratio = blade_int / max_blade_int

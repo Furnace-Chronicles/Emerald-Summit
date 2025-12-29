@@ -8,12 +8,11 @@
 	origin_default = /datum/virtue/origin/grenzelhoft
 	origin = "Grenzelhoft"
 	base_name = "Beastvolk"
-	desc = "<b>Vulpkian: Creatives of the Forest</b><br>\
-	Created by the hand of Dendor in the earliest era, Xylix took to favor these fox-like wildkin and blessed them with his creative spark. \
-	Native to the mountains and woods of Grenzelhoft, they have spread across the world as explorers and poets, creating art and testing the limits of luck. \
-	Looked upon some as thieves and tricksters, but their sharp minds make them useful in both the guild halls and the stewardies. \
-	Some still favor Dendor and live in his wilderness, but most enjoy the chance and creative spirit of the cities, \
-	especially those who have migrated to the east isles.<br>\
+	desc = "<b>Vulpkian</b><br>\
+	Foxy creatures known for their cleverness and mischief. In ancient history they were Dendor's original champions, but as His madness grew the connect \
+	became frey and forgotten, leaving them to their own devices. Or, at least, that's what they say. Regardless of their contested history, Vulpkian todae live all \
+	across the world in settlements belonging to all races, with no real place to call their native home. Interestingly, their mischeivous nature often results in Vulpkian \
+	finding themselves at-odds with the untrusting Lupians moving in from northern regions.<br>\
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 INT | +1 PER</b></span> </br>"
 	default_color = "444"
 	species_traits = list(

@@ -97,7 +97,8 @@
 				rank_color = "ECB20A"
 			if(SOCIAL_RANK_ROYAL)
 				rank_color = "FFBF00"
-		var/social_strata = "<a href='?src=[REF(src)];social_strata=1'><font color='#[rank_color]'>⚜</font></A>"
+		var/strata_icon = family_datum ? "⛯" : "⛭"
+		var/social_strata = SPAN_TOOLTIP_DANGEROUS_HTML(generate_strata(user), "<font color='#[rank_color]'>[strata_icon]</font></A>")
 		var/display1
 		var/display2 = "[!HAS_TRAIT(usr, TRAIT_OUTLANDER) ? "[social_strata]" : " "]"
 		if(display_as_wanderer)
@@ -116,6 +117,9 @@
 				. += span_notice("A practitioner of the old ways.")
 			else
 				. += span_notice("Something about them seems... different.")
+
+		if (HAS_TRAIT(src, TRAIT_AVATAR_GRAGGAR))
+			. += "<span class='big' style='color: #8B4513;'>A MARAUDING OGRE!</span>"
 
 		if(HAS_TRAIT(src, TRAIT_DISGRACED_KNIGHT))
 			. += "<span class='big' style='color: #8B4513;'>DISGRACED KNIGHT!</span>"
@@ -247,7 +251,14 @@
 
 		if(leprosy == 1)
 			. += span_necrosis("A LEPER...")
-	
+
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			if(family_datum == H.family_datum && family_datum)
+				var/family_text = ReturnRelation(user)
+				if(family_text)
+					. += family_text
+
 		if (HAS_TRAIT(src, TRAIT_BEAUTIFUL))
 			switch (pronouns)
 				if (HE_HIM, SHE_HER_M)
@@ -265,6 +276,17 @@
 					. += span_redtext("[m1] repugnant!")
 				if (THEY_THEM, THEY_THEM_F, IT_ITS)
 					. += span_redtext("[m1] repulsive!")
+
+		// Shouldn't be able to tell they are unrevivable through a mask as a Necran
+		if(HAS_TRAIT(src, TRAIT_DNR) && src != user)
+			if(HAS_TRAIT(user, TRAIT_DEATHSIGHT) || stat == DEAD)
+				. += span_danger("They exude a pale aura. Their soul [stat == DEAD ? "was not" : "is not"] clean. This [stat == DEAD ? "was" : "is"] their only chance at lyfe.")
+
+	// Real medical role can tell at a glance it is a waste of time, but only if the Necra message don't come first.
+
+	if(user.get_skill_level(/datum/skill/misc/medicine) >= SKILL_LEVEL_EXPERT && src.stat == DEAD)
+		if(HAS_TRAIT(src, TRAIT_DNR) && src != user && !HAS_TRAIT(user, TRAIT_DEATHSIGHT)) // A lot of conditional to avoid a redundant message, but we also want unknown DNRs to be covered.
+			. += span_danger("Their body holds not even a glimmer of life. No medicine can bring them back.")
 
 	if (HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS) && (!HAS_TRAIT(src, TRAIT_VAMP_DREAMS)))
 		if(isliving(user))
@@ -773,10 +795,10 @@
 		. += span_warning("[msg.Join("\n")]")
 
 	// Show especially large embedded objects at a glance
-	for(var/obj/item/bodypart/part in bodyparts)
-		if (LAZYLEN(part.embedded_objects))
-			for(var/obj/item/stuck_thing in part.embedded_objects)
-				if (stuck_thing.w_class >= WEIGHT_CLASS_SMALL)
+	for(var/obj/item/bodypart/part as anything in bodyparts)
+		if(LAZYLEN(part.embedded_objects))
+			for(var/obj/item/stuck_thing as anything in part.embedded_objects)
+				if(stuck_thing.w_class >= WEIGHT_CLASS_SMALL)
 					. += span_bloody("<b>[m3] \a [stuck_thing] stuck in [m2] [part.name]!</b>")
 
 	if(ishuman(user))
@@ -905,6 +927,10 @@
 	if(flavorcheck)
 		. += "<a href='?src=[REF(src)];task=view_headshot;'>Examine closer</a> [showassess ? " | <a href='?src=[REF(src)];task=assess;'>Assess</a>" : ""]"
 		//tiny picture when you are not examining closer, shouldnt take too much space.
+	/// Rumours & Gossip
+	if((!obscure_name) && (length(rumour)) || ((HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_ROYALSERVANT)) || observer_privilege && length(gossip)))
+		. += "<a href='?src=[REF(src)];task=view_rumours_gossip;'>Recall Rumours & Gossip</a>"
+
 	var/list/lines
 	if((get_face_name() != real_name) && !observer_privilege)
 		lines = build_cool_description_unknown(get_mob_descriptors(obscure_name, user), src)
@@ -1050,3 +1076,62 @@
 			return "[verbose ? "Conjured shaft" : "(C. shaft)"]"
 		else
 			return null
+
+/mob/living/carbon/human/proc/generate_strata(mob/user)
+	var/is_clergy = FALSE
+	var/is_jester = FALSE
+	var/is_druid = FALSE
+	var/output = ""
+	if(job)
+		var/datum/job/J = SSjob.GetJob(job)
+		if(J.department_flag == CHURCHMEN) //There may be a better way to check who is clergy, but this will do for now
+			is_clergy = TRUE
+		if(J.title == "Jester")
+			is_jester = TRUE
+		if(J.title == "Druid")
+			is_druid = TRUE
+	if(social_rank && !HAS_TRAIT(user, TRAIT_OUTLANDER))
+		var/examiner_rank = user.social_rank
+		var/rank_name
+		if(HAS_TRAIT(src, TRAIT_NOBLE) && social_rank < 4) //anyone with the noble trait that wasn't a noble is now at least a minor noble
+			social_rank = SOCIAL_RANK_MINOR_NOBLE
+		switch(social_rank)
+			if(SOCIAL_RANK_DIRT)
+				rank_name = "dirt"
+			if(SOCIAL_RANK_PEASANT)
+				rank_name = "a peasant"
+			if(SOCIAL_RANK_YEOMAN)
+				rank_name = "a yeoman"
+			if(SOCIAL_RANK_MINOR_NOBLE)
+				rank_name = is_clergy ? "low clergy" : "lower nobility"
+			if(SOCIAL_RANK_NOBLE)
+				rank_name = is_clergy ? "clergy" : "nobility"
+			if(SOCIAL_RANK_ROYAL)
+				rank_name = is_clergy ? "head of the clergy" : "upper nobility"
+		if(HAS_TRAIT(src, TRAIT_DISGRACED_NOBLE))
+			rank_name = "a disgraced noble"
+			social_rank = 3
+		if(is_jester)
+			rank_name = "the jester"
+		if(is_druid)
+			rank_name = "a druid"
+		if(social_rank > examiner_rank)
+			output = "This person is <EM>[rank_name]</EM>, they are my better."	
+		if(social_rank == examiner_rank)
+			output = "This person is <EM>[rank_name]</EM>, they are my equal."
+		if(social_rank < examiner_rank)
+			output = "This person is <EM>[rank_name]</EM>, they are my lesser."
+	if(family_datum)
+		var/datum/family_member/FM = family_datum.GetMemberForPerson(src)
+		var/spousetext = ""
+		if(FM && FM.spouses.len)
+			var/list/spouse_list = list()
+			for(var/datum/family_member/S in FM.spouses)
+				if(S.person)
+					var/mob/living/carbon/human/the_person = S.person
+					spouse_list += the_person.real_name
+			if(spouse_list.len)
+				spousetext = jointext(spouse_list, ", ")
+		output += "<BR>They are a member of house [family_datum.housename][spousetext ? ", and are married to [spousetext]." : "."]"
+
+	return output

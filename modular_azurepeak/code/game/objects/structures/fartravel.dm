@@ -53,6 +53,9 @@
 			dat += ", [content.name]"
 		dat += "."
 	if(departing_mob.mind)
+		// Remove from knowledge cache so they don't appear in other people's lists
+		SSjob.remove_mind_from_cache(departing_mob.mind)
+		
 		departing_mob.mind.unknow_all_people()
 		for(var/datum/mind/MF in get_minds())
 			departing_mob.mind.become_unknown_to(MF)

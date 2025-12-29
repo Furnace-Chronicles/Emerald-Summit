@@ -1,17 +1,17 @@
 ///Splashing blood makes a tiny bit of this
 /datum/pollutant/metallic_scent
-	name = "Metallic Scent"
+	name = "Blood"
 	pollutant_flags = POLLUTANT_SMELL
 	smell_intensity = 1
-	descriptor = "smell"
-	scent = "a metallic scent"
+	descriptor = "intoxicating aroma"
+	scent = "blood"
 
 /datum/pollutant/rot
-	name = "Rotten Scent"
+	name = "Decay"
 	pollutant_flags = POLLUTANT_APPEARANCE|POLLUTANT_SMELL|POLLUTANT_BREATHE_ACT
 	smell_intensity = 1
-	descriptor = "smell"
-	scent = "a rotten scent"
+	descriptor = "stench"
+	scent = "decay"
 	color = "#3a6600"
 
 /datum/pollutant/rot/breathe_act(mob/living/carbon/victim, amount, total_amount)

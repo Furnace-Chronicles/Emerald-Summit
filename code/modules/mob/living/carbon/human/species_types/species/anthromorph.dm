@@ -5,15 +5,15 @@
 	name = "Wild-Kin"
 	id = "anthromorph"
 	base_name = "Beastvolk"
+	sub_name = "Wild-Kin"
 	use_titles = TRUE
 	race_titles = list("Cat-Kin", "Dog-Kin", "Volf-Kin", "Lion-Kin", "Venard-Kin", "Tiger-Kin", "Sheep-Kin", "Goat-Kin", "Rous-Kin", "Possum-Kin", "Pig-Kin", "Boar-Kin", "Rabbit-Kin", "Cabbit-Kin", "Horse-Kin", "Donkey-Kin", "Hyena-Kin", "Deer-Kin", "Bear-Kin", "Panda-Kin", "Coyote-Kin", "Moose-Kin", "Jackal-Kin", "Panther-Kin", "Lynx-Kin", "Leopard-Kin", "Monkey-Kin", "Bird-Kin", "Seal-Kin", "Bat-Kin", "Otter-Kin", "Cow-Kin", "Bull-Kin", "Monster-Kin", "Chimera")
-	desc = "<b>Wild-Kin: Minor Races of the World</b><br>\
-	A catch-all for various races of the planet too few in number to be properly remembered by the common citizens of the kingdoms. \
-	They are individual species with wildly varied origins, the rumor of crossbreeding or divine curses being a common prejudice no matter where they end up. \
-	Most locals of the Scarlet Reach tend to associate wildkin with Dendor as one of his creations, \
-	but they can be creations or devotees of any divinity. Their beastblood grants them a slight advantage in spotting dangers and enduring trials, \
-	but runs the risk of being lumped in with other “furskins”. And as some wildkins act brashly, \
-	it drags the rest of the races to be compared to simple animals.<br> \
+	desc = "<b>Wild-Kin</b><br>\
+	A product of Dendor's enigmatic meddling in mortals races. The average wild-kin suffers from animalistic urges that vary in severity, \
+	from simply avoiding certain foods to smoldering desires to howl at the moon or chase prey. Usually these urges are tied to the animal that the wild-kin is melded with, \
+	making them rather predictable. Despite this, the way each wild-kin approaches their bizarre physiology and psychology varies, \
+	creating a diverse race of people who may not even empathise with one another. And whilst Dendor is considered the main culprit for Wild-kin, there are those created through other means, \
+	akin to Noc's stolen knowledge that created lupians and other abstract experimentation or circumstance.<br> \
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 CON | +1 PER</b></span> </br> \
 	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>(Wild-kin are not a template race to play your own custom race. If you play a wild-kin, \
 	you are expected to roleplay to the setting and the race's lore.)</b></span> </br>"

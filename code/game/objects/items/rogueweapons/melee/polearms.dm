@@ -244,15 +244,37 @@
 	force = 25
 	force_wielded = 28
 	icon_state = "aries"
-	icon = 'icons/roguetown/weapons/misc32.dmi'
-	pixel_y = 0
-	pixel_x = 0
+	icon = 'icons/roguetown/weapons/polearms64.dmi'
+	pixel_y = -16
+	pixel_x = -16
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
-	bigboy = FALSE
-	gripsprite = FALSE
-	gripped_intents = null
+	bigboy = TRUE
+	gripsprite = TRUE
+	gripped_intents = list(/datum/intent/spear/bash/ranged, /datum/intent/mace/smash/wood)
 	cast_time_reduction = 0.4
+
+/obj/item/rogueweapon/woodstaff/aries/pickup(mob/living/user)
+	..()
+	if(HAS_TRAIT(user, TRAIT_ROTMAN) || user.mob_biotypes & MOB_UNDEAD)
+		to_chat(user, "<font color='yellow'>FOOL! YOU DARE TOUCH THE HOLY STAFF?</font>\n<font color = 'red'>[src] starts to heat up... Uh oh.</font>")
+		addtimer(CALLBACK(src, PROC_REF(smite), user, 1 SECONDS, 2 SECONDS, 25, 5, "SO BE IT!"), 3 SECONDS)
+		return
+	var/datum/job/J = SSjob.GetJob(user.mind?.assigned_role)
+	if(J.title != "Priest" && J.title != "Martyr")
+		to_chat(user, "<font color='yellow'>UNWORTHY HANDS TOUCH THE HOLY STAFF, CEASE OR BE PUNISHED.</font>")
+		addtimer(CALLBACK(src, PROC_REF(smite), user, 1 SECONDS, 1 SECONDS, 0, 5, "FOOL, YOU DID NOT HEED MY WARNING!"), 5 SECONDS)
+
+/obj/item/rogueweapon/woodstaff/aries/proc/smite(mob/living/user, knockdown = 1 SECONDS, paralyze = 1 SECONDS, fireloss = 0, fire_stacks = 5, msg = "")
+	if(loc == user)
+		to_chat(user, "<font color='yellow'>[msg]</font>")
+		user.doUnEquip(src, TRUE, get_turf(user), silent = TRUE) // Forcibly unequips it.
+		user.Knockdown(knockdown)
+		user.Paralyze(paralyze)
+		user.adjustFireLoss(fireloss)
+		user.adjust_fire_stacks(fire_stacks)
+		user.emote("agony", forced = TRUE)
+		user.ignite_mob()
 
 /obj/item/rogueweapon/woodstaff/aries/getonmobprop(tag)
 	. = ..()
@@ -777,7 +799,7 @@
 		added_def = 2,\
 	)
 
-/obj/item/rogueweapon/halberd/psyhalberd	
+/obj/item/rogueweapon/halberd/psyhalberd
 	name = "psydonian halberd"
 	desc = "A reliable design that has served humenkind to fell the enemy and defend Psydon's flock - now fitted with a lengthier blade and twin, silver-tipped beaks."
 	icon_state = "silverhalberd"
@@ -1386,15 +1408,15 @@
 			if("wielded")
 				return list("shrink" = 0.6,"sx" = 4,"sy" = -2,"nx" = -3,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 
-/obj/item/rogueweapon/halberd/capglaive
+/obj/item/rogueweapon/halberd/championglaive
 	possible_item_intents = list(/datum/intent/spear/thrust/eaglebeak, SPEAR_BASH)
 	gripped_intents = list(/datum/intent/spear/thrust/glaive, /datum/intent/spear/cut/glaive, /datum/intent/axe/chop/scythe, SPEAR_BASH)
 	name = "'Deliverer'"
-	desc = "As if glaives werent hard enough to produce, this one in particular is made out of blacksteel. A piece of art made for the captain of the guard, its a tool to deliver justice and help those weaker than the wielder."
+	desc = "As if glaives werent hard enough to produce, this one in particular is made out of blacksteel. A piece of art made for the realm's champion, its a tool to deliver valor and protect those weaker than the wielder."
 	force = 17
 	force_wielded = 35
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
-	icon_state = "capglaive"
+	icon_state = "champglaive"
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/blacksteel
 	max_integrity = 290 //blacksteel, so its gotta be more durable
@@ -1417,12 +1439,12 @@
 	desc = "The mind of an ogre does not see trash in a field of discarded swords and corpses. He sees material to make a new weapon, with a light snack.."
 	icon_state = "ogre_sword"
 	minstr = 15 //have you seen the size of this thing??
+	item_flags = GIANT_WEAPON
 	smelt_bar_num = 2
 	force = 20
 	force_wielded = 35
 	max_blade_int = 250
 	max_integrity = 260
-	wbalance = WBALANCE_HEAVY
 
 /obj/item/rogueweapon/mace/goden/steel/ogre
 	name = "Mace of Malum"
@@ -1435,6 +1457,7 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 	minstr = 15
+	item_flags = GIANT_WEAPON
 	force_wielded = 35
 	max_integrity = 260
 
@@ -1443,10 +1466,11 @@
 	desc = "Only a giant can effectively make use of this weapon. It has fed one at the expense of many lives."
 	icon_state = "ogre_mace"
 	force = 25
-	force_wielded = 50 // i dont even think thisll do much, compare it to the tetsubo
-	gripped_intents = list(/datum/intent/mace/strike/reach, /datum/intent/mace/smash/reach, /datum/intent/mace/rangedthrust, /datum/intent/effect/daze)
+	force_wielded = 45 // i dont even think thisll do much, compare it to the tetsubo
+	gripped_intents = list(/datum/intent/mace/strike/reach, /datum/intent/mace/smash/reach, /datum/intent/effect/daze)
 	smelt_bar_num = 2
 	minstr = 15
+	item_flags = GIANT_WEAPON
 	force_wielded = 35
 	max_blade_int = 250
 	max_integrity = 280

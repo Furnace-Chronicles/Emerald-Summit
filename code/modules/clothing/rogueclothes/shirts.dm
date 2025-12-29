@@ -163,7 +163,6 @@
 //Royal clothing:
 //................ Royal Dress (Ball Gown)............... //
 /obj/item/clothing/suit/roguetown/shirt/dress/royal
-	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	icon = 'icons/roguetown/clothing/shirts_royalty.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts_royalty.dmi'
 	name = "royal gown"
@@ -203,7 +202,6 @@
 
 //................ Princess Dress ............... //
 /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess
-	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	name = "pristine dress"
 	desc = "A flowy, intricate dress made by the finest tailors in the land for the monarch's children."
 	icon_state = "princess"
@@ -212,7 +210,6 @@
 
 //................ Prince Shirt   ............... //
 /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
-	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	name = "gilded dress shirt"
 	desc = "A gold-embroidered dress shirt specially tailored for the monarch's children."
 	icon_state = "prince"
@@ -266,11 +263,9 @@
 	detail_color = CLOTHING_DARK_GREEN
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
-	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	var/picked = FALSE
 
 /obj/item/clothing/suit/roguetown/shirt/dress/gown/summergown
-	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	name = "summer gown"
 	desc = "A breezy flowing gown fit for warm weathers."
 	icon_state = "summergown"
@@ -278,7 +273,6 @@
 	detail_color = "#e395bb"
 
 /obj/item/clothing/suit/roguetown/shirt/dress/gown/fallgown
-	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	name = "fall gown"
 	desc = "A solemn long-sleeved gown that signifies the season of year's end."
 	icon_state = "fallgown"
@@ -286,7 +280,6 @@
 	detail_color = "#8b3f00"
 
 /obj/item/clothing/suit/roguetown/shirt/dress/gown/wintergown
-	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	name = "winter gown"
 	desc = "A warm elegant gown adorned with soft fur for the cold winter."
 	icon_state = "wintergown"
@@ -424,7 +417,7 @@
 	color = pick(CLOTHING_PURPLE, CLOTHING_RED, CLOTHING_BLUE, CLOTHING_GREEN, CLOTHING_BLACK, CLOTHING_WHITE, COLOR_GRAY)
 	..()
 /obj/item/clothing/suit/roguetown/shirt/dress
-	slot_flags = ITEM_SLOT_ARMOR
+	slot_flags = ITEM_SLOT_SHIRT | ITEM_SLOT_ARMOR | ITEM_SLOT_CLOAK 
 	name = "dress"
 	desc = "A simple dress worn by women and the bold."
 	body_parts_covered = CHEST|GROIN|LEGS|VITALS
@@ -436,7 +429,6 @@
 	flags_inv = HIDECROTCH|HIDEBOOB
 
 /obj/item/clothing/suit/roguetown/shirt/dress/gen
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	name = "dress"
 	desc = "A simple dress worn by women and the bold."
 	body_parts_covered = CHEST|GROIN|LEGS|VITALS
@@ -458,7 +450,6 @@
 	..()
 
 /obj/item/clothing/suit/roguetown/shirt/dress/silkdress
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	name = "chemise"
 	desc = "Comfortable yet elegant, it offers both style and comfort for everyday wear."
 	body_parts_covered = CHEST|GROIN|LEGS|VITALS
@@ -492,7 +483,6 @@
 	color = pick("#e6e5e5", "#52BE80", "#C39BD3", "#EC7063","#5DADE2")
 
 /obj/item/clothing/suit/roguetown/shirt/dress/gen/sexy
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	name = "sheer dress"
 	desc = "A scandalously short dress made of extra fine fibers for a semi-sheer look."
 	body_parts_covered = null
@@ -603,7 +593,6 @@
 
 //................ Noble Dress ............... //
 /obj/item/clothing/suit/roguetown/shirt/dress/noble
-	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	icon = 'icons/roguetown/clothing/shirts.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	name = "noble dress"
@@ -650,7 +639,6 @@
 
 //................ Velvet Dress ............... //
 /obj/item/clothing/suit/roguetown/shirt/dress/velvet
-	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	icon = 'icons/roguetown/clothing/shirts.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	name = "velvet dress"
@@ -755,9 +743,10 @@
 	flags_inv = HIDECROTCH|HIDEBOOB
 
 /obj/item/clothing/suit/roguetown/shirt/ogre
-	name = "gigantic shirt"
-	desc = "This thing's three times the size of a normal human body!"
+	name = "giant shirt"
+	desc = " The difference between you and a more uncivilized giant is, you got this fancy dyed cloth that means you're cultured and important."
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/32x64/ogre_onmob_sleeves.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
 	icon_state = "ogre_shirt"
 	allowed_race = OGRE_RACE_TYPES
+	max_integrity = 250

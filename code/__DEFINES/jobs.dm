@@ -102,9 +102,8 @@
 #define HAND		(1<<2)
 #define STEWARD		(1<<3)
 #define KNIGHT		(1<<4)
-#define GUARD_CAPTAIN		(1<<5)
-#define MARSHAL		(1<<6)
-#define SUITOR		(1<<7)
+#define MARSHAL		(1<<5)
+#define SUITOR		(1<<6)
 
 #define GARRISON		(1<<1)
 
@@ -249,16 +248,15 @@
 #define JDO_BUTLER 7.1
 #define JDO_SERVANT 7.2
 
-#define JDO_GUARD_CAPTAIN 8
-#define JDO_KNIGHT 8.1
-#define JDO_SQUIRE 8.2
-#define JDO_SERGEANT 8.3
-#define JDO_CASTLEGUARD 8.4
-#define JDO_GATEMASTER 8.5
-#define JDO_SHERIFF 8.6
-#define JDO_TOWNGUARD 8.7
-#define JDO_DUNGEONEER 8.8
-#define JDO_BOGGUARD 9.1
+#define JDO_KNIGHT 8
+#define JDO_SQUIRE 8.1
+#define JDO_SERGEANT 8.2
+#define JDO_CASTLEGUARD 8.3
+#define JDO_GATEMASTER 8.4
+#define JDO_SHERIFF 8.5
+#define JDO_TOWNGUARD 8.6
+#define JDO_DUNGEONEER 8.7
+#define JDO_BOGGUARD 9
 
 #define JDO_PRIEST 10
 #define JDO_MARTYR 11

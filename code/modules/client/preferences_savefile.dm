@@ -198,6 +198,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["musicvol"]			>> musicvol
 	S["anonymize"]			>> anonymize
 	S["masked_examine"]		>> masked_examine
+	S["wildshape_name"]		>> wildshape_name
 	S["mute_animal_emotes"]	>> mute_animal_emotes
 	S["no_examine_blocks"]	>> no_examine_blocks
 	S["crt"]				>> crt
@@ -295,6 +296,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	// End
 
 /datum/preferences/proc/save_preferences()
+	if(!parent || !parent.mob)
+		return FALSE
 	if(!path)
 		return FALSE
 	var/savefile/S = new /savefile(path)
@@ -312,6 +315,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["musicvol"], musicvol)
 	WRITE_FILE(S["anonymize"], anonymize)
 	WRITE_FILE(S["masked_examine"], masked_examine)
+	WRITE_FILE(S["wildshape_name"], wildshape_name)
 	WRITE_FILE(S["mute_animal_emotes"], mute_animal_emotes)
 	WRITE_FILE(S["no_examine_blocks"], no_examine_blocks)
 	WRITE_FILE(S["crt"], crt)
@@ -359,7 +363,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["key_bindings"], key_bindings)
 	WRITE_FILE(S["patreon_say_color"], patreon_say_color)
 	WRITE_FILE(S["patreon_say_color_enabled"], patreon_say_color_enabled)
-	
+
 	return TRUE
 
 
@@ -480,6 +484,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["hair_color"]			>> hair_color
 	S["facial_hair_color"]	>> facial_hair_color
 	S["eye_color"]			>> eye_color
+	S["family"]				>> family
+	S["gender_choice"] 		>> gender_choice
+	S["setspouse"] 			>> setspouse
+	S["xenophobe_pref"]		>> xenophobe_pref
 	S["extra_language"]		>> extra_language
 	S["selected_title"]		>> selected_title
 	S["voice_color"]		>> voice_color
@@ -583,12 +591,18 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//Quirks
 	S["all_quirks"] >> all_quirks
 
+	S["dnr_pref"] >> dnr_pref
+
 	S["update_mutant_colors"]			>> update_mutant_colors
 	update_mutant_colors = sanitize_integer(update_mutant_colors, FALSE, TRUE, initial(update_mutant_colors))
 
 	S["headshot_link"]			>> headshot_link
 	if(!valid_headshot_link(null, headshot_link, TRUE))
 		headshot_link = null
+	S["rumour"]			>> rumour
+	S["rumour_display"]	>> rumour_display
+	S["gossip"]			>> gossip
+	S["gossip_display"]	>> gossip_display
 
 	S["flavortext"]			>> flavortext
 	S["flavortext_display"]	>> flavortext_display
@@ -642,6 +656,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	age				= sanitize_inlist(age, pref_species.possible_ages)
 	eye_color		= sanitize_hexcolor(eye_color, 3, 0)
+	family 			= family
+	gender_choice 	= gender_choice
+	setspouse 		= setspouse
+	xenophobe_pref 	= xenophobe_pref
 	extra_language  = extra_language
 	selected_title  = selected_title
 	voice_color		= voice_color
@@ -762,11 +780,16 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["descriptor_entries"] , descriptor_entries)
 	WRITE_FILE(S["custom_descriptors"] , custom_descriptors)
 
+	WRITE_FILE(S["dnr_pref"] , dnr_pref)
 	WRITE_FILE(S["update_mutant_colors"] , update_mutant_colors)
 	WRITE_FILE(S["headshot_link"] , headshot_link)
 	WRITE_FILE(S["nsfw_headshot_link"] , nsfw_headshot_link)
 	WRITE_FILE(S["flavortext"] , html_decode(flavortext))
 	WRITE_FILE(S["flavortext_display"], flavortext_display)
+	WRITE_FILE(S["rumour"] , html_decode(rumour))
+	WRITE_FILE(S["rumour_display"], rumour_display)
+	WRITE_FILE(S["gossip"] , html_decode(gossip))
+	WRITE_FILE(S["gossip_display"], gossip_display)
 	WRITE_FILE(S["ooc_notes"] , html_decode(ooc_notes))
 	WRITE_FILE(S["ooc_notes_display"], ooc_notes_display)
 	WRITE_FILE(S["ooc_extra"],	ooc_extra)
@@ -780,6 +803,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["virtuetwo"], virtuetwo.type)
 	WRITE_FILE(S["virtue_origin"], virtue_origin.type)
 	WRITE_FILE(S["combat_music"], combat_music.type)
+	WRITE_FILE(S["family"], family)
+	WRITE_FILE(S["gender_choice"], gender_choice)
+	WRITE_FILE(S["setspouse"], setspouse)
+	WRITE_FILE(S["xenophobe_pref"], xenophobe_pref)
 	WRITE_FILE(S["body_size"] , features["body_size"])
 	if(loadout)
 		WRITE_FILE(S["loadout"] , loadout.type)
@@ -793,7 +820,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		WRITE_FILE(S["loadout3"] , loadout3.type)
 	else
 		WRITE_FILE(S["loadout3"] , null)
-	
+
 	WRITE_FILE(S["loadout_1_hex"], loadout_1_hex)
 	WRITE_FILE(S["loadout_2_hex"], loadout_2_hex)
 	WRITE_FILE(S["loadout_3_hex"], loadout_3_hex)

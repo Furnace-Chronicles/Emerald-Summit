@@ -102,10 +102,10 @@
 			l_hand = /obj/item/rogueweapon/katar/punchdagger/frei
 		if("Boar Spear")
 			r_hand = /obj/item/rogueweapon/spear/boar
-			wrists = /obj/item/rogueweapon/katar/punchdagger
+			beltr = /obj/item/rogueweapon/katar/punchdagger
 		if("Lucerne")		//A normal lucerne for the people that get no drip & no bitches.
 			r_hand = /obj/item/rogueweapon/eaglebeak/lucerne
-			wrists = /obj/item/rogueweapon/katar/punchdagger
+			beltr = /obj/item/rogueweapon/katar/punchdagger
 
 	belt = /obj/item/storage/belt/rogue/leather/sash
 	beltl = /obj/item/flashlight/flare/torch/lantern

@@ -781,6 +781,29 @@
 	update_stat()
 	SEND_SIGNAL(src, COMSIG_LIVING_HEALTH_UPDATE)
 
+/mob/living/proc/check_revive(mob/living/user)
+	if(src == user)
+		return FALSE
+	if(!mind)
+		return FALSE
+	if(!mind.active)
+		to_chat(user, span_warning("Necra is not done with [src], yet."))
+		return FALSE
+	if(HAS_TRAIT(src, TRAIT_DNR))
+		to_chat(user, span_danger("None of the Ten have them. Their only chance is spent. Where did they go?"))
+		return FALSE
+	if(HAS_TRAIT(src, TRAIT_NECRAS_VOW))
+		to_chat(user, span_warning("This one has pledged themselves whole to Necra. They are Hers."))
+		return FALSE
+	if(stat < DEAD)
+		to_chat(user, span_warning("Nothing happens."))
+		return FALSE
+	if(HAS_TRAIT(src, TRAIT_HOLLOW_LIFE))
+		to_chat(user, span_bloody("Astrata scorns this one, for reasons unknown. Lux infusal is the only option."))
+		src.adjustFireLoss(30)
+		src.fire_act(1,5)
+	return TRUE
+
 //Proc used to resuscitate a mob, for full_heal see fully_heal()
 /mob/living/proc/revive(full_heal = FALSE, admin_revive = FALSE)
 	SEND_SIGNAL(src, COMSIG_LIVING_REVIVE, full_heal, admin_revive)
@@ -804,8 +827,7 @@
 		if(mind)
 			if(admin_revive)
 				mind.remove_antag_datum(/datum/antagonist/zombie)
-			for(var/S in mind.spell_list)
-				var/obj/effect/proc_holder/spell/spell = S
+			for(var/obj/effect/proc_holder/spell/spell as anything in mind.spell_list)
 				spell.updateButtonIcon()
 		qdel(GetComponent(/datum/component/rot))
 
@@ -822,8 +844,7 @@
 
 /mob/living/Crossed(atom/movable/AM)
 	. = ..()
-	for(var/i in get_equipped_items())
-		var/obj/item/item = i
+	for(var/obj/item/item as anything in get_equipped_items())
 		SEND_SIGNAL(item, COMSIG_ITEM_WEARERCROSSED, AM, src)
 
 /// proc used to completely heal a mob. admin_revive = TRUE is used in other procs, for example mob/living/carbon/fully_heal()
@@ -1118,6 +1139,7 @@
 		client.chargedprog = 0
 		client.tcompare = null //so we don't shoot the attack off
 		client.mouse_pointer_icon = 'icons/effects/mousemice/human.dmi'
+		STOP_PROCESSING(SSmousecharge, client)
 	if(used_intent)
 		used_intent.on_mouse_up()
 	if(mmb_intent)
@@ -2152,8 +2174,9 @@
 		ttime = 10 - (STAPER - 5)
 		if(ttime < 0)
 			ttime = 0
-
-	visible_message(span_info("[src] looks down through [T]."))
+	
+	if(m_intent != MOVE_INTENT_SNEAK)
+		visible_message(span_info("[src] looks down through [T]."))
 
 	if(!do_after(src, ttime, target = src))
 		return

@@ -177,7 +177,7 @@
 	id = "net"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/netted
 	effectedstats = list("speed" = -5, "endurance" = -2)
-	duration = 3 MINUTES
+	duration = 10 SECONDS
 
 /datum/status_effect/debuff/netted/on_apply()
 		. = ..()
@@ -227,6 +227,16 @@
 	desc = "With some sleep in a coffin I feel like I could become better."
 	icon_state = "sleepy"
 
+/datum/status_effect/debuff/ritualdefiled
+	id = "ritualdefiled"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/ritualdefiled
+	effectedstats = list(STATKEY_STR = -1, STATKEY_END = -1, STATKEY_CON = -1, STATKEY_SPD = -1, STATKEY_LCK = -1)
+	duration = 1 HOURS // Punishing AS FUCK, but not as punishing as being dead.
+
+/atom/movable/screen/alert/status_effect/debuff/ritualdefiled
+	name = "Tainted Lux"
+	desc = "My Lux has been tainted in a vile heretic ritual."
+
 /// SURRENDERING DEBUFFS
 
 /datum/status_effect/debuff/breedable
@@ -273,6 +283,24 @@
 	name = "Chilled"
 	desc = "I can barely feel my limbs!"
 	icon_state = "chilled"
+
+/datum/status_effect/debuff/ritesexpended_severe
+	id = "ritesexpended_severe"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/ritesexpended_severe
+	duration = 60 MINUTES
+
+/atom/movable/screen/alert/status_effect/debuff/ritesexpended_severe
+	name = "Rites Complete"
+	desc = "It will take time before I can next perform a rite."
+	icon_state = "ritesexpended"
+
+/datum/status_effect/debuff/ritesexpended_severe/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_RITES_BLOCKED, TRAIT_MIRACLE)
+
+/datum/status_effect/debuff/ritesexpended_severe/on_remove()
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_RITES_BLOCKED, TRAIT_MIRACLE)
 
 /datum/status_effect/debuff/ritesexpended_high
 	id = "ritesexpended_high"
@@ -609,6 +637,46 @@
 	desc = "Something has chilled me to the bone! It's hard to move."
 	icon_state = "muscles"
 
+/datum/status_effect/debuff/blackvitae
+	id = "blackvitae"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/blackvitae
+	duration = 20 SECONDS
+
+/atom/movable/screen/alert/status_effect/debuff/blackvitae
+	name = "Bloodrot"
+	desc = span_bloody("BLACKENED ROT SEEPS INTO MY WOUNDS! IT HURTS, IT HURTS, IT HURTS, IT HURTS!!")
+	icon_state = "ritesexpended"
+
+/datum/status_effect/debuff/blackvitae/on_apply()
+	. = ..()
+	if(iscarbon(owner))
+		var/mob/living/carbon/human/target = owner
+		var/newcolor = rgb(67, 67, 67) // six saayveen
+		var/datum/physiology/phy = target.physiology
+		phy.bleed_mod *= 1.5
+		phy.pain_mod *= 1.5
+		target.add_atom_colour(newcolor, TEMPORARY_COLOUR_PRIORITY)
+		addtimer(CALLBACK(target, TYPE_PROC_REF(/atom, remove_atom_colour), TEMPORARY_COLOUR_PRIORITY, newcolor), 20 SECONDS)
+
+/datum/status_effect/debuff/blackvitae/on_remove()
+	. = ..()
+	if(iscarbon(owner))
+		var/mob/living/carbon/human/target = owner
+		var/datum/physiology/phy = target.physiology
+		phy.bleed_mod /= 1.5
+		phy.pain_mod /= 1.5
+/datum/status_effect/debuff/sunspurn
+	id = "Sunspurn"
+	alert_type =  /atom/movable/screen/alert/status_effect/debuff/sunspurn
+	effectedstats = list("strength" = -2, "endurance" = -3, "constitution" = -3)
+	duration = 1 MINUTES
+
+/atom/movable/screen/alert/status_effect/debuff/sunspurn
+	name = "Sunspurned"
+	desc = "Astrata spurns me! I feel so weak..."
+	icon_state = "muscles"
+
+
 /datum/status_effect/debuff/sensitivity
 	id = "Sunlight Sensitivity"
 	alert_type =  /atom/movable/screen/alert/status_effect/debuff/sensitivity
@@ -922,3 +990,40 @@
 	name = "Special Manouevre Cooldown"
 	desc = "I used it. I must wait."
 	icon_state = "debuff"
+
+//baotha stuff
+/datum/status_effect/debuff/joybringer_druqks
+	id = "joybringer_druqks"
+	effectedstats = list(STATKEY_LCK = -2)
+	duration = 3 SECONDS
+	alert_type = null
+
+/datum/status_effect/debuff/joybringer_druqks/on_apply()
+	. = ..()
+	owner.overlay_fullscreen("joybringer_weeds", /atom/movable/screen/fullscreen/weedsm)
+	owner.overlay_fullscreen("joybringer_druqks", /atom/movable/screen/fullscreen/druqks)
+
+	ADD_TRAIT(owner, TRAIT_DRUQK, src)
+
+	if(owner.client)
+		SSdroning.play_area_sound(get_area(owner), owner.client)
+
+/datum/status_effect/debuff/joybringer_druqks/on_remove()
+	. = ..()
+	owner.clear_fullscreen("joybringer_druqks")
+	owner.clear_fullscreen("joybringer_weeds")
+
+	REMOVE_TRAIT(owner, TRAIT_DRUQK, src)
+
+	if(owner.client)
+		SSdroning.play_area_sound(get_area(owner), owner.client)
+
+/datum/status_effect/debuff/joybringer_druqks/tick()
+	owner.hallucination += 3
+	owner.Jitter(1)
+
+	if(!prob(10))
+		return
+
+	owner.emote(pick("chuckle", "giggle"))
+//baotha stuff end

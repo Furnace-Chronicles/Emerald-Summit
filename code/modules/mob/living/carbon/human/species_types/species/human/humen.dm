@@ -8,13 +8,15 @@
 	origin_default = /datum/virtue/origin/grenzelhoft
 	origin = "Grenzelhoft"
 	sub_name = "Northern Humen"
-	desc = "<b>Humen: Objectively the Best</b><br>\
-	Created directly by Psydon’s hands the humans were made in his image, determined and proud. \
-	Found across the world they are diverse in belief and culture, yet their differences strengthen the bond of this species. \
-	Even if they hail from nations historically at odds, evolutionary design urges them to help another human in need. \
-	Their people are found in every continent, in the worship of all the Gods, serving as a commonality. \
-	If civilization has touched any corner of the world then humans have left their bootprints in the sand. They hold no dominant traits but a sense of pride.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 END | +1 INT</b></span> </br>"
+	shortdesc = "<b>Humen</b><br>\
+	Humens are a well-known, populous race. Numerous cities of the world teem with their numbers, and just as many ruins show marks of their craftsmanship.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 END | +1 INT</b></span>"
+	desc = "<b>Humen</b><br>\
+	Humens are a well-known, populous race. Numerous cities of the world teem with their numbers, and just as many ruins show marks of their craftsmanship.<br>\
+	As a people, humens are creatures of contradiction: stubborn but adaptable, social yet bellicose. Their goals are as mercurial and short-lived as they are.<br>\
+	The current era of history is undoubtedly theirs, for however long that may be.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 END | +1 INT</b></span> <br><br>\
+	<span style='color: #8B0000'>The Ascendant Matthios, patron of the greedy, rose from the ranks of the humen race. Many other races consider this indicative of Humenity's nature as rude, avaricious beings.</span>"
 
 	skin_tone_wording = "Ancestry"
 

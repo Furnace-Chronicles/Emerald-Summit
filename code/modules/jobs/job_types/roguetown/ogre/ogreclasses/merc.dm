@@ -5,17 +5,18 @@
 	allowed_races = /datum/species/ogre
 	outfit = /datum/outfit/job/roguetown/ogre/mercenary
 	category_tags = list(CTAG_OGRE)
-	cmode_music = 'sound/music/combat_fullplate.ogg' // i actually really like this one - zera
+	cmode_music = 'sound/music/combat_fullplate.ogg'
+	maximum_possible_slots = 1
 
 
-	traits_applied = list(TRAIT_NOPAINSTUN, TRAIT_CALTROPIMMUNE, TRAIT_STRONGBITE, TRAIT_MEDIUMARMOR) //strongbite might be funny
+	traits_applied = list(TRAIT_BASHDOORS, TRAIT_STEELHEARTED, TRAIT_CALTROPIMMUNE, TRAIT_STRONGBITE, TRAIT_MEDIUMARMOR) //strongbite might be funny
 	subclass_stats = list( 
-		STATKEY_STR = 4, 
+		STATKEY_STR = 3, 
 		STATKEY_CON = 3,
 		STATKEY_END = 3,
 		STATKEY_SPD = -1,
 		STATKEY_INT = -1,
-	) //4 (class) + 2 (race) strength is 16 base strength - 15 is min strength for their weapons and i think itd be cool for people to play around with statpacks
+	) 
 
 	subclass_skills = list(
 		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
@@ -35,7 +36,7 @@
 		to_chat(H, span_warning("Hailing from Gronn, you've learned that ogres are tolerated if they provide their massive strength to others, and coin can help you get more ale and meat if you got enough of it. You've come to Scarlet Reach with a simple goal. Get paid, get food."))
 		shoes = /obj/item/clothing/shoes/roguetown/armor/ogre
 		shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ogre
-		neck = /obj/item/clothing/neck/roguetown/gorget/steel/ogre
+		neck = /obj/item/clothing/neck/roguetown/gorget/ogre
 		pants = /obj/item/clothing/under/roguetown/chainlegs/ogre
 		gloves = /obj/item/clothing/gloves/roguetown/plate/ogre
 		wrists = /obj/item/clothing/wrists/roguetown/bracers/ogre

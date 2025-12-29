@@ -39,3 +39,10 @@
 	name = "'scarred warscholar's mask' morphing elixer'"
 	target_items = list(/obj/item/clothing/mask/rogue/lordmask/naledi)
 	result_item = /obj/item/clothing/mask/rogue/lordmask/naledi/viz
+
+//Invyicta donator item - Silk of the Archmage
+
+/obj/item/enchantingkit/invyicta_dress
+	name = "'Silk of the Archmage' morphing elixer'"
+	target_items = list(/obj/item/clothing/suit/roguetown/shirt/dress/silkydress)
+	result_item = /obj/item/clothing/suit/roguetown/shirt/dress/silkydress/invyicta

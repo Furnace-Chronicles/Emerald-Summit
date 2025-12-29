@@ -76,3 +76,8 @@
 	contains = list(
 					/obj/item/storage/belt/rogue/leather/smokebelt
 				)
+
+/datum/supply_pack/rogue/bath_rogue/mirrortransform
+	name = "Scroll of Mirror Transform"
+	cost = 50
+	contains = list(/obj/item/book/granter/spell/blackstone/mirror_transform)

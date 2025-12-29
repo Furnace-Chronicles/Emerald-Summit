@@ -79,9 +79,11 @@
 	storyteller = /datum/storyteller/graggar
 
 /datum/patron/inhumen/graggar/situational_bonus(mob/living/follower, mob/living/target)
-	// if you've got lingering toxin damage, you get healed more, but your bonus healing doesn't affect toxin
-	// also this kind of sucks and isn't very graggary at all
-	return list((follower.getToxLoss() > 0), 2.5)
+	var/situational_bonus = 0
+	// the bloodier the area around our target is, the more we heal
+	for (var/obj/effect/decal/cleanable/blood/O in oview(5, follower))
+		situational_bonus = min(situational_bonus + 0.1, 5)
+	return list((situational_bonus > 0), situational_bonus)
 
 /datum/patron/inhumen/matthios
 	name = "Matthios"
@@ -121,10 +123,14 @@
 	mob_traits = list(TRAIT_DEPRAVED, TRAIT_CRACKHEAD)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/baothavice					= CLERIC_T0,
+					/obj/effect/proc_holder/spell/targeted/touch/loversruin             = CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/baothablessings				= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/griefflower                   = CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/blowingdust		= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/joyride                       = CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/lasthigh                      = CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/painkiller					= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/wound_heal					= CLERIC_T4,
 	)

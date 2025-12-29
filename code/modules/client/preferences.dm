@@ -101,6 +101,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/shake = TRUE
 	var/sexable = FALSE
 	var/compliance_notifs = TRUE
+	var/wildshape_name = TRUE
+	var/xenophobe_pref = 1
 
 	var/list/custom_names = list()
 	var/preferred_ai_core_display = "Blue"
@@ -155,12 +157,17 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/highlight_color = "#FF0000"
 	var/datum/charflaw/charflaw
 
+	var/family = FAMILY_NONE
+	var/setspouse = ""
+	var/gender_choice = ANY_GENDER
+
 	var/static/default_cmusic_type = /datum/combat_music/default
 	var/datum/combat_music/combat_music
 	var/combat_music_helptext_shown = FALSE
 
 	var/crt = FALSE
 	var/grain = TRUE
+	var/dnr_pref = FALSE
 
 	var/list/customizer_entries = list()
 	var/list/list/body_markings = list()
@@ -198,6 +205,13 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	var/ooc_notes
 	var/ooc_notes_display
+
+	var/rumour
+	var/rumour_display
+
+	var/gossip
+	var/gossip_display
+
 
 	var/tail_type = /obj/item/bodypart/lamian_tail/lamian_tail
 	var/tail_color = "ffffff"
@@ -259,7 +273,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	ResetJobs()
 	if(user)
 		if(pref_species.desc)
-			to_chat(user, "[pref_species.desc]")
+			to_chat(user, "[pref_species.shortdesc ? "[pref_species.shortdesc]<br><a href='?_src_=prefs;preference=racelorehelp;task=input'>Read More</a>" : "[pref_species.desc]"]")
 		to_chat(user, "<font color='red'>Classes reset.</font>")
 	random_character(gender, FALSE, FALSE)
 	accessory = "Nothing"
@@ -388,7 +402,27 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<BR>"
 			dat += "<b>Race:</b> <a href='?_src_=prefs;preference=species;task=input'>[pref_species.base_name]</a>[spec_check(user) ? "" : " (!)"]<BR>"
 			dat += "<b>Subrace:</b> <a href='?_src_=prefs;preference=subspecies;task=input'>[pref_species.sub_name]</a>[spec_check(user) ? "" : " (!)"] <a href='?_src_=prefs;preference=racehelp;task=input'>[pref_species.psydonic ? "<font color='#1cb308'>ᛉ</font>" : "<font color='#aa0202'>ᛣ</font>"]</a><BR>"
+			if(pref_species.use_titles)
+				var/display_title = selected_title ? selected_title : "None"
+				dat += "<b>Race Title:</b> <a href='?_src_=prefs;preference=race_title;task=input'>[display_title]</a><BR>"
 			dat += "<b>Origin:</b> <a href='?_src_=prefs;preference=origin;task=input'>[virtue_origin]</a> <a href='?_src_=prefs;preference=originhelp;task=input'>❖</a><BR>"
+			if(agevetted)
+				dat += "<b>Family:</b> <a href='?_src_=prefs;preference=family'>[family ? family : "None"]</a><BR>"
+				if(family != FAMILY_NONE)
+					var/spousename = "Preferred Spouse"
+					if(family == FAMILY_PARTIAL)
+						spousename = "Preferred Parent"
+					dat += "<b>[spousename]:</b> <a href='?_src_=prefs;preference=setspouse'>[setspouse ? setspouse : "None"]</a><BR>"
+					if(family == FAMILY_NEWLYWED || family == FAMILY_FULL)
+						dat += "<b>Preferred Gender:</b> <a href='?_src_=prefs;preference=gender_choice'>[gender_choice ? gender_choice : "Any Gender"]</a><BR>"
+						var/species_text
+						if(xenophobe_pref == 1)
+							species_text = "<font color='#FFA500'>Race only</font>"
+						else if(xenophobe_pref == 2)
+							species_text = "<font color='#aa0202'>Subrace Only</font>"
+						else
+							species_text = "<font color='#1cb308'>Unrestricted</font>"
+						dat += "<b>Restrict Species:</b> <a href='?_src_=prefs;preference=species_choice'>[species_text]</a><BR>"
 
 			var/datum/language/selected_lang
 			var/lang_output = "None"
@@ -400,11 +434,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 			// LETHALSTONE EDIT BEGIN: add statpack selection
 			dat += "<b>Statpack:</b> <a href='?_src_=prefs;preference=statpack;task=input'>[statpack.name]</a><BR>"
-			if(pref_species.use_titles)
-				var/display_title = selected_title ? selected_title : "None"
-				dat += "<b>Race Title:</b> <a href='?_src_=prefs;preference=race_title;task=input'>[display_title]</a><BR>"
-			else
-				dat += "<BR>"
+			dat += "<BR>"
 //			dat += "<a href='?_src_=prefs;preference=species;task=random'>Random Species</A> "
 //			dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_SPECIES]'>Always Random Species: [(randomise[RANDOM_SPECIES]) ? "Yes" : "No"]</A><br>"
 
@@ -448,12 +478,12 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<b>Faith:</b> <a href='?_src_=prefs;preference=faith;task=input'>[selected_faith?.name || "FUCK!"]</a><BR>"
 			dat += "<b>Patron:</b> <a href='?_src_=prefs;preference=patron;task=input'>[selected_patron?.name || "FUCK!"]</a><BR>"
 
-
 			dat += "<b>Dominance:</b> <a href='?_src_=prefs;preference=domhand'>[domhand == 1 ? "Left-handed" : "Right-handed"]</a><BR>"
 
 			var/musicname = (combat_music.shortname ? combat_music.shortname : combat_music.name)
 			dat += "<b>Combat Music:</b> <a href='?_src_=prefs;preference=combat_music;task=input'>[musicname || "FUCK!"]</a><BR>"
 			dat += "<b>Food Preferences:</b> <a href='?_src_=prefs;preference=culinary;task=menu'>Change</a><BR>"
+			dat += "<b>Unrevivable:</b> <a href='?_src_=prefs;preference=dnr;task=input'>[dnr_pref ? "Yes" : "No"]</a><BR>"
 
 /*
 			dat += "<br><br><b>Special Names:</b><BR>"
@@ -536,6 +566,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<br><b>[(length(flavortext) < MINIMUM_FLAVOR_TEXT) ? "<font color = '#802929'>" : ""]Flavortext:[(length(flavortext) < MINIMUM_FLAVOR_TEXT) ? "</font>" : ""]</b><a href='?_src_=prefs;preference=formathelp;task=input'>(?)</a><a href='?_src_=prefs;preference=flavortext;task=input'>Change</a>"
 
 			dat += "<br><b>[(length(ooc_notes) < MINIMUM_OOC_NOTES) ? "<font color = '#802929'>" : ""]OOC Notes:[(length(ooc_notes) < MINIMUM_OOC_NOTES) ? "</font>" : ""]</b><a href='?_src_=prefs;preference=formathelp;task=input'>(?)</a><a href='?_src_=prefs;preference=ooc_notes;task=input'>Change</a>"
+
+			// Rumours / Gossip
+			dat += "<br><b>Rumours:</b> <a href='?_src_=prefs;preference=rumour;task=input'>Change</a>"
+			dat += "<br><b>Noble Gossip:</b> <a href='?_src_=prefs;preference=gossip;task=input'>Change</a>"
 
 			if(agevetted)
 				dat += "<br><b>OOC Extra:</b> <a href='?_src_=prefs;preference=ooc_extra;task=input'>Change</a>"
@@ -872,7 +906,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	popup.open(FALSE)
 	onclose(user, "capturekeypress", src)
 
-/datum/preferences/proc/SetChoices(mob/user, limit = 14, list/splitJobs = list("Court Magician", "Knight Captain", "Priest", "Merchant", "Town Elder", "Adventurer", "Grenzelhoft Mercenary", "Beggar", "Prisoner", "Goblin King"), widthPerColumn = 295, height = 620) //295 620
+/datum/preferences/proc/SetChoices(mob/user, limit = 14, list/splitJobs = list("Court Magician", "Knight", "Priest", "Merchant", "Town Elder", "Adventurer", "Grenzelhoft Mercenary", "Beggar", "Prisoner", "Goblin King"), widthPerColumn = 295, height = 620) //295 620
 	if(!SSjob)
 		return
 
@@ -1280,6 +1314,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 			C.clear_character_previews()
 
 /datum/preferences/proc/process_link(mob/user, list/href_list)
+	if(!user?.client || !parent)
+		return FALSE
+		
 	if(href_list["bancheck"])
 		var/list/ban_details = is_banned_from_with_details(user.ckey, user.client.address, user.client.computer_id, href_list["bancheck"])
 		var/admin = FALSE
@@ -1584,6 +1621,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 								to_chat(user, "In a place as lethal as PSYDONIA, the elderly are all but marvels... or beneficiaries of the habitually privileged. (-1 STR, -2 SPE, -1 PER, -2 CON, +2 INT, +1 FOR)")
 						// LETHALSTONE EDIT END
 						ResetJobs()
+						family = FAMILY_NONE
 						to_chat(user, "<font color='red'>Classes reset.</font>")
 
 				// LETHALSTONE EDIT: add statpack selection
@@ -1819,6 +1857,12 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					var/datum/browser/popup = new(user, "Race Help", nwidth = 600, nheight = 450)
 					popup.set_content(dat.Join())
 					popup.open(FALSE)
+				if("racelorehelp")
+					var/list/dat = list()
+					dat += "[pref_species.desc]"
+					var/datum/browser/popup = new(user, "[pref_species.name]", nwidth = 600, nheight = 450)
+					popup.set_content(dat.Join())
+					popup.open(FALSE)
 				if("skin_color_ref_list")
 					var/list/dat = list()
 					dat +="Skin color codes reference list<br>"
@@ -1860,6 +1904,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						return
 					ooc_notes = new_ooc_notes
 
+
 					var/ooc = ooc_notes
 					ooc = html_encode(ooc)
 					ooc = replacetext(parsemarkdown_basic(ooc), "\n", "<BR>")
@@ -1867,6 +1912,53 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					is_legacy = FALSE
 					to_chat(user, "<span class='notice'>Successfully updated OOC notes.</span>")
 					log_game("[user] has set their OOC notes'.")
+				if("rumour")
+					to_chat(user, "<span class='notice'>["<span class='bold'>Rumours are things others might know, or think they know about you, they don't necessarily have to be precise, or even true. But remember that they can provide a hint to another player on how to interact with, or even think about your character.</span>"]</span>")
+					var/new_rumour = tgui_input_text(user, "Input rumours about your character: (400 Character Limit)", "Rumours", rumour, multiline = TRUE, encode = FALSE, bigmodal = TRUE)
+					if(new_rumour == null)
+						return
+					if(new_rumour == "")
+						rumour = null
+						rumour_display = null
+						is_legacy = FALSE
+						ShowChoices(user)
+						return
+					if(length(new_rumour) > 400)
+						to_chat(user, "<span class='warning'>Rumours cannot exceed 400 characters.</span>")
+						ShowChoices(user)
+						return
+					rumour = new_rumour
+					var/r = rumour
+					r = html_encode(r)
+					r = replacetext(parsemarkdown_basic(r), "\n", "<BR>")
+					rumour_display = r
+					is_legacy = FALSE
+					to_chat(user, "<span class='notice'>Successfully updated Rumours</span>")
+					log_game("[user] has set their rumour'.")
+
+				if("gossip")
+					to_chat(user, "<span class='notice'>["<span class='bold'>Gossip is rumours spread around, and known only in Noble circles, only other well-born individuals are aware of it. Gossip, similarly to standard rumours does not need to be precise or true, but remember that it can provide hints and avenues for other Nobles to interact with, and judge your Character.</span>"]</span>")
+					var/new_gossip = tgui_input_text(user, "Input noble gossip about your character: (400 Character Limit)", "Noble Gossip", gossip, multiline = TRUE, encode = FALSE, bigmodal = TRUE)
+					if(new_gossip == null)
+						return
+					if(new_gossip == "")
+						gossip = null
+						gossip_display = null
+						is_legacy = FALSE
+						ShowChoices(user)
+						return
+					if(length(new_gossip) > 400)
+						to_chat(user, "<span class='warning'>Noble gossip cannot exceed 400 characters.</span>")
+						ShowChoices(user)
+						return
+					gossip = new_gossip
+					var/g = gossip
+					g = html_encode(g)
+					g = replacetext(parsemarkdown_basic(g), "\n", "<BR>")
+					gossip_display = g
+					is_legacy = FALSE
+					to_chat(user, "<span class='notice'>Successfully updated Noble Gossip</span>")
+					log_game("[user] has set their noble gossip'.")
 				if("nsfw_headshot")
 					if(!user.check_agevet()) return
 					to_chat(user, "<span class='notice'>Finally a place to show it all.</span>")
@@ -2108,6 +2200,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 				if("update_mutant_colors")
 					update_mutant_colors = !update_mutant_colors
+				
+				if("dnr")
+					dnr_pref =!dnr_pref
 
 				if("virtue")
 					var/list/virtue_choices = list()
@@ -2396,7 +2491,55 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						domhand = 2
 					else
 						domhand = 1
-				
+				if("family")
+					var/list/famtree_options_list = list(FAMILY_NONE, FAMILY_PARTIAL, FAMILY_NEWLYWED, "EXPLAIN THIS TO ME")
+					if(age != AGE_ADULT)
+						famtree_options_list = list(FAMILY_NONE, FAMILY_PARTIAL, FAMILY_NEWLYWED, FAMILY_FULL, "EXPLAIN THIS TO ME")
+					var/new_family = tgui_input_list(user, "SELECT YOUR HERO'S BOND", "BLOOD IS THICKER THAN WATER", famtree_options_list, family)
+					if(new_family == "EXPLAIN THIS TO ME")
+						to_chat(user, span_purple("\
+						--[FAMILY_NONE] will disable this feature.<br>\
+						--[FAMILY_PARTIAL] will assign you as a progeny of a local house based on your species. This feature will instead assign you as a aunt or uncle to a local family if your older than ADULT.<br>\
+						--[FAMILY_NEWLYWED] assigns you a spouse without adding you to a family. Setspouse will prioritize pairing you with another newlywed with the same name as your setspouse.<br>\
+						--[FAMILY_FULL] will attempt to assign you as matriarch or patriarch of one of the local houses of the kingdom/town. Setspouse will will prevent \
+						players with the setspouse = None from matching with you unless their name equals your setspouse."))
+
+					else if(new_family)
+						family = new_family
+						setspouse = null
+						gender_choice = ANY_GENDER
+						xenophobe_pref = 1
+				//Setspouse is part of the family subsystem. It will check existing families for this character and attempt to place you in this family.
+				if("setspouse")
+					var/newspouse = tgui_input_text(user, "INPUT THE IDENTITY OF ANOTHER HERO", "TIL DEATH DO US PART")
+					if(newspouse)
+						setspouse = newspouse
+					else
+						setspouse = null
+				//Gender_choice is part of the family subsytem. It will check existing families members with the same preference of this character and attempt to place you in this family.
+				if("gender_choice")
+					// If pronouns are neutral, lock to ANY_GENDER
+					if(pronouns == THEY_THEM || pronouns == IT_ITS)
+						to_chat(user, span_warning("With neutral pronouns, you may only choose [ANY_GENDER]."))
+						gender_choice = ANY_GENDER
+					else
+						var/list/gender_choice_option_list = list(ANY_GENDER, SAME_GENDER, DIFFERENT_GENDER)
+						var/new_gender_choice  = tgui_input_list(user, "SELECT YOUR HERO'S PREFERENCE", "TO LOVE AND TO CHERISH", gender_choice_option_list, gender_choice)
+						if(new_gender_choice)
+							gender_choice = new_gender_choice
+				if("species_choice")
+					xenophobe_pref += 1
+					if(xenophobe_pref > 2)
+						if(family == FAMILY_FULL)
+							xenophobe_pref = 1
+						else
+							xenophobe_pref = 0
+					if(xenophobe_pref == 1)
+						to_chat(user, "Spouse species will be restricted to your race.")
+					else if(xenophobe_pref == 2)
+						to_chat(user, "Spouse species will be restricted to your subrace.")
+					else
+						to_chat(user, "Spouse species is unrestricted.")
 				if("hotkeys")
 					hotkeys = !hotkeys
 					if(hotkeys)
@@ -2746,6 +2889,11 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	character.set_patron(selected_patron)
 	character.backpack = backpack
 
+	character.familytree_pref = family
+	character.gender_choice_pref = gender_choice
+	character.setspouse = setspouse
+	character.xenophobe = xenophobe_pref
+
 	character.jumpsuit_style = jumpsuit_style
 
 	if(charflaw)
@@ -2771,6 +2919,12 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	character.ooc_notes = ooc_notes
 
 	character.ooc_notes_display = ooc_notes_display
+
+	
+	character.rumour = rumour
+	character.rumour_display = rumour_display
+	character.gossip = gossip
+	character.gossip_display = gossip_display
 
 	character.is_legacy = is_legacy
 

@@ -1416,6 +1416,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/obj_fix()
 	..()
 	update_damaged_state()
+	if (shoddy_repair) // if we've been jury-rig repaired, ensure our integrity is only restored to 60%
+		obj_integrity = max_integrity * 0.6
 
 /obj/item/obj_destruction(damage_flag)
 	if (damage_flag == "acid")
@@ -1552,6 +1554,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/examine(mob/user)
 	. = ..()
+	if(item_flags & GIANT_WEAPON)
+		. += span_warning("This weapon is designed for giants. Those without giant strength will require double the normal strength to wield it effectively.")
 	if(isliving(user))
 		var/mob/living/L = user
 		if(L.STAINT < 9)

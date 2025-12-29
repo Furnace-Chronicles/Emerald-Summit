@@ -39,6 +39,14 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/mob/living/current
 	var/active = 0
 
+	// This was a Temporary Workaround, but it's too good to remove even though hangups are fixed
+	// Deferred equipment for players who disconnect during roundstart processing
+	var/pending_equipment_job = null	// Job rank to equip
+	var/pending_equipment_latejoin = FALSE	// Was this latejoin?
+	
+	// Knowledge processing flag - set during equipment, triggered after key transfer
+	var/needs_knowledge_processing = FALSE
+
 	var/memory
 
 	var/datum/job/assigned_role
@@ -174,6 +182,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		if(H.dna && H.dna.species)
 			known_people[H.real_name]["FSPECIES"] = H.dna.species.name
 		known_people[H.real_name]["FAGE"] = H.age
+		if(H.family_datum)
+			known_people[H.real_name]["FHOUSE"] = H.family_datum.housename
 		if (ishuman(current))
 			var/mob/living/carbon/human/C = current
 			var/heretic_text = H.get_heretic_symbol(C)
@@ -211,12 +221,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 				M.known_people[H.real_name]["FGENDER"] = referred_gender
 				M.known_people[H.real_name]["FSPECIES"] = H.dna.species.name
 				M.known_people[H.real_name]["FAGE"] = H.age
-				if(ishuman(M.current))
-					var/mob/living/carbon/human/C = M.current
-					var/heretic_text = C.get_heretic_symbol(H)
-					if (heretic_text)
-						M.known_people[H.real_name]["FHERESY"] = heretic_text
-				
+				if(H.family_datum)
+					M.known_people[H.real_name]["FHOUSE"] = H.family_datum.housename
 
 /datum/mind/proc/do_i_know(datum/mind/person, name)
 	if(!person && !name)
@@ -259,20 +265,33 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		var/fcolor = known_people[P]["VCOLOR"]
 		if(!fcolor)
 			continue
-		var/fjob = known_people[P]["FJOB"]
+		// Get fresh job title on display (handles wildshape/job changes dynamically)
+		var/fjob = get_known_person_job(P)
 		var/fgender = known_people[P]["FGENDER"]
 		var/fspecies = known_people[P]["FSPECIES"]
 		var/fage = known_people[P]["FAGE"]
+		var/fhouse = known_people[P]["FHOUSE"]
 		var/fheresy = known_people[P]["FHERESY"]
 		if(fcolor && fjob)
 			if (fheresy)
 				contents +="<B><font color=#f1d669>[fheresy]</font></B> "
-			contents += "<B><font color=#[fcolor];text-shadow:0 0 10px #8d5958, 0 0 20px #8d5958, 0 0 30px #8d5958, 0 0 40px #8d5958, 0 0 50px #e60073, 0 0 60px #8d5958, 0 0 70px #8d5958;>[P]</font></B><BR>[fjob], [fspecies], [capitalize(fgender)], [fage]"
+			contents += "<B><font color=#[fcolor];text-shadow:0 0 10px #8d5958, 0 0 20px #8d5958, 0 0 30px #8d5958, 0 0 40px #8d5958, 0 0 50px #e60073, 0 0 60px #8d5958, 0 0 70px #8d5958;>[P]</font></B><BR>[fjob], [fspecies], [capitalize(fgender)], [fage][fhouse ? "<br><b>House [fhouse]</b>" : ""]"
 			contents += "<BR>"
 
 	var/datum/browser/popup = new(user, "PEOPLEIKNOW", "", 260, 400)
 	popup.set_content(contents)
 	popup.open()
+
+// Helper to get current job title for a known person (looks up by name)
+/datum/mind/proc/get_known_person_job(person_name)
+	// Try to find the person by name and get their current title
+	for(var/datum/mind/M in SSticker.minds)
+		if(ishuman(M.current))
+			var/mob/living/carbon/human/H = M.current
+			if(H.real_name == person_name)
+				return H.get_role_title() || "unknown"
+	// Fallback to cached title if person not found (offline/dead)
+	return known_people[person_name]?["FJOB"] || "unknown"
 
 
 /datum/mind/proc/get_language_holder()
@@ -872,8 +891,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	mind.assigned_role = ROLE_PAI
 	mind.special_role = ""
 
-/datum/mind/proc/add_sleep_experience(skill, amt, silent = FALSE)
-	sleep_adv.add_sleep_experience(skill, amt, silent)
+/datum/mind/proc/add_sleep_experience(skill, amt, silent = FALSE, check_traits = TRUE)
+	sleep_adv.add_sleep_experience(skill, amt, silent, check_traits)
 
 /datum/mind/proc/add_personal_objective(datum/objective/O)
 	if(!istype(O))

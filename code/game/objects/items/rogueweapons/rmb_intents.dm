@@ -13,6 +13,7 @@
 	if(!cmode)	//We just toggled it off.
 		addtimer(CALLBACK(src, PROC_REF(purge_bait)), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 		addtimer(CALLBACK(src, PROC_REF(expire_peel)), 60 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+		addtimer(CALLBACK(src, PROC_REF(clear_tempo_all)), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 	if(!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 		filtered_balloon_alert(TRAIT_COMBAT_AWARE, (cmode ? ("<i><font color = '#831414'>Tense</font></i>") : ("<i><font color = '#c7c6c6'>Relaxed</font></i>")), y_offset = 32)
 
@@ -61,7 +62,7 @@
 	desc = "Your attacks are more precise but have a longer recovery time. Higher critrate with precise attacks.\n(RMB WHILE COMBAT MODE IS ACTIVE) Bait out your targeted limb to the enemy. If it matches where they're aiming, they will be thrown off balance."
 	icon_state = "rmbaimed"
 
-/datum/rmb_intent/aimed/special_attack(mob/living/user, atom/target)
+/mob/living/proc/attempt_bait(mob/living/user, atom/target)
 	if(istype(src, /mob/living/carbon/human/species/skeleton))
 		return
 	if(!user)
@@ -83,8 +84,15 @@
 	if(HT.has_status_effect(/datum/status_effect/debuff/baited) || user.has_status_effect(/datum/status_effect/debuff/baitcd))
 		return	//We don't do anything if either of us is affected by bait statuses
 
+	if(user.STAINT < 8) //We don't want this happening if their intelligence is 7 or below.
+		to_chat(HU, span_danger("Argh! This is too complicated, I've made a fool of myself!"))
+		HU.stamina_add(HU.max_stamina * 0.2)
+		HU.emote("huh")
+		return
+
 	HU.visible_message(span_danger("[HU] baits an attack from [HT]!"))
-	HU.apply_status_effect(/datum/status_effect/debuff/baitcd)
+	var/newcd = 30 SECONDS - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)
+	HU.apply_status_effect(/datum/status_effect/debuff/baitcd, newcd)
 	HU.stamina_add(HU.max_stamina * 0.2)
 
 	if((target_zone != user_zone) || ((target_zone == BODY_ZONE_CHEST) || (user_zone == BODY_ZONE_CHEST))) //Our zones match and it's not the chest | Our zones do not match, or we were targeting chest
@@ -103,7 +111,6 @@
 			fatiguemod = 4
 		if(ARMOR_CLASS_HEAVY)
 			fatiguemod = 3
-
 
 	HT.apply_status_effect(/datum/status_effect/debuff/baited)
 	HT.apply_status_effect(/datum/status_effect/debuff/exposed)
@@ -137,6 +144,9 @@
 	HU.OffBalance(2 SECONDS)
 	HT.OffBalance(2 SECONDS)
 	playsound(user, 'sound/combat/riposte.ogg', 100, TRUE)
+
+/datum/rmb_intent/aimed/special_attack(mob/living/user, atom/target)
+	user.attempt_bait(user, target)
 
 /datum/rmb_intent/strong
 	name = "strong"
@@ -177,10 +187,11 @@
 
 /datum/rmb_intent/feint
 	name = "feint"
-	desc = "(RMB WHILE DEFENSE IS ACTIVE) A deceptive half-attack with no follow-through, meant to force your opponent to open their guard. Useless against someone who is dodging."
+	desc = "(RMB WHILE IN COMBAT MODE) A deceptive half-attack with no follow-through, meant to force your opponent to open their guard. Will fail on targets that are relaxed and less alert."
 	icon_state = "rmbfeint"
+	var/feintdur = 7.5 SECONDS
 
-/datum/rmb_intent/feint/special_attack(mob/living/user, atom/target)
+/mob/living/proc/attempt_feint(mob/living/user, atom/target)
 	if(istype(src, /mob/living/carbon/human/species/skeleton))
 		return
 	if(!isliving(target))
@@ -194,12 +205,26 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/feintcd))
 		return
 	var/mob/living/L = target
-	user.visible_message(span_danger("[user] feints an attack at [target]!"))
+	if (L.client && !L.cmode)
+		playsound(user, 'sound/combat/feint.ogg', 100, TRUE)
+		user.visible_message(span_danger("[user] attempts to feint an attack at [L], but only makes a fool of themselves!"))
+		user.OffBalance(3 SECONDS)
+		user.apply_status_effect(/datum/status_effect/debuff/feintcd)
+		for(var/mob/living/carbon/human/H in view(7, user))
+			if(H == user || !H.client)
+				continue
+			if(HAS_TRAIT(H, TRAIT_XYLIX) && !H.has_status_effect(/datum/status_effect/buff/xylix_joy))
+				H.apply_status_effect(/datum/status_effect/buff/xylix_joy)
+				to_chat(H, span_info("Such a curt display of hubris amuses the Laughing God!"))
+		return
+	else
+		user.visible_message(span_danger("[user] feints an attack at [target]!"))
 	var/perc = 50
 	var/obj/item/I = user.get_active_held_item()
 	var/ourskill = 0
 	var/theirskill = 0
 	var/skill_factor = 0
+	var/feintdur = 7.5 SECONDS
 	if(I)
 		if(I.associated_skill)
 			ourskill = user.get_skill_level(I.associated_skill)
@@ -215,30 +240,50 @@
 	perc += (user.STAINT - L.STAINT)*10	//but it's also mostly a mindgame
 	skill_factor = (ourskill - theirskill)/2
 
+	var/special_msg
+
 	if(L.has_status_effect(/datum/status_effect/debuff/exposed))
 		perc = 0
 
-	user.apply_status_effect(/datum/status_effect/debuff/feintcd)
+	var/newcd = 30 SECONDS - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)
+	if(L.has_status_effect(/datum/status_effect/debuff/feinted))
+		perc = 0
+		special_msg = span_warning("Too soon! They were expecting it!")
+
+	if(!L.can_see_cone(user) && L.mind)
+		perc = 0
+		newcd = 10 SECONDS
+		special_msg = span_warning("They need to see me for me to feint them!")
+
+  user.apply_status_effect(/datum/status_effect/debuff/feintcd, newcd)
+
 	perc = CLAMP(perc, 0, 90)
 
 	if(!prob(perc)) //feint intent increases the immobilize duration significantly
 		playsound(user, 'sound/combat/feint.ogg', 100, TRUE)
 		if(user.client?.prefs.showrolls)
 			to_chat(user, span_warning("[L.p_they(TRUE)] did not fall for my feint... [perc]%"))
+		user.apply_status_effect(/datum/status_effect/debuff/feintcd)
+		if(special_msg)
+			to_chat(user, special_msg)
 		return
 
 	if(L.has_status_effect(/datum/status_effect/buff/clash))
 		L.remove_status_effect(/datum/status_effect/buff/clash)
 		to_chat(user, span_notice("[L.p_their(TRUE)] Guard disrupted!"))
-	L.apply_status_effect(/datum/status_effect/debuff/exposed, 7.5 SECONDS)
+	L.apply_status_effect(/datum/status_effect/debuff/exposed, feintdur)
 	L.apply_status_effect(/datum/status_effect/debuff/clickcd, max(1.5 SECONDS + skill_factor, 2.5 SECONDS))
+	L.apply_status_effect(/datum/status_effect/debuff/feinted, 30 SECONDS + feintdur)
 	L.Immobilize(0.5 SECONDS)
 	L.stamina_add(L.stamina * 0.1)
 	L.Slowdown(2)
+	user.apply_status_effect(/datum/status_effect/debuff/feintcd, 30 SECONDS + feintdur)
 	to_chat(user, span_notice("[L.p_they(TRUE)] fell for my feint attack!"))
 	to_chat(L, span_danger("I fall for [user.p_their()] feint attack!"))
 	playsound(user, 'sound/combat/riposte.ogg', 100, TRUE)
 
+/datum/rmb_intent/feint/special_attack(mob/living/user, atom/target)
+	user.attempt_feint(user, target)
 
 /datum/rmb_intent/riposte
 	name = "defend"
@@ -246,7 +291,7 @@
 	icon_state = "rmbdef"
 	adjacency = FALSE
 
-/datum/rmb_intent/riposte/special_attack(mob/living/user, atom/target)	//Wish we could breakline these somehow.
+/mob/living/proc/attempt_riposte(mob/living/user, atom/target)
 	if(!user.has_status_effect(/datum/status_effect/buff/clash) && !user.has_status_effect(/datum/status_effect/debuff/clashcd))
 		if(!user.get_active_held_item()) //Nothing in our hand to Guard with.
 			return 
@@ -262,6 +307,9 @@
 			return
 		user.apply_status_effect(/datum/status_effect/buff/clash)
 
+/datum/rmb_intent/riposte/special_attack(mob/living/user, atom/target)	//Wish we could breakline these somehow.
+	user.attempt_riposte(user, target)
+
 /datum/rmb_intent/guard
 	name = "guarde"
 	desc = "(RMB WHILE DEFENSE IS ACTIVE) Raise your weapon, ready to attack any creature who moves onto the space you are guarding."
@@ -271,3 +319,55 @@
 	name = "weak"
 	desc = "Your attacks have -1 strength and will never critically-hit. Useful for longer punishments, play-fighting, and bloodletting."
 	icon_state = "rmbweak"
+
+/datum/rmb_intent/omni
+	name = "omni"
+	desc = "Intelligently attempts to apply other RMB & MMB intent actives based on the situation. (RMB on yourself or the ground triggers DEFEND, RMB on an opponent attempts to bait (if possible), kick them if they're grappling you, kick them if they're off balance and feint (in this order) otherwise.)"
+	icon_state = "rmbguard" // needs a new icon_state or something
+
+/datum/rmb_intent/omni/special_attack(mob/living/user, atom/target)
+	var/mob/living/carbon/human/HU = user
+	if (isturf(target) || user == target)
+		// RMB on turf or self: DEFEND.
+		if (!HU.has_status_effect(/datum/status_effect/debuff/clashcd))
+			HU.attempt_riposte(user, target)
+			HU.changeNext_move(0.5 SECONDS)
+			return
+	
+	var/mob/living/carbon/human/HT
+	if (ismob(target) && user != target)
+		if (ishuman(target))
+			HT = target
+
+		// RMB on mob (priority 0): check to see if a bait has any chance to succeed (match targeting zones between us and the target), if so, attempt it (ONLY check for matching zones, nothing else).
+		if (HT)
+			var/target_zone = HT.zone_selected
+			var/user_zone = HU.zone_selected
+			if (!user.has_status_effect(/datum/status_effect/debuff/baitcd) && !user.has_status_effect(/datum/status_effect/debuff/baited) && target_zone && user_zone && (target_zone != BODY_ZONE_CHEST && user_zone != BODY_ZONE_CHEST) && target_zone == user_zone)
+				HU.attempt_bait(user, target)
+				HU.changeNext_move(0.5 SECONDS)
+				return
+		
+		// RMB on mob (priority 1): has something grappled us (passively), and can we kick? if so, attempt a kick.
+		if (!HU.IsOffBalanced())
+			var/mob/kick_target
+			for(var/obj/item/grabbing/G in HU.grabbedby)
+				if(G.grabbee && G.grab_state == GRAB_PASSIVE)
+					kick_target = G.grabbee
+					break
+			if (kick_target)
+				HU.try_kick(kick_target)
+				HU.changeNext_move(0.5 SECONDS)
+				return
+
+		// RMB on mob (priority 2): is the target off-balance and not knocked over? if so, kick them over.
+		if (HT && HT.IsOffBalanced() && (HT.mobility_flags & MOBILITY_STAND))
+			HU.try_kick(target)
+			HU.changeNext_move(0.5 SECONDS)
+			return
+
+		// RMB on mob (priority 3): attempt a feint if possible and off cooldown.
+		if (!HU.has_status_effect(/datum/status_effect/debuff/feintcd))
+			HU.attempt_feint(user, target)
+			HU.changeNext_move(0.5 SECONDS)
+			return

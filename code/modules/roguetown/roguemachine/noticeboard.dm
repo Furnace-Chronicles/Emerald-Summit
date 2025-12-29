@@ -10,7 +10,7 @@
 	layer = ABOVE_MOB_LAYER
 	plane = GAME_PLANE_UPPER
 	var/current_category = "Postings"
-	var/list/categories = list("Postings", "Premium Postings")
+	var/list/categories = list("Postings", "Premium Postings", "Scout Report")
 
 /obj/structure/roguemachine/boardbarrier //Blocks sprite locations
 	name = ""
@@ -80,9 +80,9 @@
 		return
 	var/can_remove = FALSE
 	var/can_premium = FALSE
-	if(user.job in list("Man at Arms","Inquisitor", "Knight", "Sergeant", "Knight Captain", "Orthodoxist", "Absolver",))
+	if(user.job in list("Man at Arms","Inquisitor", "Knight", "Sergeant", "Orthodoxist", "Absolver","Marshal", "Hand"))
 		can_remove = TRUE
-	if(user.job in list("Nightmaster","Merchant", "Innkeeper", "Steward", "Court Magician"))
+	if(user.job in list("Bathmaster","Merchant", "Innkeeper", "Steward", "Court Magician", "Town Crier", "Keeper"))
 		can_premium = TRUE
 	var/contents
 	contents += "<center>NOTICEBOARD<BR>"
@@ -91,35 +91,51 @@
 	for(var/i = 1, i <= length(categories), i++)
 		var/category = categories[i]
 		if(category == current_category)
-			selection += "<b>[current_category]</b>"
+			selection += "<b>[current_category]</b> | "
 		else if(i != length(categories))
 			selection += "<a href='?src=[REF(src)];changecategory=[category]'>[category]</a> | "
 		else
 			selection += "<a href='?src=[REF(src)];changecategory=[category]'>[category]</a> "
 	contents += selection + "<BR>"
-	contents += "<a href='?src=[REF(src)];makepost=1'>Make a Posting</a>"
-	if(can_premium)
-		contents += " | <a href='?src=[REF(src)];premiumpost=1'>Make a Premium Posting</a><br>"
-	else
-		contents += "<br>"
-	contents += "<a href='?src=[REF(src)];removepost=1'>Remove my Posting</a><br>"
-	if(can_remove)
-		contents += "<a href='?src=[REF(src)];authorityremovepost=1'>Authority: Remove a Posting</a>"
-	var/board_empty = TRUE
-	switch(current_category)
-		if("Postings")
-			for(var/datum/noticeboardpost/saved_post in GLOB.noticeboard_posts)
-				contents += saved_post.banner
-				board_empty = FALSE
-		if("Premium Postings")
-			for(var/datum/noticeboardpost/saved_post in GLOB.premium_noticeboardposts)
-				contents += saved_post.banner
-				board_empty = FALSE
-	if(board_empty)
-		contents += "<br><span class='notice'>No postings have been made yet!</span>"
+	if(current_category in list("Postings", "Premium Postings"))
+		contents += "<a href='?src=[REF(src)];makepost=1'>Make a Posting</a>"
+		if(can_premium)
+			contents += " | <a href='?src=[REF(src)];premiumpost=1'>Make a Premium Posting</a><br>"
+		else
+			contents += "<br>"
+		contents += "<a href='?src=[REF(src)];removepost=1'>Remove my Posting</a><br>"
+		if(can_remove)
+			contents += "<a href='?src=[REF(src)];authorityremovepost=1'>Authority: Remove a Posting</a>"
+		var/board_empty = TRUE
+		switch(current_category)
+			if("Postings")
+				for(var/datum/noticeboardpost/saved_post in GLOB.noticeboard_posts)
+					contents += saved_post.banner
+					board_empty = FALSE
+			if("Premium Postings")
+				for(var/datum/noticeboardpost/saved_post in GLOB.premium_noticeboardposts)
+					contents += saved_post.banner
+					board_empty = FALSE
+		if(board_empty)
+			contents += "<br><span class='notice'>No postings have been made yet!</span>"
+	else if(current_category == "Scout Report")
+		var/list/regional_threats = SSregionthreat.get_threat_regions_for_display()
+		contents += "<h2>Scout Report</h2>"
+		contents += "<hr></center>"
+		for(var/T in regional_threats)
+			var/datum/threat_region_display/TRS = T
+			contents += ("<div>[TRS?.region_name]: <font color=[TRS?.danger_color]>[TRS?.danger_level]</font></div>")
+		contents += "<hr>"
+		contents += "Scouts rate how dangerous a region is from Safe -> Low -> Moderate -> Dangerous -> Bleak <br>"
+		contents += "A safe region is safe and travelers are unlikely to be ambushed by common creechurs and brigands <br>"
+		contents += "A low threat region is unlikely to manifest any great threat and brigands and creechurs are often found alone.<br>"
+		contents += "Only the Black Basin, Scarlet Grove and the Terrorbog can be rendered safe entirely. <br>" 
+		contents += "Regions not listed are beyond the charge of the wardens. Danger will be constant in these regions.<br>"
+		contents += "Danger is reduced by luring villains and creechurs and killing them when they ambush you. The signal horns wardens have been issued can help with this. Take care with using it."
 	var/datum/browser/popup = new(user, "NOTICEBOARD", "", 800, 650)
 	popup.set_content(contents)
 	popup.open()
+
 
 /obj/structure/roguemachine/noticeboard/proc/premium_post(mob/living/carbon/human/guy)
 	if(guy.has_status_effect(/datum/status_effect/debuff/postcooldown))

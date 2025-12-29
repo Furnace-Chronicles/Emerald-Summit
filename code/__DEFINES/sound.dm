@@ -201,6 +201,13 @@
 							'sound/items/jinglebell5.ogg',\
 							'sound/items/jinglebell6.ogg')
 
+#define SFX_COLLARJANGLE list('sound/items/cowbell1.ogg',\
+							'sound/items/cowbell2.ogg',\
+							'sound/items/cowbell3.ogg',\
+							'sound/items/cowbell4.ogg',\
+							'sound/items/cowbell5.ogg',\
+							'sound/items/cowbell6.ogg')
+
 #define INTERACTION_SOUND_RANGE_MODIFIER 0
 #define EQUIP_SOUND_VOLUME 100
 #define PICKUP_SOUND_VOLUME 100

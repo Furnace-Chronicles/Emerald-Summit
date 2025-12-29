@@ -57,7 +57,7 @@
 		handle_automated_frenzy()
 
 /mob/living/carbon/handle_random_events()//BP/WOUND BASED PAIN
-	if(HAS_TRAIT(src, TRAIT_NOPAIN))
+	if(HAS_TRAIT(src, TRAIT_NOPAIN) && !HAS_TRAIT(src, TRAIT_CRIMSON_CURSE))
 		return
 	if(!stat)
 		var/pain_threshold = HAS_TRAIT(src, TRAIT_ADRENALINE_RUSH) ? ((STACON + 5) * 10) : (STACON * 10)
@@ -75,6 +75,15 @@
 					emote("painmoan")
 			else
 				if(painpercent >= 100)
+					if(HAS_TRAIT(src, TRAIT_NOPAIN) && HAS_TRAIT(src, TRAIT_CRIMSON_CURSE))
+						adjust_bloodpool(-250)
+						if(bloodpool < 500)
+							to_chat(src, span_danger("The Curse no longer shields me from my pain!"))
+							emote("painmoan")
+							REMOVE_TRAIT(src, TRAIT_NOPAIN, "clan")
+						else
+							to_chat(src, span_warning("The Curse lets me ignore my pain, but at a cost..."))
+						return
 					if(HAS_TRAIT(src, TRAIT_PSYDONIAN_GRIT) || STACON >= 15)
 						if(prob(25)) // PSYDONIC WEIGHTED COINFLIP. TWEAK THIS AS THOU WILT. DON'T LET THEM BE BROKEN, PSYDON WILLING. THROW CON-MAXXERS A BONE, TOO.
 							Immobilize(15) // EAT A MICROSTUN. YOU'RE AVOIDING A PAINCRIT.
@@ -162,17 +171,17 @@
 
 /mob/living/carbon/proc/get_complex_pain()
 	. = 0
+	var/has_adrenaline = HAS_TRAIT(src, TRAIT_ADRENALINE_RUSH)
 	for(var/obj/item/bodypart/limb as anything in bodyparts)
 		if(limb.status == BODYPART_ROBOTIC || limb.skeletonized)
 			continue
 		var/bodypart_pain = ((limb.brute_dam + limb.burn_dam) / limb.max_damage) * limb.max_pain_damage
-		for(var/datum/wound/wound in limb.wounds)
+		for(var/datum/wound/wound as anything in limb.wounds)
 			bodypart_pain += wound.woundpain
 		bodypart_pain = min(bodypart_pain, limb.max_pain_damage)
-		if(HAS_TRAIT(src, TRAIT_ADRENALINE_RUSH))
-			bodypart_pain = bodypart_pain * 0.5
+		if(has_adrenaline)
+			bodypart_pain *= 0.5
 		. += bodypart_pain
-	.
 
 /mob/living/carbon/human/get_complex_pain()
 	. = ..()
@@ -193,25 +202,20 @@
 	return FALSE
 
 /mob/living/carbon/proc/handle_bodyparts()
-	var/stam_regen = FALSE
-	if(stam_regen_start_time <= world.time)
-		stam_regen = TRUE
-		if(stam_paralyzed)
-			. |= BODYPART_LIFE_UPDATE_HEALTH //make sure we remove the stamcrit
-	for(var/I in bodyparts)
-		var/obj/item/bodypart/BP = I
+	var/stam_regen = stam_regen_start_time <= world.time
+	if(stam_regen && stam_paralyzed)
+		. |= BODYPART_LIFE_UPDATE_HEALTH
+	for(var/obj/item/bodypart/BP as anything in bodyparts)
 		if(BP.needs_processing)
 			. |= BP.on_life(stam_regen)
 
 /mob/living/carbon/proc/handle_organs()
 	if(stat != DEAD)
-		for(var/V in internal_organs)
-			var/obj/item/organ/O = V
+		for(var/obj/item/organ/O as anything in internal_organs)
 			O.on_life()
 	else
-		for(var/V in internal_organs)
-			var/obj/item/organ/O = V
-			O.on_death() //Needed so organs decay while inside the body.
+		for(var/obj/item/organ/O as anything in internal_organs)
+			O.on_death()
 
 /mob/living/carbon/handle_embedded_objects()
 	for(var/obj/item/bodypart/bodypart as anything in bodyparts)

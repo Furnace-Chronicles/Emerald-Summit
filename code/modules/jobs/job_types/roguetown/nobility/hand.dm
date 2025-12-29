@@ -43,6 +43,11 @@
 				return TRUE
 */
 
+/datum/job/roguetown/hand/after_spawn(mob/living/spawned, client/player_client)
+	. = ..()
+	var/mob/living/carbon/human/H = spawned
+	addtimer(CALLBACK(SSfamilytree, TYPE_PROC_REF(/datum/controller/subsystem/familytree, AddRoyal), H, FAMILY_OMMER), 45 SECONDS)
+
 /datum/outfit/job/hand
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	belt = /obj/item/storage/belt/rogue/leather/steel
@@ -108,8 +113,8 @@
 		to_chat(src, span_warning("Could not find anyone by that name."))
 		return FALSE
 
-	// Check if target is actually a Knight or Knight Captain
-	if(!(target.job == "Knight" || target.job == "Dame" || target.job == "Knight Captain"))
+	// Check if target is actually a Knight
+	if(!(target.job == "Knight" || target.job == "Dame"))
 		to_chat(src, span_warning("[target.real_name] is not a knight."))
 		return FALSE
 

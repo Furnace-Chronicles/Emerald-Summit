@@ -61,6 +61,20 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		popup.open(FALSE)
 		return
 
+	if(href_list["task"] == "view_rumours_gossip")
+		if(!ismob(usr))
+			return
+		var/msg = ""
+		if(rumour && length(rumour))
+			msg += "<b>You recall what you heard around Town about [src]...</b><br>[rumour]"
+		if((HAS_TRAIT(usr, TRAIT_NOBLE) || HAS_TRAIT(usr, TRAIT_ROYALSERVANT)) || observer_privilege && length(gossip))
+			if(msg) 
+				msg += "<br><br>"
+			msg += "<b>You recall what the other Blue-bloods hushed about [src]...</b><br>[gossip]"
+		if(msg)
+			to_chat(usr, "<span class='info'>[msg]</span>")
+		return
+
 	if(href_list["inspect_limb"] && (observer_privilege || usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY)))
 		var/list/msg = list()
 		var/mob/user = usr
@@ -139,50 +153,6 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		popup.set_content(dna.species.desc)
 		popup.open()
 		return
-
-	if(href_list["social_strata"])
-		var/is_clergy = FALSE
-		var/is_jester = FALSE
-		var/is_druid = FALSE
-		if(job)
-			var/datum/job/J = SSjob.GetJob(job)
-			if(J.department_flag == CHURCHMEN) //There may be a better way to check who is clergy, but this will do for now
-				is_clergy = TRUE
-			if(J.title == "Jester")
-				is_jester = TRUE
-			if(J.title == "Druid")
-				is_druid = TRUE
-		if(social_rank && !HAS_TRAIT(usr, TRAIT_OUTLANDER))
-			var/examiner_rank = usr.social_rank
-			var/rank_name
-			if(HAS_TRAIT(src, TRAIT_NOBLE) && social_rank < 4) //anyone with the noble trait that wasn't a noble is now at least a minor noble
-				social_rank = SOCIAL_RANK_MINOR_NOBLE
-			switch(social_rank)
-				if(SOCIAL_RANK_DIRT)
-					rank_name = "dirt"
-				if(SOCIAL_RANK_PEASANT)
-					rank_name = "a peasant"
-				if(SOCIAL_RANK_YEOMAN)
-					rank_name = "a yeoman"
-				if(SOCIAL_RANK_MINOR_NOBLE)
-					rank_name = is_clergy ? "low clergy" : "lower nobility"
-				if(SOCIAL_RANK_NOBLE)
-					rank_name = is_clergy ? "clergy" : "nobility"
-				if(SOCIAL_RANK_ROYAL)
-					rank_name = is_clergy ? "head of the clergy" : "upper nobility"
-			if(HAS_TRAIT(src, TRAIT_DISGRACED_NOBLE))
-				rank_name = "a disgraced noble"
-				social_rank = 3
-			if(is_jester)
-				rank_name = "the jester"
-			if(is_druid)
-				rank_name = "a druid"
-			if(social_rank > examiner_rank)
-				to_chat(usr, span_notice("This person is <EM>[rank_name]</EM>, they are my better."))
-			if(social_rank == examiner_rank)
-				to_chat(usr, span_notice("This person is <EM>[rank_name]</EM>, they are my equal."))
-			if(social_rank < examiner_rank)
-				to_chat(usr, span_notice("This person is <EM>[rank_name]</EM>, they are my lesser."))
 
 	if(href_list["undiesthing"]) //canUseTopic check for this is handled by mob/Topic()
 		if(!get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
