@@ -1,4 +1,4 @@
-#define RURAL_TAX 50 // Free money. A small safety pool for lowpop mostly
+#define RURAL_TAX 15 // Free money. A small safety pool for lowpop mostly
 #define TREASURY_TICK_AMOUNT 6 MINUTES
 #define EXPORT_ANNOUNCE_THRESHOLD 100
 #define FOREIGNER_TAX_MULTIPLIER 1.5 //Amount that the tax rate is multiplied by for foreigners
@@ -48,7 +48,7 @@ SUBSYSTEM_DEF(treasury)
 	var/initial_payment_done = FALSE // Flag to track if initial round-start payment has been distributed
 
 /datum/controller/subsystem/treasury/Initialize()
-	treasury_value = rand(500, 1000)
+	treasury_value = rand(100, 1000)
 	force_set_round_statistic(STATS_STARTING_TREASURY, treasury_value)
 
 	for(var/path in subtypesof(/datum/roguestock/bounty))
