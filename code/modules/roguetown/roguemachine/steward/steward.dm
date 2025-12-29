@@ -408,7 +408,7 @@
 				if(A.category != current_category)
 					continue
 				contents += "<b>[A.name]:</b>"
-				var/mypercentage = max((A.held_items[1])/A.importexport_amt * 100, 100)
+				var/mypercentage = min(A.held_items[1]/A.importexport_amt , 1)
 				var/mycolor = gradient(list("red","green"), mypercentage)
 				
 				contents += "<span style='color:[mycolor]'> [A.held_items[1]]</span>" //colorize string.
