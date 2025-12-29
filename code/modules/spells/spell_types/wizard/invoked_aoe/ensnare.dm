@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/ensnare
 	name = "Ensnare"
-	desc = "Tendrils of arcyne force hold anyone in a small area in place for a short while."
+	desc = "Tendrils of arcyne force hold anyone in a small area in place for a short while. Applies one stack of <b>Arcane Mark</b> on snared foes."
 	cost = 3
 	xp_gain = TRUE
 	releasedrain = 20

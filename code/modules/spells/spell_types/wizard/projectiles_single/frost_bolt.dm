@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/projectile/frostbolt // to do: get scroll icon
 	name = "Frost Bolt"
-	desc = "Shoot a shard of ice. Its victim suffers slowness and fatigue, intensified by repeated casts."
+	desc = "Shoot a shard of ice and applies one stack of <b>Arcane Mark</b> on the target. Its victim suffers slowness and fatigue, intensified by repeated casts."
 	range = 8
 	projectile_type = /obj/projectile/magic/frostbolt
 	overlay_state = "frost_bolt"

@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/thunderstrike
 	name = "Thunderstrike"
-	desc = "Call a high-damage strike of lightning onto an area, followed by lesser aftershocks that ripple outwards in concentric layers."
+	desc = "Call a high-damage strike of lightning onto an area, followed by lesser aftershocks that ripple outwards in concentric layers, applying one stack of <b>Arcane Mark</b> on struck foes. Consumes <b>Arcane Marks</b> when maximized to disarm."
 	cost = 6 // High damage AOE
 	range = 7
 	releasedrain = 50

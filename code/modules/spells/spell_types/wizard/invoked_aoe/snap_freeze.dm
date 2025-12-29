@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/snap_freeze // to do: get scroll icon
 	name = "Snap Freeze"
-	desc = "Freeze the air of a large area in an instant. Those afflicted suffer slowness and fatigue, intensified by repeated casts."
+	desc = "Freeze the air of a large area in an instant, applying one stack of <b>Arcane Mark</b> on struck foes. Those afflicted suffer slowness and fatigue, intensified by repeated casts."
 	cost = 6
 	xp_gain = TRUE
 	releasedrain = 30

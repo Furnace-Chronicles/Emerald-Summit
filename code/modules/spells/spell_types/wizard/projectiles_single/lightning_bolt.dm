@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/projectile/lightningbolt
 	name = "Bolt of Lightning"
-	desc = "Emit a bolt of lightning that burns a target, forcing them to drop items, preventing them from attacking, and slowing them down for a short time."
+	desc = "Emit a bolt of lightning that burns a target, forcing them to drop items, preventing them from attacking, and slowing them down for a short time. Consumes <b>Arcane Marks</b> for extra damage, and a disarm at maximum marks."
 	clothes_req = FALSE
 	overlay_state = "lightning"
 	sound = 'sound/magic/lightning.ogg'
