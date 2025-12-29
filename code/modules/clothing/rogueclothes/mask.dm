@@ -437,7 +437,7 @@
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full
 	name = "steel oni mask"
-	desc = "A steel mask cast in the image of a mountain-dwelling demon originating from Kazengun. This mask protects the face while an integrated neckguard fits snugly around the neck, offering valuable neck protection.
+	desc = "A steel mask cast in the image of a mountain-dwelling demon originating from Kazengun. This mask protects the face while an integrated neckguard fits snugly around the neck, offering valuable neck protection."
 	icon_state = "steelyoroi"
 	body_parts_covered = NECK|FACE
 
