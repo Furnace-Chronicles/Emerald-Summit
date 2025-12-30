@@ -1,3 +1,6 @@
+/// Buff applied to a merc while hired. Class-specific.
+/datum/advclass/mercenary/var/hiredbuff = null
+
 /datum/advclass/mercenary/post_equip(mob/living/carbon/human/H)
 	. = ..()
 	// Input sleeps. I do not want any equip to do that.

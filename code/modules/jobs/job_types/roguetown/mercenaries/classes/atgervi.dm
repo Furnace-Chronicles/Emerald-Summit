@@ -11,12 +11,14 @@
 
 	traits_applied = list(TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
-		STATKEY_END = 3,
-		STATKEY_CON = 3,
-		STATKEY_STR = 2,
+		STATKEY_END = 2, // 3 with hired buff
+		STATKEY_CON = 2, // 3 with hired buff
+		STATKEY_STR = 1, // 2 with hired buff
 		STATKEY_PER = 1,
 		STATKEY_SPD = -1
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/atgervi
 
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -35,6 +37,9 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 	)
+
+/datum/status_effect/buff/merchired/atgervi
+	effectedstats = list(STATKEY_END = 1, STATKEY_CON = 1, STATKEY_STR = 1)
 
 /datum/outfit/job/mercenary/atgervi
 	allowed_patrons = ALL_INHUMEN_PATRONS
@@ -76,13 +81,14 @@
 
 	traits_applied = list(TRAIT_STRONGBITE, TRAIT_CIVILIZEDBARBARIAN, TRAIT_DODGEEXPERT)
 	subclass_stats = list(
-		STATKEY_STR = 3,
-		STATKEY_CON = 2,
+		STATKEY_STR = 2, // 3 with hired buff
+		STATKEY_CON = 1, // 2 when hired
 		STATKEY_END = 2,
-		STATKEY_SPD = 1,
 		STATKEY_INT = -1,
 		STATKEY_PER = -1
+		// +1 SPD when hired
 	)
+	hiredbuff = /datum/status_effect/buff/merchired/atgervishaman
 
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -96,6 +102,9 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN,
 	)
+
+/datum/status_effect/buff/merchired/atgervishaman
+	effectedstats = list(STATKEY_STR = 1, STATKEY_SPD = 1, STATKEY_CON = 1)
 
 /datum/outfit/job/mercenary/atgervishaman
 	allowed_patrons = ALL_INHUMEN_PATRONS

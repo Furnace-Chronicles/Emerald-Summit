@@ -17,12 +17,13 @@
 
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_WEBWALK)
 	subclass_stats = list(
-		STATKEY_CON = 2,
-		STATKEY_END = 2,
+		STATKEY_CON = 1,
+		STATKEY_END = 1,
 		STATKEY_SPD = 1,
 		STATKEY_STR = 1,
 		STATKEY_LCK = 1
 	)
+	hiredbuff = /datum/status_effect/buff/merchired/underdweller
 	extra_context = "This subclass is race-limited to: Dwarves, Dark Elves, Kobolds, Goblins & Verminvolk."
 
 	subclass_skills = list(
@@ -42,6 +43,9 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/smelting = SKILL_LEVEL_APPRENTICE,	//Accompanies mining; they know how to smelt, not make armor though.
 	)
+
+/datum/status_effect/buff/merchired/underdweller
+	effectedstats = list(STATKEY_CON = 1, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/underdweller/pre_equip(mob/living/carbon/human/H)
 	..()

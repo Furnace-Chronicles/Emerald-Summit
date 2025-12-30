@@ -16,11 +16,12 @@
 
 	traits_applied = list(TRAIT_DODGEEXPERT)
 	subclass_stats = list(
-		STATKEY_END = 2,
+		STATKEY_END = 1, // 2 when hired
 		STATKEY_PER = 2,
-		STATKEY_SPD = 2,
+		STATKEY_SPD = 1, // 2 when hired
 		STATKEY_INT = 1
 	)
+	hiredbuff = /datum/status_effect/buff/merchired/condottiero
 
 	subclass_skills = list(
 		/datum/skill/combat/crossbows = SKILL_LEVEL_MASTER, //Possibly too high, no idea.
@@ -38,6 +39,9 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/traps = SKILL_LEVEL_JOURNEYMAN,
 	)
+
+/datum/status_effect/buff/merchired/condottiero
+	effectedstats = list(STATKEY_END = 1, STATKEY_SPD = 1)
 
 /datum/outfit/job/mercenary/condottiero/pre_equip(mob/living/carbon/human/H)
 	..()

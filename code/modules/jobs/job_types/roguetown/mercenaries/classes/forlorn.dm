@@ -13,10 +13,12 @@
 	// tuff boys
 	traits_applied = list(TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
-		STATKEY_END = 3,
-		STATKEY_STR = 2,
+		STATKEY_END = 2, // 3 when hired
+		STATKEY_STR = 1, // 2 when hired
 		STATKEY_CON = 2
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/forlorn
 
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -35,6 +37,9 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 	)
+
+/datum/status_effect/buff/merchired/forlorn
+	effectedstats = list(STATKEY_END = 1, STATKEY_STR = 1)
 
 /datum/outfit/job/mercenary/forlorn/pre_equip(mob/living/carbon/human/H)
 	..()

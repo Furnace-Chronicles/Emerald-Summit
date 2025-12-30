@@ -17,11 +17,13 @@
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_TRAINED_SMITH, TRAIT_SEEPRICES)
 	subclass_stats = list(
 		STATKEY_INT = 3,
-		STATKEY_END = 3,
-		STATKEY_PER = 3,//Anvil"Strikes deftly" is based on PER
+		STATKEY_END = 2,
+		STATKEY_PER = 2,//Anvil"Strikes deftly" is based on PER
 		STATKEY_STR = 1,
 		STATKEY_SPD = -2
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/grudgebearer
 
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
@@ -40,6 +42,9 @@
 		/datum/skill/craft/smelting = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 	)
+
+/datum/status_effect/buff/merchired/grudgebearer
+	effectedstats = list(STATKEY_PER = 1, STATKEY_END = 1)
 
 //Because the armor is race-exclusive for repairs, these guys *should* be able to repair their own guys armor layers. A Dwarf smith isn't guaranteed, after all.
 /datum/outfit/job/mercenary/grudgebearer/pre_equip(mob/living/carbon/human/H)
@@ -75,11 +80,13 @@
 
 	traits_applied = list(TRAIT_HEAVYARMOR)
 	subclass_stats = list(
-		STATKEY_CON = 5,
-		STATKEY_END = 4,
+		STATKEY_CON = 3,
+		STATKEY_END = 3,
 		STATKEY_STR = 2,
 		STATKEY_SPD = -2
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/grudgebearer_soldier
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
@@ -95,6 +102,9 @@
 		/datum/skill/craft/armorsmithing = SKILL_LEVEL_APPRENTICE,	//Only here so they'd be able to repair their own armor integrity
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 	)
+
+/datum/status_effect/buff/merchired/grudgebearer_soldier
+	effectedstats = list(STATKEY_CON = 2, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/grudgebearer_soldier/pre_equip(mob/living/carbon/human/H)
 	..()

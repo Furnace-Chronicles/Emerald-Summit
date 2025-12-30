@@ -15,10 +15,9 @@
 
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
 	subclass_stats = list(
-		STATKEY_CON = 3,
-		STATKEY_END = 3,
+		STATKEY_CON = 2,
+		STATKEY_END = 2,
 		STATKEY_STR = 2, //Should give minimum required stats to use Zweihander
-		STATKEY_PER = 1,
 		STATKEY_SPD = -1 //They get heavy armor now + sword option; so lower speed.
 	)
 
@@ -38,6 +37,9 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,		//Trust me, they'll need it due to stamina drain on their base-sword.
 	)
+
+/datum/status_effect/buff/merchired/grenzelhoft
+	effectedstats = list(STATKEY_CON = 1, STATKEY_END = 1, STATKEY_PER = 1)
 
 /datum/outfit/job/mercenary/grenzelhoft/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -83,10 +85,12 @@
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
 	subclass_stats = list(
 		STATKEY_STR = 2,//same str, worse end, more speed - actually a good tradeoff, now.
-		STATKEY_CON = 2,
-		STATKEY_END = 2, 
+		STATKEY_CON = 1,
+		STATKEY_END = 1, 
 		STATKEY_PER = 1 
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/grenzelhoft_halberdier
 
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -103,6 +107,9 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 	)
+
+/datum/status_effect/buff/merchired/grenzelhoft_halberdier
+	effectedstats = list(STATKEY_CON = 1, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/grenzelhoft_halberdier/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -146,12 +153,14 @@
 
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_STEELHEARTED)
 	subclass_stats = list(
-		STATKEY_SPD = 2,
-		STATKEY_END = 2,
+		STATKEY_SPD = 1,
+		STATKEY_END = 1,
 		STATKEY_PER = 2, 
 		STATKEY_STR = 1,// 1 STR for the axe and crossbow reload. END for chopping trees, a bit of SPD for running, PER for shooting. -1 CON bc you aint a frontliner
 		STATKEY_CON = -1 
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/grenzelhoft_crossbowman
 
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -172,6 +181,9 @@
 		/datum/skill/labor/lumberjacking = SKILL_LEVEL_APPRENTICE,	
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,	// crafting for pallisades, lumberjacking for not fucking up wood
 	)
+
+/datum/status_effect/buff/merchired/grenzelhoft_crossbowman
+	effectedstats = list(STATKEY_SPD = 1, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/grenzelhoft_crossbowman/pre_equip(mob/living/carbon/human/H)
 	..()

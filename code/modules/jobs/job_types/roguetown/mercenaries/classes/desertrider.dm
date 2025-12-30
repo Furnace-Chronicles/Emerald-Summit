@@ -15,11 +15,13 @@
 
 	traits_applied = list(TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
-		STATKEY_STR = 2,
-		STATKEY_END = 2,
+		STATKEY_STR = 1, // 2 when hired
+		STATKEY_END = 1, // 2 when hired
 		STATKEY_CON = 2,
 		STATKEY_PER = 1
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/desert_rider
 
 	subclass_skills = list(
 		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
@@ -36,6 +38,9 @@
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	)
+
+/datum/status_effect/buff/merchired/desert_rider
+	effectedstats = list(STATKEY_STR = 1, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/desert_rider/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -92,10 +97,12 @@
 
 	traits_applied = list(TRAIT_DODGEEXPERT)
 	subclass_stats = list(
-		STATKEY_SPD = 3,
-		STATKEY_END = 2,
+		STATKEY_SPD = 2, // 3 when hired
+		STATKEY_END = 1, // 2 when hired
 		STATKEY_INT = 1,
 	)
+
+	hiredbuff =  /datum/status_effect/buff/merchired/zeybek
 
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN, 
@@ -114,6 +121,9 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 	)
+
+/datum/status_effect/buff/merchired/zeybek
+	effectedstats = list(STATKEY_SPD = 1, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/desert_rider_zeybek/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -170,11 +180,13 @@
 
 	traits_applied = list(TRAIT_ARCYNE_T2, TRAIT_MAGEARMOR)
 	subclass_stats = list(
-		STATKEY_SPD = 3,
-		STATKEY_END = 2,
+		STATKEY_SPD = 2, // 3 when hired
+		STATKEY_END = 1, // 2 when hired
 		STATKEY_INT = 2,
 		STATKEY_PER = -1
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/almah
 
 	subclass_spellpoints = 15
 
@@ -193,6 +205,9 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,
 	)
+
+/datum/status_effect/buff/merchired/almah
+	effectedstats = list(STATKEY_SPD = 1, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/desert_rider_almah/pre_equip(mob/living/carbon/human/H)
 	..()

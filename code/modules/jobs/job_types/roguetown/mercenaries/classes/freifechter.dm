@@ -15,10 +15,12 @@
 
 	traits_applied = list(TRAIT_BADTRAINER)
 	subclass_stats = list(
-		STATKEY_INT = 4,
-		STATKEY_PER = 3,
+		STATKEY_INT = 3, // 4 when hired
+		STATKEY_PER = 2, // 3 when hired
 		STATKEY_CON = 2
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/freifechter
 
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_MASTER,
@@ -28,6 +30,9 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,	//I got told that having zero climbing is a PITA. Bare minimum for a combat class.
 	)
+
+/datum/status_effect/buff/merchired/freifechter
+	effectedstats = list(STATKEY_INT = 1, STATKEY_PER = 1)
 
 /datum/outfit/job/mercenary/freelancer/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -73,12 +78,13 @@
 	traits_applied = list(TRAIT_BADTRAINER)
 	//To give you an edge in specialty moves like feints and stop you from being feinted
 	subclass_stats = list(
-		STATKEY_CON = 4,//This is going to need live testing, since I'm not sure they should be getting this much CON without using a statpack to spec. Revision pending.
-		STATKEY_PER = 3,
+		STATKEY_CON = 3,//This is going to need live testing, since I'm not sure they should be getting this much CON without using a statpack to spec. Revision pending.
+		STATKEY_PER = 2,
 		STATKEY_SPD = 1, //We want to encourage backstepping since you no longer get an extra layer of armour. I don't think this will break much of anything.
 		STATKEY_STR = 1,
 		STATKEY_END = -2
 	)
+	hiredbuff = /datum/status_effect/buff/merchired/freifechterlancer
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_MASTER,	//This is the danger zone. Ultimately, the class won't be picked without this. I took the liberty of adjusting everything around to make this somewhat inoffensive, but we'll see if it sticks.
@@ -88,6 +94,9 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,	//I got told that having zero climbing is a PITA. Bare minimum for a combat class.
 	)
+
+/datum/status_effect/buff/merchired/freifechterlancer
+	effectedstats = list(STATKEY_CON = 1, STATKEY_PER = 1)
 
 /datum/outfit/job/mercenary/freelancer_lancer/pre_equip(mob/living/carbon/human/H)
 	..()

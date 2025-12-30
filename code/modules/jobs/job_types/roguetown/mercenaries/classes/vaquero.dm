@@ -14,10 +14,11 @@
 
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_DECEIVING_MEEKNESS, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
-		STATKEY_SPD = 3,
+		STATKEY_SPD = 2,
 		STATKEY_INT = 2,
-		STATKEY_END = 2
+		STATKEY_END = 1
 	)
+	hiredbuff = /datum/status_effect/buff/merchired/vaquero
 
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
@@ -36,6 +37,9 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/music = SKILL_LEVEL_EXPERT,
 	)
+
+/datum/status_effect/buff/merchired/vaquero
+	effectedstats = list(STATKEY_SPD = 1, STATKEY_END = 1)
 
 /datum/advclass/mercenary/vaquero/equipme(mob/living/carbon/human/H)
 	if(should_wear_femme_clothes(H))

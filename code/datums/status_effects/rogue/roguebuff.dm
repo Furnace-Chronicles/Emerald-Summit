@@ -1508,3 +1508,8 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff
 	effectedstats = list(STATKEY_SPD = 3, STATKEY_END = 1, STATKEY_CON = 1)
 	status_type = STATUS_EFFECT_REPLACE
+
+/datum/status_effect/buff/merchired
+	id = "merchired"
+	alert_type = /atom/movable/screen/alert/status_effect/buff
+	examine_text = "I have an active contract. I must be vigilant and ready at all tymes."

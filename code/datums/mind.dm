@@ -966,6 +966,9 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	new_merc.current.verbs += /mob/living/carbon/human/proc/fireme
 	new_merc.current.verbs += /mob/living/carbon/human/proc/merccontract
 
+	var/datum/advclass/mercenary/merc_class = SSrole_class_handler.get_advclass_by_name(new_merc.current.advjob)
+	new_merc.current.apply_status_effect(merc_class?.hiredbuff)
+
 	RegisterSignal(new_merc, COMSIG_QDELETING, PROC_REF(remove_mercenary))
 	new_merc.employer = WEAKREF(src)
 	LAZYADD(mercenaries, new_merc)
@@ -979,6 +982,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	former_merc.current.verbs += /mob/living/carbon/human/proc/hireme
 	former_merc.current.verbs -= /mob/living/carbon/human/proc/fireme
 	former_merc.current.verbs -= /mob/living/carbon/human/proc/merccontract
+	var/datum/advclass/mercenary/merc_class = SSrole_class_handler.get_advclass_by_name(former_merc.current.advjob)
+	former_merc.current.remove_status_effect(merc_class?.hiredbuff)
 
 	UnregisterSignal(former_merc, COMSIG_QDELETING)
 	former_merc.employer = null

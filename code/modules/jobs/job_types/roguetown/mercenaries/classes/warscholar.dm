@@ -15,12 +15,14 @@
 
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3)
 	subclass_stats = list(
-		STATKEY_INT = 3,
-		STATKEY_END = 2,
+		STATKEY_INT = 2,
+		STATKEY_END = 1,
 		STATKEY_SPD = 2,
 		STATKEY_PER = 1,
 		STATKEY_CON = -1
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/warscholar
 
 	subclass_spellpoints = 15
 
@@ -38,6 +40,9 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,
 	)
+
+/datum/status_effect/buff/merchired/warscholar
+	effectedstats = list(STATKEY_SPD = 1, STATKEY_INT = 1)
 
 /datum/outfit/job/mercenary/warscholar
 	var/detailcolor
@@ -110,12 +115,13 @@
 
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_CIVILIZEDBARBARIAN, TRAIT_ARCYNE_T1)
 	subclass_stats = list(
-		STATKEY_STR = 3,
+		STATKEY_STR = 2,
 		STATKEY_SPD = 2,
-		STATKEY_CON = 2,
+		STATKEY_CON = 1,
 		STATKEY_END = 1,
 		STATKEY_PER = -1,
 	)
+	hiredbuff = /datum/status_effect/buff/merchired/warscholar_pontifex
 
 	subclass_spellpoints = 6
 
@@ -132,6 +138,9 @@
 		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 	)
+
+/datum/status_effect/buff/merchired/warscholar_pontifex
+	effectedstats = list(STATKEY_STR = 1, STATKEY_CON = 1)
 
 /datum/outfit/job/mercenary/warscholar_pontifex
 	var/detailcolor
@@ -196,10 +205,11 @@
 
 	traits_applied = list(TRAIT_NOSTINK, TRAIT_EMPATH, TRAIT_ARCYNE_T2)
 	subclass_stats = list(
-		STATKEY_INT = 3,
+		STATKEY_INT = 2,
 		STATKEY_SPD = 2,
-		STATKEY_END = 2,
+		STATKEY_END = 1,
 	)
+	hiredbuff = /datum/status_effect/buff/merchired/warscholar_vizier
 
 	subclass_spellpoints = 8
 
@@ -219,6 +229,9 @@
 		/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
 	)
+
+/datum/status_effect/buff/merchired/warscholar_vizier
+	effectedstats = list(STATKEY_INT = 1, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/warscholar_vizier
 	var/detailcolor

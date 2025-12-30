@@ -16,12 +16,14 @@
 
 	traits_applied = list(TRAIT_REACHNATIVE, TRAIT_OUTDOORSMAN, TRAIT_MEDIUMARMOR, TRAIT_WOODSMAN, TRAIT_WOODWALKER)
 	subclass_stats = list(
-		STATKEY_STR = 3,
-		STATKEY_END = 2,
+		STATKEY_STR = 2, // 3 when hired
+		STATKEY_END = 1, // 2 when hired
 		STATKEY_CON = 1,
 		STATKEY_PER = 1,
 		STATKEY_INT = -1
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/blackoak
 
 	subclass_skills = list(
 	/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
@@ -40,6 +42,9 @@
 	/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 	/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
 	)
+
+/datum/status_effect/buff/merchired/blackoak
+	effectedstats = list(STATKEY_STR = 1, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/blackoak/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -86,11 +91,13 @@
 
 	traits_applied = list(TRAIT_REACHNATIVE, TRAIT_OUTDOORSMAN, TRAIT_DODGEEXPERT, TRAIT_WOODSMAN, TRAIT_WOODWALKER)
 	subclass_stats = list(
-		STATKEY_SPD = 3,
-		STATKEY_END = 2,
+		STATKEY_SPD = 2, // 3 when hired
+		STATKEY_END = 1, // 2 when hired
 		STATKEY_PER = 2,
 		STATKEY_CON = -1
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/blackoakranger
 
 	subclass_skills = list(
 		/datum/skill/combat/bows = SKILL_LEVEL_MASTER,
@@ -109,6 +116,9 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
 	)
+
+/datum/status_effect/buff/merchired/blackoakranger
+	effectedstats = list(STATKEY_SPD = 1, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/blackoak_ranger/pre_equip(mob/living/carbon/human/H)
 	..()
