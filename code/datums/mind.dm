@@ -992,6 +992,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	RegisterSignal(new_merc, COMSIG_QDELETING, PROC_REF(remove_mercenary))
 	new_merc.employer = WEAKREF(src)
 	LAZYADD(mercenaries, new_merc)
+	message_admins("Mercenary [ADMIN_LOOKUPFLW(new_merc?.current)] has been hired by [ADMIN_LOOKUPFLW(current)].")
 	return TRUE
 
 /datum/mind/proc/remove_mercenary(datum/mind/former_merc)
@@ -1011,6 +1012,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(!has_mercs_employed())
 		current.verbs -= /mob/living/carbon/human/proc/listmercs
 		current.verbs -= /mob/living/carbon/human/proc/firethem
+	message_admins("Mercenary [ADMIN_LOOKUPFLW(former_merc?.current)] has been fired by [ADMIN_LOOKUPFLW(current)].")
 	return TRUE
 
 /datum/mind/proc/has_mercs_employed()
