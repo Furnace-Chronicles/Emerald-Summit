@@ -19,6 +19,8 @@
 	round_contrib_points = 2
 	social_rank = SOCIAL_RANK_MINOR_NOBLE
 
+	var/church_favor = 0
+
 	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts.
 	virtue_restrictions = list(
 		/datum/virtue/utility/noble,
@@ -189,6 +191,7 @@
 	// -- End of section for god specific bonuses --
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
+	H.miracle_points = max(H.miracle_points, 10)
 
 /datum/outfit/job/monk/basic/choose_loadout(mob/living/carbon/human/H)
 	. = ..()

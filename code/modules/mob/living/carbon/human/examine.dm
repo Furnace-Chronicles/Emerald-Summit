@@ -118,6 +118,9 @@
 			else
 				. += span_notice("Something about them seems... different.")
 
+		if (HAS_TRAIT(src, TRAIT_AVATAR_GRAGGAR))
+			. += "<span class='big' style='color: #8B4513;'>A MARAUDING OGRE!</span>"
+
 		if(HAS_TRAIT(src, TRAIT_DISGRACED_KNIGHT))
 			. += "<span class='big' style='color: #8B4513;'>DISGRACED KNIGHT!</span>"
 
@@ -273,6 +276,17 @@
 					. += span_redtext("[m1] repugnant!")
 				if (THEY_THEM, THEY_THEM_F, IT_ITS)
 					. += span_redtext("[m1] repulsive!")
+
+		// Shouldn't be able to tell they are unrevivable through a mask as a Necran
+		if(HAS_TRAIT(src, TRAIT_DNR) && src != user)
+			if(HAS_TRAIT(user, TRAIT_DEATHSIGHT) || stat == DEAD)
+				. += span_danger("They exude a pale aura. Their soul [stat == DEAD ? "was not" : "is not"] clean. This [stat == DEAD ? "was" : "is"] their only chance at lyfe.")
+
+	// Real medical role can tell at a glance it is a waste of time, but only if the Necra message don't come first.
+
+	if(user.get_skill_level(/datum/skill/misc/medicine) >= SKILL_LEVEL_EXPERT && src.stat == DEAD)
+		if(HAS_TRAIT(src, TRAIT_DNR) && src != user && !HAS_TRAIT(user, TRAIT_DEATHSIGHT)) // A lot of conditional to avoid a redundant message, but we also want unknown DNRs to be covered.
+			. += span_danger("Their body holds not even a glimmer of life. No medicine can bring them back.")
 
 	if (HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS) && (!HAS_TRAIT(src, TRAIT_VAMP_DREAMS)))
 		if(isliving(user))
@@ -913,6 +927,10 @@
 	if(flavorcheck)
 		. += "<a href='?src=[REF(src)];task=view_headshot;'>Examine closer</a> [showassess ? " | <a href='?src=[REF(src)];task=assess;'>Assess</a>" : ""]"
 		//tiny picture when you are not examining closer, shouldnt take too much space.
+	/// Rumours & Gossip
+	if((!obscure_name) && (length(rumour)) || ((HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_ROYALSERVANT)) || observer_privilege && length(gossip)))
+		. += "<a href='?src=[REF(src)];task=view_rumours_gossip;'>Recall Rumours & Gossip</a>"
+
 	var/list/lines
 	if((get_face_name() != real_name) && !observer_privilege)
 		lines = build_cool_description_unknown(get_mob_descriptors(obscure_name, user), src)

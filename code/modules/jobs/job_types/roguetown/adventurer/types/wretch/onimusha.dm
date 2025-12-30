@@ -7,7 +7,7 @@
 	maximum_possible_slots = 1
 	category_tags = list(CTAG_WRETCH)
 	cmode_music = 'sound/music/combat_berserker.ogg'
-	traits_applied = list(TRAIT_STRONGBITE, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_STRENGTH_UNCAPPED)
+	traits_applied = list(TRAIT_STRONGBITE, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_STRENGTH_UNCAPPED, TRAIT_OGRE_STRENGTH)
 	subclass_stats = list(
 		STATKEY_STR = 4, //9 weighted stats, compared to Berserker's 8, but their highest weapon skill is Journeyman.
 		STATKEY_CON = 3,

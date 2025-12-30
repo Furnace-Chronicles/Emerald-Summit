@@ -835,6 +835,37 @@
 	item_state = "ornatehauberk"
 	max_integrity = 350
 
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios
+	name = "gilded hauberk"
+	desc = "All that glimmers is gold; yet only shining stars shalt break the mold.."
+	color = "#ffc960"
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_COMMIE, "ARMOR")
+
+//
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
+	name = "darksteel hauberk"
+	desc = "The rings crackle with unkempt magicka, yearning to enamor the enlightened with darksteel might."
+	color = "#c1b18d"
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+
+//
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar
+	name = "vicious hauberk"
+	desc = "The blessing of a Martyr is nothing, when put before the Sinistar's rage."
+	color = "#ddc0a7"
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
+
 /obj/item/clothing/suit/roguetown/armor/chainmail/bikini
 	name = "chainmail corslet"	// corslet, from the old French 'cors' or bodice, with the diminutive 'let', used to describe lightweight military armor since 1500. Chosen here to replace 'bikini', an extreme anachronism.
 	desc = "For the daring, affording maille's protection with light weight."
@@ -1022,6 +1053,18 @@
 	max_integrity = 500 // We are probably one of the best medium armor sets. At higher integ than most(heavy armor levels, pretty much. But worse resistances, we get the bonus over the other sets of being medium and being unequippable.)
 	icon_state = "graggarplate"
 	armor = ARMOR_CUIRASS
+
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/graggar/equipped(mob/living/user, slot)
+	. = ..()
+	if(slot != SLOT_ARMOR)
+		return
+
+	user.apply_status_effect(/datum/status_effect/buff/motive)
+
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/graggar/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(istype(user) && user.wear_armor == src)
+		user.remove_status_effect(/datum/status_effect/buff/motive)
 
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/graggar/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_HORDE))

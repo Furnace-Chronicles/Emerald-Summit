@@ -73,6 +73,7 @@
 	races = list(/datum/species/halforc,
 				/datum/species/goblinp,
 				/datum/species/human/northern,
+				/datum/species/human/halfelf,
 				/datum/species/lupian,
 				/datum/species/kobold,
 				/datum/species/anthromorph,

@@ -141,6 +141,7 @@
 			return
 		mob.used_intent = mob.o_intent
 		if(mob.used_intent.get_chargetime() && !object.blockscharging && !mob.in_throw_mode)
+			mob.face_atom(object, location, control, params)
 			updateprogbar()
 		else
 			mouse_pointer_icon = 'icons/effects/mousemice/human_attack.dmi'
@@ -385,8 +386,7 @@
 		else
 			middragtime = 0
 			middragatom = null
-	else
-		mob.face_atom(over_object, over_location, over_control, params)
+	mob.face_atom(over_object, over_location, over_control, params)
 
 	mouseParams = params
 	mouseLocation = over_location

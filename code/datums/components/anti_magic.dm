@@ -9,11 +9,14 @@
 	var/datum/callback/expire
 
 /datum/component/anti_magic/Initialize(_magic = FALSE, _holy = FALSE, _psychic = FALSE, _allowed_slots, _charges, _blocks_self = TRUE, datum/callback/_reaction, datum/callback/_expire)
-	if(isitem(parent))
-		RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(on_equip))
-		RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(on_drop))
-	else if(ismob(parent))
-		RegisterSignal(parent, COMSIG_MOB_RECEIVE_MAGIC, PROC_REF(protect))
+	var/obj/item/parent_item = parent
+	var/mob/parent_mob = parent
+	if(istype(parent_item))
+		RegisterSignal(parent_item, COMSIG_ITEM_EQUIPPED, PROC_REF(on_equip))
+		RegisterSignal(parent_item, COMSIG_ITEM_DROPPED, PROC_REF(on_drop))
+		parent_mob = parent_item.loc
+	if(istype(parent_mob))
+		RegisterSignal(parent_mob, COMSIG_MOB_RECEIVE_MAGIC, PROC_REF(protect))
 	else
 		return COMPONENT_INCOMPATIBLE
 

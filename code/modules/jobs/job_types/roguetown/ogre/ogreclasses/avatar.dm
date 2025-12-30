@@ -8,7 +8,7 @@
 	cmode_music = 'sound/music/combat_maniac.ogg' // this one is good
 	maximum_possible_slots = 1
 
-	traits_applied = list(TRAIT_BASHDOORS, TRAIT_STEELHEARTED, TRAIT_STRENGTH_UNCAPPED, TRAIT_CALTROPIMMUNE, TRAIT_STRONGBITE, TRAIT_MEDIUMARMOR) //strongbite might be funny
+	traits_applied = list(TRAIT_BASHDOORS, TRAIT_STEELHEARTED, TRAIT_STRENGTH_UNCAPPED, TRAIT_CALTROPIMMUNE, TRAIT_STRONGBITE, TRAIT_MEDIUMARMOR, TRAIT_AVATAR_GRAGGAR) //strongbite might be funny
 	subclass_stats = list( 
 		STATKEY_STR = 3, 
 		STATKEY_CON = 6,
@@ -31,7 +31,7 @@
 	..()
 	if(H.mind)
 		H.set_patron(/datum/patron/inhumen/graggar) // why would you be an avatar of graggar without following graggar
-		to_chat(H, span_warning("Do what comes naturally."))
+		to_chat(H, span_boldwarning("YOU ARE WRETCHED (and an ANTAGONIST). Townsfolk flee at your approach. Your hunger for conquest is RELENTLESS. The Darkstar demands STRENGTH, and you are HIS IMPLEMENT. PILLAGE. RAGE. SLAUGHTER!!!"))
 		shoes = /obj/item/clothing/shoes/roguetown/armor/ogre
 		neck = /obj/item/clothing/neck/roguetown/gorget/ogre
 		pants = /obj/item/clothing/under/roguetown/chainlegs/ogre

@@ -57,14 +57,15 @@
 /obj/projectile/magic/profane
 	name = "profaned bone splinter"
 	icon_state = "chronobolt"
-	damage = 20
+	damage = 40
 	damage_type = BRUTE
+	woundclass = BCLASS_STAB
 	nodamage = FALSE
 	var/embed_prob = 10
 
 /obj/projectile/magic/profane/major
 	name = "profaned bone lance"
-	damage = 35
+	damage = 55
 	embed_prob = 30
 
 /obj/projectile/magic/profane/on_hit(atom/target, blocked)

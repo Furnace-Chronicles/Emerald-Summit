@@ -24,4 +24,11 @@
 	same_job_respawn_delay = 1 MINUTES
 	cmode_music = 'sound/music/combat.ogg'
 
-	job_traits = list(TRAIT_OUTLANDER, TRAIT_STEELHEARTED)
+	job_traits = list(TRAIT_OUTLANDER, TRAIT_STEELHEARTED, TRAIT_OGRE_STRENGTH)
+	job_subclasses = list(
+		/datum/advclass/ogre/avatar,
+		/datum/advclass/ogre/cook,
+		/datum/advclass/ogre/dumdum,
+		/datum/advclass/ogre/mercenary,
+		/datum/advclass/ogre/warlord
+	)

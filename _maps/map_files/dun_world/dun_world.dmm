@@ -3471,9 +3471,6 @@
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/mountains)
-"aVn" = (
-/turf/closed/mineral/rogue/silver,
-/area/rogue/under/cave)
 "aVq" = (
 /obj/structure/mineral_door/wood{
 	locked = 1;
@@ -37849,9 +37846,6 @@
 	dir = 4
 	},
 /area/rogue/outdoors/beach)
-"kdV" = (
-/turf/closed/mineral/rogue/gold,
-/area/rogue/under/cave)
 "keg" = (
 /obj/machinery/light/rogue/wallfire/candle/blue{
 	pixel_y = -32
@@ -62866,10 +62860,6 @@
 "qJZ" = (
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/town/basement/keep)
-"qKd" = (
-/obj/item/grown/log/tree/stake,
-/turf/closed/mineral/rogue/bedrock,
-/area/rogue/under/cave)
 "qKe" = (
 /obj/effect/decal/cleanable/blood/old,
 /turf/open/floor/rogue/blocks,
@@ -87168,9 +87158,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/indoors/town/church/chapel)
-"wXF" = (
-/turf/closed/mineral/rogue/gem,
-/area/rogue/under/cave)
 "wXG" = (
 /mob/living/simple_animal/hostile/rogue/mirespider_paralytic/angry,
 /turf/open/floor/rogue/dirt/ambush,
@@ -191247,7 +191234,7 @@ fXB
 ogs
 ogs
 ogs
-pSr
+miF
 rCa
 ogs
 iad
@@ -191699,7 +191686,7 @@ euv
 ogs
 ogs
 qHj
-pSr
+miF
 ogs
 ogs
 iad
@@ -192151,7 +192138,7 @@ fXB
 aNM
 ogs
 qHj
-pSr
+miF
 pSr
 ogs
 iad
@@ -192603,7 +192590,7 @@ ufO
 euv
 ogs
 ogs
-pSr
+miF
 ogs
 ogs
 iad
@@ -193055,7 +193042,7 @@ ufO
 fXB
 ogs
 ogs
-pSr
+miF
 pSr
 ogs
 iad
@@ -193508,7 +193495,7 @@ fXB
 ogs
 lLC
 fBB
-ogs
+miF
 pSr
 ogs
 iad
@@ -194413,10 +194400,10 @@ ogs
 ogs
 fBB
 fBB
-aVn
-kdV
-kdV
-kdV
+miF
+miF
+miF
+miF
 ogs
 qHj
 ogs
@@ -194865,12 +194852,12 @@ fXB
 ogs
 ogs
 ogs
-wXF
+miF
 ogs
 ogs
-aVn
-kdV
-kdV
+miF
+bhJ
+bhJ
 ogs
 iad
 iad
@@ -195317,12 +195304,12 @@ euv
 ogs
 oXj
 oXj
-aVn
+miF
 ogs
-kdV
-kdV
-aVn
-kdV
+miF
+miF
+bhJ
+bhJ
 ogs
 iad
 iad
@@ -195771,11 +195758,11 @@ oXj
 ogs
 ogs
 ogs
-aVn
+miF
 ogs
 ogs
-aVn
-kdV
+bhJ
+bhJ
 ogs
 vtx
 fZu
@@ -196223,9 +196210,9 @@ lLC
 oXj
 vFW
 ogs
-aVn
-aVn
-wXF
+miF
+miF
+miF
 ogs
 ogs
 ogs
@@ -197128,10 +197115,10 @@ qHj
 ogs
 qHj
 ogs
-aVn
+miF
 ogs
-aVn
-aVn
+miF
+miF
 ogs
 iad
 iad
@@ -197578,12 +197565,12 @@ xCK
 ogs
 ogs
 ogs
-aVn
-aVn
-aVn
-aVn
-ogs
-aVn
+rCa
+rCa
+rCa
+rCa
+rCa
+rCa
 ogs
 iad
 iad
@@ -198028,14 +198015,14 @@ ogs
 xCK
 xCK
 xCK
-qKd
-qHj
-aVn
-aVn
-aVn
-aVn
 ogs
-aVn
+qHj
+rCa
+rCa
+rCa
+rCa
+rCa
+rCa
 ogs
 iad
 cMQ
@@ -198482,12 +198469,12 @@ xCK
 xCK
 ogs
 ogs
-aVn
-aVn
-ogs
-aVn
-aVn
-ogs
+rCa
+rCa
+rCa
+rCa
+rCa
+rCa
 ogs
 iad
 uoW
@@ -198936,10 +198923,10 @@ xCK
 ogs
 ogs
 ogs
-wXF
-aVn
-aVn
-aVn
+miF
+rCa
+rCa
+rCa
 ogs
 iad
 uuo
@@ -199388,7 +199375,7 @@ xCK
 xCK
 fLp
 ogs
-aVn
+miF
 ogs
 ogs
 ogs
@@ -199840,10 +199827,10 @@ ogs
 xCK
 xCK
 ogs
-aVn
-aVn
-aVn
-aVn
+miF
+qHj
+qHj
+qHj
 ogs
 iad
 uuo
@@ -200295,7 +200282,7 @@ ogs
 ogs
 qHj
 ogs
-wXF
+qHj
 ogs
 iad
 uoW
