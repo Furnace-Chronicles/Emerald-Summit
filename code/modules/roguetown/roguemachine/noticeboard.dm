@@ -212,7 +212,13 @@
 		return attack_hand(usr)
 	if(href_list["authorityremovepost"])
 		authority_removepost(usr)
-		return attack_hand(usr) 
+		return attack_hand(usr)
+	if(href_list["changemercstatus"])
+		change_merc_status(usr)
+		return attack_hand(usr)
+	if(href_list["editmercpost"])
+		edit_merc_post(usr)
+		return attack_hand(usr)
 	return attack_hand(usr)
 
 /obj/structure/roguemachine/noticeboard/attack_hand(mob/living/carbon/human/user)
@@ -280,6 +286,7 @@
 				var/list/available_mercs = list()
 				var/list/contracted_mercs = list()
 				var/list/dnd_mercs = list()
+				var/user_status = null
 				for(var/datum/noticeboardpost/saved_post in GLOB.sellsword_noticeboardposts)
 					merc_count++
 					switch(saved_post.posterstitle)
@@ -292,6 +299,15 @@
 						if(MERC_STATUS_DND)
 							dnd_count++
 							dnd_mercs += saved_post
+					if(saved_post.posterweakref.resolve() == user)
+						user_status = saved_post.posterstitle
+
+				if(!isnull(user_status))
+					contents += "<center><a href='?src=[REF(src)];changemercstatus=1'>Current status: [user_status]</a><br>"
+					contents += "<center><a href='?src=[REF(src)];editmercpost=1'>Edit my post</a></center><br>"
+
+				contents += "<center><b>Registered Mercenaries:</b><br>"
+				contents += "<a href='?src=[REF(src)];authorityremovepost=1'>Authority: Remove a Posting</a>"
 
 				contents += "<center><b>Registered Mercenaries:</b><br>"
 				contents += "Total: <b>[merc_count]</b> | "
@@ -440,6 +456,32 @@
 		if(post2remove == removing_post.title)
 			GLOB.noticeboard_posts -= removing_post
 			message_admins("[ADMIN_LOOKUPFLW(guy)] has authoritavely removed a post, the message was [removing_post.message]")
+
+/obj/structure/roguemachine/noticeboard/proc/change_merc_status(mob/living/carbon/human/guy)
+	for(var/datum/noticeboardpost/saved_post in GLOB.sellsword_noticeboardposts)
+		if(saved_post.posterweakref.resolve() != guy)
+			continue
+
+		switch(saved_post.posterstitle)
+			if(MERC_STATUS_AVAILABLE)
+				saved_post.posterstitle = MERC_STATUS_CONTRACTED
+			if(MERC_STATUS_CONTRACTED)
+				saved_post.posterstitle = MERC_STATUS_DND
+			if(MERC_STATUS_DND)
+				saved_post.posterstitle = MERC_STATUS_AVAILABLE
+
+/obj/structure/roguemachine/noticeboard/proc/edit_merc_post(mob/living/carbon/human/guy)
+	for(var/datum/noticeboardpost/saved_post in GLOB.sellsword_noticeboardposts)
+		if(saved_post.posterweakref.resolve() != guy)
+			continue
+
+		var/inputmessage = stripped_multiline_input(guy, "What shall I write my mercenary posting?", "MERCENARY", no_trim=TRUE)
+		if(!inputmessage)
+			return
+
+		message_admins("[ADMIN_LOOKUPFLW(guy)] has edited a sellsword board post. The message was: [inputmessage]")
+		saved_post.message = inputmessage
+		compose_post(saved_post)
 
 /proc/add_post(message, chosentitle, chosenname, chosenrole, truename, category, mob/author)
 	var/datum/noticeboardpost/new_post = new /datum/noticeboardpost

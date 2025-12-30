@@ -20,12 +20,11 @@
 		message = inputmessage,
 		chosentitle = "[H.real_name], [H.advjob]",
 		chosenname = MERC_STATUS_AVAILABLE,
-		chosenrole = MERC_STATUS_AVAILABLE,
+		chosenrole = null,
 		truename = H.real_name,
 		category = NOTICEBOARD_CAT_SELLSWORDS,
 		author = H
 	)
-	/// GLOBAL SIGNAL THIS, DUMB FUCK!!!
 	SEND_GLOBAL_SIGNAL(COMSIG_NOTICEBOARD_POST_ADDED, null)
 
 /mob/living/carbon/human/proc/hireme()
