@@ -289,7 +289,7 @@
 				var/user_status = null
 				for(var/datum/noticeboardpost/saved_post in GLOB.sellsword_noticeboardposts)
 					merc_count++
-					switch(saved_post.posterstitle)
+					switch(saved_post.poster)
 						if(MERC_STATUS_AVAILABLE)
 							available_count++
 							available_mercs += saved_post
@@ -300,10 +300,10 @@
 							dnd_count++
 							dnd_mercs += saved_post
 					if(saved_post.posterweakref.resolve() == user)
-						user_status = saved_post.posterstitle
+						user_status = saved_post.poster
 
 				if(!isnull(user_status))
-					contents += "<center><a href='?src=[REF(src)];changemercstatus=1'>Current status: [user_status]</a><br>"
+					contents += "<br><center><a href='?src=[REF(src)];changemercstatus=1'>Current status: [user_status]</a><br>"
 					contents += "<center><a href='?src=[REF(src)];editmercpost=1'>Edit my post</a></center><br>"
 
 				contents += "<center><b>Registered Mercenaries:</b><br>"
@@ -462,13 +462,13 @@
 		if(saved_post.posterweakref.resolve() != guy)
 			continue
 
-		switch(saved_post.posterstitle)
+		switch(saved_post.poster)
 			if(MERC_STATUS_AVAILABLE)
-				saved_post.posterstitle = MERC_STATUS_CONTRACTED
+				saved_post.poster = MERC_STATUS_CONTRACTED
 			if(MERC_STATUS_CONTRACTED)
-				saved_post.posterstitle = MERC_STATUS_DND
+				saved_post.poster = MERC_STATUS_DND
 			if(MERC_STATUS_DND)
-				saved_post.posterstitle = MERC_STATUS_AVAILABLE
+				saved_post.poster = MERC_STATUS_AVAILABLE
 
 /obj/structure/roguemachine/noticeboard/proc/edit_merc_post(mob/living/carbon/human/guy)
 	for(var/datum/noticeboardpost/saved_post in GLOB.sellsword_noticeboardposts)
@@ -481,6 +481,7 @@
 
 		message_admins("[ADMIN_LOOKUPFLW(guy)] has edited a sellsword board post. The message was: [inputmessage]")
 		saved_post.message = inputmessage
+		saved_post.banner = null
 		compose_post(saved_post)
 
 /proc/add_post(message, chosentitle, chosenname, chosenrole, truename, category, mob/author)

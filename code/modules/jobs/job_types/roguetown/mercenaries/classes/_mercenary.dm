@@ -13,8 +13,6 @@
 
 /proc/merc_edit_posting(mob/living/carbon/human/H)
 	var/inputmessage = stripped_multiline_input(H, "What shall I write my mercenary posting?", "MERCENARY", no_trim=TRUE)
-	if(!inputmessage)
-		return
 	message_admins("[ADMIN_LOOKUPFLW(H)] has made a notice board post. The message was: [inputmessage]")
 	add_post(
 		message = inputmessage,
