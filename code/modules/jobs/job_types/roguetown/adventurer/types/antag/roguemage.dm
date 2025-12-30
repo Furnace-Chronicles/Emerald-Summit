@@ -11,7 +11,8 @@
 	traits_applied = list(
 		TRAIT_MAGEARMOR,
 		TRAIT_ARCYNE_T3,
-		TRAIT_DODGEEXPERT
+		TRAIT_DODGEEXPERT,
+		TRAIT_TALENTED_ALCHEMIST
 	)
 	subclass_stats = list(
 		STATKEY_INT = 3,

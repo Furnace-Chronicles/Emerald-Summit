@@ -63,6 +63,8 @@
 	for(var/mob/living/carbon/human/target as anything in targets)
 		if(target.cmode)
 			will_dice++
+		if(target.compliance)
+			will_dice = 0
 		var/willpower = round(target.STAINT / int_divisor, 1)
 		var/willroll = roll(willpower, will_dice)
 

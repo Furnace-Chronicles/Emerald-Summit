@@ -43,6 +43,16 @@
 	return
 #endif
 
+/obj/item/clothing/under/roguetown/MiddleClick(mob/user)
+	var/mob/living/carbon/H = user
+	if(!ishuman(user))
+		return
+	if(flags_inv & HIDETAIL)
+		flags_inv &= ~HIDETAIL
+	else
+		flags_inv |= HIDETAIL
+	H.update_inv_pants()
+
 /obj/item/clothing/under/roguetown/tights
 	name = "tights"
 	desc = "A pair of form-fitting tights."
@@ -409,7 +419,7 @@
 	icon_state = "graggarplatelegs"
 	armor = ARMOR_ASCENDANT
 	max_integrity = 400 // Good good resistances, but less crit resist than the other ascendant armors. In trade, we can take off our pants to repair, and they are medium rather than heavy.
-	armor = ARMOR_CLASS_MEDIUM
+	armor_class = ARMOR_CLASS_MEDIUM
 
 /obj/item/clothing/under/roguetown/platelegs/graggar/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_HORDE))
@@ -617,13 +627,13 @@
 	flags_inv = HIDECROTCH
 
 // new knight captain drip
-/obj/item/clothing/under/roguetown/platelegs/captain
-	name = "captain's chausses"
-	desc = "Cuisses made of plated steel, offering additional protection against blunt force. These are specially fitted for the captain."
-	icon_state = "capplateleg"
-	item_state = "capplateleg"
-	icon = 'icons/roguetown/clothing/special/captain.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/captain.dmi'
+/obj/item/clothing/under/roguetown/platelegs/champion
+	name = "champion's chausses"
+	desc = "Cuisses made of plated steel, offering additional protection against blunt force. These are specially fitted for the champion."
+	icon_state = "champplateleg"
+	item_state = "champplateleg"
+	icon = 'icons/roguetown/clothing/special/champion.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/champion.dmi'
 
 /obj/item/clothing/under/roguetown/carapacelegs
 	name = "carapace chausses"

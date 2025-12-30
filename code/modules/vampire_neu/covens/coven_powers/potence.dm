@@ -7,7 +7,6 @@
 /datum/coven_power/potence
 	name = "Potence power name"
 	desc = "Potence power description"
-
 	grouped_powers = list(
 		/datum/coven_power/potence/one,
 		/datum/coven_power/potence/two,
@@ -16,6 +15,25 @@
 		/datum/coven_power/potence/five
 	)
 
+/datum/coven_power/potence/activate(atom/target)
+	. = ..()
+	owner.apply_status_effect(/datum/status_effect/buff/potence, level)
+	if(level > 2)
+		owner.visible_message(span_warning("[owner] tenses their muscles, looking exceptionally stronger!"))
+		ADD_TRAIT(owner, TRAIT_ZJUMP, VAMPIRE_TRAIT)
+		ADD_TRAIT(owner, TRAIT_NOFALLDAMAGE1, VAMPIRE_TRAIT)
+		if(level > 3)
+			ADD_TRAIT(owner, TRAIT_STRENGTH_UNCAPPED, VAMPIRE_TRAIT)
+
+/datum/coven_power/potence/deactivate(atom/target, direct)
+	. = ..()
+	owner.remove_status_effect(/datum/status_effect/buff/potence)
+	if(level > 2)
+		owner.visible_message(span_warning("[owner] relaxes their body."))
+		REMOVE_TRAIT(owner, TRAIT_ZJUMP, VAMPIRE_TRAIT)
+		REMOVE_TRAIT(owner, TRAIT_NOFALLDAMAGE1, VAMPIRE_TRAIT)
+		if(level > 3)
+			REMOVE_TRAIT(owner, TRAIT_STRENGTH_UNCAPPED, VAMPIRE_TRAIT)
 //POTENCE 1
 /datum/coven_power/potence/one
 	name = "Potence 1"
@@ -29,12 +47,10 @@
 
 /datum/coven_power/potence/one/activate()
 	. = ..()
-	owner.dna.species.punch_damage += 8
 	owner.potence_weapon_buff = 1
 
 /datum/coven_power/potence/one/deactivate()
 	. = ..()
-	owner.dna.species.punch_damage -= 8
 	owner.potence_weapon_buff = 0
 	owner.remove_overlay(POTENCE_LAYER)
 
@@ -45,7 +61,7 @@
 
 	level = 2
 	research_cost = 1
-	vitae_cost = 55
+	vitae_cost = 60
 	check_flags = COVEN_CHECK_CAPABLE
 
 	toggled = TRUE
@@ -53,12 +69,10 @@
 
 /datum/coven_power/potence/two/activate()
 	. = ..()
-	owner.dna.species.punch_damage += 16
 	owner.potence_weapon_buff = 2
 
 /datum/coven_power/potence/two/deactivate()
 	. = ..()
-	owner.dna.species.punch_damage -= 16
 	owner.potence_weapon_buff = 0
 	owner.remove_overlay(POTENCE_LAYER)
 
@@ -69,20 +83,18 @@
 
 	level = 3
 	research_cost = 2
-	vitae_cost = 60
+	vitae_cost = 70
 	check_flags = COVEN_CHECK_CAPABLE
 	toggled = TRUE
 	duration_length = 2 TURNS
 
 /datum/coven_power/potence/three/activate()
 	. = ..()
-	owner.dna.species.punch_damage += 24
 	owner.potence_weapon_buff = 3
 
 
 /datum/coven_power/potence/three/deactivate()
 	. = ..()
-	owner.dna.species.punch_damage -= 24
 	owner.potence_weapon_buff = 0
 	owner.remove_overlay(POTENCE_LAYER)
 
@@ -93,19 +105,17 @@
 
 	level = 4
 	research_cost = 3
-	vitae_cost = 65
+	vitae_cost = 80
 	check_flags = COVEN_CHECK_CAPABLE
 	toggled = TRUE
 	duration_length = 2 TURNS
 
 /datum/coven_power/potence/four/activate()
 	. = ..()
-	owner.dna.species.punch_damage += 32
 	owner.potence_weapon_buff = 4
 
 /datum/coven_power/potence/four/deactivate()
 	. = ..()
-	owner.dna.species.punch_damage -= 32
 	owner.potence_weapon_buff = 0
 	owner.remove_overlay(POTENCE_LAYER)
 
@@ -117,18 +127,16 @@
 
 	level = 5
 	research_cost = 4
-	vitae_cost = 70
+	vitae_cost = 90
 	check_flags = COVEN_CHECK_CAPABLE
 	toggled = TRUE
 	duration_length = 2 TURNS
 
 /datum/coven_power/potence/five/activate()
 	. = ..()
-	owner.dna.species.punch_damage += 40
 	owner.potence_weapon_buff = 5
 
 /datum/coven_power/potence/five/deactivate()
 	. = ..()
-	owner.dna.species.punch_damage -= 40
 	owner.potence_weapon_buff = 0
 	owner.remove_overlay(POTENCE_LAYER)

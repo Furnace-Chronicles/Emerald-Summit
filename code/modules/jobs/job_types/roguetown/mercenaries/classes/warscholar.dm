@@ -185,7 +185,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/angle/pontifex
 	head = /obj/item/clothing/head/roguetown/roguehood/pontifex
 	armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex
-	shirt = /obj/item/clothing/suit/roguetown/shirt/robe/pointfex
+	shirt = /obj/item/clothing/suit/roguetown/shirt/robe/qaba/pontifex
 	pants = /obj/item/clothing/under/roguetown/trou/leather/pontifex
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary,

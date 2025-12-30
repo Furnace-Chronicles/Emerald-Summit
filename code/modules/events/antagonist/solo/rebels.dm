@@ -23,7 +23,6 @@
 	restricted_roles = list(
 		"Grand Duke",
 		"Grand Duchess",
-		"Knight Captain",
 		"Consort",
 		"Sergeant",
 		"Men-at-Arms",

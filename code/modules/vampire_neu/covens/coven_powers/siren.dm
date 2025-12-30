@@ -179,23 +179,28 @@
 
 	level = 5
 	research_cost = 4
+	vitae_cost = 250
 	minimal_generation = GENERATION_ANCILLAE
 	check_flags = COVEN_CHECK_CONSCIOUS | COVEN_CHECK_CAPABLE | COVEN_CHECK_IMMOBILE | COVEN_CHECK_SPEAK
 	duration_length = 3 SECONDS
-	cooldown_length = 30 SECONDS
+	cooldown_length = 60 SECONDS
 
 /datum/coven_power/siren/shattering_crescendo/activate()
 	. = ..()
 	var/list/mobs_in_view = oviewers(7, owner)
+	playsound(owner, 'sound/villain/screech.ogg', 100)
 	if(!LAZYLEN(mobs_in_view))
 		deactivate()
 		return
-
+	
 	for(var/mob/living/carbon/human/listener in mobs_in_view)
 		if(listener.clan == owner.clan)
 			continue
 
 		listener.Stun(duration_length)
+		listener.confused += 10
+		listener.jitteriness += 10
+		listener.soundbang_act(intensity = 1, stun_pwr = 0, damage_pwr = 5, deafen_pwr = 15)
 		listener.apply_damage(50, BRUTE, BODY_ZONE_HEAD)
 
 		listener.remove_overlay(MUTATIONS_LAYER)

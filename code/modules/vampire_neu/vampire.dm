@@ -23,6 +23,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	var/datum/clan/forcing_clan
 	var/generation
 	var/research_points = 10
+	var/research_spent = 0
 	/// List of weak references to thralls created by this vampire
 	var/list/datum/weakref/thralls = list()
 
@@ -124,8 +125,10 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	var/datum/clan/custom/new_clan = new /datum/clan/custom()
 	new_clan.name = custom_clan_name
 	switch(vampdude.get_vampire_generation())
-		if(GENERATION_NEONATE, GENERATION_THINBLOOD)
+		if(GENERATION_NEONATE)
 			new_clan.covens_to_select = COVENS_PER_WRETCH_CLAN
+		if(GENERATION_THINBLOOD)
+			new_clan.covens_to_select = COVEN_BLOCKED
 
 	// Apply the custom clan
 	vampdude.set_clan_direct(new_clan)

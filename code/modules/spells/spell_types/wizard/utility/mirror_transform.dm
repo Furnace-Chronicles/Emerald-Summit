@@ -391,7 +391,8 @@
 						penis = new()
 						penis.Insert(H, TRUE, FALSE)
 					penis.accessory_type = valid_penis_types[new_style]
-					penis.color = H.dna.features["mcolor"]
+					var/datum/sprite_accessory/penis/penis_type = SPRITE_ACCESSORY(penis.accessory_type)
+					penis.accessory_colors = penis_type.get_default_colors(color_key_source_list_from_carbon(H))
 					H.update_body()
 					should_update = TRUE
 
@@ -416,7 +417,8 @@
 						testicles = new()
 						testicles.Insert(H, TRUE, FALSE)
 					testicles.accessory_type = valid_testicle_types[new_style]
-					testicles.color = H.dna.features["mcolor"]
+					var/datum/sprite_accessory/testicles/testicles_type = SPRITE_ACCESSORY(testicles.accessory_type)
+					testicles_type.get_default_colors(color_key_source_list_from_carbon(H))
 					H.update_body()
 					should_update = TRUE
 
@@ -441,9 +443,11 @@
 					if(!breasts)
 						breasts = new()
 						breasts.Insert(H, TRUE, FALSE)
-
+			
 					breasts.accessory_type = valid_breast_types[new_style]
-					breasts.color = H.dna.features["mcolor"]
+					var/datum/sprite_accessory/breasts/breasts_type = SPRITE_ACCESSORY(breasts.accessory_type)
+					breasts.accessory_colors = breasts_type.get_default_colors(color_key_source_list_from_carbon(H))
+
 					H.update_body()
 					should_update = TRUE
 
@@ -470,7 +474,8 @@
 					if(new_color)
 						vagina.color = sanitize_hexcolor(new_color, 6, TRUE)
 					else
-						vagina.color = H.dna.features["mcolor"]
+						var/datum/sprite_accessory/vagina/vag_type = SPRITE_ACCESSORY(vagina.accessory_type)
+						vagina.color = vag_type.get_default_colors(color_key_source_list_from_carbon(H))
 
 					H.update_body()
 					should_update = TRUE
@@ -568,7 +573,7 @@
 						tail.Insert(H, TRUE, FALSE)
 					tail.accessory_type = valid_tails[new_style]
 					var/datum/sprite_accessory/tail/tail_type = SPRITE_ACCESSORY(tail.accessory_type)
-					tail.accessory_colors = tail_type.get_default_colors(list())
+					tail.accessory_colors = tail_type.get_default_colors(color_key_source_list_from_carbon(H))
 					H.update_body()
 					should_update = TRUE
 
@@ -633,7 +638,7 @@
 						ears.Insert(H, TRUE, FALSE)
 					ears.accessory_type = valid_ears[new_style]
 					var/datum/sprite_accessory/ears/ears_type = SPRITE_ACCESSORY(ears.accessory_type)
-					ears.accessory_colors = ears_type.get_default_colors(list())
+					ears.accessory_colors = ears_type.get_default_colors(color_key_source_list_from_carbon(H))
 					H.update_body()
 					should_update = TRUE
 
@@ -699,7 +704,7 @@
 						horns.Insert(H, TRUE, FALSE)
 					horns.accessory_type = valid_horns[new_style]
 					var/datum/sprite_accessory/horns/horns_type = SPRITE_ACCESSORY(horns.accessory_type)
-					horns.accessory_colors = horns_type.get_default_colors(list())
+					horns.accessory_colors = horns_type.get_default_colors(color_key_source_list_from_carbon(H))
 					H.update_body()
 					should_update = TRUE
 
@@ -745,7 +750,7 @@
 						wings.Insert(H, TRUE, FALSE)
 					wings.accessory_type = valid_wings[new_style]
 					var/datum/sprite_accessory/wings/wings_type = SPRITE_ACCESSORY(wings.accessory_type)
-					wings.accessory_colors = wings_type.get_default_colors(list())
+					wings.accessory_colors = wings_type.get_default_colors(color_key_source_list_from_carbon(H))
 					H.update_body()
 					should_update = TRUE
 

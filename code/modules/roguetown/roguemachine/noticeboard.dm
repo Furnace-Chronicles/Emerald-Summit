@@ -220,9 +220,9 @@
 		return
 	var/can_remove = FALSE
 	var/can_premium = FALSE
-	if(user.job in list("Man at Arms","Inquisitor", "Knight", "Sergeant", "Knight Captain", "Orthodoxist", "Absolver",))
+	if(user.job in list("Man at Arms","Inquisitor", "Knight", "Sergeant", "Orthodoxist", "Absolver","Marshal", "Hand"))
 		can_remove = TRUE
-	if(user.job in list("Nightmaster","Merchant", "Innkeeper", "Steward", "Court Magician"))
+	if(user.job in list("Bathmaster","Merchant", "Innkeeper", "Steward", "Court Magician", "Town Crier", "Keeper"))
 		can_premium = TRUE
 	var/contents
 	contents += "<center>NOTICEBOARD<BR>"
@@ -231,7 +231,7 @@
 	for(var/i = 1, i <= length(categories), i++)
 		var/category = categories[i]
 		if(category == current_category)
-			selection += "<b>[current_category]</b>"
+			selection += "<b>[current_category]</b> | "
 		else if(i != length(categories))
 			selection += "<a href='?src=[REF(src)];changecategory=[category]'>[category]</a> | "
 		else
@@ -308,6 +308,7 @@
 	var/datum/browser/popup = new(user, "NOTICEBOARD", "", 800, 650)
 	popup.set_content(contents)
 	popup.open()
+
 
 /obj/structure/roguemachine/noticeboard/proc/premium_post(mob/living/carbon/human/guy)
 	if(guy.has_status_effect(/datum/status_effect/debuff/postcooldown))

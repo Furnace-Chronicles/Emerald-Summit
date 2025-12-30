@@ -300,7 +300,7 @@
 	icon_state = "scomm1"
 	density = FALSE
 	blade_dulling = DULLING_BASH
-	max_integrity = 0
+	max_integrity = 500
 	pixel_y = 32
 	flags_1 = HEAR_1
 	anchored = TRUE
@@ -392,7 +392,7 @@
 /obj/structure/roguemachine/scomm/MiddleClick(mob/living/carbon/human/user)
 	if(.)
 		return
-	if((HAS_TRAIT(user, TRAIT_GUARDSMAN) || HAS_TRAIT(user, TRAIT_GUARDSMAN_NOBLE) || (user.job == "Warden") || (user.job == "Hand") || (user.job == "Watchman") || (user.job == "Squire") || (user.job == "Marshal") || (user.job == "Grand Duke") || (user.job == "Knight Captain") || (user.job == "Knight") || (user.job == "Consort")))
+	if((HAS_TRAIT(user, TRAIT_GUARDSMAN) || HAS_TRAIT(user, TRAIT_GUARDSMAN_NOBLE) || (user.job == "Warden") || (user.job == "Hand") || (user.job == "Watchman") || (user.job == "Squire") || (user.job == "Marshal") || (user.job == "Grand Duke") || (user.job == "Knight") || (user.job == "Consort")))
 		if(alert("Would you like to swap lines or connect to a jabberline?",, "swap", "jabberline") != "jabberline")
 			if(scom.target != SCOM_TARGET_GARRISON)
 				scom.target = SCOM_TARGET_GARRISON

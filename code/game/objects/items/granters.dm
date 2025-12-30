@@ -347,3 +347,10 @@
 		desc = "A scroll once inscribed with magical scripture. The surface is now barren of knowledge, siphoned by someone else. It's utterly useless."
 		icon_state = "scroll"
 		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
+
+/obj/item/book/granter/spell/blackstone/mirror_transform
+	name = "Scroll of Mirror Transform"
+	spell = /obj/effect/proc_holder/spell/invoked/mirror_transform
+	spellname = "Mirror Transform"
+	icon_state ="scrolldarkred"
+	remarks = list("Aspectum rebis adopta..", "Fac me novum..", "Pulcher ero..")
