@@ -9,6 +9,7 @@
 	allowed_races = RACES_ALL_KINDS
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT)
+	var/church_favor = 0
 
 	tutorial = "Your family were zealots. They scolded you with a studded belt and prayed like sinners every waking hour of the day they weren't toiling in the fields. You escaped them by becoming a churchling--and a guaranteed education isn't so bad."
 
@@ -32,6 +33,7 @@
 	category_tags = list(CTAG_CHURCHLING)
 	cmode_music = 'sound/music/combat_holy.ogg'
 
+	traits_applied = list(TRAIT_CLERGY)
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_PER = 1,
@@ -63,10 +65,14 @@
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
 	beltl = /obj/item/storage/keyring/churchie
+	if(H && H.mind)
+		if(!H.mind.has_spell(/obj/effect/proc_holder/spell/self/learnmiracle))
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/learnmiracle)
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = FALSE, devotion_limit = CLERIC_REQ_1)	//Capped to T1 miracles.
-	
+	H.miracle_points = max(H.miracle_points, 3)
+
 	// -- Start of section for god specific bonuses --
 	if(H.patron?.type == /datum/patron/inhumen/graggar) // not going to lie, I have no idea why you're even allowed to be a heretic churchling but go off king
 		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
