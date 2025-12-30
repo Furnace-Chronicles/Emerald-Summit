@@ -1511,5 +1511,9 @@
 
 /datum/status_effect/buff/merchired
 	id = "merchired"
-	alert_type = /atom/movable/screen/alert/status_effect/buff
-	examine_text = "I have an active contract. I must be vigilant and ready at all tymes."
+	alert_type = /atom/movable/screen/alert/status_effect/buff/merchired
+
+/atom/movable/screen/alert/status_effect/buff/merchired
+	name = "Hired!"
+	desc = "I have an active contract. I must be vigilant and ready at all tymes."
+	icon_state = "buff"
