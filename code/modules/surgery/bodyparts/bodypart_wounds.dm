@@ -3,7 +3,9 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 	/// Calculates the base crit chance based on damage and limb state
 	/// Returns the probability value (0-100+) for use in prob() calls
 /obj/item/bodypart/proc/calculate_crit_chance(damage_dividend, dam, resistance, base_multiplier = 10, dam_divisor = 7, resistance_penalty = 10, bonus = 0, armor_resistance = 0)
-	var/base_chance = round(damage_dividend * base_multiplier + (dam / dam_divisor) - resistance_penalty * resistance + bonus, 1)
+	var/damage_contribution = sqrt(dam) * (dam_divisor / 7)
+
+	var/base_chance = round(damage_dividend * base_multiplier + damage_contribution - resistance_penalty * resistance + bonus, 1)
 	if(armor_resistance > 0)
 		var/armor_multiplier =  1 - (armor_resistance / 100) * 0.7
 		base_chance *= armor_multiplier
