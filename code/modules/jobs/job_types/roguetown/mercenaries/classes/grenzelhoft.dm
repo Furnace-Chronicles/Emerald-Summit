@@ -20,6 +20,7 @@
 		STATKEY_STR = 2, //Should give minimum required stats to use Zweihander
 		STATKEY_SPD = -1 //They get heavy armor now + sword option; so lower speed.
 	)
+	hiredbuff = /datum/status_effect/buff/merchired/grenzelhoft
 
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,

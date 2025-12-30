@@ -17,6 +17,7 @@
 		STATKEY_PER = 1,
 		STATKEY_SPD = -1
 	)
+	hiredbuff = /datum/status_effect/buff/merchired/rumaclan
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
