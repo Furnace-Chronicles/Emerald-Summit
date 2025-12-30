@@ -12,6 +12,7 @@ GLOBAL_LIST_EMPTY(merc_dm_enquiries)
 #define NOTICEBOARD_CAT_POSTINGS "Postings"
 #define NOTICEBOARD_CAT_PREMIUM "Premium Postings"
 #define NOTICEBOARD_CAT_SELLSWORDS "Sellswords"
+#define NOTICEBOARD_CAT_SCOUT "Scout Report"
 
 /// Mercenary status for contract system - available, can be DM'd by others
 #define MERC_STATUS_AVAILABLE "Available"
@@ -21,4 +22,4 @@ GLOBAL_LIST_EMPTY(merc_dm_enquiries)
 #define MERC_STATUS_DND "Do Not Disturb"
 /// Lifespan of mercenary response links
 #define MERC_DM_RESPONSE_LIFESPAN (2 MINUTES)
-#define NOTICEBOARD_ALL_CATEGORIES list(NOTICEBOARD_CAT_POSTINGS, NOTICEBOARD_CAT_PREMIUM, NOTICEBOARD_CAT_SELLSWORDS)
+#define NOTICEBOARD_ALL_CATEGORIES list(NOTICEBOARD_CAT_POSTINGS, NOTICEBOARD_CAT_PREMIUM, NOTICEBOARD_CAT_SELLSWORDS, NOTICEBOARD_CAT_SCOUT)
