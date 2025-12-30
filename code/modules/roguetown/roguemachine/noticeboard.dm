@@ -54,7 +54,7 @@
 
 /obj/structure/roguemachine/noticeboard/update_icon()
 	. = ..()
-	var/total_length = length(GLOB.noticeboard_posts) + length(GLOB.premium_noticeboardposts)
+	var/total_length = length(GLOB.noticeboard_posts) + length(GLOB.premium_noticeboardposts) + length(GLOB.sellsword_noticeboardposts)
 	switch(total_length)
 		if(0)
 			icon_state = "noticeboard0"
