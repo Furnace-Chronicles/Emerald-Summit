@@ -109,21 +109,15 @@
 	if(!message || !Adjacent(user))
 		return
 	
+	LAZYADD(GLOB.merc_dm_enquiries, "\ref[user]_\ref[choice]")
 	playsound(src, 'sound/ambience/noises/birds (7).ogg', 30, FALSE, -1)
 	to_chat(user, span_notice("My message has been sent to [choice.real_name]."))
-
 	to_chat(
 		choice, 
 		span_boldnotice(
 			"A potential employer contacts me: <i>[message]</i> - [user.real_name]<br>\
-			<script>\
-  			function clickAndDisable(link) {\
-     			link.onclick = function(event) {\
-        		event.preventDefault();\
-     		}\
-			}</script>\
-			<a href='?src=[REF(src)];direct_response=yae;caller_weakref=[WEAKREF(user)];timestamp=[world.time]' onclick='clickAndDisable(this)'>\[YAE\]</a> | \
-			<a href='?src=[REF(src)];direct_response=nae;caller_weakref=[WEAKREF(user)];timestamp=[world.time]' onclick='clickAndDisable(this)'>\[NAE\]</a>"\
+			<a href='?src=[REF(src)];direct_response=yae;enquierer_ref=\ref[user];eol=[world.time + MERC_DM_RESPONSE_LIFESPAN]'>\[YAE\]</a> | \
+			<a href='?src=[REF(src)];direct_response=nae;enquierer_ref=\ref[user];eol=[world.time + MERC_DM_RESPONSE_LIFESPAN]'>\[NAE\]</a>"\
 		)
 	)
 	playsound(choice.loc, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
@@ -167,36 +161,40 @@
 /obj/structure/roguemachine/noticeboard/Topic(href, href_list)
 	. = ..()
 	if(href_list["direct_response"])// Merc DM response, handled before CanUseTopic
-		if(!ishuman(usr))
-			return
 		var/mob/living/carbon/human/responder = usr
+		if(!istype(responder) || responder.mind?.assigned_role != "Mercenary")
+			return
+		/**
+		 * TextRefs can be replaced - when an object is deleted another can take its place in memory
+		 * But the chances of a human mob being raplced in 2 minutes by another huaman mob are very slim
+		 * At least according to my guesstimations. In all other replacement cases istype() will fail.
+		 * Beat me with a stick if a mercenary responds to the wrong person because of this. ~ Halford
+		 */
+		var/mob/living/carbon/human/enquierer = locate(href_list["enquierer_ref"])
+		if(!istype(enquierer) || !enquierer.mind || !enquierer.client)
+			to_chat(responder, span_warning("There is no one to respond to."))
+			return
+
+		if(!("\ref[enquierer]_\ref[responder]" in GLOB.merc_dm_enquiries))
+			to_chat(responder, span_warning("It seems I have already responded to this message."))
+			return
+
+		if(world.time >= text2num(href_list["eol"]))
+			to_chat(responder, span_warning("It must be too late."))
+			return
+
 		var/response_type = href_list["direct_response"]
-		var/datum/weakref/caller_weakref = href_list["response_id"]
-		var/mob/living/carbon/human/sender = caller_weakref?.resolve()
-		if(QDELETED(sender))
-			to_chat(responder, span_warning("There is no one to resond to..."))
-			return
-
-		if(href_list["timestamp"] + 5 MINUTES <= world.time)
-			to_chat(responder, span_warning("It must be too late..."))
-			return
-
-		if(responder.mind?.assigned_role != "Mercenary")
-			to_chat(responder, span_warning("I am not a mercenary."))
-			return
-
 		// Send response to sender
 		if(response_type == "yae")
-			to_chat(sender, span_notice("[responder.real_name] responded in affirmation to my message."))
-			to_chat(responder, span_notice("I responded in affirmation to [sender.real_name]."))
+			to_chat(enquierer, span_notice("[responder.real_name] responded in affirmation to my message."))
+			to_chat(responder, span_notice("I responded in affirmation to [enquierer.real_name]."))
 		else // nae
-			to_chat(sender, span_notice("[responder.real_name] responded negatively to my message."))
-			to_chat(responder, span_notice("I responded negatively to [sender.real_name]."))
-
-		playsound(sender.loc, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
+			to_chat(enquierer, span_notice("[responder.real_name] responded negatively to my message."))
+			to_chat(responder, span_notice("I responded negatively to [enquierer.real_name]."))
+		playsound(enquierer.loc, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
 		playsound(responder.loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-
-		responder.log_talk("direct response: [response_type]", LOG_SAY, tag="mercenary noticeboard response (to [key_name(sender)])")
+		LAZYREMOVE(GLOB.merc_dm_enquiries, "\ref[enquierer]_\ref[responder]")
+		responder.log_talk("direct response: [response_type]", LOG_SAY, tag="mercenary noticeboard response (to [key_name(enquierer)])")
 		return
 
 	if(!usr.canUseTopic(src, BE_CLOSE))

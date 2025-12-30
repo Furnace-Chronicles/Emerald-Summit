@@ -117,6 +117,11 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/active_miracle_set						// Currently active god name
 	var/list/miracle_button_states				// Associative: spell_type = list("locked", "moved") - persists across all gods
 
+	/// List of mercenary minds under this mind's employ.
+	VAR_PRIVATE/mercenaries
+	/// Weakref to our employer, if any
+	var/datum/weakref/employer
+
 /datum/mind/New(key)
 	src.key = key
 	soulOwner = src
@@ -950,6 +955,44 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		S.action?.Grant(current)
 	
 	return TRUE
+
+/datum/mind/proc/add_mercenary(datum/mind/new_merc)
+	if(!istype(new_merc))
+		return FALSE
+
+	current.verbs += /mob/living/carbon/human/proc/listmercs
+	current.verbs += /mob/living/carbon/human/proc/firethem
+	new_merc.current.verbs -= /mob/living/carbon/human/proc/hireme
+	new_merc.current.verbs += /mob/living/carbon/human/proc/fireme
+	new_merc.current.verbs += /mob/living/carbon/human/proc/merccontract
+
+	RegisterSignal(new_merc, COMSIG_QDELETING, PROC_REF(remove_mercenary))
+	new_merc.employer = WEAKREF(src)
+	LAZYADD(mercenaries, new_merc)
+	return TRUE
+
+/datum/mind/proc/remove_mercenary(datum/mind/former_merc)
+	SIGNAL_HANDLER
+	if(!istype(former_merc))
+		return FALSE
+
+	former_merc.current.verbs += /mob/living/carbon/human/proc/hireme
+	former_merc.current.verbs -= /mob/living/carbon/human/proc/fireme
+	former_merc.current.verbs -= /mob/living/carbon/human/proc/merccontract
+
+	UnregisterSignal(former_merc, COMSIG_QDELETING)
+	former_merc.employer = null
+	LAZYREMOVE(mercenaries, former_merc)
+	if(!has_mercs_employed())
+		current.verbs -= /mob/living/carbon/human/proc/listmercs
+		current.verbs -= /mob/living/carbon/human/proc/firethem
+	return TRUE
+
+/datum/mind/proc/has_mercs_employed()
+	return LAZYLEN(mercenaries)
+
+/datum/mind/proc/get_mercenary_list()
+	return mercenaries
 
 /proc/handle_special_items_retrieval(mob/user, atom/host_object)
 	// Attempts to retrieve an item from a player's stash, and applies any base colors, where preferable.
