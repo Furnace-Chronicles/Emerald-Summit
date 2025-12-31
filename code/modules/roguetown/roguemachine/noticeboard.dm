@@ -307,7 +307,6 @@
 					contents += "<center><a href='?src=[REF(src)];editmercpost=1'>Edit my post</a></center><br>"
 
 				contents += "<center><b>Registered Mercenaries:</b><br>"
-				contents += "<a href='?src=[REF(src)];authorityremovepost=1'>Authority: Remove a Posting</a>"
 
 				contents += "<center><b>Registered Mercenaries:</b><br>"
 				contents += "Total: <b>[merc_count]</b> | "
