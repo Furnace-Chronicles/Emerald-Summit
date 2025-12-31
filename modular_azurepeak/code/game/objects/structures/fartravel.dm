@@ -80,6 +80,7 @@
 					continue
 
 				GLOB.sellsword_noticeboardposts -= saved_post
+				qdel(saved_post)
 				SEND_GLOBAL_SIGNAL(COMSIG_NOTICEBOARD_POST_REMOVED, src)
 
 		if(departing_mob.mind.assigned_role == "Grand Duke" || departing_mob.mind.assigned_role == "Grand Duchess")

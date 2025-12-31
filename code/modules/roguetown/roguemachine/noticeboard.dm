@@ -42,6 +42,10 @@
 	/// Weakref to the poster's mob
 	var/datum/weakref/posterweakref
 
+/datum/noticeboardpost/Destroy(force, ...)
+	posterweakref = null
+	return ..()
+
 /obj/structure/roguemachine/noticeboard/examine(mob/living/carbon/human/user)
 	. = ..()
 	if(!ishuman(user))
