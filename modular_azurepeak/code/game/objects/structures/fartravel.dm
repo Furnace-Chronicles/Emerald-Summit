@@ -74,7 +74,7 @@
 	
 	// If departure is a lord, remove them from found_lords to prevent false omen triggers
 	if(departing_mob.mind && departing_mob.ckey)
-		if(departing_mob.assigned_role == "Mercenary")
+		if(departing_mob.mind.assigned_role == "Mercenary")
 			for(var/datum/noticeboardpost/saved_post in GLOB.sellsword_noticeboardposts)
 				if(saved_post.posterweakref.resolve() != departing_mob)
 					continue
