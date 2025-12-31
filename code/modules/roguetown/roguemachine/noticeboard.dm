@@ -82,7 +82,7 @@
 
 	var/list/available_mercs = list()
 	for(var/datum/noticeboardpost/saved_post in GLOB.sellsword_noticeboardposts)
-		if(saved_post.posterstitle != MERC_STATUS_AVAILABLE)
+		if(saved_post.poster != MERC_STATUS_AVAILABLE)
 			continue
 
 		var/mob/living/L = saved_post.posterweakref?.resolve()
@@ -130,7 +130,7 @@
 
 	var/list/available_mercs = list()
 	for(var/datum/noticeboardpost/saved_post in GLOB.sellsword_noticeboardposts)
-		if(saved_post.posterstitle == MERC_STATUS_DND)
+		if(saved_post.poster == MERC_STATUS_DND)
 			continue
 
 		var/mob/living/L = saved_post.posterweakref?.resolve()
