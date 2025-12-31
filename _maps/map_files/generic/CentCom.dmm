@@ -850,6 +850,10 @@
 /obj/machinery/light/rogue/hearth,
 /obj/item/cooking/pan,
 /obj/machinery/light/rogue/oven/south,
+/obj/structure/fluff/walldeco/church/line{
+	pixel_x = 0;
+	pixel_y = -1
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/inhumen)
 "dH" = (
@@ -911,6 +915,12 @@
 	},
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/banditcamp)
+"ei" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
+/turf/open/floor/rogue/blocks/stonered/tiny,
+/area/rogue/under/cave/inhumen)
 "ej" = (
 /obj/structure/table/wood/fancy/purple,
 /obj/machinery/light/rogue/wallfire/candle/floorcandle/pink,
@@ -929,6 +939,10 @@
 /obj/machinery/light/rogue/wallfire/candle/r,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/banditcamp)
+"en" = (
+/obj/structure/fluff/walldeco/church/line,
+/turf/open/floor/rogue/blocks/stonered/tiny,
+/area/rogue/under/cave/inhumen)
 "ep" = (
 /obj/structure/table/wood{
 	icon_state = "largetable";
@@ -938,7 +952,7 @@
 /area/rogue/under/cave/inhumen)
 "ey" = (
 /obj/structure/mineral_door/wood/donjon/stone{
-	name = "Forgotten Chapel"
+	name = "Zromenade"
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/inhumen)
@@ -1046,6 +1060,13 @@
 /obj/machinery/light/rogue/wallfire/candle/floorcandle/pink,
 /turf/open/floor/rogue/tile/harem2,
 /area/rogue/under/cave/inhumen)
+"fV" = (
+/obj/structure/mineral_door/bars{
+	lockid = "inhumen";
+	name = "Zurgery"
+	},
+/turf/open/floor/rogue/churchrough,
+/area/rogue/under/cave/inhumen)
 "fY" = (
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
@@ -1105,7 +1126,17 @@
 /obj/structure/fluff/walldeco/stone{
 	pixel_x = -32
 	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8
+	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
+/area/rogue/under/cave/inhumen)
+"gv" = (
+/obj/structure/mineral_door/bars{
+	lockid = "inhumen";
+	name = "ZRONK"
+	},
+/turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/inhumen)
 "gw" = (
 /obj/machinery/light/rogue/firebowl{
@@ -1120,6 +1151,12 @@
 /obj/machinery/light/rogue/wallfire/candle/blue/r,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/vampire_manor)
+"gF" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8
+	},
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/under/cave/inhumen)
 "gH" = (
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/cave/inhumen)
@@ -1213,6 +1250,13 @@
 "hQ" = (
 /turf/open/floor/rogue/blocks,
 /area/rogue)
+"hR" = (
+/obj/structure/mineral_door/bars{
+	lockid = "inhumen";
+	name = "Zail"
+	},
+/turf/open/floor/rogue/churchrough,
+/area/rogue/under/cave/inhumen)
 "hV" = (
 /obj/structure/fluff/psycross/zizocross,
 /turf/open/floor/rogue/churchbrick,
@@ -1380,6 +1424,12 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/banditcamp)
+"jF" = (
+/obj/structure/mineral_door/wood/donjon/stone{
+	name = "Zarm"
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/under/cave/inhumen)
 "jH" = (
 /obj/structure/table/wood{
 	icon_state = "tablewood2";
@@ -1432,6 +1482,12 @@
 	pixel_y = 32
 	},
 /turf/open/floor/rogue/churchrough,
+/area/rogue/under/cave/inhumen)
+"kc" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 4
+	},
+/turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/cave/inhumen)
 "kd" = (
 /obj/structure/fluff/walldeco/church/line{
@@ -1796,7 +1852,9 @@
 	pixel_x = 32;
 	pixel_y = 0
 	},
-/obj/structure/roguemachine/bounty,
+/obj/structure/roguemachine/bounty{
+	name = "ZEXCIDIUM"
+	},
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/under/cave/inhumen)
 "oy" = (
@@ -1919,6 +1977,10 @@
 "pM" = (
 /obj/machinery/light/rogue/hearth,
 /obj/machinery/light/rogue/oven/south,
+/obj/structure/fluff/walldeco/church/line{
+	pixel_x = 0;
+	pixel_y = -1
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/inhumen)
 "pP" = (
@@ -1945,6 +2007,13 @@
 	aportalid = "wretchin2"
 	},
 /turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/inhumen)
+"qo" = (
+/obj/machinery/light/rogue/wallfire/candle,
+/obj/structure/fluff/walldeco/church/line{
+	dir = 4
+	},
+/turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/cave/inhumen)
 "qp" = (
 /turf/open/floor/rogue/blocks,
@@ -2060,6 +2129,12 @@
 /obj/structure/flora/roguetree/stump/pine,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors)
+"ru" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8
+	},
+/turf/open/floor/rogue/blocks/stonered/tiny,
+/area/rogue/under/cave/inhumen)
 "rC" = (
 /obj/structure/table/wood{
 	dir = 10;
@@ -2167,7 +2242,7 @@
 "sK" = (
 /obj/structure/fluff/statue/femalestatue/zizo{
 	desc = "An ancient statue depicting an elven woman.";
-	name = "Ancient Statue";
+	name = "ZIZO - DAME OF AMBITION";
 	pixel_y = 0
 	},
 /turf/open/floor/rogue/church,
@@ -2364,6 +2439,10 @@
 /area/rogue/indoors/vampire_manor)
 "tQ" = (
 /obj/structure/fermentation_keg/random/beer,
+/obj/structure/fluff/walldeco/church/line{
+	pixel_x = 0;
+	pixel_y = -1
+	},
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/under/cave/inhumen)
 "tS" = (
@@ -2504,7 +2583,7 @@
 /area/rogue)
 "vQ" = (
 /obj/structure/mineral_door/wood/donjon/stone{
-	name = "Forgotten Chapel"
+	name = "Zalchemist"
 	},
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/under/cave/inhumen)
@@ -2610,6 +2689,10 @@
 	icon_state = "longtable"
 	},
 /obj/item/millstone,
+/obj/structure/fluff/walldeco/church/line{
+	pixel_x = 0;
+	pixel_y = -1
+	},
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/under/cave/inhumen)
 "xi" = (
@@ -2627,6 +2710,9 @@
 /obj/item/reagent_containers/food/snacks/grown/wheat,
 /obj/item/reagent_containers/food/snacks/grown/wheat,
 /obj/item/reagent_containers/food/snacks/grown/wheat,
+/obj/structure/fluff/walldeco/church/line{
+	dir = 4
+	},
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/under/cave/inhumen)
 "xm" = (
@@ -2903,7 +2989,9 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/banditcamp)
 "Ao" = (
-/obj/structure/mineral_door/wood/window,
+/obj/structure/mineral_door/wood/window{
+	name = "Zarm"
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/inhumen)
 "Ap" = (
@@ -3010,6 +3098,16 @@
 "Bd" = (
 /obj/structure/roguemachine/scomm,
 /turf/open/floor/rogue/churchbrick,
+/area/rogue/under/cave/inhumen)
+"Bf" = (
+/obj/structure/bars/passage{
+	density = 0;
+	icon_state = "passage1"
+	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8
+	},
+/turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/cave/inhumen)
 "Bi" = (
 /turf/open/floor/rogue/churchbrick,
@@ -3213,6 +3311,12 @@
 "Dy" = (
 /turf/open/water/swamp/deep,
 /area/rogue/outdoors)
+"DB" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 4
+	},
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/under/cave/inhumen)
 "DD" = (
 /obj/machinery/light/rogue/wallfire/candle,
 /turf/open/floor/rogue/churchrough,
@@ -3225,9 +3329,16 @@
 "DF" = (
 /obj/structure/mineral_door/wood/deadbolt{
 	dir = 1;
-	locked = 1
+	locked = 1;
+	name = "Zrivate Bedroom"
 	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
+/area/rogue/under/cave/inhumen)
+"DL" = (
+/obj/structure/mineral_door/wood/donjon/stone{
+	name = "Zanufactory"
+	},
+/turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/inhumen)
 "DM" = (
 /turf/closed/wall/mineral/rogue/decostone/mossy/red/end,
@@ -3437,6 +3548,15 @@
 /obj/item/needle,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/banditcamp)
+"Gk" = (
+/obj/structure/fluff/walldeco/stone{
+	pixel_x = 32
+	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 4
+	},
+/turf/open/floor/rogue/blocks/stonered/tiny,
+/area/rogue/under/cave/inhumen)
 "Go" = (
 /obj/structure/flora/rogueshroom,
 /turf/open/floor/rogue/dirt,
@@ -3822,6 +3942,9 @@
 /area/rogue/under/cave/inhumen)
 "Kr" = (
 /obj/machinery/light/rogue/wallfire/candle,
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8
+	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/cave/inhumen)
 "Ks" = (
@@ -3862,10 +3985,6 @@
 /obj/structure/fluff/wallclock/vampire,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/vampire_manor)
-"KZ" = (
-/obj/machinery/light/rogue/wallfire/candle,
-/turf/open/floor/rogue/hexstone,
-/area/rogue/under/cave/inhumen)
 "Ld" = (
 /obj/machinery/light/rogue/firebowl/standing/blue,
 /turf/open/floor/rogue/naturalstone,
@@ -4258,6 +4377,10 @@
 	},
 /obj/item/reagent_containers/peppermill,
 /obj/item/rogueweapon/huntingknife/cleaver,
+/obj/structure/fluff/walldeco/church/line{
+	pixel_x = 0;
+	pixel_y = -1
+	},
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/under/cave/inhumen)
 "OV" = (
@@ -4406,8 +4529,19 @@
 /obj/machinery/light/rogue/wallfire/candle/r,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/banditcamp)
+"QY" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8
+	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
+/turf/open/floor/rogue/blocks/stonered/tiny,
+/area/rogue/under/cave/inhumen)
 "QZ" = (
-/obj/structure/chair/freedomchair,
+/obj/structure/chair/freedomchair{
+	name = "ZIBERTAS"
+	},
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/under/cave/inhumen)
 "Ra" = (
@@ -4528,7 +4662,9 @@
 /obj/structure/stairs/stone{
 	dir = 1
 	},
-/obj/structure/curtain/red,
+/obj/structure/curtain/red{
+	name = "Zathhaus"
+	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/cave/inhumen)
 "Sz" = (
@@ -4538,6 +4674,15 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/vampire_lair)
+"SD" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 4
+	},
+/turf/open/floor/rogue/blocks/stonered/tiny,
+/area/rogue/under/cave/inhumen)
 "SH" = (
 /obj/machinery/light/rogue/wallfire/candle/l,
 /obj/item/roguebin,
@@ -4918,6 +5063,12 @@
 /obj/structure/flora/bush,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors)
+"Wi" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/under/cave/inhumen)
 "Wp" = (
 /obj/structure/bed/rogue/inn,
 /obj/item/bedsheet/rogue/fabric,
@@ -4986,7 +5137,9 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors)
 "Xo" = (
-/obj/structure/mineral_door/wood/deadbolt,
+/obj/structure/mineral_door/wood/deadbolt{
+	name = "Zrivate Bedroom"
+	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/cave/inhumen)
 "Xp" = (
@@ -5056,6 +5209,15 @@
 	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/vampire_manor)
+"Yl" = (
+/obj/structure/mineral_door/swing_door{
+	name = "Zitchen"
+	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8
+	},
+/turf/open/floor/rogue/blocks/stonered/tiny,
+/area/rogue/under/cave/inhumen)
 "Yp" = (
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/banditcamp)
@@ -5109,7 +5271,8 @@
 "YM" = (
 /obj/machinery/light/rogue/wallfire/candle/l,
 /obj/structure/roguemachine/mail{
-	mailtag = "Forgotten Chapel"
+	mailtag = "Forgotten Chapel";
+	name = "ZERMES"
 	},
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/under/cave/inhumen)
@@ -17265,32 +17428,32 @@ TS
 CX
 FY
 FY
-FY
-FY
+ru
+ru
+gu
+ru
 gu
 FY
 gu
 FY
 gu
-FY
+ru
 gu
-FY
+ru
+ru
+ru
 gu
-FY
-FY
-FY
+ru
+ru
+ru
 gu
-FY
-FY
-FY
-gu
-FY
-FY
-FY
+ru
+ru
+ru
 tX
 Kr
-FY
-FY
+ru
+ru
 tX
 lQ
 UO
@@ -17526,31 +17689,31 @@ FY
 FY
 FY
 pI
+kc
+kc
+kc
+kc
+kc
 FY
 FY
-FY
-FY
-FY
-FY
-FY
-FY
-FY
-pI
-FY
-FY
-FY
-pI
-FY
-FY
-FY
-pI
-FY
-FY
-FY
+kc
+kc
+Gk
+kc
+kc
+kc
+Gk
+kc
+kc
+kc
+Gk
+kc
+kc
+kc
 tX
-Kr
-FY
-FY
+qo
+kc
+kc
 tX
 lQ
 UO
@@ -17661,8 +17824,8 @@ YD
 YD
 YD
 YD
-FY
-FY
+ei
+en
 YD
 YD
 BC
@@ -17791,8 +17954,8 @@ YD
 YD
 YD
 YD
-FY
-FY
+ei
+en
 YD
 Kw
 TS
@@ -18058,7 +18221,7 @@ tO
 TS
 HN
 xl
-YD
+DB
 mT
 If
 Kw
@@ -18175,7 +18338,7 @@ TS
 tO
 tO
 tO
-bz
+hR
 tO
 YI
 TS
@@ -18189,20 +18352,20 @@ TS
 tQ
 BG
 BG
-FY
-Xc
-FY
-FY
-FY
-FY
-FY
-FY
+QY
+Yl
+ru
+ru
+ru
+ru
+ru
+ru
 Rq
-FY
-FY
-FY
-FY
-FY
+ru
+ru
+ru
+ru
+ru
 ol
 FY
 FY
@@ -18319,19 +18482,19 @@ TS
 dF
 BG
 BG
-FY
+SD
 Xc
-FY
-FY
-FY
-FY
-FY
-FY
+kc
+kc
+kc
+kc
+kc
+kc
 Rq
-FY
-FY
-FY
-FY
+kc
+kc
+kc
+kc
 FY
 ol
 FY
@@ -18431,11 +18594,11 @@ tX
 DD
 Vk
 tO
-bz
+fV
 tO
 tO
 tO
-bz
+hR
 tO
 NT
 TS
@@ -18449,7 +18612,7 @@ TS
 pM
 BG
 BG
-YD
+Wi
 BC
 Bi
 Bi
@@ -18579,7 +18742,7 @@ TS
 xg
 BG
 BG
-YD
+Wi
 LF
 Bi
 Bi
@@ -18709,7 +18872,7 @@ TS
 OU
 BG
 BG
-YD
+Wi
 XB
 Bi
 Qn
@@ -18825,7 +18988,7 @@ xL
 jY
 tO
 tO
-bz
+hR
 tO
 NT
 TS
@@ -18837,8 +19000,8 @@ IG
 tO
 TS
 os
-YD
-YD
+gF
+gF
 WH
 tX
 km
@@ -19731,7 +19894,7 @@ TS
 Qn
 yl
 Qn
-bz
+gv
 tO
 tO
 xL
@@ -20141,18 +20304,18 @@ FY
 FY
 FY
 YR
-FY
-FY
-FY
-FY
-FY
-FY
-Rq
-FY
-FY
-FY
-FY
-FY
+ru
+ru
+ru
+ru
+ru
+ru
+Bf
+ru
+ru
+ru
+ru
+ru
 ol
 FY
 FY
@@ -20266,23 +20429,23 @@ uf
 Ty
 eQ
 Sq
-FY
-FY
-FY
-FY
+kc
+kc
+kc
+kc
 YR
-FY
-FY
-FY
-FY
-FY
-FY
+kc
+kc
+kc
+kc
+kc
+kc
 Rq
-FY
-FY
-FY
-FY
-FY
+kc
+kc
+kc
+kc
+kc
 ol
 FY
 FY
@@ -20928,9 +21091,9 @@ RF
 Kk
 YD
 tX
-KZ
-ws
-ws
+Kr
+ru
+ru
 tX
 kN
 Ht
@@ -21057,11 +21220,11 @@ RF
 RF
 Kk
 YD
-Cv
-ws
-ws
-ws
-Cv
+jF
+FY
+FY
+FY
+DL
 Ht
 Ht
 Ht
@@ -21188,9 +21351,9 @@ RF
 Kk
 YD
 tX
-KZ
-ws
-ws
+qo
+kc
+kc
 tX
 kN
 Ht
