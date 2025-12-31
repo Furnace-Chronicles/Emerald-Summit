@@ -993,8 +993,10 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	new_merc.employer = WEAKREF(src)
 	LAZYADD(mercenaries, new_merc)
 	message_admins("Mercenary [ADMIN_LOOKUPFLW(new_merc?.current)] has been hired by [ADMIN_LOOKUPFLW(current)].")
+	log_game("Mercenary [ADMIN_LOOKUPFLW(new_merc?.current)] has been hired by [ADMIN_LOOKUPFLW(current)].")
 	if(assigned_role == "Mercenary")
 		message_admins("Potential coal alert! Mercenary [ADMIN_LOOKUPFLW(current)] has just hired another mercenary, [ADMIN_LOOKUPFLW(new_merc?.current)]!")
+		log_game("Potential coal alert! Mercenary [ADMIN_LOOKUPFLW(current)] has just hired another mercenary, [ADMIN_LOOKUPFLW(new_merc?.current)]!")
 	return TRUE
 
 /datum/mind/proc/remove_mercenary(datum/mind/former_merc)
@@ -1015,6 +1017,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		current.verbs -= /mob/living/carbon/human/proc/listmercs
 		current.verbs -= /mob/living/carbon/human/proc/firethem
 	message_admins("Mercenary [ADMIN_LOOKUPFLW(former_merc?.current)] has been fired by [ADMIN_LOOKUPFLW(current)].")
+	log_game("Mercenary [ADMIN_LOOKUPFLW(former_merc?.current)] has been fired by [ADMIN_LOOKUPFLW(current)].")
 	return TRUE
 
 /datum/mind/proc/has_mercs_employed()
