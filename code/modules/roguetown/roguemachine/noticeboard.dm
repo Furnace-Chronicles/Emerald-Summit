@@ -108,7 +108,8 @@
 	)
 	if(!message || !Adjacent(user))
 		return
-	
+
+	qdel(coin)
 	LAZYADD(GLOB.merc_dm_enquiries, "\ref[user]_\ref[choice]")
 	playsound(src, 'sound/ambience/noises/birds (7).ogg', 30, FALSE, -1)
 	to_chat(user, span_notice("My message has been sent to [choice.real_name]."))
@@ -147,6 +148,7 @@
 	if(!message || !Adjacent(user))
 		return
 
+	qdel(coin)
 	playsound(src, 'sound/ambience/noises/birds (7).ogg', 30, FALSE, -1)
 	var/list/merc_ckeys = list()
 	for(var/mob/living/L in available_mercs)
