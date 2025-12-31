@@ -81,6 +81,7 @@
 	appearance.pixel_x += x_offset
 	appearance.pixel_y += y_offset
 	appearance.appearance_flags = RESET_COLOR
+	appearance.plane = ABOVE_LIGHTING_PLANE
 	var/atom/visual = flick_overlay_view(appearance, clear_time)
 	if(soundin)
 		playsound(src, soundin, 100, FALSE, extrarange = -1, ignore_walls = FALSE)
