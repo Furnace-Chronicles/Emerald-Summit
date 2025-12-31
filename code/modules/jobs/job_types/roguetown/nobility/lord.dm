@@ -128,7 +128,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	origin_override_type = /datum/virtue/origin/racial/reach
 	custom_origin_wording = "Royal line"
 
-	traits_applied = list(TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 3,
@@ -178,7 +178,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	origin_override_type = /datum/virtue/origin/racial/reach
 	custom_origin_wording = "Royal line"
 
-	traits_applied = list(TRAIT_SEEPRICES, TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_SEEPRICES, TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_MEDIUMARMOR, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 5,
@@ -222,7 +222,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	origin_override_type = /datum/virtue/origin/racial/reach
 	custom_origin_wording = "Royal line"
 
-	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2, TRAIT_INTELLECTUAL)
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2, TRAIT_INTELLECTUAL, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 5,
@@ -272,7 +272,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	origin_override_type = /datum/virtue/origin/racial/reach
 	custom_origin_wording = "Royal line"
 
-	traits_applied = list(TRAIT_CRITICAL_WEAKNESS, TRAIT_NORUN, TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_CRITICAL_WEAKNESS, TRAIT_NORUN, TRAIT_HEAVYARMOR, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 10,
 		STATKEY_INT = -2,
