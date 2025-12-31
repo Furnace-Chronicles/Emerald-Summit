@@ -69,7 +69,7 @@
 	if(istype(I, /obj/item/roguecoin))
 		var/obj/item/roguecoin/coin = I
 		switch(coin.get_real_price())
-			if(1) // One silver coin
+			if(5) // One silver coin
 				merc_message(user, coin)
 			if(10) // One gold coin
 				merc_broadcast(user, coin)	
@@ -308,6 +308,8 @@
 					contents += "<br><center><a href='?src=[REF(src)];changemercstatus=1'>Current status: [user_status]</a><br>"
 					contents += "<center><a href='?src=[REF(src)];editmercpost=1'>Edit my post</a></center><br>"
 
+				contents += "<center><i>Insert a silver coin to message one one, gold to message them all.</i></center>"
+
 				contents += "<center><b>Registered Mercenaries:</b><br>"
 
 				contents += "<center><b>Registered Mercenaries:</b><br>"
@@ -333,7 +335,6 @@
 					contents += "<b><span style='color:red;'>Do Not Disturb:</span></b><br>"
 					for(var/datum/noticeboardpost/mercpost in dnd_mercs)
 						contents += mercpost.banner
-				contents += "<center><i>Silver for one, Gold for all.</i></center>"
 	if(board_empty)
 		contents += "<br><span class='notice'>No postings have been made yet!</span>"
 	var/datum/browser/popup = new(user, "NOTICEBOARD", "", 800, 650)
