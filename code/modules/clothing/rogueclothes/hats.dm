@@ -1789,6 +1789,7 @@
 	desc = "A steel bascinet helmet with a straight visor, or \"klappvisier\", which can greatly reduce visibility. Though it was first developed in Etrusca, it is also widely used in Grenzelhoft."
 	icon_state = "klappvisier"
 	item_state = "klappvisier"
+	max_integrity = 325
 	adjustable = CAN_CADJUST
 	emote_environment = 3
 	body_parts_covered = FULL_HEAD
