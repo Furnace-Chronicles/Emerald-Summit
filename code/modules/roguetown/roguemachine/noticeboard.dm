@@ -312,7 +312,7 @@
 					contents += "<br><center><a href='?src=[REF(src)];changemercstatus=1'>Current status: [user_status]</a><br>"
 					contents += "<center><a href='?src=[REF(src)];editmercpost=1'>Edit my post</a></center><br>"
 
-				contents += "<center><i>Insert a silver coin to message one one, gold to message them all.</i></center>"
+				contents += "<center><i>Insert a silver coin to message one, gold to message them all.</i></center>"
 				contents += "<center><b>Registered Mercenaries:</b><br>"
 				contents += "Total: <b>[merc_count]</b> | "
 				contents += "<span style='color:green;'>Available: [available_count]</span> | "
