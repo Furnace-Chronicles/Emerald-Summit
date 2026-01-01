@@ -460,3 +460,67 @@
 		player.prefs.virtue_origin = new /datum/virtue/origin/racial/underdark
 		player.prefs.virtue_origin.job_origin = TRUE
 		player.prefs.virtue_origin.last_origin = origin_memory
+
+/datum/virtue/racial/wildkin/nitekin
+	name = "(Wild-Kin) Nitetouched"
+	desc = "In the Underdark's deepest depths, one does not dare speak. Within are monsters ne'er graced by sunlight. From this place, I originate.<BR>My kind can speak mind-to-mind, a method forcibly developed by the cruelty of its habitat."
+	races = list(/datum/species/anthromorph)
+	custom_text = "Grants Nitelink spell.<BR>Changes your body type, ears, and eyes.<br>Only available to wild-kin."
+	added_traits = list()
+
+/datum/virtue/racial/wildkin/nitekin/apply_to_human(mob/living/carbon/human/recipient)
+	recipient.dna.species.limbs_icon_m = 'icons/roguetown/mob/bodies/m/nitekin.dmi'
+	recipient.dna.species.limbs_icon_f = 'icons/roguetown/mob/bodies/m/nitekin.dmi'
+	recipient.dna.species.offset_features = list(
+		OFFSET_ID = list(0,2), OFFSET_GLOVES = list(0,0), OFFSET_WRISTS = list(0,1),\
+		OFFSET_CLOAK = list(0,2), OFFSET_FACEMASK = list(0,1), OFFSET_HEAD = list(0,1), \
+		OFFSET_FACE = list(0,1), OFFSET_BELT = list(0,1), OFFSET_BACK = list(0,2), \
+		OFFSET_NECK = list(0,1), OFFSET_MOUTH = list(0,2), OFFSET_PANTS = list(0,2), \
+		OFFSET_SHIRT = list(0,2), OFFSET_ARMOR = list(0,2), OFFSET_HANDS = list(0,2), OFFSET_UNDIES = list(0,0), \
+		OFFSET_ID_F = list(0,2), OFFSET_GLOVES_F = list(0,0), OFFSET_WRISTS_F = list(0,1),\
+		OFFSET_CLOAK_F = list(0,2), OFFSET_FACEMASK_F = list(0,1), OFFSET_HEAD_F = list(0,1), \
+		OFFSET_FACE_F = list(0,1), OFFSET_BELT_F = list(0,1), OFFSET_BACK_F = list(0,2), \
+		OFFSET_NECK_F = list(0,1), OFFSET_MOUTH_F = list(0,2), OFFSET_PANTS_F = list(0,2), \
+		OFFSET_SHIRT_F = list(0,2), OFFSET_ARMOR_F = list(0,2), OFFSET_HANDS_F= list(0,2), OFFSET_UNDIES_F = list(0,0), \
+		)
+	recipient.dna.species.use_f = TRUE
+	var/obj/item/organ/eyes/eyes = recipient.getorganslot(ORGAN_SLOT_EYES)
+	if(eyes)
+		eyes.Remove(recipient,1)
+		QDEL_NULL(eyes)
+	eyes = new /obj/item/organ/eyes/nitekin
+	eyes.eye_color = "#0D0D0D"
+	eyes.Insert(recipient)
+	var/obj/item/organ/ears/ears = recipient.getorganslot(ORGAN_SLOT_EARS)
+	if(ears)
+		ears.Remove(recipient,1)
+		QDEL_NULL(ears)
+	ears = new /obj/item/organ/ears/lupian/nitekin
+	recipient.dna.features["ears_color"] = recipient.dna.features["mcolor"]
+	if(ears)
+		var/new_color = recipient.dna.features["mcolor"]
+		if(new_color)
+			var/list/colors = list()
+			if(ears.accessory_colors)
+				colors = color_string_to_list(ears.accessory_colors)
+			if(!length(colors))
+				colors = list("#FFFFFF", "#FFFFFF")
+			colors[1] = sanitize_hexcolor(new_color, 6, TRUE)
+			ears.accessory_colors = color_list_to_string(colors)
+			ears.Insert(recipient, TRUE, FALSE)
+			recipient.dna.features["ears_color"] = colors[1]
+	var/obj/item/organ/eyes/snout = recipient.getorganslot(ORGAN_SLOT_SNOUT)
+	if(snout)
+		snout.Remove(recipient,1)
+		QDEL_NULL(snout)
+	recipient.update_body()
+	recipient.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/mindlink/nitelink)
+	recipient.dna.species.stress_examine = TRUE
+	recipient.dna.species.stress_desc = span_red("Foul beest of the nite!")
+	recipient.dna.species.name = "Nite-Kin"
+	var/client/player = recipient?.client
+	if(player?.prefs)
+		var/origin_memory = player.prefs.virtue_origin
+		player.prefs.virtue_origin = new /datum/virtue/origin/racial/underdark
+		player.prefs.virtue_origin.job_origin = TRUE
+		player.prefs.virtue_origin.last_origin = origin_memory

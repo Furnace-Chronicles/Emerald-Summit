@@ -25,3 +25,7 @@
 /datum/sprite_accessory/eyes/humanoid_cyber
 	name = "Humanoid Cyber"
 	icon_state = "human_cyber"
+
+/datum/sprite_accessory/eyes/nitekin
+	name = "Nite-Kin Eyes"
+	icon_state = "nitekin"

@@ -460,3 +460,7 @@
     icon_state = "tailmaw2"
     can_wag = TRUE
     can_suck = TRUE
+
+/datum/sprite_accessory/tail/nitekin
+    name = "Nitekin"
+    icon_state = "nitekin"

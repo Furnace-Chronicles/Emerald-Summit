@@ -172,6 +172,10 @@
 	if(M)
 		M.extra_hearing_range -= 1
 
+/obj/item/organ/ears/lupian/nitekin
+	name = "nitekin ears"
+	accessory_type = /datum/sprite_accessory/ears/nitekin
+
 /obj/item/organ/ears/vulpkanin
 	name = "vulpkian ears"
 	accessory_type = /datum/sprite_accessory/ears/fox

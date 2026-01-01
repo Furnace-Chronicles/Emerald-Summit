@@ -472,6 +472,12 @@
 	eye_color = "000000"
 	second_color = "000000"
 
+/obj/item/organ/eyes/nitekin
+	name = "nite-kin eyes"
+	desc = ""
+	flash_protect = FLASH_PROTECTION_SENSITIVE
+	accessory_type = /datum/sprite_accessory/eyes/nitekin
+
 /obj/item/organ/eyes/snail
 	name = "snail eyes"
 	desc = ""

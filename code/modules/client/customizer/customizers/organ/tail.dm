@@ -388,7 +388,8 @@
 		/datum/sprite_accessory/tail/forked_long,
 		/datum/sprite_accessory/tail/haven,
 		/datum/sprite_accessory/tail/swallow,
-		/datum/sprite_accessory/tail/pinecone
+		/datum/sprite_accessory/tail/pinecone,
+		/datum/sprite_accessory/tail/nitekin
 		)
 
 /datum/customizer/organ/tail/harpy

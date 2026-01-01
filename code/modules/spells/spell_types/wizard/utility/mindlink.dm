@@ -2,7 +2,7 @@
 	name = "Mindlink"
 	desc = "Establish a telepathic link with an ally for fifteen minutes. Use ,y before a message to communicate telepathically."
 	clothes_req = FALSE
-	overlay_state = "mindlink"
+	overlay_state = "abyssal_infusion"
 	associated_skill = /datum/skill/magic/arcane
 	cost = 4
 	xp_gain = TRUE
@@ -108,4 +108,65 @@
 				GLOB.mindlinks -= link
 				qdel(link)
 
+/obj/effect/proc_holder/spell/invoked/mindlink/nitelink
+	name = "Nitelink"
+	desc = "Establish a telepathic link with an ally for fifteen minutes. Use ,y before a message to communicate telepathically."
+	clothes_req = FALSE
+	recharge_time = 5 MINUTES
+	invocation = null
+	invocation_type = null
 
+	// Charged spell variables
+	chargedloop = /datum/looping_sound/weak_outside_ashstorm
+	chargedrain = 1
+	chargetime = 20
+	releasedrain = 25
+	no_early_release = TRUE
+	movement_interrupt = FALSE
+	charging_slowdown = 2
+	warnie = "spellwarning"
+	ignore_los = TRUE
+
+/obj/effect/proc_holder/spell/invoked/mindlink/nitelink/cast(list/targets, mob/living/user)
+	var/atom/A = targets[1]
+	if(!isliving(A))
+		revert_cast()
+		return
+
+	var/mob/living/spelltarget = A
+
+	if(spelltarget == user)
+		to_chat(user, span_warning("I can't link myself!"))
+		revert_cast()
+		return
+
+	if(!HAS_TRAIT(spelltarget, TRAIT_UNDERDARK))
+		to_chat(user, span_warning("Only those attuned to the Underdark can be linked!"))
+		revert_cast()
+		return
+
+	var/first_target = spelltarget
+
+	var/mob/living/second_target = user
+
+	// Check if either target is a zad
+	if(istype(first_target, /mob/living/simple_animal/hostile/retaliate/bat/crow) || istype(second_target, /mob/living/simple_animal/hostile/retaliate/bat/crow))
+		to_chat(user, span_warning("Zads are immune to mindlinks!"))
+		revert_cast()
+		return FALSE
+
+	user.visible_message(span_notice("[user] touches their temples and concentrates..."), span_notice("I establish a mental connection between [first_target] and [second_target]..."))
+
+	// Create the mindlink
+	var/datum/mindlink/link = new(first_target, second_target)
+	GLOB.mindlinks += link
+
+	to_chat(first_target, span_notice("A mindlink has been established with [second_target]! Use ,y before a message to communicate telepathically."))
+	to_chat(second_target, span_notice("A mindlink has been established with [first_target]! Use ,y before a message to communicate telepathically."))
+
+	// Register signals to break mindlink on zad transformation
+	RegisterSignal(first_target, "pre_shapeshift", PROC_REF(break_mindlink_if_zad))
+	RegisterSignal(second_target, "pre_shapeshift", PROC_REF(break_mindlink_if_zad))
+
+	addtimer(CALLBACK(src, PROC_REF(break_link), link), 15 MINUTES)
+	return TRUE
