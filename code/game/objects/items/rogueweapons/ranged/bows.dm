@@ -243,7 +243,7 @@
 			BB.accuracy -= 15
 		else
 			BB.damage = BB.damage
-		BB.damage *= damfactor * (user.STAPER > 10 ? user.STAPER / 10 : 1)
+		//BB.damage *= damfactor * (user.STAPER > 10 ? user.STAPER / 10 : 1)
 
 		// Set damage falloff parameters
 		BB.falloff_damage_per_turf = 5
