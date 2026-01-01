@@ -519,10 +519,6 @@
 			var/datum/patron/PA = GLOB.patronlist[god]
 			if(PA.associated_faith == old_patron.associated_faith) // prefer to pick a patron within the same faith before apostatizing
 				preferredgods |= god
-		if(length(preferredgods))
-			H.set_patron(default_patron || pick(preferredgods))
-		else
-			H.set_patron(default_patron || pick(possiblegods))
 		var/change_message = span_warning("[old_patron] had not endorsed my practices in my younger years. I've since grown accustomed to [H.patron].")
 		if(H.client)
 			to_chat(H, change_message)
