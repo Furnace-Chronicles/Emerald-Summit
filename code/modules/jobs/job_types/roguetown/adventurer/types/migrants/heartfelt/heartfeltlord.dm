@@ -287,7 +287,7 @@
 			r_hand = /obj/item/rogueweapon/mace/goden/steel/tetsubo
 		if("Double-head Greataxe")
 			r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead
-		if("Great Mace)
+		if("Great Mace")
 			r_hand = /obj/item/rogueweapon/mace/goden/steel
 		if("Battle Axe + Shield")
 			r_hand = /obj/item/rogueweapon/stoneaxe/battle
