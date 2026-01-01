@@ -21,9 +21,6 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/mercenary/gronn
-	allowed_patrons = ALL_INHUMEN_PATRONS
-
 /datum/outfit/job/roguetown/mercenary/gronn/pre_equip(mob/living/carbon/human/H)
 	..()
 
@@ -40,6 +37,8 @@
 
 	// CLASS ARCHETYPES
 	H.adjust_blindness(-3)
+	if(!istype(H.patron, /datum/patron/inhumen))
+		H.patron = new /datum/patron/inhumen/graggar/gronn
 	if(H.mind)
 		var/classes = list("Leðurháls - Byrine Grunt", "Skemmdarvargur - Ravager")
 		var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes

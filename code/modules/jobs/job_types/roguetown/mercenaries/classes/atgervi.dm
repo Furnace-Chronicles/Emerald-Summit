@@ -36,11 +36,10 @@
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/mercenary/atgervi
-	allowed_patrons = ALL_INHUMEN_PATRONS
-
 /datum/outfit/job/mercenary/atgervi/pre_equip(mob/living/carbon/human/H)
 	..()
+	if(!istype(H.patron, /datum/patron/inhumen))
+		H.patron = new /datum/patron/inhumen/graggar/gronn
 	to_chat(H, span_warning("You are a Varangian of the Gronn Highlands. Warrior-Traders most known for their exploits into the Raneshen Empire, which will be forever remembered by historians."))
 
 	head = /obj/item/clothing/head/roguetown/helmet/bascinet/atgervi
@@ -99,12 +98,11 @@
 		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/mercenary/atgervishaman
-	allowed_patrons = ALL_INHUMEN_PATRONS
-
 /datum/outfit/job/mercenary/atgervishaman/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.set_blindness(0)
+	if(!istype(H.patron, /datum/patron/inhumen))
+		H.patron = new /datum/patron/inhumen/graggar/gronn
 	to_chat(H, span_warning("You are a Shaman of the Fjall, The Northern Empty. Shamans are savage combatants who commune with the Ecclesical Beast gods through ritualistic violence, rather than idle prayer."))
 	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
 

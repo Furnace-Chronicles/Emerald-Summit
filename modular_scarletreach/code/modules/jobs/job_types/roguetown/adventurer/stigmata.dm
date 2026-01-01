@@ -38,12 +38,11 @@
 		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN
 	)
 
-/datum/outfit/job/adventurer/stigmata
-	allowed_patrons = list(/datum/patron/old_god)
-
 /datum/outfit/job/adventurer/stigmata/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
 	H.adjust_blindness(-3)
+	if(!istype(H.patron, /datum/patron/old_god))
+		H.patron = new /datum/patron/old_god
 
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/black

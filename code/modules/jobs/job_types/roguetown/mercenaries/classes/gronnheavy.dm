@@ -34,11 +34,10 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 	)
 
-/datum/outfit/job/roguetown/mercenary/gronnheavy
-	allowed_patrons = ALL_INHUMEN_PATRONS
-
 /datum/outfit/job/roguetown/mercenary/gronnheavy/pre_equip(mob/living/carbon/human/H)
 	..()
+	if(!istype(H.patron, /datum/patron/inhumen))
+		H.patron = new /datum/patron/inhumen/graggar/gronn
 	H.dna.species.soundpack_m = new /datum/voicepack/male/evil() //It's fucking cool okay
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron/gronn
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/gronn

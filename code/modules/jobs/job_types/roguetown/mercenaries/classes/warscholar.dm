@@ -41,10 +41,11 @@
 
 /datum/outfit/job/mercenary/warscholar
 	var/detailcolor
-	allowed_patrons = list(/datum/patron/old_god)
 
 /datum/outfit/job/mercenary/warscholar/pre_equip(mob/living/carbon/human/H)
 	..()
+	if(!istype(H.patron, /datum/patron/old_god))
+		H.patron = new /datum/patron/old_god
 	var/list/naledicolors = sortList(list(
 		"GOLD" = "#C8BE6D",
 		"PALE PURPLE" = "#9E93FF",
@@ -137,10 +138,11 @@
 
 /datum/outfit/job/mercenary/warscholar_pontifex
 	var/detailcolor
-	allowed_patrons = list(/datum/patron/old_god)
 
 /datum/outfit/job/mercenary/warscholar_pontifex/pre_equip(mob/living/carbon/human/H)
 	..()
+	if(!istype(H.patron, /datum/patron/old_god))
+		H.patron = new /datum/patron/old_god
 	var/list/naledicolors = sortList(list(
 		"GOLD" = "#C8BE6D",
 		"PALE PURPLE" = "#9E93FF",
@@ -226,10 +228,11 @@
 
 /datum/outfit/job/mercenary/warscholar_vizier
 	var/detailcolor
-	allowed_patrons = list(/datum/patron/old_god)
 
 /datum/outfit/job/mercenary/warscholar_vizier/pre_equip(mob/living/carbon/human/H)
 	..()
+	if(!istype(H.patron, /datum/patron/old_god))
+		H.patron = new /datum/patron/old_god
 	var/list/naledicolors = sortList(list(
 		"GOLD" = "#C8BE6D",
 		"PALE PURPLE" = "#9E93FF",
