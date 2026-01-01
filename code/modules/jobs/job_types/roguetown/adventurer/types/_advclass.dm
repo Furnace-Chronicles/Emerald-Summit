@@ -52,6 +52,11 @@
 	/// Virtue restrictions for this subclass
 	var/list/virtue_restrictions
 
+	/// If set, overrides the character's origin
+	var/origin_override_type = null
+	/// Custom origin, in case you want a snowflake subclass. Won't work without origin_override_type set
+	var/custom_origin_wording = null
+
 /datum/advclass/proc/equipme(mob/living/carbon/human/H)
 	// input sleeps....
 	set waitfor = FALSE
@@ -145,10 +150,24 @@
 	if(subclass_social_rank)
 		H.social_rank = subclass_social_rank
 
+	if(!isnull(origin_override_type))
+		change_origin(H, origin_override_type, custom_origin_wording)
+
 	// After the end of adv class equipping, apply a SPECIAL trait if able
 
 	if(applies_post_equipment)
 		apply_character_post_equipment(H)
+
+
+/datum/advclass/proc/change_origin(mob/living/carbon/human/H, new_origin = /datum/virtue/none, wording = "Custom")
+	var/client/player = H?.client
+	if(player?.prefs)
+		var/origin_memory = player.prefs.virtue_origin
+		player.prefs.virtue_origin = new new_origin
+		H.dna.species.skin_tone_wording = wording
+		player.prefs.virtue_origin.job_origin = TRUE
+		player.prefs.virtue_origin.last_origin = origin_memory
+		H.grant_language(player.prefs.extra_language)
 
 /datum/advclass/proc/post_equip(mob/living/carbon/human/H)
 	addtimer(CALLBACK(H,TYPE_PROC_REF(/mob/living/carbon/human, add_credit), TRUE), 20)

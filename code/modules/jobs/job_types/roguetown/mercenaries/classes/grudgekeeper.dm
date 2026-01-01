@@ -16,11 +16,13 @@
 
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_BREADY)
 	subclass_stats = list(
-		STATKEY_CON = 5,
-		STATKEY_END = 4,
+		STATKEY_CON = 3,
+		STATKEY_END = 3,
 		STATKEY_STR = 2,
 		STATKEY_SPD = -2
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/grudgekeeper
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
@@ -36,6 +38,9 @@
 		/datum/skill/craft/armorsmithing = SKILL_LEVEL_APPRENTICE,	//Only here so they'd be able to repair their own armor integrity
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 	)
+
+/datum/status_effect/buff/merchired/grudgekeeper
+	effectedstats = list(STATKEY_CON = 2, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/grudgekeeper/pre_equip(mob/living/carbon/human/H)
 	..()

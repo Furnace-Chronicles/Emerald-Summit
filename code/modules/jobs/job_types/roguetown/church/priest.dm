@@ -317,6 +317,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		//Coronate new King (or Queen)
 		HU.mind.assigned_role = "Grand Duke"
 		HU.job = "Grand Duke"
+		ADD_TRAIT(HU, TRAIT_DNR, TRAIT_GENERIC)
 		if(should_wear_femme_clothes(HU))
 			SSticker.rulertype = "Grand Duchess"
 		else

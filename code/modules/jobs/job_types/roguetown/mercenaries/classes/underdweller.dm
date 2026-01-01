@@ -10,18 +10,20 @@
 		/datum/species/goblinp,				//Might be a little weird but goblins do reside in caves, and they could use a unique merc class type.
 		/datum/species/anthromorphsmall,	//Basically all under-ground races. Perfect for cave-clearing.
 	)
+	origin_override_type = /datum/virtue/origin/racial/underdark
 	outfit = /datum/outfit/job/mercenary/underdweller
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_RACIAL
 
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_WEBWALK)
 	subclass_stats = list(
-		STATKEY_CON = 2,
-		STATKEY_END = 2,
+		STATKEY_CON = 1,
+		STATKEY_END = 1,
 		STATKEY_SPD = 1,
 		STATKEY_STR = 1,
 		STATKEY_LCK = 1
 	)
+	hiredbuff = /datum/status_effect/buff/merchired/underdweller
 	extra_context = "This subclass is race-limited to: Dwarves, Dark Elves, Kobolds, Goblins & Verminvolk."
 
 	subclass_skills = list(
@@ -41,6 +43,9 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/smelting = SKILL_LEVEL_APPRENTICE,	//Accompanies mining; they know how to smelt, not make armor though.
 	)
+
+/datum/status_effect/buff/merchired/underdweller
+	effectedstats = list(STATKEY_CON = 1, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/underdweller/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -64,8 +69,6 @@
 		/obj/item/bomb = 2,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 	)
-
-	change_origin(H, /datum/virtue/origin/racial/underdark)
 
 //Clothing here to avoid overcrowding the hats.dm with snowflake gear. It's just a kettle with a light.
 /obj/item/clothing/head/roguetown/helmet/kettle/minershelm

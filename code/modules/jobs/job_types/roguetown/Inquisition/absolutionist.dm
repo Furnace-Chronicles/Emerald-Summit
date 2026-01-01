@@ -51,6 +51,8 @@
 	outfit = /datum/outfit/job/absolver/basic
 	subclass_languages = list(/datum/language/otavan)
 	category_tags = list(CTAG_ABSOLVER)
+	origin_override_type = /datum/virtue/origin/otava
+	custom_origin_wording = "Holy order"
 	subclass_stats = list(
 		STATKEY_CON = 7,
 		STATKEY_END = 3,
@@ -118,5 +120,3 @@
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_ABSOLVER, start_maxed = TRUE) // PSYDONIAN MIRACLE-WORKER. LUX-MERGING FREEK.
-
-	change_origin(H, /datum/virtue/origin/otava, "Holy order")
