@@ -119,6 +119,8 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/magic/arcane, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/alchemy , 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
@@ -128,7 +130,6 @@
 	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/sneaking, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 3, TRUE)
 	H.change_stat("intelligence", 3)
 	H.change_stat("endurance", 1)
@@ -139,6 +140,7 @@
 	ADD_TRAIT(H, TRAIT_ARCYNE_T3, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_HEARTFELT, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 	if(H.mind)
 		H?.mind.adjust_spellpoints(24)
 	if(H.age == AGE_OLD)
@@ -277,7 +279,7 @@
 	H.change_stat("fortune", 5)
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	var/weapons = list("Tetsubo", "Double-head Greataxe", "Great Mace + Shield", "Battle Axe + Shield", , "Warhammer + Shield")
+	var/weapons = list("Tetsubo", "Double-head Greataxe", "Great Mace", "Battle Axe + Shield", , "Warhammer + Shield")
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
@@ -285,9 +287,8 @@
 			r_hand = /obj/item/rogueweapon/mace/goden/steel/tetsubo
 		if("Double-head Greataxe")
 			r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead
-		if("Great Mace + Shield")
+		if("Great Mace)
 			r_hand = /obj/item/rogueweapon/mace/goden/steel
-			l_hand = /obj/item/rogueweapon/shield/tower/metal
 		if("Battle Axe + Shield")
 			r_hand = /obj/item/rogueweapon/stoneaxe/battle
 			l_hand = /obj/item/rogueweapon/shield/tower/metal
