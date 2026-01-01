@@ -250,12 +250,8 @@
 		BB.falloff_ap_per_turf = 5
 		BB.firer_skill_level = user.get_skill_level(/datum/skill/combat/bows)
 
-		// Longbow: 4 base + 1 per 2 STR over 10
-		if(istype(src, /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow))
-			BB.falloff_start_distance = 4 + max(0, floor((user.STASTR - 10) / 2))
-		// Recurve/other bows: 2 base + 1 per 2 PER over 10
-		else
-			BB.falloff_start_distance = 2 + max(0, floor((user.STAPER - 10) / 2))
+		// Default bows: 2 base + 1 per 2 PER over 10
+		BB.falloff_start_distance = 2 + max(0, floor((user.STAPER - 10) / 2))
 
 	. = ..()
 
@@ -387,6 +383,15 @@
 	bigboy = TRUE
 	dropshrink = 0.8
 	heavy_bow = TRUE
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
+	. = ..()
+	if(!.)
+		return
+	// Longbow uses STR for falloff distance: 4 base + 1 per 2 STR over 10
+	for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))
+		var/obj/projectile/BB = CB.BB
+		BB.falloff_start_distance = 4 + max(0, floor((user.STASTR - 10) / 2))
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/getonmobprop(tag)
 	. = ..()
