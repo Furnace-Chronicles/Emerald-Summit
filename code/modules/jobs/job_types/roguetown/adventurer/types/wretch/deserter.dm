@@ -6,7 +6,7 @@
 	outfit = /datum/outfit/job/wretch/deserter
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_DISGRACED_NOBLE)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_DISGRACED_NOBLE, TRAIT_TEMPO)
 
 	disallowed_races = list(
 		/datum/species/harpy,
