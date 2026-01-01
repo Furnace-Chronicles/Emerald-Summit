@@ -178,3 +178,10 @@
 	reqs = list(/obj/item/magic/melded/t4 = 1,
 				/obj/item/magic/voidstone = 1)
 	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/arcana/findfamiliar
+	name = "Find Familiar - (Crystalised Mana, Scroll)"
+	result = /obj/item/book/granter/spell/blackstone/familiar
+	reqs = list(/obj/item/magic/manacrystal = 1,
+				/obj/item/paper/scroll = 1)
+	craftdiff = 1
