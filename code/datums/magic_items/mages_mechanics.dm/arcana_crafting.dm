@@ -180,8 +180,9 @@
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/arcana/findfamiliar
-	name = "Find Familiar - (Crystalised Mana, Scroll)"
+	name = "Find Familiar - (Crystalised Mana, Sorcerous Weave, Scroll)"
 	result = /obj/item/book/granter/spell/blackstone/familiar
 	reqs = list(/obj/item/magic/manacrystal = 1,
+				/obj/item/magic/melded/t3 = 1,
 				/obj/item/paper/scroll = 1)
-	craftdiff = 1
+	craftdiff = 3

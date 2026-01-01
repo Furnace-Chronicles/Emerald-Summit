@@ -327,7 +327,6 @@
 	spell = /obj/effect/proc_holder/spell/self/findfamiliar
 	spellname = "Find Familiar"
 	icon_state ="scrolldarkred"
-	oneuse = FALSE
 
 //scroll for giving the reader 3 spell points, this should be dungeon loot
 /obj/item/book/granter/spell_points
