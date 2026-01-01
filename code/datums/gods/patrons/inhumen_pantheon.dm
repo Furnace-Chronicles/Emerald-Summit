@@ -41,6 +41,7 @@
 		"Vital energies congeal about %TARGET!"
 	)
 	storyteller = /datum/storyteller/zizo
+	rites = "Rune of ZIZO"
 
 /datum/patron/inhumen/zizo/situational_bonus(mob/living/follower, mob/living/target)
 	// set up a ritual pile of bones (or just cast near a stack of bones whatever) around us for massive bonuses
@@ -56,14 +57,17 @@
 /datum/patron/inhumen/zizo/kazengun
 	name = "Zimiko"
 	associated_faith = /datum/faith/inhumen/kazengun
+	noresearch = TRUE
 
 /datum/patron/inhumen/zizo/kazengun/lingyue
 	associated_faith = /datum/faith/divine/lingyue
+	noresearch = TRUE
 
 /datum/patron/inhumen/zizo/gronn
 	name = "The Plotting Wolf"
 	desc = "A once-mortal snow elf turned god. Her hubris in thinking she could harvest lux from the planet itself led to the elimination of her entire race. Her works are still used to this dae in some cases."
 	associated_faith = /datum/faith/inhumen/gronn
+	noresearch = TRUE
 
 /datum/patron/inhumen/graggar
 	name = "Graggar"
@@ -89,6 +93,7 @@
 		"A riotous roar of energy envelops %TARGET!"
 	)
 	storyteller = /datum/storyteller/graggar
+	rites = "Rune of Violence"
 
 /datum/patron/inhumen/graggar/situational_bonus(mob/living/follower, mob/living/target)
 	var/situational_bonus = 0
@@ -101,6 +106,7 @@
 	name = "Gaiyuke"
 	desc = "Gaiyuke is a ruthless god who exalts strength, domination, and the crushing of the weak. His followers do not seek honor or fairness, only victory and the right to rule through force. Mercy is weakness, and compassion is a lie for the feeble. Gaiyuke demands conquest, subjugation, and the endless struggle for supremacy. He is worshipped by those who revel in cruelty, oppression, and the law of the strong."
 	associated_faith = /datum/faith/inhumen/kazengun
+	noresearch = TRUE
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/self/graggar_bloodrage/kazengun		= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
@@ -113,11 +119,13 @@
 
 /datum/patron/inhumen/graggar/kazengun/lingyue
 	associated_faith = /datum/faith/divine/lingyue
+	noresearch = TRUE
 
 /datum/patron/inhumen/graggar/gronn
 	name = "The Grinning Moose"
 	desc = "A ruthless god who exalts strength, domination, and the crushing of the weak. His followers do not seek honor or fairness, only victory and the right to rule through force. Mercy is weakness, and compassion is a lie for the feeble. He demands conquest, subjugation, and the endless struggle for supremacy. He is worshipped by those who revel in cruelty, oppression, and the law of the strong."
 	associated_faith = /datum/faith/inhumen/gronn
+	noresearch = TRUE
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/self/graggar_bloodrage/gronn			= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
@@ -153,6 +161,7 @@
 		"Aureate embers coruscate around %TARGET!"
 	)
 	storyteller = /datum/storyteller/matthios
+	rites = "Rune of Transaction"
 
 /datum/patron/inhumen/matthios/situational_bonus(mob/living/follower, mob/living/target)
 	// other matthiosians benefit from our miracles more
@@ -161,6 +170,7 @@
 /datum/patron/inhumen/matthios/kazengun
 	name = "Matoko"
 	associated_faith = /datum/faith/divine/kazengun
+	noresearch = TRUE
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/appraise						= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/targeted/touch/lesserknock/miracle/kazengun = CLERIC_T0,
@@ -174,11 +184,13 @@
 
 /datum/patron/inhumen/matthios/kazengun/lingyue
 	associated_faith = /datum/faith/divine/lingyue
+	noresearch = TRUE
 
 /datum/patron/inhumen/matthios/gronn
 	name = "The Starving Bear"
 	desc = "The Man who stole fire from the sun and used it in his pursuit of immortality; exchanging the knowledge of how to make fire with the lessers for safety in doing so. He guides those who live in the dark, away from the flame of civilization; and those who believe in his cause bring the wealth of the undeserving in the light to the deserving in the dark."
 	associated_faith = /datum/faith/inhumen/gronn
+	noresearch = TRUE
 
 /datum/patron/inhumen/baotha
 	name = "Baotha"
@@ -208,6 +220,7 @@
 		"Lurid whispers entwine about %TARGET!"
 	)
 	storyteller = /datum/storyteller/baotha
+	rites = "Rune of Desire"
 
 /datum/patron/inhumen/baotha/situational_bonus(mob/living/follower, mob/living/target)
 	// if we're high on drugs or drunk, our miracles are stronger
@@ -222,32 +235,17 @@
 	name = "Baosumi"
 	desc = "The twin sister of Eori, fallen to disgrace. She brings comfort to those who can't find it elsewhere but the bottom of a bottle; and she tempts those who have lost much into her fold through offers of relief and pleasure, yet they soon find themselves unable to escape her grasp. Seen as a scorned lover by many, and followed by such."
 	associated_faith = /datum/faith/divine/kazengun
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
-					/obj/effect/proc_holder/spell/invoked/baothavice					= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/baothablessings/kazengun		= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/projectile/blowingdust		= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/painkiller					= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/wound_heal					= CLERIC_T4,
-	)
+	noresearch = TRUE
 
 /datum/patron/inhumen/baotha/kazengun/lingyue
 	associated_faith = /datum/faith/divine/lingyue
+	noresearch = TRUE
 
 /datum/patron/inhumen/baotha/gronn
 	name = "The Relishing Leopard"
 	desc = "She brings comfort to those who can't find it elsewhere but the bottom of a bottle; and she tempts those who have lost much into her fold through offers of relief and pleasure, yet they soon find themselves unable to escape her grasp. Seen as a scorned lover by many, and followed by such."
 	associated_faith = /datum/faith/inhumen/gronn
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
-					/obj/effect/proc_holder/spell/invoked/baothavice					= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/baothablessings/gronn			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/projectile/blowingdust		= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/painkiller					= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/wound_heal					= CLERIC_T4,
-	)
+	noresearch = TRUE
 
 /////////////////////////////////
 // Does God Hear Your Prayer ? //

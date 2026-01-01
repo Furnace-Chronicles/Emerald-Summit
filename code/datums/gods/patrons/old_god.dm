@@ -17,6 +17,7 @@
 		"PSYDON YET LYVES! PSYDON YET ENDURES!",
 		"REBUKE THE HERETICAL- PSYDON ENDURES!",
 	)
+	rites = "Rune of Enduring"
 
 /datum/patron/old_god/kazengun
 	name = "Saidon"

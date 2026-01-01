@@ -94,6 +94,8 @@
 /datum/outfit/job/monk/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
+	if(H.patron.parentpatron)
+		H.patron = new H.patron.parentpatron
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	beltl = /obj/item/storage/keyring/churchie

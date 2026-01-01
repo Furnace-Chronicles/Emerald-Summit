@@ -27,6 +27,7 @@
 		"A wreath of gentle light passes over %TARGET!"
 	)
 	storyteller = /datum/storyteller/astrata
+	rites = "Rune of Sun"
 
 /datum/patron/divine/astrata/situational_bonus(mob/living/follower, mob/living/target)
 	return list((GLOB.tod == "day"), 2)
@@ -35,6 +36,8 @@
 	name = "Aisata"
 	desc = "The she-form of the Twinned Gods, the combined amalgam of single-bodied Aisata and Noishi that opens her eyes at glorious Dae. Men bask under the gift of the Sun. A single form begets two Gods that shift at Dusk and Dawn but always endures, even at night."
 	associated_faith = /datum/faith/divine/kazengun
+	parentpatron = /datum/patron/divine/astrata
+	noresearch = TRUE
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/ignition				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/self/astrata_gaze/kazengun	= CLERIC_T0,
@@ -48,6 +51,7 @@
 
 /datum/patron/divine/astrata/kazengun/lingyue
 	associated_faith = /datum/faith/divine/lingyue
+	noresearch = TRUE
 
 /datum/patron/divine/noc
 	name = "Noc"
@@ -73,6 +77,7 @@
 		"A shroud of soft moonlight falls upon %TARGET!"
 	)
 	storyteller = /datum/storyteller/noc
+	rites = "Rune of Moon"
 
 /datum/patron/divine/noc/situational_bonus(mob/living/follower, mob/living/target)
 	return list((GLOB.tod == "night"), 2)
@@ -81,6 +86,8 @@
 	name = "Noishi"
 	desc = "The he-form of the Twinned Gods, the combined amalgam of single-bodied Noishi and Aisata that opens his eyes during pondorous Night. He gifted man knowledge of divinity and magicks. A single form begets two Gods that shift at Dusk and Dawn but always endures, even at dae."
 	associated_faith = /datum/faith/divine/kazengun
+	parentpatron = /datum/patron/divine/noc
+	noresearch = TRUE
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/noc_sight/kazengun	= CLERIC_T0,
 					/obj/effect/proc_holder/spell/targeted/touch/darkvision/miracle	= CLERIC_T0,
@@ -93,6 +100,7 @@
 
 /datum/patron/divine/noc/kazengun/lingyue
 	associated_faith = /datum/faith/divine/lingyue
+	noresearch = TRUE
 
 /datum/patron/divine/dendor
 	name = "Dendor"
@@ -121,6 +129,7 @@
 		"A rush of primal energy spirals about %TARGET!"
 	)
 	storyteller = /datum/storyteller/dendor
+	rites = "Rune of Beasts"
 
 /datum/patron/divine/dendor/situational_bonus(mob/living/follower, mob/living/target)
 	var/list/natural_stuff = list(/obj/structure/flora/roguegrass, /obj/structure/flora/roguetree, /obj/structure/flora/rogueshroom, /obj/structure/soil, /obj/structure/flora/newtree, /obj/structure/flora/tree, /obj/structure/glowshroom)
@@ -137,9 +146,12 @@
 	name = "Denno"
 	desc = "The God of Wilds, born from Abysawa's feverish dreams. Spilt forth life from the oceans to land in a wild craze. The Father of Ground-Lyfe. Treefather."
 	associated_faith = /datum/faith/divine/kazengun
+	parentpatron = /datum/patron/divine/dendor
+	noresearch = TRUE
 
 /datum/patron/divine/dendor/kazengun/lingyue
 	associated_faith = /datum/faith/divine/lingyue
+	noresearch = TRUE
 
 /datum/patron/divine/abyssor
 	name = "Abyssor"
@@ -169,6 +181,7 @@
 	)
 
 	storyteller = /datum/storyteller/abyssor
+	rites = "Rune of Storm"
 
 /datum/patron/divine/abyssor/situational_bonus(mob/living/follower, mob/living/target)
 	// if we're standing in water
@@ -178,10 +191,13 @@
 	name = "Abysawa"
 	desc = "The strongest of the Twelve; when awakened, the world flooded for a thousand daes and a thousand nights before he was put to slumber. Resting fitfully did Denno split from his skull like a gaping wound. Communes rarely with his followers, only offering glimpses in dreams. Gifted primordial Man water. "
 	associated_faith = /datum/faith/divine/kazengun
+	parentpatron = /datum/patron/divine/abyssor
+	noresearch = TRUE
 
 /datum/patron/divine/abyssor/kazengun/lingyue
 	desc = "The strongest of the Fourteen; when awakened, the world flooded for a thousand daes and a thousand nights before he was put to slumber. Resting fitfully did Denno split from his skull like a gaping wound. Communes rarely with his followers, only offering glimpses in dreams. Gifted primordial Man water. "
 	associated_faith = /datum/faith/divine/lingyue
+	noresearch = TRUE
 
 /datum/patron/divine/ravox
 	name = "Ravox"
@@ -207,6 +223,7 @@
 		"An air of righteous defiance rises near %TARGET!"
 	)
 	storyteller = /datum/storyteller/ravox
+	rites = "Rune of Justice"
 
 /datum/patron/divine/ravox/situational_bonus(mob/living/follower, mob/living/target)
 	var/situational_bonus = 0
@@ -220,6 +237,8 @@
 /datum/patron/divine/ravox/kazengun
 	name = "Ratake"
 	associated_faith = /datum/faith/divine/kazengun
+	parentpatron = /datum/patron/divine/ravox
+	noresearch = TRUE
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/tug_of_war			= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
@@ -232,6 +251,7 @@
 
 /datum/patron/divine/ravox/kazengun/lingyue
 	associated_faith = /datum/faith/divine/lingyue
+	noresearch = TRUE
 
 /datum/patron/divine/necra
 	name = "Necra"
@@ -258,6 +278,7 @@
 		"A sense of quiet respite radiates from %TARGET."
 	)
 	storyteller = /datum/storyteller/necra
+	rites = "Rune of Death"
 
 /datum/patron/divine/necra/situational_bonus(mob/living/follower, mob/living/target)
 	// if the target is closer to death
@@ -266,9 +287,12 @@
 /datum/patron/divine/necra/kazengun
 	name = "Neriko"
 	associated_faith = /datum/faith/divine/kazengun
+	parentpatron = /datum/patron/divine/necra
+	noresearch = TRUE
 
 /datum/patron/divine/necra/kazengun/lingyue
 	associated_faith = /datum/faith/divine/lingyue
+	noresearch = TRUE
 
 /datum/patron/divine/xylix
 	name = "Xylix"
@@ -307,6 +331,7 @@
 		"A mirthful breeze swirls around %TARGET!"
 	)
 	storyteller = /datum/storyteller/xylix
+	rites = "Rune of Trickery"
 
 /datum/patron/divine/xylix/situational_bonus(mob/living/follower, mob/living/target)
 	// half of the time, heal a little (or a lot) more - flip the coin
@@ -316,6 +341,8 @@
 	name = "Xyji"
 	desc = "The Laughing God, both famous and infamous for his sway over the forces of luck. Xyji is known for the inspiration of many a bards lyric. Speaks through his gift to man; the Tarot deck."
 	associated_faith = /datum/faith/divine/kazengun
+	parentpatron = /datum/patron/divine/xylix
+	noresearch = TRUE
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison				= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/self/xylixslip/kazengun			= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 				= CLERIC_T1,
@@ -329,6 +356,7 @@
 
 /datum/patron/divine/xylix/kazengun/lingyue
 	associated_faith = /datum/faith/divine/lingyue
+	noresearch = TRUE
 
 /datum/patron/divine/pestra
 	name = "Pestra"
@@ -356,6 +384,7 @@
 		"An aura of clinical care encompasses %TARGET!"
 	)
 	storyteller = /datum/storyteller/pestra
+	rites = "Rune of Plague"
 
 /datum/patron/divine/pestra/situational_bonus(mob/living/follower, mob/living/target)
 	if (!iscarbon(follower))
@@ -369,14 +398,19 @@
 	name = "Pesiko"
 	desc = "Goddess that blessed many a saint with healing hands, Pesiko taught man the arts of medicine and its benefits."
 	associated_faith = /datum/faith/divine/kazengun
+	parentpatron = /datum/patron/divine/pestra
+	noresearch = TRUE
 
 /datum/patron/divine/pestra/kazengun/lingyue
 	associated_faith = /datum/faith/divine/lingyue
+	noresearch = TRUE
 
 /datum/patron/divine/pestra/effluvia
 	name = "Saint's Cocoon"
 	desc = "The Saint's Cocoon, a nascent Goddess who rules from a time hereafter. She whispers discordant secrets to her followers."
 	associated_faith = /datum/faith/divine/effluvia
+	parentpatron = /datum/patron/divine/pestra
+	noresearch = TRUE
 
 /datum/patron/divine/malum
 	name = "Malum"
@@ -402,6 +436,7 @@
 		"A dispassionate glow smoulders around %TARGET!"
 	)
 	storyteller = /datum/storyteller/malum
+	rites = "Rune of Forge"
 
 /datum/patron/divine/malum/situational_bonus(mob/living/follower, mob/living/target)
 	// extra healing for every source of fire/light near us
@@ -415,6 +450,8 @@
 /datum/patron/divine/malum/kazengun
 	name = "Mamuke"
 	associated_faith = /datum/faith/divine/kazengun
+	parentpatron = /datum/patron/divine/malum
+	noresearch = TRUE
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/malum_flame_rogue/kazengun = CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
@@ -427,6 +464,7 @@
 
 /datum/patron/divine/malum/kazengun/lingyue
 	associated_faith = /datum/faith/divine/lingyue
+	noresearch = TRUE
 
 /datum/patron/divine/eora
 	name = "Eora"
@@ -455,6 +493,7 @@
 	)
 	traits_tier = list(TRAIT_EORAN_CALM = CLERIC_T0, TRAIT_EORAN_SERENE = CLERIC_T2)
 	storyteller = /datum/storyteller/eora
+	rites = "Rune of Love"
 
 /datum/patron/divine/eora/situational_bonus(mob/living/follower, mob/living/target)
 	// if the either the target or we are a pacifist, increase bonuses
@@ -469,6 +508,8 @@
 	name = "Eori"
 	desc = "Baosumi's fairer half, made from blind, unconditional love. She is without a shred of hate in her heart and taught mankind that true love can even transcend Neriko's grasp."
 	associated_faith = /datum/faith/divine/kazengun
+	parentpatron = /datum/patron/divine/eora
+	noresearch = TRUE
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/eora_blessing			= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
@@ -483,6 +524,7 @@
 
 /datum/patron/divine/eora/kazengun/lingyue
 	associated_faith = /datum/faith/divine/lingyue
+	noresearch = TRUE
 
 /////////////////////////////////
 // Does God Hear Your Prayer ? //
