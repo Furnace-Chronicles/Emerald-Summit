@@ -327,7 +327,6 @@
 			. = ..()
 		else //Diagonal move, split it into cardinal moves
 			if(allow_diagonal_movement)
-				world.log << "reached diag movement"
 				. = ..() //right here
 			else if(lastcardinal & direct)
 				direction_to_move = direct ^ lastcardinal
