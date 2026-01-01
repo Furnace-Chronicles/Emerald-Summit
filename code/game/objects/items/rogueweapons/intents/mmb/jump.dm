@@ -118,7 +118,6 @@
 			animate(pixel_z = prev_pixel_z, transform = turn(transform, pick(-12, 0, 12)), time=2)
 			animate(transform = prev_transform, time = 0)
 
-		testing("reached jump.")
 		throw_at(A, jrange, 1, src, spin = FALSE, callback = CALLBACK(src, PROC_REF(after_jump), jextra))
 	else
 		animate(src, pixel_z = pixel_z + 6, time = 1)

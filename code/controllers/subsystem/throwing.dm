@@ -80,8 +80,6 @@ SUBSYSTEM_DEF(throwing)
 	src.callback = callback
 	src.target_zone = target_zone
 	src.extra = extra
-	testing("reached throwing init path")
-	
 
 /datum/thrownthing/Destroy()
 	SSthrowing.processing -= thrownthing
@@ -94,26 +92,18 @@ SUBSYSTEM_DEF(throwing)
 		QDEL_NULL(callback) //It stores a reference to the thrownthing, its source. Let's clean that.
 	return ..()
 
-
-/datum/thrownthing/proc/init_path() //Arg confusion requires disambiguation.
+//Draw the path we're going to take, and cut the base turf from it.
+/datum/thrownthing/proc/init_path() 
 	thrownthing.allow_diagonal_movement = TRUE
 	path.Add(getline(get_turf(thrownthing), target_turf))
 	path -= path[1] //cut initial turf, we don't need it.
-	thrownthing.say("starting now, list length is [path.len], maxrange is [maxrange]")
-	var/list_index = 1
-	for(var/T in path)
-		if(list_index > path.len)
-			break
-		var/obj/item/seeds/wheat/oat/messenger = new (T)
-		messenger.say("I'm #[list_index]")
-		list_index++
+
 ///Defines the datum behavior on the thrownthing's qdeletion event.
 /datum/thrownthing/proc/on_thrownthing_qdel(atom/movable/source, force)
 	SIGNAL_HANDLER
 	qdel(src)
 
 /datum/thrownthing/proc/tick()
-	testing("reached tick.")
 	var/atom/movable/AM = thrownthing
 	if (!isturf(AM.loc) || !AM.throwing)
 		finalize()
@@ -135,11 +125,14 @@ SUBSYSTEM_DEF(throwing)
 	//calculate how many tiles to move, making up for any missed ticks.
 	var/tilestomove = CEILING(min(((((world.time+world.tick_lag) - start_time + delayed_time) * speed) - (dist_travelled ? dist_travelled : -1)), speed*MAX_TICKS_TO_MAKE_UP) * (world.tick_lag * SSthrowing.wait), 1)
 	while (tilestomove-- > 0)
+
 		if ((dist_travelled >= maxrange || AM.loc == target_turf || path[1] == null) && AM.has_gravity(AM.loc))
 			finalize()
 			return
+
 		step = get_step(AM, get_dir(AM, path[1]))
-		path -= path[1]
+		path -= path[1] //Remove the first entry, and shift the entire stack left. This means path[1] is always the next turf.
+
 		if(!step) // going off the edge of the map makes get_step return null, don't let things go off the edge
 			finalize()
 			return
@@ -156,7 +149,6 @@ SUBSYSTEM_DEF(throwing)
 			finalize()
 			return
 /datum/thrownthing/proc/finalize(hit = FALSE, target=null)
-	testing("finalizing.")
 	set waitfor = FALSE
 	//done throwing, either because it hit something or it finished moving
 	if(!thrownthing)
