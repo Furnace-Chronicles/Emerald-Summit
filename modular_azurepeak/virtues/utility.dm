@@ -465,7 +465,7 @@
 	name = "(Wild-Kin) Nitetouched"
 	desc = "In the Underdark's deepest depths, one does not dare speak. Within are monsters ne'er graced by sunlight. From this place, I originate.<BR>My kind can speak mind-to-mind, a method forcibly developed by the cruelty of its habitat."
 	races = list(/datum/species/anthromorph)
-	custom_text = "Grants Nitelink spell.<BR>Changes your body type, ears, and eyes.<br>Only available to wild-kin."
+	custom_text = "Grants Nitelink spell.<BR>Changes your body type, ears, and eyes.<br>Only available to Wild-Kin."
 	added_traits = list()
 
 /datum/virtue/racial/wildkin/nitekin/apply_to_human(mob/living/carbon/human/recipient)
