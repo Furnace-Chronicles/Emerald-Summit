@@ -1517,6 +1517,33 @@
 	desc = "Some good loving has left me feeling very fortunate."
 	icon_state = "stressg"
 
+/atom/movable/screen/alert/status_effect/buff/flow
+	name = "Flow"
+	desc = "Right now, it's just that everything feels right."
+	icon_state = "flow"
+
+/datum/status_effect/buff/flow
+	id = "flow"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/flow
+	duration = 30 SECONDS
+	examine_text = "SUBJECTPRONOUN seems focused!"
+	effectedstats = list("speed" = 1, "perception" = 1, "intelligence" = 1, "fortune" = 1)
+
+/datum/status_effect/buff/flow/nextmove_modifier()
+	return 0.9
+
+/datum/status_effect/buff/flow/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_FLOW, INNATE_TRAIT)
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		H.playsound_local(get_turf(H), 'sound/misc/adrenaline_rush.ogg', 100, TRUE)
+		H.stamina -= max((H.stamina - (H.max_stamina / 3)), 0)
+
+/datum/status_effect/buff/flow/on_remove()
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_FLOW, INNATE_TRAIT)
+
 /atom/movable/screen/alert/status_effect/buff/adrenaline_rush
 	name = "Adrenaline Rush"
 	desc = "The gambit worked! I can do anything! My heart races, the throb of my wounds wavers."

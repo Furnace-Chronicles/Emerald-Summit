@@ -488,11 +488,11 @@ obj/effect/temp_visual/curse/Initialize()
 /datum/status_effect/debuff/baited
 	id = "bait"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/baited
-	duration = 20 SECONDS
+	duration = 15 SECONDS
 
 /atom/movable/screen/alert/status_effect/debuff/baited
 	name = "Baited"
-	desc = "I fell for it. I'm exposed. I won't fall for it again. For now."
+	desc = "I won't fall for it again, for now."
 	icon_state = "bait"
 
 /atom/movable/screen/alert/status_effect/debuff/baitedcd

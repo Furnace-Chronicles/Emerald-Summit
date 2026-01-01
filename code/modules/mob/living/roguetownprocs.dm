@@ -301,6 +301,12 @@
 			if(HAS_TRAIT(user, TRAIT_GUIDANCE))
 				prob2defend -= 20
 
+			if(HAS_TRAIT(src, TRAIT_FLOW))
+				prob2defend += 20
+
+			if(HAS_TRAIT(user, TRAIT_FLOW))
+				prob2defend -= 20
+
 			if(HAS_TRAIT(src, TRAIT_NODEF))
 				prob2defend = 0
 
@@ -651,6 +657,12 @@
 			prob2defend += 20
 
 		if(HAS_TRAIT(U, TRAIT_GUIDANCE))
+			prob2defend -= 20
+
+		if(HAS_TRAIT(L, TRAIT_FLOW))
+			prob2defend += 20
+
+		if(HAS_TRAIT(U, TRAIT_FLOW))
 			prob2defend -= 20
 
 		if(HAS_TRAIT(L, TRAIT_NODEF))
