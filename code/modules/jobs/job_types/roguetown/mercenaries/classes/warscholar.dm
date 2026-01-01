@@ -8,7 +8,7 @@
 	class_select_category = CLASS_CAT_NALEDI
 	cmode_music = 'sound/music/warscholar.ogg'
 	subclass_social_rank = SOCIAL_RANK_YEOMAN
-	allowed_patrons = ALL_INHUMEN_PATRONS
+	allowed_patrons = list(/datum/patron/old_god)
 
 	origin_override_type = /datum/virtue/origin/naledi
 	subclass_languages = list(
@@ -108,7 +108,7 @@
 	name = "Naledi Pontifex"
 	tutorial = "You are a Naledi Pontifex, a warrior trained into a hybridized style of movement-controlling magic and hand-to-hand combat. Though your abilities in magical fields are lacking, you are far more dangerous than other magi in a straight fight. You manifest your calm, practiced skill into a killing intent that takes the shape of an arcyne blade. Keep your face covered, or else the Djinni will siphon your magics and claim your soul."
 	outfit = /datum/outfit/job/mercenary/warscholar_pontifex
-	allowed_patrons = ALL_INHUMEN_PATRONS
+	allowed_patrons = list(/datum/patron/old_god)
 
 	subclass_languages = list(
 		/datum/language/celestial,
@@ -199,7 +199,7 @@
 	name = "Naledi Vizier"
 	tutorial = "You are a Naledi Vizier. Your research into miracles and holy incantations has lead you to esoteric magycks. Though Psydonites have long struggled to channel their all-father's divinity, a combination of the saint's power may be similar enough. Keep your face covered, or else the Djinni will siphon your magics and claim your soul."
 	outfit = /datum/outfit/job/mercenary/warscholar_vizier
-	allowed_patrons = ALL_INHUMEN_PATRONS
+	allowed_patrons = list(/datum/patron/old_god)
 
 	subclass_languages = list(
 		/datum/language/celestial,
