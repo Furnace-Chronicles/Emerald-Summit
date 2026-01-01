@@ -7,6 +7,7 @@
 	outfit = /datum/outfit/job/roguetown/mercenary/gronnheavy
 	class_select_category = CLASS_CAT_GRONN
 	category_tags = list(CTAG_MERCENARY)
+	allowed_patrons = ALL_INHUMEN_PATRONS
 	traits_applied = list(TRAIT_HEAVYARMOR)
 	cmode_music = 'sound/music/combat_vagarian.ogg'
 	subclass_languages = list(/datum/language/gronnic)
@@ -36,8 +37,6 @@
 
 /datum/outfit/job/roguetown/mercenary/gronnheavy/pre_equip(mob/living/carbon/human/H)
 	..()
-	if(!istype(H.patron, /datum/patron/inhumen))
-		H.patron = new /datum/patron/inhumen/graggar/gronn
 	H.dna.species.soundpack_m = new /datum/voicepack/male/evil() //It's fucking cool okay
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron/gronn
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/gronn

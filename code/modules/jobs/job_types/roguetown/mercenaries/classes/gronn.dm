@@ -8,6 +8,7 @@
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_vagarian.ogg'
 	subclass_languages = list(/datum/language/gronnic)
+	allowed_patrons = ALL_INHUMEN_PATRONS
 	extra_context = "This subclass has 2 loadouts with various stats, skills & equipment."
 	subclass_skills = list(
 	//Universal skills
@@ -37,8 +38,6 @@
 
 	// CLASS ARCHETYPES
 	H.adjust_blindness(-3)
-	if(!istype(H.patron, /datum/patron/inhumen))
-		H.patron = new /datum/patron/inhumen/graggar/gronn
 	if(H.mind)
 		var/classes = list("Leðurháls - Byrine Grunt", "Skemmdarvargur - Ravager")
 		var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes

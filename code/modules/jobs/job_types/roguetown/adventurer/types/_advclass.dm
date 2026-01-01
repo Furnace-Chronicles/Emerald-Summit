@@ -186,7 +186,7 @@
 
 	if(length(allowed_patrons))
 		var/allowed = FALSE
-		var/datum/patron/PA = H.patron.type
+		var/datum/patron/PA = H.patron
 		for(var/path in allowed_patrons)
 			if(istype(PA, path))
 				allowed = TRUE
