@@ -2603,27 +2603,22 @@
 	desc = "A darkened iron heavy helmet shaped in a beak, it glows with dark red magiks on his eyes."
 	icon_state = "zizo"
 	var/on = FALSE
-	var/active_item = FALSE
 	smeltresult = /obj/item/ingot/iron
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizoid/equipped(mob/living/user, slot)
 	. = ..()
-	if(active_item)
-		return
+
 	if(slot == SLOT_HEAD)
-		active_item = TRUE
-	RegisterSignal(user, COMSIG_COMBAT_MODE, PROC_REF(toggle_helmet_light))
+		RegisterSignal(user, COMSIG_COMBAT_MODE, PROC_REF(toggle_helmet_light))
+
+
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizoid/dropped(mob/living/user)
 	. = ..()
-	if(!active_item)
-		return
-	active_item = FALSE
 	UnregisterSignal(COMSIG_COMBAT_MODE)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizoid/proc/toggle_helmet_light(mob/living/user)
 	on = !on
-	set_light_on(on)
 	update_icon()
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizoid/update_icon()
@@ -2631,7 +2626,7 @@
 	item_state = "zizo[on]"
 	if(ishuman(loc))
 		var/mob/living/carbon/human/H = loc
-		H.update_inv_head()
+		H.update_inv_head_real()
 	..()
 
 /obj/item/clothing/head/roguetown/helmet/heavy/grag
@@ -2639,28 +2634,20 @@
 	desc = "A heavy iron helmet covered in dry blood and spikes, shaped in a cruel deformated smile it glows with dark red magiks on his eyes."
 	icon_state = "graggar"
 	var/on = FALSE
-	var/active_item = FALSE
 
 	smeltresult = /obj/item/ingot/iron
 
 /obj/item/clothing/head/roguetown/helmet/heavy/grag/equipped(mob/living/user, slot)
 	. = ..()
-	if(active_item)
-		return
 	if(slot == SLOT_HEAD)
-		active_item = TRUE
-	RegisterSignal(user, COMSIG_COMBAT_MODE, PROC_REF(toggle_helmet_light))
+		RegisterSignal(user, COMSIG_COMBAT_MODE, PROC_REF(toggle_helmet_light))
 
-/obj/item/clothing/head/roguetown/helmet/heavy/graggar/dropped(mob/living/user)
+/obj/item/clothing/head/roguetown/helmet/heavy/grag/dropped(mob/living/user)
 	. = ..()
-	if(!active_item)
-		return
-	active_item = FALSE
 	UnregisterSignal(COMSIG_COMBAT_MODE)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/grag/proc/toggle_helmet_light(mob/living/user)
 	on = !on
-	set_light_on(on)
 	update_icon()
 
 /obj/item/clothing/head/roguetown/helmet/heavy/grag/update_icon()
@@ -2668,7 +2655,7 @@
 	item_state = "graggar[on]"
 	if(ishuman(loc))
 		var/mob/living/carbon/human/H = loc
-		H.update_inv_head()
+		H.update_inv_head_real()
 	..()
 
 /obj/item/clothing/head/roguetown/helmet/heavy/matt
@@ -2676,28 +2663,21 @@
 	desc = "A heavy iron helmet covered in a heavy red hood, shaped in a deformated greedy smile it glows with dark red magiks on his eyes."
 	icon_state = "matthios"
 	var/on = FALSE
-	var/active_item = FALSE
+
 
 
 /obj/item/clothing/head/roguetown/helmet/heavy/matt/equipped(mob/living/user, slot)
 	. = ..()
-	if(active_item)
-		return
 	if(slot == SLOT_HEAD)
-		active_item = TRUE
-	RegisterSignal(user, COMSIG_COMBAT_MODE, PROC_REF(toggle_helmet_light))
+		RegisterSignal(user, COMSIG_COMBAT_MODE, PROC_REF(toggle_helmet_light))
 
 /obj/item/clothing/head/roguetown/helmet/heavy/matt/dropped(mob/living/user)
 	. = ..()
-	if(!active_item)
-		return
-	active_item = FALSE
 	UnregisterSignal(COMSIG_COMBAT_MODE)
 
 
 /obj/item/clothing/head/roguetown/helmet/heavy/matt/proc/toggle_helmet_light(mob/living/user)
 	on = !on
-	set_light_on(on)
 	update_icon()
 
 /obj/item/clothing/head/roguetown/helmet/heavy/matt/update_icon()
@@ -2705,7 +2685,7 @@
 	item_state = "matthios[on]"
 	if(ishuman(loc))
 		var/mob/living/carbon/human/H = loc
-		H.update_inv_head()
+		H.update_inv_head_real()
 	..()
 
 // the psylongers
