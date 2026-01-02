@@ -610,6 +610,19 @@
 		added_def = 0,\
 	)
 
+/datum/intent/sword/cut/martyr
+		item_d_type = "fire"
+		blade_class = BCLASS_CUT
+/datum/intent/sword/thrust/martyr
+		item_d_type = "fire"
+		blade_class = BCLASS_PICK // so our armor-piercing attacks in ult mode can do crits(against most armors, not having crit)
+/datum/intent/sword/strike/martyr
+		item_d_type = "fire"
+		blade_class = BCLASS_SMASH
+/datum/intent/sword/chop/martyr
+		item_d_type = "fire"
+		blade_class = BCLASS_CHOP
+
 /obj/item/rogueweapon/sword/long/martyr/Initialize()
 	. = ..()
 	if(SSroguemachine.martyrweapon)
