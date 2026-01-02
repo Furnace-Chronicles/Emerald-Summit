@@ -27,7 +27,10 @@
 		update_move_intent_slowdown() // Apply speed changes
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/spiderfangs/mire)
-		real_name = "Lesser Mire Crawler ([stored_mob.real_name])" //Preserve original character name
+		if (src.client.prefs?.wildshape_name)
+			real_name = "lesser mire crawler ([stored_mob.real_name])"
+		else
+			real_name = "lesser mire crawler"
 
 
 // mirecrawler SPECIES DATUM //

@@ -31,6 +31,10 @@
 		/datum/advclass/hand/advisor
 	)
 
+	virtue_restrictions = list(
+		/datum/virtue/heretic/zchurch_keyholder
+	)
+
 /*
 /datum/job/roguetown/hand/special_job_check(mob/dead/new_player/player)
 	if(!player)

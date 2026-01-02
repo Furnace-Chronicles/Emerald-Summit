@@ -659,6 +659,10 @@
 				if(adv_ref.extra_context)
 					dat += "<font color ='#a06c1e'>[adv_ref.extra_context]"
 					dat += "</font>"
+				if(!isnull(adv_ref.origin_override_type))
+					var/datum/virtue/origin/typecasted_origin = adv_ref.origin_override_type
+					dat += "<font color ='#a06c1e'>This subclass will overide your origin to: [initial(typecasted_origin.name)]"
+					dat += "</font>"
 				dat += "</details>"
 		dat += "<hr>"
 		if(length(job_stats))

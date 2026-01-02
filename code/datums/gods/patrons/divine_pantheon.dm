@@ -158,9 +158,11 @@
 
 /datum/patron/divine/ravox/situational_bonus(mob/living/follower, mob/living/target)
 	var/situational_bonus = 0
+	var/is_divine = ispath(target.patron?.type, /datum/patron/divine)
 	// the bloodier the area around our target is, the more we heal
-	for (var/obj/effect/decal/cleanable/blood/O in oview(5, follower))
-		situational_bonus = min(situational_bonus + 0.1, 2)
+	for (var/mob/living/carbon in oview(5, follower))
+		if (is_divine)
+			situational_bonus = min(situational_bonus + 0.5, 2.5)
 	return list((situational_bonus > 0), situational_bonus)
 
 /datum/patron/divine/necra

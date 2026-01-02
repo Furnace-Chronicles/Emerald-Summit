@@ -8,17 +8,20 @@
 	class_select_category = CLASS_CAT_KAZENGUN
 	cmode_music = 'sound/music/combat_kazengite.ogg'
 	maximum_possible_slots = 1
+	origin_override_type =  /datum/virtue/origin/kazengun
 
 	subclass_languages = list(/datum/language/kazengunese)
 
 	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_HARDDISMEMBER)
 	subclass_stats = list(
-		STATKEY_CON = 3,
-		STATKEY_END = 3,
+		STATKEY_CON = 2,
+		STATKEY_END = 2,
 		STATKEY_STR = 2,
 		STATKEY_PER = 1,
 		STATKEY_SPD = -1
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/kashira
 
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -32,6 +35,9 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 	)
+
+/datum/status_effect/buff/merchired/kashira
+	effectedstats = list(STATKEY_CON = 1, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/kashira/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -51,5 +57,3 @@
 		/obj/item/flashlight/flare/torch/lantern,
 	)
 	H.adjust_blindness(-3)
-
-	change_origin(H, /datum/virtue/origin/kazengun)

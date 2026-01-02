@@ -8,6 +8,7 @@
 	category_tags = list(CTAG_WRETCH)
 	cmode_music = 'sound/music/combat_berserker.ogg'
 	traits_applied = list(TRAIT_STRONGBITE, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_STRENGTH_UNCAPPED, TRAIT_OGRE_STRENGTH)
+	origin_override_type = /datum/virtue/origin/kazengun
 	subclass_stats = list(
 		STATKEY_STR = 4, //9 weighted stats, compared to Berserker's 8, but their highest weapon skill is Journeyman.
 		STATKEY_CON = 3,
@@ -54,7 +55,6 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 	)
 	wretch_select_bounty(H)
-	change_origin(H, /datum/virtue/origin/kazengun)
 
 /datum/advclass/wretch/swordhunter
 	name = "Sword Hunter"
@@ -65,7 +65,7 @@
 	category_tags = list(CTAG_WRETCH)
 	maximum_possible_slots = 1 //Very strong and also supposed to be unique, so one slot.
 	cmode_music = 'sound/music/combat_swordhunter.ogg'
-
+	origin_override_type = /datum/virtue/origin/kazengun
 	subclass_languages = list(/datum/language/kazengunese)
 	traits_applied = list(TRAIT_DODGEEXPERT)
 	//Bad stats for a wretch, instead they get some really good traits and skills.
@@ -141,8 +141,6 @@
 			l_hand = /obj/item/rogueweapon/sword/iron/short/gladius
 	wretch_select_bounty(H)
 
-	change_origin(H, /datum/virtue/origin/kazengun)
-
 /datum/advclass/wretch/sohei
 	name = "Disgraced Custodian"
 	tutorial = "Once, you proudly defended a quiet place of worship. Now, you've turned your back on faith and duty, living the lyfe of a would-be Kazengite warlord."
@@ -152,6 +150,7 @@
 	category_tags = list(CTAG_WRETCH)
 	maximum_possible_slots = 1
 	cmode_music = 'sound/music/combat_sohei.ogg'
+	origin_override_type = /datum/virtue/origin/kazengun
 
 	subclass_languages = list(/datum/language/kazengunese)
 	traits_applied = list(TRAIT_NOPAINSTUN) //Inherits this from the Custodian adv, still light armor only.
@@ -204,5 +203,3 @@
 		if("Jumonji yari")
 			l_hand = /obj/item/rogueweapon/spear/boar/kazengun
 	wretch_select_bounty(H)
-
-	change_origin(H, /datum/virtue/origin/kazengun)

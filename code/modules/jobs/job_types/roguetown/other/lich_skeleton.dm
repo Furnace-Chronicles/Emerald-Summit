@@ -20,7 +20,7 @@ LICH SKELETONS
 /datum/outfit/job/greater_skeleton/lich/pre_equip(mob/living/carbon/human/H)
 	..()
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	REMOVE_TRAIT(H, TRAIT_EASYDISMEMBER, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
 
 // Melee goon w/ javelins. All-rounder.
 /datum/advclass/greater_skeleton/lich/legionnaire
@@ -61,7 +61,7 @@ LICH SKELETONS
 
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/paalloy
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/aalloy
 	neck = /obj/item/clothing/neck/roguetown/gorget/paalloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/paalloy
@@ -260,6 +260,7 @@ LICH SKELETONS
 	ADD_TRAIT(H, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_EASYDISMEMBER, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NOBREATH, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NOPAIN, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_TOXIMMUNE, TRAIT_GENERIC)

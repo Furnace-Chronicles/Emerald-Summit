@@ -393,6 +393,12 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/sallet
 	craftdiff = 2
 
+/datum/anvil_recipe/armor/steel/helmet/sallet/eora
+	name = "Eoran Sallet"
+	req_bar = /obj/item/ingot/steel
+	created_item = /obj/item/clothing/head/roguetown/helmet/sallet/eoran
+	craftdiff = 2 //its just a sallet reskin
+
 /datum/anvil_recipe/armor/steel/helmet/klapplong
 	name = "Klappenlonger (+2 Steel)"
 	req_bar = /obj/item/ingot/steel

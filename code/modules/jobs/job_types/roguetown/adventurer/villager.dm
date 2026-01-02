@@ -22,10 +22,35 @@
 	advjob_examine = TRUE
 	always_show_on_latechoices = TRUE
 	same_job_respawn_delay = 0
-	class_setup_examine = FALSE	//Nooo thank you
+	class_setup_examine = TRUE
 	cmode_music = 'sound/music/combat_towner.ogg'
 	social_rank = SOCIAL_RANK_PEASANT
 
+	job_subclasses = list(
+		/datum/advclass/blacksmith,
+		/datum/advclass/carpenter,
+		/datum/advclass/cheesemaker,
+		/datum/advclass/drunkard,
+		/datum/advclass/fisher,
+		/datum/advclass/hunter,
+		/datum/advclass/miner,
+		/datum/advclass/minstrel,
+		/datum/advclass/peasant,
+		/datum/advclass/potter,
+		/datum/advclass/seamstress,
+		/datum/advclass/butcher,
+		/datum/advclass/thug/goon,
+		/datum/advclass/thug/wiseguy,
+		/datum/advclass/thug/bigman,
+		/datum/advclass/towndoctor,
+		/datum/advclass/witch,
+		/datum/advclass/woodcutter,
+		/datum/advclass/masterchef,
+		/datum/advclass/masterblacksmith,
+		/datum/advclass/minermaster,
+		/datum/advclass/fishermaster,
+		/datum/advclass/farmermaster
+	) //Master carpenter and mason aren't rolling for some reasons, so they are not present at the time of writing.
 /*
 /datum/job/roguetown/adventurer/villager/New()
 	. = ..()

@@ -29,7 +29,10 @@
 		src.STASPD = 13
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/moleclaw)
-		real_name = "Moss Crawler ([stored_mob.real_name])" //Preserve original character name
+		if (src.client.prefs?.wildshape_name)
+			real_name = "moss crawler ([stored_mob.real_name])"
+		else
+			real_name = "moss crawler"
 
 
 // dendormole SPECIES DATUM //

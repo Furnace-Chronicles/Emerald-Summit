@@ -321,7 +321,6 @@
 	REMOVE_TRAIT(owner, TRAIT_ANTIMAGIC, MAGIC_TRAIT)
 	owner.visible_message("<span class='warning'>[owner]'s dull aura fades away...</span>")
 
-
 /atom/movable/screen/alert/status_effect/tempo_one
 	name = "Tempo One"
 	desc = "Two cowardly foes are attacking me. The need to focus has given me some light boons."
@@ -388,3 +387,14 @@
 	owner.remove_filter(TEMPO_MAX_FILTER)
 	REMOVE_TRAIT(owner, TRAIT_GRABIMMUNE,  TRAIT_STATUS_EFFECT)
 	REMOVE_TRAIT(owner, TRAIT_STRONGKICK, TRAIT_STATUS_EFFECT)
+
+/datum/status_effect/buff/parish_boon
+	id = "parish_boon"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/parish_boon
+	effectedstats = list("perception" = 1, "intelligence" = 1)
+	duration = 20 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/parish_boon
+	name = "Boon of the Parish"
+	desc = "You lent partial aid to the local church and bear a modest share of its blessing."
+	icon_state = "buff"

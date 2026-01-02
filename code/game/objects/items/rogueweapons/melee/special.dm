@@ -310,8 +310,8 @@
 
 /obj/item/rogueweapon/katar/punchdagger
 	name = "punch dagger"
-	desc = "A weapon that combines the ergonomics of the Ranesheni katar with the capabilities of the Western Psydonian \"knight-killers\". It can be tied around the wrist."
-	slot_flags = ITEM_SLOT_WRISTS
+	desc = "A weapon that combines the ergonomics of the Ranesheni katar with the capabilities of the Western Psydonian \"knight-killers\"."
+	slot_flags = ITEM_SLOT_HIP
 	max_integrity = 120		//Steel dagger -30
 	force = 15		//Steel dagger -5
 	throwforce = 8
@@ -324,7 +324,7 @@
 	name = "vývrtka"
 	desc = "A type of punch dagger of Aavnic make initially designed to level the playing field with an orc in fisticuffs, its serrated edges and longer, thinner point are designed to maximize pain for the recipient. It's aptly given the name of \"corkscrew\", and this specific one has the colours of Szöréndnížina. Can be worn on your ring slot."
 	icon_state = "freiplug"
-	slot_flags = ITEM_SLOT_RING
+	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_RING
 
 /obj/item/rogueweapon/katar/psydon
 	name = "psydonian katar"
@@ -452,7 +452,7 @@
 	force = 20
 	force_wielded = 30
 	item_flags = PEASANT_WEAPON
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/spear/cut)
+	possible_item_intents = list(SPEAR_THRUST_1H, SPEAR_CUT_1H)
 	gripped_intents = list(/datum/intent/pick/ranged, /datum/intent/spear/thrust, SPEAR_BASH)
 	name = "militia goedendag"
 	desc = "Clubs - and their spiked descendants - are older than most languages and civilizations. Tyme hasn't made them any less deadly, however. "
