@@ -753,7 +753,7 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		var/datum/job/J = SSjob.GetJob(H.mind?.assigned_role)
-		if(J.title == "Bishop" || J.title == "Martyr")
+		if(J.title == "Priest" || J.title == "Martyr")
 			return ..()
 		else if (H.job in GLOB.church_positions)
 			to_chat(user, span_warning("You feel a jolt of holy energies just for a split second, and then the axe slips from your grasp! You are not devout enough."))
@@ -850,7 +850,7 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		var/datum/job/J = SSjob.GetJob(H.mind?.assigned_role)
-		if(J.title == "Bishop" || J.title == "Martyr")
+		if(J.title == "Priest" || J.title == "Martyr")
 			return ..()
 		else if (H.job in GLOB.church_positions)
 			to_chat(user, span_warning("You feel a jolt of holy energies just for a split second, and then the mace slips from your grasp! You are not devout enough."))
@@ -944,7 +944,7 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		var/datum/job/J = SSjob.GetJob(H.mind?.assigned_role)
-		if(J.title == "Bishop" || J.title == "Martyr")
+		if(J.title == "Priest" || J.title == "Martyr")
 			return ..()
 		else if (H.job in GLOB.church_positions)
 			to_chat(user, span_warning("You feel a jolt of holy energies just for a split second, and then the spear slips from your grasp! You are not devout enough."))
