@@ -102,7 +102,7 @@
 		/datum/virtue/combat/crimson_curse
 	)
 
-	traits_applied = list(TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_TEMPO)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 2,
