@@ -1014,16 +1014,25 @@
 	name = "opalescent aril"
 	desc = "An iridescent seed that shifts colors in the light."
 	icon_state = "opalescent"
-	effect_desc = "Transforms held gems into rubies."
+	effect_desc = "Transforms held gems into a rontz or manifests a pair of rosellusks if no gem is held."
     
 /obj/item/reagent_containers/food/snacks/eoran_aril/opalescent/apply_effects(mob/living/eater)
+	var/found_gem = FALSE
 	for(var/obj/item/roguegem/G in eater.held_items)
 		var/obj/item/roguegem/ruby/new_gem = new(eater.loc)
 		qdel(G)
 		eater.put_in_hands(new_gem)
 		to_chat(eater, span_notice("The [G] transforms into a rontz in your hand!"))
+		found_gem = TRUE
 		//Probably best not to allow 2 at once...
 		break
+	
+	if(!found_gem)
+		var/obj/item/carvedgem/rose/rawrose/rosellusk1 = new(eater.loc)
+		var/obj/item/carvedgem/rose/rawrose/rosellusk2 = new(eater.loc)
+		eater.put_in_hands(rosellusk1)
+		eater.put_in_hands(rosellusk2)
+		to_chat(eater, span_notice("A pair of rosellusks manifest in your hands!"))
 
 // TIER 2
 /obj/item/reagent_containers/food/snacks/eoran_aril/cerulean
