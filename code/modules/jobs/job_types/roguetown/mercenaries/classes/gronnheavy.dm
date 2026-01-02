@@ -7,7 +7,7 @@
 	outfit = /datum/outfit/job/roguetown/mercenary/gronnheavy
 	class_select_category = CLASS_CAT_GRONN
 	category_tags = list(CTAG_MERCENARY)
-	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_TEMPO)
+	traits_applied = list(TRAIT_HEAVYARMOR)
 	cmode_music = 'sound/music/combat_vagarian.ogg'
 	subclass_languages = list(/datum/language/gronnic)
 	subclass_stats = list(
