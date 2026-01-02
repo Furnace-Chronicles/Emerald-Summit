@@ -1167,7 +1167,7 @@
 	name = "holy silver bascinet"
 	desc = "Branded by the Holy See, these helms are worn by it's chosen warriors. A bastion of hope in the dark nite. (Middle-click to change helmet style.)"
 	icon = 'icons/roguetown/clothing/special/martyr.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/martyrhelmets.dmi
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/martyrhelmets.dmi'
 	bloody_icon = 'icons/effects/blood64.dmi'
 	adjustable = CAN_CADJUST
 	emote_environment = 3
