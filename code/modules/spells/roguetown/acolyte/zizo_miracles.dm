@@ -37,7 +37,7 @@
 		user.visible_message(span_danger("[target] is seared by necrotic power!"))
 		target.visible_message(span_danger("Agonizing necrotic energy burns through my body!"))
 		target.adjustFireLoss(12)             //making sure psydonites get attacked too
-		target.adjustBruteLoss(4)             //damage here
+		user.adjustBruteLoss(4)             //damage here
 		return FALSE
 		
 	// EVERYONE ELSE	
