@@ -190,9 +190,7 @@
 		if(ishuman(user))
 			var/mob/living/carbon/human/H = user
 			for(var/obj/item/I in H.get_equipped_items())
-				var/datum/status_effect/fire_handler/fire_stacks/item_FS = I.has_status_effect(/datum/status_effect/fire_handler/fire_stacks)
-				if(item_FS)
-					item_FS.extinguish()
+				I.extinguish()
 	
 	// Apply to user
 	user.apply_status_effect(/datum/status_effect/buff/suns_shield, user_duration)
@@ -253,13 +251,21 @@
 				// Check for Lich
 				if(HAS_TRAIT(H, TRAIT_COUNTERCOUNTERSPELL))
 					is_powerful_undead = TRUE
-			
+					
 			// Powerful undead resist unless caster is a Priest
 			if(is_powerful_undead && !HAS_TRAIT(user, TRAIT_CHOSEN))
 				to_chat(user, span_danger("This creature's unholy power is too great! Only an ordained Priest could unmake such a being!"))
 				target.visible_message(span_astratabig("[target] resists the holy light bearing down on them, their ancient power deflecting the divine wrath!"))
 				revert_cast()
 				return FALSE
+			
+						// Range check for powerful undead - must be within 6 tiles
+			if(is_powerful_undead)
+				var/distance = get_dist(user, target)
+				if(distance > 6)
+					to_chat(user, span_danger("This ancient evil is too far away! I must be closer to channel enough divine power to unmake them!"))
+					revert_cast()
+					return FALSE
 
 			// Start cinematic destruction sequence
 			if(is_powerful_undead)
@@ -268,6 +274,8 @@
 			else
 				to_chat(user, span_danger("[target] is caught in holy light!"))
 				target.visible_message(span_astratabig("[target] begins to burn with holy light!"))
+			
+			user.say("Die before the Tyrant's Light!")
 			
 			// Call the cinematic destruction proc
 			divine_destruction(target, is_powerful_undead)
@@ -335,113 +343,7 @@
 		return FALSE
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/revive/proc/divine_destruction(mob/living/target, is_powerful = FALSE)
-	if(!target)
-		return
-	
-	// Add increasingly bright glow filter
-	target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 2, "color" = "#FFD70080"))
-	
-	// Prevent movement and actions - powerful undead get longer sequence
-	var/destruction_time = is_powerful ? 30 SECONDS : 10 SECONDS
-	target.Stun(destruction_time)
-	
-	// Make them immune to damage during the destruction sequence
-	ADD_TRAIT(target, TRAIT_NODEATH, "divine_destruction")
-	
-	// Message sequence - different timings based on power
-	// 0 seconds - initial
-	to_chat(target, span_astrataextreme("Astrata's light burns into my very being, I am being unmade!"))
-	
-	if(is_powerful)
-		// Full 30 second sequence for powerful undead
-		// 5 seconds
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 1), 5 SECONDS)
-		
-		// 10 seconds
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 2), 10 SECONDS)
-		
-		// 15 seconds
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 3), 15 SECONDS)
-		
-		// 20 seconds
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 4), 20 SECONDS)
-		
-		// 25 seconds - final goodbye
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 5), 25 SECONDS)
-		
-		// 30 seconds - KABOOM
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_finale), target, is_powerful), 30 SECONDS)
-	else
-		// Quick 10 second sequence for normal undead
-		// 3 seconds
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 1), 3 SECONDS)
-		
-		// 7 seconds
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 3), 7 SECONDS)
-		
-		// 10 seconds - KABOOM
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_finale), target, is_powerful), 10 SECONDS)
 
-/obj/effect/proc_holder/spell/invoked/revive/proc/divine_destruction_message(mob/living/target, stage)
-	if(!target || target.stat == DEAD)
-		return
-	
-	// Clean up old moblight if it exists
-	var/obj/effect/dummy/lighting_obj/moblight/old_light = locate() in target
-	if(old_light)
-		qdel(old_light)
-	
-	switch(stage)
-		if(1)
-			to_chat(target, span_astrata("The light grows brighter! I can feel it searing through me!"))
-			target.visible_message(span_astrata("[target] glows brighter with holy light, their form beginning to crack!"))
-			target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 3, "color" = "#FFD700CC"))
-			target.mob_light("#FFD700", 3, 1.5)
-		if(2)
-			to_chat(target, span_astrata("The radiance is overwhelming! My unholy essence is being torn apart!"))
-			target.visible_message(span_astrata("[target] burns ever brighter, cracks of golden light spreading across their body!"))
-			target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 4, "color" = "#FFD700FF"))
-			target.mob_light("#FFD700", 4, 2)
-		if(3)
-			to_chat(target, span_astratabig("I CANNOT ESCAPE! THE LIGHT IS EVERYTHING!"))
-			target.visible_message(span_astrata("[target] is now blazing with divine radiance, barely visible through the golden glow!"))
-			target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 6, "color" = "#FFFFFF"))
-			target.mob_light("#FFFFFF", 6, 2.5)
-		if(4)
-			to_chat(target, span_astratabig("MY FORM FRACTURES! I AM BEING UNMADE!"))
-			target.visible_message(span_astrata("[target] is now a pillar of searing golden light!"))
-			target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 8, "color" = "#FFFFFF"))
-			target.mob_light("#FFFFFF", 8, 3)
-		if(5)
-			to_chat(target, span_astrataextreme("ASTRATA'S WRATH IS ABSOLUTE! I AM—"))
-			target.visible_message(span_astratabig("[target]'s form is barely holding together, light pouring from every crack!"))
-			target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 10, "color" = "#FFFFFF"))
-			target.mob_light("#FFFFFF", 10, 4)
-
-/obj/effect/proc_holder/spell/invoked/revive/proc/divine_destruction_finale(mob/living/target, is_powerful = FALSE)
-	if(!target)
-		return
-	
-	if(is_powerful)
-		target.visible_message(span_astrataextreme("[target] ERUPTS in a catastrophic explosion of holy light!"))
-	else
-		target.visible_message(span_astratabig("[target] EXPLODES in a burst of divine radiance!"))
-	
-	playsound(get_turf(target), 'sound/misc/holyexplosion.ogg', 150, FALSE, 14)
-	
-	// Flash everyone nearby
-	for(var/mob/M in viewers(target, 7))
-		M.flash_fullscreen("whiteflash")
-	
-	// Remove damage immunity before gibbing
-	REMOVE_TRAIT(target, TRAIT_NODEATH, "divine_destruction")
-	
-	// Remove filter and all moblights, then gib
-	target.remove_filter("divine_glow")
-	for(var/obj/effect/dummy/lighting_obj/moblight/L in target)
-		qdel(L)
-	target.gib()
 
 //============================================
 // TIER 4 MIRACLES
@@ -740,6 +642,114 @@
 	desc = "Astrata's blessing shields me from flame."
 	icon_state = "immolation"
 
+//T3. Anastasis Support Code
+/obj/effect/proc_holder/spell/invoked/revive/proc/divine_destruction(mob/living/target, is_powerful = FALSE)
+	if(!target)
+		return
+	
+	// Add increasingly bright glow filter
+	target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 2, "color" = "#FFD70080"))
+	
+	// Prevent movement and actions - powerful undead get longer sequence
+	var/destruction_time = is_powerful ? 30 SECONDS : 10 SECONDS
+	target.Stun(destruction_time)
+	
+	// Make them immune to death during the destruction sequence
+	ADD_TRAIT(target, TRAIT_NODEATH, "divine_destruction")
+	
+	// Message sequence - different timings based on power
+	// 0 seconds - initial
+	to_chat(target, span_astrataextreme("Astrata's light burns into my very being, I am being unmade!"))
+	
+	if(is_powerful)
+		// Full 30 second sequence for powerful undead
+		// 5 seconds
+		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 1), 5 SECONDS)
+		
+		// 10 seconds
+		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 2), 10 SECONDS)
+		
+		// 15 seconds
+		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 3), 15 SECONDS)
+		
+		// 20 seconds
+		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 4), 20 SECONDS)
+		
+		// 25 seconds - final goodbye
+		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 5), 25 SECONDS)
+		
+		// 30 seconds - KABOOM
+		addtimer(CALLBACK(src, PROC_REF(divine_destruction_finale), target, is_powerful), 30 SECONDS)
+	else
+		// Quick 10 second sequence for normal undead
+		// 3 seconds
+		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 1), 3 SECONDS)
+		
+		// 7 seconds
+		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 3), 7 SECONDS)
+		
+		// 10 seconds - KABOOM
+		addtimer(CALLBACK(src, PROC_REF(divine_destruction_finale), target, is_powerful), 10 SECONDS)
+
+/obj/effect/proc_holder/spell/invoked/revive/proc/divine_destruction_message(mob/living/target, stage)
+	if(!target || target.stat == DEAD)
+		return
+	
+	// Clean up old moblight if it exists
+	var/obj/effect/dummy/lighting_obj/moblight/old_light = locate() in target
+	if(old_light)
+		qdel(old_light)
+	
+	switch(stage)
+		if(1)
+			to_chat(target, span_astrata("The light grows brighter! I can feel it searing through me!"))
+			target.visible_message(span_astrata("[target] glows brighter with holy light, their form beginning to crack!"))
+			target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 3, "color" = "#FFD700CC"))
+			target.mob_light("#FFD700", 3, 1.5)
+		if(2)
+			to_chat(target, span_astrata("The radiance is overwhelming! My unholy essence is being torn apart!"))
+			target.visible_message(span_astrata("[target] burns ever brighter, cracks of golden light spreading across their body!"))
+			target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 4, "color" = "#FFD700FF"))
+			target.mob_light("#FFD700", 4, 2)
+		if(3)
+			to_chat(target, span_astratabig("I CANNOT ESCAPE! THE LIGHT IS EVERYTHING!"))
+			target.visible_message(span_astrata("[target] is now blazing with divine radiance, barely visible through the golden glow!"))
+			target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 6, "color" = "#FFFFFF"))
+			target.mob_light("#FFFFFF", 6, 2.5)
+		if(4)
+			to_chat(target, span_astratabig("MY FORM FRACTURES! I AM BEING UNMADE!"))
+			target.visible_message(span_astrata("[target] is now a pillar of searing golden light!"))
+			target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 8, "color" = "#FFFFFF"))
+			target.mob_light("#FFFFFF", 8, 3)
+		if(5)
+			to_chat(target, span_astrataextreme("ASTRATA'S WRATH IS ABSOLUTE! I AM—"))
+			target.visible_message(span_astratabig("[target]'s form is barely holding together, light pouring from every crack!"))
+			target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 10, "color" = "#FFFFFF"))
+			target.mob_light("#FFFFFF", 10, 4)
+
+/obj/effect/proc_holder/spell/invoked/revive/proc/divine_destruction_finale(mob/living/target, is_powerful = FALSE)
+	if(!target)
+		return
+	
+	if(is_powerful)
+		target.visible_message(span_astrataextreme("[target] ERUPTS in a catastrophic explosion of holy light!"))
+	else
+		target.visible_message(span_astratabig("[target] EXPLODES in a burst of divine radiance!"))
+	
+	playsound(get_turf(target), 'sound/misc/holyexplosion.ogg', 150, FALSE, 7)
+	
+	// Flash everyone nearby
+	for(var/mob/M in viewers(target, 7))
+		M.flash_fullscreen("whiteflash")
+	
+	// Remove damage immunity before gibbing
+	REMOVE_TRAIT(target, TRAIT_NODEATH, "divine_destruction")
+	
+	// Remove filter and all moblights, then gib
+	target.remove_filter("divine_glow")
+	for(var/obj/effect/dummy/lighting_obj/moblight/L in target)
+		qdel(L)
+	target.gib()
 
 //T4. Tyrant's Decree Support Code
 /obj/effect/proc_holder/spell/invoked/tyrants_decree/proc/remove_divine_overlay(mob/living/target)
