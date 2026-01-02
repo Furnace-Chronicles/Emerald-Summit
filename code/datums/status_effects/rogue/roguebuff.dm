@@ -1532,19 +1532,25 @@
 	desc = "Right now, it's just that everything feels right."
 	icon_state = "flow"
 
+#define FLOW_FILTER "flow"
+
 /datum/status_effect/buff/flow
 	id = "flow"
+	var/outline_color = "#8bb0be"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/flow
-	duration = 30 SECONDS
+	duration = 20 SECONDS
 	examine_text = "SUBJECTPRONOUN seems focused!"
-	effectedstats = list("speed" = 1, "perception" = 1, "intelligence" = 1, "fortune" = 1)
+	effectedstats = list("speed" = 1, "perception" = 1, "intelligence" = 1)
 
 /datum/status_effect/buff/flow/nextmove_modifier()
 	return 0.9
 
 /datum/status_effect/buff/flow/on_apply()
 	. = ..()
+	var/filter = owner.get_filter(FLOW_FILTER)
 	ADD_TRAIT(owner, TRAIT_FLOW, INNATE_TRAIT)
+	if(!filter)
+		owner.add_filter(FLOW_FILTER, 2, list("type" = "outline", "color" = outline_color, "alpha" = 60, "size" = 2))
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner
 		H.playsound_local(get_turf(H), 'sound/misc/adrenaline_rush.ogg', 100, TRUE)
@@ -1553,6 +1559,9 @@
 /datum/status_effect/buff/flow/on_remove()
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_FLOW, INNATE_TRAIT)
+	owner.remove_filter(FLOW_FILTER)
+
+#undef FLOW_FILTER
 
 /atom/movable/screen/alert/status_effect/buff/adrenaline_rush
 	name = "Adrenaline Rush"

@@ -489,6 +489,10 @@ obj/effect/temp_visual/curse/Initialize()
 	id = "bait"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/baited
 	duration = 15 SECONDS
+	mob_effect_icon = 'icons/mob/mob_effects.dmi'
+	mob_effect_icon_state = "eff_baited"
+	mob_effect_offset_y = 10
+	mob_effect_layer = MOB_EFFECT_LAYER_FEINTED
 
 /atom/movable/screen/alert/status_effect/debuff/baited
 	name = "Baited"
