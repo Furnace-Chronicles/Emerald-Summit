@@ -1003,14 +1003,6 @@
 	armor = ARMOR_PLATE
 	smeltresult = null
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/holysee/mob_can_equip(mob/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
-	. = ..()
-	if(ishuman(M))
-		var/mob/living/carbon/human/H = M
-		var/datum/job/J = SSjob.GetJob(H.mind?.assigned_role)
-		if(J.title != "Martyr")
-			return FALSE
-
 /obj/item/clothing/suit/roguetown/armor/plate/full/holysee/attack_hand(mob/user)
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
@@ -1046,14 +1038,6 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/martyr.dmi'
 	armor = ARMOR_PLATE
 	smeltresult = null
-
-/obj/item/clothing/gloves/roguetown/plate/holysee/mob_can_equip(mob/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
-	. = ..()
-	if(ishuman(M))
-		var/mob/living/carbon/human/H = M
-		var/datum/job/J = SSjob.GetJob(H.mind?.assigned_role)
-		if(J.title != "Martyr")
-			return FALSE
 
 /obj/item/clothing/gloves/roguetown/plate/holysee/attack_hand(mob/user)
 	if(ishuman(user))
@@ -1094,14 +1078,6 @@
 	armor = ARMOR_PLATE
 	smeltresult = null
 
-/obj/item/clothing/shoes/roguetown/boots/armor/holysee/mob_can_equip(mob/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
-	. = ..()
-	if(ishuman(M))
-		var/mob/living/carbon/human/H = M
-		var/datum/job/J = SSjob.GetJob(H.mind?.assigned_role)
-		if(J.title != "Martyr")
-			return FALSE
-
 /obj/item/clothing/shoes/roguetown/boots/armor/holysee/attack_hand(mob/user)
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
@@ -1140,14 +1116,6 @@
 	item_state = "silverlegs"
 	armor = ARMOR_PLATE
 	smeltresult = null
-
-/obj/item/clothing/under/roguetown/platelegs/holysee/mob_can_equip(mob/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
-	. = ..()
-	if(ishuman(M))
-		var/mob/living/carbon/human/H = M
-		var/datum/job/J = SSjob.GetJob(H.mind?.assigned_role)
-		if(J.title != "Martyr")
-			return FALSE
 
 /obj/item/clothing/under/roguetown/platelegs/holysee/attack_hand(mob/user)
 	if(ishuman(user))
@@ -1192,14 +1160,6 @@
 	item_state = "silverbascinet"
 	smeltresult = null
 	var/armetstyle = FALSE
-
-/obj/item/clothing/head/roguetown/helmet/heavy/holysee/mob_can_equip(mob/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
-	. = ..()
-	if(ishuman(M))
-		var/mob/living/carbon/human/H = M
-		var/datum/job/J = SSjob.GetJob(H.mind?.assigned_role)
-		if(J.title != "Martyr")
-			return FALSE
 
 /obj/item/clothing/head/roguetown/helmet/heavy/holysee/attack_hand(mob/user)
 	if(ishuman(user))
