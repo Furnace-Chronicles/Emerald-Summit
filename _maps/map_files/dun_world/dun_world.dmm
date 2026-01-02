@@ -9078,6 +9078,10 @@
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/skeletoncrypt)
+"cym" = (
+/obj/item/carvedgem/amber/beaver,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/indoors/cave)
 "cyn" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/fluff/littlebanners{
@@ -10541,13 +10545,17 @@
 "cRB" = (
 /obj/effect/falling_sakura,
 /obj/structure/table/church,
-/obj/item/reagent_containers/glass/bowl{
-	pixel_y = 6
-	},
 /obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals,
 /obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals{
 	pixel_y = 6;
 	pixel_x = 11
+	},
+/obj/item/carvedgem/rose/rawrose,
+/obj/item/carvedgem/rose/rawrose{
+	pixel_x = -3
+	},
+/obj/item/carvedgem/rose/rawrose{
+	pixel_x = -7
 	},
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/rtfield/eora)
@@ -11350,6 +11358,7 @@
 /obj/item/reagent_containers/glass/cup/tin{
 	pixel_x = -11
 	},
+/obj/item/clothing/wrists/roguetown/gem/amberbracelet,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/cavewet/bogcaves/sunkencity)
 "den" = (
@@ -11735,7 +11744,7 @@
 /obj/structure/closet/crate/chest/neu,
 /obj/item/ingot/iron,
 /obj/item/ingot/iron,
-/obj/item/roguegem/diamond,
+/obj/item/carvedgem/shell/duck,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/indoors/shelter)
 "djT" = (
@@ -13759,6 +13768,7 @@
 /obj/item/roguestatue/gold{
 	pixel_y = 11
 	},
+/obj/item/carvedgem/jade,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/skeletoncrypt)
 "dMy" = (
@@ -20322,6 +20332,7 @@
 /area/rogue/indoors/town/manor)
 "fvm" = (
 /obj/structure/table/church/end,
+/obj/item/carvedgem/shell/fish,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/outdoors/beach)
 "fvr" = (
@@ -20887,6 +20898,8 @@
 	lockid = "lich"
 	},
 /obj/item/clothing/shoes/roguetown/boots/blacksteel/plateboots,
+/obj/item/roguegem/coral,
+/obj/item/carvedgem/coral/urn,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/licharena)
 "fCr" = (
@@ -23934,6 +23947,9 @@
 	},
 /obj/item/book/rogue,
 /obj/item/natural/feather,
+/obj/item/carvedgem/onyxa/snake{
+	pixel_x = -8
+	},
 /turf/open/floor/rogue/wood,
 /area/rogue/under/town/basement/keep)
 "guQ" = (
@@ -31797,6 +31813,14 @@
 /obj/item/roguegem/diamond{
 	pixel_x = -16
 	},
+/obj/item/roguegem/jade{
+	pixel_x = 16;
+	pixel_y = -2
+	},
+/obj/item/roguegem/opal{
+	pixel_y = 16;
+	pixel_x = 16
+	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/mazedungeon)
 "iyg" = (
@@ -33943,6 +33967,8 @@
 	},
 /obj/item/storage/belt/rogue/pouch/coins/rich,
 /obj/item/storage/belt/rogue/pouch/coins/rich,
+/obj/item/carvedgem/amber/vase,
+/obj/item/carvedgem/amber/statue,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/licharena)
 "jaq" = (
@@ -36023,6 +36049,7 @@
 /area/rogue/under/cave/orcdungeon)
 "jDP" = (
 /obj/item/clothing/suit/roguetown/armor/leather/heavy,
+/obj/item/carvedgem/coral/jaw,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/cave)
 "jDZ" = (
@@ -38660,6 +38687,7 @@
 "knD" = (
 /obj/item/book/rogue/abyssor,
 /obj/structure/rack/rogue/shelf/biggest,
+/obj/item/roguegem/onyxa,
 /turf/open/floor/rogue/woodturned,
 /area/rogue/outdoors/beach)
 "knL" = (
@@ -38810,6 +38838,7 @@
 /obj/item/roguegem/blue,
 /obj/item/roguegem/violet,
 /obj/item/clothing/ring/quartz,
+/obj/item/carvedgem/turq/tablet,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/licharena)
 "kqK" = (
@@ -39709,6 +39738,13 @@
 	pixel_y = 10
 	},
 /obj/item/roguegem/blue,
+/obj/item/roguegem/amber{
+	pixel_x = -16
+	},
+/obj/item/roguegem/coral{
+	pixel_y = 10;
+	pixel_x = -16
+	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/mazedungeon)
 "kBM" = (
@@ -41651,6 +41687,7 @@
 /obj/structure/fluff/walldeco/painting{
 	pixel_y = 32
 	},
+/obj/item/carvedgem/jade/wyrm,
 /turf/open/floor/rogue/tile{
 	icon_state = "glyph6"
 	},
@@ -44216,13 +44253,16 @@
 /obj/structure/table/church{
 	icon_state = "churchtable_end"
 	},
-/obj/item/reagent_containers/glass/bowl{
-	pixel_y = 7
-	},
 /obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals,
 /obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals{
 	pixel_y = 9;
 	pixel_x = -12
+	},
+/obj/item/reagent_containers/glass/bowl/carved/rose{
+	pixel_y = 5
+	},
+/obj/item/reagent_containers/glass/bowl/carved/rose{
+	pixel_y = 9
 	},
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/rtfield/eora)
@@ -44800,6 +44840,9 @@
 "lQW" = (
 /obj/structure/table/church{
 	icon_state = "churchtable_end"
+	},
+/obj/item/carvedgem/rose/flower{
+	pixel_x = 7
 	},
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/rtfield/eora)
@@ -45692,6 +45735,13 @@
 	},
 /obj/item/rogueweapon/huntingknife/scissors,
 /obj/structure/mirror,
+/obj/item/carvedgem/rose/rawrose{
+	pixel_x = -15
+	},
+/obj/item/carvedgem/rose/rawrose{
+	pixel_x = -15;
+	pixel_y = 3
+	},
 /turf/open/floor/rogue/tile/brownbrick,
 /area/rogue/indoors/town/bath)
 "med" = (
@@ -48369,10 +48419,7 @@
 	dir = 6;
 	icon_state = "largetable"
 	},
-/obj/item/tablecloth/silk{
-	pixel_x = -6;
-	pixel_y = 6
-	},
+/obj/item/carvedgem/turq/bust,
 /turf/open/floor/rogue/tile{
 	icon_state = "bfloorz"
 	},
@@ -48572,6 +48619,10 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/underdark)
+"mSh" = (
+/obj/item/carvedgem/opal/obelisk,
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/under/cave/goblindungeon)
 "mSr" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
@@ -49070,6 +49121,7 @@
 /obj/item/roguegem/diamond,
 /obj/item/roguegem/ruby,
 /obj/item/clothing/ring/ruby,
+/obj/item/carvedgem/turq/urn,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/licharena)
 "mYW" = (
@@ -50717,6 +50769,7 @@
 /obj/machinery/light/rogue/wallfire{
 	pixel_y = 32
 	},
+/obj/item/roguegem/onyxa,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "ntt" = (
@@ -51448,6 +51501,7 @@
 "nEg" = (
 /obj/item/roguestatue/gold/loot,
 /obj/structure/closet/crate/chest/trapped/locked,
+/obj/item/carvedgem/shell/vase,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/fishmandungeon)
 "nEt" = (
@@ -53855,6 +53909,7 @@
 /area/rogue/indoors/shelter/mountains/decap)
 "omV" = (
 /obj/structure/table/church,
+/obj/item/carvedgem/shell/turtle,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/outdoors/beach)
 "omX" = (
@@ -55556,6 +55611,7 @@
 "oMM" = (
 /obj/structure/table/vtable/v2,
 /obj/item/clothing/neck/roguetown/psicross/malum,
+/obj/item/carvedgem/onyxa/snake,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/mazedungeon)
 "oMO" = (
@@ -56362,6 +56418,10 @@
 /obj/structure/fluff/walldeco/bigpainting/lake{
 	pixel_x = 0
 	},
+/obj/structure/table/wood{
+	icon_state = "tablewood1"
+	},
+/obj/item/carvedgem/onyxa/bust,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/town/magician)
 "oXX" = (
@@ -59703,6 +59763,7 @@
 "pQU" = (
 /obj/structure/table/wood,
 /obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+/obj/item/carvedgem/onyxa/fancyvase,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/skeletoncrypt)
 "pQZ" = (
@@ -62410,6 +62471,8 @@
 /obj/item/reagent_containers/glass/cup,
 /obj/item/reagent_containers/glass/cup/wooden,
 /obj/item/reagent_containers/glass/cup/wooden,
+/obj/item/reagent_containers/glass/cup/carved/onyxafancy,
+/obj/item/reagent_containers/glass/cup/carved/onyxafancy,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/tavern)
 "qCE" = (
@@ -63374,6 +63437,7 @@
 	dir = 1
 	},
 /obj/machinery/light/rogue/hearth,
+/obj/item/carvedgem/shell/turtle,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/beach)
 "qPv" = (
@@ -67345,6 +67409,9 @@
 /area/rogue/indoors/town)
 "rQP" = (
 /obj/structure/table/church,
+/obj/item/carvedgem/rose/flower{
+	pixel_x = -7
+	},
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/rtfield/eora)
 "rQS" = (
@@ -72838,6 +72905,7 @@
 /obj/structure/table/wood,
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/item/rogueweapon/sword/rapier/lord,
+/obj/item/carvedgem/jade/wyrm,
 /turf/open/floor/rogue/carpet/lord/right,
 /area/rogue/under/cave/dukecourt)
 "tln" = (
@@ -77160,6 +77228,7 @@
 /area/rogue/under/cavewet/bogcaves)
 "upX" = (
 /obj/structure/table/wood/fancy/black,
+/obj/item/roguegem/turq,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/mazedungeon)
 "upZ" = (
@@ -88661,23 +88730,8 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/item/tablecloth/silk{
-	pixel_x = -6;
-	pixel_y = 10
-	},
 /obj/machinery/light/rogue/wallfire/candle/l,
-/obj/item/tablecloth/silk{
-	pixel_x = 6;
-	pixel_y = 10
-	},
-/obj/item/tablecloth/silk{
-	pixel_x = -6;
-	pixel_y = -5
-	},
-/obj/item/tablecloth/silk{
-	pixel_x = 6;
-	pixel_y = -5
-	},
+/obj/item/carvedgem/jade/vase,
 /turf/open/floor/rogue/tile{
 	icon_state = "bfloorz"
 	},
@@ -112268,7 +112322,7 @@ oFP
 kaY
 iYG
 iYG
-iYG
+mSh
 qTl
 qvT
 qvT
@@ -212028,7 +212082,7 @@ fnC
 fnC
 fnC
 fnC
-fnC
+cym
 ujm
 jDP
 tDd
