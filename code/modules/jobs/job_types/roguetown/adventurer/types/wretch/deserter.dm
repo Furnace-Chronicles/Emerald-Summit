@@ -138,7 +138,7 @@
 
 	cmode_music = 'sound/music/combat_bandit.ogg' // same as new hedgeknight music
 	// Slightly more rounded. These can be nudged as needed.
-	traits_applied = list(TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_TEMPO)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_END = 2,
