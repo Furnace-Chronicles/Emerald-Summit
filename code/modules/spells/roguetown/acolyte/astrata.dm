@@ -133,10 +133,10 @@
 // TIER 2 MIRACLES
 //============================================
 
-// Tyrant's Strike - T2 weapon enhancement that adds pain and stress
-/obj/effect/proc_holder/spell/self/tyrants_strike
-	name = "Tyrant's Strike"
-	desc = "Enhance your weapon with divine wrath. Your next strike will inflict great pain and terror upon your foe."
+// Scorch - T2 weapon enhancement that adds pain and stress
+/obj/effect/proc_holder/spell/self/scorch
+	name = "Scorch"
+	desc = "Enhance your weapon with divine fiery wrath. Your next strike will inflict great pain and terror upon your foe."
 	overlay_state = "inflictpain"
 	recharge_time = 1 MINUTES
 	movement_interrupt = FALSE
@@ -147,16 +147,16 @@
 	associated_skill = /datum/skill/magic/holy
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	sound = 'sound/magic/timestop.ogg'
-	invocation = "Feel Astrata's wrath!"
+	invocation = "Feel Astrata's fiery wrath!"
 	invocation_type = "shout"
 	antimagic_allowed = TRUE
 	miracle = TRUE
 	devotion_cost = 50
 
-/obj/effect/proc_holder/spell/self/tyrants_strike/cast(mob/living/user)
+/obj/effect/proc_holder/spell/self/scorch/cast(mob/living/user)
 	if(!isliving(user))
 		return FALSE
-	user.apply_status_effect(/datum/status_effect/tyrants_strike, user.get_active_held_item())
+	user.apply_status_effect(/datum/status_effect/scorch, user.get_active_held_item())
 	return TRUE
 
 //============================================
@@ -241,6 +241,19 @@
 		var/mob/living/target = targets[1]
 		// Check for undead FIRST - obliterate them with holy light
 		if((target.mob_biotypes & MOB_UNDEAD) && !HAS_TRAIT(target, TRAIT_HOLLOW_LIFE))
+			// Range check - must be within 10 tiles and same z-level
+			var/distance = get_dist(user, target)
+			if(distance > 10)
+				to_chat(user, span_danger("The undead is too far away! I must be closer to channel divine power to unmake them!"))
+				revert_cast()
+				return FALSE
+			
+			// Z-level check
+			if(user.z != target.z)
+				to_chat(user, span_danger("I must see the undead in front of me, not above or below!"))
+				revert_cast()
+				return FALSE
+			
 			// Check for powerful undead immunity (Vampire Lords and Liches)
 			var/is_powerful_undead = FALSE
 			if(ishuman(target))
@@ -349,10 +362,10 @@
 // TIER 4 MIRACLES
 //============================================
 
-// Tyrant's Decree - T4 pain/stress check that forces kneeling
-/obj/effect/proc_holder/spell/invoked/tyrants_decree
-	name = "Tyrant's Decree"
-	desc = "Command the weak to kneel before Astrata's authority. Those wracked with pain and terror will be forced to submit."
+// Invoked Reverence - T4 pain/stress check that forces kneeling
+/obj/effect/proc_holder/spell/invoked/invoked_reverence
+	name = "Invoked Reverence"
+	desc = "Channel divine majesty to inspire awe in the suffering. Those wracked with pain and terror will be moved to genuflect in Her presence."
 	overlay_state = "createlight"
 	releasedrain = 50
 	chargedrain = 0
@@ -363,7 +376,7 @@
 	chargedloop = /datum/looping_sound/invokeholy
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	sound = 'sound/magic/churn.ogg'
-	invocation = "KNEEL BEFORE HER LIGHT!!"
+	invocation = "WITNESS HER DIVINE RADIANCE!!"
 	invocation_type = "shout"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
@@ -371,7 +384,7 @@
 	miracle = TRUE
 	devotion_cost = 100
 
-/obj/effect/proc_holder/spell/invoked/tyrants_decree/cast(list/targets, mob/user = usr)
+/obj/effect/proc_holder/spell/invoked/invoked_reverence/cast(list/targets, mob/user = usr)
 	if(!isliving(targets[1]))
 		return FALSE
 	
@@ -415,48 +428,48 @@
 			if(stat_difference >= 4)
 				// Stage 2 effect from stats
 				to_chat(target, span_astratabig("I cannot resist! My legs give out beneath me!"))
-				target.visible_message(span_astrata("[target] is forced to their knees by [user]'s divine command!"))
+				target.visible_message(span_astrata("[target] is moved to kneel in reverent awe by [user]'s divine presence!"))
 				target.Immobilize(5 SECONDS)
 				target.set_resting(TRUE, TRUE)
-				target.add_stress(/datum/stressevent/tyrants_strike)
+				target.add_stress(/datum/stressevent/scorch)
 				addtimer(CALLBACK(src, PROC_REF(remove_divine_overlay), target), 3 SECONDS)
 				return TRUE
 			else if(stat_difference >= 2)
 				// Stage 1 effect from stats
-				to_chat(target, span_astrata("The weight of divine authority bears down on me!"))
-				target.visible_message(span_warning("[user]'s command staggers [target]!"))
+				to_chat(target, span_astrata("The weight of divine majesty bears down on me!"))
+				target.visible_message(span_warning("[user]'s invocation of reverence staggers [target]!"))
 				target.Immobilize(3 SECONDS)
-				target.add_stress(/datum/stressevent/tyrants_strike)
+				target.add_stress(/datum/stressevent/scorch)
 				addtimer(CALLBACK(src, PROC_REF(remove_divine_overlay), target), 3 SECONDS)
 				return TRUE
 	
 	// Determine effect based on suffering threshold
 	if(total_suffering < 4)
 		// Not enough suffering - minor effect
-		to_chat(target, span_userdanger("The divine command washes over me, but I stand firm!"))
-		target.visible_message(span_warning("[target] resists [user]'s command!"))
+		to_chat(target, span_userdanger("The divine presence washes over me, but I stand firm!"))
+		target.visible_message(span_warning("[target] resists the invoked reverence!"))
 		target.Immobilize(1 SECONDS)
 	else if(total_suffering < 11)
 		// Stage 1 - Hesitation and brief immobilization
-		to_chat(target, span_astrata("The weight of divine authority bears down on me!"))
-		target.visible_message(span_warning("[user]'s command staggers [target]!"))
+		to_chat(target, span_astrata("The weight of divine majesty bears down on me!"))
+		target.visible_message(span_warning("[user]'s invocation of reverence staggers [target]!"))
 		target.Immobilize(3 SECONDS)
-		target.add_stress(/datum/stressevent/tyrants_strike)  // Add more stress from being dominated
+		target.add_stress(/datum/stressevent/scorch)  // Add more stress from being awed
 	else if(total_suffering < 19)
 		// Stage 2 - Forced to kneel
 		to_chat(target, span_astratabig("I cannot resist! My legs give out beneath me!"))
-		target.visible_message(span_astrata("[target] is forced to their knees by [user]'s divine command!"))
+		target.visible_message(span_astrata("[target] is moved to kneel in reverent awe by [user]'s divine presence!"))
 		target.Immobilize(5 SECONDS)
 		target.set_resting(TRUE, TRUE)
-		target.add_stress(/datum/stressevent/tyrants_strike)
+		target.add_stress(/datum/stressevent/scorch)
 	else
 		// Stage 3 - Severe kneeling with extended duration
-		to_chat(target, span_astrataextreme("ASTRATA'S AUTHORITY IS ABSOLUTE! I MUST KNEEL!"))
-		target.visible_message(span_astratabig("[target] collapses before [user], overwhelmed by divine wrath!"))
+		to_chat(target, span_astrataextreme("ASTRATA'S MAJESTY IS ABSOLUTE! I MUST GENUFLECT!"))
+		target.visible_message(span_astratabig("[target] collapses before [user], overwhelmed by divine radiance!"))
 		target.Immobilize(8 SECONDS)
 		target.set_resting(TRUE, TRUE)
 		target.AdjustKnockdown(20)  // Extra knockdown time
-		target.add_stress(/datum/stressevent/tyrants_strike)
+		target.add_stress(/datum/stressevent/scorch)
 	
 	// Remove overlay after a delay
 	addtimer(CALLBACK(src, PROC_REF(remove_divine_overlay), target), 3 SECONDS)
@@ -523,16 +536,16 @@
 		H.hide_cone()
 		H.update_cone_show()
 
-//T2. Tyrant's Strike Support Code
-/datum/status_effect/tyrants_strike
-	id = "tyrants_strike"
+//T2. Scorch Support Code
+/datum/status_effect/scorch
+	id = "scorch"
 	status_type = STATUS_EFFECT_UNIQUE
 	duration = 15 SECONDS
-	alert_type = /atom/movable/screen/alert/status_effect/buff/tyrants_strike
+	alert_type = /atom/movable/screen/alert/status_effect/buff/scorch
 	on_remove_on_mob_delete = TRUE
 	var/datum/weakref/buffed_item
 
-/datum/status_effect/tyrants_strike/on_creation(mob/living/new_owner, obj/item/I)
+/datum/status_effect/scorch/on_creation(mob/living/new_owner, obj/item/I)
 	. = ..()
 	if(!.)
 		return
@@ -544,7 +557,7 @@
 	else
 		RegisterSignal(owner, COMSIG_MOB_ATTACK_HAND, PROC_REF(hand_attack))
 
-/datum/status_effect/tyrants_strike/on_remove()
+/datum/status_effect/scorch/on_remove()
 	. = ..()
 	UnregisterSignal(owner, COMSIG_MOB_ATTACK_HAND)
 	if(buffed_item)
@@ -553,7 +566,7 @@
 			I.set_light(0)
 		UnregisterSignal(I, COMSIG_ITEM_AFTERATTACK)
 
-/datum/status_effect/tyrants_strike/proc/item_afterattack(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
+/datum/status_effect/scorch/proc/item_afterattack(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
 	if(!proximity_flag)
 		return
 	if(!isliving(target))
@@ -565,8 +578,8 @@
 	if(!affecting)
 		affecting = living_target.get_bodypart(BODY_ZONE_CHEST)
 	
-	// Apply the Tyrant's Strike wound - this only adds pain, no bleeding
-	var/datum/wound/tyrants_strike/W = new()
+	// Apply the Scorch wound - this only adds pain, no bleeding
+	var/datum/wound/scorch/W = new()
 	affecting.add_wound(W)
 	
 	// Estimate damage from the weapon for wound upgrade (pain calculation only)
@@ -578,14 +591,14 @@
 	W.upgrade(estimated_damage, 0)  // 0 armor for full pain effect
 	
 	// Add stress event
-	living_target.add_stress(/datum/stressevent/tyrants_strike)
+	living_target.add_stress(/datum/stressevent/scorch)
 	
 	living_target.visible_message(span_warning("Divine light erupts from [user]'s strike against [living_target]!"), \
 		span_userdanger("Searing pain floods through me from [user]'s strike!"))
 	
 	qdel(src)
 
-/datum/status_effect/tyrants_strike/proc/hand_attack(datum/source, mob/living/carbon/human/M, mob/living/carbon/human/H, datum/martial_art/attacker_style)
+/datum/status_effect/scorch/proc/hand_attack(datum/source, mob/living/carbon/human/M, mob/living/carbon/human/H, datum/martial_art/attacker_style)
 	if(!istype(M))
 		return
 	if(!istype(H))
@@ -599,20 +612,20 @@
 		affecting = H.get_bodypart(BODY_ZONE_CHEST)
 	
 	// Apply the wound (pain only)
-	var/datum/wound/tyrants_strike/W = new()
+	var/datum/wound/scorch/W = new()
 	affecting.add_wound(W)
 	W.upgrade(10, 0)  // Unarmed strike - less damage, less pain
 	
 	// Add stress event
-	H.add_stress(/datum/stressevent/tyrants_strike)
+	H.add_stress(/datum/stressevent/scorch)
 	
 	H.visible_message(span_warning("Divine light erupts from [M]'s strike against [H]!"), \
 		span_userdanger("Searing pain floods through me from [M]'s strike!"))
 	
 	qdel(src)
 
-/atom/movable/screen/alert/status_effect/buff/tyrants_strike
-	name = "Tyrant's Strike"
+/atom/movable/screen/alert/status_effect/buff/scorch
+	name = "Scorch"
 	desc = "My weapon glows with divine wrath. My next strike will bring pain and terror."
 	icon_state = "strike"
 
@@ -651,7 +664,7 @@
 	target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 2, "color" = "#FFD70080"))
 	
 	// Prevent movement and actions - powerful undead get longer sequence
-	var/destruction_time = is_powerful ? 30 SECONDS : 10 SECONDS
+	var/destruction_time = is_powerful ? 90 SECONDS : 30 SECONDS
 	target.Stun(destruction_time)
 	
 	// Make them immune to death during the destruction sequence
@@ -662,34 +675,34 @@
 	to_chat(target, span_astrataextreme("Astrata's light burns into my very being, I am being unmade!"))
 	
 	if(is_powerful)
-		// Full 30 second sequence for powerful undead
-		// 5 seconds
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 1), 5 SECONDS)
-		
-		// 10 seconds
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 2), 10 SECONDS)
-		
+		// Full 90 second sequence for powerful undead
 		// 15 seconds
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 3), 15 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 1), 15 SECONDS)
+		
+		// 30 seconds
+		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 2), 30 SECONDS)
+		
+		// 45 seconds
+		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 3), 45 SECONDS)
+		
+		// 60 seconds
+		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 4), 60 SECONDS)
+		
+		// 75 seconds - final goodbye
+		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 5), 75 SECONDS)
+		
+		// 90 seconds - KABOOM
+		addtimer(CALLBACK(src, PROC_REF(divine_destruction_finale), target, is_powerful), 90 SECONDS)
+	else
+		// 30 second sequence for normal undead
+		// 10 seconds
+		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 1), 10 SECONDS)
 		
 		// 20 seconds
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 4), 20 SECONDS)
-		
-		// 25 seconds - final goodbye
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 5), 25 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 3), 20 SECONDS)
 		
 		// 30 seconds - KABOOM
 		addtimer(CALLBACK(src, PROC_REF(divine_destruction_finale), target, is_powerful), 30 SECONDS)
-	else
-		// Quick 10 second sequence for normal undead
-		// 3 seconds
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 1), 3 SECONDS)
-		
-		// 7 seconds
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 3), 7 SECONDS)
-		
-		// 10 seconds - KABOOM
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_finale), target, is_powerful), 10 SECONDS)
 
 /obj/effect/proc_holder/spell/invoked/revive/proc/divine_destruction_message(mob/living/target, stage)
 	if(!target || target.stat == DEAD)
@@ -751,7 +764,7 @@
 		qdel(L)
 	target.gib()
 
-//T4. Tyrant's Decree Support Code
-/obj/effect/proc_holder/spell/invoked/tyrants_decree/proc/remove_divine_overlay(mob/living/target)
+//T4. Invoked Reverence Support Code
+/obj/effect/proc_holder/spell/invoked/invoked_reverence/proc/remove_divine_overlay(mob/living/target)
 	if(target)
 		target.remove_overlay(MUTATIONS_LAYER)

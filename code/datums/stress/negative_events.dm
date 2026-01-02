@@ -406,7 +406,7 @@
 	desc = span_boldred("The holy sun returns, it's only a matter of time until I turn to ash. I wish to be Mortal again.")
 	timer = 30 SECONDS
 
-/datum/stressevent/tyrants_strike
+/datum/stressevent/scorch
 	timer = 2 MINUTES
 	stressadd = 5
-	desc = span_red("I was struck by the tyrant's divine wrath!")
+	desc = span_red("I was struck by the tyrant's fiery wrath!")

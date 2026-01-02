@@ -203,9 +203,9 @@
 /datum/circle_rite/astrata/suns_blessing
 	name = "Sun's Shield"
 	chant_strings = list(
-		"Astrata, She who burns eternal!!",
-		"Grant us your protection from flame!!",
-		"Let your children walk through fire!!"
+		"SUN-TYRANT. LET FYRE GUIDE MY GAZE.",
+		"SOVEREIGN-SUPREME. YOUR WILL BE MYNE.",
+		"ASTRATA. GIFT YOUR VESSEL AEGIS."
 	)
 	choose_host = TRUE
 	cooldown = /datum/status_effect/debuff/ritesexpended_low_very
