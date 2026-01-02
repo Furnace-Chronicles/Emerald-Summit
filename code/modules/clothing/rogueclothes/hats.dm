@@ -2603,19 +2603,23 @@
 	desc = "A darkened iron heavy helmet shaped in a beak, it glows with dark red magiks on his eyes."
 	icon_state = "zizo"
 	var/on = FALSE
-	light_outer_range = 2 	//very small light in red to scare people
-	light_power = 1
-	light_color = LIGHT_COLOR_BLOOD_MAGIC
-	light_system = MOVABLE_LIGHT
+	var/active_item = FALSE
 	smeltresult = /obj/item/ingot/iron
 
-/obj/item/clothing/head/roguetown/helmet/heavy/zizoid/MiddleClick(mob/user)
-	if(.)
+/obj/item/clothing/head/roguetown/helmet/heavy/zizoid/equipped(mob/living/user, slot)
+	. = ..()
+	if(active_item)
 		return
-	user.changeNext_move(CLICK_CD_MELEE)
-	playsound(loc, 'sound/misc/toggle_lamp.ogg', 100)
-	toggle_helmet_light(user)
-	to_chat(user, span_info("I toggle [src] [on ? "on" : "off"]."))
+	if(slot == SLOT_HEAD)
+		active_item = TRUE
+	RegisterSignal(user, COMSIG_COMBAT_MODE, PROC_REF(toggle_helmet_light))
+
+/obj/item/clothing/head/roguetown/helmet/heavy/zizoid/dropped(mob/living/user)
+	. = ..()
+	if(!active_item)
+		return
+	active_item = FALSE
+	UnregisterSignal(COMSIG_COMBAT_MODE)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizoid/proc/toggle_helmet_light(mob/living/user)
 	on = !on
@@ -2628,9 +2632,6 @@
 	if(ishuman(loc))
 		var/mob/living/carbon/human/H = loc
 		H.update_inv_head()
-	for(var/X in actions)
-		var/datum/action/A = X
-		A.UpdateButtonIcon(force = TRUE)
 	..()
 
 /obj/item/clothing/head/roguetown/helmet/heavy/grag
@@ -2638,19 +2639,24 @@
 	desc = "A heavy iron helmet covered in dry blood and spikes, shaped in a cruel deformated smile it glows with dark red magiks on his eyes."
 	icon_state = "graggar"
 	var/on = FALSE
-	light_outer_range = 2 	//very small light in red to scare people
-	light_power = 1
-	light_color = LIGHT_COLOR_BLOOD_MAGIC
-	light_system = MOVABLE_LIGHT
+	var/active_item = FALSE
+
 	smeltresult = /obj/item/ingot/iron
 
-/obj/item/clothing/head/roguetown/helmet/heavy/grag/MiddleClick(mob/user)
-	if(.)
+/obj/item/clothing/head/roguetown/helmet/heavy/grag/equipped(mob/living/user, slot)
+	. = ..()
+	if(active_item)
 		return
-	user.changeNext_move(CLICK_CD_MELEE)
-	playsound(loc, 'sound/misc/toggle_lamp.ogg', 100)
-	toggle_helmet_light(user)
-	to_chat(user, span_info("I toggle [src] [on ? "on" : "off"]."))
+	if(slot == SLOT_HEAD)
+		active_item = TRUE
+	RegisterSignal(user, COMSIG_COMBAT_MODE, PROC_REF(toggle_helmet_light))
+
+/obj/item/clothing/head/roguetown/helmet/heavy/graggar/dropped(mob/living/user)
+	. = ..()
+	if(!active_item)
+		return
+	active_item = FALSE
+	UnregisterSignal(COMSIG_COMBAT_MODE)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/grag/proc/toggle_helmet_light(mob/living/user)
 	on = !on
@@ -2663,9 +2669,6 @@
 	if(ishuman(loc))
 		var/mob/living/carbon/human/H = loc
 		H.update_inv_head()
-	for(var/X in actions)
-		var/datum/action/A = X
-		A.UpdateButtonIcon(force = TRUE)
 	..()
 
 /obj/item/clothing/head/roguetown/helmet/heavy/matt
@@ -2673,19 +2676,24 @@
 	desc = "A heavy iron helmet covered in a heavy red hood, shaped in a deformated greedy smile it glows with dark red magiks on his eyes."
 	icon_state = "matthios"
 	var/on = FALSE
-	light_outer_range = 2 	//very small light in red to scare people
-	light_power = 1
-	light_color = LIGHT_COLOR_BLOOD_MAGIC
-	light_system = MOVABLE_LIGHT
-	smeltresult = /obj/item/ingot/iron
+	var/active_item = FALSE
 
-/obj/item/clothing/head/roguetown/helmet/heavy/matt/MiddleClick(mob/user)
-	if(.)
+
+/obj/item/clothing/head/roguetown/helmet/heavy/matt/equipped(mob/living/user, slot)
+	. = ..()
+	if(active_item)
 		return
-	user.changeNext_move(CLICK_CD_MELEE)
-	playsound(loc, 'sound/misc/toggle_lamp.ogg', 100)
-	toggle_helmet_light(user)
-	to_chat(user, span_info("I toggle [src] [on ? "on" : "off"]."))
+	if(slot == SLOT_HEAD)
+		active_item = TRUE
+	RegisterSignal(user, COMSIG_COMBAT_MODE, PROC_REF(toggle_helmet_light))
+
+/obj/item/clothing/head/roguetown/helmet/heavy/matt/dropped(mob/living/user)
+	. = ..()
+	if(!active_item)
+		return
+	active_item = FALSE
+	UnregisterSignal(COMSIG_COMBAT_MODE)
+
 
 /obj/item/clothing/head/roguetown/helmet/heavy/matt/proc/toggle_helmet_light(mob/living/user)
 	on = !on
@@ -2698,9 +2706,6 @@
 	if(ishuman(loc))
 		var/mob/living/carbon/human/H = loc
 		H.update_inv_head()
-	for(var/X in actions)
-		var/datum/action/A = X
-		A.UpdateButtonIcon(force = TRUE)
 	..()
 
 // the psylongers
