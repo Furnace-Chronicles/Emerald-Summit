@@ -68,7 +68,7 @@
 
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead
 	name = "Raise Lesser Undead"
-	desc = ""
+	desc = "After a invocation, raises a random lesser skeleton at a targeted open tile (axe/spear/guard/bow)."
 	clothes_req = FALSE
 	overlay_state = "animate"
 	range = 7

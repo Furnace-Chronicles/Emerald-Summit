@@ -391,7 +391,7 @@
 /obj/effect/proc_holder/spell/invoked/pomegranate
 	name = "Amaranth Sanctuary"
 	invocation = "Eora, provide sanctuary for your beauty!"
-	desc = "Grow a cool tree."
+	desc = "An Eora-blessed sanctuary tree that grows over time, radiates an aura (~7 tiles) once mature, and can be cared for (water/fertilizer/pruning/offerings) to improve fruit quality. Only Eora followers can pick the fruit. Harming/destroying the sacred tree may curse or punish the offender."
 	sound = 'sound/magic/magnet.ogg'
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	devotion_cost = 500

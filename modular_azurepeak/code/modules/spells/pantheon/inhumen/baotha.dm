@@ -2,7 +2,8 @@
 
 /obj/effect/proc_holder/spell/invoked/baothablessings
 	name = "Baotha's Blessings"
-	overlay_state = "lesserheal"
+	overlay_state = "drugs"
+	desc = "Grants Baotha's calming blessing to a living target, applying -spices- buff."
 	releasedrain = 30
 	chargedrain = 0
 	chargetime = 0
@@ -71,6 +72,7 @@
 /obj/effect/proc_holder/spell/invoked/painkiller
 	name = "Numbing Pleasure"
 	overlay_state = "astrata"
+	desc = "Floods the target with blissful numbness: halves pain sensitivity for 1 minute and applies a buff. Cannot be used on undead."
 	releasedrain = 30
 	chargedrain = 0
 	chargetime = 0
@@ -102,6 +104,7 @@
 /obj/effect/proc_holder/spell/invoked/baothavice
 	name = "Tell Vice"
 	overlay_state = "baotha_vice"
+	desc = "Reveals a target's character vice/flaw to the caster."
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0

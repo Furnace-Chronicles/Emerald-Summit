@@ -111,7 +111,7 @@
 	to_chat(user, span_bloody("BASE PROC CALLED. DEFINE A SPECIFIC PROC"))
 	return
 
-// This'll be our tutorial ritual for those who want to make more later, let's go into details in comments, mm? - Onutsio 
+// This'll be our tutorial ritual for those who want to make more later, let's go into details in comments, mm? - Onutsio
 /obj/structure/ritualcircle/astrata
 	name = "Rune of the Sun" // defines name of the circle itself
 	icon_state = "astrata_chalky" // the icon state, so, the sprite the runes use on the floor. As of making, we have 6, each needs an active/inactive state.
@@ -443,7 +443,7 @@
 						spiderkin(src)
 						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 						spawn(120)
-							icon_state = "dendor_chalky"								
+							icon_state = "dendor_chalky"
 
 /obj/structure/ritualcircle/dendor/proc/lesserwolf(src)
 	var/ritualtargets = range(1, loc)
@@ -569,7 +569,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	angler_fish.icon_state = "anglerultra"
 	angler_fish.name = "ultra-rare anglerfish"
 	angler_fish.desc = "A menacing abyssal predator summoned by Abyssor's power. Its bioluminescent lure pulses with otherworldly energy."
-	angler_fish.sellprice = 60 
+	angler_fish.sellprice = 60
 	angler_fish.dead = TRUE
 	angler_fish.rarity_rank = 2
 
@@ -577,7 +577,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	name = "Rune of Death"
 	desc = "A Holy Rune of Necra. Quiet acceptance stirs within you."
 	icon_state = "necra_chalky"
-	var/deathrites = list("Undermaiden's Bargain", "Vow to the Undermaiden")
+	var/deathrites = list("Undermaiden's Bargain", "Vow to the Undermaiden", "The Last Pact")
 
 /obj/structure/ritualcircle/necra/attack_hand(mob/living/user)
 	if((user.patron?.type) != /datum/patron/divine/necra)
@@ -586,12 +586,15 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
+
 	var/riteselection = input(user, "Rituals of Death", src) as null|anything in deathrites
-	switch(riteselection) // put ur rite selection here
+
+	switch(riteselection)
 		if("Undermaiden's Bargain")
 			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
 				to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
 				return
+
 			loc.visible_message(span_warning("[user] sways before the rune, they open their mouth, though no words come out..."))
 			playsound(user, 'sound/vo/mobs/ghost/whisper (3).ogg', 100, FALSE, -1)
 			if(do_after(user, 60))
@@ -606,16 +609,19 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 						user.say("Forgive me, the bargain is intoned!!")
 						to_chat(user,span_cultsmall("My devotion to the Undermaiden has allowed me to strike a bargain for these souls...."))
 						playsound(loc, 'sound/vo/mobs/ghost/moan (1).ogg', 100, FALSE, -1)
-						undermaidenbargain(src)
+
+						undermaidenbargain()
+
 						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 						spawn(120)
 							icon_state = "necra_chalky"
+
 		if("Vow to the Undermaiden")
 			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
-				to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
+				to_chat(user, span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
 				return
-			if(user.construct)//golems can't benefit from miracles so they can't do this
-				to_chat(user,span_warning("My body is already cold and lifeless. I have nothing to pledge."))
+			if(user.construct)
+				to_chat(user, span_warning("My body is already cold and lifeless. I have nothing to pledge."))
 				return
 			loc.visible_message(span_warning("[user] sways before the rune, they open their mouth, though no words come out..."))
 			playsound(user, 'sound/vo/mobs/ghost/whisper (3).ogg', 100, FALSE, -1)
@@ -624,36 +630,78 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 				playsound(user, 'sound/vo/mobs/ghost/whisper (1).ogg', 100, FALSE, -1)
 				if(do_after(user, 60))
 					loc.visible_message(span_warning("[user] locks up, as though someone had just grabbed them..."))
-					to_chat(user,span_danger("You feel cold breath on the back of your neck..."))
+					to_chat(user, span_danger("You feel cold breath on the back of your neck..."))
 					playsound(user, 'sound/vo/mobs/ghost/death.ogg', 100, FALSE, -1)
 					if(do_after(user, 20))
 						icon_state = "necra_active"
 						user.say("This soul pledges themselves to thee!!")
-						to_chat(user,span_cultsmall("My devotion to the Undermaiden has allowed me to anoint a vow for this soul...."))
-						if(undermaidenvow(src))
+						to_chat(user, span_cultsmall("My devotion to the Undermaiden has allowed me to anoint a vow for this soul...."))
+
+						if(undermaidenvow_stage2())
 							playsound(loc, 'sound/vo/mobs/ghost/moan (1).ogg', 100, FALSE, -1)
 							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 							spawn(120)
 								icon_state = "necra_chalky"
 						else
-							loc.visible_message(span_warning("Then... nothing. The Undermaiden does not care for the vows of the damned, or those of other faiths."))
+							loc.visible_message(span_warning("Then... nothing. The Undermaiden does not care for the vows of the damned, those of other faiths, or the unprepared."))
+
+		if("The Last Pact")
+			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
+				to_chat(user, span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
+				return
+			if(user.construct)
+				to_chat(user, span_warning("My body is already cold and lifeless. I have nothing to offer."))
+				return
+			var/pact_seconds = 0
+			if(user.has_status_effect(/datum/status_effect/buff/necras_vow))
+				pact_seconds = 120
+			else if(user.has_status_effect(/datum/status_effect/buff/undermaidens_vow))
+				pact_seconds = 60
+			else
+				to_chat(user, span_warning("I am not yet marked by the vow. The Last Pact cannot be spoken."))
+				return
+			if(user.has_status_effect(/datum/status_effect/debuff/necra_last_pact_ashes))
+				to_chat(user, span_warning("The Last Pact is already upon me."))
+				return
+			loc.visible_message(span_warning("[user] kneels before the rune, shaking as if hearing distant bells..."))
+			playsound(user, 'sound/vo/mobs/ghost/whisper (3).ogg', 100, FALSE, -1)
+			if(do_after(user, 60))
+				loc.visible_message(span_warning("[user] draws a final sigil with trembling hands..."))
+				playsound(user, 'sound/vo/mobs/ghost/whisper (1).ogg', 100, FALSE, -1)
+				if(do_after(user, 60))
+					loc.visible_message(span_warning("[user] stiffens as a dead-cold presence leans close..."))
+					to_chat(user, span_danger("A final bargain is demanded..."))
+					playsound(user, 'sound/vo/mobs/ghost/death.ogg', 100, FALSE, -1)
+					if(do_after(user, 20))
+						icon_state = "necra_active"
+						user.say("By vow, I seal the last pact!!")
+						to_chat(user, span_cultsmall("The Undermaiden accepts the final seal..."))
+						user.apply_status_effect(/datum/status_effect/buff/healing/necras_vow)
+						user.apply_status_effect(/datum/status_effect/debuff/necra_last_pact_ashes, user, pact_seconds)
+						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
+						playsound(loc, 'sound/vo/mobs/ghost/moan (1).ogg', 100, FALSE, -1)
+						spawn(120)
+							icon_state = "necra_chalky"
 
 
-
-/obj/structure/ritualcircle/necra/proc/undermaidenbargain(src)
+/obj/structure/ritualcircle/necra/proc/undermaidenbargain()
 	var/ritualtargets = view(7, loc)
 	for(var/mob/living/carbon/human/target in ritualtargets)
 		target.apply_status_effect(/datum/status_effect/buff/undermaidenbargain)
-	
-/obj/structure/ritualcircle/necra/proc/undermaidenvow(src)
+
+/obj/structure/ritualcircle/necra/proc/undermaidenvow_stage2()
 	var/ritualtargets = range(1, loc)
 	for(var/mob/living/carbon/human/target in ritualtargets)
-		if(HAS_TRAIT(target, TRAIT_ROTMAN) || HAS_TRAIT(target, TRAIT_NOBREATH) || target.mob_biotypes & MOB_UNDEAD)	//No Undead, no Rotcured, no Deathless
+		if(HAS_TRAIT(target, TRAIT_ROTMAN) || HAS_TRAIT(target, TRAIT_NOBREATH) || target.mob_biotypes & MOB_UNDEAD)
 			return FALSE
-		if(target.patron.type != /datum/patron/divine/necra)
+		if(target.patron?.type != /datum/patron/divine/necra)
 			return FALSE
-		target.apply_status_effect(/datum/status_effect/buff/necras_vow)
-		target.apply_status_effect(/datum/status_effect/buff/healing/necras_vow)
+		if(target.has_status_effect(/datum/status_effect/buff/necras_vow))
+			return FALSE
+		if(target.has_status_effect(/datum/status_effect/buff/undermaidens_vow))
+			return FALSE
+		target.remove_status_effect(/datum/status_effect/debuff/necra_vow_burden)
+		target.apply_status_effect(/datum/status_effect/buff/undermaidens_vow)
 		return TRUE
 	return FALSE
 
@@ -787,7 +835,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 					if(do_after(user, 50))
 						user.say("ZIZO! ZIZO! STRIP OUR BONE OF ANY FLESH!!")
 						if(do_after(user, 50))
-							icon_state = "zizo_active"							
+							icon_state = "zizo_active"
 							rituosbone(target)
 							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 							spawn(120)
@@ -1042,7 +1090,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 			graggararmor(target)
 			spawn(120)
-				icon_state = "graggar_chalky" 
+				icon_state = "graggar_chalky"
 		if("War Ritual")
 			to_chat(user, span_userdanger("This ritual will tire me more than usual... Should I proceed?"))
 			if(!do_after(user, 5 SECONDS))
@@ -1062,7 +1110,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 			else
 				to_chat(user, span_smallred("The ritual fails. A body of noble blood - from the inquisition - or from the church must be on the circle!"))
 			spawn(120)
-				icon_state = "graggar_chalky" 
+				icon_state = "graggar_chalky"
 /obj/structure/ritualcircle/graggar/proc/graggararmor(mob/living/carbon/human/target)
 	if(!HAS_TRAIT(target, TRAIT_HORDE))
 		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT SLAUGHTER IN THEIR HEART!!"))
@@ -1177,4 +1225,4 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 							user.apply_status_effect(/datum/status_effect/joybringer)
 							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 							spawn(120)
-								icon_state = "baotha_chalky" 
+								icon_state = "baotha_chalky"
