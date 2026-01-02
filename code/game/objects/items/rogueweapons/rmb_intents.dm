@@ -165,6 +165,8 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/specialcd))
 		return
 
+	user.face_atom(target)
+
 	var/obj/item/rogueweapon/W = user.get_active_held_item()
 	if(istype(W, /obj/item/rogueweapon) && W.special)
 		var/skillreq = W.associated_skill
@@ -173,7 +175,9 @@
 		if(user.get_skill_level(skillreq) < SKILL_LEVEL_JOURNEYMAN)
 			to_chat(user, span_info("I'm not knowledgeable enough in the arts of this weapon to use this."))
 			return
-		W.special.deploy(user, W, target)
+		if(W.special.check_range(user, target))
+			if(W.special.apply_cost(user))
+				W.special.deploy(user, W, target)
 
 /datum/rmb_intent/swift
 	name = "swift"

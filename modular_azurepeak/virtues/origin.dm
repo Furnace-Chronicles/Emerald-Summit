@@ -74,6 +74,7 @@
 				/datum/species/goblinp,
 				/datum/species/human/northern,
 				/datum/species/human/halfelf,
+				/datum/species/demihuman,
 				/datum/species/lupian,
 				/datum/species/kobold,
 				/datum/species/anthromorph,

@@ -236,8 +236,50 @@
 /obj/structure/ritualcircle/xylix
 	name = "Rune of Trickery"
 	icon_state = "xylix_chalky" //mortosasye sprite
-	desc = "A Holy Rune of Xylix. You can hear the wind and distant bells, in the distance."
+	desc = "A Holy Rune of Xylix. You can hear the wind and distant bells in the distance! Upon closer inspection, this rune seems a bit slippery..."
 
+/obj/structure/ritualcircle/xylix/Crossed(atom/movable/AM)
+	. = ..()
+
+	if(!isliving(AM))
+		return
+
+	var/mob/living/L = AM
+
+	if(L.buckled)
+		return
+	if(!(L.mobility_flags & MOBILITY_STAND))
+		return
+
+	// Only slip NON-Xylix patrons
+	if(L.patron?.type == /datum/patron/divine/xylix)
+		return
+
+	var/list/messages = list(
+		"[L] slips on the Rune of Trickery!",
+		"[L] is betrayed by the rune beneath their feet!",
+		"[L] forgets how walking works atop the rune!",
+		"[L] stumbles as the rune mocks them!",
+		"[L] is humbled by ancient geometry!"
+	)
+
+	var/message = pick(messages)
+
+	L.visible_message(span_warning(message))
+
+	// Random clown laughter sound
+	var/list/sounds = list(
+		'sound/misc/clownedsitcomlaugh1.ogg',
+		'sound/misc/clownedsitcomlaugh2.ogg',
+		'sound/misc/clownedsitcomlaugh3.ogg',
+		'sound/misc/clownedhohoho.ogg',
+		'sound/misc/clownedhehe.ogg'
+	)
+
+	playsound(L, pick(sounds), 50, TRUE)
+
+	L.AdjustKnockdown(2)
+	
 /obj/structure/ritualcircle/ravox
 	name = "Rune of Justice"
 	icon_state = "ravox_chalky" // mortosasye sprite
