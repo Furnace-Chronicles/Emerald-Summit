@@ -38,7 +38,7 @@
 		"ZIZO IS QUEEN!",
 	)
 	miracle_healing_lines = list(
-		"Vital energies congeal about %TARGET!"
+		"Vile energies congeal about %TARGET!"
 	)
 	storyteller = /datum/storyteller/zizo
 
