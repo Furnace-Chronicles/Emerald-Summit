@@ -1001,31 +1001,9 @@
 	sleevetype = "silverarmor"
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/martyr.dmi'
 	armor = ARMOR_PLATE
-	smeltresult = null
-
-/obj/item/clothing/suit/roguetown/armor/plate/full/holysee/attack_hand(mob/user)
-	if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		if((H.job in GLOB.church_positions))
-			return ..()
-		else if(istype(H.patron, /datum/patron/inhumen))
-			var/datum/component/martyrweapon/marty = GetComponent(/datum/component/martyrweapon)
-			to_chat(user, span_warning("YOU FOOL! IT IS ANATHEMA TO YOU! GET AWAY!"))
-			H.Stun(40)
-			H.Knockdown(40)
-			if(marty.is_active) //Inhumens are touching this while it's active, very fucking stupid of them
-				visible_message(span_warning("[H] lets out a painful shriek as the plate lashes out at them!"))
-				H.emote("agony")
-				H.adjust_fire_stacks(5)
-				H.ignite_mob()
-			return FALSE
-		else	//Everyone else
-			to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch this thing."))
-			H.emote("groan")
-			H.Stun(10)
-			return FALSE
-	else
-		return FALSE
+	sellprice = 1000
+	smeltresult = /obj/item/ingot/silver
+	smelt_bar_num = 4
 
 /obj/item/clothing/gloves/roguetown/plate/holysee
 	name = "holy silver plate gauntlets"
@@ -1037,34 +1015,9 @@
 	sleevetype = "silvergloves"
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/martyr.dmi'
 	armor = ARMOR_PLATE
-	smeltresult = null
-
-/obj/item/clothing/gloves/roguetown/plate/holysee/attack_hand(mob/user)
-	if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		if((H.job in GLOB.church_positions))
-			return ..()
-		else if (H.job in GLOB.church_positions)
-			to_chat(user, span_warning("You feel a jolt of holy energies just for a split second, and then the gloves slips from your grasp! You are not devout enough."))
-			return FALSE
-		else if(istype(H.patron, /datum/patron/inhumen))
-			var/datum/component/martyrweapon/marty = GetComponent(/datum/component/martyrweapon)
-			to_chat(user, span_warning("YOU FOOL! IT IS ANATHEMA TO YOU! GET AWAY!"))
-			H.Stun(40)
-			H.Knockdown(40)
-			if(marty.is_active) //Inhumens are touching this while it's active, very fucking stupid of them
-				visible_message(span_warning("[H] lets out a painful shriek as the gloves lashes out at them!"))
-				H.emote("agony")
-				H.adjust_fire_stacks(5)
-				H.ignite_mob()
-			return FALSE
-		else	//Everyone else
-			to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch this thing."))
-			H.emote("groan")
-			H.Stun(10)
-			return FALSE
-	else
-		return FALSE
+	sellprice = 1000
+	smeltresult = /obj/item/ingot/silver
+	smelt_bar_num = 1
 
 /obj/item/clothing/shoes/roguetown/boots/armor/holysee
 	name = "holy silver plated boots"
@@ -1076,34 +1029,9 @@
 	sleevetype = "silverboots"
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/martyr.dmi'
 	armor = ARMOR_PLATE
-	smeltresult = null
-
-/obj/item/clothing/shoes/roguetown/boots/armor/holysee/attack_hand(mob/user)
-	if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		if((H.job in GLOB.church_positions))
-			return ..()
-		else if (H.job in GLOB.church_positions)
-			to_chat(user, span_warning("You feel a jolt of holy energies just for a split second, and then the boots slips from your grasp! You are not devout enough."))
-			return FALSE
-		else if(istype(H.patron, /datum/patron/inhumen))
-			var/datum/component/martyrweapon/marty = GetComponent(/datum/component/martyrweapon)
-			to_chat(user, span_warning("YOU FOOL! IT IS ANATHEMA TO YOU! GET AWAY!"))
-			H.Stun(40)
-			H.Knockdown(40)
-			if(marty.is_active) //Inhumens are touching this while it's active, very fucking stupid of them
-				visible_message(span_warning("[H] lets out a painful shriek as the boots lashes out at them!"))
-				H.emote("agony")
-				H.adjust_fire_stacks(5)
-				H.ignite_mob()
-			return FALSE
-		else	//Everyone else
-			to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch this thing."))
-			H.emote("groan")
-			H.Stun(10)
-			return FALSE
-	else
-		return FALSE
+	sellprice = 1000
+	smeltresult = /obj/item/ingot/silver
+	smelt_bar_num = 1
 
 /obj/item/clothing/under/roguetown/platelegs/holysee
 	name = "holy silver chausses"
@@ -1115,34 +1043,9 @@
 	icon_state = "silverlegs"
 	item_state = "silverlegs"
 	armor = ARMOR_PLATE
-	smeltresult = null
-
-/obj/item/clothing/under/roguetown/platelegs/holysee/attack_hand(mob/user)
-	if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		if((H.job in GLOB.church_positions))
-			return ..()
-		else if (H.job in GLOB.church_positions)
-			to_chat(user, span_warning("You feel a jolt of holy energies just for a split second, and then the chausses slips from your grasp! You are not devout enough."))
-			return FALSE
-		else if(istype(H.patron, /datum/patron/inhumen))
-			var/datum/component/martyrweapon/marty = GetComponent(/datum/component/martyrweapon)
-			to_chat(user, span_warning("YOU FOOL! IT IS ANATHEMA TO YOU! GET AWAY!"))
-			H.Stun(40)
-			H.Knockdown(40)
-			if(marty.is_active) //Inhumens are touching this while it's active, very fucking stupid of them
-				visible_message(span_warning("[H] lets out a painful shriek as the chausess lashes out at them!"))
-				H.emote("agony")
-				H.adjust_fire_stacks(5)
-				H.ignite_mob()
-			return FALSE
-		else	//Everyone else
-			to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch this thing."))
-			H.emote("groan")
-			H.Stun(10)
-			return FALSE
-	else
-		return FALSE
+	sellprice = 1000
+	smeltresult = /obj/item/ingot/silver
+	smelt_bar_num = 2
 
 /obj/item/clothing/head/roguetown/helmet/heavy/holysee
 	name = "holy silver bascinet"
@@ -1158,35 +1061,10 @@
 	worn_y_dimension = 64
 	icon_state = "silverbascinet"
 	item_state = "silverbascinet"
-	smeltresult = null
+	sellprice = 1000
+	smeltresult = /obj/item/ingot/silver
+	smelt_bar_num = 2
 	var/armetstyle = FALSE
-
-/obj/item/clothing/head/roguetown/helmet/heavy/holysee/attack_hand(mob/user)
-	if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		if((H.job in GLOB.church_positions))
-			return ..()
-		else if (H.job in GLOB.church_positions)
-			to_chat(user, span_warning("You feel a jolt of holy energies just for a split second, and then the helmet slips from your grasp! You are not devout enough."))
-			return FALSE
-		else if(istype(H.patron, /datum/patron/inhumen))
-			var/datum/component/martyrweapon/marty = GetComponent(/datum/component/martyrweapon)
-			to_chat(user, span_warning("YOU FOOL! IT IS ANATHEMA TO YOU! GET AWAY!"))
-			H.Stun(40)
-			H.Knockdown(40)
-			if(marty.is_active) //Inhumens are touching this while it's active, very fucking stupid of them
-				visible_message(span_warning("[H] lets out a painful shriek as the helmet lashes out at them!"))
-				H.emote("agony")
-				H.adjust_fire_stacks(5)
-				H.ignite_mob()
-			return FALSE
-		else	//Everyone else
-			to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch this thing."))
-			H.emote("groan")
-			H.Stun(10)
-			return FALSE
-	else
-		return FALSE
 
 /obj/item/clothing/head/roguetown/helmet/heavy/holysee/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
