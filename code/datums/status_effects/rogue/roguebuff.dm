@@ -1615,3 +1615,25 @@
 	name = "Hired!"
 	desc = "I have an active contract. I must be vigilant and ready at all tymes."
 	icon_state = "buff"
+
+/datum/status_effect/buff/zizo_con
+	id = "zizo_con"
+	duration = 20 MINUTES
+	alert_type = /atom/movable/screen/alert/status_effect/buff/zizo_con
+	effectedstats = list("constitution" = 1)
+	status_type = STATUS_EFFECT_REFRESH
+
+/atom/movable/screen/alert/status_effect/buff/zizo_con
+	name = "Lyfe Taker"
+	desc = "You feel empowered by taking lyfe."
+	icon_state = "debuff"
+
+/datum/status_effect/buff/zizo_con/on_apply()
+	. = ..()
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		var/bonus = 1
+		if(H.devotion?.level == CLERIC_T4)
+			bonus = 2
+		effectedstats = list("constitution" = bonus)
+		to_chat(H, span_notice("Feeling a soul die gives me power!"))
