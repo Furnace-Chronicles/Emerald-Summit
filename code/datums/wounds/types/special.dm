@@ -440,4 +440,4 @@
 	// Only add pain based on damage dealt
 	woundpain += (dam * 1.5)
 	update_name()
-	..()
+	return ..()

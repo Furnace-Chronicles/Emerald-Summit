@@ -150,7 +150,7 @@
 	)
 	rites_list_string = list(
 		"Guiding Light",
-		"Rite of the Sun's Blessing",
+		"Sun's Shield",
 //		"Debug",
 	)
 	rituals_name = "Rituals of the Sun"
@@ -201,7 +201,7 @@
 	user.apply_status_effect(cooldown)
 
 /datum/circle_rite/astrata/suns_blessing
-	name = "Rite of the Sun's Blessing"
+	name = "Sun's Shield"
 	chant_strings = list(
 		"Astrata, She who burns eternal!!",
 		"Grant us your protection from flame!!",
@@ -215,6 +215,13 @@
 		to_chat(user, span_warning("Astrata's blessing does not recognize [rite_target] as one of her faithful."))
 		to_chat(rite_target, span_warning("I am not recognized by Astrata's light."))
 		return
+	
+	// Extinguish all clothing items
+	for(var/obj/item/I in rite_target.get_equipped_items())
+		var/datum/status_effect/fire_handler/fire_stacks/FS = I.has_status_effect(/datum/status_effect/fire_handler/fire_stacks)
+		if(FS)
+			FS.extinguish()
+	
 	to_chat(user, span_astrata("Astrata's blessing descends upon [rite_target]!"))
 	to_chat(rite_target, span_astrata("Astrata's blessing fills you with radiant power. You can now shield yourself and your allies from flame!"))
 	rite_target.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suns_shield)
