@@ -285,7 +285,6 @@
 
 	if(L.has_status_effect(/datum/status_effect/buff/clash))
 		perc = 100
-		L.bad_guard()
 		to_chat(user, span_notice("[L.p_their(TRUE)] guard was broken!"))
 
 	if(!prob(perc)) //feint intent increases the immobilize duration significantly
