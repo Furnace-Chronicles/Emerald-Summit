@@ -2312,6 +2312,7 @@
 #include "code\modules\spells\roguetown\acolyte\pestra.dm"
 #include "code\modules\spells\roguetown\acolyte\ravox.dm"
 #include "code\modules\spells\roguetown\acolyte\xylix.dm"
+#include "code\modules\spells\roguetown\acolyte\zizo_miracles.dm"
 #include "code\modules\spells\roguetown\acolyte\churchloop\artefactsten.dm"
 #include "code\modules\spells\roguetown\acolyte\churchloop\quests.dm"
 #include "code\modules\spells\roguetown\acolyte\churchloop\research.dm"
