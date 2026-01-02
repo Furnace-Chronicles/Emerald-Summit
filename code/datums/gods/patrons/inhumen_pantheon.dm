@@ -3,7 +3,7 @@
 	associated_faith = /datum/faith/inhumen
 	undead_hater = FALSE
 	var/crafting_recipes = list(/datum/crafting_recipe/roguetown/structure/zizo_shrine)			//Allows construction of unique bad shrine.
-	profane_words = list("cock","dick","fuck","shit","pussy","cuck","cunt","asshole", "pintle")	//Same as master but 'Zizo' is allowed now.
+	profane_words = list("psydon","astrata","noc","dendor","abyssor","ravox","necra","xylix", "pestra", "malum", "eora")	//Same as master but 'Zizo' is allowed now. <- whoever wrote this what? why do inhumen gods care about swearing
 	confess_lines = list(
 		"PSYDON IS THE DEMIURGE!",
 		"THE TEN ARE WORTHLESS COWARDS!",
