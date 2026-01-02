@@ -424,3 +424,20 @@
 
 /datum/wound/grievous/pre_skullshatter
 	name = "shattered skull"
+
+/datum/wound/tyrants_strike
+	name = "divine punishment"
+	whp = 60  // Lasts a reasonable duration
+	woundpain = 0  // Set dynamically in upgrade()
+	can_sew = FALSE
+	can_cauterize = FALSE
+	disabling = FALSE
+	critical = FALSE
+	bleed_rate = 0
+	clotting_rate = 0
+
+/datum/wound/tyrants_strike/upgrade(dam, armor)
+	// Only add pain based on damage dealt
+	woundpain += (dam * 1.5)
+	update_name()
+	..()

@@ -145,10 +145,12 @@
 /datum/circle_rite/astrata
 	rites_list = list(
 		/datum/circle_rite/astrata/guiding_light,
+		/datum/circle_rite/astrata/suns_blessing,
 //		/datum/circle_rite/astrata/debug,
 	)
 	rites_list_string = list(
 		"Guiding Light",
+		"Rite of the Sun's Blessing",
 //		"Debug",
 	)
 	rituals_name = "Rituals of the Sun"
@@ -175,7 +177,7 @@
 	var/ritualtargets = view(7, linked_circle.loc)
 	for(var/mob/living/carbon/human/target in ritualtargets) // defines the target as every human in this range
 		target.apply_status_effect(/datum/status_effect/buff/guidinglight) // applies the status effect
-		to_chat(target, span_cultsmall("Astrata's light guides me forward, drawn to me by the Ritualist's pyre!"))
+		to_chat(target, span_astrata("Astrata's light guides me forward, drawn to me by the Ritualist's pyre!"))
 		playsound(target, 'sound/magic/holyshield.ogg', 80, FALSE, -1) // Cool sound!
 	user.apply_status_effect(cooldown)
 
@@ -196,6 +198,26 @@
 	rite_target.ignite_mob()
 	to_chat(world, "name of the rite datum is [name]")
 	to_chat(world, "cooldown is [cooldown]")
+	user.apply_status_effect(cooldown)
+
+/datum/circle_rite/astrata/suns_blessing
+	name = "Rite of the Sun's Blessing"
+	chant_strings = list(
+		"Astrata, She who burns eternal!!",
+		"Grant us your protection from flame!!",
+		"Let your children walk through fire!!"
+	)
+	choose_host = TRUE
+	cooldown = /datum/status_effect/debuff/ritesexpended_low_very
+
+/datum/circle_rite/astrata/suns_blessing/rite_proc(mob/living/carbon/human/user)
+	if((rite_target.patron?.type) != /datum/patron/divine/astrata)
+		to_chat(user, span_warning("Astrata's blessing does not recognize [rite_target] as one of her faithful."))
+		to_chat(rite_target, span_warning("I am not recognized by Astrata's light."))
+		return
+	to_chat(user, span_astrata("Astrata's blessing descends upon [rite_target]!"))
+	to_chat(rite_target, span_astrata("Astrata's blessing fills you with radiant power. You can now shield yourself and your allies from flame!"))
+	rite_target.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suns_shield)
 	user.apply_status_effect(cooldown)
 
 /obj/structure/ritualcircle/noc
