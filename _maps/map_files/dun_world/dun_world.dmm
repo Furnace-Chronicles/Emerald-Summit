@@ -3923,6 +3923,13 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town/magician)
+"bbv" = (
+/obj/structure/fluff/railing/border{
+	dir = 1;
+	pixel_y = 7
+	},
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/exposed/town/keep)
 "bbz" = (
 /obj/structure/table/wood/fancy/black,
 /obj/item/reagent_containers/glass/cup/wooden{
@@ -11370,7 +11377,10 @@
 	pixel_y = 12;
 	pixel_x = 1
 	},
-/obj/item/kitchen/fork/iron,
+/obj/item/kitchen/fork/iron{
+	pixel_x = 10;
+	pixel_y = 3
+	},
 /turf/open/floor/rogue/tile/masonic{
 	dir = 4
 	},
@@ -57146,12 +57156,6 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/beach)
-"pdO" = (
-/obj/structure/foxpelt{
-	pixel_y = 1
-	},
-/turf/closed/wall/mineral/rogue/stone/moss,
-/area/rogue/indoors/town/cell)
 "pdP" = (
 /obj/structure/table/optable,
 /obj/machinery/light/rogue/wallfire/candle/blue,
@@ -58408,7 +58412,7 @@
 	dir = 1;
 	pixel_y = 7
 	},
-/turf/open/floor/rogue/grass,
+/turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/exposed/town/keep)
 "pxb" = (
 /obj/structure/fluff/railing/border/west{
@@ -79571,12 +79575,11 @@
 /turf/open/floor/rogue/dirt/ambush,
 /area/rogue/outdoors/bog)
 "uQL" = (
-/obj/structure/fluff/railing/border{
-	dir = 1;
-	pixel_y = 7
+/obj/structure/foxpelt{
+	pixel_y = 1
 	},
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/exposed/town/keep)
+/turf/closed/wall/mineral/rogue/stone/moss,
+/area/rogue/indoors/town/cell)
 "uQP" = (
 /obj/structure/bed/rogue/inn/wooldouble,
 /turf/open/floor/rogue/ruinedwood,
@@ -297391,7 +297394,7 @@ oDW
 oDW
 oDW
 oDW
-pdO
+uQL
 bge
 bge
 bge
@@ -304643,7 +304646,7 @@ pgL
 asp
 iVM
 fIG
-pwN
+bbv
 fQU
 weQ
 weQ
@@ -305095,7 +305098,7 @@ sLn
 sLn
 iVM
 aoO
-pwN
+bbv
 fQU
 weQ
 weQ
@@ -305547,7 +305550,7 @@ sLn
 hmq
 iVM
 qer
-pwN
+bbv
 fQU
 weQ
 kyN
@@ -305999,7 +306002,7 @@ pyE
 scq
 iVM
 dNg
-uQL
+pwN
 fQU
 weQ
 teu
@@ -545084,7 +545087,7 @@ vmi
 vmi
 vmi
 vmi
-vmi
+lMc
 lMc
 lMc
 lMc
