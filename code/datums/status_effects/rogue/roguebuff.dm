@@ -1167,7 +1167,7 @@
 /datum/status_effect/buff/xylix_pratfall/on_remove()
 	. = ..()
 
-	if(proxy)
+	QDEL_NULL(proxy)
 		qdel(proxy)
 
 /obj/effect/xylix_pratfall_proxy/Crossed(atom/movable/AM)
