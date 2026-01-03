@@ -4,18 +4,12 @@
 	name = "Miracle"
 	desc = "Call upon ZIZO to either damage or heal your target, possibly at a cost..."
 	overlay_state = "zizo_lesser"
-	releasedrain = 20
-	chargedrain = 0
-	chargetime = 0
-	releasedrain = 20
+	releasedrain = 15
 	chargedrain = 0
 	chargetime = 0
 	movement_interrupt = FALSE
 	sound = 'sound/magic/zizo_heal.ogg'
-	invocation_type = "none"
 	antimagic_allowed = TRUE
-	recharge_time = 10 SECONDS
-	miracle = TRUE
 	recharge_time = 10 SECONDS
 	miracle = TRUE
 	devotion_cost = 5
@@ -41,7 +35,6 @@
 			return FALSE
 	if(target.patron?.type == /datum/patron/inhumen/zizo)
 		target.clear_sunder_fire()
-		target.clear_sunder_fire()
 		return TRUE
 	if(target.mob_biotypes & MOB_UNDEAD)
 		user.adjustBruteLoss(4)             //non worshipers do not share your ambition, pay the price to heal them
@@ -50,12 +43,14 @@
 	//shitty ass psydonites need special code in here, im adding extra damage to psydonites just because they made me write this block
 	if(HAS_TRAIT(target, TRAIT_PSYDONITE))
 		user.visible_message(span_danger("[target] is seared by necrotic power!"))
+		playsound(user, 'sound/magic/zizo_heal.ogg', 100, TRUE)
 		target.adjustFireLoss(14)             //making sure psydonites get attacked too
 		target.adjustBruteLoss(4)             //damage here
 		return FALSE
 
 	// EVERYONE ELSE
 	user.visible_message(span_danger("[target] is seared by necrotic power!"))
+	playsound(user, 'sound/magic/zizo_heal.ogg', 100, TRUE)
 	target.adjustFireLoss(12)     //damage is here
 	user.adjustBruteLoss(4)
 	return FALSE
@@ -64,18 +59,19 @@
 /obj/effect/proc_holder/spell/invoked/blood_heal/zizo
 	name = "Lyfe Drain"
 	desc = "ZIZO demands lyfe energy, steal the lyfe force of others so I may continue. Killing the unambitious with it will give me a boon."
-	overlay_state = "bloodsteal"
-	action_icon_state = "blooddrain"
-	releasedrain = 20
+	overlay_icon = 'icons/mob/actions/genericmiracles.dmi'
+	overlay_state = "bloodheal"
+	action_icon_state = "bloodheal"
+	action_icon = 'icons/mob/actions/genericmiracles.dmi'
+	releasedrain = 5
 	chargedrain = 0
 	chargetime = 0
 	ignore_los = FALSE
 	movement_interrupt = TRUE
 	sound = 'sound/magic/bloodheal.ogg'
-	invocation_type = 'none'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
-	recharge time = 20 SECONDS
+	recharge_time = 20 SECONDS
 	miracle = TRUE
 	range = 5
 
@@ -93,14 +89,14 @@
 		to_chat(user, span_warning("I must be closer to channel dark power!"))
 		revert_cast()
 		return FALSE
-	if((target.mob_biotypes & MOB_UNDEAD) || target.patron?.type == /datum/patron/inhumen/zizo)
+	if((target.mob_biotypes & MOB_UNDEAD) && !istype(target.patron?.type == /datum/patron/inhumen/zizo))
 		return ..()
 	
 	playsound(user, 'sound/magic/bloodheal_start.ogg', 100, TRUE)
 	var/user_skill = user.get_skill_level(associated_skill)
-	var/max_loops = 4 + user_skill        //max is 10 at legendary, expert is 8 loops
-	var/channel_time = 1.2 SECONDS - ((user_skill - 1) * 0.08 SECONDS)  //so at 6 skill its 0.8 seconds, at 1 its 1.2 seconds
-	var/beam_time = max_loops * channel_time * 10
+	var/max_loops = 4 + user_skill        //max is 10 at legendary, expert is 8 loops, cleric missionary can get 9 with devotee
+	var/channel_time = 1.2 SECONDS - (user_skill * 0.08 SECONDS)  //at 5 skill master you have a 0.40 second reduction, legendary is -0.48 seconds
+	var/beam_time = (max_loops * channel_time) + 2 SECONDS //padding to make sure the beam lasts the duration
 	
 	//damage beam loop here
 	var/datum/beam/bloodbeam = user.Beam(target, icon_state="blood", time=(beam_time))
@@ -111,13 +107,14 @@
 		var/was_alive = (target.stat != DEAD)
 		target.adjustBruteLoss(10)  //10 damage every second
 		target.blood_volume = max(target.blood_volume - 5, 0)
-		user.adjustBruteLoss(-9)
+		user.adjustBruteLoss(-10)
 		user.adjustFireLoss(-7)
 		user.blood_volume = min(user.blood_volume + 5, BLOOD_VOLUME_NORMAL)
 
 		if(was_alive && target.stat == DEAD && !buff_given)    //buff for killing someone while channeling
 			buff_given = TRUE
 			user.apply_status_effect(/datum/status_effect/buff/zizo_con)
+			break
 	bloodbeam.End()
 	return TRUE
 	
@@ -130,7 +127,7 @@
 	action_icon = 'icons/mob/actions/genericmiracles.dmi'
 	releasedrain = 15
 	chargedrain = 0
-	chargetime = 3
+	chargetime = 30
 	range = 1
 	ignore_los = FALSE
 	warnie = "sydwarning"
@@ -158,19 +155,7 @@
 	var/obj/item/bodypart/affecting = target.get_bodypart(def_zone)
 	
 	if(!affecting)
-		var/health_cost = 50 //balance it here
-		if(UH.getBruteLoss() + health_cost >= UH.maxHealth)
-			to_chat(user, span_warning("I am too weak to pay the price."))
-			revert_cast()
-			return FALSE
-			
-		UH.adjustBruteLoss(health_cost)
-		UH.adjustFireLoss(health_cost)
-		target.visible_message(span_danger("[target]'s missing flesh crawls back into being!"))
-		
-		target.regenerate_limb(def_zone)   //I have no idea if this works yet, probably wont
-		target.update_damage_hud()
-		playsound(target, 'sound/magic/woundheal_crunch.ogg', 100, TRUE)
+		playsound(target, 'sound/magic/zizo_woundheal.ogg', 100, TRUE)
+		to_chat(user, span_warning("I am not ambitious enough to regenerate limbs..."))
 		return TRUE
-	//IF LIMB EXISTS GOES TO WOUND HEAL GENERIC
 	return ..()
