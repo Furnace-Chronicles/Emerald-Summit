@@ -1138,7 +1138,7 @@
 	icon = 'icons/mob/mob.dmi'
 	icon_state = null
 	mouse_opacity = 0
-	layer = MOB_LAYER + 1
+	layer = ABOVE_MOB_LAYER```
 	anchored = TRUE
 	invisibility = INVISIBILITY_ABSTRACT
 
