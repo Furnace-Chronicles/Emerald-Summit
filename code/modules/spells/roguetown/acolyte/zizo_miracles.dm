@@ -2,8 +2,11 @@
 //Miracles T1
 /obj/effect/proc_holder/spell/invoked/lesser_heal/zizo
 	name = "Miracle"
-	desc = "Call upon ZIZO to heal your target, possibly at a cost..."
+	desc = "Call upon ZIZO to either damage or heal your target, possibly at a cost..."
 	overlay_state = "zizo_lesser"
+	releasedrain = 20
+	chargedrain = 0
+	chargetime = 0
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 0
@@ -13,12 +16,14 @@
 	antimagic_allowed = TRUE
 	recharge_time = 10 SECONDS
 	miracle = TRUE
+	recharge_time = 10 SECONDS
+	miracle = TRUE
 	devotion_cost = 5
 	range = 7
 
 /mob/living/proc/clear_sunder_fire()    //to stop sunder in my lesser healing
 	remove_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder)
-
+	
 /obj/effect/proc_holder/spell/invoked/lesser_heal/zizo/can_heal(mob/living/carbon/human/user, mob/living/target)
 	if (target == user)
 		to_chat(user, span_warning("I can not direct this miracle upon myself!"))
@@ -36,16 +41,16 @@
 			return FALSE
 	if(target.patron?.type == /datum/patron/inhumen/zizo)
 		target.clear_sunder_fire()
+		target.clear_sunder_fire()
 		return TRUE
 	if(target.mob_biotypes & MOB_UNDEAD)
 		user.adjustBruteLoss(4)             //non worshipers do not share your ambition, pay the price to heal them
 		return TRUE
-
-	//shitty ass psydonites need special code in here
+		
+	//shitty ass psydonites need special code in here, im adding extra damage to psydonites just because they made me write this block
 	if(HAS_TRAIT(target, TRAIT_PSYDONITE))
 		user.visible_message(span_danger("[target] is seared by necrotic power!"))
-		target.visible_message(span_danger("Agonizing necrotic energy burns through my body!"))
-		target.adjustFireLoss(12)             //making sure psydonites get attacked too
+		target.adjustFireLoss(14)             //making sure psydonites get attacked too
 		target.adjustBruteLoss(4)             //damage here
 		return FALSE
 
@@ -55,11 +60,11 @@
 	target.adjustFireLoss(12)     //damage is here
 	user.adjustBruteLoss(4)
 	return FALSE
-
+	
 //Blood Heal T2
 /obj/effect/proc_holder/spell/invoked/blood_heal/zizo
 	name = "Lyfe Drain"
-	desc = "ZIZO demands lyfe energy. Steal the lyfe force of others so I may continue."
+	desc = "ZIZO demands lyfe energy, steal the lyfe force of others so I may continue. Killing the unambitious with it will give me a boon."
 	overlay_state = "bloodsteal"
 	action_icon_state = "blooddrain"
 	releasedrain = 20
@@ -67,7 +72,7 @@
 	chargetime = 0
 	ignore_los = FALSE
 	movement_interrupt = TRUE
-	sound = 'sound/magic/zizo_bloodheal.ogg'
+	sound = 'sound/magic/bloodheal.ogg'
 	invocation_type = 'none'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
@@ -81,23 +86,23 @@
 		to_chat(user, span_warning("Cannot drain from the dead!"))
 		revert_cast()
 		return FALSE
-
+		
 	var/allowed_range = 1   //range code
 	if(user.devotion?.level == CLERIC_T4)  //only T4 clerics can cast at distance
-		allowed_range = range
+		allowed_range = range    
 	if(get_dist(user, target) > allowed_range)
 		to_chat(user, span_warning("I must be closer to channel dark power!"))
 		revert_cast()
 		return FALSE
 	if((target.mob_biotypes & MOB_UNDEAD) || target.patron?.type == /datum/patron/inhumen/zizo)
 		return ..()
-
-	playsound(user, 'sound/magic/zizo_bloodheal_start.ogg', 100, TRUE)
+	
+	playsound(user, 'sound/magic/bloodheal_start.ogg', 100, TRUE)
 	var/user_skill = user.get_skill_level(associated_skill)
 	var/max_loops = 4 + user_skill        //max is 10 at legendary, expert is 8 loops
 	var/channel_time = 1.2 SECONDS - ((user_skill - 1) * 0.08 SECONDS)  //so at 6 skill its 0.8 seconds, at 1 its 1.2 seconds
 	var/beam_time = max_loops * channel_time * 10
-
+	
 	//damage beam loop here
 	var/datum/beam/bloodbeam = user.Beam(target, icon_state="blood", time=(beam_time))
 	var/buff_given = FALSE
@@ -114,15 +119,14 @@
 		if(was_alive && target.stat == DEAD && !buff_given)    //buff for killing someone while channeling
 			buff_given = TRUE
 			user.apply_status_effect(/datum/status_effect/buff/zizo_con)
-			user.visible_message(span_danger("[target] collapses before you, your power has claimed them!"))
 	bloodbeam.End()
 	return TRUE
-
+	
 //Wound heal T3
 /obj/effect/proc_holder/spell/invoked/wound_heal/zizo
 	name = "Vile Wound Heal"
 	desc = "Seals flesh through sacrafice, restoring even what was lost."
-	overlay_icon = "icons/mob/actions/genericmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/genericmiracles.dmi'
 	overlay_state = 'zizo_wound_heal'
 	action_icon = 'icons/mob/actions/genericmiracles.dmi'
 	releasedrain = 15
@@ -130,6 +134,7 @@
 	chargetime = 3
 	range = 1
 	ignore_los = FALSE
+	warnie = "sydwarning"
 	movement_interrupt = TRUE
 	chargedloop = /datum/looping_sound/invokeascendant
 	sound = 'sound/magic/zizo_woundheal.ogg'
@@ -137,7 +142,7 @@
 	antimagic_allowed = FALSE
 	recharge_time = 90 SECONDS
 	miracle = TRUE
-	is_cdr_expempt = TRUE
+	is_cdr_exempt = TRUE
 	devotion_cost = 60
 
 /obj/effect/proc_holder/spell/invoked/wound_heal/zizo/cast(list/targets, mob/living/carbon/human/user = user)
@@ -152,19 +157,19 @@
 		return FALSE
 	var/def_zone = check_zone(user.zone_selected)
 	var/obj/item/bodypart/affecting = target.get_bodypart(def_zone)
-
+	
 	if(!affecting)
 		var/health_cost = 50 //balance it here
 		if(UH.getBruteLoss() + health_cost >= UH.maxHealth)
 			to_chat(user, span_warning("I am too weak to pay the price."))
 			revert_cast()
 			return FALSE
-
+			
 		UH.adjustBruteLoss(health_cost)
 		UH.adjustFireLoss(health_cost)
 		target.visible_message(span_danger("[target]'s missing flesh crawls back into being!"))
-
-		target.regenerate_limb(def_zone)
+		
+		target.regenerate_limb(def_zone)   //I have no idea if this works yet, probably wont
 		target.update_damage_hud()
 		playsound(target, 'sound/magic/woundheal_crunch.ogg', 100, TRUE)
 		return TRUE
