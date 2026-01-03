@@ -278,7 +278,6 @@
 			
 						// Range check for powerful undead - must be within 6 tiles
 			if(is_powerful_undead)
-				var/distance = get_dist(user, target)
 				if(distance > 6)
 					to_chat(user, span_danger("This ancient evil is too far away! I must be closer to channel enough divine power to unmake them!"))
 					revert_cast()
