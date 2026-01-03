@@ -266,7 +266,7 @@
 
 					if(do_after(user, 30))
 						user.say("The ground remembers your mistakes.")
-						playsound(loc, 'sound/misc/clowned1.ogg', 90, FALSE)
+						playsound(loc, 'sound/misc/clownedhehe.ogg', 90, FALSE)
 
 						icon_state = "xylix_active"
 						loc.visible_message(span_warning("[user] traces a mocking sigil upon the rune."))
