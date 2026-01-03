@@ -142,6 +142,7 @@
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/witch/Shapeshift(mob/living/caster)
 	// Do-after before transforming
+	playsound(caster.loc, 'sound/body/shapeshift-start.ogg', 100, FALSE, 3)
 	if(!do_after(caster, 3 SECONDS, target = caster))
 		to_chat(caster, span_warning("Transformation interrupted!"))
 		revert_cast(caster)  // Refund the cooldown
@@ -167,6 +168,7 @@
 	var/total_damage = shape.getBruteLoss() + shape.getOxyLoss() + shape.getFireLoss() + shape.getToxLoss()
 	var/shift_time = 3 SECONDS + (total_damage / 10)
 	// Add do-after for witches when reverting
+	playsound(shape.loc, 'sound/body/shapeshift-end.ogg', 100, FALSE, 3)
 	shape.visible_message(span_warning("[shape] begins to shift back!"), span_notice("I begin to transform..."))
 	if(!do_after(shape, shift_time, target = shape))
 		to_chat(shape, span_warning("Transformation revert interrupted!"))
