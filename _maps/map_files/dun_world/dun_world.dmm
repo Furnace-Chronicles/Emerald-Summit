@@ -3923,13 +3923,6 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town/magician)
-"bbv" = (
-/obj/structure/fluff/railing/border{
-	dir = 1;
-	pixel_y = 7
-	},
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/exposed/town/keep)
 "bbz" = (
 /obj/structure/table/wood/fancy/black,
 /obj/item/reagent_containers/glass/cup/wooden{
@@ -10626,8 +10619,11 @@
 /area/rogue/under/town/basement/keep)
 "cSE" = (
 /obj/structure/flora/roguegrass,
-/obj/structure/fluff/railing/border,
 /obj/structure/flora/ausbushes/lavendergrass,
+/obj/structure/fluff/railing/border{
+	dir = 1;
+	pixel_y = -22
+	},
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/exposed/town/keep)
 "cSF" = (
@@ -28575,8 +28571,11 @@
 /area/rogue/indoors/town/garrison)
 "hAX" = (
 /obj/structure/flora/ausbushes/ppflowers,
-/obj/structure/fluff/railing/border,
 /obj/structure/flora/roguegrass,
+/obj/structure/fluff/railing/border{
+	dir = 1;
+	pixel_y = -22
+	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/exposed/town/keep)
 "hAY" = (
@@ -57148,13 +57147,11 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/beach)
 "pdO" = (
-/obj/structure/fluff/railing/border{
-	dir = 5
+/obj/structure/foxpelt{
+	pixel_y = 1
 	},
-/turf/open/floor/rogue/rooftop{
-	icon_state = "roofg"
-	},
-/area/rogue/outdoors/town/roofs/keep)
+/turf/closed/wall/mineral/rogue/stone/moss,
+/area/rogue/indoors/town/cell)
 "pdP" = (
 /obj/structure/table/optable,
 /obj/machinery/light/rogue/wallfire/candle/blue,
@@ -58407,11 +58404,12 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/garrison)
 "pwN" = (
-/obj/structure/foxpelt{
-	pixel_y = 1
+/obj/structure/fluff/railing/border{
+	dir = 1;
+	pixel_y = 7
 	},
-/turf/closed/wall/mineral/rogue/stone/moss,
-/area/rogue/indoors/town/cell)
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/exposed/town/keep)
 "pxb" = (
 /obj/structure/fluff/railing/border/west{
 	dir = 2
@@ -60573,13 +60571,6 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
-"pXY" = (
-/obj/structure/fluff/railing/border{
-	dir = 1;
-	pixel_y = 7
-	},
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/exposed/town/keep)
 "pYe" = (
 /obj/structure/rack/rogue/shelf/big{
 	icon_state = "shelf_biggest";
@@ -75371,9 +75362,12 @@
 /obj/structure/flora/roguetree/burnt{
 	pixel_y = 11
 	},
-/obj/structure/fluff/railing/border,
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/ausbushes/lavendergrass,
+/obj/structure/fluff/railing/border{
+	dir = 1;
+	pixel_y = -22
+	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/exposed/town/keep)
 "tNH" = (
@@ -79578,12 +79572,11 @@
 /area/rogue/outdoors/bog)
 "uQL" = (
 /obj/structure/fluff/railing/border{
-	dir = 4
+	dir = 1;
+	pixel_y = 7
 	},
-/turf/open/floor/rogue/rooftop{
-	icon_state = "roofg"
-	},
-/area/rogue/outdoors/town/roofs/keep)
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/exposed/town/keep)
 "uQP" = (
 /obj/structure/bed/rogue/inn/wooldouble,
 /turf/open/floor/rogue/ruinedwood,
@@ -85814,8 +85807,11 @@
 /area/rogue/outdoors/mountains)
 "wuZ" = (
 /obj/structure/flora/ausbushes/ywflowers,
-/obj/structure/fluff/railing/border,
 /obj/structure/flora/roguegrass,
+/obj/structure/fluff/railing/border{
+	dir = 1;
+	pixel_y = -22
+	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/exposed/town/keep)
 "wvc" = (
@@ -92653,8 +92649,8 @@
 "yiS" = (
 /obj/structure/fluff/railing/border{
 	dir = 4;
-	pixel_x = 4;
-	pixel_y = 3
+	pixel_x = 7;
+	pixel_y = 4
 	},
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grass,
@@ -297395,7 +297391,7 @@ oDW
 oDW
 oDW
 oDW
-pwN
+pdO
 bge
 bge
 bge
@@ -304647,7 +304643,7 @@ pgL
 asp
 iVM
 fIG
-bbv
+pwN
 fQU
 weQ
 weQ
@@ -305099,7 +305095,7 @@ sLn
 sLn
 iVM
 aoO
-bbv
+pwN
 fQU
 weQ
 weQ
@@ -305551,7 +305547,7 @@ sLn
 hmq
 iVM
 qer
-bbv
+pwN
 fQU
 weQ
 kyN
@@ -306003,7 +305999,7 @@ pyE
 scq
 iVM
 dNg
-pXY
+uQL
 fQU
 weQ
 teu
@@ -535159,10 +535155,10 @@ atE
 atE
 atE
 vxe
-uQL
-uQL
-uQL
-pdO
+lMc
+lMc
+lMc
+lMc
 lMc
 lMc
 lMc
@@ -540583,10 +540579,10 @@ gMg
 wxD
 vta
 vxe
-jdT
-jdT
-jdT
-xsk
+lMc
+lMc
+lMc
+lMc
 lMc
 vmi
 vmi
