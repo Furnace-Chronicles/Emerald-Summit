@@ -105,10 +105,10 @@
 		if(!do_after(user, channel_time) || get_dist(user, target) > allowed_range)
 			break
 		var/was_alive = (target.stat != DEAD)
-		target.adjustBruteLoss(10)  //10 damage every second
+		target.adjustBruteLoss(15)  //14 damage every second, or based on their skill level
 		target.blood_volume = max(target.blood_volume - 5, 0)
-		user.adjustBruteLoss(-10)
-		user.adjustFireLoss(-7)
+		user.adjustBruteLoss(-12)
+		user.adjustFireLoss(-8)
 		user.blood_volume = min(user.blood_volume + 5, BLOOD_VOLUME_NORMAL)
 
 		if(was_alive && target.stat == DEAD && !buff_given)    //buff for killing someone while channeling
