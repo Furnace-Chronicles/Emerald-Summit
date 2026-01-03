@@ -1133,13 +1133,42 @@
 	desc = "My body has become a treacherous obstacle."
 	icon_state = "buff"
 
+/obj/effect/xylix_pratfall_proxy
+	name = ""
+	icon = 'icons/mob/mob.dmi'
+	icon_state = null
+	mouse_opacity = 0
+	layer = MOB_LAYER + 1
+	anchored = TRUE
+	invisibility = INVISIBILITY_ABSTRACT
+
+	var/mob/living/owner
+
 /datum/status_effect/buff/xylix_pratfall
 	id = "xylix_pratfall"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/xylix_pratfall
 	duration = 20 MINUTES
 
-/datum/status_effect/buff/xylix_pratfall/Crossed(atom/movable/AM)
+	var/obj/effect/xylix_pratfall_proxy/proxy
+
+/datum/status_effect/buff/xylix_pratfall/on_apply()
 	. = ..()
+
+	if(isliving(owner))
+		proxy = new /obj/effect/xylix_pratfall_proxy(owner.loc)
+		proxy.owner = owner
+
+/datum/status_effect/buff/xylix_pratfall/on_remove()
+	. = ..()
+
+	if(proxy)
+		qdel(proxy)
+
+/obj/effect/xylix_pratfall_proxy/Crossed(atom/movable/AM)
+	. = ..()
+
+	if(!owner)
+		return
 
 	if(!isliving(AM))
 		return
@@ -1151,12 +1180,12 @@
 	if(M.mobility_flags & MOBILITY_STAND)
 		return
 
-	// Do not slip Xylix patrons
-	if(L.patron?.type == /datum/patron/divine/xylix)
-		return
-
 	// Ignore buckled mobs
 	if(L.buckled)
+		return
+
+	// Do not slip Xylix patrons
+	if(L.patron?.type == /datum/patron/divine/xylix)
 		return
 
 	L.visible_message(
