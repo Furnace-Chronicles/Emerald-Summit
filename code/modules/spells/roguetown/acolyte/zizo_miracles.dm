@@ -41,11 +41,11 @@
 		user.adjustBruteLoss(4)             //non worshipers do not share your ambition, pay the price to heal them
 		return TRUE
 		
-	//shitty ass psydonites need special code in here
+	//shitty ass psydonites need special code in here, im adding extra damage to psydonites just because they made me write this block
 	if(HAS_TRAIT(target, TRAIT_PSYDONITE))
 		user.visible_message(span_danger("[target] is seared by necrotic power!"))
 		target.visible_message(span_danger("Agonizing necrotic energy burns through my body!"))
-		target.adjustFireLoss(12)             //making sure psydonites get attacked too
+		target.adjustFireLoss(14)             //making sure psydonites get attacked too
 		target.adjustBruteLoss(4)             //damage here
 		return FALSE
 		
