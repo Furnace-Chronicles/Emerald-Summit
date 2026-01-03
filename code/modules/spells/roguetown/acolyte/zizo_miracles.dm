@@ -112,7 +112,6 @@
 		if(was_alive && target.stat == DEAD && !buff_given)    //buff for killing someone while channeling
 			buff_given = TRUE
 			user.apply_status_effect(/datum/status_effect/buff/zizo_con)
-			user.visible_message(span_danger("[target] collapses before you, your power has claimed them!"))
 	bloodbeam.End()
 	return TRUE
 	
