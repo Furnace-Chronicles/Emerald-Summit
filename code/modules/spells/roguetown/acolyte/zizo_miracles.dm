@@ -4,12 +4,20 @@
 	name = "Miracle"
 	desc = "Call upon ZIZO to heal your target, possibly at a cost..."
 	overlay_state = "zizo_lesser"
+	releasedrain = 20
+	chargedrain = 0
+	chargetime = 0
 	movement_interrupt = FALSE
 	sound = 'sound/magic/zizo_heal.ogg'
 	invocation_type = "none"
 	antimagic_allowed = TRUE
+	recharge_time = 10 SECONDS
+	miracle = TRUE
 	devotion_cost = 5
 	range = 7
+
+/mob/living/proc/clear_sunder_fire()    //to stop sunder in my lesser healing
+	remove_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder)
 	
 /obj/effect/proc_holder/spell/invoked/lesser_heal/zizo/can_heal(mob/living/carbon/human/user, mob/living/target)
 	if (target == user)
@@ -27,6 +35,7 @@
 			revert_cast()
 			return FALSE
 	if(target.patron?.type == /datum/patron/inhumen/zizo)
+		target.clear_sunder_fire()
 		return TRUE
 	if(target.mob_biotypes & MOB_UNDEAD)
 		user.adjustBruteLoss(4)             //non worshipers do not share your ambition, pay the price to heal them
@@ -35,12 +44,130 @@
 	//shitty ass psydonites need special code in here
 	if(HAS_TRAIT(target, TRAIT_PSYDONITE))
 		user.visible_message(span_danger("[target] is seared by necrotic power!"))
+		target.visible_message(span_danger("Agonizing necrotic energy burns through my body!"))
 		target.adjustFireLoss(12)             //making sure psydonites get attacked too
-		user.adjustBruteLoss(4)             //damage here
+		target.adjustBruteLoss(4)             //damage here
 		return FALSE
 		
 	// EVERYONE ELSE	
 	user.visible_message(span_danger("[target] is seared by necrotic power!"))
+	target.visible_message(span_danger("Agonizing necrotic energy burns through my body!"))
 	target.adjustFireLoss(12)     //damage is here
 	user.adjustBruteLoss(4)
 	return FALSE
+	
+//Blood Heal T2
+/obj/effect/proc_holder/spell/invoked/blood_heal/zizo
+	name = "Lyfe Drain"
+	desc = "ZIZO demands lyfe energy. Steal the lyfe force of others so I may continue."
+	overlay_state = "bloodsteal"
+	action_icon_state = "blooddrain"
+	releasedrain = 20
+	chargedrain = 0
+	chargetime = 0
+	ignore_los = FALSE
+	movement_interrupt = TRUE
+	sound = 'sound/magic/zizo_bloodheal.ogg'
+	invocation_type = 'none'
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = FALSE
+	recharge time = 20 SECONDS
+	miracle = TRUE
+	range = 5
+
+/obj/effect/proc_holder/spell/invoked/blood_heal/zizo/cast(list/targets, mob/living/carbon/human/user)
+	var/mob/living/target = targets[1]
+	if(!isliving(target) || target.stat == DEAD)
+		to_chat(user, span_warning("Cannot drain from the dead!"))
+		revert_cast()
+		return FALSE
+		
+	var/allowed_range = 1   //range code
+	if(user.devotion?.level == CLERIC_T4)  //only T4 clerics can cast at distance
+		allowed_range = range    
+	if(get_dist(user, target) > allowed_range)
+		to_chat(user, span_warning("I must be closer to channel dark power!"))
+		revert_cast()
+		return FALSE
+	if((target.mob_biotypes & MOB_UNDEAD) || target.patron?.type == /datum/patron/inhumen/zizo)
+		return ..()
+	
+	playsound(user, 'sound/magic/zizo_bloodheal_start.ogg', 100, TRUE)
+	var/user_skill = user.get_skill_level(associated_skill)
+	var/max_loops = 4 + user_skill        //max is 10 at legendary, expert is 8 loops
+	var/channel_time = 1.2 SECONDS - ((user_skill - 1) * 0.08 SECONDS)  //so at 6 skill its 0.8 seconds, at 1 its 1.2 seconds
+	var/beam_time = max_loops * channel_time * 10
+	
+	//damage beam loop here
+	var/datum/beam/bloodbeam = user.Beam(target, icon_state="blood", time=(beam_time))
+	var/buff_given = FALSE
+	for(var/i = 1 to max_loops)
+		if(!do_after(user, channel_time) || get_dist(user, target) > allowed_range)
+			break
+		var/was_alive = (target.stat != DEAD)
+		target.adjustBruteLoss(10)  //10 damage every second
+		target.blood_volume = max(target.blood_volume - 5, 0)
+		user.adjustBruteLoss(-9)
+		user.adjustFireLoss(-7)
+		user.blood_volume = min(user.blood_volume + 5, BLOOD_VOLUME_NORMAL)
+
+		if(was_alive && target.stat == DEAD && !buff_given)    //buff for killing someone while channeling
+			buff_given = TRUE
+			user.apply_status_effect(/datum/status_effect/buff/zizo_con)
+			user.visible_message(span_danger("[target] collapses before you, your power has claimed them!"))
+	bloodbeam.End()
+	return TRUE
+	
+//Wound heal T3
+/obj/effect/proc_holder/spell/invoked/wound_heal/zizo
+	name = "Vile Wound Heal"
+	desc = "Seals flesh through sacrafice, restoring even what was lost."
+	overlay_icon = "icons/mob/actions/genericmiracles.dmi'
+	overlay_state = 'zizo_wound_heal'
+	action_icon = 'icons/mob/actions/genericmiracles.dmi'
+	releasedrain = 15
+	chargedrain = 0
+	chargetime = 3
+	range = 1
+	ignore_los = FALSE
+	warnie = "sydwarning"
+	movement_interrupt = TRUE
+	chargedloop = /datum/looping_sound/invokeascendant
+	sound = 'sound/magic/zizo_woundheal.ogg'
+	invocation_type = "none"
+	antimagic_allowed = FALSE
+	recharge_time = 90 SECONDS
+	miracle = TRUE
+	is_cdr_expempt = TRUE
+	devotion_cost = 60
+
+/obj/effect/proc_holder/spell/invoked/wound_heal/zizo/cast(list/targets, mob/living/carbon/human/user = user)
+	if(!ishuman(targets[1]))
+		revert_cast()
+		return FALSE
+	var/mob/living/carbon/human/target = targets[1]
+	var/mob/living/carbon/human/UH = user
+	if(!(target.mob_biotypes & MOB_UNDEAD) && target.patron?.type != /datum/patron/inhumen/zizo)
+		target.visible_message(span_info("[target] recoils as the profane miracle refuses them."))
+		revert_cast()
+		return FALSE
+	var/def_zone = check_zone(user.zone_selected)
+	var/obj/item/bodypart/affecting = target.get_bodypart(def_zone)
+	
+	if(!affecting)
+		var/health_cost = 50 //balance it here
+		if(UH.getBruteLoss() + health_cost >= UH.maxHealth)
+			to_chat(user, span_warning("I am too weak to pay the price."))
+			revert_cast()
+			return FALSE
+			
+		UH.adjustBruteLoss(health_cost)
+		UH.adjustFireLoss(health_cost)
+		target.visible_message(span_danger("[target]'s missing flesh crawls back into being!"))
+		
+		target.regenerate_limb(def_zone)
+		target.update_damage_hud()
+		playsound(target, 'sound/magic/woundheal_crunch.ogg', 100, TRUE)
+		return TRUE
+	//IF LIMB EXISTS GOES TO WOUND HEAL GENERIC
+	return ..()
