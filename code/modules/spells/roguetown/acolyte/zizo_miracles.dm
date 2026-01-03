@@ -165,7 +165,7 @@
 		UH.adjustFireLoss(health_cost)
 		target.visible_message(span_danger("[target]'s missing flesh crawls back into being!"))
 		
-		target.regenerate_limb(def_zone)
+		target.regenerate_limb(def_zone)   //I have no idea if this works yet, probably wont
 		target.update_damage_hud()
 		playsound(target, 'sound/magic/woundheal_crunch.ogg', 100, TRUE)
 		return TRUE
