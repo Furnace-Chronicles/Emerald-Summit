@@ -796,7 +796,7 @@
 	max_integrity = 9999
 	bigboy = 1
 	wlength = WLENGTH_LONG
-	associated_skill = /datum/skill/combat/axes
+	associated_skill = /datum/skill/combat/maces
 	smeltresult = null
 	is_silver = TRUE
 	toggle_state = null
