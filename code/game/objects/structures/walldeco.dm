@@ -212,7 +212,7 @@
 	..()
 
 /obj/structure/fluff/walldeco/customflag
-	name = "Scarlet Reach flag"
+	name = "Aemerlond flag"
 	desc = "A banner flutters in the breeze in the proud heraldic colors of the Duchy."
 	icon_state = "wallflag"
 

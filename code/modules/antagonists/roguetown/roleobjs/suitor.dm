@@ -19,7 +19,7 @@
 	return ..()
 
 /datum/antagonist/suitor/greet()
-	to_chat(owner.current, span_userdanger("I've been sent here with a purpose. I must secure a marriage with the local duke in order to bolster my house's relations with Scarlet, by any means necessary."))
+	to_chat(owner.current, span_userdanger("I've been sent here with a purpose. I must secure a marriage with the local duke in order to bolster my house's relations with Aemerlond, by any means necessary."))
 	owner.announce_objectives()
 	..()
 
@@ -42,11 +42,11 @@
 	if(traitorwin)
 		owner.adjust_triumphs(3)
 		to_chat(owner.current, span_greentext("I've successfully married into the throne and secured an alliance for my house!"))
-		to_chat(world, span_greentext("[owner.current.real_name] successfully married [marriagepartner] and secured an alliance with Scarlet for their house!"))
+		to_chat(world, span_greentext("[owner.current.real_name] successfully married [marriagepartner] and secured an alliance with Aemerlond for their house!"))
 		if(owner?.current)
 			owner.current.playsound_local(get_turf(owner.current), 'sound/misc/triumph.ogg', 100, FALSE, pressure_affected = FALSE)
 	else
-		to_chat(owner.current, span_redtext("I've failed to secure a marriage into the throne of Scarlet Reach! My house will be disappointed!"))
+		to_chat(owner.current, span_redtext("I've failed to secure a marriage into the throne of Aemerlond! My house will be disappointed!"))
 		to_chat(world, span_redtext("[owner.current.real_name] failed to secure a marriage with the throne!"))
 		if(owner?.current)
 			owner.current.playsound_local(get_turf(owner.current), 'sound/misc/fail.ogg', 100, FALSE, pressure_affected = FALSE)

@@ -466,7 +466,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/leather/studded/warden
 	name = "forester's armor"
-	desc = "A hardened leather harness with a large pauldron worn over a maille coat, associated with the Scarlet Reach wardens."
+	desc = "A hardened leather harness with a large pauldron worn over a maille coat, associated with the Aemerlond wardens."
 	body_parts_covered = COVERAGE_ALL_BUT_LEGS
 	icon = 'icons/roguetown/clothing/special/warden.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/warden.dmi'
@@ -1658,7 +1658,7 @@
 // new knight captain drip
 /obj/item/clothing/suit/roguetown/armor/champion
 	name = "champion's brigandine"
-	desc = "A coat with plates specifically tailored and forged for the champion of Scarlet Reach."
+	desc = "A coat with plates specifically tailored and forged for the champion of Aemerlond."
 	icon_state = "champplate"
 	icon = 'icons/roguetown/clothing/special/champion.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/champion.dmi'

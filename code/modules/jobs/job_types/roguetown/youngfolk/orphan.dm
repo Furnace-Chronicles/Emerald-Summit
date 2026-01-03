@@ -8,7 +8,7 @@
 	allowed_races = RACES_ALL_KINDS
 	disallowed_races = /datum/species/ogre
 //	allowed_ages = list(AGE_ADULT)
-	tutorial = "Dozens of people end up down on their luck in the Duchy of Scarlet Reach every day. They sometimes make something of themselves but much more often die in the streets."
+	tutorial = "Dozens of people end up down on their luck in the Duchy of Aemerlond every day. They sometimes make something of themselves but much more often die in the streets."
 	outfit = /datum/outfit/job/orphan
 	display_order = JDO_ORPHAN
 	show_in_credits = FALSE

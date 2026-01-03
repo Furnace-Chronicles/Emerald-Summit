@@ -1762,7 +1762,7 @@
 
 /obj/item/clothing/cloak/forrestercloak
 	name = "forrester cloak"
-	desc = "A cloak worn by the Black Oaks of Scarlet Reach."
+	desc = "A cloak worn by the Black Oaks of Aemerlond."
 	icon_state = "forestcloak"
 	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
@@ -1777,7 +1777,7 @@
 
 /obj/item/clothing/cloak/forrestercloak/snow
 	name = "snow cloak"
-	desc = "A cloak meant to keep one's body warm in the cold of the mountains as well as the dampness of Scarlet Reach."
+	desc = "A cloak meant to keep one's body warm in the cold of the mountains as well as the dampness of Aemerlond."
 	icon_state = "snowcloak"
 
 /obj/item/clothing/cloak/poncho
@@ -1863,7 +1863,7 @@
 // new knight captain drip
 /obj/item/clothing/cloak/champion
 	name = "champion's cape"
-	desc = "A cape with a gold embroided heraldry of Scarlet Reach, worn by the realm's champion."
+	desc = "A cape with a gold embroided heraldry of Aemerlond, worn by the realm's champion."
 	icon = 'icons/roguetown/clothing/special/champion.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/champion.dmi'
 	sleeved = 'icons/roguetown/clothing/special/onmob/champion.dmi'

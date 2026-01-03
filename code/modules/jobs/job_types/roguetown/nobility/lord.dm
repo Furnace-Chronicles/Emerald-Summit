@@ -68,7 +68,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 			SSticker.rulertype = "Grand Duchess"
 		else
 			SSticker.rulertype = "Grand Duke"
-		to_chat(world, "<b><span class='notice'><span class='big'>[L.real_name] is [SSticker.rulertype] of Scarlet Reach.</span></span></b>")
+		to_chat(world, "<b><span class='notice'><span class='big'>[L.real_name] is [SSticker.rulertype] of Aemerlond.</span></span></b>")
 		if(istype(SSticker.regentmob, /mob/living/carbon/human))
 			var/mob/living/carbon/human/regentbuddy = SSticker.regentmob
 			to_chat(L, span_notice("Word reached me on the approach that [regentbuddy.real_name], the [regentbuddy.job], served as regent in my absence."))
@@ -170,7 +170,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 */
 /datum/advclass/lord/merchant
 	name = "Merchant Lord"
-	tutorial = "You were always talented with coins and trade. And your talents have brought you to the position of the Lord of Scarlet Reach. You could be a merchant who bought his way into nobility and power, or an exceptionally talented noble who were inclined to be good with coins. Fighting directly is not your forte\
+	tutorial = "You were always talented with coins and trade. And your talents have brought you to the position of the Lord of Aemerlond. You could be a merchant who bought his way into nobility and power, or an exceptionally talented noble who were inclined to be good with coins. Fighting directly is not your forte\
 	But you have plenty of wealth, keen ears, and know a good deal from a bad one."
 	outfit = /datum/outfit/job/lord/merchant
 	category_tags = list(CTAG_LORD)
@@ -214,7 +214,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 **/
 /datum/advclass/lord/sorcerer
 	name = "Philosopher Lord"
-	tutorial = "Growing up you were always more interested in books and magic than you were with interacting with others. Alas, the royal blood does not make allowances for personality and like it or not, you rule Scarlet Reach. Hopefully your magical training and keen intellect will serve you well."
+	tutorial = "Growing up you were always more interested in books and magic than you were with interacting with others. Alas, the royal blood does not make allowances for personality and like it or not, you rule Aemerlond. Hopefully your magical training and keen intellect will serve you well."
 	outfit = /datum/outfit/job/lord/sorcerer
 	category_tags = list(CTAG_LORD)
 	
@@ -262,7 +262,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 */
 /datum/advclass/lord/inbred
 	name = "Inbred Lord"
-	tutorial = "Psydon and Astrata smiles upon you. For despite your inbred and weak body, and your family's conspiracies to remove you from succession, you have somehow become the Lord of Scarlet Reach. May your reign lasts a hundred years."
+	tutorial = "Psydon and Astrata smiles upon you. For despite your inbred and weak body, and your family's conspiracies to remove you from succession, you have somehow become the Lord of Aemerlond. May your reign lasts a hundred years."
 	outfit = /datum/outfit/job/lord/inbred
 	category_tags = list(CTAG_LORD)
 

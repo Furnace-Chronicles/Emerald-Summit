@@ -14,7 +14,7 @@
 
 /obj/structure/roguemachine/boardbarrier //Blocks sprite locations
 	name = ""
-	desc = "A large wooden notice board, carrying postings from all across Scarlet Reach. A ZAD perch sits atop it."
+	desc = "A large wooden notice board, carrying postings from all across Aemerlond. A ZAD perch sits atop it."
 	icon = 'icons/roguetown/underworld/underworld.dmi'
 	icon_state = "spiritpart"
 	density = TRUE

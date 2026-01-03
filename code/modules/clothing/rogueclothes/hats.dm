@@ -1825,7 +1825,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/frogmouth
 	name = "froggemund helmet"
-	desc = "A tall and imposing frogmouth-style helm popular in the highest plateaus of the Scarlet Reach. It covers not only the entire head and face, but the neck as well. Add a cloth to show the colors of your family or allegiance."
+	desc = "A tall and imposing frogmouth-style helm popular in the highest plateaus of the Aemerlond. It covers not only the entire head and face, but the neck as well. Add a cloth to show the colors of your family or allegiance."
 	icon_state = "frogmouth"
 	item_state = "frogmouth"
 	emote_environment = 3
@@ -2369,7 +2369,7 @@
 // Warden Helmets
 /obj/item/clothing/head/roguetown/helmet/bascinet/antler
 	name = "wardens's helmet"
-	desc = "A strange visored bascinet with a dark finish and a pair of large antlers of a saiga buck portruding from it. A sure sign of the Scarlet Reach wardens, along with their distinctive cloaks."
+	desc = "A strange visored bascinet with a dark finish and a pair of large antlers of a saiga buck portruding from it. A sure sign of the Aemerlond wardens, along with their distinctive cloaks."
 	icon = 'icons/roguetown/clothing/special/warden.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/warden64.dmi'
 	bloody_icon = 'icons/effects/blood64.dmi'
@@ -2391,7 +2391,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/antler/snouted
 	name = "wardens's 'buck' helmet"
-	desc = "A beastly snouted bascinet with the large antlers of a saiga buck protruding from it. Residents of Scarlet Reach know not to fear such a sight in the wilds, for they are exclusively associated with the Reaches wardens."
+	desc = "A beastly snouted bascinet with the large antlers of a saiga buck protruding from it. Residents of Readtun know not to fear such a sight in the wilds, for they are exclusively associated with the Reaches wardens."
 	icon_state = "wardensnout"
 
 /obj/item/clothing/head/roguetown/helmet/sallet/warden

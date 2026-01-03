@@ -265,7 +265,7 @@ SUBSYSTEM_DEF(treasury)
 	SStreasury.log_to_steward("+[amt] exported [D.name]")
 	record_round_statistic(STATS_STOCKPILE_EXPORTS_VALUE, amt)
 	if(!silent && amt >= EXPORT_ANNOUNCE_THRESHOLD) //Only announce big spending.
-		scom_announce("Scarlet Reach exports [D.name] for [amt] mammon.")
+		scom_announce("Readtun exports [D.name] for [amt] mammon.")
 	D.lower_demand()
 	return amt
 
@@ -283,4 +283,4 @@ SUBSYSTEM_DEF(treasury)
 			var/exported = do_export(D, TRUE)
 			total_value_exported += exported
 	if(total_value_exported >= EXPORT_ANNOUNCE_THRESHOLD)
-		scom_announce("Scarlet Reach exports [total_value_exported] mammons of surplus goods.")
+		scom_announce("Readtun exports [total_value_exported] mammons of surplus goods.")
