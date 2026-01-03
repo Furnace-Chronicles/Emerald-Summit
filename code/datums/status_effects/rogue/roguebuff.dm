@@ -1195,10 +1195,28 @@
 	if(L.patron?.type == /datum/patron/divine/xylix)
 		return
 
-	L.visible_message(
-		span_warning("[L] slips as they step over [M]!"),
-		span_danger("Your footing betrays you!")
+	var/list/messages = list(
+		"[L] slips on the Rune of Trickery!",
+		"[L] is betrayed by the rune beneath their feet!",
+		"[L] forgets how walking works atop the rune!",
+		"[L] stumbles as the rune mocks them!",
+		"[L] is humbled by ancient geometry!"
 	)
+
+	var/message = pick(messages)
+
+	L.visible_message(span_warning(message))
+
+	// Random clown laughter sound
+	var/list/sounds = list(
+		'sound/misc/clownedsitcomlaugh1.ogg',
+		'sound/misc/clownedsitcomlaugh2.ogg',
+		'sound/misc/clownedsitcomlaugh3.ogg',
+		'sound/misc/clownedhohoho.ogg',
+		'sound/misc/clownedhehe.ogg'
+	)
+
+	playsound(L, pick(sounds), 50, TRUE)
 
 	L.AdjustKnockdown(2)
 
