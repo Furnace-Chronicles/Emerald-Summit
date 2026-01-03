@@ -119,7 +119,7 @@
 /obj/effect/proc_holder/spell/invoked/wound_heal/zizo
 	name = "Vile Wound Heal"
 	desc = "Seals flesh through sacrafice, restoring even what was lost."
-	overlay_icon = "icons/mob/actions/genericmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/genericmiracles.dmi'
 	overlay_state = 'zizo_wound_heal'
 	action_icon = 'icons/mob/actions/genericmiracles.dmi'
 	releasedrain = 15
