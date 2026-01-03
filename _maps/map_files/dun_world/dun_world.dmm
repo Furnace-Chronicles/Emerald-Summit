@@ -2266,6 +2266,12 @@
 "aDs" = (
 /turf/open/floor/rogue/woodturned,
 /area/rogue/outdoors/town/roofs)
+"aDt" = (
+/obj/structure/foxpelt{
+	pixel_y = 1
+	},
+/turf/closed/wall/mineral/rogue/stone/moss,
+/area/rogue/indoors/town/cell)
 "aDw" = (
 /obj/structure/closet/crate/chest/wicker,
 /turf/open/floor/rogue/ruinedwood/turned,
@@ -48658,9 +48664,8 @@
 "mPo" = (
 /obj/structure/fluff/railing/corner,
 /obj/structure/table/wood/large_table/south_east,
-/obj/item/tablecloth/silk{
-	pixel_x = -6;
-	pixel_y = 6
+/obj/item/recipe_book/cooking{
+	pixel_y = 8
 	},
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors/town/manor)
@@ -68563,8 +68568,7 @@
 "scq" = (
 /obj/structure/lever{
 	name = "Shutters";
-	pixel_x = 7;
-	pixel_y = 11;
+	pixel_y = 12;
 	redstone_id = "keep_front"
 	},
 /obj/structure/table/wood,
@@ -89155,21 +89159,8 @@
 /obj/structure/table/wood/poor/alt_alt{
 	color = "#C4A484"
 	},
-/obj/item/tablecloth/silk{
-	pixel_x = -7;
-	pixel_y = 6
-	},
-/obj/item/tablecloth/silk{
-	pixel_x = 10;
-	pixel_y = 6
-	},
-/obj/item/tablecloth/silk{
-	pixel_x = 10;
-	pixel_y = -1
-	},
-/obj/item/tablecloth/silk{
-	pixel_x = -7;
-	pixel_y = -1
+/obj/structure/foxpelt{
+	pixel_y = 1
 	},
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors/town/manor)
@@ -297416,7 +297407,7 @@ oDW
 oDW
 oDW
 oDW
-ihW
+aDt
 bge
 bge
 bge
