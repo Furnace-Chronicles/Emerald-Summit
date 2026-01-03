@@ -146,7 +146,7 @@
 
 /datum/outfit/job/lich/post_equip(mob/living/carbon/human/H)
 	..()
-	H.mind.current.faction += "[user.mind.current.real_name]_faction"
+	H.mind.current.faction += "[H.mind.current.real_name]_faction"
 	var/datum/antagonist/lich/lichman = H.mind.has_antag_datum(/datum/antagonist/lich)
 	// One phylactery instead of 3 so that they don't need to get chased down non-stop.
 	var/obj/item/phylactery/new_phylactery = new(H.loc)
