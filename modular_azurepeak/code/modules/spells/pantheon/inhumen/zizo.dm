@@ -22,7 +22,7 @@
 
 /obj/effect/proc_holder/spell/invoked/projectile/profane/miracle
 	miracle = TRUE
-	devotion_cost = 10
+	devotion_cost = 5
 	associated_skill = /datum/skill/magic/holy
 
 /obj/effect/proc_holder/spell/invoked/projectile/profane/fire_projectile(mob/living/user, atom/target)
