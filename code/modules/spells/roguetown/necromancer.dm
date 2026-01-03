@@ -98,6 +98,8 @@
 	var/mob/living/summon = pick(summonlist)
 	var/mob/living/carbon/human/skeleton = new summon(T, user, cabal_affine)
 	skeleton.faction += "[user.mind.current.real_name]_faction"
+	if(cabal_affine)
+		skeleton.faction += "cabal"
 
 	return TRUE
 
