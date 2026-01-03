@@ -68562,12 +68562,6 @@
 /area/rogue/indoors)
 "scq" = (
 /obj/structure/lever{
-	name = "Drawbridge";
-	pixel_x = -8;
-	pixel_y = 11;
-	redstone_id = "gatelava"
-	},
-/obj/structure/lever{
 	name = "Shutters";
 	pixel_x = 7;
 	pixel_y = 11;
