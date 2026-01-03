@@ -203,8 +203,15 @@
 	if(length(allowed_ages) && !(H.age in allowed_ages))
 		return FALSE
 
-	if(length(allowed_patrons) && !(H.patron in allowed_patrons))
-		return FALSE
+	if(length(allowed_patrons))
+		var/allowed = FALSE
+		var/datum/patron/PA = H.patron
+		for(var/path in allowed_patrons)
+			if(istype(PA, path))
+				allowed = TRUE
+				break
+		if(!allowed)
+			return FALSE
 
 	if(length(virtue_restrictions) && H.client)
 		if((H.client.prefs.virtue?.type in virtue_restrictions) || (H.client.prefs.virtuetwo?.type in virtue_restrictions) || (H.client.prefs.virtue_origin?.type in virtue_restrictions))

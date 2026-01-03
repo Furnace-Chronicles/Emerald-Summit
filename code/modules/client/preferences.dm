@@ -288,6 +288,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	reset_descriptors()
 	virtue_origin = new pref_species.origin_default
 	tail_type = /obj/item/bodypart/lamian_tail/lamian_tail
+	if(virtue_origin.uniquefaith)
+		selected_patron = GLOB.patronlist[virtue_origin.uniquefaith[1].godhead]
+	else
+		selected_patron = /datum/patron/divine/astrata
 
 #define APPEARANCE_CATEGORY_COLUMN "<td valign='top' width='14%'>"
 #define MAX_MUTANT_ROWS 4
@@ -405,7 +409,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			if(pref_species.use_titles)
 				var/display_title = selected_title ? selected_title : "None"
 				dat += "<b>Race Title:</b> <a href='?_src_=prefs;preference=race_title;task=input'>[display_title]</a><BR>"
-			dat += "<b>Origin:</b> <a href='?_src_=prefs;preference=origin;task=input'>[virtue_origin]</a> <a href='?_src_=prefs;preference=originhelp;task=input'>❖</a><BR>"
+			dat += "<b>Origin:</b> <a href='?_src_=prefs;preference=origin;task=input'>[virtue_origin]</a><BR>"
 			if(agevetted)
 				dat += "<b>Family:</b> <a href='?_src_=prefs;preference=family'>[family ? family : "None"]</a><BR>"
 				if(family != FAMILY_NONE)
@@ -1683,11 +1687,18 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 				if("faith")
 					var/list/faiths_named = list()
-					for(var/path as anything in GLOB.preference_faiths)
-						var/datum/faith/faith = GLOB.faithlist[path]
-						if(!faith.name)
-							continue
-						faiths_named[faith.name] = faith
+					if(virtue_origin.uniquefaith)
+						for(var/path as anything in virtue_origin.uniquefaith)
+							var/datum/faith/faith = GLOB.faithlist[path]
+							if(!faith.name)
+								continue
+							faiths_named[faith.name] = faith
+					else
+						for(var/path as anything in GLOB.preference_faiths)
+							var/datum/faith/faith = GLOB.faithlist[path]
+							if(!faith.name)
+								continue
+							faiths_named[faith.name] = faith
 					var/faith_input = tgui_input_list(user, "The world rots. Which truth you bear?", "FAITH", faiths_named)
 					if(faith_input)
 						var/datum/faith/faith = faiths_named[faith_input]
@@ -2282,6 +2293,10 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
 						virtue_origin = virtue_chosen
 						to_chat(user, process_virtue_text(virtue_chosen))
+						if(virtue_origin.uniquefaith)
+							selected_patron = GLOB.patronlist[virtue_origin.uniquefaith[1].godhead]
+						else
+							selected_patron = /datum/patron/divine/astrata
 
 				if("charflaw")
 					var/list/coom = GLOB.character_flaws.Copy()
@@ -3094,6 +3109,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	var/dat
 	if(V.desc)
 		dat += "<font size = 3>[span_purple(V.desc)]</font><br>"
+	if(V.origin_desc)
+		dat += "<font size = 3><a href='?_src_=prefs;preference=originhelp;task=input'>Read More</a></font><br>"
 	if(length(V.added_skills))
 		if(istype(V, /datum/virtue/origin))
 			dat += "<font color = '#a3e2ff'><font size = 3>This Origin adds the following skills: <br>"

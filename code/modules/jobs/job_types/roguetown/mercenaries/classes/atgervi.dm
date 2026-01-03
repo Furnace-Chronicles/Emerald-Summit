@@ -3,6 +3,7 @@
 	tutorial = "You are a Varangian of the Gronn Highlands. Warrior-Traders whose exploits into the Raneshen Empire will be forever remembered by historians."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
+	allowed_patrons = ALL_INHUMEN_PATRONS
 	outfit = /datum/outfit/job/mercenary/atgervi
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_GRONN
@@ -41,9 +42,6 @@
 /datum/status_effect/buff/merchired/atgervi
 	effectedstats = list(STATKEY_END = 1, STATKEY_CON = 1, STATKEY_STR = 1)
 
-/datum/outfit/job/mercenary/atgervi
-	allowed_patrons = ALL_INHUMEN_PATRONS
-
 /datum/outfit/job/mercenary/atgervi/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a Varangian of the Gronn Highlands. Warrior-Traders most known for their exploits into the Raneshen Empire, which will be forever remembered by historians."))
@@ -76,6 +74,7 @@
 	name = "Atgervi Shaman"
 	tutorial = "You are a Shaman of the Fjall, The Northern Empty. Shamans are savage combatants who commune with the Ecclesical Beast Gods through ritualistic violence, rather than idle prayer."
 	outfit = /datum/outfit/job/mercenary/atgervishaman
+	allowed_patrons = ALL_INHUMEN_PATRONS
 
 	subclass_languages = list(/datum/language/gronnic)
 
@@ -105,9 +104,6 @@
 
 /datum/status_effect/buff/merchired/atgervishaman
 	effectedstats = list(STATKEY_STR = 1, STATKEY_SPD = 1, STATKEY_CON = 1)
-
-/datum/outfit/job/mercenary/atgervishaman
-	allowed_patrons = ALL_INHUMEN_PATRONS
 
 /datum/outfit/job/mercenary/atgervishaman/pre_equip(mob/living/carbon/human/H)
 	..()

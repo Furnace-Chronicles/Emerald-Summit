@@ -86,6 +86,8 @@ GLOBAL_LIST_EMPTY(heretical_players)
 /datum/outfit/job/priest/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
+	if(H.patron.parentpatron)
+		H.patron = new H.patron.parentpatron
 	neck = /obj/item/clothing/neck/roguetown/psicross/astrata
 	head = /obj/item/clothing/head/roguetown/priestmask
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
@@ -156,7 +158,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		mind.active_miracle_set = "Astrata"
 
 	var/list/god_choice = list()
-	for(var/path as anything in GLOB.patrons_by_faith[/datum/faith/divine])
+	for(var/path as anything in GLOB.patrons_by_faith[/datum/faith/divine/standard])
 		var/datum/patron/patron = GLOB.patronlist[path]
 		if(!patron?.name)
 			continue
@@ -174,7 +176,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 	// Retrieve the selected patron by searching through patrons_by_faith
 	var/datum/patron/god
-	for(var/path in GLOB.patrons_by_faith[/datum/faith/divine])
+	for(var/path in GLOB.patrons_by_faith[/datum/faith/divine/standard])
 		var/datum/patron/p = GLOB.patronlist[path]
 		if(p?.name == string_choice)
 			god = p

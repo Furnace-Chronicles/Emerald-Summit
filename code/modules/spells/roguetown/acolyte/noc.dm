@@ -36,6 +36,9 @@
 	revert_cast()
 	return FALSE
 
+/obj/effect/proc_holder/spell/invoked/blindness/kazengun
+	invocation = "Noishi blinds thee of thy sins!"
+
 /obj/effect/proc_holder/spell/invoked/invisibility
 	name = "Invisibility"
 	overlay_state = "invisibility"
@@ -211,6 +214,10 @@
 		return TRUE
 	revert_cast()
 	return FALSE
+
+/obj/effect/proc_holder/spell/invoked/noc_sight/kazengun
+	name = "Noishi's Gaze"
+	invocation = "Noishi guide my gaze."
 
 /obj/effect/proc_holder/spell/invoked/silence
 	name = "Silence"

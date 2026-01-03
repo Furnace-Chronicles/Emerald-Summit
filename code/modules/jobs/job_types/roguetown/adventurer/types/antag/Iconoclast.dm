@@ -8,6 +8,7 @@
 	maximum_possible_slots = 1 // We only want one of these.
 	cmode_music = 'sound/music/Iconoclast.ogg'
 	subclass_social_rank = SOCIAL_RANK_PEASANT
+	allowed_patrons = list(/datum/patron/inhumen/matthios)
 
 	traits_applied = list(
 		TRAIT_HEAVYARMOR,// We are going to be the lord's first heavy armor unarmed class
@@ -40,10 +41,6 @@
 
 /datum/outfit/job/bandit/iconoclast/pre_equip(mob/living/carbon/human/H)
 	..()
-	if (!(istype(H.patron, /datum/patron/inhumen/matthios)))	//This is the only class that forces Matthios. Needed for miracles + limited slot.
-		to_chat(H, span_warning("Matthios embraces me.. I must uphold his creed. I am his light in the darkness."))
-		H.set_patron(/datum/patron/inhumen/matthios)
-
 	belt = /obj/item/storage/belt/rogue/leather
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	r_hand = /obj/item/rogueweapon/woodstaff

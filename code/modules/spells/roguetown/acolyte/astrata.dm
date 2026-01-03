@@ -14,11 +14,15 @@
 	sound = 'sound/magic/astrata_choir.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
-	invocation = "Astrata show me true."
+	invocation = "Astrata show me true!"
 	invocation_type = "shout"
 	recharge_time = 120 SECONDS
 	devotion_cost = 30
 	miracle = TRUE
+
+/obj/effect/proc_holder/spell/self/astrata_gaze/kazengun
+	name = "Aisatan Gaze"
+	invocation = "Aisata show me true!"
 
 /obj/effect/proc_holder/spell/self/astrata_gaze/cast(list/targets, mob/user)
 	if(!ishuman(user))
