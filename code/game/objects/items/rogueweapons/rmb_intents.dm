@@ -297,7 +297,7 @@
 
 /mob/living/proc/attempt_riposte(mob/living/user, atom/target)
 	// if our mage armor is active, using RMB defend on ourself causes us instead to feed energy & stamina based on the time left before it comes back up to instantly recharge it
-	if (user == target && user.magearmor && HAS_TRAIT(user, TRAIT_MAGEARMOR))
+	if (user == target && user.can_speak_vocal() && user.magearmor && HAS_TRAIT(user, TRAIT_MAGEARMOR))
 		var/datum/status_effect/buff/magearmor/MA = user.has_status_effect(/datum/status_effect/buff/magearmor)
 		if (!MA)
 			return
