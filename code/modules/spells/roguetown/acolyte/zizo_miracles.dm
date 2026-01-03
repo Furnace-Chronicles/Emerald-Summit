@@ -2,7 +2,7 @@
 //Miracles T1
 /obj/effect/proc_holder/spell/invoked/lesser_heal/zizo
 	name = "Miracle"
-	desc = "Call upon ZIZO to heal your target, possibly at a cost..."
+	desc = "Call upon ZIZO to either damage or heal your target, possibly at a cost..."
 	overlay_state = "zizo_lesser"
 	releasedrain = 20
 	chargedrain = 0
@@ -57,7 +57,7 @@
 //Blood Heal T2
 /obj/effect/proc_holder/spell/invoked/blood_heal/zizo
 	name = "Lyfe Drain"
-	desc = "ZIZO demands lyfe energy. Steal the lyfe force of others so I may continue."
+	desc = "ZIZO demands lyfe energy, steal the lyfe force of others so I may continue. Killing the unambitious with it will give me a boon."
 	overlay_state = "bloodsteal"
 	action_icon_state = "blooddrain"
 	releasedrain = 20
