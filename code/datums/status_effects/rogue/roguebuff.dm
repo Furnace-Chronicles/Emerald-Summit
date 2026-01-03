@@ -1155,8 +1155,7 @@
 	. = ..()
 
 	if(isliving(owner))
-		proxy = new /obj/effect/xylix_pratfall_proxy(owner.loc)
-		proxy.owner = owner
+		proxy = new /obj/effect/xylix_pratfall_proxy(owner.loc, owner)
 
 		// Keep proxy on the owner's tile
 		spawn()
