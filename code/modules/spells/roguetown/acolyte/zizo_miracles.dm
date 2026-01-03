@@ -130,7 +130,6 @@
 	chargetime = 3
 	range = 1
 	ignore_los = FALSE
-	warnie = "sydwarning"
 	movement_interrupt = TRUE
 	chargedloop = /datum/looping_sound/invokeascendant
 	sound = 'sound/magic/zizo_woundheal.ogg'
