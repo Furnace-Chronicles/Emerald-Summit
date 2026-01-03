@@ -219,7 +219,7 @@
 	overlay_state = "revive"
 	releasedrain = 90
 	chargedrain = 0
-	chargetime = 50
+	chargetime = 160
 	range = 1
 	warnie = "sydwarning"
 	no_early_release = TRUE
