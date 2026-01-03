@@ -1158,6 +1158,13 @@
 		proxy = new /obj/effect/xylix_pratfall_proxy(owner.loc)
 		proxy.owner = owner
 
+		// Keep proxy on the owner's tile
+		spawn()
+			while(proxy && owner)
+				if(proxy.loc != owner.loc)
+					proxy.loc = owner.loc
+				sleep(1)
+
 /datum/status_effect/buff/xylix_pratfall/on_remove()
 	. = ..()
 
