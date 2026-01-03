@@ -105,7 +105,7 @@
 		if(!do_after(user, channel_time) || get_dist(user, target) > allowed_range)
 			break
 		var/was_alive = (target.stat != DEAD)
-		target.adjustBruteLoss(15)  //14 damage every second, or based on their skill level
+		target.adjustBruteLoss(15)  //15 damage every second, or based on their skill level
 		target.blood_volume = max(target.blood_volume - 5, 0)
 		user.adjustBruteLoss(-12)
 		user.adjustFireLoss(-8)
