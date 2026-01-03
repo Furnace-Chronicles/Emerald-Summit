@@ -67,7 +67,7 @@
 	chargetime = 0
 	ignore_los = FALSE
 	movement_interrupt = TRUE
-	sound = 'sound/magic/zizo_bloodheal.ogg'
+	sound = 'sound/magic/bloodheal.ogg'
 	invocation_type = 'none'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
@@ -92,7 +92,7 @@
 	if((target.mob_biotypes & MOB_UNDEAD) || target.patron?.type == /datum/patron/inhumen/zizo)
 		return ..()
 	
-	playsound(user, 'sound/magic/zizo_bloodheal_start.ogg', 100, TRUE)
+	playsound(user, 'sound/magic/bloodheal_start.ogg', 100, TRUE)
 	var/user_skill = user.get_skill_level(associated_skill)
 	var/max_loops = 4 + user_skill        //max is 10 at legendary, expert is 8 loops
 	var/channel_time = 1.2 SECONDS - ((user_skill - 1) * 0.08 SECONDS)  //so at 6 skill its 0.8 seconds, at 1 its 1.2 seconds
@@ -138,7 +138,7 @@
 	antimagic_allowed = FALSE
 	recharge_time = 90 SECONDS
 	miracle = TRUE
-	is_cdr_expempt = TRUE
+	is_cdr_exempt = TRUE
 	devotion_cost = 60
 
 /obj/effect/proc_holder/spell/invoked/wound_heal/zizo/cast(list/targets, mob/living/carbon/human/user = user)
