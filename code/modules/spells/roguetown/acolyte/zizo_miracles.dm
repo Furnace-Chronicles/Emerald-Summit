@@ -122,7 +122,7 @@
 	bloodbeam.End()
 	return TRUE
 	
-//Wound heal T3
+//Wound heal T4
 /obj/effect/proc_holder/spell/invoked/wound_heal/zizo
 	name = "Vile Wound Heal"
 	desc = "Seals flesh through sacrafice, restoring even what was lost."
@@ -135,7 +135,7 @@
 	range = 1
 	ignore_los = FALSE
 	warnie = "sydwarning"
-	movement_interrupt = TRUE
+	movement_interrupt = FALSE
 	chargedloop = /datum/looping_sound/invokeascendant
 	sound = 'sound/magic/zizo_woundheal.ogg'
 	invocation_type = "none"
