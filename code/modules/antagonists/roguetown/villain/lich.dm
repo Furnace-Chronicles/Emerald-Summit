@@ -353,12 +353,24 @@
 	addtimer(CALLBACK(src, PROC_REF(lichdeath), user), 5 SECONDS)
 
 /obj/effect/proc_holder/spell/self/suicidebomb/proc/lichdeath(mob/living/user)
+	// Check if user is undergoing divine_destruction - if so, trigger calcification override
+	if((user.status_flags & GODMODE) && (user in GLOB.divine_destruction_mobs))
+		// Send signal to trigger calcification override
+		SEND_SIGNAL(user, COMSIG_LIVING_CALCIFICATION_OVERRIDE)
+		// Continue with normal explosion after the 15 second sequence
+		addtimer(CALLBACK(src, PROC_REF(do_explosion), user), 15 SECONDS)
+		return TRUE
+	
+	do_explosion(user)
+	return TRUE
+
+/obj/effect/proc_holder/spell/self/suicidebomb/proc/do_explosion(mob/living/user)
 	var/datum/antagonist/lich/lichman = user.mind.has_antag_datum(/datum/antagonist/lich)
 	explosion(get_turf(user), -1, exp_heavy, exp_light, exp_flash, 0, flame_range = exp_fire, soundin = 'sound/misc/explode/incendiary (1).ogg')
 	if(lichman && user.stat != DEAD && lichman.consume_phylactery(0)) // Use phylactery at 0 timer. Die if none.
 		return TRUE
 
-	user.death()
+	user.gib()
 	return TRUE
 
 /obj/effect/proc_holder/spell/self/suicidebomb/lesser

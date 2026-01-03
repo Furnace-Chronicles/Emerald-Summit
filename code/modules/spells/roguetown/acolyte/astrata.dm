@@ -1,3 +1,7 @@
+// Global tracking for divine destruction state
+// This is necessary for SOVL
+GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine destruction: list(mob) = list(timer_ids)
+
 //============================================
 // TIER 0 MIRACLES
 //============================================
@@ -383,7 +387,7 @@
 	invocation_type = "shout"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
-	recharge_time = 5 MINUTES
+	recharge_time = 3 MINUTES
 	miracle = TRUE
 	devotion_cost = 100
 
@@ -670,8 +674,14 @@
 	var/destruction_time = is_powerful ? 90 SECONDS : 30 SECONDS
 	target.Stun(destruction_time)
 	
-	// Make them immune to death during the destruction sequence
-	ADD_TRAIT(target, TRAIT_NODEATH, "divine_destruction")
+	// Make them immune to all damage during the destruction sequence
+	target.status_flags |= GODMODE
+	
+	// Track timer IDs for potential calcification override in global list
+	GLOB.divine_destruction_mobs[target] = list()
+	
+	// Register signal handler for calcification override
+	RegisterSignal(target, COMSIG_LIVING_CALCIFICATION_OVERRIDE, PROC_REF(handle_calcification_override))
 	
 	// Message sequence - different timings based on power
 	// 0 seconds - initial
@@ -680,35 +690,39 @@
 	if(is_powerful)
 		// Full 90 second sequence for powerful undead
 		// 15 seconds
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 1), 15 SECONDS)
+		GLOB.divine_destruction_mobs[target] += addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 1), 15 SECONDS, TIMER_STOPPABLE)
 		
 		// 30 seconds
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 2), 30 SECONDS)
+		GLOB.divine_destruction_mobs[target] += addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 2), 30 SECONDS, TIMER_STOPPABLE)
 		
 		// 45 seconds
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 3), 45 SECONDS)
+		GLOB.divine_destruction_mobs[target] += addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 3), 45 SECONDS, TIMER_STOPPABLE)
 		
 		// 60 seconds
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 4), 60 SECONDS)
+		GLOB.divine_destruction_mobs[target] += addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 4), 60 SECONDS, TIMER_STOPPABLE)
 		
 		// 75 seconds - final goodbye
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 5), 75 SECONDS)
+		GLOB.divine_destruction_mobs[target] += addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 5), 75 SECONDS, TIMER_STOPPABLE)
 		
 		// 90 seconds - KABOOM
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_finale), target, is_powerful), 90 SECONDS)
+		GLOB.divine_destruction_mobs[target] += addtimer(CALLBACK(src, PROC_REF(divine_destruction_finale), target, is_powerful), 90 SECONDS, TIMER_STOPPABLE)
 	else
 		// 30 second sequence for normal undead
 		// 10 seconds
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 1), 10 SECONDS)
+		GLOB.divine_destruction_mobs[target] += addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 1), 10 SECONDS, TIMER_STOPPABLE)
 		
 		// 20 seconds
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 3), 20 SECONDS)
+		GLOB.divine_destruction_mobs[target] += addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 3), 20 SECONDS, TIMER_STOPPABLE)
 		
 		// 30 seconds - KABOOM
-		addtimer(CALLBACK(src, PROC_REF(divine_destruction_finale), target, is_powerful), 30 SECONDS)
+		GLOB.divine_destruction_mobs[target] += addtimer(CALLBACK(src, PROC_REF(divine_destruction_finale), target, is_powerful), 30 SECONDS, TIMER_STOPPABLE)
 
 /obj/effect/proc_holder/spell/invoked/revive/proc/divine_destruction_message(mob/living/target, stage)
 	if(!target || target.stat == DEAD)
+		return
+	
+	// Check if calcification has overridden divine destruction
+	if(!(target in GLOB.divine_destruction_mobs))
 		return
 	
 	// Clean up old moblight if it exists
@@ -747,6 +761,10 @@
 	if(!target)
 		return
 	
+	// Check if calcification has overridden divine destruction
+	if(!(target in GLOB.divine_destruction_mobs))
+		return
+	
 	if(is_powerful)
 		target.visible_message(span_astrataextreme("[target] ERUPTS in a catastrophic explosion of holy light!"))
 	else
@@ -758,14 +776,93 @@
 	for(var/mob/M in viewers(target, 7))
 		M.flash_fullscreen("whiteflash")
 	
-	// Remove damage immunity before gibbing
-	REMOVE_TRAIT(target, TRAIT_NODEATH, "divine_destruction")
-	
 	// Remove filter and all moblights, then gib
 	target.remove_filter("divine_glow")
 	for(var/obj/effect/dummy/lighting_obj/moblight/L in target)
 		qdel(L)
+	
+	// Clean up tracking variables
+	GLOB.divine_destruction_mobs -= target
+	
+	// Unregister calcification signal
+	UnregisterSignal(target, COMSIG_LIVING_CALCIFICATION_OVERRIDE)
+	
 	target.gib()
+
+// Calcification Override for Divine Destruction
+// FOR WHEN SKELETONS WANT TO BE EXTRA FUNNY
+/obj/effect/proc_holder/spell/invoked/revive/proc/handle_calcification_override(mob/living/target)
+	SIGNAL_HANDLER
+	
+	if(!target)
+		return
+	
+	// Cancel all divine destruction timers
+	if(target in GLOB.divine_destruction_mobs)
+		for(var/timer_id in GLOB.divine_destruction_mobs[target])
+			deltimer(timer_id)
+		GLOB.divine_destruction_mobs -= target
+	
+	// Unregister the signal since we're handling it now
+	UnregisterSignal(target, COMSIG_LIVING_CALCIFICATION_OVERRIDE)
+	
+	// Remove old filter and moblights
+	target.remove_filter("divine_glow")
+	for(var/obj/effect/dummy/lighting_obj/moblight/L in target)
+		qdel(L)
+	
+	// Add RED calcification glow
+	target.add_filter("calcification_glow", 1, list("type" = "outline", "size" = 8, "color" = "#FF0000"))
+	target.mob_light("#FF0000", 10, 4)
+	
+	// Keep them stunned for the full 15 seconds
+	target.Stun(15 SECONDS)
+	
+	// Give them booming voice (thaumaturgy effect) - max potency
+	target.apply_status_effect(/datum/status_effect/thaumaturgy, 4)
+	
+	// Messages
+	to_chat(target, span_big(span_userdanger("I REFUSE TO BE UNMADE! MY BONES WILL BECOME MY VENGEANCE!")))
+	target.visible_message(span_big(span_danger("[target]'s holy light suddenly turns to BURNING RED as they begin to vibrate with terrible energy!")))
+	
+	// 15 second explosion sequence with messages
+	// 5 seconds
+	addtimer(CALLBACK(src, PROC_REF(calcification_message), target, 1), 5 SECONDS)
+	
+	// 10 seconds
+	addtimer(CALLBACK(src, PROC_REF(calcification_message), target, 2), 10 SECONDS)
+	
+	// 14 seconds - cleanup
+	addtimer(CALLBACK(src, PROC_REF(calcification_finale), target), 14 SECONDS)
+
+/obj/effect/proc_holder/spell/invoked/revive/proc/calcification_message(mob/living/target, stage)
+	if(!target || target.stat == DEAD)
+		return
+	
+	switch(stage)
+		if(1)
+			to_chat(target, span_big(span_userdanger("THE CALCIFICATION INTENSIFIES! I FEEL MY BONES CRACKING WITH POWER!")))
+			target.visible_message(span_big(span_danger("[target] glows even BRIGHTER with crimson energy, cracks spreading across their form!")))
+			target.add_filter("calcification_glow", 1, list("type" = "outline", "size" = 12, "color" = "#FF0000"))
+		if(2)
+			to_chat(target, span_big(span_userdanger("WITNESS THE POWER OF UNDEATH! I AM BECOME DEATH!")))
+			target.visible_message(span_big(span_danger("[target] is now a BLAZING PILLAR OF RED LIGHT!")))
+			target.add_filter("calcification_glow", 1, list("type" = "outline", "size" = 15, "color" = "#FF0000"))
+
+/obj/effect/proc_holder/spell/invoked/revive/proc/calcification_finale(mob/living/target)
+	if(!target)
+		return
+	
+	// Epic explosion message
+	target.visible_message(span_big(span_userdanger("[target] DETONATES in a CATACLYSMIC EXPLOSION OF BONE AND FURY!")))
+	
+	// Remove filter and moblights
+	target.remove_filter("calcification_glow")
+	for(var/obj/effect/dummy/lighting_obj/moblight/L in target)
+		qdel(L)
+	
+	// Clean up state
+	GLOB.divine_destruction_mobs -= target
 
 //T4. Invoked Reverence Support Code
 /obj/effect/proc_holder/spell/invoked/invoked_reverence/proc/remove_divine_overlay(mob/living/target)
