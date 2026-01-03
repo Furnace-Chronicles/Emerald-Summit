@@ -173,34 +173,6 @@
 	invocation_type = "shout"
 	sound = 'sound/magic/holyshield.ogg'
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// THIS IS HERE FOR TESTING PURPOSES ONLY - REMOVE LATER
-/obj/effect/proc_holder/spell/self/astrata_gaze/kazengun
-	name = "Aisatan Gaze"
-	invocation = "Aisata show me true!"
-
-
 /obj/effect/proc_holder/spell/self/suns_shield/cast(list/targets, mob/living/user = usr)
 	var/is_day = (GLOB.tod == "day")
 	var/user_duration = is_day ? 2 MINUTES : 1 MINUTES
@@ -302,6 +274,7 @@
 			
 						// Range check for powerful undead - must be within 6 tiles
 			if(is_powerful_undead)
+				var/distance = get_dist(user, target)
 				if(distance > 6)
 					to_chat(user, span_danger("This ancient evil is too far away! I must be closer to channel enough divine power to unmake them!"))
 					revert_cast()
