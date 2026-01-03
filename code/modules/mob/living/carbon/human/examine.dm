@@ -110,15 +110,8 @@
 		. = list("[display1] [display2]")
 		if(ishuman(user))
 			var/mob/living/carbon/human/H = user
-			if(H.dna.species.origin == dna.species.origin && src != H)
-				if(dna.species.region)
-					var/region = SPAN_TOOLTIP_DANGEROUS_HTML(generate_origin(user), "<EM><U>[dna.species.region]</U></EM>")
-					if(src == H)
-						. += span_info("[capitalize(m2)] [dna.species.skin_tone_wording ? lowertext(dna.species.skin_tone_wording) : "skin tone"] originates in [region].")
-					else
-						. += span_info("<font color='f1d669' size='-1%'>Compatriot!</font> [capitalize(m2)] [dna.species.skin_tone_wording ? lowertext(dna.species.skin_tone_wording) : "skin tone"] originates in [region].")
-				else if(src != H)
-					. += span_info("<font color='f1d669' size='-1%'>Compatriot!</font> [capitalize(m2)] [dna.species.skin_tone_wording ? lowertext(dna.species.skin_tone_wording) : "skin tone"] originates in [dna.species.origin].")
+			if(H.dna.species.origin == dna.species.origin && dna.species.region)
+				. += span_info("[capitalize(m2)] [dna.species.skin_tone_wording ? lowertext(dna.species.skin_tone_wording) : "skin tone"] originates in [dna.species.region] of [dna.species.origin].")
 			else
 				. += span_info("[capitalize(m2)] [dna.species.skin_tone_wording ? lowertext(dna.species.skin_tone_wording) : "skin tone"] originates in [dna.species.origin].")
 
@@ -1145,13 +1138,5 @@
 			if(spouse_list.len)
 				spousetext = jointext(spouse_list, ", ")
 		output += "<BR>They are a member of house [family_datum.housename][spousetext ? ", and are married to [spousetext]." : "."]"
-
-	return output
-
-/mob/living/carbon/human/proc/generate_origin(mob/user)
-	var/output = ""
-	if(ishuman(src))
-		var/mob/living/carbon/human/H = src
-		output += "Located in [H.dna.species.origin]."
 
 	return output

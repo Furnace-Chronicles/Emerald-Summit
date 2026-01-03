@@ -4,11 +4,12 @@
 	var/origin_language
 
 /datum/virtue/origin/racial/reach
-	name = "Greywall"
-	desc = "I originate from the harsh wilds of the Greywall, a mountain range currently embroiled in a conflict between Grenzelhoft and Otava. Its known for its prevalence of Ascendant cults."
+	name = "Aemerlond - Readtun"
+	desc = "A once-bustling trade center and the capitol of Aemerlond, also colloquially known as the Scarlet Reach. It is now devastated in the wake of the Rosa Wars and the Mad Duke's reign. Considered the armpit of the world."
 	custom_text = "Grants free language."
+	region_title = "Readtun"
 	extra_language = TRUE
-	origin_title = "the Greywall"
+	origin_title = "Aemerlond"
 	races = list(/datum/species/human/northern,
 				/datum/species/demihuman,
 				/datum/species/elf/wood,
@@ -21,24 +22,19 @@
 )
 
 /datum/virtue/origin/racial/reach/heartfelt
-	name = "Greywall - Heartfelt"
+	name = "Aemerlond - Heartfelt"
 	desc = "I originate from the sodden valleys of Heartfelt, a struggling kingdom beset by Ascendant forces. Its court is dominated by scheming, such that coups are an annual occurance in this chaotic land."
 	region_title = "Heartfelt"
-	origin_desc = "The Barony of Heartfelt is Scarlet Reach's closest geographical neighbour and frequent incidental companion in ill-stricken fortunes. Many words have \
+	origin_desc = "The Barony of Heartfelt is Readtun's closest geographical neighbour and frequent incidental companion in ill-stricken fortunes. Many words have \
 	been used to describe the barony's vibrant political domain, with one foremost among them: failing. Crises born of scheming, circumstance and sometimes pure bad luck \
 	make Heartfeltian visitors a somewhat common sight in the Reach, ever petitioning for aid or support in ventures spanning from securing noble lineages to reclaiming \
 	fiefs overrun by followers of the Ascendant. For all the good and ill between the two states, they share an undeniable (if tenuous) bond, for only do the two together \
 	understand just how precarious existence atop a divine graveyard can really be."
 
-/datum/virtue/origin/racial/reach/scarlet
-	name = "Greywall - Scarlet Reach"
-	desc = "I originate from the dark forests of Scarlet Reach, an independent domain sandwiched between Otava and Grenzelhoft. Famed for its delicious waffles and many ancient ruins, it is neither prosperous nor well-respected."
-	region_title = "Scarlet Reach"
-	origin_desc = "An independent domain sandwiched between Otava and Grenzelhoft, positioned the eastern edge of the Greywall mountain range.<br> Scarlet Reach sits on a key \
-	passageway through the Greywall, and its harbor offers a neutral port for merchants and travelers. As a result, the Reach is host to a number of foreigners, including \
-	those from distant lands. Due to this valuable strategic position, however, both the Empire and the Holy Dominion constantly vie for control over the Reach. Yet \
-	Scarlet Reach still enjoys a tentative position of neutrality.<br> Both countries are currently locked in a stalemate, as neither the Patriarch of Otava nor the Emperor \
-	of Grenzelhoft are willing to see open war break out."
+/datum/virtue/origin/racial/reach/trethewey
+	name = "Aemerlond - Trethewey"
+	desc = "A small county perpetually indebted to the rest of the duchy, once known as 'Rockhill.' It is nearly superstitious practice to blame Trethewey for literally anything bad that happens in the duchy."
+	region_title = "Trethewey"
 
 /datum/virtue/origin/grenzelhoft
 	name = "Grenzelhoft"
