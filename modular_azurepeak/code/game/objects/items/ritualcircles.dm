@@ -235,8 +235,38 @@
 
 /obj/structure/ritualcircle/xylix
 	name = "Rune of Trickery"
-	icon_state = "xylix_chalky" //mortosasye sprite
-	desc = "A Holy Rune of Xylix. You can hear the wind and distant bells, in the distance."
+	desc = "A Holy Rune of Xylix. The air feels untrustworthy."
+	icon_state = "xylix_chalky"
+	var/trickeryrites = list("Rite of the Pratfall")
+
+/obj/structure/ritualcircle/xylix/attack_hand(mob/living/user)
+	if(!istype(user.patron, /datum/patron/divine/xylix))
+		to_chat(user, span_smallred("I don't know the proper rites for this..."))
+		return
+
+	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
+		to_chat(user, span_smallred("I don't know the proper rites for this..."))
+		return
+
+	var/riteselection = input(user, "Rituals of Trickery", src) as null|anything in trickeryrites
+
+	switch(riteselection)
+		if("Rite of the Pratfall")
+			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
+				to_chat(user, span_smallred("I have performed enough rituals for the day..."))
+				return
+
+			if(do_after(user, 40))
+				user.say("Hee. Hehehe.")
+				if(do_after(user, 40))
+					user.say("Watch your step.")
+					if(do_after(user, 30))
+						icon_state = "xylix_active"
+						loc.visible_message(span_warning("[user] traces a mocking sigil upon the rune."))
+						user.apply_status_effect(/datum/status_effect/buff/xylix_pratfall)
+						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
+						spawn(120)
+							icon_state = "xylix_chalky"
 
 /obj/structure/ritualcircle/ravox
 	name = "Rune of Justice"

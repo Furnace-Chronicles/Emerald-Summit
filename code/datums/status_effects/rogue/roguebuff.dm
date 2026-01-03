@@ -1127,6 +1127,46 @@
 	REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, id)
 	REMOVE_TRAIT(owner, TRAIT_STRONGBITE, id)
 
+
+/atom/movable/screen/alert/status_effect/buff/xylix_pratfall
+	name = "Blessing of the Pratfall"
+	desc = "My body has become a treacherous obstacle."
+	icon_state = "buff"
+
+/datum/status_effect/buff/xylix_pratfall
+	id = "xylix_pratfall"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/xylix_pratfall
+	duration = 20 MINUTES
+
+/datum/status_effect/buff/xylix_pratfall/Crossed(atom/movable/AM)
+	. = ..()
+
+	if(!isliving(AM))
+		return
+
+	var/mob/living/L = AM
+	var/mob/living/M = owner
+
+	// Owner must be lying down
+	if(M.mobility_flags & MOBILITY_STAND)
+		return
+
+	// Do not slip Xylix patrons
+	if(L.patron?.type == /datum/patron/divine/xylix)
+		return
+
+	// Ignore buckled mobs
+	if(L.buckled)
+		return
+
+	L.visible_message(
+		span_warning("[L] slips as they step over [M]!"),
+		span_danger("Your footing betrays you!")
+	)
+
+	L.AdjustKnockdown(2)
+
+
 /atom/movable/screen/alert/status_effect/buff/pacify
 	name = "Blessing of Eora"
 	desc = "I feel my heart as light as feathers. All my worries have washed away."
