@@ -258,13 +258,25 @@
 
 			if(do_after(user, 40))
 				user.say("Hee. Hehehe.")
+				playsound(loc, 'sound/misc/clownedhehe.ogg', 90, FALSE)
+
 				if(do_after(user, 40))
 					user.say("Watch your step.")
+					playsound(loc, 'sound/misc/clownedhohoho.ogg', 90, FALSE)
+
 					if(do_after(user, 30))
+						user.say("The ground remembers your mistakes.")
+						playsound(loc, 'sound/misc/clowned1.ogg', 90, FALSE)
+
 						icon_state = "xylix_active"
 						loc.visible_message(span_warning("[user] traces a mocking sigil upon the rune."))
-						user.apply_status_effect(/datum/status_effect/buff/xylix_pratfall)
+
+						// Apply buff to everyone nearby
+						for(var/mob/living/M in range(1, src))
+							M.apply_status_effect(/datum/status_effect/buff/xylix_pratfall)
+
 						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
+
 						spawn(120)
 							icon_state = "xylix_chalky"
 
