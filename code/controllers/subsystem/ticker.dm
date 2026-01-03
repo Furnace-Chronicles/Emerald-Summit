@@ -526,7 +526,7 @@ SUBSYSTEM_DEF(ticker)
 		CHECK_TICK
 	
 	var/total_time = world.timeofday - start_time
-	log_game("EQUIP COMPLETE: [valid_characters.len] players in [DisplayTimeText(total_time * 0.1)] (avg [DisplayTimeText(total_time / valid_characters.len * 0.1)] per player)")
+	log_game("EQUIP COMPLETE: [valid_characters.len] players in [DisplayTimeText(total_time * 0.1)] (avg [valid_characters.len? (DisplayTimeText(total_time / valid_characters.len * 0.1)) : DisplayTimeText(total_time)] per player)")
 
 /datum/controller/subsystem/ticker/proc/transfer_characters()
 	var/list/livings = list()
