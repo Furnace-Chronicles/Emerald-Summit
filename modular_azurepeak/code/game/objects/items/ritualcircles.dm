@@ -248,37 +248,42 @@
 		to_chat(user, span_smallred("I don't know the proper rites for this..."))
 		return
 
+	if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
+		to_chat(user, span_smallred("I have performed enough rituals for the day..."))
+		return
+
 	var/riteselection = input(user, "Rituals of Trickery", src) as null|anything in trickeryrites
+	if(riteselection != "Rite of the Pratfall")
+		return
 
-	switch(riteselection)
-		if("Rite of the Pratfall")
-			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
-				to_chat(user, span_smallred("I have performed enough rituals for the day..."))
-				return
+	if(!do_after(user, 40))
+		return
+	user.say("Hehe! Tippy toes and tumbling woes...")
+	playsound(loc, 'sound/misc/clownedhehe.ogg', 90, FALSE)
 
-			if(do_after(user, 40))
-				user.say("Hehe! Tippy toes and tumbling woes...")
-				playsound(loc, 'sound/misc/clownedhehe.ogg', 90, FALSE)
+	if(!do_after(user, 40))
+		return
+	user.say("Hoohoo! Step with care, or embrace the air!")
+	playsound(loc, 'sound/misc/clownedhohoho.ogg', 90, FALSE)
 
-				if(do_after(user, 40))
-					user.say("Hoohoo! Step with care, or embrace the air!")
-					playsound(loc, 'sound/misc/clownedhohoho.ogg', 90, FALSE)
+	if(!do_after(user, 30))
+		return
+	user.say("Hahaha! Your slippery fate awaits every move! A pratfall a day keeps the dignity away!")
+	playsound(loc, 'sound/vo/male/tyrant/laugh.ogg', 90, FALSE)
 
-					if(do_after(user, 30))
-						user.say("Hahaha! Your slippery fate awaits every move! A pratfall a day keeps the dignity away!")
-						playsound(loc, 'sound/vo/male/tyrant/laugh.ogg', 90, FALSE)
+	icon_state = "xylix_active"
+	loc.visible_message(span_warning("[user] traces a mocking sigil upon the rune."))
 
-						icon_state = "xylix_active"
-						loc.visible_message(span_warning("[user] traces a mocking sigil upon the rune."))
+	for(var/mob/living/M in range(1, src))
+		M.apply_status_effect(/datum/status_effect/buff/xylix_pratfall)
 
-						// Apply buff to everyone nearby
-						for(var/mob/living/M in range(1, src))
-							M.apply_status_effect(/datum/status_effect/buff/xylix_pratfall)
+	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 
-						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
+	addtimer(CALLBACK(src, PROC_REF(reset_rune)), 120)
 
-						spawn(120)
-							icon_state = "xylix_chalky"
+/obj/structure/ritualcircle/xylix/proc/reset_rune()
+	icon_state = "xylix_chalky"
+
 
 /obj/structure/ritualcircle/ravox
 	name = "Rune of Justice"

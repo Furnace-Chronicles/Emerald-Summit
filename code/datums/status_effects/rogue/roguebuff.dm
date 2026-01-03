@@ -1138,11 +1138,15 @@
 	icon = 'icons/mob/mob.dmi'
 	icon_state = null
 	mouse_opacity = 0
-	layer = ABOVE_MOB_LAYER```
+	layer = ABOVE_MOB_LAYER
 	anchored = TRUE
 	invisibility = INVISIBILITY_ABSTRACT
 
 	var/mob/living/owner
+
+/obj/effect/xylix_pratfall_proxy/Initialize(mapload, mob/living/_owner)
+	. = ..()
+	owner = _owner
 
 /datum/status_effect/buff/xylix_pratfall
 	id = "xylix_pratfall"
@@ -1154,59 +1158,61 @@
 /datum/status_effect/buff/xylix_pratfall/on_apply()
 	. = ..()
 
-	if(isliving(owner))
-		proxy = new /obj/effect/xylix_pratfall_proxy(owner.loc, owner)
+	if(!isliving(owner))
+		return
 
-		// Keep proxy on the owner's tile
-		spawn()
-			while(proxy && owner)
-				if(proxy.loc != owner.loc)
-					proxy.loc = owner.loc
-				sleep(1)
+	proxy = new(owner.loc, owner)
+
+	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(on_owner_moved))
+	RegisterSignal(owner, COMSIG_QDELETING, PROC_REF(on_owner_deleted))
+	RegisterSignal(proxy, COMSIG_QDELETING, PROC_REF(on_proxy_deleted))
 
 /datum/status_effect/buff/xylix_pratfall/on_remove()
 	. = ..()
+	cleanup()
+
+/datum/status_effect/buff/xylix_pratfall/proc/on_owner_moved()
+	if(proxy && owner)
+		proxy.loc = owner.loc
+
+/datum/status_effect/buff/xylix_pratfall/proc/on_owner_deleted()
+	cleanup()
+
+/datum/status_effect/buff/xylix_pratfall/proc/on_proxy_deleted()
+	proxy = null
+
+/datum/status_effect/buff/xylix_pratfall/proc/cleanup()
+	UnregisterSignal(owner, COMSIG_MOVABLE_MOVED)
+	UnregisterSignal(owner, COMSIG_QDELETING)
 
 	QDEL_NULL(proxy)
-		qdel(proxy)
 
 /obj/effect/xylix_pratfall_proxy/Crossed(atom/movable/AM)
 	. = ..()
 
-	if(!owner)
-		return
-
-	if(!isliving(AM))
+	if(!owner || !isliving(AM))
 		return
 
 	var/mob/living/L = AM
 	var/mob/living/M = owner
 
-	// Owner must be lying down
 	if(M.mobility_flags & MOBILITY_STAND)
 		return
-
-	// Ignore buckled mobs
 	if(L.buckled)
 		return
-
-	// Do not slip Xylix patrons
 	if(L.patron?.type == /datum/patron/divine/xylix)
 		return
 
 	var/list/messages = list(
-    	"[L] tries to be graceful, but [M] has other plans!",
-    	"[L] discovers that stepping on friends is hazardous!",
-    	"[L] flails wildly as [M] turns into a slippery obstacle!",
-    	"[L] forgets the art of walking thanks to [M]'s treachery!",
-    	"[L] meets the floor in a most undignified manner, courtesy of [M]!"
+		"[L] tries to be graceful, but [M] has other plans!",
+		"[L] discovers that stepping on friends is hazardous!",
+		"[L] flails wildly as [M] turns into a slippery obstacle!",
+		"[L] forgets the art of walking thanks to [M]'s treachery!",
+		"[L] meets the floor in a most undignified manner, courtesy of [M]!"
 	)
 
-	var/message = pick(messages)
+	L.visible_message(span_warning(pick(messages)))
 
-	L.visible_message(span_warning(message))
-
-	// Random laughter sound
 	var/list/sounds = list(
 		'sound/misc/clownedsitcomlaugh1.ogg',
 		'sound/misc/clownedsitcomlaugh2.ogg',
