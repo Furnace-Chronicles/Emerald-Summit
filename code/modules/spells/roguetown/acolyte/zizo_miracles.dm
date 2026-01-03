@@ -56,7 +56,6 @@
 
 	// EVERYONE ELSE
 	user.visible_message(span_danger("[target] is seared by necrotic power!"))
-	target.visible_message(span_danger("Agonizing necrotic energy burns through my body!"))
 	target.adjustFireLoss(12)     //damage is here
 	user.adjustBruteLoss(4)
 	return FALSE
