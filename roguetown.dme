@@ -90,6 +90,7 @@
 #include "code\__DEFINES\musicsystem.dm"
 #include "code\__DEFINES\nanites.dm"
 #include "code\__DEFINES\networks.dm"
+#include "code\__DEFINES\noticeboard.dm
 #include "code\__DEFINES\nutrition.dm"
 #include "code\__DEFINES\obj_flags.dm"
 #include "code\__DEFINES\offer.dm"
@@ -160,6 +161,7 @@
 #include "code\__DEFINES\dcs\signals\signals_mob.dm"
 #include "code\__DEFINES\dcs\signals\signals_movable.dm"
 #include "code\__DEFINES\dcs\signals\signals_moveloop.dm"
+#include "code\__DEFINES\dcs\signals\signals_noticeboard.dm
 #include "code\__DEFINES\dcs\signals\signals_objectives.dm"
 #include "code\__DEFINES\dcs\signals\signals_spatial_grid.dm"
 #include "code\__DEFINES\dcs\signals\signals_tgui.dm"
@@ -1679,6 +1681,7 @@
 #include "code\modules\jobs\job_types\roguetown\Inquisition\orthoclasses\disciple.dm"
 #include "code\modules\jobs\job_types\roguetown\Inquisition\orthoclasses\psydoniantemplar.dm"
 #include "code\modules\jobs\job_types\roguetown\mercenaries\mercenary.dm"
+#include "code\modules\jobs\job_types\roguetown\mercenaries\classes\_mercenary.dm
 #include "code\modules\jobs\job_types\roguetown\mercenaries\classes\atgervi.dm"
 #include "code\modules\jobs\job_types\roguetown\mercenaries\classes\blackoak.dm"
 #include "code\modules\jobs\job_types\roguetown\mercenaries\classes\condottiero.dm"
