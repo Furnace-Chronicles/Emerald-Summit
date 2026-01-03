@@ -1196,24 +1196,22 @@
 		return
 
 	var/list/messages = list(
-		"[L] slips on the Rune of Trickery!",
-		"[L] is betrayed by the rune beneath their feet!",
-		"[L] forgets how walking works atop the rune!",
-		"[L] stumbles as the rune mocks them!",
-		"[L] is humbled by ancient geometry!"
+    	"[L] tries to be graceful, but [M] has other plans!",
+    	"[L] discovers that stepping on friends is hazardous!",
+    	"[L] flails wildly as [M] turns into a slippery obstacle!",
+    	"[L] forgets the art of walking thanks to [M]'s treachery!",
+    	"[L] meets the floor in a most undignified manner, courtesy of [M]!"
 	)
 
 	var/message = pick(messages)
 
 	L.visible_message(span_warning(message))
 
-	// Random clown laughter sound
+	// Random laughter sound
 	var/list/sounds = list(
 		'sound/misc/clownedsitcomlaugh1.ogg',
 		'sound/misc/clownedsitcomlaugh2.ogg',
-		'sound/misc/clownedsitcomlaugh3.ogg',
-		'sound/misc/clownedhohoho.ogg',
-		'sound/misc/clownedhehe.ogg'
+		'sound/misc/clownedsitcomlaugh3.ogg'
 	)
 
 	playsound(L, pick(sounds), 50, TRUE)

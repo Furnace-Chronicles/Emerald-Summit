@@ -257,16 +257,16 @@
 				return
 
 			if(do_after(user, 40))
-				user.say("Hee. Hehehe.")
+				user.say("Hehe! Tippy toes and tumbling woes...")
 				playsound(loc, 'sound/misc/clownedhehe.ogg', 90, FALSE)
 
 				if(do_after(user, 40))
-					user.say("Watch your step.")
+					user.say("Hoohoo! Step with care, or embrace the air!")
 					playsound(loc, 'sound/misc/clownedhohoho.ogg', 90, FALSE)
 
 					if(do_after(user, 30))
-						user.say("The ground remembers your mistakes.")
-						playsound(loc, 'sound/misc/clownedhehe.ogg', 90, FALSE)
+						user.say("Hahaha! Your slippery fate awaits every move! A pratfall a day keeps the dignity away!")
+						playsound(loc, 'sound/vo/male/tyrant/laugh.ogg', 90, FALSE)
 
 						icon_state = "xylix_active"
 						loc.visible_message(span_warning("[user] traces a mocking sigil upon the rune."))
