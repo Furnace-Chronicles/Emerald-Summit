@@ -125,7 +125,7 @@
 		budget += C.stockprice * C.quantity
 	else
 		var/real_price = C.get_real_price()
-		budget += (real_price * 2)
+		budget += round(real_price * 1.5)
 		SStreasury.give_money_treasury(real_price, "stockpile deposit")
 		record_round_statistic(STATS_STOCKPILE_REVENUE, real_price)
 	qdel(C)
