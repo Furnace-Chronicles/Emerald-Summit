@@ -665,27 +665,31 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 			if(user.construct)
 				to_chat(user, span_warning("My body is already cold and lifeless. I have nothing to pledge."))
 				return
+
 			loc.visible_message(span_warning("[user] sways before the rune, they open their mouth, though no words come out..."))
 			playsound(user, 'sound/vo/mobs/ghost/whisper (3).ogg', 100, FALSE, -1)
+
 			if(do_after(user, 60))
 				loc.visible_message(span_warning("[user] silently weeps, yet their tears do not flow..."))
 				playsound(user, 'sound/vo/mobs/ghost/whisper (1).ogg', 100, FALSE, -1)
+
 				if(do_after(user, 60))
 					loc.visible_message(span_warning("[user] locks up, as though someone had just grabbed them..."))
 					to_chat(user, span_danger("You feel cold breath on the back of your neck..."))
 					playsound(user, 'sound/vo/mobs/ghost/death.ogg', 100, FALSE, -1)
+
 					if(do_after(user, 20))
 						icon_state = "necra_active"
 						user.say("This soul pledges themselves to thee!!")
 						to_chat(user, span_cultsmall("My devotion to the Undermaiden has allowed me to anoint a vow for this soul...."))
 
-						if(undermaidenvow_stage2())
+						if(advance_necra_vow())
 							playsound(loc, 'sound/vo/mobs/ghost/moan (1).ogg', 100, FALSE, -1)
 							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
-							spawn(120)
-								icon_state = "necra_chalky"
 						else
 							loc.visible_message(span_warning("Then... nothing. The Undermaiden does not care for the vows of the damned, those of other faiths, or the unprepared."))
+						spawn(120)
+							icon_state = "necra_chalky"
 
 		if("The Last Pact")
 			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
@@ -696,32 +700,39 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 				return
 			var/pact_seconds = 0
 			if(user.has_status_effect(/datum/status_effect/buff/necras_vow))
-				pact_seconds = 120
+				pact_seconds = 300
 			else if(user.has_status_effect(/datum/status_effect/buff/undermaidens_vow))
-				pact_seconds = 60
+				pact_seconds = 180
 			else
 				to_chat(user, span_warning("I am not yet marked by the vow. The Last Pact cannot be spoken."))
 				return
+
 			if(user.has_status_effect(/datum/status_effect/debuff/necra_last_pact_ashes))
 				to_chat(user, span_warning("The Last Pact is already upon me."))
 				return
+
 			loc.visible_message(span_warning("[user] kneels before the rune, shaking as if hearing distant bells..."))
 			playsound(user, 'sound/vo/mobs/ghost/whisper (3).ogg', 100, FALSE, -1)
+
 			if(do_after(user, 60))
 				loc.visible_message(span_warning("[user] draws a final sigil with trembling hands..."))
 				playsound(user, 'sound/vo/mobs/ghost/whisper (1).ogg', 100, FALSE, -1)
+
 				if(do_after(user, 60))
 					loc.visible_message(span_warning("[user] stiffens as a dead-cold presence leans close..."))
 					to_chat(user, span_danger("A final bargain is demanded..."))
 					playsound(user, 'sound/vo/mobs/ghost/death.ogg', 100, FALSE, -1)
+
 					if(do_after(user, 20))
 						icon_state = "necra_active"
 						user.say("By vow, I seal the last pact!!")
 						to_chat(user, span_cultsmall("The Undermaiden accepts the final seal..."))
+
 						user.apply_status_effect(/datum/status_effect/buff/healing/necras_vow)
 						user.apply_status_effect(/datum/status_effect/debuff/necra_last_pact_ashes, user, pact_seconds)
 						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 						playsound(loc, 'sound/vo/mobs/ghost/moan (1).ogg', 100, FALSE, -1)
+
 						spawn(120)
 							icon_state = "necra_chalky"
 
@@ -734,7 +745,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 /obj/structure/ritualcircle/necra/proc/undermaidenvow_stage2()
 	var/ritualtargets = range(1, loc)
 	for(var/mob/living/carbon/human/target in ritualtargets)
-		if(HAS_TRAIT(target, TRAIT_ROTMAN) || HAS_TRAIT(target, TRAIT_NOBREATH) || target.mob_biotypes & MOB_UNDEAD)
+		if(HAS_TRAIT(target, TRAIT_ROTMAN) || HAS_TRAIT(target, TRAIT_NOBREATH) || (target.mob_biotypes & MOB_UNDEAD))
 			return FALSE
 		if(target.patron?.type != /datum/patron/divine/necra)
 			return FALSE
@@ -742,11 +753,13 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 			return FALSE
 		if(target.has_status_effect(/datum/status_effect/buff/undermaidens_vow))
 			return FALSE
+		if(!target.has_status_effect(/datum/status_effect/debuff/necra_vow_burden))
+			return FALSE
 		target.remove_status_effect(/datum/status_effect/debuff/necra_vow_burden)
 		target.apply_status_effect(/datum/status_effect/buff/undermaidens_vow)
 		return TRUE
 	return FALSE
-
+	
 /obj/structure/ritualcircle/eora
 	name = "Rune of Love"
 	desc = "A Holy Rune of Eora. A gentle warmth and joy spreads across your soul."

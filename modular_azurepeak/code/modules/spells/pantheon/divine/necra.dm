@@ -214,24 +214,29 @@
 		revert_cast()
 		return FALSE
 	var/choice = alert(H,
-		"You are being asked to pledge a vow. This path is difficult to undo. Do you agree?",
+		"You are being asked to pledge Necra's vow. This path is difficult to undo. Do you agree?",
 		"VOW", "Yes", "No"
 	)
 	if(choice != "Yes")
 		to_chat(user, span_notice("They declined."))
-		return TRUE
+		revert_cast()
+		return FALSE
 	user.visible_message(span_warning("[user] grants [H] the blessing of their promise."))
 	to_chat(H, span_warning("I have committed. There is no going back."))
-	if(!H.has_status_effect(/datum/status_effect/debuff/necra_vow_burden) && !H.has_status_effect(/datum/status_effect/buff/undermaidens_vow))
-		H.apply_status_effect(/datum/status_effect/debuff/necra_vow_burden)
-		return TRUE
-	if(H.has_status_effect(/datum/status_effect/debuff/necra_vow_burden))
-		H.remove_status_effect(/datum/status_effect/debuff/necra_vow_burden)
-		H.apply_status_effect(/datum/status_effect/buff/undermaidens_vow)
-		return TRUE
+	if(H.has_status_effect(/datum/status_effect/buff/necras_vow))
+		to_chat(user, span_notice("They have already sealed the final vow."))
+		revert_cast()
+		return FALSE
 	if(H.has_status_effect(/datum/status_effect/buff/undermaidens_vow))
 		H.remove_status_effect(/datum/status_effect/buff/undermaidens_vow)
 		H.apply_status_effect(/datum/status_effect/buff/necras_vow)
+		return TRUE
+	else if(H.has_status_effect(/datum/status_effect/debuff/necra_vow_burden))
+		H.remove_status_effect(/datum/status_effect/debuff/necra_vow_burden)
+		H.apply_status_effect(/datum/status_effect/buff/undermaidens_vow)
+		return TRUE
+	else
+		H.apply_status_effect(/datum/status_effect/debuff/necra_vow_burden)
 		return TRUE
 
 	return TRUE
@@ -283,12 +288,11 @@
 
 #define NECRAVOW_FILTER "necravow_glow"
 
-// STAGE 1: shitty one (-1 con)
+// STAGE 1: Nothing
 
 /datum/status_effect/debuff/necra_vow_burden
 	id = "necra_vow_burden"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/necra_vow_burden
-	effectedstats = list("constitution" = -1)
 	duration = -1
 
 /datum/status_effect/debuff/necra_vow_burden/on_apply()
@@ -297,8 +301,12 @@
 		to_chat(owner, span_warning("A cold burden settles into my bones..."))
 	return TRUE
 
+/atom/movable/screen/alert/status_effect/debuff/necra_vow_burden
+	name = "Necra's Burden"
+	desc = "A grave-cold weight drags at my body."
+	icon_state = "necravow"
 
-// STAGE 2: Undermaidens Vow (get cool undeadaura)
+// STAGE 2: Undermaiden's Vow (just funny aura)
 
 /datum/status_effect/buff/undermaidens_vow
 	id = "undermaidens_vow"
@@ -324,11 +332,17 @@
 	. = ..()
 	if(owner)
 		owner.remove_filter(NECRAVOW_FILTER)
+		REMOVE_TRAIT(owner, TRAIT_NECRAS_VOW, TRAIT_MIRACLE)
 		to_chat(owner, span_warning("My body feels strange... hollow..."))
 	return TRUE
 
+/atom/movable/screen/alert/status_effect/buff/undermaidens_vow
+	name = "Undermaiden's Vow"
+	desc = "A vow rests upon my soul, awaiting its final seal."
+	icon_state = "necravow"
 
-// STAGE 3: Necras Vow (+2 cons) 
+
+// STAGE 3:
 
 /datum/status_effect/buff/necras_vow
 	id = "necravow"
@@ -355,21 +369,40 @@
 	. = ..()
 	if(owner)
 		owner.remove_filter(NECRAVOW_FILTER)
+		REMOVE_TRAIT(owner, TRAIT_NECRAS_VOW, TRAIT_MIRACLE)
 		to_chat(owner, span_warning("My body feels strange... hollow..."))
 	return TRUE
 
+/atom/movable/screen/alert/status_effect/buff/necras_vow
+	name = "Vow to Necra"
+	desc = "I have pledged a promise to Necra. The Undermaiden will claim me swiftly as I approach death."
+	icon_state = "necravow"
+
+
 // LAST PACT
+
+ /datum/status_effect/buff/healing/necras_vow/last_pact
+	id = "necra_last_pact_healing"
+	duration = 180 SECONDS
+
+/datum/status_effect/buff/healing/necras_vow/last_pact/on_creation(mob/living/new_owner, mob/living/caster, potency)
+	var/t = 180
+	if(isnum(potency))
+		t = potency
+	t = clamp(t, 10, 600) // up to 10 minutes if you ever want
+	duration = t SECONDS
+	return ..()
 
 /datum/status_effect/debuff/necra_last_pact_ashes
 	id = "necra_last_pact_ashes"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/necra_last_pact_ashes
-	duration = 60 SECONDS
+	duration = 180 SECONDS
 
 /datum/status_effect/debuff/necra_last_pact_ashes/on_creation(mob/living/new_owner, mob/living/caster, potency)
-	var/t = 60
+	var/t = 180
 	if(isnum(potency))
 		t = potency
-	t = clamp(t, 10, 300)
+	t = clamp(t, 10, 600)
 	duration = t SECONDS
 	return ..()
 
@@ -383,9 +416,17 @@
 	. = ..()
 	if(owner && istype(owner, /mob/living/carbon/human))
 		var/mob/living/carbon/human/H = owner
-		H.visible_message(span_warning("[H] crumbles into ash."), span_warning("My body gives way into ash. The Last Pact is fulfilled."))
+		H.visible_message(
+			span_warning("[H] crumbles into ash."),
+			span_warning("My body gives way into ash. The Last Pact is fulfilled.")
+		)
 		H.dust(drop_items = TRUE)
 	return TRUE
+
+/atom/movable/screen/alert/status_effect/debuff/necra_last_pact_ashes
+	name = "The Last Pact"
+	desc = "A final bargain ticks down. When it ends, I will be ash."
+	icon_state = "necravow"
 
 #undef NECRAVOW_FILTER
 
