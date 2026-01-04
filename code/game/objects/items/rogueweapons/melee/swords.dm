@@ -1087,6 +1087,7 @@
 	minstr = 6
 	wdefense = 7.5
 	wbalance = WBALANCE_SWIFT
+	special = /datum/special_intent/piercing_lunge
 
 /obj/item/rogueweapon/sword/rapier/vaquero
 	name = "cup-hilt rapier"

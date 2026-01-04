@@ -212,7 +212,22 @@
 
 /obj/item/roguegem/random/Initialize()
 	..()
-	var/newgem = list(/obj/item/roguegem/ruby = 5, /obj/item/roguegem/green = 15, /obj/item/roguegem/blue = 10, /obj/item/roguegem/yellow = 20, /obj/item/roguegem/violet = 10, /obj/item/roguegem/diamond = 5, /obj/item/riddleofsteel = 1, /obj/item/rogueore/silver = 3, /obj/item/roguegem/onyxa = 5, /obj/item/roguegem/jade = 3, /obj/item/roguegem/coral = 3, /obj/item/roguegem/turq = 3, /obj/item/roguegem/amber = 3, /obj/item/roguegem/opal = 3)
+	var/newgem = list(
+		/obj/item/roguegem/onyxa = 20,
+		/obj/item/roguegem/yellow = 20,
+		/obj/item/roguegem/green = 15,
+		/obj/item/roguegem/amber = 12,
+		/obj/item/roguegem/jade = 12,
+		/obj/item/roguegem/violet = 10,
+		/obj/item/roguegem/blue = 10,
+		/obj/item/roguegem/coral = 9,
+		/obj/item/roguegem/opal = 7,
+		/obj/item/roguegem/turq = 7,
+		/obj/item/roguegem/diamond = 5,
+		/obj/item/roguegem/ruby = 5,
+		/obj/item/rogueore/silver = 3,
+		/obj/item/riddleofsteel = 1
+	)
 	var/pickgem = pickweight(newgem)
 	new pickgem(get_turf(src))
 	qdel(src)

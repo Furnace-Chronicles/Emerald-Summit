@@ -77,7 +77,7 @@
 			if(isvampire)
 				vamp_prob -= 59
 			if(prob(vamp_prob))
-				L.visible_message("<span class='warning'>[L] has been churned by Necra's grip!", "<span class='danger'>I've been churned by Necra's grip!")
+				L.visible_message("<span class='warning'>[L] has been churned by the Undermaiden's grip!", "<span class='danger'>I've been churned by the Undermaiden's grip!")
 				explosion(get_turf(L), light_impact_range = 1, flame_range = 1, smoke = FALSE)
 				L.Stun(50)
 			else
@@ -275,7 +275,7 @@
 
 		user.visible_message(
 			span_revenwarning("[trapped] slips out from the whispering portal. Shadow roils off their form like smoke."),
-			span_purple("I am pulled from Necra's realm. Air fills my lungs, my heart starts beating- I live.")
+			span_purple("I am pulled from the Undermaiden's realm. Air fills my lungs, my heart starts beating- I live.")
 		)
 
 	for(var/mob/living/thing in contents)
@@ -299,7 +299,8 @@
 		return
 	spitout_mob(user)
 
-
+/obj/effect/proc_holder/spell/invoked/deaths_door/kazengun
+	invocation = "Neriko, show me my destination!"
 
 // Speak with dead
 
@@ -365,7 +366,7 @@
                 replier = target.mind.current
 
             if(replier)
-                var/spirit_message = input(replier, "An acolyte of Necra named [user.real_name] seeks your attention. What is your reply?", "Spirit's Response") as text|null
+                var/spirit_message = input(replier, "An acolyte of the Undermaiden named [user.real_name] seeks your attention. What is your reply?", "Spirit's Response") as text|null
                 if(spirit_message)
                     to_chat(user, "<span style='color:silver'><i>The spirit whispers:</i> \"[spirit_message]\"</span>")
                 else

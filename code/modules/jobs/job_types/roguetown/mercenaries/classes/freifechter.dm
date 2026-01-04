@@ -7,6 +7,7 @@
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_AAVNR
 	cmode_music = 'sound/music/combat_noble.ogg'
+	origin_override_type = /datum/virtue/origin/avar
 
 	subclass_languages = list(
 		/datum/language/aavnic,	//Your character could not have possibly "graduated" without atleast some basic knowledge of Aavnic.
@@ -14,10 +15,12 @@
 
 	traits_applied = list(TRAIT_BADTRAINER)
 	subclass_stats = list(
-		STATKEY_INT = 4,
-		STATKEY_PER = 3,
+		STATKEY_INT = 3, // 4 when hired
+		STATKEY_PER = 2, // 3 when hired
 		STATKEY_CON = 2
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/freifechter
 
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_MASTER,
@@ -27,6 +30,9 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,	//I got told that having zero climbing is a PITA. Bare minimum for a combat class.
 	)
+
+/datum/status_effect/buff/merchired/freifechter
+	effectedstats = list(STATKEY_INT = 1, STATKEY_PER = 1)
 
 /datum/outfit/job/mercenary/freelancer/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -59,12 +65,11 @@
 
 	backpack_contents = list(/obj/item/roguekey/mercenary)
 
-	change_origin(H, /datum/virtue/origin/avar)
-
 /datum/advclass/mercenary/freelancer/lancer
 	name = "Lancer"
 	tutorial = "You put complete trust in your polearm, the most effective weapon the world has seen. Why wear armour when you cannot be hit? You can choose your polearm, and are exceptionally accurate."
 	outfit = /datum/outfit/job/mercenary/freelancer_lancer
+	origin_override_type = /datum/virtue/origin/avar
 
 	subclass_languages = list(
 		/datum/language/aavnic,	//Your character could not have possibly "graduated" without atleast some basic knowledge of Aavnic.
@@ -73,12 +78,13 @@
 	traits_applied = list(TRAIT_BADTRAINER)
 	//To give you an edge in specialty moves like feints and stop you from being feinted
 	subclass_stats = list(
-		STATKEY_CON = 4,//This is going to need live testing, since I'm not sure they should be getting this much CON without using a statpack to spec. Revision pending.
-		STATKEY_PER = 3,
+		STATKEY_CON = 3,//This is going to need live testing, since I'm not sure they should be getting this much CON without using a statpack to spec. Revision pending.
+		STATKEY_PER = 2,
 		STATKEY_SPD = 1, //We want to encourage backstepping since you no longer get an extra layer of armour. I don't think this will break much of anything.
 		STATKEY_STR = 1,
 		STATKEY_END = -2
 	)
+	hiredbuff = /datum/status_effect/buff/merchired/freifechterlancer
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_MASTER,	//This is the danger zone. Ultimately, the class won't be picked without this. I took the liberty of adjusting everything around to make this somewhat inoffensive, but we'll see if it sticks.
@@ -88,6 +94,9 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,	//I got told that having zero climbing is a PITA. Bare minimum for a combat class.
 	)
+
+/datum/status_effect/buff/merchired/freifechterlancer
+	effectedstats = list(STATKEY_CON = 1, STATKEY_PER = 1)
 
 /datum/outfit/job/mercenary/freelancer_lancer/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -102,10 +111,10 @@
 			l_hand = /obj/item/rogueweapon/katar/punchdagger/frei
 		if("Boar Spear")
 			r_hand = /obj/item/rogueweapon/spear/boar
-			wrists = /obj/item/rogueweapon/katar/punchdagger
+			beltr = /obj/item/rogueweapon/katar/punchdagger
 		if("Lucerne")		//A normal lucerne for the people that get no drip & no bitches.
 			r_hand = /obj/item/rogueweapon/eaglebeak/lucerne
-			wrists = /obj/item/rogueweapon/katar/punchdagger
+			beltr = /obj/item/rogueweapon/katar/punchdagger
 
 	belt = /obj/item/storage/belt/rogue/leather/sash
 	beltl = /obj/item/flashlight/flare/torch/lantern
@@ -116,5 +125,3 @@
 	backr = /obj/item/storage/backpack/rogue/satchel/short
 
 	backpack_contents = list(/obj/item/roguekey/mercenary)
-
-	change_origin(H, /datum/virtue/origin/avar)

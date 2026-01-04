@@ -38,3 +38,5 @@
 
 /// From /obj/item/organ/proc/Remove() (mob/living/carbon/lost_organ, obj/item/organ/removed, special, drop_if_replaced)
 #define COMSIG_MOB_ORGAN_REMOVED "mob_organ_removed"
+
+#define COMSIG_COMBAT_MODE "CMODETOGGLE"

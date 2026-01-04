@@ -16,7 +16,7 @@
 		addtimer(CALLBACK(src, PROC_REF(clear_tempo_all)), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 	if(!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 		filtered_balloon_alert(TRAIT_COMBAT_AWARE, (cmode ? ("<i><font color = '#831414'>Tense</font></i>") : ("<i><font color = '#c7c6c6'>Relaxed</font></i>")), y_offset = 32)
-
+	SEND_SIGNAL(src, COMSIG_COMBAT_MODE)
 /mob/living/carbon/human/RightClickOn(atom/A, params)
 	if(rmb_intent && !rmb_intent.adjacency && !istype(A, /obj/item/clothing) && cmode && !istype(src, /mob/living/carbon/human/species/skeleton) && !istype(A, /obj/item/quiver) && !istype(A, /obj/item/storage))
 		var/held = get_active_held_item()
@@ -165,6 +165,8 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/specialcd))
 		return
 
+	user.face_atom(target)
+
 	var/obj/item/rogueweapon/W = user.get_active_held_item()
 	if(istype(W, /obj/item/rogueweapon) && W.special)
 		var/skillreq = W.associated_skill
@@ -173,7 +175,9 @@
 		if(user.get_skill_level(skillreq) < SKILL_LEVEL_JOURNEYMAN)
 			to_chat(user, span_info("I'm not knowledgeable enough in the arts of this weapon to use this."))
 			return
-		W.special.deploy(user, W, target)
+		if(W.special.check_range(user, target))
+			if(W.special.apply_cost(user))
+				W.special.deploy(user, W, target)
 
 /datum/rmb_intent/swift
 	name = "swift"
@@ -339,15 +343,6 @@
 		if (ishuman(target))
 			HT = target
 
-		// RMB on mob (priority 0): check to see if a bait has any chance to succeed (match targeting zones between us and the target), if so, attempt it (ONLY check for matching zones, nothing else).
-		if (HT)
-			var/target_zone = HT.zone_selected
-			var/user_zone = HU.zone_selected
-			if (!user.has_status_effect(/datum/status_effect/debuff/baitcd) && !user.has_status_effect(/datum/status_effect/debuff/baited) && target_zone && user_zone && (target_zone != BODY_ZONE_CHEST && user_zone != BODY_ZONE_CHEST) && target_zone == user_zone)
-				HU.attempt_bait(user, target)
-				HU.changeNext_move(0.5 SECONDS)
-				return
-		
 		// RMB on mob (priority 1): has something grappled us (passively), and can we kick? if so, attempt a kick.
 		if (!HU.IsOffBalanced())
 			var/mob/kick_target

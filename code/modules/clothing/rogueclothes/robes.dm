@@ -288,6 +288,10 @@
 	r_sleeve_status = SLEEVE_NOMOD
 	l_sleeve_status = SLEEVE_NOMOD
 
+/obj/item/clothing/suit/roguetown/shirt/robe/qaba/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+
 /obj/item/clothing/suit/roguetown/shirt/robe/qaba/pontifex
 	name = "pontifex's qaba"
 	desc = "A slim, tight-fitting robe made of fine silks and fabrics. Somehow you feel more mobile in it than in the nude. Despite the light fabric, it offers decent protection."

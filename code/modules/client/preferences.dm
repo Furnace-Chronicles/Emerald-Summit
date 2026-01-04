@@ -101,6 +101,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/shake = TRUE
 	var/sexable = FALSE
 	var/compliance_notifs = TRUE
+	var/wildshape_name = TRUE
 	var/xenophobe_pref = 1
 
 	var/list/custom_names = list()
@@ -166,6 +167,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	var/crt = FALSE
 	var/grain = TRUE
+	var/dnr_pref = FALSE
 
 	var/list/customizer_entries = list()
 	var/list/list/body_markings = list()
@@ -203,6 +205,13 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	var/ooc_notes
 	var/ooc_notes_display
+
+	var/rumour
+	var/rumour_display
+
+	var/gossip
+	var/gossip_display
+
 
 	var/tail_type = /obj/item/bodypart/lamian_tail/lamian_tail
 	var/tail_color = "ffffff"
@@ -279,6 +288,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	reset_descriptors()
 	virtue_origin = new pref_species.origin_default
 	tail_type = /obj/item/bodypart/lamian_tail/lamian_tail
+	if(virtue_origin.uniquefaith)
+		selected_patron = GLOB.patronlist[virtue_origin.uniquefaith[1].godhead]
+	else
+		selected_patron = /datum/patron/divine/astrata
 
 #define APPEARANCE_CATEGORY_COLUMN "<td valign='top' width='14%'>"
 #define MAX_MUTANT_ROWS 4
@@ -396,7 +409,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			if(pref_species.use_titles)
 				var/display_title = selected_title ? selected_title : "None"
 				dat += "<b>Race Title:</b> <a href='?_src_=prefs;preference=race_title;task=input'>[display_title]</a><BR>"
-			dat += "<b>Origin:</b> <a href='?_src_=prefs;preference=origin;task=input'>[virtue_origin]</a> <a href='?_src_=prefs;preference=originhelp;task=input'>❖</a><BR>"
+			dat += "<b>Origin:</b> <a href='?_src_=prefs;preference=origin;task=input'>[virtue_origin]</a><BR>"
 			if(agevetted)
 				dat += "<b>Family:</b> <a href='?_src_=prefs;preference=family'>[family ? family : "None"]</a><BR>"
 				if(family != FAMILY_NONE)
@@ -474,6 +487,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			var/musicname = (combat_music.shortname ? combat_music.shortname : combat_music.name)
 			dat += "<b>Combat Music:</b> <a href='?_src_=prefs;preference=combat_music;task=input'>[musicname || "FUCK!"]</a><BR>"
 			dat += "<b>Food Preferences:</b> <a href='?_src_=prefs;preference=culinary;task=menu'>Change</a><BR>"
+			dat += "<b>Unrevivable:</b> <a href='?_src_=prefs;preference=dnr;task=input'>[dnr_pref ? "Yes" : "No"]</a><BR>"
 
 /*
 			dat += "<br><br><b>Special Names:</b><BR>"
@@ -556,6 +570,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<br><b>[(length(flavortext) < MINIMUM_FLAVOR_TEXT) ? "<font color = '#802929'>" : ""]Flavortext:[(length(flavortext) < MINIMUM_FLAVOR_TEXT) ? "</font>" : ""]</b><a href='?_src_=prefs;preference=formathelp;task=input'>(?)</a><a href='?_src_=prefs;preference=flavortext;task=input'>Change</a>"
 
 			dat += "<br><b>[(length(ooc_notes) < MINIMUM_OOC_NOTES) ? "<font color = '#802929'>" : ""]OOC Notes:[(length(ooc_notes) < MINIMUM_OOC_NOTES) ? "</font>" : ""]</b><a href='?_src_=prefs;preference=formathelp;task=input'>(?)</a><a href='?_src_=prefs;preference=ooc_notes;task=input'>Change</a>"
+
+			// Rumours / Gossip
+			dat += "<br><b>Rumours:</b> <a href='?_src_=prefs;preference=rumour;task=input'>Change</a>"
+			dat += "<br><b>Noble Gossip:</b> <a href='?_src_=prefs;preference=gossip;task=input'>Change</a>"
 
 			if(agevetted)
 				dat += "<br><b>OOC Extra:</b> <a href='?_src_=prefs;preference=ooc_extra;task=input'>Change</a>"
@@ -1680,11 +1698,18 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 				if("faith")
 					var/list/faiths_named = list()
-					for(var/path as anything in GLOB.preference_faiths)
-						var/datum/faith/faith = GLOB.faithlist[path]
-						if(!faith.name)
-							continue
-						faiths_named[faith.name] = faith
+					if(virtue_origin.uniquefaith)
+						for(var/path as anything in virtue_origin.uniquefaith)
+							var/datum/faith/faith = GLOB.faithlist[path]
+							if(!faith.name)
+								continue
+							faiths_named[faith.name] = faith
+					else
+						for(var/path as anything in GLOB.preference_faiths)
+							var/datum/faith/faith = GLOB.faithlist[path]
+							if(!faith.name)
+								continue
+							faiths_named[faith.name] = faith
 					var/faith_input = tgui_input_list(user, "The world rots. Which truth you bear?", "FAITH", faiths_named)
 					if(faith_input)
 						var/datum/faith/faith = faiths_named[faith_input]
@@ -1901,6 +1926,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						return
 					ooc_notes = new_ooc_notes
 
+
 					var/ooc = ooc_notes
 					ooc = html_encode(ooc)
 					ooc = replacetext(parsemarkdown_basic(ooc), "\n", "<BR>")
@@ -1908,6 +1934,53 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					is_legacy = FALSE
 					to_chat(user, "<span class='notice'>Successfully updated OOC notes.</span>")
 					log_game("[user] has set their OOC notes'.")
+				if("rumour")
+					to_chat(user, "<span class='notice'>["<span class='bold'>Rumours are things others might know, or think they know about you, they don't necessarily have to be precise, or even true. But remember that they can provide a hint to another player on how to interact with, or even think about your character.</span>"]</span>")
+					var/new_rumour = tgui_input_text(user, "Input rumours about your character: (400 Character Limit)", "Rumours", rumour, multiline = TRUE, encode = FALSE, bigmodal = TRUE)
+					if(new_rumour == null)
+						return
+					if(new_rumour == "")
+						rumour = null
+						rumour_display = null
+						is_legacy = FALSE
+						ShowChoices(user)
+						return
+					if(length(new_rumour) > 400)
+						to_chat(user, "<span class='warning'>Rumours cannot exceed 400 characters.</span>")
+						ShowChoices(user)
+						return
+					rumour = new_rumour
+					var/r = rumour
+					r = html_encode(r)
+					r = replacetext(parsemarkdown_basic(r), "\n", "<BR>")
+					rumour_display = r
+					is_legacy = FALSE
+					to_chat(user, "<span class='notice'>Successfully updated Rumours</span>")
+					log_game("[user] has set their rumour'.")
+
+				if("gossip")
+					to_chat(user, "<span class='notice'>["<span class='bold'>Gossip is rumours spread around, and known only in Noble circles, only other well-born individuals are aware of it. Gossip, similarly to standard rumours does not need to be precise or true, but remember that it can provide hints and avenues for other Nobles to interact with, and judge your Character.</span>"]</span>")
+					var/new_gossip = tgui_input_text(user, "Input noble gossip about your character: (400 Character Limit)", "Noble Gossip", gossip, multiline = TRUE, encode = FALSE, bigmodal = TRUE)
+					if(new_gossip == null)
+						return
+					if(new_gossip == "")
+						gossip = null
+						gossip_display = null
+						is_legacy = FALSE
+						ShowChoices(user)
+						return
+					if(length(new_gossip) > 400)
+						to_chat(user, "<span class='warning'>Noble gossip cannot exceed 400 characters.</span>")
+						ShowChoices(user)
+						return
+					gossip = new_gossip
+					var/g = gossip
+					g = html_encode(g)
+					g = replacetext(parsemarkdown_basic(g), "\n", "<BR>")
+					gossip_display = g
+					is_legacy = FALSE
+					to_chat(user, "<span class='notice'>Successfully updated Noble Gossip</span>")
+					log_game("[user] has set their noble gossip'.")
 				if("nsfw_headshot")
 					if(!user.check_agevet()) return
 					to_chat(user, "<span class='notice'>Finally a place to show it all.</span>")
@@ -2149,6 +2222,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 				if("update_mutant_colors")
 					update_mutant_colors = !update_mutant_colors
+				
+				if("dnr")
+					dnr_pref =!dnr_pref
 
 				if("virtue")
 					var/list/virtue_choices = list()
@@ -2262,6 +2338,10 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
 						virtue_origin = virtue_chosen
 						to_chat(user, process_virtue_text(virtue_chosen))
+						if(virtue_origin.uniquefaith)
+							selected_patron = GLOB.patronlist[virtue_origin.uniquefaith[1].godhead]
+						else
+							selected_patron = /datum/patron/divine/astrata
 
 				if("charflaw")
 					var/list/coom = GLOB.character_flaws.Copy()
@@ -2908,6 +2988,12 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 	character.ooc_notes_display = ooc_notes_display
 
+	
+	character.rumour = rumour
+	character.rumour_display = rumour_display
+	character.gossip = gossip
+	character.gossip_display = gossip_display
+
 	character.is_legacy = is_legacy
 
 	character.ooc_extra_link = ooc_extra_link
@@ -3076,6 +3162,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	var/dat
 	if(V.desc)
 		dat += "<font size = 3>[span_purple(V.desc)]</font><br>"
+	if(V.origin_desc)
+		dat += "<font size = 3><a href='?_src_=prefs;preference=originhelp;task=input'>Read More</a></font><br>"
 	if(length(V.added_skills))
 		if(istype(V, /datum/virtue/origin))
 			dat += "<font color = '#a3e2ff'><font size = 3>This Origin adds the following skills: <br>"
