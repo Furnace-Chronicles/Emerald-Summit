@@ -208,7 +208,7 @@
 		revert_cast()
 		return FALSE
 
-	if(H.patron?.type != /datum/patron/divine/necra)
+	if(!istype(H.patron, /datum/patron/divine/necra))
 		to_chat(user, span_notice("They do not belong to Necra."))
 		revert_cast()
 		return FALSE
@@ -218,11 +218,7 @@
 		revert_cast()
 		return FALSE
 
-	var/choice = alert(H,
-		"You are being asked to pledge Necra's vow. This path is difficult to undo. Do you agree?",
-		"VOW", "Yes", "No"
-	)
-
+	var/choice = alert(H, "You are being asked to pledge a vow. Your chances of revival or recovery of limb will be greatly reduced. You will harm undeath once they touch you. Do you agree?", "VOW", "Yes", "No")
 	if(choice != "Yes")
 		to_chat(user, span_notice("They declined."))
 		return TRUE
@@ -266,12 +262,12 @@
 
 /atom/movable/screen/alert/status_effect/buff/undermaidens_vow
 	name = "Undermaiden's Vow"
-	desc = "A vow rests upon my soul, awaiting its final seal."
+	desc = "I have pledged a promise to Necra, and She will claim me quickly as I approach death. Undeath shall be harmed or lit aflame if they strike me. Rot will not claim me. Lost limbs can only be restored if they are myne."
 	icon_state = "necravow"
 
 /atom/movable/screen/alert/status_effect/buff/necras_vow
 	name = "Vow to Necra"
-	desc = "I have pledged a promise to Necra. Rot will not claim me. Undeath is harmed by my oath."
+	desc = "I have pledged a promise to Necra, and She will claim me quickly as I approach death. Undeath shall be harmed or lit aflame if they strike me. Rot will not claim me. Lost limbs can only be restored if they are myne."
 	icon_state = "necravow"
 
 /atom/movable/screen/alert/status_effect/debuff/necra_last_pact_ashes

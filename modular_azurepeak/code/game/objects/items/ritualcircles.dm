@@ -683,11 +683,12 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 						user.say("This soul pledges themselves to thee!!")
 						to_chat(user, span_cultsmall("My devotion to the Undermaiden has allowed me to anoint a vow for this soul...."))
 
-						if(advance_necra_vow())
+						if(src.advance_necra_vow(user))
 							playsound(loc, 'sound/vo/mobs/ghost/moan (1).ogg', 100, FALSE, -1)
 							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 						else
 							loc.visible_message(span_warning("Then... nothing. The Undermaiden does not care for the vows of the damned, those of other faiths, or the unprepared."))
+						
 						spawn(120)
 							icon_state = "necra_chalky"
 
