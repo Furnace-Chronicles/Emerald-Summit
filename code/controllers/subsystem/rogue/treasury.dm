@@ -278,7 +278,6 @@ SUBSYSTEM_DEF(treasury)
 			var/percent = (contributed / total_crops)
 			var/cropshare = round(0.25 * (amt * percent))
 			SStreasury.give_money_account(cropshare, farmer, "Cropshare")
-		D.farmers = list()
 	if(!silent && amt >= EXPORT_ANNOUNCE_THRESHOLD) //Only announce big spending.
 		scom_announce("Scarlet Reach exports [D.name] for [amt] mammon.")
 	D.lower_demand()
