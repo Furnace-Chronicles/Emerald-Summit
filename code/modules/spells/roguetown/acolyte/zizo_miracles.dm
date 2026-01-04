@@ -37,21 +37,21 @@
 		target.clear_sunder_fire()
 		return TRUE
 	if(target.mob_biotypes & MOB_UNDEAD)
-		user.adjustBruteLoss(4)             //non worshipers do not share your ambition, pay the price to heal them
+		user.adjustBruteLoss(4)			//non worshipers do not share your ambition, pay the price to heal them
 		return TRUE
 
 	//shitty ass psydonites need special code in here, im adding extra damage to psydonites just because they made me write this block
 	if(HAS_TRAIT(target, TRAIT_PSYDONITE))
 		user.visible_message(span_danger("[target] is seared by necrotic power!"))
 		playsound(user, 'sound/magic/zizo_heal.ogg', 100, TRUE)
-		target.adjustFireLoss(15)             //making sure psydonites get attacked too
-		target.adjustBruteLoss(4)             //damage here
+		target.adjustFireLoss(15)		//making sure psydonites get attacked too
+		target.adjustBruteLoss(4)		//damage here
 		return FALSE
 
 	// EVERYONE ELSE
 	user.visible_message(span_danger("[target] is seared by necrotic power!"))
 	playsound(user, 'sound/magic/zizo_heal.ogg', 100, TRUE)
-	target.adjustFireLoss(14)     //damage is here
+	target.adjustFireLoss(14)		//damage is here
 	user.adjustBruteLoss(4)
 	return FALSE
 
@@ -73,6 +73,7 @@
 	antimagic_allowed = FALSE
 	recharge_time = 20 SECONDS
 	miracle = TRUE
+	devotion_cost = 30
 	range = 5
 
 /obj/effect/proc_holder/spell/invoked/blood_heal/zizo/cast(list/targets, mob/living/carbon/human/user)
@@ -89,6 +90,11 @@
 		to_chat(user, span_warning("I must be closer to channel dark power!"))
 		revert_cast()
 		return FALSE
+	if(user.z != target.z)
+		to_chat(user, span_warning("This miracle can not be directed upwards or downwards!")
+		revert_cast()
+		return FALSE
+
 	if((target.mob_biotypes & MOB_UNDEAD) || istype(target.patron?.type, /datum/patron/inhumen/zizo))
 		return ..()
 
@@ -140,11 +146,14 @@
 	is_cdr_exempt = TRUE
 	devotion_cost = 60
 
-/obj/effect/proc_holder/spell/invoked/wound_heal/zizo/cast(list/targets, mob/living/carbon/human/user = user)
-	if(!ishuman(targets[1]))
+/obj/effect/proc_holder/spell/invoked/wound_heal/zizo/cast(list/targets, mob/living/carbon/human/user)
+	if(!targets || targets.len < 1)
 		revert_cast()
 		return FALSE
 	var/mob/living/carbon/human/target = targets[1]
+	if(!ishuman(targets[1]))
+		revert_cast()
+		return FALSE
 	var/mob/living/carbon/human/UH = user
 	if(!(target.mob_biotypes & MOB_UNDEAD) && target.patron?.type != /datum/patron/inhumen/zizo)
 		target.visible_message(span_info("[target] recoils as the profane miracle refuses them."))
@@ -157,4 +166,5 @@
 		playsound(target, 'sound/magic/zizo_woundheal.ogg', 100, TRUE)
 		to_chat(UH, span_warning("I am not ambitious enough to regenerate limbs..."))
 		return TRUE
+
 	return ..()
