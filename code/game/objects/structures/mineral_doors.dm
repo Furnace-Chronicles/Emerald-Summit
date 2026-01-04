@@ -209,7 +209,7 @@
 		to_chat(human, span_notice("They're just where I left them..."))
 	else
 		to_chat(human, span_notice("It's just where I left it..."))
-	name = "[user.name] the [human.advjob ? human.advjob : human.job]'s house"
+	name = "[user.real_name] the [human.advjob ? human.advjob : human.job]'s house"
 	return TRUE
 
 /obj/structure/mineral_door/Move()
