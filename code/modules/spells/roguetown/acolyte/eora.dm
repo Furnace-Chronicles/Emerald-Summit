@@ -62,6 +62,9 @@
 	recharge_time = 60 SECONDS
 	miracle = TRUE
 
+/obj/effect/proc_holder/spell/invoked/bud/kazengun
+	name = "Eori's Bloom"
+
 /obj/effect/proc_holder/spell/invoked/bud/cast(list/targets, mob/living/user)
 	var/target = targets[1]
 	if(istype(target, /mob/living/carbon/human)) //Putting flower on head check
@@ -99,6 +102,9 @@
 	antimagic_allowed = TRUE
 	recharge_time = 10 SECONDS
 	miracle = TRUE
+
+/obj/effect/proc_holder/spell/invoked/eoracurse/kazengun
+	name = "Eori's Curse"
 
 /obj/effect/proc_holder/spell/invoked/eoracurse/cast(list/targets, mob/living/user)
 	if(isliving(targets[1]))
@@ -246,6 +252,9 @@
 	devotion_cost = 75
 	associated_skill = /datum/skill/magic/holy
 
+/obj/effect/proc_holder/spell/invoked/heartweave/kazengun
+	invocation = "By Eori's grace, let our fates intertwine!"
+
 /obj/effect/proc_holder/spell/invoked/heartweave/cast(list/targets, mob/living/user)
 	var/mob/living/target = targets[1]
 
@@ -362,6 +371,9 @@
 	miracle = TRUE
 	var/base_recharge_time = 90 SECONDS
 
+/obj/effect/proc_holder/spell/invoked/bless_food/kazengun
+	invocation = "Eori, nourish this offering!"
+
 /obj/effect/proc_holder/spell/invoked/bless_food/cast(list/targets, mob/living/user)
 	var/obj/item/target = targets[1]
 	if(!istype(target, /obj/item/reagent_containers/food/snacks))
@@ -401,6 +413,9 @@
 	associated_skill = /datum/skill/magic/holy
 	miracle = TRUE
 	var/obj/structure/eoran_pomegranate_tree/my_little_tree = null
+
+/obj/effect/proc_holder/spell/invoked/pomegranate/kazengun
+	invocation = "Eori, provide sanctuary for your beauty!"
 
 /obj/effect/proc_holder/spell/invoked/pomegranate/cast(list/targets, mob/living/user)
 	. = ..()

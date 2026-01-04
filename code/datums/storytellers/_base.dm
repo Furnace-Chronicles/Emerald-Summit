@@ -86,6 +86,10 @@
 	var/bonus_points = 0
 	/// If the storyteller is ascendant this round, that is if he reached over 100 points in rankings of the gods
 	var/ascendant = FALSE
+	/// Set to TRUE so this storyteller won't be replaced by another storyteller mid-round
+	var/rules_forever = FALSE
+	/// Hardcode switch to disable antag injections
+	var/can_inject_antags = TRUE
 
 /datum/storyteller/New()
 	. = ..()
@@ -112,6 +116,10 @@
 
 	add_points(1)
 	handle_tracks()
+
+/// Called when this storyteller has been selected by roundstart vote
+/datum/storyteller/proc/on_vote_chosen()
+	SHOULD_CALL_PARENT(FALSE)
 
 /// Add points to all tracks while respecting the multipliers.
 /datum/storyteller/proc/add_points(seconds_per_tick)

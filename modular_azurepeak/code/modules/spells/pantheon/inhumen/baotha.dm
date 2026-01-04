@@ -33,6 +33,12 @@
 		target.apply_status_effect(/datum/status_effect/buff/druqks/baotha) //Gets the trait temorarily, basically will just stop any active/upcoming ODs.	
 		target.visible_message("<span class='info'>[target]'s eyes appear to gloss over!</span>", "<span class='notice'>I feel.. at ease.</span>")
 
+/obj/effect/proc_holder/spell/invoked/baothablessings/kazengun
+	name = "Baosumi's Blessings"
+
+/obj/effect/proc_holder/spell/invoked/baothablessings/gronn
+	name = "Leopard's Blessings"
+
 //Enrapturing Powder - T2, basically a crackhead blowing cocaine in your face.
 
 /obj/effect/proc_holder/spell/invoked/projectile/blowingdust

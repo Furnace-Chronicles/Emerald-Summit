@@ -127,6 +127,7 @@ var/global/list/PATRON_ARTIFACTS = list(
 	for(var/p_type in typesof(/datum/patron/divine))
 		if(p_type == /datum/patron/divine) continue
 		var/datum/patron/P = new p_type
+		if(P.noresearch) continue
 		if(P && P.name)
 			var/domain = ""; if("domain" in P.vars) domain = "[P.vars["domain"]]"
 			var/desc   = ""; if("desc"   in P.vars) desc   = "[P.vars["desc"]]"
@@ -143,6 +144,7 @@ var/global/list/PATRON_ARTIFACTS = list(
 	for(var/p_type in typesof(/datum/patron/inhumen))
 		if(p_type == /datum/patron/inhumen) continue
 		var/datum/patron/P_inh_idx = new p_type
+		if(P_inh_idx.noresearch) continue
 		if(P_inh_idx && P_inh_idx.name)
 			var/domain = ""; if("domain" in P_inh_idx.vars) domain = "[P_inh_idx.vars["domain"]]"
 			var/desc   = ""; if("desc"   in P_inh_idx.vars) desc   = "[P_inh_idx.vars["desc"]]"
@@ -453,8 +455,7 @@ var/global/list/PATRON_ARTIFACTS = list(
 
 		// *** set your own
 		if(!islist(owners) || !owners.len)
-			if(length(my_patron)) owners = list(my_patron)
-			else owners = list()
+			continue
 
 		for(var/owner_name in owners)
 			// *** inhumen unlocks “Shunned” 

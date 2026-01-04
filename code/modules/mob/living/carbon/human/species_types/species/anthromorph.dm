@@ -7,13 +7,13 @@
 	base_name = "Beastvolk"
 	sub_name = "Wild-Kin"
 	use_titles = TRUE
-	race_titles = list("Cat-Kin", "Dog-Kin", "Volf-Kin", "Lion-Kin", "Venard-Kin", "Tiger-Kin", "Sheep-Kin", "Goat-Kin", "Rous-Kin", "Possum-Kin", "Pig-Kin", "Boar-Kin", "Rabbit-Kin", "Cabbit-Kin", "Horse-Kin", "Donkey-Kin", "Hyena-Kin", "Deer-Kin", "Bear-Kin", "Panda-Kin", "Coyote-Kin", "Moose-Kin", "Jackal-Kin", "Panther-Kin", "Lynx-Kin", "Leopard-Kin", "Monkey-Kin", "Bird-Kin", "Seal-Kin", "Bat-Kin", "Otter-Kin", "Cow-Kin", "Bull-Kin", "Monster-Kin", "Chimera")
+	race_titles = list("Bat-Kin", "Bee-Kin", "Bear-Kin", "Bird-Kin", "Boar-Kin", "Bull-Kin", "Cabbit-Kin", "Cat-Kin", "Cow-Kin", "Coyote-Kin", "Crocodile-Kin", "Deer-Kin", "Deep-Kin", "Dog-Kin", "Donkey-Kin", "Dragon-Kin",  "Fish-Kin", "Goat-Kin", "Horse-Kin", "Hyena-Kin", "Jackal-Kin", "Leech-Kin", "Leopard-Kin", "Lion-Kin", "Lynx-Kin", "Moose-Kin", "Monkey-Kin", "Otter-Kin", "Panda-Kin", "Panther-Kin", "Pig-Kin", "Possum-Kin", "Rabbit-Kin", "Raccoon-Kin", "Rous-Kin", "Seal-Kin", "Shark-Kin", "Sheep-Kin", "Snake-Kin", "Spider-Kin", "Tiger-Kin", "Venard-Kin", "Volf-Kin", "Monster-Kin", "Chimera")
 	desc = "<b>Wild-Kin</b><br>\
-	A product of Dendor's enigmatic meddling in mortals races. The average wild-kin suffers from animalistic urges that vary in severity, \
+	A product of enigmatic meddling of the Gods in the offspring of the mortal races. The average Wild-kin suffers from animalistic urges that vary in severity, \
 	from simply avoiding certain foods to smoldering desires to howl at the moon or chase prey. Usually these urges are tied to the animal that the wild-kin is melded with, \
 	making them rather predictable. Despite this, the way each wild-kin approaches their bizarre physiology and psychology varies, \
-	creating a diverse race of people who may not even empathise with one another. And whilst Dendor is considered the main culprit for Wild-kin, there are those created through other means, \
-	akin to Noc's stolen knowledge that created lupians and other abstract experimentation or circumstance.<br> \
+	creating a diverse race of people who may not even empathise with one another. Whilst Dendor is considered the main culprit for Wild-kin, there are those created through other means, \
+	akin to Noc's stolen knowledge that created lupians, among others. There are even rumours that some of the Wild-kin are crafted by the hands of the Ascendants, but such is usually considered heretical to believe.<br> \
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 CON | +1 PER</b></span> </br> \
 	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>(Wild-kin are not a template race to play your own custom race. If you play a wild-kin, \
 	you are expected to roleplay to the setting and the race's lore.)</b></span> </br>"

@@ -145,10 +145,12 @@
 /datum/circle_rite/astrata
 	rites_list = list(
 		/datum/circle_rite/astrata/guiding_light,
+		/datum/circle_rite/astrata/suns_blessing,
 //		/datum/circle_rite/astrata/debug,
 	)
 	rites_list_string = list(
 		"Guiding Light",
+		"Sun's Shield",
 //		"Debug",
 	)
 	rituals_name = "Rituals of the Sun"
@@ -175,7 +177,7 @@
 	var/ritualtargets = view(7, linked_circle.loc)
 	for(var/mob/living/carbon/human/target in ritualtargets) // defines the target as every human in this range
 		target.apply_status_effect(/datum/status_effect/buff/guidinglight) // applies the status effect
-		to_chat(target, span_cultsmall("Astrata's light guides me forward, drawn to me by the Ritualist's pyre!"))
+		to_chat(target, span_astrata("Astrata's light guides me forward, drawn to me by the Ritualist's pyre!"))
 		playsound(target, 'sound/magic/holyshield.ogg', 80, FALSE, -1) // Cool sound!
 	user.apply_status_effect(cooldown)
 
@@ -198,6 +200,26 @@
 	to_chat(world, "cooldown is [cooldown]")
 	user.apply_status_effect(cooldown)
 
+/datum/circle_rite/astrata/suns_blessing
+	name = "Sun's Shield"
+	chant_strings = list(
+		"SUN-TYRANT. LET FYRE GUIDE MY GAZE!!",
+		"SOVEREIGN-SUPREME. YOUR WILL BE MYNE!!",
+		"ASTRATA. GIFT YOUR VESSEL AEGIS!!"
+	)
+	choose_host = TRUE
+	cooldown = /datum/status_effect/debuff/ritesexpended_low_very
+
+/datum/circle_rite/astrata/suns_blessing/rite_proc(mob/living/carbon/human/user)
+	if((rite_target.patron?.type) != /datum/patron/divine/astrata)
+		to_chat(user, span_warning("Astrata's blessing does not recognize [rite_target] as one of her faithful."))
+		to_chat(rite_target, span_warning("I am not recognized by Astrata's light."))
+		return
+	to_chat(user, span_astrata("Astrata's blessing descends upon [rite_target]!"))
+	to_chat(rite_target, span_astrata("Astrata's blessing fills you with radiant power. You can now shield yourself and your allies from flame!"))
+	rite_target.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suns_shield)
+	user.apply_status_effect(cooldown)
+
 /obj/structure/ritualcircle/noc
 	name = "Rune of the Moon"
 	icon_state = "noc_chalky"
@@ -205,7 +227,7 @@
 	var/lunarrites = list("Moonlight Dance") // list for more to be added later
 
 /obj/structure/ritualcircle/noc/attack_hand(mob/living/user)
-	if((user.patron?.type) != /datum/patron/divine/noc)
+	if(!istype(user.patron, /datum/patron/divine/noc))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
@@ -236,50 +258,8 @@
 /obj/structure/ritualcircle/xylix
 	name = "Rune of Trickery"
 	icon_state = "xylix_chalky" //mortosasye sprite
-	desc = "A Holy Rune of Xylix. You can hear the wind and distant bells in the distance! Upon closer inspection, this rune seems a bit slippery..."
+	desc = "A Holy Rune of Xylix. You can hear the wind and distant bells, in the distance."
 
-/obj/structure/ritualcircle/xylix/Crossed(atom/movable/AM)
-	. = ..()
-
-	if(!isliving(AM))
-		return
-
-	var/mob/living/L = AM
-
-	if(L.buckled)
-		return
-	if(!(L.mobility_flags & MOBILITY_STAND))
-		return
-
-	// Only slip NON-Xylix patrons
-	if(L.patron?.type == /datum/patron/divine/xylix)
-		return
-
-	var/list/messages = list(
-		"[L] slips on the Rune of Trickery!",
-		"[L] is betrayed by the rune beneath their feet!",
-		"[L] forgets how walking works atop the rune!",
-		"[L] stumbles as the rune mocks them!",
-		"[L] is humbled by ancient geometry!"
-	)
-
-	var/message = pick(messages)
-
-	L.visible_message(span_warning(message))
-
-	// Random clown laughter sound
-	var/list/sounds = list(
-		'sound/misc/clownedsitcomlaugh1.ogg',
-		'sound/misc/clownedsitcomlaugh2.ogg',
-		'sound/misc/clownedsitcomlaugh3.ogg',
-		'sound/misc/clownedhohoho.ogg',
-		'sound/misc/clownedhehe.ogg'
-	)
-
-	playsound(L, pick(sounds), 50, TRUE)
-
-	L.AdjustKnockdown(2)
-	
 /obj/structure/ritualcircle/ravox
 	name = "Rune of Justice"
 	icon_state = "ravox_chalky" // mortosasye sprite
@@ -292,7 +272,7 @@
 	var/plaguerites = list("Flylord's Triage", "Continuity")
 
 /obj/structure/ritualcircle/pestra/attack_hand(mob/living/user)
-	if((user.patron?.type) != /datum/patron/divine/pestra)
+	if(!istype(user.patron, /datum/patron/divine/pestra))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
@@ -418,7 +398,7 @@
 	var/bestialrites = list("Rite of the Lesser Wolf","Borrowed Madness","Spider Kinship")
 
 /obj/structure/ritualcircle/dendor/attack_hand(mob/living/user)
-	if((user.patron?.type) != /datum/patron/divine/dendor)
+	if(!istype(user.patron, /datum/patron/divine/dendor))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
@@ -525,7 +505,7 @@
 var/forgerites = list("Ritual of Blessed Reforgance")
 
 /obj/structure/ritualcircle/malum/attack_hand(mob/living/user)
-	if((user.patron?.type) != /datum/patron/divine/malum)
+	if(!istype(user.patron, /datum/patron/divine/malum))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
@@ -577,7 +557,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	icon_state = "abyssoralt_active" // change to abyssoralt_chalky if adding a new ritual, and use the active state instead for it.
 
 /obj/structure/ritualcircle/abyssor/attack_hand(mob/living/user)
-	if((user.patron?.type) != /datum/patron/divine/abyssor)
+	if(!istype(user.patron, /datum/patron/divine/abyssor))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
@@ -622,7 +602,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	var/deathrites = list("Undermaiden's Bargain", "Vow to the Undermaiden", "The Last Pact")
 
 /obj/structure/ritualcircle/necra/attack_hand(mob/living/user)
-	if((user.patron?.type) != /datum/patron/divine/necra)
+	if(!istype(user.patron, /datum/patron/divine/necra))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
@@ -778,7 +758,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	var/peacerites = list("Rite of Pacification")
 
 /obj/structure/ritualcircle/eora/attack_hand(mob/living/user)
-	if((user.patron?.type) != /datum/patron/divine/eora)
+	if(!istype(user.patron, /datum/patron/divine/eora))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
@@ -827,7 +807,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	var/zizorites = list("Rite of Armaments", "Rite of the Dark Crystal", "Path of Rituos")
 
 /obj/structure/ritualcircle/zizo/attack_hand(mob/living/user)
-	if((user.patron?.type) != /datum/patron/inhumen/zizo)
+	if(!istype(user.patron, /datum/patron/inhumen/zizo))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
@@ -1040,7 +1020,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 
 
 /obj/structure/ritualcircle/matthios/attack_hand(mob/living/user)
-	if((user.patron?.type) != /datum/patron/inhumen/matthios)
+	if(!istype(user.patron, /datum/patron/inhumen/matthios))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
@@ -1120,7 +1100,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	var/graggarrites = list("Rite of Armaments", "War Ritual")
 
 /obj/structure/ritualcircle/graggar/attack_hand(mob/living/user)
-	if((user.patron?.type) != /datum/patron/inhumen/graggar)
+	if(!istype(user.patron, /datum/patron/inhumen/graggar))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
@@ -1256,7 +1236,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	var/baotharites = list("Rite of Joy")
 
 /obj/structure/ritualcircle/baotha/attack_hand(mob/living/user)
-	if((user.patron?.type) != /datum/patron/inhumen/baotha)
+	if(!istype(user.patron, /datum/patron/inhumen/baotha))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))

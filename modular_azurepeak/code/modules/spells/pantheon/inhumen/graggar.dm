@@ -149,6 +149,12 @@
 
 	return TRUE
 
+/obj/effect/proc_holder/spell/self/graggar_bloodrage/kazengun
+	invocation = "GAIYUKE!! GAIYUKE!! GAIYUKE!!"
+
+/obj/effect/proc_holder/spell/self/graggar_bloodrage/gronn
+	invocation = "RAAAAARGH!!"
+
 /obj/effect/proc_holder/spell/invoked/revel_in_slaughter/proc/restore_bleed_mod(datum/physiology/physiology)
 	if(!physiology)
 		return
