@@ -9,7 +9,7 @@
 // =========================
 
 
-/obj/effect/proc_holder/spell/invoked/aaabling
+/obj/effect/proc_holder/spell/invoked/lesserblindness
 	name = "Noc's Veil"
 	desc = "Curse a foe with a creeping veil that dims their sight."
 	overlay_state = "blindness"
@@ -31,7 +31,7 @@
 	miracle = TRUE
 	cost = 3
 
-/obj/effect/proc_holder/spell/invoked/aaabling/cast(list/targets, mob/user = usr)
+/obj/effect/proc_holder/spell/invoked/lesserblindness/cast(list/targets, mob/user = usr)
 	. = ..()
 	if(!targets || !length(targets) || !targets[1] || !isliving(targets[1]))
 		revert_cast()
@@ -89,7 +89,7 @@
 /atom/movable/screen/alert/status_effect/debuff/living_darkness_blindness
 	name = "Living Darkness"
 	desc = "A dim veil clouds my vision."
-	icon_state = "hunger3"
+	icon_state = "blind"
 
 
 // =========================
