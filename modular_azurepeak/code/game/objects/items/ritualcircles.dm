@@ -741,25 +741,34 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	var/ritualtargets = view(7, loc)
 	for(var/mob/living/carbon/human/target in ritualtargets)
 		target.apply_status_effect(/datum/status_effect/buff/undermaidenbargain)
+		
+/obj/structure/ritualcircle/necra/proc/advance_necra_vow(mob/living/user)
+	if(!ishuman(user))
+		return FALSE
 
-/obj/structure/ritualcircle/necra/proc/undermaidenvow_stage2()
-	var/ritualtargets = range(1, loc)
-	for(var/mob/living/carbon/human/target in ritualtargets)
-		if(HAS_TRAIT(target, TRAIT_ROTMAN) || HAS_TRAIT(target, TRAIT_NOBREATH) || (target.mob_biotypes & MOB_UNDEAD))
-			return FALSE
-		if(target.patron?.type != /datum/patron/divine/necra)
-			return FALSE
-		if(target.has_status_effect(/datum/status_effect/buff/necras_vow))
-			return FALSE
-		if(target.has_status_effect(/datum/status_effect/buff/undermaidens_vow))
-			return FALSE
-		if(!target.has_status_effect(/datum/status_effect/debuff/necra_vow_burden))
-			return FALSE
-		target.remove_status_effect(/datum/status_effect/debuff/necra_vow_burden)
-		target.apply_status_effect(/datum/status_effect/buff/undermaidens_vow)
+	var/mob/living/carbon/human/H = user
+
+	if(HAS_TRAIT(H, TRAIT_ROTMAN) || HAS_TRAIT(H, TRAIT_NOBREATH) || (H.mob_biotypes & MOB_UNDEAD))
+		return FALSE
+	if(H.patron?.type != /datum/patron/divine/necra)
+		return FALSE
+
+	if(H.has_status_effect(/datum/status_effect/buff/necras_vow))
+		return FALSE
+
+	if(H.has_status_effect(/datum/status_effect/buff/undermaidens_vow))
+		H.remove_status_effect(/datum/status_effect/buff/undermaidens_vow)
+		H.apply_status_effect(/datum/status_effect/buff/necras_vow)
 		return TRUE
-	return FALSE
-	
+
+	if(H.has_status_effect(/datum/status_effect/debuff/necra_vow_burden))
+		H.remove_status_effect(/datum/status_effect/debuff/necra_vow_burden)
+		H.apply_status_effect(/datum/status_effect/buff/undermaidens_vow)
+		return TRUE
+
+	H.apply_status_effect(/datum/status_effect/debuff/necra_vow_burden)
+	return TRUE
+
 /obj/structure/ritualcircle/eora
 	name = "Rune of Love"
 	desc = "A Holy Rune of Eora. A gentle warmth and joy spreads across your soul."

@@ -200,46 +200,39 @@
 	if(!targets || !length(targets) || !targets[1] || !ishuman(targets[1]))
 		revert_cast()
 		return FALSE
+
 	var/mob/living/carbon/human/H = targets[1]
+
 	if(HAS_TRAIT(H, TRAIT_ROTMAN) || HAS_TRAIT(H, TRAIT_NOBREATH) || (H.mob_biotypes & MOB_UNDEAD))
 		to_chat(user, span_warning("Necra cares not for the vows of the corrupted."))
 		revert_cast()
 		return FALSE
+
 	if(H.patron?.type != /datum/patron/divine/necra)
 		to_chat(user, span_notice("They do not belong to Necra."))
 		revert_cast()
 		return FALSE
+
 	if(H.has_status_effect(/datum/status_effect/buff/necras_vow))
 		to_chat(user, span_notice("They have already sealed the final vow."))
 		revert_cast()
 		return FALSE
+
 	var/choice = alert(H,
 		"You are being asked to pledge Necra's vow. This path is difficult to undo. Do you agree?",
 		"VOW", "Yes", "No"
 	)
+
 	if(choice != "Yes")
 		to_chat(user, span_notice("They declined."))
-		revert_cast()
-		return FALSE
-	user.visible_message(span_warning("[user] grants [H] the blessing of their promise."))
-	to_chat(H, span_warning("I have committed. There is no going back."))
-	if(H.has_status_effect(/datum/status_effect/buff/necras_vow))
-		to_chat(user, span_notice("They have already sealed the final vow."))
-		revert_cast()
-		return FALSE
-	if(H.has_status_effect(/datum/status_effect/buff/undermaidens_vow))
-		H.remove_status_effect(/datum/status_effect/buff/undermaidens_vow)
-		H.apply_status_effect(/datum/status_effect/buff/necras_vow)
-		return TRUE
-	else if(H.has_status_effect(/datum/status_effect/debuff/necra_vow_burden))
-		H.remove_status_effect(/datum/status_effect/debuff/necra_vow_burden)
-		H.apply_status_effect(/datum/status_effect/buff/undermaidens_vow)
-		return TRUE
-	else
-		H.apply_status_effect(/datum/status_effect/debuff/necra_vow_burden)
 		return TRUE
 
+	user.visible_message(span_warning("[user] grants [H] the blessing of their promise."))
+	to_chat(H, span_warning("I have committed. There is no going back."))
+
+	advance_necra_vow(H)
 	return TRUE
+
 /datum/status_effect/debuff/necra_last_pact_ashes
 	id = "necra_last_pact_ashes"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/necra_last_pact_ashes
@@ -288,11 +281,12 @@
 
 #define NECRAVOW_FILTER "necravow_glow"
 
-// STAGE 1: Nothing
+// STAGE 1: Nothing but debuff
 
 /datum/status_effect/debuff/necra_vow_burden
 	id = "necra_vow_burden"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/necra_vow_burden
+	effectedstats = list("constitution" = -1)
 	duration = -1
 
 /datum/status_effect/debuff/necra_vow_burden/on_apply()
@@ -381,16 +375,14 @@
 
 // LAST PACT
 
- /datum/status_effect/buff/healing/necras_vow/last_pact
+/datum/status_effect/buff/healing/necras_vow/last_pact
 	id = "necra_last_pact_healing"
 	duration = 180 SECONDS
 
 /datum/status_effect/buff/healing/necras_vow/last_pact/on_creation(mob/living/new_owner, mob/living/caster, potency)
-	var/t = 180
 	if(isnum(potency))
-		t = potency
-	t = clamp(t, 10, 600) // up to 10 minutes if you ever want
-	duration = t SECONDS
+		var/t = clamp(potency, 30, 600) //up to 10 minutes but why would we why would I
+		duration = t SECONDS
 	return ..()
 
 /datum/status_effect/debuff/necra_last_pact_ashes
