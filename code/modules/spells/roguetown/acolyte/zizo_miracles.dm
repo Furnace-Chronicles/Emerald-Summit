@@ -91,7 +91,7 @@
 		revert_cast()
 		return FALSE
 	if(user.z != target.z)
-		to_chat(user, span_warning("This miracle can not be directed upwards or downwards!")
+		to_chat(user, span_warning("This miracle can not be directed upwards or downwards!"))
 		revert_cast()
 		return FALSE
 
