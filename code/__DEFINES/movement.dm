@@ -1,10 +1,10 @@
 //The minimum for glide_size to be clamped to.
 //Clamped to 5 because byond's glide size scaling is actually just completely broken and "step"
 //movement is better than dealing with the awful camera juddering
-#define MIN_GLIDE_SIZE 0.01
+#define MIN_GLIDE_SIZE 4
 //The maximum for glide_size to be clamped to.
 //This shouldn't be higher than the icon size, and generally you shouldn't be changing this, but it's here just in case.
-#define MAX_GLIDE_SIZE 32
+#define MAX_GLIDE_SIZE 8
 
 //This is a global so it can be changed in game, if you want to make this a bit faster you can make it a constant/define directly in the code
 //GLOBAL_VAR_INIT(glide_size_multiplier, 1.25)
