@@ -2214,6 +2214,10 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				
 				if("dnr")
 					dnr_pref =!dnr_pref
+					if(dnr_pref)
+						to_chat(usr, span_notice("Your character's death will be permanent for the round. They get Tempo."))
+					else
+						to_chat(usr, span_notice("Your character can be revived normally."))
 
 				if("virtue")
 					var/list/virtue_choices = list()
