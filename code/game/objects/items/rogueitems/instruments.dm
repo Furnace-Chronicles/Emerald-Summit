@@ -383,7 +383,7 @@
 	song_list = list("Dainty Man" = 'sound/music/instruments/bagpipe (1).ogg',
 	"Harpy in the Morning" = 'sound/music/instruments/bagpipe (2).ogg',
 	"Heartfelt Forever" = 'sound/music/instruments/bagpipe (3).ogg',
-	"Homeward Jig" = 'sound/music/instruments/bagpipe(4).ogg',
+	"Homeward Jig" = 'sound/music/instruments/bagpipe (4).ogg',
 	"On the Sea Shore" = 'sound/music/instruments/bagpipe (5).ogg',
 	"Soldier's Rest" = 'sound/music/instruments/bagpipe (6).ogg',
 	"Otavan Madame" = 'sound/music/instruments/bagpipe (7).ogg')
