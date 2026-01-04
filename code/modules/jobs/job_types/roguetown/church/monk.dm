@@ -25,7 +25,6 @@
 	virtue_restrictions = list(
 		/datum/virtue/utility/noble,
 		/datum/virtue/utility/blueblooded,
-		/datum/virtue/combat/crimson_curse,
 	)
 
 	job_traits = list(TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_CLERGY)
