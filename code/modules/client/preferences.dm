@@ -1629,9 +1629,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 								virtue = GLOB.virtues[/datum/virtue/none]
 							var/temp_bodysize = BODY_SIZE_NORMAL
 							if(istype(virtuetwo, /datum/virtue/size))
-								if(istype(virtue, /datum/virtue/size))
-									var/datum/virtue/size/S = virtue
-									temp_bodysize += S.size_increment
 								features["body_size"] = temp_bodysize
 								to_chat(user, span_purple("Your body size has been reset to [temp_bodysize*100]%."))
 							virtuetwo = GLOB.virtues[/datum/virtue/none] // Resets the second virtue.
@@ -2181,10 +2178,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/temp_bodysize = BODY_SIZE_NORMAL
 						if(istype(virtue_chosen, /datum/virtue/size))
 							var/datum/virtue/size/S = virtue_chosen
-							temp_bodysize += S.size_increment
-							if((statpack.name == "Virtuous" && istype(virtuetwo, /datum/virtue/size)))
-								S = virtue_chosen
-								temp_bodysize += S.size_increment
+							temp_bodysize = S.scale
 							features["body_size"] = temp_bodysize
 							to_chat(user, span_purple("Your body size has been reset to [temp_bodysize*100]%."))
 						if(istype(virtue, /datum/virtue/size))
@@ -2224,10 +2218,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/temp_bodysize = BODY_SIZE_NORMAL
 						if(istype(virtue_chosen, /datum/virtue/size))
 							var/datum/virtue/size/S = virtue_chosen
-							temp_bodysize += S.size_increment
-							if((statpack.name == "Virtuous" && istype(virtue, /datum/virtue/size)))
-								S = virtue_chosen
-								temp_bodysize += S.size_increment
+							temp_bodysize = S.scale
 							features["body_size"] = temp_bodysize
 							to_chat(user, span_purple("Your body size has been reset to [temp_bodysize*100]%."))
 						if(istype(virtuetwo, /datum/virtue/size))
@@ -2274,18 +2265,13 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							to_chat(user, "<span class='info'>[charflaw.desc]</span>")
 
 				if("body_size")
-					var/temp_bodysize_min = BODY_SIZE_MIN
-					var/temp_bodysize_max = BODY_SIZE_MAX
-					if(statpack.name == "Virtuous" && istype(virtuetwo, /datum/virtue/size))
-						temp_bodysize_max += BODY_SIZE_GIANT_INCREMENT
-						temp_bodysize_min += (BODY_SIZE_GIANT_INCREMENT * 0.5)
-					if(istype(virtue, /datum/virtue/size))
-						temp_bodysize_max += BODY_SIZE_GIANT_INCREMENT
-						temp_bodysize_min += (BODY_SIZE_GIANT_INCREMENT * 0.5)
-					var/new_body_size = tgui_input_number(user, "Choose your desired sprite size:\n([temp_bodysize_min*100]%-[temp_bodysize_max*100]%), Warning: May make your character look distorted", "Character Preference", features["body_size"]*100)
-					if(new_body_size)
-						new_body_size = clamp(new_body_size * 0.01, temp_bodysize_min, temp_bodysize_max)
-						features["body_size"] = new_body_size
+					if(statpack.name == "Virtuous" && istype(virtuetwo, /datum/virtue/size) || istype(virtue, /datum/virtue/size))
+						to_chat(user, span_purple("Unable to change sprite size due to virtue."))
+					else
+						var/new_body_size = tgui_input_number(user, "Choose your desired sprite size:\n([BODY_SIZE_MIN*100]%-[BODY_SIZE_MAX*100]%), Warning: May make your character look distorted", "Character Preference", features["body_size"]*100)
+						if(new_body_size)
+							new_body_size = clamp(new_body_size * 0.01, BODY_SIZE_MIN, BODY_SIZE_MAX)
+							features["body_size"] = new_body_size
 
 				if("tail_color")
 					var/new_tail_color = color_pick_sanitized(user, "Choose your character's tail color:", "Character Preference", "#"+tail_color)
