@@ -12,7 +12,7 @@
 
 /obj/structure/flora/roguegrass/maneater/real
 	var/aggroed = 0
-	max_integrity = 30
+	max_integrity = 10
 	integrity_failure = 0.15
 	attacked_sound = list('sound/vo/mobs/plant/pain (1).ogg','sound/vo/mobs/plant/pain (2).ogg','sound/vo/mobs/plant/pain (3).ogg','sound/vo/mobs/plant/pain (4).ogg')
 	var/list/eatablez = list(/obj/item/bodypart, /obj/item/organ, /obj/item/reagent_containers/food/snacks/rogue/meat)
@@ -255,7 +255,7 @@
 	desc = "Green and vivid. This one seems smaller than usual."
 	icon = 'icons/roguetown/mob/monster/maneater.dmi'
 	icon_state = "maneater-hidden"
-	max_integrity = 15
+	max_integrity = 10
 	seednutrition = 0
 	max_seednutrition = 50
 	var/growth_stage = 1
