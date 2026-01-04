@@ -146,11 +146,36 @@
 	is_cdr_exempt = TRUE
 	devotion_cost = 60
 
+/obj/effect/proc_holder/spell/invoked/wound_heal/zizo/proc/stop_divine_destruction(mob/living/target)
+	if(!target)
+		return
+	if(target in GLOB.divine_destruction_mobs)  // divine destruction stopping code
+		// Cancel all timers
+		for(var/timer_id in GLOB.divine_destruction_mobs[target])
+			deltimer(timer_id)
+		GLOB.divine_destruction_mobs -= target
+
+		// Remove visual effects
+		target.remove_filter("divine_glow")  // no more glowing
+		for(var/obj/effect/dummy/lighting_obj/moblight/L in target)
+			qdel(L)
+
+		// Remove godmode and stun
+		target.status_flags &= ~GODMODE
+		target.Unstun()
+
+		UnregisterSignal(target, COMSIG_LIVING_CALCIFICATION_OVERRIDE)
+		to_chat(target, span_notice("THE WHORE ASTRATA IS STOPPED, SHE IS WEAK"))
+
 /obj/effect/proc_holder/spell/invoked/wound_heal/zizo/cast(list/targets, mob/living/carbon/human/user)
 	if(!targets || targets.len < 1)
 		revert_cast()
 		return FALSE
 	var/mob/living/carbon/human/target = targets[1]
+
+	if(target in GLOB.divine_destruction_mobs)		//stops it here
+		stop_divine_destruction(target)
+
 	if(!ishuman(targets[1]))
 		revert_cast()
 		return FALSE
@@ -165,6 +190,7 @@
 	if(!affecting)
 		playsound(target, 'sound/magic/zizo_woundheal.ogg', 100, TRUE)
 		to_chat(UH, span_warning("I am not ambitious enough to regenerate limbs..."))
-		return TRUE
+		revert_cast()
+		return FALSE
 
 	return ..()
