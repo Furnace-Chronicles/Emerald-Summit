@@ -441,8 +441,15 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		return JOB_UNAVAILABLE_SEX
 	if(length(job.allowed_ages) && !(client.prefs.age in job.allowed_ages))
 		return JOB_UNAVAILABLE_AGE
-	if(length(job.allowed_patrons) && !(client.prefs.selected_patron.type in job.allowed_patrons))
-		return JOB_UNAVAILABLE_PATRON
+	if(length(job.allowed_patrons))
+		var/allowed = FALSE
+		var/datum/patron/PA = client.prefs.selected_patron
+		for(var/path in job.allowed_patrons)
+			if(istype(PA, path))
+				allowed = TRUE
+				break
+		if(!allowed)
+			return JOB_UNAVAILABLE_PATRON
 	if((client.prefs.lastclass == job.title) && !job.bypass_lastclass)
 		return JOB_UNAVAILABLE_LASTCLASS
 	// Check if the player is on cooldown for the hiv+ role
@@ -660,17 +667,19 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 
 			for(var/job in available_jobs)
 				var/datum/job/job_datum = SSjob.name_occupations[job]
+				var/do_elaborate = job_datum.has_limited_subclasses()
 				if(job_datum)
-					var/command_bold = ""
+					var/command_bold = FALSE
 					if(job in GLOB.noble_positions)
-						command_bold = " command"
+						command_bold = TRUE
 					var/used_name = job_datum.title
 					if(client.prefs.pronouns == SHE_HER && job_datum.f_title)
 						used_name = job_datum.f_title
 					if(job_datum in SSjob.prioritized_jobs)
 						dat += "<a class='job[command_bold]' href='byond://?src=[REF(src)];SelectedJob=[job_datum.title]'><span class='priority'>[used_name] ([job_datum.current_positions])</span></a>"
 					else
-						dat += "<a class='job[command_bold]' href='byond://?src=[REF(src)];SelectedJob=[job_datum.title]'>[used_name] ([job_datum.current_positions]/[job_datum.total_positions])</a>"
+						dat += "<font size = 3>[do_elaborate ? "<a href='?src=[REF(job_datum)];jobsubclassinfo=1'><b><font color = '#6b6743'>(!)</font></b></a>" : ""]<a href='byond://?src=[REF(src)];SelectedJob=[job_datum.title]'>[command_bold ? "<b>" : ""][used_name] ([job_datum.current_positions]/[job_datum.total_positions])[command_bold ? "</b>" : ""]</a></font>"
+						dat += "<br>"
 
 			dat += "</fieldset><br>"
 			column_counter++
@@ -731,7 +740,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		dna.species.after_creation(src)
 	roll_stats()
 
-/mob/dead/new_player/proc/transfer_character()
+/mob/dead/new_player/proc/transfer_character(delay_deletion = FALSE)
 	. = new_character
 	if(.)
 		new_character.key = key		//Manually transfer the key to log them in
@@ -741,7 +750,10 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 			joined_area.on_joining_game(new_character)
 		new_character.update_fov_angles()
 		new_character = null
-		qdel(src)
+		if(!delay_deletion)
+			// Latejoins - delete immediately
+			qdel(src)
+		// Roundstart transfers pass TRUE - caller handles delayed cleanup after Login() completes
 
 /mob/dead/new_player/proc/ViewManifest()
 	var/dat = "<html><body>"

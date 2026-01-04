@@ -270,17 +270,7 @@
 		return
 
 	// Check if occupant is valid
-	if(occupant.stat != DEAD)
-		to_chat(H, span_warning("[occupant] is still alive!"))
-		return
-	if(!occupant.mind)
-		to_chat(H, span_warning("The brain of [occupant] seems thoroughly fried."))
-		return
-	if(HAS_TRAIT(occupant, TRAIT_NECRAS_VOW))
-		to_chat(H, span_warning("This soul belongs to Necra and cannot be reclaimed! You feel her fury!"))
-		return
-	if(!occupant.mind.active)
-		to_chat(H, span_warning("The spirit has moved beyond recall."))
+	if(!occupant.check_revive(user))
 		return
 
 	// Prompt ghost

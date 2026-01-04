@@ -246,9 +246,7 @@
 		var/letter = text[i]
 		if(prob(chance))
 			if(replace_characters)
-				letter = ""
-			for(var/j in 1 to rand(0, 2))
-				letter += pick("#","@","*","&","%","$","/", "<", ">", ";","*","*","*","*","*","*","*")
+				letter = "*"
 		. += letter
 
 
@@ -625,6 +623,7 @@
 	on_cmode()
 
 /mob/proc/on_cmode()
+	SEND_SIGNAL(src, COMSIG_COMBAT_MODE)
 	return
 
 /mob
@@ -979,6 +978,20 @@
 			used_title = advjob
 	else if(job)
 		var/datum/job/J = SSjob.GetJob(job)
+		if(!J)
+			// Fallback: try mind.assigned_role if mob.job lookup failed
+			if(mind?.assigned_role)
+				J = SSjob.GetJob(mind.assigned_role)
+			if(!J)
+				return "unknown"
+		used_title = J.title
+		if(J.f_title && (pronouns == SHE_HER || pronouns == THEY_THEM_F))
+			used_title = J.f_title
+		if(J.advjob_examine)
+			used_title = advjob
+	else if(mind?.assigned_role)
+		// No mob.job set, but mind.assigned_role exists - use that
+		var/datum/job/J = SSjob.GetJob(mind.assigned_role)
 		if(!J)
 			return "unknown"
 		used_title = J.title

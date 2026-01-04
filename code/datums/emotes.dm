@@ -58,7 +58,19 @@
 /datum/emote/proc/adjacentaction(mob/user, mob/target)
 	return
 
-/datum/emote/proc/run_emote(mob/user, params, type_override, intentional = FALSE, targetted = FALSE, animal = FALSE)
+/**
+ * Execute the emote and broadcast to viewers.
+ *
+ * Arguments:
+ * * user - The mob performing the emote
+ * * params - Additional parameters for the emote
+ * * type_override - Override for emote type (audible/visible)
+ * * intentional - Whether the emote was triggered intentionally
+ * * targetted - Whether this is a targeted emote
+ * * animal - Whether to use animal-specific behavior
+ * * broadcast_to_scom - If TRUE, notifies nearby SCOM structures after displaying the emote
+ */
+/datum/emote/proc/run_emote(mob/user, params, type_override, intentional = FALSE, targetted = FALSE, animal = FALSE, broadcast_to_scom = FALSE)
 	. = TRUE
 	if(!can_run_emote(user, TRUE, intentional))
 		return FALSE
@@ -149,6 +161,14 @@
 			emotelocation.audible_message(msg, runechat_message = runechat_msg_to_use, log_seen = SEEN_LOG_EMOTE)
 		else
 			emotelocation.visible_message(msg, runechat_message = runechat_msg_to_use, log_seen = SEEN_LOG_EMOTE)
+		
+		// Notify nearby SCOM structures if broadcast flag is set
+		if(broadcast_to_scom && isliving(user))
+			var/mob/living/speaker = user
+			for(var/atom/movable/potential_scom in get_hearers_in_view(7, speaker))
+				if(potential_scom.flags_1 & HEAR_1)
+					// Pass emote with ! prefix so SCOM knows it's an emote
+					potential_scom.Hear(null, speaker, null, "![raw_msg]", null, list(), null, "![raw_msg]")
 
 /mob/living/proc/get_emote_pitch()
 	return clamp(voice_pitch, 0.5, 2)

@@ -135,28 +135,7 @@
 			qdel(spirit)
 			ghost.mind.transfer_to(target, TRUE)
 		target.grab_ghost(force = FALSE)
-		if(!target.mind)
-			revert_cast()
-			return FALSE
-		if(HAS_TRAIT(target, TRAIT_NECRAS_VOW))
-			to_chat(user, "This one has pledged themselves whole to Necra. They are Hers.")
-			revert_cast()
-			return FALSE
-		if(!target.mind.active)
-			to_chat(user, "[target] will not return from afterlife.")
-			revert_cast()
-			return FALSE
-		if(target == user)
-			revert_cast()
-			return FALSE
-		if(target.stat < DEAD)
-			to_chat(user, span_warning("Nothing happens."))
-			revert_cast()
-			return FALSE
-		if(HAS_TRAIT(target, TRAIT_HOLLOW_LIFE))
-			to_chat(user, span_bloody("Astrata scorns this one, for reasons unknown. Lux infusal is the only option."))
-			target.adjustFireLoss(30)
-			target.fire_act(1,5)
+		if(!target.check_revive(user))
 			revert_cast()
 			return FALSE
 		if(GLOB.tod == "night")
@@ -211,11 +190,15 @@
 	sound = 'sound/magic/astrata_choir.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
-	invocation = "Astrata show me true."
+	invocation = "Astrata show me true!"
 	invocation_type = "shout"
 	recharge_time = 120 SECONDS
 	devotion_cost = 30
 	miracle = TRUE
+
+/obj/effect/proc_holder/spell/self/astrata_gaze/kazengun
+	name = "Aisatan Gaze"
+	invocation = "Aisata show me true!"
 
 /obj/effect/proc_holder/spell/self/astrata_gaze/cast(list/targets, mob/user)
 	if(!ishuman(user))

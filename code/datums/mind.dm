@@ -39,6 +39,14 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/mob/living/current
 	var/active = 0
 
+	// This was a Temporary Workaround, but it's too good to remove even though hangups are fixed
+	// Deferred equipment for players who disconnect during roundstart processing
+	var/pending_equipment_job = null	// Job rank to equip
+	var/pending_equipment_latejoin = FALSE	// Was this latejoin?
+	
+	// Knowledge processing flag - set during equipment, triggered after key transfer
+	var/needs_knowledge_processing = FALSE
+
 	var/memory
 
 	var/datum/job/assigned_role
@@ -116,6 +124,11 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/list/stored_miracle_sets				// Associative: god_name = devotion_datum
 	var/active_miracle_set						// Currently active god name
 	var/list/miracle_button_states				// Associative: spell_type = list("locked", "moved") - persists across all gods
+
+	/// List of mercenary minds under this mind's employ.
+	VAR_PRIVATE/mercenaries
+	/// Weakref to our employer, if any
+	var/datum/weakref/employer
 
 /datum/mind/New(key)
 	src.key = key
@@ -257,7 +270,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		var/fcolor = known_people[P]["VCOLOR"]
 		if(!fcolor)
 			continue
-		var/fjob = known_people[P]["FJOB"]
+		// Get fresh job title on display (handles wildshape/job changes dynamically)
+		var/fjob = get_known_person_job(P)
 		var/fgender = known_people[P]["FGENDER"]
 		var/fspecies = known_people[P]["FSPECIES"]
 		var/fage = known_people[P]["FAGE"]
@@ -272,6 +286,17 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/datum/browser/popup = new(user, "PEOPLEIKNOW", "", 260, 400)
 	popup.set_content(contents)
 	popup.open()
+
+// Helper to get current job title for a known person (looks up by name)
+/datum/mind/proc/get_known_person_job(person_name)
+	// Try to find the person by name and get their current title
+	for(var/datum/mind/M in SSticker.minds)
+		if(ishuman(M.current))
+			var/mob/living/carbon/human/H = M.current
+			if(H.real_name == person_name)
+				return H.get_role_title() || "unknown"
+	// Fallback to cached title if person not found (offline/dead)
+	return known_people[person_name]?["FJOB"] || "unknown"
 
 
 /datum/mind/proc/get_language_holder()
@@ -950,6 +975,56 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		S.action?.Grant(current)
 	
 	return TRUE
+
+/datum/mind/proc/add_mercenary(datum/mind/new_merc)
+	if(!istype(new_merc))
+		return FALSE
+
+	current.verbs += /mob/living/carbon/human/proc/listmercs
+	current.verbs += /mob/living/carbon/human/proc/firethem
+	new_merc.current.verbs -= /mob/living/carbon/human/proc/hireme
+	new_merc.current.verbs += /mob/living/carbon/human/proc/fireme
+	new_merc.current.verbs += /mob/living/carbon/human/proc/merccontract
+
+	var/datum/advclass/mercenary/merc_class = SSrole_class_handler.get_advclass_by_name(new_merc.current.advjob)
+	new_merc.current.apply_status_effect(merc_class?.hiredbuff)
+
+	RegisterSignal(new_merc, COMSIG_QDELETING, PROC_REF(remove_mercenary))
+	new_merc.employer = WEAKREF(src)
+	LAZYADD(mercenaries, new_merc)
+	message_admins("Mercenary [ADMIN_LOOKUPFLW(new_merc?.current)] has been hired by [ADMIN_LOOKUPFLW(current)].")
+	log_game("Mercenary [ADMIN_LOOKUPFLW(new_merc?.current)] has been hired by [ADMIN_LOOKUPFLW(current)].")
+	if(assigned_role == "Mercenary")
+		message_admins("Potential coal alert! Mercenary [ADMIN_LOOKUPFLW(current)] has just hired another mercenary, [ADMIN_LOOKUPFLW(new_merc?.current)]!")
+		log_game("Potential coal alert! Mercenary [ADMIN_LOOKUPFLW(current)] has just hired another mercenary, [ADMIN_LOOKUPFLW(new_merc?.current)]!")
+	return TRUE
+
+/datum/mind/proc/remove_mercenary(datum/mind/former_merc)
+	SIGNAL_HANDLER
+	if(!istype(former_merc))
+		return FALSE
+
+	former_merc.current.verbs += /mob/living/carbon/human/proc/hireme
+	former_merc.current.verbs -= /mob/living/carbon/human/proc/fireme
+	former_merc.current.verbs -= /mob/living/carbon/human/proc/merccontract
+	var/datum/advclass/mercenary/merc_class = SSrole_class_handler.get_advclass_by_name(former_merc.current.advjob)
+	former_merc.current.remove_status_effect(merc_class?.hiredbuff)
+
+	UnregisterSignal(former_merc, COMSIG_QDELETING)
+	former_merc.employer = null
+	LAZYREMOVE(mercenaries, former_merc)
+	if(!has_mercs_employed())
+		current.verbs -= /mob/living/carbon/human/proc/listmercs
+		current.verbs -= /mob/living/carbon/human/proc/firethem
+	message_admins("Mercenary [ADMIN_LOOKUPFLW(former_merc?.current)] has been fired by [ADMIN_LOOKUPFLW(current)].")
+	log_game("Mercenary [ADMIN_LOOKUPFLW(former_merc?.current)] has been fired by [ADMIN_LOOKUPFLW(current)].")
+	return TRUE
+
+/datum/mind/proc/has_mercs_employed()
+	return LAZYLEN(mercenaries)
+
+/datum/mind/proc/get_mercenary_list()
+	return mercenaries
 
 /proc/handle_special_items_retrieval(mob/user, atom/host_object)
 	// Attempts to retrieve an item from a player's stash, and applies any base colors, where preferable.

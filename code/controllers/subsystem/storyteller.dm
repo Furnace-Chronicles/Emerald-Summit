@@ -234,7 +234,7 @@ SUBSYSTEM_DEF(gamemode)
 /datum/controller/subsystem/gamemode/fire(resumed = FALSE)
 	if(last_devotion_check < world.time)
 		pick_most_influential()
-		last_devotion_check = world.time + 90 MINUTES
+		last_devotion_check = world.time + 10 MINUTES
 
 	if(SSticker.HasRoundStarted() && (world.time - SSticker.round_start_time) >= ROUNDSTART_VALID_TIMEFRAME)
 		can_run_roundstart = FALSE

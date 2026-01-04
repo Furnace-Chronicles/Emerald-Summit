@@ -17,13 +17,14 @@
 
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_NOBLE)
 	subclass_stats = list(
-		STATKEY_CON = 4,
-		STATKEY_END = 2,
+		STATKEY_CON = 3,
+		STATKEY_END = 1,
 		STATKEY_STR = 2,
 		STATKEY_PER = 1,
 		STATKEY_SPD = -1
 	)
-
+	hiredbuff = /datum/status_effect/buff/merchired/routier
+	origin_override_type = /datum/virtue/origin/otava
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
@@ -41,6 +42,9 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 	)
+
+/datum/status_effect/buff/merchired/routier
+	effectedstats = list(STATKEY_CON = 1, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/routier/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -79,5 +83,3 @@
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	backl = /obj/item/rogueweapon/shield/tower/metal
 	backpack_contents = list(/obj/item/roguekey/mercenary = 1, /obj/item/flashlight/flare/torch = 1)
-
-	change_origin(H, /datum/virtue/origin/otava)

@@ -129,6 +129,10 @@
 	var/flavortext_display = null
 	var/ooc_notes = null
 	var/ooc_notes_display = null
+	var/rumour = null
+	var/rumour_display = null
+	var/gossip = null
+	var/gossip_display = null
 	var/ooc_extra_link
 	var/ooc_extra
 	var/is_legacy = FALSE
@@ -165,3 +169,8 @@
 
 	/// Assoc list of culinary preferences of the mob
 	var/list/culinary_preferences = list()
+
+	/// List of mobs that have attacked us. Only relevant to someone with TRAIT_TEMPO.
+	var/list/tempo_attackers = list()
+
+	var/next_tempo_cull

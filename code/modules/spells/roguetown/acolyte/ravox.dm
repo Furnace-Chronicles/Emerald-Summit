@@ -76,6 +76,9 @@
 	H.visible_message(span_warning("The strike from [M]'s fist causes [H] to go stiff!"), vision_distance = COMBAT_MESSAGE_RANGE)
 	qdel(src)
 
+/obj/effect/proc_holder/spell/self/divine_strike/kazengun
+	invocation = "By Ratake, stand and fight!"
+
 //Call to Arms - AoE buff for all people surrounding you.
 /obj/effect/proc_holder/spell/self/call_to_arms
 	name = "Call to Arms"
@@ -190,6 +193,9 @@
 					bleeder.set_bleed_rate(max(bleeder.clotting_threshold, bleeder.bleed_rate - difference * situational_bonus))
 		return TRUE
 	return FALSE
+
+/obj/effect/proc_holder/spell/invoked/persistence/kazengun
+	invocation = "Ratake deems your persistence worthy!"
 
 /atom/movable/screen/alert/status_effect/buff/divine_strike
 	name = "Divine Strike"

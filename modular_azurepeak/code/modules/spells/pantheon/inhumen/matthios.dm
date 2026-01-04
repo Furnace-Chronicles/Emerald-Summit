@@ -228,13 +228,20 @@
 	movement_interrupt = FALSE
 	recharge_time = 2 MINUTES
 	range = 4
+	var/god_name = "The Free-God"
 
 /obj/effect/proc_holder/spell/invoked/churnwealthy/cast(list/targets, mob/living/user)
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(istype(H.patron, /datum/patron/inhumen/matthios/gronn))
+			god_name = "Starving Bear"
+		if(istype(H.patron, /datum/patron/inhumen/matthios/kazengun) || istype(H.patron, /datum/patron/inhumen/matthios/kazengun/lingyue))
+			god_name = "Matoko"
 	if(ishuman(targets[1]))
 		var/mob/living/carbon/human/target = targets[1]
 
 		if(user.z != target.z) //Stopping no-interaction snipes
-			to_chat(user, "<font color='yellow'>The Free-God compels me to face [target] on level ground before I transact.</font>")
+			to_chat(user, "<font color='yellow'>[god_name] compels me to face [target] on level ground before I transact.</font>")
 			revert_cast()
 			return
 		var/mammonsonperson = get_mammons_in_atom(target)
@@ -260,7 +267,7 @@
 			if (31 to 60)
 				fire_dmg = 60
 			if (61 to 100)
-				thing_to_say = "The Free-God rebukes!"
+				thing_to_say = "[god_name] rebukes!"
 				fire_dmg = 80
 				stun_to_apply = 20
 			if (101 to 200)
@@ -272,7 +279,8 @@
 				fire_stacks = 9
 				stun_to_apply = 40
 			if (501 to INFINITY)
-				thing_to_say = "YOUR FINAL TRANSACTION! THE FREE-GOD REBUKES!!"
+				var/capital_name = uppertext(god_name)
+				thing_to_say = "YOUR FINAL TRANSACTION! [capital_name] REBUKES!!"
 				stun_to_apply = 60
 				fire_stacks = 10
 				fire_dmg = 150

@@ -74,6 +74,8 @@ GLOBAL_LIST_INIT(freqtospan, list(
 
 	var/arrowpart = ""
 
+	var/numpart = ""
+
 	if(istype(src,/mob/living))
 		var/atom/movable/tocheck = src
 		// Check relay instead.
@@ -108,9 +110,22 @@ GLOBAL_LIST_INIT(freqtospan, list(
 			if(speakturf.z < sourceturf.z)
 				arrowpart += " ⇊"
 
+			var/dist = get_dist(speakturf, sourceturf)
+			var/mob/living/M = src
+			var/hear_limit = 7 + M.extra_hearing_range
+			var/scramble = 60
+			var/yelling = say_test(raw_message)
+			if(yelling == "2")
+				hear_limit += 3
+			else if(yelling == "3")
+				hear_limit += 6
+
 			var/hidden = TRUE
 			if(HAS_TRAIT(src, TRAIT_KEENEARS))
 				if(ishuman(speaker) && ishuman(src))
+					hear_limit += 1
+					scramble -= 30
+					numpart = "[dist]"
 					var/mob/living/carbon/human/HS = speaker
 					var/mob/living/carbon/human/HL = src
 					if(length(HL.mind?.known_people))
@@ -131,6 +146,13 @@ GLOBAL_LIST_INIT(freqtospan, list(
 					namepart = "Unknown [(L.gender == FEMALE) ? "Woman" : "Man"]"
 				else
 					namepart = "Unknown"
+			if(dist > hear_limit)
+				if(yelling == "3")
+					messagepart = " yells, \"<B>" + "[Gibberish(raw_message, TRUE, scramble)]\"</B>"
+				else if(yelling == "2")
+					messagepart = " exclaims, \"" + "[Gibberish(raw_message, TRUE, scramble)]\""
+				else
+					messagepart = " says, \"" + "[Gibberish(raw_message, TRUE, scramble)]\""
 			spanpart1 = "<span class='smallyell'>"
 
 	var/languageicon = ""
@@ -138,7 +160,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	// if(istype(D) && D.display_icon(src))
 	// 	languageicon = "[D.get_icon()] "
 
-	return "[spanpart1][spanpart2][colorpart][freqpart][languageicon][compose_track_href(speaker, namepart)][namepart][compose_job(speaker, message_language, raw_message, radio_freq)][arrowpart][endspanpart][messagepart]"
+	return "[spanpart1][spanpart2][colorpart][freqpart][languageicon][compose_track_href(speaker, namepart)][namepart][compose_job(speaker, message_language, raw_message, radio_freq)][arrowpart][numpart][endspanpart][messagepart]"
 
 /atom/movable/proc/compose_track_href(atom/movable/speaker, message_langs, raw_message, radio_freq)
 	return ""
@@ -146,22 +168,70 @@ GLOBAL_LIST_INIT(freqtospan, list(
 /atom/movable/proc/compose_job(atom/movable/speaker, message_langs, raw_message, radio_freq)
 	return ""
 
+/**
+ * Determines the appropriate verb for a message based on punctuation.
+ *
+ * This proc scans the message for punctuation marks to determine how the message
+ * should be presented (says, asks, exclaims, yells). It intelligently skips emote
+ * prefixes (! or *) to avoid false positives when detecting yelling/exclaiming.
+ *
+ * Punctuation detection:
+ * * !! anywhere = yell (highest priority)
+ * * ! anywhere = exclaim
+ * * ? anywhere = ask
+ * * default = say
+ *
+ * Arguments:
+ * * input - The message text to analyze
+ * * message_mode - The message mode (currently unused in this implementation)
+ *
+ * Returns:
+ * * The appropriate verb string (verb_yell, verb_exclaim, verb_ask, or verb_say)
+ */
 /atom/movable/proc/say_mod(input, message_mode)
-	var/ending = copytext_char(input, length(input))
-	if(copytext_char(input, length(input) - 1) == "!!")
+	// Skip first character if it's an emote prefix to avoid false positives
+	// Example: "! grumbles angrily" should not trigger exclaim mode
+	var/check_text = input
+	var/prefix = copytext_char(input, 1, 2)
+	if(prefix == "!" || prefix == "*")
+		check_text = copytext_char(input, 2)
+	
+	// Check for !! anywhere in the message (yelling)
+	if(findtext(check_text, "!!"))
 		return verb_yell
-	else if(ending == "?")
-		return verb_ask
-	else if(ending == "!")
+	// Check for ! anywhere in the message (exclaiming)
+	else if(findtext(check_text, "!"))
 		return verb_exclaim
+	// Check for ? anywhere in the message (asking)
+	else if(findtext(check_text, "?"))
+		return verb_ask
+	// Default to normal speech
 	else
 		return verb_say
 
+/**
+ * Applies text formatting spans based on message content.
+ *
+ * This proc adds the SPAN_YELL formatting to messages containing !!
+ * anywhere in the text (after skipping emote prefixes).
+ *
+ * Arguments:
+ * * input - The message text to format
+ * * spans - List of existing spans to add to (modified in place)
+ * * message_mode - The message mode (currently unused)
+ */
 /atom/movable/proc/say_quote(input, list/spans=list(speech_span), message_mode)
 	if(!input)
 		input = "..."
 
-	if(copytext_char(input, length(input) - 1) == "!!")
+	// Skip first character if it's an emote prefix to avoid false positives
+	var/check_text = input
+	var/prefix = copytext_char(input, 1, 2)
+	if(prefix == "!" || prefix == "*")
+		check_text = copytext_char(input, 2)
+	
+	// Apply yell formatting if !! is found anywhere in the message
+	if(findtext(check_text, "!!"))
 		spans |= SPAN_YELL
 
 	input = parsemarkdown_basic(input, limited = TRUE, barebones = TRUE)
@@ -225,14 +295,38 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	output = "[output]'><span style='color:[textcolor]'>"
 	return output
 
+/**
+ * Tests message punctuation for speech intensity level.
+ *
+ * This is a helper proc used primarily for determining message range modifiers
+ * based on punctuation. Skips emote prefixes to avoid false positives.
+ *
+ * Arguments:
+ * * text - The message text to analyze
+ *
+ * Returns:
+ * * "3" - Yelling (!!) - increased range
+ * * "2" - Exclaiming (!) - slightly increased range
+ * * "1" - Asking (?) - normal range
+ * * "0" - Normal speech - normal range
+ */
 /proc/say_test(text)
-	if(copytext_char(text, length(text) - 1) == "!!")
+	// Skip first character if it's an emote prefix to avoid false positives
+	var/check_text = text
+	var/prefix = copytext_char(text, 1, 2)
+	if(prefix == "!" || prefix == "*")
+		check_text = copytext_char(text, 2)
+	
+	// Check for yelling (!!)
+	if(findtext(check_text, "!!"))
 		return "3"
-	var/ending = copytext_char(text, length(text))
-	if (ending == "?")
-		return "1"
-	if (ending == "!")
+	// Check for exclaiming (!)
+	if(findtext(check_text, "!"))
 		return "2"
+	// Check for asking (?)
+	if(findtext(check_text, "?"))
+		return "1"
+	// Normal speech
 	return "0"
 
 /atom/movable/proc/GetVoice()

@@ -18,7 +18,7 @@
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 FOR</b></span> </br>"
 
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY)
-	inherent_traits = list(TRAIT_NOMOBSWAP)
+	inherent_traits = list(TRAIT_NOMOBSWAP, TRAIT_SILVER_BLOOD)
 	default_features = MANDATORY_FEATURE_LIST
 	use_skintones = 1
 	disliked_food = NONE

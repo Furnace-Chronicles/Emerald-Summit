@@ -24,7 +24,7 @@
 		/obj/item/needle/thorn = 1,
 		/obj/item/roguestatue/steel = 1,
 		/obj/item/roguestatue/aalloy = 1,
-		/obj/item/roguestatue/iron = 1,
+		/obj/item/roguestatue/iron = 1
 	)
 
 /obj/effect/spawner/lootdrop/valuable_clutter_spawner
@@ -39,6 +39,18 @@
 		/obj/item/roguestatue/silver = 1,
 		/obj/item/roguestatue/steel = 1,
 		/obj/item/rogueweapon/hammer/steel = 1,
+		/obj/item/carvedgem/jade/bust = 1,
+		/obj/item/carvedgem/jade/fancyvase = 1,
+		/obj/item/carvedgem/jade/statue = 1,
+		/obj/item/carvedgem/jade/obelisk = 1,
+		/obj/item/carvedgem/jade/urn = 1,
+		/obj/item/carvedgem/jade/wyrm = 1,
+		/obj/item/carvedgem/onyxa/bust = 1,
+		/obj/item/carvedgem/onyxa/fancyvase = 1,
+		/obj/item/carvedgem/onyxa/statue = 1,
+		/obj/item/carvedgem/onyxa/obelisk = 1,
+		/obj/item/carvedgem/onyxa/urn = 1,
+		/obj/item/carvedgem/onyxa/spider = 1
 	)
 
 /obj/effect/spawner/lootdrop/cheap_candle_spawner
@@ -75,7 +87,7 @@
 		/obj/item/kitchen/spoon/iron = 1,
 		/obj/item/kitchen/spoon/tin = 1,
 		/obj/item/reagent_containers/glass/bowl = 1,
-		/obj/item/reagent_containers/glass/bowl/iron = 1,
+		/obj/item/reagent_containers/glass/bowl/iron = 1
 	)
 
 /obj/effect/spawner/lootdrop/valuable_tableware_spawner
@@ -92,6 +104,12 @@
 		/obj/item/reagent_containers/glass/bowl/gold = 1,
 		/obj/item/reagent_containers/glass/bowl/silver = 1,
 		/obj/item/cooking/platter/silver = 1,
+		/obj/item/cooking/platter/carved/jade = 1,
+		/obj/item/cooking/platter/carved/onyxa = 1,
+		/obj/item/reagent_containers/glass/cup/carved/jadefancy = 1,
+		/obj/item/reagent_containers/glass/cup/carved/onyxafancy = 1,
+		/obj/item/reagent_containers/glass/bucket/pot/carved/teapotjade = 1,
+		/obj/item/reagent_containers/glass/bucket/pot/carved/teapotonyxa = 1
 	)
 
 /obj/effect/spawner/lootdrop/cheap_jewelry_spawner
@@ -116,6 +134,10 @@
 		/obj/item/clothing/neck/roguetown/psicross/shell/bracelet = 6,
 		/obj/item/clothing/neck/roguetown/horus = 1,
 		/obj/item/clothing/neck/roguetown/luckcharm = 1,
+		/obj/item/clothing/ring/jade = 1,
+		/obj/item/clothing/ring/onyxa = 1,
+		/obj/item/clothing/neck/roguetown/carved/jadeamulet = 1,
+		/obj/item/clothing/neck/roguetown/carved/onyxaamulet = 1
 	)
 
 /obj/effect/spawner/lootdrop/valuable_jewelry_spawner
@@ -144,4 +166,16 @@
 		/obj/item/clothing/neck/roguetown/psicross/bpearl = 2,
 		/obj/item/clothing/neck/roguetown/ornateamulet = 3,
 		/obj/item/clothing/neck/roguetown/skullamulet = 3,
+		/obj/item/clothing/ring/jade = 5,
+		/obj/item/clothing/ring/onyxa = 4,
+		/obj/item/clothing/neck/roguetown/carved/jadeamulet = 4,
+		/obj/item/clothing/neck/roguetown/carved/onyxaamulet = 3,
+		/obj/item/clothing/wrists/roguetown/gem/jadebracelet = 3,
+		/obj/item/clothing/wrists/roguetown/gem/onyxabracelet = 2,
+		/obj/item/clothing/head/roguetown/circlet/jade = 2,
+		/obj/item/clothing/head/roguetown/circlet/onyxa = 1,
+		/obj/item/clothing/mask/rogue/facemask/carved/jademask = 1,
+		/obj/item/clothing/mask/rogue/facemask/carved/onyxamask = 1,
+		/obj/item/carvedgem/jade/comb = 1,
+		/obj/item/carvedgem/onyxa/comb = 1
 	)

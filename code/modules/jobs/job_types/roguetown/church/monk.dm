@@ -19,6 +19,8 @@
 	round_contrib_points = 2
 	social_rank = SOCIAL_RANK_MINOR_NOBLE
 
+	var/church_favor = 0
+
 	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts.
 	virtue_restrictions = list(
 		/datum/virtue/utility/noble,
@@ -38,8 +40,10 @@
 		var/mob/living/carbon/human/H = L
 		var/prev_real_name = H.real_name
 		var/prev_name = H.name
-		var/honorary = "Brother"
-		if(should_wear_femme_clothes(H))
+		var/honorary = "Sibling"
+		if(get_pronoun_gender(H) == "MASC")
+			honorary = "Brother"
+		if(get_pronoun_gender(H) == "FEM")
 			honorary = "Sister"
 		GLOB.chosen_names -= prev_real_name
 		H.real_name = "[honorary] [prev_real_name]"
@@ -83,23 +87,15 @@
 	name = "Acolyte"
 	jobtype = /datum/job/roguetown/monk
 	job_bitflag = BITFLAG_CHURCH
-	allowed_patrons = list(
-		/datum/patron/divine/pestra,
-		/datum/patron/divine/astrata,
-		/datum/patron/divine/eora,
-		/datum/patron/divine/noc,
-		/datum/patron/divine/necra,
-		/datum/patron/divine/abyssor,
-		/datum/patron/divine/malum,
-		/datum/patron/divine/ravox,
-		/datum/patron/divine/xylix,
-	) // The whole Ten. Probably could delete this now, actually.
+	allowed_patrons = ALL_DIVINE_PATRONS
 
 	has_loadout = TRUE
 
 /datum/outfit/job/monk/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
+	if(H.patron.parentpatron)
+		H.patron = new H.patron.parentpatron
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	beltl = /obj/item/storage/keyring/churchie
@@ -187,6 +183,7 @@
 	// -- End of section for god specific bonuses --
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
+	H.miracle_points = max(H.miracle_points, 10)
 
 /datum/outfit/job/monk/basic/choose_loadout(mob/living/carbon/human/H)
 	. = ..()

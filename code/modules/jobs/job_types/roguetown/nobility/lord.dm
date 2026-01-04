@@ -15,7 +15,6 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	advclass_cat_rolls = list(CTAG_LORD = 20)
 	allowed_sexes = list(MALE, FEMALE)
 
-
 	spells = list(
 		/obj/effect/proc_holder/spell/self/grant_title,
 		/obj/effect/proc_holder/spell/self/convertrole/servant,
@@ -46,6 +45,8 @@ GLOBAL_LIST_EMPTY(lord_titles)
 
 	virtue_restrictions = list(
 		/datum/virtue/combat/hollow_life,
+		/datum/virtue/heretic/zchurch_keyholder,
+		/datum/virtue/combat/crimson_curse,
 	)
 
 /datum/outfit/job/lord
@@ -116,7 +117,6 @@ GLOBAL_LIST_EMPTY(lord_titles)
 			mask = /obj/item/clothing/mask/rogue/lordmask/l
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 
-	change_origin(H, /datum/virtue/origin/racial/reach, "Royal line")
 
 //	SSticker.rulermob = H
 /** 
@@ -127,8 +127,10 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	tutorial = "You're a noble warrior. You rose to your rank through your own strength and skill, whether by leading your men or by fighting alongside them. Or perhaps you are none of that, but simply a well-trained heir elevated to the position of Lord. You're trained in the usage of heavy armor, and knows swordsmanship well."
 	outfit = /datum/outfit/job/lord/warrior
 	category_tags = list(CTAG_LORD)
+	origin_override_type = /datum/virtue/origin/racial/reach
+	custom_origin_wording = "Royal line"
 
-	traits_applied = list(TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 3,
@@ -175,8 +177,10 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	outfit = /datum/outfit/job/lord/merchant
 	category_tags = list(CTAG_LORD)
 	noble_income = 400 // Let's go crazy. This is +400 per day for a total of 2400 per round at the end of a day. This is probably equal to doubling passive incomes of the keep.
+	origin_override_type = /datum/virtue/origin/racial/reach
+	custom_origin_wording = "Royal line"
 
-	traits_applied = list(TRAIT_SEEPRICES, TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_SEEPRICES, TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_MEDIUMARMOR, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 5,
@@ -217,8 +221,10 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	tutorial = "Growing up you were always more interested in books and magic than you were with interacting with others. Alas, the royal blood does not make allowances for personality and like it or not, you rule Scarlet Reach. Hopefully your magical training and keen intellect will serve you well."
 	outfit = /datum/outfit/job/lord/sorcerer
 	category_tags = list(CTAG_LORD)
-	
-	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2, TRAIT_INTELLECTUAL)
+	origin_override_type = /datum/virtue/origin/racial/reach
+	custom_origin_wording = "Royal line"
+
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2, TRAIT_INTELLECTUAL, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 5,
@@ -265,8 +271,10 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	tutorial = "Psydon and Astrata smiles upon you. For despite your inbred and weak body, and your family's conspiracies to remove you from succession, you have somehow become the Lord of Scarlet Reach. May your reign lasts a hundred years."
 	outfit = /datum/outfit/job/lord/inbred
 	category_tags = list(CTAG_LORD)
+	origin_override_type = /datum/virtue/origin/racial/reach
+	custom_origin_wording = "Royal line"
 
-	traits_applied = list(TRAIT_CRITICAL_WEAKNESS, TRAIT_NORUN, TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_CRITICAL_WEAKNESS, TRAIT_NORUN, TRAIT_HEAVYARMOR, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 10,
 		STATKEY_INT = -2,

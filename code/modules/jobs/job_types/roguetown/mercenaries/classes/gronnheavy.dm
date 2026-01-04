@@ -7,6 +7,7 @@
 	outfit = /datum/outfit/job/roguetown/mercenary/gronnheavy
 	class_select_category = CLASS_CAT_GRONN
 	category_tags = list(CTAG_MERCENARY)
+	allowed_patrons = ALL_INHUMEN_PATRONS
 	traits_applied = list(TRAIT_HEAVYARMOR)
 	cmode_music = 'sound/music/combat_vagarian.ogg'
 	subclass_languages = list(/datum/language/gronnic)
@@ -33,9 +34,6 @@
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 	)
-
-/datum/outfit/job/roguetown/mercenary/gronnheavy
-	allowed_patrons = ALL_INHUMEN_PATRONS
 
 /datum/outfit/job/roguetown/mercenary/gronnheavy/pre_equip(mob/living/carbon/human/H)
 	..()

@@ -18,7 +18,7 @@
 	research_cost = 0
 	check_flags = COVEN_CHECK_CAPABLE | COVEN_CHECK_CONSCIOUS | COVEN_CHECK_IMMOBILE | COVEN_CHECK_LYING
 	duration_length = 20 SECONDS
-	cooldown_length = 20 SECONDS
+	cooldown_length = 60 SECONDS
 	var/datum/proximity_monitor/advanced/silence_field/proximity_field
 	var/silence_range = 7
 	var/validation_timer
@@ -83,8 +83,8 @@
 		ADD_TRAIT(target, TRAIT_SILENT_FOOTSTEPS, "quietus")
 	if(!HAS_TRAIT(target, TRAIT_DEAF))
 		ADD_TRAIT(target, TRAIT_DEAF, "quietus")
-		if(target.confused < 20)
-			target.confused += 20
+		if(target.confused < 5)
+			target.confused += 5
 
 /datum/coven_power/quietus/silence_of_death/proc/remove_silence(mob/living/carbon/human/target)
 	if(HAS_TRAIT_FROM(target, TRAIT_DEAF, "quietus"))

@@ -5,6 +5,8 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/disciple
 	category_tags = list(CTAG_INQUISITION)
+	origin_override_type = /datum/virtue/origin/otava
+	custom_origin_wording = "Holy order"
 
 	subclass_languages = list(/datum/language/otavan)
 
@@ -63,8 +65,6 @@
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)	//Capped to T2 miracles. It's just a self-heal.
-
-	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 
 /datum/outfit/job/disciple/choose_loadout(mob/living/carbon/human/H)
 	. = ..()

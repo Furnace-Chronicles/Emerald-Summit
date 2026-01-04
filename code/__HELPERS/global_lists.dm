@@ -41,8 +41,10 @@
 	for(var/path in subtypesof(/datum/faith))
 		var/datum/faith/faith = new path()
 		GLOB.faithlist[path] = faith
-		if(faith.preference_accessible)
+		if(faith.preference_accessible && !faith.uniquelist)
 			GLOB.preference_faiths[path] = faith
+		if(faith.uniquelist)
+			faith.uniquelist[path] = faith
 
 	// Patron Gods
 	for(var/path in subtypesof(/datum/patron))

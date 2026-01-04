@@ -13,9 +13,10 @@
 	if(!cmode)	//We just toggled it off.
 		addtimer(CALLBACK(src, PROC_REF(purge_bait)), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 		addtimer(CALLBACK(src, PROC_REF(expire_peel)), 60 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+		addtimer(CALLBACK(src, PROC_REF(clear_tempo_all)), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 	if(!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 		filtered_balloon_alert(TRAIT_COMBAT_AWARE, (cmode ? ("<i><font color = '#831414'>Tense</font></i>") : ("<i><font color = '#c7c6c6'>Relaxed</font></i>")), y_offset = 32)
-
+	SEND_SIGNAL(src, COMSIG_COMBAT_MODE)
 /mob/living/carbon/human/RightClickOn(atom/A, params)
 	if(rmb_intent && !rmb_intent.adjacency && !istype(A, /obj/item/clothing) && cmode && !istype(src, /mob/living/carbon/human/species/skeleton) && !istype(A, /obj/item/quiver) && !istype(A, /obj/item/storage))
 		var/held = get_active_held_item()
@@ -90,7 +91,8 @@
 		return
 
 	HU.visible_message(span_danger("[HU] baits an attack from [HT]!"))
-	HU.apply_status_effect(/datum/status_effect/debuff/baitcd)
+	var/newcd = 30 SECONDS - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)
+	HU.apply_status_effect(/datum/status_effect/debuff/baitcd, newcd)
 	HU.stamina_add(HU.max_stamina * 0.2)
 
 	if((target_zone != user_zone) || ((target_zone == BODY_ZONE_CHEST) || (user_zone == BODY_ZONE_CHEST))) //Our zones match and it's not the chest | Our zones do not match, or we were targeting chest
@@ -163,6 +165,8 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/specialcd))
 		return
 
+	user.face_atom(target)
+
 	var/obj/item/rogueweapon/W = user.get_active_held_item()
 	if(istype(W, /obj/item/rogueweapon) && W.special)
 		var/skillreq = W.associated_skill
@@ -171,7 +175,9 @@
 		if(user.get_skill_level(skillreq) < SKILL_LEVEL_JOURNEYMAN)
 			to_chat(user, span_info("I'm not knowledgeable enough in the arts of this weapon to use this."))
 			return
-		W.special.deploy(user, W, target)
+		if(W.special.check_range(user, target))
+			if(W.special.apply_cost(user))
+				W.special.deploy(user, W, target)
 
 /datum/rmb_intent/swift
 	name = "swift"
@@ -243,13 +249,17 @@
 	if(L.has_status_effect(/datum/status_effect/debuff/exposed))
 		perc = 0
 
+	var/newcd = 30 SECONDS - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)
 	if(L.has_status_effect(/datum/status_effect/debuff/feinted))
 		perc = 0
 		special_msg = span_warning("Too soon! They were expecting it!")
 
 	if(!L.can_see_cone(user) && L.mind)
 		perc = 0
+		newcd = 10 SECONDS
 		special_msg = span_warning("They need to see me for me to feint them!")
+
+  user.apply_status_effect(/datum/status_effect/debuff/feintcd, newcd)
 
 	perc = CLAMP(perc, 0, 90)
 
@@ -333,15 +343,6 @@
 		if (ishuman(target))
 			HT = target
 
-		// RMB on mob (priority 0): check to see if a bait has any chance to succeed (match targeting zones between us and the target), if so, attempt it (ONLY check for matching zones, nothing else).
-		if (HT)
-			var/target_zone = HT.zone_selected
-			var/user_zone = HU.zone_selected
-			if (!user.has_status_effect(/datum/status_effect/debuff/baitcd) && !user.has_status_effect(/datum/status_effect/debuff/baited) && target_zone && user_zone && (target_zone != BODY_ZONE_CHEST && user_zone != BODY_ZONE_CHEST) && target_zone == user_zone)
-				HU.attempt_bait(user, target)
-				HU.changeNext_move(0.5 SECONDS)
-				return
-		
 		// RMB on mob (priority 1): has something grappled us (passively), and can we kick? if so, attempt a kick.
 		if (!HU.IsOffBalanced())
 			var/mob/kick_target

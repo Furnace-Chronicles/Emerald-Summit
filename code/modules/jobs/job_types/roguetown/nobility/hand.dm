@@ -31,6 +31,11 @@
 		/datum/advclass/hand/advisor
 	)
 
+	virtue_restrictions = list(
+		/datum/virtue/heretic/zchurch_keyholder,
+		/datum/virtue/combat/crimson_curse
+	)
+
 /*
 /datum/job/roguetown/hand/special_job_check(mob/dead/new_player/player)
 	if(!player)
@@ -113,8 +118,8 @@
 		to_chat(src, span_warning("Could not find anyone by that name."))
 		return FALSE
 
-	// Check if target is actually a Knight or Knight Captain
-	if(!(target.job == "Knight" || target.job == "Dame" || target.job == "Knight Captain"))
+	// Check if target is actually a Knight
+	if(!(target.job == "Knight" || target.job == "Dame"))
 		to_chat(src, span_warning("[target.real_name] is not a knight."))
 		return FALSE
 

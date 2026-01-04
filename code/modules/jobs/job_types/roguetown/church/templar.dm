@@ -18,6 +18,8 @@
 	display_order = JDO_TEMPLAR
 	social_rank = SOCIAL_RANK_MINOR_NOBLE
 
+	var/church_favor = 0
+
 	give_bank_account = TRUE
 
 	job_traits = list(TRAIT_RITUALIST, TRAIT_STEELHEARTED, TRAIT_CLERGY)
@@ -40,8 +42,10 @@
 		var/mob/living/carbon/human/H = L
 		var/prev_real_name = H.real_name
 		var/prev_name = H.name
-		var/honorary = "Brother"
-		if(should_wear_femme_clothes(H))
+		var/honorary = "Sibling"
+		if(get_pronoun_gender(H) == "MASC")
+			honorary = "Brother"
+		if(get_pronoun_gender(H) == "FEM")
 			honorary = "Sister"
 		GLOB.chosen_names -= prev_real_name
 		H.real_name = "[honorary] [prev_real_name]"
@@ -331,7 +335,7 @@
 		if(/datum/patron/divine/noc)
 			weapons += "Moonlight Khopesh"
 		if(/datum/patron/divine/necra)
-			weapons += "Swift End"
+			weapons += "Swift Journey"
 		if(/datum/patron/divine/pestra)
 			weapons += "Plaguebringer Sickles"
 		if(/datum/patron/divine/malum)
@@ -369,7 +373,7 @@
 		if("Moonlight Khopesh")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/sabre/nockhopesh(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-		if("Swift End")
+		if("Swift Journey")
 			H.put_in_hands(new /obj/item/rogueweapon/flail/sflail/necraflail(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
 		if("Plaguebringer Sickles")

@@ -133,7 +133,11 @@
 		"Drema"	= SKIN_COLOR_DREMA,
 		"Chir"	= SKIN_COLOR_CHIR,
 		"Vesyl"	= SKIN_COLOR_VESYL,
-		"Krosec" = SKIN_COLOR_KROSEC
+		"Krosec" = SKIN_COLOR_KROSEC,
+		"Asza" = SKIN_COLOR_ASZA,
+		"Krizzsha" = SKIN_COLOR_KRIZZSHA,
+		"Tosiz" = SKIN_COLOR_TOSIZ,
+		"Velothel" = SKIN_COLOR_VELOTHEL
 	)
 
 /datum/species/tieberian/get_skin_list_tooltip()
@@ -153,7 +157,11 @@
 		"Drema <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_DREMA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_DREMA,
 		"Chir <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_CHIR];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_CHIR,
 		"Vesyl <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_VESYL];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_VESYL,
-		"Krosec <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_KROSEC];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_KROSEC
+		"Krosec <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_KROSEC];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_KROSEC,
+		"Asza <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_ASZA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_ASZA,
+		"Krizzsha <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_KRIZZSHA];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_KRIZZSHA,
+		"Tosiz <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_TOSIZ];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_TOSIZ,
+		"Velothel <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_VELOTHEL];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_VELOTHEL
 	)
 
 /datum/species/tieberian/get_hairc_list()

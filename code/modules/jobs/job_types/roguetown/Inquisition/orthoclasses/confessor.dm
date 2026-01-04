@@ -6,6 +6,8 @@
 	outfit = /datum/outfit/job/confessor
 	category_tags = list(CTAG_INQUISITION)
 	cmode_music = 'sound/music/combat_deadlyshadows.ogg'
+	origin_override_type = /datum/virtue/origin/otava
+	custom_origin_wording = "Holy order"
 
 	subclass_languages = list(/datum/language/otavan)
 
@@ -68,8 +70,6 @@
 		/obj/item/grapplinghook = 1,
 		/obj/item/paper/inqslip/arrival/ortho = 1
 		)
-
-	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 
 /datum/outfit/job/confessor/choose_loadout(mob/living/carbon/human/H)
 	. = ..()

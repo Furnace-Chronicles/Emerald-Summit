@@ -31,6 +31,7 @@ GLOBAL_LIST_EMPTY(virtues)
 	var/triumph_cost = 0
 	/// A custom addendum that explains what the virtue does outside of the traits / skill adjustments.
 	var/custom_text
+	var/uniquefaith
 
 /datum/virtue/New()
 	. = ..()

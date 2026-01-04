@@ -39,6 +39,7 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT, //summon monsters? I think?
 		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT, //miracle regen? I think?
 		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT, // brotherhood order spells most importantly. But this fellas gonna run a lot to.
 		)
 
 // Hedge Mage on purpose has nearly the same fit as a Adv Mage / Mage Associate who cast conjure armor roundstart. Call it meta disguise.
