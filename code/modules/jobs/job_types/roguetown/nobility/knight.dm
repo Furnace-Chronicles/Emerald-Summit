@@ -98,10 +98,6 @@
 	maximum_possible_slots = 1
 	min_pq = 30 // "stick larp knight at 30 or something just so there's less speedclicking competitions among knights that want to powergame"
 
-	virtue_restrictions = list(
-		/datum/virtue/combat/crimson_curse
-	)
-
 	traits_applied = list(TRAIT_HEAVYARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 2,
