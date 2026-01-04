@@ -218,7 +218,7 @@
 		revert_cast()
 		return FALSE
 
-	var/choice = alert(H, "You are being asked to pledge a vow. Your chances of revival or recovery of limb will be greatly reduced. You will harm undeath once they touch you. Do you agree?", "VOW", "Yes", "No")
+	var/choice = alert(H, "You are being asked to pledge Necra's vow. This path is difficult to undo. Do you agree?", "VOW", "Yes", "No")
 	if(choice != "Yes")
 		to_chat(user, span_notice("They declined."))
 		return TRUE
@@ -226,7 +226,17 @@
 	user.visible_message(span_warning("[user] grants [H] the blessing of their promise."))
 	to_chat(H, span_warning("I have committed. There is no going back."))
 
-	advance_necra_vow(H)
+	if(H.has_status_effect(/datum/status_effect/buff/undermaidens_vow))
+		H.remove_status_effect(/datum/status_effect/buff/undermaidens_vow)
+		H.apply_status_effect(/datum/status_effect/buff/necras_vow)
+		return TRUE
+
+	if(H.has_status_effect(/datum/status_effect/debuff/necra_vow_burden))
+		H.remove_status_effect(/datum/status_effect/debuff/necra_vow_burden)
+		H.apply_status_effect(/datum/status_effect/buff/undermaidens_vow)
+		return TRUE
+
+	H.apply_status_effect(/datum/status_effect/debuff/necra_vow_burden)
 	return TRUE
 
 /datum/status_effect/debuff/necra_last_pact_ashes
