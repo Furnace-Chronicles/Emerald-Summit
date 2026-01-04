@@ -2373,9 +2373,7 @@
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/indoors/banditcamp)
 "tq" = (
-/obj/structure/fluff/statue/evil{
-	mouse_opacity = 0
-	},
+/obj/structure/fluff/statue/evil,
 /obj/effect/spawner/trap,
 /turf/open/floor/rogue/concrete/bronze,
 /area/rogue/under/cave/inhumen)
@@ -4891,9 +4889,7 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/inhumen)
 "UC" = (
-/obj/structure/fluff/statue/evil{
-	mouse_opacity = 0
-	},
+/obj/structure/fluff/statue/evil,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/banditcamp)
 "UG" = (
