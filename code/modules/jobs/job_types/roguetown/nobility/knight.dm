@@ -37,6 +37,10 @@
 		/datum/advclass/knight/mountedknight,
 		/datum/advclass/knight/irregularknight
 		)
+	
+	virtue_restrictions = list(
+		/datum/virtue/heretic/zchurch_keyholder
+	)
 
 /datum/outfit/job/knight
 	job_bitflag = BITFLAG_GARRISON

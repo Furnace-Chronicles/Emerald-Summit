@@ -52,65 +52,19 @@
 	/// Virtue restrictions for this subclass
 	var/list/virtue_restrictions
 
+	/// If set, overrides the character's origin
+	var/origin_override_type = null
+	/// Custom origin, in case you want a snowflake subclass. Won't work without origin_override_type set
+	var/custom_origin_wording = null
+
 /datum/advclass/proc/equipme(mob/living/carbon/human/H)
 	// input sleeps....
 	set waitfor = FALSE
 	if(!H)
 		return FALSE
 
-	// ALL OF THIS FUCKING SLOP IS TEMPORARY TO PREVENT RUNTIMES DURING INPUT() CALLS OF LOADOUT SELECTION
-	// IT SHOULD BE REMOVED ONCE THE LOADOUT SELECTION IS TGUI BASED AND NO LONGER USES INPUT()
-	// Store client reference before equipment (input() can cause disconnect)
-	var/client/original_client = H.client
-	var/original_ckey = H.ckey
-
 	if(outfit)
-		// Wrap in try/catch to handle "bad client" runtime during input()
-		try
-			H.equipOutfit(outfit)
-		catch(var/exception/e)
-			// Runtime occurred (likely "bad client" from disconnect during input())
-			log_game("LOADOUT RUNTIME: [original_ckey] caused runtime during [name] equipment: [e]")
-			
-			// Always cleanup on runtime - client may be detached
-			log_game("LOADOUT CLEANUP: Cleaning up [original_ckey] after runtime")
-			
-			// Free up the job slot
-			var/job_name = H.job || "Unknown"
-			if(H.job)
-				var/datum/job/J = SSjob.GetJob(H.job)
-				if(J)
-					J.current_positions = max(0, J.current_positions - 1)
-					log_game("LOADOUT CLEANUP: Freed [H.job] slot (now [J.current_positions]/[J.total_positions])")
-			
-			// Delete the character
-			if(H.mind)
-				H.mind.current = null
-			log_game("LOADOUT CLEANUP: Deleting mob for [original_ckey]")
-			qdel(H)
-			
-			// Notify admins
-			message_admins(span_boldwarning("Player [original_ckey] has disconnected during loadout equipment. Their mob has been deleted and a [job_name] slot has been opened up."))
-			
-			return FALSE
-	
-	// Check if client disconnected during equipOutfit (input() calls)
-	if(original_client && !H.client)
-		log_game("LOADOUT DISCONNECT: [original_ckey] disconnected during [name] equipment, cleaning up")
-		
-		// Free up the job slot
-		if(H.job)
-			var/datum/job/J = SSjob.GetJob(H.job)
-			if(J)
-				J.current_positions = max(0, J.current_positions - 1)
-				log_game("LOADOUT DISCONNECT: Freed [H.job] slot (now [J.current_positions]/[J.total_positions])")
-		
-		// Delete the character
-		if(H.mind)
-			H.mind.current = null
-		qdel(H)
-		
-		return FALSE
+		H.equipOutfit(outfit)
 
 	post_equip(H)
 
@@ -145,10 +99,24 @@
 	if(subclass_social_rank)
 		H.social_rank = subclass_social_rank
 
+	if(!isnull(origin_override_type))
+		change_origin(H, origin_override_type, custom_origin_wording)
+
 	// After the end of adv class equipping, apply a SPECIAL trait if able
 
 	if(applies_post_equipment)
 		apply_character_post_equipment(H)
+
+
+/datum/advclass/proc/change_origin(mob/living/carbon/human/H, new_origin = /datum/virtue/none, wording = "Custom")
+	var/client/player = H?.client
+	if(player?.prefs)
+		var/origin_memory = player.prefs.virtue_origin
+		player.prefs.virtue_origin = new new_origin
+		H.dna.species.skin_tone_wording = wording
+		player.prefs.virtue_origin.job_origin = TRUE
+		player.prefs.virtue_origin.last_origin = origin_memory
+		H.grant_language(player.prefs.extra_language)
 
 /datum/advclass/proc/post_equip(mob/living/carbon/human/H)
 	addtimer(CALLBACK(H,TYPE_PROC_REF(/mob/living/carbon/human, add_credit), TRUE), 20)
@@ -184,8 +152,15 @@
 	if(length(allowed_ages) && !(H.age in allowed_ages))
 		return FALSE
 
-	if(length(allowed_patrons) && !(H.patron in allowed_patrons))
-		return FALSE
+	if(length(allowed_patrons))
+		var/allowed = FALSE
+		var/datum/patron/PA = H.patron
+		for(var/path in allowed_patrons)
+			if(istype(PA, path))
+				allowed = TRUE
+				break
+		if(!allowed)
+			return FALSE
 
 	if(length(virtue_restrictions) && H.client)
 		if((H.client.prefs.virtue?.type in virtue_restrictions) || (H.client.prefs.virtuetwo?.type in virtue_restrictions) || (H.client.prefs.virtue_origin?.type in virtue_restrictions))

@@ -1,35 +1,40 @@
 /datum/advclass/mercenary/trollslayer
-    name = "Trollslayer" // barbarian-like subclass with soft-nudist (no armor) and no Fast Reflexes, supposed to soak up damage with their con and skinarmor and chop shit up with class-exclusive axes
-    tutorial = "Atop the windy peaks of the dwarven Mountainhomes, you swore an Oath to Ravox, vowing to cleanse the land of monsters or die trying. You give yourself wholly to the Battlefather’s judgment, bearing your devotion as armor and your rage as a weapon. No creacher upon this world is safe from your divine wrath."
-    allowed_sexes = list(MALE) // sorry ladies
-    allowed_races = list(
-        /datum/species/dwarf,
-        /datum/species/dwarf/mountain
-        )
-    outfit = /datum/outfit/job/mercenary/trollslayer
-    category_tags = list(CTAG_MERCENARY)
-    class_select_category = CLASS_CAT_RACIAL
-    cmode_music = 'sound/music/combat_dwarf.ogg'
-    extra_context = "Only the dwarves who swore an Oath to Ravox may become Trollslayers." // dwarf exclusive and will force Ravox
-    
-    traits_applied = list(TRAIT_SLAYER, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_CALTROPIMMUNE) //TRAIT_SLAYER prevents equip on the head, armor and shirt slots and enables class-specific weapons
-    subclass_stats = list( 
-        STATKEY_STR = 3, 
-        STATKEY_CON = 5,
-        STATKEY_END = 4,
-        STATKEY_INT = -2,
-    )
+	name = "Trollslayer" // barbarian-like subclass with soft-nudist (no armor) and no Fast Reflexes, supposed to soak up damage with their con and skinarmor and chop shit up with class-exclusive axes
+	tutorial = "Atop the windy peaks of the dwarven Mountainhomes, you swore an Oath to Ravox, vowing to cleanse the land of monsters or die trying. You give yourself wholly to the Battlefather’s judgment, bearing your devotion as armor and your rage as a weapon. No creacher upon this world is safe from your divine wrath."
+	allowed_sexes = list(MALE) // sorry ladies
+	allowed_races = list(
+		/datum/species/dwarf,
+		/datum/species/dwarf/mountain
+		)
+	outfit = /datum/outfit/job/mercenary/trollslayer
+	category_tags = list(CTAG_MERCENARY)
+	class_select_category = CLASS_CAT_RACIAL
+	cmode_music = 'sound/music/combat_dwarf.ogg'
+	extra_context = "Only the dwarves who swore an Oath to Ravox may become Trollslayers." // dwarf exclusive and will force Ravox
 
-    subclass_skills = list(
-        /datum/skill/combat/axes = SKILL_LEVEL_MASTER,
-        /datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
-        /datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
-        /datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
-        /datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
-        /datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
-        /datum/skill/labor/butchering = SKILL_LEVEL_NOVICE,
-    )
-    
+	traits_applied = list(TRAIT_SLAYER, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_CALTROPIMMUNE) //TRAIT_SLAYER prevents equip on the head, armor and shirt slots and enables class-specific weapons
+	subclass_stats = list( 
+		STATKEY_STR = 3, 
+		STATKEY_CON = 3,
+		STATKEY_END = 2,
+		STATKEY_INT = -2,
+	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/trollslayer
+
+	subclass_skills = list(
+		/datum/skill/combat/axes = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/labor/butchering = SKILL_LEVEL_NOVICE,
+	)
+
+/datum/status_effect/buff/merchired/trollslayer
+	effectedstats = list(STATKEY_CON = 2, STATKEY_END = 2)
+
 /datum/outfit/job/mercenary/trollslayer/pre_equip(mob/living/carbon/human/H)
     ..()
     if(H.mind)

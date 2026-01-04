@@ -18,6 +18,8 @@
 	display_order = JDO_TEMPLAR
 	social_rank = SOCIAL_RANK_MINOR_NOBLE
 
+	var/church_favor = 0
+
 	give_bank_account = TRUE
 
 	job_traits = list(TRAIT_RITUALIST, TRAIT_STEELHEARTED, TRAIT_CLERGY)

@@ -33,6 +33,7 @@ GLOBAL_LIST_EMPTY(virtues)
 	var/custom_text
 	/// Required virtues before this virtue can be selected.
 	var/list/required_virtues = list()
+	var/uniquefaith
 
 /datum/virtue/New()
 	. = ..()

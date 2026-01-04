@@ -30,10 +30,19 @@
 
 /obj/item/clothing/head/roguetown/crown/serpcrown/attack_right(mob/living/carbon/human/user)
 	user.changeNext_move(CLICK_CD_MELEE)
-	var/input_text = input(user, "Enter your ducal message:", "Crown SCOM")
+	var/input_text = input(user, "Enter your ducal message (use ! or * prefix for emotes):", "Crown SCOM")
 	if(!input_text)
 		return
-	user.whisper(input_text)
+	// Check if it's an emote (! or * prefix)
+	var/prefix = copytext_char(input_text, 1, 2)
+	if(prefix == "!" || prefix == "*")
+		// Make user visibly emote locally
+		var/emote_text = trim(copytext_char(input_text, 2))
+		if(emote_text)
+			user.emote("me", 1, emote_text, TRUE)
+	else
+		// Not an emote, whisper locally
+		user.whisper(input_text)
 	scom.scom_hear(user, null, input_text, TRUE)
 
 /obj/item/clothing/head/roguetown/crown/serpcrown/attack_self(mob/living/user)

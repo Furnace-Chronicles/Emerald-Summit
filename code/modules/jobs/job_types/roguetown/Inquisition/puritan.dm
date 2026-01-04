@@ -49,6 +49,8 @@
 	tutorial = "Investigators from countless backgrounds, personally chosen by the High Bishop of the Otavan Sovereignty to root out heresy all across the world. Dressed in fashionable leathers and armed with a plethora of equipment, these beplumed officers are ready to tackle the inhumen: anywhere, anytime. Ideal for those who prefer sleuthy-and-clandestine affairs."
 	outfit = /datum/outfit/job/puritan/inspector
 	category_tags = list(CTAG_PURITAN)
+	origin_override_type = /datum/virtue/origin/otava
+	custom_origin_wording = "Holy order"
 
 	subclass_languages = list(/datum/language/otavan)
 
@@ -124,8 +126,6 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
 
-	change_origin(H, /datum/virtue/origin/otava, "Holy order")
-
 /datum/outfit/job/puritan/inspector/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/weapons = list("Eucharist (Rapier)", "Daybreak (Whip)", "Stigmata (Halberd)", "Apocrypha (Greatsword)")
@@ -154,6 +154,8 @@
 	outfit = /datum/outfit/job/puritan/ordinator
 	cmode_music = 'sound/music/combat_inqordinator.ogg'
 	category_tags = list(CTAG_PURITAN)
+	origin_override_type = /datum/virtue/origin/otava
+	custom_origin_wording = "Holy order"
 
 	subclass_languages = list(/datum/language/otavan)
 
@@ -211,8 +213,6 @@
 		/obj/item/storage/keyring/puritan = 1,
 		/obj/item/paper/inqslip/arrival/inq = 1
 		)
-
-	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 
 /datum/outfit/job/puritan/ordinator/choose_loadout(mob/living/carbon/human/H)
 	. = ..()

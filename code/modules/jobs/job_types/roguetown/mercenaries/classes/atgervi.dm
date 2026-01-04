@@ -3,20 +3,23 @@
 	tutorial = "You are a Varangian of the Gronn Highlands. Warrior-Traders whose exploits into the Raneshen Empire will be forever remembered by historians."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
+	allowed_patrons = ALL_INHUMEN_PATRONS
 	outfit = /datum/outfit/job/mercenary/atgervi
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_GRONN
-
+	origin_override_type = /datum/virtue/origin/racial/gronn
 	subclass_languages = list(/datum/language/gronnic)
 
 	traits_applied = list(TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
-		STATKEY_END = 3,
-		STATKEY_CON = 3,
-		STATKEY_STR = 2,
+		STATKEY_END = 2, // 3 with hired buff
+		STATKEY_CON = 2, // 3 with hired buff
+		STATKEY_STR = 1, // 2 with hired buff
 		STATKEY_PER = 1,
 		STATKEY_SPD = -1
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/atgervi
 
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -36,8 +39,8 @@
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/mercenary/atgervi
-	allowed_patrons = ALL_INHUMEN_PATRONS
+/datum/status_effect/buff/merchired/atgervi
+	effectedstats = list(STATKEY_END = 1, STATKEY_CON = 1, STATKEY_STR = 1)
 
 /datum/outfit/job/mercenary/atgervi/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -67,24 +70,24 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 
-	change_origin(H, /datum/virtue/origin/racial/gronn)
-
 /datum/advclass/mercenary/atgervi/shaman
 	name = "Atgervi Shaman"
 	tutorial = "You are a Shaman of the Fjall, The Northern Empty. Shamans are savage combatants who commune with the Ecclesical Beast Gods through ritualistic violence, rather than idle prayer."
 	outfit = /datum/outfit/job/mercenary/atgervishaman
+	allowed_patrons = ALL_INHUMEN_PATRONS
 
 	subclass_languages = list(/datum/language/gronnic)
 
 	traits_applied = list(TRAIT_STRONGBITE, TRAIT_CIVILIZEDBARBARIAN, TRAIT_DODGEEXPERT)
 	subclass_stats = list(
-		STATKEY_STR = 3,
-		STATKEY_CON = 2,
+		STATKEY_STR = 2, // 3 with hired buff
+		STATKEY_CON = 1, // 2 when hired
 		STATKEY_END = 2,
-		STATKEY_SPD = 1,
 		STATKEY_INT = -1,
 		STATKEY_PER = -1
+		// +1 SPD when hired
 	)
+	hiredbuff = /datum/status_effect/buff/merchired/atgervishaman
 
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -99,8 +102,8 @@
 		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/mercenary/atgervishaman
-	allowed_patrons = ALL_INHUMEN_PATRONS
+/datum/status_effect/buff/merchired/atgervishaman
+	effectedstats = list(STATKEY_STR = 1, STATKEY_SPD = 1, STATKEY_CON = 1)
 
 /datum/outfit/job/mercenary/atgervishaman/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -130,8 +133,6 @@
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
-
-	change_origin(H, /datum/virtue/origin/racial/gronn)
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/atgervi
 	name = "varangian hauberk"

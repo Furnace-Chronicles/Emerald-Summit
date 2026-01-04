@@ -6,6 +6,8 @@
 	outfit = /datum/outfit/job/psydoniantemplar
 	category_tags = list(CTAG_INQUISITION)
 	cmode_music = 'sound/music/templarofpsydonia.ogg'
+	origin_override_type = /datum/virtue/origin/otava
+	custom_origin_wording = "Holy order"
 
 	subclass_languages = list(/datum/language/otavan)
 
@@ -64,8 +66,6 @@
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles. ENDURE.
-
-	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 
 /datum/outfit/job/psydoniantemplar/choose_loadout(mob/living/carbon/human/H)
 	. = ..()

@@ -303,7 +303,7 @@
 						target = M
 						break
 					if(target)
-						if(target.Adjacent(src))
+						if(target.Adjacent(src) || (CanReach(target, W) && used_intent.effective_range_type))
 							do_attack_animation(T, used_intent.animname, used_intent.masteritem, used_intent = src.used_intent)
 							resolveAdjacentClick(target,W,params,used_hand)
 							atkswinging = null
@@ -925,7 +925,7 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 	if(get_dist(src, A) <= 2)
 		if(A.loc == src)
 			A.ShiftRightClick(src)
-		if(T == loc)
+		else if(T == loc)
 			look_up()
 		else
 			if(istransparentturf(T))

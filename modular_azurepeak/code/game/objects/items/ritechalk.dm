@@ -13,37 +13,8 @@
 
 	var/ritechoices = list()
 	if(HAS_TRAIT(user, TRAIT_RITUALIST))
-		switch (user.patron?.type)
-			if(/datum/patron/inhumen/graggar)
-				ritechoices += "Rune of Violence"
-			if(/datum/patron/inhumen/zizo)
-				ritechoices += "Rune of ZIZO" 
-			if(/datum/patron/inhumen/matthios)
-				ritechoices += "Rune of Transaction" 
-			if(/datum/patron/inhumen/baotha) 
-				ritechoices += "Rune of Desire"
-			if(/datum/patron/divine/astrata)
-				ritechoices += "Rune of Sun"
-			if(/datum/patron/divine/noc)
-				ritechoices += "Rune of Moon"
-			if(/datum/patron/divine/dendor)
-				ritechoices += "Rune of Beasts"
-			if(/datum/patron/divine/malum)
-				ritechoices += "Rune of Forge"
-			if(/datum/patron/divine/xylix)
-				ritechoices += "Rune of Trickery"
-			if(/datum/patron/divine/necra)
-				ritechoices += "Rune of Death"
-			if(/datum/patron/divine/pestra)
-				ritechoices += "Rune of Plague"
-			if(/datum/patron/divine/eora)
-				ritechoices += "Rune of Love"
-			if(/datum/patron/divine/ravox)
-				ritechoices += "Rune of Justice"
-			if(/datum/patron/divine/abyssor)
-				ritechoices += "Rune of Storm"
-			if(/datum/patron/old_god)
-				ritechoices += "Rune of Enduring"
+		if(user.patron?.rites)
+			ritechoices += user.patron.rites
 
 	var/list/runes_to_draw = list()
 	var/list/runes_to_draw_names = list()

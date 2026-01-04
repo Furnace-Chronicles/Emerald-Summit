@@ -623,6 +623,7 @@
 	on_cmode()
 
 /mob/proc/on_cmode()
+	SEND_SIGNAL(src, COMSIG_COMBAT_MODE)
 	return
 
 /mob

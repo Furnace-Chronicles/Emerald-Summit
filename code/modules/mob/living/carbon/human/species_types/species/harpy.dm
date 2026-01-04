@@ -8,7 +8,7 @@
 	origin_default = /datum/virtue/origin/etrusca
 	origin = "Etrusca"
 	use_titles = TRUE
-	race_titles = list("Bat-Harpy", "Stork-Harpy", "Finch-Harpy", "Owl-Harpy", "Shrike-Harpy", "Condor-Harpy", "Parrot-Harpy", "Chicken-Harpy", "Turkey-Harpy", "Zad-Harpy", "Osprey-Harpy", "Pigeon-Harpy", "Dove-Harpy", "Gull-Harpy")
+	race_titles = list("Bat-Harpy", "Chicken-Harpy", "Condor-Harpy", "Dove-Harpy", "Finch-Harpy", "Gull-Harpy", "Hawk-Harpy", "Osprey-Harpy", "Owl-Harpy", "Parrot-Harpy", "Peacock-Harpy", "Pigeon-Harpy", "Roc-Harpy", "Shrike-Harpy", "Stork-Harpy", "Swan-Harpy", "Turkey-Harpy", "Zad-Harpy")
 	base_name = "Beastvolk"
 	sub_name = "Harpy"
 	desc = "<b>Harpy</b><br>\

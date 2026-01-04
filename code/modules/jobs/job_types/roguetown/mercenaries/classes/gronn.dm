@@ -8,6 +8,7 @@
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_vagarian.ogg'
 	subclass_languages = list(/datum/language/gronnic)
+	allowed_patrons = ALL_INHUMEN_PATRONS
 	extra_context = "This subclass has 2 loadouts with various stats, skills & equipment."
 	subclass_skills = list(
 	//Universal skills
@@ -20,9 +21,6 @@
 		/datum/skill/misc/sewing = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 	)
-
-/datum/outfit/job/roguetown/mercenary/gronn
-	allowed_patrons = ALL_INHUMEN_PATRONS
 
 /datum/outfit/job/roguetown/mercenary/gronn/pre_equip(mob/living/carbon/human/H)
 	..()

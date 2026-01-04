@@ -104,6 +104,17 @@
 		else
 			to_chat(src, "You will now see examined items in boxes.")
 
+/client/verb/toggle_wildshape_name()
+	set category = "Options"
+	set name = "Toggle Wildshape Name"
+	if(prefs)
+		prefs.wildshape_name = !prefs.wildshape_name
+		prefs.save_preferences()
+		if(prefs.wildshape_name)
+			to_chat(src, "You will show your character's name when wildshaping as a Druid.")
+		else
+			to_chat(src, "You will hide your character's name when wildshaping as a Druid and appear solely as your animal form.")
+
 /client/verb/toggle_lobby_music()
 	set name = "Toggle Lobby Music"
 	set category = "Options"
