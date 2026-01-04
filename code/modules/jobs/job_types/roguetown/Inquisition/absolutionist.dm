@@ -23,11 +23,6 @@
 	give_bank_account = 15
 	social_rank = SOCIAL_RANK_YEOMAN
 
-	virtue_restrictions = list(
-		/datum/virtue/combat/hollow_life,
-		/datum/virtue/combat/crimson_curse,
-	)
-
 	job_traits = list(
 		TRAIT_NOPAINSTUN,
 		TRAIT_PACIFISM,
