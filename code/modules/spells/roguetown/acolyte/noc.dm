@@ -5,7 +5,7 @@
 
 
 // =========================
-// Blindness (with debuff)
+// Blindness (better)
 // =========================
 
 
@@ -90,6 +90,11 @@
 	name = "Living Darkness"
 	desc = "A dim veil clouds my vision."
 	icon_state = "hunger3"
+
+
+// =========================
+// Blindness (old)
+// =========================
 
 /obj/effect/proc_holder/spell/invoked/blindness
 	name = "Blindness"
