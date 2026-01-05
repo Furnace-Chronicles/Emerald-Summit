@@ -61,5 +61,8 @@
 			add_bounty_noface(user.real_name, race, gender, descriptor_height, descriptor_body, descriptor_voice, bounty_total, FALSE, my_crime, bounty_poster)
 
 		to_chat(user, span_notice("I'm on the run from the law, and there's a sum of mammons out on my head... better lay low."))
+		
+		if(user.patron && istype(user.patron, /datum/patron/inhumen/matthios)) // ezo made me do this at gunpoint
+			ADD_TRAIT(user, TRAIT_BANDITCAMP, TRAIT_GENERIC)
 	else
 		addtimer(CALLBACK(src, PROC_REF(set_up), user), 10 SECONDS)
