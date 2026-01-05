@@ -151,17 +151,17 @@
 	if(!target)
 		return
 	if(target in GLOB.divine_destruction_mobs)  // divine destruction stopping code
-		// Cancel all timers
+		//cancels all timers
 		for(var/timer_id in GLOB.divine_destruction_mobs[target])
 			deltimer(timer_id)
 		GLOB.divine_destruction_mobs -= target
 
-		// Remove visual effects
+		//removes visual effects
 		target.remove_filter("divine_glow")  // no more glowing
 		for(var/obj/effect/dummy/lighting_obj/moblight/L in target)
 			qdel(L)
 
-		// Remove godmode and stun
+		//removes godmode and stun
 		target.status_flags &= ~GODMODE
 		target.Unstun()
 
@@ -169,29 +169,54 @@
 		to_chat(target, span_notice("THE WHORE ASTRATA IS STOPPED, SHE IS WEAK"))
 
 /obj/effect/proc_holder/spell/invoked/wound_heal/zizo/cast(list/targets, mob/living/carbon/human/user)
-	if(!targets || targets.len < 1)
-		revert_cast()
-		return FALSE
-	var/mob/living/carbon/human/target = targets[1]
+    //validates target
+    if(!targets || targets.len < 1)
+        revert_cast()
+        return FALSE
 
-	if(target in GLOB.divine_destruction_mobs)		//stops it here
-		stop_divine_destruction(target)
+    var/mob/living/carbon/human/target = targets[1]
 
-	if(!ishuman(targets[1]))
-		revert_cast()
-		return FALSE
-	var/mob/living/carbon/human/UH = user
-	if(!(target.mob_biotypes & MOB_UNDEAD) && target.patron?.type != /datum/patron/inhumen/zizo)
-		target.visible_message(span_info("[target] recoils as the profane miracle refuses them."))
-		revert_cast()
-		return FALSE
-	var/def_zone = check_zone(UH.zone_selected)
-	var/obj/item/bodypart/affecting = target.get_bodypart(def_zone)
+    //divine destruc stopped here
+    if(target in GLOB.divine_destruction_mobs)
+        stop_divine_destruction(target)
 
-	if(!affecting)
-		playsound(target, 'sound/magic/zizo_woundheal.ogg', 100, TRUE)
-		to_chat(UH, span_warning("I am not ambitious enough to regenerate limbs..."))
-		revert_cast()
-		return FALSE
+    if(!ishuman(target))
+        revert_cast()
+        return FALSE
 
-	return ..()
+    var/mob/living/carbon/human/UH = user
+
+    // Only undead or Zizo patrons may be healed
+    if(!(target.mob_biotypes & MOB_UNDEAD) && target.patron?.type != /datum/patron/inhumen/zizo)
+        target.visible_message(span_info("[target] recoils as the profane miracle refuses them."))
+        revert_cast()
+        return FALSE
+
+    var/def_zone = check_zone(UH.zone_selected)
+    var/obj/item/bodypart/affecting = target.get_bodypart(def_zone)
+
+    playsound(target, 'sound/magic/zizo_woundheal.ogg', 100, TRUE)
+
+    // Limb is missing is then creating skeletonized limb
+    if(!affecting)
+        var/new_limb = new /obj/item/bodypart
+        new_limb.body_zone = def_zone
+        new_limb.skeletonized = TRUE
+        new_limb.rotted = FALSE
+        to_chat(UH, span_info("Bone answers your call! A skeletonized limb forms."))
+
+        // Attempt to attach
+        if(new_limb.attach_limb(target))
+            new_limb.update_limb()
+            target.update_body()
+        else
+            qdel(new_limb)
+            revert_cast()
+            return FALSE
+
+    //call to parent if limb exists
+    else
+        ..()  //here
+
+    target.update_body()
+    return TRUE
