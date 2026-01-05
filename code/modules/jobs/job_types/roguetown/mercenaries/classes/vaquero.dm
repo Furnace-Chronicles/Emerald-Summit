@@ -2,7 +2,6 @@
 	name = "Vaquero"
 	tutorial = "Originating in the vibrant Kingdom of Etrusca, a 'vaquero' had originally been a mere cattle-driver... Now, though, it has become a title for roaming swashbucklers. Whether they set out as a defender of the commonfolk or a pilferer of purses, the Vaquero is defined by the tale they carve across continents - and more frequently - by their story's violent end."
 	outfit = /datum/outfit/job/mercenary/vaquero
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	cmode_music = 'sound/music/combat_vaquero.ogg'
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_ETRUSCA
@@ -40,11 +39,6 @@
 
 /datum/status_effect/buff/merchired/vaquero
 	effectedstats = list(STATKEY_SPD = 1, STATKEY_END = 1)
-
-/datum/advclass/mercenary/vaquero/equipme(mob/living/carbon/human/H)
-	if(should_wear_femme_clothes(H))
-		horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled
-	return ..()
 
 /datum/outfit/job/mercenary/vaquero/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -93,3 +87,5 @@
 			backr = /obj/item/rogue/instrument/flute
 		if("Trumpet")
 			backr = /obj/item/rogue/instrument/trumpet
+	if (H.mind)
+		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)

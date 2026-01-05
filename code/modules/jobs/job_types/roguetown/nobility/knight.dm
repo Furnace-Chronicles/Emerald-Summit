@@ -93,7 +93,6 @@
 	extra_context = "This is a unique, one person, slot. You cannot choose this subclass as a Vampyre. \
 	Middle aged champions get a +1 SPD, nullifying the -1 from the subclass."
 	outfit = /datum/outfit/job/knight/champion
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	category_tags = list(CTAG_ROYALGUARD)
 	maximum_possible_slots = 1
 	min_pq = 30 // "stick larp knight at 30 or something just so there's less speedclicking competitions among knights that want to powergame"
@@ -170,6 +169,9 @@
 		/obj/item/rope/chain = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 	)
+
+	if (H.mind)
+		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)
 
 /datum/advclass/knight/heavy
 	name = "Heavy Knight"
@@ -366,7 +368,6 @@
 	name = "Mounted Knight"
 	tutorial = "You are the picture-perfect knight from a high tale, knowledgeable in riding steeds into battle. You specialize in weapons most useful on a saiga including spears, swords, maces, and a variety of ranged weaponry."
 	outfit = /datum/outfit/job/knight/mountedknight
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	category_tags = list(CTAG_ROYALGUARD)
 
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_GOODTRAINER)
@@ -471,6 +472,9 @@
 		/obj/item/rope/chain = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 	)
+
+	if (H.mind)
+		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)
 
 /datum/outfit/job/knight/mountedknight/post_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
