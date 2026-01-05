@@ -49119,12 +49119,6 @@
 	},
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/rtfield/eora)
-"mSF" = (
-/obj/structure/stairs{
-	dir = 1
-	},
-/turf/closed/wall/mineral/rogue/stonebrick,
-/area/rogue/under/town/basement/keep)
 "mSI" = (
 /obj/structure/fluff/railing/border{
 	dir = 5
@@ -194823,7 +194817,7 @@ xAN
 urZ
 xAN
 nnq
-mSF
+nnq
 bHV
 bHV
 nnq
@@ -424889,7 +424883,7 @@ vxe
 vxe
 vxe
 vxe
-vmi
+tvg
 vmi
 vmi
 vmi
@@ -425341,7 +425335,7 @@ vmi
 vmi
 vmi
 vmi
-tvg
+vmi
 tgY
 tgY
 wPQ
@@ -425791,7 +425785,7 @@ tkH
 vxe
 vmi
 vmi
-tvg
+vmi
 tgY
 aiX
 bpb
