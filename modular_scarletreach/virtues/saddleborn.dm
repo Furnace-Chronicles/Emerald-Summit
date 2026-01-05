@@ -258,6 +258,11 @@ GLOBAL_LIST_INIT(virtue_mount_choices_noble, (list(
 		if (back_from_the_void) // we're summoning from nullspace, so destasis and remove the heal, if we have one
 			honse.stasis = FALSE
 		
+		var/area/rogue/honse_place = get_area(honse.loc)
+		if (!back_from_the_void && honse_place && !honse_place.outdoors)
+			to_chat(user, span_warning("...but nothing comes. They musn't have heard your whistling."))
+			return TRUE
+		
 		honse.forceMove(user.loc)
 		if (!user.buckled)
 			honse.buckle_mob(user, TRUE)
