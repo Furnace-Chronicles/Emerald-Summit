@@ -990,30 +990,32 @@ addtimer(CALLBACK(src, PROC_REF(strike), caster), 10 SECONDS)
 	for(var/turf/turf as anything in RANGE_TURFS(6, T))
 		if(prob(20))
 			new /obj/effect/hotspot(get_turf(turf))
-	for(var/turf/Target_turf in range(5, T))
-		for(var/mob/living/L in Target_turf.contents)
-			to_chat(L, span_astrataextreme("DIVINE FLAME RAINS DOWN FROM THE SKY!"))
-			var/dist_to_epicenter = get_dist(T, L)
-			var/firedamage = 200 - (dist_to_epicenter*15)
-			var/firestack = 10 - dist_to_epicenter
-			L.adjustFireLoss(firedamage)
-			L.adjust_fire_stacks(firestack)
-			L.ignite_mob()
-			if(!L.mind || istype(L, /mob/living/simple_animal))
-				L.adjustFireLoss(500)
-				if(dist_to_epicenter <= 3)
-					L.gib()
-			if(dist_to_epicenter == 1) //pre-center
-				L.adjustFireLoss(100) //185 firedamage
-				new /obj/effect/hotspot(get_turf(L))
-			if(dist_to_epicenter == 0) //center
-				explosion(T, -1, 1, 1, 0, 0, flame_range = 1, soundin = 'sound/misc/explode/incendiary (1).ogg')
-				new /obj/effect/hotspot(get_turf(L))
-				if(!istype(L.patron, /datum/patron/divine))
-					L.gib()
-				else
-					L.adjustFireLoss(500)
-					L.stat = DEAD
+for(var/turf/Target_turf in range(5, T))
+    for(var/mob/living/victim in Target_turf.contents)
+        to_chat(victim, span_astrataextreme("DIVINE FLAME RAINS DOWN FROM THE SKY!"))
+        var/dist_to_epicenter = get_dist(T, victim)
+        var/firedamage = 200 - (dist_to_epicenter*15)
+        var/firestack = 10 - dist_to_epicenter
+    	victim.adjustFireLoss(firedamage)
+        victim.adjust_fire_stacks(firestack)
+        victim.ignite_mob()
+        if(!victim.mind || istype(victim, /mob/living/simple_animal))
+        	victim.adjustFireLoss(500)
+            if(dist_to_epicenter <= 3)
+                victim.gib()
+                continue
+        if(dist_to_epicenter == 1) //pre-center
+            victim.adjustFireLoss(100) //100 firedamage
+            new /obj/effect/hotspot(get_turf(victim))
+        if(dist_to_epicenter == 0) //center
+            explosion(T, -1, 1, 1, 0, 0, flame_range = 1, soundin = 'sound/misc/explode/incendiary (1).ogg')
+            new /obj/effect/hotspot(get_turf(victim))
+            if(!istype(victim.patron, /datum/patron/divine))
+                victim.gib()
+                continue
+            else
+                victim.adjustFireLoss(500)
+                victim.stat = DEAD
 	for(var/obj/item/I in range(1, T))
 		qdel(I)
 	for (var/obj/structure/damaged in view(2, T))
