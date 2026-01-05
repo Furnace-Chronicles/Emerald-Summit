@@ -519,7 +519,7 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 	if(GLOB.tod != "night")
 		check = TRUE
 	else
-		to_chat(user, span_astrataextreme("Let there be light."))
+		to_chat(user, span_astrata("Her fury may only be called upon with the sun in the sky."))
 	if(!check)
 		revert_cast()
 		return FALSE
