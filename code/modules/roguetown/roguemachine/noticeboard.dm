@@ -93,13 +93,13 @@
 		if(QDELETED(L) || L.stat == DEAD)
 			continue
 		
-		available_mercs += L
+		available_mercs[L.real_name] = L
 
 	if(!available_mercs.len)
 		to_chat(user, span_warning("No sellswords are willing to earn mammons todae."))
 		return
 
-	var/mob/living/choice = tgui_input_list(user, "Select a mercenary to contact", "Mercenary Contact", available_mercs)
+	var/choice = tgui_input_list(user, "Select a mercenary to contact", "Mercenary Contact", available_mercs)
 	if(!choice || !Adjacent(user))
 		return
 
@@ -113,19 +113,23 @@
 	if(!message || !Adjacent(user))
 		return
 
+	var/mob/living/carbon/chosen_merc = available_mercs[choice]
+	if(!istype(chosen_merc))
+		return
+
 	qdel(coin)
-	LAZYADD(GLOB.merc_dm_enquiries, "\ref[user]_\ref[choice]")
+	LAZYADD(GLOB.merc_dm_enquiries, "\ref[user]_\ref[chosen_merc]")
 	playsound(src, 'sound/ambience/noises/birds (7).ogg', 30, FALSE, -1)
-	to_chat(user, span_notice("My message has been sent to [choice.real_name]."))
+	to_chat(user, span_notice("My message has been sent to [chosen_merc.real_name]."))
 	to_chat(
-		choice, 
+		chosen_merc, 
 		span_boldnotice(
 			"A potential employer contacts me: <i>[message]</i> - [user.real_name]<br>\
 			<a href='?src=[REF(src)];direct_response=yae;enquierer_ref=\ref[user];eol=[world.time + MERC_DM_RESPONSE_LIFESPAN]'>\[YAE\]</a> | \
 			<a href='?src=[REF(src)];direct_response=nae;enquierer_ref=\ref[user];eol=[world.time + MERC_DM_RESPONSE_LIFESPAN]'>\[NAE\]</a>"\
 		)
 	)
-	playsound(choice.loc, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
+	chosen_merc.playsound_local(chosen_merc, 'sound/misc/notice (2).ogg', 100)
 	user.apply_status_effect(/datum/status_effect/debuff/mercdmcooldown)
 
 /obj/structure/roguemachine/noticeboard/proc/merc_broadcast(mob/living/carbon/human/user, obj/item/roguecoin/coin)

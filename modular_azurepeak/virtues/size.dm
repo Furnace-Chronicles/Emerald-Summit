@@ -1,13 +1,14 @@
+/datum/virtue/size
+	/// Amount to increase the valid range of sprite sizes 
+	var/scale
 /datum/virtue/size/giant
 	name = "Giant"
 	desc = "I've always been larger, stronger and hardier than the average person. I tend to lumber around a lot, and my immense size can break down frail, wooden doors."
 	added_traits = list(TRAIT_BIGGUY, TRAIT_GIANT_WEAPON_WIELDER)
-	custom_text = "Increases your sprite size."
+	custom_text = "<font color='red'>Increases your sprite size maximum and minimum, don't forget to adjust your scale.</font>\n+1 CON"
 	restricted = TRUE
 	races = list(/datum/species/ogre) //this controls whenever or not it's restricted to a race
+	scale = BODY_SIZE_GIANT
 
 /datum/virtue/size/giant/apply_to_human(mob/living/carbon/human/recipient)
-	recipient.transform = recipient.transform.Scale(1.25, 1.25)
-	recipient.transform = recipient.transform.Translate(0, (0.25 * 16))
-	recipient.update_transform()
 	recipient.change_stat("constitution", 1)

@@ -534,7 +534,7 @@
 
 /datum/outfit/job/adventurer/cleric/cantor/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
-	var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Trumpet")
+	var/weapons = list("Accordion","Bagpipe","Drum","Guitar","Harp","Hurdy-Gurdy","Jaw Harp","Lute","Trumpet","Viola","Vocal Talisman")
 	var/weapon_choice = input(H, "Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Harp")
@@ -553,6 +553,12 @@
 			H.put_in_hands(new /obj/item/rogue/instrument/vocals(H), TRUE)
 		if("Trumpet")
 			H.put_in_hands(new /obj/item/rogue/instrument/trumpet(H), TRUE)
+		if("Bagpipe")
+			H.put_in_hands(new /obj/item/rogue/instrument/bagpipe(H), TRUE)
+		if("Jaw Harp")
+			H.put_in_hands(new /obj/item/rogue/instrument/jawharp(H), TRUE)
+		if("Drum")
+			H.put_in_hands(new /obj/item/rogue/instrument/drum(H), TRUE)
 	// -- Start of section for god specific bonuses --
 	if(H.patron?.type == /datum/patron/inhumen/graggar)
 		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)

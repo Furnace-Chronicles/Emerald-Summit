@@ -190,7 +190,7 @@
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
-	var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Trumpet", "Flute")
+	var/weapons = list("Accordion","Bagpipe","Drum","Guitar","Harp","Hurdy-Gurdy","Jaw Harp","Lute","Trumpet","Viola","Vocal Talisman")
 	var/weapon_choice = input(H, "Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
@@ -212,6 +212,12 @@
 			backr = /obj/item/rogue/instrument/trumpet
 		if("Flute")
 			backr = /obj/item/rogue/instrument/flute
+		if("Jaw Harp")
+			backr = /obj/item/rogue/instrument/jawharp
+		if("Bagpipe")
+			backr = /obj/item/rogue/instrument/bagpipe
+		if("Drum")
+			backr = /obj/item/rogue/instrument/drum
 
 /datum/advclass/mage/spellthief
 	name = "Arcane Trickster"

@@ -1642,6 +1642,14 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					var/statpack_input = tgui_input_list(user, "How shall your strengths manifest?", "STATPACK", statpacks_available, statpack)
 					if (statpack_input)
 						var/datum/statpack/statpack_chosen = statpacks_available[statpack_input]
+						if(statpack.name == "Virtuous") // Going OFF of virtuous
+							if(is_type_in_list(virtuetwo, virtue.required_virtues))
+								virtue = GLOB.virtues[/datum/virtue/none]
+							var/temp_bodysize = BODY_SIZE_NORMAL
+							if(istype(virtuetwo, /datum/virtue/size))
+								features["body_size"] = temp_bodysize
+								to_chat(user, span_purple("Your body size has been reset to [temp_bodysize*100]%."))
+							virtuetwo = GLOB.virtues[/datum/virtue/none] // Resets the second virtue.
 						statpack = statpack_chosen
 						to_chat(user, "<font color='purple'>[statpack.name]</font>")
 						to_chat(user, "<font color='purple'>[statpack.description_string()]</font>")
@@ -2221,10 +2229,13 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/virtue/V = GLOB.virtues[path]
 						if (!V.name)
 							continue
+						if(V.required_virtues.len)
+							if(!is_type_in_list(virtuetwo, V.required_virtues))
+								continue
 						if (istype(V, /datum/virtue/racial))
 							if(!(pref_species.type in V.races))
 								continue
-						if (V.name == virtue.name || V.name == virtuetwo.name)
+						if ((V.name == virtue.name || V.name == virtuetwo.name) && V.name != "None")
 							continue
 						if (istype(V, /datum/virtue/origin))
 							continue
@@ -2238,6 +2249,17 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 					if (result)
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
+						if(is_type_in_list(virtue, virtuetwo.required_virtues)) // Required virtue for the second virtue is no longer present, reset.
+							virtuetwo = GLOB.virtues[/datum/virtue/none]
+						var/temp_bodysize = BODY_SIZE_NORMAL
+						if(istype(virtue_chosen, /datum/virtue/size))
+							var/datum/virtue/size/S = virtue_chosen
+							temp_bodysize = S.scale
+							features["body_size"] = temp_bodysize
+							to_chat(user, span_purple("Your body size has been reset to [temp_bodysize*100]%."))
+						if(istype(virtue, /datum/virtue/size))
+							features["body_size"] = BODY_SIZE_NORMAL
+							to_chat(user, span_purple("Your body size has been reset to [BODY_SIZE_NORMAL*100]%."))
 						virtue = virtue_chosen
 						to_chat(user, process_virtue_text(virtue_chosen))
 
@@ -2247,6 +2269,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/virtue/V = GLOB.virtues[path]
 						if (!V.name)
 							continue
+						if(V.required_virtues.len)
+							if(!is_type_in_list(virtue, V.required_virtues))
+								continue
 						if (istype(V, /datum/virtue/racial))
 							if(!(pref_species.type in V.races))
 								continue
@@ -2264,6 +2289,17 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 					if (result)
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
+						if(is_type_in_list(virtuetwo, virtue.required_virtues)) // Required virtue for the first virtue is no longer present, reset.
+							virtue = GLOB.virtues[/datum/virtue/none]
+						var/temp_bodysize = BODY_SIZE_NORMAL
+						if(istype(virtue_chosen, /datum/virtue/size))
+							var/datum/virtue/size/S = virtue_chosen
+							temp_bodysize = S.scale
+							features["body_size"] = temp_bodysize
+							to_chat(user, span_purple("Your body size has been reset to [temp_bodysize*100]%."))
+						if(istype(virtuetwo, /datum/virtue/size))
+							features["body_size"] = BODY_SIZE_NORMAL
+							to_chat(user, span_purple("Your body size has been reset to [BODY_SIZE_NORMAL*100]%."))
 						virtuetwo = virtue_chosen
 						to_chat(user, process_virtue_text(virtue_chosen))
 					/*	if (statpack.type != /datum/statpack/wildcard/virtuous)
@@ -2309,10 +2345,13 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							to_chat(user, "<span class='info'>[charflaw.desc]</span>")
 
 				if("body_size")
-					var/new_body_size = tgui_input_number(user, "Choose your desired sprite size:\n([BODY_SIZE_MIN*100]%-[BODY_SIZE_MAX*100]%), Warning: May make your character look distorted", "Character Preference", features["body_size"]*100)
-					if(new_body_size)
-						new_body_size = clamp(new_body_size * 0.01, BODY_SIZE_MIN, BODY_SIZE_MAX)
-						features["body_size"] = new_body_size
+					if(statpack.name == "Virtuous" && istype(virtuetwo, /datum/virtue/size) || istype(virtue, /datum/virtue/size))
+						to_chat(user, span_purple("Unable to change sprite size due to virtue."))
+					else
+						var/new_body_size = tgui_input_number(user, "Choose your desired sprite size:\n([BODY_SIZE_MIN*100]%-[BODY_SIZE_MAX*100]%), Warning: May make your character look distorted", "Character Preference", features["body_size"]*100)
+						if(new_body_size)
+							new_body_size = clamp(new_body_size * 0.01, BODY_SIZE_MIN, BODY_SIZE_MAX)
+							features["body_size"] = new_body_size
 
 				if("tail_color")
 					var/new_tail_color = color_pick_sanitized(user, "Choose your character's tail color:", "Character Preference", "#"+tail_color)
