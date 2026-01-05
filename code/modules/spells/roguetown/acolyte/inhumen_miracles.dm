@@ -36,8 +36,9 @@
 	if(target.patron?.type == /datum/patron/inhumen/zizo)
 		target.clear_sunder_fire()
 		return TRUE
-	if(target.mob_biotypes & MOB_UNDEAD)
-		user.adjustBruteLoss(4)			//non worshipers do not share your ambition, pay the price to heal them
+	var/faction_tag = "[user.mind.current.real_name]_faction"
+	if(target.mob_biotypes & MOB_UNDEAD || (target.mind?.current && faction_tag in target.mind.current.faction))	//gravemarked people can now get healed
+		user.adjustBruteLoss(4)
 		return TRUE
 
 	//shitty ass psydonites need special code in here, im adding extra damage to psydonites just because they made me write this block
