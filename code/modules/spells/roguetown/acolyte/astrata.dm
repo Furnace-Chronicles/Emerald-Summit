@@ -991,7 +991,7 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 	for(var/turf/turf as anything in RANGE_TURFS(6, T))
 		if(prob(20))
 			new /obj/effect/hotspot(get_turf(turf))
-	for(var/turf/Target_turf in range(3, T))
+	for(var/turf/Target_turf in range(5, T))
 		for(var/mob/living/victim in Target_turf.contents)
 			to_chat(victim, span_astrataextreme("DIVINE FLAME RAINS DOWN FROM THE SKY!"))
 			var/dist_to_epicenter = get_dist(T, victim)
