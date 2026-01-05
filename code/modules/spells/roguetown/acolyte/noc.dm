@@ -89,8 +89,8 @@
 	name = "Arcyne Affinity"
 	desc = "Allows you to learn new spells over time through divine insight."
 	miracle = TRUE
-	devotion_cost = 10
-	recharge_time = 1 MINUTES
+	devotion_cost = 200
+	recharge_time = 25 MINUTES
 	chargetime = 0
 	chargedrain = 0
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
