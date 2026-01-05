@@ -227,6 +227,10 @@ GLOBAL_LIST_INIT(virtue_mount_choices_noble, (list(
 	var/callback_time = back_from_the_void ? 20 SECONDS : 10 SECONDS // nullspace returns take a lot longer to incentivize leaving it in the world
 	var/dangerous_summon = FALSE // will we try to proc an ambush upon return?
 
+	if (get_dist(honse.loc, user.loc) <= 7)
+		to_chat(user, span_warning("Your trusty steed is nearby!"))
+		return
+
 	var/area/rogue/place = get_area(user.loc)
 	// apply alterations to our summon time based on our location: remember, this only works outdoors!
 	if (place.threat_region == THREAT_REGION_MOUNT_DECAP)
