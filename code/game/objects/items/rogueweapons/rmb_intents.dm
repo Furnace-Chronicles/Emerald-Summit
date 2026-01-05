@@ -308,7 +308,7 @@
 		return
 
 	if(L.has_status_effect(/datum/status_effect/buff/flow))
-			L.remove_status_effect(/datum/status_effect/buff/flow)
+		L.remove_status_effect(/datum/status_effect/buff/flow)
 	L.apply_status_effect(/datum/status_effect/debuff/exposed, feintdur)
 	L.apply_status_effect(/datum/status_effect/debuff/clickcd, max(1.5 SECONDS + skill_factor, 2.5 SECONDS))
 	L.apply_status_effect(/datum/status_effect/debuff/feinted, 30 SECONDS + feintdur)
