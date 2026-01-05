@@ -235,6 +235,7 @@ GLOBAL_VAR(moneymaster)
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	budget2change(coin_amt*mod, user, selection)
+	budget = budget - coin_amt*mod
 
 
 
