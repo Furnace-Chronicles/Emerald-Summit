@@ -966,10 +966,10 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 	alpha = 5
 	duration = 15.5
 
-/obj/effect/temp_visual/firewave/sunstrike/primary/Initialize(mapload)
+/obj/effect/temp_visual/firewave/sunstrike/primary/Initialize(mapload, mob/living/carbon/caster)
 	. = ..()
-	addtimer(CALLBACK(src, TYPE_PROC_REF(/obj/effect/temp_visual/firewave/sunstrike/primary, pre_strike), TRUE), 1 SECONDS)
-	addtimer(CALLBACK(src, TYPE_PROC_REF(/obj/effect/temp_visual/firewave/sunstrike/primary, strike), TRUE), 10 SECONDS)
+addtimer(CALLBACK(src, PROC_REF(pre_strike)), 1 SECONDS)
+addtimer(CALLBACK(src, PROC_REF(strike), caster), 10 SECONDS)
 
 /obj/effect/temp_visual/firewave/sunstrike/primary/proc/pre_strike()
 	var/turf/T = get_turf(src)
@@ -980,7 +980,7 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 		for(var/mob/living/L in Target_turf.contents)
 			to_chat(L, span_astratabig("The Tyrant's oppressive gaze is upon you. Flee or Perish."))
 
-/obj/effect/temp_visual/firewave/sunstrike/primary/proc/strike()
+/obj/effect/temp_visual/firewave/sunstrike/primary/proc/strike(mob/living/carbon/caster)
 	var/turf/T = get_turf(src)
 	playsound(T,'sound/magic/astrata_choir.ogg', 100, TRUE)
 	explosion(T, -1, 0, 0, 0, 0, flame_range = 0, soundin = 'sound/misc/explode/incendiary (1).ogg')
@@ -1009,7 +1009,7 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 			if(dist_to_epicenter == 0) //center
 				explosion(T, -1, 1, 1, 0, 0, flame_range = 1, soundin = 'sound/misc/explode/incendiary (1).ogg')
 				new /obj/effect/hotspot(get_turf(L))
-				if(!((L.patron?.type) == /datum/patron/divine))
+				if(!istype(L.patron, /datum/patron/divine))
 					L.gib()
 				else
 					L.adjustFireLoss(500)
@@ -1022,7 +1022,9 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 	for (var/turf/closed/wall/damagedwalls in view(1, T))
 		damagedwalls.take_damage(1100,BRUTE,"blunt",1)
 	for (var/turf/closed/mineral/aoemining in view(2, T))
-		aoemining.lastminer = usr
+		aoemining.lastminer = caster
 		aoemining.take_damage(1100,BRUTE,"blunt",1)
-	sleep(10)
-	animate(mark, alpha = 5, time = 10, flags = ANIMATION_PARALLEL)
+    addtimer(CALLBACK(src, PROC_REF(fade_mark), mark), 1 SECONDS)
+
+/obj/effect/temp_visual/firewave/sunstrike/primary/proc/fade_mark(obj/effect/temp_visual/mark)
+    animate(mark, alpha = 5, time = 10, flags = ANIMATION_PARALLEL)
