@@ -69,6 +69,8 @@
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/invisibility/miracle	= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/lesserblindness		= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/silence				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/self/noc_spell_bundle			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T4,
 	)
