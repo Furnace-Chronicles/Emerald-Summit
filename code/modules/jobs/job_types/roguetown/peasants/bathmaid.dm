@@ -219,7 +219,7 @@
 		belt = /obj/item/storage/belt/rogue/leather/black
 		shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
 
-	var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Flute","Trumpet")
+	var/weapons = list("Accordion","Bagpipe","Drum","Guitar","Harp","Hurdy-Gurdy","Jaw Harp","Lute","Trumpet","Viola","Vocal Talisman")
 	var/weapon_choice = input(H, "Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
@@ -237,10 +237,16 @@
 			backr = /obj/item/rogue/instrument/viola
 		if("Vocal Talisman")
 			backr = /obj/item/rogue/instrument/vocals
-		if("Flute")
-			backr = /obj/item/rogue/instrument/flute
 		if("Trumpet")
 			backr = /obj/item/rogue/instrument/trumpet
+		if("Flute")
+			backr = /obj/item/rogue/instrument/flute
+		if("Bagpipe")
+			backr = /obj/item/rogue/instrument/bagpipe
+		if("Jaw Harp")
+			backr = /obj/item/rogue/instrument/jawharp
+		if("Drum")
+			backr = /obj/item/rogue/instrument/drum
 
 /obj/item/soap/bath
 	name = "herbal soap"
