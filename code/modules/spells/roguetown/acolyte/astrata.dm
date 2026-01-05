@@ -517,7 +517,7 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 	var/check = null
 	var/turf/target = get_turf(targets[1])
 	if(GLOB.tod != "night")
-		check = 1
+		check = TRUE
 	else
 		to_chat(user, span_astrataextreme("Let there be light."))
 	if(!check)
