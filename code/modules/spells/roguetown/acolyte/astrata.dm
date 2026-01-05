@@ -995,7 +995,7 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 		for(var/mob/living/victim in Target_turf.contents)
 			to_chat(victim, span_astrataextreme("DIVINE FLAME RAINS DOWN FROM THE SKY!"))
 			var/dist_to_epicenter = get_dist(T, victim)
-			var/firedamage = 200 - (dist_to_epicenter*15)
+			var/firedamage = 200 - (dist_to_epicenter*30)
 			var/firestack = 10 - dist_to_epicenter
 			victim.adjustFireLoss(firedamage)
 			victim.adjust_fire_stacks(firestack)
