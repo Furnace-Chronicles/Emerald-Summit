@@ -489,7 +489,7 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 
 /obj/effect/proc_holder/spell/invoked/sunstrike
 	name = "Smite"
-	desc = "The Sun Tyrant's fury made manifest. Call down solar devestation upon an area after a long channel."
+	desc = "The Sun Tyrant's fury made manifest. Call down solar devastation upon an area after a long channel."
 	overlay_state = "sunstrike"
 	base_icon_state = "regalyscroll"
 	releasedrain = 200
