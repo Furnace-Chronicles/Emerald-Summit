@@ -3,7 +3,7 @@
 	associated_faith = /datum/faith/inhumen/standard
 	undead_hater = FALSE
 	var/crafting_recipes = list(/datum/crafting_recipe/roguetown/structure/zizo_shrine)			//Allows construction of unique bad shrine.
-	profane_words = list("cock","dick","fuck","shit","pussy","cuck","cunt","asshole", "pintle")	//Same as master but 'Zizo' is allowed now.
+	profane_words = list("psydon","astrata","noc","dendor","abyssor","ravox","necra","xylix","pestra","malum","eora")	//different as master but swearing is allowed now.
 	confess_lines = list(
 		"PSYDON IS THE DEMIURGE!",
 		"THE TEN ARE WORTHLESS COWARDS!",
@@ -25,12 +25,12 @@
 	mob_traits = list(TRAIT_CABAL, TRAIT_ZIZOSIGHT, TRAIT_ZOMBIE_IMMUNE)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/self/zizo_snuff						= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/lesser_heal/zizo 				= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/blood_heal/zizo				= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/profane/miracle 	= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/raise_lesser_undead/miracle 	= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/rituos/miracle 				= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/wound_heal					= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/wound_heal/zizo				= CLERIC_T3,
 	)
 	confess_lines = list(
 		"PRAISE ZIZO!",
@@ -38,7 +38,7 @@
 		"ZIZO IS QUEEN!",
 	)
 	miracle_healing_lines = list(
-		"Vital energies congeal about %TARGET!"
+		"Vile energies congeal about %TARGET!"
 	)
 	storyteller = /datum/storyteller/zizo
 	rites = "Rune of ZIZO"
