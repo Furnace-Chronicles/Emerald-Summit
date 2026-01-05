@@ -933,7 +933,7 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 	var/atom/holy_requirement
 	for(var/obj/structure/fluff/psycross/cross in oview(5, user))
 		holy_requirement = cross
-	for(var/mob/living/carbon/human/priest_candidate in view(7, user))
+	for(var/mob/living/carbon/human/priest in view(7, user))
 		if(priest.mind?.assigned_role == "Priest")
 			holy_requirement = priest
 			break
@@ -991,43 +991,43 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 	for(var/turf/turf as anything in RANGE_TURFS(6, T))
 		if(prob(20))
 			new /obj/effect/hotspot(get_turf(turf))
-for(var/turf/Target_turf in range(5, T))
-    for(var/mob/living/victim in Target_turf.contents)
-        to_chat(victim, span_astrataextreme("DIVINE FLAME RAINS DOWN FROM THE SKY!"))
-        var/dist_to_epicenter = get_dist(T, victim)
-        var/firedamage = 200 - (dist_to_epicenter*15)
-        var/firestack = 10 - dist_to_epicenter
-    	victim.adjustFireLoss(firedamage)
-        victim.adjust_fire_stacks(firestack)
-        victim.ignite_mob()
-        if(!victim.mind || istype(victim, /mob/living/simple_animal))
-        	victim.adjustFireLoss(500)
-            if(dist_to_epicenter <= 3)
-                victim.gib()
-                continue
-        if(dist_to_epicenter == 1) //pre-center
-            victim.adjustFireLoss(100) //100 firedamage
-            new /obj/effect/hotspot(get_turf(victim))
-        if(dist_to_epicenter == 0) //center
-            explosion(T, -1, 1, 1, 0, 0, flame_range = 1, soundin = 'sound/misc/explode/incendiary (1).ogg')
-            new /obj/effect/hotspot(get_turf(victim))
-            if(!istype(victim.patron, /datum/patron/divine))
-                victim.gib()
-                continue
-            else
-                victim.adjustFireLoss(500)
-                victim.stat = DEAD
-	for(var/obj/item/I in range(1, T))
-		qdel(I)
-	for (var/obj/structure/damaged in view(2, T))
-		if(!istype(damaged, /obj/structure/flora/newbranch))
-			damaged.take_damage(500,BRUTE,"blunt",1)
-	for (var/turf/closed/wall/damagedwalls in view(1, T))
-		damagedwalls.take_damage(1100,BRUTE,"blunt",1)
-	for (var/turf/closed/mineral/aoemining in view(2, T))
-		aoemining.lastminer = caster
-		aoemining.take_damage(1100,BRUTE,"blunt",1)
-    addtimer(CALLBACK(src, PROC_REF(fade_mark), mark), 1 SECONDS)
+	for(var/turf/Target_turf in range(5, T))
+		for(var/mob/living/victim in Target_turf.contents)
+			to_chat(victim, span_astrataextreme("DIVINE FLAME RAINS DOWN FROM THE SKY!"))
+			var/dist_to_epicenter = get_dist(T, victim)
+			var/firedamage = 200 - (dist_to_epicenter*15)
+			var/firestack = 10 - dist_to_epicenter
+			victim.adjustFireLoss(firedamage)
+			victim.adjust_fire_stacks(firestack)
+			victim.ignite_mob()
+			if(!victim.mind || istype(victim, /mob/living/simple_animal))
+				victim.adjustFireLoss(500)
+				if(dist_to_epicenter <= 3)
+				victim.gib()
+				continue
+			if(dist_to_epicenter == 1) //pre-center
+				victim.adjustFireLoss(100) //100 firedamage
+				new /obj/effect/hotspot(get_turf(victim))
+			if(dist_to_epicenter == 0) //center
+				explosion(T, -1, 1, 1, 0, 0, flame_range = 1, soundin = 'sound/misc/explode/incendiary (1).ogg')
+				new /obj/effect/hotspot(get_turf(victim))
+				if(!istype(victim.patron, /datum/patron/divine))
+					victim.gib()
+					continue
+				else
+					victim.adjustFireLoss(500)
+					victim.stat = DEAD
+		for(var/obj/item/I in range(1, T))
+			qdel(I)
+		for (var/obj/structure/damaged in view(2, T))
+			if(!istype(damaged, /obj/structure/flora/newbranch))
+				damaged.take_damage(500,BRUTE,"blunt",1)
+		for (var/turf/closed/wall/damagedwalls in view(1, T))
+			damagedwalls.take_damage(1100,BRUTE,"blunt",1)
+		for (var/turf/closed/mineral/aoemining in view(2, T))
+			aoemining.lastminer = caster
+			aoemining.take_damage(1100,BRUTE,"blunt",1)
+	addtimer(CALLBACK(src, PROC_REF(fade_mark), mark), 1 SECONDS)
 
 /obj/effect/temp_visual/firewave/sunstrike/primary/proc/fade_mark(obj/effect/temp_visual/mark)
     animate(mark, alpha = 5, time = 10, flags = ANIMATION_PARALLEL)
