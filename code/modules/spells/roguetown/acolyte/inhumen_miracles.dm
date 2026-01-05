@@ -1,7 +1,7 @@
 //im putting this here just for my mental sake
 //Miracles T1
 /obj/effect/proc_holder/spell/invoked/lesser_heal/zizo
-	name = "Miracle"
+	name = "ZIZO's Miracle"
 	desc = "Call upon ZIZO to either damage or heal your target, possibly at a cost..."
 	overlay_state = "zizo_lesser"
 	releasedrain = 15
