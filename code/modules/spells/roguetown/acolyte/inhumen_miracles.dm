@@ -55,7 +55,7 @@
 	user.adjustBruteLoss(4)
 	return FALSE
 
-//Blood Heal T2
+//Blood Heal T1
 /obj/effect/proc_holder/spell/invoked/blood_heal/zizo
 	name = "Lyfe Drain"
 	desc = "ZIZO demands lyfe energy, steal the lyfe force of others so I may continue. Killing the unambitious with it gives a boon."
