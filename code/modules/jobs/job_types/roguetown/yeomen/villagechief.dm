@@ -105,7 +105,7 @@ GLOBAL_VAR_INIT(last_elder_announcement, -50000) // Inits variable for later, co
 		if(do_after(src, 15 SECONDS, target = src)) // Reduced to 15 seconds from 30 on the original Herald PR. 15 is well enough time for sm1 to shove you.
 			say(announcementinput)
 			priority_announce("[announcementinput]", "The Elder Speaks", 'sound/misc/bell.ogg', sender = src)
-			GLOB.last_guildmaster_announcement = world.time
+			GLOB.last_elder_announcement = world.time
 		else
 			to_chat(src, span_warning("Your announcement was interrupted!"))
 			return FALSE
