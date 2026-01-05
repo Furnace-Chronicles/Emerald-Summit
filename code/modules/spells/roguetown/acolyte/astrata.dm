@@ -930,14 +930,15 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 /obj/effect/proc_holder/spell/invoked/sunstrike/cast_check(skipcharge = 0,mob/user = usr)
 	if(!..())
 		return FALSE
-	var/found = null
-	for(var/obj/structure/fluff/psycross/S in oview(5, user))
-		found = S
-	for(var/mob/living/carbon/human/H in view(7, user))
-		if(H.mind?.assigned_role == "Priest")
-			found = H
-	if(!found)
-		to_chat(user, span_warning("I must cast in the presence of a Pantheon Cross or the Priest"))
+	var/atom/holy_requirement
+	for(var/obj/structure/fluff/psycross/cross in oview(5, user))
+    	holy_requirement = cross
+	for(var/mob/living/carbon/human/priest_candidate in view(7, user))
+    		if(priest_candidate.mind?.assigned_role == "Priest")
+        	holy_requirement = priest_candidate
+
+	if(!holy_requirement)
+    	to_chat(user, span_warning("I must cast in the presence of a Pantheon Cross or the Priest"))
 		revert_cast()
 		return FALSE
 	return TRUE
