@@ -12,8 +12,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goatmale/tame/saddled/Initialize()
 	. = ..()
-	var/obj/item/natural/saddle/S = new(src)
-	ssaddle = S
+	ssaddle = new /obj/item/natural/saddle(src)
 	update_icon()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goat/tame
@@ -21,8 +20,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goat/tame/saddled/Initialize()
 	. = ..()
-	var/obj/item/natural/saddle/S = new(src)
-	ssaddle = S
+	ssaddle = new /obj/item/natural/saddle(src)
 	// excuse me please fucking compile again thank you
 	update_icon()
 	
@@ -227,7 +225,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_noble, (list(
 	var/callback_time = back_from_the_void ? 20 SECONDS : 10 SECONDS // nullspace returns take a lot longer to incentivize leaving it in the world
 	var/dangerous_summon = FALSE // will we try to proc an ambush upon return?
 
-	if (get_dist(honse.loc, user.loc) <= 7)
+	if (get_dist(honse.loc, user.loc) <= world.view)
 		to_chat(user, span_warning("Your trusty steed is nearby!"))
 		return
 
