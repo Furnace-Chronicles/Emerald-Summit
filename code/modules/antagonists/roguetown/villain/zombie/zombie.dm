@@ -140,6 +140,7 @@
 		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(wake_zombie), zombie, FALSE, TRUE), 5 SECONDS, TIMER_STOPPABLE)
 	if(zombie.ai_currently_active)
 		zombie.flee_in_pain = FALSE
+		show_in_antagpanel = FALSE
 	return ..()
 
 /*
