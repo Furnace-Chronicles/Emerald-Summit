@@ -124,7 +124,7 @@
 	bloodbeam.End()
 	return TRUE
 
-//Wound heal T4
+//Wound heal T3
 /obj/effect/proc_holder/spell/invoked/wound_heal/zizo
 	name = "Vile Wound Heal"
 	desc = "Seals flesh through sacrafice, restoring even what was lost."
