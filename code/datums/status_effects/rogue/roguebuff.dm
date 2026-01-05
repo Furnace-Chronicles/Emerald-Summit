@@ -509,6 +509,10 @@
 	return ..()
 
 /datum/status_effect/buff/healing/on_apply()
+	if(owner.construct) //golems can't be healed by miracles cuz they're not living beans
+		owner.visible_message(span_warning("The divine aura enveloping [owner]'s inorganic body sputters and fades away."))
+		qdel(src)
+		return
 	SEND_SIGNAL(owner, COMSIG_LIVING_MIRACLE_HEAL_APPLY, healing_on_tick, src)
 	var/filter = owner.get_filter(MIRACLE_HEALING_FILTER)
 	if (!filter)
@@ -530,15 +534,13 @@
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
 	H.color = "#FF0000"
 	var/list/wCount = owner.get_wounds()
-	if(owner.construct) //golems can't be healed by miracles cuz they're not living beans
-		owner.visible_message(span_warning("The divine aura enveloping [owner]'s inorganic body sputters and fades away."))
-		qdel(src)
-		return
 	if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
 		owner.blood_volume = min(owner.blood_volume+healing_on_tick, BLOOD_VOLUME_NORMAL)
 	if(wCount.len > 0)
 		owner.heal_wounds(healing_on_tick)
 		owner.update_damage_overlays()
+	if (HAS_TRAIT(owner, TRAIT_SIMPLE_WOUNDS))
+		owner.simple_bleeding = max(0, owner.simple_bleeding-(healing_on_tick/2))
 	owner.adjustBruteLoss(-healing_on_tick, 0)
 	owner.adjustFireLoss(-healing_on_tick, 0)
 	owner.adjustOxyLoss(-healing_on_tick, 0)
