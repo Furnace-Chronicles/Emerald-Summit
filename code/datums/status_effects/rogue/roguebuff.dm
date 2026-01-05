@@ -539,7 +539,7 @@
 	if(wCount.len > 0)
 		owner.heal_wounds(healing_on_tick)
 		owner.update_damage_overlays()
-	if (HAS_TRAIT(owner, TRAIT_SIMPLE_WOUNDS))
+	if(HAS_TRAIT(owner, TRAIT_SIMPLE_WOUNDS))
 		owner.simple_bleeding = max(0, owner.simple_bleeding-(healing_on_tick/2))
 	owner.adjustBruteLoss(-healing_on_tick, 0)
 	owner.adjustFireLoss(-healing_on_tick, 0)
