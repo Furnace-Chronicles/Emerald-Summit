@@ -45,6 +45,18 @@
 		B.ordered = TRUE
 		usr.update_action_buttons()
 	else
+		if(locked)
+			to_chat(usr, span_warning("Action button \"[name]\" is locked, unlock it first."))
+			return
+
+		var/slot = usr.hud_used.ScreenLocToNearestButtonNumber(screen_loc)
+		if(slot)
+			moved = FALSE
+			ordered = TRUE
+			linked_action.slot = slot
+			usr.update_action_buttons(TRUE)
+			return
+
 		return ..()
 
 /atom/movable/screen/movable/action_button/Click(location,control,params)
@@ -262,6 +274,22 @@
 	var/coord_row = "[row ? "+[row]" : "+0"]"
 
 	return "WEST[coord_col]:[coord_col_offset],SOUTH[coord_row]:3"
+
+/datum/hud/proc/ScreenLocToNearestButtonNumber(screen_loc)
+	var/list/parts = splittext(screen_loc, ",")
+	if(length(parts) < 2)
+		return null
+
+	var/x = text2num(copytext(parts[1], findtext(parts[1], ":") + 1))
+	var/y = text2num(copytext(parts[2], findtext(parts[2], ":") + 1))
+
+	var/col = round((x - 4) / 34)
+	var/row = round((26 - y) / 32)
+
+	if(col < 0 || row < 0)
+		return null
+
+	return row * AB_MAX_COLUMNS + col + 1
 
 /datum/hud/proc/SetButtonCoords(atom/movable/screen/button,number)
 	var/row = round((number-1)/AB_MAX_COLUMNS)
