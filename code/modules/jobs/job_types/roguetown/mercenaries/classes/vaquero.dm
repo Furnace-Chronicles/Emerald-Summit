@@ -65,27 +65,31 @@
 					/obj/item/flashlight/flare/torch = 1,
 					/obj/item/roguekey/mercenary = 1
 					)
-	var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Flute","Trumpet")
+	var/weapons = list("Accordion","Bagpipe","Drum","Guitar","Harp","Hurdy-Gurdy","Jaw Harp","Lute","Trumpet","Viola","Vocal Talisman")
 	var/weapon_choice = input(H, "Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
-	switch(weapon_choice)
-		if("Harp")
-			backr = /obj/item/rogue/instrument/harp
-		if("Lute")
-			backr = /obj/item/rogue/instrument/lute
-		if("Accordion")
-			backr = /obj/item/rogue/instrument/accord
-		if("Guitar")
-			backr = /obj/item/rogue/instrument/guitar
-		if("Hurdy-Gurdy")
-			backr = /obj/item/rogue/instrument/hurdygurdy
-		if("Viola")
-			backr = /obj/item/rogue/instrument/viola
-		if("Vocal Talisman")
-			backr = /obj/item/rogue/instrument/vocals
-		if("Flute")
-			backr = /obj/item/rogue/instrument/flute
-		if("Trumpet")
-			backr = /obj/item/rogue/instrument/trumpet
 	if (H.mind)
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)
+	switch(weapon_choice)
+		if("Harp")
+			H.put_in_hands(new /obj/item/rogue/instrument/harp(H), TRUE)
+		if("Lute")
+			H.put_in_hands(new /obj/item/rogue/instrument/lute(H), TRUE)
+		if("Accordion")
+			H.put_in_hands(new /obj/item/rogue/instrument/accord(H), TRUE)
+		if("Guitar")
+			H.put_in_hands(new /obj/item/rogue/instrument/guitar(H), TRUE)
+		if("Hurdy-Gurdy")
+			H.put_in_hands(new /obj/item/rogue/instrument/hurdygurdy(H), TRUE)
+		if("Viola")
+			H.put_in_hands(new /obj/item/rogue/instrument/viola(H), TRUE)
+		if("Vocal Talisman")
+			H.put_in_hands(new /obj/item/rogue/instrument/vocals(H), TRUE)
+		if("Trumpet")
+			H.put_in_hands(new /obj/item/rogue/instrument/trumpet(H), TRUE)
+		if("Bagpipe")
+			H.put_in_hands(new /obj/item/rogue/instrument/bagpipe(H), TRUE)
+		if("Jaw Harp")
+			H.put_in_hands(new /obj/item/rogue/instrument/jawharp(H), TRUE)
+		if("Drum")
+			H.put_in_hands(new /obj/item/rogue/instrument/drum(H), TRUE)

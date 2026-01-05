@@ -69,3 +69,8 @@
 	name = "Jaw Harp"
 	cost = 30
 	contains = list(/obj/item/rogue/instrument/jawharp)
+
+/datum/supply_pack/rogue/instruments/bagpipe
+	name = "Bagpipe"
+	cost = 30
+	contains = list(/obj/item/rogue/instrument/bagpipe)
