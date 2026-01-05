@@ -138,6 +138,8 @@
 	//Special because deadite status is latent as opposed to the others. 
 	if(admin_granted)
 		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(wake_zombie), zombie, FALSE, TRUE), 5 SECONDS, TIMER_STOPPABLE)
+	if(zombie.ai_currently_active)
+		zombie.flee_in_pain = FALSE
 	return ..()
 
 /*
@@ -211,6 +213,8 @@
 		var/mob/dead/observer/ghost = zombie.get_ghost(TRUE)
 		if(ghost)
 			ghost.can_reenter_corpse = TRUE
+	if(zombie.ai_currently_active)
+		zombie.flee_in_pain = TRUE
 	return ..()
 
 //Housekeeping's done. Transform into zombie.
