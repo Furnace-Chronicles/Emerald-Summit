@@ -419,7 +419,6 @@
 						continue
 					contents += "<b>[A.name]:</b>"
 					contents += " [A.held_items[1] + A.held_items[2]]"
-					contents += " | SELL: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]m</a>"
 					contents += " / BUY: <a href='?src=\ref[src];setprice=\ref[A]'>[A.withdraw_price]m</a>"
 					contents += " / LIMIT: <a href='?src=\ref[src];setlimit=\ref[A]'>[A.stockpile_limit]</a>"
 					if(!A.export_only)
