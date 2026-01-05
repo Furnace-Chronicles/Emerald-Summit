@@ -932,13 +932,14 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 		return FALSE
 	var/atom/holy_requirement
 	for(var/obj/structure/fluff/psycross/cross in oview(5, user))
-    	holy_requirement = cross
+		holy_requirement = cross
 	for(var/mob/living/carbon/human/priest_candidate in view(7, user))
-    		if(priest_candidate.mind?.assigned_role == "Priest")
-        	holy_requirement = priest_candidate
+		if(priest.mind?.assigned_role == "Priest")
+			holy_requirement = priest
+			break
 
 	if(!holy_requirement)
-    	to_chat(user, span_warning("I must cast in the presence of a Pantheon Cross or the Priest"))
+		to_chat(user, span_warning("I must cast in the presence of a Pantheon Cross or the Priest"))
 		revert_cast()
 		return FALSE
 	return TRUE
@@ -968,8 +969,8 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 
 /obj/effect/temp_visual/firewave/sunstrike/primary/Initialize(mapload, mob/living/carbon/caster)
 	. = ..()
-addtimer(CALLBACK(src, PROC_REF(pre_strike)), 1 SECONDS)
-addtimer(CALLBACK(src, PROC_REF(strike), caster), 10 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(pre_strike)), 1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(strike), caster), 10 SECONDS)
 
 /obj/effect/temp_visual/firewave/sunstrike/primary/proc/pre_strike()
 	var/turf/T = get_turf(src)
