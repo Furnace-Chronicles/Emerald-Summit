@@ -135,6 +135,10 @@
 					var/obj/item/picked 
 					if (length(stealpos) > 0)
 						picked = pick(stealpos)
+
+					if (!picked)
+						to_chat(user, span_notice("...can't find anything worth trying to take."))
+						return
 					
 					// if we're yoinking a storage container, we should reassess the rolls again based on how full it is.
 					// for simplicity's sake, let's just say every item in a container adds 0.5 onto the required roll to succeed.
@@ -188,10 +192,6 @@
 								user.apply_status_effect(/datum/status_effect/debuff/risk_high)
 							else
 								user.apply_status_effect(/datum/status_effect/debuff/risk_low)
-
-					else
-						exp_to_gain /= 2
-						to_chat(user, span_warning("...nothing to lift from them, at least like this."))
 				else
 					to_chat(user, "<span class='warning'>They can see me!")
 			if(stealroll < targetperception)
