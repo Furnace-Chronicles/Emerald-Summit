@@ -176,13 +176,19 @@
 
 	var/mob/living/carbon/human/target = targets[1]
 
-	// stop divine destruction
-	if(target in GLOB.divine_destruction_mobs)
-		stop_divine_destruction(target)
-
 	if(!ishuman(target))
 		revert_cast()
 		return FALSE
+
+	//RANGE CODE
+	if(get_dist(user, target) > 1)
+		to_chat(user, span_warning("I must be beside them to channel this miracle."))
+		revert_cast()
+		return FALSE
+
+	// stop divine destruction
+	if(target in GLOB.divine_destruction_mobs)
+		stop_divine_destruction(target)
 
 	// undead or Zizo only
 	if(!(target.mob_biotypes & MOB_UNDEAD) && target.patron?.type != /datum/patron/inhumen/zizo)
@@ -218,7 +224,6 @@
 		target.update_body()
 
 		return TRUE   // parent NOT called
-
 
 	// LIMB EXISTS USE PARENT LOGIC
 	return ..()
