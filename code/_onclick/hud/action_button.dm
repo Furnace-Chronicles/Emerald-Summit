@@ -222,19 +222,6 @@
 			if(reload_screen)
 				client.screen += B
 
-//		if(!button_number)
-//			hud_used.hide_actions_toggle.screen_loc = null
-//			return
-
-//	if(!hud_used.hide_actions_toggle.moved)
-//		hud_used.hide_actions_toggle.screen_loc = hud_used.ButtonNumberToScreenCoords(button_number+1)
-//	else
-//		hud_used.hide_actions_toggle.screen_loc = hud_used.hide_actions_toggle.moved
-//	if(reload_screen)
-//		client.screen += hud_used.hide_actions_toggle
-
-
-
 #define AB_MAX_COLUMNS 12
 
 /datum/hud/proc/ButtonNumberToScreenCoords(number) // TODO : Make this zero-indexed for readabilty
