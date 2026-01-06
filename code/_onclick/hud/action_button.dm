@@ -8,7 +8,7 @@
 
 	var/button_icon_state
 	var/appearance_cache
-	locked = FALSE
+	locked = TRUE
 	var/id
 	var/ordered = TRUE //If the button gets placed into the default bar
 	nomouseover = FALSE
