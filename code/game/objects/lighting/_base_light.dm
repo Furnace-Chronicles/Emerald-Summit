@@ -22,7 +22,7 @@
 	desc = ""
 	layer = WALL_OBJ_LAYER
 	max_integrity = 100
-	light_system = MOVABLE_LIGHT
+	light_system = STATIC_LIGHT
 	var/on = FALSE					// 1 if on, 0 if off
 	var/on_gs = FALSE
 	var/static_power_used = 0
