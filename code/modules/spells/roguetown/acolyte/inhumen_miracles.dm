@@ -163,7 +163,10 @@
 
 		//removes godmode and stun
 		target.status_flags &= ~GODMODE
-		target.Unstun()
+
+		target.remove_status_effect(/datum/status_effect/incapacitating/stun)		//removing all stuns to make sure
+		target.remove_status_effect(/datum/status_effect/incapacitating/knockdown)
+		target.remove_status_effect(/datum/status_effect/incapacitating/paralyzed)
 
 		UnregisterSignal(target, COMSIG_LIVING_CALCIFICATION_OVERRIDE)
 		to_chat(target, span_notice("THE WHORE ASTRATA IS STOPPED, SHE IS WEAK!"))
