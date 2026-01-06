@@ -233,7 +233,7 @@
 		new_limb.update_limb()
 		target.update_body()
 
-		return TRUE   // parent NOT called
+		return FALSE   // parent NOT called
 
 	// LIMB EXISTS SO USE PARENT LOGIC
 	return ..()
