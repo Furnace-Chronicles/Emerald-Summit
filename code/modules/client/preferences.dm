@@ -206,6 +206,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/ooc_notes
 	var/ooc_notes_display
 
+	var/datum/familiar_prefs/familiar_prefs
+
 	var/rumour
 	var/rumour_display
 
@@ -225,6 +227,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 /datum/preferences/New(client/C)
 	parent = C
 	migrant  = new /datum/migrant_pref(src)
+	familiar_prefs = new /datum/familiar_prefs(src)
 
 	for(var/custom_name_id in GLOB.preferences_custom_names)
 		custom_names[custom_name_id] = get_default_name(custom_name_id)
@@ -596,6 +599,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				dat += "<a href='?_src_=prefs;preference=loadout3hex;task=input'><span style='border: 1px solid #161616; background-color: [loadout_3_hex ? loadout_3_hex : "#FFFFFF"];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a>"
 			else
 				dat += "<a href='?_src_=prefs;preference=loadout3hex;task=input'>(C)</a>"
+
+			dat += "<br><b>Be a Familiar:</b><a href='?_src_=prefs;preference=familiar_prefs;task=input'>Familiar Preferences</a>"
+
 			dat += "</td>"
 
 			dat += "</tr></table>"
@@ -2085,6 +2091,10 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						ooc_extra += "</center></div>"
 						to_chat(user, "<span class='notice'>Successfully updated OOC Extra with [info]</span>")
 						log_game("[user] has set their OOC Extra to '[ooc_extra_link]'.")
+
+				if("familiar_prefs")
+					familiar_prefs.fam_show_ui()
+
 				if("loadout_item")
 					var/list/loadouts_available = list("None")
 					for (var/path as anything in GLOB.loadout_items)
