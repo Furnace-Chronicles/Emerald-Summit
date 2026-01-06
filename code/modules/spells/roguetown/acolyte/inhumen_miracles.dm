@@ -49,7 +49,7 @@
         user.visible_message(span_danger("[target] is seared by necrotic power!"))
         playsound(user, 'sound/magic/zizo_heal.ogg', 100, TRUE)
         target.adjustFireLoss(15)
-        target.adjustBruteLoss(4)
+        user.adjustBruteLoss(4)
         return FALSE
 
     // Undead or gravemarked with tax
