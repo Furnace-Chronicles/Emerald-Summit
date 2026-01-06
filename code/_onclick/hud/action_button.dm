@@ -36,7 +36,12 @@
 		if(locked)
 			to_chat(usr, span_warning("Action button \"[name]\" is locked, unlock it first."))
 			return
+
 		var/atom/movable/screen/movable/action_button/B = over_object
+		if(B.locked)
+			to_chat(usr, span_warning("Action button \"[B.name]\" is locked."))
+			return
+
 		var/list/actions = usr.actions
 		actions.Swap(actions.Find(src.linked_action), actions.Find(B.linked_action))
 		moved = FALSE
