@@ -37,12 +37,13 @@
             revert_cast()
             return FALSE
 
+	if(target.mob_biotypes & MOB_UNDEAD)	//pay tax to heal non zizo undead
+		user.adjustBruteLoss(4)
+
     // ZIZO patron: just clear sunder fire, no damage
     if(target.patron?.type == /datum/patron/inhumen/zizo)
         target.clear_sunder_fire()
         return TRUE
-
-    var/faction_tag = "[user.mind.current.real_name]_faction"
 
     // Psydonites have extra damage cuz they need special code, fuck you
     if(HAS_TRAIT(target, TRAIT_PSYDONITE))
@@ -51,11 +52,6 @@
         target.adjustFireLoss(15)
         user.adjustBruteLoss(4)
         return FALSE
-
-    // Undead or gravemarked with tax
-    if(target.mob_biotypes & MOB_UNDEAD || (target.mind?.current && faction_tag in target.mind.current.faction))
-        user.adjustBruteLoss(4)
-        return TRUE
 
     // Everyone else: standard damage
     user.visible_message(span_danger("[target] is seared by necrotic power!"))
