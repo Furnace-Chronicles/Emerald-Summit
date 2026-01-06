@@ -42,11 +42,12 @@
         target.clear_sunder_fire()
         return TRUE
 
-	if(target.mob_biotypes & MOB_UNDEAD)	//pay tax to heal non zizo undead
-		user.adjustBruteLoss(4)
-		return TRUE
+    // Undead: pay brute tax to heal
+    if(target.mob_biotypes & MOB_UNDEAD)
+        user.adjustBruteLoss(4)
+        return TRUE
 
-    // Psydonites have extra damage cuz they need special code, fuck you
+    // Psydonites: extra damage because fuck you
     if(HAS_TRAIT(target, TRAIT_PSYDONITE))
         user.visible_message(span_danger("[target] is seared by necrotic power!"))
         playsound(user, 'sound/magic/zizo_heal.ogg', 100, TRUE)
