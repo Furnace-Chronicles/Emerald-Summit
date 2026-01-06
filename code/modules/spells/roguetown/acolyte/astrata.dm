@@ -1003,8 +1003,8 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 			if(!victim.mind || istype(victim, /mob/living/simple_animal))
 				victim.adjustFireLoss(500)
 				if(dist_to_epicenter <= 3)
-				victim.gib()
-				continue
+					victim.gib()
+					continue
 			if(dist_to_epicenter == 1) //pre-center
 				victim.adjustFireLoss(100) //100 firedamage
 				new /obj/effect/hotspot(get_turf(victim))
