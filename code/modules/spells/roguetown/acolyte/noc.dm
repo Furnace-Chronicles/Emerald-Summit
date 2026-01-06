@@ -122,6 +122,7 @@
 	if(!user.mind.has_spell(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation))
 		var/prestidigitation = new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation
 		user.mind.AddSpell(prestidigitation)
+		ADD_TRAIT(user, TRAIT_MAGEARMOR, TRAIT_MIRACLE)
 	add_spells(user, all_spells, choice_count = 2)
 
 /obj/effect/proc_holder/spell/self/noc_spell_bundle/proc/add_spells(mob/user, list/spells, choice_count = 1)
