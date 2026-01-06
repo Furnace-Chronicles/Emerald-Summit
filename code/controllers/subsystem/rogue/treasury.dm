@@ -47,6 +47,7 @@ SUBSYSTEM_DEF(treasury)
 	var/obj/structure/roguemachine/steward/steward_machine // Reference to the nerve master
 	var/initial_payment_done = FALSE // Flag to track if initial round-start payment has been distributed
 	var/allow_scrip = TRUE
+	var/list/stipends = list()
 
 /datum/controller/subsystem/treasury/Initialize()
 	treasury_value = rand(500, 1000)
@@ -235,7 +236,22 @@ SUBSYSTEM_DEF(treasury)
 			give_money_account(how_much, welfare_dependant, "Noble Estate")
 
 /datum/controller/subsystem/treasury/proc/distribute_daily_payments()
-	if(!steward_machine || !steward_machine.daily_payments || !steward_machine.daily_payments.len)
+	if(!steward_machine)
+		return
+
+	for(var/job_name in steward_machine.mark_stipend)
+		var/payment_amount = steward_machine.mark_stipend[job_name]
+		for(var/mob/living/carbon/human/H in GLOB.human_list)
+			if(H.job == job_name)
+				var/target_name = H.real_name
+				if(stipends[H])
+					send_ooc_note("<b>MEISTER:</b> You received a [payment_amount] mark stipend.", name = target_name)
+					stipends[H] += payment_amount
+				else
+					send_ooc_note("<b>MEISTER:</b> You received a [payment_amount] mark stipend.", name = target_name)
+					stipends[H] = payment_amount
+
+	if(!steward_machine.daily_payments || !steward_machine.daily_payments.len)
 		return
 
 	var/total_paid = 0

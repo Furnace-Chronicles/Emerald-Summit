@@ -6,10 +6,23 @@
 	payout_price = 3
 	withdraw_price = 3
 	transport_fee = 3
-	export_price = 5
+	export_price = 8
 	importexport_amt = 10
 	stockpile_limit = 50
 	passive_generation = 5
+
+/datum/roguestock/stockpile/woodplank
+	name = "Wooden Plank"
+	desc = "Wooden logs cut into planks."
+	item_type = /obj/item/natural/wood/plank
+	held_items = list(2, 0)
+	payout_price = 5
+	withdraw_price = 5
+	transport_fee = 3
+	export_price = 12
+	importexport_amt = 5
+	stockpile_limit = 20
+	passive_generation = 2
 
 /datum/roguestock/stockpile/coal
 	name = "Coal"
@@ -45,10 +58,23 @@
 	payout_price = 1
 	withdraw_price = 1
 	transport_fee = 0
-	export_price = 1
+	export_price = 2
 	importexport_amt = 10
 	stockpile_limit = 50 // Allow a small amount of stones to be sold for chiselling
 	passive_generation = 10 // Free rocks!!
+
+/datum/roguestock/stockpile/stoneblock
+	name = "Stone Block"
+	desc = "Stone blocks. Used for construction"
+	item_type = /obj/item/natural/stoneblock
+	held_items = list(2, 0)
+	payout_price = 3
+	withdraw_price = 3
+	transport_fee = 3
+	export_price = 8
+	importexport_amt = 5
+	stockpile_limit = 20
+	passive_generation = 2
 
 /datum/roguestock/stockpile/glass
 	name = "Glass Batch"	//'Raw' glass

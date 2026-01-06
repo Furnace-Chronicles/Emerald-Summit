@@ -26,6 +26,7 @@
 	var/current_category = "Raw Materials"
 	var/list/categories = list("Raw Materials", "Foodstuffs", "Fruits")
 	var/list/daily_payments = list() // Associative list: job name -> payment amount
+	var/list/mark_stipend = list("Tailor" = 30, "Innkeeper" = 30, "Cook" = 30, "Soilson" = 20, "Tapster" = 20)
 
 /obj/structure/roguemachine/steward/Initialize()
 	. = ..()
@@ -488,10 +489,6 @@
 				contents += "[A.name]<BR>"
 				contents += "[A.desc]<BR>"
 				contents += "Total Collected: [SStreasury.minted]<BR>"
-				if(A.percent_bounty)
-					contents += "Bounty Price: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]%</a><BR><BR>"
-				else
-					contents += "Bounty Price: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]</a><BR><BR>"
 		if(TAB_LOG)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
 			contents += "<center>Log<BR>"

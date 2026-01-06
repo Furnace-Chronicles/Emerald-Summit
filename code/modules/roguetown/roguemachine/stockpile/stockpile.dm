@@ -153,6 +153,19 @@
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 			else
 				var/mint_amt = round(SStreasury.mint_multiplier * I.get_real_price())
+				var/item_type = I.type
+				amt = mint_amt
+				if(R.minted_items[item_type])
+					R.minted_items[item_type] += 1
+				else
+					R.minted_items[item_type] = 1
+				switch(R.minted_items[item_type])
+					if(2 to 3)
+						mint_amt = round(mint_amt * 0.75)
+					if(4 to 5)
+						mint_amt = round(mint_amt * 0.5)
+					if(6 to INFINITY)
+						mint_amt = round(mint_amt * 0.35)
 				SStreasury.minted += mint_amt
 				SStreasury.give_money_treasury(mint_amt, "Minting - [I.name]", FALSE)
 				qdel(I) // Eaten to be minted!

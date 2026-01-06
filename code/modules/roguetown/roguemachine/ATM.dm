@@ -40,6 +40,11 @@
 				return
 	if(H in SStreasury.bank_accounts)
 		var/amt = SStreasury.bank_accounts[H]
+		if(SStreasury.stipends[H] > 0)
+			var/stipend_amt = SStreasury.stipends[H]
+			if(alert("Do you wish to receive your [stipend_amt] marks?", "STIPEND", "Yes", "No") == "Yes")
+				budget2change(stipend_amt, H, "SCRIP")
+				SStreasury.stipends[H] = 0
 		if(!amt)
 			say("Your balance is nothing.")
 			return
