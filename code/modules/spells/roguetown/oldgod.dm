@@ -444,3 +444,73 @@
 	name = "ABSOLUTION'S TOLL"
 	desc = "A cold chill settles by your heart. Taxing your lux further before you recover is sure to be your end..."
 	icon_state = "revived"
+
+/obj/effect/proc_holder/spell/targeted/psydondefy
+	name = "DEFY"
+	desc = "Become a living conduit for the energies that teem from Syon's fragments, rebuking that which is borne from the Archenemy. </br>‎  </br>Unleashes a holy shockwave, barraging the deathless with explosive force. All deadites, skeletons, and vampyres within the caster's sight will be automatically struck. Requires several seconds to fully charge, and - upon release - completely exhausts the caster."
+	range = 7
+	overlay_state = "DEFY"
+	chargedrain = 1
+	releasedrain = 222
+	no_early_release = TRUE
+	chargetime = 10 SECONDS 
+	recharge_time = 5 SECONDS // debug value change this before PR
+	antimagic_allowed = FALSE
+	cast_without_targets = FALSE
+	max_targets = 777
+	req_items = list(/obj/item/flashlight/flare/torch/lantern/psycenser)
+	warnie = "sydwarning"
+	sound = 'sound/magic/revive.ogg'
+	associated_skill = /datum/skill/magic/holy
+	invocation = "PSYDON HATES YOU!!!"
+	invocation_type = "shout" //You are forced to shout this out. Let them hear your cry.
+	miracle = TRUE
+	devotion_cost = 100 // debug value change this before PR -- 500 cuz absolver has lots of regen
+
+/obj/effect/proc_holder/spell/targeted/psydondefy/cast(list/targets,mob/living/user = usr)
+	if (user.has_status_effect(/datum/status_effect/debuff/psydon_devitalized))
+		to_chat(user, span_danger("My Lux is too strained to invoke defiance against the Archenemy!"))
+		revert_cast()
+		return FALSE
+	for(var/mob/living/L in range)
+		to_chat(user, span_danger("Golgatha and its wielder begin to glow with an oppressive light!"))
+	if(do_after(user, 15 SECONDS))
+		user.emote("rage")
+		user.apply_status_effect(/datum/status_effect/debuff/psydon_devitalized)
+		var/prob2explode = 100
+		if(user && user.mind)
+			prob2explode = 0
+			for(var/i in 1 to user.get_skill_level(/datum/skill/magic/holy))
+				prob2explode += 30
+		for(var/mob/living/L in targets)
+			var/isvampire = FALSE
+			var/iszombie = FALSE
+			if(L.stat == DEAD)
+				continue
+			if(L.mind)
+				var/datum/antagonist/vampire/V = L.mind.has_antag_datum(/datum/antagonist/vampire)
+				if(V && !SEND_SIGNAL(L, COMSIG_DISGUISE_STATUS))
+					isvampire = TRUE
+				if(L.mind.has_antag_datum(/datum/antagonist/zombie))
+					iszombie = TRUE
+				if(L.mind.special_role == "Vampire Lord" || L.mind.special_role == "Lich")	//Automatically invokes a counterspell, stunning the caster and throwing them straight at the antagonist.
+					user.visible_message(span_warning("[L] resists the holy shockwave!"), span_userdanger("[L] invokes an unholy ward, disrupting my concentration! I'm thrown into the holy shockwave!"))
+					user.Stun(50)
+					user.throw_at(get_ranged_target_turf(user, get_dir(user,L), 7), 7, 1, L, spin = TRUE)
+					return
+			if((L.mob_biotypes & MOB_UNDEAD) || isvampire || iszombie)
+				var/vamp_prob = prob2explode
+				if(isvampire)
+					vamp_prob -= 59
+				if(prob(vamp_prob))
+					L.visible_message("<span class='warning'>[L] is sundered by the holy shockwave!", "<span class='danger'>I'm sundered by a holy shockwave!")
+					explosion(get_turf(L), light_impact_range = 1, flame_range = 1, smoke = FALSE)
+					L.Stun(50)
+				else
+					L.visible_message(span_warning("[L] withstands the holy shockwave's barrage!"), span_userdanger("I withstand the holy shockwave's barrage!"))
+	else
+		to_chat(user, span_warning("Channeling the fragment of SYON requires unwavering focus!"))
+		revert_cast()
+		return FALSE
+	..()
+	return TRUE
