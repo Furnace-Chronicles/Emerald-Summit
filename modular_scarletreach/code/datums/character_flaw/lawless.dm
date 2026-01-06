@@ -1,6 +1,6 @@
 /datum/charflaw/lawless
 	name = "Lawless"
-	desc = "I've always felt the rules were a bit more like guidelines than actual rules, and have accrued enough notoriety to have a bounty out on my head. Additionally, I may be familiar with some of the local gathering points. (Taking this vice when on a class that already has a roundstart bounty will randomize your flaw instead. Matthiosites gain bandit camp access.)"
+	desc = "I've always felt the rules were a bit more like guidelines than actual rules, and have accrued enough notoriety to have a bounty out on my head. (Taking this vice when on a class that already has a roundstart bounty will randomize your flaw instead.)"
 
 /datum/charflaw/lawless/on_mob_creation(mob/user)
 	addtimer(CALLBACK(src, PROC_REF(set_up), user), 30 SECONDS)
@@ -46,8 +46,6 @@
 			bounty_total = rand(51, 200)
 
 		if (face_known == "Yes")
-			if(user.patron && istype(user.patron, /datum/patron/inhumen/matthios)) // ezo made me do this at gunpoint
-				ADD_TRAIT(user, TRAIT_BANDITCAMP, TRAIT_GENERIC)
 			add_bounty(user.real_name, bounty_total, FALSE, my_crime, bounty_poster)
 			if (bounty_poster == "The Justiciary of Scarlet Reach")
 				GLOB.outlawed_players += user.real_name
