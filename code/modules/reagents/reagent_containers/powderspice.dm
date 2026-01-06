@@ -368,7 +368,6 @@
 
 /datum/reagent/starsugar/on_mob_metabolize(mob/living/L)
 	..()
-	L.add_movespeed_modifier(type, update=TRUE, priority=100, multiplicative_slowdown=-2, blacklisted_movetypes=(FLYING|FLOATING))
 	L.playsound_local(L, 'sound/ravein/small/hello_my_friend.ogg', 100, FALSE)
 	L.flash_fullscreen("whiteflash")
 	animate(L.client, pixel_y = 1, time = 1, loop = -1, flags = ANIMATION_RELATIVE)
@@ -376,7 +375,6 @@
 
 /datum/reagent/starsugar/on_mob_end_metabolize(mob/living/L)
 	L.remove_status_effect(/datum/status_effect/buff/starsugar)
-	L.remove_movespeed_modifier(type)
 	animate(L.client)
 	..()
 
