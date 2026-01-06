@@ -19,42 +19,50 @@
 	remove_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder)
 
 /obj/effect/proc_holder/spell/invoked/lesser_heal/zizo/can_heal(mob/living/carbon/human/user, mob/living/target)
-	if (target == user)
-		to_chat(user, span_warning("I can not direct this miracle upon myself!"))
-		revert_cast()
-		return FALSE
-	if (user.devotion?.level == CLERIC_T4)
-		if (get_dist(user, target) > range)
-			to_chat(user, span_warning("I need to get closer!"))
-			revert_cast()
-			return FALSE
-	else
-		if (!user.Adjacent(target))
-			to_chat(user, span_warning("I must be beside them to channel."))
-			revert_cast()
-			return FALSE
-	if(target.patron?.type == /datum/patron/inhumen/zizo)
-		target.clear_sunder_fire()
-		return TRUE
-	var/faction_tag = "[user.mind.current.real_name]_faction"
-	if(target.mob_biotypes & MOB_UNDEAD || (target.mind?.current && faction_tag in target.mind.current.faction))	//gravemarked people can now get healed
-		user.adjustBruteLoss(4)
-		return TRUE
+    // Self-cast blocked
+    if(target == user)
+        to_chat(user, span_warning("I can not direct this miracle upon myself!"))
+        revert_cast()
+        return FALSE
 
-	//shitty ass psydonites need special code in here, im adding extra damage to psydonites just because they made me write this block
-	if(HAS_TRAIT(target, TRAIT_PSYDONITE))
-		user.visible_message(span_danger("[target] is seared by necrotic power!"))
-		playsound(user, 'sound/magic/zizo_heal.ogg', 100, TRUE)
-		target.adjustFireLoss(15)		//making sure psydonites get attacked too
-		target.adjustBruteLoss(4)		//damage here
-		return FALSE
+    // Range check
+    if(user.devotion?.level == CLERIC_T4)
+        if(get_dist(user, target) > range)
+            to_chat(user, span_warning("I need to get closer!"))
+            revert_cast()
+            return FALSE
+    else
+        if(!user.Adjacent(target))
+            to_chat(user, span_warning("I must be beside them to channel."))
+            revert_cast()
+            return FALSE
 
-	// EVERYONE ELSE
-	user.visible_message(span_danger("[target] is seared by necrotic power!"))
-	playsound(user, 'sound/magic/zizo_heal.ogg', 100, TRUE)
-	target.adjustFireLoss(14)		//damage is here
-	user.adjustBruteLoss(4)
-	return FALSE
+    // ZIZO patron: just clear sunder fire, no damage
+    if(target.patron?.type == /datum/patron/inhumen/zizo)
+        target.clear_sunder_fire()
+        return TRUE
+
+    var/faction_tag = "[user.mind.current.real_name]_faction"
+
+    // Psydonites have extra damage cuz they need special code, fuck you
+    if(HAS_TRAIT(target, TRAIT_PSYDONITE))
+        user.visible_message(span_danger("[target] is seared by necrotic power!"))
+        playsound(user, 'sound/magic/zizo_heal.ogg', 100, TRUE)
+        target.adjustFireLoss(15)
+        target.adjustBruteLoss(4)
+        return FALSE
+
+    // Undead or gravemarked with tax
+    if(target.mob_biotypes & MOB_UNDEAD || (target.mind?.current && faction_tag in target.mind.current.faction))
+        user.adjustBruteLoss(4)
+        return TRUE
+
+    // Everyone else: standard damage
+    user.visible_message(span_danger("[target] is seared by necrotic power!"))
+    playsound(user, 'sound/magic/zizo_heal.ogg', 100, TRUE)
+    target.adjustFireLoss(14)
+    user.adjustBruteLoss(4)
+    return FALSE
 
 //Blood Heal T1
 /obj/effect/proc_holder/spell/invoked/blood_heal/zizo
