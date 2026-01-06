@@ -81,13 +81,6 @@
 			linked_action.slot = new_slot
 		rebinding = FALSE 	// Unlock the proc once we're done (I know it's not a proc)
 		return TRUE
-	//if(modifiers["alt"])
-	//	if(locked)
-	//		to_chat(usr, span_warning("Action button \"[name]\" is locked, unlock it first."))
-	//		return TRUE
-	//	moved = 0
-	//	usr.update_action_buttons() //redraw buttons that are no longer considered "moved"
-	//	return TRUE
 	if(modifiers["ctrl"])
 		locked = !locked
 		to_chat(usr, span_notice("Action button \"[name]\" [locked ? "" : "un"]locked."))
@@ -154,21 +147,6 @@
 		if(id && usr.client) //try to (un)remember position
 			usr.client.prefs.action_buttons_screen_locs["[name]_[id]"] = locked ? moved : null
 		return TRUE
-	//if(modifiers["alt"])
-		//for(var/V in usr.actions)
-		//	var/datum/action/A = V
-		//	var/atom/movable/screen/movable/action_button/B = A.button
-		//	B.moved = FALSE
-		//	if(B.id && usr.client)
-		//		usr.client.prefs.action_buttons_screen_locs["[B.name]_[B.id]"] = null
-		//	B.locked = usr.client.prefs.buttons_locked
-		//locked = usr.client.prefs.buttons_locked
-		//moved = FALSE
-		//if(id && usr.client)
-		//	usr.client.prefs.action_buttons_screen_locs["[name]_[id]"] = null
-		//usr.update_action_buttons(TRUE)
-		//to_chat(usr, span_notice("Action button positions have been reset."))
-		//return TRUE
 	usr.hud_used.action_buttons_hidden = !usr.hud_used.action_buttons_hidden
 
 	hidden = usr.hud_used.action_buttons_hidden
@@ -178,16 +156,6 @@
 		name = "Hide Buttons"
 	update_icon()
 	usr.update_action_buttons()
-
-//atom/movable/screen/movable/action_button/hide_toggle/AltClick(mob/user)
-	//for(var/V in user.actions)
-	//	var/datum/action/A = V
-	//	var/atom/movable/screen/movable/action_button/B = A.button
-	//	B.moved = FALSE
-	//if(moved)
-	//	moved = FALSE
-	//user.update_action_buttons(TRUE)
-	//to_chat(user, span_notice("Action button positions have been reset."))
 
 
 /atom/movable/screen/movable/action_button/hide_toggle/proc/InitialiseIcon(datum/hud/owner_hud)
