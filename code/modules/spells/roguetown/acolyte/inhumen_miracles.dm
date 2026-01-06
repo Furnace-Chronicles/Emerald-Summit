@@ -37,14 +37,14 @@
             revert_cast()
             return FALSE
 
-	if(target.mob_biotypes & MOB_UNDEAD)	//pay tax to heal non zizo undead
-		user.adjustBruteLoss(4)
-		return TRUE
-
     // ZIZO patron: just clear sunder fire, no damage
     if(target.patron?.type == /datum/patron/inhumen/zizo)
         target.clear_sunder_fire()
         return TRUE
+
+	if(target.mob_biotypes & MOB_UNDEAD)	//pay tax to heal non zizo undead
+		user.adjustBruteLoss(4)
+		return TRUE
 
     // Psydonites have extra damage cuz they need special code, fuck you
     if(HAS_TRAIT(target, TRAIT_PSYDONITE))
