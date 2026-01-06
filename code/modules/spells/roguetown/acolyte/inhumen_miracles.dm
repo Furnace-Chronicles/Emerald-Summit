@@ -208,11 +208,11 @@
 
 	playsound(target, 'sound/magic/zizo_woundheal.ogg', 100, TRUE)
 
-	// LIMB MISSING REGENERATE AS SKELETON
+	// LIMB MISSING REGENERATE AS SKELETONIZED
 	if(!affecting)
 		to_chat(user, span_info("Bone answers your call. Flesh is for the unambitious."))
 
-		// Let Scarlet Reach spawn the correct limb type
+		// spawn correct limb type
 		var/list/missing = list(zone)
 		target.regenerate_limbs(missing)
 
@@ -228,5 +228,5 @@
 
 		return TRUE   // parent NOT called
 
-	// LIMB EXISTS USE PARENT LOGIC
+	// LIMB EXISTS SO USE PARENT LOGIC
 	return ..()
