@@ -166,57 +166,59 @@
 		target.Unstun()
 
 		UnregisterSignal(target, COMSIG_LIVING_CALCIFICATION_OVERRIDE)
-		to_chat(target, span_notice("THE WHORE ASTRATA IS STOPPED, SHE IS WEAK"))
+		to_chat(target, span_notice("THE WHORE ASTRATA IS STOPPED, SHE IS WEAK!"))
 
 /obj/effect/proc_holder/spell/invoked/wound_heal/zizo/cast(list/targets, mob/living/carbon/human/user)
-    //validates target
-    if(!targets || targets.len < 1)
-        revert_cast()
-        return FALSE
+	// validate target
+	if(!targets || targets.len < 1)
+		revert_cast()
+		return FALSE
 
-    var/mob/living/carbon/human/target = targets[1]
+	var/mob/living/carbon/human/target = targets[1]
 
-    //divine destruc stopped here
-    if(target in GLOB.divine_destruction_mobs)
-        stop_divine_destruction(target)
+	// stop divine destruction
+	if(target in GLOB.divine_destruction_mobs)
+		stop_divine_destruction(target)
 
-    if(!ishuman(target))
-        revert_cast()
-        return FALSE
+	if(!ishuman(target))
+		revert_cast()
+		return FALSE
 
-    var/mob/living/carbon/human/UH = user
+	// undead or Zizo only
+	if(!(target.mob_biotypes & MOB_UNDEAD) && target.patron?.type != /datum/patron/inhumen/zizo)
+		target.visible_message(span_info("[target] recoils as the profane miracle refuses them."))
+		revert_cast()
+		return FALSE
 
-    // Only undead or Zizo patrons may be healed
-    if(!(target.mob_biotypes & MOB_UNDEAD) && target.patron?.type != /datum/patron/inhumen/zizo)
-        target.visible_message(span_info("[target] recoils as the profane miracle refuses them."))
-        revert_cast()
-        return FALSE
+	var/zone = check_zone(user.zone_selected)
+	if(!zone)
+		revert_cast()
+		return FALSE
 
-    var/def_zone = check_zone(UH.zone_selected)
-    var/obj/item/bodypart/affecting = target.get_bodypart(def_zone)
+	var/obj/item/bodypart/affecting = target.get_bodypart(zone)
 
-    playsound(target, 'sound/magic/zizo_woundheal.ogg', 100, TRUE)
+	playsound(target, 'sound/magic/zizo_woundheal.ogg', 100, TRUE)
 
-    // Limb is missing is then creating skeletonized limb
-    if(!affecting)
-        var/new_limb = new /obj/item/bodypart
-        new_limb.body_zone = def_zone
-        new_limb.skeletonized = TRUE
-        new_limb.rotted = FALSE
-        to_chat(UH, span_info("Bone answers your call! A skeletonized limb forms."))
+	// LIMB MISSING REGENERATE AS SKELETON
+	if(!affecting)
+		to_chat(user, span_info("Bone answers your call. Flesh is for the unambitious."))
 
-        // Attempt to attach
-        if(new_limb.attach_limb(target))
-            new_limb.update_limb()
-            target.update_body()
-        else
-            qdel(new_limb)
-            revert_cast()
-            return FALSE
+		// Let Scarlet Reach spawn the correct limb type
+		var/list/missing = list(zone)
+		target.regenerate_limbs(missing)
 
-    //call to parent if limb exists
-    else
-        ..()  //here
+		var/obj/item/bodypart/new_limb = target.get_bodypart(zone)
+		if(!new_limb)
+			revert_cast()
+			return FALSE
 
-    target.update_body()
-    return TRUE
+		new_limb.rotted = FALSE
+		new_limb.skeletonized = TRUE
+		new_limb.update_limb()
+		target.update_body()
+
+		return TRUE   // parent NOT called
+
+
+	// LIMB EXISTS USE PARENT LOGIC
+	return ..()
