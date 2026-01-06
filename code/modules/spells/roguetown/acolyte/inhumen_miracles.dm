@@ -224,6 +224,7 @@
 
 		var/obj/item/bodypart/new_limb = target.get_bodypart(zone)
 		if(!new_limb)
+			to_chat(user, span_warning("Regeneration failed!"))
 			revert_cast()
 			return FALSE
 
