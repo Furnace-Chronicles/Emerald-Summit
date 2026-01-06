@@ -636,6 +636,8 @@ There are several things that need to be remembered:
 			var/footindex = get_limbloss_index(LEG_RIGHT, LEG_LEFT)
 			var/racecustom
 			var/mutable_appearance/shoes_overlay
+			if(islamia(src))
+				return
 			if(dna.species.custom_clothes)
 				racecustom = dna.species.clothes_id
 			if((gender == FEMALE && !dna.species.use_m) || dna.species.use_f)
@@ -1385,6 +1387,8 @@ There are several things that need to be remembered:
 			var/racecustom
 			var/legsindex = get_limbloss_index(LEG_RIGHT, LEG_LEFT)
 			var/mutable_appearance/pants_overlay
+			if(islamia(src))
+				return
 			if(isharpy(src))
 				clip_mask_init = icon(icon = 'icons/roguetown/mob/bodies/f/harpy.dmi', icon_state = "harpy_clipmask")
 				c_mask = clip_mask_init
