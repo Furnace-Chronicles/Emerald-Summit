@@ -10,6 +10,10 @@
 
 	category_tags = list(CTAG_DISABLED)
 
+	virtue_restrictions = list(
+		/datum/virtue/utility/riding
+	)
+
 /datum/outfit/job/adventurer/whitecheese
 	name = "WHITE CHEESE"
 
@@ -56,5 +60,5 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fetch)
 
 	H.ambushable = FALSE
-	if (H.mind)
+	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)

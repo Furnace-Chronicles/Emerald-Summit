@@ -21,6 +21,10 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 	)
 
+	virtue_restrictions = list(
+		/datum/virtue/utility/riding
+	)
+
 /datum/outfit/job/vagabond/goatherd/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_femme_clothes(H))
@@ -40,7 +44,7 @@
 	if(prob(10))
 		r_hand = /obj/item/rogue/instrument/flute
 	
-	if (H.mind)
+	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goat/tame/Initialize()

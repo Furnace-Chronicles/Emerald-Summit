@@ -131,6 +131,10 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_EXPERT,
 	)
 
+	virtue_restrictions = list(
+		/datum/virtue/utility/riding
+	)
+
 /datum/outfit/job/knight/champion/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
@@ -170,7 +174,7 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 	)
 
-	if (H.mind)
+	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)
 
 /datum/advclass/knight/heavy
@@ -397,6 +401,10 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 	)
 
+	virtue_restrictions = list(
+		/datum/virtue/utility/riding
+	)
+
 /datum/outfit/job/knight/mountedknight/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
@@ -473,7 +481,7 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 	)
 
-	if (H.mind)
+	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)
 
 /datum/outfit/job/knight/mountedknight/post_equip(mob/living/carbon/human/H, visualsOnly)

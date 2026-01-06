@@ -271,6 +271,10 @@
 	/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,	//Best tracker. Might as well give it something to stick-out utility wise.
 	)
 
+	virtue_restrictions = list(
+		/datum/virtue/utility/riding
+	)
+
 /datum/outfit/job/manorguard/cavalry/pre_equip(mob/living/carbon/human/H)
 	..()
 
@@ -314,5 +318,5 @@
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
-	if (H.mind)
+	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)
