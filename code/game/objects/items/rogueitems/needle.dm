@@ -133,7 +133,7 @@
 			var/obj/item/clothing/cloth = I
 			var/integrity_percentage = (cloth.obj_integrity / cloth.max_integrity) * 100
 
-			if (!istype(cloth, /obj/item/clothing))
+			if (!istype(cloth, /obj/item/clothing) && !istype (cloth, /obj/item/storage))
 				to_chat(user, span_warning("I can't repair that with a needle."))
 				return
 
