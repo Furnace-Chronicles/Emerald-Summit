@@ -350,7 +350,7 @@
 	
 	// Visual effects
 	user.visible_message(span_danger("[user] takes [H]'s afflictions upon themselves!"))
-	playsound(get_turf(user), 'sound/magic/diagnose.ogg', 50, TRUE)
+	playsound(user, 'sound/magic/diagnose.ogg', 50, TRUE)
 	
 	new /obj/effect/temp_visual/heal(get_turf(H), "#00FF00")
 	new /obj/effect/temp_visual/dir_setting/bloodsplatter(get_turf(user), get_dir(H, user))
@@ -437,7 +437,7 @@
 	
 	// Visual effects
 	user.visible_message(span_danger("[user] transfers some of their suffering to [target]!"))
-	playsound(get_turf(user), 'sound/magic/diagnose.ogg', 50, TRUE)
+	playsound(user, 'sound/magic/diagnose.ogg', 50, TRUE)
 	
 	new /obj/effect/temp_visual/heal(get_turf(user), "#FF00FF")
 	new /obj/effect/temp_visual/dir_setting/bloodsplatter(get_turf(target), get_dir(user, target))

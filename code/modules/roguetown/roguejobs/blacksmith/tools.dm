@@ -191,10 +191,10 @@
 				used_time += 30 //repairing yourself as a golem is logistically going to be a lot more difficult than someone else doing it for you
 			if(user.mind)
 				used_time -= (user.get_skill_level(/datum/skill/craft/engineering) * 10)
-			playsound(loc, 'sound/items/bsmith1.ogg', 100, FALSE)
+			playsound(src, 'sound/items/bsmith1.ogg', 100, FALSE)
 			if(!do_mob(user, M, used_time))
 				return
-			playsound(loc, 'sound/items/bsmith4.ogg', 100, FALSE)
+			playsound(src, 'sound/items/bsmith4.ogg', 100, FALSE)
 
 			var/brute_heal = (affecting.brute_dam / 2)+5 //scale golem healing based on how much damage the limb has so we're not hammering a super damaged golem for years but also not fully healing them in 7 seconds
 			var/burn_heal = (affecting.burn_dam / 2)+5 //also keep in mind that this is healing one body part's damage, rather than the entire body's damage at once

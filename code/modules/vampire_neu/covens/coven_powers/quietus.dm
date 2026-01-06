@@ -199,7 +199,7 @@
 	. = ..()
 	var/mob/living/lastattacker = owner.lastattacker_weakref?.resolve()
 	owner.emote("snap", forced = TRUE)
-	playsound(get_turf(lastattacker), 'sound/magic/bloodcurse.ogg', 40, FALSE)
+	playsound(lastattacker, 'sound/magic/bloodcurse.ogg', 40, FALSE)
 	lastattacker.reagents.add_reagent(/datum/reagent/toxin/bloodacid, 3)
 	to_chat(owner, "You send your curse on [lastattacker], the last creature you attacked.")
 

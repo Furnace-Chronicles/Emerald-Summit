@@ -1085,7 +1085,7 @@
 					proceed_with_offer = TRUE
 					break
 			if(proceed_with_offer)
-				playsound(loc,'sound/items/carvty.ogg', 50, TRUE)
+				playsound(src,'sound/items/carvty.ogg', 50, TRUE)
 				qdel(W)
 				for(var/mob/player in GLOB.player_list)
 					if(player.mind)

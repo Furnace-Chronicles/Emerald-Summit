@@ -20,7 +20,13 @@
 
 
 #define SOUND_MINIMUM_PRESSURE 10
-#define FALLOFF_SOUNDS 1
+#define FALLOFF_SOUNDS 0.5
+
+// 3D sound positioning constants
+#define ZSOUND_DISTANCE_PER_Z 5
+#define ECHO_DIRECT 1
+#define ECHO_ROOM 2
+#define UNDERWATER 23
 
 
 //Ambience types

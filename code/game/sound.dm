@@ -2,6 +2,14 @@
 	var/list/played_loops = list() //uses dlink to link to the sound
 
 
+/proc/get_topmost_atom(atom/A)
+	// Recursively traverse containment hierarchy to find the atom that sits directly on a turf
+	if(!A)
+		return null
+	if(isturf(A.loc))
+		return A
+	return get_topmost_atom(A.loc)
+
 /proc/playsound(atom/source, soundin, vol as num, vary, extrarange as num, falloff, frequency = null, channel, pressure_affected = FALSE, ignore_walls = TRUE, soundping = FALSE, repeat, animal_pref = FALSE)
 	if(isarea(source))
 		CRASH("playsound(): source is an area")
@@ -19,19 +27,20 @@
 			source = head
 
 	var/turf/turf_source = get_turf(source)
-	if(isturf(source))
-		turf_source = source
 
 	if(!turf_source)
 		return
+
+	// Get same sound for everyone
+	soundin = get_sfx(soundin)
+	// Same frequency for everybody
+	frequency = vary && isnull(frequency) ? get_rand_frequency() : frequency
 
 	//allocate a channel if necessary now so its the same for everyone
 	channel = channel || SSsounds.random_available_channel()
 
 	// Looping through the player list has the added bonus of working for mobs inside containers
-	var/sound/S = soundin
-	if(!istype(S))
-		S = sound(get_sfx(soundin))
+	var/sound/S = sound(soundin)
 	if(!extrarange)
 		extrarange = 1
 	var/maxdistance = (world.view + extrarange)
@@ -72,7 +81,7 @@
 			if(animal_pref)
 				if(M.client?.prefs?.mute_animal_emotes)
 					continue
-			if(M.playsound_local(turf_source, soundin, vol, vary, frequency, falloff, channel, pressure_affected, S, repeat))
+			if(M.playsound_local(source, soundin, vol, vary, frequency, falloff, channel, pressure_affected, S, repeat))
 				. += M
 
 	for(var/mob/M as anything in muffled_listeners)
@@ -80,7 +89,7 @@
 			if(animal_pref)
 				if(M.client?.prefs?.mute_animal_emotes)
 					continue
-			if(M.playsound_local(turf_source, soundin, vol, vary, frequency, falloff, channel, pressure_affected, S, repeat, muffled = TRUE))
+			if(M.playsound_local(source, soundin, vol, vary, frequency, falloff, channel, pressure_affected, S, repeat, muffled = TRUE))
 				. += M
 
 
@@ -110,7 +119,7 @@
 	. = ..()
 	animate(src, alpha = 0, time = duration, easing = EASE_IN)
 */
-/mob/proc/playsound_local(atom/turf_source, soundin, vol as num, vary, frequency, falloff, channel, pressure_affected = TRUE, sound/S, repeat, muffled)
+/mob/proc/playsound_local(atom/source, soundin, vol as num, vary, frequency, falloff, channel, pressure_affected = TRUE, sound/S, repeat, muffled, override = FALSE)
 	if(!client || !can_hear())
 		return FALSE
 
@@ -129,7 +138,7 @@
 		if(dullahan.headless)
 			user_head = dullahan.my_head
 			muffled = istype(user_head.loc, /obj/structure/closet) || istype(user_head.loc, /obj/item/storage/)
-	
+
 	if(muffled)
 		S.environment = 11
 		if(falloff)
@@ -155,14 +164,24 @@
 	if(frequency)
 		S.frequency = frequency
 
-	if(isturf(turf_source))
+	if(source)
+		// Handle guns in inventory - play directly without source
+		if(istype(source, /obj/item/gun) && (source in contents))
+			override = TRUE
+
+		// Get topmost atom if source is nested in containers
+		if(!isturf(source) && !isturf(source.loc))
+			source = get_topmost_atom(source)
+
+		if(!source)
+			CRASH("No source for sound in playsound_local called by [src]!")
+
 		// Check distance to relay instead.
 		var/atom/movable/tocheck = user_head ? user_head : src
-
 		var/turf/T = get_turf(tocheck)
 
 		//sound volume falloff with distance
-		var/distance = get_dist(T, turf_source)
+		var/distance = get_dist(T, source)
 
 		S.volume -= (distance * (0.10 * S.volume)) //10% each step
 /*
@@ -170,7 +189,7 @@
 			//Atmosphere affects sound
 			var/pressure_factor = 1
 			var/datum/gas_mixture/hearer_env = T.return_air()
-			var/datum/gas_mixture/source_env = turf_source.return_air()
+			var/datum/gas_mixture/source_env = source.return_air()
 
 			if(hearer_env && source_env)
 				var/pressure = min(hearer_env.return_pressure(), source_env.return_pressure())
@@ -189,21 +208,44 @@
 		if(S.volume <= 0)
 			return FALSE //No sound
 
-		var/dx = turf_source.x - T.x
-		if(dx <= 1 && dx >= -1)
-			S.x = 0
-		else
-			S.x = dx
-		var/dz = turf_source.y - T.y
-		if(dz <= 1 && dz >= -1)
-			S.z = 0
-		else
-			S.z = dz
+		// Use sound.atom for positional audio
+		if(!override)
+			S.atom = source
 
-		var/dy = turf_source.z - T.z
-		S.y = dy
+		var/dz = source.z - T.z
+		var/eyez = client.perspective == MOB_PERSPECTIVE ? T.z : client.eye:z
+
+		if(dz != 0)
+			source = locate(source.x, source.y, eyez)
+
+		// OFFSET COMPENSATION using projection matrices
+		if(!override)
+			var/ex = client.pixel_x ? (client.pixel_x / world.icon_size) : 0
+			var/ey = client.pixel_y ? (client.pixel_y / world.icon_size) : 0
+
+			var/xx = 1
+			var/xy = 0
+			var/xz = 0
+			var/yx = 0
+			var/yy = 1
+			var/yz = 0
+
+			// Spatial offsets for the sound source
+			var/dx = source.x - T.x
+			var/dy = source.y - T.y
+
+			// Combine camera compensation with spatial offsets
+			var/cx = xx*ex + yx*ey + dx
+			var/cy = xy*ex + yy*ey + dy
+			var/cz = xz*ex + yz*ey + dz * ZSOUND_DISTANCE_PER_Z
+			S.transform = list(xx,xy,xz,  yx,yy,yz,  cx,cy,cz)
 
 		S.falloff = (falloff ? falloff : FALLOFF_SOUNDS)
+
+		// Nearfield attenuation
+		if(distance <= 1)
+			var/nearfield_factor = 1/sqrt(2)
+			S.volume = round(S.volume * nearfield_factor)
 
 	if(repeat && istype(repeat, /datum/looping_sound))
 		var/datum/looping_sound/D = repeat
@@ -214,9 +256,8 @@
 				if(DS)
 					var/volly = client.played_loops[D]["VOL"]
 					if(volly != S.volume)
-						DS.x = S.x
-						DS.y = S.y
-						DS.z = S.z
+						if(S.transform)
+							DS.transform = S.transform
 						DS.falloff = S.falloff
 						client.played_loops[D]["VOL"] = S.volume
 						update_sound_volume(DS, S.volume)

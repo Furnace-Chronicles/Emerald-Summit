@@ -552,7 +552,7 @@
 
 		if(H.stamina_add(parrydrain))
 			if(W)
-				playsound(get_turf(src), pick(W.parrysound), 100, FALSE)
+				playsound(src, pick(W.parrysound), 100, FALSE)
 			if(src.client)
 				record_round_statistic(STATS_PARRIES)
 
@@ -572,14 +572,14 @@
 			return FALSE //crush through
 	else
 		if(W)
-			playsound(get_turf(src), pick(W.parrysound), 100, FALSE)
+			playsound(src, pick(W.parrysound), 100, FALSE)
 		return TRUE
 
 /mob/proc/do_unarmed_parry(parrydrain as num, mob/living/user)
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
 		if(H.stamina_add(parrydrain))
-			playsound(get_turf(src), pick(parry_sound), 100, FALSE)
+			playsound(src, pick(parry_sound), 100, FALSE)
 			src.visible_message(span_warning("<b>[src]</b> parries [user]!"))
 			if(src.client)
 				record_round_statistic(STATS_PARRIES)
@@ -590,7 +590,7 @@
 	else
 		if(src.client)
 			record_round_statistic(STATS_PARRIES)
-		playsound(get_turf(src), pick(parry_sound), 100, FALSE)
+		playsound(src, pick(parry_sound), 100, FALSE)
 		return TRUE
 
 

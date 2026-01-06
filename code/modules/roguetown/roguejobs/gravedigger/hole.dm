@@ -110,7 +110,7 @@
 		return
 
 	if(attacking_shovel.heldclod)
-		playsound(loc,'sound/items/empty_shovel.ogg', 100, TRUE)
+		playsound(src,'sound/items/empty_shovel.ogg', 100, TRUE)
 		QDEL_NULL(attacking_shovel.heldclod)
 		if(stage == 3) //close grave
 			stage = 4
@@ -187,7 +187,7 @@
 		update_icon()
 		attacking_shovel.heldclod = new(attacking_shovel)
 		attacking_shovel.update_icon()
-		playsound(loc,'sound/items/dig_shovel.ogg', 100, TRUE)
+		playsound(src,'sound/items/dig_shovel.ogg', 100, TRUE)
 		return
 
 /datum/status_effect/debuff/cursed

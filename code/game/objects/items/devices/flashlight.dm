@@ -394,7 +394,7 @@
 		user.adjust_fire_stacks(5)
 		user.ignite_mob()
 		user.Stun(40)
-		playsound(get_turf(user), 'sound/magic/ahh2.ogg', 100)
+		playsound(user, 'sound/magic/ahh2.ogg', 100)
 	..()
 
 /obj/item/flashlight/flare/torch/lantern/copper
@@ -445,7 +445,7 @@
 		user.visible_message(span_notice("[user] inserts a candle into [src]."), \
 							span_notice("I insert a candle into [src]."))
 		if(do_after(user, 2 SECONDS))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 60, TRUE, -1)
+			playsound(user, 'sound/foley/dropsound/food_drop.ogg', 60, TRUE, -1)
 			fuel += 120 MINUTES
 			if(istype(I, /obj/item/candle/yellow/lit))
 				on = TRUE

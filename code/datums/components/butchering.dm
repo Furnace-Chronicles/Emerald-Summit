@@ -22,7 +22,7 @@
 
 /datum/component/butchering/proc/startButcher(obj/item/source, mob/living/M, mob/living/user)
 	to_chat(user, span_notice("I begin to butcher [M]..."))
-	playsound(M.loc, butcher_sound, 50, TRUE, -1)
+	playsound(M, butcher_sound, 50, TRUE, -1)
 	if(do_mob(user, M, speed) && M.Adjacent(source))
 		Butcher(user, M)
 

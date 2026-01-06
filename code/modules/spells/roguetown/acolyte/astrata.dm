@@ -122,7 +122,7 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 		var/mob/living/M = target
 		if(M.anti_magic_check())
 			visible_message(span_warning("[src] fizzles on contact with [target]!"))
-			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
+			playsound(target, 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
 		if(M.mob_biotypes & biotype_we_look_for || istype(M, /mob/living/simple_animal/hostile/rogue/skeleton))
@@ -770,7 +770,7 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 	else
 		target.visible_message(span_astratabig("[target] EXPLODES in a burst of divine radiance!"))
 	
-	playsound(get_turf(target), 'sound/misc/holyexplosion.ogg', 150, FALSE, 7)
+	playsound(target, 'sound/misc/holyexplosion.ogg', 150, FALSE, 7)
 	
 	// Flash everyone nearby
 	for(var/mob/M in viewers(target, 7))

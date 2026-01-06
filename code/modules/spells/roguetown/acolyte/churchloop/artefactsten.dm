@@ -159,7 +159,7 @@ Malum's tool
 			span_info("[user] begins smelting down \the [I2] with [src]."),
 			span_info("I start smelting \the [I2]...")
 		)
-		playsound(get_turf(I2), 'sound/items/bsmith3.ogg', 70, FALSE)
+		playsound(I2, 'sound/items/bsmith3.ogg', 70, FALSE)
 
 		if(!do_after(user, 10 SECONDS, target = I2))
 			to_chat(user, span_warning("The smelting is interrupted!"))
@@ -266,7 +266,7 @@ Malum's tool
 		span_info("[user] starts shaping \the [ing] with [src]."),
 		span_info("I begin crafting with [ing]...")
 	)
-	playsound(get_turf(ing), 'sound/items/bsmith3.ogg', 70, FALSE)
+	playsound(ing, 'sound/items/bsmith3.ogg', 70, FALSE)
 
 	if(!do_after(user, 10 SECONDS, target = ing))
 		to_chat(user, span_warning("The crafting is interrupted!"))
@@ -329,7 +329,7 @@ Necra's Censer (by ARefrigerator)
 
 /obj/item/artefact/necra_censer/attack_self(mob/user)
 	if(do_after(user, 3 SECONDS))
-		playsound(user.loc,  'sound/items/censer_use.ogg', 100)
+		playsound(user,  'sound/items/censer_use.ogg', 100)
 		user.visible_message(span_info("[user.name] lifts up their arm and swings the chain on \the [name] around lightly."))
 		var/datum/effect_system/smoke_spread/smoke/necra_censer/S = new
 		S.set_up(3, user.loc)
@@ -576,7 +576,7 @@ Necra's Censer (by ARefrigerator)
 		span_info("[user] presses the phylactery to [pending_target_name]; dim runes kindle along the filigree."),
 		span_notice("I begin the attunement, drawing a blood sample from [pending_target_name]...")
 	)
-	playsound(get_turf(user), 'sound/magic/churn.ogg', 60, FALSE)
+	playsound(user, 'sound/magic/churn.ogg', 60, FALSE)
 
 	if(!do_after(user, 30 SECONDS, target = L))
 		to_chat(user, span_warning("The attunement is interrupted. The glass cools down."))
@@ -600,7 +600,7 @@ Necra's Censer (by ARefrigerator)
 			span_notice("A crimson thread curls into the crystal; the phylactery thrums softly."),
 			span_good("It is done. The blood remembers.")
 		)
-		playsound(get_turf(user), 'sound/magic/whiteflame.ogg', 60, FALSE)
+		playsound(user, 'sound/magic/whiteflame.ogg', 60, FALSE)
 	else
 		to_chat(user, span_warning("The charm fizzles and fails to hold."))
 	binding = FALSE

@@ -141,11 +141,11 @@
 	if(!open)
 		slot_flags &= ~ITEM_SLOT_HIP
 		open = TRUE
-		playsound(loc, 'sound/items/book_open.ogg', 100, FALSE, -1)
+		playsound(src, 'sound/items/book_open.ogg', 100, FALSE, -1)
 	else
 		slot_flags |= ITEM_SLOT_HIP
 		open = FALSE
-		playsound(loc, 'sound/items/book_close.ogg', 100, FALSE, -1)
+		playsound(src, 'sound/items/book_close.ogg', 100, FALSE, -1)
 	update_icon_state()
 	user.update_inv_hands()
 

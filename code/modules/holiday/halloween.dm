@@ -208,7 +208,7 @@
 		LoseAggro()
 		return
 	if(M.stat == DEAD)
-		playsound(M.loc, 'sound/spookoween/insane_low_laugh.ogg', 100, TRUE)
+		playsound(M, 'sound/spookoween/insane_low_laugh.ogg', 100, TRUE)
 		qdel(src)
 		return
 	playsound(M, pick('sound/spookoween/scary_horn.ogg','sound/spookoween/scary_horn2.ogg', 'sound/spookoween/scary_horn3.ogg'), 100, TRUE)
