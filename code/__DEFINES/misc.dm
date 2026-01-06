@@ -42,16 +42,16 @@
 #define HANDS_PART_LAYER		32
 #define WRISTS_LAYER			31
 #define ARMOR_LAYER				30
-#define BELT_LAYER				29		//only when looking south
-#define UNDER_CLOAK_LAYER		28
-#define GLOVES_LAYER			27
-#define ARM_DAMAGE_LAYER		26
-#define SHIRTSLEEVE_LAYER		25
-#define WRISTSLEEVE_LAYER		24
-#define ARMORSLEEVE_LAYER		23
-#define GLOVESLEEVE_LAYER		22
-#define RING_LAYER				21
-#define TABARD_LAYER			20
+#define TABARD_LAYER			29
+#define BELT_LAYER				28		//only when looking south
+#define UNDER_CLOAK_LAYER		27
+#define GLOVES_LAYER			26
+#define ARM_DAMAGE_LAYER		25
+#define SHIRTSLEEVE_LAYER		24
+#define WRISTSLEEVE_LAYER		23
+#define ARMORSLEEVE_LAYER		22
+#define GLOVESLEEVE_LAYER		21
+#define RING_LAYER				20
 #define GLASSES_LAYER			19
 #define NECK_LAYER				18
 #define CLOAK_LAYER				17		//only when looking north or west/east
