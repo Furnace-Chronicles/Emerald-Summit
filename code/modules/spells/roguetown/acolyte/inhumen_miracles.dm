@@ -39,6 +39,7 @@
 
 	if(target.mob_biotypes & MOB_UNDEAD)	//pay tax to heal non zizo undead
 		user.adjustBruteLoss(4)
+		return TRUE
 
     // ZIZO patron: just clear sunder fire, no damage
     if(target.patron?.type == /datum/patron/inhumen/zizo)
