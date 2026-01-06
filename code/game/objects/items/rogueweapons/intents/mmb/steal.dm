@@ -57,6 +57,7 @@
 		var/advantageroll = 0
 		var/targetperception = (target_human.STAPER) + ((target_human.STALUC - 10)) // perception, and their luck above or below 10
 		
+		var/do_time = 5 // how long we take to actually pickpocket in deciseconds - being risked up will quadruple this, in essence
 		// if we're lucky, it's worse for them. if we're unlucky, it's better for them
 		if (user.STALUC > 10)
 			targetperception -= (user.STALUC - 10)
@@ -71,10 +72,12 @@
 		// if we're rumbled, they're harder to steal from
 		if(user.has_status_effect(/datum/status_effect/debuff/risk_low))
 			targetperception += 2
+			do_time += 5
 		
 		// if we're BUSTED they're MUCH harder to steal from
 		if(user.has_status_effect(/datum/status_effect/debuff/risk_high))
 			targetperception += 4
+			do_time += 10
 
 		if(HAS_TRAIT(user, TRAIT_CULTIC_THIEF) || user.goodluck(20)) // advantage if matthios patron and 20% chance per fortune above 10
 			advantageroll = roll("[thiefskill]d6") // mathematically, advantage on a d6 works out to about +1~ ish overall
@@ -92,7 +95,7 @@
 
 		to_chat(user, span_notice("I try to steal from [target_human]..."))
 
-		if(do_after(user, 5, target = target_human, progress = 0))
+		if(do_after(user, do_time, target = target_human, progress = 0))
 
 			if(target_human.IsUnconscious() || target_human.stat != CONSCIOUS) //They're out of it bro.
 				targetperception = 0
@@ -245,6 +248,7 @@
 
 /datum/status_effect/buff/risk_jackpot
 	id = "risk_jackpot"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/risk_jackpot
 	duration = 5 MINUTES
 	effectedstats = list("fortune" = 2)
 
