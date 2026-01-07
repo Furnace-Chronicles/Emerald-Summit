@@ -24,6 +24,7 @@
 
 // 3D sound positioning constants
 #define ZSOUND_DISTANCE_PER_Z 2
+#define STEREO_PANNING_STRENGTH 0.3 // Reduces extreme left-right panning (0 = mono, 1 = full stereo)
 
 //Ambience types
 

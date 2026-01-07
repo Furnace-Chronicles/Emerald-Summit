@@ -231,7 +231,7 @@
 			var/ex = client.pixel_x != 0 ? (client.pixel_x / world.icon_size) : 0
 			var/ey = client.pixel_y != 0 ? (client.pixel_y / world.icon_size) : 0
 
-			var/xx = 1
+			var/xx = STEREO_PANNING_STRENGTH // Reduce left-right panning strength
 			var/xy = 0
 			var/xz = 0
 			var/yx = 0
