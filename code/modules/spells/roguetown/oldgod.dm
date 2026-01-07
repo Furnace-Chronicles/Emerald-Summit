@@ -455,7 +455,7 @@
 	no_early_release = TRUE
 	movement_interrupt = TRUE
 	chargetime = 15 SECONDS 
-	recharge_time = 30 SECONDS // Mostly irrelevant as the real cooldown is dictated by psydon_devitalized
+	recharge_time = 5 MINUTES // Mostly irrelevant as the real cooldown is dictated by psydon_devitalized
 	antimagic_allowed = FALSE
 	cast_without_targets = FALSE
 	req_items = list(/obj/item/flashlight/flare/torch/lantern/psycenser)
