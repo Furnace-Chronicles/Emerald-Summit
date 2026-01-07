@@ -83,7 +83,7 @@
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/psydonpersist)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/psydonlux_tamper)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/psydonabsolve)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/psydondefy)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/psydondefy)
 			H.mind.RemoveSpell(/obj/effect/proc_holder/spell/self/psydonrespite)
 			H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/qsabsolution)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)

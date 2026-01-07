@@ -445,7 +445,7 @@
 	desc = "A cold chill settles by your heart. Taxing your lux further before you recover is sure to be your end..."
 	icon_state = "revived"
 
-/obj/effect/proc_holder/spell/targeted/psydondefy
+/obj/effect/proc_holder/spell/invoked/psydondefy
 	name = "DEFY"
 	desc = "Become a living conduit for the energies that teem from Syon's fragments, rebuking that which is borne from the Archenemy. </br>‎  </br>Unleashes a holy shockwave, barraging the deathless with explosive force. All deadites, skeletons, and vampyres within the caster's sight will be automatically struck. Requires several seconds to fully charge, and - upon release - completely exhausts the caster."
 	range = 7
@@ -457,7 +457,6 @@
 	recharge_time = 5 SECONDS // debug value change this before PR
 	antimagic_allowed = FALSE
 	cast_without_targets = FALSE
-	max_targets = 777
 	req_items = list(/obj/item/flashlight/flare/torch/lantern/psycenser)
 	warnie = "sydwarning"
 	sound = 'sound/magic/revive.ogg'
@@ -467,10 +466,10 @@
 	miracle = TRUE
 	devotion_cost = 100 // debug value change this before PR -- 500 cuz absolver has lots of regen
 
-/obj/effect/proc_holder/spell/targeted/psydondefy/before_cast(list/targets,  mob/user = usr)
-	. = ..()
-	for(var/mob/living/L in get_hearers_in_view(world.view))
+/obj/effect/proc_holder/spell/invoked/psydondefy/choose_targets(mob/user = usr)
+	for(var/mob/living/L in get_hearers_in_view(world.view, user))
 		to_chat(user, span_danger("Golgatha and its wielder begin to glow with an oppressive light!"))
+	return ..()
 
 /obj/effect/proc_holder/spell/targeted/psydondefy/cast(list/targets,mob/living/user = usr)
 	if (user.has_status_effect(/datum/status_effect/debuff/psydon_devitalized))
@@ -485,7 +484,7 @@
 		prob2explode = 0
 		for(var/i in 1 to user.get_skill_level(/datum/skill/magic/holy))
 			prob2explode += 30
-	for(var/mob/living/L in targets)
+	for(var/mob/living/L in get_hearers_in_view(world.view))
 		var/isvampire = FALSE
 		var/iszombie = FALSE
 		if(L.stat == DEAD)
