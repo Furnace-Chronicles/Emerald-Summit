@@ -2525,6 +2525,10 @@
 /obj/structure/far_travel,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
+"uM" = (
+/obj/structure/fluff/grindwheel,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/indoors/banditcamp)
 "uU" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8
@@ -5843,7 +5847,7 @@ bX
 wA
 kx
 Ja
-bX
+uM
 bX
 bX
 mV
