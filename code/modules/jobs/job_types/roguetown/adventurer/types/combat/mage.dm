@@ -58,7 +58,7 @@
 		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_EXPERT, TRUE)
 		H.mind?.adjust_spellpoints(6)
 
-	switch(H.patron?.type)
+	switch(H.patron?.parentpatron)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 
@@ -133,7 +133,7 @@
 			r_hand = /obj/item/rogueweapon/sword/sabre/mulyeog // Meant to not have the special foreign scabbards.
 			beltr = /obj/item/rogueweapon/scabbard/sword
 			armor = /obj/item/clothing/suit/roguetown/armor/basiceast
-	switch(H.patron?.type)
+	switch(H.patron?.parentpatron)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 
@@ -187,7 +187,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/conjure_weapon)
 
 	H.cmode_music = 'sound/music/combat_bard.ogg'
-	switch(H.patron?.type)
+	switch(H.patron?.parentpatron)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 	var/weapons = list("Accordion","Bagpipe","Drum","Guitar","Harp","Hurdy-Gurdy","Jaw Harp","Lute","Trumpet","Viola","Vocal Talisman")
