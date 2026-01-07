@@ -497,7 +497,7 @@
 				isvampire = TRUE
 			if(L.mind.has_antag_datum(/datum/antagonist/zombie))
 				iszombie = TRUE
-			if((L.get_vampire_generation() >= GENERATION_METHUSELAH) || L.mind.special_role == "Lich")	//Automatically invokes a counterspell, stunning the caster and throwing them straight at the antagonist.
+			if((human_target.get_vampire_generation() >= GENERATION_METHUSELAH) || L.mind.special_role == "Lich")	//Automatically invokes a counterspell, stunning the caster and throwing them straight at the antagonist.
 				user.visible_message(span_warning("[L] resists the holy shockwave!"), span_userdanger("[L] invokes an unholy ward, disrupting my concentration! I'm thrown into the holy shockwave!"))
 				user.Stun(50)
 				user.throw_at(get_ranged_target_turf(user, get_dir(user,L), 7), 7, 1, L, spin = TRUE)
