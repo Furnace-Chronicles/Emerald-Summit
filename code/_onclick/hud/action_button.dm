@@ -1,291 +1,384 @@
 #define ACTION_BUTTON_DEFAULT_BACKGROUND "default"
 
+#define AB_MAX_COLUMNS 12
+
 /atom/movable/screen/movable/action_button
-	var/datum/action/linked_action
-	var/actiontooltipstyle = ""
-	screen_loc = null
-	var/mutable_appearance/blank_icon
+    var/datum/action/linked_action
+    var/actiontooltipstyle = ""
+    screen_loc = null
+    var/mutable_appearance/blank_icon
 
-	var/button_icon_state
-	var/appearance_cache
-	locked = TRUE
-	var/id
-	var/ordered = TRUE //If the button gets placed into the default bar
-	nomouseover = FALSE
-	var/rebinding = FALSE
+    var/button_icon_state
+    var/appearance_cache
+    locked = TRUE
+    var/id
+    var/ordered = TRUE //If the button gets placed into the default bar
+    nomouseover = FALSE
+    var/rebinding = FALSE
 
-	var/atom/movable/screen/maptext_holder/maptext_holder
+    var/atom/movable/screen/maptext_holder/maptext_holder
 
 /atom/movable/screen/movable/action_button/Destroy()
-	QDEL_NULL(maptext_holder)
-	return ..()
+    QDEL_NULL(maptext_holder)
+    return ..()
 
 /atom/movable/screen/movable/action_button/proc/can_use(mob/user)
-	if (linked_action)
-		return linked_action.owner == user
-	else if (isobserver(user))
-		var/mob/dead/observer/O = user
-		return !O.observetarget
-	else
-		return TRUE
+    if (linked_action)
+        return linked_action.owner == user
+    else if (isobserver(user))
+        var/mob/dead/observer/O = user
+        return !O.observetarget
+    else
+        return TRUE
 
-/atom/movable/screen/movable/action_button/MouseDrop(over_object)
-	if(!can_use(usr))
-		return
-	if((istype(over_object, /atom/movable/screen/movable/action_button) && !istype(over_object, /atom/movable/screen/movable/action_button/hide_toggle)))
-		if(locked)
-			to_chat(usr, span_warning("Action button \"[name]\" is locked, unlock it first."))
-			return
+/atom/movable/screen/movable/action_button/MouseDrop(over_object, src_location, over_location)
+    // Use the actual drop location (over_location). screen_loc is the button's previous position.
+    if(!can_use(usr))
+        return
+    if((istype(over_object, /atom/movable/screen/movable/action_button) && !istype(over_object, /atom/movable/screen/movable/action_button/hide_toggle)))
+        if(locked)
+            to_chat(usr, span_warning("Action button \"[name]\" is locked, unlock it first."))
+            return
 
-		var/atom/movable/screen/movable/action_button/B = over_object
-		if(B.locked)
-			to_chat(usr, span_warning("Action button \"[B.name]\" is locked."))
-			return
+        var/atom/movable/screen/movable/action_button/B = over_object
+        if(B.locked)
+            to_chat(usr, span_warning("Action button \"[B.name]\" is locked."))
+            return
 
-		var/list/actions = usr.actions
-		actions.Swap(actions.Find(src.linked_action), actions.Find(B.linked_action))
-		moved = FALSE
-		ordered = TRUE
-		B.moved = FALSE
-		B.ordered = TRUE
-		usr.update_action_buttons()
-	else
-		if(locked)
-			to_chat(usr, span_warning("Action button \"[name]\" is locked, unlock it first."))
-			return
+        var/list/actions = usr.actions
+        actions.Swap(actions.Find(src.linked_action), actions.Find(B.linked_action))
+        moved = FALSE
+        ordered = TRUE
+        B.moved = FALSE
+        B.ordered = TRUE
+        usr.update_action_buttons()
+    else
+        if(locked)
+            to_chat(usr, span_warning("Action button \"[name]\" is locked, unlock it first."))
+            return
 
-		var/slot = usr.hud_used.ScreenLocToNearestButtonNumber(screen_loc)
-		if(slot)
-			moved = FALSE
-			ordered = TRUE
-			linked_action.slot = slot
-			usr.update_action_buttons(TRUE)
-			return
+        var/new_screen_loc = over_location
+        if(!new_screen_loc)
+            return
 
-		return ..()
+        var/slot = usr.hud_used.ScreenLocToNearestButtonNumber(new_screen_loc)
+        if(slot)
+            moved = FALSE
+            ordered = TRUE
+            linked_action.slot = slot
+            usr.update_action_buttons(TRUE)
+            return
+
+        // Allow free placement on left/right/top as long as we're not too close to edges
+        // (use same margins as the bottom bar).
+        if(usr.hud_used.ScreenLocValidForButtons(new_screen_loc))
+            moved = new_screen_loc
+            ordered = FALSE
+            // clear slot so ordering doesn't reassign it
+            linked_action.slot = 0
+            usr.update_action_buttons(TRUE)
+            return
+
+        return ..()
 
 /atom/movable/screen/movable/action_button/Click(location,control,params)
-	if (!can_use(usr))
-		return
+    if (!can_use(usr))
+        return
 
-	var/list/modifiers = params2list(params)
-	if(modifiers["middle"])
-		if(rebinding)		// No matter what I did it kept opening up two windows when I clicked one button so we're doing this instead
-			return TRUE		// THE PROC IS LOCKED
-		rebinding = TRUE 	// Lock the proc variable
-		var/new_slot = input(linked_action.owner, "Enter action slot number (1-9):", "Rebind Action", linked_action.slot) as num|null
-		if(new_slot && new_slot >= 1 && new_slot <= 9)
-			for(var/datum/action/A in linked_action.owner.actions)
-				if(A.slot == new_slot)
-					A.slot = 0
-			linked_action.slot = new_slot
-		rebinding = FALSE 	// Unlock the proc once we're done (I know it's not a proc)
-		return TRUE
-	if(modifiers["ctrl"])
-		locked = !locked
-		to_chat(usr, span_notice("Action button \"[name]\" [locked ? "" : "un"]locked."))
-		if(id && usr.client) //try to (un)remember position
-			usr.client.prefs.action_buttons_screen_locs["[name]_[id]"] = locked ? moved : null
-		return TRUE
-	if(modifiers["shift"])
-		if(linked_action.desc)//just in case it's null- make sure to give your actions descriptions!
-			to_chat(usr, "[linked_action.desc]\n[span_medradio("Ctrl-click: Toggle lock | Middle-click: Rebind slot")]") // Yes I just stole the medical_radio color
-			return
-	if(usr.next_click > world.time)
-		return
-	usr.next_click = world.time + 1
-	if(ismob(usr))
-		var/mob/M = usr
-		M.playsound_local(M, 'sound/misc/click.ogg', 100)
-	linked_action.Trigger()
-	return TRUE
+    var/list/modifiers = params2list(params)
+    if(modifiers["middle"])
+        if(rebinding)		// No matter what I did it kept opening up two windows when I clicked one button so we're doing this instead
+            return TRUE		// THE PROC IS LOCKED
+        rebinding = TRUE 	// Lock the proc variable
+        var/new_slot = input(linked_action.owner, "Enter action slot number (1-9):", "Rebind Action", linked_action.slot) as num|null
+        if(new_slot && new_slot >= 1 && new_slot <= 9)
+            for(var/datum/action/A in linked_action.owner.actions)
+                if(A.slot == new_slot)
+                    A.slot = 0
+            linked_action.slot = new_slot
+        rebinding = FALSE 	// Unlock the proc once we're done (I know it's not a proc)
+        return TRUE
+    if(modifiers["ctrl"])
+        locked = !locked
+        to_chat(usr, span_notice("Action button \"[name]\" [locked ? "" : "un"]locked."))
+        if(id && usr.client) //try to (un)remember position
+            usr.client.prefs.action_buttons_screen_locs["[name]_[id]"] = locked ? moved : null
+        return TRUE
+    if(modifiers["shift"])
+        if(linked_action.desc)//just in case it's null- make sure to give your actions descriptions!
+            to_chat(usr, "[linked_action.desc]\n[span_medradio("Ctrl-click: Toggle lock | Middle-click: Rebind slot")]") // Yes I just stole the medical_radio color
+            return
+    if(usr.next_click > world.time)
+        return
+    usr.next_click = world.time + 1
+    if(ismob(usr))
+        var/mob/M = usr
+        M.playsound_local(M, 'sound/misc/click.ogg', 100)
+    linked_action.Trigger()
+    return TRUE
 
 //Hide/Show Action Buttons ... Button
 /atom/movable/screen/movable/action_button/hide_toggle
-	name = "Hide Buttons"
-	desc = ""
-	icon = 'icons/mob/actions.dmi'
-	icon_state = "bg_default"
-	locked = TRUE
-	var/hidden = 0
-	var/hide_icon = 'icons/mob/actions.dmi'
-	var/hide_state = "hide"
-	var/show_state = "show"
-	var/mutable_appearance/hide_appearance
-	var/mutable_appearance/show_appearance
+    name = "Hide Buttons"
+    desc = ""
+    icon = 'icons/mob/actions.dmi'
+    icon_state = "bg_default"
+    locked = TRUE
+    var/hidden = 0
+    var/hide_icon = 'icons/mob/actions.dmi'
+    var/hide_state = "hide"
+    var/show_state = "show"
+    var/mutable_appearance/hide_appearance
+    var/mutable_appearance/show_appearance
 
 /atom/movable/screen/movable/action_button/hide_toggle/Initialize()
-	. = ..()
-	var/static/list/icon_cache = list()
+    . = ..()
+    var/static/list/icon_cache = list()
 
-	var/cache_key = "[hide_icon][hide_state]"
-	hide_appearance = icon_cache[cache_key]
-	if(!hide_appearance)
-		hide_appearance = icon_cache[cache_key] = mutable_appearance(hide_icon, hide_state)
+    var/cache_key = "[hide_icon][hide_state]"
+    hide_appearance = icon_cache[cache_key]
+    if(!hide_appearance)
+        hide_appearance = icon_cache[cache_key] = mutable_appearance(hide_icon, hide_state)
 
-	cache_key = "[hide_icon][show_state]"
-	show_appearance = icon_cache[cache_key]
-	if(!show_appearance)
-		show_appearance = icon_cache[cache_key] = mutable_appearance(hide_icon, show_state)
+    cache_key = "[hide_icon][show_state]"
+    show_appearance = icon_cache[cache_key]
+    if(!show_appearance)
+        show_appearance = icon_cache[cache_key] = mutable_appearance(hide_icon, show_state)
 
 
 /atom/movable/screen/movable/action_button/hide_toggle/Click(location,control,params)
-	if (!can_use(usr))
-		return
+    if (!can_use(usr))
+        return
 
-	var/list/modifiers = params2list(params)
-	if(modifiers["shift"])
-		if(locked)
-			to_chat(usr, span_warning("Action button \"[name]\" is locked, unlock it first."))
-			return TRUE
-		moved = FALSE
-		usr.update_action_buttons(TRUE)
-		return TRUE
-	if(modifiers["ctrl"])
-		locked = !locked
-		to_chat(usr, span_notice("Action button \"[name]\" [locked ? "" : "un"]locked."))
-		if(id && usr.client) //try to (un)remember position
-			usr.client.prefs.action_buttons_screen_locs["[name]_[id]"] = locked ? moved : null
-		return TRUE
-	usr.hud_used.action_buttons_hidden = !usr.hud_used.action_buttons_hidden
+    var/list/modifiers = params2list(params)
+    if(modifiers["shift"])
+        if(locked)
+            to_chat(usr, span_warning("Action button \"[name]\" is locked, unlock it first."))
+            return TRUE
+        moved = FALSE
+        usr.update_action_buttons(TRUE)
+        return TRUE
+    if(modifiers["ctrl"])
+        locked = !locked
+        to_chat(usr, span_notice("Action button \"[name]\" [locked ? "" : "un"]locked."))
+        if(id && usr.client) //try to (un)remember position
+            usr.client.prefs.action_buttons_screen_locs["[name]_[id]"] = locked ? moved : null
+        return TRUE
+    usr.hud_used.action_buttons_hidden = !usr.hud_used.action_buttons_hidden
 
-	hidden = usr.hud_used.action_buttons_hidden
-	if(hidden)
-		name = "Show Buttons"
-	else
-		name = "Hide Buttons"
-	update_icon()
-	usr.update_action_buttons()
+    hidden = usr.hud_used.action_buttons_hidden
+    if(hidden)
+        name = "Show Buttons"
+    else
+        name = "Hide Buttons"
+    update_icon()
+    usr.update_action_buttons()
 
 
 /atom/movable/screen/movable/action_button/hide_toggle/proc/InitialiseIcon(datum/hud/owner_hud)
-	var/settings = owner_hud.get_action_buttons_icons()
-	icon = settings["bg_icon"]
-	icon_state = settings["bg_state"]
-	hide_icon = settings["toggle_icon"]
-	hide_state = settings["toggle_hide"]
-	show_state = settings["toggle_show"]
-	update_icon()
+    var/settings = owner_hud.get_action_buttons_icons()
+    icon = settings["bg_icon"]
+    icon_state = settings["bg_state"]
+    hide_icon = settings["toggle_icon"]
+    hide_state = settings["toggle_hide"]
+    show_state = settings["toggle_show"]
+    update_icon()
 
 /atom/movable/screen/movable/action_button/hide_toggle/update_overlays()
-	. = ..()
-	if(hidden)
-		. += show_appearance
-	else
-		. += hide_appearance
+    . = ..()
+    if(hidden)
+        . += show_appearance
+    else
+        . += hide_appearance
 
 /atom/movable/screen/movable/action_button/MouseExited()
-	..()
+    ..()
 
 /datum/hud/proc/get_action_buttons_icons()
-	. = list()
-	.["bg_icon"] = ui_style
-	.["bg_state"] = "template"
+    . = list()
+    .["bg_icon"] = ui_style
+    .["bg_state"] = "template"
 
-	//TODO : Make these fit theme
-	.["toggle_icon"] = 'icons/mob/actions.dmi'
-	.["toggle_hide"] = "hide"
-	.["toggle_show"] = "show"
+    //TODO : Make these fit theme
+    .["toggle_icon"] = 'icons/mob/actions.dmi'
+    .["toggle_hide"] = "hide"
+    .["toggle_show"] = "show"
 
 //see human and alien hud for specific implementations.
 
 /mob/proc/update_action_buttons_icon(status_only = FALSE)
-	for(var/X in actions)
-		var/datum/action/A = X
-		A.UpdateButtonIcon(status_only)
+    for(var/X in actions)
+        var/datum/action/A = X
+        A.UpdateButtonIcon(status_only)
 
 //This is the proc used to update all the action buttons.
 /mob/proc/update_action_buttons(reload_screen)
-	if(!hud_used || !client)
-		return
+    if(!hud_used || !client)
+        return
 
-	if(hud_used.hud_shown != HUD_STYLE_STANDARD)
-		return
+    if(hud_used.hud_shown != HUD_STYLE_STANDARD)
+        return
 
-	var/button_number = 0
+    var/button_number = 0
 
-	if(hud_used.action_buttons_hidden)
-		for(var/datum/action/A in actions)
-			A.button.screen_loc = null
-			if(reload_screen)
-				client.screen += A.button
-	else
-		for(var/datum/action/A in actions)
-			A.UpdateButtonIcon()
-			var/atom/movable/screen/movable/action_button/B = A.button
-			if(B.ordered)
-				button_number++
-			if(B.moved)
-				B.screen_loc = B.moved
-			else
-				B.screen_loc = hud_used.ButtonNumberToScreenCoords(button_number)
-			if(reload_screen)
-				client.screen += B
-
-#define AB_MAX_COLUMNS 12
+    if(hud_used.action_buttons_hidden)
+        for(var/datum/action/A in actions)
+            A.button.screen_loc = null
+            if(reload_screen)
+                client.screen += A.button
+    else
+        for(var/datum/action/A in actions)
+            A.UpdateButtonIcon()
+            var/atom/movable/screen/movable/action_button/B = A.button
+            if(B.ordered)
+                button_number++
+            if(B.moved)
+                B.screen_loc = B.moved
+            else
+                B.screen_loc = hud_used.ButtonNumberToScreenCoords(button_number)
+            if(reload_screen)
+                client.screen += B
 
 /datum/hud/proc/ButtonNumberToScreenCoords(number) // TODO : Make this zero-indexed for readabilty
-	var/row = round((number - 1)/AB_MAX_COLUMNS)
-	var/col = ((number - 1)%(AB_MAX_COLUMNS)) + 1
+    var/row = round((number - 1)/AB_MAX_COLUMNS)
+    var/col = ((number - 1)%(AB_MAX_COLUMNS)) + 1
 
-	var/coord_col = "+[col-1]"
-	var/coord_col_offset = 4 + 2 * col
+    var/coord_col = "+[col-1]"
+    var/coord_col_offset = 4 + 2 * col
 
-	var/coord_row = "[row ? "+[row]" : "+0"]"
+    var/coord_row = "[row ? "+[row]" : "+0"]"
 
-	return "WEST[coord_col]:[coord_col_offset],SOUTH[coord_row]:3"
+    return "WEST[coord_col]:[coord_col_offset],SOUTH[coord_row]:3"
 
 /datum/hud/proc/ScreenLocToNearestButtonNumber(screen_loc)
-	var/list/parts = splittext(screen_loc, ",")
-	if(length(parts) < 2)
-		return null
+    // Robustly parse WEST/EAST and NORTH/SOUTH anchored screen coords
+    var/list/parts = splittext(screen_loc, ",")
+    if(length(parts) < 2)
+        return null
 
-	var/x = text2num(copytext(parts[1], findtext(parts[1], ":") + 1))
-	var/y = text2num(copytext(parts[2], findtext(parts[2], ":") + 1))
+    var/x = null
+    var/y = null
+    var/horiz_anchor = null
+    var/vert_anchor = null
 
-	var/col = round((x - 4) / 34)
-	var/row = round((26 - y) / 32)
+    for(var/part in parts)
+        // Horizontal anchor part
+        if(findtext(part, "WEST") || findtext(part, "EAST"))
+            var/idx = findtext(part, ":")
+            if(idx)
+                x = text2num(copytext(part, idx + 1))
+                horiz_anchor = (findtext(part, "WEST") ? "WEST" : "EAST")
+        // Vertical anchor part
+        else if(findtext(part, "NORTH") || findtext(part, "SOUTH"))
+            var/idx2 = findtext(part, ":")
+            if(idx2)
+                y = text2num(copytext(part, idx2 + 1))
+                vert_anchor = (findtext(part, "NORTH") ? "NORTH" : "SOUTH")
 
-	if(col < 0 || row < 0)
-		return null
+    if(x == null || y == null)
+        return null
 
-	return row * AB_MAX_COLUMNS + col + 1
+    // Use same spacing/margins as the bottom bar
+    var/H_MARGIN = 4
+    var/V_MARGIN = 3
+    var/H_CELL = 34
+    var/V_CELL = 32
+    var/BASELINE_Y = 26
 
-/datum/hud/proc/SetButtonCoords(atom/movable/screen/button,number)
-	var/row = round((number-1)/AB_MAX_COLUMNS)
-	var/col = ((number - 1)%(AB_MAX_COLUMNS)) + 1
-	var/x_offset = 32*(col-1) + 4 + 2*col
-	var/y_offset = -32*(row+1) + 26
+    // compute column (col counts from 0)
+    var/col = 0
+    if(horiz_anchor == "WEST")
+        col = round((x - H_MARGIN) / H_CELL)
+    else // EAST: count columns from the right edge
+        col = AB_MAX_COLUMNS - 1 - round((x - H_MARGIN) / H_CELL)
 
-	var/matrix/M = matrix()
-	M.Translate(x_offset,y_offset)
-	button.transform = M
+    // compute row (row counts from 0)
+    var/row = 0
+    if(vert_anchor == "SOUTH")
+        row = round((BASELINE_Y - y) / V_CELL)
+    else // NORTH
+        row = round((y - V_MARGIN) / V_CELL)
+
+    if(col < 0 || row < 0)
+        return null
+
+    return row * AB_MAX_COLUMNS + col + 1
+
+/datum/hud/proc/ScreenLocValidForButtons(screen_loc)
+    // Returns TRUE if the provided screen_loc is a valid place to put a button on any edge
+    var/list/parts = splittext(screen_loc, ",")
+    if(length(parts) < 2)
+        return FALSE
+
+    var/x = 0
+    var/y = 0
+    var/horiz_anchor = null
+    var/vert_anchor = null
+
+    for(var/part in parts)
+        if(findtext(part, "WEST") || findtext(part, "EAST"))
+            var/idx = findtext(part, ":")
+            if(idx)
+                x = text2num(copytext(part, idx + 1))
+                horiz_anchor = (findtext(part, "WEST") ? "WEST" : "EAST")
+        else if(findtext(part, "NORTH") || findtext(part, "SOUTH"))
+            var/idx2 = findtext(part, ":")
+            if(idx2)
+                y = text2num(copytext(part, idx2 + 1))
+                vert_anchor = (findtext(part, "NORTH") ? "NORTH" : "SOUTH")
+
+    // Need both anchors to interpret an edge coordinate
+    if(!horiz_anchor || !vert_anchor)
+        return FALSE
+
+    var/H_MARGIN = 4
+    var/V_MARGIN = 3
+
+    // Ensure we are not too close to the edge for whichever anchors are present
+    if(horiz_anchor == "WEST" || horiz_anchor == "EAST")
+        if(x < H_MARGIN)
+            return FALSE
+    if(vert_anchor == "NORTH" || vert_anchor == "SOUTH")
+        if(y < V_MARGIN)
+            return FALSE
+
+    return TRUE
+
+/atom/movable/screen/movable/action_button/proc/SetButtonCoords(atom/movable/screen/button,number)
+    var/row = round((number-1)/AB_MAX_COLUMNS)
+    var/col = ((number - 1)%(AB_MAX_COLUMNS)) + 1
+    var/x_offset = 32*(col-1) + 4 + 2*col
+    var/y_offset = -32*(row+1) + 26
+
+    var/matrix/M = matrix()
+    M.Translate(x_offset,y_offset)
+    button.transform = M
 
 /atom/movable/screen/movable/action_button/proc/update_maptext(cd_time_deciseconds, color_cd = "#800000", color_neutral = "#ffffff")
-	if(!istype(maptext_holder))
-		maptext_holder = new(src)
-		vis_contents.Add(maptext_holder)
+    if(!istype(maptext_holder))
+        maptext_holder = new(src)
+        vis_contents.Add(maptext_holder)
 
-	maptext_holder.update_maptext(cd_time_deciseconds, color_cd, color_neutral)
+    maptext_holder.update_maptext(cd_time_deciseconds, color_cd, color_neutral)
 
 /atom/movable/screen/maptext_holder
-	layer = ABOVE_HUD_LAYER
-	maptext_x = 8
-	maptext_y = 4
+    layer = ABOVE_HUD_LAYER
+    maptext_x = 8
+    maptext_y = 4
 
 /atom/movable/screen/maptext_holder/proc/update_maptext(cd_time_deciseconds, color_cd = "#800000", color_neutral = "#ffffff")
-	animate(src, flags = ANIMATION_END_NOW)
+    animate(src, flags = ANIMATION_END_NOW)
 
-	// queue an animate for each decisecond remaining in click cooldown + 1
-	for(var/i in 1 to cd_time_deciseconds + 1)
-		var/decisceonds_left_this_iter = cd_time_deciseconds - i
-		var/displaytext = null
-		if(decisceonds_left_this_iter > 0)
-			displaytext = MAPTEXT("[round(decisceonds_left_this_iter / (1 SECONDS), 0.1)]s")
+    // queue an animate for each decisecond remaining in click cooldown + 1
+    for(var/i in 1 to cd_time_deciseconds + 1)
+        var/decisceonds_left_this_iter = cd_time_deciseconds - i
+        var/displaytext = null
+        if(decisceonds_left_this_iter > 0)
+            displaytext = MAPTEXT("[round(decisceonds_left_this_iter / (1 SECONDS), 0.1)]s")
 
-		if(i == 1)
-			animate(src, maptext = displaytext, color = color_cd, 1)
-		else if(i == cd_time_deciseconds + 1)
-			animate(maptext = displaytext, color = color_neutral, 1)
-		else
-			animate(maptext = displaytext, 1)
+        if(i == 1)
+            animate(src, maptext = displaytext, color = color_cd, 1)
+        else if(i == cd_time_deciseconds + 1)
+            animate(maptext = displaytext, color = color_neutral, 1)
+        else
+            animate(maptext = displaytext, 1)
