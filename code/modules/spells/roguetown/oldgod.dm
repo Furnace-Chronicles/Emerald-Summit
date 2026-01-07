@@ -453,8 +453,9 @@
 	chargedrain = 1
 	releasedrain = 222
 	no_early_release = TRUE
+	movement_interrupt = TRUE
 	chargetime = 15 SECONDS 
-	recharge_time = 5 SECONDS // debug value change this before PR
+	recharge_time = 30 SECONDS // Mostly irrelevant as the real cooldown is dictated by psydon_devitalized
 	antimagic_allowed = FALSE
 	cast_without_targets = FALSE
 	req_items = list(/obj/item/flashlight/flare/torch/lantern/psycenser)
@@ -464,15 +465,18 @@
 	invocation = "PSYDON HATES YOU!!!"
 	invocation_type = "shout" //You are forced to shout this out. Let them hear your cry.
 	miracle = TRUE
-	devotion_cost = 100 // debug value change this before PR -- 500 cuz absolver has lots of regen
+	devotion_cost = 500 // Absolver has obscene regeneration
 
-/obj/effect/proc_holder/spell/invoked/psydondefy/choose_targets(mob/user = usr)
+/obj/effect/proc_holder/spell/invoked/psydondefy/cast_check(mob/user = usr)
+	. = ..()
+	if(!.)
+		return FALSE
+
 	for(var/mob/living/L in get_hearers_in_view(world.view, user))
 		to_chat(user, span_danger("Golgatha and its wielder begin to glow with an oppressive light!"))
-	return ..()
 
-/obj/effect/proc_holder/spell/targeted/psydondefy/cast(list/targets,mob/living/user = usr)
-	if (user.has_status_effect(/datum/status_effect/debuff/psydon_devitalized))
+/obj/effect/proc_holder/spell/invoked/psydondefy/cast(list/targets,mob/living/user = usr)
+	if(user.has_status_effect(/datum/status_effect/debuff/psydon_devitalized))
 		to_chat(user, span_danger("My Lux is too strained to invoke defiance against the Archenemy!"))
 		revert_cast()
 		return FALSE
@@ -484,7 +488,7 @@
 		prob2explode = 0
 		for(var/i in 1 to user.get_skill_level(/datum/skill/magic/holy))
 			prob2explode += 30
-	for(var/mob/living/L in get_hearers_in_view(world.view))
+	for(var/mob/living/L in get_hearers_in_view(world.view, user))
 		var/isvampire = FALSE
 		var/iszombie = FALSE
 		if(L.stat == DEAD)
@@ -511,5 +515,4 @@
 				L.Stun(50)
 			else
 				L.visible_message(span_warning("[L] withstands the holy shockwave's barrage!"), span_userdanger("I withstand the holy shockwave's barrage!"))
-	..()
-	return TRUE
+	return ..()
