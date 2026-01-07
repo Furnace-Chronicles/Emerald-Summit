@@ -453,7 +453,7 @@
 	chargedrain = 1
 	releasedrain = 222
 	no_early_release = TRUE
-	chargetime = 10 SECONDS 
+	chargetime = 15 SECONDS 
 	recharge_time = 5 SECONDS // debug value change this before PR
 	antimagic_allowed = FALSE
 	cast_without_targets = FALSE
@@ -467,50 +467,50 @@
 	miracle = TRUE
 	devotion_cost = 100 // debug value change this before PR -- 500 cuz absolver has lots of regen
 
+/obj/effect/proc_holder/spell/targeted/psydondefy/before_cast(list/targets,  mob/user = usr)
+	. = ..()
+	for(var/mob/living/L in get_hearers_in_view(world.view))
+		to_chat(user, span_danger("Golgatha and its wielder begin to glow with an oppressive light!"))
+
 /obj/effect/proc_holder/spell/targeted/psydondefy/cast(list/targets,mob/living/user = usr)
 	if (user.has_status_effect(/datum/status_effect/debuff/psydon_devitalized))
 		to_chat(user, span_danger("My Lux is too strained to invoke defiance against the Archenemy!"))
 		revert_cast()
 		return FALSE
-	for(var/mob/living/L in get_hearers_in_view(world.view))
-		to_chat(user, span_danger("Golgatha and its wielder begin to glow with an oppressive light!"))
-	if(do_after(user, 15 SECONDS))
-		user.emote("rage")
-		user.apply_status_effect(/datum/status_effect/debuff/psydon_devitalized)
-		var/prob2explode = 100
-		if(user && user.mind)
-			prob2explode = 0
-			for(var/i in 1 to user.get_skill_level(/datum/skill/magic/holy))
-				prob2explode += 30
-		for(var/mob/living/L in targets)
-			var/isvampire = FALSE
-			var/iszombie = FALSE
-			if(L.stat == DEAD)
-				continue
-			if(L.mind)
-				var/datum/antagonist/vampire/V = L.mind.has_antag_datum(/datum/antagonist/vampire)
-				if(V && !SEND_SIGNAL(L, COMSIG_DISGUISE_STATUS))
-					isvampire = TRUE
-				if(L.mind.has_antag_datum(/datum/antagonist/zombie))
-					iszombie = TRUE
-				if((L.get_vampire_generation() >= GENERATION_METHUSELAH) || L.mind.special_role == "Lich")	//Automatically invokes a counterspell, stunning the caster and throwing them straight at the antagonist.
-					user.visible_message(span_warning("[L] resists the holy shockwave!"), span_userdanger("[L] invokes an unholy ward, disrupting my concentration! I'm thrown into the holy shockwave!"))
-					user.Stun(50)
-					user.throw_at(get_ranged_target_turf(user, get_dir(user,L), 7), 7, 1, L, spin = TRUE)
-					return
-			if((L.mob_biotypes & MOB_UNDEAD) || isvampire || iszombie)
-				var/vamp_prob = prob2explode
-				if(isvampire)
-					vamp_prob -= 59
-				if(prob(vamp_prob))
-					L.visible_message("<span class='warning'>[L] is sundered by the holy shockwave!", "<span class='danger'>I'm sundered by a holy shockwave!")
-					explosion(get_turf(L), light_impact_range = 1, flame_range = 1, smoke = FALSE)
-					L.Stun(50)
-				else
-					L.visible_message(span_warning("[L] withstands the holy shockwave's barrage!"), span_userdanger("I withstand the holy shockwave's barrage!"))
-	else
-		to_chat(user, span_warning("Channeling the fragment of SYON requires unwavering focus!"))
-		revert_cast()
-		return FALSE
+
+	user.emote("rage")
+	user.apply_status_effect(/datum/status_effect/debuff/psydon_devitalized)
+	var/prob2explode = 100
+	if(user && user.mind)
+		prob2explode = 0
+		for(var/i in 1 to user.get_skill_level(/datum/skill/magic/holy))
+			prob2explode += 30
+	for(var/mob/living/L in targets)
+		var/isvampire = FALSE
+		var/iszombie = FALSE
+		if(L.stat == DEAD)
+			continue
+		if(L.mind && ishuman(L))
+			var/mob/living/carbon/human/human_target = L // Typecasting because liches and vampires can't be nonhumans w/e
+			var/datum/antagonist/vampire/V = human_target.mind.has_antag_datum(/datum/antagonist/vampire)
+			if(V && !SEND_SIGNAL(L, COMSIG_DISGUISE_STATUS))
+				isvampire = TRUE
+			if(L.mind.has_antag_datum(/datum/antagonist/zombie))
+				iszombie = TRUE
+			if((L.get_vampire_generation() >= GENERATION_METHUSELAH) || L.mind.special_role == "Lich")	//Automatically invokes a counterspell, stunning the caster and throwing them straight at the antagonist.
+				user.visible_message(span_warning("[L] resists the holy shockwave!"), span_userdanger("[L] invokes an unholy ward, disrupting my concentration! I'm thrown into the holy shockwave!"))
+				user.Stun(50)
+				user.throw_at(get_ranged_target_turf(user, get_dir(user,L), 7), 7, 1, L, spin = TRUE)
+				return
+		if((L.mob_biotypes & MOB_UNDEAD) || isvampire || iszombie)
+			var/vamp_prob = prob2explode
+			if(isvampire)
+				vamp_prob -= 59
+			if(prob(vamp_prob))
+				L.visible_message("<span class='warning'>[L] is sundered by the holy shockwave!", "<span class='danger'>I'm sundered by a holy shockwave!")
+				explosion(get_turf(L), light_impact_range = 1, flame_range = 1, smoke = FALSE)
+				L.Stun(50)
+			else
+				L.visible_message(span_warning("[L] withstands the holy shockwave's barrage!"), span_userdanger("I withstand the holy shockwave's barrage!"))
 	..()
 	return TRUE
