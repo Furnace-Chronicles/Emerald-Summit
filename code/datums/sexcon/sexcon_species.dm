@@ -95,6 +95,15 @@ GLOBAL_LIST_INIT(species_compatibility, list(
         /datum/species/human/northern
     ),
 
+	// =====================
+	// TIEFLING
+	// =====================
+	/datum/species/tieberian = list(
+    	/datum/species/tieberian,
+    	/datum/species/human/northern
+
+	),
+
     // =====================
     // DRACONIC / REPTILIAN
     // =====================
@@ -180,6 +189,6 @@ GLOBAL_LIST_INIT(species_compatibility, list(
     // =====================
     // INFERTILE
     // =====================
-    /datum/species/golem = list(),
+    /datum/species/golem = list(),		//sorry golem players, your artifical 
     /datum/species/dullahan = list()
 ))
