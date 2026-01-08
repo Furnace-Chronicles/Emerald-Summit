@@ -18,8 +18,7 @@
 
 /datum/crafting_recipe/roguetown/leather/armor/bracers
 	name = "leather bracers"
-	result = list(/obj/item/clothing/wrists/roguetown/bracers/leather,
-			/obj/item/clothing/wrists/roguetown/bracers/leather)
+	result = list(/obj/item/clothing/wrists/roguetown/bracers/leather)
 	reqs = list(/obj/item/natural/hide/cured = 1)
 	sellprice = 10
 
