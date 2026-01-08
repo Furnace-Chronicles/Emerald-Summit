@@ -38,10 +38,17 @@
 		if(ispath(private, /datum/patron))	//Patron signs. 
 			var/icon_plane = WEATHER_EFFECT_PLANE	//Will show up through the cone.
 			if(!ispath(private, /datum/patron/old_god))
+				var/datum/patron/source_patron = private
 				for(var/mob/living/carbon/human/H in viewers(world.view, src))
 					var/pass = FALSE
-					if(H.patron?.type == private || private == /datum/patron/divine/xylix)	//Xylixians will always flash the observer's religion to them.
-						vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, H, icon_path, "sign_[H.patron.name]", offset_list, y_offset, icon_plane)
+					var/datum/patron/viewer_patron = H.patron
+					//Xylixians will always flash the observer's religion to them.
+					if((istype(viewer_patron, source_patron) || istype(viewer_patron.parentpatron, source_patron)) || (istype(viewer_patron, source_patron.parentpatron) || istype(viewer_patron, source_patron.parentpatron)) || (istype(source_patron, /datum/patron/divine/xylix)))
+						var/sign = "sign_[viewer_patron.name]"
+						if(viewer_patron.parentpatron)
+							var/datum/patron/temp_patron = viewer_patron.parentpatron
+							sign = "sign_[temp_patron.name]"
+						vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, H, icon_path, sign, offset_list, y_offset, icon_plane)
 						pass = TRUE
 					else if(HAS_TRAIT(H, TRAIT_HERETIC_SEER) && istype(private,/datum/patron/inhumen))	//Seers should see all inhumen symbols.
 						vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, H, icon_path, "sign_[patron?.name]", offset_list, y_offset, icon_plane)
