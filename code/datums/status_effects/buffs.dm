@@ -380,14 +380,13 @@
 		to_chat(owner, span_notice("<b>TEMPO!!!</b>"))
 		owner.stamina = max((owner.stamina - owner.max_stamina / 2), 0)
 		ADD_TRAIT(owner, TRAIT_GRABIMMUNE, TRAIT_STATUS_EFFECT)
-		ADD_TRAIT(owner, TRAIT_STRONGKICK, TRAIT_STATUS_EFFECT)
+		owner.pass_flags |= PASSMOB
 
 /datum/status_effect/buff/tempo_three/on_remove()
 	. = ..()
 	owner.remove_filter(TEMPO_MAX_FILTER)
 	REMOVE_TRAIT(owner, TRAIT_GRABIMMUNE,  TRAIT_STATUS_EFFECT)
-	REMOVE_TRAIT(owner, TRAIT_STRONGKICK, TRAIT_STATUS_EFFECT)
-
+	owner.pass_flags &= ~PASSMOB
 /datum/status_effect/buff/parish_boon
 	id = "parish_boon"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/parish_boon

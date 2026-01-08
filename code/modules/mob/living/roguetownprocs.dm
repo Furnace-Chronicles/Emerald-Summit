@@ -1189,9 +1189,9 @@
 			if(has_status_effect(/datum/status_effect/buff/tempo_one))
 				return 0.8
 			if(has_status_effect(/datum/status_effect/buff/tempo_two))
-				return 0.6
+				return 0.7
 			if(has_status_effect(/datum/status_effect/buff/tempo_three))
-				return 0.4
+				return 0.6
 		//How much stamloss we take away from dodging. Flat number.
 		if(TEMPO_TAG_STAMLOSS_DODGE)
 			if(has_status_effect(/datum/status_effect/buff/tempo_one))
