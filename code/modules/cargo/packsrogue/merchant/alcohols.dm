@@ -115,18 +115,23 @@
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/gronnmead)
 
 /datum/supply_pack/rogue/alcohol/avarmead
-	name = "Zögiin Bal (Avar Mead)"
-	cost = 20
+	name = "Hyvää Simaa (Avar Mead)"
+	cost = 30
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/avarmead)
 
 /datum/supply_pack/rogue/alcohol/avarrice
-	name = "Makkolir (Avar Rice Wine)"
-	cost = 30
+	name = "Nordåskkorri Kilju (Avar Kilju)"
+	cost = 20
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/avarrice)
+
+/datum/supply_pack/rogue/alcohol/avarsahti
+	name = "Vahvakäsi Sahti (Avar Sahti)"
+	cost = 100
+	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/avarsahti)
 
 /datum/supply_pack/rogue/alcohol/saigamilk
 	name = "Bökhiin Arkhi (Saiga Milk Drink)"
-	cost = 100
+	cost = 50
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/saigamilk)
 
 /datum/supply_pack/rogue/alcohol/kgunlager

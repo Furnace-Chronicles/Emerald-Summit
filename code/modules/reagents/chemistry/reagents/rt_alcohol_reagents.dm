@@ -424,20 +424,27 @@
 //Avar boozes
 
 /datum/reagent/consumable/ethanol/avarmead
-	name = "Zögiin bal"
-	boozepwr = 30
+	name = "Hyvää Simaa"
+	boozepwr = 10
 	taste_description = "spicy honey"
 	color = "#e0a400"
 	quality = DRINK_GOOD
 
 /datum/reagent/consumable/ethanol/avarrice
-	name = "Makkolir"
-	boozepwr = 30
-	taste_description = "tangy sweetness"
+	name = "Kilju"
+	boozepwr = 35
+	taste_description = "bland, dry spirit"
 	color = "#ddcbc9"
 	quality = DRINK_GOOD
 
-/datum/reagent/consumable/ethanol/saigamilk //No way, kumys from avar!!!
+/datum/reagent/consumable/ethanol/avarsahti
+	name = "Fjällan Sahti"
+	boozepwr = 25
+	taste_description = "bittersweet, herbal flavor"
+	color = "#240608"
+	quality = DRINK_VERYGOOD
+
+/datum/reagent/consumable/ethanol/saigamilk 
 	name = "Bökhiin Arkhi"
 	boozepwr = 15
 	taste_description = "bubbly, sour salt"
