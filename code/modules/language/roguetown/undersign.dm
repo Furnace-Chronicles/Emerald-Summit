@@ -11,7 +11,7 @@
 	space_chance = 65
 	default_priority = 92
 	icon_state = "asse"
-	spans = list(SPAN_ROBOT)
+	spans = list(SPAN_ITALICS)
 
 	//used instead of spoken dialogue
 	signlang_verb = list(
