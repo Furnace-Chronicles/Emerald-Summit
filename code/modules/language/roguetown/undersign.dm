@@ -4,7 +4,7 @@
 	speech_verb = "gestures"
 	ask_verb = "signals"
 	exclaim_verb = "emphatically signs"
-	key = "s"
+	key = "t"
 
 	flags = LANGUAGE_HIDE_ICON_IF_UNDERSTOOD | LANGUAGE_HIDE_ICON_IF_NOT_UNDERSTOOD | TONGUELESS_SPEECH | SIGNLANG
 
