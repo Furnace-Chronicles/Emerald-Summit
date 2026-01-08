@@ -1,6 +1,6 @@
 /datum/advclass/mercenary/freelancer
-	name = "Freifechter"
-	tutorial = "You are a graduate of the Aavnic Freifechters - \"Freelancers\" - a prestigious fighting guild localized in the independent City-state of Szöréndnížina, recognized as an encomium to Ravox by the Holy See. It has formed an odd thirty yils ago, but its visitors come from all over Western Psydonia. You have swung one weapon ten-thousand times, and not the other way around. This class is for experienced combatants who have a solid grasp on footwork and stamina management, master skills alone won't save your lyfe."
+	name = "Vuorisvärda"
+	tutorial = "You have learned the ways of the Av Aves - schools of combat trained in the lessons of the Avian cultures of Avar’s highest mountaintops. While your terrestrial origin restricts you from the same aerial dance of the Falc’s blademaster warbirds, you have trained yourself extensively in adapting their lightness, swiftness, and terrible lethality. Armor is unnecessary; a burden, and nothing more. You have swung one weapon ten thousand times; and swing yourself with the same grace as blade and bird alike. Fall from the peak, cut through the sky - and cleave the earth in twain."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/mercenary/freelancer
@@ -36,7 +36,7 @@
 
 /datum/outfit/job/mercenary/freelancer/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("You are a master in the arts of the longsword. Wielder of Psydonia's most versatile and noble weapon, you needn't anything else. You can choose a regional longsword."))
+	to_chat(H, span_warning("You are a master in the arts of the longsword. Wielder of the world's most versatile and noble weapon, you needn't anything else. You can choose a regional longsword."))
 
 	l_hand = /obj/item/rogueweapon/scabbard/sword
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fencer	//Experimental.
@@ -66,8 +66,8 @@
 	backpack_contents = list(/obj/item/roguekey/mercenary)
 
 /datum/advclass/mercenary/freelancer/lancer
-	name = "Lancer"
-	tutorial = "You put complete trust in your polearm, the most effective weapon the world has seen. Why wear armour when you cannot be hit? You can choose your polearm, and are exceptionally accurate."
+	name = "Lancetanssija"
+	tutorial = "Polearms are the weapon of choice for the common land-dweller of Avar; equally effective against seaborne or sky-faring foes - a harpoon, a lance, the tool of every Fjällshem on the foggy highlands. You have learned from the best; earning your title as Lancetanssija - or ‘lance dancer.’ Naturally, you put complete trust in your polearm, the most effective weapon within the Known World - and have mastered its uses for status, protection, or visceral application. Puncture the sky, and pierce the heavens."
 	outfit = /datum/outfit/job/mercenary/freelancer_lancer
 	origin_override_type = /datum/virtue/origin/avar
 

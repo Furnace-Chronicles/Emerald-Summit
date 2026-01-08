@@ -475,7 +475,7 @@
 
 /obj/item/rogueweapon/sword/long/frei		//Challenge weapon
 	name = "dueling longsword"
-	desc = "Fechtfeders are a type of training sword brought up by Grenzelhoft fencing guilds, their name - literally \"Feather\" - matches their construction; thinner, lighter, dull but more balanced - with a blade catcher to boot. Freifechters often modify them, giving them edges and a point for use in real dueling - this is one such example, and there's a reason they don't make it out of the fighting pit."
+	desc = "Tylsässulka are a type of training sword wielded by trainees of the Aavnic blademasters; designed after the thin blades used by the region's Falc warbirds. Their name - literally \"Dull Feather\" - matches their construction; a lightly-balanced, lancing blade, fit to become an extension of the wielder itself. Thus the name- a feather, yet to be sharpened. Aavnic Vuorisvärda, as a point of pride, often retain them after graduation, giving them edges and a point for use in real dueling."
 	icon_state = "sharpfeder"
 	force = 22
 	force_wielded = 27
@@ -548,7 +548,7 @@
 
 /obj/item/rogueweapon/sword/long/judgement
 	name = "\"Judgement\""
-	desc = "An intricately forged longsword, it's blade is made from Aavnr's finest Vyšvou steel - held from an ornate carved ivory grip from the region's \"Mamük\" megafauna. A sight that's truly unique."
+	desc = "An intricately forged longsword, its blade is made from the finest Raneshan al-Mascene steel - held from an ornately carved ivory grip from the region's \"Mamlūk\" megafauna. A sight that's truly unique."
 	icon_state = "judgement"
 	icon = 'icons/roguetown/weapons/64.dmi'
 	item_state = "judgement"
@@ -974,7 +974,7 @@
 
 /obj/item/rogueweapon/sword/sabre
 	name = "sabre"
-	desc = "A very popular backsword made for cavalrymen that originated in Naledi and spread its influence further north, reaching Aavnr as a \"Szablya\" and notoriously cementing itself as the preferred weapon of the Potentate's Hussars."
+	desc = "A very popular backsword made for cavalrymen that originated in Naledi and scythed its way further north."
 	icon_state = "saber"
 	sheathe_icon = "saber"
 	max_integrity = 230
@@ -1001,8 +1001,8 @@
 	sellprice = 140
 
 /obj/item/rogueweapon/sword/sabre/steppesman
-	name = "aavnic shashka"
-	desc = "A single-edged, single-handed, and guardless blade of northern Aavnic make with a brass pommel in the shape of a zad's head. The gentle curve of its blade puts it midway between a radically curved sabre and a straight sword, effective for both cutting and thrusting but lacking raw defense potential."
+	name = "shashka"
+	desc = "A single-edged, single-handed, and guardless blade of northern make with a brass pommel in the shape of a zad's head. The gentle curve of its blade puts it midway between a radically curved sabre and a straight sword, effective for both cutting and thrusting but lacking raw defense potential."
 	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust/sabre, /datum/intent/rend, /datum/intent/sword/chop)
 	wdefense = 5
 	minstr = 6

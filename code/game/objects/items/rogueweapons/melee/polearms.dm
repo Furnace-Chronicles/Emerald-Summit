@@ -1386,8 +1386,8 @@
 	gripped_intents = list(SPEAR_THRUST, /datum/intent/spear/cut/naginata, PARTIZAN_REND) //Gets rend and an usable cut, but no peel.
 
 /obj/item/rogueweapon/spear/boar/frei
-	name = "Aavnic lándzsa"
-	desc = "A regional earspoon lance with a carved handle, adorned with the colours of the Freifechters. These are smithed by the legendary armourers of Vyšvou and given to distinguished lancers upon their graduation."
+	name = "Aavnic keihäs"
+	desc = "A regional earspoon lance with a carved handle, adorned with the colours of the Lancetanssija. These tools are forged by the well-known kääpiöseppä - dwarven smiths - and given to distinguished lancers upon their graduation."
 	icon_state = "praguespear"
 
 /obj/item/rogueweapon/spear/lance

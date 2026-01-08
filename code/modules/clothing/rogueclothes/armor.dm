@@ -242,7 +242,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/chargah
 	name = "padded caftan"
-	desc = "A long overcoat commonly worn in Naledi, Kazengun, and Aavnr - but mostly associated with steppesmen. This specific kind rivals a gambeson in protection."
+	desc = "A long overcoat commonly worn in Naledi, Kazengun, and the northerly reaches - but mostly associated with steppesmen. This specific kind rivals a gambeson in protection."
 	icon_state = "chargah"
 	color = "#ffffff"
 	boobed = TRUE
@@ -996,7 +996,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/scale/steppe
 	name = "steel heavy lamellar"
-	desc = "A chestpiece of Aavnic make composed of easily-replaced small rectangular plates of layered steel laced together in rows with wire. Malleable and protective, perfect for cavalrymen."
+	desc = "A chestpiece of steppe make composed of easily-replaced small rectangular plates of layered steel laced together in rows with wire. Malleable and protective, perfect for cavalrymen."
 	icon_state = "hudesutu"
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL + 50
 

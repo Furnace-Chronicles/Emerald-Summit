@@ -459,14 +459,14 @@
 
 /obj/item/clothing/mask/rogue/facemask/steel/steppesman
 	name = "steppesman war mask"
-	desc = "A steel mask shaped like the face of a rather charismatic fellow! Pronounced cheeks, a nose, and a large mustache. Well, people outside of Aavnr don't think you'd look charismatic at all wearing this."
+	desc = "A steel mask shaped like the face of a rather charismatic fellow! Pronounced cheeks, a nose, and a large mustache."
 	max_integrity = 250
 	icon_state = "steppemask"
 	layer = HEAD_LAYER
 
 /obj/item/clothing/mask/rogue/facemask/steel/steppesman/anthro
 	name = "steppesman beast mask"
-	desc = "A steel mask shaped like the face of a rather charismatic beastman! Pronounced cheeks, a nose, and small spikes for whiskers. Well, people outside of Aavnr don't think you'd look charismatic at all wearing this."
+	desc = "A steel mask shaped like the face of a rather charismatic beastman! Pronounced cheeks, a nose, and small spikes for whiskers."
 	icon_state = "steppebeast"
 
 /obj/item/clothing/mask/rogue/facemask/steel/pestra_beakmask // no craft recipe on purpose, since it's a better iron mask (no FOV malus) and is limited only to pestrans who do healing stuff

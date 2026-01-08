@@ -4,12 +4,12 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/mercenary/steppesman
-	class_select_category = CLASS_CAT_AAVNR
+	class_select_category = CLASS_CAT_GRONN
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_steppe.ogg'
-	subclass_languages = list(/datum/language/aavnic)
+	subclass_languages = list(/datum/language/gronnic)
 	extra_context = "This subclass has 4 loadouts with various stats, skills & equipment."
-	origin_override_type = /datum/virtue/origin/avar
+	origin_override_type = /datum/virtue/origin/racial/gronn
 	subclass_skills = list(
 	//Universal skills
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
@@ -59,7 +59,7 @@
 	switch(classchoice)
 		if("Szabrista - Saber Veteran")	//Tl;dr - medium armor class for Mount and Blade larpers who still get a saiga. Akin to Vaquero with specific drip.
 			H.set_blindness(0)
-			to_chat(H, span_warning("The Szabristas are the elites of the southern steppes, veterans of conflict across the realm. Outfitted with a shishka and shield, these warriors sacrifice their swiftness for armor and civilized respect."))
+			to_chat(H, span_warning("The Szabristas are the elites of the western steppes, veterans of conflict across the realm. Outfitted with a shishka and shield, these warriors sacrifice their swiftness for armor and civilized respect."))
 			shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot/steppesman
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/shishak		//Needs a unique helmet + mask combo at some point. 	//Dragonfruits to the rescue! Unique helmet with neck protection and +50 durability.
 			gloves = /obj/item/clothing/gloves/roguetown/chain
@@ -131,7 +131,7 @@
 
 		if("Druzhina - Light Archer")	//Tl;dr - light armor class for Tatar-style archery. Has 'Druzhina' as a name cus czech/polish influence, couldn't think of better one.
 			H.set_blindness(0)
-			to_chat(H, span_warning("A Druzhina, a commoner of the Aavnic steppes made into a professional soldier. Hunters, herders, and various nomads from all walks of life. Equal in service, equal behind their bow, and ready to fight."))
+			to_chat(H, span_warning("A Druzhina, a commoner of the western steppes made into a professional soldier. Hunters, herders, and various nomads from all walks of life. Equal in service, equal behind their bow, and ready to fight."))
 			shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot/steppesman
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/shishak
 			gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
