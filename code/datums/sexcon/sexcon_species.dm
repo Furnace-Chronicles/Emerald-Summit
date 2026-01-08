@@ -50,7 +50,8 @@ GLOBAL_LIST_INIT(species_compatibility, list(
         /datum/species/elf/sun,
         /datum/species/elf/wood,
         /datum/species/human/northern,
-        /datum/species/human/halfelf
+        /datum/species/human/halfelf,
+        /datum/species/elf/dark
     ),
 
     /datum/species/elf/wood = list(
