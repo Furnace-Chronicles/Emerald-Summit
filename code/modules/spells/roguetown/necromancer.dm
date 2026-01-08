@@ -14,6 +14,8 @@
 	antimagic_allowed = TRUE
 	recharge_time = 15 SECONDS
 	miracle = FALSE
+	invocation_type = "whisper"
+	invocation = "Asphyxia necrotica."
 
 /obj/effect/proc_holder/spell/invoked/bonechill/cast(list/targets, mob/living/user)
 	..()
@@ -27,7 +29,7 @@
 			target.update_damage_overlays()
 		target.visible_message(span_danger("[target]'s [affecting.name] reforms under the vile energy!"), span_notice("My [affecting.name] is remade by dark magic!"))
 		var/obj/effect/temp_visual/heal/E = new /obj/effect/temp_visual/heal_rogue(get_turf(target))
-		E.color = "#4E6651"
+		E.color = "#041835"
 		return TRUE
 
 	target.visible_message(span_info("Necrotic energy floods over [target]!"), span_userdanger("I feel colder as the dark energy floods into me!"))
@@ -87,9 +89,58 @@
 	var/cabal_affine = TRUE
 	var/is_summoned = TRUE
 	hide_charge_effect = TRUE
+	var/skullcost = 1
 	var/list/summonlist = list(/mob/living/carbon/human/species/skeleton/npc/ambush)
+	invocation = "Omnia meliora sunt cum amicis!!"
+	invocation_type = "shout"
+
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/cast(list/targets, mob/living/user)
 	. = ..()
+	if(skullcost)
+		var/list/allbones = list()
+		var/bonecount = 0
+		allbones += user.get_held_items()
+		allbones+= user.get_equipped_items()
+		
+		for(var/obj/item/I in allbones) 
+			if(istype(I, /obj/item/bodypart/head))
+				var/obj/item/bodypart/head/skull = I
+				if(!skull.skeletonized)
+					continue //Do the fast part first. 
+				qdel(skull)
+				bonecount++
+				break
+				
+			if(istype(I, /obj/item/skull)) //No head? Worse, fake head.
+				qdel(I)
+				bonecount++
+				break
+/*this doesn't work, probably for the best that the gamers are forced to hold it.
+			if(istype(I, /obj/item/storage))
+				var/obj/item/storage/bag = I
+				var/datum/component/storage/internal = bag.GetComponent(/datum/component/storage/)
+				if(internal.can_hold && !(/obj/item/bodypart/head in internal.can_hold) || !(/obj/item/skull in internal.can_hold) ) //Skip summon bags, basically. Sorry bros, you're not carrying that much skeleton on you for free.
+					continue
+				for(var/obj/item/I2 in bag.contents)
+					if(istype(I2, /obj/item/skull))
+						qdel(I)
+						bonecount++
+						break
+					if(istype(I2, /obj/item/bodypart/head))
+						var/obj/item/bodypart/head/skull = I2
+						if(skull.skeletonized) 
+							qdel(skull)
+							bonecount++
+							break
+*/
+			if(bonecount >= skullcost)
+				break
+		if(bonecount < skullcost)
+			to_chat(user, span_warning("I lack the charnel to summon forth my minion. I must carry more skulls, either in hand, or in my bags."))
+			revert_cast()
+			return FALSE
+
+
 	var/turf/T = get_turf(targets[1])
 	if(!isopenturf(T))
 		to_chat(user, span_warning("The targeted location is blocked. My summon fails to come forth."))
@@ -112,15 +163,17 @@
 	range = 7
 	sound = list('sound/magic/magnet.ogg')
 	releasedrain = 40
-	chargetime = 5 SECONDS
+	chargetime = 3 SECONDS
 	recharge_time = 20 SECONDS
 	releasedrain = 10 //MEANINGLESS CHAFF.
+	skullcost = 0
 	summonlist = list(\
 	/mob/living/simple_animal/hostile/rogue/skeleton/axe, \
 	/mob/living/simple_animal/hostile/rogue/skeleton/spear, \
 	/mob/living/simple_animal/hostile/rogue/skeleton/guard, \
 	/mob/living/simple_animal/hostile/rogue/skeleton/bow, \
 	/mob/living/simple_animal/hostile/rogue/skeleton)
+	invocation = "Mortuos paenitentes surgere iubeo!"
 
 
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/necromancer
@@ -144,6 +197,8 @@
 	charging_slowdown = 1
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
+	invocation = "Te ipsum cacare!"
+	invocation_type = "shout"
 
 
 /obj/effect/proc_holder/spell/invoked/gravemark
@@ -155,7 +210,7 @@
 	movement_interrupt = FALSE
 	chargedloop = null
 	antimagic_allowed = TRUE
-	recharge_time = 1 SECONDS
+	recharge_time = 5 SECONDS
 	hide_charge_effect = TRUE
 
 /obj/effect/proc_holder/spell/invoked/gravemark/cast(list/targets, mob/living/user)
@@ -220,6 +275,8 @@
 	releasedrain = 30
 	chargetime = 5 SECONDS
 	recharge_time = 30 SECONDS
+	invocation_type = "shout"
+	invocation = "Vae victis!"
 
 //raise crit targets and animals that can raise naturally.
 /obj/effect/proc_holder/spell/invoked/animate_dead/cast(list/targets, mob/living/user)
@@ -228,7 +285,7 @@
 	var/faction_tag = "[user.mind.current.real_name]_faction"
 	if(ishuman(targets[1]))
 		var/mob/living/carbon/human/target = targets[1]
-		if(target.InCritical())
+		if(target.InCritical() || target.stat == DEAD) 
 			if(!target.mind)
 				target.mind_initialize()
 			if(target.zombie_check_can_convert(target) || target.mind.has_antag_datum(/datum/antagonist/zombie))
