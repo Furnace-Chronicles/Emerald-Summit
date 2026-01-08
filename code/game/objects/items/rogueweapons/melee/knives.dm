@@ -853,16 +853,12 @@
 	if(user.used_intent.type == /datum/intent/snip && istype(O, /obj/item))
 		var/obj/item/item = O
 		if(istype(item, /obj/item/clothing/shoes/roguetown/boots))
-		{
 			var/obj/item/clothing/shoes/roguetown/boots/boots = item
 			if(boots.holdingknife && boots.sewrepair)
-			{
 				var/turf/T = get_turf(item)
 				boots.holdingknife.loc = T
 				boots.holdingknife = null
 				playsound(T, 'sound/foley/equip/swordsmall1.ogg')  // Badly-coded bandaid to avoid voiding hard-to-get daggers by salvaging boots. Does not include furnace check for plated boots.
-				}
-		}
 		if(item.sewrepair)
 			var/salvage_time = 7 SECONDS // If you put this below six, make sure to add a min() check.
 			var/skill_level = user.get_skill_level(/datum/skill/misc/sewing)
