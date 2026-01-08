@@ -8,14 +8,16 @@
 	class_select_category = CLASS_CAT_KAZENGUN
 	category_tags = list(CTAG_MERCENARY)
 	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_HARDDISMEMBER, TRAIT_NOPAINSTUN)
+	origin_override_type = /datum/virtue/origin/kazengun
 	cmode_music = 'sound/music/combat_kazengite.ogg'
 	subclass_stats = list(
-		STATKEY_CON = 3,
-		STATKEY_END = 3,
+		STATKEY_CON = 2,
+		STATKEY_END = 2,
 		STATKEY_STR = 2,
 		STATKEY_PER = 1,
 		STATKEY_SPD = -1
 	)
+	hiredbuff = /datum/status_effect/buff/merchired/rumaclan
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
@@ -29,6 +31,9 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 	)
 	extra_context = "This subclass is race-limited from: Dwarves."
+
+/datum/status_effect/buff/merchired/rumaclan
+	effectedstats = list(STATKEY_CON = 1, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/rumaclan/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -49,19 +54,18 @@
 		/obj/item/flashlight/flare/torch/lantern,
 		)
 
-	change_origin(H, /datum/virtue/origin/kazengun)
-
 /datum/advclass/mercenary/rumaclan/ishu
 	name = "Ruma Clan Ishu"
 	tutorial = "A band of foreign Kazengites. The Ruma Clan isn't an organized group of soldiers - rather a loose collection of fighters, with strange tattoos that act as armor."
 	outfit = /datum/outfit/job/mercenary/rumaclan_ishu
 	subclass_stats = list(
-		STATKEY_SPD = 4,
+		STATKEY_SPD = 3,
 		STATKEY_PER = 2,
-		STATKEY_END = 2,
+		STATKEY_END = 1,
 		STATKEY_STR = -1,
 		STATKEY_CON = -1
 	)
+	hiredbuff = /datum/status_effect/buff/merchired/rumaclan_ishu
 	subclass_skills = list(
 		/datum/skill/combat/bows = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
@@ -75,6 +79,9 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
 	)
+
+/datum/status_effect/buff/merchired/rumaclan_ishu
+	effectedstats = list(STATKEY_SPD = 1, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/rumaclan_ishu/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -104,5 +111,3 @@
 			belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun
 		if("Smokebombs")
 			belt = /obj/item/storage/belt/rogue/leather/smokebelt/black
-
-	change_origin(H, /datum/virtue/origin/kazengun)

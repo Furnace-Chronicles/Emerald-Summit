@@ -8,8 +8,8 @@
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_steppe.ogg'
 	subclass_languages = list(/datum/language/aavnic)
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled
 	extra_context = "This subclass has 4 loadouts with various stats, skills & equipment."
+	origin_override_type = /datum/virtue/origin/avar
 	subclass_skills = list(
 	//Universal skills
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
@@ -22,6 +22,14 @@
 		/datum/skill/misc/sewing = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 	)
+	hiredbuff = /datum/status_effect/buff/merchired/steppesman
+
+	virtue_restrictions = list(
+		/datum/virtue/utility/riding
+	)
+
+/datum/status_effect/buff/merchired/steppesman
+	effectedstats = list(STATKEY_SPD = 1, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/steppesman/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -40,13 +48,14 @@
 		/obj/item/rogueweapon/scabbard/sheath
 		)
 
-	change_origin(H, /datum/virtue/origin/avar)
-
 	// CLASS ARCHETYPES
 	H.adjust_blindness(-3)
 	var/classes = list("Szabrista - Saber Veteran", "Árkász - Elite Sapper", "Druzhina - Light Archer","Kozak - Light Infantry")
 	var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes
 
+	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
+		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)
+		
 	switch(classchoice)
 		if("Szabrista - Saber Veteran")	//Tl;dr - medium armor class for Mount and Blade larpers who still get a saiga. Akin to Vaquero with specific drip.
 			H.set_blindness(0)
@@ -70,9 +79,7 @@
 			H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE)
 			H.change_stat(STATKEY_STR, 2)
-			H.change_stat(STATKEY_END, 1)
 			H.change_stat(STATKEY_CON, 2)
-			H.change_stat(STATKEY_SPD, 1)
 			ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 			H.dna.species.soundpack_m = new /datum/voicepack/male/evil() 	//Fits in my head all too well.
 			var/masks = list(
@@ -107,10 +114,10 @@
 			H.adjust_skillrank_up_to(/datum/skill/labor/mining, 3, TRUE)		//Ditto
 			H.adjust_skillrank_up_to(/datum/skill/craft/traps, 3, TRUE)			//Ditto
 			H.change_stat(STATKEY_STR, 2)		//Statblock prone to revision. Probably will be revised. Currently weighted for 7 points and not 9.
-			H.change_stat(STATKEY_END, 3)
+			H.change_stat(STATKEY_END, 2)
 			H.change_stat(STATKEY_CON, 2)
 			H.change_stat(STATKEY_PER, 2)
-			H.change_stat(STATKEY_SPD, -2)
+			H.change_stat(STATKEY_SPD, -3)
 			ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 			H.dna.species.soundpack_m = new /datum/voicepack/male/evil()
 			var/masks = list(
@@ -146,8 +153,8 @@
 			H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
 			H.change_stat(STATKEY_PER, 3)
-			H.change_stat(STATKEY_END, 2)
-			H.change_stat(STATKEY_SPD, 2)
+			H.change_stat(STATKEY_END, 1)
+			H.change_stat(STATKEY_SPD, 1)
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 		if("Kozak - Light Infantry")		//Tl;dr - Old Steppesman whip build, light armor, be the glass canon you always wanted to be. Live your life, king. 
 			H.set_blindness(0)
@@ -171,8 +178,7 @@
 			H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
 			H.change_stat(STATKEY_STR, 1)
 			H.change_stat(STATKEY_PER, 2)
-			H.change_stat(STATKEY_END, 1)
-			H.change_stat(STATKEY_SPD, 2)
+			H.change_stat(STATKEY_SPD, 1)
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
 			H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()		//Semi-crazed warrior vibe.

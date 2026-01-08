@@ -8,8 +8,11 @@
 	// this looks kinda op so imma just leave it at patreon level 1 until someone puts this behind a different lock
 	maximum_possible_slots = 1
 
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	category_tags = list(CTAG_DISABLED)
+
+	virtue_restrictions = list(
+		/datum/virtue/utility/riding
+	)
 
 /datum/outfit/job/adventurer/whitecheese
 	name = "WHITE CHEESE"
@@ -57,3 +60,5 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fetch)
 
 	H.ambushable = FALSE
+	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
+		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)

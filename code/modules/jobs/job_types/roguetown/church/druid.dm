@@ -7,6 +7,8 @@
 	total_positions = 4
 	spawn_positions = 4
 
+	var/church_favor = 0
+
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	disallowed_races = list(
@@ -106,3 +108,4 @@
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.
+	H.miracle_points = max(H.miracle_points, 10)

@@ -11,9 +11,7 @@
 		"captain": "capitaine", 
 		"cook": "cuisinier", 
 		"dad": "papa",
-		"father": "père",
 		"mom": "maman",
-		"mother": "mère",
         "hello": "'allo",
 		"hi": "salut",
         "thanks": "merci",   
@@ -51,10 +49,11 @@
 		"for": "pour",
 		"shit": "merde",
 		"my": "mon",
+		"me": "moi",
 		"please": "s’il vous plaît",
 		"goodbye": "au revoir",
-		"sorry": "pardon",
 		"small": "petit",
+		"little": "petit",
 		"shop": "boutique",
 		"cheers": "santé",
 		"threesome": "ménage à trois",
@@ -76,7 +75,7 @@
 		"cheese omelette": "omelette du fromage",
 		"good morning": "bonjour",
 		"good evening": "bonsoir",
-		"oh my, my": "oo là là",
+		"my, my": "oo là là",
 		"good enough": "suffisant",
 		"my love": "mon amour",
 		"my darling": "mon coeur",
@@ -94,7 +93,10 @@
 		"to your health": "à votre santé",
 		"very good": "très bon",
 		"very well": "très bien",
-		"excuse me": "excusez-moi"
+		"excuse me": "excusez-moi",
+		"so it goes": "c'est la vie",
+		"such is life": "c'est la vie",
+		"that's life": "c'est la vie"
 
 	},
     "syllable": {

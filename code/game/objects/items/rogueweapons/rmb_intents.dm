@@ -15,7 +15,7 @@
 		addtimer(CALLBACK(src, PROC_REF(clear_tempo_all)), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 	if(!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 		filtered_balloon_alert(TRAIT_COMBAT_AWARE, (cmode ? ("<i><font color = '#831414'>Tense</font></i>") : ("<i><font color = '#c7c6c6'>Relaxed</font></i>")), y_offset = 32)
-
+	SEND_SIGNAL(src, COMSIG_COMBAT_MODE)
 /mob/living/carbon/human/RightClickOn(atom/A, params)
 	if(rmb_intent && !rmb_intent.adjacency && !istype(A, /obj/item/clothing) && cmode && !istype(src, /mob/living/carbon/human/species/skeleton) && !istype(A, /obj/item/quiver) && !istype(A, /obj/item/storage))
 		var/held = get_active_held_item()
@@ -163,6 +163,8 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/specialcd))
 		return
 
+	user.face_atom(target)
+
 	var/obj/item/rogueweapon/W = user.get_active_held_item()
 	if(istype(W, /obj/item/rogueweapon) && W.special)
 		var/skillreq = W.associated_skill
@@ -171,7 +173,9 @@
 		if(user.get_skill_level(skillreq) < SKILL_LEVEL_JOURNEYMAN)
 			to_chat(user, span_info("I'm not knowledgeable enough in the arts of this weapon to use this."))
 			return
-		W.special.deploy(user, W, target)
+		if(W.special.check_range(user, target))
+			if(W.special.apply_cost(user))
+				W.special.deploy(user, W, target)
 
 /datum/rmb_intent/swift
 	name = "swift"
@@ -290,6 +294,22 @@
 	adjacency = FALSE
 
 /mob/living/proc/attempt_riposte(mob/living/user, atom/target)
+	// if our mage armor is active, using RMB defend on ourself causes us instead to feed energy & stamina based on the time left before it comes back up to instantly recharge it
+	if (user == target && user.can_speak_vocal() && user.magearmor && HAS_TRAIT(user, TRAIT_MAGEARMOR))
+		var/datum/status_effect/buff/magearmor/MA = user.has_status_effect(/datum/status_effect/buff/magearmor)
+		if (!MA)
+			return
+		var/stamina_to_deduct = MA.duration / 100 // they're in deciseconds, remember. so 30 seconds = 30 stamina. also, athletics applies to this as well because stamina_add
+		if ((user.stamina + stamina_to_deduct) < user.max_stamina)
+			user.stamina_add(stamina_to_deduct)
+			user.changeNext_move(CLICK_CD_MELEE)
+			user.remove_status_effect(MA)
+			var/recharge_state = user.get_mage_armor_descriptor()
+			user.visible_message(span_warning("[user] [recharge_state] feeds power into their defensive wards, swiftly raising them!"), span_notice("I [recharge_state] feed a burst of mana into my defensive wards, recharging them instantly!"))
+			playsound(user, 'sound/magic/ma-forcerecover.ogg', 75, FALSE)
+			// this path renders us unable to clash, which is the tradeoff for magearmor anyway, so wig out from here.
+			return
+
 	if(!user.has_status_effect(/datum/status_effect/buff/clash) && !user.has_status_effect(/datum/status_effect/debuff/clashcd))
 		if(!user.get_active_held_item()) //Nothing in our hand to Guard with.
 			return 
@@ -304,6 +324,22 @@
 			to_chat(user, span_warning("I'm already focusing on my mage armor!"))
 			return
 		user.apply_status_effect(/datum/status_effect/buff/clash)
+
+// returns a verb that describes our fatigue level in the mage armor force recharge
+/mob/living/proc/get_mage_armor_descriptor()
+	switch (stamina)
+		if (0 to 10)
+			return "effortlessly"
+		if (11 to 30)
+			return "easily"
+		if (31 to 60)
+			return "carefully"
+		if (61 to 90)
+			return "unsteadily"
+		if (90 to INFINITY)
+			return span_crit("<B>BARELY</B>")
+	
+	return "neutrally" // shouldn't see this
 
 /datum/rmb_intent/riposte/special_attack(mob/living/user, atom/target)	//Wish we could breakline these somehow.
 	user.attempt_riposte(user, target)
@@ -337,15 +373,6 @@
 		if (ishuman(target))
 			HT = target
 
-		// RMB on mob (priority 0): check to see if a bait has any chance to succeed (match targeting zones between us and the target), if so, attempt it (ONLY check for matching zones, nothing else).
-		if (HT)
-			var/target_zone = HT.zone_selected
-			var/user_zone = HU.zone_selected
-			if (!user.has_status_effect(/datum/status_effect/debuff/baitcd) && !user.has_status_effect(/datum/status_effect/debuff/baited) && target_zone && user_zone && (target_zone != BODY_ZONE_CHEST && user_zone != BODY_ZONE_CHEST) && target_zone == user_zone)
-				HU.attempt_bait(user, target)
-				HU.changeNext_move(0.5 SECONDS)
-				return
-		
 		// RMB on mob (priority 1): has something grappled us (passively), and can we kick? if so, attempt a kick.
 		if (!HU.IsOffBalanced())
 			var/mob/kick_target

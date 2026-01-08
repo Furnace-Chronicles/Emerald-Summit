@@ -40,3 +40,5 @@
 #define COMSIG_MOB_ORGAN_REMOVED "mob_organ_removed"
 /// From /obj/item/organ/proc/Insert() (mob/living/carbon/receiver, obj/item/organ/inserted, special)
 #define COMSIG_MOB_ORGAN_INSERTED "mob_organ_inserted"
+
+#define COMSIG_COMBAT_MODE "CMODETOGGLE"

@@ -1,5 +1,19 @@
+/**
+ * Trigger an emote action.
+ *
+ * Arguments:
+ * * act - The emote key or custom emote text
+ * * m_type - Message type override
+ * * message - Custom message parameter
+ * * intentional - Whether the emote was triggered intentionally by the player
+ * * forced - Whether the emote was forced by code
+ * * targetted - Whether this is a targeted emote (requires selecting a target)
+ * * custom_me - Whether this is a custom /me emote
+ * * animal - Whether to use animal-specific emote behavior
+ * * broadcast_to_scom - If TRUE, notifies nearby SCOM structures (for ! prefix emotes)
+ */
 //The code execution of the emote datum is located at code/datums/emotes.dm
-/mob/proc/emote(act, m_type = null, message = null, intentional = FALSE, forced = FALSE, targetted = FALSE, custom_me = FALSE, animal = FALSE)
+/mob/proc/emote(act, m_type = null, message = null, intentional = FALSE, forced = FALSE, targetted = FALSE, custom_me = FALSE, animal = FALSE, broadcast_to_scom = FALSE)
 	var/oldact = act
 	act = lowertext(act)
 	var/param = message
@@ -23,12 +37,12 @@
 			var/list/custom_emote = GLOB.emote_list["me"]
 			for(var/datum/emote/P in custom_emote)
 				mute_time = P.mute_time
-				P.run_emote(src, oldact, m_type, intentional, targetted, (animal ? animal : P.is_animal))
+				P.run_emote(src, oldact, m_type, intentional, targetted, (animal ? animal : P.is_animal), broadcast_to_scom)
 				break
 	else
 		for(var/datum/emote/P in key_emotes)
 			mute_time = P.mute_time
-			if(P.run_emote(src, param, m_type, intentional, targetted, (animal ? animal : P.is_animal)))
+			if(P.run_emote(src, param, m_type, intentional, targetted, (animal ? animal : P.is_animal), broadcast_to_scom))
 				break
 
 	if(custom_me)

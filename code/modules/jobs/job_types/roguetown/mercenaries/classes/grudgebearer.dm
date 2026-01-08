@@ -12,15 +12,18 @@
 	class_select_category = CLASS_CAT_RACIAL
 	cmode_music = 'sound/music/combat_dwarf.ogg'
 	extra_context = "This subclass is race-limited to: Dwarves."
+	origin_override_type = /datum/virtue/origin/hammerhold
 
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_TRAINED_SMITH, TRAIT_SEEPRICES)
 	subclass_stats = list(
 		STATKEY_INT = 3,
-		STATKEY_END = 3,
-		STATKEY_PER = 3,//Anvil"Strikes deftly" is based on PER
+		STATKEY_END = 2,
+		STATKEY_PER = 2,//Anvil"Strikes deftly" is based on PER
 		STATKEY_STR = 1,
 		STATKEY_SPD = -2
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/grudgebearer
 
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
@@ -39,6 +42,9 @@
 		/datum/skill/craft/smelting = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 	)
+
+/datum/status_effect/buff/merchired/grudgebearer
+	effectedstats = list(STATKEY_PER = 1, STATKEY_END = 1)
 
 //Because the armor is race-exclusive for repairs, these guys *should* be able to repair their own guys armor layers. A Dwarf smith isn't guaranteed, after all.
 /datum/outfit/job/mercenary/grudgebearer/pre_equip(mob/living/carbon/human/H)
@@ -67,8 +73,6 @@
 			/obj/item/flashlight/flare/torch/lantern,
 			)
 
-	change_origin(H, /datum/virtue/origin/hammerhold)
-
 /datum/advclass/mercenary/grudgebearer/soldier
 	name = "Grudgebearer Soldier"
 	tutorial = "Bound by eternal grudges of eons past that have not been forgotten, the Grudgebearers are left to wander the surface, as every other clan has a grudge against you, and you against them. This putrid swampland of a Duchy has also wronged you and your people, you care little for it. Coins are a means to an end -- something you can mine and forge yourself. Trinkets -- made by true smiths, now that will carry respect among your clan. However, such artifacts might not buy you food, or a roof."
@@ -76,11 +80,13 @@
 
 	traits_applied = list(TRAIT_HEAVYARMOR)
 	subclass_stats = list(
-		STATKEY_CON = 5,
-		STATKEY_END = 4,
+		STATKEY_CON = 3,
+		STATKEY_END = 3,
 		STATKEY_STR = 2,
 		STATKEY_SPD = -2
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/grudgebearer_soldier
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
@@ -96,6 +102,9 @@
 		/datum/skill/craft/armorsmithing = SKILL_LEVEL_APPRENTICE,	//Only here so they'd be able to repair their own armor integrity
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 	)
+
+/datum/status_effect/buff/merchired/grudgebearer_soldier
+	effectedstats = list(STATKEY_CON = 2, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/grudgebearer_soldier/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -143,8 +152,6 @@
 				r_hand = /obj/item/rogueweapon/mace/goden/steel
 				H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 				H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
-
-	change_origin(H, /datum/virtue/origin/hammerhold)
 
 // Dwarf Smith Armor
 

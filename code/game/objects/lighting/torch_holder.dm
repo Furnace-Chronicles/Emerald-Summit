@@ -160,6 +160,7 @@
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	icon_state = "streetlantern1"
 	base_state = "streetlantern"
+	torch_off_state = "streetlantern0"
 	brightness = 5
 	density = FALSE
 	fueluse = 0 //we use the torch's fuel

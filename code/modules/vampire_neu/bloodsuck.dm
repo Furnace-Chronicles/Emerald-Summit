@@ -58,6 +58,11 @@
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(1 SECONDS, 2 SECONDS))
 		return
 
+	if(VDrinker && HAS_TRAIT(victim, TRAIT_SILVER_BLOOD))
+		to_chat(src, span_userdanger("The blood contains traces of silver! It burns!!"))
+		src.adjust_fire_stacks(2, /datum/status_effect/fire_handler/fire_stacks/sunder)
+		src.ignite_mob() //no return, you can still drink them, you just get burnt
+
 	if(victim.mind?.has_antag_datum(/datum/antagonist/werewolf) || (victim.stat != DEAD && victim.mind?.has_antag_datum(/datum/antagonist/zombie)))
 		to_chat(src, span_danger("I'm going to puke..."))
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))

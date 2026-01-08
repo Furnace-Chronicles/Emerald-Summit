@@ -207,6 +207,8 @@
 					stamina_cost_final *= 2 //double our stamina cost if we're pulling someone with us
 					time_taken *= 2
 				if(do_after(C, time_taken))
+					if(ismob(C.pulling))
+						C.pulling.forceMove(turf_above)
 					C.forceMove(turf_above)
 					C.start_pulling(pulling, state = 1, supress_message = TRUE)
 					if(C.pulling)
@@ -214,8 +216,6 @@
 						var/obj/item/grabbing/I = C.get_inactive_held_item()
 						if(istype(I, /obj/item/grabbing/))
 							I.icon_state = null
-						if(ismob(C.pulling))
-							C.pulling.forceMove(turf_above)
 					C.stamina_add(stamina_cost_final)
 					to_chat(C, span_notice("I fly upwards."))
 			else
@@ -258,6 +258,8 @@
 					stamina_cost_final *= 2 //double our stamina cost if we're pulling someone with us
 					time_taken *= 2
 				if(do_after(C, time_taken))
+					if(ismob(C.pulling))
+						C.pulling.forceMove(turf_below)
 					C.forceMove(turf_below)
 					C.start_pulling(pulling, state = 1, supress_message = TRUE)
 					if(C.pulling)
@@ -265,8 +267,6 @@
 						var/obj/item/grabbing/I = C.get_inactive_held_item()
 						if(istype(I, /obj/item/grabbing/))
 							I.icon_state = null
-						if(ismob(C.pulling))
-							C.pulling.forceMove(turf_below)
 					C.stamina_add(stamina_cost_final)
 					to_chat(C, span_notice("I fly downwards."))
 			else

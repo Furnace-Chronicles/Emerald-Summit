@@ -10,3 +10,4 @@
 
 /datum/round_event/pestra_mercy/start()
 	SSmapping.add_world_trait(/datum/world_trait/pestra_mercy, 20 MINUTES)
+

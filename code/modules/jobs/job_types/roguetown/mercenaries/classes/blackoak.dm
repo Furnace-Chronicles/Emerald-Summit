@@ -12,15 +12,18 @@
 	class_select_category = CLASS_CAT_RACIAL
 	cmode_music = 'sound/music/combat_blackoak.ogg'
 	extra_context = "This subclass is race-restricted to: Half-Elves, Elves."
+	origin_override_type = /datum/virtue/origin/racial/reach
 
 	traits_applied = list(TRAIT_REACHNATIVE, TRAIT_OUTDOORSMAN, TRAIT_MEDIUMARMOR, TRAIT_WOODSMAN, TRAIT_WOODWALKER)
 	subclass_stats = list(
-		STATKEY_STR = 3,
-		STATKEY_END = 2,
+		STATKEY_STR = 2, // 3 when hired
+		STATKEY_END = 1, // 2 when hired
 		STATKEY_CON = 1,
 		STATKEY_PER = 1,
 		STATKEY_INT = -1
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/blackoak
 
 	subclass_skills = list(
 	/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
@@ -39,6 +42,9 @@
 	/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 	/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
 	)
+
+/datum/status_effect/buff/merchired/blackoak
+	effectedstats = list(STATKEY_STR = 1, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/blackoak/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -78,8 +84,6 @@
 		/obj/item/flashlight/flare/torch = 1,
 		)
 
-	change_origin(H, /datum/virtue/origin/racial/reach)
-
 /datum/advclass/mercenary/blackoak/ranger
 	name = "Black Oak's Ranger"
 	tutorial = "A shady guardian of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Reach. Thankfully, you are not here today to shed the blood of the Duke's men — unless someone pays you to..."
@@ -87,11 +91,13 @@
 
 	traits_applied = list(TRAIT_REACHNATIVE, TRAIT_OUTDOORSMAN, TRAIT_DODGEEXPERT, TRAIT_WOODSMAN, TRAIT_WOODWALKER)
 	subclass_stats = list(
-		STATKEY_SPD = 3,
-		STATKEY_END = 2,
+		STATKEY_SPD = 2, // 3 when hired
+		STATKEY_END = 1, // 2 when hired
 		STATKEY_PER = 2,
 		STATKEY_CON = -1
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/blackoakranger
 
 	subclass_skills = list(
 		/datum/skill/combat/bows = SKILL_LEVEL_MASTER,
@@ -110,6 +116,9 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
 	)
+
+/datum/status_effect/buff/merchired/blackoakranger
+	effectedstats = list(STATKEY_SPD = 1, STATKEY_END = 1)
 
 /datum/outfit/job/mercenary/blackoak_ranger/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -135,5 +144,3 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/flashlight/flare/torch = 1,
 		)
-
-	change_origin(H, /datum/virtue/origin/racial/reach)

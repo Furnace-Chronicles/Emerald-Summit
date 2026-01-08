@@ -119,24 +119,7 @@
 			animate(transform = prev_transform, time = 0)
 
 		is_jumping = TRUE
-		if(jextra)
-			throw_at(A, jrange, 1, src, spin = FALSE)
-			while(src.throwing)
-				sleep(1)
-
-			if(!tackle_succeeded)
-				throw_at(get_step(src, src.dir), 1, 1, src, spin = FALSE)
-			tackle_succeeded = FALSE // Reset for next jump
-		else
-			throw_at(A, jrange, 1, src, spin = FALSE)
-
-		if(!HAS_TRAIT(src, TRAIT_ZJUMP) && (m_intent == MOVE_INTENT_RUN))	//Jesters and werewolves don't get immobilized at all
-			Immobilize((HAS_TRAIT(src, TRAIT_LEAPER) ? 5 : 10))	//Acrobatics get half the time
-		if(isopenturf(src.loc))
-			var/turf/open/T = src.loc
-			if(T.landsound)
-				playsound(T, T.landsound, 100, FALSE)
-			T.Entered(src)
+		throw_at(A, jrange, 1, src, spin = FALSE, callback = CALLBACK(src, PROC_REF(after_jump), jextra))
 	else
 		animate(src, pixel_z = pixel_z + 6, time = 1)
 		animate(pixel_z = prev_pixel_z, transform = turn(transform, pick(-12, 0, 12)), time=2)
@@ -194,3 +177,15 @@
 	if(A.z != z && !HAS_TRAIT(src, TRAIT_ZJUMP))
 		return FALSE
 	return TRUE
+
+/mob/living/proc/after_jump(stumble)
+	if(stumble && !tackle_succeeded)
+		throw_at(get_step(src, src.dir), 1, 1, src, spin = FALSE)
+	tackle_succeeded = FALSE // Reset for next jump
+	if(!HAS_TRAIT(src, TRAIT_ZJUMP) && (m_intent == MOVE_INTENT_RUN))	//Jesters and werewolves don't get immobilized at all
+		Immobilize((HAS_TRAIT(src, TRAIT_LEAPER) ? 2 : 5))	//Acrobatics get half the time 🤫
+	if(isopenturf(src.loc))
+		var/turf/open/T = src.loc
+		if(T.landsound)
+			playsound(T, T.landsound, 100, FALSE)
+		T.Entered(src)

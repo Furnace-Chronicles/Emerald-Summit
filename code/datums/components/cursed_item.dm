@@ -28,4 +28,3 @@
 			user.adjust_fire_stacks(5)
 			user.ignite_mob()
 			user.Stun(40)
-
