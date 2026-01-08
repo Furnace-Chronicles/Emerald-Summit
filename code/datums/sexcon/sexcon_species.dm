@@ -1,21 +1,56 @@
-GLOBAL_LIST_INIT(species_pair_fertility, list(
+// Who can impregnate whom
+GLOBAL_LIST_INIT(species_compatibility, list(
 
-    // GREEN – same species (best)
-    "northern_human|northern_human" = 1.5,
-    "lizardfolk|lizardfolk" = 1.2,
-    "elf|elf" = 0.9,
+    /datum/species/human/northern = list(
+        /datum/species/human/northern,
+        /datum/species/human/halfelf,
+        /datum/species/demihuman,
+        /datum/species/anthromorph,
+        /datum/species/elf/sun,
+        /datum/species/elf/wood,
+        /datum/species/elf/dark,
+        /datum/species/dwarf,
+        /datum/species/aasimar,
+        /datum/species/akula,
+        /datum/species/anthromorphsmall,
+        /datum/species/dracon,
+        /datum/species/lizardfolk,
+        /datum/species/kobold,
+        /datum/species/lamia,
+        /datum/species/halforc,
+        /datum/species/goblinp,
+        /datum/species/ogre,
+        /datum/species/harpy,
+        /datum/species/tabaxi,
+        /datum/species/vulpkanin,
+        /datum/species/lupian,
+        /datum/species/tieberian
+    ),
 
-    // YELLOW – acceptable crossbreeds
-    "northern_human|lizardfolk" = 0.5,
-    "lizardfolk|northern_human" = 0.5,
+    /datum/species/elf/sun = list(
+        /datum/species/elf/sun,
+        /datum/species/elf/wood,
+        /datum/species/human/northern
+    ),
 
-    "northern_human|drakian" = 0.6,
-    "drakian|northern_human" = 0.6,
+    /datum/species/elf/wood = list(
+        /datum/species/elf/wood,
+        /datum/species/elf/sun,
+        /datum/species/human/northern,
+		/datum/species/elf/dark
+    ),
 
-    "northern_human|kobold" = 0.4,
-    "kobold|northern_human" = 0.4,
+    /datum/species/elf/dark = list(
+        /datum/species/elf/dark,
+        /datum/species/elf/wood
+    ),
 
-    // Half-breeds
-    "northern_human|half_orc" = 0.8,
-    "half_orc|northern_human" = 0.8
+    /datum/species/dwarf = list(
+        /datum/species/dwarf,
+        /datum/species/human/northern
+    ),
+
+    // INFERTILE
+    /datum/species/golem = list(),
+    /datum/species/dullahan = list()
 ))
