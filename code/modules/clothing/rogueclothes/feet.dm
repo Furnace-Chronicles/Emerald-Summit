@@ -28,7 +28,7 @@
 	armor = ARMOR_BOOTS_BAD
 
 /obj/item/clothing/shoes/roguetown/boots/attackby(obj/item/W, mob/living/carbon/user, params)
-	if(istype(W, /obj/item/rogueweapon/huntingknife))
+	if(istype(W, /obj/item/rogueweapon/huntingknife) && !istype(W, /obj/item/rogueweapon/huntingknife/scissors))
 		if(holdingknife == null)
 			for(var/obj/item/clothing/shoes/roguetown/boots/B in user.get_equipped_items(TRUE))
 				to_chat(loc, span_warning("I quickly slot [W] into [B]!"))
@@ -36,17 +36,23 @@
 				holdingknife = W
 				playsound(loc, 'sound/foley/equip/swordsmall1.ogg')
 		else
-			to_chat(loc, span_warning("My boot already holds a throwing knife."))
+			to_chat(loc, span_warning("My boot already holds a blade."))
 		return
 	. = ..()
 
 /obj/item/clothing/shoes/roguetown/boots/attack_right(mob/user)
 	if(holdingknife != null)
 		if(!user.get_active_held_item())
+			to_chat(loc, span_warning("I quickly draw [holdingknife] from my boot!"))
 			user.put_in_active_hand(holdingknife, user.active_hand_index)
 			holdingknife = null
 			playsound(loc, 'sound/foley/equip/swordsmall1.ogg')
 			return TRUE
+
+/obj/item/clothing/shoes/roguetown/boots/examine(mob/user)
+	. = ..()
+	if(holdingknife)
+		. += span_notice("It has [holdingknife] inside!")
 
 /obj/item/clothing/shoes/roguetown/boots/aalloy
 	name = "decrepit boots"
