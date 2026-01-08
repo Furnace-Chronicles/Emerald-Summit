@@ -23,12 +23,11 @@
 	icon_state = "blackboots"
 	item_state = "blackboots"
 	max_integrity = 80
-	sewrepair = TRUE
 	var/atom/movable/holdingknife = null
 	armor = ARMOR_BOOTS_BAD
 
 /obj/item/clothing/shoes/roguetown/boots/attackby(obj/item/W, mob/living/carbon/user, params)
-	if(istype(W, /obj/item/rogueweapon/huntingknife) && !istype(W, /obj/item/rogueweapon/huntingknife/scissors))
+	if(istype(W, /obj/item/rogueweapon/huntingknife) && !istype(W, /obj/item/rogueweapon/huntingknife/scissors)) //i kinda forgor why did i exclude them, later
 		if(holdingknife == null)
 			for(var/obj/item/clothing/shoes/roguetown/boots/B in user.get_equipped_items(TRUE))
 				to_chat(loc, span_warning("I quickly slot [W] into [B]!"))
