@@ -37,8 +37,10 @@
 
 		if(ispath(private, /datum/patron))	//Patron signs. 
 			var/icon_plane = WEATHER_EFFECT_PLANE	//Will show up through the cone.
-			if(!ispath(private, /datum/patron/old_god))
-				var/datum/patron/source_patron = private
+			var/datum/patron/source_patron = private
+			var/list/old_faiths = typesof(/datum/faith/old_god)
+			var/list/inhumen_faiths = typesof(/datum/faith/inhumen)
+			if(!(source_patron.associated_faith in old_faiths))
 				for(var/mob/living/carbon/human/H in viewers(world.view, src))
 					var/pass = FALSE
 					var/datum/patron/viewer_patron = H.patron
@@ -50,7 +52,7 @@
 							sign = "sign_[temp_patron.name]"
 						vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, H, icon_path, sign, offset_list, y_offset, icon_plane)
 						pass = TRUE
-					else if(HAS_TRAIT(H, TRAIT_HERETIC_SEER) && istype(private,/datum/patron/inhumen))	//Seers should see all inhumen symbols.
+					else if(HAS_TRAIT(H, TRAIT_HERETIC_SEER) && (source_patron.associated_faith in inhumen_faiths))	//Seers should see all inhumen symbols.
 						vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, H, icon_path, "sign_[patron?.name]", offset_list, y_offset, icon_plane)
 						pass = TRUE
 					if(soundin && pass)
@@ -58,11 +60,15 @@
 						H.playsound_local(T, soundin, 100, FALSE) 
 			else
 				for(var/mob/living/carbon/human/H in viewers(world.view, src))
-					if(H.patron?.type == private)
+					var/datum/patron/viewer_patron = H.patron
+					if(viewer_patron.associated_faith in old_faiths)
+						var/sign = "sign_[viewer_patron.name]"
+						if(viewer_patron.parentpatron)
+							var/datum/patron/temp_patron = viewer_patron.parentpatron
+							sign = "sign_[temp_patron.name]"
 						if(HAS_TRAIT(H, TRAIT_INQUISITION) && HAS_TRAIT(src, TRAIT_INQUISITION))	//Inquisition members will show a fancier symbol to one another.
-							vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, H, icon_path, "sign_[H.patron.name]inq", offset_list, y_offset, icon_plane)
-						else 
-							vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, H, icon_path, "sign_[H.patron.name]", offset_list, y_offset, icon_plane)
+							sign += "inq"
+						vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, H, icon_path, sign, offset_list, y_offset, icon_plane)
 						if(soundin)
 							var/turf/T = get_turf(src)
 							H.playsound_local(T, soundin, 100, FALSE) 

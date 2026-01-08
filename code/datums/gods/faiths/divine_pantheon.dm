@@ -1,3 +1,5 @@
+/datum/faith/divine // Abstracts
+
 /datum/faith/divine/standard
 	name = "Divine Pantheon"
 	desc = "The TEN, children of PSYDON. The most accepted religion in Scarlet Reach. Born from Psydon will for companionship, and survivors of the war in heaven. The TEN freed mortals, gaving them shape and life. \n \n\
