@@ -55,13 +55,13 @@
 
 /obj/item/clothing/shoes/roguetown/boots/aalloy
 	name = "decrepit boots"
-	desc = "decrepit old leather boots."
+	desc = "Decrepit old leather boots."
 	max_integrity = 40
 	icon_state = "ancientboots"
 
 /obj/item/clothing/shoes/roguetown/boots/psydonboots
 	name = "holy blacksteel boots"
-	desc = "Blacksteel-heeled boots. The leather refuses to be worn down, no matter how far you march through these lands."
+	desc = "Blacksteel-heeled boots. The leather refuses to be worn down, no matter how far you march through these lands. Can hold a small blade inside."
 	icon_state = "psydonboots"
 	item_state = "psydonboots"
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
@@ -87,7 +87,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/nobleboot/steppesman
 	name = "aavnic riding boots"
-	desc = "A pair of sturdy riding boots with an iron heel and brass spurs."
+	desc = "A pair of sturdy riding boots with an iron heel and brass spurs. Can hold a small blade inside."
 	armor = ARMOR_LEATHER_GOOD
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
@@ -181,7 +181,7 @@
 /obj/item/clothing/shoes/roguetown/boots/leather
 	name = "leather boots"
 	//dropshrink = 0.75
-	desc = "Sturdy boots stitched together from tanned leather. They leak a little."
+	desc = "Sturdy boots stitched together from tanned leather. They leak a little. Can hold a small blade inside."
 	gender = PLURAL
 	icon_state = "leatherboots"
 	item_state = "leatherboots"
@@ -192,7 +192,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	name = "heavy leather boots"
-	desc = "Sturdy boots stitched together from cured leather. Stylish, firm, and sport a satisfying 'squeek' with each step."
+	desc = "Sturdy boots stitched together from cured leather. Stylish, firm, and sport a satisfying 'squeek' with each step. Can hold a small blade inside."
 	icon_state = "alboots"
 	item_state = "alboots"
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)	//Same as gloves
@@ -201,13 +201,13 @@
 
 /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
 	name = "dress boots"
-	desc = "A pair of sturdy boots stitched together from cured leather. These are shorter than usual, made for casual wear and dueling."
+	desc = "A pair of sturdy boots stitched together from cured leather. These are shorter than usual, made for casual wear and dueling. Can hold a small blade inside."
 	icon_state = "albootsb"
 	item_state = "albootsb"
 
 /obj/item/clothing/shoes/roguetown/boots/otavan
 	name = "otavan leather boots"
-	desc = "Boots of outstanding craft, your fragile feet have never felt so protected and comfortable before."
+	desc = "Boots of outstanding craft, your fragile feet have never felt so protected and comfortable before. Can hold a small blade inside."
 	body_parts_covered = FEET|TAIL_LAMIA
 	icon_state = "fencerboots"
 	item_state = "fencerboots"
@@ -234,7 +234,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/leather/elven_boots
 	name = "woad elven boots"
-	desc = "The living trunks still blossom in the spring. They let water through, but it is never cold."
+	desc = "The living trunks still blossom in the spring. They let water through, but it is never cold. Can hold a small blade inside."
 	armor = list("blunt" = 100, "slash" = 10, "stab" = 100, "piercing" = 20, "fire" = 0, "acid" = 0) //Resistant to blunt and stab, but very weak to slash.
 	prevent_crits = list(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PICK)
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
@@ -245,7 +245,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/armor
 	name = "plated boots"
-	desc = "Boots forged of a set of steel plates to protect your fragile toes."
+	desc = "Boots forged of a set of steel plates to protect your fragile toes. Can hold a small blade inside."
 	body_parts_covered = FEET|TAIL_LAMIA
 	icon_state = "armorboots"
 	item_state = "armorboots"
@@ -260,7 +260,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/armor/graggar
 	name = "vicious boots"
-	desc = "Plated boots which stir with the same violence driving our world. They have treaded a thousand skulls."
+	desc = "Plated boots which stir with the same violence driving our world. They have treaded a thousand skulls. Can hold a small blade inside."
 	max_integrity = 500
 	armor = ARMOR_ASCENDANT
 	icon_state = "graggarplateboots"
@@ -277,7 +277,7 @@
 /obj/item/clothing/shoes/roguetown/boots/armor/matthios
 	max_integrity = 500
 	name = "gilded boots"
-	desc = "Gilded tombs do worm enfold."
+	desc = "Gilded tombs do worm enfold. Can hold a small blade inside."
 	icon_state = "matthiosboots"
 	armor = ARMOR_ASCENDANT
 
@@ -294,7 +294,7 @@
 /obj/item/clothing/shoes/roguetown/boots/armor/zizo
 	max_integrity = 500
 	name = "darksteel boots"
-	desc = "Plate boots. Called forth from the edge of what should be known. In Her name."
+	desc = "Plate boots. Called forth from the edge of what should be known. In Her name. Can hold a small blade inside."
 	icon_state = "zizoboots"
 	armor = ARMOR_ASCENDANT
 
@@ -310,7 +310,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	name = "light plated boots"
-	desc = "Boots with iron for added protection."
+	desc = "Boots with iron for added protection. Can hold a small blade inside."
 	body_parts_covered = FEET|TAIL_LAMIA
 	icon_state = "armorironboots"
 	item_state = "armorironboots"
@@ -360,7 +360,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/furlinedboots
 	name = "fur lined boots"
-	desc = "Leather boots lined with fur."
+	desc = "Leather boots lined with fur. Can hold a small blade inside."
 	gender = PLURAL
 	icon_state = "furlinedboots"
 	item_state = "furlinedboots"
@@ -372,7 +372,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/furlinedanklets
 	name = "fur lined anklets"
-	desc = "Leather anklets lined with fur for a little extra protection while leaving the feet bare."
+	desc = "Leather anklets lined with fur for a little extra protection while leaving the feet bare. Can hold a small blade inside."
 	gender = PLURAL
 	icon_state = "furlinedanklets"
 	item_state = "furlinedanklets"
@@ -385,7 +385,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/clothlinedanklets
 	name = "cloth lined anklets"
-	desc = "Cloth anklets lined with fibers for warmth while leaving the feet bare."
+	desc = "Cloth anklets lined with fibers for warmth while leaving the feet bare. Can hold a small blade inside."
 	gender = PLURAL
 	icon_state = "clothlinedanklets"
 	item_state = "furlinedanklets"
@@ -395,7 +395,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots
 	name = "inquisitorial boots"
-	desc = "Finely crafted boots, made to stomp out darkness."
+	desc = "Finely crafted boots, made to stomp out darkness. Can hold a small blade inside."
 	icon_state = "inqboots"
 	item_state = "inqboots"
 	allowed_race = ALL_RACES_TYPES
@@ -405,7 +405,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/blacksteel/modern/plateboots
 	name = "blacksteel plate boots"
-	desc = "Boots forged of durable blacksteel, using a modern design."
+	desc = "Boots forged of durable blacksteel, using a modern design. Can hold a small blade inside."
 	body_parts_covered = FEET|TAIL_LAMIA
 	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
@@ -423,7 +423,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/blacksteel/plateboots
 	name = "ancient blacksteel plate boots"
-	desc = "Boots forged of durable blacksteel."
+	desc = "Boots forged of durable blacksteel. Can hold a small blade inside."
 	body_parts_covered = FEET|TAIL_LAMIA
 	icon = 'icons/roguetown/clothing/special/blkknight.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/blkknight.dmi'
@@ -452,7 +452,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/leather/elven_boots
 	name = "woad elven boots"
-	desc = "The living trunks still blossom in the spring. They let water through, but it is never cold."
+	desc = "The living trunks still blossom in the spring. They let water through, but it is never cold. Can hold a small blade inside."
 	armor = list("blunt" = 100, "slash" = 10, "stab" = 100, "piercing" = 20, "fire" = 0, "acid" = 0) //Resistant to blunt and stab, but very weak to slash.
 	prevent_crits = list(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PICK)
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
@@ -476,7 +476,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/carapace
 	name = "carapace boots"
-	desc = "Boots made from carapace for added protection."
+	desc = "Boots made from carapace for added protection. Can hold a small blade inside."
 	body_parts_covered = FEET
 	icon_state = "carapaceboots"
 	item_state = "carapaceboots"
@@ -513,7 +513,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/ogre
 	name = "oversized boots"
-	desc = "The hardest working set of boots this side of the mountains."
+	desc = "The hardest working set of boots this side of the mountains. Can hold a small blade inside."
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/32x64/ogre_onmob_sleeves.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
 	icon_state = "ogre_boots"
