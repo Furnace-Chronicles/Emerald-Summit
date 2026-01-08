@@ -1,17 +1,17 @@
 /datum/language/undersign
 	name = "Undersign"
-	desc = "A silent sign language native to the Underdark. Undersign conveys meaning through posture, hand-shapes, eye focus, and controlled motion. Designed for communication in darkness where sound invites death, it is widely used by drow and other subterranean peoples."
+	desc = "A silent sign language native to the Underdark. Undersign conveys meaning through posture, hand-shapes, controlled hand movements, and eye focus. Designed for communication in darkness where sound invites death, it is widely used by drow and other subterranean peoples."
 	speech_verb = "gestures"
 	ask_verb = "signals"
 	exclaim_verb = "emphatically signs"
-	key = "t"
+	key = "s"
 
 	flags = LANGUAGE_HIDE_ICON_IF_UNDERSTOOD | LANGUAGE_HIDE_ICON_IF_NOT_UNDERSTOOD | TONGUELESS_SPEECH | SIGNLANG
 
 	space_chance = 65
 	default_priority = 92
 	icon_state = "asse"
-	spans = list(SPAN_UNDERSIGN)
+	spans = list(SPAN_ROBOT)
 
 	//used instead of spoken dialogue
 	signlang_verb = list(
