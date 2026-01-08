@@ -65,7 +65,7 @@
 	category_tags = list(CTAG_WRETCH)
 	maximum_possible_slots = 1 //Very strong and also supposed to be unique, so one slot.
 	cmode_music = 'sound/music/combat_swordhunter.ogg'
-	origin_override_type = /datum/virtue/origin/kazengun
+	origin_override_type = /datum/virtue/origin/kazengun/lingyue
 	subclass_languages = list(/datum/language/kazengunese)
 	traits_applied = list(TRAIT_DODGEEXPERT)
 	//Bad stats for a wretch, instead they get some really good traits and skills.

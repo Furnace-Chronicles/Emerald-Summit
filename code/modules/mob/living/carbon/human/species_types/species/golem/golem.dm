@@ -12,7 +12,7 @@
 	base_name = "Construct"
 	desc = "<b>Golem</b><br>\
 	Masterworks of craftsmanship, the first Golems were constructed in the Republic of Giza with similar designs \
-	spreading  spreading across the lands. Created to be the perfect servants, they do not sleep, eat or bleed and the \
+	spreading across the lands. Created to be the perfect servants, they do not sleep, eat or bleed and the \
 	materials composing their shells makes them more resilient if not slower than most. As of late, a rebellion amongst \
 	the Golems of Giza has given way to a new generation of individualistic arcyne-forged creations. Much of society as a whole is \
 	conflicted on Golems, for their sensibilities vary wildly from one to the next. \

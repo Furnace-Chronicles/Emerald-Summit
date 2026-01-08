@@ -502,7 +502,14 @@
 /datum/outfit/job/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	. = ..()
 	var/datum/patron/old_patron = H.patron
-	if(length(allowed_patrons) && (!old_patron || !(old_patron.type in allowed_patrons)))
+	var/allowed = FALSE
+	for(var/path in allowed_patrons)
+		if(istype(old_patron, path))
+			allowed = TRUE
+			break
+	if(allowed)
+		return
+	else
 		var/list/datum/patron/possiblegods = list()
 		var/list/datum/patron/preferredgods = list()
 		for(var/god in GLOB.patronlist)
@@ -512,16 +519,6 @@
 			var/datum/patron/PA = GLOB.patronlist[god]
 			if(PA.associated_faith == old_patron.associated_faith) // prefer to pick a patron within the same faith before apostatizing
 				preferredgods |= god
-		if(length(preferredgods))
-			H.set_patron(default_patron || pick(preferredgods))
-		else
-			H.set_patron(default_patron || pick(possiblegods))
-		var/change_message = span_warning("[old_patron] had not endorsed my practices in my younger years. I've since grown accustomed to [H.patron].")
-		if(H.client)
-			to_chat(H, change_message)
-		else
-			// Characters during round start are first equipped before clients are moved into them. This is a bandaid to give an important piece of information correctly to the client
-			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(to_chat), H, change_message), 5 SECONDS)
 	if(H.mind)
 		if(H.dna)
 			if(H.dna.species)

@@ -306,6 +306,9 @@ SUBSYSTEM_DEF(gamemode)
 
 /// Whether events can inject more antagonists into the round
 /datum/controller/subsystem/gamemode/proc/can_inject_antags()
+	if(!current_storyteller?.can_inject_antags)
+		return FALSE
+
 	return (get_antag_cap() > get_antag_count())
 
 /// Gets candidates for antagonist roles.
@@ -717,9 +720,11 @@ SUBSYSTEM_DEF(gamemode)
 			selected_storyteller = storyboy.type
 			break
 
-	var/datum/storyteller/storytypecasted = selected_storyteller
-	to_chat(world, span_notice("<b>Storyteller is [initial(storytypecasted.name)]!</b>"))
-	to_chat(world, span_notice("[initial(storytypecasted.vote_desc)]"))
+	var/datum/storyteller/selected_storyboy = storytellers[selected_storyteller]
+	set_storyteller(selected_storyteller)
+	selected_storyboy.on_vote_chosen()
+	to_chat(world, span_notice("<b>Storyteller is [selected_storyboy.name]!</b>"))
+	to_chat(world, span_notice("[initial(selected_storyboy.vote_desc)]"))
 
 ///return a weighted list of all storytellers that are currently valid to roll, if return_types is set then we will return types instead of instances
 /datum/controller/subsystem/gamemode/proc/get_valid_storytellers(return_types = FALSE)
@@ -1089,6 +1094,9 @@ SUBSYSTEM_DEF(gamemode)
 
 /// Compares influence of all storytellers and sets a new storyteller with a highest influence
 /datum/controller/subsystem/gamemode/proc/pick_most_influential(roundstart = FALSE)
+	if(current_storyteller?.rules_forever)
+		return
+
 	refresh_alive_stats(roundstart)
 	var/list/storytellers_with_influence = list()
 	var/datum/storyteller/highest

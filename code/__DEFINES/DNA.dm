@@ -155,6 +155,7 @@
 #define BODY_SIZE_NORMAL 1.00
 #define BODY_SIZE_MAX 1.05
 #define BODY_SIZE_MIN 0.95
+#define BODY_SIZE_GIANT 1.25
 
 #define HAIR_COLOR_LIST list("#8f5a00", "#593800", "#362200", "#4e422e", "#8c8271", "#bfb7ab", "#31302e", "#f0dc48")
 #define EYE_COLOR_LIST list("#865900", "#06b400", "#312f27", "#008e83", "#002d8e", "#c16c00")
@@ -173,6 +174,7 @@
 #define PENIS_TYPE_BARBED_KNOTTED 8
 #define PENIS_TYPE_TENTACLE 9
 #define PENIS_TYPE_TAPERED_KNOTTED 10
+#define PENIS_TYPE_EQUINE_KNOTTED 11
 
 #define SHEATH_TYPE_NONE 0
 #define SHEATH_TYPE_NORMAL 1

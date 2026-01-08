@@ -143,9 +143,16 @@ SUBSYSTEM_DEF(job)
 		if(length(job.allowed_races) && !(player.client.prefs.pref_species.type in job.allowed_races))
 			JobDebug("FOC incompatible with species, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
 			continue
-		if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron.type in job.allowed_patrons))
-			JobDebug("FOC incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
-			continue
+		if(length(job.allowed_patrons))
+			var/allowed = FALSE
+			var/datum/patron/P = player.client.prefs.selected_patron
+			for(var/path in job.allowed_patrons)
+				if(istype(P, path))
+					allowed = TRUE
+					break
+			if(!allowed)
+				JobDebug("FOC incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+				continue
 		if(length(job.virtue_restrictions) && ((player.client.prefs.virtue.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
 			JobDebug("FOC incompatible with virtues, Player: [player], Job: [job.title], Virtue 1: [player.client.prefs.virtue.name]")
 			continue
@@ -222,9 +229,16 @@ SUBSYSTEM_DEF(job)
 			JobDebug("GRJ incompatible with species, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
 			continue
 
-		if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron.type in job.allowed_patrons))
-			JobDebug("GRJ incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
-			continue
+		if(length(job.allowed_patrons))
+			var/datum/patron/P = player.client.prefs.selected_patron
+			var/allowed = FALSE
+			for(var/path in job.allowed_patrons)
+				if(istype(P, path))
+					allowed = TRUE
+					break
+			if(!allowed)
+				JobDebug("GRJ incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+				continue
 
 		if(length(job.virtue_restrictions) && ((player.client.prefs.virtue.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
 			JobDebug("GRJ incompatible with virtues, Player: [player], Job: [job.title], Virtue 1: [player.client.prefs.virtue.name]")
@@ -495,8 +509,15 @@ SUBSYSTEM_DEF(job)
 				if(length(job.allowed_races) && !(P.pref_species.type in job.allowed_races))
 					continue
 
-				if(length(job.allowed_patrons) && !(P.selected_patron.type in job.allowed_patrons))
-					continue
+				if(length(job.allowed_patrons))
+					var/allowed = FALSE
+					var/datum/patron/PA = player.client.prefs.selected_patron
+					for(var/path in job.allowed_patrons)
+						if(istype(PA, path))
+							allowed = TRUE
+							break
+					if(!allowed)
+						continue
 
 				if(length(job.virtue_restrictions) && ((P.virtue.type in job.virtue_restrictions) || (P.virtuetwo?.type in job.virtue_restrictions) || (P.virtue_origin?.type in job.virtue_restrictions)))
 					continue
@@ -590,9 +611,16 @@ SUBSYSTEM_DEF(job)
 
 				if(length(job.allowed_races) && !(player.client.prefs.pref_species.type in job.allowed_races))
 					continue
-				
-				if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron.type in job.allowed_patrons))
-					continue
+
+				if(length(job.allowed_patrons))
+					var/allowed = FALSE
+					var/datum/patron/P = player.client.prefs.selected_patron
+					for(var/path in job.allowed_patrons)
+						if(istype(P, path))
+							allowed = TRUE
+							break
+					if(!allowed)
+						continue
 
 				if(length(job.virtue_restrictions) && ((player.client.prefs.virtue.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
 					continue

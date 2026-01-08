@@ -5,6 +5,7 @@
 	allowed_races = RACES_NO_GOLEM
 	outfit = /datum/outfit/job/bandit/hedgeknight
 	category_tags = list(CTAG_BANDIT)
+	allowed_patrons = ALL_INHUMEN_PATRONS
 	maximum_possible_slots = 1
 	cmode_music = 'sound/music/combat_bandit.ogg'
 
@@ -44,9 +45,6 @@
 
 /datum/outfit/job/bandit/hedgeknight/pre_equip(mob/living/carbon/human/H)
 	..()
-	if (!(istype(H.patron, /datum/patron/inhumen/zizo) || istype(H.patron, /datum/patron/inhumen/matthios) || istype(H.patron, /datum/patron/inhumen/graggar) || istype(H.patron, /datum/patron/inhumen/baotha)))
-		to_chat(H, span_warning("My former deity has abandoned me.. Matthios is my new master."))
-		H.set_patron(/datum/patron/inhumen/matthios)	//We allow other heretics into the cool-kids club, but if you are a tennite/psydonian it sets you to matthiosan.
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/black
 	gloves = /obj/item/clothing/gloves/roguetown/chain/blk
 	pants = /obj/item/clothing/under/roguetown/chainlegs/blk

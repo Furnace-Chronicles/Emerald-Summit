@@ -9,7 +9,7 @@
 	bulb_power = 1
 	max_integrity = 0
 	pass_flags = LETPASSTHROW
-
+	light_system = STATIC_LIGHT
 /obj/machinery/light/roguestreet/midlamp
 	icon = 'icons/roguetown/misc/64x64.dmi'
 	icon_state = "midlamp1"

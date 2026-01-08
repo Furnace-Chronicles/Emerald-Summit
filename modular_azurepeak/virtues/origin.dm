@@ -1,8 +1,15 @@
+/datum/virtue/origin
+	var/origin_title
+	var/region_title
+	var/origin_language
+
 /datum/virtue/origin/racial/reach
-	name = "Reachmen"
-	desc = "I originate from the dark forests of Scarlet Reach, an independent domain sandwiched between Otava and Grenzelhoft. Famed for its delicious waffles and many ancient ruins, it is neither prosperous nor well-respected."
+	name = "Aemerlond - Readtun"
+	desc = "A once-bustling trade center and the capitol of Aemerlond, also colloquially known as the Scarlet Reach. It is now devastated in the wake of the Rosa Wars and the Mad Duke's reign. Considered the armpit of the world."
 	custom_text = "Grants free language."
+	region_title = "Readtun"
 	extra_language = TRUE
+	origin_title = "Aemerlond"
 	races = list(/datum/species/human/northern,
 				/datum/species/demihuman,
 				/datum/species/elf/wood,
@@ -13,15 +20,27 @@
 				/datum/species/lizardfolk,
 				/datum/species/dullahan,
 )
-	origin_desc = "An independent domain sandwiched between Otava and Grenzelhoft, positioned the eastern edge of the Greywall mountain range.<br> Scarlet Reach sits on a key \
-	passageway through the Greywall, and its harbor offers a neutral port for merchants and travelers. As a result, the Reach is host to a number of foreigners, including \
-	those from distant lands. Due to this valuable strategic position, however, both the Empire and the Holy Dominion constantly vie for control over the Reach. Yet \
-	Scarlet Reach still enjoys a tentative position of neutrality.<br> Both countries are currently locked in a stalemate, as neither the Patriarch of Otava nor the Emperor \
-	of Grenzelhoft are willing to see open war break out."
+
+/datum/virtue/origin/racial/reach/heartfelt
+	name = "Aemerlond - Heartfelt"
+	desc = "I originate from the sodden valleys of Heartfelt, a struggling kingdom beset by Ascendant forces. Its court is dominated by scheming, such that coups are an annual occurance in this chaotic land."
+	region_title = "Heartfelt"
+	origin_desc = "The Barony of Heartfelt is Readtun's closest geographical neighbour and frequent incidental companion in ill-stricken fortunes. Many words have \
+	been used to describe the barony's vibrant political domain, with one foremost among them: failing. Crises born of scheming, circumstance and sometimes pure bad luck \
+	make Heartfeltian visitors a somewhat common sight in the Reach, ever petitioning for aid or support in ventures spanning from securing noble lineages to reclaiming \
+	fiefs overrun by followers of the Ascendant. For all the good and ill between the two states, they share an undeniable (if tenuous) bond, for only do the two together \
+	understand just how precarious existence atop a divine graveyard can really be."
+
+/datum/virtue/origin/racial/reach/trethewey
+	name = "Aemerlond - Trethewey"
+	desc = "A small county perpetually indebted to the rest of the duchy, once known as 'Rockhill.' It is nearly superstitious practice to blame Trethewey for literally anything bad that happens in the duchy."
+	region_title = "Trethewey"
 
 /datum/virtue/origin/grenzelhoft
-	name = "Grenzelhoftian"
-	desc = "I originate from the dark boreal woods of Grenzelhoft, the birthplace of humanity. The Empire has a long history of conflict with Otava. Long live emperor Kovel II!<br>"
+	name = "Grenzelhoft"
+	desc = "I originate from the dark boreal woods of Grenzelhoft, the birthplace of humanity. The Empire has a long history of conflict with Otava. Long live emperor Kovel II!"
+	origin_title = "Grenzelhoft"
+	origin_language = /datum/language/grenzelhoftian
 	restricted = TRUE
 	races = list(/datum/species/elf/dark,
 				/datum/species/elf/sun,
@@ -38,8 +57,10 @@
 	the two powers."
 
 /datum/virtue/origin/etrusca
-	name = "Etruscan"
-	desc = "I originate from tropical Etrusca, an archipelago of maritime city-states located off the eastern coast of Otava. Skilled traders and sailors, Etruscans have probably rubbed shoulders (or other parts) with more races than most humens know exist.<br>"
+	name = "Etrusca"
+	desc = "I originate from tropical Etrusca, an archipelago of maritime city-states located off the eastern coast of Otava. Skilled traders and sailors, Etruscans have probably rubbed shoulders (or other parts) with more races than most humens know exist."
+	origin_title = "Etrusca"
+	origin_language = /datum/language/etruscan
 	restricted = TRUE
 	races = list(/datum/species/elf/dark,
 				/datum/species/elf/sun,
@@ -52,8 +73,10 @@
 	sailors, but many Etruscans are also unafraid to raise the black flag and turn to piracy, resulting in a reputation that is dubious at best."
 
 /datum/virtue/origin/otava
-	name = "Otavan"
-	desc = "I originate from the gently rolling hills of Otava, a religious union of duchies and counties who answer to the Patriarch of the Otavan Archdiocese.<br>"
+	name = "Otava"
+	desc = "I originate from the gently rolling hills of Otava, a religious union of duchies and counties who answer to the Patriarch of the Otavan Archdiocese."
+	origin_title = "Otava"
+	origin_language = /datum/language/otavan
 	restricted = TRUE
 	races = list(/datum/species/golem/metal,
 				/datum/species/elf/sun,
@@ -68,8 +91,10 @@
 	revival in the schism.<br> The unsanctioned use of magic is illegal in Otava, punishable by branding and the removal of one's tongue."
 
 /datum/virtue/origin/racial/gronn
-	name = "Gronnic"
-	desc = "I originate from the brisk grasslands of Gronn, a tribal confederation of northmen and half-orcs nestled in the Skol River Valley. Gronnic culture is fierce, martial and vengeful, and blood feuds still split the clans to this day.<br>"
+	name = "Gronn"
+	desc = "I originate from the brisk grasslands of Gronn, a tribal confederation of northmen and half-orcs nestled in the Skol River Valley. Gronnic culture is fierce, martial and vengeful, and blood feuds still split the clans to this day."
+	origin_title = "Gronn"
+	origin_language = /datum/language/gronnic
 	races = list(/datum/species/halforc,
 				/datum/species/goblinp,
 				/datum/species/human/northern,
@@ -87,9 +112,21 @@
 	is not uncommon in Gronn to see half-orcs and humens living in coexistence. The region is a vital source of salt, iron, and timber, and is known for a love of \
 	fermented foods and strong, bitter liquor."
 
+/datum/virtue/origin/racial/gronn/New()
+	. = ..()
+	uniquefaith = GLOB.gronnfaith
+
+/datum/virtue/origin/racial/gronn/wastes
+	name = "Gronn - Stygian Wastes"
+	region_title = "Stygian Wastes"
+	desc = "I originate from the terrifying Stygian Wastes, a region of Gronn heavily scarred by Arcyne warfare. Infernals prowl the burning wasteland, clawing forth from cracks in the broken earth."
+	origin_desc = null
+
 /datum/virtue/origin/raneshen
-	name = "Ranesheni"
-	desc = "I originate from the lush valleys and harsh badlands of Raneshen. Home to the zealous sun elves, the region sits at the gateway between the East and West. Recently engulfed in a violent holy war between the followers of the Old God and the divine Justiciars of Astrata.<br>"
+	name = "Raneshi"
+	desc = "I originate from the lush valleys and harsh badlands of Raneshen. Home to the zealous sun elves, the region sits at the gateway between the East and West. Recently engulfed in a violent holy war between the followers of the Old God and the divine Justiciars of Astrata."
+	origin_title = "Raneshi"
+	origin_language = /datum/language/celestial
 	restricted = TRUE
 	races = list(/datum/species/elf/dark,
 				/datum/species/halforc,
@@ -107,11 +144,13 @@
 	Psydonite slave rebellion half a century ago. It was fractured into several Elven successor states, each one claiming the legacy of the ancient Dominion, while human-led kingdoms \
 	and rebel groups still vie for control over the region. Raneshen remains a hotbed of religious and ethnic conflict, and many refugees have fled to the West seeking sanctuary \
 	— or hoping to bring their holy war along with them. The region itself is known for lush river-valleys, with lethally-hot deserts and harsh, rocky badlands forming natural borders. \
-	Most trade from Kazengun and Naledi flows through Raneshen, and Ranesheni merchants are said to be just as vicious as the Solar Justiciars." 
+	Most trade from Kazengun and Naledi flows through Raneshen, and Ranesheni merchants are said to be just as vicious as the Solar Justiciars."
 
 /datum/virtue/origin/naledi
-	name = "Naledian"
-	desc = "I originate from the sandy dunes of Naledi, known for its mages and scholars. Its people keep to the traditions of the Old God, even in the empire's dying age.<br>"
+	name = "Naledi"
+	desc = "I originate from the sandy dunes of Naledi, known for its mages and scholars. Its people keep to the traditions of the Old God, even in the empire's dying age."
+	origin_title = "Naledi"
+	origin_language = /datum/language/celestial
 	restricted = TRUE
 	races = list(/datum/species/elf/dark,
 				/datum/species/halforc,
@@ -133,8 +172,10 @@
 	long lifespan to closely-guarded alchemical secrets."
 
 /datum/virtue/origin/kazengun
-	name = "Kazengite"
-	desc = "I originate from the temperate forests of Kazengun, a region poorly known to the West. Its people worship a syncretic variation of the Divine Pantheon, often percieved as heretical.<br>"
+	name = "Kazengun"
+	desc = "I originate from the temperate forests of Kazengun, a region poorly known to the West. Its people worship a syncretic variation of the Divine Pantheon, often percieved as heretical."
+	origin_title = "Kazengun"
+	origin_language = /datum/language/kazengunese
 	restricted = TRUE
 	races = list(/datum/species/elf/dark,
 				/datum/species/elf/sun,
@@ -142,11 +183,25 @@
 				/datum/species/moth,
 				/datum/species/dwarf/mountain
 )
-	origin_desc = " "
+
+/datum/virtue/origin/kazengun/New()
+	. = ..()
+	uniquefaith = GLOB.kazfaith
+
+/datum/virtue/origin/kazengun/lingyue
+	name = "Kazengun - Lingyue"
+	region_title = "Lingyue"
+	desc = "I originate from the isolated isle of Lingyue, known primarily for worshipping Ascendants as part of the Divine Pantheon. It is a land of ruthless individualism where the mighty rule."
+
+/datum/virtue/origin/kazengun/lingyue/New()
+	. = ..()
+	uniquefaith = GLOB.linfaith
 
 /datum/virtue/origin/hammerhold
-	name = "Hammerholdian"
-	desc = "I originate from mountainous Hammerhold, a frigid archipelago in the far north. The region is considered the homeland of the Dwarves.<br>"
+	name = "Hammerhold"
+	desc = "I originate from mountainous Hammerhold, a frigid archipelago in the far north. It is sparsely populated: only the hardiest peoples can endure its arctic, barren lands."
+	origin_title = "Hammerhold"
+	origin_language = /datum/language/dwarvish
 	restricted = TRUE
 	races = list(/datum/species/elf/dark,
 				/datum/species/elf/sun,
@@ -155,11 +210,12 @@
 				/datum/species/lizardfolk,
 				/datum/species/tieberian
 )
-	origin_desc = " "
 
 /datum/virtue/origin/avar
-	name = "Aavnic"
-	desc = "I originate from the open plains of Avar, a nomadic people residing the Aavnic steppes. The only settled land consists of small, independent city-states, often engulfed in war with eachother.<br>"
+	name = "Avar"
+	desc = "I originate from the open plains of Avar, a nomadic people residing the Aavnic steppes. The only settled land consists of small, independent city-states, often engulfed in war with eachother."
+	origin_title = "Avar"
+	origin_language = /datum/language/aavnic
 	restricted = TRUE
 	races = list(/datum/species/elf/dark,
 				/datum/species/elf/sun,
@@ -169,11 +225,12 @@
 				/datum/species/lamia,
 				/datum/species/dracon
 )
-	origin_desc = " "
 
 /datum/virtue/origin/racial/underdark
-	name = "Underdweller"
-	desc = "I originate from the treacherous Underdark, a cavernous region beneath Otava and Grenzelhoft. This unforgiving land is dominated by the prosperous and cruel dark elves and their pets. Most surfacedwellers only come here in chains.<br>"
+	name = "Underdark"
+	desc = "I originate from the treacherous Underdark, a cavernous region beneath Otava and Grenzelhoft. This unforgiving land is dominated by the prosperous and cruel dark elves and their pets. Most surfacedwellers only come here in chains."
+	origin_title = "the Underdark"
+	origin_language = /datum/language/otavan
 	added_traits = list(TRAIT_UNDERDARK)
 	races = list(/datum/species/elf/dark,
 				/datum/species/moth,
@@ -183,56 +240,27 @@
 				/datum/species/anthromorph,
 				/datum/species/anthromorphsmall
 )
-	origin_desc = " "
+
+/datum/virtue/origin/racial/underdark/effluvia
+	name = "Underdark - Effluvia"
+	region_title = "Effluvia"
+	desc = "I originate from the rotting caverns of Effluvia, a region of the Underdark teeming with poisonous waters. Infested with giant insects and spiders, this region is largely considered uninhabitable by all but the desperate."
+
+/datum/virtue/origin/racial/underdark/effluvia/New()
+	. = ..()
+	uniquefaith = GLOB.fluvfaith
 
 /datum/virtue/origin/unusual
 	name = "Unusual"
-	desc = "I originate from a foreign region in which my race is a minority. The customs of this land have become my own, at the cost of my heritage.<br>"
-	triumph_cost = 3
+	desc = "I originate from a foreign region in which my race is a minority. The customs of this land have become my own, at the cost of my heritage."
+	triumph_cost = 2
 	custom_text = "Allows selection of foreign origin upon spawn."
 
-/datum/virtue/origin/racial/reach/apply_to_human(mob/living/carbon/human/recipient)
-	recipient.dna.species.origin = "Scarlet Reach"
-
-/datum/virtue/origin/grenzelhoft/apply_to_human(mob/living/carbon/human/recipient)
-	recipient.dna.species.origin = "Grenzelhoft"
-	recipient.grant_language(/datum/language/grenzelhoftian)
-
-/datum/virtue/origin/etrusca/apply_to_human(mob/living/carbon/human/recipient)
-	recipient.dna.species.origin = "Etrusca"
-	recipient.grant_language(/datum/language/etruscan)
-
-/datum/virtue/origin/otava/apply_to_human(mob/living/carbon/human/recipient)
-	recipient.dna.species.origin = "Otava"
-	recipient.grant_language(/datum/language/otavan)
-
-/datum/virtue/origin/racial/gronn/apply_to_human(mob/living/carbon/human/recipient)
-	recipient.dna.species.origin = "Gronn"
-	recipient.grant_language(/datum/language/gronnic)
-
-/datum/virtue/origin/raneshen/apply_to_human(mob/living/carbon/human/recipient)
-	recipient.dna.species.origin = "Raneshen"
-	recipient.grant_language(/datum/language/celestial)
-
-/datum/virtue/origin/naledi/apply_to_human(mob/living/carbon/human/recipient)
-	recipient.dna.species.origin = "Naledi"
-	recipient.grant_language(/datum/language/celestial)
-
-/datum/virtue/origin/kazengun/apply_to_human(mob/living/carbon/human/recipient)
-	recipient.dna.species.origin = "Kazengun"
-	recipient.grant_language(/datum/language/kazengunese)
-
-/datum/virtue/origin/hammerhold/apply_to_human(mob/living/carbon/human/recipient)
-	recipient.dna.species.origin = "Hammerhold"
-	recipient.grant_language(/datum/language/dwarvish)
-
-/datum/virtue/origin/avar/apply_to_human(mob/living/carbon/human/recipient)
-	recipient.dna.species.origin = "Avar"
-	recipient.grant_language(/datum/language/aavnic)
-
-/datum/virtue/origin/racial/underdark/apply_to_human(mob/living/carbon/human/recipient)
-	recipient.dna.species.origin = "the Underdark"
-	recipient.grant_language(/datum/language/otavan)
+/datum/virtue/origin/apply_to_human(mob/living/carbon/human/recipient)
+	recipient.dna.species.origin = origin_title
+	recipient.dna.species.region = region_title
+	if(!extra_language)
+		recipient.grant_language(origin_language)
 
 /datum/virtue/origin/unusual/apply_to_human(mob/living/carbon/human/recipient)
 	addtimer(CALLBACK(src, .proc/unusual_apply, recipient), 50)
@@ -260,6 +288,8 @@
 			recipient.dna.species.skin_tone_wording = "Custom"
 			var/datum/virtue/virtue_chosen = virtue_choices[result]
 			apply_virtue(recipient, virtue_chosen)
+			if(virtue_chosen.extra_language == TRUE)
+				recipient.grant_language(recipient.client.prefs.extra_language)
 		else
 			var/chosen_virtue = new recipient.dna.species.origin_default
 			apply_virtue(recipient, chosen_virtue)

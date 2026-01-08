@@ -16,7 +16,7 @@
 		addtimer(CALLBACK(src, PROC_REF(clear_tempo_all)), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 	if(!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 		filtered_balloon_alert(TRAIT_COMBAT_AWARE, (cmode ? ("<i><font color = '#831414'>Tense</font></i>") : ("<i><font color = '#c7c6c6'>Relaxed</font></i>")), y_offset = 32)
-
+	SEND_SIGNAL(src, COMSIG_COMBAT_MODE)
 /mob/living/carbon/human/RightClickOn(atom/A, params)
 	if(rmb_intent && !rmb_intent.adjacency && !istype(A, /obj/item/clothing) && cmode && !istype(src, /mob/living/carbon/human/species/skeleton) && !istype(A, /obj/item/quiver) && !istype(A, /obj/item/storage))
 		var/held = get_active_held_item()
@@ -296,6 +296,22 @@
 	adjacency = FALSE
 
 /mob/living/proc/attempt_riposte(mob/living/user, atom/target)
+	// if our mage armor is active, using RMB defend on ourself causes us instead to feed energy & stamina based on the time left before it comes back up to instantly recharge it
+	if (user == target && user.can_speak_vocal() && user.magearmor && HAS_TRAIT(user, TRAIT_MAGEARMOR))
+		var/datum/status_effect/buff/magearmor/MA = user.has_status_effect(/datum/status_effect/buff/magearmor)
+		if (!MA)
+			return
+		var/stamina_to_deduct = MA.duration / 100 // they're in deciseconds, remember. so 30 seconds = 30 stamina. also, athletics applies to this as well because stamina_add
+		if ((user.stamina + stamina_to_deduct) < user.max_stamina)
+			user.stamina_add(stamina_to_deduct)
+			user.changeNext_move(CLICK_CD_MELEE)
+			user.remove_status_effect(MA)
+			var/recharge_state = user.get_mage_armor_descriptor()
+			user.visible_message(span_warning("[user] [recharge_state] feeds power into their defensive wards, swiftly raising them!"), span_notice("I [recharge_state] feed a burst of mana into my defensive wards, recharging them instantly!"))
+			playsound(user, 'sound/magic/ma-forcerecover.ogg', 75, FALSE)
+			// this path renders us unable to clash, which is the tradeoff for magearmor anyway, so wig out from here.
+			return
+
 	if(!user.has_status_effect(/datum/status_effect/buff/clash) && !user.has_status_effect(/datum/status_effect/debuff/clashcd))
 		if(!user.get_active_held_item()) //Nothing in our hand to Guard with.
 			return 
@@ -310,6 +326,22 @@
 			to_chat(user, span_warning("I'm already focusing on my mage armor!"))
 			return
 		user.apply_status_effect(/datum/status_effect/buff/clash)
+
+// returns a verb that describes our fatigue level in the mage armor force recharge
+/mob/living/proc/get_mage_armor_descriptor()
+	switch (stamina)
+		if (0 to 10)
+			return "effortlessly"
+		if (11 to 30)
+			return "easily"
+		if (31 to 60)
+			return "carefully"
+		if (61 to 90)
+			return "unsteadily"
+		if (90 to INFINITY)
+			return span_crit("<B>BARELY</B>")
+	
+	return "neutrally" // shouldn't see this
 
 /datum/rmb_intent/riposte/special_attack(mob/living/user, atom/target)	//Wish we could breakline these somehow.
 	user.attempt_riposte(user, target)

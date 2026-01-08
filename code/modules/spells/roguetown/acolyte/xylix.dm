@@ -223,6 +223,9 @@
 			playsound(H, pick(sounds), 100, TRUE)
 		return TRUE
 
+/obj/effect/proc_holder/spell/self/xylixslip/kazengun
+	name = "Xyjian Slip"
+
 /obj/effect/proc_holder/spell/invoked/projectile/fetch/miracle
 	name = "Divine Fetch"
 	miracle = TRUE
