@@ -45,7 +45,7 @@
 					var/pass = FALSE
 					var/datum/patron/viewer_patron = H.patron
 					//Xylixians will always flash the observer's religion to them.
-					if((istype(viewer_patron, source_patron) || istype(viewer_patron.parentpatron, source_patron)) || (istype(viewer_patron, source_patron.parentpatron) || istype(viewer_patron, source_patron.parentpatron)) || (istype(source_patron, /datum/patron/divine/xylix)))
+					if((istype(viewer_patron, source_patron) || istype(viewer_patron.parentpatron, source_patron)) || (istype(viewer_patron, source_patron.parentpatron) || istype(viewer_patron, source_patron.parentpatron)) || ((istype(source_patron, /datum/patron/divine/xylix) || istype(source_patron.parentpatron, /datum/patron/divine/xylix))))
 						var/sign = "sign_[viewer_patron.name]"
 						if(viewer_patron.parentpatron)
 							var/datum/patron/temp_patron = viewer_patron.parentpatron
