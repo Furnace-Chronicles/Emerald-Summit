@@ -177,32 +177,26 @@
 		to_chat(src, span_warning("Could not find anyone by that name."))
 		return FALSE
 
-	// Determine if target is a valid garrison member
-	var/is_man_at_arms = (target.job == "Man at Arms" || target.job == "Woman at Arms")
-	var/is_sergeant = (target.job == "Sergeant")
-	var/is_squire = (target.job == "Squire")
+	// Check if target is a warden, watchman, or has the guardsman trait
 	var/is_warden = (target.job == "Warden")
+	var/is_watchman = (target.job == "Watchman")
 
-	if(!is_man_at_arms && !is_sergeant && !is_squire && !is_warden)
-		to_chat(src, span_warning("[target.real_name] is not a member of the garrison."))
-		return FALSE
-
-	// For non-wardens, check if they have TRAIT_GUARDSMAN
-	if(!is_warden && !HAS_TRAIT(target, TRAIT_GUARDSMAN))
+	if(!is_warden && !is_watchman && !HAS_TRAIT(target, TRAIT_GUARDSMAN))
 		to_chat(src, span_warning("[target.real_name] is not currently serving as a soldier."))
 		return FALSE
 
 	hand_fire_guard_cooldown = world.time + FIRE_GUARD_COOLDOWN
 
-	// Special handling for Wardens - only remove job title, not traits
-	if(is_warden)
+	// Special handling for Wardens and Watchmen - only remove job title, not traits
+	if(is_warden || is_watchman)
 		target.job = "Towner"
 		target.advjob = null
 		if(target.mind)
 			target.mind.assigned_role = "Towner"
 		
-		to_chat(target, span_boldwarning("You have been dismissed from the wardens by [real_name]!"))
-		priority_announce("[real_name] has dismissed [inputty] from the wardens!", title = "Dismissal", sound = 'sound/misc/bell.ogg')
+		var/position_name = is_warden ? "wardens" : "watch"
+		to_chat(target, span_boldwarning("You have been dismissed from the [position_name] by [real_name]!"))
+		priority_announce("[real_name] has dismissed [inputty] from the [position_name]!", title = "Dismissal", sound = 'sound/misc/bell.ogg')
 		return TRUE
 
 	// For other garrison members - remove guard trait and change job to Towner
