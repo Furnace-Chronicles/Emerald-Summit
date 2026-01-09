@@ -1362,3 +1362,61 @@ datum/crafting_recipe/roguetown/sewing/Purdress
 		/obj/item/natural/fibers = 2,
 	)
 	result = /obj/item/clothing/under/roguetown/tights/ogre
+
+// Maid Clothes //
+/datum/crafting_recipe/roguetown/sewing/maidband
+	name = "maid headband"
+	result = list(/obj/item/clothing/head/maidband)
+	reqs = list(/obj/item/natural/cloth = 1,
+				/obj/item/natural/fibers = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/servantdress
+	name = "servant dress"
+	result = list(/obj/item/clothing/shirt/dress/maid/servant)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/maidapron
+	name = "maid apron"
+	result = /obj/item/clothing/cloak/apron/maid
+	reqs = list(/obj/item/natural/cloth = 1,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/formalshirt
+	name = "formal shirt"
+	result = list(/obj/item/clothing/shirt/undershirt/formal)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/trousershorts
+	name = "trouser shorts"
+	result = list(/obj/item/clothing/pants/trou/formal/shorts)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/maiddress
+	name = "maid dress"
+	result = list(/obj/item/clothing/shirt/dress/maid)
+	requirements = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 2)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/sewing/tailcoat
+	name =  "tailcoat"
+	result = list(/obj/item/clothing/armor/gambeson/tailcoat)
+	requirements = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 2)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/sewing/formaltrousers
+	name = "formal trousers"
+	result = list(/obj/item/clothing/pants/trou/formal)
+	requirements = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 2)
+	craftdiff = 4
