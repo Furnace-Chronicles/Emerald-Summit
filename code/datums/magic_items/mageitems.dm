@@ -9,6 +9,7 @@
 	resistance_flags = NONE
 	max_integrity = 300
 	component_type = /datum/component/storage/concrete/grid/magebag
+	sewrepair = TRUE
 
 /obj/item/storage/magebag/examine(mob/user)
 	. = ..()

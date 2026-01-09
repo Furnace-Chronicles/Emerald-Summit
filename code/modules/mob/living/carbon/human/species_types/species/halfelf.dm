@@ -93,6 +93,9 @@
 		/datum/language/common,
 		/datum/language/elvish
 	)
+	inherent_skills = list(
+		/datum/skill/misc/reading = 1, // Nerds
+	)
 
 /datum/species/human/halfelf/on_species_gain(mob/living/carbon/literally_him, datum/species/old_species)
 	..()

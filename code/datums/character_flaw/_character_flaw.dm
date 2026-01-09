@@ -485,6 +485,13 @@ GLOBAL_LIST_INIT(character_flaws, list(
 		mammons += get_mammons_in_atom(content)
 	return mammons
 
+/proc/get_sellprice_in_atom(atom/movable/movable)
+	var/sellprice_total = 0
+	sellprice_total += movable.sellprice
+	for(var/atom/movable/content in movable.contents)
+		sellprice_total += get_sellprice_in_atom(content)
+	return sellprice_total
+
 /datum/charflaw/sleepless
 	name = "Insomnia"
 	desc = "I do not sleep. I cannot sleep. I've tried everything."

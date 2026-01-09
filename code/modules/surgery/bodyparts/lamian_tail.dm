@@ -64,7 +64,7 @@
 		tail_markings_tip.Blend(tail_markings_color, color_blend_mode)
 
 	var/image/working_markings = image(tail_markings)
-	working_markings.layer = -BODYPARTS_LAYER_PLUS
+	working_markings.layer = -BODY_ADJ_LAYER
 	working_markings.pixel_x = offset_x
 
 	. += working_markings
