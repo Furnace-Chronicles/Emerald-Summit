@@ -1,6 +1,6 @@
 /datum/language/undersign
 	name = "Undersign"
-	desc = "A silent sign language native to the Underdark. Undersign conveys meaning through posture, hand-shapes, controlled hand movements, and eye focus. Designed for communication in darkness where sound invites death, it is widely used by drow and other subterranean peoples."
+	desc = "A language native to the Underdark. Undersign conveys meaning through posture, hand-shapes, and controlled hand movements. Designed for communication in darkness where sound invites death, it is widely used by drow and other subterranean species."
 	speech_verb = "gestures"
 	ask_verb = "signals"
 	exclaim_verb = "emphatically signs"
@@ -34,5 +34,4 @@
 		"still their hands completely",
 		"makes a short, deliberate motion",
 		"flicks their fingers outward",
-		"draws a tight circle, then stops"
-	)
+		"draws a tight circle, then stops")
