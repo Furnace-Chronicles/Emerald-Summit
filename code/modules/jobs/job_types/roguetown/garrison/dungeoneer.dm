@@ -79,7 +79,7 @@
 	H.adjust_blindness(-3)
 	pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
 	shoes = /obj/item/clothing/shoes/roguetown/boots
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/councillor//Just so I don't have to make another subtype just for it to start black.
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/councilor//Just so I don't have to make another subtype just for it to start black.
 	armor = /obj/item/clothing/suit/roguetown/armor/leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black

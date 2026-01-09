@@ -335,7 +335,7 @@
 	color = "#eec39a"
 	shiftable = FALSE
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/councillor
+/obj/item/clothing/suit/roguetown/armor/gambeson/councilor
 	color = "#646464"
 
 /obj/item/clothing/suit/roguetown/armor/leather/vest/winterjacket

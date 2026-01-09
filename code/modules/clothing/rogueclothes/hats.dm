@@ -608,7 +608,7 @@
 	color = "#1b1717ff"
 	detail_color = "#b68e37ff"
 
-/obj/item/clothing/head/roguetown/chaperon/councillor
+/obj/item/clothing/head/roguetown/chaperon/councilor
 	name = "chaperon hat"
 	desc = "A fancy hat worn by nobles."
 	icon_state = "chap_alt"

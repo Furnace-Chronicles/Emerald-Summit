@@ -193,8 +193,8 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Marshal"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/councillor
-	name = "Councillor"
+/obj/effect/landmark/start/councilor
+	name = "Councilor"
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/veteran

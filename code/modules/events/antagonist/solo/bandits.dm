@@ -23,7 +23,7 @@
 		"Acolyte",
 		"Martyr",
 		"Templar",
-		"Councillor",
+		"Councilor",
 		"Prince",
 		"Princess",
 		"Hand",

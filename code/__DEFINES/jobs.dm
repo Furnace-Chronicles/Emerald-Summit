@@ -129,7 +129,7 @@
 #define WIZARD		(1<<1)
 #define PHYSICIAN 	(1<<2)
 #define BUTLER		(1<<3)
-#define COUNCILLOR	(1<<4)
+#define COUNCILOR	(1<<4)
 
 #define YEOMEN		(1<<4)
 
@@ -237,7 +237,7 @@
 #define JDO_STEWARD 3
 #define JDO_CLERK 3.1
 #define JDO_MARSHAL 4
-#define JDO_COUNCILLOR 4.1
+#define JDO_COUNCILOR 4.1
 
 // Courtiers
 #define JDO_MAGICIAN 5
@@ -334,7 +334,7 @@
 
 #define NOBLE_ROLES \
 	/datum/job/roguetown/prince,\
-	/datum/job/roguetown/councillor,\
+	/datum/job/roguetown/councilor,\
 	/datum/job/roguetown/physician,\
 	/datum/job/roguetown/marshal,\
 	/datum/job/roguetown/captain,\

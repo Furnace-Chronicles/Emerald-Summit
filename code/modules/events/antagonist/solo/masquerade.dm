@@ -32,7 +32,7 @@
 		"Acolyte",
 		"Martyr",
 		"Templar",
-		"Councillor",
+		"Councilor",
 		"Bandit",
 		"Prince",
 		"Princess",

@@ -1,6 +1,6 @@
-/datum/job/roguetown/councillor
-	title = "Councillor"
-	flag = COUNCILLOR
+/datum/job/roguetown/councilor
+	title = "Councilor"
+	flag = COUNCILOR
 	department_flag = NOBLEMEN
 	faction = "Station"
 	total_positions = 3
@@ -12,11 +12,11 @@
 		/datum/species/golem/metal,
 	)
 	allowed_sexes = list(MALE, FEMALE)
-	display_order = JDO_COUNCILLOR
+	display_order = JDO_COUNCILOR
 	tutorial = "You may have inherited this position, bought your way into it, or were appointed to it by merit--perish the thought! Whatever the case though, you work as an assistant and agent of the crown in matters of state. Whether this be aiding the steward, the sheriff, or the crown itself, or simply enjoying the free food of the keep, your duties vary day by day. You may be the lowest rung of the ladder, but that rung still towers over everyone else in town."
 	whitelist_req = FALSE
-	outfit = /datum/outfit/job/councillor
-	advclass_cat_rolls = list(CTAG_COUNCILLOR = 2)
+	outfit = /datum/outfit/job/councilor
+	advclass_cat_rolls = list(CTAG_COUNCILOR = 2)
 
 
 	give_bank_account = 40
@@ -29,18 +29,18 @@
 
 	job_traits = list(TRAIT_NOBLE, TRAIT_SEEPRICES_SHITTY)
 	job_subclasses = list(
-		/datum/advclass/councillor
+		/datum/advclass/councilor
 	)
 
 	virtue_restrictions = list(
 		/datum/virtue/heretic/zchurch_keyholder
 	)
 
-/datum/advclass/councillor
-	name = "Councillor"
+/datum/advclass/councilor
+	name = "Councilor"
 	tutorial = "You may have inherited this position, bought your way into it, or were appointed to it by merit--perish the thought! Whatever the case though, you work as an assistant and agent of the crown in matters of state. Whether this be aiding the steward, the sheriff, or the crown itself, or simply enjoying the free food of the keep, your duties vary day by day. You may be the lowest rung of the ladder, but that rung still towers over everyone else in town."
-	outfit = /datum/outfit/job/councillor/basic
-	category_tags = list(CTAG_COUNCILLOR)
+	outfit = /datum/outfit/job/councilor/basic
+	category_tags = list(CTAG_COUNCILOR)
 	subclass_stats = list(
 		STATKEY_PER = 2,
 		STATKEY_INT = 2,
@@ -61,13 +61,13 @@
 		/datum/skill/misc/music = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/councillor
+/datum/outfit/job/councilor
 	job_bitflag = BITFLAG_ROYALTY
 
-/datum/outfit/job/councillor/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/councilor/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	neck = /obj/item/storage/belt/rogue/pouch/coins/rich
-	armor = /obj/item/clothing/suit/roguetown/armor/gambeson/councillor
+	armor = /obj/item/clothing/suit/roguetown/armor/gambeson/councilor
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
 	pants = /obj/item/clothing/under/roguetown/tights/random
 	shoes = /obj/item/clothing/shoes/roguetown/boots
@@ -75,4 +75,4 @@
 	belt = /obj/item/storage/belt/rogue/leather/plaquesilver
 	beltl = /obj/item/storage/keyring/steward // If this turns out to be overbearing re:stewardry bump down to the clerk keyring instead.
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
-	cloak = /obj/item/clothing/cloak/stabard/surcoat/councillor
+	cloak = /obj/item/clothing/cloak/stabard/surcoat/councilor

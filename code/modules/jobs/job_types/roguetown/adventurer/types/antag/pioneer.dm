@@ -48,7 +48,7 @@
 	belt =	/obj/item/storage/belt/rogue/leather
 	head = /obj/item/clothing/head/roguetown/helmet/kettle
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/councillor //gambeson but black
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/councilor //gambeson but black
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor //toe safety first
 	mask = /obj/item/clothing/mask/rogue/facemask/steel
 	neck = /obj/item/clothing/neck/roguetown/coif

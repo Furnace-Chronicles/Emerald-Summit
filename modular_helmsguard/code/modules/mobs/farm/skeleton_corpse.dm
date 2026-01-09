@@ -447,7 +447,7 @@
 		if(prob(60))
 			head = pick(
 				/obj/item/clothing/head/roguetown/fancyhat,
-				/obj/item/clothing/head/roguetown/chaperon/councillor,
+				/obj/item/clothing/head/roguetown/chaperon/councilor,
 				/obj/item/clothing/head/roguetown/papakha,
 				/obj/item/clothing/head/roguetown/smokingcap,
 				/obj/item/clothing/head/roguetown/bardhat,
@@ -471,7 +471,7 @@
 			head = pick(
 				/obj/item/clothing/head/roguetown/hennin,
 				/obj/item/clothing/head/roguetown/fancyhat,
-				/obj/item/clothing/head/roguetown/chaperon/councillor,
+				/obj/item/clothing/head/roguetown/chaperon/councilor,
 				/obj/item/clothing/head/roguetown/papakha,
 			)
 		

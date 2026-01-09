@@ -341,7 +341,7 @@
 		/datum/job/roguetown/apothecary,
 		/datum/job/roguetown/magician,
 		/datum/job/roguetown/prince,
-		/datum/job/roguetown/councillor,
+		/datum/job/roguetown/councilor,
 		/datum/job/roguetown/physician,
 		/datum/job/roguetown/marshal,
 		/datum/job/roguetown/hand,
