@@ -144,7 +144,7 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 	switch(mode)
 		if(0)
 			if(findtext(message, "secrets of the throat"))
-				say("My commands are: Make Decree, Make Announcement, Set Taxes, Declare Outlaw, Summon Crown, Summon Key, Make Law, Remove Law, Purge Laws, Purge Decrees, Become Regent, Nevermind")
+				say("My commands are: Make Decree, Make Announcement, Set Taxes, Declare Outlaw, Summon Crown, Summon Key, Make Law, Remove Law, Purge Laws, Purge Decrees, Silence Hounds, Become Regent, Nevermind")
 				playsound(src, 'sound/misc/machinelong.ogg', 100, FALSE, -1)
 			if(findtext(message, "make announcement"))
 				if(nocrown)
@@ -229,6 +229,31 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 				say("The new tax percent shall be...")
 				playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
 				give_tax_popup(H)
+				return
+			if(findtext(message, "silence hounds"))
+				if(notlord || nocrown)
+					say("You are not my master!")
+					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+					return
+				GLOB.garrison_silenced = !GLOB.garrison_silenced
+				if(GLOB.garrison_silenced)
+					// Swap only structure SCOMs on nobles' line back to public
+					for(var/datum/scommodule/S in SSroguemachine.scomm_machines)
+						if(S.target == SCOM_TARGET_GARRISON && istype(S.parent_object, /obj/structure/roguemachine/scomm))
+							S.target = SCOM_TARGET_COMMONS
+							S.mute_commons = FALSE
+							S.mute_garrison = TRUE
+							var/obj/structure/roguemachine/scomm/scom_obj = S.parent_object
+							scom_obj.update_icon()
+					say("The hounds are silenced! Only those of noble rank may speak on the nobles' scomline.")
+					playsound(src, 'sound/misc/machineyes.ogg', 100, FALSE, -1)
+					message_admins("[key_name_admin(H)] has SILENCED the nobles' scomline for non-rank 5 nobility.")
+					log_game("[key_name(H)] silenced the nobles' scomline.")
+				else
+					say("The hounds may speak once more! The nobles' scomline is restored.")
+					playsound(src, 'sound/misc/machineyes.ogg', 100, FALSE, -1)
+					message_admins("[key_name_admin(H)] has UNSILENCED the nobles' scomline.")
+					log_game("[key_name(H)] unsilenced the nobles' scomline.")
 				return
 			if(findtext(message, "become regent"))
 				if(nocrown)

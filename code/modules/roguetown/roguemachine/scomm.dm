@@ -9,6 +9,8 @@
 #define SCOM_TARGET_JABBERLINE 5
 #define SCOM_TARGET_LOUDMOUTH_STRONG 6
 
+GLOBAL_VAR_INIT(garrison_silenced, TRUE)
+
 // Vrell - This shit needed modularized ages ago. I'm fixing that.
 /datum/scommodule
 	var/obj/parent_object = null
@@ -555,7 +557,17 @@
 /obj/structure/roguemachine/scomm/MiddleClick(mob/living/carbon/human/user)
 	if(.)
 		return
-	if((HAS_TRAIT(user, TRAIT_GUARDSMAN) || HAS_TRAIT(user, TRAIT_GUARDSMAN_NOBLE) || (user.job == "Warden") || (user.job == "Hand") || (user.job == "Watchman") || (user.job == "Squire") || (user.job == "Marshal") || (user.job == "Grand Duke") || (user.job == "Knight") || (user.job == "Consort")))
+	// Check if user has rank 5 nobility OR is part of garrison jobs
+	var/is_rank5_nobility = (user.social_rank >= SOCIAL_RANK_NOBLE) && !HAS_TRAIT(user, TRAIT_HEARTFELT)
+	var/is_garrison_job = (HAS_TRAIT(user, TRAIT_GUARDSMAN) || HAS_TRAIT(user, TRAIT_GUARDSMAN_NOBLE) || (user.job == "Warden") || (user.job == "Watchman"))
+	
+	if(is_rank5_nobility || is_garrison_job)
+		// Rank 5 nobility always has access, garrison jobs only if not silenced
+		if(!is_rank5_nobility && is_garrison_job && GLOB.garrison_silenced)
+			to_chat(user, span_warning("The nobles' scomline has been silenced by the Crown."))
+			playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+			return
+		
 		if(alert("Would you like to swap lines or connect to a jabberline?",, "swap", "jabberline") != "jabberline")
 			if(scom.target != SCOM_TARGET_GARRISON)
 				scom.target = SCOM_TARGET_GARRISON
@@ -563,7 +575,7 @@
 				scom.target = SCOM_TARGET_COMMONS
 			scom.mute_commons = !scom.mute_commons
 			scom.mute_garrison = !scom.mute_commons // Yes this is intentional.
-			to_chat(user, span_info("I [scom.target == SCOM_TARGET_GARRISON ? "connect to the garrison SCOMline" : "connect to the general SCOMLINE"]"))
+			to_chat(user, span_info("I [scom.target == SCOM_TARGET_GARRISON ? "connect to the nobles' scomline" : "connect to the general SCOMLINE"]"))
 			playsound(loc, 'sound/misc/garrisonscom.ogg', 100, FALSE, -1)
 			update_icon()
 			return
@@ -1039,10 +1051,7 @@
 		scom.target = SCOM_TARGET_GARRISON
 	else
 		scom.target = SCOM_TARGET_COMMONS
-	to_chat(user, span_info("I [scom.target == SCOM_TARGET_GARRISON ? "connect to the garrison SCOMline" : "connect to the general SCOMline"]"))
-	update_icon()
-
-/obj/item/scomstone/garrison/update_icon()
+	to_chat(user, span_info("I [scom.target == SCOM_TARGET_GARRISON ? "connect to the nobles' scomline" : "connect to the general SCOMline"]"))
 	icon_state = "[initial(icon_state)][scom.target == SCOM_TARGET_GARRISON ? "_on" : ""]"
 
 /obj/item/scomstone/bad/garrison
@@ -1121,7 +1130,7 @@
 		scom.target = SCOM_TARGET_GARRISON
 	else
 		scom.target = SCOM_TARGET_COMMONS
-	to_chat(user, span_info("I [scom.target == SCOM_TARGET_GARRISON ? "connect the crown to the garrison SCOMline" : "connect the crown to the general SCOMline"]"))
+	to_chat(user, span_info("I [scom.target == SCOM_TARGET_GARRISON ? "connect the crown to the nobles' scomline" : "connect the crown to the general SCOMline"]"))
 
 /obj/item/clothing/head/roguetown/crown/serpcrown/MiddleClick(mob/user)
 	if(.)
