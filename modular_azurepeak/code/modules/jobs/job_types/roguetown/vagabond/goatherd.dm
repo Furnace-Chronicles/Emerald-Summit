@@ -1,5 +1,6 @@
 /datum/advclass/vagabond_goatherd
 	name = "Lone Herder"
+	name = "Lone Herder"
 	tutorial = "Having lost your idyllic pastoral existence, only a solitary member of your herd now remains as a reminder of what was. Is your sole charge a friend, or is it food? You decide."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
@@ -21,6 +22,10 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 	)
 
+	virtue_restrictions = list(
+		/datum/virtue/utility/riding
+	)
+
 /datum/outfit/job/vagabond/goatherd/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_femme_clothes(H))
@@ -40,7 +45,7 @@
 	if(prob(10))
 		r_hand = /obj/item/rogue/instrument/flute
 	
-	if (H.mind)
+	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goat/tame/Initialize()

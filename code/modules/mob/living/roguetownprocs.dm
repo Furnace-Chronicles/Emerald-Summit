@@ -372,6 +372,7 @@
 						drained = drained + ( intenty.masteritem.wbalance * ((user.STASTR - src.STASTR) * -5) )
 			else
 				to_chat(src, span_warning("The enemy defeated my parry!"))
+				return FALSE
 
 			drained = max(drained, 5)
 

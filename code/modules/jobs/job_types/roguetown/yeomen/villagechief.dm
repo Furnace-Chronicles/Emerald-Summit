@@ -93,19 +93,21 @@ GLOBAL_VAR_INIT(last_elder_announcement, -50000) // Inits variable for later, co
 	set category = "ELDER"
 	if(stat)
 		return
+	if(!src.can_speak_vocal())
+		to_chat(src,span_warning("I can't speak!"))
+		return FALSE
+	if(world.time < GLOB.last_elder_announcement + 450 SECONDS)
+		to_chat(src, span_warning("You must wait [round((GLOB.last_elder_announcement + 450 SECONDS - world.time)/600, 0.1)] minutes before making another announcement!"))
+		return FALSE
 	var/announcementinput = input("Bellow to the Peaks", "Make an Announcement") as text|null
 	if(announcementinput)
-		if(!src.can_speak_vocal())
-			to_chat(src,span_warning("I can't speak!"))
-			return FALSE
-		if(world.time < GLOB.last_elder_announcement + 600 SECONDS)
-			to_chat(src, span_warning("You must wait [round((GLOB.last_elder_announcement + 600 SECONDS - world.time)/600, 0.1)] minutes before making another announcement!"))
-			return FALSE
 		visible_message(span_warning("[src] takes a deep breath, preparing to make an announcement.."))
 		if(do_after(src, 15 SECONDS, target = src)) // Reduced to 15 seconds from 30 on the original Herald PR. 15 is well enough time for sm1 to shove you.
 			say(announcementinput)
 			priority_announce("[announcementinput]", "The Elder Speaks", 'sound/misc/bell.ogg', sender = src)
-			GLOB.last_guildmaster_announcement = world.time
+			GLOB.last_elder_announcement = world.time
+			spawn(450 SECONDS)
+			to_chat(src, span_notice("I can make an announcement again!"))
 		else
 			to_chat(src, span_warning("Your announcement was interrupted!"))
 			return FALSE

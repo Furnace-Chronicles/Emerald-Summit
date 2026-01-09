@@ -501,6 +501,9 @@
 
 /datum/outfit/job/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	. = ..()
+	H.update_body()
+
+	// Patron logic
 	var/datum/patron/old_patron = H.patron
 	var/allowed = FALSE
 	for(var/path in allowed_patrons)
@@ -519,14 +522,6 @@
 			var/datum/patron/PA = GLOB.patronlist[god]
 			if(PA.associated_faith == old_patron.associated_faith) // prefer to pick a patron within the same faith before apostatizing
 				preferredgods |= god
-	if(H.mind)
-		if(H.dna)
-			if(H.dna.species)
-				if(H.dna.species.name in list("Elf", "Half-Elf"))
-					H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-				if(H.dna.species.name in list("Golem"))
-					H.adjust_skillrank(/datum/skill/craft/engineering, 2, TRUE)
-	H.update_body()
 
 /datum/outfit/job/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
