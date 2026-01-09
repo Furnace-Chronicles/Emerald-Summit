@@ -218,6 +218,42 @@
 
 // End royal clothes
 
+//Servant Clothing:
+//................ Maid Dress   ............... //
+/obj/item/clothing/shirt/dress/maid
+	name = "maid dress"
+	desc = "A dress befitting the housekeeper of a lord's staff. While not as intricate as a royal's, it is indicative of the house's status."
+	body_parts_covered = CHEST|GROIN|ARMS|VITALS
+	r_sleeve_status = SLEEVE_NORMAL
+	l_sleeve_status = SLEEVE_NORMAL
+	boobed = TRUE
+	icon_state = "maiddress"
+	detail_tag = "_detail"
+	detail_color = CLOTHING_BLACK
+
+/obj/item/clothing/shirt/dress/maid/lord
+	. = ..()
+	if(GLOB.lordprimary)
+		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
+	GLOB.lordcolor += src
+
+/obj/item/clothing/shirt/dress/maid/lord/Destroy()
+	GLOB.lordcolor -= src
+	return ..()
+
+//................ Servant Gown   ............... //
+/obj/item/clothing/shirt/dress/maid/servant
+	name = "servant gown"
+	desc = "A dress worn by those of manors and noble staff. Commonly black, though some estates dye them to their house colors."
+	icon_state = "maidgown"
+	detail_color = CLOTHING_BLACK
+
+/obj/item/clothing/shirt/undershirt/formal
+	name = "formal shirt"
+	desc = "A comfortable yet functional dress shirt often worn by the staff of a noble household."
+	icon_state = "butlershirt"
+//End Servant Clothing
+
 /obj/item/clothing/suit/roguetown/shirt/dress/winterdress_light
 	name = "cold dress"
 	icon = 'icons/roguetown/clothing/shirts_royalty.dmi'

@@ -348,6 +348,31 @@
 	grid_height = 64
 	grid_width = 64
 
+/obj/item/clothing/armor/gambeson/tailcoat
+	name = "tailcoat"
+	desc = "A finely-sewn tailcoat often worn by those on the brink of the upper echelons of Astratan caste."
+	icon_state = "butlercoat"
+	item_state = "butlercoat"
+	detail_tag = "_detail"
+	detail_color = CLOTHING_BLACK
+	slot_flags = ITEM_SLOT_ARMOR
+	armor = ARMOR_PADDED
+
+/obj/item/clothing/armor/gambeson/tailcoat/lordcolor(primary,secondary)
+	detail_color = primary
+	update_icon()
+
+/obj/item/clothing/armor/gambeson/tailcoat/Initialize()
+	. = ..()
+	if(GLOB.lordprimary)
+		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
+	else
+		GLOB.lordcolor += src
+
+/obj/item/clothing/armor/gambeson/tailcoat/Destroy()
+	GLOB.lordcolor -= src
+	return ..()
+
 /obj/item/clothing/suit/roguetown/armor/leather/vest/winterjacket/update_icon()
 	cut_overlays()
 	if(get_detail_tag())

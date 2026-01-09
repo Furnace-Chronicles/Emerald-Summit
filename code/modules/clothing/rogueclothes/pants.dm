@@ -262,6 +262,22 @@
 	item_state = "leathertights"
 	salvage_result = /obj/item/natural/hide/cured
 
+/obj/item/clothing/pants/trou/formal
+	name = "formal trousers"
+	desc = "A formal pair of trousers."
+	icon_state = "butlerpants"
+	item_state = "butlerpants"
+	detail_tag = "_detail"
+	salvage_result = /obj/item/natural/cloth
+	detail_color = CLOTHING_BLACK
+
+/obj/item/clothing/pants/trou/formal/shorts
+	name = "trouser shorts"
+	desc = "A pair of formal trouser shorts, fit for any strapping young lad."
+	icon_state = "butlershorts"
+	item_state = "butlershorts"
+	detail_color = CLOTHING_BLACK
+
 /obj/item/clothing/under/roguetown/skirt
 	name = "skirt"
 	desc = "Long, flowing, and modest."
