@@ -1052,6 +1052,9 @@ GLOBAL_VAR_INIT(garrison_silenced, TRUE)
 	else
 		scom.target = SCOM_TARGET_COMMONS
 	to_chat(user, span_info("I [scom.target == SCOM_TARGET_GARRISON ? "connect to the nobles' scomline" : "connect to the general SCOMline"]"))
+	update_icon()
+
+/obj/item/scomstone/garrison/update_icon()
 	icon_state = "[initial(icon_state)][scom.target == SCOM_TARGET_GARRISON ? "_on" : ""]"
 
 /obj/item/scomstone/bad/garrison
