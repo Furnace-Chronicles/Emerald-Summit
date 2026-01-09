@@ -48,9 +48,9 @@
 
 	fadein = 2
 	color = "#0a0a0ab0"
-
+//Commsig this.
 /obj/item/dropped() //EVIL override
-	..()
+	. = ..()
 	var/datum/component/crumbling/C = GetComponent(/datum/component/crumbling) //Covers dropped weapons, basically.
 	if(C)
 		C.activate()

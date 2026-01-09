@@ -101,6 +101,17 @@
 		if(OU)
 			equipOutfit(OU)
 
+
+/datum/outfit/job/npc/skeleton/post_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	if(H.AddComponent(/datum/component/crumbling)) //shitty workaround to applying the effect to their held items as well.
+		if(r_hand)
+			var/atom/movable/AM = r_hand
+			AM.AddComponent(/datum/component/crumbling)
+		if(l_hand)
+			var/atom/movable/AM = l_hand
+			AM.AddComponent(/datum/component/crumbling)
+
 /datum/outfit/job/npc/skeleton/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 14
