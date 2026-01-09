@@ -98,6 +98,10 @@
 		/datum/body_marking/bangs,
 		/datum/body_marking/bun,
 	)
+	inherent_skills = list(
+		/datum/skill/misc/reading = 1, // Nerds
+	)
+
 /datum/species/elf/wood/get_span_language(datum/language/message_language)
 	if(!message_language)
 		return
