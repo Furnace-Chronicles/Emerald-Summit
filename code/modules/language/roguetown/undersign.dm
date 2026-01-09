@@ -5,15 +5,11 @@
 	ask_verb = "signals"
 	exclaim_verb = "emphatically signs"
 	key = "t"
-
 	flags = LANGUAGE_HIDE_ICON_IF_UNDERSTOOD | LANGUAGE_HIDE_ICON_IF_NOT_UNDERSTOOD | TONGUELESS_SPEECH | SIGNLANG
-
 	space_chance = 65
 	default_priority = 92
 	icon_state = "asse"
 	spans = list(SPAN_ITALICS)
-
-	//used instead of spoken dialogue
 	signlang_verb = list(
 		"lowers their posture",
 		"draws a sharp sign in the air",
