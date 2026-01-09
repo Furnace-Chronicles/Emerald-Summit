@@ -586,7 +586,7 @@
 		if(cached_organ)
 			cached_organ.applyOrganDamage(organ_damage)
 			if(organ_damage >= 80)
-				addtimer(CALLBACK(carbon_affected, TYPE_PROC_REF(/mob/living/carbon, set_heartattack), TRUE), 3 SECONDS)
+				addtimer(CALLBACK(carbon_affected, TYPE_PROC_REF(/mob/living/carbon, set_heartattack), TRUE), 1 SECOND)
 	shake_camera(affected, 4, 4)
 	if(!is_construct)
 		affected.emote("painscream")
