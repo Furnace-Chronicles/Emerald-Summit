@@ -569,44 +569,6 @@
 	icon_state = "debuff"
 	color ="#7a0606"
 
-// Disgraced Knight debuff for town buff cancellation: -1 END, -1 SPE, -1 PER
-/datum/status_effect/debuff/disgracedknight_town
-	id = "Disgraced Knight (Town)!"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/disgracedknight_town
-	effectedstats = list("endurance" = -1, "speed" = -1, "perception" = -1)
-	duration = 999 MINUTES
-
-/atom/movable/screen/alert/status_effect/debuff/disgracedknight_town
-	name = "Disgraced Knight!"
-	desc = "I have been stripped of my honor and knighthood!"
-	icon_state = "muscles"
-	color = "#6d1313"
-
-/datum/status_effect/debuff/disgracedknight_town/process()
-	.=..()
-	var/area/rogue/our_area = get_area(owner)
-	if(!(our_area.town_area))
-		owner.remove_status_effect(/datum/status_effect/debuff/disgracedknight_town)
-
-// Disgraced Knight debuff for keep buff cancellation: -1 CON, -1 PER
-/datum/status_effect/debuff/disgracedknight_keep
-	id = "Disgraced Knight (Keep)!"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/disgracedknight_keep
-	effectedstats = list("constitution" = -1, "perception" = -1)
-	duration = 999 MINUTES
-
-/atom/movable/screen/alert/status_effect/debuff/disgracedknight_keep
-	name = "Disgraced Knight!"
-	desc = "I have been stripped of my honor and knighthood!"
-	icon_state = "muscles"
-	color = "#6d1313"
-
-/datum/status_effect/debuff/disgracedknight_keep/process()
-	.=..()
-	var/area/rogue/our_area = get_area(owner)
-	if(!(our_area.keep_area))
-		owner.remove_status_effect(/datum/status_effect/debuff/disgracedknight_keep)
-
 /datum/status_effect/debuff/hereticsermon
 	id = "Heretic on sermon!"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/hereticsermon

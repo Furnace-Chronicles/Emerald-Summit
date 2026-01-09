@@ -77,18 +77,6 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	if((src.church_area == TRUE) && HAS_TRAIT(guy, TRAIT_CLERGY) && !guy.has_status_effect(/datum/status_effect/buff/churchbuff)) // Templar/Priest/Churchling/Acolyte
 		guy.apply_status_effect(/datum/status_effect/buff/churchbuff)
 
-/area/rogue/Entered(mob/living/carbon/human/guy)
-
-	. = ..()
-	if((src.town_area == TRUE) && HAS_TRAIT(guy, TRAIT_DISGRACED_KNIGHT) && !guy.has_status_effect(/datum/status_effect/debuff/disgracedknight_town))
-		guy.apply_status_effect(/datum/status_effect/debuff/disgracedknight_town)
-
-/area/rogue/Entered(mob/living/carbon/human/guy)
-
-	. = ..()
-	if((src.keep_area == TRUE) && HAS_TRAIT(guy, TRAIT_DISGRACED_KNIGHT) && !guy.has_status_effect(/datum/status_effect/debuff/disgracedknight_keep))
-		guy.apply_status_effect(/datum/status_effect/debuff/disgracedknight_keep)
-
 /area/rogue/indoors
 	name = "indoors rt"
 	icon_state = "indoors"

@@ -86,7 +86,7 @@
 
 /mob/living/carbon/human/proc/disgrace_knight()
 	set name = "Disgrace Knight"
-	set category = "Nobility"
+	set category = "Voice of Command"
 
 	if(stat)
 		return
@@ -128,9 +128,8 @@
 	// If already disgraced, restore their honor
 	if(HAS_TRAIT(target, TRAIT_DISGRACED_KNIGHT))
 		REMOVE_TRAIT(target, TRAIT_DISGRACED_KNIGHT, TRAIT_GENERIC)
+		ADD_TRAIT(target, TRAIT_GUARDSMAN_NOBLE, JOB_TRAIT) // Restore guardsman noble trait
 		target.remove_stress(/datum/stressevent/disgracedknight)
-		target.remove_status_effect(/datum/status_effect/debuff/disgracedknight_town)
-		target.remove_status_effect(/datum/status_effect/debuff/disgracedknight_keep)
 		
 		to_chat(target, span_notice("Your honor and knighthood have been restored by [real_name]!"))
 		priority_announce("[real_name] has restored [inputty]'s honor and knighthood!", title = "Honor Restored", sound = 'sound/misc/bell.ogg')
@@ -138,21 +137,20 @@
 
 	// Otherwise, disgrace them
 	ADD_TRAIT(target, TRAIT_DISGRACED_KNIGHT, TRAIT_GENERIC)
+	REMOVE_TRAIT(target, TRAIT_GUARDSMAN_NOBLE, JOB_TRAIT) // Remove guardsman noble trait
+	target.remove_status_effect(/datum/status_effect/buff/knightbuff) // Remove keep buff
+	target.remove_status_effect(/datum/status_effect/buff/knightbufftown) // Remove town buff
 	target.add_stress(/datum/stressevent/disgracedknight)
-	// Add two debuffs to cancel out the knight town and keep buffs because of the perma-testmerged PR
-	// I'll fix this implementation after that PR gets merged, or closed.
-	target.apply_status_effect(/datum/status_effect/debuff/disgracedknight_town)
-	target.apply_status_effect(/datum/status_effect/debuff/disgracedknight_keep)
 	
 	to_chat(target, span_boldwarning("You have been stripped of your knighthood and honor by order of [real_name]!"))
 	priority_announce("[real_name] has disgraced [inputty], stripping them of their knighthood!", title = "DISHONOR", sound = 'sound/misc/excomm.ogg')
 	
 	return TRUE
 
-// Fire Guard verb - available to Duke, Hand, and Marshal
+// Fire Soldier verb - available to Duke, Hand, and Marshal
 /mob/living/carbon/human/proc/fire_guard()
-	set name = "Fire Guard"
-	set category = "Nobility"
+	set name = "Fire Soldier"
+	set category = "Voice of Command"
 
 	if(stat)
 		return
@@ -162,7 +160,7 @@
 		to_chat(src, span_warning("I need to wait [DisplayTimeText(hand_fire_guard_cooldown - world.time)] before firing another guard."))
 		return FALSE
 
-	var/inputty = input("Fire a guard from service. They cannot be re-hired. Enter their name:", "Fire Guard") as text|null
+	var/inputty = input("Fire a soldier from service. They cannot be re-hired. Enter their name:", "Fire Soldier") as text|null
 	if(!inputty)
 		return
 
@@ -179,18 +177,35 @@
 		to_chat(src, span_warning("Could not find anyone by that name."))
 		return FALSE
 
-	// Check if target is actually a Man at Arms (guard with TRAIT_GUARDSMAN)
-	if(!(target.job == "Man at Arms" || target.job == "Woman at Arms"))
-		to_chat(src, span_warning("[target.real_name] is not a guard."))
+	// Determine if target is a valid garrison member
+	var/is_man_at_arms = (target.job == "Man at Arms" || target.job == "Woman at Arms")
+	var/is_sergeant = (target.job == "Sergeant")
+	var/is_squire = (target.job == "Squire")
+	var/is_warden = (target.job == "Warden")
+
+	if(!is_man_at_arms && !is_sergeant && !is_squire && !is_warden)
+		to_chat(src, span_warning("[target.real_name] is not a member of the garrison."))
 		return FALSE
 
-	if(!HAS_TRAIT(target, TRAIT_GUARDSMAN))
-		to_chat(src, span_warning("[target.real_name] is not currently serving as a guard."))
+	// For non-wardens, check if they have TRAIT_GUARDSMAN
+	if(!is_warden && !HAS_TRAIT(target, TRAIT_GUARDSMAN))
+		to_chat(src, span_warning("[target.real_name] is not currently serving as a soldier."))
 		return FALSE
 
 	hand_fire_guard_cooldown = world.time + FIRE_GUARD_COOLDOWN
 
-	// Fire them - remove guard trait and change job to Towner
+	// Special handling for Wardens - only remove job title, not traits
+	if(is_warden)
+		target.job = "Towner"
+		target.advjob = null
+		if(target.mind)
+			target.mind.assigned_role = "Towner"
+		
+		to_chat(target, span_boldwarning("You have been dismissed from the wardens by [real_name]!"))
+		priority_announce("[real_name] has dismissed [inputty] from the wardens!", title = "Dismissal", sound = 'sound/misc/bell.ogg')
+		return TRUE
+
+	// For other garrison members - remove guard trait and change job to Towner
 	REMOVE_TRAIT(target, TRAIT_GUARDSMAN, JOB_TRAIT)
 	target.remove_status_effect(/datum/status_effect/buff/guardbuffone) // Remove the guard buff immediately
 	target.job = "Towner"
@@ -198,8 +213,8 @@
 	if(target.mind)
 		target.mind.assigned_role = "Towner"
 
-	to_chat(target, span_boldwarning("You have been dismissed from the guard by [real_name]!"))
-	priority_announce("[real_name] has dismissed [inputty] from the guard!", title = "Dismissal", sound = 'sound/misc/bell.ogg')
+	to_chat(target, span_boldwarning("You have been dismissed from the garrison by [real_name]!"))
+	priority_announce("[real_name] has dismissed [inputty] from the garrison!", title = "Dismissal", sound = 'sound/misc/bell.ogg')
 
 	return TRUE
 
