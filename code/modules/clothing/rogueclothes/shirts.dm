@@ -224,6 +224,7 @@
 	name = "maid dress"
 	desc = "A dress befitting the housekeeper of a lord's staff. While not as intricate as a royal's, it is indicative of the house's status."
 	body_parts_covered = CHEST|GROIN|ARMS|VITALS
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_maids.dmi'
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
 	boobed = TRUE
@@ -252,6 +253,7 @@
 	name = "formal shirt"
 	desc = "A comfortable yet functional dress shirt often worn by the staff of a noble household."
 	icon_state = "butlershirt"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_maids.dmi'
 //End Servant Clothing
 
 /obj/item/clothing/suit/roguetown/shirt/dress/winterdress_light

@@ -268,6 +268,7 @@
 	icon_state = "butlerpants"
 	item_state = "butlerpants"
 	detail_tag = "_detail"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_maids.dmi'
 	salvage_result = /obj/item/natural/cloth
 	detail_color = CLOTHING_BLACK
 
