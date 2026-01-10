@@ -182,8 +182,8 @@
 		neck = /obj/item/clothing/neck/roguetown/zcross/aalloy
 		gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
 		if("cabal" in H.faction) //Too powerful as a summon. Khopeshes are also stupid valuable.
-				r_hand = /obj/item/rogueweapon/sword/iron/short/ashort
-				l_hand = /obj/item/rogueweapon/sword/iron/short/ashort
+			r_hand = /obj/item/rogueweapon/sword/iron/short/ashort
+			l_hand = /obj/item/rogueweapon/sword/iron/short/ashort
 		else
 			r_hand = /obj/item/rogueweapon/sword/sabre/alloy
 			l_hand = /obj/item/rogueweapon/sword/sabre/alloy
