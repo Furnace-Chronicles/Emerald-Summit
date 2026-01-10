@@ -2,7 +2,7 @@
 	name = "Sharpened Claws"
 	desc = "I have focused on my claws in a younger age allowing me to extend and retract my claws."
 	added_skills = list(
-		list(/datum/skill/combat/unarmed, 2, 3),
+		list(/datum/skill/combat/unarmed, 2, 2),
 	)
 	races = list(
 		/datum/species/tabaxi,
