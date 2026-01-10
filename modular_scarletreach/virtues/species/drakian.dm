@@ -5,7 +5,7 @@
 	name = "Horde Keeper"
 	desc = "I find myself being drawn to large hordes of wealth and when I rest atop such a horde, I find it calming and a feeling of being blessed."
 	custom_text = "Only available to drakians.\nWhen lying down on a tile that has alot of worth, you will receive a fortune buff, as well as heals you slowly as if by a miracle.\nIt's a brain trauma..."
-	added_traits = list(TRAIT_SEEPRICES_SHITTY)
+	added_traits = list(TRAIT_HORDEKEEPER, TRAIT_SEEPRICES_SHITTY)
 	races = list(
 		/datum/species/dracon
 	)
@@ -94,7 +94,7 @@
 			to_chat(owner, span_notice("The healing aura soothes my wounds' pain."))
 	return TRUE
 
-/datum/status_effect/buff/healing/on_remove()
+/datum/status_effect/horde_keeper_buff/on_remove()
 	owner.remove_filter("horde_keeper_filter")
 	owner.update_damage_hud()
 

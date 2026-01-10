@@ -90,7 +90,7 @@
 #define TRAIT_WAGES_SUSPENDED "Wages Suspended" //steward has suspended your wages
 
 //Species Traits (from virtues)
-#define TRAIT_HORDEKEEPER "Horde Master"
+#define TRAIT_HORDEKEEPER "Horde Master" // Trait has no actual effect, see drakian.dm for the status effect.
 
 //Hearthstone port (Tracking)
 #define TRAIT_PERFECT_TRACKER "Perfect Tracker" //Will always find any tracks and analyzes them perfectly.
