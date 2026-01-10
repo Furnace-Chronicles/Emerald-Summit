@@ -919,6 +919,21 @@
 	CP.on_attack_hand(CP, user)
 	return TRUE*/
 
+/obj/item/clothing/cloak/apron/maid
+	name = "maid apron"
+	desc = "The frilly apron of a housemaster. It has pockets to store small things."
+	detail_color = "_detail"
+	detail_color = CLOTHING_BLACK
+	icon_state = "maidapron"
+	item_state = "maidapron"
+	boobed = FALSE
+	grid_width = 64
+	grid_height = 64
+
+/obj/item/clothing/cloak/apron/maid/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+
 /obj/item/clothing/cloak/raincloak
 	name = "rain cloak"
 	desc = "This one will help against the rainy weather."

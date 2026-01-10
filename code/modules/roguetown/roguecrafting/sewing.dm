@@ -240,6 +240,13 @@
 	reqs = list(/obj/item/natural/cloth = 4)
 	craftdiff = 2
 
+/datum/crafting_recipe/roguetown/sewing/clothbelt
+	name = "cloth belt"
+	result = list(/obj/item/storage/belt/rogue/leather/cloth_belt)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 2
+
 /datum/crafting_recipe/roguetown/sewing/wrappings
 	name = "solar wrappings"
 	result = list(/obj/item/clothing/wrists/roguetown/wrappings)
@@ -1362,3 +1369,61 @@ datum/crafting_recipe/roguetown/sewing/Purdress
 		/obj/item/natural/fibers = 2,
 	)
 	result = /obj/item/clothing/under/roguetown/tights/ogre
+
+/datum/crafting_recipe/roguetown/sewing/maidband
+	name = "maid headband"
+	result = /obj/item/clothing/head/roguetown/maidband
+	reqs = list(/obj/item/natural/cloth = 1,
+				/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
+
+
+/datum/crafting_recipe/roguetown/sewing/servantdress
+	name = "servant dress"
+	result = /obj/item/clothing/suit/roguetown/shirt/dress/maid/servant
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/maidapron
+	name = "maid apron"
+	result = /obj/item/clothing/cloak/apron/maid
+	reqs = list(/obj/item/natural/cloth = 1,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/formalshirt
+	name = "formal shirt"
+	result = /obj/item/clothing/suit/roguetown/undershirt/formal
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/trousershorts
+	name = "trouser shorts"
+	result = /obj/item/clothing/under/roguetown/trou/formal/shorts
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/maiddress
+	name = "maid dress"
+	result = /obj/item/clothing/suit/roguetown/shirt/dress/maid
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/tailcoat
+	name =  "tailcoat"
+	result = /obj/item/clothing/suit/roguetown/armor/leather/jacket/tailcoat
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 2)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/sewing/formaltrousers
+	name = "formal trousers"
+	result = /obj/item/clothing/under/roguetown/trou/formal
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 2)
+	craftdiff = 4

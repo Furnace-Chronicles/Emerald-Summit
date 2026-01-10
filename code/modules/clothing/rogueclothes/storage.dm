@@ -118,6 +118,18 @@
 	color = "#b9a286"
 	component_type = /datum/component/storage/concrete/roguetown/belt/cloth
 
+/obj/item/storage/belt/rogue/leather/suspenders
+	name = "suspenders"
+	desc = "A pair of suspenders which go over the shoulders. Used for keeping one's pants in place in an admittably fashionable style."
+	icon_state = "suspenders"
+	alternate_worn_layer = ARMOR_LAYER
+
+/obj/item/storage/belt/rogue/leather/cloth_belt
+	name = "cloth belt"
+	desc = "This belt has been sewn out of cloth, as opposed to tied. Which makes it superior. Obviously."
+	icon_state = "clothsash"
+	salvage_result = /obj/item/natural/cloth
+
 /obj/item/storage/belt/rogue/leather/cloth
 	name = "cloth sash"
 	desc = "A strip of cloth tied together at the ends into a makeshift belt. It's better than nothing."

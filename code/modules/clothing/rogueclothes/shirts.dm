@@ -218,6 +218,50 @@
 
 // End royal clothes
 
+//Servant Clothing:
+//................ Maid Dress   ............... //
+/obj/item/clothing/suit/roguetown/shirt/dress/maid
+	name = "maid dress"
+	desc = "A dress befitting the housekeeper of a lord's staff. While not as intricate as a royal's, it is indicative of the house's status."
+	body_parts_covered = CHEST|GROIN|ARMS|VITALS
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_maids.dmi'
+	r_sleeve_status = SLEEVE_NORMAL
+	l_sleeve_status = SLEEVE_NORMAL
+	boobed = TRUE
+	icon_state = "maiddress"
+	detail_tag = "_detail"
+	detail_color = CLOTHING_BLACK
+
+
+/obj/item/clothing/suit/roguetown/shirt/dress/maid/lord/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/suit/roguetown/shirt/dress/maid/lord/lordcolor(primary,secondary)
+	detail_color = secondary
+	update_icon()
+
+/obj/item/clothing/suit/roguetown/shirt/dress/maid/lord/Initialize()
+	. = ..()
+	if(GLOB.lordprimary)
+		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
+	else
+		GLOB.lordcolor += src
+
+//................ Servant Gown   ............... //
+/obj/item/clothing/suit/roguetown/shirt/dress/maid/servant
+	name = "servant gown"
+	desc = "A dress worn by those of manors and noble staff. Commonly black, though some estates dye them to their house colors."
+	icon_state = "maidgown"
+	detail_color = CLOTHING_BLACK
+
+//End Servant Clothing
+
 /obj/item/clothing/suit/roguetown/shirt/dress/winterdress_light
 	name = "cold dress"
 	icon = 'icons/roguetown/clothing/shirts_royalty.dmi'
@@ -508,6 +552,12 @@
 	l_sleeve_status = SLEEVE_NORMAL
 	body_parts_covered = CHEST|ARMS|VITALS
 	color = null
+
+/obj/item/clothing/suit/roguetown/undershirt/formal
+	name = "formal shirt"
+	desc = "A comfortable yet functional dress shirt often worn by the staff of a noble household."
+	icon_state = "butlershirt"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_maids.dmi'
 
 /obj/item/clothing/suit/roguetown/shirt/jester
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR

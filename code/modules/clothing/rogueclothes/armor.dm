@@ -377,6 +377,37 @@
 	icon_state = "artijacket"
 	desc = "A thick leather jacket adorned with fur and cog decals. The height of Heartfelt fashion."
 
+/obj/item/clothing/suit/roguetown/armor/leather/jacket/tailcoat
+	name = "tailcoat"
+	desc = "A finely-sewn tailcoat often worn by those on the brink of the upper echelons of Astratan caste."
+	icon_state = "butlercoat"
+	item_state = "butlercoat"
+	detail_tag = "_detail"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_maids.dmi'
+	detail_color = COLOR_ALMOST_BLACK
+	slot_flags = ITEM_SLOT_ARMOR
+	armor = ARMOR_PADDED
+
+/obj/item/clothing/suit/roguetown/armor/leather/jacket/tailcoat/lord/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/suit/roguetown/armor/leather/jacket/tailcoat/lord/lordcolor(primary,secondary)
+	detail_color = secondary
+	update_icon()
+
+/obj/item/clothing/suit/roguetown/armor/leather/jacket/tailcoat/lord/Initialize()
+	. = ..()
+	if(GLOB.lordprimary)
+		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
+	else
+		GLOB.lordcolor += src
+
 /obj/item/clothing/suit/roguetown/armor/cuirass/iron/shadowplate
 	name = "scourge breastplate"
 	desc = "More form over function, this armor is fit for demonstration of might rather than open combat. The aged gilding slowly tarnishes away."

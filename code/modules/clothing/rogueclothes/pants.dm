@@ -74,6 +74,10 @@
 /obj/item/clothing/under/roguetown/tights/purple
 	color = CLOTHING_PURPLE
 
+
+/obj/item/clothing/under/roguetown/tights/white
+	color = CLOTHING_WHITE
+
 /obj/item/clothing/under/roguetown/tights/jester
 	desc = "Funny tights!"
 	color = "#1E3B20"
@@ -242,6 +246,23 @@
 	desc = "Dark leather trousers adorned with far too many buckles to be pragmatic."
 	icon_state = "beltpants"
 	item_state = "beltpants"
+
+/obj/item/clothing/under/roguetown/trou/formal
+	name = "formal trousers"
+	desc = "A formal pair of formal trousers."
+	icon_state = "butlerpants"
+	item_state = "butlerpants"
+	detail_tag = "_detail"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_maids.dmi'
+	salvage_result = /obj/item/natural/cloth
+	detail_color = CLOTHING_BLACK
+
+/obj/item/clothing/under/roguetown/trou/formal/shorts
+	name = "trouser shorts"
+	desc = "A pair of formal trouser shorts, fit for any strapping young lad."
+	icon_state = "butlershorts"
+	item_state = "butlershorts"
+	detail_color = CLOTHING_BLACK
 
 /obj/item/clothing/under/roguetown/trou/apothecary
 	name = "apothecary trousers"

@@ -2028,6 +2028,12 @@
 	desc = "My cure is most effective."
 	icon_state = "physhat"
 
+/obj/item/clothing/head/roguetown/maidband
+	name = "maid headband"
+	desc = "A pleated cloth headband. It has gained widespread popularity from Valorian nobles travelling with their servants."
+	icon_state = "maidband"
+	body_parts_covered = NONE
+
 // Grenzel unique drip head. Pretend it is a secrete (A type of hat with a hidden helmet underneath). Same stats as kettle
 /obj/item/clothing/head/roguetown/grenzelhofthat
 	name = "grenzelhoft plume hat"

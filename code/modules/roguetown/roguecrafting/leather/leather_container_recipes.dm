@@ -78,6 +78,16 @@
 	reqs = list(/obj/item/natural/hide/cured = 2,
 				/obj/item/natural/fibers = 2)
 
+/datum/crafting_recipe/roguetown/leather/container/belt/suspenders
+	name = "suspenders"
+	result = /obj/item/storage/belt/rogue/leather/suspenders
+	reqs = list(
+		/obj/item/natural/hide/cured = 1,
+		/obj/item/natural/cloth = 2,
+		/obj/item/natural/fibers = 1,
+	)
+	craftdiff = 2
+
 /datum/crafting_recipe/roguetown/leather/container/belt/black
 	name = "black leather belt"
 	result = /obj/item/storage/belt/rogue/leather/black
