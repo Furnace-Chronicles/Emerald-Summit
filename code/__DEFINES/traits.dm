@@ -38,6 +38,7 @@
 #define TRAIT_WILD_EATER "Beastly Digestion" //can eat raw and rotten food and drink murky water
 #define TRAIT_NOFALLDAMAGE1 "Fall Damage Reduction"
 #define TRAIT_NOFALLDAMAGE2 "Fall Damage Immunity"
+#define TRAIT_NOFIRE	"Flame Resistance"
 #define TRAIT_MISSING_NOSE "Missing Nose" //halved stamina regeneration
 #define TRAIT_DISFIGURED "Disfigured"
 #define TRAIT_SPELLCOCKBLOCK "Bewitched" //prevents spellcasting
@@ -87,6 +88,9 @@
 #define TRAIT_SLAYER "Slayer Oath"
 #define TRAIT_NODEF "Recklessness"
 #define TRAIT_WAGES_SUSPENDED "Wages Suspended" //steward has suspended your wages
+
+//Species Traits (from virtues)
+#define TRAIT_HORDEKEEPER "Horde Master"
 
 //Hearthstone port (Tracking)
 #define TRAIT_PERFECT_TRACKER "Perfect Tracker" //Will always find any tracks and analyzes them perfectly.
@@ -296,6 +300,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WILD_EATER = span_info("I can eat raw food and drink from dirty water."),
 	TRAIT_NOFALLDAMAGE1 = span_warning("I can easily handle minor falls."),
 	TRAIT_NOFALLDAMAGE2 = span_warning("I can handle a fall from any height."),
+	TRAIT_NOFIRE = span_warning("I feel fire-resistant!"),
 	TRAIT_GRABIMMUNE = span_warning("My great strength, or slippery agility, prevents others from getting ahold of me!"),
 	TRAIT_DISFIGURED = span_warning("No one can recognize me..."),
 	TRAIT_MISSING_NOSE = span_warning("I struggle to breathe."),
@@ -439,6 +444,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WAGES_SUSPENDED = span_warning("The Stewardry has halted my daily wages!"),
 	TRAIT_PEASANTMILITIA = span_info("I am a commoner. When the Lord's soldiers do not come, I needs fend off villains and nite creechurs with the tools at hand. I fight best with simple tools and militia weapons."),
 	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"),
+	TRAIT_HORDEKEEPER = span_info("I am blessed with greed, when lying down on a horde of wealth I feel calm, gain favor with the God of fortune, and heal passively."), // This and below are species traits granted by virtues
 ))
 
 // trait accessor defines
@@ -567,7 +573,6 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_PIERCEIMMUNE		"Pierce Immunity"
 #define TRAIT_CALTROPIMMUNE		"Caltrop Immunity"
 #define TRAIT_NODISMEMBER		"Dismember Immunity"
-#define TRAIT_NOFIRE			"nonflammable"
 #define TRAIT_NOGUNS			"no_guns"
 #define TRAIT_NOMETABOLISM		"no_metabolism"
 #define TRAIT_HARDDISMEMBER		"Hard Dismember"
