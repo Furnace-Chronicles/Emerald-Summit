@@ -497,6 +497,34 @@ GLOBAL_VAR_INIT(garrison_silenced, TRUE)
 	pixel_y = 0
 	pixel_x = -32
 
+/obj/structure/roguemachine/scomm/noble
+	name = "Noble SCOM"
+	desc = "The Supernatural Communication Optical Machine is a wonder of magic and technology. This one is permanently attuned to the nobles' scomline."
+
+/obj/structure/roguemachine/scomm/noble/r
+	pixel_y = 0
+	pixel_x = 32
+
+/obj/structure/roguemachine/scomm/noble/l
+	pixel_y = 0
+	pixel_x = -32
+
+/obj/structure/roguemachine/scomm/noble/Initialize()
+	. = ..()
+	scom.setup(src, FALSE, TRUE, TRUE, TRUE, DEFAULT_GARRISON_COLOR, 'sound/vo/mobs/rat/rat_life.ogg', 100, SCOM_TARGET_GARRISON, TRUE, TRUE, FALSE, FALSE, scom_tag)
+	scom.mute_commons = TRUE
+
+	START_PROCESSING(SSroguemachine, src)
+	become_hearing_sensitive()
+	update_icon()
+
+/obj/structure/roguemachine/scomm/noble/MiddleClick(mob/living/carbon/human/user)
+	if(.)
+		return
+	user.changeNext_move(CLICK_CD_INTENTCAP)
+	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
+	scom.start_jabberline(user)
+
 /obj/structure/roguemachine/scomm/examine(mob/user)
 	. = ..()
 	. += scom.examine(user)
