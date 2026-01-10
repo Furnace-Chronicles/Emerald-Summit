@@ -370,8 +370,8 @@
 					user.visible_message(span_warning("Winding strands of silvery lux snake from [user]'s touch along [H]'s arm, sinking and writhing beneath their skin in fitful bursts!"))
 					to_chat(user, span_boldwarning("A whisper of emptiness settles beneath your heart as your overtaxed lux wanes concerningly low..."))
 				// Revive the target
-				H.revive(admin_revive = FALSE)
 				H.adjustOxyLoss(-H.getOxyLoss())
+				H.revive(admin_revive = FALSE)
 				H.grab_ghost(force = TRUE) // even suicides
 				H.emote("breathgasp")
 				H.Jitter(100)
