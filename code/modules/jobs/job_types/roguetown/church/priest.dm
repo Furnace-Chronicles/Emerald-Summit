@@ -25,7 +25,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	whitelist_req = FALSE
 
 
-	spells = list(/obj/effect/proc_holder/spell/self/convertrole/templar, /obj/effect/proc_holder/spell/self/convertrole/monk)
+	spells = list(/obj/effect/proc_holder/spell/self/convertrole/templar, /obj/effect/proc_holder/spell/self/convertrole/monk, /obj/effect/proc_holder/spell/invoked/sunstrike)
 	outfit = /datum/outfit/job/priest
 
 	display_order = JDO_PRIEST
@@ -217,6 +217,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	var/static/list/always_keep_spells = list(
 		/obj/effect/proc_holder/spell/self/convertrole/templar,
 		/obj/effect/proc_holder/spell/self/convertrole/monk,
+		/obj/effect/proc_holder/spell/invoked/sunstrike,
 		/obj/effect/proc_holder/spell/targeted/touch/orison,
 		/obj/effect/proc_holder/spell/invoked/lesser_heal,
 		/obj/effect/proc_holder/spell/invoked/blood_heal,

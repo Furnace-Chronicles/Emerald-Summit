@@ -100,7 +100,7 @@
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/mince/fish))
 		if (process_step > 4)
 			return
-		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
+		playsound(user, 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
 		if(process_step == 1 && do_after(user,short_cooktime, target = src))
 			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 			to_chat(user, span_notice("Starting on a fish pie..."))
@@ -128,7 +128,7 @@
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef))
 		if (process_step > 4)
 			return
-		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
+		playsound(user, 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
 		if(process_step == 1 && do_after(user,short_cooktime, target = src))
 			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 			to_chat(user, span_notice("Starting on a meat pie..."))
@@ -156,7 +156,7 @@
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheddarwedge) || istype(I, /obj/item/reagent_containers/food/snacks/rogue/veg/potato_sliced)  || istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheese) )
 		if (process_step > 4)
 			return
-		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
+		playsound(user, 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
 		if(process_step == 1 && do_after(user,short_cooktime, target = src))
 			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 			to_chat(user, span_notice("Starting on a pot pie..."))
@@ -187,7 +187,7 @@
 	if(istype(I, /obj/item/reagent_containers/food/snacks/egg) )
 		if (process_step > 4)
 			return
-		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
+		playsound(user, 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
 		if(process_step == 1 && do_after(user,short_cooktime, target = src))
 			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 			to_chat(user, span_notice("Starting on a pot pie..."))
@@ -218,7 +218,7 @@
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/bacon) || istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/mince/poultry) || istype(I, /obj/item/reagent_containers/food/snacks/fat) )
 		if (process_step > 4)
 			return
-		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
+		playsound(user, 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
 		if(process_step == 1 && do_after(user,short_cooktime, target = src))
 			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 			to_chat(user, span_notice("Starting on a pot pie..."))
@@ -256,7 +256,7 @@
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/crab))
 		if (process_step > 4)
 			return
-		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
+		playsound(user, 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
 		if(process_step == 1 && do_after(user,short_cooktime, target = src))
 			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 			to_chat(user, span_notice("Starting on a crab pie... You consider that shredded cabbage could be used as filler for one of the remaining ingredients. "))
@@ -287,7 +287,7 @@
 		if (substitute == TRUE)
 			to_chat(user, span_notice("There is too much cabbage in this pie already."))
 			return
-		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
+		playsound(user, 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
 		if(crabby && process_step >= 2 && process_step <= 3 && do_after(user,short_cooktime, target = src))
 			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 			to_chat(user, span_notice("Substituting cabbage for crab meat in the crab pie..."))
@@ -301,7 +301,7 @@
 	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/apple))
 		if (process_step > 4)
 			return
-		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
+		playsound(user, 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
 		if(process_step == 1 && do_after(user,short_cooktime, target = src))
 			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 			to_chat(user, span_notice("Starting on an apple pie..."))
@@ -329,7 +329,7 @@
 	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison))
 		if (process_step > 4)
 			return
-		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
+		playsound(user, 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
 		if(process_step == 1 && do_after(user,short_cooktime, target = src))
 			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 			to_chat(user, span_notice("Starting on a berry pie..."))
@@ -360,7 +360,7 @@
 	else if(istype(I, /obj/item/reagent_containers/food/snacks/grown/berries/rogue))
 		if (process_step > 4)
 			return
-		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
+		playsound(user, 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)
 		if(process_step == 1 && do_after(user,short_cooktime, target = src))
 			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 			to_chat(user, span_notice("Starting on a berry pie..."))
@@ -386,7 +386,7 @@
 			return
 
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/piedough))
-		playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
+		playsound(user, 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
 		if(fishy && process_step == 4 && do_after(user,short_cooktime, target = src))
 			name = "uncooked fish pie"
 			icon_state = "fishpie_raw"

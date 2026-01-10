@@ -98,7 +98,7 @@
 	miracle = TRUE
 
 /obj/effect/proc_holder/spell/invoked/mockery/cast(list/targets, mob/user = usr)
-	playsound(get_turf(user), 'sound/magic/mockery.ogg', 40, FALSE)
+	playsound(user, 'sound/magic/mockery.ogg', 40, FALSE)
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
 		if(target.anti_magic_check(TRUE, TRUE))

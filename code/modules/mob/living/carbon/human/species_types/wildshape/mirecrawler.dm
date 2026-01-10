@@ -74,7 +74,7 @@
 	)
 
 /datum/species/mirecrawler/send_voice(mob/living/carbon/human/H)
-	playsound(get_turf(H), pick('sound/vo/mobs/spider/attack (1).ogg','sound/vo/mobs/spider/attack (2).ogg','sound/vo/mobs/spider/attack (3).ogg','sound/vo/mobs/spider/attack (4).ogg'), 80, TRUE, -1)
+	playsound(H, pick('sound/vo/mobs/spider/attack (1).ogg','sound/vo/mobs/spider/attack (2).ogg','sound/vo/mobs/spider/attack (3).ogg','sound/vo/mobs/spider/attack (4).ogg'), 80, TRUE, -1)
 
 /datum/species/mirecrawler/regenerate_icons(mob/living/carbon/human/H)
 	H.icon = 'modular_hearthstone/icons/mob/mirespider_small.dmi'

@@ -72,7 +72,7 @@
 	)
 
 /datum/species/shapebear/send_voice(mob/living/carbon/human/H)
-	playsound(get_turf(H), pick('sound/vo/mobs/direbear/direbear_attack1.ogg','sound/vo/mobs/direbear/direbear_attack2.ogg','sound/vo/mobs/direbear/direbear_attack3.ogg'), 80, TRUE, -1)
+	playsound(H, pick('sound/vo/mobs/direbear/direbear_attack1.ogg','sound/vo/mobs/direbear/direbear_attack2.ogg','sound/vo/mobs/direbear/direbear_attack3.ogg'), 80, TRUE, -1)
 
 /datum/species/shapebear/regenerate_icons(mob/living/carbon/human/H)
 	H.icon = 'icons/roguetown/mob/monster/direbear.dmi'

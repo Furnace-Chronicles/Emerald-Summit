@@ -1078,7 +1078,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			H.remove_status_effect(/datum/status_effect/debuff/hungryt1)
 			H.remove_status_effect(/datum/status_effect/debuff/hungryt2)
 			if(prob(3))
-				playsound(get_turf(H), pick('sound/body/hungry1.ogg','sound/body/hungry2.ogg','sound/body/hungry3.ogg'), 100, TRUE, -1)
+				playsound(H, pick('sound/body/hungry1.ogg','sound/body/hungry2.ogg','sound/body/hungry3.ogg'), 100, TRUE, -1)
 
 	switch(H.hydration)
 //		if(HYDRATION_LEVEL_WATERLOGGED to INFINITY)
@@ -1247,7 +1247,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				miss_chance = min((user.dna.species.punchdamagehigh/user.dna.species.punchdamagelow) + user.getStaminaLoss() + (user.getBruteLoss()*0.5), 100) //old base chance for a miss + various damage. capped at 100 to prevent weirdness in prob()
 
 		if(!damage || !affecting || prob(miss_chance))//future-proofing for species that have 0 damage/weird cases where no zone is targeted
-			playsound(target.loc, user.dna.species.miss_sound, 25, TRUE, -1)
+			playsound(target, user.dna.species.miss_sound, 25, TRUE, -1)
 			target.visible_message(span_danger("[user]'s [atk_verb] misses [target]!"), \
 							span_danger("I avoid [user]'s [atk_verb]!"), span_hear("I hear a swoosh!"), COMBAT_MESSAGE_RANGE, user)
 			to_chat(user, span_warning("My [atk_verb] misses [target]!"))
@@ -1297,7 +1297,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				if(HAS_TRAIT(target, TRAIT_HARDDISMEMBER) && !easy_dismember)
 					probability = min(probability, 5)
 				if(prob(probability) && affecting.dismember())
-					playsound(get_turf(target), "desecration", 80, TRUE)
+					playsound(target, "desecration", 80, TRUE)
 
 /*		if(user == target)
 			target.visible_message(span_danger("[user] [atk_verb]ed themself![target.next_attack_msg.Join()]"), COMBAT_MESSAGE_RANGE, user)
@@ -1332,7 +1332,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(!(target.mobility_flags & MOBILITY_STAND))
 			target.forcesay(GLOB.hit_appends)
 		if(!nodmg)
-			playsound(target.loc, user.used_intent.hitsound, 100, FALSE)
+			playsound(target, user.used_intent.hitsound, 100, FALSE)
 
 
 /datum/species/proc/spec_unarmedattacked(mob/living/carbon/human/user, mob/living/carbon/human/target)
@@ -1830,7 +1830,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		bloody = 1
 		I.add_mob_blood(H)
 		user.update_inv_hands()
-		playsound(get_turf(H), I.get_dismember_sound(), 80, TRUE)
+		playsound(H, I.get_dismember_sound(), 80, TRUE)
 
 	if(((I.damtype == BRUTE) && I.force && prob(25 + (I.force * 2))))
 		if(affecting.status == BODYPART_ORGANIC)

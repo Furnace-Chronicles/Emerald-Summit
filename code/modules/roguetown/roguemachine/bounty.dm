@@ -7,7 +7,6 @@
 	blade_dulling = DULLING_BASH
 	anchored = TRUE
 	max_integrity = 999999
-	var/budget = 0
 
 /datum/bounty
 	var/target

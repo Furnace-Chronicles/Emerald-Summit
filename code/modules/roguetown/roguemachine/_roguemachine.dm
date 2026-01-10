@@ -3,3 +3,4 @@
 	break_sound = 'sound/foley/machinebreak.ogg'
 	anchored = TRUE
 	max_integrity = 0
+

@@ -13,7 +13,7 @@
 		return FALSE
 	user.say(joker, forced = "spell")
 	sleep(20)
-	playsound(get_turf(user), 'sound/magic/comedy.ogg', 100)
+	playsound(user, 'sound/magic/comedy.ogg', 100)
 	for(var/mob/living/carbon/CA in view(7, get_turf(user)))
 		if(CA == user)
 			continue
@@ -48,7 +48,7 @@
 		return FALSE
 	user.say(joker, forced = "spell")
 	sleep(20)
-	playsound(get_turf(user), 'sound/magic/tragedy.ogg', 100)
+	playsound(user, 'sound/magic/tragedy.ogg', 100)
 	for(var/mob/living/carbon/CA in view(7, get_turf(user)))
 		if(CA == user)
 			continue
