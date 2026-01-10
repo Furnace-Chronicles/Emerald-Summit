@@ -241,7 +241,6 @@
 	name = "Cavalryman"
 	tutorial = "You are a professional soldier of the realm, specializing in the steady beat of hoof falls. Lighter and more expendable then the knights, you charge with lance in hand."
 	outfit = /datum/outfit/job/manorguard/cavalry
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled //Since knights start with the Buck
 
 	category_tags = list(CTAG_MENATARMS)
 
@@ -270,6 +269,10 @@
 	/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	/datum/skill/misc/riding = SKILL_LEVEL_EXPERT, 		// Like the other horselords.
 	/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,	//Best tracker. Might as well give it something to stick-out utility wise.
+	)
+
+	virtue_restrictions = list(
+		/datum/virtue/utility/riding
 	)
 
 /datum/outfit/job/manorguard/cavalry/pre_equip(mob/living/carbon/human/H)
@@ -314,3 +317,6 @@
 	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
+
+	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
+		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)

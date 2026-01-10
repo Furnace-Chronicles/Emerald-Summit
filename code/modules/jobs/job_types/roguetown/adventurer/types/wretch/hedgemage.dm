@@ -76,3 +76,26 @@
 		if("Rogue Mage")
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	wretch_select_bounty(H)
+
+	var/staffs = list(
+		"ronts-focused staff",
+		"blortz-focused staff",
+		"saffira-focused staff",
+		"gemerald-focused staff",
+		"amethyst-focused staff",
+		"toper-focused staff",
+	)
+	var/staffchoice = input(H, H, "Choose your staff", "Available staffs") as anything in staffs
+	switch(staffchoice)
+		if("ronts-focused staff")
+			backr = /obj/item/rogueweapon/woodstaff/ruby
+		if("blortz-focused staff")
+			backr = /obj/item/rogueweapon/woodstaff/quartz
+		if("saffira-focused staff")
+			backr = /obj/item/rogueweapon/woodstaff/sapphire
+		if("gemerald-focused staff")
+			backr = /obj/item/rogueweapon/woodstaff/emerald
+		if("amethyst-focused staff")
+			backr = /obj/item/rogueweapon/woodstaff/amethyst
+		if("toper-focused staff")
+			backr = /obj/item/rogueweapon/woodstaff/toper

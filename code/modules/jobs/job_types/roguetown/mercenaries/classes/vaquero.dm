@@ -2,7 +2,6 @@
 	name = "Vaquero"
 	tutorial = "Originating in the vibrant Kingdom of Etrusca, a 'vaquero' had originally been a mere cattle-driver... Now, though, it has become a title for roaming swashbucklers. Whether they set out as a defender of the commonfolk or a pilferer of purses, the Vaquero is defined by the tale they carve across continents - and more frequently - by their story's violent end."
 	outfit = /datum/outfit/job/mercenary/vaquero
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	cmode_music = 'sound/music/combat_vaquero.ogg'
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_ETRUSCA
@@ -37,14 +36,13 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/music = SKILL_LEVEL_EXPERT,
 	)
+	
+	virtue_restrictions = list(
+		/datum/virtue/utility/riding
+	)
 
 /datum/status_effect/buff/merchired/vaquero
 	effectedstats = list(STATKEY_SPD = 1, STATKEY_END = 1)
-
-/datum/advclass/mercenary/vaquero/equipme(mob/living/carbon/human/H)
-	if(should_wear_femme_clothes(H))
-		horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled
-	return ..()
 
 /datum/outfit/job/mercenary/vaquero/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -74,6 +72,8 @@
 	var/weapons = list("Accordion","Bagpipe","Drum","Guitar","Harp","Hurdy-Gurdy","Jaw Harp","Lute","Trumpet","Viola","Vocal Talisman")
 	var/weapon_choice = input(H, "Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
+	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
+		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)
 	switch(weapon_choice)
 		if("Harp")
 			H.put_in_hands(new /obj/item/rogue/instrument/harp(H), TRUE)
