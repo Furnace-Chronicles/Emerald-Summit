@@ -1,4 +1,3 @@
-#define HORDE_KEEPER_MAX 500
 #define HORDE_KEEPER_START_LOW 25
 #define HORDE_KEEPER_START_HIGH 75
 /datum/virtue/racial/drakian/horde_keeper
@@ -122,6 +121,5 @@
 	desc = "You feel a warm sense of pride and accomplishment."
 	icon_state = "buff"
 
-#undef HORDE_KEEPER_MAX
 #undef HORDE_KEEPER_START_LOW
 #undef HORDE_KEEPER_START_HIGH
