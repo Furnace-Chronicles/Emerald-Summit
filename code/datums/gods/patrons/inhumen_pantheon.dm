@@ -28,6 +28,7 @@
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/profane/miracle 	= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/zizo_silence					= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/raise_lesser_undead/miracle 	= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/rituos/miracle 				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/wound_heal					= CLERIC_T3,

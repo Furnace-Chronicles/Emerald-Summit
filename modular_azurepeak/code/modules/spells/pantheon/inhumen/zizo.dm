@@ -190,6 +190,7 @@
 
 /obj/effect/proc_holder/spell/self/zizo_snuff
 	name = "Snuff Lights"
+	desc = "Extinguishes flames and light sources around you, including ignited items carried by nearby mobs. Radius scales with Holy skill."
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
@@ -214,4 +215,58 @@
 	for(var/mob/M in range(checkrange, user))
 		for(var/obj/O in M.contents)
 			O.extinguish()
+	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/zizo_silence
+	name = "Ascendant Edict of Silencing"
+	desc = "An unholy hush that stifles prayer and mercy alike. This one is of Zizo's design. Also drains devotion from divine targets."
+	overlay_state = "zizosilence"
+	clothes_req = FALSE
+	releasedrain = 30
+	chargedrain = 0
+	chargetime = 0
+	range = 7
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	sound = 'sound/magic/zizosilence.ogg'
+	invocation = "Silence, lesser will. Zizo demands it!"
+	invocation_type = "shout"
+	associated_skill = /datum/skill/magic/holy
+	devotion_cost = 30
+	recharge_time = 50 SECONDS
+	miracle = TRUE
+
+/obj/effect/proc_holder/spell/invoked/zizo_silence/cast(list/targets, mob/user = usr)
+	if(!targets || !length(targets) || !targets[1] || !isliving(targets[1]))
+		revert_cast()
+		return FALSE
+
+	if(!user)
+		revert_cast()
+		return FALSE
+
+	var/mob/living/target = targets[1]
+	if(target.anti_magic_check(TRUE, TRUE))
+		return FALSE
+
+	target.visible_message(
+		span_warning("[user] sketches a crooked sigil in the air - the sound around [target] stutters and dies!"),
+		span_warning("A cold, domineering hush clamps my throat - prayers turn to static!")
+	)
+
+	var/skill = max(1, user.get_skill_level(associated_skill))
+	var/dur_ds = clamp(skill * 4, 4, 20) SECONDS
+	var/caster_tier = 1
+	if(istype(user, /mob/living/carbon/human))
+		var/mob/living/carbon/human/U = user
+		if(U.devotion)
+			caster_tier = max(1, U.devotion.level)
+	var/drain = 50 * caster_tier
+	if(istype(target, /mob/living/carbon/human))
+		var/mob/living/carbon/human/H = target
+		if(H.devotion && istype(H.devotion.patron, /datum/patron/divine))
+			H.devotion.update_devotion(-drain, 0, silent = TRUE)
+			to_chat(H, span_warning("My patron's blessing wanes! (-[drain] devotion)"))
+
+	target.set_silence(dur_ds)
 	return TRUE

@@ -407,6 +407,7 @@ var/global/list/anvil_recipe_prices[][]
 /obj/effect/proc_holder/spell/invoked/malum_flame_rogue
 	name = "Malum's Fire"
 	overlay_state = "sacredflame"
+	desc = "Points at a target to ignite it with sacred fire. Can also ignite flammable objects if they can catch fire."
 	releasedrain = 15
 	chargedrain = 0
 	chargetime = 0

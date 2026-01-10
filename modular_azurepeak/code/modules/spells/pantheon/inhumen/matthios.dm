@@ -5,6 +5,7 @@
 /obj/effect/proc_holder/spell/invoked/appraise
 	name = "Appraise"
 	overlay_state = "appraise"
+	desc = "Appraises wealth. On a person: shows mammons carried + mammons in their meister/bank + total"
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
@@ -52,6 +53,7 @@
 /obj/effect/proc_holder/spell/invoked/transact
 	name = "Transact"
 	overlay_state = "transact"
+	desc = "Sacrifices a valuable item in your active hand (must have real value). The item burns away and converts its value into healing for the target—prioritizing the most bleeding limb, otherwise the most damaged limb (also applies a healing effect)."
 	releasedrain = 30
 	chargedrain = 0
 	chargetime = 0

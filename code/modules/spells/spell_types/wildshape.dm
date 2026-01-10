@@ -1,7 +1,7 @@
 /obj/effect/proc_holder/spell/targeted/wildshape
 	name = "Beast Form"
 	desc = "Take on the form of one of Dendor's sacred beasts."
-	overlay_state = "tamebeast"
+	overlay_state = "shapeshift"
 	clothes_req = FALSE
 	human_req = FALSE
 	range = -1
