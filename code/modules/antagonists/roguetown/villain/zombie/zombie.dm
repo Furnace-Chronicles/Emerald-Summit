@@ -138,7 +138,7 @@
 	//Special because deadite status is latent as opposed to the others. 
 	if(admin_granted)
 		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(wake_zombie), zombie, FALSE, TRUE), 5 SECONDS, TIMER_STOPPABLE)
-	if(zombie.ai_currently_active)
+	if(!zombie.client)
 		zombie.flee_in_pain = FALSE
 		show_in_antagpanel = FALSE
 	return ..()

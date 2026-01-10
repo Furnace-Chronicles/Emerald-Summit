@@ -68,7 +68,7 @@
 	if(src.charflaw)
 		QDEL_NULL(src.charflaw)
 	mob_biotypes |= MOB_UNDEAD
-	faction = list("undead")
+	faction = list("undead, zombie") //otherwise they'll fight with their allies. Annoying, unwanted.
 	name = "Skeleton"
 	real_name = "Skeleton"
 	voice_type = VOICE_TYPE_MASC //So that "Unknown Man" properly substitutes in with face cover
@@ -104,7 +104,7 @@
 
 /datum/outfit/job/npc/skeleton/post_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
-	if(H.AddComponent(/datum/component/crumbling)) //shitty workaround to applying the effect to their held items as well.
+	if(H.GetComponent(/datum/component/crumbling)) //shitty workaround to applying the effect to their held items as well.
 		if(r_hand)
 			var/atom/movable/AM = r_hand
 			AM.AddComponent(/datum/component/crumbling)
@@ -181,8 +181,12 @@
 		shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
 		neck = /obj/item/clothing/neck/roguetown/zcross/aalloy
 		gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
-		r_hand = /obj/item/rogueweapon/sword/sabre/alloy
-		l_hand = /obj/item/rogueweapon/sword/sabre/alloy
+		if("cabal" in H.faction) //Too powerful as a summon. Khopeshes are also stupid valuable.
+				r_hand = /obj/item/rogueweapon/sword/iron/short/ashort
+				l_hand = /obj/item/rogueweapon/sword/iron/short/ashort
+		else
+			r_hand = /obj/item/rogueweapon/sword/sabre/alloy
+			l_hand = /obj/item/rogueweapon/sword/sabre/alloy
 		ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
 		return
 	if(skeletonclass == 15) // Withered Dread Knight

@@ -70,15 +70,16 @@
 	return TRUE
 
 
+
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead
 	name = "Summon Lesser Undead"
 	desc = "Summons a mindless skeleton at the targeted location."
 	clothes_req = FALSE
 	overlay_state = "animate"
-	range = 7
+	range = 3
 	sound = list('sound/magic/magnet.ogg')
 	releasedrain = 40
-	chargetime = 5 SECONDS
+	chargetime = 7 SECONDS //Lucky number seven will save us
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	charging_slowdown = 1
@@ -136,7 +137,7 @@
 			if(bonecount >= skullcost)
 				break
 		if(bonecount < skullcost)
-			to_chat(user, span_warning("I lack the charnel to summon forth my minion. I must carry more skulls, either in hand, or in my bags."))
+			to_chat(user, span_warning("I lack the charnel to summon forth my minion. I must carry more skulls, and offer one in hand."))
 			revert_cast()
 			return FALSE
 
@@ -160,7 +161,6 @@
 	desc = "Summons a weak skeleton at the targeted location."
 	clothes_req = FALSE
 	overlay_state = "animate"
-	range = 7
 	sound = list('sound/magic/magnet.ogg')
 	releasedrain = 40
 	chargetime = 3 SECONDS
