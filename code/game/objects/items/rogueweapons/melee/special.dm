@@ -584,7 +584,7 @@
 /datum/component/ignitable/proc/light_off()
 	var/obj/I = parent
 	I.set_light_on(FALSE)
-	playsound(get_turf(I), 'sound/items/firesnuff.ogg', 100)
+	playsound(I, 'sound/items/firesnuff.ogg', 100)
 
 /datum/component/ignitable/proc/update_icon()
 	var/obj/item/I = parent

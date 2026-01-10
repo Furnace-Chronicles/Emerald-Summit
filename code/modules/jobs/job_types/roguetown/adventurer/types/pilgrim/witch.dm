@@ -142,7 +142,7 @@
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/witch/Shapeshift(mob/living/caster)
 	// Do-after before transforming
-	playsound(caster.loc, 'sound/body/shapeshift-start.ogg', 100, FALSE, 3)
+	playsound(caster, 'sound/body/shapeshift-start.ogg', 100, FALSE, 3)
 	if(!do_after(caster, 3 SECONDS, target = caster))
 		to_chat(caster, span_warning("Transformation interrupted!"))
 		revert_cast(caster)  // Refund the cooldown

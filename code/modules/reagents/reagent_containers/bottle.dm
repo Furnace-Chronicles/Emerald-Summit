@@ -78,7 +78,7 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 	else
 		reagent_flags = OPENCONTAINER
 		reagents.flags = reagent_flags
-		playsound(user.loc,'sound/items/uncork.ogg', 100, TRUE)
+		playsound(user,'sound/items/uncork.ogg', 100, TRUE)
 		to_chat(user, span_notice("You thumb off the cork from [src]."))
 		desc = desc_uncorked
 		spillable = TRUE

@@ -44,10 +44,10 @@
 	W.stored_mob = src
 	W.cmode_music = 'sound/music/combat_druid.ogg'
 	if (W.dna.species?.gibs_on_shapeshift)
-		playsound(W.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
+		playsound(W, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
 		W.spawn_gibs(FALSE)
 	
-	playsound(W.loc, 'sound/body/shapeshift-start.ogg', 100, FALSE, 3)
+	playsound(W, 'sound/body/shapeshift-start.ogg', 100, FALSE, 3)
 	src.forceMove(W)
 
 	// re-equip our stored neck and ring items, if we have them
@@ -160,7 +160,7 @@
 	W.copy_known_languages_from(WA.stored_language)
 	skills?.known_skills = WA.stored_skills.Copy()
 	skills?.skill_experience = WA.stored_experience.Copy()
-	playsound(W.loc, 'sound/body/shapeshift-end.ogg', 100, FALSE, 3)
+	playsound(W, 'sound/body/shapeshift-end.ogg', 100, FALSE, 3)
 
 	// Druids keep the exact same spells - they're already in spell_list
 	// The mind.transfer_to() above already carried all spells back

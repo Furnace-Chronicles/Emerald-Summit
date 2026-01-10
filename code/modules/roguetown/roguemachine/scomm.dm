@@ -832,7 +832,7 @@ GLOBAL_VAR_INIT(garrison_silenced, TRUE)
 /obj/item/scomstone/mattcoin/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_COMMIE))
 		to_chat(user, "The coin turns to ash in my hands!")
-		playsound(loc, 'sound/items/firesnuff.ogg', 100, FALSE, -1)
+		playsound(src, 'sound/items/firesnuff.ogg', 100, FALSE, -1)
 		qdel(src)
 	..()
 

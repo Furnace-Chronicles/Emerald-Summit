@@ -152,7 +152,7 @@ GLOBAL_DATUM_INIT(acid_overlay, /mutable_appearance, mutable_appearance('icons/e
 	. = TRUE
 	if(!(resistance_flags & ACID_PROOF))
 		if(prob(33))
-			playsound(loc, 'sound/blank.ogg', 150, TRUE)
+			playsound(src, 'sound/blank.ogg', 150, TRUE)
 		take_damage(min(1 + round(sqrt(acid_level)*0.3), 300), BURN, "acid", 0)
 
 	acid_level = max(acid_level - (5 + 3*round(sqrt(acid_level))), 0)
@@ -232,7 +232,7 @@ GLOBAL_DATUM_INIT(acid_overlay, /mutable_appearance, mutable_appearance('icons/e
 		return
 	obj_broken = TRUE
 	if(break_sound)
-		playsound(get_turf(src), break_sound, 80, TRUE)
+		playsound(src, break_sound, 80, TRUE)
 	if(break_message)
 		visible_message(break_message)
 	balloon_alert_to_viewers("<font color = '#bb2b2b'>[src]<br>breaks!</font>")
@@ -252,7 +252,7 @@ GLOBAL_DATUM_INIT(acid_overlay, /mutable_appearance, mutable_appearance('icons/e
 		burn()
 	else
 		if(destroy_sound)
-			playsound(get_turf(src), destroy_sound, 100, TRUE)
+			playsound(src, destroy_sound, 100, TRUE)
 		if(destroy_message)
 			visible_message(destroy_message)
 		deconstruct(FALSE)

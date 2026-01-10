@@ -35,7 +35,7 @@
 	START_PROCESSING(SSfastprocess, src)
 	icon_state += "-lit"
 	lit = TRUE
-	playsound(loc, 'sound/items/firelight.ogg', 100)
+	playsound(src, 'sound/items/firelight.ogg', 100)
 	if(ismob(loc))
 		var/mob/M = loc
 		M.update_inv_hands()
@@ -48,7 +48,7 @@
 		return
 	lit = FALSE
 	STOP_PROCESSING(SSfastprocess, src)
-	playsound(loc, 'sound/items/firesnuff.ogg', 100)
+	playsound(src, 'sound/items/firesnuff.ogg', 100)
 	icon_state = "bbomb"
 	if(ismob(loc))
 		var/mob/M = loc
@@ -252,7 +252,7 @@
 	var/turf/T = get_turf(src)
 	if(!T) 
 		return FALSE
-	playsound(loc, 'sound/items/smokebomb.ogg', 50)
+	playsound(src, 'sound/items/smokebomb.ogg', 50)
 	var/datum/effect_system/smoke_spread/smoke = new /datum/effect_system/smoke_spread
 	smoke.set_up(radius, T)
 	smoke.start()

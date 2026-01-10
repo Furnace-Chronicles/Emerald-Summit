@@ -914,7 +914,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		unbuckle_mob(L)
 		L.Paralyze(50)
 		L.Stun(50)
-		playsound(L.loc, 'sound/foley/zfall.ogg', 100, FALSE)
+		playsound(L, 'sound/foley/zfall.ogg', 100, FALSE)
 		L.visible_message(span_danger("[L] falls off [src]!"))
 
 /mob/living/simple_animal/buckle_mob(mob/living/buckled_mob, force = 0, check_loc = 1)

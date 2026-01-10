@@ -186,7 +186,7 @@
 		if(do_after(user, 50, target = src))
 			user.visible_message(span_warning("[user] consumes [src]!"),\
 							span_notice("I consume [src]!"))
-			playsound(get_turf(user), pick(dismemsound), 100, FALSE, -1)
+			playsound(user, pick(dismemsound), 100, FALSE, -1)
 			new /obj/effect/gibspawner/generic(get_turf(src), user)
 			user.fully_heal()
 			qdel(src)
@@ -296,7 +296,7 @@
 /obj/item/bodypart/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	. = ..()
 	if(status != BODYPART_ROBOTIC)
-		playsound(get_turf(src), 'sound/blank.ogg', 50, TRUE, -1)
+		playsound(src, 'sound/blank.ogg', 50, TRUE, -1)
 	pixel_x = rand(-3, 3)
 	pixel_y = rand(-3, 3)
 	if(!skeletonized && !(NOBLOOD in original_owner?.dna?.species?.species_traits))
