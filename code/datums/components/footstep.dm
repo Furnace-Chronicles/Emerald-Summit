@@ -45,7 +45,7 @@
 	var/mob/living/LM = parent
 	if(!T.footstep || LM.buckled || LM.lying || !CHECK_MULTIPLE_BITFIELDS(LM.mobility_flags, MOBILITY_STAND | MOBILITY_MOVE) || LM.throwing || LM.movement_type & (VENTCRAWLING | FLYING))
 		if (LM.lying && !LM.buckled && !(!T.footstep || LM.movement_type & (VENTCRAWLING | FLYING))) //play crawling sound if we're lying
-			playsound(T, 'sound/blank.ogg', 15 * volume)
+			playsound(parent, 'sound/blank.ogg', 15 * volume)
 		return
 
 	if(iscarbon(LM))
@@ -57,7 +57,7 @@
 				return// stealth
 			steps++
 			if(steps&2 == 2) // Hrrghn... Colonel, I'm trying to sneak around, but I'm dummy thicc, and the clap of my asscheeks keeps ALERTING THE GUARDS
-				playsound(C, pick(list('sound/misc/mat/thicc (1).ogg','sound/misc/mat/thicc (2).ogg','sound/misc/mat/thicc (3).ogg','sound/misc/mat/thicc (4).ogg')), 15 * volume)
+				playsound(parent, pick(list('sound/misc/mat/thicc (1).ogg','sound/misc/mat/thicc (2).ogg','sound/misc/mat/thicc (3).ogg','sound/misc/mat/thicc (4).ogg')), 15 * volume)
 			if(steps >= 6)
 				steps = 0
 			return// uhm... stealth?
@@ -86,7 +86,7 @@ var/list/kick_verb
 	if(!T)
 		return
 	if(isfile(footstep_sounds) || istext(footstep_sounds))
-		playsound(T, footstep_sounds, volume)
+		playsound(parent, footstep_sounds, volume)
 		return
 	var/turf_footstep
 	switch(footstep_type)
@@ -104,7 +104,7 @@ var/list/kick_verb
 	if(!footstep_sounds[turf_footstep] || (LAZYLEN(footstep_sounds) < 3))
 		testing("SOME silly guy GAVE AN INVALID FOOTSTEP [footstep_type] VALUE ([turf_footstep]) TO [T.type]!!! FIX THIS SHIT!!!")
 		return
-	playsound(T, pick(footstep_sounds[turf_footstep][1]), footstep_sounds[turf_footstep][2], FALSE, footstep_sounds[turf_footstep][3] + e_range)
+	playsound(parent, pick(footstep_sounds[turf_footstep][1]), footstep_sounds[turf_footstep][2], FALSE, footstep_sounds[turf_footstep][3] + e_range)
 
 /datum/component/footstep/proc/play_humanstep()
 	var/turf/open/T = prepare_step()
@@ -133,7 +133,7 @@ var/list/kick_verb
 		if(!used_sound)
 			used_sound = last_sound
 		last_sound = used_sound
-		playsound(T, used_sound,
+		playsound(parent, used_sound,
 			GLOB.footstep[T.footstep][2],
 			FALSE,
 			GLOB.footstep[T.footstep][3] + e_range)
@@ -152,7 +152,7 @@ var/list/kick_verb
 			if(!used_sound)
 				used_sound = last_sound
 			last_sound = used_sound
-			playsound(T, used_sound,
+			playsound(parent, used_sound,
 				GLOB.barefootstep[T.barefootstep][2],
 				TRUE,
 				GLOB.barefootstep[T.barefootstep][3] + e_range)
@@ -171,4 +171,4 @@ var/list/kick_verb
 			last_sound = used_sound
 			volume = rand(40, 85)
 			e_range = rand(1, 3)
-			playsound(T, used_sound, "vol" = volume, "extrarange" = e_range)
+			playsound(parent, used_sound, "vol" = volume, "extrarange" = e_range)

@@ -137,7 +137,7 @@ THESE SPAWNERS SPAWN MOBS BY CHOOSING RANDOM TILES AROUND IT AND SCATTERING THE 
 		burn()
 	else
 		if(destroy_sound)
-			playsound(get_turf(src), destroy_sound, 100, TRUE)
+			playsound(src, destroy_sound, 100, TRUE)
 		if(destroy_message)
 			visible_message(destroy_message)
 		deconstruct(FALSE)
@@ -348,7 +348,7 @@ THESE SPAWNERS SPAWN MOBS BY CHOOSING RANDOM TILES AROUND IT AND SCATTERING THE 
 		if(user.used_intent.type != /datum/intent/shovelscoop)
 			return
 		if(attacking_shovel.heldclod)
-			playsound(loc,'sound/items/empty_shovel.ogg', 100, TRUE)
+			playsound(src,'sound/items/empty_shovel.ogg', 100, TRUE)
 			QDEL_NULL(attacking_shovel.heldclod)
 			src.visible_message("<span class='danger'>[user] shoveled some dirt clods into [src]!</span>")
 			fill ++

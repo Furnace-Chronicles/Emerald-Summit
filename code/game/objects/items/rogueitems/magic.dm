@@ -134,7 +134,7 @@ Necra's Censer
 
 /obj/item/necra_censer/attack_self(mob/user)
 	if(do_after(user, 3 SECONDS))
-		playsound(user.loc,  'sound/items/censer_use.ogg', 100)
+		playsound(user,  'sound/items/censer_use.ogg', 100)
 		user.visible_message(span_info("[user.name] lifts up their arm and swings the chain on \the [name] around lightly."))
 		var/datum/effect_system/smoke_spread/smoke/necra_censer/S = new
 		S.set_up(2, user.loc)

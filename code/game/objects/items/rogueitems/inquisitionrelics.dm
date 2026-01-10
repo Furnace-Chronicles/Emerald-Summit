@@ -779,7 +779,7 @@ Inquisitorial armory down here
 		if(lastcarrier.pulling)
 			lastcarrier.stop_pulling()
 	if(break_sound)
-		playsound(get_turf(src), break_sound, 80, TRUE)
+		playsound(src, break_sound, 80, TRUE)
 	update_icon()
 	to_chat(M, "The [src] SNAPS...!")
 	name = "\proper snapped seizing garrote"
@@ -820,7 +820,7 @@ Inquisitorial armory down here
 	if(wielded)
 		ungrip(user, FALSE)
 		active = FALSE
-		playsound(loc, 'sound/items/garroteshut.ogg', 65, TRUE)
+		playsound(src, 'sound/items/garroteshut.ogg', 65, TRUE)
 
 /obj/item/inqarticles/garrote/attack_self(mob/user)
 	if(obj_broken)
@@ -832,14 +832,14 @@ Inquisitorial armory down here
 		active = FALSE
 		if(user.pulling)
 			user.stop_pulling()
-		playsound(loc, 'sound/items/garroteshut.ogg', 65, TRUE)
+		playsound(src, 'sound/items/garroteshut.ogg', 65, TRUE)
 		wipeslate(user)
 		return
 	if(gripped_intents)
 		wield(user, FALSE)
 		active = TRUE
 		if(wielded)
-			playsound(loc, pick('sound/items/garrote.ogg', 'sound/items/garrote2.ogg'), 65, TRUE)
+			playsound(src, pick('sound/items/garrote.ogg', 'sound/items/garrote2.ogg'), 65, TRUE)
 			return
 
 /obj/item/inqarticles/garrote/equipped(mob/living/carbon/human/user, slot)
@@ -895,7 +895,7 @@ Inquisitorial armory down here
 		if(user.pulling)
 			user.stop_pulling(FALSE)
 		if(HAS_TRAIT(target, TRAIT_GRABIMMUNE))
-			playsound(loc, pick('sound/items/garrote.ogg', 'sound/items/garrote2.ogg'), 65, TRUE)
+			playsound(src, pick('sound/items/garrote.ogg', 'sound/items/garrote2.ogg'), 65, TRUE)
 			user.visible_message(span_danger("[target] slips past [user]'s attempt to [src] them!"))
 			return
 		// THROAT TARGET RESTRICTION. HEAVILY REQUESTED.	
@@ -906,7 +906,7 @@ Inquisitorial armory down here
 			to_chat(user, span_warning("They already have one wrapped around their throat."))
 			return	
 		victim = target	
-		playsound(loc, 'sound/items/garrotegrab.ogg', 100, TRUE)
+		playsound(src, 'sound/items/garrotegrab.ogg', 100, TRUE)
 		ADD_TRAIT(user, TRAIT_NOTIGHTGRABMESSAGE, TRAIT_GENERIC)
 		ADD_TRAIT(user, TRAIT_NOSTRUGGLE, TRAIT_GENERIC)
 		ADD_TRAIT(target, TRAIT_GARROTED, TRAIT_GENERIC)
@@ -935,7 +935,7 @@ Inquisitorial armory down here
 		user.stamina_add(rand(4, 8))
 		var/mob/living/carbon/C = victim
 		// if(get_location_accessible(C, BODY_ZONE_PRECISE_NECK))
-		playsound(loc, pick('sound/items/garrotechoke1.ogg', 'sound/items/garrotechoke2.ogg', 'sound/items/garrotechoke3.ogg', 'sound/items/garrotechoke4.ogg', 'sound/items/garrotechoke5.ogg'), 100, TRUE)
+		playsound(src, pick('sound/items/garrotechoke1.ogg', 'sound/items/garrotechoke2.ogg', 'sound/items/garrotechoke3.ogg', 'sound/items/garrotechoke4.ogg', 'sound/items/garrotechoke5.ogg'), 100, TRUE)
 		if(prob(40) && !HAS_TRAIT(C, TRAIT_NOBREATH))
 			C.emote("choke")
 		C.adjustOxyLoss(choke_damage)

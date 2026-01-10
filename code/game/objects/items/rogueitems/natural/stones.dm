@@ -367,7 +367,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 				M.reagents.add_reagent(/datum/reagent/consumable/nutriment, magic_power*1.2)
 				var/healydoodle_again = magic_power+1
 				M.apply_status_effect(/datum/status_effect/buff/rockmuncher_lesser, healydoodle_again)
-				playsound(get_turf(src), 'modular_azurepeak/sound/spellbooks/icicle.ogg', 100)
+				playsound(src, 'modular_azurepeak/sound/spellbooks/icicle.ogg', 100)
 				qdel(src)
 				if(M == user)
 					user.visible_message(span_danger("[user] eats [src]!"), span_danger("I devour [src]!"))
@@ -555,7 +555,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 				stackcount -= clamp(stackcount, 2, 4)
 				user.put_in_hands(B)
 		for(var/obj/item/natural/stoneblock/F in get_turf(src))
-			playsound(get_turf(user.loc), 'sound/foley/stone_scrape.ogg', 100)
+			playsound(user, 'sound/foley/stone_scrape.ogg', 100)
 			qdel(F)
 
 //................ Stone block stack	............... //

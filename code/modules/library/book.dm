@@ -76,7 +76,7 @@
 			curpage += 2
 		else
 			curpage = 1
-		playsound(loc, 'sound/items/book_page.ogg', 100, TRUE, -1)
+		playsound(src, 'sound/items/book_page.ogg', 100, TRUE, -1)
 		read(usr)
 
 /obj/item/book/proc/read(mob/user)

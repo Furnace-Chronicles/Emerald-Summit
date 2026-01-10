@@ -381,7 +381,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	var/ss = sound
 	if(islist(sound))
 		ss = pick(sound)
-	playsound(get_turf(usr), ss,100,FALSE)
+	playsound(usr, ss,100,FALSE)
 
 /obj/effect/proc_holder/spell/Initialize()
 	. = ..()
