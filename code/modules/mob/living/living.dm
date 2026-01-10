@@ -488,13 +488,6 @@
 		O.update_hands(src)
 		update_grab_intents()
 
-	if(isliving(AM))
-		var/mob/living/M = AM
-		if(M.mind)
-			if(M.cmode && M.stat == CONSCIOUS && !M.restrained(ignore_grab = TRUE))
-				if(M.get_skill_level(/datum/skill/combat/wrestling) > 4 || src.get_skill_level(/datum/skill/combat/wrestling) < 5) //Grabber skill less than Master OR grabbed skill at Master or above.
-					M.resist_grab(freeresist = TRUE) //Automatically attempt to break a passive grab if defender's combat mode is on. Anti-grabspam measure.
-
 /mob/living/proc/send_pull_message(mob/living/target)
 	target.visible_message(span_warning("[src] grabs [target]."), \
 					span_warning("[src] grabs me."), span_hear("I hear shuffling."), null, src)
@@ -504,7 +497,8 @@
 	if(M.buckled)
 		return //don't make them change direction or offset them if they're buckled into something.
 	if(M.dir != turn(get_dir(M,src), 180))
-		M.setDir(get_dir(M, src))
+		if(!((cmode || M.cmode) && M.grab_state < GRAB_AGGRESSIVE))
+			M.setDir(get_dir(M, src))
 	var/offset = 0
 	switch(grab_state)
 		if(GRAB_PASSIVE)
@@ -515,19 +509,34 @@
 			offset = GRAB_PIXEL_SHIFT_NECK
 		if(GRAB_KILL)
 			offset = GRAB_PIXEL_SHIFT_NECK
-	switch(get_dir(M, src))
-		if(NORTH)
-			M.set_mob_offsets("pulledby", 0, 0+offset)
-			M.layer = MOB_LAYER+0.05
-		if(SOUTH)
-			M.set_mob_offsets("pulledby", 0, 0-offset)
-			M.layer = MOB_LAYER-0.05
-		if(EAST)
-			M.set_mob_offsets("pulledby", 0+offset, 0)
-			M.layer = MOB_LAYER
-		if(WEST)
-			M.set_mob_offsets("pulledby", 0-offset, 0)
-			M.layer = MOB_LAYER
+	if((cmode || M.cmode) && M.grab_state < GRAB_AGGRESSIVE)
+		switch(get_dir(src, M))
+			if(NORTH)
+				set_mob_offsets("pulledby", 0, 0+offset)
+				layer = MOB_LAYER+0.05
+			if(SOUTH)
+				set_mob_offsets("pulledby", 0, 0-offset)
+				layer = MOB_LAYER-0.05
+			if(EAST)
+				set_mob_offsets("pulledby", 0+offset, 0)
+				layer = MOB_LAYER
+			if(WEST)
+				set_mob_offsets("pulledby", 0-offset, 0)
+				layer = MOB_LAYER
+	else
+		switch(get_dir(M, src))
+			if(NORTH)
+				M.set_mob_offsets("pulledby", 0, 0+offset)
+				M.layer = MOB_LAYER+0.05
+			if(SOUTH)
+				M.set_mob_offsets("pulledby", 0, 0-offset)
+				M.layer = MOB_LAYER-0.05
+			if(EAST)
+				M.set_mob_offsets("pulledby", 0+offset, 0)
+				M.layer = MOB_LAYER
+			if(WEST)
+				M.set_mob_offsets("pulledby", 0-offset, 0)
+				M.layer = MOB_LAYER
 
 /mob/living/proc/reset_pull_offsets(mob/living/M, override)
 	if(!override && M.buckled)
@@ -572,6 +581,8 @@
 	if(pulling)
 		if(ismob(pulling))
 			var/mob/living/M = pulling
+			if(pulledby && pulledby == pulling)
+				reset_offsets("pulledby")
 			M.reset_offsets("pulledby")
 			reset_pull_offsets(pulling)
 			if(HAS_TRAIT(M, TRAIT_GARROTED))
@@ -589,7 +600,8 @@
 				var/obj/item/grabbing/I = get_inactive_held_item()
 				if(I.grabbed == pulling)
 					dropItemToGround(I, silent = FALSE)
-
+	reset_offsets("pulledby")
+	reset_pull_offsets(src)
 	. = ..()
 
 	update_pull_movespeed()
@@ -1153,7 +1165,7 @@
 /mob/proc/resist_grab(moving_resist)
 	return TRUE //returning 0 means we successfully broke free
 
-/mob/living/resist_grab(moving_resist, freeresist = FALSE)
+/mob/living/resist_grab(moving_resist)
 	. = TRUE
 
 	if(HAS_TRAIT(src, TRAIT_PARALYSIS))
@@ -1202,13 +1214,16 @@
 	resist_chance *= combat_modifier
 	resist_chance = clamp(resist_chance, 5, 95)
 
+	if(!L.compliance || !compliance)
+		if(badluck(7))
+			badluckmessage(src)
+			return
+
 	if(L.compliance)
 		resist_chance = 100
 
 	if(moving_resist && client) //we resisted by trying to move
 		client.move_delay = world.time + 20
-	if(!freeresist)
-		stamina_add(rand(5,15))
 
 	if(!prob(resist_chance))
 		var/rchance = ""
@@ -1743,7 +1758,6 @@
 			layer = initial(layer)
 	update_cone_show()
 	update_transform()
-	lying_prev = lying
 
 	// Movespeed mods based on arms/legs quantity
 	if(!get_leg_ignore())

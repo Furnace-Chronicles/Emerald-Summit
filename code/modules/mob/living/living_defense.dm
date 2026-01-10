@@ -196,7 +196,7 @@
 
 //proc to upgrade a simple pull into a more aggressive grab.
 /mob/living/proc/grippedby(mob/living/carbon/user, instant = FALSE)
-	user.changeNext_move(CLICK_CD_GRABBING * 2 - user.STASPD)
+	user.changeNext_move(CLICK_CD_TRACKING)
 	var/skill_diff = 0
 	var/combat_modifier = 1
 	if(user.mind)
@@ -224,6 +224,10 @@
 	else if(!user.cmode && cmode)
 		combat_modifier -= 0.3
 
+	if(!instant && !surrendering && !restrained() && !compliance)
+		if(user.badluck(10))
+			badluckmessage(user)
+			return
 	var/probby
 	if(!compliance)
 		probby = clamp((((4 + (((user.STASTR - STASTR)/2) + skill_diff)) * 10 + rand(-5, 5)) * combat_modifier), 5, 95)
@@ -239,9 +243,12 @@
 			to_chat(user, span_warning("I struggle with [src]!"))
 		playsound(src, 'sound/foley/struggle.ogg', 100, FALSE, -1)
 		user.Immobilize(2 SECONDS)
-		user.changeNext_move(2 SECONDS)
+		user.changeNext_move(CLICK_CD_TRACKING)
 		src.Immobilize(1 SECONDS)
-		src.changeNext_move(1 SECONDS)
+		src.changeNext_move(CLICK_CD_GRABBING)
+		if(user.badluck(5))
+			badluckmessage(user)
+			user.stop_pulling()
 		return
 
 	if(!instant)

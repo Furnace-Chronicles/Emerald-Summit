@@ -1,5 +1,14 @@
 /mob/living/carbon/Initialize()
-	. = ..()
+	..()
+
+	pain_threshold = HAS_TRAIT(src, TRAIT_ADRENALINE_RUSH) ? ((STAEND + 5) * 10) : (STAEND * 10)
+	if(has_flaw(/datum/charflaw/masochist)) // Masochists handle pain better by about 1 endurance point
+		pain_threshold += 10
+	if(HAS_TRAIT(src, TRAIT_NOPAINSTUN))
+		pain_threshold += 75
+	if(HAS_TRAIT(src, TRAIT_NOPAIN))
+		pain_threshold = 250
+
 	create_reagents(1000)
 	update_body_parts() //to update the carbon's new bodyparts appearance
 	GLOB.carbon_list += src
@@ -145,6 +154,10 @@
 			take_bodypart_damage(10,check_armor = TRUE)
 			if(IsOffBalanced())
 				Paralyze(20)
+			else
+				Immobilize(2 SECONDS)
+			if(prob(20))
+				emote("scream") // lifeweb reference ?? xd
 	if(iscarbon(hit_atom) && hit_atom != src)
 		var/mob/living/carbon/victim = hit_atom
 		if(victim.movement_type & FLYING)
@@ -152,11 +165,9 @@
 		if(hurt)
 			victim.take_bodypart_damage(10,check_armor = TRUE)
 			take_bodypart_damage(10,check_armor = TRUE)
-			if(victim.IsOffBalanced())
-				victim.Knockdown(30)
 			visible_message("<span class='danger'>[src] crashes into [victim]!",\
 				"<span class='danger'>I violently crash into [victim]!</span>")
-		playsound(src,"genblunt",100,TRUE)
+			playsound(src,"genblunt",100,TRUE)
 
 
 //Throwing stuff
@@ -212,10 +223,7 @@
 					if(!throwable_mob.buckled)
 						thrown_thing = throwable_mob
 						thrown_speed = 1
-						if(STASTR > throwable_mob.STACON)
-							thrown_range = 4
-						else
-							thrown_range = 1
+						thrown_range = max(round((STASTR/throwable_mob.STACON)*2), 1)
 						stop_pulling()
 						if(G.grab_state < GRAB_AGGRESSIVE)		//If we have the Giant Virtue, and aren't throwing another Giant, we can do it w/o aggro grab
 							if(HAS_TRAIT(throwable_mob, TRAIT_BIGGUY))
@@ -274,7 +282,8 @@
 		return TRUE
 	if(pulledby && !ignore_grab)
 		if(pulledby != src)
-			return TRUE
+			if(pulledby.grab_state >= GRAB_AGGRESSIVE)
+				return TRUE
 
 /mob/living/carbon/proc/canBeHandcuffed()
 	return 0
@@ -585,6 +594,7 @@
 
 /mob/living/carbon
 	var/nausea = 0
+	var/pain_threshold = 0
 	var/bleeding_tier = 0 
 
 /mob/living/carbon/proc/add_nausea(amt)
