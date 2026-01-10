@@ -559,7 +559,7 @@ GLOBAL_VAR_INIT(garrison_silenced, TRUE)
 		return
 	// Check if user has rank 5 nobility OR is part of garrison jobs
 	var/is_rank5_nobility = (user.social_rank >= SOCIAL_RANK_NOBLE) && !HAS_TRAIT(user, TRAIT_HEARTFELT)
-	var/is_garrison_job = (HAS_TRAIT(user, TRAIT_GUARDSMAN) || HAS_TRAIT(user, TRAIT_GUARDSMAN_NOBLE) || (user.job == "Warden") || (user.job == "Watchman"))
+	var/is_garrison_job = (HAS_TRAIT(user, TRAIT_GUARDSMAN) || HAS_TRAIT(user, TRAIT_GUARDSMAN_NOBLE) || (user.job == "Squire")|| (user.job == "Warden") || (user.job == "Watchman"))
 	
 	if(is_rank5_nobility || is_garrison_job)
 		// Rank 5 nobility always has access, garrison jobs only if not silenced
