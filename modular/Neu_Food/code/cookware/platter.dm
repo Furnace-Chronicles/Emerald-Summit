@@ -33,7 +33,7 @@ What it does:
 	if(istype(I, /obj/item/reagent_containers/food/snacks/))
 		if(isturf(loc)&& (found_table))
 			if (contents.len == 0)
-				playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+				playsound(user, 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
 				to_chat(user, span_info("I add \the [I.name] to \the [name]."))
 				I.forceMove(src)
 				var/obj/item/reagent_containers/food/snacks/S = I

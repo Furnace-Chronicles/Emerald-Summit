@@ -39,7 +39,7 @@
 				else
 					user.visible_message("<span class='danger'>[user] starts to cut off [src]'s wings with [held_item].</span>")
 				if(do_after(user, 50, needhand = 1, target = src))
-					playsound(get_turf(src), 'sound/combat/hits/bladed/smallslash (1).ogg', 80, TRUE, soundping = TRUE)
+					playsound(src, 'sound/combat/hits/bladed/smallslash (1).ogg', 80, TRUE, soundping = TRUE)
 					src.emote("scream")
 					add_stress(/datum/stressevent/wingcut)
 					selected_organ.Remove(src)

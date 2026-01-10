@@ -522,7 +522,7 @@
 
 /obj/item/clothing/climbing_gear/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
-	playsound(loc, 'sound/items/garrotegrab.ogg', 100, TRUE)
+	playsound(src, 'sound/items/garrotegrab.ogg', 100, TRUE)
 
 /obj/item/storage/belt/rogue/leather/smokebelt
 	name = "smokebomb belt"

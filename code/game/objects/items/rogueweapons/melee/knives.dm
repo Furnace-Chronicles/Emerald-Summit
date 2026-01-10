@@ -888,7 +888,7 @@
 				bag.emptyStorage()
 			// We found a recipe! Time to use its requirements to give back a portion of what they used
 			// Skill Level: Novice 20% ----> Legendary (100%) return rates (not linear between skill jumps)
-			var/list/skill_bonuses = list(
+			var/list/skill_bonuses = alist(
 				1 = 0.2,
 				2 = 0.3,
 				3 = 0.4, // Here and beyond in skill level they will receive ATLEAST one of each ingredient back.

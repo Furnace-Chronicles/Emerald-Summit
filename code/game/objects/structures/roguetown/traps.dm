@@ -62,10 +62,10 @@
 /obj/structure/spike_pit/attackby(obj/item/I, mob/user, params)
 
 	if(istype(I, /obj/item/rogueweapon/shovel))
-		playsound(loc,'sound/items/dig_shovel.ogg', 100, TRUE)
+		playsound(src,'sound/items/dig_shovel.ogg', 100, TRUE)
 		to_chat(user, span_info("I start covering up \the [name]..."))
 		if(do_after(user, 5 SECONDS, src))
-			playsound(loc,'sound/items/empty_shovel.ogg', 100, TRUE)
+			playsound(src,'sound/items/empty_shovel.ogg', 100, TRUE)
 			qdel(src)
 			return
 	. = ..()
