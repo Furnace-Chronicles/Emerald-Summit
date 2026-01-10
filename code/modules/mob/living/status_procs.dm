@@ -420,6 +420,9 @@
 
 /////////////////////////////////// TRAIT PROCS ////////////////////////////////////
 
+/// Tracks nearsighted overlay severity per trait source.
+/mob/living/var/list/nearsighted_severity_by_source
+
 /mob/living/proc/cure_blind(source)
 	REMOVE_TRAIT(src, TRAIT_BLIND, source)
 	if(!HAS_TRAIT(src, TRAIT_BLIND))
@@ -434,13 +437,33 @@
 
 /mob/living/proc/cure_nearsighted(source)
 	REMOVE_TRAIT(src, TRAIT_NEARSIGHT, source)
+	nearsighted_severity_by_source?.Remove(source)
 	if(!HAS_TRAIT(src, TRAIT_NEARSIGHT))
 		clear_fullscreen("nearsighted")
+		if(nearsighted_severity_by_source && !nearsighted_severity_by_source.len)
+			nearsighted_severity_by_source = null
+		return
+	update_nearsighted_overlay()
 
-/mob/living/proc/become_nearsighted(source)
-	if(!HAS_TRAIT(src, TRAIT_NEARSIGHT))
-		overlay_fullscreen("nearsighted", /atom/movable/screen/fullscreen/impaired, 1)
+/mob/living/proc/become_nearsighted(source, severity = 1)
+	severity = clamp(round(severity), 1, 2)
+	if(!source)
+		source = "unknown"
+	if(!nearsighted_severity_by_source)
+		nearsighted_severity_by_source = list()
+	nearsighted_severity_by_source[source] = max(nearsighted_severity_by_source[source], severity)
 	ADD_TRAIT(src, TRAIT_NEARSIGHT, source)
+	update_nearsighted_overlay()
+
+/mob/living/proc/update_nearsighted_overlay()
+	if(!HAS_TRAIT(src, TRAIT_NEARSIGHT))
+		clear_fullscreen("nearsighted")
+		return
+	var/max_severity = 1
+	if(nearsighted_severity_by_source)
+		for(var/_source in nearsighted_severity_by_source)
+			max_severity = max(max_severity, nearsighted_severity_by_source[_source])
+	overlay_fullscreen("nearsighted", /atom/movable/screen/fullscreen/impaired, max_severity)
 
 /mob/living/proc/cure_husk(source)
 	REMOVE_TRAIT(src, TRAIT_HUSK, source)
