@@ -73,7 +73,8 @@
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold/steward
 	beltr = /obj/item/storage/keyring/steward
 	backr = /obj/item/storage/backpack/rogue/satchel
-	id = /obj/item/scomstone
+	id = /obj/item/scomstone/garrison
+
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
@@ -103,3 +104,5 @@ GLOBAL_VAR_INIT(steward_tax_cooldown, -50000) // Antispam
 		SStreasury.tax_value = newtax / 100
 		priority_announce("The new tax in Scarlet Reach shall be [newtax] percent.", "The Steward Meddles", pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain")
 		GLOB.steward_tax_cooldown = world.time
+
+
