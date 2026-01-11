@@ -148,6 +148,8 @@
 	/datum/rmb_intent/weak,\
 	/datum/rmb_intent/omni)
 
+	var/already_converted_once = FALSE // ritualcircles.dm , used to make it so players can't switch around between inhumen gods to stack buffs with conversion rites
+
 	rot_type = /datum/component/rot/corpse
 
 	var/voice_type = null // LETHALSTONE EDIT: defines what sound pack we use. keep this null so mobs resort to their typical gender typing - preferences set this
