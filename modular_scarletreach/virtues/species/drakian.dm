@@ -23,8 +23,6 @@
 	)
 /datum/virtue/racial/drakian/ember_blooded/apply_to_human(mob/living/carbon/human/recipient)
 	recipient.apply_status_effect(/datum/status_effect/ember_blooded)
-	recipient.verbs |= /mob/living/carbon/human/proc/recruit_kobold
-	recipient.verbs |= /mob/living/carbon/human/proc/banish_kobold
 
 /mob/living/COOLDOWN_DECLARE(recruit_kobold_cooldown)
 
@@ -33,18 +31,15 @@
 	set name = "Banish Kobold from Horde"
 	set category = "IC"
 
-	var/datum/status_effect/ember_blooded/hoard_master = has_status_effect(/datum/status_effect/ember_blooded)
-	if(hoard_master.servants.len)
-		var/choice = input(src, "Pick a kobold to abandon.", "Emberblood Servitude") in hoard_master.servants
+	var/datum/status_effect/ember_blooded/horde_master = has_status_effect(/datum/status_effect/ember_blooded)
+	if(horde_master.servants.len)
+		var/choice = input(src, "Pick a kobold to abandon.", "Emberblood Servitude") in horde_master.servants
 		var/mob/living/target = choice
 		if(!isliving(target) || QDELETED(target)) // mob has since been deleted/destroyed, skip
-			hoard_master.servants -= target
+			horde_master.servants -= target
 			to_chat(src, span_boldwarning("The one I was trying to banish disappeared?!"))
 			return
-		hoard_master.servants -= target
-		target.verbs -= /mob/living/carbon/human/proc/leave_horde
-		REMOVE_TRAIT(target, TRAIT_EMBERBLOOD_HORDE, "ember_blooded")
-		to_chat(src, span_boldwarning("I banish [target] from my horde."))
+		horde_master.remove_kobold(target, "Banished")
 	else
 		to_chat(src, span_boldwarning("I have no horde, who am I to banish, the air?"))
 
@@ -72,22 +67,17 @@
 		to_chat(src, span_boldwarning("My recruitment attempts failed! Where did they go?!"))
 		return
 	if(target.cmode)
-		to_chat(src, span_boldwarning("They seem a little tense... perhaps I should wait for them to calm down."))
+		to_chat(src, span_boldwarning("They seem a little tense... perhaps I should wait for [target] to calm down."))
 		return
 	var/user_loc = get_turf(src)
 	if(get_dist(get_turf(target), user_loc) <= 7)
 		var/prompt = tgui_alert(target, "Do you wish to serve [src]?", "DRAKIAN HORDE", list("MAKE IT SO", "I RESCIND"))
 		if(prompt != "MAKE IT SO")
 			return
-		var/datum/status_effect/ember_blooded/hoard_master = has_status_effect(/datum/status_effect/ember_blooded)
-		if(hoard_master)
-			hoard_master.servants += target
-			target.apply_status_effect(/datum/status_effect/ember_blooded_horde)
-			var/datum/status_effect/ember_blooded_horde/servant = target.has_status_effect(/datum/status_effect/ember_blooded_horde)
-			servant.hoard_master = src
+		var/datum/status_effect/ember_blooded/horde_master = has_status_effect(/datum/status_effect/ember_blooded)
+		if(horde_master)
+			horde_master.add_kobold(target)
 			target.playsound_local(target, 'sound/misc/subtle_emote.ogg', 100)
-			target.verbs |= /mob/living/carbon/human/proc/leave_horde
-			ADD_TRAIT(target, TRAIT_EMBERBLOOD_HORDE, "ember_blooded")
 		else
 			to_chat(src, span_boldwarning("Some other force stopped me from recruiting them!"))
 	else
@@ -106,12 +96,9 @@
 	if(prompt != "MAKE IT SO")
 		return
 	var/datum/status_effect/ember_blooded_horde/servant = has_status_effect(/datum/status_effect/ember_blooded_horde)
-	if(servant.hoard_master)
-		var/datum/status_effect/ember_blooded/hoard_keeper = servant.hoard_master.has_status_effect(/datum/status_effect/ember_blooded)
-		hoard_keeper.servants -= src
-	to_chat(src, span_boldwarning("I abandon my horde, leaving them to fend against the world..."))
-	verbs -= /mob/living/carbon/human/proc/leave_horde
-	REMOVE_TRAIT(src, TRAIT_EMBERBLOOD_HORDE, "ember_blooded")
+	if(servant.horde_master)
+		var/datum/status_effect/ember_blooded/master = servant.horde_master.has_status_effect(/datum/status_effect/ember_blooded)
+		master.remove_kobold(src, "Desertion")
 
 // Status effects and buffs
 /datum/status_effect/ember_blooded
@@ -122,27 +109,45 @@
 	/// List of kobolds that serve under the drakian.
 	var/list/servants = list()
 
-/datum/status_effect/ember_blooded_horde
+/datum/status_effect/ember_blooded/on_apply()
+	. = ..()
+	owner.verbs |= /mob/living/carbon/human/proc/recruit_kobold
+	owner.verbs |= /mob/living/carbon/human/proc/banish_kobold
+
+/datum/status_effect/ember_blooded/on_remove()
+	. = ..()
+	owner.verbs -= /mob/living/carbon/human/proc/recruit_kobold
+	owner.verbs -= /mob/living/carbon/human/proc/banish_kobold
+
+/datum/status_effect/ember_blooded_horde // Used purely to track kobolds in a given horde, can be expanded upon to give them situational buffs later on.
 	id = "ember_blooded_horde"
 	status_type = STATUS_EFFECT_UNIQUE
 	alert_type = null
-	tick_interval = 15 SECONDS
+	tick_interval = 15 SECONDS // EVery 15 seconds, check if the ho
 	/// The master of the horde
-	var/mob/living/hoard_master
+	var/mob/living/horde_master
 	COOLDOWN_DECLARE(initial_delay)
 
 /datum/status_effect/ember_blooded_horde/on_apply()
 	. = ..()
 	COOLDOWN_START(src, initial_delay, tick_interval)
+	owner.verbs |= /mob/living/carbon/human/proc/leave_horde
+	ADD_TRAIT(owner, TRAIT_EMBERBLOOD_HORDE, "ember_blooded")
+	to_chat(owner, span_info("I joined the horde!"))
+
+/datum/status_effect/ember_blooded_horde/on_remove()
+	. = ..()
+	owner.verbs -= /mob/living/carbon/human/proc/leave_horde
+	REMOVE_TRAIT(owner, TRAIT_EMBERBLOOD_HORDE, "ember_blooded")
+	to_chat(owner, span_boldwarning("I have been banished or left my horde... It's so lonely."))
 
 /datum/status_effect/ember_blooded_horde/tick(wait)
 	if(!COOLDOWN_FINISHED(src, initial_delay))
 		return
-	if(isnull(hoard_master))
+	if(isnull(horde_master))
 		owner.remove_status_effect(src)
 	if(!HAS_TRAIT(owner, TRAIT_EMBERBLOOD_HORDE))
 		owner.remove_status_effect(src)
-		to_chat(owner, span_boldwarning("I have been banished or left my horde... It's so lonely."))
 
 /datum/status_effect/ember_blooded/tick(wait)
 	if(owner.stat)
@@ -173,8 +178,24 @@
 			K.apply_status_effect(/datum/status_effect/ember_blooded_buff/kobold)
 		K.add_stress(/datum/stressevent/ember_blooded)
 
+/datum/status_effect/ember_blooded/proc/add_kobold(mob/living/kobold)
+	if(kobold in servants)
+		to_chat(owner, span_info("[kobold] is already part of the horde."))
+		return
+	servants += kobold
+	kobold.apply_status_effect(/datum/status_effect/ember_blooded_horde)
+	var/datum/status_effect/ember_blooded_horde/servant = kobold.has_status_effect(/datum/status_effect/ember_blooded_horde)
+	servant.horde_master = owner
+	to_chat(owner, span_info("[kobold] joins the horde!"))
+/datum/status_effect/ember_blooded/proc/remove_kobold(mob/living/kobold, reason = "")
+	if(kobold in servants)
+		servants -= kobold
+		kobold.remove_status_effect(/datum/status_effect/ember_blooded_horde)
+		to_chat(owner, span_info("[kobold] is removed from my horde. Reason: [reason]."))
+
 /datum/status_effect/ember_blooded_buff
 	id = "ember_blooded_buff"
+	status_type = STATUS_EFFECT_REFRESH
 	duration = 15 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/buff/ember_blooded
 	var/outline_color = "#ebcf34"
@@ -207,7 +228,7 @@
 	)
 
 /datum/status_effect/ember_blooded_buff/kobold/hoard_keeper/tick()
-	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
+	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner)) // Visual effect of the kobold being emboldened.
 	H.color = outline_color
 
 /datum/status_effect/ember_blooded_buff/kobold/hoard_keeper/on_apply()
@@ -218,8 +239,8 @@
 	id = "ember_blooded_buff_drakian"
 	duration = 10 SECONDS
 	effectedstats = list( 
-		STATKEY_END = 2,
-		STATKEY_CON = 2,
+		STATKEY_END = 1,
+		STATKEY_CON = 1,
 	)
 
 /datum/status_effect/ember_blooded_buff/drakian/hoard_keeper
@@ -229,7 +250,7 @@
 		STATKEY_END = 4,
 		STATKEY_CON = 4, // See below. Phat.
 		STATKEY_STR = 2,
-		STATKEY_SPD = -4, // Fat gold loving bastard.
+		STATKEY_SPD = -8, // Fat gold loving bastard.
 	)
 
 /datum/status_effect/ember_blooded_buff/drakian/hoard_keeper/on_apply()
@@ -279,6 +300,7 @@
 
 /datum/status_effect/hoard_keeper_buff
 	id = "hoard_keeper_buff"
+	status_type = STATUS_EFFECT_UNIQUE
 	duration = -1 // Infinite
 	alert_type = /atom/movable/screen/alert/status_effect/buff/healing/hoard_keeper
 	effectedstats = list(
@@ -304,6 +326,7 @@
 	return TRUE
 
 /datum/status_effect/hoard_keeper_buff/on_remove()
+	. = ..()
 	owner.remove_filter("hoard_keeper_filter")
 	owner.update_damage_hud()
 
