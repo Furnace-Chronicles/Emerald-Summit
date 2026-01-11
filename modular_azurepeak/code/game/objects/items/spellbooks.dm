@@ -81,7 +81,7 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 
 /obj/item/book/spellbook/examine(mob/user)
 	. = ..()
-	. += span_notice("Reading it once per day allows you to unbind two spells and refund its spell point.")
+	. += span_notice("Reading it once per day allows you to unbind up to two spells and refund their spell points.")
 	if(born_of_rock)
 		. += span_notice("This tome was made from a magical stone instead of a proper gem. Holding it in your hand with it open reduces spell casting time by [ROCK_CHARGE_REDUCTION * 100]%")
 	else
@@ -146,10 +146,10 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 	if(!picked)
 		var/list/designlist = list("green", "yellow", "brown")
 		var/mob/living/carbon/human/gamer = user
-		if(gamer.job == "Court Magician")
-			designlist = list("steel", "gem", "skin", "mimic")
+		if(gamer.get_skill_level(/datum/skill/magic/arcane) >= SKILL_LEVEL_EXPERT)
+			designlist = list("green", "yellow", "brown", "steel", "gem", "skin", "mimic", "wyrdbark", "sunfire", "abyssal", "cinder", "vessel", "edgebound", "sovereign")
 		var/the_time = world.time
-		var/design = input(user, "Select a design.","Spellbook Design") as null|anything in designlist
+		var/design = tgui_input_list(user, "Select a design.","Spellbook Design", designlist)		
 		if(!design)
 			return
 		if(world.time > (the_time + 30 SECONDS))
@@ -157,15 +157,46 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 		base_icon_state = "spellbook[design]"
 		update_icon()
 		picked = TRUE
+		name = "\improper [design] tome"
+		switch(design) //super lazy but idrc
+			if("green")
+				return
+			if("yellow")
+				return
+			if("brown") //preserve default name and desc for the basic options
+				return
+			if("steel")
+				desc = "A metallic tome adorned with alignments of runes and alchemical symbols. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+			if("gem")
+				desc = "The pages form a window to the breadth of the stars. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+			if("skin")
+				desc = "Profane symbols adorn this spellbook- is that blood dripping off the pages? Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+			if("mimic")
+				desc = "This book seems to be reading you, instead. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+			if("wyrdbark")
+				desc = "Formed of heartwood and fae magics, leaves flutter about when it opens. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+			if("sunfire")
+				desc = "Astrata's radiance pours freely from this book's enchanted parchment. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+			if("abyssal")
+				desc = "Frigid and numb to the touch; you feel so much smaller just looking at it. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+			if("cinder")
+				desc = "Wafting smoke and smoldering crackles come from the papyrus, though it never catches alight. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+			if("vessel")
+				desc = "A stoppered bottle of ink that forms into a fully-fledged tome when uncorked. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+				name = "\improper arcyne vessel" //calling it 'vessel tome' is weird as fuck
+			if("edgebound")
+				desc = "Harsh, sturdy, and practical; can a war-mage ask for more? Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
+			if("sovereign")
+				desc = "Regal and opulent, you feel a stronge urge to call this tome some title of reverence. Can be used to unbind spells, or to assist the caster in arcing some of their projectiles."
 		return
 	if(!open)
 		slot_flags &= ~ITEM_SLOT_HIP
 		open = TRUE
-		playsound(loc, 'sound/items/book_open.ogg', 100, FALSE, -1)
+		playsound(src, 'sound/items/book_open.ogg', 100, FALSE, -1)
 	else
 		slot_flags |= ITEM_SLOT_HIP
 		open = FALSE
-		playsound(loc, 'sound/items/book_close.ogg', 100, FALSE, -1)
+		playsound(src, 'sound/items/book_close.ogg', 100, FALSE, -1)
 	curpage = 1
 	update_icon()
 	user.update_inv_hands()
@@ -203,7 +234,7 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 		if(isturf(loc)&& (found_table))
 			var/crafttime = (100 - ((user.get_skill_level(/datum/skill/magic/arcane))*5))
 			if(do_after(user, crafttime, target = src))
-				playsound(loc, 'sound/items/book_close.ogg', 100, TRUE)
+				playsound(src, 'sound/items/book_close.ogg', 100, TRUE)
 				to_chat(user, span_notice("I add the first few pages to the leather cover..."))
 				new /obj/item/spellbook_unfinished(loc)
 				qdel(P)
@@ -220,12 +251,12 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 			var/crafttime = (60 - ((user.get_skill_level(/datum/skill/magic/arcane))*5))
 			if(do_after(user, crafttime, target = src))
 				if(pages_left > 0)
-					playsound(loc, 'sound/items/book_page.ogg', 100, TRUE)
+					playsound(src, 'sound/items/book_page.ogg', 100, TRUE)
 					pages_left -= 1
 					to_chat(user, span_notice("[pages_left+1] left..."))
 					qdel(P)
 				else
-					playsound(loc, 'sound/items/book_open.ogg', 100, TRUE)
+					playsound(src, 'sound/items/book_open.ogg', 100, TRUE)
 					if(isarcyne(user))
 						to_chat(user, span_notice("The book is bound. I must find a catalyst to channel the arcyne into it now."))
 					else
@@ -245,7 +276,7 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 			var/crafttime = (100 - ((user.get_skill_level(/datum/skill/magic/arcane))*5))
 			if(do_after(user, crafttime, target = src))
 				if(isarcyne(user))
-					playsound(loc, 'modular_azurepeak/sound/spellbooks/crystal.ogg', 100, TRUE)
+					playsound(src, 'modular_azurepeak/sound/spellbooks/crystal.ogg', 100, TRUE)
 					user.visible_message(span_warning("[user] crushes [user.p_their()] [P]! Its powder seeps into the [src]."), \
 						span_notice("I run my arcyne energy into the crystal. It shatters and seeps into the cover of the tome! Runes and symbols of an unknowable language cover its pages now..."))
 					var/obj/item/book/spellbook/newbook = new /obj/item/book/spellbook(loc)
@@ -254,7 +285,7 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 					qdel(src)
 				else
 					if(prob(1))
-						playsound(loc, 'modular_azurepeak/sound/spellbooks/crystal.ogg', 100, TRUE)
+						playsound(src, 'modular_azurepeak/sound/spellbooks/crystal.ogg', 100, TRUE)
 						user.visible_message(span_warning("[user] crushes [user.p_their()] [P]! Its powder seeps into the [src]."), \
 							span_notice("By the Ten! That gem just exploded -- and my useless tome is filled with gleaming energy and strange letters!"))
 						var/obj/item/book/spellbook/newbook = new /obj/item/book/spellbook(loc)
@@ -262,7 +293,7 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 						qdel(P)
 						qdel(src)
 					else
-						playsound(loc, 'modular_azurepeak/sound/spellbooks/icicle.ogg', 100, TRUE)
+						playsound(src, 'modular_azurepeak/sound/spellbooks/icicle.ogg', 100, TRUE)
 						user.visible_message(span_warning("[user] crushes [user.p_their()] [P]! Its powder just kind of sits on top of the [src]. Awkward."), \
 							span_notice("... why and how did I just crush this gem into a worthless scroll-book? What a WASTE of mammon!"))
 						qdel(P)
@@ -276,7 +307,7 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 				var/crafttime = ((130 - the_rock.magic_power) - ((user.get_skill_level(/datum/skill/magic/arcane))*5))
 				if(do_after(user, crafttime, target = src))
 					if (isarcyne(user))
-						playsound(loc, 'modular_azurepeak/sound/spellbooks/crystal.ogg', 100, TRUE)
+						playsound(src, 'modular_azurepeak/sound/spellbooks/crystal.ogg', 100, TRUE)
 						user.visible_message(span_warning("[user] crushes [user.p_their()] [P]! Its powder seeps into the [src]."), \
 							span_notice("I join my arcyne energy with that of the magical stone in my hands, which shudders briefly before dissolving into motes of ash. Runes and symbols of an unknowable language cover its pages now..."))
 						to_chat(user, span_notice("...yet even for an enigma of the arcyne, these characters are unlike anything I've seen before. They're going to be -much- harder to understand..."))
@@ -287,7 +318,7 @@ decreases charge time if held opened in hand, for pure mage build + aesthetics.
 						qdel(src)
 					else
 						if (prob(the_rock.magic_power)) // for reference, this is never higher than 15 and usually significantly lower
-							playsound(loc, 'modular_azurepeak/sound/spellbooks/crystal.ogg', 100, TRUE)
+							playsound(src, 'modular_azurepeak/sound/spellbooks/crystal.ogg', 100, TRUE)
 							user.visible_message(span_warning("[user] carefully sets down [the_rock] upon [src]. Nothing happens for a moment or three, then suddenly, the glow surrounding the stone becomes as liquid, seeps down and soaks into the tome!"), \
 							span_notice("I knew this stone was special! Its colourful magick has soaked into my tome and given me gift of mystery!"))
 							to_chat(user, span_notice("...what in the world does any of this scribbling possibly mean?"))

@@ -354,8 +354,8 @@ GLOBAL_LIST_EMPTY(species_list)
 			drifting = 0
 			Uloc = user.loc
 
-		Uloc = user.loc
-		Tloc = target.loc
+		Uloc = user?.loc
+		Tloc = target?.loc
 
 		if(QDELETED(user) || user.stat || (!Tloc?.Adjacent(Uloc) && !uninterrupt) || (extra_checks && !extra_checks.Invoke()))
 			. = 0

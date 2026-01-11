@@ -13,12 +13,12 @@
 
 	tutorial = "You are bygone. A wandering has-been. But maybe your luck has not run out, yet.."
 
-	outfit = /datum/outfit/job/roguetown/greater_skeleton/necro
+	outfit = /datum/outfit/job/greater_skeleton/necro
 	show_in_credits = FALSE
 	give_bank_account = FALSE
 	hidden_job = TRUE
 
-/datum/outfit/job/roguetown/greater_skeleton/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/greater_skeleton/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	H.set_patron(/datum/patron/inhumen/zizo)
@@ -47,7 +47,7 @@ NECRO SKELETONS
 */
 
 
-/datum/outfit/job/roguetown/greater_skeleton/necro
+/datum/outfit/job/greater_skeleton/necro
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
@@ -57,11 +57,11 @@ NECRO SKELETONS
 /datum/advclass/greater_skeleton/necro/shambler
 	name = "Decrepit Shambler"
 	tutorial = "One of many to come. One of many to go."
-	outfit = /datum/outfit/job/roguetown/greater_skeleton/necro/shambler
+	outfit = /datum/outfit/job/greater_skeleton/necro/shambler
 
 	category_tags = list(CTAG_NSKELETON)
 
-/datum/outfit/job/roguetown/greater_skeleton/necro/shambler/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/greater_skeleton/necro/shambler/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	H.STASTR = prob(2) ? 20 : rand(12,14)

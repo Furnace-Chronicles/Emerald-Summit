@@ -26,12 +26,22 @@
 	..()
 	REMOVE_TRAIT(user, TRAIT_PACIFISM, "peaceflower_[REF(src)]")
 
-/obj/item/clothing/head/peaceflower/attack_hand(mob/user)
+/obj/item/clothing/head/peaceflower/proc/at_peace_check(mob/user)
 	if(iscarbon(user))
-		var/mob/living/carbon/C = user
-		if(src == C.head)
-			to_chat(user, "<span class='warning'>I feel at peace. <b style='color:pink'>Why would you want anything else?</b></span>")
-			return
+		var/mob/living/carbon/carbon_user = user
+		if(src == carbon_user.head)
+			to_chat(user, "<span class='warning'>You feel at peace. <b style='color:pink'>Why would you want anything else?</b></span>")
+			return TRUE
+	return FALSE
+
+/obj/item/clothing/head/peaceflower/attack_hand(mob/user, list/modifiers)
+	if(at_peace_check(user))
+		return
+	return ..()
+
+/obj/item/clothing/head/peaceflower/MouseDrop(atom/over, src_location, over_location, src_control, over_control, params)
+	if(at_peace_check(usr))
+		return
 	return ..()
 
 /obj/effect/proc_holder/spell/invoked/bud
@@ -41,7 +51,7 @@
 	range = 7
 	overlay_state = "love"
 	sound = list('sound/magic/magnet.ogg')
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross/eora)
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	releasedrain = 40
 	chargetime = 60
 	warnie = "spellwarning"
@@ -50,6 +60,10 @@
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/holy
 	recharge_time = 60 SECONDS
+	miracle = TRUE
+
+/obj/effect/proc_holder/spell/invoked/bud/kazengun
+	name = "Eori's Bloom"
 
 /obj/effect/proc_holder/spell/invoked/bud/cast(list/targets, mob/living/user)
 	var/target = targets[1]
@@ -82,12 +96,15 @@
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	chargedloop = null
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross/eora)
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	sound = 'sound/magic/whiteflame.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
 	recharge_time = 10 SECONDS
-	miracle = FALSE
+	miracle = TRUE
+
+/obj/effect/proc_holder/spell/invoked/eoracurse/kazengun
+	name = "Eori's Curse"
 
 /obj/effect/proc_holder/spell/invoked/eoracurse/cast(list/targets, mob/living/user)
 	if(isliving(targets[1]))
@@ -235,6 +252,9 @@
 	devotion_cost = 75
 	associated_skill = /datum/skill/magic/holy
 
+/obj/effect/proc_holder/spell/invoked/heartweave/kazengun
+	invocation = "By Eori's grace, let our fates intertwine!"
+
 /obj/effect/proc_holder/spell/invoked/heartweave/cast(list/targets, mob/living/user)
 	var/mob/living/target = targets[1]
 
@@ -343,12 +363,16 @@
 	invocation = "Eora, nourish this offering!"
 	desc = "Bless a food item. Items that take longer to eat heal slower. Skilled clergy can bless food more often. Finer food heals more."
 	sound = 'sound/magic/magnet.ogg'
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross/eora)
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	devotion_cost = 25
 	recharge_time = 90 SECONDS
 	overlay_state = "bread"
 	associated_skill = /datum/skill/magic/holy
+	miracle = TRUE
 	var/base_recharge_time = 90 SECONDS
+
+/obj/effect/proc_holder/spell/invoked/bless_food/kazengun
+	invocation = "Eori, nourish this offering!"
 
 /obj/effect/proc_holder/spell/invoked/bless_food/cast(list/targets, mob/living/user)
 	var/obj/item/target = targets[1]
@@ -374,18 +398,24 @@
 	else
 		recharge_time = base_recharge_time
 
+	START_PROCESSING(SSfastprocess, src)
+
 /obj/effect/proc_holder/spell/invoked/pomegranate
 	name = "Amaranth Sanctuary"
 	invocation = "Eora, provide sanctuary for your beauty!"
 	desc = "Grow a cool tree."
 	sound = 'sound/magic/magnet.ogg'
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross/eora)
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	devotion_cost = 500
 	recharge_time = 5 SECONDS
 	chargetime = 1 SECONDS
 	overlay_state = "tree"
 	associated_skill = /datum/skill/magic/holy
+	miracle = TRUE
 	var/obj/structure/eoran_pomegranate_tree/my_little_tree = null
+
+/obj/effect/proc_holder/spell/invoked/pomegranate/kazengun
+	invocation = "Eori, provide sanctuary for your beauty!"
 
 /obj/effect/proc_holder/spell/invoked/pomegranate/cast(list/targets, mob/living/user)
 	. = ..()
@@ -999,16 +1029,25 @@
 	name = "opalescent aril"
 	desc = "An iridescent seed that shifts colors in the light."
 	icon_state = "opalescent"
-	effect_desc = "Transforms held gems into rubies."
+	effect_desc = "Transforms held gems into a rontz or manifests a pair of rosellusks if no gem is held."
     
 /obj/item/reagent_containers/food/snacks/eoran_aril/opalescent/apply_effects(mob/living/eater)
+	var/found_gem = FALSE
 	for(var/obj/item/roguegem/G in eater.held_items)
 		var/obj/item/roguegem/ruby/new_gem = new(eater.loc)
 		qdel(G)
 		eater.put_in_hands(new_gem)
 		to_chat(eater, span_notice("The [G] transforms into a rontz in your hand!"))
+		found_gem = TRUE
 		//Probably best not to allow 2 at once...
 		break
+	
+	if(!found_gem)
+		var/obj/item/carvedgem/rose/rawrose/rosellusk1 = new(eater.loc)
+		var/obj/item/carvedgem/rose/rawrose/rosellusk2 = new(eater.loc)
+		eater.put_in_hands(rosellusk1)
+		eater.put_in_hands(rosellusk2)
+		to_chat(eater, span_notice("A pair of rosellusks manifest in your hands!"))
 
 // TIER 2
 /obj/item/reagent_containers/food/snacks/eoran_aril/cerulean
@@ -1124,6 +1163,8 @@
 				if(!target.mind || !target.mind.active)
 					continue
 				if(HAS_TRAIT(target, TRAIT_NECRAS_VOW))
+					continue
+				if(HAS_TRAIT(target, TRAIT_DNR))
 					continue
 				if(target.mob_biotypes & MOB_UNDEAD)
 					continue

@@ -115,6 +115,8 @@
 										new A(user.loc)
 										to_chat(user, "<span class='warning'>Reel 'em in!</span>")
 										user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE) // Level up!
+										record_featured_stat(FEATURED_STATS_FISHERS, fisherman)
+										record_round_statistic(STATS_FISH_CAUGHT)
 									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
 									if(prob(80 - (sl * 10))) // Higher skill levels make you less likely to lose your bait
 										to_chat(user, "<span class='warning'>Damn, it ate my bait.</span>")
@@ -130,6 +132,7 @@
 								var/A = pickweight(baited.seafishloot)
 								var/ow = 30 + (sl * 10) // Opportunity window, in ticks. Longer means you get more time to cancel your bait
 								to_chat(user, "<span class='notice'>Something tugs the line!</span>")
+								target.balloon_alert_to_viewers("Tug!")
 								playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
 								if(!do_after(user,ow, target = target))
 									if(ismob(A)) // TODO: Baits with mobs on their fishloot lists OR water tiles with their own fish loot pools
@@ -143,6 +146,8 @@
 										new A(user.loc)
 										to_chat(user, "<span class='warning'>Reel 'em in!</span>")
 										user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE) // Level up!
+										record_featured_stat(FEATURED_STATS_FISHERS, fisherman)
+										record_round_statistic(STATS_FISH_CAUGHT)
 									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
 									if(prob(80 - (sl * 10))) // Higher skill levels make you less likely to lose your bait
 										to_chat(user, "<span class='warning'>Damn, it ate my bait.</span>")

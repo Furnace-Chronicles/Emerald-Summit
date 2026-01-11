@@ -3,17 +3,18 @@
 	tutorial = "You are a fiend of the Kazengunese mountains, a warrior who has cast aside their humenity and seeks to emulate the beasts of Graggar and Dendor."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/wretch/onimusha
+	outfit = /datum/outfit/job/wretch/onimusha
 	maximum_possible_slots = 1
 	category_tags = list(CTAG_WRETCH)
 	cmode_music = 'sound/music/combat_berserker.ogg'
-	traits_applied = list(TRAIT_STRONGBITE, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_STRENGTH_UNCAPPED)
+	traits_applied = list(TRAIT_STRONGBITE, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_STRENGTH_UNCAPPED, TRAIT_OGRE_STRENGTH)
+	origin_override_type = /datum/virtue/origin/kazengun
 	subclass_stats = list(
 		STATKEY_STR = 4, //9 weighted stats, compared to Berserker's 8, but their highest weapon skill is Journeyman.
 		STATKEY_CON = 3,
 		STATKEY_END = 2,
 		STATKEY_INT = -2,
-		STATKEY_FOR = -2
+		STATKEY_LCK = -2
 	)
 
 	subclass_skills = list(
@@ -32,7 +33,7 @@
 		/datum/skill/labor/butchering = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/wretch/onimusha/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/wretch/onimusha/pre_equip(mob/living/carbon/human/H)
 	H.set_patron(/datum/patron/inhumen/graggar)
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/beastskull
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full
@@ -53,17 +54,18 @@
 		/obj/item/rope/chain = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 	)
+	wretch_select_bounty(H)
 
 /datum/advclass/wretch/swordhunter
 	name = "Sword Hunter"
 	tutorial = "Hailing from Lingyue, yours is an unique art: You seek the swords of worthy foes and add them to your collection, all in worship of Matiosu."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS //TD?
-	outfit = /datum/outfit/job/roguetown/wretch/swordhunter
+	outfit = /datum/outfit/job/wretch/swordhunter
 	category_tags = list(CTAG_WRETCH)
 	maximum_possible_slots = 1 //Very strong and also supposed to be unique, so one slot.
 	cmode_music = 'sound/music/combat_swordhunter.ogg'
-
+	origin_override_type = /datum/virtue/origin/kazengun/lingyue
 	subclass_languages = list(/datum/language/kazengunese)
 	traits_applied = list(TRAIT_DODGEEXPERT)
 	//Bad stats for a wretch, instead they get some really good traits and skills.
@@ -84,7 +86,7 @@
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN //For if they want to use the scabbard to block, though I am not sure why you would do this.
 	)
 
-/datum/outfit/job/roguetown/wretch/swordhunter/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/wretch/swordhunter/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("Hailing from Lingyue, yours is an unique art: You seek the swords of worthy foes and add them to your collection in worship of Matiosu."))
 	H.set_patron(/datum/patron/inhumen/matthios)
@@ -108,7 +110,7 @@
 		)
 
 	var/weapons = list("Rapier","Shashka", "Liuyedao", "Miaodao", "Shamshir", "Fechtfeders", "Kriegsmesser", "Zweihander", "Dual Gladius")
-	var/weapon_choice = input("Pick your stolen steel.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Pick your stolen steel.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice) //A large selection of exotic starter options, as per the class gimmick.
 		if("Rapier")
@@ -144,10 +146,11 @@
 	tutorial = "Once, you proudly defended a quiet place of worship. Now, you've turned your back on faith and duty, living the lyfe of a would-be Kazengite warlord."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_FEARED_UP //No naga.
-	outfit = /datum/outfit/job/roguetown/wretch/sohei
+	outfit = /datum/outfit/job/wretch/sohei
 	category_tags = list(CTAG_WRETCH)
 	maximum_possible_slots = 1
 	cmode_music = 'sound/music/combat_sohei.ogg'
+	origin_override_type = /datum/virtue/origin/kazengun
 
 	subclass_languages = list(/datum/language/kazengunese)
 	traits_applied = list(TRAIT_NOPAINSTUN) //Inherits this from the Custodian adv, still light armor only.
@@ -168,7 +171,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/wretch/sohei/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/wretch/sohei/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("Once, you proudly defended a quiet place of worship. Now, you've turned your back on faith and duty, living the lyfe of a would-be Kazengite warlord."))
 	head = /obj/item/clothing/head/roguetown/mentorhat
@@ -190,7 +193,7 @@
 		)
 
 	var/weapons = list("Naginata", "Quarterstaff", "Jumonji yari")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Naginata")

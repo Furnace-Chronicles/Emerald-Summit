@@ -152,7 +152,7 @@ GLOBAL_LIST_EMPTY(last_words)
 	switch (area_of_death) // we're deliberately obtuse with this.
 		if ("mountains", "mt decapitation")
 			locale = "a twisted tangle of soaring peaks"
-		if ("wilderness", "azure basin")
+		if ("wilderness", "black basin")
 			locale = "somewhere in the wilds"
 		if ("bog", "dense bog")
 			locale = "a wretched, fetid bog"

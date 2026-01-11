@@ -1130,6 +1130,10 @@
 	name = "Fluffball"
 	icon_state = "fluffball"
 
+/datum/sprite_accessory/hair/head/fluffaju
+	name = "Fluffball (Long)"
+	icon_state = "fluffaju"
+
 /datum/sprite_accessory/hair/head/halfshave_long
 	name = "Halfshave Long"
 	icon_state = "halfshave_long"

@@ -17,14 +17,15 @@
 
 	var/chosen_icon_state = null
 	var/list/authors = list()
-	proc/add_author(mob/living/carbon/human/H)
-		if(!H || !H.real_name)
-			return
-		var/author_job = H.advjob ? H.advjob : "Adventurer"
-		if(!(H.real_name in authors))
-			authors[H.real_name] = author_job
-		else if(authors[H.real_name] != author_job)
-			authors[H.real_name] = author_job
+
+/obj/item/skillbook/proc/add_author(mob/living/carbon/human/H)
+	if(!H || !H.real_name)
+		return
+	var/author_job = H.advjob ? H.advjob : "Adventurer"
+	if(!(H.real_name in authors))
+		authors[H.real_name] = author_job
+	else if(authors[H.real_name] != author_job)
+		authors[H.real_name] = author_job
 
 /obj/item/skillbook/proc/get_authors_text()
 	if(!authors || !authors.len)
@@ -141,8 +142,8 @@
 					if(reading_acceleration == 4)
 						to_chat(user,("I'm fully immersed in [src]."))
 				if(subject != /datum/skill/misc/reading)//if our topic isn't literacy, we still gain a little bit of literacy skill
-					add_sleep_experience(user, /datum/skill/misc/reading, user.STAINT*0.75)
-				add_sleep_experience(user, subject, user.STAINT * (1.5 * (wellwritten+1)))//if the book is well-written, gain 2x exp on the subject
+					add_sleep_experience(user, /datum/skill/misc/reading, user.STAINT*0.75, FALSE)
+				add_sleep_experience(user, subject, user.STAINT * (1.5 * (wellwritten+1)), FALSE)//if the book is well-written, gain 2x exp on the subject, always bypass trait checks
 				subject_skill = user.get_skill_level(subject)//update after we gain exp to see if we've leveled up
 				var/skill_difference = skill_cap - subject_skill//3 different cases: 1, we've reached !! level. 2, We've outleveled the book normally. 3, we've outleveled the book via sleep exp
 				if(user?.mind?.sleep_adv.enough_sleep_xp_to_advance(subject, min(skill_difference,2)) || skill_difference <= 0)
@@ -223,6 +224,13 @@
 				"Gem Spellbook" = "spellbookgem",
 				"Skin Spellbook" = "spellbookskin",
 				"Mimic Spellbook" = "spellbookmimic",
+				"Wyrdbark Spellbook" = "spellbookwyrdbark",
+				"Sunfire Spellbook" = "spellbooksunfire",
+				"Abyssal Spellbook" = "spellbookabyssal",
+				"Cinder Spellbook" = "spellbookcinder",
+				"Arcyne Vessel" = "spellbookvessel",
+				"Edgebound Spellbook" = "spellbookedgebound",
+				"Sovereign Spellbook" = "spellbooksovereign"
 			)
 			var/is_magical_topic = (subject == /datum/skill/magic/arcane || subject == /datum/skill/magic/holy)
 			var/is_legendary_level = (skill_cap >= 6)

@@ -24,7 +24,7 @@
 	layer = BELOW_OBJ_LAYER
 	var/list/held_items = list()
 	var/locked = FALSE
-	var/budget = 0
+
 	var/upgrade_flags
 	var/current_cat = "1"
 	var/lockid = "merchant"
@@ -47,6 +47,7 @@
 		"Armor (Light)",
 		"Armor (Iron)",
 		"Armor (Steel)",
+		"Armor (Exotic)",
 		"Potions",
 		"Weapons (Ranged)",
 		"Weapons (Iron and Shields)",

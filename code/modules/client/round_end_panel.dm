@@ -197,11 +197,11 @@
 	// Right column	- Way too many races, so they've been thrown together.
 	data += "<div style='display: table-cell; width: 50%; vertical-align: top; padding: 0 10px;'>"
 	data += "<font color='#808080'><span class='bold'>Dwarves:</span></font> [GLOB.scarlet_round_stats[STATS_ALIVE_DWARVES]]<br>"
-	data += "<font color='#87CEEB'><span class='bold'>Pure & Half-Elves:</span></font> [GLOB.scarlet_round_stats[STATS_ALIVE_WOOD_ELVES] + GLOB.scarlet_round_stats[STATS_ALIVE_HALF_ELVES]]<br>"
+	data += "<font color='#87CEEB'><span class='bold'>Pure & Half-Elves:</span></font> [GLOB.scarlet_round_stats[STATS_ALIVE_WOOD_ELVES] + GLOB.scarlet_round_stats[STATS_ALIVE_SUN_ELVES] + GLOB.scarlet_round_stats[STATS_ALIVE_HALF_ELVES]]<br>"
 	data += "<font color='#7729af'><span class='bold'>Dark Elves:</span></font> [GLOB.scarlet_round_stats[STATS_ALIVE_DARK_ELVES]]<br>"
 	data += "<font color='#e7e3d9'><span class='bold'>Aasimars:</span></font> [GLOB.scarlet_round_stats[STATS_ALIVE_AASIMAR]]<br>"
 	data += "<font color='#DC143C'><span class='bold'>Tieflings:</span></font> [GLOB.scarlet_round_stats[STATS_ALIVE_TIEFLINGS]]<br>"
-	data += "<font color='#228B22'><span class='bold'>Half-Orcs & Goblins:</span></font> [GLOB.scarlet_round_stats[STATS_ALIVE_HALF_ORCS] + GLOB.scarlet_round_stats[STATS_ALIVE_GOBLINS]]<br>"
+	data += "<font color='#228B22'><span class='bold'>Half-Orcs, Goblins & Ogres:</span></font> [GLOB.scarlet_round_stats[STATS_ALIVE_HALF_ORCS] + GLOB.scarlet_round_stats[STATS_ALIVE_GOBLINS] + GLOB.scarlet_round_stats[STATS_ALIVE_OGRES]]<br>"
 	data += "<font color='#CD853F'><span class='bold'>Kobolds & Verminvolk:</span></font> [GLOB.scarlet_round_stats[STATS_ALIVE_KOBOLDS] + GLOB.scarlet_round_stats[STATS_ALIVE_VERMINFOLK]]<br>"
 	data += "<font color='#FFD700'><span class='bold'>Zardmen & Dracon:</span></font> [GLOB.scarlet_round_stats[STATS_ALIVE_LIZARDS] + GLOB.scarlet_round_stats[STATS_ALIVE_DRACON]]<br>"
 	data += "<font color='#d49d7c'><span class='bold'>Half & Wildkins:</span></font> [GLOB.scarlet_round_stats[STATS_ALIVE_HALFKIN] + GLOB.scarlet_round_stats[STATS_ALIVE_WILDKIN]]<br>"

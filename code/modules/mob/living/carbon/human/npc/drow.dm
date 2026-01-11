@@ -24,7 +24,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 		wander = TRUE
 	if(!is_silent && target != newtarg)
 		say(pick(GLOB.drowraider_aggro))
-		linepoint(target)
+		pointed(target)
 
 /mob/living/carbon/human/species/elf/dark/drowraider/should_target(mob/living/L)
 	if(L.stat != CONSCIOUS)
@@ -45,16 +45,16 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_INFINITE_ENERGY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	equipOutfit(new /datum/outfit/job/roguetown/human/species/elf/dark/drowraider)
+	equipOutfit(new /datum/outfit/job/human/species/elf/dark/drowraider)
 	gender = pick(FEMALE)
 	regenerate_icons()
 
 	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
 	var/obj/item/organ/ears/organ_ears = getorgan(/obj/item/organ/ears)
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	var/hairf = pick(list(/datum/sprite_accessory/hair/head/himecut, 
-						/datum/sprite_accessory/hair/head/countryponytailalt, 
-						/datum/sprite_accessory/hair/head/stacy, 
+	var/hairf = pick(list(/datum/sprite_accessory/hair/head/himecut,
+						/datum/sprite_accessory/hair/head/countryponytailalt,
+						/datum/sprite_accessory/hair/head/stacy,
 						/datum/sprite_accessory/hair/head/kusanagi_alt))
 	var/hairm = pick(list(/datum/sprite_accessory/hair/head/ponytailyeager, 
 						/datum/sprite_accessory/hair/head/dave, 
@@ -80,10 +80,10 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	if(organ_eyes)
 		organ_eyes.eye_color = "#FFBF00"
 		organ_eyes.accessory_colors = "#FFBF00#FFBF00"
-	
+
 	if(organ_ears)
 		organ_ears.accessory_colors = "#5f5f70"
-	
+
 	skin_tone = "5f5f70"
 
 	if(gender == FEMALE)
@@ -109,7 +109,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 			emote("laugh")
 	. = ..()
 
-/datum/outfit/job/roguetown/human/species/elf/dark/drowraider/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/human/species/elf/dark/drowraider/pre_equip(mob/living/carbon/human/H)
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/iron
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
@@ -133,7 +133,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	H.STACON = 14 // 4 points
 	H.STAEND = 12 // 2 points - 14 points spread. Equal to 1 more than a KC accounting for Statpack.
 	H.STAPER = 10
-	H.STAINT = 10  
+	H.STAINT = 10
 	if(prob(50))
 		r_hand = /obj/item/rogueweapon/sword/falx
 		l_hand = /obj/item/rogueweapon/shield/tower

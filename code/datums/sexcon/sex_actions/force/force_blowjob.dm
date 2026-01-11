@@ -50,6 +50,7 @@
 	if(user.sexcon.check_active_ejaculation())
 		user.visible_message(span_love("cums into [target]'s throat!"))
 		user.sexcon.cum_into(oral = TRUE, splashed_user = target) // give facial status effect for the target, considering this was rough throat sex
+		werewolf_sex_infect_attempt(user, target)
 
 	user.sexcon.perform_sex_action(target, 0, 7, FALSE)
 	if(!user.sexcon.considered_limp())

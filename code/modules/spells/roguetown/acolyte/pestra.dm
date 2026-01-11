@@ -173,7 +173,7 @@
 	movement_interrupt = FALSE
 	no_early_release = FALSE
 	devotion_cost = 50 // attack miracle
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross/pestra)
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	sound = 'sound/magic/whiteflame.ogg'
 	chargedloop = /datum/looping_sound/fliesloop
 	associated_skill = /datum/skill/magic/holy
@@ -282,11 +282,11 @@
 		if(target == user)
 			return FALSE
 		if(ispath(user.patron?.type, /datum/patron/divine) && (target.real_name in GLOB.excommunicated_players))
-			to_chat(user, span_warning("Pestra gives no answer back to clean their body from the rot."))
+			to_chat(user, span_warning("They can not be cleansed of rot."))
 			revert_cast()
 			return FALSE
 		if(HAS_TRAIT(target, TRAIT_CURSE_NECRA))
-			to_chat(user, span_warning("Pestra gives no answer to even clean their body from the rot."))
+			to_chat(user, span_warning("They can not be cleansed of rot."))
 			revert_cast()
 			return FALSE
 
@@ -547,3 +547,103 @@
 			if(isnum(v))
 				return v
 	return 0
+
+/obj/effect/proc_holder/spell/invoked/regrow_limbs
+	name = "Limb Regeneration"
+	desc = "Miraculously regrow the target's missing limbs without needing any detached parts."
+	overlay_state = "regeneratelimb"
+	clothes_req = FALSE
+	releasedrain = 30
+	chargedrain = 0
+	chargetime = 100
+	range = 1
+	ignore_los = FALSE
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	invocation = "Flesh, knit and return!"
+	invocation_type = "shout"
+	associated_skill = /datum/skill/magic/holy
+	devotion_cost = 100
+	recharge_time = 60 SECONDS
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	miracle = TRUE
+
+/obj/effect/proc_holder/spell/invoked/regrow_limbs/cast(list/targets, mob/living/user = usr)
+	if(!ishuman(targets[1]))
+		revert_cast()
+		return FALSE
+
+	var/mob/living/carbon/human/H = targets[1]
+	if(H.anti_magic_check(TRUE, TRUE))
+		return FALSE
+
+	var/list/missing = H.get_missing_limbs()
+	if(!length(missing))
+		to_chat(user, span_info("[H] has no missing limbs to restore."))
+		return TRUE
+	H.visible_message(
+		span_info("[user] raises a hand - flesh knits upon [H]!"),
+		span_notice("Warmth courses through me as limbs reform!")
+	)
+
+	H.regenerate_limbs(0)
+	if(!(H.mob_biotypes & MOB_UNDEAD))
+		for(var/obj/item/bodypart/L as anything in H.bodyparts)
+			L.rotted = FALSE
+			L.skeletonized = FALSE
+
+	H.update_body()
+	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/pestratouch
+	name = "Pestra's touch"
+	desc = "A steady benediction that mends internal organs and purges infections."
+	overlay_state = "miracle"
+	clothes_req = FALSE
+	releasedrain = 0
+	chargedrain = 0
+	chargetime = 100
+	range = 1
+	ignore_los = FALSE
+	movement_interrupt = FALSE
+	sound = 'sound/magic/churn.ogg'
+	spell_tier = 2
+	invocation = "By grace within, be made whole."
+	invocation_type = "whisper"
+	associated_skill = /datum/skill/magic/holy
+	devotion_cost = 100
+	recharge_time = 60 SECONDS
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	miracle = TRUE
+
+/obj/effect/proc_holder/spell/invoked/pestratouch/cast(list/targets, mob/living/user)
+    if(!isliving(targets[1]))
+        revert_cast()
+        return FALSE
+    var/mob/living/target = targets[1]
+    if(target.anti_magic_check(TRUE, TRUE))
+        return FALSE
+    if(!ishuman(target))
+        to_chat(user, span_warning("This prayer only suits mortal bodies."))
+        return FALSE
+    var/mob/living/carbon/human/M = target
+    for(var/obj/item/organ/organny in M.internal_organs)
+        M.adjustOrganLoss(organny.slot, -5)
+    for(var/obj/item/bodypart/B in M.bodyparts)
+        for(var/datum/wound/W in B.wounds)
+            if(W.zombie_infection_timer)
+                deltimer(W.zombie_infection_timer)
+                W.zombie_infection_timer = null
+                to_chat(M, span_warning("A searing purity burns away the rot in your [B.name]."))
+            if(W.werewolf_infection_timer)
+                deltimer(W.werewolf_infection_timer)
+                W.werewolf_infection_timer = null
+                to_chat(M, span_warning("A searing purity burns away the taint in your [B.name]."))
+
+    M.update_damage_overlays()
+
+    target.visible_message(
+        span_info("[user] murmurs a cleansing benediction over [target]."),
+        span_notice("A steady warmth mends your insides and scours away infection.")
+    )
+    return TRUE

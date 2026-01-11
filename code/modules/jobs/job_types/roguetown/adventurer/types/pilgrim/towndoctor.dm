@@ -3,12 +3,12 @@
 	tutorial = "Wielding crude tools and accumulated knowledge, you are something of a 'freelance physician' even if the local apothecary declined your application, and over the yils have probably cut into more people than the average knight."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/doctor
+	outfit = /datum/outfit/job/adventurer/doctor
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	cmode_music = 'sound/music/combat_physician.ogg'
 	subclass_social_rank = SOCIAL_RANK_YEOMAN
 
-	traits_applied = list(TRAIT_EMPATH, TRAIT_NOSTINK)
+	traits_applied = list(TRAIT_EMPATH, TRAIT_NOSTINK, TRAIT_TALENTED_ALCHEMIST)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_LCK = 1
@@ -29,7 +29,7 @@
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/doctor/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/doctor/pre_equip(mob/living/carbon/human/H)
 	..()
 	mask = /obj/item/clothing/mask/rogue/spectacles
 	head = /obj/item/clothing/head/roguetown/nightman

@@ -5,7 +5,7 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 	race = /datum/species/dwarf/mountain
 	gender = MALE
 	faction = list("dundead")
-	var/skel_outfit = /datum/outfit/job/roguetown/dwarfskeleton
+	var/skel_outfit = /datum/outfit/job/dwarfskeleton
 	ambushable = FALSE
 	mode = NPC_AI_IDLE
 	wander = FALSE
@@ -26,7 +26,7 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 	.=..()
 	if(prob(5))
 		say(pick(GLOB.dwarfskeleton_aggro))
-		linepoint(target)
+		pointed(target)
 
 /mob/living/carbon/human/species/dwarfskeleton/Initialize()
 	. = ..()
@@ -69,7 +69,7 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 		if(OU)
 			equipOutfit(OU)
 
-/datum/outfit/job/roguetown/dwarfskeleton/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/dwarfskeleton/pre_equip(mob/living/carbon/human/H)
 	..()
 	cloak = /obj/item/clothing/cloak/raincloak/furcloak/black
 	if(prob(50))
@@ -119,9 +119,9 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
 /mob/living/carbon/human/species/dwarfskeleton/ambush/knight
-	skel_outfit = /datum/outfit/job/roguetown/dwarfskeleton/ambush/knight
+	skel_outfit = /datum/outfit/job/dwarfskeleton/ambush/knight
 
-/datum/outfit/job/roguetown/dwarfskeleton/ambush/knight/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/dwarfskeleton/ambush/knight/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet
 	gloves = /obj/item/clothing/gloves/roguetown/plate

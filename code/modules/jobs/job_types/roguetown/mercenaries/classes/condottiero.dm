@@ -3,10 +3,11 @@
 	tutorial = "Hailing from the Kingdom of Etrusca, Condottieri are soldiers of fortune oft found in the employ of powerful merchants. Without a war to fight back home, the Grand Duchy has become a much-needed source of contracts. Afterall, this land is rich in coin yet poor in manpower..."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/mercenary/condottiero
+	outfit = /datum/outfit/job/mercenary/condottiero
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_ETRUSCA
 	cmode_music = 'sound/music/combat_condottiero.ogg'
+	origin_override_type = /datum/virtue/origin/etrusca
 
 	subclass_languages = list(
 		/datum/language/etruscan,
@@ -15,11 +16,12 @@
 
 	traits_applied = list(TRAIT_DODGEEXPERT)
 	subclass_stats = list(
-		STATKEY_END = 2,
+		STATKEY_END = 1, // 2 when hired
 		STATKEY_PER = 2,
-		STATKEY_SPD = 2,
+		STATKEY_SPD = 1, // 2 when hired
 		STATKEY_INT = 1
 	)
+	hiredbuff = /datum/status_effect/buff/merchired/condottiero
 
 	subclass_skills = list(
 		/datum/skill/combat/crossbows = SKILL_LEVEL_MASTER, //Possibly too high, no idea.
@@ -38,7 +40,10 @@
 		/datum/skill/craft/traps = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/mercenary/condottiero/pre_equip(mob/living/carbon/human/H)
+/datum/status_effect/buff/merchired/condottiero
+	effectedstats = list(STATKEY_END = 1, STATKEY_SPD = 1)
+
+/datum/outfit/job/mercenary/condottiero/pre_equip(mob/living/carbon/human/H)
 	..()
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	cloak = /obj/item/clothing/cloak/half/red

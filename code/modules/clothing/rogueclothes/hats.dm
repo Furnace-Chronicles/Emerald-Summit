@@ -110,6 +110,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
 	alternate_worn_layer  = 8.9 //On top of helmet
 	body_parts_covered = HEAD|HAIR|EARS|NECK
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH //Yeah it's redundant but guess who wrote this shit
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	sleevetype = null
 	sleeved = null
@@ -173,6 +174,7 @@
 	item_state = "hijab"
 	icon_state = "deserthood"
 	hidesnoutADJ = FALSE
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_NECK
 	flags_inv = HIDEHAIR	//Does not hide face.
 	block2add = null
 
@@ -184,6 +186,7 @@
 	desc = "A common sight amongst those travelling the long desert routes, it offers protection from the heat and a modicum of it against the beasts that prowl its more comfortable nites."
 	max_integrity = 100
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_NECK
 	armor = ARMOR_HEAD_PSYDON //basically the same as a warscholar hood
 	item_state = "hijab"
 	icon_state = "deserthood"
@@ -220,7 +223,7 @@
 	icon = 'icons/roguetown/clothing/head.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi' //Overrides slot icon behavior
 	alternate_worn_layer  = 8.9 //On top of helmet
-	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_MOUTH
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_MOUTH|ITEM_SLOT_NECK
 	armor = list("blunt" = 0, "slash" = 0, "stab" = 0, "piercing" = 0, "fire" = 0, "acid" = 0)
 	dynamic_hair_suffix = ""
 	edelay_type = 1
@@ -341,6 +344,7 @@
 	flags_inv = HIDENECK
 	dynamic_hair_suffix = ""
 	sewrepair = TRUE
+	block2add = null
 
 /obj/item/clothing/head/roguetown/priestmask
 	name = "solar visage"
@@ -659,6 +663,7 @@
 	max_integrity = 200
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
 	armor = ARMOR_SPELLSINGER // spellsinger hat stats
+	resistance_flags = FIRE_PROOF // leather typically doesn't burn
 	sewrepair = TRUE
 
 /obj/item/clothing/head/roguetown/headband/red
@@ -706,6 +711,54 @@
 	icon_state = "circlet"
 	item_state = "circlet"
 	sellprice = 50
+
+/obj/item/clothing/head/roguetown/circlet/jade
+	name = "joapstone circlet"
+	desc = "An ornate circlet carved out of joapstone."
+	icon_state = "circlet_jade"
+	sellprice = 65
+
+/obj/item/clothing/head/roguetown/circlet/amber
+	name = "petriamber circlet"
+	desc = "An ornate circlet carved out of petriamber."
+	icon_state = "circlet_amber"
+	sellprice = 65
+
+/obj/item/clothing/head/roguetown/circlet/shell
+	name = "shell circlet"
+	desc = "An ornate circlet carved out of shell."
+	icon_state = "circlet_shell"
+	sellprice = 25
+
+/obj/item/clothing/head/roguetown/circlet/rose
+	name = "rosellusk circlet"
+	desc = "An ornate circlet carved out of rosellusk."
+	icon_state = "circlet_rose"
+	sellprice = 30
+
+/obj/item/clothing/head/roguetown/circlet/turq
+	name = "ceruleabaster circlet"
+	desc = "An ornate circlet carved out of ceruleabaster."
+	icon_state = "circlet_turq"
+	sellprice = 90
+
+/obj/item/clothing/head/roguetown/circlet/onyxa
+	name = "onyxa circlet"
+	desc = "An ornate circlet carved out of onyxa."
+	icon_state = "circlet_onyxa"
+	sellprice = 45
+
+/obj/item/clothing/head/roguetown/circlet/coral
+	name = "aoetal circlet"
+	desc = "An ornate circlet carved out of aoetal."
+	icon_state = "circlet_coral"
+	sellprice = 75
+
+/obj/item/clothing/head/roguetown/circlet/opal
+	name = "opaloise circlet"
+	desc = "An ornate circlet carved out of opaloise."
+	icon_state = "circlet_opal"
+	sellprice = 95
 
 /obj/item/clothing/head/roguetown/priesthat
 	name = "priest's hat"
@@ -886,6 +939,14 @@
 	icon_state = "sallet"
 	desc = "A steel helmet which protects the ears."
 	max_integrity = 215
+	smeltresult = /obj/item/ingot/steel
+	body_parts_covered = HEAD|HAIR|EARS
+
+/obj/item/clothing/head/roguetown/helmet/sallet/thorns
+	name = "holysteel thorns"
+	icon_state = "holythorns"
+	desc = "A crown of thorns made with silver and steel wires. It protects your head and ears despite pricking them."
+	max_integrity = 225
 	smeltresult = /obj/item/ingot/steel
 	body_parts_covered = HEAD|HAIR|EARS
 
@@ -1103,6 +1164,7 @@
 	icon_state = "graggarplatehelm"
 	max_integrity = 600
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEFACIALHAIR
+	var/active_item = FALSE
 
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_HORDE))
@@ -1111,6 +1173,23 @@
 		user.ignite_mob()
 		user.Stun(40)
 	..()
+
+/obj/item/clothing/head/roguetown/helmet/heavy/graggar/equipped(mob/living/user, slot)
+	. = ..()
+	if(active_item)
+		return
+	if(slot == SLOT_HEAD)
+		active_item = TRUE
+		ADD_TRAIT(user, TRAIT_BITERHELM, "graggar")
+		to_chat(user, span_red("The helmet's visor creaks and groans, misshapen metal moving along with your own muscles.."))
+
+/obj/item/clothing/head/roguetown/helmet/heavy/graggar/dropped(mob/living/user)
+	. = ..()
+	if(!active_item)
+		return
+	active_item = FALSE
+	REMOVE_TRAIT(user, TRAIT_BITERHELM, "graggar")
+	to_chat(user, span_red("..the helmet's metal stops twisting, and a strange pressure, relieves itself from your jaw."))
 
 /obj/item/clothing/head/roguetown/helmet/heavy/matthios/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_COMMIE))
@@ -1710,6 +1789,7 @@
 	desc = "A steel bascinet helmet with a straight visor, or \"klappvisier\", which can greatly reduce visibility. Though it was first developed in Etrusca, it is also widely used in Grenzelhoft."
 	icon_state = "klappvisier"
 	item_state = "klappvisier"
+	max_integrity = 325
 	adjustable = CAN_CADJUST
 	emote_environment = 3
 	body_parts_covered = FULL_HEAD
@@ -1932,10 +2012,10 @@
 
 /obj/item/clothing/head/roguetown/witchhat
 	name = "witch hat"
-	desc = ""
+	desc = "A wide brimmed hat that smells faintly of herbs, and viscera."
 	icon_state = "witch"
-	item_state = "witch"
-	icon = 'icons/roguetown/clothing/head.dmi'
+	detail_tag = "_detail"
+	color = COLOR_ALMOST_BLACK
 	sewrepair = TRUE
 
 /obj/item/clothing/head/roguetown/archercap
@@ -1960,6 +2040,7 @@
 	detail_tag = "_detail"
 	altdetail_tag = "_detailalt"
 	dynamic_hair_suffix = ""
+	resistance_flags = FIRE_PROOF //It's treated with magickal seed oils or some shit. Trust.
 	max_integrity = 150
 	body_parts_covered = HEAD|HAIR|EARS
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
@@ -1999,40 +2080,7 @@
 			pic2.color = get_altdetail_color()
 		add_overlay(pic2)
 
-//Eora content from Stonekeep
 
-/obj/item/clothing/head/roguetown/eoramask
-	name = "eoran mask"
-	desc = "A silver mask in the likeness of a rabbit. Usually worn by the faithful of Eora during their rituals, but it's not like anyone's going to stop you. Right?"
-	color = null
-	icon_state = "eoramask"
-	item_state = "eoramask"
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
-	worn_x_dimension = 64
-	worn_y_dimension = 64
-	bloody_icon = 'icons/effects/blood64.dmi'
-	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDEHAIR
-	dynamic_hair_suffix = ""
-	resistance_flags = FIRE_PROOF // Made of metal
-
-/obj/item/clothing/head/roguetown/eoramask/equipped(mob/living/carbon/human/user, slot) //Copying Eora bud pacifism
-	. = ..()
-	if(slot == SLOT_HEAD)
-		ADD_TRAIT(user, TRAIT_PACIFISM, "eoramask_[REF(src)]")
-
-/obj/item/clothing/head/roguetown/eoramask/dropped(mob/living/carbon/human/user)
-	..()
-	REMOVE_TRAIT(user, TRAIT_PACIFISM, "eoramask_[REF(src)]")
-
-/obj/item/clothing/head/roguetown/eoramask/attack_hand(mob/user)
-	if(iscarbon(user))
-		var/mob/living/carbon/C = user
-		if(src == C.head)
-			to_chat(user, "<span class='warning'>I need some time to remove the mask peacefully.</span>")
-			if(do_after(user, 50))
-				return ..()
-			return
-	return ..()
 
 /obj/item/clothing/head/roguetown/helmet/tricorn
 	slot_flags = ITEM_SLOT_HEAD
@@ -2181,6 +2229,7 @@
 	desc = "A thick hood that covers one's entire head, should they desire, or merely acts as a scarf otherwise. Made with spell-laced fabric to provide some protection against daemons and mortals alike."
 	max_integrity = 100
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_NECK
 	armor = ARMOR_HEAD_PSYDON
 	icon_state = "deserthood"
 	item_state = "deserthood"
@@ -2202,6 +2251,13 @@
 	icon_state = "bucklehat"
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/hide/cured
+
+/obj/item/clothing/head/roguetown/bucklehat/monsterhunter //monster hunter variant w/ armor
+	name = "hunter's cap"
+	desc = "A plain leather hat with decorative buckle. An Otavan variant, reinforced with heavy leather."
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+	armor = ARMOR_HEAD_PSYDON
+	max_integrity = 200 
 
 /obj/item/clothing/head/roguetown/duelhat //lifeweb sprite
 	name = "duelist's hat"
@@ -2229,6 +2285,29 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
+
+
+/obj/item/clothing/head/roguetown/helmet/heavy/volfplate/berserker
+	name = "volfskulle bascinet"
+	desc = "A steel bascinet helmet with a snarling visor that protects the entire head and face. Just like the nitebeasts it mimics, so too does the helmet's teeth glisten with flesh-sundering sharpness."
+	adjustable = CANT_CADJUST
+	var/active_item = FALSE
+
+/obj/item/clothing/head/roguetown/helmet/heavy/volfplate/berserker/equipped(mob/living/user, slot)
+	. = ..()
+	if(slot == SLOT_HEAD)
+		active_item = TRUE
+		ADD_TRAIT(user, TRAIT_BITERHELM, "berserker")
+		to_chat(user, span_red("The bascinet's visor chitters, and your jaw tightens with symbiotic intent.."))
+	return
+
+/obj/item/clothing/head/roguetown/helmet/heavy/volfplate/berserker/dropped(mob/living/user)
+	. = ..()
+	if(!active_item)
+		return
+	active_item = FALSE
+	REMOVE_TRAIT(user, TRAIT_BITERHELM, "berserker")
+	to_chat(user, span_red("..and like that, the bascinet's visor goes dormant once more - a strange pressure, relieved from your jaw."))
 
 /obj/item/clothing/head/roguetown/helmet/leather/advanced
 	name = "hardened leather helmet"
@@ -2423,19 +2502,19 @@
 
 // new knight captain drip
 
-/obj/item/clothing/head/roguetown/helmet/visored/captain
-	name = "captain's helmet"
-	desc = "An elegant barbute, fitted with the gold trim and polished metal of nobility."
+/obj/item/clothing/head/roguetown/helmet/visored/champion
+	name = "champion's helmet"
+	desc = "An elegant barbute, fitted with the gold trim and polished metal befitting a champion of the realm."
 	adjustable = CAN_CADJUST
-	icon = 'icons/roguetown/clothing/special/captain.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/captain.dmi'
-	icon_state = "capbarbute"
+	icon = 'icons/roguetown/clothing/special/champion.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/champion.dmi'
+	icon_state = "champbarbute"
 	block2add = FOV_BEHIND
 	max_integrity = 350
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT|HIDEEYES
 	body_parts_covered = HEAD|HAIR|EARS|MOUTH|NOSE|EYES
 
-/obj/item/clothing/head/roguetown/helmet/visored/captain/ComponentInitialize()
+/obj/item/clothing/head/roguetown/helmet/visored/champion/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), HIDEHAIR, null, 'sound/items/visor.ogg', null, UPD_HEAD)
 
 // the klappenlonger
@@ -2466,6 +2545,7 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	max_integrity = 150
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_NECK
 	armor = ARMOR_HEAD_PSYDON //basically the same as a warscholar hood
 	color = CLOTHING_BLACK
 
@@ -2524,23 +2604,22 @@
 	desc = "A darkened iron heavy helmet shaped in a beak, it glows with dark red magiks on his eyes."
 	icon_state = "zizo"
 	var/on = FALSE
-	light_outer_range = 2 	//very small light in red to scare people
-	light_power = 1
-	light_color = LIGHT_COLOR_BLOOD_MAGIC
-	light_system = MOVABLE_LIGHT
 	smeltresult = /obj/item/ingot/iron
 
-/obj/item/clothing/head/roguetown/helmet/heavy/zizoid/MiddleClick(mob/user)
-	if(.)
-		return
-	user.changeNext_move(CLICK_CD_MELEE)
-	playsound(loc, 'sound/misc/toggle_lamp.ogg', 100)
-	toggle_helmet_light(user)
-	to_chat(user, span_info("I toggle [src] [on ? "on" : "off"]."))
+/obj/item/clothing/head/roguetown/helmet/heavy/zizoid/equipped(mob/living/user, slot)
+	. = ..()
+
+	if(slot == SLOT_HEAD)
+		RegisterSignal(user, COMSIG_COMBAT_MODE, PROC_REF(toggle_helmet_light))
+
+
+
+/obj/item/clothing/head/roguetown/helmet/heavy/zizoid/dropped(mob/living/user)
+	. = ..()
+	UnregisterSignal(COMSIG_COMBAT_MODE)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizoid/proc/toggle_helmet_light(mob/living/user)
 	on = !on
-	set_light_on(on)
 	update_icon()
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizoid/update_icon()
@@ -2548,10 +2627,7 @@
 	item_state = "zizo[on]"
 	if(ishuman(loc))
 		var/mob/living/carbon/human/H = loc
-		H.update_inv_head()
-	for(var/X in actions)
-		var/datum/action/A = X
-		A.UpdateButtonIcon(force = TRUE)
+		H.update_inv_head_real()
 	..()
 
 /obj/item/clothing/head/roguetown/helmet/heavy/grag
@@ -2559,23 +2635,20 @@
 	desc = "A heavy iron helmet covered in dry blood and spikes, shaped in a cruel deformated smile it glows with dark red magiks on his eyes."
 	icon_state = "graggar"
 	var/on = FALSE
-	light_outer_range = 2 	//very small light in red to scare people
-	light_power = 1
-	light_color = LIGHT_COLOR_BLOOD_MAGIC
-	light_system = MOVABLE_LIGHT
+
 	smeltresult = /obj/item/ingot/iron
 
-/obj/item/clothing/head/roguetown/helmet/heavy/grag/MiddleClick(mob/user)
-	if(.)
-		return
-	user.changeNext_move(CLICK_CD_MELEE)
-	playsound(loc, 'sound/misc/toggle_lamp.ogg', 100)
-	toggle_helmet_light(user)
-	to_chat(user, span_info("I toggle [src] [on ? "on" : "off"]."))
+/obj/item/clothing/head/roguetown/helmet/heavy/grag/equipped(mob/living/user, slot)
+	. = ..()
+	if(slot == SLOT_HEAD)
+		RegisterSignal(user, COMSIG_COMBAT_MODE, PROC_REF(toggle_helmet_light))
+
+/obj/item/clothing/head/roguetown/helmet/heavy/grag/dropped(mob/living/user)
+	. = ..()
+	UnregisterSignal(COMSIG_COMBAT_MODE)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/grag/proc/toggle_helmet_light(mob/living/user)
 	on = !on
-	set_light_on(on)
 	update_icon()
 
 /obj/item/clothing/head/roguetown/helmet/heavy/grag/update_icon()
@@ -2583,10 +2656,7 @@
 	item_state = "graggar[on]"
 	if(ishuman(loc))
 		var/mob/living/carbon/human/H = loc
-		H.update_inv_head()
-	for(var/X in actions)
-		var/datum/action/A = X
-		A.UpdateButtonIcon(force = TRUE)
+		H.update_inv_head_real()
 	..()
 
 /obj/item/clothing/head/roguetown/helmet/heavy/matt
@@ -2594,23 +2664,21 @@
 	desc = "A heavy iron helmet covered in a heavy red hood, shaped in a deformated greedy smile it glows with dark red magiks on his eyes."
 	icon_state = "matthios"
 	var/on = FALSE
-	light_outer_range = 2 	//very small light in red to scare people
-	light_power = 1
-	light_color = LIGHT_COLOR_BLOOD_MAGIC
-	light_system = MOVABLE_LIGHT
-	smeltresult = /obj/item/ingot/iron
 
-/obj/item/clothing/head/roguetown/helmet/heavy/matt/MiddleClick(mob/user)
-	if(.)
-		return
-	user.changeNext_move(CLICK_CD_MELEE)
-	playsound(loc, 'sound/misc/toggle_lamp.ogg', 100)
-	toggle_helmet_light(user)
-	to_chat(user, span_info("I toggle [src] [on ? "on" : "off"]."))
+
+
+/obj/item/clothing/head/roguetown/helmet/heavy/matt/equipped(mob/living/user, slot)
+	. = ..()
+	if(slot == SLOT_HEAD)
+		RegisterSignal(user, COMSIG_COMBAT_MODE, PROC_REF(toggle_helmet_light))
+
+/obj/item/clothing/head/roguetown/helmet/heavy/matt/dropped(mob/living/user)
+	. = ..()
+	UnregisterSignal(COMSIG_COMBAT_MODE)
+
 
 /obj/item/clothing/head/roguetown/helmet/heavy/matt/proc/toggle_helmet_light(mob/living/user)
 	on = !on
-	set_light_on(on)
 	update_icon()
 
 /obj/item/clothing/head/roguetown/helmet/heavy/matt/update_icon()
@@ -2618,10 +2686,7 @@
 	item_state = "matthios[on]"
 	if(ishuman(loc))
 		var/mob/living/carbon/human/H = loc
-		H.update_inv_head()
-	for(var/X in actions)
-		var/datum/action/A = X
-		A.UpdateButtonIcon(force = TRUE)
+		H.update_inv_head_real()
 	..()
 
 // the psylongers
@@ -2659,154 +2724,193 @@
 	smelt_bar_num = 2
 
 /obj/item/clothing/head/flowers
-    name = "Flowers"
-    desc = " "
-    icon_state = "dflower"
-    item_state = "dflower"
-    icon = 'icons/roguetown/misc/flowerspack.dmi'
-    mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
-    slot_flags = ITEM_SLOT_HEAD
-    body_parts_covered = NONE
-    force = 0
-    throwforce = 0
-    w_class = WEIGHT_CLASS_TINY
-    throw_speed = 1
-    throw_range = 3
+	name = "Flowers"
+	desc = " "
+	icon_state = "dflower"
+	item_state = "dflower"
+	icon = 'icons/roguetown/misc/flowerspack.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	alternate_worn_layer = 8.9 //On top of helmet
+	body_parts_covered = NONE
+	force = 0
+	throwforce = 0
+	w_class = WEIGHT_CLASS_TINY
+	throw_speed = 1
+	throw_range = 3
 
 /obj/item/clothing/head/flowers/purple_lily
-    name = "Purple lily"
-    desc = "A purple lily, steeped in the hues of twilight. It whispers of forgotten prayers beneath a dying sun."
-    icon_state = "dflower1"
-    item_state = "dflower1"
+	name = "Purple lily"
+	desc = "A purple lily, steeped in the hues of twilight. It whispers of forgotten prayers beneath a dying sun."
+	icon_state = "dflower1"
+	item_state = "dflower1"
 
 /obj/item/clothing/head/flowers/snapdragon
-    name = "Snapdragon"
-    desc = "A snapdragon, vibrant yet fragile. Its blooms mimic a beast’s maw-silent, but ever hungry for remembrance."
-    icon_state = "dflower2"
-    item_state = "dflower2"
+	name = "Snapdragon"
+	desc = "A snapdragon, vibrant yet fragile. Its blooms mimic a beast’s maw-silent, but ever hungry for remembrance."
+	icon_state = "dflower2"
+	item_state = "dflower2"
 
 /obj/item/clothing/head/flowers/redpurple_rose
-    name = "Red-purple rose"
-    desc = "A red-purple rose, blooming like a wound upon memory. Its petals weep in silence for fallen kings."
-    icon_state = "dflower3"
-    item_state = "dflower3"
+	name = "Red-purple rose"
+	desc = "A red-purple rose, blooming like a wound upon memory. Its petals weep in silence for fallen kings."
+	icon_state = "dflower3"
+	item_state = "dflower3"
 
 /obj/item/clothing/head/flowers/burdock_flower_purple
-    name = "Purple burdock flower"
-    desc = "A purple burdock flower, tangled and wild. Said to bloom on cursed soil, where no light lingers."
-    icon_state = "dflower4"
-    item_state = "dflower4"
+	name = "Purple burdock flower"
+	desc = "A purple burdock flower, tangled and wild. Said to bloom on cursed soil, where no light lingers."
+	icon_state = "dflower4"
+	item_state = "dflower4"
 
 /obj/item/clothing/head/flowers/yellow_lily
-    name = "Yellow lily"
-    desc = "A yellow lily, bright as false hope. Carried once by a maiden who walked into the abyss."
-    icon_state = "dflower5"
-    item_state = "dflower5"
+	name = "Yellow lily"
+	desc = "A yellow lily, bright as false hope. Carried once by a maiden who walked into the abyss."
+	icon_state = "dflower5"
+	item_state = "dflower5"
 
 /obj/item/clothing/head/flowers/burdock_flower_pink
-    name = "Pink burdock flower"
-    desc = "A pink burdock flower, soft in color, bitter in tale. Legends say it grew from the tears of exiled witches."
-    icon_state = "dflower6"
-    item_state = "dflower6"
+	name = "Pink burdock flower"
+	desc = "A pink burdock flower, soft in color, bitter in tale. Legends say it grew from the tears of exiled witches."
+	icon_state = "dflower6"
+	item_state = "dflower6"
 
 /obj/item/clothing/head/flowers/yarrow_white
-    name = "White yarrow"
-    desc = "A white yarrow, pale as bone. It grows in graves where even time dares not tread."
-    icon_state = "dflower7"
-    item_state = "dflower7"
+	name = "White yarrow"
+	desc = "A white yarrow, pale as bone. It grows in graves where even time dares not tread."
+	icon_state = "dflower7"
+	item_state = "dflower7"
 
 /obj/item/clothing/head/flowers/rose_pink
-    name = "Pink rose"
-    desc = "A pink rose, delicate and silent. Its scent recalls a lullaby sung on the eve of ruin."
-    icon_state = "dflower8"
-    item_state = "dflower8"
+	name = "Pink rose"
+	desc = "A pink rose, delicate and silent. Its scent recalls a lullaby sung on the eve of ruin."
+	icon_state = "dflower8"
+	item_state = "dflower8"
 
 /obj/item/clothing/head/flowers/roses_red
-    name = "Red roses rose"
-    desc = "A cluster of red roses, rich and sanguine. Their beauty is as fleeting as the breath of the slain."
-    icon_state = "dflower9"
-    item_state = "dflower9"
+	name = "Red roses rose"
+	desc = "A cluster of red roses, rich and sanguine. Their beauty is as fleeting as the breath of the slain."
+	icon_state = "dflower9"
+	item_state = "dflower9"
 
 /obj/item/clothing/head/flowers/peony
-    name = "Peony"
-    desc = "A peony, lush and secretive. In its folds lie whispers of ancient sorrow."
-    icon_state = "dflower10"
-    item_state = "dflower10"
+	name = "Peony"
+	desc = "A peony, lush and secretive. In its folds lie whispers of ancient sorrow."
+	icon_state = "dflower10"
+	item_state = "dflower10"
 
 /obj/item/clothing/head/flowers/forget_me_not_alt
-    name = "Pink-forget-me-not"
-    desc = "A pink forget-me-not, gentle and strange. A flower of promises never kept."
-    icon_state = "dflower11"
-    item_state = "dflower11"
+	name = "Pink-forget-me-not"
+	desc = "A pink forget-me-not, gentle and strange. A flower of promises never kept."
+	icon_state = "dflower11"
+	item_state = "dflower11"
 
 /obj/item/clothing/head/flowers/forget_me_not
-    name = "Forget-me-not"
-    desc = "A blue forget-me-not, eternal in mourning. It blooms only where memories die."
-    icon_state = "dflower12"
-    item_state = "dflower12"
+	name = "Forget-me-not"
+	desc = "A blue forget-me-not, eternal in mourning. It blooms only where memories die."
+	icon_state = "dflower12"
+	item_state = "dflower12"
 
 /obj/item/clothing/head/flowers/blue_rose
-    name = "Blue rose"
-    desc = "A blue rose, cold and unnatural. Said to bloom only in places where reality frays."
-    icon_state = "dflower13"
-    item_state = "dflower13"
+	name = "Blue rose"
+	desc = "A blue rose, cold and unnatural. Said to bloom only in places where reality frays."
+	icon_state = "dflower13"
+	item_state = "dflower13"
 
 /obj/item/clothing/head/flowers/orange_rose
-    name = "Orange rose"
-    desc = "An orange rose, burning like embered pride. Fades as quickly as ambition in the dark."
-    icon_state = "dflower14"
-    item_state = "dflower14"
+	name = "Orange rose"
+	desc = "An orange rose, burning like embered pride. Fades as quickly as ambition in the dark."
+	icon_state = "dflower14"
+	item_state = "dflower14"
 
 /obj/item/clothing/head/flowers/sunflower
-    name = "Sunflower"
-    desc = "A sunflower, ever-turning toward light long gone. A cruel symbol of futile hope."
-    icon_state = "dflower15"
-    item_state = "dflower15"
+	name = "Sunflower"
+	desc = "A sunflower, ever-turning toward light long gone. A cruel symbol of futile hope."
+	icon_state = "dflower15"
+	item_state = "dflower15"
 
 /obj/item/clothing/head/flowers/yellow_bells
-    name = "Yellow bells"
-    desc = "Yellow bells, ringing in silence. In old songs, they mark the hour of a warrior's last breath."
-    icon_state = "dflower16"
-    item_state = "dflower16"
+	name = "Yellow bells"
+	desc = "Yellow bells, ringing in silence. In old songs, they mark the hour of a warrior's last breath."
+	icon_state = "dflower16"
+	item_state = "dflower16"
 
 /obj/item/clothing/head/flowers/poppy
-    name = "Poppy"
-    desc = "A poppy, crimson and still. Grows where blood once sang through shattered hearts."
-    icon_state = "dflower17"
-    item_state = "dflower17"
+	name = "Poppy"
+	desc = "A poppy, crimson and still. Grows where blood once sang through shattered hearts."
+	icon_state = "dflower17"
+	item_state = "dflower17"
 
 /obj/item/clothing/head/flowers/blue_purple_bells
-    name = "Blue and purple bells"
-    desc = "Blue and purple bells, swaying in unseen winds. Their chime echoes through forgotten catacombs."
-    icon_state = "dflower18"
-    item_state = "dflower18"
+	name = "Blue and purple bells"
+	desc = "Blue and purple bells, swaying in unseen winds. Their chime echoes through forgotten catacombs."
+	icon_state = "dflower18"
+	item_state = "dflower18"
 
 /obj/item/clothing/head/flowers/iris
-    name = "Iris"
-    desc = "An iris of deep hue, regal yet sorrowed. A herald of endings, cloaked in grace."
-    icon_state = "dflower19"
-    item_state = "dflower19"
+	name = "Iris"
+	desc = "An iris of deep hue, regal yet sorrowed. A herald of endings, cloaked in grace."
+	icon_state = "dflower19"
+	item_state = "dflower19"
 
 /obj/item/clothing/head/flowers/muscaris
-    name = "Muscaris"
-    desc = "A muscaris bloom, clustered like whispers. Found near ruins where no laughter remains."
-    icon_state = "dflower20"
-    item_state = "dflower20"
+	name = "Muscaris"
+	desc = "A muscaris bloom, clustered like whispers. Found near ruins where no laughter remains."
+	icon_state = "dflower20"
+	item_state = "dflower20"
 
 /obj/item/clothing/head/flowers/lavander
-    name = "Lavander"
-    desc = "Lavander, soft and spectral. Used to anoint the dead in lands now nameless."
-    icon_state = "dflower21"
-    item_state = "dflower21"
+	name = "Lavander"
+	desc = "Lavander, soft and spectral. Used to anoint the dead in lands now nameless."
+	icon_state = "dflower21"
+	item_state = "dflower21"
 
 /obj/item/clothing/head/flowers/milva
-    name = "Milva"
-    desc = "A milva blossom, name lost to time. Said to bloom for those who choose exile over chains."
-    icon_state = "dflower22"
-    item_state = "dflower22"
+	name = "Milva"
+	desc = "A milva blossom, name lost to time. Said to bloom for those who choose exile over chains."
+	icon_state = "dflower22"
+	item_state = "dflower22"
 
 /obj/item/clothing/head/flowers/yellow_iris
-    name = "Yellow iris"
-    desc = "A yellow iris, bright like defiance. Once worn by those who marched into oblivion, unafraid."
-    icon_state = "dflower23"
-    item_state = "dflower23"
+	name = "Yellow iris"
+	desc = "A yellow iris, bright like defiance. Once worn by those who marched into oblivion, unafraid."
+	icon_state = "dflower23"
+	item_state = "dflower23"
+
+// beak helmet, yippie
+/obj/item/clothing/head/roguetown/helmet/heavy/beakhelm
+	name = "beak helmet"
+	desc = "An odd spherical helmet with a beaklike visor."
+	icon = 'icons/roguetown/clothing/head.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
+	icon_state = "beakhelmet"
+	item_state = "beakhelmet"
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR
+	block2add = FOV_BEHIND
+	smeltresult = /obj/item/ingot/steel
+
+/obj/item/clothing/head/roguetown/cookhat/ogre
+	name = "giant chef's hat"
+	desc = "This is the badge of a true gourmand. None should ever look upon you with anything less than utter respect."
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	icon_state = "cookhat"
+	item_state = "cookhat"
+	allowed_race = OGRE_RACE_TYPES
+
+/obj/item/clothing/head/roguetown/helmet/heavy/ogre
+	name = "giant iron barbute"
+	desc = "When you have a big head, it needs a big helmet. This one is modeled after old imperial armor designs."
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	icon_state = "merchelmet"
+	item_state = "merchelmet"
+	allowed_race = OGRE_RACE_TYPES
+	flags_inv = HIDEEARS|HIDEHAIR
+
+/obj/item/clothing/head/roguetown/helmet/heavy/graggar/ogre
+	name = "graggar's champion helmet"
+	desc = "The mark of graggar's rampage, this is the helmet of his greatest warrior, his favorite child. Kill in the name of the father, inflict pain and torment."
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	icon_state = "warlhelmet"
+	item_state = "warlhelmet"
+	allowed_race = OGRE_RACE_TYPES
+	flags_inv = HIDEEARS|HIDEHAIR

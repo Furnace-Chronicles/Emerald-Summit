@@ -234,7 +234,7 @@ SUBSYSTEM_DEF(gamemode)
 /datum/controller/subsystem/gamemode/fire(resumed = FALSE)
 	if(last_devotion_check < world.time)
 		pick_most_influential()
-		last_devotion_check = world.time + 90 MINUTES
+		last_devotion_check = world.time + 10 MINUTES
 
 	if(SSticker.HasRoundStarted() && (world.time - SSticker.round_start_time) >= ROUNDSTART_VALID_TIMEFRAME)
 		can_run_roundstart = FALSE
@@ -306,6 +306,9 @@ SUBSYSTEM_DEF(gamemode)
 
 /// Whether events can inject more antagonists into the round
 /datum/controller/subsystem/gamemode/proc/can_inject_antags()
+	if(!current_storyteller?.can_inject_antags)
+		return FALSE
+
 	return (get_antag_cap() > get_antag_count())
 
 /// Gets candidates for antagonist roles.
@@ -717,9 +720,11 @@ SUBSYSTEM_DEF(gamemode)
 			selected_storyteller = storyboy.type
 			break
 
-	var/datum/storyteller/storytypecasted = selected_storyteller
-	to_chat(world, span_notice("<b>Storyteller is [initial(storytypecasted.name)]!</b>"))
-	to_chat(world, span_notice("[initial(storytypecasted.vote_desc)]"))
+	var/datum/storyteller/selected_storyboy = storytellers[selected_storyteller]
+	set_storyteller(selected_storyteller)
+	selected_storyboy.on_vote_chosen()
+	to_chat(world, span_notice("<b>Storyteller is [selected_storyboy.name]!</b>"))
+	to_chat(world, span_notice("[initial(selected_storyboy.vote_desc)]"))
 
 ///return a weighted list of all storytellers that are currently valid to roll, if return_types is set then we will return types instead of instances
 /datum/controller/subsystem/gamemode/proc/get_valid_storytellers(return_types = FALSE)
@@ -745,7 +750,6 @@ SUBSYSTEM_DEF(gamemode)
 	chosen_storyteller.times_chosen++
 	GLOB.featured_stats[FEATURED_STATS_STORYTELLERS]["entries"][initial(chosen_storyteller.name)] = chosen_storyteller.times_chosen
 	current_storyteller = chosen_storyteller
-	current_storyteller.SetAsActive()
 	if(!secret_storyteller)
 		send_to_playing_players(span_notice("<b>Storyteller is [current_storyteller.name]!</b>"))
 		send_to_playing_players(span_notice("[current_storyteller.welcome_text]"))
@@ -1090,6 +1094,9 @@ SUBSYSTEM_DEF(gamemode)
 
 /// Compares influence of all storytellers and sets a new storyteller with a highest influence
 /datum/controller/subsystem/gamemode/proc/pick_most_influential(roundstart = FALSE)
+	if(current_storyteller?.rules_forever)
+		return
+
 	refresh_alive_stats(roundstart)
 	var/list/storytellers_with_influence = list()
 	var/datum/storyteller/highest
@@ -1160,6 +1167,7 @@ SUBSYSTEM_DEF(gamemode)
         STATS_ALIVE_DWARVES,
         STATS_ALIVE_DARK_ELVES,
         STATS_ALIVE_WOOD_ELVES,
+        STATS_ALIVE_SUN_ELVES,
         STATS_ALIVE_HALF_ELVES,
         STATS_ALIVE_HALF_ORCS,
         STATS_ALIVE_GOBLINS,
@@ -1180,6 +1188,7 @@ SUBSYSTEM_DEF(gamemode)
         STATS_ALIVE_MOTHS,
 		STATS_ALIVE_LAMIA,
 		STATS_ALIVE_HARPIES,
+		STATS_ALIVE_OGRES,
 	)
 
 	for(var/stat_name in statistics_to_clear)
@@ -1271,6 +1280,8 @@ SUBSYSTEM_DEF(gamemode)
 				record_round_statistic(STATS_ALIVE_DARK_ELVES)
 			if(iswoodelf(human_mob))
 				record_round_statistic(STATS_ALIVE_WOOD_ELVES)
+			if(issunelf(human_mob))
+				record_round_statistic(STATS_ALIVE_SUN_ELVES)
 			if(ishalfelf(human_mob))
 				record_round_statistic(STATS_ALIVE_HALF_ELVES)
 			if(ishalforc(human_mob))
@@ -1311,6 +1322,8 @@ SUBSYSTEM_DEF(gamemode)
 				record_round_statistic(STATS_ALIVE_LAMIA)
 			if(isharpy(human_mob))
 				record_round_statistic(STATS_ALIVE_HARPIES)
+			if(isogre(human_mob))
+				record_round_statistic(STATS_ALIVE_OGRES)
 
 				record_round_statistic(STATS_ALIVE_MOTHS)
 

@@ -12,12 +12,12 @@
 
 
 
-	outfit = /datum/outfit/job/roguetown/goblincook
+	outfit = /datum/outfit/job/goblincook
 	display_order = JDO_GOBLINCOOK
 	min_pq = 0
 	max_pq = null
 
-/datum/outfit/job/roguetown/goblincook/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/goblincook/pre_equip(mob/living/carbon/human/H)
 	..()
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 	belt = /obj/item/storage/belt/rogue/leather/rope

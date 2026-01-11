@@ -62,10 +62,9 @@
 		if(L.stat == DEAD)
 			continue
 		if(L.mind)
-			var/datum/antagonist/vampirelord/lesser/V = L.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser)
-			if(V)
-				if(!V.disguised)
-					isvampire = TRUE
+			var/datum/antagonist/vampire/V = L.mind.has_antag_datum(/datum/antagonist/vampire)
+			if(V && !SEND_SIGNAL(L, COMSIG_DISGUISE_STATUS))
+				isvampire = TRUE
 			if(L.mind.has_antag_datum(/datum/antagonist/zombie))
 				iszombie = TRUE
 			if(L.mind.special_role == "Vampire Lord" || L.mind.special_role == "Lich")	//Won't detonate Lich's or VLs but will fling them away.
@@ -78,7 +77,7 @@
 			if(isvampire)
 				vamp_prob -= 59
 			if(prob(vamp_prob))
-				L.visible_message("<span class='warning'>[L] has been churned by Necra's grip!", "<span class='danger'>I've been churned by Necra's grip!")
+				L.visible_message("<span class='warning'>[L] has been churned by the Undermaiden's grip!", "<span class='danger'>I've been churned by the Undermaiden's grip!")
 				explosion(get_turf(L), light_impact_range = 1, flame_range = 1, smoke = FALSE)
 				L.Stun(50)
 			else
@@ -276,7 +275,7 @@
 
 		user.visible_message(
 			span_revenwarning("[trapped] slips out from the whispering portal. Shadow roils off their form like smoke."),
-			span_purple("I am pulled from Necra's realm. Air fills my lungs, my heart starts beating- I live.")
+			span_purple("I am pulled from the Undermaiden's realm. Air fills my lungs, my heart starts beating- I live.")
 		)
 
 	for(var/mob/living/thing in contents)
@@ -300,7 +299,8 @@
 		return
 	spitout_mob(user)
 
-
+/obj/effect/proc_holder/spell/invoked/deaths_door/kazengun
+	invocation = "Neriko, show me my destination!"
 
 // Speak with dead
 
@@ -308,6 +308,7 @@
     name = "Speak with Dead"
     range = 5
     overlay_state = "speakwithdead"
+    desc = "Commune with the spirit bound to a nearby corpse, allowing brief conversation between the living and the dead."
     releasedrain = 30
     recharge_time = 30 SECONDS
     req_items = list(/obj/item/clothing/neck/roguetown/psicross)
@@ -365,7 +366,7 @@
                 replier = target.mind.current
 
             if(replier)
-                var/spirit_message = input(replier, "An acolyte of Necra named [user.real_name] seeks your attention. What is your reply?", "Spirit's Response") as text|null
+                var/spirit_message = input(replier, "An acolyte of the Undermaiden named [user.real_name] seeks your attention. What is your reply?", "Spirit's Response") as text|null
                 if(spirit_message)
                     to_chat(user, "<span style='color:silver'><i>The spirit whispers:</i> \"[spirit_message]\"</span>")
                 else
@@ -377,44 +378,50 @@
     else
         to_chat(user, "<span style='color:#aaaaaa'><i>No spirit answers your call.</i></span>")
 
-// BODY INTO COIN
+// FIELD BURIALS
 
 /obj/effect/proc_holder/spell/invoked/fieldburials
-	name = "Collect Coins"
+	name = "Field burials"
 	overlay_state = "consecrateburial"
+	desc = "Perform a simple battlefield rite over an unclaimed, long-dead body, letting Necra claim the soul as you gather coins from the remains."
 	antimagic_allowed = TRUE
 	devotion_cost = 10
 	miracle = TRUE
 	invocation_type = "whisper"
 
 /obj/effect/proc_holder/spell/invoked/fieldburials/cast(list/targets, mob/living/user)
-    . = ..()
+	. = ..()
+	if(!targets || !length(targets) || !isliving(targets[1]))
+		revert_cast()
+		return FALSE
 
-    if(!isliving(targets[1]))
-        revert_cast()
-        return FALSE
+	var/mob/living/target = targets[1]
 
-    var/mob/living/target = targets[1]
-    if(target.stat < DEAD)
-        to_chat(user, span_warning("They're still alive!"))
-        revert_cast()
-        return FALSE
+	if(istype(target, /mob/living/carbon/human))
+		if(target.client || target.mind)
+			to_chat(user, span_warning("The rite refuses a soulbearing body."))
+			revert_cast()
+			return FALSE
 
-    if(world.time <= target.mob_timers["lastdied"] + 15 MINUTES)
-        to_chat(user, span_warning("The body is too fresh for the rite."))
-        revert_cast()
-        return FALSE
+	if(target.stat < DEAD)
+		to_chat(user, span_warning("They're still alive!"))
+		revert_cast()
+		return FALSE
 
-    var/obj/item/roguecoin/silver/C = new(get_turf(target))
-    C.pixel_x = rand(-6, 6)
-    C.pixel_y = rand(-6, 6)
+	if(world.time <= ((target.mob_timers?["lastdied"]) || 0) + 15 MINUTES)
+		to_chat(user, span_warning("The body is too fresh for the rite."))
+		revert_cast()
+		return FALSE
 
-    to_chat(user, span_notice("You gather coins from [target.real_name]'s remains."))
-    to_chat(target, span_danger("Your worldly wealth slips away with the rite..."))
+	var/turf/T = get_turf(target)
+	if(T)
+		var/obj/item/roguecoin/silver/C = new(T)
+		C.pixel_x = rand(-6, 6)
+		C.pixel_y = rand(-6, 6)
 
-    qdel(target)
-
-    return TRUE
+	to_chat(user, span_notice("You gather coins from [target.real_name]'s remains."))
+	qdel(target)
+	return TRUE
 
 /*
 	SOUL SPEAK OLD LEGACY

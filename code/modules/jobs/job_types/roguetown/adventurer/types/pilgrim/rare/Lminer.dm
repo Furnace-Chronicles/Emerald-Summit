@@ -5,7 +5,7 @@
 	tutorial = "A master miner, you are capable of cutting stone like butter, and forging rocks into anything you can think of"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/minermaster
+	outfit = /datum/outfit/job/adventurer/minermaster
 
 	maximum_possible_slots = 1
 	pickprob = 5
@@ -34,7 +34,7 @@
 		/datum/skill/craft/smelting = SKILL_LEVEL_LEGENDARY,
 	)
 
-/datum/outfit/job/roguetown/adventurer/minermaster/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/minermaster/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/armingcap
 	pants = /obj/item/clothing/under/roguetown/trou

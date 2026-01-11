@@ -149,15 +149,55 @@
 /obj/item/organ/ears/anthro
 	name = "wild-kin ears"
 
+/obj/item/organ/ears/anthro/Insert(mob/living/carbon/M)
+	..()
+	if(M)
+		M.extra_hearing_range += 1
+
+/obj/item/organ/ears/anthro/Remove(mob/living/carbon/M, special = 0)
+	..()
+	if(M)
+		M.extra_hearing_range -= 1
+
 /obj/item/organ/ears/lupian
 	name = "lupian ears"
+
+/obj/item/organ/ears/lupian/Insert(mob/living/carbon/M)
+	..()
+	if(M)
+		M.extra_hearing_range += 1
+
+/obj/item/organ/ears/lupian/Remove(mob/living/carbon/M, special = 0)
+	..()
+	if(M)
+		M.extra_hearing_range -= 1
 
 /obj/item/organ/ears/vulpkanin
 	name = "vulpkian ears"
 	accessory_type = /datum/sprite_accessory/ears/fox
 
+/obj/item/organ/ears/vulpkanin/Insert(mob/living/carbon/M)
+	..()
+	if(M)
+		M.extra_hearing_range += 1
+
+/obj/item/organ/ears/vulpkanin/Remove(mob/living/carbon/M, special = 0)
+	..()
+	if(M)
+		M.extra_hearing_range -= 1
+
 /obj/item/organ/ears/tajaran
 	name = "tajaran ears"
+
+/obj/item/organ/ears/tajaran/Insert(mob/living/carbon/M)
+	..()
+	if(M)
+		M.extra_hearing_range += 1
+
+/obj/item/organ/ears/tajaran/Remove(mob/living/carbon/M, special = 0)
+	..()
+	if(M)
+		M.extra_hearing_range -= 1
 
 /obj/item/organ/ears/elf
 	name = "elf ears"
@@ -166,6 +206,16 @@
 /obj/item/organ/ears/elfw
 	name = "wood elf ears"
 	accessory_type = /datum/sprite_accessory/ears/elfw
+
+/obj/item/organ/ears/elfw/Insert(mob/living/carbon/M)
+	..()
+	if(M)
+		M.extra_hearing_range += 1
+
+/obj/item/organ/ears/elfw/Remove(mob/living/carbon/M, special = 0)
+	..()
+	if(M)
+		M.extra_hearing_range -= 1
 
 /obj/item/organ/ears/tiefling
 	name = "tiefling ears"
@@ -182,6 +232,16 @@
 /obj/item/organ/ears/goblin
 	name = "goblin ears"
 	accessory_type = /datum/sprite_accessory/ears/goblin
+
+/obj/item/organ/ears/goblin/Insert(mob/living/carbon/M)
+	..()
+	if(M)
+		M.extra_hearing_range += 1
+
+/obj/item/organ/ears/goblin/Remove(mob/living/carbon/M, special = 0)
+	..()
+	if(M)
+		M.extra_hearing_range -= 1
 
 /obj/item/organ/ears/harpy
 	name = "harpy ears"

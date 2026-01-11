@@ -186,3 +186,9 @@
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/clothing/neck/roguetown/zcross/iron
 	craftdiff = 1
+
+/datum/anvil_recipe/valuables/matthios_amulet
+	name = "Matthios amulet (1 gold)"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/clothing/neck/roguetown/zcross/matthios
+	craftdiff = 1

@@ -30,11 +30,11 @@
 	SEND_SIGNAL(src, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, A, proximity)
 	var/rmb_stam_penalty = 1
 	if(istype(rmb_intent, /datum/rmb_intent/strong) || istype(rmb_intent, /datum/rmb_intent/swift))
-		rmb_stam_penalty = 1.5	// Uses a modifer instead of a flat addition, less than weapons no matter what rn. 50% extra stam cost basically.
+		rmb_stam_penalty = 5	// Uses a modifer instead of a flat addition, less than weapons no matter what rn. 50% extra stam cost basically.
 	if(isliving(A))
 		var/mob/living/L = A
 		if(!used_intent.noaa)
-			playsound(get_turf(src), pick(GLOB.unarmed_swingmiss), 100, FALSE)
+			playsound(src, pick(GLOB.unarmed_swingmiss), 100, FALSE)
 			// src.emote("attackgrunt")
 		if(used_intent.releasedrain)
 			stamina_add(ceil(used_intent.releasedrain * rmb_stam_penalty))
@@ -55,7 +55,7 @@
 				adjust_blurriness(2)
 				adjustBruteLoss(rand(5, 10))
 				apply_status_effect(/datum/status_effect/churned, L)
-		
+
 		if(L.checkmiss(src))
 			return
 		if(!L.checkdefense(used_intent, src))
@@ -136,38 +136,31 @@
 		return
 	src.attack_hand(user, params)
 
-/mob
-	var/mob/givingto
-	var/lastgiveaction
-
-/mob/living/ongive(mob/user, params)
+/mob/living/ongive(mob/living/carbon/human/user, params)
 	if(!ishuman(user) || src == user)
 		return
-	var/mob/living/carbon/human/H = user
-	if(givingto == H && !H.get_active_held_item()) //take item being offered
-		if(world.time > lastgiveaction + 300) //time out give after a while
-			givingto = null
-			return
-		var/obj/item/I = get_active_held_item()
-		if(I)
-			transferItemToLoc(I, newloc = H, force = FALSE, silent = TRUE)
-			H.put_in_active_hand(I)
-			visible_message(span_notice("[src.name] gives [I] to [H.name]."))
-			return
+
+	var/obj/item/item_to_offer = user.get_active_held_item()
+	if(!item_to_offer)
+		return
+
+	if(src == user)
+		if(offered_item_ref)
+			cancel_offering_item()
+		return
+
+	if(user.offered_item_ref)
+		var/obj/offered_item = user.offered_item_ref.resolve()
+		if(offered_item == item_to_offer)
+			user.cancel_offering_item()
 		else
-			givingto = null
-	else if(!H.givingto && H.get_active_held_item()) //offer item
-		if(incapacitated(ignore_restraints = TRUE, ignore_grab = TRUE, check_immobilized = FALSE, ignore_stasis = FALSE))
-			to_chat(H, span_warning("[src.name] is incapacitated!"))
-			return
-		if(get_empty_held_indexes())
-			var/obj/item/I = H.get_active_held_item()
-			H.givingto = src
-			H.lastgiveaction = world.time
-			to_chat(src, span_notice("[H.name] offers [I] to me."))
-			to_chat(H, span_notice("I offer [I] to [src.name]."))
-		else
-			to_chat(H, span_warning("[src.name]'s hands are full."))
+			to_chat(user, span_notice("I'm already offering \the [item_to_offer]!"))
+		return
+
+	if(HAS_TRAIT(item_to_offer, TRAIT_NODROP))
+		to_chat(user, span_warning("I can't offer this."))
+		return
+	user.offer_item(src, item_to_offer)
 
 /mob/living/MiddleClickOn(atom/A, params)
 	..()
@@ -256,7 +249,7 @@
 		do_attack_animation(A, visual_effect_icon = used_intent.animname)
 		changeNext_move(used_intent.clickcd)
 //		src.emote("attackgrunt")
-		playsound(get_turf(src), used_intent.miss_sound, 100, FALSE)
+		playsound(src, used_intent.miss_sound, 100, FALSE)
 		if(used_intent.miss_text)
 			visible_message(span_warning("[src] [used_intent.miss_text]!"), \
 							span_warning("I [used_intent.miss_text]!"))

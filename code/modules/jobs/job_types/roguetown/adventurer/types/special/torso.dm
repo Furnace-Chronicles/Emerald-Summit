@@ -3,11 +3,11 @@
 	tutorial = "Some horrible accident in the forest away all of your limbs!\nSurvival will be a true TRIUMPH."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/torso
+	outfit = /datum/outfit/job/adventurer/torso
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED)
-	category_tags = list(CTAG_DISABLED)
+	category_tags = list(CTAG_DISABLED, CTAG_LICKER_WRETCH)
 
-/datum/outfit/job/roguetown/adventurer/torso/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/torso/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/swords, rand(0,4), TRUE)
 	H.adjust_skillrank(/datum/skill/combat/crossbows, rand(0,4) ,TRUE)

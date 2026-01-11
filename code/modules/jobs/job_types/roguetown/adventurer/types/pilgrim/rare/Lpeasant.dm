@@ -5,7 +5,7 @@
 	and made it bow before your green thumb."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/farmermaster
+	outfit = /datum/outfit/job/adventurer/farmermaster
 
 	maximum_possible_slots = 1
 	pickprob = 5
@@ -33,7 +33,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/farmermaster/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/farmermaster/pre_equip(mob/living/carbon/human/H)
 	..()
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random

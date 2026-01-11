@@ -13,7 +13,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
-	outfit = /datum/outfit/job/roguetown/lunatic
+	outfit = /datum/outfit/job/lunatic
 	bypass_lastclass = TRUE
 	bypass_jobban = FALSE
 	min_pq = 100 //the magic of an allowlist server.
@@ -33,7 +33,7 @@
 /datum/advclass/lunatic
 	name = "Lunatic"
 	tutorial = "The Lunatic, shunned by society and a magnet for misfortune. Your task is simple yet perilous: survive by any means, though your very existence invites danger from every corner. It is said that Azure Peak drives those most familiar with it, the most insane."
-	outfit = /datum/outfit/job/roguetown/lunatic/basic
+	outfit = /datum/outfit/job/lunatic/basic
 	category_tags = list(CTAG_LUNATIC)
 
 	subclass_stats = list(
@@ -53,7 +53,7 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/lunatic/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/lunatic/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	H.STALUC = rand(3, 8)

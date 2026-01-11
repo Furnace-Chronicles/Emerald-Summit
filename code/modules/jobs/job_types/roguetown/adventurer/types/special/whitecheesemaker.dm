@@ -2,19 +2,22 @@
 	name = "WHITE CHEESE"
 	allowed_sexes = list(MALE)
 	allowed_races = list(/datum/species/human/northern)
-	outfit = /datum/outfit/job/roguetown/adventurer/whitecheese
+	outfit = /datum/outfit/job/adventurer/whitecheese
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_BREADY, TRAIT_STEELHEARTED, TRAIT_ARCYNE_T2)
 	// oh god oh fuck this dont seem very safe to do
 	// this looks kinda op so imma just leave it at patreon level 1 until someone puts this behind a different lock
 	maximum_possible_slots = 1
 
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	category_tags = list(CTAG_DISABLED)
 
-/datum/outfit/job/roguetown/adventurer/whitecheese
+	virtue_restrictions = list(
+		/datum/virtue/utility/riding
+	)
+
+/datum/outfit/job/adventurer/whitecheese
 	name = "WHITE CHEESE"
 
-/datum/outfit/job/roguetown/adventurer/whitecheese/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/whitecheese/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
@@ -57,3 +60,5 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fetch)
 
 	H.ambushable = FALSE
+	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
+		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)

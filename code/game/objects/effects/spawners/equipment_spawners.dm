@@ -287,7 +287,7 @@
 		/obj/item/clothing/suit/roguetown/armor/chainmail/paalloy = 1,
 		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy = 1,
 		/obj/item/clothing/suit/roguetown/armor/plate/half/paalloy = 1,
-		/obj/item/clothing/suit/roguetown/armor/plate/paalloy = 1,
+		/obj/item/clothing/suit/roguetown/armor/plate/full/paalloy = 1,
 		/obj/item/clothing/gloves/roguetown/plate/paalloy = 1,
 		/obj/item/clothing/gloves/roguetown/chain/paalloy = 1,
 		/obj/item/clothing/under/roguetown/platelegs/paalloy = 1,

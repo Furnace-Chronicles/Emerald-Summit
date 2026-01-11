@@ -32,8 +32,11 @@
 	is_flying_animal = TRUE
 	speak_emote = list("squeaks")
 	base_intents = list(/datum/intent/bite)
-	
+	see_in_dark = 8
+	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
+
 	var/fly_time = 5 //5 ticks because vampire bats are agile
+	flying = TRUE
 
 	var/max_co2 = 0 //to be removed once metastation map no longer use those for Sgt Araneus
 	var/min_oxy = 0

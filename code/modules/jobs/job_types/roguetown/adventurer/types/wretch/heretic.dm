@@ -3,7 +3,7 @@
 	tutorial = "You father your unholy cause through the most time-tested of ways: hard, heavy steel in both arms and armor."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/wretch/heretic
+	outfit = /datum/outfit/job/wretch/heretic
 	category_tags = list(CTAG_WRETCH)
 	extra_context = "If your patron is the following: Psydon, Astrata, Ravox, Necra or Eora, your patron will be set to ZIZO. Excommunication does not work on the Ten worshippers."
 
@@ -32,10 +32,10 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/wretch/heretic
+/datum/outfit/job/wretch/heretic
 	has_loadout = TRUE
 
-/datum/outfit/job/roguetown/wretch/heretic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/wretch/heretic/pre_equip(mob/living/carbon/human/H)
 	..()
 	if ((istype(H.patron, /datum/patron/divine/astrata) || istype(H.patron, /datum/patron/divine/necra) || istype(H.patron, /datum/patron/divine/eora) || istype(H.patron, /datum/patron/divine/ravox) || istype(H.patron, /datum/patron/old_god)))
 		to_chat(H, span_warning("My former deity frowned upon my practices. I have since turned to ZIZO..."))
@@ -44,7 +44,7 @@
 	H.mind.current.faction += "[H.name]_faction"
 	H.set_blindness(0)
 	var/weapons = list("Longsword", "Mace", "Flail", "Axe", "Spear")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Longsword")
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
@@ -89,10 +89,10 @@
 		)
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_4)	//Minor regen, can level up to T4.
+	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)	//Minor regen, starts maxed out.
 	wretch_select_bounty(H)
 
-/datum/outfit/job/roguetown/wretch/heretic/choose_loadout(mob/living/carbon/human/H) // some got +1 to their relevant patron skill
+/datum/outfit/job/wretch/heretic/choose_loadout(mob/living/carbon/human/H) // some got +1 to their relevant patron skill
 	. = ..()
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
@@ -108,6 +108,7 @@
 		if(/datum/patron/inhumen/matthios)
 			H.cmode_music = 'sound/music/combat_matthios.ogg'
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/matt, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/zcross/matthios, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/cape/crusader, SLOT_CLOAK, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/facemask/steel, SLOT_WEAR_MASK, TRUE)
 			H.grant_language(/datum/language/thievescant)
@@ -123,6 +124,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/cooking, SKILL_LEVEL_JOURNEYMAN, TRUE) // jessie we have to cook
 			ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/graggar)
 			H.cmode_music = 'sound/music/combat_graggar.ogg'
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/grag, SLOT_HEAD, TRUE)
@@ -175,6 +177,7 @@
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 			H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE, TRUE)
+			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 //		if(/datum/patron/divine/eora) // I like Eora but I find it impossible to come up with a reason for an Eoran to be a wretch heretic
 //			cloak = /obj/item/clothing/cloak/templar/eoran
 //			id = /obj/item/clothing/neck/roguetown/psicross/eora
@@ -189,6 +192,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_LEGENDARY, TRUE)// Really good at reading... does this really do anything? No. BUT it's soulful.
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
+			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 //		if(/datum/patron/divine/ravox) //validhunting god, not even Ares. Whiteknight the god, so no.
 //			cloak = /obj/item/clothing/cloak/templar/ravox
 //			id = /obj/item/clothing/neck/roguetown/psicross/ravox
@@ -212,7 +216,7 @@
 /datum/advclass/wretch/heretic/wanderer
 	name = "Heretic Wanderer"
 	tutorial = "Nimble of dagger and foot both, you are the shadowy herald of the cabal. They will not see you coming."
-	outfit = /datum/outfit/job/roguetown/wretch/heretic_wanderer
+	outfit = /datum/outfit/job/wretch/heretic_wanderer
 
 	traits_applied = list(TRAIT_RITUALIST, TRAIT_DODGEEXPERT, TRAIT_HERETIC_DEVOUT)
 	//Slower than outlaw, but a bit more PER and INT
@@ -241,10 +245,10 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/wretch/heretic_wanderer
+/datum/outfit/job/wretch/heretic_wanderer
 	has_loadout = TRUE
 
-/datum/outfit/job/roguetown/wretch/heretic_wanderer/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/wretch/heretic_wanderer/pre_equip(mob/living/carbon/human/H)
 	..()
 	if ((istype(H.patron, /datum/patron/divine/astrata) || istype(H.patron, /datum/patron/divine/necra) || istype(H.patron, /datum/patron/divine/eora) || istype(H.patron, /datum/patron/divine/ravox) || istype(H.patron, /datum/patron/old_god)))
 		to_chat(H, span_warning("My former deity frowned upon my practices. I have since turned to ZIZO..."))
@@ -270,7 +274,7 @@
 		)
 	H.cmode_music = 'sound/music/combat_heretic.ogg'
 	var/weapons = list("Rapier","Dagger", "Whip & Hunting Knife", "Bow", "Crossbow")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Rapier")
@@ -301,10 +305,10 @@
 			H.mind.current.faction += "[H.name]_faction"
 		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_4)	//Minor regen, can level up to T4.
+	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)	//Minor regen, starts maxed out.
 	wretch_select_bounty(H)
 
-/datum/outfit/job/roguetown/wretch/heretic_wanderer/choose_loadout(mob/living/carbon/human/H) // some got +1 to their patron skill, same deal as armoured heretics
+/datum/outfit/job/wretch/heretic_wanderer/choose_loadout(mob/living/carbon/human/H) // some got +1 to their patron skill, same deal as armoured heretics
 	. = ..()
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
@@ -329,6 +333,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/cooking, SKILL_LEVEL_JOURNEYMAN, TRUE) // Jessie we have to cook
 			ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/graggar)
 			H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/facemask/copper, SLOT_WEAR_MASK, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/cape/crusader, SLOT_CLOAK, TRUE)
@@ -373,6 +378,7 @@
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 			H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE, TRUE)
+			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 //		if(/datum/patron/divine/eora)
 //			id = /obj/item/clothing/neck/roguetown/psicross/eora
 //			ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
@@ -384,6 +390,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_LEGENDARY, TRUE)// Really good at reading... does this really do anything? No. BUT it's soulful.
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
+			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 //		if(/datum/patron/divine/ravox)
 //			id = /obj/item/clothing/neck/roguetown/psicross/ravox
 //			H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)

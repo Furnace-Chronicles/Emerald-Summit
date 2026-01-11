@@ -402,3 +402,23 @@
 	anvilrepair = null
 	sewrepair = TRUE
 	unarmed_bonus = 1.15
+
+/obj/item/clothing/gloves/roguetown/plate/ogre
+	name = "oversized gauntlets"
+	desc = "Huge, iron gaunlets - the size of a human head."
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/32x64/ogre_onmob_sleeves.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	icon_state = "ogregrabbers"
+	allowed_race = OGRE_RACE_TYPES
+	armor = ARMOR_GLOVES_PLATE
+	prevent_crits = list(BCLASS_CHOP, BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+
+/obj/item/clothing/gloves/roguetown/leather/ogre
+	name = "oversized gloves"
+	desc = "Huge, leather gloves - the size of a human head."
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/32x64/ogre_onmob_sleeves.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	icon_state = "ogreglove"
+	allowed_race = OGRE_RACE_TYPES
+	armor = ARMOR_GLOVES_LEATHER_GOOD
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT)

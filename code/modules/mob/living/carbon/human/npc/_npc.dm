@@ -959,7 +959,7 @@
 
 	for(var/datum/spatial_grid_cell/grid as anything in our_cells.member_cells)
 		if(length(grid.client_contents))
-			if(mode != NPC_AI_SLEEP || mode != NPC_AI_IDLE)
+			if(mode != NPC_AI_SLEEP && mode != NPC_AI_IDLE)
 				return TRUE
 			set_ai_mode(NPC_AI_IDLE)
 			return TRUE

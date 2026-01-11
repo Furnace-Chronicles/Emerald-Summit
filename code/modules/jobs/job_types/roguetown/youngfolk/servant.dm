@@ -1,6 +1,5 @@
 /datum/job/roguetown/servant
 	title = "Servant"
-//	f_title = "Maid"
 	flag = SERVANT
 	department_flag = YOUNGFOLK
 	faction = "Station"
@@ -11,7 +10,7 @@
 		/datum/species/lamia,
 	)
 	tutorial = "Granted a life of comfortable servitude in the Duke's manor, you follow the Seneschal's commands and spend your day performing necessary but menial tasks. This role offers an aesthetic choice between labor-servant, maid, and butler."
-	outfit = /datum/outfit/job/roguetown/servant
+	outfit = /datum/outfit/job/servant
 	advclass_cat_rolls = list(CTAG_SERVANT = 20)
 	display_order = JDO_SERVANT
 	give_bank_account = TRUE
@@ -28,14 +27,12 @@
 		/datum/advclass/servant/butler
 	)
 
-/datum/advclass/servant
-	traits_applied = list(TRAIT_CICERONE)
-
 /datum/advclass/servant/servant
 	name = "Servant"
 	tutorial = "You are a humdrum servant, dressed the part; lowly and best out of sight. It's practical, however."
-	outfit = /datum/outfit/job/roguetown/servant/servant
+	outfit = /datum/outfit/job/servant/servant
 	category_tags = list(CTAG_SERVANT)
+	traits_applied = list(TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_SLEUTH, TRAIT_ROYALSERVANT, TRAIT_FOOD_STIPEND)
 
 	subclass_stats = list(
 		STATKEY_PER = 2,
@@ -54,9 +51,11 @@
 		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE
 	)
 
-/datum/outfit/job/roguetown/servant/servant/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/servant/servant/pre_equip(mob/living/carbon/human/H)
 	..()
 	pants = /obj/item/clothing/under/roguetown/trou
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
@@ -81,7 +80,7 @@
 /datum/advclass/servant/maid
 	name = "Maid"
 	tutorial = "Not one really mentions how hard it is to do yardwork in a dress and stockings, but at least you still look really good."
-	outfit = /datum/outfit/job/roguetown/servant/maid
+	outfit = /datum/outfit/job/servant/maid
 	category_tags = list(CTAG_SERVANT)
 
 	subclass_stats = list(
@@ -89,7 +88,7 @@
 		STATKEY_INT = 1,
 		STATKEY_SPD = 1
 	)
-
+	traits_applied = list(TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_SLEUTH, TRAIT_ROYALSERVANT, TRAIT_FOOD_STIPEND)
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN,
@@ -101,9 +100,11 @@
 		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
-	)
+		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE
+		)
 
-/datum/outfit/job/roguetown/servant/maid/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/servant/maid/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/armingcap
 	armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/black
@@ -127,7 +128,7 @@
 /datum/advclass/servant/butler
 	name = "Butler"
 	tutorial = "An impeccable appearance is your core being. You still dig through the mud, though, you just do the laundry more."
-	outfit = /datum/outfit/job/roguetown/servant/butler
+	outfit = /datum/outfit/job/servant/butler
 	category_tags = list(CTAG_SERVANT)
 
 	subclass_stats = list(
@@ -135,7 +136,7 @@
 		STATKEY_INT = 1,
 		STATKEY_SPD = 1
 	)
-
+	traits_applied = list(TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_SLEUTH, TRAIT_ROYALSERVANT, TRAIT_FOOD_STIPEND)
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN,
@@ -147,9 +148,11 @@
 		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
-	)
+		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE
+		)
 
-/datum/outfit/job/roguetown/servant/butler/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/servant/butler/pre_equip(mob/living/carbon/human/H)
 	..()
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt

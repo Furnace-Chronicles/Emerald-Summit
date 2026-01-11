@@ -3,7 +3,7 @@
 	tutorial = "The Church has found you bereft of mercy, and you walk the lands of Scarlet Reach with nothing but the tattered shreds of the faith you cling to."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/vagabond/excommunicated
+	outfit = /datum/outfit/job/vagabond/excommunicated
 	category_tags = list(CTAG_VAGABOND)
 
 	subclass_stats = list(
@@ -20,7 +20,7 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 	)
 	
-/datum/outfit/job/roguetown/vagabond/excommunicated/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/vagabond/excommunicated/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/rags
@@ -58,6 +58,8 @@
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
+		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
+		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
 	if(H.patron?.type == /datum/patron/inhumen/baotha)
 		H.adjust_skillrank(/datum/skill/misc/music, 2, TRUE)
 		H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)

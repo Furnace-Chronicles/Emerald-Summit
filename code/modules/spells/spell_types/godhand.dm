@@ -1,7 +1,7 @@
 /obj/item/melee/touch_attack
 	name = "\improper outstretched hand"
 	desc = ""
-	var/catchphrase = "High Five!"
+	var/catchphrase = ""
 	var/on_use_sound = null
 	var/obj/effect/proc_holder/spell/targeted/touch/attached_spell
 	icon = 'icons/obj/balloons.dmi'
@@ -34,7 +34,7 @@
 	if(!proximity)
 		return
 	user.say(catchphrase, forced = "spell")
-	playsound(get_turf(user), on_use_sound,50,TRUE)
+	playsound(user, on_use_sound,50,TRUE)
 	charges--
 	if(charges <= 0)
 		qdel(src)

@@ -48,6 +48,8 @@ SUBSYSTEM_DEF(ticker)
 	var/queue_delay = 0
 	var/list/queued_players = list()		//used for join queues when the server exceeds the hard population cap
 
+	var/init_start = 0						//Time when setup() began, for total roundstart timing
+
 	var/maprotatechecked = 0
 
 	var/news_report
@@ -78,6 +80,9 @@ SUBSYSTEM_DEF(ticker)
 
 	var/next_lord_check = 0
 	var/missing_lord_time = 0
+
+	/// Sunsteal gamestate bool.
+	var/sunstolen = FALSE
 
 /datum/controller/subsystem/ticker/Initialize(timeofday)
 	load_mode()
@@ -302,8 +307,8 @@ SUBSYSTEM_DEF(ticker)
 
 /datum/controller/subsystem/ticker/proc/setup()
 	message_admins(span_boldannounce("Starting game..."))
-	var/init_start = world.timeofday
-		
+	init_start = world.timeofday
+	var/phase_time = 0
 
 	CHECK_TICK
 	//Configure mode and assign player to special mode stuff
@@ -311,11 +316,15 @@ SUBSYSTEM_DEF(ticker)
 
 	CHECK_TICK
 
+	phase_time = world.timeofday
 	can_continue =	SSgamemode.pre_setup()
+	log_game("TIMING: gamemode.pre_setup took [DisplayTimeText((world.timeofday - phase_time) * 0.1)]")
 
 	CHECK_TICK
 
+	phase_time = world.timeofday
 	can_continue = can_continue && SSjob.DivideOccupations(list()) 				//Distribute jobs
+	log_game("TIMING: DivideOccupations took [DisplayTimeText((world.timeofday - phase_time) * 0.1)]")
 
 	CHECK_TICK
 
@@ -329,20 +338,32 @@ SUBSYSTEM_DEF(ticker)
 	CHECK_TICK
 	GLOB.start_landmarks_list = shuffle(GLOB.start_landmarks_list) //Shuffle the order of spawn points so they dont always predictably spawn bottom-up and right-to-left
 	if(!isrogueworld && !isroguefight)
+		phase_time = world.timeofday
 		create_characters() //Create player characters
-		log_game("GAME SETUP: create characters success")
-		collect_minds()
-		log_game("GAME SETUP: collect minds success")
-		equip_characters()
-		log_game("GAME SETUP: equip characters success")
+		log_game("TIMING: create_characters took [DisplayTimeText((world.timeofday - phase_time) * 0.1)]")
+		log_game("GAME SETUP: creating characters & collecting minds success")
+	
+	// Build job knowledge cache now that minds are collected
+	// This happens BEFORE equip_characters() so cache is ready when populate_job_knowledge() is called
+	phase_time = world.timeofday
+	SSjob.build_job_minds_cache()
+	log_game("TIMING: build_job_minds_cache took [DisplayTimeText((world.timeofday - phase_time) * 0.1)]")
+	log_game("GAME SETUP: job knowledge cache built")
+	
+	phase_time = world.timeofday
+	equip_characters()
+	log_game("TIMING: equip_characters took [DisplayTimeText((world.timeofday - phase_time) * 0.1)]")
+	log_game("GAME SETUP: equip characters success")
 
-		GLOB.data_core.manifest()
-		log_game("GAME SETUP: manifest success")
+	phase_time = world.timeofday
+	GLOB.data_core.manifest()
+	log_game("TIMING: manifest took [DisplayTimeText((world.timeofday - phase_time) * 0.1)]")
+	log_game("GAME SETUP: manifest success")
 
-		transfer_characters()	//transfer keys to the new mobs
-		log_game("GAME SETUP: transfer characters success")
-
-
+	phase_time = world.timeofday
+	transfer_characters()	//transfer keys to the new mobs
+	log_game("TIMING: transfer_characters took [DisplayTimeText((world.timeofday - phase_time) * 0.1)]")
+	log_game("GAME SETUP: transfer characters success")
 
 	for(var/I in round_start_events)
 		var/datum/callback/cb = I
@@ -352,22 +373,24 @@ SUBSYSTEM_DEF(ticker)
 	LAZYCLEARLIST(round_start_events)
 	CHECK_TICK
 	if(isrogueworld)
+		// Cache valid z-levels list once
+		var/static/list/valid_z_levels = list(2,3,4,5)
+		
 		for(var/obj/structure/fluff/traveltile/TT in GLOB.traveltiles)
 			if(TT.aallmig)
 				TT.aportalgoesto = TT.aallmig
-		for(var/i in GLOB.mob_living_list)
-			var/mob/living/L = i
-			var/turf/T = get_turf(L)
-			if(!T || !(T.z in list(2,3,4,5)))
+		
+		for(var/mob/living/L as anything in GLOB.mob_living_list)
+			var/turf/T = L.loc
+			if(isturf(T) && (T.z in valid_z_levels))
 				continue
 			qdel(L)
-		for(var/i in SSmachines.processing)
-			var/obj/machinery/light/L = i
-			if(istype(L))
-				var/turf/T = get_turf(L)
-				if(!T || !(T.z in list(2,3,4,5)))
-					continue
-				qdel(L)
+		
+		for(var/obj/machinery/light/L as anything in SSmachines.processing)
+			var/turf/T = L.loc
+			if(isturf(T) && (T.z in valid_z_levels))
+				continue
+			qdel(L)
 
 	log_game("GAME SETUP: Game start took [(world.timeofday - init_start)/10]s")
 	round_start_time = world.time
@@ -451,6 +474,7 @@ SUBSYSTEM_DEF(ticker)
 			explosion(epi, 0, 256, 512, 0, TRUE, TRUE, 0, TRUE)
 
 /datum/controller/subsystem/ticker/proc/create_characters()
+	// Combined loop: create characters AND collect minds simultaneously
 	for(var/i in GLOB.new_player_list)
 		var/mob/dead/new_player/player = i
 		if(!player)
@@ -464,53 +488,150 @@ SUBSYSTEM_DEF(ticker)
 			player.create_character(FALSE)
 		else
 			player.new_player_panel()
-		CHECK_TICK
-
-/datum/controller/subsystem/ticker/proc/collect_minds()
-	for(var/i in GLOB.new_player_list)
-		var/mob/dead/new_player/P = i
-		if(P.new_character && P.new_character.mind)
-			SSticker.minds += P.new_character.mind
+		
+		// Collect mind immediately after character creation
+		if(player.new_character && player.new_character.mind)
+			SSticker.minds += player.new_character.mind
 		CHECK_TICK
 
 /datum/controller/subsystem/ticker/proc/equip_characters()
 	var/list/valid_characters = list()
 	for(var/mob/dead/new_player/new_player as anything in GLOB.new_player_list)
 		var/mob/living/carbon/human/player = new_player.new_character
-		if(istype(player) && player.mind?.assigned_role)
-			if(player.mind.assigned_role != player.mind.special_role)
-				valid_characters[player] = new_player
+		if(!ishuman(player))
+			continue
+		var/datum/mind/M = player.mind
+		if(!M?.assigned_role || M.assigned_role == M.special_role)
+			continue
+		valid_characters[player] = new_player
 	sortTim(valid_characters, GLOBAL_PROC_REF(cmp_assignedrole_dsc))
+	
+	var/player_count = 0
+	var/start_time = world.timeofday
+	log_game("EQUIP START: Processing [valid_characters.len] players")
+	
 	for(var/mob/character as anything in valid_characters)
+		player_count++
+		var/player_start = world.timeofday
 		var/mob/new_player = valid_characters[character]
 		SSjob.EquipRank(new_player, character.mind.assigned_role, joined_late = FALSE)
+		var/player_time = world.timeofday - player_start
+		
+		if(player_time > 10) // Log if any single player takes >1 second
+			log_game("EQUIP SLOW: Player [player_count]/[valid_characters.len] ([character.mind.assigned_role]) took [DisplayTimeText(player_time * 0.1)]")
+		
+		if(player_count % 10 == 0) // Progress update every 10 players
+			log_game("EQUIP PROGRESS: [player_count]/[valid_characters.len] done, [DisplayTimeText((world.timeofday - start_time) * 0.1)] elapsed")
+		
 		CHECK_TICK
+	
+	var/total_time = world.timeofday - start_time
+	log_game("EQUIP COMPLETE: [valid_characters.len] players in [DisplayTimeText(total_time * 0.1)] (avg [valid_characters.len? (DisplayTimeText(total_time / valid_characters.len * 0.1)) : DisplayTimeText(total_time)] per player)")
 
 /datum/controller/subsystem/ticker/proc/transfer_characters()
 	var/list/livings = list()
+	var/list/transferred_new_players = list() // Cache for cleanup after Login() completes
+	var/transferred = 0
+	var/advclass_count = 0
+	var/disconnected_count = 0
+	var/start_time = world.timeofday
+	
+	log_game("TRANSFER: Starting transfer of [GLOB.joined_player_list.len] players")
+	
 	for(var/i in GLOB.new_player_list)
 		var/mob/dead/new_player/player = i
-		var/mob/living = player?.transfer_character()
+		
+		// Skip lobby players - only transfer those with new_character set
+		if(!player.new_character)
+			continue
+		
+		// Track disconnects during transfer
+		var/player_ckey = player?.ckey || "Unknown"
+		var/had_client = (player?.client ? TRUE : FALSE)
+		
+		var/mob/living = player?.transfer_character(delay_deletion = TRUE)
 		if(living)
-			qdel(player)
+			// Cache this for cleanup after Login() completes
+			transferred_new_players += player
 			living.notransform = TRUE
 			if(living.client)
 				var/atom/movable/screen/splash/S = new(living.client, TRUE)
 				S.Fade(TRUE)
 			livings += living
+			transferred++
+			
 			if(ishuman(living))
-				SSrole_class_handler.setup_class_handler(living)
+				var/mob/living/carbon/human/H = living
+				var/datum/job/J = H.job ? SSjob.GetJob(H.job) : null
+				var/has_advclass = (J && length(J.advclass_cat_rolls))
+				
+				if(has_advclass)
+					// Advclass jobs handle loadout after class selection
+					if(H.client)
+						SSrole_class_handler.setup_class_handler(living)
+						advclass_count++
+					else
+						// Player disconnected before advclass selection could start
+						log_game("TRANSFER DISCONNECT: [player_ckey] disconnected before advclass setup for [H.job]")
+						message_admins(span_boldwarning("Player [player_ckey] disconnected before advclass selection for [H.job]"))
+						disconnected_count++
+				else if(J?.outfit)
+					// Non-advclass: trigger loadout immediately (no timer wait)
+					var/datum/outfit/job/roguetown/RO = J.outfit
+					if(initial(RO.has_loadout))
+						// Call choose_loadout without instantiating new outfit (already equipped)
+						call(RO, "choose_loadout")(H)
+				
+				// Process deferred knowledge population (for all jobs)
+				if(H.mind?.needs_knowledge_processing && J && hascall(J, "do_populate_job_knowledge"))
+					J.do_populate_job_knowledge(H)
+					H.mind.needs_knowledge_processing = FALSE
+				
 				try_apply_character_post_equipment(living)
-		else
-			continue
+		else if(had_client)
+			// Player disconnected during transfer_character()
+			log_game("TRANSFER DISCONNECT: [player_ckey] disconnected during transfer_character()")
+			message_admins(span_boldwarning("Player [player_ckey] disconnected during character transfer"))
+			disconnected_count++
+	
+	var/total_time = world.timeofday - start_time
+	log_game("TRANSFER COMPLETE: [transferred] players transferred in [DisplayTimeText(total_time * 0.1)] ([advclass_count] advclass, [disconnected_count] disconnected)")
+	
 	if(livings.len)
 		addtimer(CALLBACK(src, PROC_REF(release_characters), livings), 30, TIMER_CLIENT_TIME)
+	
+	// Schedule cleanup of transferred new_player mobs after Login() completes
+	// 60 seconds to be safe - gives plenty of time for all logins to finish even under heavy load
+	if(transferred_new_players.len)
+		addtimer(CALLBACK(src, PROC_REF(cleanup_transferred_new_players), transferred_new_players), 600, TIMER_STOPPABLE)
+		log_game("TRANSFER: Scheduled cleanup of [transferred_new_players.len] new_player mobs in 60 seconds")
 
 /datum/controller/subsystem/ticker/proc/release_characters(list/livings)
 	for(var/I in livings)
 		var/mob/living/L = I
 		if(L)
 			L?.notransform = FALSE
+
+/datum/controller/subsystem/ticker/proc/cleanup_transferred_new_players(list/transferred_mobs)
+	log_game("CLEANUP: Deleting [transferred_mobs.len] transferred new_player mobs")
+	var/deleted_count = 0
+	var/skipped_count = 0
+	
+	for(var/mob/dead/new_player/NP in transferred_mobs)
+		if(!NP)
+			continue
+		
+		// Safety check: Don't delete if client still exists (shouldn't happen, but be safe)
+		if(NP.client)
+			log_game("CLEANUP WARNING: Skipping [NP.ckey] - client still attached to new_player mob")
+			message_admins(span_warning("CLEANUP: Skipped deleting new_player for [NP.ckey] - client still attached"))
+			skipped_count++
+			continue
+		
+		qdel(NP)
+		deleted_count++
+	
+	log_game("CLEANUP: Deleted [deleted_count] new_player mobs ([skipped_count] skipped)")
 
 /datum/controller/subsystem/ticker/proc/send_tip_of_the_round()
 	return
@@ -549,7 +670,7 @@ SUBSYSTEM_DEF(ticker)
 			listclearnulls(queued_players)
 			if(living_player_count() < hpc)
 				if(next_in_line && next_in_line.client)
-					to_chat(next_in_line, span_danger("A slot has opened! You have approximately 20 seconds to join. <a href='?src=[REF(next_in_line)];late_join=override'>\>\>Join Game\<\<</a>"))
+					to_chat(next_in_line, span_danger("A slot has opened! You have approximately 20 seconds to join. <a href='?src=[REF(next_in_line)];late_join=override'>>>Join Game<<</a>"))
 					SEND_SOUND(next_in_line, sound('sound/blank.ogg'))
 					next_in_line.LateChoices()
 					return
@@ -754,3 +875,68 @@ SUBSYSTEM_DEF(ticker)
 	update_everything_flag_in_db()
 
 	text2file(login_music, "data/last_round_lobby_music.txt")
+
+/// Wrapper for sunsteal proc
+/datum/controller/subsystem/ticker/proc/sunsteal(mob/living/sunstealer)
+	ASSERT(sunstealer)
+	RegisterSignal(sunstealer, list(COMSIG_QDELETING, COMSIG_MOB_DEATH), PROC_REF(on_sunstealer_death))
+	INVOKE_ASYNC(src, PROC_REF(on_sunsteal)) // Invoke async since on_sunsteal() sleeps in CHECK_TICK
+
+/// Proc called when the sunstealer successfully steals the sun, causing world-wide effects
+/datum/controller/subsystem/ticker/proc/on_sunsteal()
+	GLOB.todoverride = "night"
+	settod()
+	priority_announce("The Sun is torn from the sky!", "Terrible Omen", 'sound/misc/astratascream.ogg')
+	addomen(OMEN_SUNSTEAL)
+	SSParticleWeather.run_weather(/datum/particle_weather/fog/blood, TRUE)
+	for(var/mob/living/carbon/human/astrater as anything in GLOB.human_list)
+		if(!istype(astrater.patron, /datum/patron/divine/astrata))
+			continue
+		to_chat(astrater, span_userdanger("You feel the pain of [astrater.patron]!"))
+		astrater.emote("painscream", intentional = FALSE)
+
+	for(var/turf/open/water/W in world)
+		W.water_reagent = /datum/reagent/blood
+		W.water_color = "#C80000"
+		W.mapped = FALSE
+		W.update_icon()
+		CHECK_TICK
+
+	for(var/obj/machinery/light/light in GLOB.machines)
+		if(prob(40))
+			light.extinguish()
+		else
+			light.flicker(rand(2, 5))
+		CHECK_TICK
+
+	for(var/obj/item/flashlight/flare/torch/torch in GLOB.weather_act_upon_list)
+		torch.turn_off()
+		CHECK_TICK
+
+	for(var/obj/structure/soil/soil in GLOB.soil_list)
+		soil.plant_dead = TRUE
+		soil.produce_ready = FALSE
+		soil.update_icon()
+		CHECK_TICK
+
+	for(var/mob/living/carbon/human in GLOB.human_list)
+		if(human.clan)
+			continue
+
+		human.stress_freakout()
+
+	var/list/spawn_locs = GLOB.hauntstart.Copy()
+	if(LAZYLEN(GLOB.hauntstart))
+		for(var/i in 1 to 20)
+			var/obj/effect/landmark/events/haunts/_T = pick_n_take(spawn_locs)
+			if(_T)
+				_T = get_turf(_T)
+				if(isfloorturf(_T))
+					new /mob/living/carbon/human/species/skeleton/npc(_T)
+
+/// Returns universe state to normal after the sunstealer has been slain
+/datum/controller/subsystem/ticker/proc/on_sunstealer_death()
+	GLOB.todoverride = null
+	sunstolen = FALSE
+	settod()
+	SSParticleWeather.run_weather(/datum/particle_weather/rain_gentle, TRUE)

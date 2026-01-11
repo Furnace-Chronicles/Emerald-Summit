@@ -3,6 +3,10 @@
 
 /datum/job/roguetown/New()
 	. = ..()
+	// Universal knowledge: Everyone knows nobles
+	if(!length(universal_known_jobs))
+		for(var/X in GLOB.noble_positions)
+			universal_known_jobs += X
 	if(give_bank_account)
 		for(var/X in GLOB.peasant_positions)
 			peopleiknow += X
@@ -40,19 +44,18 @@
 	back = null
 	shoes = null
 	box = null
-	/// List of patrons we are allowed to use
-	var/list/allowed_patrons
-	/// Default patron in case the patron is not allowed
-	var/datum/patron/default_patron
-	/// This is our bitflag for storyteller rolling.
-	var/job_bitflag = NONE
-	/// Can select equipment after you spawn in.
-	var/has_loadout = FALSE
 
 /datum/outfit/job/roguetown/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	. = ..()
 	var/datum/patron/old_patron = H.patron
-	if(length(allowed_patrons) && (!old_patron || !(old_patron.type in allowed_patrons)))
+	var/allowed = FALSE
+	for(var/path in allowed_patrons)
+		if(istype(old_patron, path))
+			allowed = TRUE
+			break
+	if(allowed)
+		return
+	else
 		var/list/datum/patron/possiblegods = list()
 		var/list/datum/patron/preferredgods = list()
 		for(var/god in GLOB.patronlist)
@@ -92,13 +95,5 @@
 	for(var/list_key in SStriumphs.post_equip_calls)
 		var/datum/triumph_buy/thing = SStriumphs.post_equip_calls[list_key]
 		thing.on_activate(H)
-	if(has_loadout && H.mind)
-		addtimer(CALLBACK(src, PROC_REF(choose_loadout), H), 50)
+	// Loadout handled during transfer_characters() or finish_class_handler()
 	return
-
-/datum/outfit/job/roguetown/proc/choose_loadout(mob/living/carbon/human/H)
-	if(!has_loadout)
-		return
-	if(!H.client)
-		addtimer(CALLBACK(src, PROC_REF(choose_loadout), H), 50)
-		return

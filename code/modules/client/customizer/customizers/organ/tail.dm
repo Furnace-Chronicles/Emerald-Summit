@@ -70,6 +70,8 @@
 		/datum/sprite_accessory/tail/axolotl,
 		/datum/sprite_accessory/tail/batl,
 		/datum/sprite_accessory/tail/bats,
+		/datum/sprite_accessory/tail/batlmaw,
+		/datum/sprite_accessory/tail/batsmaw,
 		/datum/sprite_accessory/tail/bee,
 		/datum/sprite_accessory/tail/catbig,
 		/datum/sprite_accessory/tail/twocat,
@@ -105,6 +107,7 @@
 		/datum/sprite_accessory/tail/squirrel,
 		/datum/sprite_accessory/tail/tamamo_kitsune,
 		/datum/sprite_accessory/tail/tentacle,
+		/datum/sprite_accessory/tail/tentaclemaw,
 		/datum/sprite_accessory/tail/tiger,
 		/datum/sprite_accessory/tail/wolf,
 		/datum/sprite_accessory/tail/guilmon,
@@ -112,11 +115,13 @@
 		/datum/sprite_accessory/tail/raptor,
 		/datum/sprite_accessory/tail/lunasune,
 		/datum/sprite_accessory/tail/spade,
+		/datum/sprite_accessory/tail/spademaw,
 		/datum/sprite_accessory/tail/leopard,
 		/datum/sprite_accessory/tail/deer,
 		/datum/sprite_accessory/tail/raccoon,
 		/datum/sprite_accessory/tail/sabresune,
 		/datum/sprite_accessory/tail/rattlesnake,
+		/datum/sprite_accessory/tail/rattlesnakemaw,
 		/datum/sprite_accessory/tail/lynx,
 		/datum/sprite_accessory/tail/pinecone
 	)
@@ -153,6 +158,8 @@
 		/datum/sprite_accessory/tail/axolotl,
 		/datum/sprite_accessory/tail/batl,
 		/datum/sprite_accessory/tail/bats,
+		/datum/sprite_accessory/tail/batlmaw,
+		/datum/sprite_accessory/tail/batsmaw,
 		/datum/sprite_accessory/tail/bee,
 		/datum/sprite_accessory/tail/catbig,
 		/datum/sprite_accessory/tail/twocat,
@@ -188,6 +195,7 @@
 		/datum/sprite_accessory/tail/squirrel,
 		/datum/sprite_accessory/tail/tamamo_kitsune,
 		/datum/sprite_accessory/tail/tentacle,
+		/datum/sprite_accessory/tail/tentaclemaw,
 		/datum/sprite_accessory/tail/tiger,
 		/datum/sprite_accessory/tail/wolf,
 		/datum/sprite_accessory/tail/guilmon,
@@ -202,6 +210,7 @@
 		/datum/sprite_accessory/tail/lizard/ltiger,
 		/datum/sprite_accessory/tail/lizard/spikes,
 		/datum/sprite_accessory/tail/rattlesnake,
+		/datum/sprite_accessory/tail/rattlesnakemaw,
 		/datum/sprite_accessory/tail/lynx,
 		/datum/sprite_accessory/tail/owl,
 		/datum/sprite_accessory/tail/forked_long,
@@ -218,6 +227,7 @@
 	sprite_accessories = list(
 		/datum/sprite_accessory/tail/tiefling,
 		/datum/sprite_accessory/tail/tiefling/heart,
+		/datum/sprite_accessory/tail/tiefling/heartmaw,
 		/datum/sprite_accessory/tail/tiefling/spade
 		)
 	allows_accessory_color_customization = TRUE
@@ -236,6 +246,8 @@
 		/datum/sprite_accessory/tail/axolotl,
 		/datum/sprite_accessory/tail/batl,
 		/datum/sprite_accessory/tail/bats,
+		/datum/sprite_accessory/tail/batlmaw,
+		/datum/sprite_accessory/tail/batsmaw,
 		/datum/sprite_accessory/tail/bee,
 		/datum/sprite_accessory/tail/catbig,
 		/datum/sprite_accessory/tail/twocat,
@@ -271,12 +283,16 @@
 		/datum/sprite_accessory/tail/squirrel,
 		/datum/sprite_accessory/tail/tamamo_kitsune,
 		/datum/sprite_accessory/tail/tentacle,
+		/datum/sprite_accessory/tail/tentaclemaw,
 		/datum/sprite_accessory/tail/tiger,
 		/datum/sprite_accessory/tail/wolf,
 		/datum/sprite_accessory/tail/guilmon,
 		/datum/sprite_accessory/tail/sharknofin,
 		/datum/sprite_accessory/tail/raptor,
 		/datum/sprite_accessory/tail/spade,
+		/datum/sprite_accessory/tail/spademaw,
+		/datum/sprite_accessory/tail/tiefling/heart,
+		/datum/sprite_accessory/tail/tiefling/heartmaw,
 		/datum/sprite_accessory/tail/leopard,
 		/datum/sprite_accessory/tail/deer,
 		/datum/sprite_accessory/tail/raccoon,
@@ -286,6 +302,7 @@
 		/datum/sprite_accessory/tail/lizard/ltiger,
 		/datum/sprite_accessory/tail/lizard/spikes,
 		/datum/sprite_accessory/tail/rattlesnake,
+		/datum/sprite_accessory/tail/rattlesnakemaw,
 		/datum/sprite_accessory/tail/lynx,
 		/datum/sprite_accessory/tail/owl,
 		/datum/sprite_accessory/tail/forked_long,
@@ -303,11 +320,15 @@
 	name = "Wild-Kin Tail"
 	organ_type = /obj/item/organ/tail/anthro
 	sprite_accessories = list(
+		/datum/sprite_accessory/tail/tailmaw,
+		/datum/sprite_accessory/tail/tailmaw2,
 		/datum/sprite_accessory/tail/cat,
 		/datum/sprite_accessory/tail/monkey,
 		/datum/sprite_accessory/tail/axolotl,
 		/datum/sprite_accessory/tail/batl,
 		/datum/sprite_accessory/tail/bats,
+		/datum/sprite_accessory/tail/batlmaw,
+		/datum/sprite_accessory/tail/batsmaw,
 		/datum/sprite_accessory/tail/bee,
 		/datum/sprite_accessory/tail/catbig,
 		/datum/sprite_accessory/tail/twocat,
@@ -343,6 +364,7 @@
 		/datum/sprite_accessory/tail/squirrel,
 		/datum/sprite_accessory/tail/tamamo_kitsune,
 		/datum/sprite_accessory/tail/tentacle,
+		/datum/sprite_accessory/tail/tentaclemaw,
 		/datum/sprite_accessory/tail/tiger,
 		/datum/sprite_accessory/tail/wolf,
 		/datum/sprite_accessory/tail/guilmon,
@@ -350,6 +372,7 @@
 		/datum/sprite_accessory/tail/raptor,
 		/datum/sprite_accessory/tail/lunasune,
 		/datum/sprite_accessory/tail/spade,
+		/datum/sprite_accessory/tail/spademaw,
 		/datum/sprite_accessory/tail/leopard,
 		/datum/sprite_accessory/tail/deer,
 		/datum/sprite_accessory/tail/raccoon,
@@ -359,6 +382,7 @@
 		/datum/sprite_accessory/tail/lizard/ltiger,
 		/datum/sprite_accessory/tail/lizard/spikes,
 		/datum/sprite_accessory/tail/rattlesnake,
+		/datum/sprite_accessory/tail/rattlesnakemaw,
 		/datum/sprite_accessory/tail/lynx,
 		/datum/sprite_accessory/tail/owl,
 		/datum/sprite_accessory/tail/forked_long,
@@ -370,7 +394,8 @@
 /datum/customizer/organ/tail/harpy
 	name = "Harpy Plumage"
 	customizer_choices = list(/datum/customizer_choice/organ/tail/harpy)
-	allows_disabling = FALSE
+	allows_disabling = TRUE
+	default_disabled = TRUE
 
 /datum/customizer_choice/organ/tail/harpy
 	name = "Harpy Plumage"

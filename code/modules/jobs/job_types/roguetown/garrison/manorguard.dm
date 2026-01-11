@@ -18,7 +18,7 @@
 				Obey your Sergeant-at-Arms, the Marshal, and the Crown. Show the nobles and knights your respect, so that you may earn it in turn. Not as a commoner, but as a soldier.."
 	display_order = JDO_CASTLEGUARD
 	whitelist_req = TRUE
-	outfit = /datum/outfit/job/roguetown/manorguard
+	outfit = /datum/outfit/job/manorguard
 	advclass_cat_rolls = list(CTAG_MENATARMS = 20)
 	give_bank_account = 22
 	min_pq = 3
@@ -27,6 +27,9 @@
 	cmode_music = 'sound/music/combat_ManAtArms.ogg'
 	social_rank = SOCIAL_RANK_YEOMAN
 
+	virtue_restrictions = list(
+		/datum/virtue/utility/blacksmith, // we don't want you repairing your stuff in combat, sorry...
+	)
 	job_traits = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED)
 
 	job_subclasses = list(
@@ -35,7 +38,7 @@
 		/datum/advclass/manorguard/cavalry
 	)
 
-/datum/outfit/job/roguetown/manorguard
+/datum/outfit/job/manorguard
 	job_bitflag = BITFLAG_GARRISON
 
 /datum/job/roguetown/manorguard/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
@@ -51,9 +54,9 @@
 				index = H.real_name
 			S.name = "man-at-arms jupon ([index])"
 
-/datum/outfit/job/roguetown/manorguard
+/datum/outfit/job/manorguard
 	cloak = /obj/item/clothing/cloak/stabard/surcoat/guard
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	beltl = /obj/item/rogueweapon/mace/cudgel
@@ -65,7 +68,7 @@
 /datum/advclass/manorguard/footsman
 	name = "Footman"
 	tutorial = "You are a professional soldier of the realm, specializing in melee warfare. Stalwart and hardy, your body can both withstand and dish out powerful strikes.."
-	outfit = /datum/outfit/job/roguetown/manorguard/footsman
+	outfit = /datum/outfit/job/manorguard/footsman
 
 	category_tags = list(CTAG_MENATARMS)
 
@@ -77,17 +80,17 @@
 		STATKEY_END = 1
 	)
 
-	subclass_skills = list(
-	/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
-	/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
-	/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
-	/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
+	subclass_skills = list( // weaponskills used to be expert, but we're bringing them down to jman across the board. no more versatility!
+	/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN, 
+	/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/combat/whipsflails = SKILL_LEVEL_APPRENTICE,
 	/datum/skill/combat/slings = SKILL_LEVEL_NOVICE,
 	/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
-	/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
-	/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT, // wrestling stays relevant, unarmed goes down. You Have Weapons. Use Them.
+	/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 	/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
@@ -96,29 +99,37 @@
 	/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/manorguard/footsman/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/manorguard/footsman/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord		//Bit worse shirt protection than the archer
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale			//Makes up for worse shirt protection with kinda better armor protection
-	pants = /obj/item/clothing/under/roguetown/chainlegs
+	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	neck = /obj/item/clothing/neck/roguetown/gorget
 
 	H.adjust_blindness(-3)
-	var/weapons = list("Warhammer & Shield","Axe & Shield","Halberd","Greataxe")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapons = list("Warhammer & Shield","Axe & Shield","Sword & Shield","Halberd","Spear")
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Warhammer & Shield")
 			beltr = /obj/item/rogueweapon/mace/warhammer
 			backl = /obj/item/rogueweapon/shield/iron
+			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 		if("Axe & Shield")
 			beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel
 			backl = /obj/item/rogueweapon/shield/iron
+			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
+		if("Sword & Shield")
+			beltr = /obj/item/rogueweapon/sword/sabre
+			backl = /obj/item/rogueweapon/shield/iron
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("Halberd")
 			r_hand = /obj/item/rogueweapon/halberd
-		if("Greataxe")
-			r_hand = /obj/item/rogueweapon/greataxe
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
+		if("Spear")
+			r_hand = /obj/item/rogueweapon/spear
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rope/chain = 1,
@@ -135,7 +146,7 @@
 	"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
 	"None"
 	)
-	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
@@ -143,49 +154,50 @@
 /datum/advclass/manorguard/skirmisher
 	name = "Skirmisher"
 	tutorial = "You are a professional soldier of the realm, specializing in ranged implements and daggers. You sport a keen eye, looking for your enemies weaknesses."
-	outfit = /datum/outfit/job/roguetown/manorguard/skirmisher
+	outfit = /datum/outfit/job/manorguard/skirmisher
 
 	category_tags = list(CTAG_MENATARMS)
 
 	//Garrison ranged/speed class. Time to go wild
-	traits_applied = list(TRAIT_DODGEEXPERT)
+	// traits_applied = list(TRAIT_DODGEEXPERT) (removing this per request, can be tweaked later if needed)
+	traits_applied = list(TRAIT_MEDIUMARMOR) // given so they can't have arcyne potential. sorry! you can still dodge if you want.
 	subclass_stats = list(
-		STATKEY_SPD = 2,// seems kinda lame but remember guardsman bonus!!
+		STATKEY_SPD = 3,// +1 spd so they can use their missing DE a little better
 		STATKEY_PER = 2,
 		STATKEY_END = 1
 	)
-	extra_context = "Chooses between Light Armor (Dodge Expert) & Medium Armor."
+	// extra_context = "Chooses between Light Armor (Dodge Expert) & Medium Armor." (why does this exist? you don't choose anything anymore.)
 
 	subclass_skills = list(
-		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE, 		// Still have a cugel.
-		/datum/skill/combat/crossbows = SKILL_LEVEL_MASTER,		//Only effects draw and reload time.
-		/datum/skill/combat/bows = SKILL_LEVEL_MASTER,			//Only effects draw times.
+		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN, 		// Still have a cugel.
+		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,		//Only effects draw and reload time.
+		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT,			//Only effects draw times.
 		/datum/skill/combat/slings = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT, // A little better; run fast, weak boy.
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN, // lowered to jman. you're a bowman with a dagger, not a brawler. use your speed.
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/manorguard/skirmisher/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/manorguard/skirmisher/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord			// Cant wear chainmail anymoooree
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded		//Helps against arrows; makes sense for a ranged-type role.
-	neck = /obj/item/clothing/neck/roguetown/chaincoif
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/half		//Cuirass... Since they now have medium armor trait.
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 
 	H.adjust_blindness(-3)
-	var/weapons = list("Crossbow","Bow","Sling")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/rweapons = list("Crossbow","Bow","Sling")
+	var/rweapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in rweapons
 	H.set_blindness(0)
-	switch(weapon_choice)
+	switch(rweapon_choice)
 		if("Crossbow")
 			beltr = /obj/item/quiver/bolts
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
@@ -195,7 +207,16 @@
 		if("Sling")
 			beltr = /obj/item/quiver/sling/iron
 			r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling // Both are belt slots and it's not worth setting where the cugel goes for everyone else, sad.
-
+	var/weapons = list("Sword","Dagger","Trusty Cudgel")
+	var/weapons_choice = input(H, "Choose your melee weapon.", "TAKE UP ARMS") as anything in weapons
+	switch(weapons_choice)
+		if("Sword")
+			r_hand = /obj/item/rogueweapon/sword
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+		if("Dagger")
+			H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
+		if("Trusty Cudgel")
+			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rope/chain = 1,
@@ -212,15 +233,14 @@
 	"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
 	"None"
 	)
-	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
 /datum/advclass/manorguard/cavalry
 	name = "Cavalryman"
 	tutorial = "You are a professional soldier of the realm, specializing in the steady beat of hoof falls. Lighter and more expendable then the knights, you charge with lance in hand."
-	outfit = /datum/outfit/job/roguetown/manorguard/cavalry
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled //Since knights start with the Buck
+	outfit = /datum/outfit/job/manorguard/cavalry
 
 	category_tags = list(CTAG_MENATARMS)
 
@@ -234,8 +254,8 @@
 	)
 
 	subclass_skills = list(
-	/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
-	/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 	/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN, 		// Still have a cugel.
 	/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
@@ -245,31 +265,37 @@
 	/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN, 
 	/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
-	/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	/datum/skill/misc/riding = SKILL_LEVEL_EXPERT, 		// Like the other horselords.
 	/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,	//Best tracker. Might as well give it something to stick-out utility wise.
 	)
 
-/datum/outfit/job/roguetown/manorguard/cavalry/pre_equip(mob/living/carbon/human/H)
+	virtue_restrictions = list(
+		/datum/virtue/utility/riding
+	)
+
+/datum/outfit/job/manorguard/cavalry/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord		//Bit worse shirt protection than the archer -- as foot soldier.
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale			//Makes up for worse shirt protection with kinda better armor protection
-	pants = /obj/item/clothing/under/roguetown/chainlegs
+	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	neck = /obj/item/clothing/neck/roguetown/gorget
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Bardiche","Sword & Shield")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Bardiche")
 			r_hand = /obj/item/rogueweapon/halberd/bardiche
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 		if("Sword & Shield")
-			beltr = /obj/item/rogueweapon/sword/sabre
+			beltr = /obj/item/rogueweapon/sword
 			backl = /obj/item/rogueweapon/shield/wood
 			r_hand = /obj/item/rogueweapon/scabbard/sword
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 	
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
@@ -288,6 +314,9 @@
 	"Studded Leather Hood" = /obj/item/clothing/head/roguetown/helmet/leather/armorhood/advanced,
 	"None"
 	)
-	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
+
+	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
+		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)

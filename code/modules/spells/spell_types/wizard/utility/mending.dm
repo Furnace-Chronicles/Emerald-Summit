@@ -23,6 +23,9 @@
 /obj/effect/proc_holder/spell/invoked/mending/cast(list/targets, mob/living/user)
 	if(istype(targets[1], /obj/item))
 		var/obj/item/I = targets[1]
+		if (I.shoddy_repair && user.get_skill_level(/datum/skill/magic/arcane) >= SKILL_LEVEL_JOURNEYMAN)
+			I.shoddy_repair = FALSE
+			user.visible_message(span_info("[I] glows gently, arcyne magic amending the damage wrought by hasty repairs."))
 		if(I.obj_integrity < I.max_integrity)
 			var/repair_percent = 0.25
 			repair_percent *= I.max_integrity

@@ -20,8 +20,10 @@
 	round_contrib_points = 3
 	social_rank = SOCIAL_RANK_YEOMAN
 
-
-	outfit = /datum/outfit/job/roguetown/sergeant
+	virtue_restrictions = list(
+		/datum/virtue/utility/blacksmith, // we don't want you repairing your stuff in combat, sorry...
+	)
+	outfit = /datum/outfit/job/sergeant
 	advclass_cat_rolls = list(CTAG_SERGEANT = 20)
 
 	give_bank_account = 50
@@ -34,7 +36,7 @@
 		/datum/advclass/sergeant/sergeant
 	)
 
-/datum/outfit/job/roguetown/sergeant
+/datum/outfit/job/sergeant
 	job_bitflag = BITFLAG_GARRISON
 
 /datum/job/roguetown/sergeant/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
@@ -52,7 +54,7 @@
 				S.name = "sergeant jupon ([index])"
 
 //All skills/traits are on the loadouts. All are identical. Welcome to the stupid way we have to make sub-classes...
-/datum/outfit/job/roguetown/sergeant
+/datum/outfit/job/sergeant
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	cloak = /obj/item/clothing/cloak/stabard/surcoat/guard
 	neck = /obj/item/clothing/neck/roguetown/gorget
@@ -65,12 +67,15 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 	id = /obj/item/scomstone/garrison
+	beltl = /obj/item/quiver/bolts
+	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+	beltr = /obj/item/rogueweapon/sword/sabre
 
 //Rare-ish anti-armor two hander sword. Kinda alternative of a bastard sword type. Could be cool.
 /datum/advclass/sergeant/sergeant
 	name = "Sergeant-at-Arms"
 	tutorial = "You are a not just anybody but the Sergeant-at-Arms of the Duchy's garrison. While you may have started as some peasant or mercenary, you have advanced through the ranks to that of someone who commands respect and wields it. Take up arms, sergeant!"
-	outfit = /datum/outfit/job/roguetown/sergeant/sergeant
+	outfit = /datum/outfit/job/sergeant/sergeant
 
 	category_tags = list(CTAG_SERGEANT)
 
@@ -102,7 +107,7 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,	//Decent tracking akin to Skirmisher.
 	)
 
-/datum/outfit/job/roguetown/sergeant/sergeant/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/sergeant/sergeant/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	if(H.mind)
@@ -118,10 +123,11 @@
 		/obj/item/rope/chain = 1,
 		/obj/item/storage/keyring/guardsergeant = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/signal_horn = 1,
 	)
 	H.adjust_blindness(-3)
 	var/weapons = list("Rhomphaia","Flail & Shield","Halberd","Sabre & Crossbow")	//Bit more unique than footsman, you are a jack-of-all-trades + slightly more 'elite'.
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Rhomphaia")			//Rare-ish anti-armor two hander sword. Kinda alternative of a bastard sword type. Could be cool.
@@ -167,10 +173,6 @@
 			return
 		if(user.job == "Sergeant")
 			if(!target.job == "Man at Arms")
-				to_chat(user, span_alert("I cannot order one not of my ranks!"))
-				return
-		if(user.job == "Knight Captain")
-			if(!(target.job in list("Knight", "Squire")))
 				to_chat(user, span_alert("I cannot order one not of my ranks!"))
 				return
 		if(target == user)
@@ -231,10 +233,6 @@
 			if(!target.job == "Man at Arms")
 				to_chat(user, span_alert("I cannot order one not of my ranks!"))
 				return
-		if(user.job == "Knight Captain")
-			if(!(target.job in list("Knight", "Squire")))
-				to_chat(user, span_alert("I cannot order one not of my ranks!"))
-				return
 		if(target == user)
 			to_chat(user, span_alert("I cannot order myself!"))
 			return
@@ -260,10 +258,6 @@
 			return
 		if(user.job == "Sergeant")
 			if(!target.job == "Man at Arms")
-				to_chat(user, span_alert("I cannot order one not of my ranks!"))
-				return
-		if(user.job == "Knight Captain")
-			if(!(target.job in list("Knight", "Squire")))
 				to_chat(user, span_alert("I cannot order one not of my ranks!"))
 				return
 		if(target == user)
@@ -320,10 +314,6 @@
 			if(!target.job == "Man at Arms")
 				to_chat(user, span_alert("I cannot order one not of my ranks!"))
 				return
-		if(user.job == "Knight Captain")
-			if(!(target.job in list("Knight", "Squire")))
-				to_chat(user, span_alert("I cannot order one not of my ranks!"))
-				return
 		if(target == user)
 			to_chat(user, span_alert("I cannot order myself!"))
 			return
@@ -354,7 +344,6 @@
 /obj/effect/proc_holder/spell/invoked/order/focustarget
 	name = "Focus target!"
 	overlay_state = "focustarget"
-
 
 /obj/effect/proc_holder/spell/invoked/order/focustarget/cast(list/targets, mob/living/user)
 	. = ..()
@@ -434,3 +423,94 @@
 	if(!mind.focustargettext)
 		to_chat(src, "I must rehearse something for this order...")
 		return
+
+/obj/effect/proc_holder/spell/self/convertrole
+	name = "Recruit Beggar"
+	desc = "Recruit someone to your cause."
+	overlay_state = "recruit_bog"
+	antimagic_allowed = TRUE
+	recharge_time = 100
+	/// Role given if recruitment is accepted
+	var/new_role = "Beggar"
+	/// Faction shown to the user in the recruitment prompt
+	var/recruitment_faction = "Beggars"
+	/// Message the recruiter gives
+	var/recruitment_message = "Serve the beggars, %RECRUIT!"
+	/// Range to search for potential recruits
+	var/recruitment_range = 3
+	/// Say message when the recruit accepts
+	var/accept_message = "I will serve!"
+	/// Say message when the recruit refuses
+	var/refuse_message = "I refuse."
+
+/obj/effect/proc_holder/spell/self/convertrole/cast(list/targets,mob/user = usr)
+	. = ..()
+	var/list/recruitment = list()
+	for(var/mob/living/carbon/human/recruit in (get_hearers_in_view(recruitment_range, user) - user))
+		//not allowed
+		if(!can_convert(recruit))
+			continue
+		recruitment[recruit.name] = recruit
+	if(!length(recruitment))
+		to_chat(user, span_warning("There are no potential recruits in range."))
+		return
+	var/inputty = input(user, "Select a potential recruit!", "[name]") as anything in recruitment
+	if(inputty)
+		var/mob/living/carbon/human/recruit = recruitment[inputty]
+		if(!QDELETED(recruit) && (recruit in get_hearers_in_view(recruitment_range, user)))
+			INVOKE_ASYNC(src, PROC_REF(convert), recruit, user)
+		else
+			to_chat(user, span_warning("Recruitment failed!"))
+	else
+		to_chat(user, span_warning("Recruitment cancelled."))
+
+/obj/effect/proc_holder/spell/self/convertrole/proc/can_convert(mob/living/carbon/human/recruit)
+	//wtf
+	if(QDELETED(recruit))
+		return FALSE
+	//need a mind
+	if(!recruit.mind)
+		return FALSE
+	//only migrants and peasants
+	if(!(recruit.job in GLOB.peasant_positions) && \
+		!(recruit.job in GLOB.yeoman_positions) && \
+		!(recruit.job in GLOB.allmig_positions) && \
+		!(recruit.job in GLOB.mercenary_positions))
+		return FALSE
+	//need to see their damn face
+	if(!recruit.get_face_name(null))
+		return FALSE
+	return TRUE
+
+/obj/effect/proc_holder/spell/self/convertrole/proc/convert(mob/living/carbon/human/recruit, mob/living/carbon/human/recruiter)
+	if(QDELETED(recruit) || QDELETED(recruiter))
+		return FALSE
+	recruiter.say(replacetext(recruitment_message, "%RECRUIT", "[recruit]"), forced = "[name]")
+	var/prompt = alert(recruit, "Do you wish to become a [new_role]?", "[recruitment_faction] Recruitment", "Yes", "No")
+	if(QDELETED(recruit) || QDELETED(recruiter) || !(recruiter in get_hearers_in_view(recruitment_range, recruit)))
+		return FALSE
+	if(prompt != "Yes")
+		if(refuse_message)
+			recruit.say(refuse_message, forced = "[name]")
+		return FALSE
+	if(accept_message)
+		recruit.say(accept_message, forced = "[name]")
+	if(new_role)
+		recruit.job = new_role
+		SEND_SIGNAL(SSdcs, COMSIG_GLOB_ROLE_CONVERTED, recruiter, recruit, new_role)
+	return TRUE
+
+/obj/effect/proc_holder/spell/self/convertrole/guard
+	name = "Recruit Guardsmen"
+	new_role = "Watchman"
+	overlay_state = "recruit_guard"
+	recruitment_faction = "Watchman"
+	recruitment_message = "Serve the town guard, %RECRUIT!"
+	accept_message = "FOR THE CROWN!"
+	refuse_message = "I refuse."
+
+/obj/effect/proc_holder/spell/self/convertrole/guard/convert(mob/living/carbon/human/recruit, mob/living/carbon/human/recruiter)
+	. = ..()
+	if(!.)
+		return
+	recruit.verbs |= /mob/proc/haltyell

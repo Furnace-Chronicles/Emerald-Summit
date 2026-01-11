@@ -29,3 +29,8 @@
 	name = "Donator Kit - Scarred Warscholar's Mask"
 	path = /obj/item/enchantingkit/vizendel
 	ckeywhitelist = list("vizendel")
+
+/datum/loadout_item/donator_invyicta
+	name = "Donator Kit - Invyicta Dress"
+	path = /obj/item/enchantingkit/invyicta_dress
+	ckeywhitelist = list("invyicta")

@@ -3,10 +3,11 @@
 	tutorial = "You are a Doppelsoldner - \"Double-pay Mercenary\" - an experienced frontline swordsman trained by the Zenitstadt fencing guild."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft
+	outfit = /datum/outfit/job/mercenary/grenzelhoft
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_GRENZELHOFT
 	cmode_music = 'sound/music/combat_grenzelhoft.ogg'
+	origin_override_type = /datum/virtue/origin/grenzelhoft
 
 	subclass_languages = list(
 		/datum/language/grenzelhoftian,
@@ -14,12 +15,12 @@
 
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
 	subclass_stats = list(
-		STATKEY_CON = 3,
-		STATKEY_END = 3,
+		STATKEY_CON = 2,
+		STATKEY_END = 2,
 		STATKEY_STR = 2, //Should give minimum required stats to use Zweihander
-		STATKEY_PER = 1,
 		STATKEY_SPD = -1 //They get heavy armor now + sword option; so lower speed.
 	)
+	hiredbuff = /datum/status_effect/buff/merchired/grenzelhoft
 
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -38,13 +39,16 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,		//Trust me, they'll need it due to stamina drain on their base-sword.
 	)
 
-/datum/outfit/job/roguetown/mercenary/grenzelhoft/pre_equip(mob/living/carbon/human/H)
+/datum/status_effect/buff/merchired/grenzelhoft
+	effectedstats = list(STATKEY_CON = 1, STATKEY_END = 1, STATKEY_PER = 1)
+
+/datum/outfit/job/mercenary/grenzelhoft/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a Doppelsoldner - \"Double-pay Mercenary\" - an experienced frontline swordsman trained by the Zenitstadt fencing guild."))
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/blacksteel_half_plate
 	var/weapons = list("Zweihander", "Kriegmesser & Buckler")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Zweihander")
 			r_hand = /obj/item/rogueweapon/greatsword/grenz
@@ -59,7 +63,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft
 	head = /obj/item/clothing/head/roguetown/grenzelhofthat
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants
-	shoes = /obj/item/clothing/shoes/roguetown/grenzelhoft
+	shoes = /obj/item/clothing/shoes/roguetown/boots/grenzelhoft
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	backpack_contents = list(
@@ -73,7 +77,7 @@
 /datum/advclass/mercenary/grenzelhoft/halberdier
 	name = "Halberdier"
 	tutorial = "You're an experienced soldier skilled in the use of polearms and axes. Your equals make up the bulk of the mercenary guild's forces."
-	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft_halberdier
+	outfit = /datum/outfit/job/mercenary/grenzelhoft_halberdier
 
 	subclass_languages = list(
 		/datum/language/grenzelhoftian,
@@ -82,10 +86,12 @@
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
 	subclass_stats = list(
 		STATKEY_STR = 2,//same str, worse end, more speed - actually a good tradeoff, now.
-		STATKEY_CON = 2,
-		STATKEY_END = 2, 
+		STATKEY_CON = 1,
+		STATKEY_END = 1, 
 		STATKEY_PER = 1 
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/grenzelhoft_halberdier
 
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -103,13 +109,16 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/mercenary/grenzelhoft_halberdier/pre_equip(mob/living/carbon/human/H)
+/datum/status_effect/buff/merchired/grenzelhoft_halberdier
+	effectedstats = list(STATKEY_CON = 1, STATKEY_END = 1)
+
+/datum/outfit/job/mercenary/grenzelhoft_halberdier/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You're an experienced soldier skilled in the use of polearms and axes. Your equals make up the bulk of the mercenary guild's forces."))
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/blacksteel_half_plate
 	var/weapons = list("Halberd", "Partizan")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Halberd")
 			r_hand = /obj/item/rogueweapon/halberd
@@ -122,7 +131,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft
 	head = /obj/item/clothing/head/roguetown/grenzelhofthat
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants
-	shoes = /obj/item/clothing/shoes/roguetown/grenzelhoft
+	shoes = /obj/item/clothing/shoes/roguetown/boots/grenzelhoft
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	backpack_contents = list(
@@ -137,7 +146,7 @@
 /datum/advclass/mercenary/grenzelhoft/crossbowman
 	name = "Armbrustschutze"
 	tutorial = "You're a proved marksman with a crossbow, and learned how to set up camp and defenses in the wild. The guild needs you."
-	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft_crossbowman
+	outfit = /datum/outfit/job/mercenary/grenzelhoft_crossbowman
 
 	subclass_languages = list(
 		/datum/language/grenzelhoftian,
@@ -145,12 +154,14 @@
 
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_STEELHEARTED)
 	subclass_stats = list(
-		STATKEY_SPD = 2,
-		STATKEY_END = 2,
+		STATKEY_SPD = 1,
+		STATKEY_END = 1,
 		STATKEY_PER = 2, 
 		STATKEY_STR = 1,// 1 STR for the axe and crossbow reload. END for chopping trees, a bit of SPD for running, PER for shooting. -1 CON bc you aint a frontliner
 		STATKEY_CON = -1 
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/grenzelhoft_crossbowman
 
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -172,7 +183,10 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,	// crafting for pallisades, lumberjacking for not fucking up wood
 	)
 
-/datum/outfit/job/roguetown/mercenary/grenzelhoft_crossbowman/pre_equip(mob/living/carbon/human/H)
+/datum/status_effect/buff/merchired/grenzelhoft_crossbowman
+	effectedstats = list(STATKEY_SPD = 1, STATKEY_END = 1)
+
+/datum/outfit/job/mercenary/grenzelhoft_crossbowman/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You're a proved marksman with a crossbow, and learned how to set up camp and defenses in the wild. The guild needs you."))
 
@@ -180,10 +194,11 @@
 	beltl = /obj/item/rogueweapon/stoneaxe/woodcut/steel
 	r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 	var/armor_options = list("Light Brigandine", "Studded Leather Vest")
-	var/armor_choice = input("Choose your armor.", "DRESS UP") as anything in armor_options
+	var/armor_choice = input(H, "Choose your armor.", "DRESS UP") as anything in armor_options
 	switch(armor_choice)
 		if("Light Brigandine")
 			armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light	// find a smithy to fix it
+			ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 		if("Studded Leather Vest")
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/studded		// or maintain it yourself!
 	//General gear regardless of class.
@@ -193,7 +208,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft
 	head = /obj/item/clothing/head/roguetown/grenzelhofthat
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants
-	shoes = /obj/item/clothing/shoes/roguetown/grenzelhoft
+	shoes = /obj/item/clothing/shoes/roguetown/boots/grenzelhoft
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	backpack_contents = list(

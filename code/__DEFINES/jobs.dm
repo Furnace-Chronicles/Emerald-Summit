@@ -102,10 +102,8 @@
 #define HAND		(1<<2)
 #define STEWARD		(1<<3)
 #define KNIGHT		(1<<4)
-#define GUARD_CAPTAIN		(1<<5)
-#define MARSHAL		(1<<6)
-#define HOSTAGE		(1<<7)
-#define SUITOR		(1<<8)
+#define MARSHAL		(1<<5)
+#define SUITOR		(1<<6)
 
 #define GARRISON		(1<<1)
 
@@ -167,6 +165,8 @@
 #define BANDIT		(1<<19)
 #define COURTAGENT	(1<<20)
 #define WRETCH		(1<<21)
+#define OGRE	    (1<<22)
+#define HOSTAGE		(1<<23)
 
 #define YOUNGFOLK	(1<<6)
 
@@ -201,6 +201,9 @@
 #define DEATHKNIGHT (1<<1)
 #define SKELETON	(1<<2)
 #define GOBLIN		(1<<3)
+#define VAMPIRE_SERVANT (1<<4)
+#define VAMPIRE_GUARD (1<<5)
+#define VAMPIRE_SPAWN (1<<6)
 
 #define INQUISITION (1<<10)
 
@@ -245,16 +248,15 @@
 #define JDO_BUTLER 7.1
 #define JDO_SERVANT 7.2
 
-#define JDO_GUARD_CAPTAIN 8
-#define JDO_KNIGHT 8.1
-#define JDO_SQUIRE 8.2
-#define JDO_SERGEANT 8.3
-#define JDO_CASTLEGUARD 8.4
-#define JDO_GATEMASTER 8.5
-#define JDO_SHERIFF 8.6
-#define JDO_TOWNGUARD 8.7
-#define JDO_DUNGEONEER 8.8
-#define JDO_BOGGUARD 9.1
+#define JDO_KNIGHT 8
+#define JDO_SQUIRE 8.1
+#define JDO_SERGEANT 8.2
+#define JDO_CASTLEGUARD 8.3
+#define JDO_GATEMASTER 8.4
+#define JDO_SHERIFF 8.5
+#define JDO_TOWNGUARD 8.6
+#define JDO_DUNGEONEER 8.7
+#define JDO_BOGGUARD 9
 
 #define JDO_PRIEST 10
 #define JDO_MARTYR 11
@@ -291,6 +293,7 @@
 #define JDO_BANDIT 31.3
 #define JDO_COURTAGENT 30.3
 #define JDO_WRETCH 30.4
+#define JDO_OGRE 30.5
 
 #define JDO_MERCENARY 31
 #define JDO_GRENZELHOFT 31.1
@@ -386,7 +389,8 @@
 	/datum/job/roguetown/mercenary/desert_rider,\
 	/datum/job/roguetown/mercenary/grenzelhoft,\
 	/datum/job/roguetown/bandit,\
-	/datum/job/roguetown/wretch
+	/datum/job/roguetown/wretch,\
+	/datum/job/roguetown/ogre
 
 #define GARRISON_ROLES \
 	/datum/job/roguetown/warden,\

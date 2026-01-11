@@ -4,22 +4,31 @@
 /datum/species/moth
 	name = "Fluvian"
 	id = "moth"
-	desc = "<b>Fluvian: Children of the Library</b><br>\
-	In an era long past there was a Great Library, containing the most powerful arcane tomes of the world in safety from those who would abuse them. \
-	In time it was abandoned and forgotten as its knights were called to service and died. \
-	But the moths of the library began to chew on the magic infused pages, and changed in both body and mind. \
-	Deeply inquisitive and alien in both shape and social engagement, \
-	the Fluvians skitter about the cities of man chewing old cloth and making new works in tailor shops and crafter’s guild halls, \
-	they are considered highly odd by most people.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 SPD</b></span> </br>"
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/racial/underdark/effluvia
+	origin = "the Underdark"
+	base_name = "Beastvolk"
+	shortdesc = "<b>Fluvian</b><br>\
+	An insectoid species native to the Underdark. Indigenous to Effluvia, a loathsome underground region known for its poisonous waters.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 SPD | -1 CON</b></span> </br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Long Jump | Can Eat Clothes</b></span>"
+	desc = "<b>Fluvian</b><br>\
+	An insectoid species native to the Underdark. Indigenous to Effluvia, a loathsome underground region known for its poisonous waters.<br>\
+	Fluvians are known as the archetypal species for drow slaves, few surface-dwellers realize they have a city of their own: \
+	The sole settlement in Effluvia, Mercuriam. It is here that Pestra's arts are honored; \
+	only the educated are allowed to pass its bronze gates. Denied fluvians must eke out a primitive life in the rotting wilds of Effluvia.<br>\
+	According to the fluvians of Mercuriam, their god, Pestra, has not yet been born. She lies in a nascent cocoon, bestowing wisdom from a time to come.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 SPD | -1 CON</b></span> </br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> Long Jump | Can Eat Clothes</b></span>"
 
-	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS,HAIR)
+	species_traits = list(EYECOLOR,LIPS,MUTCOLORS,HAIR)
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/moth.dmi'
 	limbs_icon_f = 'icons/roguetown/mob/bodies/f/moth.dmi'
 	dam_icon = 'icons/roguetown/mob/bodies/dam/dam_male.dmi'
 	dam_icon_f = 'icons/roguetown/mob/bodies/dam/dam_female.dmi'
+	use_f = TRUE
 	soundpack_m = /datum/voicepack/male/moth
 	soundpack_f = /datum/voicepack/female/moth
 	offset_features = list(
@@ -34,7 +43,7 @@
 		OFFSET_NECK_F = list(0,-1), OFFSET_MOUTH_F = list(0,-1), OFFSET_PANTS_F = list(0,0), \
 		OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,-1), \
 		)
-	race_bonus = list(STAT_SPEED = 1)
+	race_bonus = list(STAT_SPEED = 1, STAT_CONSTITUTION = -1)
 	enflamed_icon = "widefire"
 	attack_verb = "slash"
 	attack_sound = 'sound/blank.ogg'
@@ -59,12 +68,10 @@
 		)
 	bodypart_features = list(
 		/datum/bodypart_feature/hair/head,
-		/datum/bodypart_feature/hair/facial,
 	)
 	customizers = list(
 		/datum/customizer/organ/eyes/moth,
 		/datum/customizer/bodypart_feature/hair/head/humanoid,
-		/datum/customizer/bodypart_feature/hair/facial/humanoid,
 		/datum/customizer/bodypart_feature/accessory,
 		/datum/customizer/bodypart_feature/face_detail,
 		/datum/customizer/bodypart_feature/underwear,
@@ -130,16 +137,13 @@
 /datum/species/moth/qualifies_for_rank(rank, list/features)
 	return TRUE
 
-/datum/species/moth/on_species_gain(mob/living/carbon/C, datum/species/old_species)
+/datum/species/moth/on_species_gain(mob/living/carbon/C)
 	. = ..()
 	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 
 /datum/species/moth/on_species_loss(mob/living/carbon/C)
 	. = ..()
 	UnregisterSignal(C, COMSIG_MOB_SAY)
-
-/datum/species/moth/get_random_body_markings(list/passed_features)
-	return assemble_body_markings_from_set(GLOB.body_marking_sets_by_type[pick(body_marking_sets)], passed_features, src)
 
 /datum/species/moth/get_random_features()
 	var/list/returned = MANDATORY_FEATURE_LIST
@@ -148,7 +152,7 @@
 	var/random = rand(1,1)
 	switch(random)
 		if(1)
-			main_color = "edcf7e"
+			main_color = "4C3F2F"
 			second_color = "2b2a24"
 	returned["mcolor"] = main_color
 	returned["mcolor2"] = second_color

@@ -34,6 +34,9 @@
 	/// Extra fluff added to the role explanation in class selection.
 	var/extra_context
 
+	/// Set to FALSE to skip apply_character_post_equipment() which applies virtue, flaw, loadout
+	var/applies_post_equipment = TRUE
+
 	/// Subclass skills. Levelled UP TO.
 	var/list/subclass_skills
 
@@ -45,6 +48,14 @@
 
 	/// Subclass social rank, used to overwrite the job social rank
 	var/subclass_social_rank
+
+	/// Virtue restrictions for this subclass
+	var/list/virtue_restrictions
+
+	/// If set, overrides the character's origin
+	var/origin_override_type = null
+	/// Custom origin, in case you want a snowflake subclass. Won't work without origin_override_type set
+	var/custom_origin_wording = null
 
 /datum/advclass/proc/equipme(mob/living/carbon/human/H)
 	// input sleeps....
@@ -88,9 +99,24 @@
 	if(subclass_social_rank)
 		H.social_rank = subclass_social_rank
 
+	if(!isnull(origin_override_type))
+		change_origin(H, origin_override_type, custom_origin_wording)
+
 	// After the end of adv class equipping, apply a SPECIAL trait if able
 
-	apply_character_post_equipment(H)
+	if(applies_post_equipment)
+		apply_character_post_equipment(H)
+
+
+/datum/advclass/proc/change_origin(mob/living/carbon/human/H, new_origin = /datum/virtue/none, wording = "Custom")
+	var/client/player = H?.client
+	if(player?.prefs)
+		var/origin_memory = player.prefs.virtue_origin
+		player.prefs.virtue_origin = new new_origin
+		H.dna.species.skin_tone_wording = wording
+		player.prefs.virtue_origin.job_origin = TRUE
+		player.prefs.virtue_origin.last_origin = origin_memory
+		H.grant_language(player.prefs.extra_language)
 
 /datum/advclass/proc/post_equip(mob/living/carbon/human/H)
 	addtimer(CALLBACK(H,TYPE_PROC_REF(/mob/living/carbon/human, add_credit), TRUE), 20)
@@ -126,8 +152,19 @@
 	if(length(allowed_ages) && !(H.age in allowed_ages))
 		return FALSE
 
-	if(length(allowed_patrons) && !(H.patron in allowed_patrons))
-		return FALSE
+	if(length(allowed_patrons))
+		var/allowed = FALSE
+		var/datum/patron/PA = H.patron
+		for(var/path in allowed_patrons)
+			if(istype(PA, path))
+				allowed = TRUE
+				break
+		if(!allowed)
+			return FALSE
+
+	if(length(virtue_restrictions) && H.client)
+		if((H.client.prefs.virtue?.type in virtue_restrictions) || (H.client.prefs.virtuetwo?.type in virtue_restrictions) || (H.client.prefs.virtue_origin?.type in virtue_restrictions))
+			return FALSE
 
 	if(maximum_possible_slots > -1)
 		if(total_slots_occupied >= maximum_possible_slots)

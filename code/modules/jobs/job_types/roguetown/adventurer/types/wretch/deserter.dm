@@ -3,8 +3,7 @@
 	tutorial = "You were once a venerated and revered knight - now, a traitor who abandoned your liege. You lyve the lyfe of an outlaw, shunned and looked down upon by society."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/wretch/deserter
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
+	outfit = /datum/outfit/job/wretch/deserter
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_DISGRACED_NOBLE)
 
@@ -37,7 +36,11 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/wretch/deserter/pre_equip(mob/living/carbon/human/H)
+	virtue_restrictions = list(
+		/datum/virtue/utility/riding
+	)
+
+/datum/outfit/job/wretch/deserter/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You were once a venerated and revered knight - now, a traitor who abandoned your liege. You lyve the lyfe of an outlaw, shunned and looked down upon by society."))
 	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
@@ -59,7 +62,7 @@
 		"Lance + Kite Shield",
 		"Samshir",
 	)
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Estoc")
@@ -97,7 +100,7 @@
 		"Kulah Khud"	= /obj/item/clothing/head/roguetown/helmet/sallet/raneshen,
 		"None"
 	)
-	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
@@ -108,7 +111,7 @@
 		"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/half/fluted,
 		"Scalemail"		= /obj/item/clothing/suit/roguetown/armor/plate/scale,
 	)
-	var/armorchoice = input("Choose your armor.", "TAKE UP ARMOR") as anything in armors
+	var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 	armor = armors[armorchoice]
 	gloves = /obj/item/clothing/gloves/roguetown/plate 
 	pants = /obj/item/clothing/under/roguetown/chainlegs
@@ -127,12 +130,14 @@
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,	//Small health vial
 		)
 
+	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
+		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)
 	wretch_select_bounty(H)
 
 /datum/advclass/wretch/deserter/maa
 	name = "Deserter"
 	tutorial = "You had your post. You had your duty. Dissatisfied, lacking in morale, or simply thinking yourself better than it. - You decided to walk. Now it follows you everywhere you go."
-	outfit = /datum/outfit/job/roguetown/wretch/desertermaa
+	outfit = /datum/outfit/job/wretch/desertermaa
 
 	disallowed_races = list()
 
@@ -165,10 +170,10 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/wretch/desertermaa/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/wretch/desertermaa/pre_equip(mob/living/carbon/human/H)
 	..()
 	var/weapons = list("Warhammer & Shield","Sabre & Shield","Axe & Shield","Billhook","Greataxe","Halberd",)
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Warhammer & Shield")
@@ -224,7 +229,7 @@
 	"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
 	"None"
 	)
-	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
@@ -234,7 +239,7 @@
 	"Wildguard"			= /obj/item/clothing/mask/rogue/wildguard,
 	"None"
 	)
-	var/maskchoice = input("Choose your Mask.", "MASK MASK MASK") as anything in masks // Run from it. MASK. MASK. MASK.
+	var/maskchoice = input(H, "Choose your Mask.", "MASK MASK MASK") as anything in masks // Run from it. MASK. MASK. MASK.
 	if(maskchoice != "None")
 		mask = masks[maskchoice]	
 

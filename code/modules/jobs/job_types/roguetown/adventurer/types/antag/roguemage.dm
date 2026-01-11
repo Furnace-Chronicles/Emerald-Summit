@@ -3,7 +3,8 @@
 	tutorial = "Those fools at the academy laughed at you and cast you from the ivory tower of higher learning and magickal practice. No matter - you will ascend to great power one day, but first you need wealth - vast amounts of it. Show those fools in the town what REAL magic looks like."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/bandit/roguemage
+	outfit = /datum/outfit/job/bandit/roguemage
+	allowed_patrons = ALL_INHUMEN_PATRONS
 	category_tags = list(CTAG_BANDIT)
 	cmode_music = 'sound/music/combat_bandit_mage.ogg'
 	subclass_social_rank = SOCIAL_RANK_PEASANT
@@ -11,7 +12,8 @@
 	traits_applied = list(
 		TRAIT_MAGEARMOR,
 		TRAIT_ARCYNE_T3,
-		TRAIT_DODGEEXPERT
+		TRAIT_DODGEEXPERT,
+		TRAIT_TALENTED_ALCHEMIST
 	)
 	subclass_stats = list(
 		STATKEY_INT = 3,
@@ -45,11 +47,8 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
 	)
 
-/datum/outfit/job/roguetown/bandit/roguemage/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/bandit/roguemage/pre_equip(mob/living/carbon/human/H)
 	..()
-	if (!(istype(H.patron, /datum/patron/inhumen/zizo) || istype(H.patron, /datum/patron/inhumen/matthios) || istype(H.patron, /datum/patron/inhumen/graggar) || istype(H.patron, /datum/patron/inhumen/baotha)))
-		to_chat(H, span_warning("My former deity has abandoned me.. Matthios is my new master."))
-		H.set_patron(/datum/patron/inhumen/matthios)	//We allow other heretics into the cool-kids club, but if you are a tennite/psydonian it sets you to matthiosan.
 	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt

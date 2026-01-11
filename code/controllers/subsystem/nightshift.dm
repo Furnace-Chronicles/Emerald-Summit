@@ -84,10 +84,12 @@ SUBSYSTEM_DEF(nightshift)
 		if(!cmode)
 			SSdroning.play_area_sound(areal, src.client)
 		SSdroning.play_loop(areal, src.client)
+	if(mode != NPC_AI_OFF)
+		return
 	if(todd == "day")
 		if(HAS_TRAIT(src, TRAIT_VAMP_DREAMS))
 			apply_status_effect(/datum/status_effect/debuff/vamp_dreams)
-		if(HAS_TRAIT(src, TRAIT_NIGHT_OWL))
+		if(HAS_TRAIT(src, TRAIT_NIGHT_OWL) && !HAS_TRAIT(src, TRAIT_NOSLEEP))
 			apply_status_effect(/datum/status_effect/debuff/sleepytime)
 
 	if(todd == "night")

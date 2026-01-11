@@ -3,7 +3,7 @@
 	domain = "God of Ontological Reality"
 	desc = "The true God of everything, Psydon is maximally good - He created humen in his image to live in Psydonia, and defended the Black Basin by sending the COMET SYON to defeat the rampaging archdemon."	
 	worshippers = "Fanatics and Nostalgists"
-	associated_faith = /datum/faith/old_god
+	associated_faith = /datum/faith/old_god/standard
 	mob_traits = list(TRAIT_PSYDONIAN_GRIT)
 	miracles = list(
 		/obj/effect/proc_holder/spell/targeted/touch/orison = CLERIC_ORI,
@@ -17,7 +17,16 @@
 		"PSYDON YET LYVES! PSYDON YET ENDURES!",
 		"REBUKE THE HERETICAL- PSYDON ENDURES!",
 	)
+	rites = "Rune of Enduring"
 
+/datum/patron/old_god/kazengun
+	name = "Saidon"
+	desc = "The true God of everything, Saidon is maximally good - He created humen in his image to live in Saidonia, and defended the Black Basin by sending the COMET SYON to defeat the rampaging archdemon."
+	associated_faith = /datum/faith/old_god/kazengun
+
+/datum/patron/old_god/situational_bonus(mob/living/follower, mob/living/target)
+	// HE WEEPS FOR US, AND WE WEEP FOR HIM, AND WHAT HAS BECOME OF HIS CREATION. (we're out in the rain or we're bleeding moderately)
+	return list((GLOB.forecast == "rain" && istype(get_area(follower), /area/rogue/outdoors) || follower.bleed_rate >= 10), 2.5)
 
 /obj/effect/proc_holder/spell/self/check_boot
 	name = "BOOT-CHECK"

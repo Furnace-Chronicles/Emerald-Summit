@@ -2,6 +2,9 @@
 	abstract_type = /datum/skill
 	var/name = "Skill"
 	var/desc = ""
+	
+	// Required traits to advance past certain skill levels (associative: level = list of required traits)
+	var/list/advancement_traits
 
 	var/dream_cost_base = 2
 	var/dream_cost_per_level = 0.5

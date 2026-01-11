@@ -3,19 +3,22 @@
 	tutorial = "The Order of the Forlorn Hope, a order formed off the back of a Ranesheni slave revolt. Drawing from all walks of life, this mercenary company now takes ranks from both purchased and liberated slaves. Coin is power, and power is the path to freedom."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/mercenary/forlorn
+	outfit = /datum/outfit/job/mercenary/forlorn
 	min_pq = 2
 	cmode_music = 'sound/music/combat_blackstar.ogg'
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_RANESHENI
+	origin_override_type = /datum/virtue/origin/raneshen
 
 	// tuff boys
 	traits_applied = list(TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
-		STATKEY_END = 3,
-		STATKEY_STR = 2,
+		STATKEY_END = 2, // 3 when hired
+		STATKEY_STR = 1, // 2 when hired
 		STATKEY_CON = 2
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/forlorn
 
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -35,7 +38,10 @@
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/mercenary/forlorn/pre_equip(mob/living/carbon/human/H)
+/datum/status_effect/buff/merchired/forlorn
+	effectedstats = list(STATKEY_END = 1, STATKEY_STR = 1)
+
+/datum/outfit/job/mercenary/forlorn/pre_equip(mob/living/carbon/human/H)
 	..()
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	neck = /obj/item/clothing/neck/roguetown/gorget/forlorncollar

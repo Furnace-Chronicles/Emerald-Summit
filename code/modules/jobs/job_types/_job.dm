@@ -88,6 +88,8 @@
 
 	var/list/peopleiknow = list()
 	var/list/peopleknowme = list()
+	/// Jobs that EVERYONE should know, regardless of give_bank_account (nobles)
+	var/static/list/universal_known_jobs = list()
 
 	var/plevel_req = 0
 	var/min_pq = 0
@@ -104,31 +106,31 @@
 	//is the job required for game progression
 	var/required = FALSE
 
-	/// Some jobs have unique combat mode music, because why not?
+	// Some jobs have unique combat mode music, because why not?
 	var/cmode_music
 
-	/// This job is a "wanderer" on examine
+	// This job is a "wanderer" on examine
 	var/wanderer_examine = FALSE
 
-	/// This job uses adventurer classes on examine
+	// This job uses adventurer classes on examine
 	var/advjob_examine = FALSE
 
-	/// This job always shows on latechoices
+	// This job always shows on latechoices
 	var/always_show_on_latechoices = FALSE
 
-	/// Cooldown for joining as this job again, if it was your last job
+	// Cooldown for joining as this job again, if it was your last job
 	var/same_job_respawn_delay = FALSE
 
-	/// This job re-opens slots if someone dies as it
+	// This job re-opens slots if someone dies as it
 	var/job_reopens_slots_on_death = FALSE
 
-	/// This job is immune to species-based swapped gender locks
+	// This job is immune to species-based swapped gender locks
 	var/immune_to_genderswap = FALSE
 
-	/// Jobs that are obsfuscated on actor screen
+	// Jobs that are obsfuscated on actor screen
 	var/obsfuscated_job = FALSE
 
-	///Jobs that are hidden from actor screen
+	//Jobs that are hidden from actor screen
 	var/hidden_job = FALSE
 
 /*
@@ -189,6 +191,94 @@
 		to_chat(player, span_notice("*-----------------*"))
 		to_chat(player, span_notice(tutorial))
 
+// Signal handler for advjob selection completion - updates cached job title in everyone's known_people
+// NOTE: With lazy evaluation in display_known_people(), this cache update is optional
+// We keep it for performance when displaying lists (avoids O(n) lookup per person)
+/datum/job/proc/update_job_title_in_known_lists(mob/living/carbon/human/H)
+	if(!H?.mind || !H.real_name)
+		return
+	
+	var/new_title = H.get_role_title()
+	if(!new_title)
+		return
+	
+	// Update cached title for faster display
+	// The display code will use get_known_person_job() as fallback if cache is stale
+	for(var/datum/mind/M in SSticker.minds)
+		if(M == H.mind || !M.known_people?[H.real_name])
+			continue
+		M.known_people[H.real_name]["FJOB"] = new_title
+
+// Populates known_people lists immediately (uses default job title for advjobs, updated later by signal)
+/datum/job/proc/populate_job_knowledge(mob/living/carbon/human/H, latejoin)
+	if(!H || !H.mind)
+		return
+	
+	// For latejoin, add this new player to the existing cache
+	if(latejoin)
+		SSjob.add_mind_to_cache(H.mind)
+	
+	// Cache is guaranteed to exist at this point:
+	// - Roundstart: Built in ticker.dm after collect_minds()
+	// - Latejoin: New player added to existing cache above
+	
+	// OPTIMIZATION: At roundstart, defer to batch processor (called from transfer_characters)
+	// This prevents O(n²) nested loops from blocking equipment phase
+	if(!latejoin && SSticker.current_state == GAME_STATE_STARTUP)
+		// Store flag to process knowledge after transfer
+		H.mind.needs_knowledge_processing = TRUE
+		return
+	
+	// Latejoin or after roundstart: populate immediately
+	do_populate_job_knowledge(H)
+
+// Actually performs the knowledge population (can be deferred)
+/datum/job/proc/do_populate_job_knowledge(mob/living/carbon/human/H)
+	if(!H || !H.mind)
+		return
+	
+	// Everyone knows universal jobs (nobles for now)
+	for(var/X in universal_known_jobs)
+		var/list/minds_in_job = SSjob.job_minds_cache[X]
+		if(!minds_in_job)
+			continue
+		
+		for(var/datum/mind/MF in minds_in_job)
+			if(MF.current && ishuman(MF.current))
+				H.mind.i_know_person(MF.current)
+	
+	// Mutual knowledge system (only for jobs with bank accounts)
+	if(!give_bank_account)
+		return
+	
+	for(var/X in peopleknowme)
+		var/list/minds_in_job = SSjob.job_minds_cache[X]
+		if(!minds_in_job)
+			continue
+		
+		for(var/datum/mind/MF in minds_in_job)
+			// Only add ourselves to their list if they also have give_bank_account
+			// This prevents Bandits/Wretches from learning about latejoiners
+			if(MF.current && ishuman(MF.current))
+				var/mob/living/carbon/human/target = MF.current
+				var/datum/job/target_job = SSjob.GetJob(target.job)
+				if(target_job?.give_bank_account)
+					H.mind.person_knows_me(MF)
+	
+	for(var/X in peopleiknow)
+		var/list/minds_in_job = SSjob.job_minds_cache[X]
+		if(!minds_in_job)
+			continue
+		
+		for(var/datum/mind/MF in minds_in_job)
+			// Only add them to our list if they also have give_bank_account
+			// This prevents knowing Bandits/Mercenaries who don't participate in the system
+			if(MF.current && ishuman(MF.current))
+				var/mob/living/carbon/human/target = MF.current
+				var/datum/job/target_job = SSjob.GetJob(target.job)
+				if(target_job?.give_bank_account)
+					H.mind.i_know_person(MF)
+
 //Only override this proc
 //H is usually a human unless an /equip override transformed it
 /datum/job/proc/after_spawn(mob/living/H, mob/M, latejoin = FALSE)
@@ -210,12 +300,12 @@
 		for(var/stat in job_stats)
 			H.change_stat(stat, job_stats[stat])
 
-	for(var/X in peopleknowme)
-		for(var/datum/mind/MF in get_minds(X))
-			H.mind.person_knows_me(MF)
-	for(var/X in peopleiknow)
-		for(var/datum/mind/MF in get_minds(X))
-			H.mind.i_know_person(MF)
+	// Populate knowledge immediately with default job titles
+	// For advjobs, this uses the base job title initially
+	populate_job_knowledge(H, latejoin)
+	
+	// Register signal handler to UPDATE cached job titles after advclass selection
+	RegisterSignal(H, COMSIG_JOB_EQUIPPED, PROC_REF(update_job_title_in_known_lists))
 
 	if(H.islatejoin && announce_latejoin)
 		var/used_title = title
@@ -240,6 +330,11 @@
 
 	if(social_rank)
 		H.social_rank = social_rank
+	if(istype(H, /mob/living/carbon/human))
+		var/mob/living/carbon/human/Hu = H
+		if(Hu.familytree_pref != FAMILY_NONE && !Hu.family_datum)
+			var/timer = (rand(1,30) + 10)
+			addtimer(CALLBACK(SSfamilytree, TYPE_PROC_REF(/datum/controller/subsystem/familytree, AddLocal), H, Hu.familytree_pref), timer SECONDS)
 
 	if(H.mind.special_role == "Court Agent" || H.mind.assigned_role == "Bandit" || H.mind.assigned_role == "Wretch") //For obfuscating Court Agents & Bandits in Actors list
 		if (istype(H, /mob/living/carbon/human)) //For determining if the actor has a species name to display
@@ -258,11 +353,6 @@
 				GLOB.actors_list[H.mobid] = "[H.real_name] as the [Hu.dna.species.name] Adventurer<BR>"
 			else
 				GLOB.actors_list[H.mobid] = "[H.real_name] as the [Hu.dna.species.name] [H.mind.assigned_role]<BR>"
-		else
-			if (obsfuscated_job)
-				GLOB.actors_list[H.mobid] = "[H.real_name] as Adventurer<BR>"
-			else
-				GLOB.actors_list[H.mobid] = "[H.real_name] as [H.mind.assigned_role]<BR>"
 
 	if(islist(advclass_cat_rolls))
 		hugboxify_for_class_selection(H)
@@ -397,36 +487,47 @@
 
 /datum/outfit/job
 	name = "Standard Gear"
+	uniform = null
+	id = null
+	ears = null
+	belt = null
+	back = null
+	shoes = null
+	box = null
 
 	var/jobtype = null
-
-	back = /obj/item/storage/backpack
+	// List of patrons we are allowed to use
+	var/list/allowed_patrons
+	// Default patron in case the patron is not allowed
+	var/datum/patron/default_patron
+	// This is our bitflag for storyteller rolling.
+	var/job_bitflag = NONE
+	// Can select equipment after you spawn in.
+	var/has_loadout = FALSE
 
 /datum/outfit/job/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
-	..()
-/*	switch(H.backpack)
-		if(GBACKPACK)
-			back = /obj/item/storage/backpack //Grey backpack
-		if(GSATCHEL)
-			back = /obj/item/storage/backpack/satchel //Grey satchel
-		if(GDUFFELBAG)
-			back = /obj/item/storage/backpack/duffelbag //Grey Duffel bag
-		if(LSATCHEL)
-			back = /obj/item/storage/backpack/satchel/leather //Leather Satchel
-		if(DSATCHEL)
-			back = satchel //Department satchel
-		if(DDUFFELBAG)
-			back = duffelbag //Department duffel bag
-		else
-			back = backpack //Department backpack
+	. = ..()
+	H.update_body()
 
-	//converts the uniform string into the path we'll wear, whether it's the skirt or regular variant
-	var/holder
-	if(H.jumpsuit_style == PREF_SKIRT)
-		holder = "[uniform]"
+	// Patron logic
+	var/datum/patron/old_patron = H.patron
+	var/allowed = FALSE
+	for(var/path in allowed_patrons)
+		if(istype(old_patron, path))
+			allowed = TRUE
+			break
+	if(allowed)
+		return
 	else
-		holder = "[uniform]"
-	uniform = text2path(holder)*/
+		var/list/datum/patron/possiblegods = list()
+		var/list/datum/patron/preferredgods = list()
+		for(var/god in GLOB.patronlist)
+			if(!(god in allowed_patrons))
+				continue
+			possiblegods |= god
+			var/datum/patron/PA = GLOB.patronlist[god]
+			if(PA.associated_faith == old_patron.associated_faith) // prefer to pick a patron within the same faith before apostatizing
+				preferredgods |= god
 
 /datum/outfit/job/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
@@ -435,6 +536,25 @@
 	var/datum/job/J = SSjob.GetJobType(jobtype)
 	if(!J)
 		J = SSjob.GetJob(H.job)
+
+	if(H.mind)
+		if(H.ckey)
+			H.mind?.job_bitflag = job_bitflag
+			if(check_crownlist(H.ckey))
+				H.mind.special_items["Champion Circlet"] = /obj/item/clothing/head/roguetown/crown/sparrowcrown
+			give_special_items(H)
+	for(var/list_key in SStriumphs.post_equip_calls)
+		var/datum/triumph_buy/thing = SStriumphs.post_equip_calls[list_key]
+		thing.on_activate(H)
+	if(has_loadout && H.mind)
+		addtimer(CALLBACK(src, PROC_REF(choose_loadout), H), 50)
+
+/datum/outfit/job/proc/choose_loadout(mob/living/carbon/human/H)
+	if(!has_loadout)
+		return
+	if(!H.client)
+		return // Client doesn't exist, skip
+	// Loadout selection happens here - override in specific job outfits
 
 //Warden and regular officers add this result to their get_access()
 /datum/job/proc/check_config_for_sec_maint()
@@ -449,6 +569,14 @@
 /proc/should_wear_femme_clothes(mob/living/carbon/human/H)
 	return (H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F)
 // LETHALSTONE EDIT END
+
+// Checks for character gender agnostic of body type. Made for honorific assignment.
+/proc/get_pronoun_gender(mob/living/carbon/human/H) 
+	if(H.pronouns == HE_HIM || H.pronouns == HE_HIM_F)
+		return "MASC"
+	else if (H.pronouns == SHE_HER || H.pronouns == SHE_HER_M)
+		return "FEM"
+	return
 
 /datum/job/proc/get_informed_title(mob/mob)
 	if(mob.gender == FEMALE && f_title)
@@ -529,6 +657,10 @@
 				if(adv_ref.extra_context)
 					dat += "<font color ='#a06c1e'>[adv_ref.extra_context]"
 					dat += "</font>"
+				if(!isnull(adv_ref.origin_override_type))
+					var/datum/virtue/origin/typecasted_origin = adv_ref.origin_override_type
+					dat += "<font color ='#a06c1e'>This subclass will overide your origin to: [initial(typecasted_origin.name)]"
+					dat += "</font>"
 				dat += "</details>"
 		dat += "<hr>"
 		if(length(job_stats))
@@ -567,4 +699,30 @@
 		popup.open(FALSE)
 		if(winexists(usr, "classhelp"))
 			winset(usr, "classhelp", "focus=true")
+	if(href_list["jobsubclassinfo"])
+		var/list/dat = list()
+		for(var/adv in job_subclasses)
+			var/datum/advclass/advpath = adv
+			var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(advpath.name))
+			if(subclass.maximum_possible_slots != -1)
+				dat += "[subclass.name] — <b>"
+				if(subclass.total_slots_occupied >= subclass.maximum_possible_slots)
+					dat += "FULL!"
+				else
+					dat += "[subclass.total_slots_occupied] / [subclass.maximum_possible_slots]"
+				dat += "</b><br>"
+		var/datum/browser/popup = new(usr, "subclassslots", "<div style='text-align: center'>[title]</div>", nwidth = 200, nheight = 300)
+		popup.set_content(dat.Join())
+		popup.open(FALSE)
+		if(winexists(usr, "subclassslots"))
+			winset(usr, "subclassslots", "focus=true")
 	. = ..()
+
+/datum/job/proc/has_limited_subclasses()
+	if(length(job_subclasses) <= 0)
+		return FALSE
+	for(var/adv in job_subclasses)
+		var/datum/advclass/subclass = adv
+		if(initial(subclass.maximum_possible_slots) != -1)
+			return TRUE
+	return FALSE

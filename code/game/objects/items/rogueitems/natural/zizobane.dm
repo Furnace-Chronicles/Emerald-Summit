@@ -22,7 +22,7 @@
 /obj/structure/zizo_bane/proc/make_gas()
     visible_message(span_warn("A cloud of spores burst up from \the [src]!"))
     var/datum/effect_system/smoke_spread/zizosleep/S = new
-    playsound(get_turf(src), "sound/items/mushroom_step.ogg", 100)
+    playsound(src, "sound/items/mushroom_step.ogg", 100)
     S.set_up(2, loc)
     S.start()
 

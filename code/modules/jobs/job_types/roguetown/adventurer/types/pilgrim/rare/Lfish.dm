@@ -5,7 +5,7 @@
 	tutorial = "You are a Master Fisher, you cast your rod with might, and are able to pull fish larger than Eoras Bosom."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/fishermaster
+	outfit = /datum/outfit/job/adventurer/fishermaster
 
 	maximum_possible_slots = 1
 	pickprob = 5
@@ -30,7 +30,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/adventurer/fishermaster/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/fishermaster/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.pronouns == HE_HIM || H.pronouns == THEY_THEM || H.pronouns == IT_ITS)
 		pants = /obj/item/clothing/under/roguetown/trou

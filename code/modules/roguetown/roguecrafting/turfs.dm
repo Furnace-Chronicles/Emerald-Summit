@@ -36,6 +36,79 @@
 	reqs = list(/obj/item/natural/wood/plank = 2)
 	craftdiff = 2
 
+/datum/crafting_recipe/roguetown/turfs/wood/floorhw
+	name = "floor (herringbone weathered)"
+	result = /turf/open/floor/rogue/ruinedwood/herringbone
+	reqs = list(/obj/item/natural/wood/plank = 1)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/turfs/wood/floorhs
+	name = "floor (herringbone stamped)"
+	result = /turf/open/floor/rogue/ruinedwood/chevron
+	reqs = list(/obj/item/natural/wood/plank = 1)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/turfs/wood/floorslanted
+	name = "floor (slanted)"
+	result = /turf/open/floor/rogue/ruinedwood/spiral
+	reqs = list(/obj/item/natural/wood/plank = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/carpet
+	name = "carpet(inn)"
+	result = /turf/open/floor/carpet/inn
+	reqs = list(/obj/item/natural/silk= 2)	
+	skillcraft = /datum/skill/craft/carpentry
+	verbage_simple = "construct"
+	verbage = "constructs"
+	craftdiff = 0
+
+/datum/crafting_recipe/roguetown/turfs/carpet/purple
+	name = "carpet(purple)"
+	result = /turf/open/floor/carpet/purple
+	reqs = list(/obj/item/natural/silk= 2)	
+	skillcraft = /datum/skill/craft/carpentry
+	verbage_simple = "construct"
+	verbage = "constructs"
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/turfs/carpet/red
+	name = "carpet(red)"
+	result = /turf/open/floor/carpet/red
+	reqs = list(/obj/item/natural/silk= 2)	
+	skillcraft = /datum/skill/craft/carpentry
+	verbage_simple = "construct"
+	verbage = "constructs"
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/turfs/carpet/stellar
+	name = "carpet(stellar)"
+	result = /turf/open/floor/carpet/stellar
+	reqs = list(/obj/item/natural/silk= 2)	
+	skillcraft = /datum/skill/craft/carpentry
+	verbage_simple = "construct"
+	verbage = "constructs"
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/turfs/carpet/royalblack
+	name = "carpet(royal black)"
+	result = /turf/open/floor/carpet/royalblack
+	reqs = list(/obj/item/natural/silk= 2)	
+	skillcraft = /datum/skill/craft/carpentry
+	verbage_simple = "construct"
+	verbage = "constructs"
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/stone/redstone
+	name = "floor (red stone)"
+	result = /turf/open/floor/rogue/blocks/stonered
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/turfs/stone/tinyredstone
+	name = "floor (tiny red stone)"
+	result = /turf/open/floor/rogue/blocks/stonered/tiny
+	craftdiff = 2
+
 //Platform has unique turf-check vs normal turf.
 /datum/crafting_recipe/roguetown/turfs/wood/platform/TurfCheck(mob/user, turf/T)
 	if(isclosedturf(T))
@@ -68,6 +141,24 @@
 	verbage_simple = "construct"
 	verbage = "constructs"
 	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/turfs/wood/darkwoodwall
+	name = "Dark Wood Wall"
+	result = /turf/closed/wall/mineral/rogue/wooddark
+	reqs = list(/obj/item/natural/wood/plank = 2)
+	skillcraft = /datum/skill/craft/carpentry
+	verbage_simple = "construct"
+	verbage = "constructs"
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/wood/darkwoodwindow
+	name =	"Dark Wood Murderhole"
+	result = /turf/closed/wall/mineral/rogue/wooddark/window
+	reqs = list(/obj/item/natural/wood/plank = 2)
+	skillcraft = /datum/skill/craft/carpentry
+	verbage_simple = "construct"
+	verbage = "constructs"
+	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/turfs/wood/murderhole/alt
 	reqs = list(/obj/item/natural/wood/plank = 2)
@@ -131,6 +222,81 @@
 	result = /turf/open/floor/rogue/blocks/platform
 	reqs = list(/obj/item/natural/stoneblock = 2)
 	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/turfs/stone/marblefloor
+	name = "Marble Floor (stone)"
+	result = /turf/open/floor/rogue/churchmarble
+	reqs = list(/obj/item/natural/stoneblock = 4)
+	craftdiff = 4
+// intentionally expensive and hard to make, its marble
+
+/datum/crafting_recipe/roguetown/turfs/stone/bluestone2
+	name = "Bluestone Slabs"
+	result = /turf/open/floor/rogue/blocks/bluestone
+	reqs = list(/obj/item/natural/stoneblock = 3)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/stone/concreteslab
+	name = "Large Stone Slabs"
+	result = /turf/open/floor/rogue/concrete
+	reqs = list(/obj/item/natural/stoneblock = 2)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/turfs/stone/masonic
+	name = "Masonic Decorative Floor"
+	result = /turf/open/floor/rogue/tile/masonic
+	reqs = list(/obj/item/natural/stoneblock = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/stone/masonicalt
+	name = "Masonic Inverse Decorative Floor"
+	result = /turf/open/floor/rogue/tile/masonic/inverted
+	reqs = list(/obj/item/natural/stoneblock = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/stone/masonicspiral
+	name = "Masonic Spiral Decorative Floor"
+	result = /turf/open/floor/rogue/tile/masonic/spiral
+	reqs = list(/obj/item/natural/stoneblock = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/stone/bluelargetile
+	name = "Blue Large Tiles"
+	result = /turf/open/floor/rogue/tile/bfloorz
+	reqs = list(/obj/item/natural/stoneblock = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/stone/churchredbrick
+	name = "Large Red Masonic Bricks"
+	result = /turf/open/floor/rogue/churchbrick
+	reqs = list(/obj/item/natural/stoneblock = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/stone/haremgreenbricks
+	name = "Harm Green Bricks"
+	result = /turf/open/floor/rogue/tile/harem1
+	reqs = list(/obj/item/natural/stoneblock = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/stone/haremredbricks
+	name = "Harem Red Bricks"
+	result = /turf/open/floor/rogue/tile/harem
+	reqs = list(/obj/item/natural/stoneblock = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turfs/stone/harempink
+	name = "Harem Pink Bricks"
+	result = /turf/open/floor/rogue/tile/harem2
+	reqs = list(/obj/item/natural/stoneblock = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/turf/stone/glassfloors
+	name = "Stone Glass Flooring"
+	result = /turf/open/transparent/glass
+	skillcraft = /datum/skill/craft/masonry
+	reqs = list(/obj/item/natural/stoneblock = 2, /obj/item/natural/glass = 2)
+	craftdiff = 5 //you should be a master in whatever trade you do to make literal floors out of glass that won't crack
+
 
 /datum/crafting_recipe/roguetown/turfs/stone/platform/TurfCheck(mob/user, turf/T)
 	if(isclosedturf(T))
@@ -365,6 +531,33 @@
 	if(!istype(T, /turf/open/floor/rogue))
 		return
 	return TRUE
+
+/datum/crafting_recipe/roguetown/roguewindow/harem1
+	name = "harem window"
+	result = /obj/structure/roguewindow/harem1
+	reqs = list(/obj/item/natural/stone = 2, /obj/item/natural/glass = 1)
+	skillcraft = /datum/skill/craft/masonry
+	verbage_simple = "build"
+	verbage = "builds"
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/roguewindow/harem2
+	name = "ornamental harem window"
+	result = /obj/structure/roguewindow/harem2
+	reqs = list(/obj/item/natural/stone = 2, /obj/item/natural/glass = 1, /obj/item/alch/rosa = 1)
+	skillcraft = /datum/skill/craft/masonry
+	verbage_simple = "build"
+	verbage = "builds"
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/roguewindow/harem3
+	name = "reinforced harem window"
+	result = /obj/structure/roguewindow/harem3
+	reqs = list(/obj/item/natural/stone = 2, /obj/item/natural/glass =2)
+	skillcraft = /datum/skill/craft/masonry
+	verbage_simple = "build"
+	verbage = "builds"
+	craftdiff = 4
 
 // The windows you can open and close
 /datum/crafting_recipe/roguetown/turfs/roguewindow/dynamic

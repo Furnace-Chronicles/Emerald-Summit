@@ -39,6 +39,10 @@
 	var/list/known_skills = list()
 	///Assoc list of skills - exp
 	var/list/skill_experience = list()
+	///Cooldown for level up effects. Duplicate from sleep_adv
+	COOLDOWN_DECLARE(level_up)
+	///Cooldown for trait block warning message
+	COOLDOWN_DECLARE(trait_block_warning)
 
 /datum/skill_holder/New()
 	. = ..()
@@ -56,8 +60,25 @@
 	UnregisterSignal(source, COMSIG_MIND_TRANSFER)
 	set_current(destination)
 
-/datum/skill_holder/proc/adjust_experience(skill, amt, silent = FALSE)
+/datum/skill_holder/proc/adjust_experience(skill, amt, silent = FALSE, check_apprentice = TRUE)
 	var/datum/skill/S = GetSkillRef(skill)
+	
+	// Check if advancement is blocked by missing required traits
+	if(check_apprentice && S.advancement_traits)
+		var/current_level = known_skills[S] || SKILL_LEVEL_NONE
+		
+		for(var/level_string in S.advancement_traits)
+			var/required_level = text2num(level_string)
+			// If we're at or past the level that requires the trait, block all XP if trait missing
+			if(current_level >= required_level)
+				var/list/required_traits = S.advancement_traits[level_string]
+				for(var/trait in required_traits)
+					if(!HAS_TRAIT(current, trait))
+						if(COOLDOWN_FINISHED(src, trait_block_warning))
+							to_chat(current, span_warning("My [S.name] knowledge feels... blocked. Perhaps I need some natural talent for this."))
+							COOLDOWN_START(src, trait_block_warning, 60 SECONDS)
+						return FALSE // Return FALSE to indicate XP was blocked
+	
 	skill_experience[S] = max(0, skill_experience[S] + amt) //Prevent going below 0
 	var/old_level = known_skills[S]
 	switch(skill_experience[S])
@@ -92,6 +113,11 @@
 	if(known_skills[S] >= old_level)
 		if(known_skills[S] > old_level)
 			to_chat(current, span_nicegreen("My [S.name] grows to [SSskills.level_names[known_skills[S]]]!"))
+			if(!COOLDOWN_FINISHED(src, level_up))
+				if(current.client?.prefs.floating_text_toggles & XP_TEXT)
+					current.balloon_alert(current, "<font color = '#9BCCD0'>Level up...</font>")
+				current.playsound_local(current, pick(LEVEL_UP_SOUNDS), 100, TRUE)
+				COOLDOWN_START(src, level_up, XP_SHOW_COOLDOWN)
 			SEND_SIGNAL(current, COMSIG_SKILL_RANK_INCREASED, S, known_skills[S], old_level)
 			record_round_statistic(STATS_SKILLS_LEARNED)
 			S.skill_level_effect(known_skills[S], src)
@@ -167,9 +193,12 @@
 
 /datum/skill_holder/proc/get_skill_level(skill)
 	var/datum/skill/S = GetSkillRef(skill)
+	var/modifier = 0
+	if(S?.abstract_type in list(/datum/skill/labor, /datum/skill/craft))
+		modifier = current?.get_inspirational_bonus()
 	if(!(S in known_skills))
 		return SKILL_LEVEL_NONE
-	return known_skills[S] || SKILL_LEVEL_NONE
+	return known_skills[S] + modifier || SKILL_LEVEL_NONE
 
 /datum/skill_holder/proc/print_levels(user)
 	var/list/shown_skills = list()
@@ -190,3 +219,13 @@
 	msg += "</span>"
 
 	to_chat(user, msg)
+
+/mob/proc/get_inspirational_bonus()
+	return 0
+
+/mob/living/carbon/get_inspirational_bonus()
+	var/bonus = 0
+	for(var/event_type in stressors)
+		var/datum/stressevent/event = stressors[event_type]
+		bonus += event.quality_modifier
+	return bonus

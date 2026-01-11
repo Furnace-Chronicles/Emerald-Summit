@@ -28,6 +28,7 @@
 	var/inertia_move_delay = 5
 	var/pass_flags = 0
 	var/moving_diagonally = 0 //0: not doing a diagonal move. 1 and 2: doing the first/second step of the diagonal move
+	var/allow_diagonal_movement = FALSE
 	var/lastcardinal = 0
 	var/lastcardpress = 0
 	var/atom/movable/moving_from_pull		//attempt to resume grab after moving instead of before.
@@ -315,79 +316,31 @@
 	var/atom/oldloc = loc
 	var/direction_to_move = direct
 
-//Early override for some cases like diagonal movement
+	//Early override for some cases like diagonal movement
 	if(glide_size_override)
 		testing("GSO 1 [glide_size_override]")
 		set_glide_size(glide_size_override)
-
+	
 	if(loc != newloc)
 		if (!(direct & (direct - 1))) //Cardinal move
 			lastcardinal = direct
 			. = ..()
 		else //Diagonal move, split it into cardinal moves
-			if (direct & NORTH)
-				if (direct & EAST)
-					if(lastcardinal == NORTH)
-						direction_to_move = EAST
-						if(!step(src, EAST))
-							direction_to_move = NORTH
-							. = step(src, NORTH)
-					else if(lastcardinal == EAST)
-						direction_to_move = NORTH
-						if(!step(src, NORTH))
-							direction_to_move = EAST
-							. = step(src, EAST)
-					else
-						direction_to_move = pick(NORTH,EAST)
-						. = step(src, direction_to_move)
-				else if (direct & WEST)
-					if(lastcardinal == NORTH)
-						direction_to_move = WEST
-						if(!step(src, WEST))
-							direction_to_move = NORTH
-							. = step(src, NORTH)
-					else if(lastcardinal == WEST)
-						direction_to_move = NORTH
-						if(!step(src, NORTH))
-							direction_to_move = WEST
-							. = step(src, WEST)
-					else
-						direction_to_move = pick(NORTH,WEST)
-						. = step(src, direction_to_move)
-			else if (direct & SOUTH)
-				if (direct & EAST)
-					if(lastcardinal == SOUTH)
-						direction_to_move = EAST
-						if(!step(src, EAST))
-							direction_to_move = SOUTH
-							. = step(src, SOUTH)
-					else if(lastcardinal == EAST)
-						direction_to_move = SOUTH
-						if(!step(src, SOUTH))
-							direction_to_move = EAST
-							. = step(src, EAST)
-					else
-						direction_to_move = pick(SOUTH,EAST)
-						. = step(src, direction_to_move)
-				else if (direct & WEST)
-					if(lastcardinal == SOUTH)
-						direction_to_move = WEST
-						if(!step(src, WEST))
-							direction_to_move = SOUTH
-							. = step(src, SOUTH)
-					else if(lastcardinal == WEST)
-						direction_to_move = SOUTH
-						if(!step(src, SOUTH))
-							direction_to_move = WEST
-							. = step(src, WEST)
-					else
-						direction_to_move = pick(SOUTH,WEST)
-						. = step(src, direction_to_move)
-
+			if(allow_diagonal_movement)
+				. = ..() //right here
+			else if(lastcardinal & direct)
+				direction_to_move = direct ^ lastcardinal
+				. = step(src, direction_to_move) 
+				if(!.)
+					direction_to_move ^= direct
+					. = step(src, direction_to_move)
+			else
+				direction_to_move = direct & pick( (NORTH | SOUTH), (EAST | WEST) )
+				. = step(src, direction_to_move)
 	if(!loc || (loc == oldloc && oldloc != newloc))
 		last_move = 0
 		return
-
+	
 	if(.)
 		Moved(oldloc, direct)
 	if(. && pulling && pulling == pullee && pulling != moving_from_pull) //we were pulling a thing and didn't lose it during our move.
@@ -424,20 +377,6 @@
 		update_parallax_contents()
 	var/turf/old_turf = get_turf(OldLoc)
 	var/turf/new_turf = get_turf(src)
-
-	if(HAS_SPATIAL_GRID_CONTENTS(src))
-		if(old_turf && new_turf && (old_turf.z != new_turf.z \
-			|| GET_SPATIAL_INDEX(old_turf.x) != GET_SPATIAL_INDEX(new_turf.x) \
-			|| GET_SPATIAL_INDEX(old_turf.y) != GET_SPATIAL_INDEX(new_turf.y)))
-
-			SSspatial_grid.exit_cell(src, old_turf)
-			SSspatial_grid.enter_cell(src, new_turf)
-
-		else if(old_turf && !new_turf)
-			SSspatial_grid.exit_cell(src, old_turf)
-
-		else if(new_turf && !old_turf)
-			SSspatial_grid.enter_cell(src, new_turf)
 
 	if(HAS_SPATIAL_GRID_CONTENTS(src))
 		if(old_turf && new_turf && (old_turf.z != new_turf.z \
@@ -837,15 +776,22 @@ GLOBAL_VAR_INIT(pixel_diff_time, 1)
 	animate(src, pixel_x = pixel_x + pixel_x_diff, pixel_y = pixel_y + pixel_y_diff, transform=rotated_transform, time = GLOB.pixel_diff_time, easing=LINEAR_EASING, flags = ANIMATION_PARALLEL)
 	animate(pixel_x = pixel_x - pixel_x_diff, pixel_y = pixel_y - pixel_y_diff, transform=initial_transform, time = GLOB.pixel_diff_time * 2, easing=SINE_EASING, flags = ANIMATION_PARALLEL)
 
-/atom/movable/proc/do_attack_animation(atom/A, visual_effect_icon, obj/item/used_item, no_effect, item_animation_override = null, datum/intent/used_intent, simplified = FALSE)
+/atom/movable/proc/do_attack_animation(atom/A, visual_effect_icon, obj/item/used_item, no_effect, item_animation_override = null, datum/intent/used_intent = null, simplified = FALSE)
 	if(used_item || !simplified)
 		var/animation_type = item_animation_override || used_intent?.get_attack_animation_type()
-		do_item_attack_animation(A, visual_effect_icon, used_item, animation_type = animation_type)
-		return
+		if(used_intent?.swingdelay)
+			//draw_swingdelay(A, used_intent.custom_swingdelay, used_intent.swingdelay)
+			if(isliving(src))
+				var/mob/living/L = src
+				L.play_overhead_indicator_flick('icons/mob/mob_effects.dmi', "eff_swingdelay", used_intent?.swingdelay, MOB_EFFECT_LAYER_SWINGDELAY, y_offset = 3)
+				addtimer(CALLBACK(src, PROC_REF(do_item_attack_animation), A, visual_effect_icon, used_item, animation_type, used_intent), used_intent.swingdelay)
+		else
+			do_item_attack_animation(A, visual_effect_icon, used_item, animation_type = animation_type, used_intent = used_intent)
+			return
 	wiggle(A)
 
 
-/atom/movable/proc/do_item_attack_animation(atom/A, visual_effect_icon, obj/item/used_item, animation_type = ATTACK_ANIMATION_SWIPE)
+/atom/movable/proc/do_item_attack_animation(atom/A, visual_effect_icon, obj/item/used_item, animation_type = ATTACK_ANIMATION_SWIPE, datum/intent/used_intent)
 	if(used_item)
 		if(used_item.no_effect)
 			return
@@ -855,7 +801,14 @@ GLOBAL_VAR_INIT(pixel_diff_time, 1)
 		return
 	if (isnull(used_item))
 		return
+
 	var/dist = get_dist(src, A)
+
+	if(dist > used_intent?.reach)
+		do_attack_animation_simple(get_step(src, src.dir), visual_effect_icon)	//We whiff it directly in front of us and leave it at that
+		wiggle(A)
+		return
+
 	if(dist <= 1)
 		var/image/attack_image = image(icon = used_item, icon_state = used_item.icon_state)
 		attack_image.plane = A.plane + 1
@@ -998,18 +951,63 @@ GLOBAL_VAR_INIT(pixel_diff_time, 1)
 				animate(attack, pixel_y = 3 * y_sign * angle_mult, time = 0.2 SECONDS, easing = CIRCULAR_EASING | EASE_IN, flags = ANIMATION_PARALLEL)
 				animate(pixel_y = y_return, time = 0.2 SECONDS, easing = CIRCULAR_EASING | EASE_OUT)
 	else
-		//Oldschool indicators.
-		var/turf/first_step = get_step(src, get_dir(src, A))
-		var/obj/effect/temp_visual/dir_setting/attack_effect/firstatk = new(first_step, get_dir(src, A))
+		do_attack_animation_simple(A, visual_effect_icon, used_intent = used_intent)
+
+	///Oldschool indicators. Used by non-weapon intents or simple mobs.
+/atom/movable/proc/do_attack_animation_simple(atom/A, visual_effect_icon, wiggle = TRUE, datum/intent/used_intent)
+	var/newdir = get_dir(src, A)
+	var/turf/first_step = get_step(src, newdir)
+	var/obj/effect/temp_visual/dir_setting/attack_effect/firstatk = new(first_step, newdir)
+	firstatk.icon_state = visual_effect_icon
+	firstatk.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	var/dist = get_dist(src, A)
+	if(dist > 1)	//2+ tiles, we trace a path to the target.
+		for(var/i = 1, i<dist, i++)
+			newdir = get_dir(first_step, A)
+			var/turf/next_step = get_step(first_step, newdir)
+			var/obj/effect/temp_visual/dir_setting/attack_effect/atk = new(next_step, newdir)
+			atk.icon_state = visual_effect_icon
+			atk.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+			if(used_intent?.effective_range)
+				var/draw_eff_range_vfx = FALSE
+				switch(used_intent?.effective_range_type)
+					if(EFF_RANGE_EXACT)
+						if(used_intent?.effective_range == (i + 1))	//We only start this loop if dist is >1 so we start from the second tracer onwards.
+							draw_eff_range_vfx = TRUE
+					if(EFF_RANGE_ABOVE)
+						if(used_intent?.effective_range <= (i + 1))
+							draw_eff_range_vfx = TRUE
+					if(EFF_RANGE_BELOW)
+						if(used_intent?.effective_range >= (i + 1))
+							draw_eff_range_vfx = TRUE
+				if(draw_eff_range_vfx)
+					var/obj/effect/temp_visual/dir_setting/attack_effect/atk_effrange = new(next_step, newdir)
+					atk_effrange.icon_state = "effrange"
+					atk_effrange.layer = (atk.layer + 0.1)	//Should always be on top of the regular indicator.
+			first_step = next_step
+	if(wiggle)
+		wiggle(A)
+
+///Bit of a shoddy copy paste specifically for more static swingdelays
+/atom/movable/proc/draw_swingdelay(atom/A, visual_effect_icon, delay)
+	var/newdir = get_dir(src, A)
+	var/turf/first_step = get_step(src, newdir)
+	var/obj/effect/temp_visual/swingdelay/firstatk = new(first_step, delay)
+	firstatk.duration = delay
+	if(visual_effect_icon)
 		firstatk.icon_state = visual_effect_icon
-		firstatk.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-		if(dist > 1)	//2+ tiles, we trace a path to the target.
-			for(var/i = 1, i<dist, i++)
-				var/turf/next_step = get_step(first_step, get_dir(first_step, A))
-				var/obj/effect/temp_visual/dir_setting/attack_effect/atk = new(next_step, get_dir(first_step, A))
+	firstatk.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	var/dist = get_dist(src, A)
+	if(dist > 1)	//2+ tiles, we trace a path to the target.
+		for(var/i = 1, i<dist, i++)
+			newdir = get_dir(first_step, A)
+			var/turf/next_step = get_step(first_step, newdir)
+			var/obj/effect/temp_visual/swingdelay/atk = new(next_step, delay)
+			atk.duration = delay
+			if(visual_effect_icon)
 				atk.icon_state = visual_effect_icon
-				atk.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-				first_step = next_step
+			atk.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+			first_step = next_step
 
 /obj/effect/temp_visual/dir_setting/attack_effect
 	icon = 'icons/effects/effects.dmi'

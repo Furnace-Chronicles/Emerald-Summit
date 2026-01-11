@@ -23,6 +23,7 @@
 	intdamage_factor = 1.1
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	sheathe_sound = 'sound/items/wood_sharpen.ogg'
+	special = /datum/special_intent/flail_sweep
 
 /datum/intent/flail/strike
 	name = "strike"
@@ -229,3 +230,4 @@
 	force = 27
 	wdefense = 3
 	wbalance = WBALANCE_HEAVY
+	item_flags = PEASANT_WEAPON

@@ -27,24 +27,27 @@
 #define STORYTELLERS_ALL (DIVINE_STORYTELLERS + INHUMEN_STORYTELLERS)
 
 /datum/storyteller/psydon
-	name = "Psydon"
-	vote_desc = "Peace reigns. No villains will be present. His children can rest easy, for they have earned their respite"
+	name = "Psydon (Extended)"
+	vote_desc = "Peace reigns. No villains beside wretches and bandits will be present. His children can rest easy, for they have earned their respite"
 	desc = "Psydon will do little, events will be common as he takes a hands-off approach to the world. Consider this the 'extended' experience."
 	welcome_text = "A temperate breeze rolls through the quiet streets.."
 	weight = 6
 	always_votable = TRUE
 	color_theme = "#80ced8"
+	can_inject_antags = FALSE
 
 	//Has no influence, your actions will not impact him his spawn rates. Cus he's asleep.
-	//Tl;dr - higher event spawn rates to keep stuff interesting, no god intervention, no antags. (Raids and omens will still happen at normal rate.)
+	//Tl;dr - higher event spawn rates to keep stuff interesting, no god intervention, no antags.
 	point_gains_multipliers = list(
 		EVENT_TRACK_MUNDANE = 1.2,
 		EVENT_TRACK_MODERATE = 1.2,
-		EVENT_TRACK_INTERVENTION = 0,			//No god intervention, cus he's asleep.
-		EVENT_TRACK_CHARACTER_INJECTION = 0,	//No antagonist spawns.
+		EVENT_TRACK_INTERVENTION = -1,			//No god intervention, cus he's asleep.
+		EVENT_TRACK_CHARACTER_INJECTION = -1,	//No antagonist spawns.
+		EVENT_TRACK_RAIDS = -1,
 	)
 
-/datum/storyteller/psydon/SetAsActive()
+/datum/storyteller/psydon/on_vote_chosen()
+	rules_forever = TRUE
 	SSjob.psydoncheck = TRUE
 	SSjob.CheckPopScaling()
 
@@ -351,7 +354,7 @@
 
 	influence_sets = list(
 		"Set 1" = list(
-			STATS_KISSES_MADE = list("points" = 7, "capacity" = 70),
+			STATS_KISSES_MADE = list("name" = "Kisses Made:","points" = 7, "capacity" = 70),
 		),
 		"Set 2" = list(
 			STATS_PLEASURES = list("name" = "Pleasures had:", "points" = 5, "capacity" = 50),

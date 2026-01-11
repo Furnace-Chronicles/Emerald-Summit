@@ -16,6 +16,7 @@
 	can_parry = TRUE
 	var/chargingspeed = 40
 	var/reloadtime = 40
+	var/onehanded = FALSE
 	var/movingreload = FALSE
 	var/hasloadedsprite = FALSE
 	force = 10
@@ -48,20 +49,30 @@
 	basetime = 20
 
 /datum/intent/shoot/crossbow/can_charge()
-	if(mastermob)
-		if(mastermob.get_num_arms(FALSE) < 2)
+	if(mastermob?.next_move > world.time)
+		if(mastermob.client.last_cooldown_warn + 10 < world.time)
+			to_chat(mastermob, span_warning("I'm not ready to do that yet!"))
+			mastermob.client.last_cooldown_warn = world.time
 			return FALSE
-		if(mastermob.get_inactive_held_item())
-			return FALSE
+		if(mastermob && masteritem)
+			var/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/c_bow = masteritem
+			if(mastermob.get_num_arms(FALSE) < 2 && !c_bow.onehanded || mastermob.get_inactive_held_item() && !c_bow.onehanded)
+				to_chat(mastermob, span_warning("I need a free hand to draw [masteritem]!"))
+				return FALSE
 	return TRUE
 
 /datum/intent/shoot/crossbow/get_chargetime()
-	if(mastermob && chargetime)
+	if(mastermob && chargetime && masteritem)
+		var/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/c_bow = masteritem
 		var/newtime = chargetime
 		//skill block
-		newtime = newtime + basetime
-		newtime = newtime - (mastermob.get_skill_level(/datum/skill/combat/crossbows) * 4.25) // minus 4.25 per skill point
-		newtime = newtime - ((mastermob.STAPER)) // minus 1 per perception
+		newtime += basetime
+		newtime -= (mastermob.get_skill_level(/datum/skill/combat/crossbows) * 4.25) // minus 4.25 per skill point
+		newtime -= ((mastermob.STAPER)) // minus 1 per perception
+
+		if(c_bow.onehanded)
+			if(mastermob.get_num_arms(FALSE) < 2 || mastermob.get_inactive_held_item())
+				newtime *= 1.5 // more time if firing one-handed.
 		if(newtime > 1)
 			return newtime
 		else
@@ -79,22 +90,34 @@
 	chargedrain = 0
 
 /datum/intent/arc/crossbow/can_charge()
-	if(mastermob)
-		if(mastermob.get_num_arms(FALSE) < 2)
+	if(mastermob?.next_move > world.time)
+		if(mastermob.client.last_cooldown_warn + 10 < world.time)
+			to_chat(mastermob, span_warning("I'm not ready to do that yet!"))
+			mastermob.client.last_cooldown_warn = world.time
 			return FALSE
-		if(mastermob.get_inactive_held_item())
-			return FALSE
+		if(mastermob && masteritem)
+			var/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/c_bow = masteritem
+			if(mastermob.get_num_arms(FALSE) < 2 && !c_bow.onehanded || mastermob.get_inactive_held_item() && !c_bow.onehanded)
+				to_chat(mastermob, span_warning("I need a free hand to draw [masteritem]!"))
+				return FALSE
 	return TRUE
 
+
 /datum/intent/arc/crossbow/get_chargetime()
-	if(mastermob && chargetime)
+	if(mastermob && chargetime && masteritem)
+		var/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/c_bow = masteritem
 		var/newtime = chargetime
 		//skill block
-		newtime = newtime + basetime
-		newtime = newtime - (mastermob.get_skill_level(/datum/skill/combat/crossbows) * 20)
+		newtime += basetime
+		newtime -= (mastermob.get_skill_level(/datum/skill/combat/crossbows) * 20)
 		//per block
-		newtime = newtime + 20
-		newtime = newtime - ((mastermob.STAPER)*1.5)
+		newtime += 20
+		newtime -= ((mastermob.STAPER)*1.5)
+
+		if(c_bow.onehanded)
+			if(mastermob.get_num_arms(FALSE) < 2 || mastermob.get_inactive_held_item())
+				newtime *= 2 // more time if firing one-handed.
+
 		if(newtime > 0)
 			return newtime
 		else
@@ -137,9 +160,9 @@
 
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
-	if(user.get_num_arms(FALSE) < 2)
+	if(user.get_num_arms(FALSE) < 2 && !onehanded)
 		return FALSE
-	if(user.get_inactive_held_item())
+	if(user.get_inactive_held_item() && !onehanded)
 		return FALSE
 	if(user.client)
 		if(user.client.chargedprog >= 100)
@@ -156,10 +179,25 @@
 		BB.bonus_accuracy += (user.get_skill_level(/datum/skill/combat/crossbows) * 5) // +5 per XBow level.
 		BB.damage *= damfactor
 	cocked = FALSE
-	if(user.has_status_effect(/datum/status_effect/buff/clash) && ishuman(user))
-		var/mob/living/carbon/human/H = user
-		H.bad_guard(span_warning("I can't focus on my Guard and loose bolts! This drains me!"), cheesy = TRUE)
+
 	..()
+
+	if(!onehanded)
+		return
+	var/obj/item/other_hand = user.get_inactive_held_item()
+	var/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/alt_cbow
+	if(other_hand.type != type)
+		return
+	alt_cbow = other_hand
+	if(!alt_cbow)
+		return
+	if(!alt_cbow.chambered)
+		return
+	if(HAS_TRAIT(user, TRAIT_DUALWIELDER) && alt_cbow.onehanded)
+		alt_cbow.accfactor /= 2
+		alt_cbow.process_fire(target, user, FALSE)
+		alt_cbow.accfactor = initial(alt_cbow.accfactor)
+		return
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/update_icon()
 	. = ..()
@@ -196,5 +234,16 @@
 	reloadtime = 20
 	hasloadedsprite = TRUE
 	movingreload = FALSE
+	onehanded = TRUE
 	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_HIP
 
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow/old //slightly shittier slurbow for monster hunters
+	name = "old slurbow"
+	desc = "A lighter weight crossbow with a distinct barrel shroud holding the bolt in place. Light enough to arm by hand. <br>They're popular among among highwaymen and the patrolling lamplighters of Otava. <br>This one has seen better daes."
+	chargingspeed = 20
+	damfactor = 0.5
+	accfactor = 1.1
+	reloadtime = 25
+	hasloadedsprite = TRUE
+	movingreload = FALSE

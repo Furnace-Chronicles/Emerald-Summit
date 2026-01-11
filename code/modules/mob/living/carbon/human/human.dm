@@ -30,6 +30,22 @@
 							add_stress(/datum/stressevent/dwarfshaved)
 				else
 					held_item.melee_attack_chain(user, src, params)
+	if(held_item && (user.zone_selected == BODY_ZONE_CHEST))
+		if(held_item.get_sharpness() && held_item.wlength == WLENGTH_SHORT)
+			if(istype(src.getorganslot(ORGAN_SLOT_WINGS), /obj/item/organ/wings/moth))
+				var/obj/item/organ/selected_organ = src.getorganslot(ORGAN_SLOT_WINGS)
+				if(user == src)
+					user.visible_message("<span class='danger'>[user] starts to cut off [user.p_their()] wings with [held_item].</span>")
+				else
+					user.visible_message("<span class='danger'>[user] starts to cut off [src]'s wings with [held_item].</span>")
+				if(do_after(user, 50, needhand = 1, target = src))
+					playsound(src, 'sound/combat/hits/bladed/smallslash (1).ogg', 80, TRUE, soundping = TRUE)
+					src.emote("scream")
+					add_stress(/datum/stressevent/wingcut)
+					selected_organ.Remove(src)
+					selected_organ.forceMove(src.drop_location())
+				else
+					held_item.melee_attack_chain(user, src, params)
 		return
 	if(user == src)
 		if(get_num_arms(FALSE) < 1)
@@ -141,15 +157,10 @@
 /mob/living/carbon/human/Stat()
 	..()
 	if(mind)
-		var/datum/antagonist/vampirelord/VDL = mind.has_antag_datum(/datum/antagonist/vampirelord)
-		if(VDL)
+		var/datum/antagonist/vampire/VD = mind.has_antag_datum(/datum/antagonist/vampire)
+		if(VD)
 			if(statpanel("Stats"))
-				stat("Vitae:", VDL.vitae)
-		else
-			var/datum/antagonist/vampire/VD = mind.has_antag_datum(/datum/antagonist/vampire)
-			if(VD)
-				if(statpanel("Stats"))
-					stat("Vitae:", VD.vitae)
+				stat("Vitae:", bloodpool)
 		if((mind.assigned_role == "Orthodoxist") || (mind.assigned_role == "Inquisitor"))
 			if(statpanel("Status"))
 				stat("Confessions sent: [GLOB.confessors.len]")
@@ -330,6 +341,17 @@
 	if(!. && error_msg && user)
 		// Might need re-wording.
 		to_chat(user, span_alert("There is no exposed flesh or thin material [above_neck(target_zone) ? "on [p_their()] head" : "on [p_their()] body"]."))
+
+
+//port from vanderlin, proc used to redraw a mob anfter they've been skeletonized
+/mob/living/carbon/human/proc/skele_look()
+	dna.species.go_bald()
+	underwear = "Nude"
+	facial_hairstyle = "Shaved"
+	update_body()
+	update_hair()
+	update_body_parts(redraw = TRUE)
+
 
 //Used for new human mobs created by cloning/goleming/podding
 /mob/living/carbon/human/proc/set_cloned_appearance()
@@ -594,7 +616,7 @@
 		if(hud_used.zone_select)
 			hud_used.zone_select.update_icon()
 
-/mob/living/carbon/human/fully_heal(admin_revive = FALSE)
+/mob/living/carbon/human/fully_heal(admin_revive = FALSE, break_restraints = FALSE)
 	dna?.species.spec_fully_heal(src)
 	if(admin_revive)
 		regenerate_limbs()
@@ -602,7 +624,7 @@
 	spill_embedded_objects()
 	set_heartattack(FALSE)
 	drunkenness = 0
-	..()
+	return ..()
 
 /mob/living/carbon/human/check_weakness(obj/item/weapon, mob/living/attacker)
 	. = ..()
@@ -857,21 +879,33 @@
 
 /mob/living/carbon/human/adjust_nutrition(change) //Honestly FUCK the oldcoders for putting nutrition on /mob someone else can move it up because holy hell I'd have to fix SO many typechecks
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
+		remove_status_effect(/datum/status_effect/debuff/hungryt1)
+		remove_status_effect(/datum/status_effect/debuff/hungryt2)
+		remove_status_effect(/datum/status_effect/debuff/hungryt3)
 		return FALSE
 	return ..()
 
 /mob/living/carbon/human/set_nutrition(change) //Seriously fuck you oldcoders.
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
+		remove_status_effect(/datum/status_effect/debuff/hungryt1)
+		remove_status_effect(/datum/status_effect/debuff/hungryt2)
+		remove_status_effect(/datum/status_effect/debuff/hungryt3)
 		return FALSE
 	return ..()
 
 /mob/living/carbon/human/adjust_hydration(change)
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
+		remove_status_effect(/datum/status_effect/debuff/thirstyt1)
+		remove_status_effect(/datum/status_effect/debuff/thirstyt2)
+		remove_status_effect(/datum/status_effect/debuff/thirstyt3)
 		return FALSE
 	return ..()
 
 /mob/living/carbon/human/set_hydration(change)
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
+		remove_status_effect(/datum/status_effect/debuff/thirstyt1)
+		remove_status_effect(/datum/status_effect/debuff/thirstyt2)
+		remove_status_effect(/datum/status_effect/debuff/thirstyt3)
 		return FALSE
 	return ..()
 
@@ -917,3 +951,11 @@
 
 /mob/living/carbon/human/Topic(href, href_list)
 	..()
+
+/mob/living/carbon/human/do_attack_animation(atom/A, visual_effect_icon, obj/item/used_item, no_effect, item_animation_override, datum/intent/used_intent, simplified)
+	update_proj_parry_timer()
+	. = ..()
+
+///This is used to allow the thrown item "deflect". Minor and mostly just for aurafarming. Hooks into do_attack_animation because it's the most reliable access to a "valid" attack.
+/mob/living/carbon/human/proc/update_proj_parry_timer()
+	projectile_parry_timer = (world.time + PROJ_PARRY_TIMER)

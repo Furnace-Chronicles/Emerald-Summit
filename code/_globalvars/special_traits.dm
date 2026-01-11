@@ -37,6 +37,8 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	apply_charflaw_equipment(character, player)
 	apply_prefs_special(character, player)
 	apply_prefs_virtue(character, player)
+	if(player.prefs.dnr_pref)
+		apply_dnr_trait(character, player)
 	if(player.prefs.loadout)
 		character.mind.special_items[player.prefs.loadout::name] += player.prefs.loadout.path
 	if(player.prefs.loadout2)
@@ -54,6 +56,8 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 
 	var/virtuous = FALSE
 	var/heretic = FALSE
+	var/species = character.dna.species.type
+
 	if(istype(player.prefs.selected_patron, /datum/patron/inhumen))
 		heretic = TRUE
 
@@ -62,27 +66,65 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 
 	var/datum/virtue/virtue_type = player.prefs.virtue
 	var/datum/virtue/virtuetwo_type = player.prefs.virtuetwo
+	var/datum/virtue/language_type = player.prefs.extra_language
 	if(virtue_type)
-		if(virtue_check(virtue_type, heretic))
+		if(virtue_check(virtue_type, heretic, species))
 			apply_virtue(character, virtue_type)
 		else
-			to_chat(character, "Incorrect Virtue parameters! (Heretic virtue on a non-heretic) It will not be applied.")
+			to_chat(character, "Incorrect Virtue parameters! It will not be applied.")
 	if(virtuetwo_type && virtuous)
-		if(virtue_check(virtuetwo_type, heretic))
+		if(virtue_check(virtuetwo_type, heretic, species))
 			apply_virtue(character, virtuetwo_type)
 		else
-			to_chat(character, "Incorrect Second Virtue parameters! (Heretic virtue on a non-heretic) It will not be applied.")
+			to_chat(character, "Incorrect Second Virtue parameters! It will not be applied.")
 
-/proc/virtue_check(var/datum/virtue/V, heretic = FALSE)
+	var/datum/virtue/origin_type = player.prefs.virtue_origin
+	if(origin_type)
+		if((language_type && language_type != "None") && origin_type.extra_language == TRUE)
+			character.grant_language(language_type)
+		if(origin_type.job_origin == TRUE)
+			apply_virtue(character, origin_type)
+			player.prefs.virtue_origin = origin_type.last_origin
+		else
+			if(origin_check(origin_type, species))
+				apply_virtue(character, origin_type)
+			else
+				to_chat(character, "Incorrect Origin parameters! Resetting to default.")
+				origin_type = new character.dna.species.origin_default
+				apply_virtue(character, origin_type)
+
+/proc/virtue_check(var/datum/virtue/V, heretic = FALSE, species)
 	if(V)
-		if(istype(V,/datum/virtue/heretic) && !heretic)
+		if((istype(V,/datum/virtue/heretic) && !heretic) || istype(V,/datum/virtue/origin))
 			return FALSE
+		if(V.restricted == TRUE)
+			if((species in V.races))
+				return FALSE
+		if(istype(V,/datum/virtue/racial))
+			if(!(species in V.races))
+				return FALSE
+		return TRUE
+	return FALSE
+
+/proc/origin_check(var/datum/virtue/V, species)
+	if(V)
+		if(!istype(V,/datum/virtue/origin))
+			return FALSE
+		if(V.restricted == TRUE)
+			if((species in V.races))
+				return FALSE
+		if(istype(V,/datum/virtue/origin/racial))
+			if(!(species in V.races))
+				return FALSE
 		return TRUE
 	return FALSE
 
 /proc/apply_charflaw_equipment(mob/living/carbon/human/character, client/player)
 	if(character.charflaw)
 		character.charflaw.apply_post_equipment(character)
+
+/proc/apply_dnr_trait(mob/living/carbon/human/character, client/player)
+	ADD_TRAIT(player.mob, TRAIT_DNR, TRAIT_GENERIC)
 
 /proc/apply_prefs_special(mob/living/carbon/human/character, client/player)
 	if(!player)

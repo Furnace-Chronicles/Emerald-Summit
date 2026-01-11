@@ -21,6 +21,9 @@
 	chargedloop = /datum/looping_sound/invokegen
 	devotion_cost = 30
 
+/obj/effect/proc_holder/spell/invoked/vigorousexchange/kazengun
+	invocation = "Through flame and ash, let vigor rise, by Mamuke’s hand, let strength reprise!"
+
 /obj/effect/proc_holder/spell/invoked/heatmetal
 	name = "Heat Metal"
 	desc = "Call upon Malum to smelt the target object into a usable ingot, if it can be smelted."
@@ -44,6 +47,9 @@
 	charging_slowdown = 3
 	chargedloop = /datum/looping_sound/invokegen
 	devotion_cost = 40
+
+/obj/effect/proc_holder/spell/invoked/heatmetal/kazengun
+	invocation = "With heat I wield, with flame I claim, Let metal serve in Mamuke's name!"
 
 /obj/effect/proc_holder/spell/invoked/hammerfall
 	name = "Hammerfall"
@@ -69,6 +75,11 @@
 	chargedloop = /datum/looping_sound/invokegen
 	devotion_cost = 80
 
+/obj/effect/proc_holder/spell/invoked/hammerfall/kazengun
+	invocation = "By molten might and hammer's weight, in Mamuke’s flame, the earth shall quake!"
+
+/*
+
 /obj/effect/proc_holder/spell/invoked/craftercovenant
 	name = "The Crafter’s Covenant"
 	desc = "Offer valuables to Malum for a potential reward based on their price."
@@ -92,6 +103,9 @@
 	charging_slowdown = 3
 	chargedloop = /datum/looping_sound/invokegen
 	devotion_cost = 100
+
+*/
+
 
 /obj/effect/proc_holder/spell/invoked/heatmetal/cast(list/targets, mob/user = usr)
 	. = ..()
@@ -191,7 +205,7 @@
 	target.dropItemToGround(targeteditem)
 	show_visible_message(target, "[target]'s [targeteditem.name] glows brightly, searing their flesh.", "Your [targeteditem.name] glows brightly, It burns!")
 	target.emote("painscream")
-	playsound(target.loc, 'sound/misc/frying.ogg', 100, FALSE, -1)
+	playsound(target, 'sound/misc/frying.ogg', 100, FALSE, -1)
 	sparks.set_up(1, 1, target.loc)
 	sparks.start()
 
@@ -225,7 +239,7 @@
 	apply_damage_if_covered(target, list(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG), targeteditem, GROIN|LEGS|FEET, damage_to_apply)
 	apply_damage_if_covered(target, list(BODY_ZONE_HEAD), targeteditem, HEAD|HAIR|NECK|NOSE|MOUTH|EARS|EYES, damage_to_apply)
 	show_visible_message(target, "[target]'s [targeteditem.name] glows brightly, searing their flesh.", "My [targeteditem.name] glows brightly, It burns!")
-	playsound(target.loc, 'sound/misc/frying.ogg', 100, FALSE, -1)
+	playsound(target, 'sound/misc/frying.ogg', 100, FALSE, -1)
 
 /proc/apply_damage_if_covered(mob/living/carbon/target, list/body_zones, obj/item/clothing/targeteditem, mask, damage)
 	var/datum/effect_system/spark_spread/sparks = new()
@@ -253,6 +267,8 @@
 		user.energy_add(-(starminatoregen * 2))
 		target.energy_add(starminatoregen * 2)
 		show_visible_message(target, "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards [target].", "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards you. You feel refreshed")
+
+/*
 
 /obj/effect/proc_holder/spell/invoked/craftercovenant/cast(list/targets, mob/user = usr)
 	. = ..()
@@ -350,6 +366,8 @@ var/global/list/anvil_recipe_prices[][]
 	..()
 	initialize_anvil_recipe_prices() // Precompute recipe prices on startup
 
+*/
+
 /obj/effect/proc_holder/spell/invoked/hammerfall/cast(list/targets, mob/user = usr)
 	var/turf/fallzone = null
 	var/const/damage = 250 //Structural damage the spell does. At 250, it would take 4 casts (8 minutes and 320 devotion) to destroy a normal door.
@@ -405,6 +423,9 @@ var/global/list/anvil_recipe_prices[][]
 	recharge_time = 15 SECONDS
 	miracle = TRUE
 	devotion_cost = 15
+
+/obj/effect/proc_holder/spell/invoked/malum_flame_rogue/kazengun
+	name = "Mamuke's Flame"
 
 /obj/effect/proc_holder/spell/invoked/malum_flame_rogue/cast(list/targets, mob/user = usr)
 	. = ..()

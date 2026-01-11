@@ -3,22 +3,25 @@
 	tutorial = "You are one of the finer examples of swordsmanship stemming from Kazengun. A singular representative of the Ruma Clan, and generally a respected leader."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = NON_DWARVEN_NON_GOLEM_RACE_TYPES
-	outfit = /datum/outfit/job/roguetown/mercenary/kashira
+	outfit = /datum/outfit/job/mercenary/kashira
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_KAZENGUN
 	cmode_music = 'sound/music/combat_kazengite.ogg'
 	maximum_possible_slots = 1
+	origin_override_type =  /datum/virtue/origin/kazengun
 
 	subclass_languages = list(/datum/language/kazengunese)
 
 	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_HARDDISMEMBER)
 	subclass_stats = list(
-		STATKEY_CON = 3,
-		STATKEY_END = 3,
+		STATKEY_CON = 2,
+		STATKEY_END = 2,
 		STATKEY_STR = 2,
 		STATKEY_PER = 1,
 		STATKEY_SPD = -1
 	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/kashira
 
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -33,8 +36,12 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/mercenary/kashira/pre_equip(mob/living/carbon/human/H)
+/datum/status_effect/buff/merchired/kashira
+	effectedstats = list(STATKEY_CON = 1, STATKEY_END = 1)
+
+/datum/outfit/job/mercenary/kashira/pre_equip(mob/living/carbon/human/H)
 	..()
+	head = /obj/item/clothing/head/roguetown/mentorhat
 	armor = /obj/item/clothing/suit/roguetown/armor/basiceast/captainrobe
 	shirt = /obj/item/clothing/suit/roguetown/armor/skin_armor/easttats
 	cloak = /obj/item/clothing/cloak/eastcloak1

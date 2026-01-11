@@ -30,9 +30,9 @@
 	name = "Smoke Bomb"
 	cost = 25
 	contains = list(
-		/obj/item/smokebomb,
-		/obj/item/smokebomb,
-		/obj/item/smokebomb)
+		/obj/item/bomb/smoke,
+		/obj/item/bomb/smoke,
+		/obj/item/bomb/smoke)
 
 /datum/supply_pack/rogue/bath_rogue/waterarrows
 	name = "Water Arrow"
@@ -76,3 +76,8 @@
 	contains = list(
 					/obj/item/storage/belt/rogue/leather/smokebelt
 				)
+
+/datum/supply_pack/rogue/bath_rogue/mirrortransform
+	name = "Scroll of Mirror Transform"
+	cost = 50
+	contains = list(/obj/item/book/granter/spell/blackstone/mirror_transform)

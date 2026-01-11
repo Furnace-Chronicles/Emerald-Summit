@@ -53,6 +53,9 @@
 			dat += ", [content.name]"
 		dat += "."
 	if(departing_mob.mind)
+		// Remove from knowledge cache so they don't appear in other people's lists
+		SSjob.remove_mind_from_cache(departing_mob.mind)
+		
 		departing_mob.mind.unknow_all_people()
 		for(var/datum/mind/MF in get_minds())
 			departing_mob.mind.become_unknown_to(MF)
@@ -71,6 +74,15 @@
 	
 	// If departure is a lord, remove them from found_lords to prevent false omen triggers
 	if(departing_mob.mind && departing_mob.ckey)
+		if(departing_mob.mind.assigned_role == "Mercenary")
+			for(var/datum/noticeboardpost/saved_post in GLOB.sellsword_noticeboardposts)
+				if(saved_post.posterweakref.resolve() != departing_mob)
+					continue
+
+				GLOB.sellsword_noticeboardposts -= saved_post
+				qdel(saved_post)
+				SEND_GLOBAL_SIGNAL(COMSIG_NOTICEBOARD_POST_REMOVED, src)
+
 		if(departing_mob.mind.assigned_role == "Grand Duke" || departing_mob.mind.assigned_role == "Grand Duchess")
 			if(found_lords[departing_mob.ckey])
 				found_lords -= departing_mob.ckey

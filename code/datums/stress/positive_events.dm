@@ -365,3 +365,8 @@
 	timer = 5 MINUTES
 	stressadd = -2
 	desc = span_green("The box of souls was destroyed. I feel relief.")
+
+/datum/stressevent/vampiric_nostalgia
+	stressadd = -2
+	desc = span_green("Astrata and her gaze may burn you now, but you distantly remember when it was pleasant to your skin.")
+	timer = 20 SECONDS

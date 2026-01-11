@@ -3,8 +3,8 @@
 	tutorial = "You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard earned (inherited) coin, so tread lightly unless you want to meet a grizzly end."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_GOLEM
-	outfit = /datum/outfit/job/roguetown/adventurer/noble
-	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
+	outfit = /datum/outfit/job/adventurer/noble
+	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT, CTAG_LICKER_WRETCH)
 	class_select_category = CLASS_CAT_NOBLE
 
 	cmode_music = 'sound/music/combat_knight.ogg'
@@ -29,7 +29,7 @@
 		/datum/skill/misc/music = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/noble/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/noble/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard earned (inherited) coin, so tread lightly unless you want to meet a grizzly end."))
 	shoes = /obj/item/clothing/shoes/roguetown/boots
@@ -57,7 +57,7 @@
 /datum/advclass/noble/knighte
 	name = "Knight Errant"
 	tutorial = "You are a knight from a distant land, a scion of a noble house visiting Scarlet Reach for one reason or another."
-	outfit = /datum/outfit/job/roguetown/adventurer/knighte
+	outfit = /datum/outfit/job/adventurer/knighte
 
 	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR)
 	subclass_stats = list(
@@ -82,8 +82,12 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 	)
+	
+	virtue_restrictions = list(
+		/datum/virtue/utility/riding
+	)
 
-/datum/outfit/job/roguetown/adventurer/knighte/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/knighte/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a knight from a distant land, a scion of a noble house visiting Scarlet Reach for one reason or another."))
 	var/helmets = list(
@@ -99,7 +103,7 @@
 		"Slitted Kettle"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
 		"None"
 		)
-	var/helmchoice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
@@ -109,7 +113,7 @@
 		"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/half,
 		"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/half/fluted,		
 	)
-	var/armorchoice = input("Choose your armor.", "TAKE UP ARMOR") as anything in armors
+	var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 	armor = armors[armorchoice]
 
 	gloves = /obj/item/clothing/gloves/roguetown/chain
@@ -128,12 +132,9 @@
 		)
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
-	var/turf/TU = get_turf(H)
-	if(TU)
-		new /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled(TU)
 	H.set_blindness(0)
 	var/weapons = list("Longsword","Mace + Shield","Flail + Shield","Billhook","Battle Axe","Greataxe")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Longsword")
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -158,13 +159,15 @@
 		if("Greataxe")
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			r_hand = /obj/item/rogueweapon/greataxe
+	
+	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
+		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)
 
 /datum/advclass/noble/squire
 	name = "Squire Errant"
 	tutorial = "You are a squire who has traveled far in search of a master to train you and a lord to knight you."
-	outfit = /datum/outfit/job/roguetown/adventurer/squire
+	outfit = /datum/outfit/job/adventurer/squire
 	subclass_social_rank = SOCIAL_RANK_PEASANT
-
 	traits_applied = list(TRAIT_SQUIRE_REPAIR)
 	subclass_stats = list(
 		STATKEY_INT = 2,
@@ -178,18 +181,20 @@
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/bows = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 	)
+	extra_context = "Chooses between Light Armor (Dodge Expert) and Medium Armor."
 
-/datum/outfit/job/roguetown/adventurer/squire/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/squire/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a squire who has traveled far in search of a master to train you and a lord to knight you."))
 	head = /obj/item/clothing/head/roguetown/roguehood
@@ -198,23 +203,37 @@
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	belt = /obj/item/storage/belt/rogue/leather
+	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backr = /obj/item/storage/backpack/rogue/satchel
-	beltl = /obj/item/flashlight/flare/torch/lantern
-	backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/poor = 1, /obj/item/rogueweapon/hammer/iron = 1, /obj/item/rogueweapon/tongs = 1, /obj/item/recipe_book/survival = 1)
-	var/armors = list("Light Armor","Medium Armor")
-	var/armor_choice = input("Choose your armor.", "TAKE UP ARMS") as anything in armors
-	switch(armor_choice)
-		if("Light Armor")
-			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-			pants = /obj/item/clothing/under/roguetown/trou/leather
-			gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
-			beltr = /obj/item/rogueweapon/huntingknife/idagger
-			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-		if("Medium Armor")
-			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
-			pants = /obj/item/clothing/under/roguetown/chainlegs/iron
-			gloves = /obj/item/clothing/gloves/roguetown/chain/iron
-			beltr = /obj/item/rogueweapon/sword/iron
-			ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-
+	backpack_contents = list(/obj/item/armor_brush = 1, /obj/item/polishing_cream = 1, /obj/item/flashlight/flare/torch/lantern = 1, /obj/item/rogueweapon/hammer/iron = 1, /obj/item/recipe_book/survival = 1, /obj/item/rogueweapon/huntingknife = 1)
+	if(H.mind)
+		var/armors = list("Light Armor","Medium Armor")
+		var/armor_choice = input(H, "Choose your armor.", "HOW WILL YOU LOOK WHEN YOU DIE") as anything in armors
+		switch(armor_choice)
+			if("Light Armor")
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+				armor = /obj/item/clothing/suit/roguetown/armor/leather
+				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+				gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
+				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+			if("Medium Armor")
+				shirt = /obj/item/clothing/suit/roguetown/shirt/tunic
+				armor = /obj/item/clothing/suit/roguetown/armor/plate/half/iron
+				pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+				gloves = /obj/item/clothing/gloves/roguetown/chain/iron
+				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+		var/weapons = list("Arming Sword","Shortsword + Shield","Bow & Arrow","Spear")
+		var/weapon_choice = input(H, "Choose your weapon.", "WHAT WILL YOU SWING BEFORE DEATH") as anything in weapons
+		switch(weapon_choice)
+			if("Arming Sword")
+				r_hand = /obj/item/rogueweapon/sword/iron
+			if("Shortsword + Shield")
+				backl = /obj/item/rogueweapon/shield/wood
+				r_hand = /obj/item/rogueweapon/sword/short
+			if("Bow & Arrow")
+				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+				beltr = /obj/item/quiver/arrows
+			if("Spear")
+				r_hand = /obj/item/rogueweapon/spear
 	H.set_blindness(0)

@@ -9,7 +9,7 @@ SUBSYSTEM_DEF(skills)
 	///Dictionary of skill.type || skill ref
 	var/list/all_skills = list()
 	///Static assoc list of levels (ints) - strings
-	var/static/list/level_names = list(
+	var/static/list/level_names = alist(
 		SKILL_LEVEL_NOVICE = span_info("<span class='small'>Novice</span>"),
 		SKILL_LEVEL_APPRENTICE = span_info("Apprentice"),
 		SKILL_LEVEL_JOURNEYMAN = span_biginfo("Journeyman"),
@@ -18,7 +18,7 @@ SUBSYSTEM_DEF(skills)
 		SKILL_LEVEL_LEGENDARY = span_greentext("<b>Legendary</b>"),
 	)//This list is already in the right order, due to indexing
 	///Plain level names without the span
-	var/static/list/level_names_plain = list(
+	var/static/list/level_names_plain = alist(
 		SKILL_LEVEL_NOVICE = "Novice",
 		SKILL_LEVEL_APPRENTICE = "Apprentice",
 		SKILL_LEVEL_JOURNEYMAN = "Journeyman",
@@ -42,4 +42,6 @@ SUBSYSTEM_DEF(skills)
 /proc/skill_to_string(var/skill_level)
 	if(!skill_level)
 		return "None"
+	// Clears a runtime
+	skill_level = clamp(skill_level, 0, SKILL_LEVEL_LEGENDARY)
 	return SSskills.level_names_plain[skill_level]

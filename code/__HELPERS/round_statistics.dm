@@ -3,6 +3,7 @@
 #define STATS_ALIVE_DWARVES "alive_dwarves"
 #define STATS_ALIVE_DARK_ELVES "alive_dark_elves"
 #define STATS_ALIVE_WOOD_ELVES "alive_wood_elves"
+#define STATS_ALIVE_SUN_ELVES "alive_sun_elves"
 #define STATS_ALIVE_HALF_ELVES "alive_half_elves"
 #define STATS_ALIVE_HALF_ORCS "alive_half_orcs"
 #define STATS_ALIVE_GOBLINS "alive_goblins"
@@ -23,6 +24,7 @@
 #define STATS_ALIVE_MOTHS "alive_moths"
 #define STATS_ALIVE_LAMIA "alive_lamia"
 #define STATS_ALIVE_HARPIES "alive_harpies"
+#define STATS_ALIVE_OGRES "alive_ogres"
 
 #define STATS_VAMPIRES "vampires"
 

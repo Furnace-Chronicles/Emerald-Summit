@@ -528,6 +528,19 @@ h2.alert {
 .beautifulnb {
   color: #9656c9;
 }
+.astrata {
+  color: #ffd700;
+}
+.astratabig {
+  color: #ffd700;
+  font-weight: bold;
+  font-size: 180%;
+}
+.astrataextreme {
+  color: #ffd700;
+  font-weight: bold;
+  font-size: 220%;
+}
 
 .revennotice {
   color: #1d2953;
@@ -836,4 +849,18 @@ h2.alert {
 .internal.boldnshit {
   color: #3d5bc3;
   font-weight: bold;
+}
+
+.examine_block {
+  background: #1b1c1e;
+  border: 1px solid #a4bad6;
+  margin: 0.5em;
+  padding: 0.5em 0.75em;
+}
+
+.examine_block .icon {
+  width: 1.5em;
+  height: 1.5em;
+  margin: 0;
+  padding: 0;
 }

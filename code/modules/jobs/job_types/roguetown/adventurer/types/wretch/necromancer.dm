@@ -3,12 +3,12 @@
 	tutorial = "You have been ostracized and hunted by society for your dark magics and perversion of life."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/wretch/necromancer
+	outfit = /datum/outfit/job/wretch/necromancer
 	category_tags = list(CTAG_WRETCH)
 	cmode_music = 'sound/music/combat_cult.ogg'
 	extra_context = "Only those that worship ZIZO may be necromancers."
 
-	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_GRAVEROBBER, TRAIT_ARCYNE_T3, TRAIT_RITUALIST) // removing zombie immunity cos zizo gives u it by default
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_GRAVEROBBER, TRAIT_ARCYNE_T3, TRAIT_RITUALIST, TRAIT_TALENTED_ALCHEMIST) // removing zombie immunity cos zizo gives u it by default
 	// Necromancer get the most +4 Int, +2 Perception just like Sorc (Adv Mage), and a bit of endurance / speed
 	subclass_stats = list(
 		STATKEY_INT = 4,
@@ -30,7 +30,7 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
 	)
 
-/datum/outfit/job/roguetown/wretch/necromancer/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/wretch/necromancer/pre_equip(mob/living/carbon/human/H)
 	H.mind.current.faction += "[H.name]_faction"
 	H.set_patron(/datum/patron/inhumen/zizo)
 	head = /obj/item/clothing/head/roguetown/roguehood/black
@@ -44,7 +44,6 @@
 	neck = /obj/item/clothing/neck/roguetown/gorget
 	beltl = /obj/item/rogueweapon/huntingknife
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/woodstaff/ruby
 	backpack_contents = list(
 		/obj/item/spellbook_unfinished/pre_arcyne = 1,
 		/obj/item/roguegem/amethyst = 1,
@@ -66,3 +65,26 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/necromancer)
 
 	wretch_select_bounty(H)
+
+	var/staffs = list(
+		"ronts-focused staff",
+		"blortz-focused staff",
+		"saffira-focused staff",
+		"gemerald-focused staff",
+		"amethyst-focused staff",
+		"toper-focused staff",
+	)
+	var/staffchoice = input(H, H, "Choose your staff", "Available staffs") as anything in staffs
+	switch(staffchoice)
+		if("ronts-focused staff")
+			backr = /obj/item/rogueweapon/woodstaff/ruby
+		if("blortz-focused staff")
+			backr = /obj/item/rogueweapon/woodstaff/quartz
+		if("saffira-focused staff")
+			backr = /obj/item/rogueweapon/woodstaff/sapphire
+		if("gemerald-focused staff")
+			backr = /obj/item/rogueweapon/woodstaff/emerald
+		if("amethyst-focused staff")
+			backr = /obj/item/rogueweapon/woodstaff/amethyst
+		if("toper-focused staff")
+			backr = /obj/item/rogueweapon/woodstaff/toper

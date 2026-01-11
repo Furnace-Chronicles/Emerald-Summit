@@ -80,7 +80,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 /obj/effect/landmark/start/adventurerlate
 	name = "Adventurerlate"
 	icon_state = "arrow"
-	jobspawn_override = list("Skeleton", "Pilgrim", "Adventurer", "Migrant")
+	jobspawn_override = list("Pilgrim", "Adventurer", "Migrant", "Trader")
 	delete_after_roundstart = FALSE
 
 /obj/effect/landmark/start/banditlate
@@ -131,6 +131,12 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	jobspawn_override = list("Towner")
 	delete_after_roundstart = FALSE
 
+/obj/effect/landmark/start/sieges
+	name = "Siege Spawnpoint"
+	icon_state = "arrow"
+	jobspawn_override = list("Goblin", "Besieger Skeleton")
+	delete_after_roundstart = FALSE
+
 /obj/effect/landmark/start/lord
 	name = "Grand Duke"
 	icon_state = "arrow"
@@ -141,10 +147,6 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 
 /obj/effect/landmark/start/sheriff
 	name = "Town Sheriff"
-	icon_state = "arrow"
-
-/obj/effect/landmark/start/guard_captain
-	name = "Knight Captain"
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/barkeep
@@ -357,7 +359,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/hostage
-	name = "Hostage"
+	name = "Hostage (Bandit)"
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/jester
@@ -390,6 +392,10 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 
 /obj/effect/landmark/start/adventurer
 	name = "Adventurer"
+	icon_state = "arrow"
+
+/obj/effect/landmark/start/ogre
+	name = "Ogre"
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/courtagent

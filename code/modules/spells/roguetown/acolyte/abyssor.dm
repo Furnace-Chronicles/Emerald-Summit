@@ -96,6 +96,7 @@
 	//Horrendous carry-over from fishing code
 	var/frwt = list(/turf/open/water/river, /turf/open/water/cleanshallow, /turf/open/water/pond)
 	var/salwt = list(/turf/open/water/ocean, /turf/open/water/ocean/deep)
+	var/mud = list(/turf/open/water/swamp, /turf/open/water/swamp/deep)
 	var/list/freshfishloot = list(
 		/obj/item/reagent_containers/food/snacks/fish/carp = 225,
 		/obj/item/reagent_containers/food/snacks/fish/sunny = 325,
@@ -118,6 +119,11 @@
 		/mob/living/simple_animal/hostile/rogue/deepone = 3,
 		/mob/living/simple_animal/hostile/rogue/deepone/spit = 3,
 	)
+	var/list/mudfishloot = list(
+		/obj/item/reagent_containers/food/snacks/fish/mudskipper = 200,
+		/obj/item/natural/worms/leech = 50,
+		/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab = 25,				
+	)
 
 /obj/effect/proc_holder/spell/invoked/aquatic_compulsion/cast(list/targets, mob/user = usr)
 	. = ..()
@@ -130,6 +136,9 @@
 			success = TRUE
 		if(T.type in salwt)
 			A = pickweight(seafishloot)
+			success = TRUE
+		if(T.type in mud)
+			A = pickweight(mudfishloot)
 			success = TRUE
 		if(success)
 			var/atom/movable/AF = new A(T)
@@ -195,7 +204,7 @@
 		var/healing = 6.5
 		target.adjustFireLoss(-80)
 		if (conditional_buff)
-			to_chat(user, "Calling upon Abyssor's power is easier in these conditions!")
+			to_chat(user, "Calling upon His power is easier in these conditions!")
 			healing += situational_bonus
 			target.adjustFireLoss(-40)
 		target.apply_status_effect(/datum/status_effect/buff/healing, healing)
@@ -328,6 +337,7 @@
 /obj/effect/proc_holder/spell/invoked/abyssal_infusion
 	name = "Abyssal Infusion"
 	overlay_state = "abyssal_infusion"
+	desc = "Sacrifice an anglerfish to bind a fragment of the abyss into another's soul, granting them the Abyssal Strength miracle if they are capable of dreaming."
 	range = 7
 	no_early_release = TRUE
 	charging_slowdown = 1
@@ -355,7 +365,7 @@
 		return FALSE
 
 	if(target.mind.has_spell(/obj/effect/proc_holder/spell/invoked/abyssal_strength))
-		to_chat(user, span_warning("[target] is already blessed with Abyssor's strength."))
+		to_chat(user, span_warning("[target] is already blessed with His strength."))
 		revert_cast()
 		return FALSE
 
@@ -384,6 +394,7 @@
 /obj/effect/proc_holder/spell/invoked/abyssal_strength
 	name = "Abyssal Strength"
 	overlay_state = "abyssal_strength1"
+	desc = "Channel the abyss through your own body, greatly empowering your physique while dulling your senses and risking that a Dreamfiend manifests in reality."
 	range = 7
 	no_early_release = TRUE
 	charging_slowdown = 1

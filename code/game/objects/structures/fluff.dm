@@ -769,7 +769,16 @@
 		if(!user.is_literate())
 			to_chat(user, span_warning("I do not know how to write."))
 			return
+
+		var/can_write = FALSE
 		if((user.used_intent.blade_class == BCLASS_STAB) && (W.wlength == WLENGTH_SHORT))
+			can_write = TRUE
+		if(istype(W, /obj/item/natural/thorn))
+			can_write = TRUE
+		if(istype(W, /obj/item/natural/feather))
+			can_write = TRUE
+
+		if(can_write)
 			if(wrotesign)
 				to_chat(user, span_warning("Something is already carved here."))
 				return
@@ -950,32 +959,37 @@
 		if(W.associated_skill)
 			if(user.mind)
 				if(isliving(user))
+					if(user.doing)
+						return
 					var/mob/living/L = user
-					var/probby = (L.STALUC / 10) * 100
-					probby = min(probby, 99)
-					user.changeNext_move(CLICK_CD_MELEE)
-					if(W.max_blade_int)
-						W.remove_bintegrity(5)
-					L.stamina_add(rand(4,6))
-					if(!(L.mobility_flags & MOBILITY_STAND))
-						probby = 0
-					if(L.STAINT < 3)
-						probby = 0
-					if(prob(probby) && !user.buckled)
-						user.visible_message(span_info("[user] trains on [src]!"))
-						var/amt2raise = L.STAINT * 0.35
+					user.visible_message(span_notice("[user] begins training on [src]..."))
+					while(do_after(user, 1 SECONDS, target = src))
+						if(!(L.mobility_flags & MOBILITY_STAND))
+							to_chat(user, span_warning("You are knocked down and stop training."))
+							break
+						var/probby = (L.STALUC / 10) * 100
+						probby = min(probby, 99)
+						user.changeNext_move(CLICK_CD_MELEE)
+						if(W.max_blade_int)
+							W.remove_bintegrity(5)
+						L.stamina_add(rand(4,6))
+						if(L.STAINT < 3)
+							probby = 0
 						if(!can_train_combat_skill(user, W.associated_skill, SKILL_LEVEL_APPRENTICE))
 							to_chat(user, span_warning("I've learned all I can from doing this, it's time for the real thing."))
-							amt2raise = 0
-						if(amt2raise > 0)
-							user.mind.add_sleep_experience(W.associated_skill, amt2raise, FALSE)
-						playsound(loc,pick('sound/combat/hits/onwood/education1.ogg','sound/combat/hits/onwood/education2.ogg','sound/combat/hits/onwood/education3.ogg'), rand(50,100), FALSE)
-					else
-						user.visible_message(span_danger("[user] trains on [src], but [src] ripostes!"))
-						L.AdjustKnockdown(1)
-						L.throw_at(get_step(L, get_dir(src,L)), 2, 2, L, spin = FALSE)
-						playsound(loc, 'sound/combat/hits/kick/stomp.ogg', 100, TRUE, -1)
-					flick(pick("p_dummy_smashed","p_dummy_smashedalt"),src)
+							break
+						if(prob(probby) && !user.buckled)
+							user.visible_message(span_info("[user] trains on [src]!"))
+							var/amt2raise = L.STAINT * 0.35
+							if(amt2raise > 0)
+								user.mind.add_sleep_experience(W.associated_skill, amt2raise, FALSE)
+							playsound(loc,pick('sound/combat/hits/onwood/education1.ogg','sound/combat/hits/onwood/education2.ogg','sound/combat/hits/onwood/education3.ogg'), rand(50,100), FALSE)
+						else
+							user.visible_message(span_danger("[user] trains on [src], but [src] ripostes!"))
+							L.AdjustKnockdown(1)
+							L.throw_at(get_step(L, get_dir(src,L)), 2, 2, L, spin = FALSE)
+							playsound(loc, 'sound/combat/hits/kick/stomp.ogg', 100, TRUE, -1)
+						flick(pick("p_dummy_smashed","p_dummy_smashedalt"),src)
 					return
 	..()
 
@@ -1028,6 +1042,8 @@
 		/obj/item/reagent_containers/glass/bowl/gold,
 		/obj/item/kitchen/spoon/gold,
 		/obj/item/kitchen/spoon/silver,
+		/obj/item/kitchen/fork/gold,
+		/obj/item/kitchen/fork/silver,
 		/obj/item/candle/candlestick/gold,
 		/obj/item/candle/candlestick/silver,
 		/obj/item/rogueweapon/sword/long/judgement, // various unique weapons around from a few roles follows. Don't lose your fancy toys.... 
@@ -1035,6 +1051,20 @@
 		/obj/item/rogueweapon/woodstaff/riddle_of_steel/magos, //bit dumb for a bandit mage to toss this toy away but whatever
 		/obj/item/rogueweapon/halberd/psyhalberd, // relic weapons but not standard Inquisition stuff 
 		/obj/item/rogueweapon/greatsword/psygsword,
+		/obj/item/clothing/head/roguetown/circlet,
+		/obj/item/carvedgem,  //Some of these aren't particularly worth much, but it'd be REALLY unintuitive for "valuables" to not actually be offerings
+		/obj/item/rogueweapon/huntingknife/stoneknife/kukri,
+		/obj/item/rogueweapon/huntingknife/stoneknife/opalknife,
+		/obj/item/rogueweapon/mace/cudgel/shellrungu,
+		/obj/item/clothing/mask/rogue/facemask/carved,
+		/obj/item/clothing/neck/roguetown/carved,
+		/obj/item/kitchen/fork/carved,
+		/obj/item/kitchen/spoon/carved,
+		/obj/item/clothing/wrists/roguetown/gem,
+		/obj/item/reagent_containers/glass/bowl/carved,
+		/obj/item/reagent_containers/glass/bucket/pot/carved,
+		/obj/item/clothing/mask/rogue/facemask/carved,
+		/obj/item/cooking/platter/carved
 	)
 
 /obj/structure/fluff/statue/evil/attackby(obj/item/W, mob/user, params)
@@ -1055,7 +1085,7 @@
 					proceed_with_offer = TRUE
 					break
 			if(proceed_with_offer)
-				playsound(loc,'sound/items/carvty.ogg', 50, TRUE)
+				playsound(src,'sound/items/carvty.ogg', 50, TRUE)
 				qdel(W)
 				for(var/mob/player in GLOB.player_list)
 					if(player.mind)
@@ -1285,6 +1315,99 @@
 	if(M.flash_act())
 		var/diff = power - M.confused
 		M.confused += min(power, diff)
+
+/obj/structure/fluff/psycross/proc/summon_martyr_weapon_tgui(mob/user)
+	if(!user.mind)
+		return
+
+	var/list/weapon_choices = list(
+		"Sword" = CALLBACK(src, PROC_REF(summon_and_equip_sword), user),
+		"Axe" = CALLBACK(src, PROC_REF(summon_and_equip_axe), user),
+		"Mace" = CALLBACK(src, PROC_REF(summon_and_equip_mace), user),
+		"Trident" = CALLBACK(src, PROC_REF(summon_and_equip_spear), user)
+	)
+
+	var/result = tgui_input_list(user, "Choose a martyr weapon to summon:", "Martyr Weapon", weapon_choices)
+
+	if(result && weapon_choices[result])
+		var/datum/callback/selected_callback = weapon_choices[result]
+		selected_callback.Invoke()
+	else
+		to_chat(user, span_warning("No weapon was chosen."))
+
+/obj/structure/fluff/psycross/proc/summon_and_equip_sword(mob/user)
+	var/obj/item/rogueweapon/sword/long/martyr/I = SSroguemachine.martyrweapon
+
+	if(I)
+		I.anti_stall()
+	
+	I = new /obj/item/rogueweapon/sword/long/martyr(src.loc)
+	SSroguemachine.martyrweapon = I
+
+	if(user.put_in_hands(I))
+		to_chat(user, span_notice("The martyr sword appears in your hand."))
+	else
+		to_chat(user, span_warning("Your hands are full! The sword falls to the ground."))
+
+	return I
+
+/obj/structure/fluff/psycross/proc/summon_and_equip_axe(mob/user)
+	var/obj/item/rogueweapon/greataxe/steel/doublehead/martyr/I = SSroguemachine.martyrweapon
+
+	if(I)
+		I.anti_stall()
+	
+	I = new /obj/item/rogueweapon/greataxe/steel/doublehead/martyr(src.loc)
+	SSroguemachine.martyrweapon = I
+
+	if(user.put_in_hands(I))
+		to_chat(user, span_notice("The martyr axe appears in your hand."))
+	else
+		to_chat(user, span_warning("Your hands are full! The axe falls to the ground."))
+
+	return I
+
+/obj/structure/fluff/psycross/proc/summon_and_equip_mace(mob/user)
+	var/obj/item/rogueweapon/mace/goden/martyr/I = SSroguemachine.martyrweapon
+
+	if(I)
+		I.anti_stall()
+	
+	I = new /obj/item/rogueweapon/mace/goden/martyr(src.loc)
+	SSroguemachine.martyrweapon = I
+
+	if(user.put_in_hands(I))
+		to_chat(user, span_notice("The martyr mace appears in your hand."))
+	else
+		to_chat(user, span_warning("Your hands are full! The mace falls to the ground."))
+
+	return I
+
+/obj/structure/fluff/psycross/proc/summon_and_equip_spear(mob/user)
+	var/obj/item/rogueweapon/spear/partizan/martyr/I = SSroguemachine.martyrweapon
+
+	if(I)
+		I.anti_stall()
+	
+	I = new /obj/item/rogueweapon/spear/partizan/martyr(src.loc)
+	SSroguemachine.martyrweapon = I
+
+	if(user.put_in_hands(I))
+		to_chat(user, span_notice("The martyr trident appears in your hand."))
+	else
+		to_chat(user, span_warning("Your hands are full! The spear falls to the ground."))
+
+	return I
+
+/obj/structure/fluff/psycross/attack_hand(mob/user)
+	. = ..()
+	if(.)
+		return
+	if(user.job != "Martyr")
+		return
+	if((HAS_TRAIT(user, TRAIT_NOPAIN) && HAS_TRAIT(user, TRAIT_STRENGTH_UNCAPPED) && HAS_TRAIT(user, TRAIT_BLOODLOSS_IMMUNE))) // So that the martyr could not change weapons during his special ability... I do not know how to make it smarter.
+		return
+	summon_martyr_weapon_tgui(user)
 
 /obj/structure/fluff/beach_umbrella/security
 	icon_state = "hos_brella"

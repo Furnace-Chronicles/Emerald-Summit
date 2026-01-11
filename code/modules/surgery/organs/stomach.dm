@@ -163,13 +163,13 @@
 	..()
 	if(M)
 		M.apply_status_effect(/datum/status_effect/buff/t1stomach)
-		ADD_TRAIT(M, TRAIT_ROT_EATER, TRAIT_GENERIC)
+		ADD_TRAIT(M, TRAIT_ROT_EATER, ORGAN_TRAIT)
 
 /obj/item/organ/stomach/t1/Remove(mob/living/carbon/M, special = 0)
 	..()
 	if(M.has_status_effect(/datum/status_effect/buff/t1stomach))
 		M.remove_status_effect(/datum/status_effect/buff/t1stomach)
-		REMOVE_TRAIT(M, TRAIT_ROT_EATER , TRAIT_GENERIC)
+		REMOVE_TRAIT(M, TRAIT_ROT_EATER , ORGAN_TRAIT)
 
 /datum/status_effect/buff/t2stomach
 	id = "t2stomach"
@@ -183,16 +183,16 @@
 	..()
 	if(M)
 		M.apply_status_effect(/datum/status_effect/buff/t2stomach)
-		ADD_TRAIT(M, TRAIT_ROT_EATER, TRAIT_GENERIC)
-		ADD_TRAIT(M, TRAIT_WILD_EATER, TRAIT_GENERIC)
+		ADD_TRAIT(M, TRAIT_ROT_EATER, ORGAN_TRAIT)
+		ADD_TRAIT(M, TRAIT_WILD_EATER, ORGAN_TRAIT)
 
 
 /obj/item/organ/stomach/t2/Remove(mob/living/carbon/M, special = 0)
 	..()
 	if(M.has_status_effect(/datum/status_effect/buff/t2stomach))
 		M.remove_status_effect(/datum/status_effect/buff/t2stomach)
-		REMOVE_TRAIT(M, TRAIT_ROT_EATER , TRAIT_GENERIC)
-		REMOVE_TRAIT(M, TRAIT_WILD_EATER , TRAIT_GENERIC)
+		REMOVE_TRAIT(M, TRAIT_ROT_EATER , ORGAN_TRAIT)
+		REMOVE_TRAIT(M, TRAIT_WILD_EATER , ORGAN_TRAIT)
 
 /datum/status_effect/buff/t3stomach
     id = "t3stomach"
@@ -209,13 +209,13 @@
 	..()
 	if(M)
 		M.apply_status_effect(/datum/status_effect/buff/t3stomach)
-		ADD_TRAIT(M, TRAIT_NASTY_EATER, TRAIT_GENERIC)
-		ADD_TRAIT(M, TRAIT_ORGAN_EATER, TRAIT_GENERIC)
+		ADD_TRAIT(M, TRAIT_NASTY_EATER, ORGAN_TRAIT)
+		ADD_TRAIT(M, TRAIT_ORGAN_EATER, ORGAN_TRAIT)
 
 
 /obj/item/organ/stomach/t3/Remove(mob/living/carbon/M, special = 0)
 	..()
 	if(M.has_status_effect(/datum/status_effect/buff/t3stomach))
 		M.remove_status_effect(/datum/status_effect/buff/t3stomach)
-		REMOVE_TRAIT(M, TRAIT_NASTY_EATER, TRAIT_GENERIC)
-		REMOVE_TRAIT(M, TRAIT_ORGAN_EATER, TRAIT_GENERIC)
+		REMOVE_TRAIT(M, TRAIT_NASTY_EATER, ORGAN_TRAIT)
+		REMOVE_TRAIT(M, TRAIT_ORGAN_EATER, ORGAN_TRAIT)

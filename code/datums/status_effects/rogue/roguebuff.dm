@@ -320,7 +320,7 @@
 /datum/status_effect/buff/magearmor/on_apply()
 	. = ..()
 	playsound(owner, 'sound/magic/magearmordown.ogg', 75, FALSE)
-	duration = (7-owner.get_skill_level(/datum/skill/magic/arcane)) MINUTES
+	duration = (30 - (owner.get_skill_level(/datum/skill/magic/arcane) * 2.5)) SECONDS
 
 /datum/status_effect/buff/magearmor/on_remove()
 	. = ..()
@@ -330,6 +330,11 @@
 
 /atom/movable/screen/alert/status_effect/buff/guardbuffone
 	name = "Vigilant Guardsman"
+	desc = "My home. I watch vigilantly and respond swiftly."
+	icon_state = "buff"
+
+/atom/movable/screen/alert/status_effect/buff/knightbufftown
+	name = "Vigilant Knight"
 	desc = "My home. I watch vigilantly and respond swiftly."
 	icon_state = "buff"
 
@@ -351,6 +356,11 @@
 /atom/movable/screen/alert/status_effect/buff/dungeoneerbuff
 	name = "Ruthless Jailor"
 	desc = "This is my sanctuary. I can overpower any opposition that dares breach it."
+	icon_state = "buff"
+
+/atom/movable/screen/alert/status_effect/buff/underdarkbuff
+	name = "Underdark Ancestry"
+	desc = "This is where my people come from. I can find my way easily in these depths."
 	icon_state = "buff"
 
 /atom/movable/screen/alert/status_effect/buff/churchbuff
@@ -385,10 +395,25 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/guardbuffone
 	effectedstats = list("constitution" = 1,"endurance" = 1, "speed" = 1, "perception" = 2)
 
+/datum/status_effect/buff/knightbuff
+	id = "knightbuff"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/knightbuff
+	effectedstats = list("constitution" = 1, "perception" = 1)
+	
+/datum/status_effect/buff/knightbufftown
+	id = "knightbufftown"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/knightbufftown
+	effectedstats = list("endurance" = 1, "speed" = 1, "perception" = 1) // lesser buff for being in town, lets them move around
+
 /datum/status_effect/buff/dungeoneerbuff
 	id = "dungeoneerbuff"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/dungeoneerbuff
 	effectedstats = list("constitution" = 1,"endurance" = 1, "strength" = 2)//This only works in 2 small areas on the entire map
+
+/datum/status_effect/buff/underdark
+	id = "underdarkbuff"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/underdarkbuff
+	effectedstats = list("perception" = 1)
 
 /datum/status_effect/buff/churchbuff/process()
 
@@ -404,6 +429,20 @@
 	var/area/rogue/our_area = get_area(owner)
 	if(!(our_area.town_area))
 		owner.remove_status_effect(/datum/status_effect/buff/guardbuffone)
+
+/datum/status_effect/buff/knightbuff/process()
+
+	.=..()
+	var/area/rogue/our_area = get_area(owner)
+	if(!(our_area.keep_area))
+		owner.remove_status_effect(/datum/status_effect/buff/knightbuff)
+
+/datum/status_effect/buff/knightbufftown/process()
+
+	.=..()
+	var/area/rogue/our_area = get_area(owner)
+	if(!(our_area.town_area))
+		owner.remove_status_effect(/datum/status_effect/buff/knightbufftown)
 
 /datum/status_effect/buff/wardenbuff/process()
 
@@ -435,6 +474,21 @@
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_CIVILIZEDBARBARIAN, id)
 
+/datum/status_effect/buff/underdark/process()
+
+	.=..()
+	var/area/rogue/our_area = get_area(owner)
+	if(!(our_area.underdark_area))
+		owner.remove_status_effect(/datum/status_effect/buff/underdark)
+
+/datum/status_effect/buff/underdark/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_UNDERSIGHT, id)
+
+/datum/status_effect/buff/underdark/on_remove()
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_UNDERSIGHT, id)
+
 /atom/movable/screen/alert/status_effect/buff/healing//lesser miracle
 	name = "Healing Miracle"
 	desc = "Divine intervention relieves me of my ailments."
@@ -455,6 +509,10 @@
 	return ..()
 
 /datum/status_effect/buff/healing/on_apply()
+	if(owner.construct) //golems can't be healed by miracles cuz they're not living beans
+		owner.visible_message(span_warning("The divine aura enveloping [owner]'s inorganic body sputters and fades away."))
+		qdel(src)
+		return
 	SEND_SIGNAL(owner, COMSIG_LIVING_MIRACLE_HEAL_APPLY, healing_on_tick, src)
 	var/filter = owner.get_filter(MIRACLE_HEALING_FILTER)
 	if (!filter)
@@ -476,15 +534,13 @@
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
 	H.color = "#FF0000"
 	var/list/wCount = owner.get_wounds()
-	if(owner.construct) //golems can't be healed by miracles cuz they're not living beans
-		owner.visible_message(span_warning("The divine aura enveloping [owner]'s inorganic body sputters and fades away."))
-		qdel(src)
-		return
 	if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
 		owner.blood_volume = min(owner.blood_volume+healing_on_tick, BLOOD_VOLUME_NORMAL)
 	if(wCount.len > 0)
 		owner.heal_wounds(healing_on_tick)
 		owner.update_damage_overlays()
+	if(HAS_TRAIT(owner, TRAIT_SIMPLE_WOUNDS))
+		owner.simple_bleeding = max(0, owner.simple_bleeding-(healing_on_tick/2))
 	owner.adjustBruteLoss(-healing_on_tick, 0)
 	owner.adjustFireLoss(-healing_on_tick, 0)
 	owner.adjustOxyLoss(-healing_on_tick, 0)
@@ -567,12 +623,31 @@
 	duration = -1
 	healing_on_tick = 3
 	outline_colour = "#bbbbbb"
+	var/oh_god_it_hurts = FALSE
 
 /datum/status_effect/buff/healing/necras_vow/on_apply()
 	healing_on_tick = max(owner.get_skill_level(/datum/skill/magic/holy), 3)
 	return TRUE
 
 /datum/status_effect/buff/healing/necras_vow/tick()
+	if (owner.stat > 0 && (!owner.blood_volume || owner.health < owner.crit_threshold))
+		// OH SHIT. SHE'S CASHING IN ON THE VOW!!! YOU'RE FUCKED!!!
+		if (!oh_god_it_hurts)
+			to_chat(owner, span_boldwarning("The everblack settles around you. Oblivion. Then, you hear it. You hear <i>HER</i>."))
+			to_chat(owner, span_crit("<B>\"MINE.\"</B>"))
+			owner.visible_message(span_warning("[owner]'s unconscious form suddenly arches back into a silent, rictus scream, blue motes spilling from their mouth!"))
+			oh_god_it_hurts = TRUE
+		
+		owner.adjustOxyLoss(healing_on_tick) // this is the part where she kills you.
+		var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
+		H.color = "#33cabc"
+		return
+	else if (oh_god_it_hurts)
+		oh_god_it_hurts = FALSE
+		to_chat(owner, span_warning("The vice-like grip around your mortal coil eases, reluctantly. Yet, you feel hollow, all the same..."))
+		qdel(src) // clear the vow if someone somehow saves us
+		return
+
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
 	H.color = "#a5a5a5"
 	var/list/wCount = owner.get_wounds()
@@ -1054,6 +1129,103 @@
 	REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, id)
 	REMOVE_TRAIT(owner, TRAIT_STRONGBITE, id)
 
+
+/atom/movable/screen/alert/status_effect/buff/xylix_pratfall
+	name = "Blessing of the Pratfall"
+	desc = "My body has become a treacherous obstacle."
+	icon_state = "buff"
+
+/obj/effect/xylix_pratfall_proxy
+	name = ""
+	icon = 'icons/mob/mob.dmi'
+	icon_state = null
+	mouse_opacity = 0
+	layer = ABOVE_MOB_LAYER
+	anchored = TRUE
+	invisibility = INVISIBILITY_ABSTRACT
+
+	var/mob/living/owner
+
+/obj/effect/xylix_pratfall_proxy/Initialize(mapload, mob/living/_owner)
+	. = ..()
+	owner = _owner
+
+/datum/status_effect/buff/xylix_pratfall
+	id = "xylix_pratfall"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/xylix_pratfall
+	duration = 20 MINUTES
+
+	var/obj/effect/xylix_pratfall_proxy/proxy
+
+/datum/status_effect/buff/xylix_pratfall/on_apply()
+	. = ..()
+
+	if(!isliving(owner))
+		return
+
+	proxy = new(owner.loc, owner)
+
+	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(on_owner_moved))
+	RegisterSignal(owner, COMSIG_QDELETING, PROC_REF(on_owner_deleted))
+	RegisterSignal(proxy, COMSIG_QDELETING, PROC_REF(on_proxy_deleted))
+
+/datum/status_effect/buff/xylix_pratfall/on_remove()
+	. = ..()
+	cleanup()
+
+/datum/status_effect/buff/xylix_pratfall/proc/on_owner_moved()
+	if(proxy && owner)
+		proxy.loc = owner.loc
+
+/datum/status_effect/buff/xylix_pratfall/proc/on_owner_deleted()
+	cleanup()
+
+/datum/status_effect/buff/xylix_pratfall/proc/on_proxy_deleted()
+	proxy = null
+
+/datum/status_effect/buff/xylix_pratfall/proc/cleanup()
+	UnregisterSignal(owner, COMSIG_MOVABLE_MOVED)
+	UnregisterSignal(owner, COMSIG_QDELETING)
+
+	QDEL_NULL(proxy)
+
+/obj/effect/xylix_pratfall_proxy/Crossed(atom/movable/AM)
+	. = ..()
+
+	if(!owner || !isliving(AM))
+		return
+
+	var/mob/living/L = AM
+	var/mob/living/M = owner
+
+	if(M.mobility_flags & MOBILITY_STAND)
+		return
+	if(L.buckled)
+		return
+	if(L.patron?.type == /datum/patron/divine/xylix)
+		return
+
+	var/list/messages = list(
+		"[L] tries to be graceful, but [M] has other plans!",
+		"[L] discovers that stepping on friends is hazardous!",
+		"[L] flails wildly as [M] turns into a slippery obstacle!",
+		"[L] forgets the art of walking thanks to [M]'s treachery!",
+		"[L] meets the floor in a most undignified manner, courtesy of [M]!"
+	)
+
+	L.visible_message(span_warning(pick(messages)))
+
+	var/list/sounds = list(
+		'sound/misc/clownedsitcomlaugh1.ogg',
+		'sound/misc/clownedsitcomlaugh2.ogg',
+		'sound/misc/clownedsitcomlaugh3.ogg'
+	)
+
+	playsound(L, pick(sounds), 50, TRUE)
+
+	L.AdjustKnockdown(2)
+
+
 /atom/movable/screen/alert/status_effect/buff/pacify
 	name = "Blessing of Eora"
 	desc = "I feel my heart as light as feathers. All my worries have washed away."
@@ -1171,7 +1343,76 @@
 	id = "clash"
 	duration = 6 SECONDS
 	var/dur
+	var/sfx_on_apply = 'sound/combat/clash_initiate.ogg'
+	var/swingdelay_mod = 5
 	alert_type = /atom/movable/screen/alert/status_effect/buff/clash
+
+	mob_effect_icon = 'icons/mob/mob_effects.dmi'
+	mob_effect_icon_state = "eff_riposte"
+	mob_effect_layer = MOB_EFFECT_LAYER_GUARD
+
+//We have a lot of signals as the ability is meant to be interrupted by or interact with a lot of mechanics. 
+/datum/status_effect/buff/clash/on_creation(mob/living/new_owner, ...)
+	//!Danger! Zone!
+	//These signals use OVERRIDES and can OVERLAP with anything else using them.
+	//At the moment we have no way of prioritising one signal over the other, it's first-come first-serve. Keep this in mind.
+	RegisterSignal(new_owner, COMSIG_MOB_ITEM_ATTACK, PROC_REF(process_attack))
+	RegisterSignal(new_owner, COMSIG_MOB_ITEM_BEING_ATTACKED, PROC_REF(process_attack))
+
+
+	RegisterSignal(new_owner, COMSIG_MOB_ATTACKED_BY_HAND, PROC_REF(process_touch))
+	RegisterSignal(new_owner, COMSIG_MOB_ON_KICK, PROC_REF(guard_disrupted))
+	RegisterSignal(new_owner, COMSIG_MOB_KICKED, PROC_REF(guard_disrupted))
+	RegisterSignal(new_owner, COMSIG_LIVING_ONJUMP, PROC_REF(guard_disrupted))
+	RegisterSignal(new_owner, COMSIG_CARBON_SWAPHANDS, PROC_REF(guard_disrupted))
+	RegisterSignal(new_owner, COMSIG_ITEM_GUN_PROCESS_FIRE, PROC_REF(guard_disrupted_cheesy))
+	RegisterSignal(new_owner, COMSIG_ATOM_BULLET_ACT, PROC_REF(guard_struck_by_projectile))
+	RegisterSignal(new_owner, COMSIG_LIVING_IMPACT_ZONE, PROC_REF(guard_struck_by_projectile))
+	RegisterSignal(new_owner, COMSIG_LIVING_SWINGDELAY_MOD, PROC_REF(guard_swingdelay_mod))	//I dunno if a signal is better here rather than theoretically cycling through _all_ status effects to apply a var'd swingdelay mod.
+	. = ..()
+
+/datum/status_effect/buff/clash/proc/guard_swingdelay_mod()
+	return swingdelay_mod
+
+/datum/status_effect/buff/clash/proc/process_touch(mob/living/carbon/human/parent, mob/living/carbon/human/attacker, mob/living/carbon/human/defender)
+	var/obj/item/I = defender.get_active_held_item()
+	defender.process_clash(attacker, I, null)
+
+/datum/status_effect/buff/clash/proc/process_attack(mob/living/parent, mob/living/target, mob/user, obj/item/I)
+	var/bad_guard = FALSE
+	var/mob/living/U = user
+	//We have Guard / Clash active, and are hitting someone who doesn't. Cheesing a 'free' hit with a defensive buff is a no-no. You get punished.
+	if(U.has_status_effect(/datum/status_effect/buff/clash) && !target.has_status_effect(/datum/status_effect/buff/clash))
+		if(user == parent)
+			bad_guard = TRUE
+	if(ishuman(target) && target.get_active_held_item() && !bad_guard)
+		var/mob/living/carbon/human/HM = target
+		var/obj/item/IM = target.get_active_held_item()
+		var/obj/item/IU 
+		if(user.used_intent.masteritem)
+			IU = user.used_intent.masteritem
+		HM.process_clash(user, IM, IU)
+		return COMPONENT_NO_ATTACK
+	if(bad_guard)
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			H.bad_guard(span_suicide("I tried to strike while focused on defense whole! It drains me!"), cheesy = TRUE)
+
+//Mostly here so the child (limbguard) can have special behaviour.
+/datum/status_effect/buff/clash/proc/guard_struck_by_projectile()
+	guard_disrupted()
+
+//Our guard was disrupted by normal means.
+/datum/status_effect/buff/clash/proc/guard_disrupted()
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		H.bad_guard("My focus was disrupted!")
+
+//We tried to cheese it. Generally reserved for egregious things, like attacking / casting while its active.
+/datum/status_effect/buff/clash/proc/guard_disrupted_cheesy()
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		H.bad_guard("My focus was <b>heavily</b> disrupted!")
 
 /datum/status_effect/buff/clash/on_apply()
 	. = ..()
@@ -1179,7 +1420,8 @@
 		return
 	dur = world.time
 	var/mob/living/carbon/human/H = owner
-	H.play_overhead_indicator('icons/mob/overhead_effects.dmi', prob(50) ? "clash" : "clashr", duration, OBJ_LAYER, soundin = 'sound/combat/clash_initiate.ogg', y_offset = 28)
+	if(sfx_on_apply)
+		playsound(H, sfx_on_apply, 100, TRUE)
 
 /datum/status_effect/buff/clash/tick()
 	if(!owner.get_active_held_item() || !(owner.mobility_flags & MOBILITY_STAND))
@@ -1188,13 +1430,23 @@
 
 /datum/status_effect/buff/clash/on_remove()
 	. = ..()
-	owner.apply_status_effect(/datum/status_effect/debuff/clashcd)
+	var/newcd = 30 SECONDS - owner.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)
+	owner.apply_status_effect(/datum/status_effect/debuff/clashcd, newcd)
 	var/newdur = world.time - dur
 	var/mob/living/carbon/human/H = owner
-	if(newdur > (duration - 0.3 SECONDS))	//Not checking exact duration to account for lag and any other tick / timing inconsistencies.
+	if(newdur > (initial(duration) - 0.2 SECONDS))	//Not checking exact duration to account for lag and any other tick / timing inconsistencies.
 		H.bad_guard(span_warning("I held my focus for too long. It's left me drained."))
-	var/mutable_appearance/appearance = H.overlays_standing[OBJ_LAYER]
-	H.clear_overhead_indicator(appearance)
+	UnregisterSignal(owner, COMSIG_ATOM_BULLET_ACT)
+	UnregisterSignal(owner, COMSIG_MOB_ATTACKED_BY_HAND)
+	UnregisterSignal(owner, COMSIG_MOB_ITEM_ATTACK)
+	UnregisterSignal(owner, COMSIG_MOB_ITEM_BEING_ATTACKED)
+	UnregisterSignal(owner, COMSIG_MOB_ON_KICK)
+	UnregisterSignal(owner, COMSIG_MOB_KICKED)
+	UnregisterSignal(owner, COMSIG_ITEM_GUN_PROCESS_FIRE)
+	UnregisterSignal(owner, COMSIG_CARBON_SWAPHANDS)
+	UnregisterSignal(owner, COMSIG_LIVING_IMPACT_ZONE)
+	UnregisterSignal(owner, COMSIG_LIVING_ONJUMP)
+	UnregisterSignal(owner, COMSIG_LIVING_SWINGDELAY_MOD)
 
 
 /atom/movable/screen/alert/status_effect/buff/clash
@@ -1243,6 +1495,16 @@
 	owner.emote("breathgasp", forced = TRUE)
 	owner.Slowdown(3)
 
+/datum/status_effect/buff/motive
+	id = "motive"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/motive
+	effectedstats = list("strength" = 1,"endurance" = 1)
+
+/atom/movable/screen/alert/status_effect/buff/motive
+	name = "Motive"
+	desc = span_bloody("GRAGGAR'S ARMAMENTS CALL ME TO SLAUGHTER!! KILL!! RIP!! CONSUME!!")
+	icon_state = "call_to_slaughter"
+
 /datum/status_effect/buff/psydonic_endurance
 	id = "psydonic_endurance"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/psydonic_endurance
@@ -1274,6 +1536,73 @@
 	name = "sermon"
 	desc = "I feel inspired by the sermon!"
 	icon_state = "buff"
+
+/datum/status_effect/buff/griefflower
+	id = "griefflower"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/griefflower
+
+/datum/status_effect/buff/griefflower/on_apply()
+	. = ..()
+	to_chat(owner, span_notice("The Rosa’s ring draws blood, but it’s the memories that truly wound. Failure after failure surging through you like thorns blooming inward."))
+	ADD_TRAIT(owner, TRAIT_CRACKHEAD, src)
+
+/datum/status_effect/buff/griefflower/on_remove()
+	. = ..()
+	to_chat(owner, span_notice("You part from the Rosa’s touch. The ache retreats..."))
+	REMOVE_TRAIT(owner, TRAIT_CRACKHEAD, src)
+
+/atom/movable/screen/alert/status_effect/buff/griefflower
+	name = "Rosa Ring"
+	desc = "The Rosa's ring draws blood, but it's the memories that truly wound. Failure after failure surging through you like thorns blooming inward."
+	icon_state = "buff"
+
+#define JOYBRINGER_FILTER "joybringer"
+
+/datum/status_effect/joybringer
+	id = "joybringer"
+	var/outline_colour = "#a529e8"
+	duration = -1
+	tick_interval = -1
+	examine_text = span_love("SUBJECTPRONOUN is bathed in Baotha's blessings!")
+	alert_type = null
+
+/datum/status_effect/joybringer/on_apply()
+	. = ..()
+
+	owner.visible_message(span_userdanger("A tide of vibrant purple mist surges from [owner], carrying the heavy scent of sweet intoxication!"))
+
+	var/filter = owner.get_filter(JOYBRINGER_FILTER)
+	if(!filter)
+		owner.add_filter(JOYBRINGER_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
+
+	var/mutable_appearance/effect = mutable_appearance('icons/effects/effects.dmi', "mist", -JOYBRINGER_LAYER, alpha = 128)
+	effect.appearance_flags = RESET_COLOR
+	effect.blend_mode = BLEND_ADD
+	effect.color = "#a529e8"
+
+	owner.overlays_standing[JOYBRINGER_LAYER] = effect
+	owner.apply_overlay(JOYBRINGER_LAYER)
+
+	RegisterSignal(owner, COMSIG_LIVING_LIFE, PROC_REF(on_life))
+
+/datum/status_effect/joybringer/on_remove()
+	. = ..()
+
+	owner.remove_filter(JOYBRINGER_FILTER)
+	owner.remove_overlay(JOYBRINGER_LAYER)
+
+	UnregisterSignal(owner, COMSIG_LIVING_LIFE)
+
+/datum/status_effect/joybringer/proc/on_life()
+	SIGNAL_HANDLER
+
+	for(var/mob/living/mob in get_hearers_in_view(2, owner))
+		if(HAS_TRAIT(mob, TRAIT_CRACKHEAD) || HAS_TRAIT(mob, TRAIT_PSYDONITE))
+			continue
+
+		mob.apply_status_effect(/datum/status_effect/debuff/joybringer_druqks)
+
+#undef JOYBRINGER_FILTER
 
 /datum/status_effect/buff/gazeuponme
 	id = "gazeuponme"
@@ -1341,13 +1670,47 @@
 	M.color = effect_color
 	pulse += 1
 
-/datum/status_effect/buff/parish_boon
-	id = "parish_boon"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/parish_boon
-	effectedstats = list("perception" = 1, "intelligence" = 1)
-	duration = 20 MINUTES
+/datum/status_effect/buff/celerity
+	id = "celerity"
+	alert_type = /atom/movable/screen/alert/status_effect/buff
+	effectedstats = list(STATKEY_SPD = 1)
+	status_type = STATUS_EFFECT_REPLACE
 
-/atom/movable/screen/alert/status_effect/buff/parish_boon
-	name = "Boon of the Parish"
-	desc = "You lent partial aid to the local church and bear a modest share of its blessing."
+/atom/movable/screen/alert/status_effect/buff/celerity
+	name = "Celerity"
+	desc = "Your body is under perfect control."
+	icon_state = "buff"
+
+/datum/status_effect/buff/celerity/New(list/arguments)
+	effectedstats[STATKEY_SPD] = arguments[2]
+	. = ..()
+
+/datum/status_effect/buff/potence
+	id = "potence"
+	alert_type = /atom/movable/screen/alert/status_effect/buff
+	effectedstats = list(STATKEY_STR = 1)
+	status_type = STATUS_EFFECT_REPLACE
+
+/atom/movable/screen/alert/status_effect/buff/potence
+	name = "Potence"
+	desc = "I am a force of destruction."
+	icon_state = "buff"
+
+/datum/status_effect/buff/potence/New(list/arguments)
+	effectedstats[STATKEY_STR] = arguments[2]
+	. = ..()
+
+/datum/status_effect/buff/fotv
+	id = "fotv"
+	alert_type = /atom/movable/screen/alert/status_effect/buff
+	effectedstats = list(STATKEY_SPD = 3, STATKEY_END = 1, STATKEY_CON = 1)
+	status_type = STATUS_EFFECT_REPLACE
+
+/datum/status_effect/buff/merchired
+	id = "merchired"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/merchired
+
+/atom/movable/screen/alert/status_effect/buff/merchired
+	name = "Hired!"
+	desc = "I have an active contract. I must be vigilant and ready at all tymes."
 	icon_state = "buff"

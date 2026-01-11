@@ -46,7 +46,7 @@
 	name = "golem aersource"
 	desc = "A complex hollow crystal, which courses with air through unknowable means. Steam wisps around it in a vortex."
 	icon_state = "lungs-con"
-	
+
 /obj/item/organ/lungs/t1
 	name = "completed lungs"
 	icon_state = "lungs"
@@ -78,13 +78,13 @@
 	..()
 	if(M)
 		M.apply_status_effect(/datum/status_effect/buff/t1lungs)
-		ADD_TRAIT(M, TRAIT_WATERBREATHING, TRAIT_GENERIC)
+		ADD_TRAIT(M, TRAIT_WATERBREATHING, ORGAN_TRAIT)
 
 /obj/item/organ/lungs/t1/Remove(mob/living/carbon/M, special = 0)
 	..()
 	if(M.has_status_effect(/datum/status_effect/buff/t1lungs))
 		M.remove_status_effect(/datum/status_effect/buff/t1lungs)
-		REMOVE_TRAIT(M, TRAIT_WATERBREATHING , TRAIT_GENERIC)
+		REMOVE_TRAIT(M, TRAIT_WATERBREATHING , ORGAN_TRAIT)
 
 /datum/status_effect/buff/t2lungs
 	id = "t2lungs"
@@ -98,18 +98,18 @@
 	..()
 	if(M)
 		M.apply_status_effect(/datum/status_effect/buff/t2lungs)
-		ADD_TRAIT(M, TRAIT_BREADY, TRAIT_GENERIC)
-		ADD_TRAIT(M, TRAIT_ZJUMP, TRAIT_GENERIC)
-		ADD_TRAIT(M, TRAIT_WATERBREATHING, TRAIT_GENERIC)
+		ADD_TRAIT(M, TRAIT_BREADY, ORGAN_TRAIT)
+		ADD_TRAIT(M, TRAIT_ZJUMP, ORGAN_TRAIT)
+		ADD_TRAIT(M, TRAIT_WATERBREATHING, ORGAN_TRAIT)
 
 
 /obj/item/organ/lungs/t2/Remove(mob/living/carbon/M, special = 0)
 	..()
 	if(M.has_status_effect(/datum/status_effect/buff/t2lungs))
 		M.remove_status_effect(/datum/status_effect/buff/t2lungs)
-		REMOVE_TRAIT(M, TRAIT_BREADY , TRAIT_GENERIC)
-		REMOVE_TRAIT(M, TRAIT_ZJUMP , TRAIT_GENERIC)
-		REMOVE_TRAIT(M, TRAIT_WATERBREATHING , TRAIT_GENERIC)
+		REMOVE_TRAIT(M, TRAIT_BREADY , ORGAN_TRAIT)
+		REMOVE_TRAIT(M, TRAIT_ZJUMP , ORGAN_TRAIT)
+		REMOVE_TRAIT(M, TRAIT_WATERBREATHING , ORGAN_TRAIT)
 
 
 /datum/status_effect/buff/t3lungs
@@ -125,19 +125,19 @@
 	..()
 	if(M)
 		M.apply_status_effect(/datum/status_effect/buff/t3lungs)
-		ADD_TRAIT(M, TRAIT_BREADY, TRAIT_GENERIC)
-		ADD_TRAIT(M, TRAIT_LEAPER, TRAIT_GENERIC)
-		ADD_TRAIT(M, TRAIT_ZJUMP, TRAIT_GENERIC)
-		ADD_TRAIT(M, TRAIT_NOBREATH, TRAIT_GENERIC)
-		ADD_TRAIT(M, TRAIT_LONGSTRIDER, TRAIT_GENERIC)
+		ADD_TRAIT(M, TRAIT_BREADY, ORGAN_TRAIT)
+		ADD_TRAIT(M, TRAIT_LEAPER, ORGAN_TRAIT)
+		ADD_TRAIT(M, TRAIT_ZJUMP, ORGAN_TRAIT)
+		ADD_TRAIT(M, TRAIT_NOBREATH, ORGAN_TRAIT)
+		ADD_TRAIT(M, TRAIT_LONGSTRIDER, ORGAN_TRAIT)
 
 
 /obj/item/organ/lungs/t3/Remove(mob/living/carbon/M, special = 0)
 	..()
 	if(M.has_status_effect(/datum/status_effect/buff/t3lungs))
 		M.remove_status_effect(/datum/status_effect/buff/t3lungs)
-		REMOVE_TRAIT(M, TRAIT_BREADY, TRAIT_GENERIC)
-		REMOVE_TRAIT(M, TRAIT_LEAPER, TRAIT_GENERIC)
-		REMOVE_TRAIT(M, TRAIT_ZJUMP, TRAIT_GENERIC)
-		REMOVE_TRAIT(M, TRAIT_NOBREATH, TRAIT_GENERIC)
-		REMOVE_TRAIT(M, TRAIT_LONGSTRIDER, TRAIT_GENERIC)	
+		REMOVE_TRAIT(M, TRAIT_BREADY, ORGAN_TRAIT)
+		REMOVE_TRAIT(M, TRAIT_LEAPER, ORGAN_TRAIT)
+		REMOVE_TRAIT(M, TRAIT_ZJUMP, ORGAN_TRAIT)
+		REMOVE_TRAIT(M, TRAIT_NOBREATH, ORGAN_TRAIT)
+		REMOVE_TRAIT(M, TRAIT_LONGSTRIDER, ORGAN_TRAIT)	

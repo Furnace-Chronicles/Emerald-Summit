@@ -3,7 +3,7 @@
 	tutorial = "You are a hunter. With your bow you hunt the fauna of the glade, skinning what you kill and cooking any meat left over. The job is dangerous but important in the circulation of clothing and light armor."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/hunter
+	outfit = /datum/outfit/job/adventurer/hunter
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 
 	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_WOODSMAN, TRAIT_DODGEEXPERT)	
@@ -37,7 +37,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/hunter/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/hunter/pre_equip(mob/living/carbon/human/H)
 	..()
 	pants = /obj/item/clothing/under/roguetown/trou/artipants
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
@@ -66,8 +66,9 @@
 /datum/advclass/hunter/spear
 	name = "Spear-Hunter"
 	tutorial = "You are a hunter. With your bow you hunt the fauna of the glade, skinning what you kill and cooking any meat left over. The job is dangerous but important in the circulation of clothing and light armor."
-	outfit = /datum/outfit/job/roguetown/adventurer/hunter_spear
+	outfit = /datum/outfit/job/adventurer/hunter_spear
 
+	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_WOODSMAN)	
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 1,
@@ -95,9 +96,10 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/hunter_spear/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/hunter_spear/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a hunter who specializes in spears, excelling in strength and endurance."))
+	head = /obj/item/clothing/head/roguetown/helmet/leather
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
@@ -108,7 +110,7 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/storage/meatbag
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	l_hand = /obj/item/rogueweapon/spear
+	l_hand = /obj/item/rogueweapon/spear/boar
 	backpack_contents = list(
 				/obj/item/flint = 1,
 				/obj/item/bait = 1,

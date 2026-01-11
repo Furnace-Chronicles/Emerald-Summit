@@ -3,11 +3,11 @@
 	tutorial = "Your master found you talentless, and cast you from their tower with nothing but your staff and dreams of what could've been."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/vagabond/mage
+	outfit = /datum/outfit/job/vagabond/mage
 	category_tags = list(CTAG_VAGABOND)
 	subclass_social_rank = SOCIAL_RANK_PEASANT
 
-	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2)
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T2, TRAIT_TALENTED_ALCHEMIST)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_CON = -1,
@@ -23,7 +23,7 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/vagabond/mage/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/vagabond/mage/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/rags

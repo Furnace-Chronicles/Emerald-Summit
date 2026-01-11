@@ -38,10 +38,10 @@
 			/obj/effect/decal/cleanable/blood)
 	faction = list("orcs")
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
-	del_on_death = TRUE
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 3,
 						/obj/item/natural/hide = 2, /obj/item/natural/bundle/bone/full = 1)
 	aggressive = TRUE
+	del_on_death = 1
 
 //new ai, old ai off
 	can_have_ai = FALSE //disable native ai

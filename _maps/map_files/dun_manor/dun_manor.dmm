@@ -23622,7 +23622,7 @@
 	lockid = "manor";
 	name = "keep entrance";
 	ridethrough = 1;
-	desc = "a large door. It seems big enough to fit a mount."
+	desc = "A large door. It seems big enough to fit a mount."
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/indoors/town/garrison)
@@ -33575,7 +33575,7 @@
 "xzF" = (
 /obj/structure/mineral_door/wood/fancywood{
 	lockid = "manor";
-	name = "Councilor's Chambers";
+	name = "Councillor's Chambers";
 	locked = 1
 	},
 /turf/open/floor/rogue/cobble,

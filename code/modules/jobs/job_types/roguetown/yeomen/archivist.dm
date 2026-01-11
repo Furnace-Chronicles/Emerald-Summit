@@ -14,14 +14,14 @@
 	allowed_ages = ALL_AGES_LIST
 	social_rank = SOCIAL_RANK_YEOMAN
 
-	outfit = /datum/outfit/job/roguetown/archivist
+	outfit = /datum/outfit/job/archivist
 	display_order = JDO_ARCHIVIST
 	give_bank_account = 15
 	min_pq = 1
 	max_pq = null
 	round_contrib_points = 3
 
-	job_traits = list(TRAIT_ARCYNE_T2, TRAIT_MAGEARMOR, TRAIT_INTELLECTUAL, TRAIT_SEEPRICES_SHITTY, TRAIT_GOODWRITER)
+	job_traits = list(TRAIT_ARCYNE_T2, TRAIT_MAGEARMOR, TRAIT_INTELLECTUAL, TRAIT_SEEPRICES_SHITTY, TRAIT_GOODWRITER, TRAIT_TALENTED_ALCHEMIST)
 	advclass_cat_rolls = list(CTAG_ARCHIVIST = 2)
 	job_subclasses = list(
 		/datum/advclass/archivist
@@ -31,7 +31,7 @@
 	name = "Archivist"
 	tutorial = "The Archivist meticulously preserves and organizes ancient scrolls and tomes, safeguarding the collective knowledge of the realm for generations to come. Nobles and Peasants alike often seek your expertise on matters of history and fact, and your keenly-kept records on the events of this week will likely stand a testament to your Duke's benevolence and their realm's prosperity...or not. After all, you hold the true power: \
 	The power to dictate how the future generations will look back on these coming days."
-	outfit = /datum/outfit/job/roguetown/archivist/basic
+	outfit = /datum/outfit/job/archivist/basic
 	category_tags = list(CTAG_ARCHIVIST)
 
 	subclass_languages = list(
@@ -50,7 +50,7 @@
 	)
 
 	subclass_stats = list(
-		STATKEY_INT = 4,
+		STATKEY_INT = 6, //The Archivist must always be the smartest guy in the realm, this is essential for the sovl. Duke has +5.
 		STATKEY_CON = -1,
 		STATKEY_STR = -1
 	)
@@ -69,7 +69,7 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/archivist/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/archivist/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	if(should_wear_femme_clothes(H))

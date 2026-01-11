@@ -4,11 +4,11 @@
 
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/miner
+	outfit = /datum/outfit/job/adventurer/miner
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 
-	traits_applied = list(TRAIT_DARKVISION)
+	traits_applied = list(TRAIT_DARKVISION, TRAIT_PEASANTMILITIA)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 2,
@@ -35,7 +35,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/miner/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/miner/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/armingcap
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather

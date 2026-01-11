@@ -18,8 +18,8 @@
 	invocation = "Noc blinds thee of thy sins!"
 	invocation_type = "shout" //can be none, whisper, emote and shout
 	associated_skill = /datum/skill/magic/holy
-	devotion_cost = 15
-	recharge_time = 15 SECONDS
+	devotion_cost = 50
+	recharge_time = 25 SECONDS
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	miracle = TRUE
 	cost = 3
@@ -36,6 +36,9 @@
 	revert_cast()
 	return FALSE
 
+/obj/effect/proc_holder/spell/invoked/blindness/kazengun
+	invocation = "Noishi blinds thee of thy sins!"
+
 /obj/effect/proc_holder/spell/invoked/invisibility
 	name = "Invisibility"
 	overlay_state = "invisibility"
@@ -50,7 +53,7 @@
 	movement_interrupt = FALSE
 	spell_tier = 1
 	invocation_type = "none"
-	sound = 'sound/misc/area.ogg' //This sound doesnt play for some reason. Fix me.
+	sound = 'sound/misc/fade.ogg'
 	associated_skill = /datum/skill/magic/arcane
 	antimagic_allowed = TRUE
 	hide_charge_effect = TRUE
@@ -84,7 +87,7 @@
 
 /obj/effect/proc_holder/spell/self/noc_spell_bundle
 	name = "Arcyne Affinity"
-	desc = "Allows you to learn a spell or two of a certain type once every cycle."
+	desc = "Allows you to learn new spells over time through divine insight."
 	miracle = TRUE
 	devotion_cost = 200
 	recharge_time = 25 MINUTES
@@ -92,72 +95,53 @@
 	chargedrain = 0
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
-	var/chosen_bundle
-	var/list/utility_bundle = list(	//Utility means exactly that. Nothing offensive and nothing that can affect another person negatively. (Barring Fetch)
-		/obj/effect/proc_holder/spell/self/message::name 				= /obj/effect/proc_holder/spell/self/message,
-		/obj/effect/proc_holder/spell/invoked/leap::name 				= /obj/effect/proc_holder/spell/invoked/leap,
-		/obj/effect/proc_holder/spell/targeted/touch/lesserknock::name 	= /obj/effect/proc_holder/spell/targeted/touch/lesserknock,
-		/obj/effect/proc_holder/spell/invoked/mending::name 			= /obj/effect/proc_holder/spell/invoked/mending,
-		/obj/effect/proc_holder/spell/invoked/projectile/fetch::name 	= /obj/effect/proc_holder/spell/invoked/projectile/fetch,
-		/obj/effect/proc_holder/spell/invoked/aerosolize::name 			= /obj/effect/proc_holder/spell/invoked/aerosolize,
-		/obj/effect/proc_holder/spell/invoked/blink::name 				= /obj/effect/proc_holder/spell/invoked/blink,
+	var/list/all_spells = list(
+		/obj/effect/proc_holder/spell/invoked/diagnose/secular::name = /obj/effect/proc_holder/spell/invoked/diagnose/secular,
+		/obj/effect/proc_holder/spell/self/message::name = /obj/effect/proc_holder/spell/self/message,
+		/obj/effect/proc_holder/spell/invoked/leap::name = /obj/effect/proc_holder/spell/invoked/leap,
+		/obj/effect/proc_holder/spell/targeted/touch/lesserknock::name = /obj/effect/proc_holder/spell/targeted/touch/lesserknock,
+		/obj/effect/proc_holder/spell/invoked/mending::name = /obj/effect/proc_holder/spell/invoked/mending,
+		/obj/effect/proc_holder/spell/invoked/projectile/fetch::name = /obj/effect/proc_holder/spell/invoked/projectile/fetch,
+		/obj/effect/proc_holder/spell/invoked/aerosolize::name = /obj/effect/proc_holder/spell/invoked/aerosolize,
+		/obj/effect/proc_holder/spell/invoked/blink::name = /obj/effect/proc_holder/spell/invoked/blink,
+		/obj/effect/proc_holder/spell/invoked/projectile/guided_bolt::name = /obj/effect/proc_holder/spell/invoked/projectile/guided_bolt,
+		/obj/effect/proc_holder/spell/self/conjure_armor/miracle::name = /obj/effect/proc_holder/spell/self/conjure_armor/miracle,
+		/obj/effect/proc_holder/spell/invoked/conjure_weapon/miracle::name = /obj/effect/proc_holder/spell/invoked/conjure_weapon/miracle,
+		/obj/effect/proc_holder/spell/invoked/hawks_eyes::name = /obj/effect/proc_holder/spell/invoked/hawks_eyes,
+		/obj/effect/proc_holder/spell/invoked/giants_strength::name = /obj/effect/proc_holder/spell/invoked/giants_strength,
+		/obj/effect/proc_holder/spell/invoked/longstrider::name = /obj/effect/proc_holder/spell/invoked/longstrider,
+		/obj/effect/proc_holder/spell/invoked/guidance::name = /obj/effect/proc_holder/spell/invoked/guidance,
+		/obj/effect/proc_holder/spell/invoked/haste::name = /obj/effect/proc_holder/spell/invoked/haste,
+		/obj/effect/proc_holder/spell/invoked/fortitude::name = /obj/effect/proc_holder/spell/invoked/fortitude
 	)
-	var/list/offensive_bundle = list(	//This is not meant to make them combat-capable. A weak offensive, and mostly defensive option.
-		/obj/effect/proc_holder/spell/invoked/projectile/guided_bolt,
-		/obj/effect/proc_holder/spell/self/conjure_armor/miracle,
-		/obj/effect/proc_holder/spell/invoked/conjure_weapon/miracle
-	)
-	var/list/buff_bundle = list(	//Buffs! An Acolyte being a supportive caster is 100% what they already are, so this fits neatly. No debuffs -- every patron already has a plethora of those.
-		/obj/effect/proc_holder/spell/invoked/hawks_eyes::name 			= /obj/effect/proc_holder/spell/invoked/hawks_eyes,
-		/obj/effect/proc_holder/spell/invoked/giants_strength::name 	= /obj/effect/proc_holder/spell/invoked/giants_strength,
-		/obj/effect/proc_holder/spell/invoked/longstrider::name 		= /obj/effect/proc_holder/spell/invoked/longstrider,
-		/obj/effect/proc_holder/spell/invoked/guidance::name 			= /obj/effect/proc_holder/spell/invoked/guidance,
-		/obj/effect/proc_holder/spell/invoked/haste::name 				= /obj/effect/proc_holder/spell/invoked/haste,
-		/obj/effect/proc_holder/spell/invoked/fortitude::name 			= /obj/effect/proc_holder/spell/invoked/fortitude,
-	)
+
 /obj/effect/proc_holder/spell/self/noc_spell_bundle/cast(list/targets, mob/user)
 	. = ..()
-	var/choice = chosen_bundle
-	if(!chosen_bundle)
-		choice = alert(user, "What type of spells has Noc blessed you with?", "CHOOSE PATH", "Utility", "Offense", "Buffs")
-		chosen_bundle = choice
-	switch(choice)
-		if("Utility")
-			if(!user.mind?.has_spell(/obj/effect/proc_holder/spell/invoked/diagnose/secular))
-				var/secular_diagnose = new /obj/effect/proc_holder/spell/invoked/diagnose/secular
-				user.mind?.AddSpell(secular_diagnose)
-			add_spells(user, utility_bundle, choice_count = 2)
-		if("Offense")
-			add_spells(user, offensive_bundle, grant_all = TRUE)
-			ADD_TRAIT(user, TRAIT_MAGEARMOR, TRAIT_MIRACLE)
-			user.mind?.RemoveSpell(src.type)
-		if("Buffs")
-			add_spells(user, buff_bundle, choice_count = 1)
-			ADD_TRAIT(user, TRAIT_MAGEARMOR, TRAIT_MIRACLE)
-		else
-			revert_cast()
+	if(!user?.mind)
+		return
+	if(!user.mind.has_spell(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation))
+		var/prestidigitation = new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation
+		user.mind.AddSpell(prestidigitation)
+		ADD_TRAIT(user, TRAIT_MAGEARMOR, TRAIT_MIRACLE)
+	add_spells(user, all_spells, choice_count = 2)
 
-
-/obj/effect/proc_holder/spell/self/noc_spell_bundle/proc/add_spells(mob/user, list/spells, choice_count = 1, grant_all = FALSE)
-	for(var/spell_type in spells)
-		if(user?.mind.has_spell(spells[spell_type]))
-			spells.Remove(spell_type)
-	if(!grant_all)
-		var/choice_count_visual = choice_count
-		for(var/i in 1 to choice_count)
-			var/choice = input(user, "Choose a spell! Choices remaining: [choice_count_visual]") as null|anything in spells
-			if(!isnull(choice))
-				var/picked_spell = spells[choice]
-				var/obj/effect/proc_holder/spell/new_spell = new picked_spell
-				user?.mind.AddSpell(new_spell)
-				choice_count_visual--
-				spells.Remove(choice)
-	else
-		for(var/spell_type in spells)
-			var/obj/effect/proc_holder/spell/new_spell = new spell_type
-			user?.mind.AddSpell(new_spell)
-	if(!length(spells))
-		user.mind?.RemoveSpell(src.type)
+/obj/effect/proc_holder/spell/self/noc_spell_bundle/proc/add_spells(mob/user, list/spells, choice_count = 1)
+	var/list/available_spells = spells.Copy()
+	for(var/spell_name in available_spells)
+		if(user.mind.has_spell(available_spells[spell_name]))
+			available_spells.Remove(spell_name)
+	var/choice_count_visual = choice_count
+	for(var/i in 1 to choice_count)
+		if(!length(available_spells))
+			break
+		var/choice = input(user, "Choose a spell! Choices remaining: [choice_count_visual]") as null|anything in available_spells
+		if(isnull(choice))
+			break
+		var/picked_spell = available_spells[choice]
+		var/obj/effect/proc_holder/spell/new_spell = new picked_spell
+		user.mind.AddSpell(new_spell)
+		available_spells.Remove(choice)
+		choice_count_visual--
 
 //15 PER peer-ahead.
 /obj/effect/proc_holder/spell/invoked/noc_sight
@@ -173,6 +157,7 @@
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	invocation = "Noc guide my gaze."
+	miracle = TRUE
 	invocation_type = "whisper"
 	sound = null
 	associated_skill = /datum/skill/magic/holy
@@ -207,6 +192,10 @@
 		return TRUE
 	revert_cast()
 	return FALSE
+
+/obj/effect/proc_holder/spell/invoked/noc_sight/kazengun
+	name = "Noishi's Gaze"
+	invocation = "Noishi guide my gaze."
 
 /obj/effect/proc_holder/spell/invoked/silence
 	name = "Silence"

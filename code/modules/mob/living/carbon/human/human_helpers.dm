@@ -144,9 +144,119 @@
 		if(mind.has_antag_datum(/datum/antagonist/werewolf))
 			return 50
 
+	damage += dna.species.punch_damage
 	return damage
 
 /mob/living/carbon/human/is_floor_hazard_immune()
 	. = ..()
 	if(dna?.species?.is_floor_hazard_immune(src))
 		return TRUE
+
+/mob/living/carbon/human/proc/MarryTo(mob/living/carbon/human/spouse)
+	if(!ishuman(spouse))
+		return null
+
+	// Set basic spouse relationship
+	spouse_mob = spouse
+	spouse.spouse_mob = src
+
+	// Handle family integration
+	var/datum/heritage/primary_family = null
+	//var/datum/heritage/secondary_family = null
+	var/datum/family_member/primary_member = null
+	var/datum/family_member/secondary_member = null
+
+	// Determine which family takes precedence
+	if(family_datum && !spouse.family_datum)
+		// Spouse joins our family
+		primary_family = family_datum
+		primary_member = family_member_datum
+		secondary_member = primary_family.CreateFamilyMember(spouse)
+
+	else if(!family_datum && spouse.family_datum)
+		// We join spouse's family
+		primary_family = spouse.family_datum
+		primary_member = spouse.family_member_datum
+		secondary_member = primary_family.CreateFamilyMember(src)
+
+	else if(family_datum && spouse.family_datum)
+		// Both have families - keep separate but mark as married
+		primary_family = family_datum
+		primary_member = family_member_datum
+		secondary_member = spouse.family_member_datum
+
+	else
+		// Neither has family - create new one
+		var/new_family_name = null
+		// Use the male's surname traditionally, or first person's if no male
+		if(gender == MALE)
+			new_family_name = family_datum?.SurnameFormatting(src)
+		else if(spouse.gender == MALE)
+			new_family_name = family_datum?.SurnameFormatting(spouse)
+
+		primary_family = new /datum/heritage(src, new_family_name)
+		primary_member = primary_family.founder
+		secondary_member = primary_family.CreateFamilyMember(spouse)
+
+	// Add spouse relationship in family system
+	if(primary_member && secondary_member && primary_family)
+		primary_family.MarryMembers(primary_member, secondary_member)
+
+	return primary_family
+
+/mob/living/carbon/human/proc/create_walk_to(duration, mob/living/walk_to)
+	ADD_TRAIT(src, TRAIT_MOVEMENT_BLOCKED, VAMPIRE_TRAIT)
+	walk_to_target = walk_to
+	walk_to_duration = duration
+	walk_to_steps_taken = 0
+	walk_to_last_pos = get_turf(src)
+	walk_to_cached_path = null
+
+	// Start the walking process
+	walk_to_caster()
+	addtimer(CALLBACK(src, PROC_REF(remove_walk_to_trait)), 10 SECONDS)
+
+/mob/living/carbon/human/proc/walk_to_caster()
+	if(!walk_to_target || walk_to_steps_taken >= walk_to_duration)
+		remove_walk_to_trait()
+		return
+
+	if(can_frenzy_move())
+		var/turf/current_pos = get_turf(src)
+		var/turf/target_pos = get_turf(walk_to_target)
+
+		// Only regenerate path if we've moved to a different position or don't have a cached path
+		if(!walk_to_cached_path || walk_to_last_pos != current_pos)
+			walk_to_cached_path = get_path_to(src, target_pos, TYPE_PROC_REF(/turf, Heuristic_cardinal_3d), 33, 250, 1)
+			walk_to_last_pos = current_pos
+
+		var/moved = FALSE
+
+		if(length(walk_to_cached_path))
+			walk(src, 0) // Stop any existing walk
+			set_glide_size(DELAY_TO_GLIDE_SIZE(total_multiplicative_slowdown()))
+			step_to(src, walk_to_cached_path[1], 0)
+			face_atom(walk_to_target)
+
+			walk_to_cached_path.Cut(1, 2)
+			moved = TRUE
+		else
+			walk_towards(src, walk_to_target, 0, total_multiplicative_slowdown())
+			moved = TRUE
+
+		if(moved)
+			walk_to_steps_taken++
+
+	addtimer(CALLBACK(src, PROC_REF(walk_to_caster)), total_multiplicative_slowdown())
+
+/mob/living/carbon/human/proc/remove_walk_to_trait()
+	REMOVE_TRAIT(src, TRAIT_MOVEMENT_BLOCKED, VAMPIRE_TRAIT)
+	walk(src, 0) // Stop any walking
+	walk_to_target = null
+	walk_to_duration = 0
+	walk_to_steps_taken = 0
+	walk_to_last_pos = null
+	walk_to_cached_path = null
+
+/mob/living/carbon/human/proc/ReturnRelation(mob/living/carbon/human/stranger)
+	return family_datum.ReturnRelation(src, stranger)

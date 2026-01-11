@@ -265,6 +265,7 @@
 /datum/emote/living/flap
 	key = "flap"
 	key_third_person = "flaps"
+	emote_type = EMOTE_AUDIBLE | EMOTE_VISIBLE
 	message = "flaps their wings."
 	restraint_check = TRUE
 	var/wing_time = 20
@@ -505,7 +506,7 @@
 				message_param = "kisses %t on the forehead."
 			else
 				message_param = "kisses %t on \the [parse_zone(H.zone_selected)]."
-	playsound(target.loc, pick('sound/vo/kiss (1).ogg','sound/vo/kiss (2).ogg'), 100, FALSE, -1)
+	playsound(target, pick('sound/vo/kiss (1).ogg','sound/vo/kiss (2).ogg'), 100, FALSE, -1)
 	if(user.mind)
 		record_round_statistic(STATS_KISSES_MADE)
 
@@ -555,7 +556,7 @@
 				message_param = "licks %t's cheek."
 			else
 				message_param = "licks %t's [parse_zone(J.zone_selected)]."
-	playsound(target.loc, pick("sound/vo/lick.ogg"), 100, FALSE, -1)	
+	playsound(target, pick("sound/vo/lick.ogg"), 100, FALSE, -1)	
 
 /datum/emote/living/spit
 	key = "spit"
@@ -587,9 +588,9 @@
 	if(!user || !target)
 		return
 	if(user.gender == MALE)
-		playsound(target.loc, pick('sound/vo/male/gen/spit.ogg'), 100, FALSE, -1)
+		playsound(target, pick('sound/vo/male/gen/spit.ogg'), 100, FALSE, -1)
 	else
-		playsound(target.loc, pick('sound/vo/female/gen/spit.ogg'), 100, FALSE, -1)
+		playsound(target, pick('sound/vo/female/gen/spit.ogg'), 100, FALSE, -1)
 
 
 /datum/emote/living/hug
@@ -611,7 +612,7 @@
 	if(!user || !target)
 		return
 	if(ishuman(target))
-		playsound(target.loc, pick('sound/body/hug.ogg'), 100, FALSE, -1)
+		playsound(target, pick('sound/body/hug.ogg'), 100, FALSE, -1)
 		if(user.mind)
 			record_round_statistic(STATS_HUGS_MADE)
 			SEND_SIGNAL(user, COMSIG_MOB_HUGGED, target)
@@ -689,7 +690,7 @@
 		var/mob/living/carbon/human/H = target
 		H.flash_fullscreen("redflash3")
 		H.AdjustSleeping(-50)
-		playsound(target.loc, 'sound/foley/slap.ogg', 100, TRUE, -1)
+		playsound(target, 'sound/foley/slap.ogg', 100, TRUE, -1)
 
 /datum/emote/living/pinch
 	key = "pinch"

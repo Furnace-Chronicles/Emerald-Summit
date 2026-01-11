@@ -21,5 +21,5 @@
 /proc/adjust_experience(mob/user, skill_type, exp_amount)
 	user.adjust_experience(skill_type, exp_amount)
 
-/proc/add_sleep_experience(mob/user, skill_type, exp_amount)
-	user.mind.add_sleep_experience(skill_type, exp_amount)
+/proc/add_sleep_experience(mob/user, skill_type, exp_amount, check_traits = TRUE)
+	user.mind.add_sleep_experience(skill_type, exp_amount, FALSE, check_traits)

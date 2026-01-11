@@ -120,11 +120,33 @@
 
 	return // RTCHANGE
 
-///Check if this message is an emote
+/**
+ * Check if this message is an emote prefix (! or *) and handle it accordingly.
+ *
+ * Extracts emote text, applies markdown formatting, and calls the emote system.
+ * - * prefix: Local emote only
+ * - ! prefix: Local emote + broadcasts to nearby SCOM structures
+ *
+ * Arguments:
+ * * message - The raw message text to check for emote prefixes
+ * * forced - Whether this emote was forced (affects intentionality)
+ *
+ * Returns:
+ * * TRUE if an emote prefix was found and processed (stops normal say() flow)
+ * * FALSE if no emote prefix was found (continues normal say() flow)
+ */
 /mob/proc/check_emote(message, forced)
-	if(copytext_char(message, 1, 2) == "*")
-		emote(copytext_char(message, 2), intentional = !forced, custom_me = TRUE)
-		return 1
+	var/prefix = copytext_char(message, 1, 2)
+	
+	if(prefix == "*" || prefix == "!")
+		// Extract and parse emote text with markdown support
+		var/emote_text = copytext_char(message, 2)
+		emote_text = parsemarkdown_basic(emote_text, limited = TRUE, barebones = TRUE)
+		
+		// * prefix: local only, ! prefix: broadcasts to nearby SCOMs
+		var/broadcast_to_scom = (prefix == "!")
+		emote(emote_text, intentional = !forced, custom_me = TRUE, broadcast_to_scom = broadcast_to_scom)
+		return TRUE
 
 /mob/proc/check_whisper(message, forced)
 	if(copytext_char(message, 1, 2) == "+")
@@ -133,22 +155,12 @@
 		whisper(copytext_char(message, boldcheck ? 1 : 2),sanitize = FALSE)//already sani'd
 		return 1
 
-///Check if the mob has a hivemind channel
 /mob/proc/hivecheck()
 	return 0
 
-///Check if the mob has a ling hivemind
 /mob/proc/lingcheck()
 	return LINGHIVE_NONE
 
-/**
-  * Get the mode of a message
-  *
-  * Result can be
-  * * MODE_WHISPER (Quiet speech)
-  * * MODE_HEADSET (Common radio channel)
-  * * A department radio (lots of values here)
-  */
 /mob/proc/get_message_mode(message)
 	var/key = copytext_char(message, 1, 2)
 	if(key == "#")

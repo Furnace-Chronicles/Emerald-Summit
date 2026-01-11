@@ -38,7 +38,6 @@
 		/obj/item/reagent_containers/food/snacks/fish/angler = 140,
 		/obj/item/reagent_containers/food/snacks/fish/lobster = 150,
 		/obj/item/reagent_containers/food/snacks/fish/bass = 210,
-		/obj/item/reagent_containers/food/snacks/fish/clam = 40,
 		/obj/item/reagent_containers/food/snacks/fish/clownfish = 20,
 		/obj/item/grown/log/tree/stick = 3,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
@@ -61,6 +60,8 @@
 	// This is super trimmed down from the ratwood list to focus entirely on shellfishes
 	cageloot = list(
 		/obj/item/reagent_containers/food/snacks/fish/oyster = 214,
+		/obj/item/roguegem/oyster = 150, //Probably best to have one clam type instead of two, but whatever
+		/obj/item/reagent_containers/food/snacks/fish/clam = 100,
 		/obj/item/reagent_containers/food/snacks/fish/shrimp = 214,
 		/obj/item/reagent_containers/food/snacks/fish/crab = 214,
 		/obj/item/reagent_containers/food/snacks/fish/lobster = 214,

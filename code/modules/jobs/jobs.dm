@@ -65,7 +65,6 @@ GLOBAL_LIST_INIT(noble_positions, list(
 	"Suitor",
 	"Prince",
 	"Hand",
-	"Knight Captain",
 	"Marshal",
 	"Councillor",
 	"Steward",
@@ -134,6 +133,7 @@ GLOBAL_LIST_INIT(peasant_positions, list(
 	"Nightswain",
 	"Docker",
 	"Prisoner",
+	"Hostage",
 	"Beggar",
 	"Adventurer",
 	"Pilgrim",
@@ -158,6 +158,7 @@ GLOBAL_LIST_INIT(youngfolk_positions, list(
 	"Servant",
 	"Shophand",
 	"Vagabond",
+	"Ogre",
 ))
 
 GLOBAL_LIST_INIT(allmig_positions, list(

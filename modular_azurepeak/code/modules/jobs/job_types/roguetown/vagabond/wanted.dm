@@ -3,7 +3,7 @@
 	tutorial = "The long arm of the law reaches out for you - are you slippery enough to evade its grip this time, or is your head destined to end up in an Excidium's maw?"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/vagabond/wanted
+	outfit = /datum/outfit/job/vagabond/wanted
 	category_tags = list(CTAG_VAGABOND)
 
 	subclass_stats = list(
@@ -19,7 +19,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 	)
 
-/datum/outfit/job/roguetown/vagabond/wanted/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/vagabond/wanted/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/rags

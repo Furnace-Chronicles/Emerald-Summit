@@ -4,10 +4,10 @@
 	and their fashioning into a multitude of different objects and valuables, including glass."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/potter
+	outfit = /datum/outfit/job/adventurer/potter
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
-
+	traits_applied = list(TRAIT_PEASANTMILITIA)
 	subclass_stats = list(
 		STATKEY_PER = 2,
 		STATKEY_END = 2,
@@ -28,7 +28,7 @@
 		/datum/skill/misc/ceramics = SKILL_LEVEL_MASTER,
 	)
 
-/datum/outfit/job/roguetown/adventurer/potter/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/potter/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/hatfur
 	if(prob(50))

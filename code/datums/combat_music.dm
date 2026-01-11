@@ -364,6 +364,13 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 
 // The two Martyr Vengeance combat tracks are intentionally left out of this. Look how they're used.
 
+/datum/combat_music/mastermind
+	name = "Mastermind (!!Evil!!)"
+	desc = "Every pally in the kingdom on my trail..."
+	shortname = "Mastermind"
+	credits = "burialgoods - APAB (All Paladins Are Bastards)"
+	musicpath = list('sound/music/combat_mastermind.ogg')
+	
 /datum/combat_music/nitecreecher
 	name = "Nite Creecher"
 	desc = "Now they will know why they are afraid of the dark. Now they will learn why they fear the night."
@@ -378,7 +385,7 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	musicpath = list('sound/music/combat_noble.ogg')
 
 /datum/combat_music/ozium
-	name = "Ozium Abuse (loud!)"
+	name = "Ozium Abuse"
 	desc = "Alas, I must acquire a fast hold."
 	shortname = "Ozium"
 	credits = "Light Club - FAHKEET"

@@ -47,6 +47,15 @@
 	mob_overlay_icon = 'modular_scarletreach/icons/clothing/onmob/donor_clothes.dmi'
 	adjustable = CANT_CADJUST
 
+/obj/item/clothing/suit/roguetown/shirt/dress/silkydress/invyicta
+	name = "Silk of the Archmage"
+	desc = "A form-fitting weave of silks, into a seamless bodysuit. It smells vaguely like lavender and candle wax."
+	icon_state = "bodysuit"
+	item_state = "bodysuit"
+	icon = 'modular_scarletreach/icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'modular_scarletreach/icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'modular_scarletreach/icons/clothing/onmob/donor_sleeves_armor.dmi'
+
 //////////////////////////
 ////////Weapons//////////
 ////////////////////////

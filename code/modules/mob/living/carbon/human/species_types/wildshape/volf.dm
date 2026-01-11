@@ -24,10 +24,14 @@
 		src.STACON = 7
 		src.STAPER = 12
 		src.STASPD = 13
+		update_move_intent_slowdown() // Apply speed changes
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/wolfclaws)
-		real_name = "Volf ([stored_mob.real_name])" //So we don't get a random name
 		faction += "wolfs" // It IS a wolf
+		if (src.client.prefs?.wildshape_name)
+			real_name = "volf ([stored_mob.real_name])"
+		else
+			real_name = "volf"
 
 // WOLF SPECIES DATUM //
 /datum/species/shapewolf
@@ -70,7 +74,7 @@
 	)
 
 /datum/species/shapewolf/send_voice(mob/living/carbon/human/H)
-	playsound(get_turf(H), pick('sound/vo/mobs/vw/idle (1).ogg','sound/vo/mobs/vw/idle (2).ogg','sound/vo/mobs/vw/bark (1).ogg','sound/vo/mobs/vw/bark (2).ogg','sound/vo/mobs/vw/idle (3).ogg'), 80, TRUE, -1)
+	playsound(H, pick('sound/vo/mobs/vw/idle (1).ogg','sound/vo/mobs/vw/idle (2).ogg','sound/vo/mobs/vw/bark (1).ogg','sound/vo/mobs/vw/bark (2).ogg','sound/vo/mobs/vw/idle (3).ogg'), 80, TRUE, -1)
 
 /datum/species/shapewolf/regenerate_icons(mob/living/carbon/human/H)
 	H.icon = 'icons/roguetown/mob/monster/vol.dmi'

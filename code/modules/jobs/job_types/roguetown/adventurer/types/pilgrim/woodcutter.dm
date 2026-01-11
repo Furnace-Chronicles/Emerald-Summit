@@ -4,8 +4,9 @@
 	either for yourself, or for others. You are a novice carpenter too, so you can bend wood into some items you need, and chop it efficiently"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/adventurer/woodcutter
+	outfit = /datum/outfit/job/adventurer/woodcutter
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
+	traits_applied = list(TRAIT_PEASANTMILITIA)
 
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -35,7 +36,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/woodcutter/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/adventurer/woodcutter/pre_equip(mob/living/carbon/human/H)
 	..()
 	belt = /obj/item/storage/belt/rogue/leather
 	head = /obj/item/clothing/head/roguetown/roguehood

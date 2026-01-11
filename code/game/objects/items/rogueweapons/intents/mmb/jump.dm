@@ -47,6 +47,8 @@
 			to_chat(src, span_warning("That's too high for me..."))
 			return
 
+	SEND_SIGNAL(src, COMSIG_LIVING_ONJUMP, A)
+
 	changeNext_move(mmb_intent.clickcd)
 
 	face_atom(A)
@@ -56,25 +58,32 @@
 	var/jextra = FALSE
 
 	if(m_intent == MOVE_INTENT_RUN)
-		if(!HAS_TRAIT(src, TRAIT_NOBREATH))
+		jrange = 3
+		if(!HAS_TRAIT(src, TRAIT_NOBREATH) && !HAS_TRAIT(src, TRAIT_WINGS))
 			emote("leap", forced = TRUE)
 		else
-			emote("leap_deathless", forced = TRUE)
+			if(HAS_TRAIT(src, TRAIT_WINGS))
+				emote("flap", forced = TRUE)
+				jrange += 1
+			else
+				emote("leap_deathless", forced = TRUE)
 		OffBalance(30)
 		jadded = 45
-		jrange = 3
 
 		if(!HAS_TRAIT(src, TRAIT_LEAPER))// The Jester lands where the Jester wants.
 			jextra = TRUE
 	else
-		if(!HAS_TRAIT(src, TRAIT_NOBREATH))
+		jrange = 2
+		if(!HAS_TRAIT(src, TRAIT_NOBREATH) && !HAS_TRAIT(src, TRAIT_WINGS))
 			emote("jump_fixed", forced = TRUE)
 		else
-			emote("jump_deathless", forced = TRUE)
+			if(HAS_TRAIT(src, TRAIT_WINGS))
+				emote("flutter", forced = TRUE)
+				jrange += 1
+			else
+				emote("jump_deathless", forced = TRUE)
 		OffBalance(20)
 		jadded = 20
-		jrange = 2
-
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
 		jadded += H.get_complex_pain()/50
@@ -109,22 +118,7 @@
 			animate(pixel_z = prev_pixel_z, transform = turn(transform, pick(-12, 0, 12)), time=2)
 			animate(transform = prev_transform, time = 0)
 
-		if(jextra)
-			throw_at(A, jrange, 1, src, spin = FALSE)
-			while(src.throwing)
-				sleep(1)
-			throw_at(get_step(src, src.dir), 1, 1, src, spin = FALSE)
-		else
-			throw_at(A, jrange, 1, src, spin = FALSE)
-			while(src.throwing)
-				sleep(1)
-		if(!HAS_TRAIT(src, TRAIT_ZJUMP) && (m_intent == MOVE_INTENT_RUN))	//Jesters and werewolves don't get immobilized at all
-			Immobilize((HAS_TRAIT(src, TRAIT_LEAPER) ? 5 : 10))	//Acrobatics get half the time
-		if(isopenturf(src.loc))
-			var/turf/open/T = src.loc
-			if(T.landsound)
-				playsound(T, T.landsound, 100, FALSE)
-			T.Entered(src)
+		throw_at(A, jrange, 1, src, spin = FALSE, callback = CALLBACK(src, PROC_REF(after_jump), jextra))
 	else
 		animate(src, pixel_z = pixel_z + 6, time = 1)
 		animate(pixel_z = prev_pixel_z, transform = turn(transform, pick(-12, 0, 12)), time=2)
@@ -182,3 +176,14 @@
 	if(A.z != z && !HAS_TRAIT(src, TRAIT_ZJUMP))
 		return FALSE
 	return TRUE
+
+/mob/living/proc/after_jump(stumble)
+	if(stumble)
+		throw_at(get_step(src, src.dir), 1, 1, src, spin = FALSE)
+	if(!HAS_TRAIT(src, TRAIT_ZJUMP) && (m_intent == MOVE_INTENT_RUN))	//Jesters and werewolves don't get immobilized at all
+		Immobilize((HAS_TRAIT(src, TRAIT_LEAPER) ? 2 : 5))	//Acrobatics get half the time 🤫
+	if(isopenturf(src.loc))
+		var/turf/open/T = src.loc
+		if(T.landsound)
+			playsound(T, T.landsound, 100, FALSE)
+		T.Entered(src)

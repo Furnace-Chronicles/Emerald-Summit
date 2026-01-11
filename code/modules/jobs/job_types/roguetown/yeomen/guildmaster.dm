@@ -18,7 +18,7 @@
 	tutorial = "You are the leader of the Scarlet Reach Guild of Crafts. You represents the interests of all of the craftsmen underneath you - including the Tailor\
 	the Blacksmiths, the Artificers and the Architects. Other townspeople may look to you for guidance, but they are not under your control. You are an experienced smith and artificer, and can do their work easily. Protect the craftsmen's interests."  
 
-	outfit = /datum/outfit/job/roguetown/guildmaster
+	outfit = /datum/outfit/job/guildmaster
 	selection_color = JCOLOR_YEOMAN
 	display_order = JDO_GUILDMASTER
 	give_bank_account = 25
@@ -27,7 +27,7 @@
 	round_contrib_points = 3
 	advclass_cat_rolls = list(CTAG_GUILDMASTER = 2)
 
-	job_traits = list(TRAIT_TRAINED_SMITH, TRAIT_SEEPRICES)
+	job_traits = list(TRAIT_TRAINED_SMITH, TRAIT_SEEPRICES, TRAIT_MEDIUMARMOR, TRAIT_PEASANTMILITIA)
 	job_subclasses = list(
 		/datum/advclass/guildmaster
 	)
@@ -36,7 +36,7 @@
 	name = "Guildmaster"
 	tutorial = "You are the leader of the Scarlet Reach Guild of Crafts. You represents the interests of all of the craftsmen underneath you - including the Tailor\
 	the Blacksmiths, the Artificers and the Architects. Other townspeople may look to you for guidance, but they are not under your control. You are an experienced smith and artificer, and can do their work easily. Protect the craftsmen's interests."  
-	outfit = /datum/outfit/job/roguetown/guildmaster/basic
+	outfit = /datum/outfit/job/guildmaster/basic
 	category_tags = list(CTAG_GUILDMASTER)
 
 	subclass_stats = list(
@@ -69,10 +69,10 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/guildmaster
+/datum/outfit/job/guildmaster
 	has_loadout = TRUE
 
-/datum/outfit/job/roguetown/guildmaster/choose_loadout(mob/living/carbon/human/H)
+/datum/outfit/job/guildmaster/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)
@@ -82,7 +82,7 @@
 		H.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE) // Worse than the real tailor, so can't steal their job right away 
 		H.adjust_skillrank(/datum/skill/craft/tanning, 1, TRUE)
 
-/datum/outfit/job/roguetown/guildmaster/basic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/guildmaster/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	head = /obj/item/clothing/head/roguetown/chaperon/noble/guildmaster
@@ -117,19 +117,21 @@ GLOBAL_VAR_INIT(last_guildmaster_announcement, -50000) // Inits variable for lat
 	set category = "GUILDMASTER"
 	if(stat)
 		return
+	if(!src.can_speak_vocal())
+		to_chat(src,span_warning("I can't speak!"))
+		return FALSE
+	if(world.time < GLOB.last_guildmaster_announcement + 450 SECONDS)
+		to_chat(src, span_warning("You must wait [round((GLOB.last_guildmaster_announcement + 450 SECONDS - world.time)/600, 0.1)] minutes before making another announcement!"))
+		return FALSE
 	var/announcementinput = input("Bellow to the Peaks", "Make an Announcement") as text|null
 	if(announcementinput)
-		if(!src.can_speak_vocal())
-			to_chat(src,span_warning("I can't speak!"))
-			return FALSE
-		if(world.time < GLOB.last_guildmaster_announcement + 600 SECONDS)
-			to_chat(src, span_warning("You must wait [round((GLOB.last_guildmaster_announcement + 600 SECONDS - world.time)/600, 0.1)] minutes before making another announcement!"))
-			return FALSE
 		visible_message(span_warning("[src] takes a deep breath, preparing to make an announcement.."))
 		if(do_after(src, 15 SECONDS, target = src)) // Reduced to 15 seconds from 30 on the original Herald PR. 15 is well enough time for sm1 to shove you.
 			say(announcementinput)
 			priority_announce("[announcementinput]", "The Guildmaster Heralds", 'sound/misc/bell.ogg', sender = src)
 			GLOB.last_guildmaster_announcement = world.time
+			spawn(450 SECONDS)
+			to_chat(src, span_notice("I can make an announcement again!"))
 		else
 			to_chat(src, span_warning("Your announcement was interrupted!"))
 			return FALSE

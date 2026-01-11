@@ -203,6 +203,22 @@
 			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, G, null, TRUE, TRUE))
 				qdel(G)
 
+/obj/item/storage/belt/pouch/coins/veryrich/Initialize()
+	. = ..()
+	var/obj/item/roguecoin/gold/pile/H = new(loc)
+	if(istype(H))
+		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
+			qdel(H)
+	H = new(loc)
+	if(istype(H))
+		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
+			qdel(H)
+	if(prob(50))
+		H = new(loc)
+		if(istype(H))
+			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
+				qdel(H)
+
 /obj/item/storage/belt/rogue/pouch/coins/virtuepouch/Initialize()
 	. = ..()
 	var/obj/item/roguecoin/gold/virtuepile/H = new(loc)
@@ -268,6 +284,8 @@
 	desc = "A leather satchel that's meant to  clip to a belt or to a pair of pants, freeing the shoulders from any weight."
 	icon_state = "satchelshort"
 	item_state = "satchelshort"
+	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_HIP
+	component_type = /datum/component/storage/concrete/roguetown/short_satchel
 
 /obj/item/storage/backpack/rogue/backpack
 	name = "backpack"
@@ -504,7 +522,7 @@
 
 /obj/item/clothing/climbing_gear/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
-	playsound(loc, 'sound/items/garrotegrab.ogg', 100, TRUE)
+	playsound(src, 'sound/items/garrotegrab.ogg', 100, TRUE)
 
 /obj/item/storage/belt/rogue/leather/smokebelt
 	name = "smokebomb belt"
@@ -522,13 +540,13 @@
 		to_chat(user, span_warning("Your [src.name] is full!"))
 		return
 	to_chat(user, span_notice("You begin to gather the ammunition..."))
-	for(var/obj/item/smokebomb/K in T.contents)
+	for(var/obj/item/bomb/smoke/K in T.contents)
 		if(do_after(user, 5))
 			if(!eatknife(K))
 				break
 
 /obj/item/storage/belt/rogue/leather/smokebelt/proc/eatknife(obj/A)
-	if(A.type in typesof(/obj/item/smokebomb))
+	if(A.type in typesof(/obj/item/bomb/smoke))
 		if(knives.len < max_storage)
 			A.forceMove(src)
 			knives += A
@@ -538,7 +556,7 @@
 			return FALSE
 
 /obj/item/storage/belt/rogue/leather/smokebelt/attackby(obj/A, loc, params)
-	if(A.type in typesof(/obj/item/smokebomb))
+	if(A.type in typesof(/obj/item/bomb/smoke))
 		if(knives.len < max_storage)
 			if(ismob(loc))
 				var/mob/M = loc
@@ -575,6 +593,13 @@
 /obj/item/storage/belt/rogue/leather/smokebelt/Initialize()
 	. = ..()
 	for(var/i in 1 to max_storage)
-		var/obj/item/smokebomb/K = new()
+		var/obj/item/bomb/smoke/K = new()
 		knives += K
 	update_icon()
+
+/obj/item/storage/belt/rogue/leather/ogre
+	name = "giant belt"
+	desc = "When you have to tighten a belt of this size, best start keeping your tastiest allies close."
+	sleeved = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
+	icon_state = "ogre_belt"

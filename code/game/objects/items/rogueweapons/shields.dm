@@ -43,7 +43,7 @@
 			if(!COOLDOWN_FINISHED(src, shield_bang))
 				return
 			user.visible_message(span_danger("[user] bangs [src] with [attackby_item]!"))
-			playsound(user.loc, 'sound/combat/shieldbang.ogg', 50, TRUE)
+			playsound(user, 'sound/combat/shieldbang.ogg', 50, TRUE)
 			COOLDOWN_START(src, shield_bang, SHIELD_BANG_COOLDOWN)
 			return
 
@@ -231,7 +231,6 @@
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 
-
 /obj/item/rogueweapon/shield/tower/metal/psy/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
@@ -242,6 +241,36 @@
 		added_int = 100,\
 		added_def = 1,\
 	)
+
+/obj/item/rogueweapon/shield/tower/metal/holysee
+	name = "decablessed shield"
+	desc = "Protection of the Ten upon the wielder. A final, staunch line against the darkness. For it's not what is before the shield-carrier that matters, but the home behind them."
+	icon_state = "gsshield"
+	var/swapped = FALSE
+	flags_1 = CONDUCT_1
+	sellprice = 30
+
+/obj/item/rogueweapon/shield/tower/metal/holysee/MiddleClick(mob/user, params)
+	. = ..()
+	swapped = !swapped
+	update_icon()
+
+/obj/item/rogueweapon/shield/tower/metal/holysee/update_icon()
+	. = ..()
+	if(swapped)
+		icon_state = "gsshielddark"
+	else
+		icon_state = "gsshield"
+
+
+/obj/item/rogueweapon/shield/tower/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -5,"sy" = -1,"nx" = 6,"ny" = -1,"wx" = 0,"wy" = -2,"ex" = 0,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0)
+			if("onback")
+				return list("shrink" = 0.6,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = 0,"ey" = 2,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
 /obj/item/rogueweapon/shield/tower/metal/alloy
 	name = "decrepit shield"
@@ -257,6 +286,26 @@
 	desc = "A ancient, venerable shield. Aeon's grasp has been lifted from it."
 	icon_state = "ancientsh"
 	smeltresult = /obj/item/ingot/purifiedaalloy
+
+/obj/item/rogueweapon/shield/tower/metal/dwarf
+	name = "dwarven shield"
+	desc = "A intricately forged kite-shield of dwarven make and use. To protect the hardiest of dwarves."
+	icon_state = "dwshield"
+	force = 22 //10% More damage, why not?
+	throwforce = 10
+	throw_speed = 1
+	throw_range = 2 //Heavy
+	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK, SHIELD_SMASH_METAL)
+	wlength = WLENGTH_NORMAL
+	resistance_flags = null
+	flags_1 = CONDUCT_1
+	wdefense = 11
+	coverage = 60
+	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
+	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
+	max_integrity = 360 //20% more integrity. It's unique and race-locked.
+	sellprice = 60
+	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/shield/tower/raneshen
 	name = "rider shield"
@@ -399,10 +448,10 @@
 	max_integrity = 200
 	possible_item_intents = list(SHIELD_BLOCK, FENCER_DAZE) */
 
-/obj/item/rogueweapon/shield/capbuckler // unique, better buckler for knight captain
+/obj/item/rogueweapon/shield/championbuckler // unique, better buckler for the champion
 	name = "'Order'"
-	desc = "A special buckler shield made out of blacksteel for the captain of the guard, adorned with the Scarlet Reach crest."
-	icon_state = "capbuckler"
+	desc = "A special buckler shield made out of blacksteel for the realm's champion, adorned with the Scarlet Reach crest."
+	icon_state = "champbuckler"
 	icon = 'icons/roguetown/weapons/shields32.dmi'
 	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BACK
 	force = 20

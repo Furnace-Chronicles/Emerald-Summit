@@ -74,12 +74,9 @@
 
 /datum/antagonist/lich/proc/skele_look()
 	var/mob/living/carbon/human/L = owner.current
-	L.hairstyle = "Bald"
-	L.facial_hairstyle = "Shaved"
-	L.update_body()
-	L.update_hair()
-	L.update_body_parts(redraw = TRUE)
-
+	L.skeletonize(FALSE)
+	L.skele_look()
+	
 /datum/antagonist/lich/proc/equip_lich()
 	owner.unknow_all_people()
 	for (var/datum/mind/MF in get_minds())
@@ -93,18 +90,18 @@
 		QDEL_NULL(L.charflaw)
 
 	L.mob_biotypes |= MOB_UNDEAD
-	replace_eyes(L)
+	L.grant_undead_eyes()
 
 	for (var/obj/item/bodypart/B in L.bodyparts)
 		B.skeletonize(FALSE)
 
 	equip_and_traits()
-	L.equipOutfit(/datum/outfit/job/roguetown/lich)
+	L.equipOutfit(/datum/outfit/job/lich)
 	L.set_patron(/datum/patron/inhumen/zizo)
 	owner.current.forceMove(pick(GLOB.vlord_starts)) // as opposed to spawning at their normal role spot as a skeleton; which is le bad
 
 
-/datum/outfit/job/roguetown/lich/pre_equip(mob/living/carbon/human/H) //Equipment is located below
+/datum/outfit/job/lich/pre_equip(mob/living/carbon/human/H) //Equipment is located below
 	..()
 
 	H.adjust_skillrank(/datum/skill/misc/reading, 6, TRUE)
@@ -145,15 +142,7 @@
 
 	addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "LICH"), 5 SECONDS)
 
-/datum/antagonist/lich/proc/replace_eyes(mob/living/carbon/human/L)
-	var/obj/item/organ/eyes/eyes = L.getorganslot(ORGAN_SLOT_EYES)
-	if (eyes)
-		eyes.Remove(L, TRUE)
-		QDEL_NULL(eyes)
-	eyes = new /obj/item/organ/eyes/night_vision/zombie
-	eyes.Insert(L)
-
-/datum/outfit/job/roguetown/lich/post_equip(mob/living/carbon/human/H)
+/datum/outfit/job/lich/post_equip(mob/living/carbon/human/H)
 	..()
 	var/datum/antagonist/lich/lichman = H.mind.has_antag_datum(/datum/antagonist/lich)
 	// One phylactery instead of 3 so that they don't need to get chased down non-stop.
@@ -233,12 +222,11 @@
 	new_body.mob_biotypes |= MOB_UNDEAD
 	new_body.faction = list("undead")
 	new_body.set_patron(/datum/patron/inhumen/zizo)
+	new_body.grant_undead_eyes()
 	new_body.mind.grab_ghost(force = TRUE)
 
 	for (var/obj/item/bodypart/body_part in new_body.bodyparts)
 		body_part.skeletonize(FALSE)
-		
-	replace_eyes(new_body)
 	set_stats()
 	skele_look()
 	equip_and_traits()
@@ -353,7 +341,7 @@
 		return FALSE
 	if(alert(user, "Do you wish to sacrifice this vessel in a powerful explosion?", "ELDRITCH BLAST", "Yes", "No") == "No")
 		return FALSE
-	playsound(get_turf(user), 'sound/magic/antimagic.ogg', 100)
+	playsound(user, 'sound/magic/antimagic.ogg', 100)
 	user.visible_message(
 		span_danger("[user] begins to shake violently, a blindingly bright light beginning to emanate from them!"), 
 		span_danger("Powerful energy begins to expand outwards from inside me!")
@@ -365,12 +353,24 @@
 	addtimer(CALLBACK(src, PROC_REF(lichdeath), user), 5 SECONDS)
 
 /obj/effect/proc_holder/spell/self/suicidebomb/proc/lichdeath(mob/living/user)
+	// Check if user is undergoing divine_destruction - if so, trigger calcification override
+	if((user.status_flags & GODMODE) && (user in GLOB.divine_destruction_mobs))
+		// Send signal to trigger calcification override
+		SEND_SIGNAL(user, COMSIG_LIVING_CALCIFICATION_OVERRIDE)
+		// Continue with normal explosion after the 15 second sequence
+		addtimer(CALLBACK(src, PROC_REF(do_explosion), user), 15 SECONDS)
+		return TRUE
+	
+	do_explosion(user)
+	return TRUE
+
+/obj/effect/proc_holder/spell/self/suicidebomb/proc/do_explosion(mob/living/user)
 	var/datum/antagonist/lich/lichman = user.mind.has_antag_datum(/datum/antagonist/lich)
 	explosion(get_turf(user), -1, exp_heavy, exp_light, exp_flash, 0, flame_range = exp_fire, soundin = 'sound/misc/explode/incendiary (1).ogg')
 	if(lichman && user.stat != DEAD && lichman.consume_phylactery(0)) // Use phylactery at 0 timer. Die if none.
 		return TRUE
 
-	user.death()
+	user.gib()
 	return TRUE
 
 /obj/effect/proc_holder/spell/self/suicidebomb/lesser

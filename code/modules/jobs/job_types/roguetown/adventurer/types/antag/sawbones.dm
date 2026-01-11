@@ -3,9 +3,10 @@
 	tutorial = "It was an accident! Your patient wasn't using his second kidney, anyway. After an unfortunate 'misunderstanding' with the town and your medical practice, you know practice medicine on the run with your new associates. Business has never been better!"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/bandit/sawbones
+	outfit = /datum/outfit/job/bandit/sawbones
+	allowed_patrons = ALL_INHUMEN_PATRONS
 	category_tags = list(CTAG_BANDIT)
-	maximum_possible_slots = 2 // We only want one of these because of master in swords.
+	maximum_possible_slots = 1 // We only want one of these because of master in swords. (enforcing this comment)
 	cmode_music = 'sound/music/combat_physician.ogg'
 	subclass_social_rank = SOCIAL_RANK_PEASANT
 
@@ -13,12 +14,15 @@
 		TRAIT_NOSTINK,
 		TRAIT_EMPATH,
 		TRAIT_DODGEEXPERT,
-		TRAIT_DECEIVING_MEEKNESS
+		TRAIT_DECEIVING_MEEKNESS,
+		TRAIT_TALENTED_ALCHEMIST
 	)
 	subclass_stats = list(
-		STATKEY_INT = 4,
+		STATKEY_INT = 3,
 		STATKEY_SPD = 3,
-		STATKEY_LCK = 3
+		STATKEY_LCK = 3,
+		STATKEY_CON = 1,
+		STATKEY_END = 1
 	)
 
 	subclass_skills = list(
@@ -37,11 +41,8 @@
 		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/bandit/sawbones/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/bandit/sawbones/pre_equip(mob/living/carbon/human/H)
 	..()
-	if (!(istype(H.patron, /datum/patron/inhumen/zizo) || istype(H.patron, /datum/patron/inhumen/matthios) || istype(H.patron, /datum/patron/inhumen/graggar) || istype(H.patron, /datum/patron/inhumen/baotha)))
-		to_chat(H, span_warning("My former deity has abandoned me.. Matthios is my new master."))
-		H.set_patron(/datum/patron/inhumen/matthios)	//We allow other heretics into the cool-kids club, but if you are a tennite/psydonian it sets you to matthiosan.
 	mask = /obj/item/clothing/mask/rogue/facemask/steel
 	head = /obj/item/clothing/head/roguetown/nightman
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest

@@ -25,7 +25,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 		wander = TRUE
 		if(!is_silent && target != newtarg)
 			say(pick(GLOB.highwayman_aggro))
-			linepoint(target)
+			pointed(target)
 
 /mob/living/carbon/human/species/human/northern/highwayman/should_target(mob/living/L)
 	if(L.stat != CONSCIOUS)
@@ -46,7 +46,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_INFINITE_ENERGY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/highwayman)
+	equipOutfit(new /datum/outfit/job/human/species/human/northern/highwayman)
 	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
 	if(organ_eyes)
 		organ_eyes.eye_color = pick("27becc", "35cc27", "000000")
@@ -77,7 +77,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 			emote("laugh")
 	. = ..()
 
-/datum/outfit/job/roguetown/human/species/human/northern/highwayman/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/human/species/human/northern/highwayman/pre_equip(mob/living/carbon/human/H)
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	if(prob(50))
 		mask = /obj/item/clothing/mask/rogue/ragmask/red
@@ -115,7 +115,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 		r_hand = /obj/item/rogueweapon/sword/falchion/militia
 	if(prob(20))
 		r_hand = /obj/item/rogueweapon/pick/militia
-	if(prob(25))	
+	if(prob(25))
 		l_hand = /obj/item/rogueweapon/shield/wood
 	if(prob(10))
 		l_hand = /obj/item/rogueweapon/shield/buckler/palloy

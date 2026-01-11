@@ -160,6 +160,13 @@ GLOBAL_LIST_EMPTY(respawncounts)
 			return
 		if("vars")
 			return view_var_Topic(href,href_list,hsrc)
+		if("familiar_prefs")
+			if (inprefs)
+				return
+			inprefs = TRUE
+			. = prefs.familiar_prefs.fam_process_link(usr,href_list)
+			inprefs = FALSE
+			return
 
 	switch(href_list["action"])
 		if("openLink")
@@ -437,10 +444,16 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		add_admin_verbs()
 		to_chat(src, get_message_output("memo"))
 		adminGreet()
-	if (mob && reconnecting)
+	if(mob && reconnecting)
 		var/area/joined_area = get_area(mob.loc)
 		if(joined_area)
 			joined_area.reconnect_game(mob)
+	else if(!BC_IsKeyAllowedToConnect(ckey))
+		src << "Sorry, but the server is currently only accepting whitelisted players.  Please see the discord to be whitelisted."
+		message_admins("[ckey] was denied a connection due to not being whitelisted.")
+		log_admin("[ckey] was denied a connection due to not being whitelisted.")
+		qdel(src)
+		return 0
 
 	add_verbs_from_config()
 	var/cached_player_age = set_client_age_from_db(tdata) //we have to cache this because other shit may change it and we need it's current value now down below.
@@ -463,6 +476,10 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	get_message_output("watchlist entry", ckey)
 	check_ip_intel()
 	validate_key_in_db()
+	
+	// Queue all player data (PQ, Triumphs, Curses, Rounds) for batched loading
+	// to avoid file handle exhaustion during mass reconnects (e.g., server restart)
+	SSplayer_data_loader?.queue_player(ckey)
 
 //	send_resources()
 
@@ -895,6 +912,9 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		ip_intel = res.intel
 
 /client/Click(atom/object, atom/location, control, params)
+	if(isatom(object) && HAS_TRAIT(mob, TRAIT_IN_FRENZY))
+		return
+
 	var/ab = FALSE
 	var/list/L = params2list(params)
 
@@ -1022,6 +1042,11 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 /client/proc/update_movement_keys()
 	if(!prefs?.key_bindings)
 		return
+	if(!length(prefs.key_bindings))
+		if(length(movement_keys))
+			log_game("WARNING: [ckey] has empty key_bindings, preserving existing movement_keys")
+		return
+		
 	movement_keys = list()
 	for(var/key in prefs.key_bindings)
 		for(var/kb_name in prefs.key_bindings[key])
