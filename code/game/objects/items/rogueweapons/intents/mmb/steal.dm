@@ -64,7 +64,7 @@
 			targetperception += (user.STALUC - 10)
 
 		// if they're alert, they get a big ass bonus. cmode is also checked in can_steal for things like armor
-		if (target.IsUnconscious() || !(target.mobility_flags & MOBILITY_STAND))
+		if (target.IsUnconscious())
 			return
 		if(target_human.cmode)
 			targetperception += 7 // d6 average is 3.5, so this on average, accomodates for roughly 2 ranks of thieving skill
