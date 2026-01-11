@@ -1,7 +1,3 @@
-// Global tracking for divine destruction state
-// This is necessary for SOVL
-GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine destruction: list(mob) = list(timer_ids)
-
 //============================================
 // TIER 0 MIRACLES
 //============================================
@@ -220,10 +216,10 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 	
 	return TRUE
 
-// Anastasis - Revive a dead target or obliterate undead
+// Anastasis - Revive a dead target
 /obj/effect/proc_holder/spell/invoked/revive
 	name = "Anastasis"
-	desc = "Call upon Her greatness to return lyfe to a dead target. Obliterates the undead."
+	desc = "Call upon Her greatness to return lyfe to a dead target."
 	overlay_state = "revive"
 	releasedrain = 90
 	chargedrain = 0
@@ -247,59 +243,6 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 	. = ..()
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
-		// Check for undead FIRST - obliterate them with holy light
-		if((target.mob_biotypes & MOB_UNDEAD) && !HAS_TRAIT(target, TRAIT_HOLLOW_LIFE))
-			// Range check - must be within 10 tiles and same z-level
-			var/distance = get_dist(user, target)
-			if(distance > 10)
-				to_chat(user, span_danger("The undead is too far away! I must be closer to channel divine power to unmake them!"))
-				revert_cast()
-				return FALSE
-			
-			// Z-level check
-			if(user.z != target.z)
-				to_chat(user, span_danger("I must see the undead in front of me, not above or below!"))
-				revert_cast()
-				return FALSE
-			
-			// Check for powerful undead immunity (Vampire Lords and Liches)
-			var/is_powerful_undead = FALSE
-			if(ishuman(target))
-				var/mob/living/carbon/human/H = target
-				// Check for Vampire Lord (Methuselah generation)
-				if(H.get_vampire_generation() >= GENERATION_METHUSELAH)
-					is_powerful_undead = TRUE
-				// Check for Lich
-				if(HAS_TRAIT(H, TRAIT_COUNTERCOUNTERSPELL))
-					is_powerful_undead = TRUE
-					
-			// Powerful undead resist unless caster is a Priest
-			if(is_powerful_undead && !HAS_TRAIT(user, TRAIT_CHOSEN))
-				to_chat(user, span_danger("This creature's unholy power is too great! Only an ordained Priest could unmake such a being!"))
-				target.visible_message(span_astratabig("[target] resists the holy light bearing down on them, their ancient power deflecting the divine wrath!"))
-				revert_cast()
-				return FALSE
-			
-						// Range check for powerful undead - must be within 6 tiles
-			if(is_powerful_undead)
-				if(distance > 6)
-					to_chat(user, span_danger("This ancient evil is too far away! I must be closer to channel enough divine power to unmake them!"))
-					revert_cast()
-					return FALSE
-
-			// Start cinematic destruction sequence
-			if(is_powerful_undead)
-				to_chat(user, span_danger("You channel Astrata's might! [target] begins to burn with holy light!"))
-				target.visible_message(span_astratabig("[target] is struck by astronomical holy light, their form beginning to burn with divine radiance!"))
-			else
-				to_chat(user, span_danger("[target] is caught in holy light!"))
-				target.visible_message(span_astratabig("[target] begins to burn with holy light!"))
-			
-			user.say("Die before the Tyrant's Light!")
-			
-			// Call the cinematic destruction proc
-			divine_destruction(target, is_powerful_undead)
-			return TRUE
 		// Block if excommunicated and caster is divine pantheon
 		if(istype(user, /mob/living)) {
 			var/mob/living/LU = user
@@ -718,208 +661,6 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 	name = "Sun's Shield"
 	desc = "Astrata's blessing shields me from flame."
 	icon_state = "immolation"
-
-//T3. Anastasis Support Code
-/obj/effect/proc_holder/spell/invoked/revive/proc/divine_destruction(mob/living/target, is_powerful = FALSE)
-	if(!target)
-		return
-	
-	// Add increasingly bright glow filter
-	target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 2, "color" = "#FFD70080"))
-	
-	// Prevent movement and actions - powerful undead get longer sequence
-	var/destruction_time = is_powerful ? 90 SECONDS : 30 SECONDS
-	target.Stun(destruction_time)
-	
-	// Make them immune to all damage during the destruction sequence
-	target.status_flags |= GODMODE
-	
-	// Track timer IDs for potential calcification override in global list
-	GLOB.divine_destruction_mobs[target] = list()
-	
-	// Register signal handler for calcification override
-	RegisterSignal(target, COMSIG_LIVING_CALCIFICATION_OVERRIDE, PROC_REF(handle_calcification_override))
-	
-	// Message sequence - different timings based on power
-	// 0 seconds - initial
-	to_chat(target, span_astrataextreme("Astrata's light burns into my very being, I am being unmade!"))
-	
-	if(is_powerful)
-		// Full 90 second sequence for powerful undead
-		// 15 seconds
-		GLOB.divine_destruction_mobs[target] += addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 1), 15 SECONDS, TIMER_STOPPABLE)
-		
-		// 30 seconds
-		GLOB.divine_destruction_mobs[target] += addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 2), 30 SECONDS, TIMER_STOPPABLE)
-		
-		// 45 seconds
-		GLOB.divine_destruction_mobs[target] += addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 3), 45 SECONDS, TIMER_STOPPABLE)
-		
-		// 60 seconds
-		GLOB.divine_destruction_mobs[target] += addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 4), 60 SECONDS, TIMER_STOPPABLE)
-		
-		// 75 seconds - final goodbye
-		GLOB.divine_destruction_mobs[target] += addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 5), 75 SECONDS, TIMER_STOPPABLE)
-		
-		// 90 seconds - KABOOM
-		GLOB.divine_destruction_mobs[target] += addtimer(CALLBACK(src, PROC_REF(divine_destruction_finale), target, is_powerful), 90 SECONDS, TIMER_STOPPABLE)
-	else
-		// 30 second sequence for normal undead
-		// 10 seconds
-		GLOB.divine_destruction_mobs[target] += addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 1), 10 SECONDS, TIMER_STOPPABLE)
-		
-		// 20 seconds
-		GLOB.divine_destruction_mobs[target] += addtimer(CALLBACK(src, PROC_REF(divine_destruction_message), target, 3), 20 SECONDS, TIMER_STOPPABLE)
-		
-		// 30 seconds - KABOOM
-		GLOB.divine_destruction_mobs[target] += addtimer(CALLBACK(src, PROC_REF(divine_destruction_finale), target, is_powerful), 30 SECONDS, TIMER_STOPPABLE)
-
-/obj/effect/proc_holder/spell/invoked/revive/proc/divine_destruction_message(mob/living/target, stage)
-	if(!target || target.stat == DEAD)
-		return
-	
-	// Check if calcification has overridden divine destruction
-	if(!(target in GLOB.divine_destruction_mobs))
-		return
-	
-	// Clean up old moblight if it exists
-	var/obj/effect/dummy/lighting_obj/moblight/old_light = locate() in target
-	if(old_light)
-		qdel(old_light)
-	
-	switch(stage)
-		if(1)
-			to_chat(target, span_astrata("The light grows brighter! I can feel it searing through me!"))
-			target.visible_message(span_astrata("[target] glows brighter with holy light, their form beginning to crack!"))
-			target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 3, "color" = "#FFD700CC"))
-			target.mob_light("#FFD700", 3, 1.5)
-		if(2)
-			to_chat(target, span_astrata("The radiance is overwhelming! My unholy essence is being torn apart!"))
-			target.visible_message(span_astrata("[target] burns ever brighter, cracks of golden light spreading across their body!"))
-			target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 4, "color" = "#FFD700FF"))
-			target.mob_light("#FFD700", 4, 2)
-		if(3)
-			to_chat(target, span_astratabig("I CANNOT ESCAPE! THE LIGHT IS EVERYTHING!"))
-			target.visible_message(span_astrata("[target] is now blazing with divine radiance, barely visible through the golden glow!"))
-			target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 6, "color" = "#FFFFFF"))
-			target.mob_light("#FFFFFF", 6, 2.5)
-		if(4)
-			to_chat(target, span_astratabig("MY FORM FRACTURES! I AM BEING UNMADE!"))
-			target.visible_message(span_astrata("[target] is now a pillar of searing golden light!"))
-			target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 8, "color" = "#FFFFFF"))
-			target.mob_light("#FFFFFF", 8, 3)
-		if(5)
-			to_chat(target, span_astrataextreme("ASTRATA'S WRATH IS ABSOLUTE! I AM—"))
-			target.visible_message(span_astratabig("[target]'s form is barely holding together, light pouring from every crack!"))
-			target.add_filter("divine_glow", 1, list("type" = "outline", "size" = 10, "color" = "#FFFFFF"))
-			target.mob_light("#FFFFFF", 10, 4)
-
-/obj/effect/proc_holder/spell/invoked/revive/proc/divine_destruction_finale(mob/living/target, is_powerful = FALSE)
-	if(!target)
-		return
-	
-	// Check if calcification has overridden divine destruction
-	if(!(target in GLOB.divine_destruction_mobs))
-		return
-	
-	if(is_powerful)
-		target.visible_message(span_astrataextreme("[target] ERUPTS in a catastrophic explosion of holy light!"))
-	else
-		target.visible_message(span_astratabig("[target] EXPLODES in a burst of divine radiance!"))
-	
-	playsound(target, 'sound/misc/holyexplosion.ogg', 150, FALSE, 7)
-	
-	// Flash everyone nearby
-	for(var/mob/M in viewers(target, 7))
-		M.flash_fullscreen("whiteflash")
-	
-	// Remove filter and all moblights, then gib
-	target.remove_filter("divine_glow")
-	for(var/obj/effect/dummy/lighting_obj/moblight/L in target)
-		qdel(L)
-	
-	// Clean up tracking variables
-	GLOB.divine_destruction_mobs -= target
-	
-	// Unregister calcification signal
-	UnregisterSignal(target, COMSIG_LIVING_CALCIFICATION_OVERRIDE)
-	
-	target.gib()
-
-// Calcification Override for Divine Destruction
-// FOR WHEN SKELETONS WANT TO BE EXTRA FUNNY
-/obj/effect/proc_holder/spell/invoked/revive/proc/handle_calcification_override(mob/living/target)
-	SIGNAL_HANDLER
-	
-	if(!target)
-		return
-	
-	// Cancel all divine destruction timers
-	if(target in GLOB.divine_destruction_mobs)
-		for(var/timer_id in GLOB.divine_destruction_mobs[target])
-			deltimer(timer_id)
-		GLOB.divine_destruction_mobs -= target
-	
-	// Unregister the signal since we're handling it now
-	UnregisterSignal(target, COMSIG_LIVING_CALCIFICATION_OVERRIDE)
-	
-	// Remove old filter and moblights
-	target.remove_filter("divine_glow")
-	for(var/obj/effect/dummy/lighting_obj/moblight/L in target)
-		qdel(L)
-	
-	// Add RED calcification glow
-	target.add_filter("calcification_glow", 1, list("type" = "outline", "size" = 8, "color" = "#FF0000"))
-	target.mob_light("#FF0000", 10, 4)
-	
-	// Keep them stunned for the full 15 seconds
-	target.Stun(15 SECONDS)
-	
-	// Give them booming voice (thaumaturgy effect) - max potency
-	target.apply_status_effect(/datum/status_effect/thaumaturgy, 4)
-	
-	// Messages
-	to_chat(target, span_big(span_userdanger("I REFUSE TO BE UNMADE! MY BONES WILL BECOME MY VENGEANCE!")))
-	target.visible_message(span_big(span_danger("[target]'s holy light suddenly turns to BURNING RED as they begin to vibrate with terrible energy!")))
-	
-	// 15 second explosion sequence with messages
-	// 5 seconds
-	addtimer(CALLBACK(src, PROC_REF(calcification_message), target, 1), 5 SECONDS)
-	
-	// 10 seconds
-	addtimer(CALLBACK(src, PROC_REF(calcification_message), target, 2), 10 SECONDS)
-	
-	// 14 seconds - cleanup
-	addtimer(CALLBACK(src, PROC_REF(calcification_finale), target), 14 SECONDS)
-
-/obj/effect/proc_holder/spell/invoked/revive/proc/calcification_message(mob/living/target, stage)
-	if(!target || target.stat == DEAD)
-		return
-	
-	switch(stage)
-		if(1)
-			to_chat(target, span_big(span_userdanger("THE CALCIFICATION INTENSIFIES! I FEEL MY BONES CRACKING WITH POWER!")))
-			target.visible_message(span_big(span_danger("[target] glows even BRIGHTER with crimson energy, cracks spreading across their form!")))
-			target.add_filter("calcification_glow", 1, list("type" = "outline", "size" = 12, "color" = "#FF0000"))
-		if(2)
-			to_chat(target, span_big(span_userdanger("WITNESS THE POWER OF UNDEATH! I AM BECOME DEATH!")))
-			target.visible_message(span_big(span_danger("[target] is now a BLAZING PILLAR OF RED LIGHT!")))
-			target.add_filter("calcification_glow", 1, list("type" = "outline", "size" = 15, "color" = "#FF0000"))
-
-/obj/effect/proc_holder/spell/invoked/revive/proc/calcification_finale(mob/living/target)
-	if(!target)
-		return
-	
-	// Epic explosion message
-	target.visible_message(span_big(span_userdanger("[target] DETONATES in a CATACLYSMIC EXPLOSION OF BONE AND FURY!")))
-	
-	// Remove filter and moblights
-	target.remove_filter("calcification_glow")
-	for(var/obj/effect/dummy/lighting_obj/moblight/L in target)
-		qdel(L)
-	
-	// Clean up state
-	GLOB.divine_destruction_mobs -= target
 
 //T4. Invoked Reverence Support Code
 /obj/effect/proc_holder/spell/invoked/invoked_reverence/proc/remove_divine_overlay(mob/living/target)

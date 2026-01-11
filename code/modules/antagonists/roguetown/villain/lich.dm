@@ -353,14 +353,6 @@
 	addtimer(CALLBACK(src, PROC_REF(lichdeath), user), 5 SECONDS)
 
 /obj/effect/proc_holder/spell/self/suicidebomb/proc/lichdeath(mob/living/user)
-	// Check if user is undergoing divine_destruction - if so, trigger calcification override
-	if((user.status_flags & GODMODE) && (user in GLOB.divine_destruction_mobs))
-		// Send signal to trigger calcification override
-		SEND_SIGNAL(user, COMSIG_LIVING_CALCIFICATION_OVERRIDE)
-		// Continue with normal explosion after the 15 second sequence
-		addtimer(CALLBACK(src, PROC_REF(do_explosion), user), 15 SECONDS)
-		return TRUE
-	
 	do_explosion(user)
 	return TRUE
 
