@@ -90,7 +90,7 @@
 #define TRAIT_WAGES_SUSPENDED "Wages Suspended" //steward has suspended your wages
 
 //Species Traits (from virtues)
-#define TRAIT_HOARDKEEPER "Horde Master" // Trait has no actual effect, see drakian.dm for the status effect. (Drakian)
+#define TRAIT_HOARDKEEPER "Hoard Master" // Trait has no actual effect, see drakian.dm for the status effect. (Drakian)
 #define TRAIT_EMBERBLOOD "Emberblooded" // Used for the drakian's horde (not hoard)
 	#define TRAIT_EMBERBLOOD_HORDE "Servitude of Emberblood" // Given to kobolds who serve a drakian
 
@@ -446,7 +446,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WAGES_SUSPENDED = span_warning("The Stewardry has halted my daily wages!"),
 	TRAIT_PEASANTMILITIA = span_info("I am a commoner. When the Lord's soldiers do not come, I needs fend off villains and nite creechurs with the tools at hand. I fight best with simple tools and militia weapons."),
 	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"),
-	TRAIT_HOARDKEEPER = span_info("I am blessed with greed, when lying down on a horde of wealth I feel calm, gain favor with the God of fortune, and heal passively."), // This and below are species traits granted by virtues
+	TRAIT_HOARDKEEPER = span_info("I am blessed with greed, when lying down on a hoard of wealth I feel calm, gain favor with the God of fortune, and heal passively."), // This and below are species traits granted by virtues
 	TRAIT_EMBERBLOOD = span_info("I am blessed with dracon blood, I can recruit lesser beings into my horde to help me amass wealth."),
 	TRAIT_EMBERBLOOD_HORDE = span_info("I belong to a greater being, I must help them accrue wealth and amass a hoard! For the horde!"),
 ))

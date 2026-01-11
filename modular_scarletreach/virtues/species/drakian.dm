@@ -3,7 +3,7 @@
 
 /datum/virtue/racial/drakian/hoard_keeper
 	name = "Hoard Keeper"
-	desc = "I find myself being drawn to large hoards of wealth and when I rest atop such a horde, I find it calming and a feeling of being blessed."
+	desc = "I find myself being drawn to large hoards of wealth and when I rest atop such a hoard, I find it calming and a feeling of being blessed."
 	custom_text = "Only available to drakians.\nWhen lying down on a tile that has alot of worth, you will receive a fortune buff, as well as heals you slowly as if by a miracle.\nIt's a brain trauma..."
 	added_traits = list(TRAIT_HOARDKEEPER, TRAIT_SEEPRICES_SHITTY)
 	races = list(
