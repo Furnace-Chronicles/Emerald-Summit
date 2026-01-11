@@ -14,10 +14,11 @@
 	// can't steal armored items from someone who is not knocked out or cant stand
 	if (isclothing(thing))
 		var/obj/item/clothing/thing_clothing = thing
-		if (target.IsUnconscious() || !(target.mobility_flags & MOBILITY_STAND))
-			return TRUE
-		else
-			return FALSE
+		if (thing_clothing.armor)
+			if (target.IsUnconscious() || !(target.mobility_flags & MOBILITY_STAND))
+				return TRUE
+			else
+				return FALSE
 
 	// can't steal long items (like longswords, spears, etc) unless they're floored or KO'd
 	if (thing.wlength > WLENGTH_NORMAL)
