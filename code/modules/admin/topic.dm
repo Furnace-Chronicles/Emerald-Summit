@@ -651,6 +651,7 @@
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Add)
 				job.total_positions += 1
+				job.admin_slots += 1
 				break
 
 		src.manage_free_slots()
@@ -683,6 +684,7 @@
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Remove && job.total_positions - job.current_positions > 0)
 				job.total_positions -= 1
+				job.admin_slots -= 1
 				break
 
 		src.manage_free_slots()

@@ -44,6 +44,10 @@
 		EVENT_TRACK_CHARACTER_INJECTION = 0,	//No antagonist spawns.
 	)
 
+/datum/storyteller/psydon/SetAsActive()
+	SSjob.psydoncheck = TRUE
+	SSjob.CheckPopScaling()
+
 /datum/storyteller/astrata
 	name = "Astrata"
 	vote_desc = "Order reigns. All occurrences are perfectly balanced out, without bias. Her favor shines upon nobility and their decrees."

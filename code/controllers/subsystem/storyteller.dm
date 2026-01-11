@@ -745,6 +745,7 @@ SUBSYSTEM_DEF(gamemode)
 	chosen_storyteller.times_chosen++
 	GLOB.featured_stats[FEATURED_STATS_STORYTELLERS]["entries"][initial(chosen_storyteller.name)] = chosen_storyteller.times_chosen
 	current_storyteller = chosen_storyteller
+	current_storyteller.SetAsActive()
 	if(!secret_storyteller)
 		send_to_playing_players(span_notice("<b>Storyteller is [current_storyteller.name]!</b>"))
 		send_to_playing_players(span_notice("[current_storyteller.welcome_text]"))

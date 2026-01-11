@@ -246,3 +246,5 @@
 		/// Write it
 		event.calculated_weight = weight_total
 
+/datum/storyteller/proc/SetAsActive() // THIS IS NOT SCARLET REACH BLOAT !!!
+	return

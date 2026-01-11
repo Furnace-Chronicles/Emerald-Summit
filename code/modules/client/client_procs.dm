@@ -256,6 +256,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		return null
 
 	GLOB.clients += src
+	SSjob.CheckPopScaling()
 	GLOB.directory[ckey] = src
 
 	GLOB.ahelp_tickets.ClientLogin(src)
@@ -569,6 +570,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	GLOB.ahelp_tickets.ClientLogout(src)
 	GLOB.directory -= ckey
 	GLOB.clients -= src
+	SSjob.CheckPopScaling()
 	QDEL_NULL(tgui_panel)
 	QDEL_LIST_ASSOC_VAL(char_render_holders)
 	if(movingmob != null)
