@@ -359,6 +359,8 @@
 	after_ejaculation()
 
 /datum/sex_controller/proc/after_ejaculation()
+	if(!HAS_TRAIT(user, TRAIT_DEPRAVED))
+		adjust_charge(-CHARGE_FOR_CLIMAX)
 	set_arousal(40)
 	adjust_charge(-CHARGE_FOR_CLIMAX)
 	if(user.has_flaw(/datum/charflaw/addiction/lovefiend))
