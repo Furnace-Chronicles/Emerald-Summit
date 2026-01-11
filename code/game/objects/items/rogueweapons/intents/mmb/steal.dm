@@ -245,7 +245,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/theft_risk_high
 	name = "BUSTED!"
-	desc = "OH, FRICK!!! THEY SAW ME!!!"
+	desc = "OH, FUCK!!! THEY SAW ME!!!"
 
 /datum/status_effect/buff/risk_jackpot
 	id = "risk_jackpot"
