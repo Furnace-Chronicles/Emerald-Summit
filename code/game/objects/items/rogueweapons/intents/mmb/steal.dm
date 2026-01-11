@@ -14,11 +14,10 @@
 	// can't steal armored items from someone in combat mode
 	if (isclothing(thing))
 		var/obj/item/clothing/thing_clothing = thing
-		if (target.cmode && thing_clothing.armor)
-			if (target.IsUnconscious() || !(target.mobility_flags & MOBILITY_STAND))
-				return TRUE
-			else
-				return FALSE
+		if (target.IsUnconscious() || !(target.mobility_flags & MOBILITY_STAND))
+			return TRUE
+		else
+			return FALSE
 
 	// can't steal long items (like longswords, spears, etc) unless they're floored or KO'd
 	if (thing.wlength > WLENGTH_NORMAL)
@@ -235,7 +234,7 @@
 /datum/status_effect/debuff/risk_high
 	id = "risk_high"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/theft_risk_high
-	duration = 5 MINUTES
+	duration = 150 SECONDS
 	effectedstats = list("fortune" = -3)
 
 /atom/movable/screen/alert/status_effect/debuff/theft_risk_low
