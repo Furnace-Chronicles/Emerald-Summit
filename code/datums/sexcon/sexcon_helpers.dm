@@ -36,7 +36,9 @@
 
 /mob/living
 	var/can_do_sex = TRUE
-	var/virginity = FALSE
+	var/virginity = FALSE	
+	var/mpreg = FALSE
+	var/mpreg_chance = IMPREG_PROB_DEFAULT
 
 /**:
  * target/src is whomever the drag ends on. Inherited proc, needs to be a human.
