@@ -226,6 +226,7 @@
 #define TRAIT_DEADITE "Deadite"
 #define TRAIT_PUZZLEMASTER "Puzzle Master"
 #define TRAIT_CLERGY "Clergy" // City clergy
+#define TRAIT_BAOTHA_FERTILITY_BOON "Mark of Baotha" 
 #define TRAIT_CRIMSON_CURSE "Crimson Curse" //Crimson Curse Virtue
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
@@ -436,6 +437,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"), 
 	TRAIT_FOOD_STIPEND = span_notice("The creachers of the vomitorium know my touch, and will pull costs for their products directly from the treasury for me."),
 	TRAIT_CLERGY = span_notice("I am a servant of the local House of the Ten."),
+	TRAIT_BAOTHA_FERTILITY_BOON = span_warning("My abdomen glows with a strange purple marking, and my nethers constantly ache with warmth..."),
 	TRAIT_WAGES_SUSPENDED = span_warning("The Stewardry has halted my daily wages!"),
 	TRAIT_PEASANTMILITIA = span_info("I am a commoner. When the Lord's soldiers do not come, I needs fend off villains and nite creechurs with the tools at hand. I fight best with simple tools and militia weapons."),
 	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"),
