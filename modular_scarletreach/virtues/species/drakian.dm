@@ -76,9 +76,9 @@
 		return
 	var/user_loc = get_turf(src)
 	if(get_dist(get_turf(target), user_loc) <= 7)
-		// var/prompt = tgui_alert(target, "Do you wish to serve [src]?", "DRAKIAN HORDE", list("MAKE IT SO", "I RESCIND"))
-		// if(prompt != "MAKE IT SO")
-		// 	return
+		var/prompt = tgui_alert(target, "Do you wish to serve [src]?", "DRAKIAN HORDE", list("MAKE IT SO", "I RESCIND"))
+		if(prompt != "MAKE IT SO")
+			return
 		var/datum/status_effect/ember_blooded/hoard_master = has_status_effect(/datum/status_effect/ember_blooded)
 		if(hoard_master)
 			hoard_master.servants += target
