@@ -220,7 +220,7 @@
 /obj/effect/proc_holder/spell/invoked/zizo_silence
 	name = "Ascendant Edict of Silencing"
 	desc = "An unholy hush that stifles prayer and mercy alike. This one is of Zizo's design. Also drains devotion from divine targets."
-	overlay_state = "zizosilence"
+	overlay_state = "silencezizo"
 	clothes_req = FALSE
 	releasedrain = 30
 	chargedrain = 0
