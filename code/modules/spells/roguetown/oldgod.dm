@@ -40,7 +40,7 @@
 	if(ishuman(H) && ishuman(user))
 		var/mob/living/carbon/human/C_target = H
 		var/mob/living/carbon/human/C_caster = user
-		//var/list/datum/wound/tw_List = C_target.get_wounds()
+		var/list/datum/wound/tw_List = C_target.get_wounds()
 
 		if(!tw_List.len)
 			revert_cast()
