@@ -1207,33 +1207,6 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 							spawn(120)
 								icon_state = "baotha_chalky"
-		if("Conversion")
-			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
-				to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
-				return
-			var/list/valids_on_rune = list()
-			for(var/mob/living/carbon/human/peep in range(0, loc))
-				if(HAS_TRAIT(peep, TRAIT_DEPRAVED))
-					continue
-				valids_on_rune += peep
-			if(!valids_on_rune.len)
-				to_chat(user, "No valid targets on the rune!")
-				return
-			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in valids_on_rune
-			if(!target || QDELETED(target) || target.loc != loc)
-				return
-			if(do_after(user, 50))
-				user.say("#Lady of Lust, grant this one succor...")
-				if(do_after(user, 20))
-					user.say("#Bless them with thy carnal delight...")
-					if(do_after(user, 20))
-						user.say("#Show them the pleasures of the flesh!")
-						if(do_after(user, 50))
-							user.say("Praise Baotha!")
-							icon_state = "baotha_active"
-							baothaconversion(target)
-							spawn(120)
-								icon_state = "baotha_chalky"
 		if("Mark of Baotha")
 			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
 				to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
@@ -1259,61 +1232,6 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 							baothablessing(target)
 							spawn(120)
 								icon_state = "baotha_chalky"
-
-/obj/structure/ritualcircle/baotha/proc/baothaconversion(mob/living/carbon/human/target)
-	if(!target || QDELETED(target) || target.loc != loc)
-		to_chat(usr, "Selected target is not on the rune! [target.p_they(TRUE)] must be directly on top of the rune to receive Baotha's blessing.")
-		return
-	if(HAS_TRAIT(target, TRAIT_DEPRAVED))
-		loc.visible_message(span_cult("THE RITE REJECTS ONE ALREADY DEPRAVED ENOUGH!!"))
-		return
-	if(target.already_converted_once)
-		loc.visible_message(span_cult("BLOODY NIMROD!!"))
-		target.apply_damage(150, BRUTE, BODY_ZONE_HEAD)
-		return
-	var/prompt = alert(target, "Sickly-sweet pleasure drips down your spine. You can feel a narcotic haze tugging at your mind...",, "INDULGE", "RESIST")
-	if(prompt == "INDULGE")
-		to_chat(target, span_love("A hot sensation gushes through your veins. Your body throbs with pleasure."))
-		target.Stun(60)
-		target.Knockdown(60)
-		to_chat(target, span_userdanger("I can't hold back!"))
-		target.sexcon.set_arousal(300)
-		loc.visible_message(span_cult("[target] writhes and moans as they lose control of their body!"))
-		spawn(20)
-			playsound(target, 'sound/health/fastbeat.ogg', 60)
-			playsound(loc, 'sound/ambience/creepywind.ogg', 80)
-			target.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
-			target.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
-			target.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE) // haha get it?
-			spawn(20)
-				to_chat(target, span_purple("You can't stop craving more..."))
-				if(target.devotion == null)
-					target.set_patron(new /datum/patron/inhumen/baotha)
-					return
-				else
-					var/previous_level = target.devotion.level //now you might ask why we get previous_level variable before switching le patron. reason is when swapping patrons it completely fucks up devotion data for people
-					target.set_patron(new /datum/patron/inhumen/baotha)
-					var/datum/devotion/C = new /datum/devotion(target, target.patron)
-					if(previous_level == 4)
-						target.mind?.RemoveAllMiracles()
-						C.grant_miracles(target, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE) // gotta change?
-					if(previous_level == 3)
-						target.mind?.RemoveAllMiracles()
-						C.grant_miracles(target, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MAJOR, devotion_limit = CLERIC_REQ_3) // gotta change?
-					if(previous_level == 2)
-						target.mind?.RemoveAllMiracles()
-						C.grant_miracles(target, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)
-					if(previous_level == 1)
-						target.mind?.RemoveAllMiracles()
-						C.grant_miracles(target, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_1)
-	if(prompt == "RESIST")
-		to_chat(target, span_warning("Your body seizes in pain!"))
-		target.Stun(60)
-		target.Knockdown(60)
-		to_chat(target, span_userdanger("YOUR FLESH BURNS!"))
-		target.emote("Agony")
-		target.apply_damage(60, BURN, BODY_ZONE_CHEST)
-		loc.visible_message(span_cult("[target] violently writhes and thrashes atop the rune as they dare to defy Baotha!"))
 
 /obj/structure/ritualcircle/baotha/proc/baothablessing(mob/living/carbon/human/target)
 	if(!target || QDELETED(target) || target.loc != loc)
