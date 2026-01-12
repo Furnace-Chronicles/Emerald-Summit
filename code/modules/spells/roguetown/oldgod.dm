@@ -40,28 +40,16 @@
 	if(ishuman(H) && ishuman(user))
 		var/mob/living/carbon/human/C_target = H
 		var/mob/living/carbon/human/C_caster = user
-		var/list/datum/wound/tw_List = C_target.get_wounds()
+		//var/list/datum/wound/tw_List = C_target.get_wounds()
 
 		if(!tw_List.len)
 			revert_cast()
 			return FALSE
 
-		//Transfer wounds from each bodypart.
-		for(var/datum/wound/targetwound in tw_List)
-			if (istype(targetwound, /datum/wound/dismemberment))
-				continue				
-			if (istype(targetwound, /datum/wound/facial))
-				continue					
-			if (istype(targetwound, /datum/wound/fracture/head))
-				continue				
-			if (istype(targetwound, /datum/wound/fracture/neck))
-				continue
-			if (istype(targetwound, /datum/wound/cbt/permanent))
-				continue			
-			var/obj/item/bodypart/c_BP = C_caster.get_bodypart(targetwound.bodypart_owner.body_zone)
-			c_BP.add_wound(targetwound.type)
-			var/obj/item/bodypart/t_BP = C_target.get_bodypart(targetwound.bodypart_owner.body_zone)
-			t_BP.remove_wound(targetwound.type)
+		for(var/obj/item/bodypart/victim_bodypart as anything in C_target.bodyparts)
+			var/obj/item/bodypart/our_bodypart = C_caster.get_bodypart(victim_bodypart.body_zone)
+			if (our_bodypart)
+				victim_bodypart.transfer_wounds(our_bodypart)
 
 	// Transfer blood
 	var/blood_transfer = 0
