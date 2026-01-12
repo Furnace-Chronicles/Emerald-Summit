@@ -1180,7 +1180,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		return
 	var/riteselection = input(user, "Rituals of Bliss", src) as null|anything in baotharites
 	switch(riteselection) // put ur rite selection here
-		if("Rite of Joy")
+		if("Rite of Joy" "Mark of Baotha")
 			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
 				to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
 				return
