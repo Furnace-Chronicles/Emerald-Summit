@@ -58,12 +58,12 @@
 			to_chat(user, span_warning("I need to be closer to them to call forth a healing miracle!"))
 			return FALSE
 		return TRUE
-	
+
 	if (!user.Adjacent(target))
 		to_chat(user, span_warning("I need to be beside them to perform miraculous healing!"))
 		return FALSE
-	
-	return TRUE	
+
+	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/lesser_heal/proc/can_heal(mob/living/user, mob/living/target)
 	if (!range_check(user, target))
@@ -88,7 +88,7 @@
 		return FALSE
 
 	var/is_divine = ispath(user.patron?.type, /datum/patron/divine)
-	if(is_divine && (target.real_name in GLOB.excommunicated_players))
+	if(is_divine && (target.real_name in GLOB.excommunicated_players) && !HAS_TRAIT(user, TRAIT_HERETIC_DEVOUT))
 		to_chat(user, span_danger("The gods recoil from [target]! Divine fire scorches your hands as your plea is rejected!"))
 		target.visible_message(span_danger("[target] is seared by divine wrath! The gods hate them!"), span_userdanger("I am seared by divine wrath! The gods hate me!"))
 		revert_cast()
@@ -146,7 +146,7 @@
 	if (conditional_buff)
 		to_chat(user, span_info("Channeling my patron's power is easier in these conditions!"))
 		healing += situational_bonus
-	
+
 	return healing
 
 /obj/effect/proc_holder/spell/invoked/lesser_heal/cast(list/targets, mob/living/user)
@@ -157,11 +157,11 @@
 
 		if (!user.patron || !H)
 			return FALSE
-		
+
 		// perform all of our pre-heal checks inside can_heal, including revert_casts, if needed
 		if (!can_heal(user, target))
 			return FALSE
-		
+
 		if (target != user)
 			if (H.devotion?.level == CLERIC_T4)
 				user.visible_message(span_notice("[user] gestures towards [target] with a whispered prayer!"))
@@ -192,7 +192,7 @@
 			user.visible_message(span_info("[user] quickly lays their hands upon themselves!"))
 			apply_healing(target, user, get_situational_bonus(user, target))
 			return TRUE
-	
+
 	revert_cast()
 	return FALSE
 
@@ -615,7 +615,7 @@
 		UH.visible_message(span_warning("Tiny strands of red link between [UH] and [target], and droplets of blood flow through it!"))
 		playsound(UH, 'sound/magic/bloodheal_start.ogg', 100, TRUE)
 		var/user_skill = UH.get_skill_level(associated_skill)
-		
+
 		// higher miracle skills let us transfer more of our blood at once, but don't really affect the efficiency all that much.
 		var/actual_blood_vol_restore = blood_vol_restore
 		actual_blood_vol_restore += (vol_per_skill * user_skill)
