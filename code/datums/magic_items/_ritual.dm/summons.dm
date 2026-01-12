@@ -15,7 +15,7 @@
 	else
 		var/mob/living/simple_animal/hostile/retaliate/rogue/arcane/noc_guard/guard
 		if(tier >= 3) // CHANGE THIS NUMBER MAN!!
-			playsound(user.loc, 'sound/misc/carriage1.ogg', 100)
+			playsound(user, 'sound/misc/carriage1.ogg', 100)
 			var/turf/invoker_turf = get_step(get_turf(user), user.dir)
 			guard = new /mob/living/simple_animal/hostile/retaliate/rogue/arcane/noc_guard(invoker_turf)
 			guard.apply_guard_stuff()

@@ -91,7 +91,7 @@
 				user.visible_message(span_notice("[user] feeds [src] to [M]."), span_notice("I feed [src] to [M]."))
 				to_chat(M, span_notice("I consume [src], feeling my energy return."))
 			M.energy_add(500)//a LOT of energy since coal is good fuel
-			playsound(M.loc,'sound/misc/eat.ogg', rand(30,60), TRUE)
+			playsound(M,'sound/misc/eat.ogg', rand(30,60), TRUE)
 			qdel(src)
 		else // not construct = we don't care
 			return ..()

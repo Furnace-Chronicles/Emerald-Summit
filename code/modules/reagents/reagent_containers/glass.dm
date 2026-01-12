@@ -76,7 +76,7 @@
 						to_chat(human_user, span_red("I've got better manners than this..."))
 			to_chat(user, span_notice("I swallow a gulp of [src]."))
 		addtimer(CALLBACK(reagents, TYPE_PROC_REF(/datum/reagents, trans_to), M, amount_per_gulp, TRUE, TRUE, FALSE, user, FALSE, INGEST), 5)
-		playsound(M.loc,pick(drinksounds), 100, TRUE)
+		playsound(M,pick(drinksounds), 100, TRUE)
 		return
 
 /obj/item/reagent_containers/glass/attack_obj(obj/target, mob/living/user)
@@ -102,7 +102,7 @@
 						span_notice("I pour [src] into [target]."))
 		if(user.m_intent != MOVE_INTENT_SNEAK)
 			if(poursounds)
-				playsound(user.loc,pick(poursounds), 100, TRUE)
+				playsound(user,pick(poursounds), 100, TRUE)
 		for(var/i in 1 to 11)
 			if(do_after(user, 8, target = target))
 				if(!reagents.total_volume)
@@ -126,7 +126,7 @@
 			return
 		if(user.m_intent != MOVE_INTENT_SNEAK)
 			if(fillsounds)
-				playsound(user.loc,pick(fillsounds), 100, TRUE)
+				playsound(user,pick(fillsounds), 100, TRUE)
 		user.visible_message(span_notice("[user] fills [src] with [target]."), \
 							span_notice("I fill [src] with [target]."))
 		for(var/i in 1 to 11)

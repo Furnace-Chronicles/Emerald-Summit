@@ -240,7 +240,7 @@
 	if(!(mobility_flags & MOBILITY_STAND))
 		vol2use = null
 	if(vol2use)
-		playsound(get_turf(src), vol2use, 100, FALSE)
+		playsound(src, vol2use, 100, FALSE)
 
 	return TRUE
 

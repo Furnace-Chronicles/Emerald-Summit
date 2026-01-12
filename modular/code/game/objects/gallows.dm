@@ -59,7 +59,7 @@
 				to_chat(M, "<span class='userdanger'>You tie \the [src] over your neck!</span>")
 			else
 				to_chat(M, "<span class='userdanger'>[user] ties \the [src] over your neck!</span>")
-			playsound(user.loc, 'sound/foley/noosed.ogg', 50, 1, -1)
+			playsound(user, 'sound/foley/noosed.ogg', 50, 1, -1)
 			return TRUE
 	user.visible_message("<span class='warning'>[user] fails to tie \the [src] over [M]'s neck!</span>")
 	to_chat(user, "<span class='warning'>You fail to tie \the [src] over [M]'s neck!</span>")

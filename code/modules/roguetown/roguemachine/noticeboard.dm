@@ -161,7 +161,7 @@
 	var/list/merc_ckeys = list()
 	for(var/mob/living/L in available_mercs)
 		merc_ckeys += key_name(L)
-		playsound(L.loc, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
+		playsound(L, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
 		to_chat(user, span_boldannounce("The mercenary statue calls out: <i>[message]</i> - [user.real_name]<br>"))
 
 	to_chat(user, span_notice("My message has been broadcast to [LAZYLEN(available_mercs)] mercenary[LAZYLEN(available_mercs) == 1 ? "" : "s"]."))
