@@ -192,7 +192,7 @@
 	//transfer wounds as is across to our human form
 	for(var/obj/item/bodypart/wildshape_bodypart as anything in WA.bodyparts)	
 		var/obj/item/bodypart/human_BP = W.get_bodypart(wildshape_bodypart.body_zone)
-		if (human_BP)
+		if (human_BP && LAZYLEN(wildshape_bodypart.wounds))
 			wildshape_bodypart.transfer_wounds(human_BP)
 
 	//transfer blood volume across as well with a small bonus (20%)
@@ -215,7 +215,7 @@
 	W.set_nutrition(WA.nutrition)
 
 	to_chat(W, span_userdanger("I return to my old form."))
-	if (total_whp >= 0)
+	if (total_whp > 0)
 		to_chat(W, span_notice("Dendor's grace mends some of my wounds as I return to my true flesh."))
 	
 	// Restore grabs - make grabbers grab the restored human form with same state
