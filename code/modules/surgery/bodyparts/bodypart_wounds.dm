@@ -82,6 +82,20 @@
 		return
 	return wound
 
+/// Transfers all wounds from this bodypart to another bodypart, states included
+/obj/item/bodypart/proc/transfer_wounds(obj/item/bodypart/recipient)
+	if (!recipient)
+		return FALSE
+
+	for (var/datum/wound/transferred_wound as anything in wounds)
+		// we have to do some wretched bullshit here because removing bleeds from bodyparts during transfer also zeroes their bleeding
+		var/old_bleeding = transferred_wound.bleed_rate
+		transferred_wound.apply_to_bodypart(recipient, silent = TRUE, crit_message = FALSE)
+		transferred_wound.set_bleed_rate(old_bleeding)
+
+	recipient.owner?.update_damage_overlays()
+	return TRUE
+
 /// Removes a wound from this bodypart, removing any associated effects
 /obj/item/bodypart/proc/remove_wound(datum/wound/wound)
 	if(ispath(wound))
