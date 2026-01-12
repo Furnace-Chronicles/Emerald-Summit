@@ -86,6 +86,16 @@
 	name = "Druid"
 	jobtype = /datum/job/roguetown/druid
 	allowed_patrons = list(/datum/patron/divine/dendor)
+	default_patron = /datum/patron/divine/dendor
+
+/datum/outfit/job/druid/pre_equip(mob/living/carbon/human/H)
+	. = ..()
+	if(!istype(H.patron, /datum/patron/divine/dendor))
+		var/datum/patron/old_patron = H.patron
+		H.set_patron(/datum/patron/divine/dendor)
+		var/change_message = span_warning("[old_patron] had not endorsed my practices in my younger years. I've since grown accustomed to [H.patron].")
+		if(H.client)
+			to_chat(H, change_message)
 
 /datum/outfit/job/druid/basic/pre_equip(mob/living/carbon/human/H)
 	..()
