@@ -143,9 +143,16 @@ SUBSYSTEM_DEF(job)
 		if(length(job.allowed_races) && !(player.client.prefs.pref_species.type in job.allowed_races))
 			JobDebug("FOC incompatible with species, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
 			continue
-		if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron.type in job.allowed_patrons))
-			JobDebug("FOC incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
-			continue
+		if(length(job.allowed_patrons))
+			var/allowed = FALSE
+			var/datum/patron/P = player.client.prefs.selected_patron
+			for(var/path in job.allowed_patrons)
+				if(istype(P, path))
+					allowed = TRUE
+					break
+			if(!allowed)
+				JobDebug("FOC incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+				continue
 		if(length(job.virtue_restrictions) && ((player.client.prefs.virtue.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
 			JobDebug("FOC incompatible with virtues, Player: [player], Job: [job.title], Virtue 1: [player.client.prefs.virtue.name]")
 			continue
@@ -222,9 +229,16 @@ SUBSYSTEM_DEF(job)
 			JobDebug("GRJ incompatible with species, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
 			continue
 
-		if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron.type in job.allowed_patrons))
-			JobDebug("GRJ incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
-			continue
+		if(length(job.allowed_patrons))
+			var/datum/patron/P = player.client.prefs.selected_patron
+			var/allowed = FALSE
+			for(var/path in job.allowed_patrons)
+				if(istype(P, path))
+					allowed = TRUE
+					break
+			if(!allowed)
+				JobDebug("GRJ incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+				continue
 
 		if(length(job.virtue_restrictions) && ((player.client.prefs.virtue.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
 			JobDebug("GRJ incompatible with virtues, Player: [player], Job: [job.title], Virtue 1: [player.client.prefs.virtue.name]")
@@ -495,8 +509,15 @@ SUBSYSTEM_DEF(job)
 				if(length(job.allowed_races) && !(P.pref_species.type in job.allowed_races))
 					continue
 
-				if(length(job.allowed_patrons) && !(P.selected_patron.type in job.allowed_patrons))
-					continue
+				if(length(job.allowed_patrons))
+					var/allowed = FALSE
+					var/datum/patron/PA = player.client.prefs.selected_patron
+					for(var/path in job.allowed_patrons)
+						if(istype(PA, path))
+							allowed = TRUE
+							break
+					if(!allowed)
+						continue
 
 				if(length(job.virtue_restrictions) && ((P.virtue.type in job.virtue_restrictions) || (P.virtuetwo?.type in job.virtue_restrictions) || (P.virtue_origin?.type in job.virtue_restrictions)))
 					continue
@@ -590,9 +611,16 @@ SUBSYSTEM_DEF(job)
 
 				if(length(job.allowed_races) && !(player.client.prefs.pref_species.type in job.allowed_races))
 					continue
-				
-				if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron.type in job.allowed_patrons))
-					continue
+
+				if(length(job.allowed_patrons))
+					var/allowed = FALSE
+					var/datum/patron/P = player.client.prefs.selected_patron
+					for(var/path in job.allowed_patrons)
+						if(istype(P, path))
+							allowed = TRUE
+							break
+					if(!allowed)
+						continue
 
 				if(length(job.virtue_restrictions) && ((player.client.prefs.virtue.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
 					continue
@@ -696,29 +724,26 @@ SUBSYSTEM_DEF(job)
 	if(!joined_late)
 		var/obj/S = null
 		
-		// Jobs that can stack on same landmark (don't mark as used)
-		var/static/list/stackable_jobs = list("Adventurer", "Mercenary", "Wretch", "Bandit")
-		var/can_stack = (rank in stackable_jobs)
-		
-		// Single loop - find first matching landmark (used or unused based on can_stack)
+		// Find first matching landmark
 		for(var/obj/effect/landmark/start/sloc in GLOB.start_landmarks_list)
 			if(sloc.name != rank)
 				continue
-			if(!can_stack && (sloc.used || locate(/mob/living) in sloc.loc))
+			if(sloc.used || locate(/mob/living) in sloc.loc)
 				continue
 			S = sloc
-			if(!can_stack)
-				sloc.used = TRUE
+			sloc.used = TRUE
 			break
 		
 		if(!S)//danger will robinson something went wrong
-			// Don't spam - only log once per rank
-			if(!(rank in SSjob.landmark_errors_logged))
-				LAZYINITLIST(SSjob.landmark_errors_logged)
-				SSjob.landmark_errors_logged[rank] = TRUE
-				log_game("Could not find a landmark for [rank] - check map for missing spawn points")
-		if(length(GLOB.jobspawn_overrides[rank]))
-			S = pick(GLOB.jobspawn_overrides[rank])
+			// Fallback to jobspawn_overrides if no matching landmark found
+			if(length(GLOB.jobspawn_overrides[rank]))
+				S = pick(GLOB.jobspawn_overrides[rank])
+			else
+				// Don't spam - only log once per rank
+				if(!(rank in SSjob.landmark_errors_logged))
+					LAZYINITLIST(SSjob.landmark_errors_logged)
+					SSjob.landmark_errors_logged[rank] = TRUE
+					log_game("Could not find a landmark for [rank] - check map for missing spawn points")
 		if(S)
 			S.JoinPlayerHere(H, FALSE)
 		if(!S) //if there isn't a spawnpoint send them to latejoin, if there's no latejoin go yell at your mapper

@@ -39,12 +39,12 @@
 #define LEGSLEEVE_LAYER			35
 #define SHOESLEEVE_LAYER		34
 #define SHIRT_LAYER				33
-#define WRISTS_LAYER			32
-#define ARMOR_LAYER				31
-#define TABARD_LAYER			30
-#define BELT_LAYER				29		//only when looking south
-#define UNDER_CLOAK_LAYER		28
-#define HANDS_PART_LAYER		27
+#define HANDS_PART_LAYER		32
+#define WRISTS_LAYER			31
+#define ARMOR_LAYER				30
+#define TABARD_LAYER			29
+#define BELT_LAYER				28		//only when looking south
+#define UNDER_CLOAK_LAYER		27
 #define GLOVES_LAYER			26
 #define ARM_DAMAGE_LAYER		25
 #define SHIRTSLEEVE_LAYER		24
@@ -62,7 +62,7 @@
 #define MOUTH_LAYER				12
 #define HEAD_LAYER				11
 #define BACK_LAYER				10		//only when looking north
-#define HANDS_LAYER				9
+#define HANDS_LAYER				9		// The item in hand, not the actual hands.
 #define HANDCUFF_LAYER			8
 #define LEGCUFF_LAYER			7
 #define BODY_FRONT_LAYER		6

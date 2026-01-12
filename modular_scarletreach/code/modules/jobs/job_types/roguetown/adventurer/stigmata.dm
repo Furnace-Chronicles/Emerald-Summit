@@ -6,6 +6,7 @@
 	class_select_category = CLASS_CAT_CLERIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	allowed_races = RACES_NO_GOLEM
+	allowed_patrons = list(/datum/patron/old_god)
 
 	subclass_stats = list(
 		STATKEY_CON = 5,
@@ -38,13 +39,9 @@
 		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN
 	)
 
-/datum/outfit/job/adventurer/stigmata
-	allowed_patrons = list(/datum/patron/old_god)
-
 /datum/outfit/job/adventurer/stigmata/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
 	H.adjust_blindness(-3)
-
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/black
 	neck = /obj/item/clothing/neck/roguetown/psicross/silver

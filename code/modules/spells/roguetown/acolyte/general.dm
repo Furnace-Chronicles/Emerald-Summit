@@ -428,7 +428,7 @@
 		target.adjustOxyLoss(oxynew*-1 + oxy)
 		target.adjustToxLoss(target.getToxLoss()*-1 + toxin)
 		target.blood_volume = blood
-	playsound(target.loc, 'sound/magic/timereverse.ogg', 100, FALSE)
+	playsound(target, 'sound/magic/timereverse.ogg', 100, FALSE)
 
 /obj/effect/proc_holder/spell/invoked/stasis/proc/play_indicator(mob/living/carbon/target, icon_path, overlay_name, clear_time, overlay_layer)
 	if(!ishuman(target))

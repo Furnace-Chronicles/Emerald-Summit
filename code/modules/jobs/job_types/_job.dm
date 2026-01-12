@@ -501,8 +501,18 @@
 
 /datum/outfit/job/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	. = ..()
+	H.update_body()
+
+	// Patron logic
 	var/datum/patron/old_patron = H.patron
-	if(length(allowed_patrons) && (!old_patron || !(old_patron.type in allowed_patrons)))
+	var/allowed = FALSE
+	for(var/path in allowed_patrons)
+		if(istype(old_patron, path))
+			allowed = TRUE
+			break
+	if(allowed)
+		return
+	else
 		var/list/datum/patron/possiblegods = list()
 		var/list/datum/patron/preferredgods = list()
 		for(var/god in GLOB.patronlist)
@@ -512,24 +522,6 @@
 			var/datum/patron/PA = GLOB.patronlist[god]
 			if(PA.associated_faith == old_patron.associated_faith) // prefer to pick a patron within the same faith before apostatizing
 				preferredgods |= god
-		if(length(preferredgods))
-			H.set_patron(default_patron || pick(preferredgods))
-		else
-			H.set_patron(default_patron || pick(possiblegods))
-		var/change_message = span_warning("[old_patron] had not endorsed my practices in my younger years. I've since grown accustomed to [H.patron].")
-		if(H.client)
-			to_chat(H, change_message)
-		else
-			// Characters during round start are first equipped before clients are moved into them. This is a bandaid to give an important piece of information correctly to the client
-			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(to_chat), H, change_message), 5 SECONDS)
-	if(H.mind)
-		if(H.dna)
-			if(H.dna.species)
-				if(H.dna.species.name in list("Elf", "Half-Elf"))
-					H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-				if(H.dna.species.name in list("Golem"))
-					H.adjust_skillrank(/datum/skill/craft/engineering, 2, TRUE)
-	H.update_body()
 
 /datum/outfit/job/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
@@ -701,4 +693,30 @@
 		popup.open(FALSE)
 		if(winexists(usr, "classhelp"))
 			winset(usr, "classhelp", "focus=true")
+	if(href_list["jobsubclassinfo"])
+		var/list/dat = list()
+		for(var/adv in job_subclasses)
+			var/datum/advclass/advpath = adv
+			var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(advpath.name))
+			if(subclass.maximum_possible_slots != -1)
+				dat += "[subclass.name] — <b>"
+				if(subclass.total_slots_occupied >= subclass.maximum_possible_slots)
+					dat += "FULL!"
+				else
+					dat += "[subclass.total_slots_occupied] / [subclass.maximum_possible_slots]"
+				dat += "</b><br>"
+		var/datum/browser/popup = new(usr, "subclassslots", "<div style='text-align: center'>[title]</div>", nwidth = 200, nheight = 300)
+		popup.set_content(dat.Join())
+		popup.open(FALSE)
+		if(winexists(usr, "subclassslots"))
+			winset(usr, "subclassslots", "focus=true")
 	. = ..()
+
+/datum/job/proc/has_limited_subclasses()
+	if(length(job_subclasses) <= 0)
+		return FALSE
+	for(var/adv in job_subclasses)
+		var/datum/advclass/subclass = adv
+		if(initial(subclass.maximum_possible_slots) != -1)
+			return TRUE
+	return FALSE

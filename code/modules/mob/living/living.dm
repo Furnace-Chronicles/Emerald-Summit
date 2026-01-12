@@ -2106,9 +2106,7 @@
 	hide_cone()
 	var/ttime = 11
 	if(STAPER > 5)
-		ttime = 10 - (STAPER - 5)
-		if(ttime < 0)
-			ttime = 1
+		ttime = max(10 - (STAPER - 5), 5)
 	if(STAPER <= 10)
 		var/offset = (10 - STAPER) * 2
 		if(STAPER == 10)

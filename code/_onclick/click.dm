@@ -925,7 +925,7 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 	if(get_dist(src, A) <= 2)
 		if(A.loc == src)
 			A.ShiftRightClick(src)
-		if(T == loc)
+		else if(T == loc)
 			look_up()
 		else
 			if(istransparentturf(T))

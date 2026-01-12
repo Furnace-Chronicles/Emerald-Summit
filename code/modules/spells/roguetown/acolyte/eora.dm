@@ -62,6 +62,9 @@
 	recharge_time = 60 SECONDS
 	miracle = TRUE
 
+/obj/effect/proc_holder/spell/invoked/bud/kazengun
+	name = "Eori's Bloom"
+
 /obj/effect/proc_holder/spell/invoked/bud/cast(list/targets, mob/living/user)
 	var/target = targets[1]
 	if(istype(target, /mob/living/carbon/human)) //Putting flower on head check
@@ -99,6 +102,9 @@
 	antimagic_allowed = TRUE
 	recharge_time = 10 SECONDS
 	miracle = TRUE
+
+/obj/effect/proc_holder/spell/invoked/eoracurse/kazengun
+	name = "Eori's Curse"
 
 /obj/effect/proc_holder/spell/invoked/eoracurse/cast(list/targets, mob/living/user)
 	if(isliving(targets[1]))
@@ -246,6 +252,9 @@
 	devotion_cost = 75
 	associated_skill = /datum/skill/magic/holy
 
+/obj/effect/proc_holder/spell/invoked/heartweave/kazengun
+	invocation = "By Eori's grace, let our fates intertwine!"
+
 /obj/effect/proc_holder/spell/invoked/heartweave/cast(list/targets, mob/living/user)
 	var/mob/living/target = targets[1]
 
@@ -362,6 +371,9 @@
 	miracle = TRUE
 	var/base_recharge_time = 90 SECONDS
 
+/obj/effect/proc_holder/spell/invoked/bless_food/kazengun
+	invocation = "Eori, nourish this offering!"
+
 /obj/effect/proc_holder/spell/invoked/bless_food/cast(list/targets, mob/living/user)
 	var/obj/item/target = targets[1]
 	if(!istype(target, /obj/item/reagent_containers/food/snacks))
@@ -401,6 +413,9 @@
 	associated_skill = /datum/skill/magic/holy
 	miracle = TRUE
 	var/obj/structure/eoran_pomegranate_tree/my_little_tree = null
+
+/obj/effect/proc_holder/spell/invoked/pomegranate/kazengun
+	invocation = "Eori, provide sanctuary for your beauty!"
 
 /obj/effect/proc_holder/spell/invoked/pomegranate/cast(list/targets, mob/living/user)
 	. = ..()
@@ -1014,16 +1029,25 @@
 	name = "opalescent aril"
 	desc = "An iridescent seed that shifts colors in the light."
 	icon_state = "opalescent"
-	effect_desc = "Transforms held gems into rubies."
+	effect_desc = "Transforms held gems into a rontz or manifests a pair of rosellusks if no gem is held."
     
 /obj/item/reagent_containers/food/snacks/eoran_aril/opalescent/apply_effects(mob/living/eater)
+	var/found_gem = FALSE
 	for(var/obj/item/roguegem/G in eater.held_items)
 		var/obj/item/roguegem/ruby/new_gem = new(eater.loc)
 		qdel(G)
 		eater.put_in_hands(new_gem)
 		to_chat(eater, span_notice("The [G] transforms into a rontz in your hand!"))
+		found_gem = TRUE
 		//Probably best not to allow 2 at once...
 		break
+	
+	if(!found_gem)
+		var/obj/item/carvedgem/rose/rawrose/rosellusk1 = new(eater.loc)
+		var/obj/item/carvedgem/rose/rawrose/rosellusk2 = new(eater.loc)
+		eater.put_in_hands(rosellusk1)
+		eater.put_in_hands(rosellusk2)
+		to_chat(eater, span_notice("A pair of rosellusks manifest in your hands!"))
 
 // TIER 2
 /obj/item/reagent_containers/food/snacks/eoran_aril/cerulean

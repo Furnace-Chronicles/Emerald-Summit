@@ -179,13 +179,25 @@
 	if(!(mobility_flags & MOBILITY_MOVE))
 		return FALSE
 
+	var/mob/living/H = src
+	var/mob/living/U = user
+
+	// fire mage armor before EVERYTHING (almost) else!
+	// in practice, this means that mage armor will protect us while we're charging spells, but attacks we would've otherwise parried/dodged will eat the armor first
+	// to balance this, mage armor refreshes SIGNIFICANTLY faster (7-arcyne skill MINUTES to 30-arcyne skill SECONDS), and we can use RMB defend intend to funnel energy & stamina to bring it back up again
+	if(HAS_TRAIT(src, TRAIT_MAGEARMOR))
+		if(H.magearmor == 0)
+			H.magearmor = 1
+			H.apply_status_effect(/datum/status_effect/buff/magearmor)
+			to_chat(src, span_boldwarning("My mage armor absorbs the hit and dissipates!"))
+			return TRUE
+	
 	if(client && used_intent)
 		if(client.charging && used_intent.tranged && !used_intent.tshield)
 			return FALSE
 
 	var/prob2defend = user.defprob
-	var/mob/living/H = src
-	var/mob/living/U = user
+
 	if(H && U)
 		prob2defend = 0
 
@@ -366,16 +378,7 @@
 						drained = drained + ( intenty.masteritem.wbalance * ((user.STASTR - src.STASTR) * -5) )
 			else
 				to_chat(src, span_warning("The enemy defeated my parry!"))
-				if(HAS_TRAIT(src, TRAIT_MAGEARMOR))
-					if(H.magearmor == 0)
-						H.magearmor = 1
-						H.apply_status_effect(/datum/status_effect/buff/magearmor)
-						to_chat(src, span_boldwarning("My mage armor absorbs the hit and dissipates!"))
-						return TRUE
-					else
-						return FALSE
-				else
-					return FALSE
+				return FALSE
 
 			drained = max(drained, 5)
 
@@ -520,17 +523,6 @@
 						flash_fullscreen("blackflash2")
 						user.aftermiss()
 						return TRUE
-					else
-						if(HAS_TRAIT(src, TRAIT_MAGEARMOR))
-							if(H.magearmor == 0)
-								H.magearmor = 1
-								H.apply_status_effect(/datum/status_effect/buff/magearmor)
-								to_chat(src, span_boldwarning("My mage armor absorbs the hit and dissipates!"))
-								return TRUE
-							else
-								return FALSE
-						else
-							return FALSE
 			else
 				return FALSE
 
@@ -567,7 +559,7 @@
 
 		if(H.stamina_add(parrydrain))
 			if(W)
-				playsound(get_turf(src), pick(W.parrysound), 100, FALSE)
+				playsound(src, pick(W.parrysound), 100, FALSE)
 			if(src.client)
 				record_round_statistic(STATS_PARRIES)
 
@@ -587,14 +579,14 @@
 			return FALSE //crush through
 	else
 		if(W)
-			playsound(get_turf(src), pick(W.parrysound), 100, FALSE)
+			playsound(src, pick(W.parrysound), 100, FALSE)
 		return TRUE
 
 /mob/proc/do_unarmed_parry(parrydrain as num, mob/living/user)
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
 		if(H.stamina_add(parrydrain))
-			playsound(get_turf(src), pick(parry_sound), 100, FALSE)
+			playsound(src, pick(parry_sound), 100, FALSE)
 			src.visible_message(span_warning("<b>[src]</b> parries [user]!"))
 			if(src.client)
 				record_round_statistic(STATS_PARRIES)
@@ -605,7 +597,7 @@
 	else
 		if(src.client)
 			record_round_statistic(STATS_PARRIES)
-		playsound(get_turf(src), pick(parry_sound), 100, FALSE)
+		playsound(src, pick(parry_sound), 100, FALSE)
 		return TRUE
 
 

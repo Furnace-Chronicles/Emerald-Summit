@@ -9,7 +9,7 @@
 	anchored = TRUE
 	layer = BELOW_OBJ_LAYER
 
-	var/budget = 0
+
 	var/current_tab = "Bombs"
 
 	var/list/flavor_lines = list(

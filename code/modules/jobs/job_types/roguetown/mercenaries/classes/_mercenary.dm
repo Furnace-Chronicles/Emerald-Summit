@@ -18,7 +18,7 @@
 		message = inputmessage,
 		chosentitle = "[H.real_name], [H.advjob]",
 		chosenname = MERC_STATUS_AVAILABLE,
-		chosenrole = null,
+		chosenrole = "<a href='?src=[REF(H)];task=view_headshot;'>Further Details</a>",
 		truename = H.real_name,
 		category = NOTICEBOARD_CAT_SELLSWORDS,
 		author = H

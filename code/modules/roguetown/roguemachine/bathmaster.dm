@@ -12,7 +12,6 @@
 	layer = BELOW_OBJ_LAYER
 	var/list/held_items = list()
 	var/locked = FALSE
-	var/budget = 0
 	var/upgrade_flags
 	var/current_cat = "1"
 	var/lockid = "nightman"
@@ -101,8 +100,7 @@
 			new pathi(get_turf(M))
 	if(href_list["change"])
 		if(budget > 0)
-			budget2change(budget, usr)
-			budget = 0
+			withdrawbudget(usr)
 	if(href_list["changecat"])
 		current_cat = href_list["changecat"]
 	if(href_list["secrets"])

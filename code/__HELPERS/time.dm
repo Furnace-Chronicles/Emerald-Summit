@@ -51,23 +51,38 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 			switch(GLOB.tod)
 				if("dawn")
 					if(prob(25))
-						GLOB.forecast = "rain"
+						GLOB.forecast = pick(list("rain", "fog", "snow"))
 				if("day")
-					if(prob(5))
-						GLOB.forecast = "rain"
+					if(prob(15))
+						GLOB.forecast = pick(list("rain", "fog", "snow"))
 				if("dusk")
 					if(prob(33))
-						GLOB.forecast = "rain"
+						GLOB.forecast = pick(list("rain", "fog"))
 				if("night")
 					if(prob(40))
-						GLOB.forecast = "rain"
+						GLOB.forecast = pick(list("rain", "fog"))
+			var/foundnd
+			switch(GLOB.forecast)
+				if("rain")
+					if(SSParticleWeather?.runningWeather?.target_trait == PARTICLEWEATHER_RAIN)
+						foundnd = TRUE
+						
+					if(!foundnd)
+						if(istype(SSgamemode.current_storyteller, /datum/storyteller/graggar))
+							SSParticleWeather?.run_weather(pick(/datum/particle_weather/blood_rain_gentle, /datum/particle_weather/blood_rain_storm))
+						else
+							SSParticleWeather?.run_weather(pick(/datum/particle_weather/rain_gentle, /datum/particle_weather/rain_storm))
+				if("snow")
+					if(SSParticleWeather?.runningWeather?.target_trait == PARTICLEWEATHER_SNOW)
+						foundnd = TRUE
+					if(!foundnd)
+						SSParticleWeather?.run_weather(pick(/datum/particle_weather/snow_gentle, /datum/particle_weather/snow_storm))
+				if("fog")
+					if(SSParticleWeather?.runningWeather?.target_trait == PARTICLEWEATHER_FOG)
+						foundnd = TRUE
+					if(!foundnd)
+						SSParticleWeather?.run_weather(pick(/datum/particle_weather/fog))
 
-			if(GLOB.forecast == "rain")
-				var/foundnd
-				if(SSParticleWeather?.runningWeather?.target_trait == PARTICLEWEATHER_RAIN)
-					foundnd = TRUE
-				if(!foundnd)
-					SSParticleWeather?.run_weather(pick(/datum/particle_weather/rain_gentle, /datum/particle_weather/rain_storm))
 		else
 			switch(GLOB.forecast) //end the weather now
 				if("rain")
@@ -77,6 +92,10 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 						GLOB.forecast = null
 				if("rainbow")
 					GLOB.forecast = null
+				if("fog")
+					GLOB.forecast = null
+				if("snow")
+					GLOB.forecast = "rain"
 
 	if(GLOB.tod != oldtod)
 		if(GLOB.tod == "dawn")

@@ -27,7 +27,7 @@
 			if(do_after(user, 40))
 				var/healydoodle_gems = sellprice*0.6
 				M.apply_status_effect(/datum/status_effect/buff/gemmuncher, healydoodle_gems)
-				playsound(get_turf(src), 'modular_azurepeak/sound/spellbooks/glass.ogg', 100)
+				playsound(src, 'modular_azurepeak/sound/spellbooks/glass.ogg', 100)
 				qdel(src)
 				if(M == user)
 					user.visible_message(span_danger("[user] eats [src]! Egads!"), span_danger("I devour [src]!"))
@@ -49,7 +49,7 @@
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/roguegem/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
-	playsound(loc, pick('sound/items/gems (1).ogg','sound/items/gems (2).ogg'), 100, TRUE, -2)
+	playsound(src, pick('sound/items/gems (1).ogg','sound/items/gems (2).ogg'), 100, TRUE, -2)
 	..()
 
 /obj/item/roguegem/green
@@ -212,7 +212,22 @@
 
 /obj/item/roguegem/random/Initialize()
 	..()
-	var/newgem = list(/obj/item/roguegem/ruby = 5, /obj/item/roguegem/green = 15, /obj/item/roguegem/blue = 10, /obj/item/roguegem/yellow = 20, /obj/item/roguegem/violet = 10, /obj/item/roguegem/diamond = 5, /obj/item/riddleofsteel = 1, /obj/item/rogueore/silver = 3, /obj/item/roguegem/onyxa = 5, /obj/item/roguegem/jade = 3, /obj/item/roguegem/coral = 3, /obj/item/roguegem/turq = 3, /obj/item/roguegem/amber = 3, /obj/item/roguegem/opal = 3)
+	var/newgem = list(
+		/obj/item/roguegem/onyxa = 20,
+		/obj/item/roguegem/yellow = 20,
+		/obj/item/roguegem/green = 15,
+		/obj/item/roguegem/amber = 12,
+		/obj/item/roguegem/jade = 12,
+		/obj/item/roguegem/violet = 10,
+		/obj/item/roguegem/blue = 10,
+		/obj/item/roguegem/coral = 9,
+		/obj/item/roguegem/opal = 7,
+		/obj/item/roguegem/turq = 7,
+		/obj/item/roguegem/diamond = 5,
+		/obj/item/roguegem/ruby = 5,
+		/obj/item/rogueore/silver = 3,
+		/obj/item/riddleofsteel = 1
+	)
 	var/pickgem = pickweight(newgem)
 	new pickgem(get_turf(src))
 	qdel(src)
@@ -258,7 +273,7 @@
 				user.visible_message(span_warning("[user] begins to force [M] to eat [src]!"), span_warning("I attempt to force [M] to eat [src]!"))
 
 			if(do_after(user, 40))
-				playsound(get_turf(src), 'modular_azurepeak/sound/spellbooks/crystal.ogg', 100)
+				playsound(src, 'modular_azurepeak/sound/spellbooks/crystal.ogg', 100)
 				qdel(src)
 				if(prob(det_chance))//Woe... - TODO: Expand this. Properly. An explosion and dusting.
 					M.adjust_fire_stacks(100)//You will burn. Horribly.

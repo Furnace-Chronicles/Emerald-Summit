@@ -237,7 +237,7 @@
 			to_chat(user, span_warning("I struggle with [src]! [probby]%"))
 		else
 			to_chat(user, span_warning("I struggle with [src]!"))
-		playsound(src.loc, 'sound/foley/struggle.ogg', 100, FALSE, -1)
+		playsound(src, 'sound/foley/struggle.ogg', 100, FALSE, -1)
 		user.Immobilize(2 SECONDS)
 		user.changeNext_move(2 SECONDS)
 		src.Immobilize(1 SECONDS)
@@ -246,7 +246,7 @@
 
 	if(!instant)
 		var/sound_to_play = 'sound/foley/grab.ogg'
-		playsound(src.loc, sound_to_play, 100, FALSE, -1)
+		playsound(src, sound_to_play, 100, FALSE, -1)
 
 	testing("eheh1")
 	user.setGrabState(GRAB_AGGRESSIVE)
@@ -335,7 +335,7 @@
 		return FALSE
 
 	M.do_attack_animation(src, visual_effect_icon = M.a_intent.animname)
-	playsound(get_turf(M), pick(M.attack_sound), 100, FALSE)
+	playsound(M, pick(M.attack_sound), 100, FALSE)
 
 	var/cached_intent = M.used_intent
 
@@ -446,7 +446,7 @@
 		span_danger("I feel a powerful shock coursing through my body!"), \
 		span_hear("I hear a heavy electrical crack.") \
 	)
-	playsound(get_turf(src), pick('sound/misc/elec (1).ogg', 'sound/misc/elec (2).ogg', 'sound/misc/elec (3).ogg'), 100, FALSE)
+	playsound(src, pick('sound/misc/elec (1).ogg', 'sound/misc/elec (2).ogg', 'sound/misc/elec (3).ogg'), 100, FALSE)
 	return shock_damage
 
 /mob/living/emp_act(severity)

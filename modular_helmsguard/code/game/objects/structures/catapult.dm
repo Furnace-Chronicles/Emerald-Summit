@@ -256,7 +256,7 @@
 
 /obj/item/boulder/Bump(atom/A)
 	if(launched)
-		playsound(get_turf(src), pick(incoming), 100, FALSE)
+		playsound(src, pick(incoming), 100, FALSE)
 		spawn(travel_time * 6)
 			explosion(get_turf(src), 1, -1, 2, 0)
 			do_shrapnel_effect(get_turf(src))
@@ -264,7 +264,7 @@
 
 /obj/item/boulder/onZImpact(turf/T, levels)
 	if(launched)
-		playsound(get_turf(src), pick(incoming), 100, FALSE)
+		playsound(src, pick(incoming), 100, FALSE)
 		spawn(travel_time * 6)
 			explosion(get_turf(src), 1, -1, 2, 0)
 			do_shrapnel_effect(get_turf(src))
@@ -274,7 +274,7 @@
 /obj/item/boulder/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	if(launched)
 		if(!istype(hit_atom, /turf/open/space))
-			playsound(get_turf(src), pick(incoming), 100, FALSE)
+			playsound(src, pick(incoming), 100, FALSE)
 			spawn(travel_time * 6)
 				explosion(get_turf(src), 1, -1, 2, 0)
 				do_shrapnel_effect(get_turf(src))

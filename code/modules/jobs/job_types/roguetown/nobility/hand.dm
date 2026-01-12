@@ -32,7 +32,8 @@
 	)
 
 	virtue_restrictions = list(
-		/datum/virtue/heretic/zchurch_keyholder
+		/datum/virtue/heretic/zchurch_keyholder,
+		/datum/virtue/combat/crimson_curse
 	)
 
 /*

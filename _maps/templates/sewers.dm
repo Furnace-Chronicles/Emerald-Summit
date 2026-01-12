@@ -113,6 +113,20 @@
 		/obj/item/reagent_containers/powder/salt = 6,
 		/obj/item/reagent_containers/food/snacks/egg = 6,
 
+		// Rare gem finds in sewers (lost treasures)
+		/obj/item/roguegem/onyxa = 1,
+		/obj/item/roguegem/jade = 1,
+		/obj/item/roguegem/amber = 1,
+		/obj/item/roguegem/coral = 1,
+		
+		// Carved gem items (discarded/lost)
+		/obj/item/kitchen/fork/carved/jade = 1,
+		/obj/item/kitchen/spoon/carved/onyxa = 1,
+		/obj/item/clothing/ring/jade = 1,
+		/obj/item/clothing/ring/onyxa = 1,
+		/obj/item/carvedgem/jade/figurine = 1,
+		/obj/item/carvedgem/onyxa/cameo = 1
+
 	)
 
 

@@ -61,6 +61,8 @@
 
 /datum/round_event_control/antagonist/canSpawnEvent(players_amt, gamemode, fake_check)
 	. = ..()
+	if(!SSgamemode?.current_storyteller?.can_inject_antags)
+		return FALSE
 	if(!check_required())
 		return FALSE
 

@@ -148,6 +148,14 @@
 		/obj/item/reagent_containers/powder/salt = 3,
 		/obj/item/reagent_containers/food/snacks/egg = 3,
 
+		// Gems (rare finds)
+		/obj/item/roguegem/onyxa = 1,
+		/obj/item/roguegem/jade = 1,
+		/obj/item/roguegem/amber = 1,
+		/obj/item/roguegem/coral = 1,
+		/obj/item/roguegem/turq = 1,
+		/obj/item/roguegem/opal = 1
+
 	)
 	lootcount = 1
 
@@ -232,6 +240,20 @@
 		/obj/item/mundane/puzzlebox/medium = 2,
 		/obj/item/mundane/puzzlebox/easy = 2,
 		/obj/item/mundane/puzzlebox/impossible = 1,
+		/obj/item/kitchen/fork/carved/jade = 1,
+		/obj/item/kitchen/spoon/carved/jade = 1,
+		/obj/item/kitchen/fork/carved/onyxa = 1,
+		/obj/item/kitchen/spoon/carved/onyxa = 1,
+		/obj/item/reagent_containers/glass/bowl/carved/jade = 1,
+		/obj/item/reagent_containers/glass/cup/carved/jade = 1,
+		/obj/item/reagent_containers/glass/bowl/carved/onyxa = 1,
+		/obj/item/reagent_containers/glass/cup/carved/onyxa = 1,
+		/obj/item/carvedgem/jade/cameo = 1,
+		/obj/item/carvedgem/jade/figurine = 1,
+		/obj/item/carvedgem/jade/vase = 1,
+		/obj/item/carvedgem/onyxa/cameo = 1,
+		/obj/item/carvedgem/onyxa/figurine = 1,
+		/obj/item/carvedgem/onyxa/vase = 1
 	)
 	lootcount = 1
 

@@ -312,6 +312,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	path = /obj/item/clothing/shoes/roguetown/armor/geta
 
 //SHIRTS
+/datum/loadout_item/corset
+	name = "Corset"
+	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/corset
+
 /datum/loadout_item/longcoat
 	name = "Longcoat"
 	path = /obj/item/clothing/suit/roguetown/armor/longcoat

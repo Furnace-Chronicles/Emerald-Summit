@@ -105,10 +105,31 @@
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/black
 			beltr = /obj/item/reagent_containers/glass/bottle/rogue/manapot
 			neck = /obj/item/clothing/neck/roguetown/leather // No iron gorget vs necro. They will have to acquire one in round.
-			backr = /obj/item/rogueweapon/woodstaff/ruby
 			r_hand = /obj/item/scrying //expert should give you good odds with this? if it breaks in one use, blame xylix, not me
 			//you get some spellpoints. if you really wanna take combat spells you can ig
 			H?.mind.adjust_spellpoints(12)
+			var/staffs = list(
+				"ronts-focused staff",
+				"blortz-focused staff",
+				"saffira-focused staff",
+				"gemerald-focused staff",
+				"amethyst-focused staff",
+				"toper-focused staff",
+			)
+			var/staffchoice = input(H, H, "Choose your staff", "Available staffs") as anything in staffs
+			switch(staffchoice)
+				if("ronts-focused staff")
+					backr = /obj/item/rogueweapon/woodstaff/ruby
+				if("blortz-focused staff")
+					backr = /obj/item/rogueweapon/woodstaff/quartz
+				if("saffira-focused staff")
+					backr = /obj/item/rogueweapon/woodstaff/sapphire
+				if("gemerald-focused staff")
+					backr = /obj/item/rogueweapon/woodstaff/emerald
+				if("amethyst-focused staff")
+					backr = /obj/item/rogueweapon/woodstaff/amethyst
+				if("toper-focused staff")
+					backr = /obj/item/rogueweapon/woodstaff/toper
 
 		if("SNIVELLING servant")
 			//stats

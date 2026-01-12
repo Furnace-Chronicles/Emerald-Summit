@@ -5,7 +5,7 @@
 	if(!penis.functional)
 		return FALSE
 	switch(penis.penis_type)
-		if(PENIS_TYPE_KNOTTED,PENIS_TYPE_TAPERED_KNOTTED,PENIS_TYPE_TAPERED_DOUBLE_KNOTTED,PENIS_TYPE_BARBED_KNOTTED)
+		if(PENIS_TYPE_KNOTTED,PENIS_TYPE_EQUINE_KNOTTED,PENIS_TYPE_TAPERED_KNOTTED,PENIS_TYPE_TAPERED_DOUBLE_KNOTTED,PENIS_TYPE_BARBED_KNOTTED)
 			return TRUE
 	return FALSE
 
@@ -118,8 +118,8 @@
 	penor.Remove(top)
 	penor.forceMove(top.drop_location())
 	penor.add_mob_blood(top)
-	playsound(get_turf(top), 'sound/combat/dismemberment/dismem (5).ogg', 80, TRUE)
-	playsound(get_turf(top), 'sound/vo/male/tomscream.ogg', 80, TRUE)
+	playsound(top, 'sound/combat/dismemberment/dismem (5).ogg', 80, TRUE)
+	playsound(top, 'sound/vo/male/tomscream.ogg', 80, TRUE)
 	to_chat(top, span_userdanger("You feel a sharp pain as your knot is torn asunder!"))
 	to_chat(btm, span_userdanger("You feel their knot withdraw faster than you can process!"))
 	knot_remove(forceful_removal = TRUE, notify = FALSE)
