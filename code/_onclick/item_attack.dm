@@ -465,7 +465,7 @@
 	if(istype(user.rmb_intent, /datum/rmb_intent/weak))
 		variance_center = -1
 
-	var/variance_roll = get_damage_variance(I.associated_skill, variance_center)
+	var/variance_roll = get_damage_variance(I.associated_skill, variance_center, user)
 
 	newforce = newforce * (1 + (variance_roll / 100))
 	newforce = max(round(newforce, 1), 1)
@@ -474,7 +474,7 @@
 
 	return newforce
 
-/proc/get_damage_variance(wep_type, variance_center)
+/proc/get_damage_variance(wep_type, variance_center, mob/living/user)
 	var/variance_range = 0
 	var/variance_roll = 0
 	var/curve_depth = 3
@@ -519,7 +519,14 @@
 
 	variance_roll = (variance_roll / curve_depth) + (variance_center * variance_range)
 
-	return clamp(variance_roll, -variance_range, variance_range)
+	var/clamped_roll = clamp(variance_roll, -variance_range, variance_range)
+
+	// Store variance percentile in the user for attack message display
+	if(ishuman(user) && variance_range > 0)
+		var/mob/living/carbon/human/H = user
+		H.last_variance_percentile = ((clamped_roll + variance_range) / (variance_range * 2)) * 100
+
+	return clamped_roll
 
 /obj/attacked_by(obj/item/I, mob/living/user)
 	user.changeNext_move(CLICK_CD_INTENTCAP)

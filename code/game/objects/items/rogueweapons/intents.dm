@@ -109,7 +109,27 @@
 	if(damfactor != 1)
 		inspec += "\n<b>Damage:</b> [damfactor]"
 	if(penfactor)
-		inspec += "\n<b>Armor Penetration:</b> [penfactor < 0 ? "NONE" : penfactor]"
+		var/total_ap = penfactor
+		var/stat_name = ""
+		if(ishuman(user) && masteritem)
+			var/mob/living/carbon/human/H = user
+			switch(masteritem.wbalance)
+				if(WBALANCE_HEAVY)
+					total_ap = penfactor + (H.STASTR - 10) * STR_PEN_FACTOR * penfactor
+					stat_name = "STR"
+				if(WBALANCE_NORMAL)
+					total_ap = penfactor + (((H.STASTR - 10)+(H.STAPER - 10))/2) * floor((STR_PEN_FACTOR+PER_PEN_FACTOR)/2) * penfactor
+					stat_name = "STR/PER AVG"
+				if(WBALANCE_SWIFT)
+					total_ap = penfactor + (H.STAPER - 10) * PER_PEN_FACTOR * penfactor
+					stat_name = "PER"
+
+		if(total_ap <= 0)
+			inspec += "\n<b>Armor Penetration:</b> NONE"
+		else if(stat_name)
+			inspec += "\n<b>Armor Penetration:</b> [round(total_ap, 1)] ([stat_name])"
+		else
+			inspec += "\n<b>Armor Penetration:</b> [penfactor]"
 	if(get_chargetime())
 		inspec += "\n<b>Charge Time</b>"
 	if(movement_interrupt)

@@ -1976,6 +1976,19 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 			if(was_blunted)
 				H.next_attack_msg += " <span class='warning'>The attack was blunted by armor.</span>"
 
+			// Add variance-based damage messages
+			if(ishuman(user))
+				var/mob/living/carbon/human/attacker = user
+				if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+					H.next_attack_msg += " <b style='color:pink'><i>A brutal blow!</i></b>"
+				else if(istype(user.rmb_intent, /datum/rmb_intent/weak))
+					H.next_attack_msg += " <span style='color:pink'><i>A restrained strike.</i></span>"
+				else if(attacker.last_variance_percentile)
+					if(attacker.last_variance_percentile <= 10)
+						H.next_attack_msg += " <span style='color:pink'><i>A glancing blow.</i></span>"
+					else if(attacker.last_variance_percentile >= 90)
+						H.next_attack_msg += " <b style='color:pink'><i>The strike lands squarely!</i></b>"
+
 			var/datum/wound/crit_wound = affecting.bodypart_attacked_by(wound_bclass, actual_damage, user, selzone, crit_message = TRUE, was_blunted = was_blunted, raw_damage = raw_damage, armor_block = armor_block, weapon = I)
 			if(should_embed_weapon(crit_wound, I))
 				var/can_impale = TRUE

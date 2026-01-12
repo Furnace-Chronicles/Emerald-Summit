@@ -12,6 +12,7 @@
 	var/lastattacker = null
 	var/lastattackerckey = null
 	var/last_attack_was_blunted = FALSE // Track if the last attack was blunted by armor
+	var/last_variance_percentile = 0 // Track the percentile of the last damage variance roll
 	var/datum/weakref/lastattacker_weakref = null
 
 	//Health and life related vars
