@@ -363,7 +363,7 @@
 		adjust_charge(-CHARGE_FOR_CLIMAX)
 	set_arousal(40)
 	adjust_charge(-CHARGE_FOR_CLIMAX)
-	if(user.has_flaw(/datum/charflaw/addiction/lovefiend))
+	if(user.has_flaw(/datum/charflaw/addiction/lovefiend || /datum/charflaw/addiction/baothancurse))
 		user.sate_addiction()
 	user.add_stress(/datum/stressevent/cumok)
 	user.emote("sexmoanhvy", forced = TRUE)
