@@ -1727,3 +1727,10 @@
 
 	grid_width = 32
 	grid_height = 96
+
+/obj/item/rogueweapon/sword/holysteel
+	name = "Judgements Edge"
+	desc = "I come not bearing peace, but a sword. To bring True Justice to this world."
+	icon_state = "ravsword"
+	smeltresult = /obj/item/ingot/steel
+	max_integrity = 250
