@@ -8,6 +8,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	"Greedy"=/datum/charflaw/greedy,
 	"Narcoleptic"=/datum/charflaw/narcoleptic,
 	"Nymphomaniac"=/datum/charflaw/addiction/lovefiend,
+	"Baothan Curse"=/datum/charflaw/addiction/baothancurse,
 	"Sadist"=/datum/charflaw/addiction/sadist,
 	"Masochist"=/datum/charflaw/masochist,
 	"Paranoid"=/datum/charflaw/paranoid,
