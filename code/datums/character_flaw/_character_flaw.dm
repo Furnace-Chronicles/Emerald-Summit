@@ -161,6 +161,9 @@ GLOBAL_LIST_INIT(character_flaws, list(
 /datum/charflaw/badsight/proc/apply_reading_skill(mob/living/carbon/human/H)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 
+#define PARA_CROWD_THRESHOLD 2
+#define PARA_BLOOD_THRESHOLD 6
+
 /datum/charflaw/paranoid
 	name = "Paranoid"
 	desc = "I'm even more anxious than most people. I'm extra paranoid of other races and the sight of blood."
@@ -183,17 +186,18 @@ GLOBAL_LIST_INIT(character_flaws, list(
 				var/mob/living/carbon/human/H = user
 				if(L.dna.species.id != H.dna.species.id)
 					cnt++
-		if(cnt > 2)
+		if(cnt > PARA_CROWD_THRESHOLD)
 			break
-	if(cnt > 2)
+	if(cnt > PARA_CROWD_THRESHOLD)
 		user.add_stress(/datum/stressevent/paracrowd)
 	cnt = 0
 	for(var/obj/effect/decal/cleanable/blood/B in view(7, user))
 		cnt++
-		if(cnt > 3)
+		if(cnt > PARA_BLOOD_THRESHOLD)
 			break
-	if(cnt > 6)
+	if(cnt > PARA_BLOOD_THRESHOLD)
 		user.add_stress(/datum/stressevent/parablood)
+
 
 /datum/charflaw/isolationist
 	name = "Isolationist"
