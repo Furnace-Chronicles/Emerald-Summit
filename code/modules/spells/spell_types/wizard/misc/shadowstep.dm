@@ -14,9 +14,9 @@
 	hide_charge_effect = TRUE
 	gesture_required = TRUE // Mobility spell
 	spell_tier = 2
+	range = 7
 	// This is super telegraphed so it shouldn't need any whisper. It can stay silent as a unique.
 	var/area_of_effect = 1
-	var/max_range = 7
 	var/turf/destination_turf
 	var/turf/user_turf
 	var/mutable_appearance/tile_effect
@@ -81,8 +81,7 @@
 /obj/effect/proc_holder/spell/invoked/shadowstep/cast(list/targets, mob/user)
 	var/turf/T = get_turf(targets[1])
 	if(!istransparentturf(T))
-		var/reason
-		if(max_range >= get_dist(user, T) && !T.density)
+		if(!T.density)
 			if(check_path(get_turf(user), T))	//We check for opaque turfs or non-climbable windows in the way via a simple pathfind.
 				if(get_dist(user, T) < 2 && user.z == T.z)
 					to_chat(user, span_info("Too close!"))
@@ -100,13 +99,9 @@
 				to_chat(user, span_info("The path is blocked!"))
 				revert_cast()
 				return
-		else if(get_dist(user, T) > max_range)
-			reason = "It's too far."
+		else
+			to_chat(user, span_info("I cannot shadowstep there! It's a wall!"))
 			revert_cast()
-		else if (T.density)
-			reason = "It's a wall!"
-			revert_cast()
-		to_chat(user, span_info("I cannot shadowstep there! "+"[reason]"))
 	else
 		to_chat(user, span_info("I cannot shadowstep there!"))
 		revert_cast()

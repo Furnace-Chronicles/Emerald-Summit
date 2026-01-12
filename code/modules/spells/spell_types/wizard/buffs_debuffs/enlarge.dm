@@ -19,6 +19,7 @@
 	glow_intensity = GLOW_INTENSITY_LOW
 	overlay_state = "enlarge"
 	range = 7
+	allow_crossz = TRUE
 
 /obj/effect/proc_holder/spell/invoked/enlarge/cast(list/targets, mob/user = usr)
 	if(isliving(targets[1]))

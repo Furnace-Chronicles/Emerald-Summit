@@ -4,6 +4,7 @@
 	cost = 5
 	range = 4
 	ignore_los = FALSE
+	allow_crossz = TRUE
 	releasedrain = 50
 	chargedrain = 2
 	chargetime = 4 SECONDS
@@ -66,6 +67,7 @@
 	cost = 2 
 	range = 6 //slightly bigger range for prank purposes
 	ignore_los = FALSE
+	allow_crossz = TRUE
 	releasedrain = 25 //half cost bc it's way smaller
 	chargedrain = 2
 	chargetime = 20 //repel-sized

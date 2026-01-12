@@ -22,6 +22,7 @@
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
+	allow_crossz = TRUE
 	var/wall_type = /obj/structure/forcefield_weak
 	cost = 3
 
