@@ -70,7 +70,9 @@
 /obj/structure/roguemachine/vendor/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/roguecoin/aalloy))
 		return
-	if(istype(P, /obj/item/roguecoin/inqcoin))	
+	if(istype(P, /obj/item/roguecoin/inqcoin))
+		return
+	if(istype(P, /obj/item/roguecoin/scrip))
 		return
 	if(istype(P, /obj/item/roguecoin))
 		budget += P.get_real_price()

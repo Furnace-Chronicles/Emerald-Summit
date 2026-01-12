@@ -248,7 +248,7 @@
 		// Admin alert for coin throws
 		if(istype(thrown_thing, /obj/item/roguecoin))
 			var/obj/item/roguecoin/coin = thrown_thing
-			if(coin.quantity > 20) //only alert if more than the intended maximum
+			if(coin.quantity > 20 && !istype(thrown_thing, /obj/item/roguecoin/scrip)) //only alert if more than the intended maximum
 				var/coin_text = coin.quantity > 1 ? "[coin.quantity] [coin.name]" : coin.name
 				message_admins("[ADMIN_LOOKUPFLW(src)] has thrown [coin_text] at [target] ([AREACOORD(target)])")
 				log_admin("[key_name(src)] has thrown [coin_text] at [target] ([AREACOORD(target)])")
@@ -585,7 +585,7 @@
 
 /mob/living/carbon
 	var/nausea = 0
-	var/bleeding_tier = 0 
+	var/bleeding_tier = 0
 
 /mob/living/carbon/proc/add_nausea(amt)
 	nausea = clamp(nausea + amt, 0, 300)

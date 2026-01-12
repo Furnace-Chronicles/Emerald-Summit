@@ -2,8 +2,8 @@
 #define CTYPE_SILV "s"
 #define CTYPE_COPP "c"
 #define CTYPE_ICOIN "i"
+#define CTYPE_SCRIP "p"
 #define CTYPE_ANCIENT "a"
-#define MAX_COIN_STACK_SIZE 20
 
 /obj/item/roguecoin
 	name = ""
@@ -26,6 +26,8 @@
 	var/quantity = 1
 	var/plural_name
 	var/rigged_outcome = 0 //1 for heads, 2 for tails
+	var/stockprice
+	var/max_stack = 20
 	resistance_flags = FIRE_PROOF
 
 /obj/item/roguecoin/Initialize(mapload, coin_amount)
@@ -41,7 +43,8 @@
 
 /obj/item/roguecoin/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	playsound(loc, 'sound/foley/coins1.ogg', 100, TRUE, -2)
-	INVOKE_ASYNC(src, PROC_REF(scatter), get_turf(src))
+	if(!istype(src, /obj/item/roguecoin/scrip))
+		INVOKE_ASYNC(src, PROC_REF(scatter), get_turf(src))
 	..()
 
 /obj/item/roguecoin/proc/scatter(turf/T)
@@ -79,7 +82,7 @@
 	if(G.base_type != base_type)
 		return
 
-	var/amt_to_merge = min(G.quantity, MAX_COIN_STACK_SIZE - quantity)
+	var/amt_to_merge = min(G.quantity, max_stack - quantity)
 	if(amt_to_merge <= 0)
 		return
 	set_quantity(quantity + amt_to_merge)
@@ -158,7 +161,7 @@
 	if(world.time < flip_cd + 30)
 		return
 	flip_cd = world.time
-	playsound(user, 'sound/foley/coinphy (1).ogg', 100, FALSE)	
+	playsound(user, 'sound/foley/coinphy (1).ogg', 100, FALSE)
 	if(prob(50))
 		user.visible_message(span_info("[user] flips the coin. ENDVRE!"))
 		heads_tails = TRUE
@@ -221,7 +224,19 @@
 	icon_state = "i1"
 	sellprice = 0
 	base_type = CTYPE_ICOIN
-	plural_name = "otavan marques"	
+	plural_name = "otavan marques"
+
+//Stockpile scrip - Worthless as actual currency
+/obj/item/roguecoin/scrip
+	name = "mark"
+	desc = "A worthless piece of polished wood made for peasants. Converted to mammon at a MEISTER."
+	icon_state = "p1"
+	resistance_flags = FLAMMABLE
+	sellprice = 0
+	stockprice = 1
+	max_stack = 50
+	base_type = CTYPE_SCRIP
+	plural_name = "marks"
 
 //GOLD
 /obj/item/roguecoin/gold
@@ -289,4 +304,4 @@
 #undef CTYPE_COPP
 #undef CTYPE_ANCIENT
 #undef CTYPE_ICOIN
-#undef MAX_COIN_STACK_SIZE
+#undef CTYPE_SCRIP

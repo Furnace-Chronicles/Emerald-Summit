@@ -165,6 +165,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/wdefense_dynamic = 0
 	/// Minimum STR required to use the weapon. Will reduce damage by 70% if not met. Wielding halves the requirement.
 	var/minstr = 0
+	///Wielding normally halves the requirement. If true, it does not.
+	var/minstr_req = FALSE
 	/// %-age of our raw damage that is dealt to armor or weapon on hit / parry / clip.
 	var/intdamage_factor = 1
 
@@ -178,6 +180,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/l_sleeve_zone = BODY_ZONE_L_ARM
 
 	var/twohands_required = FALSE
+
+	var/from_stockpile = FALSE
 
 	var/bloody_icon = 'icons/effects/blood.dmi'
 	var/bloody_icon_state = "itemblood"
@@ -448,7 +452,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		var/list/inspec = list(span_notice("Properties of [src.name]"))
 		if(minstr)
 			inspec += "\n<b>MIN.STR:</b> [minstr]"
-
 		if(force)
 			inspec += "\n<b>FORCE:</b> [get_force_string(force)]"
 		if(gripped_intents && !wielded)

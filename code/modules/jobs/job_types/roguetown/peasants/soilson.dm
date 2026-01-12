@@ -27,7 +27,7 @@
 	round_contrib_points = 3
 	social_rank = SOCIAL_RANK_PEASANT
 
-	job_traits = list(TRAIT_SEEDKNOW, TRAIT_NOSTINK, TRAIT_LONGSTRIDER, TRAIT_PEASANTMILITIA)
+	job_traits = list(TRAIT_SEEDKNOW, TRAIT_NOSTINK, TRAIT_LONGSTRIDER, TRAIT_PEASANTMILITIA, TRAIT_CROPSHARE)
 
 	advclass_cat_rolls = list(CTAG_SOILBRIDE = 2)
 	job_subclasses = list(

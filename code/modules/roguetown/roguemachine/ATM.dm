@@ -40,6 +40,11 @@
 				return
 	if(H in SStreasury.bank_accounts)
 		var/amt = SStreasury.bank_accounts[H]
+		if(SStreasury.stipends[H] > 0)
+			var/stipend_amt = SStreasury.stipends[H]
+			if(alert("Do you wish to receive your [stipend_amt] marks?", "STIPEND", "Yes", "No") == "Yes")
+				budget2change(stipend_amt, H, "SCRIP")
+				SStreasury.stipends[H] = 0
 		if(!amt)
 			say("Your balance is nothing.")
 			return
@@ -118,7 +123,26 @@
 		if(istype(P, /obj/item/roguecoin))
 			var/mob/living/carbon/human/H = user
 			if(H in SStreasury.bank_accounts)
-				var/list/deposit_results = SStreasury.generate_money_account(P.get_real_price(), H)
+				var/is_scrip = FALSE
+				var/scrip_quantity
+				if(istype(P, /obj/item/roguecoin/scrip))
+					if(!SStreasury.allow_scrip)
+						say("Marks conversion disabled!")
+						return
+					var/obj/item/roguecoin/scrip/S = P
+					if(S.quantity > 2)
+						S.sellprice = 0.35
+						is_scrip = TRUE
+						scrip_quantity = S.quantity
+					else
+						say("Not enough marks!")
+						return
+				var/reward = round(P.get_real_price())
+				if(is_scrip)
+					say("Marks converted to [reward] mammon.")
+					SStreasury.treasury_value -= reward
+					SStreasury.log_to_steward("-[reward] mammon awarded to [H.real_name] for [scrip_quantity] marks")
+				var/list/deposit_results = SStreasury.generate_money_account(reward, H)
 				if(islist(deposit_results))
 					record_round_statistic(STATS_MAMMONS_DEPOSITED, deposit_results[1] - deposit_results[2])
 				if(deposit_results[2] != 0)

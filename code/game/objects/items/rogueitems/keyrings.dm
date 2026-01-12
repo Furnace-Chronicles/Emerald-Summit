@@ -17,6 +17,8 @@
 	resistance_flags = FIRE_PROOF
 	experimental_inhand = FALSE
 	component_type = /datum/component/storage/concrete/roguetown/keyring
+	//flipping keyring has a cooldown on to_chat to reduce chatspam
+	COOLDOWN_DECLARE(flip_cooldown)
 
 /obj/item/storage/keyring/Initialize()
 	. = ..()
@@ -94,6 +96,40 @@
 "eflip" = 8)
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+/obj/item/storage/keyring/rmb_self(mob/user)
+	. = ..()
+	if(.)
+		return
+
+	SpinAnimation(4, 2) // The spin happens regardless of the cooldown
+
+	if(!COOLDOWN_FINISHED(src, flip_cooldown))
+		return
+
+	COOLDOWN_START(src, flip_cooldown, 3 SECONDS)
+	if(prob(10))
+		user.visible_message(
+			span_danger("While trying to flip [src] [user] drops it instead!"),
+			span_userdanger("While trying to flip [src] you drop it instead!"),
+		)
+		var/mob/living/carbon/human/unfortunate_idiot = user
+		var/dropped_keyring = pick(
+			BODY_ZONE_PRECISE_L_FOOT,
+			BODY_ZONE_PRECISE_R_FOOT,
+			)
+		unfortunate_idiot.apply_damage(src.force, BRUTE, dropped_keyring)
+		user.dropItemToGround(src, TRUE)
+	else
+		user.visible_message(
+			span_notice("[user] spins [src] around [user.p_their()] finger"),
+			span_notice("You spin [src] around your finger"),
+		)
+		playsound(src, 'sound/items/keyring_jingle.ogg', 60, FALSE)
+
+	return
+
+
 
 /////////////////// LOCKPICKRING ////////////////////
 

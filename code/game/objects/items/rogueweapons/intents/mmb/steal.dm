@@ -49,7 +49,18 @@
 		if(user_human.get_active_held_item())
 			to_chat(user, span_warning("I can't pickpocket while my hand is full!"))
 			return
-
+		
+		// pickpocketing yourself? no you're not
+		if (target_human == user_human)
+			to_chat(user, span_notice("Stealing time from my own lyfe, all the hours that PSYDON sends..."))
+			return
+		
+		// if something's dead, you don't get to pickpocket it, bruv. strip that motherfucker.
+		if (target_human.stat == DEAD)
+			to_chat(user, span_notice("They're not moving. May as well just strip them..."))
+			target_human.show_inv(user)
+			return
+		
 		// the last changes made to pickpocket made it horrendously fucking overpowered, so here's what we're doing
 		// most pickpocketing classes are keyed to expert - expert is 4d6, which averages out to about 14
 		var/thiefskill = user.get_skill_level(/datum/skill/misc/stealing) + (has_world_trait(/datum/world_trait/matthios_fingers) ? 2 : 0)
@@ -67,7 +78,8 @@
 		// if they're alert, they get a big ass bonus. cmode is also checked in can_steal for things like armor
 		if(target_human.cmode)
 			targetperception += 7 // d6 average is 3.5, so this on average, accomodates for roughly 2 ranks of thieving skill
-			to_chat(user, span_notice("[target_human] is tense and is more likely to detect me."))
+			if (!target_human.IsUnconscious() || target_human.stat == CONSCIOUS)
+				to_chat(user, span_notice("[target_human] is tense and is more likely to detect me."))
 
 		// if we're rumbled, they're harder to steal from
 		if(user.has_status_effect(/datum/status_effect/debuff/risk_low))
@@ -99,6 +111,7 @@
 
 			if(target_human.IsUnconscious() || target_human.stat != CONSCIOUS) //They're out of it bro.
 				targetperception = 0
+				to_chat(user, span_notice("...they're totally out of it. This is gonna be a breeze."))
 
 			if(stealroll > targetperception)
 				//TODO add exp here

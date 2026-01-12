@@ -692,6 +692,40 @@ GLOBAL_LIST_EMPTY(loadout_items)
     name = "Jester's Shoes"
     path = /obj/item/clothing/shoes/roguetown/jester
 
+// Servant Clothing - (In case we get foreign maids or tavern maid players) //
+/datum/loadout_item/formalshorts
+    name = "Formal Shorts"
+    path = /obj/item/clothing/under/roguetown/trou/formal/shorts
+
+/datum/loadout_item/formaltrousers
+    name = "Formal Trousers"
+    path = /obj/item/clothing/under/roguetown/trou/formal
+
+/datum/loadout_item/formalshirt
+    name = "Formal Shirt"
+    path = /obj/item/clothing/suit/roguetown/shirt/undershirt/formal
+
+/datum/loadout_item/butlersuspenders
+    name = "Suspenders"
+    path = /obj/item/storage/belt/leather/suspenders/butler
+
+/datum/loadout_item/servantdress
+    name = "Servant's Dress"
+    path = /obj/item/clothing/suit/roguetown/shirt/dress/maid/servant
+
+/datum/loadout_item/maiddress
+    name = "Maid's Dress"
+    path = /obj/item/clothing/suit/roguetown/shirt/dress/maid
+
+/datum/loadout_item/maidapron
+    name = "Maid's Apron"
+    path = /obj/item/clothing/cloak/apron/maid
+
+/datum/loadout_item/maidband
+    name = "Maid's Headband"
+    path = /obj/item/clothing/head/roguetown/maidband
+// .............................................................. //
+
 /datum/loadout_item/scabbard
 	name = "scabbard"
 	path = /obj/item/rogueweapon/scabbard/sword
