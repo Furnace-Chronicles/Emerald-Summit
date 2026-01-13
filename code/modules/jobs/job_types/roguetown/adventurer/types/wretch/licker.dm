@@ -13,7 +13,9 @@
 		/datum/species/harpy,
 		/datum/species/lamia,
 		/datum/species/golem/metal,
+		/datum/species/golem/metal/mechanical,
 		/datum/species/golem/porcelain,
+		/datum/species/golem/porcelain/mechanical,
 	)
 	maximum_possible_slots = 2
 	applies_post_equipment = FALSE
