@@ -166,6 +166,17 @@
 	item_type = /obj/structure/closet/crate/chest/inqcrate/supplies/bottlebombs
 	marquescost = 12
 
+/datum/inqports/supplies/collar
+	name = "3 Collars of Servitude Alongside Key"
+	item_type = /obj/structure/closet/crate/chest/inqcrate/supplies/collars
+	marquescost = 8
+
+/obj/structure/closet/crate/chest/inqcrate/supplies/collars/Initialize()
+	. = ..()
+	for(var/i in 1 to 3)
+		new /obj/item/clothing/neck/roguetown/gorget/controllable/full(src)
+	new /obj/item/collar_detonator(src)
+
 /obj/structure/closet/crate/chest/inqcrate/supplies/bottlebombs/Initialize()
 	. = ..()
 	new /obj/item/bomb(src)
@@ -442,3 +453,4 @@
 	new /obj/item/clothing/suit/roguetown/shirt/dress/royal(src)
 	new /obj/item/clothing/wrists/roguetown/royalsleeves(src)
 	new /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince(src)
+

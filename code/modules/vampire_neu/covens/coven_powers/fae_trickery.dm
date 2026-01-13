@@ -29,33 +29,33 @@
 	switch(faetrick)
 		if(1) // meowy
 			target.visible_message(span_suicide("[target] opens their mouth and meows!"))
-			playsound(get_turf(target), 'sound/vo/mobs/cat/cat_meow4.ogg', 40, FALSE)
+			playsound(target, 'sound/vo/mobs/cat/cat_meow4.ogg', 40, FALSE)
 		if(2) // dizzy
 			target.visible_message(span_suicide("[target]'s eyes begin to rapidly dart around!"))
-			playsound(get_turf(target), 'sound/magic/faerie.ogg', 40, FALSE)
+			playsound(target, 'sound/magic/faerie.ogg', 40, FALSE)
 			target.confused += 10
 			target.dizziness += 10
 			target.jitteriness += 10
 		if(3) // sorry
 			target.visible_message(span_suicide("[target]'s eyes go wide for a moment."))
-			playsound(get_turf(target), 'sound/magic/faerie.ogg', 40, FALSE)
+			playsound(target, 'sound/magic/faerie.ogg', 40, FALSE)
 			target.psydo_nyte()
 			target.Immobilize(3)
 		if(4) // blindy
 			target.visible_message(span_suicide("[target]'s eyes close!"),
 							span_boldwarning("It's dark!"))
-			playsound(get_turf(target), 'sound/magic/faerie.ogg', 40, FALSE)
+			playsound(target, 'sound/magic/faerie.ogg', 40, FALSE)
 			target.eyesclosed = TRUE
 			target.become_blind("eyelids")
 		if(5) // trippy
 			target.visible_message(span_suicide("[target] clumsily falls over!"),
 							span_boldwarning("Something pulls my leg!"))
-			playsound(get_turf(target), 'sound/magic/faerie2.ogg', 40, FALSE)
+			playsound(target, 'sound/magic/faerie2.ogg', 40, FALSE)
 			target.Knockdown(10)
 		if(6) // droppy
 			target.visible_message(span_suicide("[target] is disarmed!"),
 							span_boldwarning("Something grabbed my hand!"))
-			playsound(get_turf(target), 'sound/magic/faerie.ogg', 40, FALSE)
+			playsound(target, 'sound/magic/faerie.ogg', 40, FALSE)
 			var/turnangle = (prob(50) ? 270 : 90)
 			var/turndir = turn(target.dir, turnangle)
 			var/dist = rand(1, owner.get_vampire_generation())
@@ -87,7 +87,7 @@
 	goblin.throw_at(target, 10, 14, owner)
 	owner.visible_message(
 		span_warning("[owner]'s hand glows green, only to launch a goblin at [target]!"))
-	playsound(get_turf(owner), 'sound/magic/clang.ogg', 40, TRUE)
+	playsound(owner, 'sound/magic/clang.ogg', 40, TRUE)
 
 /obj/item/clothing/mask/rogue/goblin_mask
 	name = "goblin"
@@ -127,7 +127,7 @@
 		to_chat(user, span_warning("[src] bites!"))
 		if(!C.apply_damage(5, BRUTE, used_hand_zone, C.run_armor_check(used_hand_zone, "stab", damage = 5)))
 			to_chat(user, span_warning("Armor stops the damage."))
-		playsound(get_turf(src), pick('sound/vo/mobs/gob/aggro (1).ogg','sound/vo/mobs/gob/aggro (2).ogg','sound/vo/mobs/gob/aggro (3).ogg','sound/vo/mobs/gob/aggro (4).ogg'), 100, FALSE, -1)
+		playsound(src, pick('sound/vo/mobs/gob/aggro (1).ogg','sound/vo/mobs/gob/aggro (2).ogg','sound/vo/mobs/gob/aggro (3).ogg','sound/vo/mobs/gob/aggro (4).ogg'), 100, FALSE, -1)
 		return
 	if((stat == CONSCIOUS))
 		if(Leap(user))
@@ -234,7 +234,7 @@
 			return FALSE
 	M.visible_message(span_danger("[src] leaps at [M]'s face!"), \
 		span_userdanger("[src] leaps at your face!"))
-	playsound(get_turf(src), 'sound/vo/mobs/gob/aggro (2).ogg', 100, FALSE, -1)
+	playsound(src, 'sound/vo/mobs/gob/aggro (2).ogg', 100, FALSE, -1)
 	if(iscarbon(M))
 		var/mob/living/carbon/target = M
 
@@ -328,7 +328,7 @@
 			AM.Knockdown(5)
 			AM.visible_message(span_suicide("[AM] is disarmed!"), 
 							span_boldwarning("I'm disarmed!"))
-			playsound(get_turf(AM), 'sound/magic/mockery.ogg', 40, FALSE)
+			playsound(AM, 'sound/magic/mockery.ogg', 40, FALSE)
 			var/target_turf = get_ranged_target_turf(get_turf(AM), pick(GLOB.cardinals), rand(2, 5))
 			AM.throw_item(target_turf, FALSE)
 			qdel(src)

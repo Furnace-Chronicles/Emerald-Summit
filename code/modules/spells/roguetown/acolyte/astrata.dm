@@ -122,7 +122,7 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 		var/mob/living/M = target
 		if(M.anti_magic_check())
 			visible_message(span_warning("[src] fizzles on contact with [target]!"))
-			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
+			playsound(target, 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
 		if(M.mob_biotypes & biotype_we_look_for || istype(M, /mob/living/simple_animal/hostile/rogue/skeleton))
@@ -249,19 +249,12 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 		var/mob/living/target = targets[1]
 		// Check for undead FIRST - obliterate them with holy light
 		if((target.mob_biotypes & MOB_UNDEAD) && !HAS_TRAIT(target, TRAIT_HOLLOW_LIFE))
-			// Range check - must be within 10 tiles and same z-level
-			var/distance = get_dist(user, target)
-			if(distance > 10)
-				to_chat(user, span_danger("The undead is too far away! I must be closer to channel divine power to unmake them!"))
-				revert_cast()
-				return FALSE
-			
-			// Z-level check
+			// must be on the same same z-level
 			if(user.z != target.z)
 				to_chat(user, span_danger("I must see the undead in front of me, not above or below!"))
 				revert_cast()
 				return FALSE
-			
+
 			// Check for powerful undead immunity (Vampire Lords and Liches)
 			var/is_powerful_undead = FALSE
 			if(ishuman(target))
@@ -272,34 +265,32 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 				// Check for Lich
 				if(HAS_TRAIT(H, TRAIT_COUNTERCOUNTERSPELL))
 					is_powerful_undead = TRUE
-					
+
 			// Powerful undead resist unless caster is a Priest
 			if(is_powerful_undead && !HAS_TRAIT(user, TRAIT_CHOSEN))
 				to_chat(user, span_danger("This creature's unholy power is too great! Only an ordained Priest could unmake such a being!"))
 				target.visible_message(span_astratabig("[target] resists the holy light bearing down on them, their ancient power deflecting the divine wrath!"))
 				revert_cast()
 				return FALSE
-			
-						// Range check for powerful undead - must be within 6 tiles
-			if(is_powerful_undead)
-				if(distance > 6)
-					to_chat(user, span_danger("This ancient evil is too far away! I must be closer to channel enough divine power to unmake them!"))
+
+			var/distance = get_dist(user, target)
+			if(distance <= 1) // Adjacent range - gib with some do_afters()
+				if(gib_them_now(user, target, is_powerful_undead))
+					return TRUE
+				else
+					revert_cast()
+					return FALSE
+			if(distance > 5) // 5 tiles - immolation
+				to_chat(user, span_danger("The undead is too far away! I must be closer to channel divine power to unmake them!"))
+				revert_cast()
+				return FALSE
+			else
+				if(immolate_them_now(user, target, is_powerful_undead))
+					return TRUE
+				else
 					revert_cast()
 					return FALSE
 
-			// Start cinematic destruction sequence
-			if(is_powerful_undead)
-				to_chat(user, span_danger("You channel Astrata's might! [target] begins to burn with holy light!"))
-				target.visible_message(span_astratabig("[target] is struck by astronomical holy light, their form beginning to burn with divine radiance!"))
-			else
-				to_chat(user, span_danger("[target] is caught in holy light!"))
-				target.visible_message(span_astratabig("[target] begins to burn with holy light!"))
-			
-			user.say("Die before the Tyrant's Light!")
-			
-			// Call the cinematic destruction proc
-			divine_destruction(target, is_powerful_undead)
-			return TRUE
 		// Block if excommunicated and caster is divine pantheon
 		if(istype(user, /mob/living)) {
 			var/mob/living/LU = user
@@ -351,6 +342,42 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 		return TRUE
 	revert_cast()
 	return FALSE
+
+/// Adjacent undead gib
+/obj/effect/proc_holder/spell/invoked/revive/proc/gib_them_now(mob/living/user, mob/living/target, is_powerful_undead = FALSE)
+	if(!istype(user) || !istype(target))
+		return FALSE
+
+	// Start cinematic destruction sequence
+	if(is_powerful_undead)
+		to_chat(user, span_danger("You channel Astrata's might! [target] begins to burn with holy light!"))
+		target.visible_message(span_astratabig("[target] is struck by astronomical holy light, their form beginning to burn with divine radiance!"))
+	else
+		to_chat(user, span_danger("[target] is caught in holy light!"))
+		target.visible_message(span_astratabig("[target] begins to burn with holy light!"))
+
+	// 6 second doafter because this IS a gib
+	if(!do_after_mob(user, list(target, (8 SECONDS))))
+		return FALSE
+
+	user.say("Die before the Tyrant's Light!")
+	// Call the cinematic destruction proc
+	divine_destruction(target, is_powerful_undead)
+	return TRUE
+
+/// Ranged undead immolation
+/obj/effect/proc_holder/spell/invoked/revive/proc/immolate_them_now(mob/living/user, mob/living/target)
+	if(!istype(user) || !istype(target))
+		return FALSE
+
+	to_chat(user, span_danger("You channel Astrata's might! [target] is struck with holy light!"))
+	target.visible_message(span_astratabig("[target] is struck by holy light!"))
+
+	for(var/obj/structure/fluff/psycross/S in oview(5, user))
+		S.AOE_flash(user, range = 5)
+	target.adjust_fire_stacks(15, /datum/status_effect/fire_handler/fire_stacks/sunder)
+	target.ignite_mob()
+	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/revive/cast_check(skipcharge = 0,mob/user = usr)
 	if(!..())
@@ -483,6 +510,63 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 	
 	return TRUE
 
+//============================================
+// PRIESTS ORBITAL LASER
+//============================================
+
+/obj/effect/proc_holder/spell/invoked/sunstrike
+	name = "Smite"
+	desc = "The Sun Tyrant's fury made manifest. Call down solar devastation upon an area after a long channel."
+	overlay_state = "sunstrike"
+	base_icon_state = "regalyscroll"
+	releasedrain = 200
+	chargedrain = 0
+	chargetime = 50
+	range = 1
+	warnie = "sydwarning"
+	no_early_release = TRUE
+	movement_interrupt = TRUE
+	chargedloop = /datum/looping_sound/invokeholy
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	sound = 'sound/magic/revive.ogg'
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = FALSE
+	recharge_time = 20 MINUTES //One per day
+	miracle = TRUE
+	devotion_cost = 200
+
+/obj/effect/proc_holder/spell/invoked/sunstrike/cast(list/targets, mob/living/user)
+	..()
+
+	if(!isliving(user))
+		revert_cast()
+		return FALSE
+	var/check = null
+	var/turf/target = get_turf(targets[1])
+	if(GLOB.tod != "night")
+		check = TRUE
+	else
+		to_chat(user, span_astrata("Her fury may only be called upon with the sun in the sky."))
+	if(!check)
+		revert_cast()
+		return FALSE
+	var/obj/effect/temp_visual/mark = new /obj/effect/temp_visual/firewave/sun_mark/pre_sunstrike(target)
+
+	animate(mark, alpha = 255, time = 20, flags = ANIMATION_PARALLEL)
+
+	var/obj/effect/temp_visual/mark_on_user = new /obj/effect/temp_visual/firewave/sun_mark(get_turf(user))
+	animate(mark_on_user, alpha = 255, time = 20, flags = ANIMATION_PARALLEL)
+	if(!do_after(user, 20 SECONDS, target = target))
+		mark_on_user.alpha = 255
+		to_chat(user, span_warning("Astratan might requires unwavering focus to channel!"))
+		qdel(mark)
+		qdel(mark_on_user)
+		revert_cast()
+		return FALSE
+	qdel(mark_on_user)
+	for(var/obj/structure/fluff/psycross/S in oview(5, user))
+		S.AOE_flash(user, range = 8)
+	new /obj/effect/temp_visual/firewave/sunstrike/primary(target)
 
 //============================================
 // STATUS EFFECTS & SUPPORTING CODE
@@ -770,7 +854,7 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 	else
 		target.visible_message(span_astratabig("[target] EXPLODES in a burst of divine radiance!"))
 	
-	playsound(get_turf(target), 'sound/misc/holyexplosion.ogg', 150, FALSE, 7)
+	playsound(target, 'sound/misc/holyexplosion.ogg', 150, FALSE, 7)
 	
 	// Flash everyone nearby
 	for(var/mob/M in viewers(target, 7))
@@ -868,3 +952,109 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 /obj/effect/proc_holder/spell/invoked/invoked_reverence/proc/remove_divine_overlay(mob/living/target)
 	if(target)
 		target.remove_overlay(MUTATIONS_LAYER)
+
+//T4. Smite support code.
+/obj/effect/proc_holder/spell/invoked/sunstrike/cast_check(skipcharge = 0,mob/user = usr)
+	if(!..())
+		return FALSE
+	var/atom/holy_requirement
+	for(var/obj/structure/fluff/psycross/cross in oview(5, user))
+		holy_requirement = cross
+	for(var/mob/living/carbon/human/priest in view(7, user))
+		if(priest.mind?.assigned_role == "Priest")
+			holy_requirement = priest
+			break
+
+	if(!holy_requirement)
+		to_chat(user, span_warning("I must cast in the presence of a Pantheon Cross or the Priest"))
+		revert_cast()
+		return FALSE
+	return TRUE
+
+/obj/effect/temp_visual/firewave/sun_mark
+	icon = 'icons/effects/160x160.dmi'
+	icon_state = "sun"
+	alpha = 5
+	duration = 1 MINUTES
+	pixel_x = -64
+	pixel_y = -64
+	light_outer_range = 5
+	light_color = "#ffb300ff"
+
+/obj/effect/temp_visual/firewave/sun_mark/pre_sunstrike
+	duration = 30 SECONDS
+
+/obj/effect/temp_visual/firewave/sunstrike/primary
+	alpha = 0
+	duration = 11 SECONDS
+
+/obj/effect/temp_visual/firewave/sunbeam
+	icon = 'icons/effects/32x96.dmi'
+	icon_state = "sunstrike"
+	alpha = 5
+	duration = 15.5
+
+/obj/effect/temp_visual/firewave/sunstrike/primary/Initialize(mapload, mob/living/carbon/caster)
+	. = ..()
+	addtimer(CALLBACK(src, PROC_REF(pre_strike)), 1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(strike), caster), 10 SECONDS)
+
+/obj/effect/temp_visual/firewave/sunstrike/primary/proc/pre_strike()
+	var/turf/T = get_turf(src)
+	playsound(T,'sound/magic/revive.ogg', 80, TRUE)
+	loud_message("<font size = 5>[span_astrataextreme("THE SKY IS FLOODED WITH WHITE FIRE!!")]</font><br>", hearing_distance = 21)
+
+	for(var/turf/Target_turf in range(1, get_turf(src)))
+		for(var/mob/living/L in Target_turf.contents)
+			to_chat(L, span_astratabig("The Tyrant's oppressive gaze is upon you. Flee or Perish."))
+
+/obj/effect/temp_visual/firewave/sunstrike/primary/proc/strike(mob/living/carbon/caster)
+	var/turf/T = get_turf(src)
+	playsound(T,'sound/magic/astrata_choir.ogg', 100, TRUE)
+	explosion(T, -1, 0, 0, 0, 0, flame_range = 0, soundin = 'sound/misc/explode/incendiary (1).ogg')
+	var/obj/effect/temp_visual/mark = new /obj/effect/temp_visual/firewave/sunbeam(T)
+
+	animate(mark, alpha = 255, time = 10, flags = ANIMATION_PARALLEL)
+	for(var/turf/turf as anything in RANGE_TURFS(6, T))
+		if(prob(20))
+			new /obj/effect/hotspot(get_turf(turf))
+	for(var/turf/Target_turf in range(5, T))
+		for(var/mob/living/victim in Target_turf.contents)
+			to_chat(victim, span_astrataextreme("DIVINE FLAME RAINS DOWN FROM THE SKY!"))
+			var/dist_to_epicenter = get_dist(T, victim)
+			var/firedamage = 200 - (dist_to_epicenter*30)
+			var/firestack = 10 - dist_to_epicenter
+			victim.adjustFireLoss(firedamage)
+			victim.adjust_fire_stacks(firestack)
+			victim.ignite_mob()
+			if(!victim.mind || istype(victim, /mob/living/simple_animal))
+				victim.adjustFireLoss(500)
+				if(dist_to_epicenter <= 3)
+					victim.gib()
+					continue
+			if(dist_to_epicenter == 1) //pre-center
+				victim.adjustFireLoss(100) //100 firedamage
+				new /obj/effect/hotspot(get_turf(victim))
+			if(dist_to_epicenter == 0) //center
+				explosion(T, -1, 1, 1, 0, 0, flame_range = 1, soundin = 'sound/misc/explode/incendiary (1).ogg')
+				new /obj/effect/hotspot(get_turf(victim))
+				if(!istype(victim.patron, /datum/patron/divine))
+					victim.gib()
+					continue
+				else
+					victim.adjustFireLoss(500)
+					victim.stat = DEAD
+		for(var/obj/item/I in range(1, T))
+			qdel(I)
+		for (var/obj/structure/damaged in view(2, T))
+			if(!istype(damaged, /obj/structure/flora/newbranch))
+				damaged.take_damage(500,BRUTE,"blunt",1)
+		for (var/turf/closed/wall/damagedwalls in view(1, T))
+			damagedwalls.take_damage(1100,BRUTE,"blunt",1)
+		for (var/turf/closed/mineral/aoemining in view(2, T))
+			aoemining.lastminer = caster
+			aoemining.take_damage(1100,BRUTE,"blunt",1)
+	addtimer(CALLBACK(src, PROC_REF(fade_mark), mark), 1 SECONDS)
+
+/obj/effect/temp_visual/firewave/sunstrike/primary/proc/fade_mark(obj/effect/temp_visual/mark)
+    animate(mark, alpha = 5, time = 10, flags = ANIMATION_PARALLEL)

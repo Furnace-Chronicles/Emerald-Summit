@@ -3,7 +3,7 @@
 	desc = "I am skilled at riding animals of all kinds, and have an especially strong bond with one, allowing me to call it from afar and send it away as needed. Should my treasured companion ever die, my mood will not recover."
 	custom_text = "Provides an ability that allows you to select a type of mount to call to your side, and additionally name. Noble characters are able to choose horses. Gains two abilities to send the mount away and call it back as needed (outdoors only). If the chosen mount dies, -10 to mood for the rest of the round (cannot be recovered from in any circumstance)."
 	added_skills = list(
-		list(/datum/skill/misc/riding, 2, 4)
+		list(/datum/skill/misc/riding, 3, 3)
 	)
 
 /datum/virtue/utility/riding/apply_to_human(mob/living/carbon/human/recipient)
@@ -147,6 +147,10 @@ GLOBAL_LIST_INIT(virtue_mount_choices_noble, (list(
 		to_chat(user, span_warning("Necra has them now..."))
 		return FALSE
 
+	if (honse && honse.has_buckled_mobs())
+		to_chat(user, span_warning("Your mount needs to have nobody riding on it first!"))
+		return FALSE
+
 	var/area/place = get_area(user.loc)
 	if (!place || !place.outdoors)
 		to_chat(user, span_warning("You need to be outside!"))
@@ -193,10 +197,16 @@ GLOBAL_LIST_INIT(virtue_mount_choices_noble, (list(
 	var/area/rogue/place = get_area(user.loc)
 	var/should_heal = (is_centcom_level(user.loc.z) || place.town_area || place.keep_area)
 	user.visible_message(span_info("[user] starts fussing with [honse], preparing to send them away..."), span_notice("I start preparing to send [honse] away to roam freely and safely for a time..."))
-	if (do_mob(user, honse, 10 SECONDS, double_progress = TRUE))
+	honse.Immobilize(11 SECONDS)
+	honse.unbuckle_all_mobs(TRUE)
+	if (do_mob(user, honse, 10 SECONDS, double_progress = TRUE) && check_mount(user))
 		honse.stasis = TRUE
 		honse.unbuckle_all_mobs(TRUE)
-		honse.moveToNullspace() // BANISHED TO THE NULL DIMENSION!! hopefully this doesn't cause problems
+		if (!honse.has_buckled_mobs()) // just really super make sure we can't nullspace riders with this
+			honse.moveToNullspace() // BANISHED TO THE NULL DIMENSION!! hopefully this doesn't cause problems
+		else
+			honse.visible_message(span_warning("[honse] pads the floor irritably, looking over its shoulder at the rider on its back."))
+			return FALSE
 		// add sfx foley for this
 		user.visible_message(span_notice("Patting [honse] on the haunches, [user] sends them trotting away."), span_notice("With a brief pat on the haunches, I send [honse] away to fend for themselves."))
 		if (should_heal)
@@ -204,6 +214,8 @@ GLOBAL_LIST_INIT(virtue_mount_choices_noble, (list(
 			to_chat(user, span_info("In these surroundings, they should be able to rest and recouperate a little."))
 		return TRUE
 	else
+		honse.SetImmobilized(0)
+		revert_cast()
 		return FALSE
 
 /obj/effect/proc_holder/spell/self/saddleborn/whistle
@@ -253,14 +265,23 @@ GLOBAL_LIST_INIT(virtue_mount_choices_noble, (list(
 	if (place.town_area)
 		callback_time -= 5 SECONDS
 		to_chat(user, span_info("Your mount is trained to linger around town, helping you fetch it quicker."))
-	
+	if (callback_time <= 0)
+		callback_time = 1 SECONDS
+
 	playsound(user, 'sound/magic/saddleborn-call.ogg', 150, FALSE, 5)
 	user.visible_message(span_danger("[user] places their fingers into their mouth and blows a sharp, shrill whistle!"), span_info("I whistle for my trusty steed, and await their return!"))
+	var/honse_base_loc = honse.loc
+	var/area/rogue/honse_place = get_area(honse.loc)
+	honse.unbuckle_all_mobs(TRUE)
+	if (!back_from_the_void && honse_place.outdoors)
+		honse.visible_message(span_notice("[honse] perks its ears up in response to a distant whistle, and darts off..."))
+		playsound(honse, 'sound/magic/saddleborn-call.ogg', 50, FALSE) // distant spooky whistle OooOOOo
+		honse.moveToNullspace() //temporarily shuffle it off into the null dimension, to reflect it running to the player
+	
 	if (do_after(user, callback_time))
 		if (back_from_the_void) // we're summoning from nullspace, so destasis and remove the heal, if we have one
 			honse.stasis = FALSE
 		
-		var/area/rogue/honse_place = get_area(honse.loc)
 		if (!back_from_the_void && honse_place && !honse_place.outdoors)
 			to_chat(user, span_warning("...but nothing comes. They musn't have heard your whistling."))
 			return TRUE
@@ -275,6 +296,8 @@ GLOBAL_LIST_INIT(virtue_mount_choices_noble, (list(
 				user.consider_ambush(ignore_cooldown = TRUE)
 		return TRUE
 	else
+		honse.forceMove(honse_base_loc) // put the honse back, and give some info as to what just happened for onlookers
+		honse.visible_message(span_notice("[honse] trundles back into sight with a confused expression, ears swivelling to catch some manner of sound..."))
 		revert_cast()
 		return FALSE
 

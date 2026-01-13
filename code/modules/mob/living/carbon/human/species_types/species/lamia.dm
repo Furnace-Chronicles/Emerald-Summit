@@ -8,7 +8,7 @@
 	origin_default = /datum/virtue/origin/etrusca
 	origin = "Etrusca"
 	use_titles = TRUE
-	race_titles = list("Mervolk", "Eelvolk", "Naga", "Siren", "Gorgon")
+	race_titles = list("Eelfolk", "Gorgon", "Merfolk", "Mermaid", "Merman", "Naga", "Siren")
 	base_name = "Beastvolk"
 	sub_name = "Lamia"
 	desc = "<b>Lamia</b><br>\

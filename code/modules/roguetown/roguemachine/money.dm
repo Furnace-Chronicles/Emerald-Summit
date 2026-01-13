@@ -8,7 +8,6 @@ GLOBAL_VAR(moneymaster)
 	density = FALSE
 	blade_dulling = DULLING_BASH
 	pixel_y = 32
-	var/budget = 0
 	var/izmaster = FALSE
 	anchored = TRUE
 
@@ -146,6 +145,9 @@ GLOBAL_VAR(moneymaster)
 			if("MARQUE")
 				zenars_to_put = budget
 				type_to_put = /obj/item/roguecoin/inqcoin
+			if("SCRIP")
+				zenars_to_put = budget
+				type_to_put = /obj/item/roguecoin/scrip
 	else
 		var/highest_found = FALSE
 		var/zenars = floor(budget/10)
@@ -186,22 +188,63 @@ GLOBAL_VAR(moneymaster)
 	// Create multiple stacks if needed for the main type
 	while(zenars_to_put > 0)
 		var/stack_size = min(zenars_to_put, 20)
+		if(specify == "SCRIP")
+			stack_size = min(zenars_to_put, 50)
 		var/obj/item/roguecoin/G = new type_to_put(T, stack_size)
 		if(user && zenars_to_put == stack_size) // Only put first stack in hands
 			user.put_in_hands(G)
 		zenars_to_put -= stack_size
 	playsound(T, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
-/*
-/obj/structure/roguemachine/money/attack_right(mob/user)
-	. = ..()
-	if(.)
+
+
+
+/obj/structure/roguemachine
+	var/budget
+
+/obj/structure/roguemachine/proc/withdrawbudget(mob/user)
+	var/amt = budget
+	if(!amt)
+		say("Your balance is nothing.")
 		return
-	user.changeNext_move(CLICK_CD_MELEE)
-	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-	speaking = !speaking
-	to_chat(user, span_info("I press the right eye."))
-	update_icon()
-*/
+	if(amt < 0)
+		say("Your balance is NEGATIVE.")
+		return
+	var/list/choicez = list()
+	if(amt > 10)
+		choicez += "GOLD"
+	if(amt > 5)
+		choicez += "SILVER"
+	choicez += "BRONZE"
+	var/selection = input(user, "Make a Selection", src) as null|anything in choicez
+	if(!selection)
+		return
+	var/mod = 1
+	if(selection == "GOLD")
+		mod = 10
+	if(selection == "SILVER")
+		mod = 5
+	var/coin_amt = input(user, "There is [budget] mammon in the bydget. You may withdraw [floor(amt/mod)] [selection] COINS from this machine.", src) as null|num
+	coin_amt = round(coin_amt)
+	if(coin_amt < 1)
+		return
+
+	// Check maximum coin limit before deducting balance
+	var/max_coins = 20
+	if(coin_amt > max_coins)
+		to_chat(user, span_warning("Maximum withdrawal limit exceeded. You can only withdraw up to [max_coins] coins at once."))
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+	if(!Adjacent(user))
+		return
+	if((coin_amt*mod) > amt)
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+	budget2change(coin_amt*mod, user, selection)
+	budget = budget - coin_amt*mod
+
+
+
+
 /obj/structure/roguemachine/money/obj_break(damage_flag)
 	..()
 	budget2change(budget)

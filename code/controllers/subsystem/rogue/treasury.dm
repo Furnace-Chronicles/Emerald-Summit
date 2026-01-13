@@ -1,7 +1,7 @@
 #define RURAL_TAX 50 // Free money. A small safety pool for lowpop mostly
 #define TREASURY_TICK_AMOUNT 6 MINUTES
 #define EXPORT_ANNOUNCE_THRESHOLD 100
-#define FOREIGNER_TAX_MULTIPLIER 1.5 //Amount that the tax rate is multiplied by for foreigners
+#define FOREIGNER_TAX_MULTIPLIER 2 //Amount that the tax rate is multiplied by for foreigners
 
 /proc/send_ooc_note(msg, name, job)
 	var/list/names_to = list()
@@ -32,7 +32,7 @@ SUBSYSTEM_DEF(treasury)
 	var/treasury_value = 0
 	var/mint_multiplier = 0.8 // 1x is meant to leave a margin after standard 80% collectable. Less than Bathmatron.
 	var/minted = 0
-	var/autoexport_percentage = 0.6 // Percentage above which stockpiles will automatically export
+	var/autoexport_percentage = 0.5 // Percentage above which stockpiles will automatically export
 	var/list/bank_accounts = list()
 	var/list/noble_incomes = list()
 	var/list/stockpile_datums = list()
@@ -46,6 +46,8 @@ SUBSYSTEM_DEF(treasury)
 	var/total_export = 0
 	var/obj/structure/roguemachine/steward/steward_machine // Reference to the nerve master
 	var/initial_payment_done = FALSE // Flag to track if initial round-start payment has been distributed
+	var/allow_scrip = TRUE
+	var/list/stipends = list()
 
 /datum/controller/subsystem/treasury/Initialize()
 	treasury_value = rand(500, 1000)
@@ -176,6 +178,8 @@ SUBSYSTEM_DEF(treasury)
 			bank_accounts[character] += amt
 		else if(HAS_TRAIT(character, TRAIT_OUTLANDER) && !HAS_TRAIT(character, TRAIT_INQUISITION)) //Outsiders who aren't inquisition get taxed extra
 			taxed_amount = round(amt * tax_value * FOREIGNER_TAX_MULTIPLIER)
+			if(taxed_amount > amt)
+				taxed_amount = amt
 			amt -= taxed_amount
 			bank_accounts[character] += amt
 		else
@@ -232,7 +236,22 @@ SUBSYSTEM_DEF(treasury)
 			give_money_account(how_much, welfare_dependant, "Noble Estate")
 
 /datum/controller/subsystem/treasury/proc/distribute_daily_payments()
-	if(!steward_machine || !steward_machine.daily_payments || !steward_machine.daily_payments.len)
+	if(!steward_machine)
+		return
+
+	for(var/job_name in steward_machine.mark_stipend)
+		var/payment_amount = steward_machine.mark_stipend[job_name]
+		for(var/mob/living/carbon/human/H in GLOB.human_list)
+			if(H.job == job_name)
+				var/target_name = H.real_name
+				if(stipends[H])
+					send_ooc_note("<b>MEISTER:</b> You received a [payment_amount] mark stipend.", name = target_name)
+					stipends[H] += payment_amount
+				else
+					send_ooc_note("<b>MEISTER:</b> You received a [payment_amount] mark stipend.", name = target_name)
+					stipends[H] = payment_amount
+
+	if(!steward_machine.daily_payments || !steward_machine.daily_payments.len)
 		return
 
 	var/total_paid = 0
@@ -264,6 +283,17 @@ SUBSYSTEM_DEF(treasury)
 	SStreasury.total_export += amt
 	SStreasury.log_to_steward("+[amt] exported [D.name]")
 	record_round_statistic(STATS_STOCKPILE_EXPORTS_VALUE, amt)
+	if(D.category)
+		var/total_crops = 0
+		for(var/farmer in D.farmers)
+			total_crops += D.farmers[farmer]
+		if(total_crops <= 0)
+			return
+		for(var/farmer in D.farmers)
+			var/contributed = D.farmers[farmer]
+			var/percent = (contributed / total_crops)
+			var/cropshare = round(0.35 * (amt * percent))
+			SStreasury.give_money_account(cropshare, farmer, "Cropshare")
 	if(!silent && amt >= EXPORT_ANNOUNCE_THRESHOLD) //Only announce big spending.
 		scom_announce("Scarlet Reach exports [D.name] for [amt] mammon.")
 	D.lower_demand()

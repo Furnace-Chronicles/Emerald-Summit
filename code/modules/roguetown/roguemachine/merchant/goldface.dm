@@ -24,7 +24,7 @@
 	layer = BELOW_OBJ_LAYER
 	var/list/held_items = list()
 	var/locked = FALSE
-	var/budget = 0
+
 	var/upgrade_flags
 	var/current_cat = "1"
 	var/lockid = "merchant"
@@ -107,8 +107,10 @@
 			return
 	if(istype(P, /obj/item/roguecoin/aalloy))
 		return
-	if(istype(P, /obj/item/roguecoin/inqcoin))	
-		return			
+	if(istype(P, /obj/item/roguecoin/inqcoin))
+		return
+	if(istype(P, /obj/item/roguecoin/scrip))
+		return
 	if(istype(P, /obj/item/roguecoin))
 		budget += P.get_real_price()
 		qdel(P)

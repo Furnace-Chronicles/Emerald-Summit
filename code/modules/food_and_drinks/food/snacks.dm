@@ -424,7 +424,7 @@ All foods are distributed among various categories. Use common sense.
 		if(reagents) //Handle ingestion of the reagent.
 			if(M.satiety > -200)
 				M.satiety -= junkiness
-			playsound(M.loc,'sound/misc/eat.ogg', rand(30,60), TRUE)
+			playsound(M,'sound/misc/eat.ogg', rand(30,60), TRUE)
 			if(reagents.total_volume)
 				SEND_SIGNAL(src, COMSIG_FOOD_EATEN, M, user)
 				var/fraction = min(bitesize / reagents.total_volume, 1)
@@ -438,7 +438,7 @@ All foods are distributed among various categories. Use common sense.
 				if(bitecount >= bitesize)
 					qdel(src)
 				return TRUE
-		playsound(M.loc,'sound/misc/eat.ogg', rand(30,60), TRUE)
+		playsound(M,'sound/misc/eat.ogg', rand(30,60), TRUE)
 		qdel(src)
 		return FALSE
 
@@ -554,9 +554,9 @@ All foods are distributed among various categories. Use common sense.
 		return FALSE
 
 	if(slice_sound)
-		playsound(get_turf(user), 'modular/Neu_Food/sound/slicing.ogg', 60, TRUE, -1) // added some choppy sound
+		playsound(user, 'modular/Neu_Food/sound/slicing.ogg', 60, TRUE, -1) // added some choppy sound
 	if(chopping_sound)
-		playsound(get_turf(user), 'modular/Neu_Food/sound/chopping_block.ogg', 60, TRUE, -1) // added some choppy sound
+		playsound(user, 'modular/Neu_Food/sound/chopping_block.ogg', 60, TRUE, -1) // added some choppy sound
 	if(slice_batch)
 		if(!do_after(user, 30, target = src))
 			return FALSE

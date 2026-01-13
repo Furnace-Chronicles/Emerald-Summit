@@ -47,15 +47,13 @@
 		var/mob/M = target
 		if(M.anti_magic_check())
 			visible_message(span_warning("[src] fizzles on contact with [target]!"))
-			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
+			playsound(target, 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
 		if(isliving(target))
 			var/mob/living/L = target
-			L.Immobilize(0.2 SECONDS)
+			L.Immobilize(1.5 SECONDS)
 			L.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 			L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
-			for(var/obj/item/W in L.held_items)
-				L.dropItemToGround(W)
 			L.apply_status_effect(/datum/status_effect/buff/lightningstruck, 1.2 SECONDS)
 	qdel(src)

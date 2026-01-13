@@ -24,6 +24,10 @@
 	)
 	hiredbuff = /datum/status_effect/buff/merchired/steppesman
 
+	virtue_restrictions = list(
+		/datum/virtue/utility/riding
+	)
+
 /datum/status_effect/buff/merchired/steppesman
 	effectedstats = list(STATKEY_SPD = 1, STATKEY_END = 1)
 
@@ -49,7 +53,7 @@
 	var/classes = list("Szabrista - Saber Veteran", "Árkász - Elite Sapper", "Druzhina - Light Archer","Kozak - Light Infantry")
 	var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes
 
-	if (H.mind)
+	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)
 		
 	switch(classchoice)

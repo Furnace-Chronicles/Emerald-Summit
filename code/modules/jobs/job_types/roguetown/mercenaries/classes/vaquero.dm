@@ -36,6 +36,10 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/music = SKILL_LEVEL_EXPERT,
 	)
+	
+	virtue_restrictions = list(
+		/datum/virtue/utility/riding
+	)
 
 /datum/status_effect/buff/merchired/vaquero
 	effectedstats = list(STATKEY_SPD = 1, STATKEY_END = 1)
@@ -68,7 +72,7 @@
 	var/weapons = list("Accordion","Bagpipe","Drum","Guitar","Harp","Hurdy-Gurdy","Jaw Harp","Lute","Trumpet","Viola","Vocal Talisman")
 	var/weapon_choice = input(H, "Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
-	if (H.mind)
+	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)
 	switch(weapon_choice)
 		if("Harp")

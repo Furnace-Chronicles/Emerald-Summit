@@ -40,7 +40,7 @@
 	var/skill_level = user.get_skill_level(/datum/skill/labor/lumberjacking)
 	var/planking_time = (40 - (skill_level * 5))
 	if(lumber_amount && I.tool_behaviour == TOOL_SAW)
-		playsound(get_turf(src.loc), 'sound/foley/sawing.ogg', 100)
+		playsound(src.loc, 'sound/foley/sawing.ogg', 100)
 		user.visible_message("<span class='notice'>[user] starts sawing [src] to smaller pieces.</span>")
 		if(do_after(user, planking_time))
 			new /obj/item/grown/log/tree/small(get_turf(src.loc))
@@ -169,7 +169,7 @@
 	if(HAS_TRAIT(user, TRAIT_MASTER_CARPENTER)) //we give extra to those in the role
 		woodtotal += pick(1,2)
 	if(I.tool_behaviour == TOOL_SAW)
-		playsound(get_turf(src.loc), 'sound/foley/sawing.ogg', 100)
+		playsound(src.loc, 'sound/foley/sawing.ogg', 100)
 		user.visible_message("<span class='notice'>[user] starts sawing planks from [src].</span>")
 		if(do_after(user, planking_time))
 			if(user.is_holding(src))
@@ -315,7 +315,7 @@
 				stackcount -= clamp(stackcount, 2, 4)
 				user.put_in_hands(B)
 		for(var/obj/item/grown/log/tree/stick/F in get_turf(src))
-			playsound(get_turf(user.loc), 'sound/foley/dropsound/wooden_drop.ogg', 100)
+			playsound(user, 'sound/foley/dropsound/wooden_drop.ogg', 100)
 			qdel(F)
 
 
@@ -417,7 +417,7 @@
 				stackcount -= clamp(stackcount, 2, 6)
 				user.put_in_hands(B)
 		for(var/obj/item/natural/wood/plank/F in get_turf(src))
-			playsound(get_turf(user.loc), 'sound/foley/dropsound/wooden_drop.ogg', 80)
+			playsound(user, 'sound/foley/dropsound/wooden_drop.ogg', 80)
 			qdel(F)
 
 /obj/item/natural/bundle/plank
