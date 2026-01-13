@@ -1208,19 +1208,20 @@
 			to_chat(src, span_warning("Failed to [is_parry_attempt ? "parry" : "dodge"] point-blank shot! [prob2defend]%"))
 		return FALSE
 
-	// Success! Process parry or dodge
 	if(is_parry_attempt)
-		var/parry_drain = 3 // Lower than melee parry
+		var/parry_drain = 3
 		if(do_parry(parry_weapon, parry_drain, shooter))
-			// Determine what to call the weapon in the message
-			var/weapon_name = "bow"
-			if(istype(P, /obj/projectile/bullet/reusable/bolt))
-				weapon_name = "crossbow"
+			var/weapon_name = "weapon"
+			if(P.fired_from)
+				weapon_name = P.fired_from.name
 
 			visible_message(
 				span_boldwarning("<b>[src]</b> bats away [shooter]'s [weapon_name], spoiling the shot!"),
 				span_boldwarning("I knock away [shooter]'s [weapon_name]!")
 			)
+
+			var/new_angle = rand(0, 359)
+			P.setAngle(new_angle)
 			return TRUE
 		else
 			return FALSE
