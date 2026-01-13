@@ -1315,6 +1315,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		wdefense_dynamic = wdefense
 	if(altgripped)
 		altgripped = FALSE
+		wielded = FALSE
+		if(force_wielded)
+			update_force_dynamic()
+		wdefense_dynamic = wdefense
 	update_transform()
 	if(user.get_item_by_slot(SLOT_BACK) == src)
 		user.update_inv_back()
@@ -1330,12 +1334,26 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/altgrip(mob/living/carbon/user)
 	if(altgripped)
 		return
+	if(user.get_inactive_held_item())
+		to_chat(user, span_warning("I need a free hand first."))
+		return
+	if(user.get_num_arms() < 2)
+		to_chat(user, span_warning("I don't have enough hands."))
+		return
+	if (obj_broken)
+		to_chat(user, span_warning("It's completely broken."))
+		return
 	altgripped = TRUE
 	update_transform()
 	to_chat(user, span_notice("I wield [src] with an alternate grip"))
 	if(user.get_active_held_item() == src)
 		if(alt_intents)
 			user.update_a_intents()
+			wielded = TRUE
+			if(force_wielded)
+				update_force_dynamic()
+			wdefense_dynamic = (wdefense + wdefense_wbonus)
+			user.update_inv_hands()
 
 /obj/item/proc/wield(mob/living/carbon/user, show_message = TRUE)
 	if(wielded)
