@@ -1,7 +1,7 @@
 /datum/looping_sound/instrument
 	mid_length = 120000 // 20 minutes. Previously 4 minutes for no reason. Songs are restricted to 6 megs. If you have twenty minutes of mono low bitrate or one minute of studio quality orchestra, it makes no difference to the server.
 	volume = 100
-	extra_range = 10	// Increase sound range.
+	falloff = 9
 	persistent_loop = TRUE
 	var/stress2give = /datum/stressevent/music
 	sound_group = /datum/sound_group/instruments //reserves sound channels for up to 10 instruments at a time
