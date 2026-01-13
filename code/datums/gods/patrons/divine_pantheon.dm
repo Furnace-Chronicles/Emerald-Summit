@@ -272,6 +272,8 @@
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/fieldburials			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/targeted/abrogation			= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/silence				= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/soulforsoul			= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/speakwithdead			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T4,
 	)
@@ -432,6 +434,7 @@
 					/obj/effect/proc_holder/spell/invoked/heatmetal				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/hammerfall			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/wound_heal			= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/craftercovenant		= CLERIC_T4,
 	)
 	confess_lines = list(
 		"MALUM IS MY MUSE!",
