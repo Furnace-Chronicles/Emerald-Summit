@@ -496,6 +496,7 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_LSKELETON		"CAT_LSKELETON"		// Lich Fortified Skeleton classes
 #define CTAG_NSKELETON		"CAT_NSKELETON"		// Necromancer Greater Skeleton classes
 #define CTAG_LICKER_WRETCH  "CAT_LICKER_WRETCH" // Licker wretch. Nuff said.
+#define CTAG_GNOLL			"CAT_GNOLL"			// Wretch-esque gnolls.
 
 #define CTAG_WARDEN			"CAT_WARDEN"		// Warden class - Handles warden class selector.
 #define CTAG_WATCH			"CAT_WATCH"			// Watch class - Handles Town Watch class selector
@@ -519,9 +520,9 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_GUILDMASTER 	"CAT_GUILDMASTER"	// Guildmaster class - Handles Guildmaster class selector
 #define CTAG_GUILDSMEN 		"CAT_GUILDSMEN"		// Guildsmen class - Handles Guildsmen class selector
 #define CTAG_NIGHTMAIDEN	"CAT_NIGHTMAIDEN"	// Bathhouse Attendant's aesthetic choices.
-#define CTAG_PRISONER "CAT_PRISONER"
-#define CTAG_HOSTAGE "CAT_HOSTAGE"
-#define CTAG_OGRE			"CAT_OGRE"					// ogre classes - handles ogre class selector
+#define CTAG_PRISONER 		"CAT_PRISONER"
+#define CTAG_HOSTAGE 		"CAT_HOSTAGE"
+#define CTAG_OGRE			"CAT_OGRE"			// ogre classes - handles ogre class selector
 
 #define CTAG_HFT_LORD "CAT_HFT_LORD"  // Heartfelt Lord Class - Handles Heartfelt Lord class selector.
 #define CTAG_HFT_HAND "CAT_HFT_HAND"  // Heartfelt Hand Class - Handles Heartfelt Hand class selector.
