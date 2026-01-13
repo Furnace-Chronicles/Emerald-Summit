@@ -126,7 +126,7 @@ SUBSYSTEM_DEF(throwing)
 	//calculate how many tiles to move, making up for any missed ticks.
 	var/tilestomove = CEILING(min(((((world.time+world.tick_lag) - start_time + delayed_time) * speed) - (dist_travelled ? dist_travelled : -1)), speed*MAX_TICKS_TO_MAKE_UP) * (world.tick_lag * SSthrowing.wait), 1)
 	while (tilestomove-- > 0)
-		if(!path)
+		if(!path || !path.len)
 			finalize()
 			return
 		if ((dist_travelled >= maxrange || AM.loc == target_turf || path[1] == null) && AM.has_gravity(AM.loc))

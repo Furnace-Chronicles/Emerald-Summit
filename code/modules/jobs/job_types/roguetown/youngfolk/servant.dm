@@ -57,14 +57,14 @@
 
 /datum/outfit/job/servant/servant/pre_equip(mob/living/carbon/human/H)
 	..()
-	pants = /obj/item/clothing/under/roguetown/trou
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
-	shoes = /obj/item/clothing/shoes/roguetown/shortboots
-	backl = /obj/item/storage/backpack/rogue/satchel
-	belt = /obj/item/storage/belt/rogue/leather
+	pants = /obj/item/clothing/under/roguetown/trou/formal/shorts
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/formal
+	shoes = /obj/item/clothing/shoes/roguetown/boots
+	backl = /obj/item/storage/backpack/rogue/satchel/black
+	belt = /obj/item/storage/belt/leather/suspenders/butler
 	beltr = /obj/item/storage/keyring/servant
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
-	armor = /obj/item/clothing/suit/roguetown/armor/workervest
+	armor = /obj/item/clothing/suit/roguetown/shirt/dress/maid/servant
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless
 
 	if(H.age == AGE_MIDDLEAGED)
@@ -106,12 +106,12 @@
 
 /datum/outfit/job/servant/maid/pre_equip(mob/living/carbon/human/H)
 	..()
-	head = /obj/item/clothing/head/roguetown/armingcap
-	armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/black
-	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
-	cloak = /obj/item/clothing/cloak/apron/waist
-	backl = /obj/item/storage/backpack/rogue/satchel
-	belt = /obj/item/storage/belt/rogue/leather
+	head = /obj/item/clothing/head/roguetown/maidband
+	armor = /obj/item/clothing/suit/roguetown/shirt/dress/maid
+	shoes = /obj/item/clothing/shoes/roguetown/shortboots
+	cloak = /obj/item/clothing/cloak/apron/maid
+	backl = /obj/item/storage/backpack/rogue/satchel/black
+	belt = /obj/item/storage/belt/rogue/leather/sash
 	beltr = /obj/item/storage/keyring/servant
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 
@@ -154,11 +154,11 @@
 
 /datum/outfit/job/servant/butler/pre_equip(mob/living/carbon/human/H)
 	..()
-	pants = /obj/item/clothing/under/roguetown/tights/black
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
-	shoes = /obj/item/clothing/shoes/roguetown/shortboots
-	backl = /obj/item/storage/backpack/rogue/satchel
-	belt = /obj/item/storage/belt/rogue/leather
+	pants = /obj/item/clothing/under/roguetown/trou/formal/shorts
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/formal
+	shoes = /obj/item/clothing/shoes/roguetown/boots
+	backl = /obj/item/storage/backpack/rogue/satchel/black
+	belt = /obj/item/storage/belt/leather/suspenders/butler
 	beltr = /obj/item/storage/keyring/servant
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/black
