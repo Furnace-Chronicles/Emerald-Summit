@@ -274,7 +274,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 
 /// Called on handle_wounds(), on the life() proc
 /datum/wound/proc/on_life()
-	if(!owner || !bodypart_owner)
+	if(!owner)
 		return FALSE
 	if(!isnull(clotting_threshold) && clotting_rate && (bleed_rate > clotting_threshold) && bleed_rate < 12)
 		var/con_modifier = owner.STACON / 10
@@ -283,13 +283,14 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 			severity_modifier = 0.5
 
 		var/grab_modifier = 1.0
-		var/list/grabs = bodypart_owner.grabbedby
-		if(length(grabs))
-			var/bp_grab_suppress = 1.0
-			for(var/obj/item/grabbing/G in grabs)
-				bp_grab_suppress *= G.bleed_suppressing
-			if(bodypart_owner.bleeding * bp_grab_suppress <= 0)
-				grab_modifier = 2.0
+		if(bodypart_owner)
+			var/list/grabs = bodypart_owner.grabbedby
+			if(length(grabs))
+				var/bp_grab_suppress = 1.0
+				for(var/obj/item/grabbing/G in grabs)
+					bp_grab_suppress *= G.bleed_suppressing
+				if(bodypart_owner.bleeding * bp_grab_suppress <= 0)
+					grab_modifier = 2.0
 
 		var/effective_clot = clotting_rate * con_modifier * severity_modifier * grab_modifier
 		set_bleed_rate(max(clotting_threshold, bleed_rate - effective_clot))
@@ -329,7 +330,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 
 /// Heals this wound by the given amount, and deletes it if it's healed completely
 /datum/wound/proc/heal_wound(heal_amount)
-	if(!owner || !bodypart_owner)
+	if(!owner)
 		return FALSE
 	// Wound cannot be healed normally, whp is null
 	if(isnull(whp))
