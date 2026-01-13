@@ -1517,6 +1517,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	. = ..()
 	if(item_flags & GIANT_WEAPON)
 		. += span_warning("This weapon is designed for giants. Those without giant strength will require double the normal strength to wield it effectively.")
+	if(can_do_precision_strikes())
+		. += span_info("This weapon can perform precision thrusts through the gaps in heavy armor.")
 	if(isliving(user))
 		var/mob/living/L = user
 		if(L.STAINT < 9)
@@ -1526,15 +1528,21 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	else
 		var/str = "This object can be repaired using "
 		if(anvilrepair)
-			var/datum/skill/S = anvilrepair		//Should only ever be a skill or null
+			var/datum/skill/S = anvilrepair
 			str += "<b>[initial(S.name)]</b> and a hammer."
 		if(sewrepair)
 			str += "<b>Sewing</b> and a needle."
 		str = span_info(str)
 		. += str
 
-/obj/item/proc/step_action() //this was made to rewrite clown shoes squeaking, moved here to avoid throwing runtimes with non-/clothing wearables
+/obj/item/proc/step_action()
 	SEND_SIGNAL(src, COMSIG_CLOTHING_STEP_ACTION)
 
 /obj/item/proc/update_force_dynamic()
 	force_dynamic = (wielded ? force_wielded : force)
+
+/obj/item/proc/can_do_precision_strikes()
+	for(var/datum/intent/I as anything in possible_item_intents)
+		if(I.blade_class in GLOB.stab_bclasses && (wbalance != WBALANCE_HEAVY || can_precision_strike))
+			return TRUE
+	return FALSE
