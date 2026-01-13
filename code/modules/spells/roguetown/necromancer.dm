@@ -70,6 +70,8 @@
 	return TRUE
 
 
+/datum/mind
+	var/mysummons = alist()
 
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead
 	name = "Summon Lesser Undead"
@@ -92,11 +94,13 @@
 	hide_charge_effect = TRUE
 	var/skullcost = 1
 	var/list/summonlist = list(/mob/living/carbon/human/species/skeleton/npc/ambush)
+	var/summon_limit = 10
 	invocation = "Omnia meliora sunt cum amicis!!"
 	invocation_type = "shout"
 
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/cast(list/targets, mob/living/user)
 	. = ..()
+
 	if(skullcost)
 		var/list/allbones = list()
 		var/bonecount = 0
@@ -116,24 +120,7 @@
 				qdel(I)
 				bonecount++
 				break
-/*this doesn't work, probably for the best that the gamers are forced to hold it.
-			if(istype(I, /obj/item/storage))
-				var/obj/item/storage/bag = I
-				var/datum/component/storage/internal = bag.GetComponent(/datum/component/storage/)
-				if(internal.can_hold && !(/obj/item/bodypart/head in internal.can_hold) || !(/obj/item/skull in internal.can_hold) ) //Skip summon bags, basically. Sorry bros, you're not carrying that much skeleton on you for free.
-					continue
-				for(var/obj/item/I2 in bag.contents)
-					if(istype(I2, /obj/item/skull))
-						qdel(I)
-						bonecount++
-						break
-					if(istype(I2, /obj/item/bodypart/head))
-						var/obj/item/bodypart/head/skull = I2
-						if(skull.skeletonized) 
-							qdel(skull)
-							bonecount++
-							break
-*/
+
 			if(bonecount >= skullcost)
 				break
 		if(bonecount < skullcost)
@@ -152,7 +139,11 @@
 	skeleton.faction += "[user.mind.current.real_name]_faction"
 	if(cabal_affine)
 		skeleton.faction += "cabal"
-
+	user.mind.mysummons[skeleton.type] += WEAKREF(skeleton)
+	/*
+	if(user.mind.mysummons[skeleton.type].len > summon_limit) //Someone should make this generic, I won't.
+		get first skeleton and gib it.	
+	*/
 	return TRUE
 
 
