@@ -69,11 +69,18 @@
 		)
 	customizers = list(
 		/datum/customizer/organ/eyes/humanoid,
+		/datum/customizer/bodypart_feature/crest,
 		/datum/customizer/bodypart_feature/hair/head/humanoid,
+		/datum/customizer/bodypart_feature/hair/facial/humanoid,
 		/datum/customizer/bodypart_feature/accessory,
 		/datum/customizer/bodypart_feature/face_detail,
 		/datum/customizer/bodypart_feature/underwear,
 		/datum/customizer/bodypart_feature/legwear,
+		/datum/customizer/organ/ears/demihuman,
+		/datum/customizer/organ/horns/demihuman,
+		/datum/customizer/organ/tail/demihuman,
+		/datum/customizer/organ/snout/anthro,
+		/datum/customizer/organ/wings/anthro,
 		/datum/customizer/organ/penis/anthro,
 		/datum/customizer/organ/breasts/human,
 		/datum/customizer/organ/vagina/human_anthro,
@@ -83,12 +90,13 @@
 		/datum/body_marking_set/none,
 	)
 	body_markings = list(
-	    /datum/body_marking/flushed_cheeks,
 		/datum/body_marking/eyeliner,
+		/datum/body_marking/plain,
 		/datum/body_marking/tonage,
 		/datum/body_marking/nose,
 		/datum/body_marking/bangs,
 		/datum/body_marking/bun,
+		/datum/body_marking/flushed_cheeks,
 	)
 
 /datum/species/golem/porcelain/check_roundstart_eligible()
@@ -125,3 +133,46 @@
 
 	))
 
+/datum/species/golem/porcelain/mechanical
+	name = "Mechanical Doll"
+	is_subrace = TRUE // Functionally identical to doll, new sprites
+	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mcom.dmi'
+	limbs_icon_f = 'icons/roguetown/mob/bodies/f/golem.dmi' // Its probably best I don't touch the female sprite, to prevent clothing spriting issues.
+	customizers = list(
+		/datum/customizer/organ/eyes/humanoid,
+		/datum/customizer/bodypart_feature/crest,
+		/datum/customizer/bodypart_feature/hair/head/humanoid,
+		/datum/customizer/bodypart_feature/hair/facial/humanoid,
+		/datum/customizer/bodypart_feature/accessory,
+		/datum/customizer/bodypart_feature/face_detail,
+		/datum/customizer/bodypart_feature/underwear,
+		/datum/customizer/bodypart_feature/legwear,
+		/datum/customizer/organ/ears/demihuman,
+		/datum/customizer/organ/horns/demihuman,
+		/datum/customizer/organ/tail/demihuman,
+		/datum/customizer/organ/snout/anthro,
+		/datum/customizer/organ/wings/anthro,
+		/datum/customizer/organ/penis/anthro,
+		/datum/customizer/organ/breasts/human,
+		/datum/customizer/organ/vagina/human_anthro,
+		/datum/customizer/organ/testicles/anthro,
+		)
+	body_marking_sets = list(
+		/datum/body_marking_set/none,
+		/datum/body_marking_set/construct_plating_light,
+		/datum/body_marking_set/construct_plating_medium,
+		/datum/body_marking_set/construct_plating_heavy,
+	)
+	body_markings = list(
+		/datum/body_marking/eyeliner,
+		/datum/body_marking/plain,
+		/datum/body_marking/tonage,
+		/datum/body_marking/nose,
+		/datum/body_marking/construct_plating_medium,
+		/datum/body_marking/construct_plating_heavy,
+		/datum/body_marking/construct_head_standard,
+		/datum/body_marking/construct_head_round,
+		/datum/body_marking/construct_standard_eyes,
+		/datum/body_marking/construct_visor_eyes,
+		/datum/body_marking/construct_psyclops_eye,
+	)
