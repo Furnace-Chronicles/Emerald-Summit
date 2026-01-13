@@ -1204,6 +1204,11 @@
 		resist_chance += (STACON - L.STASPD) * 5
 	else
 		resist_chance += (STACON - (agg_grab ? L.STASTR : L.STAEND)) * 5
+
+	// Dodge experts can use their speed to slip out of grabs
+	if(HAS_TRAIT(src, TRAIT_DODGEEXPERT))
+		resist_chance += (STASPD - 10) * 3
+
 	resist_chance *= combat_modifier
 	resist_chance = clamp(resist_chance, 5, 95)
 

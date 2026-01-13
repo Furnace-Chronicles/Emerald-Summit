@@ -169,6 +169,10 @@
 					user.do_attack_animation(M, user.used_intent.animname, used_item = src, used_intent = user.used_intent, simplified = TRUE)
 			return
 	user.stamina_add(get_stamina_cost(src, user))
+	// Strong attacks consume energy in addition to stamina
+	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+		var/energy_cost = max(23 - (user.STAEND + user.get_skill_level(/datum/skill/misc/athletics)), 3)// Base 23, reduced by END/Athletics, minimum of 3
+		user.energy_add(-energy_cost)
 	if(user.mob_biotypes & MOB_UNDEAD)
 		if(M.has_status_effect(/datum/status_effect/buff/necras_vow))
 			if(isnull(user.mind))
