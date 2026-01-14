@@ -265,6 +265,7 @@
 /datum/species/golem/metal/mechanical
 	name = "Mechanical Golem"
 	is_subrace = TRUE // Functionally identical to golem, new sprites
+	race_titles = list("Automaton", "Luxforged", "Golem") // So they can be regular 'golems' if they want
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mcom.dmi'
 	limbs_icon_f = 'icons/roguetown/mob/bodies/f/golem.dmi' // Its probably best I don't touch the female sprite, to prevent clothing spriting issues.
 	customizers = list(

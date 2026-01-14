@@ -136,6 +136,7 @@
 /datum/species/golem/porcelain/mechanical
 	name = "Mechanical Doll"
 	is_subrace = TRUE // Functionally identical to doll, new sprites
+	race_titles = list("Homunculus", "Mannequin", "Marionette", "Puppet", "Doll") // So that they can be generic 'dolls' if they want
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mcom.dmi'
 	limbs_icon_f = 'icons/roguetown/mob/bodies/f/golem.dmi' // Its probably best I don't touch the female sprite, to prevent clothing spriting issues.
 	customizers = list(
