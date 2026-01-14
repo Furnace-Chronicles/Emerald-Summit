@@ -138,9 +138,8 @@
 	//Special because deadite status is latent as opposed to the others. 
 	if(admin_granted)
 		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(wake_zombie), zombie, FALSE, TRUE), 5 SECONDS, TIMER_STOPPABLE)
-	if(!zombie.client)
-		zombie.flee_in_pain = FALSE
-		show_in_antagpanel = FALSE
+	
+	show_in_antagpanel = FALSE
 	return ..()
 
 /*
@@ -246,8 +245,8 @@
 	zombie.update_a_intents()
 	zombie.aggressive = TRUE
 	zombie.mode = NPC_AI_IDLE
+	zombie.flee_in_pain = FALSE
 	zombie.handle_ai()
-	ambushable = zombie.ambushable
 	zombie.ambushable = FALSE
 
 	if(zombie.charflaw)
@@ -430,6 +429,9 @@
 
 
 	if (converted || infected_wake)
+		var/atom/movable/screen/gameover/gameover = locate(/atom/movable/screen/gameover) in zombie.client.screen
+		if(gameover)
+			qdel(gameover) //Should(?) Prevent zizoids from being totally blinded while they turn.
 		zombie.flash_fullscreen("redflash3")
 		zombie.emote("scream") // Warning for nearby players
 		zombie.Knockdown(1)
