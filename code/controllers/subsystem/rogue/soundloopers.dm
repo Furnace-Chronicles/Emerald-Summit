@@ -71,14 +71,14 @@ SUBSYSTEM_DEF(soundloopers)
 			continue //something fucked up and the loop has no cursound, wups. this should basically never happen
 
 		var/use_override = (mob && (PS_parent == mob || (PS_parent in mob.contents)))
-		
-		mob.playsound_local(PS_parent, PS.cursound, PS.volume, PS.vary, PS.frequency, PS.falloff, null, FALSE, our_sound, repeat = PS, override = use_override)
+		mob.playsound_local(PS_parent, PS.cursound, PS.volume, PS.vary, PS.frequency, PS.falloff, resolve_sound_channel(mob, PS.channel, PS), FALSE, our_sound, repeat = PS, override = use_override)
 
 	//Now we check how far away etc we are
 	for(var/datum/looping_sound/loop in played_loops)
 		if (!loop)
 			played_loops -= loop
 			continue
+
 
 		var/atom/loop_parent = loop.parent?.resolve()
 		if(!loop_parent)
@@ -131,4 +131,3 @@ SUBSYSTEM_DEF(soundloopers)
 				if(loop.persistent_loop && found_loop["MUTESTATUS"] == TRUE) //It was out of range and now back in range, reset it
 					found_loop["MUTESTATUS"] = FALSE
 					mob.unmute_sound(found_sound)
-

@@ -26,9 +26,9 @@
 		owner.visible_message(
 			span_warning("[owner] starts moving at inhumen speeds, their every action a blur!"))
 		if(level > 3) // "Move faster. React in less time. Your body is under perfect control."
-			ADD_TRAIT(owner, TRAIT_LEAPER, VAMPIRE_TRAIT)
+			ADD_TRAIT(owner, TRAIT_LEAPER, TRAIT_VAMPIRE)
 		if(level > 4) // "You are like light. Blaze your way through the world."
-			ADD_TRAIT(owner, TRAIT_DODGEEXPERT, VAMPIRE_TRAIT)
+			ADD_TRAIT(owner, TRAIT_DODGEEXPERT, TRAIT_VAMPIRE)
 
 /datum/coven_power/celerity/deactivate(atom/target, direct)
 	. = ..()
@@ -38,9 +38,9 @@
 		owner.remove_movespeed_modifier(MOVESPEED_ID_CELERITY)
 		playsound(owner,'sound/magic/timestop.ogg', 40, TRUE)
 		if(level > 3)
-			REMOVE_TRAIT(owner, TRAIT_LEAPER, VAMPIRE_TRAIT)
+			REMOVE_TRAIT(owner, TRAIT_LEAPER, TRAIT_VAMPIRE)
 		if(level > 4)
-			REMOVE_TRAIT(owner, TRAIT_DODGEEXPERT, VAMPIRE_TRAIT)
+			REMOVE_TRAIT(owner, TRAIT_DODGEEXPERT, TRAIT_VAMPIRE)
 
 //CELERITY 1
 /datum/coven_power/celerity/one

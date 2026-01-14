@@ -10,6 +10,17 @@
 		return A
 	return get_topmost_atom(A.loc)
 
+/// Helper proc, this checks for channel conflicts and allocates a new channel if needed
+/proc/resolve_sound_channel(mob/M, channel, datum/looping_sound/repeat)
+	if(!repeat || !M.client)
+		return channel
+
+	for(var/datum/looping_sound/existing_loop in M.client.played_loops)
+		if(existing_loop.channel == channel)
+			return null
+
+	return channel
+
 /proc/playsound(atom/source, soundin, vol as num, vary, extrarange as num, falloff, frequency = null, channel, pressure_affected = FALSE, ignore_walls = TRUE, soundping = FALSE, repeat, animal_pref = FALSE)
 	if(isarea(source))
 		CRASH("playsound(): source is an area")
@@ -87,7 +98,7 @@
 			if(animal_pref)
 				if(M.client?.prefs?.mute_animal_emotes)
 					continue
-			if(M.playsound_local(source, soundin, vol, vary, frequency, falloff, channel, pressure_affected, S, repeat))
+			if(M.playsound_local(source, soundin, vol, vary, frequency, falloff, resolve_sound_channel(M, channel, repeat), pressure_affected, S, repeat))
 				. += M
 
 	for(var/mob/M as anything in muffled_listeners)
@@ -95,7 +106,7 @@
 			if(animal_pref)
 				if(M.client?.prefs?.mute_animal_emotes)
 					continue
-			if(M.playsound_local(source, soundin, vol, vary, frequency, falloff, channel, pressure_affected, S, repeat, muffled = TRUE))
+			if(M.playsound_local(source, soundin, vol, vary, frequency, falloff, resolve_sound_channel(M, channel, repeat), pressure_affected, S, repeat, muffled = TRUE))
 				. += M
 
 

@@ -363,7 +363,7 @@
 		if(/datum/patron/divine/dendor)
 			H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/facemask/copper, SLOT_WEAR_MASK, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/dendor, SLOT_RING, TRUE)
-			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/crusader/dendor, SLOT_CLOAK, TRUE)
+			H.equip_to_slot_or_del(new/obj/item/clothing/cloak/templar/dendor, SLOT_CLOAK, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/labor/farming, SKILL_LEVEL_NOVICE, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_LEGENDARY, TRUE)
 			H.grant_language(/datum/language/beast) //dendor antags can talk to WWs and druids

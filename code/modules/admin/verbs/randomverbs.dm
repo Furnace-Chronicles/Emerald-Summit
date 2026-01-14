@@ -926,6 +926,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 			for(var/key in GLOB.traits_by_type)
 				if(istype(D,key))
 					availible_traits += GLOB.traits_by_type[key]
+
 		if("Remove")
 			if(!GLOB.trait_name_map)
 				GLOB.trait_name_map = generate_trait_name_map()
@@ -943,6 +944,9 @@ Traitors and the like can also be revived with the previous role mostly intact.
 			if(GLOB.movement_type_trait_to_flag[chosen_trait]) //include the required element.
 				D.AddElement(/datum/element/movetype_handler)
 			ADD_TRAIT(D,chosen_trait,source)
+			if(iscarbon(D))
+				message_admins("[key_name(usr)] added the trait [chosen_trait] to [key_name(D)].")
+				log_admin("[key_name(usr)] added the trait [chosen_trait] to [key_name(D)].")
 		if("Remove")
 			var/specific = input("All or specific source ?", "Trait Remove/Add") as null|anything in list("All","Specific")
 			if(!specific)
@@ -955,3 +959,5 @@ Traitors and the like can also be revived with the previous role mostly intact.
 					if(!source)
 						return
 			REMOVE_TRAIT(D,chosen_trait,source)
+			message_admins("[key_name(usr)] added the trait [chosen_trait] to [key_name(D)].")
+			log_admin("[key_name(usr)] removed the trait [chosen_trait] from [key_name(D)].")

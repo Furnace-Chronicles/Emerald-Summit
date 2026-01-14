@@ -23,7 +23,7 @@
 #define FALLOFF_SOUNDS 0.5
 
 // 3D sound positioning constants
-#define ZSOUND_DISTANCE_PER_Z 1
+#define ZSOUND_DISTANCE_PER_Z 2
 #define STEREO_PANNING_STRENGTH 0.3 // Reduces extreme left-right panning (0 = mono, 1 = full stereo)
 #define ZSOUND_DRYLOSS_PER_Z -2000 // Affects what happens to the dry channel as the sound travels through z-levels
 

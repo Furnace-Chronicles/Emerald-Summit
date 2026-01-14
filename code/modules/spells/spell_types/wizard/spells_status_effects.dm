@@ -88,8 +88,7 @@
 /atom/movable/screen/alert/status_effect/buff/lightningstruck
 	name = "Lightning Struck"
 	desc = "I can feel the electricity coursing through me."
-	icon_state = "debuff"
-	color = "#ffff00"
+	icon_state = "zapped"
 
 /datum/status_effect/buff/lightningstruck/on_apply()
 	. = ..()

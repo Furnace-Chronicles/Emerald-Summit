@@ -20,20 +20,20 @@
 	owner.apply_status_effect(/datum/status_effect/buff/potence, level)
 	if(level > 2)
 		owner.visible_message(span_warning("[owner] tenses their muscles, looking exceptionally stronger!"))
-		ADD_TRAIT(owner, TRAIT_ZJUMP, VAMPIRE_TRAIT)
-		ADD_TRAIT(owner, TRAIT_NOFALLDAMAGE1, VAMPIRE_TRAIT)
+		ADD_TRAIT(owner, TRAIT_ZJUMP, TRAIT_VAMPIRE)
+		ADD_TRAIT(owner, TRAIT_NOFALLDAMAGE1, TRAIT_VAMPIRE)
 		if(level > 3)
-			ADD_TRAIT(owner, TRAIT_STRENGTH_UNCAPPED, VAMPIRE_TRAIT)
+			ADD_TRAIT(owner, TRAIT_STRENGTH_UNCAPPED, TRAIT_VAMPIRE)
 
 /datum/coven_power/potence/deactivate(atom/target, direct)
 	. = ..()
 	owner.remove_status_effect(/datum/status_effect/buff/potence)
 	if(level > 2)
 		owner.visible_message(span_warning("[owner] relaxes their body."))
-		REMOVE_TRAIT(owner, TRAIT_ZJUMP, VAMPIRE_TRAIT)
-		REMOVE_TRAIT(owner, TRAIT_NOFALLDAMAGE1, VAMPIRE_TRAIT)
+		REMOVE_TRAIT(owner, TRAIT_ZJUMP, TRAIT_VAMPIRE)
+		REMOVE_TRAIT(owner, TRAIT_NOFALLDAMAGE1, TRAIT_VAMPIRE)
 		if(level > 3)
-			REMOVE_TRAIT(owner, TRAIT_STRENGTH_UNCAPPED, VAMPIRE_TRAIT)
+			REMOVE_TRAIT(owner, TRAIT_STRENGTH_UNCAPPED, TRAIT_VAMPIRE)
 //POTENCE 1
 /datum/coven_power/potence/one
 	name = "Potence 1"

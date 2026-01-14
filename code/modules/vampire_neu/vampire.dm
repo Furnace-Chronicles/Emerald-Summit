@@ -47,10 +47,24 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 			research_points = 0
 
 /datum/antagonist/vampire/examine_friendorfoe(datum/antagonist/examined_datum, mob/examiner, mob/examined)
-	if(istype(examined_datum, /datum/antagonist/vampire/lord))
-		return span_boldnotice("Kaine's firstborn!")
 	if(istype(examined_datum, /datum/antagonist/vampire))
-		return span_boldnotice("A child of Kaine.")
+		var/datum/antagonist/vampire/examined_vamp = examined_datum
+		if(generation == GENERATION_FAILVAMP && SEND_SIGNAL(examined, COMSIG_DISGUISE_STATUS))
+			if(examined_vamp.generation == GENERATION_FAILVAMP)
+				return span_boldnotice("A fellow bearer of the Crimson Curse.")
+			else
+				return // CC should not see through the disguise of full-blooded vampires.
+		switch(examined_vamp.generation)
+			if(GENERATION_METHUSELAH)
+				return span_boldnotice("Kaine's firstborn!")
+			if(GENERATION_ANCILLAE)
+				return span_boldnotice("An ancient child of Kaine!")
+			if(GENERATION_NEONATE)
+				return span_boldnotice("A child of Kaine.")
+			if(GENERATION_THINBLOOD)
+				return span_boldnotice("A thinblooded child of Kaine.")
+			if(GENERATION_FAILVAMP)
+				return span_boldnotice("A bearer of the Crimson Curse. Disgusting.")
 	if(istype(examined_datum, /datum/antagonist/zombie))
 		return span_boldnotice("Another deadite.")
 	if(istype(examined_datum, /datum/antagonist/skeleton))
@@ -258,7 +272,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	default_clan = /datum/clan/strays
 	clan_selected = TRUE
 
-/datum/antagonist/vampire/stray/New(incoming_clan = /datum/clan/strays, forced_clan = FALSE, generation = GENERATION_THINBLOOD)
+/datum/antagonist/vampire/stray/New(incoming_clan = /datum/clan/strays, forced_clan = FALSE, generation = GENERATION_FAILVAMP)
 	. = ..(incoming_clan, forced_clan, generation)
 
 /datum/antagonist/vampire/stray/add_antag_hud(antag_hud_type, antag_hud_name, mob/living/mob_override)

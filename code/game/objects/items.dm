@@ -165,6 +165,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/wdefense_dynamic = 0
 	/// Minimum STR required to use the weapon. Will reduce damage by 70% if not met. Wielding halves the requirement.
 	var/minstr = 0
+	///Wielding normally halves the requirement. If true, it does not.
+	var/minstr_req = FALSE
 	/// %-age of our raw damage that is dealt to armor or weapon on hit / parry / clip.
 	var/intdamage_factor = 1
 
@@ -178,6 +180,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/l_sleeve_zone = BODY_ZONE_L_ARM
 
 	var/twohands_required = FALSE
+
+	var/from_stockpile = FALSE
 
 	var/bloody_icon = 'icons/effects/blood.dmi'
 	var/bloody_icon_state = "itemblood"
@@ -448,7 +452,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		var/list/inspec = list(span_notice("Properties of [src.name]"))
 		if(minstr)
 			inspec += "\n<b>MIN.STR:</b> [minstr]"
-
 		if(force)
 			inspec += "\n<b>FORCE:</b> [get_force_string(force)]"
 		if(gripped_intents && !wielded)
@@ -1312,6 +1315,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		wdefense_dynamic = wdefense
 	if(altgripped)
 		altgripped = FALSE
+		wielded = FALSE
+		if(force_wielded)
+			update_force_dynamic()
+		wdefense_dynamic = wdefense
 	update_transform()
 	if(user.get_item_by_slot(SLOT_BACK) == src)
 		user.update_inv_back()
@@ -1327,12 +1334,26 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/altgrip(mob/living/carbon/user)
 	if(altgripped)
 		return
+	if(user.get_inactive_held_item())
+		to_chat(user, span_warning("I need a free hand first."))
+		return
+	if(user.get_num_arms() < 2)
+		to_chat(user, span_warning("I don't have enough hands."))
+		return
+	if (obj_broken)
+		to_chat(user, span_warning("It's completely broken."))
+		return
 	altgripped = TRUE
 	update_transform()
 	to_chat(user, span_notice("I wield [src] with an alternate grip"))
 	if(user.get_active_held_item() == src)
 		if(alt_intents)
 			user.update_a_intents()
+			wielded = TRUE
+			if(force_wielded)
+				update_force_dynamic()
+			wdefense_dynamic = (wdefense + wdefense_wbonus)
+			user.update_inv_hands()
 
 /obj/item/proc/wield(mob/living/carbon/user, show_message = TRUE)
 	if(wielded)

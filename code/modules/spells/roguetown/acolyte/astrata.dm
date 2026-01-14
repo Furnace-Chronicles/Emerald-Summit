@@ -249,19 +249,12 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 		var/mob/living/target = targets[1]
 		// Check for undead FIRST - obliterate them with holy light
 		if((target.mob_biotypes & MOB_UNDEAD) && !HAS_TRAIT(target, TRAIT_HOLLOW_LIFE))
-			// Range check - must be within 10 tiles and same z-level
-			var/distance = get_dist(user, target)
-			if(distance > 10)
-				to_chat(user, span_danger("The undead is too far away! I must be closer to channel divine power to unmake them!"))
-				revert_cast()
-				return FALSE
-			
-			// Z-level check
+			// must be on the same same z-level
 			if(user.z != target.z)
 				to_chat(user, span_danger("I must see the undead in front of me, not above or below!"))
 				revert_cast()
 				return FALSE
-			
+
 			// Check for powerful undead immunity (Vampire Lords and Liches)
 			var/is_powerful_undead = FALSE
 			if(ishuman(target))
@@ -272,34 +265,32 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 				// Check for Lich
 				if(HAS_TRAIT(H, TRAIT_COUNTERCOUNTERSPELL))
 					is_powerful_undead = TRUE
-					
+
 			// Powerful undead resist unless caster is a Priest
 			if(is_powerful_undead && !HAS_TRAIT(user, TRAIT_CHOSEN))
 				to_chat(user, span_danger("This creature's unholy power is too great! Only an ordained Priest could unmake such a being!"))
 				target.visible_message(span_astratabig("[target] resists the holy light bearing down on them, their ancient power deflecting the divine wrath!"))
 				revert_cast()
 				return FALSE
-			
-						// Range check for powerful undead - must be within 6 tiles
-			if(is_powerful_undead)
-				if(distance > 6)
-					to_chat(user, span_danger("This ancient evil is too far away! I must be closer to channel enough divine power to unmake them!"))
+
+			var/distance = get_dist(user, target)
+			if(distance <= 1) // Adjacent range - gib with some do_afters()
+				if(gib_them_now(user, target, is_powerful_undead))
+					return TRUE
+				else
+					revert_cast()
+					return FALSE
+			if(distance > 5) // 5 tiles - immolation
+				to_chat(user, span_danger("The undead is too far away! I must be closer to channel divine power to unmake them!"))
+				revert_cast()
+				return FALSE
+			else
+				if(immolate_them_now(user, target, is_powerful_undead))
+					return TRUE
+				else
 					revert_cast()
 					return FALSE
 
-			// Start cinematic destruction sequence
-			if(is_powerful_undead)
-				to_chat(user, span_danger("You channel Astrata's might! [target] begins to burn with holy light!"))
-				target.visible_message(span_astratabig("[target] is struck by astronomical holy light, their form beginning to burn with divine radiance!"))
-			else
-				to_chat(user, span_danger("[target] is caught in holy light!"))
-				target.visible_message(span_astratabig("[target] begins to burn with holy light!"))
-			
-			user.say("Die before the Tyrant's Light!")
-			
-			// Call the cinematic destruction proc
-			divine_destruction(target, is_powerful_undead)
-			return TRUE
 		// Block if excommunicated and caster is divine pantheon
 		if(istype(user, /mob/living)) {
 			var/mob/living/LU = user
@@ -351,6 +342,42 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 		return TRUE
 	revert_cast()
 	return FALSE
+
+/// Adjacent undead gib
+/obj/effect/proc_holder/spell/invoked/revive/proc/gib_them_now(mob/living/user, mob/living/target, is_powerful_undead = FALSE)
+	if(!istype(user) || !istype(target))
+		return FALSE
+
+	// Start cinematic destruction sequence
+	if(is_powerful_undead)
+		to_chat(user, span_danger("You channel Astrata's might! [target] begins to burn with holy light!"))
+		target.visible_message(span_astratabig("[target] is struck by astronomical holy light, their form beginning to burn with divine radiance!"))
+	else
+		to_chat(user, span_danger("[target] is caught in holy light!"))
+		target.visible_message(span_astratabig("[target] begins to burn with holy light!"))
+
+	// 6 second doafter because this IS a gib
+	if(!do_after_mob(user, list(target, (8 SECONDS))))
+		return FALSE
+
+	user.say("Die before the Tyrant's Light!")
+	// Call the cinematic destruction proc
+	divine_destruction(target, is_powerful_undead)
+	return TRUE
+
+/// Ranged undead immolation
+/obj/effect/proc_holder/spell/invoked/revive/proc/immolate_them_now(mob/living/user, mob/living/target)
+	if(!istype(user) || !istype(target))
+		return FALSE
+
+	to_chat(user, span_danger("You channel Astrata's might! [target] is struck with holy light!"))
+	target.visible_message(span_astratabig("[target] is struck by holy light!"))
+
+	for(var/obj/structure/fluff/psycross/S in oview(5, user))
+		S.AOE_flash(user, range = 5)
+	target.adjust_fire_stacks(15, /datum/status_effect/fire_handler/fire_stacks/sunder)
+	target.ignite_mob()
+	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/revive/cast_check(skipcharge = 0,mob/user = usr)
 	if(!..())

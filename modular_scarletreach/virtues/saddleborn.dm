@@ -147,6 +147,10 @@ GLOBAL_LIST_INIT(virtue_mount_choices_noble, (list(
 		to_chat(user, span_warning("Necra has them now..."))
 		return FALSE
 
+	if (honse && honse.has_buckled_mobs())
+		to_chat(user, span_warning("Your mount needs to have nobody riding on it first!"))
+		return FALSE
+
 	var/area/place = get_area(user.loc)
 	if (!place || !place.outdoors)
 		to_chat(user, span_warning("You need to be outside!"))
@@ -194,10 +198,15 @@ GLOBAL_LIST_INIT(virtue_mount_choices_noble, (list(
 	var/should_heal = (is_centcom_level(user.loc.z) || place.town_area || place.keep_area)
 	user.visible_message(span_info("[user] starts fussing with [honse], preparing to send them away..."), span_notice("I start preparing to send [honse] away to roam freely and safely for a time..."))
 	honse.Immobilize(11 SECONDS)
-	if (do_mob(user, honse, 10 SECONDS, double_progress = TRUE))
+	honse.unbuckle_all_mobs(TRUE)
+	if (do_mob(user, honse, 10 SECONDS, double_progress = TRUE) && check_mount(user))
 		honse.stasis = TRUE
 		honse.unbuckle_all_mobs(TRUE)
-		honse.moveToNullspace() // BANISHED TO THE NULL DIMENSION!! hopefully this doesn't cause problems
+		if (!honse.has_buckled_mobs()) // just really super make sure we can't nullspace riders with this
+			honse.moveToNullspace() // BANISHED TO THE NULL DIMENSION!! hopefully this doesn't cause problems
+		else
+			honse.visible_message(span_warning("[honse] pads the floor irritably, looking over its shoulder at the rider on its back."))
+			return FALSE
 		// add sfx foley for this
 		user.visible_message(span_notice("Patting [honse] on the haunches, [user] sends them trotting away."), span_notice("With a brief pat on the haunches, I send [honse] away to fend for themselves."))
 		if (should_heal)
@@ -263,6 +272,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_noble, (list(
 	user.visible_message(span_danger("[user] places their fingers into their mouth and blows a sharp, shrill whistle!"), span_info("I whistle for my trusty steed, and await their return!"))
 	var/honse_base_loc = honse.loc
 	var/area/rogue/honse_place = get_area(honse.loc)
+	honse.unbuckle_all_mobs(TRUE)
 	if (!back_from_the_void && honse_place.outdoors)
 		honse.visible_message(span_notice("[honse] perks its ears up in response to a distant whistle, and darts off..."))
 		playsound(honse, 'sound/magic/saddleborn-call.ogg', 50, FALSE) // distant spooky whistle OooOOOo
