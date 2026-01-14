@@ -263,7 +263,7 @@
 	return
 
 /datum/species/golem/metal/mechanical
-	name = "Mechanical Golem"
+	name = "Arcyne Golem"
 	is_subrace = TRUE // Functionally identical to golem, new sprites
 	race_titles = list("Automaton", "Luxforged", "Golem") // So they can be regular 'golems' if they want
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mcom.dmi'
