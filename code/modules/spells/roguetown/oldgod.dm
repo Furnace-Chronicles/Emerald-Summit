@@ -304,7 +304,7 @@
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 0
-	range = 12
+	range = 10
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = 'sound/magic/psyabsolution.ogg'
