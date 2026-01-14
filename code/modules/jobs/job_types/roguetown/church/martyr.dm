@@ -259,11 +259,7 @@
 	if(current_holder)
 		var/mob/living/carbon/human/H = current_holder
 		switch(state)
-			if(STATE_SAFE) //Lowered damage due to BURN damage type and SAFE activation
-				var/obj/item/I = parent
-				I.force = 20
-				I.force_wielded = 25
-				return		
+			if(STATE_SAFE) //Formerly used to reduce safe mode damage -- use if you want to change something during safemode
 			if(STATE_MARTYR)
 				current_holder.STASTR += stat_bonus_martyr
 				//current_holder.STASPD += stat_bonus_martyr
@@ -301,20 +297,6 @@
 		REMOVE_TRAIT(parent, TRAIT_NODROP, TRAIT_GENERIC)	//The weapon can be moved by the Priest again (or used, I suppose)
 	is_active = FALSE
 	I.damtype = BRUTE
-	if(istype(I, /obj/item/rogueweapon/sword/long/martyr) || istype(I, /obj/item/rogueweapon/greataxe/steel/doublehead/martyr) || istype(I, /obj/item/rogueweapon/mace/goden/martyr) || istype(I, /obj/item/rogueweapon/spear/partizan/martyr))
-		if(istype(I, /obj/item/rogueweapon/sword/long/martyr))
-			I.possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike)
-			I.gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/sword/chop)
-		else if(istype(I, /obj/item/rogueweapon/greataxe/steel/doublehead/martyr))
-			I.possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash)
-			I.gripped_intents = list(/datum/intent/axe/cut/battle/greataxe, /datum/intent/axe/chop/battle/greataxe, /datum/intent/axe/bash)
-		else if(istype(I, /obj/item/rogueweapon/mace/goden/martyr))
-			I.possible_item_intents = list(/datum/intent/mace/strike)
-			I.gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/effect/daze, /datum/intent/effect/hobble)
-		else if(istype(I, /obj/item/rogueweapon/spear/partizan/martyr))
-			I.possible_item_intents = list(/datum/intent/spear/thrust, /datum/intent/spear/bash)
-			I.gripped_intents = list(/datum/intent/spear/thrust, /datum/intent/rend/reach/partizan, /datum/intent/partizan/peel, /datum/intent/spear/bash)
-	current_holder.update_a_intents()
 	I.force = initial(I.force)
 	I.force_wielded = initial(I.force_wielded)
 	I.max_integrity = initial(I.max_integrity)
@@ -377,19 +359,6 @@
 		flash_lightning(user)
 		var/obj/item/I = parent
 		I.damtype = BURN	//Changes weapon damage type to fire
-		if(istype(I, /obj/item/rogueweapon/sword/long/martyr))
-			I.possible_item_intents = list(/datum/intent/sword/cut/martyr, /datum/intent/sword/thrust/martyr, /datum/intent/sword/strike/martyr)
-			I.gripped_intents = list(/datum/intent/sword/cut/martyr, /datum/intent/sword/thrust/martyr, /datum/intent/sword/strike/martyr, /datum/intent/sword/chop/martyr)
-		else if(istype(I, /obj/item/rogueweapon/greataxe/steel/doublehead/martyr))
-			I.possible_item_intents = list(/datum/intent/axe/cut/martyr, /datum/intent/axe/chop/martyr, /datum/intent/axe/bash/martyr)
-			I.gripped_intents = list(/datum/intent/axe/cut/battle/greataxe/martyr, /datum/intent/axe/chop/battle/greataxe/martyr, /datum/intent/axe/bash/martyr)
-		else if(istype(I, /obj/item/rogueweapon/mace/goden/martyr))
-			I.possible_item_intents = list(/datum/intent/mace/strike/martyr)
-			I.gripped_intents = list(/datum/intent/mace/strike/martyr, /datum/intent/mace/smash/martyr, /datum/intent/effect/daze/martyr, /datum/intent/effect/hobble/martyr)
-		else if(istype(I, /obj/item/rogueweapon/spear/partizan/martyr))
-			I.possible_item_intents = list(/datum/intent/spear/thrust/martyr, /datum/intent/spear/bash/martyr)
-			I.gripped_intents = list(/datum/intent/spear/thrust/martyr, /datum/intent/rend/reach/partizan/martyr, /datum/intent/partizan/peel/martyr, /datum/intent/spear/bash/martyr)
-		user.update_a_intents()
 		I.slot_flags = null	//Can't sheathe a burning sword
 
 		ADD_TRAIT(parent, TRAIT_NODROP, TRAIT_GENERIC)	//You're committed, now.
@@ -566,8 +535,6 @@
 
 
 /obj/item/rogueweapon/sword/long/martyr
-	force = 30
-	force_wielded = 36
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/sword/peel)
 	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/peel, /datum/intent/sword/chop)
 	icon_state = "martyrsword"
@@ -609,19 +576,6 @@
 		added_int = 0,\
 		added_def = 0,\
 	)
-
-/datum/intent/sword/cut/martyr
-		item_d_type = "fire"
-		blade_class = BCLASS_CUT
-/datum/intent/sword/thrust/martyr
-		item_d_type = "fire"
-		blade_class = BCLASS_PICK // so our armor-piercing attacks in ult mode can do crits(against most armors, not having crit)
-/datum/intent/sword/strike/martyr
-		item_d_type = "fire"
-		blade_class = BCLASS_SMASH
-/datum/intent/sword/chop/martyr
-		item_d_type = "fire"
-		blade_class = BCLASS_CHOP
 
 /obj/item/rogueweapon/sword/long/martyr/Initialize()
 	. = ..()
@@ -682,8 +636,6 @@
 			if("altgrip") return list("shrink" = 0.5,"sx" = 4,"sy" = 0,"nx" = -7,"ny" = 1,"wx" = -8,"wy" = 0,"ex" = 8,"ey" = -1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -135,"sturn" = -35,"wturn" = 45,"eturn" = 145,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
 
 /obj/item/rogueweapon/greataxe/steel/doublehead/martyr
-	force = 25
-	force_wielded = 45
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash)
 	gripped_intents = list(/datum/intent/axe/cut/battle/greataxe, /datum/intent/axe/chop/battle/greataxe, /datum/intent/axe/bash)
 	icon_state = "martyraxe"
@@ -712,28 +664,6 @@
 		added_int = 0,\
 		added_def = 0,\
 	)
-
-/datum/intent/axe/cut/battle/greataxe/martyr
-		item_d_type = "fire"
-		blade_class = BCLASS_CUT
-
-/datum/intent/axe/cut/martyr
-		item_d_type = "fire"
-		blade_class = BCLASS_CUT
-
-/datum/intent/axe/chop/battle/greataxe/martyr
-		item_d_type = "fire"
-		blade_class = BCLASS_CHOP
-		swingdelay = 5
-
-/datum/intent/axe/chop/martyr
-		item_d_type = "fire"
-		blade_class = BCLASS_CHOP
-		swingdelay = 5
-
-/datum/intent/axe/bash/martyr
-		item_d_type = "fire"
-		blade_class = BCLASS_SMASH
 
 /obj/item/rogueweapon/greataxe/steel/doublehead/martyr/Initialize()
 	. = ..()
@@ -784,8 +714,6 @@
 	return ..()
 
 /obj/item/rogueweapon/mace/goden/martyr
-	force = 35
-	force_wielded = 40
 	possible_item_intents = list(/datum/intent/mace/strike)
 	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/effect/daze, /datum/intent/effect/hobble)
 	icon_state = "martyrmace"
@@ -813,24 +741,6 @@
 		added_int = 0,\
 		added_def = 0,\
 	)
-
-/datum/intent/mace/strike/martyr
-		item_d_type = "fire"
-		blade_class = BCLASS_BLUNT
-
-/datum/intent/mace/smash/martyr
-		item_d_type = "fire"
-		blade_class = BCLASS_SMASH
-
-/datum/intent/effect/daze/martyr
-		item_d_type = "fire"
-		blade_class = BCLASS_EFFECT
-		swingdelay = 2
-
-/datum/intent/effect/hobble/martyr
-		item_d_type = "fire"
-		blade_class = BCLASS_EFFECT
-		swingdelay = 2
 
 /obj/item/rogueweapon/mace/goden/martyr/Initialize()
 	. = ..()
@@ -881,8 +791,6 @@
 	return ..()
 
 /obj/item/rogueweapon/spear/partizan/martyr
-	force = 20
-	force_wielded = 30
 	possible_item_intents = list(/datum/intent/spear/thrust, /datum/intent/spear/bash)
 	gripped_intents = list(/datum/intent/spear/thrust, /datum/intent/rend/reach/partizan, /datum/intent/partizan/peel, /datum/intent/spear/bash)
 	icon_state = "martyrtrident"
@@ -911,20 +819,6 @@
 		added_int = 0,\
 		added_def = 0,\
 	)
-
-/datum/intent/spear/thrust/martyr
-		item_d_type = "fire"
-		blade_class = BCLASS_PICK
-
-/datum/intent/spear/bash/martyr
-		item_d_type = "fire"
-
-/datum/intent/rend/reach/partizan/martyr
-		item_d_type = "fire"
-
-/datum/intent/partizan/peel/martyr
-		item_d_type = "fire"
-
 
 /obj/item/rogueweapon/spear/partizan/martyr/Initialize()
 	. = ..()

@@ -78,6 +78,9 @@ And it also helps for the character set panel
 /datum/clan/proc/handle_bloodsuck(mob/living/carbon/human/drinker, blood_types)
 	var/unwanted_blood = (blood_types & ~blood_preference)
 
+	if(blood_types & BLOOD_PREFERENCE_CC)
+		drinker.apply_status_effect(/datum/status_effect/buff/crimson_curse_blood)
+
 	if(!unwanted_blood)
 		return
 	drinker.apply_status_effect(/datum/status_effect/debuff/blood_disgust)
@@ -119,7 +122,8 @@ And it also helps for the character set panel
 		H.playsound_local(get_turf(H), 'sound/music/vampintro.ogg', 80, FALSE, pressure_affected = FALSE)
 		for(var/datum/coven/coven as anything in clane_covens)
 			H.give_coven(coven)
-		H.give_coven(/datum/coven/bloodheal)
+		if(H.get_vampire_generation() != GENERATION_FAILVAMP)
+			H.give_coven(/datum/coven/bloodheal)
 	else
 		non_vampire_members |= H
 		// Apply non-vampire specific benefits (lighter version)
@@ -543,6 +547,33 @@ And it also helps for the character set panel
 
 	user.open_clan_menu()
 
+/datum/status_effect/buff/crimson_curse_blood
+	id = "crimson_curse_blood"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/crimson_curse_blood
+	duration = 30 SECONDS
+	status_type = STATUS_EFFECT_REFRESH
+
+/atom/movable/screen/alert/status_effect/buff/crimson_curse_blood
+	name = "Sanguine Curse"
+	desc = span_good("I have consumed the sweet vitae of one cursed by dark magicks; a blemish upon Kaine's name is justly expunged from this realm!")
+	icon_state = "bloodheal"
+
+/datum/status_effect/buff/crimson_curse_blood/on_apply()
+	. = ..()
+	if(.)
+		owner.add_stress(/datum/stressevent/nourishing_blood)
+		owner.adjustBruteLoss(5)
+
+/datum/status_effect/buff/crimson_curse_blood/on_remove()
+	. = ..()
+	owner.remove_stress(/datum/stressevent/nourishing_blood)
+
+/datum/stressevent/nourishing_blood
+	desc = span_good("That blood was tasty!")
+	stressadd = -2
+	max_stacks = 10
+	stressadd_per_extra_stack = -2
+	timer = 10 MINUTES
 
 /datum/status_effect/debuff/blood_disgust
 	id = "blood_disgust"

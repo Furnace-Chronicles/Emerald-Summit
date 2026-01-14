@@ -14,24 +14,17 @@
 	curse = "Aimlessness"
 	blood_preference = BLOOD_PREFERENCE_ALL
 	clane_traits = list(
-		TRAIT_STRONGBITE,
 		TRAIT_NOHUNGER,
+		TRAIT_ZOMBIE_IMMUNE,
 		TRAIT_NOBREATH,
-		TRAIT_NOPAIN,
+		TRAIT_NOPAINSTUN,
 		TRAIT_TOXIMMUNE,
 		TRAIT_NOSLEEP,
 		TRAIT_VAMP_DREAMS,
-		TRAIT_DARKVISION,
 		TRAIT_SILVER_WEAK,
 		TRAIT_CRIMSON_CURSE
 		)
-
-	clane_covens = list(
-	)
+	clane_covens = list()
 	leader = /datum/clan_leader/strays
 	covens_to_select = 0
 
-/datum/clan/strays/on_vampire_life(mob/living/carbon/human/H)
-	..()
-	if(H.bloodpool >= 500)
-		ADD_TRAIT(H, TRAIT_NOPAIN, "clan")

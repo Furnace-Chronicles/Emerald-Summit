@@ -669,6 +669,16 @@
 /obj/item/clothing/head/roguetown/headband/red
 	color = CLOTHING_RED
 
+/obj/item/clothing/head/roguetown/maidband
+	name = "maid headband"
+	desc = "A pleated cloth headband. It has gained widespread popularity from nobles travelling with their servants."
+	icon = 'icons/roguetown/clothing/head.dmi'
+	icon_state = "maidband"
+	item_state = "maidband"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
+	slot_flags = ITEM_SLOT_HEAD
+	body_parts_covered = NONE
+
 /obj/item/clothing/head/roguetown/crown/fakecrown
 	name = "fake crown"
 	desc = "You shouldn't be seeing this."
@@ -1998,6 +2008,9 @@
 	name = "briar thorns"
 	desc = "The pain of wearing it might distract you from the whispers of a mad God overpowering your sanity..."
 	icon_state = "briarthorns"
+	max_integrity = 150
+	body_parts_covered = HEAD|HAIR|EARS 
+	armor = ARMOR_HEAD_BAD //durability and some padded defense for briars
 
 /obj/item/clothing/head/roguetown/padded/briarthorns/pickup(mob/living/user)
 	. = ..()

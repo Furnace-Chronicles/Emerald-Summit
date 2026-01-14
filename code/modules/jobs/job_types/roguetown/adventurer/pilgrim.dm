@@ -6,6 +6,7 @@
 	total_positions = 0
 	spawn_positions = 0 //disables round-start spawn of pilgrims but allows migrant waves
 	allowed_races = RACES_ALL_KINDS
+	job_traits = list(TRAIT_CROPSHARE)
 	tutorial = "Fleeing misfortune you head your way towards Scarlet Reach, you're not a soldier or an explorer, but a humble migrant trying to look for a better life, if you get to survive the trip that is."
 
 	outfit = null

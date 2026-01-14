@@ -207,6 +207,7 @@
 /datum/virtue/combat/crimson_curse
 	name = "Crimson Curse"
 	desc = "You suffer from the Crimson Curse, a weak form of Vampirism acquired from dark rites or a particularly cruel hex. Unlike a 'true' Vampire, you are incapable of converting others or commiting Diablerie."
+	custom_text = span_bloody("CON IS ADJUSTED BY -1!")
 
 /datum/virtue/combat/crimson_curse/apply_to_human(mob/living/carbon/human/recipient)
 	//Hacky but we need to do this, otherwise the CC trait isn't applied before vampire checks for the trait and stops us from being Clan Leader
@@ -214,5 +215,6 @@
 	addtimer(CALLBACK(src, .proc/crimson_apply, recipient), 30)
 
 /datum/virtue/combat/crimson_curse/proc/crimson_apply(mob/living/carbon/human/recipient)
-	var/datum/antagonist/vampire/stray/new_antag = new /datum/antagonist/vampire/stray(incoming_clan = /datum/clan/strays, generation = GENERATION_THINBLOOD)
+	var/datum/antagonist/vampire/stray/new_antag = new /datum/antagonist/vampire/stray(incoming_clan = /datum/clan/strays, forced_clan = FALSE, generation = GENERATION_FAILVAMP)
 	recipient.mind.add_antag_datum(new_antag)
+	recipient.change_stat(STATKEY_CON, -1)

@@ -1009,6 +1009,21 @@
 	created_item = /obj/item/rogueweapon/knuckles/eora
 	i_type = "Weapons"
 
+/datum/anvil_recipe/weapons/holy/solarspear
+	name = "Solar Spear (+1 H. Steel)"
+	req_bar = /obj/item/ingot/steelholy
+	additional_items = list(/obj/item/ingot/steelholy)
+	craftdiff = 3
+	created_item = /obj/item/rogueweapon/spear/holysteel
+	i_type = "Weapons"
+
+/datum/anvil_recipe/weapons/holy/judgementedge
+	name = "Judgement Edge"
+	req_bar = /obj/item/ingot/steelholy
+	craftdiff = 3
+	created_item = /obj/item/rogueweapon/sword/holysteel
+	i_type = "Weapons"
+
 //Psydonian weapon smithing
 /datum/anvil_recipe/weapons/psy/axe
 	name = "Psydonian War Axe (+1 B. Silver, +1 Stick)"

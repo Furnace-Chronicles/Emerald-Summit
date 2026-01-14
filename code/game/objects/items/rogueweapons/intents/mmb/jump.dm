@@ -178,12 +178,12 @@
 	return TRUE
 
 /mob/living/proc/after_jump(stumble)
-	if(stumble)
-		throw_at(get_step(src, src.dir), 1, 1, src, spin = FALSE)
-	if(!HAS_TRAIT(src, TRAIT_ZJUMP) && (m_intent == MOVE_INTENT_RUN))	//Jesters and werewolves don't get immobilized at all
-		Immobilize((HAS_TRAIT(src, TRAIT_LEAPER) ? 2 : 5))	//Acrobatics get half the time 🤫
 	if(isopenturf(src.loc))
 		var/turf/open/T = src.loc
 		if(T.landsound)
 			playsound(T, T.landsound, 100, FALSE)
 		T.Entered(src)
+	if(stumble)
+		throw_at(get_step(src, src.dir), 1, 1, src, spin = FALSE)
+	if(!HAS_TRAIT(src, TRAIT_ZJUMP) && (m_intent == MOVE_INTENT_RUN))	//Jesters and werewolves don't get immobilized at all
+		Immobilize((HAS_TRAIT(src, TRAIT_LEAPER) ? 2 : 5))	//Acrobatics get half the time 🤫

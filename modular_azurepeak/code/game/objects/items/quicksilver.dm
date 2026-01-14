@@ -96,7 +96,17 @@
 	else
 		icon_state = "[initial(icon_state)]_half"
 		to_chat(user, span_notice("My inquisitorial training leaves just enough of the poultice left for one more anointment."))
-		
+
+	if(Vamp && M.get_vampire_generation() == GENERATION_FAILVAMP)
+		M.flash_fullscreen("redflash3")
+		M.emote("agony", forced = TRUE)
+		to_chat(M, span_userdanger("THE FOUL SILVER! MY STILL HEART QUICKENS ONCE MORE!"))
+		Vamp.on_removal()
+		ADD_TRAIT(M, TRAIT_SILVER_BLESSED, TRAIT_GENERIC)
+		M.Stun(30)
+		M.Knockdown(30)
+		M.Jitter(30)
+		return
 
 	//Werewolf deconversion
 	if(Were && !Wereless) //The roundstart elder/alpha werewolf, it cannot be saved

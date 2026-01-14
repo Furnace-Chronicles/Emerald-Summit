@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/psydonlux_tamper
 	name = "WEEP"
-	overlay_state = "psydonweeps"
+	overlay_state = "WEEP"
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 0

@@ -205,7 +205,7 @@
 	return primary_family
 
 /mob/living/carbon/human/proc/create_walk_to(duration, mob/living/walk_to)
-	ADD_TRAIT(src, TRAIT_MOVEMENT_BLOCKED, VAMPIRE_TRAIT)
+	ADD_TRAIT(src, TRAIT_MOVEMENT_BLOCKED, TRAIT_VAMPIRE)
 	walk_to_target = walk_to
 	walk_to_duration = duration
 	walk_to_steps_taken = 0
@@ -250,7 +250,7 @@
 	addtimer(CALLBACK(src, PROC_REF(walk_to_caster)), total_multiplicative_slowdown())
 
 /mob/living/carbon/human/proc/remove_walk_to_trait()
-	REMOVE_TRAIT(src, TRAIT_MOVEMENT_BLOCKED, VAMPIRE_TRAIT)
+	REMOVE_TRAIT(src, TRAIT_MOVEMENT_BLOCKED, TRAIT_VAMPIRE)
 	walk(src, 0) // Stop any walking
 	walk_to_target = null
 	walk_to_duration = 0

@@ -226,19 +226,20 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 			var/mob/user = usr
 			if(user.client)
 				plevel = user.client.patreonlevel()
-		if(!IsPatreon(ckey))
-			if(SSticker.queued_players.len || (relevant_cap && living_player_count() >= relevant_cap && !(ckey(key) in GLOB.admin_datums) && plevel < 1))
-				to_chat(usr, span_danger("[CONFIG_GET(string/hard_popcap_message)]"))
+			var/IsAdmin = check_rights_for(user.client, R_ADMIN)
+			if(!IsPatreon(ckey) || IsAdmin)
+				if(SSticker.queued_players.len || (relevant_cap && living_player_count() >= relevant_cap && !(ckey(key) in GLOB.admin_datums) && plevel < 1))
+					to_chat(usr, span_danger("[CONFIG_GET(string/hard_popcap_message)]"))
 
-				var/queue_position = SSticker.queued_players.Find(usr)
-				if(queue_position == 1)
-					to_chat(usr, span_notice("Thou art next in line to join the game. You will be notified when a slot opens up."))
-				else if(queue_position)
-					to_chat(usr, span_notice("Thou art [queue_position-1] players in front of you in the queue to join the game."))
-				else
-					SSticker.queued_players += usr
-					to_chat(usr, span_notice("Thou have been added to the queue to join the game. Your position in queue is [SSticker.queued_players.len]."))
-				return
+					var/queue_position = SSticker.queued_players.Find(usr)
+					if(queue_position == 1)
+						to_chat(usr, span_notice("Thou art next in line to join the game. You will be notified when a slot opens up."))
+					else if(queue_position)
+						to_chat(usr, span_notice("Thou art [queue_position-1] players in front of you in the queue to join the game."))
+					else
+						SSticker.queued_players += usr
+						to_chat(usr, span_notice("Thou have been added to the queue to join the game. Your position in queue is [SSticker.queued_players.len]."))
+					return
 		LateChoices()
 
 	if(href_list["manifest"])

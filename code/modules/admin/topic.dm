@@ -652,6 +652,8 @@
 			if(job.title == Add)
 				job.total_positions += 1
 				job.admin_slots += 1
+				message_admins("[usr.key] has opened a [job.title] slot.")
+				log_admin("[key_name(usr)] opened a [job.title] slot.")
 				break
 
 		src.manage_free_slots()
@@ -671,6 +673,8 @@
 					to_chat(src.owner, "Setting to amount of positions filled for the job")
 					job.total_positions = job.current_positions
 					break
+				message_admins("[usr.key] has set [job.title] slots to [newtime].")
+				log_admin("[key_name(usr)] set [job.title] slots to [newtime].")
 				job.total_positions = newtime
 
 		src.manage_free_slots()
@@ -685,6 +689,8 @@
 			if(job.title == Remove && job.total_positions - job.current_positions > 0)
 				job.total_positions -= 1
 				job.admin_slots -= 1
+				message_admins("[usr.key] has closed a [job.title] slot.")
+				log_admin("[key_name(usr)] closed a [job.title] slot.")
 				break
 
 		src.manage_free_slots()
@@ -698,6 +704,8 @@
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Unlimit)
 				job.total_positions = -1
+				message_admins("[usr.key] has set [job.title] slots to unlimited.")
+				log_admin("[key_name(usr)] set [job.title] slots to unlimited.")
 				break
 
 		src.manage_free_slots()
@@ -711,6 +719,8 @@
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Limit)
 				job.total_positions = job.current_positions
+				message_admins("[usr.key] has set [job.title] slots to limited.")
+				log_admin("[key_name(usr)] set [job.title] slots to limited.")
 				break
 
 		src.manage_free_slots()
@@ -1014,16 +1024,10 @@
 
 		if (number == 1)
 			log_admin("[key_name(usr)] created a [english_list(paths)]")
-			for(var/path in paths)
-				if(ispath(path, /mob))
-					message_admins("[key_name_admin(usr)] created a [english_list(paths)]")
-					break
+			spawn_message_admins("[key_name_admin(usr)] created a [english_list(paths)]")
 		else
 			log_admin("[key_name(usr)] created [number]ea [english_list(paths)]")
-			for(var/path in paths)
-				if(ispath(path, /mob))
-					message_admins("[key_name_admin(usr)] created [number]ea [english_list(paths)]")
-					break
+			spawn_message_admins("[key_name_admin(usr)] created [number]ea [english_list(paths)]")
 		return
 
 	else if(href_list["secrets"])
