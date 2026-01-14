@@ -4,7 +4,7 @@
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 0
-	range = 2
+	range = 7
 	warnie = "sydwarning"
 	desc = "Bleed for the target, taking their wounds and refilling their blood level."
 	movement_interrupt = FALSE
@@ -304,7 +304,7 @@
 	releasedrain = 20
 	chargedrain = 0
 	chargetime = 0
-	range = 1
+	range = 12
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = 'sound/magic/psyabsolution.ogg'
