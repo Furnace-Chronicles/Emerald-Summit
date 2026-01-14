@@ -17,6 +17,7 @@
 	var/locked = FALSE
 	var/base_icon = "pillory_single"
 	var/list/lockid = list()
+	var/lock_strength = 100
 
 /obj/structure/pillory/double
 	icon_state = "pillory_double"
@@ -54,18 +55,12 @@
 	if(!buckled_mobs.len)
 		to_chat(user, span_warning("What's the point of latching it with nobody inside?"))
 		return
-	if(user in buckled_mobs)
-		to_chat(user, span_warning("I can't reach the latch!"))
-		return
 	if(locked)
 		to_chat(usr, span_warning("Unlock it first!"))
 		return
 	togglelatch(user)
 
 /obj/structure/pillory/attackby(obj/item/P, mob/user, params)
-	if(user in buckled_mobs)
-		to_chat(user, span_warning("I can't reach the lock!"))
-		return
 	if(!latched)
 		to_chat(user, span_warning("It's not latched shut!"))
 		return
@@ -84,6 +79,14 @@
 			if(KE.lockid in lockid)
 				togglelock(user)
 				return
+	if(istype(P, /obj/item/lockpick))
+		trypicklock(P, user)
+	if(istype(P, /obj/item/melee/touch_attack/lesserknock))
+		trypicklock(P, user)
+	if(istype(P,/obj/item/lockpickring))
+		var/obj/item/lockpickring/pickring = P
+		to_chat(user, span_warning("You clumsily drop a lockpick off the ring as you try to pick the lock with it."))
+	..()
 
 /obj/structure/pillory/proc/togglelatch(mob/living/user, silent)
 	user.changeNext_move(CLICK_CD_MELEE)
@@ -195,5 +198,74 @@
 
 	var/mob/living/victim = pick(buckled_mobs)
 	return AM.throw_impact(victim, throwingdatum)
+
+
+
+//shitty copy paste, someone should really just make this into a component.
+/obj/structure/pillory/proc/trypicklock(obj/item/I, mob/user)
+	if(!latched)
+		to_chat(user, "<span class='warning'>This cannot be picked while it is open.</span>")
+		return
+	if(!locked)
+		to_chat(user, "<span class='warning'>This cannot be picked while it is unlocked.</span>")
+		return
+	else
+		var/lockprogress = 0
+		var/locktreshold = lock_strength
+
+		var/obj/item/lockpick/P = I
+		var/mob/living/L = user
+
+		var/pickskill = user.get_skill_level(/datum/skill/misc/lockpicking)
+		var/perbonus = L.STAPER/5
+		var/picktime = 70
+		var/pickchance = 35
+		var/moveup = 10
+
+		picktime -= (pickskill * 10)
+		picktime = clamp(picktime, 10, 70)
+
+		moveup += (pickskill * 3)
+		moveup = clamp(moveup, 10, 30)
+
+		pickchance += pickskill * 10
+		pickchance += perbonus
+		pickchance *= P.picklvl
+		pickchance = clamp(pickchance, 1, 95)
+
+		var/picked = FALSE
+		user.log_message("attempting to lockpick door \"[src.name]\" (currently [locked ? "locked" : "unlocked"]).", LOG_ATTACK)
+
+		while(!QDELETED(I) &&(lockprogress < locktreshold))
+			if(!do_after(user, picktime, target = src))
+				break
+			if(prob(pickchance))
+				lockprogress += moveup
+				playsound(src.loc, pick('sound/items/pickgood1.ogg','sound/items/pickgood2.ogg'), 5, TRUE)
+				to_chat(user, "<span class='warning'>Click...</span>")
+				if(L.mind)
+					add_sleep_experience(L, /datum/skill/misc/lockpicking, L.STAINT/2)
+				if(lockprogress >= locktreshold)
+					picked = TRUE
+					to_chat(user, "<span class='deadsay'>The locking mechanism gives.</span>")
+					record_featured_stat(FEATURED_STATS_CRIMINALS, user)
+					record_round_statistic(STATS_LOCKS_PICKED)
+					var/obj/effect/track/structure/new_track = new(get_turf(src))
+					new_track.handle_creation(user)
+					user.log_message("finished lockpicking door \"[src.name]\" (now [locked ? "unlocked" : "locked"]).", LOG_ATTACK)
+					locked = !locked
+					break
+				else
+					continue
+			else
+				playsound(src, 'sound/items/pickbad.ogg', 40, TRUE)
+				I.take_damage(1, BRUTE, "blunt")
+				to_chat(user, "<span class='warning'>Clack.</span>")
+				add_sleep_experience(L, /datum/skill/misc/lockpicking, L.STAINT/4)
+				continue
+		if(!picked)
+			user.log_message("stopped/failed lockpicking door \"[src.name]\" (remains [locked ? "locked" : "unlocked"]).", LOG_ATTACK)
+		return
+
 
 #undef PILLORY_HEAD_OFFSET
