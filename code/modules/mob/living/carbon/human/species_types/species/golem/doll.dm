@@ -136,6 +136,19 @@
 /datum/species/golem/porcelain/mechanical
 	name = "Arcyne Doll"
 	is_subrace = TRUE // Functionally identical to doll, new sprites
+	desc = "<b>Arcyne Doll</b><br>\
+	The pinnacle of both art and craftsmanship, dolls were originally made to provide companionship for ladies and wealthy women \
+	alike. Created to be simply toys or novelty decorations for the wealthy, they do not sleep, eat or bleed. However, \
+	due to the dark magic and heretical connotation that they share with the Golems of Giza, they were made to be incredibly \
+	brittle as to promote their subservience and remove any chance these somber creations have of harming their masters. \
+	Arcyne dolls were made during the Golem rebellion in Giza, created in a new image specifically to spite their masters. \
+	Arcyne dolls share alot of similarities to their predecessors, made to have a higher level of intelligence for spellcrafting and alchemy.  \
+	Arcyne dolls are often seen as heretical creations due to their origins, even if the design was found and replicated by mortal hands later in life.<br> \
+	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>-2 STR</span> |<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'> +2 INT | +1 SPD</b></span> </br> \
+	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b><span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Hungerless, Insomnia, Bloodless. Extremely fragile.</span></b></br>\
+	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b><span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Capable of installing skill exhibitors in themselves or other Golems.</span></b></br>"
+
+
 	race_titles = list("Homunculus", "Mannequin", "Marionette", "Puppet", "Doll") // So that they can be generic 'dolls' if they want
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mcom.dmi'
 	limbs_icon_f = 'icons/roguetown/mob/bodies/f/golem.dmi' // Its probably best I don't touch the female sprite, to prevent clothing spriting issues.
