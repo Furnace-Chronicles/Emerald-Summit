@@ -183,13 +183,13 @@
 	var/inputty = input("Outlaw a person", "MARSHAL") as text|null
 	if(inputty)
 		if(hasomen(OMEN_NOLORD))
-			make_outlaw(inputty, src)
+			make_outlaw(inputty)
 		else
 			var/lord = find_lord()
 			if(lord)
 				INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(lord_outlaw_requested), src, lord, inputty)
 			else
-				make_outlaw(inputty, src)
+				make_outlaw(inputty)
 
 /proc/find_lord(required_stat = CONSCIOUS)
 	var/mob/living/lord
@@ -235,7 +235,7 @@
 		if(bailiff)
 			to_chat(span_warning("The lord has denied the request for declaring an outlaw!"))
 		return
-	make_outlaw(requested_outlaw, lord)
+	make_outlaw(requested_outlaw)
 
 /mob/proc/haltyell()
 	set name = "HALT!"

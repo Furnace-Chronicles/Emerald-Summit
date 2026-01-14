@@ -351,9 +351,9 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 /obj/structure/roguemachine/titan/proc/declare_outlaw(mob/living/user, raw_message)
 	if(!SScommunications.can_announce(user))
 		return
-	return make_outlaw(raw_message, user)
+	return make_outlaw(raw_message)
 
-/proc/make_outlaw(raw_message, mob/living/user, silent = FALSE)
+/proc/make_outlaw(raw_message, silent = FALSE)
 	var/mob/living/carbon/human/outlaw
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
 		if(lowertext(H.real_name) == lowertext(raw_message))
@@ -362,20 +362,14 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 		return FALSE
 	if(outlaw.real_name in GLOB.outlawed_players)
 		if(!silent)
-			var/prompt = alert(user, "[outlaw.real_name] is already an outlaw, would you wish to declare them no longer an outlaw?", "DECLARE OUTLAW", "Yes", "No")
-			if(prompt == "Yes")
-				GLOB.outlawed_players -= outlaw.real_name
-				priority_announce("[outlaw.real_name] is no longer an outlaw in the Scarlet Reach.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree.ogg', "Captain")
+			GLOB.outlawed_players -= outlaw.real_name
+			priority_announce("[outlaw.real_name] is no longer an outlaw in the Scarlet Reach.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree.ogg', "Captain")
 		else
 			GLOB.outlawed_players -= outlaw.real_name
 		return FALSE
 	if(!silent)
-		var/prompt = alert(user, "[outlaw.real_name] is not an outlaw, would you wish to declare them an outlaw?", "DECLARE OUTLAW", "Yes", "No")
-		if(prompt == "Yes")
-			GLOB.outlawed_players += outlaw.real_name
-			priority_announce("[outlaw.real_name] has been declared an outlaw and must be captured or slain.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree2.ogg', "Captain")
-		else
-			return FALSE
+		GLOB.outlawed_players += outlaw.real_name
+		priority_announce("[outlaw.real_name] has been declared an outlaw and must be captured or slain.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree2.ogg', "Captain")
 	else
 		GLOB.outlawed_players += outlaw.real_name
 	return TRUE
