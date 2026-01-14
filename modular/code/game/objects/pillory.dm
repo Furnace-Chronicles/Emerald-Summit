@@ -85,7 +85,9 @@
 		trypicklock(P, user)
 	if(istype(P,/obj/item/lockpickring))
 		var/obj/item/lockpickring/pickring = P
-		to_chat(user, span_warning("You clumsily drop a lockpick off the ring as you try to pick the lock with it."))
+		if(pickring.picks.len)
+			pickring.removefromring(user)
+			to_chat(user, span_warning("You clumsily drop a lockpick off the ring as you try to pick the lock with it."))
 	..()
 
 /obj/structure/pillory/proc/togglelatch(mob/living/user, silent)
@@ -93,7 +95,7 @@
 	if(latched)
 		user.visible_message(span_warning("[user] unlatches [src]."), \
 			span_notice("I unlatch [src]."))
-		playsound(src, 'sound/foley/doors/lock.ogg', 100)
+		playsound(src, 'sound/foley/doors/lock.ogg', 100)		
 		latched = FALSE
 	else
 		user.visible_message(span_warning("[user] latches [src]."), \
