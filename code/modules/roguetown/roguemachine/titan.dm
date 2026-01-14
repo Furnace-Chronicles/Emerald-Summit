@@ -3,6 +3,12 @@ GLOBAL_LIST_EMPTY(lord_decrees)
 GLOBAL_LIST_EMPTY(court_agents)
 GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 
+#define THROAT_MODE_DEFAULT 1 // Idle
+#define THROAT_MODE_ANNOUNCEMENT 2 // Announcements
+#define THROAT_MODE_DECREE 3 // Decrees
+#define THROAT_MODE_OUTLAW 4 // Outlaws
+#define THROAT_MODE_LAW 5 // Make laws
+
 /proc/initialize_laws_of_the_land()
 	var/list/laws = strings("laws_of_the_land.json", "lawsets")
 	var/list/lawsets_weighted = list()
@@ -22,7 +28,21 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 	integrity_failure = 0.5
 	max_integrity = 0
 	anchored = TRUE
-	var/mode = 0
+	/// Status of the throat, 1 - 5 [Idle, Announcement, Decree, Outlaw, Make Law]
+	var/mode = THROAT_MODE_DEFAULT
+	/// Key value pair for mode - examine text
+	var/list/throat_modes_kv = list(
+		THROAT_MODE_DEFAULT = "The throat is in an idle state, ready to listen to demands.",
+		THROAT_MODE_ANNOUNCEMENT = "The throat is ready to announce your will.",
+		THROAT_MODE_DECREE = "The throat is eagerly listening to state your decree.",
+		THROAT_MODE_OUTLAW = "The throat is awaiting the name of the criminal in mind.",
+		THROAT_MODE_LAW = "The throat is prepared to enact your new law.",
+	)
+
+/obj/structure/roguemachine/titan/examine(mob/user)
+	. = ..()
+	var/key = mode // Don't... just don't ask.
+	. += span_info("<font color = '#46bacf'>[throat_modes_kv[key]]</font>")
 
 
 /obj/structure/roguemachine/titan/obj_break(damage_flag)
@@ -67,7 +87,7 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 
 	if(mode)
 		if(findtext(message, "nevermind"))
-			mode = 0
+			mode = THROAT_MODE_DEFAULT
 			return
 	if(findtext(message, "summon crown")) //This must never fail, thus place it before all other modestuffs.
 		if(!SSroguemachine.crown)
@@ -142,7 +162,7 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 			playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
 			playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 	switch(mode)
-		if(0)
+		if(THROAT_MODE_DEFAULT)
 			if(findtext(message, "secrets of the throat"))
 				say("My commands are: Make Decree, Make Announcement, Set Taxes, Declare Outlaw, Summon Crown, Summon Key, Make Law, Remove Law, Purge Laws, Purge Decrees, Become Regent, Nevermind")
 				playsound(src, 'sound/misc/machinelong.ogg', 100, FALSE, -1)
@@ -156,7 +176,7 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 					return
 				say("Speak and they will listen.")
 				playsound(src, 'sound/misc/machineyes.ogg', 100, FALSE, -1)
-				mode = 1
+				mode = THROAT_MODE_ANNOUNCEMENT
 				return
 			if(findtext(message, "make decree"))
 				if(!SScommunications.can_announce(H))
@@ -169,7 +189,7 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 					return
 				say("Speak and they will obey.")
 				playsound(src, 'sound/misc/machineyes.ogg', 100, FALSE, -1)
-				mode = 2
+				mode = THROAT_MODE_DECREE
 				return
 			if(findtext(message, "purge decrees"))
 				if(notlord || nocrown)
@@ -187,7 +207,7 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 					return
 				say("Speak and they will obey.")
 				playsound(src, 'sound/misc/machineyes.ogg', 100, FALSE, -1)
-				mode = 4
+				mode = THROAT_MODE_LAW
 				return
 			if(findtext(message, "remove law"))
 				if(notlord || nocrown)
@@ -219,7 +239,7 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 					return
 				say("Who should be outlawed?")
 				playsound(src, 'sound/misc/machinequestion.ogg', 100, FALSE, -1)
-				mode = 3
+				mode = THROAT_MODE_OUTLAW
 				return
 			if(findtext(message, "set taxes"))
 				if(notlord || nocrown)
@@ -263,20 +283,20 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 				become_regent(H)
 				return
 
-		if(1)
+		if(THROAT_MODE_ANNOUNCEMENT)
 			make_announcement(H, raw_message)
-			mode = 0
-		if(2)
+			mode = THROAT_MODE_DEFAULT
+		if(THROAT_MODE_DECREE)
 			make_decree(H, raw_message)
-			mode = 0
-		if(3)
+			mode = THROAT_MODE_DEFAULT
+		if(THROAT_MODE_OUTLAW)
 			declare_outlaw(H, message)
-			mode = 0
-		if(4)
+			mode = THROAT_MODE_DEFAULT
+		if(THROAT_MODE_LAW)
 			if(!SScommunications.can_announce(speaker))
 				return
 			make_law(raw_message)
-			mode = 0
+			mode = THROAT_MODE_DEFAULT
 
 /obj/structure/roguemachine/titan/proc/give_tax_popup(mob/living/carbon/human/user)
 	if(!Adjacent(user))
@@ -331,26 +351,33 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 /obj/structure/roguemachine/titan/proc/declare_outlaw(mob/living/user, raw_message)
 	if(!SScommunications.can_announce(user))
 		return
-	if(user.job)
-		if(!istype(SSjob.GetJob(user.job), /datum/job/roguetown/lord))
-			return
-	else
-		return
-	return make_outlaw(raw_message)
+	return make_outlaw(raw_message, user)
 
-/proc/make_outlaw(raw_message)
-	if(raw_message in GLOB.outlawed_players)
-		GLOB.outlawed_players -= raw_message
-		priority_announce("[raw_message] is no longer an outlaw in the Scarlet Reach.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree.ogg', "Captain")
-		return FALSE
-	var/found = FALSE
+/proc/make_outlaw(raw_message, mob/living/user, silent = FALSE)
+	var/mob/living/carbon/human/outlaw
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
-		if(H.real_name == raw_message)
-			found = TRUE
-	if(!found)
+		if(lowertext(H.real_name) == lowertext(raw_message))
+			outlaw = H
+	if(!outlaw)
 		return FALSE
-	GLOB.outlawed_players += raw_message
-	priority_announce("[raw_message] has been declared an outlaw and must be captured or slain.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree2.ogg', "Captain")
+	if(outlaw.real_name in GLOB.outlawed_players)
+		if(!silent)
+			var/prompt = alert(user, "[outlaw.real_name] is already an outlaw, would you wish to declare them no longer an outlaw?", "DECLARE OUTLAW", "Yes", "No")
+			if(prompt == "Yes")
+				GLOB.outlawed_players -= outlaw.real_name
+				priority_announce("[outlaw.real_name] is no longer an outlaw in the Scarlet Reach.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree.ogg', "Captain")
+		else
+			GLOB.outlawed_players -= outlaw.real_name
+		return FALSE
+	if(!silent)
+		var/prompt = alert(user, "[outlaw.real_name] is not an outlaw, would you wish to declare them an outlaw?", "DECLARE OUTLAW", "Yes", "No")
+		if(prompt == "Yes")
+			GLOB.outlawed_players += outlaw.real_name
+			priority_announce("[outlaw.real_name] has been declared an outlaw and must be captured or slain.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree2.ogg', "Captain")
+		else
+			return FALSE
+	else
+		GLOB.outlawed_players += outlaw.real_name
 	return TRUE
 
 /proc/make_law(raw_message)

@@ -426,7 +426,7 @@
 	weight = 20
 
 /datum/special_trait/outlaw/on_apply(mob/living/carbon/human/character, silent)
-	make_outlaw(character.real_name, TRUE)
+	make_outlaw(character.real_name, null, TRUE)
 
 /datum/special_trait/unlucky
 	name = "Unlucky"

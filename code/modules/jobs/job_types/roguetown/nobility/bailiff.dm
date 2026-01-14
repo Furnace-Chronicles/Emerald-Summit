@@ -183,21 +183,24 @@
 	var/inputty = input("Outlaw a person", "MARSHAL") as text|null
 	if(inputty)
 		if(hasomen(OMEN_NOLORD))
-			make_outlaw(inputty)
+			make_outlaw(inputty, src)
 		else
 			var/lord = find_lord()
 			if(lord)
 				INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(lord_outlaw_requested), src, lord, inputty)
 			else
-				make_outlaw(inputty)
+				make_outlaw(inputty, src)
 
 /proc/find_lord(required_stat = CONSCIOUS)
 	var/mob/living/lord
-	for(var/mob/living/carbon/human/H in GLOB.human_list)
-		if(!H.mind || H.job != "Grand Duke" || (H.stat > required_stat))
-			continue
-		lord = H
-		break
+	var/mob/living/carbon/human/H = SSticker.rulermob
+	if(!H)
+		H = SSticker.regentmob
+		if(!H)
+			return
+	if(!H.mind || (H.stat > required_stat))
+		return
+	lord = H
 	return lord
 
 /proc/lord_law_requested(mob/living/bailiff, mob/living/carbon/human/lord, requested_law)
@@ -232,7 +235,7 @@
 		if(bailiff)
 			to_chat(span_warning("The lord has denied the request for declaring an outlaw!"))
 		return
-	make_outlaw(requested_outlaw)
+	make_outlaw(requested_outlaw, lord)
 
 /mob/proc/haltyell()
 	set name = "HALT!"
