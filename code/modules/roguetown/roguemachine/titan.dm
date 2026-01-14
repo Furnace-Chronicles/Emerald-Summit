@@ -31,7 +31,7 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 	/// Status of the throat, 1 - 5 [Idle, Announcement, Decree, Outlaw, Make Law]
 	var/mode = THROAT_MODE_DEFAULT
 	/// Key value pair for mode - examine text
-	var/list/throat_modes_kv = list(
+	var/list/throat_modes_kv = alist(
 		THROAT_MODE_DEFAULT = "The throat is in an idle state, ready to listen to demands.",
 		THROAT_MODE_ANNOUNCEMENT = "The throat is ready to announce your will.",
 		THROAT_MODE_DECREE = "The throat is eagerly listening to state your decree.",
