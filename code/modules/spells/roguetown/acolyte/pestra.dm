@@ -473,7 +473,7 @@
 	releasedrain = 15
 	chargedrain = 0
 	chargetime = 0
-	range = 2
+	range = 7
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = 'sound/magic/diagnose.ogg'
