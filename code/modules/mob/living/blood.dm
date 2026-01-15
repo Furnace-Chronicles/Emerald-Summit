@@ -229,9 +229,9 @@
 
 	var/total_bleed = normal_bleed + critical_bleed
 
-	if(total_bleed < 1)
-		return 0
-	return total_bleed
+	if(total_bleed > 0.1)
+		return total_bleed
+	return 0
 
 
 /mob/living/carbon/proc/recalculate_bleed_cache()
