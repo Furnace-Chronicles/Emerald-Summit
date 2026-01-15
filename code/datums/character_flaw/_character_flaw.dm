@@ -5,6 +5,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	"Blind"=/datum/charflaw/blind,
 	"Clingy"=/datum/charflaw/clingy,
 	"Colorblind"=/datum/charflaw/colorblind,
+	"Hunted"=/datum/charflaw/hunted,
 	"Critical Weakness"=/datum/charflaw/critweakness,
 	"Cyclops (L)"=/datum/charflaw/noeyel,
 	"Cyclops (R)"=/datum/charflaw/noeyer,
@@ -155,7 +156,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 		H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/spectacles(H), SLOT_WEAR_MASK)
 	else
 		new /obj/item/clothing/mask/rogue/spectacles(get_turf(H))
-	
+
 	// we don't seem to have a mind when on_mob_creation fires, so set up a timer to check when we probably will
 	addtimer(CALLBACK(src, PROC_REF(apply_reading_skill), H), 5 SECONDS)
 
@@ -380,6 +381,45 @@ GLOBAL_LIST_INIT(character_flaws, list(
 /datum/charflaw/colorblind/on_mob_creation(mob/user)
 	..()
 	user.add_client_colour(/datum/client_colour/monochrome)
+
+/datum/charflaw/hunted
+	name = "Hunted"
+	desc = "Something in my past has made me a target. I'm always looking over my shoulder.	\
+	\nTHIS IS A DIFFICULT FLAW, YOU WILL BE HUNTED BY ASSASSINS AND HAVE ASSASINATION ATTEMPTS MADE AGAINST YOU WITHOUT ANY ESCALATION. \
+	EXPECT A MORE DIFFICULT EXPERIENCE. PLAY AT YOUR OWN RISK."
+	var/logged = FALSE
+/datum/charflaw/hunted/flaw_on_life(mob/user)
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	if(logged == FALSE)
+		if(H.name) // If you don't check this, the log entry wont have a name as flaw_on_life is checked at least once before the name is set.
+			logged = TRUE
+
+/datum/charflaw/hunted/apply_post_equipment(mob/user)
+	..()
+	if(!ishuman(user))
+		return
+	var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")
+	var/total_gnoll_positions = gnoll_job.total_positions
+	var/gnoll_increase = 0
+
+	if(total_gnoll_positions <= 2)
+		if(prob(50))
+			gnoll_increase = 2
+		else
+			gnoll_increase = 1
+	else if (total_gnoll_positions <= 5)
+		if(prob(50))
+			gnoll_increase = 1
+	else if (total_gnoll_positions <= 9)
+		if(prob(25))
+			gnoll_increase = 1
+
+	if(gnoll_increase >= 1)
+		to_chat(user, span_notice("I have offended graggarite agents, and they may be tracking my scent."))
+		gnoll_job.total_positions = min(total_gnoll_positions + gnoll_increase, 10)
+		gnoll_job.spawn_positions = min(total_gnoll_positions + gnoll_increase, 10)
 
 /datum/charflaw/greedy
 	name = "Greedy"
@@ -627,7 +667,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	desc = "You never learned Imperial. You cannot understand or speak it."
 
 /datum/charflaw/foreigner/apply_post_equipment(mob/user)
-	var/mob/living/carbon/human/H = user 
+	var/mob/living/carbon/human/H = user
 	var/datum/job/J = SSjob.GetJob(H.mind.assigned_role)
 	if(J && (J.department_flag & (NOBLEMEN | GARRISON | CHURCHMEN | INQUISITION | YEOMEN)))
 		var/list/flaw_choices = GLOB.character_flaws.Copy()
@@ -640,7 +680,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 		H.charflaw.on_mob_creation(H)
 		to_chat(user, span_warning("Your profession requires you to speak the local language. Your 'Foreigner' flaw has been replaced with '[H.charflaw.name]'."))
 		return
-	
+
 	user.remove_language(/datum/language/common)
 	if(!user.get_random_understood_language()) // give them a random langauge if they dont understand any
 		var/static/list/selectable_languages = list(

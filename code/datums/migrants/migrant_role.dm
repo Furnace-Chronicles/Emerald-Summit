@@ -40,3 +40,8 @@
 	antag_datum = /datum/antagonist/bandit
 	advclass_cat_rolls = list(CTAG_BANDIT = 20)
 	grant_lit_torch = TRUE
+
+/datum/migrant_role/gnoll
+	name = "Gnoll"
+	antag_datum = /datum/antagonist/gnoll
+	advclass_cat_rolls = list(CTAG_GNOLL = 20) //TEMPORARY PLACEHOLDER UNTIL THE GNOLL POP UP WORKS

@@ -1295,6 +1295,9 @@ There are several things that need to be remembered:
 	queue_icon_update(PENDING_UPDATE_INV_ARMOR)
 
 /mob/living/carbon/human/update_inv_armor_real()
+	// Snowflake check to stop species with custom body sprites of losing their armor when it's handled by the skin armor they wear.
+	if(dna.species.custom_base_icon)
+		return
 	remove_overlay(ARMOR_LAYER)
 	remove_overlay(ARMORSLEEVE_LAYER)
 
@@ -1464,6 +1467,23 @@ There are several things that need to be remembered:
 		apply_overlay(MOUTH_LAYER)
 	
 	rebuild_obscured_flags()
+
+/mob/living/carbon/human/proc/update_inv_armor_special()
+	remove_overlay(ARMOR_LAYER)
+
+	if(!skin_armor)
+		return
+
+	var/armor_icon_state = skin_armor.icon_state
+
+	if(!(src.mobility_flags & MOBILITY_STAND))
+		armor_icon_state = "[skin_armor.icon_state]_down"
+
+	var/mutable_appearance/armor_overlay = mutable_appearance(skin_armor.icon, armor_icon_state, layer = ARMOR_LAYER)
+
+	overlays_standing[ARMOR_LAYER] = armor_overlay
+	
+	add_overlay(armor_overlay)
 
 //endrogue
 

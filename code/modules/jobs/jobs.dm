@@ -140,6 +140,7 @@ GLOBAL_LIST_INIT(peasant_positions, list(
 	"Bandit",
 	"Court Agent",
 	"Wretch",
+	"Gnoll",
 ))
 
 GLOBAL_LIST_INIT(mercenary_positions, list(

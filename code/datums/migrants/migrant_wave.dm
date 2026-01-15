@@ -148,3 +148,11 @@
 		/datum/migrant_role/bandit = 1,
 	)
 
+/datum/migrant_wave/gnolls
+	name = "Gnoll Raid" //TEMPORARY UNTIL POP UP IS IMPLEMENTED
+	downgrade_wave = /datum/migrant_wave/gnolls
+	can_roll = FALSE
+	weight = 12
+	roles = list(
+		/datum/migrant_role/gnoll = 2,
+	)
