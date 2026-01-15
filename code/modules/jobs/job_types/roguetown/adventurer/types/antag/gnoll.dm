@@ -11,7 +11,7 @@
 	outfit = null
 	outfit_female = null
 	display_order = JDO_GNOLL
-	show_in_credits = FALSE
+	show_in_credits = TRUE
 	min_pq = 10
 	max_pq = null
 	allowed_patrons = list(/datum/patron/inhumen/graggar)
@@ -56,7 +56,24 @@
 		H.regenerate_icons()
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/claws/gnoll)
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/howl/gnoll)
-		H.AddSpell(new /obj/effect/proc_holder/spell/invoked/gnoll_sniff)
+		H.AddComponent(/datum/component/gnoll_combat_tracker)
+
+		var/obj/effect/proc_holder/spell/invoked/gnoll_sniff/F = new()
+		var/obj/effect/proc_holder/spell/invoked/invisibility/gnoll/I = new()
+		I.sniff_spell = F // Link them
+
+		var/obj/effect/proc_holder/spell/invoked/abduct/S = new /obj/effect/proc_holder/spell/invoked/abduct()
+		S.destination_turf = get_turf(H) // Set the anchor to where they spawn/don the outfit
+		H.AddSpell(S)
+		H.AddSpell(F)
+		H.AddSpell(I)
+
+		var/mode = get_gnoll_scaling()
+		if(mode == GNOLL_SCALING_DYNAMIC)
+			to_chat(H, span_bignotice("I can expect to be joined by my pack this week. I should wait for them and group up."))
+		else
+			to_chat(H, span_bignotice("Isolated from my pack, I am likely a lone soul this week. I should especially avoid getting killed, and look for my pack next week."))
+		to_chat(H, span_bignotice("Graggar is patient, and values good strategy. I mustn't be hasty, especially if my marks prove difficult to isolate.\n Perhaps there is merit in forging alliances, or setting up camp."))
 		spawn(50)
 			var/name_choice = alert(H, "What name do you want?", "MY NAME IS [H.real_name]", "Pick New Name", "Random Gnoll Name", "Keep Current Name")
 			switch(name_choice)
@@ -68,6 +85,17 @@
 					to_chat(H, span_notice("Your name is now [H.real_name]."))
 				if("Keep Current Name")
 					to_chat(H, span_notice("You keep your name as [H.real_name]."))
+
+//if(whateverthefuck.pronouns == SHE/HER)
+
+//if(getorganslot(ORGAN_SLOT_PENIS))
+//     W.internal_organs_slot[ORGAN_SLOT_PENIS] = /obj/item/organ/penis/knotted/big
+//if(getorganslot(ORGAN_SLOT_TESTICLES))
+//    W.internal_organs_slot[ORGAN_SLOT_TESTICLES] = /obj/item/organ/testicles
+//if(getorganslot(ORGAN_SLOT_BREASTS))
+//    W.internal_organs_slot[ORGAN_SLOT_BREASTS] = /obj/item/organ/breasts
+//if(getorganslot(ORGAN_SLOT_VAGINA))
+//    W.internal_organs_slot[ORGAN_SLOT_VAGINA] = /obj/item/organ/vagina
 
 /mob/living/carbon/human/proc/gnoll_inspect_skin()
 	set name = "Inspect Pelt"

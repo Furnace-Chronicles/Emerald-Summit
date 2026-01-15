@@ -1,5 +1,5 @@
 /datum/advclass/gnoll/berserker
-	name = "Berserker"
+	name = "Gnoll Berserker"
 	tutorial = "You are a warrior feared for your brutality, dedicated to using your might for your own gain. Might equals right, and you are the reminder of such a saying."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
@@ -9,10 +9,10 @@
 	traits_applied = list()
 	reset_stats = TRUE
 	subclass_stats = list(
-		STATKEY_STR = 3,
+		STATKEY_STR = 4,
 		STATKEY_CON = 2,
 		STATKEY_END = 2,
-		STATKEY_SPD = 5,
+		STATKEY_SPD = 4,
 		STATKEY_INT = -3,
 		STATKEY_PER = -1
 	)
@@ -23,6 +23,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/tracking = SKILL_LEVEL_LEGENDARY,
+		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE
 	)
 
 /datum/outfit/job/roguetown/gnoll/berserker/pre_equip(mob/living/carbon/human/H)

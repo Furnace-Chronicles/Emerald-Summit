@@ -24,15 +24,28 @@
 	var/relative_repair_mode = FALSE
 	var/relative_repair_interval = 15 SECONDS
 
+	/// Auto mode
+	/// Enables relative repair mode if not enabled
+	/// Sets the total repair time of the armmor to be relative to the base repair amount and time.
+	/// By default, aims to repair 100 armor every 15 seconds.
+	var/auto_repair_mode = FALSE
+	var/auto_repair_mode_triggered = FALSE
+	var/auto_repair_mode_base = 100
+	var/auto_repair_mode_time = 15 SECONDS
+
 	/// Regen interrupt vars
 	var/interrupt_damount
 	var/interrupt_dtype
 	var/interrupt_dflag
 	var/interrupt_ddir
 
+/obj/item/clothing/suit/roguetown/armor/regenerating/Initialize(mapload)
+	. = ..()
+	if(auto_repair_mode)
+		setup_auto_repair()
+
 /obj/item/clothing/suit/roguetown/armor/regenerating/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
 	..()
-	to_chat(world, span_userdanger("armor status is [obj_integrity] with [obj_broken] and [reptimer] and [active_timers]"))
 	if(reptimer)
 		if(!regen_interrupt(damage_amount, damage_type, damage_flag, attack_dir))
 			return
@@ -55,19 +68,31 @@
 
 	var/repair_amount
 	var/next_tick_time
+	var/skin_broken = 0
+	if(obj_integrity == 0)
+		skin_broken = 1
+
 
 	if(relative_repair_mode)
 		// math: (interval / total time) * max health
 		// example: (5s / 50s) * 100 HP = 10 HP per tick
 		var/repair_ratio = relative_repair_interval / repair_time
-		repair_amount = repair_ratio * max_integrity
+		if(!skin_broken)
+			repair_amount = repair_ratio * max_integrity
+		else
+			repair_amount = 5
 		next_tick_time = relative_repair_interval
 	else
 		// static mode: 20% of max integrity
-		repair_amount = 0.2 * max_integrity
+		if(!skin_broken)
+			repair_amount = 0.2 * max_integrity
+		else
+			repair_amount = 5
 		next_tick_time = repair_time
 
 	obj_integrity = min(obj_integrity + repair_amount, max_integrity)
+
+	// Fix armor so it can still be interrupted from regenerating
 	if(obj_broken && obj_integrity > 0)
 		obj_fix(full_repair = FALSE)
 	
@@ -86,6 +111,12 @@
 		return FALSE
 	return TRUE
 
+/obj/item/clothing/suit/roguetown/armor/regenerating/proc/setup_auto_repair()
+	repair_time = (max_integrity / auto_repair_mode_base) * auto_repair_mode_time
+
+	// Ensure relative mode is on to respect the new calculated repair_time
+	relative_repair_mode = TRUE
+	auto_repair_mode_triggered = TRUE
 
 // SKIN ARMOUR
 

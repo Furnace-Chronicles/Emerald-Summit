@@ -1,5 +1,5 @@
 /datum/advclass/gnoll/templar
-	name = "Templar"
+	name = "Gnoll Templar"
 	tutorial = "None are as valued to protect graggarite worship as his gnoll champions themselves."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
@@ -20,6 +20,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/tracking = SKILL_LEVEL_LEGENDARY,
+		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE
 	)
 	cmode_music = 'sound/music/combat_graggar.ogg'
 
@@ -34,6 +35,5 @@
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/templar
 	icon_state = "templar"
-	max_integrity = 800
-	repair_time = 40 SECONDS
+	max_integrity = 600
 	armor = ARMOR_GNOLL_STANDARD

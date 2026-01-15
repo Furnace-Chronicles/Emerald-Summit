@@ -13,12 +13,11 @@
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE
-	max_integrity = 550
+	max_integrity = 475
 	item_flags = DROPDEL
-	repair_time = 80 SECONDS
-	relative_repair_mode = TRUE
+	auto_repair_mode = TRUE
 	relative_repair_interval = 15 SECONDS
-	interrupt_damount = 25
+	interrupt_damount = 15
 
 /datum/antagonist/gnoll
 	name = "Gnoll"
@@ -38,7 +37,13 @@
 		owner.special_role = null
 
 /datum/antagonist/gnoll/greet()
-	to_chat(owner.current, span_userdanger("I am one of Graggar's chosen. My body sculpted as a reward for my great deeds. Now, I must find worthy challengers to continue proving my merit. Unlike Dendor's wolves, gnollhood has left some of my intellect intact."))
+	to_chat(owner.current, span_bignotice("I am one of Graggar's chosen. My body sculpted as a reward for my great deeds. Now, I must find worthy challengers to continue proving my merit. Unlike Dendor's wolves, gnollhood has left some of my intellect intact.\n"))
+	var/mode = get_gnoll_scaling()
+	if(mode == GNOLL_SCALING_DYNAMIC)
+		to_chat(owner.current, span_bignotice("I can expect to be joined by my pack this week. I should wait for them and group up."))
+	else
+		to_chat(owner.current, span_bignotice("Isolated from my pack, I am likely a lone soul this week. I should especially avoid getting killed, and look for my pack next week."))
+	to_chat(owner.current, span_bignotice("Graggar is patient, and values good strategy. I mustn't be hasty, especially if my marks prove difficult to isolate.\n Perhaps there is merit in forging alliances, or setting up camp."))
 	return ..()
 
 /mob/living/carbon/human/proc/gnoll_feed(mob/living/carbon/human/target, healing_amount = 10)
@@ -67,7 +72,7 @@
 	name = "Gnoll Claw"
 	// We are smarter, we can use our solid, steel-like claws to defend ourselves.
 	wdefense = 5
-	force = 25
+	force = 28
 	possible_item_intents = list(/datum/intent/simple/gnoll_cut, /datum/intent/simple/werewolf/gnoll, /datum/intent/mace/strike/gnoll)
 	
 /obj/item/rogueweapon/werewolf_claw/gnoll/right
@@ -85,17 +90,18 @@
 	attack_verb = list("claws", "mauls", "eviscerates")
 	animname = "chop"
 	hitsound = "genslash"
-	penfactor = 40
+	penfactor = 30
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"
 	miss_sound = "bluntwooshlarge"
 	item_d_type = "slash"
+	damfactor = 1.2
 
 /datum/intent/simple/gnoll_cut
 	name = "cutting claw"
 	hitsound = "genslash"
-	penfactor = 30
+	penfactor = 40
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"

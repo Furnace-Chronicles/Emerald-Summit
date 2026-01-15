@@ -94,3 +94,192 @@
 	if(!L || QDELETED(L) || L.stat == DEAD)
 		return FALSE
 	return TRUE
+
+//Alright since we don't have dream walkers I'm going to have to rawdog this. Let's hope it works!
+
+
+/obj/structure/portal_jaunt
+	name = "dream rift"
+	desc = "A shimmering portal to another place. You hear countless whispers when you get close, seems dangerous."
+	icon_state = "shitportal"
+	icon = 'icons/roguetown/misc/structure.dmi'
+	max_integrity = 250
+	var/cooldown = 0
+	var/uses = 0
+	var/max_uses = 3
+	var/turf/linked_turf
+	var/safe_passage = FALSE
+
+/obj/structure/portal_jaunt/Initialize()
+	. = ..()
+	cooldown = world.time + 4 SECONDS
+	visible_message(span_warning("[src] shimmers into existence!"))
+	playsound(src, 'sound/magic/mirror_world.ogg', 50, TRUE)
+/obj/structure/portal_jaunt/attack_hand(mob/user)
+	if(!do_after(user, 1 SECONDS, target = src))
+		to_chat(user, span_warning("I must stand still to use the portal."))
+		return
+	if(world.time < cooldown)
+		var/time_left = (cooldown - world.time) * 0.1
+		to_chat(user, span_warning("The portal is not stable yet. [time_left] seconds remaining."))
+		return
+	if(uses >= max_uses)
+		to_chat(user, span_warning("The portal collapses as you touch it!"))
+		qdel(src)
+		return
+	if(!linked_turf || !do_teleport(user, linked_turf))
+		to_chat(user, span_warning("The portal flickers but nothing happens."))
+		return
+	uses++
+	cooldown = world.time + 15 SECONDS
+	// High likelyhood of getting a dreamfiend summon upon non dreamwalkers when used.
+	if(!safe_passage && !HAS_TRAIT(user, TRAIT_DREAMWALKER) && (prob(75)))
+		summon_dreamfiend(
+			target = user,
+			user = user,
+			F = /mob/living/simple_animal/hostile/rogue/dreamfiend,
+			outer_tele_radius = 3,
+			inner_tele_radius = 2,
+			include_dense = FALSE,
+			include_teleport_restricted = FALSE
+		)
+	visible_message(span_warning("[user] steps through [src]!"))
+	playsound(src, 'sound/magic/rift_enter.ogg', 50, TRUE)
+	if(uses >= max_uses)
+		visible_message(span_danger("[src] collapses in on itself!"))
+		QDEL_IN(src, 1)
+
+/obj/effect/proc_holder/spell/invoked/abduct
+	name = "Abduct"
+	desc = "Cast on self to set a destination. Cast on an aggressively grabbed human to teleport them and nearby Gnolls to that destination. Much faster on hunted targets. There is a small blood tax for all gnolls involved, be careful."
+	var/turf/destination_turf
+	var/blood_loss = 75
+	recharge_time = 5 MINUTES
+	invocation_type = "emote"
+	invocation_emote_self = "<span class='notice'>I rip a hole into space with my claw!</span>"
+
+/obj/effect/proc_holder/spell/invoked/abduct/cast(list/targets, mob/user)
+	if(targets[1] == user)
+		destination_turf = get_turf(user)
+		to_chat(user, span_notice("You anchor your connection to graggar's plane here. Any abducted will be fetched here."))
+		// We are reverting cast because we're only setting the destination.
+		revert_cast()
+		return FALSE
+
+	var/mob/living/carbon/human/target = targets[1]
+	if(!ishuman(target))
+		to_chat(user, span_warning("This spell only works on humans or yourself!"))
+		revert_cast()
+		return FALSE
+
+	if(user.pulling != target || user.grab_state < GRAB_AGGRESSIVE)
+		to_chat(user, span_warning("You must have an aggressive grab on [target] to begin the ritual!"))
+		revert_cast()
+		return FALSE
+
+	// Shouldn't ever prop up, but sanity check!
+	if(!destination_turf)
+		to_chat(user, span_warning("You haven't set a destination anchor yet!"))
+		revert_cast()
+		return FALSE
+
+	// Determine Channel Time
+	var/channel_time = 10 SECONDS
+	if(target.has_flaw(/datum/charflaw/hunted))
+		channel_time = 5 SECONDS
+
+	to_chat(user, span_notice("You begin pulling [target] into Graggar's plane"))
+	to_chat(target, span_userdanger("The world around you begins to dissolve into a blood scented nightmare!"))
+	user.visible_message(span_userdanger("[user] tears a blood red rift into space with a claw, and begins dragging [target] into it!"))
+
+	if(!do_after(user, channel_time, target = target))
+		revert_cast()
+		return FALSE
+
+	// Ritual Execution
+	var/turf/origin_turf = get_turf(target)
+
+	var/obj/structure/portal_jaunt/portal = new(origin_turf)
+	portal.linked_turf = destination_turf
+	portal.safe_passage = TRUE 
+	portal.name = "fading blood rift"
+	portal.color = "#570f04"
+	portal.max_uses = 1
+
+	do_teleport(user, destination_turf)
+	do_teleport(target, destination_turf)
+
+	if(ishuman(user))
+		var/mob/living/carbon/human/userashuman = user
+		userashuman.blood_volume = max(0, userashuman.blood_volume - blood_loss)
+	for(var/mob/living/carbon/human/H in range(7, origin_turf))
+		if(H.dna?.species?.id == "gnoll")
+			H.blood_volume = max(0, H.blood_volume - blood_loss)
+			do_teleport(H, destination_turf)
+			to_chat(H, span_notice("You are swept along in the wake of the blood abduction!"))
+
+	to_chat(user, span_warning("The ritual is complete. You have brought them to your anchor."))
+	return TRUE
+
+
+/datum/component/gnoll_combat_tracker
+	var/last_damage_time = 0
+
+/datum/component/gnoll_combat_tracker/Initialize()
+	if(!isliving(parent))
+		return COMPONENT_INCOMPATIBLE
+	RegisterSignal(parent, COMSIG_MOB_APPLY_DAMGE, PROC_REF(on_damage))
+
+/datum/component/gnoll_combat_tracker/proc/on_damage()
+	last_damage_time = world.time
+
+/datum/component/gnoll_combat_tracker/proc/can_cast_stealth()
+	// Returns TRUE if 1 minute has passed
+	return (world.time >= last_damage_time + 60 SECONDS)
+
+/obj/effect/proc_holder/spell/invoked/invisibility/gnoll
+	name = "Stalk"
+	desc = "Fade from view. Lasts longer if you are close to your sniffed prey. Far longer if they are hunted. Taking damage makes it impossible to go invisible for a minute."
+	var/obj/effect/proc_holder/spell/invoked/gnoll_sniff/sniff_spell
+	recharge_time = 2 MINUTES
+
+/obj/effect/proc_holder/spell/invoked/invisibility/gnoll/cast(list/targets, mob/living/user)
+	var/mob/living/target = targets[1]
+	if(!isliving(target))
+		revert_cast()
+		return FALSE
+
+	// Check Damage Tracker Component
+	var/datum/component/gnoll_combat_tracker/tracker = user.GetComponent(/datum/component/gnoll_combat_tracker)
+	if(tracker && !tracker.can_cast_stealth())
+		var/wait = (tracker.last_damage_time + 60 SECONDS - world.time) / 10
+		to_chat(user, span_warning("Your blood is pumping too fast to use it to shroud someone's step! Wait [round(wait)] seconds."))
+		revert_cast()
+		return FALSE
+
+	if(target.anti_magic_check(TRUE, TRUE))
+		revert_cast()
+		return FALSE
+
+	var/base_dur = 5 SECONDS
+	var/bonus_dur = 0
+
+	if(sniff_spell && sniff_spell.tracked_target)
+		var/mob/living/prey = sniff_spell.tracked_target
+		if(get_dist(user, prey) <= 10)
+			to_chat(user, span_danger("My prey is close, my cloak lengthens."))
+			bonus_dur += 5 SECONDS // Small bonus for being close
+			if(prey.has_flaw(/datum/charflaw/hunted))
+				bonus_dur += 35 SECONDS // Massive bonus for hunted targets
+
+	var/total_dur = base_dur + bonus_dur
+
+	target.visible_message(span_warning("[target] vanishes into the scent of the hunt!"), span_notice("You vanish, the hunt guides your shadows."))
+
+	animate(target, alpha = 0, time = 1 SECONDS, easing = EASE_IN)
+	target.mob_timers[MT_INVISIBILITY] = world.time + total_dur
+
+	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living, update_sneak_invis), TRUE), total_dur)
+	addtimer(CALLBACK(target, TYPE_PROC_REF(/atom/movable, visible_message), span_warning("[target] lunges out of the shadows!"), span_notice("Your invisibility fades.")), total_dur)
+
+	return TRUE

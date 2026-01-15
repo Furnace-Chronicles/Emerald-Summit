@@ -82,6 +82,7 @@
 #define TRAIT_INFINITE_ENERGY "Boundless Energy" //infinite fatigue (blue bar) but not infinite stamina
 #define TRAIT_PERMAMUTE "Permanent Mute"
 #define TRAIT_HERESIARCH "Forbidden Knowledge" //allows entry to ascendant church
+#define TRAIT_DREAMWALKER "Dreamwalker"
 #define TRAIT_EXCOMMUNICATED "Excommunicated" //cannot be target of healing miracles of Ten or anastasia or cure rot
 #define TRAIT_DISGRACED_KNIGHT "Disgraced Knight" //knight who has been stripped of their honor
 #define TRAIT_PEASANTMILITIA "Angry Peasant" //Skill is treated as one higher with appropriate weapons

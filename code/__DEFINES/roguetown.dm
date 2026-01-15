@@ -135,6 +135,7 @@
 #define ARMOR_PANTS_BRIGANDINE list("blunt" = 40, "slash" = 70, "stab" = 70, "piercing" = 50, "fire" = 0, "acid" = 0)
 
 //Antag / Special / Unique armor defines
+#define ARMOR_REGENERATING_BROKEN list("blunt" = 10, "slash" = 10, "stab" = 10, "piercing" = 10, "fire" = 0, "acid" = 0)
 #define ARMOR_VAMP list("blunt" = 100, "slash" = 100, "stab" = 90, "piercing" = 80, "fire" = 0, "acid" = 0)
 #define ARMOR_WWOLF list("blunt" = 100, "slash" = 90, "stab" = 80, "piercing" = 70, "fire" = 40, "acid" = 0)
 #define ARMOR_GNOLL_WEAK list("blunt" = 90, "slash" = 90, "stab" = 80, "piercing" = 70, "fire" = 40, "acid" = 0)
