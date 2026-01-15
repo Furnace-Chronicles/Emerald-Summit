@@ -13,7 +13,7 @@
 	mid_sounds = list('sound/items/torchloop.ogg')
 	mid_length = 75
 	volume = 30
-	extra_range = -1
+	falloff = 2
 	vary = TRUE
 	//sound_group = /datum/sound_group/torches
 
@@ -21,13 +21,13 @@
 	mid_sounds = list('sound/vo/mobs/ghost/skullpile_loop.ogg')
 	mid_length = 65
 	volume = 100
-	extra_range = -1
+	falloff = 2
 
 /datum/looping_sound/fireloop
 	mid_sounds = list('sound/misc/fire_place.ogg')
 	mid_length = 35
 	volume = 100
-	extra_range = -2
+	falloff = 1
 	vary = TRUE
 	sound_group = /datum/sound_group/fire_loop
 
@@ -35,14 +35,14 @@
 	mid_sounds = list('sound/misc/boiling.ogg')
 	mid_length = 98
 	volume = 70
-	extra_range = 0
+	falloff = 2
 	vary = TRUE
 
 /datum/looping_sound/streetlamp1
 	mid_sounds = list('sound/misc/loops/StLight1.ogg')
 	mid_length = 60
 	volume = 40
-	extra_range = 0
+	falloff = 3
 	vary = TRUE
 	ignore_walls = FALSE
 
@@ -50,7 +50,7 @@
 	mid_sounds = list('sound/misc/loops/StLight2.ogg')
 	mid_length = 40
 	volume = 40
-	extra_range = 0
+	falloff = 3
 	vary = TRUE
 	ignore_walls = FALSE
 
@@ -58,7 +58,7 @@
 	mid_sounds = list('sound/misc/loops/StLight3.ogg')
 	mid_length = 50
 	volume = 40
-	extra_range = 0
+	falloff = 3
 	vary = TRUE
 	ignore_walls = FALSE
 
@@ -66,26 +66,26 @@
 	mid_sounds = list('sound/misc/clockloop.ogg')
 	mid_length = 20
 	volume = 10
-	extra_range = -3
+	falloff = 4
 	ignore_walls = FALSE
 
 /datum/looping_sound/boatloop
 	mid_sounds = list('sound/ambience/boat (1).ogg','sound/ambience/boat (2).ogg')
 	mid_length = 60
 	volume = 100
-	extra_range = -1
+	falloff = 1
 
 /datum/looping_sound/psydonmusicboxsound
 	mid_sounds = list('sound/magic/psydonmusicbox.ogg')
 	mid_length = 320
 	volume = 50
-	extra_range = 10
+	falloff = 1
 
 /datum/looping_sound/blackmirror
 	mid_sounds = list('sound/items/blackmirror_amb.ogg')
 	mid_length = 30
 	volume = 100
-	extra_range = -3
+	falloff = 3
 
 /datum/looping_sound/blank // datum call for a blank soundloop. Useful for avoiding qdel runtimes on machines and potentially structures
 	mid_sounds = list('sound/blank.ogg')

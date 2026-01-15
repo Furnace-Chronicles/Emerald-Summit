@@ -505,7 +505,7 @@
 // The reason why I haven't is because vampire lords have some special code for drowsyness I'll ave to get to...
 // this shit sucks ass and the person above should be fed feet first into a food processor for making this DOGSHIT
 /datum/reagent/sleep_powder/on_mob_metabolize(mob/living/carbon/M)
-	if (!HAS_TRAIT(M, TRAIT_TOXIMMUNE))
+	if (!HAS_TRAIT(M, TRAIT_TOXIMMUNE) && !M.cmode)
 		M.apply_status_effect(/datum/status_effect/debuff/knockout)
 	..()
 

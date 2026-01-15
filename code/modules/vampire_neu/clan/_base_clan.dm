@@ -382,7 +382,7 @@ And it also helps for the character set panel
 /// Applies clan-specific vampire look.
 /datum/clan/proc/apply_vampire_look(mob/living/carbon/human/H)
 	SHOULD_CALL_PARENT(FALSE)
-	H.skin_tone = "c9d3de"
+	H.skin_tone = "#c9d3de"
 	H.set_hair_color("#181a1d", null, null, null, null, FALSE)
 	H.set_facial_hair_color("#181a1d", null, null, null, null, FALSE)
 	H.set_eye_color("#FF0000", "#FF0000", TRUE)
@@ -390,6 +390,10 @@ And it also helps for the character set panel
 	ears?.accessory_colors = "#c9d3de"
 	var/obj/item/organ/breasts/breasts = H.getorganslot(ORGAN_SLOT_BREASTS)
 	breasts?.accessory_colors = "#c9d3de"
+	var/obj/item/organ/penis/zenis = H.getorganslot(ORGAN_SLOT_PENIS)
+	zenis?.accessory_colors = "#c9d3de"
+	var/obj/item/organ/testicles/balls = H.getorganslot(ORGAN_SLOT_TESTICLES)
+	balls?.accessory_colors = "#c9d3de"
 	H.update_body()
 	H.update_body_parts(redraw = TRUE)
 

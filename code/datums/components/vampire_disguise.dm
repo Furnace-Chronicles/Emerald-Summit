@@ -8,6 +8,8 @@
 	var/cache_facial
 	var/cache_boobs
 	var/cache_ears
+	var/cache_penis
+	var/cache_balls
 	/// Transform cooldown
 	COOLDOWN_DECLARE(transform_cooldown)
 	/// Bloodpool cost per life tick while disguised
@@ -38,6 +40,11 @@
 	cache_ears = ears?.accessory_colors
 	var/obj/item/organ/breasts/breasts = H.getorganslot(ORGAN_SLOT_BREASTS)
 	cache_boobs = breasts?.accessory_colors
+	var/obj/item/organ/penis/penis = H.getorganslot(ORGAN_SLOT_PENIS)
+	cache_penis = penis?.accessory_colors
+	var/obj/item/organ/testicles/testes = H.getorganslot(ORGAN_SLOT_TESTICLES)
+	cache_balls = testes?.accessory_colors
+
 
 /datum/component/vampire_disguise/proc/handle_disguise_upkeep(mob/living/carbon/human/source)
 	SIGNAL_HANDLER
@@ -94,6 +101,11 @@
 	ears?.accessory_colors = cache_ears
 	var/obj/item/organ/breasts/breasts = H.getorganslot(ORGAN_SLOT_BREASTS)
 	breasts?.accessory_colors = cache_boobs
+
+	var/obj/item/organ/penis/penis = H.getorganslot(ORGAN_SLOT_PENIS)
+	penis?.accessory_colors = cache_penis
+	var/obj/item/organ/testicles/testes = H.getorganslot(ORGAN_SLOT_TESTICLES)
+	testes?.accessory_colors = cache_balls
 
 	H.set_eye_color(cache_eyes["eye_color"], cache_eyes["second_color"], TRUE)
 
