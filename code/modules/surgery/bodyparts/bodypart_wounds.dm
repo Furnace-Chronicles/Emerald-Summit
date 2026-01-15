@@ -216,7 +216,7 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 	if(do_crit)
 		var/datum/component/silverbless/psyblessed = weapon?.GetComponent(/datum/component/silverbless)
 		var/sundering = HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && istype(weapon) && weapon?.is_silver && psyblessed?.is_blessed
-		var/crit_attempt = try_crit(sundering ? BCLASS_SUNDER : bclass, dam, user, zone_precise, silent, crit_message, raw_damage, armor_block, crit_resistance)
+		var/crit_attempt = try_crit(sundering ? BCLASS_SUNDER : bclass, dam, user, zone_precise, silent, crit_message, raw_damage, armor_block, crit_resistance, was_blunted)
 		if(crit_attempt)
 			return crit_attempt
 	return dynwound
@@ -253,7 +253,7 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 	return dynwound
 
 /// Behemoth of a proc used to apply a wound after a bodypart is damaged in an attack
-/obj/item/bodypart/proc/try_crit(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, raw_damage = 0, armor_block = 0, armor_resistance = 0)
+/obj/item/bodypart/proc/try_crit(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, raw_damage = 0, armor_block = 0, armor_resistance = 0, was_blunted = FALSE)
 	if(!bclass || !dam || (owner.status_flags & GODMODE))
 		return FALSE
 	var/list/attempted_wounds = list()
@@ -325,7 +325,7 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 		if(wound_applied)
 			attempted_wounds += wound_applied
 
-	if((bclass in GLOB.sunder_bclasses))
+	if((bclass in GLOB.sunder_bclasses) && !was_blunted)
 		if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 			var/sunder_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance, dam_divisor = 2)
 			if(prob(sunder_chance))
@@ -339,7 +339,7 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 			return applied
 	return FALSE
 
-/obj/item/bodypart/chest/try_crit(bclass, dam, mob/living/user, zone_precise, silent = FALSE, crit_message = FALSE, raw_damage = 0, armor_block = 0, armor_resistance = 0)
+/obj/item/bodypart/chest/try_crit(bclass, dam, mob/living/user, zone_precise, silent = FALSE, crit_message = FALSE, raw_damage = 0, armor_block = 0, armor_resistance = 0, was_blunted = FALSE)
 	if(!bclass || !dam || (owner.status_flags & GODMODE))
 		return FALSE
 	var/list/attempted_wounds = list()
@@ -492,7 +492,7 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 			return applied
 	return FALSE
 
-/obj/item/bodypart/head/try_crit(bclass, dam, mob/living/user, zone_precise, silent = FALSE, crit_message = FALSE, raw_damage = 0, armor_block = 0, armor_resistance = 0)
+/obj/item/bodypart/head/try_crit(bclass, dam, mob/living/user, zone_precise, silent = FALSE, crit_message = FALSE, raw_damage = 0, armor_block = 0, armor_resistance = 0, was_blunted = FALSE)
 	var/static/list/eyestab_zones = list(BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE)
 	var/static/list/tonguestab_zones = list(BODY_ZONE_PRECISE_MOUTH)
 	var/static/list/nosestab_zones = list(BODY_ZONE_PRECISE_NOSE)
@@ -637,7 +637,7 @@ GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZON
 					else
 						attempted_wounds += /datum/wound/facial/disfigurement/nose
 
-	if(bclass in GLOB.sunder_bclasses)
+	if((bclass in GLOB.sunder_bclasses) && !was_blunted)
 		if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 			var/sunder_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance, dam_divisor = 2)
 			if(prob(sunder_chance))
