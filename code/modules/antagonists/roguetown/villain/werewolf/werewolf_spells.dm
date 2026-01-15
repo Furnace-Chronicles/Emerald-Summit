@@ -9,6 +9,8 @@
 	var/list/howl_sounds = list('sound/vo/mobs/wwolf/howl (1).ogg','sound/vo/mobs/wwolf/howl (2).ogg')
 	var/list/howl_sounds_far = list('sound/vo/mobs/wwolf/howldist (1).ogg','sound/vo/mobs/wwolf/howldist (2).ogg')
 	var/wolf_antag_type = /datum/antagonist/werewolf
+	var/howl_spies_allowed = TRUE
+	var/howl_distance_limit = 500
 
 /obj/effect/proc_holder/spell/self/howl/cast(mob/user = usr)
 	..()
@@ -18,7 +20,7 @@
 	var/datum/antagonist/antag_data = user.mind.has_antag_datum(wolf_antag_type)
 
 	// sound played for owner
-	playsound(src, pick(howl_sounds), 75, TRUE)
+	playsound(user, pick(howl_sounds_far), 75, TRUE)
 
 	for(var/mob/player in GLOB.player_list)
 
@@ -27,13 +29,14 @@
 		if(isbrain(player)) continue
 
 		// Announcement to other werewolves (and anyone else who has beast language somehow)
-		if(player.mind.has_antag_datum(wolf_antag_type) || (player.has_language(/datum/language/beast)))
+		if(player.mind.has_antag_datum(wolf_antag_type) || (player.has_language(/datum/language/beast)) && howl_spies_allowed)
 			var/speaker_name = (antag_data && hasvar(antag_data, "wolfname")) ? antag_data:wolfname : user.real_name
 			to_chat(player, span_boldannounce("[speaker_name] howls to the hidden moon: [message]"))
 
 		//sound played for other players
 		if(player == src) continue
-		if(get_dist(player, src) > 7)
+		var/player_distance = get_dist(player,src)
+		if(player_distance > 7 && player_distance <= howl_distance_limit)
 			player.playsound_local(get_turf(player), pick(howl_sounds_far), 50, FALSE, pressure_affected = FALSE)
 
 	user.log_message("howls: [message] ([wolf_antag_type])", LOG_GAME)

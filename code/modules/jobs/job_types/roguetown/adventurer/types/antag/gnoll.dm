@@ -2,6 +2,7 @@
 	title = "Gnoll"
 	flag = GNOLL
 	department_flag = PEASANTS
+	antag_job = TRUE 
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
@@ -25,7 +26,7 @@
 	wanderer_examine = TRUE
 	advjob_examine = TRUE
 	always_show_on_latechoices = TRUE
-	job_reopens_slots_on_death = TRUE
+	job_reopens_slots_on_death = FALSE
 	same_job_respawn_delay = 1 MINUTES
 	virtue_restrictions = list(/datum/virtue/utility/noble) //Are you for real?
 	job_subclasses = list(
@@ -43,6 +44,7 @@
 		if(H.mind && !H.mind.has_antag_datum(/datum/antagonist/gnoll))
 			var/datum/antagonist/new_antag = new /datum/antagonist/gnoll()
 			H.mind.add_antag_datum(new_antag)
+			H.verbs |= /mob/living/carbon/human/proc/gnoll_inspect_skin
 
 /datum/outfit/job/roguetown/gnoll/proc/don_pelt(mob/living/carbon/human/H)
 	if(H.mind)
@@ -52,8 +54,27 @@
 		H.icon_state = "[pelt_choice]"
 		H.dna?.species?.custom_base_icon = "[pelt_choice]"
 		H.regenerate_icons()
-		H.real_name = "[pick(GLOB.wolf_prefixes)] [pick(GLOB.wolf_suffixes)]"
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/claws/gnoll)
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/howl/gnoll)
 		H.AddSpell(new /obj/effect/proc_holder/spell/invoked/gnoll_sniff)
-		addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "GNOLL"), 5 SECONDS)
+		spawn(50)
+			var/name_choice = alert(H, "What name do you want?", "MY NAME IS [H.real_name]", "Pick New Name", "Random Gnoll Name", "Keep Current Name")
+			switch(name_choice)
+				if("Pick New Name")
+					H.choose_name_popup("GNOLL")
+					to_chat(H, span_notice("Your name is now [H.real_name]."))
+				if("Random Gnoll Name")
+					H.real_name = "[pick(GLOB.wolf_prefixes)] [pick(GLOB.wolf_suffixes)]"
+					to_chat(H, span_notice("Your name is now [H.real_name]."))
+				if("Keep Current Name")
+					to_chat(H, span_notice("You keep your name as [H.real_name]."))
+
+/mob/living/carbon/human/proc/gnoll_inspect_skin()
+	set name = "Inspect Pelt"
+	set category = "Gnoll"
+	set desc = "Examine your gnoll skin armor"
+	if(!istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor))
+		to_chat(src, span_warning("You don't have any gnoll skin armor to inspect!"))
+		return
+	var/obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/GA = skin_armor
+	GA.Topic(null, list("inspect" = "1"), src)

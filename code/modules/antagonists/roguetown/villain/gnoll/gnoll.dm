@@ -8,27 +8,34 @@
 	body_parts_covered = FULL_BODY
 	body_parts_inherent = FULL_BODY
 	//slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
-	armor = ARMOR_WWOLF
+	armor = ARMOR_GNOLL_STANDARD	
 	prevent_crits = list(BCLASS_CUT, BCLASS_CHOP, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE
 	max_integrity = 550
 	item_flags = DROPDEL
-	repair_time = 15 SECONDS
-	interrupt_damount = 35
+	repair_time = 80 SECONDS
+	relative_repair_mode = TRUE
+	relative_repair_interval = 15 SECONDS
+	interrupt_damount = 25
 
 /datum/antagonist/gnoll
 	name = "Gnoll"
 	roundend_category = "Gnolls"
-	antagpanel_category = "Gnoll"
+	antagpanel_category = "Gnolls"
 	job_rank = ROLE_GNOLL
 
 /datum/antagonist/gnoll/on_gain()
 	greet()
-	owner.special_role = name
+	owner.special_role = "Gnoll"
 
 	return ..()
+
+/datum/antagonist/gnoll/on_removal()
+	. = ..()
+	if(owner)
+		owner.special_role = null
 
 /datum/antagonist/gnoll/greet()
 	to_chat(owner.current, span_userdanger("I am one of Graggar's chosen. My body sculpted as a reward for my great deeds. Now, I must find worthy challengers to continue proving my merit. Unlike Dendor's wolves, gnollhood has left some of my intellect intact."))
@@ -59,8 +66,48 @@
 /obj/item/rogueweapon/werewolf_claw/gnoll
 	name = "Gnoll Claw"
 	// We are smarter, we can use our solid, steel-like claws to defend ourselves.
-	wdefense = 4
+	wdefense = 5
+	force = 25
+	possible_item_intents = list(/datum/intent/simple/gnoll_cut, /datum/intent/simple/werewolf/gnoll, /datum/intent/mace/strike/gnoll)
 	
 /obj/item/rogueweapon/werewolf_claw/gnoll/right
+	icon_state = "claw_r"
+	wlength = WLENGTH_SHORT
 
 /obj/item/rogueweapon/werewolf_claw/gnoll/left
+	icon_state = "claw_l"
+	wlength = WLENGTH_SHORT
+
+/datum/intent/simple/werewolf/gnoll
+	name = "claw"
+	icon_state = "inchop"
+	blade_class = BCLASS_CHOP
+	attack_verb = list("claws", "mauls", "eviscerates")
+	animname = "chop"
+	hitsound = "genslash"
+	penfactor = 40
+	candodge = TRUE
+	canparry = TRUE
+	miss_text = "slashes the air!"
+	miss_sound = "bluntwooshlarge"
+	item_d_type = "slash"
+
+/datum/intent/simple/gnoll_cut
+	name = "cutting claw"
+	hitsound = "genslash"
+	penfactor = 30
+	candodge = TRUE
+	canparry = TRUE
+	miss_text = "slashes the air!"
+	miss_sound = "bluntwooshlarge"
+	icon_state = "incut"
+	attack_verb = list("cuts", "slashes")
+	animname = "cut"
+	blade_class = BCLASS_CUT
+	item_d_type = "slash"
+
+/datum/intent/mace/strike/gnoll
+	name = "armor rending strike"
+	miss_text = "strikes the air!"
+	miss_sound = "bluntwooshlarge"
+	attack_verb = list("punches", "strikes", "tears")

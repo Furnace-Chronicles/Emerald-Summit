@@ -7,7 +7,7 @@
 	cmode_music = 'sound/music/combat_graggar.ogg'
 	category_tags = list(CTAG_GNOLL)
 	traits_applied = list()
-	// Literally same stat spread as Atgervi Shaman
+	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_STR = 3,
 		STATKEY_CON = 2,
@@ -18,7 +18,7 @@
 	)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/swimming = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
@@ -26,7 +26,9 @@
 	)
 
 /datum/outfit/job/roguetown/gnoll/berserker/pre_equip(mob/living/carbon/human/H)
-	H.set_species(/datum/species/gnoll)
-	H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor(H)
-	don_pelt(H)
+	if(H.mind)
+		H.set_species(/datum/species/gnoll)
+		H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor(H)
+		neck = /obj/item/storage/belt/rogue/pouch/healing
+		don_pelt(H)
 
