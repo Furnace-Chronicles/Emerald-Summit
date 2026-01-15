@@ -186,10 +186,7 @@
 						to_chat(user, span_notice("My skilled hand has fully repaired this item."))
 					do_fix = TRUE
 				if (do_fix)
-					if(unskilled)
-						attacked_item.obj_broken = FALSE
-					else
-						attacked_item.obj_fix()
+					attacked_item.obj_fix()
 					return
 			else if (!attacked_item.obj_broken && !unskilled && attacked_item.shoddy_repair && integrity_percentage >= 100)
 				attacked_item.shoddy_repair = FALSE

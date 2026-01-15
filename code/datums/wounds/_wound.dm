@@ -246,8 +246,6 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 
 /// Effects when this wound is applied to a given mob
 /datum/wound/proc/on_mob_gain(mob/living/affected)
-	if(!owner || bodypart_owner)
-		return FALSE
 	if(mob_overlay)
 		affected.update_damage_overlays()
 	if(werewolf_infection_timer)
@@ -259,7 +257,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 
 /// Removes this wound from a given, simpler than adding to a bodypart - No extra effects
 /datum/wound/proc/remove_from_mob()
-	if(!owner || bodypart_owner)
+	if(!owner)
 		return FALSE
 	on_mob_loss(owner)
 	set_bleed_rate(0)
