@@ -242,6 +242,11 @@
 			S.atom = sound_atom
 		else
 			S.atom = null
+			// For untracked sounds, manually set coordinates as fallback
+			if(!override)
+				S.x = dx
+				S.y = dz
+				S.z = dy
 
 		// OFFSET COMPENSATION using projection matrices
 		if(!override)
