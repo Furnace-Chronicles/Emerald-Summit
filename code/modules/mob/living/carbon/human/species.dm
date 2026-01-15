@@ -1926,7 +1926,7 @@ GLOBAL_LIST_INIT(precision_vulnerable_zones, list(BODY_ZONE_L_ARM = 5,
 										bypassed_armors += H.head
 
 						if(guaranteed_strike)
-							H.visible_message(span_danger("[user] effortlessly strikes through a gap in [H]'s armor! [H.p_Theyre()] defenseless!"), span_userdanger("[user] effortlessly finds a gap in my armor! I'm defenseless!"))
+							H.visible_message(span_danger("[user] effortlessly strikes through a gap in [H]'s armor! [H.p_theyre()] defenseless!"), span_userdanger("[user] effortlessly finds a gap in my armor! I'm defenseless!"))
 							attacker.filtered_balloon_alert(TRAIT_COMBAT_AWARE, "Auto gap!")
 						else
 							H.visible_message(span_danger("[user] strikes through a gap in [H]'s armor!"), span_userdanger("[user] finds a gap in my armor!"))
