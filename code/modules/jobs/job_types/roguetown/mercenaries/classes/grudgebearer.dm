@@ -131,27 +131,26 @@
 		var/weapons = list("Warpick + Dwarven Shield", "Warhammer + Dwarven Shield", "Battle Axe + Dwarven Shield", "Great Axe", "Grandmace")
 		var/wepchoice = input(H, "Choose your weapon", "Available weapons") as anything in weapons
 		switch(wepchoice)
-
 			if("Warpick + Dwarven Shield")
 				backr = /obj/item/rogueweapon/shield/tower/metal/dwarf
 				r_hand = /obj/item/rogueweapon/pick/heavy/steel/dwarf
-				H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE) //It uses axe skill instead of mining.
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE) //It uses axe skill instead of mining.
 			if("Warhammer + Dwarven Shield")
 				backr = /obj/item/rogueweapon/shield/tower/metal/dwarf
 				r_hand = /obj/item/rogueweapon/mace/warhammer/steel
-				H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 			if("Battle Axe + Dwarven Shield")
 				backr = /obj/item/rogueweapon/shield/tower/metal/dwarf
 				r_hand = /obj/item/rogueweapon/stoneaxe/battle
-				H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
 			if("Great Axe") //No special shield, however gains flexibility in polearms for upgrades.
 				r_hand = /obj/item/rogueweapon/greataxe/steel
-				H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 			if("Grandmace")
 				r_hand = /obj/item/rogueweapon/mace/goden/steel
-				H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 
 // Dwarf Smith Armor
 
