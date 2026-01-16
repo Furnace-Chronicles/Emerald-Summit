@@ -67,7 +67,7 @@
 		if(!skill_level)
 			to_chat(user, span_info("Due to inexperience, I ruin some of the timber..."))
 		user.mind.add_sleep_experience(/datum/skill/labor/lumberjacking, (user.STAINT*0.5))
-		playsound(src, destroy_sound, 100, TRUE)
+		playsound(get_turf(src), destroy_sound, 100, TRUE)
 		qdel(src)
 		return TRUE
 	..()

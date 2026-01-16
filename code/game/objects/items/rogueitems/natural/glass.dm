@@ -28,7 +28,7 @@
 		pixel_x = rand(-3, 3)
 		pixel_y = rand(-3, 3)
 		new /obj/effect/decal/cleanable/debris/glassy(get_turf(src))
-		playsound(src, 'sound/foley/glassbreak.ogg', 90, TRUE)
+		playsound(get_turf(src), 'sound/foley/glassbreak.ogg', 90, TRUE)
 		qdel(src)
 
 /obj/item/natural/glass/attack_right(mob/user)
@@ -82,13 +82,13 @@
 	icon2step = 3
 
 /obj/item/natural/bundle/glass/throw_impact(atom/hit_atom, datum/thrownthing/thrownthing)
-	if(!..()) //was it caught by a mob?
+	if(!...) //was it caught by a mob?
 		new /obj/item/natural/glass_shard(get_turf(src))
 		pixel_x = rand(-3, 3)
 		pixel_y = rand(-3, 3)
 		new /obj/item/natural/glass_shard(get_turf(src))
 		new /obj/effect/decal/cleanable/debris/glassy(get_turf(src))
-		playsound(src, 'sound/foley/glassbreak.ogg', 95, TRUE)
+		playsound(get_turf(src), 'sound/foley/glassbreak.ogg', 95, TRUE)
 		qdel(src)
 
 //................	Glass shard	............... //

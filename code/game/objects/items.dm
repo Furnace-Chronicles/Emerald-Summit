@@ -1453,7 +1453,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	obj_destroyed = TRUE
 	if(destroy_sound)
-		playsound(src, destroy_sound, 100, TRUE)
+		playsound(get_turf(src), destroy_sound, 100, TRUE)
 	if(destroy_message)
 		visible_message(destroy_message)
 	deconstruct(FALSE)

@@ -62,7 +62,7 @@
 		visible_message("\The [src] shatters!")
 		user.flash_fullscreen("redflash1")
 		new /obj/item/natural/glass_shard(get_turf(src))
-		playsound(src, "shatter", 70, TRUE)
+		playsound(get_turf(src), "shatter", 70, TRUE)
 		qdel(src)
 		return
 	for(var/mob/living/carbon/human/HL in GLOB.human_list)
