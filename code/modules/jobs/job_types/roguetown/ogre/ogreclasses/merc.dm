@@ -1,6 +1,6 @@
 /datum/advclass/ogre/mercenary
-	name = "Mercenary" 
-	tutorial = "Hailing from Gronn, you've learned that ogres are tolerated if they provide their massive strength to others, and coin can help you get more ale and meat if you got enough of it. You've come to Scarlet Reach with a simple goal. Get paid, get food."
+	name = "Mercenary"
+	tutorial = "Hailing from Gronn, you've learned that ogres are tolerated if they provide their massive strength to others, and coin can help you get more ale and meat if you got enough of it. You've come to Readtun with a simple goal. Get paid, get food."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = /datum/species/ogre
 	outfit = /datum/outfit/job/roguetown/ogre/mercenary
@@ -33,7 +33,7 @@
 /datum/outfit/job/roguetown/ogre/mercenary/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
-		to_chat(H, span_warning("Hailing from Gronn, you've learned that ogres are tolerated if they provide their massive strength to others, and coin can help you get more ale and meat if you got enough of it. You've come to Scarlet Reach with a simple goal. Get paid, get food."))
+		to_chat(H, span_warning("Hailing from Gronn, you've learned that ogres are tolerated if they provide their massive strength to others, and coin can help you get more ale and meat if you got enough of it. You've come to Readtun with a simple goal. Get paid, get food."))
 		shoes = /obj/item/clothing/shoes/roguetown/armor/ogre
 		shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ogre
 		neck = /obj/item/clothing/neck/roguetown/gorget/ogre

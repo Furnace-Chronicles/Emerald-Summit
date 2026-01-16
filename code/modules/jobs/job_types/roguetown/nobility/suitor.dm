@@ -8,7 +8,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NOBILITY_ELIGIBLE_UP
 	advclass_cat_rolls = list(CTAG_CONSORT = 20)
-	tutorial = "You are a noble from a foreign court who has travelled to Scarlet Reach in order to win the hand of Scarlet's most eligible bachelor and secure a political ally for your house. Competition is fierce, and it seems you're not the only one vying for the duke's favor..."
+	tutorial = "You are a noble from a foreign court who has travelled to Readtun in order to win the hand of Aemerlond's most eligible bachelor and secure a political ally for your house. Competition is fierce, and it seems you're not the only one vying for the duke's favor..."
 	outfit = /datum/outfit/job/suitor
 	display_order = JDO_SUITOR
 	give_bank_account = 40

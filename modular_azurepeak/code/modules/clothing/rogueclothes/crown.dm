@@ -1,7 +1,7 @@
 #define GARRISON_CROWN_COLOR "#C2A245"
 
 /obj/item/clothing/head/roguetown/crown/serpcrown
-	name = "Crown of Scarlet Reach"
+	name = "Crown of Aemerlond"
 	article = "the"
 	desc = "Heavy is the head that wears this."
 	icon_state = "serpcrown"

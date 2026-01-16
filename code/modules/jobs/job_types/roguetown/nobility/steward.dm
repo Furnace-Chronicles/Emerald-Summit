@@ -101,5 +101,5 @@ GLOBAL_VAR_INIT(steward_tax_cooldown, -50000) // Antispam
 		if(stat)
 			return
 		SStreasury.tax_value = newtax / 100
-		priority_announce("The new tax in Scarlet Reach shall be [newtax] percent.", "The Steward Meddles", pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain")
+		priority_announce("The new tax in Aemerlond shall be [newtax] percent.", "The Steward Meddles", pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain")
 		GLOB.steward_tax_cooldown = world.time

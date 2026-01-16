@@ -26,9 +26,9 @@
 		face_known = alert(user, "Is your face known to the authorities?", "", "Yes", "No")
 		if (!face_known)
 			face_known = "Yes"
-		bounty_poster = input(user, "Who placed a bounty on you?", "Bounty Poster") as anything in list("The Justiciary of Scarlet Reach", "The Grenzelhoftian Holy See", "The Otavan Holy See")
+		bounty_poster = input(user, "Who placed a bounty on you?", "Bounty Poster") as anything in list("The Justiciary of Aemerlond", "The Grenzelhoftian Holy See", "The Otavan Holy See")
 		if (!bounty_poster)
-			bounty_poster = "The Justiciary of Scarlet Reach"
+			bounty_poster = "The Justiciary of Aemerlond"
 		my_crime = input(user, "What is your crime?", "Crime") as text|null
 		if (!my_crime)
 			my_crime = "crimes against the Crown"
@@ -47,7 +47,7 @@
 
 		if (face_known == "Yes")
 			add_bounty(user.real_name, bounty_total, FALSE, my_crime, bounty_poster)
-			if (bounty_poster == "The Justiciary of Scarlet Reach")
+			if (bounty_poster == "The Justiciary of Aemerlond")
 				GLOB.outlawed_players += user.real_name
 			else
 				GLOB.excommunicated_players += user.real_name

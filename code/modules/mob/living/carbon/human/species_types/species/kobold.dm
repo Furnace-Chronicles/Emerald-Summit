@@ -11,7 +11,7 @@
 	desc = "<b>Kobold</b><br>\
 	Short in stature and typically scrawny, these little lizards make up for it in their natural agility. Interestingly, no historical relation has been found between this race and that of the \
 	hardy bog-dwelling Zardmen, past their somewhat-similar appearance. Kobolds often dwell in caves or in the outskirts of civilization, preferring to keep to themselves in small homogeneous groups \
-	or alone rather than engage with tall-folk, given their widespread stereotype of being thieves or ne'er-do-wells. Scarlet Reach is no exception to this, and some Kobolds have even dared to brave the\
+	or alone rather than engage with tall-folk, given their widespread stereotype of being thieves or ne'er-do-wells. Aemerlond is no exception to this, and some Kobolds have even dared to brave the\
 	odds and try their luck amongst Humen society.<br>\
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 FOR</b></span> </br>"
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)

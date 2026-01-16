@@ -488,7 +488,7 @@
 
 /obj/item/carvedgem/onyxa/snake
 	name = "onyxa snake statue"
-	desc = "A flying horned snake carved out of onyxa. Thankfully these creachers are not native to Scarlet Reach."
+	desc = "A flying horned snake carved out of onyxa. Thankfully these creachers are not native to Aemerlond."
 	icon_state = "snake_onyxa"
 	grid_height = 64
 	grid_width = 32

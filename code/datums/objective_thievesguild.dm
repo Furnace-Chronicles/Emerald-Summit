@@ -15,7 +15,7 @@
     var/list/items
     items = list(
         list("Staff of the Shepherd", /obj/item/rogueweapon/woodstaff/aries),
-        list("Crown of Scarlet Reach", /obj/item/clothing/head/roguetown/crown/serpcrown),
+        list("Crown of Aemerlond", /obj/item/clothing/head/roguetown/crown/serpcrown),
         list("Bell Ringer", /obj/item/rogueweapon/mace/church),
         list("Sword of the Mad Duke", /obj/item/rogueweapon/sword/rapier/lord),
         list("Judgement", /obj/item/rogueweapon/sword/long/judgement),

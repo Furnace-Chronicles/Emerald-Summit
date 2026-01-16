@@ -305,7 +305,7 @@
 		var/used_title = title
 		if((H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F) && f_title)
 			used_title = f_title
-		scom_announce("[H.real_name] the [used_title] arrives to Scarlet Reach.")
+		scom_announce("[H.real_name] the [used_title] arrives to Readtun.")
 
 	if(give_bank_account)
 		if(give_bank_account > 1)
