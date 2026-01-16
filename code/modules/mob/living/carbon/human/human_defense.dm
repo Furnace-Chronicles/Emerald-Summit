@@ -167,12 +167,8 @@
 							apply_blunt_modifier = TRUE
 
 					if(apply_blunt_modifier)
-						var/blunt_modifier = get_blunt_ap_mod(C, effectiveness)
+						var/blunt_modifier = get_blunt_ap_mod(C, effectiveness, def_zone)
 						var/modified_pen = armor_penetration + blunt_modifier
-						// Heavy armor gets bonus blunt protection when struck in the chest (scales with durability)
-						if(C.armor_class == ARMOR_CLASS_HEAVY && def_zone == BODY_ZONE_CHEST)
-							var/chest_bonus = 26 * effectiveness
-							modified_pen = max(modified_pen - chest_bonus, 0)
 						effective_armor = max(effective_armor - modified_pen, 0)
 					else
 						// Non-blunt attacks use standard penetration
@@ -275,7 +271,7 @@
 						var/durability_percent = (zone_integrity / zone_max) * 100
 						return durability_percent
 
-/mob/living/carbon/human/proc/get_blunt_ap_mod(obj/item/clothing/C, effectiveness)
+/mob/living/carbon/human/proc/get_blunt_ap_mod(obj/item/clothing/C, effectiveness, def_zone)
 	var/effective_class = C.armor_class == ARMOR_CLASS_NONE ? C.integ_armor_mod : C.armor_class
 	var/blunt_modifier = 0
 
@@ -293,6 +289,26 @@
 			if(istype(C, /obj/item/clothing/head/helmet))
 				blunt_modifier += BLUNT_AP_MOD_HEAVY_HELMET * damage_factor
 
+	// Attacks against vital zones receive penalties until the armor is damaged (scales with durability)
+	var/armor_penalty = 0
+	if(def_zone == BODY_ZONE_CHEST)
+		switch(effective_class)
+			if(ARMOR_CLASS_HEAVY)
+				armor_penalty = 26 * effectiveness
+			if(ARMOR_CLASS_MEDIUM)
+				armor_penalty = 18 * effectiveness
+			if(ARMOR_CLASS_LIGHT)
+				armor_penalty = 8 * effectiveness
+	if(def_zone == BODY_ZONE_HEAD)
+		switch(effective_class)
+			if(ARMOR_CLASS_HEAVY)
+				armor_penalty = 12 * effectiveness
+			if(ARMOR_CLASS_MEDIUM)
+				armor_penalty = 10 * effectiveness
+			if(ARMOR_CLASS_LIGHT)
+				armor_penalty = 8 * effectiveness
+
+	blunt_modifier -= armor_penalty
 	return blunt_modifier
 
 //This proc returns obj/item/clothing, the armor that has "soaked" the crit. Using it for dismemberment check
