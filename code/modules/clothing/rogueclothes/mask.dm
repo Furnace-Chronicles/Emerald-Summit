@@ -428,26 +428,26 @@
 */
 /obj/item/clothing/mask/rogue/facemask/steel
 	name = "steel mask"
-	desc = "A mask of steel which protects the eyes, nose and mouth while also obscuring the face it."
+	desc = "A mask of steel which obscures the face while also protecting the eyes, nose, and mouth."
 	icon_state = "smask"
 	max_integrity = 200
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun
 	name = "steel mempo"
-	desc = "A steel half-mask of Kazengun origin. Cast in the visage of a fiend, it fits snugly around the neck, offering additional protection at the cost of head mobility."
+	desc = "A steel half-mask cast in the image of a mountain-dwelling demon originating from Kazengun. It fits snugly around the neck, offering valuable neck protection at the cost of head mobility."
 	icon_state = "steelmempo"
 	body_parts_covered = NECK|MOUTH|NOSE
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full
 	name = "steel oni mask"
-	desc = "A steel mask of Kazengun origin. Cast in the visage of a fiend, it fits snugly around the neck, offering additional protection at the cost of head mobility."
+	desc = "A steel mask cast in the image of a mountain-dwelling demon originating from Kazengun. This mask protects the face while an integrated neckguard fits snugly around the neck, offering valuable neck protection."
 	icon_state = "steelyoroi"
 	body_parts_covered = NECK|FACE
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full/kitsune
 	name = "steel kitsune mask"
-	desc = "A steel mask of Kazengun origin. Cast in the visage of a vulpine monster, it offers additional protection at the cost of head mobility."
+	desc = "A steel mask cast in the image of a forest-dwelling fox spirit originating from Kazengun. It obscures one's identity while protecting the eyes, nose, and mouth."
 	icon_state = "kitsuneyoroi"
 	body_parts_covered = FACE
 
@@ -502,17 +502,17 @@
 
 /obj/item/clothing/mask/rogue/facemask/hound/yoruku_oni
 	name = "oni mask"
-	desc = "An iron mask in the visage of demons said to stalk the mountains of Kazengun."
+	desc = "An iron mask cast in the image of a mountain-dwelling demon originating from Kazengun."
 	icon_state = "oni"
 
 /obj/item/clothing/mask/rogue/facemask/hound/yoruku_kitsune
 	name = "kitsune mask"
-	desc = "An iron mask in the visage of the fox spirits said to ply their tricks in the forests of Kazengun."
+	desc = "An iron mask cast in the image of a forest-dwelling fox spirit originating from Kazengun."
 	icon_state = "kitsune"
 
 /obj/item/clothing/mask/rogue/facemask/cheap_oni
 	name = "handcarved oni mask"
-	desc = "A wood mask carved in the visage of demons said to stalk the mountains of Kazengun. This one seems to be carved out of wood and painted."
+	desc = "A wooden mask carved in the image of a mountain-dwelling demon originating from Kazengun."
 	icon_state = "oni"
 	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
@@ -523,7 +523,7 @@
 
 /obj/item/clothing/mask/rogue/facemask/cheap_kitsune
 	name = "handcarved kitsune mask"
-	desc = "A wood mask carved in the visage of the fox spirits said to ply their tricks in the forests of Kazengun."
+	desc = "A wooden mask carved in the image of a forest-dwelling fox spirit originating from Kazengun."
 	icon_state = "kitsune"
 	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
