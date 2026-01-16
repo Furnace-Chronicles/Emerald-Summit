@@ -4,7 +4,7 @@
 	Damage is increased by 50% versus simple-minded creechurs."
 	clothes_req = FALSE
 	range = 12
-	projectile_type = /obj/projectile/energy/rogue3
+	projectile_type = /obj/projectile/energy/arcynebolt
 	overlay_state = "force_dart"
 	sound = list('sound/magic/vlightning.ogg')
 	active = FALSE
@@ -26,7 +26,16 @@
 	associated_skill = /datum/skill/magic/arcane
 	cost = 3
 
-/obj/projectile/energy/rogue3
+/obj/effect/proc_holder/spell/invoked/projectile/arcynebolt/cast(list/targets, mob/user = user)
+	var/mob/living/carbon/human/H = user
+	var/datum/intent/a_intent = H.a_intent
+	if(istype(a_intent, /datum/intent/special/magicarc))
+		projectile_type = /obj/projectile/energy/arcynebolt/arc
+	else
+		projectile_type = /obj/projectile/energy/arcynebolt
+	. = ..()
+
+/obj/projectile/energy/arcynebolt
 	name = "Arcyne Bolt"
 	icon_state = "arcane_barrage"
 	damage = 40
@@ -35,8 +44,12 @@
 	npc_damage_mult = 1.5 // Makes it more effective against NPCs.
 	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg'
 	speed = 1
+/obj/projectile/energy/arcynebolt/arc
+	name = "Arced Arcyne Bolt"
+	damage = 30 // You cannot modify charge and releasedrain dynamically so lower damage it is.
+	arcshot = TRUE
 
-/obj/projectile/energy/rogue3/on_hit(target)
+/obj/projectile/energy/arcynebolt/on_hit(target)
 	. = ..()
 	if(ismob(target))
 		var/mob/living/carbon/M = target

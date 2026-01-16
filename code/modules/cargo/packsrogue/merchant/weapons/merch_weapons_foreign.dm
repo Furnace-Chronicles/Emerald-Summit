@@ -85,3 +85,8 @@
 	name = "Aged Psydonian Longsword"
 	cost = 80
 	contains = list(/obj/item/rogueweapon/sword/long/oldpsysword)
+
+/datum/supply_pack/rogue/merc_weapons/grenzelstaff
+	name = "Grenzelhoftian Blacksteel Staff"
+	cost = 100
+	contains = list(/obj/item/rogueweapon/woodstaff/emerald/blacksteelstaff)

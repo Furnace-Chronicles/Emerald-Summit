@@ -45,7 +45,6 @@ GLOBAL_LIST_INIT(learnable_spells, (list(/obj/effect/proc_holder/spell/invoked/p
 		/obj/effect/proc_holder/spell/self/conjure_armor,
 		/obj/effect/proc_holder/spell/self/magicians_brick,
 		/obj/effect/proc_holder/spell/self/recall,
-		/obj/effect/proc_holder/spell/invoked/projectile/guided_bolt,
 		/obj/effect/proc_holder/spell/invoked/thunderstrike,
 		/obj/effect/proc_holder/spell/invoked/enchant_weapon,
 		/obj/effect/proc_holder/spell/invoked/forcewall/arcyne_prison,
@@ -53,6 +52,7 @@ GLOBAL_LIST_INIT(learnable_spells, (list(/obj/effect/proc_holder/spell/invoked/p
 		/obj/effect/proc_holder/spell/invoked/wither,
 		/obj/effect/proc_holder/spell/invoked/slick_trick,
 		/obj/effect/proc_holder/spell/invoked/slick_trick_small,
-		/obj/effect/proc_holder/spell/self/findfamiliar
+		/obj/effect/proc_holder/spell/self/findfamiliar,
+		/obj/effect/proc_holder/spell/invoked/projectile/fireball/artillery
 		)
 ))
