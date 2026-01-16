@@ -75,31 +75,53 @@
 		return
 	if(user == target)
 		return
-	
 	var/mob/living/carbon/human/HT = target
 	var/mob/living/carbon/human/HU = user
 	var/target_zone = HT.zone_selected
 	var/user_zone = HU.zone_selected
+	var/guaranteed_fail = FALSE
+	var/special_msg = span_danger("It didn't work! [HT.p_their(TRUE)] footing returned!")
 
-	if(HT.has_status_effect(/datum/status_effect/debuff/baited) || user.has_status_effect(/datum/status_effect/debuff/baitcd))
+	if(user.has_status_effect(/datum/status_effect/debuff/baitcd))
 		return	//We don't do anything if either of us is affected by bait statuses
 
+	HU.visible_message(span_danger("[HU] baits an attack from [HT]!"))
+	var/newcd = 30 SECONDS - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)
+	HU.apply_status_effect(/datum/status_effect/debuff/baitcd, newcd)
 	if(user.STAINT < 8) //We don't want this happening if their intelligence is 7 or below.
 		to_chat(HU, span_danger("Argh! This is too complicated, I've made a fool of myself!"))
 		HU.stamina_add(HU.max_stamina * 0.2)
 		HU.emote("huh")
 		return
 
-	HU.visible_message(span_danger("[HU] baits an attack from [HT]!"))
-	var/newcd = 30 SECONDS - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)
-	HU.apply_status_effect(/datum/status_effect/debuff/baitcd, newcd)
-	HU.stamina_add(HU.max_stamina * 0.2)
+	if((target_zone != user_zone) || ((target_zone == BODY_ZONE_CHEST) || (user_zone == BODY_ZONE_CHEST))) //Our zones do not match OR either of us is targeting chest.
+		guaranteed_fail = TRUE
+		if(check_zone(target_zone) == check_zone(user_zone))
+			if((target_zone == BODY_ZONE_CHEST) || (user_zone == BODY_ZONE_CHEST))
+				guaranteed_fail = TRUE
+			else
+				guaranteed_fail = FALSE
+	if(!HT.can_see_cone(HU))
+		special_msg = span_danger("They need to see me for me to bait them!")
+		guaranteed_fail = TRUE
+	if(HT.has_status_effect(/datum/status_effect/debuff/baited))
+		special_msg = span_warning("Too soon! They were expecting it!")
+		guaranteed_fail = TRUE
+	if(HT.has_status_effect(/datum/status_effect/buff/flow))
+		special_msg = span_danger("It didn't work at all, they just saw through it!")
+		guaranteed_fail = TRUE
 
-	if((target_zone != user_zone) || ((target_zone == BODY_ZONE_CHEST) || (user_zone == BODY_ZONE_CHEST))) //Our zones match and it's not the chest | Our zones do not match, or we were targeting chest
-		to_chat(HU, span_danger("It didn't work! [HT.p_their(TRUE)] footing returned!"))
-		to_chat(HT, span_notice("I fooled [HU.p_them()]! I've regained my footing!"))
+	if(guaranteed_fail)
+		if(special_msg)
+			to_chat(HU, special_msg)
+		if(HT.has_status_effect(/datum/status_effect/buff/flow))
+			to_chat(HT, span_notice("I see through [HU.p_them()]'s bait!"))
+		else
+			to_chat(HT, span_notice("I fooled [HU.p_them()]! I've regained my footing!"))
 		HU.emote("groan")
+		HU.stamina_add(HU.max_stamina * 0.2)
 		HT.bait_stacks = 0
+		HT.apply_status_effect(/datum/status_effect/debuff/baited)
 		return
 
 	var/fatiguemod	//The heavier the target's armor, the more fatigue (green bar) we drain.
@@ -112,14 +134,19 @@
 		if(ARMOR_CLASS_HEAVY)
 			fatiguemod = 3
 
+	HU.apply_status_effect(/datum/status_effect/buff/flow)
 	HT.apply_status_effect(/datum/status_effect/debuff/baited)
-	HT.apply_status_effect(/datum/status_effect/debuff/exposed)
-	HT.apply_status_effect(/datum/status_effect/debuff/clickcd, 5 SECONDS)
+	HT.apply_status_effect(/datum/status_effect/debuff/exposed, 4 SECONDS)
+	HT.apply_status_effect(/datum/status_effect/debuff/clickcd, 4 SECONDS)
+	HT.stamina_add(HT.max_stamina / fatiguemod)
 	HT.bait_stacks++
+
+	if(HT.has_status_effect(/datum/status_effect/buff/clash))
+		HT.bad_guard()
+
 	if(HT.bait_stacks <= 1)
 		HT.Immobilize(0.5 SECONDS)
-		HT.stamina_add(HT.max_stamina / fatiguemod)
-		HT.Slowdown(3)
+		HT.Slowdown(4)
 		HT.emote("huh")
 		HU.purge_peel(BAIT_PEEL_REDUCTION)
 		HU.changeNext_move(0.1 SECONDS, override = TRUE)
@@ -206,13 +233,16 @@
 		return
 	if(!user.mind)
 		return
+	if(user == target)
+		return
 	if(user.has_status_effect(/datum/status_effect/debuff/feintcd))
 		return
-	var/mob/living/L = target
+	var/mob/living/carbon/human/L = target
 	if (L.client && !L.cmode)
 		playsound(user, 'sound/combat/feint.ogg', 100, TRUE)
 		user.visible_message(span_danger("[user] attempts to feint an attack at [L], but only makes a fool of themselves!"))
 		user.OffBalance(3 SECONDS)
+		user.Slowdown(2 SECONDS)
 		user.apply_status_effect(/datum/status_effect/debuff/feintcd)
 		for(var/mob/living/carbon/human/H in view(7, user))
 			if(H == user || !H.client)
@@ -263,6 +293,11 @@
 
 	perc = CLAMP(perc, 0, 90)
 
+	if(L.has_status_effect(/datum/status_effect/buff/clash))
+		perc = 100
+		L.bad_guard()
+		to_chat(user, span_notice("[L.p_their(TRUE)] guard was broken!"))
+
 	if(!prob(perc)) //feint intent increases the immobilize duration significantly
 		playsound(user, 'sound/combat/feint.ogg', 100, TRUE)
 		if(user.client?.prefs.showrolls)
@@ -272,9 +307,8 @@
 			to_chat(user, special_msg)
 		return
 
-	if(L.has_status_effect(/datum/status_effect/buff/clash))
-		L.remove_status_effect(/datum/status_effect/buff/clash)
-		to_chat(user, span_notice("[L.p_their(TRUE)] Guard disrupted!"))
+	if(L.has_status_effect(/datum/status_effect/buff/flow))
+		L.remove_status_effect(/datum/status_effect/buff/flow)
 	L.apply_status_effect(/datum/status_effect/debuff/exposed, feintdur)
 	L.apply_status_effect(/datum/status_effect/debuff/clickcd, max(1.5 SECONDS + skill_factor, 2.5 SECONDS))
 	L.apply_status_effect(/datum/status_effect/debuff/feinted, 30 SECONDS + feintdur)

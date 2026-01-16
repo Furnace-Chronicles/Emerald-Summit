@@ -317,6 +317,12 @@
 			if(HAS_TRAIT(user, TRAIT_GUIDANCE))
 				prob2defend -= 20
 
+			if(HAS_TRAIT(src, TRAIT_FLOW))
+				prob2defend += 20
+
+			if(HAS_TRAIT(user, TRAIT_FLOW))
+				prob2defend -= 20
+
 			if(HAS_TRAIT(src, TRAIT_NODEF))
 				prob2defend = 0
 
@@ -649,6 +655,12 @@
 		if(HAS_TRAIT(U, TRAIT_GUIDANCE))
 			prob2defend -= 20
 
+		if(HAS_TRAIT(L, TRAIT_FLOW))
+			prob2defend += 20
+
+		if(HAS_TRAIT(U, TRAIT_FLOW))
+			prob2defend -= 20
+
 		if(HAS_TRAIT(L, TRAIT_NODEF))
 			prob2defend = 0 
 
@@ -861,6 +873,11 @@
 			affecting.bodypart_attacked_by(used_intent.blade_class, force, crit_message = TRUE, weapon = IM)
 		else
 			visible_message(span_suicide("[src] clashes into [user]'s hands with \the [IM]!"))
+		if(H.has_status_effect(/datum/status_effect/buff/flow))
+			H.remove_status_effect(/datum/status_effect/buff/flow)
+		H.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
+		H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+		H.Slowdown(3)
 		playsound(src, pick(used_intent.hitsound), 80)
 		remove_status_effect(/datum/status_effect/buff/clash)
 		return
@@ -879,6 +896,8 @@
 			IU.take_damage(integdam, BRUTE, IM.d_type)
 		visible_message(span_suicide("[src] ripostes [H] with \the [IM]!"))
 		playsound(src, 'sound/combat/clash_struck.ogg', 100)
+		if(H.has_status_effect(/datum/status_effect/buff/flow))
+			H.remove_status_effect(/datum/status_effect/buff/flow)
 		H.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 		H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 		H.Slowdown(3)

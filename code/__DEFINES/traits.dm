@@ -220,6 +220,7 @@
 #define TRAIT_DYES "Dyemaster"
 #define TRAIT_GOODWRITER "Great Writer"
 #define TRAIT_ADRENALINE_RUSH "Adrenaline Rush"
+#define TRAIT_FLOW "Flow"
 #define TRAIT_COMBAT_AWARE	"Combat Aware"
 #define TRAIT_TEMPO	"Tempo Capable"
 #define TRAIT_STRONGKICK	"Strong Kick"
@@ -405,6 +406,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_GOODWRITER = span_notice("I'm proficient at writing. Any skillbooks made by me will allow the reader to learn the subject more quickly."),
 	TRAIT_BLOODLOSS_IMMUNE = span_notice("While I may bleed, I will feel nothing from it."),
 	TRAIT_ADRENALINE_RUSH = span_notice("I'm invigorated in the midst of battle! I don't feel my wounds!"),
+	TRAIT_FLOW = span_notice("There's no longer any distractions. I'm in my element."),
 	TRAIT_COMBAT_AWARE = span_notice("My honed senses and intuition allow me to spot notable things in the midst of battle with ease."),
 	TRAIT_TEMPO	= span_greentext("I can keep up with multiple opponents at once."),
 	TRAIT_STRONGKICK = span_info("My kicks knock people down and back a step, consistently. There's no need for obstacles."),
