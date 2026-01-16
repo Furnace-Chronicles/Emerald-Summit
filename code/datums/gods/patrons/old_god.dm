@@ -23,6 +23,7 @@
 	name = "Saidon"
 	desc = "The true God of everything, Saidon is maximally good - He created humen in his image to live in Saidonia, and defended the Black Basin by sending the COMET SYON to defeat the rampaging archdemon."
 	associated_faith = /datum/faith/old_god/kazengun
+	parentpatron = /datum/patron/old_god
 
 /datum/patron/old_god/situational_bonus(mob/living/follower, mob/living/target)
 	// HE WEEPS FOR US, AND WE WEEP FOR HIM, AND WHAT HAS BECOME OF HIS CREATION. (we're out in the rain or we're bleeding moderately)

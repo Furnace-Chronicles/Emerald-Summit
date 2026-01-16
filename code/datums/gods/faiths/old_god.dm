@@ -1,3 +1,5 @@
+/datum/faith/old_god // Astract
+
 /datum/faith/old_god/standard
 	name = "Old God"
 	desc = "The Holy See has been taken over by misguided fools who defile Psydon and worship false gods, but we survive.\n\

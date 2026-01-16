@@ -57,16 +57,19 @@
 /datum/patron/inhumen/zizo/kazengun
 	name = "Zimiko"
 	associated_faith = /datum/faith/inhumen/kazengun
+	parentpatron = /datum/patron/inhumen/zizo
 	noresearch = TRUE
 
 /datum/patron/inhumen/zizo/kazengun/lingyue
 	associated_faith = /datum/faith/divine/lingyue
+	parentpatron = /datum/patron/inhumen/zizo
 	noresearch = TRUE
 
 /datum/patron/inhumen/zizo/gronn
 	name = "The Plotting Wolf"
 	desc = "A once-mortal snow elf turned god. Her hubris in thinking she could harvest lux from the planet itself led to the elimination of her entire race. Her works are still used to this dae in some cases."
 	associated_faith = /datum/faith/inhumen/gronn
+	parentpatron = /datum/patron/inhumen/zizo
 	noresearch = TRUE
 
 /datum/patron/inhumen/graggar
@@ -116,9 +119,11 @@
 					/obj/effect/proc_holder/spell/invoked/revel_in_slaughter 			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/wound_heal					= CLERIC_T4,
 	)
+	parentpatron = /datum/patron/inhumen/graggar
 
 /datum/patron/inhumen/graggar/kazengun/lingyue
 	associated_faith = /datum/faith/divine/lingyue
+	parentpatron = /datum/patron/inhumen/graggar
 	noresearch = TRUE
 
 /datum/patron/inhumen/graggar/gronn
@@ -135,6 +140,7 @@
 					/obj/effect/proc_holder/spell/invoked/revel_in_slaughter 			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/wound_heal					= CLERIC_T4,
 	)
+	parentpatron = /datum/patron/inhumen/graggar
 
 /datum/patron/inhumen/matthios
 	name = "Matthios"
@@ -181,15 +187,18 @@
 					/obj/effect/proc_holder/spell/invoked/churnwealthy					= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/wound_heal					= CLERIC_T4,
 	)
+	parentpatron = /datum/patron/inhumen/matthios
 
 /datum/patron/inhumen/matthios/kazengun/lingyue
 	associated_faith = /datum/faith/divine/lingyue
+	parentpatron = /datum/patron/inhumen/matthios
 	noresearch = TRUE
 
 /datum/patron/inhumen/matthios/gronn
 	name = "The Starving Bear"
 	desc = "The Man who stole fire from the sun and used it in his pursuit of immortality; exchanging the knowledge of how to make fire with the lessers for safety in doing so. He guides those who live in the dark, away from the flame of civilization; and those who believe in his cause bring the wealth of the undeserving in the light to the deserving in the dark."
 	associated_faith = /datum/faith/inhumen/gronn
+	parentpatron = /datum/patron/inhumen/matthios
 	noresearch = TRUE
 
 /datum/patron/inhumen/baotha
@@ -235,16 +244,19 @@
 	name = "Baosumi"
 	desc = "The twin sister of Eori, fallen to disgrace. She brings comfort to those who can't find it elsewhere but the bottom of a bottle; and she tempts those who have lost much into her fold through offers of relief and pleasure, yet they soon find themselves unable to escape her grasp. Seen as a scorned lover by many, and followed by such."
 	associated_faith = /datum/faith/divine/kazengun
+	parentpatron = /datum/patron/inhumen/baotha
 	noresearch = TRUE
 
 /datum/patron/inhumen/baotha/kazengun/lingyue
 	associated_faith = /datum/faith/divine/lingyue
+	parentpatron = /datum/patron/inhumen/baotha
 	noresearch = TRUE
 
 /datum/patron/inhumen/baotha/gronn
 	name = "The Relishing Leopard"
 	desc = "She brings comfort to those who can't find it elsewhere but the bottom of a bottle; and she tempts those who have lost much into her fold through offers of relief and pleasure, yet they soon find themselves unable to escape her grasp. Seen as a scorned lover by many, and followed by such."
 	associated_faith = /datum/faith/inhumen/gronn
+	parentpatron = /datum/patron/inhumen/baotha
 	noresearch = TRUE
 
 /////////////////////////////////

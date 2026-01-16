@@ -1,3 +1,5 @@
+/datum/faith/inhumen // Abstract...
+
 /datum/faith/inhumen/standard
 	name = "Ascendents"
 	desc = "The Holy Ecclesial is a series of sects formed by a violent schism with the Holy See that split the church in twain. \n\
