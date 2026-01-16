@@ -743,15 +743,21 @@
 	dir = 1
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "bR" = (
 /obj/structure/fluff/walldeco/chains,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "bU" = (
 /obj/structure/well,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "bX" = (
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue)
@@ -778,7 +784,9 @@
 	icon_state = "floor5-old"
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "cg" = (
 /obj/structure/mineral_door/bars{
 	locked = 1;
@@ -805,7 +813,9 @@
 "cD" = (
 /obj/effect/decal/cleanable/blood/gibs/up,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "cK" = (
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grasscold,
@@ -837,7 +847,9 @@
 /obj/structure/table/optable,
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "dd" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8
@@ -885,7 +897,9 @@
 	},
 /obj/item/rogueweapon/huntingknife/cleaver,
 /turf/open/floor/rogue/dirt,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "dv" = (
 /obj/structure/fluff/traveltile/bandit{
 	aportalid = "banditin";
@@ -962,7 +976,9 @@
 "ed" = (
 /obj/structure/roguemachine/bounty,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "ee" = (
 /obj/effect/decal/mossy{
 	dir = 4
@@ -1037,7 +1053,9 @@
 	icon_state = "border"
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "eL" = (
 /obj/structure/fluff/pillow/magenta,
 /turf/open/floor/rogue/tile/harem2,
@@ -1059,7 +1077,9 @@
 	pixel_x = -11
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "eW" = (
 /obj/structure/stairs{
 	dir = 1
@@ -1089,7 +1109,9 @@
 /area/rogue/under/cave/inhumen)
 "ff" = (
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "fi" = (
 /obj/structure/table/wood{
 	icon_state = "tablewood2";
@@ -1103,14 +1125,18 @@
 "fn" = (
 /obj/structure/ritualcircle/baotha,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "fp" = (
 /obj/machinery/light/rogue/firebowl/stump,
 /obj/effect/decal/wood/herringbone{
 	dir = 4
 	},
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "fu" = (
 /obj/structure/bars,
 /turf/open/floor/rogue/blocks,
@@ -1256,7 +1282,9 @@
 	dir = 8
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "gQ" = (
 /obj/structure/fluff/walldeco/chains,
 /obj/structure/closet/crate/roguecloset/inn/chest,
@@ -1299,7 +1327,9 @@
 	pixel_x = -3
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "he" = (
 /obj/structure/well,
 /turf/open/floor/rogue/blocks/newstone/alt,
@@ -1310,7 +1340,9 @@
 	dir = 10
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "hm" = (
 /obj/effect/landmark/start/vampirelord,
 /turf/open/floor/carpet/inn,
@@ -1346,7 +1378,9 @@
 "hC" = (
 /obj/structure/fermentation_keg/random/water,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "hI" = (
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 1
@@ -1359,7 +1393,9 @@
 	icon_state = "floor4-old"
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "hO" = (
 /obj/structure/noose/gallows,
 /turf/open/floor/rogue/dirt,
@@ -1404,7 +1440,9 @@
 "il" = (
 /obj/structure/chair/arrestchair,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "im" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 1
@@ -1502,7 +1540,9 @@
 "js" = (
 /obj/structure/roguetent,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "jt" = (
 /obj/structure/curtain/magenta,
 /turf/open/floor/rogue/tile/harem2,
@@ -1608,13 +1648,17 @@
 	dir = 10
 	},
 /turf/open/floor/rogue/dirt,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "kb" = (
 /obj/effect/decal/wood/herringbone{
 	dir = 4
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "kc" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
@@ -1640,7 +1684,9 @@
 	dir = 1
 	},
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "kp" = (
 /obj/structure/chair/wood/rogue{
 	dir = 8
@@ -1682,7 +1728,9 @@
 "kH" = (
 /obj/structure/mineral_door/bars,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "kJ" = (
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/banditcamp)
@@ -1744,7 +1792,9 @@
 "lt" = (
 /obj/machinery/light/rogue/wallfire/candle/floorcandle/pink,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "lw" = (
 /turf/open/floor/rogue/cobble,
 /area/rogue)
@@ -1754,7 +1804,9 @@
 /area/rogue/outdoors/woods/vampire_lair)
 "ly" = (
 /turf/open/lava,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "lF" = (
 /obj/structure/fluff/statue/knight/interior/r/bronze,
 /obj/effect/spawner/trap,
@@ -1779,7 +1831,9 @@
 "lO" = (
 /obj/structure/fermentation_keg/gronmead,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "lS" = (
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/outdoors/banditcamp)
@@ -1793,7 +1847,9 @@
 	pixel_x = -3
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "lW" = (
 /obj/effect/landmark/start/wretchlate,
 /turf/open/floor/rogue/churchrough,
@@ -1825,7 +1881,9 @@
 "mg" = (
 /obj/structure/fluff/grindwheel,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "mn" = (
 /obj/structure/bookcase,
 /turf/open/floor/rogue/herringbone,
@@ -1869,7 +1927,9 @@
 	lifetime = 14400
 	},
 /turf/open/water/cleanshallow,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "mF" = (
 /obj/structure/pillory{
 	lockid = "inhumen"
@@ -1897,7 +1957,9 @@
 	dir = 5
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "mM" = (
 /obj/structure/bed/rogue/inn{
 	dir = 1
@@ -1974,7 +2036,9 @@
 "nm" = (
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/dirt,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "nw" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
@@ -2002,7 +2066,9 @@
 /obj/item/natural/cloth,
 /obj/item/natural/cloth,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "nE" = (
 /obj/item/roguecoin/aalloy/pile,
 /obj/item/roguecoin/aalloy/pile,
@@ -2041,7 +2107,9 @@
 	dir = 4
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "nW" = (
 /obj/structure/chair/wood/rogue/fancy{
 	icon_state = "chair1";
@@ -2096,7 +2164,9 @@
 "oq" = (
 /obj/effect/landmark/start/gnolllate,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "os" = (
 /obj/machinery/tanningrack,
 /turf/open/floor/rogue/blocks/newstone/alt,
@@ -2104,7 +2174,9 @@
 "ot" = (
 /obj/structure/meathook,
 /turf/open/floor/rogue/dirt,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "ow" = (
 /obj/machinery/light/rogue/wallfire/candle/blue{
 	pixel_x = 32;
@@ -2118,7 +2190,9 @@
 "ox" = (
 /obj/structure/roguetent,
 /turf/open/floor/rogue/dirt,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "oy" = (
 /obj/structure/roguemachine/Hoardmaster{
 	pixel_x = -16
@@ -2153,7 +2227,9 @@
 /obj/item/natural/cloth,
 /obj/item/natural/cloth,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "oM" = (
 /obj/machinery/light/rogue/wallfire/candle/floorcandle/alt/pink,
 /obj/structure/table/wood/fancy,
@@ -2177,7 +2253,9 @@
 	},
 /obj/item/needle/thorn,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "oV" = (
 /obj/structure/roguetent,
 /turf/open/floor/rogue/ruinedwood,
@@ -2217,7 +2295,9 @@
 	dir = 1
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "pj" = (
 /obj/structure/fluff/railing/border{
 	dir = 9;
@@ -2228,10 +2308,14 @@
 /area/rogue/outdoors)
 "pk" = (
 /turf/closed/mineral/rogue/bedrock,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "pn" = (
 /turf/open/floor/rogue/dirt,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "pr" = (
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors)
@@ -2263,7 +2347,9 @@
 "pH" = (
 /obj/machinery/light/rogue/campfire,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "pK" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8
@@ -2304,7 +2390,9 @@
 	dir = 8
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "qd" = (
 /obj/structure/hotspring,
 /turf/open/floor/rogue/dirt/road,
@@ -2317,7 +2405,9 @@
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/hardtack_raw,
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/hardtack_raw,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "qm" = (
 /obj/structure/fluff/traveltile/wretch{
 	aportalgoesto = "wretchout2";
@@ -2464,7 +2554,9 @@
 "rp" = (
 /obj/item/roguebin/water,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "rr" = (
 /obj/structure/mineral_door/bars{
 	locked = 1;
@@ -2510,7 +2602,9 @@
 "rJ" = (
 /obj/effect/decal/cleanable/blood/gibs,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "rL" = (
 /obj/structure/mineral_door/wood,
 /turf/open/floor/rogue/herringbone,
@@ -2547,7 +2641,9 @@
 /area/rogue/indoors/vampire_manor)
 "si" = (
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "sj" = (
 /obj/structure/fluff/walldeco/church/line,
 /obj/structure/fluff/walldeco/church/line{
@@ -2659,7 +2755,9 @@
 "ta" = (
 /obj/structure/fluff/statue/gargoyle/candles,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "tb" = (
 /obj/structure/table/wood{
 	icon_state = "largetable";
@@ -2732,7 +2830,9 @@
 	icon_state = "chains5"
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "tx" = (
 /obj/structure/table/wood{
 	icon_state = "tablewood2";
@@ -2785,7 +2885,9 @@
 	desc = "Bring your laughter to the slaughter."
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "tN" = (
 /turf/closed,
 /area/rogue/under)
@@ -2831,7 +2933,9 @@
 /area/rogue/under/cave/inhumen)
 "ub" = (
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "un" = (
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/water/swamp/deep,
@@ -2839,7 +2943,9 @@
 "uo" = (
 /obj/effect/landmark/start/gnolllate,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "ut" = (
 /obj/structure/fluff/railing/border{
 	icon_state = "border";
@@ -2852,7 +2958,9 @@
 	icon_state = "floor4-old"
 	},
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "uB" = (
 /obj/structure/fluff/wallclock/vampire,
 /turf/open/floor/rogue/herringbone,
@@ -2926,7 +3034,9 @@
 	icon_state = "border"
 	},
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "vb" = (
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/banditcamp)
@@ -2972,7 +3082,9 @@
 /obj/machinery/anvil,
 /obj/item/rogueweapon/hammer/iron,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "vC" = (
 /obj/structure/table/wood/fancy/purple,
 /obj/structure/table/wood/fancy/purple,
@@ -3130,7 +3242,9 @@
 "xj" = (
 /obj/structure/fluff/statue/femalestatue2,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "xl" = (
 /obj/structure/closet/crate/chest/old_crate,
 /obj/item/reagent_containers/food/snacks/rogue/crackerscooked,
@@ -3304,7 +3418,9 @@
 /obj/item/reagent_containers/powder/salt,
 /obj/item/reagent_containers/powder/salt,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "yR" = (
 /obj/structure/table/wood{
 	icon_state = "tablewood2";
@@ -3337,7 +3453,9 @@
 /obj/machinery/light/rogue/hearth,
 /obj/item/reagent_containers/glass/bucket/pot/stone,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "zk" = (
 /obj/structure/fluff/railing/fence{
 	icon_state = "fence";
@@ -3370,7 +3488,9 @@
 "zy" = (
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "zA" = (
 /obj/machinery/light/rogue/forge,
 /turf/open/floor/rogue/ruinedwood{
@@ -3421,11 +3541,15 @@
 /obj/structure/chair/stool/rogue,
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Ac" = (
 /obj/machinery/light/rogue/torchholder,
 /turf/closed/mineral/rogue/bedrock,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Af" = (
 /obj/structure/flora/rogueshroom/happy/random,
 /turf/open/floor/rogue/naturalstone,
@@ -3465,7 +3589,9 @@
 	icon_state = "floor6-old"
 	},
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Aw" = (
 /obj/structure/table/wood{
 	icon_state = "longtable";
@@ -3508,7 +3634,9 @@
 "AE" = (
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "AH" = (
 /obj/structure/fluff/traveltile/vampire{
 	aportalid = "vampin";
@@ -3552,7 +3680,9 @@
 "AZ" = (
 /obj/effect/decal/cleanable/blood/splatter,
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Bc" = (
 /obj/structure/closet/crate/roguecloset,
 /obj/item/clothing/cloak/raincloak/blue,
@@ -3584,7 +3714,9 @@
 "Bg" = (
 /obj/structure/bars,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Bi" = (
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/inhumen)
@@ -3737,7 +3869,9 @@
 "Dh" = (
 /obj/structure/bars,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Di" = (
 /obj/machinery/light/rogue/wallfire/candle/floorcandle/pink,
 /obj/structure/table/wood/fancy/purple,
@@ -3808,7 +3942,9 @@
 	icon_state = "floor6-old"
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "DM" = (
 /turf/closed/wall/mineral/rogue/decostone/mossy/red/end,
 /area/rogue/under/cave/inhumen)
@@ -3874,7 +4010,9 @@
 	pixel_x = 4
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Eh" = (
 /obj/structure/fluff/walldeco/chains,
 /turf/open/floor/rogue/churchrough,
@@ -3921,7 +4059,9 @@
 	},
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "EB" = (
 /obj/structure/hotspring/border/seven,
 /obj/structure/flora/roguegrass/water/reeds,
@@ -3945,7 +4085,9 @@
 	},
 /obj/item/storage/belt/rogue/surgery_bag/full,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "EK" = (
 /obj/structure/fluff/walldeco/church/line,
 /turf/open/floor/rogue/tile/harem2,
@@ -4040,7 +4182,9 @@
 	dir = 4
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "FJ" = (
 /obj/machinery/light/rogue/oven/south,
 /turf/open/floor/rogue/tile{
@@ -4091,13 +4235,17 @@
 "Gh" = (
 /obj/machinery/light/rogue/cauldron,
 /turf/open/floor/rogue/dirt,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Gj" = (
 /obj/structure/mineral_door/wood/deadbolt{
 	dir = 4
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Go" = (
 /obj/structure/flora/rogueshroom,
 /turf/open/floor/rogue/dirt,
@@ -4176,7 +4324,9 @@
 /area/rogue/indoors/banditcamp)
 "HA" = (
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "HD" = (
 /obj/structure/chair/wood/rogue{
 	dir = 4;
@@ -4221,11 +4371,15 @@
 	dir = 8
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Ia" = (
 /obj/machinery/light/rogue/oven/south,
 /turf/open/floor/rogue/dirt,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Ib" = (
 /obj/structure/chair/wood/rogue{
 	icon_state = "chair2";
@@ -4290,7 +4444,9 @@
 /obj/machinery/light/rogue/hearth,
 /obj/item/cooking/pan,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Iy" = (
 /obj/machinery/light/rogue/torchholder/c,
 /turf/open/floor/rogue/dirt,
@@ -4338,7 +4494,9 @@
 "Je" = (
 /obj/effect/decal/cleanable/blood/splatter,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Jg" = (
 /obj/effect/decal/cleanable/dirt/cobweb,
 /turf/open/floor/rogue/ruinedwood,
@@ -4356,7 +4514,9 @@
 "Jj" = (
 /obj/structure/bed/rogue/bedroll,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Jn" = (
 /obj/structure/roguemachine/scomm,
 /turf/open/floor/rogue/wood/nosmooth,
@@ -4429,7 +4589,9 @@
 	icon_state = "floor5-old"
 	},
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "JH" = (
 /obj/structure/chair/freedomchair{
 	color = "#F75D59"
@@ -4474,11 +4636,15 @@
 "JS" = (
 /obj/structure/table/church/m,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "JU" = (
 /obj/structure/ritualcircle/graggar,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "JW" = (
 /obj/machinery/light/rogue/wallfire/candle/l,
 /turf/open/floor/rogue/ruinedwood{
@@ -4499,7 +4665,9 @@
 /obj/item/reagent_containers/glass/bowl,
 /obj/item/reagent_containers/glass/bowl,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Kb" = (
 /obj/item/rogueweapon/pick,
 /turf/open/floor/rogue/church,
@@ -4576,7 +4744,9 @@
 /obj/structure/table/church/end,
 /obj/machinery/light/rogue/wallfire/candle/floorcandle,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Ld" = (
 /obj/machinery/light/rogue/firebowl/standing/blue,
 /turf/open/floor/rogue/naturalstone,
@@ -4686,7 +4856,9 @@
 "LV" = (
 /obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "LY" = (
 /obj/structure/table/wood{
 	dir = 5;
@@ -4762,7 +4934,9 @@
 "Mv" = (
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Mw" = (
 /obj/structure/rack/rogue,
 /obj/item/coveter,
@@ -4801,7 +4975,9 @@
 "MP" = (
 /obj/structure/bed/rogue/shit,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "MQ" = (
 /obj/effect/decal/mossy{
 	dir = 4
@@ -4826,14 +5002,18 @@
 /area/rogue/under/cave/inhumen)
 "Ne" = (
 /turf/open/water/cleanshallow,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Nf" = (
 /obj/structure/fluff/railing/border{
 	dir = 1;
 	icon_state = "border"
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Ng" = (
 /obj/structure/table/wood{
 	icon_state = "largetable";
@@ -4848,7 +5028,9 @@
 	pixel_y = 32
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Nj" = (
 /obj/structure/bed/rogue/inn/wool{
 	dir = 8
@@ -4918,7 +5100,9 @@
 "Oi" = (
 /obj/structure/fluff/statue/gargoyle/moss/candles,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Ok" = (
 /obj/item/clothing/mask/cigarette/rollie/nicotine,
 /obj/item/clothing/mask/cigarette/rollie/nicotine,
@@ -4948,7 +5132,9 @@
 /obj/structure/table/church/end,
 /obj/machinery/light/rogue/wallfire/candle/floorcandle/pink,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Ow" = (
 /obj/effect/decal/mossy,
 /turf/open/floor/rogue/grasscold,
@@ -4967,7 +5153,9 @@
 "OA" = (
 /obj/structure/bed/rogue/bedroll,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "OC" = (
 /obj/structure/table/wood{
 	icon_state = "tablewood3"
@@ -5011,7 +5199,9 @@
 	pixel_x = 4
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "OT" = (
 /turf/open/floor/rogue/blocks/paving,
 /area/rogue/indoors/vampire_manor)
@@ -5022,7 +5212,9 @@
 "OY" = (
 /obj/effect/decal/cleanable/blood/gibs/limb,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Pc" = (
 /obj/structure/fluff/railing/wood,
 /obj/structure/closet/crate/roguecloset/inn/chest,
@@ -5067,7 +5259,9 @@
 	lockid = list("bandit")
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Py" = (
 /obj/structure/table/wood{
 	icon_state = "largetable";
@@ -5101,7 +5295,9 @@
 	},
 /obj/effect/decal/wood/herringbone,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "PP" = (
 /turf/open/water/cleanshallow,
 /area/rogue/outdoors/woods/vampire_lair)
@@ -5161,7 +5357,9 @@
 /obj/structure/table/church/m,
 /obj/item/clothing/neck/roguetown/zcross/iron,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "QF" = (
 /obj/machinery/anvil,
 /turf/open/floor/rogue/ruinedwood{
@@ -5261,7 +5459,9 @@
 "Rx" = (
 /obj/effect/decal/cleanable/blood/gibs/down,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "RA" = (
 /obj/structure/far_travel,
 /turf/open/floor/rogue/dirt/road,
@@ -5311,7 +5511,9 @@
 "RS" = (
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "RT" = (
 /obj/structure/stairs{
 	icon_state = "stairs";
@@ -5378,7 +5580,9 @@
 	pixel_x = -3
 	},
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Sz" = (
 /obj/structure/mineral_door/bars{
 	locked = 1;
@@ -5441,7 +5645,9 @@
 	dir = 9
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "SX" = (
 /obj/item/roguecoin/aalloy/pile,
 /obj/effect/spawner/trap,
@@ -5485,7 +5691,9 @@
 /obj/structure/table/church,
 /obj/machinery/light/rogue/wallfire/candle/floorcandle,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Tp" = (
 /obj/structure/hotspring/border/ten,
 /turf/open/floor/rogue/dirt,
@@ -5722,7 +5930,9 @@
 "Vi" = (
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Vk" = (
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/cobble/mossy,
@@ -5756,7 +5966,9 @@
 "VD" = (
 /obj/effect/landmark/start/gnoll,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "VF" = (
 /obj/structure/fluff/statue/tdummy,
 /turf/open/floor/rogue/dirt/road,
@@ -5768,11 +5980,15 @@
 	},
 /obj/item/needle,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "VI" = (
 /obj/structure/bed/rogue/shit,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "VL" = (
 /obj/structure/well,
 /turf/open/floor/rogue/dirt/road,
@@ -5842,7 +6058,9 @@
 "Wk" = (
 /obj/structure/mirror,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Wp" = (
 /obj/structure/bed/rogue/inn,
 /obj/item/bedsheet/rogue/fabric,
@@ -5917,7 +6135,9 @@
 	},
 /obj/item/reagent_containers/glass/cup/skull,
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Xi" = (
 /obj/structure/fluff/psycross/crafted,
 /turf/open/floor/rogue/dirt,
@@ -5962,7 +6182,9 @@
 /obj/structure/table/church,
 /obj/machinery/light/rogue/wallfire/candle/floorcandle/pink,
 /turf/open/floor/rogue/concrete,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Xy" = (
 /obj/structure/fluff/railing/border{
 	pixel_x = 4
@@ -5971,7 +6193,9 @@
 	pixel_x = -3
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "XB" = (
 /obj/structure/mineral_door/wood/deadbolt/shutter,
 /obj/structure/table/wood{
@@ -6007,7 +6231,9 @@
 	pixel_x = 18
 	},
 /turf/open/floor/rogue/dirt,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "XV" = (
 /turf/closed/mineral/random/rogue/high,
 /area/rogue/under/cave/inhumen)
@@ -6019,7 +6245,9 @@
 /obj/structure/bed/rogue/shit,
 /obj/structure/fluff/walldeco/chains,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "Yg" = (
 /obj/structure/table/wood{
 	icon_state = "largetable";
@@ -6097,13 +6325,17 @@
 	icon_state = "border"
 	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "YK" = (
 /obj/effect/decal/cleanable/blood{
 	icon_state = "floor6-old"
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "YM" = (
 /obj/machinery/light/rogue/wallfire/candle/l,
 /obj/structure/roguemachine/mail{
@@ -6237,7 +6469,9 @@
 	icon_state = "floor5-old"
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/under/cave)
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "ZT" = (
 /obj/structure/hotspring/border/two,
 /turf/open/floor/rogue/dirt,
