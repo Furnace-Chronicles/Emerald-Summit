@@ -257,7 +257,8 @@
 			cloak = /obj/item/clothing/cloak/templar/astratan
 			var/astrata_helmets = list(
 				"Astratan Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm,
-				"Astratan Bucket Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/astratan
+				"Astratan Bucket Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/astratan,
+				"Astratan Kulah khud" = /obj/item/clothing/head/roguetown/helmet/heavy/ranesh_stratan
 			)
 			var/astrata_choice = input(H, "Choose your helmet.", "Patron's Gift") as anything in astrata_helmets
 			head = astrata_helmets[astrata_choice]
@@ -328,7 +329,7 @@
 
 /datum/outfit/job/templar/crusader/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
-	var/weapons = list("Halberd","Longsword","Flail","Mace","Battle Axe", "Judgement Edge", "Solar Spear")
+	var/weapons = list("Halberd","Longsword","Flail","Mace","Battle Axe","Judgement Edge", "Solar Spear", "Astratan Scimitar")
 	switch(H.patron?.type)
 		if(/datum/patron/divine/astrata) //Unique patron weapons, more can be added here if wanted.
 			weapons += "Solar Judgement"
@@ -405,6 +406,9 @@
 		if("Tidecleaver")
 			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/abyssoraxe(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
+		if("Astratan Scimitar")
+			H.put_in_hands(new /obj/item/rogueweapon/sword/long/ranesh_stratan(H), TRUE)
+			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 
 	// -- Start of section for god specific bonuses --
 	if(H.patron?.type == /datum/patron/divine/astrata)

@@ -1024,6 +1024,14 @@
 	created_item = /obj/item/rogueweapon/sword/holysteel
 	i_type = "Weapons"
 
+/datum/anvil_recipe/weapons/holy/ranesh_strata
+	name = "Astratan Scimitar (+1 Gold bar)"
+	req_bar = /obj/item/ingot/steelholy
+	additional_items = list(/obj/item/ingot/gold)
+	craftdiff = 3
+	created_item = /obj/item/rogueweapon/sword/long/ranesh_stratan
+	i_type = "Weapons"
+
 //Psydonian weapon smithing
 /datum/anvil_recipe/weapons/psy/axe
 	name = "Psydonian War Axe (+1 B. Silver, +1 Stick)"
