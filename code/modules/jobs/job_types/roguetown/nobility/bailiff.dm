@@ -193,11 +193,14 @@
 
 /proc/find_lord(required_stat = CONSCIOUS)
 	var/mob/living/lord
-	for(var/mob/living/carbon/human/H in GLOB.human_list)
-		if(!H.mind || H.job != "Grand Duke" || (H.stat > required_stat))
-			continue
-		lord = H
-		break
+	var/mob/living/carbon/human/H = SSticker.rulermob
+	if(!H)
+		H = SSticker.regentmob
+		if(!H)
+			return
+	if(!H.mind || (H.stat > required_stat))
+		return
+	lord = H
 	return lord
 
 /proc/lord_law_requested(mob/living/bailiff, mob/living/carbon/human/lord, requested_law)

@@ -13,6 +13,8 @@ GLOBAL_VAR(king_throne)
 	obj_flags = NONE
 	var/rebel_leader_sit_time = 0
 	var/notified_rebel_able = FALSE
+	/// Linked throat, this is used to convey the active mode for QoL instead of having to guess what mode it is on constantly.
+	var/obj/structure/roguemachine/titan/throat
 
 /obj/structure/roguethrone/post_buckle_mob(mob/living/M)
 	..()
@@ -42,6 +44,19 @@ GLOBAL_VAR(king_throne)
 	var/dt = 1 SECONDS
 	process_rebel_leader_sit(dt)
 	. = ..()
+
+/obj/structure/roguethrone/examine(mob/user)
+	. = ..()
+	if(GLOB.king_throne != src)
+		return
+	if(!throat)
+		var/turf/T = get_turf(src)
+		for(var/obj/O in T.contents)
+			if(istype(O, /obj/structure/roguemachine/titan))
+				throat = O
+				break
+	if(throat)
+		. += throat.examine(user)
 
 /obj/structure/roguethrone/proc/process_rebel_leader_sit(dt)
 	if(!length(buckled_mobs))
