@@ -3190,6 +3190,16 @@
 /obj/structure/flora/roguetree,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods/vampire_lair)
+"wI" = (
+/obj/structure/table/wood{
+	icon_state = "tablewood2";
+	dir = 10
+	},
+/obj/item/rope/chain,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "wN" = (
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/under/cave/inhumen)
@@ -5205,6 +5215,15 @@
 "OT" = (
 /turf/open/floor/rogue/blocks/paving,
 /area/rogue/indoors/vampire_manor)
+"OU" = (
+/obj/structure/closet/crate/chest/wicker,
+/obj/item/rope/chain,
+/obj/item/rope/chain,
+/obj/item/rope/chain,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave{
+	first_time_text = "GRAGGAR'S BURROW"
+	})
 "OV" = (
 /obj/effect/landmark/start/new_player,
 /turf/closed,
@@ -14574,7 +14593,7 @@ pk
 Ac
 oI
 si
-hl
+wI
 pk
 si
 FI
@@ -15091,7 +15110,7 @@ pk
 si
 si
 si
-hl
+wI
 pk
 pk
 si
@@ -15738,7 +15757,7 @@ rQ
 rQ
 rQ
 pk
-hl
+wI
 si
 si
 si
@@ -15885,7 +15904,7 @@ pk
 pk
 pk
 pk
-si
+OU
 si
 si
 ub
@@ -16263,12 +16282,12 @@ pk
 pk
 pk
 OA
-hl
+wI
 oI
 pk
 pk
 OA
-hl
+wI
 pk
 pk
 pk
