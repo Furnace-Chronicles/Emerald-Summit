@@ -163,6 +163,43 @@
 	desc = ""
 	icon_state = "bleed3"
 
+/datum/status_effect/debuff/bloodstarved
+	id = "bloodstarved1"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/bloodstarvedt1
+	effectedstats = list("strength" = -1, "speed" = -1)
+	duration = -1
+	needs_processing = FALSE
+
+/atom/movable/screen/alert/status_effect/debuff/bloodstarvedt1
+	name = "Bloodstarved"
+	desc = "Hunger is pulsing through you."
+	icon_state = "bleed1"
+
+/datum/status_effect/debuff/bloodstarvedworse
+	id = "bloodstarverdt2"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/bloodstarvedt2
+	effectedstats = list("endurance" = -1, "constitution" = -1, "speed" = -2, "strength" = -2)
+	duration = -1
+	needs_processing = FALSE
+
+/atom/movable/screen/alert/status_effect/debuff/bloodstarvedt2
+	name = "Bloodstarved"
+	desc = "It's impossible to think, the hunger inside you is screaming."
+	icon_state = "bleed2"
+
+/datum/status_effect/debuff/bloodstarvedworst
+	id = "bloodstarvedt3"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/bloodstarvedt3
+	effectedstats = list("endurance" = -2, "constitution" = -2, "speed" = -3, "strength" = -3)
+	duration = -1
+	needs_processing = FALSE
+
+/atom/movable/screen/alert/status_effect/debuff/bloodstarvedt3
+	name = "Bloodstarved"
+	desc = "It's almost impossible to move. The hunger is unending..."
+	icon_state = "bleed3"
+
+
 /datum/status_effect/debuff/sleepytime
 	id = "sleepytime"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/sleepytime
