@@ -39,6 +39,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	apply_prefs_virtue(character, player)
 	if(player.prefs.dnr_pref)
 		apply_dnr_trait(character, player)
+		apply_tempo_trait(character, player)
 	if(player.prefs.loadout)
 		character.mind.special_items[player.prefs.loadout::name] += player.prefs.loadout.path
 	if(player.prefs.loadout2)
@@ -133,6 +134,9 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 
 /proc/apply_dnr_trait(mob/living/carbon/human/character, client/player)
 	ADD_TRAIT(player.mob, TRAIT_DNR, TRAIT_GENERIC)
+
+/proc/apply_tempo_trait(mob/living/carbon/human/character, client/player)
+	ADD_TRAIT(player.mob, TRAIT_TEMPO, TRAIT_GENERIC)
 
 /proc/apply_prefs_special(mob/living/carbon/human/character, client/player)
 	if(!player)
