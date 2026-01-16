@@ -102,7 +102,7 @@
 	else
 		M.blood_volume = min(M.blood_volume+ (blood_restore / 2), BLOOD_VOLUME_POTION_MAX)
 	if(wCount.len > 0)
-		M.heal_wounds(12) //Less wound healing. Two sips will fix an artery, but only barely. 
+		M.heal_wounds(12) //Less wound healing. Two sips will fix an artery, but only barely.
 		M.update_damage_overlays()
 		if(prob(10))
 			to_chat(M, span_nicegreen("I feel my wounds mending."))

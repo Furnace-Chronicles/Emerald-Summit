@@ -45,7 +45,7 @@
 	recovery = 10
 	warnie = "mobwarning"
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 40 //Same as a dagger.
+	penfactor = 2 //Same as a dagger.
 	item_d_type = "stab"
 
 //blunt objs ฅ^•ﻌ•^ฅ
@@ -572,7 +572,7 @@
 	animname = "stab"
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
 	no_early_release = TRUE
-	penfactor = 20
+	penfactor = 1
 	damfactor = 0.8
 	item_d_type = "stab"
 
@@ -586,7 +586,7 @@
 	misscost = 1
 	swingdelay = 15
 	clickcd = 15
-	penfactor = 80
+	penfactor = 4
 	damfactor = 0.9
 	item_d_type = "stab"
 

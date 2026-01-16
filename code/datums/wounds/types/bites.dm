@@ -36,8 +36,7 @@
 	name = "bite"
 	bleed_rate = 0.5
 	sewn_bleed_rate = 0
-	clotting_threshold = null
-	sewn_clotting_threshold = null
+	clotting_rate = 0.12
 	whp = 30
 	woundpain = 10
 	sew_threshold = 50
@@ -60,16 +59,13 @@
 #define BITE_UPG_WHPRATE 0.2
 #define BITE_UPG_SEWRATE 1
 #define BITE_UPG_PAINRATE 1
-#define BITE_UPG_CLAMP_ARMORED 1
-#define BITE_UPG_CLAMP_RAW 3
-#define BITE_ARMORED_BLEED_CLAMP 5
+#define BITE_UPG_CLAMP 1.3
 
 /datum/wound/dynamic/bite/upgrade(dam, armor)
 	whp += (dam * BITE_UPG_WHPRATE)
-	set_bleed_rate(bleed_rate + clamp((dam * BITE_UPG_BLEEDRATE), 0.1, ((armor > 0) ? BITE_UPG_CLAMP_ARMORED : BITE_UPG_CLAMP_RAW)))
+	set_bleed_rate(bleed_rate + clamp((dam * BITE_UPG_BLEEDRATE), 0.1, BITE_UPG_CLAMP))
 	sew_threshold += (dam * BITE_UPG_SEWRATE)
 	woundpain += (dam * BITE_UPG_PAINRATE)
-	armor_check(armor, BITE_ARMORED_BLEED_CLAMP)
 	update_name()
 	..()
 
@@ -77,6 +73,4 @@
 #undef BITE_UPG_WHPRATE
 #undef BITE_UPG_SEWRATE
 #undef BITE_UPG_PAINRATE
-#undef BITE_UPG_CLAMP_ARMORED
-#undef BITE_UPG_CLAMP_RAW
-#undef BITE_ARMORED_BLEED_CLAMP
+#undef BITE_UPG_CLAMP

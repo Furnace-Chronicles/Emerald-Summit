@@ -18,6 +18,16 @@
 
 	var/disgust_metabolism = 1
 
+/obj/item/organ/stomach/proc/missing_stomach_effects(mob/living/carbon/C)
+	if(HAS_TRAIT(C, TRAIT_NOHUNGER) || HAS_TRAIT(C, TRAIT_NOMETABOLISM))
+		return
+	C.stamina_add(-5)
+	if(C.dna?.species && !(NOBLOOD in C.dna.species.species_traits))
+		C.blood_volume = max(C.blood_volume - 10, 0)
+	if(prob(5) && !C.stat)
+		C.emote("painscream")
+		to_chat(C, span_warning("My insides burn with horrible agony!"))
+
 /obj/item/organ/stomach/on_life()
 	var/mob/living/carbon/human/H = owner
 	var/datum/reagent/Nutri
@@ -33,15 +43,20 @@
 
 	Nutri = locate(/datum/reagent/consumable/nutriment) in H.reagents.reagent_list
 
-	if(Nutri)
-		if(prob((damage/40) * Nutri.volume * Nutri.volume))
-			H.vomit(damage)
-			to_chat(H, span_warning("My stomach reels in pain as you're incapable of holding down all that food!"))
-
-	else if(Nutri && damage > high_threshold)
-		if(prob((damage/10) * Nutri.volume * Nutri.volume))
-			H.vomit(damage)
-			to_chat(H, span_warning("My stomach reels in pain as you're incapable of holding down all that food!"))
+	if(damage >= high_threshold)
+		if(Nutri)
+			if(prob((damage/10) * Nutri.volume * Nutri.volume))
+				H.vomit(damage)
+				to_chat(H, span_warning("MY STOMACH! I can't keep it down!"))
+		if(prob(5) && !H.stat)
+			to_chat(H, span_warning("My stomach burns!"))
+	else if(damage >= low_threshold)
+		if(Nutri)
+			if(prob((damage/40) * Nutri.volume * Nutri.volume))
+				H.vomit(damage)
+				to_chat(H, span_warning("My stomach hurts!"))
+		if(prob(2) && !H.stat)
+			to_chat(H, span_warning("My stomach aches."))
 
 /obj/item/organ/stomach/proc/handle_disgust(mob/living/carbon/human/H)
 	if(H.disgust)
@@ -78,12 +93,34 @@
 			H.throw_alert("disgust", /atom/movable/screen/alert/disgusted)
 			SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "disgust", /datum/mood_event/disgusted)
 
+/obj/item/organ/stomach/Insert(mob/living/carbon/M, special = 0)
+	var/mob/living/carbon/old_owner = owner
+	..()
+	if(old_owner && old_owner != owner && !QDELETED(old_owner))
+		UnregisterSignal(old_owner, COMSIG_LIVING_LIFE)
+	if(owner)
+		UnregisterSignal(owner, COMSIG_LIVING_LIFE)
+
 /obj/item/organ/stomach/Remove(mob/living/carbon/M, special = 0)
 	var/mob/living/carbon/human/H = owner
 	if(istype(H))
 		H.clear_alert("disgust")
 		SEND_SIGNAL(H, COMSIG_CLEAR_MOOD_EVENT, "disgust")
 	..()
+	if(H && !QDELETED(H))
+		RegisterSignal(H, COMSIG_LIVING_LIFE, PROC_REF(missing_stomach_effects))
+		RegisterSignal(H, COMSIG_MOB_ORGAN_INSERTED, PROC_REF(cleanup_on_replacement))
+
+/obj/item/organ/stomach/proc/cleanup_on_replacement(mob/living/carbon/M, obj/item/organ/new_organ)
+	if(istype(new_organ, /obj/item/organ/stomach))
+		UnregisterSignal(M, COMSIG_LIVING_LIFE)
+		UnregisterSignal(M, COMSIG_MOB_ORGAN_INSERTED)
+
+/obj/item/organ/stomach/Destroy()
+	if(last_owner && !QDELETED(last_owner))
+		UnregisterSignal(last_owner, COMSIG_LIVING_LIFE)
+		UnregisterSignal(last_owner, COMSIG_MOB_ORGAN_INSERTED)
+	return ..()
 
 /obj/item/organ/stomach/fly
 	name = "insectoid stomach"

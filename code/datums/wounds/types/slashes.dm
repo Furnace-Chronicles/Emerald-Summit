@@ -44,8 +44,7 @@
 	bleed_rate = 1
 	sew_threshold = 25
 	woundpain = 5
-	clotting_rate = 0.1
-	clotting_threshold = 0.25
+	clotting_rate = 0.12
 
 	sewn_clotting_threshold = null
 	sewn_clotting_rate = null
@@ -67,16 +66,13 @@
 #define SLASH_UPG_WHPRATE 1
 #define SLASH_UPG_SEWRATE 1.5
 #define SLASH_UPG_PAINRATE 0.25
-#define SLASH_UPG_CLAMP_ARMORED 1
-#define SLASH_UPG_CLAMP_RAW 4.4
-#define SLASH_ARMORED_BLEED_CLAMP 9
+#define SLASH_UPG_CLAMP 1.5
 
 /datum/wound/dynamic/slash/upgrade(dam, armor)
 	whp += (dam * SLASH_UPG_WHPRATE)
-	set_bleed_rate(bleed_rate + clamp((dam * SLASH_UPG_BLEEDRATE), 0.1, ((armor > 0) ? SLASH_UPG_CLAMP_ARMORED : SLASH_UPG_CLAMP_RAW)))
+	set_bleed_rate(bleed_rate + clamp((dam * SLASH_UPG_BLEEDRATE), 0.1, SLASH_UPG_CLAMP))
 	sew_threshold += (dam * SLASH_UPG_SEWRATE)
 	woundpain += (dam * SLASH_UPG_PAINRATE)
-	armor_check(armor, SLASH_ARMORED_BLEED_CLAMP)
 	update_name()
 	..()
 
@@ -84,9 +80,7 @@
 #undef SLASH_UPG_WHPRATE
 #undef SLASH_UPG_SEWRATE
 #undef SLASH_UPG_PAINRATE
-#undef SLASH_UPG_CLAMP_ARMORED
-#undef SLASH_UPG_CLAMP_RAW
-#undef SLASH_ARMORED_BLEED_CLAMP
+#undef SLASH_UPG_CLAMP
 
 /datum/wound/slash/disembowel
 	name = "disembowelment"
@@ -209,16 +203,13 @@
 #define LASHING_UPG_WHPRATE 1
 #define LASHING_UPG_SEWRATE 1.8
 #define LASHING_UPG_PAINRATE 0.5
-#define LASHING_UPG_CLAMP_ARMORED 0.2
-#define LASHING_UPG_CLAMP_RAW 3.5
-#define LASHING_ARMORED_BLEED_CLAMP 2
+#define LASHING_UPG_CLAMP 0.4
 
 /datum/wound/dynamic/lashing/upgrade(dam, armor)
 	whp += (dam * LASHING_UPG_WHPRATE)
-	set_bleed_rate(bleed_rate + clamp((dam * LASHING_UPG_BLEEDRATE), 0.1, ((armor > 0) ? LASHING_UPG_CLAMP_ARMORED : LASHING_UPG_CLAMP_RAW)))
+	set_bleed_rate(bleed_rate + clamp((dam * LASHING_UPG_BLEEDRATE), 0.1, LASHING_UPG_CLAMP))
 	sew_threshold += (dam * LASHING_UPG_SEWRATE)
 	woundpain += (dam * LASHING_UPG_PAINRATE)
-	armor_check(armor, LASHING_ARMORED_BLEED_CLAMP)
 	update_name()
 	..()
 
@@ -226,9 +217,7 @@
 #undef LASHING_UPG_WHPRATE
 #undef LASHING_UPG_SEWRATE
 #undef LASHING_UPG_PAINRATE
-#undef LASHING_UPG_CLAMP_ARMORED
-#undef LASHING_UPG_CLAMP_RAW
-#undef LASHING_ARMORED_BLEED_CLAMP
+#undef LASHING_UPG_CLAMP
 
 /datum/wound/dynamic/punish
 	name = "flogging"
@@ -249,18 +238,15 @@
 #define PUNISH_UPG_WHPRATE 2
 #define PUNISH_UPG_SEWRATE 2
 #define PUNISH_UPG_PAINRATE 2
-#define PUNISH_UPG_CLAMP_ARMORED 0.1
-#define PUNISH_UPG_CLAMP_RAW 0.5
+#define PUNISH_UPG_CLAMP 0.15
 #define PUNISH_UPG_SELFHEAL 0.25
-#define PUNISH_ARMORED_BLEED_CLAMP 0.1
 
 /datum/wound/dynamic/punish/upgrade(dam, armor)
 	whp += (dam * PUNISH_UPG_WHPRATE)
-	set_bleed_rate(bleed_rate + clamp((dam * PUNISH_UPG_BLEEDRATE), 0.1, ((armor > 0) ? PUNISH_UPG_CLAMP_ARMORED : PUNISH_UPG_CLAMP_RAW)))
+	set_bleed_rate(bleed_rate + clamp((dam * PUNISH_UPG_BLEEDRATE), 0.1, PUNISH_UPG_CLAMP))
 	sew_threshold += (dam * PUNISH_UPG_SEWRATE)
 	woundpain += (dam * PUNISH_UPG_PAINRATE)
 	passive_healing += PUNISH_UPG_SELFHEAL
-	armor_check(armor, PUNISH_ARMORED_BLEED_CLAMP)
 	update_name()
 	..()
 
@@ -268,10 +254,8 @@
 #undef PUNISH_UPG_WHPRATE
 #undef PUNISH_UPG_SEWRATE
 #undef PUNISH_UPG_PAINRATE
-#undef PUNISH_UPG_CLAMP_ARMORED
-#undef PUNISH_UPG_CLAMP_RAW
+#undef PUNISH_UPG_CLAMP
 #undef PUNISH_UPG_SELFHEAL
-#undef PUNISH_ARMORED_BLEED_CLAMP
 
 /datum/wound/lashing
 	name = "lashing"

@@ -41,10 +41,11 @@
 	item_state = "coif"
 	max_integrity = 125
 	flags_inv = HIDEHAIR
-	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD
+	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	blocksound = SOFTHIT
 	body_parts_covered = NECK|HAIR|EARS|HEAD
 	armor = ARMOR_LEATHER
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT)
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
@@ -62,7 +63,7 @@
 	item_state = "coif" // Lacks its own sprite/grey-sprite.
 	max_integrity = 100
 	flags_inv = HIDEHAIR
-	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD
+	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	blocksound = SOFTHIT
 	body_parts_covered = NECK|HAIR|EARS|HEAD
 	armor = ARMOR_PADDED_BAD
@@ -83,6 +84,7 @@
 	body_parts_covered = NECK
 	body_parts_inherent = NECK
 	armor = ARMOR_LEATHER_GOOD
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_SMASH)
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/hide/cured
@@ -96,8 +98,9 @@
 	max_integrity = 250
 	flags_inv = HIDEHAIR
 	armor = ARMOR_MAILLE
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 	resistance_flags = FIRE_PROOF
-	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD
+	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	body_parts_covered = NECK|HAIR|EARS|HEAD
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
 	adjustable = CAN_CADJUST
@@ -123,6 +126,7 @@
 	icon_state = "chainmantle"
 	max_integrity = 350
 	armor = ARMOR_MAILLE
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 	body_parts_covered = NECK|MOUTH
 	slot_flags = ITEM_SLOT_NECK
 	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
@@ -139,6 +143,7 @@
 	icon_state = "chainmantle"
 	max_integrity = 275
 	armor = ARMOR_MAILLE
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 	body_parts_covered = NECK|MOUTH
 	slot_flags = ITEM_SLOT_NECK
 	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
@@ -151,6 +156,7 @@
 	desc = "A coif of meticulously crafted iron rings. It isn't steel, but metal is metal, and it might just save your life."
 	icon_state = "ichaincoif"
 	max_integrity = 150
+	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/iron
 
@@ -168,6 +174,7 @@
 	max_integrity = 350
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	resistance_flags = FIRE_PROOF
+	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	body_parts_covered = NECK|MOUTH|NOSE|HAIR|EARS|HEAD
 	adjustable = CAN_CADJUST
 	smeltresult = /obj/item/ingot/steel
@@ -210,6 +217,7 @@
 	name = "iron full chain coif"
 	icon_state = "fchaincoif" // Lacks its own sprite
 	max_integrity = 275
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	resistance_flags = FIRE_PROOF
 	body_parts_covered = NECK|MOUTH|NOSE|HAIR|EARS|HEAD
@@ -224,6 +232,7 @@
 	icon_state = "bevor"
 	max_integrity = 300
 	armor = ARMOR_BEVOR
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/steel
 	resistance_flags = FIRE_PROOF
@@ -243,6 +252,7 @@
 	desc = "A series of iron plates designed to protect the neck."
 	icon_state = "gorget"
 	armor = ARMOR_GORGET
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	smeltresult = /obj/item/ingot/iron
 	anvilrepair = /datum/skill/craft/armorsmithing
 	max_integrity = 150
@@ -258,6 +268,7 @@
 	desc = "a decrepit, worn out gorget. Aeon's grasp is upon it."
 	icon_state = "ancientgorget"
 	max_integrity = 100
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	smeltresult = /obj/item/ingot/aalloy
 
 /obj/item/clothing/neck/roguetown/gorget/copper
@@ -266,12 +277,14 @@
 	max_integrity = 125
 	desc = "An antique and simple protection for the neck, used more as an accessory by the common folk. But poor protection is still better than nothing."
 	armor = ARMOR_NECK_BAD
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	smeltresult = /obj/item/ingot/copper
 
 /obj/item/clothing/neck/roguetown/fencerguard
 	name = "fencing guard"
 	icon_state = "fencercollar"
 	armor = ARMOR_BEVOR
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	smeltresult = /obj/item/ingot/iron
 	anvilrepair = /datum/skill/craft/armorsmithing
 	max_integrity = 150

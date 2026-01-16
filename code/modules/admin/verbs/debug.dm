@@ -68,6 +68,88 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 		message_admins("[key_name_admin(src)] has deleted all ([counter]) instances of [hsbitem].")
 		SSblackbox.record_feedback("tally", "admin_verb", 1, "Delete All") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
+/proc/rt_apply_stress_wounds_to_carbon(mob/living/carbon/human/H, critical_bleed = FALSE)
+	if(!H || QDELETED(H))
+		return FALSE
+	// apply several mixed dynamic wounds to different limbs to force significant bleeding load
+	var/list/zone_pool = list(BODY_ZONE_CHEST, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_HEAD)
+	var/list/bclass_pool = list(BCLASS_CUT, BCLASS_CHOP, BCLASS_STAB, BCLASS_PIERCE, BCLASS_BITE, BCLASS_LASHING)
+
+	var/wounds_to_apply = rand(3, 6)
+	for(var/i = 1, i <= wounds_to_apply, i++)
+		var/zone = pick(zone_pool)
+		var/bclass = pick(bclass_pool)
+		var/obj/item/bodypart/BP = H.get_bodypart(zone)
+		if(!BP)
+			continue
+		// High damage values to push dynamic wound bleed rates upward.
+		BP.manage_dynamic_wound(bclass, rand(45, 90), 0)
+
+	if(critical_bleed)
+		var/zone = pick(zone_pool - BODY_ZONE_HEAD) // arteries on head/neck can be lethal-ish, skip by default
+		var/obj/item/bodypart/BP = H.get_bodypart(zone)
+		if(BP)
+			BP.add_wound(/datum/wound/artery, silent = TRUE, crit_message = FALSE)
+
+	return TRUE
+
+/client/proc/stress_test_mob_bleed()
+	set category = "Debug"
+	set name = "stress test mob bleeding"
+	if(!check_rights(R_DEBUG))
+		return
+
+	var/amount = input(usr, "How many carbon mobs to spawn?", "stress test mob-life", 200) as null|num
+	if(isnull(amount))
+		return
+	amount = clamp(round(amount), 1, 2000)
+
+	var/radius = input(usr, "Spawn radius around you (tiles).", "stress test mob-life", 8) as null|num
+	if(isnull(radius))
+		return
+	radius = clamp(round(radius), 1, 30)
+
+	var/critical_percent = input(usr, "Percent of mobs to also receive an artery wound (critical bleed).", "stress test mob-life", 25) as null|num
+	if(isnull(critical_percent))
+		return
+	critical_percent = clamp(round(critical_percent), 0, 100)
+
+	var/turf/center = get_turf(mob)
+	if(!center)
+		return
+
+	var/list/turfs = list()
+	for(var/turf/T in range(radius, center))
+		if(T.density)
+			continue
+		turfs += T
+
+	if(!length(turfs))
+		to_chat(usr, span_warning("No valid turfs found within [radius] tiles."))
+		return
+
+	var/spawned = 0
+	var/with_critical = 0
+
+	for(var/i = 1, i <= amount, i++)
+		var/turf/T = turfs[((i - 1) % turfs.len) + 1]
+		var/mob/living/carbon/human/species/human/northern/H = new(T)
+		H.real_name = "stress_dummy_[i]"
+		H.name = H.real_name
+		H.Knockdown(10 MINUTES)
+		H.Immobilize(10 MINUTES)
+
+		var/do_crit_bleed = prob(critical_percent)
+		if(do_crit_bleed)
+			with_critical++
+		rt_apply_stress_wounds_to_carbon(H, do_crit_bleed)
+		spawned++
+		CHECK_TICK
+
+	log_admin("[key_name(usr)] ran stress test mob-life: spawned [spawned] carbon mobs (radius [radius]), [with_critical] with artery wounds.")
+	message_admins(span_adminnotice("[key_name_admin(usr)] ran stress test mob-life: spawned [spawned] carbon mobs (radius [radius]), [with_critical] with artery wounds."))
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "stress test mob-life")
+
 /client/proc/cmd_assume_direct_control(mob/M in GLOB.mob_list)
 	set category = "-Admin-"
 	set name = "Direct control..."

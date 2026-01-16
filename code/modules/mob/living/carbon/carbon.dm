@@ -140,6 +140,10 @@
 /mob/living/carbon/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	. = ..()
 	var/hurt = TRUE
+	var/was_jumping = is_jumping
+	if(is_jumping)
+		is_jumping = FALSE
+
 	if(hit_atom.density && isturf(hit_atom))
 		if(hurt)
 			take_bodypart_damage(10,check_armor = TRUE)
@@ -149,6 +153,14 @@
 		var/mob/living/carbon/victim = hit_atom
 		if(victim.movement_type & FLYING)
 			return
+
+		if(ishuman(src))
+			if(cmode && m_intent == MOVE_INTENT_RUN && !get_active_held_item() && a_intent.type == INTENT_GRAB && was_jumping)
+				var/mob/living/carbon/human/H = src
+				if(H.try_tackle(victim, throwingdatum))
+					hurt = FALSE
+					tackle_succeeded = TRUE
+
 		if(hurt)
 			victim.take_bodypart_damage(10,check_armor = TRUE)
 			take_bodypart_damage(10,check_armor = TRUE)
@@ -1408,3 +1420,8 @@
 	for(var/obj/item/bodypart/B in bodyparts)
 		B.skeletonize(lethal)
 	update_body_parts()
+
+/// Invalidates the bleed rate cache, forcing recalculation on the next get_bleed_rate() call.
+/// Call this when wounds, embeds, grabs, or bandages change on any bodypart.
+/mob/living/carbon/proc/invalidate_bleed_cache()
+	bleed_cache_dirty = TRUE

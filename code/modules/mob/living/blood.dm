@@ -69,7 +69,7 @@
 		bleed_rate = FALSE
 	if(bleed_rate)
 		bleed(bleed_rate)
-	else if(blood_volume < BLOOD_VOLUME_NORMAL)
+	else if(blood_volume < BLOOD_VOLUME_NORMAL && stat != DEAD)
 		blood_volume = min(blood_volume + 1, BLOOD_VOLUME_NORMAL)
 
 	// Non-vampiric bloodpool regen.
@@ -167,11 +167,26 @@
 						remove_status_effect(/datum/status_effect/debuff/bleeding)
 						remove_status_effect(/datum/status_effect/debuff/bleedingworse)
 
-			if(blood_volume <= BLOOD_VOLUME_BAD)
-				adjustOxyLoss(blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1)
-			else if((blood_volume > BLOOD_VOLUME_SURVIVE) || HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
+			// CON-based soft crit threshold: higher CON = survive at lower blood levels
+			// Base is 122 at 10 CON, -10 blood per CON point above 10
+			// This means high CON characters enter soft crit later (at lower blood volume)
+			var/soft_crit_threshold = BLOOD_VOLUME_SURVIVE - ((STACON - 10) * 10)
+			soft_crit_threshold = clamp(soft_crit_threshold, 40, 200)
+
+			// Progressive oxygen damage based on blood loss severity
+			// Much lower rates for extended bleedout time (120-160 seconds)
+			var/oxy_adjustment = 0
+			if(blood_volume <= 40) // Death threshold - ~7% blood
+				oxy_adjustment = 2 // Rapid death
+			else if(blood_volume <= soft_crit_threshold)
+				oxy_adjustment = 0.4 // Soft crit - very slow
+			else if(blood_volume <= BLOOD_VOLUME_BAD)
+				oxy_adjustment = 0.2 // Below BAD threshold - minimal
+			else if((blood_volume > soft_crit_threshold) || HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
 				if(getOxyLoss())
-					adjustOxyLoss(-1.6)
+					oxy_adjustment = -1.6
+			if(oxy_adjustment)
+				adjustOxyLoss(oxy_adjustment)
 
 	//Bleeding out
 	bleed_rate = get_bleed_rate() // expensive proc, but we zero it on bled-out mobs
@@ -192,14 +207,110 @@
 	return bleed_rate
 
 /mob/living/carbon/get_bleed_rate()
-	var/bleed_rate = 0
-	if (!blood_volume) // if we have no blood, we can't rightly bleed, can we?
+	if (!blood_volume)
 		return 0
 	if(NOBLOOD in dna?.species?.species_traits)
 		return 0
-	for(var/obj/item/bodypart/bodypart as anything in bodyparts)
-		bleed_rate += bodypart.get_bleed_rate()
-	return bleed_rate
+
+	if(bleed_cache_dirty && bleed_cache_last_update != world.time)
+		recalculate_bleed_cache()
+
+	var/normal_bleed = cached_normal_bleed
+	var/critical_bleed = cached_critical_bleed
+
+	if(cached_grab_suppression != 1.0)
+		normal_bleed *= cached_grab_suppression
+		critical_bleed *= cached_grab_suppression * 0.5
+
+	if(normal_bleed > 0 && blood_volume < BLOOD_VOLUME_NORMAL)
+		var/blood_pressure = max(blood_volume / BLOOD_VOLUME_NORMAL, 0.2)
+		normal_bleed *= (blood_pressure ** 2)
+		critical_bleed *= min(blood_pressure * 1.5, 1)
+
+	var/total_bleed = normal_bleed + critical_bleed
+
+	if(total_bleed > 0.1)
+		return total_bleed
+	return 0
+
+
+/mob/living/carbon/proc/recalculate_bleed_cache()
+	var/total_normal = 0
+	var/total_critical = 0
+	var/total_grab_suppress = 1.0
+
+	for(var/obj/item/bodypart/BP as anything in bodyparts)
+		// Calculate this bodypart's bleed inline (avoid function call overhead)
+		var/bp_normal_wounds = 0
+		var/bp_critical = 0
+		var/bp_max_bleed = 0
+
+		// Calculate total plug effect from embedded objects
+		var/total_plug_amount = 0
+		var/list/embeds = BP.embedded_objects
+		if(length(embeds))
+			for(var/obj/item/I as anything in embeds)
+				if(I.embed_bleed_contribution)
+					total_plug_amount += I.embed_bleed_contribution
+
+		// Process wounds - separate normal and critical, track max
+		var/list/wound_list = BP.wounds
+		if(length(wound_list))
+			for(var/datum/wound/W as anything in wound_list)
+				var/w_bleed = W.bleed_rate
+				if(w_bleed)
+					// Reduce puncture wound bleeding by the amount embedded objects are plugging
+					if(istype(W, /datum/wound/dynamic/puncture) && total_plug_amount)
+						w_bleed = max(w_bleed - total_plug_amount, 0)
+
+					if(w_bleed > bp_max_bleed)
+						bp_max_bleed = w_bleed
+					if(W.severity >= WOUND_SEVERITY_CRITICAL)
+						bp_critical += w_bleed
+					else
+						bp_normal_wounds += w_bleed
+
+		// Auto-correct BP.bleeding (handle desyncs)
+		BP.bleeding = bp_normal_wounds + bp_critical
+
+		var/bp_normal = bp_normal_wounds
+
+		// Check bandage effectiveness AFTER calculating max bleed
+		if(BP.is_bandaged())
+			var/bandage_effectiveness = 0.5
+			if(istype(BP.bandage, /obj/item/natural/cloth))
+				var/obj/item/natural/cloth/cloth = BP.bandage
+				bandage_effectiveness = cloth.bandage_effectiveness
+
+			if(bandage_effectiveness < bp_max_bleed)
+				// Bandage is overwhelmed, expire it and continue bleeding
+				BP.bandage_expire()
+			else
+				// Bandage is effective, skip this bodypart entirely
+				continue
+
+		// Calculate grab suppression for this bodypart
+		var/bp_grab_suppress = 1.0
+		var/list/grabs = BP.grabbedby
+		if(length(grabs))
+			for(var/obj/item/grabbing/G in grabs)
+				bp_grab_suppress *= G.bleed_suppressing
+
+		// Apply surgery clamp if present
+		if(BP.cached_surgery_flags & SURGERY_CLAMPED)
+			bp_normal = min(bp_normal, 0.5)
+			bp_critical = min(bp_critical, 0.5)
+
+		// Accumulate totals
+		total_normal += max(bp_normal, 0)
+		total_critical += bp_critical
+		total_grab_suppress *= bp_grab_suppress
+
+	cached_normal_bleed = total_normal
+	cached_critical_bleed = total_critical
+	cached_grab_suppression = total_grab_suppress
+	bleed_cache_dirty = FALSE
+	bleed_cache_last_update = world.time
 
 //Makes a blood drop, leaking amt units of blood from the mob
 /mob/living/proc/bleed(amt)
@@ -226,6 +337,7 @@
 	blood_volume = max(blood_volume - amt, 0)
 	if (old_volume > 0 && !blood_volume) // it looks like we've just bled out. bummer.
 		to_chat(src, span_userdanger("The last of your lyfeblood ebbs from your ravaged body and soaks the cold earth below..."))
+		death()
 
 	GLOB.scarlet_round_stats[STATS_BLOOD_SPILT] += amt
 	if(isturf(src.loc)) //Blood loss still happens in locker, floor stays clean

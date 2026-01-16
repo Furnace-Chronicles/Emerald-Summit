@@ -221,6 +221,7 @@
 			update_icon()
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
+	var/userskill = user.get_skill_level(/datum/skill/combat/bows)
 	if(user.get_inactive_held_item() || user.get_num_arms(FALSE) < 2)
 		to_chat(user, span_warning("I need a free hand to fire \the [src]!"))
 		return FALSE
@@ -235,7 +236,7 @@
 		var/obj/projectile/BB = CB.BB
 		BB.accuracy += accfactor * (user.STAPER - 9) * 4 // 9+ PER gives +4 per level. Exponential.
 		BB.bonus_accuracy += (user.STAPER - 8) * 3 // 8+ PER gives +3 per level. Does not decrease over range.
-		BB.bonus_accuracy += (user.get_skill_level(/datum/skill/combat/bows) * 5) // +5 per Bow level.
+		BB.bonus_accuracy += userskill * 5 // +5 per Bow level.
 
 		if(user.client.chargedprog < 100)
 			BB.damage -= (BB.damage * (user.client.chargedprog / 100))
@@ -243,8 +244,36 @@
 			BB.accuracy -= 15
 		else
 			BB.damage = BB.damage
-		BB.damage *= damfactor * (user.STAPER > 10 ? user.STAPER / 10 : 1)
+
+		var/variance_center = 0
+		var/bonusstat = heavy_bow ? user.STASTR : user.STAPER
+
+		if(user.STALUC > bonusstat && user.STALUC > 10)
+			variance_center += (user.STALUC - 10) * 0.0125
+		else
+			variance_center += (bonusstat - 10) * 0.0125
+
+		if(userskill > 0)
+			variance_center += userskill * 0.025
+
+		var/variance_roll = get_damage_variance(/datum/skill/combat/bows, variance_center, user)
+
+		var/statmult = max(bonusstat / 20, 1)
+		BB.damage = ((BB.damage * (1 + (variance_roll / 100))) * damfactor) * statmult
+
+		// Set damage falloff parameters
+		BB.falloff_damage_per_turf = 5
+		BB.falloff_ap_per_turf = 5
+		BB.firer_skill_level = user.get_skill_level(/datum/skill/combat/bows)
+
+		// Set falloff start distance (overridable by subtypes)
+		BB.falloff_start_distance = get_falloff_start_distance(user)
+
 	. = ..()
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/proc/get_falloff_start_distance(mob/living/user)
+	// Default bows: 4 base + 1 per 2 PER over 10
+	return 4 + max(0, floor((user.STAPER - 10) / 2))
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/update_icon()
 	..()
@@ -374,6 +403,10 @@
 	bigboy = TRUE
 	dropshrink = 0.8
 	heavy_bow = TRUE
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/get_falloff_start_distance(mob/living/user)
+	// Longbow: 7 base + 1 per 2 STR over 10
+	return 7 + max(0, floor((user.STASTR - 10) / 2))
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/getonmobprop(tag)
 	. = ..()

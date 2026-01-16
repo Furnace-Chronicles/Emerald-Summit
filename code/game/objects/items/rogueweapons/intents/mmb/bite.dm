@@ -85,7 +85,7 @@
 	user.do_attack_animation(src, "bite")
 	playsound(user, 'sound/gore/flesh_eat_01.ogg', 100)
 	var/nodmg = FALSE
-	var/dam2do = 10*(user.STASTR/20)
+	var/dam2do = user.get_punch_dmg()
 	if(HAS_TRAIT(user, TRAIT_STRONGBITE))
 		dam2do *= 2
 	if(!HAS_TRAIT(user, TRAIT_STRONGBITE))
@@ -141,6 +141,10 @@
 		B.name = "[src]'s [parse_zone(used_limb)]"
 		var/obj/item/bodypart/BP = get_bodypart(check_zone(used_limb))
 		BP.grabbedby += B
+		// Invalidate bleed cache since grab was added to bodypart
+		if(iscarbon(src))
+			var/mob/living/carbon/C = src
+			C.invalidate_bleed_cache()
 		B.grabbed = src
 		B.grabbee = user
 		B.limb_grabbed = BP
@@ -233,7 +237,7 @@
 
 	user.changeNext_move(CLICK_CD_GRABBING)
 	var/mob/living/carbon/C = grabbed
-	var/armor_block = C.run_armor_check(sublimb_grabbed, d_type, armor_penetration = BLUNT_DEFAULT_PENFACTOR)
+	var/armor_block = C.run_armor_check(sublimb_grabbed, d_type, armor_penetration = max(BLUNT_DEFAULT_PENFACTOR * (user.STASTR - 10), 0))
 	var/damage = user.get_punch_dmg()
 	if(HAS_TRAIT(user, TRAIT_STRONGBITE))
 		damage = damage*2

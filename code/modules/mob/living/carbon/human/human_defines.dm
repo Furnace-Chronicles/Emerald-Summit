@@ -95,6 +95,8 @@
 	var/list/possibleclass
 	var/advsetup = 0
 
+	// Armor cache - single alist for get_best_armor lookups
+	var/alist/best_armor_cache
 
 //	var/alignment = ALIGNMENT_TN
 

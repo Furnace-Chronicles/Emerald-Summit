@@ -47,7 +47,7 @@
 	to_chat(H, span_warning("You are a Varangian of the Gronn Highlands. Warrior-Traders most known for their exploits into the Raneshen Empire, which will be forever remembered by historians."))
 
 	head = /obj/item/clothing/head/roguetown/helmet/bascinet/atgervi
-	gloves = /obj/item/clothing/gloves/roguetown/plate/atgervi
+	gloves = /obj/item/clothing/gloves/roguetown/angle/atgervi
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/atgervi
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/gronn	//This is in armor and not shirt just to avoid seeing titty through it.
 	pants = /obj/item/clothing/under/roguetown/trou/leather/atgervi
@@ -112,7 +112,7 @@
 	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
 
 	head = /obj/item/clothing/head/roguetown/helmet/leather/shaman_hood
-	gloves = /obj/item/clothing/gloves/roguetown/angle/gronnfur
+	gloves = /obj/item/clothing/gloves/roguetown/plate/atgervi/
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/atgervi
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 	pants = /obj/item/clothing/under/roguetown/trou/leather/atgervi
@@ -122,7 +122,6 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	beltl = /obj/item/flashlight/flare/torch
-	H.put_in_hands(new /obj/item/rogueweapon/handclaw/gronn, FALSE)
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)	//Capped to T2 miracles.
@@ -161,10 +160,51 @@
 
 /obj/item/clothing/gloves/roguetown/plate/atgervi
 	name = "beast claws"
-	desc = "A menacing pair of plated claws, whose forging methods are a closely protected tradition of the Shamans. The four claws embodying the Four Great Beasts, decorated with symbols of the Gods they praise and the Gods they reject."
+	desc = "A menacing pair of plated claws, a closely protected tradition of the Atgervi Shamans. The four claws embody the four great beasts. Decorated with symbols of the gods they praise and the Gods they reject. Right-click to toggle between claws and fists."
 	icon_state = "atgervi_shaman_gloves"
 	item_state = "atergvi_shaman_gloves"
 	unarmed_bonus = 1.25
+	var/claw_mode = FALSE
+
+/obj/item/clothing/gloves/roguetown/plate/atgervi/attack_right(mob/user)
+	if(!ishuman(user) || !HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN))
+		return
+
+	var/mob/living/carbon/human/H = user
+	if(H.get_item_by_slot(SLOT_GLOVES) != src)
+		to_chat(user, span_warning("I need to be wearing the claws to switch modes!"))
+		return
+
+	claw_mode = !claw_mode
+
+	if(claw_mode)
+		// Switch to claw attack
+		for(var/i = 1 to length(H.base_intents))
+			if(H.base_intents[i] == /datum/intent/unarmed/punch)
+				H.base_intents[i] = /datum/intent/unarmed/claw
+				break
+		to_chat(user, span_notice("You will now rake with the beast claws."))
+	else
+		// Switch to punch attack
+		for(var/i = 1 to length(H.base_intents))
+			if(H.base_intents[i] == /datum/intent/unarmed/claw)
+				H.base_intents[i] = /datum/intent/unarmed/punch
+				break
+		to_chat(user, span_notice("You will now punch with the beast claws."))
+
+	H.update_a_intents()
+
+/obj/item/clothing/gloves/roguetown/plate/atgervi/dropped(mob/user)
+	. = ..()
+	if(ishuman(user) && HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN) && claw_mode)
+		var/mob/living/carbon/human/H = user
+		// Restore punch intent when dropped
+		for(var/i = 1 to length(H.base_intents))
+			if(H.base_intents[i] == /datum/intent/unarmed/claw)
+				H.base_intents[i] = /datum/intent/unarmed/punch
+				break
+		H.update_a_intents()
+		claw_mode = FALSE
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/atgervi
 	name = "owl helmet"

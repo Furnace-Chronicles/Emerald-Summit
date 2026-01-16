@@ -17,13 +17,70 @@
 
 	sellprice = 20
 
+/obj/item/organ/lungs/proc/missing_lungs_effects(mob/living/carbon/C)
+	if(HAS_TRAIT(C, TRAIT_NOBREATH))
+		return
+	C.adjustOxyLoss(5, TRUE)
+	if(prob(10) && !C.stat)
+		C.emote("gasp")
+		to_chat(C, span_warning("I gasp for air, but nothing comes!"))
+
+/obj/item/organ/lungs/Insert(mob/living/carbon/M, special = 0)
+	var/mob/living/carbon/old_owner = owner
+	..()
+	if(old_owner && old_owner != owner && !QDELETED(old_owner))
+		UnregisterSignal(old_owner, COMSIG_LIVING_LIFE)
+	if(owner)
+		UnregisterSignal(owner, COMSIG_LIVING_LIFE)
+
+/obj/item/organ/lungs/Remove(mob/living/carbon/M, special = 0)
+	if(owner)
+		RegisterSignal(owner, COMSIG_LIVING_LIFE, PROC_REF(missing_lungs_effects))
+		RegisterSignal(owner, COMSIG_MOB_ORGAN_INSERTED, PROC_REF(cleanup_on_replacement))
+	..()
+
+/obj/item/organ/lungs/proc/cleanup_on_replacement(mob/living/carbon/M, obj/item/organ/new_organ)
+	if(istype(new_organ, /obj/item/organ/lungs))
+		UnregisterSignal(M, COMSIG_LIVING_LIFE)
+		UnregisterSignal(M, COMSIG_MOB_ORGAN_INSERTED)
+
+/obj/item/organ/lungs/Destroy()
+	if(last_owner && !QDELETED(last_owner))
+		UnregisterSignal(last_owner, COMSIG_LIVING_LIFE)
+		UnregisterSignal(last_owner, COMSIG_MOB_ORGAN_INSERTED)
+	return ..()
+
 /obj/item/organ/lungs/on_life()
 	..()
+	var/mob/living/carbon/C = owner
+	if(!istype(C))
+		return
+
+	if(damage > 0)
+		var/damage_ratio = damage / maxHealth
+		if(damage < low_threshold)
+			C.adjustOxyLoss(damage_ratio * 0.5)
+			if(prob(3))
+				C.emote("cough")
+		else if(damage < high_threshold)
+			C.adjustOxyLoss(damage_ratio * 1.5)
+			if(prob(5))
+				C.emote("cough")
+			if(prob(2) && !C.stat)
+				to_chat(C, span_warning("My chest hurts."))
+		else if(damage < maxHealth)
+			C.adjustOxyLoss(damage_ratio * 3)
+			if(prob(8))
+				C.emote("cough")
+			if(prob(5) && !C.stat)
+				to_chat(C, span_warning("I can barely breathe!"))
+
 	if((!failed) && ((organ_flags & ORGAN_FAILING)))
-		if(owner.stat == CONSCIOUS)
-			owner.visible_message("<span class='danger'>[owner] grabs [owner.p_their()] throat, struggling for breath!</span>", \
-								"<span class='danger'>I suddenly feel like you can't breathe!</span>")
+		if(C.stat == CONSCIOUS)
+			C.visible_message(span_danger("[C] clutches [C.p_their()] throat, gasping!"), \
+								span_userdanger("I CAN'T BREATHE!"))
 		failed = TRUE
+		C.adjustOxyLoss(4)
 	else if(!(organ_flags & ORGAN_FAILING))
 		failed = FALSE
 	return

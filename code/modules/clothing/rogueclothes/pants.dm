@@ -388,6 +388,7 @@
 	l_sleeve_status = SLEEVE_NOMOD
 	resistance_flags = FIRE_PROOF
 	armor_class = ARMOR_CLASS_LIGHT
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 
 /obj/item/clothing/under/roguetown/chainlegs/iron
 	name = "iron chain chausses"
@@ -502,6 +503,7 @@
 	armor_class = ARMOR_CLASS_LIGHT	// Coverage to class trade.
 	grid_height = 32
 	grid_width = 64
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 
 /obj/item/clothing/under/roguetown/platelegs/skirt
 	name = "steel plate tassets"

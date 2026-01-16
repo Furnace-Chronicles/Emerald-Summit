@@ -19,6 +19,7 @@
 	desc = ""
 	icon_state = "leather_gloves"
 	armor = ARMOR_GLOVES_LEATHER
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT)
 	max_integrity = 100
 	resistance_flags = FIRE_PROOF
@@ -38,6 +39,7 @@
 	name = "fingerless gloves"
 	desc = "Cloth gloves to absorb palm sweat while leaving the fingers free for fine manipulation."
 	icon_state = "fingerless_gloves"
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	resistance_flags = FIRE_PROOF
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
@@ -57,6 +59,7 @@
 	desc = ""
 	icon_state = "angle"
 	armor = ARMOR_GLOVES_LEATHER_GOOD
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)
 	resistance_flags = FIRE_PROOF
 	blocksound = SOFTHIT
@@ -76,6 +79,7 @@
 	manual dexterity over regular gloves."
 	icon_state = "roguegloves"
 	armor = ARMOR_GLOVES_LEATHER_GOOD
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT)
 	resistance_flags = FIRE_PROOF
 	blocksound = SOFTHIT
@@ -92,6 +96,7 @@
 	desc = ""
 	icon_state = "cgloves"
 	armor = ARMOR_GLOVES_CHAIN
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT)
 	resistance_flags = FIRE_PROOF
 	blocksound = CHAINHIT
@@ -157,6 +162,7 @@
 	icon_state = "fencergloves"
 	item_state = "fencergloves"
 	armor = ARMOR_GLOVES_CHAIN
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 	prevent_crits = list(BCLASS_CHOP, BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
 	resistance_flags = FIRE_PROOF
 	blocksound = SOFTHIT
@@ -182,6 +188,7 @@
 	desc = ""
 	icon_state = "gauntlets"
 	armor = ARMOR_GLOVES_PLATE
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	prevent_crits = list(BCLASS_CHOP, BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
 	resistance_flags = FIRE_PROOF
 	blocksound = PLATEHIT
@@ -267,6 +274,7 @@
 	item_state = "grenzelgloves"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'
 	armor = ARMOR_GLOVES_LEATHER
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
 	max_integrity = 100
 	resistance_flags = FIRE_PROOF
@@ -292,6 +300,7 @@
 	icon_state = "bplategloves"
 	item_state = "bplategloves"
 	armor = ARMOR_PLATE_BSTEEL
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	prevent_crits = list(BCLASS_CHOP, BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
 	resistance_flags = FIRE_PROOF
 	blocksound = PLATEHIT
@@ -311,6 +320,7 @@
 	icon_state = "bkgloves"
 	item_state = "bkgloves"
 	armor = ARMOR_PLATE_BSTEEL
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	prevent_crits = list(BCLASS_CHOP, BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
 	resistance_flags = FIRE_PROOF
 	blocksound = PLATEHIT
@@ -338,6 +348,7 @@
 	icon_state = "welfhand"
 	item_state = "welfhand"
 	armor = list("blunt" = 100, "slash" = 10, "stab" = 110, "piercing" = 20, "fire" = 0, "acid" = 0)//Resistant to blunt and stab, super weak to slash.
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 	prevent_crits = list(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_PICK)
 	resistance_flags = FIRE_PROOF
 	blocksound = SOFTHIT
@@ -360,6 +371,7 @@
 	icon_state = "eastgloves1"
 	item_state = "eastgloves1"
 	armor = ARMOR_GLOVES_LEATHER
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
 	resistance_flags = null
 	blocksound = SOFTHIT
@@ -376,6 +388,7 @@
 	icon_state = "eastgloves2"
 	item_state = "eastgloves2"
 	armor = ARMOR_GLOVES_LEATHER
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
 	resistance_flags = null
 	blocksound = SOFTHIT
@@ -391,6 +404,7 @@
 	desc = "Strong carapace plated gauntlets to sink your pincers into."
 	icon_state = "carapace_gauntlets"
 	armor = list("blunt" = 60, "slash" = 50, "stab" = 50, "piercing" = 30, "fire" = 30, "acid" = 0) //Around chain level
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	max_integrity = 225
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT)
 	resistance_flags = null

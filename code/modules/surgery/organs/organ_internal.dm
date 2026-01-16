@@ -73,6 +73,7 @@
 	last_owner = M
 	M.internal_organs |= src
 	M.internal_organs_slot[slot] = src
+	SEND_SIGNAL(M, COMSIG_MOB_ORGAN_INSERTED, src, special)
 	moveToNullspace()
 	for(var/X in actions)
 		var/datum/action/A = X

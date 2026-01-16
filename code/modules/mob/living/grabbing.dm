@@ -101,6 +101,8 @@
 			// This means we should skip any further processing for the bodypart
 			if(part)
 				part.grabbedby -= src
+				// Invalidate bleed cache since grab was removed from bodypart
+				carbonmob.invalidate_bleed_cache()
 				part = null
 				sublimb_grabbed = null
 	if(isturf(grabbed))
@@ -208,6 +210,10 @@
 			user.stamina_add(rand(7,15))
 			if(M.grippedby(user))			//Aggro grip
 				bleed_suppressing = 0.5		//Better bleed suppression
+				// Invalidate bleed cache since grab suppression changed
+				if(limb_grabbed && iscarbon(M))
+					var/mob/living/carbon/C = M
+					C.invalidate_bleed_cache()
 		if(/datum/intent/grab/choke)
 			if(user.buckled)
 				to_chat(user, span_warning("I can't do this while buckled!"))
@@ -332,25 +338,21 @@
 
 /obj/item/grabbing/proc/twistlimb(mob/living/user) //implies limb_grabbed and sublimb are things
 	var/mob/living/carbon/C = grabbed
-	var/armor_block = C.run_armor_check(limb_grabbed, "slash")
+	var/armor_block = C.run_armor_check(limb_grabbed, "twist")
 	var/damage = user.get_punch_dmg()
 	playsound(C, "genblunt", 100, FALSE, -1)
 	C.next_attack_msg.Cut()
-	if(isdoll(C)) {
+
+	var/actual_damage = ishuman(C) ? C:get_actual_damage(damage, armor_block, limb_grabbed, "twist", user) : max(damage - armor_block, 0)
+
+	if(isdoll(C))
 		armor_block = C.getarmor(sublimb_grabbed, "blunt")
-		if(armor_block < 1)
-			
-		else
-		
-			C.apply_damage(damage, BRUTE, limb_grabbed, armor_block)
-	}
-	else {
-	
-		armor_block = C.run_armor_check(limb_grabbed, "slash")
-		C.apply_damage(damage, BRUTE, limb_grabbed, armor_block)
-	}	
-		
-	limb_grabbed.bodypart_attacked_by(BCLASS_TWIST, damage, user, sublimb_grabbed, crit_message = TRUE)
+		if(armor_block >= 1)
+			C.apply_damage(actual_damage, BRUTE, limb_grabbed, 0)
+	else
+		C.apply_damage(actual_damage, BRUTE, limb_grabbed, 0)
+
+	limb_grabbed.bodypart_attacked_by(BCLASS_TWIST, actual_damage, user, sublimb_grabbed, crit_message = TRUE)
 	C.visible_message(span_danger("[user] twists [C]'s [parse_zone(sublimb_grabbed)]![C.next_attack_msg.Join()]"), \
 					span_userdanger("[user] twists my [parse_zone(sublimb_grabbed)]![C.next_attack_msg.Join()]"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE, user)
 	to_chat(user, span_warning("I twist [C]'s [parse_zone(sublimb_grabbed)].[C.next_attack_msg.Join()]"))
@@ -465,7 +467,14 @@
 		var/obj/item/I = locate(sublimb_grabbed) in L.embedded_objects
 		if(QDELETED(I) || QDELETED(L) || !L.remove_embedded_object(I))
 			return FALSE
-		L.receive_damage(I.embedding.embedded_unsafe_removal_pain_multiplier*I.w_class) //It hurts to rip it out, get surgery you dingus.
+		L.receive_damage(I.embedding.embedded_unsafe_removal_pain_multiplier*I.w_class)
+		var/datum/wound/dynamic/puncture/stab_wound = L.has_wound(/datum/wound/dynamic/puncture)
+		if(stab_wound)
+			stab_wound.jiggle_pain = max(stab_wound.jiggle_pain - (I.w_class * 8), 0)
+			stab_wound.woundpain = stab_wound.base_woundpain + stab_wound.jiggle_pain
+			if(I.embed_bleed_contribution)
+				var/bleed_increase = I.embed_bleed_contribution + (I.w_class * 0.4)
+				stab_wound.set_bleed_rate(stab_wound.bleed_rate + bleed_increase)
 		user.dropItemToGround(src) // this will unset vars like limb_grabbed
 		user.put_in_hands(I)
 		C.emote("paincrit", TRUE)
@@ -542,7 +551,7 @@
 
 /obj/item/grabbing/proc/smashlimb(atom/A, mob/living/user) //implies limb_grabbed and sublimb are things
 	var/mob/living/carbon/C = grabbed
-	var/armor_block = C.run_armor_check(limb_grabbed, d_type, armor_penetration = BLUNT_DEFAULT_PENFACTOR)
+	var/armor_block = C.run_armor_check(limb_grabbed, d_type, armor_penetration = max(BLUNT_DEFAULT_PENFACTOR * (user.STASTR - 10), 0))
 	var/damage = user.get_punch_dmg()
 	var/unarmed_skill = user.get_skill_level(/datum/skill/combat/unarmed)
 	damage *= (1 + (unarmed_skill / 10))	//1.X multiplier where X is the unarmed skill.

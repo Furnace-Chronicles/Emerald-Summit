@@ -312,12 +312,13 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	if(ishuman(target))
 		var/mob/living/carbon/human/HT = target
 		var/obj/item/bodypart/affecting = HT.get_bodypart(zone)
-		var/armor_block = HT.run_armor_check(zone, d_type, 0, damage = dam, used_weapon = W, armor_penetration = (no_pen ? -999 : 0))
-		if(no_pen && armor_block)
-			armor_block = 999
-		if(full_pen && armor_block)
-			armor_block = 0		//You block NOTHING, sir!
-		if(HT.apply_damage(dam, W.damtype, affecting, armor_block))
+		var/armor_block = HT.run_armor_check(zone, d_type, 0, damage = dam, used_weapon = W, armor_penetration = 0)
+		if(no_pen)
+			armor_block = 100
+
+		dam = ishuman(HT) ? HT.get_actual_damage(dam, armor_block, zone, d_type) : max(floor(dam * ((1-armor_block)/100)), 0)
+
+		if(HT.apply_damage(dam, W.damtype, affecting, 0))
 			affecting.bodypart_attacked_by(bclass, dam, howner, armor = armor_block, crit_message = TRUE, weapon = W)
 			msg += "<b> It pierces through to their flesh!</b>"
 			playsound(HT, pick(W.hitsound), 80, TRUE)

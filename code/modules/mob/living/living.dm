@@ -449,6 +449,8 @@
 			O.grabbee = src
 			O.limb_grabbed = BP
 			BP.grabbedby += O
+			// Invalidate bleed cache since grab was added to bodypart
+			C.invalidate_bleed_cache()
 			if(item_override)
 				O.sublimb_grabbed = item_override
 			else
@@ -875,6 +877,9 @@
 			qdel(wound)
 		else
 			wound.heal_wound(wound.whp)
+	if(iscarbon(src))
+		var/mob/living/carbon/C = src
+		C.invalidate_bleed_cache()
 	extinguish_mob()
 	confused = 0
 	dizziness = 0
@@ -1202,6 +1207,11 @@
 		resist_chance += (STACON - L.STASPD) * 5
 	else
 		resist_chance += (STACON - (agg_grab ? L.STASTR : L.STAEND)) * 5
+
+	// Dodge experts can use their speed to slip out of grabs
+	if(HAS_TRAIT(src, TRAIT_DODGEEXPERT))
+		resist_chance += (STASPD - 10) * 3
+
 	resist_chance *= combat_modifier
 	resist_chance = clamp(resist_chance, 5, 95)
 

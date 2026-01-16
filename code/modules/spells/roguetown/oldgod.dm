@@ -56,7 +56,7 @@
 	if(H.blood_volume < BLOOD_VOLUME_NORMAL)
 		blood_transfer = BLOOD_VOLUME_NORMAL - H.blood_volume
 		H.blood_volume = BLOOD_VOLUME_NORMAL
-		user.blood_volume -= blood_transfer
+		user.blood_volume = max(user.blood_volume - blood_transfer, BLOOD_VOLUME_SURVIVE)
 		to_chat(user, span_warning("You feel your blood drain into [H]!"))
 		to_chat(H, span_notice("You feel your blood replenish!"))
 

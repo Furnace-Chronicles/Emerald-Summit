@@ -389,7 +389,7 @@
 	M.AdjustUnconscious(-40, FALSE)
 	M.AdjustParalyzed(-40, FALSE)
 	M.AdjustImmobilized(-40, FALSE)
-	M.adjustStaminaLoss(-2, 0)
+	M.stamina_add(0.2) // Slight buff to stamina regen
 	M.Jitter(2)
 	if(M.reagents.has_reagent(/datum/reagent/herozium))
 		if(!HAS_TRAIT(M, TRAIT_CRACKHEAD))

@@ -1,8 +1,8 @@
-#define ARROW_DAMAGE		50
+#define ARROW_DAMAGE		45
 #define BOLT_DAMAGE			70
 #define BULLET_DAMAGE		80
-#define ARROW_PENETRATION	40
-#define BOLT_PENETRATION	50
+#define ARROW_PENETRATION	15
+#define BOLT_PENETRATION	60
 #define BULLET_PENETRATION	100
 
 //parent of all bolts and arrows ฅ^•ﻌ•^ฅ
@@ -37,9 +37,9 @@
 
 /obj/projectile/bullet/reusable/bolt
 	name = "bolt"
-	damage = 70
+	damage = BOLT_DAMAGE
 	damage_type = BRUTE
-	armor_penetration = 50
+	armor_penetration = BOLT_PENETRATION
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "bolt_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt
@@ -169,8 +169,8 @@
 	name = "broadhead arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron
 
-	damage = 40
-	armor_penetration = 0
+	damage = ARROW_DAMAGE
+	armor_penetration = ARROW_PENETRATION
 	embedchance = 30
 	npc_damage_mult = 2
 
@@ -186,7 +186,7 @@
 
 	accuracy = 75
 	damage = 25
-	armor_penetration = 45
+	armor_penetration = ARROW_PENETRATION + 20
 	embedchance = 80
 	speed = 0.6
 	npc_damage_mult = 3
@@ -529,7 +529,7 @@
 	icon_state = "ijavelin"
 	wlength = WLENGTH_NORMAL
 	w_class = WEIGHT_CLASS_BULKY
-	armor_penetration = 40					//Redfined because.. it's not a weapon, it's an 'arrow' basically.
+	armor_penetration = 25					//Balanced between arrows and melee weapons
 	max_integrity = 50						//Breaks semi-easy, stops constant re-use. 
 	wdefense = 3							//Worse than a spear
 	thrown_bclass = BCLASS_STAB				//Knives are slash, lets try out stab and see if it's too strong in terms of wounding.
@@ -552,13 +552,13 @@
 
 /obj/item/ammo_casing/caseless/rogue/javelin/steel
 	force = 16
-	armor_penetration = 50
+	armor_penetration = 35
 	name = "steel javelin"
 	desc = "A tool used for centuries, as early as recorded history. This one is tipped with a steel head; perfect for piercing armor!"
 	icon_state = "javelin"
 	max_integrity = 100						//In-line with other stabbing weapons.
 	throwforce = 28							//Equal to steel knife BUT this has peircing damage type so..
-	thrown_bclass = BCLASS_PICK				//Bypasses crit protection better than stabbing. Makes it better against heavy-targets.
+	thrown_bclass = BCLASS_STAB				//Stab wounds, not armor-punching like a pick
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 45, "embedded_fall_chance" = 10) //Better than steel throwing knife by 10%
 	smeltresult = /obj/item/ingot/steel
 
@@ -574,8 +574,8 @@
 	icon_state = "sjavelin"
 	is_silver = TRUE
 	throwforce = 25							//Less than steel because it's.. silver. Good at killing vampires/WW's still.
-	armor_penetration = 60
-	thrown_bclass = BCLASS_PICK				//Bypasses crit protection better than stabbing. Makes it better against heavy-targets.
+	armor_penetration = 40
+	thrown_bclass = BCLASS_STAB				//Stab wounds, not armor-punching like a pick
 	smeltresult = /obj/item/ingot/silver
 
 /obj/item/ammo_casing/caseless/rogue/javelin/silver/ComponentInitialize()

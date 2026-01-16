@@ -174,10 +174,25 @@
 	for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))
 		var/obj/projectile/BB = CB.BB
 
-		BB.accuracy += accfactor * (user.STAPER - 8) * 3 // 8+ PER gives +3 per level. Exponential.
-		BB.bonus_accuracy += (user.STAPER - 8) // 8+ PER gives +1 per level. Does not decrease over range.
-		BB.bonus_accuracy += (user.get_skill_level(/datum/skill/combat/crossbows) * 5) // +5 per XBow level.
-		BB.damage *= damfactor
+		BB.accuracy += accfactor * (user.STAPER - 8) * 3
+		BB.bonus_accuracy += (user.STAPER - 8)
+		BB.bonus_accuracy += (user.get_skill_level(/datum/skill/combat/crossbows) * 5)
+
+		var/userskill = user.get_skill_level(/datum/skill/combat/crossbows)
+		var/variance_center = 0
+		if(user.STALUC > 10)
+			variance_center += (user.STALUC - 10) * 0.0125
+		if(userskill > 0)
+			variance_center += userskill * 0.025
+		var/variance_roll = get_damage_variance(/datum/skill/combat/crossbows, variance_center, user)
+		BB.damage = (BB.damage * (1 + (variance_roll / 100))) * damfactor
+
+		BB.falloff_start_distance = 7
+		BB.falloff_damage_per_turf = 5
+		BB.falloff_ap_per_turf = 5
+		BB.falloff_accuracy_per_turf = 3
+		BB.firer_skill_level = user.get_skill_level(/datum/skill/combat/crossbows)
+
 	cocked = FALSE
 
 	..()

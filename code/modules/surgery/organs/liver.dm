@@ -22,6 +22,41 @@
 #define HAS_NO_TOXIN 1
 #define HAS_PAINFUL_TOXIN 2
 
+/obj/item/organ/liver/proc/missing_liver_effects(mob/living/carbon/C)
+	C.reagents.end_metabolization(C, keep_liverless = TRUE)
+	C.reagents.metabolize(C, can_overdose=FALSE, liverless = TRUE)
+	if(C.mind && (HAS_TRAIT(C, TRAIT_STABLELIVER) || HAS_TRAIT(C, TRAIT_NOMETABOLISM)))
+		return
+	C.adjustToxLoss(4, TRUE, TRUE)
+
+/obj/item/organ/liver/Insert(mob/living/carbon/M, special = 0)
+	var/mob/living/carbon/old_owner = owner
+	if(M && !QDELETED(M))
+		UnregisterSignal(M, COMSIG_LIVING_LIFE)
+	..()
+	if(old_owner && old_owner != owner && !QDELETED(old_owner))
+		UnregisterSignal(old_owner, COMSIG_LIVING_LIFE)
+	if(owner)
+		UnregisterSignal(owner, COMSIG_LIVING_LIFE)
+
+/obj/item/organ/liver/Remove(mob/living/carbon/M, special = 0)
+	var/mob/living/carbon/old_owner = owner
+	..()
+	if(old_owner && !QDELETED(old_owner))
+		RegisterSignal(old_owner, COMSIG_LIVING_LIFE, PROC_REF(missing_liver_effects))
+		RegisterSignal(old_owner, COMSIG_MOB_ORGAN_INSERTED, PROC_REF(cleanup_on_replacement))
+
+/obj/item/organ/liver/proc/cleanup_on_replacement(mob/living/carbon/M, obj/item/organ/new_organ)
+	if(istype(new_organ, /obj/item/organ/liver))
+		UnregisterSignal(M, COMSIG_LIVING_LIFE)
+		UnregisterSignal(M, COMSIG_MOB_ORGAN_INSERTED)
+
+/obj/item/organ/liver/Destroy()
+	if(last_owner && !QDELETED(last_owner))
+		UnregisterSignal(last_owner, COMSIG_LIVING_LIFE)
+		UnregisterSignal(last_owner, COMSIG_MOB_ORGAN_INSERTED)
+	return ..()
+
 /obj/item/organ/liver/on_life()
 	var/mob/living/carbon/C = owner
 	..()	//perform general on_life()
@@ -40,16 +75,28 @@
 						if(provide_pain_message != HAS_PAINFUL_TOXIN)
 							provide_pain_message = T.silent_toxin ? HAS_SILENT_TOXIN : HAS_PAINFUL_TOXIN
 
-			//metabolize reagents
 			C.reagents.metabolize(C, can_overdose=TRUE)
 
-			if(provide_pain_message && damage > 10 && prob(damage/3))//the higher the damage the higher the probability
-				to_chat(C, span_warning("I feel a dull pain in my abdomen."))
+			if(damage > 0)
+				var/damage_ratio = damage / maxHealth
+				if(damage >= high_threshold)
+					C.adjustToxLoss(damage_ratio * 1.5)
+					if(prob(8) && !C.stat)
+						to_chat(C, span_warning("My gut burns!"))
+					if(prob(5))
+						C.vomit(1, stun = FALSE)
+				else if(damage >= low_threshold)
+					C.adjustToxLoss(damage_ratio * 0.5)
+					if(prob(3) && !C.stat)
+						to_chat(C, span_warning("My stomach hurts."))
 
-		else	//for when our liver's failing
+			if(provide_pain_message && damage > 10 && prob(damage/3))
+				to_chat(C, span_warning("My abdomen aches."))
+
+		else
 			C.liver_failure()
 
-	if(damage > maxHealth)//cap liver damage
+	if(damage > maxHealth)
 		damage = maxHealth
 
 #undef HAS_SILENT_TOXIN

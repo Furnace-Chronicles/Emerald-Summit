@@ -132,6 +132,11 @@
 				var/adf = used_intent.clickcd
 				if(istype(rmb_intent, /datum/rmb_intent/aimed))
 					adf = round(adf * CLICK_CD_MOD_AIMED)
+					if(ishuman(src))
+						var/mob/living/carbon/human/H = src
+						var/per_mult = 1 - ((H.STAPER - 10	) * 0.05)
+						per_mult = clamp(per_mult, 0.5, 2.0) 
+						adf = max(round(adf * per_mult), CLICK_CD_INTENTCAP)
 				else if(istype(rmb_intent, /datum/rmb_intent/swift))
 					adf = max(round(adf * CLICK_CD_MOD_SWIFT), CLICK_CD_INTENTCAP)
 				changeNext_move(adf,used_hand)

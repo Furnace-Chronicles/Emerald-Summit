@@ -37,8 +37,6 @@
 		if(used_intent.blade_class == BCLASS_STAB)
 			chance2hit += 6
 			precision_bonus += 8
-		if(used_intent.blade_class == BCLASS_PEEL)
-			chance2hit += 25
 		if(used_intent.blade_class == BCLASS_CUT)
 			chance2hit += 5
 			accuracy_bonus += 8
@@ -220,11 +218,24 @@
 				return FALSE
 			if(pulledby || pulling)
 				return FALSE
-			var/parrydelay = setparrytime
-			parrydelay -= get_tempo_bonus(TEMPO_TAG_PARRYCD_BONUS)
-			if(world.time < last_parry + parrydelay)
-				if(!istype(rmb_intent, /datum/rmb_intent/riposte))
-					return FALSE
+			// Calculate parry cooldown reduction based on weapon skill
+			var/skill_cooldown_reduction = 0
+			var/obj/item/mainhand = get_active_held_item()
+			var/obj/item/offhand = get_inactive_held_item()
+
+			// Check mainhand for skill
+			if(mainhand && mainhand.can_parry && mainhand.associated_skill)
+				skill_cooldown_reduction = max(skill_cooldown_reduction, H.get_skill_level(mainhand.associated_skill))
+			// Check offhand for skill
+			if(offhand && offhand.can_parry && offhand.associated_skill)
+				skill_cooldown_reduction = max(skill_cooldown_reduction, H.get_skill_level(offhand.associated_skill))
+			if(!mainhand || !mainhand.can_parry && !offhand)
+				skill_cooldown_reduction = H.get_skill_level(/datum/skill/combat/unarmed)
+
+			var/actual_parry_cooldown = max(setparrytime - skill_cooldown_reduction, 0)
+
+			if(world.time < last_parry + actual_parry_cooldown)
+				return FALSE
 			if(has_status_effect(/datum/status_effect/debuff/exposed))
 				return FALSE
 			if(has_status_effect(/datum/status_effect/debuff/riposted))
@@ -233,12 +244,13 @@
 			if(intenty && !intenty.canparry)
 				return FALSE
 			var/drained = BASE_PARRY_STAMINA_DRAIN
+			// Riposte intent reduces stamina consumption by half instead of removing cooldown
+			if(istype(rmb_intent, /datum/rmb_intent/riposte))
+				drained = drained * 0.5
 			var/weapon_parry = FALSE
 			var/offhand_defense = 0
 			var/mainhand_defense = 0
 			var/highest_defense = 0
-			var/obj/item/mainhand = get_active_held_item()
-			var/obj/item/offhand = get_inactive_held_item()
 			var/obj/item/used_weapon = mainhand
 			var/obj/item/rogueweapon/shield/buckler/skiller = get_inactive_held_item()  // buckler code
 			var/obj/item/rogueweapon/shield/buckler/skillerbuck = get_active_held_item()
@@ -336,7 +348,7 @@
 			if(HAS_TRAIT(H, TRAIT_CURSE_RAVOX))
 				prob2defend -= 30
 
-			prob2defend = clamp(prob2defend, 5, 90)
+			prob2defend = clamp(prob2defend, 5, 95)
 			if(HAS_TRAIT(user, TRAIT_HARDSHELL) && H.client)	//Dwarf-merc specific limitation w/ their armor on in pvp
 				prob2defend = clamp(prob2defend, 5, 70)
 			if(!H?.check_armor_skill())
@@ -368,8 +380,24 @@
 
 			if(parry_status)
 				if(intenty.masteritem)
-					if(intenty.masteritem.wbalance < WBALANCE_NORMAL && user.STASTR > src.STASTR) //enemy weapon is heavy, so get a bonus scaling on strdiff
-						drained = drained + ( intenty.masteritem.wbalance * ((user.STASTR - src.STASTR) * -5) )
+					var/balance_diff = 0
+					if(used_weapon && weapon_parry)
+						balance_diff = used_weapon.wbalance - intenty.masteritem.wbalance
+					else
+						balance_diff = WBALANCE_NORMAL - intenty.masteritem.wbalance
+
+					drained = drained - (balance_diff * 3)
+
+					if(user.STASTR > src.STASTR)
+						var/str_bonus = 0
+						switch(intenty.masteritem.wbalance)
+							if(WBALANCE_SWIFT)
+								str_bonus = 1
+							if(WBALANCE_NORMAL)
+								str_bonus = 2
+							else
+								str_bonus = 3
+						drained = drained + ((user.STASTR - src.STASTR) * str_bonus)
 			else
 				to_chat(src, span_warning("The enemy defeated my parry!"))
 				return FALSE
@@ -384,7 +412,23 @@
 				exp_multi = exp_multi/2
 
 			if(weapon_parry == TRUE)
-				if(do_parry(used_weapon, drained, user)) //show message
+				var/balance_diff_parry = 0
+				var/attacker_bclass = null
+				if(intenty.masteritem && used_weapon && istype(used_weapon, /obj/item/rogueweapon))
+					var/obj/item/rogueweapon/defender_weapon = used_weapon
+					balance_diff_parry = defender_weapon.wbalance - intenty.masteritem.wbalance
+				if(intenty)
+					attacker_bclass = intenty.blade_class
+				var/shield_drain = drained
+				if(used_weapon && istype(used_weapon, /obj/item/rogueweapon/shield))
+					shield_drain = ceil(drained / 2)
+				var/parry_result = do_parry(used_weapon, shield_drain, user, balance_diff_parry, attacker_bclass)
+				if(parry_result == PARRY_DISARM)
+					if(used_weapon)
+						dropItemToGround(used_weapon, TRUE)
+						visible_message(span_danger("[used_weapon] is knocked from [src]'s hands!"), span_userdanger("My [used_weapon] is knocked from my hands!"))
+					return TRUE
+				else if(parry_result) //show message
 					if ((mobility_flags & MOBILITY_STAND))
 						var/skill_target = max(SKILL_LEVEL_JOURNEYMAN, attacker_skill)
 						if(!HAS_TRAIT(U, TRAIT_GOODTRAINER))
@@ -544,14 +588,21 @@
 		dodge_candidates += dodge_candidate
 	return dodge_candidates
 
-/mob/proc/do_parry(obj/item/W, parrydrain as num, mob/living/user)
+/mob/proc/do_parry(obj/item/W, parrydrain as num, mob/living/user, balance_diff = 0, attacker_bclass = null)
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
 
 		//Tempo bonus
 		parrydrain -= H.get_tempo_bonus(TEMPO_TAG_STAMLOSS_PARRY)
 
+		var/stamina_before = H.stamina
 		if(H.stamina_add(parrydrain))
+			if(stamina_before + parrydrain >= H.max_stamina && ishuman(user))
+				var/mob/living/carbon/human/attacker = user
+				var/disarm_chance = (attacker.STASTR - H.STASTR) * 10 - (balance_diff * 15)
+				if(prob(disarm_chance))
+					return PARRY_DISARM
+
 			if(W)
 				playsound(src, pick(W.parrysound), 100, FALSE)
 			if(src.client)
@@ -566,7 +617,21 @@
 					W.remove_bintegrity(SHARPNESS_ONHIT_DECAY, user)
 					W.take_damage(INTEG_PARRY_DECAY, BRUTE, "slash")
 				else
-					W.take_damage(INTEG_PARRY_DECAY_NOSHARP, BRUTE, "slash")
+					var/shield_damage = INTEG_PARRY_DECAY_NOSHARP
+					if(istype(W, /obj/item/rogueweapon/shield) && attacker_bclass)
+						var/degradation_mult = 1.0
+						if(istype(W, /obj/item/rogueweapon/shield/wood) && attacker_bclass == BCLASS_CHOP)
+							degradation_mult = ARMOR_DEGR_CUT_LIGHT
+						else
+							switch(attacker_bclass)
+								if(BCLASS_BLUNT, BCLASS_SMASH)
+									degradation_mult = ARMOR_DEGR_BLUNT_HEAVY
+								if(BCLASS_CUT, BCLASS_CHOP)
+									degradation_mult = ARMOR_DEGR_CUT_HEAVY
+								if(BCLASS_STAB, BCLASS_PICK, BCLASS_PIERCE)
+									degradation_mult = ARMOR_DEGR_PIERCE_HEAVY
+							shield_damage *= degradation_mult
+					W.take_damage(shield_damage, BRUTE, "slash")
 			return TRUE
 		else
 			to_chat(src, span_warning("I'm too tired to parry!"))
@@ -605,8 +670,32 @@
 	var/obj/item/I
 	var/drained = 10
 	var/drained_npc = 5
+	var/chest_armored = FALSE
+	var/legs_armored = FALSE
+	var/armor_class = null
+	var/special_dodge = FALSE
+
 	if(ishuman(src))
 		H = src
+
+		if(!can_see_cone(U) || (!turfy || turfy == get_turf(src)))
+			if(HAS_TRAIT(H, TRAIT_DODGEEXPERT))
+				special_dodge = TRUE
+			else
+				return FALSE
+
+		// Adjust dodge stamina based on armor weight
+		chest_armored = H.wear_armor && istype(H.wear_armor, /obj/item/clothing) 
+		legs_armored = H.wear_pants && istype(H.wear_pants, /obj/item/clothing)
+		if(chest_armored || legs_armored)
+			armor_class = highest_ac_worn()
+			switch(armor_class)
+				if(ARMOR_CLASS_LIGHT)
+					drained *= 0.65  // 35% less stamina cost for light armor
+				if(ARMOR_CLASS_HEAVY)
+					drained *= 1.5   // 50% more stamina cost for heavy armor
+		else
+			drained *= 0.4 // Not wearing armor makes dodging much cheaper
 	if(ishuman(user))
 		UH = user
 		I = UH.used_intent.masteritem
@@ -615,16 +704,16 @@
 		return FALSE
 	if(L)
 		if(H?.check_dodge_skill())
-			prob2defend = prob2defend + (L.STASPD * 15)
+			prob2defend = prob2defend + (L.STASPD * 12)
 		else
 			prob2defend = prob2defend + (L.STASPD * 10)
 	if(U)
 		prob2defend = prob2defend - (U.STASPD * 10)
-	if(I)
-		if(I.wbalance == WBALANCE_SWIFT && U.STASPD > L.STASPD) //nme weapon is quick, so they get a bonus based on spddiff
+	if(I) // These changes now apply only when the related special intents are used to make combat more dynamic
+		if(I.wbalance == WBALANCE_SWIFT && istype(U.rmb_intent, /datum/rmb_intent/swift) && U.STASPD > L.STASPD) //nme weapon is quick, so they get a bonus based on spddiff
 			prob2defend = prob2defend - ( I.wbalance * ((U.STASPD - L.STASPD) * 10) )
-		if(I.wbalance == WBALANCE_HEAVY && L.STASPD > U.STASPD) //nme weapon is slow, so its easier to dodge if we're faster
-			prob2defend = prob2defend + ( I.wbalance * ((U.STASPD - L.STASPD) * 10) )
+		if(I.wbalance == WBALANCE_HEAVY && istype(U.rmb_intent, /datum/rmb_intent/strong) && L.STASPD > U.STASPD) //nme weapon is slow, so its easier to dodge if we're faster
+			prob2defend = prob2defend + ( I.wbalance * ((L.STASPD - U.STASPD) * 10) )
 		if(!(H?.check_dodge_skill()))
 			prob2defend = prob2defend - (UH.get_skill_level(I.associated_skill) * 10)
 	if(H)
@@ -666,7 +755,20 @@
 		if(HAS_TRAIT(H, TRAIT_CURSE_RAVOX))
 			prob2defend -= 30
 
-		prob2defend = clamp(prob2defend, 5, 90)
+		var/armored = (chest_armored || legs_armored) ? armor_class : ARMOR_CLASS_NONE
+		switch(armored)
+			if(ARMOR_CLASS_LIGHT, ARMOR_CLASS_NONE)
+				if(HAS_TRAIT(H, TRAIT_DODGEEXPERT))
+					prob2defend += max(5, 20 - ((H.STASPD - 10) * 5))
+				else
+					prob2defend += 5
+			if(ARMOR_CLASS_HEAVY)
+				if(HAS_TRAIT(H, TRAIT_HEAVYARMOR))
+					prob2defend -= 5
+				else
+					prob2defend -= 20
+
+		prob2defend = special_dodge ? clamp(prob2defend/2, 5, 50) : clamp(prob2defend, 5, 95)
 
 		//------------Dual Wielding Checks------------
 		var/attacker_dualw
@@ -885,7 +987,6 @@
 		to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
 		remove_status_effect(/datum/status_effect/buff/clash)
 		apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
-		purge_peel(GUARD_PEEL_REDUCTION)
 
 //This is a gargantuan, clunky proc that is meant to tally stats and weapon properties for the potential disarm.
 //For future coders: Feel free to change this, just make sure someone like Struggler statpack doesn't get 3-fold advantage.
@@ -1010,19 +1111,10 @@
 		emote("strain", forced = TRUE)
 	remove_status_effect(/datum/status_effect/buff/clash)
 
-///Reduces Peel by some amount. Usually called after waiting out of combat for a while or by other effects (riposte / bait)
-/mob/living/carbon/human/proc/purge_peel(amt)
-	//Equipment slots manually picked out cus we don't have a proc for this apparently
-	var/list/slots = list(wear_armor, wear_pants, wear_wrists, wear_shirt, gloves, head, shoes, wear_neck, wear_mask, wear_ring)
-	for(var/slot in slots)
-		if(isnull(slot) || !istype(slot, /obj/item/clothing))
-			slots.Remove(slot)
+/mob/proc/highest_ac_worn()
+	return // Stub
 
-	for(var/obj/item/clothing/C in slots)
-		if(C.peel_count > 0)
-			C.reduce_peel(amt)
-
-/mob/living/carbon/human/proc/highest_ac_worn()
+/mob/living/carbon/human/highest_ac_worn()
 	var/list/slots = list(wear_armor, wear_pants, wear_wrists, wear_shirt, gloves, head, shoes, wear_neck, wear_mask, wear_ring)
 	for(var/slot in slots)
 		if(isnull(slot) || !istype(slot, /obj/item/clothing))
@@ -1050,17 +1142,6 @@
 			bait_stacks = 0
 			to_chat(src, span_info("My focus and balance returns. I won't lose my footing if I am baited again."))
 
-///Called by a timer after toggling cmode off.
-/mob/living/carbon/human/proc/expire_peel()
-	if(!cmode)
-		purge_peel(99)
-
-///A Unique Stat comparison between src and HT.
-///It takes the highest stats up to 14 and lowest stats 'up to' 14.
-///It compares the highest and the lowest of both targets and adds them to the probability.
-///-Lower- stats are multiplied by 3. Higher stats are added as-is.
-///This in essence favors someone with a more balanced statblock rather than someone who is specced 16+ into one, and 7 elsewhere.
-///eg (14 Hi. & 7 Lo.) will be at a disadvantage vs (11 Hi. & 10 Lo.) (14 + 21) vs (11 + 30)
 /mob/living/carbon/human/proc/measured_statcheck(mob/living/carbon/human/HT)
 	var/finalprob = 40
 

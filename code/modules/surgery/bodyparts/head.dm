@@ -236,3 +236,11 @@
 	dismemberable = 0
 	max_damage = 5000
 	animal_origin = DEVIL_BODYPART
+
+/obj/item/bodypart/head/bodypart_attacked_by(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, armor, was_blunted = FALSE, raw_damage = 0, armor_block = 0, obj/item/weapon)
+	. = ..()
+	if(owner && dam > 0 && armor_block < raw_damage/2)
+		var/stamina_loss = bclass == BCLASS_BLUNT ? round(dam*0.25) : round(dam*0.15)
+		if(!prob(owner.STACON*5))
+			stamina_loss *= 2
+		owner.stamina_add(-stamina_loss)

@@ -1,3 +1,34 @@
+GLOBAL_LIST_INIT(brain_penetration_zones, list(BODY_ZONE_PRECISE_SKULL, BODY_ZONE_HEAD, BODY_ZONE_PRECISE_MOUTH, BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_L_EYE, BODY_ZONE_PRECISE_R_EYE))
+
+	/// Calculates the base crit chance based on damage and limb state
+	/// Returns the probability value (0-100+) for use in prob() calls
+/obj/item/bodypart/proc/calculate_crit_chance(damage_dividend, dam, resistance, base_multiplier = 10, dam_divisor = 7, resistance_penalty = 10, bonus = 0, armor_resistance = 0)
+	var/damage_contribution = sqrt(dam) * (dam_divisor / 7)
+
+	var/base_chance = round(damage_dividend * base_multiplier + damage_contribution - resistance_penalty * resistance + bonus, 1)
+	if(armor_resistance > 0)
+		var/armor_multiplier =  1 - (armor_resistance / 100) * 0.7
+		base_chance *= armor_multiplier
+	return round(base_chance, 1)
+
+	/// Checks if the damage meets the threshold for a crit to occur
+	/// Evaluates EITHER the damage_dividend threshold OR the overkill threshold
+/obj/item/bodypart/proc/check_crit_threshold(damage_dividend, dam, resistance, divisor, overkill_difficulty)
+	if(damage_dividend >= divisor)
+		return TRUE
+	if(!overkill_difficulty)
+		return FALSE
+	return get_overkill_threshold(overkill_difficulty, damage_dividend, dam, resistance)
+
+	/// Checks if a wound should be added based on threshold and probability
+/obj/item/bodypart/proc/try_add_crit_wound(wound_type, damage_dividend, dam, resistance, crit_chance, divisor, overkill_difficulty, silent = FALSE, crit_message = FALSE)
+	var/threshold_pass = check_crit_threshold(damage_dividend, dam, resistance, divisor, overkill_difficulty)
+	if(!threshold_pass)
+		return FALSE
+	if(!prob(crit_chance))
+		return FALSE
+	return wound_type
+
 /obj/item/bodypart
 	/// List of /datum/wound instances affecting this bodypart
 	var/list/datum/wound/wounds
@@ -116,16 +147,12 @@
 		return FALSE
 	return TRUE
 
-/// Returns the total bleed rate on this bodypart
+/// Returns the total bleed rate on this bodypart (simple version for backwards compatibility)
 /obj/item/bodypart/proc/get_bleed_rate()
 	var/bleed_rate = bleeding
 	if(bandage && !HAS_BLOOD_DNA(bandage))
 		try_bandage_expire()
 		return 0
-	/*
-	for(var/datum/wound/wound in wounds)
-		if(istype(wound, /datum/wound))
-			bleed_rate += wound.bleed_rate*/
 	for(var/obj/item/embedded as anything in embedded_objects)
 		if(!embedded.embedding.embedded_bloodloss)
 			continue
@@ -133,17 +160,44 @@
 	for(var/obj/item/grabbing/grab in grabbedby)
 		bleed_rate *= grab.bleed_suppressing
 	bleed_rate = max(round(bleed_rate, 0.1), 0)
-	
+
 	if(cached_surgery_flags & SURGERY_CLAMPED)
 		return min(bleed_rate, 0.5)
 
 	return bleed_rate
 
+/// Returns TRUE if this bodypart has an effective bandage (not blood-soaked)
+/obj/item/bodypart/proc/is_bandaged()
+	return bandage && !HAS_BLOOD_DNA(bandage)
+
+/obj/item/bodypart/proc/calculate_lethal_death_chance(raw_damage, armor_block, mob/living/user)
+	if(!owner || !raw_damage)
+		return 0
+
+	var/death_chance = min(raw_damage, 100)
+	var/damage_ratio = (get_damage() / max_damage) * 100
+	death_chance += damage_ratio * 0.5
+
+	if(armor_block > 0)
+		var/absorption_ratio = armor_block / (raw_damage + armor_block)
+		death_chance *= (1 - absorption_ratio)
+
+	var/con_modifier = (owner.STACON - 10) * 5
+	death_chance -= con_modifier
+
+	if(user && user.goodluck(3))
+		death_chance += user.STALUC * 2
+
+	death_chance = clamp(death_chance, 1, 40)
+
+	return death_chance
+
 /// Called after a bodypart is attacked so that wounds and critical effects can be applied
-/obj/item/bodypart/proc/bodypart_attacked_by(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, armor, obj/item/weapon)
+/obj/item/bodypart/proc/bodypart_attacked_by(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, armor, was_blunted = FALSE, raw_damage = 0, armor_block = 0, obj/item/weapon)
 	if(!bclass || !dam || !owner || (owner.status_flags & GODMODE))
 		return FALSE
 	var/do_crit = TRUE
+	var/crit_resistance = 0
 	var/acheck_dflag
 	switch(bclass)
 		if(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PUNCH)
@@ -154,16 +208,21 @@
 			acheck_dflag = "stab"
 	armor = owner.run_armor_check(zone_precise, acheck_dflag, damage = 0)
 	if(ishuman(owner))
-		var/mob/living/carbon/human/human_owner = owner
-		if(human_owner.checkcritarmor(zone_precise, bclass))
+		// Attacks blunted by armor never result in a critical hit
+		if(was_blunted)
 			do_crit = FALSE
-		if(owner.mind && (get_damage() <= (max_damage * 0.9))) //No crits unless the damage is maxed out.
-			do_crit = FALSE // We used to check if they are buckled or lying down but being grounded is a big enough advantage.
-	if(user)
-		if(user.goodluck(2))
-			dam += 10
-		if(istype(user.rmb_intent, /datum/rmb_intent/weak) || bclass == BCLASS_PEEL)
-			do_crit = FALSE
+		else
+			var/mob/living/carbon/human/human_owner = owner
+			var/probbonus = 0
+			crit_resistance = human_owner.checkcritarmor(zone_precise, bclass)  // Returns 0-100 based on armor durability percentage
+			if(user)
+				if(user.goodluck(2))
+					probbonus = user.STALUC*2
+
+			if(probbonus)
+				crit_resistance -= probbonus
+			//if(owner.mind && (get_damage() <= (max_damage * 0.9))) //No crits unless the damage is maxed out.
+			//	do_crit = FALSE // We used to check if they are buckled or lying down but being grounded is a big enough advantage.
 	testing("bodypart_attacked_by() dam [dam]")
 
 	var/datum/wound/dynwound = manage_dynamic_wound(bclass, dam, armor)
@@ -171,7 +230,7 @@
 	if(do_crit)
 		var/datum/component/silverbless/psyblessed = weapon?.GetComponent(/datum/component/silverbless)
 		var/sundering = HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && istype(weapon) && weapon?.is_silver && psyblessed?.is_blessed
-		var/crit_attempt = try_crit(sundering ? BCLASS_SUNDER : bclass, dam, user, zone_precise, silent, crit_message)
+		var/crit_attempt = try_crit(sundering ? BCLASS_SUNDER : bclass, dam, user, zone_precise, silent, crit_message, raw_damage, armor_block, crit_resistance, was_blunted)
 		if(crit_attempt)
 			return crit_attempt
 	return dynwound
@@ -208,11 +267,10 @@
 	return dynwound
 
 /// Behemoth of a proc used to apply a wound after a bodypart is damaged in an attack
-/obj/item/bodypart/proc/try_crit(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE)
+/obj/item/bodypart/proc/try_crit(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, raw_damage = 0, armor_block = 0, armor_resistance = 0, was_blunted = FALSE)
 	if(!bclass || !dam || (owner.status_flags & GODMODE))
 		return FALSE
 	var/list/attempted_wounds = list()
-	var/used
 	var/total_dam = get_damage()
 	var/damage_dividend = (total_dam / max_damage)
 	var/resistance = HAS_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE)
@@ -222,48 +280,69 @@
 	if((bclass == BCLASS_PUNCH) && (user && dam))
 		if(user && HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN))
 			dam += 15
+
+	var/con_threshold = owner.STACON * (1 - (damage_dividend * 0.5))
+	if(dam < con_threshold)
+		return FALSE
+
+	var/strong_bonus = (user && istype(user.rmb_intent, /datum/rmb_intent/strong)) ? 10 : 0
+	var/aimed_bonus = (user && istype(user.rmb_intent, /datum/rmb_intent/aimed)) ? 10 : 0
+	var/brittle_bonus = HAS_TRAIT(src, TRAIT_BRITTLE) ? 10 : 0
+
 	if(bclass in GLOB.dislocation_bclasses)
-		used = round(damage_dividend * 20 + (dam / 3 - 10 * resistance), 1)
-		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
-			used += 10
-		if(prob(used))
-			if(HAS_TRAIT(src, TRAIT_BRITTLE))
-				attempted_wounds += /datum/wound/fracture
-			else
-				attempted_wounds += /datum/wound/dislocation
+		var/disloc_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance, bonus = strong_bonus)
+		var/wound_applied = try_add_crit_wound(
+			resistance ? /datum/wound/fracture : /datum/wound/dislocation,
+			damage_dividend, dam, resistance,
+			disloc_chance, CRIT_LIMB_DISLOCATION_DIVISOR, CRIT_LIMB_DISLOCATION_THRESHOLD,
+			silent, crit_message
+		)
+		if(wound_applied)
+			attempted_wounds += wound_applied
+
 	if(bclass in GLOB.fracture_bclasses)
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
-		if(user)
-			if(istype(user.rmb_intent, /datum/rmb_intent/strong))
-				used += 10
-		if(HAS_TRAIT(src, TRAIT_BRITTLE))
-			used += 10
-		if(prob(used))
-			if(damage_dividend >= 0.6)
-				attempted_wounds += /datum/wound/fracture		//More sevre wound
-			else
-				attempted_wounds += /datum/wound/dislocation	//Less sevre wound
+		var/frac_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance, bonus = strong_bonus + brittle_bonus)
+		var/wound_type = (damage_dividend >= CRIT_LIMB_FRACTURE_DIVISOR) ? /datum/wound/fracture : /datum/wound/dislocation
+		var/wound_applied = try_add_crit_wound(
+			wound_type,
+			damage_dividend, dam, resistance,
+			frac_chance, CRIT_LIMB_DISLOCATION_DIVISOR, CRIT_LIMB_DISLOCATION_THRESHOLD,
+			silent, crit_message
+		)
+		if(wound_applied)
+			attempted_wounds += wound_applied
+
 	if(bclass in GLOB.artery_bclasses)
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
-		if(user)
-			if((bclass in GLOB.artery_strong_bclasses) && istype(user.rmb_intent, /datum/rmb_intent/strong))
-				used += 10
-			else if(istype(user.rmb_intent, /datum/rmb_intent/aimed))
-				used += 10
-		if(prob(used))
-			attempted_wounds += /datum/wound/artery
+		var/artery_bonus = ((bclass in GLOB.artery_strong_bclasses) && strong_bonus) ? strong_bonus : aimed_bonus
+		var/artery_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance, bonus = artery_bonus)
+		var/wound_applied = try_add_crit_wound(
+			/datum/wound/artery,
+			damage_dividend, dam, resistance,
+			artery_chance, CRIT_ARTERY_DIVISOR, CRIT_ARTERY_THRESHOLD,
+			silent, crit_message
+		)
+		if(wound_applied)
+			attempted_wounds += wound_applied
+
 	if(bclass in GLOB.whipping_bclasses)
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
 			dam += 10
 		if(HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS))
-			attempted_wounds += /datum/wound/artery		//basically does sword-tier wounds.
-		if(prob(used))
-			attempted_wounds += /datum/wound/scarring
-	if((bclass in GLOB.sunder_bclasses))
+			attempted_wounds += /datum/wound/artery  // Sword-tier wounds
+		var/scar_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance)
+		var/wound_applied = try_add_crit_wound(
+			/datum/wound/scarring,
+			damage_dividend, dam, resistance,
+			scar_chance, CRIT_SCARRING_DIVISOR, CRIT_SCARRING_THRESHOLD,
+			silent, crit_message
+		)
+		if(wound_applied)
+			attempted_wounds += wound_applied
+
+	if((bclass in GLOB.sunder_bclasses) && !was_blunted)
 		if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
-			used = round(damage_dividend * 20 + (dam / 2) - 10 * resistance, 1)
-			if(prob(used))
+			var/sunder_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance, dam_divisor = 2)
+			if(prob(sunder_chance))
 				attempted_wounds += /datum/wound/sunder/head
 
 	for(var/wound_type in shuffle(attempted_wounds))
@@ -274,67 +353,159 @@
 			return applied
 	return FALSE
 
-/obj/item/bodypart/chest/try_crit(bclass, dam, mob/living/user, zone_precise, silent = FALSE, crit_message = FALSE)
+/obj/item/bodypart/chest/try_crit(bclass, dam, mob/living/user, zone_precise, silent = FALSE, crit_message = FALSE, raw_damage = 0, armor_block = 0, armor_resistance = 0, was_blunted = FALSE)
 	if(!bclass || !dam || (owner.status_flags & GODMODE))
 		return FALSE
 	var/list/attempted_wounds = list()
-	var/used
 	var/total_dam = get_damage()
 	var/damage_dividend = (total_dam / max_damage)
 	var/resistance = HAS_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE)
+
 	if(user && dam)
 		if(user.goodluck(2))
 			dam += 10
+
+	var/con_threshold = owner.STACON * (1 - (damage_dividend * 0.5))
+	if(dam < con_threshold)
+		return FALSE
+
+	var/strong_bonus = (user && istype(user.rmb_intent, /datum/rmb_intent/strong)) ? 10 : 0
+	var/aimed_bonus = (user && istype(user.rmb_intent, /datum/rmb_intent/aimed)) ? 10 : 0
+	var/brittle_bonus = HAS_TRAIT(src, TRAIT_BRITTLE) ? 10 : 0
+
 	if((bclass in GLOB.cbt_classes) && (zone_precise == BODY_ZONE_PRECISE_GROIN))
 		var/cbt_multiplier = 1
 		if(user && HAS_TRAIT(user, TRAIT_NUTCRACKER))
 			cbt_multiplier = 2
-		if(!resistance && prob(round(dam/5) * cbt_multiplier))
-			attempted_wounds += /datum/wound/cbt
+		var/cbt_chance = round(dam/5) * cbt_multiplier
+		if(!resistance)
+			var/wound_applied = try_add_crit_wound(
+				/datum/wound/cbt,
+				damage_dividend, dam, resistance,
+				cbt_chance, CRIT_CBT_DIVISOR, CRIT_CBT_THRESHOLD,
+				silent, crit_message
+			)
+			if(wound_applied)
+				attempted_wounds += wound_applied
 		if(prob(dam * cbt_multiplier))
 			owner.emote("groin", TRUE)
 			owner.Stun(10)
+
 	if((bclass in GLOB.fracture_bclasses) && (zone_precise != BODY_ZONE_PRECISE_STOMACH))
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
-		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
-			used += 10
-		if(HAS_TRAIT(src, TRAIT_BRITTLE))
-			used += 10
+		var/frac_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance, bonus = strong_bonus + brittle_bonus)
 		var/fracture_type = /datum/wound/fracture/chest
+		var/frac_divisor = CRIT_CHEST_FRACTURE_DIVISOR
+		var/frac_threshold = CRIT_CHEST_FRACTURE_THRESHOLD
 		if(zone_precise == BODY_ZONE_PRECISE_GROIN)
-			if(damage_dividend >= 0.7)
-				fracture_type = /datum/wound/fracture/groin	//Paralyzes lower body
-		if(prob(used))
-			attempted_wounds += fracture_type
+			if(damage_dividend >= CRIT_GROIN_FRACTURE_DIVISOR)
+				fracture_type = /datum/wound/fracture/groin
+			frac_divisor = CRIT_GROIN_FRACTURE_DIVISOR
+			frac_threshold = CRIT_GROIN_FRACTURE_THRESHOLD
+		var/wound_applied = try_add_crit_wound(
+			fracture_type,
+			damage_dividend, dam, resistance,
+			frac_chance, frac_divisor, frac_threshold,
+			silent, crit_message
+		)
+		if(wound_applied)
+			attempted_wounds += wound_applied
+
 	if(bclass in GLOB.artery_bclasses)
-		used = round(damage_dividend * 20 + (dam / 4) - 10 * resistance, 1)
-		if(user)
-			if((bclass in GLOB.artery_strong_bclasses) && istype(user.rmb_intent, /datum/rmb_intent/strong))
-				used += 10
-			else if(istype(user.rmb_intent, /datum/rmb_intent/aimed))
-				used += 10
-		if(prob(used))
-			if((zone_precise == BODY_ZONE_PRECISE_STOMACH) && !resistance)
-				attempted_wounds += /datum/wound/slash/disembowel
-			if(owner.has_wound(/datum/wound/fracture/chest) || (bclass in GLOB.artery_heart_bclasses) || HAS_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS))
-				attempted_wounds += /datum/wound/artery/chest
-			else
-				attempted_wounds += /datum/wound/artery
+		var/artery_bonus = ((bclass in GLOB.artery_strong_bclasses) && strong_bonus) ? strong_bonus : aimed_bonus
+		var/artery_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance, dam_divisor = 10, bonus = artery_bonus)
+		if((zone_precise == BODY_ZONE_PRECISE_STOMACH) && !resistance && (bclass in GLOB.disembowel_bclasses))
+			// Werewolves are immune to disembowelment unless sundered
+			if(!(istype(owner.dna?.species, /datum/species/werewolf) && !owner.has_wound(/datum/wound/sunder)))
+				var/wound_applied = try_add_crit_wound(
+					/datum/wound/slash/disembowel,
+					damage_dividend, dam, resistance,
+					artery_chance, CRIT_DISEMBOWEL_DIVISOR, CRIT_DISEMBOWEL_THRESHOLD,
+					silent, crit_message
+				)
+				if(wound_applied)
+					attempted_wounds += wound_applied
+
+		var/artery_type = /datum/wound/artery
+		var/artery_divisor = CRIT_ARTERY_DIVISOR
+		var/artery_threshold = CRIT_ARTERY_THRESHOLD
+		if(owner.has_wound(/datum/wound/fracture/chest) || (bclass in GLOB.artery_heart_bclasses) || HAS_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS))
+			artery_type = /datum/wound/artery/chest
+			artery_divisor = CRIT_ARTERY_CHEST_DIVISOR
+			artery_threshold = CRIT_ARTERY_CHEST_THRESHOLD
+		var/wound_applied = try_add_crit_wound(
+			artery_type,
+			damage_dividend, dam, resistance,
+			artery_chance, artery_divisor, artery_threshold,
+			silent, crit_message
+		)
+		if(wound_applied)
+			attempted_wounds += wound_applied
+
 	if(bclass in GLOB.whipping_bclasses)
-		used = round(damage_dividend * 20 + (dam / 4) - 10 * resistance, 1)
-		if(user)
-			if(istype(user.rmb_intent, /datum/rmb_intent/strong))
-				dam += 10
-		if(prob(used))
-			if(HAS_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS))
-				attempted_wounds += /datum/wound/artery/chest
-			else
-				attempted_wounds += /datum/wound/scarring
-	if(bclass in GLOB.sunder_bclasses)
-		if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
-			used = round(damage_dividend * 20 + (dam / 2) - 10 * resistance, 1)
-			if(prob(used))
-				attempted_wounds += list(/datum/wound/sunder/chest)
+		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
+			dam += 10
+		var/scar_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance, dam_divisor = 10)
+		if(HAS_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS))
+			attempted_wounds += /datum/wound/artery/chest
+		else
+			var/wound_applied = try_add_crit_wound(
+				/datum/wound/scarring,
+				damage_dividend, dam, resistance,
+				scar_chance, CRIT_SCARRING_DIVISOR, CRIT_SCARRING_THRESHOLD,
+				silent, crit_message
+			)
+			if(wound_applied)
+				attempted_wounds += wound_applied
+
+	if(bclass in GLOB.stab_bclasses)
+		var/stab_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance, dam_divisor = 2, resistance_penalty = 12, bonus = aimed_bonus ? 12 : 0)
+		if(check_crit_threshold(damage_dividend, dam, resistance, CRIT_CHEST_ORGAN_STAB_DIVISOR, CRIT_CHEST_ORGAN_STAB_THRESHOLD) && prob(stab_chance))
+			// Werewolves are immune to lethal/organ crits unless sundered
+			if(istype(owner.dna?.species, /datum/species/werewolf) && !owner.has_wound(/datum/wound/sunder))
+				return FALSE
+			var/is_construct = isgolemp(owner) || isdoll(owner)
+			if(zone_precise == BODY_ZONE_CHEST)
+				if(prob(20) && owner.getorganslot(ORGAN_SLOT_HEART))
+					attempted_wounds += /datum/wound/lethal/heart_penetration
+				else if(!is_construct && owner.getorganslot(ORGAN_SLOT_LUNGS))
+					attempted_wounds += /datum/wound/lethal/lung_penetration
+			else if(zone_precise == BODY_ZONE_PRECISE_STOMACH)
+				if(!is_construct && prob(50) && owner.getorganslot(ORGAN_SLOT_LIVER))
+					attempted_wounds += /datum/wound/lethal/liver_penetration
+				else if(!is_construct && owner.getorganslot(ORGAN_SLOT_STOMACH))
+					attempted_wounds += /datum/wound/lethal/stomach_penetration
+
+	if(bclass in GLOB.artery_bclasses)
+		var/slash_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance, base_multiplier = 15, resistance_penalty = 15, bonus = strong_bonus)
+		if(check_crit_threshold(damage_dividend, dam, resistance, CRIT_CHEST_ORGAN_SLASH_DIVISOR, CRIT_CHEST_ORGAN_SLASH_THRESHOLD) && prob(slash_chance))
+			if(istype(owner.dna?.species, /datum/species/werewolf) && !owner.has_wound(/datum/wound/sunder))
+				return FALSE
+			var/is_construct = isgolemp(owner) || isdoll(owner)
+			if(zone_precise == BODY_ZONE_CHEST)
+				if(prob(10) && owner.getorganslot(ORGAN_SLOT_HEART))
+					attempted_wounds += /datum/wound/lethal/heart_penetration
+				else if(!is_construct && owner.getorganslot(ORGAN_SLOT_LUNGS))
+					attempted_wounds += /datum/wound/lethal/lung_penetration
+			else if(zone_precise == BODY_ZONE_PRECISE_STOMACH)
+				if(!is_construct && prob(50) && owner.getorganslot(ORGAN_SLOT_LIVER))
+					attempted_wounds += /datum/wound/lethal/liver_penetration
+				else if(!is_construct && owner.getorganslot(ORGAN_SLOT_STOMACH))
+					attempted_wounds += /datum/wound/lethal/stomach_penetration
+
+	if((bclass in GLOB.fracture_bclasses) && owner.has_wound(/datum/wound/fracture/chest) && (zone_precise == BODY_ZONE_CHEST))
+		var/blunt_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance, base_multiplier = 18, resistance_penalty = 12, bonus = strong_bonus)
+		if(check_crit_threshold(damage_dividend, dam, resistance, CRIT_CHEST_ORGAN_BLUNT_DIVISOR, CRIT_CHEST_ORGAN_BLUNT_THRESHOLD) && prob(blunt_chance))
+			if(istype(owner.dna?.species, /datum/species/werewolf) && !owner.has_wound(/datum/wound/sunder))
+				return FALSE
+			var/is_construct = isgolemp(owner) || isdoll(owner)
+			if(prob(20) && owner.getorganslot(ORGAN_SLOT_HEART))
+				var/datum/wound/lethal/heart_penetration/bone_frag_wound = new /datum/wound/lethal/heart_penetration(dam)
+				bone_frag_wound.from_fracture = TRUE
+				attempted_wounds += bone_frag_wound
+			else if(!is_construct && owner.getorganslot(ORGAN_SLOT_LUNGS))
+				var/datum/wound/lethal/lung_penetration/bone_frag_wound = new /datum/wound/lethal/lung_penetration(dam)
+				bone_frag_wound.from_fracture = TRUE
+				attempted_wounds += bone_frag_wound
 
 	for(var/wound_type in shuffle(attempted_wounds))
 		var/datum/wound/applied = add_wound(wound_type, silent, crit_message)
@@ -344,82 +515,124 @@
 			return applied
 	return FALSE
 
-/obj/item/bodypart/head/try_crit(bclass, dam, mob/living/user, zone_precise, silent = FALSE, crit_message = FALSE)
+/obj/item/bodypart/head/try_crit(bclass, dam, mob/living/user, zone_precise, silent = FALSE, crit_message = FALSE, raw_damage = 0, armor_block = 0, armor_resistance = 0, was_blunted = FALSE)
 	var/static/list/eyestab_zones = list(BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE)
 	var/static/list/tonguestab_zones = list(BODY_ZONE_PRECISE_MOUTH)
 	var/static/list/nosestab_zones = list(BODY_ZONE_PRECISE_NOSE)
 	var/static/list/earstab_zones = list(BODY_ZONE_PRECISE_EARS)
 	var/static/list/knockout_zones = list(BODY_ZONE_HEAD, BODY_ZONE_PRECISE_SKULL)
 	var/list/attempted_wounds = list()
-	var/used
 	var/total_dam = get_damage()
 	var/damage_dividend = (total_dam / max_damage)
 	var/resistance = HAS_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE)
-	var/from_behind = FALSE
-	if(user && (owner.dir == turn(get_dir(owner,user), 180)))
-		from_behind = TRUE
+
 	if(user && dam)
 		if(user.goodluck(2))
 			dam += 10
+
+	var/con_threshold = owner.STACON * (1 - (damage_dividend * 0.5))
+	if(dam < con_threshold)
+		return FALSE
+
+	var/from_behind = FALSE
+	if(user && (owner.dir == turn(get_dir(owner,user), 180)))
+		from_behind = TRUE
+
+	var/strong_bonus = (user && istype(user.rmb_intent, /datum/rmb_intent/strong)) ? 10 : 0
+	var/aimed_bonus = (user && istype(user.rmb_intent, /datum/rmb_intent/aimed)) ? 10 : 0
+	var/brittle_bonus = HAS_TRAIT(src, TRAIT_BRITTLE) ? 20 : 0
+	var/sneak_bonus = (user && user.m_intent == MOVE_INTENT_SNEAK) ? 10 : 0
+
 	if((bclass in GLOB.dislocation_bclasses) && (total_dam >= max_damage))
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
-		if(prob(used))
+		var/neck_disloc_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance)
+		if(prob(neck_disloc_chance))
 			if(HAS_TRAIT(src, TRAIT_BRITTLE))
 				attempted_wounds += /datum/wound/fracture/neck
 			else if (!resistance)
 				attempted_wounds += /datum/wound/dislocation/neck
+
+
 	if(bclass in GLOB.fracture_bclasses)
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
-		if(HAS_TRAIT(src, TRAIT_BRITTLE))
-			used += 20
-		if(user)
-			if(istype(user.rmb_intent, /datum/rmb_intent/strong) || (user.m_intent == MOVE_INTENT_SNEAK))
-				used += 10
-		if(!owner.stat && !resistance && (zone_precise in knockout_zones) && (bclass != BCLASS_CHOP && bclass != BCLASS_PIERCE) && prob(used))
+		var/frac_bonus = brittle_bonus + strong_bonus + sneak_bonus
+		var/frac_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance, bonus = frac_bonus)
+
+		if(!owner.stat && !resistance && (zone_precise in knockout_zones) && (bclass != BCLASS_CHOP && bclass != BCLASS_PIERCE) && prob(frac_chance))
 			owner.next_attack_msg += " <span class='crit'><b>Critical hit!</b> [owner] is knocked out[from_behind ? " FROM BEHIND" : ""]!</span>"
 			owner.flash_fullscreen("whiteflash3")
 			owner.Unconscious(5 SECONDS + (from_behind * 10 SECONDS))
 			if(owner.client)
 				winset(owner.client, "outputwindow.output", "max-lines=1")
 				winset(owner.client, "outputwindow.output", "max-lines=100")
+
 		var/dislocation_type
 		var/fracture_type = /datum/wound/fracture/head
-		var/necessary_damage = 0.9
+		var/frac_divisor = CRIT_HEAD_FRACTURE_DIVISOR
+		var/frac_threshold = CRIT_HEAD_FRACTURE_THRESHOLD
+		var/is_lethal_fracture = FALSE
+
 		if(resistance)
 			fracture_type = /datum/wound/fracture
-		else if(zone_precise == BODY_ZONE_PRECISE_SKULL)
-			fracture_type = /datum/wound/fracture/head/brain
-		else if(zone_precise== BODY_ZONE_PRECISE_EARS)
-			fracture_type = /datum/wound/fracture/head/ears
-			necessary_damage = 0.8
-		else if(zone_precise == BODY_ZONE_PRECISE_NOSE)
-			fracture_type = /datum/wound/fracture/head/nose
-			necessary_damage = 0.7
-		else if(zone_precise == BODY_ZONE_PRECISE_MOUTH)
-			fracture_type = /datum/wound/fracture/mouth
-			necessary_damage = 0.7
-		else if(zone_precise == BODY_ZONE_PRECISE_NECK)
-			fracture_type = /datum/wound/fracture/neck
-			dislocation_type = /datum/wound/dislocation/neck
-		if(prob(used) && (damage_dividend >= necessary_damage))
+		else
+			switch(zone_precise)
+				if(BODY_ZONE_PRECISE_SKULL)
+					fracture_type = /datum/wound/fracture/head/brain
+					frac_divisor = CRIT_SKULL_FRACTURE_DIVISOR
+					frac_threshold = CRIT_SKULL_FRACTURE_THRESHOLD
+					is_lethal_fracture = TRUE
+				if(BODY_ZONE_PRECISE_EARS)
+					fracture_type = /datum/wound/fracture/head/ears
+					frac_divisor = CRIT_FACE_FRACTURE_DIVISOR
+					frac_threshold = CRIT_FACE_FRACTURE_THRESHOLD
+				if(BODY_ZONE_PRECISE_NOSE)
+					fracture_type = /datum/wound/fracture/head/nose
+					frac_divisor = CRIT_FACE_FRACTURE_DIVISOR
+					frac_threshold = CRIT_FACE_FRACTURE_THRESHOLD
+					is_lethal_fracture = TRUE
+				if(BODY_ZONE_PRECISE_MOUTH)
+					fracture_type = /datum/wound/fracture/mouth
+					frac_divisor = CRIT_MOUTH_FRACTURE_DIVISOR
+					frac_threshold = CRIT_MOUTH_FRACTURE_THRESHOLD
+				if(BODY_ZONE_PRECISE_NECK)
+					fracture_type = /datum/wound/fracture/neck
+					dislocation_type = /datum/wound/dislocation/neck
+					frac_divisor = CRIT_NECK_FRACTURE_DIVISOR
+					frac_threshold = CRIT_NECK_FRACTURE_THRESHOLD
+					is_lethal_fracture = TRUE
+
+		if(check_crit_threshold(damage_dividend, dam, resistance, frac_divisor, frac_threshold) && prob(frac_chance))
 			if(dislocation_type)
 				attempted_wounds += dislocation_type
-			attempted_wounds += fracture_type
-	if(bclass in GLOB.artery_bclasses)
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
-		if(user)
-			if(bclass == BCLASS_CHOP)
-				if(istype(user.rmb_intent, /datum/rmb_intent/strong))
-					used += 10
+			if(is_lethal_fracture)
+				var/death_prob = calculate_lethal_death_chance(raw_damage, armor_block, user)
+				var/datum/wound/fracture/lethal_fracture = new fracture_type()
+				lethal_fracture.death_probability = death_prob
+				attempted_wounds += lethal_fracture
 			else
-				if(istype(user.rmb_intent, /datum/rmb_intent/aimed))
-					used += 10
+				attempted_wounds += fracture_type
+
+	if(bclass in GLOB.artery_bclasses)
+		var/artery_bonus = (bclass == BCLASS_CHOP) ? strong_bonus : aimed_bonus
+		var/artery_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance, bonus = artery_bonus)
+
 		var/artery_type = /datum/wound/artery
+		var/artery_divisor = CRIT_ARTERY_DIVISOR
+		var/artery_threshold = CRIT_ARTERY_THRESHOLD
 		if(zone_precise == BODY_ZONE_PRECISE_NECK)
 			artery_type = /datum/wound/artery/neck
-		if(prob(used))
-			attempted_wounds += artery_type
-			if((bclass in GLOB.stab_bclasses) && !resistance)
+			artery_divisor = CRIT_ARTERY_NECK_DIVISOR
+			artery_threshold = CRIT_ARTERY_NECK_THRESHOLD
+
+		var/wound_applied = try_add_crit_wound(
+			artery_type,
+			damage_dividend, dam, resistance,
+			artery_chance, artery_divisor, artery_threshold,
+			silent, crit_message
+		)
+		if(wound_applied)
+			attempted_wounds += wound_applied
+
+		if((bclass in GLOB.stab_bclasses) && !resistance && prob(artery_chance))
+			if(check_crit_threshold(damage_dividend, dam, resistance, CRIT_FACIAL_STAB_DIVISOR, CRIT_FACIAL_STAB_THRESHOLD))
 				if(zone_precise in earstab_zones)
 					var/obj/item/organ/ears/my_ears = owner.getorganslot(ORGAN_SLOT_EARS)
 					if(!my_ears || has_wound(/datum/wound/facial/ears))
@@ -436,7 +649,7 @@
 						else if(zone_precise == BODY_ZONE_PRECISE_L_EYE)
 							attempted_wounds += /datum/wound/facial/eyes/left
 				else if(zone_precise in tonguestab_zones)
-					var/obj/item/organ/tongue/tongue_up_my_asshole = owner.getorganslot(ORGAN_SLOT_TONGUE)		//..hello?
+					var/obj/item/organ/tongue/tongue_up_my_asshole = owner.getorganslot(ORGAN_SLOT_TONGUE)
 					if(!tongue_up_my_asshole || has_wound(/datum/wound/facial/tongue))
 						attempted_wounds += /datum/wound/fracture/mouth
 					else
@@ -446,11 +659,29 @@
 						attempted_wounds +=/datum/wound/fracture/head/nose
 					else
 						attempted_wounds += /datum/wound/facial/disfigurement/nose
-	if(bclass in GLOB.sunder_bclasses)
+
+	if((bclass in GLOB.sunder_bclasses) && !was_blunted)
 		if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
-			used = round(damage_dividend * 20 + (dam / 2) - 10 * resistance, 1)
-			if(prob(used))
+			var/sunder_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance, dam_divisor = 2)
+			if(prob(sunder_chance))
 				attempted_wounds += /datum/wound/sunder
+
+	var/is_construct = isgolemp(owner) || isdoll(owner)
+	if(!is_construct && (bclass in GLOB.stab_bclasses) && (zone_precise in GLOB.brain_penetration_zones))
+		var/brain_stab_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance, base_multiplier = 25, dam_divisor = 2, resistance_penalty = 15, bonus = strong_bonus ? 15 : 0)
+		if(check_crit_threshold(damage_dividend, dam, resistance, CRIT_BRAIN_PENETRATION_DIVISOR, CRIT_BRAIN_PENETRATION_THRESHOLD) && prob(brain_stab_chance) && owner.getorganslot(ORGAN_SLOT_BRAIN))
+			if(istype(owner.dna?.species, /datum/species/werewolf) && !owner.has_wound(/datum/wound/sunder))
+				return FALSE
+			attempted_wounds += /datum/wound/lethal/brain_penetration
+
+	if(!is_construct && (bclass in GLOB.fracture_bclasses) && owner.has_wound(/datum/wound/fracture/head))
+		var/brain_blunt_chance = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance, resistance_penalty = 12, bonus = strong_bonus ? 12 : 0)
+		if(check_crit_threshold(damage_dividend, dam, resistance, CRIT_BRAIN_BLUNT_DIVISOR, CRIT_BRAIN_BLUNT_THRESHOLD) && prob(brain_blunt_chance) && owner.getorganslot(ORGAN_SLOT_BRAIN))
+			if(istype(owner.dna?.species, /datum/species/werewolf) && !owner.has_wound(/datum/wound/sunder))
+				return FALSE
+			var/datum/wound/lethal/brain_penetration/bone_frag_wound = new /datum/wound/lethal/brain_penetration(dam)
+			bone_frag_wound.from_fracture = TRUE
+			attempted_wounds += bone_frag_wound
 
 	for(var/wound_type in shuffle(attempted_wounds))
 		var/datum/wound/applied = add_wound(wound_type, silent, crit_message)
@@ -459,6 +690,11 @@
 				record_round_statistic(STATS_CRITS_MADE)
 			return applied
 	return FALSE
+
+/// Returns the overkill critical hit threshold for a body part
+/obj/item/bodypart/proc/get_overkill_threshold(difficulty, damage_dividend, damage, resistance)
+	var/overkill_threshold = (damage >= (difficulty + owner.STACON))
+	return overkill_threshold
 
 /// Embeds an object in this bodypart
 /obj/item/bodypart/proc/add_embedded_object(obj/item/embedder, silent = FALSE, crit_message = FALSE)
@@ -472,6 +708,10 @@
 	embedder.is_embedded = TRUE
 	embedder.forceMove(src)
 	if(owner)
+		// Invalidate mob bleed cache since we added an embedded object
+		if(iscarbon(owner))
+			var/mob/living/carbon/C = owner
+			C.invalidate_bleed_cache()
 		embedder.add_mob_blood(owner)
 		if (!silent)
 			playsound(owner, 'sound/combat/newstuck.ogg', 100, vary = TRUE)
@@ -506,6 +746,10 @@
 	else
 		qdel(embedder)
 	if(owner)
+		// Invalidate mob bleed cache since we removed an embedded object
+		if(iscarbon(owner))
+			var/mob/living/carbon/C = owner
+			C.invalidate_bleed_cache()
 		if(!owner.has_embedded_objects())
 			owner.clear_alert("embeddedobject")
 			SEND_SIGNAL(owner, COMSIG_CLEAR_MOOD_EVENT, "embedded")
@@ -519,6 +763,10 @@
 		return FALSE
 	bandage = new_bandage
 	new_bandage.forceMove(src)
+	// Invalidate bleed cache since bandage affects bleeding
+	if(owner && iscarbon(owner))
+		var/mob/living/carbon/C = owner
+		C.invalidate_bleed_cache()
 	return TRUE
 
 /obj/item/bodypart/proc/try_bandage_expire()
@@ -550,6 +798,10 @@
 		return FALSE
 	if(!bandage)
 		return FALSE
+	// Invalidate bleed cache since bandage is expiring
+	if(iscarbon(owner))
+		var/mob/living/carbon/C = owner
+		C.invalidate_bleed_cache()
 	if(owner.stat != DEAD)
 		to_chat(owner, span_warning("Blood soaks through the bandage on my [name]."))
 	return bandage.add_mob_blood(owner)
@@ -563,6 +815,10 @@
 	else
 		qdel(bandage)
 	bandage = null
+	// Invalidate bleed cache since bandage was removed
+	if(owner && iscarbon(owner))
+		var/mob/living/carbon/C = owner
+		C.invalidate_bleed_cache()
 	owner?.update_damage_overlays()
 	return TRUE
 

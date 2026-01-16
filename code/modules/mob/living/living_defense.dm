@@ -1,6 +1,7 @@
 
-/mob/living/proc/run_armor_check(def_zone = null, attack_flag = "blunt", absorb_text = null, soften_text = null, armor_penetration, penetrated_text, damage, blade_dulling, peeldivisor, intdamfactor, used_weapon = null)
-	var/armor = getarmor(def_zone, attack_flag, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor, used_weapon)
+/mob/living/proc/run_armor_check(def_zone = null, attack_flag = "blunt", absorb_text = null, soften_text = null, armor_penetration, penetrated_text, damage, blade_dulling, intdamfactor, bypass_item = null, obj/item/used_weapon, mob/living/attacker)
+
+	var/armor = getarmor(def_zone, attack_flag, damage, armor_penetration, blade_dulling, intdamfactor, bypass_item, used_weapon, attacker)
 
 	//the if "armor" check is because this is used for everything on /living, including humans
 	if(armor > 0 && armor_penetration)
@@ -25,7 +26,7 @@
 	return armor
 
 
-/mob/living/proc/getarmor(def_zone, type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor, used_weapon)
+/mob/living/proc/getarmor(def_zone, type, damage, armor_penetration, blade_dulling, intdamfactor, bypass_item = null, obj/item/used_weapon)
 	return 0
 
 //this returns the mob's protection against eye damage (number between -1 and 2) from bright lights
@@ -46,27 +47,59 @@
 /mob/living/proc/on_hit(obj/projectile/P)
 	return BULLET_ACT_HIT
 
+/mob/living/proc/check_armor_blunting(damage, armor, wound_class, def_zone, damage_flag, armor_penetration)
+	. = FALSE
+	if(damage <= 0 || armor <= 0 || !wound_class || !ishuman(src))
+		return
+
+	var/is_edged = (wound_class in list(BCLASS_CUT, BCLASS_CHOP, BCLASS_STAB, BCLASS_PICK, BCLASS_PIERCE, BCLASS_LASHING))
+	if(!is_edged)
+		return
+
+	if(damage < armor)
+		. = TRUE
+
 /mob/living/bullet_act(obj/projectile/P, def_zone = BODY_ZONE_CHEST)
 	if(SEND_SIGNAL(src, COMSIG_ATOM_BULLET_ACT, P, def_zone) & COMPONENT_ATOM_BLOCK_BULLET)
 		return
 	def_zone = bullet_hit_accuracy_check(P.accuracy + P.bonus_accuracy, def_zone)
-	var/ap = (P.flag == "blunt") ? BLUNT_DEFAULT_PENFACTOR : P.armor_penetration
+	var/ap = (P.flag == "blunt") ? 0 : P.armor_penetration
+	if(ishuman(P.firer))
+		var/mob/living/carbon/human/shooter = P.firer
+		ap += max((shooter.STAPER - 10) * PER_PEN_FACTOR, (shooter.STASTR - 10) * STR_PEN_FACTOR, 0)
+
 	var/armor = run_armor_check(def_zone, P.flag, "", "",armor_penetration = ap, damage = P.damage, used_weapon = P)
 
 	next_attack_msg.Cut()
 
 	var/on_hit_state = P.on_hit(src, armor)
 	var/nodmg = FALSE
+
+	var/raw_damage = P.damage
+	var/actual_damage = ishuman(src) ? src:get_actual_damage(raw_damage, armor, def_zone, P.flag) : max(raw_damage - armor, 0)
+	var/wound_class = P.woundclass
+
 	if(!P.nodamage && on_hit_state != BULLET_ACT_BLOCK)
-		if(!apply_damage(P.damage, P.damage_type, def_zone, armor))
+		var/was_blunted = check_armor_blunting(actual_damage, armor, wound_class, def_zone, P.flag, ap)
+		if(was_blunted)
+			wound_class = BCLASS_BLUNT
+			actual_damage = ceil(actual_damage * 0.5)
+
+		if(!apply_damage(actual_damage, P.damage_type, def_zone, 0))
 			nodmg = TRUE
 			next_attack_msg += " <span class='warning'>Armor stops the damage.</span>"
+		else
+			if(armor > 0 && actual_damage > 0)
+				next_attack_msg += " <span class='warning'>Armor softens the blow.</span>"
+			if(was_blunted)
+				next_attack_msg += " <span class='warning'>The attack was blunted by armor.</span>"
+
 		apply_effects(stun = P.stun, knockdown = P.knockdown, unconscious = P.unconscious, slur = P.slur, stutter = P.stutter, eyeblur = P.eyeblur, drowsy = P.drowsy, blocked = armor, stamina = P.stamina, jitter = P.jitter, paralyze = P.paralyze, immobilize = P.immobilize)
 		if(!nodmg)
 			if(P.dismemberment)
 				check_projectile_dismemberment(P, def_zone,armor)
-			if(P.woundclass)
-				check_projectile_wounding(P, def_zone)
+			if(wound_class)
+				check_projectile_wounding(P, def_zone, wound_class, actual_damage)
 
 			if(P.poisontype)// New proc for poisoning that respects if armor stopped damage from the projectile, by blocking or through reduction. Only called if poison type is defined.
 				if(!P.poisonamount)
@@ -77,7 +110,7 @@
 					if(P.poisonfeel)
 						M.show_message(span_danger("You feel an intense [P.poisonfeel] sensation spreading swiftly from the area!"))
 
-			if(P.embedchance && !check_projectile_embed(P, def_zone))
+			if(P.embedchance && !check_projectile_embed(P, def_zone, was_blunted, armor))
 				P.handle_drop()
 
 		else
@@ -100,10 +133,14 @@
 /mob/living/proc/check_projectile_dismemberment(obj/projectile/P, def_zone)
 	return 0
 
-/mob/living/proc/check_projectile_wounding(obj/projectile/P, def_zone)
-	return simple_woundcritroll(P.woundclass, P.damage, null, def_zone, crit_message = TRUE)
+/mob/living/proc/check_projectile_wounding(obj/projectile/P, def_zone, wound_class = null, damage = null)
+	if(!wound_class)
+		wound_class = P.woundclass
+	if(!damage)
+		damage = P.damage
+	return simple_woundcritroll(wound_class, damage, null, def_zone, crit_message = TRUE)
 
-/mob/living/proc/check_projectile_embed(obj/projectile/P, def_zone)
+/mob/living/proc/check_projectile_embed(obj/projectile/P, def_zone, was_blunted = FALSE)
 	// Disable embeds on simples, allowing it to override on complex.
 	return FALSE
 
@@ -118,19 +155,34 @@
 /mob/living/hitby(atom/movable/AM, skipcatch, hitpush = TRUE, blocked = FALSE, datum/thrownthing/throwingdatum, damage_flag = "blunt")
 	if(istype(AM, /obj/item))
 		var/obj/item/I = AM
-		// Hit the selected zone, or else a random zone centered on the chest
 		var/zone = throwingdatum?.target_zone || ran_zone(BODY_ZONE_CHEST, 65)
 		SEND_SIGNAL(I, COMSIG_MOVABLE_IMPACT_ZONE, src, zone)
 		if(SEND_SIGNAL(src, COMSIG_LIVING_IMPACT_ZONE, I, zone) & COMPONENT_CANCEL_THROW)
 			return FALSE
 		if(!blocked)
-			var/ap = (damage_flag == "blunt") ? BLUNT_DEFAULT_PENFACTOR : I.armor_penetration
+			var/ap = (damage_flag == "blunt") ? 0 : I.armor_penetration
 			var/armor = run_armor_check(zone, damage_flag, "", "", armor_penetration = ap, damage = I.throwforce, used_weapon = I)
 			next_attack_msg.Cut()
 			var/nodmg = FALSE
-			if(!apply_damage(I.throwforce, I.damtype, zone, armor))
+
+			var/raw_damage = I.throwforce
+			var/actual_damage = ishuman(src) ? src:get_actual_damage(raw_damage, armor, zone, damage_flag) : max(raw_damage - armor, 0)
+			var/wound_bclass = I.thrown_bclass
+			var/was_blunted = check_armor_blunting(actual_damage, armor, wound_bclass, zone, damage_flag, ap)
+
+			if(was_blunted)
+				wound_bclass = BCLASS_BLUNT
+				actual_damage = ceil(actual_damage * 0.5)
+
+			if(!apply_damage(actual_damage, I.damtype, zone, 0))
 				nodmg = TRUE
 				next_attack_msg += " <span class='warning'>Armor stops the damage.</span>"
+			else
+				if(armor > 0 && actual_damage > 0)
+					next_attack_msg += " <span class='warning'>Armor softens the blow.</span>"
+				if(was_blunted)
+					next_attack_msg += " <span class='warning'>The attack was blunted by armor.</span>"
+
 			if(!nodmg)
 				if(iscarbon(src))
 					var/obj/item/bodypart/affecting = get_bodypart(zone)
@@ -138,10 +190,10 @@
 						var/throwee = null
 						if(throwingdatum)
 							throwee = isliving(throwingdatum.thrower) ? throwingdatum.thrower : null
-						affecting.bodypart_attacked_by(I.thrown_bclass, I.throwforce, throwee, affecting.body_zone, crit_message = TRUE, weapon = I)
+						affecting.bodypart_attacked_by(wound_bclass, actual_damage, throwee, affecting.body_zone, crit_message = TRUE, was_blunted = was_blunted, raw_damage = raw_damage, armor_block = armor, weapon = I)
 					I.do_special_attack_effect(I.thrownby, affecting, null, src, zone, thrown = TRUE)
 				else
-					simple_woundcritroll(I.thrown_bclass, I.throwforce, null, zone, crit_message = TRUE)
+					simple_woundcritroll(wound_bclass, actual_damage, null, zone, crit_message = TRUE)
 					if(((throwingdatum ? throwingdatum.speed : I.throw_speed) >= EMBED_THROWSPEED_THRESHOLD) || I.embedding.embedded_ignore_throwspeed_threshold)
 						if(can_embed(I) && prob(I.embedding.embed_chance) && HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS) && !HAS_TRAIT(src, TRAIT_PIERCEIMMUNE))
 							simple_add_embedded_object(I, silent = FALSE, crit_message = TRUE)
@@ -440,7 +492,7 @@
 	if(!(flags & SHOCK_ILLUSION))
 		adjustFireLoss(shock_damage)
 	else
-		adjustStaminaLoss(shock_damage)
+		stamina_add(-shock_damage)
 	visible_message(
 		span_danger("[src] was shocked by \the [source]!"), \
 		span_danger("I feel a powerful shock coursing through my body!"), \

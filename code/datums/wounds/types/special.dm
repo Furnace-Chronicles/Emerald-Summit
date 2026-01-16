@@ -33,7 +33,6 @@
 
 /datum/wound/facial/ears/on_mob_gain(mob/living/affected)
 	. = ..()
-	affected.Stun(10)
 	var/obj/item/organ/ears/ears = affected.getorganslot(ORGAN_SLOT_EARS)
 	if(ears)
 		ears.Remove(affected)
@@ -156,7 +155,6 @@
 
 /datum/wound/facial/tongue/on_mob_gain(mob/living/affected)
 	. = ..()
-	affected.Stun(10)
 	var/obj/item/organ/tongue/tongue_up_my_asshole = affected.getorganslot(ORGAN_SLOT_TONGUE)
 	if(tongue_up_my_asshole)
 		tongue_up_my_asshole.Remove(affected)
@@ -418,6 +416,335 @@
 /datum/wound/grievous/remove_from_bodypart()
 	bodypart_owner?.grievously_wounded = FALSE
 	. = ..()
+
+/datum/wound/lethal // for wounds that cause organ penetration and similar, can't use greivous for this since that prevents dismemberment
+	name = "lethal wound"
+	severity = WOUND_SEVERITY_FATAL
+	sound_effect = 'sound/combat/crit.ogg'
+	whp = 250
+	woundpain = 100
+	critical = TRUE
+	sleep_healing = 0
+	sewn_whp = 75
+	bleed_rate = 25
+	can_sew = TRUE
+	sewn_bleed_rate = 0 // Stops external bleeding when sewn
+	var/organ_damage = 0
+	var/attack_damage = 0
+	var/total_hits = 1 // Track how many hits contributed to this wound
+	var/obj/item/organ/cached_organ
+
+/datum/wound/lethal/New(damage = 0)
+	. = ..()
+	if(damage > 0)
+		attack_damage = damage
+		organ_damage = clamp(damage * (rand(10, 20)/10), 40, 100) // (rand(10, 20)/10) is a little trick to get a random 2-digit float between 1.0 and 2.0
+
+/datum/wound/lethal/can_stack_with(datum/wound/other)
+	if(type == other.type)
+		return FALSE
+	return TRUE
+
+/datum/wound/lethal/can_apply_to_bodypart(obj/item/bodypart/affected)
+	. = ..()
+	if(!.)
+		return FALSE
+
+	var/datum/wound/lethal/existing = affected.has_wound(type, specific = TRUE)
+	if(existing)
+		existing.merge_damage(attack_damage, organ_damage)
+		return FALSE
+
+	return TRUE
+
+/datum/wound/lethal/proc/merge_damage(new_attack_damage, new_organ_damage)
+	if(!bodypart_owner || !owner)
+		return
+
+	total_hits++
+
+	var/damage_multiplier = 1.0 / sqrt(total_hits)
+	attack_damage += new_attack_damage * damage_multiplier
+
+	if(new_organ_damage > 0)
+		organ_damage = min(100, organ_damage + (new_organ_damage * damage_multiplier * 0.5))
+
+		if(iscarbon(owner))
+			if(cached_organ && cached_organ.damage > 0 && !QDELETED(cached_organ))
+				cached_organ.applyOrganDamage(new_organ_damage * damage_multiplier * 0.3)
+
+
+/datum/wound/lethal/heal_wound(heal_amount)
+	if(!bodypart_owner || !owner)
+		return
+
+	if(cached_organ && !QDELETED(cached_organ))
+		cached_organ.setOrganDamage(0)
+	. = ..()
+
+
+/datum/wound/lethal/brain_penetration
+	name = "brain penetration"
+	check_name = span_userdanger("<B>BRAIN PIERCED</B>")
+	severity = WOUND_SEVERITY_FATAL
+	crit_message = list(
+		"The brain is pierced!",
+		"The blade penetrates the skull into the brain!",
+		"The brain is skewered!",
+		"The edge pierces through the cranium into the brain!"
+	)
+	mortal = TRUE
+	var/from_fracture = FALSE
+
+/datum/wound/lethal/brain_penetration/on_mob_gain(mob/living/affected)
+	. = ..()
+
+	var/static/list/penetration_messages = list(
+		"MY HEAD!",
+		"I CAN'T THINK!",
+		"EVERYTHING IS GOING DARK!")
+
+	if(from_fracture)
+		crit_message = list(
+			"Bone fragments pierce the brain!",
+			"The skull caves in, driving shards into the brain!",
+			"Bone splinters penetrate deep into the brain!",
+			"The fractured skull crushes inward into the brain!"
+		)
+
+	if(iscarbon(affected))
+		var/mob/living/carbon/carbon_affected = affected
+		cached_organ = carbon_affected.getorganslot(ORGAN_SLOT_BRAIN)
+		if(cached_organ)
+			cached_organ.applyOrganDamage(organ_damage)
+
+	if(prob(80-affected.STACON*2))
+		affected.Unconscious((rand(20,30)-affected.STACON) SECONDS)
+
+	to_chat(affected, span_userdanger("[pick(penetration_messages)]"))
+
+/datum/wound/lethal/heart_penetration
+	name = "heart penetration"
+	check_name = span_userdanger("<B>HEART PIERCED</B>")
+	severity = WOUND_SEVERITY_FATAL
+	crit_message = list(
+		"The heart is pierced!",
+		"The blade penetrates straight through the heart!",
+		"The heart is skewered!",
+		"The blade runs through %VICTIM's heart!"
+	)
+	woundpain = 250
+	mortal = TRUE
+	bleed_rate = 35
+	var/from_fracture = FALSE
+
+/datum/wound/lethal/heart_penetration/on_mob_gain(mob/living/affected)
+	. = ..()
+	if(HAS_TRAIT(affected, TRAIT_DEADITE))
+		return
+
+	var/is_construct = isgolemp(affected) || isdoll(affected)
+
+	// Constructs don't bleed
+	if(is_construct)
+		bleed_rate = 0
+		woundpain = 0 // They also don't feel pain
+
+	var/static/list/penetration_messages = list(
+		"MY HEART!",
+		"MY CHEST!",
+		"I'M DYING!",
+		"OH GODS, THE PAIN!")
+
+	var/static/list/construct_penetration_messages = list(
+		"MY LUX CORE IS DAMAGED!",
+		"I'M LOSING POWER!",
+		"THE LIGHT DIMS!")
+
+	if(from_fracture)
+		if(is_construct)
+			crit_message = list(
+				"The golem core is punctured!",
+				"Fragments pierce the lux core!",
+				"The core cracks and splinters!",
+				"The shattered shell crushes into the core!"
+			)
+		else
+			crit_message = list(
+				"A rib pierces the heart!",
+				"Broken ribs puncture straight through the heart!",
+				"Bone fragments skewer the heart!",
+				"The shattered ribcage crushes into the heart!"
+			)
+
+	if(iscarbon(affected))
+		var/mob/living/carbon/carbon_affected = affected
+		if(!is_construct)
+			carbon_affected.vomit(blood = TRUE)
+		cached_organ = carbon_affected.getorganslot(ORGAN_SLOT_HEART)
+		if(cached_organ)
+			cached_organ.applyOrganDamage(organ_damage)
+			if(organ_damage >= 80)
+				addtimer(CALLBACK(carbon_affected, TYPE_PROC_REF(/mob/living/carbon, set_heartattack), TRUE), 1 SECONDS)
+	shake_camera(affected, 4, 4)
+	if(!is_construct)
+		affected.emote("painscream")
+	to_chat(affected, span_userdanger("[pick(is_construct ? construct_penetration_messages : penetration_messages)]"))
+
+/datum/wound/lethal/heart_penetration/on_life()
+	. = ..()
+	if(!iscarbon(owner))
+		return
+	var/mob/living/carbon/carbon_owner = owner
+	var/is_construct = isgolemp(owner) || isdoll(owner)
+
+	if(is_construct)
+		// Golems and dolls lose energy instead of blood and oxygen
+		var/energy_drain = floor(organ_damage / 10)
+		carbon_owner.energy_add(-energy_drain)
+
+		if(cached_organ && !QDELETED(cached_organ))
+			// Causes damage over time to the lux core as mana leaks
+			if(cached_organ.damage < cached_organ.maxHealth)
+				cached_organ.applyOrganDamage(0.5)
+			if(prob(3))
+				to_chat(carbon_owner, span_warning("My lux core flickers and dims..."))
+	else
+		if(!carbon_owner.stat && prob(15))
+			carbon_owner.vomit(1, blood = TRUE, stun = FALSE)
+
+		if(!HAS_TRAIT(owner, TRAIT_NOBREATH))
+			var/oxydamage = organ_damage < 100 ? organ_damage / 10 : organ_damage
+			carbon_owner.adjustOxyLoss(oxydamage)
+
+		if(cached_organ && !QDELETED(cached_organ) && cached_organ.damage > round(cached_organ.maxHealth/2))
+			cached_organ.applyOrganDamage(1)
+			if(prob(5))
+				to_chat(carbon_owner, span_warning("MY HEART HURTS!"))
+
+/datum/wound/lethal/lung_penetration
+	name = "lung penetration"
+	check_name = span_userdanger("<B>LUNG PIERCED</B>")
+	severity = WOUND_SEVERITY_FATAL
+	crit_message = list(
+		"The lung is pierced!",
+		"Air escapes from the punctured lung!",
+		"The lung collapses!",
+		"The blade runs through %VICTIM's lung!"
+	)
+	bleed_rate = 15
+	woundpain = 100
+	mortal = TRUE
+	var/from_fracture = FALSE
+
+/datum/wound/lethal/lung_penetration/on_mob_gain(mob/living/affected)
+	. = ..()
+	
+	if(HAS_TRAIT(affected, TRAIT_DEADITE))
+		return
+
+	var/static/list/penetration_messages = list(
+		"I CAN'T BREATHE!",
+		"MY LUNGS!",
+		"I'M CHOKING!")
+
+	if(from_fracture)
+		crit_message = list(
+			"A rib pierces the lung!",
+			"Broken ribs puncture the lung!",
+			"Bone fragments collapse the lung!",
+			"The shattered ribcage crushes into the lung!"
+		)
+
+	if(!HAS_TRAIT(affected, TRAIT_NOBREATH))
+		to_chat(affected, span_userdanger("[pick(penetration_messages)]"))
+		if(iscarbon(affected))
+			var/mob/living/carbon/carbon_affected = affected
+			cached_organ = carbon_affected.getorganslot(ORGAN_SLOT_LUNGS)
+			if(cached_organ)
+				cached_organ.applyOrganDamage(organ_damage)
+
+/datum/wound/lethal/lung_penetration/on_life()
+	. = ..()
+	if(!iscarbon(owner) || HAS_TRAIT(owner, TRAIT_NOBREATH))
+		return
+	var/mob/living/carbon/carbon_owner = owner
+	if(!carbon_owner.stat && prob(15))
+		carbon_owner.emote("cough")
+
+/datum/wound/lethal/liver_penetration
+	name = "liver penetration"
+	check_name = span_userdanger("<B>LIVER PIERCED</B>")
+	severity = WOUND_SEVERITY_FATAL
+	crit_message = list(
+		"The liver is pierced!",
+		"The blade punctures through the liver!",
+		"The liver is punctured!",
+		"The liver is torn open!"
+	)
+	bleed_rate = 25
+	woundpain = 120
+	mortal = TRUE
+
+/datum/wound/lethal/liver_penetration/on_mob_gain(mob/living/affected)
+	. = ..()
+	
+	if(HAS_TRAIT(affected, TRAIT_DEADITE))
+		return
+
+	if(iscarbon(affected))
+		var/mob/living/carbon/carbon_affected = affected
+		carbon_affected.vomit(blood = TRUE)
+		cached_organ = carbon_affected.getorganslot(ORGAN_SLOT_LIVER)
+		if(cached_organ)
+			cached_organ.applyOrganDamage(organ_damage)
+	to_chat(affected, span_userdanger("MY GUTS!"))
+
+/datum/wound/lethal/liver_penetration/on_life()
+	. = ..()
+	if(!iscarbon(owner))
+		return
+	var/mob/living/carbon/carbon_owner = owner
+	if(!carbon_owner.stat && prob(8))
+		carbon_owner.vomit(1, blood = TRUE, stun = FALSE)
+	carbon_owner.adjustToxLoss(0.5)
+
+/datum/wound/lethal/stomach_penetration
+	name = "stomach penetration"
+	check_name = span_userdanger("<B>STOMACH PIERCED</B>")
+	severity = WOUND_SEVERITY_FATAL
+	crit_message = list(
+		"The stomach is pierced!",
+		"The blade punctures through the stomach!",
+		"The stomach is torn open!",
+		"Stomach contents spill from the wound!"
+	)
+	bleed_rate = 20
+	woundpain = 110
+	mortal = TRUE
+
+/datum/wound/lethal/stomach_penetration/on_mob_gain(mob/living/affected)
+	. = ..()
+
+	if(HAS_TRAIT(affected, TRAIT_DEADITE))
+		return
+
+	if(iscarbon(affected))
+		var/mob/living/carbon/carbon_affected = affected
+		carbon_affected.vomit(blood = TRUE)
+		cached_organ = carbon_affected.getorganslot(ORGAN_SLOT_STOMACH)
+		if(cached_organ)
+			cached_organ.applyOrganDamage(organ_damage)
+	to_chat(affected, span_userdanger("MY GUTS!"))
+
+/datum/wound/lethal/stomach_penetration/on_life()
+	. = ..()
+	if(!iscarbon(owner) || HAS_TRAIT(owner, TRAIT_NOHUNGER))
+		return
+	var/mob/living/carbon/carbon_owner = owner
+	if(!carbon_owner.stat && prob(12))
+		carbon_owner.vomit(1, blood = TRUE, stun = FALSE)
+		to_chat(carbon_owner, span_warning("I taste blood!"))
 
 /datum/wound/grievous/pre_decapitation
 	name = "massacred spinal column"

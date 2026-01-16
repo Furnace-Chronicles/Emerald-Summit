@@ -47,7 +47,6 @@
 	var/miss_text //THESE ARE FOR UNARMED MISSING ATTACKS
 	var/miss_sound //THESE ARE FOR UNARMED MISSING ATTACKS
 	var/allow_offhand = TRUE	//Do I need my offhand free while using this intent?
-	var/peel_divisor = 0		//How many consecutive peel hits this intent requires to peel a piece of coverage? May be overriden by armor thresholds if they're higher.
 	var/glow_intensity = null	//How much glow this intent has. Used for spells
 	var/glow_color = null // The color of the glow. Used for spells
 	var/mob_light = null // tracking mob_light
@@ -110,7 +109,27 @@
 	if(damfactor != 1)
 		inspec += "\n<b>Damage:</b> [damfactor]"
 	if(penfactor)
-		inspec += "\n<b>Armor Penetration:</b> [penfactor < 0 ? "NONE" : penfactor]"
+		var/total_ap = penfactor
+		var/stat_name = ""
+		if(ishuman(user) && masteritem)
+			var/mob/living/carbon/human/H = user
+			switch(masteritem.wbalance)
+				if(WBALANCE_HEAVY)
+					total_ap = penfactor + (H.STASTR - 10) * STR_PEN_FACTOR * penfactor
+					stat_name = "STR"
+				if(WBALANCE_NORMAL)
+					total_ap = penfactor + (((H.STASTR - 10)+(H.STAPER - 10))/2) * floor((STR_PEN_FACTOR+PER_PEN_FACTOR)/2) * penfactor
+					stat_name = "STR/PER AVG"
+				if(WBALANCE_SWIFT)
+					total_ap = penfactor + (H.STAPER - 10) * PER_PEN_FACTOR * penfactor
+					stat_name = "PER"
+
+		if(total_ap <= 0)
+			inspec += "\n<b>Armor Penetration:</b> NONE"
+		else if(stat_name)
+			inspec += "\n<b>Armor Penetration:</b> [round(total_ap, 1)] ([stat_name])"
+		else
+			inspec += "\n<b>Armor Penetration:</b> [penfactor]"
 	if(get_chargetime())
 		inspec += "\n<b>Charge Time</b>"
 	if(movement_interrupt)
@@ -129,8 +148,6 @@
 			inspec += "Quick"
 		if(clickcd > CLICK_CD_MELEE)
 			inspec += "Slow"
-	if(blade_class == BCLASS_PEEL)
-		inspec += "\nThis intent will peel the coverage off of your target's armor in non-key areas after [peel_divisor] consecutive hits.\nSome armor may have higher thresholds."
 	if(!allow_offhand)
 		inspec += "\nThis intent requires a free off-hand."
 	if(blade_class == BCLASS_EFFECT)
@@ -231,27 +248,29 @@
 	if(mastermob.curplaying)
 		mastermob.curplaying.chargedloop.stop()
 		mastermob.curplaying = null
+
+	mastermob.curplaying = src
+	
 	if(chargedloop)
 		if(!istype(chargedloop, /datum/looping_sound))
 			chargedloop = new chargedloop(mastermob)
 		else
 			chargedloop.stop()
 		chargedloop.start(chargedloop.parent)
-		mastermob.curplaying = src
-	if(glow_color && glow_intensity)
+	if(glow_color && glow_intensity && !mob_light)
 		mob_light = mastermob.mob_light(glow_color, glow_intensity)
 	if(mob_charge_effect)
-		mastermob.vis_contents += mob_charge_effect
+		mastermob.vis_contents |= mob_charge_effect
 
 /datum/intent/proc/on_mouse_up()
 	if(chargedloop)
 		chargedloop.stop()
-	if(mastermob?.curplaying == src)
-		mastermob?.curplaying = null
+	if(mastermob.curplaying == src)
+		mastermob.curplaying = null
 	if(mob_light)
-		qdel(mob_light)
+		QDEL_NULL(mob_light)
 	if(mob_charge_effect)
-		mastermob?.vis_contents -= mob_charge_effect
+		mastermob.vis_contents -= mob_charge_effect
 
 
 /datum/intent/proc/on_mmb(atom/target, mob/living/user, params)
@@ -336,14 +355,14 @@
 /datum/intent/stab/militia
 	name = "militia stab"
 	damfactor = 1.1
-	penfactor = 50
+	penfactor = 2.5
 
 /datum/intent/pick //now like icepick intent, we really went in a circle huh
 	name = "pick"
 	icon_state = "inpick"
 	attack_verb = list("picks","impales")
 	hitsound = list('sound/combat/hits/pick/genpick (1).ogg', 'sound/combat/hits/pick/genpick (2).ogg')
-	penfactor = 80
+	penfactor = 4
 	animname = "strike"
 	item_d_type = "stab"
 	blade_class = BCLASS_PICK
@@ -355,7 +374,7 @@
 	icon_state = "inpick"
 	attack_verb = list("stabs", "impales")
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 60
+	penfactor = 3
 	damfactor = 1.1
 	clickcd = CLICK_CD_CHARGED
 	releasedrain = 4
@@ -368,7 +387,7 @@
 	icon_state = "inpick"
 	attack_verb = list("picks","impales")
 	hitsound = list('sound/combat/hits/pick/genpick (1).ogg', 'sound/combat/hits/pick/genpick (2).ogg')
-	penfactor = 80
+	penfactor = 4
 	animname = "strike"
 	item_d_type = "stab"
 	blade_class = BCLASS_PICK
@@ -477,18 +496,35 @@
 	attack_verb = list("mauls", "scratches", "claws")
 	chargetime = 0
 	animname = "blank22"
-	hitsound = list('sound/combat/hits/punch/punch (1).ogg', 'sound/combat/hits/punch/punch (2).ogg', 'sound/combat/hits/punch/punch (3).ogg')
+	hitsound = list('sound/combat/hits/bladed/smallslash (1).ogg', 'sound/combat/hits/bladed/smallslash (2).ogg', 'sound/combat/hits/bladed/smallslash (3).ogg')
 	misscost = 1
 	releasedrain = 1	//More than punch cus pen factor.
 	swingdelay = 0
-	penfactor = 10
+	penfactor = 0.5
+	clickcd = 10
+	rmb_ranged = TRUE
 	candodge = TRUE
 	canparry = TRUE
 	blade_class = BCLASS_CUT
 	miss_text = "claw at the air"
 	miss_sound = "punchwoosh"
 	item_d_type = "slash"
-	
+
+/datum/intent/unarmed/claw/rmb_ranged(atom/target, mob/user)
+	if(user.stat >= UNCONSCIOUS)
+		return
+	if(ismob(target))
+		var/mob/M = target
+		var/list/targetl = list(target)
+		user.visible_message(span_warning("[user] taunts [M]!"), span_warning("I taunt [M]!"), ignored_mobs = targetl)
+		user.emote("taunt")
+		if(M.client)
+			if(M.can_see_cone(user))
+				to_chat(M, span_danger("[user] taunts me!"))
+		else
+			M.taunted(user)
+	return
+
 
 /datum/intent/unarmed/shove
 	name = "shove"
@@ -571,7 +607,7 @@
 	blade_class = BCLASS_BLUNT
 	hitsound = "punch_hard"
 	chargetime = 0
-	penfactor = 10
+	penfactor = 0.5
 	swingdelay = 0
 	candodge = TRUE
 	canparry = TRUE

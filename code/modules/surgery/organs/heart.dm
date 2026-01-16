@@ -28,6 +28,23 @@
 
 	sellprice = 25
 
+/obj/item/organ/heart/proc/missing_heart_effects(mob/living/carbon/human/H)
+	var/we_breath = !HAS_TRAIT_FROM(H, TRAIT_NOBREATH, SPECIES_TRAIT)
+	if(!H.undergoing_cardiac_arrest())
+		return
+	if(we_breath)
+		H.adjustOxyLoss(8)
+		H.Unconscious(80)
+	H.adjustBruteLoss(2)
+
+/obj/item/organ/heart/Insert(mob/living/carbon/M, special = 0)
+	var/mob/living/carbon/old_owner = owner
+	..()
+	if(old_owner && old_owner != owner && !QDELETED(old_owner))
+		UnregisterSignal(old_owner, COMSIG_LIVING_LIFE)
+	if(owner)
+		UnregisterSignal(owner, COMSIG_LIVING_LIFE)
+
 /obj/item/organ/heart/Destroy()
 	for(var/datum/culling_duel/D in GLOB.graggar_cullings)
 		var/obj/item/organ/heart/d_challenger_heart = D.challenger_heart?.resolve()
@@ -60,9 +77,17 @@
 		icon_state = "[icon_base]-off"
 
 /obj/item/organ/heart/Remove(mob/living/carbon/M, special = 0)
+	if(owner && ishuman(owner))
+		RegisterSignal(owner, COMSIG_LIVING_LIFE, PROC_REF(missing_heart_effects))
+		RegisterSignal(owner, COMSIG_MOB_ORGAN_INSERTED, PROC_REF(cleanup_on_replacement))
 	..()
 	if(!special)
 		addtimer(CALLBACK(src, PROC_REF(stop_if_unowned)), 120)
+
+/obj/item/organ/heart/proc/cleanup_on_replacement(mob/living/carbon/M, obj/item/organ/new_organ)
+	if(istype(new_organ, /obj/item/organ/heart))
+		UnregisterSignal(M, COMSIG_LIVING_LIFE)
+		UnregisterSignal(M, COMSIG_MOB_ORGAN_INSERTED)
 
 /obj/item/organ/heart/proc/stop_if_unowned()
 	if(!owner)
@@ -105,17 +130,30 @@
 
 /obj/item/organ/heart/on_life()
 	..()
-	if(owner.client && beating)
+	var/mob/living/carbon/H = owner
+	if(!istype(H))
+		return
+
+	if(damage > 0 && damage < maxHealth)
+		var/damage_ratio = damage / maxHealth
+		if(damage >= high_threshold)
+			var/self_damage = damage_ratio * 0.3
+			applyOrganDamage(self_damage)
+			if(prob(5) && !H.stat)
+				to_chat(H, span_warning("My heart aches!"))
+		else if(damage > 0)
+			H.stamina_add(-damage_ratio * 2)
+			if(prob(2) && !H.stat)
+				to_chat(H, span_warning("My chest feels tight."))
+
+	if(H.client && beating)
 		failed = FALSE
 		var/sound/slowbeat = sound('sound/health/slowbeat.ogg', repeat = TRUE)
 		var/sound/fastbeat = sound('sound/health/fastbeat.ogg', repeat = TRUE)
-		var/mob/living/carbon/H = owner
-
 
 		if(H.health <= H.crit_threshold && beat != BEAT_SLOW)
 			beat = BEAT_SLOW
 			H.playsound_local(get_turf(H), slowbeat,40,0, channel = CHANNEL_HEARTBEAT)
-//			to_chat(owner, span_notice("I feel my heart slow down..."))
 		if(beat == BEAT_SLOW && H.health > H.crit_threshold)
 			H.stop_sound_channel(CHANNEL_HEARTBEAT)
 			beat = BEAT_NONE
@@ -129,10 +167,10 @@
 			beat = BEAT_NONE
 
 	if(organ_flags & ORGAN_FAILING)	//heart broke, stopped beating, death imminent
-		if(owner.stat == CONSCIOUS)
-			owner.visible_message(span_danger("[owner] clutches at [owner.p_their()] chest as if [owner.p_their()] heart is stopping!"), \
-				span_danger("I feel a terrible pain in my chest, as if my heart has stopped!"))
-		owner.set_heartattack(TRUE)
+		if(H.stat == CONSCIOUS)
+			H.visible_message(span_danger("[H] clutches [H.p_their()] chest!"), \
+				span_userdanger("MY HEART!"))
+		H.set_heartattack(TRUE)
 		failed = TRUE
 /obj/item/organ/heart/golem
 	name = "golem core"

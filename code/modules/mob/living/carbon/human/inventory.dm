@@ -111,6 +111,9 @@
 	if(!..()) //a check failed or the item has already found its slot
 		return
 
+	if(istype(I, /obj/item/clothing))
+		clear_armor_cache()
+
 	var/not_handled = FALSE //Added in case we make this type path deeper one day
 	switch(slot)
 		if(SLOT_BELT)
@@ -243,6 +246,10 @@
 		stop_offering_item()
 	if(index && !QDELETED(src) && dna.species.mutanthands) //hand freed, fill with claws, skip if we're getting deleted.
 		put_in_hand(new dna.species.mutanthands(), index)
+
+	if(istype(I, /obj/item/clothing))
+		clear_armor_cache()
+
 	if(I == wear_armor)
 		if(s_store && invdrop)
 			dropItemToGround(s_store, TRUE, silent = silent) //It makes no sense for your suit storage to stay on you if you drop your suit.

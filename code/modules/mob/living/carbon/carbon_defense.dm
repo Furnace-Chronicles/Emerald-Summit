@@ -69,23 +69,43 @@
 	..()
 
 
-/mob/living/carbon/check_projectile_wounding(obj/projectile/P, def_zone, blocked)
+/mob/living/carbon/check_projectile_wounding(obj/projectile/P, def_zone, wound_class = null, damage = null)
 	var/obj/item/bodypart/BP = get_bodypart(check_zone(def_zone))
 	if(BP)
 		testing("projwound")
-		var/newdam = P.damage * (100-blocked)/100
-		BP.bodypart_attacked_by(P.woundclass, newdam, zone_precise = def_zone, crit_message = TRUE, weapon = P)
+		if(!wound_class)
+			wound_class = P.woundclass
+		if(!damage)
+			damage = P.damage
+
+		// Track bleed rate before wounding for embed tracking
+		var/datum/wound/dynamic/puncture/stab_wound = BP.has_wound(/datum/wound/dynamic/puncture)
+		var/bleed_before = stab_wound ? stab_wound.bleed_rate : 0
+
+		BP.bodypart_attacked_by(wound_class, damage, zone_precise = def_zone, crit_message = TRUE, weapon = P)
+
+		// Calculate how much this specific attack increased bleeding
+		stab_wound = BP.has_wound(/datum/wound/dynamic/puncture)
+		if(stab_wound)
+			BP.last_bleed_increase = max(stab_wound.bleed_rate - bleed_before, 0)
 		return TRUE
 
-/mob/living/carbon/check_projectile_embed(obj/projectile/P, def_zone, blocked)
+/mob/living/carbon/check_projectile_embed(obj/projectile/P, def_zone, was_blunted = FALSE, blocked = 0)
 	var/obj/item/bodypart/BP = get_bodypart(check_zone(def_zone))
 	if(!BP)
+		return FALSE
+	if(was_blunted)
 		return FALSE
 	var/newdam = P.damage * (100-blocked)/100
 	if(newdam <= 8)
 		return FALSE
 	if(prob(P.embedchance) && P.dropped)
 		BP.add_embedded_object(P.dropped, silent = FALSE, crit_message = TRUE)
+
+		// Store how much bleeding this attack added (embedded object now plugs that amount)
+		if(BP.last_bleed_increase)
+			P.dropped.embed_bleed_contribution = BP.last_bleed_increase
+			BP.last_bleed_increase = 0
 		return TRUE
 	return FALSE
 

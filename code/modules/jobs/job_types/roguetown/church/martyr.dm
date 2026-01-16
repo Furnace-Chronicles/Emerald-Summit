@@ -535,8 +535,10 @@
 
 
 /obj/item/rogueweapon/sword/long/martyr
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/sword/peel)
-	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/peel, /datum/intent/sword/chop)
+	force = 30
+	force_wielded = 36
+	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/chop)
 	icon_state = "martyrsword"
 	icon = 'icons/roguetown/weapons/64.dmi'
 	item_state = "martyrsword"
@@ -792,7 +794,7 @@
 
 /obj/item/rogueweapon/spear/partizan/martyr
 	possible_item_intents = list(/datum/intent/spear/thrust, /datum/intent/spear/bash)
-	gripped_intents = list(/datum/intent/spear/thrust, /datum/intent/rend/reach/partizan, /datum/intent/partizan/peel, /datum/intent/spear/bash)
+	gripped_intents = list(/datum/intent/spear/thrust, /datum/intent/rend/reach/partizan, /datum/intent/spear/bash)
 	icon_state = "martyrtrident"
 	icon = 'icons/roguetown/weapons/64.dmi'
 	item_state = "martyrtrident"

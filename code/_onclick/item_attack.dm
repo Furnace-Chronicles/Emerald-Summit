@@ -66,6 +66,11 @@
 	var/adf = user.used_intent.clickcd
 	if(istype(user.rmb_intent, /datum/rmb_intent/aimed))
 		adf = round(adf * CLICK_CD_MOD_AIMED)
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			var/per_mult = 1 - ((H.STAPER - 10	) * 0.05)
+			per_mult = clamp(per_mult, 0.5, 2.0) 
+			adf = max(round(adf * per_mult), CLICK_CD_INTENTCAP)
 	if(istype(user.rmb_intent, /datum/rmb_intent/swift))
 		adf = max(round(adf * CLICK_CD_MOD_SWIFT), CLICK_CD_INTENTCAP)
 	user.changeNext_move(adf)
@@ -163,15 +168,11 @@
 				if(get_dist(get_turf(user), get_turf(M)) <= user.used_intent.reach)
 					user.do_attack_animation(M, user.used_intent.animname, used_item = src, used_intent = user.used_intent, simplified = TRUE)
 			return
-	var/rmb_stam_penalty = 0
+	user.stamina_add(get_stamina_cost(src, user))
+	// Strong attacks consume energy in addition to stamina
 	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
-		rmb_stam_penalty = EXTRA_STAMDRAIN_SWIFSTRONG
-	if(istype(user.rmb_intent, /datum/rmb_intent/swift))
-		if(user.used_intent.clickcd > CLICK_CD_INTENTCAP)	//If we're on Swift and our intent is not already at the cap by default, we consume extra stamina.
-			rmb_stam_penalty = EXTRA_STAMDRAIN_SWIFSTRONG
-	// Release drain on attacks besides unarmed attacks/grabs is 1, so it'll just be whatever the penalty is + 1.
-	// Unarmed attacks are the only ones right now that have differing releasedrain, see unarmed attacks for their calc.
-	user.stamina_add(user.used_intent.releasedrain + rmb_stam_penalty)
+		var/energy_cost = max(23 - (user.STAEND + user.get_skill_level(/datum/skill/misc/athletics)), 3)// Base 23, reduced by END/Athletics, minimum of 3
+		user.energy_add(-energy_cost)
 	if(user.mob_biotypes & MOB_UNDEAD)
 		if(M.has_status_effect(/datum/status_effect/buff/necras_vow))
 			if(isnull(user.mind))
@@ -225,11 +226,29 @@
 
 	if(M.attacked_by(src, user))
 		if(user.used_intent == cached_intent)
-			var/tempsound = user.used_intent.hitsound
-			if(tempsound)
-				playsound(M,  tempsound, 100, FALSE, -1)
+			// Check if attack was blunted by armor
+			if(M.last_attack_was_blunted && ishuman(M))
+				var/mob/living/carbon/human/H = M
+				var/obj/item/bodypart/affecting = H.get_bodypart(check_zone(user.zone_selected))
+				if(affecting)
+					var/obj/item/clothing/armor = H.get_best_armor(affecting.body_zone, d_type)
+					if(armor && armor.blocksound)
+						playsound(M.loc, get_armor_sound(armor.blocksound, user.used_intent.blade_class), 100, FALSE, -1)
+						M.last_attack_was_blunted = FALSE
+					else
+						var/tempsound = user.used_intent.hitsound
+						if(tempsound)
+							playsound(M.loc, tempsound, 100, FALSE, -1)
+						else
+							playsound(M.loc, "nodmg", 100, FALSE, -1)
+						M.last_attack_was_blunted = FALSE
 			else
-				playsound(M,  "nodmg", 100, FALSE, -1)
+				var/tempsound = user.used_intent.hitsound
+				if(tempsound)
+					playsound(M.loc,  tempsound, 100, FALSE, -1)
+				else
+					playsound(M.loc,  "nodmg", 100, FALSE, -1)
+				M.last_attack_was_blunted = FALSE
 
 	log_combat(user, M, "attacked", src.name, "(INTENT: [uppertext(user.used_intent.name)]) (DAMTYPE: [uppertext(damtype)])")
 	add_fingerprint(user)
@@ -253,6 +272,39 @@
 /atom/movable/proc/attacked_by()
 	return FALSE
 
+
+/proc/get_stamina_cost(obj/item/I, mob/living/carbon/human/user)
+	if(!I || !user)
+		return 0
+
+	var/rmb_stam_penalty = 0
+	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+		rmb_stam_penalty = round(EXTRA_STAMDRAIN_SWIFSTRONG * (1 - (user.STASTR/100)), 1)
+	if(istype(user.rmb_intent, /datum/rmb_intent/swift))
+		if(user.used_intent.clickcd > CLICK_CD_INTENTCAP)
+			rmb_stam_penalty = round(EXTRA_STAMDRAIN_SWIFSTRONG * (1 - (user.STASPD/100)), 1)
+
+	var/stamina_drain = 0
+	if(user.used_intent)
+		stamina_drain = user.used_intent.releasedrain + rmb_stam_penalty
+	else
+		stamina_drain = 1 + rmb_stam_penalty // Fallback
+
+		stamina_drain += max(I.wbalance + I.wlength, 0)
+
+	if(I.minstr)
+		var/used_str = user.STASTR
+		if(user.domhand)
+			used_str = user.get_str_arms(user.used_hand)
+
+		var/effective_minstr = I.minstr
+		if(I.wielded)
+			effective_minstr = max(I.minstr / 2, 1)
+
+		if(used_str < effective_minstr)
+			stamina_drain += (effective_minstr - used_str) * 2
+
+	return stamina_drain
 
 /proc/get_complex_damage(obj/item/I, mob/living/user, blade_dulling, turf/closed/mineral/T)
 	var/dullfactor = 1
@@ -401,10 +453,86 @@
 			newforce *= (lerpratio * 2)
 	testing("endforce [newforce]")
 
+	var/variance_center = 0
+
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		variance_center += (H.STALUC - 10) * 0.0125
+
+		if(I.associated_skill)
+			var/skill_level = H.get_skill_level(I.associated_skill)
+			variance_center += skill_level * 0.025
+
 	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
-		newforce += (I.force_dynamic * STRONG_STANCE_DMG_BONUS)
+		variance_center = 1
+
+	if(istype(user.rmb_intent, /datum/rmb_intent/weak))
+		variance_center = -1
+
+	var/variance_roll = get_damage_variance(I.associated_skill, variance_center, user)
+
+	newforce = newforce * (1 + (variance_roll / 100))
+	newforce = max(round(newforce, 1), 1)
+
+	testing("endforce [newforce]")
 
 	return newforce
+
+/proc/get_damage_variance(wep_type, variance_center, mob/living/user)
+	var/variance_range = 0
+	var/variance_roll = 0
+	var/curve_depth = 3
+	var/isprojectile = FALSE
+
+	switch(wep_type)
+		if(/datum/skill/combat/knives) // Low variance, but tend to roll high with a big curve
+			variance_range = 15
+			curve_depth = 4
+			if(variance_center > 0)
+				variance_center += 0.3
+		if(/datum/skill/combat/swords)
+			variance_range = 25
+			curve_depth = 2
+			if(variance_center > 0)
+				variance_center += 0.15
+		if(/datum/skill/combat/axes, /datum/skill/labor/lumberjacking)
+			variance_range = 40
+			curve_depth = 6
+		if(/datum/skill/combat/maces, /datum/skill/combat/shields, /datum/skill/craft/blacksmithing, /datum/skill/labor/mining)
+			variance_range = 20
+			curve_depth = 3
+		if(/datum/skill/combat/polearms, /datum/skill/labor/farming)
+			variance_range = 30
+			curve_depth = 2
+			if(variance_center > 0)
+				variance_center += 0.1
+		if(/datum/skill/combat/whipsflails)
+			variance_range = 40
+			curve_depth = 3
+		if(/datum/skill/combat/unarmed)
+			variance_range = 10
+			curve_depth = 3
+		if(/datum/skill/combat/bows, /datum/skill/combat/crossbows, /datum/skill/combat/slings)
+			variance_range = 20
+			curve_depth = 4
+			isprojectile = TRUE
+
+	for(var/i = 0, i < curve_depth, i++)
+		variance_roll += rand(-variance_range, variance_range)
+
+	variance_center = clamp(variance_center, -1, 1)
+
+
+	variance_roll = (variance_roll / curve_depth) + (variance_center * variance_range)
+
+	var/clamped_roll = clamp(variance_roll, -variance_range, variance_range)
+
+	// Store variance percentile in the user for attack message display
+	if(ishuman(user) && variance_range > 0 && !isprojectile)
+		var/mob/living/carbon/human/H = user
+		H.last_variance_percentile = ((clamped_roll + variance_range) / (variance_range * 2)) * 100
+
+	return clamped_roll
 
 /obj/attacked_by(obj/item/I, mob/living/user)
 	user.changeNext_move(CLICK_CD_INTENTCAP)
@@ -418,16 +546,17 @@
 	if(user.used_intent.no_attack)
 		return 0
 	log_combat(user, src, "attacked", I)
-	var/verbu = "hits"
-	verbu = pick(user.used_intent.attack_verb)
+	var/attack_verb_string = "hits"
+	if(user.used_intent.attack_verb && length(user.used_intent.attack_verb))
+		attack_verb_string = pick(user.used_intent.attack_verb)
 	if(newforce > 1)
-		if(user.stamina_add(5))
-			user.visible_message(span_danger("[user] [verbu] [src] with [I]!"))
+		if(user.stamina_add(get_stamina_cost(I, user)))
+			user.visible_message(span_danger("[user] [attack_verb_string] [src] with [I]!"))
 		else
-			user.visible_message(span_warning("[user] [verbu] [src] with [I]!"))
+			user.visible_message(span_warning("[user] [attack_verb_string] [src] with [I]!"))
 			newforce = 1
 	else
-		user.visible_message(span_warning("[user] [verbu] [src] with [I]!"))
+		user.visible_message(span_warning("[user] [attack_verb_string] [src] with [I]!"))
 	take_damage(newforce, I.damtype, I.d_type, 1)
 	if(newforce > 1)
 		I.take_damage(1, BRUTE, I.d_type)
@@ -445,16 +574,17 @@
 		return 0
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	log_combat(user, src, "attacked", I)
-	var/verbu = "hits"
-	verbu = pick(user.used_intent.attack_verb)
+	var/attack_verb_string = "hits"
+	if(user.used_intent.attack_verb && length(user.used_intent.attack_verb))
+		attack_verb_string = pick(user.used_intent.attack_verb)
 	if(newforce > 1)
-		if(user.stamina_add(5))
-			user.visible_message(span_danger("[user] [verbu] [src] with [I]!"))
+		if(user.stamina_add(get_stamina_cost(I, user)))
+			user.visible_message(span_danger("[user] [attack_verb_string] [src] with [I]!"))
 		else
-			user.visible_message(span_warning("[user] [verbu] [src] with [I]!"))
+			user.visible_message(span_warning("[user] [attack_verb_string] [src] with [I]!"))
 			newforce = 1
 	else
-		user.visible_message(span_warning("[user] [verbu] [src] with [I]!"))
+		user.visible_message(span_warning("[user] [attack_verb_string] [src] with [I]!"))
 
 	if(multiplier)
 		newforce = newforce * multiplier
@@ -623,17 +753,6 @@
 	var/verb_appendix
 	if(!I.force_dynamic)
 		return
-	if(bladec == BCLASS_PEEL)
-		if(ishuman(src))
-			var/mob/living/carbon/human/H = src
-			var/obj/item/used = H.get_best_worn_armor(hit_area, user.used_intent.item_d_type)
-			if(used)
-				if(used.peel_count)
-					verb_appendix =	" <font color ='#e7e7e7'>(\Roman[used.peel_count])</font>"
-				else
-					use_override = TRUE
-			else
-				use_override = TRUE
 	var/message_hit_area = ""
 	hit_area = parse_zone(hit_area, BP)
 	if(user.used_intent)

@@ -182,11 +182,14 @@
 		if(has_adrenaline)
 			bodypart_pain *= 0.5
 		. += bodypart_pain
+	// Round to prevent floating point precision errors from causing persistent phantom pain
+	. = round(., 0.1)
 
 /mob/living/carbon/human/get_complex_pain()
 	. = ..()
 	if(physiology)
 		. *= physiology.pain_mod
+	. = round(., 0.1)
 
 ///////////////
 // BREATHING //
@@ -224,13 +227,25 @@
 				continue
 
 			if(prob(embedded.embedding.embedded_pain_chance))
-				bodypart.receive_damage(embedded.w_class*embedded.embedding.embedded_pain_multiplier)
+				// Jiggling increases wound pain temporarily
+				var/datum/wound/dynamic/puncture/stab_wound = bodypart.has_wound(/datum/wound/dynamic/puncture)
+				if(!stab_wound)
+					// Object healed around - create wound through normal damage, then edit bleed rate to 0
+					bodypart.receive_damage(embedded.w_class * embedded.embedding.embedded_pain_multiplier)
+					stab_wound = bodypart.has_wound(/datum/wound/dynamic/puncture)
+					if(stab_wound)
+						stab_wound.set_bleed_rate(0)
+				else
+					var/jiggle_pain_add = embedded.w_class * 8
+					stab_wound.jiggle_pain += jiggle_pain_add
+					stab_wound.woundpain = stab_wound.base_woundpain + stab_wound.jiggle_pain
 				to_chat(src, span_danger("[embedded] in my [bodypart.name] hurts!"))
 
-			if(prob(embedded.embedding.embedded_fall_chance))
-				bodypart.receive_damage(embedded.w_class*embedded.embedding.embedded_fall_pain_multiplier)
-				bodypart.remove_embedded_object(embedded)
-				to_chat(src,span_danger("[embedded] falls out of my [bodypart.name]!"))
+			// Objects no longer fall out on their own - must be surgically removed or ripped out
+			//if(prob(embedded.embedding.embedded_fall_chance))
+			//	bodypart.receive_damage(embedded.w_class*embedded.embedding.embedded_fall_pain_multiplier)
+			//	bodypart.remove_embedded_object(embedded)
+			//	to_chat(src,span_danger("[embedded] falls out of my [bodypart.name]!"))
 
 /*
 Alcohol Poisoning Chart
@@ -424,11 +439,12 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 /mob/living/carbon/proc/liver_failure()
 	reagents.end_metabolization(src, keep_liverless = TRUE) //Stops trait-based effects on reagents, to prevent permanent buffs
 	reagents.metabolize(src, can_overdose=FALSE, liverless = TRUE)
-	if(HAS_TRAIT(src, TRAIT_STABLELIVER) || HAS_TRAIT(src, TRAIT_NOMETABOLISM))
+	if(mind && (HAS_TRAIT(src, TRAIT_STABLELIVER) || HAS_TRAIT(src, TRAIT_NOMETABOLISM)))
 		return
 	adjustToxLoss(4, TRUE,  TRUE)
 //	if(prob(30))
 //		to_chat(src, span_warning("I feel a stabbing pain in your abdomen!"))
+
 
 /////////////
 //CREMATION//

@@ -4,7 +4,7 @@
 	bleed_rate = 0
 	clotting_threshold = null
 	sewn_clotting_threshold = null
-	woundpain = 10
+	woundpain = 5
 	sew_threshold = 50
 	can_sew = FALSE
 	can_cauterize = FALSE
@@ -16,7 +16,7 @@
 	name = "bruise"
 	whp = 15
 	bleed_rate = 0
-	woundpain = 5
+	woundpain = 3
 	sew_threshold = 25
 
 /datum/wound/bruise/large
@@ -25,7 +25,7 @@
 	bleed_rate = 0.9
 	clotting_rate = 0.02
 	clotting_threshold = 0.3
-	woundpain = 25
+	woundpain = 10
 
 /datum/wound/bruise/woundheal
 	name = "healed hematoma"
@@ -43,7 +43,7 @@
 	bleed_rate = 0
 	clotting_threshold = null
 	sewn_clotting_threshold = null
-	woundpain = 5
+	woundpain = 3
 	passive_healing = 1
 	sew_threshold = 50
 	can_sew = FALSE
@@ -52,10 +52,10 @@
 	severity_names = list()
 
 //Bruise Omniwounds
-//Vaguely: Hella painful. No bleeding. No armor interactions. Every hit also increases its self heal by a little bit.
+//Vaguely: Moderately painful. No bleeding. No armor interactions. Every hit also increases its self heal by a little bit.
 
 #define BRUISE_UPG_WHPRATE 1.3
-#define BRUISE_UPG_PAINRATE 1
+#define BRUISE_UPG_PAINRATE 0.4
 #define BRUISE_UPG_SELFHEAL 1
 
 /datum/wound/dynamic/bruise/upgrade(dam, armor)

@@ -26,6 +26,7 @@
 	sewrepair = TRUE
 	var/atom/movable/holdingknife = null
 	armor = ARMOR_BOOTS_BAD
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 
 /obj/item/clothing/shoes/roguetown/boots/attackby(obj/item/W, mob/living/carbon/user, params)
 	if(istype(W, /obj/item/rogueweapon/huntingknife))
@@ -63,6 +64,7 @@
 	blocksound = SOFTHIT
 	max_integrity = 200
 	armor = ARMOR_BOOTS
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/hide/cured
@@ -77,6 +79,7 @@
 	item_state = "nobleboots"
 	sewrepair = TRUE
 	armor = ARMOR_BOOTS_BAD
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	salvage_amount = 2
 	salvage_result = /obj/item/natural/hide/cured
 
@@ -84,6 +87,7 @@
 	name = "aavnic riding boots"
 	desc = "A pair of sturdy riding boots with an iron heel and brass spurs."
 	armor = ARMOR_LEATHER_GOOD
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
 
@@ -94,6 +98,7 @@
 	gender = PLURAL
 	icon_state = "shortboots"
 	item_state = "shortboots"
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	sewrepair = TRUE
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/hide/cured
@@ -105,6 +110,7 @@
 	gender = PLURAL
 	icon_state = "ridingboots"
 	item_state = "ridingboots"
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	sewrepair = TRUE
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/hide/cured
@@ -119,6 +125,7 @@
 	gender = PLURAL
 	icon_state = "simpleshoe"
 	item_state = "simpleshoe"
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	sewrepair = TRUE
 	resistance_flags = null
 	color = "#473a30"
@@ -182,6 +189,7 @@
 	item_state = "leatherboots"
 	sewrepair = TRUE
 	armor = ARMOR_BOOTS_BAD
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/hide/cured
 
@@ -193,6 +201,7 @@
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)	//Same as gloves
 	max_integrity = 100			//Half that of iron boots
 	armor = ARMOR_BOOTS			//Better than regular leather.
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 
 /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
 	name = "dress boots"
@@ -210,6 +219,7 @@
 	blocksound = SOFTHIT
 	max_integrity = 200
 	armor = ARMOR_BOOTS
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/hide/cured
@@ -222,6 +232,7 @@
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	armor = ARMOR_BOOTS
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/hide/cured
@@ -236,6 +247,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	icon_state = "welfshoes"
 	item_state = "welfshoes"
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 	anvilrepair = /datum/skill/craft/carpentry
 
 /obj/item/clothing/shoes/roguetown/boots/armor
@@ -250,6 +262,7 @@
 	resistance_flags = FIRE_PROOF
 	max_integrity = 300
 	armor = ARMOR_BOOTS_PLATED
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/steel
 
@@ -258,6 +271,7 @@
 	desc = "Plated boots which stir with the same violence driving our world. They have treaded a thousand skulls."
 	max_integrity = 500
 	armor = ARMOR_ASCENDANT
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	icon_state = "graggarplateboots"
 
 /obj/item/clothing/shoes/roguetown/boots/armor/graggar/pickup(mob/living/user)
@@ -275,6 +289,7 @@
 	desc = "Gilded tombs do worm enfold."
 	icon_state = "matthiosboots"
 	armor = ARMOR_ASCENDANT
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 
 /obj/item/clothing/shoes/roguetown/boots/armor/matthios/Initialize()
 	. = ..()
@@ -292,6 +307,7 @@
 	desc = "Plate boots. Called forth from the edge of what should be known. In Her name."
 	icon_state = "zizoboots"
 	armor = ARMOR_ASCENDANT
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 
 /obj/item/clothing/shoes/roguetown/boots/armor/zizo/Initialize()
 	. = ..()
@@ -314,6 +330,7 @@
 	blocksound = PLATEHIT
 	max_integrity = 200
 	armor = ARMOR_BOOTS_PLATED_IRON
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/iron
 
@@ -362,6 +379,7 @@
 	sewrepair = TRUE
 	max_integrity = 160
 	armor = ARMOR_BOOTS_BAD
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/fur
 
@@ -412,6 +430,7 @@
 	blocksound = PLATEHIT
 	max_integrity = 400
 	armor = ARMOR_PLATE_BSTEEL
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/blacksteel
 	resistance_flags = FIRE_PROOF
@@ -429,6 +448,7 @@
 	blocksound = PLATEHIT
 	max_integrity = 400
 	armor = ARMOR_PLATE_BSTEEL
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/blacksteel
 	resistance_flags = FIRE_PROOF
@@ -455,6 +475,7 @@
 	icon_state = "welfshoes"
 	item_state = "welfshoes"
 	anvilrepair = /datum/skill/craft/carpentry
+	integ_armor_mod = ARMOR_CLASS_MEDIUM
 
 
 //kazengun stuff
@@ -468,6 +489,7 @@
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	max_integrity = 150
 	armor = ARMOR_BOOTS
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 
 /obj/item/clothing/shoes/roguetown/boots/carapace
 	name = "carapace boots"
@@ -480,6 +502,7 @@
 	blocksound = PLATEHIT
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	armor = list("blunt" = 30, "slash" = 50, "stab" = 60, "piercing" = 30, "fire" = 30, "acid" = 0) //Sidegrade to plated boots. (Worse for most situation, better against fire or pierce.)
+	integ_armor_mod = ARMOR_CLASS_HEAVY
 	max_integrity = 225
 	anvilrepair = null
 	smeltresult = /obj/item/ash
@@ -493,6 +516,7 @@
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	max_integrity = 150
 	armor = ARMOR_BOOTS
+	integ_armor_mod = ARMOR_CLASS_LIGHT
 	anvilrepair = /datum/skill/craft/carpentry
 
 /obj/item/clothing/shoes/roguetown/armor/ogre

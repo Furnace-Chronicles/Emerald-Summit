@@ -35,7 +35,6 @@
 
 /datum/wound/artery/on_bodypart_gain(obj/item/bodypart/affected)
 	. = ..()
-	affected.temporary_crit_paralysis(10 SECONDS)
 
 /datum/wound/artery/neck
 	name = "torn carotid"
@@ -50,6 +49,10 @@
 	sewn_woundpain = 30
 	mob_overlay = "s1_throat"
 	mortal = TRUE
+
+/datum/wound/artery/neck/on_bodypart_gain(obj/item/bodypart/affected)
+	. = ..()
+	affected.temporary_crit_paralysis(10 SECONDS)
 
 /datum/wound/artery/neck/on_mob_gain(mob/living/affected)
 	. = ..()

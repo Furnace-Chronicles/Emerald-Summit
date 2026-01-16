@@ -78,15 +78,43 @@
 		if (HAS_TRAIT(blacksmith, TRAIT_SQUIRE_REPAIR)) // squires are always considered skilled w/o other bonuses for the purposes of repair
 			unskilled = FALSE
 
-		if(!attacked_item.anvilrepair || (attacked_item.obj_integrity >= attacked_item.max_integrity) || !isturf(attacked_item.loc))
+		if(!attacked_item.anvilrepair || !isturf(attacked_item.loc))
+			return
+
+		var/can_repair_any = FALSE
+		var/blocked_by_skill = FALSE
+		var/obj/item/clothing/cloth_to_fix = null
+
+		if(istype(attacked_item, /obj/item/clothing) && attacked_item:uses_zone_integrity())
+			cloth_to_fix = attacked_item
+			for(var/check_zone in GLOB.armor_check_zones)
+				if(!cloth_to_fix.has_zone_integrity(check_zone))
+					continue
+				var/max_possible = cloth_to_fix.get_zone_max_integrity(check_zone)
+				var/current = cloth_to_fix.get_zone_integrity(check_zone)
+				var/skill_cap = max_possible
+				if(unskilled && (check_zone in cloth_to_fix.broken_zones))
+					skill_cap = max_possible * 0.6
+
+				if(current < skill_cap)
+					can_repair_any = TRUE
+					break
+				if(current < max_possible)
+					blocked_by_skill = TRUE
+		else
+			if(attacked_item.obj_integrity < attacked_item.max_integrity)
+				if(unskilled && attacked_item.shoddy_repair && integrity_percentage >= 60)
+					blocked_by_skill = TRUE
+				else
+					can_repair_any = TRUE
+
+		if(!can_repair_any)
+			if(blocked_by_skill)
+				to_chat(user, span_warning("I can't do anything else to fix this right now - I should see a skilled craftsman."))
 			return
 
 		if(!attacked_item.ontable())
 			to_chat(user, span_warning("I should put this on a table or an anvil first."))
-			return
-
-		if (unskilled && !attacked_item.obj_broken && attacked_item.shoddy_repair && integrity_percentage >= 60)
-			to_chat(user, span_warning("I can't do anything else to fix this right now - I should see a skilled craftsman."))
 			return
 
 		if(repair_skill <= 0)
@@ -102,16 +130,51 @@
 		playsound(src,'sound/items/bsmithfail.ogg', 40, FALSE)
 		if(repair_percent)
 			repair_percent *= attacked_item.max_integrity
-			exp_gained = min(attacked_item.obj_integrity + repair_percent, attacked_item.max_integrity) - attacked_item.obj_integrity
-			attacked_item.obj_integrity = min(attacked_item.obj_integrity + repair_percent, attacked_item.max_integrity)
+
+			if(cloth_to_fix)
+				exp_gained = 0
+				var/any_repair_done = FALSE
+				for(var/fix_zone in GLOB.armor_check_zones)
+					if(cloth_to_fix.has_zone_integrity(fix_zone))
+						var/max_repairable_int = cloth_to_fix.get_zone_max_integrity(fix_zone)
+						if(unskilled && (fix_zone in cloth_to_fix.broken_zones))
+							max_repairable_int = max_repairable_int * 0.6
+
+						var/current_zone_int = cloth_to_fix.get_zone_integrity(fix_zone)
+						var/actual_repair = 0
+
+						if(current_zone_int < max_repairable_int)
+							// Cap repair amount
+							actual_repair = min(repair_percent, max_repairable_int - current_zone_int)
+							if(actual_repair > 0)
+								cloth_to_fix.modify_zone_integrity(fix_zone, actual_repair)
+								any_repair_done = TRUE
+
+						if(!unskilled && (fix_zone in cloth_to_fix.broken_zones))
+							if(cloth_to_fix.get_zone_integrity(fix_zone) >= cloth_to_fix.get_zone_max_integrity(fix_zone))
+								cloth_to_fix.broken_zones -= fix_zone
+
+				cloth_to_fix.update_overall_integrity()
+				// Only award XP once per repair action, not per zone
+				if(any_repair_done)
+					exp_gained = repair_percent
+			else
+				var/repair_cap = attacked_item.max_integrity
+				if(unskilled && (attacked_item.obj_broken || attacked_item.shoddy_repair))
+					repair_cap = attacked_item.max_integrity * 0.6
+				exp_gained = min(attacked_item.obj_integrity + repair_percent, repair_cap) - attacked_item.obj_integrity
+				attacked_item.obj_integrity = min(attacked_item.obj_integrity + repair_percent, repair_cap)
+
 			integrity_percentage = (attacked_item.obj_integrity / attacked_item.max_integrity) * 100
-			if(repair_percent == 0.01) // If an inexperienced repair attempt has been successful
+
+			if(repair_percent == 0.01)
 				to_chat(user, span_warning("You fumble your way into slightly repairing [attacked_item]."))
 			else
 				user.visible_message(span_info("[user] repairs [attacked_item]!"))
-				if(attacked_item.body_parts_covered != attacked_item.body_parts_covered_dynamic)
-					user.visible_message(span_info("[user] repairs [attacked_item]'s coverage!"))
-					attacked_item.repair_coverage()
+
+			if(attacked_item.body_parts_covered != attacked_item.body_parts_covered_dynamic)
+				user.visible_message(span_info("[user] repairs [attacked_item]'s coverage!"))
+				attacked_item.repair_coverage()
 			if(attacked_item.obj_broken)
 				var/do_fix = FALSE
 				if (unskilled && integrity_percentage >= 60)

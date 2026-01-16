@@ -71,9 +71,6 @@
 						B.sellprice = rand(16, 33)
 				else
 					leprosy = 3
-		//heart attack stuff
-		handle_heart()
-		handle_liver()
 		update_stamina()
 		update_energy()
 		if(charflaw && !charflaw.ephemeral && mind)

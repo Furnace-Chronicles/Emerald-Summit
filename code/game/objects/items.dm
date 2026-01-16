@@ -72,8 +72,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	var/body_parts_covered = 0 //see setup.dm for appropriate bit flags
 	var/body_parts_covered_dynamic = 0
-	var/body_parts_inherent	= 0 //bodypart coverage areas you cannot peel off because it wouldn't make any sense (peeling chest off of torso armor, hands off of gloves, head off of helmets, etc)
-	var/surgery_cover = TRUE // binary, whether this item is considered covering its bodyparts in respect to surgery. Tattoos, etc. are false.
+	var/body_parts_inherent	= 0 //bodypart coverage areas that are always covered (chest coverage on torso armor, hand coverage on gloves, head coverage on helmets, etc)
+	var/surgery_cover = TRUE // binary, whether this item is considered covering its bodyparts in respect to surgery. Tattoos, etc. are false. 
 	var/gas_transfer_coefficient = 1 // for leaking gas from turf to mask and vice-versa (for masks right now, but at some point, i'd like to include space helmets)
 	var/permeability_coefficient = 1 // for chemicals/diseases
 	var/siemens_coefficient = 1 // for electrical admittance/conductance (electrocution checks and shit)
@@ -98,6 +98,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	var/datum/embedding_behavior/embedding
 	var/is_embedded = FALSE
+	var/embed_bleed_contribution = 0 // How much bleed_rate this object added to the wound when it embedded
 
 	var/flags_cover = 0 //for flags such as GLASSESCOVERSEYES
 	var/heat = 0
@@ -157,6 +158,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/wlength = WLENGTH_NORMAL
 	/// Weapon's balance. Swift uses SPD difference between attacker and defender to increase hit%. Heavy increases parry stamina drain based on STR diff.
 	var/wbalance = WBALANCE_NORMAL
+	/// Can this weapon perform precision strikes through armor gaps when wielded? (longswords, estocs, etc.)
+	var/can_precision_strike = FALSE
 	/// Weapon's defense. Multiplied by 10 and added to the defender's parry / dodge %-age.
 	var/wdefense = 0
 	/// Weapon's defense bonus from wielding it. Added to wdefense upon wielding.
@@ -513,86 +516,98 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			var/obj/item/clothing/C = src
 			inspec += "<br>"
 			inspec += C.defense_examine()
-			inspec += "<table align='center'; width='100%'; height='100%';border: 1px solid white;border-collapse: collapse><tr style='vertical-align:top'><td width = 35%>"
-			inspec += "<b>COVERAGE: <br></b>"
-			if(!C.body_parts_covered)
-				inspec += "<b>NONE!</b>"
-			if(C.body_parts_covered == C.body_parts_covered_dynamic)
-				var/count = 1
-				var/list/zonelist = body_parts_covered2organ_names(C.body_parts_covered)
-				for(var/zone in zonelist)
-					var/add_divider = TRUE
-					if(count % 2 == 0 || count == (length(zonelist)))
-						add_divider = FALSE
-					inspec += "<b>[capitalize(zone)]</b> [add_divider ? "| " : ""]"
-					if(count % 2 == 0)
-						inspec += "<br>"
-					count++
-			else
-				var/list/zones = list()
-				//We have some part peeled, so we turn the printout into precise mode and highlight the missing coverage.
-				var/count = 1
-				for(var/zoneorg in body_parts_covered2organ_names(C.body_parts_covered, precise = TRUE))
-					zones += zoneorg
-				var/list/dynlist = body_parts_covered2organ_names(C.body_parts_covered_dynamic, precise = TRUE)
-				for(var/zonedyn in dynlist)
-					var/add_divider = TRUE
-					if(count % 2 == 0 || count == (length(dynlist)))
-						add_divider = FALSE
-
-					inspec += "<b>[capitalize(zonedyn)]</b> [add_divider ? "| " : ""]"
-					if(zonedyn in zones)
-						zones.Remove(zonedyn)
-
-					if(count % 2 == 0)
-						inspec += "<br>"
-					count++
-				for(var/zone in zones)
-					var/add_divider = TRUE
-					if(count % 2 == 0 || count == (length(dynlist)))
-						add_divider = FALSE
-					inspec += "<b><font color = '#7e0000'>[capitalize(zone)]</font></b> [add_divider ? "| " : ""]"
-					if(count % 2 == 0)
-						inspec += "<br>"
-					count++
-			inspec += "<br>"
-			inspec += "</td>"
-			inspec += "<td width = 60%><b>PREVENTS CRITS:</b><br>"
-			if(!length(C.prevent_crits))
-				inspec += "\n<b>NONE!</b>"
-			var/count = 1
-			for(var/X in C.prevent_crits)
-				if(X == BCLASS_PICK)	//BCLASS_PICK is named "stab", and "stabbing" is its own damage class. Prevents confusion.
-					X = "pick"
-				var/add_divider = TRUE
-				if(count % 2 == 0 || count == (length(C.prevent_crits)))
-					add_divider = FALSE
-				inspec += ("<b>[capitalize(X)]</b> [add_divider ? "| " : ""]")
-				if(count % 2 == 0)
-					inspec += "<br>"
-				count++
-			inspec += "<br></td>"
-			inspec += "</tr></table>"
-			if(C.body_parts_inherent)
-				inspec += "<b>CANNOT BE PEELED: </b>"
-				var/peelcolor = "#77cde2"
-				var/list/inherentList = body_parts_covered2organ_names(C.body_parts_inherent)
-				if(length(inherentList) == 1)
-					inspec += "<b><font color = [peelcolor]>[capitalize(inherentList[1])]</font></b>"
+			if(C.body_parts_covered)
+				inspec += "\n<b>COVERAGE: <br></b>"
+				inspec += " | "
+				if(C.body_parts_covered == C.body_parts_covered_dynamic)
+					for(var/zone in body_parts_covered2organ_names(C.body_parts_covered))
+						inspec += "<b>[capitalize(zone)]</b> | "
 				else
-					inspec += "| "
-					for(var/zone in inherentList)
-						inspec += "<b><font color = [peelcolor]>[capitalize(zone)]</b></font> | "
+					var/list/zones = list()
+					//We have some part peeled, so we turn the printout into precise mode and highlight the missing coverage.
+					for(var/zoneorg in body_parts_covered2organ_names(C.body_parts_covered, precise = TRUE))
+						zones += zoneorg
+					for(var/zonedyn in body_parts_covered2organ_names(C.body_parts_covered_dynamic, precise = TRUE))
+						inspec += "<b>[capitalize(zonedyn)]</b> | "
+						if(zonedyn in zones)
+							zones.Remove(zonedyn)
+					for(var/zone in zones)
+						inspec += "<b><font color = '#7e0000'>[capitalize(zone)]</font></b> | "
+				inspec += "<br>"
+			if(C.prevent_crits)
+				if(length(C.prevent_crits))
+					inspec += "\n<b>PREVENTS CRITS:</b>"
+					for(var/X in C.prevent_crits)
+						if(X == BCLASS_PICK)	//BCLASS_PICK is named "stab", and "stabbing" is its own damage class. Prevents confusion.
+							X = "pick"
+						inspec += ("\n<b>[capitalize(X)]</b>")
+				inspec += "<br>"
 
 //**** General durability
 
 		if(max_integrity)
-			inspec += "\n<b>DURABILITY:</b> "
-			var/eff_maxint = max_integrity - (max_integrity * integrity_failure)
-			var/eff_currint = max(obj_integrity - (max_integrity * integrity_failure), 0)
-			var/ratio =	(eff_currint / eff_maxint)
-			var/percent = round((ratio * 100), 1)
-			inspec += "[percent]% ([floor(eff_currint)])"
+			// Check if this is armor with zone-specific durability
+			var/has_zone_durability = FALSE
+			if(istype(src, /obj/item/clothing))
+				var/obj/item/clothing/C = src
+				if(C.zone_integrity_chest != null || C.zone_integrity_groin != null || C.zone_integrity_l_arm != null || C.zone_integrity_r_arm != null || C.zone_integrity_l_leg != null || C.zone_integrity_r_leg != null)
+					has_zone_durability = TRUE
+
+			if(has_zone_durability)
+				// Display zone-specific durability for armor
+				var/obj/item/clothing/C = src
+				inspec += "\n<b>DURABILITY:</b>"
+
+				if(C.zone_integrity_chest != null)
+					var/zone_max = C.get_zone_max_integrity(BODY_ZONE_CHEST)
+					var/eff_max = zone_max - (zone_max * integrity_failure)
+					var/eff_curr = max(C.zone_integrity_chest - (zone_max * integrity_failure), 0)
+					var/percent = round(((eff_curr / eff_max) * 100), 1)
+					inspec += "\n  <b>Chest:</b> [percent]% ([floor(eff_curr)])"
+
+				if(C.zone_integrity_groin != null)
+					var/zone_max = C.get_zone_max_integrity(BODY_ZONE_PRECISE_GROIN)
+					var/eff_max = zone_max - (zone_max * integrity_failure)
+					var/eff_curr = max(C.zone_integrity_groin - (zone_max * integrity_failure), 0)
+					var/percent = round(((eff_curr / eff_max) * 100), 1)
+					inspec += "\n  <b>Groin:</b> [percent]% ([floor(eff_curr)])"
+
+				if(C.zone_integrity_l_arm != null)
+					var/zone_max = C.get_zone_max_integrity(BODY_ZONE_L_ARM)
+					var/eff_max = zone_max - (zone_max * integrity_failure)
+					var/eff_curr = max(C.zone_integrity_l_arm - (zone_max * integrity_failure), 0)
+					var/percent = round(((eff_curr / eff_max) * 100), 1)
+					inspec += "\n  <b>Left Arm:</b> [percent]% ([floor(eff_curr)])"
+
+				if(C.zone_integrity_r_arm != null)
+					var/zone_max = C.get_zone_max_integrity(BODY_ZONE_R_ARM)
+					var/eff_max = zone_max - (zone_max * integrity_failure)
+					var/eff_curr = max(C.zone_integrity_r_arm - (zone_max * integrity_failure), 0)
+					var/percent = round(((eff_curr / eff_max) * 100), 1)
+					inspec += "\n  <b>Right Arm:</b> [percent]% ([floor(eff_curr)])"
+
+				if(C.zone_integrity_l_leg != null)
+					var/zone_max = C.get_zone_max_integrity(BODY_ZONE_L_LEG)
+					var/eff_max = zone_max - (zone_max * integrity_failure)
+					var/eff_curr = max(C.zone_integrity_l_leg - (zone_max * integrity_failure), 0)
+					var/percent = round(((eff_curr / eff_max) * 100), 1)
+					inspec += "\n  <b>Left Leg:</b> [percent]% ([floor(eff_curr)])"
+
+				if(C.zone_integrity_r_leg != null)
+					var/zone_max = C.get_zone_max_integrity(BODY_ZONE_R_LEG)
+					var/eff_max = zone_max - (zone_max * integrity_failure)
+					var/eff_curr = max(C.zone_integrity_r_leg - (zone_max * integrity_failure), 0)
+					var/percent = round(((eff_curr / eff_max) * 100), 1)
+					inspec += "\n  <b>Right Leg:</b> [percent]% ([floor(eff_curr)])"
+			else
+				// Standard single durability display
+				inspec += "\n<b>DURABILITY:</b> "
+				var/eff_maxint = max_integrity - (max_integrity * integrity_failure)
+				var/eff_currint = max(obj_integrity - (max_integrity * integrity_failure), 0)
+				var/ratio =	(eff_currint / eff_maxint)
+				var/percent = round((ratio * 100), 1)
+				inspec += "[percent]% ([floor(eff_currint)])"
+
 			if(force >= 5) // Durability is rather obvious for non-weapons
 				inspec += " <span class='info'><a href='?src=[REF(src)];explaindurability=1'>{?}</a></span>"
 		if(istype(src, /obj/item/clothing))	//awful
@@ -1471,63 +1486,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	damage.alpha = 150
 	add_overlay(damage)
 
-/// Proc that is only called with the Peel intent. Stacks consecutive hits, shreds coverage once a threshold is met. Thresholds are defined on /obj/item
-/obj/item/proc/peel_coverage(bodypart, divisor, mob/living/carbon/human/owner)
-	var/coveragezone = attackzone2coveragezone(bodypart)
-	if((body_parts_inherent & coveragezone))
-		playsound(src, 'sound/combat/failpeel.ogg', 100, TRUE)
-		visible_message(span_warning("Peel struck an area too thick!"))
-		last_peeled_limb = coveragezone
-		reset_peel()
-		return
-	if(!last_peeled_limb || coveragezone == last_peeled_limb)
-		var/peel_goal = peel_threshold
-		if(divisor > peel_goal)
-			peel_goal = divisor
-			
-		var/list/peeledpart = body_parts_covered2organ_names(coveragezone, precise = TRUE)
-
-		if(peel_count < peel_goal)
-			peel_count++
-
-		if(peel_count >= peel_goal)
-			body_parts_covered_dynamic &= ~coveragezone
-			playsound(src, 'sound/foley/peeled_coverage.ogg', 100)
-			var/parttext
-			if(length(peeledpart))
-				parttext = peeledpart[1]	//There should really only be one bodypart that gets exposed here.
-			visible_message("<font color = '#f5f5f5'><b>[parttext ? parttext : "Coverage"]</font></b> gets peeled off of [src]!")
-			var/balloon_msg = "<font color = '#bb1111'>[parttext] peeled!</font>"
-			if(length(peeledpart))
-				balloon_alert_to_viewers(balloon_msg, balloon_msg, DEFAULT_MESSAGE_RANGE)
-			reset_peel(success = TRUE)
-		else
-			if(owner)
-				owner.visible_message(span_info("Peel strikes [src]! <b>[ROUND_UP(peel_count)]</b>!"))
-			var/balloon_msg = "Peel! \Roman[ROUND_UP(peel_count)] <br><font color = '#8b7330'>[peeledpart[1]]!</font>"
-			var/has_guarded = HAS_TRAIT(owner, TRAIT_DECEIVING_MEEKNESS)
-			if(length(peeledpart) && !has_guarded)
-				filtered_balloon_alert(TRAIT_COMBAT_AWARE, balloon_msg)
-			else if(length(peeledpart) && has_guarded)
-				if(prob(10))
-					balloon_msg = "<i>Guarded...</i>"
-					filtered_balloon_alert(TRAIT_COMBAT_AWARE, balloon_msg)
-
 /obj/item/proc/repair_coverage()
 	body_parts_covered_dynamic = body_parts_covered
-	reset_peel()
-
-/obj/item/proc/reset_peel(success = FALSE)
-	if(peel_count > 0 && !success)
-		visible_message(span_info("Peel count lost on [src]!"))
-	peel_count = 0
-
-/obj/item/proc/reduce_peel(amt)
-	if(peel_count > amt)
-		peel_count -= amt
-	else
-		peel_count = 0
-	visible_message(span_info("Peel reduced to [peel_count == 0 ? "none" : "[peel_count]"] on [src]!"))
 
 /proc/attackzone2coveragezone(location)
 	switch(location)
@@ -1576,6 +1536,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	. = ..()
 	if(item_flags & GIANT_WEAPON)
 		. += span_warning("This weapon is designed for giants. Those without giant strength will require double the normal strength to wield it effectively.")
+	if(can_do_precision_strikes())
+		. += span_info("This weapon can perform precision thrusts through the gaps in heavy armor.")
 	if(isliving(user))
 		var/mob/living/L = user
 		if(L.STAINT < 9)
@@ -1585,15 +1547,21 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	else
 		var/str = "This object can be repaired using "
 		if(anvilrepair)
-			var/datum/skill/S = anvilrepair		//Should only ever be a skill or null
+			var/datum/skill/S = anvilrepair
 			str += "<b>[initial(S.name)]</b> and a hammer."
 		if(sewrepair)
 			str += "<b>Sewing</b> and a needle."
 		str = span_info(str)
 		. += str
 
-/obj/item/proc/step_action() //this was made to rewrite clown shoes squeaking, moved here to avoid throwing runtimes with non-/clothing wearables
+/obj/item/proc/step_action()
 	SEND_SIGNAL(src, COMSIG_CLOTHING_STEP_ACTION)
 
 /obj/item/proc/update_force_dynamic()
 	force_dynamic = (wielded ? force_wielded : force)
+
+/obj/item/proc/can_do_precision_strikes()
+	for(var/datum/intent/I as anything in possible_item_intents)
+		if(I.blade_class in GLOB.stab_bclasses && (wbalance != WBALANCE_HEAVY || can_precision_strike))
+			return TRUE
+	return FALSE

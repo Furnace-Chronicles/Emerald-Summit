@@ -11,6 +11,8 @@
 	var/resize = 1 //Badminnery resize
 	var/lastattacker = null
 	var/lastattackerckey = null
+	var/last_attack_was_blunted = FALSE // Track if the last attack was blunted by armor
+	var/last_variance_percentile = 0 // Track the percentile of the last damage variance roll
 	var/datum/weakref/lastattacker_weakref = null
 
 	//Health and life related vars
@@ -90,6 +92,7 @@
 	var/butcher_difficulty = 0 //effectiveness prob. is modified negatively by this amount; positive numbers make it more difficult, negative ones make it easier
 
 	var/is_jumping = 0 //to differentiate between jumping and thrown mobs
+	var/tackle_succeeded = FALSE //flag to prevent jump skid when tackle happens
 
 	var/hellbound = 0 //People who've signed infernal contracts are unrevivable.
 

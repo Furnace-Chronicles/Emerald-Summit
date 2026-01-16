@@ -1,9 +1,22 @@
-/mob/living/carbon/human/getarmor(def_zone, type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor, used_weapon)
+/mob/living/carbon/human/getarmor(def_zone, type, damage, armor_penetration, blade_dulling, intdamfactor, bypass_item = null, obj/item/used_weapon, mob/living/attacker)
 	var/armorval = 0
 	var/organnum = 0
 
+	// Convert blade classes to armor damage types in case another proc passes in a bclass value
+	switch(type)
+		if(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PUNCH)
+			type = "blunt"
+		if(BCLASS_CHOP, BCLASS_CUT, BCLASS_LASHING, BCLASS_PUNISH)
+			type = "slash"
+		if(BCLASS_PICK, BCLASS_STAB, BCLASS_BITE)
+			type = "stab"
+		if(BCLASS_PIERCE)
+			type = "piercing"
+		if(BCLASS_BURN)
+			type = "fire"
+
 	if(def_zone)
-		return checkarmor(def_zone, type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor, used_weapon)
+		return checkarmor(def_zone, type, damage, armor_penetration, blade_dulling, intdamfactor, bypass_item, used_weapon, attacker)
 		//If a specific bodypart is targetted, check how that bodypart is protected and return the value.
 
 	//If you don't specify a bodypart, it checks ALL my bodyparts for protection, and averages out the values
@@ -12,37 +25,181 @@
 		organnum++
 	return (armorval/max(organnum, 1))
 
+/mob/living/carbon/human/proc/clear_armor_cache()
+	if(best_armor_cache)
+		best_armor_cache.len = 0
 
-/mob/living/carbon/human/proc/checkarmor(def_zone, d_type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor = 1, obj/item/used_weapon)
+/mob/living/carbon/human/proc/get_best_armor(def_zone, d_type, blade_dulling = null, armor_penetration = 0, mob/living/attacker)
+	if(!d_type)
+		return null
+	if(isbodypart(def_zone))
+		var/obj/item/bodypart/CBP = def_zone
+		def_zone = CBP.body_zone
+
+	// Convert blade classes to armor damage types in case another proc passes in a bclass value
+	switch(d_type)
+		if(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PUNCH)
+			d_type = "blunt"
+		if(BCLASS_CHOP, BCLASS_CUT, BCLASS_LASHING, BCLASS_PUNISH)
+			d_type = "slash"
+		if(BCLASS_PICK, BCLASS_STAB, BCLASS_BITE)
+			d_type = "stab"
+		if(BCLASS_PIERCE)
+			d_type = "piercing"
+		if(BCLASS_BURN)
+			d_type = "fire"
+
+	if(!blade_dulling && armor_penetration == 0 && best_armor_cache)
+		var/cache_key = "[def_zone]|[d_type]"
+		if(cache_key in best_armor_cache)
+			return best_armor_cache[cache_key]
+
+	var/obj/item/clothing/best_armor
+	var/best_effective_value = 0
+	var/list/body_parts = list(skin_armor, head, wear_mask, wear_wrists, gloves, wear_neck, cloak, wear_armor, wear_shirt, shoes, wear_pants, backr, backl, belt, s_store, glasses, ears, wear_ring)
+	var/static/list/blunt_weps = list(BCLASS_BLUNT, BCLASS_SMASH)
+	for(var/bp in body_parts)
+		if(!bp)
+			continue
+		if(bp && istype(bp, /obj/item/clothing))
+			var/obj/item/clothing/C = bp
+			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
+				// Get zone-specific integrity if available
+				var/zone_integrity = C.get_zone_integrity(def_zone)
+				if(C.max_integrity)
+					if(zone_integrity <= 0)
+						continue
+				if(!C.armor || QDELETED(C)) // Happens if the clothing is being removed or deleted (e.g. from fire damage) sometimes
+					return
+				var/val = C.armor.getRating(d_type)
+
+				// Calculate armor effectiveness based on zone's durability
+				var/effectiveness = 1.0
+				if(C.max_integrity && val > 0)
+					var/damage_percent = round(((zone_integrity / C.get_zone_max_integrity(def_zone)) * 100), 1)
+					var/max_reduction = (C.armor_class == ARMOR_CLASS_HEAVY) ? 50 : ((C.armor_class == ARMOR_CLASS_MEDIUM) ? 60 : 70)
+					if(damage_percent < 100)
+						effectiveness = 1.0 - ((100 - damage_percent) / 100 * (max_reduction / 100))
+
+				var/effective_val = val * effectiveness
+
+				// For blunt attacks, adjust based on armor class with scaled modifiers
+				var/apply_blunt_modifier = FALSE
+				if(d_type == "blunt")
+					if(blade_dulling == BCLASS_BLUNT || blade_dulling == BCLASS_SMASH || blade_dulling == BCLASS_PUNCH && (attacker && HAS_TRAIT(attacker, TRAIT_CIVILIZEDBARBARIAN)))
+						apply_blunt_modifier = TRUE
+				
+				if(apply_blunt_modifier)
+					var/blunt_modifier = get_blunt_ap_mod(C, effectiveness)
+					var/effective_pen = armor_penetration + blunt_modifier
+					effective_val = max(effective_val - effective_pen, 0)
+				else
+					// For non-blunt attacks, just use regular penetration
+					effective_val = max(effective_val - armor_penetration, 0)
+
+				if(effective_val > best_effective_value)
+					best_effective_value = effective_val
+					best_armor = C
+
+	if(!blade_dulling && armor_penetration == 0 && best_armor_cache)
+		var/cache_key = "[def_zone]|[d_type]"
+		best_armor_cache[cache_key] = best_armor
+
+	return best_armor
+
+/mob/living/carbon/human/proc/checkarmor(def_zone, d_type, damage, armor_penetration, blade_dulling, intdamfactor = 1, bypass_item = null, obj/item/used_weapon, mob/living/attacker)
 	if(!d_type)
 		return 0
 	if(isbodypart(def_zone))
 		var/obj/item/bodypart/CBP = def_zone
 		def_zone = CBP.body_zone
-	var/obj/item/clothing/used
 	var/protection = 0
-	used = get_best_worn_armor(def_zone, d_type)
+	var/obj/item/clothing/used
+	var/best_effective_armor = 0
+	var/armor_effectiveness = 1.0
+	var/list/body_parts = list(skin_armor, head, wear_mask, wear_wrists, gloves, wear_neck, cloak, wear_armor, wear_shirt, shoes, wear_pants, backr, backl, belt, s_store, glasses, ears, wear_ring) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
+	for(var/bp in body_parts)
+		if(!bp)
+			continue
+		if(bp && istype(bp , /obj/item/clothing))
+			var/obj/item/clothing/C = bp
+			if(bypass_item)
+				if(islist(bypass_item))
+					if(C in bypass_item)
+						continue
+				else if(C == bypass_item)
+					continue
+			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
+				// Get zone-specific integrity if available
+				var/zone_integrity = C.get_zone_integrity(def_zone)
+				if(C.max_integrity)
+					if(zone_integrity <= 0)
+						continue
+
+				if(!C.armor || QDELETED(C)) // Happens if the clothing is being removed or deleted (e.g. from fire damage) sometimes
+					return
+					
+				var/val = C.armor.getRating(d_type)
+				if(val > 0)
+					// Calculate armor effectiveness based on zone-specific durability and armor class
+					var/damage_percent = round(((zone_integrity / C.get_zone_max_integrity(def_zone)) * 100), 1)
+					var/max_reduction = 0
+					switch(C.armor_class)
+						if(ARMOR_CLASS_HEAVY)
+							max_reduction = 50
+						if(ARMOR_CLASS_MEDIUM)
+							max_reduction = 60
+						if(ARMOR_CLASS_LIGHT)
+							max_reduction = 70
+
+					// Armor effectiveness scales linearly from 100% at full health to (100% - max_reduction) at 1% durability
+					var/effectiveness = 1.0
+					if(C.max_integrity && damage_percent < 100)
+						effectiveness = 1.0 - ((100 - damage_percent) / 100 * (max_reduction / 100))
+
+					var/effective_armor = val * effectiveness
+
+					// Apply blunt weapon modifiers based on armor class (scaled by effectiveness)
+					if(d_type == "blunt")
+						var/is_unarmed_weapon = FALSE
+						if(used_weapon && istype(used_weapon, /obj/item/rogueweapon))
+							var/obj/item/rogueweapon/RW = used_weapon
+							if(RW.associated_skill == /datum/skill/combat/unarmed)
+								is_unarmed_weapon = TRUE
+
+						// Determine if we apply the vital zone bonus
+						var/apply_vital_bonus = TRUE
+						if(!used_weapon || is_unarmed_weapon)
+							// Unarmed or unarmed weapons (knuckles) don't get vital zone bonus unless expert pugilist
+							if(!attacker || !HAS_TRAIT(attacker, TRAIT_CIVILIZEDBARBARIAN))
+								apply_vital_bonus = FALSE
+
+						var/blunt_modifier = get_blunt_ap_mod(C, effectiveness, def_zone, apply_vital_bonus)
+						var/modified_pen = armor_penetration + blunt_modifier
+						effective_armor = max(effective_armor - modified_pen, 0)
+					else
+						// Non-blunt attacks use standard penetration
+						effective_armor = max(effective_armor - armor_penetration, 0)
+
+					if(effective_armor > best_effective_armor)
+						best_effective_armor = effective_armor
+						protection = val
+						armor_effectiveness = effectiveness
+						used = C
 	if(used)
 		protection = used.armor.getRating(d_type)
 		if(!blade_dulling)
 			blade_dulling = BCLASS_BLUNT
-		if(blade_dulling == BCLASS_PEEL)	//Peel shouldn't be dealing any damage through armor, or to armor itself.
-			used.peel_coverage(def_zone, peeldivisor, src)
-			damage = 0
-			if(def_zone == BODY_ZONE_CHEST)
-				purge_peel(99)
 		if(used.blocksound)
 			playsound(loc, get_armor_sound(used.blocksound, blade_dulling), 100)
 		var/intdamage = damage
-		// Penetrative damage deals significantly less to the armor. Tentative.
-		if((damage + armor_penetration) > protection && d_type != "blunt")
+		if((damage + armor_penetration) > protection)
 			intdamage = (damage + armor_penetration) - protection
+		else
+			var/blocked_damage = protection - (damage + armor_penetration)
+			intdamage = damage * 0.3 + (blocked_damage * 0.15)
 		if(intdamfactor != 1)
 			intdamage *= intdamfactor
-		if(d_type == "blunt")
-			if(used.armor?.getRating("blunt") > 0)
-				var/bluntrating = used.armor.getRating("blunt")
-				intdamage -= intdamage * ((bluntrating / 2) / 100)	//Half of the blunt rating reduces blunt damage taken by %-age.
 		if(istype(used_weapon) && used_weapon.is_silver && ((used.smeltresult in list(/obj/item/ingot/aaslag, /obj/item/ingot/aalloy, /obj/item/ingot/purifiedaalloy)) || used.GetComponent(/datum/component/cursed_item)))
 			// Blessed silver delivers more int damage against "cursed" alloys, see component for multiplier values
 			var/datum/component/silverbless/bless = used_weapon.GetComponent(/datum/component/silverbless)
@@ -52,14 +209,56 @@
 		var/tempo_bonus = get_tempo_bonus(TEMPO_TAG_ARMOR_INTEGFACTOR)
 		if(tempo_bonus)
 			intdamage *= tempo_bonus
-		used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
+
+		// Armor degradation multipliers based on damage type vs armor class
+		var/degradation_mult = 1.0
+		if(istype(used, /obj/item/clothing))
+			var/obj/item/clothing/armor_piece = used
+			var/degrad_class = armor_piece.armor_class == ARMOR_CLASS_NONE ? armor_piece.integ_armor_mod : armor_piece.armor_class
+
+			switch(blade_dulling)
+				if(BCLASS_BLUNT, BCLASS_SMASH)
+					// Blunt damage: lowest vs light, highest vs heavy
+					switch(degrad_class)
+						if(ARMOR_CLASS_LIGHT)
+							degradation_mult = ARMOR_DEGR_BLUNT_LIGHT
+						if(ARMOR_CLASS_MEDIUM)
+							degradation_mult = ARMOR_DEGR_BLUNT_MEDIUM
+						if(ARMOR_CLASS_HEAVY)
+							degradation_mult = ARMOR_DEGR_BLUNT_HEAVY
+				if(BCLASS_CUT, BCLASS_CHOP)
+					// Cutting damage: more vs light, lowest vs heavy
+					switch(degrad_class)
+						if(ARMOR_CLASS_LIGHT)
+							degradation_mult = ARMOR_DEGR_CUT_LIGHT
+						if(ARMOR_CLASS_MEDIUM)
+							degradation_mult = ARMOR_DEGR_CUT_MEDIUM
+						if(ARMOR_CLASS_HEAVY)
+							degradation_mult = ARMOR_DEGR_CUT_HEAVY
+				if(BCLASS_STAB, BCLASS_PICK, BCLASS_PIERCE)
+					switch(degrad_class)
+						if(ARMOR_CLASS_LIGHT)
+							degradation_mult = ARMOR_DEGR_PIERCE_LIGHT
+						if(ARMOR_CLASS_MEDIUM)
+							degradation_mult = ARMOR_DEGR_PIERCE_MEDIUM
+						if(ARMOR_CLASS_HEAVY)
+							degradation_mult = ARMOR_DEGR_PIERCE_HEAVY
+
+		intdamage *= degradation_mult
+		if(used.uses_zone_integrity())
+			used.damage_zone(def_zone, intdamage, damage_flag = d_type, sound_effect = FALSE)
+		else
+			used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
+	// Apply armor effectiveness reduction from lost integrity
+	protection *= armor_effectiveness
+
 	if(physiology)
 		protection += physiology.armor.getRating(d_type)
 	return protection
 
 /mob/living/carbon/human/proc/checkcritarmor(def_zone, d_type)
 	if(!d_type)
-		return FALSE
+		return 0
 	if(isbodypart(def_zone))
 		var/obj/item/bodypart/CBP = def_zone
 		def_zone = CBP.body_zone
@@ -70,10 +269,56 @@
 		if(bp && istype(bp , /obj/item/clothing))
 			var/obj/item/clothing/C = bp
 			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
-				if(C.obj_integrity > 1)
+				// Get zone-specific integrity if available
+				var/zone_integrity = C.get_zone_integrity(def_zone)
+				if(zone_integrity > 1)
 					if(d_type in C.prevent_crits)
-						return TRUE
+						var/zone_max = C.get_zone_max_integrity(def_zone)
+						// Crit resistance scales with zone-specific durability: 100% at full durability, 0% at 0 durability
+						var/durability_percent = (zone_integrity / zone_max) * 100
+						return durability_percent
 
+/mob/living/carbon/human/proc/get_blunt_ap_mod(obj/item/clothing/C, effectiveness, def_zone, apply_vital_bonus = TRUE)
+	var/effective_class = C.armor_class == ARMOR_CLASS_NONE ? C.integ_armor_mod : C.armor_class
+	var/blunt_modifier = 0
+
+	// Blunt AP bonus scales UP with damage (inverse of effectiveness)
+	// This bonus is only applied for proper weapons, not unarmed/knuckles (without expert pugilist)
+	var/damage_factor = (1 - effectiveness) * 2
+
+	switch(effective_class)
+		if(ARMOR_CLASS_LIGHT)
+			blunt_modifier = BLUNT_AP_MOD_LIGHT // This is static since it's a penalty
+		if(ARMOR_CLASS_MEDIUM)
+			blunt_modifier = BLUNT_AP_MOD_MEDIUM * damage_factor
+		if(ARMOR_CLASS_HEAVY)
+			blunt_modifier = BLUNT_AP_MOD_HEAVY * damage_factor
+
+			if(istype(C, /obj/item/clothing/head/helmet))
+				blunt_modifier += BLUNT_AP_MOD_HEAVY_HELMET * damage_factor
+
+	// Attacks against vital zones receive penalties until the armor is damaged (scales with durability)
+	if(apply_vital_bonus)
+		var/armor_penalty = 0
+		if(def_zone == BODY_ZONE_CHEST)
+			switch(effective_class) // These are magic numbers for now, can be adjusted later
+				if(ARMOR_CLASS_HEAVY)
+					armor_penalty = 26 * effectiveness
+				if(ARMOR_CLASS_MEDIUM)
+					armor_penalty = 18 * effectiveness
+				if(ARMOR_CLASS_LIGHT)
+					armor_penalty = 8 * effectiveness
+		if(def_zone == BODY_ZONE_HEAD)
+			switch(effective_class)
+				if(ARMOR_CLASS_HEAVY)
+					armor_penalty = 12 * effectiveness
+				if(ARMOR_CLASS_MEDIUM)
+					armor_penalty = 10 * effectiveness
+				if(ARMOR_CLASS_LIGHT)
+					armor_penalty = 8 * effectiveness
+
+		blunt_modifier -= armor_penalty
+	return blunt_modifier
 
 //This proc returns obj/item/clothing, the armor that has "soaked" the crit. Using it for dismemberment check
 /mob/living/carbon/human/proc/checkcritarmorreference(def_zone, bclass)
@@ -90,12 +335,17 @@
 		if(bp && istype(bp , /obj/item/clothing))
 			var/obj/item/clothing/C = bp
 			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
-				if(C.obj_integrity > 1)
+				// Get zone-specific integrity if available
+				var/zone_integrity = C.get_zone_integrity(def_zone)
+				if(zone_integrity > 1)
 					if(bclass in C.prevent_crits)
 						if(!best_armor)
 							best_armor = C
-						else if (round(((best_armor.obj_integrity / best_armor.max_integrity) * 100), 1) < round(((C.obj_integrity / C.max_integrity) * 100), 1)) //We want the armor with highest % integrity 
-							best_armor = C
+						else
+							// We want the armor with highest % integrity for this zone
+							var/best_zone_integrity = best_armor.get_zone_integrity(def_zone)
+							if(round(((best_zone_integrity / best_armor.max_integrity) * 100), 1) < round(((zone_integrity / C.max_integrity) * 100), 1))
+								best_armor = C
 	return best_armor
 /*
 /mob/proc/checkwornweight()
@@ -137,6 +387,10 @@
 				return martial_art_result
 
 	if(!(P.original == src && P.firer == src)) //can't block or reflect when shooting yourself
+		// Point-blank bow/crossbow weapon parry check
+		if(try_parry_pointblank_ranged(P))
+			return BULLET_ACT_MISS
+
 		retaliate(P.firer)
 		if(P.reflectable & REFLECT_NORMAL)
 			if(check_reflect(def_zone)) // Checks if you've passed a reflection% check
@@ -218,6 +472,8 @@
 			return spec_return
 	var/obj/item/I
 	var/throwpower = 30
+	if(has_status_effect(/datum/status_effect/buff/clash) && !isliving(AM))
+		bad_guard(span_warning("The thrown object ruins my focus!"))
 	if(istype(AM, /obj/item))
 		I = AM
 		throwpower = I.throwforce
@@ -346,7 +602,9 @@
 			if(check_shields(M, damage, "the [M.name]"))
 				return 0
 			if(stat != DEAD)
-				apply_damage(damage, BRUTE, affecting, run_armor_check(affecting, "slash", damage = damage))
+				var/armor = run_armor_check(affecting, "slash", damage = damage)
+				var/actual_damage = get_actual_damage(damage, armor, affecting, "slash")
+				apply_damage(actual_damage, BRUTE, affecting, 0)
 		return 1
 
 
@@ -366,17 +624,18 @@
 		var/obj/item/bodypart/affecting = get_bodypart(ran_zone(dam_zone))
 		if(!affecting)
 			affecting = get_bodypart(BODY_ZONE_CHEST)
-		var/ap = (M.d_type == "blunt") ? BLUNT_DEFAULT_PENFACTOR : M.armor_penetration
+		var/ap = (M.d_type == "blunt") ? 0 : M.armor_penetration
 		var/armor = run_armor_check(affecting, M.d_type, armor_penetration = ap, damage = damage)
 		next_attack_msg.Cut()
 
+		var/actual_damage = get_actual_damage(damage, armor, affecting, M.d_type)
 		var/nodmg = FALSE
-		if(!apply_damage(damage, M.melee_damage_type, affecting, armor))
+		if(!apply_damage(actual_damage, M.melee_damage_type, affecting, 0))
 			nodmg = TRUE
 			next_attack_msg += " <span class='warning'>Armor stops the damage.</span>"
 		else
 			SEND_SIGNAL(M, COMSIG_MOB_AFTERATTACK_SUCCESS, src)
-			affecting.bodypart_attacked_by(M.a_intent.blade_class, damage - armor, M, dam_zone, crit_message = TRUE)
+			affecting.bodypart_attacked_by(M.a_intent.blade_class, actual_damage, M, dam_zone, crit_message = TRUE)
 		visible_message(span_danger("\The [M] [pick(M.a_intent.attack_verb)] [src]![next_attack_msg.Join()]"), \
 					span_danger("\The [M] [pick(M.a_intent.attack_verb)] me![next_attack_msg.Join()]"), null, COMBAT_MESSAGE_RANGE)
 		next_attack_msg.Cut()
@@ -638,6 +897,17 @@
 		I?.acid_act(acidpwr, acid_volume)
 	return 1
 
+/mob/living/carbon/human/proc/get_actual_damage(raw_damage, armor, def_zone, damage_type, mob/living/attacker)
+	var/damage_threshold = armor / 2 // blocks damage entirely up to 1/2 the armor value
+
+	if(raw_damage < damage_threshold)
+		return 0
+
+	if(prob(damage_threshold))
+		return 0
+
+	return max(floor(raw_damage * (1 - (armor / 100))), 0)
+
 /mob/living/carbon/human/help_shake_act(mob/living/carbon/M)
 	if(!istype(M))
 		return
@@ -722,6 +992,22 @@
 			examination += span_info("☼ [capitalize(parse_zone(body_zone))]: <span class='deadsay'><b>MISSING</b></span>")
 			continue
 		examination += bodypart.check_for_injuries(user, deep_examination)
+
+	// Check for organ damage
+	var/list/organ_damage = list()
+	for(var/obj/item/organ/O in internal_organs)
+		if(O.damage > O.low_threshold)
+			var/organ_status
+			if(O.organ_flags & ORGAN_FAILING)
+				organ_status = span_dead("<B>FAILING</B>")
+			else if(O.damage > O.high_threshold)
+				organ_status = span_artery("<B>heavily damaged</B>")
+			else
+				organ_status = span_warning("damaged")
+			organ_damage += span_info("☼ [capitalize(O.name)]: [organ_status]")
+
+	if(organ_damage.len)
+		examination += organ_damage
 
 	examination += "ø ------------ ø</span>"
 	if(!silent)
@@ -812,7 +1098,12 @@
 			torn_items |= leg_clothes
 
 	for(var/obj/item/I as anything in torn_items)
-		I.take_damage(damage_amount, damage_type, damage_flag, 0)
+		// Use zone-specific damage for clothing with zone tracking
+		if(istype(I, /obj/item/clothing))
+			var/obj/item/clothing/C = I
+			C.damage_zone(def_zone, damage_amount)
+		else
+			I.take_damage(damage_amount, damage_type, damage_flag, 0)
 
 /// Helper proc that returns the worn item ref that has the highest rating covering the def_zone (targeted zone) for the d_type (damage type)
 /mob/living/carbon/human/proc/get_best_worn_armor(def_zone, d_type)
@@ -826,7 +1117,9 @@
 			var/obj/item/clothing/C = bp
 			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
 				if(C.max_integrity)
-					if(C.obj_integrity <= 0)
+					// Check zone-specific integrity if available
+					var/zone_integrity = C.get_zone_integrity(def_zone)
+					if(zone_integrity <= 0)
 						continue
 				var/val = C.armor.getRating(d_type)
 				if(val > 0)
@@ -899,3 +1192,99 @@
 	for(var/X in burning_items)
 		var/obj/item/I = X
 		I.fire_act(stacks * 25 * seconds_per_tick) //damage taken is reduced to 2% of this value by fire_act()
+
+// Point-blank ranged weapon parry - bat away the bow/crossbow before it fires
+/mob/living/carbon/human/proc/try_parry_pointblank_ranged(obj/projectile/P)
+	if(!isliving(P.firer) || !P.fired_from)
+		return FALSE
+
+	var/mob/living/shooter = P.firer
+	var/distance = get_dist(src, shooter)
+
+	if(distance > 1)
+		return FALSE
+
+	// Check if the projectile is an arrow or bolt (works for both player weapons and archer mobs)
+	var/is_arrow_or_bolt = istype(P, /obj/projectile/bullet/reusable/arrow) || istype(P, /obj/projectile/bullet/reusable/bolt)
+	if(!is_arrow_or_bolt)
+		return FALSE
+
+	if(!cmode)
+		return FALSE
+
+	if(pulledby || pulling)
+		return FALSE
+
+	if(grabbedby == shooter && shooter.grab_state >= GRAB_AGGRESSIVE)
+		return FALSE
+
+	var/obj/item/parry_weapon = get_active_held_item()
+	var/can_weapon_parry = (parry_weapon && parry_weapon.can_parry)
+
+	if(!can_weapon_parry)
+		parry_weapon = get_inactive_held_item()
+		can_weapon_parry = (parry_weapon && parry_weapon.can_parry)
+
+	var/prob2defend = 0
+	var/is_parry_attempt = FALSE
+	var/is_dodge_attempt = FALSE
+
+	if(d_intent == INTENT_PARRY && can_weapon_parry)
+		is_parry_attempt = TRUE
+		if(parry_weapon.associated_skill)
+			prob2defend = get_skill_level(parry_weapon.associated_skill) * 20
+		else
+			prob2defend = HAS_TRAIT(src, TRAIT_CIVILIZEDBARBARIAN) ? get_skill_level(/datum/skill/combat/unarmed) * 20 : get_skill_level(/datum/skill/combat/unarmed) * 10
+
+		prob2defend = CLAMP(prob2defend, 5, 95)
+
+	else if(d_intent == INTENT_DODGE && (mobility_flags & MOBILITY_STAND))
+		is_dodge_attempt = TRUE
+		prob2defend = STASPD * 5
+		prob2defend = CLAMP(prob2defend, 5, 95)
+
+	// If no valid defense, fail
+	if(!is_parry_attempt && !is_dodge_attempt)
+		return FALSE
+
+	// Roll for success
+	if(!prob(prob2defend))
+		if(client?.prefs.showrolls)
+			to_chat(src, span_warning("Failed to [is_parry_attempt ? "parry" : "dodge"] point-blank shot! [prob2defend]%"))
+		return FALSE
+
+	if(is_parry_attempt)
+		var/parry_drain = 3
+		if(do_parry(parry_weapon, parry_drain, shooter))
+			var/weapon_name = "weapon"
+			if(P.fired_from)
+				weapon_name = P.fired_from.name
+
+			visible_message(
+				span_boldwarning("<b>[src]</b> bats away [shooter]'s [weapon_name], spoiling the shot!"),
+				span_boldwarning("I knock away [shooter]'s [weapon_name]!")
+			)
+
+			var/new_angle = rand(0, 359)
+			P.setAngle(new_angle)
+			return TRUE
+		else
+			return FALSE
+
+	else if(is_dodge_attempt)
+		// Find dodge destination
+		var/list/turfs = get_dodge_destinations(shooter, P.fired_from)
+		if(!length(turfs))
+			return FALSE
+
+		var/turf/turfy = pick(turfs)
+		if(do_dodge(shooter, turfy))
+			visible_message(
+				span_boldwarning("<b>[src]</b> dodges out of the way of [shooter]'s point-blank shot!"),
+				span_boldwarning("I dodge [shooter]'s point-blank shot!")
+			)
+			return TRUE
+		else
+			return FALSE
+
+	return FALSE

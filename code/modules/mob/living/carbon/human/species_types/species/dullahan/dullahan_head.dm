@@ -377,7 +377,8 @@
 
 // This sucks.
 // Removes neck injuries as a trade for easy decapitations.
-/obj/item/bodypart/head/dullahan/try_crit(bclass, dam, mob/living/user, zone_precise, silent = FALSE, crit_message = FALSE)
+// Note: Dullahans use simpler crit logic with higher flat thresholds and no overkill mechanics
+/obj/item/bodypart/head/dullahan/try_crit(bclass, dam, mob/living/user, zone_precise, silent = FALSE, crit_message = FALSE, raw_damage = 0, armor_block = 0, armor_resistance = 0)
 	var/static/list/eyestab_zones = list(BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE)
 	var/static/list/tonguestab_zones = list(BODY_ZONE_PRECISE_MOUTH)
 	var/static/list/nosestab_zones = list(BODY_ZONE_PRECISE_NOSE)
@@ -394,10 +395,11 @@
 	if(user && dam)
 		if(user.goodluck(2))
 			dam += 10
-	if((bclass in GLOB.dislocation_bclasses) && (total_dam >= max_damage))
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
+
+	// No dislocation attempts for dullahans - they can remove their head easily
+
 	if(bclass in GLOB.fracture_bclasses)
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
+		used = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance)
 		if(HAS_TRAIT(src, TRAIT_BRITTLE))
 			used += 20
 		if(user)
@@ -410,7 +412,6 @@
 			if(owner.client)
 				winset(owner.client, "outputwindow.output", "max-lines=1")
 				winset(owner.client, "outputwindow.output", "max-lines=100")
-		var/dislocation_type
 		var/fracture_type = /datum/wound/fracture/head
 		var/necessary_damage = 0.9
 		if(resistance)
@@ -427,11 +428,10 @@
 			fracture_type = /datum/wound/fracture/mouth
 			necessary_damage = 0.7
 		if(prob(used) && (damage_dividend >= necessary_damage))
-			if(dislocation_type)
-				attempted_wounds += dislocation_type
 			attempted_wounds += fracture_type
+
 	if(bclass in GLOB.artery_bclasses)
-		used = round(damage_dividend * 20 + (dam / 3) - 10 * resistance, 1)
+		used = calculate_crit_chance(damage_dividend, dam, resistance, armor_resistance = armor_resistance)
 		if(user)
 			if(bclass == BCLASS_CHOP)
 				if(istype(user.rmb_intent, /datum/rmb_intent/strong))
