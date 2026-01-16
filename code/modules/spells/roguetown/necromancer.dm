@@ -70,9 +70,6 @@
 	return TRUE
 
 
-/datum/mind
-	var/mysummons = alist()
-
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead
 	name = "Summon Lesser Undead"
 	desc = "Summons a mindless skeleton at the targeted location."
@@ -97,6 +94,7 @@
 	var/summon_limit = 10
 	invocation = "Omnia meliora sunt cum amicis!!"
 	invocation_type = "shout"
+	var/list/summonlist = list()
 
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/cast(list/targets, mob/living/user)
 	. = ..()
@@ -139,11 +137,15 @@
 	skeleton.faction += "[user.mind.current.real_name]_faction"
 	if(cabal_affine)
 		skeleton.faction += "cabal"
-	user.mind.mysummons[skeleton.type] += WEAKREF(skeleton)
-	/*
-	if(user.mind.mysummons[skeleton.type].len > summon_limit) //Someone should make this generic, I won't.
-		get first skeleton and gib it.	
-	*/
+	
+	summonlist += WEAKREF(skeleton)
+	if(summonlist.len > summon_limit)
+		var/mob/living/H = summonlist[1]
+		summonlist =- H
+		H.emote("scream")
+		visible_message(span_notice("\The [H] suddenly crumbles, leaving nothing but dust and echoes."))
+		H.gib(TRUE, TRUE, TRUE)
+
 	return TRUE
 
 
@@ -158,6 +160,7 @@
 	recharge_time = 20 SECONDS
 	releasedrain = 10 //MEANINGLESS CHAFF.
 	skullcost = 0
+	summon_limit = 30//Some arbitrary number, we don't... REALLY care about these at all.
 	summonlist = list(\
 	/mob/living/simple_animal/hostile/rogue/skeleton/axe, \
 	/mob/living/simple_animal/hostile/rogue/skeleton/spear, \
@@ -267,7 +270,7 @@
 	chargetime = 5 SECONDS
 	recharge_time = 30 SECONDS
 	invocation_type = "shout"
-	invocation = "Vae victis!"
+	invocation = "Vae victis!!!"
 
 //raise crit targets and animals that can raise naturally.
 /obj/effect/proc_holder/spell/invoked/animate_dead/cast(list/targets, mob/living/user)
@@ -305,7 +308,7 @@
 	if(!success)
 		revert_cast(user)
 
-/obj/effect/proc_holder/spell/invoked/animate_dead/proc/giveup(mob/living/carbon/human/M) //Need to remove the faction datum during zombie cures.
+/obj/effect/proc_holder/spell/invoked/animate_dead/proc/giveup(mob/living/carbon/human/M) 
 	if(alert(M, "Do you accept ZIZO and soar, or will you wriggle like the filth you are?", "CHOICE OF SUBMISSION", "BIRD", "WORM") == "WORM")
 		message_admins("[M.real_name] chose to respawn instead of becoming a zombie.")
 		log_admin("[M.real_name] chose to respawn instead of becoming a zombie.")
