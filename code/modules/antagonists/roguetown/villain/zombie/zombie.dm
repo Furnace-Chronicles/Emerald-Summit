@@ -438,7 +438,9 @@
 
 ///Making sure they're not any other antag as well as adding the zombie datum to their mind
 /mob/living/carbon/human/proc/zombie_check_can_convert(infection_type)
-	if(!mind)
+	if(mob_biotypes & MOB_ROBOTIC)
+		return
+	if(!mind &&  has_world_trait(/datum/world_trait/zizo_defilement) ) //Only raise NPCs as living dead during zizo storyteller.
 		mind_initialize()
 	if(mind.has_antag_datum(/datum/antagonist/vampire))
 		return

@@ -407,7 +407,7 @@
 
 /datum/storyteller/zizo
 	name = "Zizo"
-	vote_desc = "Chaos reigns. Villains are assured, and Deadites are far more vicious. Her favor shines upon corpses; be they holy, noble, or reanimated."
+	vote_desc = "Chaos reigns. Villains are assured, and Deadites are far more vicious. Her favor shines upon corpses; be they holy, noble, or reanimated. Bury your dead, lest they rise..."
 	desc = "Zizo thrives on risk and reward, favoring the daring and unpredictable."
 	welcome_text = "A breeze of morbid air, ferrying the howls of the damned.."
 	weight = 4
@@ -444,9 +444,6 @@
 			STATS_CLERGY_DEATHS = list("name" = "Clergy killed:", "points" = 12, "capacity" = 70),
 		),
 		"Set 4" = list(
-			STATS_TORTURES = list("name" = "Tortures performed:", "points" = 5.25, "capacity" = 70),
-		),
-		"Set 5" = list(
 			STATS_BOOKS_BURNED = list("name" = "Books burned:", "points" = -5, "capacity" = -50),
 		),
 	)

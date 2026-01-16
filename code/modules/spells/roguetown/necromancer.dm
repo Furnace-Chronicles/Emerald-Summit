@@ -94,7 +94,7 @@
 	var/summon_limit = 10
 	invocation = "Omnia meliora sunt cum amicis!!"
 	invocation_type = "shout"
-	var/list/summonlist = list()
+	var/list/active_summons = list()
 
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/cast(list/targets, mob/living/user)
 	. = ..()
@@ -138,10 +138,10 @@
 	if(cabal_affine)
 		skeleton.faction += "cabal"
 	
-	summonlist += WEAKREF(skeleton)
-	if(summonlist.len > summon_limit)
-		var/mob/living/H = summonlist[1]
-		summonlist =- H
+	active_summons += WEAKREF(skeleton)
+	if(active_summons.len > summon_limit)
+		var/mob/living/H = active_summons[1]
+		active_summons =- H
 		H.emote("scream")
 		visible_message(span_notice("\The [H] suddenly crumbles, leaving nothing but dust and echoes."))
 		H.gib(TRUE, TRUE, TRUE)
