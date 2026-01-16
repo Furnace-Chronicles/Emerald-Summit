@@ -94,7 +94,7 @@
 
 /datum/outfit/job/wretch/heretic/choose_loadout(mob/living/carbon/human/H) // some got +1 to their relevant patron skill
 	. = ..()
-	switch(H.patron?.type)
+	switch(H.patron?.parentpatron)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/zizoid, SLOT_HEAD, TRUE)
@@ -310,7 +310,7 @@
 
 /datum/outfit/job/wretch/heretic_wanderer/choose_loadout(mob/living/carbon/human/H) // some got +1 to their patron skill, same deal as armoured heretics
 	. = ..()
-	switch(H.patron?.type)
+	switch(H.patron?.parentpatron)
 		if(/datum/patron/inhumen/zizo)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/zcross/iron, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/facemask/copper, SLOT_WEAR_MASK, TRUE)

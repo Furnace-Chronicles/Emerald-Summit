@@ -79,7 +79,7 @@
 		H.change_stat("perception", 1)
 		H?.mind.adjust_spellpoints(6)
 		H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
-	switch(H.patron?.type)
+	switch(H.patron?.parentpatron)
 		if(/datum/patron/inhumen/zizo,
 	  		/datum/patron/inhumen/matthios,
 	   		/datum/patron/inhumen/graggar,

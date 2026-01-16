@@ -114,7 +114,7 @@
 		H.change_stat("intelligence", 1)
 		H.change_stat("fortune", 1)
 
-	switch(H.patron?.type)
+	switch(H.patron?.parentpatron)
 		if(/datum/patron/inhumen/zizo,
 	  		/datum/patron/inhumen/matthios,
 	   		/datum/patron/inhumen/graggar,

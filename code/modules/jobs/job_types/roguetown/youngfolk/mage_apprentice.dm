@@ -85,7 +85,7 @@
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 1)
 		H?.mind.adjust_spellpoints(6)
-	switch(H.patron?.type)
+	switch(H.patron?.parentpatron)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_cult.ogg'
 
@@ -136,7 +136,7 @@
 		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
 		H.change_stat("perception", -1)
 		H.change_stat("intelligence", 1)
-	switch(H.patron?.type)
+	switch(H.patron?.parentpatron)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_cult.ogg'
 
@@ -178,6 +178,6 @@
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 1)
 		H?.mind.adjust_spellpoints(3)
-	switch(H.patron?.type)
+	switch(H.patron?.parentpatron)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_cult.ogg'

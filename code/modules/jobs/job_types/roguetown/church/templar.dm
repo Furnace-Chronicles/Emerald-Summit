@@ -94,6 +94,8 @@
 
 /datum/outfit/job/templar/monk/pre_equip(mob/living/carbon/human/H)
 	..()
+	if(H.patron.parentpatron)
+		H.patron = new H.patron.parentpatron
 	neck = /obj/item/clothing/neck/roguetown/psicross/astrata
 	cloak = /obj/item/clothing/cloak/tabard/crusader/tief
 	switch(H.patron?.type)
@@ -251,6 +253,8 @@
 
 /datum/outfit/job/templar/crusader/pre_equip(mob/living/carbon/human/H)
 	..()
+	if(H.patron.parentpatron)
+		H.patron = new H.patron.parentpatron
 	switch(H.patron?.type)
 		if(/datum/patron/divine/astrata)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/astrata

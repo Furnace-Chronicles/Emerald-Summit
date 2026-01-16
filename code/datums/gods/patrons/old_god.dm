@@ -18,6 +18,7 @@
 		"REBUKE THE HERETICAL- PSYDON ENDURES!",
 	)
 	rites = "Rune of Enduring"
+	parentpatron = /datum/patron/old_god
 
 /datum/patron/old_god/kazengun
 	name = "Saidon"

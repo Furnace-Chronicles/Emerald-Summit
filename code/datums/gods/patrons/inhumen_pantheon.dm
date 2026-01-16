@@ -42,6 +42,7 @@
 	)
 	storyteller = /datum/storyteller/zizo
 	rites = "Rune of ZIZO"
+	parentpatron = /datum/patron/inhumen/zizo
 
 /datum/patron/inhumen/zizo/situational_bonus(mob/living/follower, mob/living/target)
 	// set up a ritual pile of bones (or just cast near a stack of bones whatever) around us for massive bonuses
@@ -94,6 +95,7 @@
 	)
 	storyteller = /datum/storyteller/graggar
 	rites = "Rune of Violence"
+	parentpatron = /datum/patron/inhumen/graggar
 
 /datum/patron/inhumen/graggar/situational_bonus(mob/living/follower, mob/living/target)
 	var/situational_bonus = 0
@@ -162,6 +164,7 @@
 	)
 	storyteller = /datum/storyteller/matthios
 	rites = "Rune of Transaction"
+	parentpatron = /datum/patron/inhumen/matthios
 
 /datum/patron/inhumen/matthios/situational_bonus(mob/living/follower, mob/living/target)
 	// other matthiosians benefit from our miracles more
@@ -221,6 +224,7 @@
 	)
 	storyteller = /datum/storyteller/baotha
 	rites = "Rune of Desire"
+	parentpatron = /datum/patron/inhumen/baotha
 
 /datum/patron/inhumen/baotha/situational_bonus(mob/living/follower, mob/living/target)
 	// if we're high on drugs or drunk, our miracles are stronger
