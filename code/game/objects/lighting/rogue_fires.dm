@@ -311,6 +311,21 @@
 	boilloop = new(src, FALSE)
 	. = ..()
 
+/obj/machinery/light/rogue/hearth/LateInitialize()
+	. = ..()
+	if(!attachment)
+		var/obj/item/cooking/pan/mypan = locate(/obj/item/cooking/pan) in get_turf(src)
+		if(mypan)
+			mypan.forceMove(src)
+			attachment=mypan
+			update_icon()
+		else
+			var/obj/item/reagent_containers/glass/bucket/pot/mypot = locate(/obj/item/reagent_containers/glass/bucket/pot) in get_turf(src)
+			if(mypot)
+				mypot.forceMove(src)
+				attachment=mypot
+				update_icon()
+		
 /obj/machinery/light/rogue/hearth/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover) && (mover.pass_flags & PASSTABLE))
 		return 1
@@ -368,7 +383,7 @@
 				if(istype(W, /obj/item/reagent_containers/food/snacks/egg)) // added
 					if(W.icon_state != "rawegg")
 						playsound(user, 'modular/Neu_Food/sound/eggbreak.ogg', 100, TRUE, -1)
-						sleep(25) // to get egg crack before frying hiss
+						sleep(10) // to get egg crack before frying hiss
 						W.icon_state = "rawegg" // added
 				if(!food)
 					S.forceMove(src)

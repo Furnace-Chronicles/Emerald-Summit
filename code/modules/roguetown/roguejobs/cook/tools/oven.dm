@@ -7,7 +7,6 @@
 	base_state = "oven"
 	density = FALSE
 	on = FALSE
-	light_system = MOVABLE_LIGHT
 	var/list/food = list()
 	var/maxfood = 5
 	var/donefoods = FALSE
@@ -59,7 +58,6 @@
 				visible_message(span_notice("Something smells good!"))
 				need_underlay_update = TRUE
 		update_icon()
-
 
 /obj/machinery/light/rogue/oven/Crossed(atom/movable/AM, oldLoc)
 	return
