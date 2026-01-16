@@ -48,6 +48,7 @@
 				var/mob/living/carbon/human/species/wildshape/B = crecher
 				if(new_wildshape_type == B.name)
 					M.wildshape_transformation(B)
+					revert_cast() // so we can immediately shift out of our new form, if we need to
 
 		else //If we are a wildshaped species, we simply un-transform
 			M.wildshape_untransform()

@@ -24,7 +24,7 @@
 	var/obj/item/stored_ring = wear_ring
 
 	for(var/obj/item/I in src)
-		if (I != underwear && I != cloak && I != legwear_socks) // keep underwear (+ socks) and our cloak, even if said cloak remains inaccessible.
+		if (I != underwear && I != cloak && I != legwear_socks && I != backl && I != backr) // keep underwear (+ socks) and our cloak, even if said cloak remains inaccessible.
 			dropItemToGround(I)
 	regenerate_icons()
 	icon = null
@@ -75,7 +75,26 @@
 	// Must be done BEFORE mind.transfer_to() to avoid context issues
 	var/mob/living/carbon/human/H = src
 	W.devotion = H.devotion
-	
+
+	//transfer wounds as is across to our wildshape form
+	for(var/obj/item/bodypart/human_bodypart as anything in H.bodyparts)	
+		var/obj/item/bodypart/wildshape_BP = W.get_bodypart(human_bodypart.body_zone)
+		if (wildshape_BP && LAZYLEN(human_bodypart.wounds))
+			human_bodypart.transfer_wounds(wildshape_BP)
+
+	//transfer blood volume across as well with a small bonus (20%)
+	W.blood_volume = min(BLOOD_VOLUME_NORMAL, H.blood_volume*1.2)
+
+	//transfer damage types (reduce brute and burn by 20%)
+	W.adjustBruteLoss(H.getBruteLoss() * 0.8)
+	W.adjustFireLoss(H.getFireLoss() * 0.8)
+	W.adjustToxLoss(H.getToxLoss()) // toxins remains the dmg type of choice vs druids since it isn't reduced on transfer
+	W.adjustOxyLoss(H.getOxyLoss())
+
+	// transfer nutrition and hydration also
+	W.set_hydration(H.hydration)
+	W.set_nutrition(H.nutrition)
+
 	mind.transfer_to(W)
 	skills?.known_skills = list()
 	skills?.skill_experience = list()
@@ -168,10 +187,36 @@
 	// No need to restore or remove anything
 
 	W.regenerate_icons()
+	W.stasis = FALSE
+
+	//transfer wounds as is across to our human form
+	for(var/obj/item/bodypart/wildshape_bodypart as anything in WA.bodyparts)	
+		var/obj/item/bodypart/human_BP = W.get_bodypart(wildshape_bodypart.body_zone)
+		if (human_BP && LAZYLEN(wildshape_bodypart.wounds))
+			wildshape_bodypart.transfer_wounds(human_BP)
+
+	//transfer blood volume across as well with a small bonus (20%)
+	W.blood_volume = min(BLOOD_VOLUME_NORMAL, WA.blood_volume*1.2)
+
+	//transfer damage types (reduce brute and burn by 20%)
+	W.adjustBruteLoss(WA.getBruteLoss() * 0.8)
+	W.adjustFireLoss(WA.getFireLoss() * 0.8)
+	W.adjustToxLoss(WA.getToxLoss()) // toxins remains the dmg type of choice vs druids since it isn't reduced on transfer
+	W.adjustOxyLoss(WA.getOxyLoss())
+
+	var/total_whp = 0
+	for (var/datum/wound/wound as anything in W.get_wounds())
+		total_whp += wound.whp
+
+	// shifting back specifically cures exactly one third of our wounds
+	W.heal_wounds(round(total_whp / 3))
+	
+	W.set_hydration(WA.hydration)
+	W.set_nutrition(WA.nutrition)
 
 	to_chat(W, span_userdanger("I return to my old form."))
-
-	W.stasis = FALSE
+	if (total_whp > 0)
+		to_chat(W, span_notice("Dendor's grace mends some of my wounds as I return to my true flesh."))
 	
 	// Restore grabs - make grabbers grab the restored human form with same state
 	for(var/list/grab_info in grab_data)
