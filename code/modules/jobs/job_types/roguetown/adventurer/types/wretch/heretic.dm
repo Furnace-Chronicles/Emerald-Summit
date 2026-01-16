@@ -7,7 +7,7 @@
 	category_tags = list(CTAG_WRETCH)
 	extra_context = "If your patron is the following: Psydon, Astrata, Ravox, Necra or Eora, your patron will be set to ZIZO. Excommunication does not work on the Ten worshippers."
 
-	traits_applied = list(TRAIT_RITUALIST, TRAIT_HEAVYARMOR, TRAIT_HERETIC_DEVOUT)
+	traits_applied = list(TRAIT_RITUALIST, TRAIT_HEAVYARMOR, TRAIT_HERETIC_DEVOUT, TRAIT_TEMPO)
 	// Heretic is by far the best class with access to rituals (as long as they play a god with ritual), holy and heavy armor. So they keep 7 points.
 	// ... except templars get the same but aren't supposed to 1vX
 	subclass_stats = list(

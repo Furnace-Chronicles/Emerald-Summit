@@ -448,7 +448,8 @@
 		TRAIT_SILVER_BLESSED,
 		TRAIT_EMPATH,
 		TRAIT_DUALWIELDER,
-		TRAIT_CLERGY
+		TRAIT_CLERGY,
+		TRAIT_TEMPO
 	)
 
 	//No undeath-adjacent virtues for a role that can sacrifice itself. The Ten like their sacrifices 'pure'. (I actually didn't want to code returning those virtue traits post-sword use)

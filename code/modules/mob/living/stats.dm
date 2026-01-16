@@ -79,6 +79,7 @@
 				change_stat("constitution", -2)
 				change_stat("intelligence", 2)
 				change_stat("fortune", 1)
+				ADD_TRAIT(H,TRAIT_TEMPO,TRAIT_GENERIC)
 		if(key)
 			if(check_blacklist(ckey(key)))
 				change_stat("strength", -5)

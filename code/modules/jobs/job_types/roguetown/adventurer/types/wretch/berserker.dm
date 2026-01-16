@@ -8,7 +8,7 @@
 
 	cmode_music = 'sound/music/combat_berserker.ogg'
 
-	traits_applied = list(TRAIT_STRONGBITE, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN)
+	traits_applied = list(TRAIT_STRONGBITE, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_TEMPO)
 	subclass_stats = list(
 		STATKEY_STR = 3,
 		STATKEY_CON = 2,

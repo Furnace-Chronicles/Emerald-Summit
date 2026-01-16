@@ -7,7 +7,7 @@
 	maximum_possible_slots = 1
 	category_tags = list(CTAG_WRETCH)
 	cmode_music = 'sound/music/combat_berserker.ogg'
-	traits_applied = list(TRAIT_STRONGBITE, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_STRENGTH_UNCAPPED, TRAIT_OGRE_STRENGTH)
+	traits_applied = list(TRAIT_STRONGBITE, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_STRENGTH_UNCAPPED, TRAIT_OGRE_STRENGTH, TRAIT_TEMPO)
 	origin_override_type = /datum/virtue/origin/kazengun
 	subclass_stats = list(
 		STATKEY_STR = 4, //9 weighted stats, compared to Berserker's 8, but their highest weapon skill is Journeyman.
@@ -153,7 +153,7 @@
 	origin_override_type = /datum/virtue/origin/kazengun
 
 	subclass_languages = list(/datum/language/kazengunese)
-	traits_applied = list(TRAIT_NOPAINSTUN) //Inherits this from the Custodian adv, still light armor only.
+	traits_applied = list(TRAIT_NOPAINSTUN, TRAIT_TEMPO) //Inherits this from the Custodian adv, still light armor only.
 	subclass_stats = list(
 		STATKEY_END = 2,
 		STATKEY_PER = 1,

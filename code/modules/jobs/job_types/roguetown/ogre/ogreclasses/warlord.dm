@@ -7,7 +7,7 @@
 	category_tags = list(CTAG_OGRE)
 	cmode_music = 'sound/music/combat_highgrain.ogg'
 
-	traits_applied = list(TRAIT_BASHDOORS, TRAIT_STEELHEARTED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_CALTROPIMMUNE, TRAIT_STRONGBITE, TRAIT_MEDIUMARMOR) //strongbite might be funny
+	traits_applied = list(TRAIT_BASHDOORS, TRAIT_STEELHEARTED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_CALTROPIMMUNE, TRAIT_STRONGBITE, TRAIT_MEDIUMARMOR, TRAIT_TEMPO) //strongbite might be funny
 	subclass_stats = list( 
 		STATKEY_STR = 3, 
 		STATKEY_CON = 4,

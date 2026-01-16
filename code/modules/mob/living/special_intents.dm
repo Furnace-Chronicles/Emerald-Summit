@@ -297,6 +297,8 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 		howner.remove_status_effect(/datum/status_effect/debuff/specialcd)
 		howner.apply_status_effect(/datum/status_effect/debuff/specialcd, cd)
 		return
+	if(HAS_TRAIT(howner, TRAIT_OGRE_STRENGTH))
+		cd = 5
 	howner.apply_status_effect(/datum/status_effect/debuff/specialcd, cd)
 
 ///A proc that attempts to deal damage to the target, simple mob or carbon. 

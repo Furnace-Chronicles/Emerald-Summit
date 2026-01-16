@@ -13,7 +13,7 @@
 		/datum/language/aavnic,	//Your character could not have possibly "graduated" without atleast some basic knowledge of Aavnic.
 	)
 
-	traits_applied = list(TRAIT_BADTRAINER)
+	traits_applied = list(TRAIT_BADTRAINER, TRAIT_TEMPO)
 	subclass_stats = list(
 		STATKEY_INT = 3, // 4 when hired
 		STATKEY_PER = 2, // 3 when hired
@@ -75,7 +75,7 @@
 		/datum/language/aavnic,	//Your character could not have possibly "graduated" without atleast some basic knowledge of Aavnic.
 	)
 
-	traits_applied = list(TRAIT_BADTRAINER)
+	traits_applied = list(TRAIT_BADTRAINER, TRAIT_TEMPO)
 	//To give you an edge in specialty moves like feints and stop you from being feinted
 	subclass_stats = list(
 		STATKEY_CON = 3,//This is going to need live testing, since I'm not sure they should be getting this much CON without using a statpack to spec. Revision pending.
