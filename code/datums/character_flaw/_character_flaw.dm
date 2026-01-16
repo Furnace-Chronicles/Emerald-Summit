@@ -2,6 +2,7 @@
 GLOBAL_LIST_INIT(character_flaws, list(
 	"Alcoholic"=/datum/charflaw/addiction/alcoholic,
 	"Bad Sight"=/datum/charflaw/badsight,
+	"Baothan Curse"=/datum/charflaw/addiction/baothancurse,
 	"Blind"=/datum/charflaw/blind,
 	"Clingy"=/datum/charflaw/clingy,
 	"Colorblind"=/datum/charflaw/colorblind,
@@ -19,7 +20,6 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	"Mute"=/datum/charflaw/mute,
 	"Narcoleptic"=/datum/charflaw/narcoleptic,
 	"Nymphomaniac"=/datum/charflaw/addiction/lovefiend,
-	"Baothan Curse"=/datum/charflaw/addiction/baothancurse,
 	"Masochist"=/datum/charflaw/masochist,
 	"Paranoid"=/datum/charflaw/paranoid,
 	"Sadist"=/datum/charflaw/addiction/sadist,
