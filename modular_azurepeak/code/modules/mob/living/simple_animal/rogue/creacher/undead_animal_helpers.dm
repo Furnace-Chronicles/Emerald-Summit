@@ -56,14 +56,14 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 	//KEEP IN MIND. IF YOU EDIT THIS TIMER TO BE LONGER THAN THE ROT COMPONENT, YOU WILL BREAK THIS.
 	reanimation_timer = addtimer(CALLBACK(src, PROC_REF(reanimate)), get_reanimation_time(), TIMER_STOPPABLE)
 
-/datum/component/deadite_animal_reanimation/proc/reanimate()
+/datum/component/deadite_animal_reanimation/proc/reanimate(forced)
 	var/mob/living/simple_animal/mob = parent
-	if(!prob(get_reanimation_chance()) || QDELETED(mob) || mob.stat != DEAD)
+	if(!forced && (!prob(get_reanimation_chance()) || QDELETED(mob) || mob.stat != DEAD))
 		UnregisterFromParent()
 		return
 
 	var/undead_type = GLOB.animal_to_undead[mob.type]
-	new undead_type(mob.loc)
+	. = new undead_type(mob.loc)
 	mob.visible_message(span_danger("[mob] walks again... As a terrifying deadite!"))
 
 	qdel(mob)

@@ -30,6 +30,9 @@
 		return held_items[i]
 	return FALSE
 
+//why was there not a fucking getter for this.
+/mob/proc/get_held_items()
+	return held_items
 
 //Odd = left. Even = right
 /mob/proc/held_index_to_dir(i)

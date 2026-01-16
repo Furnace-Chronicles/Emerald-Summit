@@ -96,17 +96,17 @@
 	switch(dominiant_smell_power)
 		if(0 to POLLUTANT_SMELL_NORMAL)
 			if(sniffer.mob_biotypes & MOB_ROBOTIC)
-				smell_string = "Your sensors detect trace amounts of [dominant_pollutant.scent] in the air."
+				smell_string = "Your auspex senses the faint presence [dominant_pollutant.scent] in the air."
 			else
 				smell_string = "The subtle [dominant_pollutant.descriptor] of [dominant_pollutant.scent] tickles your nose..."
 		if(POLLUTANT_SMELL_NORMAL to POLLUTANT_SMELL_STRONG)
 			if(sniffer.mob_biotypes & MOB_ROBOTIC)
-				smell_string = "Your sensors pick up the presence of [dominant_pollutant.scent] in the air."
+				smell_string = "Your auspex senses the presence of [dominant_pollutant.scent] in the air."
 			else
 				smell_string = "The [dominant_pollutant.descriptor] of [dominant_pollutant.scent] fills the air."
 		if(POLLUTANT_SMELL_STRONG to INFINITY)
 			if(sniffer.mob_biotypes & MOB_ROBOTIC)
-				smell_string = "Your sensors pick up an intense concentration of [dominant_pollutant.scent]."
+				smell_string = "Your auspex senses a heavy perfume of [dominant_pollutant.scent] in the air."
 			else
 				smell_string = "The unmistakable [dominant_pollutant.descriptor] of [dominant_pollutant.scent] bombards your nostrils."
 

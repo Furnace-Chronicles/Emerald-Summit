@@ -30,11 +30,24 @@
 	mode = NPC_AI_IDLE
 	wander = FALSE
 
-/mob/living/carbon/human/species/skeleton/Initialize()
+/mob/living/carbon/human/species/skeleton/Initialize(mapload, mob/user, cabal_affine, is_summoned)
 	. = ..()
 	cut_overlays()
-	spawn(10)
-		after_creation()
+
+	if (is_summoned || cabal_affine)
+		faction += "cabal"
+		faction += "[user.mind.current.real_name]_faction"
+		AddComponent(/datum/component/crumbling)
+	// adds the name of the summoner to the faction, to avoid the hooded "Unknown" bug with Skeleton IDs
+	if(user && user.mind && user.mind.current)
+		// lich also gets to have friendlies, as a treat
+		var/datum/antagonist/lich/lich_antag = user.mind.has_antag_datum(/datum/antagonist/lich)
+		if(lich_antag && user.real_name)
+			faction += "[user.real_name]_faction"
+	return INITIALIZE_HINT_LATELOAD
+/mob/living/carbon/human/species/skeleton/LateInitialize()
+	after_creation()
+
 
 /mob/living/carbon/human/species/skeleton/after_creation()
 	..()
@@ -55,7 +68,7 @@
 	if(src.charflaw)
 		QDEL_NULL(src.charflaw)
 	mob_biotypes |= MOB_UNDEAD
-	faction = list("undead")
+	faction = list("undead, zombie") //otherwise they'll fight with their allies. Annoying, unwanted.
 	name = "Skeleton"
 	real_name = "Skeleton"
 	voice_type = VOICE_TYPE_MASC //So that "Unknown Man" properly substitutes in with face cover
@@ -88,6 +101,17 @@
 		if(OU)
 			equipOutfit(OU)
 
+
+/datum/outfit/job/npc/skeleton/post_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	if(H.GetComponent(/datum/component/crumbling)) //shitty workaround to applying the effect to their held items as well.
+		if(r_hand)
+			var/atom/movable/AM = r_hand
+			AM.AddComponent(/datum/component/crumbling)
+		if(l_hand)
+			var/atom/movable/AM = l_hand
+			AM.AddComponent(/datum/component/crumbling)
+
 /datum/outfit/job/npc/skeleton/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 14
@@ -95,6 +119,17 @@
 	H.STACON = 4
 	H.STAEND = 15
 	H.STAINT = 1
+	//Some moron ard put this after the returns.
+	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/whipsflails, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
 	var/skeletonclass = rand(1,15)
 	if(skeletonclass < 4) // basic ass skele. Kinda sucks.
@@ -146,8 +181,13 @@
 		shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
 		neck = /obj/item/clothing/neck/roguetown/zcross/aalloy
 		gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
-		r_hand = /obj/item/rogueweapon/sword/sabre/alloy
-		l_hand = /obj/item/rogueweapon/sword/sabre/alloy
+		if("cabal" in H.faction) //Too powerful as a summon. Khopeshes are also stupid valuable.
+			r_hand = /obj/item/rogueweapon/sword/iron/short/ashort
+			l_hand = /obj/item/rogueweapon/sword/iron/short/ashort
+		else
+			r_hand = /obj/item/rogueweapon/sword/sabre/alloy
+			l_hand = /obj/item/rogueweapon/sword/sabre/alloy
+		ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
 		return
 	if(skeletonclass == 15) // Withered Dread Knight
 		cloak = /obj/item/clothing/cloak/tabard/blkknight
@@ -164,15 +204,7 @@
 		else
 			r_hand = /obj/item/rogueweapon/mace/goden/aalloy
 		return
-	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+
 
 /mob/living/carbon/human/species/skeleton/npc/no_equipment
     skel_outfit = null

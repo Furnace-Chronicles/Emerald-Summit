@@ -387,14 +387,14 @@ Works together with spawning an observer, noted above.
 	ghost.key = key
 	return ghost
 
-/mob/living/carbon/human/ghostize(can_reenter_corpse = 1, force_respawn = FALSE, admin = FALSE, drawskip = FALSE)
+/mob/living/carbon/human/ghostize(can_reenter_corpse = 1, force_respawn = FALSE, admin = FALSE, drawskip = FALSE, pissbaby_override = FALSE)
 	if(mind)
 		if(mind.has_antag_datum(/datum/antagonist/zombie))
 			if(force_respawn)
 				mind.remove_antag_datum(/datum/antagonist/zombie)
 				return ..()
 			var/datum/antagonist/zombie/Z = mind.has_antag_datum(/datum/antagonist/zombie)
-			if(!Z.revived)
+			if(!Z.revived || !pissbaby_override)
 				if(!(world.time % 5))
 					to_chat(src, span_warning("I'm preparing to walk again."))
 				return

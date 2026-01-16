@@ -96,7 +96,8 @@
 			return
 		else
 			// handle just the oxyloss, and then abort. nothing else in here is relevant to us
-			adjustOxyLoss(blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1)
+			if(!HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
+				adjustOxyLoss(blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1)
 			return
 
 	//Blood regeneration if there is some space

@@ -161,6 +161,7 @@
 		user.update_inv_hands()
 	..()
 
+
 /obj/item/shaft
 	name = "debug shaft"
 	desc = "you should not see this"

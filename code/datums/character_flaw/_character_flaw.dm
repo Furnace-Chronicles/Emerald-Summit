@@ -280,16 +280,15 @@ GLOBAL_LIST_INIT(character_flaws, list(
 				if(L.dna.species.id != H.dna.species.id)
 					cnt++
 		if(cnt > 2)
+			user.add_stress(/datum/stressevent/paracrowd)
 			break
-	if(cnt > 2)
-		user.add_stress(/datum/stressevent/paracrowd)
+
 	cnt = 0
 	for(var/obj/effect/decal/cleanable/blood/B in view(7, user))
 		cnt++
-		if(cnt > 3)
+		if(cnt > 6)
+			user.add_stress(/datum/stressevent/parablood)
 			break
-	if(cnt > 6)
-		user.add_stress(/datum/stressevent/parablood)
 
 /datum/charflaw/isolationist
 	name = "Isolationist"
@@ -312,10 +311,10 @@ GLOBAL_LIST_INIT(character_flaws, list(
 		if(L.dna.species)
 			cnt++
 		if(cnt > 3)
-			break
-	var/mob/living/carbon/P = user
-	if(cnt > 3)
-		P.add_stress(/datum/stressevent/crowd)
+			var/mob/living/carbon/P = user
+			P.add_stress(/datum/stressevent/crowd)
+
+
 
 /datum/charflaw/clingy
 	name = "Clingy"

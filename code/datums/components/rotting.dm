@@ -1,4 +1,4 @@
-#define DEAD_TO_ZOMBIE_TIME 7 MINUTES	//Time before death -> raised as zombie (when outside of the city)	
+#define DEAD_TO_ZOMBIE_TIME 5 MINUTES	//Time before death -> raised as zombie (when outside of the city)	
 										//(This isn't exact time. Extended 5 -> 7 because only takes 2-3 min in testing at 5.)
 
 /datum/component/rot
@@ -13,7 +13,7 @@
 
 	if(new_amount)
 		amount = new_amount
-
+	
 	soundloop = new(parent, FALSE)
 
 	START_PROCESSING(SSroguerot, src)
@@ -49,11 +49,14 @@
 	..()
 	if(has_world_trait(/datum/world_trait/pestra_mercy))
 		amount -= 5 * time_elapsed
-	
+	if(has_world_trait(/datum/world_trait/zizo_defilement))
+		amount -= 5 * time_elapsed	
 	var/mob/living/carbon/C = parent
-	var/is_zombie
 	if(HAS_TRAIT(C, TRAIT_DNR))
 		return
+	var/is_zizoid = istype(C.patron, /datum/patron/inhumen/zizo)
+	var/is_zombie = is_zizoid
+	
 	if(C.mind)
 		if(C.mind.has_antag_datum(/datum/antagonist/zombie))
 			is_zombie = TRUE
@@ -63,7 +66,7 @@
 			return
 
 	var/area/A = get_area(C)
-	if (istype(A, /area/rogue/indoors/town))	//Stops rotting inside town buildings; will stop your zombification such as at church or appothocary.
+	if (istype(A, /area/rogue/indoors/town) && !is_zizoid)	//Stops rotting inside town buildings; will stop your zombification such as at church or appothocary.
 		return
 
 	if(HAS_TRAIT(C, TRAIT_ZOMBIE_IMMUNE) && !is_zombie)
@@ -73,7 +76,7 @@
 		qdel(src)
 		return
 	
-	if(amount > DEAD_TO_ZOMBIE_TIME)
+	if(amount > DEAD_TO_ZOMBIE_TIME || is_zizoid) //Zizoids stand up instantly hehehe
 		if(is_zombie)
 			var/datum/antagonist/zombie/Z = C.mind.has_antag_datum(/datum/antagonist/zombie)
 			if(Z && !Z.has_turned && !Z.revived && C.stat == DEAD)

@@ -31,7 +31,7 @@
 	)
 
 /datum/outfit/job/wretch/necromancer/pre_equip(mob/living/carbon/human/H)
-	H.mind.current.faction += "[H.name]_faction"
+	H.mind.current.faction += "[H.mind.current.real_name]_faction"
 	H.set_patron(/datum/patron/inhumen/zizo)
 	head = /obj/item/clothing/head/roguetown/roguehood/black
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
@@ -45,8 +45,7 @@
 	beltl = /obj/item/rogueweapon/huntingknife
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
-		/obj/item/spellbook_unfinished/pre_arcyne = 1,
-		/obj/item/roguegem/amethyst = 1,
+		/obj/item/book/spellbook = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
 		/obj/item/ritechalk = 1,
@@ -60,10 +59,12 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/eyebite)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/sickness)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order/lich)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/necromancer)
-
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/minor)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/animate_dead)
 	wretch_select_bounty(H)
 
 	var/staffs = list(

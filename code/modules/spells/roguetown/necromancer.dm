@@ -1,5 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/bonechill
 	name = "Bone Chill"
+	desc = "Unleashes a deathly cold that harms the living from within, yet restores undead flesh and bone."
 	overlay_state = "raiseskele"
 	releasedrain = 30
 	chargetime = 5
@@ -13,6 +14,8 @@
 	antimagic_allowed = TRUE
 	recharge_time = 15 SECONDS
 	miracle = FALSE
+	invocation_type = "whisper"
+	invocation = "Asphyxia necrotica."
 
 /obj/effect/proc_holder/spell/invoked/bonechill/cast(list/targets, mob/living/user)
 	..()
@@ -26,7 +29,7 @@
 			target.update_damage_overlays()
 		target.visible_message(span_danger("[target]'s [affecting.name] reforms under the vile energy!"), span_notice("My [affecting.name] is remade by dark magic!"))
 		var/obj/effect/temp_visual/heal/E = new /obj/effect/temp_visual/heal_rogue(get_turf(target))
-		E.color = "#4E6651"
+		E.color = "#041835"
 		return TRUE
 
 	target.visible_message(span_info("Necrotic energy floods over [target]!"), span_userdanger("I feel colder as the dark energy floods into me!"))
@@ -39,6 +42,7 @@
 
 /obj/effect/proc_holder/spell/invoked/eyebite
 	name = "Eyebite"
+	desc = "Conjures arcyne teeth that snap shut upon the target's eyes, inflicting pain and temporarily shattering their vision."
 	overlay_state = "raiseskele"
 	releasedrain = 30
 	chargetime = 15
@@ -59,7 +63,7 @@
 	if(!isliving(targets[1]))
 		return FALSE
 	var/mob/living/carbon/target = targets[1]
-	target.visible_message(span_info("A loud crunching sound has come from [target]!"), span_userdanger("I feel arcane teeth biting into my eyes!"))
+	target.visible_message(span_info("A loud crunching sound has come from [target]!"), span_userdanger("I feel arcyne teeth biting into my eyes!"))
 	target.adjustBruteLoss(30)
 	target.blind_eyes(2)
 	target.blur_eyes(10)
@@ -67,14 +71,14 @@
 
 
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead
-	name = "Raise Lesser Undead"
-	desc = ""
+	name = "Summon Lesser Undead"
+	desc = "Summons a mindless skeleton at the targeted location."
 	clothes_req = FALSE
 	overlay_state = "animate"
-	range = 7
+	range = 3
 	sound = list('sound/magic/magnet.ogg')
 	releasedrain = 40
-	chargetime = 60
+	chargetime = 7 SECONDS //Lucky number seven will save us
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	charging_slowdown = 1
@@ -82,29 +86,89 @@
 	gesture_required = TRUE // Summon spell
 	associated_skill = /datum/skill/magic/arcane
 	recharge_time = 30 SECONDS
-	var/cabal_affine = FALSE
-	var/is_summoned = FALSE
+	var/cabal_affine = TRUE
+	var/is_summoned = TRUE
 	hide_charge_effect = TRUE
+	var/skullcost = 1
+	var/list/summonlist = list(/mob/living/carbon/human/species/skeleton/npc/ambush)
+	var/summon_limit = 10
+	invocation = "Omnia meliora sunt cum amicis!!"
+	invocation_type = "shout"
+	var/list/active_summons = list()
 
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/cast(list/targets, mob/living/user)
 	. = ..()
+
+	if(skullcost)
+		var/list/allbones = list()
+		var/bonecount = 0
+		allbones += user.get_held_items()
+		allbones+= user.get_equipped_items()
+		
+		for(var/obj/item/I in allbones) 
+			if(istype(I, /obj/item/bodypart/head))
+				var/obj/item/bodypart/head/skull = I
+				if(!skull.skeletonized)
+					continue //Do the fast part first. 
+				qdel(skull)
+				bonecount++
+				break
+				
+			if(istype(I, /obj/item/skull)) //No head? Worse, fake head.
+				qdel(I)
+				bonecount++
+				break
+
+			if(bonecount >= skullcost)
+				break
+		if(bonecount < skullcost)
+			to_chat(user, span_warning("I lack the charnel to summon forth my minion. I must carry more skulls, and offer one in hand."))
+			revert_cast()
+			return FALSE
+
+
 	var/turf/T = get_turf(targets[1])
-	var/skeleton_roll = rand(1,100)
 	if(!isopenturf(T))
 		to_chat(user, span_warning("The targeted location is blocked. My summon fails to come forth."))
+		revert_cast()
 		return FALSE
-	switch(skeleton_roll)
-		if(1 to 20)
-			new /mob/living/simple_animal/hostile/rogue/skeleton/axe(T, user, cabal_affine)
-		if(21 to 40)
-			new /mob/living/simple_animal/hostile/rogue/skeleton/spear(T, user, cabal_affine)
-		if(41 to 60)
-			new /mob/living/simple_animal/hostile/rogue/skeleton/guard(T, user, cabal_affine)
-		if(61 to 80)
-			new /mob/living/simple_animal/hostile/rogue/skeleton/bow(T, user, cabal_affine)
-		if(81 to 100)
-			new /mob/living/simple_animal/hostile/rogue/skeleton(T, user, cabal_affine)
+	var/mob/living/summon = pick(summonlist)
+	var/mob/living/carbon/human/skeleton = new summon(T, user, cabal_affine)
+	skeleton.faction += "[user.mind.current.real_name]_faction"
+	if(cabal_affine)
+		skeleton.faction += "cabal"
+	
+	active_summons += WEAKREF(skeleton)
+	if(active_summons.len > summon_limit)
+		var/mob/living/H = active_summons[1]
+		active_summons =- H
+		H.emote("scream")
+		visible_message(span_notice("\The [H] suddenly crumbles, leaving nothing but dust and echoes."))
+		H.gib(TRUE, TRUE, TRUE)
+
 	return TRUE
+
+
+/obj/effect/proc_holder/spell/invoked/raise_lesser_undead/minor
+	name = "Raise Minor Undead"
+	desc = "Summons a weak skeleton at the targeted location."
+	clothes_req = FALSE
+	overlay_state = "animate"
+	sound = list('sound/magic/magnet.ogg')
+	releasedrain = 40
+	chargetime = 3 SECONDS
+	recharge_time = 20 SECONDS
+	releasedrain = 10 //MEANINGLESS CHAFF.
+	skullcost = 0
+	summon_limit = 30//Some arbitrary number, we don't... REALLY care about these at all.
+	summonlist = list(\
+	/mob/living/simple_animal/hostile/rogue/skeleton/axe, \
+	/mob/living/simple_animal/hostile/rogue/skeleton/spear, \
+	/mob/living/simple_animal/hostile/rogue/skeleton/guard, \
+	/mob/living/simple_animal/hostile/rogue/skeleton/bow, \
+	/mob/living/simple_animal/hostile/rogue/skeleton)
+	invocation = "Mortuos paenitentes surgere iubeo!"
+
 
 /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/necromancer
 	cabal_affine = TRUE
@@ -112,8 +176,8 @@
 	recharge_time = 45 SECONDS
 
 /obj/effect/proc_holder/spell/invoked/projectile/sickness
-	name = "Ray of Sickness"
-	desc = ""
+	name = "Ray of Sickening"
+	desc = "Fires a ray of negative energy that fools the body to believe it is poisoned. Extended use of this spell can make the victim spill their guts."
 	clothes_req = FALSE
 	range = 15
 	projectile_type = /obj/projectile/magic/sickness
@@ -127,7 +191,9 @@
 	charging_slowdown = 1
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
-	recharge_time = 15 SECONDS
+	invocation = "Te ipsum cacare!"
+	invocation_type = "shout"
+
 
 /obj/effect/proc_holder/spell/invoked/gravemark
 	name = "Gravemark"
@@ -138,7 +204,7 @@
 	movement_interrupt = FALSE
 	chargedloop = null
 	antimagic_allowed = TRUE
-	recharge_time = 15 SECONDS
+	recharge_time = 5 SECONDS
 	hide_charge_effect = TRUE
 
 /obj/effect/proc_holder/spell/invoked/gravemark/cast(list/targets, mob/living/user)
@@ -149,7 +215,7 @@
 		if (target == user)
 			to_chat(user, span_warning("It would be unwise to make an enemy of your own skeletons."))
 			return FALSE
-		if(target.mind && target.mind.current)
+		if(target.mind && target.mind.current) // No using gravemark to pacify highwaymen npcs lmfao
 			if (faction_tag in target.mind.current.faction)
 				target.mind.current.faction -= faction_tag
 				user.say("Hostis declaratus es.")
@@ -157,15 +223,93 @@
 				target.mind.current.faction += faction_tag
 				user.say("Amicus declaratus es.")
 			target.notify_faction_change()
+
+		if(target.mob_biotypes & MOB_UNDEAD)
+			if (faction_tag in target.faction)
+				target.faction -= faction_tag
+				user.say("Hostis declaratus es.")			
+			else
+				target.faction += faction_tag
+				user.say("Amicus declaratus es.")
+				var/mob/living/simple_animal/hostile/hostile_target = target
+				hostile_target.revalidate_target_on_faction_change()
+/*
 		else if(istype(target, /mob/living/simple_animal))
 			if (faction_tag in target.faction)
 				target.faction -= faction_tag
 				user.say("Hostis declaratus es.")
 			else
-				target.faction |= faction_tag
+				if(target.mob_biotypes & MOB_UNDEAD) //If there was a better undead check, I'd use that. But I don't.
+					target.faction += faction_tag
+					user.say("Amicus declaratus es.")
+					var/mob/living/simple_animal/hostile/hostile_target = target
+					hostile_target.revalidate_target_on_faction_change()
+		else if(istype(target, /mob/living/carbon/human/species/skeleton/npc))//I wish I had a better way to do this....
+			if (faction_tag in target.faction)
+				target.faction -= faction_tag
+				user.say("Hostis declaratus es.")
+			else
+				target.faction += faction_tag
 				user.say("Amicus declaratus es.")
-			if(istype(target, /mob/living/simple_animal/hostile))
-				var/mob/living/simple_animal/hostile/hostile_target = target
-				hostile_target.revalidate_target_on_faction_change()
+*/
 		return TRUE
 	return FALSE
+
+/obj/effect/proc_holder/spell/invoked/animate_dead
+	name = "Animate Dead and Dying"
+	desc = "Allows you to forcefully raise a corpse in critical condition or animals that Zizo may infest naturally."
+	overlay_state = "raiseskele"
+	range = 7
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	chargedloop = null
+	antimagic_allowed = TRUE
+	recharge_time = 1 SECONDS
+	hide_charge_effect = TRUE
+	releasedrain = 30
+	chargetime = 5 SECONDS
+	recharge_time = 30 SECONDS
+	invocation_type = "shout"
+	invocation = "Vae victis!!!"
+
+//raise crit targets and animals that can raise naturally.
+/obj/effect/proc_holder/spell/invoked/animate_dead/cast(list/targets, mob/living/user)
+	. = ..()
+	var/success
+	var/faction_tag = "[user.mind.current.real_name]_faction"
+	if(ishuman(targets[1]))
+		var/mob/living/carbon/human/target = targets[1]
+		if(target.InCritical() || target.stat == DEAD) 
+			if(!target.mind)
+				target.mind_initialize()
+			if(target.zombie_check_can_convert(target) || target.mind.has_antag_datum(/datum/antagonist/zombie))
+				if(target.client)
+					to_chat(user, span_warning("ZIZO's rot sinks into [target]'s mind..."))
+					INVOKE_ASYNC(src, PROC_REF(giveup), target)
+			else
+				revert_cast()
+				to_chat(user, span_warning("ZIZO denies this corpse her gift!"))
+				return
+			sleep(10 SECONDS)
+			wake_zombie(target, infected_wake = TRUE, converted = FALSE)
+			target.faction += faction_tag
+			target.notify_faction_change() //Stop hitting me!!!!
+			success++
+		else
+			to_chat(user, span_warning("This one hasn't slipped out quite yet..."))
+	if(isanimal(targets[1]))
+		var/mob/living/simple_animal/animal = targets[1]
+		var/datum/component/deadite_animal_reanimation/deadite = animal.GetComponent(/datum/component/deadite_animal_reanimation)
+		if(deadite)
+			to_chat(user, span_warning("ZIZO's gift takes root."))
+			animal = deadite.reanimate(forced=TRUE)
+			animal.faction += faction_tag
+			success++
+	if(!success)
+		revert_cast(user)
+
+/obj/effect/proc_holder/spell/invoked/animate_dead/proc/giveup(mob/living/carbon/human/M) 
+	if(alert(M, "Do you accept ZIZO and soar, or will you wriggle like the filth you are?", "CHOICE OF SUBMISSION", "BIRD", "WORM") == "WORM")
+		message_admins("[M.real_name] chose to respawn instead of becoming a zombie.")
+		log_admin("[M.real_name] chose to respawn instead of becoming a zombie.")
+		M.ghostize(can_reenter_corpse = TRUE, pissbaby_override = TRUE)

@@ -44,7 +44,6 @@
 		TRAIT_NOPAIN,
 		TRAIT_NOPAINSTUN,
 		TRAIT_NOBREATH,
-		TRAIT_NOBREATH,
 		TRAIT_TOXIMMUNE,
 		TRAIT_CHUNKYFINGERS,
 		TRAIT_NOSLEEP,
@@ -139,6 +138,8 @@
 	//Special because deadite status is latent as opposed to the others. 
 	if(admin_granted)
 		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(wake_zombie), zombie, FALSE, TRUE), 5 SECONDS, TIMER_STOPPABLE)
+	
+	show_in_antagpanel = FALSE
 	return ..()
 
 /*
@@ -212,6 +213,8 @@
 		var/mob/dead/observer/ghost = zombie.get_ghost(TRUE)
 		if(ghost)
 			ghost.can_reenter_corpse = TRUE
+	if(zombie.ai_currently_active)
+		zombie.flee_in_pain = TRUE
 	return ..()
 
 //Housekeeping's done. Transform into zombie.
@@ -242,8 +245,8 @@
 	zombie.update_a_intents()
 	zombie.aggressive = TRUE
 	zombie.mode = NPC_AI_IDLE
+	zombie.flee_in_pain = FALSE
 	zombie.handle_ai()
-	ambushable = zombie.ambushable
 	zombie.ambushable = FALSE
 
 	if(zombie.charflaw)
@@ -291,7 +294,7 @@
 		SLOT_MOUTH,
 		//SLOT_NECK,
 	)
-	for(var/slot in removed_slots)
+	for(var/slot in removed_slots) //I will literally pay someone to write a check that makes them only drop what prevents them from biting.
 		zombie.dropItemToGround(zombie.get_item_by_slot(slot), TRUE)
 
 // Infected wake param is just a transition from living to zombie, via zombie_infect()
@@ -367,7 +370,7 @@
 			flash_fullscreen("redflash3")
 			to_chat(victim, span_danger("Ow! It hurts. I feel horrible... REALLY horrible..."))
 
-	victim.zombie_check_can_convert() //They are given zombie antag mind here unless they're already an antag.
+	victim.zombie_check_can_convert(infection_type) //They are given zombie antag mind here unless they're already an antag.
 
 //Delay on waking up as a zombie. /proc/wake_zombie(mob/living/carbon/zombie, infected_wake = FALSE, converted = FALSE)
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(wake_zombie), victim, FALSE, TRUE), wake_delay, TIMER_STOPPABLE)
@@ -426,14 +429,19 @@
 
 
 	if (converted || infected_wake)
+		var/atom/movable/screen/gameover/gameover = locate(/atom/movable/screen/gameover) in zombie.client.screen
+		if(gameover)
+			qdel(gameover) //Should(?) Prevent zizoids from being totally blinded while they turn.
 		zombie.flash_fullscreen("redflash3")
 		zombie.emote("scream") // Warning for nearby players
 		zombie.Knockdown(1)
 
 ///Making sure they're not any other antag as well as adding the zombie datum to their mind
-/mob/living/carbon/human/proc/zombie_check_can_convert()
-	if(!mind)
+/mob/living/carbon/human/proc/zombie_check_can_convert(infection_type)
+	if(mob_biotypes & MOB_ROBOTIC)
 		return
+	if(!mind &&  has_world_trait(/datum/world_trait/zizo_defilement) ) //Only raise NPCs as living dead during zizo storyteller.
+		mind_initialize()
 	if(mind.has_antag_datum(/datum/antagonist/vampire))
 		return
 	if(mind.has_antag_datum(/datum/antagonist/werewolf))
@@ -442,7 +450,11 @@
 		return
 	if(mind.has_antag_datum(/datum/antagonist/skeleton))
 		return
-	if(HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE))
-		return
-	return mind.add_antag_datum(/datum/antagonist/zombie)
+	if(!isnull(infection_type))
+		if(HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE)) //For bites and cuts, no infections for zombie immunity.
+			return
+	else
+		if(HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE) && !istype(patron, /datum/patron/inhumen/zizo)) //For natural death, but not zizoids, you will not rot. Zizoids, however, pass this check and become zombified.
+			return
 
+	return mind.add_antag_datum(/datum/antagonist/zombie)
