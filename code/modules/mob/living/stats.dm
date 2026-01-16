@@ -1,11 +1,3 @@
-#define STAT_STRENGTH "strength"
-#define STAT_PERCEPTION "perception"
-#define STAT_INTELLIGENCE "intelligence"
-#define STAT_CONSTITUTION "constitution"
-#define STAT_ENDURANCE "endurance"
-#define STAT_SPEED "speed"
-#define STAT_FORTUNE "fortune"
-
 /mob/living
 	var/STASTR = 10
 	var/STAPER = 10
@@ -43,7 +35,7 @@
 	return TRUE
 
 /datum/species
-	// Associative list of stat (STAT_STRENGTH, etc) bonuses used to differentiate each race. They should ALWAYS be positive.
+	// Associative list of stat (STATKEY_STR, etc) bonuses used to differentiate each race. They should ALWAYS be positive.
 	var/list/race_bonus = list()
 	var/construct = 0
 	var/gibs_on_shapeshift = FALSE // do we play the gibs fx + foley when shapeshifting into this species?
@@ -96,19 +88,19 @@
 	if(!stat)
 		return
 	switch(stat)
-		if(STAT_STRENGTH)
+		if(STATKEY_STR)
 			return STASTR
-		if(STAT_PERCEPTION)
+		if(STATKEY_PER)
 			return STAPER
-		if(STAT_INTELLIGENCE)
+		if(STATKEY_INT)
 			return STAINT
-		if(STAT_CONSTITUTION)
+		if(STATKEY_CON)
 			return STACON
-		if(STAT_ENDURANCE)
+		if(STATKEY_END)
 			return STAEND
-		if(STAT_SPEED)
+		if(STATKEY_SPD)
 			return STASPD
-		if(STAT_FORTUNE)
+		if(STATKEY_LCK)
 			return STALUC
 		else
 			CRASH("get_stat called on [src] with an erroneous stat flag: [stat]")
