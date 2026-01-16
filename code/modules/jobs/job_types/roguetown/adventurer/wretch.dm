@@ -4,8 +4,8 @@
 	flag = WRETCH
 	department_flag = PEASANTS
 	faction = "Station"
-	total_positions = 10
-	spawn_positions = 10
+	total_positions = 2
+	spawn_positions = 2
 	allowed_races = RACES_ALL_KINDS
 	disallowed_races = /datum/species/ogre
 	tutorial = "Somewhere in your lyfe, you fell to the wrong side of civilization. Hounded by the consequences of your actions, you now threaten the peace of those who still heed the authority that condemned you."
@@ -33,6 +33,8 @@
 	/datum/virtue/combat/crimson_curse,
 	)
 	carebox_table = /datum/carebox_table/wretch
+
+	evil_ass_role = TRUE
 
 	job_traits = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_OUTLAW, TRAIT_HERESIARCH)
 	job_subclasses = list(

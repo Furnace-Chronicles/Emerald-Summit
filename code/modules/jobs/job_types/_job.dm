@@ -168,6 +168,12 @@
 	///The social rank of the job, determines the examine text when examining others or being examined
 	var/social_rank = SOCIAL_RANK_DIRT
 
+	//Slots added or substracted by admins
+	var/admin_slots = 0
+	
+	//Whether this job's slots are affected by PSYDON
+	var/evil_ass_role = FALSE
+
 /datum/job/proc/special_job_check(mob/dead/new_player/player)
 	return TRUE
 

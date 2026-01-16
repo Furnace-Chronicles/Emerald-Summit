@@ -48,6 +48,8 @@
 
 /datum/storyteller/psydon/on_vote_chosen()
 	rules_forever = TRUE
+	SSjob.psydoncheck = TRUE
+	SSjob.CheckPopScaling()
 
 /datum/storyteller/astrata
 	name = "Astrata"

@@ -651,6 +651,7 @@
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Add)
 				job.total_positions += 1
+				job.admin_slots += 1
 				message_admins("[usr.key] has opened a [job.title] slot.")
 				log_admin("[key_name(usr)] opened a [job.title] slot.")
 				break
@@ -687,6 +688,7 @@
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Remove && job.total_positions - job.current_positions > 0)
 				job.total_positions -= 1
+				job.admin_slots -= 1
 				message_admins("[usr.key] has closed a [job.title] slot.")
 				log_admin("[key_name(usr)] closed a [job.title] slot.")
 				break

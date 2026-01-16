@@ -20,6 +20,15 @@ SUBSYSTEM_DEF(job)
 	var/overflow_role = "Fuckyou"
 	var/list/level_order = list(JP_HIGH,JP_MEDIUM,JP_LOW)
 
+	// SCARLET REACH - Added pop scaling, put the job's path here along with how many players should add 1 slot. Total and Spawn positions in job define are the BASE slots.
+	var/list/pop_scaling = list(
+		/datum/job/roguetown/wretch = 35,
+		/datum/job/roguetown/bandit =  50,
+	)
+	var/checkcount = 0 // Small antilag measure just in case
+	var/checkcooldown = 10 SECONDS // Cooldown to check again from joining and leaving
+	var/psydoncheck = FALSE // EXTREMELY LOW EFFORT !!!!!! REPLACE FOR EVERY STORYTELLER AFFECTING POPSCALING AT SOME POINT.
+
 /datum/controller/subsystem/job/Initialize(timeofday)
 	SSmapping.HACK_LoadMapConfig()
 	if(!occupations.len)
@@ -27,6 +36,8 @@ SUBSYSTEM_DEF(job)
 	if(CONFIG_GET(flag/load_jobs_from_txt))
 		LoadJobs()
 	set_overflow_role(CONFIG_GET(string/overflow_job))
+	for(var/J in pop_scaling)
+		pop_scaling[J] += rand(-4,4) // bit of random never hurt anyone
 	return ..()
 
 /datum/controller/subsystem/job/proc/set_overflow_role(new_overflow_role)
@@ -393,6 +404,8 @@ SUBSYSTEM_DEF(job)
 
 	initial_players_to_assign = unassigned.len
 	log_game("DO: [unassigned.len] unassigned players")
+
+	CheckPopScaling(TRUE)
 
 	JobDebug("DO, Len: [unassigned.len]")
 	if(unassigned.len == 0)
@@ -917,6 +930,7 @@ SUBSYSTEM_DEF(job)
 	newjob.total_positions = J.total_positions
 	newjob.spawn_positions = J.spawn_positions
 	newjob.current_positions = J.current_positions
+	CheckPopScaling(TRUE)
 
 /atom/proc/JoinPlayerHere(mob/M, buckle)
 	// By default, just place the mob on the same turf as the marker or whatever.
@@ -945,6 +959,24 @@ SUBSYSTEM_DEF(job)
 	message_admins(msg)
 	CRASH(msg)
 
+/datum/controller/subsystem/job/proc/CheckPopScaling(var/roundstart = FALSE)
+	if(!checkcount || roundstart)
+		for(var/J in pop_scaling)
+			var/datum/job/Job = GetJobType(J)
+			if(!Job)
+				break
+			if(Job.total_positions == -1)
+				pop_scaling.Remove(J)
+				continue
+			Job.total_positions = clamp(initial(Job.total_positions) + round((GLOB.clients.len/pop_scaling[J])), 0, 10)
+			Job.spawn_positions = clamp(initial(Job.spawn_positions) + round((GLOB.clients.len/pop_scaling[J])), 0, 10)
+			if(psydoncheck && Job.evil_ass_role)
+				Job.total_positions = floor(Job.total_positions/2)
+				Job.spawn_positions = floor(Job.spawn_positions/2)
+			Job.total_positions += Job.admin_slots
+			Job.spawn_positions += Job.admin_slots
+	checkcount = 1
+	addtimer(VARSET_CALLBACK(src, checkcount, FALSE), checkcooldown)
 
 ///////////////////////////////////
 //Keeps track of all living heads//
