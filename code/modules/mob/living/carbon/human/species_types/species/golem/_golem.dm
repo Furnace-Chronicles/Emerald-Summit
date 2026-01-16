@@ -4,6 +4,7 @@
 	inherent_skills = list(
 		/datum/skill/craft/engineering = 2, // El Bonk
 	)
+	inherent_biotypes = MOB_HUMANOID | MOB_ROBOTIC
 
 /datum/species/golem/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	. = ..()

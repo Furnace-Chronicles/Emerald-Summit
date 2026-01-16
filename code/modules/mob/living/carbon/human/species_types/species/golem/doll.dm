@@ -37,6 +37,7 @@
 	inherent_traits = list(TRAIT_NOHUNGER, TRAIT_BLOODLOSS_IMMUNE, TRAIT_NOBREATH, TRAIT_NOSLEEP, TRAIT_CRITICAL_WEAKNESS,
 	TRAIT_BEAUTIFUL, TRAIT_EASYDISMEMBER, TRAIT_LIMBATTACHMENT, TRAIT_NOMETABOLISM, TRAIT_NOPAIN, TRAIT_ZOMBIE_IMMUNE)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
+	inherent_biotypes = MOB_HUMANOID | MOB_ROBOTIC
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/golem.dmi'
 	limbs_icon_f = 'icons/roguetown/mob/bodies/f/golem.dmi'
 	dam_icon = 'icons/roguetown/mob/bodies/dam/dam_male.dmi'
