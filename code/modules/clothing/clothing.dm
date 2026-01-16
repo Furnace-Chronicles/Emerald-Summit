@@ -105,10 +105,12 @@
 		switch(zone)
 			if(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
 				if(!(slot_flags & (ITEM_SLOT_HANDS | ITEM_SLOT_WRISTS)))
-					amount = round(max_integrity * 0.75, 10)
+					amount = round(max_integrity * 0.55, 10)
 			if(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 				if(!(slot_flags & (ITEM_SLOT_SHOES | ITEM_SLOT_PANTS)))
-					amount = round(max_integrity * 0.85, 10)
+					amount = round(max_integrity * 0.55, 10)
+			else
+				amount = round(max_integrity * 0.75, 10)
 				
 	return amount
 
