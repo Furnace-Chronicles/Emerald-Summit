@@ -779,7 +779,7 @@ Inquisitorial armory down here
 		if(lastcarrier.pulling)
 			lastcarrier.stop_pulling()
 	if(break_sound)
-		playsound(src, break_sound, 80, TRUE)
+		playsound(get_turf(src), break_sound, 80, TRUE)
 	update_icon()
 	to_chat(M, "The [src] SNAPS...!")
 	name = "\proper snapped seizing garrote"
@@ -1143,7 +1143,7 @@ Inquisitorial armory down here
 	sleep(2 SECONDS)
 	if(usesleft == 0)
 		broken = TRUE
-		playsound(src, 'sound/items/blackmirror_break.ogg', 100, FALSE)
+		playsound(get_turf(src), 'sound/items/blackmirror_break.ogg', 100, FALSE)
 		visible_message(span_info("[src] shatters, fog spilling from the splintering shards into the dead air."))
 		openstate = "broken"
 		update_icon()

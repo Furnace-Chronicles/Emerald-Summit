@@ -7,7 +7,7 @@
 		stack_trace("[src] taking damage after deletion")
 		return
 	if(sound_effect)
-		playsound(src, pick(attacked_sound), 100, FALSE)
+		playsound(get_turf(src), pick(attacked_sound), 100, FALSE)
 	if(turf_integrity <= 0)
 		return
 	damage_amount = damage_amount
@@ -19,7 +19,7 @@
 		if(break_message)
 			visible_message(break_message)
 		if(break_sound)
-			playsound(src, break_sound, 100, TRUE)
+			playsound(get_turf(src), break_sound, 100, TRUE)
 	//DESTROYING SECOND
 	if(turf_integrity <= 0)
 		if(islist(debris))
@@ -29,7 +29,7 @@
 		if(break_message)
 			visible_message(break_message)
 		if(break_sound)
-			playsound(src, break_sound, 100, TRUE)
+			playsound(get_turf(src), break_sound, 100, TRUE)
 		turf_destruction(damage_flag)
 
 ///called after the obj takes damage and integrity is below integrity_failure level

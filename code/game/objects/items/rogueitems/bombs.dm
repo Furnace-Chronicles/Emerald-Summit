@@ -35,7 +35,7 @@
 	START_PROCESSING(SSfastprocess, src)
 	icon_state += "-lit"
 	lit = TRUE
-	playsound(src, 'sound/items/firelight.ogg', 100)
+	playsound(get_turf(src), 'sound/items/firelight.ogg', 100)
 	if(ismob(loc))
 		var/mob/M = loc
 		M.update_inv_hands()
@@ -48,7 +48,7 @@
 		return
 	lit = FALSE
 	STOP_PROCESSING(SSfastprocess, src)
-	playsound(src, 'sound/items/firesnuff.ogg', 100)
+	playsound(get_turf(src), 'sound/items/firesnuff.ogg', 100)
 	icon_state = "bbomb"
 	if(ismob(loc))
 		var/mob/M = loc
@@ -250,9 +250,9 @@
 
 /obj/item/bomb/smoke/explode()
 	var/turf/T = get_turf(src)
-	if(!T) 
+	if(!T)
 		return FALSE
-	playsound(src, 'sound/items/smokebomb.ogg', 50)
+	playsound(get_turf(src), 'sound/items/smokebomb.ogg', 50)
 	var/datum/effect_system/smoke_spread/smoke = new /datum/effect_system/smoke_spread
 	smoke.set_up(radius, T)
 	smoke.start()
@@ -289,7 +289,7 @@
 		START_PROCESSING(SSfastprocess, src)
 		icon_state = lit_state
 		lit = TRUE
-		playsound(src.loc, 'sound/items/firelight.ogg', 100)
+		playsound(get_turf(src), 'sound/items/firelight.ogg', 100)
 		if(ismob(loc))
 			var/mob/M = loc
 			M.update_inv_hands()
@@ -301,7 +301,7 @@
 	if(lit)
 		lit = FALSE
 		STOP_PROCESSING(SSfastprocess, src)
-		playsound(src.loc, 'sound/items/firesnuff.ogg', 100)
+		playsound(get_turf(src), 'sound/items/firesnuff.ogg', 100)
 		icon_state = initial(icon_state)
 		if(ismob(loc))
 			var/mob/M = loc
@@ -357,7 +357,7 @@
 		START_PROCESSING(SSfastprocess, src)
 		icon_state = lit_state
 		lit = TRUE
-		playsound(src.loc, 'sound/items/firelight.ogg', 100)
+		playsound(get_turf(src), 'sound/items/firelight.ogg', 100)
 		if(ismob(loc))
 			var/mob/M = loc
 			M.update_inv_hands()
@@ -369,7 +369,7 @@
 	if(lit)
 		lit = FALSE
 		STOP_PROCESSING(SSfastprocess, src)
-		playsound(src.loc, 'sound/items/firesnuff.ogg', 100)
+		playsound(get_turf(src), 'sound/items/firesnuff.ogg', 100)
 		icon_state = initial(icon_state)
 		if(ismob(loc))
 			var/mob/M = loc
