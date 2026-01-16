@@ -169,9 +169,10 @@
 					if(apply_blunt_modifier)
 						var/blunt_modifier = get_blunt_ap_mod(C, effectiveness)
 						var/modified_pen = armor_penetration + blunt_modifier
-						// Heavy armor gets bonus blunt protection when struck in the chest
+						// Heavy armor gets bonus blunt protection when struck in the chest (scales with durability)
 						if(C.armor_class == ARMOR_CLASS_HEAVY && def_zone == BODY_ZONE_CHEST)
-							modified_pen = max(modified_pen - 26, 0)
+							var/chest_bonus = 26 * effectiveness
+							modified_pen = max(modified_pen - chest_bonus, 0)
 						effective_armor = max(effective_armor - modified_pen, 0)
 					else
 						// Non-blunt attacks use standard penetration
