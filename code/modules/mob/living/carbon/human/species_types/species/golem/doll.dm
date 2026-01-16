@@ -69,11 +69,18 @@
 		)
 	customizers = list(
 		/datum/customizer/organ/eyes/humanoid,
+		/datum/customizer/bodypart_feature/crest,
 		/datum/customizer/bodypart_feature/hair/head/humanoid,
+		/datum/customizer/bodypart_feature/hair/facial/humanoid,
 		/datum/customizer/bodypart_feature/accessory,
 		/datum/customizer/bodypart_feature/face_detail,
 		/datum/customizer/bodypart_feature/underwear,
 		/datum/customizer/bodypart_feature/legwear,
+		/datum/customizer/organ/ears/demihuman,
+		/datum/customizer/organ/horns/demihuman,
+		/datum/customizer/organ/tail/demihuman,
+		/datum/customizer/organ/snout/anthro,
+		/datum/customizer/organ/wings/anthro,
 		/datum/customizer/organ/penis/anthro,
 		/datum/customizer/organ/breasts/human,
 		/datum/customizer/organ/vagina/human_anthro,
@@ -83,12 +90,13 @@
 		/datum/body_marking_set/none,
 	)
 	body_markings = list(
-	    /datum/body_marking/flushed_cheeks,
 		/datum/body_marking/eyeliner,
+		/datum/body_marking/plain,
 		/datum/body_marking/tonage,
 		/datum/body_marking/nose,
 		/datum/body_marking/bangs,
 		/datum/body_marking/bun,
+		/datum/body_marking/flushed_cheeks,
 	)
 
 /datum/species/golem/porcelain/check_roundstart_eligible()
@@ -125,3 +133,60 @@
 
 	))
 
+/datum/species/golem/porcelain/mechanical
+	name = "Arcyne Doll"
+	is_subrace = TRUE // Functionally identical to doll, new sprites
+	desc = "<b>Arcyne Doll</b><br>\
+	The pinnacle of both art and craftsmanship, dolls were originally made to provide companionship for ladies and wealthy women \
+	alike. Created to be simply toys or novelty decorations for the wealthy, they do not sleep, eat or bleed. However, \
+	due to the dark magic and heretical connotation that they share with the Golems of Giza, they were made to be incredibly \
+	brittle as to promote their subservience and remove any chance these somber creations have of harming their masters. \
+	Arcyne dolls were made during the Golem rebellion in Giza, created in a new image specifically to spite their masters. \
+	Arcyne dolls share alot of similarities to their predecessors, made to have a higher level of intelligence for spellcrafting and alchemy.  \
+	Arcyne dolls are often seen as heretical creations due to their origins, even if the design was found and replicated by mortal hands later in life.<br> \
+	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>-2 STR</span> |<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'> +2 INT | +1 SPD</b></span> </br> \
+	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b><span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Hungerless, Insomnia, Bloodless. Extremely fragile.</span></b></br>\
+	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b><span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Capable of installing skill exhibitors in themselves or other Golems.</span></b></br>"
+
+
+	race_titles = list("Homunculus", "Mannequin", "Marionette", "Puppet", "Doll") // So that they can be generic 'dolls' if they want
+	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mcom.dmi'
+	limbs_icon_f = 'icons/roguetown/mob/bodies/f/golem.dmi' // Its probably best I don't touch the female sprite, to prevent clothing spriting issues.
+	customizers = list(
+		/datum/customizer/organ/eyes/humanoid,
+		/datum/customizer/bodypart_feature/crest,
+		/datum/customizer/bodypart_feature/hair/head/humanoid,
+		/datum/customizer/bodypart_feature/hair/facial/humanoid,
+		/datum/customizer/bodypart_feature/accessory,
+		/datum/customizer/bodypart_feature/face_detail,
+		/datum/customizer/bodypart_feature/underwear,
+		/datum/customizer/bodypart_feature/legwear,
+		/datum/customizer/organ/ears/demihuman,
+		/datum/customizer/organ/horns/demihuman,
+		/datum/customizer/organ/tail/demihuman,
+		/datum/customizer/organ/snout/anthro,
+		/datum/customizer/organ/wings/anthro,
+		/datum/customizer/organ/penis/anthro,
+		/datum/customizer/organ/breasts/human,
+		/datum/customizer/organ/vagina/human_anthro,
+		/datum/customizer/organ/testicles/anthro,
+		)
+	body_marking_sets = list(
+		/datum/body_marking_set/none,
+		/datum/body_marking_set/construct_plating_light,
+		/datum/body_marking_set/construct_plating_medium,
+		/datum/body_marking_set/construct_plating_heavy,
+	)
+	body_markings = list(
+		/datum/body_marking/eyeliner,
+		/datum/body_marking/plain,
+		/datum/body_marking/tonage,
+		/datum/body_marking/nose,
+		/datum/body_marking/construct_plating_medium,
+		/datum/body_marking/construct_plating_heavy,
+		/datum/body_marking/construct_head_standard,
+		/datum/body_marking/construct_head_round,
+		/datum/body_marking/construct_standard_eyes,
+		/datum/body_marking/construct_visor_eyes,
+		/datum/body_marking/construct_psyclops_eye,
+	)

@@ -220,6 +220,8 @@ Balloon Alert / Floating Text defines
 #define RACES_MANMADE \
 	/datum/species/golem/metal,\
 	/datum/species/golem/porcelain,\
+	/datum/species/golem/metal/mechanical,\
+	/datum/species/golem/porcelain/mechanical,\
 
 #define RACES_WILDKIN \
 	/datum/species/anthromorph,\
@@ -296,7 +298,9 @@ Balloon Alert / Floating Text defines
 	/datum/species/kobold,\
 	/datum/species/goblinp,\
 	/datum/species/golem/metal,\
+	/datum/species/golem/metal/mechanical,\
 	/datum/species/golem/porcelain,\
+	/datum/species/golem/porcelain/mechanical,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
 	/datum/species/harpy,\
@@ -325,7 +329,9 @@ Balloon Alert / Floating Text defines
 	/datum/species/kobold,\
 	/datum/species/goblinp,\
 	/datum/species/golem/metal,\
+	/datum/species/golem/metal/mechanical,\
 	/datum/species/golem/porcelain,\
+	/datum/species/golem/porcelain/mechanical,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
 	/datum/species/harpy,\
@@ -364,7 +370,9 @@ Balloon Alert / Floating Text defines
 	/datum/species/demihuman,\
 	/datum/species/halforc,\
 	/datum/species/golem/metal,\
+	/datum/species/golem/metal/mechanical,\
 	/datum/species/golem/porcelain,\
+	/datum/species/golem/porcelain/mechanical,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
 	/datum/species/harpy,\
@@ -408,7 +416,9 @@ Balloon Alert / Floating Text defines
 	/datum/species/anthromorph,\
 	/datum/species/demihuman,\
 	/datum/species/golem/metal,\
+	/datum/species/golem/metal/mechanical,\
 	/datum/species/golem/porcelain,\
+	/datum/species/golem/porcelain/mechanical,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
 	/datum/species/harpy,\
