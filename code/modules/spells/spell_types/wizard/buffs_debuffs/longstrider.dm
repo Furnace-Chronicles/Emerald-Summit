@@ -19,6 +19,7 @@
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
 	range = 7
+	allow_crossz = TRUE
 
 /obj/effect/proc_holder/spell/invoked/longstrider/cast(list/targets, mob/user = usr)
 

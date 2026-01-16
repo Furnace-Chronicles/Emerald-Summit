@@ -21,7 +21,7 @@
 	invocation_type = "shout"
 	glow_color = GLOW_COLOR_ARCANE
 	glow_intensity = GLOW_INTENSITY_LOW
-	var/max_range = 5
+	range = 5
 	var/phase = /obj/effect/temp_visual/blink
 
 /obj/effect/temp_visual/blink
@@ -65,13 +65,6 @@
 
 	if(T.density)
 		to_chat(user, span_warning("I cannot teleport into a wall!"))
-		revert_cast()
-		return
-
-	// Check range limit
-	var/distance = get_dist(start, T)
-	if(distance > max_range)
-		to_chat(user, span_warning("That location is too far away! I can only blink up to [max_range] tiles."))
 		revert_cast()
 		return
 	

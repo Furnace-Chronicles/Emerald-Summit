@@ -167,6 +167,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	var/invocation_emote_self = null
 	var/invocation_type = "none" //can be none, whisper, emote and shout
 	var/range = 7 //the range of the spell; outer radius for aoe spells
+	var/allow_crossz = FALSE //if TRUE, allows casting across z-levels (for AOE and buff spells)
 	var/message = "" //whatever it says to the guy affected by it
 	var/selection_type = "view" //can be "range" or "view"
 	var/cooldown_min = 0 //This defines what spell quickened four times has as a cooldown. Make sure to set this for every spell
@@ -426,17 +427,27 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			STOP_PROCESSING(SSfastprocess, src)
 
 /obj/effect/proc_holder/spell/proc/perform(list/targets, recharge = TRUE, mob/user = usr) //if recharge is started is important for the trigger spells
-	if(!ignore_los)
-		if(length(targets))
-			var/radius
-			if(range > 0)	//accounts for touch / self spells that use negative range
-				radius = range
-			else
-				radius = 1
-			if(get_dist(targets[1], user) > radius)
-				to_chat(user, span_warning("It's too far!"))
+	// Range check - always performed unless range is negative (unlimited) or no targets
+	if(length(targets) && range >= 0)
+		var/atom/target = targets[1]
+		if(target)
+			var/turf/target_turf = get_turf(target)
+			var/turf/user_turf = get_turf(user)
+			// Check z-level first - get_dist doesn't properly handle different z-levels
+			// Skip z-level check if allow_crossz is TRUE (for AOE and buff spells)
+			if(!allow_crossz && target_turf && user_turf && target_turf.z != user_turf.z)
+				to_chat(user, span_warning("The target is on a different level!"))
 				revert_cast()
 				return
+			var/distance = get_dist(target_turf, user_turf)
+			if(distance > range)
+				to_chat(user, span_warning("It's too far! (Target is [distance] tiles away, maximum range is [range])"))
+				revert_cast()
+				return
+
+	// Line of sight check - only performed when ignore_los is FALSE
+	if(!ignore_los)
+		if(length(targets))
 			var/atom/A = targets[1]
 			var/turf/target_turf = get_turf(A)
 			var/turf/source_turf = get_turf(user)
