@@ -1788,6 +1788,7 @@
 #include "code\modules\language\roguetown\sandspeak.dm"
 #include "code\modules\language\roguetown\thievescant.dm"
 #include "code\modules\language\roguetown\undead.dm"
+#include "code\modules\language\roguetown\undersign.dm"
 #include "code\modules\language\roguetown\regional\aavnic.dm"
 #include "code\modules\language\roguetown\regional\kazengunese.dm"
 #include "code\modules\library\book.dm"

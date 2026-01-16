@@ -230,7 +230,7 @@
 	name = "Underdark"
 	desc = "I originate from the treacherous Underdark, a cavernous region beneath Otava and Grenzelhoft. This unforgiving land is dominated by the prosperous and cruel dark elves and their pets. Most surfacedwellers only come here in chains."
 	origin_title = "the Underdark"
-	origin_language = /datum/language/otavan
+	origin_language = /datum/language/undersign
 	added_traits = list(TRAIT_UNDERDARK)
 	races = list(/datum/species/elf/dark,
 				/datum/species/moth,
