@@ -318,12 +318,14 @@
 		if(mypan)
 			mypan.forceMove(src)
 			attachment=mypan
+			update_icon()
 		else
 			var/obj/item/reagent_containers/glass/bucket/pot/mypot = locate(/obj/item/reagent_containers/glass/bucket/pot) in get_turf(src)
 			if(mypot)
 				mypot.forceMove(src)
 				attachment=mypot
-	
+				update_icon()
+		
 /obj/machinery/light/rogue/hearth/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover) && (mover.pass_flags & PASSTABLE))
 		return 1
