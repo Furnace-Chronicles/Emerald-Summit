@@ -366,17 +366,27 @@
 	overdose_threshold = 20
 	metabolization_rate = 0.5
 
+/datum/reagent/starsugar/on_mob_add(mob/living/carbon/L)
+	..()
+	for(var/obj/item/W in L)
+		dropItemToGround(L)
+	L.visible_message(span_warning("Moves so fast, they vibrate out of their clothes!"))
+	to_chat(M, "<span class='userdanger'>I sprint so fast, I leave my clothes behind!</span>")
+	L.AddComponent(/datum/component/after_image)
+	playsound(L,'sound/magic/timeforward.ogg', 40, TRUE)
+
 /datum/reagent/starsugar/on_mob_metabolize(mob/living/L)
 	..()
-	L.add_movespeed_modifier(type, update=TRUE, priority=100, multiplicative_slowdown=-2, blacklisted_movetypes=(FLYING|FLOATING))
+	L.add_movespeed_modifier(type, update=TRUE, priority=100, multiplicative_slowdown=-1, blacklisted_movetypes=(FLYING|FLOATING))
 	L.playsound_local(L, 'sound/ravein/small/hello_my_friend.ogg', 100, FALSE)
 	L.flash_fullscreen("whiteflash")
 	animate(L.client, pixel_y = 1, time = 1, loop = -1, flags = ANIMATION_RELATIVE)
 	animate(pixel_y = -1, time = 1, flags = ANIMATION_RELATIVE)
 
 /datum/reagent/starsugar/on_mob_end_metabolize(mob/living/L)
-	L.remove_status_effect(/datum/status_effect/buff/starsugar)
 	L.remove_movespeed_modifier(type)
+	L.remove_status_effect(/datum/status_effect/buff/starsugar)
+	qdel(L.GetComponent(/datum/component/after_image))
 	animate(L.client)
 	..()
 
@@ -390,6 +400,7 @@
 	M.AdjustParalyzed(-40, FALSE)
 	M.AdjustImmobilized(-40, FALSE)
 	M.adjustStaminaLoss(-2, 0)
+	M.drop_all_held_items()
 	M.Jitter(2)
 	if(M.reagents.has_reagent(/datum/reagent/herozium))
 		if(!HAS_TRAIT(M, TRAIT_CRACKHEAD))
