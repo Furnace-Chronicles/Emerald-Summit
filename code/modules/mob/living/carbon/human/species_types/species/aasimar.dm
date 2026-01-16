@@ -74,7 +74,7 @@
 	)
 	languages = list(
 		/datum/language/common,
-		/datum/language/celestial
+		/datum/language/enochian
 	)
 
 /datum/species/aasimar/on_species_gain(mob/living/carbon/C, datum/species/old_species)

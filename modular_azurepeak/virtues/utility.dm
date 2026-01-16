@@ -171,7 +171,8 @@
 		/datum/language/etruscan,
 		/datum/language/gronnic,
 		/datum/language/aavnic,
-		/datum/language/abyssal
+		/datum/language/abyssal,
+		/datum/language/enochian
 	)
 
 	var/list/choices = list()
