@@ -1170,6 +1170,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	icon_state = "baotha_chalky" // mortosasye
 	var/baotharites = list("Rite of Joy")
 
+
 /obj/structure/ritualcircle/baotha/attack_hand(mob/living/user)
 	if(!istype(user.patron, /datum/patron/inhumen/baotha))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
@@ -1179,7 +1180,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		return
 	var/riteselection = input(user, "Rituals of Bliss", src) as null|anything in baotharites
 	switch(riteselection) // put ur rite selection here
-		if("Rite of Joy")
+		if("Rite of Joy" "Mark of Baotha")
 			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
 				to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
 				return
@@ -1205,4 +1206,69 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 							user.apply_status_effect(/datum/status_effect/joybringer)
 							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 							spawn(120)
-								icon_state = "baotha_chalky" 
+								icon_state = "baotha_chalky"
+		if("Mark of Baotha")
+			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
+				to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
+				return
+			var/list/valids_on_rune = list()
+			for(var/mob/living/carbon/human/peep in range(0, loc))
+				valids_on_rune += peep
+			if(!valids_on_rune.len)
+				to_chat(user, "No valid targets on the rune!")
+				return
+			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in valids_on_rune
+			if(!target || QDELETED(target) || target.loc != loc)
+				return
+			if(do_after(user, 50))
+				user.say("#Lady of Lust, hear my words...")
+				if(do_after(user, 50))
+					user.say("#I offer to you this mortal vessel...")
+					if(do_after(user, 50))
+						user.say("#Accept this offering, and bless their flesh with thy sigil!")
+						if(do_after(user, 50))
+							user.say("Praise Baotha!")
+							icon_state = "baotha_active" 
+							baothablessing(target)
+							spawn(120)
+								icon_state = "baotha_chalky"
+
+/obj/structure/ritualcircle/baotha/proc/baothablessing(mob/living/carbon/human/target)
+	if(!target || QDELETED(target) || target.loc != loc)
+		to_chat(usr, "Selected target is not on the rune! [target.p_they(TRUE)] must be directly on top of the rune to receive Baotha's mark.")
+		return
+	if(HAS_TRAIT(target, TRAIT_BAOTHA_FERTILITY_BOON))
+		loc.visible_message(span_cult("They have already been blessed!"))
+		return
+	var/prompt = alert(target, "Your hair stands on end. Shivers run down your spine. Something feels wrong...",, "SURRENDER", "RESIST")
+	if(prompt == "SURRENDER")
+		to_chat(target, span_love("A strange feeling of warmth blooms within your stomach."))
+		target.reagents.add_reagent(/datum/reagent/consumable/ethanol/beer/emberwine, 5)
+		spawn(20)
+			to_chat(target, span_warning("You fall to your feet, your legs suddenly going limp."))
+			target.Stun(60)
+			target.Knockdown(60)
+			spawn(20)
+				loc.visible_message(span_cult("[target] shudders and moans as purple flames lick at their abdomen, burning a glowing pink symbol into their pelvis."))
+				var/mutable_appearance/marking_overlay = mutable_appearance('icons/roguetown/misc/baotha_marking.dmi', "marking_[target.gender == "male" ? "m" : "f"]", -BODY_LAYER)
+				target.add_overlay(marking_overlay)
+				target.update_body_parts()
+				playsound(target, 'sound/health/fastbeat.ogg', 60)
+				target.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE) // hue hue hue
+				spawn(40)
+					to_chat(target, span_purple("You have been marked by Baotha!"))
+					ADD_TRAIT(target, TRAIT_BAOTHA_FERTILITY_BOON, TRAIT_GENERIC)
+					if(!istype(target.charflaw, /datum/charflaw/addiction/lovefiend))
+						target.charflaw = new /datum/charflaw/addiction/lovefiend(target)
+					var/obj/item/organ/vagina/vagina = target.getorganslot(ORGAN_SLOT_VAGINA)
+					if(vagina && !vagina.fertility)
+						vagina.fertility = TRUE
+	if(prompt == "RESIST")
+		to_chat(target, span_warning("White-hot flames sear your abdomen!"))
+		target.Stun(60)
+		target.Knockdown(60)
+		to_chat(target, span_userdanger("IT BURNS! MAKE IT STOP!"))
+		target.emote("Agony")
+		target.apply_damage(60, BURN, BODY_ZONE_CHEST)
+		loc.visible_message(span_cult("[target] violently writhes and thrashes atop the rune as their flesh is scorched by Baotha's wrath!"))
+

@@ -50,7 +50,10 @@
 	if(!ismob(M))
 		return
 
-	if(ishuman(M))
+	if(user.zone_selected != BODY_ZONE_PRECISE_MOUTH && user.zone_selected != BODY_ZONE_PRECISE_GROIN)
+		return
+
+	if(ishuman(M) && (user.zone_selected == BODY_ZONE_PRECISE_MOUTH))
 		var/mob/living/carbon/human/H = M
 		if(H.is_mouth_covered())
 			to_chat(user, span_warning("Remove [ H == user ? "your" : "[H.p_their()]" ] mask!"))
@@ -73,8 +76,30 @@
 				H.lip_style = "lipstick"
 				H.lip_color = colour
 				H.update_body()
+
+	if(ishuman(M) && (user.zone_selected == BODY_ZONE_PRECISE_GROIN))
+		var/mob/living/carbon/human/H = M
+		if(!get_location_accessible(H, BODY_ZONE_PRECISE_GROIN, TRUE))
+			to_chat(user, span_warning ("Remove [ H == user ? "your" : "[H.p_their()]" ] clothes!"))
+			return
+		/mob/living/carbon/human/var/wombtat
+		if(H.wombtat)	//if they already have lipstick on
+			to_chat(user, span_warning("I need to wipe off the old lipstick first!"))
+		if(H == user)
+			user.visible_message(span_notice("[user] draw's a perverse pattern on [user.p_their()] nethers with the [src]."), \
+								 span_notice("Cold seeps into your skin as you apply the tattoo with the [src]..."))
+		else
+			user.visible_message(span_warning("[user] begins to draw a perverse pattern on [H]'s groin with the [src]."), \
+								 span_notice("I begin to apply the [src] on [H]'s groin..."))
+			if(do_after(user, 20, target = H))
+				user.visible_message(span_notice("[user] draws a womb tattoo [H]'s groin with \the [src]."), \
+									 span_notice("I apply \the [src] on [H]'s groin."))
+		var/mutable_appearance/mark = mutable_appearance('icons/roguetown/misc/baotha_marking.dmi', "marking_m")
+		H.overlays += mark
+		H.update_body()
+		H.wombtat = TRUE
 	else
-		to_chat(user, span_warning("Where are the lips on that?"))
+		..()
 
 //you can wipe off lipstick with paper!
 /obj/item/paper/attack(mob/M, mob/user)
@@ -98,8 +123,32 @@
 										 span_notice("I wipe off [H]'s lipstick."))
 					H.lip_style = null
 					H.update_body()
-	else
-		..()
+		else
+	if(user.zone_selected == BODY_ZONE_PRECISE_GROIN)
+		if(ishuman(M))
+			var/mob/living/carbon/human/H = M
+			if(!H.wombtat)
+				return
+			if(H == user)
+				to_chat(user, span_notice("I wipe off the lipstick with [src]."))
+				var/mutable_appearance/mark = mutable_appearance('icons/roguetown/misc/baotha_marking.dmi', "marking_m")
+				H.overlays -= mark
+				H.update_body()
+				H.wombtat = FALSE
+			else
+				user.visible_message(span_warning("[user] begins to wipe [H]'s lipstick off with \the [src]."), \
+								 	 span_notice("I begin to wipe off [H]'s lipstick..."))
+				if(do_after(user, 10, target = H))
+					user.visible_message(span_notice("[user] wipes [H]'s lipstick off with \the [src]."), \
+									 span_notice("I wipe off [H]'s lipstick."))
+					H.wombtat= null
+					var/mutable_appearance/mark = mutable_appearance('icons/roguetown/misc/baotha_marking.dmi', "marking_m")
+					H.overlays -= mark
+					H.wombtat = FALSE
+					H.update_body()
+
+		else
+			..()
 
 /obj/item/razor
 	name = "electric razor"

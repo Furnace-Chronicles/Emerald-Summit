@@ -39,6 +39,8 @@
 		target.sexcon.cum_into(splashed_user = user)
 		target.virginity = FALSE
 		werewolf_sex_infect_attempt(target, user)
+		if(HAS_TRAIT(user, TRAIT_BAOTHA_FERTILITY_BOON) && !user.getorganslot(ORGAN_SLOT_VAGINA))
+			target.try_impregnate(user)
 
 	if(target.sexcon.considered_limp())
 		target.sexcon.perform_sex_action(user, 1.2, 4, FALSE)
