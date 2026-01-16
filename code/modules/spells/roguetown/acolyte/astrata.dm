@@ -228,7 +228,7 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 	releasedrain = 90
 	chargedrain = 0
 	chargetime = 160
-	range = 1
+	range = 3
 	warnie = "sydwarning"
 	no_early_release = TRUE
 	movement_interrupt = TRUE
