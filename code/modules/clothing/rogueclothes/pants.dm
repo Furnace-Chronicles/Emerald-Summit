@@ -498,8 +498,6 @@
 	desc = "A knee-length mail skirt, warding cuts against the thighs without slowing the feet."
 	icon_state = "chain_skirt"
 	item_state = "chain_skirt"
-	body_parts_covered = LEGS|TAIL_LAMIA
-	armor_class = ARMOR_CLASS_LIGHT	// Coverage to class trade.
 	grid_height = 32
 	grid_width = 64
 
@@ -509,8 +507,6 @@
 	gender = PLURAL
 	icon_state = "plate_skirt"
 	item_state = "plate_skirt"
-	body_parts_covered = LEGS|TAIL_LAMIA
-	armor_class = ARMOR_CLASS_MEDIUM // Coverage to class trade.
 	grid_height = 64
 	grid_width = 64
 
