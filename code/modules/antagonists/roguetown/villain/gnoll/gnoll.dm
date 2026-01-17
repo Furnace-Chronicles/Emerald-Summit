@@ -90,7 +90,7 @@
 	attack_verb = list("claws", "mauls", "eviscerates")
 	animname = "chop"
 	hitsound = "genslash"
-	penfactor = 30
+	penfactor = 20
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"
@@ -117,3 +117,4 @@
 	miss_text = "strikes the air!"
 	miss_sound = "bluntwooshlarge"
 	attack_verb = list("punches", "strikes", "tears")
+	intent_intdamage_factor = 1.35

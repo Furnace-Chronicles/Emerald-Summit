@@ -39,7 +39,6 @@
 		TRAIT_BASHDOORS,
 		TRAIT_ZJUMP,
 		TRAIT_STRONGBITE,
-		TRAIT_HERESIARCH, //Temporary until I map in their hideout.
 	)
 	inherent_biotypes = MOB_HUMANOID
 	armor = 30

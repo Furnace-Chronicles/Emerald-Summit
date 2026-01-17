@@ -9,7 +9,7 @@
 	traits_applied = list()
 	reset_stats = TRUE
 	subclass_stats = list(
-		STATKEY_STR = 4,
+		STATKEY_STR = 5,
 		STATKEY_CON = 2,
 		STATKEY_END = 2,
 		STATKEY_SPD = 4,
