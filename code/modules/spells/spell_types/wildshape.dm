@@ -44,6 +44,11 @@
 
 			var/new_wildshape_type = input(M, "Choose Your Animal Form!", "It's Morphing Time!", null) as null|anything in sortList(animal_list)
 
+			if(!new_wildshape_type)
+				to_chat(user, span_warning("I have decided to maintain my current form.")) //Can't believe this wasn't in the code to begin with
+				revert_cast()
+				return FALSE
+
 			for(var/crecher in possible_shapes) //Second pass to fetch the mob type itself and send it on wildshape_transformation
 				var/mob/living/carbon/human/species/wildshape/B = crecher
 				if(new_wildshape_type == B.name)
