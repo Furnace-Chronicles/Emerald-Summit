@@ -8,7 +8,7 @@
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
-	range = 2
+	range = 7
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	invocation_type = "none"
