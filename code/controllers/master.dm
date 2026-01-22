@@ -179,9 +179,9 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 
 	if(init_sss)
 		init_subtypes(/datum/controller/subsystem, subsystems)
-#ifdef TESTING
+
 	to_chat(world, "<span class='boldannounce'>Initializing subsystems...</span>")
-#endif
+
 	// Sort subsystems by init_order, so they initialize in the correct order.
 	sortTim(subsystems, GLOBAL_PROC_REF(cmp_subsystem_init))
 
@@ -202,9 +202,9 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 
 	var/msg = "Initializations complete within [time] second[time == 1 ? "" : "s"]!"
 
-#ifdef TESTING
+
 	to_chat(world, "<span class='boldannounce'>[msg]</span>")
-#endif
+
 	log_world(msg)
 
 	if (!current_runlevel)
