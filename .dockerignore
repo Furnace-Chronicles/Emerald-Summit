@@ -18,9 +18,9 @@ cfg
 data
 SQL
 tgui/node_modules
-tgstation.dmb
+roguetown.dmb
 tgstation.int
-tgstation.rsc
+roguetown.rsc
 tgstation.lk
 tgstation.dyn.rsc
 libmariadb.dll
