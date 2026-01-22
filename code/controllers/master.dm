@@ -153,7 +153,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 				msg = "The [BadBoy.name] subsystem seems to be destabilizing the MC and will be offlined."
 				BadBoy.flags |= SS_NO_FIRE
 		if(msg)
-			to_chat(GLOB.admins, "<span class='boldannounce'>[msg]</span>")
+			to_chat_immediate(GLOB.admins, "<span class='boldannounce'>[msg]</span>")
 			log_world(msg)
 
 	if (istype(Master.subsystems))
@@ -163,7 +163,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 		current_runlevel = Master.current_runlevel
 		StartProcessing(10)
 	else
-		to_chat(world, "<span class='boldannounce'>The Master Controller is having some issues, we will need to re-initialize EVERYTHING</span>")
+		to_chat_immediate(world, "<span class='boldannounce'>The Master Controller is having some issues, we will need to re-initialize EVERYTHING</span>")
 		Initialize(20, TRUE)
 
 // Please don't stuff random bullshit here,
@@ -179,22 +179,19 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 
 	if(init_sss)
 		init_subtypes(/datum/controller/subsystem, subsystems)
-#ifdef TESTING
-	to_chat(world, "<span class='boldannounce'>Initializing subsystems...</span>")
-#endif
+	to_chat_immediate(world, "<span class='boldannounce'>Initializing subsystems...</span>")
 	// Sort subsystems by init_order, so they initialize in the correct order.
 	sortTim(subsystems, GLOBAL_PROC_REF(cmp_subsystem_init))
 
 	var/start_timeofday = REALTIMEOFDAY
-	// Initialize subsystems.
-//#ifndef TESTSERVER
-//	var/thing_done = FALSE
-//#endif
 
 	current_ticklimit = CONFIG_GET(number/tick_limit_mc_init)
 	for (var/datum/controller/subsystem/SS in subsystems)
 		if (SS.flags & SS_NO_INIT)
 			continue
+		var/log_msg = "INIT-START: [SS.name]"
+		to_chat_immediate(world, span_boldannounce(log_msg))
+		log_world(log_msg)
 		SS.Initialize(REALTIMEOFDAY)
 		CHECK_TICK
 	current_ticklimit = TICK_LIMIT_RUNNING
@@ -202,9 +199,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 
 	var/msg = "Initializations complete within [time] second[time == 1 ? "" : "s"]!"
 
-#ifdef TESTING
-	to_chat(world, "<span class='boldannounce'>[msg]</span>")
-#endif
+	to_chat_immediate(world, "<span class='boldannounce'>[msg]</span>")
 	log_world(msg)
 
 	if (!current_runlevel)
