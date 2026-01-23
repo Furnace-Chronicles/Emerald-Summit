@@ -44,6 +44,7 @@ SUBSYSTEM_DEF(atoms)
 				CHECK_TICK
 
 	to_chat_immediate(GLOB.admins, span_admin("SSATOMS: Initialized [count] atoms"))
+	log_world("Initialized [count] atoms")
 	pass(count)
 
 	initialized = INITIALIZATION_INNEW_REGULAR
@@ -52,7 +53,8 @@ SUBSYSTEM_DEF(atoms)
 		for(var/I in late_loaders)
 			var/atom/A = I
 			A.LateInitialize()
-		to_chat_immediate(GLOB.admins, span_admin("SSATOMS: Late initialized [late_loaders.len] atoms"))
+		to_chat_immediate(GLOB.admins, span_admin("SSATOMS: Late initialized [length(late_loaders)] atoms"))
+		log_world("Late initialized [length(late_loaders)] atoms")
 		late_loaders.Cut()
 
 /datum/controller/subsystem/atoms/proc/InitAtom(atom/A, list/arguments)
