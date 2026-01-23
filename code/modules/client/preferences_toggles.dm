@@ -74,6 +74,11 @@
 /client/verb/toggle_ERP() // Alters if other people can use the ERP panel ON you.
 	set category = "Options"
 	set name = "Toggle ERP Panel"
+	
+	if(!usr.client.check_agevet())
+		to_chat(src, "You are not age vetted. Join the Discord server to become age vetted.")
+		return
+	
 	if(prefs)
 		prefs.sexable = !prefs.sexable
 		prefs.save_preferences()
