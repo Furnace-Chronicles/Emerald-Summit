@@ -7,7 +7,7 @@
 	total_positions = 1
 	spawn_positions = 1
 
-	allowed_races = RACES_APPOINTED_OUTCASTS_UP		//Nobility, no construct
+	allowed_races = RACES_SECOND_CLASS_UP	//Nobility, no construct
 	disallowed_races = list(
 		/datum/species/lamia,
 	)
