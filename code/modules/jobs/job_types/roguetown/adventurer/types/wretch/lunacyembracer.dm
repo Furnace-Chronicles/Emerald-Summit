@@ -4,9 +4,6 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NO_GOLEM
 	min_pq = 30 //less dogshit cryptids please 
-	disallowed_races = list(
-		/datum/species/harpy,
-	)
 	outfit = /datum/outfit/job/wretch/lunacyembracer
 	category_tags = list(CTAG_WRETCH)
 	maximum_possible_slots = 2

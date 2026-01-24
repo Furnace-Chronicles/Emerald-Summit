@@ -3,9 +3,7 @@
 	tutorial = "The Routiers are a formidable Otavan mercenary band, a brotherhood of knights from noble families serving lords who seek to profit in peacetime. The Otavan nobility at large and even some of the clergy eagerly awaits to hear about your feats, they expect you to ENDURE, to be the champion of their faith and represent the true values of nobility, will you?"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = NON_DWARVEN_RACE_TYPES
-	disallowed_races = list(
-		/datum/species/lamia,
-	)
+
 	outfit = /datum/outfit/job/mercenary/routier
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_OTAVA

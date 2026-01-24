@@ -7,10 +7,6 @@
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_DISGRACED_NOBLE)
 
-	disallowed_races = list(
-		/datum/species/harpy,
-	)
-
 	cmode_music = 'sound/music/combat_bandit.ogg' // same as new hedgeknight music
 	// Deserter are the knight-equivalence. They get a balanced, straightforward 2 2 3 statspread to endure and overcome.
 	subclass_stats = list(

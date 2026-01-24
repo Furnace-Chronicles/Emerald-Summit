@@ -17,9 +17,6 @@
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_noble.ogg'
 	social_rank = SOCIAL_RANK_NOBLE
-	disallowed_races = list(
-		/datum/species/harpy, // you WILL have to (pretend to) be nice to the steward if u want their shinies
-	)
 
 	advclass_cat_rolls = list(CTAG_STEWARD = 2)
 

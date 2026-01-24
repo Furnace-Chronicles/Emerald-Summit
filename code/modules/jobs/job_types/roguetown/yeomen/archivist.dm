@@ -8,9 +8,6 @@
 	spawn_positions = 1
 	spells = list(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 	allowed_races = RACES_ALL_KINDS
-	disallowed_races = list(
-		/datum/species/lamia,
-	)
 	allowed_ages = ALL_AGES_LIST
 	social_rank = SOCIAL_RANK_YEOMAN
 

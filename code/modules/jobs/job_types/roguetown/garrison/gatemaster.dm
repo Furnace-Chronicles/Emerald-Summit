@@ -7,9 +7,6 @@
 	spawn_positions = 1
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_FEARED_UP
-	disallowed_races = list(
-		/datum/species/lamia,
-	)
 	allowed_patrons = ALL_DIVINE_PATRONS
 	tutorial = "Tales speak of the Gatemaster's legendary ability to stand still at a gate and ask people questions."
 	display_order = JDO_GATEMASTER
