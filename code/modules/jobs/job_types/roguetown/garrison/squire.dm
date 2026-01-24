@@ -5,7 +5,7 @@
 	faction = "Station"
 	total_positions = 4
 	spawn_positions = 4
-	allowed_races = RACES_FEARED_UP
+	allowed_races = RACES_ALL_KINDS
 	disallowed_races = list(
 		/datum/species/lamia,
 	)
