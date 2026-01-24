@@ -231,7 +231,6 @@ Balloon Alert / Floating Text defines
     /datum/species/lupian,\
     /datum/species/moth,\
     /datum/species/anthromorph,\
-    /datum/species/anthromorphsmall,\
     /datum/species/tabaxi,\
     /datum/species/lizardfolk,\
     /datum/species/akula,\
