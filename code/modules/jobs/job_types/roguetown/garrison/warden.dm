@@ -7,7 +7,7 @@
 	spawn_positions = 6
 	selection_color = JCOLOR_SOLDIER
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_FEARED_UP
+	allowed_races = RACES_ALL_KINDS
 	disallowed_races = list(
 		/datum/species/lamia,
 	)
