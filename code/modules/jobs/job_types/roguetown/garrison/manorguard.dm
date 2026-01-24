@@ -7,10 +7,7 @@
 	total_positions = 8
 	spawn_positions = 8
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_FEARED_UP
-	disallowed_races = list(
-		/datum/species/lamia,
-	)
+	allowed_races = RACES_ALL_KINDS
 	allowed_patrons = ALL_PATRONS
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
 	tutorial = "Having proven yourself loyal and capable, you are entrusted to defend the town and enforce its laws. \
