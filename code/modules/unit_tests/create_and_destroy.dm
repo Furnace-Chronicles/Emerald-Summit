@@ -31,6 +31,8 @@ GLOBAL_VAR_INIT(running_create_and_destroy, FALSE)
 		/obj/effect/DPtarget,
 		// prompts loc for input
 		/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft,
+		// Invalid to spawn after roundstart
+		/obj/effect/landmark/mapGenerator,
 	)
 	//these are VERY situational and need info passed
 	ignore += typesof(/obj/effect/abstract)
