@@ -8,7 +8,6 @@
 	spawn_positions = 2
 	f_title = "Princess"
 	allowed_races = RACES_NOBILITY_ELIGIBLE_UP //Maybe a system to force-pick lineage based on king and queen should be implemented. (No it shouldn't.)
-	allowed_patrons = NON_PSYDON_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT)
 	advclass_cat_rolls = list(CTAG_HEIR = 20)
@@ -23,7 +22,6 @@
 	max_pq = null
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_noble.ogg'
-	allowed_patrons = NON_PSYDON_PATRONS		//Same reason as lord. See Lord.
 
 	job_traits = list(TRAIT_NOBLE)
 	job_subclasses = list(

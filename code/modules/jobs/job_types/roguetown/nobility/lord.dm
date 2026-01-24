@@ -11,7 +11,6 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	spawn_positions = 1
 	selection_color = JCOLOR_NOBLE
 	allowed_races = RACES_NOBILITY_ELIGIBLE_UP
-	allowed_patrons = NON_PSYDON_PATRONS
 	advclass_cat_rolls = list(CTAG_LORD = 20)
 	allowed_sexes = list(MALE, FEMALE)
 
