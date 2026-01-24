@@ -235,7 +235,6 @@ Balloon Alert / Floating Text defines
     /datum/species/lizardfolk,\
     /datum/species/akula,\
 	/datum/species/lamia,\
-	/datum/species/harpy,\
 
 #define RACES_FEARED \
 	/datum/species/halforc,\
@@ -245,6 +244,7 @@ Balloon Alert / Floating Text defines
     /datum/species/goblinp,\
     /datum/species/anthromorphsmall,\
   	/datum/species/dullahan,\
+	/datum/species/harpy,\
 
 
 
