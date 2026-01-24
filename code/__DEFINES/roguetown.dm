@@ -206,6 +206,7 @@ Balloon Alert / Floating Text defines
     /datum/species/human/halfelf,\
     /datum/species/demihuman,\
     /datum/species/dwarf/mountain,\
+	/datum/species/dracon,\
 
 #define RACES_CHURCH_FAVORED \
 	/datum/species/aasimar,\
@@ -233,7 +234,6 @@ Balloon Alert / Floating Text defines
     /datum/species/anthromorphsmall,\
     /datum/species/tabaxi,\
     /datum/species/lizardfolk,\
-    /datum/species/dracon,\
     /datum/species/akula,\
 	/datum/species/lamia,\
 	/datum/species/harpy,\
