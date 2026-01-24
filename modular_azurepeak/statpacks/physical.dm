@@ -2,8 +2,8 @@
 
 /datum/statpack/physical/brawny
 	name = "Brawny"
-	desc = "You've always been stronger and taller than your peers, but solving most of your issues with raw strength led to a degradation of your motor skills."
-	stat_array = list(STAT_STRENGTH = 1, STAT_FORTUNE = 1, STAT_SPEED = -1)
+	desc = "You've always been stronger and taller than your peers."
+	stat_array = list(STAT_STRENGTH = 1)
 
 /datum/statpack/physical/tough
 	name = "Tough"
