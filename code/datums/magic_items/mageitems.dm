@@ -255,16 +255,19 @@
 /obj/item/sendingstonesummoner/Initialize()
 	. = ..()
 	var/mob/living/user = usr
-	var/obj/item/natural/stone/sending/item1 = new /obj/item/natural/stone/sending
-	var/obj/item/natural/stone/sending/item2 = new /obj/item/natural/stone/sending
+	var/turf/the_floor = get_turf(src)
+	var/obj/item/natural/stone/sending/item1 = new /obj/item/natural/stone/sending(the_floor)
+	var/obj/item/natural/stone/sending/item2 = new /obj/item/natural/stone/sending(the_floor)
 	item1.paired_with = item2
 	item2.paired_with = item1
 	item1.icon_state = "whet"
 	item2.icon_state = "whet"
 	item1.color = "#d8aeff"
 	item2.color = "#d8aeff"
-	user.put_in_hands(item1, FALSE)
-	user.put_in_hands(item2, FALSE)
+	if(user)
+		user.put_in_hands(item1, FALSE)
+		user.put_in_hands(item2, FALSE)
+	// Else leave them on the floor.
 	qdel(src)
 
 /obj/item/natural/stone/sending

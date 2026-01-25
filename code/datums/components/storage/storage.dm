@@ -804,6 +804,8 @@
 	return max(0, max_items - real_location.contents.len)
 
 /datum/component/storage/proc/signal_fill_type(datum/source, type, amount = 20, force = FALSE)
+	if(!type)
+		return TRUE
 	var/atom/real_location = real_location()
 	if(!force)
 		amount = min(remaining_space_items(), amount)

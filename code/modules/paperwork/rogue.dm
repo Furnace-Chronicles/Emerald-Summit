@@ -457,7 +457,7 @@
 	if(!faction)
 		faction = pick("Heartfelt", "Hammerhold", "Grenzelhoft", "Kingsfield")		//add more as time goes, idk
 
-	sell_prices = prices
+	sell_prices = prices || list()
 	if(!length(sell_prices))
 		sell_prices = generated_test_data()
 	writers_name = pick( world.file2list("strings/rt/names/human/humnorm.txt") )
