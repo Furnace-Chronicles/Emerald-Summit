@@ -295,7 +295,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	if(virtue_origin.uniquefaith)
 		selected_patron = GLOB.patronlist[virtue_origin.uniquefaith[1].godhead]
 	else
-		selected_patron = GLOB.patronlist[/datum/patron/divine/astrata]
+		selected_patron = /datum/patron/divine/astrata
 
 #define APPEARANCE_CATEGORY_COLUMN "<td valign='top' width='14%'>"
 #define MAX_MUTANT_ROWS 4
