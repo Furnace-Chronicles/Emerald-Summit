@@ -111,13 +111,8 @@
 			if(B.stacktype == R.item_type)
 				var/nopay = R.held_items[stockpile_index] >= R.stockpile_limit // Check whether it is overflowed BEFORE nopaying them
 				R.held_items[stockpile_index] += B.amount
-				if(HAS_TRAIT(H, TRAIT_CROPSHARE) && !I.from_stockpile)
-					if(R.farmers[H])
-						R.farmers[H] += B.amount
-					else
-						R.farmers[H] = B.amount
-					if(message == TRUE)
-						say("[H.name] increases their [R.name] sharecrop.")
+				if(message == TRUE) //Readded for: Mint Rework i
+					stock_announce("[B.amount] units of [R.name] has been stockpiled.")
 				qdel(B)
 				if(sound == TRUE)
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
@@ -125,47 +120,28 @@
 					SStreasury.economic_output += R.export_price * B.amount // Still count
 					say("Stockpile is full, no payment.")
 				else
-					var/amt = R.withdraw_price * B.amount
+					var/amt = R.payout_price * B.amount
 					SStreasury.economic_output += R.export_price * B.amount
-					withdraw_tab.budget += amt
-					withdraw_tab.scrip_budget += amt
-					attack_hand(H, "withdraw")
-					say("Additional [amt] marks awarded to budget.")
-
+					if(!SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty") && message == TRUE)
+						say("No account found. Submit your fingers to a Meister for inspection.")
+					else
+						record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)
 			continue
 		// Bloc to replace old vault mechanics
 		else if(istype(I,R.item_type))
 			if(!R.check_item(I))
 				continue
-			var/amt = R.withdraw_price
+			var/amt = R.get_payout_price(I)
 			var/nopay = !R.mint_item && R.held_items[stockpile_index] >= R.stockpile_limit // Check whether it is overflowed BEFORE nopaying them
 			if(!R.mint_item)
 				R.held_items[stockpile_index] += 1 //stacked logs need to check for multiple
-				if(HAS_TRAIT(H, TRAIT_CROPSHARE) && !I.from_stockpile)
-					if(R.farmers[H])
-						R.farmers[H] += 1
-					else
-						R.farmers[H] = 1
-					if(message == TRUE)
-						say("[H.name] increases their [R.name] sharecrop.")
 				qdel(I)
+				if(message == TRUE)
+					stock_announce("[R.name] has been stockpiled.")
 				if(sound == TRUE)
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 			else
 				var/mint_amt = round(SStreasury.mint_multiplier * I.get_real_price())
-				var/item_type = I.type
-				amt = mint_amt
-				if(R.minted_items[item_type])
-					R.minted_items[item_type] += 1
-				else
-					R.minted_items[item_type] = 1
-				switch(R.minted_items[item_type])
-					if(2 to 3)
-						mint_amt = round(mint_amt * 0.75)
-					if(4 to 5)
-						mint_amt = round(mint_amt * 0.5)
-					if(6 to INFINITY)
-						mint_amt = round(mint_amt * 0.35)
 				SStreasury.minted += mint_amt
 				SStreasury.give_money_treasury(mint_amt, "Minting - [I.name]", FALSE)
 				qdel(I) // Eaten to be minted!
@@ -178,10 +154,8 @@
 				say("Stockpile is full, no payment.")
 			else if(amt)
 				SStreasury.economic_output += true_value
-				withdraw_tab.budget += amt
-				withdraw_tab.scrip_budget += amt
-				attack_hand(H, "withdraw")
-				say("Additional [amt] marks awarded to budget.")
+				if(!SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty") && message == TRUE)
+					say("No account found. Submit your fingers to a Meister for inspection.")
 			record_round_statistic(STATS_STOCKPILE_EXPANSES, amt) // Unlike deposit, a treasure minting is equal to both expending and profiting at the same time
 			record_round_statistic(STATS_STOCKPILE_REVENUE, true_value)
 			return

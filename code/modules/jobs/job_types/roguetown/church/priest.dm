@@ -14,11 +14,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	spawn_positions = 1
 	selection_color = JCOLOR_CHURCH
 	f_title = "Priestess"
-	allowed_races = RACES_SECOND_CLASS_UP // for some stupid reason we gate this by "too recent arrivals", how about fuck you: i cast doll/golem priest
-	disallowed_races = list(
-		/datum/species/lamia,
-		/datum/species/harpy,
-	)
+	allowed_races = RACES_NOBILITY_ELIGIBLE_UP
 	allowed_patrons = ALL_DIVINE_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
 	tutorial = "The Divine is all that matters in a world of the immoral. The Weeping God left his children to rule over us mortals--and you will preach their wisdom to any who still heed their will. The faithless are growing in number. It is up to you to shepard them toward a Gods-fearing future; for you are a priest of Astrata."

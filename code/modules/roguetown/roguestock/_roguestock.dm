@@ -22,8 +22,8 @@
 	var/percent_bounty = FALSE
 	var/passive_generation = 0 //How much to generate in the remote section each firing of the treasury system.
 	var/category = "Raw Materials" // Category for the stockpile
-	var/farmers = list()
-	var/minted_items = list()
+//	var/farmers = list()
+//	var/minted_items = list()
 
 /datum/roguestock/New()
 	..()

@@ -8,12 +8,12 @@
 	desc = "Rock salt useful for curing and cooking."
 	item_type = /obj/item/reagent_containers/powder/salt
 	held_items = list(2,4)
-	payout_price = 8
-	withdraw_price = 8
-	export_price = 16
+	payout_price = 4
+	withdraw_price = 4
+	export_price = 24
 	importexport_amt = 5
 	passive_generation = 3
-	stockpile_limit = 20
+	stockpile_limit = 25
 	category = "Foodstuffs"
 
 /datum/roguestock/stockpile/grain
@@ -21,13 +21,13 @@
 	desc = "Spelt grain."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/wheat
 	held_items = list(0, 4)
-	payout_price = 4
-	withdraw_price = 4
+	payout_price = 2
+	withdraw_price = 2
 	transport_fee = 1
-	export_price = 6
-	importexport_amt = 5
+	export_price = 9
+	importexport_amt = 10
 	passive_generation = 3
-	stockpile_limit = 20
+	stockpile_limit = 50
 	category = "Foodstuffs"
 
 /datum/roguestock/stockpile/oat
@@ -35,13 +35,13 @@
 	desc = "A cereal grain."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/oat
 	held_items = list(0, 4)
-	payout_price = 4
-	withdraw_price = 4
+	payout_price = 2
+	withdraw_price = 2
 	transport_fee = 1
-	export_price = 6
-	importexport_amt = 5
+	export_price = 9
+	importexport_amt = 10
 	passive_generation = 3
-	stockpile_limit = 20
+	stockpile_limit = 50
 	category = "Foodstuffs"
 
 /datum/roguestock/stockpile/garlick
@@ -49,13 +49,13 @@
 	desc = "A pungent root vegetable."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/garlick/rogue
 	held_items = list(0, 4)
-	payout_price = 4
-	withdraw_price = 4
+	payout_price = 2
+	withdraw_price = 2
 	transport_fee = 1
-	export_price = 6
-	importexport_amt = 5
+	export_price = 9
+	importexport_amt = 10
 	passive_generation = 3
-	stockpile_limit = 20
+	stockpile_limit = 50
 	category = "Foodstuffs"
 
 /datum/roguestock/stockpile/meat
@@ -63,12 +63,12 @@
 	desc = "Edible flesh harvested from animals."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak
 	held_items = list(0, 0)
-	payout_price = 8
-	withdraw_price = 8
+	payout_price = 4
+	withdraw_price = 4
 	transport_fee = 2
-	export_price = 16
-	importexport_amt = 5
-	stockpile_limit = 20
+	export_price = 24
+	importexport_amt = 10
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -77,12 +77,12 @@
 	desc = "Descaled and ground fish meat."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/fish
 	held_items = list(0, 0)
-	payout_price = 4
-	withdraw_price = 4
+	payout_price = 2
+	withdraw_price = 2
 	transport_fee = 1
-	export_price = 6
-	importexport_amt = 5
-	stockpile_limit = 20
+	export_price = 9
+	importexport_amt = 10
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -94,9 +94,9 @@
 	payout_price = 4
 	withdraw_price = 4
 	transport_fee = 2
-	export_price = 8
+	export_price = 24
 	importexport_amt = 5
-	stockpile_limit = 20
+	stockpile_limit = 25
 	passive_generation = 1
 	category = "Foodstuffs"
 
@@ -105,12 +105,12 @@
 	desc = "Edible flesh harvested from cabbits."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit
 	held_items = list(0, 0)
-	payout_price = 4
-	withdraw_price = 4
+	payout_price = 3
+	withdraw_price = 3
 	transport_fee = 1
-	export_price = 10
+	export_price = 15
 	importexport_amt = 5
-	stockpile_limit = 20
+	stockpile_limit = 25
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -119,12 +119,12 @@
 	desc = "Egg laid by a hen."
 	item_type = /obj/item/reagent_containers/food/snacks/egg
 	held_items = list(0, 0)
-	payout_price = 5
-	withdraw_price = 5
+	payout_price = 3
+	withdraw_price = 3
 	transport_fee = 2
-	export_price = 10
+	export_price = 15
 	importexport_amt = 5
-	stockpile_limit = 20
+	stockpile_limit = 25
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -133,12 +133,12 @@
 	desc = "Greasy flesh from an animal."
 	item_type = /obj/item/reagent_containers/food/snacks/fat
 	held_items = list(0, 0)
-	payout_price = 5
-	withdraw_price = 5
+	payout_price = 3
+	withdraw_price = 3
 	transport_fee = 1
-	export_price = 10
+	export_price = 15
 	importexport_amt = 5
-	stockpile_limit = 20
+	stockpile_limit = 25
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -147,12 +147,12 @@
 	desc = "Shelf-stabilized fatty tissue."
 	item_type = /obj/item/reagent_containers/food/snacks/tallow
 	held_items = list(0, 0)
-	payout_price = 2
-	withdraw_price = 2
+	payout_price = 1
+	withdraw_price = 1
 	transport_fee = 1
-	export_price = 4
+	export_price = 6
 	importexport_amt = 5
-	stockpile_limit = 20
+	stockpile_limit = 25
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -161,12 +161,12 @@
 	desc = "The product of milk and salt."
 	item_type = /obj/item/reagent_containers/food/snacks/butter
 	held_items = list(0, 0)
-	payout_price = 13
-	withdraw_price = 13
+	payout_price = 9
+	withdraw_price = 9
 	transport_fee = 3
-	export_price = 26
+	export_price = 39
 	importexport_amt = 5
-	stockpile_limit = 20
+	stockpile_limit = 25
 	passive_generation = 1
 	category = "Foodstuffs"
 
@@ -175,12 +175,12 @@
 	desc = "The product of milk and salt."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/cheese
 	held_items = list(0, 0)
-	payout_price = 5
-	withdraw_price = 5
+	payout_price = 3
+	withdraw_price = 3
 	transport_fee = 2
-	export_price = 10
+	export_price = 15
 	importexport_amt = 5
-	stockpile_limit = 20
+	stockpile_limit = 25
 	passive_generation = 1
 	category = "Foodstuffs"
 
@@ -189,12 +189,12 @@
 	desc = "A bulb vegetable."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/onion/rogue
 	held_items = list(0, 0)
-	payout_price = 4
-	withdraw_price = 4
+	payout_price = 2
+	withdraw_price = 2
 	transport_fee = 1
-	export_price = 6
-	importexport_amt = 5
-	stockpile_limit = 20
+	export_price = 9
+	importexport_amt = 10
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -203,12 +203,12 @@
 	desc = "A hardy root vegetable suitable for soups. Favored by the poor"
 	item_type = /obj/item/reagent_containers/food/snacks/grown/vegetable/turnip
 	held_items = list(0, 0)
-	payout_price = 4
-	withdraw_price = 4
+	payout_price = 2
+	withdraw_price = 2
 	transport_fee = 1
-	export_price = 6
-	importexport_amt = 5
-	stockpile_limit = 20
+	export_price = 9
+	importexport_amt = 10
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -217,12 +217,12 @@
 	desc = "A leafy vegetable."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/cabbage/rogue
 	held_items = list(0, 0)
-	payout_price = 4
-	withdraw_price = 4
+	payout_price = 2
+	withdraw_price = 2
 	transport_fee = 1
-	export_price = 6
-	importexport_amt = 5
-	stockpile_limit = 20
+	export_price = 9
+	importexport_amt = 10
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -231,12 +231,12 @@
 	desc = "An interesting tuber."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/potato/rogue
 	held_items = list(0, 0)
-	payout_price = 4
-	withdraw_price = 4
+	payout_price = 2
+	withdraw_price = 2
 	transport_fee = 1
-	export_price = 6
-	importexport_amt = 5
-	stockpile_limit = 20
+	export_price = 9
+	importexport_amt = 10
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -245,12 +245,12 @@
 	desc = "A grain used for cooking."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rice
 	held_items = list(0, 0)
-	payout_price = 4
-	withdraw_price = 4
+	payout_price = 2
+	withdraw_price = 2
 	transport_fee = 1
-	export_price = 6
-	importexport_amt = 5
-	stockpile_limit = 20
+	export_price = 9
+	importexport_amt = 10
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -259,12 +259,12 @@
 	desc = "A refreshing, long and green vegetable."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/cucumber
 	held_items = list(0, 0)
-	payout_price = 4
-	withdraw_price = 4
+	payout_price = 2
+	withdraw_price = 2
 	transport_fee = 1
-	export_price = 6
-	importexport_amt = 5
-	stockpile_limit = 20
+	export_price = 9
+	importexport_amt = 10
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -273,12 +273,12 @@
 	desc = "A large, purple vegetable with a mild taste."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/eggplant
 	held_items = list(0, 0)
-	payout_price = 4
-	withdraw_price = 4
+	payout_price = 2
+	withdraw_price = 2
 	transport_fee = 1
-	export_price = 6
-	importexport_amt = 5
-	stockpile_limit = 20
+	export_price = 9
+	importexport_amt = 10
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -287,12 +287,12 @@
 	desc = "A long vegetable said to help with eyesight."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/carrot
 	held_items = list(0, 0)
-	payout_price = 4
-	withdraw_price = 4
+	payout_price = 2
+	withdraw_price = 2
 	transport_fee = 1
-	export_price = 6
-	importexport_amt = 5
-	stockpile_limit = 20
+	export_price = 9
+	importexport_amt = 10
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -301,12 +301,12 @@
 	desc = "A seed with a sedative effect."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rogue/poppy
 	held_items = list(0, 0)
-	payout_price = 4
-	withdraw_price = 4
+	payout_price = 2
+	withdraw_price = 2
 	transport_fee = 1
-	export_price = 8
-	importexport_amt = 5
-	stockpile_limit = 20
+	export_price = 12
+	importexport_amt = 10
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -315,12 +315,12 @@
 	desc = "A nut with mild stimulant properties."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/nut
 	held_items = list(0, 0)
-	payout_price = 4
-	withdraw_price = 4
+	payout_price = 2
+	withdraw_price = 2
 	transport_fee = 1
-	export_price = 8
-	importexport_amt = 5
-	stockpile_limit = 20
+	export_price = 12
+	importexport_amt = 10
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -329,12 +329,12 @@
 	desc = "A plant that can be milled into sugar."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/sugarcane
 	held_items = list(0, 0)
-	payout_price = 8
-	withdraw_price = 8
+	payout_price = 3
+	withdraw_price = 3
 	transport_fee = 1
-	export_price = 26
-	importexport_amt = 5
-	stockpile_limit = 20
+	export_price = 9
+	importexport_amt = 10
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -343,12 +343,12 @@
 	desc = "The seed of the coffee plant, used to make a stimulating drink."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/coffeebeans
 	held_items = list(0, 0)
-	payout_price = 4
-	withdraw_price = 4
+	payout_price = 3
+	withdraw_price = 3
 	transport_fee = 1
-	export_price = 18
-	importexport_amt = 5
-	stockpile_limit = 20
+	export_price = 9
+	importexport_amt = 10
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
 
@@ -357,11 +357,13 @@
 	desc = "Dried tea leaves from the tea plant. Can be grounded and brewed to make tea."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rogue/tealeaves_dry
 	held_items = list(0, 0)
-	payout_price = 4
-	withdraw_price = 4
+	payout_price = 3
+	withdraw_price = 3
 	transport_fee = 1
-	export_price = 18
-	importexport_amt = 5
-	stockpile_limit = 20
+	export_price = 9
+	importexport_amt = 10
+	stockpile_limit = 50
 	passive_generation = 2
 	category = "Foodstuffs"
+
+//Reverted with Mint Rework i

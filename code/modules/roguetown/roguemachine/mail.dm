@@ -410,8 +410,8 @@
 	if(istype(P, /obj/item/roguecoin/aalloy))
 		return
 
-	if(istype(P, /obj/item/roguecoin/scrip))
-		return
+/*	if(istype(P, /obj/item/roguecoin/scrip)) Mint Rework
+		return */
 
 	if(istype(P, /obj/item/roguecoin/inqcoin))
 		if(HAS_TRAIT(user, TRAIT_INQUISITION))	

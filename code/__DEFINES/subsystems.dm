@@ -125,6 +125,8 @@
 #define INIT_ORDER_ECONOMY			40
 #define INIT_ORDER_OUTPUTS			35
 #define INIT_ORDER_ATOMS			30
+#define INIT_ORDER_TREES			29
+#define INIT_ORDER_MAPGEN			28 //Can we possibly move this to BEFORE atom init in some way? I sure fuckin hope so.
 #define INIT_ORDER_LANGUAGE			25
 #define INIT_ORDER_MACHINES			20
 #define INIT_ORDER_SKILLS			15

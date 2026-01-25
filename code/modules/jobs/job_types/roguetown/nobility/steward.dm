@@ -5,7 +5,7 @@
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-	allowed_races = RACES_APPOINTED_OUTCASTS_UP
+	allowed_races = RACES_SECOND_CLASS_UP
 	allowed_sexes = list(MALE, FEMALE)
 	display_order = JDO_STEWARD
 	tutorial = "Coin, Coin, Coin! Oh beautiful coin: You're addicted to it, and you hold the position as the Grand Duke's personal treasurer of both coin and information. You know the power silver and gold has on a man's mortal soul, and you know just what lengths they'll go to in order to get even more. Keep your festering economy alive- for it is the only thing you can weigh any trust into anymore."
@@ -17,9 +17,6 @@
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_noble.ogg'
 	social_rank = SOCIAL_RANK_NOBLE
-	disallowed_races = list(
-		/datum/species/harpy, // you WILL have to (pretend to) be nice to the steward if u want their shinies
-	)
 
 	advclass_cat_rolls = list(CTAG_STEWARD = 2)
 

@@ -163,7 +163,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 		current_runlevel = Master.current_runlevel
 		StartProcessing(10)
 	else
-		to_chat_immediate(world, "<span class='boldannounce'>The Master Controller is having some issues, we will need to re-initialize EVERYTHING</span>")
+		to_chat_immediate(GLOB.admins, "<span class='boldannounce'>The Master Controller is having some issues, we will need to re-initialize EVERYTHING</span>")
 		Initialize(20, TRUE)
 
 // Please don't stuff random bullshit here,
@@ -179,7 +179,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 
 	if(init_sss)
 		init_subtypes(/datum/controller/subsystem, subsystems)
-	to_chat_immediate(world, "<span class='boldannounce'>Initializing subsystems...</span>")
+	to_chat_immediate(GLOB.admins, "<span class='boldannounce'>Initializing subsystems...</span>")
 	// Sort subsystems by init_order, so they initialize in the correct order.
 	sortTim(subsystems, GLOBAL_PROC_REF(cmp_subsystem_init))
 
@@ -190,7 +190,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 		if (SS.flags & SS_NO_INIT)
 			continue
 		var/log_msg = "INIT-START: [SS.name]"
-		to_chat_immediate(world, span_boldannounce(log_msg))
+		to_chat_immediate(GLOB.admins, span_boldannounce(log_msg))
 		log_world(log_msg)
 		last_type_processed = SS
 		SS.Initialize(REALTIMEOFDAY)
@@ -201,7 +201,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 
 	var/msg = "Initializations complete within [time] second[time == 1 ? "" : "s"]!"
 
-	to_chat_immediate(world, "<span class='boldannounce'>[msg]</span>")
+	to_chat_immediate(GLOB.admins, "<span class='boldannounce'>[msg]</span>")
 	log_world(msg)
 
 	if (!current_runlevel)
@@ -230,7 +230,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	if(isnull(old_runlevel))
 		old_runlevel = "NULL"
 
-	to_chat_immediate(world, "MC: Runlevel changed from [old_runlevel] to [new_runlevel]")
+	to_chat_immediate(GLOB.admins, "MC: Runlevel changed from [old_runlevel] to [new_runlevel]")
 	current_runlevel = log(2, new_runlevel) + 1
 	if(current_runlevel < 1)
 		CRASH("Attempted to set invalid runlevel: [new_runlevel]")

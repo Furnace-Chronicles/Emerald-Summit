@@ -181,7 +181,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	var/twohands_required = FALSE
 
-	var/from_stockpile = FALSE
+//	var/from_stockpile = FALSE Mint Rework i
 
 	var/bloody_icon = 'icons/effects/blood.dmi'
 	var/bloody_icon_state = "itemblood"

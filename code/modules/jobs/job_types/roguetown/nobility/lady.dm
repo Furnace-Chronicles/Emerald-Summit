@@ -8,7 +8,6 @@
 
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_NOBILITY_ELIGIBLE_UP
-	allowed_patrons = NON_PSYDON_PATRONS
 	tutorial = "Picked out of your political value rather than likely any form of love, you have become the Grand Duke's most trusted confidant--and likely friend--throughout your marriage. Your loyalty and perhaps even your love will be tested this day... for the daggers that threaten your beloved are as equally pointed at your own throat."
 
 	spells = list(/obj/effect/proc_holder/spell/self/convertrole/servant,

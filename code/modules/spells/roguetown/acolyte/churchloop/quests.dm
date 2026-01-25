@@ -663,7 +663,7 @@ var/global/list/Q_WITNESS_EFFECTS = list(
 
 	if(istype(I, /obj/item/roguecoin/aalloy)) return
 	if(istype(I, /obj/item/roguecoin/inqcoin)) return
-	if(istype(I, /obj/item/roguecoin/scrip)) return
+//	if(istype(I, /obj/item/roguecoin/scrip)) return Mint Rework i
 
 	if(istype(I, /obj/item/roguecoin))
 		var/obj/item/roguecoin/C = I

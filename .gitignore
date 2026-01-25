@@ -14,7 +14,7 @@
 *.lk
 *.int
 *.backup
-librust_g.so
+/librust_g.so
 ### https://raw.github.com/github/gitignore/cc542de017c606138a87ee4880e5f06b3a306def/Global/Linux.gitignore
 
 *~
@@ -227,3 +227,9 @@ tools/MapAtmosFixer/MapAtmosFixer/bin/*
 !/config/title_music/sounds/title1.ogg
 /config/title_screens/images/*
 !/config/title_screens/images/exclude
+
+#Ignore byond-tracy binary
+/prof.dll
+
+
+

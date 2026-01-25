@@ -1,7 +1,7 @@
-//#define TESTING				//By using the testing("message") proc you can create debug-feedback for people with this
-								//uncommented, but not visible in the release version)
 
-//#define DATUMVAR_DEBUGGING_MODE	//Enables the ability to cache datum vars and retrieve later for debugging which vars changed.
+// Legacy Options
+// --------------
+// gonna level with you man I have no idea what these in particular are meant for.
 
 #define MATURESERVER
 //#define TESTSERVER //UNCOMMENT TO ENABLE IN-GAME INHAND TRANSFORMATION EDITING AND OTHER DEBUG OPTIONS
@@ -18,8 +18,23 @@
 //180 norma
 //60 test
 
-#define MODE_RESTART
-//comment out if you want to restart the server instead of shutting down
+// Debugging Options
+// -----------------
+
+//By using the testing("message") proc you can create debug-feedback for people with this
+//uncommented, but not visible in the release version)
+//#define TESTING
+
+//Enables the ability to cache datum vars and retrieve later for debugging which vars changed.
+//#define DATUMVAR_DEBUGGING_MODE
+
+//Enables BYOND Tracy profiler
+//#define USE_BYOND_TRACY
+
+
+
+
+// Glue logic for above options.
 
 // Comment this out if you are debugging problems that might be obscured by custom error handling in world/Error
 #ifdef DEBUG

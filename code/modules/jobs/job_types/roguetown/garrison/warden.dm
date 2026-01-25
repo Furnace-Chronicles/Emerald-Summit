@@ -7,10 +7,7 @@
 	spawn_positions = 6
 	selection_color = JCOLOR_SOLDIER
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_FEARED_UP
-	disallowed_races = list(
-		/datum/species/lamia,
-	)
+	allowed_races = RACES_ALL_KINDS
 	tutorial = "Typically a denizen of the sparsely populated Emerald Summit woods, you volunteered up with the wardens--a group of ranger types who keep a vigil over the untamed wilderness. \
 				While Wardens have no higher authority, operating as a fraternity of rangers, you will be called upon as members of the garrison by the Marshal or the Crown. \
 				Serve their will and recieve what a ranger craves the most - freedom and safety."

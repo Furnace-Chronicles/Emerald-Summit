@@ -39,8 +39,8 @@
 		return
 	if(istype(P, /obj/item/roguecoin/inqcoin))
 		return
-	if(istype(P, /obj/item/roguecoin/scrip))
-		return
+//	if(istype(P, /obj/item/roguecoin/scrip)) Mint Rework i
+//		return
 	if(istype(P, /obj/item/roguecoin))
 		if(src.gamblingprice + (P.sellprice * P.quantity) > src.maxtithing)
 			say("This puts the starting tithe over [src.maxtithing] mammons.")

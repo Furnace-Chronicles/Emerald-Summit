@@ -6,10 +6,9 @@
 	total_positions = 1
 	spawn_positions = 1
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_NOBILITY_ELIGIBLE_UP
+	allowed_races = RACES_SECOND_CLASS_UP
 	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD)
 	display_order = JDO_MARSHAL
-	allowed_patrons = NON_PSYDON_PATRONS
 	tutorial = "You are an agent of the crown in matters of law and military, making sure that laws are pushed, verified and carried out by the retinue upon the citizenry of the realm. \
 				While you preside over the knights and men-at-arms, much of your work happens behind a desk, deferring to the Sergeant-at-Arms or Knights to make sure your will is carried out in the field."
 	whitelist_req = FALSE

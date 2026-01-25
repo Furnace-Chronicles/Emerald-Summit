@@ -26,7 +26,7 @@
 	var/current_category = "Raw Materials"
 	var/list/categories = list("Raw Materials", "Foodstuffs", "Fruits")
 	var/list/daily_payments = list() // Associative list: job name -> payment amount
-	var/list/mark_stipend = list("Innkeeper" = 30, "Tailor" = 20, "Cook" = 20, "Soilson" = 10, "Tapster" = 10)
+//	var/list/mark_stipend = list("Innkeeper" = 30, "Tailor" = 20, "Cook" = 20, "Soilson" = 10, "Tapster" = 10) Mint Rework i
 
 /obj/structure/roguemachine/steward/Initialize()
 	. = ..()
@@ -82,8 +82,8 @@
 		return
 	if(istype(P, /obj/item/roguecoin/inqcoin))
 		return
-	if(istype(P, /obj/item/roguecoin/scrip))
-		return
+//	if(istype(P, /obj/item/roguecoin/scrip)) Mint Rework i
+//		return
 	if(istype(P, /obj/item/roguecoin))
 		record_round_statistic(STATS_MAMMONS_DEPOSITED, P.get_real_price())
 		SStreasury.give_money_treasury(P.get_real_price(), "NERVE MASTER deposit")
@@ -181,8 +181,8 @@
 			newlimit = CLAMP(newlimit, 0, 999)
 			scom_announce("The stockpile limit for [D.name] was changed to [newlimit].")
 			D.stockpile_limit = newlimit
-	if(href_list["allowscrip"])
-		SStreasury.allow_scrip = !SStreasury.allow_scrip
+//	if(href_list["allowscrip"]) 
+//		SStreasury.allow_scrip = !SStreasury.allow_scrip Mint Rework i
 	if(href_list["givemoney"])
 		var/X = locate(href_list["givemoney"])
 		if(!X)
@@ -403,10 +403,6 @@
 				contents += " / Guild's Tax: [SStreasury.queens_tax*100]%</center><BR>"
 				contents += "<center>Auto Export Stockpile Above: "
 				contents += "<a href='?src=\ref[src];changeautoexport=1'>[SStreasury.autoexport_percentage * 100]%</a></center><BR>"
-				var/scriptext = "FALSE"
-				if(SStreasury.allow_scrip)
-					scriptext = "TRUE"
-				contents += "<center>Allow Marks Conversion:<a href='?src=\ref[src];allowscrip=1'>[scriptext]</a></center><BR>"
 				var/selection = "<center>Categories: "
 				for(var/category in categories)
 					if(category == current_category)
@@ -420,6 +416,7 @@
 						continue
 					contents += "<b>[A.name]:</b>"
 					contents += " [A.held_items[1] + A.held_items[2]]"
+					contents += " | SELL: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]m</a>" //Readded for: Mint Rework i
 					contents += " / BUY: <a href='?src=\ref[src];setprice=\ref[A]'>[A.withdraw_price]m</a>"
 					contents += " / LIMIT: <a href='?src=\ref[src];setlimit=\ref[A]'>[A.stockpile_limit]</a>"
 					if(!A.export_only)
@@ -489,6 +486,10 @@
 				contents += "[A.name]<BR>"
 				contents += "[A.desc]<BR>"
 				contents += "Total Collected: [SStreasury.minted]<BR>"
+				if(A.percent_bounty) //Start
+					contents += "Bounty Price: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]%</a><BR><BR>"
+				else
+					contents += "Bounty Price: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]</a><BR><BR>" //End - Readded for: Mint Rework i
 		if(TAB_LOG)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
 			contents += "<center>Log<BR>"

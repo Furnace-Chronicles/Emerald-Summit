@@ -10,10 +10,6 @@
 	social_rank = SOCIAL_RANK_YEOMAN
 
 	allowed_races = RACES_ALL_KINDS
-	disallowed_races = list(
-		/datum/species/lamia,
-		/datum/species/harpy,
-	)
 	allowed_sexes = list(MALE, FEMALE)
 	tutorial = "You are the leader of the Emerald Summit Guild of Crafts. You represents the interests of all of the craftsmen underneath you - including the Tailor\
 	the Blacksmiths, the Artificers and the Architects. Other townspeople may look to you for guidance, but they are not under your control. You are an experienced smith and artificer, and can do their work easily. Protect the craftsmen's interests."  

@@ -145,9 +145,9 @@ GLOBAL_VAR(moneymaster)
 			if("MARQUE")
 				zenars_to_put = budget
 				type_to_put = /obj/item/roguecoin/inqcoin
-			if("SCRIP")
+/*			if("SCRIP") Mint Rework i
 				zenars_to_put = budget
-				type_to_put = /obj/item/roguecoin/scrip
+				type_to_put = /obj/item/roguecoin/scrip */
 	else
 		var/highest_found = FALSE
 		var/zenars = floor(budget/10)
@@ -188,8 +188,8 @@ GLOBAL_VAR(moneymaster)
 	// Create multiple stacks if needed for the main type
 	while(zenars_to_put > 0)
 		var/stack_size = min(zenars_to_put, 20)
-		if(specify == "SCRIP")
-			stack_size = min(zenars_to_put, 50)
+//		if(specify == "SCRIP") Mint Rework i
+//			stack_size = min(zenars_to_put, 50)
 		var/obj/item/roguecoin/G = new type_to_put(T, stack_size)
 		if(user && zenars_to_put == stack_size) // Only put first stack in hands
 			user.put_in_hands(G)

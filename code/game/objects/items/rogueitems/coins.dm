@@ -2,8 +2,9 @@
 #define CTYPE_SILV "s"
 #define CTYPE_COPP "c"
 #define CTYPE_ICOIN "i"
-#define CTYPE_SCRIP "p"
+//#define CTYPE_SCRIP "p" mint rework i
 #define CTYPE_ANCIENT "a"
+#define MAX_COIN_STACK_SIZE 20
 
 /obj/item/roguecoin
 	name = ""
@@ -26,8 +27,8 @@
 	var/quantity = 1
 	var/plural_name
 	var/rigged_outcome = 0 //1 for heads, 2 for tails
-	var/stockprice
-	var/max_stack = 20
+//	var/stockprice Mint Rework i
+//	var/max_stack = 20
 	resistance_flags = FIRE_PROOF
 
 /obj/item/roguecoin/Initialize(mapload, coin_amount)
@@ -43,8 +44,9 @@
 
 /obj/item/roguecoin/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	playsound(loc, 'sound/foley/coins1.ogg', 100, TRUE, -2)
-	if(!istype(src, /obj/item/roguecoin/scrip))
-		INVOKE_ASYNC(src, PROC_REF(scatter), get_turf(src))
+	INVOKE_ASYNC(src, PROC_REF(scatter), get_turf(src))
+//	if(!istype(src, /obj/item/roguecoin/scrip)) Mint Rework i
+//		INVOKE_ASYNC(src, PROC_REF(scatter), get_turf(src))
 	..()
 
 /obj/item/roguecoin/proc/scatter(turf/T)
@@ -82,7 +84,8 @@
 	if(G.base_type != base_type)
 		return
 
-	var/amt_to_merge = min(G.quantity, max_stack - quantity)
+	var/amt_to_merge = min(G.quantity, MAX_COIN_STACK_SIZE - quantity)
+//	var/amt_to_merge = min(G.quantity, max_stack - quantity) Mint Rework i
 	if(amt_to_merge <= 0)
 		return
 	set_quantity(quantity + amt_to_merge)
@@ -225,7 +228,7 @@
 	sellprice = 0
 	base_type = CTYPE_ICOIN
 	plural_name = "otavan marques"
-
+/* Mint Rework i
 //Stockpile scrip - Worthless as actual currency
 /obj/item/roguecoin/scrip
 	name = "mark"
@@ -237,7 +240,7 @@
 	max_stack = 50
 	base_type = CTYPE_SCRIP
 	plural_name = "marks"
-
+*/
 //GOLD
 /obj/item/roguecoin/gold
 	name = "zenar"
@@ -304,4 +307,5 @@
 #undef CTYPE_COPP
 #undef CTYPE_ANCIENT
 #undef CTYPE_ICOIN
-#undef CTYPE_SCRIP
+#undef MAX_COIN_STACK_SIZE
+//#undef CTYPE_SCRIP

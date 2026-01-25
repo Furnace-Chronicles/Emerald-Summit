@@ -48,8 +48,8 @@
 		return
 	if(istype(P, /obj/item/roguecoin/inqcoin))
 		return
-	if(istype(P, /obj/item/roguecoin/scrip))
-		return
+//	if(istype(P, /obj/item/roguecoin/scrip)) Mint Rework i
+//		return
 	if(istype(P, /obj/item/roguecoin))
 		budget += P.get_real_price()
 		qdel(P)

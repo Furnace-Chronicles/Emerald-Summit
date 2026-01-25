@@ -10,9 +10,6 @@
 	selection_color = JCOLOR_PEASANT
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	disallowed_races = list(
-		/datum/species/lamia,
-	)
 	cmode_music = 'sound/music/combat_soilson.ogg'
 
 	tutorial = "It is a simple life you live, your basic understanding of life is something many would be envious of if they knew just how perfect it was. You know a good day's work, the sweat on your brow is yours: Famines and plague may take their toll, but you know how to celebrate life well. Till the soil and produce fresh food for those around you, and maybe you'll be more than an unsung hero someday."
@@ -27,7 +24,8 @@
 	round_contrib_points = 3
 	social_rank = SOCIAL_RANK_PEASANT
 
-	job_traits = list(TRAIT_SEEDKNOW, TRAIT_NOSTINK, TRAIT_LONGSTRIDER, TRAIT_PEASANTMILITIA, TRAIT_CROPSHARE)
+	job_traits = list(TRAIT_SEEDKNOW, TRAIT_NOSTINK, TRAIT_LONGSTRIDER, TRAIT_PEASANTMILITIA)
+	//job_traits = list(TRAIT_SEEDKNOW, TRAIT_NOSTINK, TRAIT_LONGSTRIDER, TRAIT_PEASANTMILITIA, TRAIT_CROPSHARE) Mint Rework i
 
 	advclass_cat_rolls = list(CTAG_SOILBRIDE = 2)
 	job_subclasses = list(
