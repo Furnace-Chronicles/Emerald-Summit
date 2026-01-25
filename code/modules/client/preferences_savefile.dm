@@ -596,9 +596,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	hair_color		= sanitize_hexcolor(hair_color, 6, 0)
 	facial_hair_color	= sanitize_hexcolor(facial_hair_color, 6, 0)
 	highlight_color	= sanitize_hexcolor(highlight_color, 6, 0)
-	loadout_1_hex		= sanitize_hexcolor(loadout_1_hex, 6, 0)
-	loadout_2_hex		= sanitize_hexcolor(loadout_2_hex, 6, 0)
-	loadout_3_hex		= sanitize_hexcolor(loadout_3_hex, 6, 0)
+	loadout_1_hex		= sanitize_hexcolor(loadout_1_hex, 6, TRUE)
+	loadout_2_hex		= sanitize_hexcolor(loadout_2_hex, 6, TRUE)
+	loadout_3_hex		= sanitize_hexcolor(loadout_3_hex, 6, TRUE)
 	family 			= family
 	gender_choice 	= gender_choice
 	setspouse 		= setspouse
