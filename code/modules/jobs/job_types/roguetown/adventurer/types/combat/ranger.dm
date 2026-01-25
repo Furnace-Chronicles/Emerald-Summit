@@ -258,3 +258,78 @@
 			ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 			H.change_stat(STATKEY_STR, 1)
 			H.set_blindness(0)
+
+/datum/advclass/ranger/gstalker
+	name = "Gloom Stalker"
+	tutorial = "Masters of traversing the dark places where few dare to venture, being seen is a conscious choice."
+	outfit = /datum/outfit/job/adventurer/gstalker
+
+	traits_applied = list(TRAIT_OUTDOORSMAN)
+	subclass_stats = list(
+		STATKEY_PER = 2,
+		STATKEY_END = 1,
+		STATKEY_SPD = 3,
+	)
+	extra_context = "Selecting Light Armor grants +1 SPD. Selecting Medium Armor grants +1 STR along with the corresponding traits."
+
+	cmode_music = 'sound/music/combat_condottiero.ogg'
+
+	subclass_skills = list(
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/bows = SKILL_LEVEL_NOVICE, // Base skill
+		/datum/skill/combat/knives = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE, // On par with battlemaster.
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE, //Not a primary focus for this subclass.
+	)
+
+/datum/outfit/job/adventurer/gstalker/pre_equip(mob/living/carbon/human/H)
+	..()
+	to_chat(H, span_warning("Though you walk in the valley of the shadow of death, you shall know no fear."))
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
+	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	belt = /obj/item/storage/belt/rogue/leather
+	cloak = /obj/item/clothing/cloak/raincloak/mortus
+	backl = /obj/item/storage/backpack/rogue/satchel
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	beltr = /obj/item/flashlight/flare/torch/lantern
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1
+		)
+
+	var/weapons = list("Recurve Bow","Bardiche")
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	switch(weapon_choice)
+		if("Recurve Bow")
+			H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+			beltl = /obj/item/quiver/arrows
+		if("Bardiche") //The quintessential weapon for a Gloom Stalker
+			H.adjust_skillrank_up_to(/obj/item/rogueweapon/halberd/bardiche, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			r_hand = /obj/item/rogueweapon/spear/
+	var/armors = list("Light Armor","Medium Armor")
+	var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armors
+	switch(armor_choice)
+		if("Light Armor")
+			armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
+			pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+			gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
+			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+			H.change_stat(STATKEY_SPD, 1)
+		if("Medium Armor")
+			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+			pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+			gloves = /obj/item/clothing/gloves/roguetown/chain/iron
+			ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+			H.change_stat(STATKEY_STR, 1)
+			H.set_blindness(0)

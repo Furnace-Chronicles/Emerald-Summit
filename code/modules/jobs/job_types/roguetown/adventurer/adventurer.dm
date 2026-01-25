@@ -62,6 +62,7 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 		/datum/advclass/ranger/assassin,
 		/datum/advclass/ranger/bombadier,
 		/datum/advclass/ranger/bwanderer,
+		/datum/advclass/ranger/gstalker,
 		/datum/advclass/noble,
 		/datum/advclass/noble/knighte,
 		/datum/advclass/noble/squire,
