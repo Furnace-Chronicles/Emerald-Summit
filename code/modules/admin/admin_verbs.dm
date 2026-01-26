@@ -172,10 +172,15 @@ GLOBAL_PROTECT(admin_verbs_server)
 	/client/proc/forcerandomrotate,
 	/client/proc/adminchangemap,
 	/client/proc/panicbunker,
-	/datum/admins/proc/BC_WhitelistKeyVerb,
-	/datum/admins/proc/BC_RemoveKeyVerb,
 	/client/proc/toggle_hub
 	)
+GLOBAL_LIST_INIT(admin_verbs_border_control, world.AVerbsBorderControl())
+/world/proc/AVerbsBorderControl()
+	return list(
+	/datum/admins/proc/BC_WhitelistKeyVerb,
+	/datum/admins/proc/BC_RemoveKeyVerb
+	)
+GLOBAL_PROTECT(admin_verbs_border_control)
 GLOBAL_LIST_INIT(admin_verbs_debug, world.AVerbsDebug())
 GLOBAL_PROTECT(admin_verbs_debug)
 /world/proc/AVerbsDebug()
@@ -302,6 +307,8 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 			verbs += GLOB.admin_verbs_fun
 		if(rights & R_SERVER)
 			verbs += GLOB.admin_verbs_server
+			if(CONFIG_GET(number/border_control) != BORDER_CONTROL_DISABLED)
+				verbs += GLOB.admin_verbs_border_control
 		if(rights & R_DEBUG)
 			verbs += GLOB.admin_verbs_debug
 		if(rights & R_POSSESS)
@@ -327,6 +334,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 		GLOB.admin_verbs_ban,
 		GLOB.admin_verbs_fun,
 		GLOB.admin_verbs_server,
+		GLOB.admin_verbs_border_control,
 		GLOB.admin_verbs_debug,
 		GLOB.admin_verbs_possess,
 		GLOB.admin_verbs_permissions,

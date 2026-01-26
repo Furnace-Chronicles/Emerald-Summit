@@ -272,7 +272,7 @@
 /mob/living/carbon/proc/Lamiaze(tail_type = /obj/item/bodypart/lamian_tail/lamian_tail, color = "#ffffff", markings_color = "#ffffff")
 	if(client?.prefs)
 		if((LAMIAN_TAIL in client.prefs.pref_species.species_traits))//if we call lamia-ize on an existing lamia (just fully_heal, basically)
-			color = "#"+client.prefs.tail_color
+			color = sanitize_hexcolor(client.prefs.tail_color, include_crunch = TRUE)
 			tail_type = client.prefs.tail_type
 	for(var/X in bodyparts)
 		var/obj/item/bodypart/O = X

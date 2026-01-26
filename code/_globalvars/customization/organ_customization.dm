@@ -47,7 +47,8 @@ GLOBAL_LIST_INIT(customizers, build_customizers())
 	var/good = TRUE
 	if(!color)
 		return
-	color = sanitize_hexcolor(color)
+	//Strip off the crunch.
+	color = sanitize_hexcolor(color, include_crunch = FALSE)
 	var/list/hsl = rgb2hsl(hex2num(copytext(color,1,3)),hex2num(copytext(color,3,5)),hex2num(copytext(color,5,7)))
 	if(hsl[3] < min_tag)
 		to_chat(user, span_warning("The picked color is too dark! Raising Luminosity to minimum 20%."))
@@ -59,6 +60,6 @@ GLOBAL_LIST_INIT(customizers, build_customizers())
 		good = FALSE
 	if(!good)
 		var/list/rgb = hsl2rgb(arglist(hsl))
-		color = sanitize_hexcolor("[num2hex(rgb[1])][num2hex(rgb[2])][num2hex(rgb[3])]")
+		color = sanitize_hexcolor("[num2hex(rgb[1])][num2hex(rgb[2])][num2hex(rgb[3])]", include_crunch = TRUE)
 
-	return color
+	return sanitize_hexcolor(color, include_crunch = TRUE)

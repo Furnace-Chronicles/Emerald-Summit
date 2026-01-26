@@ -30,7 +30,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 										//If it's 0, that's good, if it's anything but 0, the owner of this prefs file's antag choices were,
 										//autocorrected this round, not that you'd need to check that.
 
+	/// OBSOLETE: SS13-style 'HUD Themes', Not currently used.
 	var/UI_style = null
+	/// If enabled, the stat tabs will be smaller and utilize the standard BYOND fonts.
+	var/stat_simple = FALSE
 	var/buttons_locked = TRUE
 	var/hotkeys = TRUE
 
@@ -82,15 +85,14 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/backpack = DBACKPACK				//backpack type
 	var/jumpsuit_style = PREF_SUIT		//suit/skirt
 	var/hairstyle = "Bald"				//Hair type
-	var/hair_color = "000"				//Hair color
+	var/hair_color = "#000000"				//Hair color
 	var/facial_hairstyle = "Shaved"	//Face hair type
-	var/facial_hair_color = "000"		//Facial hair color
+	var/facial_hair_color = "#000000"		//Facial hair color
 	var/skin_tone = "caucasian1"		//Skin color
-	var/eye_color = "000"				//Eye color
+	var/eye_color = "#000000"				//Eye color
 	var/extra_language = "None" // Extra language
-	var/voice_color = "a0a0a0"
+	var/voice_color = "#a0a0a0"
 	var/voice_pitch = 1
-	var/detail_color = "000"
 	var/datum/species/pref_species = new /datum/species/human/northern()	//Mutant race
 	var/static/datum/species/default_species = new /datum/species/human/northern()
 	var/datum/patron/selected_patron
@@ -187,7 +189,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	// PATREON
 	// Vrell - I fucking hate how inconsistent the variable style is for this shit. underscores? all lowercase? camelcase? 
-	var/patreon_say_color = "ff7a05"
+	var/patreon_say_color = "#ff7a05"
 	var/patreon_say_color_enabled = FALSE
 	// END PATREON
 
@@ -217,8 +219,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 
 	var/tail_type = /obj/item/bodypart/lamian_tail/lamian_tail
-	var/tail_color = "ffffff"
-	var/tail_markings_color = "ffffff"
+	var/tail_color = "#ffffff"
+	var/tail_markings_color = "#ffffff"
 
 	/// Assoc list of culinary preferences, where the key is the type of the culinary preference, and value is food/drink typepath
 	var/list/culinary_preferences = list()
@@ -312,9 +314,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	if(tabchoice == 4)
 		current_tab = 0
 
-//	dat += "<a href='?_src_=prefs;preference=tab;tab=0' [current_tab == 0 ? "class='linkOn'" : ""]>Character Sheet</a>"
-//	dat += "<a href='?_src_=prefs;preference=tab;tab=1' [current_tab == 1 ? "class='linkOn'" : ""]>Game Preferences</a>"
-//	dat += "<a href='?_src_=prefs;preference=tab;tab=2' [current_tab == 2 ? "class='linkOn'" : ""]>OOC Preferences</a>"
+	dat += "<a href='?_src_=prefs;preference=tab;tab=0' [current_tab == 0 ? "class='linkOn'" : ""]>Character Sheet</a>"
+	dat += "<a href='?_src_=prefs;preference=tab;tab=1' [current_tab == 1 ? "class='linkOn'" : ""]>Game Preferences</a>"
+	dat += "<a href='?_src_=prefs;preference=tab;tab=2' [current_tab == 2 ? "class='linkOn'" : ""]>OOC Preferences</a>"
 //	dat += "<a href='?_src_=prefs;preference=tab;tab=3' [current_tab == 3 ? "class='linkOn'" : ""]>Keybinds</a>"
 
 	dat += "</center>"
@@ -350,7 +352,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "</td>"
 
 			dat += "<td style='width:33%;text-align:center'>"
-			dat += "<a href='?_src_=prefs;preference=antag;task=menu'>Villain Selection</a>"
 			dat += "</td>"
 
 			dat += "<td style='width:33%;text-align:right'>"
@@ -550,8 +551,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				dat += "<b>Feature Color #1:</b><span style='border: 1px solid #161616; background-color: #[features["mcolor2"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color2;task=input'>Change</a><BR>"
 				dat += "<b>Feature Color #2:</b><span style='border: 1px solid #161616; background-color: #[features["mcolor3"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color3;task=input'>Change</a><BR>"
 
-			dat += "<b>Voice Color: </b><a href='?_src_=prefs;preference=voice;task=input'>Change</a>"
-			dat += "<br><b>Nickname Color: </b> </b><a href='?_src_=prefs;preference=highlight_color;task=input'>Change</a>"
+			dat += "<b>Voice Color: </b> <span style='border: 1px solid #161616; background-color: #[voice_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=voice;task=input'>Change</a>"
+			dat += "<br><b>Nickname Color: </b> <span style='border: 1px solid #161616; background-color: #[highlight_color];'>&nbsp;&nbsp;&nbsp;</span> </b><a href='?_src_=prefs;preference=highlight_color;task=input'>Change</a>"
 			dat += "<br><b>Voice Pitch: </b><a href='?_src_=prefs;preference=voice_pitch;task=input'>[voice_pitch]</a>"
 			dat += "<br><b>Accent:</b> <a href='?_src_=prefs;preference=char_accent;task=input'>[char_accent]</a>"
 			dat += "<br><b>Features:</b> <a href='?_src_=prefs;preference=customizers;task=menu'>Change</a>"
@@ -616,6 +617,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<table><tr><td width='340px' height='300px' valign='top'>"
 			dat += "<h2>General Settings</h2>"
 //			dat += "<b>UI Style:</b> <a href='?_src_=prefs;task=input;preference=ui'>[UI_style]</a><br>"
+			dat += "<b>Statpane Style:</b> <a href='?_src_=prefs;preference=stat_simple'>[(stat_simple) ? "Classic" : "Medieval"]</a><br>"
 			dat += "<b>tgui Monitors:</b> <a href='?_src_=prefs;preference=tgui_lock'>[(tgui_lock) ? "Primary" : "All"]</a><br>"
 //			dat += "<b>tgui Style:</b> <a href='?_src_=prefs;preference=tgui_fancy'>[(tgui_fancy) ? "Fancy" : "No Frills"]</a><br>"
 //			dat += "<b>Show Runechat Chat Bubbles:</b> <a href='?_src_=prefs;preference=chat_on_map'>[chat_on_map ? "Enabled" : "Disabled"]</a><br>"
@@ -623,7 +625,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 //			dat += "<b>See Runechat for non-mobs:</b> <a href='?_src_=prefs;preference=see_chat_non_mob'>[see_chat_non_mob ? "Enabled" : "Disabled"]</a><br>"
 //			dat += "<br>"
 //			dat += "<b>Action Buttons:</b> <a href='?_src_=prefs;preference=action_buttons'>[(buttons_locked) ? "Locked In Place" : "Unlocked"]</a><br>"
-//			dat += "<b>Hotkey mode:</b> <a href='?_src_=prefs;preference=hotkeys'>[(hotkeys) ? "Hotkeys" : "Default"]</a><br>"
+			dat += "<b>Hotkey mode:</b> <a href='?_src_=prefs;preference=hotkeys'>[(hotkeys) ? "Hotkeys" : "Classic"]</a><br>"
 //			dat += "<br>"
 //			dat += "<b>PDA Color:</b> <span style='border:1px solid #161616; background-color: [pda_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=pda_color;task=input'>Change</a><BR>"
 //			dat += "<b>PDA Style:</b> <a href='?_src_=prefs;task=input;preference=pda_style'>[pda_style]</a><br>"
@@ -747,8 +749,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				if(unlock_content)
 					dat += "<b>BYOND Membership Publicity:</b> <a href='?_src_=prefs;preference=publicity'>[(toggles & MEMBER_PUBLIC) ? "Public" : "Hidden"]</a><br>"
 
-				if(unlock_content || check_rights_for(user.client, R_ADMIN))
-					dat += "<b>OOC Color:</b> <span style='border: 1px solid #161616; background-color: [ooccolor ? ooccolor : GLOB.normal_ooc_colour];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=ooccolor;task=input'>Change</a><br>"
+				// if(unlock_content || check_rights_for(user.client, R_ADMIN)) //This is obsolete as voice_color is used instead. Consider changing that?
+				// 	dat += "<b>OOC Color:</b> <span style='border: 1px solid #161616; background-color: [ooccolor ? ooccolor : GLOB.normal_ooc_colour];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=ooccolor;task=input'>Change</a><br>"
 
 			dat += "</td>"
 
@@ -879,6 +881,11 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	if(user.client.is_new_player())
 		dat = list("<center>REGISTER!</center>")
 
+	if(current_tab == 0) //If we aren't on the character tab, hide the element. This is probably not the best place for this.
+		winset(usr.client, "preferencess_window.character_preview_map", "is-visible=true")
+	else
+		winset(usr.client, "preferencess_window.character_preview_map", "is-visible=false")
+
 	winshow(user, "preferencess_window", TRUE)
 	winset(user, "preferencess_window", "size=820x850")
 	winset(user, "preferencess_window", "pos=280,80")
@@ -887,6 +894,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	popup.set_content(dat.Join())
 	popup.open(FALSE)
 	update_preview_icon()
+
 //	onclose(user, "preferencess_window", src)
 
 #undef APPEARANCE_CATEGORY_COLUMN
@@ -1759,7 +1767,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					return
 
 				if("voice")
-					var/new_voice = input(user, "Choose your character's voice color:", "Character Preference","#"+voice_color) as color|null
+					var/new_voice = input(user, "Choose your character's voice color:", "Character Preference", voice_color) as color|null
 					if(new_voice)
 						if(color_hex2num(new_voice) < 230)
 							to_chat(user, "<font color='red'>This voice color is too dark for mortals.</font>")
@@ -1816,7 +1824,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						voice_pitch = new_voice_pitch
 
 				if("highlight_color")
-					var/new_color = color_pick_sanitized(user, "Choose your character's nickname highlight color:", "Character Preference","#"+highlight_color)
+					var/new_color = color_pick_sanitized(user, "Choose your character's nickname highlight color:", "Character Preference", highlight_color)
 					if(new_color)
 						highlight_color = sanitize_hexcolor(new_color)
 				if("headshot")
@@ -2375,20 +2383,20 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						tail_markings_color = sanitize_hexcolor(new_tail_markings_color)
 
 				if("mutant_color")
-					var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's mutant #1 color:", "Character Preference","#"+features["mcolor"])
+					var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's mutant #1 color:", "Character Preference", "#"+features["mcolor"])
 					if(new_mutantcolor)
 
 						features["mcolor"] = sanitize_hexcolor(new_mutantcolor)
 						try_update_mutant_colors()
 
 				if("mutant_color2")
-					var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's mutant #2 color:", "Character Preference","#"+features["mcolor2"])
+					var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's mutant #2 color:", "Character Preference", "#"+features["mcolor2"])
 					if(new_mutantcolor)
 						features["mcolor2"] = sanitize_hexcolor(new_mutantcolor)
 						try_update_mutant_colors()
 
 				if("mutant_color3")
-					var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's mutant #3 color:", "Character Preference","#"+features["mcolor3"])
+					var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's mutant #3 color:", "Character Preference", "#"+features["mcolor3"])
 					if(new_mutantcolor)
 						features["mcolor3"] = sanitize_hexcolor(new_mutantcolor)
 						try_update_mutant_colors()
@@ -2396,7 +2404,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				if("skin_choice_pick")
 					var/prompt = alert(user, "Choose skin/scales color",, "Custom", "Predefined")
 					if(prompt == "Custom")
-						var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's skin/scale color:", "Character Preference","#"+features["mcolor"])
+						var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's skin/scale color:", "Character Preference", "#"+features["mcolor"])
 						if(new_mutantcolor)
 							features["mcolor"] = sanitize_hexcolor(new_mutantcolor)
 							try_update_mutant_colors()
@@ -2410,7 +2418,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				if("skin_feathers_pick")
 					var/prompt = alert(user, "Choose skin/feathers color",, "Custom", "Predefined")
 					if(prompt == "Custom")
-						var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's skin/feathers color:", "Character Preference","#"+features["mcolor"])
+						var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's skin/feathers color:", "Character Preference", "#"+features["mcolor"])
 						if(new_mutantcolor)
 							features["mcolor"] = sanitize_hexcolor(new_mutantcolor)
 							try_update_mutant_colors()
@@ -2607,10 +2615,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						to_chat(user, "Spouse species is unrestricted.")
 				if("hotkeys")
 					hotkeys = !hotkeys
-					if(hotkeys)
-						winset(user, null, "input.focus=true command=activeInput input.background-color=[COLOR_INPUT_ENABLED]  input.text-color = #EEEEEE")
-					else
-						winset(user, null, "input.focus=true command=activeInput input.background-color=[COLOR_INPUT_DISABLED]  input.text-color = #ad9eb4")
+					user.client.set_macros()
 
 				if("keybindings_capture")
 					var/datum/keybinding/kb = GLOB.keybindings_by_name[href_list["keybinding"]]
@@ -2678,6 +2683,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					user.client.update_movement_keys()
 				if("chat_on_map")
 					chat_on_map = !chat_on_map
+				if("stat_simple")
+					stat_simple = !stat_simple
+					user.client.update_stat_style()
 				if("see_chat_non_mob")
 					see_chat_non_mob = !see_chat_non_mob
 				if("action_buttons")

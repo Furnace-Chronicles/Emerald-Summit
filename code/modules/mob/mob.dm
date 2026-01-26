@@ -728,28 +728,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 	// && check_rights(R_ADMIN,0)
 	var/ticker_time = world.time - SSticker.round_start_time
 	var/time_left = SSgamemode.round_ends_at - ticker_time
-	if(client && client.holder)
-		if(statpanel("Status"))
-			if (client)
-				stat(null, "Ping: [round(client.lastping, 1)]ms (Average: [round(client.avgping, 1)]ms)")
-			stat(null, "Map: [SSmapping.config?.map_name || "Loading..."]")
-			var/datum/map_config/cached = SSmapping.next_map_config
-			if(cached)
-				stat(null, "Next Map: [cached.map_name]")
-			stat(null, "Round ID: [GLOB.rogue_round_id ? GLOB.rogue_round_id : "NULL"]")
-//			stat(null, "Server Time: [time2text(world.timeofday, "YYYY-MM-DD hh:mm:ss")]")
-			stat(null, "Round Time: [time2text(STATION_TIME_PASSED(), "hh:mm:ss", 0)] [world.time - SSticker.round_start_time]")
-			if(istype(SSgamemode.current_storyteller))
-				stat("REIGNING DEITY: [SSgamemode.current_storyteller.name]")
-			if(SSgamemode.roundvoteend)
-				stat("Round End: [DisplayTimeText(time_left)]")
-			stat(null, "Round TrueTime: [worldtime2text()] [world.time]")
-			stat(null, "TimeOfDay: [GLOB.tod]")
-			stat(null, "IC Time: [station_time_timestamp()] [station_time()]")
-			stat(null, "Time Dilation: [round(SStime_track.time_dilation_current,1)]% AVG:([round(SStime_track.time_dilation_avg_fast,1)]%, [round(SStime_track.time_dilation_avg,1)]%, [round(SStime_track.time_dilation_avg_slow,1)]%)")
-			if(check_rights(R_ADMIN,0))
-				stat(null, SSmigrants.get_status_line())
-
 	var/days = "TWILIGHT"
 	switch(GLOB.dayspassed)
 		if(1)
@@ -767,7 +745,35 @@ GLOBAL_VAR_INIT(mobids, 1)
 		if(7)
 			days = "SUN'S DAE"
 
-	if(client)
+	if(client && client.holder) //'Real' Status.
+		if(statpanel("Status"))
+			if (client)
+				stat(null, "Ping: [round(client.lastping, 1)]ms (Average: [round(client.avgping, 1)]ms)")
+			stat(null, "Map: [SSmapping.config?.map_name || "Loading..."]")
+			var/datum/map_config/cached = SSmapping.next_map_config
+			if(cached)
+				stat(null, "Next Map: [cached.map_name]")
+			stat(null, "   ")
+			stat(null, "Round ID: [GLOB.rogue_round_id ? GLOB.rogue_round_id : "NULL"]")
+			stat(null, "Server Time: [time2text(world.timeofday, "YYYY-MM-DD hh:mm:ss")]")
+			stat(null, "Round Time: [time2text(STATION_TIME_PASSED(), "hh:mm:ss", 0)] [world.time - SSticker.round_start_time]")
+			stat(null, "Total Time: [worldtime2text()] [world.time]")
+			if(SSgamemode.roundvoteend)
+				stat("Round Ends in: [DisplayTimeText(time_left)]")
+			if(istype(SSgamemode.current_storyteller))
+				stat(null, "   ")
+				stat("Storyteller/Deity: [SSgamemode.current_storyteller.name]")
+			stat(null, "   ")
+			stat(null, "TimeOfDay: [days] ᛉ [GLOB.tod]")
+			stat(null, "IC Time: [station_time_timestamp()] [station_time()]")
+			stat(null, "   ")
+			stat(null, "Time Dilation: [round(SStime_track.time_dilation_current,1)]% AVG:([round(SStime_track.time_dilation_avg_fast,1)]%, [round(SStime_track.time_dilation_avg,1)]%, [round(SStime_track.time_dilation_avg_slow,1)]%)")
+			if(check_rights(R_ADMIN,0))
+				stat(null, "   ")
+				stat(null, SSmigrants.get_status_line())
+
+
+	if(client && !client.holder) //'Flavorful' Status.
 		if(statpanel("RoundInfo"))
 			stat("ROUND ID: [GLOB.rogue_round_id]")
 			stat("ROUND TIME: [time2text(STATION_TIME_PASSED(), "hh:mm:ss", 0)] [world.time - SSticker.round_start_time]")
@@ -800,14 +806,17 @@ GLOBAL_VAR_INIT(mobids, 1)
 				stat(null)
 				for(var/datum/controller/subsystem/SS in Master.subsystems)
 					SS.stat_entry()
-		if(statpanel("Tickets"))
-			GLOB.ahelp_tickets.stat_entry()
+
 		if(length(GLOB.sdql2_queries))
 			if(statpanel("SDQL2"))
 				stat("Access Global SDQL2 List", GLOB.sdql2_vv_statobj)
 				for(var/i in GLOB.sdql2_queries)
 					var/datum/SDQL2_query/Q = i
 					Q.generate_stat()
+
+	if(client?.holder) //This needs to be here due to how the statpanel order is built. It makes sense when you think about it I swear.
+		if(statpanel("Tickets"))
+			GLOB.ahelp_tickets.stat_entry()
 
 	if(listed_turf && client)
 		if(!TurfAdjacent(listed_turf))

@@ -1,5 +1,5 @@
 //This is the lowest supported version, anything below this is completely obsolete and the entire savefile will be wiped.
-#define SAVEFILE_VERSION_MIN	18
+#define SAVEFILE_VERSION_MIN	33
 
 //This is the current version, anything below this will attempt to update (if it's not obsolete)
 //	You do not need to raise this if you are adding new values that have sane defaults.
@@ -44,98 +44,14 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 //if your savefile is 3 months out of date, then 'tough shit'.
 
 /datum/preferences/proc/update_preferences(current_version, savefile/S)
-	if(current_version < 29)
-		key_bindings = (hotkeys) ? deepCopyList(GLOB.hotkey_keybinding_list_by_key) : deepCopyList(GLOB.classic_keybinding_list_by_key)
-		parent.update_movement_keys()
-		to_chat(parent, span_danger("Empty keybindings, setting default to [hotkeys ? "Hotkey" : "Classic"] mode"))
 	if(current_version < 31) // RAISE THIS TO SAVEFILE_VERSION_MAX (and make sure to add +1 to the version) EVERY TIME YOU ADD SERVER-CHANGING KEYBINDS LIKE CHANGING HOW SAY WORKS!!
 		force_reset_keybindings_direct(TRUE)
 		addtimer(CALLBACK(src, PROC_REF(force_reset_keybindings)), 30)
 	if(current_version < 35)
-		patreon_say_color = "ff7a05"
+		patreon_say_color = "#ff7a05"
 		patreon_say_color_enabled = FALSE
 
 /datum/preferences/proc/update_character(current_version, savefile/S)
-	if(current_version < 19)
-		pda_style = "mono"
-	if(current_version < 20)
-		pda_color = "#808000"
-	if((current_version < 21) && features["ethcolor"] && (features["ethcolor"] == "#9c3030"))
-		features["ethcolor"] = "9c3030"
-	if(current_version < 22)
-		job_preferences = list() //It loaded null from nonexistant savefile field.
-		var/job_civilian_high = 0
-		var/job_civilian_med = 0
-		var/job_civilian_low = 0
-
-		var/job_medsci_high = 0
-		var/job_medsci_med = 0
-		var/job_medsci_low = 0
-
-		var/job_engsec_high = 0
-		var/job_engsec_med = 0
-		var/job_engsec_low = 0
-
-		S["job_civilian_high"]	>> job_civilian_high
-		S["job_civilian_med"]	>> job_civilian_med
-		S["job_civilian_low"]	>> job_civilian_low
-		S["job_medsci_high"]	>> job_medsci_high
-		S["job_medsci_med"]		>> job_medsci_med
-		S["job_medsci_low"]		>> job_medsci_low
-		S["job_engsec_high"]	>> job_engsec_high
-		S["job_engsec_med"]		>> job_engsec_med
-		S["job_engsec_low"]		>> job_engsec_low
-
-		//Can't use SSjob here since this happens right away on login
-		for(var/job in subtypesof(/datum/job))
-			var/datum/job/J = job
-			var/new_value
-			var/fval = initial(J.flag)
-			switch(initial(J.department_flag))
-				if(CIVILIAN)
-					if(job_civilian_high & fval)
-						new_value = JP_HIGH
-					else if(job_civilian_med & fval)
-						new_value = JP_MEDIUM
-					else if(job_civilian_low & fval)
-						new_value = JP_LOW
-				if(MEDSCI)
-					if(job_medsci_high & fval)
-						new_value = JP_HIGH
-					else if(job_medsci_med & fval)
-						new_value = JP_MEDIUM
-					else if(job_medsci_low & fval)
-						new_value = JP_LOW
-				if(ENGSEC)
-					if(job_engsec_high & fval)
-						new_value = JP_HIGH
-					else if(job_engsec_med & fval)
-						new_value = JP_MEDIUM
-					else if(job_engsec_low & fval)
-						new_value = JP_LOW
-			if(new_value)
-				job_preferences[initial(J.title)] = new_value
-	if(current_version < 23)
-		if(all_quirks)
-			all_quirks -= "Physically Obstructive"
-			all_quirks -= "Neat"
-			all_quirks -= "NEET"
-	if(current_version < 25)
-		randomise = list(RANDOM_UNDERWEAR = TRUE, RANDOM_UNDERWEAR_COLOR = TRUE, RANDOM_UNDERSHIRT = TRUE, RANDOM_SOCKS = TRUE, RANDOM_BACKPACK = TRUE, RANDOM_JUMPSUIT_STYLE = FALSE, RANDOM_SKIN_TONE = TRUE, RANDOM_EYE_COLOR = TRUE)
-		if(S["name_is_always_random"] == 1)
-			randomise[RANDOM_NAME] = TRUE
-		if(S["body_is_always_random"] == 1)
-			randomise[RANDOM_BODY] = TRUE
-		if(S["species_is_always_random"] == 1)
-			randomise[RANDOM_SPECIES] = TRUE
-		if(S["backbag"])
-			S["backbag"]	>> backpack
-		if(S["hair_style_name"])
-			S["hair_style_name"]	>> hairstyle
-		if(S["facial_style_name"])
-			S["facial_style_name"]	>> facial_hairstyle
-	if(current_version < 30)
-		S["voice_color"]		>> voice_color
 	if(current_version < 33) // Update races
 		var/species_name
 		S["species"] >> species_name
@@ -183,6 +99,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["ooccolor"]			>> ooccolor
 	S["lastchangelog"]		>> lastchangelog
 	S["UI_style"]			>> UI_style
+	S["stat_simple"]		>> stat_simple
 	S["hotkeys"]			>> hotkeys
 	S["chat_on_map"]		>> chat_on_map
 	S["showrolls"]			>> showrolls
@@ -246,9 +163,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	//Sanitize
 	asaycolor		= sanitize_ooccolor(sanitize_hexcolor(asaycolor, 6, 1, initial(asaycolor)))
+	patreon_say_color	= sanitize_ooccolor(sanitize_hexcolor(patreon_say_color), 6, 1, initial(patreon_say_color))
 	ooccolor		= sanitize_ooccolor(sanitize_hexcolor(ooccolor, 6, 1, initial(ooccolor)))
 	lastchangelog	= sanitize_text(lastchangelog, initial(lastchangelog))
 	UI_style		= sanitize_inlist(UI_style, GLOB.available_ui_styles, GLOB.available_ui_styles[1])
+	stat_simple		= sanitize_integer(stat_simple, 0, 1, initial(stat_simple))
 	hotkeys			= sanitize_integer(hotkeys, 0, 1, initial(hotkeys))
 	chat_on_map		= sanitize_integer(chat_on_map, 0, 1, initial(chat_on_map))
 	showrolls		= sanitize_integer(showrolls, 0, 1, initial(showrolls))
@@ -329,6 +248,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["ooccolor"], ooccolor)
 	WRITE_FILE(S["lastchangelog"], lastchangelog)
 	WRITE_FILE(S["UI_style"], UI_style)
+	WRITE_FILE(S["stat_simple"], stat_simple)
 	WRITE_FILE(S["hotkeys"], hotkeys)
 	WRITE_FILE(S["chat_on_map"], chat_on_map)
 	WRITE_FILE(S["showrolls"], showrolls)
@@ -570,15 +490,15 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	_load_combat_music(S)
 
-	if(!S["features["mcolor"]"] || S["features["mcolor"]"] == "#000")
-		WRITE_FILE(S["features["mcolor"]"]	, "#FFF")
-	if(!S["features["mcolor2"]"] || S["features["mcolor2"]"] == "#000")
-		WRITE_FILE(S["features["mcolor2"]"]	, "#FFF")
-	if(!S["features["mcolor3"]"] || S["features["mcolor3"]"] == "#000")
-		WRITE_FILE(S["features["mcolor3"]"]	, "#FFF")
+	if(!S["features["mcolor"]"] || S["features["mcolor"]"] == "#000000")
+		WRITE_FILE(S["features["mcolor"]"]	, "#FFFFFF")
+	if(!S["features["mcolor2"]"] || S["features["mcolor2"]"] == "#000000")
+		WRITE_FILE(S["features["mcolor2"]"]	, "#FFFFFF")
+	if(!S["features["mcolor3"]"] || S["features["mcolor3"]"] == "#000000")
+		WRITE_FILE(S["features["mcolor3"]"]	, "#FFFFFF")
 
-	if(!S["feature_ethcolor"] || S["feature_ethcolor"] == "#000")
-		WRITE_FILE(S["feature_ethcolor"], "9c3030")
+	if(!S["feature_ethcolor"] || S["feature_ethcolor"] == "#000000")
+		WRITE_FILE(S["feature_ethcolor"], "#9c3030")
 
 	//Character
 	_load_appearence(S)
@@ -659,27 +579,33 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		if(!custom_names[custom_name_id])
 			custom_names[custom_name_id] = get_default_name(custom_name_id)
 
-	if(!features["mcolor"] || features["mcolor"] == "#000")
+	if(!features["mcolor"] || features["mcolor"] == "#000000")
 		features["mcolor"] = pick("FFFFFF","7F7F7F", "7FFF7F", "7F7FFF", "FF7F7F", "7FFFFF", "FF7FFF", "FFFF7F")
-	if(!features["mcolor2"] || features["mcolor2"] == "#000")
+	if(!features["mcolor2"] || features["mcolor2"] == "#000000")
 		features["mcolor2"] = pick("FFFFFF","7F7F7F", "7FFF7F", "7F7FFF", "FF7F7F", "7FFFFF", "FF7FFF", "FFFF7F")
-	if(!features["mcolor3"] || features["mcolor3"] == "#000")
+	if(!features["mcolor3"] || features["mcolor3"] == "#000000")
 		features["mcolor3"] = pick("FFFFFF","7F7F7F", "7FFF7F", "7F7FFF", "FF7F7F", "7FFFFF", "FF7FFF", "FFFF7F")
 
-	if(!features["ethcolor"] || features["ethcolor"] == "#000")
+	if(!features["ethcolor"] || features["ethcolor"] == "#000000")
 		features["ethcolor"] = GLOB.color_list_ethereal[pick(GLOB.color_list_ethereal)]
 
 	randomise = SANITIZE_LIST(randomise)
 
 	age				= sanitize_inlist(age, pref_species.possible_ages)
-	eye_color		= sanitize_hexcolor(eye_color, 3, 0)
+	eye_color		= sanitize_hexcolor(eye_color, 6, 0)
+	hair_color		= sanitize_hexcolor(hair_color, 6, 0)
+	facial_hair_color	= sanitize_hexcolor(facial_hair_color, 6, 0)
+	highlight_color	= sanitize_hexcolor(highlight_color, 6, 0)
+	loadout_1_hex		= sanitize_hexcolor(loadout_1_hex, 6, TRUE)
+	loadout_2_hex		= sanitize_hexcolor(loadout_2_hex, 6, TRUE)
+	loadout_3_hex		= sanitize_hexcolor(loadout_3_hex, 6, TRUE)
 	family 			= family
 	gender_choice 	= gender_choice
 	setspouse 		= setspouse
 	xenophobe_pref 	= xenophobe_pref
 	extra_language  = extra_language
 	selected_title  = selected_title
-	voice_color		= voice_color
+	voice_color		= sanitize_hexcolor(voice_color, 6, 0)
 	voice_pitch		= voice_pitch
 	skin_tone		= skin_tone
 	backpack		= sanitize_inlist(backpack, GLOB.backpacklist, initial(backpack))

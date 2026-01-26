@@ -1,8 +1,6 @@
 GLOBAL_VAR_INIT(OOC_COLOR, null)//If this is null, use the CSS for OOC. Otherwise, use a custom colour.
 GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 
-//client/verb/ooc(msg as text)
-
 /client/verb/ooc(msg as text)
 	set name = "OOC"
 	set category = "OOC"
@@ -77,7 +75,7 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 	if(!color2use)
 		color2use = "#FFFFFF"
 	else
-		color2use = "#[color2use]"
+		color2use = sanitize_hexcolor(color2use)
 	var/chat_color = "#c5c5c5"
 	var/msg_to_send = ""
 

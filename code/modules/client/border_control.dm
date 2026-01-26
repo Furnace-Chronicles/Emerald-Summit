@@ -1,7 +1,5 @@
 //Handles server whitelisting - set to 0? No whitelist. 1? Any ckeys that connect get added to list; no whitelist required still. 2? Only Ckeys on the list can connect.
-#define BORDER_CONTROL_DISABLED 0
-#define BORDER_CONTROL_LEARNING 1
-#define BORDER_CONTROL_ENFORCED 2
+//Defines moved to _DEFINES/bordercontrol.dm
 
 
 GLOBAL_LIST_EMPTY(whitelistedCkeys)
