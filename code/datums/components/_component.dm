@@ -367,7 +367,7 @@
 	var/datum/component/C = dc[c_type]
 	if(C)
 		if(length(C))
-			C = C[1]
+			C = astype(C,/list)[1]
 		if(C.type == c_type)
 			return C
 	return null

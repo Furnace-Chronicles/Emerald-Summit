@@ -500,6 +500,8 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	else
 		toggle_fullscreeny(FALSE)
 
+	update_stat_style()
+
 	if(prefs.anonymize)
 		GLOB.anonymize |= ckey
 
@@ -729,6 +731,19 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	else
 		winset(src, "mainwindow", "is-maximized=false;can-resize=true;titlebar=true;menu=menu")
 	winset(src, "mainwindow", "is-maximized=true")
+
+// Keep in sync with skin.dmf
+/client/proc/update_stat_style()
+	if(!prefs)
+		CRASH("Attempted to update stattab styling before prefs were loaded.")
+	if(prefs.stat_simple) //Unset everything so it falls back to defaults
+		winset(src, "stat",
+			"font-family = \"\";font-size = 0;font-style = \"\";tab-font-family = \"\";tab-font-size = 0"
+			)
+	else //Set it all back to the fancy stuff.
+		winset(src, "stat",
+			"font-family = \"Pterra\";font-size = 12;font-style = \"6\";tab-font-family = \"Blackmoor LET\";tab-font-size = 20"
+			)
 
 /client/proc/findJoinDate()
 	var/list/http = world.Export("http://www.byond.com/members/[ckey]?format=text")

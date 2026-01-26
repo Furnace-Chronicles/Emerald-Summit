@@ -127,7 +127,7 @@
 		"Sunset" = SKIN_COLOR_SUNSET,
 		"Dusk" = SKIN_COLOR_DUSK,
 		"Gilded" = SKIN_COLOR_GILDED,
-		"Brass" = SKIN_COLOR_BRASS,
+		"Brass" = SKIN_COLOR_ELF_BRASS,
 	)
 
 /datum/species/elf/sun/get_skin_list_tooltip()
@@ -139,7 +139,7 @@
 		"Sunset <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_SUNSET];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_SUNSET,
 		"Dusk <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_DUSK];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_DUSK,
 		"Gilded <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_GILDED];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_GILDED,
-		"Brass <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_BRASS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_BRASS,
+		"Brass <span style='border: 1px solid #161616; background-color: #[SKIN_COLOR_ELF_BRASS];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" = SKIN_COLOR_ELF_BRASS,
 	)
 
 /datum/species/elf/sun/get_hairc_list()

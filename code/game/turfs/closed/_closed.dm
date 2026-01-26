@@ -286,7 +286,7 @@
 
 /turf/closed/indestructible/splashscreen
 	name = ""
-	icon = 'icons/default_title.dmi'
+	icon = 'icons/blank_title.png'
 	icon_state = ""
 	layer = FLY_LAYER
 	bullet_bounce_sound = null

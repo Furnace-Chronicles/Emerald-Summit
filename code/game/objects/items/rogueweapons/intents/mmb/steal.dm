@@ -33,8 +33,6 @@
 			return TRUE
 		else
 			return FALSE
-		
-		return FALSE
 
 	return TRUE
 

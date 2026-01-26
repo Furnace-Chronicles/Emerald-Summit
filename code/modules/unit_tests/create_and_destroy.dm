@@ -31,7 +31,15 @@ GLOBAL_VAR_INIT(running_create_and_destroy, FALSE)
 		/obj/effect/DPtarget,
 		// prompts loc for input
 		/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft,
+		// Needs helper
+		/obj/structure/industrial_lift/tram,
+		// abstract of loot spawners
+		/obj/random/loot,
+		//Needs item
+		/obj/effect/temp_visual/offered_item_effect
 	)
+	// Invalid to spawn after roundstart
+	ignore += typesof(/obj/effect/landmark/mapGenerator)
 	//these are VERY situational and need info passed
 	ignore += typesof(/obj/effect/abstract)
 	//needs a lich passed
@@ -74,6 +82,11 @@ GLOBAL_VAR_INIT(running_create_and_destroy, FALSE)
 				Fail("[type_path] changed the amount of baseturfs we have [baseturf_count] -> [length(spawn_at.baseturfs)]")
 				baseturf_count = length(spawn_at.baseturfs)
 		else
+			if(ispath(type_path, /mob/living/carbon/human))
+				var/mob/living/carbon/human/human_type = type_path
+				if(initial(human_type.mode) != NPC_AI_OFF)
+					log_test("Skipping [type_path], Carbon with NPC AI Enabled")
+					continue
 			var/atom/creation = new type_path(spawn_at)
 			if(QDELETED(creation))
 				continue

@@ -8,11 +8,6 @@ on:
     branches:
       - main
 
-env:
-  BYOND_MAJOR: 515
-  BYOND_MINOR: 1636
-  SPACEMAN_DMM_VERSION: suite-1.9
-
 jobs:
   run-linters:
     if: ( !contains(github.event.head_commit.message, '[ci skip]') )
@@ -41,51 +36,177 @@ jobs:
           bash tools/ci/install_spaceman_dmm.sh dreamchecker
           bash tools/ci/install_ripgrep.sh
           tools/bootstrap/python -c ''
-      - name: Run Linters
+      - name: Give Linters A Go
+        id: linter-setup
+        run: ":"
+      - name: Run Grep Checks
+        if: steps.linter-setup.conclusion == 'success' && !cancelled()
+        run: bash tools/ci/check_grep.sh
+      - name: Run DreamChecker
+        if: steps.linter-setup.conclusion == 'success' && !cancelled()
+        shell: bash
+        run: ~/dreamchecker 2>&1 | bash tools/ci/annotate_dm.sh
+      - name: Run Map Checks
+        if: steps.linter-setup.conclusion == 'success' && !cancelled()
         run: |
-          bash tools/ci/check_filedirs.sh roguetown.dme
-          bash tools/ci/check_changelogs.sh
-          find . -name "*.php" -print0 | xargs -0 -n1 php -l
-          # bash tools/ci/check_grep.sh # TODO: fix indentation etc
-          # tools/bootstrap/python tools/ci/validate_dme.py < roguetown.dme # TODO: fix unincluded files
-          tools/bootstrap/python -m dmi.test
           tools/bootstrap/python -m mapmerge2.dmm_test
-          ~/dreamchecker > ${GITHUB_WORKSPACE}/output-annotations.txt 2>&1
-      - name: Annotate Lints
-        uses: yogstation13/DreamAnnotate@v2
-        if: always()
-        with:
-          outputFile: output-annotations.txt
-  build:
+      - name: Run DMI Tests
+        if: steps.linter-setup.conclusion == 'success' && !cancelled()
+        run: tools/bootstrap/python -m dmi.test
+      - name: Check File Directories
+        if: steps.linter-setup.conclusion == 'success' && !cancelled()
+        run: bash tools/ci/check_filedirs.sh roguetown.dme
+      - name: Check Changelogs
+        if: steps.linter-setup.conclusion == 'success' && !cancelled()
+        run: bash tools/ci/check_changelogs.sh
+      - name: Check Miscellaneous Files
+        if: steps.linter-setup.conclusion == 'success' && !cancelled()
+        run: bash tools/ci/check_misc.sh
+      - name: Run TGUI Checks
+        if: steps.linter-setup.conclusion == 'success' && !cancelled()
+        run: tools/build/build.sh --ci lint tgui-test
+
+  compile_all_maps:
+    if: ( !contains(github.event.head_commit.message, '[ci skip]') )
+    name: Compile Maps
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      
-      - name: Restore BYOND cache
+      - uses: actions/checkout@v4
+      - name: Prepare BYOND
+        uses: ./.github/actions/restore_or_install_byond
+      - name: Compile All Maps
+        run: |
+          bash tools/ci/install_byond.sh
+          source $HOME/BYOND/byond/bin/byondsetup
+          tools/build/build.sh --ci dm -DCIBUILDING -DCITESTING -DALL_MAPS
+
+  find_all_maps:
+    if: ( !contains(github.event.head_commit.message, '[ci skip]') )
+    name: Find Maps to Test
+    runs-on: ubuntu-latest
+    outputs:
+      maps: ${{ steps.map_finder.outputs.maps }}
+      alternate_tests: ${{ steps.alternate_test_finder.outputs.alternate_tests }}
+    concurrency:
+      group: find_all_maps-${{ github.head_ref || github.run_id }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Find Maps
+        id: map_finder
+        run: |
+          echo "$(ls -mw0 _maps/*.json)" > maps_output.txt
+          sed -i -e s+_maps/+\"+g -e s+.json+\"+g maps_output.txt
+          echo "Maps: $(cat maps_output.txt)"
+          echo "::set-output name=maps::{\"paths\":[$(cat maps_output.txt)]}"
+      - name: Find Alternate Tests
+        id: alternate_test_finder
+        run: |
+          ALTERNATE_TESTS_JSON=$(jq -nRc '[inputs | capture("^(?<major>[0-9]+)\\.(?<minor>[0-9]+): (?<map>.+)$")]' .github/alternate_byond_versions.txt)
+          echo "alternate_tests=$ALTERNATE_TESTS_JSON" >> $GITHUB_OUTPUT
+
+  run_all_tests:
+    if: ( !contains(github.event.head_commit.message, '[ci skip]') )
+    name: Integration Tests
+    needs: [find_all_maps]
+    strategy:
+      fail-fast: false
+      matrix:
+        map: ${{ fromJSON(needs.find_all_maps.outputs.maps).paths }}
+    concurrency:
+      group: un_all_tests-${{ github.head_ref || github.run_id }}-${{ matrix.map }}
+      cancel-in-progress: true
+    uses: ./.github/workflows/run_integration_tests.yml
+    with:
+      map: ${{ matrix.map }}
+
+  run_alternate_tests:
+    if: ( !contains(github.event.head_commit.message, '[ci skip]') && needs.find_all_maps.outputs.alternate_tests != '[]' )
+    name: Alternate Tests
+    needs: [find_all_maps]
+    strategy:
+      fail-fast: false
+      matrix:
+        setup: ${{ fromJSON(needs.find_all_maps.outputs.alternate_tests) }}
+    concurrency:
+      group: run_all_tests-${{ github.head_ref || github.run_id }}-${{ matrix.setup.major }}.${{ matrix.setup.minor }}-${{ matrix.setup.map }}
+      cancel-in-progress: true
+    uses: ./.github/workflows/run_integration_tests.yml
+    with:
+      map: ${{ matrix.setup.map }}
+      major: ${{ matrix.setup.major }}
+      minor: ${{ matrix.setup.minor }}
+
+  check_alternate_tests:
+    if: ( !contains(github.event.head_commit.message, '[ci skip]') && needs.find_all_maps.outputs.alternate_tests != '[]' )
+    name: Check Alternate Tests
+    needs: [run_alternate_tests]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo Alternate tests passed.
+
+  # We don't have the test code for this yet. Leaving it here though.
+  # compare_screenshots:
+  #   if: ( !contains(github.event.head_commit.message, '[ci skip]') && (always() && (!failure() && !cancelled())) )
+  #   needs: [run_all_tests, run_alternate_tests]
+  #   name: Compare Screenshot Tests
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Setup directory
+  #       run: mkdir -p artifacts
+  #     # If we ever add more artifacts, this is going to break, but it'll be obvious.
+  #     - name: Download screenshot tests
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         path: artifacts
+  #     - name: ls -R
+  #       run: ls -R artifacts
+  #     - name: Setup screenshot comparison
+  #       run: npm i
+  #       working-directory: tools/screenshot-test-comparison
+  #     - name: Run screenshot comparison
+  #       run: node tools/screenshot-test-comparison/index.js artifacts code/modules/unit_tests/screenshots/data artifacts/screenshot_comparisons
+  #     # workflow_run does not give you the PR it ran on,
+  #     # even through the thing literally named "matching pull requests".
+  #     # However, in GraphQL, you can check if the check suite was ran
+  #     # by a specific PR, so trusting the (user controlled) action here is okay,
+  #     # as long as we check it later in show_screenshot_test_results
+  #     - name: Save PR ID
+  #       if: failure() && github.event.pull_request
+  #       run: |
+  #         echo ${{ github.event.pull_request.number }} > artifacts/screenshot_comparisons/pull_request_number.txt
+  #     - name: Upload bad screenshots
+  #       if: failure()
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: bad-screenshots
+  #         path: artifacts/screenshot_comparisons
+
+  test_windows:
+    if: ( !contains(github.event.head_commit.message, '[ci skip]') )
+    name: Windows Build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore Yarn cache
         uses: actions/cache@v4
         with:
-          path: ~/BYOND
-          key: ${{ runner.os }}-BYOND-${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}
-      
-      - name: Install BYOND
+          path: tgui/.yarn/cache
+          key: ${{ runner.os }}-yarn-${{ hashFiles('tgui/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Compile
+        run: pwsh tools/ci/build.ps1
+        env:
+          DM_EXE: "C:\\byond\\bin\\dm.exe"
+      - name: Create artifact
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y make gcc unzip
-          bash tools/ci/install_byond.sh
-
-      - name: Compile BYOND project
-        run: |
-          ls -h $HOME/
-          source $HOME/BYOND/byond/bin/byondsetup
-          tools/build/build.sh
-
-      - name: Check for errors
-        id: check-errors
-        run: |
-          if grep -q "error" *.log; then
-            echo "::error ::Compilation failed with errors."
-            exit 1
-          else
-            echo "Compilation succeeded without critical errors."
-          fi
+          md deploy
+          bash tools/deploy.sh ./deploy
+      - name: Deploy artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy
+          path: deploy

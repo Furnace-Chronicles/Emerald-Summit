@@ -1,5 +1,6 @@
 // Clickable stat() button.
 /obj/effect/statclick
+	icon = null //Otherwise, it creates an invisible fixed-size 32x32 invisible icon before it.
 	name = "Initializing..."
 	var/target
 

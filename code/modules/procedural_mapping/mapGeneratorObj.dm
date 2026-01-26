@@ -8,17 +8,16 @@
 	var/mapGeneratorType = /datum/mapGenerator/beach
 	var/datum/mapGenerator/mapGenerator
 
+// These things suck. They really should be defined somewhere else, such as the map json.
+// if we do that, we might be able to run them earlier than SSatoms and not have to in-place initialize everything.
 /obj/effect/landmark/mapGenerator/Initialize(mapload)
 	..()
-	return INITIALIZE_HINT_LATELOAD
-
-/obj/effect/landmark/mapGenerator/LateInitialize()
-	. = ..()
 	if(startTurfZ < 0)
 		startTurfZ = z
 	if(endTurfZ < 0)
 		endTurfZ = z
 	mapGenerator = new mapGeneratorType()
 	mapGenerator.defineRegion(locate(startTurfX,startTurfY,startTurfZ), locate(endTurfX,endTurfY,endTurfZ))
-	SSmap_procgen.queue_map_generator(mapGenerator) //Queue these things instead of running them in LateInit. ...*WHY* do these lateinit actually?? Consider fixing tomorrow.
-	qdel(src)
+	SSmap_procgen.queue_map_generator(mapGenerator)
+	return INITIALIZE_HINT_QDEL
+

@@ -152,17 +152,19 @@
 		H?.mind.adjust_spellpoints(6)
 
 // Semi-Antag role. Similar to Lord, just different background and stats change a bit
-//datum/advclass/heartfelt/lord/conqueror
-//	name = "Conqueror of Heartfelt"
-//	tutorial = "You are the new Lord of Heartfelt of Heartfelt, conquering the a once-prosperous barony now in ruin. \
+/*
+/datum/advclass/heartfelt/lord/conqueror
+	name = "Conqueror of Heartfelt"
+	tutorial = "You are the new Lord of Heartfelt of Heartfelt, conquering the a once-prosperous barony now in ruin. \
 	Guided by your Magos, you journey to the Reach, seeking aid to expand your domain, or perhaps claim a new throne."
-//	category_tags = list(CTAG_HFT_LORD)
-//	maximum_possible_slots = 1
-//	outfit = /datum/outfit/job/heartfelt/lord/conqueror
-//	pickprob = 100
-//	class_select_category = CLASS_CAT_HFT_COURT
-//	subclass_social_rank = SOCIAL_RANK_NOBLE
-//	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_HEARTFELT)
+	category_tags = list(CTAG_HFT_LORD)
+	maximum_possible_slots = 1
+	outfit = /datum/outfit/job/heartfelt/lord/conqueror
+	pickprob = 100
+	class_select_category = CLASS_CAT_HFT_COURT
+	subclass_social_rank = SOCIAL_RANK_NOBLE
+	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_HEARTFELT)
+*/
 
 //datum/outfit/job/heartfelt/lord/conqueror/pre_equip(mob/living/carbon/human/H)
 //	..()

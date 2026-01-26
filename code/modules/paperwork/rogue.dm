@@ -457,7 +457,7 @@
 	if(!faction)
 		faction = pick("Heartfelt", "Hammerhold", "Grenzelhoft", "Kingsfield")		//add more as time goes, idk
 
-	sell_prices = prices
+	sell_prices = prices || list()
 	if(!length(sell_prices))
 		sell_prices = generated_test_data()
 	writers_name = pick( world.file2list("strings/rt/names/human/humnorm.txt") )
@@ -494,7 +494,7 @@
 /obj/item/paper/scroll/sell_price_changes/proc/generated_test_data()
 
 	var/list/prices = list()
-	for(var/i = 1 to rand(2, 4))
+	for(var/i in 1 to rand(2, 4))
 		var/datum/supply_pack/pack = pick(SSmerchant.supply_packs)
 		if(islist(pack.contains))
 			continue

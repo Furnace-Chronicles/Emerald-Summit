@@ -103,8 +103,9 @@ GLOBAL_VAR(restart_counter)
 
 	Master.Initialize(10, FALSE, TRUE)
 
-	if(TEST_RUN_PARAMETER in params)
-		HandleTestRun()
+	#ifdef UNIT_TESTS
+	HandleTestRun()
+	#endif
 
 	update_status()
 
@@ -285,11 +286,12 @@ GLOBAL_VAR(restart_counter)
 	to_chat(world, "Please be patient as the server restarts. You will be automatically reconnected in about 60 seconds.")
 	Master.Shutdown()	//run SS shutdowns? rtchange
 
-	TgsReboot()
 
-	if(TEST_RUN_PARAMETER in params)
-		FinishTestRun()
-		return
+
+	#ifdef UNIT_TESTS
+	FinishTestRun()
+	return //We don't actually care about anything past this point.
+	#endif
 
 	if(TgsAvailable())
 		send2chat(new /datum/tgs_message_content("Round ending!"), CONFIG_GET(string/chat_announce_new_game))
@@ -318,6 +320,7 @@ GLOBAL_VAR(restart_counter)
 
 	log_world("World rebooted at [time_stamp()]")
 	shutdown_logging() // Past this point, no logging procs can be used, at risk of data loss.
+	TgsReboot() //TGS is capable of putting a bullet in your brain the second this proc fires. Call it as late as possible.
 	..()
 
 /world/proc/update_status()

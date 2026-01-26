@@ -797,22 +797,16 @@ Necra's Censer (by ARefrigerator)
 	item_flags = ABSTRACT
 	sharpness = IS_BLUNT
 	anchored = TRUE
-	var/tmp/_pending_delete = FALSE
 
 /obj/item/surgery_staple/Moved(oldloc, dir, forced = FALSE)
 	. = ..()
-	if(_pending_delete)
-		return
-	if(isnull(loc))
+	if(QDELETED(src))
 		return
 	if(!istype(loc, /obj/item/bodypart))
-		_pending_delete = TRUE
 		qdel(src)
 
 /obj/item/surgery_staple/attack_hand(mob/living/user)
-	if(!_pending_delete)
-		_pending_delete = TRUE
-		qdel(src)
+	qdel(src)
 	return
 
 /obj/item/surgery_staple/hemostat

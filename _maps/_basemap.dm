@@ -4,8 +4,8 @@
 
 #ifndef LOWMEMORYMODE
 	#ifdef ALL_MAPS
-		#include "map_files\Roguetown\roguetown.dmm"
-		#include "map_files\Rogueworld\Rogueworld.dmm"
+		#include "map_files\roguetest\roguetest.dmm"
+		#include "map_files\dun_world\dun_world.dmm"
 
 		#ifdef TRAVISBUILDING
 			#include "templates.dm"

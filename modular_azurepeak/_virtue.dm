@@ -33,7 +33,9 @@ GLOBAL_LIST_EMPTY(virtues)
 	var/custom_text
 	/// Required virtues before this virtue can be selected.
 	var/list/required_virtues = list()
-	var/uniquefaith
+	/// FIXME: I have no fucking clue how this works but this appears to always be a list and was throwing a 516 error.
+	/// This code is a mess and has zero comments, I will end whoever wrote this.
+	var/list/datum/faith/uniquefaith
 
 /datum/virtue/New()
 	. = ..()

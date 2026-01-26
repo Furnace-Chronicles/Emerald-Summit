@@ -92,7 +92,7 @@
 
 /obj/particle_emitter/Destroy(force)
 	. = ..()
-	host.particle_emitters -= src
+	host?.particle_emitters -= src
 	host = null
 
 /obj/particle_emitter/smoke

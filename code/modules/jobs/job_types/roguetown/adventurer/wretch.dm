@@ -4,8 +4,8 @@
 	flag = WRETCH
 	department_flag = PEASANTS
 	faction = "Station"
-	total_positions = 10
-	spawn_positions = 10
+	total_positions = 2
+	spawn_positions = 2
 	allowed_races = RACES_ALL_KINDS
 	disallowed_races = list(
 		/datum/species/lamia,

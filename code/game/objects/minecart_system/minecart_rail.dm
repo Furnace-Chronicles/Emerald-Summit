@@ -145,7 +145,7 @@
 		if(!(direction & dpdir))
 			continue
 		var/turf/step_back = get_step(src, direction)
-		for(var/obj/structure/structure in step_back.contents)
+		for(var/obj/structure/structure in step_back?.contents)
 			if(!structure.rotation_network)
 				continue
 			if(istype(structure, /obj/structure/minecart_rail))
