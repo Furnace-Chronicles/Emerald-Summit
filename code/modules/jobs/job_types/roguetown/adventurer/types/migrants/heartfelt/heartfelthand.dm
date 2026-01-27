@@ -32,20 +32,33 @@
 // MARSHAL //
 /***************************************************************/
 
-
 /datum/advclass/heartfelt/hand/marshal
 	name = "Marshal of Heartfelt"
 	tutorial = "Renowned for your command of war, you laid down your blade in peaceful years, but peace died with Heartfelt. \
 	Pressed once more into service by tragedy, you climb towards the Reach."
 	outfit = /datum/outfit/job/heartfelt/hand/marshal
 	category_tags = list(CTAG_HFT_HAND)
-	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_NOBLE, TRAIT_HEARTFELT)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_NOBLE, TRAIT_HEARTFELT, TRAIT_STEELHEARTED)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_PER = 2,
 		STATKEY_INT = 2,
 		STATKEY_CON = 1,
 		STATKEY_END = 1,
+	)
+
+	subclass_skills = list(
+	/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
+	/datum/skill/misc/medicine = SKILL_LEVEL_EXPERT,
+	/datum/skill/craft/cooking = SKILL_LEVEL_EXPERT,
+	/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
+	/datum/skill/misc/riding = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 	)
 
 /datum/outfit/job/heartfelt/hand/marshal/pre_equip(mob/living/carbon/human/H)
@@ -59,18 +72,9 @@
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/rich = 1,)
-	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/medicine, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/cooking, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/riding, 4, TRUE)
+		/obj/item/storage/belt/rogue/pouch/coins/rich = 1,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
+		)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/retreat)
@@ -103,12 +107,27 @@
 	outfit = /datum/outfit/job/heartfelt/hand/steward
 	category_tags = list(CTAG_HFT_HAND)
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_SEEPRICES, TRAIT_HEARTFELT)
+	
 	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_SPD = 2,
 		STATKEY_INT = 2,
 		STATKEY_CON = 1,
 		STATKEY_END = 2,
+	)
+
+	subclass_skills = list(
+	/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
+	/datum/skill/misc/medicine = SKILL_LEVEL_EXPERT,
+	/datum/skill/craft/cooking = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
+	/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/heartfelt/hand/steward/pre_equip(mob/living/carbon/human/H)
@@ -123,22 +142,14 @@
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/rich = 1,)
+		/obj/item/storage/belt/rogue/pouch/coins/rich = 1,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
+		)
 	mask = /obj/item/clothing/mask/rogue/spectacles/golden
 	id = /obj/item/scomstone
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)
-	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/medicine, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/cooking, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
+
 
 /***************************************************************/
 // ADVISOR - MAGE CLASS //

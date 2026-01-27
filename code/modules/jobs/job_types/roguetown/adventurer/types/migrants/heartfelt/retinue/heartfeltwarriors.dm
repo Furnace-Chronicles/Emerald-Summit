@@ -11,7 +11,7 @@
 	category_tags = list(CTAG_HFT_RETINUE)
 	class_select_category = CLASS_CAT_HFT_GUARD
 	subclass_social_rank = SOCIAL_RANK_YEOMAN
-	traits_applied = list(TRAIT_MEDIUMARMOR) // MAA footman W/O Guardsman Trait
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED) // MAA footman W/O Guardsman Trait
 	subclass_stats = list(
 		STATKEY_STR = 2, 
 		STATKEY_INT = 1,
@@ -76,6 +76,7 @@
 		/obj/item/rope/chain = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
 	)
 	H.verbs |= /mob/proc/haltyell
 
@@ -109,7 +110,7 @@
 	outfit = /datum/outfit/job/heartfelt/retinue/housearb
 	category_tags = list(CTAG_HFT_RETINUE)
 	class_select_category = CLASS_CAT_HFT_GUARD
-	traits_applied = list(TRAIT_MEDIUMARMOR) // Medium Armor Forced - Heavier 'Defensive' Class
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED) // Medium Armor Forced - Heavier 'Defensive' Class
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_PER = 2,
@@ -173,6 +174,7 @@
 		/obj/item/rope/chain = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
 	)
 	H.verbs |= /mob/proc/haltyell
 
@@ -212,7 +214,7 @@
 	category_tags = list(CTAG_HFT_RETINUE)
 	class_select_category = CLASS_CAT_HFT_GUARD
 	subclass_social_rank = SOCIAL_RANK_YEOMAN
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_SQUIRE_REPAIR)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_SQUIRE_REPAIR, TRAIT_STEELHEARTED)
 	subclass_stats = list( // 8 points, same as the rest.
 		STATKEY_STR = 1, 
 		STATKEY_INT = 1,
@@ -259,7 +261,8 @@
 		/obj/item/rogueweapon/hammer/iron = 1, // Failed Squire Virtue Items
 		/obj/item/polishing_cream = 1,
 		/obj/item/armor_brush = 1,
-	) 
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
+	)
 
 	var/weapons = list("Sword & Shield","Mace & Shield","Spear","Crossbow", "Bow")
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
