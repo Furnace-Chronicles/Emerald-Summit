@@ -776,6 +776,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	if(client && !client.holder) //'Flavorful' Status.
 		if(statpanel("RoundInfo"))
 			stat("ROUND ID: [GLOB.rogue_round_id]")
+			stat(null, "TIME DILATION: [round(SStime_track.time_dilation_current,1)]% AVG:([round(SStime_track.time_dilation_avg_fast,1)]%, [round(SStime_track.time_dilation_avg,1)]%, [round(SStime_track.time_dilation_avg_slow,1)]%)")
 			stat("ROUND TIME: [time2text(STATION_TIME_PASSED(), "hh:mm:ss", 0)] [world.time - SSticker.round_start_time]")
 			if(istype(SSgamemode.current_storyteller))
 				stat("REIGNING DEITY: [SSgamemode.current_storyteller.name]")
