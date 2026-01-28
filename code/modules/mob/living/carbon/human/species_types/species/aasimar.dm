@@ -74,7 +74,7 @@
 	)
 	languages = list(
 		/datum/language/common,
-		/datum/language/celestial
+		/datum/language/enochian
 	)
 
 /datum/species/aasimar/on_species_gain(mob/living/carbon/C, datum/species/old_species)
@@ -84,7 +84,7 @@
 
 /datum/species/aasimar/after_creation(mob/living/carbon/C)
 	..()
-	to_chat(C, "<span class='info'>I can speak Celestial with ,c before my speech.</span>")
+	to_chat(C, "<span class='info'>I can speak Enochian with ,l before my speech.</span>")
 
 /datum/species/aasimar/on_species_loss(mob/living/carbon/C)
 	. = ..()
