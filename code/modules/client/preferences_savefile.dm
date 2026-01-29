@@ -7,7 +7,7 @@
 //	where you would want the updater procs below to run
 
 //	This also works with decimals.
-#define SAVEFILE_VERSION_MAX	35
+#define SAVEFILE_VERSION_MAX	36
 
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
@@ -73,6 +73,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 					species_name = "Golem"
 
 		_load_species(S, species_name)
+	if(current_version < 36) //Need to remap bad (#000000) loadout colors to null.
+		if(loadout_1_hex == "#000000")
+			loadout_1_hex = null
+		if(loadout_2_hex == "#000000")
+			loadout_2_hex = null
+		if(loadout_3_hex == "#000000")
+			loadout_3_hex = null
 
 /datum/preferences/proc/load_path(ckey,filename="preferences.sav")
 	if(!ckey)
@@ -596,9 +603,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	hair_color		= sanitize_hexcolor(hair_color, 6, 0)
 	facial_hair_color	= sanitize_hexcolor(facial_hair_color, 6, 0)
 	highlight_color	= sanitize_hexcolor(highlight_color, 6, 0)
-	loadout_1_hex		= sanitize_hexcolor(loadout_1_hex, 6, TRUE)
-	loadout_2_hex		= sanitize_hexcolor(loadout_2_hex, 6, TRUE)
-	loadout_3_hex		= sanitize_hexcolor(loadout_3_hex, 6, TRUE)
+	loadout_1_hex	= isnull(loadout_1_hex) ? null : sanitize_hexcolor(loadout_1_hex, 6, TRUE)
+	loadout_2_hex	= isnull(loadout_2_hex) ? null : sanitize_hexcolor(loadout_2_hex, 6, TRUE)
+	loadout_3_hex	= isnull(loadout_3_hex) ? null : sanitize_hexcolor(loadout_3_hex, 6, TRUE)
 	family 			= family
 	gender_choice 	= gender_choice
 	setspouse 		= setspouse
