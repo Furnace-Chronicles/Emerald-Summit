@@ -2,7 +2,7 @@
 	name = "Nobility"
 	desc = "By birth, blade or brain, I am noble known to the royalty of these lands, and have all the benefits associated with it."
 	restricted = TRUE
-	races = list(/datum/species/golem/metal, /datum/species/golem/porcelain, /datum/species/goblinp, /datum/species/kobold)
+	races = list(/datum/species/golem/metal, /datum/species/golem/porcelain, /datum/species/goblinp, /datum/species/kobold, /datum/species/golem/metal/mechanical, /datum/species/golem/porcelain/mechanical)
 	added_traits = list(TRAIT_NOBLE)
 	added_skills = list(list(/datum/skill/misc/reading, 1, 6))
 	added_stashed_items = list("Heirloom Amulet" = /obj/item/clothing/neck/roguetown/ornateamulet/noble)
@@ -24,7 +24,7 @@
 	name = "Blueblooded"
 	desc = "I have been raised since birth in the throes of a noble lineage, and bear exceptional beauty and the social standing to show for it - though none of the material benefits."
 	restricted = TRUE
-	races = list(/datum/species/golem/metal, /datum/species/golem/porcelain, /datum/species/goblinp, /datum/species/kobold)
+	races = list(/datum/species/golem/metal, /datum/species/golem/porcelain, /datum/species/goblinp, /datum/species/kobold, /datum/species/golem/metal/mechanical, /datum/species/golem/porcelain/mechanical)
 	added_traits = list(TRAIT_NOBLE, TRAIT_BEAUTIFUL, TRAIT_GOODLOVER)
 	added_skills = list(list(/datum/skill/misc/reading, 1, 6))
 	added_stashed_items = list("Heirloom Amulet" = /obj/item/clothing/neck/roguetown/ornateamulet/noble, "Hand Mirror" = /obj/item/handmirror)
