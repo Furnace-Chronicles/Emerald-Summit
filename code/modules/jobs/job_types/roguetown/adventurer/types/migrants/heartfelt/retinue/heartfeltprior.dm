@@ -14,6 +14,31 @@
 
 // HIGH COURT - /ONE SLOT/ Roles that were previously in the Court, but moved here.
 
+	traits_applied = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_SOUL_EXAMINE, TRAIT_GRAVEROBBER)
+	class_select_category = CLASS_CAT_HFT_COURT
+
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_END = 1,
+		STATKEY_CON = 1,
+		STATKEY_SPD = 1,
+		STATKEY_STR = -1,
+	)
+
+	subclass_skills = list(
+	/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
+	/datum/skill/misc/reading = SKILL_LEVEL_LEGENDARY,
+	/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
+	/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,
+	/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
+	/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
+	/datum/skill/misc/medicine = SKILL_LEVEL_EXPERT,
+	/datum/skill/magic/holy = SKILL_LEVEL_MASTER,
+	)
+
 /datum/outfit/job/heartfelt/prior/pre_equip(mob/living/carbon/human/H)
 	..()
 	neck = /obj/item/clothing/neck/roguetown/psicross/astrata
