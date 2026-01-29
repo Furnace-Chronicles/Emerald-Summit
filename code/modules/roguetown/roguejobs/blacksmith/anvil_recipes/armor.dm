@@ -549,6 +549,13 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm
 	craftdiff = 3
 
+/datum/anvil_recipe/armor/steel/helmet/templar/astrata2
+	name = "Helm, templar Raneshi Astratan (+1 Steel)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ranesh_stratan
+	craftdiff = 3
+
 /datum/anvil_recipe/armor/steel/helmet/templar/abyssor
 	name = "Helm, templar Abyssor (+1 Steel)"
 	req_bar = /obj/item/ingot/steel
