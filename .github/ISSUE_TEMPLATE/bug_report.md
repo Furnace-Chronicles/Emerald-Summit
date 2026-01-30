@@ -2,6 +2,7 @@
 name: Feature request
 about: Suggest an idea for this project
 title: "[REQUEST] I want a change"
+labels: enhancement
 ---
 <!-- Write **BELOW** The Headers and **ABOVE** The comments else it may not be viewable -->
 
