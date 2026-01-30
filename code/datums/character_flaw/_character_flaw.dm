@@ -5,6 +5,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	"Blind"=/datum/charflaw/blind,
 	"Clingy"=/datum/charflaw/clingy,
 	"Colorblind"=/datum/charflaw/colorblind,
+	"Hunted"=/datum/charflaw/hunted,
 	"Critical Weakness"=/datum/charflaw/critweakness,
 	"Cyclops (L)"=/datum/charflaw/noeyel,
 	"Cyclops (R)"=/datum/charflaw/noeyer,
@@ -381,6 +382,33 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	..()
 	user.add_client_colour(/datum/client_colour/monochrome)
 
+/datum/charflaw/hunted
+	name = "Hunted"
+	desc = "Something in my past has made me a target. I'm always looking over my shoulder.	\
+	\nTHIS IS A DIFFICULT FLAW, YOU WILL BE HUNTED BY ASSASSINS AND HAVE ASSASINATION ATTEMPTS MADE AGAINST YOU WITHOUT ANY ESCALATION. \
+	EXPECT A MORE DIFFICULT EXPERIENCE. PLAY AT YOUR OWN RISK."
+	var/logged = FALSE
+/datum/charflaw/hunted/flaw_on_life(mob/user)
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	if(logged == FALSE)
+		if(H.name) // If you don't check this, the log entry wont have a name as flaw_on_life is checked at least once before the name is set.
+			logged = TRUE
+
+/datum/charflaw/hunted/apply_post_equipment(mob/user)
+	..()
+	if(!ishuman(user))
+		return
+	var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")
+	var/total_gnoll_positions = gnoll_job.total_positions
+	var/gnoll_increase = get_gnoll_slot_increase(total_gnoll_positions)
+
+	if(gnoll_increase >= 1)
+		to_chat(user, span_notice("I have offended graggarite agents, and they may be tracking my scent."))
+		gnoll_job.total_positions = min(total_gnoll_positions + gnoll_increase, 10)
+		gnoll_job.spawn_positions = min(total_gnoll_positions + gnoll_increase, 10)
+
 /datum/charflaw/greedy
 	name = "Greedy"
 	desc = "I can't get enough of mammons, I need more and more! I've also become good at knowing how much things are worth"
@@ -627,7 +655,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	desc = "You never learned Imperial. You cannot understand or speak it."
 
 /datum/charflaw/foreigner/apply_post_equipment(mob/user)
-	var/mob/living/carbon/human/H = user 
+	var/mob/living/carbon/human/H = user
 	var/datum/job/J = SSjob.GetJob(H.mind.assigned_role)
 	if(J && (J.department_flag & (NOBLEMEN | GARRISON | CHURCHMEN | INQUISITION | YEOMEN)))
 		var/list/flaw_choices = GLOB.character_flaws.Copy()

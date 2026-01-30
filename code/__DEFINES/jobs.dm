@@ -166,7 +166,9 @@
 #define COURTAGENT	(1<<20)
 #define WRETCH		(1<<21)
 #define OGRE	    (1<<22)
-#define HOSTAGE		(1<<23)
+#define GNOLL		(1<<23)
+#define HOSTAGE		(1<<24)
+
 
 #define YOUNGFOLK	(1<<6)
 
@@ -294,6 +296,7 @@
 #define JDO_COURTAGENT 30.3
 #define JDO_WRETCH 30.4
 #define JDO_OGRE 30.5
+#define JDO_GNOLL 30.6
 
 #define JDO_MERCENARY 31
 #define JDO_GRENZELHOFT 31.1
@@ -390,6 +393,7 @@
 	/datum/job/roguetown/mercenary/grenzelhoft,\
 	/datum/job/roguetown/bandit,\
 	/datum/job/roguetown/wretch,\
+	/datum/job/roguetown/gnoll
 
 #define GARRISON_ROLES \
 	/datum/job/roguetown/warden,\
