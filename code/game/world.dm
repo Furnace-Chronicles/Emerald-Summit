@@ -59,10 +59,6 @@ GLOBAL_VAR(restart_counter)
 	SSdbcore.SetRoundID()
 	var/timestamp = replacetext(time_stamp(), ":", ".")
 
-	if(!GLOB.round_id) // we do not have a db connected, back to pointless random numbers
-		GLOB.rogue_round_id = "[pick(GLOB.roundid)][rand(0,9)][rand(0,9)][rand(0,9)]-[timestamp]"
-	else // We got a db connected, GLOB.round_id ticks up based on where its at on the db.
-		GLOB.rogue_round_id = "[pick(GLOB.roundid)][GLOB.round_id]-[timestamp]"
 	SetupLogs()
 	load_poll_data()
 	if(CONFIG_GET(string/channel_announce_new_game_message))
@@ -142,14 +138,14 @@ GLOBAL_VAR(restart_counter)
 		GLOB.log_directory = "data/logs/[texttime]/round-"
 		GLOB.picture_logging_prefix = "L_[time2text(realtime, "YYYYMMDD")]_"
 		GLOB.picture_log_directory = "data/picture_logs/[texttime]/round-"
-		if(GLOB.rogue_round_id)
+		if(GLOB.round_id)
 			var/timestamp = replacetext(time_stamp(), ":", ".")
 			GLOB.log_directory += "[timestamp]-"
 			GLOB.picture_log_directory += "[timestamp]-"
 			GLOB.picture_logging_prefix += "T_[timestamp]_"
-			GLOB.log_directory += "[GLOB.rogue_round_id]"
-			GLOB.picture_logging_prefix += "R_[GLOB.rogue_round_id]_"
-			GLOB.picture_log_directory += "[GLOB.rogue_round_id]"
+			GLOB.log_directory += "[GLOB.round_id]"
+			GLOB.picture_logging_prefix += "R_[GLOB.round_id]_"
+			GLOB.picture_log_directory += "[GLOB.round_id]"
 		else
 			var/timestamp = replacetext(time_stamp(), ":", ".")
 			GLOB.log_directory += "[timestamp]"

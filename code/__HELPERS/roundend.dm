@@ -163,7 +163,7 @@
 		cb.InvokeAsync()
 	LAZYCLEARLIST(round_end_events)
 
-	to_chat(world, "Round ID: [GLOB.rogue_round_id]")
+	to_chat(world, "Round ID: [GLOB.round_id]")
 
 	sleep(5 SECONDS)
 
