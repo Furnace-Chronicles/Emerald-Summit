@@ -492,11 +492,6 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	shortname = "Vampire Killer"
 	musicpath = list('sound/music/combat_vampire_killer.ogg')
 
-/datum/combat_music/dead_cell
-	name = "Yell Dead Cell"
-	desc = ""
-	shortname = "Dead Cell"
-	musicpath = list('sound/music/combat_dead_cell.ogg')
 
 /* Unused
 /datum/combat_music/vampire_old
