@@ -1,6 +1,10 @@
 /mob/living
 	//used by the basic ai controller /datum/ai_behavior/basic_melee_attack to determine how fast a mob can attack
 	var/melee_cooldown = CLICK_CD_MELEE
+	///Reflection overlay for shiny surfaces
+	var/mutable_appearance/reflective_icon
+	var/has_reflection = TRUE
+	var/reflection_update_pending = FALSE
 
 /mob/living/Initialize()
 	. = ..()
@@ -12,6 +16,8 @@
 	faction += "[REF(src)]"
 	GLOB.mob_living_list += src
 	init_faith()
+	if(has_reflection)
+		create_reflection()
 	AddElement(/datum/element/movetype_handler)
 
 /mob/living/Destroy()
@@ -42,6 +48,70 @@
 		S.removeSoulsharer(src) //If a sharer is destroy()'d, they are simply removed
 	sharedSoullinks = null
 	return ..()
+	
+/mob/living/update_icon()
+	. = ..()
+	if(has_reflection)
+		addtimer(CALLBACK(src, PROC_REF(update_reflection)), 0)
+
+/mob/living/proc/create_reflection()
+	// Add custom reflection image
+	reflective_icon = copy_appearance_filter_overlays(appearance)
+	if(render_target)
+		reflective_icon.render_source = render_target
+	reflective_icon.plane = REFLECTION_PLANE
+	reflective_icon.pixel_y = -32
+	reflective_icon.transform = matrix().Scale(1, -1)
+	reflective_icon.vis_flags = VIS_INHERIT_DIR
+	var/icon/I = get_reflection_mask_overlay_icon()
+	if(I)
+		I = icon(I)
+		I.Flip(NORTH)
+		reflective_icon.filters += filter(type = "alpha", icon = I)
+	add_overlay(reflective_icon)
+
+/mob/living/proc/update_reflection()
+	if(!has_reflection)
+		return
+	if(client && hud_used)
+		var/atom/movable/screen/plane_master/reflective/PM = hud_used.plane_masters["[REFLECTION_PLANE]"]
+		if(PM)
+			if(!(PM in client.screen))
+				client.screen += PM
+			if(!PM.get_filter("reflection"))
+				PM.add_filter("reflection", 2, alpha_mask_filter(render_source = REFLECTIVE_DISPLACEMENT_PLANE_RENDER_TARGET))
+		var/atom/movable/screen/plane_master/reflective_cutter/PMC = hud_used.plane_masters["[REFLECTIVE_DISPLACEMENT_PLANE]"]
+		if(PMC && !(PMC in client.screen))
+			client.screen += PMC
+	if(!reflective_icon)
+		create_reflection()
+	cut_overlay(reflective_icon)
+	reflective_icon = copy_appearance_filter_overlays(appearance)
+	if(render_target)
+		reflective_icon.render_source = render_target
+	reflective_icon.plane = REFLECTION_PLANE
+	reflective_icon.pixel_y = -32
+	reflective_icon.transform = matrix().Scale(1, -1)
+	reflective_icon.vis_flags = VIS_INHERIT_DIR
+	var/icon/I = get_reflection_mask_overlay_icon()
+	if(I)
+		I = icon(I)
+		I.Flip(NORTH)
+		reflective_icon.filters += filter(type = "alpha", icon = I)
+	add_overlay(reflective_icon)
+
+/mob/living/proc/schedule_reflection_update()
+	if(!has_reflection)
+		return
+	if(reflection_update_pending)
+		return
+	reflection_update_pending = TRUE
+	addtimer(CALLBACK(src, PROC_REF(run_reflection_update)), 0)
+
+/mob/living/proc/run_reflection_update()
+	reflection_update_pending = FALSE
+	update_reflection()
+
 
 /mob/living/onZImpact(turf/T, levels)
 	if(HAS_TRAIT(src, TRAIT_NOFALLDAMAGE2))

@@ -60,6 +60,11 @@
 	///overlays managed by update_overlays() to prevent removing overlays that weren't added by the same proc
 	var/list/managed_overlays
 
+	///Reflection overlay mask for shiny atoms
+	var/mutable_appearance/total_reflection_mask
+	///How shiny we are
+	var/shine = SHINE_MATTE
+
 	///Proximity monitor associated with this atom
 	var/datum/proximity_monitor/proximity_monitor
 	///Cooldown tick timer for buckle messages
@@ -177,6 +182,10 @@
 
 	if (canSmoothWith)
 		canSmoothWith = typelist("canSmoothWith", canSmoothWith)
+	
+	if(shine)
+		make_shiny(shine)
+
 
 	ComponentInitialize()
 	InitializeAIController()
@@ -241,6 +250,79 @@
 	if(mover.throwing && (pass_flags_self & LETPASSTHROW))
 		return TRUE
 	return !density
+
+/atom/proc/make_shiny(_shine = SHINE_REFLECTIVE)
+	if(total_reflection_mask)
+		if(shine != _shine)
+			cut_overlay(total_reflection_mask)
+		else
+			return
+	var/icon/reflection_mask_icon = get_reflection_mask_full_icon()
+	if(!reflection_mask_icon)
+		return
+	total_reflection_mask = mutable_appearance(reflection_mask_icon)
+	total_reflection_mask.plane = REFLECTIVE_DISPLACEMENT_PLANE
+	add_overlay(total_reflection_mask)
+	shine = _shine
+
+/atom/proc/make_unshiny()
+	cut_overlay(total_reflection_mask)
+	shine = SHINE_MATTE
+
+/// Returns the icon file containing the reflection mask states, or null if none exist.
+/proc/get_reflection_mask_icon_file()
+	var/static/reflection_mask_icon
+	var/static/initialized = FALSE
+	if(initialized)
+		return reflection_mask_icon
+	initialized = TRUE
+
+	var/list/candidates = list(
+		'icons/turf/overlays_reflection.dmi',
+		'icons/turf/overlays.dmi'
+	)
+	for(var/icon_path in candidates)
+		if(icon_exists(icon_path, "whiteFull") && icon_exists(icon_path, "whiteOverlay"))
+			reflection_mask_icon = icon_path
+			break
+	return reflection_mask_icon
+
+/proc/get_reflection_mask_source()
+	return get_reflection_mask_icon_file() || "generated"
+
+/proc/get_reflection_mask_full_icon()
+	var/static/icon/reflection_mask_full
+	if(reflection_mask_full)
+		return reflection_mask_full
+
+	var/icon_path = get_reflection_mask_icon_file()
+	if(icon_path)
+		reflection_mask_full = icon(icon_path, "whiteFull")
+		return reflection_mask_full
+
+	// Generate a solid white alpha mask at runtime as a fallback.
+	reflection_mask_full = icon('icons/effects/effects.dmi', "static_base")
+	reflection_mask_full.DrawBox(rgb(255, 255, 255, 255), 1, 1, world.icon_size, world.icon_size)
+	return reflection_mask_full
+
+/proc/get_reflection_mask_overlay_icon()
+	var/static/icon/reflection_mask_overlay
+	if(reflection_mask_overlay)
+		return reflection_mask_overlay
+
+	var/icon_path = get_reflection_mask_icon_file()
+	if(icon_path)
+		reflection_mask_overlay = icon(icon_path, "whiteOverlay")
+		return reflection_mask_overlay
+
+	// Generate a vertical alpha gradient (transparent -> opaque) as a fallback.
+	reflection_mask_overlay = icon('icons/effects/effects.dmi', "static_base")
+	var/size = max(1, world.icon_size)
+	for(var/y in 1 to size)
+		var/alpha = round(255 * (y - 1) / max(1, size - 1))
+		reflection_mask_overlay.DrawBox(rgb(255, 255, 255, alpha), 1, y, size, y)
+	return reflection_mask_overlay
+
 
 /**
  * Is this atom currently located on centcom

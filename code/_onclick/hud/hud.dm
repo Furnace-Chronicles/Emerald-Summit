@@ -235,6 +235,9 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 	// ensure observers get an accurate and up-to-date view
 	if (!viewmob)
 		plane_masters_update()
+		if(isliving(mymob))
+			var/mob/living/L = mymob
+			L.update_reflection()
 		for(var/M in mymob.observers)
 			show_hud(hud_version, M)
 	else if (viewmob.hud_used)
@@ -248,7 +251,13 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 		var/atom/movable/screen/plane_master/PM = plane_masters[thing]
 		PM.backdrop(mymob)
 		mymob.client.screen += PM
-
+	if(mymob?.client)
+		var/atom/movable/screen/plane_master/reflective/R = plane_masters["[REFLECTION_PLANE]"]
+		if(R && !R.get_filter("reflection"))
+			R.add_filter("reflection", 2, alpha_mask_filter(render_source = REFLECTIVE_DISPLACEMENT_PLANE_RENDER_TARGET))
+		var/atom/movable/screen/plane_master/reflective_cutter/RC = plane_masters["[REFLECTIVE_DISPLACEMENT_PLANE]"]
+		if(RC && !(RC in mymob.client.screen))
+			mymob.client.screen += RC
 /datum/hud/human/show_hud(version = 0,mob/viewmob)
 	. = ..()
 	if(!.)

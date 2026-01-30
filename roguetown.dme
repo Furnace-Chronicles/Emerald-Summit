@@ -68,6 +68,7 @@
 #include "code\__DEFINES\keybindings.dm"
 #include "code\__DEFINES\language.dm"
 #include "code\__DEFINES\layers.dm"
+#include "code\__DEFINES\reflections.dm"
 #include "code\__DEFINES\lighting.dm"
 #include "code\__DEFINES\logging.dm"
 #include "code\__DEFINES\machines.dm"
