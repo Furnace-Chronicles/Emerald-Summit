@@ -564,3 +564,17 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	shortname = "Sword Hunter"
 	credits = "Metal Gear Rising Revengeance - The Only Thing I Know For Real (Acoustic + Demo)"
 	musicpath = list('sound/music/combat_swordhunter.ogg')
+
+/datum/combat_music/death_monk
+	name = "Death Monk's Creed"
+	desc = "We are the Masters of Death, Let us unleash fury within Kazengun in Psydon's name."
+	shortname = "Death Monk"
+	credits = "Limbus Company OST - Intervallo V-2 Battle Theme"
+	musicpath = list('sound/music/combat_deathmonk.ogg')
+
+/datum/combat_music/steel_for_monsters
+	name = "Hunter's Steel"
+	desc = "Steel for the Greatest Monsters, Our Own."
+	shortname = "Steel"
+	credits = "Witcher 3 OST - Steel for Hunters"
+	musicpath = list('sound/music/combat_steel.ogg')
