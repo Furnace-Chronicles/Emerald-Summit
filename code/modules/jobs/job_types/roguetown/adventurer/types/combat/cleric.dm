@@ -209,7 +209,7 @@
 	outfit = /datum/outfit/job/adventurer/cleric/paladin
 	subclass_social_rank = SOCIAL_RANK_YEOMAN
 
-	traits_applied = list(TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_HEAVYARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_END = 1,
