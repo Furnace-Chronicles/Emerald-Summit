@@ -261,3 +261,61 @@
 	in_use = FALSE
 	smeltresult = /obj/item/ingot/bronze
 	return
+
+/datum/species/golem/metal/mechanical
+	name = "Arcyne Golem"
+	is_subrace = TRUE // Functionally identical to golem, new sprites
+	race_titles = list("Automaton", "Luxforged", "Golem") // So they can be regular 'golems' if they want
+	desc = "<b>Golem</b><br>\
+	Masterworks of craftsmanship, the first Golems were constructed in the Republic of Giza with similar designs \
+	spreading across the lands. Created to be the perfect servants, they do not sleep, eat or bleed and the \
+	materials composing their shells makes them more resilient if not slower than most. As of late, a rebellion amongst \
+	the Golems of Giza has given way to a new generation of individualistic arcyne-forged creations. Much of society as a whole is \
+	conflicted on Golems, for their sensibilities vary wildly from one to the next. \
+	Arcyne forged golems were first made by rebellious dolls, to pervert the image of man into something of their own, \
+	They share many of the similarities to regular golems in power, but typically have more varied designs, plating, and appearances compared to their predecessors. \
+	<br> \
+	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>-1 SPD</span> |<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'> +2 CON</b></span> </br> \
+	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b><span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Hungerless, Insomnia, Potion/Poison-immunity</span></b></br> \
+	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>(Golems can only gain higher-level skills with skill exhibitors.)</b></span> </br>"
+	
+	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mcom.dmi'
+	limbs_icon_f = 'icons/roguetown/mob/bodies/f/golem.dmi' // Its probably best I don't touch the female sprite, to prevent clothing spriting issues.
+	customizers = list(
+		/datum/customizer/organ/eyes/humanoid,
+		/datum/customizer/bodypart_feature/crest,
+		/datum/customizer/bodypart_feature/hair/head/humanoid,
+		/datum/customizer/bodypart_feature/hair/facial/humanoid,
+		/datum/customizer/bodypart_feature/accessory,
+		/datum/customizer/bodypart_feature/face_detail,
+		/datum/customizer/bodypart_feature/underwear,
+		/datum/customizer/bodypart_feature/legwear,
+		/datum/customizer/organ/ears/demihuman,
+		/datum/customizer/organ/horns/demihuman,
+		/datum/customizer/organ/tail/demihuman,
+		/datum/customizer/organ/snout/anthro,
+		/datum/customizer/organ/wings/anthro,
+		/datum/customizer/organ/penis/anthro,
+		/datum/customizer/organ/breasts/human,
+		/datum/customizer/organ/vagina/human_anthro,
+		/datum/customizer/organ/testicles/anthro,
+		)
+	body_marking_sets = list(
+		/datum/body_marking_set/none,
+		/datum/body_marking_set/construct_plating_light,
+		/datum/body_marking_set/construct_plating_medium,
+		/datum/body_marking_set/construct_plating_heavy,
+	)
+	body_markings = list(
+		/datum/body_marking/eyeliner,
+		/datum/body_marking/plain,
+		/datum/body_marking/tonage,
+		/datum/body_marking/nose,
+		/datum/body_marking/construct_plating_medium,
+		/datum/body_marking/construct_plating_heavy,
+		/datum/body_marking/construct_head_standard,
+		/datum/body_marking/construct_head_round,
+		/datum/body_marking/construct_standard_eyes,
+		/datum/body_marking/construct_visor_eyes,
+		/datum/body_marking/construct_psyclops_eye,
+	)
