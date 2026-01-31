@@ -4,6 +4,7 @@
 	update_inv_hands()
 	update_inv_handcuffed()
 	update_inv_legcuffed()
+	update_reflection()
 
 /mob/living/update_fire(fire_icon = "Generic_mob_burning")
 	remove_overlay(FIRE_LAYER)

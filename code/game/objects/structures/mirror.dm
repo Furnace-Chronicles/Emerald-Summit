@@ -6,11 +6,16 @@
 	icon_state = "mirror"
 	density = FALSE
 	anchored = TRUE
+	shine = SHINE_REFLECTIVE
 	max_integrity = 200
 	integrity_failure = 0.9
 	break_sound = "glassbreak"
 	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
 	pixel_y = 32
+	var/mutable_appearance/mirror_reflection
+	var/datum/weakref/mirror_target
+	var/static/icon/mirror_mask_icon
+	var/static/icon/fancy_mirror_mask_icon
 
 /obj/structure/mirror/fancy
 	icon_state = "fancymirror"
@@ -20,7 +25,183 @@
 	. = ..()
 	if(icon_state == "mirror_broke" && !obj_broken)
 		obj_break(null, mapload)
+	AddComponent(/datum/component/connect_range, src, list(
+		COMSIG_ATOM_ENTERED = PROC_REF(on_neighbor_changed),
+		COMSIG_ATOM_EXITED = PROC_REF(on_neighbor_changed),
+	), 1, FALSE)
+	START_PROCESSING(SSobj, src)
 
+/obj/structure/mirror/Destroy()
+	clear_mirror_reflection()
+	STOP_PROCESSING(SSobj, src)
+	return ..()
+
+/obj/structure/mirror/proc/clear_mirror_reflection()
+	unregister_mirror_target()
+	if(mirror_reflection)
+		cut_overlay(mirror_reflection)
+	mirror_reflection = null
+	mirror_target = null
+
+/obj/structure/mirror/proc/unregister_mirror_target()
+	var/mob/living/L = mirror_target?.resolve()
+	if(L)
+		UnregisterSignal(L, list(COMSIG_ATOM_DIR_CHANGE, COMSIG_ATOM_UPDATE_ICON, COMSIG_MOVABLE_MOVED))
+	mirror_target = null
+
+/obj/structure/mirror/proc/register_mirror_target(mob/living/L)
+	if(!L)
+		return
+	var/mob/living/current = mirror_target?.resolve()
+	if(current && current != L)
+		UnregisterSignal(current, list(COMSIG_ATOM_DIR_CHANGE, COMSIG_ATOM_UPDATE_ICON, COMSIG_MOVABLE_MOVED))
+	mirror_target = WEAKREF(L)
+	RegisterSignal(L, COMSIG_ATOM_DIR_CHANGE, PROC_REF(on_mirror_target_changed))
+	RegisterSignal(L, COMSIG_ATOM_UPDATE_ICON, PROC_REF(on_mirror_target_changed))
+	RegisterSignal(L, COMSIG_MOVABLE_MOVED, PROC_REF(on_mirror_target_changed))
+
+/obj/structure/mirror/proc/on_mirror_target_changed(datum/source, ...)
+	var/mob/living/L = mirror_target?.resolve()
+	if(!L || source != L)
+		return
+	var/list/args_list = args
+	var/new_dir = null
+	if(length(args_list) >= 3)
+		var/old_value = args_list[2]
+		var/next_value = args_list[3]
+		if(isnum(old_value) && isnum(next_value))
+			new_dir = next_value
+	update_mirror_reflection(L, new_dir)
+
+/obj/structure/mirror/proc/get_mirror_target()
+	var/list/search_tiles = list(loc)
+	var/turf/front = get_step(src, dir || SOUTH)
+	if(front && !(front in search_tiles))
+		search_tiles += front
+	var/turf/south = get_step(src, SOUTH)
+	if(south && !(south in search_tiles))
+		search_tiles += south
+
+	var/mob/living/with_client
+	for(var/turf/T in search_tiles)
+		for(var/mob/living/L in T)
+			if(L.invisibility)
+				continue
+			if(L.client)
+				return L
+			if(!with_client)
+				with_client = L
+	return with_client
+
+/obj/structure/mirror/process()
+	if(obj_broken)
+		clear_mirror_reflection()
+		return
+
+	var/mob/living/L = get_mirror_target()
+	if(!L)
+		clear_mirror_reflection()
+		return
+
+	if(mirror_target?.resolve() != L)
+		register_mirror_target(L)
+
+	update_mirror_reflection(L)
+
+/obj/structure/mirror/proc/on_neighbor_changed(datum/source, atom/movable/mover, ...)
+	SIGNAL_HANDLER
+	if(QDELETED(src))
+		return
+	if(obj_broken)
+		clear_mirror_reflection()
+		return
+	var/mob/living/L = get_mirror_target()
+	if(!L)
+		clear_mirror_reflection()
+		return
+	if(mirror_target?.resolve() != L)
+		register_mirror_target(L)
+	update_mirror_reflection(L)
+
+/obj/structure/mirror/proc/update_mirror_reflection(mob/living/L, new_dir)
+	if(!L || obj_broken)
+		clear_mirror_reflection()
+		return
+	if(mirror_reflection)
+		cut_overlay(mirror_reflection)
+
+	mirror_reflection = copy_appearance_filter_overlays(L.appearance)
+	mirror_reflection.plane = src.plane
+	mirror_reflection.layer = src.layer + 0.01
+	mirror_reflection.pixel_x = 0
+	mirror_reflection.pixel_y = 0
+	mirror_reflection.alpha = 220
+	var/dir_to_use = new_dir || L.dir
+	if(src.dir & (NORTH|SOUTH))
+		if(dir_to_use == NORTH || dir_to_use == SOUTH)
+			dir_to_use = turn(dir_to_use, 180)
+	else if(src.dir & (EAST|WEST))
+		if(dir_to_use == EAST || dir_to_use == WEST)
+			dir_to_use = turn(dir_to_use, 180)
+	mirror_reflection.dir = dir_to_use
+
+	apply_dir_recursive(mirror_reflection, dir_to_use)
+
+	var/list/bounds = get_mirror_mask_bounds()
+	var/center_x = (bounds[1] + bounds[3]) / 2
+	var/center_y = (bounds[2] + bounds[4]) / 2
+	mirror_reflection.pixel_x = round(center_x - (world.icon_size / 2)) + 2
+	mirror_reflection.pixel_y = round(center_y - (world.icon_size / 2)) + -3
+
+	// Mask the reflection to the mirror's visible area
+	var/icon/mask_icon = get_mirror_mask_icon()
+	mirror_reflection.filters += filter(type = "alpha", icon = mask_icon)
+
+	add_overlay(mirror_reflection)
+
+/obj/structure/mirror/proc/get_mirror_mask_icon()
+	if(icon_state == "fancymirror")
+		if(!fancy_mirror_mask_icon)
+			fancy_mirror_mask_icon = build_mirror_mask(8, 6, 23, 22)
+		return fancy_mirror_mask_icon
+	if(!mirror_mask_icon)
+		mirror_mask_icon = build_mirror_mask(9, 8, 22, 25)
+	return mirror_mask_icon
+
+/obj/structure/mirror/proc/get_mirror_mask_bounds()
+	if(icon_state == "fancymirror")
+		return list(8, 6, 23, 22)
+	return list(9, 8, 22, 25)
+
+/obj/structure/mirror/proc/build_mirror_mask(x1, y1, x2, y2)
+	var/icon/I = icon('icons/effects/effects.dmi', "nothing")
+	I.DrawBox(rgb(255, 255, 255, 255), x1, y1, x2, y2)
+	return I
+
+/obj/structure/mirror/proc/apply_dir_recursive(mutable_appearance/appearance, dir_value)
+	if(!appearance)
+		return
+	appearance.dir = dir_value
+	if(length(appearance.overlays))
+		var/list/new_overlays = list()
+		for(var/mutable_appearance/overlay_item as anything in appearance.overlays)
+			if(isnull(overlay_item))
+				continue
+			var/mutable_appearance/real = new()
+			real.appearance = overlay_item
+			apply_dir_recursive(real, dir_value)
+			new_overlays += real
+		appearance.overlays = new_overlays
+	if(length(appearance.underlays))
+		var/list/new_underlays = list()
+		for(var/mutable_appearance/underlay_item as anything in appearance.underlays)
+			if(isnull(underlay_item))
+				continue
+			var/mutable_appearance/real = new()
+			real.appearance = underlay_item
+			apply_dir_recursive(real, dir_value)
+			new_underlays += real
+		appearance.underlays = new_underlays
 /obj/structure/mirror/attack_hand(mob/user)
 	. = ..()
 	if(.)

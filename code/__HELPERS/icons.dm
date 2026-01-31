@@ -1439,7 +1439,7 @@ GLOBAL_LIST_INIT(freon_color_matrix, list("#2E5E69", "#60A2A8", "#A1AFB1", rgb(0
 /proc/copy_appearance_filter_overlays(appearance_to_copy) as /mutable_appearance
 	RETURN_TYPE(/mutable_appearance)
 	var/mutable_appearance/copy = new(appearance_to_copy)
-	var/static/list/plane_whitelist = list(FLOAT_PLANE, GAME_PLANE, FLOOR_PLANE)
+	var/static/list/plane_whitelist = list(FLOAT_PLANE, GAME_PLANE, GAME_PLANE_FOV_HIDDEN, GAME_PLANE_UPPER, GAME_PLANE_LOWER, FLOOR_PLANE)
 
 	copy.overlays = recursively_filter_emissive_blockers(copy.overlays, plane_whitelist)
 	copy.underlays = recursively_filter_emissive_blockers(copy.underlays, plane_whitelist)

@@ -104,6 +104,9 @@
 	///Used for limiting the rate of clicks sends by the client to avoid abuse
 	var/list/clicklimiter
 
+	///Debug toggle for reflection troubleshooting
+	var/obj/effect/reflection_plane_test/reflection_test_marker
+
 	///goonchat chatoutput of the client
 	var/datum/chatOutput/chatOutput
 
