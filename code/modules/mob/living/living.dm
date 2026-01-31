@@ -47,22 +47,28 @@
 	if(HAS_TRAIT(src, TRAIT_NOFALLDAMAGE2))
 		return
 	if(HAS_TRAIT(src, TRAIT_NOFALLDAMAGE1))
-		if(levels <= 2)
-			Immobilize(10)
-			if(m_intent == MOVE_INTENT_RUN)
-				toggle_rogmove_intent(MOVE_INTENT_WALK)
+		if(levels <= 3)
+			return
+	var/dex_save = src.get_skill_level(/datum/skill/misc/climbing)
+	var/sneak_fall = FALSE // If we're sneaking, don't announce it to our surroundings
+	if(dex_save >= 5) // Master climbers can fall down 2 levels without hurting themselves
+		if(levels <= 3)
+			to_chat(src, "<span class='info'>My dexterity allowed me to land on my feet unscathed!</span>")
+			if(src.m_intent != MOVE_INTENT_SNEAK) // If we're sneaking, don't make a sound
+				sneak_fall = TRUE
+				playsound(src.loc, 'sound/foley/bodyfall (1).ogg', 100, FALSE)
 			return
 	var/points
 	for(var/i in 2 to levels)
 		i++
 		points += "!"
-	visible_message(span_danger("[src] falls down[points]"), \
-					span_danger("I fall down[points]"))
-	if(!isgroundlessturf(T))
+	if(!sneak_fall)
+		visible_message("<span class='danger'>[src] falls down[points]</span>", \
+						"<span class='danger'>I fall down[points]</span>")
 		playsound(src.loc, 'sound/foley/zfall.ogg', 100, FALSE)
+	if(!isgroundlessturf(T))
 		ZImpactDamage(T, levels)
-		drop_all_held_items()
-		record_round_statistic(STATS_MOAT_FALLERS)// Wouldn't this only count if you DIDN'T fall in the moat?
+		record_round_statistic(STATS_MOAT_FALLERS)
 	return ..()
 
 /mob/living/proc/ZImpactDamage(turf/T, levels)
