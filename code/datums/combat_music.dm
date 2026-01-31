@@ -486,6 +486,49 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	credits = "Filmmaker - Mystic Circles"
 	musicpath = list('sound/music/combat_vamp2.ogg')
 
+/datum/combat_music/vampire_killer
+	name = "Vampire Killer"
+	desc = ""
+	shortname = "Vampire Killer"
+	musicpath = list('sound/music/combat_vampire_killer.ogg')
+
+/datum/combat_music/dead_cell
+	name = "Yell Dead Cell"
+	desc = ""
+	shortname = "Dead Cell"
+	musicpath = list('sound/music/combat_dead_cell.ogg')
+
+/datum/combat_music/god_hand
+	name = "God Hand"
+	desc = ""
+	shortname = "God Hand"
+	musicpath = list('sound/music/combat_god_hand.ogg')
+
+/datum/combat_music/dmc_time_has_come
+	name = "DMC Time Has Come"
+	desc = ""
+	shortname = "Time Has Come"
+	musicpath = list('sound/music/combat_dmc_time_has_come.ogg')
+
+/datum/combat_music/dmc_lock_and_load
+	name = "DMC Lock And Load"
+	desc = ""
+	shortname = "Lock And Load"
+	musicpath = list('sound/music/combat_dmc_lock_and_load.ogg')
+
+/datum/combat_music/dmc_taste_the_blood
+	name = "DMC Taste The Blood"
+	desc = ""
+	shortname = "Taste The Blood"
+	musicpath = list('sound/music/combat_dmc_taste_the_blood.ogg')
+
+/datum/combat_music/dmc_nelo_angelo
+	name = "DMC Nelo Angelo"
+	desc = ""
+	shortname = "Nelo Angelo"
+	musicpath = list('sound/music/combat_dmc_nelo_angelo.ogg')
+
+
 /* Unused
 /datum/combat_music/vampire_old
 	name = "Vampire (Old)"
