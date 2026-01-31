@@ -522,6 +522,12 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	shortname = "Nelo Angelo"
 	musicpath = list('sound/music/combat_dmc_nelo_angelo.ogg')
 
+/datum/combat_music/dead_cell
+	name = "Yell Dead Cell"
+	desc = ""
+	shortname = "Dead Cell"
+	musicpath = list('sound/music/combat_dead_cell.ogg')
+
 
 /* Unused
 /datum/combat_music/vampire_old
