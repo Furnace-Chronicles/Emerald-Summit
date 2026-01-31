@@ -1,23 +1,23 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: "[BUG] Unexpected Behavior for X"
-labels: unconfirmed
+name: Feature request
+about: Suggest an idea for this project
+title: "[REQUEST] I want a change"
+labels: enhancement
 ---
 <!-- Write **BELOW** The Headers and **ABOVE** The comments else it may not be viewable -->
 
-## Describe the bug
+## Is your feature request related to a problem? Please describe. 
 
-<!-- Explain the bug, e.g. "When I do X, Y happens instead of Z". **Include what behavior you expected to occur here.** -->
+<!-- A clear and concise description of what the problem is. Ex. I'm always frustrated when [...] -->
 
-## Round ID:
+## Describe the solution you'd like
 
-<!-- Include the round ID because it can help us to go through logs and find solutions easier if we need them. -->
+<!-- A clear and concise description of what you want to happen. -->
 
-## Steps to Reproduce:
+## Describe alternatives you've considered
 
-<!-- Make sure you are able to reproduce it instead of just seeing the bug once, it is fine to ask on the discord about what happened but if we are unable to reproduce the bug you have seen there is a very high chance the issue will be closed. -->
+<!-- A clear and concise description of any alternative solutions or features you've considered. -->
 
 ## Additional context
 
-<!-- Add any other context about the problem here. This is where you would include screenshots.-->
+<!-- Add any other context or screenshots about the feature request here. -->
