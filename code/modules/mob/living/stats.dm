@@ -412,3 +412,13 @@
 				result_amt = STALUC - max_amt
 				new_amt = STALUC - result_amt
 			STALUC = new_amt
+
+/mob/living/proc/reset_stats()
+	STASTR = 10
+	STAPER = 10
+	STAINT = 10
+	STACON = 10
+	STAEND = 10
+	STASPD = 10
+	STALUC = 10
+	return
