@@ -4,8 +4,8 @@
 	flag = GUARDSMAN
 	department_flag = GARRISON
 	faction = "Station"
-	total_positions = 0
-	spawn_positions = 0
+	total_positions = 4
+	spawn_positions = 4
 	selection_color = JCOLOR_SOLDIER
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS // same as town guard
@@ -23,6 +23,8 @@
 	round_contrib_points = 2
 
 	cmode_music = 'sound/music/combat_guard.ogg'
+
+job_traits = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED)
 
 /datum/outfit/job/guardsman
 	job_bitflag = BITFLAG_GARRISON
