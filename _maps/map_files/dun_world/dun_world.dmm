@@ -54438,6 +54438,10 @@
 /obj/structure/chair/wood/rogue/chair3,
 /turf/open/floor/rogue/wood,
 /area/rogue/under/underdark)
+"pkY" = (
+/obj/effect/landmark/start/guardsman,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town)
 "plc" = (
 /obj/effect/decal/cobbleedge{
 	dir = 4;
@@ -506310,7 +506314,7 @@ bGf
 phl
 jDk
 dra
-dra
+pkY
 dra
 tkm
 phl

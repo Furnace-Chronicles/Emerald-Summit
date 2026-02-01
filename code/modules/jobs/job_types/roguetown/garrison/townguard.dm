@@ -4,12 +4,13 @@
 	flag = GUARDSMAN
 	department_flag = GARRISON
 	faction = "Station"
-	total_positions = 4
-	spawn_positions = 4
+	total_positions = 8
+	spawn_positions = 8
 	selection_color = JCOLOR_SOLDIER
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS // same as town guard
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
+	job_traits = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED)
 	tutorial = "Responsible for the safety of the town and the enforcement of the Grand Duke's law, you are the vanguard of the city faced with punishing those who defy his Royal Majesty. Though you've many lords to obey, as both the Church and the Bailiff have great sway over your life."
 	display_order = JDO_TOWNGUARD
 	whitelist_req = TRUE
@@ -23,8 +24,6 @@
 	round_contrib_points = 2
 
 	cmode_music = 'sound/music/combat_guard.ogg'
-
-job_traits = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED)
 
 /datum/outfit/job/guardsman
 	job_bitflag = BITFLAG_GARRISON
