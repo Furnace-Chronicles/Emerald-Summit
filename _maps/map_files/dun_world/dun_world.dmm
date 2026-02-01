@@ -10545,11 +10545,16 @@
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/beach/forest)
 "dcJ" = (
-/obj/structure/fluff/railing/border{
-	dir = 8
+/obj/structure/roguewindow/openclose/reinforced{
+	dir = 1
 	},
-/turf/open/floor/rogue/wood,
-/area/rogue/indoors/town/dwarfin)
+/obj/structure/bars{
+	color = "#755f48";
+	name = "rusted bars";
+	layer = 1.4
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town/manor)
 "dcR" = (
 /obj/structure/stairs,
 /obj/structure/curtain/magenta{
@@ -12228,16 +12233,11 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town)
 "dCj" = (
-/obj/structure/roguewindow/openclose/reinforced{
-	dir = 8
+/obj/structure/roguemachine/atm{
+	pixel_y = 0
 	},
-/obj/structure/bars{
-	color = "#755f48";
-	name = "rusted bars";
-	layer = 1.4
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town/manor)
+/turf/closed/wall/mineral/rogue/stone,
+/area/rogue/indoors/town/dwarfin)
 "dCm" = (
 /obj/structure/chair/stool/rogue,
 /obj/effect/decal/carpet/square/black{
@@ -15115,11 +15115,16 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/orcdungeon)
 "emQ" = (
-/obj/structure/roguewindow/openclose/reinforced,
-/turf/closed/wall/mineral/rogue/stone/window{
-	icon_state = "stonewindow"
+/obj/structure/roguewindow/openclose/reinforced{
+	dir = 8
 	},
-/area/rogue/indoors/town)
+/obj/structure/bars{
+	color = "#755f48";
+	name = "rusted bars";
+	layer = 1.4
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town/manor)
 "emV" = (
 /obj/random/spider,
 /turf/closed/mineral/rogue/bedrock,
@@ -25292,6 +25297,15 @@
 /obj/machinery/light/rogue/wallfire/candle/r,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/dwarfin)
+"hgZ" = (
+/obj/structure/roguewindow,
+/obj/structure/bars{
+	color = "#755f48";
+	name = "rusted bars";
+	layer = 1.4
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/garrison)
 "hhd" = (
 /obj/structure/bars/cemetery,
 /turf/open/floor/rogue/grass,
@@ -26185,14 +26199,11 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave)
 "htV" = (
-/obj/structure/roguewindow,
-/obj/structure/bars{
-	color = "#755f48";
-	name = "rusted bars";
-	layer = 1.4
+/obj/structure/roguewindow/openclose/reinforced,
+/turf/closed/wall/mineral/rogue/stone/window{
+	icon_state = "stonewindow"
 	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town/manor)
+/area/rogue/indoors/town)
 "htZ" = (
 /obj/structure/closet/crate/roguecloset/inn/south{
 	name = "Court Records"
@@ -50438,14 +50449,16 @@
 /turf/open/floor/rogue/ruinedwood/chevron,
 /area/rogue/indoors)
 "obC" = (
-/obj/structure/roguewindow,
+/obj/structure/roguewindow/openclose/reinforced{
+	dir = 4
+	},
 /obj/structure/bars{
 	color = "#755f48";
 	name = "rusted bars";
 	layer = 1.4
 	},
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/garrison)
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town/manor)
 "obG" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10
@@ -57306,9 +57319,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/underdark)
 "pZq" = (
-/obj/structure/roguewindow/openclose/reinforced{
-	dir = 4
-	},
+/obj/structure/roguewindow,
 /obj/structure/bars{
 	color = "#755f48";
 	name = "rusted bars";
@@ -61095,14 +61106,6 @@
 	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/town/cell)
-"rav" = (
-/obj/structure/roguewindow/openclose/reinforced{
-	dir = 1
-	},
-/turf/closed/wall/mineral/rogue/stone/window{
-	icon_state = "stonewindow"
-	},
-/area/rogue/indoors/town)
 "raE" = (
 /obj/structure/bed/rogue/inn/wooldouble,
 /mob/living/simple_animal/hostile/rogue/mirespider_lurker,
@@ -69393,13 +69396,10 @@
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 1
 	},
-/obj/structure/bars{
-	color = "#755f48";
-	name = "rusted bars";
-	layer = 1.4
+/turf/closed/wall/mineral/rogue/stone/window{
+	icon_state = "stonewindow"
 	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town/manor)
+/area/rogue/indoors/town)
 "tpj" = (
 /obj/machinery/light/rogue/firebowl/standing/blue,
 /turf/open/floor/rogue/churchrough,
@@ -87373,10 +87373,10 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
 "ycV" = (
-/obj/structure/roguemachine/atm{
-	pixel_y = 0
+/obj/structure/fluff/railing/border{
+	dir = 8
 	},
-/turf/closed/wall/mineral/rogue/stone,
+/turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/dwarfin)
 "ycZ" = (
 /obj/structure/chair/wood/rogue/chair3{
@@ -284843,7 +284843,7 @@ wYS
 smL
 smL
 mLC
-dcJ
+ycV
 vHw
 vGa
 shR
@@ -285293,7 +285293,7 @@ ehB
 smL
 xxj
 gKR
-ycV
+dCj
 vGa
 vGa
 vGa
@@ -397413,7 +397413,7 @@ tMR
 btC
 fdt
 fXa
-rav
+tpg
 wiy
 bGf
 fha
@@ -397865,7 +397865,7 @@ ngy
 btC
 bzb
 gob
-rav
+tpg
 wiy
 bGf
 fha
@@ -398310,7 +398310,7 @@ wiy
 bGf
 bGf
 fha
-emQ
+htV
 jew
 jew
 dra
@@ -399666,7 +399666,7 @@ wiy
 bGf
 bGf
 fha
-emQ
+htV
 jew
 jew
 poW
@@ -400577,7 +400577,7 @@ dra
 dra
 yeu
 gHG
-rav
+tpg
 wiy
 bGf
 fha
@@ -401933,7 +401933,7 @@ dra
 eKH
 cuh
 yeu
-rav
+tpg
 wiy
 bGf
 fha
@@ -402377,7 +402377,7 @@ bGf
 bGf
 bGf
 fha
-emQ
+htV
 lPO
 dra
 dra
@@ -410969,7 +410969,7 @@ lMc
 lMc
 lMc
 lMc
-obC
+hgZ
 cXP
 kSN
 kSN
@@ -410987,7 +410987,7 @@ dan
 kSN
 kSN
 dan
-obC
+hgZ
 lMc
 jWw
 jWw
@@ -411421,7 +411421,7 @@ vmi
 vmi
 lMc
 lMc
-obC
+hgZ
 kSN
 kSN
 kSN
@@ -411439,7 +411439,7 @@ kSN
 kSN
 kSN
 kSN
-obC
+hgZ
 lMc
 vmi
 jWw
@@ -411855,25 +411855,25 @@ vmi
 vmi
 vxe
 vxe
-pZq
-vxe
-pZq
-vxe
-vxe
-vmi
-vmi
-vmi
-vmi
-vmi
-vmi
-vmi
-vmi
-vmi
-vmi
-vmi
-lMc
-lMc
 obC
+vxe
+obC
+vxe
+vxe
+vmi
+vmi
+vmi
+vmi
+vmi
+vmi
+vmi
+vmi
+vmi
+vmi
+vmi
+lMc
+lMc
+hgZ
 kJy
 kSN
 kSN
@@ -411891,7 +411891,7 @@ kSN
 kSN
 kSN
 kJy
-obC
+hgZ
 lMc
 vmi
 dSu
@@ -413216,7 +413216,7 @@ cdo
 fAA
 tGv
 fAA
-tpg
+dcJ
 vmi
 vmi
 vmi
@@ -413229,7 +413229,7 @@ vmi
 vmi
 lMc
 lMc
-obC
+hgZ
 dan
 kSN
 kSN
@@ -413247,7 +413247,7 @@ kSN
 kSN
 kSN
 dan
-obC
+hgZ
 lMc
 vmi
 rfp
@@ -413681,7 +413681,7 @@ vmi
 vmi
 lMc
 lMc
-obC
+hgZ
 kSN
 kSN
 kSN
@@ -413699,7 +413699,7 @@ kSN
 kSN
 kSN
 kSN
-obC
+hgZ
 lMc
 vmi
 rfp
@@ -414133,7 +414133,7 @@ vmi
 vmi
 lMc
 lMc
-obC
+hgZ
 kJy
 kSN
 kSN
@@ -414151,7 +414151,7 @@ kSN
 kSN
 kSN
 kJy
-obC
+hgZ
 lMc
 vmi
 rfp
@@ -420901,7 +420901,7 @@ oJg
 tkH
 tkH
 tkH
-tpg
+dcJ
 vmi
 vmi
 vmi
@@ -424950,13 +424950,13 @@ vmi
 vmi
 vxe
 vxe
-dCj
+emQ
 vxe
-dCj
+emQ
 vxe
-htV
+pZq
 vxe
-dCj
+emQ
 vxe
 vxe
 vxe
@@ -511763,7 +511763,7 @@ bGf
 bGf
 bGf
 fha
-emQ
+htV
 pql
 jew
 pql
@@ -513119,7 +513119,7 @@ efz
 bGf
 bGf
 fha
-emQ
+htV
 hRv
 hRv
 qhv
@@ -514934,7 +514934,7 @@ nHT
 lVB
 lVB
 lVB
-rav
+tpg
 wiy
 bGf
 bGf
@@ -515386,7 +515386,7 @@ dnT
 lVB
 lVB
 lVB
-rav
+tpg
 wiy
 bGf
 bGf
@@ -517194,7 +517194,7 @@ wEW
 omX
 sXL
 sXL
-rav
+tpg
 wiy
 bGf
 bGf
@@ -517646,7 +517646,7 @@ dvd
 scf
 sXL
 sXL
-rav
+tpg
 wiy
 bGf
 bGf
@@ -523979,7 +523979,7 @@ aft
 aft
 aft
 kUH
-obC
+hgZ
 gij
 aft
 aft
@@ -532548,7 +532548,7 @@ cdo
 qpE
 eYJ
 fAA
-tpg
+dcJ
 lMc
 lMc
 vmi
@@ -533000,7 +533000,7 @@ cdo
 fAA
 kxS
 xFX
-tpg
+dcJ
 lMc
 lMc
 vmi
@@ -533452,7 +533452,7 @@ cdo
 qpE
 dSd
 fAA
-tpg
+dcJ
 lMc
 lMc
 vmi
@@ -537955,8 +537955,8 @@ lMc
 lMc
 vxe
 vxe
-dCj
-dCj
+emQ
+emQ
 vxe
 vxe
 vxe
