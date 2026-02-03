@@ -22809,12 +22809,6 @@
 /obj/item/roguecoin/copper/pile,
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
-"gvK" = (
-/obj/structure/fluff/railing/wood{
-	dir = 8
-	},
-/turf/open/transparent/openspace,
-/area/rogue/outdoors/town/roofs/keep)
 "gvN" = (
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/bath)
@@ -67994,15 +67988,6 @@
 /mob/living/simple_animal/pet/cat/rogue/black,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/shop)
-"sTP" = (
-/obj/structure/fluff/railing/wood{
-	dir = 1;
-	pixel_y = -1
-	},
-/turf/open/floor/rogue/rooftop{
-	icon_state = "roofg"
-	},
-/area/rogue/outdoors/town/roofs/keep)
 "sTT" = (
 /obj/structure/flora/roguegrass/water,
 /turf/open/water/ocean,
@@ -522797,7 +522782,7 @@ bGf
 bGf
 bGf
 bGf
-sTP
+lMc
 lMc
 kwA
 pRP
@@ -523248,7 +523233,7 @@ bGf
 bGf
 bGf
 bGf
-cRi
+lMc
 lMc
 lMc
 xpH
@@ -523700,7 +523685,7 @@ bGf
 bGf
 bGf
 bGf
-sTP
+lMc
 lMc
 lMc
 lMc
@@ -524138,20 +524123,20 @@ wmj
 dGa
 rIp
 prN
-gvK
-gvK
-gvK
-gvK
-gvK
-gvK
-gvK
-gvK
-gvK
-gvK
-gvK
-gvK
-gvK
-gvK
+vmi
+vmi
+vmi
+vmi
+vmi
+vmi
+vmi
+vmi
+vmi
+vmi
+vmi
+vmi
+vmi
+vmi
 lMc
 lMc
 lMc
@@ -528644,16 +528629,16 @@ vmi
 vmi
 vmi
 vmi
-lMc
-lMc
-lMc
-lMc
-lMc
-lMc
-lMc
-lMc
-lMc
-lMc
+iNw
+iNw
+iNw
+iNw
+iNw
+iNw
+iNw
+iNw
+iNw
+iNw
 iNw
 iNw
 iNw
@@ -529096,7 +529081,7 @@ vmi
 vmi
 vmi
 vmi
-lMc
+iNw
 iNw
 iNw
 iNw
@@ -529548,7 +529533,7 @@ vmi
 vmi
 vmi
 vmi
-lMc
+iNw
 iNw
 iNw
 iNw
@@ -530000,7 +529985,7 @@ vmi
 vmi
 vmi
 vmi
-lMc
+iNw
 iNw
 iNw
 iNw
@@ -530452,7 +530437,7 @@ vmi
 vmi
 vmi
 vmi
-lMc
+iNw
 iNw
 iNw
 iNw
@@ -530904,7 +530889,7 @@ vmi
 vmi
 vmi
 vmi
-lMc
+iNw
 vxe
 vxe
 vxe
@@ -531355,8 +531340,8 @@ vmi
 vmi
 vmi
 vmi
-lMc
-lMc
+iNw
+iNw
 vxe
 qHr
 kNP
@@ -534971,8 +534956,8 @@ vmi
 vmi
 vmi
 vmi
-lMc
-lMc
+iNw
+iNw
 vxe
 wiS
 cry
@@ -535424,7 +535409,7 @@ vmi
 vmi
 vmi
 vmi
-lMc
+iNw
 vxe
 vxe
 vxe
@@ -535876,7 +535861,7 @@ vmi
 vmi
 vmi
 vmi
-lMc
+iNw
 iNw
 iNw
 iNw
@@ -536328,7 +536313,7 @@ vmi
 vmi
 vmi
 vmi
-lMc
+iNw
 iNw
 iNw
 iNw
