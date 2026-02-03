@@ -29631,10 +29631,6 @@
 	icon_state = "weird1"
 	},
 /area/rogue/under/cave/mazedungeon)
-"ipA" = (
-/obj/effect/landmark/start/mercenarylate,
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/outdoors/beach)
 "ipT" = (
 /obj/structure/rack/rogue/shelf,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
@@ -281050,7 +281046,7 @@ uYI
 uYI
 uYI
 uYI
-ipA
+uYI
 rTj
 ebU
 eMx
