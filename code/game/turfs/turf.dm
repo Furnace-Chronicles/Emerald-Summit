@@ -108,6 +108,9 @@
 
 	if (opacity)
 		has_opaque_atom = TRUE
+	if(shine)
+		make_shiny(shine)
+	
 
 	ComponentInitialize()
 

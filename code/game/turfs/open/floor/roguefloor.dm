@@ -861,6 +861,7 @@
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	landsound = 'sound/foley/jumpland/stoneland.wav'
+	shine = SHINE_SHINY
 	smooth = SMOOTH_MORE
 	canSmoothWith = list(/turf/closed/mineral/rogue,
 						/turf/open/floor/rogue/herringbone,

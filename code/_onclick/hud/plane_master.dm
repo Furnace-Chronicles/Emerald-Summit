@@ -64,6 +64,30 @@
 	appearance_flags = PLANE_MASTER //should use client color
 	blend_mode = BLEND_OVERLAY
 
+/atom/movable/screen/plane_master/reflective
+	name = "reflective plane master"
+	plane = REFLECTION_PLANE
+	appearance_flags = PLANE_MASTER
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+
+/atom/movable/screen/plane_master/reflective/backdrop(mob/mymob)
+	if(!mymob || !mymob.client)
+		return
+	if(!get_filter("reflection"))
+		add_filter("reflection", 2, alpha_mask_filter(render_source = REFLECTIVE_DISPLACEMENT_PLANE_RENDER_TARGET))
+
+/atom/movable/screen/plane_master/reflective/Initialize()
+	. = ..()
+	add_filter("motion_blur", 1, motion_blur_filter(y = 0.7))
+	add_filter("reflection", 2, alpha_mask_filter(render_source = REFLECTIVE_DISPLACEMENT_PLANE_RENDER_TARGET))
+
+/atom/movable/screen/plane_master/reflective_cutter
+	name = "reflective cutting plane"
+	plane = REFLECTIVE_DISPLACEMENT_PLANE
+	render_target = REFLECTIVE_DISPLACEMENT_PLANE_RENDER_TARGET
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	appearance_flags = PLANE_MASTER
+
 /atom/movable/screen/plane_master/game_world/backdrop(mob/mymob)
 	clear_filters()
 	if(istype(mymob) && mymob.client && mymob.client.prefs && mymob.client.prefs.ambientocclusion)

@@ -300,6 +300,7 @@ There are several things that need to be remembered:
 		update_transform()
 		//damage overlays
 		update_damage_overlays()
+		update_reflection()
 
 /mob/proc/regenerate_clothes()
 	return

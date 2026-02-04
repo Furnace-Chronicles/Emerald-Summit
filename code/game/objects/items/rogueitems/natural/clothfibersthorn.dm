@@ -249,9 +249,15 @@
 		return ..()
 	if(prob(30 + (wet*10)))
 		user.visible_message(span_info("[user] wipes \the [T.name] with [src]."), span_info("I wipe \the [T.name] with [src]."))
+		var/used_wet = FALSE
+		if(T.liquids?.liquid_group)
+			T.liquids.liquid_group.remove_any(T.liquids, T.liquids.liquid_group.reagents_per_turf)
+			used_wet = TRUE
 		if(wet)
 			for(var/obj/effect/decal/cleanable/C in T)
 				qdel(C)
+			used_wet = TRUE
+		if(wet && used_wet)
 			wet = max(wet-1, 0)
 	playsound(user, "clothwipe", 100, TRUE)
 

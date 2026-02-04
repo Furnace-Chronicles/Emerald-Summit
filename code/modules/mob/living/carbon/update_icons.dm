@@ -46,6 +46,9 @@
 		add_overlay(.)
 	if(client)
 		update_vision_cone()
+	if(isliving(src))
+		var/mob/living/L = src
+		L.schedule_reflection_update()
 
 /mob/living/proc/remove_overlay(cache_index)
 	var/I = overlays_standing[cache_index]
@@ -54,6 +57,9 @@
 		overlays_standing[cache_index] = null
 	if(client)
 		update_vision_cone()
+	if(isliving(src))
+		var/mob/living/L = src
+		L.schedule_reflection_update()
 
 /// Schedule a deferred icon update - batches multiple calls in the same tick
 /mob/living/carbon/proc/queue_icon_update(update_type)
@@ -463,6 +469,7 @@
 
 /mob/living/carbon/update_body()
 	update_body_parts()
+	update_reflection()
 
 /mob/living/carbon/proc/update_body_parts()
 	var/oldkey = icon_render_key
