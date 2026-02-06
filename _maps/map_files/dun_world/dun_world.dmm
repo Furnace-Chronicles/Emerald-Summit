@@ -46977,9 +46977,6 @@
 /obj/machinery/light/rogue/wallfire/candle,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/shop)
-"ncP" = (
-/turf/closed,
-/area/rogue/indoors/town/dwarfin)
 "ncY" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10
@@ -515550,7 +515547,7 @@ dtV
 dtV
 dtV
 kEU
-ncP
+lvw
 bMm
 bGf
 bGf
