@@ -46,25 +46,25 @@
 	l_hand = /obj/item/rogueweapon/scabbard/sword
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/half/fencer	//Experimental.
 	var/weapons = list("Etruscan Longsword", "Kriegsmesser", "Reformist Longsword")	
-	var/weapon_choice = input(H, "Draw a sword.", "As presented to me by Master Oktawiusz...") as anything in weapons		
-	switch(weapon_choice)
-		if("Kriegsmesser")		//Och- eugh- German!
-			r_hand = /obj/item/rogueweapon/sword/long/kriegmesser
-			beltr = /obj/item/rogueweapon/katar/punchdagger/frei
-		if("Etruscan Longsword")		//A longsword with a compound ricasso. Accompanied by a traditional flip knife.
-			r_hand = /obj/item/rogueweapon/sword/long/etruscan
-			beltr = /obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
-		if("Reformist Longsword")
-			r_hand = /obj/item/rogueweapon/sword/long/etruscan/freifechter
-			beltr = /obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
-
 	if(H.mind)
-		var/armors = list(
-			"Fencing Jacket"	= /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter,
-			"Fencing Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/half/fencer
-		)
-		var/armorchoice = input(H, "Don your armour.", "Security or Flexibility?") as anything in armors
-		armor = armors[armorchoice]
+		var/weapon_choice = input(H, "Draw a sword.", "As presented to me by Master Oktawiusz...") as anything in weapons		
+		switch(weapon_choice)
+			if("Kriegsmesser")		//Och- eugh- German!
+				r_hand = /obj/item/rogueweapon/sword/long/kriegmesser
+				beltr = /obj/item/rogueweapon/katar/punchdagger/frei
+			if("Etruscan Longsword")		//A longsword with a compound ricasso. Accompanied by a traditional flip knife.
+				r_hand = /obj/item/rogueweapon/sword/long/etruscan
+				beltr = /obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
+			if("Reformist Longsword")
+				r_hand = /obj/item/rogueweapon/sword/long/etruscan/freifechter
+				beltr = /obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
+		if(H.mind)
+			var/armors = list(
+				"Fencing Jacket"	= /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter,
+				"Fencing Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/half/fencer
+			)
+			var/armorchoice = input(H, "Don your armour.", "Security or Flexibility?") as anything in armors
+			armor = armors[armorchoice]
 	belt = /obj/item/storage/belt/rogue/leather/sash
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter
@@ -200,4 +200,5 @@
 
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/poor
 	)	

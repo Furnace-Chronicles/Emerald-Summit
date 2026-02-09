@@ -245,19 +245,21 @@
 // 	desc = "A strong loosely worn quilted shirt that places little weight on the arms."
 // 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 35
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter/attack_right(mob/user)
-	..()
-	if(!picked)
-		var/choice = input(user, "Choose a color.", "Fencing colors") as anything in colorlist
-		var/playerchoice = colorlist[choice]
-		picked = TRUE
-		detail_color = playerchoice
-		detail_tag = "_detail"
-		update_icon()
-		if(loc == user && ishuman(user))
-			var/mob/living/carbon/H = user
-			H.update_inv_shirt()
-			H.update_icon()
+
+// Dye it with a bin fucker 
+// /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter/attack_right(mob/user)
+// 	..()
+// 	if(!picked)
+// 		var/choice = input(user, "Choose a color.", "Fencing colors") as anything in colorlist
+// 		var/playerchoice = colorlist[choice]
+// 		picked = TRUE
+// 		detail_color = playerchoice
+// 		detail_tag = "_detail"
+// 		update_icon()
+// 		if(loc == user && ishuman(user))
+// 			var/mob/living/carbon/H = user
+// 			H.update_inv_shirt()
+// 			H.update_icon()
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter/Initialize()
 	. = ..()		
