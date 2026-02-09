@@ -192,6 +192,10 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
+/obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic/Initialize()
+	..()
+	update_icon()
+
 /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants
 	name = "grenzelhoftian paumpers"
 	desc = "Padded pants for extra comfort and protection, adorned in vibrant colors."

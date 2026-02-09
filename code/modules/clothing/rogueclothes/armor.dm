@@ -223,6 +223,25 @@
 	detail_color = "#3b2b29"
 	altdetail_color = "#c29057"
 	icon_state = "fencingshirt"
+	var/picked = FALSE
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter/attack_right(mob/user)
+	..()
+	if(!picked)
+		var/choice = input(user, "Choose a color.", "Fencing colors") as anything in colorlist
+		var/playerchoice = colorlist[choice]
+		picked = TRUE
+		detail_color = playerchoice
+		detail_tag = "_detail"
+		update_icon()
+		if(loc == user && ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_shirt()
+			H.update_icon()
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter/Initialize()
+	. = ..()		
+	update_icon()
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter/update_icon()
 	cut_overlays()
