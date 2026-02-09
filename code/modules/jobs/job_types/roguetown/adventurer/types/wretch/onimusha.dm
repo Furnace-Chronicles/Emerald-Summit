@@ -127,9 +127,6 @@
 		if ("Shamshir")
 			beltl = /obj/item/rogueweapon/scabbard/sword
 			l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
-		if ("Fechtfeders")
-			beltl = /obj/item/rogueweapon/scabbard/sword
-			l_hand = /obj/item/rogueweapon/sword/long/frei
 		if ("Kriegsmesser")
 			beltl = /obj/item/rogueweapon/scabbard/sword
 			l_hand = /obj/item/rogueweapon/sword/long/kriegmesser
