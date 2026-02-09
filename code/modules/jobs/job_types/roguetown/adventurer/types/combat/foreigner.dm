@@ -213,16 +213,16 @@
 	head = /obj/item/clothing/head/roguetown/chaperon/greyscale/shepherd
 	neck = /obj/item/clothing/neck/roguetown/psicross/reform
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/shepherd
-	shirt = /obj/item/clothing/suit/roguetown/shirt/freifechter/shepherd
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter
 	belt = /obj/item/storage/belt/rogue/leather/sash
 	beltl = /obj/item/rogueweapon/stoneaxe/battle/steppesman/chupa
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
-	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/shepherd
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
 	backl = /obj/item/storage/backpack/rogue/backpack
 	backpack_contents = list(
-						/obj/item/flashlight/flare/torch = 1,
-						)
+		/obj/item/flashlight/flare/torch = 1,
+	)
 
 /datum/advclass/foreigner/fencerguy
 	name = "Foreign Fencer"

@@ -237,12 +237,31 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sewrepair = TRUE
 	cold_protection = 10
+	var/picked = FALSE
 
-/obj/item/clothing/suit/roguetown/shirt/freifechter/shepherd
-	name = "shepherd's shirt"
-	desc = "A strong loosely worn quilted shirt that places little weight on the arms."
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 35
+// Can't figure out why this shit is spawning invisible 
+// /obj/item/clothing/suit/roguetown/shirt/freifechter/shepherd
+// 	name = "shepherd's shirt"
+// 	desc = "A strong loosely worn quilted shirt that places little weight on the arms."
+// 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 35
 
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter/attack_right(mob/user)
+	..()
+	if(!picked)
+		var/choice = input(user, "Choose a color.", "Fencing colors") as anything in colorlist
+		var/playerchoice = colorlist[choice]
+		picked = TRUE
+		detail_color = playerchoice
+		detail_tag = "_detail"
+		update_icon()
+		if(loc == user && ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_shirt()
+			H.update_icon()
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter/Initialize()
+	. = ..()		
+	update_icon()
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter/update_icon()
 	cut_overlays()
@@ -259,7 +278,6 @@
 		if(get_altdetail_color())
 			pic2.color = get_altdetail_color()
 		add_overlay(pic2)
-
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/chargah
 	name = "padded caftan"
 	desc = "A long overcoat commonly worn in Naledi, Kazengun, and Aavnr - but mostly associated with steppesmen. This specific kind rivals a padded gambeson in protection."
