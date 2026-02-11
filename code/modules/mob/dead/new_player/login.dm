@@ -37,8 +37,8 @@
 	if(motd)
 		to_chat(src, "<div class=\"motd\">[motd]</div>", handle_whitespace=FALSE)
 
-	if(GLOB.rogue_round_id)
-		to_chat(src, span_info("ROUND ID: [GLOB.rogue_round_id]"))
+	if(GLOB.round_id)
+		to_chat(src, span_info("ROUND ID: [GLOB.round_id]"))
 
 	if(client.is_new_player())
 		to_chat(src, span_userdanger("Due to an invasion of goblins trying to play ROGUETOWN, you need to register your discord account or support us on patreon to join."))

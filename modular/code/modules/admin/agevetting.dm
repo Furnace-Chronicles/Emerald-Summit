@@ -76,7 +76,9 @@ GLOBAL_PROTECT(agevetted_list)
 	var/csv_file = file("data/agevets_log.csv")
 	var/current_date = time2text(world.timeofday, "YYYY-MM-DD")
 	if(!fexists(csv_file))
+		// Refactoring out rogue_round_id, I'm not touching the actual CSV columns though.
+		// ...These shouldn't be CSVs anyways...
 		var/csv_columns = "player_ckey,admin_ckey,datestamp,rogue_round_id"
 		WRITE_FILE(csv_file,csv_columns)
-	csv_file << "[target_ckey],[admin_ckey],[current_date],[GLOB.rogue_round_id]"
+	csv_file << "[target_ckey],[admin_ckey],[current_date],[GLOB.round_id]"
 

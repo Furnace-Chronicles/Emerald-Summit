@@ -179,7 +179,7 @@ GLOBAL_LIST_EMPTY(pq_cache) // ckey => pq_value
 				thing = "NOTE from [admin]: [reason]"
 			else
 				thing = "NOTE: [reason]"
-		thing += " ([GLOB.rogue_round_id])"
+		thing += " ([GLOB.round_id])"
 		thing += "\n"
 		text2file(thing,"data/player_saves/[copytext(key,1,2)]/[key]/playerquality.txt")
 

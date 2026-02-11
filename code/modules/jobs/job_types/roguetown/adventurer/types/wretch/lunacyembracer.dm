@@ -82,6 +82,7 @@
 	//	H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE) LE already has master farming for some reason? I'm not going to add to it.
 		H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_EXPERT, TRUE)
 		H.grant_language(/datum/language/beast) //dendor antags can talk to WWs and druids
+		ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC) // makes sense for a wild dendorite to know herbal knowledge and alchemy.
 	if(H.patron?.type == /datum/patron/divine/noc)
 		H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_JOURNEYMAN, TRUE) // Really good at reading... almost actually useful for LE.
 		H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_EXPERT, TRUE) 
