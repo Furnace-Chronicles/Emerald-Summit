@@ -186,7 +186,7 @@
 	traits_applied = list()
 	cmode_music = 'sound/music/frei_shepherd.ogg'
 	subclass_stats = list(
-		STATKEY_WIL = 2,
+		STATKEY_END = 2,
 		STATKEY_PER = 2,
 		STATKEY_CON = 1,
 	)
@@ -213,11 +213,11 @@
 	head = /obj/item/clothing/head/roguetown/chaperon/greyscale/shepherd
 	neck = /obj/item/clothing/neck/roguetown/psicross/reform
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/shepherd
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter
+	shirt = /obj/item/clothing/suit/roguetown/shirt/freifechter/shepherd
 	belt = /obj/item/storage/belt/rogue/leather/sash
 	beltl = /obj/item/rogueweapon/stoneaxe/battle/steppesman/chupa
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
-	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/shepherd
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
 	backl = /obj/item/storage/backpack/rogue/backpack
 	backpack_contents = list(
@@ -273,7 +273,7 @@
 				r_hand = /obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
 				beltr = /obj/item/rogueweapon/scabbard/sword
 	armor = /obj/item/clothing/suit/roguetown/armor/leather
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter
+	shirt = /obj/item/clothing/suit/roguetown/shirt/freifechter
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves
 	neck = /obj/item/clothing/neck/roguetown/fencerguard/generic
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather

@@ -20,7 +20,7 @@
 	subclass_stats = list(
 		STATKEY_INT = 3, // 4 when hired
 		STATKEY_PER = 2,
-		STATKEY_WIL = 3
+		STATKEY_END = 3
 	)
 
 	hiredbuff = /datum/status_effect/buff/merchired/freifechter
@@ -67,7 +67,7 @@
 			armor = armors[armorchoice]
 	belt = /obj/item/storage/belt/rogue/leather/sash
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter
+	shirt = /obj/item/clothing/suit/roguetown/shirt/freifechter
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/freifechter
@@ -135,7 +135,7 @@
 
 	belt = /obj/item/storage/belt/rogue/leather/sash
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter
+	shirt = /obj/item/clothing/suit/roguetown/shirt/freifechter
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/freifechter
@@ -191,7 +191,7 @@
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
 	belt = /obj/item/storage/belt/rogue/leather/sash
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter
+	shirt = /obj/item/clothing/suit/roguetown/shirt/freifechter
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/freifechter

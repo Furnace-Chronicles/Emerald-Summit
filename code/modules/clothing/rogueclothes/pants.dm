@@ -173,12 +173,11 @@
 	desc = "padded leather armor made by Otavan tailors, its quality is remarkable."
 	icon_state = "fencerpants"
 
-// Can't figure out why this shit is spawning invisible 
-// /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/shepherd
-// 	name = "shepherd's pants"
-// 	desc = "A pair of white pants decorated with red stripes and traditional patterning."
-// 	icon_state = "shepherdpants"
-// 	color = "#FFFFFF"
+/obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/shepherd
+	name = "shepherd's pants"
+	desc = "A pair of white pants decorated with red stripes and traditional patterning."
+	icon_state = "shepherdpants"
+	color = "#FFFFFF"
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
 	name = "fencing breeches"
@@ -202,6 +201,8 @@
 /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic/Initialize()
 	..()
 	update_icon()
+
+// Can't figure out why this shit is spawning invisible 
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants
 	name = "grenzelhoftian paumpers"

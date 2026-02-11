@@ -216,17 +216,17 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter
+/obj/item/clothing/suit/roguetown/shirt/freifechter
 	name = "padded fencing shirt"
-	desc = "A strong quilted shirt that places little weight on the arms, it's worn underneath a strong leather vest. It won't cover your legs."
-	max_integrity = 200		//Back to default. I think it's right if it doesn't stop you from getting legshotted.
+	desc = "A strong loosely worn quilted shirt that places little weight on the arms, usually worn underneath a flexible leather vest. It won't cover your legs."
+	icon = 'icons/roguetown/clothing/armor.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
 	body_parts_covered = COVERAGE_ALL_BUT_LEGS
-	detail_tag = "_detail"
-	altdetail_tag = "_detailalt"
-	color = "#FFFFFF"
-	detail_color = "#3b2b29"
-	altdetail_color = "#c29057"
 	icon_state = "fencingshirt"
+	detail_tag = "_detail"
+	color = "#FFFFFF"
+	var/shiftable = FALSE
 	armor = ARMOR_PADDED_GOOD
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 35
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_CHOP)
@@ -236,36 +236,8 @@
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sewrepair = TRUE
-	cold_protection = 10
-	var/picked = FALSE
 
-// Can't figure out why this shit is spawning invisible 
-// /obj/item/clothing/suit/roguetown/shirt/freifechter/shepherd
-// 	name = "shepherd's shirt"
-// 	desc = "A strong loosely worn quilted shirt that places little weight on the arms."
-// 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 35
-
-
-// Dye it with a bin fucker 
-// /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter/attack_right(mob/user)
-// 	..()
-// 	if(!picked)
-// 		var/choice = input(user, "Choose a color.", "Fencing colors") as anything in colorlist
-// 		var/playerchoice = colorlist[choice]
-// 		picked = TRUE
-// 		detail_color = playerchoice
-// 		detail_tag = "_detail"
-// 		update_icon()
-// 		if(loc == user && ishuman(user))
-// 			var/mob/living/carbon/H = user
-// 			H.update_inv_shirt()
-// 			H.update_icon()
-
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter/Initialize()
-	. = ..()		
-	update_icon()
-
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter/update_icon()
+/obj/item/clothing/suit/roguetown/shirt/freifechter/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
 		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
@@ -280,6 +252,17 @@
 		if(get_altdetail_color())
 			pic2.color = get_altdetail_color()
 		add_overlay(pic2)
+
+/obj/item/clothing/suit/roguetown/shirt/freifechter/Initialize()
+	. = ..()		
+	update_icon()
+
+// Can't figure out why this shit is spawning invisible 
+/obj/item/clothing/suit/roguetown/shirt/freifechter/shepherd
+	name = "shepherd's shirt"
+	desc = "A strong loosely worn quilted shirt that places little weight on the arms."
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER - 35
+
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/chargah
 	name = "padded caftan"
 	desc = "A long overcoat commonly worn in Naledi, Kazengun, and Aavnr - but mostly associated with steppesmen. This specific kind rivals a padded gambeson in protection."
