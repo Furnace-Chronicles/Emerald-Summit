@@ -213,7 +213,7 @@
 	head = /obj/item/clothing/head/roguetown/chaperon/greyscale/shepherd
 	neck = /obj/item/clothing/neck/roguetown/psicross/reform
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/shepherd
-	shirt = /obj/item/clothing/suit/roguetown/shirt/freifechter/shepherd
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter
 	belt = /obj/item/storage/belt/rogue/leather/sash
 	beltl = /obj/item/rogueweapon/stoneaxe/battle/steppesman/chupa
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
