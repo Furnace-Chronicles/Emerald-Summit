@@ -218,11 +218,15 @@
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter
 	name = "padded fencing shirt"
-	desc = "A strong quilted shirt that places little weight on the arms, it's worn underneath a strong leather vest. It won't cover your legs."
+	desc = "A strong loosely worn quilted shirt that places little weight on the arms, usually worn underneath a strong leather vest. It won't cover your legs."
 	body_parts_covered = COVERAGE_ALL_BUT_LEGS
 	icon_state = "fencingshirt"
-	detail_tag = "_detail"
 	color = "#FFFFFF"
+	detail_color = "#414143"
+	altdetail_color = "#c08955"
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
+	shiftable = FALSE
 	armor = ARMOR_PADDED_GOOD
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 35
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_CHOP)
@@ -232,6 +236,31 @@
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sewrepair = TRUE
+	cold_protection = 10
+	var/picked = FALSE
+
+/obj/item/clothing/suit/roguetown/shirt/freifechter/shepherd
+	name = "shepherd's shirt"
+	desc = "A strong loosely worn quilted shirt that places little weight on the arms."
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER - 35
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter/attack_right(mob/user)
+	..()
+	if(!picked)
+		var/choice = input(user, "Choose a color.", "Fencing colors") as anything in colorlist
+		var/playerchoice = colorlist[choice]
+		picked = TRUE
+		detail_color = playerchoice
+		detail_tag = "_detail"
+		update_icon()
+		if(loc == user && ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_shirt()
+			H.update_icon()
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter/Initialize()
+	. = ..()		
+	update_icon()
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter/update_icon()
 	cut_overlays()
@@ -248,16 +277,6 @@
 		if(get_altdetail_color())
 			pic2.color = get_altdetail_color()
 		add_overlay(pic2)
-
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter/Initialize()
-	. = ..()		
-	update_icon()
-
-// Can't figure out why this shit is spawning invisible 
-/obj/item/clothing/suit/roguetown/shirt/freifechter/shepherd
-	name = "shepherd's shirt"
-	desc = "A strong loosely worn quilted shirt that places little weight on the arms."
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER - 35
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/chargah
 	name = "padded caftan"
