@@ -22385,10 +22385,6 @@
 /obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town/roofs)
-"glK" = (
-/obj/structure/flora/roguegrass/bush/wall/tall,
-/turf/closed,
-/area/rogue/outdoors/rtfield)
 "glQ" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/bars/cemetery,
@@ -263414,12 +263410,12 @@ gdz
 gdz
 fUR
 iPK
-glK
-glK
-glK
-glK
-glK
-glK
+gdz
+gdz
+gdz
+gdz
+gdz
+gdz
 bjx
 bjx
 mMc
