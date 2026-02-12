@@ -135,7 +135,7 @@
 
 	belt = /obj/item/storage/belt/rogue/leather/sash
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	shirt = /obj/item/clothing/suit/roguetown/shirt/freifechter
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/freifechter
@@ -191,7 +191,7 @@
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
 	belt = /obj/item/storage/belt/rogue/leather/sash
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	shirt = /obj/item/clothing/suit/roguetown/shirt/freifechter
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/freifechter
