@@ -16,7 +16,7 @@
 		/datum/language/aavnic,	//Your character could not have possibly "graduated" without atleast some basic knowledge of Aavnic.
 	)
 	
-	traits_applied = list(TRAIT_BADTRAINER)
+	
 	subclass_stats = list(
 		STATKEY_INT = 3, // 4 when hired
 		STATKEY_PER = 2,
