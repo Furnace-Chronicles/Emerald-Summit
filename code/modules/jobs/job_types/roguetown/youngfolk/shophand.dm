@@ -26,7 +26,7 @@
 
 /datum/advclass/shophand
 	name = "Shophand"
-	tutorial = "You work as the underling to the merchant."
+	tutorial = "A Shophand in the Merchant Guild serves as an apprentice to a seasoned merchant, learning the intricate art of trade and commerce from the ground up. Their days are spent balancing practical labor with keen observation, stocking shelves with imported goods, polishing shiny gems, recording transactions in ledgers, and assisting in negotiations with traders from distant provinces."
 	outfit = /datum/outfit/job/shophand/basic
 	category_tags = list(CTAG_SHOPHAND)
 
