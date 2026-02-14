@@ -18,7 +18,7 @@
 	max_pq = null
 	required = TRUE
 	round_contrib_points = 3
-	cmode_music = 'sound/music/combat_noble.ogg'
+	cmode_music = 'sound/music/combat_giza.ogg'
 	social_rank = SOCIAL_RANK_YEOMAN
 
 
