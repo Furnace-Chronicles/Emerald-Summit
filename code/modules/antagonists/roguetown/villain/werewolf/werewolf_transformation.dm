@@ -44,6 +44,13 @@
 		if(GLOB.tod != "night")
 			var/datum/antagonist/werewolf/Were = H.mind.has_antag_datum(/datum/antagonist/werewolf)
 			if(Were.holding_curse)
+				if(isturf(H.loc))
+					var/turf/T = H.loc
+					if(T.can_see_sky())
+						Were.release_curse(TRUE)
+						H.GetComponent(/datum/component/sunlight_vulnerability)?.apply_sunlight_damage(H)
+					else
+						H.apply_status_effect(/datum/status_effect/debuff/sunspurn)
 				return
 			if(!untransforming)
 				untransforming = world.time // Start untransformation phase
