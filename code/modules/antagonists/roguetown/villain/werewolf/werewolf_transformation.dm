@@ -48,6 +48,7 @@
 					var/turf/T = H.loc
 					if(T.can_see_sky())
 						Were.release_curse(TRUE)
+						to_chat(H, span_astratabig("You thought you could hide from me?!")) // Big mommy Astrata is angry
 						H.GetComponent(/datum/component/sunlight_vulnerability)?.apply_sunlight_damage(H)
 					else
 						H.apply_status_effect(/datum/status_effect/debuff/sunspurn)
