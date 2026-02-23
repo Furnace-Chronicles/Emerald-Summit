@@ -18,6 +18,7 @@
 
 /datum/component/sunlight_vulnerability/proc/check_sunlight(mob/living/source)
 	var/mob/living/carbon/human/H = source
+	var/datum/antagonist/werewolf/WW = H.mind.has_antag_datum(/datum/antagonist/werewolf)
 	if(!H || H.stat == DEAD || H.advsetup)
 		return
 
@@ -32,7 +33,9 @@
 		if(T.can_see_sky())
 			if(!in_sunlight)
 				in_sunlight = TRUE
-				if(HAS_TRAIT(H, TRAIT_CRIMSON_CURSE))
+				if(WW && WW.holding_curse)
+					WW.release_curse(TRUE)
+				else if(HAS_TRAIT(H, TRAIT_CRIMSON_CURSE))
 					to_chat(H, span_danger("I can barely bear this accursed sun's gaze!"))
 				else
 					to_chat(H, span_danger("THE SUNLIGHT BURNS AND SEARS MY FLESH!!"))

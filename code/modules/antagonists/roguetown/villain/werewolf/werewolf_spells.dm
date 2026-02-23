@@ -67,3 +67,21 @@
 		user.put_in_hands(r, TRUE, FALSE, TRUE)
 		//user.visible_message("Your claws extend.", "You feel your claws extending.", "You hear a sound of claws extending.")
 		extended = TRUE
+
+/obj/effect/proc_holder/spell/self/hold_curse
+	name = "Hold the Curse"
+	desc = "Hold on to the curse of the moon, you will not transform back into a human as long as you do not see sunlight, but Astrata's hatred still affects you."
+	overlay_state = ""
+	antimagic_allowed = TRUE
+	recharge_time = 20 //2 seconds
+	ignore_cockblock = TRUE
+
+/obj/effect/proc_holder/spell/self/hold_curse/cast(mob/user = usr)
+	..()
+	var/datum/antagonist/werewolf/werewolf_player = user.mind.has_antag_datum(/datum/antagonist/werewolf)
+	if(werewolf_player.holding_curse)
+		werewolf_player.release_curse()
+	else if (werewolf_player.untransforming)
+		to_chat(user, span_userdanger("IT IS TOO LATE!! THE SUN TYRANT SEES ME!!"))
+	else
+		werewolf_player.hold_curse()

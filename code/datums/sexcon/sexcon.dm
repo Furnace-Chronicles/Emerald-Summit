@@ -988,6 +988,9 @@
 	if(WWtop && WWbottom)
 		return
 
+	if(HAS_TRAIT(top, TRAIT_DENDOR_BLESSED) || HAS_TRAIT(bottom, TRAIT_DENDOR_BLESSED)) // Traitwolves cannot infect even through sex.
+		return
+
 	if(WWtop && WWtop.transformed && !WWbottom)
 		if(prob(infection_probability))
 			bottom.werewolf_infect_attempt()

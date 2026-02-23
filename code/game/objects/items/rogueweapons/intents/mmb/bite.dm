@@ -116,6 +116,9 @@
 			*/
 			if(istype(user.dna.species, /datum/species/werewolf))
 				if(user.mind)
+					if(HAS_TRAIT(src, TRAIT_DENDOR_BLESSED))
+						to_chat(user, span_warning("I AM WEAK! I can't infect [bite_victim] with my bite."))
+						return
 					if(!HAS_TRAIT(src, TRAIT_SILVER_BLESSED))
 						if(istype(caused_wound))
 							caused_wound.werewolf_infect_attempt()
@@ -248,6 +251,9 @@
 			*/
 			if(istype(user.dna.species, /datum/species/werewolf))
 				if(user.mind)
+					if(HAS_TRAIT(C, TRAIT_DENDOR_BLESSED))
+						to_chat(user, span_warning("I AM WEAK! I can't infect [C] with my bite."))
+						return
 					if(!HAS_TRAIT(C, TRAIT_SILVER_BLESSED))
 						caused_wound.werewolf_infect_attempt()
 				if(prob(30))

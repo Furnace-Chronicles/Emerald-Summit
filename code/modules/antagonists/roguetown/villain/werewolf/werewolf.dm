@@ -15,6 +15,7 @@
 	var/transforming
 	var/untransforming
 	var/wolfname = "Verevolf"
+	var/holding_curse = FALSE
 
 /datum/antagonist/werewolf/lesser
 	name = "Lesser Verevolf"
@@ -191,3 +192,12 @@
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOEMBED, TRAIT_GENERIC)
+
+/datum/antagonist/werewolf/proc/hold_curse()
+	holding_curse = TRUE
+	to_chat(owner.current, span_warning("I will not transform back into a human as long as I do not see sunlight."))
+
+/datum/antagonist/werewolf/proc/release_curse(silent = FALSE)
+	holding_curse = FALSE
+	if(!silent)
+		to_chat(owner.current, span_warning("I stop holding on to the curse of the moon!"))

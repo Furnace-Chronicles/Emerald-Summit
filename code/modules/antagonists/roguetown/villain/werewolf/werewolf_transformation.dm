@@ -42,6 +42,9 @@
 	else if(transformed)
 
 		if(GLOB.tod != "night")
+			var/datum/antagonist/werewolf/Were = H.mind.has_antag_datum(/datum/antagonist/werewolf)
+			if(Were.holding_curse)
+				return
 			if(!untransforming)
 				untransforming = world.time // Start untransformation phase
 
@@ -136,12 +139,17 @@
 	W.adjust_skillrank(/datum/skill/misc/climbing, 6, TRUE)
 	W.adjust_skillrank(/datum/skill/misc/swimming, 5, TRUE)
 
-	W.STASTR = 20 // LOCK IN
-	W.STACON = 20
-	W.STAEND = 20
-
+	if(!HAS_TRAIT(src, TRAIT_DENDOR_BLESSED)) // No big stats for non-lottery werewolves
+		W.STASTR = 20 // LOCK IN
+		W.STACON = 20
+		W.STAEND = 20
+	else // Lesser werewolf: copy all stats from the human (MOBSTATS order: str, per, int, con, end, spd, lck)
+		var/list/stat_vars = list("STASTR", "STAPER", "STAINT", "STACON", "STAEND", "STASPD", "STALUC")
+		for(var/i in 1 to length(MOBSTATS))
+			W.vars[stat_vars[i]] = src.get_stat_level(MOBSTATS[i])
 	W.AddSpell(new /obj/effect/proc_holder/spell/self/howl)
 	W.AddSpell(new /obj/effect/proc_holder/spell/self/claws)
+	W.AddSpell(new /obj/effect/proc_holder/spell/self/hold_curse)
 
 	ADD_TRAIT(src, TRAIT_NOSLEEP, TRAIT_GENERIC)
 	ADD_TRAIT(W, TRAIT_GRABIMMUNE, TRAIT_GENERIC)
@@ -168,7 +176,10 @@
 	ADD_TRAIT(W, TRAIT_STRENGTH_UNCAPPED, TRAIT_GENERIC)
 	ADD_TRAIT(W, TRAIT_GRABIMMUNE, TRAIT_GENERIC)
 	ADD_TRAIT(W, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+	if(HAS_TRAIT(src, TRAIT_DENDOR_BLESSED))
+		ADD_TRAIT(W, TRAIT_DENDOR_BLESSED, TRAIT_GENERIC)
 
+	W.AddComponent(/datum/component/sunlight_vulnerability)
 	invisibility = oldinv
 
 /mob/living/carbon/human/proc/werewolf_untransform(dead,gibbed)

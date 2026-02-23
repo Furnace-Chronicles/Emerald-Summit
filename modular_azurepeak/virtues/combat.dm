@@ -218,3 +218,13 @@
 	var/datum/antagonist/vampire/stray/new_antag = new /datum/antagonist/vampire/stray(incoming_clan = /datum/clan/strays, forced_clan = FALSE, generation = GENERATION_FAILVAMP)
 	recipient.mind.add_antag_datum(new_antag)
 	recipient.change_stat(STATKEY_CON, -1)
+
+/datum/virtue/combat/dendor_blessed
+	name = "Dendor's Blessed"
+	desc = "Whether by chance or by the will of the God of Nature, you have been blessed by Dendor. During the night, you transform into a lesser verevolf, but you cannot infect others with your bite, and your stats do not increase."
+	custom_text = span_bloody("CON IS ADJUSTED BY -1!")
+
+/datum/virtue/combat/dendor_blessed/apply_to_human(mob/living/carbon/human/recipient)
+	ADD_TRAIT(recipient, TRAIT_DENDOR_BLESSED, TRAIT_GENERIC)
+	recipient.mind.add_antag_datum(/datum/antagonist/werewolf/lesser)
+	recipient.change_stat(STATKEY_CON, -1)
