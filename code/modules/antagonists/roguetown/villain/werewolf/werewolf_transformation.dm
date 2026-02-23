@@ -151,11 +151,11 @@
 		W.STASTR = 20 // LOCK IN
 		W.STACON = 20
 		W.STAEND = 20
-	else // Lesser werewolf: copy all stats from the human (MOBSTATS order: str, per, int, con, end, spd, lck)
+		W.AddSpell(new /obj/effect/proc_holder/spell/self/howl) // traitwolves don't get to howl, placed it here cause we already got an if statement above the spell definitions.
+	else // traitwolves copy all stats from the human
 		var/list/stat_vars = list("STASTR", "STAPER", "STAINT", "STACON", "STAEND", "STASPD", "STALUC")
 		for(var/i in 1 to length(MOBSTATS))
 			W.vars[stat_vars[i]] = src.get_stat_level(MOBSTATS[i])
-	W.AddSpell(new /obj/effect/proc_holder/spell/self/howl)
 	W.AddSpell(new /obj/effect/proc_holder/spell/self/claws)
 	W.AddSpell(new /obj/effect/proc_holder/spell/self/hold_curse)
 
