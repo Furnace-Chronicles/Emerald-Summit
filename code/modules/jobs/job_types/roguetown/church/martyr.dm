@@ -464,6 +464,7 @@
 		/datum/virtue/heretic/zchurch_keyholder,
 		/datum/virtue/combat/hollow_life,
 		/datum/virtue/combat/crimson_curse,
+		/datum/virtue/combat/lycan_curse,
 	)
 
 	advclass_cat_rolls = list(CTAG_MARTYR = 2)

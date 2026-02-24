@@ -37,6 +37,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		/datum/virtue/utility/blueblooded,
 		/datum/virtue/combat/hollow_life,
 		/datum/virtue/combat/crimson_curse,
+		/datum/virtue/combat/lycan_curse,
 	)
 
 	job_traits = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_SOUL_EXAMINE, TRAIT_CLERGY, TRAIT_TALENTED_ALCHEMIST)

@@ -988,7 +988,7 @@
 	if(WWtop && WWbottom)
 		return
 
-	if(HAS_TRAIT(top, TRAIT_DENDOR_BLESSED) || HAS_TRAIT(bottom, TRAIT_DENDOR_BLESSED)) // Traitwolves cannot infect even through sex.
+	if(HAS_TRAIT(top, TRAIT_LYCAN_CURSE) || HAS_TRAIT(bottom, TRAIT_LYCAN_CURSE)) // Traitwolves cannot infect even through sex.
 		return
 
 	if(WWtop && WWtop.transformed && !WWbottom)

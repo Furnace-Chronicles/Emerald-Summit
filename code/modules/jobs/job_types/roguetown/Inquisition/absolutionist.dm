@@ -22,6 +22,7 @@
 	virtue_restrictions = list(
 		/datum/virtue/combat/hollow_life,
 		/datum/virtue/combat/crimson_curse,
+		/datum/virtue/combat/lycan_curse,
 	)
 
 	job_traits = list(

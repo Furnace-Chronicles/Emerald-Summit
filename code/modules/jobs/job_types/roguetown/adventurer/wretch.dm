@@ -35,6 +35,7 @@
 	virtue_restrictions = list(
 	/datum/virtue/heretic/zchurch_keyholder, //all wretch classes automatically get this
 	/datum/virtue/combat/crimson_curse,
+	/datum/virtue/combat/lycan_curse,
 	)
 	carebox_table = /datum/carebox_table/wretch
 

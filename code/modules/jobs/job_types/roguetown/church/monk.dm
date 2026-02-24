@@ -26,6 +26,7 @@
 		/datum/virtue/utility/noble,
 		/datum/virtue/utility/blueblooded,
 		/datum/virtue/combat/crimson_curse,
+		/datum/virtue/combat/lycan_curse,
 	)
 
 	job_traits = list(TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_CLERGY)

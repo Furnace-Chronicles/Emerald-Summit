@@ -147,7 +147,7 @@
 	W.adjust_skillrank(/datum/skill/misc/climbing, 6, TRUE)
 	W.adjust_skillrank(/datum/skill/misc/swimming, 5, TRUE)
 
-	if(!HAS_TRAIT(src, TRAIT_DENDOR_BLESSED)) // No big stats for non-lottery werewolves
+	if(!HAS_TRAIT(src, TRAIT_LYCAN_CURSE)) // No big stats for non-lottery werewolves
 		W.STASTR = 20 // LOCK IN
 		W.STACON = 20
 		W.STAEND = 20
@@ -184,8 +184,8 @@
 	ADD_TRAIT(W, TRAIT_STRENGTH_UNCAPPED, TRAIT_GENERIC)
 	ADD_TRAIT(W, TRAIT_GRABIMMUNE, TRAIT_GENERIC)
 	ADD_TRAIT(W, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
-	if(HAS_TRAIT(src, TRAIT_DENDOR_BLESSED))
-		ADD_TRAIT(W, TRAIT_DENDOR_BLESSED, TRAIT_GENERIC)
+	if(HAS_TRAIT(src, TRAIT_LYCAN_CURSE))
+		ADD_TRAIT(W, TRAIT_LYCAN_CURSE, TRAIT_GENERIC)
 
 	W.AddComponent(/datum/component/sunlight_vulnerability)
 	invisibility = oldinv
