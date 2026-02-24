@@ -31,6 +31,9 @@
 	job_reopens_slots_on_death = FALSE //no endless stream of bandits, unless the migration waves deem it so
 	same_job_respawn_delay = 1 MINUTES
 	cmode_music = 'sound/music/combat_bandit2.ogg'
+	virtue_restrictions = list(
+	/datum/virtue/combat/lycan_curse,
+	)
 
 	job_traits = list(TRAIT_STEELHEARTED, TRAIT_OUTLANDER, TRAIT_OUTLAW)
 	job_subclasses = list(
