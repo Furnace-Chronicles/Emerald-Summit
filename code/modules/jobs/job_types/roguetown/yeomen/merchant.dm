@@ -18,7 +18,7 @@
 	max_pq = null
 	required = TRUE
 	round_contrib_points = 3
-	cmode_music = 'sound/music/combat_noble.ogg'
+	cmode_music = 'sound/music/combat_giza.ogg'
 	social_rank = SOCIAL_RANK_YEOMAN
 
 
@@ -79,6 +79,7 @@
 	backr = /obj/item/storage/backpack/rogue/satchel
 	if(should_wear_masc_clothes(H))
 		shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+		H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	else if(should_wear_femme_clothes(H))
 		shoes = /obj/item/clothing/shoes/roguetown/gladiator
 	if(H.mind)
