@@ -54,4 +54,4 @@ runs:
       run: |
         sudo dpkg --add-architecture i386
         sudo apt update
-        sudo apt install libstdc++6:i386
+        sudo apt install libstdc++6:i386 libcurl4:i386
