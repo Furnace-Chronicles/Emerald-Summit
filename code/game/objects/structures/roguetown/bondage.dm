@@ -9,7 +9,7 @@
 	buckle_lying = 0
 	buckle_prevents_pull = TRUE
 	buckleverb = "strap"
-	breakoutextra = 10 MINUTES
+	breakoutextra = 4 MINUTES
 	attacked_sound = list('sound/combat/hits/onwood/woodimpact (1).ogg', 'sound/combat/hits/onwood/woodimpact (2).ogg')
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	blade_dulling = DULLING_BASHCHOP
