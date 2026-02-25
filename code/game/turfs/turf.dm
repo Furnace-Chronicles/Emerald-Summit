@@ -315,8 +315,14 @@
 		return
 	if(zFall(A, ++levels))
 		return FALSE
-	if(!HAS_TRAIT(A, TRAIT_NOFALLDAMAGE1) && !HAS_TRAIT(A, TRAIT_NOFALLDAMAGE2))
-		A.visible_message(span_danger("[A] crashes into [src]!"))
+	if(isliving(A))
+		var/mob/living/O = A
+		var/dex_save = O.get_skill_level(/datum/skill/misc/climbing)
+		if( levels <= 3 && (dex_save >= 5 || HAS_TRAIT(A, TRAIT_NOFALLDAMAGE1) || HAS_TRAIT(A, TRAIT_NOFALLDAMAGE2)))
+			if(O.m_intent != MOVE_INTENT_SNEAK) // If we're sneaking, don't show a message to anybody, shhh!
+				O.visible_message("<span class='danger'>[A] gracefully lands on top of [src]!</span>")
+		else
+			A.visible_message("<span class='danger'>[A] crashes into [src]!</span>")
 	else
 		A.visible_message(span_warning("[A] lands on [src]!"))
 	A.onZImpact(src, levels)
