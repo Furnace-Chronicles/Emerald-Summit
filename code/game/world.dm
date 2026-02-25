@@ -57,7 +57,7 @@ GLOBAL_VAR(restart_counter)
 	//DB schema and set RoundID if we can
 //	SSdbcore.CheckSchemaVersion()
 	SSdbcore.SetRoundID()
-
+	var/timestamp = replacetext(time_stamp(), ":", ".")
 	SetupLogs()
 	load_poll_data()
 	if(CONFIG_GET(string/channel_announce_new_game_message))
