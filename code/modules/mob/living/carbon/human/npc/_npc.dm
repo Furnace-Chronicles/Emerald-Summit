@@ -1,3 +1,5 @@
+#define ATTACKS_UNTIL_SWITCHING_UP 3 // How many attack a NPC will use on the same place before switching it up
+
 /mob/living/carbon/human
 	var/aggressive=0 //0= retaliate only
 	var/frustration=0
@@ -46,6 +48,9 @@
 	/// When above this amount of stamina (Stamina is stamina damage), the NPC will not attempt to jump.
 	var/npc_max_jump_stamina = 50
 
+	/// Attack Selection
+	var/attack_on_zone = 1
+
 	///What distance should we be checking for interesting things when considering idling/deidling? Defaults to AI_DEFAULT_INTERESTING_DIST
 	var/interesting_dist = AI_DEFAULT_INTERESTING_DIST
 	///our current cell grid
@@ -77,11 +82,6 @@
 		if(grab.sublimb_grabbed == BODY_ZONE_PRECISE_MOUTH)
 			return TRUE
 	return FALSE
-
-/mob/living/carbon/human/species/npc/deadite/npc_should_resist(ignore_grab = TRUE)
-	if(!check_mouth_grabbed())
-		ignore_grab ||= TRUE
-	return ..(ignore_grab = ignore_grab)
 
 /mob/living/carbon/human/proc/npc_should_resist(ignore_grab = FALSE)
 	// zombie antags don't try to resist non-mouthgrabs
@@ -167,26 +167,26 @@
 /mob/living/carbon/human/proc/npc_idle()
 	if(m_intent == MOVE_INTENT_SNEAK)
 		return
-	if(world.time < next_idle)
+	if(world.time < next_idle + rand(3 SECONDS, 5 SECONDS))
 		return
-
 	NPC_THINK("Idle...")
 	next_idle = world.time + rand(3 SECONDS, 5 SECONDS)
-
-	if((mobility_flags & MOBILITY_MOVE) && isturf(loc) && wander)
-		if(prob(50))
-			var/turf/T = get_step(loc, pick(GLOB.cardinals))
-			if(T && T.can_traverse_safely(src)) // Don't wander into lava or open space unless we're immune to it/can't fall.
-				step_towards(src, T, cached_multiplicative_slowdown)
+	if((mobility_flags & MOBILITY_MOVE) && isturf(loc))
+		if(wander)
+			if(prob(50))
+				var/turf/T = get_step(loc,pick(GLOB.cardinals))
+				if(T.can_traverse_safely(src)) // Don't wander into lava or open space unless we're immune to it/can't fall.
+					step_towards(src, T, cached_multiplicative_slowdown)
+			else
+				setDir(turn(dir, pick(90,-90)))
 		else
-			setDir(turn(dir, pick(90, -90)))
-
+			setDir(turn(dir, pick(90,-90)))
 	if(prob(3))
 		emote("idle")
 
 /mob/living/carbon/human/proc/deaggrodel()
 	if(aggressive)
-		for(var/mob/living/L in view(3)) // scan for enemies
+		for(var/mob/living/L in view(7)) // scan for enemies
 			if( should_target(L) && (L != src))
 				if(L.stat != DEAD)
 					retaliate(L)
@@ -273,6 +273,7 @@
 		QDEL_NULL(mmb_intent) // unset our intent after
 		m_intent = old_m_intent
 		if(.)
+			clear_path()
 			start_pathing_to(target) // regenerate path now that we've jumped
 		return
 	m_intent = old_m_intent
@@ -386,8 +387,9 @@
 					sleep(time_to_wait)
 				continue
 			// if moving up, go in the direction of the stairs, else go the opposite direction
-			move_dir = next_path_turf.z > z ? the_stairs.dir : GLOB.reverse_dir[the_stairs.dir]
-			next_step = the_stairs.get_target_loc(move_dir)
+			if(the_stairs)
+				move_dir = next_path_turf.z > z ? the_stairs.dir : GLOB.reverse_dir[the_stairs.dir]
+				next_step = the_stairs.get_target_loc(move_dir)
 		if(!next_step)
 			pathing_frustration++
 			NPC_THINK("MOVEMENT TURN [movement_turn]: Unable to find turf to move to! Strike [pathing_frustration]!")
@@ -431,8 +433,7 @@
 			pathing_frustration = 0
 			myPath -= myPath[1]
 			NPC_THINK("MOVEMENT TURN [movement_turn]: Movement on cooldown for [movespeed/10] seconds!")
-			sleep(movespeed) // wait until next move
-
+			sleep(movespeed) // wait until next move	
 // blocks, but only while path is being calculated
 /mob/living/carbon/human/proc/start_pathing_to(new_target)
 	if(!new_target)
@@ -537,6 +538,51 @@
 
 	return FALSE
 
+/mob/living/carbon/human/proc/npc_try_backstep()
+	// JUKE: backstep after attacking if you're fast and have movement left
+	// Also made base chance 30% instead of 5% as per original
+	var/const/base_juke_chance = 15
+	// for every point of STASPD above 10 you get an extra 5% juke chance
+	var/const/min_spd_for_juke = 10
+	var/const/juke_per_overspd = 5 
+	if(mind?.has_antag_datum(/datum/antagonist/zombie)) // deadites cannot juke
+		return FALSE
+	if(!target)
+		return FALSE
+	if(steps_moved_this_turn >= maxStepsTick) // no movement left over
+		return FALSE
+	var/juke_spd_bonus = STASPD > min_spd_for_juke ? (STASPD - min_spd_for_juke) * juke_per_overspd : 0
+	if(!prob(base_juke_chance + juke_spd_bonus))
+		NPC_THINK("Failed juke roll ([base_juke_chance + juke_spd_bonus]%)!")
+		return FALSE
+	NPC_THINK("Succeeded juke roll ([base_juke_chance + juke_spd_bonus]%)!")
+	tempfixeye = TRUE //Change icon to 'target' red eye
+	if(!fixedeye) //If fixedeye isn't already enabled, we need to set this var
+		nodirchange = TRUE
+	var/list/newPath = list()
+	var/turf/lastTurf
+	// Use up to half your remaining distance, with a minimum of one tile.
+	var/juke_distance = 1 // Make it single step juke only.
+	for(var/i in 1 to juke_distance)
+		// pick random turfs to juke to until we're out of movement
+		var/list/turf/juke_candidates = get_dodge_destinations(target, lastTurf)
+		if(!length(juke_candidates))
+			break
+		lastTurf = pick(juke_candidates)
+		newPath += lastTurf
+	if(!length(newPath))
+		return FALSE
+	// temporarily force us to use the juke path
+	myPath = newPath
+	var/old_pathfinding_target = pathfinding_target
+	pathfinding_target = myPath[1]
+	steps_moved_this_turn += move_along_path()
+	pathfinding_target = old_pathfinding_target
+	tempfixeye = FALSE
+	if(!fixedeye)
+		nodirchange = FALSE
+	return TRUE // juke succeeded
+
 /mob/living/carbon/human/proc/handle_combat()
 	switch(mode)
 		if(NPC_AI_IDLE)		// idle
@@ -586,7 +632,7 @@
 				var/paine = get_complex_pain()
 				if(paine >= ((STAEND * 10)*0.9)) 
 					NPC_THINK("Ouch! Entering flee mode!")
-					set_ai_mode(NPC_AI_FLEE)
+					mode = NPC_AI_FLEE
 					m_intent = MOVE_INTENT_RUN
 					clear_path()
 					return TRUE
@@ -612,30 +658,12 @@
 			if(Adjacent(target) && isturf(target.loc))	// if right next to perp
 				frustration = 0
 				face_atom(target)
-				monkey_attack(target)
+				. = monkey_attack(target)
 				steps_moved_this_turn++ // an attack costs, currently, 1 movement step
-				// JUKE: backstep after attacking if you're fast and have movement left
 				NPC_THINK("Used [steps_moved_this_turn] moves out of [maxStepsTick]!")
-				if(target && (steps_moved_this_turn < maxStepsTick))
-					var/const/base_juke_chance = 5
-					// for every point of STASPD above 10 you get an extra 5% juke chance
-					var/const/min_spd_for_juke = 10
-					var/const/juke_per_overspd = 5
-					var/juke_spd_bonus = STASPD > min_spd_for_juke ? (STASPD - min_spd_for_juke) * juke_per_overspd : 0
-					if(prob(base_juke_chance + juke_spd_bonus))
-						NPC_THINK("Succeeded juke roll ([base_juke_chance + juke_spd_bonus]%)!")
-						// pick a random turf to juke to
-						var/list/turf/juke_candidates = get_dodge_destinations(target)
-						if(length(juke_candidates))
-							// temporarily force us to path to this turf
-							myPath = list(pick(juke_candidates))
-							var/old_pathfinding_target = pathfinding_target
-							pathfinding_target = myPath[1]
-							steps_moved_this_turn += move_along_path()
-							pathfinding_target = old_pathfinding_target
-					else
-						NPC_THINK("Failed juke roll ([base_juke_chance + juke_spd_bonus]%)!")
-				return TRUE
+				if(.) // attack was successful, try to backstep. todo: generalise to post-attack behaviour?
+					npc_try_backstep()
+					return
 			else if(should_frustrate) // not next to perp, and we didn't fail due to reaction time
 				frustration++
 
@@ -678,7 +706,7 @@
 	if(pulling)
 		stop_pulling()
 	myPath = list()
-	set_ai_mode(NPC_AI_IDLE)
+	mode = NPC_AI_IDLE
 	m_intent = MOVE_INTENT_WALK
 	target = null
 	a_intent = INTENT_HELP
@@ -822,6 +850,11 @@
 		npc_choose_attack_zone(victim)
 
 /mob/living/carbon/human/proc/npc_choose_attack_zone(mob/living/victim)
+	if(attack_on_zone <= ATTACKS_UNTIL_SWITCHING_UP)
+		attack_on_zone++
+		return
+	else
+		attack_on_zone = 1
 	// My life for a better way to handle deadite AI.
 	if(mind?.has_antag_datum(/datum/antagonist/zombie))
 		aimheight_change(deadite_get_aimheight(victim))
@@ -837,11 +870,11 @@
 // attack using a held weapon otherwise bite the enemy, then if we are angry there is a chance we might calm down a little
 /mob/living/carbon/human/proc/monkey_attack(mob/living/L)
 	if(next_move > world.time)
-		return
+		return FALSE // no time to attack this turn!
 
 	npc_choose_attack_zone(L)
 	NPC_THINK("Aiming for \the [zone_selected]!")
-	do_best_melee_attack(L)
+	return do_best_melee_attack(L)
 
 // get angry at a mob
 /mob/living/carbon/human/proc/retaliate(mob/living/L)
@@ -858,7 +891,7 @@
 			if (!npc_detect_sneak(L, extra_chance))
 				return
 		NPC_THINK("Hunting [L]!")
-		set_ai_mode(NPC_AI_HUNT)
+		mode = NPC_AI_HUNT
 		// Interrupt ongoing actions on-hit, except for standing up or resisting.
 		if(!resisting && (mobility_flags & MOBILITY_STAND))
 			doing = FALSE
@@ -910,10 +943,7 @@
 	if (prob(probby))
 		// whoops it saw us
 		target.mob_timers[MT_FOUNDSNEAK] = world.time
-		if(!target.thicc_sneaking)
-			to_chat(target, span_danger("[src] sees me! I'm found!"))
-		else
-			to_chat(target, span_danger("[src] sees me! The clap of my asscheeks gave me away!"))
+		to_chat(target, span_danger("[src] sees me! I'm found!"))
 		target.update_sneak_invis(TRUE)
 		return TRUE
 	else
@@ -925,7 +955,7 @@
 		return
 
 	if(mode == NPC_AI_SLEEP)
-		set_ai_mode(NPC_AI_IDLE)
+		mode = NPC_AI_IDLE
 
 /mob/living/carbon/human/proc/on_client_exit(datum/source, datum/exited)
 	SIGNAL_HANDLER
@@ -935,11 +965,13 @@
 	consider_wakeup()
 
 /mob/living/carbon/human/proc/set_new_cells()
+	if(QDELETED(src)) // Move to nullspace causes move and causes this.
+		return
 	var/turf/our_turf = get_turf(src)
 	if(isnull(our_turf))
 		return
 
-	var/list/cell_collections = our_cells.recalculate_cells(our_turf)
+	var/list/cell_collections = our_cells?.recalculate_cells(our_turf)
 
 	for(var/datum/old_grid as anything in cell_collections[2])
 		UnregisterSignal(old_grid, list(SPATIAL_GRID_CELL_ENTERED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS), SPATIAL_GRID_CELL_EXITED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS)))
@@ -961,22 +993,11 @@
 		if(length(grid.client_contents))
 			if(mode != NPC_AI_SLEEP && mode != NPC_AI_IDLE)
 				return TRUE
-			set_ai_mode(NPC_AI_IDLE)
+			mode = NPC_AI_IDLE
 			return TRUE
 
-	set_ai_mode(NPC_AI_SLEEP)
+	mode = NPC_AI_SLEEP
 	return FALSE
-
-/mob/living/carbon/human/proc/set_ai_mode(new_mode)
-	if(mode == NPC_AI_SLEEP && new_mode != NPC_AI_SLEEP)
-		GLOB.idle_mob_list -= src
-		GLOB.mob_living_list |= src
-		START_PROCESSING(SShumannpc, src)
-	else if(new_mode == NPC_AI_SLEEP)
-		STOP_PROCESSING(SShumannpc, src)
-		GLOB.mob_living_list -= src
-		GLOB.idle_mob_list |= src
-	mode = new_mode
 
 /mob/living/carbon/human/Moved()
 	. = ..()

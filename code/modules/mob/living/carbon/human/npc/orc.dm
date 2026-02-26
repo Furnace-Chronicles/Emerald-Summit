@@ -23,6 +23,68 @@
 	wander = FALSE
 	cmode_music = FALSE
 
+/mob/living/carbon/human/species/orc/npc/Initialize()
+	. = ..()
+	set_species(/datum/species/orc)
+	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
+
+/mob/living/carbon/human/species/orc/npc/after_creation()
+	..()
+	job = "Savage Orc"
+	gender = pick(MALE, FEMALE)
+	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
+	var/hairf = pick(list(/datum/sprite_accessory/hair/head/lowbraid, 
+						/datum/sprite_accessory/hair/head/countryponytailalt))
+	var/hairm = pick(list( 
+						/datum/sprite_accessory/hair/head/lowbraid))
+	var/beard = pick(list(/datum/sprite_accessory/hair/facial/viking,
+						/datum/sprite_accessory/hair/facial/manly,
+						/datum/sprite_accessory/hair/facial/longbeard))
+	head.sellprice = 30
+
+	src.set_patron(/datum/patron/inhumen/graggar)
+	var/datum/bodypart_feature/hair/head/new_hair = new()
+	var/datum/bodypart_feature/hair/facial/new_facial = new()
+	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
+	var/obj/item/organ/ears/organ_ears = getorgan(/obj/item/organ/ears)
+
+	if(organ_eyes)
+		organ_eyes.eye_color = "#FF0000"
+		organ_eyes.accessory_colors = "#FF0000#FF0000"
+
+	skin_tone = "50715C"
+
+	if(organ_ears)
+		organ_ears.accessory_colors = "#50715C"
+
+	if(gender == FEMALE)
+		new_hair.set_accessory_type(hairf, null, src)
+	else
+		new_hair.set_accessory_type(hairm, null, src)
+		new_facial.set_accessory_type(beard, null, src)
+		
+	head.add_bodypart_feature(new_hair)
+	head.add_bodypart_feature(new_facial)
+
+	new_hair.accessory_colors = "#31302E"
+	new_hair.hair_color = "#31302E"
+	new_facial.accessory_colors = "#31302E"
+	new_facial.hair_color = "#31302E"
+	hair_color = "#31302E"
+
+	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
+	dna.species.handle_body(src)
+	if(gender == FEMALE)
+		real_name = pick(world.file2list("strings/rt/names/other/halforcf.txt"))
+	else
+		real_name = pick(world.file2list("strings/rt/names/other/halforcm.txt"))
+	update_hair()
+	update_body()
+	if(orc_outfit)
+		var/datum/outfit/O = new orc_outfit
+		if(O)
+			equipOutfit(O)
+
 /datum/outfit/job/orc/npc/pre_equip(mob/living/carbon/human/H) //gives some default skills and equipment for player controlled orcs
 	..()
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
@@ -58,10 +120,8 @@
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 
 	H.set_patron(/datum/patron/inhumen/graggar)
-	ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
-	ADD_TRAIT(src, TRAIT_INFINITE_ENERGY, TRAIT_GENERIC)
 
+/*
 	H.possible_rmb_intents = list(/datum/rmb_intent/feint,\
 	/datum/rmb_intent/aimed,\
 	/datum/rmb_intent/strong,\
@@ -69,3 +129,4 @@
 	/datum/rmb_intent/riposte,\
 	/datum/rmb_intent/weak)
 	H.swap_rmb_intent(num=1)
+*/
