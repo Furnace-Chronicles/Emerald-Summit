@@ -954,7 +954,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/sallet/thorns
 	name = "holysteel thorns"
-	icon_state = "holythorns"
+	icon_state = "thorny_crown"
 	desc = "A crown of thorns made with silver and steel wires. It protects your head and ears despite pricking them."
 	max_integrity = 225
 	smeltresult = /obj/item/ingot/steel
