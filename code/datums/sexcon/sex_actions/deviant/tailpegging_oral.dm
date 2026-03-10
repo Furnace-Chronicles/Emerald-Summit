@@ -35,7 +35,7 @@
 	else
 		perform_message = "[user] [pick("fucks","violates")] [target]'s throat with their tail."
 		playsound(target, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
-		user.make_sucking_noise()
+		user.sexcon.make_sucking_noise()
 	
 	user.visible_message(user.sexcon.spanify_force(perform_message))
 	
