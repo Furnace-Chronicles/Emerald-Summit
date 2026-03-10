@@ -440,6 +440,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["feature_ethcolor"]	>> features["ethcolor"]
 	S["pronouns"]			>> pronouns
 	S["voice_type"]			>> voice_type
+	S["voice_pack"]			>> voice_pack
 	S["nickname"]			>> nickname
 	S["highlight_color"]	>> highlight_color
 	S["tail_color"]			>> tail_color
@@ -566,6 +567,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	S["pronouns"] >> pronouns
 	S["voice_type"] >> voice_type
+	S["voice_pack"] >> voice_pack
 	S["body_size"] >> features["body_size"]
 	if (!features["body_size"])
 		features["body_size"] = BODY_SIZE_NORMAL
@@ -747,6 +749,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["is_legacy"], is_legacy)
 	WRITE_FILE(S["char_accent"] , char_accent)
 	WRITE_FILE(S["voice_type"] , voice_type)
+	WRITE_FILE(S["voice_pack"] , voice_pack)
 	WRITE_FILE(S["pronouns"] , pronouns)
 	WRITE_FILE(S["statpack"] , statpack.type)
 	WRITE_FILE(S["virtue"] , virtue.type)
