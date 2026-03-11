@@ -107,7 +107,7 @@
 /datum/supply_pack/rogue/tools/prlegr
 	name = "Prosthetic Wood Leg (R)"
 	cost = 15
-	contains = /obj/item/bodypart/r_leg/prosthetic
+	contains = /obj/item/bodypart/r_leg/prosthetic/woodright
 
 /datum/supply_pack/rogue/tools/huntingknife
 	name = "Hunting Knife"
