@@ -202,7 +202,7 @@
 	..()
 	update_icon()
 
-// Can't figure out why this shit is spawning invisible 
+
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants
 	name = "grenzelhoftian paumpers"
