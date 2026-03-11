@@ -578,6 +578,13 @@
 	item_state = "chap_alt"
 	color = "#dbcde0"
 
+/obj/item/clothing/head/roguetown/chaperon/greyscale/shepherd
+	name = "mountaineer's chaperon"
+	desc = "A fashionable citygoer's chaperon worn around an insconspicuous iron skullcap. It has a cute little Mamük brooch on the tip of the hood. Szöréndnížine shepherds spend plenty of time in the city and have taken a liking to the chaperon's exaggerated swagger."
+	armor = ARMOR_LEATHER_STUDDED
+	max_integrity = ARMOR_INT_HELMET_IRON - 25
+
+
 /obj/item/clothing/head/roguetown/chaperon/noble
 	name = "noble's chaperon"
 	desc = "A decorated chaperon worn by the more influential members of society."
@@ -954,7 +961,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/sallet/thorns
 	name = "holysteel thorns"
-	icon_state = "holythorns"
+	icon_state = "thorny_crown"
 	desc = "A crown of thorns made with silver and steel wires. It protects your head and ears despite pricking them."
 	max_integrity = 225
 	smeltresult = /obj/item/ingot/steel

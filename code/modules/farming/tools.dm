@@ -117,7 +117,7 @@
 	slot_flags = ITEM_SLOT_BACK
 	item_flags = PEASANT_WEAPON
 	icon = 'icons/roguetown/weapons/tools.dmi'
-	item_state = "pitchfork"
+	item_state = "hoe"
 	lefthand_file = 'icons/mob/inhands/weapons/polearms_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/polearms_righthand.dmi'
 	sharpness = IS_BLUNT
@@ -321,12 +321,12 @@
 
 /obj/item/rogueweapon/pitchfork/copper
 	name = "copper pitchfork"
-	icon = 'icons/roguetown/weapons/64.dmi'
+	icon = 'icons/roguetown/weapons/tools.dmi'
 	pixel_y = -16
 	pixel_x = -16
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
-	icon_state = "cfork"
+	icon_state = "pitchfork"
 	smeltresult = /obj/item/ingot/copper
 
 /datum/intent/pforkdump
