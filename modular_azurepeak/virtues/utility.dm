@@ -1,6 +1,7 @@
 /datum/virtue/utility/noble
 	name = "Nobility"
 	desc = "By birth, blade or brain, I am noble known to the royalty of these lands, and have all the benefits associated with it."
+	triumph_cost = 10 //You wanna be an untouchable (in rp) noble? You gotta lower your infinite pool of triumphs a little
 	restricted = TRUE
 	races = list(/datum/species/golem/metal, /datum/species/golem/porcelain, /datum/species/goblinp, /datum/species/kobold)
 	added_traits = list(TRAIT_NOBLE)
