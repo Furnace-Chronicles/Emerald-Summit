@@ -163,6 +163,7 @@
 	pixel_y = 32
 	soundloop = null
 	no_refuel = TRUE
+	fueluse = 0
 
 /obj/machinery/light/rogue/wallfire/candle/off
 	name = "candles"
