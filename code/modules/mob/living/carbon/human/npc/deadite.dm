@@ -143,8 +143,6 @@
 		return
 	if(mind.has_antag_datum(/datum/antagonist/skeleton))
 		return
-	if(mind.has_antag_datum(/datum/antagonist/gnoll))
-		return
 	if(HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE))
 		return
 	return mind.add_antag_datum(/datum/antagonist/zombie)
