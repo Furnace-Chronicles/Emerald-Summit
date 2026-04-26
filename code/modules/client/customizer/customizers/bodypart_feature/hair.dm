@@ -513,6 +513,11 @@
 		/datum/sprite_accessory/hair/head/ghast,
 		/datum/sprite_accessory/hair/head/polite,
 		/datum/sprite_accessory/hair/head/protag,
+		/datum/sprite_accessory/hair/head/wolfcut,
+		/datum/sprite_accessory/hair/head/triplebuns,
+		/datum/sprite_accessory/hair/head/nest,
+		/datum/sprite_accessory/hair/head/strand,
+		/datum/sprite_accessory/hair/head/sodden,
 		)
 
 /datum/customizer_choice/bodypart_feature/hair/head/humanoid/get_random_accessory(datum/customizer_entry/entry, datum/preferences/prefs)
