@@ -1037,7 +1037,33 @@
 
 	emote("shiver", intentional = TRUE)
 
+/datum/emote/living/facepalm
+	key = "facepalm"
+	key_third_person = "facepalms"
+	message = "facepalms."
+	emote_type =  EMOTE_AUDIBLE
+	show_runechat = TRUE
 
+/mob/living/carbon/human/verb/facepalm()
+	set name = "Facepalm"
+	set category = "Noises"
+
+	emote("facepalms", intentional = TRUE)
+
+/datum/emote/living/eye_roll
+	key = "eye_roll"
+	key_third_person = "eye rolls"
+	message = "rolls their eye."
+	emote_type = EMOTE_VISIBLE
+	show_runechat = TRUE
+
+/mob/living/carbon/human/verb/eye_roll()
+	set name = "Eye Roll"
+	set category = "Emotes"
+
+	emote("eye_roll", intentional = TRUE)
+
+	
 /datum/emote/living/sigh
 	key = "sigh"
 	key_third_person = "sighs"
