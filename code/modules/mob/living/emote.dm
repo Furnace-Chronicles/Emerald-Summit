@@ -1081,6 +1081,7 @@
 		user.spin(4, 1)
 
 
+	
 /datum/emote/living/sigh
 	key = "sigh"
 	key_third_person = "sighs"
