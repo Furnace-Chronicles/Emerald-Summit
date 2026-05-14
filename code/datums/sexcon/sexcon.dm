@@ -46,6 +46,7 @@
 	var/arousal_frozen = FALSE
 	var/last_arousal_increase_time = 0
 	var/last_ejaculation_time = 0
+	var/last_oral_drip_consume_time = 0
 	var/last_moan = 0
 	var/last_pain = 0
 	var/aphrodisiac = 1 //1 by default, acts as a multiplier on arousal gain. If this is different than 1, set/freeze arousal is disabled.
@@ -57,11 +58,18 @@
 	var/action_category = SEX_CATEGORY_MISC
 	/// Show progress bar
 	var/show_progress = 1
+	/// When TRUE, try_do_moan does nothing (used for actions that can be done subtly)
+	var/suppress_moan = FALSE
+	/// Allow players to decide if they want to subtly do this action or not (only for actions that can be done subtly)
+	var/do_subtle_action = FALSE
+	var/bottom_exposed = FALSE
 	/// Knot based variables
 	var/do_knot_action = FALSE
+	var/do_knot_action_as_bottom = FALSE
 	var/knotted_status = KNOTTED_NULL // knotted state and used to prevent multiple knottings when we do not handle that case
 	var/knotted_part = SEX_PART_NULL // which orifice was knotted (bitflag)
 	var/knotted_part_partner = SEX_PART_NULL // which orifice was knotted on partner (bitflag)
+	var/knotted_forced_by_bottom = FALSE
 	var/tugging_knot = FALSE
 	var/tugging_knot_check = 0
 	var/tugging_knot_blocked = FALSE
@@ -330,50 +338,84 @@
 	set_target(new_target)
 	show_ui()
 
-/datum/sex_controller/proc/cum_onto(var/mob/living/carbon/human/splashed_user = null)
-	log_combat(user, target, "Came onto the target")
-	playsound(target, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
-	add_cum_floor(get_turf(target))
+/datum/sex_controller/proc/cum_onto(mob/living/carbon/human/splashed_user = null, cum_on_face = TRUE)
+	var/mob/living/carbon/human/effective_target = splashed_user || target
+	log_combat(user, effective_target, "Came onto the target")
+	if(effective_target)
+		playsound(effective_target, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
+	add_cum_floor(get_turf(effective_target || user))
 	if(splashed_user)
-		var/datum/status_effect/facial/facial = splashed_user.has_status_effect(/datum/status_effect/facial)
-		if(!facial)
-			splashed_user.apply_status_effect(/datum/status_effect/facial)
+		if(cum_on_face)
+			var/datum/status_effect/facial/facial = splashed_user.has_status_effect(/datum/status_effect/facial)
+			if(!facial)
+				splashed_user.apply_status_effect(/datum/status_effect/facial)
+				if(splashed_user != user)
+					splashed_user.visible_message(span_love("[splashed_user] takes a load on their face!"), span_love("I take a load on my face!"))
+			else
+				facial.refresh_cum()
 		else
-			facial.refresh_cum()
+			var/datum/status_effect/facial/external/external = splashed_user.has_status_effect(/datum/status_effect/facial/external)
+			if(!external)
+				splashed_user.apply_status_effect(/datum/status_effect/facial/external)
+				if(splashed_user != user)
+					splashed_user.visible_message(span_love("[splashed_user] takes a load on their body!"), span_love("I take a load on my body!"))
+			else
+				external.refresh_cum()
+	if(effective_target?.has_flaw(/datum/charflaw/addiction/lovefiend))
+		effective_target.sate_addiction(/datum/charflaw/addiction/lovefiend)
 	after_ejaculation()
 
-/datum/sex_controller/proc/cum_into(oral = FALSE, var/mob/living/carbon/human/splashed_user = null)
-	log_combat(user, target, "Came inside the target")
+/datum/sex_controller/proc/cum_into(oral = FALSE, mob/living/carbon/human/splashed_user = null, datum/sex_action/knot_action = null, knot_swap_roles = FALSE, mob/living/carbon/human/knot_btm = null, orifice = SEX_PART_NULL)
+	var/mob/living/carbon/human/effective_target = splashed_user || target
+	log_combat(user, effective_target, "Came inside the target")
+	werewolf_sex_infect_attempt(user, effective_target)
 	if(oral)
-		playsound(target, pick(list('sound/misc/mat/mouthend (1).ogg','sound/misc/mat/mouthend (2).ogg')), 100, FALSE, ignore_walls = FALSE)
+		playsound(user, pick(list('sound/misc/mat/mouthend (1).ogg','sound/misc/mat/mouthend (2).ogg')), 100, FALSE, ignore_walls = FALSE)
 	else
-		playsound(target, 'sound/misc/mat/endin.ogg', 50, TRUE, ignore_walls = FALSE)
-	if(user != target && do_knot_action)
-		knot_try()
-	if(splashed_user && !splashed_user.sexcon.knotted_status)
+		playsound(user, 'sound/misc/mat/endin.ogg', 50, TRUE, ignore_walls = FALSE)
+	if(knot_btm || (user != effective_target && !isnull(effective_target) && istype(effective_target)))
+		knot_try(knot_action = knot_action, knot_swap_roles = knot_swap_roles, knot_btm = knot_btm)
+	if(splashed_user && (oral || !splashed_user.sexcon.knotted_status))
 		var/status_type = !oral ? /datum/status_effect/facial/internal : /datum/status_effect/facial
 		var/datum/status_effect/facial/splashed_type = splashed_user.has_status_effect(status_type)
 		if(!splashed_type)
 			splashed_user.apply_status_effect(status_type)
+			if(oral)
+				splashed_user.visible_message(span_love("[splashed_user] takes a load in their mouth!"), span_love("I take a load in my mouth!"))
+			else
+				splashed_user.visible_message(span_love("[splashed_user] takes a load inside them!"), span_love("I take a load inside me!"))
 		else
 			splashed_type.refresh_cum()
+		if(oral && splashed_user.reagents)
+			if(user.getorganslot(ORGAN_SLOT_PENIS))
+				var/obj/item/organ/testicles/testes = user.getorganslot(ORGAN_SLOT_TESTICLES)
+				splashed_user.reagents.add_reagent(/datum/reagent/erpjuice/cum, testes?.ball_size > DEFAULT_TESTICLES_SIZE ? 6 : 3)
+			else
+				splashed_user.reagents.add_reagent(/datum/reagent/erpjuice/femcum, 2)
+			apply_cum_consumed_buff(splashed_user)
+		if(!oral)
+			var/obj/item/organ/testicles/testes = user.getorganslot(ORGAN_SLOT_TESTICLES)
+			apply_creampie_drip(splashed_user, orifice, use_long = testes?.ball_size > DEFAULT_TESTICLES_SIZE)
+	if(effective_target?.has_flaw(/datum/charflaw/addiction/lovefiend))
+		effective_target.sate_addiction(/datum/charflaw/addiction/lovefiend)
 	after_ejaculation()
 
 	//EVIL ASS LEVELDRAIN
 	if(HAS_TRAIT(user, TRAIT_DEPRAVED) && user.cmode)
 		var/datum/status_effect/buff/baothasbanquet/boost_buff = user.has_status_effect(/datum/status_effect/buff/baothasbanquet)
 		if(boost_buff)
-			boost_buff.tier_up(target)
+			boost_buff.tier_up(effective_target)
 		else
 			boost_buff = user.apply_status_effect(/datum/status_effect/buff/baothasbanquet)
-			boost_buff.poor_bastards += target
-		var/datum/status_effect/debuff/baothadrained/drain_debuff = target.has_status_effect(/datum/status_effect/debuff/baothadrained)
+			boost_buff.poor_bastards += effective_target
+		var/datum/status_effect/debuff/baothadrained/drain_debuff = effective_target?.has_status_effect(/datum/status_effect/debuff/baothadrained)
 		if(drain_debuff)
 			drain_debuff.tier_up()
-		else
-			target.apply_status_effect(/datum/status_effect/debuff/baothadrained)
-		target.playsound_local(user, 'sound/misc/mat/lvldown.ogg', 100)
-	if(HAS_TRAIT(target, TRAIT_DEPRAVED) && target.cmode)
+		else if(effective_target)
+			effective_target.apply_status_effect(/datum/status_effect/debuff/baothadrained)
+		if(effective_target)
+			effective_target.playsound_local(user, 'sound/misc/mat/lvldown.ogg', 100)
+	if(HAS_TRAIT(target, TRAIT_DEPRAVED) && target?.cmode)
 		var/datum/status_effect/buff/baothasbanquet/boost_buff = target.has_status_effect(/datum/status_effect/buff/baothasbanquet)
 		if(boost_buff)
 			boost_buff.tier_up(user)
@@ -386,9 +428,8 @@
 		else
 			user.apply_status_effect(/datum/status_effect/debuff/baothadrained)
 		user.playsound_local(user, 'sound/misc/mat/lvldown.ogg', 100)
-		
-	if(!oral)
-		after_intimate_climax()
+
+	after_intimate_climax(oral, splashed_user)
 
 /datum/status_effect/facial
 	id = "facial"
@@ -400,6 +441,29 @@
 	id = "creampie"
 	alert_type = null // don't show an alert on screen
 	tick_interval = 7 MINUTES // use this time as our dry count down
+
+/datum/status_effect/facial/external
+	id = "cumshot"
+	alert_type = null // don't show an alert on screen
+	tick_interval = 10 MINUTES // use this time as our dry count down
+
+/datum/status_effect/creampie_leak
+	id = "creampie_leak"
+	alert_type = null // don't show an alert on screen
+	tick_interval = 12 SECONDS
+	duration = 60 SECONDS
+	var/contents_to_drip = /datum/reagent/erpjuice/cum
+	var/orifice = SEX_PART_NULL
+
+/datum/status_effect/creampie_leak/on_creation(mob/living/new_owner, orifice_in = SEX_PART_NULL)
+	orifice = orifice_in
+	return ..(new_owner)
+
+/datum/status_effect/creampie_leak/long
+	id = "creampie_leak_long"
+	alert_type = null // don't show an alert on screen
+	tick_interval = 12 SECONDS
+	duration = 120 SECONDS
 
 /datum/status_effect/facial/on_apply()
 	RegisterSignal(owner, list(COMSIG_COMPONENT_CLEAN_ACT, COMSIG_COMPONENT_CLEAN_FACE_ACT),PROC_REF(clean_up))
@@ -425,6 +489,33 @@
 			owner.add_stress(/datum/stressevent/bathcleaned)
 		owner.remove_status_effect(src)
 
+/datum/status_effect/creampie_leak/on_apply()
+	RegisterSignal(owner, COMSIG_COMPONENT_CLEAN_ACT, PROC_REF(clean_up))
+	to_chat(owner, span_love("I feel a warmth beginning to leak out of me."))
+	return ..()
+
+/datum/status_effect/creampie_leak/on_remove()
+	UnregisterSignal(owner, COMSIG_COMPONENT_CLEAN_ACT)
+	return ..()
+
+/datum/status_effect/creampie_leak/proc/clean_up(datum/source, strength)
+	if(strength >= CLEAN_WEAK && !QDELETED(owner))
+		to_chat(owner, span_notice("I feel much cleaner now."))
+		owner.remove_status_effect(src)
+
+/datum/status_effect/creampie_leak/tick()
+	if(!owner?.sexcon?.bottom_exposed && !get_location_accessible(owner, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
+		return
+	var/cur_loc = get_turf(owner)
+	if(!cur_loc || !isturf(cur_loc))
+		return
+	add_cum_floor(cur_loc)
+	playsound(owner, pick('sound/misc/bleed (1).ogg', 'sound/misc/bleed (2).ogg', 'sound/misc/bleed (3).ogg'), 20, TRUE, -2, ignore_walls = FALSE)
+	var/obj/item/reagent_containers/glass/cum_chalice = locate() in cur_loc
+	if(!cum_chalice?.spillable)
+		return
+	cum_chalice.reagents.add_reagent(contents_to_drip, 1)
+
 /datum/sex_controller/proc/ejaculate()
 	log_combat(user, user, "Ejaculated")
 	user.visible_message(span_love("[user] makes a mess!"))
@@ -443,22 +534,79 @@
 	last_ejaculation_time = world.time
 	record_round_statistic(STATS_PLEASURES)
 
-/datum/sex_controller/proc/after_intimate_climax()
-	if(user == target)
+/datum/sex_controller/proc/after_intimate_climax(oral, mob/living/carbon/human/climax_target = null)
+	var/mob/living/carbon/human/effective_target = climax_target || target
+	if(user == effective_target || isnull(effective_target) || !istype(effective_target) || QDELETED(effective_target))
 		return
-	if(HAS_TRAIT(target, TRAIT_GOODLOVER))
-		if(!user.mob_timers["cumtri"])
-			user.mob_timers["cumtri"] = world.time
-			user.adjust_triumphs(1)
-			to_chat(user, span_love("Our loving is a true TRIUMPH!"))
-	if(HAS_TRAIT(user, TRAIT_GOODLOVER))
-		if(!target.mob_timers["cumtri"])
-			target.mob_timers["cumtri"] = world.time
-			target.adjust_triumphs(1)
-			to_chat(target, span_love("Our loving is a true TRIUMPH!"))
-			
-	if(ishuman(user) && ishuman(target) && user.client && target.client)
-		eora_register_consensual_pair(user, target)					
+	if(!oral)
+		if(HAS_TRAIT(effective_target, TRAIT_GOODLOVER))
+			if(!user.mob_timers["cumtri"])
+				user.mob_timers["cumtri"] = world.time
+				user.adjust_triumphs(1)
+				to_chat(user, span_love("Our loving is a true TRIUMPH!"))
+		if(HAS_TRAIT(user, TRAIT_GOODLOVER))
+			if(!effective_target.mob_timers["cumtri"])
+				effective_target.mob_timers["cumtri"] = world.time
+				effective_target.adjust_triumphs(1)
+				to_chat(effective_target, span_love("Our loving is a true TRIUMPH!"))
+
+	if(ishuman(user) && ishuman(effective_target) && user.client && effective_target.client)
+		eora_register_consensual_pair(user, effective_target)
+
+/// Applies or accumulates a creampie drip status effect, correctly ORing new orifice flags onto an existing drip rather than silently dropping the second application.
+/proc/apply_creampie_drip(mob/living/carbon/human/target, orifice, use_long = FALSE)
+	var/datum/status_effect/creampie_leak/existing = target.has_status_effect(/datum/status_effect/creampie_leak/long) || target.has_status_effect(/datum/status_effect/creampie_leak)
+	if(existing)
+		existing.orifice |= orifice
+		to_chat(target, span_love("I feel another warmth beginning to leak out of me."))
+		existing.duration = world.time + initial(existing.duration)
+		return
+	if(use_long)
+		target.apply_status_effect(/datum/status_effect/creampie_leak/long, orifice)
+	else
+		target.apply_status_effect(/datum/status_effect/creampie_leak, orifice)
+
+/datum/sex_controller/proc/apply_cum_consumed_buff(mob/living/carbon/human/consumer)
+	if(!consumer)
+		return FALSE
+	consumer.apply_status_effect(/datum/status_effect/buff/cum_consumed)
+	return TRUE
+
+/datum/sex_controller/proc/consume_oral_drips(mob/living/carbon/human/source)
+	if(!source || !user || !source.sexcon)
+		return FALSE
+
+	var/datum/status_effect/creampie_leak/drip = source.has_status_effect(/datum/status_effect/creampie_leak/long)
+	if(!drip)
+		drip = source.has_status_effect(/datum/status_effect/creampie_leak)
+	if(!drip)
+		return FALSE
+
+	if(last_oral_drip_consume_time + 3 SECONDS > world.time)
+		return FALSE
+	last_oral_drip_consume_time = world.time
+
+	var/datum/status_effect/facial/facial = user.has_status_effect(/datum/status_effect/facial)
+	if(!facial)
+		user.apply_status_effect(/datum/status_effect/facial)
+	else
+		facial.refresh_cum()
+
+	if(user.reagents)
+		var/drip_type = drip.contents_to_drip || /datum/reagent/erpjuice/cum
+		user.reagents.add_reagent(drip_type, 1)
+	apply_cum_consumed_buff(user)
+
+	user.visible_message(span_love("[user] laps up the fluids leaking from [source]!"), span_love("I lap up the fluids leaking from [source]!"))
+
+	if(drip.duration <= world.time + 6 SECONDS)
+		if(istype(drip, /datum/status_effect/creampie_leak/long))
+			source.remove_status_effect(/datum/status_effect/creampie_leak/long)
+		else
+			source.remove_status_effect(/datum/status_effect/creampie_leak)
+	else
+		drip.duration -= 6 SECONDS
+	return TRUE
 
 /datum/sex_controller/proc/just_ejaculated()
 	return (last_ejaculation_time + 2 SECONDS >= world.time)
@@ -728,11 +876,22 @@
 	dat += "</center><center><a href='?src=[REF(src)];task=toggle_finished'>[do_until_finished ? "UNTIL IM FINISHED" : "UNTIL I STOP"]</a>"
 	if(current_action && !desire_stop)
 		var/datum/sex_action/action = SEX_ACTION(current_action)
-		if(action.knot_on_finish && knot_penis_type())
-			if(do_knot_action)
-				dat += " | <a href='?src=[REF(src)];task=toggle_knot'><font color='#d146f5'>USING KNOT</font></a>"
+		if(action.subtle_supported)
+			if(do_subtle_action)
+				dat += " | <a href='?src=[REF(src)];task=toggle_subtle'>DOING SUBTLY</a>"
 			else
-				dat += " | <a href='?src=[REF(src)];task=toggle_knot'><font color='#eac8de'>NOT USING KNOT</font></a>"
+				dat += " | <a href='?src=[REF(src)];task=toggle_subtle'>DOING VISIBLY</a>"
+		if(action.knot_on_finish)
+			if((action.user_sex_part & SEX_PART_COCK) && knot_penis_type())
+				if(do_knot_action)
+					dat += " | <a href='?src=[REF(src)];task=toggle_knot'><font color='#d146f5'>USING KNOT</font></a>"
+				else
+					dat += " | <a href='?src=[REF(src)];task=toggle_knot'><font color='#eac8de'>NOT USING KNOT</font></a>"
+			else if((action.target_sex_part & SEX_PART_COCK) && target?.sexcon?.knot_penis_type())
+				if(do_knot_action_as_bottom)
+					dat += " | <a href='?src=[REF(src)];task=toggle_knot_bottom'><font color='#d146f5'>FORCING KNOT</font></a>"
+				else
+					dat += " | <a href='?src=[REF(src)];task=toggle_knot_bottom'><font color='#eac8de'>NOT FORCING KNOT</font></a>"
 	dat += "</center><center><a href='?src=[REF(src)];task=set_arousal'>SET AROUSAL</a> | <a href='?src=[REF(src)];task=freeze_arousal'>[arousal_frozen ? "UNFREEZE AROUSAL" : "FREEZE AROUSAL"]</a></center>"
 	if(target == user)
 		dat += "<center>Doing unto yourself</center>"
@@ -817,8 +976,12 @@
 			action_category = SEX_CATEGORY_HANDS
 		if("category_penetrate")
 			action_category = SEX_CATEGORY_PENETRATE
+		if("toggle_subtle")
+			do_subtle_action = !do_subtle_action
 		if("toggle_knot")
 			do_knot_action = !do_knot_action
+		if("toggle_knot_bottom")
+			do_knot_action_as_bottom = !do_knot_action_as_bottom
 	show_ui()
 
 /datum/sex_controller/proc/try_stop_current_action()
@@ -874,6 +1037,8 @@
 	var/performed_action_type = current_action
 	var/datum/sex_action/action = SEX_ACTION(current_action)
 	show_progress = 1
+	suppress_moan = FALSE
+	do_subtle_action = TRUE // always start subtle supported actions with subtle mode on
 	action.on_start(user, target)
 	find_occupying_furniture()
 	find_occupying_grass()
@@ -1062,7 +1227,12 @@
 			return "<font color='#f05ee1'>PARTIALLY ERECT</font>"
 		if(SEX_MANUAL_AROUSAL_FULL)
 			return "<font color='#d146f5'>FULLY ERECT</font>"
-/datum/sex_controller/proc/get_generic_force_adjective()
+/datum/sex_controller/proc/get_knot_synonym()
+	return pick(list("knot", "knot", "bulb", "plug"))
+
+/datum/sex_controller/proc/get_generic_force_adjective(is_stealth = FALSE)
+	if(is_stealth)
+		return pick(list("subtly","sneakily","covertly","stealthily","quietly"))
 	switch(force)
 		if(SEX_FORCE_LOW)
 			return pick(list("gently", "carefully", "tenderly", "gingerly", "delicately", "lazily"))

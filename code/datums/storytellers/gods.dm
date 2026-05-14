@@ -494,6 +494,9 @@
 		"Set 5" = list(
 			STATS_KNOTTED_NOT_LUPIANS = list("name" = "Knotted Non-Lupians:", "points" = 2.5, "capacity" = 50) //We nerf this cus not uncommon to see a fair amount of knotting.
 		),
+		"Set 6" = list(
+			STATS_IMPREGNATIONS = list("name" = "Impregnations:", "points" = 5, "capacity" = 50),
+		),
 	)
 
 /datum/storyteller/graggar

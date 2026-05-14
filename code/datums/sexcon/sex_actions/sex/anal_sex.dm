@@ -41,7 +41,7 @@
 	user.sexcon.perform_sex_action(user, 2, 0, TRUE)
 	if(user.sexcon.check_active_ejaculation())
 		user.visible_message(span_love("[user] cums into [target]'s butt!"))
-		user.sexcon.cum_into(splashed_user = target)
+		user.sexcon.cum_into(splashed_user = target, orifice = SEX_PART_ANUS)
 		user.virginity = FALSE
 		werewolf_sex_infect_attempt(user, target)
 
@@ -87,7 +87,7 @@
 	user.sexcon.perform_sex_action(user, 2, 0, TRUE)
 	if(user.sexcon.check_active_ejaculation())
 		user.visible_message(span_love("[user] cums into [target]'s butt!"))
-		user.sexcon.cum_into(splashed_user = target)
+		user.sexcon.cum_into(splashed_user = target, orifice = SEX_PART_ANUS)
 		user.virginity = FALSE
 		werewolf_sex_infect_attempt(user, target)
 
