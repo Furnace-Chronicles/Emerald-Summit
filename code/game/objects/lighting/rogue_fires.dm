@@ -171,11 +171,13 @@
 	desc = "Tiny flames flicker to the slightest breeze and offer enough light to see."
 	icon_state = "wallcandle1"
 	base_state = "wallcandle"
-	light_outer_range = 3 
+	light_outer_range = 3
 	crossfire = FALSE
 	cookonme = FALSE
 	pixel_y = 32
 	soundloop = null
+	healing_range = 0
+	stamina_status_effect = null
 
 /obj/machinery/light/rogue/wallfire/candle/off
 	name = "candles"
