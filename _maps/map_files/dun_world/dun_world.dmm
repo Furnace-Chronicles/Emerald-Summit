@@ -75175,6 +75175,10 @@
 /obj/machinery/light/rogue/campfire/densefire,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/town)
+"ljD" = (
+/obj/machinery/light/rogue/wallfire/inn,
+/turf/closed/wall/mineral/rogue/craftstone,
+/area/rogue/indoors/town/tavern)
 "taS" = (
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/town/tavern)
@@ -83866,9 +83870,6 @@
 /turf/open/water/ocean,
 /area/rogue/outdoors/beach/forest)
 "vdm" = (
-/obj/machinery/light/rogue/wallfire{
-	pixel_y = 32
-	},
 /obj/effect/decal/carpet/kover_darkred{
 	pixel_y = -10
 	},
@@ -279387,7 +279388,7 @@ uZy
 jbb
 aar
 nBH
-taS
+ljD
 vdm
 rbu
 ajd

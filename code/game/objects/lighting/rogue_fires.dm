@@ -143,6 +143,12 @@
 	no_refuel = TRUE
 	crossfire = FALSE
 	cookonme = TRUE
+	healing_range = 2
+	stamina_status_effect = /datum/status_effect/buff/campfire_stamina/fireplace
+
+/obj/machinery/light/rogue/wallfire/inn
+	name = "grand fireplace"
+	healing_range = 6
 
 /obj/machinery/light/rogue/wallfirecrafted
 	name = "fireplace"
@@ -157,6 +163,8 @@
 	crossfire = FALSE
 	pixel_y = 32
 	cookonme = TRUE
+	healing_range = 2
+	stamina_status_effect = /datum/status_effect/buff/campfire_stamina/fireplace
 
 /obj/machinery/light/rogue/wallfire/candle
 	name = "candles"
@@ -633,6 +641,8 @@
 	cookonme = TRUE
 	max_integrity = 30
 	soundloop = /datum/looping_sound/fireloop
+	healing_range = 1
+	stamina_status_effect = /datum/status_effect/buff/campfire_stamina
 
 /obj/machinery/light/rogue/campfire/process()
 	..()
