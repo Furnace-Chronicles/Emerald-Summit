@@ -407,6 +407,7 @@ SUBSYSTEM_DEF(ticker)
 //	SEND_SOUND(world, sound('sound/misc/roundstart.ogg'))
 	current_state = GAME_STATE_PLAYING
 
+	addtimer(CALLBACK(src, PROC_REF(refresh_lobby_ui)), 3, TIMER_CLIENT_TIME)
 
 	Master.SetRunLevel(RUNLEVEL_GAME)
 /*
@@ -472,6 +473,11 @@ SUBSYSTEM_DEF(ticker)
 		qdel(bomb)
 		if(epi)
 			explosion(epi, 0, 256, 512, 0, TRUE, TRUE, 0, TRUE)
+
+/datum/controller/subsystem/ticker/proc/refresh_lobby_ui()
+	for(var/mob/dead/new_player/player in GLOB.new_player_list)
+		if(!player.new_character && player.client)
+			player.new_player_panel()
 
 /datum/controller/subsystem/ticker/proc/create_characters()
 	// Combined loop: create characters AND collect minds simultaneously
