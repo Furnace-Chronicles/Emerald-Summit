@@ -44192,10 +44192,6 @@
 /obj/structure/fermentation_keg/water,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town)
-"ljD" = (
-/obj/machinery/light/rogue/campfire/fireplace/inn,
-/turf/closed/wall/mineral/rogue/craftstone,
-/area/rogue/indoors/town/tavern)
 "ljE" = (
 /obj/machinery/anvil,
 /obj/item/rogueweapon/tongs,
@@ -83870,6 +83866,9 @@
 /turf/open/water/ocean,
 /area/rogue/outdoors/beach/forest)
 "vdm" = (
+/obj/machinery/light/rogue/wallfire{
+	pixel_y = 32
+	},
 /obj/effect/decal/carpet/kover_darkred{
 	pixel_y = -10
 	},
@@ -279388,7 +279387,7 @@ uZy
 jbb
 aar
 nBH
-ljD
+taS
 vdm
 rbu
 ajd

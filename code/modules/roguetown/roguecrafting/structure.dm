@@ -1562,7 +1562,7 @@
 
 /datum/crafting_recipe/roguetown/structure/fireplace
 	name = "Fireplace (North)"
-	result = /obj/machinery/light/rogue/campfire/fireplace/crafted
+	result = /obj/machinery/light/rogue/wallfirecrafted
 	reqs = list(/obj/item/grown/log/tree/small = 1,
 				/obj/item/natural/stoneblock = 3)
 	verbage_simple = "build"
