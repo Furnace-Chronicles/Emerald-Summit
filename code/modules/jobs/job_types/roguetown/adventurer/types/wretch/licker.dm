@@ -12,7 +12,6 @@
 	disallowed_races = list(
 		/datum/species/golem/metal,
 		/datum/species/golem/porcelain,
-		/datum/species/harpy, //their entire flight mechanic gets DISABLED by licker!! Go play a half/wild-kin!
 	)
 	maximum_possible_slots = 2
 	applies_post_equipment = FALSE
