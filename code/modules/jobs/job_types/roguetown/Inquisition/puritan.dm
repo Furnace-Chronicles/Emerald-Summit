@@ -79,7 +79,7 @@
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/firearms = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
@@ -101,8 +101,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	backr =  /obj/item/storage/backpack/rogue/satchel/otavan
-	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
-	beltr = /obj/item/quiver/bolts
+	beltr = /obj/item/gun/ballistic/firearm/arquebus_pistol
 	head = /obj/item/clothing/head/roguetown/inqhat
 	mask = /obj/item/clothing/mask/rogue/spectacles/inq/spawnpair
 	gloves = /obj/item/clothing/gloves/roguetown/otavan/psygloves
@@ -121,6 +120,19 @@
 		/obj/item/paper/inqslip/arrival/inq = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
+
+/datum/outfit/job/puritan/inspector/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	..()
+	if(visualsOnly)
+		return
+	// Build the left back satchel ourselves so backpack_contents (which fills
+	// SLOT_BACK_L first) can't stuff it; it ends up holding only these two items.
+	var/obj/item/storage/backpack/rogue/satchel/otavan/leftbag = new(H)
+	var/obj/item/quiver/bullet/lead/LB = new(H)
+	SEND_SIGNAL(leftbag, COMSIG_TRY_STORAGE_INSERT, LB, null, TRUE, TRUE)
+	var/obj/item/powderflask/PF = new(H)
+	SEND_SIGNAL(leftbag, COMSIG_TRY_STORAGE_INSERT, PF, null, TRUE, TRUE)
+	H.equip_to_slot_or_del(leftbag, SLOT_BACK_L, TRUE)
 
 /datum/outfit/job/puritan/inspector/choose_loadout(mob/living/carbon/human/H)
 	. = ..()

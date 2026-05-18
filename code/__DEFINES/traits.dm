@@ -247,6 +247,11 @@
 #define TRAIT_FOOD_STIPEND "Vomitorium-known"
 #define TRAIT_ROYALSERVANT "Household Insight" // Let's you see the royals liked/hated food/drink
 
+// Weaponry Traits
+// Intended for very powerful, very specific or gimmicky weapon skills.
+// Firearms, as an example, is one of them. We do not let someone get above JMAN without it.
+#define TRAIT_FUSILIER "Fusilier"//Firearm above JMAN, since mass training is possible. On top of removing dangerous interactions.
+
 
 GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_RITES_BLOCKED = span_bloody("I can't perform any rites for now."),
@@ -454,6 +459,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WAGES_SUSPENDED = span_warning("The Stewardry has halted my daily wages!"),
 	TRAIT_PEASANTMILITIA = span_info("I am a commoner. When the Lord's soldiers do not come, I needs fend off villains and nite creechurs with the tools at hand. I fight best with simple tools and militia weapons."),
 	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"),
+	TRAIT_FUSILIER = span_suppradio("I've been trained in the safe use of smokepowder. Additionally, knowledge above <b><u>journeyman</u></b> status is attainable.")
 ))
 
 // trait accessor defines
