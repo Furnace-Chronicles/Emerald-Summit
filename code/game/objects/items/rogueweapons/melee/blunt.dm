@@ -11,9 +11,17 @@
 	swingdelay = 0
 	icon_state = "instrike"
 	item_d_type = "blunt"
+	//We want chipping, m'lord.
+	blunt_chipping = TRUE
+	blunt_chip_strength = BLUNT_CHIP_WEAK
 
 /datum/intent/mace/strike/reach
 	reach = 2
+
+// Dedicated maul intents: inherit all ES mace strike/smash behaviour (damage,
+// knockback, sounds) and only raise the chip tier to match RW PR #607.
+/datum/intent/mace/strike/maul
+	blunt_chip_strength = BLUNT_CHIP_STRONG
 
 /datum/intent/mace/smash
 	name = "smash"
@@ -26,6 +34,12 @@
 	clickcd = 14
 	icon_state = "insmash"
 	item_d_type = "blunt"
+	//We want chipping, m'lord.
+	blunt_chipping = TRUE
+	blunt_chip_strength = BLUNT_CHIP_STRONG
+
+/datum/intent/mace/smash/maul
+	blunt_chip_strength = BLUNT_CHIP_ABSURD
 
 /datum/intent/mace/smash/reach
 	reach = 2
@@ -607,8 +621,8 @@
 /obj/item/rogueweapon/mace/maul
 	force = 12 //Don't one-hand this.
 	force_wielded = 32 //-3 compared to grand mace(steel goden). Better intents.
-	possible_item_intents = list(/datum/intent/mace/strike)
-	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/effect/daze, /datum/intent/effect/hobble)
+	possible_item_intents = list(/datum/intent/mace/strike/maul)
+	gripped_intents = list(/datum/intent/mace/strike/maul, /datum/intent/mace/smash/maul, /datum/intent/effect/daze, /datum/intent/effect/hobble)
 	name = "maul"
 	desc = "Who would need something this large? It looks like it was made for tearing down walls, rather than men."
 	icon_state = "sledge"
