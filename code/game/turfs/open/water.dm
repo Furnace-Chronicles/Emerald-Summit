@@ -251,6 +251,13 @@
 	if(L.stat != CONSCIOUS)
 		return
 	if(do_after(L, 25, target = src))
+		if(ishuman(L))
+			var/mob/living/carbon/human/H = L
+			if(H.dna?.species?.id == "gnoll" && ispath(water_reagent, /datum/reagent/blood))
+				if(!H.gnoll_bloodpool_feed())
+					return
+				playsound(src, 'sound/misc/drink_blood.ogg', 100, FALSE, -4)
+				return
 		var/list/waterl = list()
 		waterl[water_reagent] = 5
 		var/datum/reagents/reagents = new()

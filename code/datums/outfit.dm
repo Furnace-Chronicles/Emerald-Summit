@@ -274,6 +274,7 @@
 	if(!visualsOnly)
 		apply_fingerprints(H)
 
+	H.class_equip_finished = TRUE
 	H.update_body()
 	return TRUE
 

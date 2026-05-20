@@ -94,6 +94,8 @@
 
 	var/list/possibleclass
 	var/advsetup = 0
+	var/class_equip_finished = FALSE // Flips TRUE once advclass equip flow has resolved final class title. Gates spell-side class lookups.
+	var/has_gnoll_scent_this_round = FALSE // Lingering gnoll scent marker — set by gnoll sexcon interactions, checked by examine.
 
 
 //	var/alignment = ALIGNMENT_TN

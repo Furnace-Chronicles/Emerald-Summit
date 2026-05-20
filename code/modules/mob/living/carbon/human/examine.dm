@@ -813,7 +813,20 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		var/stress = H.get_stress_amount()//stress check for racism
-		if(H.has_flaw(/datum/charflaw/paranoid) || (!HAS_TRAIT(H, TRAIT_EMPATH) && stress >= 4))//if you have paranoid flaw or you're stressed while not being an empath
+		// Species opting into examine_stress_always (e.g. gnolls) bypass the paranoia/stress gate.
+		if(H.dna.species.name != dna.species.name && dna.species.examine_stress_always)
+			if(dna.species.examine_relief_patron && H.patron?.type == dna.species.examine_relief_patron)
+				if(dna.species.examine_relief_event)
+					user.add_stress(dna.species.examine_relief_event)
+			else
+				if(dna.species.stress_examine)
+					. += dna.species.stress_desc
+				if(dna.species.examine_stress_event && (dna.species.examine_stress_ignores_tolerant || !HAS_TRAIT(user, TRAIT_TOLERANT)))
+					var/stress_type = dna.species.examine_stress_event
+					if(HAS_TRAIT(user, TRAIT_XENOPHOBIC) && dna.species.examine_stress_event_xenophobic)
+						stress_type = dna.species.examine_stress_event_xenophobic
+					user.add_stress(stress_type)
+		else if(H.has_flaw(/datum/charflaw/paranoid) || (!HAS_TRAIT(H, TRAIT_EMPATH) && stress >= 4))//if you have paranoid flaw or you're stressed while not being an empath
 			if(H.dna.species.name != dna.species.name)
 				if(dna.species.stress_examine)//some species don't have a stress desc
 					. += dna.species.stress_desc
@@ -957,6 +970,13 @@
 		else
 			towrite += span_notice("Age Verified")
 		. += span_info(towrite)
+
+	if(dna?.species?.type == /datum/species/gnoll)
+		if(istype(user, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = user
+			if(H.dna?.species?.type == /datum/species/gnoll)
+				if(user.advjob)
+					. += span_notice("<i>They are a [advjob] of the pack.</i>")
 
 	var/trait_exam = common_trait_examine()
 	if(!isnull(trait_exam))
