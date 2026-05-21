@@ -204,7 +204,7 @@
 		return
 
 	var/mob/living/carbon/human/human_user = user
-	if(human_user.patron.type == /datum/patron/inhumen/graggar)
+	if(human_user.patron?.type == /datum/patron/inhumen/graggar)
 		. += span_danger("You know this gem well. They are born out of great violence, but only if it involves the mightiest of warriors.")
 
 /obj/item/roguegem/amethyst

@@ -978,6 +978,30 @@
 				if(user.advjob)
 					. += span_notice("<i>They are a [advjob] of the pack.</i>")
 
+	// Gnoll examiner-side hooks: mark indicator + breeder-scent flavor.
+	// Ported from upstream's modular examine_hooks.dm (which has no ES counterpart).
+	var/user_is_gnoll = FALSE
+	var/user_is_clergy = FALSE
+	var/user_is_inquisition = FALSE
+	if(ishuman(user))
+		var/mob/living/carbon/human/UH = user
+		user_is_gnoll = UH.dna?.species?.id == "gnoll"
+		user_is_inquisition = HAS_TRAIT(UH, TRAIT_INQUISITION) || (UH.mind?.assigned_role in GLOB.inquisition_positions)
+		user_is_clergy = user_is_inquisition || (UH.mind?.assigned_role in GLOB.church_positions)
+		if(user_is_gnoll)
+			var/datum/antagonist/gnoll/gnoll_antag = UH.mind?.has_antag_datum(/datum/antagonist/gnoll)
+			if(gnoll_antag?.is_examine_marked_target(src))
+				. += span_cultsmall("Graggar has marked them!")
+			if(src.has_gnoll_scent_this_round)
+				. += span_cultsmall("They have gnoll scent, a breeder!")
+	if(src.has_gnoll_scent_this_round && !user_is_gnoll)
+		if(user_is_inquisition)
+			. += span_warning("They reek of profane beast-taint. This demands scrutiny.")
+		else if(user_is_clergy)
+			. += span_warning("A profane, feral scent clings to them.")
+		else
+			. += span_warning("They have a strange scent about them...")
+
 	var/trait_exam = common_trait_examine()
 	if(!isnull(trait_exam))
 		. += trait_exam

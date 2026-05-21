@@ -255,6 +255,7 @@
 	alpha = 150
 	var/blood_vol = 10
 	random_icon_states = null
+	mouse_opacity = MOUSE_OPACITY_ICON // Override transparent parent — puddles need to be clickable for gnoll blood-pool feeding.
 
 /obj/effect/decal/cleanable/blood/puddle/update_icon()
 	switch(blood_vol)

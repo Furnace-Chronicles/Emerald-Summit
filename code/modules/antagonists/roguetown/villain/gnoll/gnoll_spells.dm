@@ -72,8 +72,9 @@
 			continue
 		if(human.advsetup || !human.class_equip_finished) // they haven't gotten their true class name yet
 			continue
-		// Upstream /datum/charflaw/hunted absent in ES — hunted-flaw target branch stripped; combat-role fallback remains.
-		if(human.job in combat_roles)
+		if(human.has_flaw(/datum/charflaw/hunted))
+			add_target_to_list(human, hunted_targets, name_counts)
+		else if(human.job in combat_roles)
 			add_target_to_list(human, combat_targets, name_counts)
 
 	var/list/possible_targets = length(hunted_targets) ? hunted_targets : combat_targets
@@ -214,7 +215,8 @@
 
 	// Determine Channel Time
 	var/channel_time = 15 SECONDS
-	// Upstream /datum/charflaw/hunted absent in ES — accelerated channel for hunted-flaw targets stripped.
+	if(target.has_flaw(/datum/charflaw/hunted))
+		channel_time = 6 SECONDS
 
 	to_chat(user, span_notice("You begin pulling [target] into graggar's plane"))
 	to_chat(target, span_userdanger("The world around you begins to dissolve into a blood scented nightmare!"))

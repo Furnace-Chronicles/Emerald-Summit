@@ -109,7 +109,8 @@
 /datum/antagonist/gnoll/proc/get_tracked_target_source(mob/living/target)
 	if(!target)
 		return null
-	// Upstream /datum/charflaw/hunted absent in ES — "Hunted flaw" source path skipped.
+	if(target.has_flaw(/datum/charflaw/hunted))
+		return "Hunted flaw"
 	if(target.job in get_gnoll_tracking_combat_roles())
 		return "Combat fallback"
 	return "Direct scent"
@@ -117,7 +118,8 @@
 /datum/antagonist/gnoll/proc/is_examine_marked_target(mob/living/target)
 	if(!target)
 		return FALSE
-	// Upstream /datum/charflaw/hunted absent in ES — only combat-fallback marking applies.
+	if(target.has_flaw(/datum/charflaw/hunted))
+		return TRUE
 	if(get_tracked_target() != target)
 		return FALSE
 	return get_tracked_target_source(target) == "Combat fallback"

@@ -248,9 +248,9 @@
 /obj/item/storage/belt/rogue/pouch/alchemy
 
 /obj/item/storage/belt/rogue/pouch/alchemy/PopulateContents()
-	new /obj/item/reagent_containers/glass/bottle/alchemical(src)
-	new /obj/item/reagent_containers/glass/bottle/alchemical(src)
-	new /obj/item/reagent_containers/glass/bottle/alchemical(src)
+	new /obj/item/reagent_containers/glass/bottle/alchemical/healthpot(src)
+	new /obj/item/reagent_containers/glass/bottle/alchemical/healthpot(src)
+	new /obj/item/reagent_containers/glass/bottle/alchemical/healthpot(src)
 	new /obj/item/needle(src)
 
 /obj/item/storage/backpack/rogue/satchel

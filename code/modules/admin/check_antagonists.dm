@@ -209,8 +209,9 @@
 		if(istype(L, /mob/living/carbon/human/dummy) || !L.mind)
 			continue
 
-		// Upstream /datum/charflaw/hunted absent in ES — admin panel skips hunted-flaw classification.
-		if(L.job in combat_roles)
+		if(L.has_flaw(/datum/charflaw/hunted))
+			hunted_targets += L
+		else if(L.job in combat_roles)
 			combat_targets += L
 
 	for(var/datum/antagonist/gnoll/G in GLOB.antagonists)
