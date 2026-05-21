@@ -5,7 +5,7 @@
 	allowed_races = list(/datum/species/gnoll)
 	outfit = /datum/outfit/job/roguetown/gnoll/shaman
 	applies_post_equipment = FALSE
-	traits_applied = list(TRAIT_RITUALIST, TRAIT_DODGEEXPERT) // Upstream TRAIT_ALCHEMY_EXPERT absent in ES.
+	traits_applied = list(TRAIT_RITUALIST, TRAIT_DODGEEXPERT, TRAIT_TALENTED_ALCHEMIST) // ES equivalent of upstream's TRAIT_ALCHEMY_EXPERT.
 	subclass_stats = list(
 		STATKEY_PER = 2,
 		STATKEY_END = 2,
