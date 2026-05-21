@@ -204,8 +204,8 @@
 				var/mob/living/carbon/human/pulling = C.pulling
 				var/time_taken = 1 SECONDS
 				if(ismob(pulling))
-					stamina_cost_final *= 2 //double our stamina cost if we're pulling someone with us
-					time_taken *= 1.5
+					stamina_cost_final *= 1.5 //higher stamina cost if we're pulling someone with us
+					time_taken *= 2.5
 				if(do_after(C, time_taken))
 					if(ismob(C.pulling))
 						C.pulling.forceMove(turf_above)
@@ -255,7 +255,7 @@
 				var/mob/living/carbon/human/pulling = C.pulling
 				var/time_taken = 0.5 SECONDS
 				if(ismob(pulling))
-					stamina_cost_final *= 2 //double our stamina cost if we're pulling someone with us
+					stamina_cost_final *= 1.5 //Higher stamina cost if we're pulling someone with us
 				if(do_after(C, time_taken))
 					if(ismob(C.pulling))
 						C.pulling.forceMove(turf_below)
