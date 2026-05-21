@@ -10,7 +10,7 @@
 	traits_applied = list(TRAIT_HEAVYARMOR) // Flavoring
 
 	subclass_stats = list(
-		STATKEY_WIL = 5,
+		STATKEY_END = 5,
 		STATKEY_CON = 5,
 		STATKEY_SPD = 2,
 		STATKEY_INT = 1

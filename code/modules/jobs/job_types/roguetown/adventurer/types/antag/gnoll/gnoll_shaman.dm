@@ -8,7 +8,7 @@
 	traits_applied = list(TRAIT_RITUALIST, TRAIT_DODGEEXPERT) // Upstream TRAIT_ALCHEMY_EXPERT absent in ES.
 	subclass_stats = list(
 		STATKEY_PER = 2,
-		STATKEY_WIL = 2,
+		STATKEY_END = 2,
 		STATKEY_SPD = 3,
 		STATKEY_INT = 2,
 		STATKEY_CON = 1,
