@@ -125,6 +125,7 @@
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/turfs/wood/wall/alt
+	name = "wall (wood, planks)" // Distinct from parent "wall (wood)" so name-keyed craftability dict doesn't collide.
 	reqs = list(/obj/item/natural/wood/plank = 2)
 
 /datum/crafting_recipe/roguetown/turfs/wood/fancy
@@ -161,6 +162,7 @@
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/turfs/wood/murderhole/alt
+	name = "murder hole (wood, planks)" // Distinct from parent "murder hole (wood)" so name-keyed craftability dict doesn't collide.
 	reqs = list(/obj/item/natural/wood/plank = 2)
 
 /// STONE
