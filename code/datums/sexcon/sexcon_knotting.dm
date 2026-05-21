@@ -471,7 +471,7 @@
 	if(!istype(L) || !L.sexcon)
 		return FALSE
 	if(L.sexcon.knotted_status == KNOTTED_AS_TOP)
-		var/do_forceful_removal = L.sexcon.arousal > MAX_AROUSAL / 3 // considered still hard, let it rip like a beyblade
+		var/do_forceful_removal = L.cmode || L.sexcon.arousal > MAX_AROUSAL / 3 // combat mode, or considered still hard, let it rip like a beyblade
 		L.sexcon.knot_remove(forceful_removal = do_forceful_removal)
 	return FALSE
 

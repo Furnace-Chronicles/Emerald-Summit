@@ -882,9 +882,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		dat = list("<center>REGISTER!</center>")
 
 	if(current_tab == 0) //If we aren't on the character tab, hide the element. This is probably not the best place for this.
-		winset(usr.client, "preferencess_window.character_preview_map", "is-visible=true")
+		winset(user.client, "preferencess_window.character_preview_map", "is-visible=true")
 	else
-		winset(usr.client, "preferencess_window.character_preview_map", "is-visible=false")
+		winset(user.client, "preferencess_window.character_preview_map", "is-visible=false")
 
 	winshow(user, "preferencess_window", TRUE)
 	winset(user, "preferencess_window", "size=820x850")

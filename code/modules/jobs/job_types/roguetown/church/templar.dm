@@ -329,10 +329,14 @@
 
 /datum/outfit/job/templar/crusader/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
-	var/weapons = list("Halberd","Longsword","Flail","Mace","Battle Axe", "Judgement Edge", "Solar Spear", "Astratan Scimitar")
+	var/weapons = list("Halberd","Longsword","Flail","Mace","Battle Axe", "Solar Spear", "Astratan Scimitar", "Dendorite Warstaff", "Ravoxian Glaive", "Judgement Edge")
 	switch(H.patron?.type)
 		if(/datum/patron/divine/astrata) //Unique patron weapons, more can be added here if wanted.
 			weapons += "Solar Judgement"
+		if(/datum/patron/divine/astrata)
+			weapons += "Solar Spear"
+		if(/datum/patron/divine/astrata)
+			weapons += "Astratan Scimitar"
 		if(/datum/patron/divine/noc)
 			weapons += "Moonlight Khopesh"
 		if(/datum/patron/divine/necra)
@@ -343,10 +347,16 @@
 			weapons += "Forgefiend"
 		if(/datum/patron/divine/dendor)
 			weapons += "Summer Scythe"
+		if(/datum/patron/divine/dendor)
+			weapons += "Dendorite Warstaff"
 		if(/datum/patron/divine/xylix)
 			weapons += "Cackle Lash"
 		if(/datum/patron/divine/ravox)
 			weapons += "Duel Settler"
+		if(/datum/patron/divine/ravox)
+			weapons += "Ravoxian Glaive"
+		if(/datum/patron/divine/ravox)
+			weapons += "Judgement Edge"
 		if(/datum/patron/divine/eora)
 			weapons += "The Heartstring"
 		if(/datum/patron/divine/abyssor)
@@ -409,7 +419,12 @@
 		if("Astratan Scimitar")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/long/ranesh_stratan(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-
+		if("Ravoxian Glaive")
+			H.put_in_hands(new /obj/item/rogueweapon/halberd/glaive/ravox(H), TRUE)
+			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+		if("Dendorite Warstaff")
+			H.put_in_hands(new /obj/item/rogueweapon/woodstaff/quarterstaff/steel/dendor(H), TRUE)
+			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 	// -- Start of section for god specific bonuses --
 	if(H.patron?.type == /datum/patron/divine/astrata)
 		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)

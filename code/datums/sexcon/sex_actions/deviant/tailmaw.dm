@@ -41,7 +41,7 @@
 	user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] fucks [target]'s tailmaw."))
 	playsound(target, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
 	if(prob(50))
-		user.make_sucking_noise()
+		user.sexcon.make_sucking_noise()
 	user.sexcon.do_thrust_animate(target)
 
 	user.sexcon.perform_sex_action(user, 2, 0, TRUE)
@@ -104,7 +104,7 @@
 		user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] [verb] [target]'s cock with their tailmaw."))
 	playsound(user, 'sound/misc/mat/segso.ogg', 30, TRUE, -2, ignore_walls = FALSE)
 	if(prob(50))
-		user.make_sucking_noise()
+		user.sexcon.make_sucking_noise()
 
 	user.sexcon.perform_sex_action(target, 2, 0, TRUE)
 
@@ -162,7 +162,7 @@
 /datum/sex_action/tailmawcunnilingus/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/verb = pick("sucks","slurps","suckles","engulfs","licks","teases")
 	user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] [verb] [target]'s pussy with their tailmaw..."))
-	user.make_sucking_noise()
+	user.sexcon.make_sucking_noise()
 	user.sexcon.do_thrust_animate(target)
 
 	user.sexcon.perform_sex_action(target, 2, 3, TRUE)
@@ -215,7 +215,7 @@
 	var/verb = pick("sucks","slurps","suckles","engulfs","licks","teases","squeezes","massages")
 	user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] [verb] [target]'s breasts with their tailmaw..."))
 	if(prob(50))
-		user.make_sucking_noise()
+		user.sexcon.make_sucking_noise()
 	user.sexcon.do_thrust_animate(target)
 
 	user.sexcon.perform_sex_action(target, 2, 2, TRUE)
