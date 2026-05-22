@@ -1,3 +1,15 @@
+/datum/reagent/erpjuice
+	name = "Fluid"
+	color = "#ffffe0"
+
+/datum/reagent/erpjuice/cum
+	name = "Cum"
+	color = "#ffffe0"
+
+/datum/reagent/erpjuice/femcum
+	name = "Female Cum"
+	color = "#ffffe0"
+
 /datum/reagent/consumable/ethanol/beer/emberwine
 	name = "Emberwine"
 	boozepwr = 80

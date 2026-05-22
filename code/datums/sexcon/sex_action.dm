@@ -25,6 +25,8 @@
 	var/target_sex_part = SEX_PART_NULL
 	/// Only allow select actions to end with a knot-tie
 	var/knot_on_finish = FALSE
+	/// Whether this action can be performed subtly
+	var/subtle_supported = FALSE
 
 /datum/sex_action/proc/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	return TRUE

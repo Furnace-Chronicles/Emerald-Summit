@@ -171,6 +171,7 @@
 #define STATS_JUNKIES "junkies"
 #define STATS_KNOTTED "knottings"
 #define STATS_KNOTTED_NOT_LUPIANS "knottings_by_non_lupians"
+#define STATS_IMPREGNATIONS "impregnations"
 
 //Matthios
 #define STATS_ITEMS_PICKPOCKETED "items_pickpocketed"
@@ -287,6 +288,7 @@ GLOBAL_LIST_INIT(scarlet_round_stats, list(
 	STATS_PLEASURES = 0,
 	STATS_KNOTTED = 0,
 	STATS_KNOTTED_NOT_LUPIANS = 0,
+	STATS_IMPREGNATIONS = 0,
 	STATS_SKILLS_DREAMED = 0,
 	STATS_REGULAR_VAULT_INCOME = 0,
 	STATS_VAULT_TOTAL_REVENUE = 0,

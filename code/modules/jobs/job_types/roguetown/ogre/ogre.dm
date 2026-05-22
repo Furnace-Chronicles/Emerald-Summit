@@ -6,16 +6,18 @@
 
 	This feature is essentially a testament to why maintainers need to sign off on code bounties BEFORE they're developed, because this shit sucked ass from the get go,
 	and now that there is no money in it, it has been abandoned.
+
+	quit bitching and code, or get AI do it for you - sweetrelish 
 */
 
-/*/datum/job/roguetown/ogre
+/datum/job/roguetown/ogre
 	title = "Ogre"
 	flag = OGRE
 	department_flag = PEASANTS
 	faction = "Station"
-	total_positions = 0
-	spawn_positions = 0 // do not re-enable ogre until somebody actually fully finished them and they're not just monstrous 
-	allowed_races = list()
+	total_positions = 2
+	spawn_positions = 2
+	allowed_races = OGRE_RACE_TYPES
 	allowed_sexes = list(MALE, FEMALE)
 	tutorial = "You are a migrating ogre from Gronn or another province of the world. Only recently have ogres begun to find their way into this region, and it smells of opportunity and a good meal. From Grenzelhoft to Naledi, all know the value of an ogre, and to fear a hungry one even more"
 	display_order = JDO_OGRE
@@ -42,4 +44,4 @@
 		/datum/advclass/ogre/mercenary,
 		/datum/advclass/ogre/warlord
 	)
-*/
+
