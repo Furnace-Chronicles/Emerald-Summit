@@ -11,15 +11,7 @@
 	)
 
 /datum/round_event/migrant_wave/gnolls/start()
-	var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")
-	gnoll_job.total_positions = min(gnoll_job.total_positions + 2, 6)
-	gnoll_job.spawn_positions = min(gnoll_job.spawn_positions + 2, 6)
-	if(SSgnoll_scaling)
-		SSgnoll_scaling.note_external_slot_adjustment(gnoll_job.total_positions, gnoll_job.spawn_positions)
-	if(gnoll_job.total_positions < 6) // Not at max capacity, increasing goal.
-		// Upstream SSrole_class_handler.assassins_in_round var absent in ES — flag set stripped.
-		for(var/mob/dead/new_player/player as anything in GLOB.new_player_list)
-			if(!player.client)
-				continue
-
-			to_chat(player, span_danger("Graggar demands blood, gnolls flock to Azuria."))
+	. = ..()
+	var/datum/migrant_wave/wave = MIGRANT_WAVE(wave_type)
+	if(wave)
+		wave.announce_wave()

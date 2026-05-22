@@ -45,3 +45,12 @@
 	name = "Gnoll"
 	antag_datum = /datum/antagonist/gnoll
 	advclass_cat_rolls = list(CTAG_GNOLL = 20)
+
+/datum/migrant_role/gnoll/after_spawn(mob/living/carbon/human/character)
+	..()
+	if(!character)
+		return
+	// CTAG_GNOLL subclasses are race-locked to /datum/species/gnoll. The class handler
+	// runs immediately after this proc, so swap species here or it returns 0 options.
+	character.set_species(/datum/species/gnoll)
+	character.verbs |= /mob/living/carbon/human/proc/gnoll_inspect_skin
