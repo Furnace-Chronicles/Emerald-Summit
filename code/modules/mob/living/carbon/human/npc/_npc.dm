@@ -324,6 +324,10 @@
 /// progress along an existing path or cancel it
 /// returns # of steps taken
 /mob/living/carbon/human/proc/move_along_path()
+	// EXPERIMENT: damage-triggered updatehealth() ultimately calls update_movespeed() which
+	// is what "fixes" the fast-animation glitch. If pre-damage state has stale glide/cache
+	// from spawn, forcing update_movespeed here should reproduce the post-damage smoothness.
+	update_movespeed(FALSE)
 	if(!length(myPath))
 		// no path, quit early
 		NPC_THINK("Tried to move along a nonexistent path?!")
@@ -543,6 +547,11 @@
 			if(world.time >= next_seek)
 				NPC_THINK("Seeking for targets...")
 				next_seek = world.time + 3 SECONDS
+				// Two-pass search: player-controlled mobs first, NPCs/critters as fallback.
+				// Prevents ambushers from locking onto nearby saigas/wildlife when a real
+				// player is also in view.
+				var/mob/living/player_target
+				var/mob/living/fallback_target
 				// If we search for targets above, we need to do this twice.
 				// Yes, this is kind of terrible, but it works(?). If it's enabled we do it a second time with is_checking_above = TRUE.
 				for(var/is_checking_above in FALSE to find_targets_above)
@@ -555,11 +564,19 @@
 							break // don't check above, we can't see through that turf
 					for(var/mob/living/L in view(7, search_location)) // scan for enemies
 						if(should_target(L))
-							retaliate(L)
+							if(L.client)
+								if(!player_target || get_dist(src, L) < get_dist(src, player_target))
+									player_target = L
+							else if(!player_target && (!fallback_target || get_dist(src, L) < get_dist(src, fallback_target)))
+								fallback_target = L
 						// don't detect sneaking enemies if you're looking above you
 						if (!is_checking_above && world.time >= next_passive_detect && L.alpha == 0 && L.rogue_sneaking && prob(STAPER / 2))
 							if (!npc_detect_sneak(L, -20)) // attempt a passive detect with 20% increased difficulty
 								next_passive_detect = world.time + STAPER SECONDS
+				if(player_target)
+					retaliate(player_target)
+				else if(fallback_target)
+					retaliate(fallback_target)
 
 		if(NPC_AI_HUNT)		// hunting for attacker
 			// basic behavior chain: targeting > fleeing > picking up a weapon > attacking
