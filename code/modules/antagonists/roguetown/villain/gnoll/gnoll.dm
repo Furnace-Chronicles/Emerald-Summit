@@ -13,7 +13,7 @@
 	sewrepair = FALSE
 	max_integrity = 475
 	item_flags = DROPDEL
-	// Upstream repair_time / interrupt_damount armor vars absent in ES — stripped.
+	repair_time = 14 SECONDS
 
 /datum/antagonist/gnoll
 	name = "Gnoll"

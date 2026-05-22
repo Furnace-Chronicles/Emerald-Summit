@@ -37,4 +37,4 @@
 	icon_state = "knight"
 	max_integrity = 800
 	armor = ARMOR_GNOLL_STRONG
-	// Upstream repair_time armor var absent in ES — stripped (would have been 32 SECONDS).
+	repair_time = 32 SECONDS
