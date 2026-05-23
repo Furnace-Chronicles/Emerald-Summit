@@ -486,6 +486,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["gnoll_descriptor_expression"]	>> gnoll_prefs.descriptor_expression
 	if(!ispath(gnoll_prefs.descriptor_expression, /datum/mob_descriptor/face_exp/gnoll))
 		gnoll_prefs.descriptor_expression = /datum/mob_descriptor/face_exp/gnoll/alert
+	S["gnoll_flavortext"]				>> gnoll_prefs.gnoll_flavortext
+	S["gnoll_flavortext_display"]		>> gnoll_prefs.gnoll_flavortext_display
+	S["gnoll_ooc_notes"]				>> gnoll_prefs.gnoll_ooc_notes
+	S["gnoll_ooc_notes_display"]		>> gnoll_prefs.gnoll_ooc_notes_display
 
 /datum/preferences/proc/load_character(slot)
 	if(!path)
@@ -831,6 +835,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["gnoll_descriptor_voice"] , gnoll_prefs?.descriptor_voice)
 	WRITE_FILE(S["gnoll_descriptor_muzzle"] , gnoll_prefs?.descriptor_muzzle)
 	WRITE_FILE(S["gnoll_descriptor_expression"] , gnoll_prefs?.descriptor_expression)
+	WRITE_FILE(S["gnoll_flavortext"] , gnoll_prefs?.gnoll_flavortext)
+	WRITE_FILE(S["gnoll_flavortext_display"] , gnoll_prefs?.gnoll_flavortext_display)
+	WRITE_FILE(S["gnoll_ooc_notes"] , gnoll_prefs?.gnoll_ooc_notes)
+	WRITE_FILE(S["gnoll_ooc_notes_display"] , gnoll_prefs?.gnoll_ooc_notes_display)
 
 	return TRUE
 

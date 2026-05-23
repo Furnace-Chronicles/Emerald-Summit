@@ -14,6 +14,13 @@
 	var/descriptor_muzzle     = /datum/mob_descriptor/face/gnoll/long_muzzle
 	var/descriptor_expression = /datum/mob_descriptor/face_exp/gnoll/alert
 
+	/// Gnoll-specific flavor text (overrides player's normal flavor when in gnoll form).
+	var/gnoll_flavortext
+	var/gnoll_flavortext_display
+	/// Gnoll-specific OOC notes (overrides player's normal OOC notes when in gnoll form).
+	var/gnoll_ooc_notes
+	var/gnoll_ooc_notes_display
+
 /datum/gnoll_prefs/New()
 	. = ..()
 	ensure_gnoll_name()
@@ -260,6 +267,26 @@
 	dat += "<a href='?_src_=gnoll_prefs;action=choose_descriptor;slot=expression'>[expression_label]</a>"
 	dat += "<br><br>"
 
+	// Flavor text section — separate from player's normal flavor, applied when in gnoll form.
+	dat += "<b>Gnoll Flavor Text:</b> "
+	dat += "<a href='?_src_=gnoll_prefs;action=set_flavortext'>Change</a>"
+	if(gnoll_flavortext)
+		dat += " <a href='?_src_=gnoll_prefs;action=clear_flavortext'>Clear</a>"
+		dat += "<br><div style='border:1px solid #555; padding:4px; max-height:80px; overflow-y:auto;'>[gnoll_flavortext_display]</div>"
+	else
+		dat += " <i>(none set — your normal flavor text will be used)</i>"
+	dat += "<br><br>"
+
+	// OOC notes section — same idea.
+	dat += "<b>Gnoll OOC Notes:</b> "
+	dat += "<a href='?_src_=gnoll_prefs;action=set_ooc_notes'>Change</a>"
+	if(gnoll_ooc_notes)
+		dat += " <a href='?_src_=gnoll_prefs;action=clear_ooc_notes'>Clear</a>"
+		dat += "<br><div style='border:1px solid #555; padding:4px; max-height:80px; overflow-y:auto;'>[gnoll_ooc_notes_display]</div>"
+	else
+		dat += " <i>(none set — your normal OOC notes will be used)</i>"
+	dat += "<br><br>"
+
 	dat += "<center><a href='?_src_=gnoll_prefs;action=close'>Close</a></center>"
 	dat += "</body></html>"
 
@@ -430,6 +457,49 @@
 					)
 					if(new_type in valid_expression)
 						descriptor_expression = new_type
+			gnoll_show_ui(user)
+
+		if("set_flavortext")
+			to_chat(user, "<span class='notice'><b>Flavortext should not include nonphysical nonsensory attributes such as backstory or internal thoughts.</b></span>")
+			var/new_flavortext = input(user, "Input your gnoll character description:", "Gnoll Flavor Text", gnoll_flavortext) as message|null
+			if(new_flavortext == null)
+				return
+			if(new_flavortext == "")
+				gnoll_flavortext = null
+				gnoll_flavortext_display = null
+			else
+				gnoll_flavortext = new_flavortext
+				var/ft = html_encode(parsemarkdown_basic(gnoll_flavortext))
+				ft = replacetext(ft, "\n", "<BR>")
+				gnoll_flavortext_display = ft
+				to_chat(user, "<span class='notice'>Gnoll flavor text updated.</span>")
+				log_game("[user] has set their gnoll flavor text.")
+			gnoll_show_ui(user)
+
+		if("clear_flavortext")
+			gnoll_flavortext = null
+			gnoll_flavortext_display = null
+			gnoll_show_ui(user)
+
+		if("set_ooc_notes")
+			var/new_ooc_notes = input(user, "Input your gnoll OOC preferences:", "Gnoll OOC Notes", gnoll_ooc_notes) as message|null
+			if(new_ooc_notes == null)
+				return
+			if(new_ooc_notes == "")
+				gnoll_ooc_notes = null
+				gnoll_ooc_notes_display = null
+			else
+				gnoll_ooc_notes = new_ooc_notes
+				var/ooc = html_encode(parsemarkdown_basic(gnoll_ooc_notes))
+				ooc = replacetext(ooc, "\n", "<BR>")
+				gnoll_ooc_notes_display = ooc
+				to_chat(user, "<span class='notice'>Gnoll OOC notes updated.</span>")
+				log_game("[user] has set their gnoll OOC notes.")
+			gnoll_show_ui(user)
+
+		if("clear_ooc_notes")
+			gnoll_ooc_notes = null
+			gnoll_ooc_notes_display = null
 			gnoll_show_ui(user)
 
 		if("close")

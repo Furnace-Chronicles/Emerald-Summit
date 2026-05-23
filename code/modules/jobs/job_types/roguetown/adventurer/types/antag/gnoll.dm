@@ -68,6 +68,22 @@
 	rumour = null
 	// Upstream noble_gossip var absent in ES — wipe stripped.
 
+	// Swap the character's flavor text + OOC notes to the gnoll-specific ones if the
+	// player has set them; otherwise blank them out so the human-character text doesn't
+	// bleed through onto a gnoll examine.
+	if(client?.prefs?.gnoll_prefs?.gnoll_flavortext)
+		flavortext = client.prefs.gnoll_prefs.gnoll_flavortext
+		flavortext_display = client.prefs.gnoll_prefs.gnoll_flavortext_display
+	else
+		flavortext = null
+		flavortext_display = null
+	if(client?.prefs?.gnoll_prefs?.gnoll_ooc_notes)
+		ooc_notes = client.prefs.gnoll_prefs.gnoll_ooc_notes
+		ooc_notes_display = client.prefs.gnoll_prefs.gnoll_ooc_notes_display
+	else
+		ooc_notes = null
+		ooc_notes_display = null
+
 	if(status_traits)
 		for(var/trait in status_traits.Copy())
 			if(HAS_TRAIT_FROM(src, trait, TRAIT_VIRTUE))

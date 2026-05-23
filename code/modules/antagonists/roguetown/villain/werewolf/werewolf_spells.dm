@@ -90,12 +90,15 @@
 	l = user.get_active_held_item()
 	r = user.get_inactive_held_item()
 	if(extended)
-		if(istype(user.get_active_held_item(), claw_type))
+		// Check each hand independently — without this guard, retracting claws when one
+		// hand has been replaced by a weapon/item qdels the non-claw item.
+		if(istype(l, claw_type))
 			user.dropItemToGround(l, TRUE)
-			user.dropItemToGround(r, TRUE)
 			qdel(l)
+		if(istype(r, claw_type))
+			user.dropItemToGround(r, TRUE)
 			qdel(r)
-			extended = FALSE
+		extended = FALSE
 	else
 		l = new left_claw_path(user, 1)
 		r = new right_claw_path(user, 2)
