@@ -17339,13 +17339,7 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/beach)
 "eup" = (
-/obj/structure/table/wood/long_table,
-/obj/item/paper,
-/obj/item/paper{
-	pixel_x = 4;
-	pixel_y = 4
-	},
-/obj/item/natural/feather,
+/obj/structure/table/wood/long_table/mid/alt,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/town)
 "eur" = (
@@ -44192,6 +44186,10 @@
 /obj/structure/fermentation_keg/water,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town)
+"ljD" = (
+/obj/machinery/light/rogue/wallfire/inn,
+/turf/closed/wall/mineral/rogue/craftstone,
+/area/rogue/indoors/town/tavern)
 "ljE" = (
 /obj/machinery/anvil,
 /obj/item/rogueweapon/tongs,
@@ -52848,6 +52846,11 @@
 	},
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/inq/basement)
+"nqL" = (
+/obj/structure/chair/wood/rogue/chair3,
+/obj/effect/landmark/start/guild_clerk,
+/turf/open/floor/carpet/red,
+/area/rogue/indoors/town)
 "nqN" = (
 /obj/machinery/light/rogue/torchholder/lanternpost{
 	dir = 1
@@ -59561,11 +59564,9 @@
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
 "pfB" = (
-/obj/structure/chair/wood/rogue/chair3,
 /obj/structure/fluff/walldeco/sparrowflag{
 	pixel_y = 32
 	},
-/obj/effect/landmark/start/mercenary,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/town)
 "pfG" = (
@@ -61330,6 +61331,7 @@
 /obj/effect/decal/wood/herringbone{
 	dir = 8
 	},
+/obj/structure/roguemachine/bounty,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "pBu" = (
@@ -75175,10 +75177,6 @@
 /obj/machinery/light/rogue/campfire/densefire,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/town)
-"ljD" = (
-/obj/machinery/light/rogue/wallfire/inn,
-/turf/closed/wall/mineral/rogue/craftstone,
-/area/rogue/indoors/town/tavern)
 "taS" = (
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/town/tavern)
@@ -91641,6 +91639,18 @@
 	},
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/rtfield/eora)
+"wWI" = (
+/obj/effect/decal/wood/herringbone{
+	dir = 8
+	},
+/obj/structure/mineral_door/swing_door{
+	keylock = 1;
+	locked = 1;
+	lockid = "merc";
+	name = "Clerk's Office"
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town)
 "wWM" = (
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
@@ -93334,6 +93344,15 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/gen/random,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/under/cavewet/bogcaves/sunkencity)
+"xsu" = (
+/obj/structure/table/wood/long_table,
+/obj/item/paper{
+	pixel_x = 4;
+	pixel_y = 4
+	},
+/obj/item/natural/feather,
+/turf/open/floor/carpet/red,
+/area/rogue/indoors/town)
 "xsx" = (
 /obj/item/ash,
 /obj/effect/decal/cleanable/dirt/dust,
@@ -277967,9 +277986,9 @@ qJA
 qJA
 qyR
 guo
-guo
 pBq
 kvk
+wWI
 xNs
 uky
 cBs
@@ -278421,7 +278440,7 @@ qyR
 guo
 oto
 xWk
-xWk
+xsu
 dra
 dra
 dra
@@ -278872,7 +278891,7 @@ pWT
 qyR
 guo
 aSY
-xWk
+nqL
 eup
 dra
 dra
