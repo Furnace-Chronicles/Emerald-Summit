@@ -162,6 +162,7 @@
 	var/list/seen_types = list()
 	var/list/rows = list()
 	var/total_income = 0
+	var/total_value = 0
 	for(var/turf/open/floor/rogue/churchbrick/bathbrick in RANGE_TURFS(5, src))
 		for(var/obj/item/I in bathbrick.contents)
 			if(!isturf(I.loc))
@@ -170,18 +171,21 @@
 			if(contribution)
 				rows += list(contribution)
 				total_income += contribution["income"]
+				total_value += contribution["value"]
 		for(var/obj/structure/closet/closet in bathbrick.contents)
 			for(var/obj/item/I in closet)
 				var/contribution = _vault_entry(I, seen_types)
 				if(contribution)
 					rows += list(contribution)
 					total_income += contribution["income"]
+					total_value += contribution["value"]
 
 	var/next_tick_s = max(0, round((SSBMtreasury.next_treasury_check - world.time) / 10))
 
 	var/contents = "<center><b>BRASSFACE Vault</b></center><BR>"
 	contents += "<b>Vault balance:</b> [budget]<BR>"
 	contents += "<b>Items in vault:</b> [rows.len]<BR>"
+	contents += "<b>Total value:</b> [total_value] mammons<BR>"
 	contents += "<b>Estimated income:</b> +[total_income] mammons/tick<BR>"
 	contents += "<b>Next tick in:</b> [next_tick_s]s<BR>"
 	contents += "<HR>"
@@ -247,6 +251,7 @@
 	var/list/seen_types = list()
 	var/list/items_data = list()
 	var/total_income = 0
+	var/total_value = 0
 
 	for(var/turf/open/floor/rogue/churchbrick/bathbrick in RANGE_TURFS(5, src))
 		for(var/obj/item/I in bathbrick.contents)
@@ -256,15 +261,18 @@
 			if(contribution)
 				items_data += list(contribution)
 				total_income += contribution["income"]
+				total_value += contribution["value"]
 		for(var/obj/structure/closet/closet in bathbrick.contents)
 			for(var/obj/item/I in closet)
 				var/contribution = _vault_entry(I, seen_types)
 				if(contribution)
 					items_data += list(contribution)
 					total_income += contribution["income"]
+					total_value += contribution["value"]
 
 	data["appraised_items"] = items_data
 	data["total_income"] = total_income
+	data["total_value"] = total_value
 	return data
 
 /obj/structure/roguemachine/bathvend/ui_act(action, list/params, datum/tgui/ui)

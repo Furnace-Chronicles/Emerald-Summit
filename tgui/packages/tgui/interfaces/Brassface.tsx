@@ -41,6 +41,7 @@ type Data = {
   packs: Pack[];
   appraised_items: VaultItem[];
   total_income: number;
+  total_value: number;
 };
 
 export const Brassface = (props) => {
@@ -52,6 +53,7 @@ export const Brassface = (props) => {
     packs = [],
     appraised_items = [],
     total_income,
+    total_value,
     next_tick_in,
     tax_enabled,
   } = data;
@@ -126,6 +128,7 @@ export const Brassface = (props) => {
               <VaultTab
                 items={appraised_items}
                 total={total_income}
+                totalValue={total_value}
                 nextTickIn={next_tick_in}
               />
             )}
@@ -223,9 +226,10 @@ const ShopTab = (props: {
 const VaultTab = (props: {
   items: VaultItem[];
   total: number;
+  totalValue: number;
   nextTickIn: number;
 }) => {
-  const { items, total, nextTickIn } = props;
+  const { items, total, totalValue, nextTickIn } = props;
   return (
     <Stack vertical fill>
       <Stack.Item>
@@ -234,6 +238,9 @@ const VaultTab = (props: {
             <Stack.Item grow>
               <Box>
                 <b>Items in vault:</b> {items.length}
+              </Box>
+              <Box>
+                <b>Total value:</b> {totalValue} mammons
               </Box>
               <Box>
                 <b>Estimated income:</b> +{total} mammons/tick
