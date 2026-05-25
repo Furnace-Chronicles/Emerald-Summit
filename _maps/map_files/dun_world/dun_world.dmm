@@ -22176,6 +22176,11 @@
 	},
 /turf/open/floor/carpet/inn,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
+"fHr" = (
+/obj/effect/decal/cleanable/debris/woody,
+/obj/structure/table/wood/poor,
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/indoors)
 "fHu" = (
 /obj/structure/mineral_door/wood/deadbolt{
 	locked = 1
@@ -23250,6 +23255,13 @@
 /obj/structure/fluff/railing/border/north,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town)
+"fWG" = (
+/obj/structure/fluff/railing/border/west{
+	dir = 1
+	},
+/obj/structure/table/wood/poor,
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/indoors)
 "fWP" = (
 /obj/effect/decal/cleanable/blood,
 /obj/effect/decal/cleanable/blood/gibs/up,
@@ -44192,6 +44204,10 @@
 /obj/structure/fermentation_keg/water,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town)
+"ljD" = (
+/obj/machinery/light/rogue/wallfire/inn,
+/turf/closed/wall/mineral/rogue/craftstone,
+/area/rogue/indoors/town/tavern)
 "ljE" = (
 /obj/machinery/anvil,
 /obj/item/rogueweapon/tongs,
@@ -75175,10 +75191,6 @@
 /obj/machinery/light/rogue/campfire/densefire,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/town)
-"ljD" = (
-/obj/machinery/light/rogue/wallfire/inn,
-/turf/closed/wall/mineral/rogue/craftstone,
-/area/rogue/indoors/town/tavern)
 "taS" = (
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/town/tavern)
@@ -84640,6 +84652,13 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods)
+"vnz" = (
+/obj/structure/fluff/railing/border/west{
+	dir = 2
+	},
+/obj/structure/table/wood/poor,
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/indoors)
 "vnB" = (
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
@@ -154234,11 +154253,11 @@ eSj
 eSj
 eSj
 toJ
-toJ
-toJ
-toJ
-toJ
-bhJ
+sto
+sto
+sto
+sto
+sto
 seg
 toJ
 toJ
@@ -154685,12 +154704,12 @@ bhJ
 eSj
 eSj
 eSj
-bhJ
-toJ
-toJ
-toJ
-toJ
-bhJ
+sto
+sto
+sto
+sto
+sto
+sto
 seg
 toJ
 toJ
@@ -155137,12 +155156,12 @@ eSj
 eSj
 eSj
 toJ
-bhJ
-bhJ
-toJ
-toJ
-bhJ
-bhJ
+sto
+sto
+sto
+sto
+sto
+sto
 seg
 toJ
 toJ
@@ -155589,12 +155608,12 @@ eSj
 eSj
 toJ
 toJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-miF
+sto
+sto
+sto
+sto
+sto
+sto
 seg
 toJ
 eSj
@@ -156043,9 +156062,9 @@ toJ
 toJ
 toJ
 toJ
-bhJ
-bhJ
-bhJ
+sto
+sto
+sto
 sto
 xsa
 eSj
@@ -161472,8 +161491,8 @@ qmg
 bhJ
 bhJ
 bhJ
-eSj
-eSj
+toJ
+toJ
 bhJ
 bhJ
 bhJ
@@ -161924,8 +161943,8 @@ qmg
 qmg
 bhJ
 bhJ
-eSj
-eSj
+toJ
+toJ
 eSj
 eSj
 bhJ
@@ -162376,14 +162395,14 @@ bhJ
 qmg
 qmg
 bhJ
-eSj
-eSj
+toJ
+toJ
 miF
-eSj
-eSj
-eSj
-eSj
-eSj
+toJ
+toJ
+toJ
+toJ
+toJ
 eSj
 toJ
 toJ
@@ -162828,14 +162847,14 @@ bhJ
 qmg
 eSj
 eSj
-eSj
+toJ
 miF
 miF
-miF
-eSj
-eSj
-eSj
-eSj
+toJ
+toJ
+toJ
+toJ
+toJ
 eSj
 toJ
 toJ
@@ -163279,14 +163298,14 @@ bhJ
 eSj
 eSj
 miF
-eSj
-eSj
-eSj
+toJ
+toJ
+toJ
 miF
-eSj
-eSj
-eSj
-eSj
+toJ
+toJ
+toJ
+toJ
 toJ
 toJ
 toJ
@@ -163731,12 +163750,12 @@ eSj
 eSj
 miF
 eSj
-eSj
-eSj
-eSj
-eSj
-eSj
-bhJ
+toJ
+toJ
+toJ
+toJ
+toJ
+toJ
 toJ
 toJ
 toJ
@@ -175948,7 +175967,7 @@ tXb
 tXb
 bwv
 opA
-usj
+kOc
 pfz
 jZc
 pfz
@@ -176401,7 +176420,7 @@ tXb
 bwv
 oYl
 bwv
-usj
+kOc
 qfb
 pfz
 bwv
@@ -176852,10 +176871,10 @@ tXb
 tXb
 ika
 usj
-usj
+kOc
 pfz
 kOc
-mWd
+fHr
 usj
 usj
 ika
@@ -177305,9 +177324,9 @@ tXb
 bwv
 eqh
 riz
-nUN
-usj
-eqh
+fWG
+kOc
+vnz
 riz
 nUN
 bwv
