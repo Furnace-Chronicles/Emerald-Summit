@@ -232,53 +232,108 @@ export const FeaturesTab = (props) => {
             </Box>
           ) : (
             <Stack vertical>
-              {customizers.entries.map((c) => (
-                <Stack.Item key={c.customizer_type}>
-                  <Section title={c.name}>
-                    <Stack align="center" mb={1}>
-                      {!!c.allows_disabling && (
-                        <Stack.Item>
-                          <Button
-                            color={c.disabled ? 'bad' : 'good'}
-                            tooltip={c.disabled ? 'Disabled' : 'Enabled'}
-                            onClick={() =>
-                              act('customizer_toggle', {
-                                customizer_type: c.customizer_type,
-                              })
-                            }
-                          >
-                            {c.disabled ? 'Off' : 'On'}
-                          </Button>
+              {(() => {
+                // Group specific customizers into one row each; everything else
+                // stays full-width. If a species only has some of a group (e.g.
+                // Hair but no Facial Hair), the lone entry/entries still render
+                // together with the available group members.
+                const GROUPS: string[][] = [
+                  ['Hair', 'Facial Hair'],
+                  ['Eyes', 'Horns'],
+                  ['Penis', 'Testicles'],
+                  ['Breasts', 'Vagina'],
+                  ['Tail', 'Tail Feature'],
+                  ['Legwear', 'Underwear'],
+                  ['Accessory', 'Face Detail'],
+                  ['Snout', 'Hood', 'Frills'],
+                ];
+                const groupOf: Record<string, string[]> = {};
+                for (const group of GROUPS) {
+                  for (const name of group) {
+                    groupOf[name] = group;
+                  }
+                }
+                const rows: CustomizerEntry[][] = [];
+                const consumed = new Set<string>();
+                for (const c of customizers.entries) {
+                  if (consumed.has(c.customizer_type)) continue;
+                  const group = groupOf[c.name];
+                  if (group) {
+                    // Pull every available member of the group together, in the
+                    // order declared by GROUPS — keeps Snout/Hood/Frills stable
+                    // regardless of how the backend orders its entries list.
+                    const row: CustomizerEntry[] = [];
+                    for (const memberName of group) {
+                      const member = customizers.entries.find(
+                        (other) =>
+                          other.name === memberName &&
+                          !consumed.has(other.customizer_type),
+                      );
+                      if (member) {
+                        row.push(member);
+                        consumed.add(member.customizer_type);
+                      }
+                    }
+                    if (row.length > 0) rows.push(row);
+                  } else {
+                    rows.push([c]);
+                    consumed.add(c.customizer_type);
+                  }
+                }
+                return rows.map((row, idx) => (
+                  <Stack.Item key={idx}>
+                    <Stack>
+                      {row.map((c) => (
+                        <Stack.Item key={c.customizer_type} grow>
+                          <Section title={c.name}>
+                            <Stack align="center" mb={1}>
+                              {!!c.allows_disabling && (
+                                <Stack.Item>
+                                  <Button
+                                    color={c.disabled ? 'bad' : 'good'}
+                                    tooltip={c.disabled ? 'Disabled' : 'Enabled'}
+                                    onClick={() =>
+                                      act('customizer_toggle', {
+                                        customizer_type: c.customizer_type,
+                                      })
+                                    }
+                                  >
+                                    {c.disabled ? 'Off' : 'On'}
+                                  </Button>
+                                </Stack.Item>
+                              )}
+                              {!c.disabled &&
+                                !!c.has_multiple_choices &&
+                                c.choice_name !== c.name && (
+                                  <Stack.Item>
+                                    <Button
+                                      width="160px"
+                                      textAlign="center"
+                                      onClick={() =>
+                                        act('customizer_change_choice', {
+                                          customizer_type: c.customizer_type,
+                                        })
+                                      }
+                                    >
+                                      {c.choice_name}
+                                    </Button>
+                                  </Stack.Item>
+                                )}
+                            </Stack>
+                            {!c.disabled && c.pref_data.length > 0 && (
+                              <CustomizerPickerList
+                                customizerType={c.customizer_type}
+                                pickers={c.pref_data}
+                                act={act}
+                              />
+                            )}
+                          </Section>
                         </Stack.Item>
-                      )}
-                      {!c.disabled &&
-                        !!c.has_multiple_choices &&
-                        c.choice_name !== c.name && (
-                          <Stack.Item>
-                            <Button
-                              width="160px"
-                              textAlign="center"
-                              onClick={() =>
-                                act('customizer_change_choice', {
-                                  customizer_type: c.customizer_type,
-                                })
-                              }
-                            >
-                              {c.choice_name}
-                            </Button>
-                          </Stack.Item>
-                        )}
+                      ))}
                     </Stack>
-                    {!c.disabled && c.pref_data.length > 0 && (
-                      <CustomizerPickerList
-                        customizerType={c.customizer_type}
-                        pickers={c.pref_data}
-                        act={act}
-                      />
-                    )}
-                  </Section>
-                </Stack.Item>
-              ))}
+                  </Stack.Item>
+                ));
+              })()}
             </Stack>
           )}
         </Section>

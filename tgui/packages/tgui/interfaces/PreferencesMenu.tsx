@@ -287,7 +287,7 @@ const LobbySection = ({ lobby }: { lobby: LobbyData }) => {
       setDisplayDs((d) => Math.max(0, d - 10));
     }, 1000);
     return () => clearInterval(interval);
-  }, [lobby.timeleft_ds, lobby.is_pregame]);
+  }, [lobby.timeleft_ds, !!lobby.is_pregame]);
 
   let statusLine: string;
   let statusColor: string | undefined;
@@ -344,8 +344,14 @@ export const PreferencesMenu = (props) => {
     act('set_tab', { tab: nextTab });
   };
 
+  // Hide the title-bar close (X) button during pregame and any pre-round state.
+  // Players can only dismiss the window once the round is actually in progress —
+  // a latejoiner can close it then if they want, but otherwise this is the only
+  // lobby UI so closing it would strand them with no way back in.
+  const canClose = !!header?.is_round_in_progress;
+
   return (
-    <Window width={1400} height={820}>
+    <Window width={1400} height={820} canClose={canClose}>
       <Window.Content>
         <Stack fill>
           <Stack.Item width="280px">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Section, Stack, Table } from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
@@ -110,12 +110,67 @@ const PRIORITY_COLOR: Record<JobPriority, string> = {
   never: 'bad',
 };
 
+// Renders job.tutorial as actual HTML. Source is /datum/job.tutorial — server-side
+// data, not user input — so the HTML is safe to render directly. Falls back to a
+// plain message if the job has no tutorial defined.
+const JobTutorialView = ({
+  job,
+  onClose,
+}: {
+  job: JobEntry;
+  onClose: () => void;
+}) => (
+  <Section
+    title={job.display_name}
+    buttons={
+      <Button icon="arrow-left" onClick={onClose}>
+        Back to class list
+      </Button>
+    }
+  >
+    <Box mb={1} color="label">
+      <b>Slots:</b> {job.slots}
+      {!!job.rcp && (
+        <>
+          {' '}
+          | <b>RCP:</b> +{job.rcp}
+        </>
+      )}
+    </Box>
+    {job.tutorial ? (
+      <Box
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: job.tutorial }}
+      />
+    ) : (
+      <Box color="label" italic>
+        No tutorial is defined for this class.
+      </Box>
+    )}
+  </Section>
+);
+
 export const JobsTab = (props) => {
   const { act, data } = useBackend<Data>();
   const jobs = data.jobs;
+  const [tutorialJob, setTutorialJob] = useState<JobEntry | null>(null);
 
   if (!jobs || !jobs.loaded) {
     return <Box color="label">Job system not yet initialized.</Box>;
+  }
+
+  // If a row's name was clicked, swap the entire tab content for a tutorial
+  // view. The list refresh on poll never replaces this state — it sticks until
+  // the user hits Back. We do re-resolve from the latest data so slot counts
+  // etc. stay live.
+  if (tutorialJob) {
+    const fresh = jobs.jobs.find((j) => j.title === tutorialJob.title);
+    return (
+      <JobTutorialView
+        job={fresh || tutorialJob}
+        onClose={() => setTutorialJob(null)}
+      />
+    );
   }
 
   return (
@@ -151,8 +206,9 @@ export const JobsTab = (props) => {
             </Button>
           </Box>
           <Box mb={1} color="label" italic>
-            Click an available class&apos;s priority to raise it (left-click) or
-            right-click to lower it. Hover any class to read its tutorial.
+            Click a class name to read its tutorial. Click an available
+            class&apos;s priority to raise it (left-click) or right-click to
+            lower it.
           </Box>
           <Stack>
             {buildColumns(jobs.jobs).map((column, colIdx) => (
@@ -167,7 +223,11 @@ export const JobsTab = (props) => {
                           </Table.Cell>
                         </Table.Row>
                       )}
-                      <JobRow job={job} act={act} />
+                      <JobRow
+                        job={job}
+                        act={act}
+                        onShowTutorial={() => setTutorialJob(job)}
+                      />
                     </React.Fragment>
                   ))}
                 </Table>
@@ -183,11 +243,14 @@ export const JobsTab = (props) => {
 const JobRow = ({
   job,
   act,
+  onShowTutorial,
 }: {
   job: JobEntry;
   act: (action: string, payload?: object) => void;
+  onShowTutorial: () => void;
 }) => {
-  const tooltipText = `${job.tutorial}\nSlots: ${job.slots}${job.rcp ? ` | RCP: +${job.rcp}` : ''}`;
+  // Tooltip is a brief one-liner now; the full tutorial opens in a panel.
+  const tooltipText = `Slots: ${job.slots}${job.rcp ? ` | RCP: +${job.rcp}` : ''} — click for full tutorial`;
   return (
     <Table.Row>
       <Table.Cell collapsing>
@@ -195,7 +258,7 @@ const JobRow = ({
           tooltip={tooltipText}
           tooltipPosition="right"
           color="transparent"
-          onClick={() => act('show_job_tutorial', { role: job.title })}
+          onClick={onShowTutorial}
         >
           {job.display_name}
         </Button>

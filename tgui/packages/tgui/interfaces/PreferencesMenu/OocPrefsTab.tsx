@@ -2,6 +2,24 @@ import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
 
+type AdminOocData = {
+  hear_adminhelps: 0 | 1;
+  hear_prayers: 0 | 1;
+  announce_login: 0 | 1;
+  combohud_lighting: 0 | 1;
+  dead_chat_shown: 0 | 1;
+  radio_chatter_shown: 0 | 1;
+  prayers_shown: 0 | 1;
+  asaycolor: string;
+  allow_asaycolor: 0 | 1;
+  deadmin_always: 0 | 1;
+  deadmin_antag: 0 | 1;
+  deadmin_head: 0 | 1;
+  auto_deadmin_players: 0 | 1;
+  auto_deadmin_antagonists: 0 | 1;
+  auto_deadmin_heads: 0 | 1;
+};
+
 type OocPrefsData = {
   windowflashing: 0 | 1;
   hear_midis: 0 | 1;
@@ -10,6 +28,7 @@ type OocPrefsData = {
   unlock_content: 0 | 1;
   byond_publicity: 0 | 1;
   is_admin: 0 | 1;
+  admin?: AdminOocData;
 };
 
 type Data = {
@@ -59,14 +78,118 @@ export const OocPrefsTab = (props) => {
         </Section>
       </Stack.Item>
 
-      {!!op.is_admin && (
+      {!!op.is_admin && !!op.admin && (
         <Stack.Item>
           <Section title="Admin Settings">
-            <Box color="label" italic>
-              Admin-only toggles (Adminhelp Sounds, Prayer Sounds, Hide Dead
-              Chat, etc.) still live in the classic OOC Preferences tab. Open
-              the classic Game Preferences window to access them.
-            </Box>
+            <LabeledList>
+              <LabeledList.Item label="Adminhelp Sounds">
+                <Button onClick={() => act('admin_toggle_adminhelps')}>
+                  {op.admin.hear_adminhelps ? 'Enabled' : 'Disabled'}
+                </Button>
+              </LabeledList.Item>
+              <LabeledList.Item label="Prayer Sounds">
+                <Button onClick={() => act('admin_toggle_hear_prayers')}>
+                  {op.admin.hear_prayers ? 'Enabled' : 'Disabled'}
+                </Button>
+              </LabeledList.Item>
+              <LabeledList.Item label="Announce Login">
+                <Button onClick={() => act('admin_toggle_announce_login')}>
+                  {op.admin.announce_login ? 'Enabled' : 'Disabled'}
+                </Button>
+              </LabeledList.Item>
+              <LabeledList.Item label="Combo HUD Lighting">
+                <Button onClick={() => act('admin_toggle_combohud')}>
+                  {op.admin.combohud_lighting ? 'Full-bright' : 'No Change'}
+                </Button>
+              </LabeledList.Item>
+              <LabeledList.Item label="Hide Dead Chat">
+                <Button onClick={() => act('admin_toggle_dead_chat')}>
+                  {op.admin.dead_chat_shown ? 'Shown' : 'Hidden'}
+                </Button>
+              </LabeledList.Item>
+              <LabeledList.Item label="Hide Radio Messages">
+                <Button onClick={() => act('admin_toggle_radio_chatter')}>
+                  {op.admin.radio_chatter_shown ? 'Shown' : 'Hidden'}
+                </Button>
+              </LabeledList.Item>
+              <LabeledList.Item label="Hide Prayers">
+                <Button onClick={() => act('admin_toggle_prayers')}>
+                  {op.admin.prayers_shown ? 'Shown' : 'Hidden'}
+                </Button>
+              </LabeledList.Item>
+              {!!op.admin.allow_asaycolor && (
+                <LabeledList.Item label="ASAY Color">
+                  <Box
+                    inline
+                    width="32px"
+                    height="14px"
+                    backgroundColor={op.admin.asaycolor}
+                    style={{
+                      cursor: 'pointer',
+                      border: '1px solid #000',
+                      verticalAlign: 'middle',
+                    }}
+                    onClick={() => act('admin_set_asaycolor')}
+                  />
+                  <Button
+                    ml={1}
+                    onClick={() => act('admin_set_asaycolor')}
+                  >
+                    Change
+                  </Button>
+                </LabeledList.Item>
+              )}
+            </LabeledList>
+          </Section>
+        </Stack.Item>
+      )}
+
+      {!!op.is_admin && !!op.admin && (
+        <Stack.Item>
+          <Section title="Deadmin While Playing">
+            <LabeledList>
+              <LabeledList.Item label="Always Deadmin">
+                {op.admin.auto_deadmin_players ? (
+                  <Box color="bad" bold>
+                    FORCED
+                  </Box>
+                ) : (
+                  <Button onClick={() => act('admin_toggle_deadmin_always')}>
+                    {op.admin.deadmin_always ? 'Enabled' : 'Disabled'}
+                  </Button>
+                )}
+              </LabeledList.Item>
+              {!op.admin.auto_deadmin_players && !op.admin.deadmin_always && (
+                <>
+                  <LabeledList.Item label="As Antag">
+                    {op.admin.auto_deadmin_antagonists ? (
+                      <Box color="bad" bold>
+                        FORCED
+                      </Box>
+                    ) : (
+                      <Button
+                        onClick={() => act('admin_toggle_deadmin_antag')}
+                      >
+                        {op.admin.deadmin_antag ? 'Deadmin' : 'Keep Admin'}
+                      </Button>
+                    )}
+                  </LabeledList.Item>
+                  <LabeledList.Item label="As Command">
+                    {op.admin.auto_deadmin_heads ? (
+                      <Box color="bad" bold>
+                        FORCED
+                      </Box>
+                    ) : (
+                      <Button
+                        onClick={() => act('admin_toggle_deadmin_head')}
+                      >
+                        {op.admin.deadmin_head ? 'Deadmin' : 'Keep Admin'}
+                      </Button>
+                    )}
+                  </LabeledList.Item>
+                </>
+              )}
+            </LabeledList>
           </Section>
         </Stack.Item>
       )}

@@ -5,8 +5,6 @@
 /datum/preferences_menu
 	var/datum/preferences/prefs
 	var/active_tab = "identity"
-	/// Set TRUE while the lobby auto-refresh loop is running, so we don't double-start it.
-	var/lobby_refresh_active = FALSE
 
 /datum/preferences_menu/New(datum/preferences/owning_prefs)
 	. = ..()
@@ -28,25 +26,30 @@
 
 // Periodic push of lobby state (ready roster + countdown) while the window is open
 // and the round hasn't started. Polls every 2s — enough to feel responsive without
-// flooding the UI subsystem. Self-exits when no listener is left or the round begins.
+// flooding the UI subsystem. TIMER_UNIQUE | TIMER_OVERRIDE keeps repeated
+// ui_interact calls from stacking timers; SSticker auto-stops the loop once
+// the round begins.
 /datum/preferences_menu/proc/start_lobby_refresh()
-	if(lobby_refresh_active)
-		return
-	lobby_refresh_active = TRUE
-	addtimer(CALLBACK(src, PROC_REF(tick_lobby_refresh)), 2 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(tick_lobby_refresh)), 2 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 
 /datum/preferences_menu/proc/tick_lobby_refresh()
-	lobby_refresh_active = FALSE
 	if(!prefs)
 		return
 	// Only keep ticking while at least one client has the window open.
 	var/datum/tgui/open_ui = SStgui.get_open_ui(prefs.parent?.mob, src)
 	if(!open_ui)
 		return
+	// Round started and the player's mob is no longer a new_player — they were
+	// readied and got spawned in. Close the window so it doesn't linger over the
+	// game view. Unreadied players (still /mob/dead/new_player) keep the window
+	// for late-join / migration / observe controls.
+	if(SSticker.HasRoundStarted() && !isnewplayer(prefs.parent?.mob))
+		SStgui.close_uis(src)
+		return
 	SStgui.update_uis(src)
-	// Once the round starts, stop the loop — the lobby panel becomes static.
-	if(SSticker.current_state == GAME_STATE_PREGAME)
-		start_lobby_refresh()
+	// Keep ticking — countdown during pregame, ready-roster updates post-start
+	// for any late-joiners still in the lobby.
+	start_lobby_refresh()
 
 /datum/preferences_menu/proc/build_slot_options()
 	var/list/slots = list()
@@ -268,11 +271,16 @@
 					"can_move_down" = (i < total),
 				))
 		zone_entry["markings"] = markings_out
-		// "can_add" requires both: under the per-limb count cap AND at least one unused candidate.
-		var/list/remaining = all_candidates.Copy()
-		for(var/keyed_name in marking_list)
-			remaining -= keyed_name
-		zone_entry["can_add"] = (length(markings_out) < MAXIMUM_MARKINGS_PER_LIMB) && length(remaining) > 0
+		// marking_list_of_zone_for_species returns an assoc list (name → datum).
+		// Strip down to just the unused NAMES — React's Dropdown wants a plain
+		// string array.
+		var/list/available_names = list()
+		for(var/cand_name in all_candidates)
+			if(islist(marking_list) && (cand_name in marking_list))
+				continue
+			available_names += cand_name
+		zone_entry["can_add"] = (length(markings_out) < MAXIMUM_MARKINGS_PER_LIMB) && length(available_names) > 0
+		zone_entry["available"] = available_names
 		zones_out += list(zone_entry)
 	data["zones"] = zones_out
 	data["species_has_no_markings"] = !length(zones_out)
@@ -453,6 +461,26 @@
 	data["unlock_content"] = prefs.unlock_content
 	data["byond_publicity"] = !!(prefs.toggles & MEMBER_PUBLIC)
 	data["is_admin"] = !!user.client?.holder
+	if(user.client?.holder)
+		data["admin"] = list(
+			"hear_adminhelps" = !!(prefs.toggles & SOUND_ADMINHELP),
+			"hear_prayers" = !!(prefs.toggles & SOUND_PRAYERS),
+			"announce_login" = !!(prefs.toggles & ANNOUNCE_LOGIN),
+			"combohud_lighting" = !!(prefs.toggles & COMBOHUD_LIGHTING),
+			// chat_toggles flags are inverted in the classic UI — flag set means
+			// "shown". The React side shows the same wording for parity.
+			"dead_chat_shown" = !!(prefs.chat_toggles & CHAT_DEAD),
+			"radio_chatter_shown" = !!(prefs.chat_toggles & CHAT_RADIO),
+			"prayers_shown" = !!(prefs.chat_toggles & CHAT_PRAYER),
+			"asaycolor" = prefs.asaycolor || "#ff4500",
+			"allow_asaycolor" = CONFIG_GET(flag/allow_admin_asaycolor),
+			"deadmin_always" = !!(prefs.toggles & DEADMIN_ALWAYS),
+			"deadmin_antag" = !!(prefs.toggles & DEADMIN_ANTAGONIST),
+			"deadmin_head" = !!(prefs.toggles & DEADMIN_POSITION_HEAD),
+			"auto_deadmin_players" = CONFIG_GET(flag/auto_deadmin_players),
+			"auto_deadmin_antagonists" = CONFIG_GET(flag/auto_deadmin_antagonists),
+			"auto_deadmin_heads" = CONFIG_GET(flag/auto_deadmin_heads),
+		)
 	return data
 
 /datum/preferences_menu/proc/build_familiar_data(mob/user)
@@ -1181,6 +1209,58 @@
 				on_identity_change()
 			return TRUE
 
+		// Inline-dropdown variants of marking_add / marking_change. The React UI
+		// hands us the picked name directly, sparing the user a tgui_input_list
+		// popup. Backend still validates the name against the candidate pool.
+		if("marking_add_direct")
+			var/zone = params["zone"]
+			var/picked = params["name"]
+			if(!zone || !picked || !GLOB.body_markings_per_limb[zone])
+				return TRUE
+			var/list/possible = marking_list_of_zone_for_species(zone, prefs.pref_species)
+			if(prefs.body_markings?[zone])
+				if(length(prefs.body_markings[zone]) >= MAXIMUM_MARKINGS_PER_LIMB)
+					return TRUE
+				for(var/keyed_name in prefs.body_markings[zone])
+					possible -= keyed_name
+			if(!(picked in possible))
+				return TRUE
+			var/datum/body_marking/BD = GLOB.body_markings[picked]
+			if(!BD)
+				return TRUE
+			if(!prefs.body_markings[zone])
+				prefs.body_markings[zone] = list()
+			prefs.body_markings[zone][BD.name] = BD.get_default_color(prefs.features, prefs.pref_species)
+			on_identity_change()
+			return TRUE
+
+		if("marking_change_direct")
+			var/zone = params["zone"]
+			var/changing_name = params["from"]
+			var/picked = params["to"]
+			if(!zone || !changing_name || !picked)
+				return TRUE
+			var/list/possible = marking_list_of_zone_for_species(zone, prefs.pref_species)
+			if(prefs.body_markings?[zone])
+				for(var/keyed_name in prefs.body_markings[zone])
+					if(keyed_name == changing_name)
+						continue
+					possible -= keyed_name
+			if(!(picked in possible))
+				return TRUE
+			if(!prefs.body_markings[zone] || !prefs.body_markings[zone][changing_name])
+				return TRUE
+			var/held_index = LAZYFIND(prefs.body_markings[zone], changing_name)
+			var/datum/body_marking/BD = GLOB.body_markings[picked]
+			if(!BD)
+				return TRUE
+			var/marking_content = BD.get_default_color(prefs.features, prefs.pref_species)
+			prefs.body_markings[zone] -= changing_name
+			prefs.body_markings[zone].Insert(held_index, picked)
+			prefs.body_markings[zone][picked] = marking_content
+			on_identity_change()
+			return TRUE
+
 		if("marking_remove")
 			var/zone = params["zone"]
 			var/name = params["name"]
@@ -1352,7 +1432,7 @@
 			if(isnull(desiredfps))
 				return TRUE
 			prefs.clientfps = desiredfps
-			prefs.parent.fps = desiredfps
+			prefs.parent?.fps = desiredfps
 			on_identity_change()
 			return TRUE
 
@@ -1407,6 +1487,96 @@
 			if(prefs.unlock_content)
 				prefs.toggles ^= MEMBER_PUBLIC
 				on_identity_change()
+			return TRUE
+
+		// --- Admin OOC toggles. Each handler gates on user.client.holder so
+		// non-admins can't fire them by hand-crafting ui_act calls. ---
+
+		if("admin_toggle_adminhelps")
+			if(!user.client?.holder)
+				return TRUE
+			user.client.toggleadminhelpsound()
+			on_identity_change()
+			return TRUE
+
+		if("admin_toggle_hear_prayers")
+			if(!user.client?.holder)
+				return TRUE
+			user.client.toggle_prayer_sound()
+			on_identity_change()
+			return TRUE
+
+		if("admin_toggle_announce_login")
+			if(!user.client?.holder)
+				return TRUE
+			user.client.toggleannouncelogin()
+			on_identity_change()
+			return TRUE
+
+		if("admin_toggle_combohud")
+			if(!user.client?.holder)
+				return TRUE
+			prefs.toggles ^= COMBOHUD_LIGHTING
+			on_identity_change()
+			return TRUE
+
+		if("admin_toggle_dead_chat")
+			if(!user.client?.holder)
+				return TRUE
+			user.client.deadchat()
+			on_identity_change()
+			return TRUE
+
+		if("admin_toggle_radio_chatter")
+			if(!user.client?.holder)
+				return TRUE
+			user.client.toggle_hear_radio()
+			on_identity_change()
+			return TRUE
+
+		if("admin_toggle_prayers")
+			if(!user.client?.holder)
+				return TRUE
+			user.client.toggleprayers()
+			on_identity_change()
+			return TRUE
+
+		if("admin_set_asaycolor")
+			if(!user.client?.holder)
+				return TRUE
+			if(!CONFIG_GET(flag/allow_admin_asaycolor))
+				return TRUE
+			var/picked = color_pick_sanitized(user, "Choose your ASAY color:", "Game Preference", prefs.asaycolor)
+			if(picked)
+				prefs.asaycolor = picked
+				on_identity_change()
+			return TRUE
+
+		if("admin_toggle_deadmin_always")
+			if(!user.client?.holder)
+				return TRUE
+			if(CONFIG_GET(flag/auto_deadmin_players))
+				return TRUE
+			prefs.toggles ^= DEADMIN_ALWAYS
+			on_identity_change()
+			return TRUE
+
+		if("admin_toggle_deadmin_antag")
+			if(!user.client?.holder)
+				return TRUE
+			if(CONFIG_GET(flag/auto_deadmin_antagonists))
+				return TRUE
+			prefs.toggles ^= DEADMIN_ANTAGONIST
+			on_identity_change()
+			return TRUE
+
+		if("admin_toggle_deadmin_head")
+			if(!user.client?.holder)
+				return TRUE
+			if(CONFIG_GET(flag/auto_deadmin_heads))
+				return TRUE
+			prefs.toggles ^= DEADMIN_POSITION_HEAD
+			on_identity_change()
 			return TRUE
 
 		if("open_keybinds_editor")
@@ -1502,8 +1672,28 @@
 			var/mob/dead/new_player/np = user
 			if(!istype(np))
 				return TRUE
-			var/list/href_list = list("late_join" = "1")
-			np.Topic(null, href_list)
+			// Pre-flight: run the same eligibility checks the classic Topic handler
+			// would, since AttemptLateSpawn doesn't (those gates live in Topic
+			// itself). Refusal cases print to chat and return without opening the
+			// picker, matching classic UX.
+			if(!SSticker?.IsRoundInProgress())
+				to_chat(user, span_boldwarning("The game is starting. You cannot join yet."))
+				return TRUE
+			if(prefs.is_active_migrant())
+				to_chat(user, span_boldwarning("You are in the migrant queue."))
+				return TRUE
+			var/timetojoin = 5 MINUTES
+#ifdef ALLOWPLAY
+			timetojoin = 1 SECONDS
+#endif
+#ifdef TESTSERVER
+			timetojoin = 0
+#endif
+			if(SSticker.round_start_time && world.time < SSticker.round_start_time + timetojoin)
+				var/ttime = round((SSticker.round_start_time + timetojoin - world.time) / 10)
+				to_chat(user, span_warning("Late-joining is not yet possible. ([ttime])"))
+				return TRUE
+			np.open_late_join_choices()
 			return TRUE
 
 		if("save_character")
@@ -1520,10 +1710,20 @@
 			return TRUE
 
 		if("load_character")
+			if(!prefs.path)
+				to_chat(user, span_warning("Undo failed — no savefile available (guests can't save or load)."))
+				return TRUE
 			prefs.load_preferences()
-			prefs.load_character()
-			to_chat(user, span_notice("Character reloaded from disk."))
-			on_identity_change()
+			if(!prefs.load_character())
+				to_chat(user, span_warning("Undo failed — no saved data for slot [prefs.default_slot]."))
+				return TRUE
+			to_chat(user, span_notice("Reverted slot [prefs.default_slot] to last saved: [prefs.real_name]."))
+			// Refresh preview + UI WITHOUT calling on_identity_change — that would
+			// immediately save_character() back, undoing the undo for any in-memory
+			// state that didn't survive the disk round-trip.
+			refresh_preview(prefs.parent?.mob)
+			SStgui.update_uis(src)
+			update_static_data_for_all_viewers()
 			return TRUE
 
 		if("change_slot")

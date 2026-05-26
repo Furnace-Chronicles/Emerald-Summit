@@ -1,4 +1,4 @@
-import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
+import { Box, Button, Dropdown, LabeledList, Section, Stack } from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
 
@@ -76,6 +76,7 @@ type MarkingZone = {
   label: string;
   markings: MarkingEntry[];
   can_add: 0 | 1;
+  available: string[];
 };
 
 type MarkingsData = {
@@ -154,7 +155,18 @@ const MarkingsGrid = ({
           <Stack.Item key={rowIdx}>
             <Stack>
               {row.map((cell, colIdx) => (
-                <Stack.Item key={colIdx} grow={cell.grow} basis={0}>
+                <Stack.Item
+                  key={colIdx}
+                  grow={cell.grow}
+                  basis={0}
+                  // minWidth: 0 stops flex children from refusing to shrink
+                  // below their content's intrinsic width — without it,
+                  // dropdowns and long marking names push columns wider than
+                  // their share, producing the uneven layout where Chest
+                  // looked wider than the arm columns. overflow: hidden
+                  // backs that up by clipping any non-wrapping descendants.
+                  style={{ minWidth: 0, overflow: 'hidden' }}
+                >
                   {cell.key && zoneByKey.has(cell.key) ? (
                     <ZoneCard
                       zone={zoneByKey.get(cell.key)!}
@@ -178,77 +190,94 @@ const ZoneCard = ({
   zone: MarkingZone;
   act: (action: string, payload?: object) => void;
 }) => (
-  <Section
-    title={zone.label}
-    buttons={
-      !!zone.can_add && (
-        <Button
-          icon="plus"
-          onClick={() => act('marking_add', { zone: zone.key })}
-        >
-          Add
-        </Button>
-      )
-    }
-  >
+  <Section title={zone.label}>
     {zone.markings.length === 0 ? (
-      <Box color="label">No markings.</Box>
+      zone.available.length > 0 ? (
+        <Dropdown
+          fluid
+          menuWidth="200px"
+          selected={null}
+          displayText="+ Add marking…"
+          options={zone.available}
+          onSelected={(value) =>
+            act('marking_add_direct', { zone: zone.key, name: value })
+          }
+        />
+      ) : (
+        <Box color="label">No markings available.</Box>
+      )
     ) : (
-      <LabeledList>
+      <>
+        {!!zone.can_add && zone.available.length > 0 && (
+          <Box mb={1}>
+            <Dropdown
+              fluid
+              menuWidth="200px"
+              selected={null}
+              displayText="+ Add another marking…"
+              options={zone.available}
+              onSelected={(value) =>
+                act('marking_add_direct', { zone: zone.key, name: value })
+              }
+            />
+          </Box>
+        )}
+        {/* Per-marking block: name+swatch on top, optional Change Dropdown on
+            its own line (so it can claim the full column width without the
+            label competing), action buttons on the bottom. Stacks vertically
+            so narrow grid cells don't squeeze the dropdown text. */}
         {zone.markings.map((m) => (
-          <LabeledList.Item key={m.name} label={m.name}>
-            <Box
-              inline
-              width="32px"
-              height="14px"
-              backgroundColor={'#' + (m.color || 'ffffff')}
-              title={m.color ? '#' + m.color : '(unset)'}
-              style={{
-                cursor: 'pointer',
-                border: '1px solid #000',
-                verticalAlign: 'middle',
-              }}
-              onClick={() =>
-                act('marking_color', { zone: zone.key, name: m.name })
-              }
-            />
-            <Button
-              ml={1}
-              onClick={() =>
-                act('marking_change', { zone: zone.key, name: m.name })
-              }
-            >
-              Change
-            </Button>
-            <Button
-              ml={1}
-              icon="arrow-up"
-              disabled={!m.can_move_up}
-              tooltip="Move up"
-              onClick={() =>
-                act('marking_move_up', { zone: zone.key, name: m.name })
-              }
-            />
-            <Button
-              icon="arrow-down"
-              disabled={!m.can_move_down}
-              tooltip="Move down"
-              onClick={() =>
-                act('marking_move_down', { zone: zone.key, name: m.name })
-              }
-            />
-            <Button
-              ml={1}
-              icon="trash"
-              color="bad"
-              tooltip="Remove"
-              onClick={() =>
-                act('marking_remove', { zone: zone.key, name: m.name })
-              }
-            />
-          </LabeledList.Item>
+          <Box key={m.name} mb={1}>
+            <Box>
+              <b>{m.name}</b>
+              <Box
+                inline
+                ml={1}
+                width="32px"
+                height="14px"
+                backgroundColor={'#' + (m.color || 'ffffff')}
+                title={m.color ? '#' + m.color : '(unset)'}
+                style={{
+                  cursor: 'pointer',
+                  border: '1px solid #000',
+                  verticalAlign: 'middle',
+                }}
+                onClick={() =>
+                  act('marking_color', { zone: zone.key, name: m.name })
+                }
+              />
+            </Box>
+            {zone.available.length > 0 && (
+              <Box mt={0.5}>
+                <Dropdown
+                  fluid
+                  menuWidth="200px"
+                  selected={null}
+                  displayText="Change to…"
+                  options={zone.available}
+                  onSelected={(value) =>
+                    act('marking_change_direct', {
+                      zone: zone.key,
+                      from: m.name,
+                      to: value,
+                    })
+                  }
+                />
+              </Box>
+            )}
+            <Box mt={0.5}>
+              <Button
+                icon="trash"
+                color="bad"
+                tooltip="Remove"
+                onClick={() =>
+                  act('marking_remove', { zone: zone.key, name: m.name })
+                }
+              />
+            </Box>
+          </Box>
         ))}
-      </LabeledList>
+      </>
     )}
   </Section>
 );
@@ -288,9 +317,12 @@ export const IdentityTab = (props) => {
         </Stack.Item>
       )}
 
-      {/* Basics */}
+      {/* Basics — Identity + Family side-by-side when agevetted; Identity
+          stretches full-width otherwise. */}
       <Stack.Item>
-        <Section title="Identity">
+        <Stack>
+          <Stack.Item grow basis={0}>
+            <Section title="Identity">
           <LabeledList>
             <LabeledList.Item label="Name">
               {id.name_is_banned ? (
@@ -354,6 +386,52 @@ export const IdentityTab = (props) => {
             </LabeledList.Item>
           </LabeledList>
         </Section>
+          </Stack.Item>
+          {!!id.agevetted && (
+            <Stack.Item grow basis={0}>
+              <Section title="Family">
+                <LabeledList>
+                  <LabeledList.Item label="Family">
+                    <Button onClick={() => act('set_family')}>
+                      {id.family || 'None'}
+                    </Button>
+                  </LabeledList.Item>
+                  {id.family && id.family !== 'None' && (
+                    <LabeledList.Item
+                      label={
+                        id.family === 'Siblings'
+                          ? 'Preferred Parent'
+                          : 'Preferred Spouse'
+                      }
+                    >
+                      <Button onClick={() => act('set_setspouse')}>
+                        {id.setspouse || 'None'}
+                      </Button>
+                    </LabeledList.Item>
+                  )}
+                  {(id.family === 'Newlywed' || id.family === 'Parent') && (
+                    <>
+                      <LabeledList.Item label="Preferred Gender">
+                        <Button onClick={() => act('set_gender_choice')}>
+                          {id.gender_choice || 'Any Gender'}
+                        </Button>
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Restrict Species">
+                        <Button onClick={() => act('cycle_xenophobe')}>
+                          {id.xenophobe_pref === 1
+                            ? 'Race only'
+                            : id.xenophobe_pref === 2
+                              ? 'Subrace only'
+                              : 'Unrestricted'}
+                        </Button>
+                      </LabeledList.Item>
+                    </>
+                  )}
+                </LabeledList>
+              </Section>
+            </Stack.Item>
+          )}
+        </Stack>
       </Stack.Item>
 
       {/* Race / Origin */}
@@ -734,51 +812,6 @@ export const IdentityTab = (props) => {
         </Section>
       </Stack.Item>
 
-      {/* Family (only when agevetted) */}
-      {!!id.agevetted && (
-        <Stack.Item>
-          <Section title="Family">
-            <LabeledList>
-              <LabeledList.Item label="Family">
-                <Button onClick={() => act('set_family')}>
-                  {id.family || 'None'}
-                </Button>
-              </LabeledList.Item>
-              {id.family && id.family !== 'None' && (
-                <LabeledList.Item
-                  label={
-                    id.family === 'Siblings'
-                      ? 'Preferred Parent'
-                      : 'Preferred Spouse'
-                  }
-                >
-                  <Button onClick={() => act('set_setspouse')}>
-                    {id.setspouse || 'None'}
-                  </Button>
-                </LabeledList.Item>
-              )}
-              {(id.family === 'Newlywed' || id.family === 'Parent') && (
-                <>
-                  <LabeledList.Item label="Preferred Gender">
-                    <Button onClick={() => act('set_gender_choice')}>
-                      {id.gender_choice || 'Any Gender'}
-                    </Button>
-                  </LabeledList.Item>
-                  <LabeledList.Item label="Restrict Species">
-                    <Button onClick={() => act('cycle_xenophobe')}>
-                      {id.xenophobe_pref === 1
-                        ? 'Race only'
-                        : id.xenophobe_pref === 2
-                          ? 'Subrace only'
-                          : 'Unrestricted'}
-                    </Button>
-                  </LabeledList.Item>
-                </>
-              )}
-            </LabeledList>
-          </Section>
-        </Stack.Item>
-      )}
     </Stack>
   );
 };
