@@ -7,7 +7,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	//doohickeys for savefiles
 	var/path
 	var/default_slot = 1				//Holder so it doesn't default to slot 1, rather the last one used
-	var/max_save_slots = 40
+	var/max_save_slots = 10
 
 	//non-preference stuff
 	var/muted = 0
@@ -197,10 +197,16 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/datum/loadout_item/loadout
 	var/datum/loadout_item/loadout2
 	var/datum/loadout_item/loadout3
+	var/datum/loadout_item/loadout4
+	var/datum/loadout_item/loadout5
+	var/datum/loadout_item/loadout6
 
 	var/loadout_1_hex
 	var/loadout_2_hex
 	var/loadout_3_hex
+	var/loadout_4_hex
+	var/loadout_5_hex
+	var/loadout_6_hex
 
 	var/flavortext
 	var/flavortext_display
@@ -228,6 +234,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/list/culinary_preferences = list()
 
 	var/tgui_pref = TRUE
+	/// Lazy-init wrapper datum that hosts the TGUI character-creation window.
+	var/datum/preferences_menu/preferences_menu
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -243,8 +251,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		if(!IsGuestKey(C.key))
 			load_path(C.ckey)
 			unlock_content = C.IsByondMember()
-			if(unlock_content)
-				max_save_slots = 60
 	var/loaded_preferences_successfully = load_preferences()
 	if(loaded_preferences_successfully)
 		if(load_character())
@@ -328,6 +334,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	switch(current_tab)
 		if (0) // Character Settings#
 			used_title = "Character Sheet"
+
+			// TGUI Character Setup launcher — opens the new React window. Classic Character
+			// Sheet rendering stays below for side-by-side comparison.
+			dat += "<center><a style='display:inline-block; padding:10px 24px; margin:8px 0; background-color:#1a0808; border:1px solid #7b5353; color:#d4b0b0; font-size:1.1em; text-decoration:none;' href='?_src_=prefs;preference=preferences_menu;task=open'>&#x2730; Open Character Setup (TGUI) &#x2730;</a></center>"
 
 			// Top-level menu table
 			dat += "<table style='width: 100%; line-height: 20px;'>"
@@ -844,9 +854,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "</body>"
 
 
-	if(!IsGuestKey(user.key))
-		dat += "<a href='?_src_=prefs;preference=save'>Save</a><br>"
-		dat += "<a href='?_src_=prefs;preference=load'>Undo</a><br>"
+	dat += "<a href='?_src_=prefs;preference=save'>Save</a><br>"
+	dat += "<a href='?_src_=prefs;preference=load'>Undo</a><br>"
 
 	// well.... one empty slot here for something I suppose lol
 	dat += "<table width='100%'>"
@@ -1445,6 +1454,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 	else if(href_list["preference"] == "customizers")
 		ShowCustomizers(user)
+		return
+	else if(href_list["preference"] == "preferences_menu")
+		open_preferences_menu(user)
 		return
 	else if(href_list["preference"] == "triumph_buy_menu")
 		SStriumphs.startup_triumphs_menu(user.client)
