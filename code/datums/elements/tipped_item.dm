@@ -85,7 +85,10 @@
 	var/reagentlog2 = dipper.reagents
 	if(thrower)
 		log_combat(thrower, target, "poisoned (thrown)", addition="with [reagentlog2]")
-	dipper.reagents.trans_to(target, min(dipper.reagents.total_volume, TIPPED_REAGENT_ATTACK_VOLUME), transfered_by = thrower)
+	// Successful embed dumps the FULL remaining reagent into the target instead
+	// of the capped 3u melee transfer — landing the throw + sticking the blade
+	// is the high-risk play, so the payload reward matches.
+	dipper.reagents.trans_to(target, dipper.reagents.total_volume, transfered_by = thrower)
 
 /datum/element/tipped_item/proc/blocked_inject(obj/item/dipper, atom/target, mob/user, damagetype = BRUTE, def_zone = null)
 	if(isliving(target) && dipper.reagents.total_volume && prob(20)) // random chance of smearing our blade clean with their armor
