@@ -34,6 +34,22 @@
 	dat += "<br>Penis size: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=penis_size''>[find_key_by_value(GLOB.named_penis_sizes, penis_entry.penis_size)]</a>"
 	dat += "<br>Functional: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=functional''>[penis_entry.functional ? "YES" : "NO"]</a>"
 
+/datum/customizer_choice/organ/penis/get_pref_data(datum/preferences/prefs, datum/customizer_entry/entry)
+	. = ..()
+	var/datum/customizer_entry/organ/penis/penis_entry = entry
+	. += list(list(
+		"type" = "list_value",
+		"label" = "Penis size",
+		"text" = find_key_by_value(GLOB.named_penis_sizes, penis_entry.penis_size),
+		"task" = "penis_size",
+	))
+	. += list(list(
+		"type" = "toggle",
+		"label" = "Functional",
+		"text" = penis_entry.functional ? "YES" : "NO",
+		"task" = "functional",
+	))
+
 /datum/customizer_choice/organ/penis/handle_topic(mob/user, list/href_list, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()
 	var/datum/customizer_entry/organ/penis/penis_entry = entry
@@ -261,6 +277,23 @@
 		dat += "<br>Ball size: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=ball_size''>[find_key_by_value(GLOB.named_ball_sizes, testicles_entry.ball_size)]</a>"
 	dat += "<br>Virile: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=virile''>[testicles_entry.virility ? "Virile" : "Sterile"]</a>"
 
+/datum/customizer_choice/organ/testicles/get_pref_data(datum/preferences/prefs, datum/customizer_entry/entry)
+	. = ..()
+	var/datum/customizer_entry/organ/testicles/testicles_entry = entry
+	if(can_customize_size)
+		. += list(list(
+			"type" = "list_value",
+			"label" = "Ball size",
+			"text" = find_key_by_value(GLOB.named_ball_sizes, testicles_entry.ball_size),
+			"task" = "ball_size",
+		))
+	. += list(list(
+		"type" = "toggle",
+		"label" = "Virile",
+		"text" = testicles_entry.virility ? "Virile" : "Sterile",
+		"task" = "virile",
+	))
+
 /datum/customizer_choice/organ/testicles/handle_topic(mob/user, list/href_list, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()
 	var/datum/customizer_entry/organ/testicles/testicles_entry = entry
@@ -344,6 +377,22 @@
 	dat += "<br>Breast size: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=breast_size''>[find_key_by_value(GLOB.named_breast_sizes, breasts_entry.breast_size)]</a>"
 	dat += "<br>Lactation: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=lactating''>[breasts_entry.lactating ? "Enabled" : "Disabled"]</a>"
 
+/datum/customizer_choice/organ/breasts/get_pref_data(datum/preferences/prefs, datum/customizer_entry/entry)
+	. = ..()
+	var/datum/customizer_entry/organ/breasts/breasts_entry = entry
+	. += list(list(
+		"type" = "list_value",
+		"label" = "Breast size",
+		"text" = find_key_by_value(GLOB.named_breast_sizes, breasts_entry.breast_size),
+		"task" = "breast_size",
+	))
+	. += list(list(
+		"type" = "toggle",
+		"label" = "Lactation",
+		"text" = breasts_entry.lactating ? "Enabled" : "Disabled",
+		"task" = "lactating",
+	))
+
 /datum/customizer_choice/organ/breasts/handle_topic(mob/user, list/href_list, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()
 	var/datum/customizer_entry/organ/breasts/breasts_entry = entry
@@ -409,6 +458,16 @@
 	..()
 	var/datum/customizer_entry/organ/vagina/vagina_entry = entry
 	dat += "<br>Fertile: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=fertile''>[vagina_entry.fertility ? "Fertile" : "Sterile"]</a>"
+
+/datum/customizer_choice/organ/vagina/get_pref_data(datum/preferences/prefs, datum/customizer_entry/entry)
+	. = ..()
+	var/datum/customizer_entry/organ/vagina/vagina_entry = entry
+	. += list(list(
+		"type" = "toggle",
+		"label" = "Fertile",
+		"text" = vagina_entry.fertility ? "Fertile" : "Sterile",
+		"task" = "fertile",
+	))
 
 /datum/customizer_choice/organ/vagina/handle_topic(mob/user, list/href_list, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()

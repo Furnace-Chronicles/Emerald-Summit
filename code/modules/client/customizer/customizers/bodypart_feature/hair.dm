@@ -39,6 +39,46 @@
 		if(hair_entry.dye_gradient != /datum/hair_gradient/none)
 			dat += "<br>Dye Color: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=dye_gradient_color''><span class='color_holder_box' style='background-color:[hair_entry.dye_color]'></span></a>"
 
+/datum/customizer_choice/bodypart_feature/hair/get_pref_data(datum/preferences/prefs, datum/customizer_entry/entry)
+	. = ..()
+	var/datum/customizer_entry/hair/hair_entry = entry
+	. += list(list(
+		"type" = "color",
+		"label" = "Hair Color",
+		"color" = hair_entry.hair_color,
+		"task" = "hair_color",
+	))
+	if(allows_natural_gradient)
+		var/datum/hair_gradient/gradient = HAIR_GRADIENT(hair_entry.natural_gradient)
+		. += list(list(
+			"type" = "list_value",
+			"label" = "Natural Gradient",
+			"text" = gradient.name,
+			"task" = "natural_gradient",
+		))
+		if(hair_entry.natural_gradient != /datum/hair_gradient/none)
+			. += list(list(
+				"type" = "color",
+				"label" = "Natural Color",
+				"color" = hair_entry.natural_color,
+				"task" = "natural_gradient_color",
+			))
+	if(allows_dye_gradient)
+		var/datum/hair_gradient/gradient = HAIR_GRADIENT(hair_entry.dye_gradient)
+		. += list(list(
+			"type" = "list_value",
+			"label" = "Dye Gradient",
+			"text" = gradient.name,
+			"task" = "dye_gradient",
+		))
+		if(hair_entry.dye_gradient != /datum/hair_gradient/none)
+			. += list(list(
+				"type" = "color",
+				"label" = "Dye Color",
+				"color" = hair_entry.dye_color,
+				"task" = "dye_gradient_color",
+			))
+
 /datum/customizer_choice/bodypart_feature/hair/handle_topic(mob/user, list/href_list, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()
 	var/datum/customizer_entry/hair/hair_entry = entry
