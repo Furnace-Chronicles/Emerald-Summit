@@ -176,3 +176,43 @@ GLOBAL_LIST_INIT(magic_aspects_minor, init_magic_aspects(ASPECT_MINOR))
 	if(!owner || !S)
 		return
 	S.Grant(owner)
+
+// ---- Global bind/unbind helpers ----
+// Used by the debug verb and the Grimoire TGUI to bind/unbind aspects on a mind
+// through the standard /datum/magic_aspect API. Kept here (not in _debug.dm) so
+// non-debug callers can rely on them.
+
+/proc/_magi2_aspect_is_bound(datum/mind/target, aspect_path)
+	if(!istype(target) || !aspect_path)
+		return FALSE
+	// Have to instantiate to read fixed_spells: `initial(A.fixed_spells)` on a
+	// stored type-path variable doesn't reliably return the list contents in BYOND.
+	var/datum/magic_aspect/A = new aspect_path
+	. = FALSE
+	for(var/spell_path in A.fixed_spells)
+		for(var/datum/action/cooldown/spell/S in target.spell_list)
+			if(S.type == spell_path)
+				. = TRUE
+				break
+		if(.)
+			break
+	qdel(A)
+	return .
+
+/proc/_magi2_bind_aspect(datum/mind/target, aspect_path)
+	if(!istype(target) || !aspect_path)
+		return
+	var/datum/magic_aspect/A = new aspect_path
+	A.grant_spells(target)
+
+/proc/_magi2_unbind_aspect(datum/mind/target, aspect_path)
+	if(!istype(target) || !aspect_path)
+		return
+	var/datum/magic_aspect/A = new aspect_path
+	A.revoke_spells(target)
+
+/proc/_magi2_unbind_all(datum/mind/target)
+	if(!istype(target))
+		return
+	for(var/aspect_path in GLOB.magic_aspects_major + GLOB.magic_aspects_minor)
+		_magi2_unbind_aspect(target, aspect_path)

@@ -2729,6 +2729,7 @@
 #include "modular_azurepeak\code\modules\spells\magi2\spells\pyromancy\fire_curtain.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\spells\pyromancy\fireball.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\spells\pyromancy\spitfire.dm"
+#include "modular_azurepeak\code\modules\spells\magi2\grimoire.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\_debug.dm"
 #include "modular_azurepeak\code\modules\jobs\job_types\magician_magi2.dm"
 #include "modular_azurepeak\statpacks\agile.dm"

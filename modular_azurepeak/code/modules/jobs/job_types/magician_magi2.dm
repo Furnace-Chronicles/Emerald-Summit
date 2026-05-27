@@ -68,9 +68,12 @@
 	)
 
 // Inherits all equipment from /datum/outfit/job/magician/basic — we just bind the
-// Pyromancy aspect on top of the normal Court Magician gear.
+// Pyromancy aspect on top of the normal Court Magician gear and tuck a Tome of
+// Arcyne (the Grimoire) into the spawn backpack so the player can switch aspects
+// in-round without the admin debug verb.
 /datum/outfit/job/magician/basic/magi2/pre_equip(mob/living/carbon/human/H)
 	. = ..()
+	backpack_contents = (backpack_contents || list()) + list(/obj/item/book/magi2_grimoire)
 	if(H?.mind)
 		var/datum/magic_aspect/pyromancy/A = new
 		A.grant_spells(H.mind)
