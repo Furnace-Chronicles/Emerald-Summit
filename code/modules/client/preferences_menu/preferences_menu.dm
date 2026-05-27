@@ -4,7 +4,7 @@
 
 // One source of truth for the collapsed "Wanderer" family. Used by the lobby
 // snapshot's ready-by-job bucketing AND by Class Selection's category mapping.
-GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court Agent"))
+GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court Agent", "Bandit", "Gnoll", "Lunatic"))
 
 /datum/preferences_menu
 	var/datum/preferences/prefs
@@ -26,6 +26,13 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	/// window open; refreshed targeted-style on save_character so the dropdown
 	/// reflects the freshly saved name without resending the full static payload.
 	var/list/cached_slot_names
+	/// Job.title of the class whose full-details HTML the user requested via
+	/// the Class Selection tutorial view. Cleared when they leave the view.
+	var/active_class_explain_title
+	/// HTML payload shipped to the React side and rendered via
+	/// dangerouslySetInnerHTML directly below the tutorial blurb. Built by
+	/// /datum/job/proc/build_class_explain_html() on demand.
+	var/active_class_explain_html
 
 /datum/preferences_menu/New(datum/preferences/owning_prefs)
 	. = ..()
@@ -44,6 +51,22 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	// the pending save out so disk state matches what the user saw last.
 	preview_dirty = FALSE
 	flush_save()
+	// If a player at the main menu (still a new_player) closes the window
+	// after the round has started, force-reopen it after 2 seconds. They're
+	// likely a latejoiner who needs the panel to actually join the round —
+	// closing it would leave them with no UI to act on.
+	if(isnewplayer(user) && SSticker.HasRoundStarted())
+		addtimer(CALLBACK(src, PROC_REF(reopen_for_latejoiner), user), 2 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+
+/datum/preferences_menu/proc/reopen_for_latejoiner(mob/user)
+	// Re-validate at fire time — user may have spawned in or disconnected
+	// during the 2s grace window. Only reopen if they're still a new_player
+	// and we still have a live prefs link.
+	if(!prefs || !user || !user.client)
+		return
+	if(!isnewplayer(user))
+		return
+	ui_interact(user)
 
 /datum/preferences_menu/ui_state(mob/user)
 	return GLOB.always_state
@@ -962,6 +985,10 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 		var/list/entry = build_job_entry(user, job)
 		jobs_out += list(entry)
 	data["jobs"] = jobs_out
+	// On-demand class-detail payload — populated by show_class_explain ui_act,
+	// cleared by clear_class_explain. Empty when the user isn't viewing one.
+	data["class_explain_title"] = active_class_explain_title
+	data["class_explain_html"] = active_class_explain_html
 	return data
 
 /datum/preferences_menu/proc/build_job_entry(mob/user, datum/job/job)
@@ -1059,6 +1086,11 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 		category_cache = list()
 		// Order matches late_join_choices.dm omegalist ordering — that's the
 		// order the sections render in.
+		// Configured display order on Class Selection:
+		//   1 Nobles, 2 Courtiers, 3 Garrison, 4 Churchmen, 5 Inquisition,
+		//   6 Yeomen, 7 Peasants, 8 Sidefolk, 9 Mercenaries,
+		//   10 Other (any job not in any of these lists),
+		//   11 Wanderers (Adventurer/Wretch/Court Agent — separate spawn flow).
 		var/list/omegalist = list(
 			list("Nobles", GLOB.noble_positions),
 			list("Courtiers", GLOB.courtier_positions),
@@ -1067,11 +1099,8 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			list("Inquisition", GLOB.inquisition_positions),
 			list("Yeomen", GLOB.yeoman_positions),
 			list("Peasants", GLOB.peasant_positions),
-			list("Mercenaries", GLOB.mercenary_positions),
 			list("Sidefolk", GLOB.youngfolk_positions),
-			// Wanderers aren't in the late-join omegalist (they have their own
-			// spawn flow), but they appear in Class Selection and need a home.
-			list("Wanderers", GLOB.prefs_menu_wanderer_titles),
+			list("Mercenaries", GLOB.mercenary_positions),
 		)
 		var/order = 0
 		for(var/list/cat_entry in omegalist)
@@ -1084,10 +1113,27 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			var/cat_color = head ? head.selection_color : "#dbdce3"
 			for(var/title in positions)
 				category_cache[title] = list("name" = cat_name, "color" = cat_color, "order" = order)
+		// Garrison extras — jobs with department_flag = GARRISON that aren't in
+		// GLOB.garrison_positions (which drives late-join). Pinned here so they
+		// display under Garrison in Class Selection without affecting other
+		// systems that consume the GLOB list.
+		var/static/list/garrison_extra_titles = list("Veteran")
+		var/datum/job/garrison_head = length(GLOB.garrison_positions) ? SSjob.name_occupations[GLOB.garrison_positions[1]] : null
+		var/garrison_color = garrison_head ? garrison_head.selection_color : "#dbdce3"
+		for(var/title in garrison_extra_titles)
+			category_cache[title] = list("name" = "Garrison", "color" = garrison_color, "order" = 3)
+
+		// Wanderers — pinned to order 11 so "Other" (order 10) renders above it.
+		var/list/wanderer_titles = GLOB.prefs_menu_wanderer_titles
+		if(length(wanderer_titles))
+			var/datum/job/wanderer_head = SSjob.name_occupations[wanderer_titles[1]]
+			var/wanderer_color = wanderer_head ? wanderer_head.selection_color : "#dbdce3"
+			for(var/title in wanderer_titles)
+				category_cache[title] = list("name" = "Wanderers", "color" = wanderer_color, "order" = 11)
 	var/list/hit = category_cache[job.title]
 	if(hit)
 		return hit
-	return list("name" = "Other", "color" = "#dbdce3", "order" = 99)
+	return list("name" = "Other", "color" = "#dbdce3", "order" = 10)
 
 /// Compute the immutable per-session gate for a job (ban / playtime / account
 /// age / PQ floor / PQ ceiling). Returns a {state, state_text} list. Empty
@@ -2871,6 +2917,29 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			if(job.spawn_positions)
 				to_chat(user, "Slots: [job.spawn_positions][job.round_contrib_points ? " | RCP: +[job.round_contrib_points]" : ""]")
 			to_chat(user, span_info("* ----------------------- *"))
+			return TRUE
+
+		if("show_class_explain")
+			// Build the same HTML the classic /datum/job/Topic(explainjob)
+			// classhelp popup uses — subclass list with their stats / traits
+			// / skills / languages / spellpoints, class-level stats, stat
+			// ceilings, class traits — and stash it on the menu datum so
+			// JobsTab.tsx can render it inline via dangerouslySetInnerHTML
+			// directly below the tutorial blurb.
+			var/role = params["role"]
+			var/datum/job/job = SSjob.GetJob(role)
+			if(!job)
+				return TRUE
+			active_class_explain_title = job.title
+			active_class_explain_html = job.build_class_explain_html()
+			SStgui.update_uis(src)
+			return TRUE
+
+		if("clear_class_explain")
+			// User backed out of the tutorial view — drop the cached payload.
+			active_class_explain_title = null
+			active_class_explain_html = null
+			SStgui.update_uis(src)
 			return TRUE
 
 		if("check_job_ban")

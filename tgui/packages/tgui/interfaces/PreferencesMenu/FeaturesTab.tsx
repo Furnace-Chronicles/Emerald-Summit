@@ -1,7 +1,7 @@
 import {
   Box,
   Button,
-  Dropdown,
+  Dropdown as RawDropdown,
   LabeledList,
   Section,
   Stack,
@@ -10,6 +10,15 @@ import {
 import { useBackend } from '../../backend';
 import { BodySection } from './BodySection';
 import { MarkingsSection } from './MarkingsSection';
+
+// Wraps RawDropdown in an inline-Box constraint so the width prop actually
+// limits the dropdown — without this, the dropdown stretches to fill its
+// LabeledList.Item content cell instead of honoring its declared width.
+const Dropdown = (props: any) => (
+  <Box inline style={{ width: props.width }}>
+    <RawDropdown {...props} />
+  </Box>
+);
 
 type DescriptorEntry = {
   choice_type: string;
@@ -205,7 +214,6 @@ export const FeaturesTab = (props) => {
   const customizers = data.customizers;
 
   return (
-    <Box style={{ fontSize: '1.15em' }}>
     <Stack vertical>
       <Stack.Item>
         <Section title="Describe Myself">
@@ -422,6 +430,5 @@ export const FeaturesTab = (props) => {
         <MarkingsSection />
       </Stack.Item>
     </Stack>
-    </Box>
   );
 };

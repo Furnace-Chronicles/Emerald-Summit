@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Box, Button, Section, Stack, Table } from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
@@ -40,6 +40,8 @@ type JobsData = {
   triumphs: number;
   pq: number;
   jobs: JobEntry[];
+  class_explain_title?: string | null;
+  class_explain_html?: string | null;
 };
 
 type Data = {
@@ -75,12 +77,28 @@ const groupByCategory = (jobs: JobEntry[]): JobCategory[] => {
   return [...byName.values()].sort((a, b) => a.order - b.order);
 };
 
-// Three columns to mirror LateJoinChoices. Round-robin so column heights stay
-// roughly even regardless of category size.
-const layoutCategoryColumns = (cats: JobCategory[]): JobCategory[][] => {
+// Three columns with explicit order-range partitioning per user spec:
+//   Col 1: orders 1-3  (Nobles, Courtiers, Garrison)
+//   Col 2: orders 4-6  (Churchmen, Inquisition, Yeomen)
+//   Col 3: orders 7-11 (Peasants, Sidefolk, Mercenaries, Other, Wanderers)
+// Any category outside those ranges falls into Col 3 as a safety net.
+//
+// Returned as a row-major matrix so category headers align horizontally
+// across columns: matrix[rowIdx][colIdx]. Shorter columns pad with nulls
+// so the render can leave blank space for absent cells.
+const layoutCategoryRows = (cats: JobCategory[]): (JobCategory | null)[][] => {
   const cols: JobCategory[][] = [[], [], []];
-  cats.forEach((c, i) => cols[i % 3].push(c));
-  return cols;
+  for (const c of cats) {
+    if (c.order >= 1 && c.order <= 3) cols[0].push(c);
+    else if (c.order >= 4 && c.order <= 6) cols[1].push(c);
+    else cols[2].push(c);
+  }
+  const maxLen = Math.max(cols[0].length, cols[1].length, cols[2].length);
+  const rows: (JobCategory | null)[][] = [];
+  for (let i = 0; i < maxLen; i++) {
+    rows.push([cols[0][i] || null, cols[1][i] || null, cols[2][i] || null]);
+  }
+  return rows;
 };
 
 // Cycle helpers — match classic SetChoices' raise/lower semantics.
@@ -111,45 +129,89 @@ const PRIORITY_COLOR: Record<JobPriority, string> = {
   never: 'bad',
 };
 
+// Imperative innerHTML setter that only touches the DOM when the html string
+// actually changes. Needed because Inferno's dangerouslySetInnerHTML re-sets
+// innerHTML on every render, wiping any browser-managed state (e.g. the
+// <details open> attribute set when the user clicks a <summary>). After the
+// initial mount, subsequent ui_data polls re-render this component but the
+// useEffect guard keeps the DOM untouched as long as html is byte-identical.
+const PreservingHtml = ({ html }: { html: string }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const lastHtml = useRef<string>('');
+  useEffect(() => {
+    if (ref.current && lastHtml.current !== html) {
+      ref.current.innerHTML = html;
+      lastHtml.current = html;
+    }
+  }, [html]);
+  return <div ref={ref} />;
+};
+
 // Renders job.tutorial as actual HTML. Source is /datum/job.tutorial — server-side
 // data, not user input — so the HTML is safe to render directly. Falls back to a
 // plain message if the job has no tutorial defined.
 const JobTutorialView = ({
   job,
+  act,
+  explainHtml,
+  explainTitle,
   onClose,
 }: {
   job: JobEntry;
+  act: (action: string, payload?: object) => void;
+  explainHtml?: string | null;
+  explainTitle?: string | null;
   onClose: () => void;
-}) => (
-  <Section
-    title={job.display_name}
-    buttons={
-      <Button icon="arrow-left" onClick={onClose}>
-        Back to class list
-      </Button>
-    }
-  >
-    <Box mb={1} color="label">
-      <b>Slots:</b> {job.slots}
-      {!!job.rcp && (
-        <>
-          {' '}
-          | <b>RCP:</b> +{job.rcp}
-        </>
-      )}
-    </Box>
-    {job.tutorial ? (
-      <Box
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: job.tutorial }}
-      />
-    ) : (
-      <Box color="label" italic>
-        No tutorial is defined for this class.
+}) => {
+  // Auto-load full details on mount. Backend stashes the HTML for this job
+  // and ships it via ui_data; React's next poll picks it up. Clearing on
+  // unmount drops the cached payload so a different class's request doesn't
+  // see a stale title match.
+  useEffect(() => {
+    act('show_class_explain', { role: job.title });
+    return () => act('clear_class_explain');
+  }, [job.title]);
+  // Only render the payload when its title matches the open tutorial — the
+  // backend ships a single active_class_explain_* pair, so we have to gate
+  // on title to avoid showing stale data during the request round-trip.
+  const explainReady = !!explainHtml && explainTitle === job.title;
+  return (
+    <Section
+      title={job.display_name}
+      buttons={
+        <Button icon="arrow-left" onClick={onClose}>
+          Back to class list
+        </Button>
+      }
+    >
+      <Box mb={1} color="label">
+        <b>Slots:</b> {job.slots}
+        {!!job.rcp && (
+          <>
+            {' '}
+            | <b>RCP:</b> +{job.rcp}
+          </>
+        )}
       </Box>
-    )}
-  </Section>
-);
+      {job.tutorial ? (
+        <PreservingHtml html={job.tutorial} />
+      ) : (
+        <Box color="label" italic>
+          No tutorial is defined for this class.
+        </Box>
+      )}
+      {explainReady && (
+        <Box
+          mt={1}
+          pt={1}
+          style={{ borderTop: '1px solid #444' }}
+        >
+          <PreservingHtml html={explainHtml!} />
+        </Box>
+      )}
+    </Section>
+  );
+};
 
 export const JobsTab = (props) => {
   const { act, data } = useBackend<Data>();
@@ -169,6 +231,9 @@ export const JobsTab = (props) => {
     return (
       <JobTutorialView
         job={fresh || tutorialJob}
+        act={act}
+        explainHtml={jobs.class_explain_html}
+        explainTitle={jobs.class_explain_title}
         onClose={() => setTutorialJob(null)}
       />
     );
@@ -211,31 +276,55 @@ export const JobsTab = (props) => {
             class&apos;s priority to raise it (left-click) or right-click to
             lower it.
           </Box>
-          <Stack>
-            {layoutCategoryColumns(groupByCategory(jobs.jobs)).map(
-              (column, colIdx) => (
-                <Stack.Item key={colIdx} grow basis={0}>
-                  <Stack vertical>
-                    {column.map((cat) => (
-                      <Stack.Item key={cat.name}>
-                        <Section
-                          title={
-                            <Box inline bold style={{ color: cat.color }}>
-                              {cat.name}
-                            </Box>
-                          }
-                        >
-                          <Table>
-                            {cat.jobs.map((job) => (
-                              <JobRow
-                                key={job.title}
-                                job={job}
-                                act={act}
-                                onShowTutorial={() => setTutorialJob(job)}
-                              />
-                            ))}
-                          </Table>
-                        </Section>
+          <Stack vertical>
+            {layoutCategoryRows(groupByCategory(jobs.jobs)).map(
+              (row, rowIdx) => (
+                <Stack.Item key={rowIdx}>
+                  <Stack align="stretch">
+                    {row.map((cat, colIdx) => (
+                      <Stack.Item
+                        key={colIdx}
+                        grow
+                        basis={0}
+                        style={{ minWidth: 0 }}
+                      >
+                        {cat ? (
+                          /* Wrap in a bordered Box so the section border
+                             always reflects the Stack.Item's stretched
+                             height, not just the natural height of the
+                             Table inside. The Section sits unstyled inside
+                             so its title bar still gets the colored bottom
+                             rule. */
+                          <Box
+                            style={{
+                              border: '1px solid #1d1d1d',
+                              backgroundColor: '#0e0e0e',
+                              height: '100%',
+                              boxSizing: 'border-box',
+                            }}
+                          >
+                            <Section
+                              title={
+                                <Box inline bold style={{ color: cat.color }}>
+                                  {cat.name}
+                                </Box>
+                              }
+                            >
+                              <Table>
+                                {cat.jobs.map((job) => (
+                                  <JobRow
+                                    key={job.title}
+                                    job={job}
+                                    act={act}
+                                    onShowTutorial={() =>
+                                      setTutorialJob(job)
+                                    }
+                                  />
+                                ))}
+                              </Table>
+                            </Section>
+                          </Box>
+                        ) : null}
                       </Stack.Item>
                     ))}
                   </Stack>
@@ -273,7 +362,14 @@ const JobRow = ({
           {job.display_name}
         </Button>
       </Table.Cell>
-      <Table.Cell textAlign="right" style={{ width: '90px', minWidth: '90px' }}>
+      <Table.Cell
+        textAlign="right"
+        style={{
+          width: '180px',
+          minWidth: '180px',
+          whiteSpace: 'nowrap',
+        }}
+      >
         <JobRightCell job={job} act={act} />
       </Table.Cell>
     </Table.Row>

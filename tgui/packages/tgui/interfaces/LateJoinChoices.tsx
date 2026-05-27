@@ -11,6 +11,8 @@ type JobEntry = {
   prioritized: 0 | 1;
   command_bold: 0 | 1;
   has_subclass_info: 0 | 1;
+  available: 0 | 1;
+  unavailable_reason?: string | null;
 };
 
 type Category = {
@@ -71,6 +73,7 @@ const JobRow = ({
       {slotText}
     </>
   );
+  const unavailable = !job.available;
   return (
     <Stack mt={0.5} align="center">
       {!!job.has_subclass_info && (
@@ -91,10 +94,28 @@ const JobRow = ({
       <Stack.Item grow>
         <Button
           fluid
-          color={job.prioritized ? 'good' : undefined}
-          onClick={() => act('select_job', { job: job.title })}
+          disabled={unavailable}
+          color={
+            unavailable ? undefined : job.prioritized ? 'good' : undefined
+          }
+          tooltip={unavailable ? job.unavailable_reason || 'Unavailable' : undefined}
+          onClick={
+            unavailable
+              ? undefined
+              : () => act('select_job', { job: job.title })
+          }
         >
-          {nameText}
+          {unavailable ? (
+            <Box inline color="label">
+              {job.display_name}
+              {' '}
+              <Box inline italic color="bad">
+                — {job.unavailable_reason || 'Unavailable'}
+              </Box>
+            </Box>
+          ) : (
+            nameText
+          )}
         </Button>
       </Stack.Item>
     </Stack>
@@ -108,17 +129,29 @@ const CategoryColumn = ({
   category: Category;
   act: (a: string, p?: object) => void;
 }) => (
-  <Section
-    title={
-      <Box inline bold style={{ color: category.color }}>
-        {category.name}
-      </Box>
-    }
+  // Box wrap with fixed border + height: 100% so the bordered cell stretches
+  // to the row's max height (set by align="stretch" on the parent Stack).
+  // Section sits unstyled inside; its title bar still gets the colored rule.
+  <Box
+    style={{
+      border: '1px solid #1d1d1d',
+      backgroundColor: '#0e0e0e',
+      height: '100%',
+      boxSizing: 'border-box',
+    }}
   >
-    {category.jobs.map((job) => (
-      <JobRow key={job.title} job={job} act={act} />
-    ))}
-  </Section>
+    <Section
+      title={
+        <Box inline bold style={{ color: category.color }}>
+          {category.name}
+        </Box>
+      }
+    >
+      {category.jobs.map((job) => (
+        <JobRow key={job.title} job={job} act={act} />
+      ))}
+    </Section>
+  </Box>
 );
 
 export const LateJoinChoices = (props) => {
@@ -164,14 +197,28 @@ export const LateJoinChoices = (props) => {
     );
   }
 
-  // Lay out categories in a responsive 3-column grid. Classic LateChoices used
-  // 4 columns at 185px each (~740px); 3 here gives wider buttons that show the
-  // full job name at our font scale.
+  // Partition matches Class Selection's columns. Backend ships categories in
+  // configured display order (Nobles, Courtiers, Garrison, Churchmen,
+  // Inquisition, Yeomen, Peasants, Sidefolk, Mercenaries), so index ranges
+  // align with the Class Selection order ranges 1-3 / 4-6 / 7+.
+  //   Col 1: indices 0-2  (Nobles, Courtiers, Garrison)
+  //   Col 2: indices 3-5  (Churchmen, Inquisition, Yeomen)
+  //   Col 3: indices 6+   (Peasants, Sidefolk, Mercenaries)
+  // Returned row-major so category headers align horizontally across columns.
   const cols: Category[][] = [[], [], []];
-  data.categories.forEach((cat, i) => cols[i % 3].push(cat));
+  data.categories.forEach((cat, i) => {
+    if (i <= 2) cols[0].push(cat);
+    else if (i <= 5) cols[1].push(cat);
+    else cols[2].push(cat);
+  });
+  const maxLen = Math.max(cols[0].length, cols[1].length, cols[2].length);
+  const rows: (Category | null)[][] = [];
+  for (let i = 0; i < maxLen; i++) {
+    rows.push([cols[0][i] || null, cols[1][i] || null, cols[2][i] || null]);
+  }
 
   return (
-    <Window width={780} height={620} title="Choose Class">
+    <Window width={900} height={620} title="Choose Class">
       <Window.Content scrollable>
         <Box mb={1} bold>
           Round Duration: {data.round_duration}
@@ -181,13 +228,20 @@ export const LateJoinChoices = (props) => {
             No classes are currently available for late-join.
           </Box>
         ) : (
-          <Stack>
-            {cols.map((col, idx) => (
-              <Stack.Item key={idx} grow basis={0}>
-                <Stack vertical>
-                  {col.map((cat) => (
-                    <Stack.Item key={cat.name}>
-                      <CategoryColumn category={cat} act={act} />
+          <Stack vertical>
+            {rows.map((row, rowIdx) => (
+              <Stack.Item key={rowIdx}>
+                <Stack align="stretch">
+                  {row.map((cat, colIdx) => (
+                    <Stack.Item
+                      key={colIdx}
+                      grow
+                      basis={0}
+                      style={{ minWidth: 0 }}
+                    >
+                      {cat ? (
+                        <CategoryColumn category={cat} act={act} />
+                      ) : null}
                     </Stack.Item>
                   ))}
                 </Stack>
