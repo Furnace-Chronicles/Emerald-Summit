@@ -116,13 +116,12 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	popup.open(FALSE)*/
 	if(client)
 		if(client.prefs)
+			// ShowChoices internally routes to open_preferences_menu(src) when
+			// prefs.tgui_pref is TRUE, and falls back to the classic HTML
+			// browser when FALSE — so this single call honors the user's
+			// chosen UI on initial login AND on every return-to-lobby (death
+			// → "Journey to the Underworld" → respawn).
 			client.prefs.ShowChoices(src, 4)
-			// Auto-open the TGUI character setup so the menu is the player's
-			// landing UI on initial login AND on every return-to-lobby (death
-			// → "Journey to the Underworld" → respawn). ui_interact dedupes
-			// via SStgui.try_update_ui so calling on every panel refresh is
-			// safe — no double-open.
-			client.prefs.open_preferences_menu(src)
 
 /mob/dead/new_player/Topic(href, href_list[])
 	if(src != usr)

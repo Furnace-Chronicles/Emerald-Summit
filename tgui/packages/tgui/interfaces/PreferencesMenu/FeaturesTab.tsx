@@ -8,6 +8,8 @@ import {
 } from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
+import { BodySection } from './BodySection';
+import { MarkingsSection } from './MarkingsSection';
 
 type DescriptorEntry = {
   choice_type: string;
@@ -268,6 +270,12 @@ export const FeaturesTab = (props) => {
         </Section>
       </Stack.Item>
 
+      {/* Body section moved from the Identity tab — sits directly above the
+          Customizers (and therefore above the Eyes customizer card). */}
+      <Stack.Item>
+        <BodySection />
+      </Stack.Item>
+
       <Stack.Item>
         <Section
           title="Customizers"
@@ -396,6 +404,12 @@ export const FeaturesTab = (props) => {
             </Stack>
           )}
         </Section>
+      </Stack.Item>
+
+      {/* Markings section moved from the Identity tab — at the bottom of
+          Features per user request. */}
+      <Stack.Item>
+        <MarkingsSection />
       </Stack.Item>
     </Stack>
   );

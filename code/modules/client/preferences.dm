@@ -7,7 +7,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	//doohickeys for savefiles
 	var/path
 	var/default_slot = 1				//Holder so it doesn't default to slot 1, rather the last one used
-	var/max_save_slots = 10
+	var/max_save_slots = 40
 
 	//non-preference stuff
 	var/muted = 0
@@ -317,6 +317,14 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	if(slot_randomized)
 		load_character(default_slot) // Reloads the character slot. Prevents random features from overwriting the slot if saved.
 		slot_randomized = FALSE
+	// TGUI users get the unified /datum/preferences_menu window instead of the
+	// classic HTML browser. The classic path stays intact for tgui_pref=FALSE
+	// users and acts as a fallback if the TGUI bundle ever fails to render —
+	// they can flip tgui_pref off from inside the TGUI window itself
+	// (OocPrefsTab → "Use Classic UI") to recover.
+	if(tgui_pref)
+		open_preferences_menu(user)
+		return
 	var/list/dat = list("<center>")
 	if(tabchoice)
 		current_tab = tabchoice
@@ -337,7 +345,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 			// TGUI Character Setup launcher — opens the new React window. Classic Character
 			// Sheet rendering stays below for side-by-side comparison.
-			dat += "<center><a style='display:inline-block; padding:10px 24px; margin:8px 0; background-color:#1a0808; border:1px solid #7b5353; color:#d4b0b0; font-size:1.1em; text-decoration:none;' href='?_src_=prefs;preference=preferences_menu;task=open'>&#x2730; Open Character Setup (TGUI) &#x2730;</a></center>"
+			dat += "<center><a style='display:inline-block; padding:3px 10px; margin:2px 0; background-color:#1a0808; border:1px solid #7b5353; color:#d4b0b0; text-decoration:none;' href='?_src_=prefs;preference=preferences_menu;task=open'>Open Character Setup (TGUI)</a></center>"
 
 			// Top-level menu table
 			dat += "<table style='width: 100%; line-height: 20px;'>"
@@ -1456,6 +1464,12 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		ShowCustomizers(user)
 		return
 	else if(href_list["preference"] == "preferences_menu")
+		// Banner click: flip tgui_pref back on so subsequent ShowChoices
+		// calls keep routing to TGUI, close the classic browser window,
+		// then open the TGUI menu.
+		tgui_pref = TRUE
+		user << browse(null, "window=preferences_browser")
+		winshow(user, "preferencess_window", FALSE)
 		open_preferences_menu(user)
 		return
 	else if(href_list["preference"] == "triumph_buy_menu")

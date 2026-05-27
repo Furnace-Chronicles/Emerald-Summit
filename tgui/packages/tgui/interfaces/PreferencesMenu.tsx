@@ -72,9 +72,8 @@ const TAB_LABELS: Partial<Record<TabId, string>> = {
   features: 'Features',
   loadout: 'Loadout',
   jobs: 'Class Selection',
-  flavor: 'Flavor',
+  flavor: 'Flavor Text',
   gamepref: 'Game Prefs',
-  oocpref: 'OOC Prefs',
   familiar: 'Familiar',
   gnoll: 'Gnoll',
 };
@@ -92,8 +91,16 @@ const renderTab = (tab: TabId) => {
     case 'flavor':
       return <FlavorTab />;
     case 'gamepref':
-      return <GamePrefsTab />;
+      // Combined view — Game Prefs sections stacked above OOC Prefs sections.
+      return (
+        <>
+          <GamePrefsTab />
+          <OocPrefsTab />
+        </>
+      );
     case 'oocpref':
+      // Legacy tab id kept as a no-op so any stored active_tab references
+      // resolve cleanly; oocpref content now lives under the gamepref tab.
       return <OocPrefsTab />;
     case 'keybinds':
       return <KeybindsTab />;
@@ -433,6 +440,16 @@ export const PreferencesMenu = (props) => {
                             onClick={() => handleTabChange('keybinds')}
                           >
                             Keybinds
+                          </Button>
+                        </Stack.Item>
+                        <Stack.Item>
+                          <Button
+                            icon="rotate-left"
+                            color="bad"
+                            tooltip="Switch back to the classic HTML preferences window. Useful if the TGUI window is broken or you prefer the old layout."
+                            onClick={() => act('toggle_tgui_pref')}
+                          >
+                            Classic UI
                           </Button>
                         </Stack.Item>
                       </>

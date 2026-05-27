@@ -288,10 +288,16 @@
 	return sortList(names)
 
 /datum/preferences_menu/proc/build_combat_music_options()
-	var/list/names = list()
-	for(var/key in GLOB.cmode_tracks_by_name)
-		names += key
-	return sortList(names)
+	// GLOB.cmode_tracks_by_name is populated once at SS init and never
+	// mutates — cache the sorted keylist statically so ui_data isn't
+	// re-walking ~100 tracks and re-sorting on every 1 Hz poll.
+	var/static/list/cached_options
+	if(!cached_options)
+		cached_options = list()
+		for(var/key in GLOB.cmode_tracks_by_name)
+			cached_options += key
+		cached_options = sortList(cached_options)
+	return cached_options
 
 /datum/preferences_menu/proc/build_species_options(mob/user)
 	var/list/names = list()
@@ -2102,6 +2108,15 @@
 			if(prefs.unlock_content)
 				prefs.toggles ^= MEMBER_PUBLIC
 				on_identity_change()
+			return TRUE
+
+		if("toggle_tgui_pref")
+			// Escape hatch: flips tgui_pref off + closes the TGUI window so the
+			// classic browser UI takes over on the next prefs interaction. Lets
+			// users recover when the TGUI bundle won't render correctly.
+			prefs.tgui_pref = FALSE
+			SStgui.close_uis(src)
+			prefs.ShowChoices(user)
 			return TRUE
 
 		// --- Admin OOC toggles. Each handler gates on user.client.holder so

@@ -12,6 +12,13 @@
 	var/allows_accessory_color_customization = TRUE
 	/// Whether to pick a random accessory from all possible ones in `sprite_accessories` rather than use the proc for randomization
 	var/generic_random_pick = FALSE
+	/// Lazily-built display-name list for sprite_accessories — populated on
+	/// first get_pref_data() call so the ~hundreds-of-entries hair lists
+	/// don't get re-walked on every ui_data poll. Choice datums are
+	/// effectively singletons (one per type, via CUSTOMIZER_CHOICE) so this
+	/// per-instance cache is per-class in practice. Stays null when there's
+	/// fewer than 2 accessories (no rotate picker rendered).
+	var/list/cached_accessory_names
 
 /datum/customizer_choice/New()
 	. = ..()
@@ -101,16 +108,17 @@
 		return pickers
 
 	if(length(sprite_accessories) > 1)
-		var/list/style_names = list()
-		for(var/choice_type in sprite_accessories)
-			var/datum/sprite_accessory/style = SPRITE_ACCESSORY(choice_type)
-			if(style?.name)
-				style_names += style.name
+		if(!cached_accessory_names)
+			cached_accessory_names = list()
+			for(var/choice_type in sprite_accessories)
+				var/datum/sprite_accessory/style = SPRITE_ACCESSORY(choice_type)
+				if(style?.name)
+					cached_accessory_names += style.name
 		pickers += list(list(
 			"type" = "rotate",
 			"text" = accessory.name,
 			"task" = "choose_acc",
-			"options" = style_names,
+			"options" = cached_accessory_names,
 		))
 
 	if(allows_accessory_color_customization && !(accessory.color_disabled))

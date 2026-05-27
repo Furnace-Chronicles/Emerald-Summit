@@ -74,6 +74,16 @@ export const OocPrefsTab = (props) => {
                 </Button>
               </LabeledList.Item>
             )}
+            <LabeledList.Item label="Preferences UI">
+              <Button
+                icon="rotate-left"
+                color="bad"
+                tooltip="Disable the TGUI character setup window and fall back to the classic HTML preferences. Use this if the TGUI window is broken or unresponsive."
+                onClick={() => act('toggle_tgui_pref')}
+              >
+                Use Classic UI
+              </Button>
+            </LabeledList.Item>
           </LabeledList>
         </Section>
       </Stack.Item>

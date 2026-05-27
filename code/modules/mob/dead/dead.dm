@@ -56,6 +56,13 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 	if(client.is_new_player())
 		return
 
+	// TGUI users have a live lobby panel inside the character setup window
+	// (built by /datum/preferences_menu/build_lobby_data) — suppress the
+	// classic browser popup so the two countdowns don't compete.
+	if(client.prefs?.tgui_pref)
+		src << browse(null, "window=lobby_window")
+		return
+
 	if(SSticker.HasRoundStarted())
 		src << browse(null, "window=lobby_window")
 		return
