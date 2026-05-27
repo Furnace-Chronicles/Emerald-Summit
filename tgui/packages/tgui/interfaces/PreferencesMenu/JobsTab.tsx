@@ -262,8 +262,9 @@ const JobRow = ({
   const tooltipText = `Slots: ${job.slots}${job.rcp ? ` | RCP: +${job.rcp}` : ''} — click for full tutorial`;
   return (
     <Table.Row>
-      <Table.Cell collapsing>
+      <Table.Cell>
         <Button
+          fluid
           tooltip={tooltipText}
           tooltipPosition="right"
           color="transparent"
@@ -272,7 +273,7 @@ const JobRow = ({
           {job.display_name}
         </Button>
       </Table.Cell>
-      <Table.Cell>
+      <Table.Cell collapsing textAlign="right" style={{ width: '90px' }}>
         <JobRightCell job={job} act={act} />
       </Table.Cell>
     </Table.Row>
@@ -290,6 +291,7 @@ const JobRightCell = ({
     case 'banned':
       return (
         <Button
+          fluid
           color="bad"
           onClick={() => act('check_job_ban', { role: job.title })}
         >
@@ -333,6 +335,7 @@ const JobRightCell = ({
       const pr: JobPriority = job.priority || 'never';
       return (
         <Button
+          fluid
           color={PRIORITY_COLOR[pr]}
           tooltip="Left-click: raise · Right-click: lower"
           onClick={() =>
