@@ -101,10 +101,16 @@
 		return pickers
 
 	if(length(sprite_accessories) > 1)
+		var/list/style_names = list()
+		for(var/choice_type in sprite_accessories)
+			var/datum/sprite_accessory/style = SPRITE_ACCESSORY(choice_type)
+			if(style?.name)
+				style_names += style.name
 		pickers += list(list(
 			"type" = "rotate",
 			"text" = accessory.name,
 			"task" = "choose_acc",
+			"options" = style_names,
 		))
 
 	if(allows_accessory_color_customization && !(accessory.color_disabled))
@@ -134,7 +140,12 @@
 			for(var/choice_type in sprite_accessories)
 				var/datum/sprite_accessory/accessory = SPRITE_ACCESSORY(choice_type)
 				choice_list[accessory.name] = choice_type
-			var/chosen_input = tgui_input_list(user, "Choose your [lowertext(name)] appearance:", "Character Preference",choice_list)
+			// TGUI-side picks ship the chosen name through href_list["picked_name"]
+			// — bypass the popup when that's set so the inline Dropdown can
+			// drive this directly.
+			var/chosen_input = href_list["picked_name"]
+			if(!chosen_input || !(chosen_input in choice_list))
+				chosen_input = tgui_input_list(user, "Choose your [lowertext(name)] appearance:", "Character Preference",choice_list)
 			if(!chosen_input)
 				return
 			var/choice_type = choice_list[chosen_input]

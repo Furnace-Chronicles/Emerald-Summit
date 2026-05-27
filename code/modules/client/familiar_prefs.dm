@@ -97,7 +97,10 @@
 				"they/them" = THEY_THEM,
 				"it/its" = IT_ITS
 			)
-			var/choice = tgui_input_list(user, "Select your familiar's pronouns:", "Pronouns", pronoun_options)
+			// TGUI Dropdown pre-pick — honor href_list["picked_name"] in lieu of popup.
+			var/choice = href_list["picked_name"]
+			if(!choice || !(choice in pronoun_options))
+				choice = tgui_input_list(user, "Select your familiar's pronouns:", "Pronouns", pronoun_options)
 			if(choice)
 				familiar_pronouns = pronoun_options[choice]
 				to_chat(user, "<span class='notice'>Familiar pronouns set to [choice].</span>")
@@ -223,7 +226,9 @@
 		if ("familiar_specie")
 			var/list/all_types = GLOB.familiar_types
 
-			var/choice = tgui_input_list(user, "Select a Familiar type:", "Familiar Type", all_types)
+			var/choice = href_list["picked_name"]
+			if(!choice || !(choice in all_types))
+				choice = tgui_input_list(user, "Select a Familiar type:", "Familiar Type", all_types)
 			if (choice)
 				var/path = all_types[choice]
 				if (path)

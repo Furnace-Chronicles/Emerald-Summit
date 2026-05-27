@@ -1,4 +1,11 @@
-import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
+import {
+  Box,
+  Button,
+  Dropdown,
+  LabeledList,
+  Section,
+  Stack,
+} from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
 
@@ -6,6 +13,7 @@ type DescriptorEntry = {
   choice_type: string;
   choice_name: string;
   current_name: string;
+  options: string[];
 };
 
 type CustomDescriptor = {
@@ -27,6 +35,7 @@ type CustomizerPicker = {
   color?: string;
   task?: string;
   extra?: Record<string, string>;
+  options?: string[];
 };
 
 type CustomizerEntry = {
@@ -36,6 +45,7 @@ type CustomizerEntry = {
   disabled: 0 | 1;
   choice_name: string;
   has_multiple_choices: 0 | 1;
+  choice_options: string[];
   pref_data: CustomizerPicker[];
 };
 
@@ -85,14 +95,30 @@ const CustomizerPickerList = ({
                     tooltip="Previous"
                     onClick={() => send('rotate', { rotate: 'prev' })}
                   />
-                  <Button
-                    ml={1}
-                    width="160px"
-                    textAlign="center"
-                    onClick={() => send(p.task)}
-                  >
-                    {p.text}
-                  </Button>
+                  {p.options && p.options.length > 0 ? (
+                    <Box inline ml={1}>
+                      <Dropdown
+                        width="200px"
+                        menuWidth="240px"
+                        selected={p.text || ''}
+                        displayText={p.text || ''}
+                        options={p.options}
+                        onSelected={(value) =>
+                          value !== p.text &&
+                          send(p.task, { picked_name: value })
+                        }
+                      />
+                    </Box>
+                  ) : (
+                    <Button
+                      ml={1}
+                      width="200px"
+                      textAlign="center"
+                      onClick={() => send(p.task)}
+                    >
+                      {p.text}
+                    </Button>
+                  )}
                   <Button
                     ml={1}
                     icon="chevron-right"
@@ -119,8 +145,33 @@ const CustomizerPickerList = ({
                   />
                 </LabeledList.Item>
               );
-            case 'toggle':
             case 'list_value':
+              return (
+                <LabeledList.Item key={i} label={p.label}>
+                  {p.options && p.options.length > 0 ? (
+                    <Dropdown
+                      width="200px"
+                      menuWidth="240px"
+                      selected={p.text || ''}
+                      displayText={p.text || ''}
+                      options={p.options}
+                      onSelected={(value) =>
+                        value !== p.text &&
+                        send(p.task, { picked_name: value })
+                      }
+                    />
+                  ) : (
+                    <Button
+                      width="200px"
+                      textAlign="center"
+                      onClick={() => send(p.task, p.extra || {})}
+                    >
+                      {p.text}
+                    </Button>
+                  )}
+                </LabeledList.Item>
+              );
+            case 'toggle':
               return (
                 <LabeledList.Item key={i} label={p.label}>
                   <Button
@@ -166,15 +217,20 @@ export const FeaturesTab = (props) => {
                   key={entry.choice_type}
                   label={entry.choice_name}
                 >
-                  <Button
-                    onClick={() =>
-                      act('set_descriptor', {
+                  <Dropdown
+                    width="200px"
+                    menuWidth="240px"
+                    selected={entry.current_name || '—'}
+                    displayText={entry.current_name || '—'}
+                    options={entry.options}
+                    onSelected={(value) =>
+                      value !== entry.current_name &&
+                      act('set_descriptor_direct', {
                         choice_type: entry.choice_type,
+                        name: value,
                       })
                     }
-                  >
-                    {entry.current_name || '—'}
-                  </Button>
+                  />
                 </LabeledList.Item>
               ))}
             </LabeledList>
@@ -306,17 +362,20 @@ export const FeaturesTab = (props) => {
                                 !!c.has_multiple_choices &&
                                 c.choice_name !== c.name && (
                                   <Stack.Item>
-                                    <Button
-                                      width="160px"
-                                      textAlign="center"
-                                      onClick={() =>
-                                        act('customizer_change_choice', {
+                                    <Dropdown
+                                      width="180px"
+                                      menuWidth="220px"
+                                      selected={c.choice_name}
+                                      displayText={c.choice_name}
+                                      options={c.choice_options}
+                                      onSelected={(value) =>
+                                        value !== c.choice_name &&
+                                        act('customizer_change_choice_direct', {
                                           customizer_type: c.customizer_type,
+                                          name: value,
                                         })
                                       }
-                                    >
-                                      {c.choice_name}
-                                    </Button>
+                                    />
                                   </Stack.Item>
                                 )}
                             </Stack>

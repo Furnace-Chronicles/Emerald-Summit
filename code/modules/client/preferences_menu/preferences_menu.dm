@@ -20,7 +20,7 @@
 /datum/preferences_menu/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "PreferencesMenu", "Character Setup")
+		ui = new(user, src, "PreferencesMenu", "Emerald Summit")
 		ui.open()
 	start_lobby_refresh()
 
@@ -165,6 +165,7 @@
 	id["origin_gives_language"] = prefs.virtue_origin?.extra_language
 
 	id["statpack_name"] = prefs.statpack?.name
+	id["statpack_label"] = prefs.statpack ? statpack_dropdown_label(prefs.statpack) : null
 	id["virtue_name"] = prefs.virtue ? "[prefs.virtue]" : "None"
 	id["virtuetwo_name"] = prefs.virtuetwo ? "[prefs.virtuetwo]" : "None"
 	id["show_virtuetwo"] = (prefs.statpack?.name == "Virtuous")
@@ -208,7 +209,186 @@
 		id["tail_color"] = prefs.tail_color
 		id["tail_markings_color"] = prefs.tail_markings_color
 
+	// Race & Origin picker option lists — shipped per-poll so the React side
+	// can render inline Dropdowns. Each list mirrors the candidate set the
+	// classic tgui_input_list popup builds; the set_*_direct handlers re-validate
+	// the picked name against the same filter before mutating prefs.
+	id["species_options"] = build_species_options(user)
+	id["subspecies_options"] = build_subspecies_options()
+	id["origin_options"] = build_origin_options()
+	id["race_title_options"] = build_race_title_options()
+	id["statpack_options"] = build_statpack_options()
+	id["extra_language_options"] = build_extra_language_options()
+	id["virtue_options"] = build_virtue_options(user)
+	id["charflaw_options"] = build_charflaw_options()
+	id["faith_options"] = build_faith_options()
+	id["patron_options"] = build_patron_options()
+	id["combat_music_options"] = build_combat_music_options()
+	id["family_options"] = build_family_options()
+	id["gender_choice_options"] = list(ANY_GENDER, SAME_GENDER, DIFFERENT_GENDER)
+	id["xenophobe_options"] = list("Unrestricted", "Race only", "Subrace only")
+	id["xenophobe_label"] = (prefs.xenophobe_pref == 1) ? "Race only" : (prefs.xenophobe_pref == 2) ? "Subrace only" : "Unrestricted"
+	id["tail_type_options"] = build_tail_type_options()
+
 	return id
+
+/datum/preferences_menu/proc/build_family_options()
+	var/list/options = list(FAMILY_NONE, FAMILY_PARTIAL, FAMILY_NEWLYWED)
+	if(prefs.age != AGE_ADULT)
+		options += FAMILY_FULL
+	return options
+
+/datum/preferences_menu/proc/build_tail_type_options()
+	var/list/names = list()
+	if(!(LAMIAN_TAIL in prefs.pref_species?.species_traits))
+		return names
+	var/list/species_tail_list = prefs.pref_species.get_tail_list()
+	for(var/obj/item/bodypart/lamian_tail/tt as anything in species_tail_list)
+		names += tt::name
+	return names
+
+/datum/preferences_menu/proc/build_virtue_options(mob/user)
+	var/list/names = list()
+	for(var/key in build_virtue_picker_list(user, FALSE))
+		names += key
+	return names
+
+/datum/preferences_menu/proc/build_charflaw_options()
+	var/list/names = list()
+	for(var/key in GLOB.character_flaws)
+		names += key
+	return sortList(names)
+
+/datum/preferences_menu/proc/build_faith_options()
+	var/list/names = list()
+	if(prefs.virtue_origin?.uniquefaith)
+		for(var/path as anything in prefs.virtue_origin.uniquefaith)
+			var/datum/faith/faith = GLOB.faithlist[path]
+			if(!faith?.name)
+				continue
+			names += faith.name
+	else
+		for(var/path as anything in GLOB.preference_faiths)
+			var/datum/faith/faith = GLOB.faithlist[path]
+			if(!faith?.name)
+				continue
+			names += faith.name
+	return sortList(names)
+
+/datum/preferences_menu/proc/build_patron_options()
+	var/list/names = list()
+	var/faith_key = prefs.selected_patron?.associated_faith
+	if(!faith_key)
+		return names
+	for(var/path as anything in GLOB.patrons_by_faith[faith_key])
+		var/datum/patron/patron = GLOB.patronlist[path]
+		if(!patron?.name)
+			continue
+		names += patron.name
+	return sortList(names)
+
+/datum/preferences_menu/proc/build_combat_music_options()
+	var/list/names = list()
+	for(var/key in GLOB.cmode_tracks_by_name)
+		names += key
+	return sortList(names)
+
+/datum/preferences_menu/proc/build_species_options(mob/user)
+	var/list/names = list()
+	if(!user.client)
+		return names
+	for(var/A in GLOB.roundstart_races)
+		var/datum/species/race = GLOB.species_list[A]
+		race = new race()
+		if(race.patreon_req > user.client.patreonlevel())
+			continue
+		if(race.is_subrace == TRUE)
+			continue
+		if(race.base_name == prefs.pref_species?.base_name)
+			continue
+		if(!(race.base_name in names))
+			names += race.base_name
+	return names
+
+/datum/preferences_menu/proc/build_subspecies_options()
+	var/list/names = list()
+	for(var/A in GLOB.roundstart_races)
+		var/datum/species/race = GLOB.species_list[A]
+		race = new race()
+		if(race.base_name != prefs.pref_species?.base_name)
+			continue
+		if(race.sub_name == prefs.pref_species?.sub_name)
+			continue
+		if(!(race.sub_name in names))
+			names += race.sub_name
+	return names
+
+/datum/preferences_menu/proc/build_origin_options()
+	var/list/names = list()
+	for(var/path as anything in GLOB.virtues)
+		var/datum/virtue/V = GLOB.virtues[path]
+		if(!V?.name)
+			continue
+		if(prefs.virtue_origin && V.name == prefs.virtue_origin.name)
+			continue
+		if(!istype(V, /datum/virtue/origin))
+			continue
+		if(V.restricted && (prefs.pref_species?.type in V.races))
+			continue
+		if(istype(V, /datum/virtue/origin/racial) && !(prefs.pref_species?.type in V.races))
+			continue
+		names += V.name
+	return names
+
+/datum/preferences_menu/proc/build_race_title_options()
+	var/list/names = list("None")
+	if(!prefs.pref_species?.use_titles)
+		return names
+	for(var/title in prefs.pref_species.race_titles)
+		if(title in names)
+			continue
+		names += title
+	return names
+
+/datum/preferences_menu/proc/build_statpack_options()
+	var/list/labels = list()
+	for(var/path as anything in GLOB.statpacks)
+		var/datum/statpack/sp = GLOB.statpacks[path]
+		if(!sp?.name)
+			continue
+		if(prefs.statpack?.name == sp.name)
+			continue
+		labels += statpack_dropdown_label(sp)
+	return sortList(labels)
+
+/// Dropdown label for a statpack: name + auto-generated stat modifier blurb,
+/// e.g. "Trained (+1 STR, +1 CON, +1 END, -1 PER, -1 INT)". Used by both the
+/// option list and the current-selection display so the picker text matches
+/// what set_statpack_direct resolves back to.
+/datum/preferences_menu/proc/statpack_dropdown_label(datum/statpack/sp)
+	var/blurb = sp.generate_modifier_string()
+	return blurb ? "[sp.name] [blurb]" : sp.name
+
+/datum/preferences_menu/proc/build_extra_language_options()
+	var/list/names = list()
+	if(!prefs.virtue_origin?.extra_language)
+		return names
+	var/static/list/selectable_languages = list(
+		/datum/language/grenzelhoftian,
+		/datum/language/etruscan,
+		/datum/language/gronnic,
+		/datum/language/kazengunese,
+		/datum/language/aavnic,
+		/datum/language/celestial,
+		/datum/language/otavan,
+	)
+	names += "None"
+	for(var/language in selectable_languages)
+		if(language in prefs.pref_species?.languages)
+			continue
+		var/datum/language/a_language = new language()
+		names += a_language.name
+	return names
 
 /datum/preferences_menu/proc/build_body_data(mob/user)
 	var/list/body = list()
@@ -224,6 +404,13 @@
 
 	body["skin_tone"] = prefs.skin_tone
 	body["skin_tone_name"] = lookup_skin_tone_name(prefs.skin_tone)
+	// Display-name list (assoc-list keys) of every skin tone this species can
+	// pick. Empty for species that don't use skintones (Zardman etc.).
+	var/list/skin_tone_names = list()
+	if(prefs.pref_species?.use_skintones)
+		for(var/k in prefs.pref_species.get_skin_list())
+			skin_tone_names += k
+	body["skin_tone_options"] = skin_tone_names
 	body["update_mutant_colors"] = prefs.update_mutant_colors
 
 	body["mcolor"] = prefs.features?["mcolor"]
@@ -233,8 +420,19 @@
 	body["voice_color"] = prefs.voice_color
 	body["highlight_color"] = prefs.highlight_color
 	body["voice_pitch"] = prefs.voice_pitch
+	body["voice_pitch_min"] = MIN_VOICE_PITCH
+	body["voice_pitch_max"] = MAX_VOICE_PITCH
 	body["char_accent"] = prefs.char_accent
+	var/list/accent_names = list()
+	for(var/k in GLOB.character_accents)
+		accent_names += k
+	body["accent_options"] = accent_names
 	body["body_size_pct"] = round((prefs.features?["body_size"] || BODY_SIZE_NORMAL) * 100)
+	body["body_size_min_pct"] = round(BODY_SIZE_MIN * 100)
+	body["body_size_max_pct"] = round(BODY_SIZE_MAX * 100)
+	// Virtue/virtuetwo of type /datum/virtue/size locks the size — the slider
+	// renders disabled when this is TRUE.
+	body["body_size_locked"] = ((prefs.statpack?.name == "Virtuous" && istype(prefs.virtuetwo, /datum/virtue/size)) || istype(prefs.virtue, /datum/virtue/size))
 
 	return body
 
@@ -243,16 +441,31 @@
 	data["max_per_limb"] = MAXIMUM_MARKINGS_PER_LIMB
 	data["has_presets"] = length(marking_sets_for_species(prefs.pref_species)) > 0
 
-	var/list/zones_out = list()
+	// First pass: does the species have ANY markings across ANY zone? Used to
+	// gate the whole section (dwarves etc. fall through here and the React
+	// side shows the species_has_no_markings message). When at least one zone
+	// has candidates, we render the full 8-zone anatomy grid even for zones
+	// that happen to have no candidates — preserves the visual structure of
+	// the body layout instead of silently dropping arms/legs/hands.
+	var/species_has_any_markings = FALSE
 	for(var/zone in GLOB.marking_zones)
-		// Compute the candidate pool for this zone first — if the species has no markings
-		// that target this zone, we hide the zone entirely (matches the silent-no-op the
-		// classic prefs gives for species-without-markings like dwarves).
+		var/list/marking_list = prefs.body_markings?[zone]
+		if(islist(marking_list) && length(marking_list))
+			species_has_any_markings = TRUE
+			break
+		if(length(marking_list_of_zone_for_species(zone, prefs.pref_species)))
+			species_has_any_markings = TRUE
+			break
+
+	var/list/zones_out = list()
+	if(!species_has_any_markings)
+		data["zones"] = zones_out
+		data["species_has_no_markings"] = TRUE
+		return data
+
+	for(var/zone in GLOB.marking_zones)
 		var/list/all_candidates = marking_list_of_zone_for_species(zone, prefs.pref_species)
 		var/list/marking_list = prefs.body_markings?[zone]
-		var/has_current = (islist(marking_list) && length(marking_list) > 0)
-		if(!length(all_candidates) && !has_current)
-			continue
 
 		var/list/zone_entry = list()
 		zone_entry["key"] = zone
@@ -283,7 +496,7 @@
 		zone_entry["available"] = available_names
 		zones_out += list(zone_entry)
 	data["zones"] = zones_out
-	data["species_has_no_markings"] = !length(zones_out)
+	data["species_has_no_markings"] = FALSE
 	return data
 
 /datum/preferences_menu/proc/build_descriptors_data(mob/user)
@@ -295,10 +508,19 @@
 		var/datum/descriptor_choice/choice = DESCRIPTOR_CHOICE(choice_type)
 		var/datum/descriptor_entry/entry = prefs.get_descriptor_entry_for_choice(choice_type)
 		var/datum/mob_descriptor/descriptor = MOB_DESCRIPTOR(entry?.descriptor_type)
+		// Ship the eligible descriptor names so the React Dropdown can render
+		// them inline instead of opening a tgui_input_list popup.
+		var/list/option_names = list()
+		if(choice)
+			for(var/desc_type in choice.descriptors)
+				var/datum/mob_descriptor/d = MOB_DESCRIPTOR(desc_type)
+				if(d?.name)
+					option_names += d.name
 		entries_out += list(list(
 			"choice_type" = "[choice_type]",
 			"choice_name" = choice?.name,
 			"current_name" = descriptor?.name,
+			"options" = option_names,
 		))
 	data["entries"] = entries_out
 
@@ -342,6 +564,12 @@
 		var/list/pref_data = list()
 		if(!entry.disabled && choice)
 			pref_data = choice.get_pref_data(prefs, entry)
+		var/list/choice_names = list()
+		if(length(customizer.customizer_choices) > 1)
+			for(var/choice_type in customizer.customizer_choices)
+				var/datum/customizer_choice/iter_choice = CUSTOMIZER_CHOICE(choice_type)
+				if(iter_choice?.name)
+					choice_names += iter_choice.name
 		entries_out += list(list(
 			"customizer_type" = "[customizer_type]",
 			"name" = customizer.name,
@@ -349,6 +577,7 @@
 			"disabled" = entry.disabled,
 			"choice_name" = choice?.name,
 			"has_multiple_choices" = (length(customizer.customizer_choices) > 1),
+			"choice_options" = choice_names,
 			"pref_data" = pref_data,
 		))
 	data["entries"] = entries_out
@@ -491,6 +720,21 @@
 
 	data["familiar_name"] = fp.familiar_name
 	data["familiar_pronouns"] = fp.familiar_pronouns
+	// Pronoun label resolved from the stored value for Dropdown display.
+	var/static/list/fam_pronoun_options = list(
+		"he/him" = HE_HIM,
+		"she/her" = SHE_HER,
+		"they/them" = THEY_THEM,
+		"it/its" = IT_ITS,
+	)
+	var/pronoun_label = "they/them"
+	for(var/k in fam_pronoun_options)
+		if(fam_pronoun_options[k] == fp.familiar_pronouns)
+			pronoun_label = k
+			break
+	data["familiar_pronoun_label"] = pronoun_label
+	data["familiar_pronoun_options"] = list_keys(fam_pronoun_options)
+	data["familiar_specie_options"] = list_keys(GLOB.familiar_types)
 	data["familiar_headshot_link"] = fp.familiar_headshot_link
 	data["familiar_flavortext_len"] = length(fp.familiar_flavortext)
 	data["familiar_ooc_notes_len"] = length(fp.familiar_ooc_notes)
@@ -516,6 +760,7 @@
 
 	data["gnoll_name"] = gp.gnoll_name
 	data["gnoll_pronouns"] = gp.gnoll_pronouns
+	data["pronoun_label"] = gp.get_selected_label(gp.get_pronoun_options(), gp.gnoll_pronouns) || gp.gnoll_pronouns
 	data["pelt_label"] = gp.get_selected_label(gp.get_pelt_options(), gp.pelt_type) || "Firepelt"
 	data["genitals"] = list(
 		"penis" = gp.genitals["penis"],
@@ -530,7 +775,21 @@
 	data["expression_label"] = gp.get_selected_label(gp.get_descriptor_options("expression"), gp.descriptor_expression) || "Alert"
 	data["gnoll_flavortext_len"] = length(gp.gnoll_flavortext)
 	data["gnoll_ooc_notes_len"] = length(gp.gnoll_ooc_notes)
+	// Option lists for the inline Dropdowns. Each is the keys of the
+	// underlying assoc list (label → value) — the direct-pick handlers
+	// resolve the label back to its stored value.
+	data["pronoun_options"] = list_keys(gp.get_pronoun_options())
+	data["pelt_options"] = list_keys(gp.get_pelt_options())
+	var/static/list/descriptor_slots = list("height", "body", "fur", "voice", "muzzle", "expression")
+	for(var/slot in descriptor_slots)
+		data["[slot]_options"] = list_keys(gp.get_descriptor_options(slot))
 	return data
+
+/datum/preferences_menu/proc/list_keys(list/L)
+	var/list/out = list()
+	for(var/k in L)
+		out += k
+	return out
 
 /datum/preferences_menu/proc/build_keybinds_data(mob/user)
 	var/list/data = list()
@@ -734,7 +993,37 @@
 	data["fav_drink_name"] = culinary_drink_name(prefs.culinary_preferences[CULINARY_FAVOURITE_DRINK])
 	data["hated_food_name"] = culinary_food_name(prefs.culinary_preferences[CULINARY_HATED_FOOD])
 	data["hated_drink_name"] = culinary_drink_name(prefs.culinary_preferences[CULINARY_HATED_DRINK])
+	// Labeled list ("Name (Quality: N)") used as Dropdown options. Direct
+	// handlers resolve the picked label back to the underlying type.
+	var/list/food_labels = list("None")
+	for(var/list/food_data in GLOB.food_with_faretypes)
+		food_labels += "[capitalize(food_data["name"])] (Quality: [food_data["faretype"]])"
+	data["food_options"] = food_labels
+	var/list/drink_labels = list("None")
+	for(var/list/drink_data in GLOB.drink_with_qualities)
+		drink_labels += "[capitalize(drink_data["name"])] (Quality: [drink_data["quality"]])"
+	data["drink_options"] = drink_labels
+	data["fav_food_label"] = culinary_food_label(prefs.culinary_preferences[CULINARY_FAVOURITE_FOOD])
+	data["hated_food_label"] = culinary_food_label(prefs.culinary_preferences[CULINARY_HATED_FOOD])
+	data["fav_drink_label"] = culinary_drink_label(prefs.culinary_preferences[CULINARY_FAVOURITE_DRINK])
+	data["hated_drink_label"] = culinary_drink_label(prefs.culinary_preferences[CULINARY_HATED_DRINK])
 	return data
+
+/datum/preferences_menu/proc/culinary_food_label(food_type)
+	if(!food_type)
+		return "None"
+	for(var/list/food_data in GLOB.food_with_faretypes)
+		if(food_data["type"] == food_type)
+			return "[capitalize(food_data["name"])] (Quality: [food_data["faretype"]])"
+	return culinary_food_name(food_type)
+
+/datum/preferences_menu/proc/culinary_drink_label(drink_type)
+	if(!drink_type)
+		return "None"
+	for(var/list/drink_data in GLOB.drink_with_qualities)
+		if(drink_data["type"] == drink_type)
+			return "[capitalize(drink_data["name"])] (Quality: [drink_data["quality"]])"
+	return culinary_drink_name(drink_type)
 
 /datum/preferences_menu/proc/culinary_food_name(food_type)
 	if(!food_type)
@@ -755,14 +1044,41 @@
 	var/list/slots = list()
 	for(var/i in 1 to 6)
 		var/datum/loadout_item/item = prefs.vars[slot_vars[i]]
+		var/hex = prefs.vars[hex_vars[i]]
 		slots += list(list(
 			"slot" = i,
 			"name" = item?.name || "None",
 			"desc" = item?.desc,
-			"hex" = prefs.vars[hex_vars[i]],
+			"hex" = hex,
+			// Preset name corresponding to the stored hex, or "Custom" if the
+			// hex doesn't match any preset, or "—" when unset.
+			"color_name" = lookup_loadout_color_name(hex),
 		))
 	data["slots"] = slots
+	// Item + preset-color picklists shipped once per poll, identical for every
+	// slot. Filtered by donator status of the asking user.
+	var/list/item_names = list("None")
+	for(var/path as anything in GLOB.loadout_items)
+		var/datum/loadout_item/item = GLOB.loadout_items[path]
+		if(!item?.name)
+			continue
+		if(item.donoritem && !item.donator_ckey_check(user.ckey))
+			continue
+		item_names += item.name
+	data["item_options"] = item_names
+	var/list/color_names = list("—")
+	for(var/k in colorlist)
+		color_names += k
+	data["color_options"] = color_names
 	return data
+
+/datum/preferences_menu/proc/lookup_loadout_color_name(hex)
+	if(!hex)
+		return "—"
+	for(var/k in colorlist)
+		if(colorlist[k] == hex)
+			return k
+	return "Custom"
 
 /datum/preferences_menu/proc/zone_label(zone)
 	switch(zone)
@@ -873,6 +1189,16 @@
 				on_identity_change()
 			return TRUE
 
+		if("set_pronouns_direct")
+			var/picked = params["name"]
+			if(!picked || !(picked in GLOB.pronouns_list))
+				return TRUE
+			prefs.pronouns = picked
+			prefs.ResetJobs()
+			to_chat(user, "<font color='red'>Your character's pronouns are now [prefs.pronouns]. Classes reset.</font>")
+			on_identity_change()
+			return TRUE
+
 		if("set_voice_type")
 			var/picked = tgui_input_list(user, "Choose your character's voice type", "VOICE TYPE", GLOB.voice_types_list, prefs.voice_type)
 			if(picked)
@@ -880,11 +1206,27 @@
 				on_identity_change()
 			return TRUE
 
+		if("set_voice_type_direct")
+			var/picked = params["name"]
+			if(!picked || !(picked in GLOB.voice_types_list))
+				return TRUE
+			prefs.voice_type = picked
+			on_identity_change()
+			return TRUE
+
 		if("set_voice_pack")
 			var/picked = tgui_input_list(user, "Choose your character's emote voice pack", "VOICE PACK", GLOB.voice_packs_list, prefs.voice_pack)
 			if(picked)
 				prefs.voice_pack = picked
 				on_identity_change()
+			return TRUE
+
+		if("set_voice_pack_direct")
+			var/picked = params["name"]
+			if(!picked || !(picked in GLOB.voice_packs_list))
+				return TRUE
+			prefs.voice_pack = picked
+			on_identity_change()
 			return TRUE
 
 		if("set_age")
@@ -906,6 +1248,27 @@
 				prefs.family = FAMILY_NONE
 				to_chat(user, "<font color='red'>Classes reset.</font>")
 				on_identity_change()
+			return TRUE
+
+		if("set_age_direct")
+			if(!prefs.pref_species)
+				return TRUE
+			var/picked = params["name"]
+			if(!picked || !(picked in prefs.pref_species.possible_ages))
+				return TRUE
+			prefs.age = picked
+			var/list/hairs
+			if((prefs.age == AGE_OLD) && (OLDGREY in prefs.pref_species.species_traits))
+				hairs = prefs.pref_species.get_oldhc_list()
+			else
+				hairs = prefs.pref_species.get_hairc_list()
+			if(hairs)
+				prefs.hair_color = hairs[pick(hairs)]
+				prefs.facial_hair_color = prefs.hair_color
+			prefs.ResetJobs()
+			prefs.family = FAMILY_NONE
+			to_chat(user, "<font color='red'>Classes reset.</font>")
+			on_identity_change()
 			return TRUE
 
 		if("set_statpack")
@@ -932,6 +1295,31 @@
 				on_identity_change()
 			return TRUE
 
+		if("set_statpack_direct")
+			var/picked = params["name"]
+			if(!picked)
+				return TRUE
+			// Dropdown ships the labeled form ("Trained (+1 STR, ...)") — match
+			// either the bare name or the full label so we can resolve it back.
+			for(var/path as anything in GLOB.statpacks)
+				var/datum/statpack/sp = GLOB.statpacks[path]
+				if(!sp?.name)
+					continue
+				if(sp.name != picked && statpack_dropdown_label(sp) != picked)
+					continue
+				if(prefs.statpack?.name == "Virtuous" && sp.name != "Virtuous")
+					prefs.virtue = GLOB.virtues[/datum/virtue/none]
+					if(istype(prefs.virtuetwo, /datum/virtue/size))
+						prefs.features["body_size"] = BODY_SIZE_NORMAL
+						to_chat(user, span_purple("Your body size has been reset to [BODY_SIZE_NORMAL*100]%."))
+					prefs.virtuetwo = GLOB.virtues[/datum/virtue/none]
+				prefs.statpack = sp
+				to_chat(user, "<font color='purple'>[sp.name]</font>")
+				to_chat(user, "<font color='purple'>[sp.description_string()]</font>")
+				on_identity_change()
+				return TRUE
+			return TRUE
+
 		if("set_virtue")
 			var/list/virtues_available = build_virtue_picker_list(user, FALSE)
 			if(!length(virtues_available))
@@ -942,6 +1330,18 @@
 				var/datum/virtue/v = virtues_available[picked]
 				prefs.virtue = v
 				on_identity_change()
+			return TRUE
+
+		if("set_virtue_direct")
+			var/picked = params["name"]
+			if(!picked)
+				return TRUE
+			var/list/virtues_available = build_virtue_picker_list(user, FALSE)
+			var/datum/virtue/v = virtues_available[picked]
+			if(!v)
+				return TRUE
+			prefs.virtue = v
+			on_identity_change()
 			return TRUE
 
 		if("set_virtuetwo")
@@ -958,6 +1358,20 @@
 				on_identity_change()
 			return TRUE
 
+		if("set_virtuetwo_direct")
+			if(prefs.statpack?.name != "Virtuous")
+				return TRUE
+			var/picked = params["name"]
+			if(!picked)
+				return TRUE
+			var/list/virtues_available = build_virtue_picker_list(user, FALSE)
+			var/datum/virtue/v = virtues_available[picked]
+			if(!v)
+				return TRUE
+			prefs.virtuetwo = v
+			on_identity_change()
+			return TRUE
+
 		if("set_charflaw")
 			// Use the curated GLOB.character_flaws list (excludes virtues + dev-only flaws) rather than typesof.
 			var/list/flaws = GLOB.character_flaws.Copy()
@@ -968,6 +1382,18 @@
 				if(prefs.charflaw?.desc)
 					to_chat(user, "<span class='info'>[prefs.charflaw.desc]</span>")
 				on_identity_change()
+			return TRUE
+
+		if("set_charflaw_direct")
+			var/picked = params["name"]
+			if(!picked)
+				return TRUE
+			var/list/flaws = GLOB.character_flaws
+			if(!flaws[picked])
+				return TRUE
+			var/charflaw_path = flaws[picked]
+			prefs.charflaw = new charflaw_path()
+			on_identity_change()
 			return TRUE
 
 		if("set_species")
@@ -991,6 +1417,40 @@
 				on_identity_change()
 			return TRUE
 
+		// Direct (Dropdown-picked) variants. Re-derive the candidate map so we
+		// can resolve the name back to a datum, and validate the pick is still
+		// in the eligible set — protects against stale UI ↔ backend races.
+		if("set_species_direct")
+			var/picked = params["name"]
+			if(!picked || !user.client)
+				return TRUE
+			for(var/A in GLOB.roundstart_races)
+				var/datum/species/race = GLOB.species_list[A]
+				race = new race()
+				if(race.patreon_req > user.client.patreonlevel())
+					continue
+				if(race.is_subrace)
+					continue
+				if(race.base_name == prefs.pref_species?.base_name)
+					continue
+				if(race.base_name != picked)
+					continue
+				prefs.set_new_race(race, user, silent = TRUE)
+				on_identity_change()
+				return TRUE
+			return TRUE
+
+		if("show_species_desc")
+			if(!prefs.pref_species)
+				return TRUE
+			if(prefs.pref_species.desc)
+				// Mirror process_virtue_text styling: small (font size 3) +
+				// purple, so race lore reads the same as origin lore.
+				to_chat(user, "<font size = 3>[span_purple(prefs.pref_species.desc)]</font>")
+			else
+				to_chat(user, span_info("No description available for this race."))
+			return TRUE
+
 		if("set_subspecies")
 			var/list/species = list()
 			for(var/A in GLOB.roundstart_races)
@@ -1008,6 +1468,33 @@
 				var/datum/species/subrace_chosen = species[picked]
 				prefs.set_new_race(subrace_chosen, user)
 				on_identity_change()
+			return TRUE
+
+		if("set_subspecies_direct")
+			var/picked = params["name"]
+			if(!picked || !user.client)
+				return TRUE
+			for(var/A in GLOB.roundstart_races)
+				var/datum/species/race = GLOB.species_list[A]
+				race = new race()
+				if(race.base_name != prefs.pref_species?.base_name)
+					continue
+				if(race.sub_name == prefs.pref_species?.sub_name)
+					continue
+				if(race.sub_name != picked)
+					continue
+				prefs.set_new_race(race, user, silent = TRUE)
+				on_identity_change()
+				return TRUE
+			return TRUE
+
+		if("show_subspecies_desc")
+			if(!prefs.pref_species)
+				return TRUE
+			if(prefs.pref_species.desc)
+				to_chat(user, "<font size = 3>[span_purple(prefs.pref_species.desc)]</font>")
+			else
+				to_chat(user, span_info("No description available for this subrace."))
 			return TRUE
 
 		if("show_race_help")
@@ -1047,11 +1534,75 @@
 				on_identity_change()
 			return TRUE
 
-		if("show_origin_help")
-			if(!prefs.virtue_origin?.origin_desc)
-				to_chat(user, "<span class='info'>No origin description available.</span>")
+		if("set_origin_direct")
+			var/picked = params["name"]
+			if(!picked)
 				return TRUE
-			to_chat(user, "<b>Origin Description:</b><br>[prefs.virtue_origin.origin_desc]")
+			for(var/path as anything in GLOB.virtues)
+				var/datum/virtue/V = GLOB.virtues[path]
+				if(!V?.name || V.name != picked)
+					continue
+				if(!istype(V, /datum/virtue/origin))
+					continue
+				if(V.restricted && (prefs.pref_species?.type in V.races))
+					continue
+				if(istype(V, /datum/virtue/origin/racial) && !(prefs.pref_species?.type in V.races))
+					continue
+				prefs.virtue_origin = V
+				// Auto-print is suppressed — the (i) tooltip button next to the
+				// Origin Dropdown invokes show_origin_help on demand instead.
+				if(V.uniquefaith)
+					var/datum/virtue/origin/origin_chosen = V
+					prefs.selected_patron = GLOB.patronlist[origin_chosen.uniquefaith[1].godhead]
+				else
+					prefs.selected_patron = GLOB.patronlist[/datum/patron/divine/astrata]
+				on_identity_change()
+				return TRUE
+			return TRUE
+
+		if("show_origin_help")
+			if(!prefs.virtue_origin)
+				to_chat(user, span_info("No origin selected."))
+				return TRUE
+			to_chat(user, prefs.process_virtue_text(prefs.virtue_origin))
+			return TRUE
+
+		if("show_virtue_desc")
+			if(!prefs.virtue)
+				to_chat(user, span_info("No virtue selected."))
+				return TRUE
+			to_chat(user, prefs.process_virtue_text(prefs.virtue))
+			return TRUE
+
+		if("show_virtuetwo_desc")
+			if(!prefs.virtuetwo)
+				to_chat(user, span_info("No second virtue selected."))
+				return TRUE
+			to_chat(user, prefs.process_virtue_text(prefs.virtuetwo))
+			return TRUE
+
+		if("show_charflaw_desc")
+			if(!prefs.charflaw)
+				to_chat(user, span_info("No vice selected."))
+				return TRUE
+			if(prefs.charflaw.desc)
+				to_chat(user, "<font size = 3>[span_purple(prefs.charflaw.desc)]</font>")
+			else
+				to_chat(user, span_info("No description available for this vice."))
+			return TRUE
+
+		if("show_patron_desc")
+			if(!prefs.selected_patron)
+				to_chat(user, span_info("No patron selected."))
+				return TRUE
+			var/datum/patron/p = prefs.selected_patron
+			to_chat(user, "<font color='yellow'>Patron: [p.name]</font>")
+			if(p.domain)
+				to_chat(user, "Domain: [p.domain]")
+			if(p.desc)
+				to_chat(user, "<font size = 3>[span_purple(p.desc)]</font>")
+			if(p.worshippers)
+				to_chat(user, "<font color='red'>Likely Worshippers: [p.worshippers]</font>")
 			return TRUE
 
 		// --- Body actions ---
@@ -1070,6 +1621,20 @@
 				prefs.skin_tone = listy[picked]
 				prefs.try_update_mutant_colors()
 				on_identity_change()
+			return TRUE
+
+		if("set_skin_tone_direct")
+			if(!prefs.pref_species?.use_skintones)
+				return TRUE
+			var/picked = params["name"]
+			if(!picked)
+				return TRUE
+			var/list/listy = prefs.pref_species.get_skin_list()
+			if(!(picked in listy))
+				return TRUE
+			prefs.skin_tone = listy[picked]
+			prefs.try_update_mutant_colors()
+			on_identity_change()
 			return TRUE
 
 		if("show_skin_color_ref")
@@ -1133,7 +1698,10 @@
 			return TRUE
 
 		if("set_voice_color")
-			var/picked = color_pick_sanitized(user, "Choose your character's voice color:", "Character Preference", prefs.voice_color)
+			// Use the TGUI-native color picker (ColorPickerModal) instead of
+			// BYOND's OS-native color dialog — keeps the picker in-game and
+			// gives the user HSV/RGB inputs + presets.
+			var/picked = tgui_color_picker(user, "Choose your character's voice color:", "Voice Color", prefs.voice_color)
 			if(picked)
 				if(color_hex2num(picked) < 230)
 					to_chat(user, "<font color='red'>This voice color is too dark for mortals.</font>")
@@ -1143,7 +1711,7 @@
 			return TRUE
 
 		if("set_highlight_color")
-			var/picked = color_pick_sanitized(user, "Choose your character's nickname highlight color:", "Character Preference", prefs.highlight_color)
+			var/picked = tgui_color_picker(user, "Choose your character's nickname highlight color:", "Nickname Highlight Color", prefs.highlight_color)
 			if(picked)
 				prefs.highlight_color = sanitize_hexcolor(picked)
 				on_identity_change()
@@ -1156,11 +1724,31 @@
 				on_identity_change()
 			return TRUE
 
+		if("set_voice_pitch_direct")
+			var/raw = params["value"]
+			if(isnull(raw))
+				return TRUE
+			var/picked = text2num("[raw]")
+			if(isnull(picked))
+				return TRUE
+			picked = clamp(picked, MIN_VOICE_PITCH, MAX_VOICE_PITCH)
+			prefs.voice_pitch = picked
+			on_identity_change()
+			return TRUE
+
 		if("set_char_accent")
 			var/picked = tgui_input_list(user, "Choose your character's accent:", "Character Preference", GLOB.character_accents, prefs.char_accent)
 			if(picked)
 				prefs.char_accent = picked
 				on_identity_change()
+			return TRUE
+
+		if("set_char_accent_direct")
+			var/picked = params["name"]
+			if(!picked || !(picked in GLOB.character_accents))
+				return TRUE
+			prefs.char_accent = picked
+			on_identity_change()
 			return TRUE
 
 		// --- Markings actions ---
@@ -1371,6 +1959,29 @@
 			on_identity_change()
 			return TRUE
 
+		if("customizer_change_choice_direct")
+			var/customizer_type = text2path(params["customizer_type"])
+			var/datum/customizer/customizer = CUSTOMIZER(customizer_type)
+			if(!customizer)
+				return TRUE
+			var/datum/customizer_entry/entry = prefs.get_customizer_entry_for_customizer_type(customizer_type)
+			if(!entry)
+				return TRUE
+			var/picked = params["name"]
+			if(!picked)
+				return TRUE
+			for(var/choice_type in customizer.customizer_choices)
+				var/datum/customizer_choice/iter_choice = CUSTOMIZER_CHOICE(choice_type)
+				if(iter_choice?.name != picked)
+					continue
+				if(choice_type == entry.customizer_choice_type)
+					return TRUE
+				prefs.customizer_entries -= entry
+				prefs.customizer_entries += customizer.create_customizer_entry(prefs, choice_type)
+				on_identity_change()
+				return TRUE
+			return TRUE
+
 		if("customizer_open_classic")
 			// Escape hatch: open the classic Customizers browser popup. Kept around
 			// in case the structured pickers fail or someone wants the wide HTML view.
@@ -1395,6 +2006,10 @@
 			// color index for acc_color
 			if(params["color_index"])
 				href_list["color_index"] = params["color_index"]
+			// Pre-picked value from an inline Dropdown — handle_topic cases that
+			// support direct picks honor this in lieu of opening their popup.
+			if(params["picked_name"])
+				href_list["picked_name"] = params["picked_name"]
 			prefs.handle_customizer_topic(user, href_list)
 			on_identity_change()
 			return TRUE
@@ -1603,6 +2218,10 @@
 			if(!fp)
 				return TRUE
 			var/list/href_list = list("task" = params["task"] || "input", "preference" = params["preference"])
+			// Pre-picked Dropdown value — fam_process_link's familiar_specie and
+			// familiar_pronouns cases honor this in lieu of opening a popup.
+			if(params["picked_name"])
+				href_list["picked_name"] = params["picked_name"]
 			fp.fam_process_link(user, href_list, from_tgui = TRUE)
 			on_identity_change()
 			return TRUE
@@ -1620,6 +2239,10 @@
 				href_list["genital"] = params["genital"]
 			if(params["toggle"])
 				href_list["toggle"] = params["toggle"]
+			// Pre-picked Dropdown value — handled by choose_pronouns / choose_pelt
+			// / choose_descriptor inside gnoll_process_link in lieu of a popup.
+			if(params["picked_name"])
+				href_list["picked_name"] = params["picked_name"]
 			gp.gnoll_process_link(user, href_list, from_tgui = TRUE)
 			on_identity_change()
 			return TRUE
@@ -2062,6 +2685,31 @@
 			on_identity_change()
 			return TRUE
 
+		if("set_culinary_food_direct")
+			var/preference_type = params["preference_type"]
+			if(preference_type != CULINARY_FAVOURITE_FOOD && preference_type != CULINARY_HATED_FOOD)
+				return TRUE
+			var/picked = params["name"]
+			if(!picked)
+				return TRUE
+			if(picked == "None")
+				prefs.culinary_preferences[preference_type] = null
+				on_identity_change()
+				return TRUE
+			for(var/list/food_data in GLOB.food_with_faretypes)
+				var/display = "[capitalize(food_data["name"])] (Quality: [food_data["faretype"]])"
+				if(display != picked)
+					continue
+				var/food_type = food_data["type"]
+				var/opposite = (preference_type == CULINARY_FAVOURITE_FOOD) ? CULINARY_HATED_FOOD : CULINARY_FAVOURITE_FOOD
+				if(prefs.culinary_preferences[opposite] == food_type)
+					to_chat(user, span_warning("You can't set the same item as both favorite and hated!"))
+					return TRUE
+				prefs.culinary_preferences[preference_type] = food_type
+				on_identity_change()
+				return TRUE
+			return TRUE
+
 		if("set_culinary_drink")
 			var/preference_type = params["preference_type"]
 			if(preference_type != CULINARY_FAVOURITE_DRINK && preference_type != CULINARY_HATED_DRINK)
@@ -2081,6 +2729,31 @@
 				return TRUE
 			prefs.culinary_preferences[preference_type] = drink_type
 			on_identity_change()
+			return TRUE
+
+		if("set_culinary_drink_direct")
+			var/preference_type = params["preference_type"]
+			if(preference_type != CULINARY_FAVOURITE_DRINK && preference_type != CULINARY_HATED_DRINK)
+				return TRUE
+			var/picked = params["name"]
+			if(!picked)
+				return TRUE
+			if(picked == "None")
+				prefs.culinary_preferences[preference_type] = null
+				on_identity_change()
+				return TRUE
+			for(var/list/drink_data in GLOB.drink_with_qualities)
+				var/display = "[capitalize(drink_data["name"])] (Quality: [drink_data["quality"]])"
+				if(display != picked)
+					continue
+				var/drink_type = drink_data["type"]
+				var/opposite = (preference_type == CULINARY_FAVOURITE_DRINK) ? CULINARY_HATED_DRINK : CULINARY_FAVOURITE_DRINK
+				if(prefs.culinary_preferences[opposite] == drink_type)
+					to_chat(user, span_warning("You can't set the same drink as both favorite and hated!"))
+					return TRUE
+				prefs.culinary_preferences[preference_type] = drink_type
+				on_identity_change()
+				return TRUE
 			return TRUE
 
 		// --- Loadout actions ---
@@ -2113,6 +2786,31 @@
 			on_identity_change()
 			return TRUE
 
+		if("set_loadout_slot_direct")
+			var/slot = text2num(params["slot"])
+			if(!(slot in list(1, 2, 3, 4, 5, 6)))
+				return TRUE
+			var/picked = params["name"]
+			if(!picked)
+				return TRUE
+			var/slot_var = (slot == 1) ? "loadout" : "loadout[slot]"
+			if(picked == "None")
+				prefs.vars[slot_var] = null
+				on_identity_change()
+				return TRUE
+			for(var/path as anything in GLOB.loadout_items)
+				var/datum/loadout_item/item = GLOB.loadout_items[path]
+				if(!item?.name || item.name != picked)
+					continue
+				if(item.donoritem && !item.donator_ckey_check(user.ckey))
+					return TRUE
+				prefs.vars[slot_var] = item
+				if(item.desc)
+					to_chat(user, "[item.desc]")
+				on_identity_change()
+				return TRUE
+			return TRUE
+
 		if("set_loadout_hex")
 			var/slot = text2num(params["slot"])
 			if(!(slot in list(1, 2, 3, 4, 5, 6)))
@@ -2126,6 +2824,21 @@
 			else
 				prefs.vars[hex_var] = null
 				to_chat(user, "The colour for your <b>[slot_label_words[slot]]</b> loadout item has been cleared.")
+			on_identity_change()
+			return TRUE
+
+		if("set_loadout_hex_direct")
+			var/slot = text2num(params["slot"])
+			if(!(slot in list(1, 2, 3, 4, 5, 6)))
+				return TRUE
+			var/hex_var = "loadout_[slot]_hex"
+			var/picked = params["name"]
+			if(!picked || picked == "—")
+				prefs.vars[hex_var] = null
+				on_identity_change()
+				return TRUE
+			if(colorlist[picked])
+				prefs.vars[hex_var] = colorlist[picked]
 			on_identity_change()
 			return TRUE
 
@@ -2150,6 +2863,27 @@
 			if(entry)
 				entry.descriptor_type = picked_type
 				on_identity_change()
+			return TRUE
+
+		if("set_descriptor_direct")
+			var/choice_type = text2path(params["choice_type"])
+			if(!(choice_type in prefs.pref_species?.descriptor_choices))
+				return TRUE
+			var/datum/descriptor_choice/choice = DESCRIPTOR_CHOICE(choice_type)
+			if(!choice)
+				return TRUE
+			var/picked = params["name"]
+			if(!picked)
+				return TRUE
+			for(var/desc_type in choice.descriptors)
+				var/datum/mob_descriptor/descriptor = MOB_DESCRIPTOR(desc_type)
+				if(descriptor?.name != picked)
+					continue
+				var/datum/descriptor_entry/entry = prefs.get_descriptor_entry_for_choice(choice_type)
+				if(entry)
+					entry.descriptor_type = desc_type
+					on_identity_change()
+				return TRUE
 			return TRUE
 
 		if("set_custom_descriptor_prefix")
@@ -2204,6 +2938,20 @@
 				on_identity_change()
 			return TRUE
 
+		if("set_body_size_direct")
+			if((prefs.statpack?.name == "Virtuous" && istype(prefs.virtuetwo, /datum/virtue/size)) || istype(prefs.virtue, /datum/virtue/size))
+				to_chat(user, span_purple("Unable to change sprite size due to virtue."))
+				return TRUE
+			var/raw = params["value"]
+			if(isnull(raw))
+				return TRUE
+			var/picked = text2num("[raw]")
+			if(isnull(picked))
+				return TRUE
+			prefs.features["body_size"] = clamp(picked * 0.01, BODY_SIZE_MIN, BODY_SIZE_MAX)
+			on_identity_change()
+			return TRUE
+
 		if("set_extra_language")
 			if(!prefs.virtue_origin?.extra_language)
 				to_chat(user, span_warning("Your current Origin does not grant a free language."))
@@ -2233,6 +2981,38 @@
 				on_identity_change()
 			return TRUE
 
+		if("set_extra_language_direct")
+			if(!prefs.virtue_origin?.extra_language)
+				to_chat(user, span_warning("Your current Origin does not grant a free language."))
+				return TRUE
+			var/picked = params["name"]
+			if(!picked)
+				return TRUE
+			if(picked == "None")
+				prefs.extra_language = "None"
+				on_identity_change()
+				return TRUE
+			var/static/list/selectable_languages = list(
+				/datum/language/grenzelhoftian,
+				/datum/language/etruscan,
+				/datum/language/gronnic,
+				/datum/language/kazengunese,
+				/datum/language/aavnic,
+				/datum/language/celestial,
+				/datum/language/otavan,
+			)
+			for(var/language in selectable_languages)
+				if(language in prefs.pref_species?.languages)
+					continue
+				var/datum/language/a_language = new language()
+				if(a_language.name != picked)
+					continue
+				prefs.extra_language = language
+				to_chat(user, span_notice("Language will not be applied unless selected Origin or Role provides a free language."))
+				on_identity_change()
+				return TRUE
+			return TRUE
+
 		if("set_race_title")
 			if(!prefs.pref_species?.use_titles)
 				return TRUE
@@ -2243,6 +3023,18 @@
 			if(picked)
 				prefs.selected_title = (picked == "None") ? "None" : picked
 				on_identity_change()
+			return TRUE
+
+		if("set_race_title_direct")
+			if(!prefs.pref_species?.use_titles)
+				return TRUE
+			var/picked = params["name"]
+			if(!picked)
+				return TRUE
+			if(picked != "None" && !(picked in prefs.pref_species.race_titles))
+				return TRUE
+			prefs.selected_title = picked
+			on_identity_change()
 			return TRUE
 
 		if("set_faith")
@@ -2292,6 +3084,52 @@
 				on_identity_change()
 			return TRUE
 
+		if("set_combat_music_direct")
+			var/picked = params["name"]
+			if(!picked || !GLOB.cmode_tracks_by_name[picked])
+				return TRUE
+			prefs.combat_music = GLOB.cmode_tracks_by_name[picked]
+			on_identity_change()
+			return TRUE
+
+		if("set_faith_direct")
+			var/picked = params["name"]
+			if(!picked)
+				return TRUE
+			var/list/faiths_named = list()
+			if(prefs.virtue_origin?.uniquefaith)
+				for(var/path as anything in prefs.virtue_origin.uniquefaith)
+					var/datum/faith/faith = GLOB.faithlist[path]
+					if(!faith?.name)
+						continue
+					faiths_named[faith.name] = faith
+			else
+				for(var/path as anything in GLOB.preference_faiths)
+					var/datum/faith/faith = GLOB.faithlist[path]
+					if(!faith?.name)
+						continue
+					faiths_named[faith.name] = faith
+			var/datum/faith/faith = faiths_named[picked]
+			if(!faith)
+				return TRUE
+			prefs.selected_patron = GLOB.patronlist[faith.godhead] || GLOB.patronlist[pick(GLOB.patrons_by_faith[picked])]
+			on_identity_change()
+			return TRUE
+
+		if("set_patron_direct")
+			var/picked = params["name"]
+			if(!picked)
+				return TRUE
+			var/faith_key = prefs.selected_patron?.associated_faith || initial(prefs.default_patron.associated_faith)
+			for(var/path as anything in GLOB.patrons_by_faith[faith_key])
+				var/datum/patron/patron = GLOB.patronlist[path]
+				if(!patron?.name || patron.name != picked)
+					continue
+				prefs.selected_patron = patron
+				on_identity_change()
+				return TRUE
+			return TRUE
+
 		if("toggle_domhand")
 			prefs.domhand = (prefs.domhand == 1) ? 2 : 1
 			on_identity_change()
@@ -2317,6 +3155,22 @@
 				on_identity_change()
 			return TRUE
 
+		if("set_family_direct")
+			if(!user.check_agevet())
+				return TRUE
+			var/picked = params["name"]
+			var/list/famtree_options_list = list(FAMILY_NONE, FAMILY_PARTIAL, FAMILY_NEWLYWED)
+			if(prefs.age != AGE_ADULT)
+				famtree_options_list += FAMILY_FULL
+			if(!(picked in famtree_options_list))
+				return TRUE
+			prefs.family = picked
+			prefs.setspouse = null
+			prefs.gender_choice = ANY_GENDER
+			prefs.xenophobe_pref = 1
+			on_identity_change()
+			return TRUE
+
 		if("set_setspouse")
 			if(!user.check_agevet() || prefs.family == FAMILY_NONE)
 				return TRUE
@@ -2334,6 +3188,28 @@
 			on_identity_change()
 			return TRUE
 
+		if("set_xenophobe_direct")
+			if(!user.check_agevet() || (prefs.family != FAMILY_NEWLYWED && prefs.family != FAMILY_FULL))
+				return TRUE
+			var/picked = params["name"]
+			var/new_pref
+			switch(picked)
+				if("Unrestricted")
+					new_pref = 0
+				if("Race only")
+					new_pref = 1
+				if("Subrace only")
+					new_pref = 2
+				else
+					return TRUE
+			// FAMILY_FULL has no "Unrestricted" — coerce 0 → 1 (matches the
+			// classic cycle behavior, which skips 0 for FAMILY_FULL).
+			if(prefs.family == FAMILY_FULL && new_pref == 0)
+				new_pref = 1
+			prefs.xenophobe_pref = new_pref
+			on_identity_change()
+			return TRUE
+
 		if("set_gender_choice")
 			if(!user.check_agevet() || (prefs.family != FAMILY_NEWLYWED && prefs.family != FAMILY_FULL))
 				return TRUE
@@ -2347,6 +3223,21 @@
 			if(picked)
 				prefs.gender_choice = picked
 				on_identity_change()
+			return TRUE
+
+		if("set_gender_choice_direct")
+			if(!user.check_agevet() || (prefs.family != FAMILY_NEWLYWED && prefs.family != FAMILY_FULL))
+				return TRUE
+			if(prefs.pronouns == THEY_THEM || prefs.pronouns == IT_ITS)
+				to_chat(user, span_warning("With neutral pronouns, you may only choose [ANY_GENDER]."))
+				prefs.gender_choice = ANY_GENDER
+				on_identity_change()
+				return TRUE
+			var/picked = params["name"]
+			if(!(picked in list(ANY_GENDER, SAME_GENDER, DIFFERENT_GENDER)))
+				return TRUE
+			prefs.gender_choice = picked
+			on_identity_change()
 			return TRUE
 
 		if("toggle_gender")
@@ -2374,6 +3265,21 @@
 			if(picked)
 				prefs.tail_type = tail_selection[picked]
 				on_identity_change()
+			return TRUE
+
+		if("set_tail_type_direct")
+			if(!(LAMIAN_TAIL in prefs.pref_species?.species_traits))
+				return TRUE
+			var/picked = params["name"]
+			if(!picked)
+				return TRUE
+			var/list/species_tail_list = prefs.pref_species.get_tail_list()
+			for(var/obj/item/bodypart/lamian_tail/tt as anything in species_tail_list)
+				if(tt::name != picked)
+					continue
+				prefs.tail_type = tt
+				on_identity_change()
+				return TRUE
 			return TRUE
 
 		if("set_tail_color")

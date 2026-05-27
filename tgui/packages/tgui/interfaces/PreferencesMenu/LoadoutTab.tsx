@@ -1,4 +1,10 @@
-import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
+import {
+  Box,
+  Dropdown,
+  LabeledList,
+  Section,
+  Stack,
+} from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
 
@@ -7,10 +13,13 @@ type LoadoutSlot = {
   name: string;
   desc?: string;
   hex?: string;
+  color_name: string;
 };
 
 type LoadoutData = {
   slots: LoadoutSlot[];
+  item_options: string[];
+  color_options: string[];
 };
 
 type Data = {
@@ -37,26 +46,48 @@ export const LoadoutTab = (props) => {
                 key={s.slot}
                 label={`Item ${SLOT_LABELS[s.slot - 1]}`}
               >
-                <Button
-                  onClick={() => act('set_loadout_slot', { slot: s.slot })}
-                  tooltip={s.desc || undefined}
-                >
-                  {s.name}
-                </Button>
+                <Dropdown
+                  width="240px"
+                  menuWidth="280px"
+                  selected={s.name}
+                  displayText={s.name}
+                  options={loadout.item_options}
+                  onSelected={(value) =>
+                    value !== s.name &&
+                    act('set_loadout_slot_direct', {
+                      slot: s.slot,
+                      name: value,
+                    })
+                  }
+                />
                 <Box
                   inline
                   ml={1}
-                  width="32px"
+                  width="20px"
                   height="14px"
                   backgroundColor={s.hex || '#ffffff'}
                   title={s.hex || '(no color set)'}
                   style={{
-                    cursor: 'pointer',
                     border: '1px solid #161616',
                     verticalAlign: 'middle',
                   }}
-                  onClick={() => act('set_loadout_hex', { slot: s.slot })}
                 />
+                <Box inline ml={1}>
+                  <Dropdown
+                    width="160px"
+                    menuWidth="220px"
+                    selected={s.color_name}
+                    displayText={s.color_name}
+                    options={loadout.color_options}
+                    onSelected={(value) =>
+                      value !== s.color_name &&
+                      act('set_loadout_hex_direct', {
+                        slot: s.slot,
+                        name: value,
+                      })
+                    }
+                  />
+                </Box>
               </LabeledList.Item>
             ))}
           </LabeledList>

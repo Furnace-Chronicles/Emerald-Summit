@@ -282,11 +282,11 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	menuoptions = list()
 	return
 
-/datum/preferences/proc/set_new_race(datum/species/new_race, user)
+/datum/preferences/proc/set_new_race(datum/species/new_race, user, silent = FALSE)
 	pref_species = new_race
 	real_name = pref_species.random_name(gender,1)
 	ResetJobs()
-	if(user)
+	if(user && !silent)
 		if(pref_species.desc)
 			to_chat(user, "[pref_species.shortdesc ? "[pref_species.shortdesc]<br><a href='?_src_=prefs;preference=racelorehelp;task=input'>Read More</a>" : "[pref_species.desc]"]")
 		to_chat(user, "<font color='red'>Classes reset.</font>")

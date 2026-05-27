@@ -316,7 +316,11 @@
 		if("choose_pronouns")
 			var/list/pronoun_options = get_pronoun_options()
 			var/current_pronoun = get_selected_label(pronoun_options, gnoll_pronouns)
-			var/selected_pronoun = tgui_input_list(user, "Choose pronouns", "Gnoll Customization", pronoun_options, current_pronoun)
+			// TGUI Dropdowns ship the picked label through href_list["picked_name"]
+			// — honor it directly instead of opening a popup.
+			var/selected_pronoun = href_list["picked_name"]
+			if(!selected_pronoun || !(selected_pronoun in pronoun_options))
+				selected_pronoun = tgui_input_list(user, "Choose pronouns", "Gnoll Customization", pronoun_options, current_pronoun)
 			if(!selected_pronoun)
 				return
 			gnoll_pronouns = pronoun_options[selected_pronoun]
@@ -326,7 +330,9 @@
 		if("choose_pelt")
 			var/list/pelt_options = get_pelt_options()
 			var/current_pelt = get_selected_label(pelt_options, pelt_type)
-			var/selected_pelt = tgui_input_list(user, "Choose pelt pattern", "Gnoll Customization", pelt_options, current_pelt)
+			var/selected_pelt = href_list["picked_name"]
+			if(!selected_pelt || !(selected_pelt in pelt_options))
+				selected_pelt = tgui_input_list(user, "Choose pelt pattern", "Gnoll Customization", pelt_options, current_pelt)
 			if(!selected_pelt)
 				return
 			pelt_type = pelt_options[selected_pelt]
@@ -339,7 +345,9 @@
 			if(!descriptor_options)
 				return
 			var/current_descriptor = get_selected_label(descriptor_options, get_descriptor_value(slot))
-			var/selected_descriptor = tgui_input_list(user, "Describe my [slot]", "Gnoll Customization", descriptor_options, current_descriptor)
+			var/selected_descriptor = href_list["picked_name"]
+			if(!selected_descriptor || !(selected_descriptor in descriptor_options))
+				selected_descriptor = tgui_input_list(user, "Describe my [slot]", "Gnoll Customization", descriptor_options, current_descriptor)
 			if(!selected_descriptor)
 				return
 			if(set_descriptor_value(slot, descriptor_options[selected_descriptor]))

@@ -37,11 +37,15 @@
 /datum/customizer_choice/organ/penis/get_pref_data(datum/preferences/prefs, datum/customizer_entry/entry)
 	. = ..()
 	var/datum/customizer_entry/organ/penis/penis_entry = entry
+	var/list/size_names = list()
+	for(var/key in GLOB.named_penis_sizes)
+		size_names += key
 	. += list(list(
 		"type" = "list_value",
 		"label" = "Penis size",
 		"text" = find_key_by_value(GLOB.named_penis_sizes, penis_entry.penis_size),
 		"task" = "penis_size",
+		"options" = size_names,
 	))
 	. += list(list(
 		"type" = "toggle",
@@ -55,7 +59,9 @@
 	var/datum/customizer_entry/organ/penis/penis_entry = entry
 	switch(href_list["customizer_task"])
 		if("penis_size")
-			var/named_size = input(user, "Choose your penis size:", "Character Preference", find_key_by_value(GLOB.named_penis_sizes, penis_entry.penis_size)) as anything in GLOB.named_penis_sizes
+			var/named_size = href_list["picked_name"]
+			if(!named_size || !(named_size in GLOB.named_penis_sizes))
+				named_size = input(user, "Choose your penis size:", "Character Preference", find_key_by_value(GLOB.named_penis_sizes, penis_entry.penis_size)) as anything in GLOB.named_penis_sizes
 			if(isnull(named_size))
 				return
 			var/new_size = GLOB.named_penis_sizes[named_size]
@@ -281,11 +287,15 @@
 	. = ..()
 	var/datum/customizer_entry/organ/testicles/testicles_entry = entry
 	if(can_customize_size)
+		var/list/size_names = list()
+		for(var/key in GLOB.named_ball_sizes)
+			size_names += key
 		. += list(list(
 			"type" = "list_value",
 			"label" = "Ball size",
 			"text" = find_key_by_value(GLOB.named_ball_sizes, testicles_entry.ball_size),
 			"task" = "ball_size",
+			"options" = size_names,
 		))
 	. += list(list(
 		"type" = "toggle",
@@ -299,7 +309,9 @@
 	var/datum/customizer_entry/organ/testicles/testicles_entry = entry
 	switch(href_list["customizer_task"])
 		if("ball_size")
-			var/named_size = input(user, "Choose your ball size:", "Character Preference", find_key_by_value(GLOB.named_ball_sizes, testicles_entry.ball_size)) as anything in GLOB.named_ball_sizes
+			var/named_size = href_list["picked_name"]
+			if(!named_size || !(named_size in GLOB.named_ball_sizes))
+				named_size = input(user, "Choose your ball size:", "Character Preference", find_key_by_value(GLOB.named_ball_sizes, testicles_entry.ball_size)) as anything in GLOB.named_ball_sizes
 			if(isnull(named_size))
 				return
 			var/new_size = GLOB.named_ball_sizes[named_size]
@@ -380,11 +392,15 @@
 /datum/customizer_choice/organ/breasts/get_pref_data(datum/preferences/prefs, datum/customizer_entry/entry)
 	. = ..()
 	var/datum/customizer_entry/organ/breasts/breasts_entry = entry
+	var/list/size_names = list()
+	for(var/key in GLOB.named_breast_sizes)
+		size_names += key
 	. += list(list(
 		"type" = "list_value",
 		"label" = "Breast size",
 		"text" = find_key_by_value(GLOB.named_breast_sizes, breasts_entry.breast_size),
 		"task" = "breast_size",
+		"options" = size_names,
 	))
 	. += list(list(
 		"type" = "toggle",
@@ -398,7 +414,9 @@
 	var/datum/customizer_entry/organ/breasts/breasts_entry = entry
 	switch(href_list["customizer_task"])
 		if("breast_size")
-			var/named_size = input(user, "Choose your breast size:", "Character Preference", find_key_by_value(GLOB.named_breast_sizes, breasts_entry.breast_size)) as anything in GLOB.named_breast_sizes
+			var/named_size = href_list["picked_name"]
+			if(!named_size || !(named_size in GLOB.named_breast_sizes))
+				named_size = input(user, "Choose your breast size:", "Character Preference", find_key_by_value(GLOB.named_breast_sizes, breasts_entry.breast_size)) as anything in GLOB.named_breast_sizes
 			if(isnull(named_size))
 				return
 			var/new_size = GLOB.named_breast_sizes[named_size]

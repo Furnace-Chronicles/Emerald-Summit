@@ -1,10 +1,18 @@
-import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
+import {
+  Box,
+  Button,
+  Dropdown,
+  LabeledList,
+  Section,
+  Stack,
+} from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
 
 type GnollData = {
   gnoll_name: string;
   gnoll_pronouns: string;
+  pronoun_label: string;
   pelt_label: string;
   genitals: { penis: 0 | 1; vagina: 0 | 1; breasts: 0 | 1 };
   height_label: string;
@@ -15,6 +23,14 @@ type GnollData = {
   expression_label: string;
   gnoll_flavortext_len: number;
   gnoll_ooc_notes_len: number;
+  pronoun_options: string[];
+  pelt_options: string[];
+  height_options: string[];
+  body_options: string[];
+  fur_options: string[];
+  voice_options: string[];
+  muzzle_options: string[];
+  expression_options: string[];
 };
 
 type Data = {
@@ -43,12 +59,30 @@ export const GnollTab = (props) => {
               </Button>
             </LabeledList.Item>
             <LabeledList.Item label="Pronouns">
-              <Button onClick={() => gAct('choose_pronouns')}>
-                {g.gnoll_pronouns}
-              </Button>
+              <Dropdown
+                width="180px"
+                menuWidth="220px"
+                selected={g.pronoun_label}
+                displayText={g.pronoun_label}
+                options={g.pronoun_options}
+                onSelected={(value) =>
+                  value !== g.pronoun_label &&
+                  gAct('choose_pronouns', { picked_name: value })
+                }
+              />
             </LabeledList.Item>
             <LabeledList.Item label="Pelt Pattern">
-              <Button onClick={() => gAct('choose_pelt')}>{g.pelt_label}</Button>
+              <Dropdown
+                width="180px"
+                menuWidth="220px"
+                selected={g.pelt_label}
+                displayText={g.pelt_label}
+                options={g.pelt_options}
+                onSelected={(value) =>
+                  value !== g.pelt_label &&
+                  gAct('choose_pelt', { picked_name: value })
+                }
+              />
             </LabeledList.Item>
           </LabeledList>
         </Section>
@@ -103,38 +137,30 @@ export const GnollTab = (props) => {
       <Stack.Item>
         <Section title="Descriptors">
           <LabeledList>
-            <LabeledList.Item label="Height">
-              <Button onClick={() => gAct('choose_descriptor', { slot: 'height' })}>
-                {g.height_label}
-              </Button>
-            </LabeledList.Item>
-            <LabeledList.Item label="Build">
-              <Button onClick={() => gAct('choose_descriptor', { slot: 'body' })}>
-                {g.body_label}
-              </Button>
-            </LabeledList.Item>
-            <LabeledList.Item label="Coat">
-              <Button onClick={() => gAct('choose_descriptor', { slot: 'fur' })}>
-                {g.fur_label}
-              </Button>
-            </LabeledList.Item>
-            <LabeledList.Item label="Voice">
-              <Button onClick={() => gAct('choose_descriptor', { slot: 'voice' })}>
-                {g.voice_label}
-              </Button>
-            </LabeledList.Item>
-            <LabeledList.Item label="Muzzle Shape">
-              <Button onClick={() => gAct('choose_descriptor', { slot: 'muzzle' })}>
-                {g.muzzle_label}
-              </Button>
-            </LabeledList.Item>
-            <LabeledList.Item label="Expression">
-              <Button
-                onClick={() => gAct('choose_descriptor', { slot: 'expression' })}
-              >
-                {g.expression_label}
-              </Button>
-            </LabeledList.Item>
+            {(
+              [
+                ['Height', 'height', g.height_label, g.height_options],
+                ['Build', 'body', g.body_label, g.body_options],
+                ['Coat', 'fur', g.fur_label, g.fur_options],
+                ['Voice', 'voice', g.voice_label, g.voice_options],
+                ['Muzzle Shape', 'muzzle', g.muzzle_label, g.muzzle_options],
+                ['Expression', 'expression', g.expression_label, g.expression_options],
+              ] as [string, string, string, string[]][]
+            ).map(([label, slot, current, options]) => (
+              <LabeledList.Item key={slot} label={label}>
+                <Dropdown
+                  width="200px"
+                  menuWidth="240px"
+                  selected={current}
+                  displayText={current}
+                  options={options}
+                  onSelected={(value) =>
+                    value !== current &&
+                    gAct('choose_descriptor', { slot, picked_name: value })
+                  }
+                />
+              </LabeledList.Item>
+            ))}
           </LabeledList>
         </Section>
       </Stack.Item>

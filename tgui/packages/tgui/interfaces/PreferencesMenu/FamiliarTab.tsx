@@ -1,11 +1,21 @@
-import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
+import {
+  Box,
+  Button,
+  Dropdown,
+  LabeledList,
+  Section,
+  Stack,
+} from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
 
 type FamiliarData = {
   familiar_name?: string;
   familiar_pronouns: string;
+  familiar_pronoun_label: string;
+  familiar_pronoun_options: string[];
   familiar_specie_name: string;
+  familiar_specie_options: string[];
   familiar_lore_blurb?: string;
   familiar_headshot_link?: string;
   familiar_flavortext_len: number;
@@ -26,8 +36,11 @@ export const FamiliarTab = (props) => {
     return <Box color="label">Familiar preferences not initialized.</Box>;
   }
 
-  const fAct = (preference: string, task = 'input') =>
-    act('familiar_action', { preference, task });
+  const fAct = (
+    preference: string,
+    task = 'input',
+    extra: Record<string, string> = {},
+  ) => act('familiar_action', { preference, task, ...extra });
 
   return (
     <Stack vertical>
@@ -60,9 +73,17 @@ export const FamiliarTab = (props) => {
         >
           <LabeledList>
             <LabeledList.Item label="Familiar Type">
-              <Button onClick={() => fAct('familiar_specie', 'select')}>
-                {f.familiar_specie_name}
-              </Button>
+              <Dropdown
+                width="220px"
+                menuWidth="260px"
+                selected={f.familiar_specie_name}
+                displayText={f.familiar_specie_name}
+                options={f.familiar_specie_options}
+                onSelected={(value) =>
+                  value !== f.familiar_specie_name &&
+                  fAct('familiar_specie', 'select', { picked_name: value })
+                }
+              />
             </LabeledList.Item>
             {!!f.familiar_lore_blurb && (
               <LabeledList.Item label="Lore">
@@ -77,9 +98,17 @@ export const FamiliarTab = (props) => {
               </Button>
             </LabeledList.Item>
             <LabeledList.Item label="Pronouns">
-              <Button onClick={() => fAct('familiar_pronouns', 'select')}>
-                {f.familiar_pronouns}
-              </Button>
+              <Dropdown
+                width="160px"
+                menuWidth="200px"
+                selected={f.familiar_pronoun_label}
+                displayText={f.familiar_pronoun_label}
+                options={f.familiar_pronoun_options}
+                onSelected={(value) =>
+                  value !== f.familiar_pronoun_label &&
+                  fAct('familiar_pronouns', 'select', { picked_name: value })
+                }
+              />
             </LabeledList.Item>
             <LabeledList.Item label="Headshot">
               <Button onClick={() => fAct('familiar_headshot')}>

@@ -48,6 +48,9 @@
 		"color" = hair_entry.hair_color,
 		"task" = "hair_color",
 	))
+	var/list/gradient_names = list()
+	for(var/key in hair_gradient_name_to_type_list())
+		gradient_names += key
 	if(allows_natural_gradient)
 		var/datum/hair_gradient/gradient = HAIR_GRADIENT(hair_entry.natural_gradient)
 		. += list(list(
@@ -55,6 +58,7 @@
 			"label" = "Natural Gradient",
 			"text" = gradient.name,
 			"task" = "natural_gradient",
+			"options" = gradient_names,
 		))
 		if(hair_entry.natural_gradient != /datum/hair_gradient/none)
 			. += list(list(
@@ -70,6 +74,7 @@
 			"label" = "Dye Gradient",
 			"text" = gradient.name,
 			"task" = "dye_gradient",
+			"options" = gradient_names,
 		))
 		if(hair_entry.dye_gradient != /datum/hair_gradient/none)
 			. += list(list(
@@ -92,7 +97,9 @@
 			if(!allows_natural_gradient)
 				return
 			var/list/choice_list = hair_gradient_name_to_type_list()
-			var/chosen_input = input(user, "Choose your natural gradient:", "Character Preference")  as null|anything in choice_list
+			var/chosen_input = href_list["picked_name"]
+			if(!chosen_input || !(chosen_input in choice_list))
+				chosen_input = input(user, "Choose your natural gradient:", "Character Preference")  as null|anything in choice_list
 			if(!chosen_input)
 				return
 			hair_entry.natural_gradient = choice_list[chosen_input]
@@ -107,7 +114,9 @@
 			if(!allows_dye_gradient)
 				return
 			var/list/choice_list = hair_gradient_name_to_type_list()
-			var/chosen_input = input(user, "Choose your dye gradient:", "Character Preference")  as null|anything in choice_list
+			var/chosen_input = href_list["picked_name"]
+			if(!chosen_input || !(chosen_input in choice_list))
+				chosen_input = input(user, "Choose your dye gradient:", "Character Preference")  as null|anything in choice_list
 			if(!chosen_input)
 				return
 			hair_entry.dye_gradient = choice_list[chosen_input]

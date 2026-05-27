@@ -71,7 +71,7 @@ const TAB_LABELS: Partial<Record<TabId, string>> = {
   identity: 'Identity',
   features: 'Features',
   loadout: 'Loadout',
-  jobs: 'Class',
+  jobs: 'Class Selection',
   flavor: 'Flavor',
   gamepref: 'Game Prefs',
   oocpref: 'OOC Prefs',
@@ -369,7 +369,7 @@ export const PreferencesMenu = (props) => {
           <Stack.Item grow>
             <Stack vertical fill>
               <Stack.Item>
-                <Section title="Character Setup (Beta)">
+                <Section title="Emerald Summit">
                   <Stack>
                     <Stack.Item grow>
                       <b>Name:</b> {realName || '(unset)'}
