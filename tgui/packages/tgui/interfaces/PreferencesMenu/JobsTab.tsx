@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box, Button, Section, Stack, Table } from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
@@ -27,6 +27,9 @@ type JobEntry = {
   state: JobState;
   state_text?: string;
   priority?: JobPriority;
+  category: string;
+  category_color: string;
+  category_order: number;
 };
 
 type JobsData = {
@@ -43,42 +46,40 @@ type Data = {
   jobs: JobsData;
 };
 
-// Matches the classic SetChoices() `splitJobs` list — jobs that mark visual
-// section breaks within a column. A horizontal rule renders above each.
-const SPLIT_JOBS = new Set([
-  'Court Magician',
-  'Knight',
-  'Priest',
-  'Merchant',
-  'Town Elder',
-  'Adventurer',
-  'Grenzelhoft Mercenary',
-  'Beggar',
-  'Prisoner',
-  'Goblin King',
-]);
+// Group the flat job list into categories (Nobles / Courtiers / ... / Other)
+// using the backend-supplied category fields, then lay out three columns to
+// match the late-join picker's silhouette. Within each category, jobs keep
+// their backend display_order ordering.
+type JobCategory = {
+  name: string;
+  color: string;
+  order: number;
+  jobs: JobEntry[];
+};
 
-// Classic uses limit=14 rows per column. Higher value = fewer, wider columns.
-const COLUMN_LIMIT = 17;
-
-type GridCell = { job: JobEntry; separatorAbove: boolean };
-
-const buildColumns = (jobs: JobEntry[]): GridCell[][] => {
-  const cols: GridCell[][] = [];
-  let cur: GridCell[] = [];
+const groupByCategory = (jobs: JobEntry[]): JobCategory[] => {
+  const byName = new Map<string, JobCategory>();
   for (const job of jobs) {
-    if (cur.length >= COLUMN_LIMIT) {
-      cols.push(cur);
-      cur = [];
+    let cat = byName.get(job.category);
+    if (!cat) {
+      cat = {
+        name: job.category,
+        color: job.category_color,
+        order: job.category_order,
+        jobs: [],
+      };
+      byName.set(job.category, cat);
     }
-    cur.push({
-      job,
-      separatorAbove: SPLIT_JOBS.has(job.title) && cur.length > 0,
-    });
+    cat.jobs.push(job);
   }
-  if (cur.length > 0) {
-    cols.push(cur);
-  }
+  return [...byName.values()].sort((a, b) => a.order - b.order);
+};
+
+// Three columns to mirror LateJoinChoices. Round-robin so column heights stay
+// roughly even regardless of category size.
+const layoutCategoryColumns = (cats: JobCategory[]): JobCategory[][] => {
+  const cols: JobCategory[][] = [[], [], []];
+  cats.forEach((c, i) => cols[i % 3].push(c));
   return cols;
 };
 
@@ -211,28 +212,36 @@ export const JobsTab = (props) => {
             lower it.
           </Box>
           <Stack>
-            {buildColumns(jobs.jobs).map((column, colIdx) => (
-              <Stack.Item key={colIdx} grow basis={0}>
-                <Table>
-                  {column.map(({ job, separatorAbove }) => (
-                    <React.Fragment key={job.title}>
-                      {separatorAbove && (
-                        <Table.Row>
-                          <Table.Cell colSpan={2}>
-                            <hr style={{ borderColor: '#444' }} />
-                          </Table.Cell>
-                        </Table.Row>
-                      )}
-                      <JobRow
-                        job={job}
-                        act={act}
-                        onShowTutorial={() => setTutorialJob(job)}
-                      />
-                    </React.Fragment>
-                  ))}
-                </Table>
-              </Stack.Item>
-            ))}
+            {layoutCategoryColumns(groupByCategory(jobs.jobs)).map(
+              (column, colIdx) => (
+                <Stack.Item key={colIdx} grow basis={0}>
+                  <Stack vertical>
+                    {column.map((cat) => (
+                      <Stack.Item key={cat.name}>
+                        <Section
+                          title={
+                            <Box inline bold style={{ color: cat.color }}>
+                              {cat.name}
+                            </Box>
+                          }
+                        >
+                          <Table>
+                            {cat.jobs.map((job) => (
+                              <JobRow
+                                key={job.title}
+                                job={job}
+                                act={act}
+                                onShowTutorial={() => setTutorialJob(job)}
+                              />
+                            ))}
+                          </Table>
+                        </Section>
+                      </Stack.Item>
+                    ))}
+                  </Stack>
+                </Stack.Item>
+              ),
+            )}
           </Stack>
         </Section>
       </Stack.Item>

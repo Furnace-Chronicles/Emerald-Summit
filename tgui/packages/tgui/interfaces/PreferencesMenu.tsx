@@ -31,6 +31,7 @@ type HeaderData = {
   is_guest: 0 | 1;
   current_slot: number;
   max_save_slots: number;
+  tgui_theme_name: string;
 };
 
 type SlotEntry = { id: number; name: string };
@@ -396,6 +397,15 @@ export const PreferencesMenu = (props) => {
                             >
                               {header.pq_text}
                             </Box>
+                          </Button>
+                        </Stack.Item>
+                        <Stack.Item>
+                          <Button
+                            icon="palette"
+                            tooltip="Cycle the TGUI theme."
+                            onClick={() => act('cycle_tgui_theme')}
+                          >
+                            <b>Theme:</b> {header.tgui_theme_name}
                           </Button>
                         </Stack.Item>
                         <Stack.Item>

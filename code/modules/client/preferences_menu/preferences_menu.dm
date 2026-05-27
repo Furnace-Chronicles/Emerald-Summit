@@ -2,17 +2,48 @@
 // vars as the classic /datum/preferences/Topic handlers. Savefile schema stays untouched.
 // Reference pattern: /obj/structure/roguemachine/bathvend (Brassface).
 
+// One source of truth for the collapsed "Wanderer" family. Used by the lobby
+// snapshot's ready-by-job bucketing AND by Class Selection's category mapping.
+GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court Agent"))
+
 /datum/preferences_menu
 	var/datum/preferences/prefs
 	var/active_tab = "identity"
+	/// Set by on_identity_change when a save is owed. flush_save() clears it.
+	/// We coalesce because each pref mutation called save_preferences() +
+	/// save_character() synchronously — at 150 concurrent users that's >300
+	/// disk writes/sec and savefile I/O runs on the main thread.
+	var/save_dirty = FALSE
+	/// Set by on_identity_change when the preview needs re-rendering.
+	/// refresh_preview() composes a dummy mob and flattens an icon — heavy
+	/// CPU work, so we debounce to once per ~0.5s burst instead of once per act.
+	var/preview_dirty = FALSE
+	/// Per-session cache of the immutable job gates (ban/playtime/agedays/PQ).
+	/// Keyed by job.title. Built lazily on the first ui_data poll touching a
+	/// given job; lifetime is the lifetime of this menu datum. See build_job_entry.
+	var/list/cached_job_gates
+	/// Slot id (int) → display name (string). Built once from the savefile on
+	/// window open; refreshed targeted-style on save_character so the dropdown
+	/// reflects the freshly saved name without resending the full static payload.
+	var/list/cached_slot_names
 
 /datum/preferences_menu/New(datum/preferences/owning_prefs)
 	. = ..()
 	prefs = owning_prefs
 
 /datum/preferences_menu/Destroy()
+	// Flush any pending save before the datum goes away — the player may have
+	// closed the window mid-debounce-window and we don't want to lose state.
+	flush_save()
 	prefs = null
 	return ..()
+
+/datum/preferences_menu/ui_close(mob/user)
+	. = ..()
+	// Window closed — drop any owed preview work (no one to see it) and force
+	// the pending save out so disk state matches what the user saw last.
+	preview_dirty = FALSE
+	flush_save()
 
 /datum/preferences_menu/ui_state(mob/user)
 	return GLOB.always_state
@@ -47,31 +78,44 @@
 		SStgui.close_uis(src)
 		return
 	SStgui.update_uis(src)
-	// Keep ticking — countdown during pregame, ready-roster updates post-start
-	// for any late-joiners still in the lobby.
-	start_lobby_refresh()
+	// Only keep ticking during pregame — once the round is in progress no new
+	// players ready up, so there's nothing for the periodic push to surface.
+	// Late-joiners still get fresh data on their own ui_act and 1Hz client poll.
+	if(SSticker.current_state == GAME_STATE_PREGAME)
+		start_lobby_refresh()
 
 /datum/preferences_menu/proc/build_slot_options()
+	// Read each slot's stored real_name from disk once, cache it, and serve
+	// every subsequent poll from cache. save_character()'s ui_act updates the
+	// single affected entry so the dropdown reflects the new name without
+	// re-reading 40 slots or resending the entire static payload.
+	if(!cached_slot_names)
+		cached_slot_names = list()
+		var/max_slots = prefs?.max_save_slots || 40
+		var/savefile/S
+		if(prefs?.path)
+			S = new /savefile(prefs.path)
+		for(var/i = 1, i <= max_slots, i++)
+			var/slot_name
+			if(S)
+				S.cd = "/character[i]"
+				S["real_name"] >> slot_name
+			if(!slot_name)
+				slot_name = "Slot [i]"
+			cached_slot_names["[i]"] = slot_name
+
 	var/list/slots = list()
 	var/max_slots = prefs?.max_save_slots || 40
-	var/savefile/S
-	if(prefs?.path)
-		S = new /savefile(prefs.path)
 	for(var/i = 1, i <= max_slots, i++)
-		var/slot_name
-		if(S)
-			S.cd = "/character[i]"
-			S["real_name"] >> slot_name
-		if(!slot_name)
-			slot_name = "Slot [i]"
-		slots += list(list("id" = i, "name" = slot_name))
+		slots += list(list("id" = i, "name" = cached_slot_names["[i]"] || "Slot [i]"))
 	return slots
 
 /datum/preferences_menu/ui_static_data(mob/user)
 	var/list/data = list()
 	data["pronoun_options"] = GLOB.pronouns_list?.Copy() || list()
 	data["voice_type_options"] = GLOB.voice_types_list?.Copy() || list()
-	data["slots"] = build_slot_options()
+	// data["slots"] lives in ui_data so save/load/change_slot can update the
+	// dropdown without resending the full static payload.
 
 	// Voice packs — assoc list (name → datum) in GLOB.
 	var/list/voice_packs = list()
@@ -99,6 +143,11 @@
 	if(!prefs)
 		return data
 
+	// Slot picker is in ui_data (not ui_static_data) so save_character can
+	// nudge the cache and have the new name visible on the next poll without
+	// re-sending the full static payload.
+	data["slots"] = build_slot_options()
+
 	// Header stats — visible from every tab so the player doesn't have to switch tabs to check.
 	var/pq_num = get_playerquality(user.ckey)
 	var/list/pq_label = pq_tier_label(pq_num)
@@ -122,6 +171,7 @@
 		"is_guest" = IsGuestKey(user.key),
 		"current_slot" = prefs.default_slot,
 		"max_save_slots" = prefs.max_save_slots,
+		"tgui_theme_name" = prefs.get_tgui_theme_display_name(),
 	)
 
 	data["lobby"] = build_lobby_data()
@@ -594,7 +644,27 @@
 // Lobby roster + countdown. Mirrors /mob/dead/Stat panel display: total players ready,
 // per-job groupings, and round-start timer. Wanderer-family jobs (Adventurer, Wretch,
 // Court Agent) get collapsed under one "Wanderer" bucket as the classic UI does.
+//
+// The snapshot is identical across every open menu (no per-user fields), so
+// each ui_data poll routes through the shared global cache below — at 150
+// concurrent menus this turns O(menus × players) into O(players) per poll.
 /datum/preferences_menu/proc/build_lobby_data()
+	return get_cached_lobby_snapshot()
+
+GLOBAL_LIST_EMPTY(cached_lobby_snapshot)
+GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
+
+/// Returns a shared lobby snapshot, rebuilt at most every 1 second. Every
+/// preferences_menu polling for lobby data reads the same cached payload,
+/// which avoids re-walking GLOB.player_list once per menu per poll.
+/proc/get_cached_lobby_snapshot()
+	if(GLOB.cached_lobby_snapshot.len && (world.time - GLOB.cached_lobby_snapshot_at) < 1 SECONDS)
+		return GLOB.cached_lobby_snapshot
+	GLOB.cached_lobby_snapshot = rebuild_lobby_snapshot()
+	GLOB.cached_lobby_snapshot_at = world.time
+	return GLOB.cached_lobby_snapshot
+
+/proc/rebuild_lobby_snapshot()
 	var/list/data = list()
 	var/is_pregame = (SSticker.current_state == GAME_STATE_PREGAME)
 	data["is_pregame"] = is_pregame
@@ -602,7 +672,7 @@
 	data["total_ready"] = SSticker.totalPlayersReady
 	data["round_in_progress"] = SSticker.IsRoundInProgress()
 
-	var/static/list/wanderer_jobs = list("Adventurer", "Wretch", "Court Agent")
+	var/list/wanderer_jobs = GLOB.prefs_menu_wanderer_titles
 	var/list/by_job = list()
 	for(var/mob/dead/new_player/player in GLOB.player_list)
 		if(player.ready != PLAYER_READY_TO_PLAY)
@@ -627,16 +697,15 @@
 		job_entries += list(list(
 			"job" = job_name,
 			"players" = players,
-			"order" = lobby_job_sort_order(job_name, wanderer_jobs),
+			"order" = snapshot_lobby_job_sort_order(job_name, wanderer_jobs),
 		))
 	sortTim(job_entries, GLOBAL_PROC_REF(cmp_lobby_job_entries))
 	data["ready_by_job"] = job_entries
 	return data
 
-// Match the Class Selection screen's row order (job.display_order ascending).
-// For the collapsed "Wanderer" bucket use the lowest display_order across
-// Adventurer / Wretch / Court Agent so it lands where any of them would.
-/datum/preferences_menu/proc/lobby_job_sort_order(job_name, list/wanderer_jobs)
+/// File-scope variant of lobby_job_sort_order — the cache builder runs at
+/// global scope so it can't reach the /datum/preferences_menu proc.
+/proc/snapshot_lobby_job_sort_order(job_name, list/wanderer_jobs)
 	if(job_name == "Wanderer")
 		var/min_order = INFINITY
 		for(var/wname in wanderer_jobs)
@@ -879,6 +948,13 @@
 	data["triumphs"] = user.get_triumphs()
 	data["pq"] = get_playerquality(user.ckey)
 
+	// Per-session gate cache (ban/playtime/agedays/min_pq/max_pq). These are
+	// ckey/client/PQ-based and don't change while the window is open — so we
+	// only run them once per menu open, not once per ui_data poll. The cheap
+	// dynamic gates (virtue/vice/SLOTFULL/priority) keep running per poll.
+	if(!cached_job_gates)
+		cached_job_gates = list()
+
 	var/list/jobs_out = list()
 	for(var/datum/job/job in sortList(SSjob.occupations, GLOBAL_PROC_REF(cmp_job_display_asc)))
 		if(!job.spawn_positions)
@@ -894,6 +970,7 @@
 	if((prefs.pronouns == SHE_HER || prefs.pronouns == THEY_THEM_F) && job.f_title)
 		used_name = job.f_title
 
+	var/list/cat = job_category_for(job)
 	var/list/entry = list(
 		"title" = rank,
 		"display_name" = used_name,
@@ -901,37 +978,27 @@
 		"slots" = job.spawn_positions,
 		"rcp" = job.round_contrib_points,
 		"required" = job.required,
+		"category" = cat["name"],
+		"category_color" = cat["color"],
+		"category_order" = cat["order"],
 	)
 
-	// Banned ckey — never shows priority button, click opens ban check.
-	if(is_banned_from(user.ckey, rank))
-		entry["state"] = "banned"
-		entry["state_text"] = "BANNED"
-		return entry
+	// Pull the immutable gates from the per-session cache — these depend on
+	// ckey/playtime/account-age/PQ which are stable for the lifetime of the
+	// window. Skips four ban-list / playtime / agedays / PQ lookups per job
+	// per poll once the cache is warm. Caveats:
+	//   - If an admin bans the user mid-session, the menu won't reflect it
+	//     until the user reopens the window (acceptable — rare edge case).
+	//   - Triumph buys can raise PQ mid-session; if the user is right at a
+	//     PQ gate they may need to reopen the menu to see the unlock.
+	var/list/gate = cached_job_gates[rank]
+	if(!gate)
+		gate = compute_job_gate(user, job)
+		cached_job_gates[rank] = gate
 
-	// Required playtime gate.
-	var/required_playtime_remaining = job.required_playtime_remaining(user.client)
-	if(required_playtime_remaining)
-		entry["state"] = "playtime"
-		entry["state_text"] = "[get_exp_format(required_playtime_remaining)] as [job.get_exp_req_type()]"
-		return entry
-
-	// Account-age gate.
-	if(!job.player_old_enough(user.client))
-		entry["state"] = "agedays"
-		entry["state_text"] = "IN [job.available_in_days(user.client)] DAYS"
-		return entry
-
-	// Min PQ.
-	if(!job.required && !isnull(job.min_pq) && (get_playerquality(user.ckey) < job.min_pq))
-		entry["state"] = "min_pq"
-		entry["state_text"] = "Min PQ: [job.min_pq]"
-		return entry
-
-	// Max PQ.
-	if(!job.required && !isnull(job.max_pq) && (get_playerquality(user.ckey) > job.max_pq))
-		entry["state"] = "max_pq"
-		entry["state_text"] = "Max PQ: [job.max_pq]"
+	if(gate["state"])
+		entry["state"] = gate["state"]
+		entry["state_text"] = gate["state_text"]
 		return entry
 
 	// Virtue restrictions (combined: virtue + virtuetwo).
@@ -980,6 +1047,83 @@
 		else
 			entry["priority"] = "never"
 	return entry
+
+/// Resolve a job's category label + color from the same nine GLOB.*_positions
+/// lists the late-join picker uses, so Class Selection gets the same colored
+/// section headers (Nobles / Courtiers / Garrison / Churchmen / Inquisition /
+/// Yeomen / Peasants / Mercenaries / Sidefolk). Jobs outside those lists fall
+/// back to "Other". Cached statically since the mapping is round-stable.
+/proc/job_category_for(datum/job/job)
+	var/static/list/category_cache
+	if(!category_cache)
+		category_cache = list()
+		// Order matches late_join_choices.dm omegalist ordering — that's the
+		// order the sections render in.
+		var/list/omegalist = list(
+			list("Nobles", GLOB.noble_positions),
+			list("Courtiers", GLOB.courtier_positions),
+			list("Garrison", GLOB.garrison_positions),
+			list("Churchmen", GLOB.church_positions),
+			list("Inquisition", GLOB.inquisition_positions),
+			list("Yeomen", GLOB.yeoman_positions),
+			list("Peasants", GLOB.peasant_positions),
+			list("Mercenaries", GLOB.mercenary_positions),
+			list("Sidefolk", GLOB.youngfolk_positions),
+			// Wanderers aren't in the late-join omegalist (they have their own
+			// spawn flow), but they appear in Class Selection and need a home.
+			list("Wanderers", GLOB.prefs_menu_wanderer_titles),
+		)
+		var/order = 0
+		for(var/list/cat_entry in omegalist)
+			order++
+			var/cat_name = cat_entry[1]
+			var/list/positions = cat_entry[2]
+			if(!length(positions))
+				continue
+			var/datum/job/head = SSjob.name_occupations[positions[1]]
+			var/cat_color = head ? head.selection_color : "#dbdce3"
+			for(var/title in positions)
+				category_cache[title] = list("name" = cat_name, "color" = cat_color, "order" = order)
+	var/list/hit = category_cache[job.title]
+	if(hit)
+		return hit
+	return list("name" = "Other", "color" = "#dbdce3", "order" = 99)
+
+/// Compute the immutable per-session gate for a job (ban / playtime / account
+/// age / PQ floor / PQ ceiling). Returns a {state, state_text} list. Empty
+/// state means the job has no immutable gate and per-poll dynamic checks
+/// (virtue/vice/SLOTFULL) decide whether it's available.
+/datum/preferences_menu/proc/compute_job_gate(mob/user, datum/job/job)
+	var/list/gate = list("state" = null, "state_text" = null)
+	var/rank = job.title
+
+	if(is_banned_from(user.ckey, rank))
+		gate["state"] = "banned"
+		gate["state_text"] = "BANNED"
+		return gate
+
+	var/required_playtime_remaining = job.required_playtime_remaining(user.client)
+	if(required_playtime_remaining)
+		gate["state"] = "playtime"
+		gate["state_text"] = "[get_exp_format(required_playtime_remaining)] as [job.get_exp_req_type()]"
+		return gate
+
+	if(!job.player_old_enough(user.client))
+		gate["state"] = "agedays"
+		gate["state_text"] = "IN [job.available_in_days(user.client)] DAYS"
+		return gate
+
+	if(!job.required && !isnull(job.min_pq) && (get_playerquality(user.ckey) < job.min_pq))
+		gate["state"] = "min_pq"
+		gate["state_text"] = "Min PQ: [job.min_pq]"
+		return gate
+
+	if(!job.required && !isnull(job.max_pq) && (get_playerquality(user.ckey) > job.max_pq))
+		gate["state"] = "max_pq"
+		gate["state_text"] = "Max PQ: [job.max_pq]"
+		return gate
+
+	return gate
 
 /// Resolve a JOB_UNAVAILABLE_* code into a short human-readable reason.
 /datum/preferences_menu/proc/unavailable_reason_text(reason)
@@ -1663,8 +1807,7 @@
 			// that triggers on_identity_change (species swap, slot reload)
 			// will snap the body to the new ancestry's color.
 			if(!prefs.update_mutant_colors)
-				prefs.save_preferences()
-				prefs.save_character()
+				queue_save()
 				SStgui.update_uis(src)
 				return TRUE
 			prefs.try_update_mutant_colors()
@@ -2147,6 +2290,16 @@
 			prefs.ShowChoices(user)
 			return TRUE
 
+		if("cycle_tgui_theme")
+			// Cycle to the next theme in /datum/preferences/proc/setTguiStyle
+			// and push a UI update so the new palette propagates immediately.
+			// setTguiStyle already calls save_preferences() — clear save_dirty
+			// so the coalesce timer doesn't fire a redundant re-save 5s later.
+			prefs.setTguiStyle(user)
+			save_dirty = FALSE
+			SStgui.update_uis(src)
+			return TRUE
+
 		// --- Admin OOC toggles. Each handler gates on user.client.holder so
 		// non-admins can't fire them by hand-crafting ui_act calls. ---
 
@@ -2366,13 +2519,22 @@
 			if(!prefs.path)
 				to_chat(user, span_warning("Save failed — your savefile is not available (guests cannot save)."))
 				return TRUE
+			// Explicit save: bypass the coalesce window and write now. Clear
+			// the dirty flag so the pending timer becomes a no-op.
+			save_dirty = FALSE
 			var/prefs_ok = prefs.save_preferences()
 			var/char_ok = prefs.save_character()
 			if(prefs_ok && char_ok)
 				to_chat(user, span_notice("Saved to slot [prefs.default_slot]: [prefs.real_name]."))
+				// Refresh the cached slot name so the dropdown picks up the
+				// new label on the next poll. No disk re-read — just write
+				// what we know we just saved.
+				if(!cached_slot_names)
+					cached_slot_names = list()
+				cached_slot_names["[prefs.default_slot]"] = prefs.real_name || "Slot [prefs.default_slot]"
 			else
 				to_chat(user, span_warning("Save failed — check savefile permissions."))
-			update_static_data_for_all_viewers()
+			SStgui.update_uis(src)
 			return TRUE
 
 		if("load_character")
@@ -2389,7 +2551,6 @@
 			// state that didn't survive the disk round-trip.
 			refresh_preview(prefs.parent?.mob)
 			SStgui.update_uis(src)
-			update_static_data_for_all_viewers()
 			return TRUE
 
 		if("change_slot")
@@ -2416,7 +2577,6 @@
 			// the slot's name in the dropdown before the user gets a chance to edit.
 			refresh_preview(prefs.parent?.mob)
 			SStgui.update_uis(src)
-			update_static_data_for_all_viewers()
 			return TRUE
 
 		if("open_migration")
@@ -3375,12 +3535,40 @@
 /datum/preferences_menu/proc/on_identity_change()
 	if(!prefs)
 		return
+	queue_save()
+	queue_preview_refresh()
+	SStgui.update_uis(src)
+
+/// Mark the savefile dirty and schedule a flush. Multiple acts within the same
+/// 5-second window coalesce to a single pair of save_preferences/save_character
+/// calls. TIMER_UNIQUE | TIMER_OVERRIDE ensures repeated queues just reset the
+/// debounce clock rather than stacking timers.
+/datum/preferences_menu/proc/queue_save()
+	save_dirty = TRUE
+	addtimer(CALLBACK(src, PROC_REF(flush_save)), 5 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+
+/datum/preferences_menu/proc/flush_save()
+	if(!save_dirty || !prefs)
+		return
 	prefs.save_preferences()
 	prefs.save_character()
+	save_dirty = FALSE
+
+/// Mark the preview dirty and schedule a flush. A burst of body-affecting acts
+/// (e.g. rapid customizer rotations) now composes one dummy mob instead of one
+/// per act. 0.5s gives the player near-immediate feedback while collapsing
+/// machine-gun clicks.
+/datum/preferences_menu/proc/queue_preview_refresh()
+	preview_dirty = TRUE
+	addtimer(CALLBACK(src, PROC_REF(flush_preview)), 0.5 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+
+/datum/preferences_menu/proc/flush_preview()
+	if(!preview_dirty || !prefs)
+		return
 	// Use our lobby-safe refresh instead of update_preview_icon() — the classic proc
 	// short-circuits when parent.is_new_player() is TRUE (i.e. exactly when we need it).
 	refresh_preview(prefs.parent?.mob)
-	SStgui.update_uis(src)
+	preview_dirty = FALSE
 
 /// Build the virtue picker list, filtering the same way the classic prefs.dm:2320 picker does
 /// (skip origin/pack/racial/heretic virtues — they're handled by separate prefs).

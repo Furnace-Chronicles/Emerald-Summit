@@ -271,12 +271,6 @@ export const FeaturesTab = (props) => {
         </Section>
       </Stack.Item>
 
-      {/* Body section moved from the Identity tab — sits directly above the
-          Customizers (and therefore above the Eyes customizer card). */}
-      <Stack.Item>
-        <BodySection />
-      </Stack.Item>
-
       <Stack.Item>
         <Section
           title="Customizers"
@@ -405,6 +399,12 @@ export const FeaturesTab = (props) => {
             </Stack>
           )}
         </Section>
+      </Stack.Item>
+
+      {/* Body section moved from the Identity tab — sits below Customizers
+          per user request. */}
+      <Stack.Item>
+        <BodySection />
       </Stack.Item>
 
       {/* Markings section moved from the Identity tab — at the bottom of
