@@ -185,6 +185,11 @@
 	stressadd = 5
 	desc = span_red("Better stay away.")
 
+/datum/stressevent/gnoll_examine
+	timer = 1 MINUTES
+	stressadd = 2
+	desc = span_red("Gods above... a Gnoll!!")
+
 /datum/stressevent/paracrowd
 	timer = 15 SECONDS
 	stressadd = 2

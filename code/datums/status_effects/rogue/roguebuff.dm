@@ -1712,6 +1712,10 @@
 	var/blood_restore = 30
 
 /datum/status_effect/buff/adrenaline_rush/on_apply()
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		if(H.dna?.species?.type == /datum/species/gnoll)
+			return FALSE
 	. = ..()
 	ADD_TRAIT(owner, TRAIT_ADRENALINE_RUSH, INNATE_TRAIT)
 	if(ishuman(owner))

@@ -4,6 +4,7 @@ Fireplaces now grant a warmth buff when you are near them.
 The Wretch is no longer locked out of Harpy and Lamia subraces.
 Ordinators have been granted a broader set of weapon skills, and both Ordinator and Inquisitor now possess the Holy skill.
 New foppish voice options have been added.
+Smokepowder firearms have been brought back, issued to the Merchant and the Inquisition and made purchasable on the GOLDFACE and SILVERFACE.
 A suite of new intimacy actions has been added (knot riding and related fetish content), gated behind the usual ERP opt-in preferences.
 The lobby menu now updates correctly.
 Fixed looping sounds (such as fires) persisting forever when multiple players were nearby.

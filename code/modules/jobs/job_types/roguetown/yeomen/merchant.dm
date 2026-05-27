@@ -51,6 +51,7 @@
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/bows = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/firearms = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
@@ -67,14 +68,19 @@
 	..()
 	H.adjust_blindness(-3)
 
-	backpack_contents = /obj/item/rogueweapon/huntingknife/idagger/navaja
+	backpack_contents = list(
+					/obj/item/rogueweapon/huntingknife/idagger/navaja = 1,
+					/obj/item/powderflask = 1,
+					/obj/item/storage/belt/rogue/pouch/coins/rich = 1,
+					)
 	neck = /obj/item/clothing/neck/roguetown/horus
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/merchant
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/sailor
 	pants = /obj/item/clothing/under/roguetown/tights/sailor
 	belt = /obj/item/storage/belt/rogue/leather/rope
-	beltl = /obj/item/storage/keyring/merchant
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
+	beltl = /obj/item/gun/ballistic/firearm/arquebus_pistol
+	beltr = /obj/item/quiver/bullet/lead
+	wrists = /obj/item/storage/keyring/merchant
 	id = /obj/item/clothing/ring/gold
 	backr = /obj/item/storage/backpack/rogue/satchel
 	if(should_wear_masc_clothes(H))
