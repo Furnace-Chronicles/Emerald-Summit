@@ -61,6 +61,13 @@
 #define TRAIT_TALENTED_ALCHEMIST "Talented Alchemist" // Allows alchemy XP gain past apprentice
 #define TRAIT_LAMIAN_TAIL "Lamian Tail"
 #define TRAIT_DUNGEONMASTER "Ruthless Jailor"
+#define TRAIT_SKILLBLESSED "Skill Blessed"
+#define TRAIT_LONGSWORDSMAN "Master Longswordman"
+#define TRAIT_SABRIST "Renowned Sabrist"
+#define TRAIT_ARMOUR_LIKED "Fitting Armour"
+#define TRAIT_ARMOUR_DISLIKED "Misfitting Armour"
+#define TRAIT_FENCERDEXTERITY "Fencer's Dexterity"
+#define TRAIT_HONORBOUND "Honorbound" // no idea what this trait even is
 #define TRAIT_DEATHBARGAIN "Death Bargain" // Used by UNDERMAIDEN'S BARGAIN
 #define TRAIT_RITUALIST "Ritualist"  // Allows use of ritual chalk
 #define TRAIT_INQUISITION "Member of the Otavan Inquisition"
@@ -176,6 +183,7 @@
 #define TRAIT_LEPROSY "Leprosy"
 #define TRAIT_NUDE_SLEEPER "Nude Sleeper"
 #define TRAIT_SILVER_BLESSED "Silver Blessed"
+#define TRAIT_UNLYCKERABLE "Lycker Immunity"
 #define TRAIT_SILVER_BLOOD "Silver Blood"
 #define TRAIT_OUTLANDER "Outlander"
 #define TRAIT_OUTLAW "Outlaw"
@@ -240,6 +248,11 @@
 #define TRAIT_FOOD_STIPEND "Vomitorium-known"
 #define TRAIT_ROYALSERVANT "Household Insight" // Let's you see the royals liked/hated food/drink
 
+// Weaponry Traits
+// Intended for very powerful, very specific or gimmicky weapon skills.
+// Firearms, as an example, is one of them. We do not let someone get above JMAN without it.
+#define TRAIT_FUSILIER "Fusilier"//Firearm above JMAN, since mass training is possible. On top of removing dangerous interactions.
+
 
 GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_RITES_BLOCKED = span_bloody("I can't perform any rites for now."),
@@ -276,6 +289,12 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_DISGRACED_NOBLE = span_warning("I was a scion of a noble house... long ago."),
 	TRAIT_EMPATH = span_info("I can notice when people are in pain, and I feel peace when they're happy."),
 	TRAIT_BREADY = span_info("Defensive stance does not passively fatigue me."),
+	TRAIT_ARMOUR_LIKED = span_greentext("I'm wearing something more suited to my style."),
+	TRAIT_ARMOUR_DISLIKED = span_warning("I'm wearing something that burdens me."),
+	TRAIT_FENCERDEXTERITY = span_info("I've trained my entire lyfe around the art of unarmoured fencing, affording myself unmatched speed when wearing very light armour. I'm very choosy otherwise."),
+	TRAIT_SKILLBLESSED = span_greentext("I've reunited with an old friend of mine. All is well."),
+	TRAIT_LONGSWORDSMAN = span_info("\"I will crush anyone who opposes me. I am of royal blood. I dispense justice, advance the cause of good and destroy evil. To those who learn my crossings I will grant great fame and renown in the art of armed fighting.\" - I fight like a Master when I wield any longsword, though I can only perform master strikes with a perfectly balanced basket-hilted or reformist longsword."),
+	TRAIT_SABRIST = span_info("I've learned all there is to know about the Southern curve. When using a szöréndnížine sabre, I fight like a Master. My swings are innately more accurate when targetting hands and arms."),
 	TRAIT_MEDIUMARMOR = span_info("I can move freely in medium armor."),
 	TRAIT_HEAVYARMOR = span_info("I can move freely in heavy armor."),
 	TRAIT_DODGEEXPERT = span_info("I can dodge easily while only wearing light armor."),
@@ -341,6 +360,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_GUIDANCE = span_info("The arcyne aides me in battle."),
 	TRAIT_DEPRAVED = span_info("The languid scent of Her debauchery is known to me."),
 	TRAIT_SILVER_BLESSED = span_info("I am anointed with holy silver, which preserves me from curses that bite."),
+	TRAIT_UNLYCKERABLE = span_info("My kind cannot bear the Sun curse for it already has another."),
 	TRAIT_SILVER_BLOOD = span_info("My blood has been blessed with silver, burning any deadite that tries to feed on me. It will not protect me from their curse, however."),
 	TRAIT_GOODTRAINER = span_info("I am a good teacher, and when it comes to weaponry I can train others to be just as skilled as I am."),
 	TRAIT_BADTRAINER = span_info("I've spent yils studying the art of a single weapon, but unfortunately I've no patience to train anyone else. Everyone learning from me will only learn up to two skill levels below mine."),
@@ -441,6 +461,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WAGES_SUSPENDED = span_warning("The Stewardry has halted my daily wages!"),
 	TRAIT_PEASANTMILITIA = span_info("I am a commoner. When the Lord's soldiers do not come, I needs fend off villains and nite creechurs with the tools at hand. I fight best with simple tools and militia weapons."),
 	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"),
+	TRAIT_FUSILIER = span_suppradio("I've been trained in the safe use of smokepowder. Additionally, knowledge above <b><u>journeyman</u></b> status is attainable.")
 ))
 
 // trait accessor defines
@@ -537,6 +558,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_BADDNA			"baddna"
 #define TRAIT_CLUMSY			"clumsy"
 #define TRAIT_CHUNKYFINGERS		"chunkyfingers" //means that you can't use weapons with normal trigger guards.
+#define TRAIT_GNARLYDIGITS		"gnarlydigits" //less aggressive version of chunky fingers to allow -some- fun.
 #define TRAIT_DUMB				"dumb"
 #define TRAIT_MONKEYLIKE		"monkeylike" //sets IsAdvancedToolUser to FALSE
 #define TRAIT_NOTIGHTGRABMESSAGE "notightgrabmessage" // Hides grab tightening messages.
@@ -660,6 +682,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_POOR_AIM			"poor_aim"
 #define TRAIT_PROSOPAGNOSIA		"prosopagnosia"
 #define TRAIT_DRUNK_HEALING		"drunk_healing"
+#define TRAIT_DEATHBYSNUSNU     "Bed Breaker" //What do you think? Pelvis crushing and increased pain.
 #define TRAIT_TAGGER			"tagger"
 #define TRAIT_PHOTOGRAPHER		"photographer"
 #define TRAIT_MUSICIAN			"musician"

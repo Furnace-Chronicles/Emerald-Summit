@@ -12,6 +12,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	"Devout Follower"=/datum/charflaw/addiction/godfearing,
 	"Foreigner"=/datum/charflaw/foreigner,
 	"Greedy"=/datum/charflaw/greedy,
+	"Hunted (+1 TRI)"=/datum/charflaw/hunted,
 	"Isolationist"=/datum/charflaw/isolationist,
 	"Junkie"=/datum/charflaw/addiction/junkie,
 	"Lawless"=/datum/charflaw/lawless,
@@ -662,3 +663,14 @@ GLOBAL_LIST_INIT(character_flaws, list(
 		user.grant_language(new_language)
 		to_chat(user, span_info("In your past, you learned the language [initial(new_language.name)]."))
 		desc += " In your past, you learned the language [initial(new_language.name)]."
+
+/datum/charflaw/hunted
+	name = "Hunted"
+	desc = "Something in my past has made me a target. I'm always looking over my shoulder. YOU MAY BE PERMANENTLY REMOVED FROM THE ROUND WITHOUT ESCALATION BY YOUR ASSASSIN OR THE GNOLLS!"
+	var/logged = FALSE
+
+/datum/charflaw/hunted/on_mob_creation(mob/user)
+	..()
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		H.adjust_triumphs(1)

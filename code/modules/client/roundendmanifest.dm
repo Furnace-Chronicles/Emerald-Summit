@@ -1,6 +1,6 @@
 /client/proc/view_rogue_manifest()
 	var/dat
-	dat += "<h3>Round ID: [GLOB.rogue_round_id]</h1>"
+	dat += "<h3>Round ID: [GLOB.round_id]</h1>"
 	for(var/X in GLOB.character_list)
 		dat += "[GLOB.character_list[X]]"
 

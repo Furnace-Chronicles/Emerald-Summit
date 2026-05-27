@@ -78,7 +78,7 @@ jobs:
         run: |
           bash tools/ci/install_byond.sh
           source $HOME/BYOND/byond/bin/byondsetup
-          tools/build/build.sh --ci dm -DCIBUILDING -DCITESTING -DALL_MAPS
+          tools/build/build.sh --ci dm -DCIBUILDING -DCITESTING -DALL_MAPS -Werror
 
   find_all_maps:
     if: ( !contains(github.event.head_commit.message, '[ci skip]') )
@@ -201,12 +201,12 @@ jobs:
         run: pwsh tools/ci/build.ps1
         env:
           DM_EXE: "C:\\byond\\bin\\dm.exe"
-      - name: Create artifact
-        run: |
-          md deploy
-          bash tools/deploy.sh ./deploy
-      - name: Deploy artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: deploy
-          path: deploy
+      # - name: Create artifact
+      #   run: |
+      #     md deploy
+      #     bash tools/deploy.sh ./deploy
+      # - name: Deploy artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: deploy
+      #     path: deploy

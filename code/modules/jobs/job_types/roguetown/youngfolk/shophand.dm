@@ -7,13 +7,14 @@
 	spawn_positions = 1
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	tutorial = "You work the largest store in the Reach by grace of the Merchant who has shackled you to this drudgery. The work of stocking shelves and taking inventory for your employer is mind-numbing and repetitive--but at least you have a roof over your head and comfortable surroundings. With time, perhaps you will one day be more than a glorified servant."
+	tutorial = "A Shophand in the Merchant Guild serves as an apprentice to a seasoned merchant, learning the intricate art of trade and commerce from the ground up. Their days are spent balancing practical labor with keen observation, stocking shelves with imported goods, polishing shiny gems, recording transactions in ledgers, and assisting in negotiations with traders from distant provinces."
 	outfit = /datum/outfit/job/shophand
 	display_order = JDO_SHOPHAND
 	give_bank_account = TRUE
 	min_pq = -10
 	max_pq = null
 	round_contrib_points = 2
+	cmode_music = 'sound/music/combat_giza.ogg'
 	social_rank = SOCIAL_RANK_PEASANT
 
 	job_traits = list(TRAIT_SEEPRICES_SHITTY)
@@ -25,9 +26,7 @@
 
 /datum/advclass/shophand
 	name = "Shophand"
-	tutorial = "You work the largest store in the Peaks by grace of the Merchant who has shackled you to this drudgery. \
-	The work of stocking shelves and taking inventory for your employer is mind-numbing and repetitive--but at least you have a roof over your head and comfortable surroundings. \
-	With time, perhaps you will one day be more than a glorified servant."
+	tutorial = "A Shophand in the Merchant Guild serves as an apprentice to a seasoned merchant, learning the intricate art of trade and commerce from the ground up. Their days are spent balancing practical labor with keen observation, stocking shelves with imported goods, polishing shiny gems, recording transactions in ledgers, and assisting in negotiations with traders from distant provinces."
 	outfit = /datum/outfit/job/shophand/basic
 	category_tags = list(CTAG_SHOPHAND)
 
@@ -63,8 +62,10 @@
 		beltl = /obj/item/storage/keyring/merchant
 		backr = /obj/item/storage/backpack/rogue/satchel
 	else if(should_wear_masc_clothes(H))
-		pants = /obj/item/clothing/under/roguetown/tights
-		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
+		H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
+		armor = /obj/item/clothing/suit/roguetown/shirt/robe/merchant
+		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/sailor
+		pants = /obj/item/clothing/under/roguetown/tights/sailor
 		shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
 		belt = /obj/item/storage/belt/rogue/leather
 		beltr = /obj/item/storage/belt/rogue/pouch/coins/poor

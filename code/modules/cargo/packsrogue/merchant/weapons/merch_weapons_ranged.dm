@@ -44,6 +44,34 @@
 					/obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow,
 				)
 
+/datum/supply_pack/rogue/ranged_weapons/arquebus
+	name = "Arquebus Rifle"
+	cost = 130
+	contains = list(
+					/obj/item/gun/ballistic/firearm/arquebus,
+				)
+
+/datum/supply_pack/rogue/ranged_weapons/arquebuspistol
+	name = "Arquebus Pistol"
+	cost = 95
+	contains = list(
+					/obj/item/gun/ballistic/firearm/arquebus_pistol,
+				)
+
+/datum/supply_pack/rogue/ranged_weapons/leadballs
+	name = "Lead Ball Pouch"
+	cost = 35 // 2 Iron Ingots, mirrors the anvil recipe
+	contains = list(
+					/obj/item/quiver/bullet/lead,
+				)
+
+/datum/supply_pack/rogue/ranged_weapons/powderflask
+	name = "Powder Flask"
+	cost = 60
+	contains = list(
+					/obj/item/powderflask,
+				)
+
 /datum/supply_pack/rogue/ranged_weapons/quiver
 	name = "Quiver"
 	cost = 5

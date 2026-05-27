@@ -1913,3 +1913,23 @@
 /datum/sprite_accessory/hair/facial/vox/neck
 	name = "Neck Quills"
 	icon_state = "neck"
+
+/datum/sprite_accessory/hair/head/wolfcut
+	name = "Wolfcut"
+	icon_state = "wolfcut"
+
+/datum/sprite_accessory/hair/head/triplebuns
+	name = "Triple Buns"
+	icon_state = "triplebuns"
+
+/datum/sprite_accessory/hair/head/nest
+	name = "Nest"
+	icon_state = "nest"
+
+/datum/sprite_accessory/hair/head/strand
+	name = "Strand"
+	icon_state = "strand"
+
+/datum/sprite_accessory/hair/head/sodden
+	name = "Sodden"
+	icon_state = "sodden"

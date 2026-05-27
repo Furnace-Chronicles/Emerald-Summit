@@ -30,7 +30,7 @@
 		/datum/virtue/combat/crimson_curse,
 	)
 
-	job_traits = list(TRAIT_SEEDKNOW, TRAIT_OUTDOORSMAN, TRAIT_RITUALIST, TRAIT_CLERGY, TRAIT_WOODWALKER)
+	job_traits = list(TRAIT_SEEDKNOW, TRAIT_OUTDOORSMAN, TRAIT_RITUALIST, TRAIT_CLERGY, TRAIT_WOODWALKER, TRAIT_TALENTED_ALCHEMIST)
 
 	advclass_cat_rolls = list(CTAG_DRUID = 2)
 	job_subclasses = list(

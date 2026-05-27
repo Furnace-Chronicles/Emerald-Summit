@@ -20,7 +20,7 @@
 			. += span_info("Value: [real_value] mammon")
 		else if(HAS_TRAIT(user, TRAIT_SEEPRICES_SHITTY))
 			//you can get up to 50% of the value if you have shitty see prices
-			var/static/fumbling_seed = text2num(GLOB.rogue_round_id)
+			var/static/fumbling_seed = text2num(GLOB.round_id)
 			var/fumbled_value = max(1, round(real_value + (real_value * clamp(noise_hash(real_value, fumbling_seed) - 0.25, -0.25, 0.25)), 1))
 			. += span_info("Value: [fumbled_value] mammon... <i>I think</i>")
 	if(item_flags & PEASANT_WEAPON && HAS_TRAIT(user, TRAIT_PEASANTMILITIA))

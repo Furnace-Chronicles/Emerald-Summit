@@ -511,7 +511,7 @@ datum/crafting_recipe/roguetown/sewing/Purdress
 	name = "fencing shirt"
 	result = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter
 	reqs = list(/obj/item/natural/cloth = 5,
-				/obj/item/natural/fibers = 2)
+				/obj/item/natural/silk = 2)
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/sewing/chaperon

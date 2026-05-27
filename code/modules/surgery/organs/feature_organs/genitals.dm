@@ -121,16 +121,17 @@
 	var/monohole = FALSE
 
 /obj/item/organ/vagina/proc/be_impregnated(mob/living/carbon/human/father)
-    if(!owner)
-        return
-    if(owner.stat == DEAD)
-        return
-    if(pregnant)
-        to_chat(owner, span_love("I feel a surge of warmth in my belly again..."))
-        return
-    to_chat(owner, span_love("I feel a surge of warmth in my belly, I’m definitely pregnant!"))
-    pregnant = TRUE
+	if(!owner)
+		return FALSE
+	if(owner.stat == DEAD)
+		return FALSE
+	if(pregnant)
+		to_chat(owner, span_love("I feel a surge of warmth in my belly again..."))
+		return FALSE
+	to_chat(owner, span_love("I feel a surge of warmth in my belly, I’m definitely pregnant!"))
+	pregnant = TRUE
 	//TODO add a way to trigger lactating when pregnancy happens
+	return TRUE
 
 /obj/item/organ/breasts
 	name = "breasts"

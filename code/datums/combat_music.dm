@@ -535,6 +535,12 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	credits = "Butcher's Boulevard - Kristjan Thomas Haaristo"
 	musicpath = list('sound/music/warscholar.ogg')
 
+/datum/combat_music/giza
+	name = "Giza"
+	desc = ""
+	shortname = "Giza"
+	musicpath = list('sound/music/combat_giza.ogg')
+
 /* Unused. I love Filmmaker but this one ain't worth it.
 /datum/combat_music/werewolf_old
 	name = "Werewolf (Old)"

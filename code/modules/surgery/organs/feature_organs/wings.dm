@@ -99,7 +99,7 @@
 	ignore_cockblock = TRUE
 	recharge_time = 5
 	miracle = FALSE
-	var/baseline_stamina_cost = 9
+	var/baseline_stamina_cost = 8
 	var/list/swoop_sound = list(
 		'sound/foley/footsteps/flight_sounds/swooping1.ogg',
 		'sound/foley/footsteps/flight_sounds/swooping2.ogg',
@@ -118,7 +118,7 @@
 							user.Knockdown(10)
 						else
 							user.visible_message(span_notice("[user] prepares to take flight."))
-							if(do_after(user, 3 SECONDS))
+							if(do_after(user, 2 SECONDS))
 								var/athletics_skill = max(user.get_skill_level(/datum/skill/misc/athletics), SKILL_LEVEL_NOVICE)
 								var/stamina_cost_final = round((baseline_stamina_cost - athletics_skill), 1)
 								user.apply_status_effect(/datum/status_effect/debuff/harpy_flight, stamina_cost_final)

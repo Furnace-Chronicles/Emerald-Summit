@@ -36,7 +36,8 @@
 
 /datum/sex_action/throat_sex/on_start(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	user.visible_message(span_warning("[user] slides [user.p_their()] cock into [target]'s throat!"))
-	playsound(target, list('sound/misc/mat/insert (1).ogg','sound/misc/mat/insert (2).ogg'), 20, TRUE, ignore_walls = FALSE)
+	user.sexcon.intercourse_noise(target, TRUE)
+	user.sexcon.oralcourse_noise(target)
 
 /datum/sex_action/throat_sex/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(!user.sexcon.do_knot_action)
@@ -82,7 +83,8 @@
 
 /datum/sex_action/throat_sex/double/on_start(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	user.visible_message(span_warning("[user] slides [user.p_their()] cocks into [target]'s throat!"))
-	playsound(target, list('sound/misc/mat/insert (1).ogg','sound/misc/mat/insert (2).ogg'), 20, TRUE, ignore_walls = FALSE)
+	user.sexcon.intercourse_noise(target, TRUE)
+	user.sexcon.oralcourse_noise(target)
 
 /datum/sex_action/throat_sex/double/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(!user.sexcon.do_knot_action)

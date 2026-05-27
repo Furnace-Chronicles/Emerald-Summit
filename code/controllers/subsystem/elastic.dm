@@ -43,7 +43,7 @@ SUBSYSTEM_DEF(elastic)
 	compiled["elapsed_process_time"] = world.time
 	compiled["elapsed_real_time"] = (REALTIMEOFDAY - world_init_time)
 	compiled["client_count"] = length(GLOB.clients)
-	compiled["round_id"] = GLOB.rogue_round_id // if you are on literally any other server change this to a text2num(GLOB.round_id)
+	compiled["round_id"] = text2num(GLOB.round_id) // if you are on literally any other server change this to a text2num(GLOB.round_id)
 	compiled |= assoc_list_data // you see why this needs to be an assoc list now?
 
 	// down here is specific to vanderlin so if you are porting this you can take this out

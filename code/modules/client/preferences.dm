@@ -72,6 +72,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/real_name						//our character's name
 	var/gender = MALE					//gender of character (well duh) (LETHALSTONE EDIT: this no longer references anything but whether the masculine or feminine model is used)
 	var/pronouns = HE_HIM				// LETHALSTONE EDIT: character's pronouns (well duh)
+	var/voice_pack = "Default"
 	var/voice_type = VOICE_TYPE_MASC	// LETHALSTONE EDIT: the type of soundpack the mob should use
 	var/datum/statpack/statpack	= new /datum/statpack/wildcard/fated // LETHALSTONE EDIT: the statpack we're giving our char instead of racial bonuses
 	var/datum/virtue/virtue = new /datum/virtue/none // LETHALSTONE EDIT: the virtue we get for not picking a statpack
@@ -210,6 +211,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/ooc_notes_display
 
 	var/datum/familiar_prefs/familiar_prefs
+	var/datum/gnoll_prefs/gnoll_prefs
 
 	var/rumour
 	var/rumour_display
@@ -231,6 +233,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	parent = C
 	migrant  = new /datum/migrant_pref(src)
 	familiar_prefs = new /datum/familiar_prefs(src)
+	gnoll_prefs = new /datum/gnoll_prefs(src)
 
 	for(var/custom_name_id in GLOB.preferences_custom_names)
 		custom_names[custom_name_id] = get_default_name(custom_name_id)
@@ -407,6 +410,12 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			// LETHALSTONE EDIT BEGIN: add pronoun prefs
 			dat += "<b>Pronouns:</b> <a href='?_src_=prefs;preference=pronouns;task=input'>[pronouns]</a><BR>"
 			// LETHALSTONE EDIT END
+			if(!voice_pack)
+				voice_pack = "Default"
+			// LETHALSTONE EDIT BEGIN: add voice type prefs
+			dat += "<b>Voice Identity</b>: <a href='?_src_=prefs;preference=voicetype;task=input'>[voice_type]</a><BR>"
+			// LETHALSTONE EDIT END
+			dat += "<b>Voice Pack</b>: <a href='?_src_=prefs;preference=voicepack;task=input'>[voice_pack]</a><BR>"
 
 			dat += "<BR>"
 			dat += "<b>Race:</b> <a href='?_src_=prefs;preference=species;task=input'>[pref_species.base_name]</a>[spec_check(user) ? "" : " (!)"]<BR>"
@@ -467,9 +476,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				dat += "<b>Tail Color:</b><span style='border: 1px solid #161616; background-color: #[tail_color];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=tail_color;task=input'>Change</a><BR>"
 				dat += "<b>Marking Color:</b><span style='border: 1px solid #161616; background-color: #[tail_markings_color];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=tail_markings_color;task=input'>Change</a><BR>"
 
-			// LETHALSTONE EDIT BEGIN: add voice type prefs
-			dat += "<b>Voice Type</b>: <a href='?_src_=prefs;preference=voicetype;task=input'>[voice_type]</a><BR>"
-			// LETHALSTONE EDIT END
 
 			dat += "<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[age]</a><BR>"
 
@@ -603,6 +609,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				dat += "<a href='?_src_=prefs;preference=loadout3hex;task=input'>(C)</a>"
 
 			dat += "<br><b>Be a Familiar:</b><a href='?_src_=prefs;preference=familiar_prefs;task=input'>Familiar Preferences</a>"
+
+			dat += "<br><b>Gnoll Customization:</b><a href='?_src_=prefs;preference=gnoll_prefs;task=input'>Gnoll Preferences</a>"
 
 			dat += "</td>"
 
@@ -882,9 +890,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		dat = list("<center>REGISTER!</center>")
 
 	if(current_tab == 0) //If we aren't on the character tab, hide the element. This is probably not the best place for this.
-		winset(usr.client, "preferencess_window.character_preview_map", "is-visible=true")
+		winset(user.client, "preferencess_window.character_preview_map", "is-visible=true")
 	else
-		winset(usr.client, "preferencess_window.character_preview_map", "is-visible=false")
+		winset(user.client, "preferencess_window.character_preview_map", "is-visible=false")
 
 	winshow(user, "preferencess_window", TRUE)
 	winset(user, "preferencess_window", "size=820x850")
@@ -1687,6 +1695,14 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					if(voicetype_input)
 						voice_type = voicetype_input
 						to_chat(user, "<font color='red'>Your character will now vocalize with a [lowertext(voice_type)] affect.</font>")
+				if ("voicepack")
+					var/voicepack_input = tgui_input_list(user, "Choose your character's emote voice pack", "VOICE PACK", GLOB.voice_packs_list)
+					if(voicepack_input)
+						voice_pack = voicepack_input
+						if(voicepack_input != "Default")
+							to_chat(user, span_red("<font color='red'>Your character will now audibly emote with a [lowertext(voicepack_input)] affect.") + span_notice("<br>This will override your Voice Identity and Class-specific voice packs.</font>"))
+						else
+							to_chat(user, "<font color='red'>Your character will now audibly emote in accordance to their Voice Identity and any Racial / Class-specific voice packs.</font>")
 
 				if("tail_type")
 					var/list/species_tail_list = pref_species.get_tail_list()
@@ -2103,6 +2119,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 				if("familiar_prefs")
 					familiar_prefs.fam_show_ui()
+
+				if("gnoll_prefs")
+					gnoll_prefs.gnoll_show_ui(user)
 
 				if("loadout_item")
 					var/list/loadouts_available = list("None")
@@ -2883,7 +2902,21 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	
 	return FALSE
 
-/datum/preferences/proc/copy_to(mob/living/carbon/human/character, icon_updates = 1, roundstart_checks = TRUE, character_setup = FALSE, antagonist = FALSE)
+/datum/preferences/proc/copy_to(mob/living/carbon/human/character, icon_updates = 1, roundstart_checks = TRUE, character_setup = FALSE, antagonist = FALSE, skip_normal_prefs = FALSE)
+	if(skip_normal_prefs)
+		// For gnolls spawning from a non-gnoll base slot, we must not apply any base-slot state.
+		// Set species to gnoll immediately so advclass check_requirements can read dna.species.type.
+		character.set_species(/datum/species/gnoll, icon_update = FALSE)
+		// Set gender to MALE as a neutral default; gnoll pronouns override the displayed pronoun.
+		character.gender = MALE
+		if(gnoll_prefs?.gnoll_pronouns)
+			character.pronouns = gnoll_prefs.gnoll_pronouns
+		var/gnoll_name = gnoll_prefs?.ensure_gnoll_name() || "Gnoll"
+		character.real_name = gnoll_name
+		character.name = gnoll_name
+		character.dna.real_name = gnoll_name
+		return
+
 	if(randomise[RANDOM_SPECIES] && !character_setup)
 		random_species()
 

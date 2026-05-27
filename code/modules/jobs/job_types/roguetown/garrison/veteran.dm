@@ -1,7 +1,7 @@
 /datum/job/roguetown/veteran
 	title = "Veteran"
 	flag = VETERAN
-	department_flag = MERCENARIES
+	department_flag = GARRISON
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
@@ -9,9 +9,9 @@
 	allowed_sexes = list(MALE, FEMALE) //same as town guard
 	allowed_races = RACES_ALL_KINDS//But. Actually not. Only Mercenary and Ex-Spy allow All Races.
 	tutorial = "You've known combat your entire life. There isn't a way to kill a man you havent practiced in the tapestries of war itself. You wouldn't call yourself a hero--those belong to the men left rotting in the fields where you honed your ancient trade. You don't sleep well at night anymore, you don't like remembering what you've had to do to survive. Trading adventure for stable pay was the only logical solution, and maybe someday you'll get to lay down the blade and rest your weary body..."
-	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD)
+	allowed_ages = list(AGE_OLD)
 	advclass_cat_rolls = list(CTAG_VETERAN = 20)
-	display_order = JDO_VET
+	display_order = JDO_SHERIFF
 	whitelist_req = TRUE
 	give_bank_account = 35
 	min_pq = 10 //Should...probably actually be a veteran of at least a few weeks before trying to teach others
@@ -20,6 +20,8 @@
 	social_rank = SOCIAL_RANK_YEOMAN
 
 	cmode_music = 'sound/music/combat_veteran.ogg'
+
+	job_traits = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED, TRAIT_GOODTRAINER)
 
 	job_subclasses = list(
 		/datum/advclass/veteran/battlemaster,
@@ -50,7 +52,7 @@
 /datum/advclass/veteran/battlemaster
 	name = "Veteran Battlemaster"
 	tutorial = "You have served under a hundred masters, some good, some bad. You were a general once. A marshal, a captain. To some a hero, others a monster. Something of the sorts. You made strategies, tactics, new innovations of war. A thousand new ways for one man to kill another. It still keeps you up at night."
-	allowed_races = RACES_FEARED_UP//I'm going to assume they are the same criteria as MAA
+	allowed_races = RACES_ALL_KINDS//I'm going to assume they are the same criteria as MAA
 	outfit = /datum/outfit/job/vet/battlemaster
 	category_tags = list(CTAG_VETERAN)
 	cmode_music = 'sound/music/combat_duelist.ogg'
@@ -114,7 +116,7 @@
 /datum/advclass/veteran/footman
 	name = "Retired Footman"
 	tutorial = "You served on the fields of battle as no heroic knight steadfast in shining armor, but a mere mortal clad in whatever cheap armor coin could buy. You fought in formation as a member of a unit, and through discipline, have won numerous battles. Maybe one day you even served as the captain of your unit. You specialize in polearms and bows."
-	allowed_races = RACES_FEARED_UP//I'm going to assume they are the same criteria as MAA
+	allowed_races = RACES_ALL_KINDS//I'm going to assume they are the same criteria as MAA
 	outfit = /datum/outfit/job/vet/footman
 
 	category_tags = list(CTAG_VETERAN)
@@ -186,7 +188,7 @@
 /datum/advclass/veteran/cavalryman
 	name = "Tarnished Knight"
 	tutorial = "You were once a member of a knightly calvary regiment, a prestigious title. You were ontop of the world, the townspeople rejoiced when you rode through their streets. Now, all you can hear is the screams of your brothers-in-arms as they fell. You specialize in mounted warfare."
-	allowed_races = RACES_NOBILITY_ELIGIBLE_UP//Noble Knight.
+	allowed_races = RACES_ALL_KINDS//Noble Knight.
 	outfit = /datum/outfit/job/vet/cavalryman
 
 	category_tags = list(CTAG_VETERAN)
@@ -470,7 +472,7 @@
 
 /datum/advclass/veteran/scout
 	name = "Former Scout"
-	allowed_races = RACES_FEARED_UP //Same as MAA, who might as well assume they were apart of.
+	allowed_races = RACES_ALL_KINDS //Same as MAA, who might as well assume they were apart of.
 	tutorial = "You and your unit maneuvered ahead of the main force, ever-watchful for traps and ambushes. You never thought of what would happen should you actually walk into one. You specialize in archery and axes."
 	outfit = /datum/outfit/job/vet/scout
 	category_tags = list(CTAG_VETERAN)

@@ -51,16 +51,16 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 			switch(GLOB.tod)
 				if("dawn")
 					if(prob(25))
-						GLOB.forecast = pick(list("rain", "fog", "snow"))
+						GLOB.forecast = pick(list("rain", "snow")) // removed "fog" from possible choices 
 				if("day")
 					if(prob(15))
-						GLOB.forecast = pick(list("rain", "fog", "snow"))
+						GLOB.forecast = pick(list("rain", "snow"))
 				if("dusk")
 					if(prob(33))
-						GLOB.forecast = pick(list("rain", "fog"))
+						GLOB.forecast = pick(list("rain"))
 				if("night")
 					if(prob(40))
-						GLOB.forecast = pick(list("rain", "fog"))
+						GLOB.forecast = pick(list("rain"))
 			var/foundnd
 			switch(GLOB.forecast)
 				if("rain")
@@ -77,11 +77,12 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 						foundnd = TRUE
 					if(!foundnd)
 						SSParticleWeather?.run_weather(pick(/datum/particle_weather/snow_gentle, /datum/particle_weather/snow_storm))
-				if("fog")
-					if(SSParticleWeather?.runningWeather?.target_trait == PARTICLEWEATHER_FOG)
-						foundnd = TRUE
-					if(!foundnd)
-						SSParticleWeather?.run_weather(pick(/datum/particle_weather/fog))
+				// removed fog from the possible choices above, so this if statement is unnecessary 
+				// if("fog")
+				// 	if(SSParticleWeather?.runningWeather?.target_trait == PARTICLEWEATHER_FOG)
+				// 		foundnd = TRUE
+				// 	if(!foundnd)
+				// 		SSParticleWeather?.run_weather(pick(/datum/particle_weather/fog))
 
 		else
 			switch(GLOB.forecast) //end the weather now

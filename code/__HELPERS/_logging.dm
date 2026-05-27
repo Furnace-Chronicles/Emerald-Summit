@@ -241,7 +241,7 @@
 
 /* For logging round startup. */
 /proc/start_log(log)
-	WRITE_LOG(log, "Starting up round ID [GLOB.rogue_round_id].\n-------------------------")
+	WRITE_LOG(log, "Starting up round ID [GLOB.round_id].\n-------------------------")
 
 /* Close open log handles. This should be called as late as possible, and no logging should hapen after. */
 /proc/shutdown_logging()

@@ -41,13 +41,13 @@
 		user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] fucks [target]'s holes together."))
 	else
 		user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] knot-fucks [target]'s holes together."))
-	playsound(target, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
+	user.sexcon.intercourse_noise(target, TRUE)
 	user.sexcon.do_thrust_animate(target)
 
 	user.sexcon.perform_sex_action(user, 3, 0, TRUE)
 	if(user.sexcon.check_active_ejaculation())
 		user.visible_message(span_love("[user] cums into [target]'s holes at the same time!"))
-		user.sexcon.cum_into(splashed_user = target)
+		user.sexcon.cum_into(splashed_user = target, orifice = SEX_PART_CUNT|SEX_PART_ANUS)
 		user.try_impregnate(target)
 		user.virginity = FALSE
 		target.virginity = FALSE

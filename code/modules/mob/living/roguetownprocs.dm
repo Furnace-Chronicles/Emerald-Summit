@@ -46,6 +46,8 @@
 			precision_bonus -= 10
 		if((used_intent.blade_class == BCLASS_PUNCH))
 			accuracy_bonus += 5
+		if(used_intent.blade_class == BCLASS_HALFSWORD)
+			chance2hit += 21	//Double that of stab
 
 	if(I)
 		if(I.wlength == WLENGTH_SHORT)

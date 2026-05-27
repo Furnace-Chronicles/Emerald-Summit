@@ -49,3 +49,9 @@ runs:
       with:
         path: ~/BYOND
         key: ${{ steps.restore_byond_cache.outputs.cache-primary-key }}
+    - name: Install apt packages
+      shell: bash
+      run: |
+        sudo dpkg --add-architecture i386
+        sudo apt update
+        sudo apt install libstdc++6:i386 libcurl4:i386
