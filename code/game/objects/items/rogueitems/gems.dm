@@ -191,6 +191,22 @@
 		slapcraft_recipes = slapcraft_recipe_list,\
 	)
 
+// Do NOT add these to the stockpile treasures list, they have other uses.
+/obj/item/roguegem/blood_diamond
+	name = "glut"
+	icon_state = "blood"
+	sellprice = 188
+	desc = "Something about this gem just doesn't sit right with you. Holding it makes the blood leave your fingertips."
+
+/obj/item/roguegem/blood_diamond/examine(mob/user)
+	. = ..()
+	if(!ishuman(user))
+		return
+
+	var/mob/living/carbon/human/human_user = user
+	if(human_user.patron?.type == /datum/patron/inhumen/graggar)
+		. += span_danger("You know this gem well. They are born out of great violence, but only if it involves the mightiest of warriors.")
+
 /obj/item/roguegem/amethyst
 	name = "amythortz"
 	icon_state = "amethyst"
@@ -226,6 +242,7 @@
 		/obj/item/roguegem/diamond = 5,
 		/obj/item/roguegem/ruby = 5,
 		/obj/item/rogueore/silver = 3,
+		/obj/item/roguegem/blood_diamond = 1,
 		/obj/item/riddleofsteel = 1
 	)
 	var/pickgem = pickweight(newgem)

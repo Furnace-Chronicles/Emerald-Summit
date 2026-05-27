@@ -336,6 +336,8 @@
 				btm.apply_status_effect(/datum/status_effect/facial/internal)
 			else
 				creampie.refresh_cum()
+			if(top?.dna?.species?.id == "gnoll")
+				btm.has_gnoll_scent_this_round = TRUE
 			apply_creampie_drip(btm, top.sexcon.knotted_part_partner & (SEX_PART_CUNT|SEX_PART_ANUS|SEX_PART_SLIT_SHEATH), use_long = TRUE)
 		if(top.sexcon.knotted_part_partner&SEX_PART_JAWS)
 			var/datum/status_effect/facial/facial = btm.has_status_effect(/datum/status_effect/facial)

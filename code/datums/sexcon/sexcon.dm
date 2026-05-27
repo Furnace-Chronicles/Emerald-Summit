@@ -386,6 +386,8 @@
 				splashed_user.visible_message(span_love("[splashed_user] takes a load inside them!"), span_love("I take a load inside me!"))
 		else
 			splashed_type.refresh_cum()
+		if(!oral && user?.dna?.species?.id == "gnoll")
+			splashed_user.has_gnoll_scent_this_round = TRUE
 		if(oral && splashed_user.reagents)
 			if(user.getorganslot(ORGAN_SLOT_PENIS))
 				var/obj/item/organ/testicles/testes = user.getorganslot(ORGAN_SLOT_TESTICLES)

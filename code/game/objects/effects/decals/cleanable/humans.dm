@@ -255,6 +255,7 @@
 	alpha = 150
 	var/blood_vol = 10
 	random_icon_states = null
+	mouse_opacity = MOUSE_OPACITY_ICON // Override transparent parent — puddles need to be clickable for gnoll blood-pool feeding.
 
 /obj/effect/decal/cleanable/blood/puddle/update_icon()
 	switch(blood_vol)
@@ -275,6 +276,26 @@
 		P.blood_vol += 10
 		P.update_icon()
 		return TRUE
+
+/obj/effect/decal/cleanable/blood/puddle/attack_hand(mob/living/user)
+	. = ..()
+	if(!ishuman(user) || blood_vol <= 0)
+		return
+
+	var/mob/living/carbon/human/H = user
+	if(H.dna?.species?.id != "gnoll")
+		return
+
+	if(!H.gnoll_bloodpool_feed())
+		return
+
+	playsound(loc, 'sound/misc/drink_blood.ogg', 100, FALSE, -4)
+	H.changeNext_move(CLICK_CD_MELEE)
+	blood_vol = max(blood_vol - 25, 0)
+	if(blood_vol <= 0)
+		qdel(src)
+	else
+		update_icon()
 
 
 //BLOODY FOOTPRINTS
