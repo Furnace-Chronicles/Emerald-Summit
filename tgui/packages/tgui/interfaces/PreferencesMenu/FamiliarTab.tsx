@@ -1,13 +1,22 @@
 import {
   Box,
   Button,
-  Dropdown,
+  Dropdown as RawDropdown,
   LabeledList,
   Section,
   Stack,
 } from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
+
+// Wraps RawDropdown in an inline-Box constraint so the width prop actually
+// limits the dropdown — without this, the dropdown stretches to fill its
+// LabeledList.Item content cell instead of honoring its declared width.
+const Dropdown = (props: any) => (
+  <Box inline style={{ width: props.width }}>
+    <RawDropdown {...props} />
+  </Box>
+);
 
 type FamiliarData = {
   familiar_name?: string;

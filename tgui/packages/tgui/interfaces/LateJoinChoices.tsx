@@ -12,6 +12,7 @@ type JobEntry = {
   command_bold: 0 | 1;
   has_subclass_info: 0 | 1;
   available: 0 | 1;
+  is_cooldown: 0 | 1;
   unavailable_reason?: string | null;
 };
 
@@ -74,6 +75,11 @@ const JobRow = ({
     </>
   );
   const unavailable = !job.available;
+  // Cooldown is the exception: keep the row clickable so the player can
+  // print the live "X seconds remaining" chat message via AttemptLateSpawn.
+  // Visually still flagged as restricted (yellow), but not hard-disabled.
+  const onCooldown = !!job.is_cooldown;
+  const hardDisabled = unavailable && !onCooldown;
   return (
     <Stack mt={0.5} align="center">
       {!!job.has_subclass_info && (
@@ -94,22 +100,39 @@ const JobRow = ({
       <Stack.Item grow>
         <Button
           fluid
-          disabled={unavailable}
+          disabled={hardDisabled}
           color={
-            unavailable ? undefined : job.prioritized ? 'good' : undefined
+            hardDisabled
+              ? undefined
+              : onCooldown
+                ? 'average'
+                : job.prioritized
+                  ? 'good'
+                  : undefined
           }
-          tooltip={unavailable ? job.unavailable_reason || 'Unavailable' : undefined}
+          tooltip={
+            unavailable ? job.unavailable_reason || 'Unavailable' : undefined
+          }
           onClick={
-            unavailable
+            hardDisabled
               ? undefined
               : () => act('select_job', { job: job.title })
           }
         >
           {unavailable ? (
-            <Box inline color="label">
+            <Box inline color={onCooldown ? undefined : 'label'}>
               {job.display_name}
               {' '}
-              <Box inline italic color="bad">
+              <Box
+                inline
+                italic
+                /* Cooldown rows have an orange ("average") button background;
+                   inheriting the default button text reads cleanly. Locked
+                   restrictions (race/age/etc) stay red on the dark disabled
+                   button. */
+                color={onCooldown ? undefined : 'bad'}
+                style={onCooldown ? { color: '#1a1a1a' } : undefined}
+              >
                 — {job.unavailable_reason || 'Unavailable'}
               </Box>
             </Box>

@@ -41,26 +41,42 @@
 	var/list/garrison_with_extras = GLOB.garrison_positions?.Copy() || list()
 	garrison_with_extras |= "Veteran"
 
+	// Peasants minus the Wanderer-family titles (Adventurer / Wretch /
+	// Court Agent / Bandit / Gnoll / Lunatic) — they get their own
+	// "Wanderers" section to match Class Selection's grouping. GLOB
+	// stays untouched.
+	var/list/peasants_filtered = GLOB.peasant_positions?.Copy() || list()
+	var/list/wanderer_titles = GLOB.prefs_menu_wanderer_titles?.Copy() || list()
+	for(var/title in wanderer_titles)
+		peasants_filtered -= title
+
 	// Order matches Class Selection's column ordering: Nobles, Courtiers,
 	// Garrison, Churchmen, Inquisition, Yeomen, Peasants, Sidefolk,
-	// Mercenaries. (Sidefolk now renders before Mercenaries.)
-	var/list/omegalist = list()
-	omegalist += list(GLOB.noble_positions)
-	omegalist += list(GLOB.courtier_positions)
-	omegalist += list(garrison_with_extras)
-	omegalist += list(GLOB.church_positions)
-	omegalist += list(GLOB.inquisition_positions)
-	omegalist += list(GLOB.yeoman_positions)
-	omegalist += list(GLOB.peasant_positions)
-	omegalist += list(GLOB.youngfolk_positions)
-	omegalist += list(GLOB.mercenary_positions)
+	// Mercenaries, Wanderers. Each entry is list(name_override, titles).
+	// name_override is non-null only when the category name can't be
+	// derived from the head job's department_flag (Wanderers — the
+	// member jobs use department_flag = PEASANTS).
+	var/list/omegalist = list(
+		list(null, GLOB.noble_positions),
+		list(null, GLOB.courtier_positions),
+		list(null, garrison_with_extras),
+		list(null, GLOB.church_positions),
+		list(null, GLOB.inquisition_positions),
+		list(null, GLOB.yeoman_positions),
+		list(null, peasants_filtered),
+		list(null, GLOB.youngfolk_positions),
+		list(null, GLOB.mercenary_positions),
+		list("Wanderers", wanderer_titles),
+	)
 
 	var/list/categories = list()
-	for(var/list/category as anything in omegalist)
-		if(!SSjob.name_occupations[category[1]])
+	for(var/list/cat_entry as anything in omegalist)
+		var/name_override = cat_entry[1]
+		var/list/category = cat_entry[2]
+		if(!length(category) || !SSjob.name_occupations[category[1]])
 			continue
 		var/datum/job/cat_head = SSjob.name_occupations[category[1]]
-		var/cat_name = late_join_category_name(cat_head.department_flag)
+		var/cat_name = name_override || late_join_category_name(cat_head.department_flag)
 		if(!cat_name)
 			continue
 		var/list/job_entries = list()
@@ -71,11 +87,19 @@
 			// Show every role, even ineligible ones. Unavailable rows render
 			// disabled with a short reason ("Race restriction", "Patron
 			// required", etc.) so players know why they can't pick it.
+			// (always_show_on_latechoices was a list-inclusion override
+			// for the old "skip unavailable" path — we no longer skip,
+			// so dropping the override here lets ineligible always-show
+			// roles like Adventurer / Wretch / Towner show as disabled
+			// with the real reason instead of inviting the player to
+			// click into an AttemptLateSpawn chat-warning rejection.)
 			var/unavailable_code = np.IsJobUnavailable(job_datum.title, TRUE)
 			var/is_job_available = (unavailable_code == JOB_AVAILABLE)
-			if(job_datum.always_show_on_latechoices)
-				is_job_available = TRUE
-				unavailable_code = JOB_AVAILABLE
+			// Cooldown is the one "unavailable" reason that's worth letting
+			// the user click — the chat message AttemptLateSpawn prints
+			// includes the exact seconds remaining, which is more useful
+			// than a static "On cooldown" label.
+			var/is_cooldown = (unavailable_code == JOB_UNAVAILABLE_JOB_COOLDOWN)
 			var/used_name = job_datum.title
 			if(np.client?.prefs?.pronouns == SHE_HER && job_datum.f_title)
 				used_name = job_datum.f_title
@@ -88,6 +112,7 @@
 				"command_bold" = (job in GLOB.noble_positions),
 				"has_subclass_info" = job_datum.has_limited_subclasses(),
 				"available" = is_job_available,
+				"is_cooldown" = is_cooldown,
 				"unavailable_reason" = is_job_available ? null : late_join_unavailable_reason(unavailable_code),
 			))
 		if(!length(job_entries))
