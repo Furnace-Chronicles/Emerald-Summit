@@ -1,17 +1,16 @@
-// Fire Blast — Pyromancy line spell. Burns and pushes everything in a 4-tile line.
-// MVP config: click_to_activate FALSE — line goes from caster in facing direction.
-// (Upstream uses click_to_activate TRUE so the line aims at the clicked target.)
+// Frost Blast — Cryomancy line spell, mirror of Fire Blast but freezes + frost stacks.
+// MVP config: click_to_activate FALSE — line goes in facing direction (parallels Fire Blast MVP).
 
-/datum/action/cooldown/spell/fire_blast_magi2
-	name = "Fire Blast"
-	desc = "Channel a blast of flame in a 4-tile line in front of you, repelling those struck back 2 paces and leaving the ground ablaze. \
+/datum/action/cooldown/spell/frost_blast_magi2
+	name = "Frost Blast"
+	desc = "Channel a blast of frost in a 4-tile line in front of you, repelling those struck back 2 paces and chilling them to the bone. \
 		Can be blocked by a shield, stopping the blast from propagating further."
-	button_icon = 'icons/mob/actions/mage_pyromancy.dmi'
-	button_icon_state = "fire_blast"
-	sound = 'sound/misc/explode/incendiary (1).ogg'
-	spell_color = GLOW_COLOR_FIRE
+	button_icon = 'icons/mob/actions/mage_cryomancy.dmi'
+	button_icon_state = "frost_blast"
+	sound = 'sound/spellbooks/icicle.ogg'
+	spell_color = GLOW_COLOR_ICE
 	glow_intensity = GLOW_INTENSITY_MEDIUM
-	attunement_school = ASPECT_NAME_PYROMANCY
+	attunement_school = ASPECT_NAME_CRYOMANCY
 
 	click_to_activate = TRUE
 	cast_range = SPELL_RANGE_GROUND
@@ -19,7 +18,7 @@
 	primary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_MAJOR_PROJECTILE
 
-	invocations = list("Ignis Irae!")
+	invocations = list("Flumen Glaciei!")
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
@@ -27,22 +26,27 @@
 	charge_time = 1 SECONDS
 	charge_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
-	charge_sound = 'sound/magic/charging_fire.ogg'
+	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 10 SECONDS
 
 	associated_skill = /datum/skill/magic/arcane
+	spell_tier = 2
+	point_cost = 3
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 
 	var/line_length = 4
-	var/blast_damage = 30
+	var/blast_damage = 36
 	var/push_dist = 2
-	var/fire_stacks_applied = 1
 
-/datum/action/cooldown/spell/fire_blast_magi2/cast(atom/cast_on)
+/datum/action/cooldown/spell/frost_blast_magi2/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
 		return FALSE
+
+	if(H.fire_stacks > 0)
+		H.adjust_fire_stacks(-1)
+		to_chat(H, span_notice("The frost becalms the flame on me."))
 
 	var/turf/start = get_turf(H)
 	var/turf/target_turf
@@ -67,16 +71,21 @@
 		facing = H.dir
 
 	for(var/turf/T in line_turfs)
-		new /obj/effect/temp_visual/fire(T)
-		new /obj/effect/hotspot(T)
+		new /obj/effect/temp_visual/snap_freeze(T)
 
-	playsound(start, pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 100, TRUE, 4)
+	playsound(start, 'sound/spellbooks/crystal.ogg', 100, TRUE, 4)
 
 	var/list/already_hit = list()
 	var/blocked = FALSE
 	for(var/turf/T in line_turfs)
 		if(blocked)
 			break
+		for(var/obj/O in T)
+			O.extinguish()
+		var/obj/effect/hotspot/hotspot = (locate(/obj/effect/hotspot) in T)
+		if(hotspot)
+			new /obj/effect/temp_visual/small_smoke(T)
+			qdel(hotspot)
 		var/list/victims_here = list()
 		for(var/mob/living/L in T)
 			victims_here += L
@@ -84,34 +93,28 @@
 			if(victim == H || (victim in already_hit))
 				continue
 			if(victim.anti_magic_check())
-				victim.visible_message(span_warning("The flames fizzle on contact with [victim]!"))
+				victim.visible_message(span_warning("The frost fizzles on contact with [victim]!"))
 				continue
-			var/damage_dealt = arcyne_strike(H, victim, null, blast_damage, BODY_ZONE_CHEST, \
-				BCLASS_BURN, spell_name = "Fire Blast", \
+			if(victim.on_fire)
+				victim.extinguish_mob()
+				victim.visible_message(span_warning("The frost extinguishes [victim]!"))
+			var/damage_dealt = arcyne_strike(H, victim, null, blast_damage, H.zone_selected || BODY_ZONE_CHEST, \
+				BCLASS_BURN, spell_name = "Frost Blast", \
 				allow_shield_check = TRUE, damage_type = BURN, \
 				skip_animation = TRUE)
 			if(!damage_dealt)
 				blocked = TRUE
 				continue
-			victim.adjust_fire_stacks(fire_stacks_applied)
-			victim.ignite_mob()
-			new /obj/effect/temp_visual/spell_impact(get_turf(victim), spell_color, spell_impact_intensity)
+			apply_frost_stack(victim, 1)
 			already_hit += victim
 			var/push_dir = get_dir(H, victim)
 			if(!push_dir)
 				push_dir = facing
 			victim.safe_throw_at(get_ranged_target_turf(victim, push_dir, push_dist), push_dist, 2, H, force = MOVE_FORCE_STRONG)
-		for(var/obj/item/I in T)
-			if(I.anchored)
-				continue
-			var/toss_dir = get_dir(H, I)
-			if(!toss_dir)
-				toss_dir = facing
-			I.throw_at(get_ranged_target_turf(I, toss_dir, push_dist), push_dist, 2)
 
 	if(length(already_hit))
-		H.visible_message(span_danger("[H] unleashes a blast of flame, sending [english_list(already_hit)] flying!"))
+		H.visible_message(span_danger("[H] unleashes a blast of frost, sending [english_list(already_hit)] flying!"))
 	else
-		H.visible_message(span_danger("[H] unleashes a blast of flame!"))
+		H.visible_message(span_danger("[H] unleashes a blast of frost!"))
 
 	return TRUE

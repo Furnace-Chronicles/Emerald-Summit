@@ -34,6 +34,11 @@
 	var/click_to_activate = TRUE
 	/// If TRUE, the spell is automatically unset from the click intercept after a successful cast.
 	var/unset_after_click = FALSE
+	/// If FALSE (default), InterceptClickOn lets clicks on /obj/item targets pass through to
+	/// normal item handling — picking up loose items, interacting with equipped/held items,
+	/// etc. won't fire the spell at them. Set TRUE on spells that specifically target items
+	/// (e.g. Fridigitation, which freezes food).
+	var/targets_items = FALSE
 
 	// ---- Resource costs ----
 	/// Primary resource pool: SPELL_COST_*
@@ -136,6 +141,11 @@
 	button.maptext_y = 0
 	button.maptext_width = 32
 	button.maptext_height = 12
+	// Widen the button's clickable hitbox without changing its visual size.
+	// MOUSE_OPACITY_OPAQUE makes the full 32x32 icon area register clicks even on
+	// transparent pixels. (We tried bound_width/bound_height for a bigger-than-32px
+	// hitbox but those vars interfere with movement/click pathing on screen objects.)
+	button.mouse_opacity = MOUSE_OPACITY_OPAQUE
 	if(button_icon_state)
 		var/obj/effect/R = new /obj/effect/spell_rune
 		R.icon = icon_icon
@@ -149,6 +159,11 @@
 		return
 	if(charge_sound)
 		charge_sound_instance = sound(charge_sound)
+
+/datum/action/cooldown/spell/Remove(mob/living/remove_from)
+	if(remove_from?.click_intercept == src)
+		remove_from.click_intercept = null
+	return ..()
 
 /datum/action/cooldown/spell/Destroy()
 	QDEL_NULL(mob_charge_effect)
@@ -186,10 +201,88 @@
 		return FALSE
 	return TRUE
 
-/datum/action/cooldown/spell/Trigger()
+/datum/action/cooldown/spell/Trigger(trigger_flags, atom/target)
 	if(!can_cast_spell())
 		return FALSE
-	return ..()
+	// click_to_activate path: pressing the action button sets the spell as the mob's
+	// click intercept; the player's next valid click routes through InterceptClickOn()
+	// and triggers the actual cast at that target. Pressing the button again while the
+	// spell is selected deselects it.
+	if(click_to_activate)
+		if(owner.click_intercept == src)
+			to_chat(owner, span_notice("Cancelled [name]."))
+			on_deactivation()
+		else
+			on_activation()
+		return TRUE
+	return ..(trigger_flags, target)
+
+/// Routed by mob.ClickOn() → mob.check_click_intercept() when click_intercept == src.
+/// Return semantics (per mob.check_click_intercept):
+///   TRUE  — click is consumed, normal ClickOn handling is skipped
+///   FALSE — click falls through to normal handling (move/attack/etc)
+/// Declared as /proc/ (not an override) because /datum/action/cooldown's parent chain
+/// has no InterceptClickOn — that proc lives on /obj/effect/proc_holder upstream.
+/datum/action/cooldown/spell/proc/InterceptClickOn(mob/living/caller, params, atom/target)
+	if(caller != owner)
+		on_deactivation()
+		return TRUE
+	// Throw mode bypasses spells entirely — let the click route to normal throw
+	// handling so the player can throw items while a spell is selected.
+	if(caller.in_throw_mode)
+		return FALSE
+	// UI clicks (action buttons, intent panel, etc) fall through so the user can
+	// re-click the action button to deselect, or operate other HUD elements.
+	if(istype(target, /atom/movable/screen) && !istype(target, /atom/movable/screen/click_catcher))
+		return FALSE
+	// Item clicks (equipped, in-hand, or on the ground) fall through so the player
+	// can pick up / interact with items without firing the selected spell at them.
+	// Spells that legitimately target items (Fridigitation) set targets_items = TRUE.
+	if(istype(target, /obj/item) && !targets_items)
+		return FALSE
+	// On cooldown — fall through so movement / attack / interact still work during
+	// the cooldown window. Spell selection stays active for the next ready click.
+	if(!IsAvailable())
+		return FALSE
+	PreActivate(target)
+	// Stay selected regardless of cast outcome so the user can chain-cast on multiple
+	// targets without re-clicking the action button. Failed casts (out-of-range,
+	// invalid target, etc.) also keep the selection for immediate retry.
+	return TRUE
+
+/// Pixel offset applied to the action button when this spell is the active click
+/// intercept. Provides a clear visual cue of which spell will fire on the next click.
+#define MAGI2_SELECTED_BUTTON_LIFT 5
+
+/datum/action/cooldown/spell/proc/on_activation()
+	if(!owner)
+		return
+	// Bump any active proc_holder spell or other Magi 2 spell off the click intercept.
+	if(owner.ranged_ability && owner.ranged_ability != src)
+		owner.ranged_ability.deactivate(owner)
+	if(owner.click_intercept && owner.click_intercept != src)
+		var/datum/old = owner.click_intercept
+		if(istype(old, /datum/action/cooldown/spell))
+			var/datum/action/cooldown/spell/old_spell = old
+			old_spell.on_deactivation()
+	owner.click_intercept = src
+	if(button)
+		var/matrix/M = matrix()
+		M.Translate(0, MAGI2_SELECTED_BUTTON_LIFT)
+		button.transform = M
+	UpdateButtonIcon()
+	to_chat(owner, span_notice("Click a target to cast [name]. Click [name] again to cancel."))
+
+/datum/action/cooldown/spell/proc/on_deactivation()
+	if(!owner)
+		return
+	if(owner.click_intercept == src)
+		owner.click_intercept = null
+	if(button)
+		button.transform = matrix()
+	UpdateButtonIcon()
+
+#undef MAGI2_SELECTED_BUTTON_LIFT
 
 /// Required-state checks (consciousness, antimagic, spellblock, garb, weapon).
 /// Returns FALSE and balloon-feedbacks the owner if blocked.
@@ -601,7 +694,11 @@
 			owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			return sig_return | SPELL_CANCEL_CAST
 
-	if(charge_required && !click_to_activate)
+	// Charge phase runs for both click-to-target and facing-direction spells. Upstream
+	// has a separate hold-mouse-to-charge path for click_to_activate; we use do_after
+	// uniformly because Emerald Summit's older action HUD doesn't proxy mouse events
+	// through the action datum the way Azure-Peak's modern HUD does.
+	if(charge_required)
 		var/require_no_move = (spell_requirements & SPELL_REQUIRES_NO_MOVE)
 		on_start_charge()
 		var/success = TRUE

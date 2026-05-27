@@ -15,7 +15,7 @@
 	spell_color = GLOW_COLOR_HEX
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 
-	click_to_activate = FALSE
+	click_to_activate = TRUE
 	cast_range = SPELL_RANGE_GROUND
 
 	primary_resource_type = SPELL_COST_STAMINA

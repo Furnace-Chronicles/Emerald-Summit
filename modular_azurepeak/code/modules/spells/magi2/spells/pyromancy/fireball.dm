@@ -24,7 +24,7 @@
 	invocations = list("Sphaera Ignis!")
 	invocation_type = INVOCATION_SHOUT
 
-	click_to_activate = FALSE
+	click_to_activate = TRUE
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_MAJOR
@@ -73,6 +73,11 @@
 		return BULLET_ACT_BLOCK
 
 	if(M)
+		// Pyromancy/Cryomancy synergy: shatter one frost stack on the direct hit.
+		if(has_frost_stacks(M))
+			remove_frost_stack(M)
+			M.visible_message(span_warning("The fireball thaws the frost on [M]!"))
+			playsound(get_turf(M), 'sound/items/firesnuff.ogg', 100)
 		M.adjust_fire_stacks(1)
 		M.ignite_mob()
 

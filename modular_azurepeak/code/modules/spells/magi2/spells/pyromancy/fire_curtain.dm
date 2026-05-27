@@ -15,7 +15,7 @@
 	glow_intensity = GLOW_INTENSITY_HIGH
 	attunement_school = ASPECT_NAME_PYROMANCY
 
-	click_to_activate = FALSE
+	click_to_activate = TRUE
 	cast_range = SPELL_RANGE_GROUND
 	self_cast_possible = TRUE
 

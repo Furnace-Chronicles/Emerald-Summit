@@ -22,8 +22,7 @@
 	invocations = list("Evomere Flammas!")
 	invocation_type = INVOCATION_SHOUT
 
-	// MVP overrides — diverge from upstream until click-intercept charging is ported
-	click_to_activate = FALSE
+	click_to_activate = TRUE
 	charge_required = TRUE
 	charge_time = CHARGETIME_POKE
 	charge_drain = 0
@@ -72,15 +71,14 @@
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
-		// Frost-thaw: if the target has any frost-family status, consume one and skip ignition.
-		// Mirrors the upstream has_frost_stacks/remove_frost_stack helpers using existing ES status effects.
-		if(M.has_status_effect(/datum/status_effect/buff/frost) || M.has_status_effect(/datum/status_effect/buff/frostbite))
+		// Frost-thaw: if the target has any Cryomancy frost stacks, consume one before
+		// applying fire. Both effects happen (matches upstream — fire still ignites after
+		// thawing one stack of frost).
+		if(has_frost_stacks(M))
+			remove_frost_stack(M)
 			visible_message(span_warning("The fire thaws the frost on [target]!"))
 			playsound(get_turf(target), 'sound/items/firesnuff.ogg', 100)
-			M.remove_status_effect(/datum/status_effect/buff/frost)
-			M.remove_status_effect(/datum/status_effect/buff/frostbite)
 			new /obj/effect/temp_visual/snap_freeze(get_turf(M))
-			return
 		M.adjust_fire_stacks(1)
 		M.ignite_mob()
 	else if(isatom(target))
