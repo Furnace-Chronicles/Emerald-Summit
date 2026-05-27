@@ -39,6 +39,78 @@
 /proc/arcyne_get_weapon(mob/user)
 	return null
 
+/// Simplified port of Azure-Peak's arcyne_strike — applies spell damage with armor block
+/// and wound roll, returns damage dealt after armor. AP's full version handles parry/clash
+/// integration, attack animations, hit verbs, and integrity messaging via VISMSG_*; we
+/// strip those for the pilot since they require porting Arcyne combat helpers we don't have.
+/proc/arcyne_strike(mob/living/carbon/human/user, mob/living/target, obj/item/weapon, damage, def_zone, blade_class_override, armor_penetration = 0, spell_name = "Arcyne Strike", skip_animation = FALSE, skip_message = FALSE, allow_shield_check = FALSE, damage_type = BRUTE, npc_simple_damage_mult = 1, intdamage_factor)
+	if(!user || !target || QDELETED(user) || QDELETED(target))
+		return 0
+
+	var/blade_class = blade_class_override || BCLASS_CUT
+	var/attack_flag = "slash"
+	switch(blade_class)
+		if(BCLASS_BLUNT, BCLASS_SMASH)
+			blade_class = BCLASS_BLUNT
+			attack_flag = "blunt"
+		if(BCLASS_STAB, BCLASS_PICK)
+			blade_class = BCLASS_STAB
+			attack_flag = "stab"
+		if(BCLASS_BURN)
+			attack_flag = "fire"
+		else
+			blade_class = BCLASS_CUT
+			attack_flag = "slash"
+
+	if(!def_zone)
+		def_zone = user.zone_selected || BODY_ZONE_CHEST
+
+	if(iscarbon(target))
+		var/mob/living/carbon/C = target
+		var/obj/item/bodypart/targeting = C.get_bodypart(check_zone(def_zone))
+		if(!targeting)
+			def_zone = BODY_ZONE_CHEST
+
+	// Optional shield check — defer to existing check_shields if the target is human.
+	if(allow_shield_check && ishuman(target) && user != target)
+		var/mob/living/carbon/human/H = target
+		if(H.check_shields(weapon, damage, spell_name, MELEE_ATTACK, armor_penetration))
+			for(var/obj/item/I in H.held_items)
+				if(I.block_chance > 0)
+					I.take_damage(floor(damage / 4))
+					break
+			return 0
+
+	if(npc_simple_damage_mult != 1 && istype(target, /mob/living/simple_animal))
+		damage = round(damage * npc_simple_damage_mult)
+
+	if(isnull(intdamage_factor))
+		intdamage_factor = 1
+	var/armor_block = target.run_armor_check(def_zone, attack_flag, blade_dulling = blade_class, armor_penetration = armor_penetration, damage = damage, intdamfactor = intdamage_factor)
+	var/damage_dealt = target.apply_damage(damage, damage_type, def_zone, armor_block)
+	SEND_SIGNAL(target, COMSIG_ATOM_WAS_ATTACKED, user, damage)
+
+	if(damage_dealt)
+		var/wound_damage = max(0, damage - armor_block)
+		if(wound_damage > 0)
+			if(iscarbon(target))
+				var/mob/living/carbon/C = target
+				var/obj/item/bodypart/affecting = C.get_bodypart(check_zone(def_zone))
+				if(affecting)
+					affecting.bodypart_attacked_by(blade_class, wound_damage, user, def_zone, crit_message = TRUE, weapon = weapon)
+			else
+				target.simple_woundcritroll(blade_class, wound_damage, user, def_zone, crit_message = TRUE)
+
+	if(!skip_message)
+		var/verb_text = (blade_class == BCLASS_BURN) ? "scorches" : "strikes"
+		target.visible_message(
+			span_danger("[user] [verb_text] [target] with [lowertext(spell_name)]!"),
+			span_danger("[user] [verb_text] me with [lowertext(spell_name)]!")
+		)
+
+	log_combat(user, target, "spell-struck ([spell_name])")
+	return max(0, damage - armor_block)
+
 // `isarcyne`, `record_featured_object_stat`, and `mouse_angle_from_client` already exist in
 // Emerald Summit (code/datums/magic_items/mages_mechanics.dm/mageritualrunes.dm,
 // code/__HELPERS/round_statistics.dm, code/__HELPERS/mouse_control.dm respectively).
