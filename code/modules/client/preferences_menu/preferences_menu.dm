@@ -2197,7 +2197,27 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			return TRUE
 
 		if("customizers_randomize_all")
+			// "Randomize All" covers every appearance section below the
+			// Customizers heading on the Features tab: Customizers (accessory
+			// entries), Body (skin tone + mutant colors), and Markings.
+			// Voice/pitch/accent/sprite-scale aren't randomized — those are
+			// personal preferences, not appearance characteristics.
 			prefs.randomize_all_customizer_accessories()
+			// Cosmetics that default to disabled stay invisible after the
+			// underlying entry randomizes unless we also flip them on.
+			// Force-enable these four so the user actually sees the result.
+			var/static/list/force_enable_on_randomize = list("Accessory", "Face Detail", "Legwear", "Underwear")
+			for(var/datum/customizer_entry/entry as anything in prefs.customizer_entries)
+				var/datum/customizer_choice/choice = CUSTOMIZER_CHOICE(entry.customizer_choice_type)
+				if(choice?.name in force_enable_on_randomize)
+					entry.disabled = FALSE
+			if(prefs.pref_species)
+				if(prefs.pref_species.use_skintones)
+					var/list/skins = prefs.pref_species.get_skin_list()
+					if(length(skins))
+						prefs.skin_tone = skins[pick(skins)]
+				prefs.features = prefs.pref_species.get_random_features()
+				prefs.body_markings = prefs.pref_species.get_random_body_markings(prefs.features)
 			on_identity_change()
 			return TRUE
 

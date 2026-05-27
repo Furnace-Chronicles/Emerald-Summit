@@ -345,7 +345,16 @@ export const FeaturesTab = (props) => {
                       {row.map((c) => (
                         <Stack.Item key={c.customizer_type} grow>
                           <Section title={c.name}>
-                            <Stack align="center" mb={1}>
+                            {/* Reserve a fixed-height top row so the
+                                picker list below (Style dropdown etc.)
+                                lines up across cards regardless of
+                                whether this customizer has an On/Off
+                                toggle or a variant dropdown. */}
+                            <Stack
+                              align="center"
+                              mb={1}
+                              style={{ minHeight: '24px' }}
+                            >
                               {!!c.allows_disabling && (
                                 <Stack.Item>
                                   <Button

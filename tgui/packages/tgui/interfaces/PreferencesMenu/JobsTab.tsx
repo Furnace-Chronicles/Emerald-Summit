@@ -273,7 +273,7 @@ const JobRow = ({
           {job.display_name}
         </Button>
       </Table.Cell>
-      <Table.Cell collapsing textAlign="right" style={{ width: '90px' }}>
+      <Table.Cell textAlign="right" style={{ width: '90px', minWidth: '90px' }}>
         <JobRightCell job={job} act={act} />
       </Table.Cell>
     </Table.Row>

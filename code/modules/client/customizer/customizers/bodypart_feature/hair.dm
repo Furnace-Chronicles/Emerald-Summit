@@ -576,6 +576,20 @@
 	var/datum/customizer_entry/hair/hair_entry = entry
 	var/color = pick(HAIR_COLOR_LIST)
 	hair_entry.hair_color = color
+	randomize_hair_gradients(hair_entry)
+
+/// Roll a random gradient + matching color for both natural and dye slots
+/// when the choice allows them. Picks from hair_gradient_name_to_type_list()
+/// which includes /datum/hair_gradient/none — so "no gradient" is a valid
+/// random outcome (matching how the user can pick None from the dropdown).
+/datum/customizer_choice/bodypart_feature/hair/proc/randomize_hair_gradients(datum/customizer_entry/hair/hair_entry)
+	var/list/gradient_choices = hair_gradient_name_to_type_list()
+	if(allows_natural_gradient && length(gradient_choices))
+		hair_entry.natural_gradient = gradient_choices[pick(gradient_choices)]
+		hair_entry.natural_color = pick(HAIR_COLOR_LIST)
+	if(allows_dye_gradient && length(gradient_choices))
+		hair_entry.dye_gradient = gradient_choices[pick(gradient_choices)]
+		hair_entry.dye_color = pick(HAIR_COLOR_LIST)
 
 /datum/customizer/bodypart_feature/hair/head/humanoid/bald_default
 	customizer_choices = list(/datum/customizer_choice/bodypart_feature/hair/head/humanoid/bald_default)
@@ -642,6 +656,7 @@
 	var/datum/customizer_entry/hair/hair_entry = entry
 	var/color = pick(HAIR_COLOR_LIST)
 	hair_entry.hair_color = color
+	randomize_hair_gradients(hair_entry)
 
 /datum/customizer/bodypart_feature/hair/facial/humanoid/shaved_default
 	customizer_choices = list(/datum/customizer_choice/bodypart_feature/hair/facial/humanoid/shaved_default)

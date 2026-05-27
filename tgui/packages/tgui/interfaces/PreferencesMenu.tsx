@@ -258,12 +258,12 @@ const PreviewPane = () => {
           id: 'tgui_preview_map',
           type: 'map',
           'background-color': '#000000',
-          'icon-size': 64,
+          'icon-size': 128,
           'zoom-mode': 'distort',
         }}
         style={{
           width: '100%',
-          height: '256px',
+          height: '360px',
         }}
       />
       <Box mt={1} color="label" italic textAlign="center">

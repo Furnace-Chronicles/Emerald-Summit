@@ -86,12 +86,13 @@ export const BodySection = () => {
               }
             />
             {body.species_id !== 'lupian' && (
-              <Button
-                ml={1}
-                icon="circle-question"
-                tooltip="Skin color reference list"
-                onClick={() => act('show_skin_color_ref')}
-              />
+              <Box mt={0.5}>
+                <Button
+                  icon="circle-question"
+                  tooltip="Skin color reference list"
+                  onClick={() => act('show_skin_color_ref')}
+                />
+              </Box>
             )}
           </LabeledList.Item>
         )}
