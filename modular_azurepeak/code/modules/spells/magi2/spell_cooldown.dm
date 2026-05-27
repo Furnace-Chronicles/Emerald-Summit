@@ -130,6 +130,12 @@
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 
 	. = ..()
+	// Reposition the cooldown maptext so it sits along the base of the icon
+	// instead of the default bottom-left corner (set by /datum/action/cooldown/New()).
+	button.maptext_x = 0
+	button.maptext_y = 0
+	button.maptext_width = 32
+	button.maptext_height = 12
 	if(button_icon_state)
 		var/obj/effect/R = new /obj/effect/spell_rune
 		R.icon = icon_icon
@@ -788,9 +794,30 @@
 /datum/action/cooldown/spell/proc/toggle_alt_mode(mob/user)
 	return FALSE
 
+/// Override of /datum/action/cooldown.StartCooldown that:
+///  - accepts an optional override_time (parent ignores it, so passing get_adjusted_cooldown()
+///    upstream silently dropped INT/armor scaling)
+///  - routes the countdown text through button.update_maptext(), which lives on a
+///    separate maptext_holder at ABOVE_HUD_LAYER (in front of the spell overlay icon)
+///    and animates the per-decisecond countdown itself — no need for per-tick updates.
+/datum/action/cooldown/spell/StartCooldown(override_time)
+	var/real_time = isnum(override_time) ? override_time : cooldown_time
+	next_use_time = world.time + real_time
+	button.maptext = "" // clear any stale baseline text
+	button.update_maptext(real_time)
+	START_PROCESSING(SSfastprocess, src)
+
 /datum/action/cooldown/spell/process()
 	if(!currently_charging)
-		return ..()
+		// The cooldown text animates itself through maptext_holder. We only need to
+		// clear processing once the cooldown is up so IsAvailable can refresh.
+		if(!owner)
+			STOP_PROCESSING(SSfastprocess, src)
+			return
+		if(next_use_time <= world.time)
+			UpdateButtonIcon()
+			STOP_PROCESSING(SSfastprocess, src)
+		return
 	if(!owner)
 		return PROCESS_KILL
 	if(!can_cast_spell(TRUE))
