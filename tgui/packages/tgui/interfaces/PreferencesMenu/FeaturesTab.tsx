@@ -205,6 +205,7 @@ export const FeaturesTab = (props) => {
   const customizers = data.customizers;
 
   return (
+    <Box style={{ fontSize: '1.15em' }}>
     <Stack vertical>
       <Stack.Item>
         <Section title="Describe Myself">
@@ -412,5 +413,6 @@ export const FeaturesTab = (props) => {
         <MarkingsSection />
       </Stack.Item>
     </Stack>
+    </Box>
   );
 };

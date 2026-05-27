@@ -624,13 +624,31 @@
 	var/list/job_entries = list()
 	for(var/job_name in by_job)
 		var/list/players = by_job[job_name]
-		job_entries += list(list("job" = job_name, "players" = players))
+		job_entries += list(list(
+			"job" = job_name,
+			"players" = players,
+			"order" = lobby_job_sort_order(job_name, wanderer_jobs),
+		))
 	sortTim(job_entries, GLOBAL_PROC_REF(cmp_lobby_job_entries))
 	data["ready_by_job"] = job_entries
 	return data
 
+// Match the Class Selection screen's row order (job.display_order ascending).
+// For the collapsed "Wanderer" bucket use the lowest display_order across
+// Adventurer / Wretch / Court Agent so it lands where any of them would.
+/datum/preferences_menu/proc/lobby_job_sort_order(job_name, list/wanderer_jobs)
+	if(job_name == "Wanderer")
+		var/min_order = INFINITY
+		for(var/wname in wanderer_jobs)
+			var/datum/job/wjob = SSjob.GetJob(wname)
+			if(wjob && wjob.display_order < min_order)
+				min_order = wjob.display_order
+		return min_order == INFINITY ? 9999 : min_order
+	var/datum/job/job = SSjob.GetJob(job_name)
+	return job ? job.display_order : 9999
+
 /proc/cmp_lobby_job_entries(list/a, list/b)
-	return sorttext(b["job"], a["job"])
+	return a["order"] - b["order"]
 
 /datum/preferences_menu/proc/pq_tier_label(the_pq)
 	if(the_pq >= 100)
@@ -1639,6 +1657,16 @@
 			if(!(picked in listy))
 				return TRUE
 			prefs.skin_tone = listy[picked]
+			// "Update Colors With Change" off: persist the ancestry pick so the
+			// dropdown remembers it, but skip refresh_preview() so the body
+			// color the user already has stays put. Caveat: any other action
+			// that triggers on_identity_change (species swap, slot reload)
+			// will snap the body to the new ancestry's color.
+			if(!prefs.update_mutant_colors)
+				prefs.save_preferences()
+				prefs.save_character()
+				SStgui.update_uis(src)
+				return TRUE
 			prefs.try_update_mutant_colors()
 			on_identity_change()
 			return TRUE

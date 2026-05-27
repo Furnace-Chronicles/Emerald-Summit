@@ -276,10 +276,7 @@ const PreviewPane = () => {
 const formatCountdown = (ds: number) => {
   if (ds === -10) return 'DELAYED';
   if (ds <= 0) return 'SOON';
-  const totalSec = Math.ceil(ds / 10);
-  const m = Math.floor(totalSec / 60);
-  const s = totalSec % 60;
-  return m > 0 ? `${m}:${s.toString().padStart(2, '0')}` : `${s}s`;
+  return `${Math.ceil(ds / 10)}s`;
 };
 
 const LobbySection = ({ lobby }: { lobby: LobbyData }) => {
