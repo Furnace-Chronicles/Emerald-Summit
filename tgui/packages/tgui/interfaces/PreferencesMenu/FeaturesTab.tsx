@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import {
   Box,
   Button,
@@ -9,6 +10,7 @@ import {
 
 import { useBackend } from '../../backend';
 import { BodySection } from './BodySection';
+import { CustomizerCard, CustomizerEntry } from './CustomizerCard';
 import { MarkingsSection } from './MarkingsSection';
 
 // Wraps RawDropdown in an inline-Box constraint so the width prop actually
@@ -39,27 +41,6 @@ type DescriptorsData = {
   max_content_length: number;
 };
 
-type CustomizerPicker = {
-  type: 'rotate' | 'chooser' | 'reset_colors' | 'color' | 'list_value' | 'toggle';
-  label?: string;
-  text?: string;
-  color?: string;
-  task?: string;
-  extra?: Record<string, string>;
-  options?: string[];
-};
-
-type CustomizerEntry = {
-  customizer_type: string;
-  name: string;
-  allows_disabling: 0 | 1;
-  disabled: 0 | 1;
-  choice_name: string;
-  has_multiple_choices: 0 | 1;
-  choice_options: string[];
-  pref_data: CustomizerPicker[];
-};
-
 type CustomizersData = {
   entries: CustomizerEntry[];
 };
@@ -69,144 +50,6 @@ type Data = {
   customizers: CustomizersData;
 };
 
-// Renders the structured per-choice picker list emitted by each
-// /datum/customizer_choice/get_pref_data(). Every action routes through the
-// generic 'customizer_action' ui_act, which calls back into the classic
-// handle_customizer_topic so we reuse all existing validation/behavior.
-const CustomizerPickerList = ({
-  customizerType,
-  pickers,
-  act,
-}: {
-  customizerType: string;
-  pickers: CustomizerPicker[];
-  act: (action: string, payload?: object) => void;
-}) => {
-  const send = (task: string | undefined, extra: Record<string, string> = {}) =>
-    act('customizer_action', {
-      customizer_type: customizerType,
-      customizer_task: task,
-      ...extra,
-    });
-
-  // Split standalone "reset_colors" pickers out of the labeled list — they have no label.
-  const labeledPickers = pickers.filter((p) => p.type !== 'reset_colors');
-  const resetPicker = pickers.find((p) => p.type === 'reset_colors');
-
-  return (
-    <>
-      <LabeledList>
-        {labeledPickers.map((p, i) => {
-          switch (p.type) {
-            case 'rotate':
-              return (
-                <LabeledList.Item key={i} label="Style">
-                  <Button
-                    icon="chevron-left"
-                    tooltip="Previous"
-                    onClick={() => send('rotate', { rotate: 'prev' })}
-                  />
-                  {p.options && p.options.length > 0 ? (
-                    <Box inline ml={1}>
-                      <Dropdown
-                        width="200px"
-                        menuWidth="240px"
-                        selected={p.text || ''}
-                        displayText={p.text || ''}
-                        options={p.options}
-                        onSelected={(value) =>
-                          value !== p.text &&
-                          send(p.task, { picked_name: value })
-                        }
-                      />
-                    </Box>
-                  ) : (
-                    <Button
-                      ml={1}
-                      width="200px"
-                      textAlign="center"
-                      onClick={() => send(p.task)}
-                    >
-                      {p.text}
-                    </Button>
-                  )}
-                  <Button
-                    ml={1}
-                    icon="chevron-right"
-                    tooltip="Next"
-                    onClick={() => send('rotate', { rotate: 'next' })}
-                  />
-                </LabeledList.Item>
-              );
-            case 'color':
-              return (
-                <LabeledList.Item key={i} label={p.label}>
-                  <Box
-                    inline
-                    width="32px"
-                    height="14px"
-                    backgroundColor={p.color || '#ffffff'}
-                    title={p.color || '(unset)'}
-                    style={{
-                      cursor: 'pointer',
-                      border: '1px solid #000',
-                      verticalAlign: 'middle',
-                    }}
-                    onClick={() => send(p.task, p.extra || {})}
-                  />
-                </LabeledList.Item>
-              );
-            case 'list_value':
-              return (
-                <LabeledList.Item key={i} label={p.label}>
-                  {p.options && p.options.length > 0 ? (
-                    <Dropdown
-                      width="200px"
-                      menuWidth="240px"
-                      selected={p.text || ''}
-                      displayText={p.text || ''}
-                      options={p.options}
-                      onSelected={(value) =>
-                        value !== p.text &&
-                        send(p.task, { picked_name: value })
-                      }
-                    />
-                  ) : (
-                    <Button
-                      width="200px"
-                      textAlign="center"
-                      onClick={() => send(p.task, p.extra || {})}
-                    >
-                      {p.text}
-                    </Button>
-                  )}
-                </LabeledList.Item>
-              );
-            case 'toggle':
-              return (
-                <LabeledList.Item key={i} label={p.label}>
-                  <Button
-                    width="160px"
-                    textAlign="center"
-                    onClick={() => send(p.task, p.extra || {})}
-                  >
-                    {p.text}
-                  </Button>
-                </LabeledList.Item>
-              );
-            default:
-              return null;
-          }
-        })}
-      </LabeledList>
-      {resetPicker && (
-        <Box mt={1}>
-          <Button onClick={() => send(resetPicker.task)}>Reset colors</Button>
-        </Box>
-      )}
-    </>
-  );
-};
 
 export const FeaturesTab = (props) => {
   const { act, data } = useBackend<Data>();
@@ -322,6 +165,12 @@ export const FeaturesTab = (props) => {
                 }
                 const rows: CustomizerEntry[][] = [];
                 const consumed = new Set<string>();
+                // Ears is rendered inside BodySection's right column instead
+                // of the customizer grid; mark it consumed so the iteration
+                // skips it.
+                for (const c of customizers.entries) {
+                  if (c.name === 'Ears') consumed.add(c.customizer_type);
+                }
                 for (const c of customizers.entries) {
                   if (consumed.has(c.customizer_type)) continue;
                   const group = groupOf[c.name];
@@ -347,81 +196,34 @@ export const FeaturesTab = (props) => {
                     consumed.add(c.customizer_type);
                   }
                 }
+                // Find the row containing the Hair customizer so we can
+                // slot the Body section right below it. Falls back to
+                // not injecting if the species has no Hair customizer.
+                const hairRowIdx = rows.findIndex((row) =>
+                  row.some((c) => c.name === 'Hair'),
+                );
                 return rows.map((row, idx) => (
-                  <Stack.Item key={idx}>
+                  <Fragment key={idx}>
+                  <Stack.Item>
                     <Stack>
                       {row.map((c) => (
                         <Stack.Item key={c.customizer_type} grow>
-                          <Section title={c.name}>
-                            {/* Reserve a fixed-height top row so the
-                                picker list below (Style dropdown etc.)
-                                lines up across cards regardless of
-                                whether this customizer has an On/Off
-                                toggle or a variant dropdown. */}
-                            <Stack
-                              align="center"
-                              mb={1}
-                              style={{ minHeight: '24px' }}
-                            >
-                              {!!c.allows_disabling && (
-                                <Stack.Item>
-                                  <Button
-                                    color={c.disabled ? 'bad' : 'good'}
-                                    tooltip={c.disabled ? 'Disabled' : 'Enabled'}
-                                    onClick={() =>
-                                      act('customizer_toggle', {
-                                        customizer_type: c.customizer_type,
-                                      })
-                                    }
-                                  >
-                                    {c.disabled ? 'Off' : 'On'}
-                                  </Button>
-                                </Stack.Item>
-                              )}
-                              {!c.disabled &&
-                                !!c.has_multiple_choices &&
-                                c.choice_name !== c.name && (
-                                  <Stack.Item>
-                                    <Dropdown
-                                      width="180px"
-                                      menuWidth="220px"
-                                      selected={c.choice_name}
-                                      displayText={c.choice_name}
-                                      options={c.choice_options}
-                                      onSelected={(value) =>
-                                        value !== c.choice_name &&
-                                        act('customizer_change_choice_direct', {
-                                          customizer_type: c.customizer_type,
-                                          name: value,
-                                        })
-                                      }
-                                    />
-                                  </Stack.Item>
-                                )}
-                            </Stack>
-                            {!c.disabled && c.pref_data.length > 0 && (
-                              <CustomizerPickerList
-                                customizerType={c.customizer_type}
-                                pickers={c.pref_data}
-                                act={act}
-                              />
-                            )}
-                          </Section>
+                          <CustomizerCard customizer={c} act={act} />
                         </Stack.Item>
                       ))}
                     </Stack>
                   </Stack.Item>
+                  {idx === hairRowIdx && (
+                    <Stack.Item>
+                      <BodySection />
+                    </Stack.Item>
+                  )}
+                  </Fragment>
                 ));
               })()}
             </Stack>
           )}
         </Section>
-      </Stack.Item>
-
-      {/* Body section moved from the Identity tab — sits below Customizers
-          per user request. */}
-      <Stack.Item>
-        <BodySection />
       </Stack.Item>
 
       {/* Markings section moved from the Identity tab — at the bottom of

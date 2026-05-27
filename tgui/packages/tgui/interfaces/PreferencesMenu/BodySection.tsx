@@ -5,9 +5,11 @@ import {
   LabeledList,
   Section,
   Slider,
+  Stack,
 } from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
+import { CustomizerCard, CustomizerEntry } from './CustomizerCard';
 
 // Wraps RawDropdown in an inline-Box constraint so the width prop actually
 // limits the dropdown — without this, the dropdown stretches to fill its
@@ -47,6 +49,7 @@ export type BodyData = {
 
 type Data = {
   body: BodyData;
+  customizers?: { entries: CustomizerEntry[] };
 };
 
 const ColorSwatch = ({ hex }: { hex?: string }) => (
@@ -67,8 +70,15 @@ export const BodySection = () => {
   const { act, data } = useBackend<Data>();
   const body = data.body;
   if (!body) return null;
+  // Ears was lifted out of the FeaturesTab customizer grid and rendered
+  // here in the right column; if the species doesn't expose an Ears
+  // customizer, the right column simply doesn't appear.
+  const earsCustomizer =
+    data.customizers?.entries.find((c) => c.name === 'Ears') || null;
   return (
     <Section title="Body">
+      <Stack>
+        <Stack.Item grow basis={0}>
       <LabeledList>
         <LabeledList.Item label="Update Colors With Change">
           <Button onClick={() => act('toggle_update_mutant_colors')}>
@@ -250,6 +260,13 @@ export const BodySection = () => {
           )}
         </LabeledList.Item>
       </LabeledList>
+        </Stack.Item>
+        {earsCustomizer && (
+          <Stack.Item grow basis={0}>
+            <CustomizerCard customizer={earsCustomizer} act={act} />
+          </Stack.Item>
+        )}
+      </Stack>
     </Section>
   );
 };
