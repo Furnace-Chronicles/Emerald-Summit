@@ -23,7 +23,9 @@
 	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_PHASED
 	panel = "Spells"
 
-	background_icon_state = "spell0"
+	// Use Emerald Summit's existing spell button background ("bg_spell" in roguespells.dmi),
+	// not Azure-Peak's "spell0". The two repos' roguespells.dmi files have diverged.
+	background_icon_state = "bg_spell"
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	button_icon_state = "shieldsparkles"
 
@@ -119,10 +121,18 @@
 	var/auto_cancel_timer = null
 
 /datum/action/cooldown/spell/New(Target)
+	// Icon var-name remap: Azure-Peak uses `button_icon` for the FOREGROUND dmi file
+	// (Spitfire sets it to mage_pyromancy.dmi). Emerald Summit's /datum/action uses
+	// `button_icon` for the BACKGROUND and `icon_icon` for the foreground. We swap
+	// them unconditionally — the parent's icon_icon default ('icons/mob/actions.dmi')
+	// is not what Magi 2 spells want.
+	icon_icon = button_icon
+	button_icon = 'icons/mob/actions/roguespells.dmi'
+
 	. = ..()
 	if(button_icon_state)
 		var/obj/effect/R = new /obj/effect/spell_rune
-		R.icon = button_icon
+		R.icon = icon_icon
 		R.icon_state = button_icon_state
 		mob_charge_effect = R
 	if(!charge_required)
