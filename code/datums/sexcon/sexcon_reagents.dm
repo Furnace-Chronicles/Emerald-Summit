@@ -19,7 +19,7 @@
 	metabolization_rate = 0.02 * REAGENTS_METABOLISM
 	overdose_threshold = 18
 	addiction_threshold = 12 //Three sips, or a full goblet if properly mixed with two other reagents to hide the taste.
-	addiction_permanent = TRUE
+	addiction_permanent = FALSE
 	color = "#721a46"
 
 /datum/reagent/consumable/ethanol/beer/emberwine/on_mob_metabolize(mob/living/carbon/human/C)
@@ -102,7 +102,7 @@
 			H.charflaw = new /datum/charflaw/addiction/lovefiend(H)
 	return
 
-/datum/reagent/consumable/ethanol/beer/emberwine/addiction_act_stage4(mob/living/carbon/human/C)
+#/datum/reagent/consumable/ethanol/beer/emberwine/addiction_act_stage4(mob/living/carbon/human/C)
 	var/datum/sex_controller/S = C.sexcon
 	SEND_SIGNAL(C, COMSIG_ADD_MOOD_EVENT, "[type]_overdose", /datum/mood_event/withdrawal_severe, name) //Not critical because they'll already be getting blueballed.
 	if(!S.arousal_frozen)
