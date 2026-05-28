@@ -203,6 +203,14 @@
 #define TELEPORT_MAX_PASSENGERS 6
 #define TELEPORT_MAX_NONMAGES   2
 
+// ---- Armor types used by Magi 2 ward upgrades ----
+// AP defines these via its DR_/DBLOCK_ severity constants; we hand-pick values for the
+// pilot in the same style as Emerald Summit's existing ARMOR_LEATHER/ARMOR_PLATE defines.
+// Dragonhide trades a bit of physical protection for meaningful fire resistance.
+// Brigandine is a tough mid-tier alternative — better than leather, worse than plate.
+#define ARMOR_DRAGONHIDE list("blunt" = 50, "slash" = 50, "stab" = 40, "piercing" = 20, "fire" = 70, "acid" = 0)
+#define ARMOR_BRIGANDINE list("blunt" = 70, "slash" = 80, "stab" = 60, "piercing" = 50, "fire" = 0, "acid" = 0)
+
 // ---- Lightning adaptation (Fulgurmancy Bolt of Lightning) ----
 // Gates the immobilize/clickcd/lightningstruck CC stack so a target can't be perma-locked
 // by repeated casts. Stored on the target as a world.time stamp in mob_timers.
@@ -229,6 +237,10 @@
 #define TRAIT_NOC_CURSE      "noc_curse"
 #define TRAIT_ATHEISM_CURSE  "atheism_curse"
 #define TRAIT_PSYDONITE      "psydonite"
+// Dragonhide ward grants TRAIT_FIRE_RESIST. Nothing in ES currently checks this trait
+// (upstream's fire damage reduction lives in Azure-Peak's burn-handling code we haven't
+// ported), so the trait is functionally inert until that wiring lands.
+#define TRAIT_FIRE_RESIST    "fire_resist"
 
 // ---- Movespeed modifier id used while channeling ----
 #define MOVESPEED_ID_SPELL_CASTING "spell_casting"

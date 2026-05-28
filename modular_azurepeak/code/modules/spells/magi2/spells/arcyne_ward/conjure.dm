@@ -94,11 +94,19 @@
 		StartCooldown(adjusted_cooldown)
 		return TRUE
 
-	// Defensive: don't overwrite an existing skin_armor that isn't ours.
+	// Defensive: don't overwrite an existing skin_armor that isn't ours, and don't
+	// let a lower-tier ward downgrade a higher-tier one (matches upstream tier check).
 	if(H.skin_armor)
 		if(!istype(H.skin_armor, /obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2))
 			to_chat(owner, span_warning("Something else already protects my skin!"))
 			return FALSE
+		var/obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/existing = H.skin_armor
+		if(existing.arcyne_armor_tier > initial(ward_type:arcyne_armor_tier))
+			to_chat(owner, span_warning("A stronger ward already protects me!"))
+			return FALSE
+		// Replacing the existing ward — dismiss it so cleanup runs.
+		existing.dismissed = TRUE
+		qdel(existing)
 
 	// Conjure path — wear ward, calculate coverage once.
 	owner.visible_message(span_notice("An arcyne ward shimmers into existence around [owner]!"))
@@ -140,6 +148,9 @@
 	var/datum/action/cooldown/spell/conjure_arcyne_ward_magi2/linked_spell
 	var/mob/living/carbon/human/ward_owner
 	var/dismissed = FALSE
+	/// Used by the conjure spell's cast() to gate downgrades. Base ward = BASE; the
+	/// Autowardry upgrades override to GREATER.
+	var/arcyne_armor_tier = ARCYNE_WARD_TIER_BASE
 
 /obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/Initialize(mapload)
 	. = ..()
