@@ -18,8 +18,8 @@
 #define WEEPING_INGOT_GLOW "weeping_ingot_glow"
 
 /obj/item/clothing/neck/roguetown/psicross/weeping
-	name = "weeping psicross"
-	desc = "'Let His name be naught but forgot'n.' </br>The alloy is familiar, but unmentionable. Blood oozes from cracks within the psicross; ensnared in a perpetual state of half-coagulation. A deathly chill tugs your neck, and your cheeks feel wet - are those tears?"
+	name = "weeping psycross"
+	desc = "'Let His name be naught but forgot'n.' </br>The alloy is familiar, but unmentionable. Blood oozes from cracks within the psycross; ensnared in a perpetual state of half-coagulation. A deathly chill tugs your neck, and your cheeks feel wet - are those tears?"
 	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_WRISTS
 	icon_state = "psicrossblood"
 	max_integrity = 666
@@ -272,7 +272,7 @@
 		return
 	var/mob/living/L = user
 	active_item = TRUE
-	to_chat(L, span_red("As you don the psicross, the chains tighten like a vice around your neck!  </br>  </br>You're overcome with a sense of terrible anguish - all of humenity's suffering, thrust upon your very spirit!  </br>  </br>Your chest grows cold, yet your blood boils hotter than magma! Psydonia's villains may be brutal and merciless, but you will be WORSE!  </br>  </br>You've gone BERSERK!"))
+	to_chat(L, span_red("As you don the psycross, the chains tighten like a vice around your neck!  </br>  </br>You're overcome with a sense of terrible anguish - all of humenity's suffering, thrust upon your very spirit!  </br>  </br>Your chest grows cold, yet your blood boils hotter than magma! Psydonia's villains may be brutal and merciless, but you will be WORSE!  </br>  </br>You've gone BERSERK!"))
 	L.change_stat(STATKEY_STR, 3)
 	L.change_stat(STATKEY_CON, 3)
 	L.change_stat(STATKEY_END, 3)
@@ -362,7 +362,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/weeping_berserker
 	name = "Weeping Berserker"
-	desc = "The weeping psicross has me in its grip. Cannot be revived if I die wearing it."
+	desc = "The weeping psycross has me in its grip. Cannot be revived if I die wearing it."
 	icon_state = "buff"
 
 #undef WEEPING_PSICROSS_GLOW
