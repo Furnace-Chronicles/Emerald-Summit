@@ -217,6 +217,12 @@
 #define MT_LIGHTNING_ADAPTATION "lightning_adaptation"
 #define LIGHTNING_ADAPTATION_COOLDOWN (15 SECONDS)
 
+// ---- Gravity adaptation (Kinesis Gravity / Mass Gravity) ----
+// Same pattern as lightning: after being knocked down once, the target adapts for 15s.
+// Damage still applies during adaptation, but Knockdown/OffBalance does not.
+#define MT_GRAVITY_ADAPTATION "gravity_adaptation"
+#define GRAVITY_ADAPTATION_COOLDOWN (15 SECONDS)
+
 // ---- Full-body coverage bitmask used by Arcyne Ward ----
 // Bitwise OR of every covered body zone — the ward starts covering everything,
 // then masks off zones where real armor / clothing exists.

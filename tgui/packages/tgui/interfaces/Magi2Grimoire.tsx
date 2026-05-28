@@ -37,8 +37,8 @@ export const Magi2Grimoire = (props) => {
               </NoticeBox>
             </Stack.Item>
           )}
-          <Stack.Item>
-            <Section title="Major Aspects" scrollable>
+          <Stack.Item grow>
+            <Section title="Major Aspects" scrollable fill>
               {majors.length === 0 && (
                 <Box color="grey" italic>
                   No major aspects registered.
