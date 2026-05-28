@@ -11,9 +11,28 @@
 // Empty subtype of the buff base so type paths resolve. Application is a no-op
 // in the adapter layer; nothing applies these yet.
 
+/// Residual Focus — granted by the Magi 2 implement system. Carries a `pool` of energy
+/// drained from the cast that gets returned to the holder evenly over 20 seconds.
+/// Applied via `target.apply_status_effect(/datum/status_effect/buff/residual_focus, pool)`
+/// from /datum/action/cooldown/spell.apply_residual_focus().
 /datum/status_effect/buff/residual_focus
 	id = "residual_focus"
 	duration = 20 SECONDS
+	tick_interval = 1 SECONDS
+	/// Total energy to return over the duration (positive number). Set on apply.
+	var/pool = 0
+	/// Per-tick energy refund — pool / 20.
+	var/per_tick = 0
+
+/datum/status_effect/buff/residual_focus/on_creation(mob/living/new_owner, new_pool = 0)
+	pool = max(0, new_pool)
+	per_tick = pool / 20
+	return ..()
+
+/datum/status_effect/buff/residual_focus/tick()
+	if(QDELETED(owner) || per_tick <= 0)
+		return
+	owner.energy_add(per_tick)
 
 /datum/status_effect/buff/parry_buffer
 	id = "parry_buffer"

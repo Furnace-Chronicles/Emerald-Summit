@@ -58,6 +58,11 @@
 		if(L.mind)
 			to_fire.bonus_accuracy += (L.get_skill_level(associated_skill) * 5)
 
+	// Pick up the elemental glow on any held implement matching this spell's school.
+	if(attunement_school && ishuman(user))
+		var/obj/item/rogueweapon/best_implement = get_held_implement(user)
+		best_implement?.attune_implement(spell_color, attunement_school)
+
 	to_fire.preparePixelProjectile(target, user)
 
 /// Toggle arc mode. Stub: just balloon-alerts the user. Real ARC indicator on the action

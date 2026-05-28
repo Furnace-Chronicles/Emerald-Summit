@@ -74,6 +74,10 @@
 /datum/outfit/job/magician/basic/magi2/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 	backpack_contents = (backpack_contents || list()) + list(/obj/item/book/magi2_grimoire)
+	// Swap the standard Court Magician's magos staff for a lesser Magi 2 implement.
+	// The implement leaves Residual Focus on cast — energy returned over 20s — and picks
+	// up an elemental glow when this school's spell fires through it.
+	r_hand = /obj/item/rogueweapon/woodstaff/implement_magi2
 	if(H?.mind)
 		var/datum/magic_aspect/pyromancy/A = new
 		A.grant_spells(H.mind)
