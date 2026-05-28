@@ -402,13 +402,12 @@ export const IdentityTab = (props) => {
                   act('set_virtue_direct', { name: value })
                 }
               />
-              <Box mt={0.5}>
-                <Button
-                  icon="circle-info"
-                  tooltip="Print this virtue's description to chat"
-                  onClick={() => act('show_virtue_desc')}
-                />
-              </Box>
+              <Button
+                ml={0.5}
+                icon="circle-info"
+                tooltip="Print this virtue's description to chat"
+                onClick={() => act('show_virtue_desc')}
+              />
             </LabeledList.Item>
             {!!id.show_virtuetwo && (
               <LabeledList.Item label="Second Virtue">
@@ -423,13 +422,12 @@ export const IdentityTab = (props) => {
                     act('set_virtuetwo_direct', { name: value })
                   }
                 />
-                <Box mt={0.5}>
-                  <Button
-                    icon="circle-info"
-                    tooltip="Print this virtue's description to chat"
-                    onClick={() => act('show_virtuetwo_desc')}
-                  />
-                </Box>
+                <Button
+                  ml={0.5}
+                  icon="circle-info"
+                  tooltip="Print this virtue's description to chat"
+                  onClick={() => act('show_virtuetwo_desc')}
+                />
               </LabeledList.Item>
             )}
             <LabeledList.Item label="Vice">
@@ -444,13 +442,12 @@ export const IdentityTab = (props) => {
                   act('set_charflaw_direct', { name: value })
                 }
               />
-              <Box mt={0.5}>
-                <Button
-                  icon="circle-info"
-                  tooltip="Print this vice's description to chat"
-                  onClick={() => act('show_charflaw_desc')}
-                />
-              </Box>
+              <Button
+                ml={0.5}
+                icon="circle-info"
+                tooltip="Print this vice's description to chat"
+                onClick={() => act('show_charflaw_desc')}
+              />
             </LabeledList.Item>
             <LabeledList.Item label="Faith">
               <Dropdown
@@ -477,13 +474,12 @@ export const IdentityTab = (props) => {
                   act('set_patron_direct', { name: value })
                 }
               />
-              <Box mt={0.5}>
-                <Button
-                  icon="circle-info"
-                  tooltip="Print this patron's description to chat"
-                  onClick={() => act('show_patron_desc')}
-                />
-              </Box>
+              <Button
+                ml={0.5}
+                icon="circle-info"
+                tooltip="Print this patron's description to chat"
+                onClick={() => act('show_patron_desc')}
+              />
             </LabeledList.Item>
             <LabeledList.Item label="Combat Music">
               <Dropdown
@@ -517,27 +513,26 @@ export const IdentityTab = (props) => {
                   act('set_species_direct', { name: value })
                 }
               />
-              <Box mt={0.5}>
-                <Button
-                  icon="circle-info"
-                  tooltip="Print this race's lore description to chat"
-                  onClick={() => act('show_species_desc')}
-                />
-                <Button
-                  ml={0.5}
-                  icon="circle-question"
-                  tooltip="Race symbol meaning"
-                  onClick={() => act('show_race_help')}
+              <Button
+                ml={0.5}
+                icon="circle-info"
+                tooltip="Print this race's lore description to chat"
+                onClick={() => act('show_species_desc')}
+              />
+              <Button
+                ml={0.5}
+                icon="circle-question"
+                tooltip="Race symbol meaning"
+                onClick={() => act('show_race_help')}
+              >
+                <Box
+                  inline
+                  color={id.species_psydonic ? 'good' : 'bad'}
+                  bold
                 >
-                  <Box
-                    inline
-                    color={id.species_psydonic ? 'good' : 'bad'}
-                    bold
-                  >
-                    {id.species_psydonic ? 'ᛉ' : 'ᛣ'}
-                  </Box>
-                </Button>
-              </Box>
+                  {id.species_psydonic ? 'ᛉ' : 'ᛣ'}
+                </Box>
+              </Button>
             </LabeledList.Item>
             <LabeledList.Item label="Subrace">
               {id.has_subspecies_options ? (
@@ -553,13 +548,12 @@ export const IdentityTab = (props) => {
                       act('set_subspecies_direct', { name: value })
                     }
                   />
-                  <Box mt={0.5}>
-                    <Button
-                      icon="circle-info"
-                      tooltip="Print this subrace's lore description to chat"
-                      onClick={() => act('show_subspecies_desc')}
-                    />
-                  </Box>
+                  <Button
+                    ml={0.5}
+                    icon="circle-info"
+                    tooltip="Print this subrace's lore description to chat"
+                    onClick={() => act('show_subspecies_desc')}
+                  />
                 </>
               ) : (
                 <Box inline color="label">
@@ -594,13 +588,12 @@ export const IdentityTab = (props) => {
                   act('set_origin_direct', { name: value })
                 }
               />
-              <Box mt={0.5}>
-                <Button
-                  icon="circle-info"
-                  tooltip="Print this origin's description to chat"
-                  onClick={() => act('show_origin_help')}
-                />
-              </Box>
+              <Button
+                ml={0.5}
+                icon="circle-info"
+                tooltip="Print this origin's description to chat"
+                onClick={() => act('show_origin_help')}
+              />
             </LabeledList.Item>
             <LabeledList.Item label="Statpack">
               <Dropdown

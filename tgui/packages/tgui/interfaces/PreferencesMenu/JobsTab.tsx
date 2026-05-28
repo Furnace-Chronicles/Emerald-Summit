@@ -348,12 +348,15 @@ const JobRow = ({
   onShowTutorial: () => void;
 }) => {
   // Tooltip is a brief one-liner now; the full tutorial opens in a panel.
+  // Lead with the circle-info icon so players see at a glance that the class
+  // name itself is clickable for the tutorial / subclass description.
   const tooltipText = `Slots: ${job.slots}${job.rcp ? ` | RCP: +${job.rcp}` : ''} — click for full tutorial`;
   return (
     <Table.Row>
       <Table.Cell>
         <Button
           fluid
+          icon="circle-info"
           tooltip={tooltipText}
           tooltipPosition="right"
           color="transparent"

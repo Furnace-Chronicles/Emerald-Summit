@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Box, Button, ByondUi, Dropdown, Section, Stack, Tabs } from 'tgui-core/components';
 
 import { useBackend } from '../backend';
@@ -281,18 +281,31 @@ const formatCountdown = (ds: number) => {
 };
 
 const LobbySection = ({ lobby }: { lobby: LobbyData }) => {
-  // Server pushes a fresh timeleft_ds on every poll (~2s). Between polls we tick
-  // locally so the countdown looks live. Each new poll snaps to the authoritative
-  // value, correcting any drift.
-  const [displayDs, setDisplayDs] = useState(lobby.timeleft_ds);
+  // Split into two effects so the 1Hz interval is created exactly once per
+  // pregame transition, never rebuilt on each server push. The deadline ref
+  // is eagerly seeded from the first prop so the very first render computes
+  // a real value instead of flashing "SOON" while waiting for the post-mount
+  // effect to write it.
+  const deadlineRef = useRef<number>(
+    performance.now() + lobby.timeleft_ds * 100,
+  );
+  const [, setTick] = useState(0);
   useEffect(() => {
-    setDisplayDs(lobby.timeleft_ds);
-    if (!lobby.is_pregame || lobby.timeleft_ds <= 0) return;
-    const interval = setInterval(() => {
-      setDisplayDs((d) => Math.max(0, d - 10));
-    }, 1000);
+    deadlineRef.current = performance.now() + lobby.timeleft_ds * 100;
+    setTick((t) => t + 1);
+  }, [lobby.timeleft_ds]);
+  useEffect(() => {
+    if (!lobby.is_pregame) return;
+    const interval = setInterval(() => setTick((t) => t + 1), 1000);
     return () => clearInterval(interval);
-  }, [lobby.timeleft_ds, !!lobby.is_pregame]);
+  }, [!!lobby.is_pregame]);
+
+  // -10 is the DELAYED sentinel from the server; preserve it as-is so the
+  // formatter renders "DELAYED" instead of clamping to 0 → "SOON".
+  const displayDs =
+    lobby.timeleft_ds === -10
+      ? -10
+      : Math.max(0, Math.round((deadlineRef.current - performance.now()) / 100));
 
   let statusLine: string;
   let statusColor: string | undefined;
@@ -301,7 +314,12 @@ const LobbySection = ({ lobby }: { lobby: LobbyData }) => {
     statusColor = '#888';
   } else if (lobby.is_pregame) {
     statusLine = `Round starts in: ${formatCountdown(displayDs)}`;
-    statusColor = displayDs <= 100 ? '#ff6347' : undefined;
+    // Red highlight on the final 10s (≤100 ds) AND on the DELAYED sentinel —
+    // both flag the player that "the timer isn't going to count down soon."
+    statusColor =
+      displayDs === -10 || (displayDs >= 0 && displayDs <= 100)
+        ? '#ff6347'
+        : undefined;
   } else {
     statusLine = 'Waiting…';
     statusColor = '#888';

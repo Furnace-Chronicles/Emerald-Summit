@@ -22,6 +22,11 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	/// Keyed by job.title. Built lazily on the first ui_data poll touching a
 	/// given job; lifetime is the lifetime of this menu datum. See build_job_entry.
 	var/list/cached_job_gates
+	/// Per-session cache of the donator-filtered loadout item names. Donator
+	/// status is per-user but stable for the menu's lifetime — cached on the
+	/// datum rather than at module scope. Cleared if a triumph buy changes
+	/// donator state (not currently a thing, but the hook is here if needed).
+	var/list/cached_loadout_item_options
 	/// Slot id (int) → display name (string). Built once from the savefile on
 	/// window open; refreshed targeted-style on save_character so the dropdown
 	/// reflects the freshly saved name without resending the full static payload.
@@ -65,6 +70,12 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	if(!prefs || !user || !user.client)
 		return
 	if(!isnewplayer(user))
+		return
+	// Respect the Classic UI escape hatch — if the user toggled tgui_pref off
+	// (which itself closes the TGUI window via SStgui.close_uis → ui_close →
+	// this very timer), don't pop the TGUI back open on top of the classic
+	// browser window two seconds later.
+	if(!prefs.tgui_pref)
 		return
 	ui_interact(user)
 
@@ -199,20 +210,48 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 
 	data["lobby"] = build_lobby_data()
 
-	data["identity"] = build_identity_data(user)
-	data["body"] = build_body_data(user)
-	data["markings"] = build_markings_data(user)
-	data["descriptors"] = build_descriptors_data(user)
-	data["customizers"] = build_customizers_data(user)
-	data["loadout"] = build_loadout_data(user)
-	data["culinary"] = build_culinary_data(user)
-	data["jobs"] = build_jobs_data(user)
-	data["flavor"] = build_flavor_data(user)
-	data["game_prefs"] = build_game_prefs_data(user)
-	data["ooc_prefs"] = build_ooc_prefs_data(user)
-	data["keybinds"] = build_keybinds_data(user)
-	data["familiar"] = build_familiar_data(user)
-	data["gnoll"] = build_gnoll_data(user)
+	// Per-tab gating: only build the active tab's payload. The React side
+	// only renders one tab at a time (renderTab(tab) in PreferencesMenu.tsx)
+	// so shipping the other 12 payloads on every poll was wasted work — the
+	// most common reported perf complaint in pregame.
+	// Header is built above (always visible). Each tab has a "Loading…" guard
+	// in its component so the brief window between set_tab act and the next
+	// data push renders cleanly.
+	// Unknown active_tab values (legacy savefile residue, future rename) fall
+	// back to identity so the user is never stranded on an empty payload with
+	// no way to recover. The active_tab var is also re-pinned to the recognized
+	// value so React's tab state syncs back on the next poll.
+	var/static/list/known_tabs = list("identity", "features", "loadout", "jobs", "flavor", "gamepref", "oocpref", "keybinds", "familiar", "gnoll")
+	if(!(active_tab in known_tabs))
+		active_tab = "identity"
+	switch(active_tab)
+		if("identity")
+			data["identity"] = build_identity_data(user)
+			data["culinary"] = build_culinary_data(user)
+		if("features")
+			data["body"] = build_body_data(user)
+			data["markings"] = build_markings_data(user)
+			data["descriptors"] = build_descriptors_data(user)
+			data["customizers"] = build_customizers_data(user)
+		if("loadout")
+			data["loadout"] = build_loadout_data(user)
+		if("jobs")
+			data["jobs"] = build_jobs_data(user)
+		if("flavor")
+			data["flavor"] = build_flavor_data(user)
+		if("gamepref")
+			// Combined view in the React side: GamePrefsTab stacked above OocPrefsTab.
+			data["game_prefs"] = build_game_prefs_data(user)
+			data["ooc_prefs"] = build_ooc_prefs_data(user)
+		if("oocpref")
+			data["ooc_prefs"] = build_ooc_prefs_data(user)
+		if("keybinds")
+			data["keybinds"] = build_keybinds_data(user)
+		if("familiar")
+			data["familiar"] = build_familiar_data(user)
+		if("gnoll")
+			data["gnoll"] = build_gnoll_data(user)
+	data["active_tab"] = active_tab
 	return data
 
 /datum/preferences_menu/proc/build_identity_data(mob/user)
@@ -327,10 +366,16 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	return names
 
 /datum/preferences_menu/proc/build_charflaw_options()
-	var/list/names = list()
-	for(var/key in GLOB.character_flaws)
-		names += key
-	return sortList(names)
+	// GLOB.character_flaws is populated once and never mutates at runtime —
+	// keep the sorted name list as a module-scope static so ui_data isn't
+	// re-walking and re-sorting it on every poll.
+	var/static/list/cached_options
+	if(!cached_options)
+		var/list/names = list()
+		for(var/key in GLOB.character_flaws)
+			names += key
+		cached_options = sortList(names)
+	return cached_options
 
 /datum/preferences_menu/proc/build_faith_options()
 	var/list/names = list()
@@ -430,15 +475,36 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	return names
 
 /datum/preferences_menu/proc/build_statpack_options()
-	var/list/labels = list()
-	for(var/path as anything in GLOB.statpacks)
-		var/datum/statpack/sp = GLOB.statpacks[path]
-		if(!sp?.name)
+	// Statpack list is loaded at SS init and never mutates at runtime; the
+	// labels embed generate_modifier_string output which is non-trivial to
+	// rebuild per poll. Cache the labels keyed by pack name + a sorted name
+	// list, then drop the currently-selected pack by exact name match — the
+	// previous prefix-match approach would have silently dropped any pack
+	// whose name shared a prefix with the selected one (e.g. "Hardy" filter
+	// would also have removed a future "Hardy Veteran").
+	var/static/list/cached_label_for_name
+	var/static/list/cached_sorted_names
+	if(!cached_sorted_names)
+		cached_label_for_name = list()
+		var/list/labels_for_sort = list()
+		for(var/path as anything in GLOB.statpacks)
+			var/datum/statpack/sp = GLOB.statpacks[path]
+			if(!sp?.name)
+				continue
+			cached_label_for_name[sp.name] = statpack_dropdown_label(sp)
+			labels_for_sort[statpack_dropdown_label(sp)] = sp.name
+		// Sort by label so the dropdown order matches the visible text.
+		var/list/sorted_labels = sortList(labels_for_sort)
+		cached_sorted_names = list()
+		for(var/label in sorted_labels)
+			cached_sorted_names += labels_for_sort[label]
+	var/selected_name = prefs.statpack?.name
+	var/list/out = list()
+	for(var/name in cached_sorted_names)
+		if(name == selected_name)
 			continue
-		if(prefs.statpack?.name == sp.name)
-			continue
-		labels += statpack_dropdown_label(sp)
-	return sortList(labels)
+		out += cached_label_for_name[name]
+	return out
 
 /// Dropdown label for a statpack: name + auto-generated stat modifier blurb,
 /// e.g. "Trained (+1 STR, +1 CON, +1 END, -1 PER, -1 INT)". Used by both the
@@ -630,7 +696,9 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 
 /datum/preferences_menu/proc/build_customizers_data(mob/user)
 	var/list/data = list()
-	prefs.validate_customizer_entries() // make sure entries match the current species
+	// Validation already runs in /datum/preferences/proc/set_new_race (the only
+	// path that can desync entries from the species). Keeping it out of the
+	// read path eliminates ~one customizer-list walk per ui_data poll.
 	var/list/entries_out = list()
 	for(var/customizer_type in prefs.pref_species?.customizers)
 		var/datum/customizer/customizer = CUSTOMIZER(customizer_type)
@@ -978,8 +1046,16 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	if(!cached_job_gates)
 		cached_job_gates = list()
 
+	// SSjob.occupations is global and fixed for the round, so dedupe the sort
+	// across every open preferences_menu by keeping the cache at module scope.
+	// Datum-level caching meant each menu paid the sort cost on its own first
+	// poll; the static reuses the very first build's sorted list for every
+	// subsequent menu (and every poll thereafter).
+	var/static/list/cached_sorted_jobs
+	if(!cached_sorted_jobs)
+		cached_sorted_jobs = sortList(SSjob.occupations, GLOBAL_PROC_REF(cmp_job_display_asc))
 	var/list/jobs_out = list()
-	for(var/datum/job/job in sortList(SSjob.occupations, GLOBAL_PROC_REF(cmp_job_display_asc)))
+	for(var/datum/job/job as anything in cached_sorted_jobs)
 		if(!job.spawn_positions)
 			continue
 		var/list/entry = build_job_entry(user, job)
@@ -1269,30 +1345,45 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			"color_name" = lookup_loadout_color_name(hex),
 		))
 	data["slots"] = slots
-	// Item + preset-color picklists shipped once per poll, identical for every
-	// slot. Filtered by donator status of the asking user.
-	var/list/item_names = list("None")
-	for(var/path as anything in GLOB.loadout_items)
-		var/datum/loadout_item/item = GLOB.loadout_items[path]
-		if(!item?.name)
-			continue
-		if(item.donoritem && !item.donator_ckey_check(user.ckey))
-			continue
-		item_names += item.name
-	data["item_options"] = item_names
-	var/list/color_names = list("—")
-	for(var/k in colorlist)
-		color_names += k
-	data["color_options"] = color_names
+	// Item + preset-color picklists. Item list is donator-filtered per user but
+	// stable for the menu lifetime once computed → datum-cached. Color preset
+	// list is fully static → module-cached.
+	//
+	// Key the cache on the prefs owner's ckey (not whoever is polling) so an
+	// admin observer's first poll doesn't pin the donator filter to their own
+	// status for the rest of the menu's lifetime. The UI state allows any
+	// client to view the window, so the polling user can differ from the owner.
+	var/owner_ckey = prefs.parent?.ckey || user.ckey
+	if(!cached_loadout_item_options)
+		var/list/item_names = list("None")
+		for(var/path as anything in GLOB.loadout_items)
+			var/datum/loadout_item/item = GLOB.loadout_items[path]
+			if(!item?.name)
+				continue
+			if(item.donoritem && !item.donator_ckey_check(owner_ckey))
+				continue
+			item_names += item.name
+		cached_loadout_item_options = item_names
+	data["item_options"] = cached_loadout_item_options
+	var/static/list/cached_color_options
+	if(!cached_color_options)
+		cached_color_options = list("—")
+		for(var/k in colorlist)
+			cached_color_options += k
+	data["color_options"] = cached_color_options
 	return data
 
 /datum/preferences_menu/proc/lookup_loadout_color_name(hex)
 	if(!hex)
 		return "—"
-	for(var/k in colorlist)
-		if(colorlist[k] == hex)
-			return k
-	return "Custom"
+	// Reverse lookup table built once and shared. Was iterating colorlist
+	// six times per poll (once per loadout slot) just to compare hex strings.
+	var/static/list/cached_hex_to_name
+	if(!cached_hex_to_name)
+		cached_hex_to_name = list()
+		for(var/k in colorlist)
+			cached_hex_to_name[colorlist[k]] = k
+	return cached_hex_to_name[hex] || "Custom"
 
 /datum/preferences_menu/proc/zone_label(zone)
 	switch(zone)
