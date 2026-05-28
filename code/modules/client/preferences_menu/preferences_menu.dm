@@ -1665,6 +1665,21 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				to_chat(user, span_info("No description available for this race."))
 			return TRUE
 
+		if("show_age_info")
+			// Stat effects sourced from /mob/living/proc/apply_race_stat_changes (stats.dm).
+			var/blurb
+			switch(prefs.age)
+				if(AGE_ADULT)
+					blurb = "Adult: no stat change."
+				if(AGE_MIDDLEAGED)
+					blurb = "Middle-Aged: -1 SPE, +1 CON, +1 FOR."
+				if(AGE_OLD)
+					blurb = "Old: -1 STR, -2 SPE, -1 PER, -2 CON, +2 INT."
+				else
+					blurb = "[prefs.age]: no recorded stat effects."
+			to_chat(user, "<font size = 3>[span_purple(blurb)]</font>")
+			return TRUE
+
 		if("set_subspecies")
 			var/list/species = list()
 			for(var/A in GLOB.roundstart_races)

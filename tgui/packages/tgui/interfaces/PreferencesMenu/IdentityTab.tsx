@@ -206,6 +206,12 @@ export const IdentityTab = (props) => {
                   act('set_age_direct', { name: value })
                 }
               />
+              <Button
+                ml={0.5}
+                icon="circle-info"
+                tooltip="Print this age's stat effects to chat"
+                onClick={() => act('show_age_info')}
+              />
             </LabeledList.Item>
             {!id.agender_species && (
               <LabeledList.Item label="Body Type">
