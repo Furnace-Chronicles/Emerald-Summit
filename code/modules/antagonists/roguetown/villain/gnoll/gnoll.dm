@@ -13,7 +13,11 @@
 	sewrepair = FALSE
 	max_integrity = 475
 	item_flags = DROPDEL
-	repair_time = 14 SECONDS
+	// 5 minutes of zero damage before regen kicks in — every hit (any damage
+	// amount) resets the timer via /armor/regenerating/take_damage. Once the
+	// threshold passes the existing process() loop ticks `repair_amount` per
+	// SSobj cycle until full.
+	repair_time = 5 MINUTES
 
 /datum/antagonist/gnoll
 	name = "Gnoll"

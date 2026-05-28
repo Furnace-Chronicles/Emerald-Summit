@@ -37,4 +37,4 @@
 	icon_state = "knight"
 	max_integrity = 800
 	armor = ARMOR_GNOLL_STRONG
-	repair_time = 32 SECONDS
+	// Inherits the 5-minute repair_time from the gnoll_armor base.
