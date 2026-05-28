@@ -203,6 +203,12 @@
 #define TELEPORT_MAX_PASSENGERS 6
 #define TELEPORT_MAX_NONMAGES   2
 
+// ---- Lightning adaptation (Fulgurmancy Bolt of Lightning) ----
+// Gates the immobilize/clickcd/lightningstruck CC stack so a target can't be perma-locked
+// by repeated casts. Stored on the target as a world.time stamp in mob_timers.
+#define MT_LIGHTNING_ADAPTATION "lightning_adaptation"
+#define LIGHTNING_ADAPTATION_COOLDOWN (15 SECONDS)
+
 // ---- Full-body coverage bitmask used by Arcyne Ward ----
 // Bitwise OR of every covered body zone — the ward starts covering everything,
 // then masks off zones where real armor / clothing exists.
