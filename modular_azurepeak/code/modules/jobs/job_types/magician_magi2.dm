@@ -77,3 +77,7 @@
 	if(H?.mind)
 		var/datum/magic_aspect/pyromancy/A = new
 		A.grant_spells(H.mind)
+		// Universal mage armor — granted alongside any aspect, not tied to a specific one.
+		var/datum/action/cooldown/spell/conjure_arcyne_ward_magi2/ward = new
+		H.mind.spell_list += ward
+		ward.Grant(H)

@@ -2734,6 +2734,7 @@
 #include "modular_azurepeak\code\modules\spells\magi2\spells\cryomancy\frost_blast.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\spells\cryomancy\frost_bolt.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\spells\cryomancy\ice_burst.dm"
+#include "modular_azurepeak\code\modules\spells\magi2\spells\arcyne_ward\conjure.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\spells\cryomancy\snap_freeze.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\spells\pyromancy\spitfire.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\grimoire.dm"

@@ -203,6 +203,11 @@
 #define TELEPORT_MAX_PASSENGERS 6
 #define TELEPORT_MAX_NONMAGES   2
 
+// ---- Full-body coverage bitmask used by Arcyne Ward ----
+// Bitwise OR of every covered body zone — the ward starts covering everything,
+// then masks off zones where real armor / clothing exists.
+#define COVERAGE_FULL_BODY_ACTUAL (HEAD | HAIR | EARS | EYES | NOSE | MOUTH | NECK | CHEST | GROIN | VITALS | LEGS | ARMS | HANDS | FEET)
+
 // ---- Magic resistance bitflags (Magi 2 antimagic_flags) ----
 // Adapter notes: Emerald Summit's mob.anti_magic_check() takes booleans (magic, holy, tinfoil),
 // not bitflags. These constants exist only so spell `antimagic_flags = MAGIC_RESISTANCE_HOLY`
