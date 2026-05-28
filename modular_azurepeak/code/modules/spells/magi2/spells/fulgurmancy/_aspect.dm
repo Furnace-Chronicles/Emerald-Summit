@@ -1,6 +1,5 @@
 // Fulgurmancy major aspect — port of Azure-Peak's /datum/magic_aspect/fulgurmancy.
-// Skips upstream's `light` utility spell (not core to the combat identity) and
-// `greater_thunderstrike` mastery variant.
+// `greater_thunderstrike` mastery variant still pending the T4 mastery system port.
 
 /datum/magic_aspect/fulgurmancy
 	name = "Fulgurmancy"
@@ -27,4 +26,5 @@
 		/datum/action/cooldown/spell/projectile/lightning_bolt_magi2,
 		/datum/action/cooldown/spell/heavens_strike_magi2,
 		/datum/action/cooldown/spell/thunderstrike_magi2,
+		/datum/action/cooldown/spell/light_magi2,
 	)

@@ -20,10 +20,16 @@
 		"I release the force I have grasped, scatter.",
 		"Vis, a me discedere!",
 	)
+	// Upstream Magi 2 splits these across fixed_spells (crush/gravity/gravity_anchor/
+	// greater_cleaning) + choice_spells (soulshot/greater_arcyne_bolt). Grimoire MVP has
+	// no choice picker yet, so they all live in fixed_spells for the pilot. mass_gravity
+	// is upstream-orphaned (file exists but isn't referenced by any aspect) — keep file
+	// in repo but unreferenced here to match upstream.
 	fixed_spells = list(
-		/datum/action/cooldown/spell/projectile/soulshot_magi2,
-		/datum/action/cooldown/spell/projectile/greater_arcyne_bolt_magi2,
 		/datum/action/cooldown/spell/crush_magi2,
 		/datum/action/cooldown/spell/gravity_magi2,
-		/datum/action/cooldown/spell/mass_gravity_magi2,
+		/datum/action/cooldown/spell/gravity_anchor_magi2,
+		/datum/action/cooldown/spell/greater_cleaning_magi2,
+		/datum/action/cooldown/spell/projectile/soulshot_magi2,
+		/datum/action/cooldown/spell/projectile/greater_arcyne_bolt_magi2,
 	)

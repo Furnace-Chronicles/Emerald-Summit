@@ -181,38 +181,58 @@ GLOBAL_LIST_INIT(magic_aspects_minor, init_magic_aspects(ASPECT_MINOR))
 // Used by the debug verb and the Grimoire TGUI to bind/unbind aspects on a mind
 // through the standard /datum/magic_aspect API. Kept here (not in _debug.dm) so
 // non-debug callers can rely on them.
+//
+// Bindings are tracked on mind.magi2_bound_aspects (added below). Inferring "bound"
+// from spell presence breaks once aspects share spells — e.g. Augmentation, Telomancy
+// and Battlewardry all carry soulshot + greater_arcyne_bolt as choice spells, so any
+// one bound aspect would look like all three were bound.
+
+/datum/mind
+	var/list/magi2_bound_aspects
 
 /proc/_magi2_aspect_is_bound(datum/mind/target, aspect_path)
 	if(!istype(target) || !aspect_path)
 		return FALSE
-	// Have to instantiate to read fixed_spells: `initial(A.fixed_spells)` on a
-	// stored type-path variable doesn't reliably return the list contents in BYOND.
-	var/datum/magic_aspect/A = new aspect_path
-	. = FALSE
-	for(var/spell_path in A.fixed_spells)
-		for(var/datum/action/cooldown/spell/S in target.spell_list)
-			if(S.type == spell_path)
-				. = TRUE
-				break
-		if(.)
-			break
-	qdel(A)
-	return .
+	return LAZYACCESS(target.magi2_bound_aspects, "[aspect_path]") ? TRUE : FALSE
 
 /proc/_magi2_bind_aspect(datum/mind/target, aspect_path)
 	if(!istype(target) || !aspect_path)
 		return
+	if(_magi2_aspect_is_bound(target, aspect_path))
+		return
 	var/datum/magic_aspect/A = new aspect_path
 	A.grant_spells(target)
+	LAZYSET(target.magi2_bound_aspects, "[aspect_path]", TRUE)
+	qdel(A)
 
 /proc/_magi2_unbind_aspect(datum/mind/target, aspect_path)
 	if(!istype(target) || !aspect_path)
 		return
+	if(!_magi2_aspect_is_bound(target, aspect_path))
+		return
+	LAZYREMOVE(target.magi2_bound_aspects, "[aspect_path]")
+	// Build a skip-list of spells still wanted by other bound aspects so we don't
+	// yank a shared spell (e.g. unbinding Telomancy must not take soulshot away if
+	// Augmentation is also still bound).
+	var/list/still_wanted = list()
+	for(var/other_key in target.magi2_bound_aspects)
+		var/other_path = text2path(other_key)
+		if(!other_path)
+			continue
+		var/datum/magic_aspect/other = new other_path
+		still_wanted |= other.fixed_spells
+		still_wanted |= other.choice_spells
+		qdel(other)
 	var/datum/magic_aspect/A = new aspect_path
-	A.revoke_spells(target)
+	A.revoke_spells(target, still_wanted)
+	qdel(A)
 
 /proc/_magi2_unbind_all(datum/mind/target)
 	if(!istype(target))
 		return
-	for(var/aspect_path in GLOB.magic_aspects_major + GLOB.magic_aspects_minor)
-		_magi2_unbind_aspect(target, aspect_path)
+	// Snapshot the list — unbind mutates it.
+	var/list/bound = target.magi2_bound_aspects?.Copy()
+	for(var/aspect_key in bound)
+		var/aspect_path = text2path(aspect_key)
+		if(aspect_path)
+			_magi2_unbind_aspect(target, aspect_path)

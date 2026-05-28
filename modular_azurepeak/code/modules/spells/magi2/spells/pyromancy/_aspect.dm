@@ -1,6 +1,6 @@
-// Pyromancy major aspect — datum that wraps the four ported Pyromancy spells.
-// Subset port: skips upstream's `create_campfire` (utility spell not ported yet),
-// `fireball/greater` and `fireball/artillery` variants (mastery / Grenzelhoftian).
+// Pyromancy major aspect — datum that wraps the five ported Pyromancy spells.
+// Mastery and Grenzelhoftian variants (fireball/greater, fireball/artillery) are still
+// pending the T4 mastery system port.
 
 /datum/magic_aspect/pyromancy
 	name = "Pyromancy"
@@ -26,4 +26,5 @@
 		/datum/action/cooldown/spell/projectile/fireball_magi2,
 		/datum/action/cooldown/spell/fire_blast_magi2,
 		/datum/action/cooldown/spell/fire_curtain_magi2,
+		/datum/action/cooldown/spell/create_campfire_magi2,
 	)
