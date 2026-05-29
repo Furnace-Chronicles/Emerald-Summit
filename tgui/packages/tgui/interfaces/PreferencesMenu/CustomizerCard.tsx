@@ -114,19 +114,23 @@ export const CustomizerPickerList = ({
             case 'color':
               return (
                 <LabeledList.Item key={i} label={p.label}>
-                  <Box
-                    inline
-                    width="32px"
-                    height="14px"
-                    backgroundColor={p.color || '#ffffff'}
-                    title={p.color || '(unset)'}
-                    style={{
-                      cursor: 'pointer',
-                      border: '1px solid #000',
-                      verticalAlign: 'middle',
-                    }}
-                    onClick={() => send(p.task, p.extra || {})}
-                  />
+                  {/* Native span carries the HTML title attribute (tgui's
+                      Box doesn't whitelist it); Box keeps the swatch
+                      styling. Same pattern in LoadoutTab / MarkingsSection. */}
+                  <span title={p.color || '(unset)'}>
+                    <Box
+                      inline
+                      width="32px"
+                      height="14px"
+                      backgroundColor={p.color || '#ffffff'}
+                      style={{
+                        cursor: 'pointer',
+                        border: '1px solid #000',
+                        verticalAlign: 'middle',
+                      }}
+                      onClick={() => send(p.task, p.extra || {})}
+                    />
+                  </span>
                 </LabeledList.Item>
               );
             case 'list_value':

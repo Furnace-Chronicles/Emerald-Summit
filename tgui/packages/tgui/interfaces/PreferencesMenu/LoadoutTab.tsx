@@ -86,18 +86,22 @@ export const LoadoutTab = (props) => {
                     })
                   }
                 />
-                <Box
-                  inline
-                  ml={1}
-                  width="20px"
-                  height="14px"
-                  backgroundColor={s.hex || '#ffffff'}
-                  title={s.hex || '(no color set)'}
-                  style={{
-                    border: '1px solid #161616',
-                    verticalAlign: 'middle',
-                  }}
-                />
+                {/* Native span carries the HTML title attribute (tgui's
+                    Box doesn't whitelist it); Box keeps the swatch
+                    styling. */}
+                <span title={s.hex || '(no color set)'}>
+                  <Box
+                    inline
+                    ml={1}
+                    width="20px"
+                    height="14px"
+                    backgroundColor={s.hex || '#ffffff'}
+                    style={{
+                      border: '1px solid #161616',
+                      verticalAlign: 'middle',
+                    }}
+                  />
+                </span>
                 <Box inline ml={1}>
                   <Dropdown
                     width="160px"

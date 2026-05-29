@@ -171,22 +171,25 @@ const ZoneCard = ({
           <Box key={m.name} mb={1}>
             <Box>
               <b>{m.name}</b>
-              <Box
-                inline
-                ml={1}
-                width="32px"
-                height="14px"
-                backgroundColor={'#' + (m.color || 'ffffff')}
-                title={m.color ? '#' + m.color : '(unset)'}
-                style={{
-                  cursor: 'pointer',
-                  border: '1px solid #000',
-                  verticalAlign: 'middle',
-                }}
-                onClick={() =>
-                  act('marking_color', { zone: zone.key, name: m.name })
-                }
-              />
+              {/* Native span carries the HTML title attribute (tgui's
+                  Box doesn't whitelist it); Box keeps the swatch styling. */}
+              <span title={m.color ? '#' + m.color : '(unset)'}>
+                <Box
+                  inline
+                  ml={1}
+                  width="32px"
+                  height="14px"
+                  backgroundColor={'#' + (m.color || 'ffffff')}
+                  style={{
+                    cursor: 'pointer',
+                    border: '1px solid #000',
+                    verticalAlign: 'middle',
+                  }}
+                  onClick={() =>
+                    act('marking_color', { zone: zone.key, name: m.name })
+                  }
+                />
+              </span>
             </Box>
             {zone.available.length > 0 && (
               <Box mt={0.5}>
