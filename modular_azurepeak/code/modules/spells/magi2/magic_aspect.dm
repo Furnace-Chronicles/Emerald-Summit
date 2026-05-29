@@ -132,10 +132,18 @@ GLOBAL_LIST_INIT(magic_aspects_minor, init_magic_aspects(ASPECT_MINOR))
 // ---- Inlined Magi 2 spell-list helpers (file-private; underscore prefix) ----
 // Magi 2 spells are /datum/action/cooldown/spell. The existing mind.AddSpell is typed
 // for /obj/effect/proc_holder/spell so it can't accept them — we manage the list directly.
+//
+// Type dispatch: aspects also accept legacy /obj/effect/proc_holder/spell paths in
+// their fixed/choice spell lists (e.g. Illusion grants the existing ES invisibility
+// spell, Lesser Augmentation reuses the noc-bundle utility spells). For those, we
+// route through mind.AddSpell / has_spell / RemoveSpell instead of touching spell_list
+// directly. Variant rewriting and aspect-marking only apply to the Magi 2 family.
 
 /datum/magic_aspect/proc/_mind_has_magi2_spell(datum/mind/target, spell_path)
 	if(!istype(target) || !spell_path)
 		return FALSE
+	if(ispath(spell_path, /obj/effect/proc_holder/spell))
+		return target.has_spell(spell_path, specific = TRUE)
 	for(var/datum/action/cooldown/spell/S in target.spell_list)
 		if(S.type == spell_path)
 			return TRUE
@@ -143,6 +151,11 @@ GLOBAL_LIST_INIT(magic_aspects_minor, init_magic_aspects(ASPECT_MINOR))
 
 /datum/magic_aspect/proc/_mind_get_magi2_spell(datum/mind/target, spell_path)
 	if(!istype(target) || !spell_path)
+		return null
+	if(ispath(spell_path, /obj/effect/proc_holder/spell))
+		for(var/obj/effect/proc_holder/spell/S in target.spell_list)
+			if(S.type == spell_path)
+				return S
 		return null
 	for(var/datum/action/cooldown/spell/S in target.spell_list)
 		if(S.type == spell_path)
@@ -159,6 +172,12 @@ GLOBAL_LIST_INIT(magic_aspects_minor, init_magic_aspects(ASPECT_MINOR))
 /datum/magic_aspect/proc/_mind_grant_magi2_spell(datum/mind/target, spell_path, variant_name)
 	if(!istype(target) || !spell_path)
 		return null
+	if(ispath(spell_path, /obj/effect/proc_holder/spell))
+		if(_mind_has_magi2_spell(target, spell_path))
+			return null
+		var/obj/effect/proc_holder/spell/legacy = new spell_path(null)
+		target.AddSpell(legacy)
+		return legacy
 	var/datum/action/cooldown/spell/S = _mind_make_magi2_spell(spell_path, src, variant_name)
 	target.spell_list += S
 	_grant_to_owner(S, target.current)
@@ -166,6 +185,9 @@ GLOBAL_LIST_INIT(magic_aspects_minor, init_magic_aspects(ASPECT_MINOR))
 
 /datum/magic_aspect/proc/_mind_revoke_magi2_spell(datum/mind/target, spell_path)
 	if(!istype(target) || !spell_path)
+		return
+	if(ispath(spell_path, /obj/effect/proc_holder/spell))
+		target.RemoveSpell(spell_path)
 		return
 	for(var/datum/action/cooldown/spell/S in target.spell_list)
 		if(S.type == spell_path)

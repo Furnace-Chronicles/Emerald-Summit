@@ -1,5 +1,4 @@
-// Battlewardry major aspect — arcyne wards, runes, and shielding. Touch-based Rune Ward
-// spell from upstream is deferred (needs spell_touch.dm infrastructure).
+// Battlewardry major aspect — arcyne wards, runes, and shielding.
 
 /datum/magic_aspect/battlewardry
 	name = "Battlewardry"
@@ -20,13 +19,12 @@
 		"I release the wards I have woven, fall.",
 		"Tutela, a me discedere!",
 	)
-	// Upstream additionally has /datum/action/cooldown/spell/touch/rune_ward in fixed_spells.
-	// Deferred — needs the touch-spell base ported from upstream's spell_touch.dm.
 	fixed_spells = list(
 		/datum/action/cooldown/spell/battle_ward_magi2,
 		/datum/action/cooldown/spell/forcewall_magi2,
 		/datum/action/cooldown/spell/arrow_ward_magi2,
 		/datum/action/cooldown/spell/bestow_ward_magi2,
+		/datum/action/cooldown/spell/touch/rune_ward_magi2,
 		/datum/action/cooldown/spell/projectile/soulshot_magi2,
 		/datum/action/cooldown/spell/projectile/greater_arcyne_bolt_magi2,
 	)

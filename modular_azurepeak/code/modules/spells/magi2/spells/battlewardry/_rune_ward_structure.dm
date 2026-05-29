@@ -21,6 +21,11 @@
 	var/owner_ckey = "unknown"
 	var/list/allowed_names = list()
 	var/checks_antimagic = TRUE
+	/// Optional weakref to a /datum/action/cooldown/spell/touch/rune_ward_magi2. When set,
+	/// the spell's live allowed_names list is preferred over the inline list above — this
+	/// lets the player toggle allies after the rune is already placed. Battle Ward leaves
+	/// this null and uses the inline list.
+	var/datum/weakref/spell_ref
 
 /obj/structure/rune_ward_magi2/Crossed(atom/movable/AM)
 	if(!isliving(AM))
@@ -29,7 +34,9 @@
 	var/mob/owner = owner_ref?.resolve()
 	if(L == owner)
 		return
-	if(L.real_name in allowed_names)
+	var/datum/action/cooldown/spell/touch/rune_ward_magi2/spell = spell_ref?.resolve()
+	var/list/effective_allowed = spell ? spell.allowed_names : allowed_names
+	if(L.real_name in effective_allowed)
 		return
 	if(checks_antimagic && L.anti_magic_check())
 		trigger_visual()
@@ -60,6 +67,7 @@
 
 /obj/structure/rune_ward_magi2/Destroy()
 	owner_ref = null
+	spell_ref = null
 	return ..()
 
 /obj/structure/rune_ward_magi2/examine(mob/user)

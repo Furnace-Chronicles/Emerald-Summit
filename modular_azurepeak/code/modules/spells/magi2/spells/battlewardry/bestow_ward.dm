@@ -105,8 +105,40 @@
 /obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/bestowed/setup_ward(mob/living/carbon/human/H)
 	. = ..()
 	H.add_filter("bestowed_ward_glow_magi2", 2, list("type" = "outline", "color" = GLOW_COLOR_WARD, "alpha" = 150, "size" = 2))
+	H.apply_status_effect(/datum/status_effect/buff/bestowed_ward_magi2)
 
 /obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/bestowed/cleanup_ward()
 	if(ward_owner)
 		ward_owner.remove_filter("bestowed_ward_glow_magi2")
+		ward_owner.remove_status_effect(/datum/status_effect/buff/bestowed_ward_magi2)
 	return ..()
+
+// Append a ward readout to the wearer's examine output. Applies to every Magi 2
+// arcyne ward variant (self-conjured base / Dragonhide / Crystalhide / Bestowed).
+// Action-button integrity is only visible to the caster; this examine line is how
+// other players (and the wearer on self-examine) see the damage state. Damage tier
+// reuses the standard /obj/item/clothing/integrity_check() flavor strings.
+/mob/living/carbon/human/examine(mob/user)
+	. = ..()
+	var/obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/ward = skin_armor
+	if(istype(ward))
+		. += span_info("[user == src ? "I am" : "[p_they(TRUE)] [p_are()]"] wrapped in a shimmering arcyne ward.")
+		var/intcheck = ward.integrity_check()
+		if(intcheck)
+			. += intcheck
+
+// ============================================================================
+// Status effect — gives the recipient a visible buff icon for the ward's lifetime.
+// ============================================================================
+
+/datum/status_effect/buff/bestowed_ward_magi2
+	id = "bestowed_ward_magi2"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/bestowed_ward_magi2
+	// Indefinite — removed by the ward's cleanup_ward() when the ward expires or shatters.
+	duration = -1
+
+/atom/movable/screen/alert/status_effect/buff/bestowed_ward_magi2
+	name = "Bestowed Ward"
+	desc = "An arcyne ward shimmers around me, absorbing harm."
+	icon = 'icons/mob/actions/mage_battlewardry.dmi'
+	icon_state = "bestow_ward"

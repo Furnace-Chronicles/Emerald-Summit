@@ -23,7 +23,11 @@
 		CRASH("Incorrect touch spell hand.")
 	//Start recharging.
 	attached_hand = null
-	action.UpdateButtonIcon()
+	// Touch spells use the hand as their "selected" indicator (no ranged_ability path).
+	// Restore the action-button scroll to the idle state now that the hand is gone.
+	if(action)
+		action.background_icon_state = action_background_icon_state
+		action.UpdateButtonIcon()
 
 /obj/effect/proc_holder/spell/targeted/touch/cast(list/targets, mob/user = usr)
 	if(!QDELETED(attached_hand))
@@ -55,4 +59,8 @@
 	if(castdrain)
 		user.stamina_add(castdrain)
 	to_chat(user, span_notice("[drawmessage]"))
+	// Swap the action-button scroll to the active state while the hand is out.
+	if(action)
+		action.background_icon_state = "spell1"
+		action.UpdateButtonIcon()
 	return TRUE

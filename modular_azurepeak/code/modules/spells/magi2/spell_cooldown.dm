@@ -25,7 +25,12 @@
 
 	// Use Emerald Summit's existing spell button background ("bg_spell" in roguespells.dmi),
 	// not Azure-Peak's "spell0". The two repos' roguespells.dmi files have diverged.
-	background_icon_state = "bg_spell"
+	// Backplate uses roguespells.dmi/"spell" (idle) and swaps to "spell1" (glowing)
+	// when this spell is the active click intercept — see on_activation/on_deactivation
+	// below. Matches the legacy proc_holder spell backplate set in
+	// modular_azurepeak/code/modules/spells/spell_scroll_background.dm, giving every
+	// spell in the game a consistent select-state cue.
+	background_icon_state = "spell"
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	button_icon_state = "shieldsparkles"
 
@@ -250,9 +255,10 @@
 	// invalid target, etc.) also keep the selection for immediate retry.
 	return TRUE
 
-/// Pixel offset applied to the action button when this spell is the active click
-/// intercept. Provides a clear visual cue of which spell will fire on the next click.
-#define MAGI2_SELECTED_BUTTON_LIFT 5
+// Select-state cue: backplate swaps from "spell" (idle scroll) to "spell1"
+// (glowing scroll) while this spell is the active click intercept. Replaces the
+// earlier 5px button-lift cue — the scroll glow is more legible and matches the
+// legacy proc_holder spell behavior set in spell_scroll_background.dm.
 
 /datum/action/cooldown/spell/proc/on_activation()
 	if(!owner)
@@ -266,10 +272,7 @@
 			var/datum/action/cooldown/spell/old_spell = old
 			old_spell.on_deactivation()
 	owner.click_intercept = src
-	if(button)
-		var/matrix/M = matrix()
-		M.Translate(0, MAGI2_SELECTED_BUTTON_LIFT)
-		button.transform = M
+	background_icon_state = "spell1"
 	UpdateButtonIcon()
 	to_chat(owner, span_notice("Click a target to cast [name]. Click [name] again to cancel."))
 
@@ -278,11 +281,8 @@
 		return
 	if(owner.click_intercept == src)
 		owner.click_intercept = null
-	if(button)
-		button.transform = matrix()
+	background_icon_state = initial(background_icon_state)
 	UpdateButtonIcon()
-
-#undef MAGI2_SELECTED_BUTTON_LIFT
 
 /// Required-state checks (consciousness, antimagic, spellblock, garb, weapon).
 /// Returns FALSE and balloon-feedbacks the owner if blocked.

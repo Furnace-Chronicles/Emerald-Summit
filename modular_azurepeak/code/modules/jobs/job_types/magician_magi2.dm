@@ -79,8 +79,7 @@
 	// up an elemental glow when this school's spell fires through it.
 	r_hand = /obj/item/rogueweapon/woodstaff/implement_magi2
 	if(H?.mind)
-		var/datum/magic_aspect/pyromancy/A = new
-		A.grant_spells(H.mind)
+		_magi2_bind_aspect(H.mind, /datum/magic_aspect/pyromancy)
 		// Universal mage armor — granted alongside any aspect, not tied to a specific one.
 		var/datum/action/cooldown/spell/conjure_arcyne_ward_magi2/ward = new
 		H.mind.spell_list += ward
