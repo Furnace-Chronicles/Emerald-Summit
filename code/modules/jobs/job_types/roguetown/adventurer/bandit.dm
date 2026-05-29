@@ -8,7 +8,7 @@
 	antag_job = TRUE
 	allowed_races = RACES_ALL_KINDS
 	disallowed_races = /datum/species/ogre
-	allowed_patrons = ALL_INHUMEN_PATRONS
+	allowed_patrons = list(/datum/patron/inhumen/matthios)
 	tutorial = "Long ago you did a crime worthy of your bounty being hung on the wall outside of the local inn. You now live with your fellow freemen in the bog, and generally get up to no good."
 
 	outfit = null
@@ -29,6 +29,7 @@
 	advjob_examine = TRUE
 	always_show_on_latechoices = TRUE
 	job_reopens_slots_on_death = FALSE //no endless stream of bandits, unless the migration waves deem it so
+	job_traits = list(TRAIT_DEATHBYSNUSNU, TRAIT_STEELHEARTED, TRAIT_KNOWNCRIMINAL)
 	same_job_respawn_delay = 1 MINUTES
 	cmode_music = 'sound/music/combat_bandit2.ogg'
 

@@ -820,6 +820,24 @@
 	createditem_num = 10
 	i_type = "Ammo"
 
+// Ported from RW653: firearm ammunition (RW used /datum/artificer_recipe/ammunition,
+// which ES lacks; re-expressed as anvil recipes mirroring the iron/bolts pattern).
+/datum/anvil_recipe/weapons/iron/leadballs
+	name = "Lead Balls 8x (+2 Iron)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron)
+	created_item = /obj/item/ammo_casing/caseless/bullet/lead
+	createditem_num = 8
+	i_type = "Ammo"
+
+/datum/anvil_recipe/weapons/iron/grapeshot
+	name = "Grapeshot 8x (+3 Iron)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron, /obj/item/ingot/iron)
+	created_item = /obj/item/ammo_casing/caseless/bullet/grapeshot
+	createditem_num = 8
+	i_type = "Ammo"
+
 /datum/anvil_recipe/weapons/aalloy/bolts
 	name = "Decrepit Crossbow Bolts 10x (+1 Stick)"
 	req_bar = /obj/item/ingot/aalloy
@@ -1030,6 +1048,22 @@
 	additional_items = list(/obj/item/ingot/gold)
 	craftdiff = 3
 	created_item = /obj/item/rogueweapon/sword/long/ranesh_stratan
+	i_type = "Weapons"
+
+/datum/anvil_recipe/weapons/holy/gloryglaive
+	name = "Gloryous Glaive (+1 H. Steel, +1 Small log)"
+	req_bar = /obj/item/ingot/steelholy
+	additional_items = list(/obj/item/ingot/steelholy, /obj/item/grown/log/tree/small)
+	craftdiff = 3
+	created_item = /obj/item/rogueweapon/halberd/glaive/ravox
+	i_type = "Weapons"
+
+/datum/anvil_recipe/weapons/holy/dendorwarstaff
+	name = "Dendorite Warstaff (+1 Small log)"
+	req_bar = /obj/item/ingot/steelholy
+	additional_items = list(/obj/item/grown/log/tree/small)
+	craftdiff = 3
+	created_item = /obj/item/rogueweapon/woodstaff/quarterstaff/steel/dendor
 	i_type = "Weapons"
 
 //Psydonian weapon smithing

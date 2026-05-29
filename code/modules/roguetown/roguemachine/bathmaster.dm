@@ -1,5 +1,16 @@
 #define UPGRADE_NOTAX		(1<<0)
 
+// Emerald addition: an item only contributes to BRASSFACE vault income after the Nightmaster casts
+// "Bathhouse Appraisal" on the tile it sits on. Prevents non-Nightmasters from abusing the brothel as
+// a passive-income generator.
+/obj/item
+	var/bathhouse_appraised = FALSE
+
+/obj/item/examine(mob/user)
+	. = ..()
+	if(bathhouse_appraised)
+		. += span_notice("It bears the Nightmaster's appraisal mark.")
+
 /obj/structure/roguemachine/bathvend
 	name = "BRASSFACE"
 	desc = "Sweet, sweet, addiction. Love in the veins, comfort in my heart."
@@ -27,6 +38,11 @@
 /obj/structure/roguemachine/bathvend/Initialize()
 	. = ..()
 	SSBMtreasury.brassface = src
+	// Emerald addition: seed the income-tick timer at brassface init so the TGUI countdown is meaningful
+	// from the start. Without this, next_treasury_check stays 0 until the subsystem's first fire and the
+	// "Next tick in" display sticks at 0s.
+	if(!SSBMtreasury.next_treasury_check)
+		SSBMtreasury.next_treasury_check = world.time + rand(5 MINUTES, 8 MINUTES)
 	update_icon()
 
 /obj/structure/roguemachine/bathvend/update_icon()
@@ -122,7 +138,216 @@
 				upgrade_flags |= UPGRADE_NOTAX
 				playsound(loc, 'sound/misc/gold_misc.ogg', 100, FALSE, -1)
 				playsound(loc, 'sound/misc/gold_license.ogg', 100, FALSE, -1)
+	if(href_list["openvault"])
+		// Nightmaster/Nightswain only — same gate as the Secrets button above.
+		if(!(human_mob.job in list("Nightmaster","Nightswain")))
+			return
+		// Route classic-pref users to the HTML vault display, TGUI-pref users to the TGUI window.
+		// Close the other variant first so we don't show both at once.
+		if(usr.client?.prefs?.tgui_pref)
+			usr << browse(null, "window=BrassfaceVault")
+			ui_interact(usr)
+		else
+			SStgui.close_uis(src)
+			show_classic_vault(usr)
+		return
 	return attack_hand(usr)
+
+// ===== Emerald addition: classic HTML vault display (fallback when tgui_pref is FALSE) =====
+
+/obj/structure/roguemachine/bathvend/proc/show_classic_vault(mob/user)
+	if(!user)
+		return
+	// Reuse the exact same scan the TGUI / income tick uses so the displayed numbers match the payout.
+	var/list/seen_types = list()
+	var/list/rows = list()
+	var/total_income = 0
+	var/total_value = 0
+	for(var/turf/open/floor/rogue/churchbrick/bathbrick in RANGE_TURFS(5, src))
+		for(var/obj/item/I in bathbrick.contents)
+			if(!isturf(I.loc))
+				continue
+			var/contribution = _vault_entry(I, seen_types)
+			if(contribution)
+				rows += list(contribution)
+				total_income += contribution["income"]
+				total_value += contribution["value"]
+		for(var/obj/structure/closet/closet in bathbrick.contents)
+			for(var/obj/item/I in closet)
+				var/contribution = _vault_entry(I, seen_types)
+				if(contribution)
+					rows += list(contribution)
+					total_income += contribution["income"]
+					total_value += contribution["value"]
+
+	var/next_tick_s = max(0, round((SSBMtreasury.next_treasury_check - world.time) / 10))
+
+	var/contents = "<center><b>BRASSFACE Vault</b></center><BR>"
+	contents += "<b>Vault balance:</b> [budget]<BR>"
+	contents += "<b>Items in vault:</b> [rows.len]<BR>"
+	contents += "<b>Total value:</b> [total_value] mammons<BR>"
+	contents += "<b>Estimated income:</b> +[total_income] mammons/tick<BR>"
+	contents += "<b>Next tick in:</b> [next_tick_s]s<BR>"
+	contents += "<HR>"
+	if(!rows.len)
+		contents += "<i>The vault is bare. Appraise items to mark valuables for profit.</i>"
+	else
+		contents += "<table width='100%' cellpadding='2' cellspacing='0'>"
+		contents += "<tr><th align='left'>Item</th><th align='right'>Value</th><th align='right'>Income</th></tr>"
+		for(var/list/row in rows)
+			contents += "<tr><td>[row["name"]]</td><td align='right'>[row["value"]]</td><td align='right'>+[row["income"]]</td></tr>"
+		contents += "</table>"
+
+	var/datum/browser/popup = new(user, "BrassfaceVault", "BRASSFACE Vault", 420, 480)
+	popup.set_content(contents)
+	popup.open()
+
+// ===== Emerald addition: unified TGUI Brassface interface (Brassface.tsx) =====
+
+/obj/structure/roguemachine/bathvend/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "Brassface", "BRASSFACE")
+		ui.open()
+
+/obj/structure/roguemachine/bathvend/ui_static_data(mob/user)
+	// Computed once per UI open instead of every poll — these don't change at runtime.
+	var/list/data = list()
+	data["categories"] = categories.Copy()
+	data["interest_rate"] = SSBMtreasury.interest_rate
+	data["multiple_item_penalty"] = SSBMtreasury.multiple_item_penalty
+
+	// Shop packs are also effectively static (cost/group/contains don't change). Tax adjustment is dynamic,
+	// but we ship base_cost here and recompute the post-tax `cost` client-side. Tiny perf win, big when
+	// multiplied by 100+ packs * 1Hz poll * N players.
+	var/list/packs_data = list()
+	for(var/pack in SSmerchant.supply_packs)
+		var/datum/supply_pack/PA = SSmerchant.supply_packs[pack]
+		if(!(PA.group in categories))
+			continue
+		packs_data += list(list(
+			"name" = PA.name,
+			"category" = PA.group,
+			"base_cost" = PA.cost,
+			"count" = PA.contains.len,
+			"type" = "[PA.type]",
+		))
+	data["packs"] = packs_data
+	return data
+
+/obj/structure/roguemachine/bathvend/ui_data(mob/user)
+	var/list/data = list()
+	data["budget"] = budget
+	data["locked"] = locked
+	data["next_tick_in"] = max(0, round((SSBMtreasury.next_treasury_check - world.time) / 10))
+	data["tax_enabled"] = !(upgrade_flags & UPGRADE_NOTAX)
+	data["tax_rate"] = SStreasury.tax_value
+
+	var/mob/living/carbon/human/H = user
+	data["is_nightmaster"] = istype(H) && (H.job in list("Nightmaster","Nightswain"))
+
+	// Mirror the BMtreasury collection scope exactly — same range, same closet recursion, same filters —
+	// so the displayed "estimated income per tick" matches what the next fire would actually pay out.
+	var/list/seen_types = list()
+	var/list/items_data = list()
+	var/total_income = 0
+	var/total_value = 0
+
+	for(var/turf/open/floor/rogue/churchbrick/bathbrick in RANGE_TURFS(5, src))
+		for(var/obj/item/I in bathbrick.contents)
+			if(!isturf(I.loc))
+				continue
+			var/contribution = _vault_entry(I, seen_types)
+			if(contribution)
+				items_data += list(contribution)
+				total_income += contribution["income"]
+				total_value += contribution["value"]
+		for(var/obj/structure/closet/closet in bathbrick.contents)
+			for(var/obj/item/I in closet)
+				var/contribution = _vault_entry(I, seen_types)
+				if(contribution)
+					items_data += list(contribution)
+					total_income += contribution["income"]
+					total_value += contribution["value"]
+
+	data["appraised_items"] = items_data
+	data["total_income"] = total_income
+	data["total_value"] = total_value
+	return data
+
+/obj/structure/roguemachine/bathvend/ui_act(action, list/params, datum/tgui/ui)
+	. = ..()
+	if(.)
+		return
+	if(locked)
+		return
+	switch(action)
+		if("buy")
+			var/path = text2path(params["type"])
+			if(!ispath(path, /datum/supply_pack))
+				message_admins("[usr.key] tried to buy a [path] via the Brassface TGUI")
+				return TRUE
+			var/datum/supply_pack/PA = SSmerchant.supply_packs[path]
+			if(!PA)
+				return TRUE
+			var/cost = PA.cost
+			var/tax_amt = round(SStreasury.tax_value * cost)
+			cost += tax_amt
+			if(upgrade_flags & UPGRADE_NOTAX)
+				cost = PA.cost
+			if(budget < cost)
+				say("Not enough!")
+				return TRUE
+			budget -= cost
+			if(!(upgrade_flags & UPGRADE_NOTAX))
+				SStreasury.give_money_treasury(tax_amt, "brassface import tax")
+				var/mob/living/carbon/human/HM = usr
+				if(istype(HM))
+					record_featured_stat(FEATURED_STATS_TAX_PAYERS, HM, tax_amt)
+				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
+			for(var/i = 1 to PA.contains.len)
+				var/pathi = pick(PA.contains)
+				new pathi(get_turf(usr))
+			return TRUE
+		if("withdraw")
+			if(budget > 0)
+				withdrawbudget(usr)
+			return TRUE
+		if("toggle_tax")
+			var/mob/living/carbon/human/HU = usr
+			if(!istype(HU) || !(HU.job in list("Nightmaster","Nightswain")))
+				return TRUE
+			upgrade_flags ^= UPGRADE_NOTAX
+			playsound(loc, 'sound/misc/gold_misc.ogg', 100, FALSE, -1)
+			if(upgrade_flags & UPGRADE_NOTAX)
+				playsound(loc, 'sound/misc/gold_license.ogg', 100, FALSE, -1)
+			return TRUE
+
+// Helper: returns an assoc-list entry for a single appraised item or null if it doesn't qualify.
+// Mutates `seen_types` so duplicate-of-same-type rows show the diminishing-returns penalty.
+/obj/structure/roguemachine/bathvend/proc/_vault_entry(obj/item/I, list/seen_types)
+	if(!I || !I.bathhouse_appraised)
+		return null
+	var/price = I.get_real_price()
+	if(price <= 0 || istype(I, /obj/item/roguecoin))
+		return null
+	var/income_factor = SSBMtreasury.interest_rate
+	var/duplicate_steps = seen_types[I.type]
+	if(isnull(duplicate_steps))
+		seen_types[I.type] = 0
+	else
+		duplicate_steps += 1
+		seen_types[I.type] = duplicate_steps
+		for(var/i = 1 to duplicate_steps)
+			income_factor *= SSBMtreasury.multiple_item_penalty
+	return list(
+		"name" = I.name,
+		"value" = price,
+		"income" = round(price * income_factor, 1),
+		"icon_file" = "[I.icon]",
+		"icon_state" = I.icon_state,
+		"ref" = REF(I),
+	)
 
 /obj/structure/roguemachine/bathvend/attack_hand(mob/living/user)
 	. = ..()
@@ -135,6 +360,14 @@
 		return
 	user.changeNext_move(CLICK_CD_FAST)
 	playsound(loc, 'sound/misc/gold_menu.ogg', 100, FALSE, -1)
+	// Emerald addition: route TGUI-pref users to the unified Brassface interface; classic-pref users
+	// keep the legacy HTML below. Close any leftover window from the other variant so we never show both.
+	if(user.client?.prefs?.tgui_pref)
+		user << browse(null, "window=VENDORTHING")
+		user << browse(null, "window=BrassfaceVault")
+		ui_interact(user)
+		return
+	SStgui.close_uis(src)
 	var/canread = user.can_read(src, TRUE)
 	var/contents
 	contents = "<center>BRASSFACE - Sweet Dreams for Cheap<BR>"
@@ -143,9 +376,11 @@
 	var/mob/living/carbon/human/H = user
 	if(H.job in list("Nightmaster","Nightswain"))
 		if(canread)
-			contents += "<a href='?src=[REF(src)];secrets=1'>Secrets</a>"
+			contents += "<a href='?src=[REF(src)];secrets=1'>Secrets</a> | "
+			contents += "<a href='?src=[REF(src)];openvault=1'>View Vault</a>"
 		else
-			contents += "<a href='?src=[REF(src)];secrets=1'>[stars("Secrets")]</a>"
+			contents += "<a href='?src=[REF(src)];secrets=1'>[stars("Secrets")]</a> | "
+			contents += "<a href='?src=[REF(src)];openvault=1'>[stars("View Vault")]</a>"
 
 	contents += "</center><BR>"
 
@@ -211,6 +446,9 @@ SUBSYSTEM_DEF(BMtreasury)
 /datum/controller/subsystem/BMtreasury/proc/add_to_vault(var/obj/item/I)
 	if(I.get_real_price() <= 0 || istype(I, /obj/item/roguecoin))
 		return
+	// Emerald addition: only items the Nightmaster has personally appraised generate vault income.
+	if(!I.bathhouse_appraised)
+		return
 	if(I.type in vault_accounting)
 		vault_accounting[I.type] *= multiple_item_penalty
 	else
@@ -243,8 +481,9 @@ SUBSYSTEM_DEF(BMtreasury)
 			for(var/obj/item/item in closet)
 				amt_to_generate += add_to_vault(item)
 
-	brassface.budget += round(amt_to_generate, 1) // goes directly into BRASSFACE rather than into any account.
-	send_ooc_note("Income from smuggling hoard to the BRASSFACE: +[amt_to_generate]; [brassface.budget] total", job = "Nightmaster")
+	var/rounded_income = round(amt_to_generate, 1)
+	brassface.budget += rounded_income // goes directly into BRASSFACE rather than into any account.
+	send_ooc_note("Income from smuggling hoard to the BRASSFACE: +[rounded_income]; [brassface.budget] total", job = "Nightmaster")
 
 
 /datum/controller/subsystem/BMtreasury/Destroy()

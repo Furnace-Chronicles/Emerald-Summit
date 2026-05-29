@@ -8,8 +8,6 @@
 	spawn_positions = 2
 	allowed_races = RACES_ALL_KINDS
 	disallowed_races = list(
-		/datum/species/lamia,
-		/datum/species/harpy,
 		/datum/species/ogre
 	)
 	tutorial = "Somewhere in your lyfe, you fell to the wrong side of civilization. Hounded by the consequences of your actions, you now threaten the peace of those who still heed the authority that condemned you."

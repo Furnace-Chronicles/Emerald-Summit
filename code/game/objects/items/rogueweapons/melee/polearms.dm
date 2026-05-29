@@ -335,7 +335,7 @@
 /obj/item/rogueweapon/spear
 	force = 22
 	force_wielded = 30
-	possible_item_intents = list(SPEAR_THRUST_1H, SPEAR_CUT_1H) 
+	possible_item_intents = list(SPEAR_THRUST_1H, SPEAR_CUT_1H)
 	gripped_intents = list(SPEAR_THRUST, SPEAR_CUT, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
 	name = "spear"
 	desc = "One of the oldest weapons still in use today, second only to the club. The lack of reinforcements along the shaft leaves it vulnerable to being split in two."
@@ -1554,3 +1554,36 @@
 	force_wielded = 25
 	max_integrity = 250
 
+
+/obj/item/rogueweapon/halberd/glaive/ravox
+	possible_item_intents = list(/datum/intent/spear/thrust/eaglebeak, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
+	gripped_intents = list(/datum/intent/spear/thrust/glaive, /datum/intent/spear/cut/glaive, /datum/intent/axe/chop/scythe, SPEAR_BASH)
+	name = "gloryous glaive"
+	desc = "I bring him glory for he in turn brings me glory. We are bound together as one. This is written on the blade of these glaives these holy steel instruments wielded by the justicars of ravoxian bent."
+	icon_state = "rav_glaive"
+	anvilrepair = /datum/skill/craft/weaponsmithing
+	smeltresult = /obj/item/ingot/steel
+	max_blade_int = 200 //slight buff due to being holysteel gear
+	wdefense = 9
+
+/obj/item/rogueweapon/halberd/glaive/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -7,"sy" = 2,"nx" = 7,"ny" = 3,"wx" = -2,"wy" = 1,"ex" = 1,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 30,"eturn" = -30,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.6,"sx" = 3,"sy" = 4,"nx" = -1,"ny" = 4,"wx" = -8,"wy" = 3,"ex" = 7,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 15,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+			if("onback")
+				return list("shrink" = 0.5,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
+
+
+/obj/item/rogueweapon/woodstaff/quarterstaff/steel/dendor
+	name = "dendorite warstaff"
+	desc = "Surrounding a solid core of holy steel, The druids of dindor have called upon the briars to wrap and reinforce this weapon to remind people of the fierceness of nature."
+	force = 18
+	force_wielded = 25
+	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff)
+	icon_state = "dend_warstaff"
+	max_integrity = 400
+	intdamage_factor = 1.2

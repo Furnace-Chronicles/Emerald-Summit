@@ -1155,6 +1155,14 @@
 			return
 		check_teams()
 
+	else if(href_list["check_hunted_targets"])
+		if(!check_rights(R_BAN))
+			return
+		if(!SSticker.HasRoundStarted())
+			alert("The game hasn't started yet!")
+			return
+		usr.client.holder.check_hunted_targets()
+
 	else if(href_list["team_command"])
 		if(!check_rights(R_ADMIN))
 			return

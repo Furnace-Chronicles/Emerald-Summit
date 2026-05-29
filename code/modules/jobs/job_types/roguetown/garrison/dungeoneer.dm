@@ -8,7 +8,7 @@
 	allowed_races = RACES_ALL_KINDS//Dungeoneer is a freak. His race selection should allow this.
 	allowed_sexes = list(MALE, FEMALE)
 
-	job_traits = list(TRAIT_STEELHEARTED, TRAIT_DUNGEONMASTER, TRAIT_GUARDSMAN)
+	job_traits = list(TRAIT_STEELHEARTED, TRAIT_DUNGEONMASTER, TRAIT_GUARDSMAN, TRAIT_DEATHBYSNUSNU)
 	display_order = JDO_DUNGEONEER
 	advclass_cat_rolls = list(CTAG_DUNGEONEER = 2)
 
