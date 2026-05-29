@@ -58,13 +58,19 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 
 	// TGUI users have a live lobby panel inside the character setup window
 	// (built by /datum/preferences_menu/build_lobby_data) — suppress the
-	// classic browser popup so the two countdowns don't compete.
+	// classic browser popup so the two countdowns don't compete. The
+	// winexists() guard is critical: without it, browse(null, ...) fires
+	// every 2s even when the window doesn't exist, and BYOND treats each
+	// browse call as a window-content event that briefly drops
+	// client.mouse_pointer_icon to the OS default — the visible flicker.
 	if(client.prefs?.tgui_pref)
-		src << browse(null, "window=lobby_window")
+		if(winexists(src, "lobby_window"))
+			src << browse(null, "window=lobby_window")
 		return
 
 	if(SSticker.HasRoundStarted())
-		src << browse(null, "window=lobby_window")
+		if(winexists(src, "lobby_window"))
+			src << browse(null, "window=lobby_window")
 		return
 
 	var/list/dat = list("<center>")
