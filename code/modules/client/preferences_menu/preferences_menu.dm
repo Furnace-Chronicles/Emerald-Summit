@@ -51,11 +51,13 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	prefs = owning_prefs
 
 /datum/preferences_menu/Destroy()
+	GLOB.open_preference_menus -= src
 	prefs = null
 	return ..()
 
 /datum/preferences_menu/ui_close(mob/user)
 	. = ..()
+	GLOB.open_preference_menus -= src
 	// Window closed — drop any owed preview work (no one to see it). In-memory
 	// edits without an explicit Save click are intentionally discarded to
 	// match the classic browser UI's "Save / Undo / nothing" semantics.
@@ -86,65 +88,51 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 /datum/preferences_menu/ui_state(mob/user)
 	return GLOB.always_state
 
+/// Every open preferences_menu registers here so notify_preference_menus_lobby_changed()
+/// can fan-out slim {lobby, header} pushes on actual events (ready toggles, round
+/// transitions). Replaces the prior per-menu 2s addtimer chain, which under load
+/// was firing at ~750 Hz and saturating the MC with timedevent allocations.
+GLOBAL_LIST_EMPTY(open_preference_menus)
+
 /datum/preferences_menu/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "PreferencesMenu", "Emerald Summit")
 		// Autoupdate would call ui_interact every 0.9s (SStgui wait=9ds) and
-		// rebuild the full ui_data payload — at 150 concurrent menus that
-		// dominated TGUI CPU. All option lists now live in ui_static_data
-		// (loaded once per window open) and every mutation pushes via
-		// on_identity_change → SStgui.update_uis(src), so nothing here
-		// needs the timer. The 2s lobby tick handles timer + ready-roster.
+		// rebuild the full ui_data payload. All option lists live in
+		// ui_static_data (loaded once per window open) and every mutation
+		// pushes via on_identity_change → SStgui.update_uis(src), so the
+		// timer-driven path isn't needed.
 		ui.set_autoupdate(FALSE)
 		ui.open()
-	start_lobby_refresh()
+	// Register with the broadcast list. The countdown counts down locally
+	// via React's setInterval, so the server doesn't need to push every 2s —
+	// only when something actually changes (someone readies, round starts).
+	GLOB.open_preference_menus |= src
 
-// Periodic push of lobby state (ready roster + countdown) while the window is open
-// and the round hasn't started. Polls every 2s — enough to feel responsive without
-// flooding the UI subsystem. TIMER_UNIQUE | TIMER_OVERRIDE keeps repeated
-// ui_interact calls from stacking timers; SSticker auto-stops the loop once
-// the round begins.
-/datum/preferences_menu/proc/start_lobby_refresh()
-	addtimer(CALLBACK(src, PROC_REF(tick_lobby_refresh)), 2 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
-
-/datum/preferences_menu/proc/tick_lobby_refresh()
-	if(!prefs)
-		return
-	// Only keep ticking while at least one client has the window open.
-	var/datum/tgui/open_ui = SStgui.get_open_ui(prefs.parent?.mob, src)
-	if(!open_ui)
-		return
-	// Round started and the player's mob is no longer a new_player — they were
-	// readied and got spawned in. Close the window so it doesn't linger over the
-	// game view. Unreadied players (still /mob/dead/new_player) keep the window
-	// for late-join / migration / observe controls.
-	if(SSticker.HasRoundStarted() && !isnewplayer(prefs.parent?.mob))
-		SStgui.close_uis(src)
-		return
-	// Ship a slim payload (lobby + header) via send_update's custom_data
-	// path. React's backend reducer shallow-merges the payload over
-	// existing state.data, so per-tab dynamic blocks (identity, body,
-	// markings, etc.) keep their last-pushed values untouched and we skip
-	// the heavy per-tab rebuilders entirely. This is the dominant TGUI
-	// CPU win: before, the 2s tick re-built every active-tab dynamic
-	// block AND re-JSONed the full payload per menu per 2s — that was the
-	// top single proc by self CPU (tgui_window.send_message at >200s).
-	//
-	// We include the full header (not just lobby) because the round-state
-	// transition (pregame → round-in-progress) changes header.is_pregame
-	// and header.is_round_in_progress, and React's FooterBar swaps the
-	// Ready / Join Late buttons off those fields. Shallow merge would
-	// drop the other header fields if we shipped only a partial header.
-	open_ui.send_update(list(
-		"lobby" = build_lobby_data(),
-		"header" = build_header_data(prefs.parent?.mob),
-	))
-	// Only keep ticking during pregame — once the round is in progress no new
-	// players ready up, so there's nothing for the periodic push to surface.
-	// Late-joiners still get fresh data on their own ui_act and 1Hz client poll.
-	if(SSticker.current_state == GAME_STATE_PREGAME)
-		start_lobby_refresh()
+/// Fan-out a slim {lobby, header} push to every open preferences_menu. Called
+/// when global lobby state actually changes — a player toggling ready, the
+/// round transitioning, etc. Invalidates the shared snapshot first so the
+/// next build sees the change.
+/proc/notify_preference_menus_lobby_changed()
+	GLOB.cached_lobby_snapshot = list()
+	GLOB.cached_lobby_snapshot_at = 0
+	for(var/datum/preferences_menu/menu as anything in GLOB.open_preference_menus)
+		if(!menu?.prefs)
+			continue
+		var/datum/tgui/open_ui = SStgui.get_open_ui(menu.prefs.parent?.mob, menu)
+		if(!open_ui)
+			continue
+		// Round started and the player's mob is no longer a new_player — they
+		// were readied and got spawned in. Close the window so it doesn't
+		// linger over the game view. Latejoiners (still new_player) keep it.
+		if(SSticker.HasRoundStarted() && !isnewplayer(menu.prefs.parent?.mob))
+			SStgui.close_uis(menu)
+			continue
+		open_ui.send_update(list(
+			"lobby" = menu.build_lobby_data(),
+			"header" = menu.build_header_data(menu.prefs.parent?.mob),
+		))
 
 /datum/preferences_menu/proc/build_slot_options()
 	// Read each slot's stored real_name from disk once, cache it, and serve
@@ -230,9 +218,9 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 
 	return data
 
-/// Build the header block. Shared by ui_data (full pushes) and
-/// tick_lobby_refresh (slim per-2s pushes). Cheap enough — no list walks of
-/// any size — so we can rebuild it on every tick without measurable cost.
+/// Build the header block. Shared by ui_data (full pushes) and the event-
+/// driven notify_preference_menus_lobby_changed() broadcast. Cheap enough —
+/// no list walks of any size — so we can rebuild it freely.
 /datum/preferences_menu/proc/build_header_data(mob/user)
 	if(!prefs)
 		return list()
@@ -2877,7 +2865,10 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 					return TRUE
 				np.ready = PLAYER_READY_TO_PLAY
 				log_game("([user || "NO KEY"]) readied as ([prefs.real_name])")
-			SStgui.update_uis(src)
+			// Push the roster change to every open menu (covers THIS user's
+			// own header.player_ready flip AND the by-job bucket update that
+			// other players need to see).
+			notify_preference_menus_lobby_changed()
 			return TRUE
 
 		if("late_join")

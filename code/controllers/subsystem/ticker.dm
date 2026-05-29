@@ -407,6 +407,11 @@ SUBSYSTEM_DEF(ticker)
 //	SEND_SOUND(world, sound('sound/misc/roundstart.ogg'))
 	current_state = GAME_STATE_PLAYING
 
+	// Push the round-state flip to every open TGUI preferences_menu so latejoiner
+	// FooterBars swap from Ready → Join Late immediately, instead of waiting
+	// for the user to click a tab.
+	notify_preference_menus_lobby_changed()
+
 	addtimer(CALLBACK(src, PROC_REF(refresh_lobby_ui)), 3, TIMER_CLIENT_TIME)
 
 	Master.SetRunLevel(RUNLEVEL_GAME)
