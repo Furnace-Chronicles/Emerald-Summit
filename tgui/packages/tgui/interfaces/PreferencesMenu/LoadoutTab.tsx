@@ -46,15 +46,17 @@ const SLOT_LABELS = ['I', 'II', 'III', 'IV', 'V', 'VI'];
 export const LoadoutTab = (props) => {
   const { act, data } = useBackend<Data>();
   // Merge static option lists (item_options, color_options) into the
-  // dynamic loadout (slots). Default slots to [] so the brief gap before
-  // the server's set_tab reply lands doesn't crash on slots.map(...).
-  const loadout = {
-    slots: [],
-    item_options: [],
-    color_options: [],
-    ...data.loadout_static,
-    ...data.loadout,
-  } as LoadoutData;
+  // dynamic loadout (slots). Defaults are applied post-spread so the brief
+  // gap before the server's set_tab reply lands doesn't crash on
+  // slots.map(...) — declaring them before the spread would trigger TS2783
+  // duplicate-key errors when the typed spreads already declare the same
+  // keys.
+  const merged = { ...data.loadout_static, ...data.loadout };
+  const loadout: LoadoutData = {
+    slots: merged.slots ?? [],
+    item_options: merged.item_options ?? [],
+    color_options: merged.color_options ?? [],
+  };
 
   return (
     <Stack vertical>

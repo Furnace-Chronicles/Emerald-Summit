@@ -31,6 +31,12 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	/// window open; refreshed targeted-style on save_character so the dropdown
 	/// reflects the freshly saved name without resending the full static payload.
 	var/list/cached_slot_names
+	/// The fully-assembled slot dropdown payload — `list(list("id" = N, "name" = ...), ...)`.
+	/// Built once from cached_slot_names and reused on every ui_data poll so
+	/// the 2s lobby tick doesn't re-allocate a 40-element list + 40 nested
+	/// dicts each push. Nulled by save_character / change_slot / load_character
+	/// so the next poll rebuilds against fresh names.
+	var/list/cached_slot_options
 	/// Job.title of the class whose full-details HTML the user requested via
 	/// the Class Selection tutorial view. Cleared when they leave the view.
 	var/active_class_explain_title
@@ -124,7 +130,24 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	if(SSticker.HasRoundStarted() && !isnewplayer(prefs.parent?.mob))
 		SStgui.close_uis(src)
 		return
-	SStgui.update_uis(src)
+	// Ship a slim payload (lobby + header) via send_update's custom_data
+	// path. React's backend reducer shallow-merges the payload over
+	// existing state.data, so per-tab dynamic blocks (identity, body,
+	// markings, etc.) keep their last-pushed values untouched and we skip
+	// the heavy per-tab rebuilders entirely. This is the dominant TGUI
+	// CPU win: before, the 2s tick re-built every active-tab dynamic
+	// block AND re-JSONed the full payload per menu per 2s — that was the
+	// top single proc by self CPU (tgui_window.send_message at >200s).
+	//
+	// We include the full header (not just lobby) because the round-state
+	// transition (pregame → round-in-progress) changes header.is_pregame
+	// and header.is_round_in_progress, and React's FooterBar swaps the
+	// Ready / Join Late buttons off those fields. Shallow merge would
+	// drop the other header fields if we shipped only a partial header.
+	open_ui.send_update(list(
+		"lobby" = build_lobby_data(),
+		"header" = build_header_data(prefs.parent?.mob),
+	))
 	// Only keep ticking during pregame — once the round is in progress no new
 	// players ready up, so there's nothing for the periodic push to surface.
 	// Late-joiners still get fresh data on their own ui_act and 1Hz client poll.
@@ -133,9 +156,12 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 
 /datum/preferences_menu/proc/build_slot_options()
 	// Read each slot's stored real_name from disk once, cache it, and serve
-	// every subsequent poll from cache. save_character()'s ui_act updates the
-	// single affected entry so the dropdown reflects the new name without
-	// re-reading 40 slots or resending the entire static payload.
+	// every subsequent poll from cache. save_character / change_slot /
+	// load_character invalidate cached_slot_options (the assembled list) so
+	// the next poll picks up the fresh name.
+	if(cached_slot_options)
+		return cached_slot_options
+
 	if(!cached_slot_names)
 		cached_slot_names = list()
 		var/max_slots = prefs?.max_save_slots || 40
@@ -151,11 +177,11 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 				slot_name = "Slot [i]"
 			cached_slot_names["[i]"] = slot_name
 
-	var/list/slots = list()
+	cached_slot_options = list()
 	var/max_slots = prefs?.max_save_slots || 40
 	for(var/i = 1, i <= max_slots, i++)
-		slots += list(list("id" = i, "name" = cached_slot_names["[i]"] || "Slot [i]"))
-	return slots
+		cached_slot_options += list(list("id" = i, "name" = cached_slot_names["[i]"] || "Slot [i]"))
+	return cached_slot_options
 
 /datum/preferences_menu/ui_static_data(mob/user)
 	// TGUI only invokes ui_static_data during send_full_update (window open
@@ -212,6 +238,40 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 
 	return data
 
+/// Build the header block. Shared by ui_data (full pushes) and
+/// tick_lobby_refresh (slim per-2s pushes). Cheap enough — no list walks of
+/// any size — so we can rebuild it on every tick without measurable cost.
+/datum/preferences_menu/proc/build_header_data(mob/user)
+	if(!prefs)
+		return list()
+	var/pq_num = get_playerquality(user.ckey)
+	var/list/pq_label = pq_tier_label(pq_num)
+	var/mob/dead/new_player/np = user
+	var/is_np = istype(np)
+	return list(
+		"real_name" = prefs.real_name,
+		"triumphs" = user.get_triumphs(),
+		"triumphs_roman" = user.get_triumphs() ? "\Roman[user.get_triumphs()]" : "None",
+		"pq_text" = pq_label["text"],
+		"pq_color" = pq_label["color"],
+		"agevetted" = user.check_agevet(),
+		"triumph_buys_enabled" = SStriumphs.triumph_buys_enabled,
+		// Lobby / round-state flags driving the footer action bar.
+		"is_new_player" = is_np,
+		"is_pregame" = (SSticker.current_state <= GAME_STATE_PREGAME),
+		"is_round_in_progress" = SSticker?.IsRoundInProgress(),
+		"player_ready" = is_np ? (np.ready == PLAYER_READY_TO_PLAY) : FALSE,
+		"is_active_migrant" = prefs.is_active_migrant(),
+		"job_change_locked" = SSticker.job_change_locked,
+		"is_guest" = IsGuestKey(user.key),
+		"current_slot" = prefs.default_slot,
+		"max_save_slots" = prefs.max_save_slots,
+		"tgui_theme_name" = prefs.get_tgui_theme_display_name(),
+		// Null when ready-up is allowed; non-null reason string disables the
+		// Ready button on the React side and shows the reason as its tooltip.
+		"ready_block_reason" = compute_ready_block_reason(),
+	)
+
 /// TRUE if at least one job in prefs.job_preferences has any priority set
 /// (LOW/MEDIUM/HIGH). Absent / 0 / null all count as "never". Used by the
 /// ready-up gate so RETURNTOLOBBY players can't ready with nothing picked.
@@ -267,34 +327,7 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	// can update the dropdown without resending the full static payload.
 	data["slots"] = build_slot_options()
 
-	// Header stats — visible from every tab so the player doesn't have to switch tabs to check.
-	var/pq_num = get_playerquality(user.ckey)
-	var/list/pq_label = pq_tier_label(pq_num)
-	var/mob/dead/new_player/np = user
-	var/is_np = istype(np)
-	data["header"] = list(
-		"real_name" = prefs.real_name,
-		"triumphs" = user.get_triumphs(),
-		"triumphs_roman" = user.get_triumphs() ? "\Roman[user.get_triumphs()]" : "None",
-		"pq_text" = pq_label["text"],
-		"pq_color" = pq_label["color"],
-		"agevetted" = user.check_agevet(),
-		"triumph_buys_enabled" = SStriumphs.triumph_buys_enabled,
-		// Lobby / round-state flags driving the footer action bar.
-		"is_new_player" = is_np,
-		"is_pregame" = (SSticker.current_state <= GAME_STATE_PREGAME),
-		"is_round_in_progress" = SSticker?.IsRoundInProgress(),
-		"player_ready" = is_np ? (np.ready == PLAYER_READY_TO_PLAY) : FALSE,
-		"is_active_migrant" = prefs.is_active_migrant(),
-		"job_change_locked" = SSticker.job_change_locked,
-		"is_guest" = IsGuestKey(user.key),
-		"current_slot" = prefs.default_slot,
-		"max_save_slots" = prefs.max_save_slots,
-		"tgui_theme_name" = prefs.get_tgui_theme_display_name(),
-		// Null when ready-up is allowed; non-null reason string disables the
-		// Ready button on the React side and shows the reason as its tooltip.
-		"ready_block_reason" = compute_ready_block_reason(),
-	)
+	data["header"] = build_header_data(user)
 
 	data["lobby"] = build_lobby_data()
 
@@ -597,9 +630,23 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 /// e.g. "Trained (+1 STR, +1 CON, +1 END, -1 PER, -1 INT)". Used by both the
 /// option list and the current-selection display so the picker text matches
 /// what set_statpack_direct resolves back to.
+///
+/// Statpack datums are init-once singletons (GLOB.statpacks), and both name
+/// and the generated modifier string are stable per statpack. The profile
+/// flagged this as ~2.5s self CPU across 139K calls — memoize by sp ref so
+/// each unique statpack is formatted exactly once for the lifetime of the
+/// process.
 /datum/preferences_menu/proc/statpack_dropdown_label(datum/statpack/sp)
+	var/static/list/cached_labels
+	if(!cached_labels)
+		cached_labels = list()
+	var/cached = cached_labels[sp]
+	if(cached)
+		return cached
 	var/blurb = sp.generate_modifier_string()
-	return blurb ? "[sp.name] [blurb]" : sp.name
+	var/label = blurb ? "[sp.name] [blurb]" : sp.name
+	cached_labels[sp] = label
+	return label
 
 /datum/preferences_menu/proc/build_extra_language_options()
 	var/list/names = list()
@@ -1455,18 +1502,26 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 /datum/preferences_menu/proc/culinary_food_label(food_type)
 	if(!food_type)
 		return "None"
-	for(var/list/food_data in GLOB.food_with_faretypes)
-		if(food_data["type"] == food_type)
-			return "[capitalize(food_data["name"])] (Quality: [food_data["faretype"]])"
-	return culinary_food_name(food_type)
+	// GLOB.food_with_faretypes is fixed at SS init, so flip the per-call
+	// O(N) walk into a one-time O(N) build + O(1) hashmap lookup. Profile
+	// flagged the walk as ~5.7s self CPU across 278K calls; the cache
+	// drops it to a single hash hit per call.
+	var/static/list/cached_food_labels
+	if(!cached_food_labels)
+		cached_food_labels = list()
+		for(var/list/food_data in GLOB.food_with_faretypes)
+			cached_food_labels[food_data["type"]] = "[capitalize(food_data["name"])] (Quality: [food_data["faretype"]])"
+	return cached_food_labels[food_type] || culinary_food_name(food_type)
 
 /datum/preferences_menu/proc/culinary_drink_label(drink_type)
 	if(!drink_type)
 		return "None"
-	for(var/list/drink_data in GLOB.drink_with_qualities)
-		if(drink_data["type"] == drink_type)
-			return "[capitalize(drink_data["name"])] (Quality: [drink_data["quality"]])"
-	return culinary_drink_name(drink_type)
+	var/static/list/cached_drink_labels
+	if(!cached_drink_labels)
+		cached_drink_labels = list()
+		for(var/list/drink_data in GLOB.drink_with_qualities)
+			cached_drink_labels[drink_data["type"]] = "[capitalize(drink_data["name"])] (Quality: [drink_data["quality"]])"
+	return cached_drink_labels[drink_type] || culinary_drink_name(drink_type)
 
 /datum/preferences_menu/proc/culinary_food_name(food_type)
 	if(!food_type)
@@ -2875,10 +2930,12 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				to_chat(user, span_notice("Saved to slot [prefs.default_slot]: [prefs.real_name]."))
 				// Refresh the cached slot name so the dropdown picks up the
 				// new label on the next poll. No disk re-read — just write
-				// what we know we just saved.
+				// what we know we just saved. Drop the assembled options
+				// list too so the next poll re-builds it from the fresh name.
 				if(!cached_slot_names)
 					cached_slot_names = list()
 				cached_slot_names["[prefs.default_slot]"] = prefs.real_name || "Slot [prefs.default_slot]"
+				cached_slot_options = null
 			else
 				to_chat(user, span_warning("Save failed — check savefile permissions."))
 			SStgui.update_uis(src)
@@ -3880,9 +3937,20 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 
 /// Count how many other roundstart races share the current species' base_name (excluding the current sub_name).
 /// 0 means there are no subspecies to switch to — the picker would be empty.
+///
+/// GLOB.roundstart_races and GLOB.species_list are fixed at SS init, so the
+/// answer is purely a function of (base_name, sub_name). Memoize by the
+/// species datum ref — the profile flagged the GLOB walk as ~2.1s self CPU
+/// across 139K calls.
 /datum/preferences_menu/proc/count_other_subspecies(datum/species/current)
 	if(!current)
 		return 0
+	var/static/list/cached_counts
+	if(!cached_counts)
+		cached_counts = list()
+	var/cached = cached_counts[current]
+	if(!isnull(cached))
+		return cached
 	var/count = 0
 	for(var/A in GLOB.roundstart_races)
 		var/datum/species/race = GLOB.species_list[A]
@@ -3893,6 +3961,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 		if(race.sub_name == current.sub_name)
 			continue
 		count++
+	cached_counts[current] = count
 	return count
 
 /// Reverse-lookup the human-readable name for a stored skin_tone hex value.
