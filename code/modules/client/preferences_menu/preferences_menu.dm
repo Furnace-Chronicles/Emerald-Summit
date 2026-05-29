@@ -9,11 +9,6 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 /datum/preferences_menu
 	var/datum/preferences/prefs
 	var/active_tab = "identity"
-	/// Set by on_identity_change when a save is owed. flush_save() clears it.
-	/// We coalesce because each pref mutation called save_preferences() +
-	/// save_character() synchronously — at 150 concurrent users that's >300
-	/// disk writes/sec and savefile I/O runs on the main thread.
-	var/save_dirty = FALSE
 	/// Set by on_identity_change when the preview needs re-rendering.
 	/// refresh_preview() composes a dummy mob and flattens an icon — heavy
 	/// CPU work, so we debounce to once per ~0.5s burst instead of once per act.
@@ -56,18 +51,15 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	prefs = owning_prefs
 
 /datum/preferences_menu/Destroy()
-	// Flush any pending save before the datum goes away — the player may have
-	// closed the window mid-debounce-window and we don't want to lose state.
-	flush_save()
 	prefs = null
 	return ..()
 
 /datum/preferences_menu/ui_close(mob/user)
 	. = ..()
-	// Window closed — drop any owed preview work (no one to see it) and force
-	// the pending save out so disk state matches what the user saw last.
+	// Window closed — drop any owed preview work (no one to see it). In-memory
+	// edits without an explicit Save click are intentionally discarded to
+	// match the classic browser UI's "Save / Undo / nothing" semantics.
 	preview_dirty = FALSE
-	flush_save()
 	// If a player at the main menu (still a new_player) closes the window
 	// after the round has started, force-reopen it after 2 seconds. They're
 	// likely a latejoiner who needs the panel to actually join the round —
@@ -2186,7 +2178,6 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			// that triggers on_identity_change (species swap, slot reload)
 			// will snap the body to the new ancestry's color.
 			if(!prefs.update_mutant_colors)
-				queue_save()
 				SStgui.update_uis(src)
 				return TRUE
 			prefs.try_update_mutant_colors()
@@ -2693,10 +2684,10 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 		if("cycle_tgui_theme")
 			// Cycle to the next theme in /datum/preferences/proc/setTguiStyle
 			// and push a UI update so the new palette propagates immediately.
-			// setTguiStyle already calls save_preferences() — clear save_dirty
-			// so the coalesce timer doesn't fire a redundant re-save 5s later.
+			// setTguiStyle calls save_preferences() on its own so the theme
+			// pick persists immediately — it's a one-click choice rather than
+			// part of the character editor's Save-button flow.
 			prefs.setTguiStyle(user)
-			save_dirty = FALSE
 			SStgui.update_uis(src)
 			return TRUE
 
@@ -2921,9 +2912,9 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			if(!prefs.path)
 				to_chat(user, span_warning("Save failed — your savefile is not available (guests cannot save)."))
 				return TRUE
-			// Explicit save: bypass the coalesce window and write now. Clear
-			// the dirty flag so the pending timer becomes a no-op.
-			save_dirty = FALSE
+			// Only path that writes character data to disk. Mutations are
+			// in-memory only until the user clicks here — matches the classic
+			// browser UI's behavior.
 			var/prefs_ok = prefs.save_preferences()
 			var/char_ok = prefs.save_character()
 			if(prefs_ok && char_ok)
@@ -3982,30 +3973,18 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 /// option lists (species/origin/faith/patron/statpack/virtue/charflaw/age/
 /// pronouns/hotkeys/markings_preset/random/load/change_slot). Otherwise the
 /// regular partial push covers the per-tab dynamic changes.
+///
+/// Mutations only update in-memory prefs — the explicit Save button is the
+/// sole disk-write path for character data, matching the classic browser UI.
+/// Closing the window without clicking Save discards any pending edits.
 /datum/preferences_menu/proc/on_identity_change(refresh_static = FALSE)
 	if(!prefs)
 		return
-	queue_save()
 	queue_preview_refresh()
 	if(refresh_static)
 		refresh_static_data()
 	else
 		SStgui.update_uis(src)
-
-/// Mark the savefile dirty and schedule a flush. Multiple acts within the same
-/// 5-second window coalesce to a single pair of save_preferences/save_character
-/// calls. TIMER_UNIQUE | TIMER_OVERRIDE ensures repeated queues just reset the
-/// debounce clock rather than stacking timers.
-/datum/preferences_menu/proc/queue_save()
-	save_dirty = TRUE
-	addtimer(CALLBACK(src, PROC_REF(flush_save)), 5 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
-
-/datum/preferences_menu/proc/flush_save()
-	if(!save_dirty || !prefs)
-		return
-	prefs.save_preferences()
-	prefs.save_character()
-	save_dirty = FALSE
 
 /// Mark the preview dirty and schedule a flush. A burst of body-affecting acts
 /// (e.g. rapid customizer rotations) now composes one dummy mob instead of one
