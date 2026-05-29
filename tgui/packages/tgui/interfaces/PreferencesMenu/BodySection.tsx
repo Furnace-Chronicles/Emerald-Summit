@@ -47,9 +47,28 @@ export type BodyData = {
   body_size_locked: 0 | 1;
 };
 
+type CustomizerEntryStatic = {
+  customizer_type: string;
+  name: string;
+  allows_disabling: 0 | 1;
+  has_multiple_choices: 0 | 1;
+  choice_options: string[];
+};
+
+type CustomizerEntryDynamic = {
+  customizer_type: string;
+  disabled: 0 | 1;
+  choice_name: string;
+  pref_data: any[];
+};
+
 type Data = {
-  body: BodyData;
-  customizers?: { entries: CustomizerEntry[] };
+  // Dynamic — selections + trait flags.
+  body: Partial<BodyData>;
+  // Static — option lists (skin tones, accents, body-size bounds).
+  body_static: Partial<BodyData>;
+  customizers?: { entries: CustomizerEntryDynamic[] };
+  customizers_static?: { entries: CustomizerEntryStatic[] };
 };
 
 const ColorSwatch = ({ hex }: { hex?: string }) => (
@@ -68,13 +87,27 @@ const ColorSwatch = ({ hex }: { hex?: string }) => (
 
 export const BodySection = () => {
   const { act, data } = useBackend<Data>();
-  const body = data.body;
-  if (!body) return null;
+  // Merge static option lists into the dynamic body data so existing
+  // body.skin_tone_options / body.accent_options references resolve.
+  const body = { ...data.body_static, ...data.body } as BodyData;
+  if (!data.body) return null;
   // Ears was lifted out of the FeaturesTab customizer grid and rendered
   // here in the right column; if the species doesn't expose an Ears
-  // customizer, the right column simply doesn't appear.
+  // customizer, the right column simply doesn't appear. Match the static
+  // catalog entry (which carries the name) with the dynamic entry
+  // (which carries current selections) by customizer_type, then spread
+  // them together so CustomizerCard sees a unified entry.
+  const earsStatic =
+    data.customizers_static?.entries.find((c) => c.name === 'Ears') || null;
+  const earsDynamic = earsStatic
+    ? data.customizers?.entries.find(
+        (c) => c.customizer_type === earsStatic.customizer_type,
+      )
+    : null;
   const earsCustomizer =
-    data.customizers?.entries.find((c) => c.name === 'Ears') || null;
+    earsStatic && earsDynamic
+      ? ({ ...earsStatic, ...earsDynamic } as CustomizerEntry)
+      : null;
   return (
     <Section title="Body">
       <Stack>

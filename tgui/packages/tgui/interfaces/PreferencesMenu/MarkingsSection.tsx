@@ -16,23 +16,46 @@ type MarkingEntry = {
   can_move_down: 0 | 1;
 };
 
+// Static fields per zone — species-keyed, refreshed only on set_species.
+type MarkingZoneStatic = {
+  key: string;
+  label: string;
+  all_candidates: string[];
+};
+
+// Dynamic fields per zone — current marking list, changes on add/remove/move.
+type MarkingZoneDynamic = {
+  key: string;
+  markings: MarkingEntry[];
+};
+
+// Merged view consumed by ZoneCard. `available` is derived client-side by
+// subtracting the current selections from `all_candidates`.
 export type MarkingZone = {
   key: string;
   label: string;
   markings: MarkingEntry[];
-  can_add: 0 | 1;
+  can_add: boolean;
   available: string[];
 };
 
-export type MarkingsData = {
+export type MarkingsDynamicData = {
+  zones: MarkingZoneDynamic[];
+};
+
+export type MarkingsStaticData = {
   max_per_limb: number;
   has_presets: 0 | 1;
   species_has_no_markings: 0 | 1;
-  zones: MarkingZone[];
+  zones: MarkingZoneStatic[];
 };
 
+// Legacy combined type kept for IdentityTab's import.
+export type MarkingsData = MarkingsStaticData & MarkingsDynamicData;
+
 type Data = {
-  markings: MarkingsData;
+  markings: MarkingsDynamicData;
+  markings_static: MarkingsStaticData;
 };
 
 // Anatomical 3-row grid for body markings. Each row has cells with explicit
@@ -202,15 +225,42 @@ const ZoneCard = ({
 
 export const MarkingsSection = () => {
   const { act, data } = useBackend<Data>();
-  const markings = data.markings;
-  if (!markings) return null;
+  const markingsStatic = data.markings_static;
+  const markingsDynamic = data.markings;
+  if (!markingsStatic || !markingsDynamic) return null;
+
+  // Merge static zones (label + all_candidates) with dynamic zones (current
+  // markings list) by zone key. `available` is computed here by subtracting
+  // already-picked names from the candidate pool, and `can_add` from limb
+  // capacity vs. the merged availability. This is the same filtering the
+  // server used to do per push.
+  const dynamicByKey = new Map<string, MarkingZoneDynamic>();
+  for (const z of markingsDynamic.zones) {
+    dynamicByKey.set(z.key, z);
+  }
+  const maxPerLimb = markingsStatic.max_per_limb;
+  const zones: MarkingZone[] = markingsStatic.zones.map((s) => {
+    const d = dynamicByKey.get(s.key);
+    const currentMarkings = d?.markings || [];
+    const pickedNames = new Set(currentMarkings.map((m) => m.name));
+    const available = s.all_candidates.filter((n) => !pickedNames.has(n));
+    return {
+      key: s.key,
+      label: s.label,
+      markings: currentMarkings,
+      can_add:
+        currentMarkings.length < maxPerLimb && available.length > 0,
+      available,
+    };
+  });
+
   return (
     <Section
       title="Markings"
       buttons={
         <>
           <Button
-            disabled={!markings.has_presets}
+            disabled={!markingsStatic.has_presets}
             onClick={() => act('markings_use_preset')}
           >
             Use Preset
@@ -221,10 +271,10 @@ export const MarkingsSection = () => {
         </>
       }
     >
-      {!!markings.species_has_no_markings && (
+      {!!markingsStatic.species_has_no_markings && (
         <Box color="label">Your species has no body markings available.</Box>
       )}
-      <MarkingsGrid zones={markings.zones} act={act} />
+      <MarkingsGrid zones={zones} act={act} />
     </Section>
   );
 };

@@ -38,6 +38,12 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	/// dangerouslySetInnerHTML directly below the tutorial blurb. Built by
 	/// /datum/job/proc/build_class_explain_html() on demand.
 	var/active_class_explain_html
+	/// Cached ui_static_data payload — built once on the first ui_static_data
+	/// call (which TGUI only invokes during send_full_update), reused forever
+	/// until refresh_static_data() nulls it. Holds every option list and other
+	/// session-stable data the React side renders, so partial pushes (lobby
+	/// tick, on_identity_change) only carry the small ui_data delta.
+	var/list/static_data_cache
 
 /datum/preferences_menu/New(datum/preferences/owning_prefs)
 	. = ..()
@@ -86,6 +92,13 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "PreferencesMenu", "Emerald Summit")
+		// Autoupdate would call ui_interact every 0.9s (SStgui wait=9ds) and
+		// rebuild the full ui_data payload — at 150 concurrent menus that
+		// dominated TGUI CPU. All option lists now live in ui_static_data
+		// (loaded once per window open) and every mutation pushes via
+		// on_identity_change → SStgui.update_uis(src), so nothing here
+		// needs the timer. The 2s lobby tick handles timer + ready-roster.
+		ui.set_autoupdate(FALSE)
 		ui.open()
 	start_lobby_refresh()
 
@@ -145,19 +158,28 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	return slots
 
 /datum/preferences_menu/ui_static_data(mob/user)
+	// TGUI only invokes ui_static_data during send_full_update (window open
+	// or explicit refresh). Cache the entire payload on the datum so even
+	// that one rebuild is amortized across the menu lifetime, and so
+	// refresh_static_data() can null + rebuild atomically.
+	if(!static_data_cache)
+		static_data_cache = build_full_static_data(user)
+	return static_data_cache
+
+/// Rebuilds the entire static_data payload from scratch. Called lazily by
+/// ui_static_data and re-called after refresh_static_data() nulls the cache
+/// (e.g. when the user changes species/origin/faith/patron and the dependent
+/// option lists become stale).
+/datum/preferences_menu/proc/build_full_static_data(mob/user)
 	var/list/data = list()
+
+	// Always-static globals (never change at runtime).
 	data["pronoun_options"] = GLOB.pronouns_list?.Copy() || list()
 	data["voice_type_options"] = GLOB.voice_types_list?.Copy() || list()
-	// data["slots"] lives in ui_data so save/load/change_slot can update the
-	// dropdown without resending the full static payload.
-
-	// Voice packs — assoc list (name → datum) in GLOB.
 	var/list/voice_packs = list()
 	for(var/vp_name in GLOB.voice_packs_list)
 		voice_packs += vp_name
 	data["voice_pack_options"] = voice_packs
-
-	// Statpacks: ship name + description per pack for in-tab preview.
 	var/list/statpacks = list()
 	for(var/path as anything in GLOB.statpacks)
 		var/datum/statpack/sp = GLOB.statpacks[path]
@@ -169,7 +191,71 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 		))
 	data["statpack_options"] = statpacks
 
+	if(!prefs)
+		return data
+
+	// Per-tab static option blocks. Each is keyed by `<tab>_static` so the
+	// React side can spread it alongside the dynamic `<tab>` block via
+	// `{...data.identity_static, ...data.identity}`.
+	data["identity_static"] = build_identity_static(user)
+	data["culinary_static"] = build_culinary_static(user)
+	data["body_static"] = build_body_static(user)
+	data["markings_static"] = build_markings_static(user)
+	data["descriptors_static"] = build_descriptors_static(user)
+	data["customizers_static"] = build_customizers_static(user)
+	data["loadout_static"] = build_loadout_static(user)
+	data["jobs_static"] = build_jobs_static(user)
+	data["keybinds_static"] = build_keybinds_static(user)
+	data["familiar_static"] = build_familiar_static(user)
+	data["gnoll_static"] = build_gnoll_static(user)
+	data["game_prefs_static"] = build_game_prefs_static(user)
+
 	return data
+
+/// TRUE if at least one job in prefs.job_preferences has any priority set
+/// (LOW/MEDIUM/HIGH). Absent / 0 / null all count as "never". Used by the
+/// ready-up gate so RETURNTOLOBBY players can't ready with nothing picked.
+/datum/preferences_menu/proc/has_any_class_selected()
+	if(!prefs?.job_preferences)
+		return FALSE
+	for(var/title in prefs.job_preferences)
+		if(prefs.job_preferences[title])
+			return TRUE
+	return FALSE
+
+/// Returns a player-facing reason the Ready button must be blocked, or null
+/// when ready-up is allowed. Same checks both ui_act (toggle_ready) and the
+/// header data (so React can disable the button + show the reason in a
+/// tooltip) — single source of truth.
+///
+/// joblessrole=BERANDOMJOB is an explicit opt-in to "any role", so we don't
+/// require a class selection in that case. RETURNTOLOBBY without any class
+/// selected is a no-op ready (player would just be rejected at round-start),
+/// so we block it.
+/datum/preferences_menu/proc/compute_ready_block_reason()
+	if(!prefs)
+		return null
+	if(length(prefs.flavortext) < MINIMUM_FLAVOR_TEXT)
+		return "Flavor text too short ([length(prefs.flavortext)]/[MINIMUM_FLAVOR_TEXT] characters)."
+	if(length(prefs.ooc_notes) < MINIMUM_OOC_NOTES)
+		return "OOC notes too short ([length(prefs.ooc_notes)]/[MINIMUM_OOC_NOTES] characters)."
+	if(prefs.joblessrole == RETURNTOLOBBY && !has_any_class_selected())
+		return "Pick at least one class in Class Selection (or set 'If Role Unavailable' to Random)."
+	return null
+
+/// Drop the cached static payload and push a full_update to every open ui on
+/// this menu so the React side picks up the rebuilt option lists. Called from
+/// ui_act branches whose mutations invalidate one or more option blocks (set
+/// species/subspecies/origin/faith/patron/statpack/virtue/charflaw/age/pronouns,
+/// randomize_all, load_character, change_slot). Cheap when no ui is open.
+/datum/preferences_menu/proc/refresh_static_data()
+	static_data_cache = null
+	// cached_job_gates (ckey/PQ-only) and cached_loadout_item_options
+	// (donator-only) are both ckey-stable, so they survive across these
+	// refreshes — only species/origin/etc-dependent caches go in the parent
+	// static_data_cache that's nulled above.
+	for(var/datum/tgui/ui as anything in open_uis)
+		ui.send_full_update()
 
 /datum/preferences_menu/ui_data(mob/user)
 	var/list/data = list()
@@ -177,9 +263,8 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	if(!prefs)
 		return data
 
-	// Slot picker is in ui_data (not ui_static_data) so save_character can
-	// nudge the cache and have the new name visible on the next poll without
-	// re-sending the full static payload.
+	// Slot picker is in ui_data (not ui_static_data) so save/load/change_slot
+	// can update the dropdown without resending the full static payload.
 	data["slots"] = build_slot_options()
 
 	// Header stats — visible from every tab so the player doesn't have to switch tabs to check.
@@ -206,55 +291,53 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 		"current_slot" = prefs.default_slot,
 		"max_save_slots" = prefs.max_save_slots,
 		"tgui_theme_name" = prefs.get_tgui_theme_display_name(),
+		// Null when ready-up is allowed; non-null reason string disables the
+		// Ready button on the React side and shows the reason as its tooltip.
+		"ready_block_reason" = compute_ready_block_reason(),
 	)
 
 	data["lobby"] = build_lobby_data()
 
-	// Per-tab gating: only build the active tab's payload. The React side
-	// only renders one tab at a time (renderTab(tab) in PreferencesMenu.tsx)
-	// so shipping the other 12 payloads on every poll was wasted work — the
-	// most common reported perf complaint in pregame.
-	// Header is built above (always visible). Each tab has a "Loading…" guard
-	// in its component so the brief window between set_tab act and the next
-	// data push renders cleanly.
-	// Unknown active_tab values (legacy savefile residue, future rename) fall
-	// back to identity so the user is never stranded on an empty payload with
-	// no way to recover. The active_tab var is also re-pinned to the recognized
-	// value so React's tab state syncs back on the next poll.
+	// Per-tab gating: only build the active tab's DYNAMIC payload (current
+	// selections / state). Option lists live in ui_static_data — see
+	// build_full_static_data — so they're not rebuilt or reshipped on the
+	// per-mutation push or the 2s lobby tick.
 	var/static/list/known_tabs = list("identity", "features", "loadout", "jobs", "flavor", "gamepref", "oocpref", "keybinds", "familiar", "gnoll")
 	if(!(active_tab in known_tabs))
 		active_tab = "identity"
 	switch(active_tab)
 		if("identity")
-			data["identity"] = build_identity_data(user)
-			data["culinary"] = build_culinary_data(user)
+			data["identity"] = build_identity_dynamic(user)
+			data["culinary"] = build_culinary_dynamic(user)
 		if("features")
-			data["body"] = build_body_data(user)
-			data["markings"] = build_markings_data(user)
-			data["descriptors"] = build_descriptors_data(user)
-			data["customizers"] = build_customizers_data(user)
+			data["body"] = build_body_dynamic(user)
+			data["markings"] = build_markings_dynamic(user)
+			data["descriptors"] = build_descriptors_dynamic(user)
+			data["customizers"] = build_customizers_dynamic(user)
 		if("loadout")
-			data["loadout"] = build_loadout_data(user)
+			data["loadout"] = build_loadout_dynamic(user)
 		if("jobs")
-			data["jobs"] = build_jobs_data(user)
+			data["jobs"] = build_jobs_dynamic(user)
 		if("flavor")
 			data["flavor"] = build_flavor_data(user)
 		if("gamepref")
 			// Combined view in the React side: GamePrefsTab stacked above OocPrefsTab.
-			data["game_prefs"] = build_game_prefs_data(user)
+			data["game_prefs"] = build_game_prefs_dynamic(user)
 			data["ooc_prefs"] = build_ooc_prefs_data(user)
 		if("oocpref")
 			data["ooc_prefs"] = build_ooc_prefs_data(user)
 		if("keybinds")
-			data["keybinds"] = build_keybinds_data(user)
+			data["keybinds"] = build_keybinds_dynamic(user)
 		if("familiar")
-			data["familiar"] = build_familiar_data(user)
+			data["familiar"] = build_familiar_dynamic(user)
 		if("gnoll")
-			data["gnoll"] = build_gnoll_data(user)
-	data["active_tab"] = active_tab
+			data["gnoll"] = build_gnoll_dynamic(user)
 	return data
 
-/datum/preferences_menu/proc/build_identity_data(mob/user)
+/// DYNAMIC half of the identity tab: current selections only. Built per
+/// ui_data push. Pairs with build_identity_static (option lists) which only
+/// rebuilds when the user picks a new species/origin/faith/patron/etc.
+/datum/preferences_menu/proc/build_identity_dynamic(mob/user)
 	var/list/id = list()
 	id["real_name"] = prefs.real_name
 	id["name_is_banned"] = check_nameban(user.ckey)
@@ -264,7 +347,6 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	id["voice_type"] = prefs.voice_type
 	id["voice_pack"] = prefs.voice_pack || "Default"
 	id["age"] = prefs.age
-	id["age_options"] = prefs.pref_species ? prefs.pref_species.possible_ages?.Copy() : list()
 
 	id["species_name"] = prefs.pref_species?.base_name
 	id["subspecies_name"] = prefs.pref_species?.sub_name
@@ -298,6 +380,7 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	id["setspouse"] = prefs.setspouse
 	id["gender_choice"] = prefs.gender_choice
 	id["xenophobe_pref"] = prefs.xenophobe_pref
+	id["xenophobe_label"] = (prefs.xenophobe_pref == 1) ? "Race only" : (prefs.xenophobe_pref == 2) ? "Subrace only" : "Unrestricted"
 
 	// Body type / gender (only when species is not AGENDER)
 	id["gender"] = prefs.gender
@@ -321,10 +404,16 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 		id["tail_color"] = prefs.tail_color
 		id["tail_markings_color"] = prefs.tail_markings_color
 
-	// Race & Origin picker option lists — shipped per-poll so the React side
-	// can render inline Dropdowns. Each list mirrors the candidate set the
-	// classic tgui_input_list popup builds; the set_*_direct handlers re-validate
-	// the picked name against the same filter before mutating prefs.
+	return id
+
+/// STATIC half of the identity tab: every dropdown option list. Rebuilt only
+/// when refresh_static_data() is called (set_species, set_origin, set_faith,
+/// set_patron, set_statpack, set_pronouns, set_age, etc.). Shipped to the
+/// React side once per window open via ui_static_data and persisted in the
+/// backend reducer until the next full_update.
+/datum/preferences_menu/proc/build_identity_static(mob/user)
+	var/list/id = list()
+	id["age_options"] = prefs.pref_species ? prefs.pref_species.possible_ages?.Copy() : list()
 	id["species_options"] = build_species_options(user)
 	id["subspecies_options"] = build_subspecies_options()
 	id["origin_options"] = build_origin_options()
@@ -339,9 +428,7 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	id["family_options"] = build_family_options()
 	id["gender_choice_options"] = list(ANY_GENDER, SAME_GENDER, DIFFERENT_GENDER)
 	id["xenophobe_options"] = list("Unrestricted", "Race only", "Subrace only")
-	id["xenophobe_label"] = (prefs.xenophobe_pref == 1) ? "Race only" : (prefs.xenophobe_pref == 2) ? "Subrace only" : "Unrestricted"
 	id["tail_type_options"] = build_tail_type_options()
-
 	return id
 
 /datum/preferences_menu/proc/build_family_options()
@@ -535,11 +622,15 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 		names += a_language.name
 	return names
 
-/datum/preferences_menu/proc/build_body_data(mob/user)
+/// DYNAMIC half of the body section. Current selections + boolean trait flags
+/// that drive which controls render. The trait flags actually depend on
+/// species, so technically static, but they're a handful of cheap bools — not
+/// worth the ceremony of moving them. Skin tone + accent + size + voice
+/// option lists live in build_body_static.
+/datum/preferences_menu/proc/build_body_dynamic(mob/user)
 	var/list/body = list()
 	var/list/traits = prefs.pref_species?.species_traits
 
-	// Conditional flags driving which controls render.
 	body["use_skintones"] = prefs.pref_species?.use_skintones
 	body["skin_tone_wording"] = prefs.pref_species?.skin_tone_wording
 	body["species_id"] = prefs.pref_species?.id
@@ -549,13 +640,6 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 
 	body["skin_tone"] = prefs.skin_tone
 	body["skin_tone_name"] = lookup_skin_tone_name(prefs.skin_tone)
-	// Display-name list (assoc-list keys) of every skin tone this species can
-	// pick. Empty for species that don't use skintones (Zardman etc.).
-	var/list/skin_tone_names = list()
-	if(prefs.pref_species?.use_skintones)
-		for(var/k in prefs.pref_species.get_skin_list())
-			skin_tone_names += k
-	body["skin_tone_options"] = skin_tone_names
 	body["update_mutant_colors"] = prefs.update_mutant_colors
 
 	body["mcolor"] = prefs.features?["mcolor"]
@@ -565,56 +649,37 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	body["voice_color"] = prefs.voice_color
 	body["highlight_color"] = prefs.highlight_color
 	body["voice_pitch"] = prefs.voice_pitch
-	body["voice_pitch_min"] = MIN_VOICE_PITCH
-	body["voice_pitch_max"] = MAX_VOICE_PITCH
 	body["char_accent"] = prefs.char_accent
-	var/list/accent_names = list()
-	for(var/k in GLOB.character_accents)
-		accent_names += k
-	body["accent_options"] = accent_names
 	body["body_size_pct"] = round((prefs.features?["body_size"] || BODY_SIZE_NORMAL) * 100)
-	body["body_size_min_pct"] = round(BODY_SIZE_MIN * 100)
-	body["body_size_max_pct"] = round(BODY_SIZE_MAX * 100)
-	// Virtue/virtuetwo of type /datum/virtue/size locks the size — the slider
-	// renders disabled when this is TRUE.
 	body["body_size_locked"] = ((prefs.statpack?.name == "Virtuous" && istype(prefs.virtuetwo, /datum/virtue/size)) || istype(prefs.virtue, /datum/virtue/size))
 
 	return body
 
-/datum/preferences_menu/proc/build_markings_data(mob/user)
+/datum/preferences_menu/proc/build_body_static(mob/user)
+	var/list/body = list()
+	var/list/skin_tone_names = list()
+	if(prefs.pref_species?.use_skintones)
+		for(var/k in prefs.pref_species.get_skin_list())
+			skin_tone_names += k
+	body["skin_tone_options"] = skin_tone_names
+	var/list/accent_names = list()
+	for(var/k in GLOB.character_accents)
+		accent_names += k
+	body["accent_options"] = accent_names
+	body["voice_pitch_min"] = MIN_VOICE_PITCH
+	body["voice_pitch_max"] = MAX_VOICE_PITCH
+	body["body_size_min_pct"] = round(BODY_SIZE_MIN * 100)
+	body["body_size_max_pct"] = round(BODY_SIZE_MAX * 100)
+	return body
+
+/// DYNAMIC half of markings: per-zone CURRENT marking list (order matters,
+/// changes on add/remove/move). The species-keyed candidate pool lives in
+/// build_markings_static.
+/datum/preferences_menu/proc/build_markings_dynamic(mob/user)
 	var/list/data = list()
-	data["max_per_limb"] = MAXIMUM_MARKINGS_PER_LIMB
-	data["has_presets"] = length(marking_sets_for_species(prefs.pref_species)) > 0
-
-	// First pass: does the species have ANY markings across ANY zone? Used to
-	// gate the whole section (dwarves etc. fall through here and the React
-	// side shows the species_has_no_markings message). When at least one zone
-	// has candidates, we render the full 8-zone anatomy grid even for zones
-	// that happen to have no candidates — preserves the visual structure of
-	// the body layout instead of silently dropping arms/legs/hands.
-	var/species_has_any_markings = FALSE
-	for(var/zone in GLOB.marking_zones)
-		var/list/marking_list = prefs.body_markings?[zone]
-		if(islist(marking_list) && length(marking_list))
-			species_has_any_markings = TRUE
-			break
-		if(length(marking_list_of_zone_for_species(zone, prefs.pref_species)))
-			species_has_any_markings = TRUE
-			break
-
 	var/list/zones_out = list()
-	if(!species_has_any_markings)
-		data["zones"] = zones_out
-		data["species_has_no_markings"] = TRUE
-		return data
-
 	for(var/zone in GLOB.marking_zones)
-		var/list/all_candidates = marking_list_of_zone_for_species(zone, prefs.pref_species)
 		var/list/marking_list = prefs.body_markings?[zone]
-
-		var/list/zone_entry = list()
-		zone_entry["key"] = zone
-		zone_entry["label"] = zone_label(zone)
 		var/list/markings_out = list()
 		if(islist(marking_list))
 			var/total = length(marking_list)
@@ -628,52 +693,62 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 					"can_move_up" = (i > 1),
 					"can_move_down" = (i < total),
 				))
-		zone_entry["markings"] = markings_out
-		// marking_list_of_zone_for_species returns an assoc list (name → datum).
-		// Strip down to just the unused NAMES — React's Dropdown wants a plain
-		// string array.
-		var/list/available_names = list()
-		for(var/cand_name in all_candidates)
-			if(islist(marking_list) && (cand_name in marking_list))
-				continue
-			available_names += cand_name
-		zone_entry["can_add"] = (length(markings_out) < MAXIMUM_MARKINGS_PER_LIMB) && length(available_names) > 0
-		zone_entry["available"] = available_names
-		zones_out += list(zone_entry)
+		zones_out += list(list(
+			"key" = zone,
+			"markings" = markings_out,
+		))
 	data["zones"] = zones_out
-	data["species_has_no_markings"] = FALSE
 	return data
 
-/datum/preferences_menu/proc/build_descriptors_data(mob/user)
+/datum/preferences_menu/proc/build_markings_static(mob/user)
 	var/list/data = list()
-	prefs.validate_descriptors() // make sure entries exist for current species before reading
+	data["max_per_limb"] = MAXIMUM_MARKINGS_PER_LIMB
+	data["has_presets"] = length(marking_sets_for_species(prefs.pref_species)) > 0
+
+	// Whether ANY zone has candidates for this species. Gates the section.
+	var/species_has_any_markings = FALSE
+	for(var/zone in GLOB.marking_zones)
+		if(length(marking_list_of_zone_for_species(zone, prefs.pref_species)))
+			species_has_any_markings = TRUE
+			break
+	data["species_has_no_markings"] = !species_has_any_markings
+
+	// Per-zone candidate pool (full set, NOT filtered against current
+	// selections — React subtracts what's already picked at render time).
+	// Stable per species so this only rebuilds on set_species/set_subspecies.
+	var/list/zones_out = list()
+	for(var/zone in GLOB.marking_zones)
+		var/list/all_candidates = marking_list_of_zone_for_species(zone, prefs.pref_species)
+		var/list/available_names = list()
+		for(var/cand_name in all_candidates)
+			available_names += cand_name
+		zones_out += list(list(
+			"key" = zone,
+			"label" = zone_label(zone),
+			"all_candidates" = available_names,
+		))
+	data["zones"] = zones_out
+	return data
+
+/// DYNAMIC half of descriptors: per-choice current selection + the custom
+/// text content. Option name lists live in build_descriptors_static.
+/datum/preferences_menu/proc/build_descriptors_dynamic(mob/user)
+	var/list/data = list()
+	prefs.validate_descriptors()
 
 	var/list/entries_out = list()
 	for(var/choice_type in prefs.pref_species?.descriptor_choices)
-		var/datum/descriptor_choice/choice = DESCRIPTOR_CHOICE(choice_type)
 		var/datum/descriptor_entry/entry = prefs.get_descriptor_entry_for_choice(choice_type)
 		var/datum/mob_descriptor/descriptor = MOB_DESCRIPTOR(entry?.descriptor_type)
-		// Ship the eligible descriptor names so the React Dropdown can render
-		// them inline instead of opening a tgui_input_list popup.
-		var/list/option_names = list()
-		if(choice)
-			for(var/desc_type in choice.descriptors)
-				var/datum/mob_descriptor/d = MOB_DESCRIPTOR(desc_type)
-				if(d?.name)
-					option_names += d.name
 		entries_out += list(list(
 			"choice_type" = "[choice_type]",
-			"choice_name" = choice?.name,
 			"current_name" = descriptor?.name,
-			"options" = option_names,
 		))
 	data["entries"] = entries_out
 
 	var/static/list/prefix_translation = CUSTOM_PREFIX_TRANSLATION_LIST
 	var/list/custom_out = list()
 	for(var/i in 1 to CUSTOM_DESCRIPTOR_AMOUNT)
-		// Mirror classic: only unlock custom slot N if the matching
-		// /datum/mob_descriptor/prominent/custom/<one|two> is present in entries.
 		var/unlocked = FALSE
 		if(i == 1)
 			unlocked = prefs.has_descriptor_type_in_entries(/datum/mob_descriptor/prominent/custom/one)
@@ -690,15 +765,39 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 			"content_text" = custom_entry.content_text,
 		))
 	data["custom_entries"] = custom_out
-	data["max_content_length"] = CUSTOM_DESCRIPTOR_TEXT_LENGTH
-
 	return data
 
-/datum/preferences_menu/proc/build_customizers_data(mob/user)
+/datum/preferences_menu/proc/build_descriptors_static(mob/user)
 	var/list/data = list()
-	// Validation already runs in /datum/preferences/proc/set_new_race (the only
-	// path that can desync entries from the species). Keeping it out of the
-	// read path eliminates ~one customizer-list walk per ui_data poll.
+	var/list/entries_out = list()
+	for(var/choice_type in prefs.pref_species?.descriptor_choices)
+		var/datum/descriptor_choice/choice = DESCRIPTOR_CHOICE(choice_type)
+		var/list/option_names = list()
+		if(choice)
+			for(var/desc_type in choice.descriptors)
+				var/datum/mob_descriptor/d = MOB_DESCRIPTOR(desc_type)
+				if(d?.name)
+					option_names += d.name
+		entries_out += list(list(
+			"choice_type" = "[choice_type]",
+			"choice_name" = choice?.name,
+			"options" = option_names,
+		))
+	data["entries"] = entries_out
+	data["max_content_length"] = CUSTOM_DESCRIPTOR_TEXT_LENGTH
+	return data
+
+/// DYNAMIC half of customizers: per-entry current state (which choice is
+/// selected, disabled flag, current pref_data values like hair color/style).
+/// The available choice list per customizer + the accessory options lists
+/// live in build_customizers_static.
+///
+/// Note: pref_data values DO change on every customizer interaction (color
+/// pick, rotate hair style). The accessory_name list shipped INSIDE pref_data
+/// rotate entries is stable per choice; we strip it here and ship it in the
+/// static block to avoid re-shipping ~250 hair names on every mutation.
+/datum/preferences_menu/proc/build_customizers_dynamic(mob/user)
+	var/list/data = list()
 	var/list/entries_out = list()
 	for(var/customizer_type in prefs.pref_species?.customizers)
 		var/datum/customizer/customizer = CUSTOMIZER(customizer_type)
@@ -711,6 +810,22 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 		var/list/pref_data = list()
 		if(!entry.disabled && choice)
 			pref_data = choice.get_pref_data(prefs, entry)
+		entries_out += list(list(
+			"customizer_type" = "[customizer_type]",
+			"disabled" = entry.disabled,
+			"choice_name" = choice?.name,
+			"pref_data" = pref_data,
+		))
+	data["entries"] = entries_out
+	return data
+
+/datum/preferences_menu/proc/build_customizers_static(mob/user)
+	var/list/data = list()
+	var/list/entries_out = list()
+	for(var/customizer_type in prefs.pref_species?.customizers)
+		var/datum/customizer/customizer = CUSTOMIZER(customizer_type)
+		if(!customizer?.is_allowed(prefs))
+			continue
 		var/list/choice_names = list()
 		if(length(customizer.customizer_choices) > 1)
 			for(var/choice_type in customizer.customizer_choices)
@@ -721,11 +836,8 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 			"customizer_type" = "[customizer_type]",
 			"name" = customizer.name,
 			"allows_disabling" = customizer.allows_disabling,
-			"disabled" = entry.disabled,
-			"choice_name" = choice?.name,
 			"has_multiple_choices" = (length(customizer.customizer_choices) > 1),
 			"choice_options" = choice_names,
-			"pref_data" = pref_data,
 		))
 	data["entries"] = entries_out
 	return data
@@ -835,7 +947,10 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 		return list("text" = "Shitter", "color" = "#ff00ff")
 	return list("text" = "Normal", "color" = null)
 
-/datum/preferences_menu/proc/build_game_prefs_data(mob/user)
+/// DYNAMIC half of Game Prefs: toggles + per-role state (ban + enabled).
+/// Stable across the session except that `enabled` toggles when the user
+/// clicks. The static role NAME list lives in build_game_prefs_static.
+/datum/preferences_menu/proc/build_game_prefs_dynamic(mob/user)
 	var/list/data = list()
 	data["stat_simple"] = prefs.stat_simple
 	data["tgui_lock"] = prefs.tgui_lock
@@ -864,6 +979,12 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	data["roles"] = roles_out
 	data["banned_from_antag"] = is_banned_from(user.ckey, ROLE_SYNDICATE)
 	return data
+
+/// STATIC half of Game Prefs: nothing meaningful to ship — the role name
+/// list is rebuilt by the dynamic side anyway (the ban/days_remaining state
+/// is per-role and inseparable from the name). Reserved for future use.
+/datum/preferences_menu/proc/build_game_prefs_static(mob/user)
+	return list()
 
 /datum/preferences_menu/proc/build_ooc_prefs_data(mob/user)
 	var/list/data = list()
@@ -896,7 +1017,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 		)
 	return data
 
-/datum/preferences_menu/proc/build_familiar_data(mob/user)
+/datum/preferences_menu/proc/build_familiar_dynamic(mob/user)
 	var/list/data = list()
 	var/datum/familiar_prefs/fp = prefs.familiar_prefs
 	if(!fp)
@@ -904,7 +1025,6 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 
 	data["familiar_name"] = fp.familiar_name
 	data["familiar_pronouns"] = fp.familiar_pronouns
-	// Pronoun label resolved from the stored value for Dropdown display.
 	var/static/list/fam_pronoun_options = list(
 		"he/him" = HE_HIM,
 		"she/her" = SHE_HER,
@@ -917,14 +1037,11 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			pronoun_label = k
 			break
 	data["familiar_pronoun_label"] = pronoun_label
-	data["familiar_pronoun_options"] = list_keys(fam_pronoun_options)
-	data["familiar_specie_options"] = list_keys(GLOB.familiar_types)
 	data["familiar_headshot_link"] = fp.familiar_headshot_link
 	data["familiar_flavortext_len"] = length(fp.familiar_flavortext)
 	data["familiar_ooc_notes_len"] = length(fp.familiar_ooc_notes)
 	data["familiar_ooc_extra_set"] = !!fp.familiar_ooc_extra_link
 
-	// Species: resolve current type to a human-readable name via GLOB.familiar_types.
 	var/display_name = "None selected"
 	for(var/name in GLOB.familiar_types)
 		if(GLOB.familiar_types[name] == fp.familiar_specie)
@@ -936,7 +1053,17 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	data["queue_ready"] = (fp.familiar_name && fp.familiar_flavortext_display && fp.familiar_specie)
 	return data
 
-/datum/preferences_menu/proc/build_gnoll_data(mob/user)
+/datum/preferences_menu/proc/build_familiar_static(mob/user)
+	var/list/data = list()
+	var/datum/familiar_prefs/fp = prefs.familiar_prefs
+	if(!fp)
+		return data
+	var/static/list/fam_pronoun_options = list("he/him", "she/her", "they/them", "it/its")
+	data["familiar_pronoun_options"] = fam_pronoun_options
+	data["familiar_specie_options"] = list_keys(GLOB.familiar_types)
+	return data
+
+/datum/preferences_menu/proc/build_gnoll_dynamic(mob/user)
 	var/list/data = list()
 	var/datum/gnoll_prefs/gp = prefs.gnoll_prefs
 	if(!gp)
@@ -959,9 +1086,13 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	data["expression_label"] = gp.get_selected_label(gp.get_descriptor_options("expression"), gp.descriptor_expression) || "Alert"
 	data["gnoll_flavortext_len"] = length(gp.gnoll_flavortext)
 	data["gnoll_ooc_notes_len"] = length(gp.gnoll_ooc_notes)
-	// Option lists for the inline Dropdowns. Each is the keys of the
-	// underlying assoc list (label → value) — the direct-pick handlers
-	// resolve the label back to its stored value.
+	return data
+
+/datum/preferences_menu/proc/build_gnoll_static(mob/user)
+	var/list/data = list()
+	var/datum/gnoll_prefs/gp = prefs.gnoll_prefs
+	if(!gp)
+		return data
 	data["pronoun_options"] = list_keys(gp.get_pronoun_options())
 	data["pelt_options"] = list_keys(gp.get_pelt_options())
 	var/static/list/descriptor_slots = list("height", "body", "fur", "voice", "muzzle", "expression")
@@ -975,19 +1106,26 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 		out += k
 	return out
 
-/datum/preferences_menu/proc/build_keybinds_data(mob/user)
+/// DYNAMIC half of keybinds: current user bindings (by keybind name → list
+/// of keys) + hotkeys mode. Catalog (categories + name + full_name +
+/// default_keys for both modes) lives in build_keybinds_static so the
+/// ~hundreds of keybinding entries aren't re-walked on every push.
+/datum/preferences_menu/proc/build_keybinds_dynamic(mob/user)
 	var/list/data = list()
-	data["max_keys_per_keybind"] = MAX_KEYS_PER_KEYBIND
 	data["hotkeys_mode"] = prefs.hotkeys
-
-	// Inverted: keybind_name -> list of currently-bound keys.
 	var/list/user_binds = list()
 	for(var/key in prefs.key_bindings)
 		for(var/kb_name in prefs.key_bindings[key])
 			user_binds[kb_name] += list(key)
+	data["user_bindings"] = user_binds
+	return data
 
-	// Group keybinds by category.
-	var/list/categories_out = list()
+/datum/preferences_menu/proc/build_keybinds_static(mob/user)
+	// GLOB.keybindings_by_name is fixed at SS init — the catalog is round-
+	// stable per (hotkeys_mode) combo. Cache both modes; refresh_static_data
+	// fires on hotkey-mode toggle so React picks up the matching default_keys.
+	var/list/data = list()
+	data["max_keys_per_keybind"] = MAX_KEYS_PER_KEYBIND
 	var/list/categories_by_name = list()
 	for(var/name in GLOB.keybindings_by_name)
 		var/datum/keybinding/kb = GLOB.keybindings_by_name[name]
@@ -996,9 +1134,9 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 		categories_by_name[kb.category] += list(list(
 			"name" = kb.name,
 			"full_name" = kb.full_name,
-			"bindings" = user_binds[kb.name] || list(),
 			"default_keys" = prefs.hotkeys ? (kb.classic_keys || list()) : (kb.hotkey_keys || list()),
 		))
+	var/list/categories_out = list()
 	for(var/cat in categories_by_name)
 		categories_out += list(list(
 			"name" = cat,
@@ -1023,14 +1161,21 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	data["nsfw_headshot_link"] = prefs.nsfw_headshot_link
 	return data
 
-/datum/preferences_menu/proc/build_jobs_data(mob/user)
+/// DYNAMIC half of the jobs/Class Selection tab. Per-job priority + gating
+/// state (which depends on the player's current virtue/charflaw/origin/age,
+/// all of which can change mid-session). Plus joblessrole / last_class /
+/// class_explain panel state. The static job catalog (titles, categories,
+/// colors, tutorial blurbs, slot counts) lives in build_jobs_static.
+///
+/// Returned as an assoc map keyed by job.title so React can spread it onto
+/// each static catalog entry by title without an O(n²) lookup.
+/datum/preferences_menu/proc/build_jobs_dynamic(mob/user)
 	var/list/data = list()
 	if(!SSjob || !SSjob.occupations?.len)
 		data["loaded"] = FALSE
 		return data
 	data["loaded"] = TRUE
 
-	// Normalize joblessrole — fallback to RETURNTOLOBBY if anything stale is stored.
 	if(prefs.joblessrole != RETURNTOLOBBY && prefs.joblessrole != BERANDOMJOB)
 		prefs.joblessrole = RETURNTOLOBBY
 	data["joblessrole"] = prefs.joblessrole
@@ -1038,19 +1183,29 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	data["job_change_locked"] = SSticker.job_change_locked
 	data["triumphs"] = user.get_triumphs()
 	data["pq"] = get_playerquality(user.ckey)
+	data["class_explain_title"] = active_class_explain_title
+	data["class_explain_html"] = active_class_explain_html
 
-	// Per-session gate cache (ban/playtime/agedays/min_pq/max_pq). These are
-	// ckey/client/PQ-based and don't change while the window is open — so we
-	// only run them once per menu open, not once per ui_data poll. The cheap
-	// dynamic gates (virtue/vice/SLOTFULL/priority) keep running per poll.
 	if(!cached_job_gates)
 		cached_job_gates = list()
 
-	// SSjob.occupations is global and fixed for the round, so dedupe the sort
-	// across every open preferences_menu by keeping the cache at module scope.
-	// Datum-level caching meant each menu paid the sort cost on its own first
-	// poll; the static reuses the very first build's sorted list for every
-	// subsequent menu (and every poll thereafter).
+	var/list/job_state = list()
+	for(var/datum/job/job as anything in SSjob.occupations)
+		if(!job.spawn_positions)
+			continue
+		job_state[job.title] = build_job_entry_dynamic(user, job)
+	data["jobs"] = job_state
+	return data
+
+/// STATIC half of jobs: the per-job catalog (title, display_name, tutorial,
+/// slots, rcp, required, category, color, order). Cached on the menu datum
+/// via static_data_cache; rebuilt only when refresh_static_data() fires —
+/// triggered on pronoun changes (display_name uses f_title for she/her).
+/datum/preferences_menu/proc/build_jobs_static(mob/user)
+	var/list/data = list()
+	if(!SSjob || !SSjob.occupations?.len)
+		return data
+	// Sort cache lives at module scope so every open menu shares the one sort.
 	var/static/list/cached_sorted_jobs
 	if(!cached_sorted_jobs)
 		cached_sorted_jobs = sortList(SSjob.occupations, GLOBAL_PROC_REF(cmp_job_display_asc))
@@ -1058,42 +1213,34 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	for(var/datum/job/job as anything in cached_sorted_jobs)
 		if(!job.spawn_positions)
 			continue
-		var/list/entry = build_job_entry(user, job)
-		jobs_out += list(entry)
+		var/used_name = job.title
+		if((prefs.pronouns == SHE_HER || prefs.pronouns == THEY_THEM_F) && job.f_title)
+			used_name = job.f_title
+		var/list/cat = job_category_for(job)
+		jobs_out += list(list(
+			"title" = job.title,
+			"display_name" = used_name,
+			"tutorial" = job.tutorial,
+			"slots" = job.spawn_positions,
+			"rcp" = job.round_contrib_points,
+			"required" = job.required,
+			"category" = cat["name"],
+			"category_color" = cat["color"],
+			"category_order" = cat["order"],
+		))
 	data["jobs"] = jobs_out
-	// On-demand class-detail payload — populated by show_class_explain ui_act,
-	// cleared by clear_class_explain. Empty when the user isn't viewing one.
-	data["class_explain_title"] = active_class_explain_title
-	data["class_explain_html"] = active_class_explain_html
 	return data
 
-/datum/preferences_menu/proc/build_job_entry(mob/user, datum/job/job)
+/// Per-job dynamic gating state. Returns just {state, state_text, priority}
+/// — the rest of the job's per-entry fields (display_name, category, etc.)
+/// come from the static catalog and are merged on the React side.
+/datum/preferences_menu/proc/build_job_entry_dynamic(mob/user, datum/job/job)
+	var/list/entry = list()
 	var/rank = job.title
-	var/used_name = job.title
-	if((prefs.pronouns == SHE_HER || prefs.pronouns == THEY_THEM_F) && job.f_title)
-		used_name = job.f_title
 
-	var/list/cat = job_category_for(job)
-	var/list/entry = list(
-		"title" = rank,
-		"display_name" = used_name,
-		"tutorial" = job.tutorial,
-		"slots" = job.spawn_positions,
-		"rcp" = job.round_contrib_points,
-		"required" = job.required,
-		"category" = cat["name"],
-		"category_color" = cat["color"],
-		"category_order" = cat["order"],
-	)
-
-	// Pull the immutable gates from the per-session cache — these depend on
-	// ckey/playtime/account-age/PQ which are stable for the lifetime of the
-	// window. Skips four ban-list / playtime / agedays / PQ lookups per job
-	// per poll once the cache is warm. Caveats:
-	//   - If an admin bans the user mid-session, the menu won't reflect it
-	//     until the user reopens the window (acceptable — rare edge case).
-	//   - Triumph buys can raise PQ mid-session; if the user is right at a
-	//     PQ gate they may need to reopen the menu to see the unlock.
+	// Pull the immutable gates from the per-session cache — ckey/playtime/
+	// account-age/PQ are stable for the menu's lifetime, so the four
+	// ban/playtime/agedays/PQ lookups are amortized over the session.
 	var/list/gate = cached_job_gates[rank]
 	if(!gate)
 		gate = compute_job_gate(user, job)
@@ -1116,19 +1263,16 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			entry["state_text"] = "Disallowed by Virtue: [disallowed_name]"
 			return entry
 
-		// Origin restrictions also use virtue_restrictions (same field).
 		if(prefs.virtue_origin?.type in job.virtue_restrictions)
 			entry["state"] = "origin"
 			entry["state_text"] = "Disallowed by Origin: [prefs.virtue_origin.name]"
 			return entry
 
-	// Vice restrictions.
 	if(length(job.vice_restrictions) && (prefs.charflaw?.type in job.vice_restrictions))
 		entry["state"] = "vice"
 		entry["state_text"] = "Disallowed by Vice: [prefs.charflaw.name]"
 		return entry
 
-	// JOB_UNAVAILABLE_* check (when in lobby) — accept JOB_AVAILABLE and SLOTFULL.
 	var/job_unavailable = JOB_AVAILABLE
 	if(isnewplayer(prefs.parent?.mob))
 		var/mob/dead/new_player/new_player = prefs.parent.mob
@@ -1138,7 +1282,6 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 		entry["state_text"] = unavailable_reason_text(job_unavailable)
 		return entry
 
-	// Available — show priority button.
 	entry["state"] = "available"
 	switch(prefs.job_preferences[job.title])
 		if(JP_HIGH)
@@ -1276,27 +1419,37 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			return "Virtue/Vice restriction"
 	return "Unavailable"
 
-/datum/preferences_menu/proc/build_culinary_data(mob/user)
+/datum/preferences_menu/proc/build_culinary_dynamic(mob/user)
 	prefs.validate_culinary_preferences()
 	var/list/data = list()
 	data["fav_food_name"] = culinary_food_name(prefs.culinary_preferences[CULINARY_FAVOURITE_FOOD])
 	data["fav_drink_name"] = culinary_drink_name(prefs.culinary_preferences[CULINARY_FAVOURITE_DRINK])
 	data["hated_food_name"] = culinary_food_name(prefs.culinary_preferences[CULINARY_HATED_FOOD])
 	data["hated_drink_name"] = culinary_drink_name(prefs.culinary_preferences[CULINARY_HATED_DRINK])
-	// Labeled list ("Name (Quality: N)") used as Dropdown options. Direct
-	// handlers resolve the picked label back to the underlying type.
-	var/list/food_labels = list("None")
-	for(var/list/food_data in GLOB.food_with_faretypes)
-		food_labels += "[capitalize(food_data["name"])] (Quality: [food_data["faretype"]])"
-	data["food_options"] = food_labels
-	var/list/drink_labels = list("None")
-	for(var/list/drink_data in GLOB.drink_with_qualities)
-		drink_labels += "[capitalize(drink_data["name"])] (Quality: [drink_data["quality"]])"
-	data["drink_options"] = drink_labels
 	data["fav_food_label"] = culinary_food_label(prefs.culinary_preferences[CULINARY_FAVOURITE_FOOD])
 	data["hated_food_label"] = culinary_food_label(prefs.culinary_preferences[CULINARY_HATED_FOOD])
 	data["fav_drink_label"] = culinary_drink_label(prefs.culinary_preferences[CULINARY_FAVOURITE_DRINK])
 	data["hated_drink_label"] = culinary_drink_label(prefs.culinary_preferences[CULINARY_HATED_DRINK])
+	return data
+
+/// GLOB.food_with_faretypes / GLOB.drink_with_qualities are populated at SS
+/// init and never mutate at runtime, so the labeled dropdown lists are
+/// effectively constant. Module-cached so every menu's static payload reuses
+/// the same allocation.
+/datum/preferences_menu/proc/build_culinary_static(mob/user)
+	var/static/list/cached_food_labels
+	var/static/list/cached_drink_labels
+	if(!cached_food_labels)
+		cached_food_labels = list("None")
+		for(var/list/food_data in GLOB.food_with_faretypes)
+			cached_food_labels += "[capitalize(food_data["name"])] (Quality: [food_data["faretype"]])"
+	if(!cached_drink_labels)
+		cached_drink_labels = list("None")
+		for(var/list/drink_data in GLOB.drink_with_qualities)
+			cached_drink_labels += "[capitalize(drink_data["name"])] (Quality: [drink_data["quality"]])"
+	var/list/data = list()
+	data["food_options"] = cached_food_labels
+	data["drink_options"] = cached_drink_labels
 	return data
 
 /datum/preferences_menu/proc/culinary_food_label(food_type)
@@ -1327,7 +1480,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	var/datum/reagent/drink_instance = drink_type
 	return capitalize(initial(drink_instance.name))
 
-/datum/preferences_menu/proc/build_loadout_data(mob/user)
+/datum/preferences_menu/proc/build_loadout_dynamic(mob/user)
 	var/list/data = list()
 	var/list/slot_vars = list("loadout", "loadout2", "loadout3", "loadout4", "loadout5", "loadout6")
 	var/list/hex_vars = list("loadout_1_hex", "loadout_2_hex", "loadout_3_hex", "loadout_4_hex", "loadout_5_hex", "loadout_6_hex")
@@ -1340,19 +1493,20 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			"name" = item?.name || "None",
 			"desc" = item?.desc,
 			"hex" = hex,
-			// Preset name corresponding to the stored hex, or "Custom" if the
-			// hex doesn't match any preset, or "—" when unset.
 			"color_name" = lookup_loadout_color_name(hex),
 		))
 	data["slots"] = slots
-	// Item + preset-color picklists. Item list is donator-filtered per user but
-	// stable for the menu lifetime once computed → datum-cached. Color preset
-	// list is fully static → module-cached.
-	//
-	// Key the cache on the prefs owner's ckey (not whoever is polling) so an
-	// admin observer's first poll doesn't pin the donator filter to their own
-	// status for the rest of the menu's lifetime. The UI state allows any
-	// client to view the window, so the polling user can differ from the owner.
+	return data
+
+/// Item + preset-color picklists. Item list is donator-filtered per user but
+/// stable for the menu lifetime once computed → datum-cached. Color preset
+/// list is fully static → module-cached.
+///
+/// Key the cache on the prefs owner's ckey (not whoever is polling) so an
+/// admin observer's first poll doesn't pin the donator filter to their own
+/// status for the rest of the menu's lifetime.
+/datum/preferences_menu/proc/build_loadout_static(mob/user)
+	var/list/data = list()
 	var/owner_ckey = prefs.parent?.ckey || user.ckey
 	if(!cached_loadout_item_options)
 		var/list/item_names = list("None")
@@ -1448,6 +1602,13 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			var/new_tab = params["tab"]
 			if(istext(new_tab))
 				active_tab = new_tab
+				// Autoupdate is disabled, so we must explicitly push so the
+				// React side gets the new tab's dynamic data. Without this,
+				// the merged `body`/`markings`/etc. object is just the static
+				// half and any field that lives only in dynamic comes back
+				// undefined — crashes when the renderer reads .length or
+				// similar on it.
+				SStgui.update_uis(src)
 			return TRUE
 
 		if("refresh_preview")
@@ -1491,7 +1652,8 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				prefs.pronouns = picked
 				prefs.ResetJobs()
 				to_chat(user, "<font color='red'>Your character's pronouns are now [prefs.pronouns]. Classes reset.</font>")
-				on_identity_change()
+				// Pronoun change flips job display_names between title / f_title — static refresh.
+				on_identity_change(TRUE)
 			return TRUE
 
 		if("set_pronouns_direct")
@@ -1501,7 +1663,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			prefs.pronouns = picked
 			prefs.ResetJobs()
 			to_chat(user, "<font color='red'>Your character's pronouns are now [prefs.pronouns]. Classes reset.</font>")
-			on_identity_change()
+			on_identity_change(TRUE)
 			return TRUE
 
 		if("set_voice_type")
@@ -1552,7 +1714,8 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				prefs.ResetJobs()
 				prefs.family = FAMILY_NONE
 				to_chat(user, "<font color='red'>Classes reset.</font>")
-				on_identity_change()
+				// Age unlocks FAMILY_FULL for non-adults — family_options changes.
+				on_identity_change(TRUE)
 			return TRUE
 
 		if("set_age_direct")
@@ -1573,7 +1736,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			prefs.ResetJobs()
 			prefs.family = FAMILY_NONE
 			to_chat(user, "<font color='red'>Classes reset.</font>")
-			on_identity_change()
+			on_identity_change(TRUE)
 			return TRUE
 
 		if("set_statpack")
@@ -1597,7 +1760,8 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				prefs.statpack = sp
 				to_chat(user, "<font color='purple'>[sp.name]</font>")
 				to_chat(user, "<font color='purple'>[sp.description_string()]</font>")
-				on_identity_change()
+				// Statpack drops the currently-selected statpack from the dropdown list.
+				on_identity_change(TRUE)
 			return TRUE
 
 		if("set_statpack_direct")
@@ -1621,7 +1785,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				prefs.statpack = sp
 				to_chat(user, "<font color='purple'>[sp.name]</font>")
 				to_chat(user, "<font color='purple'>[sp.description_string()]</font>")
-				on_identity_change()
+				on_identity_change(TRUE)
 				return TRUE
 			return TRUE
 
@@ -1634,7 +1798,8 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			if(picked)
 				var/datum/virtue/v = virtues_available[picked]
 				prefs.virtue = v
-				on_identity_change()
+				// Job availability depends on virtue restrictions.
+				on_identity_change(TRUE)
 			return TRUE
 
 		if("set_virtue_direct")
@@ -1646,7 +1811,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			if(!v)
 				return TRUE
 			prefs.virtue = v
-			on_identity_change()
+			on_identity_change(TRUE)
 			return TRUE
 
 		if("set_virtuetwo")
@@ -1660,7 +1825,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			if(picked)
 				var/datum/virtue/v = virtues_available[picked]
 				prefs.virtuetwo = v
-				on_identity_change()
+				on_identity_change(TRUE)
 			return TRUE
 
 		if("set_virtuetwo_direct")
@@ -1674,7 +1839,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			if(!v)
 				return TRUE
 			prefs.virtuetwo = v
-			on_identity_change()
+			on_identity_change(TRUE)
 			return TRUE
 
 		if("set_charflaw")
@@ -1686,7 +1851,8 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				prefs.charflaw = new charflaw_path()
 				if(prefs.charflaw?.desc)
 					to_chat(user, "<span class='info'>[prefs.charflaw.desc]</span>")
-				on_identity_change()
+				// Job availability depends on vice restrictions.
+				on_identity_change(TRUE)
 			return TRUE
 
 		if("set_charflaw_direct")
@@ -1698,7 +1864,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				return TRUE
 			var/charflaw_path = flaws[picked]
 			prefs.charflaw = new charflaw_path()
-			on_identity_change()
+			on_identity_change(TRUE)
 			return TRUE
 
 		if("set_species")
@@ -1719,7 +1885,10 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			if(picked)
 				var/datum/species/race_chosen = species[picked]
 				prefs.set_new_race(race_chosen, user)
-				on_identity_change()
+				// Species change invalidates ~every option list — subspecies,
+				// race_title, origin, extra_language, tail_type, skin_tone,
+				// markings, customizers, descriptors, body section flags.
+				on_identity_change(TRUE)
 			return TRUE
 
 		// Direct (Dropdown-picked) variants. Re-derive the candidate map so we
@@ -1741,7 +1910,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				if(race.base_name != picked)
 					continue
 				prefs.set_new_race(race, user, silent = TRUE)
-				on_identity_change()
+				on_identity_change(TRUE)
 				return TRUE
 			return TRUE
 
@@ -1787,7 +1956,8 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			if(picked)
 				var/datum/species/subrace_chosen = species[picked]
 				prefs.set_new_race(subrace_chosen, user)
-				on_identity_change()
+				// Subspecies swap changes body section, customizers, descriptors, markings.
+				on_identity_change(TRUE)
 			return TRUE
 
 		if("set_subspecies_direct")
@@ -1804,7 +1974,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				if(race.sub_name != picked)
 					continue
 				prefs.set_new_race(race, user, silent = TRUE)
-				on_identity_change()
+				on_identity_change(TRUE)
 				return TRUE
 			return TRUE
 
@@ -1851,7 +2021,9 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 					prefs.selected_patron = GLOB.patronlist[origin_chosen.uniquefaith[1].godhead]
 				else
 					prefs.selected_patron = GLOB.patronlist[/datum/patron/divine/astrata]
-				on_identity_change()
+				// Origin swap invalidates faith options (uniquefaith), extra_language options,
+				// patron options (selected_patron may flip), and job availability (virtue_restrictions).
+				on_identity_change(TRUE)
 			return TRUE
 
 		if("set_origin_direct")
@@ -1876,7 +2048,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 					prefs.selected_patron = GLOB.patronlist[origin_chosen.uniquefaith[1].godhead]
 				else
 					prefs.selected_patron = GLOB.patronlist[/datum/patron/divine/astrata]
-				on_identity_change()
+				on_identity_change(TRUE)
 				return TRUE
 			return TRUE
 
@@ -2388,7 +2560,8 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 		if("toggle_hotkeys")
 			prefs.hotkeys = !prefs.hotkeys
 			user.client?.set_macros()
-			on_identity_change()
+			// Hotkey mode flips default_keys for every keybind in the catalog.
+			on_identity_change(TRUE)
 			return TRUE
 
 		if("set_clientfps")
@@ -2648,11 +2821,13 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 					return TRUE
 				np.ready = PLAYER_NOT_READY
 			else
-				if(length(prefs.flavortext) < MINIMUM_FLAVOR_TEXT)
-					to_chat(user, span_boldwarning("You need a minimum of [MINIMUM_FLAVOR_TEXT] characters in your flavor text in order to play."))
-					return TRUE
-				if(length(prefs.ooc_notes) < MINIMUM_OOC_NOTES)
-					to_chat(user, span_boldwarning("You need at least a few words in your OOC notes in order to play."))
+				// Single source of truth shared with the header's
+				// ready_block_reason field (which disables the React button
+				// + shows the reason in the tooltip). Server-side gate kept
+				// as a defense in case the client bypasses the disabled flag.
+				var/block_reason = compute_ready_block_reason()
+				if(block_reason)
+					to_chat(user, span_boldwarning(block_reason))
 					return TRUE
 				np.ready = PLAYER_READY_TO_PLAY
 				log_game("([user || "NO KEY"]) readied as ([prefs.real_name])")
@@ -2720,9 +2895,11 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			to_chat(user, span_notice("Reverted slot [prefs.default_slot] to last saved: [prefs.real_name]."))
 			// Refresh preview + UI WITHOUT calling on_identity_change — that would
 			// immediately save_character() back, undoing the undo for any in-memory
-			// state that didn't survive the disk round-trip.
+			// state that didn't survive the disk round-trip. Load may swap species/
+			// origin/etc, so push a full static refresh so dependent option lists
+			// re-derive against the freshly loaded prefs.
 			refresh_preview(prefs.parent?.mob)
-			SStgui.update_uis(src)
+			refresh_static_data()
 			return TRUE
 
 		if("change_slot")
@@ -2747,8 +2924,9 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			// Refresh preview + UI directly, bypassing on_identity_change() — that proc
 			// calls save_character() which would persist the randomized data and lock
 			// the slot's name in the dropdown before the user gets a chance to edit.
+			// New slot means new species/origin/etc — push a full static refresh.
 			refresh_preview(prefs.parent?.mob)
-			SStgui.update_uis(src)
+			refresh_static_data()
 			return TRUE
 
 		if("open_migration")
@@ -3456,7 +3634,8 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				to_chat(user, "Background: [faith.desc]")
 				to_chat(user, "<font color='red'>Likely Worshippers: [faith.worshippers]</font>")
 				prefs.selected_patron = GLOB.patronlist[faith.godhead] || GLOB.patronlist[pick(GLOB.patrons_by_faith[picked])]
-				on_identity_change()
+				// Faith change re-keys patron_options (associated_faith on selected_patron flips).
+				on_identity_change(TRUE)
 			return TRUE
 
 		if("set_patron")
@@ -3471,7 +3650,8 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			if(picked)
 				prefs.selected_patron = patrons_named[picked]
 				to_chat(user, "<font color='yellow'>Patron: [prefs.selected_patron]</font>")
-				on_identity_change()
+				// Inhumen patron flips virtue_options to include heretic virtues.
+				on_identity_change(TRUE)
 			return TRUE
 
 		if("set_combat_music")
@@ -3511,7 +3691,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			if(!faith)
 				return TRUE
 			prefs.selected_patron = GLOB.patronlist[faith.godhead] || GLOB.patronlist[pick(GLOB.patrons_by_faith[picked])]
-			on_identity_change()
+			on_identity_change(TRUE)
 			return TRUE
 
 		if("set_patron_direct")
@@ -3524,7 +3704,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				if(!patron?.name || patron.name != picked)
 					continue
 				prefs.selected_patron = patron
-				on_identity_change()
+				on_identity_change(TRUE)
 				return TRUE
 			return TRUE
 
@@ -3727,12 +3907,21 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	return stored_value
 
 /// Refresh hooks shared by every identity write. Saves prefs, repaints the preview, and pushes a UI update.
-/datum/preferences_menu/proc/on_identity_change()
+///
+/// If `refresh_static` is TRUE, also rebuild the cached ui_static_data and
+/// ship a send_full_update — used when the mutation invalidates one or more
+/// option lists (species/origin/faith/patron/statpack/virtue/charflaw/age/
+/// pronouns/hotkeys/markings_preset/random/load/change_slot). Otherwise the
+/// regular partial push covers the per-tab dynamic changes.
+/datum/preferences_menu/proc/on_identity_change(refresh_static = FALSE)
 	if(!prefs)
 		return
 	queue_save()
 	queue_preview_refresh()
-	SStgui.update_uis(src)
+	if(refresh_static)
+		refresh_static_data()
+	else
+		SStgui.update_uis(src)
 
 /// Mark the savefile dirty and schedule a flush. Multiple acts within the same
 /// 5-second window coalesce to a single pair of save_preferences/save_character

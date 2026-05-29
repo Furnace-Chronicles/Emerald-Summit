@@ -22,12 +22,18 @@ const Dropdown = (props: any) => (
   </Box>
 );
 
-type DescriptorEntry = {
+type DescriptorEntryStatic = {
   choice_type: string;
   choice_name: string;
-  current_name: string;
   options: string[];
 };
+
+type DescriptorEntryDynamic = {
+  choice_type: string;
+  current_name: string;
+};
+
+type DescriptorEntry = DescriptorEntryStatic & DescriptorEntryDynamic;
 
 type CustomDescriptor = {
   index: number;
@@ -35,26 +41,94 @@ type CustomDescriptor = {
   content_text: string;
 };
 
-type DescriptorsData = {
-  entries: DescriptorEntry[];
+type DescriptorsDynamicData = {
+  entries: DescriptorEntryDynamic[];
   custom_entries: CustomDescriptor[];
+};
+
+type DescriptorsStaticData = {
+  entries: DescriptorEntryStatic[];
   max_content_length: number;
 };
 
-type CustomizersData = {
-  entries: CustomizerEntry[];
+type CustomizerEntryStatic = {
+  customizer_type: string;
+  name: string;
+  allows_disabling: 0 | 1;
+  has_multiple_choices: 0 | 1;
+  choice_options: string[];
+};
+
+type CustomizerEntryDynamic = {
+  customizer_type: string;
+  disabled: 0 | 1;
+  choice_name: string;
+  pref_data: any[];
+};
+
+type CustomizersDynamicData = {
+  entries: CustomizerEntryDynamic[];
+};
+
+type CustomizersStaticData = {
+  entries: CustomizerEntryStatic[];
 };
 
 type Data = {
-  descriptors: DescriptorsData;
-  customizers: CustomizersData;
+  descriptors: DescriptorsDynamicData;
+  descriptors_static: DescriptorsStaticData;
+  customizers: CustomizersDynamicData;
+  customizers_static: CustomizersStaticData;
 };
 
 
 export const FeaturesTab = (props) => {
   const { act, data } = useBackend<Data>();
-  const descriptors = data.descriptors;
-  const customizers = data.customizers;
+
+  // Merge each descriptor entry's static (name + options) with its dynamic
+  // (current_name) half by choice_type, so the rendering loop sees the
+  // existing unified shape.
+  const descriptorsStatic = data.descriptors_static;
+  const descriptorsDynamic = data.descriptors;
+  const descriptors = descriptorsStatic
+    ? {
+        ...descriptorsStatic,
+        ...descriptorsDynamic,
+        entries: descriptorsStatic.entries.map((s) => {
+          const d = descriptorsDynamic?.entries.find(
+            (e) => e.choice_type === s.choice_type,
+          );
+          return { ...s, ...d } as DescriptorEntry;
+        }),
+        custom_entries: descriptorsDynamic?.custom_entries || [],
+      }
+    : null;
+
+  // Same merge for customizers — static catalog (name, allows_disabling,
+  // choice_options) joined to dynamic state (disabled, choice_name,
+  // pref_data) by customizer_type. Defaults are baked in between the
+  // spreads so a brief gap between static and dynamic pushes (e.g. when
+  // switching tabs before the server's set_tab reply lands) doesn't leave
+  // pref_data undefined — CustomizerCard reads pref_data.length and would
+  // crash on the optimistic render otherwise.
+  const customizersStatic = data.customizers_static;
+  const customizersDynamic = data.customizers;
+  const customizers = customizersStatic
+    ? {
+        entries: customizersStatic.entries.map((s) => {
+          const d = customizersDynamic?.entries.find(
+            (e) => e.customizer_type === s.customizer_type,
+          );
+          return {
+            ...s,
+            disabled: 0,
+            choice_name: s.name,
+            pref_data: [],
+            ...d,
+          } as CustomizerEntry;
+        }),
+      }
+    : null;
 
   return (
     <Stack vertical>

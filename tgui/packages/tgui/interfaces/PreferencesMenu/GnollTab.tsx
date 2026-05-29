@@ -43,13 +43,15 @@ type GnollData = {
 };
 
 type Data = {
-  gnoll: GnollData;
+  gnoll: Partial<GnollData>;
+  gnoll_static: Partial<GnollData>;
 };
 
 export const GnollTab = (props) => {
   const { act, data } = useBackend<Data>();
-  const g = data.gnoll;
-  if (!g) {
+  // Merge static option lists into the dynamic gnoll selections.
+  const g = { ...data.gnoll_static, ...data.gnoll } as GnollData;
+  if (!data.gnoll) {
     return <Box color="label">Gnoll preferences not initialized.</Box>;
   }
 

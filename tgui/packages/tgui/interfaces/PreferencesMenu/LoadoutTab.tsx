@@ -25,21 +25,36 @@ type LoadoutSlot = {
   color_name: string;
 };
 
-type LoadoutData = {
+type LoadoutDynamicData = {
   slots: LoadoutSlot[];
+};
+
+type LoadoutStaticData = {
   item_options: string[];
   color_options: string[];
 };
 
+type LoadoutData = LoadoutDynamicData & LoadoutStaticData;
+
 type Data = {
-  loadout: LoadoutData;
+  loadout: LoadoutDynamicData;
+  loadout_static: LoadoutStaticData;
 };
 
 const SLOT_LABELS = ['I', 'II', 'III', 'IV', 'V', 'VI'];
 
 export const LoadoutTab = (props) => {
   const { act, data } = useBackend<Data>();
-  const loadout = data.loadout;
+  // Merge static option lists (item_options, color_options) into the
+  // dynamic loadout (slots). Default slots to [] so the brief gap before
+  // the server's set_tab reply lands doesn't crash on slots.map(...).
+  const loadout = {
+    slots: [],
+    item_options: [],
+    color_options: [],
+    ...data.loadout_static,
+    ...data.loadout,
+  } as LoadoutData;
 
   return (
     <Stack vertical>

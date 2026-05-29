@@ -6,32 +6,62 @@
 // /mob/dead/new_player/Topic({SelectedJob}) so AttemptLateSpawn + all
 // eligibility checks (flavortext minimum, queue, migrant block) are reused.
 
+/// Every open LateJoinChoices ui registers here so notify_late_join_slots_changed()
+/// can push fresh availability data when a player joins (current_positions++).
+/// Added in ui_interact, removed in ui_close + Destroy.
+GLOBAL_LIST_EMPTY(open_late_join_choices)
+
 /datum/late_join_choices
 	var/mob/dead/new_player/np
+	/// Cached static_data payload (categories + per-job static fields).
+	/// Built once on the first ui_static_data call (TGUI invokes this during
+	/// send_full_update at window open); never invalidated mid-window
+	/// because the catalog is round-stable.
+	var/list/static_data_cache
 
 /datum/late_join_choices/New(mob/dead/new_player/owner)
 	. = ..()
 	np = owner
 
 /datum/late_join_choices/Destroy()
+	GLOB.open_late_join_choices -= src
 	np = null
 	return ..()
 
 /datum/late_join_choices/ui_state(mob/user)
 	return GLOB.always_state
 
+/datum/late_join_choices/ui_close(mob/user)
+	. = ..()
+	GLOB.open_late_join_choices -= src
+
 /datum/late_join_choices/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "LateJoinChoices", "Choose Class")
+		// Autoupdate would re-poll availability every 0.9s for every open
+		// late-join window — wasted work since slot counts only change when
+		// another player actually takes a slot. Push instead via
+		// notify_late_join_slots_changed() on join.
+		ui.set_autoupdate(FALSE)
 		ui.open()
+	GLOB.open_late_join_choices |= src
 
-/datum/late_join_choices/ui_data(mob/user)
+/datum/late_join_choices/ui_static_data(mob/user)
+	if(!static_data_cache)
+		static_data_cache = build_static_data(user)
+	return static_data_cache
+
+/// Build the round-stable catalog: categories + per-job static fields.
+/// The catalog is fixed for the round (job names, NOBLES membership,
+/// subclass eligibility, category colors all settle at SS init). Display
+/// name flips with pronouns, but pronouns rarely change mid-window — if
+/// they do, the user closes & reopens the picker, naturally rebuilding.
+/datum/late_join_choices/proc/build_static_data(mob/user)
 	var/list/data = list()
 	if(!np)
 		return data
 
-	data["round_duration"] = DisplayTimeText(world.time - SSticker.round_start_time, 1)
 	data["siege_skeleton"] = has_world_trait(/datum/world_trait/skeleton_siege)
 	data["siege_goblin"] = has_world_trait(/datum/world_trait/goblin_siege)
 
@@ -42,9 +72,7 @@
 	garrison_with_extras |= "Veteran"
 
 	// Peasants minus the Wanderer-family titles (Adventurer / Wretch /
-	// Court Agent / Bandit / Gnoll / Lunatic) — they get their own
-	// "Wanderers" section to match Class Selection's grouping. GLOB
-	// stays untouched.
+	// Court Agent / Bandit / Gnoll / Lunatic).
 	var/list/peasants_filtered = GLOB.peasant_positions?.Copy() || list()
 	var/list/wanderer_titles = GLOB.prefs_menu_wanderer_titles?.Copy() || list()
 	for(var/title in wanderer_titles)
@@ -53,9 +81,6 @@
 	// Order matches Class Selection's column ordering: Nobles, Courtiers,
 	// Garrison, Churchmen, Inquisition, Yeomen, Peasants, Sidefolk,
 	// Mercenaries, Wanderers. Each entry is list(name_override, titles).
-	// name_override is non-null only when the category name can't be
-	// derived from the head job's department_flag (Wanderers — the
-	// member jobs use department_flag = PEASANTS).
 	var/list/omegalist = list(
 		list(null, GLOB.noble_positions),
 		list(null, GLOB.courtier_positions),
@@ -84,36 +109,14 @@
 			var/datum/job/job_datum = SSjob.name_occupations[job]
 			if(!job_datum)
 				continue
-			// Show every role, even ineligible ones. Unavailable rows render
-			// disabled with a short reason ("Race restriction", "Patron
-			// required", etc.) so players know why they can't pick it.
-			// (always_show_on_latechoices was a list-inclusion override
-			// for the old "skip unavailable" path — we no longer skip,
-			// so dropping the override here lets ineligible always-show
-			// roles like Adventurer / Wretch / Towner show as disabled
-			// with the real reason instead of inviting the player to
-			// click into an AttemptLateSpawn chat-warning rejection.)
-			var/unavailable_code = np.IsJobUnavailable(job_datum.title, TRUE)
-			var/is_job_available = (unavailable_code == JOB_AVAILABLE)
-			// Cooldown is the one "unavailable" reason that's worth letting
-			// the user click — the chat message AttemptLateSpawn prints
-			// includes the exact seconds remaining, which is more useful
-			// than a static "On cooldown" label.
-			var/is_cooldown = (unavailable_code == JOB_UNAVAILABLE_JOB_COOLDOWN)
 			var/used_name = job_datum.title
 			if(np.client?.prefs?.pronouns == SHE_HER && job_datum.f_title)
 				used_name = job_datum.f_title
 			job_entries += list(list(
 				"title" = job_datum.title,
 				"display_name" = used_name,
-				"current" = job_datum.current_positions,
-				"total" = job_datum.total_positions,
-				"prioritized" = (job_datum in SSjob.prioritized_jobs),
 				"command_bold" = (job in GLOB.noble_positions),
 				"has_subclass_info" = job_datum.has_limited_subclasses(),
-				"available" = is_job_available,
-				"is_cooldown" = is_cooldown,
-				"unavailable_reason" = is_job_available ? null : late_join_unavailable_reason(unavailable_code),
 			))
 		if(!length(job_entries))
 			continue
@@ -124,6 +127,40 @@
 		))
 	data["categories"] = categories
 	return data
+
+/datum/late_join_choices/ui_data(mob/user)
+	// Only the per-job availability state + round_duration change at runtime.
+	// Returned as an assoc map keyed by job.title so React can spread it onto
+	// each static catalog entry by title in one pass.
+	var/list/data = list()
+	if(!np)
+		return data
+	data["round_duration"] = DisplayTimeText(world.time - SSticker.round_start_time, 1)
+	var/list/availability = list()
+	for(var/datum/job/job_datum as anything in SSjob.occupations)
+		if(!job_datum?.title)
+			continue
+		var/unavailable_code = np.IsJobUnavailable(job_datum.title, TRUE)
+		var/is_job_available = (unavailable_code == JOB_AVAILABLE)
+		var/is_cooldown = (unavailable_code == JOB_UNAVAILABLE_JOB_COOLDOWN)
+		availability[job_datum.title] = list(
+			"current" = job_datum.current_positions,
+			"total" = job_datum.total_positions,
+			"prioritized" = (job_datum in SSjob.prioritized_jobs),
+			"available" = is_job_available,
+			"is_cooldown" = is_cooldown,
+			"unavailable_reason" = is_job_available ? null : late_join_unavailable_reason(unavailable_code),
+		)
+	data["availability"] = availability
+	return data
+
+/// Push a fresh availability ui_data to every open LateJoinChoices window.
+/// Called from the late-join slot-increment hook (AttemptLateSpawn success
+/// path) so picker windows update the moment another player takes a slot,
+/// without polling.
+/proc/notify_late_join_slots_changed()
+	for(var/datum/late_join_choices/ljc as anything in GLOB.open_late_join_choices)
+		SStgui.update_uis(ljc)
 
 /// Short human-readable reason for a JOB_UNAVAILABLE_* code. Mirrors the
 /// Class Selection's unavailable_reason_text — kept here as a sibling proc

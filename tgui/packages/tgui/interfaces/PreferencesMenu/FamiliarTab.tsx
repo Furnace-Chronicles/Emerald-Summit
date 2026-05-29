@@ -35,13 +35,19 @@ type FamiliarData = {
 };
 
 type Data = {
-  familiar: FamiliarData;
+  familiar: Partial<FamiliarData>;
+  familiar_static: Partial<FamiliarData>;
 };
 
 export const FamiliarTab = (props) => {
   const { act, data } = useBackend<Data>();
-  const f = data.familiar;
-  if (!f) {
+  // Merge static option lists (pronoun_options, specie_options) into the
+  // dynamic familiar block.
+  const f = {
+    ...data.familiar_static,
+    ...data.familiar,
+  } as FamiliarData;
+  if (!data.familiar) {
     return <Box color="label">Familiar preferences not initialized.</Box>;
   }
 

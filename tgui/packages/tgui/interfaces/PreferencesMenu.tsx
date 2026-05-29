@@ -32,6 +32,9 @@ type HeaderData = {
   current_slot: number;
   max_save_slots: number;
   tgui_theme_name: string;
+  // Null when ready-up is allowed; non-null string disables the Ready button
+  // and renders as its tooltip (flavortext/ooc length, no-class-selected, etc).
+  ready_block_reason: string | null;
 };
 
 type SlotEntry = { id: number; name: string };
@@ -139,11 +142,15 @@ const FooterBar = ({
             <Button
               icon={header.player_ready ? 'check-double' : 'check'}
               color={header.player_ready ? 'good' : 'default'}
-              disabled={!!header.job_change_locked && !!header.player_ready}
+              disabled={
+                (!!header.job_change_locked && !!header.player_ready) ||
+                (!header.player_ready && !!header.ready_block_reason)
+              }
               tooltip={
                 header.player_ready
                   ? 'You are READY. Click to unready.'
-                  : 'Click to ready up for round start.'
+                  : header.ready_block_reason ||
+                    'Click to ready up for round start.'
               }
               onClick={() => act('toggle_ready')}
             >

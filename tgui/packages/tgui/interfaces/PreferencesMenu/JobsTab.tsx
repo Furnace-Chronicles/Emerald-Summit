@@ -17,35 +17,50 @@ type JobState =
 
 type JobPriority = 'high' | 'medium' | 'low' | 'never';
 
-type JobEntry = {
+// STATIC half of a job entry — round-stable per-pronoun catalog.
+type JobEntryStatic = {
   title: string;
   display_name: string;
   tutorial: string;
   slots: number;
   rcp: number;
   required: 0 | 1;
-  state: JobState;
-  state_text?: string;
-  priority?: JobPriority;
   category: string;
   category_color: string;
   category_order: number;
 };
 
-type JobsData = {
+// DYNAMIC half — gating state + priority, changes as user mutates prefs.
+type JobEntryDynamic = {
+  state: JobState;
+  state_text?: string;
+  priority?: JobPriority;
+};
+
+// Merged shape passed into renderers.
+type JobEntry = JobEntryStatic & JobEntryDynamic;
+
+type JobsDynamicData = {
   loaded: 0 | 1;
   joblessrole: string;
   last_class?: string;
   job_change_locked: 0 | 1;
   triumphs: number;
   pq: number;
-  jobs: JobEntry[];
+  // Map keyed by job.title → per-job dynamic state. Spread onto each static
+  // catalog entry by title in JobsTab below.
+  jobs: Record<string, JobEntryDynamic>;
   class_explain_title?: string | null;
   class_explain_html?: string | null;
 };
 
+type JobsStaticData = {
+  jobs: JobEntryStatic[];
+};
+
 type Data = {
-  jobs: JobsData;
+  jobs: JobsDynamicData;
+  jobs_static: JobsStaticData;
 };
 
 // Group the flat job list into categories (Nobles / Courtiers / ... / Other)
@@ -215,29 +230,43 @@ const JobTutorialView = ({
 
 export const JobsTab = (props) => {
   const { act, data } = useBackend<Data>();
-  const jobs = data.jobs;
+  const jobsDynamic = data.jobs;
+  const jobsStatic = data.jobs_static;
   const [tutorialJob, setTutorialJob] = useState<JobEntry | null>(null);
 
-  if (!jobs || !jobs.loaded) {
+  if (!jobsDynamic || !jobsDynamic.loaded || !jobsStatic) {
     return <Box color="label">Job system not yet initialized.</Box>;
   }
 
+  // Merge the static catalog with the dynamic state map by title. The static
+  // catalog drives ordering (it's pre-sorted server-side); the dynamic state
+  // contributes per-job state/state_text/priority. Jobs missing a dynamic
+  // entry fall through with state undefined, which the renderer treats as
+  // "available" with no priority — defensive against transient pushes.
+  const mergedJobs: JobEntry[] = jobsStatic.jobs.map((s) => ({
+    ...s,
+    ...(jobsDynamic.jobs[s.title] || ({ state: 'available' } as JobEntryDynamic)),
+  }));
+
   // If a row's name was clicked, swap the entire tab content for a tutorial
   // view. The list refresh on poll never replaces this state — it sticks until
-  // the user hits Back. We do re-resolve from the latest data so slot counts
-  // etc. stay live.
+  // the user hits Back. We do re-resolve from the latest merged data so slot
+  // counts etc. stay live.
   if (tutorialJob) {
-    const fresh = jobs.jobs.find((j) => j.title === tutorialJob.title);
+    const fresh = mergedJobs.find((j) => j.title === tutorialJob.title);
     return (
       <JobTutorialView
         job={fresh || tutorialJob}
         act={act}
-        explainHtml={jobs.class_explain_html}
-        explainTitle={jobs.class_explain_title}
+        explainHtml={jobsDynamic.class_explain_html}
+        explainTitle={jobsDynamic.class_explain_title}
         onClose={() => setTutorialJob(null)}
       />
     );
   }
+
+  // Aliased to keep the rest of the render tree's references stable.
+  const jobs = { ...jobsDynamic, jobs: mergedJobs };
 
   return (
     <Stack vertical>

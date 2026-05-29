@@ -9,7 +9,7 @@ import {
 
 import { useBackend } from '../../backend';
 import type { BodyData } from './BodySection';
-import type { MarkingsData } from './MarkingsSection';
+import type { MarkingsDynamicData, MarkingsStaticData } from './MarkingsSection';
 
 // Wraps RawDropdown in an inline-Box constraint so the width prop actually
 // limits the dropdown — without this, the dropdown stretches to fill its
@@ -93,11 +93,18 @@ type CulinaryData = {
 };
 
 type Data = {
-  identity: IdentityData;
-  body: BodyData;
-  markings: MarkingsData;
-  culinary: CulinaryData;
-  // Static option lists shipped via ui_static_data — same for every poll.
+  // Dynamic (per-push) — current selections.
+  identity: Partial<IdentityData>;
+  body: Partial<BodyData>;
+  markings: MarkingsDynamicData;
+  culinary: Partial<CulinaryData>;
+  // Static (ui_static_data) — option lists, refreshed only on
+  // refresh_static_data() (species/origin/faith/patron/age/etc. acts).
+  identity_static: Partial<IdentityData>;
+  body_static: Partial<BodyData>;
+  markings_static: MarkingsStaticData;
+  culinary_static: Partial<CulinaryData>;
+  // Always-static globals.
   pronoun_options: string[];
   voice_type_options: string[];
   voice_pack_options: string[];
@@ -107,9 +114,18 @@ type Data = {
 
 export const IdentityTab = (props) => {
   const { act, data } = useBackend<Data>();
-  const id = data.identity;
-  const culinary = data.culinary;
-  if (!id) {
+  // Merge dynamic over static so existing references like id.species_options
+  // (static) and id.species_name (dynamic) both resolve. Selections win on
+  // collision so the latest push always reflects the current pick.
+  const id = {
+    ...data.identity_static,
+    ...data.identity,
+  } as IdentityData;
+  const culinary = {
+    ...data.culinary_static,
+    ...data.culinary,
+  } as CulinaryData;
+  if (!data.identity) {
     return <Box color="label">Loading identity…</Box>;
   }
 
