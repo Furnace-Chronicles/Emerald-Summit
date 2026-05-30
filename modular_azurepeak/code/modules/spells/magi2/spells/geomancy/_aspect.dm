@@ -26,3 +26,8 @@
 		/datum/action/cooldown/spell/ensnare_magi2,
 		/datum/action/cooldown/spell/magicians_stone_magi2,
 	)
+	variants = list(
+		"mastery" = list(
+			VARIANT_ADDITIVE = /datum/action/cooldown/spell/meteor_strike_magi2,
+		),
+	)

@@ -1,6 +1,6 @@
 // Cryomancy major aspect — port of Azure-Peak's /datum/magic_aspect/cryomancy.
-// Skips upstream's frozen_mist mastery variant and chill_food redundant utility
-// (Fridigitation already covers the food-freeze niche).
+// Mastery variant (Frozen Mist) is granted additively to T4 casters. Skips upstream's
+// chill_food redundant utility (Fridigitation already covers the food-freeze niche).
 
 /datum/magic_aspect/cryomancy
 	name = "Cryomancy"
@@ -27,4 +27,9 @@
 		/datum/action/cooldown/spell/projectile/ice_burst_magi2,
 		/datum/action/cooldown/spell/snap_freeze_magi2,
 		/datum/action/cooldown/spell/fridigitation_magi2,
+	)
+	variants = list(
+		"mastery" = list(
+			VARIANT_ADDITIVE = /datum/action/cooldown/spell/frozen_mist_magi2,
+		),
 	)

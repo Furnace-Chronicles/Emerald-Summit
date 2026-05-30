@@ -232,6 +232,14 @@
 	if(caller != owner)
 		on_deactivation()
 		return TRUE
+	// Cast on MIDDLE-click only — matches the legacy /datum/intent/spell middle-mouse
+	// convention. Left (and other) clicks fall through to normal handling so the player
+	// can examine, pick up items, move, and attack while a spell stays armed.
+	// ClickOn() runs check_click_intercept() for every button before its middle dispatch,
+	// so the "middle" modifier is present here on middle-clicks.
+	var/list/modifiers = params2list(params)
+	if(!modifiers["middle"])
+		return FALSE
 	// Throw mode bypasses spells entirely — let the click route to normal throw
 	// handling so the player can throw items while a spell is selected.
 	if(caller.in_throw_mode)
@@ -274,7 +282,7 @@
 	owner.click_intercept = src
 	background_icon_state = "spell1"
 	UpdateButtonIcon()
-	to_chat(owner, span_notice("Click a target to cast [name]. Click [name] again to cancel."))
+	to_chat(owner, span_notice("Middle-click a target to cast [name]. Click [name] again to cancel."))
 
 /datum/action/cooldown/spell/proc/on_deactivation()
 	if(!owner)

@@ -34,3 +34,8 @@
 		/datum/action/cooldown/spell/projectile/arcyne_lance_magi2,
 		/datum/action/cooldown/spell/projectile/stygian_efflorescence_magi2,
 	)
+	variants = list(
+		"mastery" = list(
+			VARIANT_ADDITIVE = /datum/action/cooldown/spell/blade_dance_magi2,
+		),
+	)

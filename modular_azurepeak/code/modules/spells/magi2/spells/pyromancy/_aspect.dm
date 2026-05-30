@@ -1,6 +1,6 @@
 // Pyromancy major aspect — datum that wraps the five ported Pyromancy spells.
-// Mastery and Grenzelhoftian variants (fireball/greater, fireball/artillery) are still
-// pending the T4 mastery system port.
+// Mastery variant (Greater Fireball) is granted additively to T4 casters. The
+// Grenzelhoftian variant (Artillery Fireball) is deferred until the Grenzmage class ports.
 
 /datum/magic_aspect/pyromancy
 	name = "Pyromancy"
@@ -27,4 +27,9 @@
 		/datum/action/cooldown/spell/fire_blast_magi2,
 		/datum/action/cooldown/spell/fire_curtain_magi2,
 		/datum/action/cooldown/spell/create_campfire_magi2,
+	)
+	variants = list(
+		"mastery" = list(
+			VARIANT_ADDITIVE = /datum/action/cooldown/spell/projectile/fireball_magi2/greater,
+		),
 	)

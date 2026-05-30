@@ -224,6 +224,10 @@ GLOBAL_LIST_INIT(magic_aspects_minor, init_magic_aspects(ASPECT_MINOR))
 		return
 	var/datum/magic_aspect/A = new aspect_path
 	A.grant_spells(target)
+	// T4 casters (Lich, Court Magician) automatically gain this aspect's Mastery spell.
+	// apply_variant("mastery") is a no-op for aspects with no mastery variant defined.
+	if(target.current && HAS_TRAIT(target.current, TRAIT_ARCYNE_T4))
+		A.apply_variant(target, "mastery")
 	LAZYSET(target.magi2_bound_aspects, "[aspect_path]", TRUE)
 	qdel(A)
 

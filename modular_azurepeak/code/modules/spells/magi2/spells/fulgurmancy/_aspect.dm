@@ -1,5 +1,5 @@
 // Fulgurmancy major aspect — port of Azure-Peak's /datum/magic_aspect/fulgurmancy.
-// `greater_thunderstrike` mastery variant still pending the T4 mastery system port.
+// Mastery variant (Greater Thunderstrike) is granted additively to T4 casters.
 
 /datum/magic_aspect/fulgurmancy
 	name = "Fulgurmancy"
@@ -27,4 +27,9 @@
 		/datum/action/cooldown/spell/heavens_strike_magi2,
 		/datum/action/cooldown/spell/thunderstrike_magi2,
 		/datum/action/cooldown/spell/light_magi2,
+	)
+	variants = list(
+		"mastery" = list(
+			VARIANT_ADDITIVE = /datum/action/cooldown/spell/greater_thunderstrike_magi2,
+		),
 	)
