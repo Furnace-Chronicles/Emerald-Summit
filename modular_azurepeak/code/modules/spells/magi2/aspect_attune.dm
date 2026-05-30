@@ -152,16 +152,64 @@
 	ensure_mage_basics()
 
 // ---- Utility-spell registry ----
-// Paths offered in the picker's Utilities tab. Starter set of confirmed-present spells
-// (mix of Magi 2 datum spells + existing ES proc_holders). Expand as more utility spells
-// are ported/confirmed. Spells read their budget cost from point_cost (datum) / cost (proc_holder).
+// Paths offered in the picker's Utilities tab — the spec's utility roster. Mix of Magi 2
+// datum spells + existing ES proc_holders. Spells read their budget cost from point_cost
+// (datum) / cost (proc_holder); proc_holders carry their cost from the legacy learn system.
 GLOBAL_LIST_INIT(utility_spells, list(
+	// Magi 2 datum utilities
 	/datum/action/cooldown/spell/light_magi2,
 	/datum/action/cooldown/spell/mending_magi2,
 	/datum/action/cooldown/spell/create_campfire_magi2,
+	/datum/action/cooldown/spell/touch/rune_ward_magi2,
+	// Existing ES proc_holder utilities
 	/obj/effect/proc_holder/spell/self/message,
+	/obj/effect/proc_holder/spell/invoked/mindlink,
+	/obj/effect/proc_holder/spell/self/findfamiliar,
 	/obj/effect/proc_holder/spell/targeted/touch/darkvision,
 	/obj/effect/proc_holder/spell/targeted/touch/nondetection,
 	/obj/effect/proc_holder/spell/invoked/projectile/fetch,
 	/obj/effect/proc_holder/spell/invoked/projectile/repel,
+	/obj/effect/proc_holder/spell/targeted/touch/lesserknock,
+	/obj/effect/proc_holder/spell/self/magicians_brick,
+	/obj/effect/proc_holder/spell/invoked/mirror_transform,
 ))
+
+/// Turn a freshly-spawned human into a Magi 2 caster. Stores the class aspect config (which
+/// grants the universal arcyne ward via ensure_mage_basics when config["ward"]), grants any
+/// post-aspect freebie spells, and hands over a Grimoire (to pick/reshape aspects) plus a lesser
+/// staff implement. The player chooses their starting loadout via the Grimoire's first-open
+/// setup mode. Called from /datum/advclass/equipme() when mage_aspect_config is set.
+/proc/_magi2_setup_caster(mob/living/carbon/human/H, list/config, list/post_spells)
+	if(!istype(H) || !H.mind)
+		return
+	H.mind.setup_mage_aspects(config)
+	// Every mage gets the basic Prestidigitation cantrip.
+	if(!H.mind.has_spell(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation))
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+	for(var/spell_path in post_spells)
+		if(!H.mind.has_spell(spell_path))
+			H.mind.AddSpell(new spell_path)
+	// Strip legacy mage starting gear — the old spellbooks ("tome of the arcyne" / "tome in
+	// waiting") and the amethyst focus are superseded by the aspect Grimoire. Only migrated
+	// casters reach here (config set), so non-migrated classes keep their legacy gear.
+	for(var/obj/item/legacy in H.GetAllContents())
+		if(istype(legacy, /obj/item/book/spellbook) || istype(legacy, /obj/item/spellbook_unfinished) || istype(legacy, /obj/item/roguegem/amethyst))
+			qdel(legacy)
+	// Grimoire of Aspects — into the satchel (where the old tome lived). Mirror the outfit system's
+	// storage cascade (roguetown splits the back into SLOT_BACK_L / SLOT_BACK_R, so H.back is wrong):
+	// back-left -> back-right -> belt; then fall back to the hip slot, a hand, the floor.
+	var/obj/item/book/magi2_grimoire/grim = new
+	var/grim_stored = FALSE
+	for(var/slot in list(SLOT_BACK_L, SLOT_BACK_R, SLOT_BELT))
+		var/obj/item/storage = H.get_item_by_slot(slot)
+		if(storage && SEND_SIGNAL(storage, COMSIG_TRY_STORAGE_INSERT, grim, null, TRUE, TRUE))
+			grim_stored = TRUE
+			break
+	if(!grim_stored && !H.equip_to_slot_if_possible(grim, ITEM_SLOT_HIP, disable_warning = TRUE) && !H.put_in_hands(grim))
+		grim.forceMove(get_turf(H))
+	// Lesser staff implement — only for classes that don't already start with a staff. Premade-staff
+	// classes (Court Magician's magos staff, Sorcerer's woodstaff) keep theirs, so no second staff.
+	if(!(locate(/obj/item/rogueweapon/woodstaff) in H.GetAllContents()))
+		var/obj/item/staff = new /obj/item/rogueweapon/woodstaff/implement_magi2(get_turf(H))
+		if(!H.put_in_hands(staff))
+			qdel(staff)

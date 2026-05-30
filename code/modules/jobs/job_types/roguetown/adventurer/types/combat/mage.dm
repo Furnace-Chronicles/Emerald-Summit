@@ -15,7 +15,9 @@
 		STATKEY_SPD = 1,
 	)
 
-	subclass_spellpoints = 18
+	// Magi 2 (T3 full caster): 1 major / 2 minor / 6 utilities, universal arcyne ward, no mastery.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
@@ -149,7 +151,12 @@
 		STATKEY_END = 1,
 	)
 
-	subclass_spellpoints = 12
+	// Magi 2 (T2 hybrid): no major, 2 minor, 6 utilities, universal ward. Overrides the parent
+	// Sorcerer config. Granted a single poke spell (Greater Arcyne Bolt) since hybrids get one
+	// offensive spell but no major aspect; a per-class poke CHOICE picker is a later refinement.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE)
+	mage_post_spells = list(/datum/action/cooldown/spell/projectile/greater_arcyne_bolt_magi2)
 
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,

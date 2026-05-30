@@ -16,6 +16,18 @@
 /obj/effect/proc_holder/spell
 	action_background_icon_state = "spell"
 
+// Prestidigitation and Orison have action icons that are already scroll-shaped sprites, so the
+// "spell"/"spell1" scroll backplate would sit under them as a second scroll. Give them the neutral
+// "bg_spell" frame (ES's pre-backplate spell background) in both idle and selected states. Core
+// spells stay untouched.
+/obj/effect/proc_holder/spell/targeted/touch/prestidigitation
+	action_background_icon_state = "bg_spell"
+	active_background_icon_state = "bg_spell" // keep the neutral frame when selected too (no scroll)
+
+/obj/effect/proc_holder/spell/targeted/touch/orison
+	action_background_icon_state = "bg_spell"
+	active_background_icon_state = "bg_spell"
+
 /obj/effect/proc_holder/spell/add_ranged_ability(mob/living/user, msg, forced)
 	. = ..()
 	if(action)

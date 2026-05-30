@@ -1,16 +1,11 @@
 // Lesser Augmentation — minor aspect, port of Azure-Peak's `/datum/magic_aspect/lesser_augmentation`.
 //
-// Pilot deviation from upstream: upstream uses a 4-point pointbuy across 13 utility
-// spells (player picks 1-3 depending on cost). We don't have a pointbuy UI yet — and
-// the Grimoire's bind action only grants fixed_spells. So Lesser Augmentation here
-// grants ALL 13 utility spells when bound. Yes, that crowds the action bar; the
-// player can unbind the aspect to remove them, or unbind specific spells if a future
-// session adds that UI. Same pragmatic approach we took for Autowardry.
-//
-// 10 of the 13 spells route to ES's existing proc_holder buff spells (`mind.AddSpell`
-// path via the aspect helpers' type dispatch). The remaining 3 (Light, Mending,
-// Create Campfire) are the Magi 2 versions already ported elsewhere — shared with
-// Fulgurmancy/Augmentation/Pyromancy/Hearthcraft.
+// 4-point pointbuy over personal buffs (upstream-faithful) — the staged picker's
+// GrimoirePointBuySection lets the player spend the budget. No fixed_spells: binding it
+// outside the picker (e.g. the debug verb) grants nothing; the points are spent in the UI.
+// EXCLUDES Fortitude (per spec — that buff is exclusive to the major Augmentation aspect).
+// Buffs route to ES proc_holder spells; the 1-cost fillers (Light/Mending/Campfire) are the
+// already-ported Magi 2 datum versions.
 
 /datum/magic_aspect/lesser_augmentation
 	name = "Lesser Augmentation"
@@ -28,8 +23,9 @@
 		"I calm the potent within.",
 		"Augmentum, me relinquere!",
 	)
-	fixed_spells = list(
-		// 2- and 3-cost personal buffs (upstream pointbuy core)
+	pointbuy_budget = 4
+	pointbuy_spells = list(
+		// 2- and 3-cost personal buffs — pick within the 4-point budget. EXCLUDES Fortitude (per spec).
 		/obj/effect/proc_holder/spell/invoked/haste,
 		/obj/effect/proc_holder/spell/targeted/touch/darkvision,
 		/obj/effect/proc_holder/spell/invoked/stoneskin,

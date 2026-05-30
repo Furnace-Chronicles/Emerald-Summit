@@ -24,8 +24,11 @@
 	if(!user.mind)
 		to_chat(user, span_warning("Without a mind to anchor them, these inscriptions mean nothing."))
 		return
-	// Edit mode (setup = FALSE). Pass the user's class aspect config so the picker knows the
-	// slot/utility limits; null config falls back to the MAX_*_ASPECTS defaults. The picker
-	// manages its own lifecycle (qdels on close / when no slots remain).
-	var/datum/aspect_picker/picker = new(user, FALSE, user.mind.mage_aspect_config)
+	var/datum/mind/M = user.mind
+	// First-time setup mode (free picks, no chants) while the mage has nothing bound; once they've
+	// sealed any aspect, subsequent opens are edit mode where reshaping costs binding points + chants.
+	// Filling still-empty slots stays free in either mode. Config gives the slot/utility limits
+	// (null -> MAX_*_ASPECTS defaults). The picker manages its own lifecycle (qdels on close / when full).
+	var/setup_mode = !LAZYLEN(M.major_aspects) && !LAZYLEN(M.minor_aspects)
+	var/datum/aspect_picker/picker = new(user, setup_mode, M.mage_aspect_config)
 	picker.ui_interact(user)

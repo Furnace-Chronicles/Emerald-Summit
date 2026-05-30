@@ -106,6 +106,11 @@
 		var/datum/action/cooldown/spell/S = spell_instance
 		S.refundable = FALSE
 		S.source_aspect = type
+	else if(istype(spell_instance, /obj/effect/proc_holder/spell))
+		// Proc_holder pointbuy spells (Augmentation/Lesser Aug buffs) — tag the source so
+		// the picker's get_pointbuy_spent() can account for already-owned picks on re-open.
+		var/obj/effect/proc_holder/spell/P = spell_instance
+		P.source_aspect = type
 
 /// Perform the binding or unbinding chant. Returns TRUE if completed, FALSE if interrupted.
 /datum/magic_aspect/proc/perform_chant(mob/living/chanter, binding = TRUE)

@@ -7,6 +7,9 @@
 	include_user = TRUE
 	range = -1
 	var/castdrain = FALSE // value for if you want a summonable weapon to cost stamina
+	/// Action-button background shown while the touch hand is out (selected). Defaults to the
+	/// glowing scroll; spells whose own icon is already scroll-shaped override this to avoid doubling.
+	var/active_background_icon_state = "spell1"
 
 /obj/effect/proc_holder/spell/targeted/touch/Destroy()
 	remove_hand()
@@ -61,6 +64,6 @@
 	to_chat(user, span_notice("[drawmessage]"))
 	// Swap the action-button scroll to the active state while the hand is out.
 	if(action)
-		action.background_icon_state = "spell1"
+		action.background_icon_state = active_background_icon_state
 		action.UpdateButtonIcon()
 	return TRUE

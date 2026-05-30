@@ -32,7 +32,8 @@
 	desc = "A masterwork staff set with a gem of extraordinary quality. The gem captures excess \
 		energy dissipated into the air when a spell is cast, giving most of it back to the wielder \
 		— arcyne economy refined to an art."
-	icon_state = "diamondstaff"
+	icon = 'modular_azurepeak/icons/obj/items/staffs.dmi' // Court Magos staff model
+	icon_state = "courtstaff"
 	implement_tier = IMPLEMENT_TIER_GRAND
 	implement_refund = IMPLEMENT_REFUND_GRAND
 	max_integrity = 250

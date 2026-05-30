@@ -1,16 +1,11 @@
-// Augmentation major aspect — body & object enhancement. Shares forcewall with
-// Battlewardry and the Exowardry minor aspect. soulshot/greater_arcyne_bolt are upstream
-// choice spells (one OR the other), but the Grimoire MVP has no choice picker so both
-// land in fixed_spells alongside mending.
+// Augmentation major aspect — body & object enhancement. soulshot/greater_arcyne_bolt
+// are upstream choice spells; with the staged picker live they could be choice_spells,
+// but are kept flattened in fixed_spells for now (choice restoration is a separate pass).
 //
-// Buff-bag: upstream gives Augmentation a 12-point pointbuy over its stat/utility buffs
-// (`pointbuy_budget = 12` + `pointbuy_spells`). Our adapter has no pointbuy UI and
-// grant_spells() only grants fixed_spells, so — same pragmatic call as Lesser
-// Augmentation — the whole bag is flattened into fixed_spells and granted wholesale.
-// Difference vs. Lesser Augmentation: the major aspect DOES include Fortitude and Message
-// (Lesser excludes Fortitude). These route through the existing ES proc_holder buff spells
-// via the aspect helpers' type dispatch; the magi2 fillers (light/mending/campfire) are
-// the already-ported action versions.
+// Buff-bag: a 12-point pointbuy over the stat/utility buffs (upstream-faithful). The picker's
+// GrimoirePointBuySection lets the player spend 12 points; costs read from each spell's `cost`
+// (proc_holder) / `point_cost` (datum). Includes Fortitude + Message (Lesser Augmentation
+// excludes Fortitude). forcewall + mending are always-granted fixed support.
 
 /datum/magic_aspect/augmentation
 	name = "Augmentation"
@@ -32,11 +27,19 @@
 		"Auctus, a me discedere!",
 	)
 	fixed_spells = list(
-		// choice pokes (flattened — no picker yet) + core support
+		// choice pokes (flattened) + always-on support
 		/datum/action/cooldown/spell/projectile/soulshot_magi2,
 		/datum/action/cooldown/spell/projectile/greater_arcyne_bolt_magi2,
 		/datum/action/cooldown/spell/forcewall_magi2,
-		// 12-point buff bag (flattened pointbuy) — stat & utility enhancements
+		/datum/action/cooldown/spell/mending_magi2,
+	)
+	variants = list(
+		"mastery" = list(
+			VARIANT_ADDITIVE = /datum/action/cooldown/spell/ascension_magi2,
+		),
+	)
+	pointbuy_budget = 12
+	pointbuy_spells = list(
 		/obj/effect/proc_holder/spell/invoked/haste,
 		/obj/effect/proc_holder/spell/targeted/touch/darkvision,
 		/obj/effect/proc_holder/spell/invoked/stoneskin,
@@ -48,14 +51,8 @@
 		/obj/effect/proc_holder/spell/invoked/enlarge,
 		/obj/effect/proc_holder/spell/invoked/leap,
 		/obj/effect/proc_holder/spell/targeted/touch/nondetection,
-		// 1-cost utility filler
+		// 1-cost utility fillers
 		/datum/action/cooldown/spell/light_magi2,
-		/datum/action/cooldown/spell/mending_magi2,
 		/datum/action/cooldown/spell/create_campfire_magi2,
 		/obj/effect/proc_holder/spell/self/message,
-	)
-	variants = list(
-		"mastery" = list(
-			VARIANT_ADDITIVE = /datum/action/cooldown/spell/ascension_magi2,
-		),
 	)

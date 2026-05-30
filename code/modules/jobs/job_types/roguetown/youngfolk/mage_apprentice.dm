@@ -37,7 +37,7 @@
 	beltr = /obj/item/storage/keyring/mageapprentice
 	beltl = /obj/item/storage/magebag/starter
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/woodstaff
+	backr = /obj/item/rogueweapon/woodstaff/implement_magi2 // Magi 2: lesser staff implement
 	shoes = /obj/item/clothing/shoes/roguetown/gladiator // FANCY SANDALS
 
 /datum/advclass/wapprentice/associate
@@ -52,7 +52,9 @@
 		STATKEY_SPD = 1
 	)
 
-	subclass_spellpoints = 21
+	// Magi 2 (T3 full caster): 1 major / 2 minor / 6 utilities, universal arcyne ward, no mastery.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
@@ -102,7 +104,9 @@
 		STATKEY_END = 1
 	)
 
-	subclass_spellpoints = 18
+	// Magi 2 (T3 caster): 1 major / 1 minor / 6 utilities, universal arcyne ward, no mastery.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 1, "minor" = 1, "utilities" = 6, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_NOVICE,
@@ -153,7 +157,9 @@
 		STATKEY_LCK = 1 // this is just a carrot for the folk who are mad enough to take this role...
 	)
 
-	subclass_spellpoints = 18
+	// Magi 2 (T3 caster): 1 major / 1 minor / 6 utilities, universal arcyne ward, no mastery.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 1, "minor" = 1, "utilities" = 6, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
