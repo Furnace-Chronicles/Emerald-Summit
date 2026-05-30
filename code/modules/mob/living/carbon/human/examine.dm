@@ -420,6 +420,24 @@
 		if(s_store && !(SLOT_S_STORE in obscured))
 			if(is_normal || is_smart)
 				. += "[m1] carrying [s_store.get_examine_string(user)] on [m2] [wear_armor.name]."
+
+	// Gnoll pelt — surfaces the regenerating gnoll skin armor when worn.
+	// Always shows the name + integrity to any examiner (mirrors wear_shirt,
+	// not wear_armor: an average examiner still gets the verbal damage
+	// description, smart examiners get the exact %). Stupid examiners see a
+	// degraded placeholder instead of the actual pelt name.
+	if(istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor))
+		var/obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/pelt = skin_armor
+		var/pelt_line
+		if(is_stupid)
+			pelt_line = "[m3] some matted fur and scarred hide!"
+		else
+			pelt_line = "[m3] [pelt.name]."
+			var/integrity_str = pelt.integrity_check(is_smart)
+			if(integrity_str)
+				pelt_line += " [integrity_str]"
+		. += pelt_line
+
 	//back
 //	if(back)
 //		. += "[m3] [back.get_examine_string(user)] on [m2] back."

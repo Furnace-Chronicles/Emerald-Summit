@@ -24,6 +24,10 @@
 	var/last_damage_time = 0
 	/// TRUE between "begin" and "end" messages — gates which message fires each tick.
 	var/is_regenerating = FALSE
+	/// Post-armor damage below this threshold is ignored for the regen timer
+	/// (integrity still ticks down, but `last_damage_time` is not bumped and
+	/// any in-flight mend is not interrupted). 0 = preserve original behavior.
+	var/min_damage_to_reset = 0
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/Initialize(mapload)
 	. = ..()
@@ -34,12 +38,27 @@
 	. = ..()
 	if(!damage_amount)
 		return
+	if(obj_integrity < max_integrity)
+		START_PROCESSING(SSobj, src)
+	// Sub-threshold damage (thorns, scrapes) still ticks integrity down but
+	// does NOT reset the regen timer or interrupt an in-flight mend. `.` is
+	// the post-armor damage from the parent; when armor is broken our
+	// obj_break zeroes the datum so `.` equals raw input, matching the
+	// "no armor → use raw incoming" intent.
+	if(min_damage_to_reset > 0 && . < min_damage_to_reset)
+		return
 	last_damage_time = world.time
 	if(is_regenerating && ismob(loc))
 		to_chat(loc, span_notice(repairmsg_stop))
 	is_regenerating = FALSE
-	if(obj_integrity < max_integrity)
-		START_PROCESSING(SSobj, src)
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/get_inspect_durability_extra()
+	if(obj_integrity >= max_integrity)
+		return null
+	var/time_left = (last_damage_time + repair_time) - world.time
+	if(time_left <= 0)
+		return "\n<b>REGENERATING</b>"
+	return "\n<b>REGENERATES IN:</b> [round(time_left / 10)]s"
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/process()
 	if(obj_integrity >= max_integrity)
