@@ -67,10 +67,9 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 	)
 
-// Inherits all equipment from /datum/outfit/job/magician/basic — we just bind the
-// Pyromancy aspect on top of the normal Court Magician gear and tuck a Tome of
-// Arcyne (the Grimoire) into the spawn backpack so the player can switch aspects
-// in-round without the admin debug verb.
+// Inherits all equipment from /datum/outfit/job/magician/basic. We set the class aspect
+// config + starting Pyromancy aspect on top of the normal Court Magician gear, and tuck a
+// Grimoire of Aspects into the backpack so the player can reshape their loadout in-round.
 /datum/outfit/job/magician/basic/magi2/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 	backpack_contents = (backpack_contents || list()) + list(/obj/item/book/magi2_grimoire)
@@ -79,8 +78,10 @@
 	// up an elemental glow when this school's spell fires through it.
 	r_hand = /obj/item/rogueweapon/woodstaff/implement_magi2
 	if(H?.mind)
-		_magi2_bind_aspect(H.mind, /datum/magic_aspect/pyromancy)
-		// Universal mage armor — granted alongside any aspect, not tied to a specific one.
-		var/datum/action/cooldown/spell/conjure_arcyne_ward_magi2/ward = new
-		H.mind.spell_list += ward
-		ward.Grant(H)
+		// T4 Court Magician config: 2 major / 3 minor / 9 utility slots, mastery variants, and
+		// the universal arcyne ward. setup_mage_aspects() stores the config and ensure_mage_basics()
+		// grants the base ward.
+		H.mind.setup_mage_aspects(list("major" = 2, "minor" = 3, "utilities" = 9, "mastery" = TRUE, "ward" = TRUE))
+		// Starting major: Pyromancy (free at spawn — outside the reset-budget flow). Mastery
+		// (Greater Fireball) is applied automatically via the config's mastery flag.
+		H.mind.attune_aspect(new /datum/magic_aspect/pyromancy)

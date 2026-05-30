@@ -211,54 +211,106 @@ GLOBAL_LIST_INIT(magic_aspects_minor, init_magic_aspects(ASPECT_MINOR))
 
 /datum/mind
 	var/list/magi2_bound_aspects
+	/// Binding-point budget already spent this rest cycle. Regens to 0 on sleep /
+	/// new day (sleep_adv.dm + time.dm). Major rebind costs ASPECT_RESET_COST_MAJOR,
+	/// minor costs ASPECT_RESET_COST_MINOR. The initial class loadout is granted at
+	/// spawn outside this flow, so it never charges the budget.
+	var/aspect_resets_used = 0
 
 /proc/_magi2_aspect_is_bound(datum/mind/target, aspect_path)
 	if(!istype(target) || !aspect_path)
 		return FALSE
-	return LAZYACCESS(target.magi2_bound_aspects, "[aspect_path]") ? TRUE : FALSE
+	return target.has_aspect(aspect_path)
 
+/// Normalize an aspect arg that may be a type path OR a /datum/magic_aspect instance to a path.
+/// Lets the budget API serve both the legacy path-based Grimoire and the datum-based picker.
+/proc/_magi2_aspect_path(aspect_or_path)
+	if(istype(aspect_or_path, /datum/magic_aspect))
+		var/datum/magic_aspect/A = aspect_or_path
+		return A.type
+	return aspect_or_path
+
+/// TRUE if the aspect (path or datum) is a registered Major aspect (vs Minor).
+/proc/_magi2_aspect_is_major(aspect_or_path)
+	return (_magi2_aspect_path(aspect_or_path) in GLOB.magic_aspects_major) ? TRUE : FALSE
+
+/// Binding-point cost to bind this aspect: Major = 4, Minor = 2.
+/proc/_magi2_aspect_reset_cost(aspect_or_path)
+	if(!aspect_or_path)
+		return 0
+	return _magi2_aspect_is_major(aspect_or_path) ? ASPECT_RESET_COST_MAJOR : ASPECT_RESET_COST_MINOR
+
+/datum/mind/proc/get_aspect_reset_remaining()
+	return ASPECT_RESET_BUDGET - aspect_resets_used
+
+/datum/mind/proc/can_spend_aspect_reset(aspect_or_path)
+	return get_aspect_reset_remaining() >= _magi2_aspect_reset_cost(aspect_or_path)
+
+/// Upstream-named alias used by the aspect picker (takes a /datum/magic_aspect).
+/datum/mind/proc/can_reset_aspect(datum/magic_aspect/aspect)
+	if(!aspect)
+		return FALSE
+	return can_spend_aspect_reset(aspect)
+
+/// Deduct the bind cost for this aspect (path or datum). FALSE without charging if short.
+/datum/mind/proc/spend_aspect_reset(aspect_or_path)
+	var/cost = _magi2_aspect_reset_cost(aspect_or_path)
+	if(!cost || get_aspect_reset_remaining() < cost)
+		return FALSE
+	aspect_resets_used += cost
+	return TRUE
+
+/datum/mind/proc/can_reset_utility()
+	return get_aspect_reset_remaining() >= ASPECT_RESET_COST_UTILITY
+
+/datum/mind/proc/spend_utility_reset()
+	if(!can_reset_utility())
+		return FALSE
+	aspect_resets_used += ASPECT_RESET_COST_UTILITY
+	return TRUE
+
+/// Count currently-bound aspects of one tier. want_major TRUE = majors, FALSE = minors.
+/datum/mind/proc/magi2_count_bound(want_major = TRUE)
+	return want_major ? LAZYLEN(major_aspects) : LAZYLEN(minor_aspects)
+
+// ---- Legacy bind/unbind wrappers ----
+// These predate the staged-attune model and are now thin shims over attune_aspect /
+// remove_aspect / has_aspect so the debug verb (and any other legacy caller) drives the
+// single source of truth: mind.major_aspects / minor_aspects. magi2_bound_aspects is retired.
 /proc/_magi2_bind_aspect(datum/mind/target, aspect_path)
 	if(!istype(target) || !aspect_path)
 		return
-	if(_magi2_aspect_is_bound(target, aspect_path))
+	if(target.has_aspect(aspect_path))
 		return
 	var/datum/magic_aspect/A = new aspect_path
-	A.grant_spells(target)
-	// T4 casters (Lich, Court Magician) automatically gain this aspect's Mastery spell.
-	// apply_variant("mastery") is a no-op for aspects with no mastery variant defined.
-	if(target.current && HAS_TRAIT(target.current, TRAIT_ARCYNE_T4))
-		A.apply_variant(target, "mastery")
-	LAZYSET(target.magi2_bound_aspects, "[aspect_path]", TRUE)
-	qdel(A)
+	// Preserve old behavior for config-less callers (debug verb): T4 casters get mastery.
+	var/variant = (target.current && HAS_TRAIT(target.current, TRAIT_ARCYNE_T4)) ? "mastery" : null
+	if(!target.attune_aspect(A, variant))
+		qdel(A)
 
 /proc/_magi2_unbind_aspect(datum/mind/target, aspect_path)
 	if(!istype(target) || !aspect_path)
 		return
-	if(!_magi2_aspect_is_bound(target, aspect_path))
+	var/datum/magic_aspect/found
+	for(var/datum/magic_aspect/A in target.major_aspects + target.minor_aspects)
+		if(A.type == aspect_path)
+			found = A
+			break
+	if(!found)
 		return
-	LAZYREMOVE(target.magi2_bound_aspects, "[aspect_path]")
-	// Build a skip-list of spells still wanted by other bound aspects so we don't
-	// yank a shared spell (e.g. unbinding Telomancy must not take soulshot away if
-	// Augmentation is also still bound).
+	// Skip spells still wanted by other bound aspects so shared spells aren't yanked.
 	var/list/still_wanted = list()
-	for(var/other_key in target.magi2_bound_aspects)
-		var/other_path = text2path(other_key)
-		if(!other_path)
+	for(var/datum/magic_aspect/other in target.major_aspects + target.minor_aspects)
+		if(other == found)
 			continue
-		var/datum/magic_aspect/other = new other_path
 		still_wanted |= other.fixed_spells
 		still_wanted |= other.choice_spells
-		qdel(other)
-	var/datum/magic_aspect/A = new aspect_path
-	A.revoke_spells(target, still_wanted)
-	qdel(A)
+	target.remove_aspect(found, still_wanted)
+	qdel(found)
 
 /proc/_magi2_unbind_all(datum/mind/target)
 	if(!istype(target))
 		return
-	// Snapshot the list — unbind mutates it.
-	var/list/bound = target.magi2_bound_aspects?.Copy()
-	for(var/aspect_key in bound)
-		var/aspect_path = text2path(aspect_key)
-		if(aspect_path)
-			_magi2_unbind_aspect(target, aspect_path)
+	for(var/datum/magic_aspect/A in (target.major_aspects?.Copy() || list()) + (target.minor_aspects?.Copy() || list()))
+		target.remove_aspect(A)
+		qdel(A)

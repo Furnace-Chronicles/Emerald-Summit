@@ -735,6 +735,13 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(!S)
 		return
 	spell_list += S
+	// Magi 2 spells are /datum/action/cooldown/spell — they ARE their own action and have no
+	// `.action` sub-object. Grant directly. Lets upstream's attune_aspect / aspect picker call
+	// mind.AddSpell() on datum spells without hitting the proc_holder-only path below.
+	if(istype(S, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/datum_spell = S
+		datum_spell.Grant(current)
+		return
 	// Automatically enable spell storage for transformation spells
 	if(istype(S, /obj/effect/proc_holder/spell/targeted/shapeshift) || istype(S, /obj/effect/proc_holder/spell/targeted/wildshape))
 		enable_spell_storage()

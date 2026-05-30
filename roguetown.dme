@@ -2718,6 +2718,8 @@
 #include "modular_azurepeak\code\modules\spells\magi2\_hand_intents.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\_mob_vars.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\_signals.dm"
+#include "modular_azurepeak\code\modules\spells\magi2\aspect_attune.dm"
+#include "modular_azurepeak\code\modules\spells\magi2\aspect_picker.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\grimoire.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\magic_aspect.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\spell_cooldown.dm"
