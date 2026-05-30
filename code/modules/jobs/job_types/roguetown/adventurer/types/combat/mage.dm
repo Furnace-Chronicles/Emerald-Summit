@@ -77,7 +77,10 @@
 		STATKEY_END = 1,
 	)
 
-	subclass_spellpoints = 12
+	// Magi 2 (T2 hybrid): util-only, 4 utility points (per spec — Spellblade family). Overrides the
+	// inherited Sorcerer config so they get NO major/minor aspect, just utilities + the ward.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 0, "minor" = 0, "utilities" = 4, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
@@ -241,7 +244,10 @@
 		STATKEY_SPD = 2,
 	)
 
-	subclass_spellpoints = 12
+	// Magi 2 (T2 hybrid trickster): 1 minor / 3 utilities, NO ward — they trade away mage armor
+	// (no TRAIT_MAGEARMOR). Overrides the inherited Sorcerer config; no major aspect.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 0, "minor" = 1, "utilities" = 3, "ward" = FALSE)
 
 	subclass_skills = list(
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
