@@ -677,7 +677,7 @@ GLOBAL_LIST_EMPTY(open_preference_menus)
 	body["highlight_color"] = prefs.highlight_color
 	body["voice_pitch"] = prefs.voice_pitch
 	body["char_accent"] = prefs.char_accent
-	body["body_size_pct"] = round((prefs.features?["body_size"] || BODY_SIZE_NORMAL) * 100)
+	body["body_size_pct"] = round((prefs.features?["body_size"] || BODY_SIZE_NORMAL) * 100, 1)
 	body["body_size_locked"] = ((prefs.statpack?.name == "Virtuous" && istype(prefs.virtuetwo, /datum/virtue/size)) || istype(prefs.virtue, /datum/virtue/size))
 
 	return body
@@ -695,8 +695,8 @@ GLOBAL_LIST_EMPTY(open_preference_menus)
 	body["accent_options"] = accent_names
 	body["voice_pitch_min"] = MIN_VOICE_PITCH
 	body["voice_pitch_max"] = MAX_VOICE_PITCH
-	body["body_size_min_pct"] = round(BODY_SIZE_MIN * 100)
-	body["body_size_max_pct"] = round(BODY_SIZE_MAX * 100)
+	body["body_size_min_pct"] = round(BODY_SIZE_MIN * 100, 1)
+	body["body_size_max_pct"] = round(BODY_SIZE_MAX * 100, 1)
 	return body
 
 /// DYNAMIC half of markings: per-zone CURRENT marking list (order matters,
@@ -1787,10 +1787,10 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				var/datum/statpack/sp = statpacks_available[picked]
 				// Mirror classic behavior: leaving "Virtuous" wipes virtue/virtuetwo.
 				if(prefs.statpack?.name == "Virtuous" && sp.name != "Virtuous")
-					prefs.virtue = GLOB.virtues[/datum/virtue/none]
-					if(istype(prefs.virtuetwo, /datum/virtue/size))
+					if(istype(prefs.virtue, /datum/virtue/size) || istype(prefs.virtuetwo, /datum/virtue/size))
 						prefs.features["body_size"] = BODY_SIZE_NORMAL
 						to_chat(user, span_purple("Your body size has been reset to [BODY_SIZE_NORMAL*100]%."))
+					prefs.virtue = GLOB.virtues[/datum/virtue/none]
 					prefs.virtuetwo = GLOB.virtues[/datum/virtue/none]
 				prefs.statpack = sp
 				to_chat(user, "<font color='purple'>[sp.name]</font>")
@@ -1812,10 +1812,10 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				if(sp.name != picked && statpack_dropdown_label(sp) != picked)
 					continue
 				if(prefs.statpack?.name == "Virtuous" && sp.name != "Virtuous")
-					prefs.virtue = GLOB.virtues[/datum/virtue/none]
-					if(istype(prefs.virtuetwo, /datum/virtue/size))
+					if(istype(prefs.virtue, /datum/virtue/size) || istype(prefs.virtuetwo, /datum/virtue/size))
 						prefs.features["body_size"] = BODY_SIZE_NORMAL
 						to_chat(user, span_purple("Your body size has been reset to [BODY_SIZE_NORMAL*100]%."))
+					prefs.virtue = GLOB.virtues[/datum/virtue/none]
 					prefs.virtuetwo = GLOB.virtues[/datum/virtue/none]
 				prefs.statpack = sp
 				to_chat(user, "<font color='purple'>[sp.name]</font>")
@@ -1832,7 +1832,9 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			var/picked = tgui_input_list(user, "Choose your virtue", "VIRTUE", virtues_available, prefs.virtue)
 			if(picked)
 				var/datum/virtue/v = virtues_available[picked]
+				var/datum/virtue/old_virtue = prefs.virtue
 				prefs.virtue = v
+				sync_virtue_body_size(old_virtue, v, user)
 				// Job availability depends on virtue restrictions.
 				on_identity_change(TRUE)
 			return TRUE
@@ -1845,7 +1847,9 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			var/datum/virtue/v = virtues_available[picked]
 			if(!v)
 				return TRUE
+			var/datum/virtue/old_virtue = prefs.virtue
 			prefs.virtue = v
+			sync_virtue_body_size(old_virtue, v, user)
 			on_identity_change(TRUE)
 			return TRUE
 
@@ -1859,7 +1863,9 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			var/picked = tgui_input_list(user, "Choose your second virtue", "SECOND VIRTUE", virtues_available, prefs.virtuetwo)
 			if(picked)
 				var/datum/virtue/v = virtues_available[picked]
+				var/datum/virtue/old_virtue = prefs.virtuetwo
 				prefs.virtuetwo = v
+				sync_virtue_body_size(old_virtue, v, user)
 				on_identity_change(TRUE)
 			return TRUE
 
@@ -1873,7 +1879,9 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			var/datum/virtue/v = virtues_available[picked]
 			if(!v)
 				return TRUE
+			var/datum/virtue/old_virtue = prefs.virtuetwo
 			prefs.virtuetwo = v
+			sync_virtue_body_size(old_virtue, v, user)
 			on_identity_change(TRUE)
 			return TRUE
 
@@ -3992,6 +4000,25 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	// short-circuits when parent.is_new_player() is TRUE (i.e. exactly when we need it).
 	refresh_preview(prefs.parent?.mob)
 	preview_dirty = FALSE
+
+/// Keeps body_size in sync with size virtues (e.g. Giant). Picking a size virtue locks
+/// body_size to its scale; switching the last size virtue off restores normal size. The
+/// legacy prefs.dm virtue picker did this inline; the TGUI rewrite dropped it.
+/datum/preferences_menu/proc/sync_virtue_body_size(datum/virtue/old_virtue, datum/virtue/new_virtue, mob/user)
+	if(istype(new_virtue, /datum/virtue/size))
+		var/datum/virtue/size/S = new_virtue
+		prefs.features["body_size"] = S.scale
+		to_chat(user, span_purple("Your body size has been set to [S.scale * 100]%."))
+		return
+	if(!istype(old_virtue, /datum/virtue/size))
+		return
+	// Switched this slot off a size virtue — reset unless the other slot still grants size.
+	if(istype(prefs.virtue, /datum/virtue/size))
+		return
+	if(prefs.statpack?.name == "Virtuous" && istype(prefs.virtuetwo, /datum/virtue/size))
+		return
+	prefs.features["body_size"] = BODY_SIZE_NORMAL
+	to_chat(user, span_purple("Your body size has been reset to [BODY_SIZE_NORMAL * 100]%."))
 
 /// Build the virtue picker list, filtering the same way the classic prefs.dm:2320 picker does
 /// (skip origin/pack/racial/heretic virtues — they're handled by separate prefs).
