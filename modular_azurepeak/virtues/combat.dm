@@ -21,14 +21,22 @@
 /datum/virtue/combat/magical_potential/proc/add_arcyne_potential_utilities(mob/living/carbon/human/recipient, amount)
 	if(!recipient.mind)
 		return
+	// Record as a persistent bonus so it survives a later setup_mage_aspects — deferred-setup classes
+	// (Witch, Loudmouth, etc.) build their config AFTER virtues run, and setup folds this bonus back in.
+	recipient.mind.magi2_bonus_utilities += amount
 	if(!LAZYLEN(recipient.mind.mage_aspect_config))
+		// No class config yet — seed an empty one so non-mage recipients have something the Grimoire
+		// picker can read. setup_mage_aspects folds magi2_bonus_utilities into it.
 		recipient.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 0))
-	recipient.mind.mage_aspect_config["utilities"] += amount
+	else
+		// Class config already in place (advclass equipme path) — apply now; setup won't run again here.
+		recipient.mind.mage_aspect_config["utilities"] += amount
 	recipient.mind.check_learnspell()
-	// Utility points are spent through the aspect Grimoire's picker. Stash one in special_items so
-	// the recipient can retrieve it from the loadout tree (right-click), same as the psycrosses
-	// below — without it, a non-mage recipient has no way to spend the points they were granted.
-	recipient.mind.special_items["Grimoire of Aspects"] = /obj/item/book/magi2_grimoire
+	// Utility points are spent through the aspect Grimoire's picker. Stash one in special_items so a
+	// non-mage recipient can retrieve it from the loadout tree (right-click) — but skip it for casters
+	// who already carry a Grimoire (delivered by their class) to avoid a redundant second copy.
+	if(!(locate(/obj/item/book/magi2_grimoire) in recipient.GetAllContents()) && !("Grimoire of Aspects" in recipient.mind.special_items))
+		recipient.mind.special_items["Grimoire of Aspects"] = /obj/item/book/magi2_grimoire
 
 /datum/virtue/combat/devotee
 	name = "Devotee"

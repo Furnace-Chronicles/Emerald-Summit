@@ -24,6 +24,12 @@
 	/// Optional: "variants" (assoc aspect_path = variant_name), "locked_aspects", "post_aspect_spells".
 	var/list/mage_aspect_config
 
+	/// Persistent slot/utility bonuses (Arcyne Potential virtue, Hedge Mage archetype, etc.) that must
+	/// survive a later setup_mage_aspects, which rebuilds mage_aspect_config wholesale. setup folds these
+	/// in every time, so a bonus granted before OR after the class config lands still counts.
+	var/magi2_bonus_utilities = 0
+	var/magi2_bonus_minor = 0
+
 // The aspect picker reads source_aspect / utility_learned on BOTH spell families to track
 // pointbuy ownership and player-learned utilities. Our /datum/action/cooldown/spell base
 // already has them; mirror them onto the proc_holder base so the picker compiles and can
@@ -149,12 +155,19 @@
 
 /datum/mind/proc/setup_mage_aspects(list/config)
 	mage_aspect_config = config
+	// Fold in any persistent bonuses (see magi2_bonus_* above) so they survive this wholesale replace.
+	if(magi2_bonus_utilities)
+		mage_aspect_config["utilities"] += magi2_bonus_utilities
+	if(magi2_bonus_minor)
+		mage_aspect_config["minor"] += magi2_bonus_minor
 	ensure_mage_basics()
 
-/// Bump the minor-aspect slot count after setup_mage_aspects has applied the config. Used by
-/// classes (e.g. Hedge Mage) whose archetype choice runs in outfit pre_equip, BEFORE equipme()
-/// applies mage_aspect_config — so the caller must defer this (addtimer) to land after setup.
+/// Grant a persistent bonus minor-aspect slot. Stored on magi2_bonus_minor so it survives a later
+/// setup_mage_aspects (which folds it in), and applied immediately if the config already exists — so
+/// it's order-independent whether the class config lands before or after this call. Used by classes
+/// (e.g. the Hedge Mage archetype) whose choice runs in outfit pre_equip; no addtimer race needed.
 /datum/mind/proc/magi2_add_bonus_minor(amount = 1)
+	magi2_bonus_minor += amount
 	if(LAZYLEN(mage_aspect_config))
 		mage_aspect_config["minor"] += amount
 
@@ -192,7 +205,9 @@ GLOBAL_LIST_INIT(utility_spells, list(
 /// post_spells). Use FALSE whenever this is called deferred (addtimer) from an outfit pre_equip,
 /// because the outfit's items aren't in GetAllContents yet when the timer fires — the dedup guards
 /// below would miss them and grant duplicates.
-/proc/_magi2_setup_caster(mob/living/carbon/human/H, list/config, list/post_spells, grant_items = TRUE)
+/// grant_staff: TRUE → also hand a lesser implement staff (when grant_items is TRUE and no staff is
+/// already present). FALSE → no staff, e.g. witches who cast with a magebag and herbs, not a staff.
+/proc/_magi2_setup_caster(mob/living/carbon/human/H, list/config, list/post_spells, grant_items = TRUE, grant_staff = TRUE)
 	if(!istype(H) || !H.mind)
 		return
 	H.mind.setup_mage_aspects(config)
@@ -228,7 +243,11 @@ GLOBAL_LIST_INIT(utility_spells, list(
 			grim.forceMove(get_turf(H))
 	// Lesser staff implement — only for classes that don't already start with a staff. Premade-staff
 	// classes (Court Magician's magos staff, Sorcerer's woodstaff) keep theirs, so no second staff.
-	if(!(locate(/obj/item/rogueweapon/woodstaff) in H.GetAllContents()))
-		var/obj/item/staff = new /obj/item/rogueweapon/woodstaff/implement_magi2(get_turf(H))
+	// grant_staff = FALSE for classes that shouldn't carry an implement (e.g. witches).
+	if(grant_staff && !(locate(/obj/item/rogueweapon/woodstaff) in H.GetAllContents()))
+		// Build in nullspace and place via put_in_hands; only drop at their feet as a last resort.
+		// (Spawning straight onto get_turf() made an audible thud every spawn, and the old qdel
+		// fallback silently destroyed the staff when hands were full.)
+		var/obj/item/staff = new /obj/item/rogueweapon/woodstaff/implement_magi2
 		if(!H.put_in_hands(staff))
-			qdel(staff)
+			staff.forceMove(get_turf(H))

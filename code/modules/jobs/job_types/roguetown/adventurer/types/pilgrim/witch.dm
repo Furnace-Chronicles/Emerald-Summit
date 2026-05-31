@@ -60,8 +60,9 @@
 			ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 			// Magi 2 (T2 caster): 0 major / 2 minor / 6 utilities + universal arcyne ward.
-			// Deferred so the backpack exists for Grimoire storage; grant_items = TRUE hands over Grimoire + staff.
-			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_magi2_setup_caster), H, list("major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE), null, TRUE), 1)
+			// Deferred so the backpack exists for Grimoire storage; grant_items = TRUE hands over the
+			// Grimoire, grant_staff = FALSE so the witch casts with her magebag/herbs, not a wizard staff.
+			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_magi2_setup_caster), H, list("major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE), null, TRUE, FALSE), 1)
 			beltl = /obj/item/storage/magebag/starter
 		if("Godsblood")
 			//miracle witch: capped at t2 miracles. cannot pray to regain devo, but has high innate regen because of it (2 instead of 1 from major)
@@ -79,8 +80,9 @@
 			ADD_TRAIT(H, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 			// Magi 2 (T1 caster, hybrid): 0 major / 0 minor / 3 utilities (util-only, no ward).
-			// Deferred so the backpack exists for Grimoire storage; grant_items = TRUE hands over Grimoire + staff.
-			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_magi2_setup_caster), H, list("major" = 0, "minor" = 0, "utilities" = 3), null, TRUE), 1)
+			// Deferred so the backpack exists for Grimoire storage; grant_items = TRUE hands over the
+			// Grimoire, grant_staff = FALSE so the witch casts with her magebag/herbs, not a wizard staff.
+			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_magi2_setup_caster), H, list("major" = 0, "minor" = 0, "utilities" = 3), null, TRUE, FALSE), 1)
 			beltl = /obj/item/storage/magebag/starter
 			neck = /obj/item/clothing/neck/roguetown/psicross/wood
 

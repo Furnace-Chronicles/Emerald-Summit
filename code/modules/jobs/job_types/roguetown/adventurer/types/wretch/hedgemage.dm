@@ -73,10 +73,10 @@
 	var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes
 	switch(classchoice)
 		if("Hedge Mage")
-			// Hedge Mage trades Rogue Mage's Dodge Expert for an extra minor aspect slot.
-			// mage_aspect_config is applied later in equipme() (after this outfit pre_equip
-			// returns), so defer the bonus minor slot until the config exists.
-			addtimer(CALLBACK(H.mind, TYPE_PROC_REF(/datum/mind, magi2_add_bonus_minor)), 1)
+			// Hedge Mage trades Rogue Mage's Dodge Expert for an extra minor aspect slot. Recorded as a
+			// persistent bonus (magi2_bonus_minor), so it's order-independent: equipme()'s later
+			// setup_mage_aspects folds it into the config. No addtimer race needed.
+			H.mind?.magi2_add_bonus_minor()
 		if("Rogue Mage")
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	// Staff is granted by the outfit (lesser implement) above; the legacy gem-staff picker
