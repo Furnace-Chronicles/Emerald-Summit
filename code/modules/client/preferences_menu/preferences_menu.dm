@@ -65,8 +65,9 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	// If a player at the main menu (still a new_player) closes the window
 	// after the round has started, force-reopen it after 2 seconds. They're
 	// likely a latejoiner who needs the panel to actually join the round —
-	// closing it would leave them with no UI to act on.
-	if(isnewplayer(user) && SSticker.HasRoundStarted())
+	// closing it would leave them with no UI to act on. Once the round has
+	// ENDED, though, let them close it for good — nothing left to join.
+	if(isnewplayer(user) && SSticker.HasRoundStarted() && SSticker.current_state < GAME_STATE_FINISHED)
 		addtimer(CALLBACK(src, PROC_REF(reopen_for_latejoiner), user), 2 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 
 /datum/preferences_menu/proc/reopen_for_latejoiner(mob/user)
@@ -76,6 +77,9 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	if(!prefs || !user || !user.client)
 		return
 	if(!isnewplayer(user))
+		return
+	// Round ended during the 2s grace window — don't pop it back open.
+	if(SSticker.current_state >= GAME_STATE_FINISHED)
 		return
 	// Respect the Classic UI escape hatch — if the user toggled tgui_pref off
 	// (which itself closes the TGUI window via SStgui.close_uis → ui_close →

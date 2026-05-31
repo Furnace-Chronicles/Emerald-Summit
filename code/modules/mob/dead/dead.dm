@@ -53,6 +53,11 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 	if(!client)
 		return
 
+	// Once the round has ended (post-round / end-of-round screen), stop refreshing
+	// or reopening the lobby entirely — nothing here should fire anymore.
+	if(SSticker.current_state >= GAME_STATE_FINISHED)
+		return
+
 	if(client.is_new_player())
 		return
 
