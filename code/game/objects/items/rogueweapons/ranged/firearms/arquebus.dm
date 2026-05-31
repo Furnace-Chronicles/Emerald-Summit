@@ -49,7 +49,7 @@
 	Decorated with psydonian silver modified for speed loading and a psycross chained around it's barrel the heretics shall not escape their chance at redemption."
 	icon_state = "pistol" //to do...get a custom sprite for this.
 	item_state = "pistol"
-	load_time = 20 //to do..think of something more intresting then just gun but better.
+	load_time = 25 //to do..think of something more intresting then just gun but better.
 
 	is_silver = TRUE
 /obj/item/gun/ballistic/firearm/arquebus_pistol/inquisitor/ComponentInitialize() //yes. Pistol whip a skeletion and set them ablaze in holy fire. Why not.
