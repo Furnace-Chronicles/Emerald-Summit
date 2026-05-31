@@ -37,6 +37,8 @@
 /mob/living
 	var/can_do_sex = TRUE
 	var/virginity = FALSE
+	var/mpreg = FALSE
+	var/mpreg_chance = IMPREG_PROB_DEFAULT
 
 /**:
  * target/src is whomever the drag ends on. Inherited proc, needs to be a human.
@@ -154,17 +156,36 @@
 	if(!testes)
 		return
 	var/obj/item/organ/vagina/vag = wife.getorganslot(ORGAN_SLOT_VAGINA)
-	if(!vag)
+	if(!vag && !HAS_TRAIT(wife, TRAIT_BAOTHA_FERTILITY_BOON))
 		return
-	var/prob_for_impreg = vag.impregnation_probability
-	if(wife.sexcon.knotted_status) // if they're knotted, increased by two factor for dramatic impact
-		prob_for_impreg =  min(prob_for_impreg * 2, IMPREG_PROB_MAX)
-	if(prob(prob_for_impreg) && wife.is_fertile() && is_virile())
-		if(vag.be_impregnated(src))
-			record_round_statistic(STATS_IMPREGNATIONS)
-		vag.impregnation_probability = IMPREG_PROB_DEFAULT // Reset on success
-	else
-		vag.impregnation_probability = min(prob_for_impreg + IMPREG_PROB_INCREMENT, IMPREG_PROB_MAX)
+	if(!is_virile())
+		return
+	if(vag)
+		if(!wife.is_fertile())
+			return
+		var/prob_for_impreg = vag.impregnation_probability
+		if(wife.sexcon.knotted_status) // if they're knotted, increased by two factor for dramatic impact
+			prob_for_impreg =  min(prob_for_impreg * 2, IMPREG_PROB_MAX)
+		if(HAS_TRAIT(wife, TRAIT_BAOTHA_FERTILITY_BOON)) // baotha's boon doubles the odds
+			prob_for_impreg =  min(prob_for_impreg * 2, IMPREG_PROB_MAX)
+		if(prob(prob_for_impreg))
+			if(vag.be_impregnated(src))
+				record_round_statistic(STATS_IMPREGNATIONS)
+			vag.impregnation_probability = IMPREG_PROB_DEFAULT // Reset on success
+		else
+			vag.impregnation_probability = min(prob_for_impreg + IMPREG_PROB_INCREMENT, IMPREG_PROB_MAX)
+	else // no womb, but Baotha-marked: male pregnancy
+		var/prob_for_impreg = wife.mpreg_chance
+		if(wife.sexcon.knotted_status)
+			prob_for_impreg =  min(prob_for_impreg * 2, IMPREG_PROB_MAX)
+		if(prob(prob_for_impreg))
+			if(wife.mpreg)
+				to_chat(wife, span_love("I feel a surge of warmth inside me again..."))
+				return
+			to_chat(wife, span_love("I feel a strange surge of warmth inside me... Am I pregnant?.."))
+			wife.mpreg = TRUE
+		else
+			wife.mpreg_chance = min(prob_for_impreg + IMPREG_PROB_INCREMENT, IMPREG_PROB_MAX)
 
 /mob/living/carbon/human/proc/get_highest_grab_state_on(mob/living/carbon/human/victim)
 	var/grabstate = null
@@ -176,7 +197,12 @@
 			grabstate = l_grab.grab_state
 	return grabstate
 
-/proc/add_cum_floor(turfu)
+/proc/add_cum_floor(turfu, do_big_puddle = FALSE)
 	if(!turfu || !isturf(turfu))
 		return
-	new /obj/effect/decal/cleanable/coom(turfu)
+	var/obj/effect/decal/cleanable/coom/puddle = new /obj/effect/decal/cleanable/coom(turfu)
+	if(do_big_puddle)
+		var/obj/effect/decal/cleanable/coom/puddle_big = new /obj/effect/decal/cleanable/coom(turfu)
+		if(puddle_big && puddle) // inherit pixel offset from first puddle
+			puddle_big.pixel_x = puddle.pixel_x
+			puddle_big.pixel_y = puddle.pixel_y

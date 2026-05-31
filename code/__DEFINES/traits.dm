@@ -146,6 +146,7 @@
 #define TRAIT_CURSE_EORA "Eora's Curse" //world is ugly
 #define TRAIT_CURSE_RESIST "Curse Resistance" //Some folk with a tendency to get cursed are resistant
 #define TRAIT_RITES_BLOCKED "Rites Expended" // used to block using rites
+#define TRAIT_BAOTHA_FERTILITY_BOON "Marked and shaped by Baotha" //Able to be impregnated (incl. male pregnancy), boosted impreg chance; granted by Baotha's fertility rite
 
 //ASCENDANT GOD CURSES
 
