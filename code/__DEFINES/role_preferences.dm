@@ -15,6 +15,7 @@
 #define ROLE_PREBEL				"Peasant Rebel"
 #define ROLE_ASPIRANT			"Aspirant"
 #define ROLE_LICH				"Lich"
+#define ROLE_GNOLL				"Gnoll"
 #define ROLE_ASCENDANT			"Ascendant"
 #define ROLE_WRETCH				"Wretch"
 
@@ -60,6 +61,7 @@ GLOBAL_LIST_INIT(special_roles_rogue, list(
 	ROLE_NBEAST = /datum/antagonist/vampire/lord,
 	ROLE_VAMPIRE = /datum/antagonist/vampire,
 	ROLE_LICH = /datum/antagonist/lich,
+	ROLE_GNOLL = /datum/antagonist/gnoll,
 	ROLE_THIEVESGUILD = /datum/antagonist/thievesguild
 ))
 

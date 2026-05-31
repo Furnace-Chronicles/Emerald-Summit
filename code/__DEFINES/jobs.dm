@@ -204,6 +204,7 @@
 #define VAMPIRE_SERVANT (1<<4)
 #define VAMPIRE_GUARD (1<<5)
 #define VAMPIRE_SPAWN (1<<6)
+#define GNOLL		  (1<<7)
 
 #define INQUISITION (1<<10)
 
@@ -294,6 +295,7 @@
 #define JDO_COURTAGENT 30.3
 #define JDO_WRETCH 30.4
 #define JDO_OGRE 30.5
+#define JDO_GNOLL 30.6
 
 #define JDO_MERCENARY 31
 #define JDO_GRENZELHOFT 31.1

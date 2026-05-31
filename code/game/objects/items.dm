@@ -595,6 +595,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			inspec += "[percent]% ([floor(eff_currint)])"
 			if(force >= 5) // Durability is rather obvious for non-weapons
 				inspec += " <span class='info'><a href='?src=[REF(src)];explaindurability=1'>{?}</a></span>"
+			var/extra_durability_info = get_inspect_durability_extra()
+			if(extra_durability_info)
+				inspec += extra_durability_info
 		if(istype(src, /obj/item/clothing))	//awful
 			var/obj/item/clothing/C = src
 			var/str
@@ -1169,6 +1172,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/on_grind()
 
 /obj/item/proc/on_juice()
+
+/// Hook for the appraisal tooltip — appended right after the DURABILITY line.
+/// Return a string (with leading "\n") to add a row, or null to skip.
+/obj/item/proc/get_inspect_durability_extra()
+	return null
 
 /obj/item/proc/get_force_string(var/force)
 	switch(force)

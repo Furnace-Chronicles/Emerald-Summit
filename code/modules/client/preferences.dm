@@ -211,6 +211,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/ooc_notes_display
 
 	var/datum/familiar_prefs/familiar_prefs
+	var/datum/gnoll_prefs/gnoll_prefs
 
 	var/rumour
 	var/rumour_display
@@ -232,6 +233,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	parent = C
 	migrant  = new /datum/migrant_pref(src)
 	familiar_prefs = new /datum/familiar_prefs(src)
+	gnoll_prefs = new /datum/gnoll_prefs(src)
 
 	for(var/custom_name_id in GLOB.preferences_custom_names)
 		custom_names[custom_name_id] = get_default_name(custom_name_id)
@@ -607,6 +609,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				dat += "<a href='?_src_=prefs;preference=loadout3hex;task=input'>(C)</a>"
 
 			dat += "<br><b>Be a Familiar:</b><a href='?_src_=prefs;preference=familiar_prefs;task=input'>Familiar Preferences</a>"
+
+			dat += "<br><b>Gnoll Customization:</b><a href='?_src_=prefs;preference=gnoll_prefs;task=input'>Gnoll Preferences</a>"
 
 			dat += "</td>"
 
@@ -2116,6 +2120,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				if("familiar_prefs")
 					familiar_prefs.fam_show_ui()
 
+				if("gnoll_prefs")
+					gnoll_prefs.gnoll_show_ui(user)
+
 				if("loadout_item")
 					var/list/loadouts_available = list("None")
 					for (var/path as anything in GLOB.loadout_items)
@@ -2895,7 +2902,21 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	
 	return FALSE
 
-/datum/preferences/proc/copy_to(mob/living/carbon/human/character, icon_updates = 1, roundstart_checks = TRUE, character_setup = FALSE, antagonist = FALSE)
+/datum/preferences/proc/copy_to(mob/living/carbon/human/character, icon_updates = 1, roundstart_checks = TRUE, character_setup = FALSE, antagonist = FALSE, skip_normal_prefs = FALSE)
+	if(skip_normal_prefs)
+		// For gnolls spawning from a non-gnoll base slot, we must not apply any base-slot state.
+		// Set species to gnoll immediately so advclass check_requirements can read dna.species.type.
+		character.set_species(/datum/species/gnoll, icon_update = FALSE)
+		// Set gender to MALE as a neutral default; gnoll pronouns override the displayed pronoun.
+		character.gender = MALE
+		if(gnoll_prefs?.gnoll_pronouns)
+			character.pronouns = gnoll_prefs.gnoll_pronouns
+		var/gnoll_name = gnoll_prefs?.ensure_gnoll_name() || "Gnoll"
+		character.real_name = gnoll_name
+		character.name = gnoll_name
+		character.dna.real_name = gnoll_name
+		return
+
 	if(randomise[RANDOM_SPECIES] && !character_setup)
 		random_species()
 

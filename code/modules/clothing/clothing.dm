@@ -330,11 +330,11 @@
 */
 
 /obj/item/clothing/obj_break(damage_flag)
+	// getList() returns a fresh list, not a ref to the armor datum — mutating
+	// it was a no-op, leaving broken armor still protecting the wearer.
+	// Swap in a zeroed datum so getRating() returns 0 for every flag.
 	original_armor = armor
-	var/list/armorlist = armor.getList()
-	for(var/x in armorlist)
-		if(armorlist[x] > 0)
-			armorlist[x] = 0
+	armor = getArmor(0, 0, 0, 0, 0, 0, 0)
 	..()
 
 /obj/item/clothing/obj_fix()
