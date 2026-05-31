@@ -118,7 +118,10 @@
 	H.adjust_skillrank(/datum/skill/combat/knives, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
-	H?.mind.adjust_spellpoints(27)
+	// Magi 2 (T3 caster): 1 major / 2 minor / 6 utilities + universal arcyne ward, atop the necro kit
+	// below. Deferred to after equipOutfit so the backpack exists for Grimoire storage; grant_items = TRUE
+	// hands over the Grimoire + lesser staff (the Lich outfit carries neither, so nothing is duplicated).
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_magi2_setup_caster), H, list("major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE), null, TRUE), 1)
 	// Give it decent combat stats to make up for loss of 2 extra lives
 	H.change_stat("strength", 3)
 	H.change_stat("intelligence", 5)

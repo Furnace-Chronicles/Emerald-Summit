@@ -141,15 +141,13 @@
 	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_HEARTFELT, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
-	if(H.mind)
-		H?.mind.adjust_spellpoints(24)
+	// Magi 2: the Lord is a noble leader, not a caster — no arcane spell loadout (legacy spellpoints removed).
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 1)
 		H.change_stat("perception", 1)
-		H?.mind.adjust_spellpoints(6)
 
 // Semi-Antag role. Similar to Lord, just different background and stats change a bit
 /*

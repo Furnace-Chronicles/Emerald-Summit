@@ -1,8 +1,9 @@
 // Lesser Kinesis — minor aspect, port of Azure-Peak's `/datum/magic_aspect/lesser_kinesis`.
 //
-// Both spells already exist in ES as proc_holders:
+// All three spells already exist in ES as proc_holders:
 //   - /obj/effect/proc_holder/spell/invoked/projectile/fetch (code/.../wizard/projectiles_single/fetch.dm)
 //   - /obj/effect/proc_holder/spell/invoked/projectile/repel (code/.../wizard/projectiles_single/repel.dm)
+//   - /obj/effect/proc_holder/spell/invoked/aerosolize (code/.../wizard/invoked_aoe/aerosolize.dm)
 //
 // The Magi 2 grant helpers dispatch on `ispath(spell_path, /obj/effect/proc_holder/spell)`
 // to route these through mind.AddSpell instead of the Magi 2 spell_list path. No new
@@ -27,4 +28,5 @@
 	fixed_spells = list(
 		/obj/effect/proc_holder/spell/invoked/projectile/fetch,
 		/obj/effect/proc_holder/spell/invoked/projectile/repel,
+		/obj/effect/proc_holder/spell/invoked/aerosolize,
 	)

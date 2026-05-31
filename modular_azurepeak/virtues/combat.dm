@@ -1,21 +1,35 @@
-// Arcyne Potential now gives 3 Spellpoints instead of 6 spellpoints so it is less of a "must take" for caster.
+// Arcyne Potential — ported from Azure-Peak's Magi 2 rework. Grants +3 magi2 utility points
+// (held in mage_aspect_config["utilities"]) instead of the dead legacy spellpoint currency.
+// Fork adaptations vs upstream: prestidigitation is the proc_holder type (no datum version here),
+// and the caster trait is TRAIT_ARCYNE_T1 (we have tiered traits, not a single TRAIT_ARCYNE).
 /datum/virtue/combat/magical_potential
 	name = "Arcyne Potential"
 	desc = "I am talented in the Arcyne arts, expanding my capacity for magic. I have become more intelligent from its studies. Other effects depends on what training I chose to focus on at a later age."
-	custom_text = "Classes that has a combat trait (Medium / Heavy Armor Training, Dodge Expert or Critical Resistance) get only prestidigitation. Everyone else get +3 spellpoints and T1 Arcyne Potential if they don't have any Arcyne."
-	added_skills = list(list(/datum/skill/magic/arcane, 1, 6))
+	custom_text = "Classes that has a combat trait (Medium / Heavy Armor Training, Dodge Expert or Critical Resistance) get only prestidigitation. Everyone else get +3 utility points and Arcyne Training if they don't have any Arcyne."
+	added_skills = list(list(/datum/skill/magic/arcane, 1, 6), list(/datum/skill/misc/reading, 1, 6))
 
 /datum/virtue/combat/magical_potential/apply_to_human(mob/living/carbon/human/recipient)
-	// Always grant prestidigitation if they don't have it, don't care about the skill level
-	if (!recipient.mind?.has_spell(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation))
-		recipient.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-	
-	// Check for combat traits
-	if (!HAS_TRAIT(recipient, TRAIT_MEDIUMARMOR) && !HAS_TRAIT(recipient, TRAIT_HEAVYARMOR) && !HAS_TRAIT(recipient, TRAIT_DODGEEXPERT) && !HAS_TRAIT(recipient, TRAIT_CRITICAL_RESISTANCE))
-		// No combat traits: grant spellpoints and arcane tier
-		recipient.mind?.adjust_spellpoints(3)
-		ADD_TRAIT(recipient, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
-	
+	if (!recipient.get_skill_level(/datum/skill/magic/arcane))
+		if (!recipient.mind?.has_spell(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation))
+			recipient.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+		if (!HAS_TRAIT(recipient, TRAIT_MEDIUMARMOR) && !HAS_TRAIT(recipient, TRAIT_HEAVYARMOR) && !HAS_TRAIT(recipient, TRAIT_DODGEEXPERT) && !HAS_TRAIT(recipient, TRAIT_CRITICAL_RESISTANCE))
+			ADD_TRAIT(recipient, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
+			add_arcyne_potential_utilities(recipient, 3)
+	else
+		add_arcyne_potential_utilities(recipient, 3)
+
+/datum/virtue/combat/magical_potential/proc/add_arcyne_potential_utilities(mob/living/carbon/human/recipient, amount)
+	if(!recipient.mind)
+		return
+	if(!LAZYLEN(recipient.mind.mage_aspect_config))
+		recipient.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 0))
+	recipient.mind.mage_aspect_config["utilities"] += amount
+	recipient.mind.check_learnspell()
+	// Utility points are spent through the aspect Grimoire's picker. Stash one in special_items so
+	// the recipient can retrieve it from the loadout tree (right-click), same as the psycrosses
+	// below — without it, a non-mage recipient has no way to spend the points they were granted.
+	recipient.mind.special_items["Grimoire of Aspects"] = /obj/item/book/magi2_grimoire
+
 /datum/virtue/combat/devotee
 	name = "Devotee"
 	desc = "Though not officially of the Church, my relationship with my chosen Patron is strong enough to grant me the most minor of their blessings. I've also kept a psycross of my deity."

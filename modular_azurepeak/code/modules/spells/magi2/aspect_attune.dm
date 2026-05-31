@@ -151,6 +151,13 @@
 	mage_aspect_config = config
 	ensure_mage_basics()
 
+/// Bump the minor-aspect slot count after setup_mage_aspects has applied the config. Used by
+/// classes (e.g. Hedge Mage) whose archetype choice runs in outfit pre_equip, BEFORE equipme()
+/// applies mage_aspect_config — so the caller must defer this (addtimer) to land after setup.
+/datum/mind/proc/magi2_add_bonus_minor(amount = 1)
+	if(LAZYLEN(mage_aspect_config))
+		mage_aspect_config["minor"] += amount
+
 // ---- Utility-spell registry ----
 // Paths offered in the picker's Utilities tab — the spec's utility roster. Mix of Magi 2
 // datum spells + existing ES proc_holders. Spells read their budget cost from point_cost
@@ -179,7 +186,13 @@ GLOBAL_LIST_INIT(utility_spells, list(
 /// post-aspect freebie spells, and hands over a Grimoire (to pick/reshape aspects) plus a lesser
 /// staff implement. The player chooses their starting loadout via the Grimoire's first-open
 /// setup mode. Called from /datum/advclass/equipme() when mage_aspect_config is set.
-/proc/_magi2_setup_caster(mob/living/carbon/human/H, list/config, list/post_spells)
+/// grant_items: TRUE (advclass equipme path) → strip legacy gear and hand out a Grimoire + staff.
+/// FALSE → caller's own class loadout already places the Grimoire/staff (e.g. via backpack_contents
+/// and backr), so skip all item handling and only do the spell-side setup (config/ward/prestidig/
+/// post_spells). Use FALSE whenever this is called deferred (addtimer) from an outfit pre_equip,
+/// because the outfit's items aren't in GetAllContents yet when the timer fires — the dedup guards
+/// below would miss them and grant duplicates.
+/proc/_magi2_setup_caster(mob/living/carbon/human/H, list/config, list/post_spells, grant_items = TRUE)
 	if(!istype(H) || !H.mind)
 		return
 	H.mind.setup_mage_aspects(config)
@@ -189,6 +202,8 @@ GLOBAL_LIST_INIT(utility_spells, list(
 	for(var/spell_path in post_spells)
 		if(!H.mind.has_spell(spell_path))
 			H.mind.AddSpell(new spell_path)
+	if(!grant_items)
+		return
 	// Strip legacy mage starting gear — the old spellbooks ("tome of the arcyne" / "tome in
 	// waiting") and the amethyst focus are superseded by the aspect Grimoire. Only migrated
 	// casters reach here (config set), so non-migrated classes keep their legacy gear.
@@ -198,15 +213,19 @@ GLOBAL_LIST_INIT(utility_spells, list(
 	// Grimoire of Aspects — into the satchel (where the old tome lived). Mirror the outfit system's
 	// storage cascade (roguetown splits the back into SLOT_BACK_L / SLOT_BACK_R, so H.back is wrong):
 	// back-left -> back-right -> belt; then fall back to the hip slot, a hand, the floor.
-	var/obj/item/book/magi2_grimoire/grim = new
-	var/grim_stored = FALSE
-	for(var/slot in list(SLOT_BACK_L, SLOT_BACK_R, SLOT_BELT))
-		var/obj/item/storage = H.get_item_by_slot(slot)
-		if(storage && SEND_SIGNAL(storage, COMSIG_TRY_STORAGE_INSERT, grim, null, TRUE, TRUE))
-			grim_stored = TRUE
-			break
-	if(!grim_stored && !H.equip_to_slot_if_possible(grim, ITEM_SLOT_HIP, disable_warning = TRUE) && !H.put_in_hands(grim))
-		grim.forceMove(get_turf(H))
+	// Skipped entirely if the class loadout already placed a Grimoire (e.g. via backpack_contents)
+	// — that's the preferred way to deliver it, since handing one out post-equip can get dropped
+	// by later equip processing.
+	if(!(locate(/obj/item/book/magi2_grimoire) in H.GetAllContents()))
+		var/obj/item/book/magi2_grimoire/grim = new
+		var/grim_stored = FALSE
+		for(var/slot in list(SLOT_BACK_L, SLOT_BACK_R, SLOT_BELT))
+			var/obj/item/storage = H.get_item_by_slot(slot)
+			if(storage && SEND_SIGNAL(storage, COMSIG_TRY_STORAGE_INSERT, grim, null, TRUE, TRUE))
+				grim_stored = TRUE
+				break
+		if(!grim_stored && !H.equip_to_slot_if_possible(grim, ITEM_SLOT_HIP, disable_warning = TRUE) && !H.put_in_hands(grim))
+			grim.forceMove(get_turf(H))
 	// Lesser staff implement — only for classes that don't already start with a staff. Premade-staff
 	// classes (Court Magician's magos staff, Sorcerer's woodstaff) keep theirs, so no second staff.
 	if(!(locate(/obj/item/rogueweapon/woodstaff) in H.GetAllContents()))

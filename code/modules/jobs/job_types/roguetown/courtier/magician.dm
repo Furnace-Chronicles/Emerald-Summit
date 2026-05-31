@@ -77,7 +77,6 @@
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 1)
 		H.change_stat("perception", 1)
-		H?.mind.adjust_spellpoints(6)
 		H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo,

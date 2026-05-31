@@ -44,7 +44,7 @@
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	beltl = /obj/item/rogueweapon/huntingknife
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/woodstaff
+	backr = /obj/item/rogueweapon/woodstaff/implement_magi2/greater // Magi 2: greater staff implement (T3 Sorcerer)
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/spellbook_unfinished/pre_arcyne = 1,
@@ -58,7 +58,6 @@
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_EXPERT, TRUE)
-		H.mind?.adjust_spellpoints(6)
 
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)

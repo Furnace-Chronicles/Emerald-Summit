@@ -14,6 +14,11 @@
 	self_cast_possible = FALSE
 	cast_range = SPELL_RANGE_GROUND
 	charge_required = FALSE
+	// Mending specifically targets items, so middle-clicks on an item must reach the
+	// cast instead of falling through to normal item handling (pickup/attack). Without
+	// this, InterceptClickOn returns FALSE for every /obj/item target and the spell
+	// silently does nothing. Matches Fridigitation, the other item-targeting spell.
+	targets_items = TRUE
 
 	primary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_CANTRIP
