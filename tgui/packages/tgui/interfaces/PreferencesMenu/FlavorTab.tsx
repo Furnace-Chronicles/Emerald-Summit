@@ -118,6 +118,12 @@ export const FlavorTab = (props) => {
                   {flavor.nsfw_headshot_link ? '(set)' : '(unset)'}
                 </Box>
               </LabeledList.Item>
+              <LabeledList.Item label="OOC Extra">
+                <Button onClick={() => act('edit_ooc_extra')}>Edit URL</Button>
+                <Box inline ml={1} color="label">
+                  {flavor.ooc_extra_set ? '(set)' : '(unset)'}
+                </Box>
+              </LabeledList.Item>
             </LabeledList>
           )}
         </Section>

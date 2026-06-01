@@ -3184,6 +3184,63 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			on_identity_change()
 			return TRUE
 
+		if("edit_ooc_extra")
+			// Embeds an image/video/audio link at the bottom of the OOC notes. Logic mirrors the
+			// legacy preferences.dm "ooc_extra" topic (which the new TGUI Flavor tab had dropped).
+			if(!user.check_agevet())
+				to_chat(user, span_warning("You must be age-vetted to set an OOC Extra."))
+				return TRUE
+			to_chat(user, span_notice("Add a link from a suitable host (catbox, etc) to an mp3, mp4, or jpg / png file to have it embed at the bottom of your OOC notes."))
+			to_chat(user, span_notice("If the link doesn't show up properly in-game, ensure that it's a direct link that opens properly in a browser."))
+			to_chat(user, span_notice("Videos will be shrunk to a ~300x300 square. Keep this in mind."))
+			to_chat(user, "<font color = '#d6d6d6'>Leave a single space to delete it from your OOC notes.</font>")
+			to_chat(user, "<font color ='red'>Abuse of this will get you banned.</font>")
+			var/new_extra_link = tgui_input_text(user, "Input the accessory link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "OOC Extra", prefs.ooc_extra_link, encode = FALSE)
+			if(new_extra_link == null)
+				return TRUE
+			if(new_extra_link == "")
+				return TRUE
+			if(new_extra_link == " ") //Single space to delete
+				prefs.ooc_extra_link = null
+				prefs.ooc_extra = null
+				to_chat(user, span_notice("Successfully deleted OOC Extra."))
+				on_identity_change()
+				return TRUE
+			var/static/list/valid_extensions = list("jpg", "png", "jpeg", "gif", "mp4", "mp3")
+			if(!valid_headshot_link(user, new_extra_link, FALSE, valid_extensions))
+				return TRUE
+			var/list/value_split = splittext(new_extra_link, ".")
+			// extension will always be the last entry
+			var/extension = value_split[length(value_split)]
+			var/info
+			if(extension in valid_extensions)
+				prefs.ooc_extra_link = new_extra_link
+				prefs.ooc_extra = "<div align ='center'><center>"
+				if(extension == "jpg" || extension == "png" || extension == "jpeg" || extension == "gif")
+					prefs.ooc_extra += "<br>"
+					prefs.ooc_extra += "<img src='[prefs.ooc_extra_link]'/>"
+					info = "an embedded image."
+				else
+					switch(extension)
+						if("mp4")
+							prefs.ooc_extra = "<br>"
+							prefs.ooc_extra += "<video width=["288"] height=["288"] controls=["true"]>"
+							prefs.ooc_extra += "<source src='[prefs.ooc_extra_link]' type=["video/mp4"]>"
+							prefs.ooc_extra += "</video>"
+							info = "a video."
+						if("mp3")
+							prefs.ooc_extra = "<br>"
+							prefs.ooc_extra += "<audio controls>"
+							prefs.ooc_extra += "<source src='[prefs.ooc_extra_link]' type=["audio/mp3"]>"
+							prefs.ooc_extra += "Your browser does not support the audio element."
+							prefs.ooc_extra += "</audio>"
+							info = "embedded audio."
+				prefs.ooc_extra += "</center></div>"
+				to_chat(user, span_notice("Successfully updated OOC Extra with [info]"))
+				log_game("[user] has set their OOC Extra to '[prefs.ooc_extra_link]'.")
+				on_identity_change()
+			return TRUE
+
 		if("preview_examine")
 			// Re-uses the classic browser preview popup verbatim.
 			var/list/href_list = list("preference" = "ooc_preview", "task" = "input")
