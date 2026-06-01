@@ -53,7 +53,7 @@
 	effectedstats = list(
 		STATKEY_STR = 1,
 		STATKEY_CON = 1,
-		STATKEY_WIL = 1,
+		STATKEY_END = 1, // AP STATKEY_WIL (willpower) -> ES endurance
 		STATKEY_SPD = 1
 	)
 	return ..()

@@ -11,27 +11,6 @@
 	warming = 5 MINUTES
 	rotprocess = SHELFLIFE_DECENT
 
-/obj/item/reagent_containers/food/snacks/rogue/friedegg/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/friedegg))
-		if(isturf(loc)&& (found_table))
-			playsound(user, 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
-			if(do_after(user,short_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/friedegg/two(loc)
-				qdel(I)
-				qdel(src)
-	else if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheese))
-		if(isturf(loc)&& (found_table))
-			playsound(user, 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
-			if(do_after(user,short_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/stuffedegg(loc)
-				qdel(I)
-				qdel(src)
-		return ..()
-
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/fried //so fried-egg specific shit stops getting inherited
 	name = "fried egg"
 	desc = "Some Astratans enjoy their eggs sunny-side up."
@@ -47,28 +26,6 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_egg.dmi'
 	icon_state = "seggs"
 	eat_effect = /datum/status_effect/buff/snackbuff
-
-/obj/item/reagent_containers/food/snacks/rogue/friedegg/two/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheddarwedge))
-		if(isturf(loc)&& (found_table))
-			playsound(user, 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/friedegg/tiberian(loc)
-				qdel(I)
-				qdel(src)
-	else if (istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/bacon/fried))
-		if(isturf(loc)&& (found_table))
-			playsound(user, 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
-			if(do_after(user,long_cooktime, target = src))
-				user.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
-				new /obj/item/reagent_containers/food/snacks/rogue/friedegg/bacon(loc)
-				qdel(I)
-				qdel(src)
-	else
-		return ..()
 
 /*	.............   Deviled Eggs   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/stuffedegg

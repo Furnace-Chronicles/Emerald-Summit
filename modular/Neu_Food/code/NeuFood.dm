@@ -45,12 +45,17 @@
 			recipe_names += "[R.name] (starts with [initial(ingredient:name)])"
 		. += span_smallnotice("This could be used to prepare: [recipe_names.Join(", ")].")
 
-	if(cooked_type)
+	if(cooked_type && fried_type == cooked_type)
+		// Most foods set cooked_type == fried_type; show one line instead of two duplicates.
 		var/obj/item/CT = cooked_type
-		. += span_smallnotice("It is prepared and ready to be <b>cooked</b> into [initial(CT.name)].")
-	if(fried_type)
-		var/obj/item/FT = fried_type
-		. += span_smallnotice("It is prepared and ready to be <b>fried</b> into [initial(FT.name)].")
+		. += span_smallnotice("It is prepared and ready to be <b>cooked or fried</b> into [initial(CT.name)].")
+	else
+		if(cooked_type)
+			var/obj/item/CT = cooked_type
+			. += span_smallnotice("It is prepared and ready to be <b>cooked</b> into [initial(CT.name)].")
+		if(fried_type)
+			var/obj/item/FT = fried_type
+			. += span_smallnotice("It is prepared and ready to be <b>fried</b> into [initial(FT.name)].")
 	if(slice_path)
 		var/obj/item/ST = slice_path
 		. += span_smallnotice("It is prepared and ready to be <b>sliced</b> into [initial(ST.name)].")
@@ -132,24 +137,32 @@
 			if(4) { over.pixel_x = -7; over.pixel_y = -7 }  // SW
 		add_overlay(over)
 
+	var/recipe_name = active_recipe.name
 	if(!req_reagent)
 		qdel(I)
 	current_step++
 	if(current_step > active_recipe.ingredients.len)
 		if(!active_recipe.needs_cooking)
-			finalize_cooking()
+			finalize_cooking(user)
 		else
 			to_chat(user, span_nicegreen("[name] is ready to be cooked."))
 			cooked_type = active_recipe.result_type
 			fried_type = active_recipe.result_type
 			active_recipe = null
 			current_step = 1
+	else
+		var/next_path = active_recipe.ingredients[current_step]
+		to_chat(user, span_notice("You add to the [recipe_name]. Next: add [initial(next_path:name)]."))
 
-/obj/item/reagent_containers/food/snacks/rogue/proc/finalize_cooking()
+/obj/item/reagent_containers/food/snacks/rogue/proc/finalize_cooking(mob/living/user)
 	var/res_type = active_recipe.result_type
+	var/obj/item/RT = res_type
 	var/turf/T = get_turf(src)
 	cut_overlays()
+	playsound(T, 'sound/foley/dropsound/food_drop.ogg', 50, TRUE)
 	new res_type(T)
+	if(user)
+		user.visible_message(span_notice("[user] finishes preparing [initial(RT.name)]."), span_notice("I finish preparing [initial(RT.name)]."))
 	active_recipe = null
 	qdel(src)
 

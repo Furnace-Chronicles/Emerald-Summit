@@ -42,21 +42,6 @@
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
 	
 
-/obj/item/reagent_containers/food/snacks/rogue/onionsteak/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	if(!experimental_inhand)
-		return
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/preserved/carrot_baked))
-		if(isturf(loc)&& (found_table))
-			playsound(user, 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
-			if(do_after(user,3 SECONDS, target = src))
-				user.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
-				new /obj/item/reagent_containers/food/snacks/rogue/steakcarrotonion(loc)
-				qdel(I)
-				qdel(src)
-	else
-		return ..()
-
 /*	..................   Carrot Steak   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/carrotsteak
 	name = "carrot steak"
@@ -71,21 +56,6 @@
 	rotprocess = SHELFLIFE_DECENT
 	eat_effect = /datum/status_effect/buff/mealbuff
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
-
-/obj/item/reagent_containers/food/snacks/rogue/carrotsteak/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	if(!experimental_inhand)
-		return
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/preserved/onion_fried))
-		if(isturf(loc)&& (found_table))
-			playsound(user, 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
-			if(do_after(user,3 SECONDS, target = src))
-				user.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
-				new /obj/item/reagent_containers/food/snacks/rogue/steakcarrotonion(loc)
-				qdel(I)
-				qdel(src)
-	else
-		return ..()
 
 /*	.................   Steak & carrot & onion   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/steakcarrotonion
@@ -133,21 +103,6 @@
 	eat_effect = /datum/status_effect/buff/mealbuff
 	
 
-/obj/item/reagent_containers/food/snacks/rogue/wienerpotato/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	if(!experimental_inhand)
-		return
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/preserved/onion_fried))
-		if(isturf(loc)&& (found_table))
-			playsound(user, 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
-			if(do_after(user,3 SECONDS, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/wienerpotatonions(loc)
-				qdel(I)
-				qdel(src)
-	else
-		return ..()
-
 /*	.................   Wiener & Fried onions   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/wieneronions
 	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
@@ -163,21 +118,6 @@
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/mealbuff
 	
-
-/obj/item/reagent_containers/food/snacks/rogue/wieneronions/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	if(!experimental_inhand)
-		return
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/preserved/potato_baked))
-		if(isturf(loc)&& (found_table))
-			playsound(user, 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
-			if(do_after(user,3 SECONDS, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/wienerpotatonions(loc)
-				qdel(I)
-				qdel(src)
-	else
-		return ..()
 
 /*	.................   Wiener & potato & onions   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/wienerpotatonions

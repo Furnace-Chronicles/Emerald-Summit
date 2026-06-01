@@ -52,7 +52,7 @@
 /datum/status_effect/buff/snackbuff
 	id = "snack"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/snackbuff
-	effectedstats = list(STATKEY_WIL = 1)
+	effectedstats = list(STATKEY_END = 1) // AP's STATKEY_WIL (willpower) maps to ES endurance
 	duration = 8 MINUTES
 
 /datum/status_effect/buff/snackbuff/on_creation(mob/living/new_owner)
@@ -78,7 +78,7 @@
 /datum/status_effect/buff/greatsnackbuff
 	id = "greatsnack"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/greatsnackbuff
-	effectedstats = list(STATKEY_CON = 1,STATKEY_WIL = 1)
+	effectedstats = list(STATKEY_CON = 1,STATKEY_END = 1) // AP STATKEY_WIL -> ES endurance
 	duration = 10 MINUTES
 
 /datum/status_effect/buff/greatsnackbuff/on_creation(mob/living/new_owner)
@@ -128,7 +128,7 @@
 /datum/status_effect/buff/greatmealbuff
 	id = "greatmeal"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/greatmealbuff
-	effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 1)
+	effectedstats = list(STATKEY_CON = 1, STATKEY_END = 1) // AP STATKEY_WIL -> ES endurance
 	duration = 30 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/greatmealbuff
