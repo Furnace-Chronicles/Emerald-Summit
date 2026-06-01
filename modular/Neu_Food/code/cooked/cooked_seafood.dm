@@ -186,7 +186,7 @@
 	desc = "A cooked mudskipper. With a fishy and earthy flavor. Popular amongst vagrants."
 	icon_state = "mudskippercooked"
 	faretype = FARE_POOR
-	
+
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/bass
 	name = "cooked seabass"
 	desc = "A cooked seabass. With a firm texture, seabass goes well with spices and sauces."
@@ -214,7 +214,7 @@
 	desc = "A cooked sunny. With tender and flaky flesh."
 	icon_state = "sunnycooked"
 	faretype = FARE_POOR
-	
+
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/clam
 	name = "cooked clam"
 	desc = "A cooked clam. With a sweet and briny flavor, clams are often used in soup."
@@ -258,3 +258,48 @@
 	faretype = FARE_NEUTRAL
 	name = "cooked crab"
 	tastes = list("crab" = 1)
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/salmon/black_headed
+	name = "black-headed salmon"
+	icon_state = "salmon_black"
+	faretype = FARE_NEUTRAL
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/flounder
+	name = "flounder"
+	icon_state = "flounder"
+	faretype = FARE_NEUTRAL
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/swamp_shrimp
+	name = "swamp shrimp"
+	icon_state = "swamp_shrimp"
+	faretype = FARE_NEUTRAL
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/swamp_mother
+	name = "swamp mother"
+	icon_state = "swamp_mother"
+	faretype = FARE_NEUTRAL
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/black_bass
+	name = "black bass"
+	icon_state = "black_bass"
+	faretype = FARE_NEUTRAL
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/zizo_abberation
+	name = "zizo abberation"
+	icon_state = "zizo_abberation"
+	faretype = FARE_NEUTRAL
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/sturgeon
+	name = "sturgeon"
+	icon_state = "sturgeon"
+	faretype = FARE_NEUTRAL
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/mackerel
+	name = "mackerel"
+	icon_state = "mackerel"
+	faretype = FARE_NEUTRAL
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/beaksnapper
+	name = "beaksnapper"
+	icon_state = "beaksnapper"
+	faretype = FARE_NEUTRAL

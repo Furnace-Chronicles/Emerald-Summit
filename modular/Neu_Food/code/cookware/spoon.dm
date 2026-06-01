@@ -7,14 +7,24 @@
 	w_class = WEIGHT_CLASS_TINY
 	sellprice = 0
 
+/obj/item/kitchen/spoon/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click a bowl with the spoon to drink from its contents.")
+	. += span_info("Nobler appetites prefer utensils over simply eating and drinking with one's bare hands.")
+
 /obj/item/kitchen/spoon/aalloy
 	name = "decrepit spoon"
 	icon_state = "aspoon"
+	color = "#bb9696"
 
 /obj/item/kitchen/spoon/iron
 	name = "iron spoon"
 	icon_state = "spoon_iron"
 	sellprice = 6
+
+/obj/item/kitchen/spoon/bronze
+	name = "bronze spoon"
+	icon_state = "spoon_bronze"
 
 /obj/item/kitchen/spoon/tin
 	name = "tin spoon"
@@ -30,6 +40,7 @@
 	name = "silver spoon"
 	icon_state = "spoon_silver"
 	sellprice = 24
+	is_lesser_silver = TRUE
 
 /obj/item/kitchen/spoon/carved
 	name = "carved spoon"
