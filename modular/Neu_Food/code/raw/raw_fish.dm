@@ -8,6 +8,7 @@
 	obj_flags = CAN_BE_HIT
 	var/dead = TRUE
 	var/no_rarity_sprite = FALSE // Whether this fish has rarity based sprites. If not, don't change icon states
+	var/sinkable = TRUE
 	max_integrity = 50
 	sellprice = 10
 	dropshrink = 0.6
@@ -19,6 +20,20 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/fish
 	eat_effect = /datum/status_effect/debuff/uncookedfood
 	cooked_smell = /datum/pollutant/food/cooked_fish
+	possible_item_intents = list(/datum/intent/food, /datum/intent/mace/slap)
+	force = 8
+
+/datum/intent/mace/slap
+	name = "slap"
+	blade_class = BCLASS_PUNCH
+	attack_verb = list("slaps", "smacks", "wallops", "chastises")
+	hitsound = list('sound/foley/slap.ogg', 'modular/Neu_Food/sound/meatslap.ogg', 'sound/misc/mat/sex_clap/hard/SexSmack21.ogg', 'sound/misc/mat/sex_clap/hard/SexSmack24.ogg')
+	chargetime = 1
+	penfactor = PEN_NONE
+	swingdelay = 0
+	icon_state = "fish"
+	item_d_type = "blunt"
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
 /obj/item/reagent_containers/food/snacks/fish/dead
 	dead = TRUE
@@ -78,6 +93,9 @@
 		STOP_PROCESSING(SSobj, src)
 		return 1
 
+/obj/item/reagent_containers/food/snacks/fish/after_throw(datum/callback/callback)
+	. = ..()
+	sinkable = TRUE
 
 /obj/item/reagent_containers/food/snacks/fish/salmon
 	name = "salmon"
@@ -183,3 +201,187 @@
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/cod
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/cod
 
+/obj/item/reagent_containers/food/snacks/fish/creepy_eel
+	name = "abyssal eel"
+	desc = "Pick me up pick me up pick me up pick me up pick me up pick me up!"
+	icon_state = "creepy_eel"
+	faretype = FARE_IMPOVERISHED
+	no_rarity_sprite = TRUE
+	var/was_i_picked_up = FALSE
+	dropshrink = 0
+
+/obj/item/reagent_containers/food/snacks/fish/creepy_eel/pickup(mob/living/user)
+	if(!was_i_picked_up && ishuman(user))
+		teleport_to_dream(user, force = TRUE)
+		was_i_picked_up = TRUE
+		desc = "A slimy eel, you feel a strange mundanity looking at it... You're assured there's nothing weird about it whatsoever. It might as well be the most average thing in the realm."
+	..()
+
+/obj/item/reagent_containers/food/snacks/fish/creepy_squid
+	name = "brain squid"
+	desc = "It makes me feel strange..."
+	icon_state = "creepy_squid"
+	faretype = FARE_IMPOVERISHED
+	no_rarity_sprite = TRUE
+	dropshrink = 0
+
+/obj/item/reagent_containers/food/snacks/fish/creepy_squid/examine(mob/user)
+	. = ..()
+	var/mob/living/carbon/human/H = user
+	if(ishuman(H) && !HAS_TRAIT(H, TRAIT_NOMOOD) && H.patron.type != /datum/patron/divine/abyssor)
+		. += span_danger("As I behold the squid closely, I can see its body extend into the spectral shape of a vicious, horrific creature. Countless tentacles lead into innumerable spiny limbs with vicious looking spikes. A singular, gigantic eye stares back at me. The image fades...")
+		H.add_stress(/datum/stressevent/creepy_squid)
+		H.emote("scream")
+		H.Knockdown(1)
+	else if(H.patron.type == /datum/patron/divine/abyssor)
+		. += span_notice("It's the most beautiful creature I have ever laid my eyes upon.")
+		user.add_stress(/datum/stressevent/creepy_squid_happy)
+
+/datum/stressevent/creepy_squid
+	timer = 5 MINUTES
+	stressadd = 2
+	desc = span_danger("I don't know what I saw, but I can still see parts of that horrific form in the corners of my vision.")
+
+/datum/stressevent/creepy_squid_happy
+	timer = 25 MINUTES
+	stressadd = -1
+	desc = span_notice("Seeing that beautiful squid made me really happy!")
+
+/obj/item/reagent_containers/food/snacks/fish/creepy_shark
+	name = "iridescent reaver"
+	desc = "Its scales refract light in a strange, unsettling manner."
+	icon_state = "creepy_shark"
+	faretype = FARE_IMPOVERISHED
+	no_rarity_sprite = TRUE
+	dropshrink = 0
+	var/loot_spawn_cooldown
+
+// I'll probably give this a cooler effect later, but scope creep ahhh.
+/obj/item/reagent_containers/food/snacks/fish/creepy_shark/attack_self(mob/user)
+	if(world.time < loot_spawn_cooldown)
+		var/time_left = (loot_spawn_cooldown - world.time) / (1 MINUTES)
+		var/minutes_left = round(time_left, 0.1)
+		to_chat(user, span_warning("The [src] feels inert. It will take about [minutes_left] more minutes before it can produce again."))
+		return TRUE
+
+	var/obj/effect/spawner/lootdrop/roguetown/abyssor/table = new /obj/effect/spawner/lootdrop/roguetown/abyssor
+	var/list/loot_table = table.loot
+	if(!loot_table || !loot_table.len)
+		to_chat(user, span_warning("The [src] shimmers faintly, but nothing happens."))
+		return TRUE
+
+	var/lootspawn = pickweight(loot_table)
+
+	if(!lootspawn)
+		to_chat(user, span_warning("The [src] shimmers faintly, but nothing happens."))
+		return TRUE
+
+	var/obj/item/I = new lootspawn()
+
+	if(user.put_in_hands(I))
+		to_chat(user, span_notice("The [src] shimmers, and you feel the weight of [I] materialize in your hand!"))
+	else
+		I.forceMove(user.drop_location())
+		to_chat(user, span_notice("The [src] shimmers, and [I] appears at your feet!"))
+
+	loot_spawn_cooldown = world.time + 30 MINUTES
+	return TRUE
+
+/obj/item/reagent_containers/food/snacks/fish/creepy_shark/examine(mob/user)
+	. = ..()
+	if(loot_spawn_cooldown && world.time < loot_spawn_cooldown)
+		var/time_left = (loot_spawn_cooldown - world.time) / (1 MINUTES)
+		var/minutes_left = round(time_left, 0.1)
+		. += span_notice("It feels inert and cannot be squeezed yet. About [minutes_left] more minutes required.")
+	else
+		. += span_notice("You swear you can hear it demand you squeeze it in your hand.")
+
+/obj/item/reagent_containers/food/snacks/fish/salmon/black_headed
+	name = "black-headed salmon"
+	desc = "Black-Headed Salmon is an ocean fish found in open salt waters, recognizable by its dark head and lighter body. It is fully edible and prized for its firm, tasty meat, and the dark coloration likely helps it blend in when hunting near the surface."
+	icon_state = "salmon_black"
+	faretype = FARE_NEUTRAL
+	no_rarity_sprite = TRUE
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/salmon/black_headed
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/salmon/black_headed
+	sellprice = 17
+
+/obj/item/reagent_containers/food/snacks/fish/flounder
+	name = "flounder"
+	desc = "Flounder is a flat ocean fish living in open salt waters, well adapted to life along the seabed. It is fully edible and known for its mild, tender meat, and an interesting fact is that both of its eyes are located on one side of the body, helping it stay hidden while lying flat on the ocean floor."
+	icon_state = "flounder"
+	faretype = FARE_NEUTRAL
+	no_rarity_sprite = TRUE
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/flounder
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/flounder
+	sellprice = 5
+
+/obj/item/reagent_containers/food/snacks/fish/swamp_shrimp
+	name = "swamp shrimp"
+	icon_state = "swamp_shrimp"
+	desc = "Swamp \"Shrimp\" is a small crustacean found in murky swamp waters, adapted to survive in dirty, low-oxygen water."
+	faretype = FARE_NEUTRAL
+	no_rarity_sprite = TRUE
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/swamp_shrimp
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/swamp_shrimp
+	sellprice = 5
+
+/obj/item/reagent_containers/food/snacks/fish/swamp_mother
+	name = "swamp mother"
+	icon_state = "swamp_mother"
+	desc = "Swamp Mother is a large swamp-dwelling creature found in murky waters."
+	faretype = FARE_NEUTRAL
+	no_rarity_sprite = TRUE
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/swamp_mother
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/swamp_mother
+	sellprice = 15
+
+/obj/item/reagent_containers/food/snacks/fish/black_bass
+	name = "black bass"
+	icon_state = "black_bass"
+	desc = "Black Bass is a freshwater fish found in clean rivers and lakes, known for its strength and aggressive behavior. It is fully edible and popular for its firm meat, and a fun fact is that black bass are notorious for fighting hard even when caught on light tackle."
+	faretype = FARE_NEUTRAL
+	no_rarity_sprite = TRUE
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/black_bass
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/black_bass
+	sellprice = 7
+
+/obj/item/reagent_containers/food/snacks/fish/zizo_abberation
+	name = "zizo abberation"
+	icon_state = "zizo_abberation"
+	desc = "Zizo Aberration is a cave-dwelling creature found in murky underground waters. It is edible, but widely nicknamed the “Zizo creature” due to its disgusting behavior, it viciously bites any hand that comes into contact with it, whether in water or out."
+	faretype = FARE_NEUTRAL
+	no_rarity_sprite = TRUE
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/zizo_abberation
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/zizo_abberation
+	sellprice = 20
+
+/obj/item/reagent_containers/food/snacks/fish/sturgeon
+	name = "sturgeon"
+	icon_state = "sturgeon"
+	desc = "Sturgeon is a large freshwater fish found in clean rivers and waterfalls, known for its ancient appearance and heavy armor-like scales. It is fully edible and highly valued, and an interesting fact is that sturgeons have existed for over 200 million years, making them true living fossils."
+	faretype = FARE_NEUTRAL
+	no_rarity_sprite = TRUE
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/sturgeon
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/sturgeon
+	sellprice = 5
+
+/obj/item/reagent_containers/food/snacks/fish/mackerel
+	name = "mackerel"
+	icon_state = "mackerel"
+	desc = "Mackerel is a fast-moving ocean fish found in open salt waters. It is fully edible, rich in oils and flavor, and known for its speed, mackerel can swim so fast it must keep moving to breathe properly."
+	faretype = FARE_NEUTRAL
+	no_rarity_sprite = TRUE
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/mackerel
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/mackerel
+	sellprice = 5
+
+/obj/item/reagent_containers/food/snacks/fish/beaksnapper
+	name = "beaksnapper"
+	icon_state = "beaksnapper"
+	desc = "Beaksnapper is a colorful ocean fish found in salt waters, named for its strong, beak-like mouth. It is edible and prized for its firm meat, and fun fact: its snapping bite is strong enough to crush small shells, making it a clever little predator."
+	faretype = FARE_NEUTRAL
+	no_rarity_sprite = TRUE
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/beaksnapper
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/beaksnapper
+	sellprice = 15
