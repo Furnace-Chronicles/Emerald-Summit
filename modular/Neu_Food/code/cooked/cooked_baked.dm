@@ -783,7 +783,7 @@
 	slices_num = 6
 	bitesize = 8
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/poisontruffletomatoplate_slice
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD + SNACK_CHUNKY, /datum/reagent/berrypoison = 5)
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD + SNACK_CHUNKY, /datum/reagent/toxin/berrypoison = 5)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("richly smooth and salty tomatoes" = 1, "hot and gooey cheese" = 1, "rubbery and bitter truffles" = 1)
@@ -800,7 +800,7 @@
 	icon_state = "onion_pizza_slice"
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY, /datum/reagent/berrypoison = 5)
+	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY, /datum/reagent/toxin/berrypoison = 5)
 	tastes = list("richly smooth and salty tomatoes" = 1, "hot and gooey cheese" = 1, "rubbery and bitter truffles" = 1)
 	bitesize = 3
 	rotprocess = SHELFLIFE_EXTREME

@@ -309,7 +309,7 @@
 	desc = "Flatdough with a healthy smearing of sauced tomatoes, a sprinkling of fresh cheese, and a dotting of rare truffles upon its surface. It is ready to be baked into a deliciously decadant tomatoplate."
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
-	list_reagents = list(/datum/reagent/berrypoison = 5)
+	list_reagents = list(/datum/reagent/toxin/berrypoison = 5)
 	cooked_smell = /datum/pollutant/food/tomatoplate_truffle
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/poisontruffletomatoplate
 	foodtype = GRAIN | FRUIT | DAIRY
@@ -645,7 +645,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fruity_bookbread
-	list_reagents = list(/datum/reagent/berrypoison = 12)
+	list_reagents = list(/datum/reagent/toxin/berrypoison = 12)
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/poisonberrybookbread
 	foodtype = GRAIN | FRUIT
 

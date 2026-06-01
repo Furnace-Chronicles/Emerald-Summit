@@ -42,6 +42,7 @@ All foods are distributed among various categories. Use common sense.
 	var/bitecount = 0
 	var/trash = null
 	var/slice_path    // for sliceable food. path of the item resulting from the slicing
+	var/slice_name    // optional custom name for slices (ported from Azure-Peak; used by pies)
 	var/slice_bclass = BCLASS_CUT
 	var/slices_num
 	var/slice_batch = TRUE

@@ -1308,7 +1308,7 @@
 	slices_num = 5
 	bitesize = 8
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/poisonberrybookbread_slice
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD, /datum/reagent/berrypoison = 12)
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD, /datum/reagent/toxin/berrypoison = 12)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("chewy, crispy-edged butterdough" = 1, "bitterly frosted jackberries" = 1)
@@ -1346,7 +1346,7 @@
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("chewy, crispy-edged butterdough", "bitterly frosted jackberries" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = BUTTERDOUGH_NUTRITION + SNACK_DECENT, /datum/reagent/berrypoison = 12)
+	list_reagents = list(/datum/reagent/consumable/nutriment = BUTTERDOUGH_NUTRITION + SNACK_DECENT, /datum/reagent/toxin/berrypoison = 12)
 	bitesize = 3
 	rotprocess = SHELFLIFE_LONG
 	dropshrink = 0.8
