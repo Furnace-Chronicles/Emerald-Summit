@@ -96,7 +96,7 @@
 	beltr = /obj/item/storage/keyring/mage
 	beltl = /obj/item/storage/magebag/starter
 	id = /obj/item/clothing/ring/gold
-	r_hand = /obj/item/rogueweapon/woodstaff/implement_magi2/grand // Magi 2: Court Mage starts with the grand staff implement
+	r_hand = /obj/item/rogueweapon/woodstaff/implement_magi2/grand/court_magos // Magi 2: Court Mage starts with the grand staff implement (named "Staff of the Court Magos")
 	backl = /obj/item/storage/backpack/rogue/satchel
 	. = ..()
 	if(H.age == AGE_OLD)

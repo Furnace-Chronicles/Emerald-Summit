@@ -30,7 +30,7 @@
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	beltr = /obj/item/storage/magebag/starter
 	id = /obj/item/clothing/ring/gold
-	r_hand = /obj/item/rogueweapon/woodstaff/implement_magi2/grand // Magi 2: grand staff implement (matches the Court Magician)
+	r_hand = /obj/item/rogueweapon/woodstaff/implement_magi2/grand/heartfelt_magos // Magi 2: grand staff implement, named "The Staff of the Heartfelt Magos"
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/poison,
