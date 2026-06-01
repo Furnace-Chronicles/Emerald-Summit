@@ -2609,6 +2609,8 @@
 #include "modular\Creechers\code\trufflepig.dm"
 #include "modular\Mapping\icons\Mapping_aides.dm"
 #include "modular\Neu_Farming\code\eggs.dm"
+#include "code\controllers\subsystem\rogue\cooking_subsystem.dm"
+#include "code\controllers\subsystem\rogue\cooking\cooking_recipes.dm"
 #include "modular\Neu_Food\cooking_helpers.dm"
 #include "modular\Neu_Food\code\NeuFood.dm"
 #include "modular\Neu_Food\code\cooked\cooked_baked.dm"
