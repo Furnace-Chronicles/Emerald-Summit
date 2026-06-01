@@ -140,18 +140,26 @@
 			else
 				has_variant = TRUE // dragonhide/crystalhide upgrade replaces the base ward
 		if(has_variant)
+			// Upgrade ward(s) present — strip the base ward only. NOTE: RemoveSpell() matches by
+			// istype(), and dragonhide/crystalhide are SUBTYPES of the base ward, so
+			// RemoveSpell(base_ward) would also delete the Autowardry upgrades. Remove the exact
+			// instance instead (matches _mind_revoke_magi2_spell's pattern).
 			if(base_ward)
-				RemoveSpell(base_ward)
+				spell_list -= base_ward
+				qdel(base_ward)
 		else if(!base_ward)
 			AddSpell(new /datum/action/cooldown/spell/conjure_arcyne_ward_magi2)
 	else
-		// Class doesn't qualify for a ward — strip any base ward present.
-		for(var/datum/action/cooldown/spell/conjure_arcyne_ward_magi2/ward in spell_list)
+		// Class doesn't qualify for a ward — strip any base ward present. Same istype caveat as
+		// above: remove exact base-ward instances, never via RemoveSpell (it would catch the
+		// upgrade subtypes too). Iterate a copy since we mutate spell_list inside the loop.
+		for(var/datum/action/cooldown/spell/conjure_arcyne_ward_magi2/ward in spell_list.Copy())
 			if(ward.type != /datum/action/cooldown/spell/conjure_arcyne_ward_magi2)
 				continue
 			if(ward.conjured_ward && !QDELETED(ward.conjured_ward))
 				qdel(ward.conjured_ward)
-			RemoveSpell(ward)
+			spell_list -= ward
+			qdel(ward)
 
 /datum/mind/proc/setup_mage_aspects(list/config)
 	mage_aspect_config = config

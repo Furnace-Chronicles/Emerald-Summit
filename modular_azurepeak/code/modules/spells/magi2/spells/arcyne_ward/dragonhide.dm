@@ -32,10 +32,8 @@
 		Grants fire resistance, halving fire damage and causing flames to burn out faster, and bolsters constitution. \
 		300 integrity. Otherwise functions as a standard arcyne ward - yields coverage to real armor, does not regenerate. \
 		Cast again to dismiss. Cooldown begins when dismissed or destroyed."
-	// Upstream uses "conjure_dragonhide" — that state isn't in ES's roguespells.dmi yet,
-	// so we fall back to the base ward icon. spell_color tints the on-cast effects so
-	// the variant is still visually distinct in play even with the placeholder icon.
-	button_icon_state = "conjure_armor"
+	button_icon = 'icons/mob/actions/mage_conjure.dmi'
+	button_icon_state = "conjure_dragonhide"
 	spell_color = GLOW_COLOR_METAL
 	invocations = list("Draconis Congrego!")
 	point_cost = 4
@@ -48,6 +46,7 @@
 	armor = ARMOR_DRAGONHIDE
 	max_integrity = UPGRADE_ARCYNE_INTEGRITY
 	arcyne_armor_tier = ARCYNE_WARD_TIER_GREATER
+	ward_examine_phrase = "wrapped in a shimmering arcyne ward covered in draconic scales"
 
 /obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/dragonhide/setup_ward(mob/living/carbon/human/H)
 	..()

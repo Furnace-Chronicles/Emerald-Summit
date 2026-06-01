@@ -3,12 +3,12 @@
 // Cannot target self. Uses the existing /datum/status_effect/buff/* effects (core).
 
 /datum/action/cooldown/spell/ascension_magi2
-	button_icon = 'icons/mob/actions/mage_augmentation.dmi'
+	button_icon = 'icons/mob/actions/roguespells.dmi'
 	name = "Ascension"
 	desc = "Channel all of your arcyne potential into another, granting them every augmentation at once - \
 		Haste, Stoneskin, Giant's Strength, Fortitude, Hawk's Eyes, and Guidance. \
 		This spell drains an enormous amount of energy from the caster and cannot be used on oneself."
-	button_icon_state = "stoneskin"
+	button_icon_state = "convergence"
 	sound = 'sound/magic/charging.ogg'
 	spell_color = GLOW_COLOR_BUFF
 	glow_intensity = GLOW_INTENSITY_VERY_HIGH

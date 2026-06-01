@@ -151,6 +151,9 @@
 	/// Used by the conjure spell's cast() to gate downgrades. Base ward = BASE; the
 	/// Autowardry upgrades override to GREATER.
 	var/arcyne_armor_tier = ARCYNE_WARD_TIER_BASE
+	/// Examine phrase shown on the wearer (see /mob/living/carbon/human/examine in bestow_ward.dm).
+	/// Upgrade wards override this to describe their distinct appearance.
+	var/ward_examine_phrase = "wrapped in a shimmering arcyne ward"
 
 /obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/Initialize(mapload)
 	. = ..()
@@ -160,23 +163,6 @@
 /obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/proc/setup_ward(mob/living/carbon/human/H)
 	ward_owner = H
 	recalculate_coverage()
-	update_button_integrity()
-
-/// Stamp the current integrity percentage on the top of the linked spell's action button.
-/// Lives on the ward's own .maptext (separate from the cooldown timer, which uses the
-/// action button's maptext_holder at the bottom).
-/obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/proc/update_button_integrity()
-	if(QDELETED(src) || !linked_spell || QDELETED(linked_spell))
-		return
-	var/atom/movable/screen/movable/action_button/btn = linked_spell.button
-	if(!btn)
-		return
-	var/pct = max_integrity ? round((obj_integrity / max_integrity) * 100) : 0
-	btn.maptext_x = 0
-	btn.maptext_y = 20 // anchored from the bottom — 20px up puts it just below the top edge
-	btn.maptext_width = 32
-	btn.maptext_height = 10
-	btn.maptext = "<center><span style='font-family: Verdana; font-size: 7pt; font-weight: bold; color: #FFFFFF; text-shadow: 1px 1px 0 #000000, -1px 1px 0 #000000, 1px -1px 0 #000000, -1px -1px 0 #000000;'>[pct]%</span></center>"
 
 /// One-shot coverage calc: the ward covers every body slot the player isn't already
 /// wearing armor in. Upstream re-runs this on each equip/drop signal; we run it once
@@ -222,7 +208,6 @@
 		if(prob(50))
 			do_sparks(2, FALSE, T)
 	. = ..()
-	update_button_integrity()
 
 /obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/proc/flash_ward()
 	if(!ward_owner)
@@ -250,10 +235,6 @@
 			ward_owner.skin_armor = null
 		ward_owner = null
 	if(linked_spell)
-		// Clear the integrity counter from the spell button.
-		var/atom/movable/screen/movable/action_button/btn = linked_spell.button
-		if(btn)
-			btn.maptext = ""
 		// Break (not dismiss) = full cooldown; dismiss handles its own proportional refund.
 		if(!QDELETED(linked_spell) && !dismissed)
 			linked_spell.StartCooldown(linked_spell.get_adjusted_cooldown())

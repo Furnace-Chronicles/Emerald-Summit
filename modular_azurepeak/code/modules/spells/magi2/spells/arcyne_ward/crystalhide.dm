@@ -31,8 +31,8 @@
 		Grants brigandine-tier protection and bolsters intelligence. Shatters violently when broken, \
 		knocking back nearby foes. 300 integrity. Otherwise functions as a standard arcyne ward - \
 		yields coverage to real armor, does not regenerate. Cast again to dismiss."
-	// Placeholder icon — upstream's "conjure_dragonhide" state isn't in ES's roguespells.dmi.
-	button_icon_state = "conjure_armor"
+	button_icon = 'icons/mob/actions/mage_conjure.dmi'
+	button_icon_state = "conjure_crystalhide"
 	spell_color = GLOW_COLOR_ARCANE
 	invocations = list("Psymagia Congrego!")
 	charge_time = 5 SECONDS
@@ -47,6 +47,7 @@
 	armor = ARMOR_BRIGANDINE
 	max_integrity = UPGRADE_ARCYNE_INTEGRITY
 	arcyne_armor_tier = ARCYNE_WARD_TIER_GREATER
+	ward_examine_phrase = "wrapped in a shimmering arcyne ward sheathed in a lattice of crystal"
 
 /obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/crystalhide/setup_ward(mob/living/carbon/human/H)
 	..()

@@ -122,7 +122,7 @@
 	. = ..()
 	var/obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/ward = skin_armor
 	if(istype(ward))
-		. += span_info("[user == src ? "I am" : "[p_they(TRUE)] [p_are()]"] wrapped in a shimmering arcyne ward.")
+		. += span_info("[user == src ? "I am" : "[p_they(TRUE)] [p_are()]"] [ward.ward_examine_phrase].")
 		var/intcheck = ward.integrity_check()
 		if(intcheck)
 			. += intcheck
