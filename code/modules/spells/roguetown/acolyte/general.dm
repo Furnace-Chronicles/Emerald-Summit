@@ -325,7 +325,7 @@
 	movement_interrupt = FALSE
 //	chargedloop = /datum/looping_sound/invokeholy
 	chargedloop = null
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross, /obj/item/clothing/mask/rogue)
+	req_items = list(/obj/item/clothing/mask/rogue)
 	sound = list('sound/magic/convergence1.ogg','sound/magic/convergence2.ogg','sound/magic/convergence3.ogg','sound/magic/convergence4.ogg')
 	invocation_type = "none"
 	associated_skill = /datum/skill/magic/holy

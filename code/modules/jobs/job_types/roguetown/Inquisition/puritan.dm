@@ -85,6 +85,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/magic/holy =SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/puritan/inspector/pre_equip(mob/living/carbon/human/H)
@@ -194,6 +195,12 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/tracking = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN, //I'd make these expert like knight if not for the juiced stat lineup this guy has.
+		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/magic/holy =SKILL_LEVEL_JOURNEYMAN,
 	)
 
 /datum/outfit/job/puritan/ordinator/pre_equip(mob/living/carbon/human/H)
@@ -201,7 +208,7 @@
 	has_loadout = TRUE
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles.
+	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2) //Capped to T1 miracles.
 	H.verbs |= /mob/living/carbon/human/proc/faith_test
 	H.verbs |= /mob/living/carbon/human/proc/torture_victim
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq

@@ -108,6 +108,50 @@
 	gripped_intents =  list(/datum/intent/chisel)
 	already_assembled = TRUE
 
+// Emerald addition: tool-only stance. Outside combat mode the chisel is just a tool — block attacks
+// on anything that isn't a legitimate chiseling target. Enter cmode to use it as a weapon.
+/obj/item/rogueweapon/chisel/assembly/pre_attack(atom/target, mob/living/user, params)
+	if(!user)
+		return ..()
+	if(user.cmode)
+		return ..()
+	if(istype(target, /obj/item/natural/stone))
+		return ..()
+	if(istype(target, /obj/item/natural/rock))
+		return ..()
+	if(istype(target, /obj/structure/roguerock))
+		return ..()
+	if(isturf(target))
+		return ..()
+	to_chat(user, span_warning("I'd need to be in a fighting stance to swing this at [target]."))
+	return TRUE
+
+// Emerald addition: after each successful chisel, automatically continue with the next chiselable
+// item on the same turf. Player only has to click ONE stone in a pile and the chisel walks through
+// the rest until the tile's clear, they move away, or they swap held items.
+/proc/chisel_chain_next(mob/living/user, obj/item/W, turf/T)
+	if(!user || QDELETED(user) || !W || QDELETED(W) || !T)
+		return
+	if(user.used_intent?.type != /datum/intent/chisel)
+		return
+	if(user.get_active_held_item() != W)
+		return
+	if(!user.Adjacent(T))
+		return
+	// Look for the next chiselable on this turf. Order: stones, rocks, structures.
+	var/obj/item/natural/stone/next_stone = locate() in T
+	if(next_stone)
+		next_stone.attackby(W, user)
+		return
+	var/obj/item/natural/rock/next_rock = locate() in T
+	if(next_rock)
+		next_rock.attackby(W, user)
+		return
+	var/obj/structure/roguerock/next_struct = locate() in T
+	if(next_struct)
+		next_struct.attackby(W, user)
+		return
+
 /obj/item/rogueweapon/chisel/assembly/mallet
 	icon_state = "chiselm"
 	item_state = "hammer_w"

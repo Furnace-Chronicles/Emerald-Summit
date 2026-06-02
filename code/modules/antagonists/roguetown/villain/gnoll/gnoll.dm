@@ -13,7 +13,11 @@
 	sewrepair = FALSE
 	max_integrity = 475
 	item_flags = DROPDEL
-	repair_time = 14 SECONDS
+	// 5 minutes of zero damage before regen kicks in. Trivial damage
+	// (post-armor < 5) ticks integrity but does NOT reset the timer, so
+	// brushing past a thorn bush won't keep a gnoll's skin from mending.
+	repair_time = 5 MINUTES
+	min_damage_to_reset = 5
 
 /datum/antagonist/gnoll
 	name = "Gnoll"
