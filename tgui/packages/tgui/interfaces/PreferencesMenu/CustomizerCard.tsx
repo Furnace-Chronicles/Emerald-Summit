@@ -221,9 +221,12 @@ export const CustomizerCard = ({
             </Button>
           </Stack.Item>
         )}
+        {/* Show the choice selector whenever there are multiple choices. Do NOT also gate on
+            choice_name !== name: the testicles customizer is named "Testicles" and its default
+            choice is also "Testicles", so that extra check hid the dropdown and made the second
+            choice ("Internal testicles") unreachable. */}
         {!c.disabled &&
-          !!c.has_multiple_choices &&
-          c.choice_name !== c.name && (
+          !!c.has_multiple_choices && (
             <Stack.Item>
               <Dropdown
                 width="180px"

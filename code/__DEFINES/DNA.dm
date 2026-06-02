@@ -154,7 +154,7 @@
 
 #define BODY_SIZE_NORMAL 1.00
 #define BODY_SIZE_MAX 1.05
-#define BODY_SIZE_MIN 1.00
+#define BODY_SIZE_MIN 0.95
 #define BODY_SIZE_GIANT 1.25
 
 #define HAIR_COLOR_LIST list("#8f5a00", "#593800", "#362200", "#4e422e", "#8c8271", "#bfb7ab", "#31302e", "#f0dc48")
