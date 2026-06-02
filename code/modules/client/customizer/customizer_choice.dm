@@ -12,6 +12,13 @@
 	var/allows_accessory_color_customization = TRUE
 	/// Whether to pick a random accessory from all possible ones in `sprite_accessories` rather than use the proc for randomization
 	var/generic_random_pick = FALSE
+	/// Lazily-built display-name list for sprite_accessories — populated on
+	/// first get_pref_data() call so the ~hundreds-of-entries hair lists
+	/// don't get re-walked on every ui_data poll. Choice datums are
+	/// effectively singletons (one per type, via CUSTOMIZER_CHOICE) so this
+	/// per-instance cache is per-class in practice. Stays null when there's
+	/// fewer than 2 accessories (no rotate picker rendered).
+	var/list/cached_accessory_names
 
 /datum/customizer_choice/New()
 	. = ..()
@@ -83,6 +90,55 @@
 				var/named_index = (accessory.color_keys == 1) ? accessory.color_key_name : accessory.color_key_names[index]
 				dat += "<br>[named_index]: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=acc_color;color_index=[index]''><span class='color_holder_box' style='background-color:[color_list[index]]'></span></a>"
 
+/// Returns a list of structured "picker" specs for rendering in the TGUI customizer editor.
+/// Mirrors the per-choice extras that generate_pref_choices emits as HTML.
+/// Each picker is a list with at least:
+///   "type" — "rotate" | "chooser" | "reset_colors" | "color" | "list_value" | "toggle"
+///   "label" — optional human label (color/list_value/toggle)
+///   "text" — current value text (chooser/list_value/toggle)
+///   "color" — current color (color)
+///   "task" — customizer_task to send (for non-rotate types)
+///   "extra" — assoc list of extra href params to merge (e.g. color_index, rotate direction)
+/datum/customizer_choice/proc/get_pref_data(datum/preferences/prefs, datum/customizer_entry/entry)
+	var/list/pickers = list()
+	var/datum/sprite_accessory/accessory
+	if(sprite_accessories && entry.accessory_type)
+		accessory = SPRITE_ACCESSORY(entry.accessory_type)
+	if(!accessory)
+		return pickers
+
+	if(length(sprite_accessories) > 1)
+		if(!cached_accessory_names)
+			cached_accessory_names = list()
+			for(var/choice_type in sprite_accessories)
+				var/datum/sprite_accessory/style = SPRITE_ACCESSORY(choice_type)
+				if(style?.name)
+					cached_accessory_names += style.name
+		pickers += list(list(
+			"type" = "rotate",
+			"text" = accessory.name,
+			"task" = "choose_acc",
+			"options" = cached_accessory_names,
+		))
+
+	if(allows_accessory_color_customization && !(accessory.color_disabled))
+		pickers += list(list(
+			"type" = "reset_colors",
+			"text" = "Reset colors",
+			"task" = "reset_colors",
+		))
+		var/list/color_list = color_string_to_list(entry.accessory_colors)
+		for(var/index in 1 to accessory.color_keys)
+			var/label = (accessory.color_keys == 1) ? accessory.color_key_name : accessory.color_key_names[index]
+			pickers += list(list(
+				"type" = "color",
+				"label" = label,
+				"color" = color_list[index],
+				"task" = "acc_color",
+				"extra" = list("color_index" = "[index]"),
+			))
+	return pickers
+
 /datum/customizer_choice/proc/handle_topic(mob/user, list/href_list, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	switch(href_list["customizer_task"])
 		if("choose_acc")
@@ -92,7 +148,12 @@
 			for(var/choice_type in sprite_accessories)
 				var/datum/sprite_accessory/accessory = SPRITE_ACCESSORY(choice_type)
 				choice_list[accessory.name] = choice_type
-			var/chosen_input = tgui_input_list(user, "Choose your [lowertext(name)] appearance:", "Character Preference",choice_list)
+			// TGUI-side picks ship the chosen name through href_list["picked_name"]
+			// — bypass the popup when that's set so the inline Dropdown can
+			// drive this directly.
+			var/chosen_input = href_list["picked_name"]
+			if(!chosen_input || !(chosen_input in choice_list))
+				chosen_input = tgui_input_list(user, "Choose your [lowertext(name)] appearance:", "Character Preference",choice_list)
 			if(!chosen_input)
 				return
 			var/choice_type = choice_list[chosen_input]

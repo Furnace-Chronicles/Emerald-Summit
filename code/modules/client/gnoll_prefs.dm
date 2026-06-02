@@ -294,40 +294,50 @@
 	popup.set_content(dat.Join())
 	popup.open()
 
-/datum/gnoll_prefs/proc/gnoll_process_link(mob/user, list/href_list)
+/datum/gnoll_prefs/proc/gnoll_process_link(mob/user, list/href_list, from_tgui = FALSE)
 	if(!user || !user.client)
 		return
 
 	var/action = href_list["action"]
 	switch(action)
 		if("set_name")
-			var/new_name = input(user, "Enter a custom name for your gnoll:", "Gnoll Name", gnoll_name) as text|null
+			var/new_name = tgui_input_text(user, "Enter a custom name for your gnoll:", "Gnoll Name", gnoll_name)
 			if(new_name)
 				gnoll_name = sanitize_name(new_name)
 				ensure_gnoll_name()
-				gnoll_show_ui(user)
+				if(!from_tgui)
+					gnoll_show_ui(user)
 
 		if("random_name")
 			gnoll_name = generate_random_gnoll_name()
-			gnoll_show_ui(user)
+			if(!from_tgui)
+				gnoll_show_ui(user)
 
 		if("choose_pronouns")
 			var/list/pronoun_options = get_pronoun_options()
 			var/current_pronoun = get_selected_label(pronoun_options, gnoll_pronouns)
-			var/selected_pronoun = input(user, "Choose pronouns", "Gnoll Customization", current_pronoun) as null|anything in pronoun_options
+			// TGUI Dropdowns ship the picked label through href_list["picked_name"]
+			// — honor it directly instead of opening a popup.
+			var/selected_pronoun = href_list["picked_name"]
+			if(!selected_pronoun || !(selected_pronoun in pronoun_options))
+				selected_pronoun = tgui_input_list(user, "Choose pronouns", "Gnoll Customization", pronoun_options, current_pronoun)
 			if(!selected_pronoun)
 				return
 			gnoll_pronouns = pronoun_options[selected_pronoun]
-			gnoll_show_ui(user)
+			if(!from_tgui)
+				gnoll_show_ui(user)
 
 		if("choose_pelt")
 			var/list/pelt_options = get_pelt_options()
 			var/current_pelt = get_selected_label(pelt_options, pelt_type)
-			var/selected_pelt = input(user, "Choose pelt pattern", "Gnoll Customization", current_pelt) as null|anything in pelt_options
+			var/selected_pelt = href_list["picked_name"]
+			if(!selected_pelt || !(selected_pelt in pelt_options))
+				selected_pelt = tgui_input_list(user, "Choose pelt pattern", "Gnoll Customization", pelt_options, current_pelt)
 			if(!selected_pelt)
 				return
 			pelt_type = pelt_options[selected_pelt]
-			gnoll_show_ui(user)
+			if(!from_tgui)
+				gnoll_show_ui(user)
 
 		if("choose_descriptor")
 			var/slot = href_list["slot"]
@@ -335,31 +345,37 @@
 			if(!descriptor_options)
 				return
 			var/current_descriptor = get_selected_label(descriptor_options, get_descriptor_value(slot))
-			var/selected_descriptor = input(user, "Describe my [slot]", "Gnoll Customization", current_descriptor) as null|anything in descriptor_options
+			var/selected_descriptor = href_list["picked_name"]
+			if(!selected_descriptor || !(selected_descriptor in descriptor_options))
+				selected_descriptor = tgui_input_list(user, "Describe my [slot]", "Gnoll Customization", descriptor_options, current_descriptor)
 			if(!selected_descriptor)
 				return
 			if(set_descriptor_value(slot, descriptor_options[selected_descriptor]))
-				gnoll_show_ui(user)
+				if(!from_tgui)
+					gnoll_show_ui(user)
 
 		if("set_pronouns")
 			var/new_pronouns = href_list["pronouns"]
 			if(new_pronouns in list(HE_HIM, SHE_HER, THEY_THEM, IT_ITS))
 				gnoll_pronouns = new_pronouns
-				gnoll_show_ui(user)
+				if(!from_tgui)
+					gnoll_show_ui(user)
 
 		if("set_pelt")
 			var/new_pelt = href_list["pelt"]
 			var/list/valid_pelts = list("firepelt", "rotpelt", "whitepelt", "bloodpelt", "nightpelt", "darkpelt")
 			if(new_pelt in valid_pelts)
 				pelt_type = new_pelt
-				gnoll_show_ui(user)
+				if(!from_tgui)
+					gnoll_show_ui(user)
 
 		if("toggle_genital")
 			var/genital = href_list["genital"]
 			var/toggle = href_list["toggle"]
 			if(genital in genitals)
 				genitals[genital] = (toggle == "enable")
-				gnoll_show_ui(user)
+				if(!from_tgui)
+					gnoll_show_ui(user)
 
 		if("set_descriptor")
 			var/slot = href_list["slot"]
@@ -457,11 +473,12 @@
 					)
 					if(new_type in valid_expression)
 						descriptor_expression = new_type
-			gnoll_show_ui(user)
+			if(!from_tgui)
+				gnoll_show_ui(user)
 
 		if("set_flavortext")
 			to_chat(user, "<span class='notice'><b>Flavortext should not include nonphysical nonsensory attributes such as backstory or internal thoughts.</b></span>")
-			var/new_flavortext = input(user, "Input your gnoll character description:", "Gnoll Flavor Text", gnoll_flavortext) as message|null
+			var/new_flavortext = tgui_input_text(user, "Input your gnoll character description:", "Gnoll Flavor Text", gnoll_flavortext, multiline = TRUE)
 			if(new_flavortext == null)
 				return
 			if(new_flavortext == "")
@@ -474,15 +491,17 @@
 				gnoll_flavortext_display = ft
 				to_chat(user, "<span class='notice'>Gnoll flavor text updated.</span>")
 				log_game("[user] has set their gnoll flavor text.")
-			gnoll_show_ui(user)
+			if(!from_tgui)
+				gnoll_show_ui(user)
 
 		if("clear_flavortext")
 			gnoll_flavortext = null
 			gnoll_flavortext_display = null
-			gnoll_show_ui(user)
+			if(!from_tgui)
+				gnoll_show_ui(user)
 
 		if("set_ooc_notes")
-			var/new_ooc_notes = input(user, "Input your gnoll OOC preferences:", "Gnoll OOC Notes", gnoll_ooc_notes) as message|null
+			var/new_ooc_notes = tgui_input_text(user, "Input your gnoll OOC preferences:", "Gnoll OOC Notes", gnoll_ooc_notes, multiline = TRUE)
 			if(new_ooc_notes == null)
 				return
 			if(new_ooc_notes == "")
@@ -495,12 +514,14 @@
 				gnoll_ooc_notes_display = ooc
 				to_chat(user, "<span class='notice'>Gnoll OOC notes updated.</span>")
 				log_game("[user] has set their gnoll OOC notes.")
-			gnoll_show_ui(user)
+			if(!from_tgui)
+				gnoll_show_ui(user)
 
 		if("clear_ooc_notes")
 			gnoll_ooc_notes = null
 			gnoll_ooc_notes_display = null
-			gnoll_show_ui(user)
+			if(!from_tgui)
+				gnoll_show_ui(user)
 
 		if("close")
 			user << browse(null, "window=gnoll_prefs")

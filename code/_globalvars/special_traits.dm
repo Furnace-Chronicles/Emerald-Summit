@@ -40,12 +40,10 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	apply_voicepacks(character, player)
 	if(player.prefs.dnr_pref)
 		apply_dnr_trait(character, player)
-	if(player.prefs.loadout)
-		character.mind.special_items[player.prefs.loadout::name] += player.prefs.loadout.path
-	if(player.prefs.loadout2)
-		character.mind.special_items[player.prefs.loadout2::name] += player.prefs.loadout2.path
-	if(player.prefs.loadout3)
-		character.mind.special_items[player.prefs.loadout3::name] += player.prefs.loadout3.path
+	for(var/slot_name in list("loadout", "loadout2", "loadout3", "loadout4", "loadout5", "loadout6"))
+		var/datum/loadout_item/L = player.prefs.vars[slot_name]
+		if(L)
+			character.mind.special_items[L.name] = L.path
 
 /proc/apply_voicepacks(mob/living/carbon/human/character, client/player)
 	if(player.prefs.voice_pack != "Default")
