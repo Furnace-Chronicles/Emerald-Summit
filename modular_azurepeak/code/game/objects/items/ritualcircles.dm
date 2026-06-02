@@ -960,7 +960,15 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		else
 			target.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 		target.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation) // gotta remove if you already have it fuck?
-		target.mind?.adjust_spellpoints(18)
+		// Magi 2: Rituos grants arcyne aspects, not legacy spellpoints — a major + a minor slot,
+		// chosen via the Grimoire. If the target isn't a caster yet, set up the magi2 stack
+		// (ward + Grimoire); if they already are one, just widen their loadout by those slots.
+		if(target.mind)
+			if(!LAZYLEN(target.mind.mage_aspect_config))
+				_magi2_setup_caster(target, list("major" = 1, "minor" = 1, "utilities" = 0, "ward" = TRUE), grant_staff = FALSE)
+			else
+				target.mind.mage_aspect_config["major"] += 1
+				target.mind.mage_aspect_config["minor"] += 1
 		target.mob_biotypes |= MOB_UNDEAD
 		spawn(40)
 			to_chat(target, span_purple("They are ignorant, backwards, without hope. You. You will be powerful."))

@@ -92,7 +92,12 @@
 	pickprob = 100
 	class_select_category = CLASS_CAT_HFT_COURT
 	subclass_social_rank = SOCIAL_RANK_NOBLE
-	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3, TRAIT_INTELLECTUAL, TRAIT_HEARTFELT)
+	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T4, TRAIT_INTELLECTUAL, TRAIT_HEARTFELT)
+
+	// Magi 2 (T4 caster, matching the Heartfeltian Magos): 2 major / 3 minor / 9 utilities,
+	// mastery variants, universal arcyne ward. Player picks via the Grimoire. Replaces legacy spellpoints.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 2, "minor" = 3, "utilities" = 9, "mastery" = TRUE, "ward" = TRUE)
 
 /datum/outfit/job/heartfelt/lord/archmage/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -137,11 +142,11 @@
 	H.change_stat("perception", 2)
 	H.change_stat("fortune", 5)
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_ARCYNE_T3, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_ARCYNE_T4, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_HEARTFELT, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
-	// Magi 2: the Lord is a noble leader, not a caster — no arcane spell loadout (legacy spellpoints removed).
+	// Magi 2: full T4 caster — aspect loadout granted in equipme() via mage_aspect_config (no legacy spellpoints).
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)

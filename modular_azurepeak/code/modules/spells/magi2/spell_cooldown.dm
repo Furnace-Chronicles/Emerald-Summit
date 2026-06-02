@@ -787,7 +787,7 @@
 		owner.add_movespeed_modifier(MOVESPEED_ID_SPELL_CASTING, override = TRUE, multiplicative_slowdown = charge_slowdown)
 
 	if(charge_sound_instance)
-		playsound(owner, charge_sound_instance, 50, FALSE)
+		playsound(owner, charge_sound_instance, 50, FALSE, channel = CHANNEL_CHARGED_SPELL)
 
 	if(mob_charge_effect)
 		owner.vis_contents += mob_charge_effect
@@ -836,6 +836,13 @@
 
 	if(charge_slowdown)
 		owner.remove_movespeed_modifier(MOVESPEED_ID_SPELL_CASTING)
+
+	// Kill the charge loop sound. playsound() above broadcast it positionally on CHANNEL_CHARGED_SPELL,
+	// so stop it for the caster (stop_sound_channel) AND for nearby listeners (null sound on the channel).
+	// Without this the audio plays for its full file length even after the (often shorter) charge ends.
+	if(charge_sound_instance)
+		owner.stop_sound_channel(CHANNEL_CHARGED_SPELL)
+		playsound(owner, sound(null, repeat = 0), 50, FALSE, channel = CHANNEL_CHARGED_SPELL)
 
 	if(mob_charge_effect)
 		owner.vis_contents -= mob_charge_effect
@@ -915,13 +922,20 @@
 /datum/action/cooldown/spell/process()
 	if(!currently_charging)
 		// The cooldown text animates itself through maptext_holder. We only need to
-		// clear processing once the cooldown is up so IsAvailable can refresh.
+		// clear the red "unavailable" tint once the spell is castable again.
 		if(!owner)
 			STOP_PROCESSING(SSfastprocess, src)
 			return
 		if(next_use_time <= world.time)
-			UpdateButtonIcon()
-			STOP_PROCESSING(SSfastprocess, src)
+			// Cooldown elapsed — refresh the button's status colour (cheap, no overlay rebuild).
+			// IsAvailable() also gates on can_cast_spell()/check_cost(), so stamina-cost spells
+			// frequently aren't castable the instant the cooldown ends. Keep ticking until the
+			// spell is genuinely available so the red clears on its own; stopping unconditionally
+			// here left the icon stuck red (off-cooldown but still tinted) until some unrelated
+			// action re-rendered it.
+			UpdateButtonIcon(status_only = TRUE)
+			if(IsAvailable())
+				STOP_PROCESSING(SSfastprocess, src)
 		return
 	if(!owner)
 		return PROCESS_KILL

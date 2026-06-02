@@ -65,12 +65,15 @@
 
 	to_fire.preparePixelProjectile(target, user)
 
-/// Toggle arc mode. Stub: just balloon-alerts the user. Real ARC indicator on the action
-/// button needs the modern HUD viewers system which we don't have here.
+/// Toggle arc mode. Feedback via both a balloon alert AND a chat line — balloon_alert is gated
+/// behind the FLOATING_TEXT client pref, so the to_chat is the reliable confirmation (matches the
+/// battle_ward toggle). Real ARC indicator on the action button needs the modern HUD viewers
+/// system which we don't have here.
 /datum/action/cooldown/spell/projectile/toggle_alt_mode(mob/user)
 	if(!projectile_type_arc)
 		to_chat(user, span_warning("[name] cannot be arced."))
 		return FALSE
 	arc_mode = !arc_mode
 	user.balloon_alert(user, "[name]: arc [arc_mode ? "ON" : "OFF"]")
+	to_chat(user, span_notice("[name]: arc mode [arc_mode ? "enabled" : "disabled"]."))
 	return TRUE

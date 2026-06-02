@@ -2715,6 +2715,7 @@
 #include "modular_azurepeak\code\modules\spells\magi2\_compat_stubs.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\_defines.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\_hand_intents.dm"
+#include "modular_azurepeak\code\modules\spells\magi2\_keybinds.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\_mob_vars.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\_signals.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\aspect_attune.dm"
