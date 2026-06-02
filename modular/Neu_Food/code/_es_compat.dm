@@ -152,6 +152,35 @@
 	desc = "I'm covered in oil, making me slippery and harder to grab!"
 	icon_state = "oiled"
 
+/* ---------------- Oiled grab-slip (AP living.dm/start_pulling) ----------------
+ * Grabbing an oiled target on a BARE limb has a chance to slip free; covered
+ * (clothed/armored) limbs give the oil nothing to act on. Called from core
+ * /mob/living/start_pulling(); returns TRUE if the grab should fail. */
+/mob/living/proc/check_oiled_grab_slip(mob/living/grabber)
+	if(!grabber || !has_status_effect(/datum/status_effect/buff/oiled))
+		return FALSE
+	// Covered limbs aren't slippery — the grab lands normally.
+	if(iscarbon(src))
+		var/mob/living/carbon/C = src
+		var/obj/item/bodypart/grabbed_limb = C.get_bodypart(check_zone(grabber.zone_selected || BODY_ZONE_CHEST))
+		if(grabbed_limb && C.is_limb_covered(grabbed_limb))
+			return FALSE
+	if(!prob(50))
+		return FALSE
+	grabber.visible_message(span_warning("[src] slips away from [grabber]'s oily grasp!"), \
+		span_warning("[src] slips away from my grip - they're too oily!"))
+	log_combat(grabber, src, "failed to grab", addition="oiled skin")
+	return TRUE
+
+/// TRUE if any worn item covers the given limb (by body_parts_covered bitflag).
+/mob/living/carbon/proc/is_limb_covered(obj/item/bodypart/limb)
+	if(!limb)
+		return FALSE
+	for(var/obj/item/I in get_equipped_items())
+		if(I.body_parts_covered & limb.body_part)
+			return TRUE
+	return FALSE
+
 /* ---------------- Fishing bait stat (AP fisher worms.dm) ----------------
  * ES's fisher worm base lacks AP's fishingMods var (used by aged cheese as bait). Declared on the
  * /obj/item base so any item (e.g. the aged-cheese bait in dairy.dm) can set it without erroring. */

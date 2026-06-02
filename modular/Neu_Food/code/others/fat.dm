@@ -1,7 +1,7 @@
 // -------------- FAT -----------------
 /obj/item/reagent_containers/food/snacks/fat
 	icon = 'modular/Neu_Food/icons/others/fat.dmi'
-	name = "fat"
+	name = "lump of fat"
 	desc = "A lump of animal fat, fit for oiling and sausage-stuffing."
 	icon_state = "fat"
 	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
