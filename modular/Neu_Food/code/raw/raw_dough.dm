@@ -8,6 +8,10 @@
 	icon_state = "dough_base"
 	w_class = WEIGHT_CLASS_NORMAL
 
+/obj/item/reagent_containers/food/snacks/rogue/dough_base/examine(mob/user)
+	. = ..()
+	. += span_smallnotice("Knead in more <b>flour</b> on a table to work it into dough.")
+
 /obj/item/reagent_containers/food/snacks/rogue/dough_base/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
 	update_cooktime(user)
@@ -106,6 +110,10 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	slice_sound = TRUE
 
+/obj/item/reagent_containers/food/snacks/rogue/flatdough/examine(mob/user)
+	. = ..()
+	. += span_smallnotice("Worked on a table, it can become more: score it with a <b>blade</b> for crackerdough, or smear it with <b>tomatoes</b> to begin a tomatoplate.")
+
 /obj/item/reagent_containers/food/snacks/rogue/flatdough/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
 	update_cooktime(user)
@@ -156,6 +164,10 @@
 	cooked_smell = /datum/pollutant/food/tomatoplate
 	foodtype = GRAIN | FRUIT
 
+/obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw/examine(mob/user)
+	. = ..()
+	. += span_smallnotice("Sprinkle it with fresh <b>cheese</b> on a table to ready it for baking.")
+
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
 	update_cooktime(user)
@@ -183,6 +195,10 @@
 	cooked_smell = /datum/pollutant/food/tomatoplate
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/tomatoplate
 	foodtype = GRAIN | FRUIT | DAIRY
+
+/obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_cheese/examine(mob/user)
+	. = ..()
+	. += span_smallnotice("Worked on a table, it can be topped further before baking: <b>sausage</b>, filleted <b>fish</b>, <b>truffles</b>, <b>onions</b>, or <b>pears</b>.")
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_cheese/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
@@ -346,6 +362,10 @@
 	cooked_smell = /datum/pollutant/food/bun
 	w_class = WEIGHT_CLASS_NORMAL
 
+/obj/item/reagent_containers/food/snacks/rogue/doughslice/examine(mob/user)
+	. = ..()
+	. += span_smallnotice("Worked on a table, it can become more: <b>cheese</b> makes a cheese bun, a <b>psicross</b> pendant presses a blessed bun, more <b>smalldough</b> recombines into dough, and a lump of <b>dough</b> rolls into a strudel.")
+
 /obj/item/reagent_containers/food/snacks/rogue/doughslice/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
 	update_cooktime(user)
@@ -419,6 +439,10 @@
 	cooked_smell = /datum/pollutant/food/bookbread
 	w_class = WEIGHT_CLASS_NORMAL
 	slice_sound = TRUE
+
+/obj/item/reagent_containers/food/snacks/rogue/butterdough/examine(mob/user)
+	. = ..()
+	. += span_smallnotice("Worked on a table, it can become more: an <b>egg</b> shapes a cake, a <b>spoon</b> a muffin, <b>pumpkin</b> a pumpkin loaf, <b>chocolate</b> a sweet loaf, or assorted <b>fruits</b> (pear, plum, lemon, tangerine, or berries) a fruity loaf.")
 
 /obj/item/reagent_containers/food/snacks/rogue/butterdough/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
@@ -672,6 +696,12 @@
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/pastry
 	cooked_smell = /datum/pollutant/food/pastry
 	w_class = WEIGHT_CLASS_NORMAL
+
+/obj/item/reagent_containers/food/snacks/rogue/butterdoughslice/examine(mob/user)
+	. = ..()
+	. += span_smallnotice("Worked on a table, it can become more: a <b>rolling pin</b> flattens it into piedough, a <b>spoon</b> presses a tartdough, <b>pumpkin</b> makes a pumpkin ball, and <b>raisins</b>, <b>plums</b>, <b>tangerines</b>, or <b>chocolate</b> make biscuits.")
+	if(isdwarf(user))
+		. += span_smallnotice("As a dwarf, you could cut it with a <b>blade</b> into a prezzel.")
 
 // Dough + rolling pin on table = flat dough. RT got some similar proc for this.
 /obj/item/reagent_containers/food/snacks/rogue/butterdoughslice/attackby(obj/item/I, mob/living/user, params)

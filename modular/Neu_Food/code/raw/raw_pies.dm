@@ -25,6 +25,23 @@ And I don't wanna copypaste what Vanderlin has
 	var/substitute //There may be a better way to do this
 	cooked_smell = /datum/pollutant/food/pie_base
 
+/obj/item/reagent_containers/food/snacks/rogue/foodbase/piebottom/examine(mob/user)
+	. = ..()
+	if(process_step != 1) // Already committed to a filling; the name and crafting prompts guide the rest.
+		return
+	var/list/fillings = list(
+		"<b>meat</b> (minced beef)",
+		"<b>fish</b> (minced fish)",
+		"<b>crab</b> (crab meat)",
+		"<b>apple</b> (an apple)",
+		"<b>berry</b> (berries)",
+		"<b>pumpkin</b> (sliced pumpkin, then cheese, egg, and sugar)",
+		"<b>pot</b> (egg, cheese, sliced potato, cheddar, bacon, poultry, or fat)",
+	)
+	if(isdarkelf(user))
+		fillings += "<b>spider</b> (minced spider meat)"
+	. += span_smallnotice("Add a filling to begin, then cap it with a piedough roof. Possible pies: [fillings.Join(", ")].")
+
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/piebottom/update_icon()
 	. = ..()
 	var/mutable_appearance/piebottom = mutable_appearance(icon, "pieuncooked")
