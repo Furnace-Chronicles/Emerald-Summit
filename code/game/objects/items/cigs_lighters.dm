@@ -416,11 +416,6 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a cooling effect."
 	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/apple = 7, /datum/reagent/drug/mentha = 8)
 
-/obj/item/clothing/mask/cigarette/rollie/chocolate
-	name = "chocolate zig"
-	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly bittersweet taste of cocoa."
-	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/chocolate = 12)
-
 /obj/item/clothing/mask/cigarette/rollie/strawberry
 	name = "strawberry zig"
 	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a sweet and refreshing effect."

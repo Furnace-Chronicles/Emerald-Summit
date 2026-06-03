@@ -58,11 +58,6 @@
 	stressadd = -1
 	desc = list(span_blue("A feeling of sourness and coolness on the tongue."))
 
-/datum/stressevent/chocolatesmoke
-	timer = 1 MINUTES
-	stressadd = -1
-	desc = list(span_purple("A pleasant feeling of rawness and bitterness on the tongue."))
-
 /datum/stressevent/strawberrysmoke
 	timer = 1 MINUTES
 	stressadd = -1

@@ -461,32 +461,6 @@
 	..()
 	. = 1
 
-/datum/reagent/drug/chocolate
-	name = "Chocolate"
-	description = "Extract from the chocolate. Produces a bittersweet sensation."
-	reagent_state = LIQUID
-	color = "#7B3F00"
-	addiction_threshold = 999
-	taste_description = "chocolate"
-	trippy = FALSE
-	overdose_threshold = 999
-	metabolization_rate = 0.1 * REAGENTS_METABOLISM
-
-/datum/reagent/drug/chocolate/on_mob_metabolize(mob/living/M)
-	var/mob/living/carbon/V = M
-	V.add_stress(/datum/stressevent/chocolatesmoke)
-	..()
-
-/datum/reagent/drug/chocolate/on_mob_life(mob/living/carbon/M)
-	..()
-	. = 1
-
-/datum/reagent/drug/chocolate/overdose_process(mob/living/M)
-	M.adjustToxLoss(0.1 * REAGENTS_EFFECT_MULTIPLIER, 0)
-	M.adjustOxyLoss(1.1 * REAGENTS_EFFECT_MULTIPLIER, 0)
-	..()
-	. = 1
-
 /datum/reagent/drug/strawberry
 	name = "Strawberry"
 	description = "Extract from the strawberry. Produces a sweet and refreshing sensation."

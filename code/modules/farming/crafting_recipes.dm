@@ -120,7 +120,7 @@
 	verbage = "rolls"
 	craftdiff = 0
 
-// ---- Flavored zigs: 1 paper + dried westleach leaf + flavor ingredient, crafting skill (chocolate omitted: no chocolate item in ES) ----
+// ---- Flavored zigs: 1 paper + dried westleach leaf + flavor ingredient, crafting skill ----
 
 /datum/crafting_recipe/roguetown/survival/menthazig
 	name = "mentha zig"
