@@ -41,7 +41,7 @@ export const GrimoireAspectDetail = ({
   variantOverride?: string;
 }) => {
   const isMajor = aspect.aspect_type === 'major';
-  const unbindCost = isMajor ? 2 : 1;
+  const unbindCost = isMajor ? 4 : 2;
   const canUnbind = !isLocked && resetBudget >= unbindCost;
 
   return (
