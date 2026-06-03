@@ -52,6 +52,12 @@
 	base_implement_name = "\improper The Staff of the Heartfelt Magos"
 	name = "\improper The Staff of the Heartfelt Magos"
 
+// Archmagos of Heartfelt — the lord's grand staff; attunes to
+// "The Staff of the Archmagos of <school>" on cast.
+/obj/item/rogueweapon/woodstaff/implement_magi2/grand/archmagos
+	base_implement_name = "\improper The Staff of the Archmagos"
+	name = "\improper The Staff of the Archmagos"
+
 /obj/item/rogueweapon/woodstaff/implement_magi2/examine(mob/user)
 	. = ..()
 	if(implement_refund)

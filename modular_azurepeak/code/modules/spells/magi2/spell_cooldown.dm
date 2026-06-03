@@ -111,8 +111,15 @@
 	var/charge_sound = 'sound/magic/charging.ogg'
 	var/sound/charge_sound_instance
 	var/charge_started_at = 0
+	/// Caster's turf at charge start; SPELL_REQUIRES_NO_MOVE spells cancel if they leave it.
+	var/turf/charge_start_turf
 	var/charge_target_time = 0
 	var/charged = FALSE
+	/// Set by charge_release() when a middle-mouse hold completed; tells before_cast to skip
+	/// the do_after channel (the charge already happened on hold) and just clean up.
+	var/hold_charged = FALSE
+	/// Guards the one-shot "charge complete" cursor swap + sound in process().
+	var/charge_ready_signaled = FALSE
 	var/attunement_school
 	var/weapon_cast_penalized = FALSE
 	/// Transient flag set during Activate() when a weapon penalty is active for this cast.
@@ -257,6 +264,10 @@
 	// the cooldown window. Spell selection stays active for the next ready click.
 	if(!IsAvailable())
 		return FALSE
+	// Charge-required spells are driven by the middle-mouse hold flow (charge_press/charge_release
+	// in drag_drop.dm); the click itself must never instant-cast them.
+	if(charge_required)
+		return TRUE
 	PreActivate(target)
 	// Stay selected regardless of cast outcome so the user can chain-cast on multiple
 	// targets without re-clicking the action button. Failed casts (out-of-range,
@@ -293,6 +304,8 @@
 /datum/action/cooldown/spell/proc/on_deactivation()
 	if(!owner)
 		return
+	if(currently_charging)
+		cancel_casting()
 	if(owner.click_intercept == src)
 		owner.click_intercept = null
 	background_icon_state = initial(background_icon_state)
@@ -713,14 +726,20 @@
 	// uniformly because Emerald Summit's older action HUD doesn't proxy mouse events
 	// through the action datum the way Azure-Peak's modern HUD does.
 	if(charge_required)
-		var/require_no_move = (spell_requirements & SPELL_REQUIRES_NO_MOVE)
-		on_start_charge()
-		var/success = TRUE
-		if(!do_after(owner, charge_time, needhand = FALSE, extra_checks = CALLBACK(src, PROC_REF(do_after_checks), owner, cast_on), no_interrupt = !require_no_move))
-			success = FALSE
-			sig_return |= SPELL_CANCEL_CAST
-		if(currently_charging)
-			on_end_charge(success)
+		if(hold_charged)
+			// Charge already completed via middle-mouse hold (charge_press/charge_release).
+			// Tear down the charge state started in charge_press, then fall through to cast.
+			hold_charged = FALSE
+			end_charging()
+		else
+			var/require_no_move = (spell_requirements & SPELL_REQUIRES_NO_MOVE)
+			on_start_charge()
+			var/success = TRUE
+			if(!do_after(owner, charge_target_time, needhand = FALSE, extra_checks = CALLBACK(src, PROC_REF(do_after_checks), owner, cast_on), no_interrupt = !require_no_move))
+				success = FALSE
+				sig_return |= SPELL_CANCEL_CAST
+			if(currently_charging)
+				on_end_charge(success)
 
 	return sig_return
 
@@ -779,8 +798,20 @@
 
 // ---- Charge state ----
 
+/// Effective charge time after arcane-skill reduction (mirrors the legacy spell get_chargetime()).
+/datum/action/cooldown/spell/proc/get_charge_time()
+	. = charge_time
+	if(!isliving(owner) || charge_time <= 0)
+		return
+	var/mob/living/caster = owner
+	. = max(charge_time - (charge_time * (caster.get_skill_level(associated_skill) * MAGI2_CHARGE_REDUCTION_PER_SKILL)), 0)
+
 /datum/action/cooldown/spell/proc/on_start_charge()
 	currently_charging = TRUE
+	charge_started_at = world.time
+	charge_start_turf = get_turf(owner)
+	charge_target_time = get_charge_time()
+	charge_ready_signaled = FALSE
 	if(owner)
 		owner.tempfixeye = TRUE
 		if(!owner.fixedeye)
@@ -807,7 +838,7 @@
 		caster.start_spell_visual_effects(spell_color)
 
 	if(owner.client)
-		owner.client.mouse_pointer_icon = 'icons/effects/mousemice/swang/acharging.dmi'
+		owner.client.mouse_pointer_icon = SSmousecharge.access(0)
 
 	if(charge_message)
 		owner.balloon_alert(owner, charge_message)
@@ -831,7 +862,9 @@
 /datum/action/cooldown/spell/proc/end_charging()
 	currently_charging = FALSE
 	charge_started_at = null
+	charge_start_turf = null
 	charge_target_time = null
+	charge_ready_signaled = FALSE
 	if(owner?.channeling_spell == src && !charged)
 		owner.channeling_spell = null
 	STOP_PROCESSING(SSfastprocess, src)
@@ -870,7 +903,37 @@
 		deltimer(auto_cancel_timer)
 		auto_cancel_timer = null
 	charged = FALSE
+	hold_charged = FALSE
 	end_charging()
+
+// ---- Hold-to-charge (middle-mouse down/up) ----
+// Combat spells charge while middle-mouse is held and fire on release. Driven by the client
+// MouseDown/MouseUp handlers (handle_middle_click / MouseUp in drag_drop.dm). This is the real
+// hold-mouse path; the do_after channel in before_cast remains the fallback for facing-direction
+// (non-click) casts that never route through here.
+
+/// Middle-mouse pressed while this spell is the armed click intercept: begin charging.
+/datum/action/cooldown/spell/proc/charge_press()
+	if(currently_charging || charged || hold_charged)
+		return
+	if(!IsAvailable())
+		return
+	on_start_charge()
+
+/// Middle-mouse released: cast if held the full charge_time on a valid target, else cancel.
+/datum/action/cooldown/spell/proc/charge_release(atom/target)
+	if(!currently_charging)
+		return
+	if(!isatom(target) || istype(target, /atom/movable/screen))
+		cancel_casting()
+		return
+	if((world.time - charge_started_at) < charge_target_time)
+		cancel_casting()
+		if(owner)
+			owner.balloon_alert(owner, "Released too soon!")
+		return
+	hold_charged = TRUE
+	PreActivate(target)
 
 /datum/action/cooldown/spell/proc/reset_spell_cooldown()
 	SEND_SIGNAL(src, COMSIG_SPELL_CAST_RESET)
@@ -948,6 +1011,22 @@
 	if(!can_cast_spell(TRUE))
 		cancel_casting()
 		return PROCESS_KILL
+	// No-move spells (e.g. Mending) cancel the charge if the caster steps off their starting tile.
+	if((spell_requirements & SPELL_REQUIRES_NO_MOVE) && get_turf(owner) != charge_start_turf)
+		owner.balloon_alert(owner, "I moved!")
+		cancel_casting()
+		return PROCESS_KILL
+	// Charging cursor: fill toward the goal each tick, then swap to the "charged" cursor and
+	// play the completion cue once charge_time is reached (mirrors the legacy SSmousecharge spell cursor).
+	if(owner.client && charge_target_time > 0)
+		var/charge_pct = min(((world.time - charge_started_at) / charge_target_time) * 100, 100)
+		if(charge_pct >= 100)
+			owner.client.mouse_pointer_icon = 'icons/effects/mousemice/swang/acharged.dmi'
+			if(!charge_ready_signaled)
+				charge_ready_signaled = TRUE
+				playsound(owner, 'sound/magic/charged.ogg', 100, TRUE)
+		else
+			owner.client.mouse_pointer_icon = SSmousecharge.access(charge_pct)
 	if(charge_drain)
 		if(primary_resource_type == SPELL_COST_STAMINA && iscarbon(owner))
 			var/mob/living/carbon/C = owner

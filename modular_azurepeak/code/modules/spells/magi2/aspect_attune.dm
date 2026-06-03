@@ -215,7 +215,7 @@ GLOBAL_LIST_INIT(utility_spells, list(
 /// below would miss them and grant duplicates.
 /// grant_staff: TRUE → also hand a lesser implement staff (when grant_items is TRUE and no staff is
 /// already present). FALSE → no staff, e.g. witches who cast with a magebag and herbs, not a staff.
-/proc/_magi2_setup_caster(mob/living/carbon/human/H, list/config, list/post_spells, grant_items = TRUE, grant_staff = TRUE)
+/proc/_magi2_setup_caster(mob/living/carbon/human/H, list/config, list/post_spells, grant_items = TRUE, grant_staff = TRUE, staff_path = /obj/item/rogueweapon/woodstaff/implement_magi2)
 	if(!istype(H) || !H.mind)
 		return
 	H.mind.setup_mage_aspects(config)
@@ -256,6 +256,6 @@ GLOBAL_LIST_INIT(utility_spells, list(
 		// Build in nullspace and place via put_in_hands; only drop at their feet as a last resort.
 		// (Spawning straight onto get_turf() made an audible thud every spawn, and the old qdel
 		// fallback silently destroyed the staff when hands were full.)
-		var/obj/item/staff = new /obj/item/rogueweapon/woodstaff/implement_magi2
+		var/obj/item/staff = new staff_path
 		if(!H.put_in_hands(staff))
 			staff.forceMove(get_turf(H))

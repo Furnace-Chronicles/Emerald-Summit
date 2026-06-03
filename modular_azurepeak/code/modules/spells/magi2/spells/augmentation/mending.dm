@@ -13,7 +13,9 @@
 	click_to_activate = TRUE
 	self_cast_possible = FALSE
 	cast_range = SPELL_RANGE_GROUND
-	charge_required = FALSE
+	charge_required = TRUE
+	charge_time = 4 SECONDS
+	charge_message = "Concentrating..."
 	// Mending specifically targets items, so middle-clicks on an item must reach the
 	// cast instead of falling through to normal item handling (pickup/attack). Without
 	// this, InterceptClickOn returns FALSE for every /obj/item target and the spell
@@ -32,7 +34,7 @@
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 	point_cost = 2
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z | SPELL_REQUIRES_NO_MOVE
 
 	var/repair_percent = 0.20
 
@@ -51,14 +53,6 @@
 		return FALSE
 	if(I.obj_integrity >= I.max_integrity && I.body_parts_covered_dynamic == I.body_parts_covered)
 		to_chat(user, span_info("[I] appears to be in perfect condition."))
-		return FALSE
-
-	user.visible_message(
-		span_warning("[user] begins to concentrate on [I]!"),
-		span_notice("I begin to concentrate on [I]..."),
-	)
-	if(!do_after(user, 4 SECONDS, TRUE, I, TRUE))
-		to_chat(user, span_warning("My concentration breaks! I could not repair [I]."))
 		return FALSE
 
 	var/int_bonus = CLAMP((user.STAINT * 0.01), 0.01, 0.9)

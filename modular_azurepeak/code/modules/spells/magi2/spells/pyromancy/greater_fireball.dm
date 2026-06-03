@@ -18,7 +18,7 @@
 	invocations = list("Maior Sphaera Ignis!")
 
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
-	cooldown_time = 22 SECONDS
+	cooldown_time = 30 SECONDS
 
 	spell_tier = 4
 	point_cost = 9

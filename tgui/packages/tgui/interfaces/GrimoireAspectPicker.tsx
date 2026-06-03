@@ -104,7 +104,7 @@ export const GrimoireAspectPicker = () => {
     max_utilities > 0 && utility_points_spent < max_utilities;
   const canSeal = utilityOnly
     ? utility_points_spent > 0 || hasUnbinds
-    : hasAny || hasUnbinds;
+    : hasAny || hasUnbinds || selected_utilities.length > 0;
   const sealReady = utilityOnly
     ? utility_points_spent >= max_utilities
     : allFilled && !hasUnspentUtilities;

@@ -74,10 +74,12 @@
 #define SPELLCOST_SB_ULT       50
 
 // ---- Standardized charge times ----
-#define CHARGETIME_POKE   (0.5 SECONDS)
-#define CHARGETIME_MINOR  (1 SECONDS)
-#define CHARGETIME_MAJOR  (1.5 SECONDS)
-#define CHARGETIME_HEAVY  (2 SECONDS)
+#define CHARGETIME_POKE   (1 SECONDS)
+#define CHARGETIME_MINOR  (2 SECONDS)
+#define CHARGETIME_MAJOR  (3 SECONDS)
+#define CHARGETIME_HEAVY  (4 SECONDS)
+/// Fraction of a spell's charge_time removed per arcane skill level (mirrors legacy CHARGE_REDUCTION_PER_SKILL).
+#define MAGI2_CHARGE_REDUCTION_PER_SKILL 0.05
 
 // ---- Standardized mage projectile speeds (lower = faster) ----
 #define MAGE_PROJ_FAST       1.25

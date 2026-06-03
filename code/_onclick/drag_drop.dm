@@ -149,6 +149,15 @@
 		mouse_pointer_icon = 'icons/effects/mousemice/human_looking.dmi'
 
 /client/proc/handle_middle_click(atom/object, params, list/modifiers)
+	// Magi 2 hold-to-charge: an armed charge-required spell begins charging on middle-press
+	// and fires (or cancels) on release in MouseUp. Skip HUD clicks so the action button can
+	// still deselect the spell.
+	if(istype(mob.click_intercept, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/charging_spell = mob.click_intercept
+		if(charging_spell.charge_required && !istype(object, /atom/movable/screen))
+			charging_spell.charge_press()
+			return
+
 	if(mob.next_move > world.time)
 		charge_was_blocked_by_cooldown = TRUE
 		return
@@ -201,6 +210,15 @@
 
 	if(mob.curplaying)
 		mob.curplaying.on_mouse_up()
+
+	// Magi 2 hold-to-charge: resolve a charging spell on release (cast if held the full
+	// charge_time, else cancel). Null tcompare so the normal middle-click cast below doesn't
+	// also fire it through InterceptClickOn.
+	if(istype(mob.click_intercept, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/charging_spell = mob.click_intercept
+		if(charging_spell.currently_charging)
+			charging_spell.charge_release(object)
+			tcompare = null
 
 	if(!mob.targetting)
 		mob.tempfixeye = FALSE
