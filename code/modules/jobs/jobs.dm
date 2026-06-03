@@ -148,6 +148,7 @@ GLOBAL_LIST_INIT(mercenary_positions, list(
 	"Grenzelhoft Mercenary",
 	"Desert Rider Mercenary",
 	"Veteran",
+	"Guild Clerk",
 ))
 
 GLOBAL_LIST_INIT(youngfolk_positions, list(

@@ -186,6 +186,7 @@
 #define MERCENARY		(1<<2)
 #define DESERT_RIDER	(1<<3)	//Unused
 #define GRENZELHOFT		(1<<4)	//Unused
+#define MERC_CLERK		(1<<5)
 
 
 #define TRIBAL		(1<<8)
@@ -301,6 +302,7 @@
 #define JDO_GRENZELHOFT 31.1
 #define JDO_DESERT_RIDER 31.2
 #define JDO_VET 31.4
+#define JDO_MERC_CLERK 31.5
 
 #define JDO_VAGRANT 33
 #define JDO_ORPHAN 34
@@ -388,6 +390,7 @@
 #define WANDERER_ROLES \
 	/datum/job/roguetown/pilgrim,\
 	/datum/job/roguetown/adventurer,\
+	/datum/job/roguetown/guild_clerk,\
 	/datum/job/roguetown/mercenary/desert_rider,\
 	/datum/job/roguetown/mercenary/grenzelhoft,\
 	/datum/job/roguetown/bandit,\

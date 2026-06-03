@@ -372,25 +372,40 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 /datum/preferences/proc/_load_loadout(S)
 	var/loadout_type
 	S["loadout"] >> loadout_type
-	if (loadout_type)
-		loadout = new loadout_type()
+	loadout = loadout_type ? new loadout_type() : null
 
 /datum/preferences/proc/_load_loadout2(S)
 	var/loadout_type2
 	S["loadout2"] >> loadout_type2
-	if (loadout_type2)
-		loadout2 = new loadout_type2()
+	loadout2 = loadout_type2 ? new loadout_type2() : null
 
 /datum/preferences/proc/_load_loadout3(S)
 	var/loadout_type3
 	S["loadout3"] >> loadout_type3
-	if (loadout_type3)
-		loadout3 = new loadout_type3()
+	loadout3 = loadout_type3 ? new loadout_type3() : null
+
+/datum/preferences/proc/_load_loadout4(S)
+	var/loadout_type4
+	S["loadout4"] >> loadout_type4
+	loadout4 = loadout_type4 ? new loadout_type4() : null
+
+/datum/preferences/proc/_load_loadout5(S)
+	var/loadout_type5
+	S["loadout5"] >> loadout_type5
+	loadout5 = loadout_type5 ? new loadout_type5() : null
+
+/datum/preferences/proc/_load_loadout6(S)
+	var/loadout_type6
+	S["loadout6"] >> loadout_type6
+	loadout6 = loadout_type6 ? new loadout_type6() : null
 
 /datum/preferences/proc/_load_loadout_colours(S)
 	S["loadout_1_hex"] >> loadout_1_hex
 	S["loadout_2_hex"] >> loadout_2_hex
 	S["loadout_3_hex"] >> loadout_3_hex
+	S["loadout_4_hex"] >> loadout_4_hex
+	S["loadout_5_hex"] >> loadout_5_hex
+	S["loadout_6_hex"] >> loadout_6_hex
 
 /datum/preferences/proc/_load_height(S)
 	var/preview_height
@@ -526,6 +541,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	_load_loadout(S)
 	_load_loadout2(S)
 	_load_loadout3(S)
+	_load_loadout4(S)
+	_load_loadout5(S)
+	_load_loadout6(S)
 	_load_loadout_colours(S)
 
 	_load_combat_music(S)
@@ -806,10 +824,25 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		WRITE_FILE(S["loadout3"] , loadout3.type)
 	else
 		WRITE_FILE(S["loadout3"] , null)
+	if(loadout4)
+		WRITE_FILE(S["loadout4"] , loadout4.type)
+	else
+		WRITE_FILE(S["loadout4"] , null)
+	if(loadout5)
+		WRITE_FILE(S["loadout5"] , loadout5.type)
+	else
+		WRITE_FILE(S["loadout5"] , null)
+	if(loadout6)
+		WRITE_FILE(S["loadout6"] , loadout6.type)
+	else
+		WRITE_FILE(S["loadout6"] , null)
 
 	WRITE_FILE(S["loadout_1_hex"], loadout_1_hex)
 	WRITE_FILE(S["loadout_2_hex"], loadout_2_hex)
 	WRITE_FILE(S["loadout_3_hex"], loadout_3_hex)
+	WRITE_FILE(S["loadout_4_hex"], loadout_4_hex)
+	WRITE_FILE(S["loadout_5_hex"], loadout_5_hex)
+	WRITE_FILE(S["loadout_6_hex"], loadout_6_hex)
 
 	//Familiar Files
 	WRITE_FILE(S["familiar_name"] , familiar_prefs.familiar_name)
