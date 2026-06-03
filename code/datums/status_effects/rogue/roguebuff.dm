@@ -93,6 +93,20 @@
 	desc = ""
 	icon_state = "acid"
 
+/datum/status_effect/buff/abyss //for abyss smokes; AP's TRAIT_PSYCHOSIS == ES's TRAIT_SCHIZO_AMBIENCE
+	id = "abyss"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
+	effectedstats = list("speed" = -1, "perception" = 1)
+	duration = 30 SECONDS
+
+/datum/status_effect/buff/abyss/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_SCHIZO_AMBIENCE, id)
+
+/datum/status_effect/buff/abyss/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_SCHIZO_AMBIENCE, id)
+	. = ..()
+
 /datum/status_effect/buff/ozium
 	id = "ozium"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
