@@ -274,6 +274,12 @@
 	// Bump any active proc_holder spell or other Magi 2 spell off the click intercept.
 	if(owner.ranged_ability && owner.ranged_ability != src)
 		owner.ranged_ability.deactivate(owner)
+	// Selecting a spell also clears any mmb intent (kick/jump/bite/steal/give) and refreshes its HUD button.
+	if(owner.mmb_intent)
+		QDEL_NULL(owner.mmb_intent)
+		if(owner.hud_used)
+			owner.hud_used.quad_intents?.switch_intent(null)
+			owner.hud_used.give_intent?.switch_intent(null)
 	if(owner.click_intercept && owner.click_intercept != src)
 		var/datum/old = owner.click_intercept
 		if(istype(old, /datum/action/cooldown/spell))
