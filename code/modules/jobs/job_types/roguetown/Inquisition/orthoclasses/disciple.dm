@@ -74,7 +74,7 @@
 		if("MY BARE HANDS")
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 5, TRUE)
 		if("Katar")
-			H.put_in_hands(new /obj/item/rogueweapon/katar/psydon(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/katar/psydon/preblessed(H), TRUE)
 		if("Knuckles")
-			H.put_in_hands(new /obj/item/rogueweapon/knuckles/psydon(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/knuckles/psydon.preblessed(H), TRUE)
 
