@@ -4,6 +4,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 /datum/species
 	var/id	// if the game needs to manually check my race to do something not included in a proc here, it will use this
+	var/custom_base_icon // Per-instance icon_state override (e.g. gnoll pelt selection). Empty = use species default.
 	var/limbs_id		//this is used if you want to use a different species limb sprites. Mainly used for angels as they look like humans.
 	var/clothes_id //id for clothes
 	var/name	// this is the fluff name. these will be left generic (such as 'Lizardperson' for the lizard race) so servers can change them to whatever
@@ -171,8 +172,16 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/gender_swapping = FALSE
 	var/stress_examine = FALSE
 	var/stress_desc = null
+	var/examine_stress_event = /datum/stressevent/shunned_race
+	var/examine_stress_event_xenophobic = /datum/stressevent/shunned_race_xenophobic
+	var/examine_stress_always = FALSE
+	var/examine_stress_ignores_tolerant = FALSE
+	var/examine_relief_patron = null
+	var/examine_relief_event = null
 
 	var/punch_damage
+	/// WARNING - This is a very simple implementation. Not meant for carbons composed of limbs!
+	var/custom_rotation_icon = null
 
 ///////////
 // PROCS //

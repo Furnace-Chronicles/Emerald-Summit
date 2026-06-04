@@ -45,7 +45,7 @@
 	user.sexcon.perform_sex_action(user, 2, 0, TRUE)
 	if(user.sexcon.check_active_ejaculation())
 		user.visible_message(span_love("[user] cums into [target]'s slit!"))
-		user.sexcon.cum_into(splashed_user = target)
+		user.sexcon.cum_into(splashed_user = target, orifice = SEX_PART_SLIT_SHEATH)
 		user.virginity = FALSE
 
 	if(user.sexcon.considered_limp())
@@ -90,7 +90,7 @@
 	user.sexcon.perform_sex_action(user, 2, 0, TRUE)
 	if(user.sexcon.check_active_ejaculation())
 		user.visible_message(span_love("[user] cums into [target]'s slit!"))
-		user.sexcon.cum_into(splashed_user = target)
+		user.sexcon.cum_into(splashed_user = target, orifice = SEX_PART_SLIT_SHEATH)
 		user.virginity = FALSE
 
 	if(user.sexcon.considered_limp())

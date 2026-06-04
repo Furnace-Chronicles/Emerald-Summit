@@ -22,11 +22,16 @@
 	var/target_height
 	var/target_voice
 	var/target_voice_prefix
+	/// 5-digit identifier used by the Guild Clerk to withdraw rewards on non-lethal/task bounties.
+	var/number
 
 	/// Whats displayed when consulting the bounties
 	var/banner
 	///Is this a bandit bounty?
 	var/bandit
+	/// "Yes" if this bounty's reward can be paid out manually via the Guild Clerk withdraw menu.
+	/// Set automatically to "Yes" for custom (no-target) task bounties.
+	var/withdrawable
 
 /obj/structure/roguemachine/bounty/attack_hand(mob/user)
 
@@ -37,6 +42,8 @@
 
 	// Main Menu
 	var/list/choices = list("Consult Bounties", "Set Bounty", "Print List of Bounties", "Remove Bounty", "Collect Change")
+	if(user.mind?.assigned_role == "Guild Clerk")
+		choices += "Withdraw Bounty Reward"
 	var/selection = input(user, "The Excidium listens", src) as null|anything in choices
 
 	switch(selection)
@@ -56,6 +63,9 @@
 		if("Collect Change")
 			budget2change(budget)
 			budget = 0
+
+		if("Withdraw Bounty Reward")
+			withdraw_bounty(H)
 
 /obj/structure/roguemachine/bounty/attackby(obj/item/P, mob/user, params)
 
@@ -115,32 +125,56 @@
 ///Sets a bounty on a target player through user input.
 ///@param user: The player setting the bounty.
 /obj/structure/roguemachine/bounty/proc/set_bounty(mob/living/carbon/human/user)
-	var/list/eligible_players = list()
+	// Up-front choice between lethal (kill target, head delivery) and non-lethal (task bounty).
+	var/mode = input(user, "What kind of bounty do you want set?", src) as null|anything in list("Lethal", "Non-lethal")
+	if(isnull(mode))
+		return
 
-	if(user.mind.known_people.len)
-		for(var/mob/living/carbon/human/H in GLOB.human_list)
-			if(H.real_name in user.mind.known_people)
-				eligible_players[H.real_name] = H
+	var/mob/living/carbon/human/target
+	var/reason
+	var/withdrawable
+
+	if(mode == "Lethal")
+		// Lethal bounty: must name a known target. No withdraw — payout only via head delivery.
+		var/list/eligible_players = list()
+		if(user.mind.known_people.len)
+			for(var/mob/living/carbon/human/H in GLOB.human_list)
+				if(H.real_name in user.mind.known_people)
+					eligible_players[H.real_name] = H
+		if(!length(eligible_players))
+			to_chat(user, span_warning("I don't know anyone."))
+			return
+		var/choice = input(user, "Whose name shall be etched on the wanted list?", src) as null|anything in eligible_players
+		if(isnull(choice))
+			say("No target selected.")
+			return
+		target = eligible_players[choice]
+		withdrawable = "No"
+		reason = input(user, "For what sins do you summon the hounds of hell?", src) as null|text
+		if(isnull(reason) || reason == "")
+			say("No reason given.")
+			return
 	else
-		to_chat(user, span_warning("I don't know anyone."))
-		return
+		// Non-lethal bounty: custom task description, withdrawable by Guild Clerk via bounty number.
+		withdrawable = "Yes"
+		reason = input(user, "What work do you desire to be done?", src) as null|text
+		if(isnull(reason) || reason == "")
+			say("No task given.")
+			return
 
-	var/choice = input(user, "Whose name shall be etched on the wanted list?", src) as null|anything in eligible_players
-	if(isnull(choice))
-		say("No target selected.")
-		return
-
-	var/mob/living/carbon/human/target = eligible_players[choice]
-
-	var/amount = input(user, "How many mammons shall be stained red for their demise?", src) as null|num
+	var/amount = input(user, "How many mammons shall be rewarded for this task to be carried out?", src) as null|num
 	if(isnull(amount))
 		say("Invalid amount.")
 		return
-	if(amount < 100)
-		say("Insufficient amount. Bounty must be at least 100 mammon.")
-		return
-	if(amount > 500)
-		say("Insufficient amount. Bounties cannot be more than 500 mammon.")
+	if(target)
+		if(amount < 100)
+			say("Insufficient amount. Bounty must be at least 100 mammon.")
+			return
+		if(amount > 500)
+			say("Insufficient amount. Bounties cannot be more than 500 mammon.")
+			return
+	else if(amount < 20)
+		say("Insufficient amount. Task bounty must be at least 20 mammon.")
 		return
 
 	// Has user enough money?
@@ -148,49 +182,48 @@
 		say("Insufficient funds.")
 		return
 
-	var/reason = input(user, "For what sins do you summon the hounds of hell?", src) as null|text
-	if(isnull(reason) || reason == "")
-		say("No reason given.")
-		return
-
-	var/confirm = input(user, "Do you dare unleash this darkness upon the world? Your name will be known.", src) as null|anything in list("Yes", "No")
+	var/confirm = input(user, "Do you dare unleash this task upon the world? Your name will be known.", src) as null|anything in list("Yes", "No")
 	if(isnull(confirm) || confirm == "No") return
+
+	var/number = rand(10000, 99999)
 
 	// Deduct money from user
 	budget -= round(amount)
 
-	//Deduct royal tax from amount
-	var/royal_tax = round(amount * 0.1)
+	//Deduct royal tax from amount — pulls from the kingdom's current tax setting.
+	var/royal_tax = round(amount * SStreasury.tax_value)
 	SStreasury.treasury_value += royal_tax
 	SStreasury.log_entries += "+[royal_tax] to treasury (bounty tax)"
 
 	amount -= royal_tax
 
-	var/race = target.dna.species
-	var/gender = target.gender
-	var/list/d_list = target.get_mob_descriptors()
-	var/descriptor_height = build_coalesce_description_nofluff(d_list, target, list(MOB_DESCRIPTOR_SLOT_HEIGHT), "%DESC1%")
-	var/descriptor_body = build_coalesce_description_nofluff(d_list, target, list(MOB_DESCRIPTOR_SLOT_BODY), "%DESC1%")
-	var/descriptor_voice = build_coalesce_description_nofluff(d_list, target, list(MOB_DESCRIPTOR_SLOT_VOICE), "%DESC1%")
-
-	// Finally create bounty
-	add_bounty(target.real_name, race, gender, descriptor_height, descriptor_body, descriptor_voice, amount, FALSE, reason, user.real_name)
+	// Finally create bounty. Null target means a custom task bounty (withdrawable by Guild Clerk via bounty number).
+	add_bounty(target?.real_name, amount, FALSE, reason, user.real_name, withdrawable, number)
 
 	//Announce it locally and on scomm
 	playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
-	var/bounty_announcement = "The Excidium hungers for [target]."
+	var/bounty_announcement
+	if(target)
+		bounty_announcement = "The Excidium hungers for [target]."
+	else
+		bounty_announcement = "The Excidium offers [amount] mammon for a new deed."
 	say(bounty_announcement)
 	scom_announce(bounty_announcement)
 
-	message_admins("[ADMIN_LOOKUPFLW(user)] has set a bounty on [ADMIN_LOOKUPFLW(target)] with the reason of: '[reason]'")
+	if(target)
+		message_admins("[ADMIN_LOOKUPFLW(user)] has set a bounty on [ADMIN_LOOKUPFLW(target)] with the reason of: '[reason]'")
+	else
+		message_admins("[ADMIN_LOOKUPFLW(user)] has set a task bounty (number [number]) with the reason of: '[reason]'")
 
-/proc/add_bounty(target_realname, amount, bandit_status, reason, employer_name)
+/proc/add_bounty(target_realname, amount, bandit_status, reason, employer_name, withdrawable, number)
 	var/datum/bounty/new_bounty = new /datum/bounty
 	new_bounty.amount = amount
 	new_bounty.target = target_realname
 	new_bounty.bandit = bandit_status
 	new_bounty.reason = reason
 	new_bounty.employer = employer_name
+	new_bounty.withdrawable = withdrawable
+	new_bounty.number = number
 	compose_bounty(new_bounty)
 	GLOB.head_bounties += new_bounty
 
@@ -229,17 +262,53 @@
 ///Composes a random bounty banner based on the given bounty info.
 ///@param new_bounty:  The bounty datum.
 /proc/compose_bounty(datum/bounty/new_bounty)
-	switch(rand(1, 3))
-		if(1)
-			new_bounty.banner += "A dire bounty hangs upon the capture of [new_bounty.target], for '[new_bounty.reason]'.<BR>"
-			new_bounty.banner += "The patron, [new_bounty.employer], offers [new_bounty.amount] mammons for the task.<BR>"
-		if(2)
-			new_bounty.banner += "The capture of [new_bounty.target] is wanted for '[new_bounty.reason]''.<BR>"
-			new_bounty.banner += "The employer, [new_bounty.employer], offers [new_bounty.amount] mammons for the deed.<BR>"
-		if(3)
-			new_bounty.banner += "[new_bounty.employer] hath offered to pay [new_bounty.amount] mammons for the capture of [new_bounty.target].<BR>"
-			new_bounty.banner += "By reason of the following: '[new_bounty.reason]'.<BR>"
+	if(new_bounty.target)
+		switch(rand(1, 3))
+			if(1)
+				new_bounty.banner += "A dire bounty hangs upon the capture of [new_bounty.target], for '[new_bounty.reason]'.<BR>"
+				new_bounty.banner += "The patron, [new_bounty.employer], offers [new_bounty.amount] mammons for the task.<BR>"
+			if(2)
+				new_bounty.banner += "The capture of [new_bounty.target] is wanted for '[new_bounty.reason]''.<BR>"
+				new_bounty.banner += "The employer, [new_bounty.employer], offers [new_bounty.amount] mammons for the deed.<BR>"
+			if(3)
+				new_bounty.banner += "[new_bounty.employer] hath offered to pay [new_bounty.amount] mammons for the capture of [new_bounty.target].<BR>"
+				new_bounty.banner += "By reason of the following: '[new_bounty.reason]'.<BR>"
+		if(new_bounty.withdrawable == "Yes")
+			new_bounty.banner += "This bounty is able to be completed without the beheading of [new_bounty.target], talk to an authorized member of the mercenaries guild for the reward.<BR>"
+			new_bounty.banner += "BOUNTY NUMBER: [new_bounty.number].<BR>"
+	else
+		switch(rand(1, 3))
+			if(1)
+				new_bounty.banner += "[new_bounty.employer] hath offered to pay [new_bounty.amount] mammons to carry out a task.<BR>"
+				new_bounty.banner += "Said task is to: '[new_bounty.reason]'.<BR>"
+			if(2)
+				new_bounty.banner += "The employer [new_bounty.employer] is offering [new_bounty.amount] mammons to accomplish a certain deed.<BR>"
+				new_bounty.banner += "The deed is the following: '[new_bounty.reason]'.<BR>"
+			if(3)
+				new_bounty.banner += "[new_bounty.amount] mammons are being offered to whoever can '[new_bounty.reason]'.<BR>"
+				new_bounty.banner += "The patron, [new_bounty.employer] will pay the first to complete it.<BR>"
+		new_bounty.banner += "The reward for this task shall be given when verified by an authorized member of the mercenaries guild.<BR>"
+		new_bounty.banner += "BOUNTY NUMBER: [new_bounty.number].<BR>"
 	new_bounty.banner += "--------------<BR>"
+
+/// Guild-Clerk-only menu option. Pays out a withdrawable bounty's reward by bounty number.
+/obj/structure/roguemachine/bounty/proc/withdraw_bounty(mob/user)
+	var/bounty_number = input(user, "What is the number of the bounty whose reward is to be withdrawn?", src) as null|num
+	if(isnull(bounty_number))
+		say("No number given.")
+		return
+	for(var/datum/bounty/b in GLOB.head_bounties)
+		if(b.number == bounty_number && b.withdrawable == "Yes")
+			var/confirm = input(user, "Are you sure you would like to withdraw the reward [b.target ? "on [b.target]'s head" : "of this task"] and mark it as completed? There will be punishment from the guild for any reported improper use.", src) as null|anything in list("Yes", "No")
+			if(isnull(confirm) || confirm == "No")
+				return
+			budget2change(b.amount, user)
+			GLOB.head_bounties -= b
+			say("Bounty successfully marked as completed and reward withdrawn.")
+			scom_announce("Bounty number [bounty_number] has been marked as completed.")
+			message_admins("[ADMIN_LOOKUPFLW(user)] withdrew bounty number [bounty_number].")
+			return
+	say("There are no withdrawable bounties with that number. Please confirm that the bounty is withdrawable, and deliver head for cranial inspection otherwise.")
 
 /proc/compose_bounty_noface(datum/bounty/new_bounty_noface)
 	switch(rand(1, 3))

@@ -334,6 +334,10 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Mercenary"
 	icon_state = "arrow"
 
+/obj/effect/landmark/start/guild_clerk
+	name = "Guild Clerk"
+	icon_state = "arrow"
+
 /obj/effect/landmark/start/vagrant
 	name = "Beggar"
 	icon_state = "arrow"
@@ -505,6 +509,17 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon_state = "arrow"
 	delete_after_roundstart = FALSE
 	jobspawn_override = list("Wretch")
+
+/obj/effect/landmark/start/gnoll
+	name = "gnoll"
+	icon_state = "arrow"
+	jobspawn_override = list("Gnoll")
+
+/obj/effect/landmark/start/gnolllate
+	name = "gnoll"
+	icon_state = "arrow"
+	delete_after_roundstart = FALSE
+	jobspawn_override = list("Gnoll")
 
 /obj/effect/landmark/start/nukeop_leader
 	name = "nukeop leader"

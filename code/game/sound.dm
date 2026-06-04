@@ -292,8 +292,15 @@
 						return TRUE // Necessary to prevent sounds from double updating... why wasn't this here before?
 		else
 			D.thingshearing += our_ref
+			// playsound() reuses one sound/S object across all playsound_local calls,
+			// mutating S.channel per mob. Storing a reference to the shared S means
+			// every mob ends up with the last mob's channel in played_loops["SOUND"],
+			// so stop_sound_channel() sends to the wrong channel and the sound loops forever.
+			// We copy only the fields needed for stop/mute/volume operations.
+			var/sound/S_stored = sound(S.file)
+			S_stored.channel = S.channel
 			client.played_loops[D] = list()
-			client.played_loops[D]["SOUND"] = S
+			client.played_loops[D]["SOUND"] = S_stored
 			client.played_loops[D]["VOL"] = S.volume
 			client.played_loops[D]["MUTESTATUS"] = null
 			client.played_loops[D]["PIXEL_X"] = client.pixel_x

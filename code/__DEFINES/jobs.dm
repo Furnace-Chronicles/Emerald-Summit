@@ -186,6 +186,7 @@
 #define MERCENARY		(1<<2)
 #define DESERT_RIDER	(1<<3)	//Unused
 #define GRENZELHOFT		(1<<4)	//Unused
+#define MERC_CLERK		(1<<5)
 
 
 #define TRIBAL		(1<<8)
@@ -204,6 +205,7 @@
 #define VAMPIRE_SERVANT (1<<4)
 #define VAMPIRE_GUARD (1<<5)
 #define VAMPIRE_SPAWN (1<<6)
+#define GNOLL		  (1<<7)
 
 #define INQUISITION (1<<10)
 
@@ -294,11 +296,13 @@
 #define JDO_COURTAGENT 30.3
 #define JDO_WRETCH 30.4
 #define JDO_OGRE 30.5
+#define JDO_GNOLL 30.6
 
 #define JDO_MERCENARY 31
 #define JDO_GRENZELHOFT 31.1
 #define JDO_DESERT_RIDER 31.2
 #define JDO_VET 31.4
+#define JDO_MERC_CLERK 31.5
 
 #define JDO_VAGRANT 33
 #define JDO_ORPHAN 34
@@ -386,10 +390,12 @@
 #define WANDERER_ROLES \
 	/datum/job/roguetown/pilgrim,\
 	/datum/job/roguetown/adventurer,\
+	/datum/job/roguetown/guild_clerk,\
 	/datum/job/roguetown/mercenary/desert_rider,\
 	/datum/job/roguetown/mercenary/grenzelhoft,\
 	/datum/job/roguetown/bandit,\
 	/datum/job/roguetown/wretch,\
+	/datum/job/roguetown/ogre
 
 #define GARRISON_ROLES \
 	/datum/job/roguetown/warden,\

@@ -190,6 +190,7 @@
 	faretype = FARE_NEUTRAL
 	icon_state = "bread_salami"
 	foodtype = GRAIN | MEAT
+	rotprocess = null // Both ingredients (toast + salumoi) are rot-immune, so the assembled bread shouldn't rot either.
 
 /obj/item/reagent_containers/food/snacks/rogue/sandwich/cheese
 	tastes = list("cheese" = 1,"bread" = 1)
@@ -214,6 +215,7 @@
 	faretype = FARE_IMPOVERISHED
 	icon_state = "bread_salo"
 	foodtype = GRAIN | MEAT
+	rotprocess = null // Both ingredients (toast + salo) are rot-immune, so the assembled bread shouldn't rot either.
 
 /obj/item/reagent_containers/food/snacks/rogue/sandwich/bacon
 	tastes = list("bacon" = 1)

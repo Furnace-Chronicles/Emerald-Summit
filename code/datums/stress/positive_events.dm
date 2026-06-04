@@ -23,6 +23,11 @@
 	stressadd = -2
 	desc = span_green("I feel a soothing presence.")
 
+/datum/stressevent/gnoll_graggar
+	timer = 1 MINUTES
+	stressadd = -2
+	desc = span_green("A Gnoll! Graggar's blessing is upon me!")
+
 /datum/stressevent/triumph
 	timer = 10 MINUTES
 	stressadd = -5

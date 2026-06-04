@@ -21,6 +21,8 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	var/ineligible_for_roles = FALSE
 
 	var/brohand
+	/// Lazy-init wrapper datum that hosts the TGUI late-join job picker.
+	var/datum/late_join_choices/late_join_choices
 
 /mob/dead/new_player/Initialize()
 //	if(client && SSticker.state == GAME_STATE_STARTUP)
@@ -114,6 +116,11 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	popup.open(FALSE)*/
 	if(client)
 		if(client.prefs)
+			// ShowChoices internally routes to open_preferences_menu(src) when
+			// prefs.tgui_pref is TRUE, and falls back to the classic HTML
+			// browser when FALSE — so this single call honors the user's
+			// chosen UI on initial login AND on every return-to-lobby (death
+			// → "Journey to the Underworld" → respawn).
 			client.prefs.ShowChoices(src, 4)
 
 /mob/dead/new_player/Topic(href, href_list[])
@@ -710,8 +717,9 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	var/is_antag
 	if(mind in GLOB.pre_setup_antags)
 		is_antag = TRUE
+	var/is_gnoll = (mind?.assigned_role == "Gnoll")
 
-	client.prefs.copy_to(H, antagonist = is_antag)
+	client.prefs.copy_to(H, antagonist = is_antag, skip_normal_prefs = is_gnoll)
 	H.dna.update_dna_identity()
 	if(mind)
 		if(transfer_after)
@@ -719,7 +727,13 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		mind.active = 0					//we wish to transfer the key manually
 		mind.transfer_to(H)					//won't transfer key since the mind is not active
 
-	H.name = real_name
+	if(is_gnoll)
+		var/gnoll_name = client?.prefs?.gnoll_prefs?.ensure_gnoll_name() || H.real_name
+		H.real_name = gnoll_name
+		H.name = gnoll_name
+		H.dna.real_name = gnoll_name
+	else
+		H.name = real_name
 
 	. = H
 	new_character = .
@@ -776,6 +790,14 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	src << browse(null, "window=latechoices") //closes late job selection
 	src << browse(null, "window=migration") // Closes migrant menu
 	src << browse(null, "window=familiar_prefs") // Closes familiar prefs menu
+
+	// TGUI character setup + late-join pickers: synchronously close before the
+	// new_player mob is replaced, so the windows don't linger over the game
+	// view while the slower lobby-refresh tick catches up.
+	if(client?.prefs?.preferences_menu)
+		SStgui.close_uis(client.prefs.preferences_menu)
+	if(late_join_choices)
+		SStgui.close_uis(late_join_choices)
 
 	SStriumphs.remove_triumph_buy_menu(client)
 

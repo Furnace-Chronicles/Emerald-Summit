@@ -140,6 +140,7 @@ GLOBAL_LIST_INIT(peasant_positions, list(
 	"Bandit",
 	"Court Agent",
 	"Wretch",
+	"Gnoll",
 ))
 
 GLOBAL_LIST_INIT(mercenary_positions, list(
@@ -147,6 +148,7 @@ GLOBAL_LIST_INIT(mercenary_positions, list(
 	"Grenzelhoft Mercenary",
 	"Desert Rider Mercenary",
 	"Veteran",
+	"Guild Clerk",
 ))
 
 GLOBAL_LIST_INIT(youngfolk_positions, list(

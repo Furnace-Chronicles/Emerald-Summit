@@ -322,3 +322,25 @@
 	craftdiff = 2
 	skillcraft = /datum/skill/misc/medicine
 	verbage_simple = "fleshcraft"
+
+/datum/crafting_recipe/roguetown/alchemy/glut
+	name = "glut (from gnoll flesh)"
+	craftdiff = 4
+	result = list(
+		/obj/item/roguegem/blood_diamond
+		)
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll = 2,
+		)
+	subtype_reqs = TRUE
+
+/datum/crafting_recipe/roguetown/alchemy/gnoll_flesh
+	name = "gnoll flesh (from glut)"
+	craftdiff = 4
+	result = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll
+		)
+	reqs = list(
+		/obj/item/roguegem/blood_diamond = 2,
+		)
+	subtype_reqs = TRUE

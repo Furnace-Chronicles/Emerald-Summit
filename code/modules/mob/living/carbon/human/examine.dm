@@ -149,34 +149,45 @@
 		if(has_status_effect(/datum/status_effect/knot_tied))
 			. += span_warning("A knot is locked inside [p_them()]. [m1] being pulled around like a pet.")
 
-		// Facial/Creampie effect message
+		// Facial/Creampie/Body shot effect message
 		var/datum/status_effect/facial/facial = has_status_effect(/datum/status_effect/facial)
+		var/datum/status_effect/facial/external/external = has_status_effect(/datum/status_effect/facial/external)
 		var/datum/status_effect/facial/internal/creampie = null
+		var/datum/status_effect/creampie_leak/drip = null
 		if(observer_privilege || get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
 			creampie = has_status_effect(/datum/status_effect/facial/internal)
-		if(facial && creampie)
-			var/facial_wet_or_dry = !facial?.has_dried_up ? "glazed" : "plastered"
-			var/creampie_wet_or_dry = !creampie?.has_dried_up ? "dripping out" : "stained with"
-			var/we_wet_or_dry = facial?.has_dried_up && creampie?.has_dried_up ? "dried cum" : "cum" // only show dried if both status are set to dry
-			if(user != src && isliving(user))
+			drip = has_status_effect(/datum/status_effect/creampie_leak/long)
+			if(!drip)
+				drip = has_status_effect(/datum/status_effect/creampie_leak)
+		var/any_cum_effect = facial || external || creampie
+		if(any_cum_effect || drip)
+			var/show_detail = (user == src) || observer_privilege
+			if(!show_detail && isliving(user))
 				var/mob/living/L = user
-				. += (L.STAPER >= 8 && L.STAINT >= 5) ? span_aiprivradio("[m1] [facial_wet_or_dry] and [creampie_wet_or_dry] [we_wet_or_dry]!") : span_warning("[m1] covered in something glossy!")
+				show_detail = (L.STAPER >= 8 && L.STAINT >= 5)
+			if(!show_detail)
+				if(any_cum_effect)
+					. += span_warning("[m1] covered in something glossy!")
 			else
-				. += span_aiprivradio("[m1] [facial_wet_or_dry] and [creampie_wet_or_dry] [we_wet_or_dry]!")
-		else if(facial)
-			var/wet_or_dry = !facial?.has_dried_up ? "glazed with cum" : "plastered with dried cum"
-			if(user != src && isliving(user))
-				var/mob/living/L = user
-				. += (L.STAPER >= 8 && L.STAINT >= 5) ? span_aiprivradio("[m1] [wet_or_dry]!") : span_warning("[m1] smeared with something glossy!")
-			else
-				. += span_aiprivradio("[m1] [wet_or_dry]!")
-		else if(creampie)
-			var/wet_or_dry = !creampie?.has_dried_up ? "dripping out cum" : "stained with dried cum"
-			if(user != src && isliving(user))
-				var/mob/living/L = user
-				. += (L.STAPER >= 8 && L.STAINT >= 5) ? span_aiprivradio("[m1] [wet_or_dry]!") : span_warning("[m1] letting out some glossy stuff!")
-			else
-				. += span_aiprivradio("[m1] [wet_or_dry]!")
+				if(external)
+					. += span_aiprivradio("[capitalize(m2)] body is [!external.has_dried_up ? "covered in cum" : "covered in dried cum"]!")
+				if(facial)
+					. += span_aiprivradio("[capitalize(m2)] face is [!facial.has_dried_up ? "glazed with cum" : "plastered with dried cum"]!")
+				if(creampie && !drip)
+					. += span_aiprivradio("[capitalize(m2)] crotch is [!creampie.has_dried_up ? "a cummy mess" : "stained with dried cum"]!")
+				if(drip)
+					var/is_long = istype(drip, /datum/status_effect/creampie_leak/long)
+					switch(drip.orifice)
+						if(SEX_PART_CUNT)
+							. += span_aiprivradio("[m1] [is_long ? "gushing cum from [m2] sex" : "trickling cum from [m2] sex"]!")
+						if(SEX_PART_ANUS)
+							. += span_aiprivradio("[m1] [is_long ? "leaking heavily from [m2] ass" : "leaking cum from [m2] ass"]!")
+						if(SEX_PART_SLIT_SHEATH)
+							. += span_aiprivradio("[m1] [is_long ? "leaking heavily from [m2] slit" : "trickling cum from [m2] slit"]!")
+						if(SEX_PART_CUNT|SEX_PART_ANUS)
+							. += span_aiprivradio("[m1] [is_long ? "leaking heavily from both [m2] holes" : "dripping cum from both [m2] holes"]!")
+						else
+							. += span_aiprivradio("[m1] [is_long ? "leaking a heavy load" : "dripping cum from [m2] nethers"]!")
 
 		if (HAS_TRAIT(src, TRAIT_OUTLANDER) && !HAS_TRAIT(user, TRAIT_OUTLANDER)) 
 			. += span_phobia("A foreigner...")
@@ -409,6 +420,24 @@
 		if(s_store && !(SLOT_S_STORE in obscured))
 			if(is_normal || is_smart)
 				. += "[m1] carrying [s_store.get_examine_string(user)] on [m2] [wear_armor.name]."
+
+	// Gnoll pelt — surfaces the regenerating gnoll skin armor when worn.
+	// Always shows the name + integrity to any examiner (mirrors wear_shirt,
+	// not wear_armor: an average examiner still gets the verbal damage
+	// description, smart examiners get the exact %). Stupid examiners see a
+	// degraded placeholder instead of the actual pelt name.
+	if(istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor))
+		var/obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/pelt = skin_armor
+		var/pelt_line
+		if(is_stupid)
+			pelt_line = "[m3] some matted fur and scarred hide!"
+		else
+			pelt_line = "[m3] [pelt.name]."
+			var/integrity_str = pelt.integrity_check(is_smart)
+			if(integrity_str)
+				pelt_line += " [integrity_str]"
+		. += pelt_line
+
 	//back
 //	if(back)
 //		. += "[m3] [back.get_examine_string(user)] on [m2] back."
@@ -813,7 +842,20 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		var/stress = H.get_stress_amount()//stress check for racism
-		if(H.has_flaw(/datum/charflaw/paranoid) || (!HAS_TRAIT(H, TRAIT_EMPATH) && stress >= 4))//if you have paranoid flaw or you're stressed while not being an empath
+		// Species opting into examine_stress_always (e.g. gnolls) bypass the paranoia/stress gate.
+		if(H.dna.species.name != dna.species.name && dna.species.examine_stress_always)
+			if(dna.species.examine_relief_patron && H.patron?.type == dna.species.examine_relief_patron)
+				if(dna.species.examine_relief_event)
+					user.add_stress(dna.species.examine_relief_event)
+			else
+				if(dna.species.stress_examine)
+					. += dna.species.stress_desc
+				if(dna.species.examine_stress_event && (dna.species.examine_stress_ignores_tolerant || !HAS_TRAIT(user, TRAIT_TOLERANT)))
+					var/stress_type = dna.species.examine_stress_event
+					if(HAS_TRAIT(user, TRAIT_XENOPHOBIC) && dna.species.examine_stress_event_xenophobic)
+						stress_type = dna.species.examine_stress_event_xenophobic
+					user.add_stress(stress_type)
+		else if(H.has_flaw(/datum/charflaw/paranoid) || (!HAS_TRAIT(H, TRAIT_EMPATH) && stress >= 4))//if you have paranoid flaw or you're stressed while not being an empath
 			if(H.dna.species.name != dna.species.name)
 				if(dna.species.stress_examine)//some species don't have a stress desc
 					. += dna.species.stress_desc
@@ -957,6 +999,37 @@
 		else
 			towrite += span_notice("Age Verified")
 		. += span_info(towrite)
+
+	if(dna?.species?.type == /datum/species/gnoll)
+		if(istype(user, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = user
+			if(H.dna?.species?.type == /datum/species/gnoll)
+				if(user.advjob)
+					. += span_notice("<i>They are a [advjob] of the pack.</i>")
+
+	// Gnoll examiner-side hooks: mark indicator + breeder-scent flavor.
+	// Ported from upstream's modular examine_hooks.dm (which has no ES counterpart).
+	var/user_is_gnoll = FALSE
+	var/user_is_clergy = FALSE
+	var/user_is_inquisition = FALSE
+	if(ishuman(user))
+		var/mob/living/carbon/human/UH = user
+		user_is_gnoll = UH.dna?.species?.id == "gnoll"
+		user_is_inquisition = HAS_TRAIT(UH, TRAIT_INQUISITION) || (UH.mind?.assigned_role in GLOB.inquisition_positions)
+		user_is_clergy = user_is_inquisition || (UH.mind?.assigned_role in GLOB.church_positions)
+		if(user_is_gnoll)
+			var/datum/antagonist/gnoll/gnoll_antag = UH.mind?.has_antag_datum(/datum/antagonist/gnoll)
+			if(gnoll_antag?.is_examine_marked_target(src))
+				. += span_cultsmall("Graggar has marked them!")
+			if(src.has_gnoll_scent_this_round)
+				. += span_cultsmall("They have gnoll scent, a breeder!")
+	if(src.has_gnoll_scent_this_round && !user_is_gnoll)
+		if(user_is_inquisition)
+			. += span_warning("They reek of profane beast-taint. This demands scrutiny.")
+		else if(user_is_clergy)
+			. += span_warning("A profane, feral scent clings to them.")
+		else
+			. += span_warning("They have a strange scent about them...")
 
 	var/trait_exam = common_trait_examine()
 	if(!isnull(trait_exam))

@@ -73,7 +73,7 @@
 	popup.set_content(dat.Join())
 	popup.open(FALSE)
 
-/datum/familiar_prefs/proc/fam_process_link(mob/user, list/href_list)
+/datum/familiar_prefs/proc/fam_process_link(mob/user, list/href_list, from_tgui = FALSE)
 	if(!user)
 		return
 
@@ -81,7 +81,7 @@
 
 	switch(href_list["preference"])
 		if("familiar_name")
-			var/new_name = input(user, "Choose your Familiar character's name:", "Identity") as text|null
+			var/new_name = tgui_input_text(user, "Choose your Familiar character's name:", "Identity")
 			if(new_name)
 				new_name = reject_bad_name(new_name)
 				if(new_name)
@@ -97,7 +97,10 @@
 				"they/them" = THEY_THEM,
 				"it/its" = IT_ITS
 			)
-			var/choice = input(user, "Select your familiar's pronouns:", "Pronouns") as null|anything in pronoun_options
+			// TGUI Dropdown pre-pick — honor href_list["picked_name"] in lieu of popup.
+			var/choice = href_list["picked_name"]
+			if(!choice || !(choice in pronoun_options))
+				choice = tgui_input_list(user, "Select your familiar's pronouns:", "Pronouns", pronoun_options)
 			if(choice)
 				familiar_pronouns = pronoun_options[choice]
 				to_chat(user, "<span class='notice'>Familiar pronouns set to [choice].</span>")
@@ -105,16 +108,18 @@
 		if("familiar_headshot")
 			to_chat(user, "<span class='notice'>Please use a relatively SFW image of the head and shoulder area to maintain immersion level. <b>Do not use a real life photo or unserious images.</b></span>")
 			to_chat(user, "<span class='notice'>Ensure it's a direct image link. The photo will be resized to 325x325 pixels.</span>")
-			var/new_headshot_link = input(user, "Input the headshot link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "Headshot", familiar_headshot_link) as text|null
+			var/new_headshot_link = tgui_input_text(user, "Input the headshot link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "Headshot", familiar_headshot_link)
 			if(new_headshot_link == null)
 				return
 			if(new_headshot_link == "")
 				familiar_headshot_link = null
-				fam_show_ui()
+				if(!from_tgui)
+					fam_show_ui()
 				return
 			if(!valid_headshot_link(user, new_headshot_link))
 				familiar_headshot_link = null
-				fam_show_ui()
+				if(!from_tgui)
+					fam_show_ui()
 				return
 			familiar_headshot_link = new_headshot_link
 			to_chat(user, "<span class='notice'>Successfully updated Familiar headshot picture</span>")
@@ -122,13 +127,14 @@
 
 		if("familiar_flavortext")
 			to_chat(user, "<span class='notice'><b>Flavortext should not include nonphysical nonsensory attributes such as backstory or internal thoughts.</b></span>")
-			var/new_flavortext = input(user, "Input your Familiar character description:", "Flavortext", familiar_flavortext) as message|null
+			var/new_flavortext = tgui_input_text(user, "Input your Familiar character description:", "Flavortext", familiar_flavortext, multiline = TRUE)
 			if(new_flavortext == null)
 				return
 			if(new_flavortext == "")
 				familiar_flavortext = null
 				familiar_flavortext_display = null
-				fam_show_ui()
+				if(!from_tgui)
+					fam_show_ui()
 				return
 			familiar_flavortext = new_flavortext
 			var/ft = html_encode(parsemarkdown_basic(familiar_flavortext))
@@ -138,13 +144,14 @@
 			log_game("[user] has set their familiar flavortext.")
 
 		if("familiar_ooc_notes")
-			var/new_ooc_notes = input(user, "Input your OOC preferences:", "OOC notes", familiar_ooc_notes) as message|null
+			var/new_ooc_notes = tgui_input_text(user, "Input your OOC preferences:", "OOC notes", familiar_ooc_notes, multiline = TRUE)
 			if(new_ooc_notes == null)
 				return
 			if(new_ooc_notes == "")
 				familiar_ooc_notes = null
 				familiar_ooc_notes_display = null
-				fam_show_ui()
+				if(!from_tgui)
+					fam_show_ui()
 				return
 			familiar_ooc_notes = new_ooc_notes
 			var/ooc = html_encode(parsemarkdown_basic(familiar_ooc_notes))
@@ -157,23 +164,26 @@
 			to_chat(user, "<span class='notice'>Add a link to an mp3, mp4, or jpg/png (catbox, discord, etc).</span>")
 			to_chat(user, "<span class='notice'>Videos are resized to ~300x300. Abuse = ban.</span>")
 			to_chat(user, "<font color='#d6d6d6'>Leave a single space to delete it.</font>")
-			var/link = input(user, "Input the accessory link (https)", "Familiar OOC Extra", familiar_ooc_extra_link) as text|null
+			var/link = tgui_input_text(user, "Input the accessory link (https)", "Familiar OOC Extra", familiar_ooc_extra_link)
 			if(link == null)
 				return
 			if(link == "")
 				link = null
-				fam_show_ui()
+				if(!from_tgui)
+					fam_show_ui()
 				return
 			if(link == " ")
 				familiar_ooc_extra = null
 				familiar_ooc_extra_link = null
 				to_chat(user, "<span class='notice'>Successfully deleted Familiar OOC Extra.</span>")
-				fam_show_ui()
+				if(!from_tgui)
+					fam_show_ui()
 				return
 			var/static/list/valid_ext = list("jpg", "jpeg", "png", "gif", "mp4", "mp3")
 			if(!valid_headshot_link(user, link, FALSE, valid_ext))
 				link = null
-				fam_show_ui()
+				if(!from_tgui)
+					fam_show_ui()
 				return
 			familiar_ooc_extra_link = link
 			var/ext = lowertext(splittext(link, ".")[length(splittext(link, "."))])
@@ -216,7 +226,9 @@
 		if ("familiar_specie")
 			var/list/all_types = GLOB.familiar_types
 
-			var/choice = input(user, "Select a Familiar type:", "Familiar Type") as null|anything in all_types
+			var/choice = href_list["picked_name"]
+			if(!choice || !(choice in all_types))
+				choice = tgui_input_list(user, "Select a Familiar type:", "Familiar Type", all_types)
 			if (choice)
 				var/path = all_types[choice]
 				if (path)
@@ -226,5 +238,5 @@
 				else
 					to_chat(user, span_warning("Something went wrong selecting that familiar type."))
 
-	if(user.client)
+	if(user.client && !from_tgui)
 		fam_show_ui()
