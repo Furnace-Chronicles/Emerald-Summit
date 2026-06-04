@@ -39,7 +39,7 @@
 	name = "greater arcyne bolt"
 	icon = 'icons/obj/magic_projectiles.dmi'
 	icon_state = "arcyne_bolt"
-	damage = 54
+	damage = 45 // AP #6666 "GAB buff to 45 dam" (ES had it at 54)
 	damage_type = BRUTE
 	flag = "blunt"
 	woundclass = BCLASS_BLUNT
