@@ -872,6 +872,14 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 /area/rogue/under/cave/inhumen/entrance/can_craft_here() //Made to prevent killboxes - Constantine
 	return FALSE
 
+/area/rogue/under/cave/inhumen/gnollcavern
+	name = "GNOLL CAVERN"
+	icon_state = "cave"
+	first_time_text = "GNOLL CAVERN"
+	droning_sound = 'sound/music/area/inferno.ogg'
+	droning_sound_dusk = 'sound/music/area/inferno.ogg'
+	droning_sound_night = 'sound/music/area/inferno.ogg'
+
 /area/rogue/under/cave/fishmandungeon //idk what the fish guys are called in lore
 	name = "fishmandungeon"
 	icon_state = "under"

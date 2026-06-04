@@ -44,6 +44,12 @@
 		amount += roles[role_type]
 	return amount
 
+/// Called when this wave is first announced to the round (admin force or natural roll).
+/// NOT called for downgrades — override to fire one-shot side effects like faction scaling
+/// adjustments or population broadcasts.
+/datum/migrant_wave/proc/announce_wave()
+	return
+
 // /datum/migrant_wave/pilgrim
 // 	name = "Pilgrimage"
 // 	downgrade_wave = /datum/migrant_wave/pilgrim_down_one
@@ -146,5 +152,47 @@
 	spawn_landmark = "Bandit"
 	roles = list(
 		/datum/migrant_role/bandit = 1,
+	)
+
+/datum/migrant_wave/gnolls
+	name = "Gnoll raid"
+	downgrade_wave = /datum/migrant_wave/gnolls/down_one
+	spawn_landmark = "Gnoll"
+	can_roll = FALSE
+	weight = 12
+	roles = list(
+		/datum/migrant_role/gnoll = 4,
+	)
+
+/datum/migrant_wave/gnolls/announce_wave()
+	var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")
+	if(!gnoll_job)
+		return
+	gnoll_job.total_positions = min(gnoll_job.total_positions + 2, 6)
+	gnoll_job.spawn_positions = min(gnoll_job.spawn_positions + 2, 6)
+	if(SSgnoll_scaling)
+		SSgnoll_scaling.note_external_slot_adjustment(gnoll_job.total_positions, gnoll_job.spawn_positions)
+	if(gnoll_job.total_positions < 6)
+		for(var/mob/dead/new_player/player as anything in GLOB.new_player_list)
+			if(!player.client)
+				continue
+			to_chat(player, span_danger("Graggar demands blood, gnolls flock to the Vale!"))
+
+/datum/migrant_wave/gnolls/down_one
+	downgrade_wave = /datum/migrant_wave/gnolls/down_two
+	roles = list(
+		/datum/migrant_role/gnoll = 3,
+	)
+
+/datum/migrant_wave/gnolls/down_two
+	downgrade_wave = /datum/migrant_wave/gnolls/down_three
+	roles = list(
+		/datum/migrant_role/gnoll = 2,
+	)
+
+/datum/migrant_wave/gnolls/down_three
+	downgrade_wave = null
+	roles = list(
+		/datum/migrant_role/gnoll = 1,
 	)
 

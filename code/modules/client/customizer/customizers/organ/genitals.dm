@@ -34,12 +34,34 @@
 	dat += "<br>Penis size: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=penis_size''>[find_key_by_value(GLOB.named_penis_sizes, penis_entry.penis_size)]</a>"
 	dat += "<br>Functional: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=functional''>[penis_entry.functional ? "YES" : "NO"]</a>"
 
+/datum/customizer_choice/organ/penis/get_pref_data(datum/preferences/prefs, datum/customizer_entry/entry)
+	. = ..()
+	var/datum/customizer_entry/organ/penis/penis_entry = entry
+	var/list/size_names = list()
+	for(var/key in GLOB.named_penis_sizes)
+		size_names += key
+	. += list(list(
+		"type" = "list_value",
+		"label" = "Penis size",
+		"text" = find_key_by_value(GLOB.named_penis_sizes, penis_entry.penis_size),
+		"task" = "penis_size",
+		"options" = size_names,
+	))
+	. += list(list(
+		"type" = "toggle",
+		"label" = "Functional",
+		"text" = penis_entry.functional ? "YES" : "NO",
+		"task" = "functional",
+	))
+
 /datum/customizer_choice/organ/penis/handle_topic(mob/user, list/href_list, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()
 	var/datum/customizer_entry/organ/penis/penis_entry = entry
 	switch(href_list["customizer_task"])
 		if("penis_size")
-			var/named_size = input(user, "Choose your penis size:", "Character Preference", find_key_by_value(GLOB.named_penis_sizes, penis_entry.penis_size)) as anything in GLOB.named_penis_sizes
+			var/named_size = href_list["picked_name"]
+			if(!named_size || !(named_size in GLOB.named_penis_sizes))
+				named_size = input(user, "Choose your penis size:", "Character Preference", find_key_by_value(GLOB.named_penis_sizes, penis_entry.penis_size)) as anything in GLOB.named_penis_sizes
 			if(isnull(named_size))
 				return
 			var/new_size = GLOB.named_penis_sizes[named_size]
@@ -261,12 +283,35 @@
 		dat += "<br>Ball size: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=ball_size''>[find_key_by_value(GLOB.named_ball_sizes, testicles_entry.ball_size)]</a>"
 	dat += "<br>Virile: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=virile''>[testicles_entry.virility ? "Virile" : "Sterile"]</a>"
 
+/datum/customizer_choice/organ/testicles/get_pref_data(datum/preferences/prefs, datum/customizer_entry/entry)
+	. = ..()
+	var/datum/customizer_entry/organ/testicles/testicles_entry = entry
+	if(can_customize_size)
+		var/list/size_names = list()
+		for(var/key in GLOB.named_ball_sizes)
+			size_names += key
+		. += list(list(
+			"type" = "list_value",
+			"label" = "Ball size",
+			"text" = find_key_by_value(GLOB.named_ball_sizes, testicles_entry.ball_size),
+			"task" = "ball_size",
+			"options" = size_names,
+		))
+	. += list(list(
+		"type" = "toggle",
+		"label" = "Virile",
+		"text" = testicles_entry.virility ? "Virile" : "Sterile",
+		"task" = "virile",
+	))
+
 /datum/customizer_choice/organ/testicles/handle_topic(mob/user, list/href_list, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()
 	var/datum/customizer_entry/organ/testicles/testicles_entry = entry
 	switch(href_list["customizer_task"])
 		if("ball_size")
-			var/named_size = input(user, "Choose your ball size:", "Character Preference", find_key_by_value(GLOB.named_ball_sizes, testicles_entry.ball_size)) as anything in GLOB.named_ball_sizes
+			var/named_size = href_list["picked_name"]
+			if(!named_size || !(named_size in GLOB.named_ball_sizes))
+				named_size = input(user, "Choose your ball size:", "Character Preference", find_key_by_value(GLOB.named_ball_sizes, testicles_entry.ball_size)) as anything in GLOB.named_ball_sizes
 			if(isnull(named_size))
 				return
 			var/new_size = GLOB.named_ball_sizes[named_size]
@@ -344,12 +389,34 @@
 	dat += "<br>Breast size: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=breast_size''>[find_key_by_value(GLOB.named_breast_sizes, breasts_entry.breast_size)]</a>"
 	dat += "<br>Lactation: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=lactating''>[breasts_entry.lactating ? "Enabled" : "Disabled"]</a>"
 
+/datum/customizer_choice/organ/breasts/get_pref_data(datum/preferences/prefs, datum/customizer_entry/entry)
+	. = ..()
+	var/datum/customizer_entry/organ/breasts/breasts_entry = entry
+	var/list/size_names = list()
+	for(var/key in GLOB.named_breast_sizes)
+		size_names += key
+	. += list(list(
+		"type" = "list_value",
+		"label" = "Breast size",
+		"text" = find_key_by_value(GLOB.named_breast_sizes, breasts_entry.breast_size),
+		"task" = "breast_size",
+		"options" = size_names,
+	))
+	. += list(list(
+		"type" = "toggle",
+		"label" = "Lactation",
+		"text" = breasts_entry.lactating ? "Enabled" : "Disabled",
+		"task" = "lactating",
+	))
+
 /datum/customizer_choice/organ/breasts/handle_topic(mob/user, list/href_list, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()
 	var/datum/customizer_entry/organ/breasts/breasts_entry = entry
 	switch(href_list["customizer_task"])
 		if("breast_size")
-			var/named_size = input(user, "Choose your breast size:", "Character Preference", find_key_by_value(GLOB.named_breast_sizes, breasts_entry.breast_size)) as anything in GLOB.named_breast_sizes
+			var/named_size = href_list["picked_name"]
+			if(!named_size || !(named_size in GLOB.named_breast_sizes))
+				named_size = input(user, "Choose your breast size:", "Character Preference", find_key_by_value(GLOB.named_breast_sizes, breasts_entry.breast_size)) as anything in GLOB.named_breast_sizes
 			if(isnull(named_size))
 				return
 			var/new_size = GLOB.named_breast_sizes[named_size]
@@ -409,6 +476,16 @@
 	..()
 	var/datum/customizer_entry/organ/vagina/vagina_entry = entry
 	dat += "<br>Fertile: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=fertile''>[vagina_entry.fertility ? "Fertile" : "Sterile"]</a>"
+
+/datum/customizer_choice/organ/vagina/get_pref_data(datum/preferences/prefs, datum/customizer_entry/entry)
+	. = ..()
+	var/datum/customizer_entry/organ/vagina/vagina_entry = entry
+	. += list(list(
+		"type" = "toggle",
+		"label" = "Fertile",
+		"text" = vagina_entry.fertility ? "Fertile" : "Sterile",
+		"task" = "fertile",
+	))
 
 /datum/customizer_choice/organ/vagina/handle_topic(mob/user, list/href_list, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()

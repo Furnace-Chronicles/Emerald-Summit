@@ -186,3 +186,10 @@
 
 /datum/mob_descriptor/stature/creacher
 	name = "Creacher"
+
+// Gnoll stature — always returns "gnoll" regardless of pronouns
+/datum/mob_descriptor/stature/gnoll
+	name = "Gnoll"
+
+/datum/mob_descriptor/stature/gnoll/get_description(mob/living/described)
+	return "gnoll"

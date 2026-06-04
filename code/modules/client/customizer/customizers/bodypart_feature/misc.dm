@@ -8,6 +8,9 @@
 	name = "Face Detail"
 	feature_type = /datum/bodypart_feature/face_detail
 	allows_accessory_color_customization = TRUE
+	// No get_random_accessory override — fall back to picking from
+	// sprite_accessories so Randomize All actually rolls a face detail.
+	generic_random_pick = TRUE
 	sprite_accessories = list(
 		/datum/sprite_accessory/face_detail/brows,
 		/datum/sprite_accessory/face_detail/brows/dark,
@@ -39,6 +42,7 @@
 	name = "Accessory"
 	feature_type = /datum/bodypart_feature/accessory
 	allows_accessory_color_customization = TRUE
+	generic_random_pick = TRUE
 	sprite_accessories = list(
 		/datum/sprite_accessory/accessory/earrings,
 		/datum/sprite_accessory/accessory/earrings/sil,
@@ -67,6 +71,7 @@
 	name = "Underwear"
 	feature_type = /datum/bodypart_feature/underwear
 	default_accessory = /datum/sprite_accessory/underwear/athletic_leotard
+	generic_random_pick = TRUE
 	sprite_accessories = list(
 		/datum/sprite_accessory/underwear/briefs,
 		/datum/sprite_accessory/underwear/panties,
@@ -88,6 +93,7 @@
 	name = "Legwear"
 	feature_type = /datum/bodypart_feature/legwear
 	//default_accessory = /datum/sprite_accessory/legwear/stockings
+	generic_random_pick = TRUE
 	sprite_accessories = list(
 		/datum/sprite_accessory/legwear/stockings,
 		/datum/sprite_accessory/legwear/stockings/silk,

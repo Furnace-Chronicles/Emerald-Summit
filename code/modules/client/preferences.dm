@@ -197,10 +197,16 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/datum/loadout_item/loadout
 	var/datum/loadout_item/loadout2
 	var/datum/loadout_item/loadout3
+	var/datum/loadout_item/loadout4
+	var/datum/loadout_item/loadout5
+	var/datum/loadout_item/loadout6
 
 	var/loadout_1_hex
 	var/loadout_2_hex
 	var/loadout_3_hex
+	var/loadout_4_hex
+	var/loadout_5_hex
+	var/loadout_6_hex
 
 	var/flavortext
 	var/flavortext_display
@@ -211,6 +217,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/ooc_notes_display
 
 	var/datum/familiar_prefs/familiar_prefs
+	var/datum/gnoll_prefs/gnoll_prefs
 
 	var/rumour
 	var/rumour_display
@@ -227,11 +234,14 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/list/culinary_preferences = list()
 
 	var/tgui_pref = TRUE
+	/// Lazy-init wrapper datum that hosts the TGUI character-creation window.
+	var/datum/preferences_menu/preferences_menu
 
 /datum/preferences/New(client/C)
 	parent = C
 	migrant  = new /datum/migrant_pref(src)
 	familiar_prefs = new /datum/familiar_prefs(src)
+	gnoll_prefs = new /datum/gnoll_prefs(src)
 
 	for(var/custom_name_id in GLOB.preferences_custom_names)
 		custom_names[custom_name_id] = get_default_name(custom_name_id)
@@ -241,8 +251,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		if(!IsGuestKey(C.key))
 			load_path(C.ckey)
 			unlock_content = C.IsByondMember()
-			if(unlock_content)
-				max_save_slots = 60
 	var/loaded_preferences_successfully = load_preferences()
 	if(loaded_preferences_successfully)
 		if(load_character())
@@ -274,11 +282,11 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	menuoptions = list()
 	return
 
-/datum/preferences/proc/set_new_race(datum/species/new_race, user)
+/datum/preferences/proc/set_new_race(datum/species/new_race, user, silent = FALSE)
 	pref_species = new_race
 	real_name = pref_species.random_name(gender,1)
 	ResetJobs()
-	if(user)
+	if(user && !silent)
 		if(pref_species.desc)
 			to_chat(user, "[pref_species.shortdesc ? "[pref_species.shortdesc]<br><a href='?_src_=prefs;preference=racelorehelp;task=input'>Read More</a>" : "[pref_species.desc]"]")
 		to_chat(user, "<font color='red'>Classes reset.</font>")
@@ -309,6 +317,14 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	if(slot_randomized)
 		load_character(default_slot) // Reloads the character slot. Prevents random features from overwriting the slot if saved.
 		slot_randomized = FALSE
+	// TGUI users get the unified /datum/preferences_menu window instead of the
+	// classic HTML browser. The classic path stays intact for tgui_pref=FALSE
+	// users and acts as a fallback if the TGUI bundle ever fails to render —
+	// they can flip tgui_pref off from inside the TGUI window itself
+	// (OocPrefsTab → "Use Classic UI") to recover.
+	if(tgui_pref)
+		open_preferences_menu(user)
+		return
 	var/list/dat = list("<center>")
 	if(tabchoice)
 		current_tab = tabchoice
@@ -326,6 +342,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	switch(current_tab)
 		if (0) // Character Settings#
 			used_title = "Character Sheet"
+
+			// TGUI Character Setup launcher — opens the new React window. Classic Character
+			// Sheet rendering stays below for side-by-side comparison.
+			dat += "<center><a style='display:inline-block; padding:3px 10px; margin:2px 0; background-color:#1a0808; border:1px solid #7b5353; color:#d4b0b0; text-decoration:none;' href='?_src_=prefs;preference=preferences_menu;task=open'>Open Character Setup (TGUI)</a></center>"
 
 			// Top-level menu table
 			dat += "<table style='width: 100%; line-height: 20px;'>"
@@ -608,6 +628,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 			dat += "<br><b>Be a Familiar:</b><a href='?_src_=prefs;preference=familiar_prefs;task=input'>Familiar Preferences</a>"
 
+			dat += "<br><b>Gnoll Customization:</b><a href='?_src_=prefs;preference=gnoll_prefs;task=input'>Gnoll Preferences</a>"
+
 			dat += "</td>"
 
 			dat += "</tr></table>"
@@ -840,9 +862,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "</body>"
 
 
-	if(!IsGuestKey(user.key))
-		dat += "<a href='?_src_=prefs;preference=save'>Save</a><br>"
-		dat += "<a href='?_src_=prefs;preference=load'>Undo</a><br>"
+	dat += "<a href='?_src_=prefs;preference=save'>Save</a><br>"
+	dat += "<a href='?_src_=prefs;preference=load'>Undo</a><br>"
 
 	// well.... one empty slot here for something I suppose lol
 	dat += "<table width='100%'>"
@@ -1441,6 +1462,15 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 	else if(href_list["preference"] == "customizers")
 		ShowCustomizers(user)
+		return
+	else if(href_list["preference"] == "preferences_menu")
+		// Banner click: flip tgui_pref back on so subsequent ShowChoices
+		// calls keep routing to TGUI, close the classic browser window,
+		// then open the TGUI menu.
+		tgui_pref = TRUE
+		user << browse(null, "window=preferences_browser")
+		winshow(user, "preferencess_window", FALSE)
+		open_preferences_menu(user)
 		return
 	else if(href_list["preference"] == "triumph_buy_menu")
 		SStriumphs.startup_triumphs_menu(user.client)
@@ -2115,6 +2145,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 				if("familiar_prefs")
 					familiar_prefs.fam_show_ui()
+
+				if("gnoll_prefs")
+					gnoll_prefs.gnoll_show_ui(user)
 
 				if("loadout_item")
 					var/list/loadouts_available = list("None")
@@ -2895,7 +2928,21 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	
 	return FALSE
 
-/datum/preferences/proc/copy_to(mob/living/carbon/human/character, icon_updates = 1, roundstart_checks = TRUE, character_setup = FALSE, antagonist = FALSE)
+/datum/preferences/proc/copy_to(mob/living/carbon/human/character, icon_updates = 1, roundstart_checks = TRUE, character_setup = FALSE, antagonist = FALSE, skip_normal_prefs = FALSE)
+	if(skip_normal_prefs)
+		// For gnolls spawning from a non-gnoll base slot, we must not apply any base-slot state.
+		// Set species to gnoll immediately so advclass check_requirements can read dna.species.type.
+		character.set_species(/datum/species/gnoll, icon_update = FALSE)
+		// Set gender to MALE as a neutral default; gnoll pronouns override the displayed pronoun.
+		character.gender = MALE
+		if(gnoll_prefs?.gnoll_pronouns)
+			character.pronouns = gnoll_prefs.gnoll_pronouns
+		var/gnoll_name = gnoll_prefs?.ensure_gnoll_name() || "Gnoll"
+		character.real_name = gnoll_name
+		character.name = gnoll_name
+		character.dna.real_name = gnoll_name
+		return
+
 	if(randomise[RANDOM_SPECIES] && !character_setup)
 		random_species()
 

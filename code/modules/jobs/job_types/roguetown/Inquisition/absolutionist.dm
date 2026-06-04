@@ -52,6 +52,7 @@
 	subclass_stats = list(
 		STATKEY_CON = 7,
 		STATKEY_END = 3,
+		STATKEY_INT = 2,
 		STATKEY_SPD = -2
 	)
 
@@ -60,13 +61,14 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/sewing = SKILL_LEVEL_JOURNEYMAN, // A hobbyist.
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE, // Parry things.
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE, // Parry things.
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE, //escape things, Best they could get is 13 str roundstart so...hopefully useless otherwise?
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/labor/fishing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT, // Psydon's Holiest Guy
+		/datum/skill/magic/holy = SKILL_LEVEL_MASTER, // Psydon's Holiest Guy
 	)
 
 // REMEMBER FLAGELLANT? REMEMBER LASZLO? THIS IS HIM NOW. FEEL OLD YET?

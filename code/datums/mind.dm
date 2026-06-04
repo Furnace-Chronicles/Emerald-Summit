@@ -38,6 +38,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/ghostname			//replaces name for observers name if set
 	var/mob/living/current
 	var/active = 0
+	/// Optional cosmetic class title override (e.g. gnoll subclass label). Used by /mob/living/proc/get_class_title.
+	var/cosmetic_class_title = null
 
 	// This was a Temporary Workaround, but it's too good to remove even though hangups are fixed
 	// Deferred equipment for players who disconnect during roundstart processing

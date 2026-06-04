@@ -372,25 +372,40 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 /datum/preferences/proc/_load_loadout(S)
 	var/loadout_type
 	S["loadout"] >> loadout_type
-	if (loadout_type)
-		loadout = new loadout_type()
+	loadout = loadout_type ? new loadout_type() : null
 
 /datum/preferences/proc/_load_loadout2(S)
 	var/loadout_type2
 	S["loadout2"] >> loadout_type2
-	if (loadout_type2)
-		loadout2 = new loadout_type2()
+	loadout2 = loadout_type2 ? new loadout_type2() : null
 
 /datum/preferences/proc/_load_loadout3(S)
 	var/loadout_type3
 	S["loadout3"] >> loadout_type3
-	if (loadout_type3)
-		loadout3 = new loadout_type3()
+	loadout3 = loadout_type3 ? new loadout_type3() : null
+
+/datum/preferences/proc/_load_loadout4(S)
+	var/loadout_type4
+	S["loadout4"] >> loadout_type4
+	loadout4 = loadout_type4 ? new loadout_type4() : null
+
+/datum/preferences/proc/_load_loadout5(S)
+	var/loadout_type5
+	S["loadout5"] >> loadout_type5
+	loadout5 = loadout_type5 ? new loadout_type5() : null
+
+/datum/preferences/proc/_load_loadout6(S)
+	var/loadout_type6
+	S["loadout6"] >> loadout_type6
+	loadout6 = loadout_type6 ? new loadout_type6() : null
 
 /datum/preferences/proc/_load_loadout_colours(S)
 	S["loadout_1_hex"] >> loadout_1_hex
 	S["loadout_2_hex"] >> loadout_2_hex
 	S["loadout_3_hex"] >> loadout_3_hex
+	S["loadout_4_hex"] >> loadout_4_hex
+	S["loadout_5_hex"] >> loadout_5_hex
+	S["loadout_6_hex"] >> loadout_6_hex
 
 /datum/preferences/proc/_load_height(S)
 	var/preview_height
@@ -459,6 +474,38 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["familiar_ooc_extra"]				>> familiar_prefs.familiar_ooc_extra
 	S["familiar_ooc_extra_link"]		>> familiar_prefs.familiar_ooc_extra_link
 
+/datum/preferences/proc/_load_gnoll_prefs(S)
+	S["gnoll_name"]						>> gnoll_prefs.gnoll_name
+	S["gnoll_pronouns"]					>> gnoll_prefs.gnoll_pronouns
+	S["gnoll_pelt_type"]				>> gnoll_prefs.pelt_type
+	if(!gnoll_prefs.pelt_type)
+		gnoll_prefs.pelt_type = "firepelt"
+	S["gnoll_genitals_penis"]			>> gnoll_prefs.genitals["penis"]
+	S["gnoll_genitals_vagina"]			>> gnoll_prefs.genitals["vagina"]
+	S["gnoll_genitals_breasts"]			>> gnoll_prefs.genitals["breasts"]
+	S["gnoll_descriptor_height"]		>> gnoll_prefs.descriptor_height
+	if(!ispath(gnoll_prefs.descriptor_height, /datum/mob_descriptor/height))
+		gnoll_prefs.descriptor_height = /datum/mob_descriptor/height/moderate
+	S["gnoll_descriptor_body"]			>> gnoll_prefs.descriptor_body
+	if(!ispath(gnoll_prefs.descriptor_body, /datum/mob_descriptor/body))
+		gnoll_prefs.descriptor_body = /datum/mob_descriptor/body/muscular
+	S["gnoll_descriptor_fur"]			>> gnoll_prefs.descriptor_fur
+	if(!ispath(gnoll_prefs.descriptor_fur, /datum/mob_descriptor/fur))
+		gnoll_prefs.descriptor_fur = /datum/mob_descriptor/fur/coarse
+	S["gnoll_descriptor_voice"]			>> gnoll_prefs.descriptor_voice
+	if(!ispath(gnoll_prefs.descriptor_voice, /datum/mob_descriptor/voice))
+		gnoll_prefs.descriptor_voice = /datum/mob_descriptor/voice/growly
+	S["gnoll_descriptor_muzzle"]		>> gnoll_prefs.descriptor_muzzle
+	if(!ispath(gnoll_prefs.descriptor_muzzle, /datum/mob_descriptor/face/gnoll))
+		gnoll_prefs.descriptor_muzzle = /datum/mob_descriptor/face/gnoll/long_muzzle
+	S["gnoll_descriptor_expression"]	>> gnoll_prefs.descriptor_expression
+	if(!ispath(gnoll_prefs.descriptor_expression, /datum/mob_descriptor/face_exp/gnoll))
+		gnoll_prefs.descriptor_expression = /datum/mob_descriptor/face_exp/gnoll/alert
+	S["gnoll_flavortext"]				>> gnoll_prefs.gnoll_flavortext
+	S["gnoll_flavortext_display"]		>> gnoll_prefs.gnoll_flavortext_display
+	S["gnoll_ooc_notes"]				>> gnoll_prefs.gnoll_ooc_notes
+	S["gnoll_ooc_notes_display"]		>> gnoll_prefs.gnoll_ooc_notes_display
+
 /datum/preferences/proc/load_character(slot)
 	if(!path)
 		return FALSE
@@ -494,6 +541,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	_load_loadout(S)
 	_load_loadout2(S)
 	_load_loadout3(S)
+	_load_loadout4(S)
+	_load_loadout5(S)
+	_load_loadout6(S)
 	_load_loadout_colours(S)
 
 	_load_combat_music(S)
@@ -512,6 +562,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	_load_appearence(S)
 	_load_height(S)
 	_load_familiar_prefs(S)
+	_load_gnoll_prefs(S)
 
 	var/patron_typepath
 	S["selected_patron"]	>> patron_typepath
@@ -773,10 +824,25 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		WRITE_FILE(S["loadout3"] , loadout3.type)
 	else
 		WRITE_FILE(S["loadout3"] , null)
+	if(loadout4)
+		WRITE_FILE(S["loadout4"] , loadout4.type)
+	else
+		WRITE_FILE(S["loadout4"] , null)
+	if(loadout5)
+		WRITE_FILE(S["loadout5"] , loadout5.type)
+	else
+		WRITE_FILE(S["loadout5"] , null)
+	if(loadout6)
+		WRITE_FILE(S["loadout6"] , loadout6.type)
+	else
+		WRITE_FILE(S["loadout6"] , null)
 
 	WRITE_FILE(S["loadout_1_hex"], loadout_1_hex)
 	WRITE_FILE(S["loadout_2_hex"], loadout_2_hex)
 	WRITE_FILE(S["loadout_3_hex"], loadout_3_hex)
+	WRITE_FILE(S["loadout_4_hex"], loadout_4_hex)
+	WRITE_FILE(S["loadout_5_hex"], loadout_5_hex)
+	WRITE_FILE(S["loadout_6_hex"], loadout_6_hex)
 
 	//Familiar Files
 	WRITE_FILE(S["familiar_name"] , familiar_prefs.familiar_name)
@@ -789,6 +855,23 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["familiar_ooc_notes_display"] , familiar_prefs.familiar_ooc_notes_display)
 	WRITE_FILE(S["familiar_ooc_extra"] , familiar_prefs.familiar_ooc_extra)
 	WRITE_FILE(S["familiar_ooc_extra_link"] , familiar_prefs.familiar_ooc_extra_link)
+	//Gnoll Files
+	WRITE_FILE(S["gnoll_name"] , gnoll_prefs?.gnoll_name)
+	WRITE_FILE(S["gnoll_pronouns"] , gnoll_prefs?.gnoll_pronouns)
+	WRITE_FILE(S["gnoll_pelt_type"] , gnoll_prefs?.pelt_type)
+	WRITE_FILE(S["gnoll_genitals_penis"] , gnoll_prefs?.genitals["penis"])
+	WRITE_FILE(S["gnoll_genitals_vagina"] , gnoll_prefs?.genitals["vagina"])
+	WRITE_FILE(S["gnoll_genitals_breasts"] , gnoll_prefs?.genitals["breasts"])
+	WRITE_FILE(S["gnoll_descriptor_height"] , gnoll_prefs?.descriptor_height)
+	WRITE_FILE(S["gnoll_descriptor_body"] , gnoll_prefs?.descriptor_body)
+	WRITE_FILE(S["gnoll_descriptor_fur"] , gnoll_prefs?.descriptor_fur)
+	WRITE_FILE(S["gnoll_descriptor_voice"] , gnoll_prefs?.descriptor_voice)
+	WRITE_FILE(S["gnoll_descriptor_muzzle"] , gnoll_prefs?.descriptor_muzzle)
+	WRITE_FILE(S["gnoll_descriptor_expression"] , gnoll_prefs?.descriptor_expression)
+	WRITE_FILE(S["gnoll_flavortext"] , gnoll_prefs?.gnoll_flavortext)
+	WRITE_FILE(S["gnoll_flavortext_display"] , gnoll_prefs?.gnoll_flavortext_display)
+	WRITE_FILE(S["gnoll_ooc_notes"] , gnoll_prefs?.gnoll_ooc_notes)
+	WRITE_FILE(S["gnoll_ooc_notes_display"] , gnoll_prefs?.gnoll_ooc_notes_display)
 
 	return TRUE
 

@@ -834,7 +834,7 @@
 	var/obj/effect/flyer_shadow/shadow
 	var/mob/living/carbon/human/harpy
 	var/mob/living/carbon/human/passenger
-	var/stamcost = 9
+	var/stamcost = 8
 	var/obj/item/organ/wings/harpy/harpy_wings
 
 /datum/status_effect/debuff/harpy_flight/on_creation(mob/living/new_owner, new_stamcost)

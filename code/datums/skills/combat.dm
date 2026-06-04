@@ -112,3 +112,20 @@
 	"...the perched archers ruthlessly repel the peasant rebellion. Hope for fairness is almost forlorn, until with a soft crack, a hailing of iron bullets clatter against the foe's helmets...",
 	"...your arm tires from the toils of practice. Swinging rapidly has left your arm numb. With weary eyes, you glance aside to witness a hunter practice their craft with a brief overhand toss. Absorbing the technique, you mimic it, and effortlessly cast a powerful stone square onto the target..."
 	)
+
+/datum/skill/combat/firearms
+	name = "Firearms"
+	desc = "Alongside perception, increases the speed you ready a firearm and have it prepared to shoot. Does not influence damage or chance to hit. \
+	Additionally, it reduces the chances for failure of the weapon."
+	dreams = list(
+	"...he tells you to stand straight, the stock to your shoulder. When it kicks, by the Ten, it hurts like hell. But the target? Well, the target is no more...",
+	"...measuring the powder isn't an exact science, the grizzled mercenary explains. It's by eye and ear, once you've the understanding. His nub of an arm argues otherwise..."
+	)
+	randomable_dream_xp = FALSE
+
+// Ported from RW653: untraited characters cap at Journeyman; TRAIT_FUSILIER uncaps to Legendary.
+// Adapted to ES's advancement_traits API (RW's max_untraited_level/trait_uncap do not exist here).
+/datum/skill/combat/firearms/New()
+	. = ..()
+	advancement_traits = list()
+	advancement_traits["[SKILL_LEVEL_JOURNEYMAN]"] = list(TRAIT_FUSILIER)

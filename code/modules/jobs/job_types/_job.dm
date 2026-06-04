@@ -578,6 +578,118 @@
 
 	return title
 
+/// Build the rich "class details" HTML block previously locked inside
+/// Topic(explainjob). Same content (subclasses, stats, traits, skills, langs,
+/// jester easter egg) — just available for callers that want to render it
+/// somewhere other than a /datum/browser popup (e.g. TGUI inlined view).
+/datum/job/proc/build_class_explain_html()
+	var/list/dat = list()
+	var/show_job_traits = TRUE
+	var/sclass_count = 0
+	if(length(job_subclasses) && length(job_stats))
+		CRASH("[REF(src)] has definitions for both class and subclass stats. Likely not intended, and they will stack!")
+	if(length(job_subclasses))
+		dat += "This class has the following subclasses: "
+		for(var/sclass in job_subclasses)
+			sclass_count++
+			var/datum/advclass/adv = sclass
+			var/datum/advclass/adv_ref = SSrole_class_handler.get_advclass_by_name(initial(adv.name))
+			dat += "<details><summary><b><font color ='#ece9e9'>[adv_ref.name]</font></b></summary>"
+			dat += "<table align='center'; width='100%'; height='100%';border: 1px solid white;border-collapse: collapse>"
+			dat += "<tr style='vertical-align:top'>"
+			dat += "<td width = 70%><i><font color ='#ece9e9'>[adv_ref.tutorial]</font></i></td>"
+			dat += "<td width = 30%; style='text-align:right'>"
+			if(length(adv_ref.subclass_stats))
+				dat += "<font color ='#7a4d0a'>Stat Bonuses:</font><font color ='#d4b164'>"
+				for(var/stat in adv_ref.subclass_stats)
+					dat += "<br>[capitalize(stat)]: <b>[adv_ref.subclass_stats[stat] < 0 ? "<font color = '#cf2a2a'>" : "<font color = '#91cf68'>"]\Roman[adv_ref.subclass_stats[stat]]</font></b>"
+			dat += "<br></td></tr></table></font>"
+			if(adv_ref.subclass_spellpoints > 0)
+				dat += "<font color = '#a3a7e0'>Starting Spellpoints: <b>[adv_ref.subclass_spellpoints]</b></font>"
+			if(length(adv_ref.subclass_languages))
+				dat += "<details><summary><i>Known Languages</i></summary>"
+				for(var/i in 1 to length(adv_ref.subclass_languages))
+					var/datum/language/lang = adv_ref.subclass_languages[i]
+					dat += "<i>[initial(lang.name)][i == length(adv_ref.subclass_languages) ? "" : ", "]</i>"
+				dat += "</details>"
+			dat += "<table align='center'; width='100%'; height='100%';border: 1px solid white;border-collapse: collapse>"
+			dat += "<tr style='vertical-align:top'>"
+			dat += "<td width = 50%>"
+			if(length(adv_ref.traits_applied) || (!length(adv_ref.traits_applied) && length(job_traits)))
+				var/list/traitlist
+				if(length(adv_ref.traits_applied))
+					traitlist = adv_ref.traits_applied
+					dat += "<font color ='#7a4d0a'><b>Sub</b>class Traits:</font> "
+				else if(!length(adv_ref.traits_applied) && length(job_traits))
+					traitlist = job_traits
+					show_job_traits = FALSE
+					dat += "<font color ='#7a4d0a'><b>Class</b> Traits:</font> "
+				for(var/trait in traitlist)
+					dat += "<details><summary><i><font color ='#ccbb82'>[trait]</font></i></summary>"
+					dat += "<i><font color = '#a3ffe0'>[GLOB.roguetraits[trait]]</font></i></details>"
+				dat += "</font>"
+				dat += "<br>"
+			dat += "</td>"
+			if(length(adv_ref.subclass_skills))
+				dat += "<td width = 50%; style='text-align:right'>"
+				var/list/notable_skills = list()
+				for(var/sk in adv_ref.subclass_skills)
+					if(adv_ref.subclass_skills[sk] > SKILL_LEVEL_JOURNEYMAN)
+						notable_skills[sk] = adv_ref.subclass_skills[sk]
+					else if(ispath(sk, /datum/skill/combat))
+						notable_skills[sk] = adv_ref.subclass_skills[sk]
+				if(!length(notable_skills))
+					dat += "<i>This subclass has no notable skills.</i>"
+				else
+					notable_skills = sortTim(notable_skills,/proc/cmp_numeric_dsc, TRUE)
+					var/max_skills = 5
+					dat += "<font color ='#7a4d0a'>Notable Skills: </font>"
+					for(var/sk in notable_skills)
+						if(max_skills > 0)
+							var/datum/skill/skill = sk
+							dat += "<font color ='#d4b164'><br>[initial(skill.name)] — [SSskills.level_names[notable_skills[sk]]]</font>"
+							max_skills--
+					LAZYCLEARLIST(notable_skills)
+			dat += "</td></tr></table>"
+			if(adv_ref.extra_context)
+				dat += "<font color ='#a06c1e'>[adv_ref.extra_context]"
+				dat += "</font>"
+			if(!isnull(adv_ref.origin_override_type))
+				var/datum/virtue/origin/typecasted_origin = adv_ref.origin_override_type
+				dat += "<font color ='#a06c1e'>This subclass will overide your origin to: [initial(typecasted_origin.name)]"
+				dat += "</font>"
+			dat += "</details>"
+	dat += "<hr>"
+	if(length(job_stats))
+		dat += "<b>Class</b></font> Traits: "
+		for(var/stat in job_stats)
+			dat += "<br>[capitalize(stat)]: <b>[job_stats[stat] < 0 ? "<font color = '#cf2a2a'>" : "<font color = '#91cf68'>"]\Roman[job_stats[stat]]</font></b>"
+		dat += "</font>"
+		if(length(stat_ceilings))
+			dat += "["<br><font color = '#cf2a2a'><b>This class has the following stat limits:</b> "]<br>"
+			dat += " | "
+			for(var/stat in stat_ceilings)
+				dat += "["[capitalize(stat)]: <b>\Roman[stat_ceilings[stat]]</b>"] | "
+			dat += "<br><i>Regardless of your statpacks or race choice, you will not be able to exceed these stats on spawn.</i></font>"
+			dat += "</font>"
+	if(length(job_traits) && (show_job_traits || sclass_count > 1))
+		dat += "<font color ='#ccbb82'>This <font color ='#d6d6d6'>class</font> gains the following traits:</font> "
+		for(var/trait in job_traits)
+			dat += "<details><summary><i><font color ='#ccbb82'>[trait]</font></i></summary>"
+			dat += "<i><font color = '#a3ffe0'>[GLOB.roguetraits[trait]]</font></i></details>"
+		dat += "</font>"
+	dat += "<br><i>This information is not all-encompassing. Many classes have other quirks and skills that define them.</i>"
+	if(istype(src,/datum/job/roguetown/jester))
+		LAZYCLEARLIST(dat)
+		dat = list("<font color = '#d151ab'><center>Come one, come all, where Psydon Lies! <br>Let Xylix roll the dice, <br>unto our untimely demise! <br>Ahahaha!</center>")
+		dat += "<center><b><font size = 4>STR: ???</b><br>"
+		dat += "<b>WIL: ???</b><br>"
+		dat += "<b>CON: ???</b><br>"
+		dat += "<b>PER: ???</b><br>"
+		dat += "<b>INT: ???</b><br>"
+		dat += "<b>FOR: ???</b><br></center></font>"
+	return dat.Join()
+
 /datum/job/Topic(href, list/href_list)
 	if(href_list["explainjob"])
 		var/list/dat = list()
