@@ -21,6 +21,10 @@
 	var/list/dent_decals
 	var/obj/effect/track/thievescant/thiefmessage
 
+/turf/closed/wall/Initialize()
+	. = ..()
+	flags_1 |= CHECK_RICOCHET_1 // wake projectile ricochet off walls (Arcyne Salvo/Barrage, Gravel Blast); handle_ricochet() below does the bounce
+
 /turf/closed/wall/attack_tk()
 	return
 

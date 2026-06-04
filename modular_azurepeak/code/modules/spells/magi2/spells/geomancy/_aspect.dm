@@ -25,6 +25,7 @@
 		/datum/action/cooldown/spell/projectile/boulder_strike_magi2,
 		/datum/action/cooldown/spell/ensnare_magi2,
 		/obj/effect/proc_holder/spell/self/magicians_brick, // swapped in for Magician's Stone (proc_holder spell — aspect grant handles both families)
+		/datum/action/cooldown/spell/magicians_rock_magi2, // ported from AP PR #6666 — boulder cousin of Magician's Stone
 	)
 	variants = list(
 		"mastery" = list(

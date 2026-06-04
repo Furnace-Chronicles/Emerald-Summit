@@ -32,4 +32,9 @@
 		"mastery" = list(
 			VARIANT_ADDITIVE = /datum/action/cooldown/spell/projectile/fireball_magi2/greater,
 		),
+		// ported from AP PR #6666 — grenzelhoftian-trained pyromancers swap Fireball for Artillery Fireball.
+		// Only applies to a mage class whose mage_aspect_config sets "variants" = list(<pyromancy> = "grenzelhoftian").
+		"grenzelhoftian" = list(
+			/datum/action/cooldown/spell/projectile/fireball_magi2 = /datum/action/cooldown/spell/projectile/fireball_magi2/artillery,
+		),
 	)

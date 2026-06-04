@@ -77,3 +77,19 @@
 	user.balloon_alert(user, "[name]: arc [arc_mode ? "ON" : "OFF"]")
 	to_chat(user, span_notice("[name]: arc mode [arc_mode ? "enabled" : "disabled"]."))
 	return TRUE
+
+// Magic-projectile impact visual (ported from Azure-Peak PR #6666). Kept in the magi2 layer rather
+// than core code/modules/projectiles/projectile/magic.dm because the SPELL_IMPACT_* defines live in
+// magi2/_defines.dm, which compiles after core. Reopening the core type from here is fine in DM and
+// gives every magic projectile a scaled on-hit flash; subtypes that override on_hit reach it via ..().
+/obj/projectile/magic
+	/// Impact visual intensity on hit. SPELL_IMPACT_NONE / LOW / MEDIUM / HIGH.
+	var/spell_impact_intensity = SPELL_IMPACT_LOW
+	/// Override color for the impact effect. If null, uses light_color, then white.
+	var/spell_impact_color
+
+/obj/projectile/magic/on_hit(atom/target, blocked = FALSE)
+	. = ..()
+	if(spell_impact_intensity > SPELL_IMPACT_NONE)
+		var/impact_color = spell_impact_color || light_color || "#FFFFFF"
+		new /obj/effect/temp_visual/spell_impact(get_turf(target), impact_color, spell_impact_intensity)

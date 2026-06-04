@@ -28,3 +28,8 @@
 		/datum/action/cooldown/spell/projectile/seeker_volley_magi2,
 		/datum/action/cooldown/spell/greater_cleaning_magi2,
 	)
+	variants = list(
+		"mastery" = list(
+			VARIANT_ADDITIVE = /datum/action/cooldown/spell/projectile/arcyne_barrage_magi2, // ported from AP PR #7402 (telomancy ultimate)
+		),
+	)
