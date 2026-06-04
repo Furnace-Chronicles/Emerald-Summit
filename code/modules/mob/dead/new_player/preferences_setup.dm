@@ -41,6 +41,10 @@
 		return
 	if(parent.is_new_player())
 		return
+	// TGUI character menu owns the preview when enabled — skip the classic populator
+	// so it doesn't fight over the screen-object slots with `tgui_preview_map`.
+	if(tgui_pref)
+		return
 //	last_preview_update = world.time
 	// Determine what job is marked as 'High' priority, and dress them up as such.
 	var/datum/job/previewJob

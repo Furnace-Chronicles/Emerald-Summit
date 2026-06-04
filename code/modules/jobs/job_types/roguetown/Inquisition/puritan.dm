@@ -58,8 +58,10 @@
 		TRAIT_SILVER_BLESSED,
 		TRAIT_INQUISITION,
 		TRAIT_PERFECT_TRACKER,
+		TRAIT_SLEUTH,
 		TRAIT_PURITAN,
-		TRAIT_OUTLANDER
+		TRAIT_OUTLANDER,
+		TRAIT_FUSILIER,
 		)
 
 	subclass_stats = list(
@@ -80,6 +82,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/firearms = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
@@ -102,7 +105,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	backr =  /obj/item/storage/backpack/rogue/satchel/otavan
-	beltr = /obj/item/gun/ballistic/firearm/arquebus_pistol
+	beltr = /obj/item/gun/ballistic/firearm/arquebus_pistol/inquisitor
 	head = /obj/item/clothing/head/roguetown/inqhat
 	mask = /obj/item/clothing/mask/rogue/spectacles/inq/spawnpair
 	gloves = /obj/item/clothing/gloves/roguetown/otavan/psygloves
