@@ -28,11 +28,18 @@
 	/// (integrity still ticks down, but `last_damage_time` is not bumped and
 	/// any in-flight mend is not interrupted). 0 = preserve original behavior.
 	var/min_damage_to_reset = 0
+	/// Wearer we watch for damage so regen pauses while they're being hurt —
+	/// covers fire and blows that bypass or have already broken the armour.
+	var/mob/living/regen_wearer
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/Initialize(mapload)
 	. = ..()
 	if(isnull(repair_amount))
 		repair_amount = round(max_integrity * 0.2)
+	// Skin/pelt armours are bound to their wearer (loc == the mob) for their whole
+	// lifetime, so latch on here to also pause regen when the wearer takes damage.
+	if(isliving(loc))
+		set_regen_wearer(loc)
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
 	. = ..()
@@ -102,3 +109,37 @@
 	if(QDELETED(src))
 		return
 	qdel(src)
+
+// --- Wearer damage watching ---------------------------------------------------
+// take_damage() above handles direct hits to the plating. These hooks additionally
+// pause regen whenever the *wearer* takes damage, so a gnoll that's on fire — or one
+// whose skin has been smashed to nothing — can't begin mending while still under fire.
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/Destroy()
+	set_regen_wearer(null)
+	return ..()
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/proc/set_regen_wearer(mob/living/new_wearer)
+	if(!isliving(new_wearer))
+		new_wearer = null
+	if(regen_wearer == new_wearer)
+		return
+	if(regen_wearer)
+		UnregisterSignal(regen_wearer, COMSIG_MOB_APPLY_DAMGE)
+	regen_wearer = new_wearer
+	if(regen_wearer)
+		RegisterSignal(regen_wearer, COMSIG_MOB_APPLY_DAMGE, PROC_REF(on_wearer_damaged))
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/proc/on_wearer_damaged(datum/source, damage, damagetype, def_zone)
+	SIGNAL_HANDLER
+	if(damage <= 0)
+		return
+	// Mirror take_damage()'s sub-threshold rule so trivial chip damage doesn't grief the timer.
+	if(min_damage_to_reset > 0 && damage < min_damage_to_reset)
+		return
+	if(obj_integrity < max_integrity)
+		START_PROCESSING(SSobj, src)
+	last_damage_time = world.time
+	if(is_regenerating && ismob(loc))
+		to_chat(loc, span_notice(repairmsg_stop))
+	is_regenerating = FALSE

@@ -220,6 +220,7 @@
 "ado" = (
 /obj/item/flowercrown/salvia,
 /obj/structure/table/wood/long_table,
+/obj/item/clothing/neck/roguetown/psicross/weeping,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/inq/basement)
 "ady" = (
