@@ -297,7 +297,9 @@
 	return TRUE
 
 /datum/sex_controller/proc/adjust_speed(amt)
-	var/max_setting = (HAS_TRAIT(user, TRAIT_DEATHBYSNUSNU) || HAS_TRAIT(user, TRAIT_DEPRAVED) || user.has_status_effect(/datum/status_effect/debuff/emberwine)) ? SEX_SPEED_MAX : SEX_SPEED_MAX - 1
+	// Cabbits are quick by nature — they reach the top speed without needing the "Bed Breaker" (TRAIT_DEATHBYSNUSNU) build.
+	var/is_cabbit = istype(user.dna?.species, /datum/species/shapecabbit)
+	var/max_setting = (is_cabbit || HAS_TRAIT(user, TRAIT_DEATHBYSNUSNU) || HAS_TRAIT(user, TRAIT_DEPRAVED) || user.has_status_effect(/datum/status_effect/debuff/emberwine)) ? SEX_SPEED_MAX : SEX_SPEED_MAX - 1
 	speed = clamp(speed + amt, SEX_SPEED_MIN, max_setting)
 
 /datum/sex_controller/proc/adjust_force(amt)
