@@ -7,6 +7,8 @@
 
 /*	........   Salting milk (for butter & cheesemaking)   ................ */
 /datum/reagent/consumable/milk/salted
+	name = "Salted Milk"
+	description = "Milk seasoned with salt, ready to be churned into butter or strained into cheese."
 	taste_description = "salty milk"
 
 /obj/item/reagent_containers/attackby(obj/item/I, mob/living/user, params) // add cook time to containers & salted milk for butter churning
@@ -24,7 +26,7 @@
 			reagents.add_reagent(/datum/reagent/consumable/milk/salted, 15)
 			qdel(I)
 
-/*	............   Churning butter   ................ */
+/*	............   Churning butter & straining fresh cheese   ................ */
 /obj/item/reagent_containers/glass/bucket/attackby(obj/item/I, mob/living/user, params)
 	update_cooktime(user)
 	if(istype(I, /obj/item/kitchen/spoon))
@@ -38,6 +40,15 @@
 			reagents.remove_reagent(/datum/reagent/consumable/milk/salted, 15)
 			new /obj/item/reagent_containers/food/snacks/butter(drop_location())
 		return
+	if(istype(I, /obj/item/natural/cloth))
+		if(reagents.has_reagent(/datum/reagent/consumable/milk/salted, 5))
+			user.visible_message(span_info("[user] strains fresh cheese..."))
+			playsound(src, pick('sound/foley/waterwash (1).ogg','sound/foley/waterwash (2).ogg'), 100, FALSE)
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				reagents.remove_reagent(/datum/reagent/consumable/milk/salted, 5)
+				new /obj/item/reagent_containers/food/snacks/rogue/cheese(drop_location())
+			return
 	..()
 
 // -------------- BUTTER -----------------
@@ -111,21 +122,6 @@
 		else
 			to_chat(user, span_warning("You need to put [src] on a table to work on it."))
 	return ..()
-
-
-/*	............   Making fresh cheese   ................ */
-/obj/item/reagent_containers/glass/bucket/attackby(obj/item/I, mob/living/user, params)
-	update_cooktime(user)
-	if(istype(I, /obj/item/natural/cloth))
-		if(reagents.has_reagent(/datum/reagent/consumable/milk/salted, 5))
-			user.visible_message(span_info("[user] strains fresh cheese..."))
-			playsound(src, pick('sound/foley/waterwash (1).ogg','sound/foley/waterwash (2).ogg'), 100, FALSE)
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				reagents.remove_reagent(/datum/reagent/consumable/milk/salted, 5)
-				new /obj/item/reagent_containers/food/snacks/rogue/cheese(drop_location())
-			return
-	..()
 
 
 /*	............   Making cheese wheel   ................ */

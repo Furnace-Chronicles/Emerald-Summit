@@ -47,7 +47,7 @@ And I don't wanna copypaste what Vanderlin has
 	var/mutable_appearance/piebottom = mutable_appearance(icon, "pieuncooked")
 	var/mutable_appearance/roofeat = mutable_appearance(icon, "meatpie_raw")
 	var/mutable_appearance/roofish = mutable_appearance(icon, "fishpie_raw")
-	var/mutable_appearance/roofkin = mutable_appearance(icon, "pumpkinpie")
+	var/mutable_appearance/roofkin = mutable_appearance(icon, "pumpkinpie_raw")
 	if (process_step == 2 && applepie)
 		var/mutable_appearance/apple1 = mutable_appearance(icon, "fill_apple1")
 		add_overlay(apple1)
@@ -227,8 +227,6 @@ And I don't wanna copypaste what Vanderlin has
 			update_icon()
 			qdel(I)
 			return
-	else
-		to_chat(user, span_notice("You lack knowledge of underdark delicacies!"))
 
 	// -------------- PUMPKIN PIE --------------
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/fruit/pumpkin_sliced) || istype(I, /obj/item/reagent_containers/food/snacks/rogue/preserved/pumpkin_mashed))
@@ -273,6 +271,7 @@ And I don't wanna copypaste what Vanderlin has
 			if(do_after(user,short_cooktime, target = src))
 				name = "uncooked pumpkin pie"
 				desc = initial(desc)
+				icon_state = "pumpkinpie_raw"
 				filling_color = "#df5c04"
 				cooked_type = /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/pumpkin
 				cooked_smell = /datum/pollutant/food/pumpkin_pie
@@ -372,12 +371,6 @@ And I don't wanna copypaste what Vanderlin has
 			add_overlay(animal3)
 			qdel(I)
 			return
-
-
-		var/mutable_appearance/animal1 = mutable_appearance(icon, "fill_fish1")
-		add_overlay(animal1)
-
-
 
 
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/crab))

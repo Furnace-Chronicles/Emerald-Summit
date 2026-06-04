@@ -499,7 +499,7 @@
 /*	.................   Tomatoplate  ................... */
 /obj/item/reagent_containers/food/snacks/rogue/tomatoplate
 	name = "tomatoplate"
-	desc = "A culinary delight from Azuria's shores, purported to've originated from an inflow of Etruscean refugees from long ago. The \
+	desc = "A culinary delight from the Summit's shores, purported to've originated from an inflow of Etruscean refugees from long ago. The \
 	richness of the flatbread's sauced tomatoes is perfectly complemented by its cheesey blanket; all it's missing is a cold pint of \
 	ale and an ongoing game of lampternball to jeer at."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
@@ -536,7 +536,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/meattomatoplate
 	name = "sausaged tomatoplate"
-	desc = "A culinary delight from Azuria's shores, purported to've originated from an inflow of Etruscean refugees from long ago. The \
+	desc = "A culinary delight from the Summit's shores, purported to've originated from an inflow of Etruscean refugees from long ago. The \
 	richness of the flatbread's sauced tomatoes is perfectly complemented by its cheesey blanket and crispy sasuages; all it's missing \
 	is a cold pint of ale and an ongoing game of lampternball to jeer at."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
@@ -573,7 +573,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/fishtomatoplate
 	name = "fished tomatoplate"
-	desc = "A culinary delight from Azuria's shores, purported to've originated from an inflow of Etruscean refugees from long ago. The \
+	desc = "A culinary delight from the Summit's shores, purported to've originated from an inflow of Etruscean refugees from long ago. The \
 	richness of the flatbread's sauced tomatoes is perfectly complemented by its cheesey blanket and oily fishes; all it's missing \
 	is a cold pint of ale and an ongoing game of lampternball to jeer at."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
@@ -610,7 +610,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/oniontomatoplate
 	name = "onioned tomatoplate"
-	desc = "A culinary delight from Azuria's shores, purported to've originated from an inflow of Etruscean refugees from long ago. The \
+	desc = "A culinary delight from the Summit's shores, purported to've originated from an inflow of Etruscean refugees from long ago. The \
 	richness of the flatbread's sauced tomatoes is perfectly complemented by its cheesey blanket and crunchy onions; all it's missing \
 	is a cold pint of ale and an ongoing game of lampternball to jeer at."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
@@ -647,7 +647,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/truffletomatoplate
 	name = "truffled tomatoplate"
-	desc = "A culinary delight from Azuria's shores, purported to've originated from an inflow of Etruscean refugees from long ago. The \
+	desc = "A culinary delight from the Summit's shores, purported to've originated from an inflow of Etruscean refugees from long ago. The \
 	richness of the flatbread's sauced tomatoes is perfectly complemented by its cheesey blanket and decadant truffles; all it's missing \
 	is a cold pint of ale and an ongoing game of lampternball to jeer at."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
@@ -684,7 +684,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/poisontruffletomatoplate
 	name = "truffled tomatoplate" //Like jackberried treats, this is a poisoned variant! For those who don't properly source their truffles.. or simply want to poison others!
-	desc = "A culinary delight from Azuria's shores, purported to've originated from an inflow of Etruscean refugees from long ago. The \
+	desc = "A culinary delight from the Summit's shores, purported to've originated from an inflow of Etruscean refugees from long ago. The \
 	richness of the flatbread's sauced tomatoes is perfectly complemented by its cheesey blanket and decadant truffles; all it's missing \
 	is a cold pint of ale and an ongoing game of lampternball to jeer at."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
