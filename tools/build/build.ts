@@ -94,6 +94,7 @@ export const DmTarget = new Juke.Target({
     "html/**",
     "icons/**",
     "interface/**",
+    "modular_*/**",
     "sound/**",
     "tgui/public/tgui.html",
     `${DME_NAME}.dme`,

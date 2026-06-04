@@ -7,7 +7,7 @@
 	item_state = "handgonne"
 	force = 10
 	force_wielded = 15
-	possible_item_intents = list(/datum/intent/mace/strike/wood)
+	possible_item_intents = list(/datum/intent/mace/strike/wood/gunbash)
 	gripped_intents = list(/datum/intent/shoot/arquebus, /datum/intent/arc/arquebus, INTENT_GENERIC)
 	internal_magazine = TRUE
 	mag_type = /obj/item/ammo_box/magazine/internal/arquebus

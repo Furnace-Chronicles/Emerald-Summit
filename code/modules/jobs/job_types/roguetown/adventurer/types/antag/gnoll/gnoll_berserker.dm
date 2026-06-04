@@ -23,6 +23,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/climbing = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/tracking = SKILL_LEVEL_LEGENDARY,
+		/datum/skill/misc/medicine = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE
 	)
 

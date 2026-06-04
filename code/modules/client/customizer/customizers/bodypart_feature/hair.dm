@@ -39,6 +39,51 @@
 		if(hair_entry.dye_gradient != /datum/hair_gradient/none)
 			dat += "<br>Dye Color: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=dye_gradient_color''><span class='color_holder_box' style='background-color:[hair_entry.dye_color]'></span></a>"
 
+/datum/customizer_choice/bodypart_feature/hair/get_pref_data(datum/preferences/prefs, datum/customizer_entry/entry)
+	. = ..()
+	var/datum/customizer_entry/hair/hair_entry = entry
+	. += list(list(
+		"type" = "color",
+		"label" = "Hair Color",
+		"color" = hair_entry.hair_color,
+		"task" = "hair_color",
+	))
+	var/list/gradient_names = list()
+	for(var/key in hair_gradient_name_to_type_list())
+		gradient_names += key
+	if(allows_natural_gradient)
+		var/datum/hair_gradient/gradient = HAIR_GRADIENT(hair_entry.natural_gradient)
+		. += list(list(
+			"type" = "list_value",
+			"label" = "Natural Gradient",
+			"text" = gradient.name,
+			"task" = "natural_gradient",
+			"options" = gradient_names,
+		))
+		if(hair_entry.natural_gradient != /datum/hair_gradient/none)
+			. += list(list(
+				"type" = "color",
+				"label" = "Natural Color",
+				"color" = hair_entry.natural_color,
+				"task" = "natural_gradient_color",
+			))
+	if(allows_dye_gradient)
+		var/datum/hair_gradient/gradient = HAIR_GRADIENT(hair_entry.dye_gradient)
+		. += list(list(
+			"type" = "list_value",
+			"label" = "Dye Gradient",
+			"text" = gradient.name,
+			"task" = "dye_gradient",
+			"options" = gradient_names,
+		))
+		if(hair_entry.dye_gradient != /datum/hair_gradient/none)
+			. += list(list(
+				"type" = "color",
+				"label" = "Dye Color",
+				"color" = hair_entry.dye_color,
+				"task" = "dye_gradient_color",
+			))
+
 /datum/customizer_choice/bodypart_feature/hair/handle_topic(mob/user, list/href_list, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()
 	var/datum/customizer_entry/hair/hair_entry = entry
@@ -52,7 +97,9 @@
 			if(!allows_natural_gradient)
 				return
 			var/list/choice_list = hair_gradient_name_to_type_list()
-			var/chosen_input = input(user, "Choose your natural gradient:", "Character Preference")  as null|anything in choice_list
+			var/chosen_input = href_list["picked_name"]
+			if(!chosen_input || !(chosen_input in choice_list))
+				chosen_input = input(user, "Choose your natural gradient:", "Character Preference")  as null|anything in choice_list
 			if(!chosen_input)
 				return
 			hair_entry.natural_gradient = choice_list[chosen_input]
@@ -67,7 +114,9 @@
 			if(!allows_dye_gradient)
 				return
 			var/list/choice_list = hair_gradient_name_to_type_list()
-			var/chosen_input = input(user, "Choose your dye gradient:", "Character Preference")  as null|anything in choice_list
+			var/chosen_input = href_list["picked_name"]
+			if(!chosen_input || !(chosen_input in choice_list))
+				chosen_input = input(user, "Choose your dye gradient:", "Character Preference")  as null|anything in choice_list
 			if(!chosen_input)
 				return
 			hair_entry.dye_gradient = choice_list[chosen_input]
@@ -527,6 +576,20 @@
 	var/datum/customizer_entry/hair/hair_entry = entry
 	var/color = pick(HAIR_COLOR_LIST)
 	hair_entry.hair_color = color
+	randomize_hair_gradients(hair_entry)
+
+/// Roll a random gradient + matching color for both natural and dye slots
+/// when the choice allows them. Picks from hair_gradient_name_to_type_list()
+/// which includes /datum/hair_gradient/none — so "no gradient" is a valid
+/// random outcome (matching how the user can pick None from the dropdown).
+/datum/customizer_choice/bodypart_feature/hair/proc/randomize_hair_gradients(datum/customizer_entry/hair/hair_entry)
+	var/list/gradient_choices = hair_gradient_name_to_type_list()
+	if(allows_natural_gradient && length(gradient_choices))
+		hair_entry.natural_gradient = gradient_choices[pick(gradient_choices)]
+		hair_entry.natural_color = pick(HAIR_COLOR_LIST)
+	if(allows_dye_gradient && length(gradient_choices))
+		hair_entry.dye_gradient = gradient_choices[pick(gradient_choices)]
+		hair_entry.dye_color = pick(HAIR_COLOR_LIST)
 
 /datum/customizer/bodypart_feature/hair/head/humanoid/bald_default
 	customizer_choices = list(/datum/customizer_choice/bodypart_feature/hair/head/humanoid/bald_default)
@@ -593,6 +656,7 @@
 	var/datum/customizer_entry/hair/hair_entry = entry
 	var/color = pick(HAIR_COLOR_LIST)
 	hair_entry.hair_color = color
+	randomize_hair_gradients(hair_entry)
 
 /datum/customizer/bodypart_feature/hair/facial/humanoid/shaved_default
 	customizer_choices = list(/datum/customizer_choice/bodypart_feature/hair/facial/humanoid/shaved_default)

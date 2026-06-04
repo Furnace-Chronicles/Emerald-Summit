@@ -102,6 +102,12 @@ SUBSYSTEM_DEF(job)
 		player.mind.assigned_role = rank
 		unassigned -= player
 		job.current_positions++
+		// Push fresh availability to every open LateJoinChoices picker — slot
+		// counts only change here (job assignment), so this is the one event
+		// late-join windows need to react to. Skip on roundstart roles where
+		// no one has the picker open yet.
+		if(latejoin)
+			notify_late_join_slots_changed()
 		if(!latejoin)
 			if(player.client)
 				if(job.bypass_lastclass)

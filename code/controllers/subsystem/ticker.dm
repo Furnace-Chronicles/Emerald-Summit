@@ -177,6 +177,12 @@ SUBSYSTEM_DEF(ticker)
 //			to_chat(world, span_boldnotice("Welcome to [station_name()]!"))
 			send2chat(new /datum/tgs_message_content("New round starting on [SSmapping.config.map_name]!"), CONFIG_GET(string/chat_announce_new_game))
 			current_state = GAME_STATE_PREGAME
+			// Push the STARTUP → PREGAME transition to every open TGUI prefs
+			// menu so the lobby countdown actually starts ticking. Menus opened
+			// during STARTUP got timeleft_ds = 0 in their initial push; without
+			// this notify they'd stay at "SOON" forever until some other event
+			// (player ready, tab switch) triggered a refresh.
+			notify_preference_menus_lobby_changed()
 			//Everyone who wants to be an observer is now spawned
 			create_observers()
 			fire()
@@ -406,6 +412,11 @@ SUBSYSTEM_DEF(ticker)
 
 //	SEND_SOUND(world, sound('sound/misc/roundstart.ogg'))
 	current_state = GAME_STATE_PLAYING
+
+	// Push the round-state flip to every open TGUI preferences_menu so latejoiner
+	// FooterBars swap from Ready → Join Late immediately, instead of waiting
+	// for the user to click a tab.
+	notify_preference_menus_lobby_changed()
 
 	addtimer(CALLBACK(src, PROC_REF(refresh_lobby_ui)), 3, TIMER_CLIENT_TIME)
 
