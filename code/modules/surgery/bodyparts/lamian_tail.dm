@@ -15,6 +15,11 @@
 	subtargets = list(BODY_ZONE_L_LEG, BODY_ZONE_PRECISE_L_FOOT, BODY_ZONE_R_LEG, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_LAMIAN_TAIL)
 	grabtargets = list(BODY_ZONE_LAMIAN_TAIL)
 	dismemberable = FALSE //if you lose your tail, it's fucking GG bruh. you can't get the donor anywhere, so no. you can't dismember it brah
+	// The tail is one monolithic limb worth both legs, so the default disabling reattachment
+	// wound would zero out get_num_legs (can't stand, full limbless slowdown) until it heals -
+	// effectively crippling a lamia forever after a surgical re-attach. Skip it so a reattached
+	// tail comes back functional, like the Lamiaze/leg path. Combat damage can still disable it.
+	attach_wound = null
 
 	// Taur stuff!
 	// offset_x forces the limb_icon to be shifted on x relative to the human (since these are >32x32)

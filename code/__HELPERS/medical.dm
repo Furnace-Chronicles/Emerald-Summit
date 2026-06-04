@@ -43,6 +43,14 @@
 			return "mouth"
 	return zone
 
+/// parse_zone() that resolves the bodypart actually covering the zone on this mob, so that
+/// surgery on a taur/lamia's leg zone (a subtarget of the tail) reads as "tail" instead of "leg".
+/mob/living/proc/parse_surgery_zone(zone)
+	return parse_zone(zone)
+
+/mob/living/carbon/parse_surgery_zone(zone)
+	return parse_zone(zone, get_bodypart(check_zone(zone)))
+
 /proc/parse_organ_slot(slot)
 	switch(slot)
 		if(ORGAN_SLOT_BRAIN)

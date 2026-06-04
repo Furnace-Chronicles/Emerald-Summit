@@ -128,11 +128,14 @@
 		BODY_ZONE_R_ARM,
 		BODY_ZONE_L_ARM,
 	)
-	if(!islamia(src))
+	// Key off the actual lower body, not the species: a lamia/taur whose tail has been
+	// surgically replaced with legs should be treated like any other legged creature.
+	// (The tail's subtargets cover the leg zones, so a tailed creature still resolves cleanly.)
+	if(get_lamian_tail())
+		full += BODY_ZONE_LAMIAN_TAIL
+	else
 		full += BODY_ZONE_R_LEG
 		full += BODY_ZONE_L_LEG
-	else
-		full += BODY_ZONE_LAMIAN_TAIL
 
 	for(var/obj/item/bodypart/bodypart as anything in bodyparts)
 		full -= bodypart.body_zone
