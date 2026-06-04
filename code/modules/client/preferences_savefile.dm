@@ -604,6 +604,19 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["flavortext_display"]	>> flavortext_display
 	S["ooc_notes"]			>> ooc_notes
 	S["ooc_notes_display"]	>> ooc_notes_display
+	S["nsfwflavortext"]			>> nsfwflavortext
+	S["nsfwflavortext_display"]	>> nsfwflavortext_display
+	S["erpprefs"]				>> erpprefs
+	S["erpprefs_display"]		>> erpprefs_display
+	S["song_title"]				>> song_title
+	S["song_artist"]			>> song_artist
+	S["song_url"]				>> song_url
+	S["nsfw_ooc_extra"]			>> nsfw_ooc_extra
+	S["nsfw_ooc_extra_link"]	>> nsfw_ooc_extra_link
+	S["img_gallery"]			>> img_gallery
+	img_gallery = SANITIZE_LIST(img_gallery)
+	S["nsfw_img_gallery"]		>> nsfw_img_gallery
+	nsfw_img_gallery = SANITIZE_LIST(nsfw_img_gallery)
 	S["ooc_extra"]			>> ooc_extra
 	S["ooc_extra_link"]		>> ooc_extra_link
 	S["is_legacy"]			>> is_legacy
@@ -795,6 +808,17 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["gossip_display"], gossip_display)
 	WRITE_FILE(S["ooc_notes"] , html_decode(ooc_notes))
 	WRITE_FILE(S["ooc_notes_display"], ooc_notes_display)
+	WRITE_FILE(S["nsfwflavortext"] , html_decode(nsfwflavortext))
+	WRITE_FILE(S["nsfwflavortext_display"], nsfwflavortext_display)
+	WRITE_FILE(S["erpprefs"] , html_decode(erpprefs))
+	WRITE_FILE(S["erpprefs_display"], erpprefs_display)
+	WRITE_FILE(S["song_title"], song_title)
+	WRITE_FILE(S["song_artist"], song_artist)
+	WRITE_FILE(S["song_url"], song_url)
+	WRITE_FILE(S["nsfw_ooc_extra"], nsfw_ooc_extra)
+	WRITE_FILE(S["nsfw_ooc_extra_link"], nsfw_ooc_extra_link)
+	WRITE_FILE(S["img_gallery"], img_gallery)
+	WRITE_FILE(S["nsfw_img_gallery"], nsfw_img_gallery)
 	WRITE_FILE(S["ooc_extra"],	ooc_extra)
 	WRITE_FILE(S["ooc_extra_link"],	ooc_extra_link)
 	WRITE_FILE(S["is_legacy"], is_legacy)
