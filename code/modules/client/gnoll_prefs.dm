@@ -486,8 +486,8 @@
 				gnoll_flavortext_display = null
 			else
 				gnoll_flavortext = new_flavortext
-				var/ft = html_encode(parsemarkdown_basic(gnoll_flavortext))
-				ft = replacetext(ft, "\n", "<BR>")
+				var/ft = html_encode(gnoll_flavortext)
+				ft = replacetext(parsemarkdown_basic(ft), "\n", "<BR>")
 				gnoll_flavortext_display = ft
 				to_chat(user, "<span class='notice'>Gnoll flavor text updated.</span>")
 				log_game("[user] has set their gnoll flavor text.")
@@ -509,8 +509,8 @@
 				gnoll_ooc_notes_display = null
 			else
 				gnoll_ooc_notes = new_ooc_notes
-				var/ooc = html_encode(parsemarkdown_basic(gnoll_ooc_notes))
-				ooc = replacetext(ooc, "\n", "<BR>")
+				var/ooc = html_encode(gnoll_ooc_notes)
+				ooc = replacetext(parsemarkdown_basic(ooc), "\n", "<BR>")
 				gnoll_ooc_notes_display = ooc
 				to_chat(user, "<span class='notice'>Gnoll OOC notes updated.</span>")
 				log_game("[user] has set their gnoll OOC notes.")

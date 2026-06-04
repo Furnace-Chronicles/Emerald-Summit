@@ -210,6 +210,15 @@
 		ui = new(user, src, "Brassface", "BRASSFACE")
 		ui.open()
 
+// Hard-close the UI for the dead and for observers. The default state returns UI_DISABLED (not
+// UI_CLOSE) for a corpse, so a Nightmaster who dies with the vault open would keep the secret
+// contents lingering greyed-out on their (now ghost) screen. Living-but-unconscious users still
+// fall through to the default UI_DISABLED behavior.
+/obj/structure/roguemachine/bathvend/ui_status(mob/user, datum/ui_state/state)
+	if(!isliving(user) || user.stat == DEAD)
+		return UI_CLOSE
+	return ..()
+
 /obj/structure/roguemachine/bathvend/ui_static_data(mob/user)
 	// Computed once per UI open instead of every poll — these don't change at runtime.
 	var/list/data = list()

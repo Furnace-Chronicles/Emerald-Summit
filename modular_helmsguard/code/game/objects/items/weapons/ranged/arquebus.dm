@@ -7,7 +7,7 @@
 	item_state = "arquebus"
 	force = 10
 	force_wielded = 15
-	possible_item_intents = list(/datum/intent/mace/strike/wood)
+	possible_item_intents = list(/datum/intent/mace/strike/wood/gunbash)
 	gripped_intents = list(/datum/intent/shoot/arquebus, /datum/intent/arc/arquebus, INTENT_GENERIC)
 	internal_magazine = TRUE
 	mag_type = /obj/item/ammo_box/magazine/internal/arquebus
@@ -79,6 +79,11 @@
 		else
 			to_chat(user, "<span class='warning'>There is no rod stowed in the [src]!</span>")
 
+
+// Firearms borrow the wooden-club bash for pistol-whipping, but a gun lacks a
+// mace's mass to drive force through plate, so it must not inherit blunt chipping.
+/datum/intent/mace/strike/wood/gunbash
+	blunt_chipping = FALSE
 
 /datum/intent/shoot/arquebus
 	chargedrain = 0
@@ -262,7 +267,7 @@
 	icon_state = "pistol"
 	item_state = "pistol"
 	force = 10
-	possible_item_intents = list(/datum/intent/shoot/arquebus_pistol, /datum/intent/arc/arquebus_pistol, /datum/intent/mace/strike/wood)
+	possible_item_intents = list(/datum/intent/shoot/arquebus_pistol, /datum/intent/arc/arquebus_pistol, /datum/intent/mace/strike/wood/gunbash)
 	internal_magazine = TRUE
 	mag_type = /obj/item/ammo_box/magazine/internal/arquebus
 	wlength = WLENGTH_SHORT
