@@ -20,7 +20,6 @@
 
 	job_subclasses = list(
 		/datum/advclass/vagabond_original,
-		/datum/advclass/vagabond_beggar,
 		/datum/advclass/vagabond_courier,
 		/datum/advclass/vagabond_excommunicated,
 		/datum/advclass/vagabond_goatherd,

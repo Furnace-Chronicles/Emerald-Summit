@@ -250,8 +250,14 @@
 		if(((throwingdatum ? throwingdatum.speed : I.throw_speed) >= EMBED_THROWSPEED_THRESHOLD) || I.embedding.embedded_ignore_throwspeed_threshold)
 			if(can_embed(I) && prob(I.embedding.embed_chance) && !HAS_TRAIT(src, TRAIT_PIERCEIMMUNE))
 				//throw_alert("embeddedobject", /atom/movable/screen/alert/embeddedobject)
-				var/obj/item/bodypart/L = pick(bodyparts)
-				L.add_embedded_object(I, silent = FALSE, crit_message = TRUE)
+				// Prefer the thrower's aim zone; fall back to a random limb if the targeted bodypart is missing or no zone set.
+				var/obj/item/bodypart/L
+				if(throwingdatum?.target_zone)
+					L = get_bodypart(check_zone(throwingdatum.target_zone))
+				if(!L)
+					L = pick(bodyparts)
+				if(L.add_embedded_object(I, silent = FALSE, crit_message = TRUE))
+					SEND_SIGNAL(I, COMSIG_ITEM_EMBED_VIA_THROW, src, throwingdatum)
 				emote("embed")
 				L.receive_damage(I.w_class*I.embedding.embedded_impact_pain_multiplier)
 //					visible_message("<span class='danger'>[I] embeds itself in [src]'s [L.name]!</span>","<span class='danger'>[I] embeds itself in my [L.name]!</span>")
