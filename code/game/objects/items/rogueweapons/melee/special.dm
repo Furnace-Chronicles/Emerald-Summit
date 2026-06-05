@@ -32,6 +32,9 @@
 	attack_verb = list("bashes", "strikes")
 	penfactor = BLUNT_DEFAULT_PENFACTOR
 	item_d_type = "blunt"
+	//We want chipping, m'lord.
+	blunt_chipping = TRUE
+	blunt_chip_strength = BLUNT_CHIP_WEAK
 
 /datum/intent/lord_electrocute
 	name = "electrocute"
@@ -59,6 +62,9 @@
 	swingdelay = 0
 	icon_state = "inpunch"
 	item_d_type = "blunt"
+	//We want chipping, m'lord.
+	blunt_chipping = TRUE
+	blunt_chip_strength = BLUNT_CHIP_WEAK
 
 /datum/intent/knuckles/smash
 	name = "smash"
@@ -72,6 +78,9 @@
 	intent_intdamage_factor = 1.35
 	icon_state = "insmash"
 	item_d_type = "blunt"
+	//We want chipping, m'lord.
+	blunt_chipping = TRUE
+	blunt_chip_strength = BLUNT_CHIP_STRONG
 /// INTENT DATUMS	^
 
 /obj/item/rogueweapon/lordscepter
@@ -346,6 +355,17 @@
 		added_def = 2,\
 	)
 
+/obj/item/rogueweapon/katar/psydon/preblessed/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 0,\
+		added_int = 50,\
+		added_def = 2,\
+	)
+
 /obj/item/rogueweapon/knuckles/psydon
 	name = "psydonian knuckles"
 	desc = "A simple piece of harm molded in a holy mixture of steel and silver, finished with three stumps - Psydon's crown - to crush the heretics' garments and armor into smithereens."
@@ -365,6 +385,18 @@
 		added_int = 50,\
 		added_def = 2,\
 	)
+
+/obj/item/rogueweapon/knuckles/psydon/preblessed/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 0,\
+		added_int = 50,\
+		added_def = 2,\
+	)
+
 
 /obj/item/rogueweapon/knuckles
 	name = "steel knuckles"

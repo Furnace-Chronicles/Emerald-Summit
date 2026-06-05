@@ -79,6 +79,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/siemens_coefficient = 1 // for electrical admittance/conductance (electrocution checks and shit)
 	var/slowdown = 0 // How much clothing is slowing you down. Negative values speeds you up
 	var/armor_penetration = 0 //percentage of armour effectiveness to remove
+	/// Thrown-only AP override. When non-null, the thrown-impact armor check uses
+	/// this instead of armor_penetration — lets weapons like tossblades keep
+	/// piercing power in the air without bypassing armor on melee thrusts.
+	var/thrown_armor_penetration = null
 	var/list/allowed = null //suit storage stuff.
 	var/equip_delay_self = 1 //In deciseconds, how long an item takes to equip; counts only for normal clothing slots, not pockets etc.
 	var/unequip_delay_self = 1 //In deciseconds, how long an item takes to unequip; counts only for normal clothing slots, not pockets etc.

@@ -93,6 +93,11 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 
 	setDir(direct)
 
+	// Match the glide duration to the 2ds move throttle above so the sprite slides exactly one
+	// tile between moves instead of snapping partway through (the default glide_size of 6 finishes
+	// a tile slower than the move cadence, which reads as choppy ghost movement).
+	set_glide_size(DELAY_TO_GLIDE_SIZE(2))
+
 	. = ..()
 
 /mob/dead/observer/screye

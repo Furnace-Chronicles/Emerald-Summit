@@ -1,6 +1,7 @@
 #define TIPPED_REAGENT_VOLUME 6
 #define TIPPED_REAGENT_VOLUME_ALCHEMIST (TIPPED_REAGENT_VOLUME+3)
 #define TIPPED_REAGENT_ATTACK_VOLUME 3
+#define TIPPED_REAGENT_MIN_DIP 2 // 0.6 oz minimum in container to dip; below this the dip is rejected.
 
 /datum/element/tipped_item
 	element_flags = NONE
@@ -15,11 +16,12 @@
 	RegisterSignal(target, COMSIG_ITEM_PRE_ATTACK, PROC_REF(check_dip))
 	RegisterSignal(target, COMSIG_ITEM_ATTACKBY_SUCCESS, PROC_REF(try_inject))
 	RegisterSignal(target, COMSIG_ITEM_ATTACKBY_BLOCKED, PROC_REF(blocked_inject))
+	RegisterSignal(target, COMSIG_ITEM_EMBED_VIA_THROW, PROC_REF(try_inject_throw))
 	RegisterSignal(target, COMSIG_COMPONENT_CLEAN_ACT, PROC_REF(clean_dip))
 
 /datum/element/tipped_item/Detach(datum/source, force)
 	. = ..()
-	UnregisterSignal(source, list(COMSIG_PARENT_EXAMINE, COMSIG_ITEM_PRE_ATTACK, COMSIG_ITEM_ATTACKBY_SUCCESS, COMSIG_ITEM_ATTACKBY_BLOCKED, COMSIG_COMPONENT_CLEAN_ACT))
+	UnregisterSignal(source, list(COMSIG_PARENT_EXAMINE, COMSIG_ITEM_PRE_ATTACK, COMSIG_ITEM_ATTACKBY_SUCCESS, COMSIG_ITEM_ATTACKBY_BLOCKED, COMSIG_ITEM_EMBED_VIA_THROW, COMSIG_COMPONENT_CLEAN_ACT))
 
 /datum/element/tipped_item/proc/check_dip(obj/item/dipper, obj/item/reagent_containers/attacked_container, mob/living/attacker, params)
 	SIGNAL_HANDLER
@@ -30,6 +32,9 @@
 		return
 	if(!attacked_container.reagents.total_volume)
 		to_chat(attacker, span_warning("\The [attacked_container] is empty!"))
+		return
+	if(attacked_container.reagents.total_volume < TIPPED_REAGENT_MIN_DIP)
+		to_chat(attacker, span_warning("There isn't enough liquid in \the [attacked_container] to properly coat \the [dipper]. I need at least 0.6 oz."))
 		return
 	var/max_volume = HAS_TRAIT(attacker, TRAIT_LEGENDARY_ALCHEMIST) ? TIPPED_REAGENT_VOLUME_ALCHEMIST : TIPPED_REAGENT_VOLUME // legendary alchemists get the ability to increase the max volume
 	if(dipper.reagents.total_volume >= max_volume) // don't let user attempt to double dip
@@ -68,6 +73,23 @@
 		log_combat(user, target, "poisoned", addition="with [reagentlog2]")
 		dipper.reagents.trans_to(target, min(dipper.reagents.total_volume, TIPPED_REAGENT_ATTACK_VOLUME), transfered_by = user)
 
+/datum/element/tipped_item/proc/try_inject_throw(obj/item/dipper, mob/living/target, datum/thrownthing/throwingdatum)
+	SIGNAL_HANDLER
+	if(!isliving(target))
+		return
+	if(!dipper.reagents?.total_volume)
+		return
+	if(HAS_TRAIT(target, TRAIT_NOMETABOLISM))
+		return
+	var/mob/thrower = throwingdatum?.thrower
+	var/reagentlog2 = dipper.reagents
+	if(thrower)
+		log_combat(thrower, target, "poisoned (thrown)", addition="with [reagentlog2]")
+	// Successful embed dumps the FULL remaining reagent into the target instead
+	// of the capped 3u melee transfer — landing the throw + sticking the blade
+	// is the high-risk play, so the payload reward matches.
+	dipper.reagents.trans_to(target, dipper.reagents.total_volume, transfered_by = thrower)
+
 /datum/element/tipped_item/proc/blocked_inject(obj/item/dipper, atom/target, mob/user, damagetype = BRUTE, def_zone = null)
 	if(isliving(target) && dipper.reagents.total_volume && prob(20)) // random chance of smearing our blade clean with their armor
 		var/reagent_color = mix_color_from_reagents(dipper.reagents.reagent_list)
@@ -97,3 +119,4 @@
 #undef TIPPED_REAGENT_VOLUME
 #undef TIPPED_REAGENT_VOLUME_ALCHEMIST
 #undef TIPPED_REAGENT_ATTACK_VOLUME
+#undef TIPPED_REAGENT_MIN_DIP
