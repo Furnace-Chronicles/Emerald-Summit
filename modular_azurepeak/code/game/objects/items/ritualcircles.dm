@@ -780,7 +780,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	name = "Rune of Progress"
 	desc = "A Holy Rune of ZIZO. Progress at any cost."
 	icon_state = "zizo_chalky"
-	var/zizorites = list("Rite of Armaments", "Rite of the Dark Crystal", "Path of Rituos")
+	var/zizorites = list("Rite of Armaments", "Rite of the Dark Crystal")
 
 /obj/structure/ritualcircle/zizo/attack_hand(mob/living/user)
 	if(!istype(user.patron, /datum/patron/inhumen/zizo))
@@ -830,35 +830,6 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 							new /obj/item/necro_relics/necro_crystal(loc)
 							loc.visible_message(span_purple("A dark crystal materializes in the center of the ritual circle, pulsing with necromantic energy!"))
-							spawn(120)
-								icon_state = "zizo_chalky"
-		if("Path of Rituos")
-			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
-				to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
-				return
-			if(!Adjacent(user))
-				to_chat(user, "You must stand close to the rune to receive Zizo's blessing.")
-				return
-			var/list/valids_on_rune = list()
-			for(var/mob/living/carbon/human/peep in range(0, loc))
-				if(HAS_TRAIT(peep, TRAIT_CABAL))
-					valids_on_rune += peep
-			if(!valids_on_rune.len)
-				loc.visible_message(span_cult("THE RITE REJECTS ONE NOT OF THE CABAL!"))
-				return
-			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in valids_on_rune
-			if(!target || QDELETED(target) || target.loc != loc)
-				return
-			if(do_after(user, 50))
-				user.say("ZIZO! ZIZO! DAME OF PROGRESS!!")
-				if(do_after(user, 50))
-					user.say("ZIZO! ZIZO! HEED MY CALL!!")
-					if(do_after(user, 50))
-						user.say("ZIZO! ZIZO! STRIP OUR BONE OF ANY FLESH!!")
-						if(do_after(user, 50))
-							icon_state = "zizo_active"							
-							rituosbone(target)
-							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 							spawn(120)
 								icon_state = "zizo_chalky"
 
@@ -911,88 +882,6 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
 
 
-/obj/structure/ritualcircle/zizo/proc/rituosbone(mob/living/carbon/human/target)
-	if(!target || QDELETED(target) || target.loc != loc)
-		to_chat(usr, "Selected target is not on the rune! [target.p_they(TRUE)] must be directly on top of the rune to receive Zizo's blessing.")
-		return
-	if (!HAS_TRAIT(target, TRAIT_CABAL))
-		loc.visible_message(span_cult("THE RITE REJECTS ONE NOT OF THE CABAL!"))
-		return
-	if (target.mob_biotypes & MOB_UNDEAD)
-		loc.visible_message(span_cult("YOU HAVE NO MORE LYFE TO GIVE, FOR YOUR HEART DOES NOT BEAT!"))
-		return
-	if (target.mind?.has_antag_datum(/datum/antagonist/vampire))
-		loc.visible_message(span_cult("YOU HAVE NO MORE LYFE TO GIVE, FOR YOUR HEART DOES NOT BEAT, CHILDE OF KAIN!"))
-		return
-	if (target.mind?.has_antag_datum(/datum/antagonist/werewolf/lesser))
-		loc.visible_message(span_cult("YOU ARE CURSED BY DENDOR, UNDESERVING OF UNLYFE!"))
-		return
-	target.Stun(60)
-	target.Knockdown(60)
-	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
-	target.emote("Agony")
-	playsound(loc, 'sound/misc/astratascream.ogg', 50)
-	loc.visible_message(span_cult("The pallor of the grave descends across [target]'s skin in a wave of arcyne energy... Then, their flesh is flayed, revealing a ghastly bone, blood splattering all around them."))
-	spawn(20)
-		playsound(loc, 'sound/combat/dismemberment/dismem (6).ogg', 50)
-		playsound(target, 'sound/health/slowbeat.ogg', 50)
-		target.mind?.RemoveSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation) // gotta remove presiistitititginanon if you had one to avoid getting double
-		ADD_TRAIT(target, TRAIT_NOHUNGER, "[type]")
-		ADD_TRAIT(target, TRAIT_NOBREATH, "[type]")
-		ADD_TRAIT(target, TRAIT_NOPAIN, "[type]")
-		ADD_TRAIT(target, TRAIT_TOXIMMUNE, "[type]")
-		ADD_TRAIT(target, TRAIT_STEELHEARTED, "[type]")
-		ADD_TRAIT(target, TRAIT_INFINITE_ENERGY, "[type]")
-		ADD_TRAIT(target, TRAIT_SLOW_SWIMMER, "[type]")
-		ADD_TRAIT(target, TRAIT_BLOODLOSS_IMMUNE, "[type]")
-		ADD_TRAIT(target, TRAIT_LIMBATTACHMENT, "[type]")
-		ADD_TRAIT(target, TRAIT_EASYDISMEMBER, "[type]")
-		ADD_TRAIT(target, TRAIT_SILVER_WEAK, "[type]")
-		if (!HAS_TRAIT(target, TRAIT_ARCYNE_T3) && !HAS_TRAIT(target, TRAIT_ARCYNE_T4) || HAS_TRAIT(target, TRAIT_ARCYNE_T2))
-			REMOVE_TRAIT(target, TRAIT_ARCYNE_T2, "[type]")
-			ADD_TRAIT(target, TRAIT_ARCYNE_T3, "[type]")
-		target.dna.species.species_traits |= NOBLOOD
-		target.change_stat("speed", -1)
-		target.change_stat("constitution", -2)
-		var/arcyne_level = target.get_skill_level(/datum/skill/magic/arcane) // mages get better spellcasting skill, still no access to the greater fireball sloppp, should they??
-		if (arcyne_level >= 3)
-			target.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
-		else
-			target.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
-		target.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation) // gotta remove if you already have it fuck?
-		// Magi 2: Rituos grants arcyne aspects, not legacy spellpoints — a major + a minor slot,
-		// chosen via the Grimoire. If the target isn't a caster yet, set up the magi2 stack
-		// (ward + Grimoire); if they already are one, just widen their loadout by those slots.
-		if(target.mind)
-			if(!LAZYLEN(target.mind.mage_aspect_config))
-				_magi2_setup_caster(target, list("major" = 1, "minor" = 1, "utilities" = 0, "ward" = TRUE), grant_staff = FALSE)
-			else
-				target.mind.mage_aspect_config["major"] += 1
-				target.mind.mage_aspect_config["minor"] += 1
-		target.mob_biotypes |= MOB_UNDEAD
-		spawn(40)
-			to_chat(target, span_purple("They are ignorant, backwards, without hope. You. You will be powerful."))
-		var/obj/item/bodypart/no_penis = target.getorganslot(ORGAN_SLOT_PENIS)
-		if(no_penis)
-			qdel(no_penis)
-		var/obj/item/bodypart/no_vagina = target.getorganslot(ORGAN_SLOT_VAGINA)
-		if(no_vagina)
-			qdel(no_vagina)
-		var/obj/item/bodypart/no_balls = target.getorganslot(ORGAN_SLOT_TESTICLES)
-		if(no_balls)
-			qdel(no_balls)
-		var/obj/item/bodypart/no_breasts = target.getorganslot(ORGAN_SLOT_BREASTS)
-		if(no_breasts)
-			qdel(no_breasts)
-		var/list/body_parts = target.bodyparts.Copy()
-		for(var/obj/item/bodypart/part in body_parts)
-			part.skeletonize(FALSE)
-		var/list/eyes_replaced = target.internal_organs.Copy()
-		var/obj/item/organ/eyes/eyes = target.getorganslot(eyes_replaced) // #define ORGAN_SLOT_PENIS "penis" ORGAN_SLOT_TESTICLES "testicles" ORGAN_SLOT_BREASTS "breasts" ORGAN_SLOT_VAGINA "vagina" do I wanna bother
-		eyes = new /obj/item/organ/eyes/night_vision/zombie
-		eyes.Insert(target)
-		target.update_body_parts(TRUE)
-		target.ritual_skeletonization = TRUE
 
 
 
