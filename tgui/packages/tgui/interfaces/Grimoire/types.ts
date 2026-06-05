@@ -43,6 +43,7 @@ export type Data = {
   initial_setup: boolean;
   attuned_majors: string[];
   attuned_minors: string[];
+  staged_aspects: string[];
   selected_utilities: string[];
   locked_aspects: string[];
   staged_choices: Record<string, string>;

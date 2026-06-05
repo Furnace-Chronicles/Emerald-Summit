@@ -24,6 +24,7 @@ export const GrimoireAspectPicker = () => {
     initial_setup = true,
     attuned_majors = [],
     attuned_minors = [],
+    staged_aspects = [],
     selected_utilities = [],
     locked_aspects = [],
     staged_choices = {},
@@ -64,6 +65,8 @@ export const GrimoireAspectPicker = () => {
   const isPendingUnbind = selected
     ? staged_unbind_aspects.includes(selected.path)
     : false;
+  // Freshly-staged pick (not yet sealed) — can be un-staged for free regardless of reshaping budget.
+  const isStaged = selected ? staged_aspects.includes(selected.path) : false;
 
   const hasAccess = (t: Tab): boolean => {
     if (read_only) return true;
@@ -250,7 +253,7 @@ export const GrimoireAspectPicker = () => {
                     aspect={selected}
                     isAttuned={false}
                     isLocked={true}
-  
+                    isStaged={false}
                     isPendingUnbind={false}
                     slotsFull={true}
                     tab={tab}
@@ -277,7 +280,7 @@ export const GrimoireAspectPicker = () => {
                   aspect={selected}
                   isAttuned={isAttuned}
                   isLocked={isLocked}
-
+                  isStaged={isStaged}
                   isPendingUnbind={isPendingUnbind}
                   slotsFull={slotsFull}
                   tab={tab}

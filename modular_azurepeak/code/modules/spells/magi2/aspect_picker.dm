@@ -119,6 +119,14 @@
 	for(var/path in staged_minors)
 		data["attuned_minors"] |= "[path]"
 
+	// Freshly-staged picks (not yet sealed/live). These can always be un-staged for free — even at
+	// 0 reshaping budget — since nothing has actually been bound yet.
+	data["staged_aspects"] = list()
+	for(var/path in staged_majors)
+		data["staged_aspects"] += "[path]"
+	for(var/path in staged_minors)
+		data["staged_aspects"] += "[path]"
+
 	data["staged_choices"] = staged_choices
 	data["pointbuy_selections"] = pointbuy_selections
 	data["selected_utilities"] = staged_utilities

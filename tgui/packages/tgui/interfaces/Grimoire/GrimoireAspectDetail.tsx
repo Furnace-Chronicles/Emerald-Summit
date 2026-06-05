@@ -9,6 +9,7 @@ export const GrimoireAspectDetail = ({
   aspect,
   isAttuned,
   isLocked,
+  isStaged,
   isPendingUnbind,
   slotsFull,
   tab,
@@ -26,6 +27,7 @@ export const GrimoireAspectDetail = ({
   aspect: Aspect;
   isAttuned: boolean;
   isLocked: boolean;
+  isStaged: boolean;
   isPendingUnbind: boolean;
   slotsFull: boolean;
   tab: Tab;
@@ -152,7 +154,8 @@ export const GrimoireAspectDetail = ({
             >
               Innately bound.
             </div>
-          ) : initialSetup ? (
+          ) : initialSetup || isStaged ? (
+            // Initial setup, or a freshly-staged pick not yet sealed — un-staging is always free.
             <div
               className="AspectPicker__action-btn AspectPicker__action-btn--remove"
               onClick={() => act('remove', { path: aspect.path })}
@@ -171,9 +174,7 @@ export const GrimoireAspectDetail = ({
               className="AspectPicker__attunement"
               style={{ textAlign: 'center', padding: '8px' }}
             >
-              {resetBudget < unbindCost
-                ? 'Not enough reshaping budget.'
-                : 'Currently attuned.'}
+              Not enough reshaping budget.
             </div>
           )
         ) : slotsFull ? (
