@@ -97,6 +97,27 @@
 
 
 
+// When dropped/held, render the tail via get_limb_icon, but flatten the negative body-compositing
+// layers to a floating item layer so the sprite actually shows in hand / on the ground (otherwise the
+// overlays render beneath the item and you just see the blank base icon).
+/obj/item/bodypart/lamian_tail/update_icon_dropped()
+	cut_overlays()
+	var/list/standing = get_limb_icon(1)
+	if(!standing.len)
+		icon_state = initial(icon_state)
+		return
+	for(var/image/I in standing)
+		I.layer = FLOAT_LAYER
+		I.pixel_x = px_x
+		I.pixel_y = px_y
+	add_overlay(standing)
+
+// Bodyparts have no in-hand sprite; the default prop makes the experimental in-hand system render the
+// blank base icon as a black box on the holder. Suppress the on-mob held sprite — the held tail still
+// shows in the inventory hand slot via update_icon_dropped's overlays.
+/obj/item/bodypart/lamian_tail/getonmobprop(tag)
+	return null
+
 GLOBAL_LIST_INIT(tail_types, subtypesof(/obj/item/bodypart/lamian_tail))
 
 /obj/item/bodypart/lamian_tail/lamian_tail
@@ -129,5 +150,19 @@ GLOBAL_LIST_INIT(tail_types, subtypesof(/obj/item/bodypart/lamian_tail))
 	tail_tip_icon_state = "mermaid_tail_alt_tip"
 	tail_markings_icon_state = "mermaid_tail_alt_markings" // done by ooooooog/ShadowDeath6
 	tail_markings_tip_icon_state = "mermaid_tail_alt_markings_tip" // done by ooooooog/ShadowDeath6
+
+	has_tail_color = TRUE
+
+// Drider lower body — the spider-taur legs. Sprite states live in icons/mob/species/taurs.dmi
+// (add: spider_s, spider_markings, spider_markings_2; spider_s_tip optional). Any missing state
+// just renders as a blank layer, so the rest works without it.
+/obj/item/bodypart/lamian_tail/drider
+	name = "drider legs"
+
+	offset_x = -16
+	tail_icon_state = "spider_s"
+	tail_tip_icon_state = "spider_s_tip"
+	tail_markings_icon_state = "spider_markings"
+	tail_markings_tip_icon_state = "spider_markings_2"
 
 	has_tail_color = TRUE

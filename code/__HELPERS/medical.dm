@@ -1,6 +1,8 @@
 /proc/parse_zone(zone, obj/item/bodypart/affecting = null)
 	// this helps adapt older code
 	if(affecting?.body_zone == BODY_ZONE_LAMIAN_TAIL)
+		if(istype(affecting, /obj/item/bodypart/lamian_tail/drider)) // driders have drider legs, not a tail
+			return "drider legs"
 		return "tail"
 	switch(zone)
 		if(BODY_ZONE_PRECISE_R_HAND)

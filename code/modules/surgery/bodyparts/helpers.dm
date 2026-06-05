@@ -293,6 +293,25 @@
 	regenerate_icons()
 	set_resting(FALSE)
 
+// Like Lamiaze(), but always installs the drider (spider-taur) legs rather than a player-picked tail.
+// Tail colour still comes from prefs so the legs can be tinted in chargen.
+/mob/living/carbon/proc/Driderize(color = "#ffffff", markings_color = "#ffffff")
+	if(client?.prefs && (LAMIAN_TAIL in client.prefs.pref_species.species_traits))
+		color = sanitize_hexcolor(client.prefs.tail_color, include_crunch = TRUE)
+	for(var/X in bodyparts)
+		var/obj/item/bodypart/O = X
+		if(O.body_part == LEG_LEFT || O.body_part == LEG_RIGHT || O.body_zone == BODY_ZONE_LAMIAN_TAIL)
+			O.drop_limb(1)
+			qdel(O)
+
+	var/obj/item/bodypart/lamian_tail/drider/T = new()
+	T.tail_color = color
+	T.tail_markings_color = markings_color
+	T.attach_limb(src)
+
+	regenerate_icons()
+	set_resting(FALSE)
+
 /mob/living/carbon/proc/de_Lamia()//gives you your legs back, only used when changing species
 	for(var/X in bodyparts)
 		var/obj/item/bodypart/O = X

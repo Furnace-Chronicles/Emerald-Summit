@@ -428,6 +428,7 @@
 	allowed_races = RACES_SECOND_CLASS_UP
 	disallowed_races = list(
 		/datum/species/lamia,
+		/datum/species/drider,
 		/datum/species/harpy,
 	)
 	allowed_patrons = ALL_DIVINE_PATRONS
