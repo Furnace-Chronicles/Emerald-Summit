@@ -32,6 +32,9 @@
 	attack_verb = list("bashes", "strikes")
 	penfactor = BLUNT_DEFAULT_PENFACTOR
 	item_d_type = "blunt"
+	//We want chipping, m'lord.
+	blunt_chipping = TRUE
+	blunt_chip_strength = BLUNT_CHIP_WEAK
 
 /datum/intent/lord_electrocute
 	name = "electrocute"
@@ -59,6 +62,9 @@
 	swingdelay = 0
 	icon_state = "inpunch"
 	item_d_type = "blunt"
+	//We want chipping, m'lord.
+	blunt_chipping = TRUE
+	blunt_chip_strength = BLUNT_CHIP_WEAK
 
 /datum/intent/knuckles/smash
 	name = "smash"
@@ -72,6 +78,9 @@
 	intent_intdamage_factor = 1.35
 	icon_state = "insmash"
 	item_d_type = "blunt"
+	//We want chipping, m'lord.
+	blunt_chipping = TRUE
+	blunt_chip_strength = BLUNT_CHIP_STRONG
 /// INTENT DATUMS	^
 
 /obj/item/rogueweapon/lordscepter

@@ -347,6 +347,7 @@
 #define COMSIG_ITEM_AFTERATTACK "item_afterattack"				//from base of obj/item/afterattack(): (atom/target, mob/user, params)
 #define COMSIG_ITEM_ATTACKBY_BLOCKED "item_attackby_blocked"	//from base of species/proc/spec_attacked_by(): (mob/living/carbon/human/target, mob/living/user, damagetype, def_zone)
 #define COMSIG_ITEM_ATTACKBY_SUCCESS "item_attackby_success"	//from base of species/proc/spec_attacked_by(): (mob/living/carbon/human/target, mob/living/user, damage, damagetype, def_zone)
+#define COMSIG_ITEM_EMBED_VIA_THROW "item_embed_via_throw"		//from /mob/living/carbon/human/hitby() after add_embedded_object succeeds: (mob/living/carbon/human/target, datum/thrownthing/throwingdatum)
 #define COMSIG_ITEM_ATTACK_QDELETED "item_attack_qdeleted"		//from base of obj/item/attack_qdeleted(): (atom/target, mob/user, params)
 #define COMSIG_ITEM_EQUIPPED "item_equip"						//from base of obj/item/equipped(): (/mob/equipper, slot)
 #define COMSIG_ITEM_DROPPED "item_drop"							//from base of obj/item/dropped(): (mob/user)

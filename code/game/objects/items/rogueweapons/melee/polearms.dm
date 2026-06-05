@@ -60,6 +60,9 @@
 	penfactor = 10
 	damfactor = 0.8
 	item_d_type = "blunt"
+	//We want chipping, m'lord.
+	blunt_chipping = TRUE
+	blunt_chip_strength = BLUNT_CHIP_STRONG
 
 /datum/intent/spear/bash/ranged
 	reach = 2
@@ -207,6 +210,9 @@
 
 /datum/intent/spear/bash/ranged/quarterstaff
 	damfactor = 1
+	//We want chipping, m'lord.
+	blunt_chipping = TRUE
+	blunt_chip_strength = BLUNT_CHIP_WEAK//Use this instead of thrust for chip damage.
 
 /datum/intent/spear/thrust/quarterstaff
 	blade_class = BCLASS_BLUNT
@@ -214,6 +220,9 @@
 	penfactor = BLUNT_DEFAULT_PENFACTOR
 	damfactor = 1.3 // Adds up to be slightly stronger than an unenhanced ebeak strike.
 	chargetime = 6 // Meant to be stronger than a bash, but with a delay.
+	//We want chipping, m'lord.
+	blunt_chipping = TRUE
+	blunt_chip_strength = BLUNT_CHIP_MINUSCULE//See above.
 
 /datum/intent/spear/thrust/lance
 	damfactor = 1.5 // Turns its base damage into 30 on the 2hand thrust. It keeps the spear thrust one handed.
@@ -959,6 +968,7 @@
 	swingdelay = 12
 	clickcd = 14
 	damfactor = 1.3
+	blunt_chip_strength = BLUNT_CHIP_ABSURD
 
 /obj/item/rogueweapon/spear/bronze
 	name = "Bronze Spear"
