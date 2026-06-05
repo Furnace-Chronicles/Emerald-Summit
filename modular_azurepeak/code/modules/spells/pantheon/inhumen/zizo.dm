@@ -119,18 +119,11 @@
 	devotion_cost = 75
 	cabal_affine = TRUE
 
-// T3: Rituos - Zizo's Lesser Work. A one-time, agonizing ritual offering a choice of path:
-//   Progress: arcyne knowledge (2 minor + 6 utility aspects, no skeletonization, some "progress" traits).
-//   Unlife:   full skeletonization + MOB_UNDEAD, 2 minor + 4 utility aspects, undead traits.
-// Both grant TRAIT_ARCYNE_T3 and a chosen offensive cantrip; the spell self-deletes after use.
-// Adapted from Azure-Peak PR #6406's /datum/action/cooldown/spell/zizo/rituos onto ES's legacy
-// spell framework. Substitutions for symbols absent on this branch: aspects via _magi2_setup_caster
-// (grants the Grimoire to actually use them), TRAIT_ARCYNE -> TRAIT_ARCYNE_T3, _magi2 poke spells.
-// Dropped (not present here): undead language, bonechill/bonemend, JACKOFALLTRADES/SELF_SUSTENANCE.
+// T3: Rituos (usable once per sleep cycle, allows you to choose any 1 arcane spell to use for the duration w/ an associated devotion cost. each time you change it, 1 of your limbs is skeletonized, if all of your limbs are skeletonized, you gain access to arcane magic. continuing to use rituos after being fully skeletonized gives you additional spellpoints). Gives you the MOB_UNDEAD flag (needed for skeletonize to work) on first use.
 
 /obj/effect/proc_holder/spell/invoked/rituos
 	name = "Rituos"
-	desc = "Enact one of the Lesser Works of Zizo - a single, agonizing ritual that tears open a path to power. Choose Progress to gain arcyne knowledge, or Unlife to embrace undeath."
+	desc = "Draw upon the Lesser Work of She Who Is Z to gain arcyne knowledge for a dae..."
 	clothes_req = FALSE
 	overlay_state = "rituos"
 	associated_skill = /datum/skill/magic/arcane
@@ -140,7 +133,7 @@
 	releasedrain = 90
 	no_early_release = TRUE
 	movement_interrupt = TRUE
-	recharge_time = 3 MINUTES
+	recharge_time = 1 MINUTES
 	hide_charge_effect = TRUE
 
 /obj/effect/proc_holder/spell/invoked/rituos/miracle
@@ -148,157 +141,51 @@
 	devotion_cost = 120
 	associated_skill = /datum/skill/magic/holy
 
+/obj/effect/proc_holder/spell/invoked/rituos/proc/check_ritual_progress(mob/living/carbon/user)
+
 /obj/effect/proc_holder/spell/invoked/rituos/cast(list/targets, mob/living/carbon/user)
-	if(!ishuman(user))
-		return FALSE
-	var/mob/living/carbon/human/H = user
-
-	if(H.mind?.rituos_completed)
-		to_chat(H, span_warning("I have already completed the Lesser Work. There is nothing more of me to give."))
+	//check to see if we're all skeletonized first
+	var/pre_rituos = check_ritual_progress(user)
+	if (pre_rituos)
+		to_chat(user, span_notice("I have completed Her Lesser Work..."))
 		return FALSE
 
-	var/path_choice = tgui_alert(H, "What path of the Lesser Work do you seek?", "THE LESSER WORK", list("Progress", "Unlife", "Cancel"))
-	if(!path_choice || path_choice == "Cancel")
+	if (user.mind?.has_rituos)
+		to_chat(user, span_warning("I have not the mental fortitude to enact the Lesser Work again. I must rest first..."))
 		return FALSE
 
-	H.visible_message(span_boldwarning("[H] throws back [H.p_their()] head, arcyne energy crackling across [H.p_their()] body!"))
+	var/list/choices = list()
+	var/list/spell_choices = GLOB.learnable_spells
+	for(var/i = 1, i <= spell_choices.len, i++)
+		var/obj/effect/proc_holder/spell/spell_item = spell_choices[i]
+		if(spell_item.spell_tier > 3) // Hardcap Rituos choice to T3 to avoid Court Mage spells access
+			continue
+		choices["[spell_item.name]"] = spell_item
 
-	var/list/chant_lines
-	switch(path_choice)
-		if("Progress")
-			chant_lines = list(
-				"ZIZO! ZIZO! ZIZO! GRANT ME INSIGHT UNSHACKLED!",
-				"STRIP ME OF STAGNATION AND IGNORANCE!",
-				"BREAK THE CHAINS OF FALSE UNDERSTANDING!",
-				"LET REVELATION FLOOD THIS FRAIL MIND!",
-				"I OFFER THIS MIND TO COMPLETE THY WORK!",
-			)
-		if("Unlife")
-			chant_lines = list(
-				"ZIZO! ZIZO! ZIZO! FLENSE FLESH FROM MY BONE!",
-				"STRIP ME OF MORTALITY'S SHACKLE!",
-				"LET THIS FRAIL MORTALITY FALL AWAY FROM PURPOSE!",
-				"REMAKE ME IN DEATH'S ENDURING IMAGE!",
-				"I OFFER THIS VESSEL TO COMPLETE THY WORK!",
-			)
+	choices = sortList(choices)
 
-	for(var/i in 1 to length(chant_lines))
-		H.say(chant_lines[i])
-		H.adjustBruteLoss(15)
-		if(path_choice == "Progress")
-			H.emote(pick("whimper", "painmoan", "gag", "choke"))
-		else
-			H.emote(pick("painscream", "agony", "paincrit", "choke"))
-		if(i > 1)
-			shake_camera(H, min(i * 2, 3), i)
-		if(!do_after(H, 3 SECONDS, target = H))
-			to_chat(H, span_warning("The ritual collapses. Zizo's gaze turns away."))
-			return FALSE
+	var/choice = input("Choose an arcyne expression of the Lesser Work") as null|anything in choices
+	var/obj/effect/proc_holder/spell/item = choices[choice]
 
-	ADD_TRAIT(H, TRAIT_ARCYNE_T3, "[type]")
-
-	if(H.mind?.has_antag_datum(/datum/antagonist/vampire))
-		H.zizo_vampire_rejection()
+	if (!choice || !item)
 		return FALSE
 
-	switch(path_choice)
-		if("Progress") // support path - your mind is twisted in Her design
-			H.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
-			ADD_TRAIT(H, TRAIT_STEELHEARTED, "[type]") // so you can commit atrocities with a smile
-			ADD_TRAIT(H, TRAIT_UNLYCKERABLE, "[type]") // zizo is watching you now :)
-			if(H.mind)
-				_magi2_setup_caster(H, list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE), grant_staff = FALSE)
-				grant_poke_spell(H)
-			H.visible_message(span_boldwarning("Arcyne runes sear themselves across [H]'s skin, glowing with a sickly light before fading beneath the flesh!"), span_notice("THE LESSER WORK IS DONE! Arcyne knowledge floods my mind - I can see the threads of magic itself!"))
+	user.visible_message(span_notice("I feel arcyne power surge throughout my frail mortal form."))
 
-		if("Unlife") // combat path - your body now carries undeath's resilience
-			H.mob_biotypes |= MOB_UNDEAD
-			ADD_TRAIT(H, TRAIT_NOMOOD, "[type]") // undead apathy
-			ADD_TRAIT(H, TRAIT_NOPAIN, "[type]") // you have no flesh
-			ADD_TRAIT(H, TRAIT_NOHUNGER, "[type]") // you have no stomach
-			ADD_TRAIT(H, TRAIT_NOBREATH, "[type]") // you have no lungs
-			ADD_TRAIT(H, TRAIT_TOXIMMUNE, "[type]")
-			ADD_TRAIT(H, TRAIT_BLOODLOSS_IMMUNE, "[type]")
-			ADD_TRAIT(H, TRAIT_LIMBATTACHMENT, "[type]")
-			ADD_TRAIT(H, TRAIT_ZOMBIE_IMMUNE, "[type]")
-			ADD_TRAIT(H, TRAIT_SILVER_WEAK, "[type]")
-			ADD_TRAIT(H, TRAIT_UNLYCKERABLE, "[type]")
-			for(var/obj/item/bodypart/part as anything in H.bodyparts)
-				if(istype(part, /obj/item/bodypart/head))
-					continue
-				if(istype(part, /obj/item/bodypart/chest))
-					continue
-				part.skeletonize(FALSE)
-				H.update_body_parts()
-				playsound(H.loc, 'sound/misc/smelter_sound.ogg', 50, FALSE)
-				sleep(15)
-			var/obj/item/bodypart/torso = H.get_bodypart(BODY_ZONE_CHEST)
-			playsound(H.loc, 'sound/misc/lava_death.ogg', 100, FALSE)
-			torso?.skeletonize(FALSE)
-			H.update_body_parts()
-			H.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
-			if(H.mind)
-				_magi2_setup_caster(H, list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, "ward" = TRUE), grant_staff = FALSE)
-				grant_poke_spell(H)
-			H.visible_message(span_boldwarning("[H]'s skin and flesh burns away in necrotic flames, revealing bare bone beneath as [H.p_they()] [H.p_are()] consumed by the Lesser Work!"), span_notice("THE LESSER WORK IS DONE! My flesh is forfeit - and death itself answers my call!"))
-			to_chat(H, span_purple("You finished Rituos to perfection, you should be a full-fledged Lich now, but..."))
-			sleep(30)
-			to_chat(H, "<i>...Vestiges of mortality still cling to me...? Why?</i>")
+	if (user.mind?.rituos_spell)
+		to_chat(user, span_warning("My knowledge of [user.mind.rituos_spell.name] flees..."))
+		user.mind.RemoveSpell(user.mind.rituos_spell)
+		user.mind.rituos_spell = null
 
-	if(H.mind)
-		H.mind.rituos_completed = TRUE
-		H.mind.RemoveSpell(src)
-	return TRUE
-
-/mob/living/carbon/human/proc/zizo_vampire_rejection()
-	visible_message(span_userdanger("[src]'s body suddenly convulses as the Lesser Work reaches completion!"), span_userdanger("The Work rejects my cursed blood!"))
-	to_chat(src, span_artery("<br><br>OH. WONDERFUL. I KNOW WHAT YOU ARE ATTEMPTING.<br><br>"))
-	sleep(40)
-	to_chat(src, span_artery("YOU THINK SO LITTLE OF MY WORK? INSOLENT FOOL.<br><br>"))
-	sleep(20)
-	to_chat(src, span_artery("YOU HAVE MERELY WASTED MY TIME.<br><br>"))
-	sleep(20)
-	to_chat(src, span_artery("MY PRECIOUS TIME.<br><br>"))
-	sleep(20)
-	to_chat(src, span_artery("SO. ALLOW ME TO REPAY THE FAVOR."))
-	Stun(40)
-	Knockdown(40)
-	emote("agony")
-	playsound(get_turf(src), 'sound/misc/zizo.ogg', 200)
-	to_chat(src, span_userdanger("--MY LUX IS BEING TORN OFF THROUGH MY HEAD!! MY HEAD!! MYHEADMYHEADMYHEADMYHEAD!!"))
-	ADD_TRAIT(src, TRAIT_DNR, "zizo_rejection")
-	sleep(50)
-	playsound(get_turf(src), 'sound/magic/churn.ogg', 200)
-	playsound(get_turf(src), 'sound/combat/dismemberment/dismem (2).ogg', 100)
-	var/obj/item/bodypart/head = get_bodypart(BODY_ZONE_HEAD)
-	head?.skeletonize(TRUE)
-	update_body_parts(TRUE)
-	visible_message(span_userdanger("[src] SCREAMS in UNBELIEVABLE AGONY as the flesh of [src.p_their()] face is TORN AWAY in a single horrific instant, leaving only an empty, grinning skull..."))
-	sleep(20)
-	visible_message(span_artery("Their Lux has been completely and utterly annihilated..."))
-
-/obj/effect/proc_holder/spell/invoked/rituos/proc/grant_poke_spell(mob/living/carbon/human/user)
-	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Gravel Blast", "Soulshot")
-	var/poke_choice = tgui_input_list(user, "Choose your offensive cantrip.", "Arcyne Awakening", poke_options)
-	if(!poke_choice || !user.mind)
-		return
-	switch(poke_choice)
-		if("Spitfire")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/spitfire_magi2)
-		if("Frost Bolt")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/frost_bolt_magi2)
-		if("Arc Bolt")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arc_bolt_magi2)
-		if("Greater Arcyne Bolt")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/greater_arcyne_bolt_magi2)
-		if("Stygian Efflorescence")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/stygian_efflorescence_magi2)
-		if("Arcyne Lance")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance_magi2)
-		if("Gravel Blast")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast_magi2)
-		if("Soulshot")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/soulshot_magi2)
+	user.mind.has_rituos = TRUE
+	
+	var/post_rituos = check_ritual_progress(user) // need someone else to rewrite ritous with how it functions now im too inexperienced and drained to do this now (doing this not fun too)
+	if (post_rituos)
+	else
+		to_chat(user, span_notice("The Lesser Work of Rituos floods my mind with stolen arcyne knowledge: I can now cast [item.name] until I next rest..."))
+		user.mind.rituos_spell = item
+		user.mind.AddSpell(new item)
+		return TRUE
 
 
 /obj/effect/proc_holder/spell/self/zizo_snuff
