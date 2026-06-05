@@ -124,7 +124,12 @@
 		if(SEND_SIGNAL(src, COMSIG_LIVING_IMPACT_ZONE, I, zone) & COMPONENT_CANCEL_THROW)
 			return FALSE
 		if(!blocked)
-			var/ap = (damage_flag == "blunt") ? BLUNT_DEFAULT_PENFACTOR : I.armor_penetration
+			// thrown_armor_penetration overrides armor_penetration for the thrown
+			// path only — items that should pierce when airborne but not in melee
+			// (tossblades) set it to a non-null value; everyone else inherits the
+			// classic behavior via the null fallback.
+			var/throw_ap = isnull(I.thrown_armor_penetration) ? I.armor_penetration : I.thrown_armor_penetration
+			var/ap = (damage_flag == "blunt") ? BLUNT_DEFAULT_PENFACTOR : throw_ap
 			var/armor = run_armor_check(zone, damage_flag, "", "", armor_penetration = ap, damage = I.throwforce, used_weapon = I)
 			next_attack_msg.Cut()
 			var/nodmg = FALSE
