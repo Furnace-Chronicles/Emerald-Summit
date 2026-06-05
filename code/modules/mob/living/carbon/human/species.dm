@@ -1794,10 +1794,15 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		H.next_attack_msg.Cut()
 		if(!apply_damage(Iforce * weakness, I.damtype, def_zone, armor_block, H))
 			nodmg = TRUE
-			H.next_attack_msg += " <span class='warning'>Armor stops the damage.</span>"
+			H.next_attack_msg += " <span class='warning'>The armor yet remains...</span>"
 			if(I)
 				I.take_damage(1, BRUTE, I.d_type)
 				SEND_SIGNAL(I, COMSIG_ITEM_ATTACKBY_BLOCKED, H, user, I.damtype, def_zone) // attack was blocked by armor or other variables
+				//Blunt chipping, no matter what. Assuming it has damage. This is done after armour damage.
+				if(user.used_intent.blunt_chipping)//We won't check for blunt. Just that it's able. For funny reasons.
+					var/blunt_chip_block = H.run_armor_check(selzone, "blunt", armor_penetration = 80)
+					H.apply_damage(Iforce * user.used_intent.blunt_chip_strength, BRUTE, def_zone, blunt_chip_block)
+					H.next_attack_msg += " <span class='warning'>and yet the force punches through!</span>"
 		if(!nodmg)
 			if(I)
 				SEND_SIGNAL(I, COMSIG_ITEM_ATTACKBY_SUCCESS, H, user, Iforce * weakness, I.damtype, def_zone) // attack was not blocked by armor or other variables

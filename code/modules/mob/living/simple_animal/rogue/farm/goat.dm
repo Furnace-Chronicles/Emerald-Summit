@@ -42,15 +42,14 @@
 
 
 
-/mob/living/simple_animal/hostile/retaliate/rogue/goat/Life()
-	..()
-	if(stat == CONSCIOUS)
-		if(!pulledby)
-			for(var/direction in shuffle(list(1,2,4,8,5,6,9,10)))
-				var/step = get_step(src, direction)
-				if(step)
-					if(locate(/obj/structure/vine) in step || locate(/obj/structure/glowshroom) in step)
-						Move(step, get_dir(src, step))
+/mob/living/simple_animal/hostile/retaliate/rogue/goat/handle_automated_movement()
+	if(stat == CONSCIOUS && !pulledby && !stop_automated_movement && wander && !doing)
+		for(var/direction in shuffle(list(1,2,4,8,5,6,9,10)))
+			var/step = get_step(src, direction)
+			if(step && (locate(/obj/structure/vine) in step || locate(/obj/structure/glowshroom) in step))
+				Move(step, get_dir(src, step))
+				return TRUE
+	return ..()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goat
 	icon = 'icons/roguetown/mob/monster/gote.dmi'

@@ -34,6 +34,9 @@
 	penfactor = BLUNT_DEFAULT_PENFACTOR
 	icon_state = "instrike"
 	item_d_type = "blunt"
+	//We want chipping, m'lord.
+	blunt_chipping = TRUE
+	blunt_chip_strength = BLUNT_CHIP_WEAK
 
 /datum/intent/flail/strike/matthiosflail
 	reach = 2
@@ -49,9 +52,14 @@
 	reach = 2
 	icon_state = "instrike"
 	item_d_type = "blunt"
+	//We want chipping, m'lord.
+	blunt_chipping = TRUE
+	blunt_chip_strength = BLUNT_CHIP_WEAK
 
 /datum/intent/flail/strike/smash
 	name = "smash"
+	//Flail smash mirrors RW's mace-inheriting smash: stronger chip than the strike.
+	blunt_chip_strength = BLUNT_CHIP_STRONG
 	chargetime = 5
 	chargedrain = 2
 	no_early_release = TRUE
@@ -142,6 +150,17 @@
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 0,\
+		added_int = 50,\
+		added_def = 1,\
+	)
+
+/obj/item/rogueweapon/flail/sflail/psyflail/preblessed/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
 		silver_type = SILVER_PSYDONIAN,\
 		added_force = 0,\
 		added_blade_int = 0,\

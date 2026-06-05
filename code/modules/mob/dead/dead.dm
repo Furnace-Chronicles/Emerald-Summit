@@ -53,11 +53,29 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 	if(!client)
 		return
 
+	// Once the round has ended (post-round / end-of-round screen), stop refreshing
+	// or reopening the lobby entirely — nothing here should fire anymore.
+	if(SSticker.current_state >= GAME_STATE_FINISHED)
+		return
+
 	if(client.is_new_player())
 		return
 
+	// TGUI users have a live lobby panel inside the character setup window
+	// (built by /datum/preferences_menu/build_lobby_data) — suppress the
+	// classic browser popup so the two countdowns don't compete. The
+	// winexists() guard is critical: without it, browse(null, ...) fires
+	// every 2s even when the window doesn't exist, and BYOND treats each
+	// browse call as a window-content event that briefly drops
+	// client.mouse_pointer_icon to the OS default — the visible flicker.
+	if(client.prefs?.tgui_pref)
+		if(winexists(src, "lobby_window"))
+			src << browse(null, "window=lobby_window")
+		return
+
 	if(SSticker.HasRoundStarted())
-		src << browse(null, "window=lobby_window")
+		if(winexists(src, "lobby_window"))
+			src << browse(null, "window=lobby_window")
 		return
 
 	var/list/dat = list("<center>")
