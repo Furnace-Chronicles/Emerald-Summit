@@ -2688,7 +2688,6 @@
 #include "modular_azurepeak\code\modules\clothing\rogueclothes\cloaks.dm"
 #include "modular_azurepeak\code\modules\clothing\rogueclothes\hats.dm"
 #include "modular_azurepeak\code\modules\clothing\weeping_psicross.dm"
-#include "modular_azurepeak\code\modules\jobs\job_types\roguetown\vagabond\beggar.dm"
 #include "modular_azurepeak\code\modules\jobs\job_types\roguetown\vagabond\courier.dm"
 #include "modular_azurepeak\code\modules\jobs\job_types\roguetown\vagabond\destitute_scholar.dm"
 #include "modular_azurepeak\code\modules\jobs\job_types\roguetown\vagabond\excommunicado.dm"
