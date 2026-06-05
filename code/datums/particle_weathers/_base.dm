@@ -383,3 +383,22 @@
 	message_admins("[key_name_admin(usr)] started weather of type [weather_type].")
 	log_admin("[key_name(usr)] started weather of type [weather_type].")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Run Custom Particle Weather")
+
+/client/proc/stop_particle_weather()
+	set category = "-GameMaster-"
+	set name = "Weather - Stop"
+	set desc = "Ends the currently running particle weather"
+
+	if(!holder)
+		return
+
+	if(!SSParticleWeather.runningWeather)
+		to_chat(usr, span_warning("There is no weather currently running."))
+		return
+
+	GLOB.forecast = null //prevent the next tod tick from immediately respawning it
+	SSParticleWeather.runningWeather.end()
+
+	message_admins("[key_name_admin(usr)] stopped the running weather.")
+	log_admin("[key_name(usr)] stopped the running weather.")
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "Stop Particle Weather")

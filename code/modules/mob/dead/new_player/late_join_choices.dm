@@ -109,6 +109,10 @@ GLOBAL_LIST_EMPTY(open_late_join_choices)
 			var/datum/job/job_datum = SSjob.name_occupations[job]
 			if(!job_datum)
 				continue
+			// Skip slotless roles (e.g. migrant/wanderer-wave-only jobs like Pilgrim) unless they're
+			// explicitly flagged to always appear on the late-join list.
+			if(job_datum.total_positions <= 0 && !job_datum.always_show_on_latechoices)
+				continue
 			var/used_name = job_datum.title
 			if(np.client?.prefs?.pronouns == SHE_HER && job_datum.f_title)
 				used_name = job_datum.f_title
