@@ -1,6 +1,6 @@
 /datum/advclass/gnoll/knight
 	name = "Gnoll Knight"
-	maximum_possible_slots = 2
+	maximum_possible_slots = 1
 	tutorial = "You were forged in the fires of the volcano, burn marks have long since healed, but the armor hammered against your muscle isn't so fleeting."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = list(/datum/species/gnoll)
@@ -22,6 +22,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/tracking = SKILL_LEVEL_LEGENDARY,
+		/datum/skill/misc/medicine = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE
 	)
 	cmode_music = 'sound/music/combat_graggar.ogg'
@@ -37,4 +38,4 @@
 	icon_state = "knight"
 	max_integrity = 800
 	armor = ARMOR_GNOLL_STRONG
-	repair_time = 32 SECONDS
+	// Inherits the 5-minute repair_time from the gnoll_armor base.

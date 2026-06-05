@@ -58,8 +58,10 @@
 		TRAIT_SILVER_BLESSED,
 		TRAIT_INQUISITION,
 		TRAIT_PERFECT_TRACKER,
+		TRAIT_SLEUTH,
 		TRAIT_PURITAN,
-		TRAIT_OUTLANDER
+		TRAIT_OUTLANDER,
+		TRAIT_FUSILIER,
 		)
 
 	subclass_stats = list(
@@ -80,11 +82,13 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/firearms = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/magic/holy =SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/puritan/inspector/pre_equip(mob/living/carbon/human/H)
@@ -101,7 +105,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	backr =  /obj/item/storage/backpack/rogue/satchel/otavan
-	beltr = /obj/item/gun/ballistic/firearm/arquebus_pistol
+	beltr = /obj/item/gun/ballistic/firearm/arquebus_pistol/inquisitor
 	head = /obj/item/clothing/head/roguetown/inqhat
 	mask = /obj/item/clothing/mask/rogue/spectacles/inq/spawnpair
 	gloves = /obj/item/clothing/gloves/roguetown/otavan/psygloves
@@ -194,6 +198,12 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/tracking = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN, //I'd make these expert like knight if not for the juiced stat lineup this guy has.
+		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/magic/holy =SKILL_LEVEL_JOURNEYMAN,
 	)
 
 /datum/outfit/job/puritan/ordinator/pre_equip(mob/living/carbon/human/H)
@@ -201,7 +211,7 @@
 	has_loadout = TRUE
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles.
+	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2) //Capped to T1 miracles.
 	H.verbs |= /mob/living/carbon/human/proc/faith_test
 	H.verbs |= /mob/living/carbon/human/proc/torture_victim
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq

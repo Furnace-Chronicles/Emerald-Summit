@@ -65,7 +65,7 @@
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles. ENDURE.
+	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2) //Capped to T1 miracles. ENDURE.
 
 /datum/outfit/job/psydoniantemplar/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
@@ -85,22 +85,22 @@
 	var/weapon_choice = input(H,"Choose your PSYDONIAN weapon.", "TAKE UP PSYDON'S ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Sword")
-			H.put_in_hands(new /obj/item/rogueweapon/sword/long/psysword(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/sword/long/psysword/preblessed(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 			H.put_in_hands(new /obj/item/rogueweapon/scabbard/sword(H), TRUE)
 		if("Axe")
-			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/psyaxe(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/psyaxe/preblessed(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
 		if("Whip")
-			H.put_in_hands(new /obj/item/rogueweapon/whip/psywhip_lesser(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/whip/psywhip_lesser/preblessed(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
 		if("Flail")
-			H.put_in_hands(new /obj/item/rogueweapon/flail/sflail/psyflail(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/flail/sflail/psyflail/preblessed(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
 		if("Mace")
-			H.put_in_hands(new /obj/item/rogueweapon/mace/goden/psymace(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/mace/goden/psymace/preblessed(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 		if("Spear")
-			H.put_in_hands(new /obj/item/rogueweapon/spear/psyspear(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/spear/psyspear/preblessed(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 

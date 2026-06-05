@@ -1,6 +1,13 @@
 SUBSYSTEM_DEF(lobbymenu)
 	name = "Lobbyrefresh"
-	wait = 20
+	// 5s cadence (was 2s). Each fire calls browse() to replace the HTML of
+	// every classic-UI player's lobby_window, and BYOND drops the custom
+	// cursor for a frame during that replacement — visible as a 2s-cadence
+	// cursor flicker. Slowing it 2.5× trades countdown smoothness for far
+	// less flicker; the ready-roster doesn't usually change that fast anyway.
+	// TGUI users no longer trigger any browse work here at all (see
+	// /mob/dead/new_player/proc/lobby_refresh's winexists() guard).
+	wait = 50
 	priority = 100
 	flags = SS_NO_INIT
 //	runlevels = RUNLEVEL_SETUP | RUNLEVEL_LOBBY | RUNLEVEL_GAME

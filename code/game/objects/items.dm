@@ -79,6 +79,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/siemens_coefficient = 1 // for electrical admittance/conductance (electrocution checks and shit)
 	var/slowdown = 0 // How much clothing is slowing you down. Negative values speeds you up
 	var/armor_penetration = 0 //percentage of armour effectiveness to remove
+	/// Thrown-only AP override. When non-null, the thrown-impact armor check uses
+	/// this instead of armor_penetration — lets weapons like tossblades keep
+	/// piercing power in the air without bypassing armor on melee thrusts.
+	var/thrown_armor_penetration = null
 	var/list/allowed = null //suit storage stuff.
 	var/equip_delay_self = 1 //In deciseconds, how long an item takes to equip; counts only for normal clothing slots, not pockets etc.
 	var/unequip_delay_self = 1 //In deciseconds, how long an item takes to unequip; counts only for normal clothing slots, not pockets etc.
@@ -595,6 +599,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			inspec += "[percent]% ([floor(eff_currint)])"
 			if(force >= 5) // Durability is rather obvious for non-weapons
 				inspec += " <span class='info'><a href='?src=[REF(src)];explaindurability=1'>{?}</a></span>"
+			var/extra_durability_info = get_inspect_durability_extra()
+			if(extra_durability_info)
+				inspec += extra_durability_info
 		if(istype(src, /obj/item/clothing))	//awful
 			var/obj/item/clothing/C = src
 			var/str
@@ -1169,6 +1176,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/on_grind()
 
 /obj/item/proc/on_juice()
+
+/// Hook for the appraisal tooltip — appended right after the DURABILITY line.
+/// Return a string (with leading "\n") to add a row, or null to skip.
+/obj/item/proc/get_inspect_durability_extra()
+	return null
 
 /obj/item/proc/get_force_string(var/force)
 	switch(force)

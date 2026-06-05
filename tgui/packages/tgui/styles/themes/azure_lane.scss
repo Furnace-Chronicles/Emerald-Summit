@@ -66,6 +66,14 @@
   --input-border-color: #3d6b99;
   --input-border-color-focus: #5a8cbf;
 
+  // Dropdown — match the blue Button palette so inline pickers blend in.
+  --dropdown-menu-background: #0a1320;
+  --dropdown-menu-color: #c8d4e0;
+  --dropdown-menu-border: 1px solid #4a7ba7;
+  --dropdown-entry-background-selected: #4a7ba7;
+  --dropdown-entry-background-hover: #2d4a6f;
+  --dropdown-entry-background-active: #4a7ba7;
+
   .Window__contentPadding {
     margin-left: 1rem;
     margin-right: 1rem;

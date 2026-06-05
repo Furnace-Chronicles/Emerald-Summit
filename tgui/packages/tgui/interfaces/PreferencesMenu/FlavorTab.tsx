@@ -1,0 +1,133 @@
+import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
+
+import { useBackend } from '../../backend';
+
+type FlavorData = {
+  agevetted: 0 | 1;
+  is_legacy: 0 | 1;
+  min_flavortext: number;
+  min_ooc_notes: number;
+  flavortext_len: number;
+  ooc_notes_len: number;
+  rumour_len: number;
+  gossip_len: number;
+  ooc_extra_set: 0 | 1;
+  headshot_link?: string;
+  nsfw_headshot_link?: string;
+};
+
+type Data = {
+  flavor: FlavorData;
+};
+
+const lenStatus = (current: number, minimum: number) => {
+  if (current === 0) {
+    return { text: '(unset)', color: 'bad' as const };
+  }
+  if (current < minimum) {
+    return { text: `${current} / ${minimum}`, color: 'bad' as const };
+  }
+  return { text: `${current} chars`, color: 'good' as const };
+};
+
+export const FlavorTab = (props) => {
+  const { act, data } = useBackend<Data>();
+  const flavor = data.flavor;
+
+  if (!flavor) {
+    return <Box color="label">Loading flavor data…</Box>;
+  }
+
+  const ftStatus = lenStatus(flavor.flavortext_len, flavor.min_flavortext);
+  const oocStatus = lenStatus(flavor.ooc_notes_len, flavor.min_ooc_notes);
+
+  return (
+    <Stack vertical>
+      <Stack.Item>
+        <Section
+          title="Profile"
+          buttons={
+            <Button
+              icon="eye"
+              onClick={() => act('preview_examine')}
+              tooltip="Open the in-character profile preview window"
+            >
+              Preview Examine
+            </Button>
+          }
+        >
+          {!!flavor.is_legacy && (
+            <Box mb={1} italic color="label">
+              This profile is a LEGACY slot from before the Flavortext/OOC
+              changes — editing any field will modernize it.
+            </Box>
+          )}
+          <LabeledList>
+            <LabeledList.Item label="Flavortext">
+              <Button onClick={() => act('edit_flavortext')}>Edit</Button>
+              <Box inline ml={1} color={ftStatus.color}>
+                {ftStatus.text}
+              </Box>
+            </LabeledList.Item>
+            <LabeledList.Item label="OOC Notes">
+              <Button onClick={() => act('edit_ooc_notes')}>Edit</Button>
+              <Box inline ml={1} color={oocStatus.color}>
+                {oocStatus.text}
+              </Box>
+            </LabeledList.Item>
+            <LabeledList.Item label="Rumours">
+              <Button onClick={() => act('edit_rumour')}>Edit</Button>
+              <Box inline ml={1} color="label">
+                {flavor.rumour_len === 0
+                  ? '(unset)'
+                  : `${flavor.rumour_len} / 400`}
+              </Box>
+            </LabeledList.Item>
+            <LabeledList.Item label="Noble Gossip">
+              <Button onClick={() => act('edit_gossip')}>Edit</Button>
+              <Box inline ml={1} color="label">
+                {flavor.gossip_len === 0
+                  ? '(unset)'
+                  : `${flavor.gossip_len} / 400`}
+              </Box>
+            </LabeledList.Item>
+          </LabeledList>
+        </Section>
+      </Stack.Item>
+
+      <Stack.Item>
+        <Section title="Images & Age-Vetted Extras">
+          {!flavor.agevetted ? (
+            <Box color="bad">
+              You must be Age Vetted to use Headshot, NSFW Bodyshot, and OOC
+              Extra features. Open a ticket in Discord to verify.
+            </Box>
+          ) : (
+            <LabeledList>
+              <LabeledList.Item label="Headshot">
+                <Button onClick={() => act('edit_headshot')}>Edit URL</Button>
+                <Box inline ml={1} color="label">
+                  {flavor.headshot_link ? '(set)' : '(unset)'}
+                </Box>
+              </LabeledList.Item>
+              <LabeledList.Item label="NSFW Bodyshot">
+                <Button onClick={() => act('edit_nsfw_headshot')}>
+                  Edit URL
+                </Button>
+                <Box inline ml={1} color="label">
+                  {flavor.nsfw_headshot_link ? '(set)' : '(unset)'}
+                </Box>
+              </LabeledList.Item>
+              <LabeledList.Item label="OOC Extra">
+                <Button onClick={() => act('edit_ooc_extra')}>Edit URL</Button>
+                <Box inline ml={1} color="label">
+                  {flavor.ooc_extra_set ? '(set)' : '(unset)'}
+                </Box>
+              </LabeledList.Item>
+            </LabeledList>
+          )}
+        </Section>
+      </Stack.Item>
+    </Stack>
+  );
+};

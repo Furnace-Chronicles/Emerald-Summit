@@ -948,8 +948,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 	GLOB.mob_living_list -= src
 	GLOB.idle_mob_list |= src
-	toggle_ai(AI_OFF)
-	return FALSE
+	toggle_ai(AI_IDLE)
+	return TRUE
 
 /mob/living/simple_animal/adjustHealth(amount, updating_health = TRUE, forced = FALSE)
 	. = ..()
