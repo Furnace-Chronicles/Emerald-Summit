@@ -65,7 +65,7 @@
 /datum/looping_sound/clockloop
 	mid_sounds = list('sound/misc/clockloop.ogg')
 	mid_length = 20
-	volume = 10
+	volume = 5
 	falloff = 4
 	ignore_walls = FALSE
 

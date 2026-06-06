@@ -48,6 +48,56 @@
 	stressadd = -1
 	desc = list(span_blue("A cooling feeling in my throat."))
 
+/datum/stressevent/blackberrysmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A sweet-tart sensation on the tongue."))
+
+/datum/stressevent/applesmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A feeling of sourness and coolness on the tongue."))
+
+/datum/stressevent/strawberrysmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling of sourness and sweetness on the tongue."))
+
+/datum/stressevent/carrotsmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling of very carrot on the tongue."))
+
+/datum/stressevent/limesmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling of sweet and refreshing on the tongue."))
+
+/datum/stressevent/salviasmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling spicy, earthy and bitter on the tongue."))
+
+/datum/stressevent/valerianasmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling bitter-spicy and tart on the tongue."))
+
+/datum/stressevent/zweed
+	timer = 5 MINUTES
+	stressadd = -2
+	desc = list(span_blue("A pleasant bitterness that burns and scratches the throat. Nicotine and the taste of oak bark leave a pleasant aftertaste in the mouth."))
+
+/datum/stressevent/jacksberriessmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant slight sourness and sweetness on the tongue."))
+
+/datum/stressevent/abysssmoke
+	timer = 1 MINUTES
+	stressadd = 0
+	desc = list(span_blue("A slight sourness and sweetness... and salty on the tongue? An unpleasant chill runs down my spine. I can't shake the feeling of someone staring from behind me..."))
+
 /datum/stressevent/weed
 	timer = 5 MINUTES
 	stressadd = -4
