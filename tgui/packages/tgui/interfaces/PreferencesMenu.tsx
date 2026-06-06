@@ -374,11 +374,10 @@ export const PreferencesMenu = (props) => {
     act('set_tab', { tab: nextTab });
   };
 
-  // Hide the title-bar close (X) button during pregame and any pre-round state.
-  // Players can only dismiss the window once the round is actually in progress —
-  // a latejoiner can close it then if they want, but otherwise this is the only
-  // lobby UI so closing it would strand them with no way back in.
-  const canClose = !!header?.is_round_in_progress;
+  // The title-bar close (X) button is always available — the window must never be
+  // un-closeable. Latejoiners who close it mid-round are caught by the server-side
+  // force-reopen (preferences_menu.dm ui_close), so they can't strand themselves.
+  const canClose = true;
 
   return (
     <Window width={1400} height={820} canClose={canClose}>
