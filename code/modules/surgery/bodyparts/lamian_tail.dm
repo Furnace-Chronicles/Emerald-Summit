@@ -37,8 +37,23 @@
 	var/tail_color = null
 	var/tail_markings_color = "#d4c5c5"
 
+	// Natural leg/feet armor granted to the owner while this lower body is attached (harpy-talon
+	// style — see /obj/item/clothing/suit/roguetown/armor/skin_armor/lamian_legs). It's tied to the
+	// bodypart, so amputating the tail for real legs strips the armor. null = no natural armor.
+	var/leg_armor_type = /obj/item/clothing/suit/roguetown/armor/skin_armor/lamian_legs
+
+	// Alpha clip-mask applied to worn clothing (pants/shirt/suit/cloak) so garments don't drape over
+	// the taur lower body — ported from AP's taur clip_mask. Built in New() from the state below; if
+	// the state is missing from the dmi, clip_mask stays null and clothing just renders un-clipped.
+	var/clip_mask_icon = 'icons/mob/species/taurs.dmi'
+	var/clip_mask_state = "taur_clip_mask_def"
+	var/tmp/icon/clip_mask
+
 /obj/item/bodypart/lamian_tail/New()
 	. = ..()
+	// Build the clothing clip-mask if the state exists; otherwise leave it null (no clip).
+	if(clip_mask_state && (clip_mask_state in icon_states(clip_mask_icon)))
+		clip_mask = icon(clip_mask_icon, clip_mask_state)
 
 /obj/item/bodypart/lamian_tail/generate_limb_cache_key(dropped, hideaux)
 	var/key = ..()
@@ -118,6 +133,18 @@
 /obj/item/bodypart/lamian_tail/getonmobprop(tag)
 	return null
 
+// Grant the natural leg/feet armor when this lower body is attached (harpy-talon style). Removal
+// happens in /obj/item/bodypart/lamian_tail/drop_limb, so the armor follows the tail — amputating it
+// and attaching real legs strips the armor instead of leaving it on the new legs.
+/obj/item/bodypart/lamian_tail/attach_limb(mob/living/carbon/C, special)
+	. = ..()
+	if(leg_armor_type && ishuman(C))
+		var/mob/living/carbon/human/H = C
+		if(!istype(H.skin_armor, leg_armor_type))
+			if(H.skin_armor)
+				qdel(H.skin_armor)
+			H.skin_armor = new leg_armor_type(H)
+
 GLOBAL_LIST_INIT(tail_types, subtypesof(/obj/item/bodypart/lamian_tail))
 
 /obj/item/bodypart/lamian_tail/lamian_tail
@@ -166,3 +193,4 @@ GLOBAL_LIST_INIT(tail_types, subtypesof(/obj/item/bodypart/lamian_tail))
 	tail_markings_tip_icon_state = "spider_markings_2"
 
 	has_tail_color = TRUE
+	leg_armor_type = /obj/item/clothing/suit/roguetown/armor/skin_armor/lamian_legs/drider

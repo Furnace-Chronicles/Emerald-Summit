@@ -167,6 +167,8 @@
 	..()
 	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 	C.Lamiaze()
+	// Natural leg/feet armor is granted by the lamian_tail bodypart itself (attach_limb),
+	// so it follows the lower body rather than the species. See lamian_tail.dm.
 
 /datum/species/lamia/on_species_loss(mob/living/carbon/C) // one of those auto-appends a dot at the end of player speech
 	. = ..()
@@ -285,3 +287,34 @@
 
 /datum/species/lamia/spec_fully_heal(mob/living/carbon/human/H)
 	H.Lamiaze()
+
+// Natural leg+feet armor for the lamia/drider lower body — the same mechanic as the harpy's talon
+// skin (skin_armor slot, invisible icon_state, NODROP). Covers the leg/foot zones the tail occupies.
+// Equipped/removed in the species on_species_gain/on_species_loss. Drider subclasses this in drider.dm.
+/obj/item/clothing/suit/roguetown/armor/skin_armor/lamian_legs
+	slot_flags = null
+	name = "scaled tail"
+	desc = ""
+	icon_state = null
+	body_parts_covered = FEET|LEGS
+	body_parts_inherent = FEET|LEGS
+	armor = list("blunt" = 90, "slash" = 90, "stab" = 50, "piercing" = 20, "fire" = 0, "acid" = 0)
+	prevent_crits = list(BCLASS_CUT, BCLASS_CHOP, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)
+	blocksound = SOFTHIT
+	blade_dulling = DULLING_BASHCHOP
+	sewrepair = FALSE
+	max_integrity = 75
+	resistance_flags = FIRE_PROOF
+
+/obj/item/clothing/suit/roguetown/armor/skin_armor/lamian_legs/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/suit/roguetown/armor/skin_armor/lamian_legs/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
+
+/obj/item/clothing/suit/roguetown/armor/skin_armor/lamian_legs/obj_destruction()
+	visible_message("The scaled hide is torn!", span_bloody("<b>THE SCALES ON MY TAIL ARE TORN!!</b>"))

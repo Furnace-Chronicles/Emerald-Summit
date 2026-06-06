@@ -118,6 +118,8 @@
 	..()
 	C.Driderize()
 	C.adjust_skillrank(/datum/skill/misc/climbing, 5, TRUE) // scuttling across walls and webs
+	// Natural chitin armor is granted by the drider legs bodypart itself (attach_limb), so it
+	// follows the lower body rather than the species. See lamian_tail.dm.
 
 /datum/species/drider/on_species_loss(mob/living/carbon/C)
 	. = ..()
@@ -125,3 +127,10 @@
 
 /datum/species/drider/spec_fully_heal(mob/living/carbon/human/H)
 	H.Driderize()
+
+// Drider chitin — natural armor on the spider legs (see lamian_legs base in lamia.dm / harpy talon skin).
+/obj/item/clothing/suit/roguetown/armor/skin_armor/lamian_legs/drider
+	name = "chitinous legs"
+
+/obj/item/clothing/suit/roguetown/armor/skin_armor/lamian_legs/drider/obj_destruction()
+	visible_message("The chitin cracks!", span_bloody("<b>THE CHITIN ON MY LEGS CRACKS!!</b>"))
