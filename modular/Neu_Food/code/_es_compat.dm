@@ -186,3 +186,150 @@
  * /obj/item base so any item (e.g. the aged-cheese bait in dairy.dm) can set it without erroring. */
 /obj/item
 	var/list/fishingMods = null
+
+/* ====================================================================================
+ * AP PR #6328 ("Felina") — the three new systems ES's foodz merge didn't yet have.
+ * Ported isolated here. NEW produce.dmi icon_states required (DMI, handled separately):
+ *   pepperseed, pepper, lux_impure_combo, lux_slab, lux_powder
+ * ==================================================================================== */
+
+/* ---------------- Ambrosia cider (AP cider.dm + rt_alcohol_reagents.dm) ----------------
+ * Ferment a gold apple (ambrosia) + sugar into a ludicrously potent, restorative cider. */
+/datum/brewing_recipe/cider/ambrosia
+	name = "Cider, Ambrosia"
+	category = "Fruit"
+	bottle_name = "ambrosia"
+	bottle_desc = "A bottle of cider, faintly glowing with a golden hue. It holds the distilled essence of a divine fruit, made ludicrously intense for even the heartiest drinkers."
+	reagent_to_brew = /datum/reagent/consumable/ethanol/cider/ambrosia
+	needed_reagents = list(/datum/reagent/water = 198)
+	needed_crops = list(/obj/item/reagent_containers/food/snacks/grown/apple/gold = 1, /obj/item/reagent_containers/food/snacks/sugar = 5)
+	brewed_amount = 2
+	brew_time = 15 MINUTES
+	sell_value = 200
+
+/datum/reagent/consumable/ethanol/cider/ambrosia
+	name = "Ambrosia"
+	boozepwr = 100 //Strong Lifeblood, in essence, that'll also leave you completely sloshed. In jubilation, of course!
+	taste_description = "divine bliss with hints of appled crispness, followed by what feels like a greatmaul to the forehead"
+	color = "#FFD700"
+	quality = DRINK_FANTASTIC
+
+/datum/reagent/consumable/ethanol/cider/ambrosia/on_mob_life(mob/living/carbon/M)
+	if(ishuman(M))
+		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+			M.blood_volume = min(M.blood_volume+20, BLOOD_VOLUME_NORMAL)
+	var/list/wCount = M.get_wounds()
+	if(wCount.len > 0)
+		M.heal_wounds(4)
+	if(volume > 0.99)
+		M.adjustBruteLoss(-5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOxyLoss(-5, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_EYES, -5 * REAGENTS_EFFECT_MULTIPLIER)
+	..()
+
+/* ---------------- Pepper production chain (AP produce.dm + seeds.dm + houseware.dm) ----------------
+ * Roast a poison jackberry -> pepperberries -> mill into pepper -> craft a peppermill.
+ * (AP roasts the seed; ES seeds aren't food/cookable, so the cook hook lives on the berry, which
+ *  also fits AP's own flavor that poison jackberries ARE peppercorns.) */
+/obj/item/reagent_containers/food/snacks/grown/pepperseed
+	name = "pepperberries"
+	desc = "A relative to the Azurian jackberry, stripped free of its fruity skin. Roasting it seems to've dulled its humor-imbalancing \
+	properties, though it'll still need to be milled down before it can be used for culinary matters."
+	icon = 'icons/roguetown/items/produce.dmi'
+	icon_state = "pepperseed"
+	foodtype = GRAIN
+	tastes = list("spiciness" = 1, "slightly less bitterness" = 1)
+	grind_results = list(/datum/reagent/consumable/blackpepper = 1)
+	mill_result = /obj/item/reagent_containers/food/snacks/pepper
+
+/obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison
+	cooked_type = /obj/item/reagent_containers/food/snacks/grown/pepperseed
+
+/datum/crafting_recipe/roguetown/survival/peppermill
+	name = "peppermill"
+	category = "Houseware"
+	result = list(/obj/item/reagent_containers/peppermill)
+	reqs = list(/obj/item/grown/log/tree/small = 1, /obj/item/natural/whetstone = 1, /obj/item/reagent_containers/food/snacks/pepper = 5) //Currently unrefillable, so see this as an equal exchange.
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 4
+
+/* ---------------- Skysugar (AP produce.dm + alchemy.dm) ----------------
+ * Black-market valuable: transmute raisins + lux + starsugar into the panacea, deep-fry it into a
+ * skysugar slab, then break the slab into skysugar powder at an alchemy bench. (AP's "lux_impure"
+ * maps to ES's single /obj/item/reagent_containers/lux.) */
+
+// starsugar shipped with no taste_description (base default is ""), so anything mostly-starsugar — the
+// whole skysugar line — tasted of nothing ("I can taste ."). Give it a flavour. Re-opened here to keep
+// the port isolated; the base starsugar drug just gains a taste.
+/datum/reagent/starsugar
+	taste_description = "a crackling, sugary rush"
+
+/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry/skysugarbase
+	name = "panacea of skysugar"
+	desc = "A combination of perplexingly diverse ingredients, that - when specifically boiled in fat - merges together to create an \
+	alchemically pure substance. South of Azuria's border, it's known as 'skysugar'; a Pestran heresy, rumored to've originally been \
+	brewed to cure that which even a quicksilver poultice couldn't mend. Despite its fruity aroma, it probably shouldn't be nibbled at. \
+	</br>It needs to be deep-fried in a pot of boiling fat to congeal into a skysugar slab."
+	icon = 'icons/roguetown/items/produce.dmi'
+	icon_state = "lux_impure_combo"
+	faretype = FARE_IMPOVERISHED
+	eat_effect = /datum/status_effect/debuff/uncookedfood
+	tastes = list("a horrifically bad idea" = 1, "slightly fruity aftertaste" = 1)
+	bitesize = 2
+	list_reagents = list(/datum/reagent/toxin/killersice = 1, /datum/reagent/starsugar = 8, /datum/reagent/water = 7, /datum/reagent/consumable/nutriment = 3) //Feeling a little.. under the weather?
+	deep_fried_type = /obj/item/reagent_containers/food/snacks/grown/skysugarslab
+	sellprice = 23
+
+/obj/item/reagent_containers/food/snacks/grown/skysugarslab
+	name = "skysugar slab"
+	desc = "A crystalline brick that radiates with an almost-ethereal hue, yet to be broken up at an alchemical lab. They call \
+	it 'luchtblauw' in Old Azurian; alchemically purified starsugar, to a ninth-of-a-hundreth dram. Born of a Pestran heresy, this \
+	mysterious substance is both ludicrously potent and condemned by the Church. Even so, it's worth its weight in gold; and in the \
+	hands of a yeoman willing to 'break bad', it can be sold to an amoral Merchant or Bathmatron for a hefty sum."
+	icon = 'icons/roguetown/items/produce.dmi'
+	icon_state = "lux_slab"
+	gender = PLURAL
+	bitesize = 7
+	faretype = FARE_IMPOVERISHED //Have you ever tried eating a solid chunk of soul-meth, before?
+	tastes = list("a slightly less bad idea" = 1, "shards of fruit-tinged glass" = 1)
+	list_reagents = list(/datum/reagent/starsugar = 16, /datum/reagent/water = 6, /datum/reagent/consumable/nutriment = 6)
+	grind_results = list(/datum/reagent/starsugar = 98) //Add a custom reagent if you wish. I think that'd be pretty cool.
+	sellprice = 137
+	drop_sound = 'sound/foley/dropsound/glass_drop.ogg'
+
+/obj/item/reagent_containers/powder/starsugar/skysugar
+	name = "skysugar"
+	desc = "A crystalline powder that radiates with an almost-ethereal hue, and feels deathly cold to the touch. They call \
+	it 'luchtblauw' in Old Azurian; alchemically purified starsugar, to a ninth-of-a-hundreth dram. Born of a Pestran heresy, this \
+	mysterious substance is both ludicrously potent and condemned by the Church. Even so, it's worth its weight in gold; and in the \
+	hands of a yeoman willing to 'break bad', it can be sold to an amoral Merchant or Bathmatron for a hefty sum."
+	icon = 'icons/roguetown/items/produce.dmi'
+	icon_state = "lux_powder"
+	item_state = "lux_powder"
+	possible_transfer_amounts = list()
+	volume = 38
+	list_reagents = list(/datum/reagent/starsugar = 38, /datum/reagent/consumable/nutriment = 38) //Yeah, psyence!
+	grind_results = list(/datum/reagent/starsugar = 38)
+	sellprice = 123 //Tight, tight, tight! Blue, red, green; whatever, man, just bring me more!
+	drop_sound = 'sound/foley/dropsound/glass_drop.ogg'
+
+/datum/crafting_recipe/roguetown/alchemy/skysugarbase
+	name = "panacea of skysugar"
+	category = "Transmutation"
+	result = list(/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry/skysugarbase = 1)
+	reqs = list(/obj/item/reagent_containers/food/snacks/rogue/raisins/blackberry = 1, /obj/item/reagent_containers/lux = 1, /obj/item/reagent_containers/powder/starsugar = 1)
+	craftdiff = 5 //Better hope you've been practicing!
+	verbage_simple = "transmute"
+
+/datum/crafting_recipe/roguetown/alchemy/skysugar
+	name = "skysugar slab to skysugar powder (x3)"
+	category = "Transmutation"
+	result = list(/obj/item/reagent_containers/powder/starsugar/skysugar,
+					/obj/item/reagent_containers/powder/starsugar/skysugar,
+					/obj/item/reagent_containers/powder/starsugar/skysugar)
+	reqs = list(/obj/item/reagent_containers/food/snacks/grown/skysugarslab = 1)
+	craftdiff = 1 //Hard part's done. Time to break it up!
+	verbage_simple = "transmute"
