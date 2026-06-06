@@ -502,6 +502,11 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	client.change_view(CONFIG_GET(string/default_view))
 	client?.verbs -= GLOB.ghost_verbs
 	SStgui.on_transfer(src, mind.current) // Transfer NanoUIs.
+	// Clear any Aghost (Toggle Invisibility) state so returning to our body always restores it.
+	// admin_ghost() only resets these when re-entering via Aghost itself, so a normal "Re-enter
+	// Corpse" would otherwise leave the body permanently invisible and non-dense.
+	mind.current.invisibility = initial(mind.current.invisibility)
+	mind.current.density = initial(mind.current.density)
 	mind.current.key = key
 	return TRUE
 

@@ -4,8 +4,23 @@
 	icon_state = "fork_wooden"
 	flags_1 = CONDUCT_1
 	hitsound = 'sound/blank.ogg'
-	force = 0
+	force = 5
+	throwforce = 5
 	w_class = WEIGHT_CLASS_TINY
+	max_blade_int = 40
+	max_integrity = 40
+	wbalance = WBALANCE_SWIFT
+	thrown_bclass = BCLASS_STAB
+	possible_item_intents = list(/datum/intent/use, /datum/intent/dagger/thrust/fork)
+	swingsound = list('sound/combat/wooshes/bladed/wooshsmall (1).ogg','sound/combat/wooshes/bladed/wooshsmall (2).ogg','sound/combat/wooshes/bladed/wooshsmall (3).ogg')
+
+/obj/item/kitchen/fork/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-clicking most foodstuffs with the fork allows you to take a bite from it.")
+	. += span_info("Nobler appetites prefer utensils over simply eating and drinking with one's bare hands.")
+
+/datum/intent/dagger/thrust/fork
+	penfactor = PEN_LIGHT
 
 /obj/item/kitchen/fork/aalloy
 	name = "decrepit fork"
@@ -16,6 +31,10 @@
 	name = "iron fork"
 	icon_state = "fork_iron"
 	sellprice = 6
+
+/obj/item/kitchen/fork/bronze
+	name = "bronze fork"
+	icon_state = "fork_bronze"
 
 /obj/item/kitchen/fork/tin
 	name = "tin fork"
@@ -31,6 +50,7 @@
 	name = "silver fork"
 	icon_state = "fork_silver"
 	sellprice = 24
+	is_lesser_silver = TRUE
 
 /obj/item/kitchen/fork/carved
 	name = "carved fork"

@@ -35,6 +35,12 @@
 
 /datum/reagent/consumable/ethanol/beer/emberwine/on_mob_end_metabolize(mob/living/carbon/human/C)
 	C.sexcon.aphrodisiac -= 1
+	// Clear any leftover freeze when the reagent fully leaves the system —
+	// otherwise an admin-nuked OD that pushes the player into stage 4
+	// addiction locks them into arousal_frozen with no path back unless
+	// they can re-dose.
+	if(C.sexcon.arousal_frozen)
+		C.sexcon.arousal_frozen = FALSE
 	..()
 
 /datum/reagent/consumable/ethanol/beer/emberwine/on_mob_life(mob/living/carbon/human/C)
@@ -105,9 +111,17 @@
 /datum/reagent/consumable/ethanol/beer/emberwine/addiction_act_stage4(mob/living/carbon/human/C)
 	var/datum/sex_controller/S = C.sexcon
 	SEND_SIGNAL(C, COMSIG_ADD_MOOD_EVENT, "[type]_overdose", /datum/mood_event/withdrawal_severe, name) //Not critical because they'll already be getting blueballed.
-	if(!S.arousal_frozen)
-		S.arousal_frozen = TRUE
-	C.sexcon.arousal = 40
+	// Only re-freeze while emberwine is actually present in the bloodstream
+	// — otherwise an admin-nuked player who fully metabolized the dose ends
+	// up perpetually frozen (the cached addiction keeps cycling stage 4
+	// because addiction_permanent = TRUE, with no realistic path to resolve
+	// without an emberwine re-dose).
+	if(C.reagents?.has_reagent(/datum/reagent/consumable/ethanol/beer/emberwine))
+		if(!S.arousal_frozen)
+			S.arousal_frozen = TRUE
+		C.sexcon.arousal = 40
+	else if(S.arousal_frozen)
+		S.arousal_frozen = FALSE
 	if(S.aphrodisiac < 1.5)
 		S.aphrodisiac = 1.5
 	if(prob(10))
