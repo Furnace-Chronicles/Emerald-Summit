@@ -42,6 +42,7 @@ All foods are distributed among various categories. Use common sense.
 	var/bitecount = 0
 	var/trash = null
 	var/slice_path    // for sliceable food. path of the item resulting from the slicing
+	var/slice_name    // optional custom name for slices (ported from Azure-Peak; used by pies)
 	var/slice_bclass = BCLASS_CUT
 	var/slices_num
 	var/slice_batch = TRUE
@@ -75,6 +76,7 @@ All foods are distributed among various categories. Use common sense.
 
 	var/ingredient_size = 1
 	var/eat_effect
+	var/extra_eat_effect //ideally the eat_effect should just be able to work with lists, but for now, this'll do
 	var/rotprocess = FALSE
 	var/become_rot_type = null
 
@@ -331,6 +333,8 @@ All foods are distributed among various categories. Use common sense.
 
 	if(eat_effect && apply_effect)
 		eater.apply_status_effect(eat_effect)
+		if(extra_eat_effect)
+			eater.apply_status_effect(extra_eat_effect)
 	eater.taste(reagents)
 
 	if(!reagents.total_volume)

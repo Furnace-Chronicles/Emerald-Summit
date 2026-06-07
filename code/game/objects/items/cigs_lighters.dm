@@ -170,6 +170,15 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		light()
 	AddComponent(/datum/component/knockoff,90,list(BODY_ZONE_PRECISE_MOUTH),list(SLOT_MOUTH))//90% to knock off when wearing a mask
 
+/obj/item/clothing/mask/cigarette/update_icon_state()
+	if(lit)
+		icon_state = icon_on
+		item_state = icon_on
+	else
+		icon_state = icon_off
+		item_state = icon_off
+	return ..()
+
 /obj/item/clothing/mask/cigarette/Destroy()
 	STOP_PROCESSING(SSobj, src)
 	. = ..()
@@ -214,8 +223,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	// allowing reagents to react after being lit
 	DISABLE_BITFIELD(reagents.flags, NO_REACT)
 	reagents.handle_reactions()
-	icon_state = icon_on
-	item_state = icon_on
+	update_icon()
 	if(flavor_text)
 		var/turf/T = get_turf(src)
 		T.visible_message(flavor_text)
@@ -236,12 +244,11 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	hitsound = null
 	damtype = BRUTE
 	force = 0
-	icon_state = icon_off
-	item_state = icon_off
+	lit = FALSE
 	set_light_on(FALSE)
 	STOP_PROCESSING(SSobj, src)
 	ENABLE_BITFIELD(reagents.flags, NO_REACT)
-	lit = FALSE
+	update_icon()
 	if(ismob(loc))
 		var/mob/living/M = loc
 		to_chat(M, span_notice("My [name] goes out."))
@@ -324,6 +331,14 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/get_temperature()
 	return lit * heat
 
+/obj/item/clothing/mask/cigarette/dropped(mob/user, silent = FALSE)
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/mask/cigarette/equipped(mob/user, slot, initial = FALSE)
+	. = ..()
+	update_icon()
+
 // Rollies.
 
 /obj/item/clothing/mask/cigarette/rollie
@@ -386,6 +401,66 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/rollie/mindbreaker
 	list_reagents = list(/datum/reagent/toxin/mindbreaker = 35, /datum/reagent/toxin/lipolicide = 15)
 
+/obj/item/clothing/mask/cigarette/rollie/blackberry
+	name = "blackberry zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a sweet and refreshing effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/blackberry = 15)
+
+/obj/item/clothing/mask/cigarette/rollie/apple
+	name = "apple zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a cooling effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/apple = 15)
+
+/obj/item/clothing/mask/cigarette/rollie/menthaapple
+	name = "mentha-apple zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a cooling effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/apple = 7, /datum/reagent/drug/mentha = 8)
+
+/obj/item/clothing/mask/cigarette/rollie/strawberry
+	name = "strawberry zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a sweet and refreshing effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/strawberry = 15)
+
+/obj/item/clothing/mask/cigarette/rollie/carrot
+	name = "carrot zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a sweet and refreshing effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/carrot = 15)
+
+/obj/item/clothing/mask/cigarette/rollie/lime
+	name = "lime zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a sweet and refreshing effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/lime = 15)
+
+/obj/item/clothing/mask/cigarette/rollie/salvia
+	name = "salvia zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a spicy, earthy and bitter effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/salvia = 15)
+
+/obj/item/clothing/mask/cigarette/rollie/salviavaleriana
+	name = "salvia-valeriana zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a spicy, earthy and bitter effect, combined with a calming and sleep-inducing one."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/salvia = 5, /datum/reagent/drug/valeriana = 10)
+
+/obj/item/clothing/mask/cigarette/rollie/calendula
+	name = "calendula zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a bitter taste and light healing properties."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/calendula = 15)
+
+/obj/item/clothing/mask/cigarette/rollie/jacksberries
+	name = "jacksberries zig"
+	desc = "Dried westleach and jacksberries carefully wrapped in fine paper. It has a particularly smooth taste with a slight sourness and sweetness effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/jacksberries = 15)
+
+/obj/item/clothing/mask/cigarette/rollie/jacksberriespoison
+	name = "jacksberries zig"
+	desc = "Dried westleach and jacksberries carefully wrapped in fine paper. It has a particularly smooth taste with a slight bitterness, sourness and sweetness effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/jacksberries = 12, /datum/reagent/toxin/berrypoison = 3)
+
+/obj/item/clothing/mask/cigarette/rollie/abyss
+	name = "jacksberries zig"
+	desc = "Dried westleach and jacksberries carefully wrapped in fine paper. It has a particularly smooth taste with a burning and scratching effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/abyss = 15)
+
 /obj/item/cigbutt/roach
 	name = "roach"
 	desc = ""
@@ -401,6 +476,17 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 ////////////
 // CIGARS //
 ////////////
+
+/obj/item/clothing/mask/cigarette/rollie/zigar
+	name = "zigar"
+	desc = "Dried westleach and hypericum carefully wrapped in fine paper. It has a particularly smooth taste with a burning and scratching effect."
+	smoketime = 240
+	icon_state = "stogieoff"
+	icon_on = "stogieon"
+	icon_off = "stogieoff"
+	item_state = "stogieoff"
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/petun = 15)
+
 /obj/item/clothing/mask/cigarette/cigar
 	name = "premium cigar"
 	desc = ""

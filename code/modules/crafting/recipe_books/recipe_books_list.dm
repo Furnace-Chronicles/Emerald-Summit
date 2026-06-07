@@ -86,13 +86,25 @@
  
 /obj/item/recipe_book/cooking
 	name = "The Culinary Codex"
-	desc = "A book full of recipes and tips for cooking. This version looks very incomplete, and only contain brewing recipes. Perhaps it will be filled in later?"
+	desc = "A weighty tome of recipes and kitchen lore, covering brewing, baking, frying, curing, butchery, stews, and far more besides. A well-thumbed companion for any cook worth their salt."
 	icon_state = "book2_0"
 	base_icon_state = "book2"
 
 	types = list(
 		/datum/brewing_recipe,
-		/datum/book_entry/brewing
+		/datum/book_entry/brewing,
+		/datum/book_entry/pies,
+		/datum/book_entry/dairy,
+		/datum/book_entry/deep_frying,
+		/datum/book_entry/dough,
+		/datum/book_entry/stews,
+		/datum/book_entry/fire_cooking,
+		/datum/book_entry/butchery,
+		/datum/book_entry/preserving,
+		/datum/book_entry/seafood,
+		/datum/book_entry/eggs,
+		/datum/book_entry/vegetables,
+		/datum/book_entry/plated_dishes
 	)
 
 /obj/item/recipe_book/magic

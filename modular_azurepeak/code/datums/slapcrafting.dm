@@ -87,7 +87,7 @@ with edits to work for roguecode */
 		if(!recipe_choices)
 			CRASH("No recipe choices despite validating in earlier proc")
 
-		string_chosen_recipe = show_radial_menu(user, parent_item, recipe_choices, require_near = TRUE)
+		string_chosen_recipe = show_radial_menu(user, parent_item, recipe_choices, require_near = TRUE, tooltips = TRUE)
 		if(isnull(string_chosen_recipe))
 			return // they closed the thing
 
