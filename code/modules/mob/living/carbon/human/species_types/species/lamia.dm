@@ -296,8 +296,12 @@
 	name = "scaled tail"
 	desc = ""
 	icon_state = null
-	body_parts_covered = FEET|LEGS
-	body_parts_inherent = FEET|LEGS
+	// Must include TAIL_LAMIA: the taur lower body's primary hit zone is BODY_ZONE_LAMIAN_TAIL,
+	// and zone2covered() only matches that zone against the TAIL_LAMIA flag. Without it, hits landing
+	// on the tail zone skipped this armor entirely (A+ blunt/slash "never came into play"). FEET|LEGS
+	// still covers the leg/foot subtarget zones.
+	body_parts_covered = FEET|LEGS|TAIL_LAMIA
+	body_parts_inherent = FEET|LEGS|TAIL_LAMIA
 	armor = list("blunt" = 90, "slash" = 90, "stab" = 50, "piercing" = 20, "fire" = 0, "acid" = 0)
 	prevent_crits = list(BCLASS_CUT, BCLASS_CHOP, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)
 	blocksound = SOFTHIT
