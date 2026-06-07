@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { Box, Button, ByondUi, Dropdown, Section, Stack, Tabs } from 'tgui-core/components';
+import { Box, Button, ByondUi, Section, Stack, Tabs } from 'tgui-core/components';
 
 import { useBackend } from '../backend';
+// Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
+// list passes 7 options.
+import { SearchableDropdown as Dropdown } from './common/SearchableDropdown';
 import { Window } from '../layouts';
 import { IdentityTab } from './PreferencesMenu/IdentityTab';
 import { FeaturesTab } from './PreferencesMenu/FeaturesTab';
