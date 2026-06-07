@@ -3267,11 +3267,11 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 					jpval = JP_LOW
 				else
 					jpval = null
-			// Re-apply the classic PQ guard so required jobs with bad PQ can only go to LOW.
+			// Low-PQ players may only set a required job to OFF or LOW — block medium/high. Crucially,
+			// OFF (null) must be allowed too, so they can lower/disable the pref (the old check forced
+			// null back up to LOW, trapping them at the role they can't actually lower).
 			if(job.required && !isnull(job.min_pq) && (get_playerquality(user.ckey) < job.min_pq))
-				if(jpval == JP_LOW)
-					// already low — allow null toggle
-				else
+				if(jpval != JP_LOW && !isnull(jpval))
 					var/used_name = job.title
 					if((prefs.pronouns == SHE_HER || prefs.pronouns == THEY_THEM_F) && job.f_title)
 						used_name = job.f_title
