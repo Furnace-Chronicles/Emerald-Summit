@@ -426,12 +426,12 @@
 	// Think of old school church monks from old rougetown. But like better!
 	//Might look a lot better then Berserker and it proly is but light armor and no crit resist. They are gonna get the shit stabbed out of them for grappling.
 	subclass_stats = list(
-		STATKEY_STR = 3,
+		STATKEY_STR = 2,
 		STATKEY_CON = 3,
 		STATKEY_END = 4,
-		STATKEY_INT = 2,
 		STATKEY_SPD = 2,
 	) //its pretty good. but rounded. Statpack to pick your specialty I guess? They'd be very weak to more dedicated speed builds.
+	  // I'd love to get them int for support maxing. But it offsets struggler to much.
 
 	subclass_skills = list(
 		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
@@ -542,7 +542,7 @@
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/roguehood, SLOT_HEAD, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/shirt/robe, SLOT_CLOAK, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/music, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			H.adjust_skillrank(/datum/skill/craft/cooking, SKILL_LEVEL_EXPERT, TRUE) // jessie we have to cook
+			H.adjust_skillrank_up_to(/datum/skill/craft/cooking, SKILL_LEVEL_EXPERT, TRUE) // jessie we have to cook
 			ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/graggar)
