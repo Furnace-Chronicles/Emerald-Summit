@@ -1073,8 +1073,8 @@
 	desc = "A statue built to the robber-god, Matthios, who stole the gift of fire from the underworld. It is said that he grants the wishes of those pagan bandits (free folk) who feed him money and valuable metals."
 	icon_state = "evilidol"
 	icon = 'icons/roguetown/misc/structure.dmi'
-// What items the idol will accept
-	var/treasuretypes = list(
+// What items the idol will accept — global so item examine (/obj/item/is_idol_offering) shares one source of truth.
+GLOBAL_LIST_INIT(idol_treasure_types, list(
 		/obj/item/roguecoin,
 		/obj/item/roguegem,
 		/obj/item/clothing/ring,
@@ -1122,7 +1122,7 @@
 		/obj/item/reagent_containers/glass/bucket/pot/carved,
 		/obj/item/clothing/mask/rogue/facemask/carved,
 		/obj/item/cooking/platter/carved
-	)
+))
 
 /obj/structure/fluff/statue/evil/attackby(obj/item/W, mob/user, params)
 	if(!HAS_TRAIT(user, TRAIT_COMMIE))
@@ -1137,7 +1137,7 @@
 				to_chat(user, span_warning("This item is worthless."))
 				return
 			var/proceed_with_offer = FALSE
-			for(var/TT in treasuretypes)
+			for(var/TT in GLOB.idol_treasure_types)
 				if(istype(W, TT))
 					proceed_with_offer = TRUE
 					break
@@ -1157,6 +1157,18 @@
 				to_chat(user, span_warning("This item isn't a good offering."))
 				return
 	..()
+
+// TRUE if this item is a valid offering to Matthios's idol of greed — mirrors the accept rules in
+// /obj/structure/fluff/statue/evil/attackby above. Used by item examine so free-folk can spot offerings.
+/obj/item/proc/is_idol_offering()
+	if(flags_1 & HOARDMASTER_SPAWNED_1)
+		return FALSE
+	if(get_real_price() <= 0)
+		return FALSE
+	for(var/TT in GLOB.idol_treasure_types)
+		if(istype(src, TT))
+			return TRUE
+	return FALSE
 
 /obj/structure/fluff/psycross
 	name = "pantheon cross"
