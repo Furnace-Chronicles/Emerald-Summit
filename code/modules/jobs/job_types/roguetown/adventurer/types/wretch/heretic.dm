@@ -417,7 +417,7 @@
 	tutorial = "You father your unholy cause through the most devout ways. Raw power and magics. Spread your faith though muscle or words."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/wretch/heretic
+	outfit = /datum/outfit/job/wretch/heretic/monk
 	category_tags = list(CTAG_WRETCH)
 	extra_context = "If your patron is the following: Psydon, Astrata, Ravox, Necra or Eora, your patron will be set to ZIZO. Excommunication does not work on the Ten worshippers."
 
