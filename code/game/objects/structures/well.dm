@@ -21,8 +21,8 @@
 			to_chat(user, span_warning("[W] is full."))
 			return
 		if(do_after(user, 1 SECONDS, target = src))
-			var/list/waterl = list(/datum/reagent/water = 200)
-			W.reagents.add_reagent_list(waterl)
+			// Fill to capacity in one draw — the 240-volume iron/copper/bronze pots otherwise fall short of the old fixed 200u.
+			W.reagents.add_reagent(/datum/reagent/water, W.reagents.maximum_volume - W.reagents.total_volume)
 			to_chat(user, "<span class='notice'>I fill [W] from [src].</span>")
 			playsound(user, pick('sound/foley/waterwash (1).ogg','sound/foley/waterwash (2).ogg'), 80, FALSE)
 			return
@@ -98,8 +98,8 @@
 			to_chat(user, span_warning("[W] is full."))
 			return
 		if(do_after(user, 30, target = src))
-			var/list/waterl = list(/datum/reagent/water = 100)
-			W.reagents.add_reagent_list(waterl)
+			// Fill to capacity in one draw.
+			W.reagents.add_reagent(/datum/reagent/water, W.reagents.maximum_volume - W.reagents.total_volume)
 			to_chat(user, "<span class='notice'>I fill [W] from [src].</span>")
 			playsound(user, pick('sound/foley/waterwash (1).ogg','sound/foley/waterwash (2).ogg'), 80, FALSE)
 			return

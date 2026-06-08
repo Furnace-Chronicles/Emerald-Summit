@@ -41,3 +41,15 @@
 #undef SKILL_LEVEL_EXPERT_DIVISOR
 #undef SKILL_LEVEL_MASTER_DIVISOR
 #undef SKILL_LEVEL_LEGENDARY_DIVISOR
+
+/*
+	Effort-based cooking timing for the Neu_Food slap-craft recipe system (SScooking).
+	Ported from Azure-Peak code/modules/farming/helpers.dm. Distinct from get_cooktime_divisor
+	above: scales a do_after time per step by cooking skill (skill 0 = x1.0, legendary = higher).
+*/
+/proc/get_cooking_effort_multiplier(mob/user, factor = 2)
+	return (10 + (user.get_skill_level(/datum/skill/craft/cooking) * factor)) * 0.1
+
+/proc/get_cooking_do_time(mob/user, time)
+	return time / get_cooking_effort_multiplier(user, 3)
+

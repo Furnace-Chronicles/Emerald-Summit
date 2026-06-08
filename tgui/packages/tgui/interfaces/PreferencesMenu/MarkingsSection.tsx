@@ -1,12 +1,9 @@
-import {
-  Box,
-  Button,
-  Dropdown,
-  Section,
-  Stack,
-} from 'tgui-core/components';
+import { Box, Button, Section, Stack } from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
+// Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
+// list passes 7 options.
+import { SearchableDropdown as Dropdown } from '../common/SearchableDropdown';
 
 type MarkingEntry = {
   name: string;

@@ -1,20 +1,15 @@
 import {
   Box,
   Button,
-  Dropdown as RawDropdown,
   LabeledList,
   Section,
   Stack,
 } from 'tgui-core/components';
 
-// Wraps RawDropdown in an inline-Box constraint so the width prop actually
-// limits the dropdown — without this, the dropdown stretches to fill its
-// LabeledList.Item content cell instead of honoring its declared width.
-const Dropdown = (props: any) => (
-  <Box inline style={{ width: props.width }}>
-    <RawDropdown {...props} />
-  </Box>
-);
+// Searchable drop-in: identical to the stock Dropdown for short lists, but grows
+// a filter box once a list passes 7 options. Replaces the old per-tab RawDropdown
+// + inline-Box width wrapper (SearchableDropdown handles the width constraint).
+import { SearchableDropdown as Dropdown } from '../common/SearchableDropdown';
 
 export type CustomizerPicker = {
   type:

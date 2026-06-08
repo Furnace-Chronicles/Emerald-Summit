@@ -62,29 +62,28 @@ GLOBAL_LIST_INIT(prefs_menu_wanderer_titles, list("Adventurer", "Wretch", "Court
 	// edits without an explicit Save click are intentionally discarded to
 	// match the classic browser UI's "Save / Undo / nothing" semantics.
 	preview_dirty = FALSE
-	// If a player at the main menu (still a new_player) closes the window
-	// after the round has started, force-reopen it after 2 seconds. They're
-	// likely a latejoiner who needs the panel to actually join the round —
-	// closing it would leave them with no UI to act on. Once the round has
-	// ENDED, though, let them close it for good — nothing left to join.
-	if(isnewplayer(user) && SSticker.HasRoundStarted() && SSticker.current_state < GAME_STATE_FINISHED)
-		addtimer(CALLBACK(src, PROC_REF(reopen_for_latejoiner), user), 2 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+	// The main menu is the only lobby UI a new_player has, and a new player may not know
+	// how to reopen it. If they close it, force it back open after 10 seconds — at the
+	// pregame title screen as well as for mid-round latejoiners. Once the round has ENDED,
+	// let it stay closed (nothing left to join).
+	if(isnewplayer(user) && SSticker.current_state < GAME_STATE_FINISHED)
+		addtimer(CALLBACK(src, PROC_REF(reopen_main_menu), user), 10 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 
-/datum/preferences_menu/proc/reopen_for_latejoiner(mob/user)
+/datum/preferences_menu/proc/reopen_main_menu(mob/user)
 	// Re-validate at fire time — user may have spawned in or disconnected
-	// during the 2s grace window. Only reopen if they're still a new_player
+	// during the grace window. Only reopen if they're still a new_player
 	// and we still have a live prefs link.
 	if(!prefs || !user || !user.client)
 		return
 	if(!isnewplayer(user))
 		return
-	// Round ended during the 2s grace window — don't pop it back open.
+	// Round ended during the grace window — don't pop it back open.
 	if(SSticker.current_state >= GAME_STATE_FINISHED)
 		return
 	// Respect the Classic UI escape hatch — if the user toggled tgui_pref off
 	// (which itself closes the TGUI window via SStgui.close_uis → ui_close →
 	// this very timer), don't pop the TGUI back open on top of the classic
-	// browser window two seconds later.
+	// browser window.
 	if(!prefs.tgui_pref)
 		return
 	ui_interact(user)
@@ -3268,11 +3267,11 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 					jpval = JP_LOW
 				else
 					jpval = null
-			// Re-apply the classic PQ guard so required jobs with bad PQ can only go to LOW.
+			// Low-PQ players may only set a required job to OFF or LOW — block medium/high. Crucially,
+			// OFF (null) must be allowed too, so they can lower/disable the pref (the old check forced
+			// null back up to LOW, trapping them at the role they can't actually lower).
 			if(job.required && !isnull(job.min_pq) && (get_playerquality(user.ckey) < job.min_pq))
-				if(jpval == JP_LOW)
-					// already low — allow null toggle
-				else
+				if(jpval != JP_LOW && !isnull(jpval))
 					var/used_name = job.title
 					if((prefs.pronouns == SHE_HER || prefs.pronouns == THEY_THEM_F) && job.f_title)
 						used_name = job.f_title

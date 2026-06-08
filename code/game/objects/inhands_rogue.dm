@@ -7,6 +7,8 @@
 	var/smelted = FALSE // Sanity for smelteries to avoid runtimes, if this is a bar smelted through ore for exp gain
 /// Determines whether this item is silver or not.
 	var/is_silver = FALSE
+	/// Lesser silver (ported from Azure-Peak; weaker silver effect, used by some cookware). No ES consumer yet — inert flag.
+	var/is_lesser_silver = FALSE
 	var/last_used = 0
 	var/toggle_state = null
 	var/icon_x_offset = 0
