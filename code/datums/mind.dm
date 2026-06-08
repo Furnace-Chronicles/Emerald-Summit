@@ -810,8 +810,16 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 /datum/mind/proc/transfer_mindbound_actions(mob/living/new_character)
 	for(var/X in spell_list)
-		var/obj/effect/proc_holder/spell/S = X
-		S.action.Grant(new_character)
+		// Legacy spells are /obj/effect/proc_holder/spell with a sub-.action. Magi 2 spells are
+		// /datum/action/cooldown/spell datums stored directly in spell_list (they ARE the action,
+		// no .action), so dereferencing .action on them runtimed and aborted the whole transfer —
+		// rebodied casters (lich phylactery, body swaps, etc.) came back with NO spells. Dispatch on type.
+		if(istype(X, /obj/effect/proc_holder/spell))
+			var/obj/effect/proc_holder/spell/S = X
+			S.action.Grant(new_character)
+		else if(istype(X, /datum/action))
+			var/datum/action/A = X
+			A.Grant(new_character)
 
 /datum/mind/proc/disrupt_spells(delay, list/exceptions = New())
 	for(var/X in spell_list)

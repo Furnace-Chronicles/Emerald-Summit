@@ -233,22 +233,9 @@ GLOBAL_LIST_INIT(utility_spells, list(
 	for(var/obj/item/legacy in H.GetAllContents())
 		if(istype(legacy, /obj/item/book/spellbook) || istype(legacy, /obj/item/spellbook_unfinished) || istype(legacy, /obj/item/roguegem/amethyst))
 			qdel(legacy)
-	// Grimoire of Aspects — into the satchel (where the old tome lived). Mirror the outfit system's
-	// storage cascade (roguetown splits the back into SLOT_BACK_L / SLOT_BACK_R, so H.back is wrong):
-	// back-left -> back-right -> belt; then fall back to the hip slot, a hand, the floor.
-	// Skipped entirely if the class loadout already placed a Grimoire (e.g. via backpack_contents)
-	// — that's the preferred way to deliver it, since handing one out post-equip can get dropped
-	// by later equip processing.
-	if(!(locate(/obj/item/book/magi2_grimoire) in H.GetAllContents()))
-		var/obj/item/book/magi2_grimoire/grim = new
-		var/grim_stored = FALSE
-		for(var/slot in list(SLOT_BACK_L, SLOT_BACK_R, SLOT_BELT))
-			var/obj/item/storage = H.get_item_by_slot(slot)
-			if(storage && SEND_SIGNAL(storage, COMSIG_TRY_STORAGE_INSERT, grim, null, TRUE, TRUE))
-				grim_stored = TRUE
-				break
-		if(!grim_stored && !H.equip_to_slot_if_possible(grim, ITEM_SLOT_HIP, disable_warning = TRUE) && !H.put_in_hands(grim))
-			grim.forceMove(get_turf(H))
+	// Grimoire of Aspects — into the satchel (where the old tome lived). Skipped if the class
+	// loadout already placed one (e.g. via backpack_contents) — the preferred delivery path.
+	_magi2_give_grimoire(H)
 	// Lesser staff implement — only for classes that don't already start with a staff. Premade-staff
 	// classes (Court Magician's magos staff, Sorcerer's woodstaff) keep theirs, so no second staff.
 	// grant_staff = FALSE for classes that shouldn't carry an implement (e.g. witches).
@@ -259,3 +246,20 @@ GLOBAL_LIST_INIT(utility_spells, list(
 		var/obj/item/staff = new staff_path
 		if(!H.put_in_hands(staff))
 			staff.forceMove(get_turf(H))
+
+/// Hands H a Grimoire of Aspects if they don't already have one, mirroring the outfit storage
+/// cascade: back-left -> back-right -> belt -> hip slot -> a hand -> the floor. Used both by initial
+/// caster setup and by re-bodying paths (e.g. lich phylactery) where the mind keeps its aspects but
+/// the physical Grimoire was left on the old corpse.
+/proc/_magi2_give_grimoire(mob/living/carbon/human/H)
+	if(!istype(H))
+		return
+	if(locate(/obj/item/book/magi2_grimoire) in H.GetAllContents())
+		return
+	var/obj/item/book/magi2_grimoire/grim = new
+	for(var/slot in list(SLOT_BACK_L, SLOT_BACK_R, SLOT_BELT))
+		var/obj/item/storage = H.get_item_by_slot(slot)
+		if(storage && SEND_SIGNAL(storage, COMSIG_TRY_STORAGE_INSERT, grim, null, TRUE, TRUE))
+			return
+	if(!H.equip_to_slot_if_possible(grim, ITEM_SLOT_HIP, disable_warning = TRUE) && !H.put_in_hands(grim))
+		grim.forceMove(get_turf(H))

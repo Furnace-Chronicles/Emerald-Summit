@@ -231,6 +231,11 @@
 	set_stats()
 	skele_look()
 	equip_and_traits()
+	// Magi 2: equip_and_traits re-grants the satchel + staff, but the Grimoire is only set up in the
+	// Lich outfit's pre_equip (not re-run on respawn), so the rebodied lich got an empty satchel. Defer
+	// one tick (as roundstart does) so the satchel's storage is ready, then stow a fresh Grimoire — the
+	// mind kept its aspects across transfer_to, this just hands the book back to view/reshape them.
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_magi2_give_grimoire), new_body), 1)
 	// Delete the old body if it still exists
 	if (!QDELETED(old_body))
 		qdel(old_body)

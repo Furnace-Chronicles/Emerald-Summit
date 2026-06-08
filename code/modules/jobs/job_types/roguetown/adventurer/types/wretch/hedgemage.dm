@@ -7,7 +7,7 @@
 	outfit = /datum/outfit/job/wretch/hedgemage
 	category_tags = list(CTAG_WRETCH)
 	cmode_music = 'sound/music/combat_bandit_mage.ogg'
-	extra_context = "Choose between 2 options: 27 spellpoints or 21 spellpoints and Dodge Expert."
+	extra_context = "Choose between 2 options: an extra minor aspect slot, or Dodge Expert."
 
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3, TRAIT_TALENTED_ALCHEMIST)
 	// Same stat spread as necromancer, same reasoning
