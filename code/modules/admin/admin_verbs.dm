@@ -149,6 +149,7 @@ GLOBAL_LIST_INIT(admin_verbs_fun, list(
 //	/client/proc/run_weather,
 	/client/proc/run_particle_weather,
 	/client/proc/run_custom_particle_weather,
+	/client/proc/stop_particle_weather,
 	/client/proc/show_tip,
 	/client/proc/smite
 	))
@@ -470,7 +471,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	set category = "Prefs - Admin"
 	set desc = ""
 	if(holder && mob)
-		if(mob.invisibility == INVISIBILITY_OBSERVER)
+		if(mob.invisibility != initial(mob.invisibility))
 			mob.invisibility = initial(mob.invisibility)
 			to_chat(mob, span_boldannounce("Invisimin off. Invisibility reset."))
 		else
