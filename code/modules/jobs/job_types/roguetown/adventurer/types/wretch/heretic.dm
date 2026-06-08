@@ -412,7 +412,7 @@
 
 
 
-/datum/advclass/wretch/heretic
+/datum/advclass/wretch/heretic/monk
 	name = "Heretic Monk"
 	tutorial = "You father your unholy cause through the most devout ways. Raw power and magics. Spread your faith though muscle or words."
 	allowed_sexes = list(MALE, FEMALE)
@@ -455,7 +455,7 @@
 /datum/outfit/job/wretch/heretic/monk
 	has_loadout = TRUE
 
-/datum/outfit/job/wretch/heretic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/wretch/heretic/monk/pre_equip(mob/living/carbon/human/H)
 	..()
 	if ((istype(H.patron, /datum/patron/divine/astrata) || istype(H.patron, /datum/patron/divine/necra) || istype(H.patron, /datum/patron/divine/eora) || istype(H.patron, /datum/patron/divine/ravox) || istype(H.patron, /datum/patron/old_god)))
 		to_chat(H, span_warning("My former deity frowned upon my practices. I have since turned to ZIZO..."))
@@ -515,7 +515,7 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Major regen, starts maxed out.
 	wretch_select_bounty(H)
 //bonus's gonna be abit better here and there. See above. Supportive creechur!
-/datum/outfit/job/wretch/heretic/choose_loadout(mob/living/carbon/human/H) // some got +1 to their relevant patron skill
+/datum/outfit/job/wretch/heretic/monk/choose_loadout(mob/living/carbon/human/H) // some got +1 to their relevant patron skill
 	. = ..() //do NOT copy this for other classes. Its custom tailored for this one!
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
