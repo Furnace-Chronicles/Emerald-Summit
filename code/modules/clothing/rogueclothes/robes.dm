@@ -142,6 +142,7 @@
 	icon_state = "monkvestments"
 	item_state = "monkvestments"
 	armor = ARMOR_PADDED_GOOD	//Equal to padded gamby
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_CHOP)
 	resistance_flags = FIRE_PROOF
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 
