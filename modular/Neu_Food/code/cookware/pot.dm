@@ -82,8 +82,9 @@
 
 /obj/item/reagent_containers/glass/bucket/pot/bronze
 	name = "bronze pot"
-	desc = "A cauldron of bronze, aching to churn water and chopmealings into a champion's broth. It can hold a lot of liquid."
+	desc = "A cauldron of bronze, aching to churn water and chopmealings into a champion's broth. It holds more than a common pot."
 	icon_state = "bronzepot"
+	volume = 300 // 25% more than the base pot's 240
 
 /obj/item/reagent_containers/glass/bucket/pot/teapot
 	name = "teapot"
