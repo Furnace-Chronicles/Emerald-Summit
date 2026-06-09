@@ -1189,6 +1189,14 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	data["ooc_extra_set"] = !!prefs.ooc_extra
 	data["headshot_link"] = prefs.headshot_link
 	data["nsfw_headshot_link"] = prefs.nsfw_headshot_link
+	data["nsfwflavortext_len"] = length(prefs.nsfwflavortext)
+	data["erpprefs_len"] = length(prefs.erpprefs)
+	data["nsfw_ooc_extra_set"] = !!prefs.nsfw_ooc_extra
+	data["song_url_set"] = !!prefs.song_url
+	data["song_title"] = prefs.song_title
+	data["song_artist"] = prefs.song_artist
+	data["img_gallery_count"] = length(prefs.img_gallery)
+	data["nsfw_img_gallery_count"] = length(prefs.nsfw_img_gallery)
 	return data
 
 /// DYNAMIC half of the jobs/Class Selection tab. Per-job priority + gating
@@ -3238,6 +3246,166 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				to_chat(user, span_notice("Successfully updated OOC Extra with [info]"))
 				log_game("[user] has set their OOC Extra to '[prefs.ooc_extra_link]'.")
 				on_identity_change()
+			return TRUE
+
+		if("edit_nsfwflavortext")
+			to_chat(user, "<span class='notice'><span class='bold'>NSFW flavor text - sensory details for the nude/intimate description, shown on the examine panel's NSFW flavor tab.</span></span>")
+			var/new_nsfwft = tgui_input_text(user, "Input your NSFW character description:", "NSFW Flavortext", prefs.nsfwflavortext, multiline = TRUE, encode = FALSE, bigmodal = TRUE)
+			if(isnull(new_nsfwft))
+				return TRUE
+			if(new_nsfwft == "")
+				prefs.nsfwflavortext = null
+				prefs.nsfwflavortext_display = null
+			else
+				prefs.nsfwflavortext = new_nsfwft
+				var/nft = html_encode(new_nsfwft)
+				nft = replacetext(parsemarkdown_basic(nft), "\n", "<BR>")
+				prefs.nsfwflavortext_display = nft
+				to_chat(user, span_notice("Successfully updated NSFW flavortext."))
+				log_game("[user] has set their NSFW flavortext.")
+			on_identity_change()
+			return TRUE
+
+		if("edit_erpprefs")
+			to_chat(user, "<span class='notice'><span class='bold'>ERP preferences - your OOC limits and interests for intimate RP.</span></span>")
+			var/new_erp = tgui_input_text(user, "Input your ERP preferences:", "ERP Preferences", prefs.erpprefs, multiline = TRUE, encode = FALSE, bigmodal = TRUE)
+			if(isnull(new_erp))
+				return TRUE
+			if(new_erp == "")
+				prefs.erpprefs = null
+				prefs.erpprefs_display = null
+			else
+				prefs.erpprefs = new_erp
+				var/erptext = html_encode(new_erp)
+				erptext = replacetext(parsemarkdown_basic(erptext), "\n", "<BR>")
+				prefs.erpprefs_display = erptext
+				to_chat(user, span_notice("Successfully updated ERP preferences."))
+				log_game("[user] has set their ERP preferences.")
+			on_identity_change()
+			return TRUE
+
+		if("edit_nsfw_ooc_extra")
+			if(!user.check_agevet())
+				to_chat(user, span_warning("You must be age-vetted to set a NSFW OOC Extra."))
+				return TRUE
+			to_chat(user, span_notice("Add a link from a suitable host (catbox, etc) to an mp3, mp4, or jpg / png / gif file to embed it in your NSFW flavor text."))
+			to_chat(user, "<font color = '#d6d6d6'>Leave a single space to delete it.</font>")
+			to_chat(user, "<font color ='red'>Abuse of this will get you banned.</font>")
+			var/new_nsfw_extra = tgui_input_text(user, "Input the NSFW accessory link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "NSFW OOC Extra", prefs.nsfw_ooc_extra_link, encode = FALSE)
+			if(new_nsfw_extra == null)
+				return TRUE
+			if(new_nsfw_extra == "")
+				return TRUE
+			if(new_nsfw_extra == " ") //Single space to delete
+				prefs.nsfw_ooc_extra_link = null
+				prefs.nsfw_ooc_extra = null
+				to_chat(user, span_notice("Successfully deleted NSFW OOC Extra."))
+				on_identity_change()
+				return TRUE
+			var/static/list/nsfw_extra_ext = list("jpg", "png", "jpeg", "gif", "mp4", "mp3")
+			if(!valid_headshot_link(user, new_nsfw_extra, FALSE, nsfw_extra_ext))
+				return TRUE
+			var/list/nsfw_extra_split = splittext(new_nsfw_extra, ".")
+			var/nsfw_extra_extension = nsfw_extra_split[length(nsfw_extra_split)]
+			var/nsfw_extra_info
+			if(nsfw_extra_extension in nsfw_extra_ext)
+				prefs.nsfw_ooc_extra_link = new_nsfw_extra
+				prefs.nsfw_ooc_extra = "<div align ='center'><center>"
+				if(nsfw_extra_extension == "jpg" || nsfw_extra_extension == "png" || nsfw_extra_extension == "jpeg" || nsfw_extra_extension == "gif")
+					prefs.nsfw_ooc_extra += "<br>"
+					prefs.nsfw_ooc_extra += "<img src='[prefs.nsfw_ooc_extra_link]'/>"
+					nsfw_extra_info = "an embedded image."
+				else
+					switch(nsfw_extra_extension)
+						if("mp4")
+							prefs.nsfw_ooc_extra = "<br>"
+							prefs.nsfw_ooc_extra += "<video width=["288"] height=["288"] controls=["true"]>"
+							prefs.nsfw_ooc_extra += "<source src='[prefs.nsfw_ooc_extra_link]' type=["video/mp4"]>"
+							prefs.nsfw_ooc_extra += "</video>"
+							nsfw_extra_info = "a video."
+						if("mp3")
+							prefs.nsfw_ooc_extra = "<br>"
+							prefs.nsfw_ooc_extra += "<audio controls>"
+							prefs.nsfw_ooc_extra += "<source src='[prefs.nsfw_ooc_extra_link]' type=["audio/mp3"]>"
+							prefs.nsfw_ooc_extra += "Your browser does not support the audio element."
+							prefs.nsfw_ooc_extra += "</audio>"
+							nsfw_extra_info = "embedded audio."
+				prefs.nsfw_ooc_extra += "</center></div>"
+				to_chat(user, span_notice("Successfully updated NSFW OOC Extra with [nsfw_extra_info]"))
+				log_game("[user] has set their NSFW OOC Extra to '[prefs.nsfw_ooc_extra_link]'.")
+				on_identity_change()
+			return TRUE
+
+		if("edit_song_url")
+			if(!user.check_agevet())
+				return TRUE
+			var/new_song_url = tgui_input_text(user, "Input your song's direct URL (mp3/mp4 from catbox, etc):", "Song URL", prefs.song_url, encode = FALSE)
+			if(isnull(new_song_url))
+				return TRUE
+			prefs.song_url = (new_song_url == "") ? null : new_song_url
+			on_identity_change()
+			return TRUE
+
+		if("edit_song_title")
+			var/new_song_title = tgui_input_text(user, "Input your song's title:", "Song Title", prefs.song_title, encode = FALSE)
+			if(isnull(new_song_title))
+				return TRUE
+			prefs.song_title = (new_song_title == "") ? null : new_song_title
+			on_identity_change()
+			return TRUE
+
+		if("edit_song_artist")
+			var/new_song_artist = tgui_input_text(user, "Input your song's artist:", "Song Artist", prefs.song_artist, encode = FALSE)
+			if(isnull(new_song_artist))
+				return TRUE
+			prefs.song_artist = (new_song_artist == "") ? null : new_song_artist
+			on_identity_change()
+			return TRUE
+
+		if("img_gallery_add")
+			if(!user.check_agevet())
+				return TRUE
+			if(length(prefs.img_gallery) >= 6)
+				to_chat(user, span_warning("Your image gallery is full (6 max). Clear it first."))
+				return TRUE
+			var/static/list/sfwgal_extensions = list("jpg", "png", "jpeg", "gif")
+			var/new_gal_link = tgui_input_text(user, "Input an image link to add to your gallery (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "Image Gallery", encode = FALSE)
+			if(!new_gal_link)
+				return TRUE
+			if(!valid_headshot_link(user, new_gal_link, FALSE, sfwgal_extensions))
+				return TRUE
+			prefs.img_gallery += new_gal_link
+			to_chat(user, span_notice("Added image to gallery."))
+			on_identity_change()
+			return TRUE
+
+		if("img_gallery_clear")
+			prefs.img_gallery = list()
+			to_chat(user, span_notice("Cleared image gallery."))
+			on_identity_change()
+			return TRUE
+
+		if("nsfw_img_gallery_add")
+			if(!user.check_agevet())
+				return TRUE
+			if(length(prefs.nsfw_img_gallery) >= 6)
+				to_chat(user, span_warning("Your NSFW image gallery is full (6 max). Clear it first."))
+				return TRUE
+			var/static/list/nsfwgal_extensions = list("jpg", "png", "jpeg", "gif")
+			var/new_nsfwgal_link = tgui_input_text(user, "Input an image link to add to your NSFW gallery (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "NSFW Image Gallery", encode = FALSE)
+			if(!new_nsfwgal_link)
+				return TRUE
+			if(!valid_headshot_link(user, new_nsfwgal_link, FALSE, nsfwgal_extensions))
+				return TRUE
+			prefs.nsfw_img_gallery += new_nsfwgal_link
+			to_chat(user, span_notice("Added image to NSFW gallery."))
+			on_identity_change()
+			return TRUE
+
+		if("nsfw_img_gallery_clear")
+			prefs.nsfw_img_gallery = list()
+			to_chat(user, span_notice("Cleared NSFW image gallery."))
+			on_identity_change()
 			return TRUE
 
 		if("preview_examine")

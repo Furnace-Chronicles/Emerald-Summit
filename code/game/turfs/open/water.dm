@@ -196,7 +196,7 @@
 			playsound(user, 'sound/foley/drawwater.ogg', 100, FALSE)
 			if(do_after(user, 8, target = src))
 				user.changeNext_move(CLICK_CD_MELEE)
-				C.reagents.add_reagent(water_reagent, 200)
+				C.reagents.add_reagent(water_reagent, C.reagents.maximum_volume - C.reagents.total_volume) // fill to capacity in one draw
 				to_chat(user, span_notice("I fill [C] from [src]."))
 				// If the user is filling a water purifier and the water isn't already clean...
 				if (istype(C, /obj/item/reagent_containers/glass/bottle/waterskin/purifier) && water_reagent != water_reagent_purified)

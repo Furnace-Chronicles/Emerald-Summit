@@ -141,6 +141,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	var/anonymize = TRUE
 	var/masked_examine = FALSE
+	var/nsfw_examine_always = FALSE	// show this character's NSFW examine info even when clothed
 	var/mute_animal_emotes = FALSE
 	var/no_examine_blocks = FALSE
 
@@ -215,6 +216,21 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	var/ooc_notes
 	var/ooc_notes_display
+
+	// Examine panel (ported from Azure-Peak PR #6325, themes omitted)
+	var/nsfwflavortext
+	var/nsfwflavortext_display
+	var/erpprefs
+	var/erpprefs_display
+	var/list/img_gallery = list()
+	var/song_title
+	var/song_artist
+	var/vampire_headshot_link
+	var/lich_headshot_link
+	var/nsfw_ooc_extra
+	var/nsfw_ooc_extra_link
+	var/list/nsfw_img_gallery = list()
+	var/song_url
 
 	var/datum/familiar_prefs/familiar_prefs
 	var/datum/gnoll_prefs/gnoll_prefs
@@ -599,13 +615,19 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<br><b>[(length(flavortext) < MINIMUM_FLAVOR_TEXT) ? "<font color = '#802929'>" : ""]Flavortext:[(length(flavortext) < MINIMUM_FLAVOR_TEXT) ? "</font>" : ""]</b><a href='?_src_=prefs;preference=formathelp;task=input'>(?)</a><a href='?_src_=prefs;preference=flavortext;task=input'>Change</a>"
 
 			dat += "<br><b>[(length(ooc_notes) < MINIMUM_OOC_NOTES) ? "<font color = '#802929'>" : ""]OOC Notes:[(length(ooc_notes) < MINIMUM_OOC_NOTES) ? "</font>" : ""]</b><a href='?_src_=prefs;preference=formathelp;task=input'>(?)</a><a href='?_src_=prefs;preference=ooc_notes;task=input'>Change</a>"
+			dat += "<br><b>NSFW Flavortext:</b> <a href='?_src_=prefs;preference=nsfwflavortext;task=input'>Change</a>"
+			dat += "<br><b>ERP Preferences:</b> <a href='?_src_=prefs;preference=erpprefs;task=input'>Change</a>"
 
 			// Rumours / Gossip
 			dat += "<br><b>Rumours:</b> <a href='?_src_=prefs;preference=rumour;task=input'>Change</a>"
 			dat += "<br><b>Noble Gossip:</b> <a href='?_src_=prefs;preference=gossip;task=input'>Change</a>"
 
 			if(agevetted)
-				dat += "<br><b>OOC Extra:</b> <a href='?_src_=prefs;preference=ooc_extra;task=input'>Change</a>"
+				dat += "<br><b>OOC Extra Image/Video/Gif (Flavor Text):</b> <a href='?_src_=prefs;preference=ooc_extra;task=input'>Change</a>"
+				dat += "<br><b>NSFW OOC Extra Image/Video/Gif (Flavor Text):</b> <a href='?_src_=prefs;preference=nsfw_ooc_extra;task=input'>Change</a>"
+				dat += "<br><b>Song:</b> <a href='?_src_=prefs;preference=song_url;task=input'>Change URL</a> <a href='?_src_=prefs;preference=song_title;task=input'>Change Title</a> <a href='?_src_=prefs;preference=song_artist;task=input'>Change Artist</a>"
+				dat += "<br><b>Image Gallery:</b> <a href='?_src_=prefs;preference=img_gallery_add;task=input'>Add</a> <a href='?_src_=prefs;preference=img_gallery_clear;task=input'>Clear Gallery</a>"
+				dat += "<br><b>Nsfw Image Gallery:</b> <a href='?_src_=prefs;preference=nsfw_img_gallery_add;task=input'>Add</a> <a href='?_src_=prefs;preference=nsfw_img_gallery_clear;task=input'>Clear Nsfw Gallery</a>"
 			dat += "<br><a href='?_src_=prefs;preference=ooc_preview;task=input'><b>Preview Examine</b></a>"
 
 			dat += "<br><b>Loadout Item I:</b> <a href='?_src_=prefs;preference=loadout_item;task=input'>[loadout ? loadout.name : "None"] </a>"
@@ -1988,6 +2010,48 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					is_legacy = FALSE
 					to_chat(user, "<span class='notice'>Successfully updated OOC notes.</span>")
 					log_game("[user] has set their OOC notes'.")
+				if("nsfwflavortext")
+					to_chat(user, "<span class='notice'><span class='bold'>NSFW flavor text - sensory details for the nude/intimate description. Shown on the examine panel's NSFW tab when the character is naked.</span></span>")
+					var/new_nsfwflavortext = tgui_input_text(user, "Input your NSFW character description:", "NSFW Flavortext", nsfwflavortext, multiline = TRUE, encode = FALSE, bigmodal = TRUE)
+					if(new_nsfwflavortext == null)
+						return
+					if(new_nsfwflavortext == "")
+						nsfwflavortext = null
+						nsfwflavortext_display = null
+						ShowChoices(user)
+						return
+					nsfwflavortext = new_nsfwflavortext
+					var/nft = html_encode(nsfwflavortext)
+					nft = replacetext(parsemarkdown_basic(nft), "\n", "<BR>")
+					nsfwflavortext_display = nft
+					to_chat(user, "<span class='notice'>Successfully updated NSFW flavortext.</span>")
+					log_game("[user] has set their NSFW flavortext.")
+				if("erpprefs")
+					to_chat(user, "<span class='notice'><span class='bold'>ERP preferences - your OOC limits and interests for intimate RP.</span></span>")
+					var/new_erpprefs = tgui_input_text(user, "Input your ERP preferences:", "ERP Preferences", erpprefs, multiline = TRUE, encode = FALSE, bigmodal = TRUE)
+					if(new_erpprefs == null)
+						return
+					if(new_erpprefs == "")
+						erpprefs = null
+						erpprefs_display = null
+						ShowChoices(user)
+						return
+					erpprefs = new_erpprefs
+					var/erp = html_encode(erpprefs)
+					erp = replacetext(parsemarkdown_basic(erp), "\n", "<BR>")
+					erpprefs_display = erp
+					to_chat(user, "<span class='notice'>Successfully updated ERP preferences.</span>")
+					log_game("[user] has set their ERP preferences.")
+				if("song_title")
+					var/new_title = tgui_input_text(user, "Input your song's title:", "Song Title", song_title, encode = FALSE)
+					if(new_title == null)
+						return
+					song_title = (new_title == "") ? null : new_title
+				if("song_artist")
+					var/new_artist = tgui_input_text(user, "Input your song's artist:", "Song Artist", song_artist, encode = FALSE)
+					if(new_artist == null)
+						return
+					song_artist = (new_artist == "") ? null : new_artist
 				if("rumour")
 					to_chat(user, "<span class='notice'>["<span class='bold'>Rumours are things others might know, or think they know about you, they don't necessarily have to be precise, or even true. But remember that they can provide a hint to another player on how to interact with, or even think about your character.</span>"]</span>")
 					var/new_rumour = tgui_input_text(user, "Input rumours about your character: (400 Character Limit)", "Rumours", rumour, multiline = TRUE, encode = FALSE, bigmodal = TRUE)
@@ -2052,10 +2116,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					nsfw_headshot_link = new_nsfw_headshot_link
 					to_chat(user, "<span class='notice'>Successfully updated NSFW Bodyshot picture</span>")
 					log_game("[user] has set their NSFW Bodyshot image to '[nsfw_headshot_link]'.")
-				if("ooc_preview")	//Unashamedly copy pasted from human_topic.dm L:7. Sorry!
-					var/agevetted = user.check_agevet()
-					var/list/dat = list()
-					dat += "<div align='center'><font size = 5; font color = '#dddddd'><b>[real_name]</b></font></div>"
+				if("ooc_preview")	// Opens the TGUI examine panel as a preview of this character slot.
 					var/legacy_check = FALSE
 					if(isnull(flavortext_display) && !isnull(flavortext))	//If there's an FT already in the slot, but no _display, that means it's a legacy slot.
 						is_legacy = TRUE
@@ -2069,24 +2130,11 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						save_character()
 						ShowChoices(user)
 						return
-					if(is_legacy)
-						dat += "<center><i><font color = '#b9b9b9'; font size = 1>This is a LEGACY Profile from naive days of Psydon.</font></i></center>"
-					if(valid_headshot_link(null, headshot_link, TRUE) && agevetted)
-						dat += ("<div align='center'><img src='[headshot_link]' width='350px' height='350px'></div>")
-					if(flavortext && flavortext_display)
-						dat += "<div align='left'>[flavortext_display]</div>"
-					if(ooc_notes && ooc_notes_display)
-						dat += "<br>"
-						dat += "<div align='center'><b>OOC notes</b></div>"
-						dat += "<div align='left'>[ooc_notes_display]</div>"
-					if(ooc_extra && agevetted)
-						dat += "[ooc_extra]"
-					if(nsfw_headshot_link && agevetted)
-						dat += "<br><div align='center'><b>NSFW</b></div>"
-						dat += ("<br><div align='center'><img src='[nsfw_headshot_link]' width='600px'></div>")
-					var/datum/browser/popup = new(user, "[real_name]", nwidth = 700, nheight = 800)
-					popup.set_content(dat.Join())
-					popup.open(FALSE)
+					var/datum/examine_panel/preview_panel = new(null)
+					preview_panel.pref = src
+					preview_panel.viewing = user
+					preview_panel.ui_interact(user)
+					return
 				if("ooc_extra")
 					if(!user.check_agevet()) return
 					to_chat(user, "<span class='notice'>Add a link from a suitable host (catbox, etc) to an mp3, mp4, or jpg / png file to have it embed at the bottom of your OOC notes.</span>")
@@ -2142,6 +2190,95 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						ooc_extra += "</center></div>"
 						to_chat(user, "<span class='notice'>Successfully updated OOC Extra with [info]</span>")
 						log_game("[user] has set their OOC Extra to '[ooc_extra_link]'.")
+				if("nsfw_ooc_extra")
+					if(!user.check_agevet()) return
+					to_chat(user, "<span class='notice'>Add a link from a suitable host (catbox, etc) to an mp3, mp4, or jpg / png / gif file to embed it in your NSFW flavor text.</span>")
+					to_chat(user, "<font color = '#d6d6d6'>Leave a single space to delete it.</font>")
+					to_chat(user, "<font color ='red'>Abuse of this will get you banned.</font>")
+					var/new_nsfwooc_link = tgui_input_text(user, "Input the NSFW accessory link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "NSFW OOC Extra", nsfw_ooc_extra_link, encode = FALSE)
+					if(new_nsfwooc_link == null)
+						return
+					if(new_nsfwooc_link == "")
+						ShowChoices(user)
+						return
+					if(new_nsfwooc_link == " ")	//Single space to delete
+						nsfw_ooc_extra_link = null
+						nsfw_ooc_extra = null
+						to_chat(user, "<span class='notice'>Successfully deleted NSFW OOC Extra.</span>")
+						ShowChoices(user)
+						return
+					var/static/list/nsfwooc_valid_ext = list("jpg", "png", "jpeg", "gif", "mp4", "mp3")
+					if(!valid_headshot_link(user, new_nsfwooc_link, FALSE, nsfwooc_valid_ext))
+						ShowChoices(user)
+						return
+					var/list/nsfwooc_split = splittext(new_nsfwooc_link, ".")
+					var/nsfwooc_ext = nsfwooc_split[length(nsfwooc_split)]
+					var/nsfwooc_info
+					if((nsfwooc_ext in nsfwooc_valid_ext))
+						nsfw_ooc_extra_link = new_nsfwooc_link
+						nsfw_ooc_extra = "<div align ='center'><center>"
+						if(nsfwooc_ext == "jpg" || nsfwooc_ext == "png" || nsfwooc_ext == "jpeg" || nsfwooc_ext == "gif")
+							nsfw_ooc_extra += "<br>"
+							nsfw_ooc_extra += "<img src='[nsfw_ooc_extra_link]'/>"
+							nsfwooc_info = "an embedded image."
+						else
+							switch(nsfwooc_ext)
+								if("mp4")
+									nsfw_ooc_extra = "<br>"
+									nsfw_ooc_extra += "<video width=["288"] height=["288"] controls=["true"]>"
+									nsfw_ooc_extra += "<source src='[nsfw_ooc_extra_link]' type=["video/mp4"]>"
+									nsfw_ooc_extra += "</video>"
+									nsfwooc_info = "a video."
+								if("mp3")
+									nsfw_ooc_extra = "<br>"
+									nsfw_ooc_extra += "<audio controls>"
+									nsfw_ooc_extra += "<source src='[nsfw_ooc_extra_link]' type=["audio/mp3"]>"
+									nsfw_ooc_extra += "Your browser does not support the audio element."
+									nsfw_ooc_extra += "</audio>"
+									nsfwooc_info = "embedded audio."
+						nsfw_ooc_extra += "</center></div>"
+						to_chat(user, "<span class='notice'>Successfully updated NSFW OOC Extra with [nsfwooc_info]</span>")
+						log_game("[user] has set their NSFW OOC Extra to '[nsfw_ooc_extra_link]'.")
+				if("song_url")
+					if(!user.check_agevet()) return
+					var/new_song = tgui_input_text(user, "Input your song's direct URL (mp3/mp4 from catbox, etc):", "Song URL", song_url, encode = FALSE)
+					if(new_song == null)
+						return
+					song_url = (new_song == "") ? null : new_song
+				if("img_gallery_add")
+					if(!user.check_agevet()) return
+					if(length(img_gallery) >= 6)
+						to_chat(user, "<span class='warning'>Your image gallery is full (6 max). Clear it first.</span>")
+						return
+					var/static/list/sfwgal_ext = list("jpg", "png", "jpeg", "gif")
+					var/sfwgal_link = tgui_input_text(user, "Input an image link to add to your gallery (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "Image Gallery", encode = FALSE)
+					if(!sfwgal_link)
+						return
+					if(!valid_headshot_link(user, sfwgal_link, FALSE, sfwgal_ext))
+						ShowChoices(user)
+						return
+					img_gallery += sfwgal_link
+					to_chat(user, "<span class='notice'>Added image to gallery.</span>")
+				if("img_gallery_clear")
+					img_gallery = list()
+					to_chat(user, "<span class='notice'>Cleared image gallery.</span>")
+				if("nsfw_img_gallery_add")
+					if(!user.check_agevet()) return
+					if(length(nsfw_img_gallery) >= 6)
+						to_chat(user, "<span class='warning'>Your NSFW image gallery is full (6 max). Clear it first.</span>")
+						return
+					var/static/list/nsfwgal_ext = list("jpg", "png", "jpeg", "gif")
+					var/nsfwgal_link = tgui_input_text(user, "Input an image link to add to your NSFW gallery (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "NSFW Image Gallery", encode = FALSE)
+					if(!nsfwgal_link)
+						return
+					if(!valid_headshot_link(user, nsfwgal_link, FALSE, nsfwgal_ext))
+						ShowChoices(user)
+						return
+					nsfw_img_gallery += nsfwgal_link
+					to_chat(user, "<span class='notice'>Added image to NSFW gallery.</span>")
+				if("nsfw_img_gallery_clear")
+					nsfw_img_gallery = list()
+					to_chat(user, "<span class='notice'>Cleared NSFW image gallery.</span>")
 
 				if("familiar_prefs")
 					familiar_prefs.fam_show_ui()
@@ -3051,6 +3188,19 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	character.ooc_notes = ooc_notes
 
 	character.ooc_notes_display = ooc_notes_display
+
+	// Examine panel (ported from Azure-Peak PR #6325)
+	character.nsfwflavortext = nsfwflavortext
+	character.nsfwflavortext_display = nsfwflavortext_display
+	character.erpprefs = erpprefs
+	character.erpprefs_display = erpprefs_display
+	character.song_title = song_title
+	character.song_artist = song_artist
+	character.song_url = song_url
+	character.img_gallery = img_gallery
+	character.nsfw_img_gallery = nsfw_img_gallery
+	character.nsfw_ooc_extra = nsfw_ooc_extra
+	character.nsfw_ooc_extra_link = nsfw_ooc_extra_link
 
 	
 	character.rumour = rumour

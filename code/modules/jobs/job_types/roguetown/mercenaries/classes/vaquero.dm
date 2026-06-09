@@ -20,7 +20,6 @@
 	hiredbuff = /datum/status_effect/buff/merchired/vaquero
 
 	subclass_skills = list(
-		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/bows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
@@ -58,10 +57,6 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	cloak = /obj/item/clothing/cloak/half/rider/red
 	backl = /obj/item/storage/backpack/rogue/satchel
-	beltl = /obj/item/rogueweapon/scabbard/sword
-	l_hand = /obj/item/rogueweapon/sword/rapier/vaquero
-	beltr = /obj/item/rogueweapon/scabbard/sheath
-	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/parrying/vaquero
 	backpack_contents = list(
 					/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 					/obj/item/rogueweapon/huntingknife/idagger/navaja = 1,
@@ -69,12 +64,26 @@
 					/obj/item/flashlight/flare/torch = 1,
 					/obj/item/roguekey/mercenary = 1
 					)
-	var/weapons = list("Accordion","Bagpipe","Drum","Guitar","Harp","Hurdy-Gurdy","Jaw Harp","Lute","Trumpet","Viola","Vocal Talisman")
-	var/weapon_choice = input(H, "Choose your instrument.", "TAKE UP ARMS") as anything in weapons
+	var/weapons = list("Rapier and Parrying Dagger", "Arquebus Pistol")
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/instruments = list("Accordion","Bagpipe","Drum","Guitar","Harp","Hurdy-Gurdy","Jaw Harp","Lute","Trumpet","Viola","Vocal Talisman")
+	var/instrument_choice = input(H, "Choose your instrument.", "TAKE UP SONG") as anything in instruments
 	H.set_blindness(0)
 	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)
 	switch(weapon_choice)
+		if("Rapier and Parrying Dagger")
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+			beltl = /obj/item/rogueweapon/scabbard/sword
+			l_hand = /obj/item/rogueweapon/sword/rapier/vaquero
+			beltr = /obj/item/rogueweapon/scabbard/sheath
+			r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/parrying/vaquero
+		if("Arquebus Pistol")
+			H.adjust_skillrank_up_to(/datum/skill/combat/firearms, SKILL_LEVEL_EXPERT, TRUE)
+			beltl = /obj/item/quiver/bullet/lead
+			l_hand = /obj/item/gun/ballistic/firearm/arquebus_pistol
+			beltr = /obj/item/powderflask
+	switch(instrument_choice)
 		if("Harp")
 			H.put_in_hands(new /obj/item/rogue/instrument/harp(H), TRUE)
 		if("Lute")
