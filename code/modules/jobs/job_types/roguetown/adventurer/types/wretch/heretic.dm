@@ -448,7 +448,7 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/alchemy, = SKILL_LEVEL_APPRENTICE,
 		
 	) //lot of utlity here but like I'm saying. Playing this more like a heretical Acolyte is neat!
 
@@ -523,7 +523,7 @@
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/roguehood, SLOT_HEAD, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/zcross/iron, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/shirt/robe, SLOT_CLOAK, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_EXPERT, TRUE) // zizo heretic already gets unique benefits, no reason to double down 
+			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE) // zizo heretic already gets unique benefits, no reason to double down 
 			H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_MASTER, TRUE)
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
@@ -542,6 +542,7 @@
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/roguehood, SLOT_HEAD, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/shirt/robe, SLOT_CLOAK, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/music, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/cooking, SKILL_LEVEL_EXPERT, TRUE) // jessie we have to cook
 			ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
@@ -585,6 +586,7 @@
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/crusader/noc, SLOT_CLOAK, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_LEGENDARY, TRUE)// Really good at reading... does this really do anything? No. BUT it's soulful.
 			H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 		if(/datum/patron/divine/malum) // get +1 to their patron skills compared to the usual, to be the 'smiths' when they are not fragging
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/malum, SLOT_RING, TRUE)
