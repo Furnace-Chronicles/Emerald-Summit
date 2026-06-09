@@ -81,6 +81,7 @@
 	var/has_song = FALSE
 	var/is_vet = FALSE
 	var/is_naked = FALSE
+	var/nsfw_examine_always = FALSE // examined character's opt-in to show NSFW even when clothed
 	// NSFW is only revealed to age-verified viewers (or admins); enforced by the strip below.
 	var/can_see_nsfw = user && (user.check_agevet() || (user.client && check_rights_for(user.client, R_ADMIN)))
 
@@ -88,6 +89,7 @@
 		var/mob/living/carbon/human/holder_human = holder
 		if(!(holder.wear_armor && holder.wear_armor.flags_inv) && !(holder.wear_shirt && holder.wear_shirt.flags_inv))
 			is_naked = TRUE
+		nsfw_examine_always = holder.client?.prefs?.nsfw_examine_always // opt-in: show NSFW even when clothed
 		obscured = ((!isobserver(user)) && !holder_human.client?.prefs?.masked_examine) && ((holder_human.wear_mask && (holder_human.wear_mask.flags_inv & HIDEFACE)) || (holder_human.head && (holder_human.head.flags_inv & HIDEFACE)))
 		flavor_text = obscured ? "Obscured" : holder.flavortext_display
 		flavor_text_nsfw = obscured ? "Obscured" : holder.nsfwflavortext_display
@@ -152,6 +154,7 @@
 		"has_song" = has_song,
 		"is_vet" = is_vet,
 		"is_naked" = is_naked,
+		"nsfw_examine_always" = nsfw_examine_always,
 	)
 	return data
 

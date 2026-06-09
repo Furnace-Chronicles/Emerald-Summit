@@ -13,6 +13,8 @@ export const FlavorTextPage = (props) => {
     ooc_notes,
     ooc_notes_nsfw,
     headshot,
+    is_naked,
+    nsfw_examine_always,
   } = data;
   const [oocNotesIndex, setOocNotesIndex] = useState('SFW');
   const [flavorTextIndex, setFlavorTextIndex] = useState('SFW');
@@ -111,7 +113,7 @@ export const FlavorTextPage = (props) => {
               </Button>
               <Button
                 selected={flavorTextIndex === 'NSFW'}
-                disabled={!flavor_text_nsfw}
+                disabled={!flavor_text_nsfw || (!is_naked && !nsfw_examine_always)}
                 bold={flavorTextIndex === 'NSFW'}
                 onClick={() => setFlavorTextIndex('NSFW')}
                 textAlign="center"
