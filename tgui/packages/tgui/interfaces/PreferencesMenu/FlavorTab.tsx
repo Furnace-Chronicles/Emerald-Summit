@@ -38,6 +38,13 @@ const lenStatus = (current: number, minimum: number) => {
   return { text: `${current} chars`, color: 'good' as const };
 };
 
+// Accepted-upload rules, surfaced as tooltips on the image/link prompts below.
+// Hosts are shared across every field; only the allowed extensions differ.
+const UPLOAD_HOSTS = 'Gyazo, Lensdump, Imgbox, or Catbox';
+const TIP_IMAGE = `Direct https image link ending in .jpg, .png, or .jpeg, hosted on ${UPLOAD_HOSTS}.`;
+const TIP_GALLERY = `Direct https image link ending in .jpg, .png, .jpeg, or .gif, hosted on ${UPLOAD_HOSTS}.`;
+const TIP_EXTRA = `Direct https link ending in .jpg, .png, .jpeg, .gif, .mp4, or .mp3, hosted on ${UPLOAD_HOSTS}.`;
+
 export const FlavorTab = (props) => {
   const { act, data } = useBackend<Data>();
   const flavor = data.flavor;
@@ -133,13 +140,18 @@ export const FlavorTab = (props) => {
           ) : (
             <LabeledList>
               <LabeledList.Item label="Headshot">
-                <Button onClick={() => act('edit_headshot')}>Edit URL</Button>
+                <Button tooltip={TIP_IMAGE} onClick={() => act('edit_headshot')}>
+                  Edit URL
+                </Button>
                 <Box inline ml={1} color="label">
                   {flavor.headshot_link ? '(set)' : '(unset)'}
                 </Box>
               </LabeledList.Item>
               <LabeledList.Item label="NSFW Bodyshot">
-                <Button onClick={() => act('edit_nsfw_headshot')}>
+                <Button
+                  tooltip={TIP_IMAGE}
+                  onClick={() => act('edit_nsfw_headshot')}
+                >
                   Edit URL
                 </Button>
                 <Box inline ml={1} color="label">
@@ -147,13 +159,18 @@ export const FlavorTab = (props) => {
                 </Box>
               </LabeledList.Item>
               <LabeledList.Item label="OOC Extra Image/Video/Gif (Flavor Text)">
-                <Button onClick={() => act('edit_ooc_extra')}>Edit URL</Button>
+                <Button tooltip={TIP_EXTRA} onClick={() => act('edit_ooc_extra')}>
+                  Edit URL
+                </Button>
                 <Box inline ml={1} color="label">
                   {flavor.ooc_extra_set ? '(set)' : '(unset)'}
                 </Box>
               </LabeledList.Item>
               <LabeledList.Item label="NSFW OOC Extra Image/Video/Gif (Flavor Text)">
-                <Button onClick={() => act('edit_nsfw_ooc_extra')}>
+                <Button
+                  tooltip={TIP_EXTRA}
+                  onClick={() => act('edit_nsfw_ooc_extra')}
+                >
                   Edit URL
                 </Button>
                 <Box inline ml={1} color="label">
@@ -175,7 +192,9 @@ export const FlavorTab = (props) => {
                 </Box>
               </LabeledList.Item>
               <LabeledList.Item label="Image Gallery">
-                <Button onClick={() => act('img_gallery_add')}>Add</Button>
+                <Button tooltip={TIP_GALLERY} onClick={() => act('img_gallery_add')}>
+                  Add
+                </Button>
                 <Button onClick={() => act('img_gallery_clear')}>
                   Clear Gallery
                 </Button>
@@ -184,7 +203,12 @@ export const FlavorTab = (props) => {
                 </Box>
               </LabeledList.Item>
               <LabeledList.Item label="Nsfw Image Gallery">
-                <Button onClick={() => act('nsfw_img_gallery_add')}>Add</Button>
+                <Button
+                  tooltip={TIP_GALLERY}
+                  onClick={() => act('nsfw_img_gallery_add')}
+                >
+                  Add
+                </Button>
                 <Button onClick={() => act('nsfw_img_gallery_clear')}>
                   Clear Nsfw Gallery
                 </Button>
