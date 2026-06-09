@@ -61,7 +61,7 @@
 		"img_gallery" = list(),
 		"img_gallery_nsfw" = list(),
 		"has_song" = FALSE,
-		"is_vet" = holder?.check_agevet(),
+		"is_vet" = holder?.check_agevet(), // crown — whether the examined familiar's owner is age-verified
 		"is_naked" = FALSE,
 	)
 	return data
@@ -81,6 +81,8 @@
 	var/has_song = FALSE
 	var/is_vet = FALSE
 	var/is_naked = FALSE
+	// NSFW is only revealed to age-verified viewers (or admins); enforced by the strip below.
+	var/can_see_nsfw = user && (user.check_agevet() || (user.client && check_rights_for(user.client, R_ADMIN)))
 
 	if(ishuman(holder))
 		var/mob/living/carbon/human/holder_human = holder
@@ -93,13 +95,12 @@
 		ooc_notes_nsfw += holder.erpprefs_display
 		char_name = holder.name
 		song_url = holder.song_url
-		is_vet = holder.check_agevet()
-		if(is_vet && !obscured)
-			if(holder.ooc_extra)
-				flavor_text = "[flavor_text][holder.ooc_extra]" // SFW OOC extra media embed shown within the SFW flavor text
-			if(holder.nsfw_ooc_extra)
-				flavor_text_nsfw = "[flavor_text_nsfw][holder.nsfw_ooc_extra]" // NSFW OOC extra media embed shown within the NSFW flavor text
+		is_vet = holder.check_agevet() // crown indicator — whether the EXAMINED character's player is age-verified
 		if(!obscured)
+			if(holder.ooc_extra)
+				flavor_text = "[flavor_text][holder.ooc_extra]" // SFW OOC extra media embed
+			if(holder.nsfw_ooc_extra)
+				flavor_text_nsfw = "[flavor_text_nsfw][holder.nsfw_ooc_extra]" // NSFW extra (stripped below for non-vetted viewers)
 			headshot = holder.headshot_link
 			img_gallery = holder.img_gallery
 			img_gallery_nsfw = holder.nsfw_img_gallery
@@ -118,14 +119,19 @@
 		img_gallery_nsfw = pref.nsfw_img_gallery
 		char_name = pref.real_name
 		song_url = pref.song_url
-		is_vet = viewing?.check_agevet()
-		if(is_vet)
-			if(pref.ooc_extra)
-				flavor_text = "[flavor_text][pref.ooc_extra]"
-			if(pref.nsfw_ooc_extra)
-				flavor_text_nsfw = "[flavor_text_nsfw][pref.nsfw_ooc_extra]"
+		is_vet = user.check_agevet() // preview shows your own character — crown reflects you, the owner
+		if(pref.ooc_extra)
+			flavor_text = "[flavor_text][pref.ooc_extra]"
+		if(pref.nsfw_ooc_extra)
+			flavor_text_nsfw = "[flavor_text_nsfw][pref.nsfw_ooc_extra]" // stripped below for non-vetted viewers
 		if(!headshot)
 			headshot = "headshot_red.png"
+
+	// NSFW is for age-verified viewers (or admins) only — strip it so it never reaches anyone else's client.
+	if(!can_see_nsfw)
+		flavor_text_nsfw = null
+		ooc_notes_nsfw = null
+		img_gallery_nsfw = list()
 
 	if(song_url)
 		has_song = TRUE

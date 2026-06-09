@@ -20,7 +20,6 @@ export const ExaminePanel = (props) => {
   const { act, data } = useBackend<ExaminePanelData>();
   const {
     is_vet,
-    is_naked,
     character_name,
     is_playing,
     has_song,
@@ -30,7 +29,7 @@ export const ExaminePanel = (props) => {
   const [currentPage, setCurrentPage] = useState(Page.FlavorText);
 
   const showSfwGallery = img_gallery.length > 0;
-  const showNsfwGallery = img_gallery_nsfw.length > 0 && is_naked;
+  const showNsfwGallery = img_gallery_nsfw.length > 0;
   const showTabs = showSfwGallery || showNsfwGallery;
 
   let pageContents;
