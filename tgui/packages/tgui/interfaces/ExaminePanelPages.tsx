@@ -134,36 +134,71 @@ export const FlavorTextPage = (props) => {
   );
 };
 
+// One-at-a-time viewer: shows the selected image at full panel size and lets the
+// user page through the gallery, instead of squishing every image into one row.
+const ImageCarousel = (props: { images: string[] }) => {
+  const { images } = props;
+  const [index, setIndex] = useState(0);
+
+  if (!images.length) {
+    return <Box color="label">No images.</Box>;
+  }
+
+  // Clamp in case the backing list ever shrinks while mounted.
+  const current = Math.min(index, images.length - 1);
+  const step = (delta: number) =>
+    setIndex((current + delta + images.length) % images.length);
+
+  return (
+    <Stack vertical fill>
+      <Stack.Item grow>
+        <Section fill align="center">
+          <Image
+            maxHeight="100%"
+            maxWidth="100%"
+            src={resolveAsset(images[current])}
+          />
+        </Section>
+      </Stack.Item>
+      <Stack.Item>
+        <Stack align="center" justify="center">
+          <Stack.Item>
+            <Button
+              icon="chevron-left"
+              tooltip="Previous"
+              disabled={images.length < 2}
+              onClick={() => step(-1)}
+            />
+          </Stack.Item>
+          <Stack.Item>
+            <Box textAlign="center" width="60px">
+              {current + 1} / {images.length}
+            </Box>
+          </Stack.Item>
+          <Stack.Item>
+            <Button
+              icon="chevron-right"
+              tooltip="Next"
+              disabled={images.length < 2}
+              onClick={() => step(1)}
+            />
+          </Stack.Item>
+        </Stack>
+      </Stack.Item>
+    </Stack>
+  );
+};
+
 export const ImageGalleryPage = (props) => {
   const { data } = useBackend<ExaminePanelData>();
   const { img_gallery } = data;
 
-  return (
-    <Stack fill justify="space-evenly">
-      {img_gallery.map((val) => (
-        <Stack.Item grow key={val}>
-          <Section align="center">
-            <Image maxHeight="100%" maxWidth="100%" src={resolveAsset(val)} />
-          </Section>
-        </Stack.Item>
-      ))}
-    </Stack>
-  );
+  return <ImageCarousel images={img_gallery} />;
 };
 
 export const NsfwImageGalleryPage = (props) => {
   const { data } = useBackend<ExaminePanelData>();
   const { img_gallery_nsfw } = data;
 
-  return (
-    <Stack fill justify="space-evenly">
-      {img_gallery_nsfw.map((val) => (
-        <Stack.Item grow key={val}>
-          <Section align="center">
-            <Image maxHeight="100%" maxWidth="100%" src={resolveAsset(val)} />
-          </Section>
-        </Stack.Item>
-      ))}
-    </Stack>
-  );
+  return <ImageCarousel images={img_gallery_nsfw} />;
 };
