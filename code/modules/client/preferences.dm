@@ -104,6 +104,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/phobia = "spiders"
 	var/shake = TRUE
 	var/sexable = FALSE
+	var/extreme_erp = FALSE
 	var/compliance_notifs = TRUE
 	var/wildshape_name = TRUE
 	var/xenophobe_pref = 1
