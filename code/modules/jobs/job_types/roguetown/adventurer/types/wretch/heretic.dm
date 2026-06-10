@@ -480,7 +480,7 @@
 			beltr = /obj/item/rogueweapon/katar/punchdagger
 		if("Steel Quarterstaff") //DE and polearms kicks ass trust me!
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
-			/obj/item/rogueweapon/woodstaff/quarterstaff/steel
+			r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel
 		if("Spear")
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 			r_hand = /obj/item/rogueweapon/spear
