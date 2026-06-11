@@ -106,6 +106,13 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			user.ranged_ability.deactivate(user)
 		else
 			return
+	// Magi 2 spells occupy mob.click_intercept independently of ranged_ability, so arming a
+	// legacy ability must deselect any active Magi 2 spell — mirrors the reverse clearing in
+	// /datum/action/cooldown/spell/on_activation(). Without this the two selections coexist
+	// and a single middle-click can attempt both.
+	if(istype(user.click_intercept, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/active_magi2 = user.click_intercept
+		active_magi2.on_deactivation()
 	user.ranged_ability = src
 	ranged_ability_user = user
 	if(!mmb)

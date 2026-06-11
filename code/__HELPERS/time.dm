@@ -170,6 +170,9 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 				to_chat(mind.current, span_warning("My glimpse of [mind.rituos_spell.name] flees my mind as the new dae dawns..."))
 				mind.RemoveSpell(mind.rituos_spell)
 				mind.rituos_spell = null
+			if(mind.aspect_resets_used)
+				mind.aspect_resets_used = 0
+				to_chat(mind.current, span_smallnotice("My soul feels pliable again; I can reshape my arcyne aspects."))
 			if(HAS_TRAIT(mind.current, TRAIT_STUDENT))
 				REMOVE_TRAIT(mind.current, TRAIT_STUDENT, TRAIT_GENERIC)
 				to_chat(mind.current, span_nicegreen("I feel that I can be educated in a skill once more."))

@@ -927,6 +927,9 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	if (target.mind?.has_antag_datum(/datum/antagonist/werewolf/lesser))
 		loc.visible_message(span_cult("YOU ARE CURSED BY DENDOR, UNDESERVING OF UNLYFE!"))
 		return
+	// Only hosts already trained in the arcyne (Arcyne Training Apprentice/T2 or above) keep/gain the
+	// magic side of the rite; everyone else just becomes undead.
+	var/was_caster = HAS_TRAIT(target, TRAIT_ARCYNE_T2) || HAS_TRAIT(target, TRAIT_ARCYNE_T3) || HAS_TRAIT(target, TRAIT_ARCYNE_T4)
 	target.Stun(60)
 	target.Knockdown(60)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
@@ -936,7 +939,6 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	spawn(20)
 		playsound(loc, 'sound/combat/dismemberment/dismem (6).ogg', 50)
 		playsound(target, 'sound/health/slowbeat.ogg', 50)
-		target.mind?.RemoveSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation) // gotta remove presiistitititginanon if you had one to avoid getting double
 		ADD_TRAIT(target, TRAIT_NOHUNGER, "[type]")
 		ADD_TRAIT(target, TRAIT_NOBREATH, "[type]")
 		ADD_TRAIT(target, TRAIT_NOPAIN, "[type]")
@@ -948,19 +950,29 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		ADD_TRAIT(target, TRAIT_LIMBATTACHMENT, "[type]")
 		ADD_TRAIT(target, TRAIT_EASYDISMEMBER, "[type]")
 		ADD_TRAIT(target, TRAIT_SILVER_WEAK, "[type]")
-		if (!HAS_TRAIT(target, TRAIT_ARCYNE_T3) && !HAS_TRAIT(target, TRAIT_ARCYNE_T4) || HAS_TRAIT(target, TRAIT_ARCYNE_T2))
-			REMOVE_TRAIT(target, TRAIT_ARCYNE_T2, "[type]")
-			ADD_TRAIT(target, TRAIT_ARCYNE_T3, "[type]")
 		target.dna.species.species_traits |= NOBLOOD
 		target.change_stat("speed", -1)
 		target.change_stat("constitution", -2)
-		var/arcyne_level = target.get_skill_level(/datum/skill/magic/arcane) // mages get better spellcasting skill, still no access to the greater fireball sloppp, should they??
-		if (arcyne_level >= 3)
-			target.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
-		else
-			target.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
-		target.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation) // gotta remove if you already have it fuck?
-		target.mind?.adjust_spellpoints(18)
+		// Arcyne power - only for hosts already trained in the arcyne (T2+). Mundane hosts skip all of this.
+		if(was_caster)
+			target.mind?.RemoveSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation) // avoid a double grant when re-added below
+			if (!HAS_TRAIT(target, TRAIT_ARCYNE_T3) && !HAS_TRAIT(target, TRAIT_ARCYNE_T4) || HAS_TRAIT(target, TRAIT_ARCYNE_T2))
+				REMOVE_TRAIT(target, TRAIT_ARCYNE_T2, "[type]")
+				ADD_TRAIT(target, TRAIT_ARCYNE_T3, "[type]")
+			var/arcyne_level = target.get_skill_level(/datum/skill/magic/arcane)
+			if (arcyne_level >= 3)
+				target.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
+			else
+				target.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
+			target.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+			// Magi 2: grant arcyne aspects (a major + a minor slot, chosen via the Grimoire). Set up the
+			// magi2 stack if they aren't a caster yet, otherwise just widen their existing loadout.
+			if(target.mind)
+				if(!LAZYLEN(target.mind.mage_aspect_config))
+					_magi2_setup_caster(target, list("major" = 1, "minor" = 1, "utilities" = 0, "ward" = TRUE), grant_staff = FALSE)
+				else
+					target.mind.mage_aspect_config["major"] += 1
+					target.mind.mage_aspect_config["minor"] += 1
 		target.mob_biotypes |= MOB_UNDEAD
 		spawn(40)
 			to_chat(target, span_purple("They are ignorant, backwards, without hope. You. You will be powerful."))

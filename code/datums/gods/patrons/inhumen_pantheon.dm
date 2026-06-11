@@ -29,7 +29,9 @@
 					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/profane/miracle 	= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/raise_lesser_undead/miracle 	= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/rituos/miracle 				= CLERIC_T2,
+					// Rituos miracle disabled for now — its check_ritual_progress() is an empty stub, so it
+					// just hands out a free until-rest T3 arcane spell with no cost. Re-add once reworked.
+					// /obj/effect/proc_holder/spell/invoked/rituos/miracle 				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/wound_heal					= CLERIC_T3,
 	)
 	confess_lines = list(

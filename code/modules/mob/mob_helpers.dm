@@ -508,6 +508,10 @@
 	if(input != QINTENT_SPELL)
 		if(ranged_ability)
 			ranged_ability.deactivate()
+		// Magi 2 spells sit on click_intercept independently of ranged_ability — picking a non-spell mmb intent must deselect one.
+		if(istype(click_intercept, /datum/action/cooldown/spell))
+			var/datum/action/cooldown/spell/active_magi2 = click_intercept
+			active_magi2.on_deactivation()
 	switch(input)
 		if(QINTENT_KICK)
 			if(mmb_intent?.type == INTENT_KICK)

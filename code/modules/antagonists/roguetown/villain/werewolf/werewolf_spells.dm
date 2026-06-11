@@ -25,7 +25,7 @@
 		return TRUE
 
 	var/mob/living/carbon/human/human_player = player
-	if(istype(human_player) && human_player.patron?.type == /datum/patron/divine/dendor && player.mind.assigned_role == "Acolyte")
+	if(istype(human_player) && istype(human_player.patron, /datum/patron/divine/dendor) && player.mind.assigned_role == "Acolyte")
 		return TRUE
 
 	return FALSE
@@ -59,6 +59,12 @@
 			can_hear = can_hear || is_druid_howl_listener(player)
 		if(HOWL_CHANNEL_GNOLL in howl_channels)
 			can_hear = can_hear || player.mind.has_antag_datum(/datum/antagonist/gnoll)
+		// Restore pre-#104 behavior: a language-howl (e.g. Dendor's Call of the Moon, which grants the
+		// caster beast-tongue) is heard by any beast-language speaker. Gated on use_language so the
+		// silent werewolf/gnoll howls are unaffected. The #104 howl refactor dropped this path, which
+		// broke Dendor followers' moonlight communication.
+		if(use_language && player.has_language(/datum/language/beast))
+			can_hear = TRUE
 		if(can_hear)
 			to_chat(player, span_boldannounce("[speaker_name] howls to the [howl_announcement_target]: [message]"))
 

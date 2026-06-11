@@ -2,7 +2,6 @@ import { Fragment } from 'react';
 import {
   Box,
   Button,
-  Dropdown as RawDropdown,
   LabeledList,
   Section,
   Stack,
@@ -12,15 +11,9 @@ import { useBackend } from '../../backend';
 import { BodySection } from './BodySection';
 import { CustomizerCard, CustomizerEntry } from './CustomizerCard';
 import { MarkingsSection } from './MarkingsSection';
-
-// Wraps RawDropdown in an inline-Box constraint so the width prop actually
-// limits the dropdown — without this, the dropdown stretches to fill its
-// LabeledList.Item content cell instead of honoring its declared width.
-const Dropdown = (props: any) => (
-  <Box inline style={{ width: props.width }}>
-    <RawDropdown {...props} />
-  </Box>
-);
+// Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
+// list passes 7 options. (Replaces the per-tab RawDropdown + inline-Box wrapper.)
+import { SearchableDropdown as Dropdown } from '../common/SearchableDropdown';
 
 type DescriptorEntryStatic = {
   choice_type: string;

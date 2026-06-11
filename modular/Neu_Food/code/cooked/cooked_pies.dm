@@ -14,6 +14,8 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_FILLING)
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/pieslice
 	slices_num = 5
+	bitesize = 8
+	slice_name = "pie slice"
 	slice_batch = TRUE
 	faretype = FARE_LAVISH //an entire pie! all to yourself!
 	portable = FALSE
@@ -21,7 +23,7 @@
 	eat_effect = null
 	foodtype = GRAIN | DAIRY
 	chopping_sound = TRUE
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/snackbuff
 	dropshrink = 0.8
 
 /obj/item/reagent_containers/food/snacks/rogue/pie/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
@@ -70,7 +72,7 @@
 	foodtype = GRAIN | DAIRY
 	warming = 5 MINUTES
 	bitesize = 3
-	eat_effect = /datum/status_effect/buff/foodbuff
+	eat_effect = /datum/status_effect/buff/snackbuff
 	color = "#e7e2df"
 	rotprocess = SHELFLIFE_LONG
 
@@ -78,13 +80,12 @@
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat // bae item
 	name = "meat pie"
 	desc = "A delicious, homemade pie made with minced meat. Still needs to be sliced."
-	eat_effect = /datum/status_effect/buff/foodbuff
-	foodtype = GRAIN | DAIRY | MEAT
-
-/obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat/meat
 	icon_state = "meatpie"
 	tastes = list("succulent meat and crispy butterdough" = 1)
+	eat_effect = /datum/status_effect/buff/snackbuff
+	foodtype = GRAIN | DAIRY | MEAT
 	filling_color = "#b43628"
+	slice_name = "meat pie slice"
 
 // -------------- FISH PIE -----------------
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat/fish
@@ -93,7 +94,16 @@
 	icon_state = "fishpie"
 	tastes = list("baked fish and crispy butterdough" = 1)
 	filling_color = "#d44197"
+	slice_name = "fish pie slice"
 
+// -------------- SPIDER PIE --------------
+/obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat/spider
+	name = "de-scallax pie"
+	desc = "A delicious, homemade pie made with the inside of a spider. It was often used as a gesture of reconciliation between drow clans. Still needs to be sliced."
+	icon_state = "spiderpie"
+	tastes = list("spider innards and crispy butterdough" = 1)
+	filling_color = "#6a9153"
+	slice_name = "de-scallax pie slice"
 
 // -------------- POT PIE -----------------
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/pot
@@ -103,6 +113,7 @@
 	tastes = list("succulent filling and crispy butterdough" = 1)
 	filling_color = "#755430"
 	foodtype = GRAIN | DAIRY | MEAT
+	slice_name = "pot pie slice"
 
 // -------------- BERRY PIE -----------------
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/berry
@@ -110,32 +121,71 @@
 	desc = "A delicious, homemade pie made with wild berries. Still needs to be sliced."
 	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD)
 	slices_num = 4
+	bitesize = 7
 	tastes = list("crispy butterdough" = 1, "sweet berries" = 1)
 	filling_color = "#4a62cf"
+	slice_name = "berry pie slice"
 
 // -------------- POISON PIE -----------------
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/poison
 	name = "berry pie"
 	desc = "A delicious, homemade pie made with wild berries. Still needs to be sliced."
 	slices_num = 4
+	bitesize = 7
 	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD, /datum/reagent/toxin/berrypoison = 12)
 	tastes = list("crispy butterdough" = 1, "bitter berries" =1)
 	filling_color = "#4a62cf"
+	slice_name = "berry pie slice"
 
 // -------------- APPLE PIE -----------------
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/apple
 	name = "apple pie"
 	desc = "A delicious, homemade pie made with the sliced apples. Still needs to be cut."
 	slices_num = 4
+	bitesize = 7
 	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD)
 	tastes = list("baked apples and crispy butterdough" = 1)
 	filling_color = "#947a4b"
+	slice_name = "apple pie slice"
 
 // -------------- CRAB PIE -----------------
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/crab
 	name = "crab pie"
 	desc = "A delicious, homemade pie made with the inside of a crustacean. Still needs to be sliced."
 	slices_num = 4
+	bitesize = 7
 	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD)
 	tastes = list("crispy butterdough" = 1, "rich crab meat" = 1)
 	filling_color = "#f1e0cb"
+	slice_name = "crab pie slice"
+
+// -------------- PUMPKIN PIE --------------
+/obj/item/reagent_containers/food/snacks/rogue/pie/cooked/pumpkin
+	name = "pumpkin pie"
+	desc = "A delicious, homemade pie made with pumpkin and cheese. Still needs to be sliced."
+	icon_state = "pumpkinpie"
+	filling_color = "#df7a04"
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/pieslice/pumpkin
+	slices_num = 4
+	bitesize = 7
+	slice_name = "pumpkin pie slice"
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD)
+	tastes = list("crispy butterdough" = 1,"pumpkin"=1,"cheese"=1)
+	foodtype = GRAIN | DAIRY | FRUIT | SUGAR
+	bitesize = 8
+	dropshrink = 0.85
+
+/obj/item/reagent_containers/food/snacks/rogue/pieslice/pumpkin
+	name = "pumpkin pie slice"
+	desc = "A delicious slice of homemade pie, made with pumpkin and cheese."
+	icon_state = "pumpkinslice"
+	color = "#f5e7d8"
+	filling_color = "#df7a04"
+	tastes = list("crispy butterdough"=1,"pumpkin"=1,"cheese"=1)
+	faretype = FARE_FINE
+	portable = FALSE
+	foodtype = GRAIN | DAIRY | FRUIT | SUGAR
+	warming = 5 MINUTES
+	bitesize = 3
+	eat_effect = /datum/status_effect/buff/snackbuff
+	rotprocess = SHELFLIFE_LONG
