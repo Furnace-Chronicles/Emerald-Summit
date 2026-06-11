@@ -1,6 +1,8 @@
 /proc/parse_zone(zone, obj/item/bodypart/affecting = null)
 	// this helps adapt older code
 	if(affecting?.body_zone == BODY_ZONE_LAMIAN_TAIL)
+		if(istype(affecting, /obj/item/bodypart/lamian_tail/drider)) // driders have drider legs, not a tail
+			return "drider legs"
 		return "tail"
 	switch(zone)
 		if(BODY_ZONE_PRECISE_R_HAND)
@@ -42,6 +44,14 @@
 		if(BODY_ZONE_PRECISE_MOUTH)
 			return "mouth"
 	return zone
+
+/// parse_zone() that resolves the bodypart actually covering the zone on this mob, so that
+/// surgery on a taur/lamia's leg zone (a subtarget of the tail) reads as "tail" instead of "leg".
+/mob/living/proc/parse_surgery_zone(zone)
+	return parse_zone(zone)
+
+/mob/living/carbon/parse_surgery_zone(zone)
+	return parse_zone(zone, get_bodypart(check_zone(zone)))
 
 /proc/parse_organ_slot(slot)
 	switch(slot)

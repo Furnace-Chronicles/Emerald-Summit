@@ -106,7 +106,8 @@
 	icon_state = "courtstaff"
 
 /obj/item/rogueweapon/woodstaff/naledi
-	cast_time_reduction = DIAMOND_CAST_TIME_REDUCTION
+	// Old gem cast-time-reduction buff dropped — the staff's magic now comes from the magi2
+	// implement (residual focus), defined in magi2/implements/staff.dm.
 	resistance_flags = FIRE_PROOF
 
 //crafting datums

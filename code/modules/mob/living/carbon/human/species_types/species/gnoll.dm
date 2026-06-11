@@ -40,7 +40,9 @@
 		TRAIT_ZJUMP,
 		TRAIT_NUDIST,
 		TRAIT_HERESIARCH, //Just because I'm putting their spawns here, that's all.
-		TRAIT_UNLYCKERABLE //Just stop. (Upstream TRAIT_ZURCH / TRAIT_EXTREME_TEMPERATURE_IMMUNE stripped — not in ES.)
+		TRAIT_UNLYCKERABLE, //Just stop. (Upstream TRAIT_ZURCH / TRAIT_EXTREME_TEMPERATURE_IMMUNE stripped — not in ES.)
+		TRAIT_NODISMEMBER, //Gnolls render as one whole-body sprite (no per-limb art), so severed limbs are invisible — make them unseverable instead.
+		TRAIT_DEATHBYSNUSNU //Bed Breaker (restored from upstream RW gnolls).
 	)
 	inherent_biotypes = MOB_HUMANOID
 	armor = 30

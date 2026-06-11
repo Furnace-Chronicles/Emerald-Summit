@@ -314,7 +314,9 @@
 		STATKEY_PER = 3,
 	)
 
-	subclass_spellpoints = 15
+	// Magi 2 (T2 support caster): 0 major / 2 minor / 6 utilities, universal arcyne ward.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
@@ -349,4 +351,4 @@
 		H.change_stat("strength", -1)
 		H.change_stat("intelligence", 1)
 		H.change_stat("perception", 1)
-		H?.mind.adjust_spellpoints(3)
+		// Magi 2: legacy AGE_OLD spellpoint bonus removed (dead currency; aspect loadout comes from mage_aspect_config).

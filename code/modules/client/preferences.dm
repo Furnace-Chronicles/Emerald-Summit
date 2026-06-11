@@ -318,7 +318,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	randomize_all_customizer_accessories()
 	reset_descriptors()
 	virtue_origin = new pref_species.origin_default
-	tail_type = /obj/item/bodypart/lamian_tail/lamian_tail
+	// Default the tail/lower-body to the new species' first allowed type (e.g. drider legs for a
+	// Drider, lamia tail for a Lamia) rather than always defaulting to lamia legs.
+	var/list/new_tail_list = new_race.get_tail_list()
+	tail_type = length(new_tail_list) ? new_tail_list[1] : /obj/item/bodypart/lamian_tail/lamian_tail
 	if(virtue_origin.uniquefaith)
 		selected_patron = GLOB.patronlist[virtue_origin.uniquefaith[1].godhead]
 	else

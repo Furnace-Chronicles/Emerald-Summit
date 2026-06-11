@@ -361,6 +361,9 @@
 					span_userdanger("My prosthetic [parse_zone(sublimb_grabbed)] was twisted off of me![C.next_attack_msg.Join()]"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE, user)
 		to_chat(user, span_warning("I twisted [C]'s prosthetic [parse_zone(sublimb_grabbed)] off.[C.next_attack_msg.Join()]"))
 		limb_grabbed.drop_limb(TRUE)
+		// The limb is gone; end the grab so it can't be "popped" again and flood chat.
+		qdel(src)
+		return
 	if(ishuman(user) && user.mind)
 		var/text = "[bodyzone2readablezone(user.zone_selected)]..."
 		user.filtered_balloon_alert(TRAIT_COMBAT_AWARE, text)
