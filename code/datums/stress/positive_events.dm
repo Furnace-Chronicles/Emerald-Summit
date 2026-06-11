@@ -48,6 +48,56 @@
 	stressadd = -1
 	desc = list(span_blue("A cooling feeling in my throat."))
 
+/datum/stressevent/blackberrysmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A sweet-tart sensation on the tongue."))
+
+/datum/stressevent/applesmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A feeling of sourness and coolness on the tongue."))
+
+/datum/stressevent/strawberrysmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling of sourness and sweetness on the tongue."))
+
+/datum/stressevent/carrotsmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling of very carrot on the tongue."))
+
+/datum/stressevent/limesmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling of sweet and refreshing on the tongue."))
+
+/datum/stressevent/salviasmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling spicy, earthy and bitter on the tongue."))
+
+/datum/stressevent/valerianasmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling bitter-spicy and tart on the tongue."))
+
+/datum/stressevent/zweed
+	timer = 5 MINUTES
+	stressadd = -2
+	desc = list(span_blue("A pleasant bitterness that burns and scratches the throat. Nicotine and the taste of oak bark leave a pleasant aftertaste in the mouth."))
+
+/datum/stressevent/jacksberriessmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant slight sourness and sweetness on the tongue."))
+
+/datum/stressevent/abysssmoke
+	timer = 1 MINUTES
+	stressadd = 0
+	desc = list(span_blue("A slight sourness and sweetness... and salty on the tongue? An unpleasant chill runs down my spine. I can't shake the feeling of someone staring from behind me..."))
+
 /datum/stressevent/weed
 	timer = 5 MINUTES
 	stressadd = -4
@@ -375,3 +425,31 @@
 	stressadd = -2
 	desc = span_green("Astrata and her gaze may burn you now, but you distantly remember when it was pleasant to your skin.")
 	timer = 20 SECONDS
+
+// Tiered food-satisfaction stress events, ported from Azure-Peak (code/datums/stress/positive_events.dm).
+// Paired with the snackbuff/mealbuff/sweet status effects in roguebuff.dm; used by the Neu_Food set.
+/datum/stressevent/goodsnack
+	timer = 8 MINUTES
+	stressadd = -1
+	desc = span_green("That was quite a pleasant snack!")
+
+/datum/stressevent/greatsnack
+	timer = 10 MINUTES
+	stressadd = -2
+	desc = list(span_green("That snack was amazing!"), span_green("A truly sumptuous delicacy!"))
+
+/datum/stressevent/goodmeal
+	timer = 10 MINUTES
+	stressadd = -1
+	desc = list(span_green("That meal wasn't half bad!"), span_green("A decent meal, finally!"))
+
+/datum/stressevent/greatmeal
+	timer = 15 MINUTES
+	stressadd = -2
+	desc = list(span_green("That was a meal fit for a king!"), span_green("What an explosion of flavour \
+	I just experienced!"))
+
+/datum/stressevent/sweet
+	timer = 8 MINUTES
+	stressadd = -2
+	desc = span_green("Sweet treats like these can raise even the lowest of moods!")

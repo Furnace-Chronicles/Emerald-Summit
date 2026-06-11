@@ -84,8 +84,9 @@
 		/obj/item/recipe_book/alchemy
 	)
 
-	if (H && H.mind)
-		H.mind.adjust_spellpoints(6)
+	// Magi 2 (T2 caster): 0 major / 2 minor / 6 utilities + universal arcyne ward.
+	// Deferred so the backpack exists for Grimoire storage; grant_items = TRUE hands over Grimoire + staff.
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_magi2_setup_caster), H, list("major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE), null, TRUE), 1)
 	if(H.age == AGE_OLD)
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 1)

@@ -46,7 +46,10 @@
 		STATKEY_CON = -1,
 	)
 
-	subclass_spellpoints = 36
+	// Magi 2 (T4 caster): 2 major / 3 minor / 9 utilities, mastery variants, universal arcyne ward.
+	// Player picks their loadout via the Grimoire (first-open setup mode). Replaces legacy spellpoints.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 2, "minor" = 3, "utilities" = 9, "mastery" = TRUE, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_LEGENDARY,
@@ -74,7 +77,6 @@
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 1)
 		H.change_stat("perception", 1)
-		H?.mind.adjust_spellpoints(6)
 		H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo,
@@ -94,7 +96,7 @@
 	beltr = /obj/item/storage/keyring/mage
 	beltl = /obj/item/storage/magebag/starter
 	id = /obj/item/clothing/ring/gold
-	r_hand = /obj/item/rogueweapon/woodstaff/riddle_of_steel/magos
+	r_hand = /obj/item/rogueweapon/woodstaff/implement_magi2/grand/court_magos // Magi 2: Court Mage starts with the grand staff implement (named "Staff of the Court Magos")
 	backl = /obj/item/storage/backpack/rogue/satchel
 	. = ..()
 	if(H.age == AGE_OLD)

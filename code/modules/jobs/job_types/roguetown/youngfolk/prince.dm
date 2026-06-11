@@ -134,7 +134,9 @@
 		STATKEY_LCK = 1,
 	)
 
-	subclass_spellpoints = 9
+	// Magi 2 (T2 novice caster): 0 major / 1 minor / 4 utilities, universal arcyne ward.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 0, "minor" = 1, "utilities" = 4, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,

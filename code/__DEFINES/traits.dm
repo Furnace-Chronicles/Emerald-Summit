@@ -203,6 +203,7 @@
 #define TRAIT_EASYDECAPITATION "Easy Decapitation"
 #define TRAIT_NOPAIN	"Painless"
 #define TRAIT_NOPAINSTUN	"Enduring"
+#define TRAIT_WHITE_STAG "Stag Protection" // Granted by eating a full white-stag venison prime cut (see cooked_stag_buffs.dm). Creature port deferred.
 #define TRAIT_NOBREATH	"Breathless"
 #define TRAIT_HOLLOW_LIFE "Hollow Lyfe"
 #define TRAIT_TOXIMMUNE	"Poison Immune"

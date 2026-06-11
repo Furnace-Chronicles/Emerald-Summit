@@ -39,7 +39,9 @@
 	H.adjust_skillrank(/datum/skill/craft/crafting, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/carpentry, rand(4,5), TRUE)
 	H.adjust_skillrank(/datum/skill/craft/masonry, rand(1,2), TRUE)
-	H?.mind.adjust_spellpoints(9)
+	// Magi 2 (T2 caster): 0 major / 2 minor / 6 utilities + universal arcyne ward.
+	// Deferred so the backpack exists for Grimoire storage; grant_items = TRUE hands over Grimoire + staff.
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_magi2_setup_caster), H, list("major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE), null, TRUE), 1)
 
 	belt = /obj/item/storage/belt/rogue/leather
 	pants = /obj/item/clothing/under/roguetown/tights/black
