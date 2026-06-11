@@ -52,7 +52,10 @@
 		STATKEY_STR = -1
 	)
 
-	subclass_spellpoints = 12
+	// Magi 2 (T2 support caster): 0 major / 2 minor / 6 utilities, universal arcyne ward.
+	// Free teach/learn spells still granted in pre_equip below (coexist with magi2).
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_LEGENDARY,

@@ -439,6 +439,10 @@
 
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .)
 
+// Ported from Azure-Peak: base hook for "mechanics" examine text (cookware/food override it).
+/atom/proc/get_mechanics_examine(mob/user)
+	return list()
+
 //taking in the vanderlin update on apperance, name and desc processes
 /atom/proc/vand_update_appearance(updates = ALL)
 	SHOULD_NOT_SLEEP(TRUE)

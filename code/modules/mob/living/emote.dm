@@ -926,6 +926,18 @@
 	only_forced_audio = TRUE
 	show_runechat = FALSE
 
+/datum/emote/living/paincrit/run_emote(mob/user, params, type_override, intentional = FALSE, targetted = FALSE, animal = FALSE, broadcast_to_scom = FALSE)
+	. = ..()
+	if(.)
+		for(var/mob/living/carbon/human/L in viewers(7, user))
+			if(L == user) // the sufferer: a masochist enjoys their own pain
+				if(istype(L.charflaw, /datum/charflaw/masochist))
+					var/datum/charflaw/masochist/maso = L.charflaw
+					maso.satisfy_craving(L)
+				continue
+			if(L.has_flaw(/datum/charflaw/addiction/sadist)) // bystanders: a sadist enjoys watching
+				L.sate_addiction()
+
 /datum/emote/living/embed
 	key = "embed"
 	emote_type = EMOTE_AUDIBLE

@@ -46,6 +46,14 @@
 	/// Spellpoints. If More than 0, Gives Prestidigitation & the Learning Spell.
 	var/subclass_spellpoints = 0
 
+	/// If set, this advclass is a Magi 2 caster: equipme() runs the aspect setup
+	/// (setup_mage_aspects + Grimoire + staff) and SKIPS the legacy spellpoint grant.
+	/// Keys: "major","minor","utilities","mastery","ward" (+ optional "variants","locked_aspects").
+	var/list/mage_aspect_config
+	/// Extra spells granted to a Magi 2 caster after aspect setup (hybrid poke pick, class
+	/// freebies like Mindlink/Magician's Brick). Mix of datum + proc_holder spell paths.
+	var/list/mage_post_spells
+
 	/// Subclass social rank, used to overwrite the job social rank
 	var/subclass_social_rank
 
@@ -93,7 +101,10 @@
 		for(var/skill in subclass_skills)
 			H.adjust_skillrank_up_to(skill, subclass_skills[skill], TRUE)
 
-	if(subclass_spellpoints > 0)
+	if(LAZYLEN(mage_aspect_config))
+		// Magi 2 caster: config-driven aspect loadout + Grimoire/staff, no legacy spellpoints.
+		_magi2_setup_caster(H, mage_aspect_config, mage_post_spells)
+	else if(subclass_spellpoints > 0)
 		H.mind?.adjust_spellpoints(subclass_spellpoints)
 
 	if(subclass_social_rank)

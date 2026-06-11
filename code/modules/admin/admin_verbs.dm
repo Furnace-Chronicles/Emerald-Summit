@@ -471,7 +471,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	set category = "Prefs - Admin"
 	set desc = ""
 	if(holder && mob)
-		if(mob.invisibility == INVISIBILITY_OBSERVER)
+		if(mob.invisibility != initial(mob.invisibility))
 			mob.invisibility = initial(mob.invisibility)
 			to_chat(mob, span_boldannounce("Invisimin off. Invisibility reset."))
 		else

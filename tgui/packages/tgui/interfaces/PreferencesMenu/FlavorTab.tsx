@@ -14,6 +14,14 @@ type FlavorData = {
   ooc_extra_set: 0 | 1;
   headshot_link?: string;
   nsfw_headshot_link?: string;
+  nsfwflavortext_len: number;
+  erpprefs_len: number;
+  nsfw_ooc_extra_set: 0 | 1;
+  song_url_set: 0 | 1;
+  song_title?: string;
+  song_artist?: string;
+  img_gallery_count: number;
+  nsfw_img_gallery_count: number;
 };
 
 type Data = {
@@ -29,6 +37,13 @@ const lenStatus = (current: number, minimum: number) => {
   }
   return { text: `${current} chars`, color: 'good' as const };
 };
+
+// Accepted-upload rules, surfaced as tooltips on the image/link prompts below.
+// Hosts are shared across every field; only the allowed extensions differ.
+const UPLOAD_HOSTS = 'Gyazo, Lensdump, Imgbox, or Catbox';
+const TIP_IMAGE = `Direct https image link ending in .jpg, .png, or .jpeg, hosted on ${UPLOAD_HOSTS}.`;
+const TIP_GALLERY = `Direct https image link ending in .jpg, .png, .jpeg, or .gif, hosted on ${UPLOAD_HOSTS}.`;
+const TIP_EXTRA = `Direct https link ending in .jpg, .png, .jpeg, .gif, .mp4, or .mp3, hosted on ${UPLOAD_HOSTS}.`;
 
 export const FlavorTab = (props) => {
   const { act, data } = useBackend<Data>();
@@ -75,6 +90,26 @@ export const FlavorTab = (props) => {
                 {oocStatus.text}
               </Box>
             </LabeledList.Item>
+            <LabeledList.Item label="NSFW Flavortext">
+              <Button onClick={() => act('edit_nsfwflavortext')}>Edit</Button>
+              <Box
+                inline
+                ml={1}
+                color={flavor.nsfwflavortext_len ? 'good' : 'label'}
+              >
+                {flavor.nsfwflavortext_len
+                  ? `${flavor.nsfwflavortext_len} chars`
+                  : '(unset)'}
+              </Box>
+            </LabeledList.Item>
+            <LabeledList.Item label="ERP Preferences">
+              <Button onClick={() => act('edit_erpprefs')}>Edit</Button>
+              <Box inline ml={1} color={flavor.erpprefs_len ? 'good' : 'label'}>
+                {flavor.erpprefs_len
+                  ? `${flavor.erpprefs_len} chars`
+                  : '(unset)'}
+              </Box>
+            </LabeledList.Item>
             <LabeledList.Item label="Rumours">
               <Button onClick={() => act('edit_rumour')}>Edit</Button>
               <Box inline ml={1} color="label">
@@ -105,23 +140,80 @@ export const FlavorTab = (props) => {
           ) : (
             <LabeledList>
               <LabeledList.Item label="Headshot">
-                <Button onClick={() => act('edit_headshot')}>Edit URL</Button>
+                <Button tooltip={TIP_IMAGE} onClick={() => act('edit_headshot')}>
+                  Edit URL
+                </Button>
                 <Box inline ml={1} color="label">
                   {flavor.headshot_link ? '(set)' : '(unset)'}
                 </Box>
               </LabeledList.Item>
               <LabeledList.Item label="NSFW Bodyshot">
-                <Button onClick={() => act('edit_nsfw_headshot')}>
+                <Button
+                  tooltip={TIP_IMAGE}
+                  onClick={() => act('edit_nsfw_headshot')}
+                >
                   Edit URL
                 </Button>
                 <Box inline ml={1} color="label">
                   {flavor.nsfw_headshot_link ? '(set)' : '(unset)'}
                 </Box>
               </LabeledList.Item>
-              <LabeledList.Item label="OOC Extra">
-                <Button onClick={() => act('edit_ooc_extra')}>Edit URL</Button>
+              <LabeledList.Item label="OOC Extra Image/Video/Gif (Flavor Text)">
+                <Button tooltip={TIP_EXTRA} onClick={() => act('edit_ooc_extra')}>
+                  Edit URL
+                </Button>
                 <Box inline ml={1} color="label">
                   {flavor.ooc_extra_set ? '(set)' : '(unset)'}
+                </Box>
+              </LabeledList.Item>
+              <LabeledList.Item label="NSFW OOC Extra Image/Video/Gif (Flavor Text)">
+                <Button
+                  tooltip={TIP_EXTRA}
+                  onClick={() => act('edit_nsfw_ooc_extra')}
+                >
+                  Edit URL
+                </Button>
+                <Box inline ml={1} color="label">
+                  {flavor.nsfw_ooc_extra_set ? '(set)' : '(unset)'}
+                </Box>
+              </LabeledList.Item>
+              <LabeledList.Item label="Song">
+                <Button onClick={() => act('edit_song_url')}>Change URL</Button>
+                <Button onClick={() => act('edit_song_title')}>
+                  Change Title
+                </Button>
+                <Button onClick={() => act('edit_song_artist')}>
+                  Change Artist
+                </Button>
+                <Box inline ml={1} color="label">
+                  {flavor.song_url_set
+                    ? flavor.song_title || '(set)'
+                    : '(unset)'}
+                </Box>
+              </LabeledList.Item>
+              <LabeledList.Item label="Image Gallery">
+                <Button tooltip={TIP_GALLERY} onClick={() => act('img_gallery_add')}>
+                  Add
+                </Button>
+                <Button onClick={() => act('img_gallery_clear')}>
+                  Clear Gallery
+                </Button>
+                <Box inline ml={1} color="label">
+                  {flavor.img_gallery_count} / 6
+                </Box>
+              </LabeledList.Item>
+              <LabeledList.Item label="Nsfw Image Gallery">
+                <Button
+                  tooltip={TIP_GALLERY}
+                  onClick={() => act('nsfw_img_gallery_add')}
+                >
+                  Add
+                </Button>
+                <Button onClick={() => act('nsfw_img_gallery_clear')}>
+                  Clear Nsfw Gallery
+                </Button>
+                <Box inline ml={1} color="label">
+                  {flavor.nsfw_img_gallery_count} / 6
                 </Box>
               </LabeledList.Item>
             </LabeledList>

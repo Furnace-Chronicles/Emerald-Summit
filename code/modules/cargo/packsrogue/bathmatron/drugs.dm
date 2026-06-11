@@ -39,6 +39,11 @@
 	cost = 2
 	contains = list(/obj/item/clothing/mask/cigarette/rollie/nicotine)
 
+/datum/supply_pack/rogue/drugs/portable_hookah
+	name = "Portable Hookah"
+	cost = 100
+	contains = list(/obj/item/portable_hookah)
+
 /datum/supply_pack/rogue/drugs/starsugar
 	name = "Starsugar"
 	cost = 50

@@ -473,9 +473,19 @@
 			var/obj/item/organ/dullahan_vision/vision = getorganslot(ORGAN_SLOT_HUD)
 
 			if(vision && vision.viewing_head && user_head.eyes)
+				// Looking through the head: normal vision, clear the body-vision effects.
 				. = user_head.eyes.tint
+				remove_client_colour(/datum/client_colour/monochrome/blind/dullahan)
+				clear_fullscreen("dullahan_body_vision")
+			else if(vision && !vision.viewing_head && user_head.eyes)
+				// Looking through the body: see in monochrome with an overlay instead of a black screen.
+				. = user_head.eyes.tint
+				add_client_colour(/datum/client_colour/monochrome/blind/dullahan)
+				overlay_fullscreen("dullahan_body_vision", /atom/movable/screen/fullscreen/curse/dullahan)
 			else
 				. = INFINITY
+				remove_client_colour(/datum/client_colour/monochrome/blind/dullahan)
+				clear_fullscreen("dullahan_body_vision")
 			return
 
 	. = ..()

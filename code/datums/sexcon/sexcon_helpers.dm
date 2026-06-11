@@ -37,6 +37,8 @@
 /mob/living
 	var/can_do_sex = TRUE
 	var/virginity = FALSE
+	var/mpreg = FALSE
+	var/mpreg_chance = IMPREG_PROB_DEFAULT
 
 /**:
  * target/src is whomever the drag ends on. Inherited proc, needs to be a human.
@@ -102,7 +104,7 @@
 				playsound(target, pick('sound/misc/mat/intercourse/knotfuck (1).ogg','sound/misc/mat/intercourse/knotfuck (2).ogg','sound/misc/mat/intercourse/knotfuck (3).ogg','sound/misc/mat/intercourse/knotfuck (4).ogg'), 50, TRUE, -2, ignore_walls = FALSE)
 			else
 				playsound(target, pick('sound/misc/mat/intercourse/rough (1).ogg','sound/misc/mat/intercourse/rough (2).ogg','sound/misc/mat/intercourse/rough (3).ogg'), 50, TRUE, -2, ignore_walls = FALSE)
-		if(SEX_FORCE_EXTREME)
+		if(SEX_FORCE_EXTREME, SEX_FORCE_LUDICROUS)
 			playsound(target, pick('sound/misc/mat/intercourse/plap layer (1).ogg','sound/misc/mat/intercourse/plap layer (2).ogg','sound/misc/mat/intercourse/plap layer (3).ogg','sound/misc/mat/intercourse/plap layer (4).ogg'), 50, TRUE, -2, ignore_walls = FALSE)
 			var/datum/sex_action/action = SEX_ACTION(current_action)
 			if(do_knot_action && action?.knot_on_finish)
@@ -126,7 +128,7 @@
 			if(wetness_layer)
 				playsound(target, pick('sound/misc/mat/outercourse/wetness (1).ogg','sound/misc/mat/outercourse/wetness (2).ogg','sound/misc/mat/outercourse/wetness (3).ogg'), 20, TRUE, -2, ignore_walls = FALSE)
 			playsound(target, pick('sound/misc/mat/outercourse/rough (1).ogg','sound/misc/mat/outercourse/rough (2).ogg','sound/misc/mat/outercourse/rough (3).ogg'), 40, TRUE, -2, ignore_walls = FALSE)
-		if(SEX_FORCE_EXTREME)
+		if(SEX_FORCE_EXTREME, SEX_FORCE_LUDICROUS)
 			if(wetness_layer)
 				playsound(target, pick('sound/misc/mat/outercourse/wetness (1).ogg','sound/misc/mat/outercourse/wetness (2).ogg','sound/misc/mat/outercourse/wetness (3).ogg'), 25, TRUE, -2, ignore_walls = FALSE)
 			playsound(target, pick('sound/misc/mat/intercourse/plap layer (1).ogg','sound/misc/mat/intercourse/plap layer (2).ogg','sound/misc/mat/intercourse/plap layer (3).ogg','sound/misc/mat/intercourse/plap layer (4).ogg'), 20, TRUE, -2, ignore_walls = FALSE)
@@ -144,9 +146,9 @@
 			return
 		if(SEX_FORCE_HIGH)
 			volume_layer = 2
-		if(SEX_FORCE_EXTREME)
+		if(SEX_FORCE_EXTREME, SEX_FORCE_LUDICROUS)
 			volume_layer = 3
-	volume_layer *= speed // speed is always between 1-4 (SEX_SPEED_MIN-SEX_SPEED_MAX)
+	volume_layer *= speed // speed is always between 1-5 (SEX_SPEED_MIN-SEX_SPEED_MAX)
 	playsound(target, pick('sound/misc/mat/saliva (1).ogg','sound/misc/mat/saliva (2).ogg','sound/misc/mat/saliva (3).ogg'), volume_layer, TRUE, -2, ignore_walls = FALSE)
 
 /mob/living/carbon/human/proc/try_impregnate(mob/living/carbon/human/wife)
@@ -154,17 +156,36 @@
 	if(!testes)
 		return
 	var/obj/item/organ/vagina/vag = wife.getorganslot(ORGAN_SLOT_VAGINA)
-	if(!vag)
+	if(!vag && !HAS_TRAIT(wife, TRAIT_BAOTHA_FERTILITY_BOON))
 		return
-	var/prob_for_impreg = vag.impregnation_probability
-	if(wife.sexcon.knotted_status) // if they're knotted, increased by two factor for dramatic impact
-		prob_for_impreg =  min(prob_for_impreg * 2, IMPREG_PROB_MAX)
-	if(prob(prob_for_impreg) && wife.is_fertile() && is_virile())
-		if(vag.be_impregnated(src))
-			record_round_statistic(STATS_IMPREGNATIONS)
-		vag.impregnation_probability = IMPREG_PROB_DEFAULT // Reset on success
-	else
-		vag.impregnation_probability = min(prob_for_impreg + IMPREG_PROB_INCREMENT, IMPREG_PROB_MAX)
+	if(!is_virile())
+		return
+	if(vag)
+		if(!wife.is_fertile())
+			return
+		var/prob_for_impreg = vag.impregnation_probability
+		if(wife.sexcon.knotted_status) // if they're knotted, increased by two factor for dramatic impact
+			prob_for_impreg =  min(prob_for_impreg * 2, IMPREG_PROB_MAX)
+		if(HAS_TRAIT(wife, TRAIT_BAOTHA_FERTILITY_BOON)) // baotha's boon doubles the odds
+			prob_for_impreg =  min(prob_for_impreg * 2, IMPREG_PROB_MAX)
+		if(prob(prob_for_impreg))
+			if(vag.be_impregnated(src))
+				record_round_statistic(STATS_IMPREGNATIONS)
+			vag.impregnation_probability = IMPREG_PROB_DEFAULT // Reset on success
+		else
+			vag.impregnation_probability = min(prob_for_impreg + IMPREG_PROB_INCREMENT, IMPREG_PROB_MAX)
+	else // no womb, but Baotha-marked: male pregnancy
+		var/prob_for_impreg = wife.mpreg_chance
+		if(wife.sexcon.knotted_status)
+			prob_for_impreg =  min(prob_for_impreg * 2, IMPREG_PROB_MAX)
+		if(prob(prob_for_impreg))
+			if(wife.mpreg)
+				to_chat(wife, span_love("I feel a surge of warmth inside me again..."))
+				return
+			to_chat(wife, span_love("I feel a strange surge of warmth inside me... Am I pregnant?.."))
+			wife.mpreg = TRUE
+		else
+			wife.mpreg_chance = min(prob_for_impreg + IMPREG_PROB_INCREMENT, IMPREG_PROB_MAX)
 
 /mob/living/carbon/human/proc/get_highest_grab_state_on(mob/living/carbon/human/victim)
 	var/grabstate = null
@@ -176,7 +197,12 @@
 			grabstate = l_grab.grab_state
 	return grabstate
 
-/proc/add_cum_floor(turfu)
+/proc/add_cum_floor(turfu, do_big_puddle = FALSE)
 	if(!turfu || !isturf(turfu))
 		return
-	new /obj/effect/decal/cleanable/coom(turfu)
+	var/obj/effect/decal/cleanable/coom/puddle = new /obj/effect/decal/cleanable/coom(turfu)
+	if(do_big_puddle)
+		var/obj/effect/decal/cleanable/coom/puddle_big = new /obj/effect/decal/cleanable/coom(turfu)
+		if(puddle_big && puddle) // inherit pixel offset from first puddle
+			puddle_big.pixel_x = puddle.pixel_x
+			puddle_big.pixel_y = puddle.pixel_y

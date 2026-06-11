@@ -99,7 +99,7 @@ What it does:
 
 /obj/item/cooking/platter/aalloy
 	name = "decrepit platter"
-	desc = "A decrepit old platter. Aeon's grasp is upon its form."
+	desc = "Wrought bronze, flattened to serve. The edge remains wet with red; spilled merlot, meaty juices, or blood?"
 	icon_state = "aplatter"
 	sellprice = 0
 
@@ -124,6 +124,7 @@ What it does:
 	desc = "A fancy silver plate often used by the nobility as a symbol of class."
 	icon_state = "platter_silver"
 	sellprice = 48
+	is_lesser_silver = TRUE
 
 /obj/item/cooking/platter/gold
 	name = "gold platter"

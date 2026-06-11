@@ -146,7 +146,9 @@
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
-	H.mind.adjust_spellpoints(9)
+	// Magi 2 (T2 caster): 0 major / 2 minor / 6 utilities + universal arcyne ward, atop the bonechill kit.
+	// Deferred so the backpack exists for Grimoire storage; grant_items = TRUE hands over Grimoire + staff.
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_magi2_setup_caster), H, list("major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE), null, TRUE), 1)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
 
 	beltl = /obj/item/rogueweapon/scabbard/sword

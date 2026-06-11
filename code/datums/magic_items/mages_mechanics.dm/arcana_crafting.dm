@@ -217,3 +217,26 @@
 	reqs = list(/obj/item/magic/melded/t4 = 1,
 				/obj/item/magic/voidstone = 1)
 	craftdiff = 2
+
+// Magi 2 staff implements — set a focus-gem into a plain wooden staff. Tier scales with the gem:
+// amythortz -> lesser, gemerald -> greater, riddle of steel -> grand.
+/datum/crafting_recipe/roguetown/arcana/staff_lesser
+	name = "lesser staff (focus implement)"
+	result = /obj/item/rogueweapon/woodstaff/implement_magi2
+	reqs = list(/obj/item/rogueweapon/woodstaff = 1,
+				/obj/item/roguegem/amethyst = 1)
+	craftdiff = 1
+
+/datum/crafting_recipe/roguetown/arcana/staff_greater
+	name = "greater staff (focus implement)"
+	result = /obj/item/rogueweapon/woodstaff/implement_magi2/greater
+	reqs = list(/obj/item/rogueweapon/woodstaff = 1,
+				/obj/item/roguegem/green = 1)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/arcana/staff_grand
+	name = "grand staff (focus implement)"
+	result = /obj/item/rogueweapon/woodstaff/implement_magi2/grand
+	reqs = list(/obj/item/rogueweapon/woodstaff = 1,
+				/obj/item/riddleofsteel = 1)
+	craftdiff = 3
