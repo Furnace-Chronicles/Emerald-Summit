@@ -256,9 +256,17 @@
 				/obj/item/roguegem/green = 1)
 	craftdiff = 3
 
-/datum/crafting_recipe/roguetown/arcana/wgrand
+/datum/crafting_recipe/roguetown/arcana/wand_grand
 	name = "grand wand (focus implement)"
 	result = /obj/item/rogueweapon/wand_magi2/grand
 	reqs = list(/obj/item/grown/log/tree/small = 1,
 				/obj/item/riddleofsteel = 1)
 	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/arcana/rimoire
+	name = "Grimoire of Aspects"
+	result = /obj/item/book/magi2_grimoire
+	reqs = list(/obj/item/paper/scroll = 5,
+				/obj/item/roguegem/amethyst = 1,
+				/obj/item/natural/hide/cured = 1)
+	craftdiff = 2
