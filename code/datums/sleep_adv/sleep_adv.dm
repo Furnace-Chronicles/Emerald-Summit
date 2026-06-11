@@ -342,6 +342,9 @@
 		to_chat(mind.current, span_warning("My glimpse of [mind.rituos_spell.name] flees my slumbering mind..."))
 		mind.RemoveSpell(mind.rituos_spell)
 		mind.rituos_spell = null
+	if(mind.aspect_resets_used)
+		mind.aspect_resets_used = 0
+		to_chat(mind.current, span_smallnotice("My soul feels pliable again; I can reshape my arcyne aspects."))
 	to_chat(mind.current, span_notice("...and that's all I dreamt of."))
 	if(HAS_TRAIT(mind.current, TRAIT_STUDENT))
 		REMOVE_TRAIT(mind.current, TRAIT_STUDENT, TRAIT_GENERIC)

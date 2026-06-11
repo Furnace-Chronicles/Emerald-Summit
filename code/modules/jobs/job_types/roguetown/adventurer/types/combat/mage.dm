@@ -15,7 +15,9 @@
 		STATKEY_SPD = 1,
 	)
 
-	subclass_spellpoints = 18
+	// Magi 2 (T3 full caster): 1 major / 2 minor / 6 utilities, universal arcyne ward, no mastery.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
@@ -42,7 +44,7 @@
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	beltl = /obj/item/rogueweapon/huntingknife
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/woodstaff
+	backr = /obj/item/rogueweapon/woodstaff/implement_magi2/greater // Magi 2: greater staff implement (T3 Sorcerer)
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/spellbook_unfinished/pre_arcyne = 1,
@@ -56,7 +58,6 @@
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_EXPERT, TRUE)
-		H.mind?.adjust_spellpoints(6)
 
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
@@ -75,7 +76,10 @@
 		STATKEY_END = 1,
 	)
 
-	subclass_spellpoints = 12
+	// Magi 2 (T2 hybrid): util-only, 4 utility points (per spec — Spellblade family). Overrides the
+	// inherited Sorcerer config so they get NO major/minor aspect, just utilities + the ward.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 0, "minor" = 0, "utilities" = 4, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
@@ -149,7 +153,12 @@
 		STATKEY_END = 1,
 	)
 
-	subclass_spellpoints = 12
+	// Magi 2 (T2 hybrid): no major, 2 minor, 6 utilities, universal ward. Overrides the parent
+	// Sorcerer config. Granted a single poke spell (Greater Arcyne Bolt) since hybrids get one
+	// offensive spell but no major aspect; a per-class poke CHOICE picker is a later refinement.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE)
+	mage_post_spells = list(/datum/action/cooldown/spell/projectile/greater_arcyne_bolt_magi2)
 
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
@@ -234,7 +243,10 @@
 		STATKEY_SPD = 2,
 	)
 
-	subclass_spellpoints = 12
+	// Magi 2 (T2 hybrid trickster): 1 minor / 3 utilities, NO ward — they trade away mage armor
+	// (no TRAIT_MAGEARMOR). Overrides the inherited Sorcerer config; no major aspect.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 0, "minor" = 1, "utilities" = 3, "ward" = FALSE)
 
 	subclass_skills = list(
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
