@@ -1970,25 +1970,3 @@
 	desc = "This armor fills me with atheletic power and strength"
 	icon_state = "buff"
 
-//construct buffing
-/datum/status_effect/buff/windup
-	id = "windup"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/windup
-	effectedstats = list(STATKEY_SPD = 1, STATKEY_END = 1) // RW STATKEY_WIL -> ES endurance
-	duration = 15 MINUTES
-
-/atom/movable/screen/alert/status_effect/buff/windup
-	name = "Drill Windup"
-	desc = "a drill has wound up my core, making me faster"
-	icon_state = "buff"
-
-/datum/status_effect/buff/tuneup
-	id = "tuneup"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/tuneup
-	effectedstats = list(STATKEY_CON = 1)
-	duration = 15 MINUTES
-
-/atom/movable/screen/alert/status_effect/buff/tuneup
-	name = "Wrench Tuneup"
-	desc = "a wrench has turned me up, helping steel myself for more damage"
-	icon_state = "buff"
