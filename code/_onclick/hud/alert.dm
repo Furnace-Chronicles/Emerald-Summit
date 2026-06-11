@@ -378,6 +378,14 @@
 	desc = ""
 	icon_state = "restrained"
 
+// The net's full-tile item sprite doesn't composite cleanly as a master overlay (it renders behind
+// the alert frame). This variant uses a self-contained composed icon and no master, so it sits right.
+// Swap icon_state to a dedicated net sprite if one is added to screen_alert.dmi.
+/atom/movable/screen/alert/restrained/legcuffed/net
+	name = "Netted (legs)"
+	desc = "A net is tangled around my legs."
+	icon_state = "restrained"
+
 /atom/movable/screen/alert/restrained/Click()
 	..()
 	var/mob/living/L = usr

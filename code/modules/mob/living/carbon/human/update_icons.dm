@@ -1521,7 +1521,12 @@ There are several things that need to be remembered:
 	if(legcuffed)
 		overlays_standing[LEGCUFF_LAYER] = mutable_appearance('icons/roguetown/mob/bodies/cuffed.dmi', "[legcuffed.icon_state]down", -LEGCUFF_LAYER)
 		apply_overlay(LEGCUFF_LAYER)
-		throw_alert("legcuffed", /atom/movable/screen/alert/restrained/legcuffed, new_master = src.legcuffed)
+		if(istype(legcuffed, /obj/item/net))
+			// the net's item sprite doesn't composite cleanly as a master overlay; use its own
+			// composed alert icon (no master) so it doesn't sit behind/overlap the alert frame
+			throw_alert("legcuffed", /atom/movable/screen/alert/restrained/legcuffed/net)
+		else
+			throw_alert("legcuffed", /atom/movable/screen/alert/restrained/legcuffed, new_master = src.legcuffed)
 
 /proc/wear_female_version(t_color, icon, layer, type)
 	var/index = t_color
