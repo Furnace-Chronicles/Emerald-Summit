@@ -14,7 +14,9 @@
 		STATKEY_END = -1
 	)
 
-	subclass_spellpoints = 9
+	// Magi 2 (T2 novice caster): 0 major / 1 minor / 4 utilities, universal arcyne ward.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 0, "minor" = 1, "utilities" = 4, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/magic/arcane = SKILL_LEVEL_NOVICE,
@@ -39,4 +41,4 @@
 		cloak = /obj/item/clothing/cloak/half/brown
 		gloves = /obj/item/clothing/gloves/roguetown/fingerless
 
-	r_hand = /obj/item/rogueweapon/woodstaff
+	r_hand = /obj/item/rogueweapon/woodstaff/implement_magi2 // Magi 2: lesser staff implement (T2 novice)

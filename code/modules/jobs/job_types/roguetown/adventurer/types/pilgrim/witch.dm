@@ -59,7 +59,10 @@
 			// the original witch: arcyne t2 (buffed from t1) with 6 spellpoints
 			ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
-			H.mind?.adjust_spellpoints(9) // twelve if you pick arcyne potential
+			// Magi 2 (T2 caster): 0 major / 2 minor / 6 utilities + universal arcyne ward.
+			// Deferred so the backpack exists for Grimoire storage; grant_items = TRUE hands over the
+			// Grimoire, grant_staff = FALSE so the witch casts with her magebag/herbs, not a wizard staff.
+			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_magi2_setup_caster), H, list("major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE), null, TRUE, FALSE), 1)
 			beltl = /obj/item/storage/magebag/starter
 		if("Godsblood")
 			//miracle witch: capped at t2 miracles. cannot pray to regain devo, but has high innate regen because of it (2 instead of 1 from major)
@@ -76,7 +79,10 @@
 			D.max_devotion *= 0.5
 			ADD_TRAIT(H, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
-			H.mind?.adjust_spellpoints(6) // twelve if you pick arcyne potential
+			// Magi 2 (T1 caster, hybrid): 0 major / 0 minor / 3 utilities (util-only, no ward).
+			// Deferred so the backpack exists for Grimoire storage; grant_items = TRUE hands over the
+			// Grimoire, grant_staff = FALSE so the witch casts with her magebag/herbs, not a wizard staff.
+			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_magi2_setup_caster), H, list("major" = 0, "minor" = 0, "utilities" = 3), null, TRUE, FALSE), 1)
 			beltl = /obj/item/storage/magebag/starter
 			neck = /obj/item/clothing/neck/roguetown/psicross/wood
 
@@ -99,10 +105,8 @@
 			if("Cabbit")
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/witch/cabbit)
 			
-		switch (classchoice)
-			if("Old Magick")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/guidance)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/aerosolize)
+		// Old Magick's arcane kit is no longer granted free — it comes entirely from the Grimoire:
+		// Guidance via Augmentation/Lesser Augmentation, Aerosolize via Lesser Kinesis.
 
 	if(H.gender == FEMALE)
 		armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/corset

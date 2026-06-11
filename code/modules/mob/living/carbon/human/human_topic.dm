@@ -11,9 +11,8 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 	if(href_list["task"] == "view_headshot")
 		if(!ismob(usr))
 			return
-		var/mob/user = usr
-		var/list/dat = list()
-		dat += "<div align='center'><font size = 5; font color = '#dddddd'><b>[src]</b></font></div>"
+		// Legacy profile backfill: ensure the rendered _display vars exist for old characters
+		// before the examine panel (ported from Azure-Peak PR #6325) reads them.
 		var/legacy_check = FALSE
 		if(isnull(flavortext_display) && !isnull(flavortext))
 			if(isnull(client.prefs?.flavortext_display))	// They're both null, meaning this is a legacy char being examined.
@@ -35,30 +34,10 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 				ooc_notes_display = client.prefs?.ooc_notes_display
 		if(legacy_check)	//If this is how a Legacy char was established, we save it.
 			client.prefs?.save_character()
-		if(is_legacy)
-			dat += "<center><i><font color = '#b9b9b9'; font size = 1>This is a LEGACY Profile from naive days of Psydon.</font></i></center>"
-		var/agevetted = client.check_agevet()
-		dat += "<br><center>This person is [agevetted ? "<font color='#1cb308'>Age Vetted.</font>" : "<font color='#aa0202'>Not Age Vetted</font>"]</center>"
-		if(valid_headshot_link(null, headshot_link, TRUE) && agevetted)
-			dat += ("<div align='center'><img src='[headshot_link]' width='350px' height='350px'></div>")
-		if(flavortext)
-			dat += "<div align='left'>[flavortext_display]</div>"
-		if(ooc_notes)
-			dat += "<br>"
-			dat += "<div align='center'><b>OOC notes</b></div>"
-			dat += "<div align='left'>[ooc_notes_display]</div>"
-		if(ooc_extra && agevetted)
-			dat += "[ooc_extra]"
-		if(agevetted)
-			if(nsfw_headshot_link)
-				dat += "<br><div align='center'><b>NSFW</b></div>"
-			if(nsfw_headshot_link && !(wear_armor && wear_armor.flags_inv) && !(wear_shirt && wear_shirt.flags_inv))
-				dat += ("<br><div align='center'><img src='[nsfw_headshot_link]' width='600px'></div>")
-			else if(nsfw_headshot_link && (wear_armor || wear_shirt))
-				dat += "<br><center><i><font color = '#9d0080'; font size = 5>There is more to see but they are not naked...</font></i></center>"
-		var/datum/browser/popup = new(user, "[src]", nwidth = 700, nheight = 800)
-		popup.set_content(dat.Join())
-		popup.open(FALSE)
+		var/datum/examine_panel/mob_examine_panel = new(src)
+		mob_examine_panel.holder = src
+		mob_examine_panel.viewing = usr
+		mob_examine_panel.ui_interact(usr)
 		return
 
 	if(href_list["task"] == "view_rumours_gossip")

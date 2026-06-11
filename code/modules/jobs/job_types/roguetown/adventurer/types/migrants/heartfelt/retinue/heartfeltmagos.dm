@@ -12,6 +12,11 @@
 	class_select_category = CLASS_CAT_HFT_COURT
 	subclass_social_rank = SOCIAL_RANK_YEOMAN
 
+	// Magi 2 (T4 caster, identical loadout to the Court Magician): 2 major / 3 minor / 9 utilities,
+	// mastery variants, universal arcyne ward. Player picks via the Grimoire. Replaces legacy spellpoints.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 2, "minor" = 3, "utilities" = 9, "mastery" = TRUE, "ward" = TRUE)
+
 // HIGH COURT - /ONE SLOT/ Roles that were previously in the Court, but moved here.
 
 /datum/outfit/job/heartfelt/retinue/magos/pre_equip(mob/living/carbon/human/H)
@@ -25,14 +30,12 @@
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	beltr = /obj/item/storage/magebag/starter
 	id = /obj/item/clothing/ring/gold
-	r_hand = /obj/item/rogueweapon/woodstaff/ruby //Two Levels down from CW
+	r_hand = /obj/item/rogueweapon/woodstaff/implement_magi2/grand/heartfelt_magos // Magi 2: grand staff implement, named "The Staff of the Heartfelt Magos"
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/poison,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
 		/obj/item/recipe_book/alchemy,
-		/obj/item/roguegem/amethyst,
-		/obj/item/spellbook_unfinished/pre_arcyne,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne,
 		/obj/item/scrying
 		)
@@ -59,15 +62,13 @@
 	H.change_stat("constitution", -1)
 	H.change_stat("endurance", 2)
 	H.change_stat("intelligence", 4)
-	if(H.mind)
-		H?.mind.adjust_spellpoints(36)
+	// Magi 2: aspect loadout is granted in equipme() via mage_aspect_config (no legacy spellpoints).
 	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 1)
 		H.change_stat("perception", 1)
-		H?.mind.adjust_spellpoints(6)
 	if(ishumannorthern(H))
 		belt = /obj/item/storage/belt/rogue/leather/plaquegold
 		cloak = null

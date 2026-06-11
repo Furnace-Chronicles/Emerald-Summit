@@ -231,7 +231,10 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		STATKEY_END = 1,
 	)
 
-	subclass_spellpoints = 12
+	// Magi 2 (T2 support caster): 0 major / 2 minor / 6 utilities, universal arcyne ward.
+	// Free Message spell still granted in pre_equip below (coexist with magi2).
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN,
@@ -255,8 +258,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	l_hand = /obj/item/rogueweapon/lordscepter
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/message) //Useful administrative spell, put here to not be basically a tax
-	if(H.age == AGE_OLD)
-		H?.mind.adjust_spellpoints(3)
+	// Magi 2: legacy AGE_OLD spellpoint bonus removed (dead currency; aspect loadout comes from mage_aspect_config).
 
 /** 
 	Inbred Lord subclass. A joke class, evolution of the Inbred Wastrel.

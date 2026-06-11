@@ -7,7 +7,7 @@
 	outfit = /datum/outfit/job/wretch/hedgemage
 	category_tags = list(CTAG_WRETCH)
 	cmode_music = 'sound/music/combat_bandit_mage.ogg'
-	extra_context = "Choose between 2 options: 27 spellpoints or 21 spellpoints and Dodge Expert."
+	extra_context = "Choose between 2 options: an extra minor aspect slot, or Dodge Expert."
 
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3, TRAIT_TALENTED_ALCHEMIST)
 	// Same stat spread as necromancer, same reasoning
@@ -18,7 +18,9 @@
 		STATKEY_SPD = 1
 	)
 
-	subclass_spellpoints = 21 // Unlike Rogue Mage, who gets 6 but DExpert, this one don't have DExpert but have more spell points than anyone but the CM.
+	// Magi 2 (T3 full caster): 1 major / 2 minor / 6 utilities, universal arcyne ward.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
@@ -50,7 +52,7 @@
 	neck = /obj/item/clothing/neck/roguetown/leather // No iron gorget vs necro. They will have to acquire one in round.
 	beltl = /obj/item/storage/magebag/starter
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/woodstaff/ruby
+	backr = /obj/item/rogueweapon/woodstaff/implement_magi2/greater // Magi 2: greater staff (T3 caster)
 	backpack_contents = list(
 		/obj/item/spellbook_unfinished/pre_arcyne = 1,
 		/obj/item/roguegem/amethyst = 1,
@@ -67,35 +69,17 @@
 
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_MASTER, TRUE)
-		H?.mind.adjust_spellpoints(6)
 	var/classes = list("Hedge Mage","Rogue Mage")
 	var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes
 	switch(classchoice)
 		if("Hedge Mage")
-			H?.mind.adjust_spellpoints(6)
+			// Hedge Mage trades Rogue Mage's Dodge Expert for an extra minor aspect slot. Recorded as a
+			// persistent bonus (magi2_bonus_minor), so it's order-independent: equipme()'s later
+			// setup_mage_aspects folds it into the config. No addtimer race needed.
+			H.mind?.magi2_add_bonus_minor()
 		if("Rogue Mage")
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+	// Staff is granted by the outfit (lesser implement) above; the legacy gem-staff picker
+	// was removed in the Magi 2 staff migration. Migrated casters also auto-receive a lesser
+	// staff from _magi2_setup_caster if none is present.
 	wretch_select_bounty(H)
-
-	var/staffs = list(
-		"ronts-focused staff",
-		"blortz-focused staff",
-		"saffira-focused staff",
-		"gemerald-focused staff",
-		"amethyst-focused staff",
-		"toper-focused staff",
-	)
-	var/staffchoice = input(H, H, "Choose your staff", "Available staffs") as anything in staffs
-	switch(staffchoice)
-		if("ronts-focused staff")
-			backr = /obj/item/rogueweapon/woodstaff/ruby
-		if("blortz-focused staff")
-			backr = /obj/item/rogueweapon/woodstaff/quartz
-		if("saffira-focused staff")
-			backr = /obj/item/rogueweapon/woodstaff/sapphire
-		if("gemerald-focused staff")
-			backr = /obj/item/rogueweapon/woodstaff/emerald
-		if("amethyst-focused staff")
-			backr = /obj/item/rogueweapon/woodstaff/amethyst
-		if("toper-focused staff")
-			backr = /obj/item/rogueweapon/woodstaff/toper
