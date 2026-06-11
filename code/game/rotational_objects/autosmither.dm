@@ -71,8 +71,9 @@
 	START_PROCESSING(SSobj, src)
 
 /obj/structure/autosmither/Destroy()
-	if(current)
-		QDEL_NULL(current)
+	// `current` points into the shared static `regular_recipes` pool — never qdel it, just drop our
+	// reference, or destroying one anvil would delete that recipe datum for every other anvil.
+	current = null
 	QDEL_NULL(soundloop)
 	for(var/datum/autosmither_queue_entry/queue_entry as anything in anvil_recipes_to_craft)
 		qdel(queue_entry)

@@ -116,19 +116,15 @@ const getQuoteColumns = (lines: string[], linesPerRail: number) => {
 
 const ALL_CATEGORY = 'All';
 
-// Recipe names carry a trailing material note like "Breastplate (+1 Iron)" — drop it for display.
-const cleanRecipeName = (name: string) => name.replace(/\s*\([^)]*\)\s*$/, '');
-
-const getCategoryIconState = (category: string | null | undefined) => {
-  const lowerCategory = (category || '').toLowerCase();
-  if (lowerCategory.includes('weapon')) {
-    return 'weapon';
-  }
-  if (lowerCategory.includes('armor')) {
-    return 'armor';
-  }
-  return 'rework';
-};
+// Recipe names carry a trailing material note like "Breastplate (+1 Iron)" and sometimes an inline
+// count ("3x nails", "Gas Belcher Shells x3") — strip both so the count comes solely from
+// created_num and we don't render "... x3 x3".
+const cleanRecipeName = (name: string) =>
+  name
+    .replace(/\s*\([^)]*\)\s*$/, '') // trailing "(+1 Iron)" material note
+    .replace(/\s*x\s*\d+\s*$/i, '') // trailing "x3"
+    .replace(/^\s*\d+\s*x\s+/i, '') // leading "3x "
+    .trim();
 
 export const Autosmither = () => {
   const { data } = useBackend<Data>();

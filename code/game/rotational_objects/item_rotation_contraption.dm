@@ -12,6 +12,14 @@
 	var/can_stack = TRUE
 	var/place_behavior
 	var/resize_factor = 0.95
+	/// Optional item-side appearance overrides, so the held/dropped item can differ from the
+	/// structure it places. When unset, the item mirrors the placed structure (icon + "[name] item").
+	var/item_icon
+	var/item_icon_state
+	var/item_name
+	/// Whether to apply the shared "diamond" look (half scale + 45° turn) to the held/dropped item.
+	/// Reskinned items turn this off to show their own sprite normally (upright, full size).
+	var/contraption_transform = TRUE
 
 /obj/item/rotation_contraption/Initialize()
 	. = ..()
@@ -37,6 +45,8 @@
 // update_transform() nulls the matrix on every drop/throw — reapply our look there instead.
 /obj/item/rotation_contraption/update_transform()
 	. = ..()
+	if(!contraption_transform)
+		return
 	var/matrix/resize = matrix()
 	resize.Scale(0.5, 0.5)
 	resize.Turn(45)
@@ -45,15 +55,16 @@
 		transform = transform.Scale(resize_factor, resize_factor)
 
 /obj/item/rotation_contraption/proc/set_type(obj/structure/parent_type)
-	icon = initial(parent_type.icon)
-	icon_state = initial(parent_type.icon_state)
-	var/matrix/resize = matrix()
-	resize.Scale(0.5, 0.5)
-	resize.Turn(45)
-	transform = resize
-	if(resize_factor)
-		transform = transform.Scale(resize_factor, resize_factor)
-	name = initial(parent_type.name) + " item"
+	icon = item_icon || initial(parent_type.icon)
+	icon_state = item_icon_state || initial(parent_type.icon_state)
+	if(contraption_transform)
+		var/matrix/resize = matrix()
+		resize.Scale(0.5, 0.5)
+		resize.Turn(45)
+		transform = resize
+		if(resize_factor)
+			transform = transform.Scale(resize_factor, resize_factor)
+	name = item_name || (initial(parent_type.name) + " item")
 	desc = initial(parent_type.desc)
 	placed_type = parent_type
 
@@ -117,13 +128,13 @@
 /obj/item/rotation_contraption/vand_update_name()
 	. = ..()
 	if(in_stack > 1)
-		var/base = initial(placed_type.name)
+		var/base = item_name || initial(placed_type.name)
 		var/suffix = "s"
 		if(copytext(base, length(base)) in list("s", "x", "z")) // "gearboxes", not "gearboxs"
 			suffix = "es"
 		name = "pile of [base][suffix] x [in_stack]"
 	else
-		name = initial(placed_type.name) + " item"
+		name = item_name || (initial(placed_type.name) + " item")
 
 // Right-click a pile (held or on the ground) to take a single piece off it into your hand.
 /obj/item/rotation_contraption/attack_right(mob/user)
@@ -161,6 +172,11 @@
 
 /obj/item/rotation_contraption/shaft
 	placed_type = /obj/structure/rotation_piece
+	// reskin to the wood-shaft sprite and a distinct name (it still places a rotation_piece)
+	item_icon = 'icons/roguetown/misc/shafts.dmi'
+	item_icon_state = "woodshaft"
+	item_name = "engineering shaft"
+	contraption_transform = FALSE // show the wood-shaft sprite upright, not the diamond look
 
 /obj/item/rotation_contraption/large_cog
 	placed_type = /obj/structure/rotation_piece/cog/large
