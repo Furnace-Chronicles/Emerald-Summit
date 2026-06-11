@@ -109,7 +109,7 @@
 	armor = /obj/item/clothing/cloak/poncho/fancycoat
 	neck = /obj/item/storage/belt/rogue/pouch/coins/rich
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	r_hand = /obj/item/rogueweapon/woodstaff/implement_magi2/grand/archmagos
+	r_hand = /obj/item/rogueweapon/woodstaff/implement_magi2/grand/heartfelt_magos
 	beltr = /obj/item/rogueweapon/huntingknife
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
 	backl = /obj/item/storage/backpack/rogue/satchel/heartfelt // Paper and Feather
