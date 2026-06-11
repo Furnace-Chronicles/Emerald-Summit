@@ -29,8 +29,8 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_MASTER,
-		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
+		/datum/skill/magic/arcane = SKILL_LEVEL_MASTER,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 	)
 
