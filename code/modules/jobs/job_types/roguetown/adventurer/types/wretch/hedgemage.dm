@@ -70,8 +70,6 @@
 
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_MASTER, TRUE)
-			// Hedge Mage trades Rogue Mage's Dodge Expert for an extra minor aspect slot. Recorded as a
-			// persistent bonus (magi2_bonus_minor), so it's order-independent: equipme()'s later
 			// setup_mage_aspects folds it into the config. No addtimer race needed.
 
 	// Staff is granted by the outfit (lesser implement) above; the legacy gem-staff picker
