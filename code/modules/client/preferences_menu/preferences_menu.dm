@@ -2252,10 +2252,8 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			return TRUE
 
 		if("set_voice_color")
-			// Use the TGUI-native color picker (ColorPickerModal) instead of
-			// BYOND's OS-native color dialog — keeps the picker in-game and
-			// gives the user HSV/RGB inputs + presets.
-			var/picked = tgui_color_picker(user, "Choose your character's voice color:", "Voice Color", prefs.voice_color)
+			// Classic BYOND color dialog — the TGUI ColorPickerModal was broken here.
+			var/picked = input(user, "Choose your character's voice color:", "Voice Color", prefs.voice_color) as color|null
 			if(picked)
 				if(color_hex2num(picked) < 230)
 					to_chat(user, "<font color='red'>This voice color is too dark for mortals.</font>")
@@ -2265,7 +2263,8 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			return TRUE
 
 		if("set_highlight_color")
-			var/picked = tgui_color_picker(user, "Choose your character's nickname highlight color:", "Nickname Highlight Color", prefs.highlight_color)
+			// Classic BYOND color dialog — the TGUI ColorPickerModal was broken here.
+			var/picked = input(user, "Choose your character's nickname highlight color:", "Nickname Highlight Color", prefs.highlight_color) as color|null
 			if(picked)
 				prefs.highlight_color = sanitize_hexcolor(picked)
 				on_identity_change()
