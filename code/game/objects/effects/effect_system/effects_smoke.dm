@@ -130,6 +130,8 @@
 
 /obj/effect/particle_effect/smoke/bad/smoke_mob(mob/living/carbon/M)
 	if(..())
+		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
+			return 0
 		M.drop_all_held_items()
 		M.adjustOxyLoss(1)
 		M.emote("cough")

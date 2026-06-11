@@ -490,6 +490,14 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	var/list/result = A.examine(src)
 	if(result)
+		// from CC PR 407: collapsible gameplay-mechanics hints under the regular examine text
+		var/list/mechanics_result = A.get_mechanics_examine(src)
+		if(length(mechanics_result))
+			var/mechanics_result_str = "<details><summary>Mechanics</summary>"
+			for(var/line in mechanics_result)
+				mechanics_result_str += " - " + line + "\n"
+			mechanics_result_str += "</details>"
+			result += mechanics_result_str
 		to_chat(src, usr.client.prefs.no_examine_blocks ? result.Join("\n") : examine_block(result.Join("\n")))
 	SEND_SIGNAL(src, COMSIG_MOB_EXAMINATE, A)
 
@@ -1181,9 +1189,33 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/update_mouse_pointer()
 	if (!client)
 		return
+	// While a tgui window is open, keep the OS default cursor. The custom DMI cursor visibly
+	// flickers because every tgui browse() refresh drops mouse_pointer_icon for a frame.
+	if(length(tgui_open_uis))
+		client.mouse_pointer_icon = null
+		return
 	if(!client.charging && !atkswinging)
 		if(examine_cursor_icon && client.keys_held["Shift"]) //mouse shit is hardcoded, make this non hard-coded once we make mouse modifiers bindable
 			client.mouse_pointer_icon = examine_cursor_icon
+
+/// The cursor to fall back to when no special (examine/ranged/charge) cursor applies and no tgui
+/// window is suppressing it. Default mobs use the OS cursor; living mobs use the styled DMI.
+/mob/proc/resting_mouse_pointer()
+	return null
+
+/mob/living/resting_mouse_pointer()
+	return 'icons/effects/mousemice/human.dmi'
+
+/// Re-evaluate the cursor around tgui open/close: OS default while any tgui window is open,
+/// otherwise the resting cursor (with examine/ranged overrides re-applied).
+/mob/proc/refresh_tgui_cursor()
+	if(!client)
+		return
+	if(length(tgui_open_uis))
+		client.mouse_pointer_icon = null
+		return
+	client.mouse_pointer_icon = resting_mouse_pointer()
+	update_mouse_pointer()
 
 
 ///This mob is abile to read books

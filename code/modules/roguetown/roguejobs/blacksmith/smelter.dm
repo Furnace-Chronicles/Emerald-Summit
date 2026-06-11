@@ -358,3 +358,38 @@
 					maxore = initial(maxore)
 					cooking = 41
 					actively_smelting = FALSE
+
+// Internal furnace for the portable smelter contraption.
+// ES adaptation: our smelter uses the cooking counter (done at 19) instead of RW's smelting_progress/smelting_ticks.
+/obj/machinery/light/rogue/smelter/hand_held
+	anchored = FALSE
+	density = FALSE
+	climbable = FALSE
+	var/smelting_completed = FALSE
+	maxore = 1
+
+/obj/machinery/light/rogue/smelter/hand_held/process()
+	..()
+
+	if(istype(loc, /obj/item/contraption/smelter))
+		var/obj/item/contraption/smelter/S = loc
+
+		if(actively_smelting)
+			S.icon_state = S.on_icon
+			S.update_icon()
+		else
+			if(ore.len && cooking >= 19)
+				smelting_completed = TRUE
+			S.icon_state = S.off_icon
+			S.update_icon()
+
+/obj/machinery/light/rogue/smelter/hand_held/attack_right(mob/user)
+	..()
+
+	if(istype(loc, /obj/item/contraption/smelter))
+		var/obj/item/contraption/smelter/S = loc
+
+		if(smelting_completed == TRUE && !actively_smelting)
+			flick(S.fin_icon, S)
+			S.current_charge -= 1
+			return smelting_completed = FALSE
