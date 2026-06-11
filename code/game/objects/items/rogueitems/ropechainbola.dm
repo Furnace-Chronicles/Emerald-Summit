@@ -24,7 +24,7 @@
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/ropebelt,
-		//datum/crafting_recipe/roguetown/survival/net,
+		/datum/crafting_recipe/roguetown/survival/net,
 		/datum/crafting_recipe/roguetown/survival/billhook,
 		/datum/crafting_recipe/roguetown/survival/goedendag,
 		/datum/crafting_recipe/roguetown/survival/rucksack,
@@ -240,6 +240,10 @@
 			M.update_inv_legcuffed()
 			if(M.has_status_effect(/datum/status_effect/debuff/netted))
 				M.remove_status_effect(/datum/status_effect/debuff/netted)
+			// ensnare() moved the net INTO the mob; drop it back to the floor on removal so it can be
+			// recovered instead of vanishing in their contents (skip during Destroy — it's being deleted)
+			if(!QDELETED(src))
+				forceMove(get_turf(M))
 
 /obj/item/net/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback)
 	if(!..())
