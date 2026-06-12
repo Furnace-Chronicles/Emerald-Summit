@@ -70,6 +70,7 @@
 	)
 	body_markings = list(
 		/datum/body_marking/flushed_cheeks,
+		/datum/body_marking/cheek_grease,
 		/datum/body_marking/eyeliner,
 		/datum/body_marking/tonage,
 		/datum/body_marking/nose,
