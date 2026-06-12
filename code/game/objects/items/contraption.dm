@@ -546,6 +546,10 @@
 	STOP_PROCESSING(SSobj, src)
 	return ..()
 
+/obj/item/contraption/pick/drill/examine(mob/user)
+	. = ..()
+	. += span_info("Wield it in both hands and strike stone or a wall to bore through it in seconds — each bore spends a charge.")
+
 /obj/item/contraption/pick/drill/attack_obj(obj/O, mob/living/user)
 	. = ..()
 
