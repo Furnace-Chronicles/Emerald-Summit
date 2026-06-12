@@ -109,6 +109,8 @@
 		. += span_info("Skilled engineers can read the next required step from the machine's normal examine text.")
 
 /obj/structure/autosmither/ui_interact(mob/user, datum/tgui/ui)
+	if(isobserver(user)) // observers/ghosts shouldn't be able to open or peek at the machine UI
+		return
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "Autosmither", "Auto Anvil")

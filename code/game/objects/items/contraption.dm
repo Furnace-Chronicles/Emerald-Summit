@@ -654,6 +654,13 @@
 				update_icon()
 				return TRUE
 
+	// route smeltable ore into the internal furnace; fuel sources fall through to the parent's charge handling
+	if(attacking_item.smeltresult && !istype(attacking_item, accepted_power_source) && !istype(attacking_item, prime_power_source))
+		if(current_charge == 0)
+			to_chat(user, span_notice("I should refuel the [src] before trying to use it!"))
+			return TRUE
+		hand_held.addOre(attacking_item, user)
+		return TRUE
 	return ..()
 
 /obj/item/contraption/smelter/attack_right(mob/user)

@@ -369,6 +369,11 @@
 	maxore = 1
 
 /obj/machinery/light/rogue/smelter/hand_held/process()
+	if(istype(loc, /obj/item/contraption/smelter))
+		var/obj/item/contraption/smelter/SC = loc
+		on = (SC.current_charge > 0) // fuel is required: no charge, no smelting progress
+		if(!on)
+			actively_smelting = FALSE
 	..()
 
 	if(istype(loc, /obj/item/contraption/smelter))
@@ -379,7 +384,14 @@
 			S.update_icon()
 		else
 			if(ore.len && cooking >= 19)
-				smelting_completed = TRUE
+				// finished smelting: spit the bar(s) out onto the smelter's turf instead of needing tongs
+				for(var/obj/item/bar in ore)
+					ore -= bar
+					bar.forceMove(get_turf(S))
+				cooking = 0
+				smelting_completed = FALSE
+				S.current_charge = max(0, S.current_charge - 1) // smelting a bar consumes a charge
+				flick(S.fin_icon, S)
 			S.icon_state = S.off_icon
 			S.update_icon()
 
