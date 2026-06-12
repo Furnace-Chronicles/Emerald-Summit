@@ -414,7 +414,7 @@
 
 /datum/advclass/wretch/heretic/monk
 	name = "Heretic Monk"
-	tutorial = "You father your unholy cause through the most devout ways. Raw power and magics. Spread your faith though muscle or words."
+	tutorial = "You father your unholy cause through the most devout ways. Raw power, holy or unholy magics and preaching. Spread your faith though muscle or words. You are no simple cleric but a scholar. More then likely trained by a unholy Ecclesial sect, maybe even a priest."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/wretch/heretic_monk
@@ -460,7 +460,7 @@
 	if ((istype(H.patron, /datum/patron/divine/astrata) || istype(H.patron, /datum/patron/divine/necra) || istype(H.patron, /datum/patron/divine/eora) || istype(H.patron, /datum/patron/divine/ravox) || istype(H.patron, /datum/patron/old_god)))
 		to_chat(H, span_warning("My former deity frowned upon my practices. I have since turned to ZIZO..."))
 		H.set_patron(/datum/patron/inhumen/zizo)
-	to_chat(H, span_warning("You father your unholy cause through the most time-tested of ways: hard, heavy steel in both arms and armor."))
+	to_chat(H, span_warning("You father your unholy cause through the most devout ways. Raw power, holy or unholy magics and preaching. Spread your faith though muscle or words."))
 	H.mind.current.faction += "[H.name]_faction"
 	H.set_blindness(0)
 	var/weapons = list("Katar", "Steel Knuckles", "Punch Dagger", "Steel Quarterstaff", "Spear", "MY BARE HANDS!!!")
