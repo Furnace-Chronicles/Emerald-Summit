@@ -257,8 +257,11 @@ direction - cutlery that buries itself in flesh and has to be torn out. A genuin
 		shrap.throw_at(pick(edge), 12, 3, null, spin = TRUE)//Fling it outward; it embeds in the first body it meets.
 
 //Rock shrapnel - jagged stones flung from the canister, sharp enough to lodge in flesh and need
-//tearing out (or they fall out). Recovered ones are ordinary stones.
+//tearing out (or they fall out). Named distinctly from real stones: they share the stone icon, so
+//without a different name players mistake spent shrapnel for craftable stones and wonder why it won't.
 /obj/item/natural/stone/shrapnel
+	name = "shrapnel"
+	desc = "A jagged shard of stone flung from a canister shell. Too rough and irregular to be worked like a proper stone."
 	embedding = list("embed_chance" = 60, "embedded_pain_multiplier" = 3, "embedded_impact_pain_multiplier" = 5, "embedded_fall_chance" = 8, "embedded_unsafe_removal_time" = 25, "embedded_ignore_throwspeed_threshold" = 1)
 
 //Keep the varied rock look but skip the random naming/intents/personality lore for disposable shrapnel.
