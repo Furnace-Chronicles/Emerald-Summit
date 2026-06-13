@@ -339,6 +339,13 @@
 /obj/item/bodypart/lamian_tail/drop_limb(special) //copypasta
 	var/mob/living/carbon/C = owner
 	. = ..()
+	// Strip the natural leg/feet armor when the lower body leaves, so it doesn't persist onto
+	// regular legs attached afterward. Granted in /obj/item/bodypart/lamian_tail/attach_limb.
+	if(ishuman(C))
+		var/mob/living/carbon/human/H = C
+		if(istype(H.skin_armor, /obj/item/clothing/suit/roguetown/armor/skin_armor/lamian_legs))
+			qdel(H.skin_armor)
+			H.skin_armor = null
 	if(C && !special)
 		if(C.legcuffed)
 			C.legcuffed.forceMove(C.drop_location())

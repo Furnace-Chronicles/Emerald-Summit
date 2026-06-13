@@ -71,6 +71,10 @@
 		covered = "headgear"
 	else if(C.is_mouth_covered(mask_only = 1))
 		covered = "mask"
+	// is_mouth_covered only checks the head/mask slots' flags_cover; also block when the mouth is
+	// covered via body_parts_covered (any slot, e.g. a pulled-up neck mantle) like biting/surgery do
+	else if(!get_location_accessible(C, BODY_ZONE_PRECISE_MOUTH))
+		covered = "gear"
 	if(C != user)
 		if((C.mobility_flags & MOBILITY_STAND) && eaterrelay)
 			if(get_dir(eater, user) != eater.dir)

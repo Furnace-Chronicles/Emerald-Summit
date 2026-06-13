@@ -20,10 +20,12 @@
 @include meta.load-css('./themes/azure_green.scss');
 @include meta.load-css('./themes/azure_lane.scss');
 @include meta.load-css('./themes/azure_purple.scss');
+@include meta.load-css('./themes/grimoire.scss');
 @include meta.load-css('./themes/trey_liam.scss');
 
 // Interfaces
 @include meta.load-css('./interfaces/AlertModal.scss');
+@include meta.load-css('./interfaces/AspectPicker.scss');
 @include meta.load-css('./interfaces/Changelog.scss');
 @include meta.load-css('./interfaces/CrewManifest.scss');
 @include meta.load-css('./interfaces/Emojipedia.scss');

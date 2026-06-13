@@ -199,6 +199,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/goblinp,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
+	/datum/species/drider,\
 	/datum/species/harpy,\
 	/datum/species/ogre,\
 )
@@ -239,6 +240,7 @@ Balloon Alert / Floating Text defines
     /datum/species/lizardfolk,\
     /datum/species/akula,\
 	/datum/species/lamia,\
+	/datum/species/drider,\
 
 #define RACES_FEARED \
 	/datum/species/halforc,\
@@ -252,25 +254,32 @@ Balloon Alert / Floating Text defines
 
 
 
-#define RACES_NOBILITY_ELIGIBLE_UP list(RACES_NOBILITY_ELIGIBLE)
+// ──────────────────────────────────────────────────────────────────────────
+// ROLE CASTE-LOCKS ABOLISHED for every race EXCEPT golems (and ogres). Tiers that
+// originally excluded golems now resolve to RACES_NO_GOLEM (everyone-but-golems),
+// so golems stay locked out of those roles while all other races remain open. The
+// manmade / second-class / feared tiers keep RACES_ALL_KINDS since golems were
+// always eligible there. (Full original caste lists are recoverable from git history.)
+// ──────────────────────────────────────────────────────────────────────────
+#define RACES_NOBILITY_ELIGIBLE_UP RACES_NO_GOLEM
 
-#define RACES_CHURCH_FAVORED_UP list(RACES_NOBILITY_ELIGIBLE, RACES_CHURCH_FAVORED)
+#define RACES_CHURCH_FAVORED_UP RACES_NO_GOLEM
 
-#define RACES_CHURCH_FAVORED_UP_PLUS_WILDKIN list(RACES_NOBILITY_ELIGIBLE, RACES_CHURCH_FAVORED, RACES_WILDKIN)
+#define RACES_CHURCH_FAVORED_UP_PLUS_WILDKIN RACES_NO_GOLEM
 
-#define RACES_INQUISITOR list(RACES_NOBILITY_ELIGIBLE, RACES_CHURCH_FAVORED, /datum/species/elf/dark)
+#define RACES_INQUISITOR RACES_NO_GOLEM
 
-#define RACES_ABSOLVER list(RACES_NOBILITY_ELIGIBLE, RACES_CHURCH_FAVORED, RACES_WILDKIN, /datum/species/elf/dark)
+#define RACES_ABSOLVER RACES_NO_GOLEM
 
-#define RACES_APPOINTED_OUTCASTS_UP list(RACES_NOBILITY_ELIGIBLE, RACES_CHURCH_FAVORED, RACES_APPOINTED_OUTCASTS)
+#define RACES_APPOINTED_OUTCASTS_UP RACES_NO_GOLEM
 
-#define RACES_MANMADE_UP list(RACES_NOBILITY_ELIGIBLE, RACES_CHURCH_FAVORED, RACES_APPOINTED_OUTCASTS, RACES_MANMADE)
+#define RACES_MANMADE_UP RACES_ALL_KINDS
 
-#define RACES_SECOND_CLASS_UP list(RACES_NOBILITY_ELIGIBLE, RACES_CHURCH_FAVORED, RACES_APPOINTED_OUTCASTS, RACES_MANMADE, RACES_SECOND_CLASS)
+#define RACES_SECOND_CLASS_UP RACES_ALL_KINDS
 
-#define RACES_SECOND_CLASS_NO_GOLEM list(RACES_NOBILITY_ELIGIBLE, RACES_CHURCH_FAVORED, RACES_APPOINTED_OUTCASTS, RACES_SECOND_CLASS)
+#define RACES_SECOND_CLASS_NO_GOLEM RACES_NO_GOLEM
 
-#define RACES_FEARED_UP list(RACES_NOBILITY_ELIGIBLE, RACES_CHURCH_FAVORED, RACES_APPOINTED_OUTCASTS, RACES_MANMADE, RACES_SECOND_CLASS, RACES_FEARED)
+#define RACES_FEARED_UP RACES_ALL_KINDS
 
 #define RACES_ALL_KINDS list(RACES_NOBILITY_ELIGIBLE, RACES_CHURCH_FAVORED, RACES_APPOINTED_OUTCASTS, RACES_MANMADE, RACES_SECOND_CLASS, RACES_FEARED, RACES_WIDELY_REVILED)
 
@@ -301,6 +310,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/golem/porcelain,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
+	/datum/species/drider,\
 	/datum/species/harpy,\
 )
 
@@ -330,6 +340,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/golem/porcelain,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
+	/datum/species/drider,\
 	/datum/species/harpy,\
 )
 
@@ -369,6 +380,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/golem/porcelain,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
+	/datum/species/drider,\
 	/datum/species/harpy,\
 )
 
@@ -392,6 +404,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/halforc,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
+	/datum/species/drider,\
 	/datum/species/harpy,\
 )
 
@@ -413,6 +426,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/golem/porcelain,\
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
+	/datum/species/drider,\
 	/datum/species/harpy,\
 )
 #define ALL_CLERIC_PATRONS list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/dendor, /datum/patron/divine/necra, /datum/patron/divine/pestra, /datum/patron/divine/ravox, /datum/patron/divine/malum, /datum/patron/divine/eora) // Currently unused.

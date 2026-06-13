@@ -77,13 +77,6 @@
 	name = "move down"
 	icon_state = "down"
 
-/atom/movable/screen/ghost/bigassuselessbutton
-	name = "AFTER LIFE"
-	icon = 'icons/mob/ghostspin.dmi'
-	icon_state = ""
-	screen_loc = "WEST-4,SOUTH+6"
-	nomouseover = FALSE
-
 /atom/movable/screen/ghost/movedown/Click()
 	var/mob/dead/observer/G = usr
 	G.ghost_down()
@@ -136,7 +129,9 @@
 	using.screen_loc = ui_ghost_movedown
 	static_inventory += using
 
-	using = new /atom/movable/screen/ghost/bigassuselessbutton(null, src)
+	// same functional skull as the regular ghost HUD, so aghosted admins can click it to
+	// journey to the underworld (return to the lobby / main menu)
+	using = new /atom/movable/screen/ghost/orbit/rogue(null, src)
 	static_inventory += using
 
 /datum/hud/ghost/show_hud(version = 0, mob/viewmob)

@@ -141,6 +141,20 @@
 	var/received_resident_key = FALSE
 
 	var/nsfw_headshot_link = null
+	// Examine panel (ported from Azure-Peak PR #6325, themes omitted)
+	var/nsfwflavortext = null
+	var/nsfwflavortext_display = null
+	var/erpprefs = null
+	var/erpprefs_display = null
+	var/list/img_gallery = list()
+	var/song_title
+	var/song_artist
+	var/vampire_headshot_link
+	var/lich_headshot_link
+	var/nsfw_ooc_extra
+	var/nsfw_ooc_extra_link
+	var/list/nsfw_img_gallery = list()
+	var/song_url
 
 	possible_rmb_intents = list(/datum/rmb_intent/feint,\
 	/datum/rmb_intent/aimed,\

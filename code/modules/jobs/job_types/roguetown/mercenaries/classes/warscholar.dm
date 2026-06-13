@@ -26,7 +26,10 @@
 
 	hiredbuff = /datum/status_effect/buff/merchired/warscholar
 
-	subclass_spellpoints = 15
+	// Magi 2 (T3 full caster): 1 major / 2 minor / 6 utilities, universal arcyne ward.
+	// Free buff spells still granted in pre_equip below (coexist with magi2).
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
@@ -74,7 +77,6 @@
 		H.change_stat(STATKEY_SPD, -1)
 		H.change_stat(STATKEY_INT, 1)
 		H.change_stat(STATKEY_PER, 1)
-		H.mind?.adjust_spellpoints(6)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/giants_strength)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/longstrider)
@@ -125,7 +127,10 @@
 	)
 	hiredbuff = /datum/status_effect/buff/merchired/warscholar_pontifex
 
-	subclass_spellpoints = 6
+	// Magi 2 (T1 utility caster): 0 major / 0 minor / 3 utilities, no ward.
+	// Pontifex casts a fixed spell set (granted in pre_equip) and can't buy aspects.
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 0, "minor" = 0, "utilities" = 3)
 
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
@@ -213,7 +218,10 @@
 	)
 	hiredbuff = /datum/status_effect/buff/merchired/warscholar_vizier
 
-	subclass_spellpoints = 8
+	// Magi 2 (T2 support caster): 0 major / 1 minor / 4 utilities, universal arcyne ward.
+	// Free fixed spells still granted in pre_equip below (coexist with magi2).
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 0, "minor" = 1, "utilities" = 4, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,

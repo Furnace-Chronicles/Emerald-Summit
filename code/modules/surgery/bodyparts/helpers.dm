@@ -128,11 +128,14 @@
 		BODY_ZONE_R_ARM,
 		BODY_ZONE_L_ARM,
 	)
-	if(!islamia(src))
+	// Key off the actual lower body, not the species: a lamia/taur whose tail has been
+	// surgically replaced with legs should be treated like any other legged creature.
+	// (The tail's subtargets cover the leg zones, so a tailed creature still resolves cleanly.)
+	if(get_lamian_tail())
+		full += BODY_ZONE_LAMIAN_TAIL
+	else
 		full += BODY_ZONE_R_LEG
 		full += BODY_ZONE_L_LEG
-	else
-		full += BODY_ZONE_LAMIAN_TAIL
 
 	for(var/obj/item/bodypart/bodypart as anything in bodyparts)
 		full -= bodypart.body_zone
@@ -287,6 +290,25 @@
 	T.attach_limb(src)
 
 	// make sure we apply our clipmasks
+	regenerate_icons()
+	set_resting(FALSE)
+
+// Like Lamiaze(), but always installs the drider (spider-taur) legs rather than a player-picked tail.
+// Tail colour still comes from prefs so the legs can be tinted in chargen.
+/mob/living/carbon/proc/Driderize(color = "#ffffff", markings_color = "#ffffff")
+	if(client?.prefs && (LAMIAN_TAIL in client.prefs.pref_species.species_traits))
+		color = sanitize_hexcolor(client.prefs.tail_color, include_crunch = TRUE)
+	for(var/X in bodyparts)
+		var/obj/item/bodypart/O = X
+		if(O.body_part == LEG_LEFT || O.body_part == LEG_RIGHT || O.body_zone == BODY_ZONE_LAMIAN_TAIL)
+			O.drop_limb(1)
+			qdel(O)
+
+	var/obj/item/bodypart/lamian_tail/drider/T = new()
+	T.tail_color = color
+	T.tail_markings_color = markings_color
+	T.attach_limb(src)
+
 	regenerate_icons()
 	set_resting(FALSE)
 

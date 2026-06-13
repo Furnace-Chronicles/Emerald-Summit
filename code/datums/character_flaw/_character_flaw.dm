@@ -572,6 +572,16 @@ GLOBAL_LIST_INIT(character_flaws, list(
 		if(140 to INFINITY)
 			return MASO_THRESHOLD_FOUR
 
+/// Immediately satisfies the pain craving (e.g. taking crit pain), mirroring the threshold-four relief in flaw_on_life.
+/datum/charflaw/masochist/proc/satisfy_craving(mob/living/carbon/human/user)
+	if(!user)
+		return
+	next_paincrave = world.time + rand(35 MINUTES, 45 MINUTES)
+	last_pain_threshold = NONE
+	to_chat(user, span_blue("<b>That's more like it...</b>"))
+	user.remove_stress(/datum/stressevent/vice)
+	user.remove_status_effect(/datum/status_effect/debuff/addiction)
+
 /proc/get_mammons_in_atom(atom/movable/movable)
 	var/static/list/coins_types = typecacheof(/obj/item/roguecoin)
 	var/mammons = 0
