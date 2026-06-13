@@ -18106,6 +18106,10 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
+"eBP" = (
+/obj/structure/bed/rogue/inn/wool,
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/church/chapel)
 "eCc" = (
 /obj/structure/fluff/walldeco/customflag,
 /turf/closed/wall/mineral/rogue/wooddark,
@@ -28353,7 +28357,7 @@
 /area/rogue/indoors)
 "hhC" = (
 /obj/structure/fluff/alch,
-/turf/open/floor/rogue/concrete,
+/turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/town/church/chapel)
 "hhG" = (
 /obj/item/roguestatue/iron,
@@ -34642,6 +34646,9 @@
 "iHP" = (
 /obj/machinery/light/rogue/torchholder/r{
 	dir = 4
+	},
+/obj/structure/bed/rogue/inn/wool{
+	dir = 8
 	},
 /turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/town/church/chapel)
@@ -54158,7 +54165,6 @@
 	pixel_y = 37
 	},
 /obj/structure/rack/rogue/shelf,
-/obj/machinery/light/rogue/cauldron,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "nwF" = (
@@ -78941,12 +78947,8 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/manor)
 "tEt" = (
-/obj/structure/table/wood/long_table/right,
-/obj/item/storage/belt/rogue/surgery_bag/full,
-/obj/item/storage/belt/rogue/surgery_bag/full{
-	pixel_y = 10
-	},
-/turf/open/floor/rogue/concrete,
+/obj/machinery/light/rogue/cauldron,
+/turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/town/church/chapel)
 "tEu" = (
 /obj/structure/flora/newleaf,
@@ -88287,7 +88289,6 @@
 	pixel_x = 3;
 	pixel_y = 32
 	},
-/obj/structure/rack/rogue/shelf/biggest,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "vRF" = (
@@ -270508,7 +270509,7 @@ cLK
 ecM
 ecM
 qAY
-tEt
+tXG
 fnc
 fnc
 sEY
@@ -270516,7 +270517,7 @@ iRn
 iRn
 iRn
 iRn
-iRn
+hhC
 oKc
 hDm
 iRn
@@ -270968,7 +270969,7 @@ hDm
 iRn
 wrE
 iRn
-iRn
+tEt
 oKc
 oKc
 oKc
@@ -271415,9 +271416,9 @@ wLA
 oKc
 gTY
 oKc
-rsV
-rsV
-rsV
+oKc
+oKc
+oKc
 oKc
 uLe
 mFn
@@ -384865,12 +384866,12 @@ dnJ
 dnJ
 anG
 qAY
-hhC
+wMt
 fnc
 kFU
 iHP
-lQf
 kFU
+lQf
 lQf
 qAY
 iPO
@@ -386221,8 +386222,8 @@ dnJ
 dnJ
 dnJ
 qAY
-tXG
-fnc
+eBP
+eBP
 cOr
 duT
 iBk
