@@ -170,7 +170,6 @@
 	desc = "A left arm of iron."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "pri_arm"
-	prosthetic_prefix = "pri"
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
 	status = BODYPART_ROBOTIC
@@ -189,7 +188,6 @@
 	desc = "A left arm of steel."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "prs_arm"
-	prosthetic_prefix = "prs"
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
 	status = BODYPART_ROBOTIC
@@ -208,7 +206,6 @@
 	desc = "A replacement left arm, engineered out of bronze."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "bp_arm"
-	prosthetic_prefix = "prs"
 	limb_material = "bronze"
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
@@ -230,7 +227,6 @@
 	desc = "A left arm of cogs and gold."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "prc_arm"
-	prosthetic_prefix = "prc"
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
 	status = BODYPART_ROBOTIC
@@ -271,7 +267,6 @@
 	desc = "A right arm of iron."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "pri_arm"
-	prosthetic_prefix = "pri"
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
 	status = BODYPART_ROBOTIC
@@ -290,7 +285,6 @@
 	desc = "A right arm of steel."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "prs_arm"
-	prosthetic_prefix = "prs"
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
 	status = BODYPART_ROBOTIC
@@ -309,7 +303,6 @@
 	desc = "A replacement right arm, engineered out of bronze."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "bp_arm"
-	prosthetic_prefix = "prs"
 	limb_material = "bronze" // still need a different onmob sprite for bronze limbs brah
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
@@ -331,7 +324,6 @@
 	desc = "A right arm of cogs and gold."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "prc_arm"
-	prosthetic_prefix = "prc"
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
 	status = BODYPART_ROBOTIC
@@ -374,14 +366,12 @@
 	desc = "A left leg of iron."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "pri_leg"
-	prosthetic_prefix = "pri"
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
 	status = BODYPART_ROBOTIC
 	max_damage = 150
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 300
-	organ_slowdown = 1.2
 	brute_reduction = 5
 	burn_reduction = 5
 	sellprice = 30
@@ -393,14 +383,12 @@
 	desc = "A left leg of steel."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "prs_leg"
-	prosthetic_prefix = "prs"
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
 	status = BODYPART_ROBOTIC
 	max_damage = 200
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 300
-	organ_slowdown = 1.1
 	brute_reduction = 10
 	burn_reduction = 10
 	sellprice = 40
@@ -412,7 +400,6 @@
 	desc = "A replacement left leg, engineered out of bronze."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "bp_leg"
-	prosthetic_prefix = "prs"
 	limb_material = "bronze"
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
@@ -431,14 +418,12 @@
 	desc = "A left leg of cogs and gold."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "prc_leg"
-	prosthetic_prefix = "prc"
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
 	status = BODYPART_ROBOTIC
 	max_damage = 150
 	w_class = WEIGHT_CLASS_BULKY
 	max_integrity = 300
-	organ_slowdown = 0
 	sellprice = 70
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/gold
@@ -469,7 +454,6 @@
 	desc = "A right leg of iron."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "pri_leg"
-	prosthetic_prefix = "pri"
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
 	status = BODYPART_ROBOTIC
@@ -477,7 +461,6 @@
 	max_damage = 150
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 300
-	organ_slowdown = 1.2
 	brute_reduction = 5
 	burn_reduction = 5
 	sellprice = 30
@@ -489,7 +472,6 @@
 	desc = "A right leg of steel."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "prs_leg"
-	prosthetic_prefix = "prs"
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
 	status = BODYPART_ROBOTIC
@@ -497,7 +479,6 @@
 	max_damage = 200
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 300
-	organ_slowdown = 1.1
 	brute_reduction = 10
 	burn_reduction = 10
 	sellprice = 40
@@ -509,7 +490,6 @@
 	desc = "A replacement right leg, engineered out of bronze."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "bp_leg"
-	prosthetic_prefix = "prs"
 	limb_material = "bronze"
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
@@ -529,7 +509,6 @@
 	desc = "A right leg of cogs and gold."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "prc_leg"
-	prosthetic_prefix = "prc"
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
 	status = BODYPART_ROBOTIC
@@ -537,7 +516,6 @@
 	max_damage = 150
 	w_class = WEIGHT_CLASS_BULKY
 	max_integrity = 300
-	organ_slowdown = 0
 	sellprice = 70
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/gold
