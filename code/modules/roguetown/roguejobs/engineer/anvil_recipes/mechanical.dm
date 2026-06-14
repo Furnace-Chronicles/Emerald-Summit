@@ -154,28 +154,28 @@
 	name = "Bronze Left Arm (+2 Cogs)"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/roguegear, /obj/item/roguegear)
-	created_item = /obj/item/bodypart/l_arm/prosthetic/bronzeleft
+	created_item = /obj/item/bodypart/l_arm/prosthetic/bronze
 	craftdiff = 4
 
 /datum/anvil_recipe/engineering/bronze/prosthetic/bronzerightarm
 	name = "Bronze Right Arm (+2 Cogs)"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/roguegear, /obj/item/roguegear)
-	created_item = /obj/item/bodypart/r_arm/prosthetic/bronzeright
+	created_item = /obj/item/bodypart/r_arm/prosthetic/bronze
 	craftdiff = 4
 
 /datum/anvil_recipe/engineering/bronze/prosthetic/bronzeleftleg
 	name = "Bronze Left Leg (+2 Cogs)"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/roguegear, /obj/item/roguegear)
-	created_item = /obj/item/bodypart/l_leg/prosthetic/bronzeleft
+	created_item = /obj/item/bodypart/l_leg/prosthetic/bronze
 	craftdiff = 4
 
 /datum/anvil_recipe/engineering/bronze/prosthetic/bronzerightleg
 	name = "Bronze Right Leg (+2 Cogs)"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/roguegear, /obj/item/roguegear)
-	created_item = /obj/item/bodypart/r_leg/prosthetic/bronzeright
+	created_item = /obj/item/bodypart/r_leg/prosthetic/bronze
 	craftdiff = 4
 
 // ------------ Rings ----------------

@@ -92,17 +92,17 @@
 /datum/supply_pack/rogue/tools/prarml
 	name = "Prosthetic Wood Arm (L)"
 	cost = 40
-	contains = list(/obj/item/bodypart/l_arm/prosthetic/woodleft)
+	contains = list(/obj/item/bodypart/l_arm/prosthetic/wood)
 
 /datum/supply_pack/rogue/tools/prarmr
 	name = "Prosthetic Wood Arm (R)"
 	cost = 40
-	contains = list(/obj/item/bodypart/r_arm/prosthetic/woodright)
+	contains = list(/obj/item/bodypart/r_arm/prosthetic/wood)
 
 /datum/supply_pack/rogue/tools/prlegl
 	name = "Prosthetic Wood Leg (L)"
 	cost = 15
-	contains = list(/obj/item/bodypart/l_leg/prosthetic/woodleft)
+	contains = list(/obj/item/bodypart/l_leg/prosthetic/wood)
 
 /datum/supply_pack/rogue/tools/prlegr
 	name = "Prosthetic Wood Leg (R)"
