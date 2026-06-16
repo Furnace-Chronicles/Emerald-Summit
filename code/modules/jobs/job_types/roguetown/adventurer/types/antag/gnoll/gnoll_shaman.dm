@@ -43,6 +43,7 @@
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)
 		// Upstream /obj/effect/proc_holder/spell/invoked/convert_heretic absent in ES — spell grant stripped.
+		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/unholyblast) // likely a bad idea. But we'll see how it goes. Feel free to take it away from them if its problematic. Only minor regen so can't spam it for long.
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/shaman
 	icon_state = "shaman"
