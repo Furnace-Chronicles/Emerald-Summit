@@ -38,10 +38,18 @@
 	user.sexcon.intercourse_noise(target)
 	user.sexcon.do_thrust_animate(target)
 
+	if(HAS_TRAIT(user, TRAIT_DEATHBYSNUSNU))
+		if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+			user.sexcon.try_pelvis_crush(target)
+
 	user.sexcon.perform_sex_action(user, 2, 0, TRUE)
 	if(user.sexcon.check_active_ejaculation())
 		user.visible_message(span_love("[user] cums into [target]'s butt!"))
-		user.sexcon.cum_into(splashed_user = target, orifice = SEX_PART_ANUS)
+		for(var/i = 1; i <= user.sexcon.get_load_bursts(); i++)
+			user.sexcon.cum_into(splashed_user = target, orifice = SEX_PART_ANUS, consume_charge = i == 1 ? TRUE : FALSE)
+			if(HAS_TRAIT(target, TRAIT_BAOTHA_FERTILITY_BOON) && !target.getorganslot(ORGAN_SLOT_VAGINA))
+				user.try_impregnate(target)
+			sleep(10)
 		user.virginity = FALSE
 		werewolf_sex_infect_attempt(user, target)
 
@@ -84,10 +92,18 @@
 	playsound(target, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
 	user.sexcon.do_thrust_animate(target)
 
+	if(HAS_TRAIT(user, TRAIT_DEATHBYSNUSNU))
+		if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+			user.sexcon.try_pelvis_crush(target)
+
 	user.sexcon.perform_sex_action(user, 2, 0, TRUE)
 	if(user.sexcon.check_active_ejaculation())
 		user.visible_message(span_love("[user] cums into [target]'s butt!"))
-		user.sexcon.cum_into(splashed_user = target, orifice = SEX_PART_ANUS)
+		for(var/i = 1; i <= user.sexcon.get_load_bursts(); i++)
+			user.sexcon.cum_into(splashed_user = target, orifice = SEX_PART_ANUS, consume_charge = i == 1 ? TRUE : FALSE)
+			if(HAS_TRAIT(target, TRAIT_BAOTHA_FERTILITY_BOON) && !target.getorganslot(ORGAN_SLOT_VAGINA))
+				user.try_impregnate(target)
+			sleep(10)
 		user.virginity = FALSE
 		werewolf_sex_infect_attempt(user, target)
 

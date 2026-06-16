@@ -141,6 +141,7 @@ GLOBAL_LIST_EMPTY(open_late_join_choices)
 		return data
 	data["round_duration"] = DisplayTimeText(world.time - SSticker.round_start_time, 1)
 	var/list/availability = list()
+	var/player_pq = get_playerquality(np.ckey)
 	for(var/datum/job/job_datum as anything in SSjob.occupations)
 		if(!job_datum?.title)
 			continue
@@ -153,7 +154,7 @@ GLOBAL_LIST_EMPTY(open_late_join_choices)
 			"prioritized" = (job_datum in SSjob.prioritized_jobs),
 			"available" = is_job_available,
 			"is_cooldown" = is_cooldown,
-			"unavailable_reason" = is_job_available ? null : late_join_unavailable_reason(unavailable_code),
+			"unavailable_reason" = is_job_available ? null : late_join_unavailable_reason(unavailable_code, job_datum, player_pq),
 		)
 	data["availability"] = availability
 	return data
@@ -169,8 +170,14 @@ GLOBAL_LIST_EMPTY(open_late_join_choices)
 /// Short human-readable reason for a JOB_UNAVAILABLE_* code. Mirrors the
 /// Class Selection's unavailable_reason_text — kept here as a sibling proc
 /// so /datum/late_join_choices isn't coupled to /datum/preferences_menu.
-/datum/late_join_choices/proc/late_join_unavailable_reason(reason)
+/datum/late_join_choices/proc/late_join_unavailable_reason(reason, datum/job/job, pq)
 	switch(reason)
+		if(JOB_UNAVAILABLE_PQ)
+			if(!isnull(job?.min_pq) && !isnull(pq) && pq < job.min_pq)
+				return "Requires PQ [job.min_pq]"
+			if(!isnull(job?.max_pq) && !isnull(pq) && pq > job.max_pq)
+				return "PQ must be [job.max_pq] or below"
+			return "PQ requirement"
 		if(JOB_UNAVAILABLE_GENERIC)
 			return "Not available this round"
 		if(JOB_UNAVAILABLE_BANNED)

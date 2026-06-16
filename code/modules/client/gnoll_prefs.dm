@@ -478,7 +478,7 @@
 
 		if("set_flavortext")
 			to_chat(user, "<span class='notice'><b>Flavortext should not include nonphysical nonsensory attributes such as backstory or internal thoughts.</b></span>")
-			var/new_flavortext = tgui_input_text(user, "Input your gnoll character description:", "Gnoll Flavor Text", gnoll_flavortext, multiline = TRUE)
+			var/new_flavortext = tgui_input_text(user, "Input your gnoll character description:", "Gnoll Flavor Text", gnoll_flavortext, multiline = TRUE, encode = FALSE)
 			if(new_flavortext == null)
 				return
 			if(new_flavortext == "")
@@ -501,7 +501,7 @@
 				gnoll_show_ui(user)
 
 		if("set_ooc_notes")
-			var/new_ooc_notes = tgui_input_text(user, "Input your gnoll OOC preferences:", "Gnoll OOC Notes", gnoll_ooc_notes, multiline = TRUE)
+			var/new_ooc_notes = tgui_input_text(user, "Input your gnoll OOC preferences:", "Gnoll OOC Notes", gnoll_ooc_notes, multiline = TRUE, encode = FALSE)
 			if(new_ooc_notes == null)
 				return
 			if(new_ooc_notes == "")

@@ -7,20 +7,20 @@
 	outfit = /datum/outfit/job/wretch/hedgemage
 	category_tags = list(CTAG_WRETCH)
 	cmode_music = 'sound/music/combat_bandit_mage.ogg'
-	extra_context = "Choose between 2 options: an extra minor aspect slot, or Dodge Expert."
 
 	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3, TRAIT_TALENTED_ALCHEMIST)
-	// Same stat spread as necromancer, same reasoning
+	// Same stat spread as necromancer, same reasoning, slight bump to con to offset loss of DE subclass.
 	subclass_stats = list(
 		STATKEY_INT = 4,
 		STATKEY_PER = 2,
 		STATKEY_END = 1,
-		STATKEY_SPD = 1
+		STATKEY_SPD = 1,
+		STATKEY_CON = 1,
 	)
 
-	// Magi 2 (T3 full caster): 1 major / 2 minor / 6 utilities, universal arcyne ward.
+	// Magi 2 (T3 full caster) + an antag: 1 major / 3 minor / 8 utilities, universal arcyne ward.
 	subclass_spellpoints = 0
-	mage_aspect_config = list("major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
+	mage_aspect_config = list("major" = 1, "minor" = 3, "utilities" = 8, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
@@ -30,7 +30,8 @@
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
-		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
+		/datum/skill/magic/arcane = SKILL_LEVEL_MASTER,
+		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 	)
 
 // Hedge Mage on purpose has nearly the same fit as a Adv Mage / Mage Associate who cast conjure armor roundstart. Call it meta disguise.
@@ -69,16 +70,8 @@
 
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_MASTER, TRUE)
-	var/classes = list("Hedge Mage","Rogue Mage")
-	var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes
-	switch(classchoice)
-		if("Hedge Mage")
-			// Hedge Mage trades Rogue Mage's Dodge Expert for an extra minor aspect slot. Recorded as a
-			// persistent bonus (magi2_bonus_minor), so it's order-independent: equipme()'s later
 			// setup_mage_aspects folds it into the config. No addtimer race needed.
-			H.mind?.magi2_add_bonus_minor()
-		if("Rogue Mage")
-			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+
 	// Staff is granted by the outfit (lesser implement) above; the legacy gem-staff picker
 	// was removed in the Magi 2 staff migration. Migrated casters also auto-receive a lesser
 	// staff from _magi2_setup_caster if none is present.

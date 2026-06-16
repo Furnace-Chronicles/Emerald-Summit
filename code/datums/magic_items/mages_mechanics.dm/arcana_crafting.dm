@@ -225,18 +225,48 @@
 	result = /obj/item/rogueweapon/woodstaff/implement_magi2
 	reqs = list(/obj/item/rogueweapon/woodstaff = 1,
 				/obj/item/roguegem/amethyst = 1)
-	craftdiff = 1
+	craftdiff = 2 
 
 /datum/crafting_recipe/roguetown/arcana/staff_greater
 	name = "greater staff (focus implement)"
 	result = /obj/item/rogueweapon/woodstaff/implement_magi2/greater
 	reqs = list(/obj/item/rogueweapon/woodstaff = 1,
 				/obj/item/roguegem/green = 1)
-	craftdiff = 2
+	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/arcana/staff_grand
 	name = "grand staff (focus implement)"
 	result = /obj/item/rogueweapon/woodstaff/implement_magi2/grand
 	reqs = list(/obj/item/rogueweapon/woodstaff = 1,
 				/obj/item/riddleofsteel = 1)
+	craftdiff = 4
+
+
+/datum/crafting_recipe/roguetown/arcana/wand_lesser
+	name = "lesser wand (focus implement)"
+	result = /obj/item/rogueweapon/wand_magi2
+	reqs = list(/obj/item/grown/log/tree/small = 1,
+				/obj/item/roguegem/amethyst = 1)
+	craftdiff = 2 
+
+/datum/crafting_recipe/roguetown/arcana/wand_greater
+	name = "greater wand (focus implement)"
+	result = /obj/item/rogueweapon/wand_magi2/greater
+	reqs = list(/obj/item/grown/log/tree/small = 1,
+				/obj/item/roguegem/green = 1)
 	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/arcana/wand_grand
+	name = "grand wand (focus implement)"
+	result = /obj/item/rogueweapon/wand_magi2/grand
+	reqs = list(/obj/item/grown/log/tree/small = 1,
+				/obj/item/riddleofsteel = 1)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/arcana/rimoire
+	name = "Grimoire of Aspects"
+	result = /obj/item/book/magi2_grimoire
+	reqs = list(/obj/item/paper/scroll = 5,
+				/obj/item/roguegem/amethyst = 1,
+				/obj/item/natural/hide/cured = 1)
+	craftdiff = 2

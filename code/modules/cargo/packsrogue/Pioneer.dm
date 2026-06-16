@@ -264,3 +264,70 @@
     name = "Bomb satchel"
     cost = 125
     contains = list(/obj/item/satchel_bomb)
+
+//WMDs, but for bombard and smokepowder stuff. Zezuz Pyst!!!
+//A serious investment just to get started.
+//Not even bringing up the other costs.
+/datum/supply_pack/rogue/Pioneer/bombard_frame
+    name = "Bombard frame"
+    cost = 250
+    contains = list(/obj/item/bombard_frame)
+
+/datum/supply_pack/rogue/Pioneer/bombard_barrel
+    name = "Bombard barrel"
+    cost = 250
+    contains = list(/obj/item/bombard_barrel)
+
+/datum/supply_pack/rogue/Pioneer/bombard_palantir
+    name = "Palantir"
+    cost = 250
+    contains = list(/obj/item/rogueweapon/palantir)
+
+/datum/supply_pack/rogue/Pioneer/bombard_sponge
+    name = "Bombard sponge"
+    cost = 150
+    contains = list(/obj/item/rogueweapon/woodstaff/quarterstaff/bombard_sponge)
+
+/datum/supply_pack/rogue/Pioneer/smokepowder_flask
+    name = "Smokepowder flask"
+    cost = 150
+    contains = list(/obj/item/powderflask)
+
+//WMDs, but shells for the above!!!!
+//Smoke bombard charges.
+/datum/supply_pack/rogue/Pioneer/bombard_charge_smoke
+    name = "Smoke shell"
+    cost = 50
+    contains = list(/obj/item/cannonball/smoke)
+
+/datum/supply_pack/rogue/Pioneer/bombard_charge_poison
+    name = "Poison smoke shell"
+    cost = 125
+    contains = list(/obj/item/cannonball/smoke_poison)
+
+/datum/supply_pack/rogue/Pioneer/bombard_charge_custom
+    name = "Payload shell"
+    cost = 300
+    contains = list(/obj/item/cannonball/smoke_custom)
+
+//Dangerous bombard charges.
+/datum/supply_pack/rogue/Pioneer/bombard_charge_canister
+    name = "Canister shot"
+    cost = 125
+    contains = list(/obj/item/cannonball/canister)
+
+/datum/supply_pack/rogue/Pioneer/bombard_charge_explosive
+    name = "High-explosive shell"
+    cost = 400
+    contains = list(/obj/item/cannonball/explosive)
+
+/datum/supply_pack/rogue/Pioneer/bombard_charge_incendiary
+    name = "Incendiary shell"
+    cost = 600
+    contains = list(/obj/item/cannonball/incendiary)
+
+//Misc bombard charges.
+/datum/supply_pack/rogue/Pioneer/bombard_charge_flare
+    name = "Flare shell"
+    cost = 85
+    contains = list(/obj/item/cannonball/flare)

@@ -52,12 +52,11 @@
 		to_chat(caster, span_warning("I cannot bestow a ward upon myself."))
 		return FALSE
 
+	// Ward goes in its own arcyne_ward_armor slot (separate from skin_armor), so a target's natural
+	// racial armor no longer blocks it — only a stronger existing ward does.
 	var/refreshing = FALSE
-	if(target.skin_armor)
-		if(!istype(target.skin_armor, /obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2))
-			to_chat(caster, span_warning("[target] is already protected by something beyond my power to overcome."))
-			return FALSE
-		var/obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/existing = target.skin_armor
+	if(target.arcyne_ward_armor && !QDELETED(target.arcyne_ward_armor))
+		var/obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/existing = target.arcyne_ward_armor
 		if(existing.arcyne_armor_tier > ARCYNE_WARD_TIER_OTHER)
 			to_chat(caster, span_warning("[target] already bears a ward of greater strength."))
 			return FALSE
@@ -65,7 +64,7 @@
 		qdel(existing)
 
 	var/obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/bestowed/ward = new ward_type(target)
-	target.skin_armor = ward
+	target.arcyne_ward_armor = ward
 	ward.setup_ward(target)
 	ward.set_duration(ward_duration)
 
@@ -120,7 +119,7 @@
 // reuses the standard /obj/item/clothing/integrity_check() flavor strings.
 /mob/living/carbon/human/examine(mob/user)
 	. = ..()
-	var/obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/ward = skin_armor
+	var/obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/ward = arcyne_ward_armor
 	if(istype(ward))
 		. += span_info("[user == src ? "I am" : "[p_they(TRUE)] [p_are()]"] [ward.ward_examine_phrase].")
 		var/intcheck = ward.integrity_check()

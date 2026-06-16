@@ -37,10 +37,18 @@
 	user.sexcon.intercourse_noise(user)
 	user.sexcon.do_thrust_animate(target)
 
+	if(HAS_TRAIT(user, TRAIT_DEATHBYSNUSNU))
+		if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+			user.sexcon.try_pelvis_crush(target)
+
 	target.sexcon.perform_sex_action(target, 2, 0, TRUE)
 	if(target.sexcon.check_active_ejaculation())
 		target.visible_message(span_love("[target] cums into [user]'s butt!"))
-		target.sexcon.cum_into(splashed_user = user, knot_action = src, knot_swap_roles = TRUE, knot_btm = user, orifice = SEX_PART_ANUS)
+		for(var/i = 1; i <= target.sexcon.get_load_bursts(); i++)
+			target.sexcon.cum_into(splashed_user = user, knot_action = src, knot_swap_roles = TRUE, knot_btm = user, orifice = SEX_PART_ANUS, consume_charge = i == 1 ? TRUE : FALSE)
+			if(HAS_TRAIT(user, TRAIT_BAOTHA_FERTILITY_BOON) && !user.getorganslot(ORGAN_SLOT_VAGINA))
+				target.try_impregnate(user)
+			sleep(10)
 		target.virginity = FALSE
 
 	if(target.sexcon.considered_limp())

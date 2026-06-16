@@ -860,7 +860,7 @@
 		var/armor_block = H.run_armor_check(BODY_ZONE_PRECISE_L_HAND, used_intent.item_d_type, armor_penetration = used_intent.penfactor, damage = force, used_weapon = IM)
 		if(H.apply_damage(force, IM.damtype, affecting, armor_block))
 			visible_message(span_suicide("[src] gores [user]'s hands with \the [IM]!"))
-			affecting.bodypart_attacked_by(used_intent.blade_class, force, crit_message = TRUE, weapon = IM)
+			affecting.bodypart_attacked_by(used_intent.blade_class, force, src, crit_message = TRUE, weapon = IM)
 		else
 			visible_message(span_suicide("[src] clashes into [user]'s hands with \the [IM]!"))
 		playsound(src, pick(used_intent.hitsound), 80)

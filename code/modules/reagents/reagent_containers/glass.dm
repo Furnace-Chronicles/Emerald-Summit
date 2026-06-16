@@ -342,6 +342,20 @@
 						to_chat(user, span_warning("[M] is out of milk!"))
 				else
 					to_chat(user, span_warning("[M]'s chest must be exposed before I can milk them!"))
+			else if(humanized.getorganslot(ORGAN_SLOT_PENIS) && humanized.client?.prefs?.sexable)
+				if(get_location_accessible(humanized, BODY_ZONE_PRECISE_GROIN))
+					if(reagents.total_volume < volume)
+						if(humanized.sexcon?.check_active_ejaculation())
+							if(do_after(user, 20, target = M))
+								user.visible_message(span_notice("[user] milks [M]'s cock using \the [src]."), span_notice("I milk [M]'s cock using \the [src]."))
+								playsound(humanized, pick('modular/Creechers/sound/milking1.ogg', 'modular/Creechers/sound/milking2.ogg'), 50, TRUE, -1)
+								humanized.sexcon.handle_cock_milking(user)
+						else
+							to_chat(user, span_warning("[M] isn't aroused enough to be milked."))
+					else
+						to_chat(user, span_warning("[src] is full."))
+				else
+					to_chat(user, span_warning("[M]'s groin must be exposed before I can milk them!"))
 			return 1
 	else
 		return ..()
