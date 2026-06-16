@@ -77,7 +77,7 @@
 			H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
 			D.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
 			D.max_devotion *= 0.5
-			ADD_TRAIT(H, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC) //T2 does nothing much with magi2. The single exception being giving access to the ''upgraded'' ritous ritual.
 			H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 			// Magi 2 (T1 caster, hybrid): 0 major / 0 minor / 3 utilities (util-only, no ward).
 			// Deferred so the backpack exists for Grimoire storage; grant_items = TRUE hands over the
