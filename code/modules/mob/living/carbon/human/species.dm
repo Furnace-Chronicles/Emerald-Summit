@@ -722,7 +722,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(SLOT_SHOES)
 			if(H.shoes)
 				return FALSE
-			if(is_nudist || is_inhumen || is_harpy) // || is_lamia
+			// A lamian/taur tail occupies the lower body and blocks footwear, but if it has
+			// been surgically replaced with real legs, footwear works like any other species.
+			if(is_nudist || is_inhumen || is_harpy || H.get_lamian_tail())
 				return FALSE
 			if( !(I.slot_flags & ITEM_SLOT_SHOES) )
 				return FALSE
@@ -771,6 +773,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			if(H.wear_pants)
 				return FALSE
 			if(is_nudist)
+				return FALSE
+			// As with shoes: the lamian/taur tail blocks leg coverings unless it's been
+			// replaced with real legs.
+			if(H.get_lamian_tail())
 				return FALSE
 			if( !(I.slot_flags & ITEM_SLOT_PANTS) )
 				return FALSE

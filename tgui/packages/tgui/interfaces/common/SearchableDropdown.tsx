@@ -2,7 +2,6 @@ import { type ReactNode, useState } from 'react';
 import {
   Box,
   Button,
-  Dropdown,
   Icon,
   Input,
   Popper,
@@ -31,11 +30,12 @@ type Props = {
 };
 
 /**
- * Drop-in replacement for tgui-core's Dropdown that grows a search box once the
- * option list passes `searchThreshold` (default 7). Small lists render the stock
- * Dropdown unchanged (zero behavior change); large lists get a filterable popup.
- * Wrapped in an inline Box so `width` constrains it, matching the per-tab
- * Dropdown wrappers this replaces.
+ * Drop-in replacement for tgui-core's Dropdown. Every list renders the same
+ * custom trigger + popup so they look identical regardless of size; lists past
+ * `searchThreshold` (default 7) additionally get a filter box. (Routing short
+ * lists through the stock Dropdown made them render in a different, off-theme
+ * color — see the lone short "Height" descriptor.) Wrapped in an inline Box so
+ * `width` constrains it, matching the per-tab Dropdown wrappers this replaces.
  */
 export function SearchableDropdown(props: Props) {
   const {
@@ -54,31 +54,15 @@ export function SearchableDropdown(props: Props) {
     ...rest
   } = props;
 
-  // Hooks must run unconditionally, before the small-list early return.
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
 
-  // Small lists behave exactly as before — stock Dropdown, width-constrained.
-  if (options.length <= searchThreshold) {
-    return (
-      <Box inline style={{ width: width }}>
-        <Dropdown
-          options={options}
-          selected={selected}
-          onSelected={onSelected}
-          displayText={displayText}
-          width={width}
-          menuWidth={menuWidth}
-          placeholder={placeholder}
-          disabled={disabled}
-          color={color}
-          over={over}
-          fluid={fluid}
-          {...rest}
-        />
-      </Box>
-    );
-  }
+  // Every list renders the same custom trigger so short and long lists look
+  // identical; only lists past the threshold also get a search box. Routing
+  // short lists through the stock Dropdown made them render in a different
+  // (off-theme, bluish) color than the searchable ones — visible on the lone
+  // short "Height" descriptor, which stood out from its >7-option neighbours.
+  const showSearch = options.length > searchThreshold;
 
   const entries: DropdownEntry[] = options.map((o) =>
     o && typeof o === 'object' ? o : { value: o, displayText: o },
@@ -110,16 +94,18 @@ export function SearchableDropdown(props: Props) {
       className="Dropdown__menu--wrapper"
       style={{ width: menuW, maxWidth: '90vw' }}
     >
-      <Box p={0.5}>
-        <Input
-          fluid
-          autoFocus
-          placeholder="Search…"
-          value={query}
-          onChange={setQuery}
-          onEscape={close}
-        />
-      </Box>
+      {showSearch && (
+        <Box p={0.5}>
+          <Input
+            fluid
+            autoFocus
+            placeholder="Search…"
+            value={query}
+            onChange={setQuery}
+            onEscape={close}
+          />
+        </Box>
+      )}
       <div className="Dropdown__menu">
         {filtered.length === 0 ? (
           <div className="Dropdown__menu--entry" style={{ opacity: 0.6 }}>

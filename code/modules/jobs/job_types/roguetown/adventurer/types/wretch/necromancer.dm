@@ -17,7 +17,10 @@
 		STATKEY_SPD = 1
 	)
 
-	subclass_spellpoints = 18
+	// Magi 2 (T3 full caster): 1 major / 2 minor / 6 utilities, universal arcyne ward.
+	// Free necromancy spells are still granted in pre_equip below (coexist with magi2).
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
@@ -56,7 +59,6 @@
 
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_MASTER, TRUE)
-		H?.mind.adjust_spellpoints(6)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/eyebite)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
@@ -64,27 +66,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_lesser_undead/necromancer)
 
+	// Magi 2: greater staff implement granted via the outfit; legacy gem-staff picker removed.
+	// (As a migrated caster, _magi2_setup_caster also auto-grants a lesser staff as a fallback if none present.)
+	backr = /obj/item/rogueweapon/woodstaff/implement_magi2/greater // Magi 2: greater staff implement (T3)
 	wretch_select_bounty(H)
-
-	var/staffs = list(
-		"ronts-focused staff",
-		"blortz-focused staff",
-		"saffira-focused staff",
-		"gemerald-focused staff",
-		"amethyst-focused staff",
-		"toper-focused staff",
-	)
-	var/staffchoice = input(H, H, "Choose your staff", "Available staffs") as anything in staffs
-	switch(staffchoice)
-		if("ronts-focused staff")
-			backr = /obj/item/rogueweapon/woodstaff/ruby
-		if("blortz-focused staff")
-			backr = /obj/item/rogueweapon/woodstaff/quartz
-		if("saffira-focused staff")
-			backr = /obj/item/rogueweapon/woodstaff/sapphire
-		if("gemerald-focused staff")
-			backr = /obj/item/rogueweapon/woodstaff/emerald
-		if("amethyst-focused staff")
-			backr = /obj/item/rogueweapon/woodstaff/amethyst
-		if("toper-focused staff")
-			backr = /obj/item/rogueweapon/woodstaff/toper

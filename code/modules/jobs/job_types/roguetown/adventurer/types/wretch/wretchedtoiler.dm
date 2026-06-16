@@ -50,7 +50,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
-		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
+		/obj/item/book/magi2_grimoire = 1, // Magi 2: aspect Grimoire in the satchel (replaces the lantern)
 		/obj/item/rope/chain = 1,
 		/obj/item/ritechalk = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
@@ -106,30 +106,14 @@
 			beltr = /obj/item/reagent_containers/glass/bottle/rogue/manapot
 			neck = /obj/item/clothing/neck/roguetown/leather // No iron gorget vs necro. They will have to acquire one in round.
 			r_hand = /obj/item/scrying //expert should give you good odds with this? if it breaks in one use, blame xylix, not me
-			//you get some spellpoints. if you really wanna take combat spells you can ig
-			H?.mind.adjust_spellpoints(12)
-			var/staffs = list(
-				"ronts-focused staff",
-				"blortz-focused staff",
-				"saffira-focused staff",
-				"gemerald-focused staff",
-				"amethyst-focused staff",
-				"toper-focused staff",
-			)
-			var/staffchoice = input(H, H, "Choose your staff", "Available staffs") as anything in staffs
-			switch(staffchoice)
-				if("ronts-focused staff")
-					backr = /obj/item/rogueweapon/woodstaff/ruby
-				if("blortz-focused staff")
-					backr = /obj/item/rogueweapon/woodstaff/quartz
-				if("saffira-focused staff")
-					backr = /obj/item/rogueweapon/woodstaff/sapphire
-				if("gemerald-focused staff")
-					backr = /obj/item/rogueweapon/woodstaff/emerald
-				if("amethyst-focused staff")
-					backr = /obj/item/rogueweapon/woodstaff/amethyst
-				if("toper-focused staff")
-					backr = /obj/item/rogueweapon/woodstaff/toper
+			// Magi 2 (T2 caster): 0 major / 2 minor / 6 utilities + ward. Lesser staff in back;
+			// the aspect config, ward, and Grimoire are delivered post-equip via a deferred
+			// _magi2_setup_caster (addtimer fires after equipOutfit completes, so the backpack
+			// exists for Grimoire storage). Themed evil proc_holder kit above is kept as-is.
+			backr = /obj/item/rogueweapon/woodstaff/implement_magi2 // Magi 2: lesser staff (T2)
+			// grant_items = FALSE: the staff (backr) + Grimoire (backpack_contents) are handed by the
+			// outfit; the deferred setup only does config/ward/prestidigitation (avoids duplicate items).
+			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_magi2_setup_caster), H, list("major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE), null, FALSE), 1)
 
 		if("SNIVELLING servant")
 			//stats
@@ -153,8 +137,12 @@
 			//the fit. you ready to TOIL?
 			neck = /obj/item/clothing/neck/roguetown/gorget/cursed_collar //hey, relax. it's just an iron gorget that you can't take off and makes you look like someone's pet
 			armor = /obj/item/clothing/suit/roguetown/shirt/rags //toilmaxxing
-			//you get less spellpoints. enough for like slip or message or smth
-			H?.mind.adjust_spellpoints(6) 
+			// Magi 2 (T2 caster, lighter than the Mastermind): 0 major / 1 minor / 6 utilities + ward.
+			// Lesser staff in back; config/ward/Grimoire delivered post-equip via deferred setup.
+			backr = /obj/item/rogueweapon/woodstaff/implement_magi2 // Magi 2: lesser staff (T2)
+			// grant_items = FALSE: the staff (backr) + Grimoire (backpack_contents) are handed by the
+			// outfit; the deferred setup only does config/ward/prestidigitation (avoids duplicate items).
+			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_magi2_setup_caster), H, list("major" = 0, "minor" = 1, "utilities" = 6, "ward" = TRUE), null, FALSE), 1)
 	wretch_select_bounty(H)
 
 /obj/effect/proc_holder/spell/invoked/order //i think this has to be here

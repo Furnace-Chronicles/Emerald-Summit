@@ -424,7 +424,6 @@
 		H.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 		H.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
-		H.mind.adjust_spellpoints(6)
 		H.change_stat("intelligence", 3)
 		H.change_stat("speed", 2)
 		H.change_stat("fortune", 1)
@@ -435,7 +434,6 @@
 	ADD_TRAIT(H, TRAIT_RITUALIST, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_DEATHSIGHT, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_WITCH, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
 	H.cmode_music = 'sound/music/combat_cult.ogg'
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)

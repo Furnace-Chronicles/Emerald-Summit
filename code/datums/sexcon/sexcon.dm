@@ -78,6 +78,7 @@
 
 /datum/sex_controller/New(mob/living/carbon/human/owner)
 	user = owner
+	charge = get_max_charge()
 
 /datum/sex_controller/Destroy()
 	//remove_from_target_receiving()
@@ -347,7 +348,8 @@
 	log_combat(user, effective_target, "Came onto the target")
 	if(effective_target)
 		playsound(effective_target, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
-	add_cum_floor(get_turf(effective_target || user))
+	var/obj/item/organ/testicles/testes = user.getorganslot(ORGAN_SLOT_TESTICLES)
+	add_cum_floor(get_turf(effective_target || user), do_big_puddle = testes?.ball_size > DEFAULT_TESTICLES_SIZE)
 	if(splashed_user)
 		if(cum_on_face)
 			var/datum/status_effect/facial/facial = splashed_user.has_status_effect(/datum/status_effect/facial)
@@ -369,23 +371,25 @@
 		effective_target.sate_addiction(/datum/charflaw/addiction/lovefiend)
 	after_ejaculation()
 
-/datum/sex_controller/proc/cum_into(oral = FALSE, mob/living/carbon/human/splashed_user = null, datum/sex_action/knot_action = null, knot_swap_roles = FALSE, mob/living/carbon/human/knot_btm = null, orifice = SEX_PART_NULL)
+/datum/sex_controller/proc/cum_into(oral = FALSE, mob/living/carbon/human/splashed_user = null, datum/sex_action/knot_action = null, knot_swap_roles = FALSE, mob/living/carbon/human/knot_btm = null, orifice = SEX_PART_NULL, skip_knot_try = FALSE, consume_charge = TRUE)
 	var/mob/living/carbon/human/effective_target = splashed_user || target
 	log_combat(user, effective_target, "Came inside the target")
 	werewolf_sex_infect_attempt(user, effective_target)
 	if(oral)
 		playsound(user, pick(list('sound/misc/mat/mouthend (1).ogg','sound/misc/mat/mouthend (2).ogg')), 100, FALSE, ignore_walls = FALSE)
 	else
-		playsound(user, 'sound/misc/mat/endin.ogg', 50, TRUE, ignore_walls = FALSE)
-	if(knot_btm || (user != effective_target && !isnull(effective_target) && istype(effective_target)))
+		playsound(user, 'sound/misc/mat/endin.ogg', 100, TRUE, ignore_walls = FALSE)
+	if(!skip_knot_try && consume_charge && (knot_btm || (user != effective_target && !isnull(effective_target) && istype(effective_target))))
 		knot_try(knot_action = knot_action, knot_swap_roles = knot_swap_roles, knot_btm = knot_btm)
-	if(splashed_user && (oral || !splashed_user.sexcon.knotted_status))
+	var/datum/sex_controller/receiver_sexcon = splashed_user?.sexcon
+	var/is_receiver_actively_knotted_to_user = receiver_sexcon?.knotted_status == KNOTTED_AS_BTM && receiver_sexcon?.knotted_owner == user
+	if(receiver_sexcon && (oral || !receiver_sexcon.knotted_status || is_receiver_actively_knotted_to_user))
 		var/status_type = !oral ? /datum/status_effect/facial/internal : /datum/status_effect/facial
 		var/datum/status_effect/facial/splashed_type = splashed_user.has_status_effect(status_type)
 		if(!splashed_type)
 			splashed_user.apply_status_effect(status_type)
 			if(oral)
-				splashed_user.visible_message(span_love("[splashed_user] takes a load in their mouth!"), span_love("I take a load in my mouth!"))
+				splashed_user.visible_message(span_love("[splashed_user] takes a load down their throat!"), span_love("I take a load down my throat!"))
 			else
 				splashed_user.visible_message(span_love("[splashed_user] takes a load inside them!"), span_love("I take a load inside me!"))
 		else
@@ -394,17 +398,17 @@
 			splashed_user.has_gnoll_scent_this_round = TRUE
 		if(oral && splashed_user.reagents)
 			if(user.getorganslot(ORGAN_SLOT_PENIS))
-				var/obj/item/organ/testicles/testes = user.getorganslot(ORGAN_SLOT_TESTICLES)
-				splashed_user.reagents.add_reagent(/datum/reagent/erpjuice/cum, testes?.ball_size > DEFAULT_TESTICLES_SIZE ? 6 : 3)
+				splashed_user.reagents.add_reagent(/datum/reagent/erpjuice/cum, get_semen_volume())
 			else
 				splashed_user.reagents.add_reagent(/datum/reagent/erpjuice/femcum, 2)
 			apply_cum_consumed_buff(splashed_user)
 		if(!oral)
 			var/obj/item/organ/testicles/testes = user.getorganslot(ORGAN_SLOT_TESTICLES)
-			apply_creampie_drip(splashed_user, orifice, use_long = testes?.ball_size > DEFAULT_TESTICLES_SIZE)
+			if(!is_receiver_actively_knotted_to_user)
+				apply_creampie_drip(splashed_user, orifice, use_long = testes?.ball_size > DEFAULT_TESTICLES_SIZE)
 	if(effective_target?.has_flaw(/datum/charflaw/addiction/lovefiend))
 		effective_target.sate_addiction(/datum/charflaw/addiction/lovefiend)
-	after_ejaculation()
+	after_ejaculation(consume_charge)
 
 	//EVIL ASS LEVELDRAIN
 	if(HAS_TRAIT(user, TRAIT_DEPRAVED) && user.cmode)
@@ -524,14 +528,26 @@
 
 /datum/sex_controller/proc/ejaculate()
 	log_combat(user, user, "Ejaculated")
+	// If we climax while knotted into someone as the top, deposit into them instead of just making a floor mess.
+	if(user.getorganslot(ORGAN_SLOT_PENIS) && knotted_status == KNOTTED_AS_TOP && knotted_owner == user && ishuman(knotted_recipient) && !QDELETED(knotted_recipient) && knotted_recipient?.sexcon)
+		var/orifice = knotted_part_partner
+		var/is_oral_knot = (orifice & SEX_PART_JAWS) != SEX_PART_NULL
+		var/knotted_climax_msg = is_oral_knot ? "[user] climaxes down [knotted_recipient]'s throat!" : "[user] climaxes deep inside [knotted_recipient]!"
+		user.visible_message(span_love(knotted_climax_msg))
+		cum_into(oral = is_oral_knot, splashed_user = knotted_recipient, orifice = orifice, skip_knot_try = TRUE)
+		return
 	user.visible_message(span_love("[user] makes a mess!"))
 	playsound(user, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
-	add_cum_floor(get_turf(user))
+	var/obj/item/organ/testicles/testes = user.getorganslot(ORGAN_SLOT_TESTICLES)
+	add_cum_floor(get_turf(user), do_big_puddle = testes?.ball_size > DEFAULT_TESTICLES_SIZE)
 	after_ejaculation()
 
-/datum/sex_controller/proc/after_ejaculation()
+/datum/sex_controller/proc/after_ejaculation(consume_charge = TRUE)
 	set_arousal(40)
-	adjust_charge(-CHARGE_FOR_CLIMAX)
+	if(consume_charge)
+		adjust_charge(-CHARGE_FOR_CLIMAX)
+	else
+		to_chat(user, span_love("<i>Spurt!</i>"))
 	if(user.has_flaw(/datum/charflaw/addiction/lovefiend))
 		user.sate_addiction()
 	user.add_stress(/datum/stressevent/cumok)
@@ -555,6 +571,31 @@
 				effective_target.mob_timers["cumtri"] = world.time
 				effective_target.adjust_triumphs(1)
 				to_chat(effective_target, span_love("Our loving is a true TRIUMPH!"))
+
+	var/user_goodlover = HAS_TRAIT(user, TRAIT_GOODLOVER)
+	var/target_goodlover = HAS_TRAIT(effective_target, TRAIT_GOODLOVER)
+	var/user_beautiful = HAS_TRAIT(user, TRAIT_BEAUTIFUL)
+	var/user_ugly = HAS_TRAIT(user, TRAIT_UNSEEMLY) || HAS_TRAIT(user, TRAIT_DISFIGURED)
+	var/target_beautiful = HAS_TRAIT(effective_target, TRAIT_BEAUTIFUL)
+	var/target_ugly = HAS_TRAIT(effective_target, TRAIT_UNSEEMLY) || HAS_TRAIT(effective_target, TRAIT_DISFIGURED)
+	if((user_ugly && target_ugly) || (user_beautiful && target_beautiful)) // both ugly or both beautiful: mutual made-love buff
+		user.add_stress(/datum/stressevent/cummax)
+		effective_target.add_stress(/datum/stressevent/cummax)
+	else // mismatched looks: debuff the non-ugly partner (good lovers are immune to ugly partners)
+		if(target_ugly && !user_ugly && !user_goodlover)
+			if(user_beautiful) // beautiful folk take it harder, for longer
+				user.add_stress(/datum/stressevent/unseemly_made_love/beautiful)
+			else
+				user.add_stress(/datum/stressevent/unseemly_made_love)
+			effective_target.add_stress(/datum/stressevent/cummax)
+		if(user_ugly && !target_ugly && !target_goodlover)
+			if(target_beautiful)
+				effective_target.add_stress(/datum/stressevent/unseemly_made_love/beautiful)
+			else
+				effective_target.add_stress(/datum/stressevent/unseemly_made_love)
+			user.add_stress(/datum/stressevent/cummax)
+	if(!oral && force >= SEX_FORCE_HIGH && user.has_flaw(/datum/charflaw/addiction/sadist)) // sadist top forces a pain emote
+		effective_target.emote("paincrit", forced = TRUE)
 
 	if(ishuman(user) && ishuman(effective_target) && user.client && effective_target.client)
 		eora_register_consensual_pair(user, effective_target)
@@ -617,9 +658,65 @@
 /datum/sex_controller/proc/just_ejaculated()
 	return (last_ejaculation_time + 2 SECONDS >= world.time)
 
+/// Volume of semen produced per climax, scaled by testicle size, the GOODLOVER trait, and knotted/equine shafts.
+/datum/sex_controller/proc/get_semen_volume()
+	var/obj/item/organ/testicles/testes = user.getorganslot(ORGAN_SLOT_TESTICLES)
+	if(!testes)
+		return 0
+	var/volume
+	switch(testes.ball_size)
+		if(MIN_TESTICLES_SIZE)
+			volume = 2
+		if(MAX_TESTICLES_SIZE)
+			volume = 4
+		else
+			volume = 3
+	if(HAS_TRAIT(user, TRAIT_GOODLOVER))
+		volume = floor(volume * 1.5)
+
+	var/obj/item/organ/penis/shaft = user.getorganslot(ORGAN_SLOT_PENIS)
+	if(shaft?.penis_type in list(PENIS_TYPE_KNOTTED, PENIS_TYPE_EQUINE, PENIS_TYPE_EQUINE_KNOTTED, PENIS_TYPE_TAPERED_KNOTTED, PENIS_TYPE_TAPERED_DOUBLE_KNOTTED, PENIS_TYPE_BARBED_KNOTTED))
+		volume += 1
+
+	return volume
+
+/// Number of cum bursts (reagent/visual spurts) per climax, based on semen volume.
+/datum/sex_controller/proc/get_load_bursts()
+	switch(get_semen_volume())
+		if(4)
+			return 2
+		if(5 to INFINITY)
+			return 3
+		else
+			return 1
+
+/// How many climaxes worth of charge we can hold, scaled by testicle size, CON, the GOODLOVER/BIGGUY traits, and gnoll species.
+/datum/sex_controller/proc/get_max_loads()
+	var/con = user.STACON
+	var/minimum_loads = 3
+	var/obj/item/organ/testicles/testes = user.getorganslot(ORGAN_SLOT_TESTICLES)
+	if(testes)
+		switch(testes.ball_size)
+			if(MIN_TESTICLES_SIZE)
+				minimum_loads = 2
+			if(MAX_TESTICLES_SIZE)
+				minimum_loads = 4
+	var/loads = minimum_loads + floor(clamp((con - 10) * 2, 0, 99) / 2)
+	if(HAS_TRAIT(user, TRAIT_GOODLOVER))
+		loads *= 1.5
+	if(HAS_TRAIT(user, TRAIT_BIGGUY))
+		loads *= 1.5
+	if(is_species(user, /datum/species/gnoll))
+		loads *= 1.5
+	return floor(loads)
+
+/// Returns the max charge based on dynamic load count
+/datum/sex_controller/proc/get_max_charge()
+	return get_max_loads() * CHARGE_FOR_CLIMAX
+
 /datum/sex_controller/proc/set_charge(amount)
 	var/empty = (charge < CHARGE_FOR_CLIMAX)
-	charge = clamp(amount, 0, SEX_MAX_CHARGE)
+	charge = clamp(amount, 0, get_max_charge())
 	var/after_empty = (charge < CHARGE_FOR_CLIMAX)
 	if(empty && !after_empty)
 		to_chat(user, span_notice("I feel like I'm not so spent anymore"))
@@ -835,6 +932,35 @@
 			splashed_user.apply_status_effect(/datum/status_effect/facial)
 		else
 			facial.refresh_cum()
+
+/datum/sex_controller/proc/ejaculate_container(obj/item/reagent_containers/glass/C)
+	if(C && istype(C))
+		log_combat(user, user, "Ejaculated into a container")
+		user.visible_message(span_love("[user] spills into [C]!"))
+		playsound(user, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
+		if(user.getorganslot(ORGAN_SLOT_PENIS))
+			C.reagents.add_reagent(/datum/reagent/erpjuice/cum, get_semen_volume())
+		else
+			C.reagents.add_reagent(/datum/reagent/erpjuice/femcum, 2)
+	after_ejaculation()
+
+/datum/sex_controller/proc/handle_cock_milking(mob/living/carbon/human/milker)
+	if(arousal < ACTIVE_EJAC_THRESHOLD)
+		return
+	if(is_spent())
+		return
+	if(!can_ejaculate())
+		return FALSE
+	ejaculate_container(milker.get_active_held_item())
+
+/datum/sex_controller/proc/handle_container_ejaculation()
+	if(arousal < PASSIVE_EJAC_THRESHOLD)
+		return
+	if(is_spent())
+		return
+	if(!can_ejaculate())
+		return FALSE
+	ejaculate_container(user.get_active_held_item())
 
 /datum/sex_controller/proc/can_use_penis()
 	if(HAS_TRAIT(user, TRAIT_LIMPDICK))

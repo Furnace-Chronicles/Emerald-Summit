@@ -1,0 +1,71 @@
+// Create Campfire — Pyromancy utility cantrip. Drops a 10-minute arcyne campfire.
+
+/datum/action/cooldown/spell/create_campfire_magi2
+	name = "Create Campfire"
+	desc = "Conjure a magical campfire to cook on. Lasts for 10 minutes."
+	button_icon = 'icons/mob/actions/roguespells.dmi'
+	button_icon_state = "create_campfire"
+	sound = 'sound/magic/whiteflame.ogg'
+	spell_color = GLOW_COLOR_FIRE
+	glow_intensity = GLOW_INTENSITY_LOW
+
+	click_to_activate = TRUE
+	cast_range = 3
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_CANTRIP
+
+	invocations = list("Ignis Castrensis Magicae.")
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = TRUE
+	charge_time = 3 SECONDS
+	charge_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
+	charge_sound = 'sound/magic/charging.ogg'
+	cooldown_time = 60 SECONDS
+
+	associated_skill = /datum/skill/magic/arcane
+	spell_tier = 1
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	point_cost = 1
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+	var/static/list/turf_blacklist = list(
+		/turf/open/water,
+		/turf/open/transparent,
+		/turf/closed/transparent,
+	)
+
+/datum/action/cooldown/spell/create_campfire_magi2/cast(atom/cast_on)
+	. = ..()
+	var/turf/target = get_turf(cast_on)
+	if(!target || is_type_in_list(target, turf_blacklist))
+		to_chat(owner, span_warning("This turf can't be on fiyaaaah! (It's blocked sire.)"))
+		return FALSE
+	new /obj/machinery/light/rogue/campfire/create_campfire_magi2(target)
+	return TRUE
+
+/obj/machinery/light/rogue/campfire/create_campfire_magi2
+	name = "magical campfire"
+	icon_state = "densefire1"
+	base_state = "densefire"
+	density = FALSE
+	layer = 2.8
+	brightness = 7
+	fueluse = 10 MINUTES
+	color = "#6ab2ee"
+	bulb_colour = "#6ab2ee"
+	max_integrity = 30
+	var/lifespan = 10 MINUTES
+
+/obj/machinery/light/rogue/campfire/create_campfire_magi2/Initialize()
+	. = ..()
+	if(lifespan)
+		QDEL_IN(src, lifespan)
+
+/obj/machinery/light/rogue/campfire/create_campfire_magi2/onkick(mob/user)
+	var/mob/living/L = user
+	L.visible_message(span_info("[L] kicks \the [src], the arcyne fire dissipating."))
+	burn_out()
+	qdel(src)

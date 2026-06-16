@@ -188,9 +188,14 @@
 	. = ..()
 	if(iscarbon(owner))
 		var/mob/living/carbon/C = owner
+		// drop the ensnaring net to the floor — whichever timer expires first (this debuff's duration
+		// or the net item's own) must leave the net recoverable instead of orphaned in the mob
+		var/obj/item/net/snare = C.legcuffed
 		C.legcuffed = null
 		C.update_inv_legcuffed()
 		C.remove_movespeed_modifier(MOVESPEED_ID_NET_SLOWDOWN)
+		if(istype(snare))
+			snare.forceMove(get_turf(C))
 
 /atom/movable/screen/alert/status_effect/debuff/sleepytime
 	name = "Tired"
