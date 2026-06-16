@@ -43,7 +43,7 @@
 	..()
 
 /obj/structure/spider/stickyweb/CanPass(atom/movable/mover, turf/target)
-	if(isliving(mover))
+	if(isliving(mover) && !mover.pulledby)
 		if(prob(50) && !HAS_TRAIT(mover, TRAIT_WEBWALK))
 			to_chat(mover, "<span class='danger'>I get stuck in \the [src] for a moment.</span>")
 			return FALSE

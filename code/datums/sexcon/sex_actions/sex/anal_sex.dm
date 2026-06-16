@@ -38,6 +38,10 @@
 	user.sexcon.intercourse_noise(target)
 	user.sexcon.do_thrust_animate(target)
 
+	if(HAS_TRAIT(user, TRAIT_DEATHBYSNUSNU))
+		if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+			user.sexcon.try_pelvis_crush(target)
+
 	user.sexcon.perform_sex_action(user, 2, 0, TRUE)
 	if(user.sexcon.check_active_ejaculation())
 		user.visible_message(span_love("[user] cums into [target]'s butt!"))
@@ -87,6 +91,10 @@
 		user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] double-knots [target]'s ass."))
 	playsound(target, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
 	user.sexcon.do_thrust_animate(target)
+
+	if(HAS_TRAIT(user, TRAIT_DEATHBYSNUSNU))
+		if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+			user.sexcon.try_pelvis_crush(target)
 
 	user.sexcon.perform_sex_action(user, 2, 0, TRUE)
 	if(user.sexcon.check_active_ejaculation())
