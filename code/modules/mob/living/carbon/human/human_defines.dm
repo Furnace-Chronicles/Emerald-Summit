@@ -56,6 +56,9 @@
 
 	//Equipment slots
 	var/obj/item/clothing/skin_armor = null
+	//Magi2 arcyne ward sits here, separate from skin_armor, so natural racial armor (harpy/lamia/drider
+	//scales) keeps its own slot and layers underneath the ward instead of blocking it.
+	var/obj/item/clothing/arcyne_ward_armor = null
 	var/obj/item/clothing/wear_armor = null
 	var/obj/item/clothing/wear_pants = null
 	var/obj/item/belt = null
