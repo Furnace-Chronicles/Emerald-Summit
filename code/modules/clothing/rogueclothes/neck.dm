@@ -439,10 +439,6 @@
 	grid_width = 32
 	grid_height = 32
 
-/obj/item/clothing/neck/roguetown/zcross/iron/New(loc, ...)
-	. = ..()
-	name = pick("inverted psycross", "psycross")
-
 /obj/item/clothing/neck/roguetown/psicross/astrata
 	name = "amulet of Astrata"
 	desc = "As sure as the sun rises, tomorrow will come."

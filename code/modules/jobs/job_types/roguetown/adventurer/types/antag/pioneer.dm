@@ -7,6 +7,7 @@
 	allowed_patrons = ALL_INHUMEN_PATRONS
 	category_tags = list(CTAG_BANDIT)
 	cmode_music = 'sound/music/combat_bandit.ogg'
+	traits_applied = list(TRAIT_FUSILIER)//Lets them aim the bombard and gather coordinates.
 
 	subclass_stats = list(
 		STATKEY_INT = 3,
@@ -18,6 +19,7 @@
 	)
 
 	subclass_skills = list(
+		/datum/skill/combat/firearms = SKILL_LEVEL_EXPERT,//He works with explosives. And firearms are otherwise unobtanium. Just fluff.
 		/datum/skill/combat/bows = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
