@@ -141,7 +141,9 @@
 	desc = "Holy vestments worn by the most faithful."
 	icon_state = "monkvestments"
 	item_state = "monkvestments"
-	armor = ARMOR_PADDED	//Equal to gamby
+	armor = ARMOR_PADDED_GOOD	//Equal to padded gamby
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_CHOP)
+	resistance_flags = FIRE_PROOF
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 
 /obj/item/clothing/suit/roguetown/shirt/robe/monk/equipped(mob/living/user, slot)
