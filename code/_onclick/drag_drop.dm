@@ -345,8 +345,7 @@
 				if(mouse_pointer_icon != new_icon)
 					mouse_pointer_icon = new_icon
 			else
-				if(!L.stamina_add(L.used_intent.chargedrain))
-					L.stop_attack()
+				L.stamina_add(L.used_intent.chargedrain)
 		return TRUE
 	else
 		return FALSE

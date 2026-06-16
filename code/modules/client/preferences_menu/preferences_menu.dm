@@ -1022,6 +1022,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	data["hear_midis"] = !!(prefs.toggles & SOUND_MIDI)
 	data["lobby_music"] = !!(prefs.toggles & SOUND_LOBBY)
 	data["pull_requests"] = !!(prefs.chat_toggles & CHAT_PULLR)
+	data["hear_ooc"] = !!(prefs.chat_toggles & CHAT_OOC)
 	data["unlock_content"] = prefs.unlock_content
 	data["byond_publicity"] = !!(prefs.toggles & MEMBER_PUBLIC)
 	data["is_admin"] = !!user.client?.holder
@@ -2677,6 +2678,11 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 
 		if("toggle_pull_requests")
 			prefs.chat_toggles ^= CHAT_PULLR
+			on_identity_change()
+			return TRUE
+
+		if("toggle_hear_ooc")
+			prefs.chat_toggles ^= CHAT_OOC
 			on_identity_change()
 			return TRUE
 
