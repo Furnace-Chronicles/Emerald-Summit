@@ -116,7 +116,10 @@
 				if(grab.sublimb_grabbed == location)
 					return TRUE
 		for(var/obj/item/equipped_item in carbon_victim.get_equipped_items(include_pockets = FALSE, include_beltslots = FALSE))
-			if(equipped_item.surgery_cover && zone2covered(location, equipped_item.body_parts_covered))
+			// use the CURRENT (dynamic) coverage, not the static value — otherwise a raised visor /
+			// lowered mantle still "covers" a zone for biting/surgery even though its armor is gone,
+			// which is why a visor-up helmet read "mouth is blocked" while armor showed it EXPOSED
+			if(equipped_item.surgery_cover && zone2covered(location, equipped_item.body_parts_covered_dynamic))
 				return FALSE
 		if(ishuman(carbon_victim))
 			var/mob/living/carbon/human/human_victim = carbon_victim

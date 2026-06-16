@@ -657,9 +657,12 @@
 	var/datum/species/S = H.dna.species
 	if(!S)
 		return
+	// A lamian/taur tail blocks the shoe and pants slots dynamically (see species can_equip),
+	// so grey those out while the tail is present even though they're not in no_equip.
+	var/has_tail = H.get_lamian_tail()
 	for(var/atom/movable/screen/inventory/inv in (static_inventory + toggleable_inventory))
 		if(inv.slot_id)
-			if(inv.slot_id in S.no_equip)
+			if((inv.slot_id in S.no_equip) || (has_tail && (inv.slot_id == SLOT_SHOES || inv.slot_id == SLOT_PANTS)))
 				inv.alpha = 128
 			else
 				inv.alpha = initial(inv.alpha)

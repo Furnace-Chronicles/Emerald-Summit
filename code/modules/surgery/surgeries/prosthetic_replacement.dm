@@ -54,9 +54,11 @@
 			to_chat(user, span_warning("This one has pledged a vow to Necra. The sinews reject the false flesh. It requires their own flesh and blood."))
 			return FALSE
 
-	display_results(user, target, span_notice("I begin to attach [bodypart] to [target], back to where [target.p_their()] [parse_zone(target_zone)] used to be..."),
-		span_notice("[user] begins to attach [bodypart] to [target], back to where [target.p_their()] [parse_zone(target_zone)] used to be..."),
-		span_notice("[user] begins to attach [bodypart] to [target], back to where [target.p_their()] [parse_zone(target_zone)] used to be..."))
+	// Name the lower body after the part being attached (e.g. "spider legs" for drider legs), since the
+	// target's tail zone is empty mid-attach and can't be resolved from the target.
+	display_results(user, target, span_notice("I begin to attach [bodypart] to [target], back to where [target.p_their()] [parse_zone(target_zone, bodypart)] used to be..."),
+		span_notice("[user] begins to attach [bodypart] to [target], back to where [target.p_their()] [parse_zone(target_zone, bodypart)] used to be..."),
+		span_notice("[user] begins to attach [bodypart] to [target], back to where [target.p_their()] [parse_zone(target_zone, bodypart)] used to be..."))
 	return TRUE
 
 /datum/surgery_step/add_lamian_tail/success(mob/user, mob/living/target, target_zone, obj/item/bodypart/lamian_tail/bodypart, datum/intent/intent)
@@ -107,7 +109,7 @@
 		return FALSE
 
 	if(target_zone != bodypart.body_zone) //so we can't replace a leg with an arm, or a human arm with a monkey arm.
-		to_chat(user, span_warning("[tool] isn't the right type for [parse_zone(target_zone)]."))
+		to_chat(user, span_warning("[tool] isn't the right type for [target.parse_surgery_zone(target_zone)]."))
 		return FALSE
 
 	if(bodypart.original_owner != target)
@@ -123,9 +125,9 @@
 			to_chat(user, span_warning("The head is refusing the body."))
 			return FALSE
 
-	display_results(user, target, span_notice("I begin to attach [bodypart] to [target], back to where [target.p_their()] [parse_zone(target_zone)] used to be..."),
-		span_notice("[user] begins to attach [bodypart] to [target], back to where [target.p_their()] [parse_zone(target_zone)] used to be..."),
-		span_notice("[user] begins to attach [bodypart] to [target], back to where [target.p_their()] [parse_zone(target_zone)] used to be..."))
+	display_results(user, target, span_notice("I begin to attach [bodypart] to [target], back to where [target.p_their()] [target.parse_surgery_zone(target_zone)] used to be..."),
+		span_notice("[user] begins to attach [bodypart] to [target], back to where [target.p_their()] [target.parse_surgery_zone(target_zone)] used to be..."),
+		span_notice("[user] begins to attach [bodypart] to [target], back to where [target.p_their()] [target.parse_surgery_zone(target_zone)] used to be..."))
 	return TRUE
 
 /datum/surgery_step/add_prosthetic/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
@@ -175,15 +177,15 @@
 
 
 /datum/surgery_step/remove_prosthetic/preop(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
-	display_results(user, target, span_notice("I begin to saw through the base of [target]'s [parse_zone(target_zone)] prosthetic..."),
-		span_notice("[user] begins to saw through the base of [target]'s prosthetic [parse_zone(target_zone)]."),
-		span_notice("[user] begins to saw through the base of [target]'s prosthetic [parse_zone(target_zone)]."))
+	display_results(user, target, span_notice("I begin to saw through the base of [target]'s [target.parse_surgery_zone(target_zone)] prosthetic..."),
+		span_notice("[user] begins to saw through the base of [target]'s prosthetic [target.parse_surgery_zone(target_zone)]."),
+		span_notice("[user] begins to saw through the base of [target]'s prosthetic [target.parse_surgery_zone(target_zone)]."))
 	return TRUE
 
 /datum/surgery_step/remove_prosthetic/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
-	display_results(user, target, span_notice("I saw through the base of [target]'s prosthetic [parse_zone(target_zone)]."),
-		span_notice("[user] saws through the base of [target]'s prosthetic [parse_zone(target_zone)]!"),
-		span_notice("[user] saws through the base of [target]'s prosthetic [parse_zone(target_zone)]!"))
+	display_results(user, target, span_notice("I saw through the base of [target]'s prosthetic [target.parse_surgery_zone(target_zone)]."),
+		span_notice("[user] saws through the base of [target]'s prosthetic [target.parse_surgery_zone(target_zone)]!"),
+		span_notice("[user] saws through the base of [target]'s prosthetic [target.parse_surgery_zone(target_zone)]!"))
 	var/obj/item/bodypart/target_limb = target.get_bodypart(check_zone(target_zone))
 	target_limb?.drop_limb(TRUE)
 	return TRUE

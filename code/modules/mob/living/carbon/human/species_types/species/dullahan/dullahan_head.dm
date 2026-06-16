@@ -1,6 +1,29 @@
 /obj/item/bodypart/head/dullahan/
 	attach_wound = null
 	var/list/head_items = list()
+	/// Traits ADDED when the head is removed (tagged "dullahan"); removed again when reattached.
+	var/list/traits_to_add = list(
+		TRAIT_CRITICAL_WEAKNESS,
+		TRAIT_SPELLCOCKBLOCK,
+		TRAIT_NORUN,
+		TRAIT_EASYDISMEMBER,
+	)
+	/// Traits REMOVED (as TRAIT_GENERIC) when the head is removed; restored when reattached. Keep this
+	/// in sync with traits that would be unbalanced for a headless Dullahan to keep.
+	var/list/traits_to_remove = list(
+		TRAIT_DODGEEXPERT,
+		TRAIT_CRITICAL_RESISTANCE,
+		TRAIT_HARDDISMEMBER,
+		TRAIT_NOPAIN,
+		TRAIT_NOPAINSTUN,
+		TRAIT_HEAVYARMOR,
+		TRAIT_MEDIUMARMOR,
+		TRAIT_BREADY,
+		TRAIT_ZJUMP,
+		TRAIT_SENTINELOFWITS,
+	)
+	/// Which traits_to_remove were actually present, so only those are restored on reattach.
+	var/list/traits_removed = list()
 
 // Support dropping yourself on a detached head. Check sexcon_helpers for original code with docs.
 /obj/item/bodypart/head/dullahan/MiddleMouseDrop_T(atom/movable/dragged, mob/living/user)
@@ -200,6 +223,7 @@
 	var/datum/species/dullahan/user_species = user_dullahan.dna.species
 	user_species.soul_light_off()
 	user_species.headless = FALSE
+	on_head_attached(user_dullahan)
 	
 	for(var/item_slot in head_items)
 		var/obj/item/worn_item = head_items[item_slot]
@@ -207,6 +231,31 @@
 			user_dullahan.equip_to_slot(worn_item, text2num(item_slot))
 	head_items = list()
 	return ..()
+
+/obj/item/bodypart/head/dullahan/proc/on_head_detached(mob/living/carbon/human/user)
+	if(!user)
+		return
+	to_chat(user, span_bad("I feel my strength wane as my head is removed from my body."))
+	for(var/trait_to_add in traits_to_add)
+		ADD_TRAIT(user, trait_to_add, "dullahan")
+	traits_removed = list()
+	for(var/trait_to_remove in traits_to_remove)
+		if(HAS_TRAIT(user, trait_to_remove))
+			REMOVE_TRAIT(user, trait_to_remove, TRAIT_GENERIC)
+			traits_removed += trait_to_remove
+
+/obj/item/bodypart/head/dullahan/proc/on_head_attached(mob/living/carbon/human/user)
+	if(!user)
+		return
+	to_chat(user, span_good("I feel my strength return as my head sits upon my body once more."))
+	for(var/trait_added in traits_to_add)
+		if(HAS_TRAIT(user, trait_added))
+			REMOVE_TRAIT(user, trait_added, "dullahan")
+	for(var/trait_restored in traits_removed)
+		ADD_TRAIT(user, trait_restored, TRAIT_GENERIC)
+	traits_removed = list()
+	user.remove_client_colour(/datum/client_colour/monochrome/blind/dullahan)
+	user.clear_fullscreen("dullahan_body_vision")
 
 /obj/item/bodypart/head/dullahan/proc/insert_worn_items()
 	// Sorry. Roguetown hardcodes variables and I don't want to do that.
@@ -236,6 +285,7 @@
 
 	user_species.soul_light_on(user)
 	user_species.headless = TRUE
+	on_head_detached(user)
 
 	// Handle grabs when voluntarily removing head
 	// Ensure grabbedby is a list so it can be properly .Cut()'d
@@ -299,6 +349,18 @@
 		if(!(hidden_slots & HIDEMASK))
 			var/mutable_appearance/mask_overlay = wear_mask.build_worn_icon(default_layer = MASK_LAYER, default_icon_file = 'icons/mob/clothing/mask.dmi')
 			. += mask_overlay
+
+	// Show the head's own organ features (eyes, snout, horns, etc.) while it's detached.
+	for(var/obj/item/organ/organ as anything in contents)
+		if(!isorgan(organ))
+			continue
+		if(!organ.is_visible())
+			continue
+		if(!(organ.slot in ORGAN_SLOTS_HEAD_ORGANS))
+			continue
+		var/mutable_appearance/organ_appearance = organ.get_bodypart_overlay(src)
+		if(organ_appearance)
+			. += organ_appearance
 
 /obj/item/bodypart/head/dullahan/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, vorpal = FALSE)
 	if(!owner)

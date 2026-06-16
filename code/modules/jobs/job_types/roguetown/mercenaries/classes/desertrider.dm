@@ -188,7 +188,10 @@
 
 	hiredbuff = /datum/status_effect/buff/merchired/almah
 
-	subclass_spellpoints = 15
+	// Magi 2 (T2 support caster): 0 major / 2 minor / 6 utilities, universal arcyne ward.
+	// Free fixed spells still granted in pre_equip below (coexist with magi2).
+	subclass_spellpoints = 0
+	mage_aspect_config = list("major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,

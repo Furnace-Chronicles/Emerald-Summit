@@ -1312,12 +1312,14 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 		return entry
 
 	var/job_unavailable = JOB_AVAILABLE
+	var/player_pq
 	if(isnewplayer(prefs.parent?.mob))
 		var/mob/dead/new_player/new_player = prefs.parent.mob
 		job_unavailable = new_player.IsJobUnavailable(job.title, latejoin = FALSE)
+		player_pq = get_playerquality(new_player.ckey)
 	if(!(job_unavailable in list(JOB_AVAILABLE, JOB_UNAVAILABLE_SLOTFULL)))
 		entry["state"] = "unavailable"
-		entry["state_text"] = unavailable_reason_text(job_unavailable)
+		entry["state_text"] = unavailable_reason_text(job_unavailable, job, player_pq)
 		return entry
 
 	entry["state"] = "available"
@@ -1429,8 +1431,14 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	return gate
 
 /// Resolve a JOB_UNAVAILABLE_* code into a short human-readable reason.
-/datum/preferences_menu/proc/unavailable_reason_text(reason)
+/datum/preferences_menu/proc/unavailable_reason_text(reason, datum/job/job, pq)
 	switch(reason)
+		if(JOB_UNAVAILABLE_PQ)
+			if(!isnull(job?.min_pq) && !isnull(pq) && pq < job.min_pq)
+				return "Requires PQ [job.min_pq]"
+			if(!isnull(job?.max_pq) && !isnull(pq) && pq > job.max_pq)
+				return "PQ must be [job.max_pq] or below"
+			return "PQ requirement"
 		if(JOB_UNAVAILABLE_GENERIC)
 			return "Not available this round"
 		if(JOB_UNAVAILABLE_BANNED)
@@ -2252,10 +2260,8 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			return TRUE
 
 		if("set_voice_color")
-			// Use the TGUI-native color picker (ColorPickerModal) instead of
-			// BYOND's OS-native color dialog — keeps the picker in-game and
-			// gives the user HSV/RGB inputs + presets.
-			var/picked = tgui_color_picker(user, "Choose your character's voice color:", "Voice Color", prefs.voice_color)
+			// Classic BYOND color dialog — the TGUI ColorPickerModal was broken here.
+			var/picked = input(user, "Choose your character's voice color:", "Voice Color", prefs.voice_color) as color|null
 			if(picked)
 				if(color_hex2num(picked) < 230)
 					to_chat(user, "<font color='red'>This voice color is too dark for mortals.</font>")
@@ -2265,7 +2271,8 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			return TRUE
 
 		if("set_highlight_color")
-			var/picked = tgui_color_picker(user, "Choose your character's nickname highlight color:", "Nickname Highlight Color", prefs.highlight_color)
+			// Classic BYOND color dialog — the TGUI ColorPickerModal was broken here.
+			var/picked = input(user, "Choose your character's nickname highlight color:", "Nickname Highlight Color", prefs.highlight_color) as color|null
 			if(picked)
 				prefs.highlight_color = sanitize_hexcolor(picked)
 				on_identity_change()

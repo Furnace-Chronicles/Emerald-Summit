@@ -43,7 +43,7 @@
 	to_chat(H, span_warning("You father your unholy cause through the most time-tested of ways: hard, heavy steel in both arms and armor."))
 	H.mind.current.faction += "[H.name]_faction"
 	H.set_blindness(0)
-	var/weapons = list("Longsword", "Mace", "Flail", "Axe", "Spear")
+	var/weapons = list("Longsword", "Mace", "Flail", "Axe", "Spear", "MY BARE HANDS!!")
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Longsword")
@@ -62,6 +62,9 @@
 		if("Spear") //VT2 handmaiden ftw
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 			r_hand = /obj/item/rogueweapon/spear
+		if ("MY BARE HANDS!!!") //sometimes you just wanna be a off brand Iconoclast. We are going to be the lord's second heavy armor unarmed subclass! No master though...and. They'll wanna statpack for str
+			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
+			ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
@@ -406,3 +409,190 @@
 //			id = /obj/item/clothing/neck/roguetown/psicross
 //			cloak = /obj/item/clothing/cloak/tabard/crusader/psydon
 //			H.change_stat(STATKEY_END, 2) //ENDVRE
+
+
+
+/datum/advclass/wretch/heretic/monk
+	name = "Heretic Monk"
+	tutorial = "You father your unholy cause through the most devout ways. Raw power, holy or unholy magics and preaching. Spread your faith though muscle or words. You are no simple cleric but a scholar. More then likely trained by a unholy Ecclesial sect, maybe even a priest."
+	allowed_sexes = list(MALE, FEMALE)
+	allowed_races = RACES_ALL_KINDS
+	outfit = /datum/outfit/job/wretch/heretic_monk
+	category_tags = list(CTAG_WRETCH)
+	extra_context = "If your patron is the following: Psydon, Astrata, Ravox, Necra or Eora, your patron will be set to ZIZO. Excommunication does not work on the Ten worshippers."
+
+	traits_applied = list(TRAIT_RITUALIST, TRAIT_CIVILIZEDBARBARIAN, TRAIT_HERETIC_DEVOUT, TRAIT_DODGEEXPERT,)
+	// Pretty much templar monk but evil and thus better. Time to wrastle! Gonna have it be a little supportive as well. They can pretend to be more like inhuman priests if they want? Preach rather then frag
+	// Think of old school church monks from old rougetown. But like better!
+	//Might look a lot better then Berserker and it proly is but light armor and no crit resist. They are gonna get the shit stabbed out of them for grappling.
+	subclass_stats = list(
+		STATKEY_STR = 2,
+		STATKEY_CON = 3,
+		STATKEY_END = 4,
+		STATKEY_SPD = 2,
+	) //its pretty good. but rounded. Statpack to pick your specialty I guess? They'd be very weak to more dedicated speed builds.
+	  // I'd love to get them int for support maxing. But it offsets struggler to much.
+
+	subclass_skills = list(
+		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_MASTER, 
+		/datum/skill/misc/climbing = SKILL_LEVEL_MASTER,
+		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
+		
+	) //lot of utlity here but like I'm saying. Playing this more like a heretical Acolyte is neat!
+
+/datum/outfit/job/wretch/heretic_monk
+	has_loadout = TRUE
+
+/datum/outfit/job/wretch/heretic_monk/pre_equip(mob/living/carbon/human/H)
+	..()
+	if ((istype(H.patron, /datum/patron/divine/astrata) || istype(H.patron, /datum/patron/divine/necra) || istype(H.patron, /datum/patron/divine/eora) || istype(H.patron, /datum/patron/divine/ravox) || istype(H.patron, /datum/patron/old_god)))
+		to_chat(H, span_warning("My former deity frowned upon my practices. I have since turned to ZIZO..."))
+		H.set_patron(/datum/patron/inhumen/zizo)
+	to_chat(H, span_warning("You father your unholy cause through the most devout ways. Raw power, holy or unholy magics and preaching. Spread your faith though muscle or words."))
+	H.mind.current.faction += "[H.name]_faction"
+	H.set_blindness(0)
+	var/weapons = list("Katar", "Steel Knuckles", "Punch Dagger", "Steel Quarterstaff", "Spear", "MY BARE HANDS!!!")
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	switch(weapon_choice)
+		if("Katar")
+			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_MASTER, TRUE)
+			r_hand = /obj/item/rogueweapon/katar
+		if("Steel Knuckles")
+			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_MASTER, TRUE)
+			beltr = /obj/item/rogueweapon/knuckles
+		if("Punch Dagger")
+			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_MASTER, TRUE)
+			beltr = /obj/item/rogueweapon/katar/punchdagger
+		if("Steel Quarterstaff") //DE and polearms kicks ass trust me!
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
+			r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel
+		if("Spear")
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
+			r_hand = /obj/item/rogueweapon/spear
+		if ("MY BARE HANDS!!!")
+			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_MASTER, TRUE)
+	if (istype (H.patron, /datum/patron/inhumen/zizo))
+		if(H.mind)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
+			H.mind.current.faction += "[H.name]_faction"
+		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
+
+	shirt = /obj/item/clothing/suit/roguetown/shirt/robe/monk
+	neck = /obj/item/clothing/neck/roguetown/leather
+	gloves = /obj/item/clothing/gloves/roguetown/angle
+	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	pants =  /obj/item/clothing/under/roguetown/heavy_leather_pants
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	backl = /obj/item/storage/backpack/rogue/satchel
+	belt = /obj/item/storage/belt/rogue/leather
+	beltl = /obj/item/rogueweapon/huntingknife
+	backpack_contents = list(
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/ritechalk = 1,
+		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		)
+
+	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Major regen, starts maxed out.
+	wretch_select_bounty(H)
+//bonus's gonna be abit better here and there. See above. Supportive creechur!
+/datum/outfit/job/wretch/heretic_monk/choose_loadout(mob/living/carbon/human/H) // some got +1 to their relevant patron skill
+	. = ..() //do NOT copy this for other classes. Its custom tailored for this one!
+	switch(H.patron?.type)
+		if(/datum/patron/inhumen/zizo)
+			H.cmode_music = 'sound/music/combat_heretic.ogg'
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/roguehood, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/zcross/iron, SLOT_RING, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/shirt/robe, SLOT_CLOAK, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE) // zizo heretic already gets unique benefits, no reason to double down 
+			H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_MASTER, TRUE)
+			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
+		if(/datum/patron/inhumen/matthios)
+			H.cmode_music = 'sound/music/combat_matthios.ogg'
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/roguehood, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/zcross/matthios, SLOT_RING, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/shirt/robe, SLOT_CLOAK, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/facemask/steel, SLOT_WEAR_MASK, TRUE)
+			H.grant_language(/datum/language/thievescant)
+			H.adjust_skillrank(/datum/skill/misc/sneaking, SKILL_LEVEL_NOVICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/stealing, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank(/datum/skill/misc/lockpicking, SKILL_LEVEL_APPRENTICE, TRUE) //unlike wanderer, normal heretic can get these bonuses
+		if(/datum/patron/inhumen/baotha)
+			H.cmode_music = 'sound/music/combat_baotha.ogg'
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/roguehood, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/shirt/robe, SLOT_CLOAK, TRUE)
+			H.adjust_skillrank(/datum/skill/misc/music, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/cooking, SKILL_LEVEL_EXPERT, TRUE) // jessie we have to cook
+			ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
+		if(/datum/patron/inhumen/graggar)
+			H.cmode_music = 'sound/music/combat_graggar.ogg'
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/roguehood, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/graggar, SLOT_CLOAK, TRUE)
+			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC) //Im not sure what to give you gragger without being OP...im sorry. ;-; Cloak though. Aura is everything.
+		if(/datum/patron/divine/abyssor)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/abyssor, SLOT_RING, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/roguehood/abyssor, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/abyssortabard, SLOT_CLOAK, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/labor/fishing, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE)
+			ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
+		if(/datum/patron/divine/xylix)
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/roguehood, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/xylix, SLOT_RING, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/templar/xylixian, SLOT_CLOAK, TRUE)
+			H.cmode_music = 'sound/music/combat_jester.ogg'
+			H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_LEGENDARY, TRUE) //go be silly. Let no walls stop the laughs!
+			H.adjust_skillrank_up_to(/datum/skill/misc/lockpicking, SKILL_LEVEL_NOVICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/music, SKILL_LEVEL_NOVICE, TRUE)
+		if(/datum/patron/divine/dendor)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/dendor, SLOT_RING, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/dendormask, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/crusader/dendor, SLOT_CLOAK, TRUE)
+			H.adjust_skillrank(/datum/skill/labor/farming, SKILL_LEVEL_NOVICE, TRUE)
+		if(/datum/patron/divine/pestra) // get +1 to med and alch so that they can be dedicated 'surgeons' when they arent fragging
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/pestra, SLOT_RING, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/templar/pestran, SLOT_CLOAK, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/roguehood/phys, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/facemask/steel/pestra_beakmask, SLOT_WEAR_MASK)
+			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+			H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_EXPERT, TRUE)
+			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
+		if(/datum/patron/divine/noc)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/noc, SLOT_RING, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/nochood, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/crusader/noc, SLOT_CLOAK, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_LEGENDARY, TRUE)// Really good at reading... does this really do anything? No. BUT it's soulful.
+			H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
+		if(/datum/patron/divine/malum) // get +1 to their patron skills compared to the usual, to be the 'smiths' when they are not fragging
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/malum, SLOT_RING, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/roguehood, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/templar/malumite, SLOT_CLOAK, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/blacksmithing, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/armorsmithing, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/weaponsmithing, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/smelting, SKILL_LEVEL_APPRENTICE, TRUE)

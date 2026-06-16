@@ -146,6 +146,7 @@
 #define TRAIT_CURSE_EORA "Eora's Curse" //world is ugly
 #define TRAIT_CURSE_RESIST "Curse Resistance" //Some folk with a tendency to get cursed are resistant
 #define TRAIT_RITES_BLOCKED "Rites Expended" // used to block using rites
+#define TRAIT_BAOTHA_FERTILITY_BOON "Marked and shaped by Baotha" //Able to be impregnated (incl. male pregnancy), boosted impreg chance; granted by Baotha's fertility rite
 
 //ASCENDANT GOD CURSES
 
@@ -391,6 +392,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_NOCINSPIRE = span_info("The moon inspires me, and whispers knowledge in my dreams. I will recieve an extra inspiration when sleeping."),
 	TRAIT_ROTMAN = span_info("I am partially undead. My heart does not beat."),
 	TRAIT_EASYDISMEMBER = span_info("My limbs are frail and fragile. They can be dismembered with greater ease, including my neck."),
+	TRAIT_EASYDECAPITATION = span_info("I often find my head rolling from my shoulders."),
 	TRAIT_NOPAIN = span_info("I feel no pain."),
 	TRAIT_NOPAINSTUN = span_info("Pain does not impair me."),
 	TRAIT_NOBREATH = span_info("I do not breathe."),

@@ -32,7 +32,7 @@
 		TRAIT_DEATHSIGHT,
 		TRAIT_COUNTERCOUNTERSPELL,
 		TRAIT_RITUALIST,
-		TRAIT_ARCYNE_T3,
+		TRAIT_ARCYNE_T4,
 		TRAIT_SILVER_WEAK
 		)
 
@@ -118,7 +118,10 @@
 	H.adjust_skillrank(/datum/skill/combat/knives, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
-	H?.mind.adjust_spellpoints(27)
+	// Magi 2 (T3 caster): 1 major / 2 minor / 6 utilities + universal arcyne ward, atop the necro kit
+	// below. Deferred to after equipOutfit so the backpack exists for Grimoire storage; grant_items = TRUE
+	// hands over the Grimoire + greater (T3) staff (the Lich outfit carries neither, so nothing is duplicated).
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_magi2_setup_caster), H, list("major" = 2, "minor" = 3, "utilities" = 6, "mastery" = TRUE, "ward" = TRUE), null, TRUE, TRUE, /obj/item/rogueweapon/woodstaff/implement_magi2/greater), 1)
 	// Give it decent combat stats to make up for loss of 2 extra lives
 	H.change_stat("strength", 3)
 	H.change_stat("intelligence", 5)
@@ -130,9 +133,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_undead)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_lesser_undead)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fireball)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/bloodlightning)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fetch)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
@@ -192,7 +193,7 @@
 		/obj/item/storage/belt/rogue/leather/black,
 		/obj/item/reagent_containers/glass/bottle/rogue/manapot,
 		/obj/item/rogueweapon/huntingknife/idagger/steel,
-		/obj/item/rogueweapon/woodstaff/riddle_of_steel,
+		/obj/item/rogueweapon/woodstaff/implement_magi2/greater,
 		/obj/item/ritechalk,
 		/obj/item/storage/backpack/rogue/satchel,
 	)
@@ -230,6 +231,11 @@
 	set_stats()
 	skele_look()
 	equip_and_traits()
+	// Magi 2: equip_and_traits re-grants the satchel + staff, but the Grimoire is only set up in the
+	// Lich outfit's pre_equip (not re-run on respawn), so the rebodied lich got an empty satchel. Defer
+	// one tick (as roundstart does) so the satchel's storage is ready, then stow a fresh Grimoire — the
+	// mind kept its aspects across transfer_to, this just hands the book back to view/reshape them.
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_magi2_give_grimoire), new_body), 1)
 	// Delete the old body if it still exists
 	if (!QDELETED(old_body))
 		qdel(old_body)
