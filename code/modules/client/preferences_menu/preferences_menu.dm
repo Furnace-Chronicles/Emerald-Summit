@@ -1312,12 +1312,14 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 		return entry
 
 	var/job_unavailable = JOB_AVAILABLE
+	var/player_pq
 	if(isnewplayer(prefs.parent?.mob))
 		var/mob/dead/new_player/new_player = prefs.parent.mob
 		job_unavailable = new_player.IsJobUnavailable(job.title, latejoin = FALSE)
+		player_pq = get_playerquality(new_player.ckey)
 	if(!(job_unavailable in list(JOB_AVAILABLE, JOB_UNAVAILABLE_SLOTFULL)))
 		entry["state"] = "unavailable"
-		entry["state_text"] = unavailable_reason_text(job_unavailable)
+		entry["state_text"] = unavailable_reason_text(job_unavailable, job, player_pq)
 		return entry
 
 	entry["state"] = "available"
@@ -1429,8 +1431,14 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	return gate
 
 /// Resolve a JOB_UNAVAILABLE_* code into a short human-readable reason.
-/datum/preferences_menu/proc/unavailable_reason_text(reason)
+/datum/preferences_menu/proc/unavailable_reason_text(reason, datum/job/job, pq)
 	switch(reason)
+		if(JOB_UNAVAILABLE_PQ)
+			if(!isnull(job?.min_pq) && !isnull(pq) && pq < job.min_pq)
+				return "Requires PQ [job.min_pq]"
+			if(!isnull(job?.max_pq) && !isnull(pq) && pq > job.max_pq)
+				return "PQ must be [job.max_pq] or below"
+			return "PQ requirement"
 		if(JOB_UNAVAILABLE_GENERIC)
 			return "Not available this round"
 		if(JOB_UNAVAILABLE_BANNED)
