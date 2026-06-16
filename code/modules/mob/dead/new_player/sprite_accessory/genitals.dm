@@ -35,6 +35,8 @@
 			return "[icon_state]_1"
 
 /datum/sprite_accessory/penis/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+	if(owner.sexcon && owner.sexcon.bottom_exposed == TRUE)
+		return TRUE
 	if(owner.underwear)
 		return FALSE
 	return is_human_part_visible(owner, HIDEJUMPSUIT|HIDECROTCH)
@@ -127,10 +129,12 @@
 	return "[icon_state]_[testes.ball_size]"
 
 /datum/sprite_accessory/testicles/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	if(owner.underwear)
-		return FALSE
 	var/obj/item/organ/penis/pp = owner.getorganslot(ORGAN_SLOT_PENIS)
 	if(pp && pp.sheath_type == SHEATH_TYPE_SLIT)
+		return FALSE
+	if(owner.sexcon && owner.sexcon.bottom_exposed == TRUE)
+		return TRUE
+	if(owner.underwear)
 		return FALSE
 	return is_human_part_visible(owner, HIDEJUMPSUIT|HIDECROTCH)
 
@@ -181,6 +185,8 @@
 	generic_gender_feature_adjust(appearance_list, organ, bodypart, owner, OFFSET_BELT, OFFSET_BELT_F)
 
 /datum/sprite_accessory/vagina/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+	if(owner.sexcon && owner.sexcon.bottom_exposed == TRUE)
+		return TRUE
 	if(owner.underwear)
 		return FALSE
 	return is_human_part_visible(owner, HIDECROTCH|HIDEJUMPSUIT)

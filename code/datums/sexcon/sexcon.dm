@@ -186,9 +186,9 @@
 // any new sex commands that target new locations, will need to be added here, and given a unique bitflag define
 /datum/sex_controller/proc/update_all_accessible_body_zones()
 	access_zone_bitfield = SEX_ZONE_NULL
-	if(get_location_accessible(user, BODY_ZONE_PRECISE_GROIN, grabs = FALSE, skipundies = TRUE))
+	if(bottom_exposed || get_location_accessible(user, BODY_ZONE_PRECISE_GROIN, grabs = FALSE, skipundies = TRUE))
 		access_zone_bitfield |= SEX_ZONE_GROIN
-	if(get_location_accessible(user, BODY_ZONE_PRECISE_GROIN, grabs = TRUE, skipundies = TRUE))
+	if(bottom_exposed || get_location_accessible(user, BODY_ZONE_PRECISE_GROIN, grabs = TRUE, skipundies = TRUE))
 		access_zone_bitfield |= SEX_ZONE_GROIN_GRAB
 	if(get_location_accessible(user, BODY_ZONE_PRECISE_L_FOOT, grabs = FALSE, skipundies = TRUE))
 		access_zone_bitfield |= SEX_ZONE_L_FOOT
@@ -206,9 +206,9 @@
 	switch(body_zone)
 		if(BODY_ZONE_PRECISE_GROIN)
 			if(grabs)
-				if((access_zone_bitfield&SEX_ZONE_GROIN_GRAB) && !get_location_accessible(user, BODY_ZONE_PRECISE_GROIN, grabs = TRUE, skipundies = TRUE))
+				if((access_zone_bitfield&SEX_ZONE_GROIN_GRAB) && !bottom_exposed && !get_location_accessible(user, BODY_ZONE_PRECISE_GROIN, grabs = TRUE, skipundies = TRUE))
 					access_zone_bitfield &= ~SEX_ZONE_GROIN_GRAB
-			else if((access_zone_bitfield&SEX_ZONE_GROIN) && !get_location_accessible(user, BODY_ZONE_PRECISE_GROIN, grabs = FALSE, skipundies = TRUE))
+			else if((access_zone_bitfield&SEX_ZONE_GROIN) && !bottom_exposed && !get_location_accessible(user, BODY_ZONE_PRECISE_GROIN, grabs = FALSE, skipundies = TRUE))
 				access_zone_bitfield &= ~SEX_ZONE_GROIN
 		if(BODY_ZONE_PRECISE_L_FOOT)
 			if((access_zone_bitfield&SEX_ZONE_L_FOOT) && !get_location_accessible(user, BODY_ZONE_PRECISE_L_FOOT, grabs = FALSE, skipundies = TRUE))
@@ -757,6 +757,9 @@
 	if(penis && hascall(penis, "update_erect_state"))
 		penis.update_erect_state()
 
+/datum/sex_controller/proc/update_exposure()
+	user.regenerate_icons()
+
 /datum/sex_controller/proc/adjust_arousal(amount)
 	if(aphrodisiac > 1 && amount > 0)
 		set_arousal(arousal + (amount * aphrodisiac))
@@ -1004,10 +1007,18 @@
 	var/force_name = get_force_string()
 	var/speed_name = get_speed_string()
 	var/manual_arousal_name = get_manual_arousal_string()
+	var/obj/item/organ/penis/got_cock = user.getorganslot(ORGAN_SLOT_PENIS)
+	var/obj/item/organ/vagina/got_pussy = user.getorganslot(ORGAN_SLOT_VAGINA)
 	dat += "<center><a href='?src=[REF(src)];task=speed_down'>\<</a> [speed_name] <a href='?src=[REF(src)];task=speed_up'>\></a> ~|~ <a href='?src=[REF(src)];task=force_down'>\<</a> [force_name] <a href='?src=[REF(src)];task=force_up'>\></a>"
 	if(user.getorganslot(ORGAN_SLOT_PENIS))
 		dat += " ~|~ <a href='?src=[REF(src)];task=manual_arousal_down'>\<</a> [manual_arousal_name] <a href='?src=[REF(src)];task=manual_arousal_up'>\></a>"
 	dat += "</center><center><a href='?src=[REF(src)];task=toggle_finished'>[do_until_finished ? "UNTIL IM FINISHED" : "UNTIL I STOP"]</a>"
+	if(got_cock && !got_pussy)
+		dat += "</center><center><a href='?src=[REF(src)];task=toggle_bottom_exposed'>[bottom_exposed ? "PINTLE EXPOSED" : "PINTLE CONCEALED"]</a>"
+	else if(!got_cock && got_pussy)
+		dat += "</center><center><a href='?src=[REF(src)];task=toggle_bottom_exposed'>[bottom_exposed ? "PUSSY EXPOSED" : "PUSSY CONCEALED"]</a>"
+	else
+		dat += "</center><center><a href='?src=[REF(src)];task=toggle_bottom_exposed'>[bottom_exposed ? "CROTCH EXPOSED" : "CROTCH CONCEALED"]</a>"
 	if(current_action && !desire_stop)
 		var/datum/sex_action/action = SEX_ACTION(current_action)
 		if(action.subtle_supported)
@@ -1095,6 +1106,12 @@
 			adjust_arousal_manual(-1)
 		if("toggle_finished")
 			do_until_finished = !do_until_finished
+		if("toggle_bottom_exposed")
+			if(user.incapacitated(ignore_restraints = TRUE))
+				to_chat(user, span_warning("I can't do that right now!"))
+			else
+				bottom_exposed = !bottom_exposed
+				update_exposure()
 		if("set_arousal")
 			var/amount = input(user, "Value above 120 will immediately cause orgasm!", "Set Arousal", arousal) as num
 			if(aphrodisiac > 1 && amount > 0)
@@ -1410,11 +1427,42 @@
 			return "<span class='love_ludicrous'>[string]</span>"
 
 /datum/sex_controller/proc/try_pelvis_crush(mob/living/carbon/human/target)
-	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
-		if(!target.has_wound(/datum/wound/fracture/groin))
-			if(prob(10))
-				var/obj/item/bodypart/groin = target.get_bodypart(check_zone(BODY_ZONE_PRECISE_GROIN))
-				groin.add_wound(/datum/wound/fracture)
+	if(istype(user.rmb_intent, /datum/rmb_intent/strong) && force > SEX_FORCE_MID)
+		if(prob(10) && !target.has_status_effect(/datum/status_effect/quivering))
+			to_chat(user, "[target.p_they()] won't be walking straight now!")
+			to_chat(target, "[user.p_theyre()] crushing me!")
+			target.apply_status_effect(/datum/status_effect/quivering)
+			target.confused += 25
+			target.OffBalance(30 SECONDS)
+		if(user.client.prefs.extreme_erp && target.client.prefs.extreme_erp)
+			if(!target.has_wound(/datum/wound/fracture/groin))
+				if(prob(10))
+					var/obj/item/bodypart/groin = target.get_bodypart(check_zone(BODY_ZONE_PRECISE_GROIN))
+					groin.add_wound(/datum/wound/fracture)
+
+/datum/sex_controller/proc/try_jaw_crush(mob/living/carbon/human/target)
+	if(istype(user.rmb_intent, /datum/rmb_intent/strong) && force > SEX_FORCE_MID)
+		if(user.client.prefs.extreme_erp && target.client.prefs.extreme_erp)
+			if(!target.has_wound(/datum/wound/fracture/mouth))
+				if(prob(10))
+					var/obj/item/bodypart/mouth = target.get_bodypart(check_zone(BODY_ZONE_PRECISE_MOUTH))
+					mouth.add_wound(/datum/wound/fracture)
+		if(prob(10) && !target.has_status_effect(/datum/status_effect/jaw_gaped) && !target.has_wound(/datum/wound/fracture/mouth))
+			to_chat(user, "[target.p_they()] won't be talking much now!")
+			target.apply_status_effect(/datum/status_effect/jaw_gaped)
+			target.apply_status_effect(/datum/status_effect/debuff/dazed)
+
+/datum/status_effect/quivering
+	id = "quivering"
+	duration = 30 SECONDS
+	status_type = STATUS_EFFECT_UNIQUE
+	alert_type = /atom/movable/screen/alert/status_effect/quivering
+	effectedstats = list("speed" = -2)
+
+/atom/movable/screen/alert/status_effect/quivering
+	name = "Quivering"
+	desc = "I can barely walk..."
+	icon_state = "quivering"
 
 /datum/sex_controller/proc/can_zodomize()
 	//Only thing we're currently checking for.

@@ -46,6 +46,10 @@
 	user.sexcon.oralcourse_noise(target)
 	target.sexcon.do_thrust_animate(user)
 
+	if(HAS_TRAIT(user, TRAIT_DEATHBYSNUSNU))
+		if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+			user.sexcon.try_jaw_crush(target)
+
 	user.sexcon.perform_sex_action(user, 2, 4, TRUE)
 	if(user.sexcon.check_active_ejaculation())
 		user.visible_message(span_love("cums into [target]'s throat!"))

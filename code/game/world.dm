@@ -96,6 +96,10 @@ GLOBAL_VAR(restart_counter)
 	if(NO_INIT_PARAMETER in params)
 		return
 
+	//Scramble the coords obsfucator
+	GLOB.obfs_x = rand(-2500, 2500)
+	GLOB.obfs_y = rand(-2500, 2500)
+
 	Master.Initialize(10, FALSE, TRUE)
 
 	#ifdef UNIT_TESTS

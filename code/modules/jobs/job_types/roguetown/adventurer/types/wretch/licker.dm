@@ -28,7 +28,7 @@
 		C.equipme(H)
 
 		H.adjust_skillrank_up_to(/datum/skill/magic/blood, 4, TRUE)
-		var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(generation = GENERATION_NEONATE)
+		var/datum/antagonist/vampire/licker/new_antag = new /datum/antagonist/vampire/licker(generation = GENERATION_NEONATE)
 		H.mind.add_antag_datum(new_antag)
 
 	wretch_select_bounty(H)
