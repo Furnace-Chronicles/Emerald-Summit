@@ -18,6 +18,7 @@
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
+	overarmor = FALSE
 
 /obj/item/clothing/head/roguetown/helmet/leather/armorhood/advanced
 
@@ -39,17 +40,43 @@
 			flags_inv = null
 			body_parts_covered = NECK
 			if(ishuman(user))
-				var/mob/living/carbon/H = user
+				var/mob/living/carbon/human/H = user
 				H.update_inv_head()
 				H.update_inv_neck()
+				// update_inv_head() only queues the rebuild for SSiconupdates; flush it now so
+				// the worn overlay (and its update_vision_cone() call) refreshes the self-view
+				// snapshot this tick instead of waiting for a direction change.
+				H.process_pending_icon_updates()
 		else if(adjustable == CADJUSTED)
 			ResetAdjust(user)
 			flags_inv =	initial(flags_inv)
 			if(user)
 				if(ishuman(user))
-					var/mob/living/carbon/H = user
+					var/mob/living/carbon/human/H = user
 					H.update_inv_head()
 					H.update_inv_neck()
+					H.process_pending_icon_updates()
+
+/obj/item/clothing/head/roguetown/helmet/leather/armorhood/MiddleClick(mob/user)
+	if(!ishuman(user))
+		return
+	overarmor = !overarmor
+	to_chat(user, span_info("I [overarmor ? "wear \the [src] under my hair" : "wear \the [src] over my hair"]."))
+	if(overarmor)
+		alternate_worn_layer = HOOD_LAYER //Below Hair Layer
+		flags_inv &= ~HIDE_HEADTOP
+	else
+		alternate_worn_layer = BACK_LAYER //Above Hair Layer
+		if(adjustable == CAN_CADJUST)
+			flags_inv = initial(flags_inv)
+	var/mob/living/carbon/human/H = user
+	H.update_inv_head()
+	H.update_inv_wear_mask()
+	H.update_inv_neck()
+	// update_inv_head() only queues the rebuild for SSiconupdates; flush it now so the worn
+	// overlay (and its update_vision_cone() call) refreshes the self-view snapshot this tick
+	// instead of waiting for a direction change.
+	H.process_pending_icon_updates()
 
 //RECIPES
 /datum/crafting_recipe/roguetown/leather/studhood

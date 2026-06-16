@@ -314,6 +314,13 @@
 	extinguishable = FALSE
 	weather_resistant = TRUE
 
+/obj/item/flashlight/flare/torch/lantern/on_enter_storage(datum/component/storage/concrete/S, mob/M)
+	. = ..()
+	if(on)
+		turn_off()
+		if(usr)
+			to_chat(usr, span_notice("The lantern snuffs out as I tuck it away."))
+
 /obj/item/flashlight/flare/torch/lantern/afterattack(atom/movable/A, mob/user, proximity)
 	. = ..()
 	if(!proximity)
