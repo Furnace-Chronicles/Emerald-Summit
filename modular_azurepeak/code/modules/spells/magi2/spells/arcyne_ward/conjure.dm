@@ -94,13 +94,12 @@
 		StartCooldown(adjusted_cooldown)
 		return TRUE
 
-	// Defensive: don't overwrite an existing skin_armor that isn't ours, and don't
-	// let a lower-tier ward downgrade a higher-tier one (matches upstream tier check).
-	if(H.skin_armor)
-		if(!istype(H.skin_armor, /obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2))
-			to_chat(owner, span_warning("Something else already protects my skin!"))
-			return FALSE
-		var/obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/existing = H.skin_armor
+	// The ward lives in its own slot (arcyne_ward_armor), NOT skin_armor — so natural racial armor
+	// (harpy/lamia/drider scales) stays in skin_armor and layers underneath. get_best_worn_armor picks
+	// the strongest item per zone, so the scales keep their zones and the ward covers everything else.
+	// Only block on a lower-tier ward trying to downgrade a stronger existing one.
+	if(H.arcyne_ward_armor && !QDELETED(H.arcyne_ward_armor))
+		var/obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/existing = H.arcyne_ward_armor
 		if(existing.arcyne_armor_tier > initial(ward_type:arcyne_armor_tier))
 			to_chat(owner, span_warning("A stronger ward already protects me!"))
 			return FALSE
@@ -111,7 +110,7 @@
 	// Conjure path — wear ward, calculate coverage once.
 	owner.visible_message(span_notice("An arcyne ward shimmers into existence around [owner]!"))
 	conjured_ward = new ward_type(H)
-	H.skin_armor = conjured_ward
+	H.arcyne_ward_armor = conjured_ward
 	conjured_ward.setup_ward(H)
 	conjured_ward.linked_spell = src
 	// Conjure starts no cooldown — the button stays available so the player can dismiss
@@ -128,7 +127,8 @@
 // ---- The ward item ----
 // Inherits from /obj/item/clothing/suit/roguetown/armor (skipping Azure-Peak's /manual
 // subtype which doesn't exist in ES). The ward is invisible (icon_state = null), sits
-// in the H.skin_armor slot, and dynamically gap-fills around the player's other armor.
+// in the H.arcyne_ward_armor slot (separate from skin_armor so racial scales layer under it), and
+// dynamically gap-fills around the player's other armor.
 
 /obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2
 	name = "arcyne ward"
@@ -231,8 +231,8 @@
 /obj/item/clothing/suit/roguetown/armor/arcyne_ward_magi2/proc/cleanup_ward()
 	if(ward_owner)
 		ward_owner.remove_filter(ARCYNE_WARD_FILTER)
-		if(ward_owner.skin_armor == src)
-			ward_owner.skin_armor = null
+		if(ward_owner.arcyne_ward_armor == src)
+			ward_owner.arcyne_ward_armor = null
 		ward_owner = null
 	if(linked_spell)
 		// Break (not dismiss) = full cooldown; dismiss handles its own proportional refund.
