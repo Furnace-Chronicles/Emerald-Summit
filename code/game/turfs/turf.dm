@@ -224,6 +224,8 @@
 	. = ..()
 	if(.)
 		return
+	if(user.grab_state >= GRAB_KILL)
+		return
 	user.Move_Pulled(src)
 
 /turf/proc/multiz_turf_del(turf/T, dir)
