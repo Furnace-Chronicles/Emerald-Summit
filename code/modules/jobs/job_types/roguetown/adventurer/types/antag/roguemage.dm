@@ -12,7 +12,6 @@
 	traits_applied = list(
 		TRAIT_MAGEARMOR,
 		TRAIT_ARCYNE_T3,
-		TRAIT_DODGEEXPERT,
 		TRAIT_TALENTED_ALCHEMIST
 	)
 	subclass_stats = list(
@@ -20,13 +19,13 @@
 		STATKEY_END = 3,
 		STATKEY_PER = 2, // Adv mage get 2 perception so whatever. It is useful for aiming body parts but have no direct synergy with spells. 
 		STATKEY_LCK = 2,
-		STATKEY_SPD = 1,
+		STATKEY_SPD = 3, //loss of dodge expert...but lets keep it still ''roughish'' go fast! Just not. Dodging fast.
 		STATKEY_CON = 1,
 	)
 
-	// Magi 2 (T3 full caster): 1 major / 2 minor / 6 utilities, universal arcyne ward.
+	// Magi 2 (T3 full caster) + antag: 1 major / 3 minor / 8 utilities, universal arcyne ward.
 	subclass_spellpoints = 0
-	mage_aspect_config = list("major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
+	mage_aspect_config = list("major" = 1, "minor" = 3, "utilities" = 8, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN, // Jman Polearms, for better parrying without making them bandit level

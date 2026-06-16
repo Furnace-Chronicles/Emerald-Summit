@@ -260,6 +260,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 /// Similarly as before, just a prefab for admins to give them via Traitor Panel
 /datum/antagonist/vampire/licker
 	name = "Licker"
+	increase_votepwr = FALSE
 
 /datum/antagonist/vampire/licker/New(incoming_clan = /datum/clan/nosferatu, forced_clan = FALSE, generation = GENERATION_NEONATE)
 	. = ..(incoming_clan, forced_clan, generation)
@@ -271,6 +272,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	antag_hud_name = null
 	default_clan = /datum/clan/strays
 	clan_selected = TRUE
+	increase_votepwr = FALSE
 
 /datum/antagonist/vampire/stray/New(incoming_clan = /datum/clan/strays, forced_clan = FALSE, generation = GENERATION_FAILVAMP)
 	. = ..(incoming_clan, forced_clan, generation)
