@@ -41,18 +41,18 @@
 /obj/projectile/energy/unholyblast/on_hit(target)
 	if(isliving(target))
 		var/mob/living/H = target
-		if(H.mob_biotypes & MOB_UNDEAD)
-			damage += 20
+		if(H.mind && H.mind.has_antag_datum(/datum/antagonist/werewolf))
+			damage += 30 //extremely specific so lets hit like a truck.
 	if(ishuman(target))
 		var/mob/living/carbon/human/H = target
 		if(istype(H.patron, /datum/patron/divine))
 			damage += 20
 		if(istype(H.patron, /datum/patron/old_god))
 			damage += 20
-		if(HAS_TRAIT(H, TRAIT_SILVER_WEAK) && !H.has_status_effect(STATUS_EFFECT_ANTIMAGIC)) //don't really know why AP did this...but. Eh? I guess?
+		if(H.mind && H.mind.has_antag_datum(/datum/antagonist/werewolf)) //rather then sunder all silver weak. Lets sunder dendors chosen!
 			H.visible_message("<font color='white'>Unholy power sunders [H]!</font>")
-			to_chat(H, span_userdanger("Silver rebukes my presence! My vitae smolders, and my powers wane!"))
-			H.adjust_fire_stacks(2, /datum/status_effect/fire_handler/fire_stacks/sunder)
+			to_chat(H, span_userdanger("Unholy force rebukes my presence! My vitae smolders, and my powers wane!"))
+			H.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/sunder) //and do so farely hard.
 		var/mob/living/carbon/human/caster
 		if (ishuman(firer))
 			caster = firer
