@@ -16778,6 +16778,10 @@
 "ehN" = (
 /turf/open/floor/rogue/snowpatchy,
 /area/rogue/outdoors/mountains)
+"ehO" = (
+/obj/item/storage/belt/rogue/surgery_bag/full,
+/turf/closed/wall/mineral/rogue/craftstone,
+/area/rogue/under/cave)
 "ehQ" = (
 /obj/structure/curtain/black{
 	pixel_x = 32
@@ -137003,7 +137007,7 @@ yhU
 fCd
 fCd
 fCd
-idG
+ehO
 giB
 tNv
 hlS
