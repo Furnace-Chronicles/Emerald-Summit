@@ -64,7 +64,10 @@
 		mob.update_music_volume(CHANNEL_MUSIC, prefs.musicvol)
 		mob.update_music_volume(CHANNEL_LOBBYMUSIC, prefs.musicvol)
 		mob.update_music_volume(CHANNEL_ADMIN, prefs.musicvol)
-
+		mob.update_music_volume(CHANNEL_CMUSIC1, prefs.musicvol)
+		mob.update_music_volume(CHANNEL_CMUSIC2, prefs.musicvol)
+		mob.update_music_volume(CHANNEL_CMUSIC3, prefs.musicvol)
+		mob.update_music_volume(CHANNEL_CMUSIC4, prefs.musicvol)
 
 /client/verb/show_rolls()
 	set category = "Options"

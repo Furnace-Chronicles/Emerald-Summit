@@ -10,14 +10,17 @@
 #define CHANNEL_BICYCLE 1016
 #define CHANNEL_RAIN 1015
 #define CHANNEL_MUSIC 1014
-#define CHANNEL_CMUSIC 1013
-#define CHANNEL_WEATHER 1012
-#define CHANNEL_CHARGED_SPELL 1011 //magi2 spell charge loop — reserved so it can be stopped on a known channel
+#define CHANNEL_WEATHER 1013
+#define CHANNEL_CHARGED_SPELL 1012 //magi2 spell charge loop — reserved so it can be stopped on a known channel
+#define CHANNEL_CMUSIC4 1011
+#define CHANNEL_CMUSIC3 1010
+#define CHANNEL_CMUSIC2 1009
+#define CHANNEL_CMUSIC1 1008
 
 //THIS SHOULD ALWAYS BE THE LOWEST ONE!
 //KEEP IT UPDATED
 
-#define CHANNEL_HIGHEST_AVAILABLE 1010
+#define CHANNEL_HIGHEST_AVAILABLE 1007
 
 
 #define SOUND_MINIMUM_PRESSURE 10
