@@ -7778,65 +7778,6 @@
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/outdoors/town/roofs/keep)
-"bXZ" = (
-/obj/item/gun/ballistic/firearm/blunderbuss{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/blunderbuss{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/blunderbuss{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/blunderbuss{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/blunderbuss{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/blunderbuss{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/blunderbuss{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/blunderbuss{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/blunderbuss{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/blunderbuss{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/quiver/bullet/grapeshot,
-/obj/item/quiver/bullet/grapeshot,
-/obj/item/quiver/bullet/grapeshot,
-/obj/item/quiver/bullet/grapeshot,
-/obj/item/quiver/bullet/grapeshot,
-/obj/item/quiver/bullet/grapeshot,
-/obj/item/quiver/bullet/grapeshot,
-/obj/item/quiver/bullet/grapeshot,
-/obj/item/quiver/bullet/grapeshot,
-/obj/item/quiver/bullet/grapeshot,
-/obj/item/quiver/bullet/grapeshot,
-/obj/item/quiver/bullet/grapeshot,
-/obj/item/quiver/bullet/grapeshot,
-/obj/item/quiver/bullet/grapeshot,
-/obj/item/quiver/bullet/grapeshot,
-/obj/structure/rack/rogue,
-/turf/open/floor/rogue/cobble,
-/area/rogue/under/cave)
 "bYk" = (
 /obj/structure/chair/wood/rogue{
 	dir = 4
@@ -16837,20 +16778,6 @@
 "ehN" = (
 /turf/open/floor/rogue/snowpatchy,
 /area/rogue/outdoors/mountains)
-"ehO" = (
-/obj/item/gun/ballistic/firearm/arquebus,
-/obj/item/gun/ballistic/firearm/arquebus,
-/obj/item/gun/ballistic/firearm/arquebus,
-/obj/item/gun/ballistic/firearm/arquebus,
-/obj/item/gun/ballistic/firearm/arquebus,
-/obj/item/gun/ballistic/firearm/arquebus,
-/obj/item/gun/ballistic/firearm/arquebus,
-/obj/item/gun/ballistic/firearm/arquebus,
-/obj/item/gun/ballistic/firearm/arquebus,
-/obj/item/gun/ballistic/firearm/arquebus,
-/obj/structure/rack/rogue,
-/turf/open/floor/rogue/cobble,
-/area/rogue/under/cave)
 "ehQ" = (
 /obj/structure/curtain/black{
 	pixel_x = 32
@@ -19276,7 +19203,7 @@
 /obj/structure/gate{
 	gid = "dungeonfool";
 	max_integrity = 50000;
-	redstone_id = "mazedoor2"
+	redstone_id = "Dwarf Keep 2"
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave)
@@ -20451,54 +20378,6 @@
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/rtfield)
-"faS" = (
-/obj/item/gun/ballistic/firearm/arquebus_pistol{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/arquebus_pistol{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/arquebus_pistol{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/arquebus_pistol{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/arquebus_pistol{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/arquebus_pistol{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/arquebus_pistol{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/arquebus_pistol{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/arquebus_pistol{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/arquebus_pistol{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/item/gun/ballistic/firearm/arquebus_pistol{
-	pixel_x = 0;
-	pixel_y = 0
-	},
-/obj/structure/rack/rogue,
-/turf/open/floor/rogue/cobble,
-/area/rogue/under/cave)
 "fbb" = (
 /obj/structure/fluff/walldeco/rpainting/forest{
 	pixel_y = 32
@@ -39753,7 +39632,7 @@
 "jJw" = (
 /obj/structure/winch{
 	gid = "dungeonfool";
-	redstone_id = "mazedoor2"
+	redstone_id =  "Dwarf Keep 2"
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave)
@@ -39829,10 +39708,6 @@
 	dir = 1
 	},
 /turf/open/floor/rogue/grassred,
-/area/rogue/outdoors/town)
-"jKB" = (
-/obj/structure/bars/grille,
-/turf/closed,
 /area/rogue/outdoors/town)
 "jKF" = (
 /obj/structure/table/wood/large_table/south_west,
@@ -45456,27 +45331,9 @@
 	pixel_y = 32
 	},
 /obj/item/quiver/javelin/iron{
-	pixel_x = 4;
+	pixel_x = -4;
 	pixel_y = 32
 	},
-/obj/item/quiver/bullet/lead,
-/obj/item/quiver/bullet/lead,
-/obj/item/quiver/bullet/lead,
-/obj/item/quiver/bullet/lead,
-/obj/item/quiver/bullet/lead,
-/obj/item/quiver/bullet/lead,
-/obj/item/quiver/bullet/lead,
-/obj/item/quiver/bullet/lead,
-/obj/item/quiver/bullet/lead,
-/obj/item/quiver/bullet/lead,
-/obj/item/quiver/bullet/lead,
-/obj/item/quiver/bullet/lead,
-/obj/item/quiver/bullet/lead,
-/obj/item/quiver/bullet/lead,
-/obj/item/quiver/bullet/lead,
-/obj/item/quiver/bullet/lead,
-/obj/item/quiver/bullet/lead,
-/obj/structure/rack/rogue,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave)
 "lbY" = (
@@ -131700,7 +131557,7 @@ sPj
 sPj
 sPj
 mnN
-szI
+ybI
 ybI
 ybI
 ybI
@@ -141648,7 +141505,7 @@ sPj
 qHj
 qHj
 qHj
-ogs
+qHj
 idG
 rFI
 rFI
@@ -142100,7 +141957,7 @@ sPj
 toJ
 toJ
 toJ
-ogs
+qHj
 idG
 idG
 idG
@@ -151625,9 +151482,9 @@ dUU
 veL
 dlD
 lbX
-ehO
-faS
-bXZ
+dUU
+dUU
+dUU
 idG
 ogs
 ogs
@@ -297164,7 +297021,7 @@ cVq
 eZd
 clU
 dfR
-jKB
+eFn
 eKH
 iuj
 dgy
