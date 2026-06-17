@@ -6389,6 +6389,7 @@
 /obj/structure/chair/wood/rogue/throne{
 	color = "#f858b5ff"
 	},
+/mob/living/carbon/human/species/goblin/npc/sea,
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/under/cave)
 "bFC" = (
@@ -17640,6 +17641,7 @@
 /area/rogue/indoors/shelter)
 "eqp" = (
 /obj/structure/chair/wood/rogue/throne,
+/mob/living/carbon/human/species/goblin/npc/sea,
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/under/cave)
 "eqr" = (
@@ -18300,6 +18302,7 @@
 /area/rogue/indoors/town/dwarfin)
 "eyL" = (
 /obj/machinery/light/rogue/oven/east,
+/mob/living/carbon/human/species/goblin/npc/sea,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave)
 "eyN" = (
@@ -24528,6 +24531,11 @@
 "gca" = (
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/shop)
+"gce" = (
+/obj/structure/chair/wood/rogue,
+/mob/living/carbon/human/species/goblin/npc/sea,
+/turf/open/floor/rogue/carpet/lord/center,
+/area/rogue/under/cave)
 "gcj" = (
 /obj/structure/closet/crate/chest,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -25656,6 +25664,10 @@
 	icon_state = "weird1"
 	},
 /area/rogue/outdoors/woods)
+"gpF" = (
+/mob/living/carbon/human/species/goblin/npc/sea,
+/turf/open/floor/rogue/church,
+/area/rogue/under/cave)
 "gpG" = (
 /obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/tile/masonic,
@@ -36781,6 +36793,13 @@
 /obj/item/grown/log/tree/stick,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cavewet/bogcaves)
+"iZm" = (
+/obj/structure/chair/wood/rogue{
+	dir = 8
+	},
+/mob/living/carbon/human/species/goblin/npc/sea,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/under/cave)
 "iZu" = (
 /obj/structure/stairs{
 	dir = 8
@@ -39636,7 +39655,7 @@
 "jJw" = (
 /obj/structure/winch{
 	gid = "dungeonfool";
-	redstone_id =  "Dwarf Keep 2"
+	redstone_id = "Dwarf Keep 2"
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave)
@@ -46925,6 +46944,12 @@
 	},
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/woods)
+"lus" = (
+/mob/living/carbon/human/species/goblin/npc/sea,
+/turf/open/floor/rogue/tile/masonic{
+	dir = 1
+	},
+/area/rogue/under/cave)
 "luv" = (
 /turf/closed/wall/mineral/rogue/decowood/vert,
 /area/rogue/indoors)
@@ -50617,6 +50642,14 @@
 /obj/structure/table/wood/poor,
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave)
+"moO" = (
+/obj/structure/table/wood{
+	dir = 1;
+	icon_state = "longtable_mid"
+	},
+/mob/living/carbon/human/species/goblin/npc/sea,
+/turf/open/floor/rogue/ruinedwood/herringbone,
+/area/rogue/under/cave)
 "moR" = (
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/woodturned,
@@ -51562,6 +51595,12 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/orcdungeon)
+"mCQ" = (
+/mob/living/carbon/human/species/goblin/npc/sea,
+/turf/open/floor/rogue/tile/masonic{
+	dir = 8
+	},
+/area/rogue/under/cave)
 "mCR" = (
 /obj/structure/fluff/walldeco/rpainting/crown{
 	pixel_y = 32
@@ -56699,6 +56738,7 @@
 	dir = 8;
 	pixel_y = 4
 	},
+/mob/living/carbon/human/species/goblin/npc/sea,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave)
 "nOW" = (
@@ -62805,6 +62845,7 @@
 /obj/structure/fluff/walldeco/goblet{
 	name = "Reach Pints Inn and Bath"
 	},
+/mob/living/carbon/human/species/goblin/npc/sea,
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave)
 "psn" = (
@@ -65682,6 +65723,12 @@
 /obj/effect/spawner/lootdrop/general_loot_hi,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cavewet/bogcaves)
+"qbA" = (
+/mob/living/carbon/human/species/goblin/npc/sea,
+/turf/open/floor/rogue/tile/masonic{
+	dir = 4
+	},
+/area/rogue/under/cave)
 "qbB" = (
 /mob/living/simple_animal/hostile/rogue/mirespider_lurker,
 /turf/open/floor/rogue/tile/harem1,
@@ -74508,6 +74555,11 @@
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
+"siz" = (
+/obj/structure/chair/wood/rogue,
+/mob/living/carbon/human/species/goblin/npc/sea,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/under/cave)
 "siB" = (
 /obj/structure/fluff/statue/astrata,
 /turf/open/floor/rogue/blocks,
@@ -81306,6 +81358,7 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
 	},
+/mob/living/carbon/human/species/goblin/npc/sea,
 /turf/open/floor/rogue/blocks/platform,
 /area/rogue/under/cave)
 "tNw" = (
@@ -81791,6 +81844,14 @@
 /obj/structure/ladder,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
+"tSJ" = (
+/obj/structure/chair/wood/rogue{
+	dir = 4;
+	pixel_x = -7
+	},
+/mob/living/carbon/human/species/goblin/npc/sea,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/under/cave)
 "tSK" = (
 /obj/structure/table/wood/long_table/right,
 /obj/item/candle/candlestick/silver/single/lit{
@@ -88425,6 +88486,10 @@
 	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
+"vwb" = (
+/mob/living/carbon/human/species/goblin/npc/sea,
+/turf/open/floor/rogue/cobble,
+/area/rogue/under/cave)
 "vwc" = (
 /obj/structure/bars{
 	icon_state = "barsbent"
@@ -88508,6 +88573,10 @@
 	pixel_y = 6
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
+/area/rogue/under/cave)
+"vxr" = (
+/mob/living/carbon/human/species/goblin/npc/sea,
+/turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/under/cave)
 "vxv" = (
 /obj/structure/table/wood/poor,
@@ -94443,6 +94512,13 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
+"wPx" = (
+/obj/structure/chair/wood/rogue{
+	dir = 1
+	},
+/mob/living/carbon/human/species/goblin/npc/sea,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/under/cave)
 "wPA" = (
 /obj/item/reagent_containers/glass/cup/tin{
 	pixel_x = -11
@@ -96103,6 +96179,10 @@
 	pixel_y = 3
 	},
 /turf/open/floor/rogue/carpet/lord/right,
+/area/rogue/under/cave)
+"xiT" = (
+/mob/living/carbon/human/species/goblin/npc/sea,
+/turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave)
 "xiV" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab,
@@ -99460,6 +99540,15 @@
 "xZf" = (
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/manor)
+"xZk" = (
+/obj/structure/fluff/railing/wood{
+	dir = 4;
+	pixel_x = 8;
+	pixel_y = 3
+	},
+/mob/living/carbon/human/species/goblin/npc/sea,
+/turf/open/floor/rogue/carpet/lord/right,
+/area/rogue/under/cave)
 "xZl" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat/gethsmane,
 /obj/machinery/light/small/broken{
@@ -136095,7 +136184,7 @@ rFI
 kbB
 aVQ
 aVQ
-aVQ
+xiT
 aVQ
 aVQ
 aVQ
@@ -136116,7 +136205,7 @@ rFI
 rFI
 rFI
 rFI
-rFI
+gpF
 idG
 szI
 szI
@@ -137014,11 +137103,11 @@ hlS
 idG
 rFI
 lZU
-rFI
+gpF
 lZU
 rFI
 lZU
-rFI
+gpF
 lZU
 rFI
 lZU
@@ -137897,7 +137986,7 @@ ogs
 idG
 sEm
 sEm
-rFI
+gpF
 rsP
 rFI
 idG
@@ -138382,7 +138471,7 @@ idG
 idG
 idG
 hDQ
-dUU
+vwb
 dUU
 dUU
 dVV
@@ -138807,7 +138896,7 @@ rFI
 kbB
 aVQ
 aVQ
-aVQ
+xiT
 aVQ
 aVQ
 aVQ
@@ -138836,7 +138925,7 @@ idG
 idG
 aGu
 wPp
-dUU
+vwb
 dlj
 evA
 qNp
@@ -139251,7 +139340,7 @@ ybI
 miF
 ogs
 idG
-rFI
+gpF
 rFI
 rFI
 idG
@@ -139268,17 +139357,17 @@ nSQ
 rFI
 rFI
 rFI
-rFI
+gpF
 rFI
 rFI
 idG
 rFI
 lZU
-rFI
+gpF
 lZU
 rFI
 lZU
-rFI
+gpF
 lZU
 rFI
 lZU
@@ -140168,7 +140257,7 @@ idG
 idG
 idG
 idG
-rFI
+gpF
 rFI
 rFI
 rFI
@@ -140644,7 +140733,7 @@ idG
 okp
 evA
 evA
-dUU
+vwb
 qyd
 evA
 idG
@@ -141061,18 +141150,18 @@ ogs
 idG
 rFI
 rFI
+gpF
+rFI
+rFI
+rFI
+rFI
+gpF
 rFI
 rFI
 rFI
 rFI
 rFI
-rFI
-rFI
-rFI
-rFI
-rFI
-rFI
-rFI
+gpF
 rFI
 rFI
 rFI
@@ -141535,7 +141624,7 @@ idG
 ogE
 ogE
 ogE
-fvu
+tSJ
 ogE
 jnE
 ogE
@@ -142439,7 +142528,7 @@ idG
 ogE
 ogE
 ogE
-jnE
+iZm
 ogE
 ogE
 ogE
@@ -143324,7 +143413,7 @@ aHa
 hmL
 qXu
 uzQ
-gZx
+qbA
 uzQ
 eYG
 uzQ
@@ -143334,7 +143423,7 @@ eYG
 uzQ
 gZx
 kEg
-gZx
+qbA
 idG
 rnQ
 rFI
@@ -143345,10 +143434,10 @@ ogE
 ogE
 ogE
 ogE
-jnE
+iZm
 ogE
 wSd
-woK
+moO
 aVQ
 aVQ
 aVQ
@@ -143772,7 +143861,7 @@ rFI
 rFI
 rsP
 evV
-aHa
+gce
 iNc
 rKf
 uzC
@@ -144259,7 +144348,7 @@ gpu
 anp
 kBN
 aVQ
-aVQ
+xiT
 ieT
 mhq
 idG
@@ -144668,7 +144757,7 @@ toJ
 toJ
 toJ
 idG
-rFI
+jUb
 rFI
 rFI
 dKT
@@ -145151,7 +145240,7 @@ idG
 ogE
 ogp
 ggn
-mfA
+wPx
 ogE
 ogE
 ogE
@@ -145575,7 +145664,7 @@ idG
 rFI
 mum
 dKT
-rFI
+jUb
 dKT
 rFI
 idG
@@ -145587,7 +145676,7 @@ evV
 evV
 evV
 evV
-evV
+vxr
 evV
 evV
 evV
@@ -146035,14 +146124,14 @@ eqp
 evV
 evV
 sDG
+vxr
 evV
 evV
 evV
 evV
 evV
 evV
-evV
-evV
+vxr
 evV
 evV
 evV
@@ -146494,7 +146583,7 @@ xiO
 sEf
 xiO
 sEf
-xiO
+xZk
 sEf
 xiO
 sEf
@@ -146957,7 +147046,7 @@ rFI
 rFI
 idG
 ogE
-ogp
+siz
 jys
 mfA
 ogE
@@ -147392,7 +147481,7 @@ aHa
 hmL
 rKf
 uzC
-tuV
+mCQ
 uzC
 oNe
 oQE
@@ -147404,7 +147493,7 @@ tuV
 idG
 rbm
 idG
-rFI
+gpF
 rFI
 rFI
 idG
@@ -147836,11 +147925,11 @@ rFI
 dLv
 mum
 mum
-rFI
+jUb
 pRq
 idG
 evV
-aHa
+gce
 iNc
 qXu
 uzQ
@@ -148297,14 +148386,14 @@ tUr
 rKf
 uzC
 tuV
-uzC
+lus
 kTX
 uzC
 kTX
 uzC
 kTX
 uzC
-tuV
+mCQ
 hOM
 tuV
 idG
@@ -149214,7 +149303,7 @@ tuV
 idG
 rnQ
 rFI
-rFI
+gpF
 vnE
 nuM
 dUU
@@ -149670,7 +149759,7 @@ idG
 idG
 kFk
 dUU
-dUU
+vwb
 dUU
 dUU
 dUU
@@ -149678,7 +149767,7 @@ dUU
 dUU
 fKY
 dUU
-dUU
+vwb
 dUU
 dUU
 qmh
@@ -150568,13 +150657,13 @@ rqY
 bhJ
 eKM
 rFI
+gpF
 rFI
-rFI
-rFI
+gpF
 idG
 kYi
 dUU
-dUU
+vwb
 dUU
 lmc
 lCO
@@ -151034,7 +151123,7 @@ kee
 idG
 dlD
 ioI
-dUU
+vwb
 dUU
 dUU
 bIi
@@ -151472,7 +151561,7 @@ rqY
 bhJ
 rFI
 rFI
-rFI
+gpF
 rFI
 rFI
 idG
@@ -151488,7 +151577,7 @@ dlD
 lbX
 dUU
 dUU
-dUU
+vwb
 idG
 ogs
 ogs
@@ -151926,10 +152015,10 @@ idG
 nSQ
 rFI
 rFI
-rFI
+gpF
 vnE
 bDZ
-dUU
+vwb
 dUU
 wCk
 idG
