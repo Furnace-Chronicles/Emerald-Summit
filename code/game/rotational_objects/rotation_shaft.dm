@@ -13,6 +13,7 @@
 /obj/structure/rotation_piece/cog
 	name = "cogwheel"
 	icon_state = "1"
+	layer = OBJ_LAYER - 0.01 // cogs lie flat on the ground — render under every other rotation structure
 	cog_size = COG_SMALL
 	stress_use = 3
 
@@ -28,11 +29,22 @@
 	skew.Scale(1.5, 1.5)
 	transform = skew
 
+/obj/structure/rotation_piece/cog/examine(mob/user)
+	. = ..()
+	var/axle = (dir in list(NORTH, SOUTH)) ? "north-south" : "east-west"
+	. += span_info("Its axle runs [axle]: pieces along the axle share its spin, while cogs meshing from the other sides counter-rotate.")
+	. += span_info("Two power sources spinning the same way must be linked without flipping the rotation between them, or the gearing will tear itself apart.")
+
 /obj/structure/rotation_piece/cog/can_connect(obj/structure/connector)
 	if(connector.rotation_direction && rotation_direction && (connector.rotation_direction != rotation_direction))
 		if(!istype(connector, /obj/structure/rotation_piece/cog)) //&& !istype(connector, /obj/structure/water_pump)) //we're not include waterpumps right now
 			if(connector.rotations_per_minute && rotations_per_minute)
-				return FALSE
+				// Same reasoning as base can_connect: a passive part (shaft/gearbox/roller) reached by
+				// another path in a closed loop carries a traversal-assigned direction LABEL that can
+				// differ without representing opposing spin. Only tear apart when an actual power
+				// source spins against us; a genuinely flipped loop still breaks at the generator.
+				if(stress_generator || connector.stress_generator)
+					return FALSE
 	return TRUE
 
 /obj/structure/rotation_piece/cog/find_rotation_network()
@@ -50,11 +62,15 @@
 				continue
 
 			if(rotation_network)
-				if(!structure.try_network_merge(src))
-					rotation_break()
+				// closing a loop within our own network — not a merge failure, don't break (see base
+				// find_rotation_network: try_network_merge returns FALSE for "already in connected")
+				if(structure.rotation_network == rotation_network)
+					continue
+				// refused merge = these don't wire together; leave them separate. Real source
+				// conflicts still tear apart during propagation, not here.
+				structure.try_network_merge(src)
 			else
-				if(!structure.try_connect(src))
-					rotation_break()
+				structure.try_connect(src)
 
 	if(!rotation_network)
 		rotation_network = new
@@ -84,10 +100,12 @@
 		return
 	var/frame_stage = 1 / ((rotations_per_minute / 60) * 4)
 	if(rotation_direction == WEST)
-		animate(src, icon_state = "1", time = frame_stage, loop=-1)
-		animate(icon_state = "2", time = frame_stage)
+		// start on a frame that differs from the resting state — BYOND discards animations whose
+		// first step doesn't change the appearance, which froze every CCW sprite
+		animate(src, icon_state = "2", time = frame_stage, loop=-1)
 		animate(icon_state = "3", time = frame_stage)
 		animate(icon_state = "4", time = frame_stage)
+		animate(icon_state = "1", time = frame_stage)
 	else
 		animate(src, icon_state = "4", time = frame_stage, loop=-1)
 		animate(icon_state = "3", time = frame_stage)
@@ -114,6 +132,10 @@
 			if(!(structure in rotation_network.connected))
 				continue
 			propagate_rotation_change(structure, checked, TRUE)
+			// a conflict break here qdels us mid-pass and re-enters the rebuild; stop rather than
+			// keep propagating from a now deleted/disconnected cog and re-powering downstream.
+			if(QDELETED(src) || !rotation_network)
+				return
 	if(first && rotation_network)
 		rotation_network.update_animation_effect()
 
@@ -155,10 +177,11 @@
 		return
 	var/frame_stage = 1 / ((rotations_per_minute / 60) * 4)
 	if(rotation_direction == WEST)
-		animate(src, icon_state = "l1", time = frame_stage, loop=-1)
-		animate(icon_state = "l2", time = frame_stage)
+		// see small cog: first animate step must differ from the resting state or BYOND discards it
+		animate(src, icon_state = "l2", time = frame_stage, loop=-1)
 		animate(icon_state = "l3", time = frame_stage)
 		animate(icon_state = "l4", time = frame_stage)
+		animate(icon_state = "l1", time = frame_stage)
 	else
 		animate(src, icon_state = "l4", time = frame_stage, loop=-1)
 		animate(icon_state = "l3", time = frame_stage)
