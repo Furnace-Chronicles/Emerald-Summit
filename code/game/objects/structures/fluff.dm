@@ -794,7 +794,8 @@
 
 /obj/structure/fluff/alch
 	name = "alchemical lab"
-	desc = ""
+	desc = "A stout workstation arrayed with alchemical parahenalia and equipment. Some say the truest heights of the \
+	Art were reached in times immemorial, and shall never be again."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "alch"
 	density = TRUE

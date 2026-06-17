@@ -339,7 +339,24 @@
 	throw_speed = 0.3
 	var/fuze = 50
 	var/lit = FALSE
-	var/prob2fail = 1 
+	var/prob2fail = 1
+	var/PVE_damage = 500
+
+//admin only mega bomb, should never be made craftable
+/obj/item/satchel_bomb/mega
+	name = "MEGA blastpowder satchel"
+	desc = "An over filled satchel of Blastpowder originally made by Lubbin' Bleat, Octava's Famed sheep-kin bathhouse attendant and ruler of the slumber beat... this type of bomb has been banned by all nations and labeled as a threat by both the church of the ten and Pysdonia. IF YOU SEE A LIT WICK, YOU BEST RUN AWAY QUICK!"
+	w_class = WEIGHT_CLASS_BULKY
+	dropshrink = 5
+	throwforce = 0
+	throw_range = 1
+	throw_speed = 0.3
+	fuze = 50
+	lit = FALSE
+	prob2fail = 0
+	PVE_damage = 500
+	grid_width = 256
+	grid_height = 256
 
 /obj/item/satchel_bomb/spark_act()
 	light()
@@ -383,8 +400,22 @@
 			if(!skipprob && prob(prob2fail))
 				snuff()
 			else
-				explosion(T, devastation_range = 3, heavy_impact_range = 5, light_impact_range = 8, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
-				qdel(src)
+				if (istype(src, /obj/item/satchel_bomb/mega)) //removing restrictions, may the gods have mercy on you all
+					for(var/mob/living/target in range(3, T))
+						target.adjustFireLoss(PVE_damage) //summary 500
+					for(var/mob/living/target in range(8, T))
+						target.adjustFireLoss(PVE_damage - 100)
+					explosion(T, devastation_range = 10, heavy_impact_range = 15, light_impact_range = 40, adminlog = TRUE, ignorecap = TRUE, flame_range = 10, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg')) //5 times the size
+					qdel(src)
+				else
+					for(var/mob/living/target in range(3, T))
+						if(!target.mind || istype(target, /mob/living/simple_animal))
+							target.adjustFireLoss(PVE_damage) //summary 500
+					for(var/mob/living/target in range(8, T))
+						if(!target.mind || istype(target, /mob/living/simple_animal))
+							target.adjustFireLoss(PVE_damage - 100)
+					explosion(T, devastation_range = 2, heavy_impact_range = 3, light_impact_range = 8, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+					qdel(src)
 
 		else
 			if(prob(prob2fail))
@@ -493,10 +524,23 @@
 	name = "impact grenade"
 	desc = "Some substance, hidden under some paper and skin. Smell of this one makes your mind clean and not able to say a word."
 
-/obj/item/impact_grenade/mute_gas/explodes() 
+/obj/item/impact_grenade/mute_gas/explodes()
 	STOP_PROCESSING(SSfastprocess, src)
 	var/turf/T = get_turf(src)
 	playsound(T, 'sound/misc/explode/incendiary (1).ogg', 100)
 	for(T in view(2, T))
 		new /obj/effect/particle_effect/smoke/mute_gas(T)
-	qdel(src)		
+	qdel(src)
+
+// Ported from RW1710: crafting component for gas grenades.
+/obj/item/smokeshell
+	name = "gas belcher shell"
+	desc = "a metal shell for spraying gas out"
+	dropshrink = 0.6
+	icon_state = "smokeshell_blank"
+	icon = 'icons/roguetown/items/misc.dmi'
+	w_class = WEIGHT_CLASS_SMALL
+	throwforce = 0
+	throw_speed = 1
+	grid_width = 32
+	grid_height = 32

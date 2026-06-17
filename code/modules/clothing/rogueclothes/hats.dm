@@ -568,7 +568,9 @@
 	name = "cook hat"
 	desc = "A hat which designates one as well-versed in the arts of cooking."
 	icon_state = "chef"
-	item_state = "chef"
+	item_state = null
+	lefthand_file = null //No in-hand sprite; the shared inhand "chef" state is wrong.
+	righthand_file = null
 	sewrepair = TRUE
 
 /obj/item/clothing/head/roguetown/chaperon/greyscale
