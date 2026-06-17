@@ -1,5 +1,7 @@
 //This is being left out, as it might be dangerous without a way to keep players from relinking the keep doors.
 
+#define TRY_MISFIRE(target_mob) if(prob(misfire_chance)) misfire(target_mob)
+
 /obj/item/contraption
 	name = "random piece of machinery"
 	desc = "A cog with teeth meticulously crafted for tight interlocking."
@@ -8,13 +10,19 @@
 	var/on_icon
 	var/off_icon
 	icon = 'icons/roguetown/items/misc.dmi'
-	w_class = WEIGHT_CLASS_SMALL
 	smeltresult = /obj/item/ingot/bronze
 	slot_flags = ITEM_SLOT_HIP
+	//this is what we normally power things with
 	var/obj/item/accepted_power_source = /obj/item/roguegear
+	//this is what we use to double power items with, this isn't for all devices
+	var/obj/item/prime_power_source = /obj/item/debug
 	/// This is the amount of charges we get per power source
 	var/charge_per_source = 5
+	var/charge_per_prime = 10
+	//allows you to store several charges
+	var/max_stored_charge = 20
 	var/current_charge = 0
+	var/charge_per_use = 1
 	var/misfire_chance
 	var/sneaky_misfire_chance
 	/// Are we misfiring? Important for chain reactions.
@@ -55,20 +63,21 @@
 /obj/item/contraption/examine(mob/user)
 	. = ..()
 	if(!istype(user, /mob/living))
-		return
-	/*var/mob/living/player = user
-	var/skill = player.mind?.get_skill_level(/datum/skill/craft/engineering)
+		return TRUE
+	var/mob/living/player = user
+	var/skill = player.get_skill_level(/datum/skill/craft/engineering)
 	if(current_charge)
-		. += span_warning("The contraption has [current_charge] charges left.")
-	if(!current_charge)
-		. += span_warning("This contraption requires a new [initial(accepted_power_source.name)] to function.")
+		. += span_warning("The contraption has [current_charge] of [max_stored_charge] charges left.")
+		. += span_warning("It uses [initial(accepted_power_source.name)] or [initial(prime_power_source.name)] to function.")
+	else
+		. += span_warning("This contraption requires a new [initial(accepted_power_source.name)] or [initial(prime_power_source.name)] to function.")
 	if(misfire_chance)
 		if(skill > 2)
 			. += span_warning("You calculate this contraptions chance of failure to be anywhere between [max(0, (misfire_chance - skill) - rand(4))]% and [max(2, (misfire_chance - skill) + rand(3))]%.")
 		else
 			. += span_warning("It seems slightly unstable...")
 	if(skill >= 6 && sneaky_misfire_chance)
-		. += span_warning("This contraption has a chance for catastrophic failure in the hands of the inexperient.")*/
+		. += span_warning("This contraption has a chance for catastrophic failure in the hands of the inexperient.")
 
 /obj/item/contraption/proc/battery_collapse(atom/A, mob/living/user)
 	to_chat(user, span_info("The [accepted_power_source.name] wastes away into nothing."))
@@ -99,31 +108,38 @@
 /obj/item/contraption/attackby(obj/item/I, mob/user, params)
 	var/datum/effect_system/spark_spread/S = new()
 	var/turf/front = get_turf(src)
-	/*if(istype(I, /obj/item/roguegear)) && special_cog)
-		var/obj/item/roguegear/cog = I
-		//if(cog.name_prefix)
-		//	name = "[cog.name_prefix] [initial(name)]"
-		//else
-		if(istype(I, /obj/item/roguegear))
-			name = initial(name)
-		qdel(cog)
-		playsound(src, pick('sound/combat/hits/onwood/fence_hit1.ogg', 'sound/combat/hits/onwood/fence_hit2.ogg', 'sound/combat/hits/onwood/fence_hit3.ogg'), 100, FALSE)
-		shake_camera(user, 1, 1)
-		S.set_up(1, 1, front)
-		S.start()
-		to_chat(user, "<span class='warning'>I use [cog] to modify [src]!</span>")
-		return */
 	if(istype(I, accepted_power_source))
 		user.changeNext_move(CLICK_CD_FAST)
 		S.set_up(1, 1, front)
 		S.start()
-		if(current_charge)
+		if((max_stored_charge - current_charge) < charge_per_source) //checking if there's too much charge
 			to_chat(user, span_info("I try to insert the [I.name] but theres already \a [initial(accepted_power_source.name)] inside!"))
 			playsound(src, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
 			shake_camera(user, 1, 1)
 		else
 			to_chat(user, span_info("I insert the [I.name] and the [name] starts ticking."))
-			current_charge = charge_per_source
+			current_charge += charge_per_source
+			playsound(src, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
+			qdel(I)
+			addtimer(CALLBACK(src, PROC_REF(play_clock_sound)), 5)
+	if(istype(I, prime_power_source))
+		user.changeNext_move(CLICK_CD_FAST)
+		S.set_up(1, 1, front)
+		S.start()
+		if((max_stored_charge - current_charge) < charge_per_prime) //checking if there's too much charge with a prime source
+			if((max_stored_charge - current_charge) < charge_per_source) //if there's too much for prime, we give it the standard charge
+				to_chat(user, span_info("I try to insert the [I.name] but theres already \a [initial(accepted_power_source.name)] inside!"))
+				playsound(src, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
+				shake_camera(user, 1, 1)
+			else
+				to_chat(user, span_info("I insert the [I.name] and the [name] starts ticking. I feel I reached capacity before it was fully used"))
+				current_charge = max_stored_charge
+				playsound(src, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
+				qdel(I)
+				addtimer(CALLBACK(src, PROC_REF(play_clock_sound)), 5)
+		else
+			to_chat(user, span_info("I insert the [I.name] and the [name] starts ticking. It gets a big boost"))
+			current_charge += charge_per_prime
 			playsound(src, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
 			qdel(I)
 			addtimer(CALLBACK(src, PROC_REF(play_clock_sound)), 5)
@@ -168,7 +184,7 @@
 //Shamelessly stolen multitool code
 /obj/item/contraption/linker
 	name = "engineering wrench"
-	desc = "This strange contraption is able to connect machinery through an unknown calibration method, allowing them to communicate over long distances."
+	desc = "This strange contraption is able to connect machinery through an unknown calibration method, allowing them to communicate over long distances. It feeds on cogs."
 	icon = 'icons/obj/wrenches.dmi'
 	icon_state = "brasswrench"
 	w_class = WEIGHT_CLASS_SMALL
@@ -176,13 +192,16 @@
 	var/datum/buffer // simple machine buffer for device linkage
 	smeltresult = /obj/item/ingot/bronze
 	charge_per_source = 20
+	max_stored_charge = 80
 	grid_width = 64
 	grid_height = 32
+	var/active_item = FALSE
 
 /obj/item/contraption/linker/master
 	name = "Guild Master's Wrench"
-	desc = "Able to do more advanced linking than a standard wrench. Keep it out of apprentice's hands"
-	charge_per_source = 200
+	desc = "Able to do more advanced linking than a standard wrench. Keep it out of apprentices' hands."
+	charge_per_source = 20
+	max_stored_charge = 100
 
 /obj/item/contraption/linker/hammer_action(obj/item/I, mob/user)
 	return
@@ -198,6 +217,15 @@
 		. += span_notice("Its buffer [buffer ? "contains [buffer]." : "is empty."]")
 	else
 		. += span_notice("All you can make out is a bunch of gibberish.")
+
+/obj/item/contraption/linker/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Use it like a multitool on compatible machinery to store a target in its buffer, then use it again on another compatible target to link them.")
+	. += span_info("Use it in-hand to wipe its stored buffer.")
+	. += span_info("Right-click an adjacent rotatable rotational object while holding this to rotate it.")
+	. += span_info("Middle-click an adjacent placed shaft, cogwheel, or gearbox while holding this to disassemble it back into an item pile.")
+	if(user.get_skill_level(/datum/skill/craft/engineering) >= 4)
+		. += span_info("Holding it in your hands grants Tune Up, which spends wrench charge to repair or enhance compatible engineering targets.")
 
 /obj/item/contraption/linker/attack_self(mob/user)
 	. = ..()
@@ -225,3 +253,473 @@
 	SEND_SIGNAL(src, COMSIG_MULTITOOL_REMOVE_BUFFER, source)
 	UnregisterSignal(buffer, COMSIG_PARENT_QDELETING)
 	buffer = null
+
+/obj/item/contraption/wood_metalizer
+	name = "wood metalizer"
+	desc = "A creation of genious or insanity. This cursed contraption is somehow able to turn wood into metal."
+	icon_state = "metalizer"
+	on_icon = "metalizer_flick"
+	off_icon = "metalizer_off"
+	w_class = WEIGHT_CLASS_NORMAL
+	misfire_chance = 15
+	charge_per_source = 5
+	max_stored_charge = 100
+	grid_height = 64
+	grid_width = 64
+
+/obj/item/contraption/wood_metalizer/attack_obj(obj/O, mob/living/user)
+	..()
+	if(!current_charge)
+		return
+	var/skill = user.get_skill_level(/datum/skill/craft/engineering)
+	if(istype(O, /obj/item/grown/log/tree/small)&& skill>3)
+		var/newdir = O.dir
+		var/obj/I = O
+		var/obj/item/randomingot = pick (/obj/item/ingot/bronze,/obj/item/ingot/iron,/obj/item/ingot/copper, /obj/item/ingot/tin, /obj/item/rogueore/coal)
+		var/obj/result = new randomingot(get_turf(I))
+		result.dir = newdir
+		qdel(I)
+	else
+		to_chat(user, span_info("The [name] refuses to function."))
+		playsound(user, 'sound/items/flint.ogg', 100, FALSE)
+		flick(off_icon, src)
+		var/datum/effect_system/spark_spread/S = new()
+		var/turf/front = get_turf(O)
+		S.set_up(1, 1, front)
+		S.start()
+		return
+	flick(on_icon, src)
+	charge_deduction(O, user, 1)
+	shake_camera(user, 1, 1)
+	playsound(src, 'sound/magic/swap.ogg', 100, TRUE)
+	return
+
+/obj/item/contraption/shears
+	possible_item_intents = list(/datum/intent/use,/datum/intent/snip)
+	max_integrity = 150
+	name = "auto shears"
+	desc = "A powered shear used for achieving a clean separation between limb and patient. Keeping the patient still is imperative to aligning the blades."
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "shears"
+	on_icon = "shears"
+	off_icon = "shears"
+	w_class = WEIGHT_CLASS_SMALL
+	smeltresult = /obj/item/ingot/bronze
+	charge_per_source = 4
+	max_stored_charge = 20
+	grid_height = 32
+	grid_width = 64
+
+/obj/item/contraption/shears/hammer_action(obj/item/I, mob/user)
+	return
+
+/obj/item/contraption/shears/attack(mob/living/amputee, mob/living/user)
+	if(!current_charge)
+		return
+
+	if(!iscarbon(amputee))
+
+		return
+
+	var/targeted_zone = check_zone(user.zone_selected)
+	if(targeted_zone == BODY_ZONE_CHEST || targeted_zone == BODY_ZONE_HEAD)
+		to_chat(user, span_warning("I can't amputate that!"))
+		return
+
+	var/mob/living/carbon/patient = amputee
+
+	if(HAS_TRAIT(patient, TRAIT_NODISMEMBER))
+		to_chat(user, span_warning("[patient]'s limbs look too sturdy to amputate."))
+		return
+
+	var/obj/item/bodypart/limb_snip_candidate
+
+	limb_snip_candidate = patient.get_bodypart(targeted_zone)
+	if(!limb_snip_candidate)
+		to_chat(user, span_warning("[patient] is already missing that limb, what more do you want?"))
+		return
+	var/agreementone
+	var/agreementtwo
+	if(patient.mind)
+		if(patient == user)
+			switch(alert(user,"Do I want to cut off my [limb_snip_candidate.name]?", "Do you want amputate?","No","Yes"))
+				if("Yes")
+					to_chat(user, span_warning("I prepare the device...")) //make sure this is who we want to amputate
+					agreementone = TRUE
+				if("No")
+					to_chat(user, span_warning("I decided not to"))
+					return
+				else
+					to_chat(user, span_warning("I decided not to"))
+					return
+		else if(patient in range(1, user))
+			switch(alert(user,"Are you sure you want amputate [patient.name] [limb_snip_candidate.name]?", "Do you want amputate?","No","Yes"))
+				if("Yes")
+					to_chat(user, span_warning("I prepare the device...")) //make sure this is who we want to amputate
+					agreementone = TRUE
+				if("No")
+					to_chat(user, span_warning("I decided not to"))
+					return
+				else
+					to_chat(user, span_warning("I decided not to"))
+					return
+			if((patient.mobility_flags & MOBILITY_STAND))
+				to_chat(user, span_warning("My patient must be laying down."))
+				return
+			switch(alert(patient, "Do you agree to have your [limb_snip_candidate.name] amputated by [user.name]?", "Do you agree to an amputation?", "Resist", "Accept"))
+				if("Resist")
+					to_chat(user, span_warning("the device fails, the patient is not willing"))
+					return
+				if("Accept")
+					to_chat(user, span_warning("They agree, we can proceed")) //make sure they consent to the amputation
+					agreementtwo = TRUE
+				else
+					to_chat(user, span_warning("the device fails, the patient is not willing"))
+					return
+			if (agreementone && agreementtwo)
+				//we can proceed, they weren't afk
+			else
+				to_chat(user, span_warning("They can't agree right now")) //a final catch all
+		return
+
+	var/amputation_speed_mod = 1
+
+	patient.visible_message(span_danger("[user] begins to secure [src] around [patient]'s [limb_snip_candidate.name]."), span_userdanger("[user] begins to secure [src] around your [limb_snip_candidate.name]!"))
+	playsound(get_turf(patient), 'sound/misc/ratchet.ogg', 20, TRUE)
+	if(patient.stat >= UNCONSCIOUS || patient.buckled || locate(/obj/structure/table/optable) in get_turf(patient))
+		amputation_speed_mod *= 0.5
+	if(patient.stat != DEAD && (patient.jitteriness || patient.mobility_flags & MOBILITY_STAND)) //jittering will make it harder to secure the shears, even if you can't otherwise move
+		amputation_speed_mod *= 1.5 //15*0.5*1.5=11.25
+
+	var/skill_modifier = 1
+	if(user.get_skill_level(/datum/skill/craft/engineering)>(user.get_skill_level(/datum/skill/misc/medicine))) //use the higher skill
+		skill_modifier = 1.5 - (user.get_skill_level(/datum/skill/craft/engineering) / 6)
+	else //default to using medicine with no engineering skill
+		skill_modifier = 1.5 - (user.get_skill_level(/datum/skill/misc/medicine) / 6)
+	if(do_after(user, 15 SECONDS * amputation_speed_mod * skill_modifier, target = patient))
+		playsound(get_turf(patient), 'sound/misc/guillotine.ogg', 20, TRUE)
+		limb_snip_candidate.drop_limb(TRUE)
+		user.visible_message(span_danger("[src] violently slams shut, amputating [patient]'s [limb_snip_candidate.name]."), span_notice("You amputate [patient]'s [limb_snip_candidate.name] with [src]."))
+		charge_deduction(amputee, user, 1)
+
+/obj/item/contraption/shears/attack_obj(obj/O, mob/living/user)
+	if(user.used_intent.type == /datum/intent/snip && istype(O, /obj/item))
+		var/obj/item/item = O
+		if(item.sewrepair && item.salvage_result) // We can only salvage objects which can be sewn!
+			var/salvage_time = 70
+			var/skill_level = user.get_skill_level(/datum/skill/misc/sewing)
+			skill_level = clamp((skill_level+1),1,6)
+			if(user.get_skill_level(/datum/skill/craft/engineering)>(user.get_skill_level(/datum/skill/misc/sewing))) //use the higher skill
+				salvage_time = (70 - ((user.get_skill_level(/datum/skill/craft/engineering)) * 10))
+			else //default to using sewing with no engineering skill
+				salvage_time = (70 - ((user.get_skill_level(/datum/skill/misc/sewing)) * 10))
+
+			if(!do_after(user, salvage_time, target = user))
+				return
+
+			if(item.fiber_salvage) //We're getting fiber as base if fiber is present on the item
+				new /obj/item/natural/fibers(get_turf(item))
+			if(istype(item, /obj/item/storage))
+				var/obj/item/storage/bag = item
+				bag.emptyStorage()
+
+			if(prob(50 - (skill_level * 10))) // We are dumb and we failed!
+				to_chat(user, span_info("I ruined some of the materials due to my lack of skill..."))
+				playsound(item, 'sound/foley/cloth_rip.ogg', 50, TRUE)
+				qdel(item)
+				user.mind.add_sleep_experience(/datum/skill/misc/sewing, (user.STAINT)) //Getting exp for failing
+				return //We are returning early if the skill check fails!
+			item.salvage_amount -= item.torn_sleeve_number
+			for(var/i = 1; i <= item.salvage_amount; i++) // We are spawning salvage result for the salvage amount minus the torn sleves!
+				var/obj/item/Sr = new item.salvage_result(get_turf(item))
+				Sr.color = item.color
+			user.visible_message(span_notice("[user] salvages [item] into usable materials."))
+			playsound(item, 'sound/items/flint.ogg', 100, TRUE)
+			qdel(item)
+			user.mind.add_sleep_experience(/datum/skill/misc/sewing, (user.STAINT))
+	return ..()
+
+/obj/item/contraption/lock_imprinter
+	name = "lock improver"
+	desc = "A useful contraption improves locks at the cost of locks."
+	icon_state = "imprinter"
+	on_icon = "imprinter_flick"
+	off_icon = "imprinter_off"
+	w_class = WEIGHT_CLASS_NORMAL
+	accepted_power_source = /obj/item/customlock
+	misfire_chance = 0
+	sneaky_misfire_chance = 20
+	charge_per_source = 2
+	max_stored_charge = 20
+	grid_height = 32
+	grid_width = 64
+
+/obj/item/contraption/lock_imprinter/attack_obj(obj/O, mob/living/user)
+	..()
+	if(current_charge<1)
+		flick(off_icon, src)
+		to_chat(user, span_info("The contraption beeps! It requires \a [initial(accepted_power_source.name)]!"))
+		playsound(src, 'sound/magic/magic_nulled.ogg', 100, TRUE)
+		return
+
+	else if(ispath(O.type, /obj/structure/mineral_door))
+		var/obj/structure/mineral_door/doorupgrade = O
+		var/oldlockdifficulty = doorupgrade.lockdifficulty
+		var/newlockdifficulty = oldlockdifficulty + 1
+		if(newlockdifficulty > 4)
+			flick(off_icon, src)
+			to_chat(user, span_info("The contraption beeps! It's upgraded to its limit!"))
+			playsound(src, 'sound/magic/magic_nulled.ogg', 100, TRUE)
+			return
+		flick(on_icon, src)
+		shake_camera(user, 1, 1)
+		user.visible_message(span_notice("[user] holds the [name] up to the [O.name] causing sparks to fly!"))
+		playsound(src, pick('sound/combat/hits/onmetal/sheet (1).ogg', 'sound/combat/hits/onmetal/sheet (2).ogg', 'sound/combat/hits/onmetal/grille (1).ogg', 'sound/combat/hits/onmetal/grille (2).ogg', 'sound/combat/hits/onmetal/grille (3).ogg'), 100, TRUE)
+		doorupgrade.lockdifficulty = newlockdifficulty
+		charge_deduction(O, user, 1)
+		var/datum/effect_system/spark_spread/S = new()
+		var/turf/front = get_turf(O)
+		S.set_up(1, 1, front)
+		S.start()
+		user.mind.add_sleep_experience(/datum/skill/craft/engineering, (user.STAINT)) // Only imprinting gives EXP
+		return
+
+
+/obj/item/contraption/pick/drill
+	name = "clockwork drill"
+	desc = "A wonderfully complex work of engineering capable of shredding walls in seconds as opposed to hours."
+	force = 21
+	force_wielded = 19
+	max_integrity = 700
+	icon_state = "drill"
+	lefthand_file = 'icons/mob/inhands/weapons/hammers_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/weapons/hammers_righthand.dmi'
+	item_state = "drill"
+	possible_item_intents = list(MACE_SMASH)
+	gripped_intents = list(/datum/intent/drill)
+	slot_flags = ITEM_SLOT_HIP
+	smeltresult = /obj/item/ingot/bronze
+	w_class = WEIGHT_CLASS_HUGE
+	accepted_power_source = /obj/item/alch/coaldust
+	prime_power_source = /obj/item/alch/firedust
+	misfire_chance = 0
+	sneaky_misfire_chance = 20
+	charge_per_source = 100
+	charge_per_prime = 200
+	max_stored_charge = 600
+	grid_height = 64
+	grid_width = 64
+	var/active_item = FALSE
+
+/obj/item/contraption/pick/drill/architect
+	name = "architect's drill"
+	desc = "A modified clockwork drill specially made for the guild architect, this masterwork of engineering hits harder and lasts longer."
+	force = 25
+	force_wielded = 30
+	max_integrity = 1000
+	icon_state = "drill2"
+	lefthand_file = 'icons/mob/inhands/weapons/hammers_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/weapons/hammers_righthand.dmi'
+	item_state = "drill2"
+	possible_item_intents = list(MACE_SMASH)
+	gripped_intents = list(/datum/intent/drill)
+	slot_flags = ITEM_SLOT_HIP
+	smeltresult = /obj/item/ingot/bronze
+	w_class = WEIGHT_CLASS_HUGE
+	accepted_power_source = /obj/item/alch/coaldust
+	prime_power_source = /obj/item/alch/firedust
+	misfire_chance = 0
+	sneaky_misfire_chance = 0
+	charge_per_source = 100
+	charge_per_prime = 200
+	max_stored_charge = 600
+	grid_height = 64
+	grid_width = 64
+
+
+/obj/item/contraption/pick/drill/Initialize(mapload)
+	. = ..()
+	START_PROCESSING(SSobj, src)
+
+
+/obj/item/contraption/pick/drill/Destroy()
+	STOP_PROCESSING(SSobj, src)
+	return ..()
+
+/obj/item/contraption/pick/drill/examine(mob/user)
+	. = ..()
+	. += span_info("Wield it in both hands and strike stone or a wall to bore through it in seconds — each bore spends a charge.")
+
+/obj/item/contraption/pick/drill/attack_obj(obj/O, mob/living/user)
+	. = ..()
+
+/obj/item/contraption/pick/drill/attack_turf(turf/T, mob/living/user, multiplier)
+
+	. = ..()
+	src.current_charge -= 1
+
+
+/obj/item/contraption/pick/drill/afterattack(atom/target, mob/living/user, proximity_flag, list/modifiers)
+	. = ..()
+
+/obj/item/contraption/pick/drill/attack_right(mob/user)
+	. = ..()
+
+/obj/item/contraption/smelter
+	var/obj/machinery/light/rogue/smelter/hand_held
+	var/datum/effect_system/spark_spread/S
+	var/severity = 0
+
+	name = "portable smelter"
+	desc = "Furnaces are a thing of the past. The future is here!"
+	smeltresult = /obj/item/ingot/bronze
+	grid_height = 64
+	grid_width = 64
+
+	icon = 'icons/roguetown/items/misc.dmi'
+
+	icon_state = "smelter_off"
+	on_icon = "smelter_on"
+	off_icon = "smelter_off"
+	var/misfire_icon = "smelter_misfire"
+	var/fin_icon = "smelter_fin"
+
+	slot_flags = ITEM_SLOT_HIP
+	w_class = WEIGHT_CLASS_NORMAL
+
+	prime_power_source = /obj/item/alch/firedust
+	accepted_power_source = /obj/item/alch/coaldust
+
+	max_stored_charge = 20
+	charge_per_prime = 5
+	charge_per_source = 2
+	misfire_chance = 5
+
+/obj/item/contraption/smelter/New(loc)
+	..()
+
+	S = new()
+	hand_held = new /obj/machinery/light/rogue/smelter/hand_held(src)
+
+/obj/item/contraption/smelter/Destroy()
+	if(hand_held)
+		qdel(hand_held)
+	if(S)
+		qdel(S)
+
+	return ..()
+
+/obj/item/contraption/smelter/attackby(obj/item/attacking_item, mob/living/user, params)
+
+	if(istype(attacking_item, /obj/item/rogueweapon/tongs))
+		var/obj/item/rogueweapon/tongs/T = attacking_item
+
+		if(T.hingot) // Safely check for the ingot inside the validated tongs block
+
+			if(current_charge == 0)
+				to_chat(user, span_notice("I should refuel the [src] before trying to use it!"))
+				return TRUE
+
+			icon_state = on_icon
+			update_icon()
+			playsound(src.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
+
+			user.visible_message(span_info("[user] starts heating the bar."))
+
+			if(do_after(user, 5 SECONDS, target = src))
+				T.hott = world.time
+				addtimer(CALLBACK(T, TYPE_PROC_REF(/obj/item/rogueweapon/tongs, make_unhot), world.time), 200)
+				T.update_icon()
+
+				user.visible_message(span_info("[user] finishes heating the bar."))
+				playsound(src.loc,'sound/misc/frying.ogg', 50, FALSE)
+
+				icon_state = off_icon
+				flick(fin_icon, src)
+				update_icon()
+
+				current_charge -= 1
+
+				var/obj/item/rogueweapon/tongs/heldstuff = user.get_active_held_item()
+				if(istype(heldstuff, /obj/item/rogueweapon/tongs/stone) && heldstuff.obj_integrity <= 1)
+					heldstuff.hingot.forceMove(get_turf(user))
+					heldstuff.hingot = null
+					heldstuff.hott = FALSE
+					heldstuff.obj_break()
+
+				TRY_MISFIRE(user)
+				return TRUE
+			else
+				user.visible_message(span_info("The heating process was interrupted!"))
+				playsound(src.loc,'sound/items/bsmithfail.ogg', 100, FALSE)
+
+				icon_state = off_icon
+				flick(fin_icon, src)
+				update_icon()
+				return TRUE
+
+	// route smeltable ore into the internal furnace; fuel sources fall through to the parent's charge handling
+	if(attacking_item.smeltresult && !istype(attacking_item, accepted_power_source) && !istype(attacking_item, prime_power_source))
+		if(current_charge == 0)
+			to_chat(user, span_notice("I should refuel the [src] before trying to use it!"))
+			return TRUE
+		hand_held.addOre(attacking_item, user)
+		return TRUE
+	return ..()
+
+/obj/item/contraption/smelter/attack_right(mob/user)
+	if(src.current_charge == 0)
+		to_chat(user, span_notice("I should refuel the [src] before trying to use it!"))
+		return TRUE
+
+	if(hand_held.attack_right(user))
+		TRY_MISFIRE(user)
+		return TRUE
+
+	return FALSE
+
+/obj/item/contraption/smelter/examine(mob/user)
+	. = ..()
+	hand_held.examine(user)
+
+/obj/item/contraption/smelter/misfire(atom/A, mob/living/user)
+
+	if(prob(50))
+		var/boom_delay = rand(5, 10)
+
+		if(prob(90))
+			severity = 1
+			to_chat(user, span_warning("Oh fuck."))
+			playsound(src, 'sound/misc/bell.ogg', 100, FALSE)
+			addtimer(CALLBACK(src, PROC_REF(misfire_result), A, user), boom_delay)
+
+		else
+			severity = 2
+			to_chat(user, span_danger("By the gods..."))
+			playsound(src, 'sound/misc/bell.ogg', 100, FALSE)
+			addtimer(CALLBACK(src, PROC_REF(misfire_result), A, user), boom_delay)
+
+	else
+		severity = 0
+		to_chat(user, span_info("\The [src] spits violently and loses pressure!"))
+		charge_deduction(src, user, charge_per_use)
+
+		S.set_up(1, 1, get_turf(src))
+		S.start()
+		playsound(user, 'sound/items/flint.ogg', 100, FALSE)
+
+/obj/item/contraption/smelter/misfire_result(atom/A, mob/living/user)
+	if(severity == 0)
+		return FALSE
+
+	if(severity == 1)
+		explosion(epicenter = src, light_impact_range = 3, flame_range = 1, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+		qdel(hand_held)
+		qdel(src)
+
+	if(severity == 2)
+		explosion(epicenter = src, heavy_impact_range = 5, light_impact_range = 10, flame_range = 5, ignorecap = TRUE, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+		qdel(hand_held)
+		qdel(src)
+
+#undef TRY_MISFIRE

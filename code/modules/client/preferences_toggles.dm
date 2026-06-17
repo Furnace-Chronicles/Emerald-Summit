@@ -38,6 +38,14 @@
 		prefs.save_preferences()
 		toggle_fullscreeny(prefs.toggles & TOGGLE_FULLSCREEN)
 
+/client/verb/toggle_ooc()
+	set category = "Options"
+	set name = "Toggle OOC Chat"
+	if(prefs)
+		prefs.chat_toggles ^= CHAT_OOC
+		prefs.save_preferences()
+		to_chat(src, "You will [(prefs.chat_toggles & CHAT_OOC) ? "now" : "no longer"] see messages on the OOC channel.")
+
 /client/verb/toggle_screenshake()
 	set category = "Options"
 	set name = "Toggle Screen Shake"
