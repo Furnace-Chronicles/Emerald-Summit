@@ -325,6 +325,10 @@ GLOBAL_LIST_EMPTY(open_preference_menus)
 		if("identity")
 			data["identity"] = build_identity_dynamic(user)
 			data["culinary"] = build_culinary_dynamic(user)
+			// Appearance controls (ancestry → sprite scale) were relocated to the Identity
+			// tab's Palate column, so the body dynamic payload must ship here too. body_static
+			// (option lists) is always sent via build_full_static_data.
+			data["body"] = build_body_dynamic(user)
 		if("features")
 			data["body"] = build_body_dynamic(user)
 			data["markings"] = build_markings_dynamic(user)
