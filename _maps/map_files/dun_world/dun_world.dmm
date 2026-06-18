@@ -4975,6 +4975,10 @@
 /obj/item/rogueweapon/whip,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/town/basement)
+"bnt" = (
+/obj/structure/bars/tough,
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/church/chapel)
 "bnu" = (
 /obj/structure/bed/rogue/inn/double{
 	dir = 1
@@ -6305,6 +6309,17 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/shelter/mountains/decap)
+"bGK" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1;
+	pixel_x = -1;
+	pixel_y = 4
+	},
+/obj/structure/closet/crate/chest/crate,
+/obj/item/rogueweapon/hoe,
+/obj/item/rogueweapon/sickle,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "bGM" = (
 /turf/closed/wall/mineral/rogue/roofwall/middle/dir4,
 /area/rogue/outdoors/town/roofs)
@@ -6742,6 +6757,15 @@
 /obj/effect/landmark/mapGenerator/rogue/underdark,
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/under/cavewet/bogcaves)
+"bLt" = (
+/obj/structure/fluff/walldeco/church/line,
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8
+	},
+/obj/item/storage/belt/rogue/surgery_bag/full,
+/obj/structure/table/wood,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "bLv" = (
 /obj/structure/flora/roguegrass/bush/wall/tall{
 	pixel_x = -20;
@@ -7563,6 +7587,16 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
+"bXF" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8
+	},
+/obj/machinery/light/rogue/torchholder/l,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "bXG" = (
 /obj/structure/stairs/stone{
 	dir = 4
@@ -7742,6 +7776,18 @@
 	},
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/outdoors/mountains)
+"bZH" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 4
+	},
+/obj/machinery/light/rogue/torchholder/l{
+	dir = 8
+	},
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "bZI" = (
 /obj/structure/bars/pipe{
 	dir = 1;
@@ -8625,6 +8671,10 @@
 /obj/item/carvedgem/jade,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/skeletoncrypt)
+"cmR" = (
+/obj/structure/rack/rogue/shelf/biggest,
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/church/chapel)
 "cmU" = (
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/goblinfort)
@@ -11147,6 +11197,10 @@
 /obj/machinery/light/rogue/torchholder/c,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/manor)
+"cTa" = (
+/obj/structure/stone_rack,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/church/chapel)
 "cTc" = (
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 1
@@ -13350,6 +13404,12 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
+"dwA" = (
+/obj/machinery/light/rogue/torchholder/l{
+	dir = 8
+	},
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/church/chapel)
 "dwF" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/lamia,
 /turf/open/water/swamp,
@@ -14973,6 +15033,12 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
+"dQM" = (
+/obj/structure/bed/rogue/inn/double{
+	dir = 8
+	},
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/church/chapel)
 "dQP" = (
 /obj/structure/well,
 /turf/open/floor/rogue/cobble/mossy,
@@ -17365,6 +17431,18 @@
 /obj/machinery/light/rogue/wallfire/candle,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town)
+"erm" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 4
+	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1;
+	pixel_x = -1;
+	pixel_y = 4
+	},
+/obj/structure/table/optable,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "erq" = (
 /obj/structure/roguewindow,
 /obj/structure/bars/grille{
@@ -18149,6 +18227,12 @@
 /obj/item/rogueweapon/thresher,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/bath)
+"eCl" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "eCr" = (
 /obj/structure/fluff/grindwheel,
 /obj/item/natural/wood/plank,
@@ -19538,6 +19622,14 @@
 "eVM" = (
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/under/cave/mazedungeon)
+"eWa" = (
+/obj/structure/fluff/walldeco/church/line,
+/obj/structure/fluff/walldeco/church/line{
+	dir = 4
+	},
+/obj/structure/table/optable,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "eWc" = (
 /obj/machinery/light/rogue/torchholder/l,
 /mob/living/carbon/human/species/skeleton/npc/bogguard,
@@ -20387,6 +20479,10 @@
 	},
 /turf/open/floor/rogue/tile/harem2,
 /area/rogue/indoors/town/bath)
+"ffD" = (
+/obj/structure/table/wood/long_table/right,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/church/chapel)
 "ffL" = (
 /obj/machinery/light/rogue/wallfire{
 	pixel_y = 32
@@ -23862,6 +23958,19 @@
 "fZT" = (
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/indoors/town/manor)
+"fZU" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8
+	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1;
+	pixel_x = -1;
+	pixel_y = 4
+	},
+/obj/item/storage/belt/rogue/surgery_bag/full,
+/obj/structure/table/wood,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "fZZ" = (
 /obj/machinery/light/rogue/campfire,
 /turf/open/floor/rogue/churchrough,
@@ -27543,6 +27652,14 @@
 /mob/living/simple_animal/hostile/rogue/mirespider_paralytic/angry,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/beach/forest)
+"gXs" = (
+/obj/structure/mineral_door/bars{
+	locked = 1;
+	lockid = "keeper2";
+	name = "Gober The Goblin"
+	},
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/church/chapel)
 "gXx" = (
 /mob/living/carbon/human/species/goblin/npc/ambush/cave,
 /turf/open/floor/rogue/cobble,
@@ -30115,6 +30232,10 @@
 /obj/item/reagent_containers/glass/cup,
 /turf/open/floor/rogue/blocks/platform,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
+"hBv" = (
+/obj/structure/fluff/walldeco/church/line,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "hBC" = (
 /obj/structure/chair/wood/rogue/fancy,
 /obj/machinery/light/rogue/torchholder{
@@ -34731,6 +34852,10 @@
 /obj/structure/flora/ausbushes/ppflowers,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town/roofs)
+"iJb" = (
+/obj/machinery/light/rogue/torchholder/c,
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/church/chapel)
 "iJg" = (
 /obj/structure/table/wood/long_table/right,
 /obj/structure/fluff/railing/border/east,
@@ -37260,6 +37385,15 @@
 /obj/structure/fluff/psycross,
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/beach/forest)
+"jpw" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1;
+	pixel_x = -1;
+	pixel_y = 4
+	},
+/obj/structure/table/church,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "jpx" = (
 /obj/machinery/anvil/crafted,
 /turf/open/floor/rogue/blocks,
@@ -37610,6 +37744,13 @@
 	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/goblinfort)
+"jua" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 4
+	},
+/obj/structure/fluff/walldeco/church/line,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "jub" = (
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/grass,
@@ -41716,6 +41857,14 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
+"kuE" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8
+	},
+/obj/structure/fluff/walldeco/church/line,
+/obj/machinery/light/rogue/torchholder/l,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "kuI" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/roguegrass,
@@ -44625,6 +44774,11 @@
 	icon_state = "iron_joint"
 	},
 /area/rogue/under/town/sewer)
+"lfI" = (
+/obj/structure/fluff/walldeco/church/line,
+/obj/effect/landmark/start/keeper,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "lfL" = (
 /obj/structure/stairs/stone{
 	dir = 8
@@ -44975,6 +45129,10 @@
 	},
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/mountains)
+"lkC" = (
+/obj/structure/well,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/exposed/church)
 "lkD" = (
 /obj/structure/flora/newbranch/leafless{
 	dir = 4
@@ -46429,6 +46587,13 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors)
+"lAE" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8
+	},
+/obj/machinery/light/rogue/torchholder/l,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "lAF" = (
 /obj/effect/decal/carpet/kover_darkred{
 	dir = 4;
@@ -47170,6 +47335,9 @@
 /obj/item/clothing/shoes/roguetown/boots,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
+"lIZ" = (
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/church/chapel)
 "lJa" = (
 /obj/structure/mineral_door/bars{
 	lockid = "manor";
@@ -47530,6 +47698,10 @@
 /obj/item/reagent_containers/powder/salt,
 /turf/open/floor/rogue/wood/herringbone,
 /area/rogue/indoors/town)
+"lOi" = (
+/obj/structure/table/wood/long_table,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/church/chapel)
 "lOj" = (
 /obj/structure/table/wood{
 	dir = 6;
@@ -47560,13 +47732,14 @@
 /turf/open/water/bath,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "lOJ" = (
-/obj/structure/floordoor{
-	redstone_id = "confessinal1"
-	},
 /obj/structure/chair/wood/rogue{
 	dir = 4
 	},
-/turf/open/transparent/openspace,
+/turf/open/floor/rogue/ruinedwood/chevron,
+/area/rogue/indoors/town/church/chapel)
+"lOR" = (
+/obj/structure/closet/crate/chest/crate,
+/turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/town/church/chapel)
 "lOX" = (
 /obj/structure/table/wood/long_table,
@@ -48353,6 +48526,15 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/spider/mutated,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
+"lZV" = (
+/obj/structure/mineral_door/wood/donjon{
+	dir = 8;
+	locked = 1;
+	lockid = "keeper";
+	name = "Outer sanctum door"
+	},
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/church/chapel)
 "lZX" = (
 /obj/structure/fluff/railing/border{
 	dir = 8
@@ -50729,6 +50911,15 @@
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
+"mGc" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "mGf" = (
 /obj/structure/lever{
 	redstone_id = "lichdanger"
@@ -53447,6 +53638,10 @@
 /obj/machinery/light/rogue/wallfire/candle/r,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
+"nnD" = (
+/mob/living/simple_animal/hostile/retaliate/rogue/bigrat,
+/turf/open/floor/rogue/dirt,
+/area/rogue/indoors/town/church/chapel)
 "nnG" = (
 /obj/structure/flora/rogueshroom{
 	icon_state = "mush3"
@@ -55414,6 +55609,10 @@
 /obj/structure/flora/roguegrass/maneater,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cavewet/bogcaves/sunkencity)
+"nOs" = (
+/obj/machinery/light/rogue/torchholder/l,
+/turf/closed/mineral/rogue,
+/area/rogue/under/cave)
 "nOt" = (
 /obj/structure/fluff/railing/border{
 	dir = 8;
@@ -55505,6 +55704,12 @@
 	},
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/inq/office)
+"nPo" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8
+	},
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "nPr" = (
 /obj/structure/rack/rogue,
 /obj/effect/decal/cobbleedge{
@@ -57902,6 +58107,12 @@
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/under/cave)
+"owC" = (
+/obj/structure/mineral_door/wood/fancywood{
+	name = "Bed Room"
+	},
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/church/chapel)
 "owM" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/orc/orc2,
 /turf/open/floor/rogue/wood,
@@ -63854,6 +64065,11 @@
 /obj/structure/fluff/walldeco/rpainting/forest,
 /turf/closed/wall/mineral/rogue/decowood/vert,
 /area/rogue/indoors/town)
+"pWt" = (
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/church/chapel{
+	name = "heart beast"
+	})
 "pWu" = (
 /obj/item/fishingrod,
 /turf/open/floor/rogue/dirt/road,
@@ -69480,6 +69696,10 @@
 /obj/item/roguebin/water,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
+"rqG" = (
+/obj/machinery/light/rogue/torchholder/l,
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/church/chapel)
 "rqQ" = (
 /obj/structure/fluff/walldeco/chains,
 /turf/open/floor/rogue/naturalstone,
@@ -71027,6 +71247,10 @@
 /mob/living/simple_animal/hostile/rogue/skeleton/guard,
 /turf/open/water/swamp/deep,
 /area/rogue/under/cavewet/bogcaves/sunkencity)
+"rKf" = (
+/obj/structure/table/wood/long_table/mid/alt,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/church/chapel)
 "rKo" = (
 /obj/structure/mineral_door/wood/window{
 	locked = 1;
@@ -71333,6 +71557,15 @@
 /obj/machinery/light/rogue/torchholder/lanternpost,
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/town)
+"rNL" = (
+/obj/structure/mineral_door/wood/donjon{
+	dir = 1;
+	locked = 1;
+	lockid = "keeper2";
+	name = "Inner sanctum door"
+	},
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/church/chapel)
 "rNN" = (
 /obj/structure/roguewindow/stained/yellow,
 /turf/open/floor/rogue/cobble,
@@ -75440,6 +75673,15 @@
 	},
 /turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/town)
+"sPa" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 4
+	},
+/obj/machinery/light/rogue/torchholder/l{
+	dir = 8
+	},
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "sPd" = (
 /mob/living/simple_animal/butterfly,
 /turf/open/floor/rogue/wood,
@@ -75755,6 +75997,10 @@
 "sSh" = (
 /turf/closed/wall/mineral/rogue/roofwall/outercorner,
 /area/rogue/indoors/town/dwarfin)
+"sSp" = (
+/mob/living/simple_animal/hostile/retaliate/rogue/bigrat,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/church/chapel)
 "sSq" = (
 /turf/open/floor/rogue/metal{
 	dir = 4
@@ -76341,6 +76587,10 @@
 /obj/item/bedsheet/rogue/pelt,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town)
+"tad" = (
+/obj/structure/mineral_door/wood/fancywood,
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/church/chapel)
 "tae" = (
 /obj/structure/rack/rogue,
 /obj/item/clothing/neck/roguetown/leather,
@@ -83851,6 +84101,14 @@
 "uLV" = (
 /turf/closed/mineral/random/rogue/high,
 /area/rogue/outdoors/woods)
+"uLZ" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1;
+	pixel_x = -1;
+	pixel_y = 4
+	},
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "uMm" = (
 /mob/living/carbon/human/species/skeleton/npc/ambush,
 /turf/open/floor/rogue/hexstone,
@@ -84057,6 +84315,16 @@
 "uPI" = (
 /turf/closed/wall/mineral/rogue/decostone/mossy,
 /area/rogue/indoors/shelter/woods)
+"uPO" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1;
+	pixel_x = -1;
+	pixel_y = 4
+	},
+/obj/structure/closet/crate/chest/crate,
+/obj/item/reagent_containers/glass/bucket,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "uPP" = (
 /obj/structure/fluff/railing/border/north,
 /obj/structure/roguemachine/noticeboard,
@@ -85896,7 +86164,10 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "vmZ" = (
-/turf/open/lava/acid,
+/obj/structure/fluff/walldeco/church/line{
+	dir = 4
+	},
+/turf/open/floor/rogue/blocks/platform,
 /area/rogue/indoors/town/church/chapel)
 "vng" = (
 /obj/effect/decal/cleanable/blood/gibs/torso,
@@ -88393,6 +88664,9 @@
 /obj/structure/mirror,
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/town/basement/keep)
+"vTj" = (
+/turf/open/floor/rogue/grassyel,
+/area/rogue/under/cave)
 "vTl" = (
 /obj/structure/fluff/railing/border{
 	dir = 8
@@ -89044,6 +89318,13 @@
 /obj/structure/table/wood/fancy/black,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/manor)
+"war" = (
+/obj/structure/mineral_door/bars{
+	locked = 1;
+	lockid = "keeper2"
+	},
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/church/chapel)
 "waw" = (
 /obj/structure/stairs{
 	dir = 1
@@ -90204,6 +90485,10 @@
 /obj/machinery/light/rogue/wallfire/candle/blue/r,
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/mountains/decap/stepbelow)
+"wnR" = (
+/obj/machinery/light/rogue/torchholder,
+/turf/closed/wall/mineral/rogue/decostone,
+/area/rogue/indoors/town/church/chapel)
 "woe" = (
 /obj/structure/floordoor/gatehatch/inner{
 	redstone_id = "swamp_psy_dungeon"
@@ -90421,6 +90706,8 @@
 "wqD" = (
 /obj/structure/table/wood,
 /obj/item/rogueweapon/woodstaff/aries,
+/obj/item/roguekey/keeper,
+/obj/item/roguekey/keeper_inner,
 /turf/open/floor/carpet/stellar,
 /area/rogue/indoors/town/church/chapel)
 "wqJ" = (
@@ -90659,6 +90946,10 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/beach)
+"wtm" = (
+/obj/structure/flora/roguegrass/herb/random,
+/turf/open/floor/rogue/dirt,
+/area/rogue/indoors/town/church/chapel)
 "wtn" = (
 /obj/structure/bed/rogue/inn/wool,
 /obj/item/bedsheet/rogue/pelt,
@@ -92020,6 +92311,10 @@
 /area/rogue/under/cave/licharena)
 "wJK" = (
 /turf/open/floor/rogue/blocks/stonered/tiny,
+/area/rogue/indoors/town/church/chapel)
+"wJW" = (
+/obj/structure/roguemachine/chimeric_heart_beast,
+/turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/church/chapel)
 "wKa" = (
 /obj/structure/chair/wood/rogue/fancy,
@@ -93835,6 +94130,20 @@
 /obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/beach)
+"xgI" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1;
+	pixel_x = -1;
+	pixel_y = 4
+	},
+/obj/structure/table/church/end,
+/obj/item/pestle,
+/obj/item/reagent_containers/glass/mortar{
+	pixel_x = 7;
+	pixel_y = 5
+	},
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "xgP" = (
 /obj/structure/fluff/railing/border{
 	dir = 5
@@ -94547,6 +94856,9 @@
 "xpH" = (
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/outdoors/town/roofs/keep)
+"xpM" = (
+/turf/open/floor/rogue/dirt,
+/area/rogue/indoors/town/church/chapel)
 "xpO" = (
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/naturalstone,
@@ -95710,6 +96022,16 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/manor)
+"xEW" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1;
+	pixel_x = -1;
+	pixel_y = 4
+	},
+/obj/structure/table/church/m,
+/obj/item/ritechalk,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel)
 "xFg" = (
 /obj/structure/well/fountain/mana,
 /turf/open/floor/rogue/greenstone,
@@ -98221,6 +98543,14 @@
 /obj/item/carvedgem/amber/beaver,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/cave)
+"yjb" = (
+/obj/structure/mineral_door/bars{
+	locked = 1;
+	lockid = "keeper2";
+	name = "Goober The Goblin"
+	},
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/church/chapel)
 "yjh" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
@@ -98455,6 +98785,10 @@
 	},
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/rtfield/eora)
+"ylM" = (
+/mob/living/carbon/human/species/goblin/sea,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/church/chapel)
 "ylW" = (
 /obj/structure/closet/crate/drawer,
 /obj/structure/mirror,
@@ -241133,24 +241467,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
 ujm
 ujm
 ujm
@@ -241585,24 +241919,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+bXF
+nPo
+nPo
+nPo
+nPo
+nPo
+lAE
+nPo
+nPo
+nPo
+nPo
+kuE
+oKc
+dQM
+rqG
+dQM
+oKc
 ujm
 ujm
 ujm
@@ -242037,24 +242371,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+eCl
+xpM
+wtm
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+wtm
+hBv
+oKc
+lOR
+sTM
+lOR
+oKc
 ujm
 ujm
 ujm
@@ -242489,24 +242823,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+eCl
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+hBv
+oKc
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -242941,24 +243275,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+eCl
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+hBv
+oKc
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -243393,24 +243727,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+mGc
+xpM
+xpM
+xpM
+xpM
+wtm
+xpM
+xpM
+xpM
+xpM
+xpM
+hBv
+oKc
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -243845,24 +244179,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+eCl
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+hBv
+oKc
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -244297,24 +244631,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+eCl
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+wtm
+xpM
+xpM
+hBv
+oKc
+dwA
+sTM
+dwA
+oKc
 ujm
 ujm
 ujm
@@ -244749,24 +245083,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+bZH
+vmZ
+vmZ
+vmZ
+vmZ
+vmZ
+sPa
+vmZ
+vmZ
+vmZ
+sPa
+jua
+oKc
+oKc
+owC
+oKc
+oKc
 ujm
 ujm
 ujm
@@ -245201,24 +245535,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+sTM
+sTM
+rqG
+sTM
+rqG
+oKc
 ujm
 ujm
 ujm
@@ -245653,24 +245987,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+cVA
+cVA
+cVA
+oKc
+sTM
+sTM
+rqG
+sTM
+sTM
+rqG
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -246105,24 +246439,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+cVA
+cVA
+cTa
+oKc
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -246557,24 +246891,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+lOi
+cVA
+cVA
+oKc
+sTM
+sTM
+dwA
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -247009,24 +247343,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+rKf
+cVA
+cVA
+oKc
+oKc
+oKc
+oKc
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -247461,24 +247795,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+ffD
+cVA
+cVA
+cVA
+cVA
+cVA
+oKc
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -247913,24 +248247,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+cVA
+cVA
+cVA
+cVA
+cVA
+cVA
+oKc
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -248365,24 +248699,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+cVA
+cVA
+cVA
+cVA
+cVA
+cVA
+oKc
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -248817,24 +249151,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+cVA
+cVA
+cVA
+cVA
+cVA
+cVA
+oKc
+sTM
+sTM
+sTM
+sTM
+pWt
+sTM
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -249269,24 +249603,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+cVA
+cVA
+wJW
+cVA
+cVA
+cVA
+rNL
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -249721,24 +250055,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+cVA
+cVA
+cVA
+cVA
+cVA
+cVA
+wnR
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -250173,24 +250507,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+cVA
+cVA
+cVA
+cVA
+cVA
+cVA
+oKc
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -250625,24 +250959,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+cVA
+cVA
+cVA
+cVA
+cVA
+cVA
+oKc
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -251077,24 +251411,24 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+cVA
+cVA
+cVA
+cVA
+cVA
+cVA
+oKc
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -251528,25 +251862,25 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -251980,25 +252314,25 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+sTM
+rqG
+sTM
+sTM
+sTM
+sTM
+sTM
+rqG
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ujm
@@ -252432,29 +252766,29 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
 ujm
 ujm
 ogs
@@ -252884,29 +253218,29 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+sTM
+tad
+sTM
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ogs
@@ -253336,29 +253670,29 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+oKc
+bnt
+bnt
+bnt
+bnt
+bnt
+bnt
+bnt
+bnt
+bnt
+bnt
+bnt
+cVA
+cVA
+cVA
+cVA
+oKc
+iJb
+cmR
+cmR
+sTM
+oKc
 ujm
 ujm
 ogs
@@ -253789,28 +254123,28 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+xpM
+lIZ
+nnD
+bnt
+lIZ
+xpM
+nnD
+bnt
+lIZ
+sSp
+bnt
+cVA
+fZU
+bLt
+cVA
+oKc
+sTM
+cmR
+cmR
+sTM
+oKc
 ujm
 ujm
 ogs
@@ -254241,28 +254575,28 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+nnD
+lIZ
+lIZ
+bnt
+lIZ
+lIZ
+lIZ
+bnt
+xpM
+lIZ
+bnt
+cVA
+uPO
+hBv
+cVA
+oKc
+sTM
+cmR
+cmR
+sTM
+oKc
 ujm
 ujm
 ogs
@@ -254693,28 +255027,28 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+xpM
+xpM
+xpM
+bnt
+nnD
+xpM
+lIZ
+bnt
+xpM
+xpM
+bnt
+cVA
+bGK
+hBv
+cVA
+oKc
+sTM
+cmR
+cmR
+sTM
+oKc
 ujm
 ujm
 ogs
@@ -255145,28 +255479,28 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+bnt
+bnt
+war
+bnt
+bnt
+bnt
+war
+bnt
+bnt
+war
+bnt
+cVA
+jpw
+lfI
+cVA
+oKc
+sTM
+cmR
+cmR
+sTM
+oKc
 ujm
 ujm
 ogs
@@ -255597,28 +255931,28 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+cVA
+cVA
+cVA
+cVA
+cVA
+cVA
+cVA
+cVA
+cVA
+cVA
+cVA
+cVA
+xEW
+hBv
+cVA
+oKc
+iJb
+cmR
+cmR
+sTM
+oKc
 ujm
 ujm
 ogs
@@ -256049,28 +256383,28 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+bnt
+bnt
+yjb
+bnt
+bnt
+bnt
+war
+bnt
+bnt
+gXs
+bnt
+cVA
+xgI
+lfI
+cVA
+oKc
+sTM
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ogs
@@ -256501,28 +256835,28 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+lIZ
+xpM
+lIZ
+bnt
+lIZ
+lIZ
+xpM
+bnt
+xpM
+xpM
+bnt
+cVA
+uLZ
+hBv
+cVA
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
 ujm
 ujm
 ogs
@@ -256953,28 +257287,28 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+xpM
+ylM
+lIZ
+bnt
+xpM
+nnD
+lIZ
+bnt
+xpM
+ylM
+bnt
+cVA
+erm
+eWa
+cVA
+sTM
+rqG
+sTM
+sTM
+rqG
+oKc
 ujm
 ujm
 ogs
@@ -257405,28 +257739,28 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+cVA
+cVA
+cVA
+cVA
+sTM
+sTM
+sTM
+sTM
+sTM
+oKc
 ujm
 ujm
 ogs
@@ -257868,17 +258202,17 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+oKc
+lZV
+oKc
 ujm
 ujm
 ogs
@@ -258328,9 +258662,9 @@ oeE
 uwg
 sGu
 sGu
-sGu
-sGu
-sGu
+nOs
+vTj
+nOs
 sGu
 miF
 miF
@@ -258781,7 +259115,7 @@ uzY
 oeE
 oeE
 bBk
-iKP
+bBk
 iKP
 iKP
 iKP
@@ -262397,7 +262731,7 @@ oKc
 rsV
 oKc
 wLA
-wLA
+lkC
 wLA
 gtU
 dzI
@@ -263298,7 +263632,7 @@ sZl
 wKM
 pze
 elb
-vmZ
+oKc
 ybq
 tBl
 qAY
