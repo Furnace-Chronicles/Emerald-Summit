@@ -219,9 +219,6 @@
 	if(user && dam)
 		if(user.goodluck(2))
 			dam += 10
-	if((bclass == BCLASS_PUNCH) && (user && dam))
-		if(user && HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN))
-			dam += 15
 	if(bclass in GLOB.dislocation_bclasses)
 		used = round(damage_dividend * 20 + (dam / 3 - 10 * resistance), 1)
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))

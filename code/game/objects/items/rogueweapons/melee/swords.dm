@@ -1394,7 +1394,7 @@
 	name = "silver sword"
 	desc = "A sword forged of pure silver, the guard fashioned into a cross - a weapon to ward off creechers of evil."
 	icon_state = "silversword"
-	sheathe_icon = "kingslayer"
+	sheathe_icon = "silversword"
 	force = 17
 	force_wielded = 20
 	minstr = 9
