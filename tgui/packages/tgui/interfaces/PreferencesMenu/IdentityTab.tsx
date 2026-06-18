@@ -7,7 +7,7 @@ import {
 } from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
-import type { BodyData } from './BodySection';
+import { BodyAppearanceControls, type BodyData } from './BodySection';
 import type { MarkingsDynamicData, MarkingsStaticData } from './MarkingsSection';
 // Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
 // list passes 7 options. (Replaces the per-tab RawDropdown + inline-Box wrapper.)
@@ -386,6 +386,11 @@ export const IdentityTab = (props) => {
                   </Section>
                 </Stack.Item>
               )}
+              <Stack.Item>
+                <Section title="Appearance">
+                  <BodyAppearanceControls />
+                </Section>
+              </Stack.Item>
             </Stack>
           </Stack.Item>
         </Stack>
