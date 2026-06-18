@@ -73,7 +73,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle
-	beltl = /obj/item/flashlight/flare/torch/lantern
+	beltl = /obj/item/storage/belt/rogue/surgery_bag/full/physician
 	backl = /obj/item/storage/backpack/rogue/backpack
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 							 /obj/item/storage/belt/rogue/pouch/coins/mid = 1,
@@ -85,7 +85,9 @@
 							 /obj/item/rogueweapon/huntingknife/idagger/steel/parrying = 1,
 							 /obj/item/roguekey/keeper = 1,
 							 /obj/item/roguekey/keeper_inner = 1,
+							 /obj/item/roguekey/church = 1,
+							 /obj/item/roguekey/graveyard = 1,
+							 /obj/item/flashlight/flare/torch/lantern = 1,
 							 /obj/item/storage/keyring = 1)
-	H.put_in_hands(new /obj/item/storage/belt/rogue/surgery_bag/full/physician(H), TRUE)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)
