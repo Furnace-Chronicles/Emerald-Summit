@@ -9,7 +9,7 @@
 	origin = "Etrusca"
 	use_titles = TRUE
 	race_titles = list("Eelfolk", "Gorgon", "Merfolk", "Mermaid", "Merman", "Naga", "Siren")
-	base_name = "Beastvolk"
+	base_name = "Taur"
 	sub_name = "Lamia"
 	desc = "<b>Lamia</b><br>\
 	The monstrous spawn of Abyssor, snake and humen conjoined together, the deepkin and merfolk. \

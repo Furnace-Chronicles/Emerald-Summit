@@ -2031,6 +2031,7 @@
 #include "code\modules\mob\living\carbon\human\species_types\species\ogre.dm"
 #include "code\modules\mob\living\carbon\human\species_types\species\orc.dm"
 #include "code\modules\mob\living\carbon\human\species_types\species\tabaxi.dm"
+#include "code\modules\mob\living\carbon\human\species_types\species\taur.dm"
 #include "code\modules\mob\living\carbon\human\species_types\species\tiefling.dm"
 #include "code\modules\mob\living\carbon\human\species_types\species\vulpkanin.dm"
 #include "code\modules\mob\living\carbon\human\species_types\species\werewolf.dm"

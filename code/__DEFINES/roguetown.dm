@@ -201,6 +201,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
 	/datum/species/drider,\
+	/datum/species/taur,\
 	/datum/species/harpy,\
 	/datum/species/ogre,\
 )
@@ -242,6 +243,7 @@ Balloon Alert / Floating Text defines
     /datum/species/akula,\
 	/datum/species/lamia,\
 	/datum/species/drider,\
+	/datum/species/taur,\
 
 #define RACES_FEARED \
 	/datum/species/halforc,\
@@ -312,6 +314,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
 	/datum/species/drider,\
+	/datum/species/taur,\
 	/datum/species/harpy,\
 )
 
@@ -342,6 +345,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
 	/datum/species/drider,\
+	/datum/species/taur,\
 	/datum/species/harpy,\
 )
 
@@ -382,6 +386,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
 	/datum/species/drider,\
+	/datum/species/taur,\
 	/datum/species/harpy,\
 )
 
@@ -406,6 +411,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
 	/datum/species/drider,\
+	/datum/species/taur,\
 	/datum/species/harpy,\
 )
 
@@ -428,6 +434,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
 	/datum/species/drider,\
+	/datum/species/taur,\
 	/datum/species/harpy,\
 )
 #define ALL_CLERIC_PATRONS list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/dendor, /datum/patron/divine/necra, /datum/patron/divine/pestra, /datum/patron/divine/ravox, /datum/patron/divine/malum, /datum/patron/divine/eora) // Currently unused.
