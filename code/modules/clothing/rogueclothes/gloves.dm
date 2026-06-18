@@ -11,8 +11,13 @@
 	max_heat_protection_temperature = 361
 	experimental_inhand = FALSE
 
-	/// Unarmed damage multiplier (for pure fists / wrestling only)
-	var/unarmed_bonus = 1
+	/// Flat unarmed damage bonus (for pure fists / wrestling only)
+	var/unarmed_bonus = 0
+
+/obj/item/clothing/gloves/roguetown/get_mechanics_examine(mob/user)
+	. = ..()
+	if(unarmed_bonus > 0)
+		. += span_notice("Unarmed damage bonus: +[unarmed_bonus] (flat, applied after strength scaling).")
 
 /obj/item/clothing/gloves/roguetown/leather
 	name = "leather gloves"
@@ -29,7 +34,7 @@
 	anvilrepair = null
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/hide/cured
-	unarmed_bonus = 1.1
+	unarmed_bonus = 1
 
 /obj/item/clothing/gloves/roguetown/leather/black
 	color = CLOTHING_BLACK
@@ -68,7 +73,7 @@
 	anvilrepair = null
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/fur
-	unarmed_bonus = 1.15
+	unarmed_bonus = 2
 
 /obj/item/clothing/gloves/roguetown/fingerless_leather
 	name = "fingerless leather gloves"
@@ -101,7 +106,7 @@
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/steel
-	unarmed_bonus = 1.15
+	unarmed_bonus = 2
 
 /obj/item/clothing/gloves/roguetown/chain/aalloy
 	name = "decrepit chain gauntlets"
@@ -167,7 +172,7 @@
 	anvilrepair = null
 	sewrepair = TRUE
 	allowed_race = NON_DWARVEN_RACE_TYPES
-	unarmed_bonus = 1.15
+	unarmed_bonus = 2
 
 /obj/item/clothing/gloves/roguetown/otavan/inqgloves
 	name = "inquisitorial leather gloves"
@@ -194,7 +199,7 @@
 
 	grid_width = 64
 	grid_height = 32
-	unarmed_bonus = 1.2
+	unarmed_bonus = 3
 
 /obj/item/clothing/gloves/roguetown/plate/aalloy
 	name = "decrepit plate gauntlets"
@@ -214,7 +219,7 @@
 	desc = "Plate gauntlets which carry the motive force of this world, violence."
 	max_integrity = 500
 	icon_state = "graggarplategloves"
-	unarmed_bonus = 1.25
+	unarmed_bonus = 4
 
 /obj/item/clothing/gloves/roguetown/plate/graggar/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_HORDE))
@@ -229,7 +234,7 @@
 	desc = "Many a man his life hath sold,"
 	icon_state = "matthiosgloves"
 	max_integrity = 500
-	unarmed_bonus = 1.25
+	unarmed_bonus = 4
 
 /obj/item/clothing/gloves/roguetown/plate/matthios/Initialize()
 	. = ..()
@@ -247,7 +252,7 @@
 	desc = "darksteel plate gauntlets. Called forth from the edge of what should be known. In Her name."
 	icon_state = "zizogauntlets"
 	max_integrity = 500
-	unarmed_bonus = 1.25
+	unarmed_bonus = 4
 
 /obj/item/clothing/gloves/roguetown/plate/zizo/Initialize()
 	. = ..()
@@ -307,7 +312,7 @@
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/blacksteel
-	unarmed_bonus = 1.25
+	unarmed_bonus = 4
 
 /obj/item/clothing/gloves/roguetown/blacksteel/plategloves
 	name = "ancient blacksteel plate gauntlets"
@@ -326,7 +331,7 @@
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/blacksteel
-	unarmed_bonus = 1.25
+	unarmed_bonus = 4
 
 /obj/item/clothing/gloves/roguetown/angle/pontifex
 	name = "rune-scrybed wrappings"
@@ -349,7 +354,7 @@
 	blocksound = SOFTHIT
 	max_integrity = 200
 	anvilrepair = /datum/skill/craft/carpentry
-	unarmed_bonus = 1.1
+	unarmed_bonus = 1
 
 //eastern content
 /obj/item/clothing/gloves/roguetown/otavan/psygloves
@@ -374,7 +379,7 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	anvilrepair = null
 	sewrepair = TRUE
-	unarmed_bonus = 1.1
+	unarmed_bonus = 1
 
 /obj/item/clothing/gloves/roguetown/eastgloves2
 	name = "stylish gloves"
@@ -390,7 +395,7 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	anvilrepair = null
 	sewrepair = TRUE
-	unarmed_bonus = 1.1
+	unarmed_bonus = 1
 
 /obj/item/clothing/gloves/roguetown/carapace
 	name = "carapace gauntlets"
@@ -407,7 +412,7 @@
 	smeltresult = /obj/item/ash
 	anvilrepair = null
 	sewrepair = TRUE
-	unarmed_bonus = 1.15
+	unarmed_bonus = 2
 
 /obj/item/clothing/gloves/roguetown/plate/ogre
 	name = "oversized gauntlets"
@@ -428,3 +433,95 @@
 	allowed_race = OGRE_RACE_TYPES
 	armor = ARMOR_GLOVES_LEATHER_GOOD
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT)
+
+//---------------- KNUCKLEDUSTERS ---------------------
+// Knuckledusters — high damage, low durability gloves. +12 bonus but only 100 integrity vs bandages' 200.
+// They also enable unarmed parrying, like bracers, at the cost of integrity each parry.
+/obj/item/clothing/gloves/roguetown/knuckles
+	name = "steel knuckles"
+	desc = "A mean looking pair of steel knuckles."
+	icon = 'icons/roguetown/weapons/unarmed32.dmi'
+	icon_state = "steelknuckle"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/gloves.dmi'
+	w_class = WEIGHT_CLASS_SMALL
+	armor = ARMOR_PADDED_BAD
+	max_integrity = 100 //Small metal pieces — fragile under sustained parrying.
+	anvilrepair = /datum/skill/craft/weaponsmithing
+	smeltresult = /obj/item/ingot/steel
+	unarmed_bonus = 12
+
+/obj/item/clothing/gloves/roguetown/knuckles/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_notice("Allows unarmed parrying, similar to bracers. Takes integrity damage when parrying.")
+
+/obj/item/clothing/gloves/roguetown/knuckles/bronze
+	name = "bronze knuckles"
+	desc = "A mean looking pair of bronze knuckles. Mildly heavier than its steel counterpart, making it a solid defensive option, if less wieldy."
+	icon_state = "bronzeknuckle"
+	smeltresult = /obj/item/ingot/bronze
+
+/obj/item/clothing/gloves/roguetown/knuckles/psydon
+	name = "psydonian knuckles"
+	desc = "A simple piece of harm molded in a holy mixture of steel and silver, finished with three stumps - Psydon's crown - to crush the heretics' garments and armor into smithereens."
+	icon_state = "psyknuckle"
+	is_silver = TRUE
+	smeltresult = /obj/item/ingot/silver
+
+/obj/item/clothing/gloves/roguetown/knuckles/psydon/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 0,\
+		added_int = 50,\
+		added_def = 2,\
+	)
+
+/obj/item/clothing/gloves/roguetown/knuckles/psydon/preblessed/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 0,\
+		added_int = 50,\
+		added_def = 2,\
+	)
+
+/obj/item/clothing/gloves/roguetown/knuckles/decrepit
+	name = "decrepit knuckles"
+	desc = "A set of knuckles made of ancient metals, Aeon's grasp withers their form."
+	icon_state = "aknuckle"
+	max_integrity = 50 //Extra fragile — ancient and degraded.
+	smeltresult = /obj/item/ingot/aalloy
+	unarmed_bonus = 4
+
+/obj/item/clothing/gloves/roguetown/knuckles/ancient
+	name = "ancient knuckles"
+	desc = "A set of knuckles made of ancient metals, Aeon's grasp has been lifted from their form."
+	icon_state = "aknuckle"
+	smeltresult = /obj/item/ingot/aaslag
+	unarmed_bonus = 6
+
+/obj/item/clothing/gloves/roguetown/knuckles/eora
+	name = "close caress"
+	desc = "Some times call for a more intimate approach."
+	icon_state = "eoraknuckle"
+	max_integrity = 150
+
+/obj/item/clothing/gloves/roguetown/knuckles/bronze/zizoconstruct //Gives construct NPC a lootable knuckle item
+	name = "golem knuckles"
+	desc = "A viscious pair of bronze knuckles designed specifically for golems. There is a terrifying, hollow spike in the center of the grip. There doesn't seem to be a way to wield it without impaling yourself."
+	color = "#5f1414"
+	max_integrity = 350
+	anvilrepair = /datum/skill/craft/engineering
+	unarmed_bonus = 10
+
+/obj/item/clothing/gloves/roguetown/knuckles/bronze/zizoconstruct/pickup(mob/living/user)
+	if(!HAS_TRAIT(user, TRAIT_BLOODLOSS_IMMUNE))
+		to_chat(user, "<font color='purple'> You attempt to wield the knuckles. The spike sinks deeply into your hand, piercing it and drinking deep of your vital energies!</font>")
+		user.adjustBruteLoss(15)
+		user.Stun(40)
+		playsound(user, 'sound/misc/drink_blood.ogg', 100)
+	..()

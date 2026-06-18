@@ -3106,14 +3106,14 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 	var/datum/species/chosen_species
 	chosen_species = pref_species.type
-	if(!(pref_species.name in GLOB.roundstart_races))
-		set_new_race(new /datum/species/human/northern)
-
-		random_character(gender, FALSE, FALSE)
-	if(parent)
-		if(pref_species.patreon_req > parent.patreonlevel())
+	if(!character_setup)
+		if(!(pref_species.name in GLOB.roundstart_races))
 			set_new_race(new /datum/species/human/northern)
 			random_character(gender, FALSE, FALSE)
+		if(parent)
+			if(pref_species.patreon_req > parent.patreonlevel())
+				set_new_race(new /datum/species/human/northern)
+				random_character(gender, FALSE, FALSE)
 
 	character.age = age
 	character.dna.features = features.Copy()

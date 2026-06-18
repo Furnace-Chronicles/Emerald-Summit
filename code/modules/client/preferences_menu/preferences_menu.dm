@@ -325,6 +325,10 @@ GLOBAL_LIST_EMPTY(open_preference_menus)
 		if("identity")
 			data["identity"] = build_identity_dynamic(user)
 			data["culinary"] = build_culinary_dynamic(user)
+			// Appearance controls (ancestry → sprite scale) were relocated to the Identity
+			// tab's Palate column, so the body dynamic payload must ship here too. body_static
+			// (option lists) is always sent via build_full_static_data.
+			data["body"] = build_body_dynamic(user)
 		if("features")
 			data["body"] = build_body_dynamic(user)
 			data["markings"] = build_markings_dynamic(user)
@@ -1022,6 +1026,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	data["hear_midis"] = !!(prefs.toggles & SOUND_MIDI)
 	data["lobby_music"] = !!(prefs.toggles & SOUND_LOBBY)
 	data["pull_requests"] = !!(prefs.chat_toggles & CHAT_PULLR)
+	data["hear_ooc"] = !!(prefs.chat_toggles & CHAT_OOC)
 	data["unlock_content"] = prefs.unlock_content
 	data["byond_publicity"] = !!(prefs.toggles & MEMBER_PUBLIC)
 	data["is_admin"] = !!user.client?.holder
@@ -2677,6 +2682,11 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 
 		if("toggle_pull_requests")
 			prefs.chat_toggles ^= CHAT_PULLR
+			on_identity_change()
+			return TRUE
+
+		if("toggle_hear_ooc")
+			prefs.chat_toggles ^= CHAT_OOC
 			on_identity_change()
 			return TRUE
 
