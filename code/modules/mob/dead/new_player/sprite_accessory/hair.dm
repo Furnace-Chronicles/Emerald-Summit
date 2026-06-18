@@ -1933,3 +1933,11 @@
 /datum/sprite_accessory/hair/head/sodden
 	name = "Sodden"
 	icon_state = "sodden"
+
+/datum/sprite_accessory/hair/head/indigo_zap
+	name = "Reckless"
+	icon_state = "indigo_zap"
+
+/datum/sprite_accessory/hair/head/rainbow_dash
+	name = "Loyal"
+	icon_state = "rainbow_dash"
