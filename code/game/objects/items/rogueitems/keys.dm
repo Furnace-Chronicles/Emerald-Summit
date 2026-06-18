@@ -602,6 +602,8 @@
 	icon_state = "brownkey"
 	w_class = WEIGHT_CLASS_TINY
 	dropshrink = 0.75
+	grid_height = 32
+	grid_width = 32
 	var/lockhash = 0
 
 /obj/item/customblank/attackby(obj/item/I, mob/user, params)
@@ -635,6 +637,8 @@
 	icon_state = "lock"
 	w_class = WEIGHT_CLASS_SMALL
 	dropshrink = 0.75
+	grid_height = 32
+	grid_width = 32
 	var/lockhash = 0
 
 /obj/item/customlock/attackby(obj/item/I, mob/user, params)

@@ -1863,6 +1863,10 @@
 /mob/living/update_mouse_pointer()
 	if (!client)
 		return
+	// Keep the OS default cursor while a tgui window is open (see /mob/update_mouse_pointer).
+	if(length(tgui_open_uis))
+		client.mouse_pointer_icon = null
+		return
 	if(!client.charging && !atkswinging)
 		if(examine_cursor_icon && client.keys_held["Shift"]) //mouse shit is hardcoded, make this non hard-coded once we make mouse modifiers bindable
 			client.mouse_pointer_icon = examine_cursor_icon

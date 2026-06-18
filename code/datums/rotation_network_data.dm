@@ -52,6 +52,7 @@
 /datum/rotation_network/proc/rebuild_group()
 	rebuilding = TRUE
 	var/list/producers = list()
+	total_stress = 0 // recompute from scratch — the add/remove/merge paths can desync it
 	for(var/obj/structure/child in connected)
 		if(!child.stress_generator)
 			child.rotation_direction = null
@@ -60,6 +61,7 @@
 			child.set_stress_use(0)
 			child.set_stress_use(old_stress_use, check_network = FALSE)
 			continue
+		total_stress += child.last_stress_generation
 		producers |= child
 
 	for(var/obj/structure/producer in producers)
