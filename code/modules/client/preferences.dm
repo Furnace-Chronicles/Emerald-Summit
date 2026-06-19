@@ -792,6 +792,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<b>Window Flashing:</b> <a href='?_src_=prefs;preference=winflash'>[(windowflashing) ? "Enabled":"Disabled"]</a><br>"
 			dat += "<br>"
 			dat += "<b>Play Admin MIDIs:</b> <a href='?_src_=prefs;preference=hear_midis'>[(toggles & SOUND_MIDI) ? "Enabled":"Disabled"]</a><br>"
+			dat += "<b>Play Instrument Songs:</b> <a href='?_src_=prefs;preference=hear_instruments'>[(toggles & SOUND_INSTRUMENTS) ? "Enabled":"Disabled"]</a><br>"
 			dat += "<b>Play Lobby Music:</b> <a href='?_src_=prefs;preference=lobby_music'>[(toggles & SOUND_LOBBY) ? "Enabled":"Disabled"]</a><br>"
 			dat += "<b>See Pull Requests:</b> <a href='?_src_=prefs;preference=pull_requests'>[(chat_toggles & CHAT_PULLR) ? "Enabled":"Disabled"]</a><br>"
 	
@@ -2942,6 +2943,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 				if("hear_midis")
 					toggles ^= SOUND_MIDI
+
+				if("hear_instruments")
+					toggles ^= SOUND_INSTRUMENTS
 
 				if("lobby_music")
 					toggles ^= SOUND_LOBBY

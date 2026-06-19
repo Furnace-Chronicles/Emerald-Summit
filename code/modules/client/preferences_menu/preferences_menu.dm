@@ -1024,6 +1024,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	var/list/data = list()
 	data["windowflashing"] = prefs.windowflashing
 	data["hear_midis"] = !!(prefs.toggles & SOUND_MIDI)
+	data["hear_instruments"] = !!(prefs.toggles & SOUND_INSTRUMENTS)
 	data["lobby_music"] = !!(prefs.toggles & SOUND_LOBBY)
 	data["pull_requests"] = !!(prefs.chat_toggles & CHAT_PULLR)
 	data["hear_ooc"] = !!(prefs.chat_toggles & CHAT_OOC)
@@ -2686,6 +2687,11 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 
 		if("toggle_hear_midis")
 			prefs.toggles ^= SOUND_MIDI
+			on_identity_change()
+			return TRUE
+
+		if("toggle_hear_instruments")
+			prefs.toggles ^= SOUND_INSTRUMENTS
 			on_identity_change()
 			return TRUE
 

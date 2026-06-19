@@ -55,6 +55,8 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 	var/cursound
 	var/list/thingshearing = list() // this is a list of WEAKREFS to the mobs that can currently hear us
 	var/ignore_walls = TRUE
+	/// If TRUE, mobs who disabled SOUND_INSTRUMENTS in their prefs won't hear this loop
+	var/instrument_pref = FALSE
 	var/timerid
 	/// Has the looping started yet?
 	var/loop_started = FALSE
@@ -170,7 +172,7 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 			var/mob/mob = thing
 			mob.playsound_local(mob, S, volume, vary, frequency, falloff, repeat = src, channel = channel)
 	else
-		var/list/R = playsound(thing, S, volume, vary, extra_range, falloff, frequency, channel, ignore_walls = ignore_walls, repeat = src)
+		var/list/R = playsound(thing, S, volume, vary, extra_range, falloff, frequency, channel, ignore_walls = ignore_walls, repeat = src, instrument_pref = instrument_pref)
 		if(!R || !R.len)
 			R = list()
 		for(var/datum/weakref/listener_ref in thingshearing)
