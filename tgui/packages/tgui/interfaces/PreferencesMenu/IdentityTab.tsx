@@ -191,17 +191,32 @@ export const IdentityTab = (props) => {
               />
             </LabeledList.Item>
             <LabeledList.Item label="Voice Pack">
-              <Dropdown
-                width="180px"
-                menuWidth="220px"
-                selected={id.voice_pack}
-                displayText={id.voice_pack}
-                options={data.voice_pack_options}
-                onSelected={(value) =>
-                  value !== id.voice_pack &&
-                  act('set_voice_pack_direct', { name: value })
-                }
-              />
+              <Stack>
+                <Stack.Item>
+                  <Dropdown
+                    width="180px"
+                    menuWidth="220px"
+                    selected={id.voice_pack}
+                    displayText={id.voice_pack}
+                    options={data.voice_pack_options}
+                    onSelected={(value) =>
+                      value !== id.voice_pack &&
+                      act('set_voice_pack_direct', { name: value })
+                    }
+                  />
+                </Stack.Item>
+                {id.voice_pack !== 'Default' && (
+                  <Stack.Item>
+                    <Button
+                      icon="volume-high"
+                      tooltip="Play a sample"
+                      onClick={() => act('preview_voice_pack')}
+                    >
+                      Sample
+                    </Button>
+                  </Stack.Item>
+                )}
+              </Stack>
             </LabeledList.Item>
             <LabeledList.Item label="Age">
               <Dropdown

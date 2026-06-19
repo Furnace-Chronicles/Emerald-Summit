@@ -1755,6 +1755,24 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			on_identity_change()
 			return TRUE
 
+		if("preview_voice_pack")
+			if(prefs.voice_pack == "Default")
+				return TRUE
+			var/vptype = GLOB.voice_packs_list[prefs.voice_pack]
+			if(!vptype)
+				return TRUE
+			// Cache the instance so repeated samples don't re-instantiate; rebuild on pack change.
+			if(!istype(prefs.temp_vp, vptype))
+				prefs.temp_vp = new vptype()
+			if(!LAZYLEN(prefs.temp_vp.preview))
+				return TRUE
+			var/sample = prefs.temp_vp.get_sound(pick(prefs.temp_vp.preview))
+			if(islist(sample))
+				sample = pick(sample)
+			if(sample)
+				user.playsound_local(user, sample, 100)
+			return TRUE
+
 		if("set_age")
 			if(!prefs.pref_species)
 				return TRUE
