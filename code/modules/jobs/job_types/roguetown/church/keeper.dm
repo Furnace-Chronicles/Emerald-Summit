@@ -33,10 +33,11 @@
 	outfit = /datum/outfit/job/roguetown/keeper/basic
 	category_tags = list(CTAG_KEEPER)
 	// No perception as to dissuade picking statpacks to negate the strength penalty.
-	// Positive stat delta of 3. It's lower than a towner (5) & Acolyte (7), but you have outlier stats and master skills, so less stats for you.
+	// ES: AP's STATKEY_WIL = 5 is a no-op here (willpower isn't a real mob stat), so it's swapped to
+	// endurance to restore the intended bonus. Functional stat delta is now +8.
 	subclass_stats = list(
 		STATKEY_INT = 3,
-		STATKEY_WIL = 5,
+		STATKEY_END = 5,
 		STATKEY_CON = 3,
 		STATKEY_STR = -5,
 		STATKEY_PER = 2
