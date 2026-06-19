@@ -156,6 +156,7 @@
 		/obj/item/bodypart/lamian_tail/lamian_tail,
 		/obj/item/bodypart/lamian_tail/mermaid_tail,
 		/obj/item/bodypart/lamian_tail/mermaid_tail_alt,
+		/obj/item/bodypart/lamian_tail/naga,
 	)
 
 /datum/species/lamia/check_roundstart_eligible()
