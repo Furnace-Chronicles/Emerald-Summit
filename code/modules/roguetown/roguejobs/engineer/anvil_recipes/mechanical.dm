@@ -148,6 +148,67 @@
 	additional_items = list(/obj/item/natural/fibers = 2)
 	craftdiff = 3
 
+// ------------ CONTRAPTIONS ----------------
+// Ported from RW1710: artificer table recipes converted to anvil recipes, like RW653.
+
+/datum/anvil_recipe/engineering/bronze/autoshears
+	name = "Auto Shears (+1 Bronze, +1 Cog)"
+	req_bar = /obj/item/ingot/bronze
+	additional_items = list(/obj/item/ingot/bronze, /obj/item/roguegear)
+	created_item = /obj/item/contraption/shears
+	craftdiff = 4
+
+/datum/anvil_recipe/engineering/bronze/drill
+	name = "Clockwork Drill (+1 Iron, +1 Cog, +1 Plank)"
+	req_bar = /obj/item/ingot/bronze
+	additional_items = list(/obj/item/ingot/iron, /obj/item/roguegear, /obj/item/natural/wood/plank)
+	created_item = /obj/item/contraption/pick/drill
+	craftdiff = 4
+
+/datum/anvil_recipe/engineering/bronze/lockimprover
+	name = "Lock Improver (+1 Bronze, +1 Cog)"
+	req_bar = /obj/item/ingot/bronze
+	additional_items = list(/obj/item/ingot/bronze, /obj/item/roguegear)
+	created_item = /obj/item/contraption/lock_imprinter
+	craftdiff = 4
+
+/datum/anvil_recipe/engineering/bronze/metalizer
+	name = "Wood Metalizer (+2 Cogs)"
+	req_bar = /obj/item/ingot/bronze
+	additional_items = list(/obj/item/roguegear, /obj/item/roguegear)
+	created_item = /obj/item/contraption/wood_metalizer
+	craftdiff = 4
+
+/datum/anvil_recipe/engineering/bronze/portablesmelter
+	name = "Portable Smelter (+1 Coal)"
+	req_bar = /obj/item/ingot/bronze
+	additional_items = list(/obj/item/rogueore/coal)
+	created_item = /obj/item/contraption/smelter
+	craftdiff = 3
+
+/datum/anvil_recipe/engineering/bronze/volticgauntlets
+	name = "Voltic Gauntlets (+1 Tin, +2 Cogs, +1 Cinnabar)"
+	req_bar = /obj/item/ingot/bronze
+	additional_items = list(/obj/item/roguegear, /obj/item/roguegear, /obj/item/ingot/tin, /obj/item/rogueore/cinnabar)
+	created_item = /obj/item/clothing/gloves/roguetown/contraption/voltic
+	craftdiff = 4
+
+/datum/anvil_recipe/engineering/bronze/smokeshells
+	name = "Gas Belcher Shells x3 (+1 Cog)"
+	req_bar = /obj/item/ingot/bronze
+	additional_items = list(/obj/item/roguegear)
+	created_item = /obj/item/smokeshell
+	createditem_num = 3
+	craftdiff = 3
+
+// RW makes this from gilbranze, which ES doesn't have — purified ancient alloy stands in as our rarest ancient metal.
+/datum/anvil_recipe/engineering/artificerplate
+	name = "Artificed Half-Plate (+2 Purified Alloy, +2 Cogs)"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/ingot/purifiedaalloy, /obj/item/roguegear, /obj/item/roguegear)
+	created_item = /obj/item/clothing/suit/roguetown/armor/plate/aalloy/artificer
+	craftdiff = 4
+
 // ------------ PROSTHETICS ----------------
 
 /datum/anvil_recipe/engineering/bronze/prosthetic/bronzeleftarm

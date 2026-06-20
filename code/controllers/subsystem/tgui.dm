@@ -294,6 +294,7 @@ SUBSYSTEM_DEF(tgui)
 	ui.user?.tgui_open_uis |= ui
 	LAZYOR(ui.src_object.open_uis, ui)
 	all_uis |= ui
+	ui.user?.refresh_tgui_cursor()
 
 /**
  * private
@@ -311,6 +312,7 @@ SUBSYSTEM_DEF(tgui)
 	// If the user exists, remove it from them too.
 	if(ui.user)
 		ui.user.tgui_open_uis -= ui
+		ui.user.refresh_tgui_cursor() // restore the styled cursor once their last tgui window closes
 	if(ui.src_object)
 		LAZYREMOVE(ui.src_object.open_uis, ui)
 	return TRUE

@@ -32,3 +32,33 @@
 /datum/reagent/rogueacid/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
 	M.adjustFireLoss(35, 0)
 	..()
+
+//Might be worth putting in toxins?
+//Not used for anything but Lamia bites.
+/datum/reagent/lam_venom
+	name = "Lamia Venom"
+	description = ""
+	reagent_state = LIQUID
+	color = "#083b1c"
+	taste_description = "liquid fire"
+	metabolization_rate = 0.1 * REAGENTS_METABOLISM * 3
+	harmful = TRUE//Antidote can purge it.
+
+/datum/reagent/lam_venom/on_mob_life(mob/living/carbon/M)
+//This won't bother Lamia characters.
+	if(islamia(M) || isdrider(M))
+		return ..()
+//Looks a lot worse than it is. Caps someone's max stamina, effectively, in half.
+//Acts as a drain for energy as a result, too.
+	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
+		if(M.stamina <= M.max_stamina/2)
+			M.stamina_add(10)
+//You're seeing things, brother. A screenflash at such a low rate.
+//To notify them, if the stamina capping and energy drain doesn't.
+	M.adjust_drugginess(1)
+//Fluff text and emote.
+	if(prob(10))
+		to_chat(M, span_warning("My flesh burns!"))
+		if(prob(1))
+			M.emote("agony")
+	return ..()

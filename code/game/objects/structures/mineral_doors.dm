@@ -32,6 +32,7 @@
 	var/last_bump = null
 	var/brokenstate = 0
 	var/keylock = FALSE
+	var/lockdifficulty = 1 //lock improver contraption raises this, making the lock harder to pick
 	var/lockhash = 0
 	var/lockid = null
 	var/lockbroken = 0
@@ -660,6 +661,17 @@
 		pickchance += perbonus
 		pickchance *= P.picklvl
 		pickchance = clamp(pickchance, 1, 95)
+
+		if (lockdifficulty > 1) //each time the difficulty goes up, the harder the lock
+			picktime = picktime+(10*lockdifficulty)//add a flat 10 per level
+			pickchance = pickchance/(lockdifficulty*0.75)//reduce the chance by .75 per level
+
+		if(lockdifficulty > 2 && P.picklvl < 1) //disallowing lesser knock and poor locks from being used
+			to_chat(user, "<span class='warning'>my lockpick is too poor to handle this lock</span>")
+			playsound(loc, 'sound/items/pickbad.ogg', 40, TRUE)
+			I.take_damage(1, BRUTE, "blunt")
+			to_chat(user, "<span class='warning'>Clack.</span>")
+			return
 
 		var/picked = FALSE
 		user.log_message("attempting to lockpick door \"[src.name]\" (currently [locked ? "locked" : "unlocked"]).", LOG_ATTACK)

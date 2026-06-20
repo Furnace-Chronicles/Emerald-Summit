@@ -144,6 +144,10 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	var/toggled = FALSE
 	redstone_structure = TRUE
 
+/obj/structure/lever/examine(mob/user)
+	. = ..()
+	. += span_info("Left-click the lever to actuate whatever might be connected to it. The time needed to complete this action scales with your character's Strength.")
+
 /obj/structure/lever/attack_hand(mob/user)
 	if(isliving(user))
 		var/mob/living/L = user
@@ -165,16 +169,16 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 			to_chat(user, span_warning("I need more skill to carve a name into this lever."))
 			return
 		playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
-		user.visible_message("<span class='info'>[user] Carves a name into the lever.</span>")
+		user.visible_message("<span class='info'>[user] carves a name into the lever.</span>")
 		if(do_after(user, 10))
 			var/levername
 			levername = input("What name would you like to carve into the lever?")
 			if (levername)
 				name = levername + "(lever)"
-				desc = "a lever with a name carved into it"
+				desc = "A lever with a name carved into it."
 			else
 				name = "lever"
-				desc = "a lever with a carving scratched out"
+				desc = "A lever with a carving scratched out."
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 		return
 	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))
@@ -206,7 +210,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	if(isliving(user))
 		var/mob/living/L = user
 		L.changeNext_move(CLICK_CD_MELEE)
-		user.visible_message("<span class='warning'>[user] presses a hidden button.</span>")
+		user.visible_message(span_warning("[user] presses a hidden button."))
 		user.log_message("pulled the lever with redstone id \"[redstone_id]\"", LOG_GAME)
 		for(var/obj/structure/O in redstone_attached)
 			spawn(0) O.redstone_triggered(user)
@@ -306,7 +310,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 
 /obj/structure/englauncher
 	name = "Engineer's Launcher" 
-	desc = "A engineering contraption made to launch various objects in the direction its pointed."
+	desc = "A engineering contraption made to launch various objects in the direction it's pointed."
 	icon = 'icons/roguetown/misc/engineering_structure.dmi'
 	icon_state = "activator"
 	max_integrity = 45 // so it gets destroyed when used to explode a bomb
@@ -331,6 +335,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	var/unlocksound = 'sound/foley/doors/woodlock.ogg'
 	var/rattlesound = 'sound/foley/doors/lockrattle.ogg'
 	var/masterkey = TRUE //if masterkey can open this regardless
+	debris = list(/obj/item/roguegear = 1, /obj/item/natural/wood/plank = 1, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow = 1)
 
 /obj/structure/englauncher/Initialize()
 	. = ..()
@@ -616,11 +621,10 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	var/base_state = "floorhatch"
 	max_integrity = 0
 	redstone_structure = TRUE
-/*
-/obj/structure/floordoor/Initialize()
+/obj/structure/floordoor/Initialize(mapload)
 	AddComponent(/datum/component/squeak, list('sound/foley/footsteps/FTMET_A1.ogg','sound/foley/footsteps/FTMET_A2.ogg','sound/foley/footsteps/FTMET_A3.ogg','sound/foley/footsteps/FTMET_A4.ogg'), 100)
 	return ..()
-*/
+
 /obj/structure/floordoor/obj_break(damage_flag)
 	obj_flags = null
 	..()
@@ -694,10 +698,10 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	delay2open = 30
 	delay2close = 10
 
-/obj/structure/floordoor/attackby(mob/user)
+/obj/structure/floordoor/attackby(obj/item/I, mob/user, params)
 	. = ..()
-	var/obj/item = user.get_active_held_item()
-	if(user.used_intent.type == /datum/intent/chisel )
+	var/obj/item/held = user.get_active_held_item()
+	if(user.used_intent.type == /datum/intent/chisel)
 		if (user.get_skill_level(/datum/skill/craft/engineering) <= 3)
 			to_chat(user, span_warning("I need more skill to carve a name into this hatch."))
 			return
@@ -714,7 +718,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 				desc = "a hatch with a carving scratched out"
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 		return
-	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))
+	else if(istype(held, /obj/item/rogueweapon/chisel/assembly))
 		to_chat(user, span_warning("You most use both hands to rename the plate."))
 
 /obj/structure/kybraxor

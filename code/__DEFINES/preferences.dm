@@ -159,12 +159,40 @@ GLOBAL_LIST_INIT(voice_types_list, list(VOICE_TYPE_MASC, VOICE_TYPE_FEM, VOICE_T
 #define VOICE_PACK_FEM	"Feminine"
 #define VOICE_PACK_FEM_ELF	"Elvish (Fem)"
 #define VOICE_PACK_FEM_DWARF "Dwarvish (Fem)"
+#define VOICE_PACK_MASC_GOBLIN "Goblin (Masc)"
+#define VOICE_PACK_STERN "Stern (Masc)"
+#define VOICE_PACK_JESTER "Jester (Masc)"
+#define VOICE_PACK_WIZARD "Wizardly (Masc)"
+#define VOICE_PACK_TYRANT "Tyrant (Masc)"
+#define VOICE_PACK_EVIL "Sinister (Masc)"
+#define VOICE_PACK_ZETH "Zeth (Masc)"
+#define VOICE_PACK_FEM_GOBLIN "Goblin (Fem)"
+#define VOICE_PACK_FEM_WARRIOR "Warrior (Fem)"
+#define VOICE_PACK_FEM_DAINTY "Dainty (Fem)"
+#define VOICE_PACK_FEM_HAUGHTY "Haughty (Fem)"
 
 GLOBAL_LIST_INIT(voice_packs_list, list(
 	VOICE_PACK_DEFAULT = null,
+	// Masculine packs
 	VOICE_PACK_MASC = /datum/voicepack/male,
+	VOICE_PACK_MASC_ELF = /datum/voicepack/male/elf,
+	VOICE_PACK_MASC_DWARF = /datum/voicepack/male/dwarf,
+	VOICE_PACK_MASC_GOBLIN = /datum/voicepack/male/goblin,
 	VOICE_PACK_FOP = /datum/voicepack/male/foppish,
+	VOICE_PACK_STERN = /datum/voicepack/male/stern,
 	VOICE_PACK_KNIGHT = /datum/voicepack/male/knight,
 	VOICE_PACK_WARRIOR = /datum/voicepack/male/warrior,
+	VOICE_PACK_JESTER = /datum/voicepack/male/jester,
+	VOICE_PACK_WIZARD = /datum/voicepack/male/wizard,
+	VOICE_PACK_TYRANT = /datum/voicepack/male/tyrant,
+	VOICE_PACK_EVIL = /datum/voicepack/male/evil,
+	VOICE_PACK_ZETH = /datum/voicepack/male/zeth,
+	// Feminine packs
 	VOICE_PACK_FEM = /datum/voicepack/female,
+	VOICE_PACK_FEM_ELF = /datum/voicepack/female/elf,
+	VOICE_PACK_FEM_DWARF = /datum/voicepack/female/dwarf,
+	VOICE_PACK_FEM_GOBLIN = /datum/voicepack/female/goblin,
+	VOICE_PACK_FEM_WARRIOR = /datum/voicepack/female/warrior,
+	VOICE_PACK_FEM_DAINTY = /datum/voicepack/female/dainty,
+	VOICE_PACK_FEM_HAUGHTY = /datum/voicepack/female/haughty,
 ))
