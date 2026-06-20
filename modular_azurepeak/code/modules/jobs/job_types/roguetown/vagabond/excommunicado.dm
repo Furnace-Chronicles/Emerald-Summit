@@ -41,6 +41,11 @@
 	if (H.mind)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR)	//Minor regen, can level up to T4.
+		if(istype(H.patron, /datum/patron/divine))
+		// For now, only Tennites get this. Heretics can have a special treat later
+			H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
+		if(istype(H.patron, /datum/patron/inhumen))
+			H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
 		GLOB.excommunicated_players += H.real_name // john roguetown, you are EXCOMMUNICADO.
 	// -- Start of section for god specific bonuses --
 	if(H.patron?.type == /datum/patron/inhumen/graggar)

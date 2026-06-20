@@ -232,6 +232,9 @@
 
 /obj/structure/proc/examine_status(mob/user) //An overridable proc, mostly for falsewalls.
 	if(max_integrity)
+		// A tradesman of the craft that builds/repairs this reads its exact integrity, even at full.
+		if(can_show_exact_integrity(user))
+			return span_notice("Integrity: [obj_integrity]/[max_integrity]")
 		var/healthpercent = (obj_integrity/max_integrity) * 100
 		switch(healthpercent)
 			if(50 to 99)

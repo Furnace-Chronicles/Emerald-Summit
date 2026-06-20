@@ -23,6 +23,7 @@ type AdminOocData = {
 type OocPrefsData = {
   windowflashing: 0 | 1;
   hear_midis: 0 | 1;
+  hear_instruments: 0 | 1;
   lobby_music: 0 | 1;
   pull_requests: 0 | 1;
   hear_ooc: 0 | 1;
@@ -62,6 +63,14 @@ export const OocPrefsTab = (props) => {
                 onClick={() => act('toggle_hear_midis')}
               >
                 {op.hear_midis ? 'Enabled' : 'Disabled'}
+              </Button>
+            </LabeledList.Item>
+            <LabeledList.Item label="Instrument Songs">
+              <Button
+                color={op.hear_instruments ? 'good' : 'default'}
+                onClick={() => act('toggle_hear_instruments')}
+              >
+                {op.hear_instruments ? 'Enabled' : 'Disabled'}
               </Button>
             </LabeledList.Item>
             <LabeledList.Item label="Lobby Music">

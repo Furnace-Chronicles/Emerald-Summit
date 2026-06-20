@@ -325,6 +325,10 @@ GLOBAL_LIST_EMPTY(open_preference_menus)
 		if("identity")
 			data["identity"] = build_identity_dynamic(user)
 			data["culinary"] = build_culinary_dynamic(user)
+			// Appearance controls (ancestry → sprite scale) were relocated to the Identity
+			// tab's Palate column, so the body dynamic payload must ship here too. body_static
+			// (option lists) is always sent via build_full_static_data.
+			data["body"] = build_body_dynamic(user)
 		if("features")
 			data["body"] = build_body_dynamic(user)
 			data["markings"] = build_markings_dynamic(user)
@@ -1020,6 +1024,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	var/list/data = list()
 	data["windowflashing"] = prefs.windowflashing
 	data["hear_midis"] = !!(prefs.toggles & SOUND_MIDI)
+	data["hear_instruments"] = !!(prefs.toggles & SOUND_INSTRUMENTS)
 	data["lobby_music"] = !!(prefs.toggles & SOUND_LOBBY)
 	data["pull_requests"] = !!(prefs.chat_toggles & CHAT_PULLR)
 	data["hear_ooc"] = !!(prefs.chat_toggles & CHAT_OOC)
@@ -1749,6 +1754,24 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				return TRUE
 			prefs.voice_pack = picked
 			on_identity_change()
+			return TRUE
+
+		if("preview_voice_pack")
+			if(prefs.voice_pack == "Default")
+				return TRUE
+			var/vptype = GLOB.voice_packs_list[prefs.voice_pack]
+			if(!vptype)
+				return TRUE
+			// Cache the instance so repeated samples don't re-instantiate; rebuild on pack change.
+			if(!istype(prefs.temp_vp, vptype))
+				prefs.temp_vp = new vptype()
+			if(!LAZYLEN(prefs.temp_vp.preview))
+				return TRUE
+			var/sample = prefs.temp_vp.get_sound(pick(prefs.temp_vp.preview))
+			if(islist(sample))
+				sample = pick(sample)
+			if(sample)
+				user.playsound_local(user, sample, 100)
 			return TRUE
 
 		if("set_age")
@@ -2664,6 +2687,11 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 
 		if("toggle_hear_midis")
 			prefs.toggles ^= SOUND_MIDI
+			on_identity_change()
+			return TRUE
+
+		if("toggle_hear_instruments")
+			prefs.toggles ^= SOUND_INSTRUMENTS
 			on_identity_change()
 			return TRUE
 
