@@ -23,8 +23,10 @@ type AdminOocData = {
 type OocPrefsData = {
   windowflashing: 0 | 1;
   hear_midis: 0 | 1;
+  hear_instruments: 0 | 1;
   lobby_music: 0 | 1;
   pull_requests: 0 | 1;
+  hear_ooc: 0 | 1;
   unlock_content: 0 | 1;
   byond_publicity: 0 | 1;
   is_admin: 0 | 1;
@@ -48,23 +50,51 @@ export const OocPrefsTab = (props) => {
         <Section title="OOC Settings">
           <LabeledList>
             <LabeledList.Item label="Window Flashing">
-              <Button onClick={() => act('toggle_winflash')}>
+              <Button
+                color={op.windowflashing ? 'good' : 'default'}
+                onClick={() => act('toggle_winflash')}
+              >
                 {op.windowflashing ? 'Enabled' : 'Disabled'}
               </Button>
             </LabeledList.Item>
             <LabeledList.Item label="Admin MIDIs">
-              <Button onClick={() => act('toggle_hear_midis')}>
+              <Button
+                color={op.hear_midis ? 'good' : 'default'}
+                onClick={() => act('toggle_hear_midis')}
+              >
                 {op.hear_midis ? 'Enabled' : 'Disabled'}
               </Button>
             </LabeledList.Item>
+            <LabeledList.Item label="Instrument Songs">
+              <Button
+                color={op.hear_instruments ? 'good' : 'default'}
+                onClick={() => act('toggle_hear_instruments')}
+              >
+                {op.hear_instruments ? 'Enabled' : 'Disabled'}
+              </Button>
+            </LabeledList.Item>
             <LabeledList.Item label="Lobby Music">
-              <Button onClick={() => act('toggle_lobby_music')}>
+              <Button
+                color={op.lobby_music ? 'good' : 'default'}
+                onClick={() => act('toggle_lobby_music')}
+              >
                 {op.lobby_music ? 'Enabled' : 'Disabled'}
               </Button>
             </LabeledList.Item>
             <LabeledList.Item label="See Pull Requests">
-              <Button onClick={() => act('toggle_pull_requests')}>
+              <Button
+                color={op.pull_requests ? 'good' : 'default'}
+                onClick={() => act('toggle_pull_requests')}
+              >
                 {op.pull_requests ? 'Enabled' : 'Disabled'}
+              </Button>
+            </LabeledList.Item>
+            <LabeledList.Item label="OOC Chat">
+              <Button
+                color={op.hear_ooc ? 'good' : 'default'}
+                onClick={() => act('toggle_hear_ooc')}
+              >
+                {op.hear_ooc ? 'Enabled' : 'Disabled'}
               </Button>
             </LabeledList.Item>
             {!!op.unlock_content && (
@@ -93,17 +123,26 @@ export const OocPrefsTab = (props) => {
           <Section title="Admin Settings">
             <LabeledList>
               <LabeledList.Item label="Adminhelp Sounds">
-                <Button onClick={() => act('admin_toggle_adminhelps')}>
+                <Button
+                  color={op.admin.hear_adminhelps ? 'good' : 'default'}
+                  onClick={() => act('admin_toggle_adminhelps')}
+                >
                   {op.admin.hear_adminhelps ? 'Enabled' : 'Disabled'}
                 </Button>
               </LabeledList.Item>
               <LabeledList.Item label="Prayer Sounds">
-                <Button onClick={() => act('admin_toggle_hear_prayers')}>
+                <Button
+                  color={op.admin.hear_prayers ? 'good' : 'default'}
+                  onClick={() => act('admin_toggle_hear_prayers')}
+                >
                   {op.admin.hear_prayers ? 'Enabled' : 'Disabled'}
                 </Button>
               </LabeledList.Item>
               <LabeledList.Item label="Announce Login">
-                <Button onClick={() => act('admin_toggle_announce_login')}>
+                <Button
+                  color={op.admin.announce_login ? 'good' : 'default'}
+                  onClick={() => act('admin_toggle_announce_login')}
+                >
                   {op.admin.announce_login ? 'Enabled' : 'Disabled'}
                 </Button>
               </LabeledList.Item>
@@ -112,18 +151,27 @@ export const OocPrefsTab = (props) => {
                   {op.admin.combohud_lighting ? 'Full-bright' : 'No Change'}
                 </Button>
               </LabeledList.Item>
-              <LabeledList.Item label="Hide Dead Chat">
-                <Button onClick={() => act('admin_toggle_dead_chat')}>
+              <LabeledList.Item label="Dead Chat">
+                <Button
+                  color={op.admin.dead_chat_shown ? 'good' : 'default'}
+                  onClick={() => act('admin_toggle_dead_chat')}
+                >
                   {op.admin.dead_chat_shown ? 'Shown' : 'Hidden'}
                 </Button>
               </LabeledList.Item>
-              <LabeledList.Item label="Hide Radio Messages">
-                <Button onClick={() => act('admin_toggle_radio_chatter')}>
+              <LabeledList.Item label="Radio Messages">
+                <Button
+                  color={op.admin.radio_chatter_shown ? 'good' : 'default'}
+                  onClick={() => act('admin_toggle_radio_chatter')}
+                >
                   {op.admin.radio_chatter_shown ? 'Shown' : 'Hidden'}
                 </Button>
               </LabeledList.Item>
-              <LabeledList.Item label="Hide Prayers">
-                <Button onClick={() => act('admin_toggle_prayers')}>
+              <LabeledList.Item label="Prayers">
+                <Button
+                  color={op.admin.prayers_shown ? 'good' : 'default'}
+                  onClick={() => act('admin_toggle_prayers')}
+                >
                   {op.admin.prayers_shown ? 'Shown' : 'Hidden'}
                 </Button>
               </LabeledList.Item>

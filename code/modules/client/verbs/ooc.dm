@@ -345,6 +345,19 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 //			testing("reges cant find")
 //			return "0"
 
+/client/verb/toggle_instrument_songs()
+	set name = "Toggle Instrument Songs"
+	set category = "OOC"
+	set desc = "Toggle hearing songs played by musical instruments and music boxes."
+	if(!prefs)
+		return
+	prefs.toggles ^= SOUND_INSTRUMENTS
+	prefs.save_preferences()
+	if(prefs.toggles & SOUND_INSTRUMENTS)
+		to_chat(src, span_info("You will now hear songs played by musical instruments."))
+	else
+		to_chat(src, span_info("You will no longer hear songs played by musical instruments."))
+
 /client/verb/html_chat()
 	set name = "{Old Chat}"
 	set category = "Options"

@@ -8,6 +8,7 @@
 	var/stress2give = /datum/stressevent/music
 	persistent_loop = TRUE
 	channel = CHANNEL_CMUSIC
+	instrument_pref = TRUE
 
 /datum/looping_sound/dmusloop/on_hear_sound(mob/M)
 	. = ..()

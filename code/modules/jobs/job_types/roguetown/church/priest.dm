@@ -114,7 +114,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	// Create initial devotion for Astrata
 	var/datum/devotion/C = new /datum/devotion(H, H.patron) // This creates the cleric holder used for devotion spells
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.
-
+	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
 	// Store Astrata's miracle set
 	if(H.mind)
 		H.mind.stored_miracle_sets["Astrata"] = C

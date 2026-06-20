@@ -1194,6 +1194,9 @@
 	find_occupying_furniture()
 	find_occupying_grass()
 	while(TRUE)
+		if(target.ckey && !target.client) // partner has gone SSD (disconnected) - can't consent, stop immediately
+			to_chat(user, span_warning("[target] has gone limp and unresponsive. I stop."))
+			break
 		if(!isnull(target.client) && target.client.prefs.sexable == FALSE) //Vrell - Needs changed to let me test sex mechanics solo
 			break
 		if(!user.stamina_add(action.stamina_cost * get_stamina_cost_multiplier()))
@@ -1265,6 +1268,8 @@
 	if(!target)
 		return FALSE
 	if(user.stat != CONSCIOUS)
+		return FALSE
+	if(target.ckey && !target.client) // partner is a disconnected (SSD) player - no consent, block starting/continuing
 		return FALSE
 	if(action.check_incapacitated && incapacitated)
 		return FALSE

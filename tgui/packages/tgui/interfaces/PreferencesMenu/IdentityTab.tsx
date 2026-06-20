@@ -7,7 +7,7 @@ import {
 } from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
-import type { BodyData } from './BodySection';
+import { BodyAppearanceControls, type BodyData } from './BodySection';
 import type { MarkingsDynamicData, MarkingsStaticData } from './MarkingsSection';
 // Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
 // list passes 7 options. (Replaces the per-tab RawDropdown + inline-Box wrapper.)
@@ -191,17 +191,32 @@ export const IdentityTab = (props) => {
               />
             </LabeledList.Item>
             <LabeledList.Item label="Voice Pack">
-              <Dropdown
-                width="180px"
-                menuWidth="220px"
-                selected={id.voice_pack}
-                displayText={id.voice_pack}
-                options={data.voice_pack_options}
-                onSelected={(value) =>
-                  value !== id.voice_pack &&
-                  act('set_voice_pack_direct', { name: value })
-                }
-              />
+              <Stack>
+                <Stack.Item>
+                  <Dropdown
+                    width="180px"
+                    menuWidth="220px"
+                    selected={id.voice_pack}
+                    displayText={id.voice_pack}
+                    options={data.voice_pack_options}
+                    onSelected={(value) =>
+                      value !== id.voice_pack &&
+                      act('set_voice_pack_direct', { name: value })
+                    }
+                  />
+                </Stack.Item>
+                {id.voice_pack !== 'Default' && (
+                  <Stack.Item>
+                    <Button
+                      icon="volume-high"
+                      tooltip="Play a sample"
+                      onClick={() => act('preview_voice_pack')}
+                    >
+                      Sample
+                    </Button>
+                  </Stack.Item>
+                )}
+              </Stack>
             </LabeledList.Item>
             <LabeledList.Item label="Age">
               <Dropdown
@@ -386,6 +401,11 @@ export const IdentityTab = (props) => {
                   </Section>
                 </Stack.Item>
               )}
+              <Stack.Item>
+                <Section title="Appearance">
+                  <BodyAppearanceControls />
+                </Section>
+              </Stack.Item>
             </Stack>
           </Stack.Item>
         </Stack>

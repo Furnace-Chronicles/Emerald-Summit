@@ -627,6 +627,11 @@
 	// Grant miracles like missionary
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR)	//Minor regen, can level up to T4.
+	if(istype(H.patron, /datum/patron/divine))
+		// For now, only Tennites get this. Heretics can have a special treat later
+		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
+	if(istype(H.patron, /datum/patron/inhumen))
+		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
 
 // Thief subclass here. Thieves are thieves, there would be prisoners who are thieves.
 /datum/advclass/prisonerthief
