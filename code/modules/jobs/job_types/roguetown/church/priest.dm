@@ -217,7 +217,8 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		/obj/effect/proc_holder/spell/targeted/touch/orison,
 		/obj/effect/proc_holder/spell/invoked/lesser_heal,
 		/obj/effect/proc_holder/spell/invoked/blood_heal,
-		/obj/effect/proc_holder/spell/invoked/wound_heal
+		/obj/effect/proc_holder/spell/invoked/wound_heal,
+		/obj/effect/proc_holder/spell/invoked/projectile/divineblast,
 	)
 
 	// Remove all current spell actions from the player
