@@ -36,6 +36,9 @@
 	qdel(owner.GetComponent(/datum/component/after_image))
 	owner.remove_status_effect(/datum/status_effect/buff/celerity)
 	if(level > 2)
+		owner.remove_status_effect(/datum/status_effect/buff/tempo_one)
+		owner.remove_status_effect(/datum/status_effect/buff/tempo_two)
+		owner.remove_status_effect(/datum/status_effect/buff/tempo_three)
 		REMOVE_TRAIT(owner, TRAIT_TEMPO, TRAIT_VAMPIRE)
 		
 		owner.remove_movespeed_modifier(MOVESPEED_ID_CELERITY)
