@@ -86,7 +86,9 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 			apply_virtue(character, virtue_type)
 		else
 			to_chat(character, "Incorrect Virtue parameters! It will not be applied.")
-	if(virtuetwo_type && virtuous)
+	// Never apply the same virtue twice (e.g. a legacy savefile that stored a duplicate before the
+	// picker enforced distinct slots) -- doing so would stack its traits/stats.
+	if(virtuetwo_type && virtuous && virtuetwo_type.type != virtue_type?.type)
 		if(virtue_check(virtuetwo_type, heretic, species))
 			apply_virtue(character, virtuetwo_type)
 		else

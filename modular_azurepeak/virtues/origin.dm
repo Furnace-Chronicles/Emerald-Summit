@@ -238,7 +238,8 @@
 				/datum/species/halforc,
 				/datum/species/goblinp,
 				/datum/species/anthromorph,
-				/datum/species/anthromorphsmall
+				/datum/species/anthromorphsmall,
+				/datum/species/drider
 )
 
 /datum/virtue/origin/racial/underdark/effluvia
