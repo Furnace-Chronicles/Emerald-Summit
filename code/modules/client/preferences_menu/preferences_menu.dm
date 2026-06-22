@@ -1868,7 +1868,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			return TRUE
 
 		if("set_virtue")
-			var/list/virtues_available = build_virtue_picker_list(user, FALSE)
+			var/list/virtues_available = build_virtue_picker_list(user, FALSE, prefs.virtuetwo)
 			if(!length(virtues_available))
 				to_chat(user, span_warning("No virtues available."))
 				return TRUE
@@ -1886,7 +1886,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			var/picked = params["name"]
 			if(!picked)
 				return TRUE
-			var/list/virtues_available = build_virtue_picker_list(user, FALSE)
+			var/list/virtues_available = build_virtue_picker_list(user, FALSE, prefs.virtuetwo)
 			var/datum/virtue/v = virtues_available[picked]
 			if(!v)
 				return TRUE
@@ -1899,7 +1899,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 		if("set_virtuetwo")
 			if(prefs.statpack?.name != "Virtuous")
 				return TRUE
-			var/list/virtues_available = build_virtue_picker_list(user, FALSE)
+			var/list/virtues_available = build_virtue_picker_list(user, FALSE, prefs.virtue)
 			if(!length(virtues_available))
 				to_chat(user, span_warning("No virtues available."))
 				return TRUE
@@ -1918,7 +1918,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			var/picked = params["name"]
 			if(!picked)
 				return TRUE
-			var/list/virtues_available = build_virtue_picker_list(user, FALSE)
+			var/list/virtues_available = build_virtue_picker_list(user, FALSE, prefs.virtue)
 			var/datum/virtue/v = virtues_available[picked]
 			if(!v)
 				return TRUE
@@ -4291,7 +4291,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 
 /// Build the virtue picker list, filtering the same way the classic prefs.dm:2320 picker does
 /// (skip origin/pack/racial/heretic virtues — they're handled by separate prefs).
-/datum/preferences_menu/proc/build_virtue_picker_list(mob/user, show_message = FALSE)
+/datum/preferences_menu/proc/build_virtue_picker_list(mob/user, show_message = FALSE, datum/virtue/exclude_virtue = null)
 	var/list/out = list()
 	if(!prefs)
 		return out
@@ -4308,6 +4308,10 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 		if(v.restricted && species_type && (species_type in v.races))
 			continue
 		if(istype(v, /datum/virtue/racial) && species_type && !(species_type in v.races))
+			continue
+		// Don't offer the virtue already chosen in the other slot (Virtuous statpack's two virtues
+		// must differ). "None" is always allowed so either slot can still be cleared.
+		if(exclude_virtue && v.name == exclude_virtue.name && v.name != "None")
 			continue
 		out[v.name] = v
 	return sort_list(out)
