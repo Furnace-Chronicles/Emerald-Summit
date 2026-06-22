@@ -309,7 +309,7 @@
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE
-	max_integrity = 75
+	max_integrity = 125
 	resistance_flags = FIRE_PROOF
 
 /obj/item/clothing/suit/roguetown/armor/skin_armor/lamian_legs/Initialize(mapload)
