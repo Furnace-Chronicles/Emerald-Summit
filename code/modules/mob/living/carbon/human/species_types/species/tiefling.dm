@@ -89,6 +89,7 @@
 	)
 	body_markings = list(
 		/datum/body_marking/flushed_cheeks,
+		/datum/body_marking/cheek_grease,
 		/datum/body_marking/eyeliner,
 		/datum/body_marking/tonage,
 		/datum/body_marking/bangs,
@@ -118,6 +119,16 @@
 
 /datum/species/tieberian/get_skin_list()
 	return list(
+		"Zariel" = SKIN_COLOR_ZARIEL,
+		"Levistus" = SKIN_COLOR_LEVISTUS,
+		"Glasya" = SKIN_COLOR_GLASYA,
+		"Asmodeus" = SKIN_COLOR_ASMODEUS,
+		"Baalzebul" = SKIN_COLOR_BAALZEBUL,
+		"Mephistopheles" = SKIN_COLOR_MEPHISTOPHELES,
+		"Fierna" = SKIN_COLOR_FIERNA,
+		"Dispater" = SKIN_COLOR_DISPATER,
+		"Nymsea" = SKIN_COLOR_NYMSEA,
+		"Mammon" = SKIN_COLOR_MAMMON,
 		"Jehoel" = SKIN_COLOR_JEHOEL,
 		"Urvix" = SKIN_COLOR_URVIX,
 		"Sarvyra" = SKIN_COLOR_SARVYRA,

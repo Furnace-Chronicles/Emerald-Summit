@@ -7,7 +7,7 @@ import {
   Popper,
 } from 'tgui-core/components';
 
-type DropdownEntry = { value: any; displayText?: ReactNode };
+type DropdownEntry = { value: any; displayText?: ReactNode; disabled?: boolean };
 type Option = string | DropdownEntry;
 
 type Props = {
@@ -118,7 +118,15 @@ export function SearchableDropdown(props: Props) {
               className={
                 'Dropdown__menu--entry' + (e.value === selected ? ' selected' : '')
               }
+              style={
+                e.disabled
+                  ? { opacity: 0.4, cursor: 'not-allowed' }
+                  : undefined
+              }
               onClick={() => {
+                if (e.disabled) {
+                  return;
+                }
                 onSelected?.(e.value);
                 close();
               }}

@@ -10,6 +10,21 @@
 	reqs = list(/obj/item/natural/hide/cured = 1)
 	sellprice = 10
 
+/datum/crafting_recipe/roguetown/leather/footwear/sandals
+	name = "sandals x3"
+	result = list(/obj/item/clothing/shoes/roguetown/sandals,
+				/obj/item/clothing/shoes/roguetown/sandals,
+				/obj/item/clothing/shoes/roguetown/sandals)
+	reqs = list(/obj/item/natural/hide/cured = 1)
+	sellprice = 10
+
+/datum/crafting_recipe/roguetown/leather/footwear/toga_sandals
+	name = "fancy sandals"
+	result = /obj/item/clothing/shoes/roguetown/sandals/toga_sandals
+	reqs = list(/obj/item/natural/hide/cured = 1)
+	sellprice = 20
+	craftdiff = 3
+
 /datum/crafting_recipe/roguetown/leather/footwear/boots
 	name = "leather boots"
 	result = /obj/item/clothing/shoes/roguetown/boots/leather

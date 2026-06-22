@@ -131,7 +131,7 @@
 			H.put_in_hands(new /obj/item/rogueweapon/katar(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 		if("Knuckle Dusters")
-			H.put_in_hands(new /obj/item/rogueweapon/knuckles/bronzeknuckles(H), TRUE)
+			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles/bronze(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 		if("Quarterstaff")
 			H.put_in_hands(new /obj/item/rogueweapon/woodstaff/quarterstaff/steel(H), TRUE)
@@ -706,8 +706,12 @@
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe //placeholder, anyone who doesn't have cool patron drip sprites just gets generic robes
 			head = /obj/item/clothing/head/roguetown/roguehood
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_4)	//Minor regen, capped to T4.
-
+	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_4)	//Minor regen, capped to T4.
+	if(istype(H.patron, /datum/patron/divine))
+		// For now, only Tennites get this. Heretics can have a special treat later
+		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
+	if(istype(H.patron, /datum/patron/inhumen))
+		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			neck = /obj/item/clothing/neck/roguetown/psicross

@@ -57,12 +57,18 @@ export const GamePrefsTab = (props) => {
               <Button onClick={() => act('set_clientfps')}>{gp.clientfps}</Button>
             </LabeledList.Item>
             <LabeledList.Item label="Ambient Occlusion">
-              <Button onClick={() => act('toggle_ambientocclusion')}>
+              <Button
+                color={gp.ambientocclusion ? 'good' : 'default'}
+                onClick={() => act('toggle_ambientocclusion')}
+              >
                 {gp.ambientocclusion ? 'Enabled' : 'Disabled'}
               </Button>
             </LabeledList.Item>
             <LabeledList.Item label="Be a Voice">
-              <Button onClick={() => act('toggle_schizo_voice')}>
+              <Button
+                color={gp.schizo_voice ? 'good' : 'default'}
+                onClick={() => act('toggle_schizo_voice')}
+              >
                 {gp.schizo_voice ? 'Enabled' : 'Disabled'}
               </Button>
             </LabeledList.Item>

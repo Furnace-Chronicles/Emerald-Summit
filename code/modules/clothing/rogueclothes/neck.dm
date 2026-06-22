@@ -296,8 +296,8 @@
 		add_overlay(pic)
 
 /obj/item/clothing/neck/roguetown/fencerguard/Initialize()
-	. = ..()		
-	update_icon()		
+	. = ..()
+	update_icon()
 
 /obj/item/clothing/neck/roguetown/fencerguard/generic
 	color = "#503630"
@@ -404,7 +404,7 @@
 	if(slot == SLOT_NECK)
 		mob_overlay_icon = initial(mob_overlay_icon)
 		sleeved = initial(sleeved)
-	
+
 	return TRUE
 
 /obj/item/clothing/neck/roguetown/psicross/attack_right(mob/user)
@@ -414,9 +414,9 @@
 
 /obj/item/clothing/neck/roguetown/psicross/reform
 	name = "reformist psycross"
-	desc = "'It occured to me that our God had left us, but not our ability to endure hardship. We shall make something out of this world, I said, before we pass onto the next.'"
+	desc = "A psycross with its prongs bent inward. God is dead, but this world HE left is beautiful and worth of loving. ENDURE with every broken bone in your body."
 	sellprice = 0	//Heresy of the highest order. Unless...
-	icon_state = "psycross"
+	icon_state = "psycross_reform"
 
 /obj/item/clothing/neck/roguetown/psicross/aalloy
 	name = "decrepit psicross"
@@ -428,6 +428,9 @@
 	desc = "A symbol of progress from an era that had reason to believe in it."
 	icon_state = "zcross_a"
 	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HIP|ITEM_SLOT_WRISTS|ITEM_SLOT_RING
+	anvilrepair = /datum/skill/craft/armorsmithing
+	grid_width = 32
+	grid_height = 32
 
 /obj/item/clothing/neck/roguetown/zcross/iron
 	name = "inverted psycross"
@@ -800,9 +803,29 @@
 	return
 
 /obj/item/clothing/neck/roguetown/zcross/matthios
-	name = "amulet of matthios"
+	name = "amulet of Matthios"
 	desc = "He was but one flame in the dark. Together, his flock shall outblaze the tyrant sun."
-	icon_state = "robbinya"
+	icon_state = "matthios"
+	resistance_flags = FIRE_PROOF
+	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HIP|ITEM_SLOT_WRISTS|ITEM_SLOT_RING
+	anvilrepair = /datum/skill/craft/armorsmithing
+	grid_width = 32
+	grid_height = 32
+
+/obj/item/clothing/neck/roguetown/zcross/baotha
+	name = "amulet of Baotha"
+	desc = "A hollow promise rendered in gold. It weighs heavy with the memory of sweet wine turned to poison, and the comfort of a sorrow that refuses to fade."
+	icon_state = "baotha"
+	resistance_flags = FIRE_PROOF
+	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HIP|ITEM_SLOT_WRISTS|ITEM_SLOT_RING
+	anvilrepair = /datum/skill/craft/armorsmithing
+	grid_width = 32
+	grid_height = 32
+
+/obj/item/clothing/neck/roguetown/zcross/graggar
+	name = "amulet of Graggar"
+	desc = "Blood leads only to glory, and violence begets divinity. Nothing less. Conquest is simply another name for victory."
+	icon_state = "graggar"
 	resistance_flags = FIRE_PROOF
 	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HIP|ITEM_SLOT_WRISTS|ITEM_SLOT_RING
 	anvilrepair = /datum/skill/craft/armorsmithing

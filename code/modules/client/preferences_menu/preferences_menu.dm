@@ -325,6 +325,10 @@ GLOBAL_LIST_EMPTY(open_preference_menus)
 		if("identity")
 			data["identity"] = build_identity_dynamic(user)
 			data["culinary"] = build_culinary_dynamic(user)
+			// Appearance controls (ancestry → sprite scale) were relocated to the Identity
+			// tab's Palate column, so the body dynamic payload must ship here too. body_static
+			// (option lists) is always sent via build_full_static_data.
+			data["body"] = build_body_dynamic(user)
 		if("features")
 			data["body"] = build_body_dynamic(user)
 			data["markings"] = build_markings_dynamic(user)
@@ -1020,8 +1024,10 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	var/list/data = list()
 	data["windowflashing"] = prefs.windowflashing
 	data["hear_midis"] = !!(prefs.toggles & SOUND_MIDI)
+	data["hear_instruments"] = !!(prefs.toggles & SOUND_INSTRUMENTS)
 	data["lobby_music"] = !!(prefs.toggles & SOUND_LOBBY)
 	data["pull_requests"] = !!(prefs.chat_toggles & CHAT_PULLR)
+	data["hear_ooc"] = !!(prefs.chat_toggles & CHAT_OOC)
 	data["unlock_content"] = prefs.unlock_content
 	data["byond_publicity"] = !!(prefs.toggles & MEMBER_PUBLIC)
 	data["is_admin"] = !!user.client?.holder
@@ -1750,6 +1756,24 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			on_identity_change()
 			return TRUE
 
+		if("preview_voice_pack")
+			if(prefs.voice_pack == "Default")
+				return TRUE
+			var/vptype = GLOB.voice_packs_list[prefs.voice_pack]
+			if(!vptype)
+				return TRUE
+			// Cache the instance so repeated samples don't re-instantiate; rebuild on pack change.
+			if(!istype(prefs.temp_vp, vptype))
+				prefs.temp_vp = new vptype()
+			if(!LAZYLEN(prefs.temp_vp.preview))
+				return TRUE
+			var/sample = prefs.temp_vp.get_sound(pick(prefs.temp_vp.preview))
+			if(islist(sample))
+				sample = pick(sample)
+			if(sample)
+				user.playsound_local(user, sample, 100)
+			return TRUE
+
 		if("set_age")
 			if(!prefs.pref_species)
 				return TRUE
@@ -1844,7 +1868,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			return TRUE
 
 		if("set_virtue")
-			var/list/virtues_available = build_virtue_picker_list(user, FALSE)
+			var/list/virtues_available = build_virtue_picker_list(user, FALSE, prefs.virtuetwo)
 			if(!length(virtues_available))
 				to_chat(user, span_warning("No virtues available."))
 				return TRUE
@@ -1862,7 +1886,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			var/picked = params["name"]
 			if(!picked)
 				return TRUE
-			var/list/virtues_available = build_virtue_picker_list(user, FALSE)
+			var/list/virtues_available = build_virtue_picker_list(user, FALSE, prefs.virtuetwo)
 			var/datum/virtue/v = virtues_available[picked]
 			if(!v)
 				return TRUE
@@ -1875,7 +1899,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 		if("set_virtuetwo")
 			if(prefs.statpack?.name != "Virtuous")
 				return TRUE
-			var/list/virtues_available = build_virtue_picker_list(user, FALSE)
+			var/list/virtues_available = build_virtue_picker_list(user, FALSE, prefs.virtue)
 			if(!length(virtues_available))
 				to_chat(user, span_warning("No virtues available."))
 				return TRUE
@@ -1894,7 +1918,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			var/picked = params["name"]
 			if(!picked)
 				return TRUE
-			var/list/virtues_available = build_virtue_picker_list(user, FALSE)
+			var/list/virtues_available = build_virtue_picker_list(user, FALSE, prefs.virtue)
 			var/datum/virtue/v = virtues_available[picked]
 			if(!v)
 				return TRUE
@@ -2666,6 +2690,11 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			on_identity_change()
 			return TRUE
 
+		if("toggle_hear_instruments")
+			prefs.toggles ^= SOUND_INSTRUMENTS
+			on_identity_change()
+			return TRUE
+
 		if("toggle_lobby_music")
 			prefs.toggles ^= SOUND_LOBBY
 			if((prefs.toggles & SOUND_LOBBY) && user.client && isnewplayer(user))
@@ -2677,6 +2706,11 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 
 		if("toggle_pull_requests")
 			prefs.chat_toggles ^= CHAT_PULLR
+			on_identity_change()
+			return TRUE
+
+		if("toggle_hear_ooc")
+			prefs.chat_toggles ^= CHAT_OOC
 			on_identity_change()
 			return TRUE
 
@@ -4257,7 +4291,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 
 /// Build the virtue picker list, filtering the same way the classic prefs.dm:2320 picker does
 /// (skip origin/pack/racial/heretic virtues — they're handled by separate prefs).
-/datum/preferences_menu/proc/build_virtue_picker_list(mob/user, show_message = FALSE)
+/datum/preferences_menu/proc/build_virtue_picker_list(mob/user, show_message = FALSE, datum/virtue/exclude_virtue = null)
 	var/list/out = list()
 	if(!prefs)
 		return out
@@ -4274,6 +4308,10 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 		if(v.restricted && species_type && (species_type in v.races))
 			continue
 		if(istype(v, /datum/virtue/racial) && species_type && !(species_type in v.races))
+			continue
+		// Don't offer the virtue already chosen in the other slot (Virtuous statpack's two virtues
+		// must differ). "None" is always allowed so either slot can still be cleared.
+		if(exclude_virtue && v.name == exclude_virtue.name && v.name != "None")
 			continue
 		out[v.name] = v
 	return sort_list(out)

@@ -21,7 +21,7 @@
 
 	return channel
 
-/proc/playsound(atom/source, soundin, vol as num, vary, extrarange as num, falloff, frequency = null, channel, pressure_affected = FALSE, ignore_walls = TRUE, soundping = FALSE, repeat, animal_pref = FALSE)
+/proc/playsound(atom/source, soundin, vol as num, vary, extrarange as num, falloff, frequency = null, channel, pressure_affected = FALSE, ignore_walls = TRUE, soundping = FALSE, repeat, animal_pref = FALSE, instrument_pref = FALSE)
 	if(isarea(source))
 		CRASH("playsound(): source is an area")
 
@@ -98,6 +98,9 @@
 			if(animal_pref)
 				if(M.client?.prefs?.mute_animal_emotes)
 					continue
+			if(instrument_pref)
+				if(!M.client || !(M.client.prefs?.toggles & SOUND_INSTRUMENTS))
+					continue
 			if(M.playsound_local(source, soundin, vol, vary, frequency, falloff, resolve_sound_channel(M, channel, repeat), pressure_affected, S, repeat))
 				. += M
 
@@ -105,6 +108,9 @@
 		if(get_dist(M, turf_source) <= maxdistance)
 			if(animal_pref)
 				if(M.client?.prefs?.mute_animal_emotes)
+					continue
+			if(instrument_pref)
+				if(!M.client || !(M.client.prefs?.toggles & SOUND_INSTRUMENTS))
 					continue
 			if(M.playsound_local(source, soundin, vol, vary, frequency, falloff, resolve_sound_channel(M, channel, repeat), pressure_affected, S, repeat, muffled = TRUE))
 				. += M

@@ -56,6 +56,13 @@
 	default_color = "FF0000"
 	affected_bodyparts = HEAD
 
+/datum/body_marking/cheek_grease
+	icon = 'icons/mob/body_markings/other_markings.dmi'
+	name = "Cheek Grease"
+	icon_state = "cheek_grease"
+	default_color = "111111"
+	affected_bodyparts = HEAD
+
 /datum/body_marking/eyeliner
 	icon = 'icons/mob/body_markings/other_markings.dmi'
 	name = "Eyeliner"
