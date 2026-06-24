@@ -2413,6 +2413,8 @@
 #include "code\modules\spells\spell_types\trigger.dm"
 #include "code\modules\spells\spell_types\turf_teleport.dm"
 #include "code\modules\spells\spell_types\wildshape.dm"
+#include "code\modules\spells\spell_types\divine\projectiles_single\divine_blast.dm"
+#include "code\modules\spells\spell_types\divine\projectiles_single\unholy_blast.dm"
 #include "code\modules\spells\spell_types\skills\invoked_single_target\engineeranalyze.dm"
 #include "code\modules\spells\spell_types\wizard\learnspell.dm"
 #include "code\modules\spells\spell_types\wizard\spell_list.dm"
@@ -2906,6 +2908,4 @@
 #include "modular_scarletreach\code\modules\mob\living\carbon\human\voicepacks\male\tabaxi.dm"
 #include "modular_scarletreach\virtues\saddleborn.dm"
 #include "modular_stonehedge\code\modules\clothing\rogueclothes\hats.dm"
-#include "code\modules\spells\spell_types\divine\projectiles_single\divine_blast.dm"
-#include "code\modules\spells\spell_types\divine\projectiles_single\unholy_blast.dm"
 // END_INCLUDE
