@@ -62,7 +62,6 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	musicpath = list('sound/music/combat_holy.ogg')
 
 /datum/combat_music/necran
-
 	name = "Necran"
 	desc = "The dead of psydonia walk restless. You'll see them back to her won't you?"
 	shortname = "Necran"
