@@ -193,6 +193,7 @@
 		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/necra)
+		H.cmode_music = 'sound/music/combat_necra.ogg'
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/pestra)
