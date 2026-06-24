@@ -372,6 +372,10 @@ export const PreferencesMenu = (props) => {
   const realName = header?.real_name || data.identity?.real_name;
   const [tab, setTab] = useState<TabId>(data.active_tab || 'identity');
 
+  useEffect(() => {
+    setTab(data.active_tab || 'identity');
+  }, [data.active_tab]);
+
   const handleTabChange = (nextTab: TabId) => {
     setTab(nextTab);
     act('set_tab', { tab: nextTab });
