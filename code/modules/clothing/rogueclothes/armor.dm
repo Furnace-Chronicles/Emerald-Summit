@@ -239,7 +239,7 @@
 	cold_protection = 10
 	var/picked = FALSE
 
-/obj/item/clothing/suit/roguetown/shirt/freifechter/shepherd
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter/shepherd
 	name = "shepherd's shirt"
 	desc = "A strong loosely worn quilted shirt that places little weight on the arms."
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER - 35
