@@ -1,6 +1,6 @@
 import { Box, Button, Section, Stack } from 'tgui-core/components';
 
-import { useBackend } from '../../backend';
+import type { ActFunctionType } from '../../backend';
 // Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
 // list passes 7 options.
 import { SearchableDropdown as Dropdown } from '../common/SearchableDropdown';
@@ -54,6 +54,8 @@ type Data = {
   markings: MarkingsDynamicData;
   markings_static: MarkingsStaticData;
 };
+
+type MarkingsSectionProps = { data: Data; act: ActFunctionType };
 
 // Anatomical 3-row grid for body markings. Each row has cells with explicit
 // grow weights so single-zone rows don't stretch full width:
@@ -223,8 +225,7 @@ const ZoneCard = ({
   </Section>
 );
 
-export const MarkingsSection = () => {
-  const { act, data } = useBackend<Data>();
+export const MarkingsSection = ({ data, act }: MarkingsSectionProps) => {
   const markingsStatic = data.markings_static;
   const markingsDynamic = data.markings;
   if (!markingsStatic || !markingsDynamic) return null;

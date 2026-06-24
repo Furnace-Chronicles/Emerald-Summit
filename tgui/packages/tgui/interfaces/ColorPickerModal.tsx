@@ -30,16 +30,16 @@ import {
   Tooltip,
 } from 'tgui-core/components';
 import { clamp } from 'tgui-core/math';
-import { classes } from 'tgui-core/react';
+import { type BooleanLike, classes } from 'tgui-core/react';
 import { InputButtons } from './common/InputButtons';
 import { Loader } from './common/Loader';
 
 interface ColorPickerData {
-  autofocus: boolean;
+  autofocus: BooleanLike;
   buttons: string[];
   message: string;
-  large_buttons: boolean;
-  swapped_buttons: boolean;
+  large_buttons: BooleanLike;
+  swapped_buttons: BooleanLike;
   timeout: number;
   title: string;
   default_color: string;
