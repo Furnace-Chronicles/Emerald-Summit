@@ -284,6 +284,21 @@ GLOBAL_LIST_EMPTY(open_preference_menus)
 		return "OOC notes too short ([length(prefs.ooc_notes)]/[MINIMUM_OOC_NOTES] characters)."
 	if(prefs.joblessrole == RETURNTOLOBBY && !has_any_class_selected())
 		return "Pick at least one class in Class Selection (or set 'If Role Unavailable' to Random)."
+	var/mob/dead/new_player/np = prefs.parent?.mob
+	if(istype(np))
+		var/list/stale = list()
+		for(var/job_title in prefs.job_preferences)
+			if(!prefs.job_preferences[job_title])
+				continue
+			if(!SSjob.GetJob(job_title))
+				stale += job_title
+				continue
+			if(np.IsJobUnavailable(job_title) == JOB_UNAVAILABLE_PQ)
+				return "Saved preference for '[job_title]' requires Player Quality you no longer meet. Please update your class selections."
+		for(var/job_title in stale)
+			prefs.job_preferences.Remove(job_title)
+		if(length(stale))
+			prefs.save_preferences()
 	return null
 
 /// Drop the cached static payload and push a full_update to every open ui on

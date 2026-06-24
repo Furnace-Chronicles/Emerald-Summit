@@ -1,8 +1,10 @@
+import { BooleanLike } from 'tgui-core/react';
+
 export type ExaminePanelData = {
   // Identity
   character_name: string;
   headshot: string;
-  obscured: boolean;
+  obscured: BooleanLike;
   // Descriptions
   flavor_text: string;
   ooc_notes: string;
@@ -11,9 +13,9 @@ export type ExaminePanelData = {
   ooc_notes_nsfw: string;
   img_gallery: string[];
   img_gallery_nsfw: string[];
-  is_playing: boolean;
-  has_song: boolean;
-  is_vet: boolean;
-  is_naked: boolean;
-  nsfw_examine_always: boolean;
+  is_playing: BooleanLike;
+  has_song: BooleanLike;
+  is_vet: BooleanLike;
+  is_naked: BooleanLike;
+  nsfw_examine_always: BooleanLike;
 };

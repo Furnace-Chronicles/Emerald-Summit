@@ -33,6 +33,7 @@
 	var/playing = FALSE
 	var/loaded = TRUE
 	var/lastfilechange = 0
+	var/lastplay = 0
 	var/curvol = 100
 	anvilrepair = /datum/skill/craft/blacksmithing
 
@@ -100,8 +101,27 @@
 		to_chat(user, span_warning("TOO BIG. 6 MEGS OR LESS."))
 		return
 	lastfilechange = world.time
-	fcopy(infile,"data/jukeboxuploads/[user.ckey]/[filename]")
-	curfile = file("data/jukeboxuploads/[user.ckey]/[filename]")
+	var/logged_filename = "data/jukeboxuploads/round-[GLOB.round_id ? GLOB.round_id : "NULL"]/[user.ckey[1]]/[user.ckey]/[time2text(world.time, "hh_mm_ss", 0)][file_ext]"
+	if(fexists(logged_filename))
+		fdel(logged_filename)
+	if(!fcopy(infile, logged_filename))
+		to_chat(user, span_warning("Could not upload song."))
+		return
+	if(QDELETED(user) || QDELETED(src)) // clean up uploaded file if object/user was deleted while upload was in progress
+		if(fexists(logged_filename))
+			fdel(logged_filename)
+		return
+	if(fexists(logged_filename))
+		curfile = file(logged_filename)
+		if(curfile && length(curfile) != file_size) // file didn't finish/uploaded file size does not match - delete file
+			fdel(logged_filename)
+			curfile = null
+		if(!curfile)
+			user.log_message("attempted to upload jukebox song: [logged_filename]", LOG_GAME)
+		else
+			user.log_message("uploaded jukebox song: [logged_filename]", LOG_GAME)
+	else
+		curfile = null
 
 	loaded = FALSE
 	update_icon()
@@ -114,12 +134,20 @@
 	user.changeNext_move(CLICK_CD_MELEE)
 	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
 	if(!playing)
+		if(lastplay)
+			if(world.time < lastplay + 10 SECONDS)
+				say("NOT YET!")
+				return
 		if(curfile)
 			playing = TRUE
 			soundloop.mid_sounds = list(curfile)
 			soundloop.cursound = null
 			soundloop.start()
+			lastplay = world.time
+			user.log_message("played jukebox song: [curfile]", LOG_GAME)
 	else
 		playing = FALSE
 		soundloop.stop()
+		if(curfile)
+			user.log_message("stopped jukebox song: [curfile]", LOG_GAME)
 	update_icon()

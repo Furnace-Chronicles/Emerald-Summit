@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Box, Button, ByondUi, Section, Stack, Tabs } from 'tgui-core/components';
 
 import { useBackend } from '../backend';
+import type { ActFunctionType } from '../backend';
 // Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
 // list passes 7 options.
 import { SearchableDropdown as Dropdown } from './common/SearchableDropdown';
@@ -85,36 +86,36 @@ const TAB_LABELS: Partial<Record<TabId, string>> = {
   gnoll: 'Gnoll',
 };
 
-const renderTab = (tab: TabId) => {
+const renderTab = (tab: TabId, data: Data, act: ActFunctionType) => {
   switch (tab) {
     case 'identity':
-      return <IdentityTab />;
+      return <IdentityTab data={data} act={act} />;
     case 'features':
-      return <FeaturesTab />;
+      return <FeaturesTab data={data} act={act} />;
     case 'loadout':
-      return <LoadoutTab />;
+      return <LoadoutTab data={data} act={act} />;
     case 'jobs':
-      return <JobsTab />;
+      return <JobsTab data={data} act={act} />;
     case 'flavor':
-      return <FlavorTab />;
+      return <FlavorTab data={data} act={act} />;
     case 'gamepref':
       // Combined view — Game Prefs sections stacked above OOC Prefs sections.
       return (
         <>
-          <GamePrefsTab />
-          <OocPrefsTab />
+          <GamePrefsTab data={data} act={act} />
+          <OocPrefsTab data={data} act={act} />
         </>
       );
     case 'oocpref':
       // Legacy tab id kept as a no-op so any stored active_tab references
       // resolve cleanly; oocpref content now lives under the gamepref tab.
-      return <OocPrefsTab />;
+      return <OocPrefsTab data={data} act={act} />;
     case 'keybinds':
-      return <KeybindsTab />;
+      return <KeybindsTab data={data} act={act} />;
     case 'familiar':
-      return <FamiliarTab />;
+      return <FamiliarTab data={data} act={act} />;
     case 'gnoll':
-      return <GnollTab />;
+      return <GnollTab data={data} act={act} />;
     default:
       return (
         <Box color="label">
@@ -242,7 +243,7 @@ const FooterBar = ({
 };
 
 const PreviewPane = () => {
-  const { act } = useBackend();
+  const { act } = useBackend<Data>();
   // Trigger an initial preview render when the pane mounts so the BYOND
   // character_preview_map populates with the current character dummy.
   useEffect(() => {
@@ -366,11 +367,15 @@ const LobbySection = ({ lobby }: { lobby: LobbyData }) => {
   );
 };
 
-export const PreferencesMenu = (props) => {
+export const PreferencesMenu = () => {
   const { act, data } = useBackend<Data>();
   const header = data.header;
   const realName = header?.real_name || data.identity?.real_name;
   const [tab, setTab] = useState<TabId>(data.active_tab || 'identity');
+
+  useEffect(() => {
+    setTab(data.active_tab || 'identity');
+  }, [data.active_tab]);
 
   const handleTabChange = (nextTab: TabId) => {
     setTab(nextTab);
@@ -517,7 +522,7 @@ export const PreferencesMenu = (props) => {
               )}
               <Stack.Item grow>
                 <Section fill scrollable>
-                  {renderTab(tab)}
+                  {renderTab(tab, data, act)}
                 </Section>
               </Stack.Item>
               {!!header && (

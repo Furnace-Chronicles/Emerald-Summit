@@ -196,7 +196,7 @@ const CategoryColumn = ({
   </Box>
 );
 
-export const LateJoinChoices = (props) => {
+export const LateJoinChoices = () => {
   const { act, data } = useBackend<Data>();
 
   // Skeleton / goblin siege: the classic UI suppresses the normal category
