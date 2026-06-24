@@ -61,9 +61,10 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	credits = "Jesper Kyd - Light of the Imperium"
 	musicpath = list('sound/music/combat_holy.ogg')
 
-/datum/combat_music/astratan_zeal
+/datum/combat_music/necran
+
 	name = "Necran"
-	desc = "The dead of psydonia walk restless. You'll see them back to her won't you?."
+	desc = "The dead of psydonia walk restless. You'll see them back to her won't you?"
 	shortname = "Necran"
 	credits = " Astron - credits song for my death but im the final boss."
 	musicpath = list('sound/music/combat_necra.ogg')
