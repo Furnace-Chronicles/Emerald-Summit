@@ -24,6 +24,7 @@
 		/datum/skill/misc/sewing = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE, //they run around a lot gathering shit. But lets not get silly.
 	)
 
 /datum/outfit/job/adventurer/witch/pre_equip(mob/living/carbon/human/H)
@@ -61,6 +62,8 @@
 			if(H.mind)
 				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 5, "ward" = TRUE))
 			beltl = /obj/item/storage/magebag/starter
+			l_hand = /obj/item/book/magi2_grimoire
+			r_hand = /obj/item/rogueweapon/wand_magi2/greater
 			if (H.age == AGE_OLD)
 				H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)//wanted more wands around so fuck it. A greater wand to to make up for lack of parry.
 		if("Godsblood")
@@ -78,13 +81,14 @@
 			H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
 			D.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
 			D.max_devotion *= 0.5
-			ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC) //does nothing but grant full ritous access to zizoids. Secret gamer build.
 			H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
 			if(H.mind)
 				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 3))
 			beltl = /obj/item/storage/magebag/starter
-			H.equip_to_slot_or_del(new /obj/item/book/spellbook(H), SLOT_IN_BACKPACK)
 			neck = /obj/item/clothing/neck/roguetown/psicross/wood
+			l_hand = /obj/item/book/magi2_grimoire
+			r_hand = /obj/item/rogueweapon/wand_magi2
 			if (H.age == AGE_OLD)
 				H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
 				H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
