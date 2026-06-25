@@ -932,13 +932,13 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	var/was_caster = HAS_TRAIT(target, TRAIT_ARCYNE_T2) || HAS_TRAIT(target, TRAIT_ARCYNE_T3) || HAS_TRAIT(target, TRAIT_ARCYNE_T4)
 	target.Stun(60)
 	target.Knockdown(60)
-	target.set_nutrition (NUTRITION_LEVEL_FULL) //for good measure below.
-	target.set_hydration (HYDRATION_LEVEL_FULL)
+	target.set_nutrition (NUTRITION_LEVEL_FED) //for good measure with whats coming below.
+	target.set_hydration (HYDRATION_LEVEL_HYDRATED)
 	target.remove_status_effect(/datum/status_effect/debuff/thirstyt1) //we shall avoid all the most common cases of endurance loss I can think of.
 	target.remove_status_effect(/datum/status_effect/debuff/thirstyt2)
 	target.remove_status_effect(/datum/status_effect/debuff/thirstyt3)
 	target.remove_status_effect(/datum/status_effect/debuff/rotted) //yes including rot. We are going BEYOND Rot at this point.
-	target.remove_status_effect(/datum/status_effect/debuff/revived) //yes including revived. Your soul is inherently  different now.
+	target.remove_status_effect(/datum/status_effect/debuff/revived) //yes including revived. Your soul/lux/whatever is inherently  different now.
 	target.remove_status_effect(/datum/status_effect/debuff/hungryt2)
 	target.remove_status_effect(/datum/status_effect/debuff/hungryt3)
 	target.energy_add(9999) //full mana since its about to get frozen forever by TRAIT_INFINITE_ENERGY. And no this wont give them 9999.
