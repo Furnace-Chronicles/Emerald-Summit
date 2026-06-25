@@ -47,7 +47,6 @@
 						/obj/item/recipe_book/magic = 1,
 						/obj/item/ritechalk = 1,
 						)
-
 	var/classes = list("Old Magick", "Godsblood", "Mystagogue")
 	var/classchoice = input(H, "How do your powers manifest?", "THE OLD WAYS") as anything in classes
 
@@ -58,33 +57,37 @@
 		if("Old Magick")
 			// the original witch: arcyne t2 (buffed from t1) with 6 spellpoints
 			ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
-			H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
-			// Magi 2 (T2 caster): 0 major / 2 minor / 6 utilities + universal arcyne ward.
-			// Deferred so the backpack exists for Grimoire storage; grant_items = TRUE hands over the
-			// Grimoire, grant_staff = FALSE so the witch casts with her magebag/herbs, not a wizard staff.
-			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_magi2_setup_caster), H, list("major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE), null, TRUE, FALSE), 1)
+			H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
+			if(H.mind)
+				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 5, "ward" = TRUE))
 			beltl = /obj/item/storage/magebag/starter
+			if (H.age == AGE_OLD)
+				H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)//wanted more wands around so fuck it. A greater wand to to make up for lack of parry.
 		if("Godsblood")
 			//miracle witch: capped at t2 miracles. cannot pray to regain devo, but has high innate regen because of it (2 instead of 1 from major)
 			var/datum/devotion/D = new /datum/devotion/(H, H.patron)
-			H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
+			H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_APPRENTICE, TRUE)
 			D.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WITCH, devotion_limit = CLERIC_REQ_2)
 			D.max_devotion *= 0.5
 			neck = /obj/item/clothing/neck/roguetown/psicross/wood
+			if (H.age == AGE_OLD)
+				H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
 		if("Mystagogue")
-			// hybrid arcane/holy witch with t1 arcane and t1 miracles, but less spellpoints, lower max devotion and less regen (0.5). Still can't pray.
+			// hybrid arcane/holy witch with t1 arcane and t1 miracles
 			var/datum/devotion/D = new /datum/devotion/(H, H.patron)
-			H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
+			H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
 			D.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
 			D.max_devotion *= 0.5
-			ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC) //T2 does nothing much with magi2. The single exception being giving access to the ''upgraded'' ritous ritual.
-			H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
-			// Magi 2 (T1 caster, hybrid): 0 major / 0 minor / 3 utilities (util-only, no ward).
-			// Deferred so the backpack exists for Grimoire storage; grant_items = TRUE hands over the
-			// Grimoire, grant_staff = FALSE so the witch casts with her magebag/herbs, not a wizard staff.
-			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_magi2_setup_caster), H, list("major" = 0, "minor" = 0, "utilities" = 3), null, TRUE, FALSE), 1)
+			ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
+			H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
+			if(H.mind)
+				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 3))
 			beltl = /obj/item/storage/magebag/starter
+			H.equip_to_slot_or_del(new /obj/item/book/spellbook(H), SLOT_IN_BACKPACK)
 			neck = /obj/item/clothing/neck/roguetown/psicross/wood
+			if (H.age == AGE_OLD)
+				H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
+				H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
 
 	if(H.mind)
 		switch (shapeshiftchoice)
