@@ -54,16 +54,20 @@
 	var/shapeshiftchoice = input(H, "What form does your second skin take?", "THE OLD WAYS") as anything in shapeshifts
 
 	switch (classchoice)
-		if("Old Magick")
-			// the original witch: arcyne t2 (buffed from t1) with 6 spellpoints
+		if("Old Magick") //i'm a little worried about flight forms with this one. BUT. They can't regen stamina while in their shapeshift. So they are limited in casting the few things they can cast.
+			// the original witch
 			ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
 			if(H.mind)
 				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 5, "ward" = TRUE))
 			beltl = /obj/item/storage/magebag/starter
+			H.put_in_hands(new /obj/item/book/magi2_grimoire(H), TRUE) 
+			H.put_in_hands(new /obj/item/rogueweapon/wand_magi2/greater(H), TRUE) //wanted more wands around so fuck it. A greater wand to to make up for lack of parry.
 			if (H.age == AGE_OLD)
-				H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)//wanted more wands around so fuck it. A greater wand to to make up for lack of parry.
+				H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE
 		if("Godsblood")
+			if (H.age == AGE_OLD)
+				H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
 			//miracle witch: capped at t2 miracles. cannot pray to regain devo, but has high innate regen because of it (2 instead of 1 from major)
 			var/datum/devotion/D = new /datum/devotion/(H, H.patron)
 			H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_APPRENTICE, TRUE)
@@ -79,6 +83,8 @@
 			D.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
 			D.max_devotion *= 0.5
 			ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
+			H.put_in_hands(new /obj/item/book/magi2_grimoire(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/wand_magi2(H), TRUE)
 			H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
 			if(H.mind)
 				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 3))
@@ -108,8 +114,6 @@
 			if("Cabbit")
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/witch/cabbit)
 			
-		// Old Magick's arcane kit is no longer granted free — it comes entirely from the Grimoire:
-		// Guidance via Augmentation/Lesser Augmentation, Aerosolize via Lesser Kinesis.
 
 	if(H.gender == FEMALE)
 		armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/corset
