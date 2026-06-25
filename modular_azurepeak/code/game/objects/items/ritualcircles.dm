@@ -932,6 +932,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	var/was_caster = HAS_TRAIT(target, TRAIT_ARCYNE_T2) || HAS_TRAIT(target, TRAIT_ARCYNE_T3) || HAS_TRAIT(target, TRAIT_ARCYNE_T4)
 	target.Stun(60)
 	target.Knockdown(60)
+	target.energy_add(9999) //full mana since its about to get frozen forever by TRAIT_INFINITE_ENERGY. And no this wont give them 9999.
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
 	target.emote("Agony")
 	playsound(loc, 'sound/misc/astratascream.ogg', 50)
