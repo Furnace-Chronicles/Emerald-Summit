@@ -55,15 +55,18 @@
 	var/shapeshiftchoice = input(H, "What form does your second skin take?", "THE OLD WAYS") as anything in shapeshifts
 
 	switch (classchoice)
-		if("Old Magick")
+		if("Old Magick") //I'm worried about casting as shapeshifts to dont worry. Shall follow up if this become a problem but it (should) be fine.
 			// the original witch: arcyne t2 (buffed from t1) with 6 spellpoints
 			ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
 			if(H.mind)
-				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 5, "ward" = TRUE))
+				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 5, "ward" = TRUE)) //worse then adv mage but ritual access and all that.
 			beltl = /obj/item/storage/magebag/starter
 			l_hand = /obj/item/book/magi2_grimoire
 			r_hand = /obj/item/rogueweapon/wand_magi2/greater
+			if (istype (H.patron, /datum/patron/inhumen/zizo)) //yeah zizos just better as usual. You still look like a big heretic casting this. Other subclasses can just use clerical
+				if(H.mind)
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill) //heal skeletions/yourself with ritous (they can summon player skeles with rituals)
 			if (H.age == AGE_OLD)
 				H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)//wanted more wands around so fuck it. A greater wand to to make up for lack of parry.
 		if("Godsblood")

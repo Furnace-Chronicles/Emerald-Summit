@@ -951,8 +951,9 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		ADD_TRAIT(target, TRAIT_EASYDISMEMBER, "[type]")
 		ADD_TRAIT(target, TRAIT_SILVER_WEAK, "[type]")
 		target.dna.species.species_traits |= NOBLOOD
-		target.change_stat("speed", -1)
 		target.change_stat("constitution", -2)
+		target.change_stat("Intelligence", 2)
+		target.adjust_skillrank_up_to(/datum/skill/misc/athletics, 3, TRUE) // TRAIT_INFINITE_ENERGY prevents gaining althetics skill via normal means. So on the niche chance you had none lets get you passable for getting those juicey spells out.
 		// Arcyne power - only for hosts already trained in the arcyne (T2+). Mundane hosts skip all of this.
 		if(was_caster)
 			target.mind?.RemoveSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation) // avoid a double grant when re-added below
@@ -969,10 +970,11 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 			// magi2 stack if they aren't a caster yet, otherwise just widen their existing loadout.
 			if(target.mind)
 				if(!LAZYLEN(target.mind.mage_aspect_config))
-					_magi2_setup_caster(target, list("major" = 1, "minor" = 1, "utilities" = 0, "ward" = TRUE), grant_staff = FALSE)
+					_magi2_setup_caster(target, list("major" = 1, "minor" = 1, "utilities" = 4, "ward" = TRUE), grant_staff = FALSE)
 				else
 					target.mind.mage_aspect_config["major"] += 1
 					target.mind.mage_aspect_config["minor"] += 1
+					target.mind.mage_aspect_config["utilities"] += 4
 		target.mob_biotypes |= MOB_UNDEAD
 		spawn(40)
 			to_chat(target, span_purple("They are ignorant, backwards, without hope. You. You will be powerful."))
