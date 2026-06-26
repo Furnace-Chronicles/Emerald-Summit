@@ -932,7 +932,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	var/was_caster = HAS_TRAIT(target, TRAIT_ARCYNE_T2) || HAS_TRAIT(target, TRAIT_ARCYNE_T3) || HAS_TRAIT(target, TRAIT_ARCYNE_T4)
 	target.Stun(60)
 	target.Knockdown(60)
-	target.set_nutrition (NUTRITION_LEVEL_FED) //for good measure with whats coming below.
+	target.set_nutrition (NUTRITION_LEVEL_WELL_FED) //for good measure with whats coming below.
 	target.set_hydration (HYDRATION_LEVEL_HYDRATED)
 	target.remove_status_effect(/datum/status_effect/debuff/thirstyt1) //we shall avoid all the most common cases of endurance loss I can think of.
 	target.remove_status_effect(/datum/status_effect/debuff/thirstyt2)
