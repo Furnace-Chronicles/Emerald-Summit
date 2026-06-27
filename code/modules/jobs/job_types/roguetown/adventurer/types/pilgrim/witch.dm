@@ -60,6 +60,7 @@
 			ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
 			if(H.mind)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 5, "ward" = TRUE)) //worse then adv mage but ritual access and all that.
 			beltl = /obj/item/storage/magebag/starter
 			l_hand = /obj/item/book/magi2_grimoire
@@ -87,6 +88,7 @@
 			ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC) //does nothing but grant full ritous access to zizoids. Secret gamer build.
 			H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
 			if(H.mind)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
 				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 3))
 			beltl = /obj/item/storage/magebag/starter
 			neck = /obj/item/clothing/neck/roguetown/psicross/wood
