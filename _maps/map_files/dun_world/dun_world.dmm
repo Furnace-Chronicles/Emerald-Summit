@@ -1473,11 +1473,24 @@
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/church/chapel)
 "arc" = (
-/obj/structure/mineral_door/wood/fancywood{
-	name = "alchemy Room"
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1;
+	pixel_x = -1;
+	pixel_y = 4
 	},
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/table/church/end,
+/obj/item/reagent_containers/glass/mortar{
+	pixel_x = 7;
+	pixel_y = 5
+	},
+/obj/item/pestle{
+	pixel_x = -10;
+	pixel_y = 1
+	},
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "ari" = (
 /obj/structure/mineral_door/swing_door,
 /turf/open/floor/rogue/wood/nosmooth,
@@ -1949,10 +1962,22 @@
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/licharena)
 "awW" = (
-/obj/structure/table/wood/poor,
-/obj/item/rogueweapon/huntingknife/chefknife,
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/table/wood/long_table/mid/alt,
+/obj/item/heart_canister{
+	pixel_x = -10;
+	pixel_z = 5
+	},
+/obj/item/heart_canister{
+	pixel_z = 5
+	},
+/obj/item/heart_canister{
+	pixel_x = 10;
+	pixel_y = 5
+	},
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "awY" = (
 /turf/open/transparent/openspace,
 /area/rogue/indoors/shelter)
@@ -5130,9 +5155,11 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/town/basement)
 "bnt" = (
-/obj/structure/bars/tough,
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/fermentation_keg/random/water,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "bnu" = (
 /obj/structure/bed/rogue/inn/double{
 	dir = 1
@@ -5299,15 +5326,6 @@
 /obj/item/paper,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/town/basement)
-"bpA" = (
-/obj/effect/decal/carpet/square/black{
-	dir = 8;
-	pixel_x = 50;
-	pixel_y = 16;
-	pixel_z = -40
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town/church/chapel)
 "bpB" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -6065,11 +6083,10 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/town)
 "bzV" = (
-/obj/structure/mineral_door/wood/fancywood{
-	name = "Kitchen"
-	},
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel)
+/turf/open/floor/rogue/dirt,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "bzY" = (
 /turf/open/transparent/openspace,
 /area/rogue/indoors/town)
@@ -6503,16 +6520,16 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/shelter/mountains/decap)
 "bGK" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1;
-	pixel_x = -1;
-	pixel_y = 4
+/obj/structure/table/wood,
+/obj/structure/bars{
+	icon_state = "barsbent"
 	},
-/obj/structure/closet/crate/chest/crate,
-/obj/item/rogueweapon/hoe,
-/obj/item/rogueweapon/sickle,
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
+/turf/open/floor/rogue/blocks{
+	icon_state = "paving"
+	},
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "bGM" = (
 /turf/closed/wall/mineral/rogue/roofwall/middle/dir4,
 /area/rogue/outdoors/town/roofs)
@@ -6955,13 +6972,15 @@
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/under/cavewet/bogcaves)
 "bLt" = (
-/obj/structure/fluff/walldeco/church/line,
 /obj/structure/fluff/walldeco/church/line{
-	dir = 8
+	dir = 1;
+	pixel_x = -1;
+	pixel_y = 4
 	},
-/obj/structure/table/wood,
 /turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "bLv" = (
 /obj/structure/flora/roguegrass/bush/wall/tall{
 	pixel_x = -20;
@@ -7205,9 +7224,6 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cavewet/bogcaves)
-"bPp" = (
-/turf/closed/wall/mineral/rogue/pipe/line,
-/area/rogue/indoors/town/church/chapel)
 "bPx" = (
 /obj/machinery/light/rogue/smelter/great,
 /turf/open/floor/rogue/metal{
@@ -7792,16 +7808,6 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
-"bXF" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1
-	},
-/obj/structure/fluff/walldeco/church/line{
-	dir = 8
-	},
-/obj/machinery/light/rogue/torchholder/l,
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
 "bXG" = (
 /obj/structure/stairs/stone{
 	dir = 4
@@ -7982,17 +7988,11 @@
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/outdoors/mountains)
 "bZH" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1
-	},
-/obj/structure/fluff/walldeco/church/line{
-	dir = 4
-	},
-/obj/machinery/light/rogue/torchholder/l{
-	dir = 8
-	},
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/stone_rack,
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "bZI" = (
 /obj/structure/bars/pipe{
 	dir = 1;
@@ -8877,8 +8877,10 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/skeletoncrypt)
 "cmR" = (
-/turf/open/floor/rogue/metal,
-/area/rogue/indoors/town/church/chapel)
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "cmU" = (
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/goblinfort)
@@ -9793,9 +9795,11 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/garrison)
 "cAc" = (
-/obj/machinery/light/rogue/oven/west,
-/turf/closed/wall/mineral/rogue/decostone,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/table/wood,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "cAd" = (
 /obj/structure/hotspring/border/two,
 /turf/open/floor/rogue/grasscold,
@@ -11503,9 +11507,16 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/manor)
 "cTa" = (
-/obj/structure/stone_rack,
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1;
+	pixel_x = -1;
+	pixel_y = 4
+	},
+/obj/structure/table/church,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "cTc" = (
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 1
@@ -13799,12 +13810,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
-"dwA" = (
-/obj/machinery/light/rogue/torchholder/l{
-	dir = 8
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town/church/chapel)
 "dwF" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/lamia,
 /turf/open/water/swamp,
@@ -15453,11 +15458,13 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
 "dQM" = (
-/obj/structure/bed/rogue/inn/double{
-	dir = 8
+/obj/structure/bars/passage/shutter{
+	redstone_id = "trader_shutter"
 	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town/church/chapel)
+/turf/open/floor/rogue/metal,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "dQP" = (
 /obj/structure/well,
 /turf/open/floor/rogue/cobble/mossy,
@@ -16053,10 +16060,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors)
-"dYu" = (
-/obj/machinery/light/rogue/torchholder/l,
-/turf/open/floor/rogue/churchbrick,
-/area/rogue/indoors/town/church/chapel)
 "dYx" = (
 /obj/item/rogueweapon/huntingknife/chefknife,
 /obj/structure/table/wood{
@@ -17022,12 +17025,10 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave)
 "eiN" = (
-/obj/structure/lever/wall{
-	redstone_id = "trader_shutter";
-	pixel_x = 10
-	},
-/turf/open/floor/rogue/churchbrick,
-/area/rogue/indoors/town/church/chapel)
+/turf/open/floor/rogue/hexstone,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "eiO" = (
 /obj/structure/flora/roguegrass,
 /obj/item/alch/taraxacum,
@@ -17896,17 +17897,16 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town)
 "erm" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 4
+/obj/structure/mineral_door/wood/donjon{
+	dir = 8;
+	locked = 1;
+	lockid = "keeper";
+	name = "Outer sanctum door"
 	},
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1;
-	pixel_x = -1;
-	pixel_y = 4
-	},
-/obj/structure/table/optable,
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "erq" = (
 /obj/structure/roguewindow,
 /obj/structure/bars/grille{
@@ -18576,9 +18576,11 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/outdoors/town)
 "eAv" = (
-/obj/structure/fluff/alch,
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel)
+/obj/effect/landmark/start/keeper,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "eAA" = (
 /obj/structure/roguewindow/openclose,
 /obj/structure/curtain/brown,
@@ -18695,14 +18697,6 @@
 /obj/item/rogueweapon/thresher,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/bath)
-"eCl" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1
-	},
-/obj/structure/fluff/walldeco/church/line,
-/obj/structure/composter,
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
 "eCr" = (
 /obj/structure/fluff/grindwheel,
 /obj/item/natural/wood/plank,
@@ -18851,9 +18845,11 @@
 	},
 /area/rogue/indoors/town)
 "eEc" = (
-/obj/machinery/light/rogue/hearth,
-/turf/open/floor/rogue/tile/bath,
-/area/rogue/indoors/town/church/chapel)
+/obj/machinery/light/rogue/torchholder/l,
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "eEf" = (
 /obj/structure/bed/rogue/inn/double,
 /obj/item/bedsheet/rogue/fabric_double,
@@ -19746,9 +19742,10 @@
 /turf/closed/wall/mineral/rogue/wood,
 /area/rogue/under/cavewet/bogcaves)
 "eQo" = (
-/obj/machinery/light/rogue/torchholder/l,
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/chapel)
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "eQF" = (
 /obj/structure/bars/passage{
 	density = 0;
@@ -20141,13 +20138,6 @@
 "eVM" = (
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/under/cave/mazedungeon)
-"eWa" = (
-/obj/structure/fluff/walldeco/church/line,
-/obj/structure/fluff/walldeco/church/line{
-	dir = 4
-	},
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
 "eWc" = (
 /obj/machinery/light/rogue/torchholder/l,
 /mob/living/carbon/human/species/skeleton/npc/bogguard,
@@ -21025,11 +21015,6 @@
 	},
 /turf/open/floor/rogue/tile/harem2,
 /area/rogue/indoors/town/bath)
-"ffD" = (
-/obj/structure/table/wood/long_table/right,
-/obj/structure/rack/rogue/shelf,
-/turf/open/floor/rogue/churchbrick,
-/area/rogue/indoors/town/church/chapel)
 "ffL" = (
 /obj/machinery/light/rogue/wallfire{
 	pixel_y = 32
@@ -22267,11 +22252,22 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/church/chapel)
 "fwb" = (
-/obj/structure/bars/passage/shutter{
-	redstone_id = "trader_shutter"
+/obj/structure/table/wood/long_table/right,
+/obj/item/heart_canister{
+	pixel_x = -10;
+	pixel_z = 5
 	},
-/turf/open/floor/rogue/metal,
-/area/rogue/indoors/town/church/chapel)
+/obj/item/heart_canister{
+	pixel_z = 5
+	},
+/obj/item/heart_canister{
+	pixel_x = 10;
+	pixel_y = 5
+	},
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "fwd" = (
 /obj/structure/closet/crate/drawer,
 /turf/open/floor/carpet/royalblack,
@@ -23978,9 +23974,11 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/cave)
 "fSX" = (
-/obj/structure/rack/rogue/shelf,
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/roguemachine/chimeric_heart_beast,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "fSY" = (
 /obj/structure/mineral_door/wood{
 	lockid = "stall4";
@@ -24075,8 +24073,11 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/shop)
 "fUA" = (
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/fluff/walldeco/church/line,
+/turf/closed/wall/mineral/rogue/decostone,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "fUE" = (
 /obj/structure/roguemachine/scomm/r{
 	scom_tag = "Church - Inner Meeting Room"
@@ -24566,18 +24567,11 @@
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/indoors/town/manor)
 "fZU" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 8
-	},
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1;
-	pixel_x = -1;
-	pixel_y = 4
-	},
-/obj/item/storage/belt/rogue/surgery_bag/full,
-/obj/structure/table/wood,
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
+/obj/machinery/light/rogue/torchholder/c,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "fZZ" = (
 /obj/machinery/light/rogue/campfire,
 /turf/open/floor/rogue/churchrough,
@@ -24643,10 +24637,6 @@
 /obj/structure/chair/bench/couch,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/outdoors/town/roofs)
-"gba" = (
-/obj/effect/decal/carpet/square/black,
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town/church/chapel)
 "gbg" = (
 /obj/structure/fermentation_keg/random/water,
 /obj/machinery/light/rogue/wallfire/candle/l,
@@ -27248,11 +27238,16 @@
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/under/cave/goblindungeon)
 "gIq" = (
-/obj/structure/fluff/railing/border{
-	dir = 4
+/obj/structure/mineral_door/wood/donjon{
+	dir = 1;
+	locked = 1;
+	lockid = "keeper2";
+	name = "Inner sanctum door"
 	},
-/turf/open/floor/rogue/tile/bath,
-/area/rogue/indoors/town/church/chapel)
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "gIy" = (
 /obj/structure/closet/crate/chest/wicker{
 	opened = 1
@@ -28409,13 +28404,11 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/beach/forest)
 "gXs" = (
-/obj/structure/mineral_door/bars{
-	locked = 1;
-	lockid = "keeper2";
-	name = "Gober The Goblin"
-	},
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel)
+/mob/living/simple_animal/hostile/retaliate/rogue/bigrat,
+/turf/open/floor/rogue/dirt,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "gXx" = (
 /mob/living/carbon/human/species/goblin/npc/ambush/cave,
 /turf/open/floor/rogue/cobble,
@@ -31029,9 +31022,13 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave)
 "hBv" = (
-/obj/structure/fluff/walldeco/church/line,
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/roguemachine/scomm/r{
+	scom_tag = "Church - Kitchen"
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "hBC" = (
 /obj/structure/chair/wood/rogue/fancy,
 /obj/machinery/light/rogue/torchholder{
@@ -32192,15 +32189,6 @@
 /obj/item/reagent_containers/food/snacks/rogue/meat/salami,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/town/basement/keep)
-"hQl" = (
-/obj/structure/fluff/railing/border{
-	dir = 1
-	},
-/obj/structure/fluff/railing/border{
-	dir = 8
-	},
-/turf/open/water/cleanshallow,
-/area/rogue/indoors/town/church/chapel)
 "hQp" = (
 /obj/effect/spawner/lootdrop/roguetown/dungeon/misc,
 /turf/open/water/bloody,
@@ -32425,10 +32413,6 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/rtfield/eora)
-"hTc" = (
-/obj/structure/chair/stool/rogue,
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/chapel)
 "hTd" = (
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/dirt/road,
@@ -35831,8 +35815,10 @@
 /area/rogue/outdoors/town/roofs)
 "iJb" = (
 /obj/machinery/light/rogue/torchholder/c,
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel)
+/turf/closed/wall/mineral/rogue/decostone,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "iJg" = (
 /obj/structure/table/wood/long_table/right,
 /obj/structure/fluff/railing/border/east,
@@ -36575,9 +36561,11 @@
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/indoors/shelter/woods)
 "iSc" = (
-/obj/machinery/light/rogue/firebowl/standing,
-/turf/open/floor/rogue/churchbrick,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/flora/roguegrass/herb/random,
+/turf/open/floor/rogue/dirt,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "iSg" = (
 /obj/structure/fluff/railing/border/east,
 /obj/structure/closet/crate/chest,
@@ -38415,15 +38403,6 @@
 /obj/structure/fluff/psycross,
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/beach/forest)
-"jpw" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1;
-	pixel_x = -1;
-	pixel_y = 4
-	},
-/obj/structure/table/church,
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
 "jpx" = (
 /obj/machinery/anvil/crafted,
 /turf/open/floor/rogue/blocks,
@@ -38787,12 +38766,14 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/goblinfort)
 "jua" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 4
+/obj/structure/bars/passage/shutter{
+	redstone_id = "trader_shutter"
 	},
-/obj/structure/fluff/walldeco/church/line,
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
+/obj/machinery/light/rogue/wallfire/candle,
+/turf/open/floor/rogue/metal,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "jub" = (
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/grass,
@@ -38858,9 +38839,12 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/cell)
 "jvw" = (
-/turf/closed/wall/mineral/rogue/decostone,
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8
+	},
+/turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel{
-	name = "heart beast"
+	name = "Sanctum of the Beast"
 	})
 "jvy" = (
 /obj/structure/table/wood{
@@ -41645,9 +41629,20 @@
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/town/cell)
 "kcz" = (
-/obj/machinery/light/rogue/firebowl/standing,
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8
+	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1;
+	pixel_x = -1;
+	pixel_y = 4
+	},
+/obj/item/storage/belt/rogue/surgery_bag/full,
+/obj/structure/table/wood,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "kcD" = (
 /obj/structure/mineral_door/wood/donjon/stone{
 	locked = 1;
@@ -43042,14 +43037,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
-"kuE" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 8
-	},
-/obj/structure/fluff/walldeco/church/line,
-/obj/machinery/light/rogue/torchholder/l,
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
 "kuI" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/roguegrass,
@@ -43765,9 +43752,9 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cavewet/bogcaves)
 "kCu" = (
-/turf/open/floor/rogue/churchbrick,
+/turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel{
-	name = "heart beast"
+	name = "Sanctum of the Beast"
 	})
 "kCz" = (
 /obj/structure/fluff/railing/border,
@@ -44642,13 +44629,6 @@
 /obj/item/roguecoin/copper,
 /turf/open/water/sewer,
 /area/rogue/indoors/cave)
-"kND" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1
-	},
-/obj/structure/fluff/walldeco/church/line,
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
 "kNH" = (
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains/decap)
@@ -44678,9 +44658,14 @@
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/indoors/town/manor)
 "kNR" = (
-/obj/machinery/light/rogue/torchholder/c,
+/obj/structure/stairs{
+	dir = 8
+	},
+/obj/structure/roguemachine/withdraw,
 /turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town/church/chapel)
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "kNU" = (
 /obj/structure/bearpelt{
 	pixel_x = -16;
@@ -46035,10 +46020,15 @@
 	},
 /area/rogue/under/town/sewer)
 "lfI" = (
-/obj/structure/fluff/walldeco/church/line,
-/obj/effect/landmark/start/keeper,
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/mineral_door/bars{
+	locked = 1;
+	lockid = "keeper2";
+	name = "Goober The Goblin"
+	},
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "lfL" = (
 /obj/structure/stairs/stone{
 	dir = 8
@@ -47876,15 +47866,12 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors)
 "lAE" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 8
-	},
-/obj/machinery/light/rogue/torchholder/l,
-/obj/structure/fluff/walldeco/church/line{
-	dir = 4
-	},
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
+/obj/machinery/light/rogue/torchholder/c,
+/obj/structure/manaflower,
+/turf/open/floor/rogue/dirt,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "lAF" = (
 /obj/effect/decal/carpet/kover_darkred{
 	dir = 4;
@@ -47957,12 +47944,6 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/tools,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/skeletoncrypt)
-"lBz" = (
-/obj/structure/roguemachine/scomm/r{
-	scom_tag = "Church - Kitchen"
-	},
-/turf/closed/wall/mineral/rogue/decostone,
-/area/rogue/indoors/town/church/chapel)
 "lBB" = (
 /obj/structure/bed/rogue,
 /turf/open/floor/rogue/woodturned,
@@ -48641,8 +48622,11 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "lIZ" = (
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/chapel)
+/obj/machinery/light/rogue/torchholder/l,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "lJa" = (
 /obj/structure/mineral_door/bars{
 	lockid = "manor";
@@ -49008,10 +48992,13 @@
 /turf/open/floor/rogue/wood/herringbone,
 /area/rogue/indoors/town)
 "lOi" = (
-/obj/structure/table/wood/long_table,
-/obj/structure/rack/rogue/shelf,
+/obj/machinery/light/rogue/torchholder/l{
+	dir = 8
+	},
 /turf/open/floor/rogue/churchbrick,
-/area/rogue/indoors/town/church/chapel)
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "lOj" = (
 /obj/structure/table/wood{
 	dir = 6;
@@ -49056,9 +49043,15 @@
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/under/cave)
 "lOR" = (
-/obj/structure/closet/crate/chest/crate,
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/mineral_door/bars{
+	locked = 1;
+	lockid = "keeper2";
+	name = "Gober The Goblin"
+	},
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "lOX" = (
 /obj/structure/table/wood/long_table,
 /obj/item/rogueweapon/whip,
@@ -49475,11 +49468,11 @@
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/beach/forest)
 "lVx" = (
-/obj/structure/fluff/railing/border{
-	dir = 1
-	},
-/turf/open/floor/rogue/tile/bath,
-/area/rogue/indoors/town/church/chapel)
+/obj/machinery/light/rogue/wallfire/candle,
+/turf/closed/wall/mineral/rogue/decostone,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "lVy" = (
 /obj/item/natural/dirtclod,
 /obj/machinery/light/rogue/torchholder/r,
@@ -49868,14 +49861,17 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "lZV" = (
-/obj/structure/mineral_door/wood/donjon{
-	dir = 8;
-	locked = 1;
-	lockid = "keeper";
-	name = "Outer sanctum door"
-	},
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/closet/crate/chest/crate,
+/obj/item/heart_canister,
+/obj/item/heart_canister,
+/obj/item/heart_canister,
+/obj/item/heart_canister,
+/obj/item/heart_canister,
+/obj/item/heart_canister,
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "lZX" = (
 /obj/structure/fluff/railing/border{
 	dir = 8
@@ -52280,16 +52276,6 @@
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
-"mGc" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1
-	},
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1
-	},
-/obj/structure/fluff/walldeco/church/line,
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
 "mGf" = (
 /obj/structure/lever{
 	redstone_id = "lichdanger"
@@ -55066,10 +55052,6 @@
 /obj/machinery/light/rogue/wallfire/candle/r,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
-"nnD" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/bigrat,
-/turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/church/chapel)
 "nnG" = (
 /obj/structure/flora/rogueshroom{
 	icon_state = "mush3"
@@ -57182,15 +57164,6 @@
 	},
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/inq/office)
-"nPo" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 8
-	},
-/obj/structure/fluff/walldeco/church/line{
-	dir = 4
-	},
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
 "nPr" = (
 /obj/structure/rack/rogue,
 /obj/effect/decal/cobbleedge{
@@ -57698,9 +57671,19 @@
 /turf/open/water/bloody,
 /area/rogue/indoors/shelter/mountains/decap)
 "nVI" = (
-/obj/structure/table/wood/poor,
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/fluff/walldeco/church/line{
+	dir = 4
+	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1;
+	pixel_x = -1;
+	pixel_y = 4
+	},
+/obj/structure/table/optable,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "nVR" = (
 /obj/structure/closet/dirthole/closed/loot,
 /obj/structure/gravemarker,
@@ -59692,12 +59675,6 @@
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/under/cave)
-"owC" = (
-/obj/structure/mineral_door/wood/fancywood{
-	name = "Bed Room"
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town/church/chapel)
 "owM" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/orc/orc2,
 /turf/open/floor/rogue/wood,
@@ -62053,9 +62030,9 @@
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/town/physician)
 "pcd" = (
-/obj/machinery/light/rogue/firebowl/standing,
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town/church/chapel)
+/obj/machinery/light/rogue/torchholder/c,
+/turf/closed/mineral/rogue/bedrock,
+/area/rogue/indoors/cave)
 "pce" = (
 /obj/structure/chair/wood/rogue{
 	dir = 4
@@ -65776,11 +65753,11 @@
 /turf/closed/wall/mineral/rogue/decowood/vert,
 /area/rogue/indoors/town)
 "pWt" = (
-/obj/machinery/light/rogue/torchholder/l{
-	dir = 8
-	},
-/turf/open/floor/rogue/churchbrick,
-/area/rogue/indoors/town/church/chapel)
+/obj/machinery/light/rogue/torchholder/l,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "pWu" = (
 /obj/item/fishingrod,
 /turf/open/floor/rogue/dirt/road,
@@ -68187,11 +68164,22 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/shelter/mountains/decap)
 "qzY" = (
-/obj/structure/table/wood{
-	icon_state = "tablewood1"
+/obj/structure/table/wood/long_table,
+/obj/item/heart_canister{
+	pixel_x = -10;
+	pixel_z = 5
 	},
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel)
+/obj/item/heart_canister{
+	pixel_z = 5
+	},
+/obj/item/heart_canister{
+	pixel_x = 10;
+	pixel_z = 5
+	},
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "qAe" = (
 /obj/structure/table/wood,
 /obj/structure/mineral_door/wood/deadbolt/shutter{
@@ -69879,13 +69867,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors)
-"qUi" = (
-/obj/structure/fluff/walldeco/church/line,
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1
-	},
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
 "qUj" = (
 /obj/effect/decal/cobbleedge{
 	dir = 8
@@ -71517,10 +71498,6 @@
 /obj/item/roguebin/water,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
-"rqG" = (
-/obj/machinery/light/rogue/torchholder/l,
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel)
 "rqQ" = (
 /obj/structure/fluff/walldeco/chains,
 /turf/open/floor/rogue/naturalstone,
@@ -71563,9 +71540,21 @@
 /area/rogue/outdoors/beach)
 "rrt" = (
 /obj/structure/rack/rogue/shelf/biggest,
-/obj/item/natural/bundle/stick,
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel)
+/obj/item/heart_canister{
+	pixel_x = -10;
+	pixel_z = 5
+	},
+/obj/item/heart_canister{
+	pixel_z = 5
+	},
+/obj/item/heart_canister{
+	pixel_x = 10;
+	pixel_z = 5
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "rrw" = (
 /obj/structure/bars{
 	color = "#755f48";
@@ -72083,9 +72072,12 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/indoors/town/church/chapel)
 "rxr" = (
-/turf/open/floor/rogue/ruinedwood/spiral,
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
+/turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/indoors/town/church/chapel{
-	name = "heart beast"
+	name = "Sanctum of the Beast"
 	})
 "rxw" = (
 /obj/structure/fluff/railing/corner,
@@ -73049,20 +73041,6 @@
 /obj/machinery/light/rogue/firebowl,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/orcdungeon)
-"rIR" = (
-/obj/item/heart_canister{
-	pixel_z = 5
-	},
-/obj/item/heart_canister{
-	pixel_x = 10;
-	pixel_y = 5
-	},
-/obj/item/heart_canister{
-	pixel_x = -10;
-	pixel_z = 5
-	},
-/turf/closed/wall/mineral/rogue/decostone,
-/area/rogue/indoors/town/church/chapel)
 "rIT" = (
 /obj/structure/fluff/railing/border{
 	dir = 4
@@ -73130,10 +73108,17 @@
 /turf/open/water/swamp/deep,
 /area/rogue/under/cavewet/bogcaves/sunkencity)
 "rKf" = (
-/obj/structure/table/wood/long_table/mid/alt,
-/obj/structure/rack/rogue/shelf,
-/turf/open/floor/rogue/churchbrick,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1;
+	pixel_x = -1;
+	pixel_y = 4
+	},
+/obj/structure/table/church/m,
+/obj/item/ritechalk,
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "rKo" = (
 /obj/structure/mineral_door/wood/window{
 	locked = 1;
@@ -76302,11 +76287,14 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cavewet/bogcaves/sunkencity)
 "swe" = (
-/obj/structure/fluff/railing/border{
-	dir = 5
+/obj/structure/mineral_door/bars{
+	locked = 1;
+	lockid = "keeper2"
 	},
-/turf/open/floor/rogue/tile/bath,
-/area/rogue/indoors/town/church/chapel)
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "swh" = (
 /obj/structure/bars/passage/shutter/open,
 /turf/open/floor/rogue/concrete,
@@ -76336,9 +76324,11 @@
 /turf/open/floor/carpet/red,
 /area/rogue/outdoors/rtfield/eora)
 "swA" = (
-/obj/machinery/light/rogue/torchholder/l,
+/obj/structure/handcart,
 /turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town/church/chapel)
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "swB" = (
 /obj/structure/mineral_door/bars{
 	locked = 1;
@@ -77146,11 +77136,11 @@
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/town/roofs)
 "sHA" = (
-/obj/structure/table/wood/poor,
-/obj/item/millstone,
-/obj/structure/fluff/wallclock,
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/bars/tough,
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "sHL" = (
 /mob/living/carbon/human/species/skeleton/npc/ambush,
 /turf/open/floor/rogue/ruinedwood/turned,
@@ -77648,18 +77638,6 @@
 	},
 /turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/town)
-"sPa" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 4
-	},
-/obj/machinery/light/rogue/torchholder/l{
-	dir = 8
-	},
-/obj/structure/fluff/walldeco/church/line{
-	dir = 8
-	},
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
 "sPd" = (
 /mob/living/simple_animal/butterfly,
 /turf/open/floor/rogue/wood,
@@ -77976,10 +77954,6 @@
 "sSh" = (
 /turf/closed/wall/mineral/rogue/roofwall/outercorner,
 /area/rogue/indoors/town/dwarfin)
-"sSp" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/bigrat,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/chapel)
 "sSq" = (
 /turf/open/floor/rogue/metal{
 	dir = 4
@@ -78576,9 +78550,13 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town)
 "tad" = (
-/obj/structure/mineral_door/wood/fancywood,
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/stairs{
+	dir = 8
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "tae" = (
 /obj/structure/rack/rogue,
 /obj/item/clothing/neck/roguetown/leather,
@@ -79995,10 +79973,17 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/shelter/mountains/decap)
 "tqi" = (
-/obj/machinery/light/rogue/torchholder/l,
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1;
+	pixel_x = -1;
+	pixel_y = 4
+	},
+/obj/item/reagent_containers/glass/bucket,
 /obj/structure/closet/crate/chest/crate,
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/chapel)
+/turf/open/floor/rogue/blocks/platform,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "tqt" = (
 /obj/structure/fluff/walldeco/psybanner/red,
 /turf/closed/wall/mineral/rogue/stone,
@@ -80102,10 +80087,10 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/orcdungeon)
 "trs" = (
-/obj/structure/fluff/wallclock,
-/obj/machinery/light/rogue/firebowl/standing,
-/turf/open/floor/rogue/churchbrick,
-/area/rogue/indoors/town/church/chapel)
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "trt" = (
 /obj/structure/fluff/railing/corner/north_east,
 /obj/machinery/light/rogue/wallfire/candle,
@@ -80333,9 +80318,12 @@
 /turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/town/church/chapel)
 "ttT" = (
-/obj/structure/meathook,
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel)
+/mob/living/carbon/human/species/goblin/sea,
+/obj/structure/bed/rogue/shit,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "ttW" = (
 /obj/item/clothing/neck/roguetown/psicross/silver,
 /obj/structure/closet/crate/coffin,
@@ -81145,9 +81133,13 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/cave)
 "tDe" = (
-/obj/structure/handcart,
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/fluff/walldeco/church/line{
+	dir = 4
+	},
+/turf/closed/wall/mineral/rogue/decostone,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "tDg" = (
 /obj/structure/fluff/railing/border{
 	dir = 8
@@ -83328,12 +83320,6 @@
 	icon_state = "weird1"
 	},
 /area/rogue/indoors/town)
-"ucX" = (
-/obj/machinery/light/rogue/torchholder/l{
-	dir = 8
-	},
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/church/chapel)
 "ucY" = (
 /obj/structure/flora/rogueshroom{
 	icon_state = "mush2"
@@ -86237,14 +86223,6 @@
 "uLV" = (
 /turf/closed/mineral/random/rogue/high,
 /area/rogue/outdoors/woods)
-"uLZ" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1;
-	pixel_x = -1;
-	pixel_y = 4
-	},
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
 "uMm" = (
 /mob/living/carbon/human/species/skeleton/npc/ambush,
 /turf/open/floor/rogue/hexstone,
@@ -86462,15 +86440,11 @@
 /turf/closed/wall/mineral/rogue/decostone/mossy,
 /area/rogue/indoors/shelter/woods)
 "uPO" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1;
-	pixel_x = -1;
-	pixel_y = 4
-	},
-/obj/structure/closet/crate/chest/crate,
-/obj/item/reagent_containers/glass/bucket,
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/fluff/wallclock,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "uPP" = (
 /obj/structure/fluff/railing/border/north,
 /obj/structure/roguemachine/noticeboard,
@@ -87748,18 +87722,13 @@
 /turf/open/floor/rogue/tile/brick,
 /area/rogue/indoors/town/bath)
 "vfk" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 4
-	},
-/obj/structure/fluff/walldeco/church/line{
+/obj/structure/stairs{
 	dir = 8
 	},
-/obj/structure/roguemachine/withdraw{
-	pixel_x = 32;
-	pixel_y = 0
-	},
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "vfl" = (
 /obj/structure/fluff/railing/fence{
 	dir = 4
@@ -88389,29 +88358,12 @@
 "vmX" = (
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
-"vmY" = (
-/obj/item/heart_canister{
-	pixel_x = -10;
-	pixel_z = 5
-	},
-/obj/item/heart_canister{
-	pixel_z = 5
-	},
-/obj/item/heart_canister{
-	pixel_x = 10;
-	pixel_z = 5
-	},
-/turf/closed/wall/mineral/rogue/decostone,
-/area/rogue/indoors/town/church/chapel)
 "vmZ" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 4
-	},
-/obj/structure/fluff/walldeco/church/line{
-	dir = 8
-	},
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/mineral_door/wood/fancywood,
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "vng" = (
 /obj/effect/decal/cleanable/blood/gibs/torso,
 /turf/open/floor/rogue/twig,
@@ -91356,14 +91308,12 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/dwarfin)
 "vYi" = (
-/obj/structure/mineral_door/wood/donjon{
-	dir = 1;
-	locked = 1;
-	lockid = "keeper2";
-	name = "Inner sanctum door"
-	},
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/flora/roguegrass/herb/random,
+/obj/machinery/light/rogue/torchholder/c,
+/turf/open/floor/rogue/dirt,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "vYk" = (
 /obj/structure/mineral_door/wood/fancywood,
 /turf/open/floor/rogue/ruinedwood/turned,
@@ -91620,12 +91570,10 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/manor)
 "war" = (
-/obj/structure/mineral_door/bars{
-	locked = 1;
-	lockid = "keeper2"
-	},
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel)
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "waw" = (
 /obj/structure/stairs{
 	dir = 1
@@ -93295,9 +93243,14 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/beach)
 "wtm" = (
-/obj/structure/flora/roguegrass/herb/random,
-/turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/lever/wall{
+	redstone_id = "trader_shutter";
+	pixel_x = 10
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "wtn" = (
 /obj/structure/bed/rogue/inn/wool,
 /obj/item/bedsheet/rogue/pelt,
@@ -94692,9 +94645,11 @@
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/town/church/chapel)
 "wJW" = (
-/obj/structure/roguemachine/chimeric_heart_beast,
-/turf/open/floor/rogue/hexstone,
-/area/rogue/indoors/town/church/chapel)
+/obj/structure/meathook,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "wKa" = (
 /obj/structure/chair/wood/rogue/fancy,
 /obj/effect/landmark/start/guildsman,
@@ -96595,19 +96550,10 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/beach)
 "xgI" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1;
-	pixel_x = -1;
-	pixel_y = 4
-	},
-/obj/structure/table/church/end,
-/obj/item/pestle,
-/obj/item/reagent_containers/glass/mortar{
-	pixel_x = 7;
-	pixel_y = 5
-	},
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "xgP" = (
 /obj/structure/fluff/railing/border{
 	dir = 5
@@ -97325,8 +97271,10 @@
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/outdoors/town/roofs/keep)
 "xpM" = (
-/turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/church/chapel)
+/turf/closed/wall/mineral/rogue/decostone,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "xpO" = (
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/naturalstone,
@@ -98304,10 +98252,6 @@
 	},
 /turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/town)
-"xCI" = (
-/obj/machinery/light/rogue/cauldron,
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel)
 "xCK" = (
 /turf/open/water/swamp,
 /area/rogue/under/town/sewer)
@@ -98515,15 +98459,16 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/manor)
 "xEW" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1;
-	pixel_x = -1;
-	pixel_y = 4
+/obj/effect/decal/carpet/square/black{
+	dir = 8;
+	pixel_y = 10;
+	pixel_z = -40;
+	pixel_x = 50
 	},
-/obj/structure/table/church/m,
-/obj/item/ritechalk,
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "xFg" = (
 /obj/structure/well/fountain/mana,
 /turf/open/floor/rogue/greenstone,
@@ -99432,9 +99377,6 @@
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/mountains/decap)
-"xPL" = (
-/turf/closed/wall/mineral/rogue/pipe/line,
-/area/rogue/indoors/cave)
 "xPM" = (
 /obj/effect/decal/cobbleedge{
 	dir = 4
@@ -101082,14 +101024,6 @@
 /obj/item/carvedgem/amber/beaver,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/cave)
-"yjb" = (
-/obj/structure/mineral_door/bars{
-	locked = 1;
-	lockid = "keeper2";
-	name = "Goober The Goblin"
-	},
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel)
 "yjh" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
@@ -101179,14 +101113,13 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/town/manor)
 "ykh" = (
-/obj/structure/closet/crate/chest/crate,
-/obj/item/rogueweapon/hoe,
-/obj/item/rogueweapon/sickle,
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1
+/obj/machinery/light/rogue/torchholder/l{
+	dir = 8
 	},
-/turf/open/floor/rogue/blocks/platform,
-/area/rogue/indoors/town/church/chapel)
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "ykm" = (
 /obj/effect/decal/cobbleedge{
 	dir = 6
@@ -101335,8 +101268,12 @@
 /area/rogue/outdoors/rtfield/eora)
 "ylM" = (
 /mob/living/carbon/human/species/goblin/sea,
+/obj/structure/bed/rogue/shit,
+/obj/machinery/light/rogue/wallfire/candle,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors/town/church/chapel)
+/area/rogue/indoors/town/church/chapel{
+	name = "Sanctum of the Beast"
+	})
 "ylW" = (
 /obj/structure/closet/crate/drawer,
 /obj/structure/mirror,
@@ -244015,24 +243952,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ujm
@@ -244467,24 +244404,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-bXF
-nPo
-nPo
-nPo
-nPo
-nPo
-lAE
-nPo
-nPo
-nPo
-nPo
-kuE
-oKc
-dQM
-swA
-dQM
-oKc
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ujm
@@ -244919,24 +244856,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-kND
-xpM
-wtm
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-wtm
-qUi
-oKc
-lOR
-hfa
-lOR
-oKc
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ujm
@@ -245371,24 +245308,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-kND
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-qUi
-oKc
-hfa
-hfa
-hfa
-oKc
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ujm
@@ -245823,24 +245760,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-kND
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-qUi
-oKc
-hfa
-hfa
-hfa
-oKc
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ujm
@@ -246275,24 +246212,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-mGc
-xpM
-xpM
-xpM
-xpM
-wtm
-xpM
-xpM
-xpM
-xpM
-xpM
-ykh
-oKc
-kNR
-bpA
-hfa
-oKc
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ujm
@@ -246727,24 +246664,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-eCl
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-qUi
-oKc
-hfa
-hfa
-hfa
-oKc
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ujm
@@ -247179,24 +247116,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-eCl
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-xpM
-wtm
-xpM
-xpM
-qUi
-oKc
-dwA
-hfa
-dwA
-oKc
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ujm
@@ -247631,24 +247568,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-bZH
-vmZ
-vmZ
-vmZ
-vmZ
-vfk
-sPa
-vmZ
-vmZ
-vmZ
-sPa
-jua
-oKc
-oKc
-owC
-oKc
-oKc
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ujm
@@ -248083,24 +248020,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-oKc
-oKc
-oKc
-cAc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-hfa
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+xpM
 tDe
-swA
-hfa
-swA
-oKc
+tDe
+tDe
+tDe
+xpM
+ujm
+ujm
 ujm
 ujm
 ujm
@@ -248535,24 +248472,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-oKc
-oKc
-oKc
-oKc
-mgG
-mgG
-eQo
-nVI
-hTc
-tqi
-oKc
-kNR
-hfa
-hfa
-hfa
-hfa
-oKc
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+fUA
+lAE
+iSc
+bzV
+bzV
+rxr
+pcd
+ujm
 ujm
 ujm
 ujm
@@ -248987,24 +248924,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-cVA
-cVA
-cTa
-oKc
-gIq
-swe
-fUA
-fUA
-fUA
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
 fUA
 bzV
-gba
-hfa
-hfa
-hfa
-hfa
-oKc
+bzV
+bzV
+iSc
+rxr
+ujm
+ujm
 ujm
 ujm
 ujm
@@ -249439,24 +249376,24 @@ ujm
 ujm
 ujm
 ujm
-vmY
-lOi
-fnc
-fnc
-oKc
-eEc
-lVx
-ucX
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
 fUA
-fUA
-fUA
-oKc
-hfa
-hfa
-hfa
-hfa
-hfa
-oKc
+bzV
+iSc
+bzV
+bzV
+rxr
+ujm
+ujm
 ujm
 ujm
 ujm
@@ -249891,24 +249828,24 @@ ujm
 ujm
 ujm
 ujm
-rIR
-rKf
-fnc
-fnc
-oKc
-oKc
-oKc
-oKc
-oKc
-sHA
-awW
-oKc
-pcd
-hfa
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+fUA
+vYi
+bzV
+bzV
+bzV
 rxr
-rxr
 pcd
-oKc
+ujm
 ujm
 ujm
 ujm
@@ -250343,24 +250280,24 @@ ujm
 ujm
 ujm
 ujm
-rIR
-ffD
-fnc
-fnc
-dYu
-cVA
-cVA
-dYu
-oKc
-oKc
-oKc
-oKc
-oKc
-kNR
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+fUA
+bzV
+bzV
+bzV
+iSc
 rxr
-hfa
-hfa
-oKc
+ujm
+ujm
 ujm
 ujm
 ujm
@@ -250795,24 +250732,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-fnc
-fnc
-fnc
-fnc
-fnc
-fnc
-cVA
+ujm
+ujm
+ujm
+xpM
+xpM
+xpM
+xpM
+xpM
+ujm
+ujm
+fUA
 iSc
-cVA
-cVA
+bzV
 iSc
-oKc
+bzV
 rxr
-hfa
-hfa
-hfa
-oKc
+ujm
+ujm
 ujm
 ujm
 ujm
@@ -251247,24 +251184,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-oKc
-fwb
-fwb
-fwb
-fwb
-fnc
-cVA
-cVA
-cVA
-cVA
-cVA
+ujm
+ujm
+ujm
+xpM
+eEc
+kCu
+bZH
+xpM
+ujm
+ujm
+xpM
 jvw
-hfa
-hfa
-hfa
-hfa
-oKc
+jvw
+jvw
+jvw
+xpM
+xpM
+ujm
 ujm
 ujm
 ujm
@@ -251699,24 +251636,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-vGd
-vGd
-vGd
-vGd
-fwb
-fnc
-cVA
-cVA
-cVA
-cVA
+ujm
+ujm
+ujm
+xpM
+rrt
+rrt
 kCu
-oKc
+xpM
+ujm
+ujm
+xpM
+xpM
+iJb
 kNR
-hfa
-hfa
-hfa
-oKc
+kcz
+cAc
+xpM
+ujm
 ujm
 ujm
 ujm
@@ -252151,24 +252088,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-vGd
-vGd
-wJW
-vGd
-fwb
-fnc
-cVA
-cVA
-cVA
+ujm
+ujm
+ujm
+xpM
+qzY
 kCu
-cVA
-vYi
-hfa
-hfa
-hfa
-hfa
-oKc
+kCu
+xpM
+ujm
+ujm
+xpM
+trs
+trs
+trs
+bLt
+eQo
+xpM
+pcd
 ujm
 ujm
 ujm
@@ -252603,24 +252540,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-vGd
-vGd
-vGd
-vGd
-fwb
-fnc
-cVA
-cVA
+ujm
+ujm
+ujm
+xpM
+awW
 kCu
-cVA
-cVA
-oKc
-kNR
-hfa
-hfa
-hfa
-oKc
+kCu
+xpM
+xpM
+xpM
+xpM
+trs
+trs
+trs
+tqi
+eQo
+xpM
+ujm
 ujm
 ujm
 ujm
@@ -253055,24 +252992,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-oKc
+ujm
+ujm
+ujm
+xpM
 fwb
-fwb
-fwb
-fwb
-fnc
-cVA
 kCu
-cVA
-cVA
-cVA
-oKc
-hfa
-hfa
-hfa
-hfa
-oKc
+kCu
+eEc
+kCu
+kCu
+xpM
+trs
+trs
+trs
+cTa
+eAv
+xpM
+ujm
 ujm
 ujm
 ujm
@@ -253507,24 +253444,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-fnc
-fnc
-fnc
-fnc
-fnc
-fnc
-cVA
+ujm
+ujm
+ujm
+xpM
+xpM
+jua
+dQM
+dQM
+dQM
 kCu
-cVA
-cVA
-cVA
-oKc
-hfa
-hfa
-hfa
-hfa
-oKc
+xpM
+xpM
+trs
+trs
+rKf
+eQo
+xpM
+ujm
 ujm
 ujm
 ujm
@@ -253959,24 +253896,24 @@ ujm
 ujm
 ujm
 ujm
-oKc
-cVA
-cVA
-pWt
-cVA
-pWt
+ujm
+ujm
+ujm
+xpM
 eiN
-cVA
-iSc
-cVA
-cVA
-iSc
-oKc
-hfa
-hfa
-hfa
-hfa
-oKc
+eiN
+eiN
+eiN
+dQM
+kCu
+lIZ
+xpM
+xpM
+fZU
+arc
+eAv
+xpM
+ujm
 ujm
 ujm
 ujm
@@ -254410,25 +254347,25 @@ ujm
 ujm
 ujm
 ujm
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-kNR
-hfa
-hfa
-hfa
-oKc
+ujm
+ujm
+ujm
+ujm
+xpM
+eiN
+eiN
+fSX
+eiN
+dQM
+kCu
+xgI
+xgI
+gIq
+trs
+bLt
+eQo
+xpM
+ujm
 ujm
 ujm
 ujm
@@ -254862,25 +254799,25 @@ ujm
 ujm
 ujm
 ujm
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-hfa
-hfa
-hfa
+ujm
+ujm
+ujm
+ujm
+xpM
+eiN
+eiN
+eiN
+eiN
+dQM
+kCu
+lOi
+xpM
+xpM
+fZU
+nVI
+eQo
+xpM
 pcd
-oKc
 ujm
 ujm
 ujm
@@ -255314,29 +255251,29 @@ ujm
 ujm
 ujm
 ujm
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
+ujm
+ujm
+ujm
+ujm
+xpM
+xpM
+jua
+dQM
+dQM
+dQM
+kCu
+xpM
+xpM
+trs
+trs
+trs
 tad
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
+xpM
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ogs
@@ -255766,29 +255703,29 @@ ujm
 ujm
 ujm
 ujm
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
+ujm
+ujm
+ujm
+ujm
+xpM
+kCu
+kCu
+kCu
+kCu
+kCu
+kCu
+xpM
+swA
 trs
-cVA
-cVA
-arc
-sTM
-sTM
-sTM
-ttT
-oKc
+trs
+trs
+trs
+xpM
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ogs
@@ -256218,29 +256155,29 @@ ujm
 ujm
 ujm
 ujm
-oKc
-oKc
+ujm
+ujm
+ujm
+ujm
+xpM
+lZV
+kCu
+kCu
+ykh
+kCu
+wtm
+xpM
 bnt
-bnt
-bnt
-bnt
-bnt
-bnt
-bnt
-bnt
-bnt
-bnt
-bnt
-cVA
-cVA
-cVA
-cVA
-oKc
-iJb
-sTM
-sTM
-sTM
-oKc
+trs
+trs
+trs
+trs
+xpM
+pcd
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ogs
@@ -256671,28 +256608,28 @@ ujm
 ujm
 ujm
 ujm
-oKc
+ujm
+ujm
+ujm
 xpM
-lIZ
-nnD
-bnt
-lIZ
 xpM
-nnD
-bnt
-lIZ
-sSp
-bnt
-cVA
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
+xpM
 fZU
-bLt
-cVA
-oKc
-fSX
-sTM
-sTM
-kcz
-oKc
+trs
+trs
+xpM
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ogs
@@ -257123,28 +257060,28 @@ ujm
 ujm
 ujm
 ujm
-oKc
-nnD
-lIZ
-lIZ
-bnt
-lIZ
-lIZ
-lIZ
-bnt
+ujm
+ujm
+ujm
 xpM
 lIZ
-bnt
-cVA
+xgI
+wJW
+lIZ
+xgI
+xgI
+lIZ
+xpM
+xpM
 uPO
 hBv
-cVA
-oKc
-fSX
-sTM
-sTM
-qzY
-oKc
+trs
+xpM
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ogs
@@ -257575,28 +257512,28 @@ ujm
 ujm
 ujm
 ujm
-oKc
+ujm
+ujm
+ujm
 xpM
+xgI
+xgI
+xgI
+xgI
+xgI
+xgI
+xgI
+xgI
 xpM
-xpM
-bnt
-nnD
-xpM
-lIZ
-bnt
-xpM
-xpM
-bnt
-cVA
 bGK
-hBv
-cVA
-oKc
-fSX
-sTM
-sTM
-eAv
-oKc
+xpM
+vmZ
+xpM
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ogs
@@ -258027,28 +257964,28 @@ ujm
 ujm
 ujm
 ujm
-oKc
-bnt
-bnt
-war
-bnt
-bnt
-bnt
-war
-bnt
-bnt
-war
-bnt
-cVA
-jpw
-lfI
-cVA
-oKc
-fSX
-sTM
-sTM
-xCI
-oKc
+ujm
+ujm
+xpM
+xpM
+xgI
+xgI
+xgI
+xgI
+xgI
+xgI
+xgI
+xgI
+xgI
+xgI
+xgI
+xgI
+xpM
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ogs
@@ -258479,28 +258416,28 @@ ujm
 ujm
 ujm
 ujm
-oKc
-cVA
-cVA
-cVA
-cVA
-cVA
-cVA
-cVA
-cVA
-cVA
-cVA
-cVA
-cVA
+ujm
+ujm
+xpM
+xpM
+lfI
+sHA
+sHA
+sHA
+swe
+sHA
+sHA
+lOR
+sHA
 xEW
-hBv
-cVA
-oKc
-iJb
-sTM
-cmR
-cmR
-oKc
+xgI
+xgI
+xpM
+pcd
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ogs
@@ -258931,29 +258868,29 @@ ujm
 ujm
 ujm
 ujm
-oKc
-bnt
-bnt
-yjb
-bnt
-bnt
-bnt
+ujm
+ujm
+xpM
+bzV
 war
-bnt
-bnt
-gXs
-bnt
-cVA
+sHA
+war
+war
+bzV
+sHA
+bzV
+bzV
+sHA
 xgI
-lfI
-cVA
-lBz
-rrt
-rrt
-cmR
-hQl
-bPp
-xPL
+xgI
+xpM
+xpM
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ogs
 ogs
@@ -259383,28 +259320,28 @@ ujm
 ujm
 ujm
 ujm
-oKc
-lIZ
+ujm
+ujm
 xpM
-lIZ
-bnt
-lIZ
-lIZ
+ylM
+war
+sHA
+bzV
+gXs
+war
+sHA
+bzV
+ttT
+sHA
+xgI
+xgI
 xpM
-bnt
-xpM
-xpM
-bnt
-cVA
-uLZ
-hBv
-cVA
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
+pcd
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ogs
@@ -259835,28 +259772,28 @@ ujm
 ujm
 ujm
 ujm
-oKc
+ujm
+ujm
 xpM
-ylM
-lIZ
-bnt
 xpM
-nnD
-lIZ
-bnt
 xpM
-ylM
-bnt
-cVA
+xpM
+xpM
+xpM
+lVx
+xpM
+xpM
+lVx
+xpM
 erm
-eWa
-cVA
-cVA
-rqG
-sTM
-sTM
-rqG
-oKc
+xpM
+xpM
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ogs
@@ -260287,28 +260224,28 @@ ujm
 ujm
 ujm
 ujm
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
+xpM
 pWt
-cVA
-cVA
+vfk
 pWt
-cVA
-sTM
-sTM
-sTM
-sTM
-oKc
+xpM
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ogs
@@ -260750,17 +260687,17 @@ ujm
 ujm
 ujm
 ujm
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-oKc
-lZV
-oKc
+xpM
+cmR
+cmR
+cmR
+xpM
+ujm
+ujm
+ujm
+ujm
+ujm
+ujm
 ujm
 ujm
 ogs
