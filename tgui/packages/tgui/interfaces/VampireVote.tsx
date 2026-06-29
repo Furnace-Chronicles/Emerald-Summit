@@ -37,7 +37,7 @@ interface Data {
   timeLeft: number;
 }
 
-export const VampireVote = (props: any, context: any) => {
+export const VampireVote = () => {
   const { data, act } = useBackend<Data>();
 
   return (

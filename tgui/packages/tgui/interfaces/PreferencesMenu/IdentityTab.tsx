@@ -6,8 +6,8 @@ import {
   Stack,
 } from 'tgui-core/components';
 
-import { useBackend } from '../../backend';
-import type { BodyData } from './BodySection';
+import type { ActFunctionType } from '../../backend';
+import { BodyAppearanceControls, type BodyData } from './BodySection';
 import type { MarkingsDynamicData, MarkingsStaticData } from './MarkingsSection';
 // Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
 // list passes 7 options. (Replaces the per-tab RawDropdown + inline-Box wrapper.)
@@ -103,10 +103,11 @@ type Data = {
   voice_pack_options: string[];
 };
 
+type IdentityTabProps = { data: Data; act: ActFunctionType };
+
 // Markings rendering moved to MarkingsSection.tsx.
 
-export const IdentityTab = (props) => {
-  const { act, data } = useBackend<Data>();
+export const IdentityTab = ({ data, act }: IdentityTabProps) => {
   // Merge dynamic over static so existing references like id.species_options
   // (static) and id.species_name (dynamic) both resolve. Selections win on
   // collision so the latest push always reflects the current pick.
@@ -191,17 +192,32 @@ export const IdentityTab = (props) => {
               />
             </LabeledList.Item>
             <LabeledList.Item label="Voice Pack">
-              <Dropdown
-                width="180px"
-                menuWidth="220px"
-                selected={id.voice_pack}
-                displayText={id.voice_pack}
-                options={data.voice_pack_options}
-                onSelected={(value) =>
-                  value !== id.voice_pack &&
-                  act('set_voice_pack_direct', { name: value })
-                }
-              />
+              <Stack>
+                <Stack.Item>
+                  <Dropdown
+                    width="180px"
+                    menuWidth="220px"
+                    selected={id.voice_pack}
+                    displayText={id.voice_pack}
+                    options={data.voice_pack_options}
+                    onSelected={(value) =>
+                      value !== id.voice_pack &&
+                      act('set_voice_pack_direct', { name: value })
+                    }
+                  />
+                </Stack.Item>
+                {id.voice_pack !== 'Default' && (
+                  <Stack.Item>
+                    <Button
+                      icon="volume-high"
+                      tooltip="Play a sample"
+                      onClick={() => act('preview_voice_pack')}
+                    >
+                      Sample
+                    </Button>
+                  </Stack.Item>
+                )}
+              </Stack>
             </LabeledList.Item>
             <LabeledList.Item label="Age">
               <Dropdown
@@ -386,6 +402,11 @@ export const IdentityTab = (props) => {
                   </Section>
                 </Stack.Item>
               )}
+              <Stack.Item>
+                <Section title="Appearance">
+                  <BodyAppearanceControls data={data} act={act} />
+                </Section>
+              </Stack.Item>
             </Stack>
           </Stack.Item>
         </Stack>
@@ -405,7 +426,14 @@ export const IdentityTab = (props) => {
                 menuWidth="220px"
                 selected={id.virtue_name}
                 displayText={id.virtue_name}
-                options={[id.virtue_name, ...id.virtue_options]}
+                options={[id.virtue_name, ...id.virtue_options].map((name) => ({
+                  value: name,
+                  displayText: name,
+                  // Grey out whatever the second virtue already holds (the two
+                  // Virtuous slots must differ); "None" stays selectable.
+                  disabled:
+                    name === id.virtuetwo_name && id.virtuetwo_name !== 'None',
+                }))}
                 onSelected={(value) =>
                   value !== id.virtue_name &&
                   act('set_virtue_direct', { name: value })
@@ -425,7 +453,16 @@ export const IdentityTab = (props) => {
                   menuWidth="260px"
                   selected={id.virtuetwo_name}
                   displayText={id.virtuetwo_name}
-                  options={[id.virtuetwo_name, ...id.virtue_options]}
+                  options={[id.virtuetwo_name, ...id.virtue_options].map(
+                    (name) => ({
+                      value: name,
+                      displayText: name,
+                      // Grey out the first virtue's pick so the slots can't match;
+                      // "None" stays selectable.
+                      disabled:
+                        name === id.virtue_name && id.virtue_name !== 'None',
+                    }),
+                  )}
                   onSelected={(value) =>
                     value !== id.virtuetwo_name &&
                     act('set_virtuetwo_direct', { name: value })

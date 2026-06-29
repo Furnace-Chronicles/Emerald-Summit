@@ -15,6 +15,34 @@
 	experimental_inhand = FALSE
 	drop_sound = 'sound/foley/coinphy (1).ogg'
 
+/obj/item/clothing/ring/band
+	name = "silver wedding band"
+	desc = "A simple silver wedding band complete with an ornate design of a lover's name."
+	icon_state = "s_ring_wedding"
+	sellprice = 1	//You must be heartless to sell this.
+	is_silver = TRUE
+	var/choicename = FALSE
+	var/choicedesc = FALSE
+
+/obj/item/clothing/ring/band/attack_right(mob/user)
+	if(choicename)
+		return
+	if(choicedesc)
+		return
+	var/current_time = world.time
+	var/namechoice = input(user, "Input a new name", "Rename Object")
+	var/descchoice = input(user, "Input a new description", "Describe Object")
+	if(namechoice)
+		name = namechoice
+		choicename = TRUE
+	if(descchoice)
+		desc = descchoice
+		choicedesc = TRUE
+	else
+		return
+	if(world.time > (current_time + 30 SECONDS))
+		return
+
 /obj/item/clothing/ring/silver
 	name = "silver ring"
 	icon_state = "ring_s"
@@ -291,7 +319,7 @@
 	. = ..()
 	if(!QDELETED(src))
 		dispel()
-	
+
 /obj/item/clothing/ring/fate_weaver/dropped()
 	. = ..()
 	if(!QDELETED(src))

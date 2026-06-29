@@ -1,3 +1,9 @@
+/datum/voicepack
+	/// Emote keys used to sample this pack via the chargen voice preview button. AP-ported packs
+	/// override this with a tailored set; everything else falls back to this default of common
+	/// emotes that both the male and female base packs resolve.
+	var/list/preview = list("laugh", "hmm", "huh", "groan", "pain", "sigh")
+
 /datum/voicepack/proc/get_sound(soundin, modifiers)
 	return
 

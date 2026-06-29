@@ -7,7 +7,7 @@ import {
   Stack,
 } from 'tgui-core/components';
 
-import { useBackend } from '../../backend';
+import type { ActFunctionType } from '../../backend';
 import { CustomizerCard, CustomizerEntry } from './CustomizerCard';
 // Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
 // list passes 7 options. (Replaces the per-tab RawDropdown + inline-Box wrapper.)
@@ -64,6 +64,8 @@ type Data = {
   customizers_static?: { entries: CustomizerEntryStatic[] };
 };
 
+type BodySectionProps = { data: Data; act: ActFunctionType };
+
 const ColorSwatch = ({ hex }: { hex?: string }) => (
   <Box
     inline
@@ -78,8 +80,181 @@ const ColorSwatch = ({ hex }: { hex?: string }) => (
   />
 );
 
-export const BodySection = () => {
-  const { act, data } = useBackend<Data>();
+/** Appearance controls — ancestry/colours, voice colour, nickname colour, voice
+ *  pitch, accent and sprite scale — relocated to the Identity tab (rendered under
+ *  the Palate section). Reads the same body payload as BodySection, which is now
+ *  also shipped on the identity tab so these resolve there too. */
+export const BodyAppearanceControls = ({ data, act }: BodySectionProps) => {
+  const body = { ...data.body_static, ...data.body } as BodyData;
+  if (!data.body) return null;
+  return (
+    <LabeledList>
+      {!!body.use_skintones && !body.has_lamian_tail && (
+        <LabeledList.Item label={body.skin_tone_wording || 'Skin tone'}>
+          <Dropdown
+            width="180px"
+            menuWidth="220px"
+            selected={body.skin_tone_name}
+            displayText={body.skin_tone_name}
+            options={[
+              body.skin_tone_name,
+              ...body.skin_tone_options.filter((n) => n !== body.skin_tone_name),
+            ]}
+            onSelected={(value) =>
+              value !== body.skin_tone_name &&
+              act('set_skin_tone_direct', { name: value })
+            }
+          />
+          {body.species_id !== 'lupian' && (
+            <Box mt={0.5}>
+              <Button
+                icon="circle-question"
+                tooltip="Skin color reference list"
+                onClick={() => act('show_skin_color_ref')}
+              />
+            </Box>
+          )}
+        </LabeledList.Item>
+      )}
+
+      {!!body.has_mutcolors && !body.has_lamian_tail && !body.has_harpy && (
+        <>
+          <LabeledList.Item label="Mutant Color #1">
+            <ColorSwatch hex={body.mcolor} />
+            <Button onClick={() => act('set_mutant_color', { index: 1 })}>
+              Change
+            </Button>
+          </LabeledList.Item>
+          <LabeledList.Item label="Mutant Color #2">
+            <ColorSwatch hex={body.mcolor2} />
+            <Button onClick={() => act('set_mutant_color', { index: 2 })}>
+              Change
+            </Button>
+          </LabeledList.Item>
+          <LabeledList.Item label="Mutant Color #3">
+            <ColorSwatch hex={body.mcolor3} />
+            <Button onClick={() => act('set_mutant_color', { index: 3 })}>
+              Change
+            </Button>
+          </LabeledList.Item>
+        </>
+      )}
+
+      {!!body.has_lamian_tail && (
+        <>
+          <LabeledList.Item label="Skin/scales color #1">
+            <ColorSwatch hex={body.mcolor} />
+            <Button onClick={() => act('set_skin_choice_pick')}>Change</Button>
+            <Button
+              ml={1}
+              icon="circle-question"
+              tooltip="Skin color reference list"
+              onClick={() => act('show_skin_color_ref')}
+            />
+          </LabeledList.Item>
+          <LabeledList.Item label="Feature Color #1">
+            <ColorSwatch hex={body.mcolor2} />
+            <Button onClick={() => act('set_mutant_color', { index: 2 })}>
+              Change
+            </Button>
+          </LabeledList.Item>
+          <LabeledList.Item label="Feature Color #2">
+            <ColorSwatch hex={body.mcolor3} />
+            <Button onClick={() => act('set_mutant_color', { index: 3 })}>
+              Change
+            </Button>
+          </LabeledList.Item>
+        </>
+      )}
+
+      {!!body.has_harpy && (
+        <>
+          <LabeledList.Item label="Skin/Feathers color #1">
+            <ColorSwatch hex={body.mcolor} />
+            <Button onClick={() => act('set_skin_feathers_pick')}>Change</Button>
+            <Button
+              ml={1}
+              icon="circle-question"
+              tooltip="Skin color reference list"
+              onClick={() => act('show_skin_color_ref')}
+            />
+          </LabeledList.Item>
+          <LabeledList.Item label="Feature Color #1">
+            <ColorSwatch hex={body.mcolor2} />
+            <Button onClick={() => act('set_mutant_color', { index: 2 })}>
+              Change
+            </Button>
+          </LabeledList.Item>
+          <LabeledList.Item label="Feature Color #2">
+            <ColorSwatch hex={body.mcolor3} />
+            <Button onClick={() => act('set_mutant_color', { index: 3 })}>
+              Change
+            </Button>
+          </LabeledList.Item>
+        </>
+      )}
+
+      <LabeledList.Item label="Voice Color">
+        <ColorSwatch hex={body.voice_color?.replace('#', '')} />
+        <Button onClick={() => act('set_voice_color')}>Change</Button>
+      </LabeledList.Item>
+      <LabeledList.Item label="Nickname Color">
+        <ColorSwatch hex={body.highlight_color?.replace('#', '')} />
+        <Button onClick={() => act('set_highlight_color')}>Change</Button>
+      </LabeledList.Item>
+      <LabeledList.Item label="Voice Pitch">
+        <Box width="220px" inline>
+          <Slider
+            minValue={body.voice_pitch_min}
+            maxValue={body.voice_pitch_max}
+            value={body.voice_pitch}
+            step={0.01}
+            stepPixelSize={5}
+            format={(v) => v.toFixed(2)}
+            onChange={(_e, value) => act('set_voice_pitch_direct', { value })}
+          />
+        </Box>
+        <Box inline ml={1} color="label">
+          (lower is deeper)
+        </Box>
+      </LabeledList.Item>
+      <LabeledList.Item label="Accent">
+        <Dropdown
+          width="180px"
+          menuWidth="220px"
+          selected={body.char_accent}
+          displayText={body.char_accent}
+          options={body.accent_options}
+          onSelected={(value) =>
+            value !== body.char_accent &&
+            act('set_char_accent_direct', { name: value })
+          }
+        />
+      </LabeledList.Item>
+      <LabeledList.Item label="Sprite Scale">
+        <Box width="220px" inline>
+          <Slider
+            minValue={body.body_size_min_pct}
+            maxValue={body.body_size_max_pct}
+            value={body.body_size_pct}
+            step={1}
+            stepPixelSize={20}
+            unit="%"
+            disabled={!!body.body_size_locked}
+            onChange={(_e, value) => act('set_body_size_direct', { value })}
+          />
+        </Box>
+        {!!body.body_size_locked && (
+          <Box inline ml={1} color="label">
+            locked by virtue
+          </Box>
+        )}
+      </LabeledList.Item>
+    </LabeledList>
+  );
+};
+
+export const BodySection = ({ data, act }: BodySectionProps) => {
   // Merge static option lists into the dynamic body data so existing
   // body.skin_tone_options / body.accent_options references resolve.
   const body = { ...data.body_static, ...data.body } as BodyData;
@@ -110,180 +285,6 @@ export const BodySection = () => {
           <Button onClick={() => act('toggle_update_mutant_colors')}>
             {body.update_mutant_colors ? 'Yes' : 'No'}
           </Button>
-        </LabeledList.Item>
-
-        {!!body.use_skintones && !body.has_lamian_tail && (
-          <LabeledList.Item label={body.skin_tone_wording || 'Skin tone'}>
-            <Dropdown
-              width="180px"
-              menuWidth="220px"
-              selected={body.skin_tone_name}
-              displayText={body.skin_tone_name}
-              options={[
-                body.skin_tone_name,
-                ...body.skin_tone_options.filter(
-                  (n) => n !== body.skin_tone_name,
-                ),
-              ]}
-              onSelected={(value) =>
-                value !== body.skin_tone_name &&
-                act('set_skin_tone_direct', { name: value })
-              }
-            />
-            {body.species_id !== 'lupian' && (
-              <Box mt={0.5}>
-                <Button
-                  icon="circle-question"
-                  tooltip="Skin color reference list"
-                  onClick={() => act('show_skin_color_ref')}
-                />
-              </Box>
-            )}
-          </LabeledList.Item>
-        )}
-
-        {!!body.has_mutcolors &&
-          !body.has_lamian_tail &&
-          !body.has_harpy && (
-            <>
-              <LabeledList.Item label="Mutant Color #1">
-                <ColorSwatch hex={body.mcolor} />
-                <Button onClick={() => act('set_mutant_color', { index: 1 })}>
-                  Change
-                </Button>
-              </LabeledList.Item>
-              <LabeledList.Item label="Mutant Color #2">
-                <ColorSwatch hex={body.mcolor2} />
-                <Button onClick={() => act('set_mutant_color', { index: 2 })}>
-                  Change
-                </Button>
-              </LabeledList.Item>
-              <LabeledList.Item label="Mutant Color #3">
-                <ColorSwatch hex={body.mcolor3} />
-                <Button onClick={() => act('set_mutant_color', { index: 3 })}>
-                  Change
-                </Button>
-              </LabeledList.Item>
-            </>
-          )}
-
-        {!!body.has_lamian_tail && (
-          <>
-            <LabeledList.Item label="Skin/scales color #1">
-              <ColorSwatch hex={body.mcolor} />
-              <Button onClick={() => act('set_skin_choice_pick')}>
-                Change
-              </Button>
-              <Button
-                ml={1}
-                icon="circle-question"
-                tooltip="Skin color reference list"
-                onClick={() => act('show_skin_color_ref')}
-              />
-            </LabeledList.Item>
-            <LabeledList.Item label="Feature Color #1">
-              <ColorSwatch hex={body.mcolor2} />
-              <Button onClick={() => act('set_mutant_color', { index: 2 })}>
-                Change
-              </Button>
-            </LabeledList.Item>
-            <LabeledList.Item label="Feature Color #2">
-              <ColorSwatch hex={body.mcolor3} />
-              <Button onClick={() => act('set_mutant_color', { index: 3 })}>
-                Change
-              </Button>
-            </LabeledList.Item>
-          </>
-        )}
-
-        {!!body.has_harpy && (
-          <>
-            <LabeledList.Item label="Skin/Feathers color #1">
-              <ColorSwatch hex={body.mcolor} />
-              <Button onClick={() => act('set_skin_feathers_pick')}>
-                Change
-              </Button>
-              <Button
-                ml={1}
-                icon="circle-question"
-                tooltip="Skin color reference list"
-                onClick={() => act('show_skin_color_ref')}
-              />
-            </LabeledList.Item>
-            <LabeledList.Item label="Feature Color #1">
-              <ColorSwatch hex={body.mcolor2} />
-              <Button onClick={() => act('set_mutant_color', { index: 2 })}>
-                Change
-              </Button>
-            </LabeledList.Item>
-            <LabeledList.Item label="Feature Color #2">
-              <ColorSwatch hex={body.mcolor3} />
-              <Button onClick={() => act('set_mutant_color', { index: 3 })}>
-                Change
-              </Button>
-            </LabeledList.Item>
-          </>
-        )}
-
-        <LabeledList.Item label="Voice Color">
-          <ColorSwatch hex={body.voice_color?.replace('#', '')} />
-          <Button onClick={() => act('set_voice_color')}>Change</Button>
-        </LabeledList.Item>
-        <LabeledList.Item label="Nickname Color">
-          <ColorSwatch hex={body.highlight_color?.replace('#', '')} />
-          <Button onClick={() => act('set_highlight_color')}>Change</Button>
-        </LabeledList.Item>
-        <LabeledList.Item label="Voice Pitch">
-          <Box width="220px" inline>
-            <Slider
-              minValue={body.voice_pitch_min}
-              maxValue={body.voice_pitch_max}
-              value={body.voice_pitch}
-              step={0.01}
-              stepPixelSize={5}
-              format={(v) => v.toFixed(2)}
-              onChange={(_e, value) =>
-                act('set_voice_pitch_direct', { value })
-              }
-            />
-          </Box>
-          <Box inline ml={1} color="label">
-            (lower is deeper)
-          </Box>
-        </LabeledList.Item>
-        <LabeledList.Item label="Accent">
-          <Dropdown
-            width="180px"
-            menuWidth="220px"
-            selected={body.char_accent}
-            displayText={body.char_accent}
-            options={body.accent_options}
-            onSelected={(value) =>
-              value !== body.char_accent &&
-              act('set_char_accent_direct', { name: value })
-            }
-          />
-        </LabeledList.Item>
-        <LabeledList.Item label="Sprite Scale">
-          <Box width="220px" inline>
-            <Slider
-              minValue={body.body_size_min_pct}
-              maxValue={body.body_size_max_pct}
-              value={body.body_size_pct}
-              step={1}
-              stepPixelSize={20}
-              unit="%"
-              disabled={!!body.body_size_locked}
-              onChange={(_e, value) =>
-                act('set_body_size_direct', { value })
-              }
-            />
-          </Box>
-          {!!body.body_size_locked && (
-            <Box inline ml={1} color="label">
-              locked by virtue
-            </Box>
-          )}
         </LabeledList.Item>
       </LabeledList>
         </Stack.Item>

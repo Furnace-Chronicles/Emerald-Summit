@@ -41,6 +41,38 @@
 /datum/job/roguetown/prisonerr/special_check_latejoin(client/C)
 	return FALSE
 
+//disgraced noble prisoner, for my own vanity
+/datum/outfit/job/roguetown/disgraced_prisoner
+	name = "Former Noble"
+
+/datum/outfit/job/roguetown/disgraced_prisoner/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(!H) return
+	..() // Call base prisoner outfit
+	if(H.mind)
+		H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
+		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
+		if(H.age == AGE_OLD)
+			H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
+			H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+		H.change_stat("intelligence", 1)
+		H.change_stat("endurance", 1)
+		H.change_stat("perception", 2)
+		H.change_stat("speed", 1)
+		ADD_TRAIT(H, TRAIT_DISGRACED_NOBLE, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)
+
+/datum/advclass/disgraced_prisoner
+	parent_type = /datum/advclass
+	outfit = /datum/outfit/job/roguetown/disgraced_prisoner
+	name = "Former Noble"
+	category_tags = list(CTAG_PRISONER)
+
+
 // Prisoner-specific subclasses, inheriting from towner roles
 /datum/outfit/job/prisoner_farmer
 	name = "Prisoner Farmer"
@@ -627,6 +659,11 @@
 	// Grant miracles like missionary
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR)	//Minor regen, can level up to T4.
+	if(istype(H.patron, /datum/patron/divine))
+		// For now, only Tennites get this. Heretics can have a special treat later
+		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
+	if(istype(H.patron, /datum/patron/inhumen))
+		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
 
 // Thief subclass here. Thieves are thieves, there would be prisoners who are thieves.
 /datum/advclass/prisonerthief

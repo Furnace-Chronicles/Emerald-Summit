@@ -176,6 +176,15 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 				if(length(client.prefs.ooc_notes) < MINIMUM_OOC_NOTES)
 					to_chat(src, span_boldwarning("You need at least a few words in your OOC notes in order to play."))
 					return
+				for(var/job_title in client.prefs.job_preferences)
+					if(!client.prefs.job_preferences[job_title])
+						continue
+					if(!SSjob.GetJob(job_title))
+						to_chat(src, span_boldwarning("Your saved preference for '[job_title]' is not available on this server. Please update your job preferences before readying."))
+						return
+					if(IsJobUnavailable(job_title) == JOB_UNAVAILABLE_PQ)
+						to_chat(src, span_boldwarning("Your saved preference for '[job_title]' requires Player Quality you no longer meet. Please update your job preferences before readying."))
+						return
 
 			if(ready != tready)
 				ready = tready

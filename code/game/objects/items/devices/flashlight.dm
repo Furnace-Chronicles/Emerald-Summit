@@ -314,12 +314,18 @@
 	extinguishable = FALSE
 	weather_resistant = TRUE
 
-/obj/item/flashlight/flare/torch/lantern/on_enter_storage(datum/component/storage/concrete/S, mob/M)
+// Lanterns stay lit when stored, but their light is suppressed while inside a container
+// (bag/pouch) so it doesn't shine through. Held or worn directly (loc is a mob) or on the
+// ground (loc is a turf) still emit light normally.
+/obj/item/flashlight/flare/torch/lantern/update_brightness(mob/user = null)
+	. = ..()
+	if(on && !isturf(loc) && !ismob(loc))
+		set_light_on(FALSE)
+
+/obj/item/flashlight/flare/torch/lantern/Moved(atom/OldLoc, Dir, Forced = FALSE)
 	. = ..()
 	if(on)
-		turn_off()
-		if(usr)
-			to_chat(usr, span_notice("The lantern snuffs out as I tuck it away."))
+		update_brightness()
 
 /obj/item/flashlight/flare/torch/lantern/afterattack(atom/movable/A, mob/user, proximity)
 	. = ..()

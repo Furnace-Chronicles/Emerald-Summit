@@ -184,6 +184,7 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
 	H.miracle_points = max(H.miracle_points, 10)
+	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
 
 /datum/outfit/job/monk/basic/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
