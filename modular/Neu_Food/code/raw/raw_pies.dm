@@ -47,7 +47,7 @@ And I don't wanna copypaste what Vanderlin has
 	var/mutable_appearance/piebottom = mutable_appearance(icon, "pieuncooked")
 	var/mutable_appearance/roofeat = mutable_appearance(icon, "meatpie_raw")
 	var/mutable_appearance/roofish = mutable_appearance(icon, "fishpie_raw")
-	var/mutable_appearance/roofkin = mutable_appearance(icon, "pumpkinpie_raw")
+	var/mutable_appearance/roofkin = mutable_appearance(icon, "pumpkinpie")
 	if (process_step == 2 && applepie)
 		var/mutable_appearance/apple1 = mutable_appearance(icon, "fill_apple1")
 		add_overlay(apple1)
@@ -271,7 +271,6 @@ And I don't wanna copypaste what Vanderlin has
 			if(do_after(user,short_cooktime, target = src))
 				name = "uncooked pumpkin pie"
 				desc = initial(desc)
-				icon_state = "pumpkinpie_raw"
 				filling_color = "#df5c04"
 				cooked_type = /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/pumpkin
 				cooked_smell = /datum/pollutant/food/pumpkin_pie

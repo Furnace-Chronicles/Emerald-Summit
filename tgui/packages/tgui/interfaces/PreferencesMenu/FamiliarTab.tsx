@@ -6,7 +6,7 @@ import {
   Stack,
 } from 'tgui-core/components';
 
-import { useBackend } from '../../backend';
+import type { ActFunctionType } from '../../backend';
 // Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
 // list passes 7 options. (Replaces the per-tab RawDropdown + inline-Box wrapper.)
 import { SearchableDropdown as Dropdown } from '../common/SearchableDropdown';
@@ -32,8 +32,9 @@ type Data = {
   familiar_static: Partial<FamiliarData>;
 };
 
-export const FamiliarTab = (props) => {
-  const { act, data } = useBackend<Data>();
+type FamiliarTabProps = { data: Data; act: ActFunctionType };
+
+export const FamiliarTab = ({ data, act }: FamiliarTabProps) => {
   // Merge static option lists (pronoun_options, specie_options) into the
   // dynamic familiar block.
   const f = {

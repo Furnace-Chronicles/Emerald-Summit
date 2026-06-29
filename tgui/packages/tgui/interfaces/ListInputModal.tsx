@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { BooleanLike } from 'tgui-core/react';
 import { useBackend } from 'tgui/backend';
 import { Window } from 'tgui/layouts';
 import { Autofocus, Button, Divider, Input, Section, Stack } from 'tgui-core/components';
@@ -10,13 +11,13 @@ import { Loader } from './common/Loader';
 type ListInputData = {
   init_value: string;
   items: string[];
-  large_buttons: boolean;
+  large_buttons: BooleanLike;
   message: string;
   timeout: number;
   title: string;
 };
 
-export const ListInputModal = (props) => {
+export const ListInputModal = () => {
   const { act, data } = useBackend<ListInputData>();
   const {
     items = [],

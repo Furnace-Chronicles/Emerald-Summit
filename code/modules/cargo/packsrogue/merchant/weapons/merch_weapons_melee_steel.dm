@@ -25,7 +25,7 @@
 	name = "Steel Knuckle"
 	cost = 40 // 1 Steel Ingot
 	contains = list(
-					/obj/item/clothing/gloves/roguetown/knuckles
+					/obj/item/rogueweapon/knuckles
 				)
 
 /datum/supply_pack/rogue/steel_weapons/rapier

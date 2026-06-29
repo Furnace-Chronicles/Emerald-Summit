@@ -2,11 +2,9 @@ import { useMemo, useState } from 'react';
 import { Box, Button, Image, Section, Stack } from 'tgui-core/components';
 
 import { resolveAsset } from '../assets';
-import { useBackend } from '../backend';
 import { ExaminePanelData } from './ExaminePanelData';
 
-export const FlavorTextPage = (props) => {
-  const { data } = useBackend<ExaminePanelData>();
+export const FlavorTextPage = ({ data }: { data: ExaminePanelData }) => {
   const {
     flavor_text,
     flavor_text_nsfw,
@@ -189,15 +187,13 @@ const ImageCarousel = (props: { images: string[] }) => {
   );
 };
 
-export const ImageGalleryPage = (props) => {
-  const { data } = useBackend<ExaminePanelData>();
+export const ImageGalleryPage = ({ data }: { data: ExaminePanelData }) => {
   const { img_gallery } = data;
 
   return <ImageCarousel images={img_gallery} />;
 };
 
-export const NsfwImageGalleryPage = (props) => {
-  const { data } = useBackend<ExaminePanelData>();
+export const NsfwImageGalleryPage = ({ data }: { data: ExaminePanelData }) => {
   const { img_gallery_nsfw } = data;
 
   return <ImageCarousel images={img_gallery_nsfw} />;

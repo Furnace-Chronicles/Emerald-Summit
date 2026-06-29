@@ -6,7 +6,7 @@ import {
   Stack,
 } from 'tgui-core/components';
 
-import { useBackend } from '../../backend';
+import type { ActFunctionType } from '../../backend';
 // Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
 // list passes 7 options. (Replaces the per-tab RawDropdown + inline-Box wrapper.)
 import { SearchableDropdown as Dropdown } from '../common/SearchableDropdown';
@@ -40,8 +40,9 @@ type Data = {
   gnoll_static: Partial<GnollData>;
 };
 
-export const GnollTab = (props) => {
-  const { act, data } = useBackend<Data>();
+type GnollTabProps = { data: Data; act: ActFunctionType };
+
+export const GnollTab = ({ data, act }: GnollTabProps) => {
   // Merge static option lists into the dynamic gnoll selections.
   const g = { ...data.gnoll_static, ...data.gnoll } as GnollData;
   if (!data.gnoll) {

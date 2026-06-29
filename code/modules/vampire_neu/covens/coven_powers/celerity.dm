@@ -23,6 +23,7 @@
 	if(level > 2)
 		owner.AddComponent(/datum/component/after_image)
 		playsound(owner,'sound/magic/timeforward.ogg', 40, TRUE)
+		ADD_TRAIT(owner, TRAIT_TEMPO, TRAIT_VAMPIRE)
 		owner.visible_message(
 			span_warning("[owner] starts moving at inhumen speeds, their every action a blur!"))
 		if(level > 3) // "Move faster. React in less time. Your body is under perfect control."
@@ -35,6 +36,11 @@
 	qdel(owner.GetComponent(/datum/component/after_image))
 	owner.remove_status_effect(/datum/status_effect/buff/celerity)
 	if(level > 2)
+		owner.remove_status_effect(/datum/status_effect/buff/tempo_one)
+		owner.remove_status_effect(/datum/status_effect/buff/tempo_two)
+		owner.remove_status_effect(/datum/status_effect/buff/tempo_three)
+		REMOVE_TRAIT(owner, TRAIT_TEMPO, TRAIT_VAMPIRE)
+		
 		owner.remove_movespeed_modifier(MOVESPEED_ID_CELERITY)
 		playsound(owner,'sound/magic/timestop.ogg', 40, TRUE)
 		if(level > 3)

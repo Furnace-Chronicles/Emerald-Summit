@@ -194,3 +194,42 @@ GLOBAL_LIST_INIT(tail_types, subtypesof(/obj/item/bodypart/lamian_tail))
 
 	has_tail_color = TRUE
 	leg_armor_type = /obj/item/clothing/suit/roguetown/armor/skin_armor/lamian_legs/drider
+
+// --- AP taur roster ported into the lamian_tail pipeline (AP PR #3224 + #5460). -----------------
+// AP renders one flat sprite per body, so only tail_icon_state is set here; ES's tip/markings layers
+// just render blank (see get_limb_icon's comment). The sprite states must be merged into
+// icons/mob/species/taurs.dmi from AP's icons/mob/taurs.dmi:
+//   naga_s; saiga_s + clip_mask_saiga; goat_s + clip_mask_goat.
+// These are the "plain" taur bodies: no natural leg armor (lamia/drider keep their own).
+
+// Generic naga lower body (AP base /obj/item/bodypart/taur, naga_s).
+/obj/item/bodypart/lamian_tail/naga
+	name = "naga body"
+
+	offset_x = -16
+	tail_icon_state = "naga_s"
+
+	has_tail_color = TRUE
+	leg_armor_type = null
+
+// Saiga centaur lower body (AP /obj/item/bodypart/taur/horse, saiga_s).
+/obj/item/bodypart/lamian_tail/saiga
+	name = "saiga body"
+
+	offset_x = -16
+	tail_icon_state = "saiga_s"
+	clip_mask_state = "clip_mask_saiga"
+
+	has_tail_color = TRUE
+	leg_armor_type = null
+
+// Satyr / digitigrade goat legs (AP /obj/item/bodypart/taur/goat, goat_s — AP PR #5460).
+/obj/item/bodypart/lamian_tail/goat
+	name = "goat legs"
+
+	offset_x = -16
+	tail_icon_state = "goat_s"
+	clip_mask_state = "clip_mask_goat"
+
+	has_tail_color = TRUE
+	leg_armor_type = null

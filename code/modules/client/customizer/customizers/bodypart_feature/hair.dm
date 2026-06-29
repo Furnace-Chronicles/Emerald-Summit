@@ -151,7 +151,7 @@
 	name = "Facial Hair"
 
 /datum/customizer/bodypart_feature/hair/facial/is_allowed(datum/preferences/prefs)
-	return (prefs.gender == MALE)
+	return (prefs.gender == MALE || prefs.gender == FEMALE)
 
 /datum/customizer_choice/bodypart_feature/hair/facial
 	abstract_type = /datum/customizer_choice/bodypart_feature/hair/facial
@@ -647,7 +647,7 @@
 		)
 
 /datum/customizer_choice/bodypart_feature/hair/facial/humanoid/get_random_accessory(datum/customizer_entry/entry, datum/preferences/prefs)
-	if(prefs.gender == MALE)
+	if(prefs.gender == MALE || prefs.gender == FEMALE)
 		return pick(sprite_accessories)
 	else
 		return /datum/sprite_accessory/hair/facial/shaved

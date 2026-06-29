@@ -1,27 +1,28 @@
-/mob/living/carbon/human/species/drider
-	race = /datum/species/drider
+/mob/living/carbon/human/species/taur
+	race = /datum/species/taur
 
-// Drider — a Beastvolk subrace: a humanoid torso atop a great spider's body. Reuses the lamian/taur
-// lower-body pipeline (LAMIAN_TAIL trait + lamian_tail bodypart), so the tail picker, tail colour and
-// rendering all work; on species gain the legs are swapped for the spider lower body, and on loss they
-// revert to normal legs. The spider leg sprites live in icons/mob/species/taurs.dmi.
-/datum/species/drider
-	name = "Drider"
-	id = "drider"
-	is_subrace = TRUE
-	origin_default = /datum/virtue/origin/racial/underdark
-	origin = "Underdark"
+// Taur — the generic centaur-kin. Unlike Lamia (snake/mermaid) and Drider (spider), the Taur has no
+// fixed lower body: it picks any of the taur lower bodies from the chargen tail picker. It is the
+// non-subrace anchor of the "Taur" race group; Lamia and Drider sit under it as subraces.
+// Reuses the lamian_tail lower-body pipeline (LAMIAN_TAIL trait + lamian_tail bodypart): the tail
+// picker, colour and rendering all work, legs are swapped on species gain and reverted on loss.
+/datum/species/taur
+	name = "Taur"
+	id = "taur"
+	is_subrace = FALSE
+	origin_default = /datum/virtue/origin/etrusca
+	origin = "Etrusca"
 	use_titles = TRUE
-	race_titles = list("Drider", "Arachne", "Webweaver", "Spinneret", "Spider-kin")
+	race_titles = list("Centaur", "Taur", "Saiga", "Satyr", "Naga", "Beastlegs")
 	base_name = "Taur"
-	sub_name = "Drider"
-	desc = "<b>Drider</b><br>\
-	A humanoid torso rising from the body of a great spider. Driders are reclusive weavers of the deep \
-	woods, caverns and ruins, scuttling across walls and webs with unsettling ease. Shunned for their \
-	monstrous shape, most keep to the wilds and the dark, though a rare few walk among the other races. \
-	They move freely across the webs of their kin and the spines of caltrops trouble them not.<br> \
-	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>-1 SPD, -1 PER</span> |<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'> +2 CON</b></span> </br> \
-	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Can't wear boots</span> | <span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Venomous, Webmaker, Longstrider, Webwalker, Skilled Climber, Strong stomach, Underdarker</span></b>"
+	sub_name = "Taur"
+	desc = "<b>Taur</b><br>\
+	The taur-kin are those beastvolk whose lower halves are wholly bestial — a humanoid torso rising from \
+	the body of a horse, a goat, a serpent or worse. No two taur tribes agree on which beast is the truest, \
+	and so they have spread across the southern reaches in every shape imaginable. Strong of frame and long \
+	of stride, they cannot abide boots upon their hooves, paws or coils.<br> \
+	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>-1 SPD</span> |<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'> +1 STR</b></span> </br> \
+	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Can't wear boots</span> | <span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Strong kicks, Longstrider</span></b>"
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR, LIPS, HAIR, LAMIAN_TAIL, OLDGREY, MUTCOLORS)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
@@ -30,7 +31,7 @@
 	limbs_icon_f = 'icons/roguetown/mob/bodies/f/human.dmi'
 	dam_icon = 'icons/roguetown/mob/bodies/dam/dam_male.dmi'
 	dam_icon_f = 'icons/roguetown/mob/bodies/dam/dam_female.dmi'
-	// Boots/pants are blocked dynamically while the spider lower body is present (see can_equip's
+	// Boots/pants are blocked dynamically while a taur lower body is present (see can_equip's
 	// get_lamian_tail() gate); if it's ever surgically replaced with legs, leg gear becomes wearable.
 	no_equip = list()
 	soundpack_m = /datum/voicepack/male
@@ -47,9 +48,10 @@
 		OFFSET_NECK_F = list(0,-1), OFFSET_MOUTH_F = list(0,-1), OFFSET_PANTS_F = list(0,0), \
 		OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,-1), \
 		)
-	inherent_traits = list(TRAIT_LONGSTRIDER, TRAIT_WILD_EATER, TRAIT_CALTROPIMMUNE, TRAIT_WEBWALK, TRAIT_VENOMOUS, TRAIT_UNDERDARK)
+	// Plain centaur: Longstrider only — no wild-eater / caltrop immunity (those are snake/spider perks).
+	inherent_traits = list(TRAIT_LONGSTRIDER)
 	disliked_food = NONE
-	race_bonus = list(STAT_CONSTITUTION = 2, STAT_SPEED = -1, STAT_PERCEPTION = -1)
+	race_bonus = list(STAT_STRENGTH = 1, STAT_SPEED = -1)
 	enflamed_icon = "widefire"
 	organs = list(
 		ORGAN_SLOT_BRAIN = /obj/item/organ/brain,
@@ -57,7 +59,7 @@
 		ORGAN_SLOT_LUNGS = /obj/item/organ/lungs,
 		ORGAN_SLOT_EYES = /obj/item/organ/eyes,
 		ORGAN_SLOT_EARS = /obj/item/organ/ears,
-		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue/wild_tongue,
+		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue,
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,
@@ -105,36 +107,28 @@
 		/datum/descriptor_choice/prominent_four_wild,
 	)
 
+	// Generic taur lower bodies only (naga is first, so it's the default). The lamia tail, mermaid
+	// tails and drider legs are deliberately NOT here — they belong to the Lamia and Drider
+	// subspecies; pick the matching subrace to use those bodies.
 	allowed_tail_types = list(
-		/obj/item/bodypart/lamian_tail/drider,
+		/obj/item/bodypart/lamian_tail/naga,
+		/obj/item/bodypart/lamian_tail/saiga,
+		/obj/item/bodypart/lamian_tail/goat,
 	)
 
-/datum/species/drider/check_roundstart_eligible()
+/datum/species/taur/check_roundstart_eligible()
 	return TRUE
 
-/datum/species/drider/qualifies_for_rank(rank, list/features)
+/datum/species/taur/qualifies_for_rank(rank, list/features)
 	return TRUE
 
-/datum/species/drider/on_species_gain(mob/living/carbon/C, datum/species/old_species)
+/datum/species/taur/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	..()
-	C.Driderize()
-	C.adjust_skillrank(/datum/skill/misc/climbing, 5, TRUE)
-	C.AddSpell(new /obj/effect/proc_holder/spell/self/weaveweb) 
-	// scuttling across walls and webs
-	// now makes webs! yippee! make your nests!  
-	// Natural chitin armor is granted by the drider legs bodypart itself (attach_limb), so it
-	// follows the lower body rather than the species. See lamian_tail.dm.
+	C.Lamiaze() // installs the player-picked lower body (prefs.tail_type) via the lamian_tail pipeline
 
-/datum/species/drider/on_species_loss(mob/living/carbon/C)
+/datum/species/taur/on_species_loss(mob/living/carbon/C)
 	. = ..()
 	C.de_Lamia() // gives normal legs back
 
-/datum/species/drider/spec_fully_heal(mob/living/carbon/human/H)
-	H.Driderize()
-
-// Drider chitin — natural armor on the spider legs (see lamian_legs base in lamia.dm / harpy talon skin).
-/obj/item/clothing/suit/roguetown/armor/skin_armor/lamian_legs/drider
-	name = "chitinous legs"
-
-/obj/item/clothing/suit/roguetown/armor/skin_armor/lamian_legs/drider/obj_destruction()
-	visible_message("The chitin cracks!", span_bloody("<b>THE CHITIN ON MY LEGS CRACKS!!</b>"))
+/datum/species/taur/spec_fully_heal(mob/living/carbon/human/H)
+	H.Lamiaze()
