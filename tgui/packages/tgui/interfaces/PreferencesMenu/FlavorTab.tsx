@@ -1,6 +1,6 @@
 import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
 
-import { useBackend } from '../../backend';
+import type { ActFunctionType } from '../../backend';
 
 type FlavorData = {
   agevetted: 0 | 1;
@@ -28,6 +28,8 @@ type Data = {
   flavor: FlavorData;
 };
 
+type FlavorTabProps = { data: Data; act: ActFunctionType };
+
 const lenStatus = (current: number, minimum: number) => {
   if (current === 0) {
     return { text: '(unset)', color: 'bad' as const };
@@ -45,8 +47,7 @@ const TIP_IMAGE = `Direct https image link ending in .jpg, .png, or .jpeg, hoste
 const TIP_GALLERY = `Direct https image link ending in .jpg, .png, .jpeg, or .gif, hosted on ${UPLOAD_HOSTS}.`;
 const TIP_EXTRA = `Direct https link ending in .jpg, .png, .jpeg, .gif, .mp4, or .mp3, hosted on ${UPLOAD_HOSTS}.`;
 
-export const FlavorTab = (props) => {
-  const { act, data } = useBackend<Data>();
+export const FlavorTab = ({ data, act }: FlavorTabProps) => {
   const flavor = data.flavor;
 
   if (!flavor) {

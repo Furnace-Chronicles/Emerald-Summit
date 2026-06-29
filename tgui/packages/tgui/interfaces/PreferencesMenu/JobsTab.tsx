@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Box, Button, Section, Stack, Table } from 'tgui-core/components';
 
-import { useBackend } from '../../backend';
+import type { ActFunctionType } from '../../backend';
 
 type JobState =
   | 'banned'
@@ -62,6 +62,8 @@ type Data = {
   jobs: JobsDynamicData;
   jobs_static: JobsStaticData;
 };
+
+type JobsTabProps = { data: Data; act: ActFunctionType };
 
 // Group the flat job list into categories (Nobles / Courtiers / ... / Other)
 // using the backend-supplied category fields, then lay out three columns to
@@ -228,8 +230,7 @@ const JobTutorialView = ({
   );
 };
 
-export const JobsTab = (props) => {
-  const { act, data } = useBackend<Data>();
+export const JobsTab = ({ data, act }: JobsTabProps) => {
   const jobsDynamic = data.jobs;
   const jobsStatic = data.jobs_static;
   const [tutorialJob, setTutorialJob] = useState<JobEntry | null>(null);

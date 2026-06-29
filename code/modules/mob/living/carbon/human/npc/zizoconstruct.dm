@@ -66,7 +66,7 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 /datum/outfit/job/human/species/construct/metal/zizoconstruct/pre_equip(mob/living/carbon/human/H)
 	..()
 	shirt = /obj/item/clothing/suit/roguetown/armor/skin_armor/zizoconstructarmor
-	gloves = /obj/item/clothing/gloves/roguetown/knuckles/bronze/zizoconstruct
+	l_hand = /obj/item/rogueweapon/knuckles/bronzeknuckles/zizoconstruct
 
 	H.STASTR = 20
 	H.STASPD = 8
@@ -78,6 +78,22 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+
+/obj/item/rogueweapon/knuckles/bronzeknuckles/zizoconstruct //I have no unarmed and I must parry. More interesting than defprob and gives construct PC a fun item to loot and use
+	name = "golem knuckles"
+	desc = "A viscious pair of bronze knuckles designed specifically for golems. There is a terrifying, hollow spike in the center of the grip. There doesn't seem to be a way to wield it without impaling yourself."
+	wdefense = 7.5
+	color = "#5f1414"
+	max_integrity = 350
+	anvilrepair = /datum/skill/craft/engineering
+
+/obj/item/rogueweapon/knuckles/bronzeknuckles/zizoconstruct/pickup(mob/living/user)
+	if(!HAS_TRAIT(user, TRAIT_BLOODLOSS_IMMUNE))
+		to_chat(user, "<font color='purple'> You attempt to wield the knuckles. The spike sinks deeply into your hand, piercing it and drinking deep of your vital energies!</font>")
+		user.adjustBruteLoss(15)
+		user.Stun(40)
+		playsound(user, 'sound/misc/drink_blood.ogg', 100)
+	..()
 
 /obj/item/clothing/suit/roguetown/armor/skin_armor/zizoconstructarmor //ww armor but for golem
 	slot_flags = SHIRT_LAYER

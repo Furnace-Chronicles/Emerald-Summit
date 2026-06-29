@@ -1,6 +1,6 @@
 import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
 
-import { useBackend } from '../../backend';
+import type { ActFunctionType } from '../../backend';
 
 type AdminOocData = {
   hear_adminhelps: 0 | 1;
@@ -37,8 +37,9 @@ type Data = {
   ooc_prefs: OocPrefsData;
 };
 
-export const OocPrefsTab = (props) => {
-  const { act, data } = useBackend<Data>();
+type OocPrefsTabProps = { data: Data; act: ActFunctionType };
+
+export const OocPrefsTab = ({ data, act }: OocPrefsTabProps) => {
   const op = data.ooc_prefs;
   if (!op) {
     return <Box color="label">Loading…</Box>;
