@@ -2812,6 +2812,7 @@
 #include "modular_azurepeak\code\modules\spells\magi2\spells\arcyne_ward\conjure.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\spells\arcyne_ward\crystalhide.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\spells\arcyne_ward\dragonhide.dm"
+#include "modular_azurepeak\code\modules\spells\magi2\spells\arcyne_ward\bathyhide.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\spells\artifice\_aspect.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\spells\augmentation\_aspect.dm"
 #include "modular_azurepeak\code\modules\spells\magi2\spells\augmentation\ascension.dm"

@@ -1221,7 +1221,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	name = "Rune of Desire"
 	desc = "A Holy Rune of Baotha. Relief for the broken hearted."
 	icon_state = "baotha_chalky" // mortosasye
-	var/baotharites = list("Rite of Joy", "Unholy Boon of Fertility")
+	var/baotharites = list("Rite of Joy", "Unholy Boon of Fertility", "Rite of Glimmerwardy")
 
 /obj/structure/ritualcircle/baotha/proc/baothablessing(mob/living/carbon/human/target)
 	if(!target || QDELETED(target) || target.loc != loc)
@@ -1315,6 +1315,32 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 							user.say("Baotha, fill my cup with endless mirth!")
 							playsound(loc, 'sound/misc/evilevent.ogg', 100, FALSE, -1)
 							user.apply_status_effect(/datum/status_effect/joybringer)
+							user.mind.AddSpell (new /datum/action/cooldown/spell/conjure_arcyne_ward_magi2/bathyhide)
+							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
+							spawn(120)
+								icon_state = "baotha_chalky" 
+		if("Rite of Glimmerwardy")
+			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
+				to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
+				return
+			var/onrune = view(1, loc)
+			var/list/folksonrune = list()
+			for(var/mob/living/carbon/human/persononrune in onrune)
+				if(HAS_TRAIT(persononrune, TRAIT_DEPRAVED))
+					folksonrune += persononrune
+			var/target = input(user, "Choose a host") as null|anything in folksonrune
+			if(!target)
+				return
+			if(do_after(user, 50))
+				user.say("let them see bliss!")
+				if(do_after(user, 50))
+					user.say("let your beauty be seen!")
+					if(do_after(user, 50))
+						user.say("shroud me with a kiss!")
+						if(do_after(user, 50))
+							icon_state = "baotha_active"
+							playsound(loc, 'sound/misc/evilevent.ogg', 100, FALSE, -1)
+							user.mind.AddSpell (new /datum/action/cooldown/spell/conjure_arcyne_ward_magi2/bathyhide)
 							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 							spawn(120)
 								icon_state = "baotha_chalky" 
