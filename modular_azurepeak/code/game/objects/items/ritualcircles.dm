@@ -1315,7 +1315,6 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 							user.say("Baotha, fill my cup with endless mirth!")
 							playsound(loc, 'sound/misc/evilevent.ogg', 100, FALSE, -1)
 							user.apply_status_effect(/datum/status_effect/joybringer)
-							user.mind.AddSpell (new /datum/action/cooldown/spell/conjure_arcyne_ward_magi2/bathyhide)
 							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 							spawn(120)
 								icon_state = "baotha_chalky" 
@@ -1323,13 +1322,18 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
 				to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
 				return
-			var/onrune = view(1, loc)
-			var/list/folksonrune = list()
-			for(var/mob/living/carbon/human/persononrune in onrune)
-				if(HAS_TRAIT(persononrune, TRAIT_DEPRAVED))
-					folksonrune += persononrune
-			var/target = input(user, "Choose a host") as null|anything in folksonrune
-			if(!target)
+			if(!Adjacent(user))
+				to_chat(user, "You must stand close to the rune to receive Zizo's blessing.")
+				return
+			var/list/valids_on_rune = list()
+			for(var/mob/living/carbon/human/peep in range(0, loc))
+				if(HAS_TRAIT(peep, TRAIT_DEPRAVED))
+					valids_on_rune += peep
+			if(!valids_on_rune.len)
+				loc.visible_message(span_cult("THE RITE REJECTS ONE NOT OF THE FALLEN!"))
+				return
+			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in valids_on_rune
+			if(!target || QDELETED(target) || target.loc != loc)
 				return
 			if(do_after(user, 50))
 				user.say("let them see bliss!")
@@ -1340,7 +1344,8 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 						if(do_after(user, 50))
 							icon_state = "baotha_active"
 							playsound(loc, 'sound/misc/evilevent.ogg', 100, FALSE, -1)
-							user.mind.AddSpell (new /datum/action/cooldown/spell/conjure_arcyne_ward_magi2/bathyhide)
+							target.mind.RemoveSpell(new /datum/action/cooldown/spell/conjure_arcyne_ward_magi2/bathyhide)
+							target.mind.AddSpell (new /datum/action/cooldown/spell/conjure_arcyne_ward_magi2/bathyhide)
 							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 							spawn(120)
 								icon_state = "baotha_chalky" 
