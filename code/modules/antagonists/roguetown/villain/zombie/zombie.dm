@@ -439,6 +439,13 @@
 	if (!istype(zombie, /mob/living/carbon/human)) // Ensure the zombie is human
 		return
 
+	// The infection can be cured (or woken by another path) between this wake being scheduled
+	// and it firing -- the timers are never stopped, so a stale one must bail here rather than
+	// heal/knock out/rise a mob that is no longer infected.
+	var/datum/antagonist/zombie/zombie_antag = zombie.mind?.has_antag_datum(/datum/antagonist/zombie)
+	if (!zombie_antag || zombie_antag.has_turned)
+		return
+
 	var/obj/item/bodypart/head = zombie.get_bodypart(BODY_ZONE_HEAD)
 	if (!head) // Missing head
 		qdel(zombie)
@@ -469,11 +476,7 @@
 	zombie.update_sight()
 	zombie.reload_fullscreen()
 
-	var/datum/antagonist/zombie/zombie_antag = zombie.mind?.has_antag_datum(/datum/antagonist/zombie)
-	if(zombie_antag)
-		zombie_antag.transform_zombie()
-	else
-		CRASH("[zombie] tried to wake up as a zombie but did not have the antag set.")
+	zombie_antag.transform_zombie() // presence checked at the top, before the mob was touched
 
 	if (zombie.stat >= DEAD) // We couldn't bring them back to life as a zombie. Nothing we can do.
 		qdel(zombie)
@@ -486,6 +489,8 @@
 	if(mind.has_antag_datum(/datum/antagonist/vampire))
 		return
 	if(mind.has_antag_datum(/datum/antagonist/werewolf))
+		return
+	if(mind.has_antag_datum(/datum/antagonist/gnoll)) // parity with zombie_check() -- gnolls can't be deadites
 		return
 	if(mind.has_antag_datum(/datum/antagonist/zombie))
 		return
