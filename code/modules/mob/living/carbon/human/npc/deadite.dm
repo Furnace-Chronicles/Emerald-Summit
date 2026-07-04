@@ -4,10 +4,13 @@
 	npc_jump_chance = 0
 	rude = FALSE // don't taunt people as a deadite
 	tree_climber = FALSE // or climb trees
-	dodgetime = 8 
+	dodgetime = 8
 	flee_in_pain = FALSE
 	ambushable = FALSE
 	wander = TRUE
+	// Undead-aligned from tick one -- otherwise other undead NPCs see the fresh spawn as prey
+	// during the window before after_creation() turns it, and the grudges persist past turning.
+	faction = list("undead", "zombie")
 
 /mob/living/carbon/human/species/npc/deadite/Initialize()
 	. = ..()
@@ -36,12 +39,17 @@
 	. = ..()
 	src.mind_initialize()
 	mob_biotypes |= MOB_UNDEAD
-	var/datum/zombie_antag = src.mind.add_antag_datum(/datum/antagonist/zombie, team = FALSE, admin_panel = TRUE)
+	// No admin_panel here -- that path schedules a delayed wake_zombie with the full rising
+	// cutscene, which left spawned NPCs standing around as "living" humans for ~6 seconds
+	// (getting attacked by other undead), then convulsing on the floor with 3 minutes of
+	// grace-period GODMODE. Spawned NPCs should just already be deadites.
+	var/datum/antagonist/zombie/zombie_antag = src.mind.add_antag_datum(/datum/antagonist/zombie, team = FALSE)
 	equipOutfit(new /datum/outfit/job/deadite)
 	ADD_TRAIT(src, TRAIT_DEADITE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_SPELLCOCKBLOCK, TRAIT_GENERIC)
 	//Make sure deadite NPCs don't show up in the antag listings
 	GLOB.antagonists -= zombie_antag
+	zombie_antag?.wake_zombie(TRUE, quiet = TRUE) // turn instantly, no cutscene/grace period
 	update_body()
 
 /datum/outfit/job/deadite/pre_equip(mob/living/carbon/human/H)

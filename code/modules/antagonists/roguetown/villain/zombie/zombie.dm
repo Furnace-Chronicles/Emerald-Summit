@@ -52,6 +52,7 @@
 		TRAIT_ROTMAN,
 		//TRAIT_NORUN, // applied only during the deadite_grace period now; re-add here if zombies become too problematic
 		TRAIT_SILVER_WEAK,
+		TRAIT_CALTROPIMMUNE, // shamblers don't stumble over glass shards or caltrops
 		TRAIT_DEADITE
 	)
 	/// Traits applied to the owner when we are cured and turn into just "rotmen"
@@ -222,7 +223,7 @@
 	return ..()
 
 //Housekeeping's done. Transform into zombie.
-/datum/antagonist/zombie/proc/transform_zombie()
+/datum/antagonist/zombie/proc/transform_zombie(quiet = FALSE)
 	var/mob/living/carbon/human/zombie = owner.current
 	if(!zombie)
 		qdel(src)
@@ -232,6 +233,12 @@
 		qdel(src)
 		return
 
+	// The mind grows numb and empty: purge lingering status effects before applying our own.
+	// Otherwise buffs like Necra's Vow (and its permanent passive healing) survive zombification,
+	// leaving deadites that regenerate and can't be revived/cured properly.
+	for(var/datum/status_effect/effect as anything in zombie.status_effects?.Copy())
+		qdel(effect) // qdel directly: remove_status_effect() resolves by id and would miss same-id duplicates
+
 	revived = TRUE //so we can die for real later
 	add_antag_hud(antag_hud_type, antag_hud_name, owner.current) //Easier for fellow zombies to tell.
 	zombie.apply_status_effect(/datum/status_effect/buff/zombified) //Force the deadite statline.
@@ -240,8 +247,10 @@
 	for(var/trait_applied in traits_zombie)
 		ADD_TRAIT(zombie, trait_applied, "[type]")
 	// Deadites must not have critical resistance or enduring (pain stun immunity) from any prior source.
-	// Save the sources so they can be restored if the player is cured.
-	for(var/forbidden in list(TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN))
+	// Necra's Vow is broken by undeath too: its healing buff is purged above, but the trait is granted
+	// separately and would otherwise keep blocking revival. Save the sources so they can be restored
+	// if the player is cured.
+	for(var/forbidden in list(TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_NECRAS_VOW))
 		if(zombie.status_traits?[forbidden])
 			if(!stripped_traits)
 				stripped_traits = list()
@@ -260,6 +269,7 @@
 	zombie.update_a_intents()
 	zombie.aggressive = TRUE
 	zombie.mode = NPC_AI_IDLE
+	zombie.enemies = list() // old grudges die with the mind -- stops fresh zombies feuding with fellow undead
 	zombie.handle_ai()
 	ambushable = zombie.ambushable
 	zombie.ambushable = FALSE
@@ -267,8 +277,8 @@
 	if(zombie.charflaw)
 		zombie.charflaw.ephemeral = TRUE
 	zombie.mob_biotypes |= MOB_UNDEAD
-	zombie.faction += "undead"
-	zombie.faction += "zombie"
+	zombie.faction |= "undead" // |= not +=: NPC deadites already spawn with these factions
+	zombie.faction |= "zombie"
 	zombie.faction -= "neutral"
 	zombie.verbs |= /mob/living/carbon/human/proc/zombie_seek
 	for(var/obj/item/bodypart/zombie_part as anything in zombie.bodyparts)
@@ -292,11 +302,7 @@
 //Add claws here if wanted.
 
 	zombie.update_body()
-	zombie.playsound_local(get_turf(zombie), 'sound/music/wolfintro.ogg', 80, FALSE, pressure_affected = FALSE) //Extra AURA on transform
-	to_chat(zombie, span_infection("My mind grows numb and empty as unlyfe takes ahold of my body..."))
 	zombie.cmode_music = 'sound/music/combat_weird.ogg'
-	zombie.apply_status_effect(/datum/status_effect/debuff/deadite_grace)
-
 
 	last_bite = world.time
 	has_turned = TRUE
@@ -308,6 +314,13 @@
 		zombie.dropItemToGround(zombie.get_item_by_slot(slot), TRUE)
 
 	record_round_statistic(STATS_DEADITES_WOKEN_UP)
+
+	if(quiet) // spawned NPC deadites skip the rising cutscene and the grace period entirely
+		return
+
+	zombie.playsound_local(get_turf(zombie), 'sound/music/wolfintro.ogg', 80, FALSE, pressure_affected = FALSE) //Extra AURA on transform
+	to_chat(zombie, span_infection("My mind grows numb and empty as unlyfe takes ahold of my body..."))
+	zombie.apply_status_effect(/datum/status_effect/debuff/deadite_grace)
 
 	// Small rising "cutscene"; deadite_grace's GODMODE protects us through the vulnerable sleeps.
 	sleep(0.1)
@@ -338,7 +351,7 @@
 
 // Infected wake param is just a transition from living to zombie, via zombie_infect()
 // Prevoously you just died without warning in ~3 min, now you just become an antag instead of having to die first if infected.
-/datum/antagonist/zombie/proc/wake_zombie(infected_wake = FALSE)
+/datum/antagonist/zombie/proc/wake_zombie(infected_wake = FALSE, quiet = FALSE)
 	if(!owner.current)
 		return
 	var/mob/living/carbon/human/zombie = owner.current
@@ -354,22 +367,23 @@
 	if(istype(zombie.loc, /obj/structure/closet/dirthole) || istype(zombie.loc, /obj/structure/closet/crate/coffin))
 		qdel(src)
 		return
-	
+
 	zombie.can_do_sex = FALSE	//no fuck off
 
 	zombie.blood_volume = BLOOD_VOLUME_NORMAL
 	zombie.setOxyLoss(0, updating_health = FALSE, forced = TRUE)
 	zombie.setToxLoss(0, updating_health = FALSE, forced = TRUE)
-	if(!infected_wake)	// if we died, heal all this too
-		zombie.adjustBruteLoss(-INFINITY, updating_health = FALSE, forced = TRUE)
-		zombie.adjustFireLoss(-INFINITY, updating_health = FALSE, forced = TRUE)
-		zombie.heal_wounds(INFINITY)
+	// Always heal on the rise, matching the global wake_zombie() ("flesh knits itself back
+	// together"). Rising with pre-turn wounds intact left players bleeding out as deadites.
+	zombie.adjustBruteLoss(-INFINITY, updating_health = FALSE, forced = TRUE)
+	zombie.adjustFireLoss(-INFINITY, updating_health = FALSE, forced = TRUE)
+	zombie.heal_wounds(INFINITY)
 	zombie.stat = UNCONSCIOUS
 	zombie.updatehealth()
 	zombie.update_mobility()
 	zombie.update_sight()
 	zombie.reload_fullscreen()
-	transform_zombie()
+	transform_zombie(quiet)
 	if(zombie.stat >= DEAD)
 		//could not revive
 		qdel(src)
