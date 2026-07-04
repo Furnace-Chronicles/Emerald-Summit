@@ -20,7 +20,6 @@
 
 /mob/living/carbon/human/examine(mob/user)
 	var/observer_privilege = isobserver(user)
-	var/aghost_privilege = isadminobserver(user)
 	var/t_He = p_they(TRUE)
 	var/t_his = p_their()
 //	var/t_him = p_them()
@@ -990,15 +989,14 @@
 	for(var/line in lines)
 		. += span_info(line)
 
-	if(!flavorcheck || aghost_privilege) // we show this due to flavortext panel fields all being empty, meaning that panel's age verified text could not otherwise be displayed
-		var/towrite = "ID Status: "
-		if(!src.ckey)
-			towrite += "N/A"
-		else if(!src.check_agevet())
-			towrite += "Unverified"
-		else
-			towrite += span_notice("Age Verified")
-		. += span_info(towrite)
+	var/towrite = "ID Status: "
+	if(!src.ckey)
+		towrite += "N/A"
+	else if(!src.check_agevet())
+		towrite += "Unverified"
+	else
+		towrite += span_notice("Age Verified")
+	. += span_info(towrite)
 
 	if(dna?.species?.type == /datum/species/gnoll)
 		if(istype(user, /mob/living/carbon/human))

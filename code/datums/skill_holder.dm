@@ -142,24 +142,41 @@
 
 /datum/skill_holder/proc/adjust_skillrank(skill, amt, silent = FALSE)
 	var/datum/skill/S = GetSkillRef(skill)
-	var/amt2gain = 0
-	for(var/i in 1 to amt)
-		switch(skill_experience[S])
-			if(SKILL_EXP_MASTER to SKILL_EXP_LEGENDARY)
-				amt2gain = SKILL_EXP_LEGENDARY-skill_experience[S]
-			if(SKILL_EXP_EXPERT to SKILL_EXP_MASTER)
-				amt2gain = SKILL_EXP_MASTER-skill_experience[S]
-			if(SKILL_EXP_JOURNEYMAN to SKILL_EXP_EXPERT)
-				amt2gain = SKILL_EXP_EXPERT-skill_experience[S]
-			if(SKILL_EXP_APPRENTICE to SKILL_EXP_JOURNEYMAN)
-				amt2gain = SKILL_EXP_JOURNEYMAN-skill_experience[S]
-			if(SKILL_EXP_NOVICE to SKILL_EXP_APPRENTICE)
-				amt2gain = SKILL_EXP_APPRENTICE-skill_experience[S]
-			if(0 to SKILL_EXP_NOVICE)
-				amt2gain = SKILL_EXP_NOVICE-skill_experience[S] + 1
-		if(!skill_experience[S])
-			amt2gain = SKILL_EXP_NOVICE+1
-		skill_experience[S] = max(0, skill_experience[S] + amt2gain) //Prevent going below 0
+	if(amt > 0)
+		var/amt2gain = 0
+		for(var/i in 1 to amt)
+			switch(skill_experience[S])
+				if(SKILL_EXP_MASTER to SKILL_EXP_LEGENDARY)
+					amt2gain = SKILL_EXP_LEGENDARY-skill_experience[S]
+				if(SKILL_EXP_EXPERT to SKILL_EXP_MASTER)
+					amt2gain = SKILL_EXP_MASTER-skill_experience[S]
+				if(SKILL_EXP_JOURNEYMAN to SKILL_EXP_EXPERT)
+					amt2gain = SKILL_EXP_EXPERT-skill_experience[S]
+				if(SKILL_EXP_APPRENTICE to SKILL_EXP_JOURNEYMAN)
+					amt2gain = SKILL_EXP_JOURNEYMAN-skill_experience[S]
+				if(SKILL_EXP_NOVICE to SKILL_EXP_APPRENTICE)
+					amt2gain = SKILL_EXP_APPRENTICE-skill_experience[S]
+				if(0 to SKILL_EXP_NOVICE)
+					amt2gain = SKILL_EXP_NOVICE-skill_experience[S] + 1
+			if(!skill_experience[S])
+				amt2gain = SKILL_EXP_NOVICE+1
+			skill_experience[S] = max(0, skill_experience[S] + amt2gain) //Prevent going below 0
+	else if(amt < 0)
+		//Step down to the experience floor of the level below us, once per point of amt.
+		for(var/i in 1 to -amt)
+			switch(skill_experience[S])
+				if(SKILL_EXP_LEGENDARY to INFINITY)
+					skill_experience[S] = SKILL_EXP_MASTER
+				if(SKILL_EXP_MASTER to SKILL_EXP_LEGENDARY)
+					skill_experience[S] = SKILL_EXP_EXPERT
+				if(SKILL_EXP_EXPERT to SKILL_EXP_MASTER)
+					skill_experience[S] = SKILL_EXP_JOURNEYMAN
+				if(SKILL_EXP_JOURNEYMAN to SKILL_EXP_EXPERT)
+					skill_experience[S] = SKILL_EXP_APPRENTICE
+				if(SKILL_EXP_APPRENTICE to SKILL_EXP_JOURNEYMAN)
+					skill_experience[S] = SKILL_EXP_NOVICE
+				else //already novice or none: drop to nothing
+					skill_experience[S] = 0
 	var/old_level = get_skill_level(skill)
 	switch(skill_experience[S])
 		if(SKILL_EXP_LEGENDARY to INFINITY)

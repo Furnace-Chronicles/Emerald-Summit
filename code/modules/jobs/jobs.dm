@@ -96,6 +96,7 @@ GLOBAL_LIST_INIT(church_positions, list(
 	"Templar",
 	"Druid",
 	"Martyr",
+	"Keeper",
 ))
 
 GLOBAL_LIST_INIT(inquisition_positions, list(

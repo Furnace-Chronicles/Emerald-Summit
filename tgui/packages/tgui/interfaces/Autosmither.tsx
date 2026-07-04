@@ -10,6 +10,7 @@ import {
   Stack,
   Tabs,
 } from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -39,13 +40,13 @@ type QueueEntry = {
   category: string;
   icon: string;
   created_num: number;
-  active: boolean;
+  active: BooleanLike;
 };
 
 type Data = {
-  machine_on: boolean;
-  machine_powered: boolean;
-  controls_locked: boolean;
+  machine_on: BooleanLike;
+  machine_powered: BooleanLike;
+  controls_locked: BooleanLike;
   hopper_counts: Record<string, number>;
   status_state: 'off' | 'on' | 'working' | 'waiting';
   recipes: Recipe[];
@@ -54,7 +55,7 @@ type Data = {
   progress: number;
   needed_progress: number;
   rpm: number;
-  can_quick_toggle: boolean;
+  can_quick_toggle: BooleanLike;
 };
 
 const STATUS_COLORS = {
@@ -332,7 +333,7 @@ const QuoteRail = ({ lines }: QuoteRailProps) => {
 };
 
 type CurrentQueueSectionProps = {
-  machineOn: boolean;
+  machineOn: BooleanLike;
   queue: QueueEntry[];
 };
 
@@ -401,8 +402,8 @@ const CurrentQueueSection = ({ machineOn, queue }: CurrentQueueSectionProps) => 
 type ActiveCenterPanelProps = {
   machineOn: boolean;
   machinePowered: boolean;
-  controlsLocked: boolean;
-  canQuickToggle: boolean;
+  controlsLocked: BooleanLike;
+  canQuickToggle: BooleanLike;
   hopperCounts: Record<string, number>;
   statusState: Data['status_state'];
   selectedRecipe: Recipe | null;
@@ -599,8 +600,8 @@ const ActiveCenterPanel = ({
 };
 
 type ControlRackProps = {
-  controlsLocked: boolean;
-  canQuickToggle: boolean;
+  controlsLocked: BooleanLike;
+  canQuickToggle: BooleanLike;
   machineOn: boolean;
 };
 

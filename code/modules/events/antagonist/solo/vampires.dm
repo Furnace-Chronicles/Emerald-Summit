@@ -34,6 +34,7 @@
 		"Priest",
 		"Acolyte",
 		"Martyr",
+		"Keeper",
 		"Templar",
 		"Councillor",
 		"Bandit",

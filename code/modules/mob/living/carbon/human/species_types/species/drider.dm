@@ -13,7 +13,7 @@
 	origin = "Underdark"
 	use_titles = TRUE
 	race_titles = list("Drider", "Arachne", "Webweaver", "Spinneret", "Spider-kin")
-	base_name = "Beastvolk"
+	base_name = "Taur"
 	sub_name = "Drider"
 	desc = "<b>Drider</b><br>\
 	A humanoid torso rising from the body of a great spider. Driders are reclusive weavers of the deep \

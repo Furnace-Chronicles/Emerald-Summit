@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
 
-import { useBackend } from '../../backend';
+import type { ActFunctionType } from '../../backend';
 
 // STATIC half — name + full_name + default_keys per keybind. Default_keys
 // depend on hotkeys_mode, so refresh_static_data fires on toggle_hotkeys
@@ -41,8 +41,9 @@ type Data = {
 // (kbName, oldKey) — oldKey may be empty string when binding a new secondary slot.
 type CaptureTarget = { kbName: string; fullName: string; oldKey: string };
 
-export const KeybindsTab = (props) => {
-  const { act, data } = useBackend<Data>();
+type KeybindsTabProps = { data: Data; act: ActFunctionType };
+
+export const KeybindsTab = ({ data, act }: KeybindsTabProps) => {
   // Merge static catalog (max_keys_per_keybind, categories) with dynamic
   // (hotkeys_mode, user_bindings). Per-keybind shape used by KeybindRow gets
   // assembled inline at render time by joining the catalog's default_keys
