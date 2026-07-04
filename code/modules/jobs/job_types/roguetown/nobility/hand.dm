@@ -55,9 +55,8 @@
 /datum/outfit/job/hand
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	belt = /obj/item/storage/belt/rogue/leather/steel
-	r_hand = /obj/item/rogueweapon/sword/rapier/dec
+	beltl = /obj/item/rogueweapon/sword/rapier/dec
 	beltr = /obj/item/rogueweapon/scabbard/sword
-	beltl = /obj/item/rogueweapon/scabbard/sheath
 	job_bitflag = BITFLAG_ROYALTY
 
 /datum/job/roguetown/hand/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
@@ -240,7 +239,7 @@
 	H.dna.species.soundpack_m = new /datum/voicepack/male/tyrant()
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
 	backr = /obj/item/storage/backpack/rogue/satchel/black
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/dtace = 1, /obj/item/storage/keyring/hand = 1)
+	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/dtace = 1, /obj/item/storage/keyring/hand = 1, /obj/item/rogueweapon/scabbard/sheath = 1)
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/hand
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	id = /obj/item/scomstone/garrison
@@ -286,7 +285,7 @@
 	..()
 	H.dna.species.soundpack_m = new /datum/voicepack/male/tyrant()
 	backr = /obj/item/storage/backpack/rogue/satchel/black
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/dtace = 1, /obj/item/storage/keyring/hand = 1, /obj/item/lockpickring/mundane)
+	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/dtace = 1, /obj/item/storage/keyring/hand = 1, /obj/item/lockpickring/mundane = 1, /obj/item/rogueweapon/scabbard/sheath = 1)
 	if(H.dna.species.type in NON_DWARVEN_RACE_TYPES)
 		shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/shadowrobe
 		cloak = /obj/item/clothing/cloak/half/shadowcloak
@@ -341,8 +340,9 @@
 	H.dna.species.soundpack_m = new /datum/voicepack/male/tyrant()
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
 	backr = /obj/item/storage/backpack/rogue/satchel/black
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/dtace = 1, /obj/item/storage/keyring/hand = 1, /obj/item/lockpickring/mundane = 1, /obj/item/reagent_containers/glass/bottle/rogue/poison = 1) //starts with a vial of poison, like all wizened evil advisors do!
+	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/dtace = 1, /obj/item/storage/keyring/hand = 1, /obj/item/lockpickring/mundane = 1, /obj/item/reagent_containers/glass/bottle/rogue/poison = 1, /obj/item/rogueweapon/scabbard/sheath = 1) //starts with a vial of poison, like all wizened evil advisors do!
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/hand
+	backl = /obj/item/rogueweapon/woodstaff/implement_magi2
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	id = /obj/item/scomstone/garrison
 

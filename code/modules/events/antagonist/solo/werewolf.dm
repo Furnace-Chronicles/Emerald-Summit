@@ -34,6 +34,7 @@
 		"Priestess",
 		"Acolyte",
 		"Martyr",
+		"Keeper",
 		"Templar",
 		"Bandit",
 		"Prince",
