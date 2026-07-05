@@ -7,7 +7,9 @@
 	outfit = /datum/outfit/job/roguetown/gnoll/templar
 	applies_post_equipment = FALSE
 	category_tags = list(CTAG_GNOLL)
-	traits_applied = list(TRAIT_HEAVYARMOR)
+	// TRAIT_HEAVYARMOR was inert flavoring: gnolls are nudists who can't equip any armor slot,
+	// and their hide isn't slot armor. Their real protection is the hide's prevent_crits.
+	traits_applied = list()
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 4,
@@ -22,6 +24,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/tracking = SKILL_LEVEL_LEGENDARY,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT, // all gnolls stalk their prey (matches shaman/impure)
 		/datum/skill/misc/medicine = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE
 	)
@@ -36,7 +39,9 @@
 		H.put_in_r_hand(templar_needle)
 		don_pelt(H)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
-		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, start_maxed = FALSE)
+		// start_maxed like the shaman -- spawning a caster class at 0 devotion left templars
+		// unable to cast anything until passive regen trickled in.
+		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)
 		// Upstream /obj/effect/proc_holder/spell/invoked/convert_heretic absent in ES — spell grant stripped.
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/templar

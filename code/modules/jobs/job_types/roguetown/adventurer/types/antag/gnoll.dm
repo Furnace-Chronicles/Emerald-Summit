@@ -62,27 +62,21 @@
 		// Upstream "vices" list + charflaw.on_removal proc absent in ES — simplified to nulling the single charflaw.
 		charflaw = null
 		statpack = null
-		headshot_link = null
 
 	// Gnolls should not inherit player-authored social metadata from their base slot.
 	rumour = null
 	// Upstream noble_gossip var absent in ES — wipe stripped.
 
-	// Swap the character's flavor text + OOC notes to the gnoll-specific ones if the
-	// player has set them; otherwise blank them out so the human-character text doesn't
-	// bleed through onto a gnoll examine.
+	// Gnoll-tab flavor text + OOC notes override the base slot's when set; blank gnoll fields
+	// keep the base character's text. (Playtest feedback: the old blank-out made it impossible
+	// to give a gnoll any flavortext, OOC notes or headshot at all — falling back to the base
+	// slot is on the player to keep sensible for their gnoll.)
 	if(client?.prefs?.gnoll_prefs?.gnoll_flavortext)
 		flavortext = client.prefs.gnoll_prefs.gnoll_flavortext
 		flavortext_display = client.prefs.gnoll_prefs.gnoll_flavortext_display
-	else
-		flavortext = null
-		flavortext_display = null
 	if(client?.prefs?.gnoll_prefs?.gnoll_ooc_notes)
 		ooc_notes = client.prefs.gnoll_prefs.gnoll_ooc_notes
 		ooc_notes_display = client.prefs.gnoll_prefs.gnoll_ooc_notes_display
-	else
-		ooc_notes = null
-		ooc_notes_display = null
 
 	if(status_traits)
 		for(var/trait in status_traits.Copy())

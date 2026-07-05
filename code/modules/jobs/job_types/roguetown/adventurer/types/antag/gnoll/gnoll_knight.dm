@@ -7,7 +7,9 @@
 	outfit = /datum/outfit/job/roguetown/gnoll/knight
 	category_tags = list(CTAG_GNOLL)
 	applies_post_equipment = FALSE
-	traits_applied = list(TRAIT_HEAVYARMOR) // Flavoring
+	// TRAIT_HEAVYARMOR "flavoring" dropped -- inert on a nudist species; the knight's edge is
+	// the thickest hide (plate-tier prevent_crits, 800 integrity) instead.
+	traits_applied = list()
 
 	subclass_stats = list(
 		STATKEY_END = 5,
@@ -22,6 +24,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/tracking = SKILL_LEVEL_LEGENDARY,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT, // all gnolls stalk their prey (matches shaman/impure)
 		/datum/skill/misc/medicine = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE
 	)
@@ -38,4 +41,5 @@
 	icon_state = "knight"
 	max_integrity = 800
 	armor = ARMOR_GNOLL_STRONG
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_SMASH) // plate-tier: armor hammered against muscle
 	// Inherits the 5-minute repair_time from the gnoll_armor base.
