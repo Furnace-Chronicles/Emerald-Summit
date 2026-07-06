@@ -123,7 +123,6 @@
 #define INIT_ORDER_NETWORKS			45
 #define INIT_ORDER_SPATIAL_GRID 	43
 #define INIT_ORDER_ECONOMY			40
-#define INIT_ORDER_MERCHANT_TRADE	39
 #define INIT_ORDER_OUTPUTS			35
 #define INIT_ORDER_ATOMS			30
 #define INIT_ORDER_TREES			29
@@ -142,6 +141,10 @@
 #define INIT_ORDER_LIGHTING			-20
 #define INIT_ORDER_OUTDOOR_EFFECTS  -21
 #define INIT_ORDER_SHUTTLE			-22
+// AP parity: must init AFTER SSmerchant (INIT_ORDER_SHUTTLE, -22) — the day-1 trade ship pool
+// rolls cultural stock / victualling lines against SSmerchant.supply_packs at Initialize().
+// The Step 9a port had this at 39, which left every day-1 ship's Cultural Stock page empty.
+#define INIT_ORDER_MERCHANT_TRADE	-23
 #define INIT_ORDER_MINOR_MAPPING	-40
 #define INIT_ORDER_PATH				-50
 #define INIT_ORDER_DISCORD			-60

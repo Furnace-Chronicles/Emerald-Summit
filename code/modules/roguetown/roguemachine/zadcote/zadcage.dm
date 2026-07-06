@@ -218,6 +218,13 @@
 /obj/item/zadcage/ui_state(mob/user)
 	return GLOB.hands_state
 
+// ES deviation: same observer guard as the zadcote — base ui_status would grant ghosts a
+// read-only window via /obj/attack_ghost -> ui_interact despite hands_state.
+/obj/item/zadcage/ui_status(mob/user, datum/ui_state/state)
+	if(isobserver(user))
+		return UI_CLOSE
+	return ..()
+
 /obj/item/zadcage/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
