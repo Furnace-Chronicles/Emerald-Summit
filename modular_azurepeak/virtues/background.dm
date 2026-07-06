@@ -20,7 +20,7 @@
 	)
 /datum/virtue/background/artificer/apply_to_human(mob/living/carbon/human/H)
 	var/equipment = list("Tinkerer","Mason")
-	var/equip_choice = input(H,"What did you bring?", "What do you own?") as anything in equipment
+	var/equip_choice = input(H,"My lyfe before, STASHed away ...", "TREES and STATUES hold my things.") as anything in equipment
 	switch(equip_choice)
 		if("Tinkerer")
 			if(H.mind)
@@ -44,8 +44,8 @@
 						list(/datum/skill/craft/smelting, 2, 2))
 
 /datum/virtue/background/blacksmith/apply_to_human(mob/living/carbon/human/H)
-	var/equipment = list("Smith")
-	var/equip_choice = input(H,"What did you bring?", "What do you own?") as anything in equipment
+	var/equipment = list("Smith","Scrapper")
+	var/equip_choice = input(H,"My lyfe before, STASHed away ...", "TREES and STATUES hold my things.") as anything in equipment
 	switch(equip_choice)
 		if("Smith")
 			if(H.mind)
@@ -55,7 +55,8 @@
 		if("Scrapper")
 			if(H.mind)
 				H.mind.special_items = list(
-					"Equipment Bag" = /obj/item/storage/roguebag/smithscrap
+					"Equipment Bag" = /obj/item/storage/roguebag/smithscrap,
+					"Portable Smelter" = /obj/item/contraption/smelter
 				)
 
 /datum/virtue/background/brawler
@@ -65,7 +66,7 @@
 	
 /datum/virtue/background/brawler/apply_to_human(mob/living/carbon/human/H)
 	var/equipment = list("Katar","Knuckles")
-	var/equip_choice = input(H,"What did you bring?", "What do you own?") as anything in equipment
+	var/equip_choice = input(H,"My lyfe before, STASHed away ...", "TREES and STATUES hold my things.") as anything in equipment
 	switch(equip_choice)
 		if("Katar")
 			if(H.mind)
@@ -93,7 +94,7 @@
 
 /datum/virtue/background/granary/apply_to_human(mob/living/carbon/human/H)
 	var/equipment = list("Chef","Fisher")
-	var/equip_choice = input(H,"What did you bring?", "What do you own?") as anything in equipment
+	var/equip_choice = input(H,"My lyfe before, STASHed away ...", "TREES and STATUES hold my things.") as anything in equipment
 	switch(equip_choice)
 		if("Chef")
 			if(H.mind)
@@ -115,7 +116,7 @@
 
 /datum/virtue/background/duelist/apply_to_human(mob/living/carbon/human/H)
 	var/equipment = list("Dueler (Rapier)","Swordsman (Arming)","Scoundrel (+2 St. Dagger)")
-	var/equip_choice = input(H,"What did you bring?", "What do you own?") as anything in equipment
+	var/equip_choice = input(H,"My lyfe before, STASHed away ...", "TREES and STATUES hold my things.") as anything in equipment
 	switch(equip_choice)
 		if("Dueler (Rapier)")
 			if(H.mind)
@@ -150,7 +151,7 @@
 
 /datum/virtue/background/executioner/apply_to_human(mob/living/carbon/human/H)
 	var/equipment = list("Dungeon Guard","Executioner")
-	var/equip_choice = input(H,"What did you bring?", "What do you own?") as anything in equipment
+	var/equip_choice = input(H,"My lyfe before, STASHed away ...", "TREES and STATUES hold my things.") as anything in equipment
 	switch(equip_choice)
 		if("Dungeon Guard")
 			if(H.mind)
@@ -181,7 +182,7 @@
 
 /datum/virtue/background/forester/apply_to_human(mob/living/carbon/human/H)
 	var/equipment = list("Lumberer","Farmer")
-	var/equip_choice = input(H,"What did you bring?", "What do you own?") as anything in equipment
+	var/equip_choice = input(H,"My lyfe before, STASHed away ...", "TREES and STATUES hold my things.") as anything in equipment
 	switch(equip_choice)
 		if("Lumberer")
 			if(H.mind)
@@ -211,7 +212,7 @@
 	)
 /datum/virtue/background/hunter/apply_to_human(mob/living/carbon/human/H)
 	var/equipment = list("Trapper","Tanner")
-	var/equip_choice = input(H,"What did you bring?", "What do you own?") as anything in equipment
+	var/equip_choice = input(H,"My lyfe before, STASHed away ...", "TREES and STATUES hold my things.") as anything in equipment
 	switch(equip_choice)
 		if("Trapper")
 			if(H.mind)
@@ -291,7 +292,7 @@
 
 /datum/virtue/background/light_steps/apply_to_human(mob/living/carbon/human/H)
 	var/equipment = list("Skulker","Larcenous")
-	var/equip_choice = input(H,"What did you bring?", "What do you own?") as anything in equipment
+	var/equip_choice = input(H,"My lyfe before, STASHed away ...", "TREES and STATUES hold my things.") as anything in equipment
 	switch(equip_choice)
 		if("Skulker")
 			if(H.mind)
@@ -319,7 +320,7 @@
 	custom_text = "+2 to Maces, Polearms, & Slings (Max Journeyman) depending on equipment choice (Cudgel, Quarterstaff, Spear+Sling)."
 /datum/virtue/background/militia/apply_to_human(mob/living/carbon/human/H)
 	var/equipment = list("Guard (Cudgel, Buckler)","Watchman (Quarterstaff)","Conscript (Spear, Sling)")
-	var/equip_choice = input(H,"What did you bring?", "What do you own?") as anything in equipment
+	var/equip_choice = input(H,"My lyfe before, STASHed away ...", "What I was and am. TREES and STATUES hold my precious things.") as anything in equipment
 	switch(equip_choice)
 		if("Guard (Cudgel, Buckler)")
 			if(H.mind)
@@ -388,7 +389,7 @@
 	)
 /datum/virtue/background/physician/apply_to_human(mob/living/carbon/human/H)
 	var/equipment = list("Alchemist","Surgeon")
-	var/equip_choice = input(H,"What did you bring?", "What do you own?") as anything in equipment
+	var/equip_choice = input(H,"My lyfe before, STASHed away ...", "TREES and STATUES hold my things.") as anything in equipment
 	switch(equip_choice)
 		if("Alchemist")
 			if(H.mind)
@@ -409,7 +410,7 @@
 
 /datum/virtue/background/arsonist/apply_to_human(mob/living/carbon/human/H)
 	var/equipment = list("Bomber")
-	var/equip_choice = input(H,"What did you bring?", "What do you own?") as anything in equipment
+	var/equip_choice = input(H,"My lyfe before, STASHed away ...", "TREES and STATUES hold my things.") as anything in equipment
 	switch(equip_choice)
 		if("Bomber")
 			if(H.mind)
@@ -430,7 +431,7 @@
 
 /datum/virtue/background/sailor/apply_to_human(mob/living/carbon/human/H)
 	var/equipment = list("Sailor")
-	var/equip_choice = input(H,"What did you bring?", "What do you own?") as anything in equipment
+	var/equip_choice = input(H,"My lyfe before, STASHed away ...", "TREES and STATUES hold my things.") as anything in equipment
 	switch(equip_choice)
 		if("Sailor")
 			if(H.mind)
@@ -455,7 +456,7 @@
 
 /datum/virtue/background/bowman/apply_to_human(mob/living/carbon/human/H)
 	var/equipment = list("Archer","Crossbowman")
-	var/equip_choice = input(H,"What did you bring?", "What do you own?") as anything in equipment
+	var/equip_choice = input(H,"My lyfe before, STASHed away ...", "TREES and STATUES hold my things.") as anything in equipment
 	switch(equip_choice)
 		if("Archer")
 			if(H.mind)
@@ -551,19 +552,22 @@
 		/obj/item/ingot/iron,
 		/obj/item/ingot/steel,
 		/obj/item/ingot/steel,
-		/obj/item/ingot/steel
+		/obj/item/rogueore/coal,
+		/obj/item/rogueore/coal,
+		/obj/item/rogueore/coal,
+		/obj/item/rogueore/coal
 	)
 
 /obj/item/storage/roguebag/smithscrap
 	populate_contents = list(
 		/obj/item/rogueweapon/tongs,
 		/obj/item/rogueweapon/hammer/iron,
+		/obj/item/ingot/iron,
 		/obj/item/rogueore/coal,
 		/obj/item/rogueore/coal,
 		/obj/item/rogueore/coal,
 		/obj/item/rogueore/coal,
 		/obj/item/rogueore/coal,
-		/obj/machinery/light/rogue/smelter/hand_held
 
 	)
 
@@ -572,13 +576,16 @@
 /obj/item/storage/roguebag/brawlkatar
 	populate_contents = list(
 		/obj/item/clothing/wrists/roguetown/bracers/leather,
-		/obj/item/rogueweapon/katar
+		/obj/item/rogueweapon/katar,
+		/obj/item/needle/thorn
+
 	)
 
 /obj/item/storage/roguebag/brawlknuck
 	populate_contents = list(
 		/obj/item/clothing/wrists/roguetown/bracers/leather,
-		/obj/item/clothing/gloves/roguetown/knuckles 
+		/obj/item/rogueweapon/knuckles,
+		/obj/item/needle/thorn
 	)
 
 //Cunning Provisioner
@@ -623,6 +630,7 @@
 		/obj/item/clothing/ring/duelist,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/parrying,
 		/obj/item/clothing/head/roguetown/duelhat,
+		/obj/item/clothing/suit/roguetown/armor/gambeson/light
 		
 	)
 
@@ -630,7 +638,8 @@
 	populate_contents = list(
 		/obj/item/clothing/suit/roguetown/armor/gambeson/lord,
 		/obj/item/rogueweapon/sword/iron,
-		/obj/item/rogueweapon/shield/buckler/palloy
+		/obj/item/rogueweapon/shield/buckler/palloy,
+		/obj/item/clothing/neck/roguetown/chaincoif/iron
 	)
 
 /obj/item/storage/roguebag/duelistscoundrel
@@ -639,12 +648,14 @@
 		/obj/item/rogueweapon/huntingknife/idagger/steel,
 		/obj/item/clothing/under/roguetown/trou/leather,
 		/obj/item/clothing/suit/roguetown/armor/leather/jacket
-		//try poison vial? ask about more
 	)
 
 //Dungeoneer
 /obj/item/storage/roguebag/dungeonguard
 	populate_contents = list(
+		/obj/item/clothing/suit/roguetown/armor/leather,
+		/obj/item/clothing/under/roguetown/trou/leather,
+		/obj/item/clothing/head/roguetown/helmet/leather,
 		/obj/item/rogueweapon/whip,
 		/obj/item/rope/chain,
 		/obj/item/rope/chain,
@@ -659,7 +670,8 @@
 		/obj/item/clothing/suit/roguetown/armor/leather,
 		/obj/item/clothing/under/roguetown/trou/leather,
 		/obj/item/clothing/head/roguetown/helmet/leather,
-		/obj/item/natural/whetstone
+		/obj/item/natural/whetstone,
+		/obj/item/needle/thorn
 
 	)
 
@@ -667,6 +679,9 @@
 /obj/item/storage/roguebag/forestlumber
 	populate_contents = list(
 		/obj/item/natural/whetstone,
+		/obj/item/natural/worms,
+		/obj/item/natural/worms,
+		/obj/item/natural/worms,
 		/obj/item/natural/worms,
 		/obj/item/natural/worms,
 		/obj/item/natural/worms,
@@ -733,7 +748,7 @@
 
 	)
 
-//Lightstep (separated because I made them before combining)
+//Lightstep
 /obj/item/storage/roguebag/lightstep
 	populate_contents = list(
 		/obj/item/lockpick,
@@ -742,7 +757,6 @@
 		/obj/item/bomb/smoke,
 		/obj/item/bomb/smoke,
 		/obj/item/bomb/smoke
-		//check for emberwine, maybe odd addition?
 	)
 
 //Larcenous
@@ -753,7 +767,6 @@
 		/obj/item/lockpick,
 		/obj/item/lockpick,
 		/obj/item/rogueweapon/huntingknife/idagger
-		//check for emberwine, maybe odd addition?
 	)
 
 //Militia
@@ -795,6 +808,7 @@
 		/obj/item/rogueweapon/surgery/hemostat/improv,
 		/obj/item/rogueweapon/surgery/hemostat/improv,
 		/obj/item/rogueweapon/surgery/retractor/improv,
+		/obj/item/rogueweapon/surgery/scalpel/improv,
 		/obj/item/rogueweapon/surgery/hammer,
 		/obj/item/needle,
 		/obj/item/bedroll
@@ -849,5 +863,3 @@
 		/obj/item/clothing/head/roguetown/helmet/kettle,
 		/obj/item/clothing/suit/roguetown/armor/gambeson/light
 	)
-
-//Lightstep probably not staying? discuss more

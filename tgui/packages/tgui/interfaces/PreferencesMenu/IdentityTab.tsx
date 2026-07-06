@@ -33,6 +33,7 @@ type IdentityData = {
   origin_gives_language: 0 | 1;
   statpack_name: string;
   statpack_label?: string;
+  background_name : string;
   virtue_name: string;
   virtuetwo_name: string;
   show_virtuetwo: 0 | 1;
@@ -56,6 +57,7 @@ type IdentityData = {
   race_title_options: string[];
   statpack_options: string[];
   extra_language_options: string[];
+  background_options: string[];
   virtue_options: string[];
   charflaw_options: string[];
   faith_options: string[];
@@ -639,6 +641,28 @@ export const IdentityTab = ({ data, act }: IdentityTabProps) => {
                 icon="circle-info"
                 tooltip="Print this origin's description to chat"
                 onClick={() => act('show_origin_help')}
+              />
+            </LabeledList.Item>
+            <LabeledList.Item label="Background">
+              <Dropdown
+                width="160px"
+                menuWidth="220px"
+                selected={id.background_name}
+                displayText={id.background_name}
+                options={[id.background_name, ...id.background_options].map((name) => ({
+                  value: name,
+                  displayText: name,
+                }))}
+                onSelected={(value) =>
+                  value !== id.background_name &&
+                  act('set_background_direct', { name: value })
+                }
+              />
+              <Button
+                ml={0.5}
+                icon="circle-info"
+                tooltip="Print this background's description to chat"
+                onClick={() => act('show_background_desc')}
               />
             </LabeledList.Item>
             <LabeledList.Item label="Statpack">

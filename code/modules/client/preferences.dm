@@ -2576,7 +2576,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							if((pref_species.type in V.races))
 								continue
 						virtue_choices[V.name] = V
-					var/result = tgui_input_list(user, "What was your lyfe before?", "BACKGROUND",virtue_choices)
+					var/result = tgui_input_list(user, "What was your lyfe before?", "BACKGROUND (LOADOUTS PLACED WITHIN THY STASH)",virtue_choices)
 
 					if (result)
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
@@ -3430,9 +3430,13 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		dat += "<font size = 3>[span_purple(V.desc)]</font><br>"
 	if(V.origin_desc)
 		dat += "<font size = 3><a href='?_src_=prefs;preference=originhelp;task=input'>Read More</a></font><br>"
+	if(V.background_desc)
+		dat += "<font size = 3>[span_purple(V.desc)]</font><br>"
 	if(length(V.added_skills))
 		if(istype(V, /datum/virtue/origin))
 			dat += "<font color = '#a3e2ff'><font size = 3>This Origin adds the following skills: <br>"
+		if(istype(V, /datum/virtue/background))
+			dat+= "<font color = '#a3e2ff'><font size = 3>This Background adds the following skills: <br>"
 		else
 			dat += "<font color = '#a3e2ff'><font size = 3>This Virtue adds the following skills: <br>"
 		for(var/list/L in V.added_skills)
