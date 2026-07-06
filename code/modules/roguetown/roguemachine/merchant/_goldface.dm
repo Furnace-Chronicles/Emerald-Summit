@@ -68,6 +68,9 @@
 	var/value_record_key = STATS_GOLDFACE_VALUE_SPENT
 	// True to make sure it bypass all taxes no matter what
 	var/bypass_tax = FALSE
+	// ES deviation note: class-kit groups (Brigand/Sellsword/Sawbones/Knight/Mage/Knave/Iconoclast/
+	// Pioneer) and "Things" are the bandit Hoardmaster's stock, job-gated there - the legacy goldface
+	// never sold them, so they are deliberately NOT listed here.
 	var/list/categories = list(
 		"Alcohols",
 		"Apparel",
@@ -79,7 +82,6 @@
 		"Perfumes",
 		"Raw Materials",
 		"Seeds",
-		"Things",
 		"Tools",
 		"Wardrobe",
 		"Zadpacks",
@@ -90,15 +92,7 @@
 		"Armor (Iron)",
 		"Armor (Steel)",
 		"Armor (Exotic)",
-		"Brigand",
-		"Iconoclast",
-		"Knave",
-		"Knight",
-		"Mage",
-		"Pioneer",
 		"Potions",
-		"Sawbones",
-		"Sellsword",
 		"Weapons (Ranged)",
 		"Weapons (Iron and Shields)",
 		"Weapons (Steel)",
