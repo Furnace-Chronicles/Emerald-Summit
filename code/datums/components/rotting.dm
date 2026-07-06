@@ -1,5 +1,9 @@
-#define DEAD_TO_ZOMBIE_TIME 7 MINUTES	//Time before death -> raised as zombie (when outside of the city)	
+#define DEAD_TO_ZOMBIE_TIME 7 MINUTES	//Time before death -> raised as zombie (when outside of the city)
 										//(This isn't exact time. Extended 5 -> 7 because only takes 2-3 min in testing at 5.)
+// NPC corpse cleanup: bodies no player has ever inhabited decompose faster and can be cremated.
+#define NPC_DECAY_MULTIPLIER 3			// generic NPC corpses rot, skeletonize and crumble at 3x speed
+#define NPC_UNDEAD_DECAY_MULTIPLIER 6	// slain deadite/skeleton NPC remains decay at 6x speed
+#define NPC_CREMATION_TIME (1 MINUTES)	// total time spent on fire before an NPC corpse collapses to ash
 
 /datum/component/rot
 	var/amount = 0
@@ -37,10 +41,31 @@
 
 	return
 
+/datum/component/rot/corpse
+	/// Total deciseconds this corpse has spent on fire; NPC bodies collapse to ash at NPC_CREMATION_TIME
+	var/burn_amount = 0
+
 /datum/component/rot/corpse/Initialize()
 	if(!iscarbon(parent))
 		return COMPONENT_INCOMPATIBLE
 	. = ..()
+
+/// A body that no player has ever inhabited -- spawned NPCs never get a key on their mind
+/datum/component/rot/corpse/proc/is_npc_body(mob/living/carbon/C)
+	return !C.ckey && !C.mind?.key
+
+/// Burning NPC (and skeleton) corpses cremate: after enough total burn time they collapse to ash.
+/// Returns TRUE if the corpse was cremated (mob dusted, component deleted).
+/datum/component/rot/corpse/proc/handle_npc_cremation(mob/living/carbon/C, time_elapsed)
+	if(!C.on_fire || C.stat != DEAD || !is_npc_body(C))
+		return FALSE
+	burn_amount += time_elapsed * 10
+	if(burn_amount < NPC_CREMATION_TIME)
+		return FALSE
+	C.visible_message(span_warning("[C]'s burning remains collapse into ash."))
+	qdel(src)
+	C.dust(just_ash = TRUE, drop_items = TRUE)
+	return TRUE
 /*
 	ZOMBIFICATION
 */
@@ -52,6 +77,8 @@
 	
 	var/mob/living/carbon/C = parent
 	var/is_zombie
+	if(handle_npc_cremation(C, time_elapsed))
+		return // burnt to ash
 	if(HAS_TRAIT(C, TRAIT_DNR))
 		return
 	if(C.mind)
@@ -61,6 +88,17 @@
 		if(C.stat != DEAD)
 			qdel(src)
 			return
+
+	// NPC corpses decompose much faster than player bodies so event/ambient corpses clean
+	// themselves up; slain deadite and skeleton NPCs crumble faster still. Bodies still
+	// waiting on their zombie rise decay at the normal pace so rise timing stays untouched.
+	var/pending_rise = FALSE
+	if(is_zombie)
+		var/datum/antagonist/zombie/npc_zombie = C.mind.has_antag_datum(/datum/antagonist/zombie)
+		pending_rise = npc_zombie && !npc_zombie.has_turned && !npc_zombie.revived
+	if(C.stat == DEAD && !pending_rise && is_npc_body(C))
+		var/npc_mult = (is_zombie || (C.mob_biotypes & MOB_UNDEAD)) ? NPC_UNDEAD_DECAY_MULTIPLIER : NPC_DECAY_MULTIPLIER
+		amount += time_elapsed * 10 * (npc_mult - 1)
 
 	var/area/A = get_area(C)
 	if (istype(A, /area/rogue/indoors/town))	//Stops rotting inside town buildings; will stop your zombification such as at church or appothocary.
@@ -100,11 +138,13 @@
 						shouldupdate = TRUE
 				else
 					findonerotten = TRUE
-		if(amount > 35 MINUTES)  // Code to delete a corpse after 35 minutes if it's not a zombie and not skeletonized. Possible failsafe.
-			if(!is_zombie)
-				if(!C.client)	// We want to dust NPC bodies, not player bodies.
-					if(B.skeletonized)
-						dustme = TRUE
+		if(amount > 35 MINUTES)  // Fully decayed -- crumble NPC bodies away. Never a player's body.
+			if(C.stat == DEAD && is_npc_body(C))	// stat check: risen zombies keep this component while alive
+													// (and the old !C.client check would also have dusted ghosted players' bodies)
+				if(B.skeletonized)
+					dustme = TRUE
+				else if(is_zombie && !pending_rise)	// slain deadites never skeletonize; crumble anyway
+					dustme = TRUE
 
 	if(dustme)
 		qdel(src)
@@ -157,3 +197,6 @@
 	extra_range = 0
 
 #undef DEAD_TO_ZOMBIE_TIME
+#undef NPC_DECAY_MULTIPLIER
+#undef NPC_UNDEAD_DECAY_MULTIPLIER
+#undef NPC_CREMATION_TIME
