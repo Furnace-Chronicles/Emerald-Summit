@@ -88,9 +88,9 @@
 		return	//We don't do anything if either of us is affected by bait statuses
 
 	HU.visible_message(span_danger("[HU] baits an attack from [HT]!"))
-	// INT no longer hard-gates baiting; it scales the cooldown instead. Baseline 10 INT keeps the old 30s cd,
-	// smarter fighters recover faster and dimmer ones wait longer (clamped 12-45s), then the tempo bonus applies.
-	var/newcd = (clamp(50 - (user.STAINT * 2), 12, 45)) SECONDS - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)
+	// INT no longer hard-gates baiting; it scales the cooldown instead. 1 INT sits at the 90s max and it
+	// drops ~4s per point down to the 15s floor at 20 INT, then the tempo bonus applies on top.
+	var/newcd = (clamp(94 - (user.STAINT * 4), 15, 90)) SECONDS - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)
 	HU.apply_status_effect(/datum/status_effect/debuff/baitcd, newcd)
 	HU.stamina_add(HU.max_stamina * 0.2)
 
