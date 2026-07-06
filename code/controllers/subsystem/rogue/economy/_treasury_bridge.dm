@@ -31,8 +31,16 @@
 	var/list/ledger = list()
 	/// Active loans (list of datum/loan).
 	var/list/loans = list()
-	/// Tax rates per category (assoc list: category -> 0.0–1.0).
-	var/list/tax_rates = list()
+	/// Tax rates per category (assoc list: category -> 0.0–1.0). AP-default rates: goldface /
+	/// fulfillment-crate tariff+duty code reads these and was silently collecting 0% while this
+	/// list initialized empty. The Lord adjusts them via the Titan's TaxSetter (Taxation 2).
+	var/list/tax_rates = list(
+		TAX_CATEGORY_CONTRACT_LEVY = 0.20,
+		TAX_CATEGORY_HEADEATER_LEVY = 0.15,
+		TAX_CATEGORY_IMPORT_TARIFF = 0.15,
+		TAX_CATEGORY_EXPORT_DUTY = 0.15,
+		TAX_CATEGORY_FINE = 1.0,
+	)
 	/// Mobs whose wages are suspended during sequestration (ES: integer bank_accounts, so tracked separately).
 	var/list/suspended_wage_mobs = list()
 	/// Maps trade_good_id -> datum/roguestock. Populated by SSeconomy during Initialize().

@@ -126,6 +126,7 @@
 /obj/structure/roguemachine/atm/examine(mob/user)
 	. += ..()
 	. += span_info("The current tax rate on deposits is [SStreasury.tax_value * 100] percent. Nobles exempt. Non-noble foreigners are taxed at a 50% higher rate.")
+	. += span_smallnotice("Crown levies - Contract: [round(SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY) * 100)]%, Headeater: [round(SStreasury.get_tax_rate(TAX_CATEGORY_HEADEATER_LEVY) * 100)]%, Import: [round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * 100)]%, Export: [round(SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY) * 100)]%")
 
 
 /obj/structure/roguemachine/atm/proc/drill(obj/structure/roguemachine/atm)
