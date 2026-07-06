@@ -56,10 +56,11 @@
 		"max_advance_days" = POLL_TAX_MAX_ADVANCE_DAYS,
 		"fallback_rate" = POLL_TAX_ADVANCE_FALLBACK_RATE,
 	)
-	// TODO(ES): poll tax runtime not ported - no taxable class means the tab renders inert.
+	// Taxation 2 (ported): the user's poll class is fixed for the round, so it's static data.
+	var/poll_category = SStreasury.get_poll_tax_category(user)
 	data["poll_tax_user"] = list(
-		"category" = "",
-		"category_label" = "",
+		"category" = poll_category || "",
+		"category_label" = poll_category ? SStreasury.get_poll_tax_category_pretty_name(poll_category) : "",
 	)
 	var/list/funds = list()
 	var/list/patron_rosters_static = list()
@@ -115,11 +116,14 @@
 	else
 		data["active_loan"] = null
 
-	// TODO(ES): poll tax runtime not ported - inert values keep the tab dormant.
+	// Taxation 2 (ported): live poll data for the Poll Tax tab.
+	var/poll_category = SStreasury.get_poll_tax_category(H)
 	data["poll_tax"] = list(
-		"rate" = 0,
-		"exempt" = FALSE,
-		"advance_days_held" = 0,
+		"rate" = poll_category ? SStreasury.get_poll_tax_rate_for(H, poll_category) : 0,
+		"exempt" = (poll_category && SStreasury.is_poll_tax_charter_exempt(H, poll_category)) ? TRUE : FALSE,
+		"advance_days_held" = SStreasury.poll_tax_advance_days[H] || 0,
+		"owed" = SStreasury.poll_tax_owed[H] || 0,
+		"overdue_days" = SStreasury.poll_tax_debt_days[H] || 0,
 	)
 
 	var/has_any_institutional_access = FALSE
@@ -303,11 +307,15 @@
 		var/datum/loan/still = SStreasury.get_loan_for(H)
 		say("[paid]m transferred. [still.get_remaining_due()]m remains.")
 
-// TODO(ES): stub - the poll tax runtime (categories, rates, advance ledger) is not ported.
-// The frontend never enables the advance button while poll_tax_user.category is empty, so
-// this only answers direct/raced sends.
+// Taxation 2 (ported): prepay up to POLL_TAX_MAX_ADVANCE_DAYS of poll tax.
 /obj/structure/roguemachine/atm/proc/handle_advance_poll_tax(mob/living/carbon/human/H, list/params)
-	say("The Crown does not tax your class.")
+	var/days = round(text2num("[params["days"]]") || 0)
+	if(days <= 0)
+		return
+	if(SStreasury.poll_tax_pay_advance(H, days))
+		playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
+	else
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 
 /obj/structure/roguemachine/atm/proc/handle_withdraw_institutional(mob/living/carbon/human/H, list/params)
 	var/fund_id = "[params["fund_id"]]"

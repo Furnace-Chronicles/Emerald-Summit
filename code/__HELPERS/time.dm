@@ -112,6 +112,7 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 			scom_announce_new_dawn() // IC calendar: announce active feast/holy daes
 			SStreasury.distribute_estate_incomes()
 			SStreasury.distribute_daily_payments()
+			SStreasury.tick_poll_tax() // Taxation 2: collect per-class poll tax / pay subsidies
 			if(SSeconomy)
 				SSeconomy.daily_tick()
 			SScity_assembly?.on_day_tick()

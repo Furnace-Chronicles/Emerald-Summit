@@ -281,15 +281,27 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 /obj/structure/roguemachine/titan/proc/give_tax_popup(mob/living/carbon/human/user)
 	if(!Adjacent(user))
 		return
-	var/newtax = input(user, "Set a new tax percentage (1-99)", src, SStreasury.tax_value*100) as null|num
-	if(newtax)
-		if(!Adjacent(user))
-			return
-		if(findtext(num2text(newtax), "."))
-			return
-		newtax = CLAMP(newtax, 1, 99)
-		SStreasury.tax_value = newtax / 100
-		priority_announce("The new tax in Emerald Summit shall be [newtax] percent.", "The Generous Lord Decrees", pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain")
+	// ES deviation: the legacy flat sales tax (SStreasury.tax_value) still drives ES's
+	// transaction taxes, so the Lord keeps direct control of it alongside the new Taxation 2
+	// panel (category levies + per-class poll tax). TODO: migrate tax_value consumers onto
+	// tax_rates categories, then drop the legacy branch.
+	var/choice = alert(user, "Which levies shall you adjust?", "Crown Taxation", "Sales Tax", "Levies & Poll Tax", "Cancel")
+	if(!Adjacent(user))
+		return
+	switch(choice)
+		if("Sales Tax")
+			var/newtax = input(user, "Set a new tax percentage (1-99)", src, SStreasury.tax_value*100) as null|num
+			if(newtax)
+				if(!Adjacent(user))
+					return
+				if(findtext(num2text(newtax), "."))
+					return
+				newtax = CLAMP(newtax, 1, 99)
+				SStreasury.tax_value = newtax / 100
+				priority_announce("The new tax in Emerald Summit shall be [newtax] percent.", "The Generous Lord Decrees", pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain")
+		if("Levies & Poll Tax")
+			var/datum/taxsetter/taxsetter = new("The Generous Lord Decrees")
+			taxsetter.ui_interact(user)
 
 
 /obj/structure/roguemachine/titan/proc/make_announcement(mob/living/user, raw_message)

@@ -94,6 +94,20 @@
 #define STATS_REVENUE_HEADEATER_LEVY    "revenue_headeater_levy"
 #define STATS_REVENUE_IMPORT_TARIFF     "revenue_import_tariff"
 #define STATS_REVENUE_EXPORT_DUTY       "revenue_export_duty"
+// Poll tax (Taxation 2): net mammons collected per civic class (subsidies record negative)
+#define STATS_POLL_TAX_COLLECTED        "poll_tax_collected"
+#define STATS_POLL_TAX_NOBLE            "poll_tax_noble"
+#define STATS_POLL_TAX_CLERGY           "poll_tax_clergy"
+#define STATS_POLL_TAX_INQUISITION      "poll_tax_inquisition"
+#define STATS_POLL_TAX_COURTIER         "poll_tax_courtier"
+#define STATS_POLL_TAX_GARRISON         "poll_tax_garrison"
+#define STATS_POLL_TAX_GUILDS           "poll_tax_guilds"
+#define STATS_POLL_TAX_MERCHANT         "poll_tax_merchant"
+#define STATS_POLL_TAX_BURGHER          "poll_tax_burgher"
+#define STATS_POLL_TAX_ADVENTURER       "poll_tax_adventurer"
+#define STATS_POLL_TAX_MERCENARY        "poll_tax_mercenary"
+#define STATS_POLL_TAX_PEASANT          "poll_tax_peasant"
+#define STATS_EXEMPTED_POLL_TAX         "exempted_poll_tax"
 #define STATS_EXEMPTED_CONTRACT_LEVY    "exempted_contract_levy"
 #define STATS_EXEMPTED_HEADEATER_LEVY   "exempted_headeater_levy"
 #define STATS_EXEMPTED_IMPORT_TARIFF    "exempted_import_tariff"
@@ -392,6 +406,19 @@ GLOBAL_LIST_INIT(scarlet_round_stats, list(
 	STATS_TREASURY_DEBT_REPAID = 0,
 	STATS_LOANS_ISSUED = 0,
 	STATS_LOANS_DEFAULTED = 0,
+	STATS_POLL_TAX_COLLECTED = 0,
+	STATS_POLL_TAX_NOBLE = 0,
+	STATS_POLL_TAX_CLERGY = 0,
+	STATS_POLL_TAX_INQUISITION = 0,
+	STATS_POLL_TAX_COURTIER = 0,
+	STATS_POLL_TAX_GARRISON = 0,
+	STATS_POLL_TAX_GUILDS = 0,
+	STATS_POLL_TAX_MERCHANT = 0,
+	STATS_POLL_TAX_BURGHER = 0,
+	STATS_POLL_TAX_ADVENTURER = 0,
+	STATS_POLL_TAX_MERCENARY = 0,
+	STATS_POLL_TAX_PEASANT = 0,
+	STATS_EXEMPTED_POLL_TAX = 0,
 	STATS_REVENUE_CONTRACT_LEVY = 0,
 	STATS_REVENUE_HEADEATER_LEVY = 0,
 	STATS_REVENUE_IMPORT_TARIFF = 0,

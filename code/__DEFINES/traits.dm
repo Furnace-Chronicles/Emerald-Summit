@@ -191,6 +191,7 @@
 #define TRAIT_OUTLAW "Outlaw"
 #define TRAIT_ALDERMAN "Alderman of the Assembly"
 #define TRAIT_ALDERMAN_CENSURED "Assembly Censure"
+#define TRAIT_ARREARS "In Arrears" // poll-tax defaulter (POLL_TAX_DEBT_DAYS_TO_DEBTOR+ days owed) — cleared when the debt is paid
 #define TRAIT_DEBTOR "Debtor" // generic loan defaulter — always applied alongside a faction-specific trait
 #define TRAIT_DEBTOR_CROWN "Debtor of the Crown"
 #define TRAIT_DEBTOR_CHURCH "Debtor of the Church"
