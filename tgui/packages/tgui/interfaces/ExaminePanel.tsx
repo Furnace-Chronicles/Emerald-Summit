@@ -16,7 +16,7 @@ enum Page {
   NsfwImageGallery,
 }
 
-export const ExaminePanel = (props) => {
+export const ExaminePanel = () => {
   const { act, data } = useBackend<ExaminePanelData>();
   const {
     is_vet,
@@ -38,13 +38,13 @@ export const ExaminePanel = (props) => {
   let pageContents;
   switch (currentPage) {
     case Page.FlavorText:
-      pageContents = <FlavorTextPage />;
+      pageContents = <FlavorTextPage data={data} act={act} />;
       break;
     case Page.ImageGallery:
-      pageContents = <ImageGalleryPage />;
+      pageContents = <ImageGalleryPage data={data} act={act} />;
       break;
     case Page.NsfwImageGallery:
-      pageContents = <NsfwImageGalleryPage />;
+      pageContents = <NsfwImageGalleryPage data={data} act={act} />;
       break;
   }
 

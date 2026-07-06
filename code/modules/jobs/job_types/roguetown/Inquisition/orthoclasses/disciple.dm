@@ -76,5 +76,5 @@
 		if("Katar")
 			H.put_in_hands(new /obj/item/rogueweapon/katar/psydon/preblessed(H), TRUE)
 		if("Knuckles")
-			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles/psydon/preblessed(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/knuckles/psydon/preblessed(H), TRUE)
 

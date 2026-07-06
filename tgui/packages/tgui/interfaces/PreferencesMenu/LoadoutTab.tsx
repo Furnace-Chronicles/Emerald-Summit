@@ -5,7 +5,7 @@ import {
   Stack,
 } from 'tgui-core/components';
 
-import { useBackend } from '../../backend';
+import type { ActFunctionType } from '../../backend';
 // Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
 // list passes 7 options. (Replaces the per-tab RawDropdown + inline-Box wrapper.)
 import { SearchableDropdown as Dropdown } from '../common/SearchableDropdown';
@@ -34,10 +34,11 @@ type Data = {
   loadout_static: LoadoutStaticData;
 };
 
+type LoadoutTabProps = { data: Data; act: ActFunctionType };
+
 const SLOT_LABELS = ['I', 'II', 'III', 'IV', 'V', 'VI'];
 
-export const LoadoutTab = (props) => {
-  const { act, data } = useBackend<Data>();
+export const LoadoutTab = ({ data, act }: LoadoutTabProps) => {
   // Merge static option lists (item_options, color_options) into the
   // dynamic loadout (slots). Defaults are applied post-spread so the brief
   // gap before the server's set_tab reply lands doesn't crash on

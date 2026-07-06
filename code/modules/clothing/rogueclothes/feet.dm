@@ -159,6 +159,14 @@
 	item_state = "sandals"
 	sewrepair = TRUE
 
+/obj/item/clothing/shoes/roguetown/sandals/toga_sandals
+	name = "fancy sandals"
+	desc = "Delicate sandals of gleaming leather, their slender straps rising in graceful spirals to embrace the ankle."
+	icon_state = "toga_sandals"
+	item_state = "toga_sandals"
+	salvage_result = /obj/item/natural/hide/cured
+	salvage_amount = 1
+
 /obj/item/clothing/shoes/roguetown/sandals/aalloy
 	name = "decrepit sandals"
 	desc = "Surely Psydon himself could've worn these sandals."
@@ -504,6 +512,9 @@
 	allowed_race = OGRE_RACE_TYPES
 	max_integrity = 250
 	armor = ARMOR_BOOTS_PLATED_IRON
+	armor_class = ARMOR_CLASS_HEAVY
+	anvilrepair = /datum/skill/craft/armorsmithing
+	smeltresult = /obj/item/ingot/iron
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 
 /obj/item/clothing/shoes/roguetown/boots/ogre
@@ -514,5 +525,5 @@
 	icon_state = "ogre_boots"
 	allowed_race = OGRE_RACE_TYPES
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)	//Same as gloves
-	max_integrity = 150	
+	max_integrity = 150
 	armor = ARMOR_BOOTS

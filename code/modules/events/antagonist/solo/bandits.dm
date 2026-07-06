@@ -22,6 +22,7 @@
 		"Priest",
 		"Acolyte",
 		"Martyr",
+		"Keeper",
 		"Templar",
 		"Councillor",
 		"Prince",

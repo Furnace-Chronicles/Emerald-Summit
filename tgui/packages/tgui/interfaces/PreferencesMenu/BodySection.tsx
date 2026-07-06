@@ -7,7 +7,7 @@ import {
   Stack,
 } from 'tgui-core/components';
 
-import { useBackend } from '../../backend';
+import type { ActFunctionType } from '../../backend';
 import { CustomizerCard, CustomizerEntry } from './CustomizerCard';
 // Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
 // list passes 7 options. (Replaces the per-tab RawDropdown + inline-Box wrapper.)
@@ -64,6 +64,8 @@ type Data = {
   customizers_static?: { entries: CustomizerEntryStatic[] };
 };
 
+type BodySectionProps = { data: Data; act: ActFunctionType };
+
 const ColorSwatch = ({ hex }: { hex?: string }) => (
   <Box
     inline
@@ -82,8 +84,7 @@ const ColorSwatch = ({ hex }: { hex?: string }) => (
  *  pitch, accent and sprite scale — relocated to the Identity tab (rendered under
  *  the Palate section). Reads the same body payload as BodySection, which is now
  *  also shipped on the identity tab so these resolve there too. */
-export const BodyAppearanceControls = () => {
-  const { act, data } = useBackend<Data>();
+export const BodyAppearanceControls = ({ data, act }: BodySectionProps) => {
   const body = { ...data.body_static, ...data.body } as BodyData;
   if (!data.body) return null;
   return (
@@ -253,8 +254,7 @@ export const BodyAppearanceControls = () => {
   );
 };
 
-export const BodySection = () => {
-  const { act, data } = useBackend<Data>();
+export const BodySection = ({ data, act }: BodySectionProps) => {
   // Merge static option lists into the dynamic body data so existing
   // body.skin_tone_options / body.accent_options references resolve.
   const body = { ...data.body_static, ...data.body } as BodyData;

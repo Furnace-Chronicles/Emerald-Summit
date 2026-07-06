@@ -25,7 +25,7 @@ type Data = {
 };
 
 /** Renders a list of checkboxes per items for input. */
-export const CheckboxInput = (props) => {
+export const CheckboxInput = () => {
   const { data } = useBackend<Data>();
   const {
     items = [],

@@ -242,6 +242,9 @@
 			if(HAS_TRAIT(src, TRAIT_PACIFISM) && I.throwforce)
 				to_chat(src, "<span class='notice'>I set [I] down gently on the ground.</span>")
 				return
+			if(HAS_TRAIT(src, TRAIT_DEADITE)) //deadites are too dim to throw
+				to_chat(src, "<span class='warning'>...What?</span>")
+				return
 
 
 	if(thrown_thing)

@@ -7,7 +7,7 @@ import {
   Stack,
 } from 'tgui-core/components';
 
-import { useBackend } from '../../backend';
+import type { ActFunctionType } from '../../backend';
 import { BodySection } from './BodySection';
 import { CustomizerCard, CustomizerEntry } from './CustomizerCard';
 import { MarkingsSection } from './MarkingsSection';
@@ -74,9 +74,9 @@ type Data = {
   customizers_static: CustomizersStaticData;
 };
 
+type FeaturesTabProps = { data: Data; act: ActFunctionType };
 
-export const FeaturesTab = (props) => {
-  const { act, data } = useBackend<Data>();
+export const FeaturesTab = ({ data, act }: FeaturesTabProps) => {
 
   // Merge each descriptor entry's static (name + options) with its dynamic
   // (current_name) half by choice_type, so the rendering loop sees the
@@ -282,7 +282,7 @@ export const FeaturesTab = (props) => {
                   </Stack.Item>
                   {idx === hairRowIdx && (
                     <Stack.Item>
-                      <BodySection />
+                      <BodySection data={data} act={act} />
                     </Stack.Item>
                   )}
                   </Fragment>
@@ -296,7 +296,7 @@ export const FeaturesTab = (props) => {
       {/* Markings section moved from the Identity tab — at the bottom of
           Features per user request. */}
       <Stack.Item>
-        <MarkingsSection />
+        <MarkingsSection data={data} act={act} />
       </Stack.Item>
     </Stack>
   );

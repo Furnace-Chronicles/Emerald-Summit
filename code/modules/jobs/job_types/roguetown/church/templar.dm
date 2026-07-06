@@ -153,7 +153,7 @@
 		if(/datum/patron/divine/abyssor)
 			weapons += "Barotrauma"
 		if(/datum/patron/divine/dendor)
-			weapons += "Summer Scythe"
+			weapons += list("Summer Scythe", "Dendorite Warstaff")
 
 	var/weapon_choice = input(H,"Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
@@ -161,10 +161,10 @@
 			H.put_in_hands(new /obj/item/rogueweapon/katar(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
 		if("Knuckle Dusters")
-			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/knuckles(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
 		if("Close Caress")
-			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles/eora(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/knuckles/eora(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
 		if("Barotrauma")
 			H.put_in_hands(new /obj/item/rogueweapon/katar/abyssor(H), TRUE)
@@ -177,6 +177,9 @@
 			H.put_in_hands(new /obj/item/rogueweapon/halberd/bardiche/scythe(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_NOVICE, TRUE)
+		if("Dendorite Warstaff")
+			H.put_in_hands(new /obj/item/rogueweapon/woodstaff/quarterstaff/steel/dendor(H), TRUE)
+			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 	// -- Start of section for god specific bonuses --
 	if(H.patron?.type == /datum/patron/divine/astrata)
 		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
@@ -193,6 +196,7 @@
 		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/necra)
+		H.cmode_music = 'sound/music/combat_necra.ogg'
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/pestra)
@@ -329,14 +333,10 @@
 
 /datum/outfit/job/templar/crusader/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
-	var/weapons = list("Halberd","Longsword","Flail","Mace","Battle Axe", "Solar Spear", "Astratan Scimitar", "Dendorite Warstaff", "Ravoxian Glaive", "Judgement Edge")
+	var/weapons = list("Halberd","Longsword","Flail","Mace","Battle Axe")
 	switch(H.patron?.type)
 		if(/datum/patron/divine/astrata) //Unique patron weapons, more can be added here if wanted.
-			weapons += "Solar Judgement"
-		if(/datum/patron/divine/astrata)
-			weapons += "Solar Spear"
-		if(/datum/patron/divine/astrata)
-			weapons += "Astratan Scimitar"
+			weapons += list("Solar Judgement", "Solar Spear", "Astratan Scimitar")
 		if(/datum/patron/divine/noc)
 			weapons += "Moonlight Khopesh"
 		if(/datum/patron/divine/necra)
@@ -346,19 +346,13 @@
 		if(/datum/patron/divine/malum)
 			weapons += "Forgefiend"
 		if(/datum/patron/divine/dendor)
-			weapons += "Summer Scythe"
-		if(/datum/patron/divine/dendor)
-			weapons += "Dendorite Warstaff"
+			weapons += list("Summer Scythe", "Dendorite Warstaff")
 		if(/datum/patron/divine/xylix)
 			weapons += "Cackle Lash"
 		if(/datum/patron/divine/ravox)
-			weapons += "Duel Settler"
-		if(/datum/patron/divine/ravox)
-			weapons += "Ravoxian Glaive"
-		if(/datum/patron/divine/ravox)
-			weapons += "Judgement Edge"
+			weapons += list("Duel Settler", "Ravoxian Glaive", "Judgement Edge")
 		if(/datum/patron/divine/eora)
-			weapons += "The Heartstring"
+			weapons += list("The Heartstring", "Harp Bow (long)", "Harp Bow (short)")
 		if(/datum/patron/divine/abyssor)
 			weapons += "Tidecleaver"
 	var/weapon_choice = input(H,"Choose your weapon.", "TAKE UP ARMS") as anything in weapons
@@ -413,6 +407,30 @@
 		if("The Heartstring")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/eora(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+		if("Harp Bow (long)")
+			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_R, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/half, SLOT_ARMOR, TRUE) //Cuirass, not halfplate. Slightly reduced starting armor.
+			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/eora(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/sword/short(H), TRUE)
+			H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE) //Expert bow, Journeyman otherwise
+			H.adjust_skillrank(/datum/skill/combat/wrestling, -1, TRUE)//Haha... no.
+			H.change_stat(STATKEY_SPD, 1)
+			H.change_stat(STATKEY_PER, 2)
+			H.change_stat(STATKEY_STR, -1)
+			H.change_stat(STATKEY_END, -1)
+			H.change_stat(STATKEY_CON, -1)
+		if("Harp Bow (short)")
+			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_R, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/half, SLOT_ARMOR, TRUE) //Cuirass, not halfplate. Slightly reduced starting armor.
+			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/eora(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/sword/short(H), TRUE)
+			H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE) //Expert bow, Journeyman otherwise
+			H.adjust_skillrank(/datum/skill/combat/wrestling, -1, TRUE)//Haha... no.
+			H.change_stat(STATKEY_SPD, 1)
+			H.change_stat(STATKEY_PER, 2)
+			H.change_stat(STATKEY_STR, -1)
+			H.change_stat(STATKEY_END, -1)
+			H.change_stat(STATKEY_CON, -1)
 		if("Tidecleaver")
 			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/abyssoraxe(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)

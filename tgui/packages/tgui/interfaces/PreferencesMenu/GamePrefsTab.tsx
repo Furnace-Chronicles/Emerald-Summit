@@ -1,6 +1,6 @@
 import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
 
-import { useBackend } from '../../backend';
+import type { ActFunctionType } from '../../backend';
 
 type RoleEntry = {
   name: string;
@@ -24,10 +24,11 @@ type Data = {
   game_prefs: GamePrefsData;
 };
 
+type GamePrefsTabProps = { data: Data; act: ActFunctionType };
+
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-export const GamePrefsTab = (props) => {
-  const { act, data } = useBackend<Data>();
+export const GamePrefsTab = ({ data, act }: GamePrefsTabProps) => {
   const gp = data.game_prefs;
   if (!gp) {
     return <Box color="label">Loading…</Box>;

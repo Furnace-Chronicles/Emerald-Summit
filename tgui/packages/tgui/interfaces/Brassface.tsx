@@ -7,6 +7,7 @@ import {
   Stack,
   Tabs,
 } from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -30,13 +31,13 @@ type Pack = {
 
 type Data = {
   budget: number;
-  locked: number;
+  locked: BooleanLike;
   next_tick_in: number;
   interest_rate: number;
   multiple_item_penalty: number;
-  tax_enabled: number;
+  tax_enabled: BooleanLike;
   tax_rate: number;
-  is_nightmaster: number;
+  is_nightmaster: BooleanLike;
   categories: string[];
   packs: Pack[];
   appraised_items: VaultItem[];
@@ -44,7 +45,7 @@ type Data = {
   total_value: number;
 };
 
-export const Brassface = (props) => {
+export const Brassface = () => {
   const { act, data } = useBackend<Data>();
   const {
     budget,

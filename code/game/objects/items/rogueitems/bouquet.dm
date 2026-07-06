@@ -51,14 +51,36 @@
 
 /obj/item/flowercrown/rosa
 	name = "crown of rosa"
-	desc = ""
+	desc = "A crown of roses weaved together. Commonly associated with couples in love and hopeless romantics. In the forgotten past these were worn by Eorans protesting against \
+	what they perceived to be the nascent Holy See's cruelty and totalitarian tendencies."
 	item_state = "rosa_crown"
 	icon_state = "rosa_crown"
 
 /obj/item/flowercrown/salvia
 	name = "crown of salvia"
+	desc = "A crown of salvias weaved together. Thought to symbolise wisdom and intellectual pursuits, these are often worn by scholars, philosophers and Noccian extremists alike."
 	item_state = "salvia_crown"
 	icon_state = "salvia_crown"
+
+/obj/item/flowercrown/matricaria
+	name = "crown of matricaria"
+	desc = "A crown of matricarias weaved together. A long-standing symbol of health, peace and motherhood, used by Pestran sects and frequently gifted to first-time mothers."
+	item_state = "matricaria_crown"
+	icon_state = "matricaria_crown"
+
+/obj/item/flowercrown/calendula
+	name = "crown of calendula"
+	desc = "A crown of calendulas weaved together. Although initially it was used by Astratan cults in their rituals, nowadays it's more commonly associated with \
+	loyalty, physical and spiritual healing, irrespective of faith."
+	item_state = "calendula_crown"
+	icon_state = "calendula_crown"
+
+/obj/item/flowercrown/manabloom
+	name = "crown of manabloom"
+	desc = "A crown of manabloom flowers weaved together. Its effectiveness in aiding spellcasting has been long debunked, but it's still worn by \
+	aspiring and experienced magicians alike as a fashion statement."
+	item_state = "manabloom_crown"
+	icon_state = "manabloom_crown"
 
 /obj/item/flowercrown/thorny
 	name = "crown of thorns"

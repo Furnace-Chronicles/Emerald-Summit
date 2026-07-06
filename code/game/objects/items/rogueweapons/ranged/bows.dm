@@ -87,26 +87,27 @@
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 	name = "crude selfbow"
-	desc = "This roughly hewn selfbow is just a bit too little of everything. Too little length, \
-	too little poundage, too slow a shot."
+	desc = "This roughly hewn selfbow is crude and weak, and none too accurate -- but what it lacks in \
+	poundage it makes up for with a decently swift draw."
 	icon = 'icons/roguetown/weapons/ranged32.dmi'
 	icon_state = "bow"
 	item_state = "bow"
 	experimental_onhip = TRUE
 	experimental_onback = TRUE
 	possible_item_intents = list(
-		/datum/intent/shoot/bow,
-		/datum/intent/arc/bow,
+		/datum/intent/shoot/bow/short,
+		/datum/intent/arc/bow/short,
 		INTENT_GENERIC,
 		)
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/bow
 	fire_sound = 'sound/combat/Ranged/flatbow-shot-01.ogg'
 	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_HIP
 	w_class = WEIGHT_CLASS_BULKY
-	randomspread = 0
-	spread = 0
+	randomspread = 1
+	spread = 1
 	can_parry = TRUE
-	force = 10
+	force = 9
+	damfactor = 0.9 //shortbow-tier: quick draw, low damage, more spread
 	verbage = "nock"
 	cartridge_wording = "arrow"
 	load_sound = 'sound/foley/nockarrow.ogg'
@@ -275,13 +276,21 @@
 	characteristics."
 	icon = 'icons/roguetown/weapons/64.dmi'
 	icon_state = "recurve_bow"
-	force = 9
+	force = 10
 	pixel_y = -16
 	pixel_x = -16
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 	bigboy = TRUE
 	dropshrink = 0.8
+	possible_item_intents = list(
+		/datum/intent/shoot/bow,
+		/datum/intent/arc/bow,
+		INTENT_GENERIC,
+		)
+	randomspread = 0
+	spread = 0
+	damfactor = 1 //balanced: standard draw, no spread, full damage
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/getonmobprop(tag)
 	. = ..()
@@ -374,6 +383,14 @@
 	bigboy = TRUE
 	dropshrink = 0.8
 	heavy_bow = TRUE
+	possible_item_intents = list(
+		/datum/intent/shoot/bow,
+		/datum/intent/arc/bow,
+		INTENT_GENERIC,
+		)
+	randomspread = 0
+	spread = 0
+	force = 12 //heaviest hitter: highest poundage, slow heavy draw
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/getonmobprop(tag)
 	. = ..()
@@ -447,3 +464,42 @@
 	name = "aavnic riding bow"
 	desc = "A short recurve warbow made for the express purpose of shooting on saigaback, a skill every archer in Aavnr takes much more seriously than their Northern counterparts. Every seasoned Druzhina is themselves a good bowyer and usually makes their own bow, this one is made with the purpure-ish crimson wood of a Vörötslevé tree."
 	icon_state = "recurve_riding"
+
+// Short-draw intents (ported from Ratwood-2.0 PR #1556): faster, twitchier shot used by the crude
+// selfbow and the short Eoran harp-bow.
+/datum/intent/shoot/bow/short
+	chargetime = 0.75
+	chargedrain = 1.5
+	charging_slowdown = 2.5
+
+/datum/intent/arc/bow/short
+	chargetime = 0.75
+	chargedrain = 1.5
+	charging_slowdown = 2.5
+
+// Eoran harp-bows (Ratwood-2.0 PR #1556). Sprites live in icons/roguetown/weapons/special/boweoran64.dmi
+// (states "harpbow" / "harpbowb"). Long variant hits hard; short variant is a fast, weak shortbow.
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/eora
+	name = "eoran harp-bow"
+	desc = "Strings to pluck."
+	icon = 'icons/roguetown/weapons/special/boweoran64.dmi'
+	icon_state = "harpbow"
+	dropshrink = 0
+	force = 15
+	damfactor = 1.25
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/eora //recurve sprite sizes, but the stats of a shortbow
+	name = "eoran harp-bow"
+	desc = "Strings to pluck."
+	icon = 'icons/roguetown/weapons/special/boweoran64.dmi'
+	icon_state = "harpbowb"
+	dropshrink = 0
+	randomspread = 1
+	spread = 1
+	force = 9
+	damfactor = 0.95
+	possible_item_intents = list(
+		/datum/intent/shoot/bow/short,
+		/datum/intent/arc/bow/short,
+		INTENT_GENERIC,
+		)

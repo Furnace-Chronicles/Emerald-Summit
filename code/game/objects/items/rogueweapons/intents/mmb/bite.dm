@@ -80,6 +80,9 @@
 		to_chat(user, span_warning("Nothing to bite."))
 		return
 
+	if(HAS_TRAIT(user, TRAIT_DEADITE)) //committing to an attack ends the deadite grace period (NPC deadites end it by biting)
+		user.remove_status_effect(/datum/status_effect/debuff/deadite_grace)
+
 	next_attack_msg.Cut()
 
 	user.do_attack_animation(src, "bite")
@@ -262,8 +265,17 @@
 			var/datum/antagonist/zombie/zombie_antag = user.mind.has_antag_datum(/datum/antagonist/zombie)
 			if(zombie_antag && zombie_antag.has_turned)
 				var/datum/antagonist/zombie/existing_zombie = C.mind?.has_antag_datum(/datum/antagonist/zombie) //If the bite target is a zombie
-				if(!existing_zombie && caused_wound.zombie_infect_attempt())   // infect_attempt on wound
+				if(!existing_zombie && caused_wound.zombie_infect_attempt(user))   // infect_attempt on wound
 					to_chat(user, span_danger("You feel your gift trickling into [C]'s wound...")) //message to the zombie they infected the target
+			/*
+				LAMIA CHEW. VENOM INJECTION.
+			*/
+			if(HAS_TRAIT(user, TRAIT_VENOMOUS))
+				if(C.reagents)
+					var/poison = user.STACON/4
+					C.reagents.add_reagent(/datum/reagent/lam_venom, poison)
+					to_chat(user, span_necrosis("You inject venom into [C]!"))
+
 /*
 	Code below is for a zombie smashing the brains of unit. The code expects the brain to be part of the head which is not the case with AP. Kept for posterity in case it's used in an overhaul.
 */

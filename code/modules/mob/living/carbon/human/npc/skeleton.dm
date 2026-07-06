@@ -9,7 +9,10 @@
 	var/skel_outfit = /datum/outfit/job/npc/skeleton
 	var/skel_fragile = FALSE
 	ambushable = FALSE
-	rot_type = null
+	// Skeletons don't rot (their parts are already skeletonized, which the rot component skips),
+	// but the component lets slain NPC skeletons crumble away and be cremated. Player-keyed
+	// bodies are exempt from both, so this is safe on possessed skeletons.
+	rot_type = /datum/component/rot/corpse
 	base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
 	a_intent = INTENT_HELP
 	possible_mmb_intents = list(INTENT_STEAL, INTENT_JUMP, INTENT_KICK, INTENT_BITE)
@@ -116,7 +119,7 @@
 		if(prob(50))
 			r_hand = /obj/item/rogueweapon/huntingknife/idagger/adagger
 		else
-			gloves = /obj/item/clothing/gloves/roguetown/knuckles/decrepit
+			r_hand = /obj/item/rogueweapon/knuckles/aknuckles
 		return
 	if(skeletonclass < 10) // Skeletal MAA Equal. Getting kinda up there in being dangerous.
 		cloak = /obj/item/clothing/cloak/stabard/surcoat/guard // Ooo Spooky Old Dead MAA
@@ -396,7 +399,7 @@
 	if(prob(50))
 		r_hand = /obj/item/rogueweapon/huntingknife/idagger/adagger
 	else
-		gloves = /obj/item/clothing/gloves/roguetown/knuckles/decrepit
+		r_hand = /obj/item/rogueweapon/knuckles/aknuckles
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)

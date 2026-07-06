@@ -27,6 +27,30 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Farkle Dice Container"
 	path = /obj/item/storage/pill_bottle/dice/farkle
 
+/datum/loadout_item/dwarven_dice
+	name = "Dwarven Dice Container"
+	path = /obj/item/storage/pill_bottle/dice/dwarven
+
+/datum/loadout_item/bakers_dozen_dice
+	name = "Baker's Dozen Dice Container"
+	path = /obj/item/storage/pill_bottle/dice/bakers_dozen
+
+/datum/loadout_item/threes_away_dice
+	name = "Three's Away Dice Container"
+	path = /obj/item/storage/pill_bottle/dice/threes_away
+
+/datum/loadout_item/dice_war_dice
+	name = "Dice War Container"
+	path = /obj/item/storage/pill_bottle/dice/dice_war
+
+/datum/loadout_item/liars_dice
+	name = "Liar's Dice Container"
+	path = /obj/item/storage/pill_bottle/dice/liars_dice
+
+/datum/loadout_item/dice_poker
+	name = "Dice Poker Container"
+	path = /obj/item/storage/pill_bottle/dice/dice_poker
+
 /datum/loadout_item/tarot_deck
 	name = "Tarot Deck"
 	path = /obj/item/toy/cards/deck/tarot
@@ -140,6 +164,17 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Salvia Crown"
 	path = /obj/item/flowercrown/salvia
 
+/datum/loadout_item/matricariacrown
+	name = "Matricaria Crown"
+	path = /obj/item/flowercrown/matricaria
+
+/datum/loadout_item/calendulacrown
+	name = "Calendula Crown"
+	path = /obj/item/flowercrown/calendula
+
+/datum/loadout_item/manabloomcrown
+	name = "Manabloom Crown"
+	path = /obj/item/flowercrown/manabloom
 
 //CLOAKS
 /datum/loadout_item/tabard
@@ -193,6 +228,14 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/tabard/psydon
 	name = "Psydon Tabard"
 	path = /obj/item/clothing/cloak/templar/psydon
+
+/datum/loadout_item/tabard/psydon_orthodoxist
+	name = "Inquisitori Tabard"
+	path = /obj/item/clothing/cloak/psydontabard
+
+/datum/loadout_item/tabard/psydon_reformist
+	name = "Reformist Tabard"
+	path = /obj/item/clothing/cloak/reformtabard
 
 /datum/loadout_item/surcoat
 	name = "Surcoat"
@@ -282,6 +325,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/sandals
 	name = "Sandals"
 	path = /obj/item/clothing/shoes/roguetown/sandals
+
+/datum/loadout_item/toga_sandals
+	name = "Fancy Sandals"
+	path = /obj/item/clothing/shoes/roguetown/sandals/toga_sandals
 
 /datum/loadout_item/shortboots
 	name = "Short Boots"
@@ -668,6 +715,22 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Zizo Cross"
 	path = /obj/item/clothing/neck/roguetown/zcross/iron
 
+/datum/loadout_item/matthios_amulet
+	name = "Amulet of Matthios"
+	path = /obj/item/clothing/neck/roguetown/zcross/matthios
+
+/datum/loadout_item/baotha_amulet
+	name = "Amulet of Baotha"
+	path = /obj/item/clothing/neck/roguetown/zcross/baotha
+
+/datum/loadout_item/graggar_amulet
+	name = "Amulet of Graggar"
+	path = /obj/item/clothing/neck/roguetown/zcross/graggar
+
+/datum/loadout_item/weddingband
+	name = "Wedding Band"
+	path = /obj/item/clothing/ring/band
+
 /datum/loadout_item/chaperon
 	name = "Chaperon (Normal)"
 	path = /obj/item/clothing/head/roguetown/chaperon
@@ -844,7 +907,3 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/cooking_recipes
 	name = "Guide to Cooking"
 	path = /obj/item/recipe_book/cooking
-
-/datum/loadout_item/matthios_amulet
-	name = "Amulet of Matthios"
-	path = /obj/item/clothing/neck/roguetown/zcross/matthios

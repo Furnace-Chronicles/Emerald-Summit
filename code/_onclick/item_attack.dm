@@ -14,7 +14,7 @@
 	if(!user.has_hand_for_held_index(user.active_hand_index, TRUE)) //we obviously have a hadn, but we need to check for fingers/prosthetics
 		to_chat(user, span_warning("I can't move the fingers."))
 		return
-	if(!istype(src, /obj/item/grabbing))
+	if(!istype(src, /obj/item/grabbing) && !istype(src, /obj/item/bodypart)) //Limbs are fine (deadites swing torn-off limbs)
 		if(HAS_TRAIT(user, TRAIT_CHUNKYFINGERS))
 			to_chat(user, span_warning("...What?"))
 			return
@@ -204,6 +204,7 @@
 
 
 	SEND_SIGNAL(M, COMSIG_ITEM_ATTACKED_SUCCESS, src, user)
+	SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_SUCCESS, M, user)	//to the weapon itself (Pestilent Blade enchant)
 	if(user.zone_selected == BODY_ZONE_PRECISE_R_INHAND)
 		var/offh = 0
 		var/obj/item/W = M.held_items[1]

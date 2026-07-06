@@ -536,6 +536,12 @@
 	if(enemies[L])
 		return TRUE
 
+	// Undead (deadites, skeletons...) don't hunt the faithful of Zizo -- unless they strike first (enemies check above).
+	if((HAS_TRAIT(src, TRAIT_DEADITE) || ("undead" in faction)) && ishuman(L))
+		var/mob/living/carbon/human/human_target = L
+		if(istype(human_target.patron, /datum/patron/inhumen/zizo))
+			return FALSE
+
 	if(aggressive && !faction_check_mob(L))
 		return TRUE
 

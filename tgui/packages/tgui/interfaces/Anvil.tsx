@@ -24,7 +24,7 @@ type Data = {
   recipes: Recipe[];
 };
 
-export const Anvil = (props) => {
+export const Anvil = () => {
   const { data } = useBackend<Data>();
 
   if (!data.hingot_type) {
@@ -46,7 +46,7 @@ export const Anvil = (props) => {
   );
 };
 
-export const LonelyAnvil = (props) => {
+export const LonelyAnvil = () => {
   return (
     <Stack align="center" justify="center" fill>
       <Stack.Item>
@@ -74,7 +74,7 @@ export const SearchBar = (props: {
   return <Input value={search} onChange={setSearch} fluid />;
 };
 
-export const RecipeDisplay = (props) => {
+export const RecipeDisplay = () => {
   const [search, setSearch] = useState('');
 
   const { act, data } = useBackend<Data>();

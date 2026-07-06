@@ -43,7 +43,7 @@
 	to_chat(H, span_warning("You father your unholy cause through the most time-tested of ways: hard, heavy steel in both arms and armor."))
 	H.mind.current.faction += "[H.name]_faction"
 	H.set_blindness(0)
-	var/weapons = list("Longsword", "Mace", "Flail", "Axe", "Spear", "MY BARE HANDS!!")
+	var/weapons = list("Longsword", "Mace", "Flail", "Axe", "Spear", "MY BARE HANDS!!!")
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Longsword")
@@ -104,7 +104,7 @@
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/zcross/iron, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/cape/crusader, SLOT_CLOAK, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/facemask/steel, SLOT_WEAR_MASK, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE, TRUE) // zizo heretic already gets unique benefits, no reason to double down 
+			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE, TRUE) // zizo heretic already gets unique benefits, no reason to double down
 			H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_EXPERT, TRUE)
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
@@ -121,6 +121,7 @@
 		if(/datum/patron/inhumen/baotha)
 			H.cmode_music = 'sound/music/combat_baotha.ogg'
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/zcross/baotha, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/cape/crusader, SLOT_CLOAK, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/facemask/steel, SLOT_WEAR_MASK, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/misc/music, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -131,6 +132,7 @@
 		if(/datum/patron/inhumen/graggar)
 			H.cmode_music = 'sound/music/combat_graggar.ogg'
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/grag, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/zcross/graggar, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/cape/crusader, SLOT_CLOAK, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/facemask/steel, SLOT_WEAR_MASK, TRUE)
 			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
@@ -315,21 +317,23 @@
 	. = ..()
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
-			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/zcross/iron, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/facemask/copper, SLOT_WEAR_MASK, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/zcross/iron, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/cape/crusader, SLOT_CLOAK, TRUE)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
-			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE, TRUE) // zizo heretic already gets unique benefits, no reason to double down 
+			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE, TRUE) // zizo heretic already gets unique benefits, no reason to double down
 			H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_EXPERT, TRUE)
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/matthios)
 			H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/facemask/copper, SLOT_WEAR_MASK, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/zcross/matthios, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/cape/crusader, SLOT_CLOAK, TRUE)
 			H.cmode_music = 'sound/music/combat_matthios.ogg'
 			H.grant_language(/datum/language/thievescant) // heretic wanderer is already flavorful enough for Matthios, don't want them to be too cracked and completely invalidate knave and outlaw
 		if(/datum/patron/inhumen/baotha)
 			H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/facemask/copper, SLOT_WEAR_MASK, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/zcross/baotha, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/cape/crusader, SLOT_CLOAK, TRUE)
 			H.cmode_music = 'sound/music/combat_baotha.ogg'
 			H.adjust_skillrank_up_to(/datum/skill/misc/music, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -339,6 +343,7 @@
 			ADD_TRAIT(H, TRAIT_TALENTED_ALCHEMIST, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/graggar)
 			H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/facemask/copper, SLOT_WEAR_MASK, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/zcross/graggar, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/cape/crusader, SLOT_CLOAK, TRUE)
 			H.cmode_music = 'sound/music/combat_graggar.ogg'
 			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
@@ -463,7 +468,7 @@
 	to_chat(H, span_warning("You father your unholy cause through the most devout ways. Raw power, holy or unholy magics and preaching. Spread your faith though muscle or words."))
 	H.mind.current.faction += "[H.name]_faction"
 	H.set_blindness(0)
-	var/weapons = list("Katar", "Steel Knuckles", "Punch Dagger", "Steel Quarterstaff", "Spear", "MY BARE HANDS!!!")
+	var/weapons = list("Katar", "Steel Knuckles", "Punch Dagger", "Steel Quarterstaff", "Spear", "MY BARE HANDS!!!", "MY FAITH ALONE IS ENOUGH!" )
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Katar")
@@ -473,7 +478,7 @@
 		if("Steel Knuckles")
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_MASTER, TRUE)
-			r_hand = /obj/item/clothing/gloves/roguetown/knuckles
+			beltr = /obj/item/rogueweapon/knuckles
 		if("Punch Dagger")
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_MASTER, TRUE)
@@ -487,6 +492,15 @@
 		if ("MY BARE HANDS!!!")
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_MASTER, TRUE)
+		if ("MY FAITH ALONE IS ENOUGH!") //storytelling subclass! Focus on support/evil planning and stuff. Or maybe attack cleric with some patrons unforunately
+			r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff //only at Jman and shitty damage so. It's defense. 
+			H.adjust_skillrank_up_to(/datum/skill/magic/holy, SKILL_LEVEL_LEGENDARY, TRUE) //cos I've always wanted to snuff lights at this level.
+			H.change_stat("intelligence", 4) //ur smart!
+			H.change_stat("strength", -2) //but weaker...
+			if(istype(H.patron, /datum/patron/divine))
+				H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
+			if(istype(H.patron, /datum/patron/inhumen))
+				H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)

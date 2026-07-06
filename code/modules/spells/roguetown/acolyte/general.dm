@@ -234,7 +234,7 @@
 			return TRUE
 		// Block if excommunicated and caster is divine pantheon
 		var/is_divine = ispath(user.patron?.type, /datum/patron/divine)
-		if(is_divine && (target.real_name in GLOB.excommunicated_players))
+		if(is_divine && (target.real_name in GLOB.excommunicated_players) && !HAS_TRAIT(user, TRAIT_HERETIC_DEVOUT))
 			to_chat(user, span_danger("The gods recoil from [target]! Divine fire scorches your hands as your plea is rejected!"))
 			target.visible_message(span_danger("[target] is seared by divine wrath! The gods hate them!"), span_userdanger("I am seared by divine wrath! The gods hate me!"))
 			revert_cast()

@@ -41,7 +41,7 @@
 	name = "Decrepit Alloy Knuckles"
 	appro_skill = /datum/skill/craft/weaponsmithing
 	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/clothing/gloves/roguetown/knuckles/decrepit
+	created_item = /obj/item/rogueweapon/knuckles/aknuckles
 	craftdiff = 0
 
 
@@ -49,7 +49,7 @@
 	name = "Purified Alloy Knuckles"
 	appro_skill = /datum/skill/craft/weaponsmithing
 	req_bar = /obj/item/ingot/purifiedaalloy
-	created_item = /obj/item/clothing/gloves/roguetown/knuckles/ancient
+	created_item = /obj/item/rogueweapon/knuckles/paknuckles
 	craftdiff = 0
 
 /datum/anvil_recipe/weapons/aalloy/gladius
@@ -399,6 +399,12 @@
 	createditem_num = 2
 	craftdiff = 1
 
+/datum/anvil_recipe/weapons/iron/ironpike
+	name = "iron pike (+2 Small Log)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/grown/log/tree/small, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/halberd/glaive/ironpike
+
 /// STEEL WEAPONS
 
 /datum/anvil_recipe/weapons/steel/dagger
@@ -429,7 +435,7 @@
 /datum/anvil_recipe/weapons/steel/steelknuckle
 	name = "Steel Knuckle"
 	req_bar = /obj/item/ingot/steel
-	created_item = /obj/item/clothing/gloves/roguetown/knuckles
+	created_item = /obj/item/rogueweapon/knuckles
 	craftdiff = 2
 
 /datum/anvil_recipe/weapons/steel/rapier
@@ -654,6 +660,13 @@
 	created_item = /obj/item/rogueweapon/sword/falx
 	craftdiff = 2
 
+/datum/anvil_recipe/weapons/steel/steelpike
+	name = "steel pike (+2 Small Log)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/grown/log/tree/small, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/halberd/glaive/steelpike
+	craftdiff = 2
+
 /// UPGRADED WEAPONS
 
 //GOLD
@@ -759,7 +772,7 @@
 /datum/anvil_recipe/weapons/bronze/bronzeknuckle
 	name = "Bronze Knuckle"
 	req_bar = /obj/item/ingot/bronze
-	created_item = /obj/item/clothing/gloves/roguetown/knuckles/bronze
+	created_item = /obj/item/rogueweapon/knuckles/bronzeknuckles
 	craftdiff = 2
 
 /// SHIELDS
@@ -935,6 +948,12 @@
 	created_item = /obj/item/rogueweapon/sword/long/blackflamb
 	craftdiff = 5
 
+/datum/anvil_recipe/weapons/blackpyke
+	name = "Blacksteel Pyke (+1 Blacksteel, +1 Golden Ingot, +1 silver ingot)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/ingot/gold, /obj/item/ingot/silver)
+	created_item = /obj/item/rogueweapon/halberd/glaive/blackpyke
+	craftdiff = 5
 
 /datum/anvil_recipe/weapons/swarhammer
 	name = "Warhammer (+1 Steel)"
@@ -1024,7 +1043,7 @@
 	name = "Close Caress"
 	req_bar = /obj/item/ingot/steelholy
 	craftdiff = 3
-	created_item = /obj/item/clothing/gloves/roguetown/knuckles/eora
+	created_item = /obj/item/rogueweapon/knuckles/eora
 	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/holy/solarspear
@@ -1116,7 +1135,7 @@
 	name = "Psydonian Knuckles"
 	req_bar = /obj/item/ingot/silverblessed
 	craftdiff = 3
-	created_item = /obj/item/clothing/gloves/roguetown/knuckles/psydon
+	created_item = /obj/item/rogueweapon/knuckles/psydon
 	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/psy/cudgel
@@ -1207,7 +1226,7 @@
 	name = "Psydonian Knuckles"
 	req_bar = /obj/item/ingot/silverblessed/bullion
 	craftdiff = 3
-	created_item = /obj/item/clothing/gloves/roguetown/knuckles/psydon
+	created_item = /obj/item/rogueweapon/knuckles/psydon
 	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/psy/cudgel/inq

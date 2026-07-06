@@ -130,13 +130,21 @@
 			carbon_owner.handle_dreams()
 			if((prob(10) && owner.health > owner.crit_threshold) && !HAS_TRAIT(owner, TRAIT_NOBREATH))
 				owner.emote("snore")
-	if(isharpy(owner))
-		var/obj/item/clothing/suit/roguetown/armor/skin_armor/harpy_skin = human_owner.skin_armor
-		if(harpy_skin.obj_integrity < harpy_skin.max_integrity)
-			harpy_skin.obj_integrity += 10
-			to_chat(human_owner, "I can feel the skin on my feet mend...")
-		else if((harpy_skin.obj_integrity >= harpy_skin.max_integrity) && harpy_skin.obj_broken)
-			harpy_skin.obj_broken = FALSE
+	// Natural racial armor (harpy feet skin / taur-tribe leg scales) lives in the skin_armor slot and
+	// has no self-repair of its own, so mend it here while the wearer sleeps. Both share max_integrity
+	// and the +10/tick rate; the only difference is flavor text.
+	var/obj/item/clothing/suit/roguetown/armor/skin_armor/natural_skin = human_owner?.skin_armor
+	var/mend_message
+	if(istype(natural_skin, /obj/item/clothing/suit/roguetown/armor/skin_armor/harpy_skin))
+		mend_message = "I can feel the skin on my feet mend..."
+	else if(istype(natural_skin, /obj/item/clothing/suit/roguetown/armor/skin_armor/lamian_legs))
+		mend_message = "I can feel the hide on my lower body mend..."
+	if(mend_message)
+		if(natural_skin.obj_integrity < natural_skin.max_integrity)
+			natural_skin.obj_integrity += 10
+			to_chat(human_owner, mend_message)
+		else if(natural_skin.obj_broken)
+			natural_skin.obj_broken = FALSE
 
 /atom/movable/screen/alert/status_effect/asleep
 	name = "Asleep"
