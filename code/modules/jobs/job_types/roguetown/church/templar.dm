@@ -153,7 +153,7 @@
 		if(/datum/patron/divine/abyssor)
 			weapons += "Barotrauma"
 		if(/datum/patron/divine/dendor)
-			weapons += "Summer Scythe"
+			weapons += list("Summer Scythe", "Dendorite Warstaff")
 
 	var/weapon_choice = input(H,"Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
@@ -177,6 +177,9 @@
 			H.put_in_hands(new /obj/item/rogueweapon/halberd/bardiche/scythe(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_NOVICE, TRUE)
+		if("Dendorite Warstaff")
+			H.put_in_hands(new /obj/item/rogueweapon/woodstaff/quarterstaff/steel/dendor(H), TRUE)
+			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 	// -- Start of section for god specific bonuses --
 	if(H.patron?.type == /datum/patron/divine/astrata)
 		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
@@ -330,14 +333,10 @@
 
 /datum/outfit/job/templar/crusader/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
-	var/weapons = list("Halberd","Longsword","Flail","Mace","Battle Axe", "Solar Spear", "Astratan Scimitar", "Dendorite Warstaff", "Ravoxian Glaive", "Judgement Edge")
+	var/weapons = list("Halberd","Longsword","Flail","Mace","Battle Axe")
 	switch(H.patron?.type)
 		if(/datum/patron/divine/astrata) //Unique patron weapons, more can be added here if wanted.
-			weapons += "Solar Judgement"
-		if(/datum/patron/divine/astrata)
-			weapons += "Solar Spear"
-		if(/datum/patron/divine/astrata)
-			weapons += "Astratan Scimitar"
+			weapons += list("Solar Judgement", "Solar Spear", "Astratan Scimitar")
 		if(/datum/patron/divine/noc)
 			weapons += "Moonlight Khopesh"
 		if(/datum/patron/divine/necra)
@@ -347,17 +346,11 @@
 		if(/datum/patron/divine/malum)
 			weapons += "Forgefiend"
 		if(/datum/patron/divine/dendor)
-			weapons += "Summer Scythe"
-		if(/datum/patron/divine/dendor)
-			weapons += "Dendorite Warstaff"
+			weapons += list("Summer Scythe", "Dendorite Warstaff")
 		if(/datum/patron/divine/xylix)
 			weapons += "Cackle Lash"
 		if(/datum/patron/divine/ravox)
-			weapons += "Duel Settler"
-		if(/datum/patron/divine/ravox)
-			weapons += "Ravoxian Glaive"
-		if(/datum/patron/divine/ravox)
-			weapons += "Judgement Edge"
+			weapons += list("Duel Settler", "Ravoxian Glaive", "Judgement Edge")
 		if(/datum/patron/divine/eora)
 			weapons += list("The Heartstring", "Harp Bow (long)", "Harp Bow (short)")
 		if(/datum/patron/divine/abyssor)

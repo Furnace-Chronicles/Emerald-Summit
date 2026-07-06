@@ -196,6 +196,9 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 			if(ismob(pulling)) // if you are grabbing someone then fuck off, could forceMove() both grabber and the grabee for fun doe
 				climber.visible_message(span_info("I can't get a good grip while dragging someone."))
 				return
+			if(HAS_TRAIT(climber, TRAIT_DEADITE)) //Deadites can't use advanced climbing.
+				to_chat(user, span_warning("...What?"))
+				return
 			if(!(climber.mobility_flags & MOBILITY_STAND))
 				climber.visible_message(span_info("I can't get a good grip while prone."))
 				return

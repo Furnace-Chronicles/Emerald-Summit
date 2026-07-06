@@ -218,3 +218,76 @@
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
+
+//gun class, meant to be a ranged support class with medicine
+/datum/advclass/mercenary/grenzelhoft/arkebusier
+	name = "Arkebusier"
+	tutorial = "You're a proved marksman with a Handgonne, and learned how to tend to wounds. The guild needs you."
+	outfit = /datum/outfit/job/mercenary/grenzelhoft_arkebusier
+
+	subclass_languages = list(
+		/datum/language/grenzelhoftian,
+	)
+
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_STEELHEARTED, TRAIT_FUSILIER)
+	maximum_possible_slots = 2
+	subclass_stats = list(
+		STATKEY_SPD = 1,
+		STATKEY_END = 1,
+		STATKEY_PER = 2, 
+		STATKEY_STR = 1,// 1 STR for the axe and crossbow reload. END for chopping trees, a bit of SPD for running, PER for shooting. -1 CON bc you aint a frontliner
+		STATKEY_CON = -1 
+	)
+
+	hiredbuff = /datum/status_effect/buff/merchired/grenzelhoft_arkebusier
+
+	subclass_skills = list(
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,		// gotta get to a vantage point,		
+		/datum/skill/combat/firearms = SKILL_LEVEL_MASTER,		//every combat class with a ranged weapon gets this . eat my jorts. They have no dodge expert.
+		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,		// Make your energy count, little silly individual
+		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,		// meant to live off the land and set up camp.
+		/datum/skill/misc/sewing = SKILL_LEVEL_APPRENTICE,		// learn 2 maintain your uniform.
+		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,		// Just so you don't suck at cooking
+		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,	// meant to be good at healing you are a soldier first
+	)
+
+/datum/status_effect/buff/merchired/grenzelhoft_arkebusier
+	effectedstats = list(STATKEY_SPD = 1, STATKEY_END = 1)
+
+/datum/outfit/job/mercenary/grenzelhoft_arkebusier/pre_equip(mob/living/carbon/human/H)
+	..()
+	to_chat(H, span_warning("You're a proved marksman with a Handgonne, and learned how to tend to wounds. The guild needs you"))
+
+	beltr = /obj/item/quiver/bullet/lead
+	beltl = /obj/item/storage/belt/rogue/surgery_bag/full/physician
+	r_hand = /obj/item/gun/ballistic/firearm/handgonne
+	var/armor_options = list("Light Brigandine", "Studded Leather Vest")
+	var/armor_choice = input(H, "Choose your armor.", "DRESS UP") as anything in armor_options
+	switch(armor_choice)
+		if("Light Brigandine")
+			armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light	// find a smithy to fix it
+			ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+		if("Studded Leather Vest")
+			armor = /obj/item/clothing/suit/roguetown/armor/leather/studded		// or maintain it yourself!
+	//General gear regardless of class.
+	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	belt = /obj/item/storage/belt/rogue/leather
+	neck = /obj/item/clothing/neck/roguetown/gorget
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft
+	head = /obj/item/clothing/head/roguetown/grenzelhofthat
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants
+	shoes = /obj/item/clothing/shoes/roguetown/boots/grenzelhoft
+	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves
+	backr = /obj/item/storage/backpack/rogue/satchel/black
+	backpack_contents = list(
+		/obj/item/roguekey/mercenary = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/flashlight/flare/torch = 1,
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/powderflask = 1,
+		)
