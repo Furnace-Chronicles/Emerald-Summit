@@ -219,6 +219,10 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 	spans |= speech_span
 
+	// TRAIT_COMICSANS renders the speaker's voice in comic sans (same span the bone tongue uses).
+	if(HAS_TRAIT(src, TRAIT_COMICSANS))
+		spans |= SPAN_SANS
+
 	if(language)
 		var/datum/language/L = GLOB.language_datum_instances[language]
 		var/list/chosen_spans

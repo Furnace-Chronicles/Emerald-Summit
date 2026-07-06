@@ -4001,6 +4001,18 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			on_identity_change()
 			return TRUE
 
+		if("show_combat_music_desc")
+			var/datum/combat_music/track = prefs.combat_music
+			if(!track)
+				to_chat(user, span_info("No combat music selected."))
+				return TRUE
+			to_chat(user, span_notice("Selected track: <b>[track.name]</b>."))
+			if(track.desc)
+				to_chat(user, "<i>[track.desc]</i>")
+			if(track.credits)
+				to_chat(user, span_info("Song name: <b>[track.credits]</b>"))
+			return TRUE
+
 		if("set_faith_direct")
 			var/picked = params["name"]
 			if(!picked)

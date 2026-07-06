@@ -290,9 +290,18 @@
 
 /obj/effect/proc_holder/spell/invoked/necras_sight/proc/try_scry(mob/living/carbon/human/user)
 	listclearnulls(marked_objects)
-	var/selected_grave = input(user, "Which Grave shall we peer through?", "") as null|anything in marked_objects
-	if(selected_grave)
-		var/obj/structure/gravemarker/spygrave = selected_grave
+	var/list/display_list = list()
+	for(var/obj/O as anything in marked_objects)
+		var/turf/T = get_turf(O)
+		var/label = "[O.name] ([T.x],[T.y])"
+		var/unique_label = label
+		var/n = 2
+		while(unique_label in display_list)
+			unique_label = "[label] ([n++])"
+		display_list[unique_label] = O
+	var/selected_label = input(user, "Which Grave shall we peer through?", "") as null|anything in display_list
+	if(selected_label)
+		var/obj/structure/gravemarker/spygrave = display_list[selected_label]
 		var/filter = spygrave.get_filter(GRAVE_SPY)
 		if(!filter)
 			spygrave.add_filter(GRAVE_SPY, 2, list("type" = "outline", "color" = outline_color, "alpha" = 200, "size" = 1))

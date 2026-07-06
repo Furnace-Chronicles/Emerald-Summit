@@ -539,6 +539,12 @@ export const IdentityTab = ({ data, act }: IdentityTabProps) => {
                   act('set_combat_music_direct', { name: value })
                 }
               />
+              <Button
+                ml={0.5}
+                icon="circle-info"
+                tooltip="Print this track's description to chat"
+                onClick={() => act('show_combat_music_desc')}
+              />
             </LabeledList.Item>
           </LabeledList>
         </Section>

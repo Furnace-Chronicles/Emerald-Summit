@@ -8,7 +8,7 @@
 	category_tags = list(CTAG_MERCENARY)
 	allowed_patrons = list(/datum/patron/old_god)
 	class_select_category = CLASS_CAT_AAVNR
-	cmode_music = 'sound/music/combat_noble.ogg'
+	cmode_music = 'sound/music/frei_fencer.ogg'
 	traits_applied = list(TRAIT_BADTRAINER, TRAIT_INTELLECTUAL, TRAIT_LONGSWORDSMAN, TRAIT_FENCERDEXTERITY)
 	origin_override_type = /datum/virtue/origin/avar
 
@@ -86,6 +86,7 @@
 	extra_context = "This class is for experienced players who have a solid grasp on footwork and stamina management, master skills alone won't save your lyfe. You make up for your inherent weaknesses and limitations with unique high-durability weapons."
 	outfit = /datum/outfit/job/mercenary/freelancer_lancer
 	origin_override_type = /datum/virtue/origin/avar
+	cmode_music = 'sound/music/frei_lancer.ogg'
 
 	subclass_languages = list(
 		/datum/language/aavnic,	//Your character could not have possibly "graduated" without atleast some basic knowledge of Aavnic.

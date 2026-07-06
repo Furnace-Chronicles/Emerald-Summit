@@ -201,6 +201,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
 	/datum/species/drider,\
+	/datum/species/taur,\
 	/datum/species/harpy,\
 	/datum/species/ogre,\
 )
@@ -242,6 +243,7 @@ Balloon Alert / Floating Text defines
     /datum/species/akula,\
 	/datum/species/lamia,\
 	/datum/species/drider,\
+	/datum/species/taur,\
 
 #define RACES_FEARED \
 	/datum/species/halforc,\
@@ -312,6 +314,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
 	/datum/species/drider,\
+	/datum/species/taur,\
 	/datum/species/harpy,\
 )
 
@@ -342,6 +345,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
 	/datum/species/drider,\
+	/datum/species/taur,\
 	/datum/species/harpy,\
 )
 
@@ -382,6 +386,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
 	/datum/species/drider,\
+	/datum/species/taur,\
 	/datum/species/harpy,\
 )
 
@@ -406,6 +411,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
 	/datum/species/drider,\
+	/datum/species/taur,\
 	/datum/species/harpy,\
 )
 
@@ -428,6 +434,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/dullahan,\
 	/datum/species/lamia,\
 	/datum/species/drider,\
+	/datum/species/taur,\
 	/datum/species/harpy,\
 )
 #define ALL_CLERIC_PATRONS list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/dendor, /datum/patron/divine/necra, /datum/patron/divine/pestra, /datum/patron/divine/ravox, /datum/patron/divine/malum, /datum/patron/divine/eora) // Currently unused.
@@ -547,6 +554,7 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_MERCENARY		"CAT_MERCENARY"		// Mercenary class - Handles Mercenary class selector
 #define CTAG_HAND			"CAT_HAND"			// Hand class - Handles Hand class selector
 #define CTAG_TEMPLAR		"CAT_TEMPLAR"		// Templar class - Handles Templar class selector
+#define CTAG_KEEPER			"CAT_KEEPER"		// Keeper class - Handles Keeper class selector
 #define CTAG_HEIR			"CAT_HEIR"			// Prince(cess) class - Handles Heir class selector
 #define CTAG_LORD			"CAT_LORD"			// Lord class - Handles Lord class selector
 #define CTAG_SQUIRE			"CAT_SQUIRE"		// Squire class - Handles Squire class selector
