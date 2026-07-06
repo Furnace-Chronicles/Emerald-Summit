@@ -501,6 +501,7 @@
 	var/rate = rate_pct / 100
 	var/obj/item/loan_contract/contract = new(get_turf(user))
 	contract.issuer_name = user.real_name
+	contract.issuer_year = CALENDAR_EPOCH_YEAR
 	contract.principal = amount
 	contract.term_days = term
 	contract.interest_rate = rate
@@ -560,6 +561,7 @@
 	var/rate = rate_pct / 100
 	var/obj/item/loan_contract/indenture/contract = new(get_turf(user))
 	contract.issuer_name = user.real_name
+	contract.issuer_year = CALENDAR_EPOCH_YEAR
 	contract.principal = amount
 	contract.term_days = term
 	contract.interest_rate = rate
@@ -596,6 +598,7 @@
 		qdel(W)
 		return
 	W.issuer_name = user.real_name
+	W.issuer_year = CALENDAR_EPOCH_YEAR
 	QDEL_IN(W, 2 MINUTES)
 	COOLDOWN_START(src, patronage_writ_cooldown, PATRONAGE_WRIT_COOLDOWN)
 	playsound(get_turf(user), 'sound/misc/coindispense.ogg', 60, FALSE, -1)
