@@ -108,6 +108,37 @@
 #define STATS_POLL_TAX_MERCENARY        "poll_tax_mercenary"
 #define STATS_POLL_TAX_PEASANT          "poll_tax_peasant"
 #define STATS_EXEMPTED_POLL_TAX         "exempted_poll_tax"
+// Sequestration forfeitures (bankruptcy residual-purse seizures)
+#define STATS_FORFEITURE_AMOUNT         "forfeiture_amount"
+#define STATS_FORFEITURE_COUNT          "forfeiture_count"
+// Black-market trade value (writer lands with the navigator rework)
+#define STATS_TRADE_VALUE_EXPORTED_BM   "trade_value_exported_bm"
+// Copperface vendor (no ES machine yet - inert until one exists)
+#define STATS_COPPERFACE_VALUE_SPENT    "copperface_value_spent"
+// Innkeeper rumor points (writers land with Innkeeper 2)
+#define STATS_RUMOR_POINTS_GENERATED    "rumor_points_generated"
+#define STATS_RUMOR_POINTS_CONSUMED     "rumor_points_consumed"
+// Quest contract stats (writers land with Quest 2 - inert keys so the
+// Economic Chronicle's contracts pane compiles and renders zeros)
+#define STATS_CONTRACTS_GENERATED           "contracts_generated"
+#define STATS_CONTRACTS_GENERATED_POOL      "contracts_generated_pool"
+#define STATS_CONTRACTS_GENERATED_RUMOR     "contracts_generated_rumor"
+#define STATS_CONTRACTS_GENERATED_DEFENSE   "contracts_generated_defense"
+#define STATS_CONTRACTS_TAKEN               "contracts_taken"
+#define STATS_CONTRACTS_TAKEN_POOL          "contracts_taken_pool"
+#define STATS_CONTRACTS_TAKEN_RUMOR         "contracts_taken_rumor"
+#define STATS_CONTRACTS_TAKEN_DEFENSE       "contracts_taken_defense"
+#define STATS_CONTRACTS_COMPLETED           "contracts_completed"
+#define STATS_CONTRACTS_COMPLETED_POOL      "contracts_completed_pool"
+#define STATS_CONTRACTS_COMPLETED_RUMOR     "contracts_completed_rumor"
+#define STATS_CONTRACTS_COMPLETED_DEFENSE   "contracts_completed_defense"
+#define STATS_CONTRACTS_ABANDONED           "contracts_abandoned"
+#define STATS_CONTRACTS_REROLLED            "contracts_rerolled"
+#define STATS_CONTRACT_MAMMONS_PAID         "contract_mammons_paid"
+#define STATS_CONTRACT_MAMMONS_TAXED        "contract_mammons_taxed"
+#define STATS_CONTRACT_MAMMONS_FORFEITED    "contract_mammons_forfeited"
+#define STATS_BLOCKADE_CONTRACTS_FAILED     "blockade_contracts_failed"
+#define STATS_BLOCKADE_REWARDS_PAID         "blockade_rewards_paid"
 #define STATS_EXEMPTED_CONTRACT_LEVY    "exempted_contract_levy"
 #define STATS_EXEMPTED_HEADEATER_LEVY   "exempted_headeater_levy"
 #define STATS_EXEMPTED_IMPORT_TARIFF    "exempted_import_tariff"
@@ -419,6 +450,31 @@ GLOBAL_LIST_INIT(scarlet_round_stats, list(
 	STATS_POLL_TAX_MERCENARY = 0,
 	STATS_POLL_TAX_PEASANT = 0,
 	STATS_EXEMPTED_POLL_TAX = 0,
+	STATS_FORFEITURE_AMOUNT = 0,
+	STATS_FORFEITURE_COUNT = 0,
+	STATS_TRADE_VALUE_EXPORTED_BM = 0,
+	STATS_COPPERFACE_VALUE_SPENT = 0,
+	STATS_RUMOR_POINTS_GENERATED = 0,
+	STATS_RUMOR_POINTS_CONSUMED = 0,
+	STATS_CONTRACTS_GENERATED = 0,
+	STATS_CONTRACTS_GENERATED_POOL = 0,
+	STATS_CONTRACTS_GENERATED_RUMOR = 0,
+	STATS_CONTRACTS_GENERATED_DEFENSE = 0,
+	STATS_CONTRACTS_TAKEN = 0,
+	STATS_CONTRACTS_TAKEN_POOL = 0,
+	STATS_CONTRACTS_TAKEN_RUMOR = 0,
+	STATS_CONTRACTS_TAKEN_DEFENSE = 0,
+	STATS_CONTRACTS_COMPLETED = 0,
+	STATS_CONTRACTS_COMPLETED_POOL = 0,
+	STATS_CONTRACTS_COMPLETED_RUMOR = 0,
+	STATS_CONTRACTS_COMPLETED_DEFENSE = 0,
+	STATS_CONTRACTS_ABANDONED = 0,
+	STATS_CONTRACTS_REROLLED = 0,
+	STATS_CONTRACT_MAMMONS_PAID = 0,
+	STATS_CONTRACT_MAMMONS_TAXED = 0,
+	STATS_CONTRACT_MAMMONS_FORFEITED = 0,
+	STATS_BLOCKADE_CONTRACTS_FAILED = 0,
+	STATS_BLOCKADE_REWARDS_PAID = 0,
 	STATS_REVENUE_CONTRACT_LEVY = 0,
 	STATS_REVENUE_HEADEATER_LEVY = 0,
 	STATS_REVENUE_IMPORT_TARIFF = 0,
@@ -620,6 +676,9 @@ GLOBAL_LIST_EMPTY(chronicle_stats)
 		result += "[i]. [entry["name"]] - [rounded_count]"
 
 	return result.Join("<br>")
+
+/proc/cmp_realm_hails_desc(list/a, list/b)
+	return b["hails"] - a["hails"]
 
 /proc/cmp_stat_count_desc(list/a, list/b)
 	return b["count"] - a["count"]

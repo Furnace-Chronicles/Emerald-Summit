@@ -39,6 +39,8 @@
 		var/excess = discretionary_fund.balance - BANKRUPTCY_OPERATING_FLOOR
 		discretionary_fund.balance = BANKRUPTCY_OPERATING_FLOOR
 		log_fund_entry(new /datum/treasury_entry("burn", discretionary_fund, null, excess, "Sequestration: residual purse forfeit"))
+		record_round_statistic(STATS_FORFEITURE_AMOUNT, excess)
+		record_round_statistic(STATS_FORFEITURE_COUNT, 1)
 	else if(discretionary_fund.balance < BANKRUPTCY_OPERATING_FLOOR)
 		var/topup = BANKRUPTCY_OPERATING_FLOOR - discretionary_fund.balance
 		discretionary_fund.balance = BANKRUPTCY_OPERATING_FLOOR
