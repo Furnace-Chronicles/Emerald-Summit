@@ -161,10 +161,10 @@
 			H.put_in_hands(new /obj/item/rogueweapon/katar(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
 		if("Knuckle Dusters")
-			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/knuckles(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
 		if("Close Caress")
-			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles/eora(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/knuckles/eora(H), TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
 		if("Barotrauma")
 			H.put_in_hands(new /obj/item/rogueweapon/katar/abyssor(H), TRUE)
@@ -193,6 +193,7 @@
 		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/necra)
+		H.cmode_music = 'sound/music/combat_necra.ogg'
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/pestra)
@@ -358,7 +359,7 @@
 		if(/datum/patron/divine/ravox)
 			weapons += "Judgement Edge"
 		if(/datum/patron/divine/eora)
-			weapons += "The Heartstring"
+			weapons += list("The Heartstring", "Harp Bow (long)", "Harp Bow (short)")
 		if(/datum/patron/divine/abyssor)
 			weapons += "Tidecleaver"
 	var/weapon_choice = input(H,"Choose your weapon.", "TAKE UP ARMS") as anything in weapons
@@ -413,6 +414,30 @@
 		if("The Heartstring")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/eora(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+		if("Harp Bow (long)")
+			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_R, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/half, SLOT_ARMOR, TRUE) //Cuirass, not halfplate. Slightly reduced starting armor.
+			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/eora(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/sword/short(H), TRUE)
+			H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE) //Expert bow, Journeyman otherwise
+			H.adjust_skillrank(/datum/skill/combat/wrestling, -1, TRUE)//Haha... no.
+			H.change_stat(STATKEY_SPD, 1)
+			H.change_stat(STATKEY_PER, 2)
+			H.change_stat(STATKEY_STR, -1)
+			H.change_stat(STATKEY_END, -1)
+			H.change_stat(STATKEY_CON, -1)
+		if("Harp Bow (short)")
+			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_R, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/half, SLOT_ARMOR, TRUE) //Cuirass, not halfplate. Slightly reduced starting armor.
+			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/eora(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/sword/short(H), TRUE)
+			H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE) //Expert bow, Journeyman otherwise
+			H.adjust_skillrank(/datum/skill/combat/wrestling, -1, TRUE)//Haha... no.
+			H.change_stat(STATKEY_SPD, 1)
+			H.change_stat(STATKEY_PER, 2)
+			H.change_stat(STATKEY_STR, -1)
+			H.change_stat(STATKEY_END, -1)
+			H.change_stat(STATKEY_CON, -1)
 		if("Tidecleaver")
 			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/abyssoraxe(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)

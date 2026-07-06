@@ -6,7 +6,7 @@ import {
   Stack,
 } from 'tgui-core/components';
 
-import { useBackend } from '../../backend';
+import type { ActFunctionType } from '../../backend';
 import { BodyAppearanceControls, type BodyData } from './BodySection';
 import type { MarkingsDynamicData, MarkingsStaticData } from './MarkingsSection';
 // Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
@@ -103,10 +103,11 @@ type Data = {
   voice_pack_options: string[];
 };
 
+type IdentityTabProps = { data: Data; act: ActFunctionType };
+
 // Markings rendering moved to MarkingsSection.tsx.
 
-export const IdentityTab = (props) => {
-  const { act, data } = useBackend<Data>();
+export const IdentityTab = ({ data, act }: IdentityTabProps) => {
   // Merge dynamic over static so existing references like id.species_options
   // (static) and id.species_name (dynamic) both resolve. Selections win on
   // collision so the latest push always reflects the current pick.
@@ -403,7 +404,7 @@ export const IdentityTab = (props) => {
               )}
               <Stack.Item>
                 <Section title="Appearance">
-                  <BodyAppearanceControls />
+                  <BodyAppearanceControls data={data} act={act} />
                 </Section>
               </Stack.Item>
             </Stack>
@@ -537,6 +538,12 @@ export const IdentityTab = (props) => {
                   value !== id.combat_music_name &&
                   act('set_combat_music_direct', { name: value })
                 }
+              />
+              <Button
+                ml={0.5}
+                icon="circle-info"
+                tooltip="Print this track's description to chat"
+                onClick={() => act('show_combat_music_desc')}
               />
             </LabeledList.Item>
           </LabeledList>

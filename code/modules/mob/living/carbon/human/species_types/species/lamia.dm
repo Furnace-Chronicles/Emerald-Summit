@@ -9,7 +9,7 @@
 	origin = "Etrusca"
 	use_titles = TRUE
 	race_titles = list("Eelfolk", "Gorgon", "Merfolk", "Mermaid", "Merman", "Naga", "Siren")
-	base_name = "Beastvolk"
+	base_name = "Taur"
 	sub_name = "Lamia"
 	desc = "<b>Lamia</b><br>\
 	The monstrous spawn of Abyssor, snake and humen conjoined together, the deepkin and merfolk. \
@@ -156,6 +156,7 @@
 		/obj/item/bodypart/lamian_tail/lamian_tail,
 		/obj/item/bodypart/lamian_tail/mermaid_tail,
 		/obj/item/bodypart/lamian_tail/mermaid_tail_alt,
+		/obj/item/bodypart/lamian_tail/naga,
 	)
 
 /datum/species/lamia/check_roundstart_eligible()
@@ -308,7 +309,7 @@
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE
-	max_integrity = 75
+	max_integrity = 125
 	resistance_flags = FIRE_PROOF
 
 /obj/item/clothing/suit/roguetown/armor/skin_armor/lamian_legs/Initialize(mapload)

@@ -23,6 +23,7 @@
 		TRAIT_STRONGBITE,
 		TRAIT_NOHUNGER,
 		TRAIT_NOBREATH,
+		TRAIT_BLOODLOSS_IMMUNE,
 		TRAIT_NOPAIN,
 		TRAIT_TOXIMMUNE,
 		TRAIT_STEELHEARTED,
@@ -36,7 +37,6 @@
 
 	clane_covens = list(
 		/datum/coven/presence,
-		/datum/coven/bloodheal,
 		/datum/coven/eora
 	)
 	leader = /datum/clan_leader/eoran

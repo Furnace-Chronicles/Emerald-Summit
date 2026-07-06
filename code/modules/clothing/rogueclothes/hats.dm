@@ -345,6 +345,7 @@
 	dynamic_hair_suffix = ""
 	sewrepair = TRUE
 	block2add = null
+	resistance_flags = FIRE_PROOF // It's metal - shouldn't burn off under fire.
 
 /obj/item/clothing/head/roguetown/priestmask
 	name = "solar visage"
@@ -1340,6 +1341,7 @@
 	icon_state = "skettle"
 	item_state = "skettle"
 	adjustable = CANT_CADJUST
+	flags_cover = HEADCOVERSEYES
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle/attackby(obj/item/W, mob/living/user, params)
 	..()

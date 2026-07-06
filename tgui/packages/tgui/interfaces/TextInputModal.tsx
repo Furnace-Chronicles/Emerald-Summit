@@ -9,10 +9,10 @@ import { InputButtons } from './common/InputButtons';
 import { Loader } from './common/Loader';
 
 type TextInputData = {
-  large_buttons: boolean;
+  large_buttons: BooleanLike;
   max_length: number;
   message: string;
-  multiline: boolean;
+  multiline: BooleanLike;
   placeholder: string;
   timeout: number;
   title: string;
@@ -28,7 +28,7 @@ export const removeAllSkiplines = (toSanitize: string) => {
   return toSanitize.replace(/[\r\n]+/, '');
 };
 
-export const TextInputModal = (props) => {
+export const TextInputModal = () => {
   const { act, data } = useBackend<TextInputData>();
   const {
     large_buttons,

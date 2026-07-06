@@ -89,8 +89,9 @@
 	// ES has tiered arcyne traits (T1-T4) rather than a single TRAIT_ARCYNE; any training = caster.
 	var/is_caster = HAS_TRAIT(owner, TRAIT_ARCYNE_T1) || HAS_TRAIT(owner, TRAIT_ARCYNE_T2) || HAS_TRAIT(owner, TRAIT_ARCYNE_T3) || HAS_TRAIT(owner, TRAIT_ARCYNE_T4)
 	data["user_tier"] = mastery ? 4 : (is_caster ? 3 : 0)
-	data["max_majors"] = isnull(override_max_majors) ? MAX_MAJOR_ASPECTS : override_max_majors
-	data["max_minors"] = isnull(override_max_minors) ? MAX_MINOR_ASPECTS : override_max_minors
+	// No class config (override_max_* null) => not a sanctioned caster: zero slots, not the MAX_* baseline.
+	data["max_majors"] = isnull(override_max_majors) ? 0 : override_max_majors
+	data["max_minors"] = isnull(override_max_minors) ? 0 : override_max_minors
 	data["max_utilities"] = max_utilities
 	data["initial_setup"] = initial_setup
 	// Send locked aspect paths to the UI
@@ -289,8 +290,8 @@
 	if(!owner?.mind)
 		return
 
-	var/max_majors = isnull(override_max_majors) ? MAX_MAJOR_ASPECTS : override_max_majors
-	var/max_minors_resolved = isnull(override_max_minors) ? MAX_MINOR_ASPECTS : override_max_minors
+	var/max_majors = isnull(override_max_majors) ? 0 : override_max_majors
+	var/max_minors_resolved = isnull(override_max_minors) ? 0 : override_max_minors
 
 	switch(action)
 		if("attune")
@@ -374,7 +375,7 @@
 			var/restored_type = temp.aspect_type
 			qdel(temp)
 			if(restored_type == ASPECT_MAJOR)
-				var/max_maj = isnull(override_max_majors) ? MAX_MAJOR_ASPECTS : override_max_majors
+				var/max_maj = isnull(override_max_majors) ? 0 : override_max_majors
 				var/current_count = length(owner.mind.major_aspects) - length(staged_unbind_aspects & get_attuned_paths(ASPECT_MAJOR))
 				// Remove staged majors that aren't already attuned until we're within budget
 				while(current_count + length(staged_majors - get_attuned_paths(ASPECT_MAJOR)) > max_maj)
@@ -384,7 +385,7 @@
 						break
 					staged_majors -= removable[length(removable)]
 			else if(restored_type == ASPECT_MINOR)
-				var/max_min = isnull(override_max_minors) ? MAX_MINOR_ASPECTS : override_max_minors
+				var/max_min = isnull(override_max_minors) ? 0 : override_max_minors
 				var/current_count = length(owner.mind.minor_aspects) - length(staged_unbind_aspects & get_attuned_paths(ASPECT_MINOR))
 				while(current_count + length(staged_minors - get_attuned_paths(ASPECT_MINOR)) > max_min)
 					var/list/removable = staged_minors - get_attuned_paths(ASPECT_MINOR)

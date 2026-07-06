@@ -284,6 +284,21 @@ GLOBAL_LIST_EMPTY(open_preference_menus)
 		return "OOC notes too short ([length(prefs.ooc_notes)]/[MINIMUM_OOC_NOTES] characters)."
 	if(prefs.joblessrole == RETURNTOLOBBY && !has_any_class_selected())
 		return "Pick at least one class in Class Selection (or set 'If Role Unavailable' to Random)."
+	var/mob/dead/new_player/np = prefs.parent?.mob
+	if(istype(np))
+		var/list/stale = list()
+		for(var/job_title in prefs.job_preferences)
+			if(!prefs.job_preferences[job_title])
+				continue
+			if(!SSjob.GetJob(job_title))
+				stale += job_title
+				continue
+			if(np.IsJobUnavailable(job_title) == JOB_UNAVAILABLE_PQ)
+				return "Saved preference for '[job_title]' requires Player Quality you no longer meet. Please update your class selections."
+		for(var/job_title in stale)
+			prefs.job_preferences.Remove(job_title)
+		if(length(stale))
+			prefs.save_preferences()
 	return null
 
 /// Drop the cached static payload and push a full_update to every open ui on
@@ -3984,6 +3999,18 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				return TRUE
 			prefs.combat_music = GLOB.cmode_tracks_by_name[picked]
 			on_identity_change()
+			return TRUE
+
+		if("show_combat_music_desc")
+			var/datum/combat_music/track = prefs.combat_music
+			if(!track)
+				to_chat(user, span_info("No combat music selected."))
+				return TRUE
+			to_chat(user, span_notice("Selected track: <b>[track.name]</b>."))
+			if(track.desc)
+				to_chat(user, "<i>[track.desc]</i>")
+			if(track.credits)
+				to_chat(user, span_info("Song name: <b>[track.credits]</b>"))
 			return TRUE
 
 		if("set_faith_direct")

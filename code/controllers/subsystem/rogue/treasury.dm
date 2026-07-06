@@ -319,3 +319,13 @@ SUBSYSTEM_DEF(treasury)
 			total_value_exported += exported
 	if(total_value_exported >= EXPORT_ANNOUNCE_THRESHOLD)
 		scom_announce("Emerald Summit exports [total_value_exported] mammons of surplus goods.")
+
+/// Checks if there is a valid amount in the treasury, if so, withdraw that amount and log it
+/// Currently only used by Chimeric heartbeasts
+/datum/controller/subsystem/treasury/proc/withdraw_money_treasury(amt, target)
+	if(!amt || treasury_value < amt)
+		return FALSE // Not enough funds
+
+	treasury_value -= amt
+	log_to_steward("-[amt] withdrawn from treasury by [target]")
+	return TRUE
