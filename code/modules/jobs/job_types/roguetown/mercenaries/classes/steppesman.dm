@@ -8,7 +8,11 @@
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_steppe.ogg'
 	subclass_languages = list(/datum/language/aavnic)
-	extra_context = "This subclass has 4 loadouts with various stats, skills & equipment."
+	extra_context = "Choose 1 of 4 archetypes at spawn, each with its own stat spread, skills and gear:<br>\
+		<b>Szabrista</b> (Saber Veteran, medium armor): Strength: <b><font color='#91cf68'>II</font></b>, Constitution: <b><font color='#91cf68'>II</font></b> — Medium Armor.<br>\
+		<b>Árkász</b> (Elite Sapper, medium armor): Strength: <b><font color='#91cf68'>II</font></b>, Endurance: <b><font color='#91cf68'>II</font></b>, Constitution: <b><font color='#91cf68'>II</font></b>, Perception: <b><font color='#91cf68'>II</font></b>, Speed: <b><font color='#cf2a2a'>-III</font></b> — Medium Armor.<br>\
+		<b>Druzhina</b> (Light Archer): Perception: <b><font color='#91cf68'>III</font></b>, Endurance: <b><font color='#91cf68'>I</font></b>, Speed: <b><font color='#91cf68'>I</font></b> — Dodge Expert.<br>\
+		<b>Kozak</b> (Light Infantry): Strength: <b><font color='#91cf68'>I</font></b>, Perception: <b><font color='#91cf68'>II</font></b>, Speed: <b><font color='#91cf68'>I</font></b> — Dodge Expert, Outdoorsman."
 	origin_override_type = /datum/virtue/origin/avar
 	subclass_skills = list(
 	//Universal skills
