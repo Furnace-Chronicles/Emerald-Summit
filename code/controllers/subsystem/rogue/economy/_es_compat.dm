@@ -71,6 +71,20 @@ GLOBAL_LIST_INIT(crown_authority_roles, list(
 
 // ---- Stubs for procs defined in later port steps ----
 
+/// TODO(item 6, decrees): real decree lookup lands with the politics/decree port. The admin
+/// Economic Panel's charter actions no-op against a null decree until then.
+/datum/controller/subsystem/treasury/proc/get_decree(decree_id)
+	return null
+
+/// TODO(item 6, decrees): decree ids suspended by sequestration. Always empty until decrees land.
+/datum/controller/subsystem/treasury
+	var/list/bankruptcy_suspended_decree_ids = list()
+
+/// TODO(Innkeeper 2 / pledge generation): AP ticks daily burgher pledge at dawn. ES's pledge
+/// fund exists (petitions spend it) but nothing generates it yet - the panel's debug tick no-ops.
+/datum/controller/subsystem/treasury/proc/tick_burgher_pledge()
+	return
+
 /// Step 9/10: steward report — filled in when noticeboard/steward tgui is ported.
 /datum/controller/subsystem/economy/proc/print_steward_report(list/diff)
 	return
