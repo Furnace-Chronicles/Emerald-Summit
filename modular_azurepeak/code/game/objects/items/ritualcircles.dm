@@ -932,6 +932,16 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	var/was_caster = HAS_TRAIT(target, TRAIT_ARCYNE_T2) || HAS_TRAIT(target, TRAIT_ARCYNE_T3) || HAS_TRAIT(target, TRAIT_ARCYNE_T4)
 	target.Stun(60)
 	target.Knockdown(60)
+	target.set_nutrition (NUTRITION_LEVEL_WELL_FED) //for good measure with whats coming below.
+	target.set_hydration (HYDRATION_LEVEL_HYDRATED)
+	target.remove_status_effect(/datum/status_effect/debuff/thirstyt1) //we shall avoid all the most common cases of endurance loss I can think of.
+	target.remove_status_effect(/datum/status_effect/debuff/thirstyt2)
+	target.remove_status_effect(/datum/status_effect/debuff/thirstyt3)
+	target.remove_status_effect(/datum/status_effect/debuff/rotted) //yes including rot. We are going BEYOND Rot at this point.
+	target.remove_status_effect(/datum/status_effect/debuff/revived) //yes including revived. Your soul/lux/whatever is inherently  different now.
+	target.remove_status_effect(/datum/status_effect/debuff/hungryt2)
+	target.remove_status_effect(/datum/status_effect/debuff/hungryt3)
+	target.energy_add(9999) //full mana since its about to get frozen forever by TRAIT_INFINITE_ENERGY. And no this wont give them 9999.
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
 	target.emote("Agony")
 	playsound(loc, 'sound/misc/astratascream.ogg', 50)
@@ -951,8 +961,9 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		ADD_TRAIT(target, TRAIT_EASYDISMEMBER, "[type]")
 		ADD_TRAIT(target, TRAIT_SILVER_WEAK, "[type]")
 		target.dna.species.species_traits |= NOBLOOD
-		target.change_stat("speed", -1)
 		target.change_stat("constitution", -2)
+		target.change_stat("Intelligence", 2)
+		target.adjust_skillrank_up_to(/datum/skill/misc/athletics, 3, TRUE) // TRAIT_INFINITE_ENERGY prevents gaining althetics skill via normal means. So on the niche chance you had none lets get you passable for getting those juicey spells out.
 		// Arcyne power - only for hosts already trained in the arcyne (T2+). Mundane hosts skip all of this.
 		if(was_caster)
 			target.mind?.RemoveSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation) // avoid a double grant when re-added below
@@ -969,10 +980,11 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 			// magi2 stack if they aren't a caster yet, otherwise just widen their existing loadout.
 			if(target.mind)
 				if(!LAZYLEN(target.mind.mage_aspect_config))
-					_magi2_setup_caster(target, list("major" = 1, "minor" = 1, "utilities" = 0, "ward" = TRUE), grant_staff = FALSE)
+					_magi2_setup_caster(target, list("major" = 1, "minor" = 1, "utilities" = 4, "ward" = TRUE), grant_staff = FALSE)
 				else
 					target.mind.mage_aspect_config["major"] += 1
 					target.mind.mage_aspect_config["minor"] += 1
+					target.mind.mage_aspect_config["utilities"] += 4
 		target.mob_biotypes |= MOB_UNDEAD
 		spawn(40)
 			to_chat(target, span_purple("They are ignorant, backwards, without hope. You. You will be powerful."))

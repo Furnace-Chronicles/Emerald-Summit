@@ -608,7 +608,11 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 /datum/species/proc/spec_life(mob/living/carbon/human/H)
 	if(HAS_TRAIT(H, TRAIT_NOBREATH))
-		H.setOxyLoss(0)
+		// Bleeding/low-blood damage is dealt as oxyloss, so only truly bloodless mobs should have it
+		// wiped here. Otherwise breathless-but-living mobs (Deathless, vampires, zombies) become
+		// immune to bleeding out and can only be killed by brute.
+		if(HAS_TRAIT(H, TRAIT_BLOODLOSS_IMMUNE))
+			H.setOxyLoss(0)
 		H.losebreath = 0
 
 		var/takes_crit_damage = (!HAS_TRAIT(H, TRAIT_NOCRITDAMAGE))

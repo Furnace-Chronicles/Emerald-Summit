@@ -499,6 +499,7 @@
 	gripped_intents = list(/datum/intent/drill)
 	slot_flags = ITEM_SLOT_HIP
 	smeltresult = /obj/item/ingot/bronze
+	anvilrepair = /datum/skill/craft/engineering
 	w_class = WEIGHT_CLASS_HUGE
 	accepted_power_source = /obj/item/alch/coaldust
 	prime_power_source = /obj/item/alch/firedust

@@ -170,6 +170,9 @@
 							myskill += 8
 							climbsound = 'sound/foley/ladder.ogg'
 
+				if(HAS_TRAIT(L, TRAIT_DEADITE) && climbdiff > 1) //Deadites can only manage simple rock walls.
+					to_chat(user, span_warning("...What?"))
+					return
 				if(myskill < climbdiff)
 					to_chat(user, span_warning("I'm not capable of climbing this wall."))
 					return
