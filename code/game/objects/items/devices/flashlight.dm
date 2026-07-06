@@ -448,6 +448,26 @@
 	should_self_destruct = FALSE
 	sellprice = 8 //Allows a minor business to bloom from them. This may require adjustments.
 
+//Keep the carved face as the worn/held sprite when lit; only the light changes. The onmob dmi has no "-on" states, so swapping icon_state would make the head overlay vanish.
+/obj/item/flashlight/flare/torch/lantern/pumpkin/update_brightness(mob/user = null)
+	if(worn_on_head())
+		set_light_on(FALSE) //A pumpkin worn as a hat gives off no light.
+	else
+		set_light_on(on)
+
+//Worn on the head it stays dark; picked up or dropped it lights again if lit.
+/obj/item/flashlight/flare/torch/lantern/pumpkin/proc/worn_on_head()
+	var/mob/living/carbon/human/wearer = loc
+	return istype(wearer) && wearer.head == src
+
+/obj/item/flashlight/flare/torch/lantern/pumpkin/equipped(mob/user, slot)
+	. = ..()
+	update_brightness()
+
+/obj/item/flashlight/flare/torch/lantern/pumpkin/dropped(mob/user, silent = FALSE)
+	. = ..()
+	update_brightness()
+
 /obj/item/flashlight/flare/torch/lantern/pumpkin/examine(mob/user)
 	. = ..()
 	if(fuel <= 0)
