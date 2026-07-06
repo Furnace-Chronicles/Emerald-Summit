@@ -168,12 +168,23 @@
 
 /mob/living/proc/checkdefense(datum/intent/intenty, mob/living/user)
 	testing("begin defense")
-	if(!cmode)
-		return FALSE
 	if(stat)
 		return FALSE
 	if(!canparry && !candodge) //mob can do neither of these
 		return FALSE
+
+	// fire mage armor before EVERYTHING (almost) else -- even outside of combat mode!
+	// hoisted above the cmode gate so a hit landing while we're charging a spell / not in cmode still gets eaten.
+	// we STILL require being conscious and able to parry OR dodge (both checked above); we just no longer require cmode.
+	// in practice, attacks we would've otherwise parried/dodged will eat the armor first.
+	// to balance this, mage armor refreshes SIGNIFICANTLY faster (7-arcyne skill MINUTES to 30-arcyne skill SECONDS), and we can use RMB defend intend to funnel energy & stamina to bring it back up again
+	if(HAS_TRAIT(src, TRAIT_MAGEARMOR))
+		if(magearmor == 0)
+			magearmor = 1
+			apply_status_effect(/datum/status_effect/buff/magearmor)
+			to_chat(src, span_boldwarning("My mage armor absorbs the hit and dissipates!"))
+			return TRUE
+
 	if(!cmode)
 		return FALSE
 	if(user == src)
@@ -184,16 +195,6 @@
 	var/mob/living/H = src
 	var/mob/living/U = user
 
-	// fire mage armor before EVERYTHING (almost) else!
-	// in practice, this means that mage armor will protect us while we're charging spells, but attacks we would've otherwise parried/dodged will eat the armor first
-	// to balance this, mage armor refreshes SIGNIFICANTLY faster (7-arcyne skill MINUTES to 30-arcyne skill SECONDS), and we can use RMB defend intend to funnel energy & stamina to bring it back up again
-	if(HAS_TRAIT(src, TRAIT_MAGEARMOR))
-		if(H.magearmor == 0)
-			H.magearmor = 1
-			H.apply_status_effect(/datum/status_effect/buff/magearmor)
-			to_chat(src, span_boldwarning("My mage armor absorbs the hit and dissipates!"))
-			return TRUE
-	
 	if(client && used_intent)
 		if(client.charging && used_intent.tranged && !used_intent.tshield)
 			return FALSE
