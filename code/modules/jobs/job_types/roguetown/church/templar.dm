@@ -318,7 +318,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltr = /obj/item/storage/keyring/churchie
-	beltl = /obj/item/rogueweapon/scabbard/sword
+	// scabbard is granted in choose_loadout once the weapon is picked, so archer loadouts can use SLOT_BELT_L for a quiver instead
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
 	armor = /obj/item/clothing/suit/roguetown/armor/plate	///Half-Plate not fullplate
 	backpack_contents = list(
@@ -408,7 +408,7 @@
 			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/eora(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Harp Bow (long)")
-			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_R, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_L, TRUE) //no scabbard for archers, so the hip is free for the quiver
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/half, SLOT_ARMOR, TRUE) //Cuirass, not halfplate. Slightly reduced starting armor.
 			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/eora(H), TRUE)
 			H.put_in_hands(new /obj/item/rogueweapon/sword/short(H), TRUE)
@@ -420,7 +420,7 @@
 			H.change_stat(STATKEY_END, -1)
 			H.change_stat(STATKEY_CON, -1)
 		if("Harp Bow (short)")
-			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_R, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_L, TRUE) //no scabbard for archers, so the hip is free for the quiver
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/half, SLOT_ARMOR, TRUE) //Cuirass, not halfplate. Slightly reduced starting armor.
 			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/eora(H), TRUE)
 			H.put_in_hands(new /obj/item/rogueweapon/sword/short(H), TRUE)
@@ -443,6 +443,9 @@
 		if("Dendorite Warstaff")
 			H.put_in_hands(new /obj/item/rogueweapon/woodstaff/quarterstaff/steel/dendor(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+	// Archers took the hip slot for a quiver; everyone else gets the sword scabbard here.
+	if(weapon_choice != "Harp Bow (long)" && weapon_choice != "Harp Bow (short)")
+		H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_L, TRUE)
 	// -- Start of section for god specific bonuses --
 	if(H.patron?.type == /datum/patron/divine/astrata)
 		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
