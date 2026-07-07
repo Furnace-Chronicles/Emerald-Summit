@@ -1,8 +1,8 @@
 // Fiscal snapshot data layer, ported from AP #6849 treasury_snapshot.dm. Feeds the admin
 // Economic Panel (and, later, steward fiscal displays).
 // ES deviations: player accounts are integer balances keyed by mob in bank_accounts (no
-// /datum/fund per player, no per-account currency - every personal account is mammons), and
-// there is no decree system yet, so compute_charter_states() reports nothing (TODO item 6).
+// /datum/fund per player, no per-account currency - every personal account is mammons).
+// compute_charter_states() reads the item 6 decree system (code/modules/politics/).
 
 /datum/controller/subsystem/treasury/proc/compute_fiscal_snapshot()
 	var/total_bank = 0
@@ -55,9 +55,24 @@
 		"poll_tax_rates" = poll_tax_rates.Copy(),
 	)
 
-/// TODO(item 6, decrees): charter states come from the decree system. Empty until it lands.
 /datum/controller/subsystem/treasury/proc/compute_charter_states()
-	return list()
+	var/list/out = list()
+	for(var/id in list(DECREE_GREAT_WRIT, DECREE_ZENITSTADT_CONCORDAT, DECREE_OTAVAN_ACCORDS, DECREE_GOLDEN_BULL, DECREE_NOC_PESTRA_COVENANT, DECREE_GUILD_CHARTER_OF_ARMS, DECREE_INDENTURE_OF_WAR, DECREE_MAGNA_CARTA))
+		var/datum/decree/D = get_decree(id)
+		if(!D)
+			continue
+		// Dormant charters never activated this round are hidden from non-Lord audiences. The
+		// Lord still sees them in the Titan's decree_setter panel - that panel doesn't use this
+		// snapshot.
+		if(!D.has_ever_been_active)
+			continue
+		out += list(list(
+			"id" = D.id,
+			"name" = D.name,
+			"active" = D.active,
+			"cooldown_remaining" = max(0, D.cooldown_expires - world.time),
+		))
+	return out
 
 /// status values: "arrears" owed>0, "advance" advance_days>0, "debtor" TRAIT_DEBTOR, "low_balance" <50m, "exempt" charter-exempt.
 /// `include_details` toggles the per-row expensive bits (on_person inventory walk, has_loan lookup).

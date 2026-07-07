@@ -79,10 +79,8 @@ export type HarborDemand = {
   cultural_stock: HarborCulturalEntry[];
 };
 
-// ES deviation: AP's Charter type (name/year/active/flavor_text) reflects the
-// SStreasury.decrees/`/datum/decree` system, which does not exist in ES yet.
-// noticeboard.dm's build_charters() is stubbed to always return an empty list, so this
-// type is kept only so ChartersSection.tsx type-checks against an (always-empty) array.
+// Charters of the realm, from noticeboard.dm's build_charters() over SStreasury.decrees
+// (item 6 decree system).
 export type Charter = {
   name: string;
   year: string | number;

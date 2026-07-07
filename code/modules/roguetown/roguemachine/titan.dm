@@ -144,7 +144,7 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 	switch(mode)
 		if(0)
 			if(findtext(message, "secrets of the throat"))
-				say("My commands are: Make Decree, Make Announcement, Set Taxes, Declare Outlaw, Summon Crown, Summon Key, Make Law, Remove Law, Purge Laws, Purge Decrees, Become Regent, Nevermind")
+				say("My commands are: Make Decree, Make Announcement, Set Taxes, Revise Charter, Declare Outlaw, Summon Crown, Summon Key, Make Law, Remove Law, Purge Laws, Purge Decrees, Become Regent, Nevermind")
 				playsound(src, 'sound/misc/machinelong.ogg', 100, FALSE, -1)
 			if(findtext(message, "make announcement"))
 				if(nocrown)
@@ -179,6 +179,15 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 				say("All decrees shall be purged!")
 				playsound(src, 'sound/misc/machineyes.ogg', 100, FALSE, -1)
 				purge_decrees()
+				return
+			if(findtext(message, "revise charter"))
+				if(notlord || nocrown)
+					say("You are not my master!")
+					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+					return
+				say("The charters of the realm lay before thee...")
+				playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
+				give_decree_popup(H)
 				return
 			if(findtext(message, "make law"))
 				if(notlord || nocrown)
@@ -390,3 +399,10 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 	priority_announce("[H.name], the [H.get_role_title()], sits as the regent of the realm.", "A New Regent Resides", pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain")
 	SSticker.regentmob = H
 	SSticker.regentday = GLOB.dayspassed
+
+// Item 6 (decrees): the Lord's charter panel - revoke/restore the realm's ancient compacts.
+/obj/structure/roguemachine/titan/proc/give_decree_popup(mob/living/carbon/human/user)
+	if(!Adjacent(user))
+		return
+	var/datum/decree_setter/panel = new
+	panel.ui_interact(user)

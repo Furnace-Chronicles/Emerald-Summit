@@ -13,9 +13,8 @@ import {
 } from '../../common/parchment';
 import { type Charter, type NoticeboardData } from '../types';
 
-// ES deviation: noticeboard.dm's build_charters() is stubbed to always return an empty
-// list (AP's SStreasury.decrees/`/datum/decree` system doesn't exist in ES yet), so this
-// section will always render the empty-state message below until decrees are ported.
+// Charters of the realm (item 6 decrees): build_charters() lists every charter the Lord has
+// ever activated this round; dormant never-pressed charters render the empty-state message.
 export const ChartersSection = ({ data }: { data: NoticeboardData }) => {
   const charters = (data.charters ?? []).slice().sort((a, b) => {
     if (!!a.active !== !!b.active) {

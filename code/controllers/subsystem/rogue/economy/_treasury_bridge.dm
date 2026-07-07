@@ -43,6 +43,16 @@
 	)
 	/// Mobs whose wages are suspended during sequestration (ES: integer bank_accounts, so tracked separately).
 	var/list/suspended_wage_mobs = list()
+	/// Charters of the realm (item 6 decree port): id -> /datum/decree, built by init_decrees().
+	var/list/decrees = list()
+	/// One revoke and one restore per day, tracked separately.
+	var/decree_revoke_used_day = -1
+	var/decree_restore_used_day = -1
+	/// Fractional Concordat-tithe carryover, so sub-mammon skims aren't lost between taxes.
+	var/concordat_tithe_debt = 0
+	/// One-fine-per-subject-per-day ledger, keyed by real_name; reset when the day rolls over.
+	var/list/fined_today_names = list()
+	var/fined_today_day = -1
 	/// Maps trade_good_id -> datum/roguestock. Populated by SSeconomy during Initialize().
 	var/list/stockpile_by_trade_good = list()
 	/// Steward-settable floor. Stockpile refuses purchases when Crown's Purse would drop below this.
@@ -101,7 +111,7 @@
 		D.automatic_limit = TRUE
 
 /// Expected daily rural tax income, surfaced by the StewardTrade ledger header.
-/// ES deviation: no decree system - always the flat RURAL_TAX (tick_rural_tax mints the same).
+/// Flat in AP too - decrees don't touch rural tax (tick_rural_tax mints the same).
 /datum/controller/subsystem/treasury/proc/get_rural_tax_amount()
 	return 50 // keep in sync with RURAL_TAX in treasury.dm
 

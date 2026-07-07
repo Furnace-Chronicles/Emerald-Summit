@@ -72,6 +72,8 @@ SUBSYSTEM_DEF(treasury)
 		var/datum/D = new path
 		stockpile_datums += D
 	// Step 15: legacy /datum/roguestock/import entries replaced by GLOB.crown_imports.
+	// Charters of the realm (item 6 decree port).
+	init_decrees()
 	// AP parity (Step 15): pop-scale the auto-limited stockpile caps at roundstart.
 	autoset_stockpile_limits()
 	return ..()
@@ -157,39 +159,96 @@ SUBSYSTEM_DEF(treasury)
 					return FALSE
 				bank_accounts[X] += amt  // Add funds into the player's account
 			else
+				// Item 6 decrees: charter exemptions (Great Writ) and caps (Golden Bull,
+				// one-fine-per-day) bound the Crown's fines. ES deviation: integer ledger,
+				// so the cap math runs on bank_accounts rather than a fund balance.
+				var/mob/living/fine_owner = istype(target, /mob/living) ? target : null
+				var/fine_amt = abs(amt)
+				if(fine_owner)
+					if(is_tax_exempt(fine_owner, TAX_CATEGORY_FINE))
+						record_tax_exemption(TAX_CATEGORY_FINE, fine_amt)
+						send_ooc_note("<b>MEISTER:</b> Error: By decree, they cannot be fined.", name = target_name)
+						log_game("FINE REFUSED: [usr ? key_name(usr) : "system"] attempted to fine [key_name(fine_owner)] [fine_amt]m but they were Charter-exempt")
+						return FALSE
+					var/cap_rate = get_rate_cap(fine_owner, TAX_CATEGORY_FINE)
+					var/max_fine = FLOOR(bank_accounts[X] * cap_rate, 1)
+					max_fine = min(max_fine, get_daily_fine_remaining(fine_owner))
+					if(fine_amt > max_fine)
+						record_tax_exemption(TAX_CATEGORY_FINE, fine_amt - max(max_fine, 0))
+						fine_amt = max_fine
+					if(fine_amt <= 0)
+						if(has_been_fined_today(fine_owner))
+							send_ooc_note("<b>MEISTER:</b> Error: They have already been fined today.", name = target_name)
+						else
+							send_ooc_note("<b>MEISTER:</b> Error: No fineable amount remains.", name = target_name)
+						return FALSE
 				// Check if the amount to be fined exceeds the player's account balance
-				if(abs(amt) > bank_accounts[X])
+				if(fine_amt > bank_accounts[X])
 					send_ooc_note("<b>MEISTER:</b> Error: Insufficient funds in the account to complete the fine.", name = target_name)
 					return FALSE  // Return early if the player has insufficient funds
-				bank_accounts[X] -= abs(amt)  // Deduct the fine amount from the player's account
+				bank_accounts[X] -= fine_amt  // Deduct the fine amount from the player's account
 				// AP parity: fined money returns to the Crown's Purse instead of vanishing
-				mint(discretionary_fund, abs(amt), source || "fine levied on [target_name]")
+				mint(discretionary_fund, fine_amt, source || "fine levied on [target_name]")
+				record_round_statistic(STATS_FINES_INCOME, fine_amt)
+				if(source)
+					send_ooc_note("<b>MEISTER:</b> You were fined [fine_amt]m. ([source])", name = target_name)
+					log_to_steward("[target_name] was fined [fine_amt] ([source])")
+				else
+					send_ooc_note("<b>MEISTER:</b> You were fined [fine_amt]m.", name = target_name)
+					log_to_steward("[target_name] was fined [fine_amt]")
+				if(fine_owner)
+					notify_fine_applied(fine_owner, fine_amt)
+				return TRUE
 			found_account = TRUE
 			break
 	if(!found_account)
 		return FALSE
 
-	if (amt > 0)
-		// Player received money
-		record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
-		if(source)
-			send_ooc_note("<b>MEISTER:</b> You received [amt]m. ([source])", name = target_name)
-			log_to_steward("+[amt] from treasury to [target_name] ([source])")
-		else
-			send_ooc_note("<b>MEISTER:</b> You received [amt]m.", name = target_name)
-			log_to_steward("+[amt] from treasury to [target_name]")
+	// Player received money
+	record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
+	if(source)
+		send_ooc_note("<b>MEISTER:</b> You received [amt]m. ([source])", name = target_name)
+		log_to_steward("+[amt] from treasury to [target_name] ([source])")
 	else
-		// Player was fined
-		record_round_statistic(STATS_FINES_INCOME, amt)
-		if(source)
-			send_ooc_note("<b>MEISTER:</b> You were fined [amt]m. ([source])", name = target_name)
-			log_to_steward("[target_name] was fined [amt] ([source])")
-		else
-			send_ooc_note("<b>MEISTER:</b> You were fined [amt]m.", name = target_name)
-			log_to_steward("[target_name] was fined [amt]")
+		send_ooc_note("<b>MEISTER:</b> You received [amt]m.", name = target_name)
+		log_to_steward("+[amt] from treasury to [target_name]")
 	return TRUE
 
-	return TRUE
+/// Returns the maximum mammon that can still be fined from payer today across all active decrees.
+/// Outlaws are uncapped. Otherwise, once a subject has already been fined today, returns 0 -
+/// the one-fine-per-subject-per-day rule is absolute, regardless of amount taken.
+/datum/controller/subsystem/treasury/proc/get_daily_fine_remaining(mob/living/payer)
+	if(!payer || HAS_TRAIT(payer, TRAIT_OUTLAW))
+		return 999999
+	if(has_been_fined_today(payer))
+		return 0
+	var/remaining = get_balance(payer)
+	for(var/id in decrees)
+		var/datum/decree/D = decrees[id]
+		remaining = D.apply_daily_fine_cap(payer, remaining)
+	return remaining
+
+/datum/controller/subsystem/treasury/proc/has_been_fined_today(mob/living/payer)
+	if(!payer?.real_name)
+		return FALSE
+	if(fined_today_day != GLOB.dayspassed)
+		fined_today_names.Cut()
+		fined_today_day = GLOB.dayspassed
+	return (payer.real_name in fined_today_names)
+
+/// Notifies all active decrees that a fine was successfully applied, so they can update tracking.
+/// Also records the subject in today's one-fine-per-day ledger (keyed by real_name).
+/datum/controller/subsystem/treasury/proc/notify_fine_applied(mob/living/payer, amount)
+	if(!payer || amount <= 0)
+		return
+	if(payer.real_name && !HAS_TRAIT(payer, TRAIT_OUTLAW))
+		if(fined_today_day != GLOB.dayspassed)
+			fined_today_names.Cut()
+			fined_today_day = GLOB.dayspassed
+		fined_today_names |= payer.real_name
+	for(var/id in decrees)
+		var/datum/decree/D = decrees[id]
+		D.on_fine_applied(payer, amount)
 
 ///Deposits money into a character's bank account. Taxes are deducted from the deposit and added to the treasury.
 ///@param amt: The amount of money to deposit.

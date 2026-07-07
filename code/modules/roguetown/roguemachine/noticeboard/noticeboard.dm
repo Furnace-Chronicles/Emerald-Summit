@@ -22,9 +22,8 @@ ES deviations from AP:
   that statue's roster for display. See the Step 9e port report for the roguecoin-gate note.
 - ES's board_viewers "a new posting has been made since I last checked" examine flavor is
   preserved below (adapted to the notice/listing tier system) since AP dropped it silently.
-- build_charters() and the "help_market" guidebook entry are stubbed/pared down: AP's charter
-  list reads SStreasury.decrees (a whole Charters/decrees subsystem) that does not exist in ES
-  yet. Stubbed to return an empty list rather than inventing decree content.
+- build_charters() reads the item 6 decree system (SStreasury.decrees, code/modules/politics/);
+  never-activated dormant charters stay hidden until the Lord first presses them.
 - build_scout_regions() drops AP's "ic_descriptions" field: ES's /datum/threat_region has no
   get_ic_description() proc (AP added it alongside a bunch of flavor-text content out of
   scope here).
@@ -260,11 +259,19 @@ ES deviations from AP:
 		))
 	return rows
 
-/// Stub: AP's Charters/decrees system (SStreasury.decrees, /datum/decree) does not exist in ES
-/// yet - this is a whole separate un-ported subsystem, not something to invent here. Returns
-/// an empty list so the data layer is ready to be filled in once decrees land.
 /obj/structure/roguemachine/noticeboard/proc/build_charters()
-	return list()
+	var/list/rows = list()
+	for(var/id in SStreasury.decrees)
+		var/datum/decree/D = SStreasury.decrees[id]
+		if(!D.has_ever_been_active)
+			continue
+		rows += list(list(
+			"name" = D.name,
+			"year" = D.year,
+			"active" = D.active ? TRUE : FALSE,
+			"flavor_text" = D.get_display_flavor_text(),
+		))
+	return rows
 
 /obj/structure/roguemachine/noticeboard/proc/build_economic_events()
 	var/list/rows = list()

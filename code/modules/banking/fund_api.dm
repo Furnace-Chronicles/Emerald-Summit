@@ -176,26 +176,68 @@
 		return
 	tax_rates[tax_category] = CLAMP(rate, 0, 1.0)
 
-// ES: no decree system — tax exemptions never apply.
+/// Charter exemptions (item 6 decrees). Outlaws forfeit every charter protection.
 /datum/controller/subsystem/treasury/proc/is_tax_exempt(mob/living/payer, tax_category)
+	if(!payer)
+		return FALSE
+	if(HAS_TRAIT(payer, TRAIT_OUTLAW))
+		return FALSE
+	for(var/id in decrees)
+		var/datum/decree/D = decrees[id]
+		if(D.apply_exemption(payer, tax_category))
+			return TRUE
 	return FALSE
 
+/// Highest fraction of a payer's balance a single tax/fine stroke may take. Outlaws are
+/// uncapped; charters (Golden Bull) may narrow the generic cap.
 /datum/controller/subsystem/treasury/proc/get_rate_cap(mob/living/payer, tax_category)
-	return GENERIC_RATE_CAP
+	var/cap = GENERIC_RATE_CAP
+	if(!payer)
+		return cap
+	if(HAS_TRAIT(payer, TRAIT_OUTLAW))
+		return 1.0
+	for(var/id in decrees)
+		var/datum/decree/D = decrees[id]
+		cap = D.apply_rate_cap(payer, tax_category, cap)
+	return cap
+
+/// Ceiling on a single Crown fine against this subject right now: charter-exempt subjects
+/// return 0, otherwise balance x rate-cap. Daily-fine tracking is applied separately in
+/// give_money_account. Used by the Nerve Master to bound the fine prompt.
+/datum/controller/subsystem/treasury/proc/get_max_fine_for(mob/living/target)
+	if(!target)
+		return 0
+	if(is_tax_exempt(target, TAX_CATEGORY_FINE))
+		return 0
+	var/balance = get_balance(target)
+	if(balance <= 0)
+		return 0
+	var/cap_rate = get_rate_cap(target, TAX_CATEGORY_FINE)
+	return FLOOR(min(balance * cap_rate, get_daily_fine_remaining(target)), 1)
 
 /datum/controller/subsystem/treasury/proc/apply_tax(datum/fund/payer, base_amount, tax_category, reason)
 	if(!payer || base_amount <= 0)
 		return 0
+	var/mob/living/owner = payer.get_owner()
 	var/base_rate = get_tax_rate(tax_category)
-	if(base_rate <= 0)
+	if(owner && is_tax_exempt(owner, tax_category))
+		record_tax_exemption(tax_category, FLOOR(base_amount * base_rate, 1))
 		return 0
-	payer.tax_debt += base_amount * base_rate
+	var/rate = base_rate
+	if(owner)
+		rate = min(rate, get_rate_cap(owner, tax_category))
+	if(rate <= 0)
+		return 0
+	if(rate < base_rate)
+		record_tax_exemption(tax_category, FLOOR(base_amount * (base_rate - rate), 1))
+	payer.tax_debt += base_amount * rate
 	var/due = FLOOR(payer.tax_debt, 1)
 	if(due <= 0)
 		return 0
 	if(!transfer(payer, discretionary_fund, due, "[tax_category] ([reason])"))
 		return 0
 	payer.tax_debt -= due
+	apply_concordat_tithe(base_amount, tax_category, reason)
 	switch(tax_category)
 		if(TAX_CATEGORY_CONTRACT_LEVY)
 			record_round_statistic(STATS_REVENUE_CONTRACT_LEVY, due)
@@ -207,9 +249,41 @@
 			record_round_statistic(STATS_REVENUE_EXPORT_DUTY, due)
 	return due
 
-// Stubs for future AP systems not yet ported to ES.
+/// Zenitstadt Concordat (item 6 decrees): while the charter stands, a fixed fraction of every
+/// taxed transaction is tithed from the Crown's Purse to the Church Fund. Fines are the
+/// Crown's justice, not commerce - never tithed.
 /datum/controller/subsystem/treasury/proc/apply_concordat_tithe(base_amount, tax_category, reason)
-	return
+	if(base_amount <= 0)
+		return
+	if(tax_category == TAX_CATEGORY_FINE)
+		return
+	var/datum/decree/concordat = get_decree(DECREE_ZENITSTADT_CONCORDAT)
+	if(!concordat?.active)
+		return
+	if(!church_fund || !discretionary_fund)
+		return
+	concordat_tithe_debt += base_amount * CONCORDAT_TITHE_RATE
+	var/skim = FLOOR(concordat_tithe_debt, 1)
+	if(skim <= 0)
+		return
+	if(transfer(discretionary_fund, church_fund, skim, "Concordat tithe ([tax_category])"))
+		concordat_tithe_debt -= skim
+
+/// Books the mammon a charter shielded from the Crown, by category, for the Chronicle.
+/datum/controller/subsystem/treasury/proc/record_tax_exemption(tax_category, amount)
+	if(amount <= 0)
+		return
+	switch(tax_category)
+		if(TAX_CATEGORY_CONTRACT_LEVY)
+			record_round_statistic(STATS_EXEMPTED_CONTRACT_LEVY, amount)
+		if(TAX_CATEGORY_HEADEATER_LEVY)
+			record_round_statistic(STATS_EXEMPTED_HEADEATER_LEVY, amount)
+		if(TAX_CATEGORY_IMPORT_TARIFF)
+			record_round_statistic(STATS_EXEMPTED_IMPORT_TARIFF, amount)
+		if(TAX_CATEGORY_EXPORT_DUTY)
+			record_round_statistic(STATS_EXEMPTED_EXPORT_DUTY, amount)
+		if(TAX_CATEGORY_FINE)
+			record_round_statistic(STATS_EXEMPTED_FINE, amount)
 
 /datum/controller/subsystem/treasury/proc/compute_bathhouse_tithe(base_amount, rate)
 	return 0
@@ -231,3 +305,26 @@
 	mint(discretionary_fund, RURAL_TAX, "Rural Tax Collection")
 	record_round_statistic(STATS_RURAL_TAXES_COLLECTED, RURAL_TAX)
 	total_rural_tax += RURAL_TAX
+
+/// Daily Burgher Pledge generation (item 6 decrees): the burghers' compact under the Golden
+/// Bull. No Bull, no pledge - revoking the charter absolves the burghers of their tribute.
+/datum/controller/subsystem/treasury/proc/tick_burgher_pledge()
+	if(!burgher_pledge_fund)
+		return
+	var/datum/decree/golden = get_decree(DECREE_GOLDEN_BULL)
+	if(!golden?.active)
+		return
+	var/refill = BURGHER_PLEDGE_BASE_REFILL + (get_active_player_count() * BURGHER_PLEDGE_PER_PLAYER)
+	// The Guild of Arms' reciprocal contribution, when their charter is active. Minted as a
+	// separate ledger entry so the tribute is visible in the treasury log distinct from the
+	// burghers' own pledge.
+	var/datum/decree/arms_charter = get_decree(DECREE_GUILD_CHARTER_OF_ARMS)
+	var/guild_bonus = (arms_charter?.active) ? GUILD_CHARTER_OF_ARMS_PLEDGE_BONUS : 0
+	var/ceiling = (refill + guild_bonus) * BURGHER_PLEDGE_CLAWBACK_MULTIPLIER
+	if(burgher_pledge_fund.balance > ceiling)
+		var/surplus = burgher_pledge_fund.balance - ceiling
+		burn(burgher_pledge_fund, surplus, "Burgher Pledge clawback")
+	mint(burgher_pledge_fund, refill, "Burgher Pledge replenishment")
+	if(guild_bonus > 0)
+		mint(burgher_pledge_fund, guild_bonus, "Guild of Arms tribute (Charter of Arms)")
+	record_round_statistic(STATS_PLEDGE_GENERATED, refill + guild_bonus)

@@ -30,6 +30,8 @@
 	// into ui_static_data while a user has the Ledger tab open, so the full ledger never rides
 	// the per-tick Market Scroll payload.
 	var/list/ledger_view = list()
+	// Item 6 decrees: anti-spam gate on Letter of Citizenry printing.
+	var/residency_print_cooldown = 0
 	COOLDOWN_DECLARE(fulfill_retry_cooldown)
 
 /obj/structure/roguemachine/steward/Initialize()
@@ -56,6 +58,8 @@
 	daily_payments["Archivist"] = 20
 	daily_payments["Magos Thrall"] = 10
 	daily_payments["Gatemaster"] = 35 //gatemaster sucks to play lol
+	// Item 6 decrees: bump defaults up to any roundstart-active charter's mandated floor.
+	enforce_wage_floors()
 
 /obj/structure/roguemachine/steward/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/roguekey))
@@ -182,7 +186,14 @@
 			return
 		for(var/mob/living/A in SStreasury.bank_accounts)
 			if(A == X)
-				var/newtax = input(usr, "How much to fine [X]", src) as null|num
+				// Item 6 decrees: charter exemptions (Great Writ) and caps (Golden Bull,
+				// one-fine-per-day) bound the Crown's fines - surface the ceiling up front.
+				var/max_fine = SStreasury.get_max_fine_for(A)
+				if(max_fine <= 0)
+					say("[A] cannot be fined by the Crown at this time.")
+					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+					return
+				var/newtax = input(usr, "How much to fine [A]? (Maximum [max_fine]m)", src, max_fine) as null|num
 				if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 					return
 				if(findtext(num2text(newtax), "."))
@@ -191,8 +202,25 @@
 					return
 				if(newtax < 1)
 					return
+				if(newtax > max_fine)
+					newtax = max_fine
+					say("The ledger will accept no more than [max_fine]m from [A]. Amount adjusted.")
 				SStreasury.give_money_account(-newtax, A, "NERVE MASTER")
 				break
+	if(href_list["printresidency"])
+		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+			return
+		if(world.time < residency_print_cooldown)
+			say("The machine is still warming its quill.")
+			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+			return
+		var/mob/living/carbon/human/H = usr
+		var/obj/item/citizenry_letter/letter = new(get_turf(src))
+		letter.issuer_name = H.real_name
+		letter.issuer_year = CALENDAR_EPOCH_YEAR
+		residency_print_cooldown = world.time + 1 MINUTES
+		playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+		say("Letter of Citizenry issued, signed by [H.real_name].")
 	if(href_list["payroll"])
 		var/list/L = list(GLOB.noble_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.yeoman_positions) + list(GLOB.peasant_positions) + list(GLOB.youngfolk_positions) + list(GLOB.inquisition_positions)
 		var/list/things = list()
@@ -228,7 +256,11 @@
 			return
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 			return
-		var/amount_to_pay = input(usr, "Set daily payment for [job_to_pay] (0 to remove)", src, daily_payments[job_to_pay] ? daily_payments[job_to_pay] : 0) as null|num
+		// Item 6 decrees: active charters (Indenture of War, Covenant of Noc & Pestra) floor
+		// certain wages - the Nerve Master refuses to set covered jobs below the floor.
+		var/wage_floor = SStreasury.get_wage_floor(job_to_pay)
+		var/payprompt = wage_floor > 0 ? "Set daily payment for [job_to_pay] (floor: [wage_floor]m by Charter; 0 not permitted)" : "Set daily payment for [job_to_pay] (0 to remove)"
+		var/amount_to_pay = input(usr, payprompt, src, daily_payments[job_to_pay] ? daily_payments[job_to_pay] : wage_floor) as null|num
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 			return
 		if(findtext(num2text(amount_to_pay), "."))
@@ -236,6 +268,9 @@
 		if(isnull(amount_to_pay))
 			return
 		amount_to_pay = CLAMP(amount_to_pay, 0, 999)
+		if(wage_floor > 0 && amount_to_pay < wage_floor)
+			amount_to_pay = wage_floor
+			say("By Charter, [job_to_pay]'s wage may not fall below [wage_floor]m. Payment set to the floor.")
 		if(amount_to_pay == 0)
 			daily_payments -= job_to_pay
 			say("Daily payment for [job_to_pay] removed.")
@@ -244,8 +279,13 @@
 			say("Daily payment for [job_to_pay] set to [amount_to_pay]m.")
 	if(href_list["removedailypay"])
 		var/job_to_remove = href_list["removedailypay"]
-		daily_payments -= job_to_remove
-		say("Daily payment for [job_to_remove] removed.")
+		var/removal_floor = SStreasury.get_wage_floor(job_to_remove)
+		if(removal_floor > 0)
+			daily_payments[job_to_remove] = removal_floor
+			say("By Charter, [job_to_remove]'s wage cannot be removed. Payment held at the floor of [removal_floor]m.")
+		else
+			daily_payments -= job_to_remove
+			say("Daily payment for [job_to_remove] removed.")
 	if(href_list["togglewages"])
 		var/X = locate(href_list["togglewages"])
 		if(!X)
@@ -549,6 +589,7 @@
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_PAYDAY]'>\[Daily Payments\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_LOG]'>\[Log\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_STATISTICS]'>\[Statistics\]</a><BR>"
+			contents += "<a href='?src=\ref[src];printresidency=1'>\[Print Letter of Citizenry\]</a><BR>"
 			contents += "</center>"
 		if(TAB_BANK)
 			var/total_deposit = 0
@@ -677,3 +718,14 @@
 #undef TAB_LOG
 #undef TAB_STATISTICS
 #undef TAB_PAYDAY
+
+// Item 6 (decrees): bump configured wages up to any active charter's mandated floor, and
+// ensure floored jobs missing from the payments list get an entry at the floor.
+/obj/structure/roguemachine/steward/proc/enforce_wage_floors()
+	for(var/job in daily_payments)
+		var/floor = SStreasury.get_wage_floor(job)
+		if(floor > 0 && (daily_payments[job] || 0) < floor)
+			daily_payments[job] = floor
+	for(var/job in SStreasury.enumerate_wage_floored_jobs())
+		if(isnull(daily_payments[job]))
+			daily_payments[job] = SStreasury.get_wage_floor(job)

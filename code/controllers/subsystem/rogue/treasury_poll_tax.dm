@@ -3,8 +3,8 @@
 //  - Player accounts are integer balances keyed by mob in SStreasury.bank_accounts, not
 //    /datum/fund. Collection therefore decrements the ledger and mints into the Crown's
 //    Purse; subsidies burn from the Purse first, then credit the ledger.
-//  - No decree system yet (item 6): charter exemptions return FALSE and there is no
-//    per-decree rate-cap loop or Zenitstadt Concordat floor. TODO markers below.
+//  - Charter exemptions, per-decree rate caps and the Zenitstadt Concordat floor are wired
+//    to the item 6 decree system (code/modules/politics/).
 //  - priority_announce here takes plain text (ES strips HTML), so announcement lines are
 //    joined with newlines instead of <br>.
 //  - Category mapping is rebuilt from Emerald Summit's job roster / GLOB position lists.
@@ -42,9 +42,11 @@
 	if(GLOB.dayspassed <= levy_rates_changed_day)
 		to_chat(usr, span_warning("Crown levies have already been adjusted today - come back tomorrow."))
 		return
-	// TODO(item 6, decrees): Zenitstadt Concordat tithe floor goes here.
+	var/datum/decree/concordat = get_decree(DECREE_ZENITSTADT_CONCORDAT)
+	var/concordat_active = concordat?.active ? TRUE : FALSE
 	var/list/lines = list()
 	var/bad_guy = FALSE
+	var/rejected_concordat = FALSE
 	for(var/entry in adjustments)
 		var/category = entry["category"]
 		if(!(category in tax_rates))
@@ -53,6 +55,9 @@
 			continue
 		var/new_pct = CLAMP(entry["rate"], 0, 100)
 		var/new_rate = new_pct / 100
+		if(concordat_active && new_rate < CONCORDAT_TITHE_RATE)
+			rejected_concordat = TRUE
+			continue
 		var/old_rate = tax_rates[category]
 		if(new_rate == old_rate)
 			continue
@@ -64,12 +69,18 @@
 		var/changeverb = new_rate > old_rate ? "raised" : "reduced"
 		lines += "[pretty] [changeverb] from [old_pct]% to [new_pct]%."
 
+	if(rejected_concordat)
+		to_chat(usr, span_warning("The Concordat of Zenitstadt forbids any levy below [round(CONCORDAT_TITHE_RATE * 100)]% while in force - the Church's tithe must be honoured."))
+
 	if(!length(lines))
 		return
 
 	levy_rates_changed_day = GLOB.dayspassed
+	var/final_text = jointext(lines, "\n")
+	if(concordat_active)
+		final_text += "\nBy the Concordat of Zenitstadt, [round(CONCORDAT_TITHE_RATE * 100)]% of every taxed transaction is tithed to the Church of the Summit, drawn from the Crown's share."
 	var/final_announcement_text = bad_guy ? bad_announcement_text : good_announcement_text
-	priority_announce(jointext(lines, "\n"), final_announcement_text, pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'))
+	priority_announce(final_text, final_announcement_text, pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'))
 	log_game("TAX RATES: [usr ? key_name(usr) : "system"] changed levy rates - [jointext(lines, " | ")]")
 
 /// Phrasing helper for poll-rate change announcements. Distinguishes positive tax adjustments
@@ -172,9 +183,19 @@
 		return POLL_TAX_CAT_PEASANT
 	return null
 
-/// TODO(item 6, decrees): Great Writ / Zenitstadt Concordat / Otavan Accords exemptions land
-/// with the decree port. Until then no class is charter-exempt.
+/// Charter exemptions (item 6 decrees): Great Writ frees nobles, Zenitstadt Concordat frees
+/// clergy, Otavan Accords free the Inquisition - while the respective charter stands.
 /datum/controller/subsystem/treasury/proc/is_poll_tax_charter_exempt(mob/living/H, category)
+	switch(category)
+		if(POLL_TAX_CAT_NOBLE)
+			var/datum/decree/GW = get_decree(DECREE_GREAT_WRIT)
+			return GW?.active
+		if(POLL_TAX_CAT_CLERGY)
+			var/datum/decree/ZC = get_decree(DECREE_ZENITSTADT_CONCORDAT)
+			return ZC?.active
+		if(POLL_TAX_CAT_INQUISITION)
+			var/datum/decree/OA = get_decree(DECREE_OTAVAN_ACCORDS)
+			return OA?.active
 	return FALSE
 
 /datum/controller/subsystem/treasury/proc/get_poll_tax_category_pretty_name(category)
@@ -238,9 +259,17 @@
 		return 0
 	var/rate = poll_tax_rates[category] || 0
 	// Charter exemption zeroes out TAX only. Subsidies (negative rates) reach protected
-	// classes too. TODO(item 6, decrees): per-decree rate caps loop goes here.
+	// classes too - the Crown does not impose on them, but may still extend generosity.
 	if(H && rate > 0 && is_poll_tax_charter_exempt(H, category))
 		return 0
+	// Let every active decree narrow the rate. Each decree decides whether THIS payer/category
+	// combination is relevant - the base proc just returns current_rate unchanged. Existing
+	// caps use min(current_rate, CAP) with positive CAPs, so negative rates pass through.
+	for(var/id in decrees)
+		var/datum/decree/D = decrees[id]
+		if(!D?.active)
+			continue
+		rate = D.apply_poll_tax_cap(H, category, rate)
 	return rate
 
 /// Per-category headcount + per-tick poll mammon flow, cached on the subsystem. Rebuilds

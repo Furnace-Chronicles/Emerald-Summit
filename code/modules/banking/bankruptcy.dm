@@ -1,5 +1,6 @@
 // Treasury solvency state machine: NORMAL -> IN_ARREARS -> BANKRUPTCY (and back).
-// ES adaptation: no decree system; wage suspension tracked via suspended_wage_mobs list.
+// ES adaptation: wage suspension tracked via suspended_wage_mobs list (integer ledger).
+// Charter suspension/concession-restore is live as of item 6 (code/modules/politics/).
 // "Azurian Trading Company" renamed to "Emerald Trading Company" throughout.
 
 /datum/controller/subsystem/treasury/proc/is_in_receivership()
@@ -131,15 +132,27 @@
 	force_set_round_statistic(STATS_TREASURY_DEBT_OUTSTANDING, 0)
 
 	priority_announce(
-		"The Emerald Trading Company releases the Crown's commerce. Wages resume on the morrow. The Lord may restore up to [BANKRUPTCY_CONCESSION_PICKS] suspended matters at the Steward's discretion.",
+		"The Emerald Trading Company releases the Crown's commerce. Wages resume on the morrow. The Lord may, by ancient prerogative, restore up to [BANKRUPTCY_CONCESSION_PICKS] of the suspended Charters at once; all others must wait the customary span between proclamations.",
 		"SEQUESTRATION LIFTED",
 		'sound/misc/royal_decree.ogg',
 		"Captain",
 	)
 
-// ES: no decree system — stub. Just log that bankruptcy would have suspended charters.
+/// Force-suspend bankruptcy-listed Charters, bypassing cooldown and the daily revoke gate -
+/// these aren't policy decisions, they're mechanical consequences of default.
 /datum/controller/subsystem/treasury/proc/suspend_charters_for_bankruptcy()
-	log_game("BANKRUPTCY: Sequestration declared; charter suspension stubbed (no decree system in ES).")
+	bankruptcy_suspended_decree_ids.Cut()
+	for(var/decree_id in BANKRUPTCY_SUSPENDED_DECREES)
+		var/datum/decree/D = decrees[decree_id]
+		if(!D)
+			continue
+		if(D.active)
+			D.active = FALSE
+			D.cooldown_expires = 0
+			D.on_revoke()
+		D.bankruptcy_suspended = TRUE
+		bankruptcy_suspended_decree_ids += decree_id
+	steward_machine?.enforce_wage_floors()
 
 /datum/controller/subsystem/treasury/proc/override_trade_for_bankruptcy()
 	autoexport_percentage = BANKRUPTCY_AUTOEXPORT_PERCENTAGE
@@ -151,11 +164,37 @@
 	dirty_auto_import_view()
 	dirty_market_view()
 
-// ES: no decree system — concession restoration is a no-op stub.
+/// Cooldown-free restore of a bankruptcy-suspended charter. Returns TRUE on success.
 /datum/controller/subsystem/treasury/proc/restore_charter_via_concession(decree_id)
-	return FALSE
+	if(bankruptcy_concession_picks <= 0)
+		return FALSE
+	var/datum/decree/D = decrees[decree_id]
+	if(!D || !D.bankruptcy_suspended || D.active)
+		return FALSE
+	D.bankruptcy_suspended = FALSE
+	D.active = TRUE
+	D.year = CALENDAR_EPOCH_YEAR
+	D.cooldown_expires = 0
+	D.has_ever_been_active = TRUE
+	D.on_restore()
+	D.broadcast_state_change()
+	bankruptcy_concession_picks -= 1
+	bankruptcy_suspended_decree_ids -= decree_id
+	steward_machine?.enforce_wage_floors()
+	return TRUE
 
+/// Called from set_decree_active before any state change. Golden Bull cannot be revoked
+/// during sequestration; bankruptcy-suspended charters are immutable until concession-restored.
 /datum/controller/subsystem/treasury/proc/can_mutate_decree(decree_id, new_active)
+	if(treasury_state == TREASURY_BANKRUPTCY && decree_id == DECREE_GOLDEN_BULL && !new_active)
+		return FALSE
+	if(treasury_state != TREASURY_BANKRUPTCY)
+		return TRUE
+	var/datum/decree/D = decrees[decree_id]
+	if(!D)
+		return FALSE
+	if(D.bankruptcy_suspended)
+		return FALSE
 	return TRUE
 
 /proc/bankruptcy_state_label(state_value)

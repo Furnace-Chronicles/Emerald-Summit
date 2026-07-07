@@ -145,9 +145,16 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 	bankruptcy["arrears_loan_floor"] = TREASURY_ARREARS_LOAN
 	bankruptcy["recovery_reset"] = BANKRUPTCY_RECOVERY_RESET
 	bankruptcy["autoexport_override"] = round(BANKRUPTCY_AUTOEXPORT_PERCENTAGE * 100)
-	// TODO(item 6, decrees): /datum/decree doesn't exist yet; suspended-charter list is
-	// always empty until the decree port lands.
-	bankruptcy["suspended_charters"] = list()
+	var/list/suspended = list()
+	for(var/decree_id in SStreasury.bankruptcy_suspended_decree_ids)
+		var/datum/decree/D = SStreasury.get_decree(decree_id)
+		if(!D)
+			continue
+		suspended += list(list(
+			"id" = decree_id,
+			"name" = D.name,
+		))
+	bankruptcy["suspended_charters"] = suspended
 	bankruptcy["atc_loan_min"] = ATC_LOAN_MIN_AMOUNT
 	bankruptcy["atc_loan_max"] = ATC_LOAN_MAX_AMOUNT
 	bankruptcy["atc_loan_closed_day"] = ATC_LOAN_CLOSED_DAY
@@ -421,8 +428,11 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			admin_log_fiscal("adjusted Merchant favor by [amt] (now [SSmerchant_trade.merchant_favor], high [SSmerchant_trade.merchant_favor_high])", "Adjust Merchant Favor")
 			return TRUE
 		if("toggle_charter")
-			// TODO(item 6, decrees): /datum/decree doesn't exist yet - charter toggling
-			// becomes live with the decree port.
+			var/datum/decree/D = SStreasury.get_decree(params["decree_id"])
+			if(!D)
+				return TRUE
+			D.set_state(!D.active)
+			admin_log_fiscal("toggled [D.id] to active=[D.active]", "Toggle Charter")
 			return TRUE
 		if("player_clear_debt")
 			var/mob/living/target = locate(params["ref"])

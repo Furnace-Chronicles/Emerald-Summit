@@ -38,8 +38,20 @@
 	if(!SStreasury.has_account(user))
 		return 0
 	SStreasury.bank_accounts[user] += gross
-	var/tax_amt = FLOOR(gross * SStreasury.get_tax_rate(TAX_CATEGORY_HEADEATER_LEVY), 1)
+	// Item 6 decrees: charter exemptions and rate caps apply to the levy (ES deviation:
+	// integer ledger, so the AP apply_tax() fund path is inlined here).
+	var/base_rate = SStreasury.get_tax_rate(TAX_CATEGORY_HEADEATER_LEVY)
+	if(isliving(user) && SStreasury.is_tax_exempt(user, TAX_CATEGORY_HEADEATER_LEVY))
+		SStreasury.record_tax_exemption(TAX_CATEGORY_HEADEATER_LEVY, FLOOR(gross * base_rate, 1))
+		return gross
+	var/rate = base_rate
+	if(isliving(user))
+		rate = min(rate, SStreasury.get_rate_cap(user, TAX_CATEGORY_HEADEATER_LEVY))
+	if(rate < base_rate)
+		SStreasury.record_tax_exemption(TAX_CATEGORY_HEADEATER_LEVY, FLOOR(gross * (base_rate - rate), 1))
+	var/tax_amt = FLOOR(gross * rate, 1)
 	if(tax_amt > 0)
+		SStreasury.apply_concordat_tithe(gross, TAX_CATEGORY_HEADEATER_LEVY, src.name)
 		SStreasury.bank_accounts[user] -= tax_amt
 		SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "Headeater Levy")
 		record_round_statistic(STATS_REVENUE_HEADEATER_LEVY, tax_amt)

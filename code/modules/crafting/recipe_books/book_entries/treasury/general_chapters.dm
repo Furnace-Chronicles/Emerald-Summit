@@ -3,12 +3,9 @@
 // with content pared back to what Emerald Summit actually implements.
 //
 // Cut entirely vs AP (no corresponding ES system exists):
-//  - Charters of the Realm: AP's Charter/decree suspend-restore system (Great Writ of Azuria,
-//    Zenitstadt Concordat, Otavan Accords, Golden Bull, Covenant of Noc and Pestra, Guild
-//    Charter of Arms, Indenture of War) reads SStreasury.decrees, which doesn't exist in ES
-//    (see noticeboard.dm's own header note: "build_charters() ... stubbed/pared down: AP's
-//    charter list reads SStreasury.decrees ... that does not exist in ES yet").
-//  - Outlawry: entirely about losing Charter protection - no Charter system to lose.
+//  - Outlawry: AP's chapter is about losing Charter protection via the outlaw system; the
+//    mechanical hooks (TRAIT_OUTLAW voids exemptions/caps) are real as of item 6, but ES has
+//    no dedicated outlawry flow to document beyond the Titan's Declare Outlaw command.
 //  - The Innkeeper and the Guild (Rumor contracts), Towner Contracts, The Grand Contract Ledger:
 //    AP's Guild quest/contract-board economy (QUEST_*, RUMOR_*, GUILD_REFERRAL_FEE_PCT defines)
 //    has no equivalent anywhere in ES's codebase - grepped for every define AP's text cites and
@@ -18,14 +15,14 @@
 //    democracy/governance TGUI ... that does not exist anywhere in Emerald Summit").
 //
 // Reworked vs AP (ES has a real but different implementation):
-//  - Taxation and Levies: ES has no per-decree Charter exemptions and no in-game multi-category
-//    tax-rate panel wired to a UI yet (SStreasury.set_tax_rate() exists as a proc but nothing
-//    calls it from player-facing code); the legacy single-rate "Adjust Taxes" verb
-//    (code/modules/jobs/job_types/roguetown/nobility/steward.dm) is what Stewards actually have.
-//    Poll tax categories and caps are real (code/__DEFINES/banking.dm POLL_TAX_* /
-//    POLL_TAX_CAT_*).
-//  - Fines: Golden Bull specifics (per-stroke % cap, daily ceiling) don't exist as named defines;
-//    only the general fine cap (GENERIC_RATE_CAP) is real.
+//  - Charters of the Realm: real as of the item 6 decree port (code/modules/politics/,
+//    SStreasury.decrees) - chapter 00 below documents it. ES renames: Great Writ of the
+//    Summit, Church of the Summit, ES job rosters in the Covenant/Guild Charter.
+//  - Taxation and Levies: per-category rates are set from the throne's "Set Taxes" TaxSetter
+//    panel (Taxation 2 port); the legacy single-rate "Adjust Taxes" steward verb still drives
+//    the old flat Sales Tax alongside. Charter exemptions/caps are live as of item 6.
+//  - Fines: Golden Bull per-stroke cap + daily ceiling and the one-fine-per-day rule are real
+//    as of item 6, on top of the general fine cap (GENERIC_RATE_CAP).
 //  - Patronage: all three writs are real as of the Step 16 Meister Panel port
 //    (code/modules/banking/patronage_writ.dm; TRAIT_AGENT_MERCHANT/BATHHOUSE/CHURCH,
 //    PATRON_CAP_* in code/__DEFINES/banking.dm). Drafted from the MEISTER's Patronage tab.
@@ -47,13 +44,40 @@
 	abstract_type = /datum/book_entry/treasury_general
 	category = "Common"
 
+// Numbered 00 so it leads the shelf without renumbering the chapters below.
+/datum/book_entry/treasury_general/charters
+	name = "00. Charters of the Realm"
+
+/datum/book_entry/treasury_general/charters/inner_book_html(mob/user)
+	return {"
+		<div>
+		<p>Charters protect classes of subject from the Crown's taxation and levies.
+		The Ruler and Regent may suspend or restore a Charter, at the throne, by speaking <b>revise charter</b>. State is shown on the Charters section of the Notice Board. Note that tax exemption only applies to direct taxation like the Headeater Levy, not indirect taxation like Import or Export tariffs. Outlaws forfeit every Charter protection.</p>
+		</div>
+
+		<ul>
+			<li><b>The Great Writ of the Summit</b> - Nobility pays no tax and levy, and cannot be fined.</li>
+			<li><b>The Zenitstadt Concordat</b> - The Church, and any declared benefactors of the Church, pays no taxation and levy. While in force, [round(CONCORDAT_TITHE_RATE * 100)]% of every taxed transaction is tithed to the Church Fund.</li>
+			<li><b>The Otavan Accords</b> - The Inquisition pays no tax and no levy.</li>
+			<li><b>The Golden Bull of Kingsfield</b> - burghers are capped at [GOLDEN_BULL_BURGHER_CAP * 100]% of balance per levy or fine, with a [GOLDEN_BULL_DAILY_FINE_CAP]-mammon ceiling on each fine and a [GOLDEN_BULL_POLL_CAP]m poll-tax cap. While it stands, the burghers replenish the Burgher Pledge daily.</li>
+			<li><b>The Covenant of Noc and Pestra</b> - University members, the Apothecary and the Court Physician are limited to the lightest poll tax of [NOC_PESTRA_POLL_CAP]m, and a minimum wage from the Crown's payroll.</li>
+			<li><b>The Guild Charter of Arms</b> - Guild mercenaries are capped at [GUILD_CHARTER_OF_ARMS_POLL_CAP]m of poll tax per day, and the Guild remits [GUILD_CHARTER_OF_ARMS_PLEDGE_BONUS]m daily to the Burgher's Pledge while in force.</li>
+			<li><b>The Indenture of War</b> - Garrison ranks are subject to a minimum salary floor while this is in effect.</li>
+			<li><b>The Magna Carta</b> - a dormant modern charter; if the Lord dares press it, every Crown levy and poll tax is zeroed. Fines remain.</li>
+		</ul>
+
+		<p>Each Charter has a [DECREE_COOLDOWN / 600]-minute cooldown after revision. No more than one suspension and one restoration may be proclaimed per day. Sequestration force-suspends most Charters until the Crown's debt is settled.</p>
+		</div>
+	"}
+
+
 /datum/book_entry/treasury_general/levies
 	name = "01. Taxation and Levies"
 
 /datum/book_entry/treasury_general/levies/inner_book_html(mob/user)
 	return {"
 		<div>
-		<p>The Crown draws revenue from a mix of direct and indirect taxes. There is no Charter system in Emerald Summit yet, so no class of subject is exempt by decree - taxation applies uniformly.</p>
+		<p>The Crown draws revenue from a mix of direct and indirect taxes. Charters of the Realm (see chapter 00) may exempt or cap certain classes of subject while they stand.</p>
 		</div>
 
 		<h3>Tax Categories</h3>
@@ -65,7 +89,7 @@
 			<li><b>Fine</b> - a one-off penalty struck against a subject's account.</li>
 		</ul>
 
-		<p>The Steward's dedicated per-category tax-rate panel is not yet wired up to any in-game interface, so in practice the Steward adjusts the realm's general rate with the legacy <b>"Adjust Taxes"</b> verb (found under the Stewardry category), which sets a single flat percentage rather than per-category rates. There is a short cooldown between adjustments, and the verb is unavailable while a Ruler or Regent occupies the throne.</p>
+		<p>Per-category rates (levies and poll taxes) are set from the throne by speaking <b>"Set Taxes"</b>, which opens the Ruler's tax panel; levies and poll rates each carry an independent one-day cooldown. The legacy <b>"Adjust Taxes"</b> steward verb still exists alongside and drives the old flat Sales Tax percentage. While the Zenitstadt Concordat stands, no levy may be set below the Church's tithe rate.</p>
 
 		<h3>Poll Tax</h3>
 		<p>Poll tax is levied daily against every subject with a bank account, drained automatically. Categories exist per social station (noble, clergy, inquisition, courtier, garrison, guilds, merchant, burgher, adventurer, mercenary, peasant). Poll taxes are hardcapped at <b>[POLL_TAX_MAX_RATE]m/day</b>, and can be set as low as a subsidy of <b>-[POLL_TAX_MAX_SUBSIDY]m/day</b> (a negative rate pays subjects from the Crown's Purse instead).</p>
@@ -81,7 +105,7 @@
 /datum/book_entry/treasury_general/fines/inner_book_html(mob/user)
 	return {"
 		<div>
-		<p>A fine strikes a subject's account directly for a stated amount, capped at <b>[GENERIC_RATE_CAP * 100]%</b> of their current balance per stroke. There is no Golden Bull carve-out yet to soften this cap for any particular class of subject.</p>
+		<p>A fine strikes a subject's account directly for a stated amount, capped at <b>[GENERIC_RATE_CAP * 100]%</b> of their current balance per stroke, and no subject may be fined more than once per day. The Great Writ shields nobles from fines entirely, and the Golden Bull softens the cap for burghers (see chapter 00) - outlaws enjoy no such mercy.</p>
 		<p>Fines are voluntarily consented to by nature of holding an account under the Crown's jurisdiction; treat repeated or excessive fining as an IC matter to resolve, not a mechanical guarantee.</p>
 		</div>
 	"}

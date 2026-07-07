@@ -38,8 +38,17 @@
 #define BANKRUPTCY_CONCESSION_PICKS 3
 #define BANKRUPTCY_RECOVERY_RESET 1500
 
-// ES has no decree system; bankruptcies do not suspend any decrees.
-#define BANKRUPTCY_SUSPENDED_DECREES list()
+// Charters force-suspended when the Crown enters sequestration (item 6 decrees). The Golden
+// Bull is deliberately absent - the ETC keeps the burghers' compact (and their pledge) alive.
+#define BANKRUPTCY_SUSPENDED_DECREES list( \
+	DECREE_NOC_PESTRA_COVENANT, \
+	DECREE_GREAT_WRIT, \
+	DECREE_GUILD_CHARTER_OF_ARMS, \
+	DECREE_INDENTURE_OF_WAR, \
+	DECREE_MAGNA_CARTA, \
+	DECREE_OTAVAN_ACCORDS, \
+	DECREE_ZENITSTADT_CONCORDAT, \
+)
 
 #define ATC_LOAN_MIN_AMOUNT 500
 #define ATC_LOAN_MAX_AMOUNT 1500
