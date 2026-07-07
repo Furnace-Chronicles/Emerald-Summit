@@ -361,17 +361,17 @@
 					"Mining Backpack" = /obj/item/storage/backpack/rogue/backpack/minerbag
 				)
 
-/datum/virtue/utility/performer // add two instrument selection? & ... outfit?
+/datum/virtue/background/performer // add two instrument selection? & ... outfit?
 	name = "Performer"
 	desc = "Music, artistry and the act of showmanship carried me through life. I've hidden a favorite instrument of mine, know how to please anyone I touch, and how to crack the eggs of hecklers."
 	custom_text = "Comes with a stashed instrument of your choice. You choose the instrument after spawning in."
 	added_traits = list(TRAIT_NUTCRACKER, TRAIT_GOODLOVER)
 	added_skills = list(list(/datum/skill/misc/music, 4, 6))
 
-/datum/virtue/utility/performer/apply_to_human(mob/living/carbon/human/recipient)
+/datum/virtue/background/performer/apply_to_human(mob/living/carbon/human/recipient)
     addtimer(CALLBACK(src, .proc/performer_apply, recipient), 50)
 
-/datum/virtue/utility/performer/proc/performer_apply(mob/living/carbon/human/recipient)
+/datum/virtue/background/performer/proc/performer_apply(mob/living/carbon/human/recipient)
 	var/list/instruments = list()
 	for(var/instrument_type in subtypesof(/obj/item/rogue/instrument))
 		if(instrument_type == /obj/item/rogue/instrument/harp/handcarved)
@@ -446,7 +446,7 @@
 					
 				)
 
-/datum/virtue/utility/tracker
+/datum/virtue/background/tracker
 	name = "Sleuth"
 	desc = "You realised long ago that the ability to find a man is as helpful to aid the law as it is to evade it."
 	added_skills = list(list(/datum/skill/misc/tracking, 3, 6))
