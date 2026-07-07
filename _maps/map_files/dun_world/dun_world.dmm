@@ -2009,20 +2009,20 @@
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/shelter/mountains/decap)
 "axt" = (
-/obj/effect/decal/cobbleedge{
-	dir = 10;
-	icon_state = "cobbleedge-n"
-	},
-/obj/effect/decal/cobbleedge{
-	dir = 8
-	},
-/obj/machinery/light/rogue/torchholder/lanternpost{
-	dir = 1;
-	pixel_x = -11;
-	pixel_y = 0
-	},
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/town)
+/obj/structure/closet/crate/chest/crate,
+/obj/item/ingot/bronze,
+/obj/item/ingot/bronze,
+/obj/item/ingot/bronze,
+/obj/item/ingot/bronze,
+/obj/item/ingot/bronze,
+/obj/item/ingot/bronze,
+/obj/item/ingot/tin,
+/obj/item/ingot/tin,
+/obj/item/ingot/tin,
+/obj/item/ingot/tin,
+/obj/item/ingot/tin,
+/turf/open/floor/rogue/ruinedwood/turned,
+/area/rogue/indoors/town/dwarfin)
 "axB" = (
 /obj/structure/fermentation_keg/random/beer,
 /turf/open/floor/rogue/naturalstone,
@@ -7787,8 +7787,25 @@
 	},
 /area/rogue/under/cave/dukecourt)
 "bXf" = (
-/turf/closed,
-/area/rogue/under/cave)
+/obj/structure/closet/crate/chest/crate,
+/obj/item/roguegear{
+	pixel_x = -6;
+	pixel_y = 3
+	},
+/obj/item/roguegear{
+	pixel_x = -6;
+	pixel_y = 3
+	},
+/obj/item/roguegear{
+	pixel_x = -6;
+	pixel_y = 3
+	},
+/obj/item/grown/log/tree/small,
+/obj/item/grown/log/tree/small,
+/obj/item/grown/log/tree/small,
+/obj/item/grown/log/tree/small,
+/turf/open/floor/rogue/ruinedwood/turned,
+/area/rogue/indoors/town/dwarfin)
 "bXi" = (
 /obj/structure/fermentation_keg/random/water,
 /turf/open/floor/rogue/church,
@@ -18759,7 +18776,9 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/outdoors/mountains/decap/stepbelow)
 "eCI" = (
-/obj/structure/fluff/walldeco/wallshield,
+/obj/structure/fluff/walldeco/wallshield{
+	name = "Guardian Scout's "
+	},
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/outdoors/town)
 "eCL" = (
@@ -21188,6 +21207,9 @@
 /obj/effect/decal/cobbleedge{
 	dir = 1;
 	icon_state = "borderfall"
+	},
+/obj/structure/fluff/railing/border{
+	dir = 1
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
@@ -46862,9 +46884,9 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/cave)
 "lnh" = (
-/obj/item/reagent_containers/food/snacks/smallrat,
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/outdoors/beach)
+/obj/machinery/light/rogue/firebowl/stump,
+/turf/closed/wall/mineral/rogue/stone,
+/area/rogue/outdoors/mountains)
 "lno" = (
 /obj/effect/decal/cleanable/blood/tracks,
 /turf/open/floor/rogue/blocks,
@@ -47375,8 +47397,11 @@
 /turf/open/floor/rogue/AzureSand,
 /area/rogue/outdoors/beach)
 "lsE" = (
-/turf/closed,
-/area/rogue/outdoors/beach/forest)
+/obj/machinery/light/rogue/torchholder/lanternpost{
+	dir = 2
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/town)
 "lsF" = (
 /obj/structure/table/wood{
 	dir = 5;
@@ -52830,6 +52855,12 @@
 /obj/item/clothing/head/roguetown/crown/fakecrown,
 /turf/open/floor/rogue/carpet/lord/left,
 /area/rogue/under/cave/dukecourt)
+"mJP" = (
+/obj/machinery/light/rogue/torchholder/r{
+	dir = 4
+	},
+/turf/open/floor/rogue/ruinedwood/turned,
+/area/rogue/indoors/town/dwarfin)
 "mJS" = (
 /turf/open/floor/rogue/grass,
 /turf/closed/wall/mineral/rogue/wooddark,
@@ -57879,8 +57910,11 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town)
 "nVl" = (
+/obj/structure/fluff/railing/border{
+	dir = 8
+	},
 /obj/structure/roguemachine/stockpile,
-/turf/closed/wall/mineral/rogue/stone,
+/turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/dwarfin)
 "nVn" = (
 /obj/structure/mineral_door/wood/violet{
@@ -68642,7 +68676,7 @@
 /obj/structure/mineral_door/wood/deadbolt{
 	dir = 1
 	},
-/turf/closed,
+/turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/dwarfin)
 "qBO" = (
 /obj/structure/fluff/walldeco/customflag{
@@ -78214,12 +78248,11 @@
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
 "sRD" = (
-/obj/structure/fluff/railing/border{
-	dir = 7;
-	pixel_y = 0
+/obj/structure/fluff/walldeco/wallshield{
+	name = "Guardian Scout's "
 	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town)
+/turf/closed/wall/mineral/rogue/stonebrick,
+/area/rogue/under/cave)
 "sRH" = (
 /obj/effect/decal/cobble/mossy{
 	dir = 5
@@ -281528,7 +281561,7 @@ dlD
 qKX
 nTm
 dlD
-bXf
+htN
 ixl
 niV
 xkH
@@ -281980,7 +282013,7 @@ jBy
 hRS
 hRS
 dlD
-bXf
+htN
 niV
 niV
 apU
@@ -282045,7 +282078,7 @@ xkH
 xkH
 jFA
 jFA
-jFA
+fOj
 xkH
 eOd
 mLC
@@ -282432,7 +282465,7 @@ hRS
 hRS
 hRS
 dlD
-bXf
+htN
 niV
 xkH
 gJM
@@ -282880,9 +282913,9 @@ bhJ
 bhJ
 bhJ
 dlD
-hRS
-hRS
-hRS
+dlD
+dlD
+dlD
 dlD
 bhJ
 niV
@@ -282957,7 +282990,7 @@ tDg
 jZz
 xkH
 jFA
-jFA
+fOj
 xkH
 xkH
 niV
@@ -283331,11 +283364,11 @@ bhJ
 bhJ
 bhJ
 bhJ
-dlD
-hRS
-hRS
-hRS
-dlD
+bhJ
+bhJ
+bhJ
+bhJ
+bhJ
 bhJ
 niV
 xkH
@@ -283783,11 +283816,11 @@ bhJ
 bhJ
 bhJ
 bhJ
-dlD
-hRS
-hRS
-hRS
-dlD
+bhJ
+bhJ
+bhJ
+bhJ
+bhJ
 bhJ
 bhJ
 xkH
@@ -284235,11 +284268,11 @@ bhJ
 bhJ
 bhJ
 bhJ
-dlD
-dlD
-dlD
-dlD
-dlD
+bhJ
+bhJ
+bhJ
+bhJ
+bhJ
 bhJ
 bhJ
 bhJ
@@ -293159,8 +293192,8 @@ nXy
 wND
 sns
 sns
-axt
-sns
+vWX
+lsE
 dQI
 dQI
 sns
@@ -295872,7 +295905,7 @@ exD
 exD
 ffs
 kOl
-kOl
+tWO
 kOl
 ebS
 vGa
@@ -296423,7 +296456,7 @@ pdp
 dPZ
 osg
 pax
-lnh
+uYI
 uYI
 lND
 dPZ
@@ -296776,7 +296809,7 @@ exD
 sns
 vSn
 kOl
-kOl
+mJP
 qTj
 smL
 sac
@@ -296797,7 +296830,7 @@ sns
 eKH
 eKH
 qRI
-sRD
+eng
 dra
 dra
 eGS
@@ -297229,7 +297262,7 @@ sns
 dxO
 kOl
 kOl
-kOl
+bXf
 smL
 xHV
 whs
@@ -297681,7 +297714,7 @@ exD
 dxO
 kOl
 kOl
-kOl
+axt
 smL
 dMb
 whs
@@ -298583,11 +298616,11 @@ mhx
 njB
 sns
 smL
-nVl
+smL
 ebS
 smL
 smL
-ycV
+nVl
 ycV
 vHw
 vGa
@@ -300491,7 +300524,7 @@ dwd
 qaQ
 qaQ
 pdp
-lnh
+uYI
 rTj
 qaQ
 qaQ
@@ -394527,9 +394560,9 @@ aBB
 aBB
 aBB
 aBB
-aBB
+lnh
 ujs
-aBB
+lnh
 aBB
 aBB
 aBB
@@ -396335,9 +396368,9 @@ aBB
 aBB
 aBB
 aBB
-aBB
+lnh
 ujs
-aBB
+lnh
 aBB
 aBB
 eLi
@@ -427331,7 +427364,7 @@ dCq
 sJx
 sJx
 dCq
-lsE
+dCq
 dCq
 dCq
 dCq
@@ -427783,7 +427816,7 @@ dCq
 sJx
 sJx
 dCq
-lsE
+dCq
 dCq
 dCq
 dCq
@@ -428238,7 +428271,7 @@ dCq
 dCq
 dCq
 dCq
-lsE
+dCq
 dCq
 sJx
 qPv
@@ -428687,10 +428720,10 @@ dCq
 sJx
 sJx
 dCq
-lsE
 dCq
 dCq
-lsE
+dCq
+dCq
 dCq
 sJx
 qPv
@@ -429139,10 +429172,10 @@ dCq
 sJx
 sJx
 dCq
-lsE
 dCq
 dCq
-lsE
+dCq
+dCq
 dCq
 sJx
 qPv
@@ -429594,7 +429627,7 @@ dCq
 dCq
 dCq
 dCq
-lsE
+dCq
 dCq
 sJx
 qPv
@@ -430043,10 +430076,10 @@ sJx
 sJx
 sJx
 dCq
-lsE
 dCq
 dCq
-lsE
+dCq
+dCq
 dCq
 sJx
 qPv
@@ -430498,7 +430531,7 @@ dCq
 dCq
 dCq
 dCq
-lsE
+dCq
 dCq
 sJx
 qPv
@@ -503261,12 +503294,12 @@ wHi
 oyf
 oyf
 bVo
-nkP
+sRD
 rbH
 rbH
 rbH
 rbH
-nkP
+sRD
 bVo
 oyf
 oyf
