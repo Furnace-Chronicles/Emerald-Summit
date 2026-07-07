@@ -350,10 +350,16 @@
 /datum/virtue/background/mining
 	name = "Miner's Apprentice"
 	desc = "The dark shafts, the damp smells of ichor and the laboring hours are no stranger to me. I keep my pickaxe and lamptern close, and have been taught how to mine well."
-	added_stashed_items = list(
-		"Steel Pickaxe" = /obj/item/rogueweapon/pick/steel,
-		"Lamptern" = /obj/item/flashlight/flare/torch/lantern)
 	added_skills = list(list(/datum/skill/labor/mining, 3, 6))
+/datum/virtue/background/mining/apply_to_human(mob/living/carbon/human/H)
+	var/equipment = list("Miner")
+	var/equip_choice = input(H,"My lyfe before, STASHed away ...", "What I was and am. TREES and STATUES hold my precious things.") as anything in equipment
+	switch(equip_choice)
+		if("Miner")
+			if(H.mind)
+				H.mind.special_items = list(
+					"Mining Backpack" = /obj/item/storage/backpack/rogue/backpack/minerbag
+				)
 
 /datum/virtue/utility/performer // add two instrument selection? & ... outfit?
 	name = "Performer"
@@ -794,7 +800,7 @@
 	)
 
 //Miner
-/obj/item/storage/backpack/minerbag
+/obj/item/storage/backpack/rogue/backpack/minerbag
 	populate_contents = list(
 		/obj/item/rogueweapon/pick/steel,
 		/obj/item/flashlight/flare/torch/lantern
