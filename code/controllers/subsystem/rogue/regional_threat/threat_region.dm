@@ -7,9 +7,23 @@
 	var/lowpop_tick = 1 // How much ambush to tick up every iteration <= 30 pop
 	var/highpop_tick = 2 // How much ambush to tick up every iteration > 30 pop
 	var/last_natural_ambush_time = 0
-	var/last_induced_ambush_time = 0 // Time between now and the previous ambush triggered by horn	
+	var/last_induced_ambush_time = 0 // Time between now and the previous ambush triggered by horn
+	// --- Quest surface (AP Quest 2 port) ---
+	// Grafted onto ES's absolute-threshold ambush model; the danger/ambush economy is untouched.
+	/// Quest types this region will host. Default (set in New) is the full kill+evergreen set;
+	/// set per region to restrict (e.g. a dangerous region that won't host trivial kill-easy quests).
+	var/list/allowed_quest_types
+	var/kill_target_floor = 2
+	var/evergreen_target = 0
+	var/tp_budget_multiplier = 1.0
+	/// Multiplier on the threat-scaled bonus paid to retrieval/courier quests. Independent of
+	/// tp_budget_multiplier so reward and combat scaling tune separately.
+	var/delivery_reward_multiplier = 1.0
+	/// Faction-id -> weight, for blockade/kill faction selection. Populated per-region when the
+	/// weight tables land (Chunk 5/6); empty now so blockade/kill faction picks stay inert.
+	var/list/faction_weights = list()
 
-/datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick)
+/datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick, _allowed_quest_types, _tp_budget_multiplier = 1.0, _kill_target_floor = 2, _evergreen_target = 0, _delivery_reward_multiplier = 1.0)
 	region_name = _region_name
 	latent_ambush = _latent_ambush
 	min_ambush = _min_ambush
@@ -17,6 +31,28 @@
 	fixed_ambush = _fixed_ambush
 	lowpop_tick = _lowpop_tick
 	highpop_tick = _highpop_tick
+	tp_budget_multiplier = _tp_budget_multiplier
+	delivery_reward_multiplier = _delivery_reward_multiplier
+	kill_target_floor = _kill_target_floor
+	evergreen_target = _evergreen_target
+	if(_allowed_quest_types)
+		allowed_quest_types = _allowed_quest_types
+	else
+		allowed_quest_types = list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL, QUEST_RECOVERY)
+
+/// Scales a per-region kill-quest target off live population, clamped to this region's floor..floor+offset.
+/datum/threat_region/proc/get_kill_target(pop)
+	var/scaled = round(pop * QUEST_KILL_FRACTION)
+	return clamp(scaled, kill_target_floor, kill_target_floor + QUEST_KILL_CEILING_OFFSET)
+
+/datum/threat_region/proc/allows_quest_type(quest_type)
+	return (quest_type in allowed_quest_types)
+
+/// Fill ratio (0..1) of this region's current threat vs its ceiling; used to weight quest placement.
+/datum/threat_region/proc/get_threat_weight()
+	if(!max_ambush || latent_ambush <= 0)
+		return 0
+	return latent_ambush / max_ambush
 
 /datum/threat_region/proc/reduce_latent_ambush(amount)
 	if(fixed_ambush)

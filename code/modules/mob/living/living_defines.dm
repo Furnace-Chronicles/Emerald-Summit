@@ -198,3 +198,7 @@
 
 	/// Parry timer for projectiles post-attack. Hooks into the attack animation, so is fairly clunky.
 	var/projectile_parry_timer
+
+	// --- Fellowship (AP Quest 2 port) ---
+	var/datum/fellowship/current_fellowship
+	var/list/incoming_fellowship_invites = list() // list of /datum/weakref to /datum/fellowship; kept in sync with fellowship.pending_invites

@@ -21,20 +21,6 @@
 #define DANGER_LEVEL_DANGEROUS "Dangerous"
 #define DANGER_LEVEL_BLEAK     "Bleak"
 
-// ---- Quest faction stub ----
-// AP's faction/quest system drives blockade faction selection.
-// Until that system is ported, blockades will never pick a faction and won't fire.
-/datum/quest_faction
-	var/can_blockade = FALSE
-	var/name_plural = "Enemies"
-	var/group_word = "warband"
-
-/proc/get_quest_faction(faction_id)
-	return null
-
-// Extend datum/threat_region with faction_weights for blockade compatibility.
-/datum/threat_region
-	var/list/faction_weights = list()
 
 // ---- GLOB declarations for later port steps ----
 GLOBAL_LIST_EMPTY(steward_export_machines)
@@ -52,7 +38,6 @@ GLOBAL_LIST_INIT(crown_authority_roles, list(
 ))
 
 // ---- Object type stubs for AP types not yet in ES ----
-/obj/item/quest_writ  // blockade scroll system (to be ported with blockade content)
 
 // Steward export machine (Step 9: escrow / export tgui, not yet ported)
 /obj/structure/roguemachine/steward_export
