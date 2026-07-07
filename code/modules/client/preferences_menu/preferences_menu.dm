@@ -1890,6 +1890,12 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			var/picked = tgui_input_list(user, "Choose your virtue", "VIRTUE", virtues_available, prefs.virtue)
 			if(picked)
 				var/datum/virtue/v = virtues_available[picked]
+				// Re-validate after the blocking input: the list was built against the OTHER
+				// slot's value at open time, so picking there while this dialog sat open could
+				// otherwise land the same virtue in both slots.
+				if(v.name != "None" && v.name == prefs.virtuetwo?.name)
+					to_chat(user, span_warning("You already hold [v.name] as your second virtue."))
+					return TRUE
 				var/datum/virtue/old_virtue = prefs.virtue
 				prefs.virtue = v
 				sync_virtue_body_size(old_virtue, v, user)
@@ -1921,6 +1927,10 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			var/picked = tgui_input_list(user, "Choose your second virtue", "SECOND VIRTUE", virtues_available, prefs.virtuetwo)
 			if(picked)
 				var/datum/virtue/v = virtues_available[picked]
+				// Re-validate after the blocking input - see set_virtue.
+				if(v.name != "None" && v.name == prefs.virtue?.name)
+					to_chat(user, span_warning("You already hold [v.name] as your first virtue."))
+					return TRUE
 				var/datum/virtue/old_virtue = prefs.virtuetwo
 				prefs.virtuetwo = v
 				sync_virtue_body_size(old_virtue, v, user)
