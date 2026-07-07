@@ -21,7 +21,10 @@
 
 	// The biter is passed in explicitly: usr is null/stale when the bite comes from NPC AI
 	// (SSnpc, not a click), which crashed the source checks and made NPC chews never infect.
-	wound_owner.attempt_zombie_infection(source = biter, infection_type = "wound", wake_delay = ZOMBIE_INFECTION_TIME) //Infect the unit
+	// Bails (returns falsey) if the victim is deadite-immune/otherwise unturnable, so we don't
+	// mark a biohazard wound or report a successful infection for a bite that can't take hold.
+	if (!wound_owner.attempt_zombie_infection(source = biter, infection_type = "wound", wake_delay = ZOMBIE_INFECTION_TIME)) //Infect the unit
+		return
 
 	severity = WOUND_SEVERITY_BIOHAZARD //Show the wound
 	if (bodypart_owner)
