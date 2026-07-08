@@ -262,6 +262,143 @@ SUBSYSTEM_DEF(questpool)
 	log_event("generate", "rumor-pool [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
 	return Q
 
+/proc/defense_quest_tier_cost(quest_type)
+	return GLOB.defense_quest_tier_costs[quest_type] || 0
+
+/datum/controller/subsystem/questpool/proc/issue_defense_quest(type, datum/threat_region/preferred_region, area/override_destination, in_hands = FALSE, mob/living/carbon/human/steward = null)
+	if(!type || !(type in GLOB.defense_quest_tier_costs))
+		return null
+	if(in_hands && !steward)
+		return null
+	var/datum/quest/Q = instantiate_quest_of_type(type)
+	if(!Q)
+		return null
+	Q.quest_difficulty = difficulty_for_type(type)
+	Q.source = QUEST_SOURCE_DEFENSE
+	Q.created_at = world.time
+	Q.issued_day = GLOB.dayspassed
+	if(steward)
+		Q.quest_giver_name = steward.real_name
+	Q.deposit_amount = Q.calculate_deposit()
+	if(override_destination && istype(Q, /datum/quest/kill/recovery))
+		var/datum/quest/kill/recovery/RQ = Q
+		RQ.override_destination = override_destination
+	if(!preferred_region)
+		preferred_region = SSregionthreat.pick_region_for_quest(type)
+	var/region_name = preferred_region?.region_name
+	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type, region_name, Q)
+	if(!landmark)
+		qdel(Q)
+		return null
+	if(!Q.preview(landmark))
+		qdel(Q)
+		return null
+	var/turf/landmark_turf = get_turf(landmark)
+	var/turf/origin = get_nearest_ledger_turf(landmark_turf) || landmark_turf
+	Q.reward_amount = Q.calculate_reward(origin, landmark_turf)
+
+	if(in_hands)
+		if(!Q.materialize(landmark))
+			qdel(Q)
+			return null
+		var/obj/item/quest_writ/scroll = new(get_turf(steward))
+		scroll.base_icon_state = Q.get_scroll_icon()
+		scroll.assigned_quest = Q
+		Q.quest_scroll = scroll
+		Q.quest_scroll_ref = WEAKREF(scroll)
+		scroll.update_quest_text()
+		steward.put_in_hands(scroll)
+	else
+		pool += Q
+		adjust_region_count(Q, 1)
+	record_round_statistic(STATS_CONTRACTS_GENERATED)
+	record_round_statistic(STATS_CONTRACTS_GENERATED_DEFENSE)
+	log_event("generate", "[in_hands ? "defense-in-hands" : "defense-pool"] [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
+	return Q
+
+/// Bearer-bond scroll is spawned straight into the Steward's hand. Wave 1 materializes
+/// on first scroll-open, not at issue time — see quest_scroll_blockade.attack_self.
+/datum/controller/subsystem/questpool/proc/issue_blockade_defense_quest(datum/blockade/B, mob/living/carbon/human/steward, datum/fund/source_fund, cost = 0)
+	if(!B || !steward)
+		return null
+	if(B.has_active_scroll())
+		return null
+	var/datum/economic_region/ER = B.get_region()
+	var/datum/threat_region/TR = B.get_threat_region()
+	if(!ER || !TR)
+		return null
+	var/datum/quest/kill/blockade_defense/Q = new()
+	Q.blockade_ref = WEAKREF(B)
+	Q.quest_difficulty = QUEST_DIFFICULTY_HARD
+	Q.source = QUEST_SOURCE_BLOCKADE
+	Q.created_at = world.time
+	Q.issued_day = GLOB.dayspassed
+	Q.quest_giver_name = steward.real_name
+	Q.deposit_amount = 0
+	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(QUEST_BLOCKADE_DEFENSE, TR.region_name, Q)
+	if(!landmark)
+		qdel(Q)
+		return null
+	if(!Q.preview(landmark))
+		qdel(Q)
+		return null
+	// Reward scales with the region's TP multiplier — far/dangerous regions print more for
+	// the same Steward draft cost. The mob count itself stays at the fixed wave budgets.
+	Q.reward_amount = round(BLOCKADE_SCROLL_REWARD * TR.tp_budget_multiplier)
+	Q.funding_fund = source_fund
+	Q.funding_cost = cost
+	Q.issued_at = world.time
+	var/obj/item/quest_writ/blockade/scroll = new(get_turf(steward))
+	scroll.base_icon_state = Q.get_scroll_icon()
+	scroll.assigned_quest = Q
+	Q.quest_scroll = scroll
+	Q.quest_scroll_ref = WEAKREF(scroll)
+	scroll.update_quest_text()
+	steward.put_in_hands(scroll)
+	B.active_scroll_ref = WEAKREF(scroll)
+	record_round_statistic(STATS_CONTRACTS_GENERATED)
+	log_event("generate", "blockade-defense in-hand for [ER.name] (faction [Q.faction_id], reward [Q.reward_amount])")
+	return Q
+
+/datum/controller/subsystem/questpool/proc/issue_towner_quest(type, mob/living/carbon/human/poster, posting_tier = TOWNER_POSTING_TIER_HARD)
+	if(!type || !poster)
+		return null
+	var/datum/quest/Q = instantiate_quest_of_type(type)
+	if(!Q)
+		return null
+	if(istype(Q, /datum/quest/kill/recovery/towner_smith_caravan))
+		var/datum/quest/kill/recovery/towner_smith_caravan/SQ = Q
+		SQ.posting_tier = posting_tier
+	else if(istype(Q, /datum/quest/kill/towner_miner_orevein))
+		var/datum/quest/kill/towner_miner_orevein/MQ = Q
+		MQ.posting_tier = posting_tier
+	else
+		qdel(Q)
+		return null
+	Q.source = QUEST_SOURCE_TOWNER
+	Q.created_at = world.time
+	Q.issued_day = GLOB.dayspassed
+	Q.quest_giver_reference = WEAKREF(poster)
+	Q.quest_giver_name = poster.real_name
+	Q.deposit_amount = 0
+	var/datum/threat_region/preferred_region = SSregionthreat.pick_region_for_quest(type)
+	var/region_name = preferred_region?.region_name
+	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type, region_name)
+	if(!landmark)
+		qdel(Q)
+		return null
+	if(!Q.preview(landmark))
+		qdel(Q)
+		return null
+	var/turf/landmark_turf = get_turf(landmark)
+	var/turf/origin = get_nearest_ledger_turf(landmark_turf) || landmark_turf
+	Q.reward_amount = Q.calculate_reward(origin, landmark_turf)
+	pool += Q
+	adjust_region_count(Q, 1)
+	record_round_statistic(STATS_CONTRACTS_GENERATED)
+	log_event("generate", "towner-pool [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (poster [poster.real_name], tier [posting_tier], reward [Q.reward_amount])")
+	return Q
+
 /datum/controller/subsystem/questpool/proc/generate_one(type, datum/threat_region/preferred_region, is_replacement = FALSE)
 	var/datum/quest/Q = instantiate_quest_of_type(type)
 	if(!Q)
@@ -323,6 +460,12 @@ SUBSYSTEM_DEF(questpool)
 			return new /datum/quest/kill/bounty()
 		if(QUEST_RECOVERY)
 			return new /datum/quest/kill/recovery()
+		if(QUEST_BLOCKADE_DEFENSE)
+			return new /datum/quest/kill/blockade_defense()
+		if(QUEST_TOWNER_SMITH_CARAVAN)
+			return new /datum/quest/kill/recovery/towner_smith_caravan()
+		if(QUEST_TOWNER_MINER_OREVEIN)
+			return new /datum/quest/kill/towner_miner_orevein()
 	return null
 
 /datum/controller/subsystem/questpool/proc/claim(datum/quest/Q, mob/user)

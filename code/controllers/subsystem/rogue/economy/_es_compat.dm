@@ -22,9 +22,6 @@
 #define DANGER_LEVEL_BLEAK     "Bleak"
 
 
-// ---- GLOB declarations for later port steps ----
-GLOBAL_LIST_EMPTY(steward_export_machines)
-
 // ---- Crown authority roles (Step 15 dependency) ----
 // AP defines this in questing/contract_ledger/contract_ledger.dm (contract-ledger step, not yet
 // ported) with AP's court roster (Steward/Grand Duke/Hand/Clerk/Marshal/Councillor/Prince).
@@ -36,11 +33,6 @@ GLOBAL_LIST_INIT(crown_authority_roles, list(
 	"Clerk",
 	"Grand Duke",
 ))
-
-// ---- Object type stubs for AP types not yet in ES ----
-
-// Steward export machine (Step 9: escrow / export tgui, not yet ported)
-/obj/structure/roguemachine/steward_export
 
 // ---- SS13 economy compat stubs ----
 // secrets.dm, datacore.dm, and account.dm still reference vars/procs from the old

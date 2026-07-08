@@ -105,8 +105,32 @@
 		data["rumor_destinations"] = build_rumor_destinations()
 		data["rumor_log"] = SStreasury.rumor_log
 		data["rumor_lucrative_mult"] = RUMOR_LUCRATIVE_MULT
-	// steward (defense-commission) + towner tabs land in Chunk 6/7. resolve_dynamic_roles()
-	// only returns "innkeeper" for now, so those data branches are intentionally absent.
+	if("steward" in dynamic_roles)
+		data["is_alderman_acting"] = (SScity_assembly?.is_alderman(user) && user.job != "Steward") ? TRUE : FALSE
+		data["pledge_balance"] = SStreasury.burgher_pledge_fund ? SStreasury.burgher_pledge_fund.balance : 0
+		data["pledge_refill_base"] = BURGHER_PLEDGE_BASE_REFILL
+		data["pledge_refill_per_player"] = BURGHER_PLEDGE_PER_PLAYER
+		data["pledge_active_players"] = get_active_player_count()
+		data["pledge_available"] = SStreasury.burgher_pledge_fund ? TRUE : FALSE
+		// Guild Charter of Arms tribute contributes a flat bonus to the Pledge refill when active.
+		var/datum/decree/arms_charter = SStreasury.get_decree(DECREE_GUILD_CHARTER_OF_ARMS)
+		data["pledge_guild_bonus"] = (arms_charter?.active) ? GUILD_CHARTER_OF_ARMS_PLEDGE_BONUS : 0
+		var/datum/decree/golden = SStreasury.get_decree(DECREE_GOLDEN_BULL)
+		data["pledge_golden_active"] = (golden?.active) ? TRUE : FALSE
+		data["crown_purse_balance"] = SStreasury?.discretionary_fund?.balance || 0
+		data["defense_costs"] = GLOB.defense_quest_tier_costs.Copy()
+		data["defense_regions_by_type"] = build_defense_regions_by_type()
+		data["defense_destinations"] = build_rumor_destinations()
+		data["defense_log"] = SStreasury.defense_log
+		data["blockade_recall_list"] = build_blockade_recall_list()
+		data["blockade_recall_window_seconds"] = BLOCKADE_RECALL_WINDOW_DS / 10
+		data["bonus_pay_light_mult"] = COMMISSION_BONUS_PAY_LIGHT_MULT
+		data["bonus_pay_full_mult"] = COMMISSION_BONUS_PAY_MULT
+		refresh_directive_quota()
+		data["directives_per_day"] = COMMISSION_REQUESTS_PER_DAY
+		data["directives_issued_today"] = directives_issued_today
+	if("towner" in dynamic_roles)
+		data["towner_postings"] = build_towner_posting_listing(user)
 	return data
 
 // crown_authority_roles lives in _es_compat.dm (ES 3-role roster: Steward/Clerk/Grand Duke).
@@ -130,8 +154,9 @@
 	var/list/roles = list()
 	if(user?.job in GLOB.tavern_positions)
 		roles += "innkeeper"
-	// steward (defense) role -> Chunk 6, towner role -> Chunk 7. can_commission() stays
-	// defined above for Chunk 6 but is not consulted yet.
+	if(can_commission(user))
+		roles += "steward"
+	roles += "towner"
 	return roles
 
 /obj/structure/roguemachine/contractledger/proc/build_region_listing()
@@ -144,7 +169,10 @@
 	var/list/listing = list()
 	for(var/datum/quest/Q as anything in SSquestpool.pool)
 		var/expected_count = Q.progress_required
-		var/threat_bands = 0 // kill-quest threat bands surface in Chunk 5
+		var/threat_bands = 0
+		if(istype(Q, /datum/quest/kill))
+			var/datum/quest/kill/KQ = Q
+			threat_bands = KQ.threat_bands_cleared
 		listing += list(list(
 			"ref" = REF(Q),
 			"title" = Q.title || "Unnamed Contract",
@@ -236,4 +264,12 @@
 		if("compose_rumor")
 			compose_rumor_from_tgui(user, params)
 			return TRUE
-		// commission_defense + recall_blockade_writ -> Chunk 6, compose_towner -> Chunk 7
+		if("commission_defense")
+			commission_defense_from_tgui(user, params)
+			return TRUE
+		if("recall_blockade_writ")
+			recall_blockade_writ_from_tgui(user, params)
+			return TRUE
+		if("compose_towner")
+			compose_towner_from_tgui(user, params)
+			return TRUE

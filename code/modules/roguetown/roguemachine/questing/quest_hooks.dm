@@ -60,6 +60,8 @@ GLOBAL_LIST_INIT(tavern_positions, list("Innkeeper", "Tapster", "Cook"))
 /datum/controller/subsystem/treasury/var/rumor_points = RUMOR_POINTS_START
 /datum/controller/subsystem/treasury/var/list/rumor_log = list()
 /datum/controller/subsystem/treasury/var/list/rumor_issued_today = list()
+/// Chunk 6: running log of blockade-defense commissions/directives issued by the Steward.
+/datum/controller/subsystem/treasury/var/list/defense_log = list()
 
 /datum/controller/subsystem/treasury/proc/tick_rumor_points()
 	var/active = get_active_player_count()

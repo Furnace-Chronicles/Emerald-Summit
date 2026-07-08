@@ -1,17 +1,21 @@
 # Map-Placement Manifest — `economy-take-2` branch
 
-Every new economy + Quest 2 structure introduced by this branch's port (AP #7000 economy + #6849 items + Quest 2)
-that needs **manual map placement**. A discovery sweep of the whole economy/quest/politics code confirmed this list
-is complete — nothing else on the branch requires world placement.
+Every new economy + Quest 2 structure introduced by this branch's port (AP #7000 economy + #6849 items + Quest 2,
+**including Quest 2 Chunks 6 & 7**) that needs **manual map placement**. A code sweep of the whole economy/quest/politics
+tree confirms this list is complete — nothing else on the branch requires world placement.
+
+**As of 2026-07-08 the entire branch is code-complete and compiles clean, so EVERYTHING below is mappable now** —
+there are no more code-blocked items. (`steward_export` was previously on HOLD for Chunk 6; that chunk has landed, so it
+is now a real, self-registering machine — mappable.)
 
 **None of these have an `enforce_placement` gate — placement discipline is entirely on the mapper.**
-All are `anchored`; all except `steward_export` are `density=TRUE`. The deposit/recycler/commission machines spill
-their held items + coins onto **their own tile** on break/rejected-deposit, so **place on plain open floor, not a
-table**, and leave one adjacent walkable tile (all use adjacent-only UIs).
+All are `anchored`. All are `density=TRUE` **except `steward_export`** (an invisible floor tally-marker). The
+deposit/recycler/commission machines spill their held items + coins onto **their own tile** on break/rejected-deposit,
+so **place on plain open floor, not a table**, and leave one adjacent walkable tile (all use adjacent-only UIs).
 
 ---
 
-## Wave A — mappable NOW (code already live in ES from the #7000 port)
+## 1 — Economy machines (from the #7000 port)
 
 ### Church
 - [ ] `/obj/structure/roguemachine/vaultbank/church` ×1 — Church treasury. Bishop/Martyr = loans + Benefactor writs; Acolyte alerts. Anyone deposits. → sacristy / clergy treasury behind altar.
@@ -41,27 +45,25 @@ table**, and leave one adjacent walkable tile (all use adjacent-only UIs).
 ### Docks / harbor
 - [ ] `/obj/structure/roguemachine/ship_fulfillment` ×1 — dockside export crate; deposit goods to fulfill docked trade-ship demands (user needs a Meister bank account; Merchant/Shophand work the duty ledger). → waterfront cargo apron by the pier.
 
+### Crown warehouse / Stewardry  ← Chunk 6 (now live)
+- [ ] `/obj/structure/roguemachine/steward_export` ×1 — invisible tally marker (`density=FALSE`). The Steward's trade panel scans a 3×3 zone around it to fulfill warehouse/potion Crown equipment orders; without it those orders fail with *"No warehouse dock manifest is registered."* → mid-floor of the Crown warehouse beside the Stewardry; keep a clear 3×3 footprint on plain floor.
+
 ### Away/coast map only — SKIP unless ES has such a map
 - [ ] `/obj/structure/roguemachine/goldface/public/wretch_cat` — "Vile Vheslie" beast-den vendor. AP maps it ONLY on its coast/away map, never in town. Map ×1 into an ES wilderness/coast lair if one exists; otherwise **omit**.
 
 ---
 
-## ⚠️ Blocked — do NOT map until the code catches up
+## 2 — Quest 2 board + landmarks (Chunks 1–7, all live)
 
-### `steward_export` — HOLD until Quest 2 Chunk 6
-- [ ] `/obj/structure/roguemachine/steward_export` ×1 — ES currently has only a **stub**; a mapped copy is INERT (never registers; warehouse/potion Crown orders fail with *"No warehouse dock manifest is registered"*) until the real def is ported in **Chunk 6**. When live: invisible tally marker, Steward's trade panel scans a 3×3 zone around it. → mid-floor of Crown warehouse next to the Stewardry; keep a clear 3×3 footprint. **Wait for Chunk 6.**
-
-### Wave B — map only AFTER Quest 2 Chunk 3/4 compiles (types don't exist in ES yet)
-
-#### Tavern (Mercenary post) + optionally Steward's office
-- [ ] `/obj/structure/roguemachine/contractledger` ×1–2 — quest board. Anyone signs/turns in; Innkeeper seeds rumor jobs; crown authority commissions defense writs. All ledgers share one pool, so **1 in tavern is enough; add a 2nd in the steward's office** for local defense-writ commissioning.
+### Tavern (Mercenary post) + optionally Steward's office
+- [ ] `/obj/structure/roguemachine/contractledger` ×1–2 — quest board. Anyone signs/turns in; Innkeeper seeds rumor jobs; crown authority (Steward/Clerk/Grand Duke) commissions **blockade-defense** writs on its Steward tab; any poster with a Fellowship posts **towner** jobs on its Towner tab. All ledgers share one pool, so **1 in the tavern is enough; add a 2nd in the Steward's office** for local defense-writ commissioning. No separate "towner desk" exists — towner postings are composed on this ledger.
   - 🔴 **HARD CONSTRAINT:** the tile directly **SOUTH** (y−1) must be clear walkable open floor — it auto-stamps a `marker_export` decal there that quest turn-ins depend on. Do NOT put its south face against a wall or table.
 
-#### Wilderness (invisible landmarks — placed per region)
-- [ ] `/obj/effect/landmark/quest_spawner/generic` ×**~30–40** (≈4–6 per wilderness region) — anchors where kill/retrieval/courier targets spawn.
-- [ ] `/obj/effect/landmark/quest_spawner/defense` ×**one per region** (~5–6) — blockade-defense anchor; place at each region's road/chokepoint approach.
+### Wilderness (invisible landmarks — placed per region)
+- [ ] `/obj/effect/landmark/quest_spawner/generic` ×**~30–40** (≈4–6 per wilderness region) — anchors where targets spawn. Its `quest_type` list covers **everything**: kill / retrieval / courier / recovery **and** blockade-defense **and** both towner types (smith caravan, ore vein). Towner quests need no dedicated landmark — they use these.
+- [ ] `/obj/effect/landmark/quest_spawner/defense` ×**one per region** (~5–6) — blockade-defense–only anchor; place at each region's road / chokepoint approach so the blockade "wave" fires somewhere thematically sensible.
   - Both require: an area whose `threat_region` is set (ES wilderness areas already carry `THREAT_REGION_*` ✅), AND non-dense open floor of the **same area** within `view(7)` so mobs have somewhere to spawn (else they cram onto the marker's tile).
 
 ---
 
-_Generated 2026-07-07 from a code audit of every unmapped roguemachine/landmark on the branch._
+_Last updated 2026-07-08 (Quest 2 Chunks 6 & 7 landed; `steward_export` un-blocked). Generated from a code audit of every unmapped roguemachine/landmark on the branch._

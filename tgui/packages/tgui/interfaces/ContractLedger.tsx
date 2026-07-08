@@ -5,7 +5,8 @@ import type { BooleanLike } from 'tgui-core/react';
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import { InnkeeperRumorPanel } from './ContractLedgerInnkeeper';
-// StewardDefensePanel (Chunk 6) + TownerPostingPanel (Chunk 7) not yet ported.
+import { StewardDefensePanel } from './ContractLedgerSteward';
+import { TownerPostingPanel } from './ContractLedgerTowner';
 
 type Contract = {
   ref: string;
@@ -75,14 +76,18 @@ type LedgerMode = { kind: 'contracts' } | { kind: 'dynamic'; role: string };
 
 const DYNAMIC_TAB_LABELS: Record<string, string> = {
   innkeeper: 'Rumors',
-  // steward 'Commissions' -> Chunk 6, towner 'Postings' -> Chunk 7
+  steward: 'Commissions',
+  towner: 'Postings',
 };
 
 const renderDynamicPanel = (role: string) => {
   switch (role) {
     case 'innkeeper':
       return <InnkeeperRumorPanel />;
-    // steward -> Chunk 6, towner -> Chunk 7
+    case 'steward':
+      return <StewardDefensePanel />;
+    case 'towner':
+      return <TownerPostingPanel />;
     default:
       return null;
   }
