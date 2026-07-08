@@ -186,6 +186,16 @@
 			return
 		for(var/mob/living/A in SStreasury.bank_accounts)
 			if(A == X)
+				// Levying a Crown fine is a fiscal-authority action, same gate as toggling wages.
+				var/is_authorized = FALSE
+				if(usr.job == "Steward" || usr.job == "Clerk" || usr.job == "Grand Duke")
+					is_authorized = TRUE
+				if(SSticker.regentmob && usr == SSticker.regentmob)
+					is_authorized = TRUE
+				if(!is_authorized)
+					say("Only the Steward, Clerk, or Ruler may levy fines.")
+					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+					return
 				// Item 6 decrees: charter exemptions (Great Writ) and caps (Golden Bull,
 				// one-fine-per-day) bound the Crown's fines - surface the ceiling up front.
 				var/max_fine = SStreasury.get_max_fine_for(A)
@@ -243,8 +253,8 @@
 			return
 		for(var/mob/living/carbon/human/H in GLOB.human_list)
 			if(H.job == job_to_pay)
-				record_round_statistic(STATS_WAGES_PAID)
-				SStreasury.give_money_account(amount_to_pay, H, "NERVE MASTER")
+				if(SStreasury.give_money_account(amount_to_pay, H, "NERVE MASTER"))
+					record_round_statistic(STATS_WAGES_PAID, amount_to_pay)
 	if(href_list["setdailypay"])
 		var/list/L = list(GLOB.noble_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.yeoman_positions) + list(GLOB.peasant_positions) + list(GLOB.youngfolk_positions) + list(GLOB.inquisition_positions)
 		var/list/things = list()

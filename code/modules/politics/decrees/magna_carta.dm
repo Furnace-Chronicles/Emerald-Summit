@@ -34,4 +34,4 @@ Yeven under the seal of %RULER_NAME%, %RULER% of this yeer, who shall be remembe
 	var/body = get_display_flavor_text()
 	if(!body)
 		return ..()
-	priority_announce(body, "BY LORDLY MERCY", pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain")
+	priority_announce(body, "BY LORDLY MERCY", pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain", strip_html = FALSE)

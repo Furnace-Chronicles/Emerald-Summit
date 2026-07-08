@@ -159,6 +159,9 @@ SUBSYSTEM_DEF(treasury)
 					return FALSE
 				bank_accounts[X] += amt  // Add funds into the player's account
 			else
+				if(SSgamemode?.roundvoteend)
+					send_ooc_note("<b>MEISTER:</b> Error: The round is ending. No further fines may be levied.", name = target_name)
+					return FALSE
 				// Item 6 decrees: charter exemptions (Great Writ) and caps (Golden Bull,
 				// one-fine-per-day) bound the Crown's fines. ES deviation: integer ledger,
 				// so the cap math runs on bank_accounts rather than a fund balance.
@@ -359,7 +362,7 @@ SUBSYSTEM_DEF(treasury)
 					continue
 				if(give_money_account(payment_amount, H, "Daily Wage"))
 					total_paid += payment_amount
-					record_round_statistic(STATS_WAGES_PAID)
+					record_round_statistic(STATS_WAGES_PAID, payment_amount)
 
 	if(total_paid > 0)
 		log_to_steward("Daily wages distributed: [total_paid]m total")

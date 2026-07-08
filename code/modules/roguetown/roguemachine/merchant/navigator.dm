@@ -63,6 +63,8 @@
 	if(anchored)
 		START_PROCESSING(SSroguemachine, src)
 	update_icon()
+	if(SSmerchant_trade)
+		SSmerchant_trade.register_market_watcher(src)
 	for(var/X in GLOB.alldirs)
 		var/T = get_step(src, X)
 		if(!T)
@@ -71,6 +73,8 @@
 
 /obj/item/roguemachine/navigator/Destroy()
 	STOP_PROCESSING(SSroguemachine, src)
+	if(SSmerchant_trade)
+		SSmerchant_trade.unregister_market_watcher(src)
 	set_light(0)
 	return ..()
 

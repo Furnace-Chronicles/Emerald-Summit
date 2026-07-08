@@ -76,6 +76,10 @@
 		if(owner in suspended_wage_mobs)
 			continue
 		suspended_wage_mobs[owner] = TRUE
+		// ES: the payroll gate reads HAS_TRAIT(TRAIT_WAGES_SUSPENDED) (treasury.dm / _treasury_bridge.dm),
+		// so the flag must actually be applied, not just recorded. A distinct "sequestration" trait
+		// source keeps a steward's manual suspension intact when the realm later recovers.
+		ADD_TRAIT(owner, TRAIT_WAGES_SUSPENDED, "sequestration")
 		to_chat(owner, span_danger("My wages have been suspended after the Crown's sequestration. They will resume when the realm recovers."))
 
 /datum/controller/subsystem/treasury/proc/resume_wages_after_bankruptcy()
@@ -84,6 +88,7 @@
 		if(!owner)
 			continue
 		suspended_wage_mobs -= owner
+		REMOVE_TRAIT(owner, TRAIT_WAGES_SUSPENDED, "sequestration")
 		if(payments && payments[owner.job] > 0)
 			to_chat(owner, span_notice("My wages have been reinstated as the Crown's sequestration lifts."))
 

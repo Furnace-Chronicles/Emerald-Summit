@@ -55,9 +55,15 @@ ES deviations from AP:
 	. = ..()
 	SSroguemachine.noticeboards += src
 	update_icon()
+	// Register for live market-state pushes so the open TGUI refreshes on saturation / ship-demand
+	// / weekly-resnapshot changes (broadcast_market_change walks market_watchers).
+	if(SSmerchant_trade)
+		SSmerchant_trade.register_market_watcher(src)
 
 /obj/structure/roguemachine/noticeboard/Destroy()
 	SSroguemachine.noticeboards -= src
+	if(SSmerchant_trade)
+		SSmerchant_trade.unregister_market_watcher(src)
 	return ..()
 
 /obj/structure/roguemachine/noticeboard/examine(mob/living/carbon/human/user)

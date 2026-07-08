@@ -157,6 +157,9 @@
 /datum/controller/subsystem/treasury/proc/transfer(datum/fund/from_fund, datum/fund/to_fund, amount, reason)
 	if(!from_fund || !to_fund || amount <= 0)
 		return FALSE
+	if(from_fund.currency != to_fund.currency)
+		stack_trace("treasury transfer between funds of differing currency: [from_fund.currency] -> [to_fund.currency]")
+		return FALSE
 	if(from_fund.balance < amount)
 		return FALSE
 	from_fund.balance -= amount

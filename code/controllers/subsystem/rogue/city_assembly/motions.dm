@@ -214,8 +214,9 @@
 
 /datum/controller/subsystem/city_assembly/proc/levy_poll_tax(amount)
 	// ES: AP assesses this against SStreasury.get_account(H) /datum/fund balances. Emerald
-	// Summit keeps per-mob balances as plain numbers in SStreasury.bank_accounts keyed by
-	// real_name, so the levy debits those directly and mints the pledge bonus via fund_api.
+	// Summit keeps per-mob balances as plain numbers in SStreasury.bank_accounts keyed by the
+	// mob object (as every other ES site does), so the levy debits those directly and mints
+	// the pledge bonus via fund_api.
 	var/total_collected = 0
 	var/payers = 0
 	for(var/mob/living/carbon/human/H in GLOB.human_list)
@@ -223,11 +224,11 @@
 			continue
 		if(HAS_TRAIT(H, TRAIT_OUTLAW))
 			continue
-		if(!H.real_name || !(H.real_name in SStreasury.bank_accounts))
+		if(!(H in SStreasury.bank_accounts))
 			continue
-		if(SStreasury.bank_accounts[H.real_name] < amount)
+		if(SStreasury.bank_accounts[H] < amount)
 			continue
-		SStreasury.bank_accounts[H.real_name] -= amount
+		SStreasury.bank_accounts[H] -= amount
 		total_collected += amount
 		payers++
 	if(total_collected <= 0)
