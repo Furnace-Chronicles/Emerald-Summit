@@ -1,69 +1,81 @@
-# Map-Placement Manifest — `economy-take-2` branch
+# Map-Placement Guide — `economy-take-2` branch
 
-Every new economy + Quest 2 structure introduced by this branch's port (AP #7000 economy + #6849 items + Quest 2,
-**including Quest 2 Chunks 6 & 7**) that needs **manual map placement**. A code sweep of the whole economy/quest/politics
-tree confirms this list is complete — nothing else on the branch requires world placement.
+Complete list of every structure/landmark the branch's port (AP #7000 economy + #6849 items + Quest 2, all Chunks 1–7)
+introduces that needs **manual `.dmm` placement**. The whole branch compiles clean; **everything below is mappable now**
+(no code-blocked items remain).
 
-**As of 2026-07-08 the entire branch is code-complete and compiles clean, so EVERYTHING below is mappable now** —
-there are no more code-blocked items. (`steward_export` was previously on HOLD for Chunk 6; that chunk has landed, so it
-is now a real, self-registering machine — mappable.)
+**Current map state (checked 2026-07-08):** the maps are essentially bare of these — only the navigator is placed
+(base + blackmarket, on `dun_world`; `roguetest` has none). Assume you are placing everything else from scratch on your
+target map.
 
-**None of these have an `enforce_placement` gate — placement discipline is entirely on the mapper.**
-All are `anchored`. All are `density=TRUE` **except `steward_export`** (an invisible floor tally-marker). The
-deposit/recycler/commission machines spill their held items + coins onto **their own tile** on break/rejected-deposit,
-so **place on plain open floor, not a table**, and leave one adjacent walkable tile (all use adjacent-only UIs).
-
----
-
-## 1 — Economy machines (from the #7000 port)
-
-### Church
-- [ ] `/obj/structure/roguemachine/vaultbank/church` ×1 — Church treasury. Bishop/Martyr = loans + Benefactor writs; Acolyte alerts. Anyone deposits. → sacristy / clergy treasury behind altar.
-
-### Tavern
-- [ ] `/obj/structure/roguemachine/vaultbank/innkeeper` ×1 — "TAVERN JAWBANK." Deposit/withdraw only (no loans). Innkeeper withdraws; Tapster/Cook view. → behind bar / back room.
-
-### Merchant's shop / market quarter
-- [ ] `/obj/structure/roguemachine/vaultbank/merchant` ×1 — Emerald Trading Company treasury. Merchant = loans/indentures + Charter writs; Shophand alerts. → counting house / stall near harbor goldface.
-
-### Bathhouse
-- [ ] `/obj/structure/roguemachine/vaultbank/bathhouse` ×1 — Bathhouse treasury. Nightmaster = loans + Token writs; Nightswain alerts. → reception near attendant's desk.
-
-### Smithy / Crafter's Guild (craft quarter)
-- [ ] `/obj/structure/roguemachine/goldface/public/smith` ×1 — public arms/armor vendor (+50% margin so resident smith undercuts). Open to all buyers. → smithy storefront.
-- [ ] `/obj/structure/roguemachine/escrow` ×1 — "COMMISSIONER" board. Anyone posts smithing orders + coin; **Crafter's Guild key** holders claim/fulfill. → guild entry / smithy counter, reachable from market.
-- [ ] `/obj/structure/roguemachine/scrapper/smith` ×1 — buys scrap metal from anyone; **Crafter's Guild key** funds/configures. → forge entrance, public-facing.
-- [ ] `/obj/structure/roguemachine/scrapper/tailor` ×1 — "rag-picker," buys textiles/hides. ⚠️ **Key quirk:** funding/config key is `crafterguild/craftermaster`, NOT the tailor key (unlike escrow/tailor). Likely upstream oversight — place at tailor anyway, or beside the guild to match the actual key gate. Your call.
-
-### Tailor's shop
-- [ ] `/obj/structure/roguemachine/goldface/public/tailor` ×1 — public clothing/light-armor vendor. Open to all. → tailor storefront.
-- [ ] `/obj/structure/roguemachine/escrow/tailor` ×1 — "TAILORING COMMISSIONER." Anyone posts garment orders; **tailor key OR guild key** claims. → tailor's front counter.
-
-### Apothecary / infirmary
-- [ ] `/obj/structure/roguemachine/goldface/public/apothecary` ×1 — public potions vendor. Open to all. → apothecary/herbalist shop or physician's office.
-
-### Docks / harbor
-- [ ] `/obj/structure/roguemachine/ship_fulfillment` ×1 — dockside export crate; deposit goods to fulfill docked trade-ship demands (user needs a Meister bank account; Merchant/Shophand work the duty ledger). → waterfront cargo apron by the pier.
-
-### Crown warehouse / Stewardry  ← Chunk 6 (now live)
-- [ ] `/obj/structure/roguemachine/steward_export` ×1 — invisible tally marker (`density=FALSE`). The Steward's trade panel scans a 3×3 zone around it to fulfill warehouse/potion Crown equipment orders; without it those orders fail with *"No warehouse dock manifest is registered."* → mid-floor of the Crown warehouse beside the Stewardry; keep a clear 3×3 footprint on plain floor.
-
-### Away/coast map only — SKIP unless ES has such a map
-- [ ] `/obj/structure/roguemachine/goldface/public/wretch_cat` — "Vile Vheslie" beast-den vendor. AP maps it ONLY on its coast/away map, never in town. Map ×1 into an ES wilderness/coast lair if one exists; otherwise **omit**.
+## Global placement rules
+- **No `enforce_placement` gate** — discipline is entirely on the mapper.
+- All are `anchored`. All are `density=TRUE` **except** `steward_export` (invisible floor marker) and the zadcotes/navigator (`/obj/item` machines).
+- Deposit/recycler/commission machines **spill held items + coins onto their own tile** on break or rejected deposit → place on **plain open floor, not a table**, and leave one adjacent walkable tile (all use adjacent-only UIs).
 
 ---
 
-## 2 — Quest 2 board + landmarks (Chunks 1–7, all live)
+## TIER 1 — Essential (the feature is dead without it)
 
-### Tavern (Mercenary post) + optionally Steward's office
-- [ ] `/obj/structure/roguemachine/contractledger` ×1–2 — quest board. Anyone signs/turns in; Innkeeper seeds rumor jobs; crown authority (Steward/Clerk/Grand Duke) commissions **blockade-defense** writs on its Steward tab; any poster with a Fellowship posts **towner** jobs on its Towner tab. All ledgers share one pool, so **1 in the tavern is enough; add a 2nd in the Steward's office** for local defense-writ commissioning. No separate "towner desk" exists — towner postings are composed on this ledger.
-  - 🔴 **HARD CONSTRAINT:** the tile directly **SOUTH** (y−1) must be clear walkable open floor — it auto-stamps a `marker_export` decal there that quest turn-ins depend on. Do NOT put its south face against a wall or table.
+### Banking — one vaultbank per institution
+- [ ] `/obj/structure/roguemachine/vaultbank/church` ×1 → sacristy / clergy treasury behind altar. Bishop/Martyr = loans + Benefactor writs; Acolyte alerts; anyone deposits.
+- [ ] `/obj/structure/roguemachine/vaultbank/innkeeper` ×1 → behind the bar / back room. "TAVERN JAWBANK," deposit/withdraw only.
+- [ ] `/obj/structure/roguemachine/vaultbank/merchant` ×1 → counting house near the harbor. Emerald Trading Company; Merchant = loans/indentures + Charter writs.
+- [ ] `/obj/structure/roguemachine/vaultbank/bathhouse` ×1 → reception near the attendant's desk. Nightmaster = loans + Token writs.
 
-### Wilderness (invisible landmarks — placed per region)
-- [ ] `/obj/effect/landmark/quest_spawner/generic` ×**~30–40** (≈4–6 per wilderness region) — anchors where targets spawn. Its `quest_type` list covers **everything**: kill / retrieval / courier / recovery **and** blockade-defense **and** both towner types (smith caravan, ore vein). Towner quests need no dedicated landmark — they use these.
-- [ ] `/obj/effect/landmark/quest_spawner/defense` ×**one per region** (~5–6) — blockade-defense–only anchor; place at each region's road / chokepoint approach so the blockade "wave" fires somewhere thematically sensible.
-  - Both require: an area whose `threat_region` is set (ES wilderness areas already carry `THREAT_REGION_*` ✅), AND non-dense open floor of the **same area** within `view(7)` so mobs have somewhere to spawn (else they cram onto the marker's tile).
+### Foreign trade — the harbor
+- [ ] `/obj/structure/roguemachine/goldface` (base) ×1 → the docks. **This is the Harbor trade vendor** — hail ships, buy foreign-realm cultural stock (all of the 11-realm content routes through here). Without it that content is unreachable.
+- [ ] `/obj/structure/roguemachine/ship_fulfillment` ×1 → waterfront cargo apron by the pier. Deposit goods to fulfill docked-ship demands (needs a Meister account; Merchant/Shophand work the duty ledger).
+
+### Crown warehouse — Chunk 6
+- [ ] `/obj/structure/roguemachine/steward_export` ×1 (`density=FALSE`, invisible) → mid-floor of the Crown warehouse beside the Stewardry; keep a clear 3×3 footprint on plain floor. The Steward's trade panel scans that 3×3 to fulfill warehouse/potion equipment orders; without it they fail with *"No warehouse dock manifest is registered."*
+
+### Boards & services
+- [ ] `/obj/structure/roguemachine/noticeboard` ×1 → town square / tavern wall. Scout regions, charters, market state, economic events, mercenary roster, and the door into the City Assembly.
+- [ ] `/obj/structure/roguemachine/talkstatue/mercenary` ×1 → tavern or market square. The adventurer-for-hire post — **merc hiring silently no-ops if this is absent.** ⚠️ **DMI:** needs a `mercstatue` icon_state (you add the sprite; blank until then, not a crash).
+
+### Quest 2 board — Chunks 1–7
+- [ ] `/obj/structure/roguemachine/contractledger` ×1–2 → tavern (mercenary post); **add a 2nd in the Steward's office** for local blockade-defense commissioning. All ledgers share one pool. Innkeeper seeds rumor jobs (Rumors tab); crown authority commissions defense writs (Steward tab); any Fellowship poster posts towner jobs (Towner tab).
+  - 🔴 **HARD CONSTRAINT:** the tile directly **SOUTH** (y−1) must be clear walkable open floor — it auto-stamps a `marker_export` decal there that turn-ins depend on. Don't put its south face against a wall/table.
+
+### Quest 2 landmarks — wilderness (invisible)
+- [ ] `/obj/effect/landmark/quest_spawner/generic` ×**~30–40** (≈4–6 per wilderness region) — where targets spawn. Its `quest_type` list covers **kill / retrieval / courier / recovery + blockade-defense + both towner types**, so towner quests need no dedicated landmark.
+- [ ] `/obj/effect/landmark/quest_spawner/defense` ×**one per region** (~5–6) — blockade-defense–only anchor; place at each region's road/chokepoint approach.
+  - Both need: an area whose `threat_region` is set (ES wilderness areas already carry `THREAT_REGION_*` ✅) **and** non-dense open floor of the **same area** within `view(7)` (else mobs cram onto the marker tile).
 
 ---
 
-_Last updated 2026-07-08 (Quest 2 Chunks 6 & 7 landed; `steward_export` un-blocked). Generated from a code audit of every unmapped roguemachine/landmark on the branch._
+## TIER 2 — Recommended (feature works but is degraded/absent without it)
+
+### Resident vendors (undercut the harbor with local margins)
+- [ ] `/obj/structure/roguemachine/goldface/public/smith` ×1 → smithy storefront. Public arms/armor vendor.
+- [ ] `/obj/structure/roguemachine/goldface/public/tailor` ×1 → tailor storefront. Public clothing/light-armor.
+- [ ] `/obj/structure/roguemachine/goldface/public/apothecary` ×1 → apothecary / physician's office. Public potions.
+
+### Commissioner boards + scrap buyers (craft economy)
+- [ ] `/obj/structure/roguemachine/escrow` ×1 → guild entry / smithy counter. "COMMISSIONER" — post smithing orders + coin; **Crafter's Guild key** fulfills.
+- [ ] `/obj/structure/roguemachine/escrow/tailor` ×1 → tailor's front counter. Garment orders; **tailor key OR guild key**.
+- [ ] `/obj/structure/roguemachine/scrapper/smith` ×1 → forge entrance, public-facing. Buys scrap metal; **Crafter's Guild key** funds.
+- [ ] `/obj/structure/roguemachine/scrapper/tailor` ×1 → tailor. Buys textiles/hides. ⚠️ **Key quirk:** its funding key is `crafterguild/craftermaster`, NOT the tailor key (likely upstream oversight) — place at the tailor anyway or beside the guild to match the gate. Your call.
+
+### Crow post — Step 12 (set `zadcage_dir` on each)
+- [ ] `/obj/item/roguemachine/zadcote/steward` ×1 → Stewardry / crown message room.
+- [ ] `/obj/item/roguemachine/zadcote/merchant` ×1 → merchant counting house.
+- [ ] `/obj/item/roguemachine/zadcote/bathhouse` ×1 → bathhouse.
+  - Set `zadcage_dir` on each so its starter zadcage auto-spawns on the adjacent tile in that direction — **leave that adjacent tile clear.**
+
+---
+
+## TIER 3 — Optional / situational
+- [ ] `/obj/structure/roguemachine/talkstatue/church` ×1 → church, if you want the clergy statue variant.
+- [ ] `/obj/item/roguemachine/navigator` and `/blackmarket` — already placed on `dun_world` (base + blackmarket); place on `roguetest` too if you test there.
+- [ ] `/obj/structure/roguemachine/goldface/public/wretch_cat` — "Vile Vheslie" beast-den vendor. AP maps it ONLY on a coast/away map. Place into an ES wilderness/coast lair if one exists; otherwise **omit**.
+
+---
+
+## Known DMI / sprite flags (you handle DMIs)
+- `talkstatue/mercenary` → `mercstatue` icon_state (add the sprite).
+- Blockade writ → `scroll_quest_info` / `scroll_quest_closed` states in `questing.dmi` (came over with the wholesale AP copy — treat as present).
+- Zadcote scryed-on alert → `scryingeye` state in `screen_alert.dmi` (merged previously).
+
+_Last updated 2026-07-08 — full end-of-port scope (Quest 2 Chunks 6-7 landed; steward_export un-blocked; added the previously-omitted noticeboard / mercenary statue / harbor goldface / zadcotes). Built from a code enumeration of every placeable ported type cross-checked against current map placements._
