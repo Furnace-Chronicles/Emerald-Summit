@@ -19,11 +19,11 @@
 	/// Multiplier on the threat-scaled bonus paid to retrieval/courier quests. Independent of
 	/// tp_budget_multiplier so reward and combat scaling tune separately.
 	var/delivery_reward_multiplier = 1.0
-	/// Faction-id -> weight, for blockade/kill faction selection. Populated per-region when the
-	/// weight tables land (Chunk 5/6); empty now so blockade/kill faction picks stay inert.
+	/// Faction-id -> weight, for kill/blockade faction selection. Populated per-region in
+	/// regional_threat.dm; a kill quest's preview() picks a faction from this table.
 	var/list/faction_weights = list()
 
-/datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick, _allowed_quest_types, _tp_budget_multiplier = 1.0, _kill_target_floor = 2, _evergreen_target = 0, _delivery_reward_multiplier = 1.0)
+/datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick, _allowed_quest_types, _tp_budget_multiplier = 1.0, _kill_target_floor = 2, _evergreen_target = 0, _delivery_reward_multiplier = 1.0, _faction_weights)
 	region_name = _region_name
 	latent_ambush = _latent_ambush
 	min_ambush = _min_ambush
@@ -35,6 +35,8 @@
 	delivery_reward_multiplier = _delivery_reward_multiplier
 	kill_target_floor = _kill_target_floor
 	evergreen_target = _evergreen_target
+	if(_faction_weights)
+		faction_weights = _faction_weights
 	if(_allowed_quest_types)
 		allowed_quest_types = _allowed_quest_types
 	else

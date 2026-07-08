@@ -37,6 +37,11 @@ SUBSYSTEM_DEF(regionthreat)
 			_kill_target_floor = 4,
 			_evergreen_target = 3,
 			_delivery_reward_multiplier = 1.0,
+			_faction_weights = list(
+				QUEST_FACTION_FOREST_GOBLIN = 60,
+				QUEST_FACTION_SEA_GOBLIN = 40,
+				QUEST_FACTION_HIGHWAYMAN = 5,
+			),
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_SCARLET_GROVE,
@@ -51,6 +56,12 @@ SUBSYSTEM_DEF(regionthreat)
 			_kill_target_floor = 5,
 			_evergreen_target = 3,
 			_delivery_reward_multiplier = 1.5,
+			_faction_weights = list(
+				QUEST_FACTION_FOREST_GOBLIN = 40,
+				QUEST_FACTION_HIGHWAYMAN = 30,
+				QUEST_FACTION_STRAY_DEADITE = 20,
+				QUEST_FACTION_WILD_BEAST = 10,
+			),
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_TERRORBOG,
@@ -67,6 +78,19 @@ SUBSYSTEM_DEF(regionthreat)
 			_kill_target_floor = 4,
 			_evergreen_target = 3,
 			_delivery_reward_multiplier = 2.0,
+			// Terrorbog union: AP's native bog pool + the absorbed Underdark pool (drow/moon
+			// goblin/lich/minotaur). MIRESPIDER appears in both AP tables, so its weight is summed.
+			_faction_weights = list(
+				QUEST_FACTION_MIRESPIDER = 50,
+				QUEST_FACTION_BOGMAN = 40,
+				QUEST_FACTION_DROW = 30,
+				QUEST_FACTION_MOON_GOBLIN = 25,
+				QUEST_FACTION_BOG_DEADITE = 20,
+				QUEST_FACTION_BOG_TROLL = 10,
+				QUEST_FACTION_LICH_DEADITE = 10,
+				QUEST_FACTION_MINOTAUR = 10,
+				QUEST_FACTION_FOREST_GOBLIN = 5,
+			),
 		),
 		// All regions after are meant to stay somewhat dangerous no matter what
 		new /datum/threat_region(
@@ -81,6 +105,13 @@ SUBSYSTEM_DEF(regionthreat)
 			_tp_budget_multiplier = 1.2,
 			_kill_target_floor = 3,
 			_delivery_reward_multiplier = 1.8,
+			_faction_weights = list(
+				QUEST_FACTION_ORC = 30,
+				QUEST_FACTION_SEA_GOBLIN = 25,
+				QUEST_FACTION_GRONNMAN = 20,
+				QUEST_FACTION_BLEAKISLE_REAVER = 15,
+				QUEST_FACTION_HIGHWAYMAN = 10,
+			),
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_MOUNT_DECAP,
@@ -94,6 +125,15 @@ SUBSYSTEM_DEF(regionthreat)
 			_tp_budget_multiplier = 1.5,
 			_kill_target_floor = 3,
 			_delivery_reward_multiplier = 2.0,
+			_faction_weights = list(
+				QUEST_FACTION_HELL_GOBLIN = 25,
+				QUEST_FACTION_TARICHEA_DEADITE = 20,
+				QUEST_FACTION_MOUNT_REAVER = 20,
+				QUEST_FACTION_MOUNTAIN_TROLL = 15,
+				QUEST_FACTION_MINOTAUR = 10,
+				QUEST_FACTION_GREAT_BEAST = 5,
+				QUEST_FACTION_MADMAN = 5,
+			),
 		)
 	)
 

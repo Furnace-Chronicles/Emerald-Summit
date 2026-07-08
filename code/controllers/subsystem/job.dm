@@ -26,6 +26,7 @@ SUBSYSTEM_DEF(job)
 	if(CONFIG_GET(flag/load_jobs_from_txt))
 		LoadJobs()
 	set_overflow_role(CONFIG_GET(string/overflow_job))
+	build_townie_contract_gate_exempt_cache() // AP Quest 2: cache townie-gate-exempt role names
 	return ..()
 
 /datum/controller/subsystem/job/proc/set_overflow_role(new_overflow_role)

@@ -31,6 +31,22 @@
 #define FACTION_CAT_BEAST "beast"
 #define FACTION_CAT_ELEMENTAL "elemental"
 
+// Mob AI faction tags OR'd onto quest-spawned warbands (faction.faction_tag) so a quest's own
+// mobs don't turn on each other. Ported from AP #6849/#7000.
+#define FACTION_BANDITS "bandits"
+#define FACTION_BEARS "bears"
+#define FACTION_CAVES "caves"
+#define FACTION_DROW "drow"
+#define FACTION_GRONNMEN "gronnmen"
+#define FACTION_INFERNAL "infernal"
+#define FACTION_LICH "lich"
+#define FACTION_MADMEN "madmen"
+#define FACTION_ORCS "orcs"
+#define FACTION_SKELETON "skeleton"
+#define FACTION_SPIDERS "spiders"
+#define FACTION_TROLLS "trolls"
+#define FACTION_WOLFS "wolfs"
+
 #define CRIME_TIER_PETTY 0
 #define CRIME_TIER_COMMON 1
 #define CRIME_TIER_OATH 2

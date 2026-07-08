@@ -119,6 +119,40 @@
 
 // ==================== SPECIALIZED COMPONENT SUBTYPES ====================
 
+/// Component for kill quests - tallies a guardian's death toward quest progress.
+/datum/component/quest_object/kill
+	var/counted = FALSE
+
+/datum/component/quest_object/kill/Initialize(datum/quest/target_quest)
+	. = ..()
+	if(. == COMPONENT_INCOMPATIBLE)
+		return
+	RegisterSignal(parent, COMSIG_PARENT_QDELETING, PROC_REF(on_parent_qdel))
+
+/datum/component/quest_object/kill/on_target_death(mob/living/dead_mob, gibbed)
+	dead_mob?.remove_filter("quest_item_outline")
+	count_kill()
+
+/datum/component/quest_object/kill/proc/on_parent_qdel(datum/source)
+	SIGNAL_HANDLER
+	count_kill()
+
+/// Guard against double-counting when a mob both dies and is later qdeleted.
+/datum/component/quest_object/kill/proc/count_kill()
+	if(counted)
+		return
+	counted = TRUE
+	var/datum/quest/Q = quest_ref?.resolve()
+	if(!Q || Q.complete)
+		return
+	var/datum/quest/kill/KQ = Q
+	if(istype(KQ))
+		KQ.on_guardian_killed()
+		if(!KQ.kills_count_progress)
+			return
+	Q.progress_current++
+	Q.on_progress_update()
+
 /// Component for retrieval quests - handles item collection
 /datum/component/quest_object/retrieval
 
@@ -178,4 +212,22 @@
 		Q.progress_current++
 		Q.on_progress_update()
 		return
+
+/// Attached to the quest_spawn effect holding a dormant kill mob; tears the effect down when
+/// the quest is deleted so no orphaned spawn effects linger.
+/datum/component/quest_object/mob_spawner
+	override_compatibility = TRUE
+	no_outline = TRUE
+
+/datum/component/quest_object/mob_spawner/Initialize(datum/quest/target_quest)
+	. = ..()
+	if(. == COMPONENT_INCOMPATIBLE)
+		return
+
+/datum/component/quest_object/mob_spawner/on_quest_deleted(datum/source)
+	if(QDELETED(parent))
+		return
+
+	qdel(parent)
+	qdel(src)
 

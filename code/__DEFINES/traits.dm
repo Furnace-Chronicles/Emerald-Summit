@@ -178,6 +178,7 @@
 #define TRAIT_IWASREVIVED "iwasrevived" //prevents PQ gain from reviving the same person twice
 #define TRAIT_IWASUNZOMBIFIED "iwasunzombified" //prevents PQ gain from curing a zombie twice
 #define TRAIT_IWASHAUNTED "iwashaunted" //prevents spawning a haunt from a decapitated body twice
+#define TRAIT_FRESHSPAWN "freshspawn" //marker on freshly-spawned ambush/quest mobs (ported from AP #6849/#7000); set for 60s after spawn, never read - inert marker matching AP
 #define TRAIT_SCHIZO_AMBIENCE "Schizo Ambience" //replaces all ambience with creepy shit
 #define TRAIT_SCREENSHAKE "Tremors" //screen will always be shaking, you cannot stop it
 #define TRAIT_NORUN "Decayed Flesh"
