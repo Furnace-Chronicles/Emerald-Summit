@@ -40,7 +40,7 @@
 	icon_state = null
 	max_integrity = 400
 	armor = ARMOR_GNOLL_WEAK
-	prevent_crits = list(BCLASS_CUT, BCLASS_CHOP, BCLASS_BLUNT) // leather-tier, matches the shaman hide
+	prevent_crits = list(BCLASS_CUT, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST) // leather-tier, matches the shaman hide
 
 /datum/outfit/job/roguetown/gnoll_impure/proc/don_pelt(mob/living/carbon/human/H)
 	if(H.mind)
