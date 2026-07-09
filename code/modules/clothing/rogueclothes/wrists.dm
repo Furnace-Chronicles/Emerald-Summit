@@ -224,21 +224,24 @@
 	GLOB.lordcolor -= src
 	return ..()
 
-/obj/item/clothing/wrists/roguetown/splintarms
+/obj/item/clothing/wrists/roguetown/bracers/brigandine
 	name = "brigandine rerebraces"
 	desc = "Brigandine bracers, pauldrons and a set of metal couters, designed to protect the arms while still providing almost complete free range of movement."
 	body_parts_covered = ARMS
 	icon_state = "splintarms"
 	item_state = "splintarms"
-	armor = ARMOR_LEATHER_STUDDED
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
+	armor = ARMOR_BRIGANDINE
 	blocksound = SOFTHIT
-	max_integrity = 285
-	anvilrepair = /datum/skill/craft/blacksmithing
-	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_SIDE_STEEL
+	anvilrepair = /datum/skill/craft/armorsmithing
+	smeltresult = /obj/item/ingot/steel
 	w_class = WEIGHT_CLASS_NORMAL
 	resistance_flags = FIRE_PROOF
 	sewrepair = FALSE
+
+/obj/item/clothing/wrists/roguetown/bracers/brigandine/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
 /obj/item/clothing/wrists/roguetown/bracers/carapace
 	name = "carapace bracers"

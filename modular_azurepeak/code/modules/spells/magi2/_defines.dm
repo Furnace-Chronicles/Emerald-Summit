@@ -211,7 +211,6 @@
 // Dragonhide trades a bit of physical protection for meaningful fire resistance.
 // Brigandine is a tough mid-tier alternative — better than leather, worse than plate.
 #define ARMOR_DRAGONHIDE list("blunt" = 50, "slash" = 50, "stab" = 40, "piercing" = 20, "fire" = 70, "acid" = 0)
-#define ARMOR_BRIGANDINE list("blunt" = 70, "slash" = 80, "stab" = 60, "piercing" = 50, "fire" = 0, "acid" = 0)
 #define ARMOR_BATHYHIDE list("blunt" = 70, "slash" = 80, "stab" = 60, "piercing" = 70, "fire" = 0, "acid" = 0)
 
 // ---- Lightning adaptation (Fulgurmancy Bolt of Lightning) ----

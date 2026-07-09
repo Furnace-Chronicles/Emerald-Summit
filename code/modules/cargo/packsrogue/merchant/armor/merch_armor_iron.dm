@@ -34,7 +34,7 @@
 /datum/supply_pack/rogue/armor_iron/rearbraces
 	name = "Rererbraces, Brigandine"
 	cost = 30
-	contains = list(/obj/item/clothing/wrists/roguetown/splintarms)
+	contains = list(/obj/item/clothing/wrists/roguetown/bracers/brigandine)
 
 /datum/supply_pack/rogue/armor_iron/chaingloves_iron
 	name = "Gauntlets, Chain"

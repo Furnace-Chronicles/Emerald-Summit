@@ -369,7 +369,7 @@
 			neck = /obj/item/clothing/neck/roguetown/bevor
 			armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/raneshen
-			wrists = /obj/item/clothing/wrists/roguetown/splintarms
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
 			gloves = /obj/item/clothing/gloves/roguetown/chain
 			pants = /obj/item/clothing/under/roguetown/splintlegs
 			backr = /obj/item/storage/backpack/rogue/satchel/black
