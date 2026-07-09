@@ -2016,3 +2016,13 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x64/ogre_onmob.dmi'
 	icon_state = "cookapron"
 	allowed_race = OGRE_RACE_TYPES
+
+/obj/item/clothing/cloak/tabard/stabard/grenzelmage
+	name = "grenzelhoftian magos mantle"
+	desc = "A fashionable Mantle often worn by Celestial Academy Magos."
+	color = CLOTHING_WHITE
+	detail_color = CLOTHING_WHITE
+	detail_tag = "_spl"
+	icon_state = "guard_hood" // The same as the guard hood however to break it from using the lords colors it has been given its own item path
+	item_state = "guard_hood"
+	body_parts_covered = CHEST
