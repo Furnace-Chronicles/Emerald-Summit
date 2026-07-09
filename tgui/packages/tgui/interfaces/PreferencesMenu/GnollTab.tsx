@@ -25,6 +25,18 @@ type GnollData = {
   expression_label: string;
   gnoll_flavortext_len: number;
   gnoll_ooc_notes_len: number;
+  agevetted: 0 | 1;
+  gnoll_nsfwflavortext_len: number;
+  gnoll_erpprefs_len: number;
+  gnoll_song_title: string;
+  gnoll_song_artist: string;
+  gnoll_song_url_set: 0 | 1;
+  gnoll_headshot_set: 0 | 1;
+  gnoll_nsfw_headshot_set: 0 | 1;
+  gnoll_ooc_extra_set: 0 | 1;
+  gnoll_nsfw_ooc_extra_set: 0 | 1;
+  gnoll_img_gallery_count: number;
+  gnoll_nsfw_img_gallery_count: number;
   pronoun_options: string[];
   pelt_options: string[];
   height_options: string[];
@@ -171,7 +183,7 @@ export const GnollTab = ({ data, act }: GnollTabProps) => {
       </Stack.Item>
 
       <Stack.Item>
-        <Section title="Gnoll-only Flavor (overrides normal flavor in gnoll form)">
+        <Section title="Gnoll-only Flavor (blank shows nothing — your base character stays hidden)">
           <LabeledList>
             <LabeledList.Item label="Gnoll Flavortext">
               <Button onClick={() => gAct('set_flavortext')}>Edit</Button>
@@ -186,7 +198,7 @@ export const GnollTab = ({ data, act }: GnollTabProps) => {
               )}
               <Box inline ml={1} color="label">
                 {g.gnoll_flavortext_len === 0
-                  ? '(none — uses normal flavor)'
+                  ? '(none — nothing shown)'
                   : `${g.gnoll_flavortext_len} chars`}
               </Box>
             </LabeledList.Item>
@@ -203,11 +215,129 @@ export const GnollTab = ({ data, act }: GnollTabProps) => {
               )}
               <Box inline ml={1} color="label">
                 {g.gnoll_ooc_notes_len === 0
-                  ? '(none — uses normal OOC)'
+                  ? '(none — nothing shown)'
                   : `${g.gnoll_ooc_notes_len} chars`}
               </Box>
             </LabeledList.Item>
           </LabeledList>
+        </Section>
+      </Stack.Item>
+
+      <Stack.Item>
+        <Section title="Gnoll Examine Extras (shown on your gnoll's examine panel)">
+          <LabeledList>
+            <LabeledList.Item label="NSFW Flavortext">
+              <Button onClick={() => gAct('set_nsfwflavortext')}>Edit</Button>
+              {g.gnoll_nsfwflavortext_len > 0 && (
+                <Button
+                  ml={1}
+                  color="bad"
+                  onClick={() => gAct('clear_nsfwflavortext')}
+                >
+                  Clear
+                </Button>
+              )}
+              <Box inline ml={1} color="label">
+                {g.gnoll_nsfwflavortext_len === 0
+                  ? '(none)'
+                  : `${g.gnoll_nsfwflavortext_len} chars`}
+              </Box>
+            </LabeledList.Item>
+            <LabeledList.Item label="ERP Preferences">
+              <Button onClick={() => gAct('set_erpprefs')}>Edit</Button>
+              {g.gnoll_erpprefs_len > 0 && (
+                <Button
+                  ml={1}
+                  color="bad"
+                  onClick={() => gAct('clear_erpprefs')}
+                >
+                  Clear
+                </Button>
+              )}
+              <Box inline ml={1} color="label">
+                {g.gnoll_erpprefs_len === 0
+                  ? '(none)'
+                  : `${g.gnoll_erpprefs_len} chars`}
+              </Box>
+            </LabeledList.Item>
+            <LabeledList.Item label="Song">
+              <Button onClick={() => gAct('set_song_title')}>Title</Button>
+              <Button ml={1} onClick={() => gAct('set_song_artist')}>
+                Artist
+              </Button>
+              <Button ml={1} onClick={() => gAct('set_song_url')}>
+                URL
+              </Button>
+              <Box inline ml={1} color="label">
+                {g.gnoll_song_title || g.gnoll_song_url_set
+                  ? `${g.gnoll_song_title || 'Untitled'}${g.gnoll_song_artist ? ` by ${g.gnoll_song_artist}` : ''}`
+                  : '(none)'}
+              </Box>
+            </LabeledList.Item>
+          </LabeledList>
+        </Section>
+      </Stack.Item>
+
+      <Stack.Item>
+        <Section title="Gnoll Images & OOC Extras (age-vetted)">
+          {!g.agevetted ? (
+            <Box color="label">
+              Age vetting is required to set headshots, OOC extras and galleries.
+            </Box>
+          ) : (
+            <LabeledList>
+              <LabeledList.Item label="Headshot">
+                <Button onClick={() => gAct('set_headshot')}>Change</Button>
+                <Box inline ml={1} color="label">
+                  {g.gnoll_headshot_set ? 'set' : '(none)'}
+                </Box>
+              </LabeledList.Item>
+              <LabeledList.Item label="NSFW Bodyshot">
+                <Button onClick={() => gAct('set_nsfw_headshot')}>Change</Button>
+                <Box inline ml={1} color="label">
+                  {g.gnoll_nsfw_headshot_set ? 'set' : '(none)'}
+                </Box>
+              </LabeledList.Item>
+              <LabeledList.Item label="OOC Extra">
+                <Button onClick={() => gAct('set_ooc_extra')}>Change</Button>
+                <Box inline ml={1} color="label">
+                  {g.gnoll_ooc_extra_set ? 'set' : '(none)'}
+                </Box>
+              </LabeledList.Item>
+              <LabeledList.Item label="NSFW OOC Extra">
+                <Button onClick={() => gAct('set_nsfw_ooc_extra')}>Change</Button>
+                <Box inline ml={1} color="label">
+                  {g.gnoll_nsfw_ooc_extra_set ? 'set' : '(none)'}
+                </Box>
+              </LabeledList.Item>
+              <LabeledList.Item label="Image Gallery">
+                <Button onClick={() => gAct('img_gallery_add')}>Add</Button>
+                <Button
+                  ml={1}
+                  color="bad"
+                  onClick={() => gAct('img_gallery_clear')}
+                >
+                  Clear
+                </Button>
+                <Box inline ml={1} color="label">
+                  {g.gnoll_img_gallery_count}/6
+                </Box>
+              </LabeledList.Item>
+              <LabeledList.Item label="NSFW Image Gallery">
+                <Button onClick={() => gAct('nsfw_img_gallery_add')}>Add</Button>
+                <Button
+                  ml={1}
+                  color="bad"
+                  onClick={() => gAct('nsfw_img_gallery_clear')}
+                >
+                  Clear
+                </Button>
+                <Box inline ml={1} color="label">
+                  {g.gnoll_nsfw_img_gallery_count}/6
+                </Box>
+              </LabeledList.Item>
+            </LabeledList>
+          )}
         </Section>
       </Stack.Item>
     </Stack>

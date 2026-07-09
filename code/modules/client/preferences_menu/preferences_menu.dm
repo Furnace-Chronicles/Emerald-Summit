@@ -1137,6 +1137,19 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	data["expression_label"] = gp.get_selected_label(gp.get_descriptor_options("expression"), gp.descriptor_expression) || "Alert"
 	data["gnoll_flavortext_len"] = length(gp.gnoll_flavortext)
 	data["gnoll_ooc_notes_len"] = length(gp.gnoll_ooc_notes)
+	// Examine extras (parity with the legacy gnoll tab). check_agevet gates the image/link fields.
+	data["agevetted"] = user.check_agevet()
+	data["gnoll_nsfwflavortext_len"] = length(gp.gnoll_nsfwflavortext)
+	data["gnoll_erpprefs_len"] = length(gp.gnoll_erpprefs)
+	data["gnoll_song_title"] = gp.gnoll_song_title
+	data["gnoll_song_artist"] = gp.gnoll_song_artist
+	data["gnoll_song_url_set"] = gp.gnoll_song_url ? TRUE : FALSE
+	data["gnoll_headshot_set"] = gp.gnoll_headshot_link ? TRUE : FALSE
+	data["gnoll_nsfw_headshot_set"] = gp.gnoll_nsfw_headshot_link ? TRUE : FALSE
+	data["gnoll_ooc_extra_set"] = gp.gnoll_ooc_extra_link ? TRUE : FALSE
+	data["gnoll_nsfw_ooc_extra_set"] = gp.gnoll_nsfw_ooc_extra_link ? TRUE : FALSE
+	data["gnoll_img_gallery_count"] = length(gp.gnoll_img_gallery)
+	data["gnoll_nsfw_img_gallery_count"] = length(gp.gnoll_nsfw_img_gallery)
 	return data
 
 /datum/preferences_menu/proc/build_gnoll_static(mob/user)

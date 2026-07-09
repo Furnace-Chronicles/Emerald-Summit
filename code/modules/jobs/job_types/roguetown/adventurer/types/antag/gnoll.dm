@@ -64,19 +64,8 @@
 		statpack = null
 
 	// Gnolls should not inherit player-authored social metadata from their base slot.
-	rumour = null
-	// Upstream noble_gossip var absent in ES — wipe stripped.
-
-	// Gnoll-tab flavor text + OOC notes override the base slot's when set; blank gnoll fields
-	// keep the base character's text. (Playtest feedback: the old blank-out made it impossible
-	// to give a gnoll any flavortext, OOC notes or headshot at all — falling back to the base
-	// slot is on the player to keep sensible for their gnoll.)
-	if(client?.prefs?.gnoll_prefs?.gnoll_flavortext)
-		flavortext = client.prefs.gnoll_prefs.gnoll_flavortext
-		flavortext_display = client.prefs.gnoll_prefs.gnoll_flavortext_display
-	if(client?.prefs?.gnoll_prefs?.gnoll_ooc_notes)
-		ooc_notes = client.prefs.gnoll_prefs.gnoll_ooc_notes
-		ooc_notes_display = client.prefs.gnoll_prefs.gnoll_ooc_notes_display
+	// Flavortext / OOC notes / headshot / music / rumour / gossip / etc. are handled in the consolidated
+	// wipe-and-apply block below — sourced ONLY from the gnoll tab, never from the base slot.
 
 	if(status_traits)
 		for(var/trait in status_traits.Copy())
@@ -89,6 +78,66 @@
 	REMOVE_TRAIT(src, TRAIT_LAMIAN_TAIL, TRAIT_GENERIC)
 
 	var/datum/gnoll_prefs/prefs = client.prefs.gnoll_prefs
+
+	// Gnolls are anonymous antagonists: they must NEVER expose the base slot's saved identity. Wipe every
+	// examine/OOC field first, then apply only what the player set on the gnoll tab — so a blank gnoll
+	// field shows nothing, never the underlying character's flavortext/headshot/notes/music/etc.
+	flavortext = null
+	flavortext_display = null
+	ooc_notes = null
+	ooc_notes_display = null
+	rumour = null
+	rumour_display = null
+	gossip = null
+	gossip_display = null
+	headshot_link = null
+	nsfw_headshot_link = null
+	nsfwflavortext = null
+	nsfwflavortext_display = null
+	erpprefs = null
+	erpprefs_display = null
+	ooc_extra = null
+	ooc_extra_link = null
+	nsfw_ooc_extra = null
+	nsfw_ooc_extra_link = null
+	song_title = null
+	song_artist = null
+	song_url = null
+	img_gallery = list()
+	nsfw_img_gallery = list()
+
+	if(prefs.gnoll_flavortext)
+		flavortext = prefs.gnoll_flavortext
+		flavortext_display = prefs.gnoll_flavortext_display
+	if(prefs.gnoll_ooc_notes)
+		ooc_notes = prefs.gnoll_ooc_notes
+		ooc_notes_display = prefs.gnoll_ooc_notes_display
+	if(prefs.gnoll_headshot_link)
+		headshot_link = prefs.gnoll_headshot_link
+	if(prefs.gnoll_nsfw_headshot_link)
+		nsfw_headshot_link = prefs.gnoll_nsfw_headshot_link
+	if(prefs.gnoll_nsfwflavortext)
+		nsfwflavortext = prefs.gnoll_nsfwflavortext
+		nsfwflavortext_display = prefs.gnoll_nsfwflavortext_display
+	if(prefs.gnoll_erpprefs)
+		erpprefs = prefs.gnoll_erpprefs
+		erpprefs_display = prefs.gnoll_erpprefs_display
+	if(prefs.gnoll_ooc_extra)
+		ooc_extra = prefs.gnoll_ooc_extra
+		ooc_extra_link = prefs.gnoll_ooc_extra_link
+	if(prefs.gnoll_nsfw_ooc_extra)
+		nsfw_ooc_extra = prefs.gnoll_nsfw_ooc_extra
+		nsfw_ooc_extra_link = prefs.gnoll_nsfw_ooc_extra_link
+	if(prefs.gnoll_song_title)
+		song_title = prefs.gnoll_song_title
+	if(prefs.gnoll_song_artist)
+		song_artist = prefs.gnoll_song_artist
+	if(prefs.gnoll_song_url)
+		song_url = prefs.gnoll_song_url
+	if(length(prefs.gnoll_img_gallery))
+		img_gallery = prefs.gnoll_img_gallery.Copy()
+	if(length(prefs.gnoll_nsfw_img_gallery))
+		nsfw_img_gallery = prefs.gnoll_nsfw_img_gallery.Copy()
 
 	// Gnolls are assigned their own subclass statlines later in equip flow; wipe inherited statpack roll during initial setup only.
 	if(initial_setup)
