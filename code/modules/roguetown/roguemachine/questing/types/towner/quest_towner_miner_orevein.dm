@@ -208,9 +208,9 @@ GLOBAL_LIST_INIT(towner_orevein_gem_types, list(
 		// ES deviation: integer player ledger. Burn from the Purse, credit the miner's balance.
 		if(SStreasury.has_account(miner) && !clusters_spawned)
 			var/refund = (posting_tier == TOWNER_POSTING_TIER_HARD) ? TOWNER_POSTING_COST_HARD : TOWNER_POSTING_COST_MEDIUM
-			SStreasury.burn(SStreasury.discretionary_fund, refund, "towner orevein expiry refund")
-			SStreasury.bank_accounts[miner] += refund
-			to_chat(miner, span_notice("Your [refund] mammon posting fee has been returned."))
+			if(SStreasury.burn(SStreasury.discretionary_fund, refund, "towner orevein expiry refund"))
+				SStreasury.bank_accounts[miner] += refund
+				to_chat(miner, span_notice("Your [refund] mammon posting fee has been returned."))
 	if(quest_scroll)
 		quest_scroll.update_quest_text()
 

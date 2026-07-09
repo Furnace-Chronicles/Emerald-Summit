@@ -73,6 +73,7 @@
 		var/cost = PA.cost
 		if(budget >= cost)
 			budget -= cost
+			record_round_statistic(STATS_COPPERFACE_VALUE_SPENT, cost)
 		else
 			say("Not enough!")
 			return

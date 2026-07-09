@@ -212,7 +212,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["recovery_shipment"] = Q.get_recovery_shipment_name()
 	data["reward"] = Q.reward_amount
 	data["levy_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
-	data["guild_cut_rate"] = (Q.source == QUEST_SOURCE_DEFENSE) ? 0 : GUILD_REFERRAL_FEE_PCT
+	data["guild_cut_rate"] = (Q.source == QUEST_SOURCE_DEFENSE || Q.guild_cut_exempt) ? 0 : GUILD_REFERRAL_FEE_PCT
 	data["progress_required"] = Q.progress_required
 	data["is_rumor"] = Q.source == QUEST_SOURCE_RUMOR
 	data["is_defense"] = Q.source == QUEST_SOURCE_DEFENSE

@@ -191,7 +191,7 @@ SUBSYSTEM_DEF(merchant_trade)
 /// Pushes a full TGUI static-data update to every registered market watcher. Called when
 /// market-relevant state (saturation, ship demand, weekly resnapshot) actually mutates.
 /datum/controller/subsystem/merchant_trade/proc/broadcast_market_change()
-	for(var/atom/A as anything in market_watchers)
+	for(var/atom/A as anything in market_watchers.Copy())
 		if(!A || QDELETED(A))
 			market_watchers -= A
 			continue
@@ -336,7 +336,7 @@ SUBSYSTEM_DEF(merchant_trade)
 		generate_ship(picked)
 
 /datum/controller/subsystem/merchant_trade/proc/expire_undocked_ships()
-	for(var/datum/trade_ship/ship in all_ships)
+	for(var/datum/trade_ship/ship in all_ships.Copy())
 		if(ship.dock_state == TRADE_SHIP_STATE_AVAILABLE)
 			all_ships -= ship
 			qdel(ship)

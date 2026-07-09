@@ -150,6 +150,10 @@
 		return
 	if(QDELETED(src) || QDELETED(user))
 		return
+	for(var/datum/loan/L in SStreasury.loans)
+		if(L.is_institutional && L.target_fund == target_fund)
+			to_chat(user, span_warning("[SStreasury.indenture_faction_label(target_fund)] already holds an outstanding indenture."))
+			return
 	if(issuing_fund.balance < principal)
 		to_chat(user, span_warning("[issuing_fund.name]'s coffers are too thin to honor this indenture."))
 		return

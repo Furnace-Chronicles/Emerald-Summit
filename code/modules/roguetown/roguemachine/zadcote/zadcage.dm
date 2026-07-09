@@ -14,6 +14,7 @@
 	var/list/obj/item/held_payload = list()
 	var/datum/weakref/active_voyeur_screye
 	var/datum/weakref/active_voyeur_holder
+	var/voyeur_timer_id
 
 /obj/item/zadcage/update_icon()
 	cut_overlays()

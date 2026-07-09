@@ -85,6 +85,11 @@ SUBSYSTEM_DEF(city_assembly)
 		open_session()
 		return
 
+	// Capture the sitting Alderman BEFORE the election runs. The recall/censure ballots this
+	// session were cast against THIS incumbent. If the election installs a different Alderman
+	// (or vacates the seat), those motions must NOT fall through onto whoever now holds it.
+	var/mob/pre_election_alderman = resolve_get_alderman()
+
 	var/list/election_result = resolve_election(S)
 	summary["results"]["election"] = election_result
 
@@ -101,7 +106,10 @@ SUBSYSTEM_DEF(city_assembly)
 	// summary["results"]["poll_tax"] = poll_result
 	// apply_poll_tax(poll_result)
 
-	if(resolve_get_alderman())
+	// Only resolve recall/censure if the SAME incumbent the ballots targeted still holds the
+	// seat. Null before the election, replaced by it, or vacated by it -> skip; the election
+	// already settled the seat and these motions no longer have a valid target.
+	if(pre_election_alderman && resolve_get_alderman() == pre_election_alderman)
 		var/list/recall_result = resolve_yae_motion(S, ASSEMBLY_MOTION_RECALL, ASSEMBLY_RECALL_THRESHOLD_PCT)
 		summary["results"]["recall"] = recall_result
 		if(recall_result["passed"])
@@ -341,6 +349,15 @@ SUBSYSTEM_DEF(city_assembly)
 		return FALSE
 	current_warrant.defense_remaining -= amount
 	log_game("CITY ASSEMBLY WARRANT: defense -[amount]p by [key_name(actor)] ([reason]). Remaining: [current_warrant.defense_remaining]p.")
+	return TRUE
+
+/// Inverse of consume_defense — restores warrant budget when a commission that debited the
+/// defense allotment is refunded (e.g. quest issuance fails after the warrant was consumed).
+/datum/controller/subsystem/city_assembly/proc/restore_defense(amount, mob/actor, reason = "")
+	if(!current_warrant)
+		return FALSE
+	current_warrant.defense_remaining += amount
+	log_game("CITY ASSEMBLY WARRANT: defense +[amount]p by [key_name(actor)] ([reason]). Remaining: [current_warrant.defense_remaining]p.")
 	return TRUE
 
 /datum/controller/subsystem/city_assembly/proc/is_alderman(mob/user)

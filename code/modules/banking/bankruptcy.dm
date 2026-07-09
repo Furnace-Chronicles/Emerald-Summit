@@ -9,6 +9,31 @@
 /datum/controller/subsystem/treasury/proc/is_in_arrears_or_worse()
 	return treasury_state != TREASURY_NORMAL
 
+/// Dawn payroll insolvency check. Run once per day BEFORE distribute_daily_payments so an
+/// arrears advance can cover the day's wages, or sequestration can suspend them, before they
+/// are paid out. This is the automatic driver of the same ladder the admin panel's Force
+/// Arrears / Force Bankruptcy buttons trigger by hand: from NORMAL, the first shortfall raises
+/// arrears (unless a drawn ETC loan already forfeited the grace); a second consecutive shortfall
+/// escalates to sequestration.
+/datum/controller/subsystem/treasury/proc/evaluate_payroll_solvency()
+	if(!steward_machine || !steward_machine.daily_payments || !steward_machine.daily_payments.len)
+		return
+	var/projected = get_expected_wage_outlay()
+	if(projected <= 0)
+		return
+	if(discretionary_fund.balance >= projected)
+		return // the Purse can meet the day's payroll
+	switch(treasury_state)
+		if(TREASURY_NORMAL)
+			// A drawn ETC loan forfeits the arrears grace -> straight to sequestration.
+			if(atc_loan_arrears_consumed)
+				enter_bankruptcy()
+			else
+				enter_arrears(projected)
+		if(TREASURY_IN_ARREARS)
+			enter_bankruptcy() // second consecutive dawn short of payroll
+		// TREASURY_BANKRUPTCY: wages already suspended; nothing left to escalate.
+
 /datum/controller/subsystem/treasury/proc/enter_arrears(projected_total)
 	if(treasury_state != TREASURY_NORMAL)
 		return FALSE
@@ -84,7 +109,7 @@
 
 /datum/controller/subsystem/treasury/proc/resume_wages_after_bankruptcy()
 	var/list/payments = steward_machine?.daily_payments
-	for(var/mob/living/carbon/human/owner as anything in suspended_wage_mobs)
+	for(var/mob/living/carbon/human/owner as anything in suspended_wage_mobs.Copy())
 		if(!owner)
 			continue
 		suspended_wage_mobs -= owner

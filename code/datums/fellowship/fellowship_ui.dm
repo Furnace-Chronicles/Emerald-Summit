@@ -74,7 +74,7 @@
 
 /datum/fellowship_ui/proc/get_pending_invites_for(mob/living/user)
 	var/list/invites = list()
-	for(var/datum/weakref/W as anything in user.incoming_fellowship_invites)
+	for(var/datum/weakref/W as anything in user.incoming_fellowship_invites.Copy())
 		var/datum/fellowship/F = W.resolve()
 		if(QDELETED(F) || !(user.real_name in F.pending_invites))
 			user.incoming_fellowship_invites -= W

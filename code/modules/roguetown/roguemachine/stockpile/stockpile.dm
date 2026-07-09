@@ -287,14 +287,11 @@
 				if(message)
 					say("This bears an Azurian Trading Company seal. The Crown will not mint Company stock.")
 				return
-			// Steward-controlled accept toggle.
-			// - For mint_eligible goods (gems): falls through to the /bounty/treasure datum later in
-			//   the loop, so rejected gems still mint as treasure instead of bouncing back to the player.
-			// - For other goods (raw, refined, alchemy): refuses with a message. Item stays in hand.
+			// Steward-controlled accept toggle: refuses with a message; the item stays in hand.
+			// (The old mint_eligible fall-through to the retired /bounty/treasure catch-all is gone,
+			//  so gems the Steward has toggled off now bounce back like any other refused good. Gem
+			//  OVERFLOW minting below is unaffected - it uses the trade-good mint path directly.)
 			if(!R.accept_toggle_enabled)
-				var/datum/trade_good/tg_reject = R.trade_good_id ? GLOB.trade_goods[R.trade_good_id] : null
-				if(tg_reject && tg_reject.mint_eligible)
-					continue
 				if(message)
 					say("The Crown has no interest in [R.name] at this time.")
 				return

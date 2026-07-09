@@ -201,7 +201,7 @@
 
 /datum/fellowship/proc/prune_invites()
 	var/changed = FALSE
-	for(var/invitee_name in pending_invites)
+	for(var/invitee_name in pending_invites.Copy())
 		var/list/entry = pending_invites[invitee_name]
 		if(entry[1] < world.time)
 			remove_pending_invite(invitee_name)

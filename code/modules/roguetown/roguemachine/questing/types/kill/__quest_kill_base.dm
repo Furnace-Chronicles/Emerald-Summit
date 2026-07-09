@@ -213,6 +213,7 @@
 	// Recovery keeps its preview-set progress_required (= 1 for the parcel delivery).
 	if(spawned > 0 && kills_count_progress)
 		progress_required = spawned
+	return spawned
 
 /// Spend tp_budget picking weighted mob types from faction.mob_types. Returns flat list of mob
 /// type paths to spawn. Mirrors ambush.dm purchase loop (first-pick sets tone, subsequent picks

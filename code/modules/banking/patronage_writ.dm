@@ -67,7 +67,7 @@
 	qdel(src)
 
 /obj/item/patronage_writ/proc/prune_roster(list/roster)
-	for(var/mob/living/carbon/human/H in roster)
+	for(var/mob/living/carbon/human/H in roster.Copy())
 		if(QDELETED(H) || !HAS_TRAIT(H, granted_trait))
 			roster -= H
 

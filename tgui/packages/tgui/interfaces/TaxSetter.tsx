@@ -51,7 +51,8 @@ type Data = {
   pollTaxRates: PollTaxRate[];
   pollTaxMax: number;
   pollTaxMin: number;
-  onCooldown: boolean;
+  levyCooldown: boolean;
+  pollCooldown: boolean;
   pollProjection: PollProjection;
 };
 
@@ -136,7 +137,10 @@ const PollProjectionPanel = (props: { projection: PollProjection }) => {
 
 export const TaxSetter = (props: any, context: any) => {
   const { act, data } = useBackend<Data>();
-  const onCooldown = !!data.onCooldown;
+  // Backend exposes the levy and poll-tax once-per-day locks separately; each column gates on
+  // its own. (The old single `onCooldown` key was never sent, so the lock UI was fully dead.)
+  const levyCooldown = !!data.levyCooldown;
+  const pollCooldown = !!data.pollCooldown;
 
   const [rates, setRates] = useState<Record<string, number>>(() => {
     if (!data.categoryRates) return {};
@@ -189,7 +193,7 @@ export const TaxSetter = (props: any, context: any) => {
             Tax rates may only be changed once per day - choose wisely.
           </div>
 
-          {onCooldown && (
+          {(levyCooldown || pollCooldown) && (
             <div
               style={{
                 background: 'rgba(140,60,30,0.12)',
@@ -232,14 +236,14 @@ export const TaxSetter = (props: any, context: any) => {
               <hr style={rulerStyle} />
               <div style={{ textAlign: 'center' }}>
                 <button
-                  disabled={onCooldown}
+                  disabled={levyCooldown}
                   style={{
-                    ...inkButtonStyle({ disabled: onCooldown }),
+                    ...inkButtonStyle({ disabled: levyCooldown }),
                     padding: '5px 24px',
                     fontSize: FONT_BODY,
                   }}
                   onClick={() =>
-                    !onCooldown && act('set_rates', { categoryRates: payload })
+                    !levyCooldown && act('set_rates', { categoryRates: payload })
                   }
                 >
                   Make It So
@@ -278,14 +282,14 @@ export const TaxSetter = (props: any, context: any) => {
               <hr style={rulerStyle} />
               <div style={{ textAlign: 'center' }}>
                 <button
-                  disabled={onCooldown}
+                  disabled={pollCooldown}
                   style={{
-                    ...inkButtonStyle({ disabled: onCooldown }),
+                    ...inkButtonStyle({ disabled: pollCooldown }),
                     padding: '5px 24px',
                     fontSize: FONT_BODY,
                   }}
                   onClick={() =>
-                    !onCooldown &&
+                    !pollCooldown &&
                     act('set_poll_rates', { pollTaxRates: pollPayload })
                   }
                 >

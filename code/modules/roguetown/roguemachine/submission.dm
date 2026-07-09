@@ -44,8 +44,9 @@ var/global/feeding_hole_reset_timer
 
 // ripped out of stockpile machine, this deserves a future refactor
 /obj/structure/feedinghole/proc/attemptstockpile(obj/item/I, mob/H, sound = TRUE)
-	// ES deviation: never treat coinage as sellable treasure (the /bounty/treasure datum's
-	// item_type = /obj catch-all would otherwise mint any coin worth >30m)
+	// ES deviation: never process coinage in the sell loop. (The /bounty/treasure catch-all that
+	// would otherwise have minted any coin worth >30m was retired - see bounties.dm - but this
+	// guard stays as defence against any future mint_item datum matching coins.)
 	if(istype(I, /obj/item/roguecoin))
 		return
 	for(var/datum/roguestock/R in SStreasury.stockpile_datums)

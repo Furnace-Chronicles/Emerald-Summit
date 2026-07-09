@@ -68,7 +68,7 @@
 		var/datum/quest/user_quest = scroll.assigned_quest
 		if(user_quest && (user_quest.quest_type in list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY)) && istype(parent, user_quest.target_mob_type))
 			examine_list += span_notice("This looks like the target of your quest: [user_quest.title]!")
-			if(Q.target_spawn_area != get_area(get_turf(src)))
+			if(Q.target_spawn_area != get_area_name(get_turf(parent)))
 				examine_list += span_notice("It was last reported in the [Q.target_spawn_area] area, however.")
 			break
 

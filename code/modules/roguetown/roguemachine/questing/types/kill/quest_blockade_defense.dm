@@ -157,8 +157,11 @@
 	total_spawned_tp = 0
 	progress_current = 0
 	progress_required = 1
-	spawn_kill_mobs(landmark)
-	if(progress_required <= 0)
+	// spawn_kill_mobs returns the actual spawn count; it only rewrites progress_required when that
+	// count is > 0, so guard on the count itself — an all-blocked/empty wave would otherwise arm
+	// with 1 required kill and 0 mobs and stall the whole wave timer.
+	var/spawned = spawn_kill_mobs(landmark)
+	if(spawned <= 0)
 		fail_quest("composition_empty")
 		return
 	clear_wave_timers()
@@ -177,6 +180,15 @@
 	if(wave_num != current_wave)
 		return
 	announce_to_bearer("<b>Wave [wave_num]:</b> [label] remaining.")
+
+/// clear_wave_timers covers the wave + both warn timers; arm_timer_id lives outside it, so an
+/// unsanctioned qdel mid-wave (or while still armed) would otherwise leak a stale callback.
+/datum/quest/kill/blockade_defense/Destroy()
+	clear_wave_timers()
+	if(arm_timer_id)
+		deltimer(arm_timer_id)
+		arm_timer_id = null
+	return ..()
 
 /datum/quest/kill/blockade_defense/proc/clear_wave_timers()
 	if(wave_timer_id)

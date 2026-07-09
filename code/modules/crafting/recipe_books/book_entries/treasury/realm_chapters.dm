@@ -2,24 +2,17 @@
 // (apsrc/main, code/modules/crafting/recipe_books/book_entries/treasury/realm_chapters.dm)
 // with content pared back to what Emerald Summit actually implements.
 //
+// History note: this guidebook was first ported with the Alderman/City Assembly and the whole
+// blockade/defense-commission layer CUT, because ES had only stubs then. Both have since landed
+// (SScity_assembly + assembly_warrant; Quest 2's factions + Grand Contract Ledger + blockade
+// lifecycle), so chapters "02. The City Assembly" and "03. Defense and Blockades" were restored
+// and now describe the real systems. The Crown-only "Crown Authority" title list (Clerk, Grand
+// Duke, Hand, Marshal, Councillor, Prince/Princess) stays cut - ES keeps its 3-role roster.
+//
 // Cut/rewritten vs AP:
-//  - Budgets, Warrants & Authority: cut the Alderman's Warrant and the "Crown Authority" title
-//    list (Clerk, Grand Duke, Hand, Marshal, Councillor, Prince/Princess) - the Alderman/City
-//    Assembly system is an explicit compat stub (assembly_floor.dm) with no
-//    SScity_assembly/assembly_warrant/assembly_session anywhere in ES. Kept Crown's Purse and
-//    Burgher Pledge, which are both real (code/controllers/subsystem/rogue/economy/
-//    _treasury_bridge.dm's discretionary_fund/burgher_pledge_fund).
-//  - Defense and Blockades: heavily cut. Defense Commissions, Blockade Writs, and Requests are
-//    all part of AP's Guild quest/contract-board system, which doesn't exist in ES (no
-//    /obj/item/quest_writ implementation - it's a bare type stub in _es_compat.dm "to be ported
-//    with blockade content"; no BLOCKADE_FELLOWSHIP_REQUIREMENT/BLOCKADE_RECALL_WINDOW_DS
-//    defines anywhere). Worse: blockades cannot currently fire at all -
-//    blockade_lifecycle.dm's pick_blockade_faction_for() requires get_quest_faction() to
-//    return a faction with can_blockade = TRUE, and _es_compat.dm's stub always returns null
-//    with can_blockade hardcoded FALSE. Rewritten to state plainly that blockades are inert
-//    right now.
-//  - Alderman is not mentioned anywhere in Regional Trade - "The Alderman cannot alter
-//    stockpile pricing" line cut since there's no Alderman to begin with.
+//  - Alderman weight in Regional Trade: ES models the Alderman as a warrant-holder (see the
+//    City Assembly chapter), not as a stockpile-price setter, so AP's "the Alderman cannot
+//    alter stockpile pricing" caveat is simply not applicable and stays out of Regional Trade.
 //  - Standing (Auto) Imports: the essentials list is 7 goods in ES, not AP's 6 - grepped
 //    code/controllers/subsystem/rogue/economy/auto_import.dm and found coal, wood, grain,
 //    iron ore, hide, fur, and fat all seeded by default.
@@ -54,26 +47,65 @@
 		<h3>Burgher Pledge</h3>
 		<p>Not actual coin, but a virtual pool pledged by the Burghers of the realm. It refills daily, scaling with a flat base and the active player count.</p>
 
-		<p>There is no elected Alderman or City Assembly in this build to hold a separate spending warrant against either pool - the Steward is the sole authority over both.</p>
+		<h3>The Steward and the Alderman</h3>
+		<p>The Steward is the standing authority over both pools. The realm may also elect an <b>Alderman</b> through the City Assembly (see the next chapter); while the seat is filled, the Alderman holds a separate daily spending warrant - a trade allotment and a defense allotment - set by the Assembly. When the seat sits empty, the Steward answers for both alone.</p>
+		</div>
+	"}
+
+
+/datum/book_entry/treasury_realm/assembly
+	name = "02. The City Assembly and the Alderman"
+
+/datum/book_entry/treasury_realm/assembly/inner_book_html(mob/user)
+	return {"
+		<div>
+		<p>The <b>City Assembly</b> is the realm's Commons. It convenes to fill the seat of the <b>Alderman</b> and to set the bounds of that office. Its floor is reached through the door on the town Noticeboard.</p>
+
+		<h3>Sessions</h3>
+		<p>The first Assembly resolves about <b>[ASSEMBLY_FIRST_SESSION_MINUTES] minutes</b> into the round; every session after resolves at <b>dawn</b>. A session settles all of its standing motions at once and then opens a fresh one. If fewer than <b>[ASSEMBLY_QUORUM_VOTERS]</b> distinct citizens cast a vote, the session lapses and everything holds at status quo.</p>
+
+		<h3>Who Votes</h3>
+		<p>Any citizen of the realm who is not an outlaw may vote. Vote weight scales with station - burghers and notables carry more voice than common folk, and holding citizenry or residency lifts a transient or peasant to full burgher weight.</p>
+
+		<h3>The Motions</h3>
+		<ul>
+			<li><b>Election</b> - choose the next Alderman from those who have declared candidacy (each may post a short pledge), or vote for <b>No Alderman</b> to leave the seat empty. The sitting Alderman is listed automatically for re-election. A candidate may not be an outlaw, may not have been censured, and may not be a <b>Merchant</b> or <b>Shophand</b> (barred for their direct trade levers - every other station, the bathhouse included, may stand). The seat belongs to the <i>person</i>, not the character sheet: die, resign, or leave the Realm and it falls vacant.</li>
+			<li><b>Trade Authorization</b> - votes the Alderman a daily <b>trade allotment</b> of <b>0, 150, 300, 450, 600, 750, or 900</b> mammon.</li>
+			<li><b>Defense Authorization</b> - votes a daily <b>defense allotment</b> of <b>0, 250, 500, 750, or 1000</b> in burgher pledge.</li>
+			<li><b>Recall</b> - a <b>[ASSEMBLY_RECALL_THRESHOLD_PCT]%</b> majority turns the sitting Alderman out of the seat.</li>
+			<li><b>Censure</b> - a <b>[ASSEMBLY_CENSURE_THRESHOLD_PCT]%</b> supermajority turns the Alderman out <i>and</i> bars them from the office for the rest of the round.</li>
+		</ul>
+		<p>A bracket vote is settled at the highest allotment that still holds the room; if <b>[ASSEMBLY_NAE_VETO_PCT]%</b> or more of the cast weight votes <b>Nae</b>, the authorization is vetoed to nothing.</p>
+
+		<h3>The Alderman's Warrant</h3>
+		<p>Once seated, the Alderman holds a spending <b>warrant</b> that refreshes to its authorized caps each dawn. The <b>trade allotment</b> is spent acting on the Crown's trade through the Steward's panel; the <b>defense allotment</b> pays for blockade-defense commissions posted to the Grand Contract Ledger (see <i>Defense and Blockades</i>). Unspent budget does not carry to the next day, and losing or vacating the seat empties the warrant at once.</p>
+
+		<p><b>Held in reserve:</b> the Assembly's power to levy a poll tax of its own is disabled in this build pending anti-dodge rules, so it cannot presently impose a head tax.</p>
 		</div>
 	"}
 
 
 /datum/book_entry/treasury_realm/defense
-	name = "02. Defense and Blockades"
+	name = "03. Defense and Blockades"
 
 /datum/book_entry/treasury_realm/defense/inner_book_html(mob/user)
 	return {"
 		<div>
-		<p><b>Caveat:</b> blockades are currently inert. The system that would pick a hostile faction to besiege a region is stubbed out - nothing ever qualifies to blockade, so no region will be cut off by one in this build, regardless of how dangerous its threat level climbs. The Defense Commission / Blockade Writ / Requests contract-board tooling AP describes here (issued from a Grand Contract Ledger) does not exist in Emerald Summit at all.</p>
+		<p>A region's trade road can be <b>blockaded</b> by a hostile faction. A handful stand up at round start (<b>[BLOCKADE_ROUNDSTART_COUNT_MIN]-[BLOCKADE_ROUNDSTART_COUNT_MAX]</b>), and more may fall upon the realm on later days. Only factions fierce enough to besiege a road can raise one, and only in regions whose threat is high enough to harbour them - so tame regions stay open and dangerous ones do not.</p>
 
-		<p>What does work: a region's <b>Dangerous</b> or <b>Bleak</b> threat classification still drains the Crown's Purse every dawn on its own, independent of any blockade state - see <i>Banditry</i>.</p>
+		<h3>The Bite</h3>
+		<p>While a region is blockaded its trade is throttled - Import Price x<b>[BLOCKADE_IMPORT_MULT]</b>, Export Revenue x<b>[BLOCKADE_EXPORT_MULT]</b> - and the Crown is called to answer it. The blockade holds until it is broken.</p>
+
+		<h3>Breaking a Blockade</h3>
+		<p>The Crown - or an Alderman spending the Assembly's <b>defense allotment</b> (see <i>The City Assembly and the Alderman</i>) - commissions a <b>blockade-defense contract</b> at the Grand Contract Ledger. Adventurers take the writ, put down the besieging faction's waves, and the road reopens. A region that has just been cleared cannot be blockaded again for <b>[BLOCKADE_RECLEAR_COOLDOWN]</b> days.</p>
+
+		<p>Separately, a region's <b>Dangerous</b> or <b>Bleak</b> threat classification drains the Crown's Purse every dawn on its own, whether or not a blockade stands - see <i>Banditry</i>.</p>
 		</div>
 	"}
 
 
 /datum/book_entry/treasury_realm/trade
-	name = "03. Regional Trade"
+	name = "04. Regional Trade"
 
 /datum/book_entry/treasury_realm/trade/inner_book_html(mob/user)
 	return {"
@@ -106,7 +138,7 @@
 
 
 /datum/book_entry/treasury_realm/auto_import
-	name = "04. Standing (Auto) Imports"
+	name = "05. Standing (Auto) Imports"
 
 /datum/book_entry/treasury_realm/auto_import/inner_book_html(mob/user)
 	return {"
@@ -131,7 +163,7 @@
 
 
 /datum/book_entry/treasury_realm/standing_orders
-	name = "05. Of Standing Orders"
+	name = "06. Of Standing Orders"
 
 /datum/book_entry/treasury_realm/standing_orders/inner_book_html(mob/user)
 	return {"
@@ -155,7 +187,7 @@
 
 
 /datum/book_entry/treasury_realm/warehouse
-	name = "06. Warehouse"
+	name = "07. Warehouse"
 
 /datum/book_entry/treasury_realm/warehouse/inner_book_html(mob/user)
 	return {"
@@ -172,7 +204,7 @@
 
 
 /datum/book_entry/treasury_realm/insolvent
-	name = "07. Insolvency, Sequestration and Loans"
+	name = "08. Insolvency, Sequestration and Loans"
 
 /datum/book_entry/treasury_realm/insolvent/inner_book_html(mob/user)
 	return {"
@@ -201,7 +233,7 @@
 
 
 /datum/book_entry/treasury_realm/banditry
-	name = "08. Banditry"
+	name = "09. Banditry"
 
 /datum/book_entry/treasury_realm/banditry/inner_book_html(mob/user)
 	return {"
@@ -219,6 +251,6 @@
 		<p>Banditry alone will not reduce the Crown's Purse below <b>[BANDITRY_DEBT_FLOOR]m</b>. Anything beyond that becomes <b>banditry debt</b> - an accruing arrears that skims every coin of treasury inflow until paid.</p>
 
 		<h3>What You Can Do</h3>
-		<p>As regional threat falls, so does the dawn drain. Banditry debt only shrinks as new income is earned and skimmed. This system is a placeholder until raid and siege content ships, and until blockades and defense commissions (see <i>Defense and Blockades</i>) are wired up to actually let adventurers fight the drain back.</p>
+		<p>As regional threat falls, so does the dawn drain. Banditry debt only shrinks as new income is earned and skimmed. This dawn drain is a placeholder until fuller raid and siege content ships; unlike a blockade (see <i>Defense and Blockades</i>), it cannot be lifted by a single commission - only a lasting fall in the region's threat will ease it.</p>
 		</div>
 	"}

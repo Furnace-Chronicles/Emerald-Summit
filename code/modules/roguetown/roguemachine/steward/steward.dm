@@ -335,9 +335,15 @@
 // ── StewardTrade TGUI trade helpers (Step 15) ────────────────────────────────────────────────
 
 /obj/structure/roguemachine/steward/proc/quote_trade(mob/user, side, region_id, good_id, quantity)
+	// Carry the request identity on EVERY return (including the error early-returns below), so the
+	// TradeModal's incoming-quote filter (side/region_id/good_id must match) doesn't discard an
+	// error quote and leave the modal spinning without ever showing the failure reason.
 	. = list(
 		"ok" = FALSE,
 		"reason" = "",
+		"side" = side,
+		"region_id" = region_id,
+		"good_id" = good_id,
 	)
 	if(!user_can_act(user))
 		.["reason"] = "out of reach"
@@ -525,7 +531,7 @@
 	handle_trade_import(user, region_id, good_id, quantity)
 
 /obj/structure/roguemachine/steward/proc/handle_trade_region_export(mob/user, region_id)
-	if(!user.canUseTopic(src, BE_CLOSE))
+	if(!user_can_act(user))
 		return
 	if(locked && !alderman_has_access(user))
 		return

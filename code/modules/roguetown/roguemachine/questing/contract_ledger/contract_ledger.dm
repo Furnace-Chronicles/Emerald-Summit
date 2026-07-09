@@ -105,6 +105,10 @@
 		data["rumor_destinations"] = build_rumor_destinations()
 		data["rumor_log"] = SStreasury.rumor_log
 		data["rumor_lucrative_mult"] = RUMOR_LUCRATIVE_MULT
+		// Per-region reward multipliers powering the Compose tab's "(xN reward)" suffix and the
+		// bleak/dangerous/settled flavor line. The builder procs existed but were never wired in.
+		data["region_tp_multipliers"] = build_region_tp_multipliers()
+		data["region_delivery_multipliers"] = build_region_delivery_multipliers()
 	if("steward" in dynamic_roles)
 		data["is_alderman_acting"] = (SScity_assembly?.is_alderman(user) && user.job != "Steward") ? TRUE : FALSE
 		data["pledge_balance"] = SStreasury.burgher_pledge_fund ? SStreasury.burgher_pledge_fund.balance : 0
@@ -121,6 +125,8 @@
 		data["defense_costs"] = GLOB.defense_quest_tier_costs.Copy()
 		data["defense_regions_by_type"] = build_defense_regions_by_type()
 		data["defense_destinations"] = build_rumor_destinations()
+		// Powers the Commission tab's per-region "(xN reward)" suffix and yield flavor line.
+		data["region_tp_multipliers"] = build_region_tp_multipliers()
 		data["defense_log"] = SStreasury.defense_log
 		data["blockade_recall_list"] = build_blockade_recall_list()
 		data["blockade_recall_window_seconds"] = BLOCKADE_RECALL_WINDOW_DS / 10

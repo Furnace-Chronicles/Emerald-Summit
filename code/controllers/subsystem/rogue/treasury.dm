@@ -62,9 +62,9 @@ SUBSYSTEM_DEF(treasury)
 	force_set_round_statistic(STATS_STARTING_TREASURY, discretionary_fund.balance)
 	record_round_statistic(STATS_PLEDGE_GENERATED, burgher_pledge_fund.balance)
 
-	// AP parity: stockpile datums must come BEFORE bounty datums so gem items match their
-	// stockpile entries first; the /bounty/treasure catch-all (item_type = /obj) only picks
-	// up gems that fall through (accept toggle off / overflow mint path).
+	// Stockpile datums seed the sell/trade catalogue. NOTE: the /bounty/treasure catch-all was
+	// retired (see bounties.dm) to match #6849, so subtypesof(/datum/roguestock/bounty) is now
+	// empty - the second loop is a harmless no-op kept in case a bounty subtype is added later.
 	for(var/path in subtypesof(/datum/roguestock/stockpile))
 		var/datum/D = new path
 		stockpile_datums += D

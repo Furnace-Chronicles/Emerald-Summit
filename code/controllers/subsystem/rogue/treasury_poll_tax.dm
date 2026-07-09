@@ -37,10 +37,15 @@
 	/// Cached projection for steward/taxsetter displays
 	var/list/cached_poll_projection
 	var/poll_projection_dirty = TRUE
+	/// length(bank_accounts) when the projection was last built - a change (latejoin/leave)
+	/// forces a rebuild so headcount/income/subsidy don't go stale between rate changes.
+	var/poll_projection_account_count = -1
 
 /datum/controller/subsystem/treasury/proc/apply_rate_adjustments(list/adjustments, good_announcement_text, bad_announcement_text)
 	if(GLOB.dayspassed <= levy_rates_changed_day)
 		to_chat(usr, span_warning("Crown levies have already been adjusted today - come back tomorrow."))
+		return
+	if(!islist(adjustments))
 		return
 	var/datum/decree/concordat = get_decree(DECREE_ZENITSTADT_CONCORDAT)
 	var/concordat_active = concordat?.active ? TRUE : FALSE
@@ -48,6 +53,8 @@
 	var/bad_guy = FALSE
 	var/rejected_concordat = FALSE
 	for(var/entry in adjustments)
+		if(!islist(entry))
+			continue
 		var/category = entry["category"]
 		if(!(category in tax_rates))
 			continue
@@ -276,6 +283,10 @@
 /// only when poll_projection_dirty is set (rate change, account add/remove). Gross projection
 /// only - skips balance/advance/debt inspection so it stays fast on large rosters.
 /datum/controller/subsystem/treasury/proc/get_poll_tax_projection()
+	// Cheap staleness guard: an account added/removed since the last build (latejoin, leave,
+	// death cleanup) changes the roster without touching rates, so force a rebuild.
+	if(length(bank_accounts) != poll_projection_account_count)
+		poll_projection_dirty = TRUE
 	if(cached_poll_projection && !poll_projection_dirty)
 		return cached_poll_projection
 	var/list/headcounts = list()
@@ -324,6 +335,7 @@
 		"by_category" = by_category,
 	)
 	poll_projection_dirty = FALSE
+	poll_projection_account_count = length(bank_accounts)
 	return cached_poll_projection
 
 /datum/controller/subsystem/treasury/proc/poll_tax_pay_advance(mob/living/H, days)

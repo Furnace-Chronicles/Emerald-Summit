@@ -7,7 +7,7 @@
 	var/year_part = copytext(datestamp, 1, 5)
 	var/month_part = copytext(datestamp, 6, 8)
 	var/day = text2num(copytext(datestamp, 9, 11))
-	var/week_of_month = ((day - 1) / 7) + 1
+	var/week_of_month = round((day - 1) / 7) + 1
 	return "[year_part]-[month_part]-W[week_of_month]"
 
 /proc/chronicle_stats_file_path(realtime)

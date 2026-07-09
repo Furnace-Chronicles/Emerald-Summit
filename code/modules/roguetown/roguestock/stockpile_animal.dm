@@ -21,6 +21,8 @@
 	importexport_amt = 5
 	stockpile_amount = 0
 	stockpile_limit = 20
+	payout_price = 2
+	withdraw_price = 4
 	category = "Animal"
 
 /datum/roguestock/stockpile/bear
@@ -31,6 +33,8 @@
 	importexport_amt = 5
 	stockpile_amount = 0
 	stockpile_limit = 20
+	payout_price = 6
+	withdraw_price = 9
 	category = "Animal"
 
 /datum/roguestock/stockpile/meat
@@ -51,6 +55,8 @@
 	importexport_amt = 5
 	stockpile_amount = 0
 	stockpile_limit = 20
+	payout_price = 8
+	withdraw_price = 16
 	category = "Animal"
 
 /datum/roguestock/stockpile/deer_ribs
@@ -61,6 +67,9 @@
 	importexport_amt = 5
 	stockpile_amount = 0
 	stockpile_limit = 20
+	// ES-only cut (no AP entry); priced to match parent Venison
+	payout_price = 8
+	withdraw_price = 16
 	category = "Animal"
 
 /datum/roguestock/stockpile/deer_loins
@@ -71,6 +80,9 @@
 	importexport_amt = 5
 	stockpile_amount = 0
 	stockpile_limit = 20
+	// ES-only cut (no AP entry); priced to match parent Venison
+	payout_price = 8
+	withdraw_price = 16
 	category = "Animal"
 
 /datum/roguestock/stockpile/spider
@@ -91,6 +103,8 @@
 	importexport_amt = 5
 	stockpile_amount = 0
 	stockpile_limit = 20
+	payout_price = 4
+	withdraw_price = 8
 	category = "Seafood"
 
 /datum/roguestock/stockpile/poultry

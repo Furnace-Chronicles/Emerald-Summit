@@ -34,7 +34,15 @@
 	return TRUE
 
 /obj/item/zadcage/proc/start_voyeur(mob/living/carbon/human/operator)
+	var/obj/item/roguemachine/zadcote/cote = resolve_cote()
+	if(active_voyeur_screye)
+		to_chat(operator, span_warning("The zad is already being scryed through - wait for the current scrying to end."))
+		if(cote)
+			cote.voyeur_fund += ZAD_VOYEUR_COST_MAMMON
+		return
 	if(!operator || !operator.key)
+		if(cote)
+			cote.voyeur_fund += ZAD_VOYEUR_COST_MAMMON
 		return
 	var/mob/holder = holder_mob()
 	var/atom/movable/target = holder || src
@@ -55,6 +63,8 @@
 	var/mob/dead/observer/screye/zadcote_voyeur/S = spawn_zad_screye(operator)
 	if(!S)
 		end_voyeur_visuals()
+		if(cote)
+			cote.voyeur_fund += ZAD_VOYEUR_COST_MAMMON
 		return
 	S.bonded_cage = WEAKREF(src)
 	active_voyeur_screye = WEAKREF(S)
@@ -68,9 +78,12 @@
 		to_chat(holder, span_warning("The zad in your zadcage stirs - you feel a pair of eyes peering through it."))
 		holder.balloon_alert_to_viewers("<font color='#b388ff'>scried!</font>")
 		holder.playsound_local(holder, 'sound/magic/marked.ogg', 75, TRUE) // ES deviation: AP plays 'sound/magic/scryed_on.ogg', which ES lacks
-	addtimer(CALLBACK(src, PROC_REF(finish_voyeur)), ZAD_VOYEUR_DURATION)
+	voyeur_timer_id = addtimer(CALLBACK(src, PROC_REF(finish_voyeur)), ZAD_VOYEUR_DURATION, TIMER_STOPPABLE)
 
 /obj/item/zadcage/proc/finish_voyeur()
+	if(voyeur_timer_id)
+		deltimer(voyeur_timer_id)
+		voyeur_timer_id = null
 	var/mob/dead/observer/screye/zadcote_voyeur/S = active_voyeur_screye?.resolve()
 	var/mob/holder = active_voyeur_holder?.resolve()
 	active_voyeur_screye = null

@@ -113,7 +113,7 @@
 #define STATS_FORFEITURE_COUNT          "forfeiture_count"
 // Black-market trade value (writer lands with the navigator rework)
 #define STATS_TRADE_VALUE_EXPORTED_BM   "trade_value_exported_bm"
-// Copperface vendor (no ES machine yet - inert until one exists)
+// Copperface / blackmarket vendor spend (blackmarket.dm "COPPERFACE" buy path).
 #define STATS_COPPERFACE_VALUE_SPENT    "copperface_value_spent"
 // Innkeeper rumor points (writers land with Innkeeper 2)
 #define STATS_RUMOR_POINTS_GENERATED    "rumor_points_generated"

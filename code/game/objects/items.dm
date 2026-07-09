@@ -271,8 +271,60 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/bellsound = FALSE //Sanitycheck for bell jingles
 	var/bell = FALSE //Does item have bell in it, used for attachables
 
-/obj/item/Initialize()
+/obj/item/Initialize(mapload)
+	if (attack_verb)
+		attack_verb = typelist("attack_verb", attack_verb)
+
+	if(experimental_inhand)
+		var/props2gen = list("gen")
+		var/list/prop
+		if(gripped_intents)
+			props2gen += "wielded"
+		for(var/i in props2gen)
+			prop = getonmobprop(i)
+			if(prop)
+				getmoboverlay(i,prop,behind=FALSE,mirrored=FALSE)
+				getmoboverlay(i,prop,behind=TRUE,mirrored=FALSE)
+				getmoboverlay(i,prop,behind=FALSE,mirrored=TRUE)
+				getmoboverlay(i,prop,behind=TRUE,mirrored=TRUE)
+
+	if(experimental_onhip)
+		if(slot_flags & ITEM_SLOT_BELT)
+			var/i = "onbelt"
+			var/list/prop = getonmobprop(i)
+			if(prop)
+				getmoboverlay(i,prop,behind=FALSE,mirrored=FALSE)
+				getmoboverlay(i,prop,behind=TRUE,mirrored=FALSE)
+				getmoboverlay(i,prop,behind=FALSE,mirrored=TRUE)
+				getmoboverlay(i,prop,behind=TRUE,mirrored=TRUE)
+
+	if(experimental_onback)
+		if(slot_flags & ITEM_SLOT_BACK)
+			var/i = "onback"
+			var/list/prop = getonmobprop(i)
+			if(prop)
+				getmoboverlay(i,prop,behind=FALSE,mirrored=FALSE)
+				getmoboverlay(i,prop,behind=TRUE,mirrored=FALSE)
+				getmoboverlay(i,prop,behind=FALSE,mirrored=TRUE)
+				getmoboverlay(i,prop,behind=TRUE,mirrored=TRUE)
+
+	wdefense_dynamic = wdefense
+	update_force_dynamic()
+
 	. = ..()
+
+	// Town-property marking (AP parity): items placed inside a town area at mapload are
+	// stamped unmintable, so residents can't strip the town's furnishings and mint them for
+	// coin. Read by the stockpile deposit / mint guard (stockpile.dm).
+	if(mapload)
+		var/area/A = get_area(src)
+		if(A && is_type_in_typecache(A, GLOB.roguetown_areas_typecache))
+			unmintable = TRUE
+
+	for(var/path in actions_types)
+		new path(src)
+	actions_types = null
+
 	if(!pixel_x && !pixel_y && !bigboy)
 		pixel_x = rand(-5,5)
 		pixel_y = rand(-5,5)
@@ -335,50 +387,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			if (obj_broken)
 				update_damaged_state()
 
-/obj/item/Initialize()
-	if (attack_verb)
-		attack_verb = typelist("attack_verb", attack_verb)
-
-	if(experimental_inhand)
-		var/props2gen = list("gen")
-		var/list/prop
-		if(gripped_intents)
-			props2gen += "wielded"
-		for(var/i in props2gen)
-			prop = getonmobprop(i)
-			if(prop)
-				getmoboverlay(i,prop,behind=FALSE,mirrored=FALSE)
-				getmoboverlay(i,prop,behind=TRUE,mirrored=FALSE)
-				getmoboverlay(i,prop,behind=FALSE,mirrored=TRUE)
-				getmoboverlay(i,prop,behind=TRUE,mirrored=TRUE)
-
-	if(experimental_onhip)
-		if(slot_flags & ITEM_SLOT_BELT)
-			var/i = "onbelt"
-			var/list/prop = getonmobprop(i)
-			if(prop)
-				getmoboverlay(i,prop,behind=FALSE,mirrored=FALSE)
-				getmoboverlay(i,prop,behind=TRUE,mirrored=FALSE)
-				getmoboverlay(i,prop,behind=FALSE,mirrored=TRUE)
-				getmoboverlay(i,prop,behind=TRUE,mirrored=TRUE)
-
-	if(experimental_onback)
-		if(slot_flags & ITEM_SLOT_BACK)
-			var/i = "onback"
-			var/list/prop = getonmobprop(i)
-			if(prop)
-				getmoboverlay(i,prop,behind=FALSE,mirrored=FALSE)
-				getmoboverlay(i,prop,behind=TRUE,mirrored=FALSE)
-				getmoboverlay(i,prop,behind=FALSE,mirrored=TRUE)
-				getmoboverlay(i,prop,behind=TRUE,mirrored=TRUE)
-
-	wdefense_dynamic = wdefense
-	update_force_dynamic()
-
-	. = ..()
-	for(var/path in actions_types)
-		new path(src)
-	actions_types = null
 
 
 	if(!hitsound)

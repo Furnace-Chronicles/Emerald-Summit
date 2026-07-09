@@ -33,11 +33,19 @@ future port if that framework is ever wanted in ES.
 	if(!(new_status in states))
 		return
 	var/list/data = registry[user.real_name]
+	var/first_registration = FALSE
 	if(!data)
 		data = list("status" = default_state, "mob" = user, "message" = "")
 		registry[user.real_name] = data
+		first_registration = TRUE
 	data["status"] = new_status
 	data["mob"] = user
+	// First mercenary registration via the TGUI also grants the from-afar message-recall link,
+	// mirroring the old (now-superseded) register= Topic branch in talkstatue_mercenary.dm.
+	if(first_registration && registry == mercenary_status && user.key)
+		to_chat(user, span_notice("I can visit the statue in person to change my status, or <a href='?src=[REF(src)];set_message_remote=[REF(user)]'>recall my mercenary message</a> from afar. (This link expires in 2 minutes)"))
+		pending_message_links[user.key] = user
+		addtimer(CALLBACK(src, PROC_REF(expire_message_link), user.key), 2 MINUTES)
 	to_chat(user, span_notice("I set my status to: <b>[new_status]</b>"))
 	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
 	log_admin_private("[key_name(user)] set statue status to [new_status]")

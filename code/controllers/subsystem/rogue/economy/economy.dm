@@ -216,6 +216,8 @@ SUBSYSTEM_DEF(economy)
 			region.produces_today[good_id] = max(1, round(region.produces[good_id] * pop_mult))
 		for(var/good_id in region.demands)
 			region.demands_today[good_id] = max(1, round(region.demands[good_id] * pop_mult))
+	for(var/datum/crown_import/CI as anything in GLOB.crown_imports)
+		CI.reset_daily_demand()
 	SStreasury.dirty_market_view()
 
 	var/list/expired = list()
@@ -680,10 +682,15 @@ SUBSYSTEM_DEF(economy)
 		matched_by_good[good_id] = list()
 		found_by_good[good_id] = 0
 
+	// Guard against one physical item falling in two overlapping machines' view(1)
+	// ranges — otherwise it double-counts here and gets qdel'd twice on consume.
+	var/list/already_matched = list()
 	for(var/obj/structure/roguemachine/steward_export/M as anything in GLOB.steward_export_machines)
 		if(QDELETED(M))
 			continue
 		for(var/obj/item/I in view(1, M))
+			if(already_matched[I])
+				continue
 			for(var/good_id in goods)
 				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 				if(!tg || !tg.item_type || !istype(I, tg.item_type))
@@ -698,6 +705,7 @@ SUBSYSTEM_DEF(economy)
 					continue
 				found_by_good[good_id]++
 				matched_by_good[good_id] += I
+				already_matched[I] = TRUE
 				break
 
 	for(var/good_id in goods)
@@ -722,10 +730,15 @@ SUBSYSTEM_DEF(economy)
 		found_volume_by_good[good_id] = 0
 		matched_containers_by_good[good_id] = list()
 
+	// Guard against one physical container falling in two overlapping machines'
+	// view(1) ranges — otherwise it double-counts here and gets qdel'd twice.
+	var/list/already_matched = list()
 	for(var/obj/structure/roguemachine/steward_export/M as anything in GLOB.steward_export_machines)
 		if(QDELETED(M))
 			continue
 		for(var/obj/item/reagent_containers/RC in view(1, M))
+			if(already_matched[RC])
+				continue
 			if(!RC.reagents)
 				continue
 			for(var/good_id in required_volume_by_good)
@@ -737,6 +750,7 @@ SUBSYSTEM_DEF(economy)
 					continue
 				found_volume_by_good[good_id] += contained
 				matched_containers_by_good[good_id] += RC
+				already_matched[RC] = TRUE
 				break
 
 	for(var/good_id in goods)

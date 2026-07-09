@@ -164,8 +164,7 @@
 			return
 
 	if(chosen_type == QUEST_BLOCKADE_DEFENSE)
-		commission_blockade_defense(steward, params, cost, source_fund, is_directive, bonus_pay_level)
-		if(is_alderman_acting)
+		if(commission_blockade_defense(steward, params, cost, source_fund, is_directive, bonus_pay_level) && is_alderman_acting)
 			SScity_assembly.consume_defense(cost, steward, "blockade defense commission")
 		return
 
@@ -205,6 +204,8 @@
 			SStreasury.mint(source_fund, cost, "Defense commission refund (landmark failure)")
 			if(source_fund == SStreasury.burgher_pledge_fund)
 				record_round_statistic(STATS_PLEDGE_CONSUMED, -cost)
+		if(is_alderman_acting && cost > 0)
+			SScity_assembly.restore_defense(cost, steward, "[chosen_type] defense commission refund in [chosen_region.region_name]")
 		SSquestpool.log_event("defense_refund", "landmark failure [chosen_type] in [chosen_region.region_name] refunded [cost]m")
 		to_chat(steward, span_warning("No landmark could bear that commission. Funds refunded."))
 		return
@@ -252,13 +253,13 @@
 			break
 	if(!chosen)
 		to_chat(steward, span_warning("That region is not currently blockaded."))
-		return
+		return FALSE
 	if(chosen.has_active_scroll())
 		to_chat(steward, span_warning("A writ is already in circulation for that blockade."))
-		return
+		return FALSE
 	if(source_fund && cost > 0 && !SStreasury.burn(source_fund, cost, "Blockade defense writ ([region_name])"))
 		to_chat(steward, span_warning("The [source_fund.name] refused the draft."))
-		return
+		return FALSE
 	if(source_fund == SStreasury.burgher_pledge_fund && cost > 0)
 		record_round_statistic(STATS_PLEDGE_CONSUMED, cost)
 	var/datum/quest/kill/blockade_defense/Q = SSquestpool.issue_blockade_defense_quest(chosen, steward, is_directive ? null : source_fund, is_directive ? 0 : cost)
@@ -269,7 +270,7 @@
 				record_round_statistic(STATS_PLEDGE_CONSUMED, -cost)
 		SSquestpool.log_event("defense_refund", "landmark failure blockade [region_name] refunded [cost]m")
 		to_chat(steward, span_warning("No landmark could bear that writ. Funds refunded."))
-		return
+		return FALSE
 	var/bonus_mult = get_commission_bonus_pay_mult(bonus_pay_level)
 	if(bonus_mult != 1.0)
 		Q.reward_amount = round(Q.reward_amount * bonus_mult)
@@ -295,6 +296,7 @@
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	var/source_label = is_directive ? "as a Request" : (funding == "crown" ? "from Crown's Purse" : "from the Pledge")
 	to_chat(steward, span_notice("Blockade writ drafted [source_label] to your hand: <b>[Q.get_title()]</b>[bonus_label_text ? " - <i>[bonus_label_text]</i>" : ""]."))
+	return TRUE
 
 /// Steward recall: cancels a still-armed writ within the recall window and refunds the draft.
 /// Region param is the economic region name — same selector used for issuance.

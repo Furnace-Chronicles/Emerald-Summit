@@ -780,15 +780,20 @@
 			update_user_ui(usr)
 			return FALSE
 		if("manifest_dec")
-			var/datum/R = locate(params["ref"]) in catalog
+			// Resolve against the user's cart, NOT the catalog: a line whose recipe was dropped
+			// from the catalog (its material got disabled after it was added) must still be
+			// decrementable/removable, otherwise it becomes a stuck, un-trimmable manifest row.
+			var/usr_key = escrow_key(usr)
+			var/list/cart = usr_key ? manifests[usr_key] : null
+			var/datum/R = cart ? (locate(params["ref"]) in cart) : null
 			if(R)
 				manifest_change(usr, R, -(text2num(params["delta"]) || 1))
 			update_user_ui(usr)
 			return FALSE
 		if("manifest_remove")
-			var/datum/R = locate(params["ref"]) in catalog
 			var/usr_key = escrow_key(usr)
 			var/list/cart = usr_key ? manifests[usr_key] : null
+			var/datum/R = cart ? (locate(params["ref"]) in cart) : null
 			if(R && cart)
 				cart -= R
 			update_user_ui(usr)

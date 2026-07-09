@@ -167,7 +167,10 @@ SUBSYSTEM_DEF(regionthreat)
 		var/weight = TR.get_threat_weight()
 		if(weight <= 0)
 			continue
-		weights[TR] = weight
+		// get_threat_weight() is a fractional 0-1 fill ratio; scale to a positive integer so the
+		// summed weight is always >= 1 (stock pickweight() does rand(1, total) and returns null when
+		// the total is < 1). max(1, ...) keeps every eligible region selectable after the floor.
+		weights[TR] = max(1, round(weight * 1000))
 	if(!length(weights))
 		// Fall back: any region that allows the type, ignoring fill ratio.
 		for(var/T in threat_regions)

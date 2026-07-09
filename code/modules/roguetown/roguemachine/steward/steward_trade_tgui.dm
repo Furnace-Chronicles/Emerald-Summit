@@ -995,9 +995,12 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 		if("set_royal_custom_margin")
 			if(!SStreasury.royal_custom_unlocked)
 				return TRUE
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
 			var/n = text2num("[params["value"]]")
 			if(isnum(n))
 				SStreasury.royal_custom_margin = clamp(round(n), 0, 500)
+			SStgui.update_uis(src)
 			return TRUE
 		if("ledger_open")
 			ledger_view[usr.ckey] = list("open" = TRUE, "page" = 1, "filter" = "")

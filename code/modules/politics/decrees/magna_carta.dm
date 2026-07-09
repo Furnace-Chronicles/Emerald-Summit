@@ -14,12 +14,29 @@ Yeven under the seal of %RULER_NAME%, %RULER% of this yeer, who shall be remembe
 	revoke_text = "Hear ye, hear ye. %RULER_NAME%, by the grace of Astrata, %RULER% of the Summit, Count of Kingsfield, Blackholt, and Saltwick, Overlord of Rosawood, Rockhill, and Daftsmarch, Protector of Bleakcoast, Northfort, and Heartfelt, Defender of the Ten, hath this day set aside the Magna Carta. The Realm's subjects are hereby restored to their accustomed fiscal obligations, and the Crown's revenue is restored in kind. Let the record reflect the reconsideration of %RULER_NAME%."
 	// restore_text intentionally unset - broadcast_state_change is overridden below so that
 	// restoring the Carta reads the full charter aloud, ruler's name and all. That's the joke.
+	/// Pre-Carta tax rates, snapshotted the first time the charter is restored so that
+	/// revoking it can hand the Crown's revenue back "in kind." Null until first restore.
+	var/list/saved_tax_rates = null
+	/// Pre-Carta poll tax rates, snapshotted alongside saved_tax_rates.
+	var/list/saved_poll_rates = null
 
 /datum/decree/magna_carta/roll_initial_year()
 	return CALENDAR_EPOCH_YEAR
 
 /datum/decree/magna_carta/on_restore()
 	. = ..()
+	// Snapshot the current rates BEFORE zeroing so on_revoke() can restore them. Only take
+	// the snapshot once - a second restore (after a revoke) must not clobber the real rates
+	// with the already-zeroed values, and on_revoke() clears the snapshot when it hands back.
+	if(isnull(saved_tax_rates))
+		saved_tax_rates = list(
+			TAX_CATEGORY_CONTRACT_LEVY = SStreasury.tax_rates[TAX_CATEGORY_CONTRACT_LEVY],
+			TAX_CATEGORY_HEADEATER_LEVY = SStreasury.tax_rates[TAX_CATEGORY_HEADEATER_LEVY],
+			TAX_CATEGORY_IMPORT_TARIFF = SStreasury.tax_rates[TAX_CATEGORY_IMPORT_TARIFF],
+			TAX_CATEGORY_EXPORT_DUTY = SStreasury.tax_rates[TAX_CATEGORY_EXPORT_DUTY],
+		)
+	if(isnull(saved_poll_rates))
+		saved_poll_rates = SStreasury.poll_tax_rates.Copy()
 	SStreasury.tax_rates[TAX_CATEGORY_CONTRACT_LEVY] = 0
 	SStreasury.tax_rates[TAX_CATEGORY_HEADEATER_LEVY] = 0
 	SStreasury.tax_rates[TAX_CATEGORY_IMPORT_TARIFF] = 0
@@ -27,6 +44,18 @@ Yeven under the seal of %RULER_NAME%, %RULER% of this yeer, who shall be remembe
 	// Fines stay at their configured rate - the Crown can still punish.
 	for(var/category in SStreasury.poll_tax_rates)
 		SStreasury.poll_tax_rates[category] = 0
+
+/datum/decree/magna_carta/on_revoke()
+	. = ..()
+	// Restore the rates the Crown levied before the Carta zeroed them - "revenue restored in kind."
+	if(!isnull(saved_tax_rates))
+		for(var/category in saved_tax_rates)
+			SStreasury.tax_rates[category] = saved_tax_rates[category]
+		saved_tax_rates = null
+	if(!isnull(saved_poll_rates))
+		for(var/category in saved_poll_rates)
+			SStreasury.poll_tax_rates[category] = saved_poll_rates[category]
+		saved_poll_rates = null
 
 /datum/decree/magna_carta/broadcast_state_change()
 	if(!active)

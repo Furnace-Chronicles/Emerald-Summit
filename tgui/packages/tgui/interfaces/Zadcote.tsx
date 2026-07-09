@@ -351,9 +351,17 @@ const SendPanel = (props: {
     : [0];
   const effectiveZads = bombs > 0 ? Math.max(zads, bombs) : zads;
   const overLimit = message.length > MESSAGE_MAX;
-  const refsList = Object.entries(selectedRefs)
-    .filter(([, on]) => on)
-    .map(([ref]) => ref);
+  // Only submit parcels that are BOTH selected and light enough for the current zad tier.
+  // Mirrors the checkbox's own `on` derivation (selected && !tooHeavy): lowering the Zads count
+  // leaves a now-too-heavy parcel checked in state, and sending its ref makes the backend reject
+  // the entire flight. Filtering here keeps a stale heavy selection from poisoning the dispatch.
+  const refsList = data.payload_in_hand
+    .filter(
+      (item) =>
+        !!selectedRefs[item.ref] &&
+        item.w_class <= maxWeightForTier(effectiveZads),
+    )
+    .map((item) => item.ref);
 
   const refusedReason = (() => {
     if (slot.severed) return 'The zadlink is severed.';
