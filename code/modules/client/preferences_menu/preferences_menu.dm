@@ -1597,7 +1597,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	var/static/list/cached_color_options
 	if(!cached_color_options)
 		cached_color_options = list("—")
-		for(var/k in colorlist)
+		for(var/k in GLOB.colorlist)
 			cached_color_options += k
 	data["color_options"] = cached_color_options
 	return data
@@ -1605,13 +1605,13 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 /datum/preferences_menu/proc/lookup_loadout_color_name(hex)
 	if(!hex)
 		return "—"
-	// Reverse lookup table built once and shared. Was iterating colorlist
+	// Reverse lookup table built once and shared. Was iterating GLOB.colorlist
 	// six times per poll (once per loadout slot) just to compare hex strings.
 	var/static/list/cached_hex_to_name
 	if(!cached_hex_to_name)
 		cached_hex_to_name = list()
-		for(var/k in colorlist)
-			cached_hex_to_name[colorlist[k]] = k
+		for(var/k in GLOB.colorlist)
+			cached_hex_to_name[GLOB.colorlist[k]] = k
 	return cached_hex_to_name[hex] || "Custom"
 
 /datum/preferences_menu/proc/zone_label(zone)
@@ -3733,10 +3733,10 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			if(!(slot in list(1, 2, 3, 4, 5, 6)))
 				return TRUE
 			var/hex_var = "loadout_[slot]_hex"
-			var/picked = tgui_input_list(user, "Choose a color.", "Loadout Item Color", colorlist)
+			var/picked = tgui_input_list(user, "Choose a color.", "Loadout Item Color", GLOB.colorlist)
 			var/slot_label_words = list("first", "second", "third", "fourth", "fifth", "sixth")
-			if(picked && colorlist[picked])
-				prefs.vars[hex_var] = colorlist[picked]
+			if(picked && GLOB.colorlist[picked])
+				prefs.vars[hex_var] = GLOB.colorlist[picked]
 				to_chat(user, "The colour for your <b>[slot_label_words[slot]]</b> loadout item has been set to <b>[picked]</b>.")
 			else
 				prefs.vars[hex_var] = null
@@ -3754,8 +3754,8 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				prefs.vars[hex_var] = null
 				on_identity_change()
 				return TRUE
-			if(colorlist[picked])
-				prefs.vars[hex_var] = colorlist[picked]
+			if(GLOB.colorlist[picked])
+				prefs.vars[hex_var] = GLOB.colorlist[picked]
 			on_identity_change()
 			return TRUE
 

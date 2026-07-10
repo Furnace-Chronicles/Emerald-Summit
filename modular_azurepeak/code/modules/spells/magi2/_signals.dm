@@ -38,6 +38,4 @@
 #define ALL (~0)
 #endif
 
-// ---- Featured-stat key used by record_featured_object_stat() in spell cast logging ----
-// Adapter layer: stubbed by _compat_stubs.dm — no actual featured-stat backend in Emerald Summit.
-#define FEATURED_STATS_SPELLS "spells"
+// FEATURED_STATS_SPELLS stub removed: core __HELPERS/round_statistics.dm now defines it (same value).

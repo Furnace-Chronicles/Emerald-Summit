@@ -251,11 +251,12 @@
 	// separately and would otherwise keep blocking revival. Save the sources so they can be restored
 	// if the player is cured.
 	for(var/forbidden in list(TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_NECRAS_VOW))
-		if(zombie.status_traits?[forbidden])
+		var/list/trait_sources = zombie.status_traits?[forbidden]
+		if(trait_sources)
 			if(!stripped_traits)
 				stripped_traits = list()
-			stripped_traits[forbidden] = zombie.status_traits[forbidden].Copy()
-			REMOVE_TRAIT(zombie, forbidden, zombie.status_traits[forbidden].Copy())
+			stripped_traits[forbidden] = trait_sources.Copy()
+			REMOVE_TRAIT(zombie, forbidden, trait_sources.Copy())
 	if(zombie.mind)
 		special_role = zombie.mind.special_role
 		zombie.mind.special_role = name
