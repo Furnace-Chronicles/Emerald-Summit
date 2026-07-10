@@ -477,6 +477,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["familiar_ooc_notes_display"]		>> familiar_prefs.familiar_ooc_notes_display
 	S["familiar_ooc_extra"]				>> familiar_prefs.familiar_ooc_extra
 	S["familiar_ooc_extra_link"]		>> familiar_prefs.familiar_ooc_extra_link
+	// _display fields are derived from the raw text; regenerate them on load so
+	// stale renders saved by older builds (which html_encoded AFTER parsing the
+	// markup, leaving visible tag soup) self-heal.
+	if(familiar_prefs.familiar_flavortext)
+		familiar_prefs.familiar_flavortext_display = render_examine_display(familiar_prefs.familiar_flavortext)
+	if(familiar_prefs.familiar_ooc_notes)
+		familiar_prefs.familiar_ooc_notes_display = render_examine_display(familiar_prefs.familiar_ooc_notes)
 
 /datum/preferences/proc/_load_gnoll_prefs(S)
 	S["gnoll_name"]						>> gnoll_prefs.gnoll_name
@@ -530,6 +537,17 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	gnoll_prefs.gnoll_img_gallery = SANITIZE_LIST(gnoll_prefs.gnoll_img_gallery)
 	S["gnoll_nsfw_img_gallery"]			>> gnoll_prefs.gnoll_nsfw_img_gallery
 	gnoll_prefs.gnoll_nsfw_img_gallery = SANITIZE_LIST(gnoll_prefs.gnoll_nsfw_img_gallery)
+	// _display fields are derived from the raw text; regenerate them on load so
+	// stale renders saved by older builds (which html_encoded AFTER parsing the
+	// markup, leaving visible tag soup) self-heal.
+	if(gnoll_prefs.gnoll_flavortext)
+		gnoll_prefs.gnoll_flavortext_display = render_examine_display(gnoll_prefs.gnoll_flavortext)
+	if(gnoll_prefs.gnoll_ooc_notes)
+		gnoll_prefs.gnoll_ooc_notes_display = render_examine_display(gnoll_prefs.gnoll_ooc_notes)
+	if(gnoll_prefs.gnoll_nsfwflavortext)
+		gnoll_prefs.gnoll_nsfwflavortext_display = render_examine_display(gnoll_prefs.gnoll_nsfwflavortext)
+	if(gnoll_prefs.gnoll_erpprefs)
+		gnoll_prefs.gnoll_erpprefs_display = render_examine_display(gnoll_prefs.gnoll_erpprefs)
 
 /datum/preferences/proc/load_character(slot)
 	if(!path)
