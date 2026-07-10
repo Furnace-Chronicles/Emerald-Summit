@@ -1,22 +1,29 @@
 import { useEffect, useRef, useState } from 'react';
-import { Box, Button, ByondUi, Section, Stack, Tabs } from 'tgui-core/components';
+import {
+  Box,
+  Button,
+  ByondUi,
+  Section,
+  Stack,
+  Tabs,
+} from 'tgui-core/components';
 
-import { useBackend } from '../backend';
 import type { ActFunctionType } from '../backend';
+import { useBackend } from '../backend';
+import { Window } from '../layouts';
 // Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
 // list passes 7 options.
 import { SearchableDropdown as Dropdown } from './common/SearchableDropdown';
-import { Window } from '../layouts';
-import { IdentityTab } from './PreferencesMenu/IdentityTab';
+import { FamiliarTab } from './PreferencesMenu/FamiliarTab';
 import { FeaturesTab } from './PreferencesMenu/FeaturesTab';
-import { LoadoutTab } from './PreferencesMenu/LoadoutTab';
-import { JobsTab } from './PreferencesMenu/JobsTab';
 import { FlavorTab } from './PreferencesMenu/FlavorTab';
 import { GamePrefsTab } from './PreferencesMenu/GamePrefsTab';
-import { OocPrefsTab } from './PreferencesMenu/OocPrefsTab';
-import { KeybindsTab } from './PreferencesMenu/KeybindsTab';
-import { FamiliarTab } from './PreferencesMenu/FamiliarTab';
 import { GnollTab } from './PreferencesMenu/GnollTab';
+import { IdentityTab } from './PreferencesMenu/IdentityTab';
+import { JobsTab } from './PreferencesMenu/JobsTab';
+import { KeybindsTab } from './PreferencesMenu/KeybindsTab';
+import { LoadoutTab } from './PreferencesMenu/LoadoutTab';
+import { OocPrefsTab } from './PreferencesMenu/OocPrefsTab';
 
 type HeaderData = {
   real_name: string;
@@ -86,7 +93,9 @@ const TAB_LABELS: Partial<Record<TabId, string>> = {
   gnoll: 'Gnoll',
 };
 
-const renderTab = (tab: TabId, data: Data, act: ActFunctionType) => {
+// data is the full ui_data payload passed through untyped: this parent only types
+// its own slice (header/slots/lobby); each tab declares and types the slice it consumes.
+const renderTab = (tab: TabId, data: any, act: ActFunctionType) => {
   switch (tab) {
     case 'identity':
       return <IdentityTab data={data} act={act} />;
@@ -183,11 +192,7 @@ const FooterBar = ({
               >
                 Migration
               </Button>
-              <Button
-                ml={1}
-                icon="users"
-                onClick={() => act('open_manifest')}
-              >
+              <Button ml={1} icon="users" onClick={() => act('open_manifest')}>
                 Actors
               </Button>
               <Button
@@ -278,8 +283,8 @@ const PreviewPane = () => {
         }}
       />
       <Box mt={1} color="label" italic textAlign="center">
-        Click <b>Refresh</b> after changing body fields if the dummy doesn&apos;t
-        update on its own.
+        Click <b>Refresh</b> after changing body fields if the dummy
+        doesn&apos;t update on its own.
       </Box>
     </Section>
   );
@@ -316,7 +321,10 @@ const LobbySection = ({ lobby }: { lobby: LobbyData }) => {
   const displayDs =
     lobby.timeleft_ds === -10
       ? -10
-      : Math.max(0, Math.round((deadlineRef.current - performance.now()) / 100));
+      : Math.max(
+          0,
+          Math.round((deadlineRef.current - performance.now()) / 100),
+        );
 
   let statusLine: string;
   let statusColor: string | undefined;
@@ -338,7 +346,11 @@ const LobbySection = ({ lobby }: { lobby: LobbyData }) => {
 
   return (
     <Section title="Lobby" fill scrollable>
-      <Box bold fontSize="1.1em" style={statusColor ? { color: statusColor } : undefined}>
+      <Box
+        bold
+        fontSize="1.1em"
+        style={statusColor ? { color: statusColor } : undefined}
+      >
         {statusLine}
       </Box>
       {!lobby.round_in_progress && (

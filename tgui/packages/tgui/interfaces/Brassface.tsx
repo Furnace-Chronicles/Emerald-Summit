@@ -211,7 +211,10 @@ const ShopTab = (props: {
                   </Box>
                 </Stack.Item>
                 <Stack.Item>
-                  <Button disabled={budget < cost} onClick={() => onBuy(p.type)}>
+                  <Button
+                    disabled={budget < cost}
+                    onClick={() => onBuy(p.type)}
+                  >
                     Buy
                   </Button>
                 </Stack.Item>
@@ -301,10 +304,7 @@ const SecretsTab = (props: {
             When evaded, BRASSFACE purchases skip the treasury import tax. The
             town will notice if audited.
           </Box>
-          <Button
-            color={taxEnabled ? 'bad' : 'good'}
-            onClick={onToggleTax}
-          >
+          <Button color={taxEnabled ? 'bad' : 'good'} onClick={onToggleTax}>
             {taxEnabled ? 'Stop Paying Taxes' : 'Resume Paying Taxes'}
           </Button>
         </Stack.Item>
