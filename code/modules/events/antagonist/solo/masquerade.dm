@@ -30,6 +30,7 @@
 		"Marshal",
 		"Bishop",
 		"Acolyte",
+		"Mystic Theurge",
 		"Martyr",
 		"Templar",
 		"Councillor",
