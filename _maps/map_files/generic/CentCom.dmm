@@ -876,6 +876,10 @@
 "dz" = (
 /turf/open/water/bath,
 /area/rogue/under/cave/inhumen)
+"dC" = (
+/obj/effect/landmark/start/gnolllate,
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/cave/inhumen/gnollcavern)
 "dF" = (
 /obj/machinery/light/rogue/hearth,
 /obj/item/cooking/pan,
@@ -21412,7 +21416,7 @@ SD
 SD
 SD
 QY
-QY
+dC
 QY
 QY
 bX
@@ -21540,7 +21544,7 @@ Wz
 QY
 SD
 QY
-QY
+dC
 QY
 UU
 SD
@@ -22580,7 +22584,7 @@ iI
 Wz
 SD
 QY
-QY
+dC
 HX
 HX
 HX
