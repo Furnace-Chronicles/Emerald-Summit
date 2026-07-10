@@ -1632,6 +1632,10 @@
 /obj/effect/spawner/trap,
 /turf/open/floor/rogue/tile/checkeralt,
 /area/rogue/under/cave/inhumen)
+"kN" = (
+/obj/effect/landmark/start/gnolllate,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/inhumen/gnollcavern)
 "kQ" = (
 /obj/item/herbseed,
 /obj/item/herbseed,
@@ -2132,6 +2136,12 @@
 	dir = 4
 	},
 /area/rogue/indoors/banditcamp)
+"oU" = (
+/obj/machinery/light/rogue/wallfire/candle{
+	pixel_y = -32
+	},
+/turf/closed/wall/mineral/rogue/decostone/mossy/red/long,
+/area/rogue/under/cave/inhumen)
 "oV" = (
 /obj/structure/roguetent,
 /turf/open/floor/rogue/ruinedwood,
@@ -3036,12 +3046,6 @@
 /obj/structure/flora/roguetree,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods/vampire_lair)
-"wJ" = (
-/obj/machinery/light/rogue/wallfire/candle{
-	pixel_y = -32
-	},
-/turf/closed/wall/mineral/rogue/decostone/mossy/red/long,
-/area/rogue/under/cave/inhumen)
 "wL" = (
 /obj/structure/fluff/walldeco/stone{
 	pixel_y = 32
@@ -4789,6 +4793,10 @@
 /obj/machinery/light/rogue/wallfire/candle/l,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/vampire_manor)
+"NT" = (
+/obj/structure/closet/crate/coffin,
+/turf/open/floor/rogue/blocks/stonered/tiny,
+/area/rogue/under/cave/inhumen)
 "NV" = (
 /obj/structure/flora/roguetree/burnt,
 /turf/open/floor/rogue/dirt,
@@ -4802,13 +4810,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/vampire_manor)
-"Of" = (
-/obj/structure/curtain/red,
-/obj/machinery/light/rogue/wallfire/candle{
-	pixel_y = -32
-	},
-/turf/open/floor/rogue/blocks/stonered/tiny,
-/area/rogue/under/cave/inhumen)
 "Ok" = (
 /obj/item/clothing/mask/cigarette/rollie/nicotine,
 /obj/item/clothing/mask/cigarette/rollie/nicotine,
@@ -5148,10 +5149,6 @@
 /obj/structure/fluff/railing/fence,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/banditcamp)
-"RO" = (
-/obj/structure/closet/crate/coffin,
-/turf/open/floor/rogue/blocks/stonered/tiny,
-/area/rogue/under/cave/inhumen)
 "RQ" = (
 /turf/closed/wall/mineral/rogue/stone/window/blue_moss{
 	name = "FEED ME"
@@ -5806,6 +5803,13 @@
 /obj/effect/decal/cleanable/blood/old,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/vampire_manor)
+"Xa" = (
+/obj/structure/curtain/red,
+/obj/machinery/light/rogue/wallfire/candle{
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/blocks/stonered/tiny,
+/area/rogue/under/cave/inhumen)
 "Xc" = (
 /obj/structure/mineral_door/swing_door{
 	name = "Zitchen"
@@ -21448,7 +21452,7 @@ QY
 SD
 QY
 dC
-QY
+dC
 UU
 SD
 QY
@@ -21708,7 +21712,7 @@ QY
 SD
 QY
 tB
-Wz
+kN
 Qx
 Ou
 QY
@@ -21898,13 +21902,13 @@ rQ
 bX
 TS
 Kv
-Of
+Xa
 xL
 Kv
-Of
+Xa
 xL
 Zs
-wJ
+oU
 xL
 cb
 FY
@@ -22158,13 +22162,13 @@ rQ
 bX
 TS
 Kv
-Of
+Xa
 xL
 Kv
-Of
+Xa
 xL
 Zs
-wJ
+oU
 xL
 FY
 FY
@@ -22417,8 +22421,8 @@ rQ
 rQ
 bX
 TS
-RO
-RO
+NT
+NT
 TS
 TH
 TH
@@ -22556,7 +22560,7 @@ Kv
 Kv
 xL
 Kv
-wJ
+oU
 xL
 Kv
 Kv
