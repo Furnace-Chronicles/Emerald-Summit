@@ -117,8 +117,7 @@
 
 /datum/devotion/proc/try_add_spells(silent = FALSE)
 	if(holder?.mind)
-		var/role = lowertext("[holder.mind.assigned_role]")
-		if(findtext(role, "druid") || findtext(role, "acolyte"))
+		if(holder.mind.holy_research_access)
 			return FALSE
 	if(!holder || !holder.mind || !patron)
 		return FALSE
@@ -167,7 +166,10 @@
 		if(!H.mind.has_spell(/obj/effect/proc_holder/spell/self/learnmiracle))
 			var/obj/effect/proc_holder/spell/self/learnmiracle/L = new
 			H.mind.AddSpell(L)
-
+	if(H.mind.holy_research_access_priest)
+		if(!H.mind.has_spell(/obj/effect/proc_holder/spell/self/learnmiracle))
+			var/obj/effect/proc_holder/spell/self/learnmiracle/L = new
+			H.mind.AddSpell(L)
 // Debug verb
 /mob/living/carbon/human/proc/devotionchange()
 	set name = "(DEBUG)Change Devotion"
