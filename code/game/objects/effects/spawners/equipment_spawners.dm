@@ -39,7 +39,7 @@
 		/obj/item/clothing/suit/roguetown/armor/plate/scale = 1,
 		/obj/item/clothing/suit/roguetown/armor/brigandine/light = 2,
 		/obj/item/clothing/under/roguetown/chainlegs = 3,
-		/obj/item/clothing/under/roguetown/splintlegs = 2,
+		/obj/item/clothing/under/roguetown/brigandinelegs = 2,
 		/obj/item/clothing/under/roguetown/chainlegs/iron = 6,
 		/obj/item/clothing/under/roguetown/chainlegs/kilt = 3,
 		/obj/item/clothing/under/roguetown/chainlegs/iron/kilt = 6,

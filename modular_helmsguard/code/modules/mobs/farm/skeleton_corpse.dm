@@ -53,7 +53,7 @@
 		/obj/item/clothing/under/roguetown/trou/shadowpants,
 		/obj/item/clothing/under/roguetown/trou/beltpants,
 		/obj/item/clothing/under/roguetown/trou/padleatherpants,
-		/obj/item/clothing/under/roguetown/splintlegs,
+		/obj/item/clothing/under/roguetown/brigandinelegs,
 		/obj/item/clothing/under/roguetown/brayette,
 		/obj/item/clothing/under/roguetown/freipants,
 		/obj/item/clothing/under/roguetown/trou/leather/nordman,
@@ -158,7 +158,7 @@
 		wrists = pick(
 		/obj/item/clothing/wrists/roguetown/bracers/leather,
 		/obj/item/clothing/wrists/roguetown/bracers,
-		/obj/item/clothing/wrists/roguetown/splintarms,
+		/obj/item/clothing/wrists/roguetown/bracers/brigandine,
 		)
 
 	shoes = pick(
@@ -240,7 +240,7 @@
 		/obj/item/clothing/under/roguetown/tights/random,
 		/obj/item/clothing/under/roguetown/heavy_leather_pants,
 		/obj/item/clothing/under/roguetown/trou/padleatherpants,
-		/obj/item/clothing/under/roguetown/splintlegs,
+		/obj/item/clothing/under/roguetown/brigandinelegs,
 		/obj/item/clothing/under/roguetown/chainlegs/skirt,
 		/obj/item/clothing/under/roguetown/platelegs/skirt,
 		)
@@ -305,7 +305,7 @@
 		wrists = pick(
 		/obj/item/clothing/wrists/roguetown/bracers/leather,
 		/obj/item/clothing/wrists/roguetown/bracers,
-		/obj/item/clothing/wrists/roguetown/splintarms,
+		/obj/item/clothing/wrists/roguetown/bracers/brigandine,
 		)
 
 	shoes = pick(
@@ -383,7 +383,7 @@
 				/obj/item/clothing/under/roguetown/chainlegs/iron,
 				/obj/item/clothing/under/roguetown/chainlegs,
 				/obj/item/clothing/under/roguetown/trou/padleatherpants,
-				/obj/item/clothing/under/roguetown/splintlegs,
+				/obj/item/clothing/under/roguetown/brigandinelegs,
 				/obj/item/clothing/under/roguetown/chainlegs/skirt,
 				/obj/item/clothing/under/roguetown/platelegs/skirt,
 				)

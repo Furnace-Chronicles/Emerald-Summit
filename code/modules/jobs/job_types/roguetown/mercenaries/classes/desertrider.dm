@@ -52,7 +52,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/raneshen
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
 	gloves = /obj/item/clothing/gloves/roguetown/chain
-	pants = /obj/item/clothing/under/roguetown/splintlegs
+	pants = /obj/item/clothing/under/roguetown/brigandinelegs
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	id = /obj/item/clothing/neck/roguetown/shalal
 	backpack_contents = list(
