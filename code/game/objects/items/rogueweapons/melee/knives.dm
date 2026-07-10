@@ -864,6 +864,7 @@
 				return
 			var/turf/T = get_turf(item)
 			var/datum/crafting_recipe/item_recipe
+			var/multi_output_recipe = FALSE // matched a recipe that crafts several items at once; only fibers may be reclaimed
 			for(var/recipe in GLOB.crafting_recipes) // Loops through sewing / weaving & leatherworking (skincraft) recipes 
 				var/datum/crafting_recipe/R = recipe
 				if(R.name == "")
@@ -871,14 +872,16 @@
 				if(R.skillcraft != /datum/skill/misc/sewing && R.skillcraft != /datum/skill/craft/tanning)
 					continue
 				var/obj/item/recipe_result
-				if(R.result.len)
+				if(islist(R.result)) // result may be a list or a bare type path; .len on a path runtimes and killed the whole salvage
+					if(!length(R.result))
+						continue
 					recipe_result = R.result[1]
 				else
 					recipe_result = R.result
 				if(lowertext(recipe_result.name) == lowertext(initial(item.name))) // initial() check for player name changed items
-					if(R.result.len > 1) // We return early and cancel the scrapping if the recipe to make it gives multiple of the item. (Reason? one cured leather makes three shoes, at legendary sewing you'd get 3 leather back.)
-						to_chat(user, span_warning("I can't seem to get any proper salvage from [item]."))
-						return
+					if(islist(R.result) && length(R.result) > 1) // Refunding reqs on multi-output recipes would mint materials (one cured leather makes three shoes, one hide makes two glove pairs) -- scrap to fibers only.
+						multi_output_recipe = TRUE
+						break
 					item_recipe = new R.type // This is qdel'd later.
 					break
 			user.mind.add_sleep_experience(/datum/skill/misc/sewing, (user.STAINT)) // You get XP regardless of failing or not.
@@ -928,9 +931,11 @@
 							new ingredient(T)
 					else
 						to_chat(user, span_info("I wasn't able to salvage any usable [I.name], there wasn't enough.")) // Feedback if you lose some.
-					qdel(item_recipe) // Clean up :)
+				qdel(item_recipe) // Clean up :)
 			else
-				if(item.salvage_result) // no recipe found, defaulting to salvage result
+				if(multi_output_recipe) // its salvage_result would out-yield the craft cost; skip it, fibers below are the consolation
+					to_chat(user, span_info("I can only tease a few usable fibers out of [item]."))
+				else if(item.salvage_result) // no recipe found, defaulting to salvage result
 					item.salvage_amount -= item.torn_sleeve_number
 					for(var/i = 0; i < item.salvage_amount; i++) // We are spawning salvage result for the salvage amount minus the torn sleeves!
 						new item.salvage_result(T)
