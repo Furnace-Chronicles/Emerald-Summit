@@ -496,7 +496,7 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/church/chapel)
 "aha" = (
-/obj/machinery/light/rogue/wallfire/candle,
+/obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "ahb" = (
@@ -7241,11 +7241,6 @@
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/rogueweapon/shield/tower/metal,
 /obj/item/rogueweapon/shield/tower/metal,
-/obj/item/rogueweapon/shield/tower/metal,
-/obj/item/rogueweapon/shield/tower/metal,
-/obj/item/rogueweapon/shield/tower/metal,
-/obj/item/rogueweapon/sword/long,
-/obj/item/rogueweapon/sword/long,
 /obj/item/rogueweapon/sword/long,
 /obj/item/rogueweapon/sword/long,
 /turf/open/floor/rogue/concrete,
@@ -11818,10 +11813,6 @@
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/rogueweapon/katar,
 /obj/item/rogueweapon/katar,
-/obj/item/rogueweapon/katar,
-/obj/item/rogueweapon/katar,
-/obj/item/rogueweapon/knuckles,
-/obj/item/rogueweapon/knuckles,
 /obj/item/rogueweapon/knuckles,
 /obj/item/rogueweapon/knuckles,
 /turf/open/floor/rogue/concrete,
@@ -30454,14 +30445,6 @@
 /obj/item/rogueore/iron,
 /obj/item/rogueore/iron,
 /obj/item/rogueore/iron,
-/obj/item/rogueore/iron,
-/obj/item/rogueore/iron,
-/obj/item/rogueore/iron,
-/obj/item/rogueore/iron,
-/obj/item/rogueore/iron,
-/obj/item/rogueore/coal,
-/obj/item/rogueore/coal,
-/obj/item/rogueore/coal,
 /obj/item/rogueore/coal,
 /obj/item/rogueore/coal,
 /turf/open/floor/rogue/concrete,
@@ -40018,19 +40001,13 @@
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/quiver/bolts,
 /obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,
-/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,
-/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,
-/obj/item/quiver/arrows,
 /obj/item/quiver/arrows,
 /obj/item/quiver/arrows,
 /obj/item/quiver/arrows,
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve,
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve,
-/obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/steppesman,
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/steppesman,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
@@ -42019,7 +41996,8 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
 	},
-/obj/structure/rack/rogue/shelf,
+/obj/item/rogueweapon/chisel/assembly/hammer,
+/obj/structure/rack/rogue/shelf/big,
 /turf/open/floor/rogue/ruinedwood{
 	icon_state = "weird1"
 	},
@@ -44188,10 +44166,6 @@
 /obj/item/bottle_kit,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
-"kEP" = (
-/obj/machinery/light/rogue/wallfire/candle,
-/turf/closed/wall/mineral/rogue/decostone/long,
-/area/rogue/indoors/town/church/chapel)
 "kER" = (
 /obj/structure/table/wood{
 	dir = 4;
@@ -48255,10 +48229,6 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/tools,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/skeletoncrypt)
-"lBB" = (
-/obj/structure/mineral_door/wood/donjon,
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/outdoors/beach/forest)
 "lBG" = (
 /obj/structure/mineral_door/bars{
 	locked = 1;
@@ -58124,10 +58094,6 @@
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/rogueweapon/flail,
 /obj/item/rogueweapon/flail,
-/obj/item/rogueweapon/flail,
-/obj/item/rogueweapon/flail,
-/obj/item/rogueweapon/mace,
-/obj/item/rogueweapon/mace,
 /obj/item/rogueweapon/mace,
 /obj/item/rogueweapon/mace,
 /turf/open/floor/rogue/concrete,
@@ -84277,10 +84243,6 @@
 	icon_state = "iron_corner"
 	},
 /area/rogue/under/cave)
-"uik" = (
-/obj/item/rogueweapon/chisel/assembly/hammer,
-/turf/closed/wall/mineral/rogue/decostone,
-/area/rogue/indoors/town/church/chapel)
 "uim" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -84488,10 +84450,6 @@
 	},
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/town/tavern)
-"ukW" = (
-/obj/item/rogueweapon/handsaw,
-/turf/closed/wall/mineral/rogue/decostone,
-/area/rogue/indoors/town/church/chapel)
 "ukX" = (
 /turf/closed/mineral/random/rogue/med,
 /area/rogue/under/cavewet/bogcaves/sunkencity)
@@ -94934,16 +94892,7 @@
 "wGO" = (
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/rogueweapon/halberd,
-/obj/item/rogueweapon/halberd,
-/obj/item/rogueweapon/halberd,
-/obj/item/rogueweapon/halberd,
 /obj/item/rogueweapon/stoneaxe/battle,
-/obj/item/rogueweapon/stoneaxe/battle,
-/obj/item/rogueweapon/stoneaxe/battle,
-/obj/item/rogueweapon/stoneaxe/battle,
-/obj/item/rogueweapon/woodstaff/quarterstaff/steel,
-/obj/item/rogueweapon/woodstaff/quarterstaff/steel,
-/obj/item/rogueweapon/woodstaff/quarterstaff/steel,
 /obj/item/rogueweapon/woodstaff/quarterstaff/steel,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
@@ -100201,7 +100150,8 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8
 	},
-/obj/structure/rack/rogue/shelf,
+/obj/item/rogueweapon/handsaw,
+/obj/structure/rack/rogue/shelf/big,
 /turf/open/floor/rogue/ruinedwood{
 	icon_state = "weird1"
 	},
@@ -269972,7 +269922,7 @@ ecM
 bmW
 qMY
 oKc
-ukW
+oKc
 xRq
 xoY
 xoY
@@ -271780,7 +271730,7 @@ ecM
 wOQ
 bDU
 oKc
-uik
+oKc
 kds
 wVy
 wVy
@@ -389313,7 +389263,7 @@ bML
 iBk
 qAY
 iPO
-iPO
+kSy
 iPO
 qAY
 cjg
@@ -390668,11 +390618,11 @@ gTY
 aIy
 gTY
 gTY
-aha
+fnc
 fnc
 fnc
 gTY
-kEP
+gTY
 gTY
 gTY
 aIy
@@ -391119,11 +391069,11 @@ dnJ
 dnJ
 dnJ
 qAY
-ebq
-fnc
-fnc
+gBf
 fnc
 ebq
+fnc
+gBf
 qAY
 dnJ
 dnJ
@@ -392475,11 +392425,11 @@ dnJ
 dnJ
 dnJ
 oKc
-fnc
+aha
 obq
 fwa
 obq
-fnc
+aha
 oKc
 dnJ
 dnJ
@@ -538734,13 +538684,13 @@ vMR
 vMR
 mGr
 krM
-lBB
+eLH
 krM
 krM
 krM
 krM
 krM
-lBB
+eLH
 krM
 krM
 vMR
