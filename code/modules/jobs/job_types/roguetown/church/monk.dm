@@ -184,6 +184,7 @@
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/astrata
 	// -- End of section for god specific bonuses --
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	H.mind.holy_research_access = TRUE //needs to be applied BEFORE grant_miracles. VERY IMPORTANT
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
 	H.miracle_points = max(H.miracle_points, 10)
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
@@ -272,7 +273,6 @@
 /datum/outfit/job/nocA/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
-	H.mind.assigned_role = "Mystic Theurge"
 	if(H.patron.parentpatron)
 		H.patron = new H.patron.parentpatron
 	belt = /obj/item/storage/belt/rogue/leather/rope

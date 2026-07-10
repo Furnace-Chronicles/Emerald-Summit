@@ -33,7 +33,6 @@
 		"Priest",
 		"Priestess",
 		"Acolyte",
-		"Mystic Theurge",
 		"Martyr",
 		"Keeper",
 		"Templar",

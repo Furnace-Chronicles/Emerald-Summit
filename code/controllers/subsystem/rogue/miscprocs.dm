@@ -82,10 +82,8 @@
 	return TRUE
 
 /datum/devotion/proc/_is_learnmiracle_eligible(mob/living/carbon/human/H)
-	if(!H || !H.mind) return FALSE
-	if(!HAS_TRAIT(H, TRAIT_CLERGY)) return FALSE
-	var/txt = lowertext("[H.mind.assigned_role]")
-	return findtext(txt, "druid") || findtext(txt, "acolyte") || findtext(txt, "churchling")
+	if(!H.mind.holy_research_access) return TRUE
+	return FALSE
 
 /datum/devotion/proc/update_devotion(dev_amt, prog_amt, silent = FALSE)
 	devotion = clamp(devotion + dev_amt, 0, max_devotion)
@@ -169,7 +167,7 @@
 		update_devotion(50, 50, silent = TRUE)
 	H.verbs += list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray)
 
-	if(_is_learnmiracle_eligible(H))
+	if(H.mind.holy_research_access)
 		if(!H.mind.has_spell(/obj/effect/proc_holder/spell/self/learnmiracle))
 			var/obj/effect/proc_holder/spell/self/learnmiracle/L = new
 			H.mind.AddSpell(L)

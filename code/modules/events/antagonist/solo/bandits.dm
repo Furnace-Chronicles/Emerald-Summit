@@ -21,7 +21,6 @@
 		"Merchant",
 		"Priest",
 		"Acolyte",
-		"Mystic Theurge",
 		"Martyr",
 		"Keeper",
 		"Templar",
