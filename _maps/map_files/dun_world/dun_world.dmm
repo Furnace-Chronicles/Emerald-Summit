@@ -9873,6 +9873,13 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/garrison)
+"czS" = (
+/obj/structure/fluff/railing/wood{
+	dir = 8;
+	pixel_x = -8
+	},
+/turf/open/floor/rogue/ruinedwood/turned,
+/area/rogue/outdoors/woods)
 "cAc" = (
 /obj/structure/table/wood,
 /turf/open/floor/rogue/blocks/platform,
@@ -19676,11 +19683,14 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/town/basement)
 "eOd" = (
-/obj/structure/fluff/railing/border{
-	dir = 8
+/obj/structure/fluff/railing/wood{
+	dir = 8;
+	pixel_x = -8
 	},
-/obj/structure/fluff/railing/border{
-	dir = 1
+/obj/structure/fluff/railing/wood{
+	dir = 1;
+	layer = 2.7;
+	pixel_y = 7
 	},
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/woods)
@@ -28110,6 +28120,12 @@
 /obj/structure/roguemachine/noticeboard,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave)
+"gRL" = (
+/obj/structure/fluff/railing/border{
+	dir = 1
+	},
+/turf/open/floor/rogue/woodturned,
+/area/rogue/outdoors/mountains)
 "gRM" = (
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/under/cave/fishmandungeon)
@@ -28895,6 +28911,14 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/town/roofs)
+"hbt" = (
+/obj/structure/fluff/railing/wood{
+	dir = 4;
+	layer = 2.8;
+	pixel_x = 8
+	},
+/turf/open/floor/rogue/ruinedwood/turned,
+/area/rogue/outdoors/woods)
 "hbv" = (
 /obj/structure/flora/newleaf/corner{
 	dir = 6
@@ -39051,6 +39075,11 @@
 "jvk" = (
 /turf/open/floor/rogue/hay,
 /area/rogue/outdoors/town)
+"jvl" = (
+/turf/open/floor/rogue/rooftop{
+	dir = 4
+	},
+/area/rogue/indoors/town/church/chapel)
 "jvu" = (
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/blocks,
@@ -41600,7 +41629,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains)
 "jZz" = (
-/obj/structure/fluff/railing/border,
+/obj/structure/fluff/railing/wood,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/woods)
 "jZC" = (
@@ -60599,11 +60628,15 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement/keep)
 "oDn" = (
-/obj/structure/fluff/railing/border{
-	dir = 4
+/obj/structure/fluff/railing/wood{
+	dir = 4;
+	layer = 2.8;
+	pixel_x = 8
 	},
-/obj/structure/fluff/railing/border{
-	dir = 1
+/obj/structure/fluff/railing/wood{
+	dir = 1;
+	layer = 2.7;
+	pixel_y = 7
 	},
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/woods)
@@ -62193,6 +62226,15 @@
 /mob/living/carbon/human/species/skeleton/npc/ambush,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors)
+"oZL" = (
+/obj/structure/fluff/railing/border{
+	dir = 6
+	},
+/obj/structure/fluff/railing/border{
+	dir = 5
+	},
+/turf/open/transparent/openspace,
+/area/rogue/outdoors/mountains)
 "oZM" = (
 /obj/structure/flora/hotspring_rocks/small/five{
 	pixel_y = 11
@@ -66290,6 +66332,12 @@
 "pXw" = (
 /obj/structure/roguetent,
 /turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/mountains)
+"pXx" = (
+/obj/structure/fluff/railing/border{
+	dir = 1
+	},
+/turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/mountains)
 "pXG" = (
 /obj/effect/decal/cobbleedge{
@@ -98239,10 +98287,12 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/shelter/woods)
 "xuv" = (
-/obj/structure/fluff/railing/border{
-	dir = 4
+/obj/structure/fluff/railing/wood,
+/obj/structure/fluff/railing/wood{
+	dir = 4;
+	layer = 2.8;
+	pixel_x = 8
 	},
-/obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/woods)
 "xuE" = (
@@ -98450,10 +98500,11 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement/keep)
 "xyb" = (
-/obj/structure/fluff/railing/border{
-	dir = 8
+/obj/structure/fluff/railing/wood{
+	dir = 8;
+	pixel_x = -8
 	},
-/obj/structure/fluff/railing/border,
+/obj/structure/fluff/railing/wood,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/woods)
 "xyd" = (
@@ -166067,8 +166118,8 @@ ngr
 xkH
 eXH
 jFA
-mVO
-mVO
+lRk
+lRk
 uXv
 uXv
 uXv
@@ -166519,8 +166570,8 @@ ngr
 eXH
 elL
 jFA
-mVO
-mVO
+lRk
+lRk
 uXv
 uXv
 uXv
@@ -166971,8 +167022,8 @@ viL
 xkH
 jFA
 jFA
-mVO
-mVO
+lRk
+lRk
 uXv
 uXv
 uXv
@@ -167421,10 +167472,10 @@ bmi
 bmi
 xkH
 jFA
-mVO
-mVO
-mVO
-mVO
+lRk
+lRk
+lRk
+lRk
 uXv
 uXv
 uXv
@@ -167873,10 +167924,10 @@ bmi
 bmi
 xkH
 jFA
-mVO
-mVO
-mVO
-mVO
+lRk
+lRk
+lRk
+lRk
 uXv
 uXv
 uXv
@@ -168325,10 +168376,10 @@ bmi
 bmi
 xkH
 jFA
-mVO
-mVO
-mVO
-mVO
+lRk
+lRk
+lRk
+lRk
 uXv
 uXv
 uXv
@@ -168777,10 +168828,10 @@ bmi
 ngr
 jFA
 jFA
-mVO
-mVO
-mVO
-mVO
+lRk
+lRk
+lRk
+lRk
 mVO
 mVO
 uXv
@@ -169230,9 +169281,9 @@ ixl
 xkH
 xkH
 xkH
-mVO
-mVO
-mVO
+lRk
+lRk
+lRk
 mVO
 mVO
 uXv
@@ -169682,8 +169733,8 @@ ixl
 xkH
 jFA
 xkH
-mVO
-mVO
+lRk
+lRk
 lRk
 uEg
 mVO
@@ -281780,7 +281831,7 @@ eMx
 eMx
 eMx
 eMx
-xkH
+eMx
 xkH
 dxw
 niV
@@ -282227,12 +282278,12 @@ jFA
 fOj
 xkH
 eOd
-mLC
-mLC
+czS
+czS
 xyb
 eMx
 eMx
-xkH
+eMx
 xkH
 xkH
 niV
@@ -282682,9 +282733,9 @@ tDg
 tDg
 tDg
 jZz
-xkH
-xkH
-jFA
+eMx
+eMx
+eMx
 xkH
 xkH
 niV
@@ -283134,8 +283185,8 @@ tDg
 tDg
 tDg
 jZz
-xkH
-jFA
+eMx
+eMx
 fOj
 xkH
 xkH
@@ -283583,12 +283634,12 @@ xkH
 xkH
 eMx
 oDn
-pXm
-pXm
+hbt
+hbt
 xuv
-xkH
-xkH
-jFA
+eMx
+eMx
+eMx
 xkH
 xkH
 uWS
@@ -284038,9 +284089,9 @@ eMx
 eMx
 eMx
 eMx
-xkH
-xkH
-jFA
+eMx
+eMx
+eMx
 xkH
 xkH
 niV
@@ -284491,8 +284542,8 @@ eMx
 eMx
 eMx
 eMx
-xkH
-jFA
+eMx
+eMx
 xkH
 xkH
 niV
@@ -284943,7 +284994,7 @@ eMx
 eMx
 eMx
 eMx
-xkH
+eMx
 xkH
 xkH
 xkH
@@ -394320,17 +394371,17 @@ aBB
 aBB
 aBB
 aBB
-aBB
-aBB
-aBB
-aBB
-aBB
-aBB
-aBB
-aBB
-aBB
-aBB
-aBB
+iVP
+iVP
+iVP
+iVP
+iVP
+iVP
+iVP
+iVP
+iVP
+iVP
+myy
 aBB
 aBB
 aBB
@@ -394772,6 +394823,7 @@ aBB
 aBB
 aBB
 aBB
+pXx
 vIB
 vIB
 vIB
@@ -394781,8 +394833,7 @@ vIB
 vIB
 vIB
 vIB
-vIB
-aBB
+hiH
 aBB
 aBB
 aBB
@@ -395224,17 +395275,17 @@ aBB
 aBB
 aBB
 aBB
+pXx
+vIB
 vIB
 mfW
 mfW
 mfW
 mfW
-mfW
-mfW
-mfW
-mfW
 vIB
-aBB
+vIB
+vIB
+hiH
 aBB
 aBB
 aBB
@@ -395676,17 +395727,17 @@ aBB
 aBB
 aBB
 aBB
+pXx
+vIB
 vIB
 mfW
 mfW
 mfW
 mfW
-mfW
-mfW
-mfW
-mfW
 vIB
-aBB
+vIB
+vIB
+hiH
 aBB
 aBB
 aBB
@@ -396113,10 +396164,10 @@ aBB
 aBB
 aBB
 aBB
-aBB
-aBB
-aBB
 gae
+iVP
+iVP
+oZL
 iVP
 iVP
 iVP
@@ -396128,17 +396179,17 @@ aBB
 aBB
 aBB
 aBB
+pXx
+vIB
 vIB
 mfW
 mfW
 mfW
 mfW
-mfW
-mfW
-mfW
-mfW
 vIB
-aBB
+vIB
+vIB
+hiH
 aBB
 aBB
 aBB
@@ -396590,7 +396641,7 @@ vIB
 vIB
 vIB
 vIB
-aBB
+hiH
 aBB
 aBB
 aBB
@@ -397033,16 +397084,16 @@ aBB
 aBB
 aBB
 aBB
-aBB
-aBB
-aBB
-aBB
-aBB
-aBB
-aBB
-aBB
-aBB
-aBB
+aPA
+aPA
+aPA
+aPA
+aPA
+aPA
+aPA
+aPA
+aPA
+gjg
 aBB
 aBB
 aBB
@@ -399276,7 +399327,7 @@ aBB
 aBB
 aBB
 aBB
-dgv
+gRL
 dgv
 dgv
 dgv
@@ -399728,7 +399779,7 @@ aBB
 aBB
 aBB
 aBB
-dgv
+gRL
 dgv
 dgv
 dgv
@@ -400180,7 +400231,7 @@ aBB
 aBB
 aBB
 aBB
-dgv
+gRL
 dgv
 dgv
 dgv
@@ -400632,7 +400683,7 @@ aBB
 aBB
 aBB
 aBB
-dgv
+gRL
 dgv
 dgv
 dgv
@@ -401084,7 +401135,7 @@ aBB
 aBB
 aBB
 aBB
-dgv
+gRL
 dgv
 dgv
 dgv
@@ -401536,7 +401587,7 @@ aBB
 aBB
 aBB
 aBB
-dgv
+gRL
 dgv
 dgv
 dgv
@@ -506329,11 +506380,11 @@ dnJ
 dnJ
 dnJ
 qAY
-iBk
-iBk
-iBk
-iBk
-iBk
+jvl
+jvl
+jvl
+jvl
+jvl
 qAY
 dnJ
 dnJ
@@ -506781,11 +506832,11 @@ dnJ
 dnJ
 dnJ
 qAY
-iBk
-iBk
-iBk
-iBk
-iBk
+jvl
+jvl
+jvl
+jvl
+jvl
 qAY
 dnJ
 dnJ
@@ -507233,11 +507284,11 @@ dnJ
 dnJ
 dnJ
 qAY
-iBk
-iBk
-iBk
-iBk
-iBk
+jvl
+jvl
+jvl
+jvl
+jvl
 qAY
 dnJ
 dnJ
