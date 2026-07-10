@@ -80,7 +80,7 @@
 	else
 		blood_handle |= BLOOD_PREFERENCE_LIVING
 
-	if(victim.job in list("Priest", "Priestess", "Cleric", "Acolyte", "Templar", "Churchling", "Crusader", "Inquisitor" ,)
+	if(victim.job in list("Priest", "Priestess", "Cleric", "Acolyte", "Templar", "Churchling", "Crusader", "Inquisitor"))
 		blood_handle |= BLOOD_PREFERENCE_HOLY
 	if(VVictim)
 		if(VVictim.generation == GENERATION_FAILVAMP)
