@@ -70,6 +70,7 @@
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/learnmiracle)
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	H.mind.holy_research_access = TRUE //needs to be applied BEFORE grant_miracles. VERY IMPORTANT
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = FALSE, devotion_limit = CLERIC_REQ_1)	//Capped to T1 miracles.
 	H.miracle_points = max(H.miracle_points, 3)
 
