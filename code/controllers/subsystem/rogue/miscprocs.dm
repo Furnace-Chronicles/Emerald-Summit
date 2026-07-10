@@ -81,10 +81,6 @@
 		return FALSE
 	return TRUE
 
-/datum/devotion/proc/_is_learnmiracle_eligible(mob/living/carbon/human/H)
-	if(!H.mind.holy_research_access) return TRUE
-	return FALSE
-
 /datum/devotion/proc/update_devotion(dev_amt, prog_amt, silent = FALSE)
 	devotion = clamp(devotion + dev_amt, 0, max_devotion)
 	holder?.hud_used?.bloodpool?.name = "Devotion: [devotion]"
