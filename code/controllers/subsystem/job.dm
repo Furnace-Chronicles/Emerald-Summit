@@ -61,7 +61,7 @@ SUBSYSTEM_DEF(job)
 // then it requeues itself every minute for the rest of the round.
 /datum/controller/subsystem/job/proc/recheck_wretch_bandit_slots(requeue = TRUE)
 	var/pop = SSgamemode ? SSgamemode.get_correct_popcount() : 0
-	scale_wb_job("Wretch", FLOOR(pop / wretch_players_per_slot, 1), pop)
+	scale_wb_job("Wretch", max(1, FLOOR(pop / wretch_players_per_slot, 1)), pop)
 	scale_wb_job("Bandit", bandit_base_slots + FLOOR(pop / bandit_players_per_extra_slot, 1), pop)
 	if(requeue)
 		addtimer(CALLBACK(src, PROC_REF(recheck_wretch_bandit_slots)), 1 MINUTES, TIMER_UNIQUE)
