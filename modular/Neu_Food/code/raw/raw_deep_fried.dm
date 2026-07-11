@@ -8,7 +8,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/nitzel/attackby(obj/item/I, mob/living/user, params)
 	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/egg))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/egg))
 		if(process_step != 1)
 			return
 		to_chat(user, span_notice("Cracking an egg over the nitzel."))
@@ -47,7 +47,7 @@
 // copy paste code to shame my ancestors (some1 refactor this)
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/schnitzel/attackby(obj/item/I, mob/living/user, params)
 	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/egg))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/egg))
 		if(process_step != 1)
 			return
 		to_chat(user, span_notice("Cracking an egg over the schnitzel."))
@@ -111,7 +111,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/chickentender/attackby(obj/item/I, mob/living/user, params)
 	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/egg))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/egg))
 		if(process_step != 1)
 			return
 		to_chat(user, span_notice("Cracking an egg over the frybird."))
@@ -149,7 +149,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/wienernitzel/attackby(obj/item/I, mob/living/user, params)
 	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/egg))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/egg))
 		if(process_step != 1)
 			return
 		to_chat(user, span_notice("Cracking an egg over the wiener."))

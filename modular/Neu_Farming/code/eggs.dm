@@ -1,4 +1,4 @@
-/obj/item/reagent_containers/food/snacks/egg
+/obj/item/reagent_containers/food/snacks/rogue/egg
 	icon = 'modular/Neu_Food/icons/cooked/cooked_egg.dmi'
 	name = "egg"
 	desc = "A raw egg."
@@ -10,17 +10,17 @@
 	filling_color = "#F0E68C"
 	foodtype = MEAT
 	grind_results = list()
-	rotprocess = 15 MINUTES
+	rotprocess = SHELFLIFE_SHORT
 
 	var/fertile = FALSE
 
-/obj/item/reagent_containers/food/snacks/egg/become_rotten()
+/obj/item/reagent_containers/food/snacks/rogue/egg/become_rotten()
 	. = ..()
 	if(.)
 		fertile = FALSE
 
 
-/obj/item/reagent_containers/food/snacks/egg/Crossed(mob/living/carbon/human/H)
+/obj/item/reagent_containers/food/snacks/rogue/egg/Crossed(mob/living/carbon/human/H)
 	..()
 	if(istype(H))
 		var/turf/T = get_turf(src)

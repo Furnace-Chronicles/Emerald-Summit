@@ -146,7 +146,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked = 3,
 		/obj/item/reagent_containers/food/snacks/butterslice = 3,
 		/obj/item/reagent_containers/powder/salt = 3,
-		/obj/item/reagent_containers/food/snacks/egg = 3,
+		/obj/item/reagent_containers/food/snacks/rogue/egg = 3,
 
 		// Gems (rare finds)
 		/obj/item/roguegem/onyxa = 1,
@@ -357,7 +357,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked = 3,
 		/obj/item/reagent_containers/food/snacks/butterslice = 3,
 		/obj/item/reagent_containers/powder/salt = 3,
-		/obj/item/reagent_containers/food/snacks/egg = 3
+		/obj/item/reagent_containers/food/snacks/rogue/egg = 3
 	)
 	lootcount = 2
 

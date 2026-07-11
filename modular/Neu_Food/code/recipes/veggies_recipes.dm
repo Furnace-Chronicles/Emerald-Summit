@@ -96,3 +96,13 @@
 		/obj/item/reagent_containers/food/snacks/rogue/cheddarwedge
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/preserved/eggplantstuffedcheese
+
+// Garlick Clove + Rocknut Powder -> Pesto
+/datum/food_recipe/pesto
+	name = "Pesto"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/veg/garlick_clove
+	ingredients = list(
+		/obj/item/reagent_containers/powder/rocknut
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/pesto
+	time_per_step = 3 SECONDS

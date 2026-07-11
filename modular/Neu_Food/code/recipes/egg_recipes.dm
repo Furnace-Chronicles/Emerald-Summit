@@ -67,3 +67,56 @@
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/friedegg/hammerhold
 	time_per_step = 5 SECONDS
+
+// Egg + Cheese -> Stuffed Egg
+/datum/food_recipe/stuffed_egg
+	name = "Stuffed Egg"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/egg
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/cheddarwedge
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/stuffedegg
+	time_per_step = 3 SECONDS
+
+// Egg + Egg -> Raw Omelette
+/datum/food_recipe/omelette_raw
+	name = "Raw Omelette"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/egg
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/egg
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/omelette_raw
+	time_per_step = 3 SECONDS
+
+// Raw Omelette + Sliced Onion -> Raw Onion Omelette
+/datum/food_recipe/omelette_onion
+	name = "Raw Onion Omelette"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/omelette_raw
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/veg/onion_sliced
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/omelette_raw_onion
+	time_per_step = 3 SECONDS
+
+// Raw Onion Omelette + Sliced Cucumber or Cabbage -> Raw Vegetable Omelette
+/datum/food_recipe/omelette_veggie
+	name = "Raw Vegetable Omelette"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/omelette_raw_onion
+	ingredients = list(
+		list(
+			/obj/item/reagent_containers/food/snacks/rogue/veg/cucumber_sliced,
+			/obj/item/reagent_containers/food/snacks/rogue/veg/cabbage_sliced,
+		)
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/omelette_raw_veggie
+	time_per_step = 3 SECONDS
+
+// Raw Omelette + Mince -> Raw Meat Omelette
+/datum/food_recipe/omelette_meat
+	name = "Raw Meat Omelette"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/omelette_raw
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/mince
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/omelette_raw_meat
+	time_per_step = 3 SECONDS

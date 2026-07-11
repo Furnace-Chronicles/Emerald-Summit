@@ -126,3 +126,8 @@
 					/obj/item/seeds/tea,
 					/obj/item/seeds/tea,
 				)
+
+/datum/supply_pack/rogue/seeds/maize
+	name = "Maize"
+	cost = 3
+	contains = list(/obj/item/seeds/maize, /obj/item/seeds/maize)

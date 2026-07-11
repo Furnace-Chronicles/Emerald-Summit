@@ -256,7 +256,7 @@ And I don't wanna copypaste what Vanderlin has
 				update_icon()
 				qdel(I)
 				return
-		else if(process_step == 3 && istype(I, /obj/item/reagent_containers/food/snacks/egg))
+		else if(process_step == 3 && istype(I, /obj/item/reagent_containers/food/snacks/rogue/egg))
 			playsound(get_turf(user), 'modular/Neu_Food/sound/eggbreak.ogg', 30, TRUE, -1)
 			if(do_after(user,short_cooktime, target = src))
 				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
@@ -309,7 +309,7 @@ And I don't wanna copypaste what Vanderlin has
 			qdel(I)
 			return
 
-	if(istype(I, /obj/item/reagent_containers/food/snacks/egg) )
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/egg) )
 		if (process_step > 4)
 			return
 		playsound(user, 'sound/foley/dropsound/food_drop.ogg', 30, TRUE, -1)

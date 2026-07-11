@@ -14,7 +14,7 @@
 	var/list/layMessage = EGG_LAYING_MESSAGES
 
 	production = max(production - 30, 0)
-	var/obj/item/reagent_containers/food/snacks/egg/E = new egg_type(get_turf(src)) // lays the egg
+	var/obj/item/reagent_containers/food/snacks/rogue/egg/E = new egg_type(get_turf(src)) // lays the egg
 	E.pixel_x = rand(-6,6)
 	E.pixel_y = rand(-6,6)
 	src.visible_message(span_alert("[src] [pick(layMessage)]"))

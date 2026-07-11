@@ -97,6 +97,8 @@
 		/datum/book_entry/dairy,
 		/datum/book_entry/deep_frying,
 		/datum/book_entry/dough,
+		/datum/book_entry/pasta,
+		/datum/book_entry/corn_griddles,
 		/datum/book_entry/stews,
 		/datum/book_entry/fire_cooking,
 		/datum/book_entry/butchery,

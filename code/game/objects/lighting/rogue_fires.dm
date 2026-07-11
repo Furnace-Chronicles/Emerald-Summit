@@ -378,7 +378,7 @@
 		if(istype(attachment, /obj/item/cooking/pan))
 			if(W.type in subtypesof(/obj/item/reagent_containers/food/snacks))
 				var/obj/item/reagent_containers/food/snacks/S = W
-				if(istype(W, /obj/item/reagent_containers/food/snacks/egg)) // added
+				if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/egg)) // added
 					if(W.icon_state != "rawegg")
 						playsound(user, 'modular/Neu_Food/sound/eggbreak.ogg', 100, TRUE, -1)
 						sleep(25) // to get egg crack before frying hiss
@@ -416,6 +416,19 @@
 						new S.deep_fried_type(src.loc)
 						qdel(S)
 						pot.reagents.remove_reagent(/datum/reagent/consumable/oil/tallow, OIL_CONSUMED)
+						return
+				if(pot.reagents.has_reagent(/datum/reagent/water) && S.boiled_type)
+					if(!pot.reagents.has_reagent(/datum/reagent/water, VOLUME_PER_STEW_COOK))
+						to_chat(user, span_notice("Not enough water."))
+						return
+					if(pot.reagents.chem_temp < MIN_STEW_TEMPERATURE)
+						to_chat(user, span_notice("[pot] isn't boiling!"))
+						return
+					if(do_after(user, 2 SECONDS / cooktime_divisor, target = src))
+						user.visible_message(span_info("[user] boils [S] in the pot."))
+						add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+						new S.boiled_type(src.loc)
+						qdel(S)
 						return
 			for(var/datum/stew_recipe/R in GLOB.stew_recipes)
 				for(var/I in R.inputs)

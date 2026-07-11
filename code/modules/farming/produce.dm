@@ -117,6 +117,21 @@
 	grind_results = list(/datum/reagent/floure = 10)
 	mill_result = /obj/item/reagent_containers/powder/flour
 
+/obj/item/reagent_containers/food/snacks/grown/maize
+	seed = /obj/item/seeds/maize
+	name = "maize"
+	desc = "A cob of maize. Mill it into cornmeal, or roast it whole."
+	icon = 'icons/roguetown/items/produce.dmi'
+	icon_state = "maize"
+	filling_color = "#F0E68C"
+	bitesize_mod = 2
+	foodtype = GRAIN | VEGETABLES
+	list_reagents = list(/datum/reagent/consumable/nutriment = 4)
+	tastes = list("corn" = 1)
+	grind_results = list(/datum/reagent/floure = 10)
+	mill_result = /obj/item/reagent_containers/powder/flour/cornmeal
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/grilledcorn
+
 /obj/item/reagent_containers/food/snacks/grown/apple
 	seed = /obj/item/seeds/apple
 	name = "apple"
@@ -252,10 +267,13 @@
 /obj/item/reagent_containers/food/snacks/grown/fruit/tomato
 	name = "tomato"
 	seed = /obj/item/seeds/tomato
-	desc = "A plump, red fruit with juicy flesh and a balanced sweet-tart flavor, essential in salads and sauces."
+	desc = "A plump, red fruit with juicy flesh and a balanced sweet-tart flavor, essential in salads and sauces. A seasoned culinarian knows to always split their tomatoes, in order to fashion the smoothest sauces."
 	icon_state = "tomato"
 	tastes = list("tomato" = 1)
 	splat_color = "#CD5320"
+	slice_path = /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sliced
+	slices_num = 1
+	mill_result = /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sauce
 
 /obj/item/reagent_containers/food/snacks/grown/berries/rogue
 	seed = /obj/item/seeds/berryrogue

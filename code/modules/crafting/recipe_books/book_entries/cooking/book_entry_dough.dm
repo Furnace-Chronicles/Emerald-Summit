@@ -25,6 +25,14 @@
 	<li>Knead in <b>raisins</b> or <b>apple slices</b> for studded breads.</li>
 	</ul>
 
+	<h3>Eggdough</h3>
+	Knead an <b>egg</b> into dough on a table for eggdough, a rich golden base:<br>
+	<ul>
+	<li>Bake it as-is for a <b>challah loaf</b>.</li>
+	<li>A <b>rolling pin</b> flattens it into <b>griddle dough</b> - fry for griddles (see Griddles & Corn).</li>
+	<li>Slice it into <b>eggdough pieces</b>, which roll into noodles or press into sheet noodles (see Pasta).</li>
+	</ul>
+
 	<h3>Butterdough</h3>
 	Knead a slice of <b>butter</b> into dough for butterdough, the base of finer pastries:<br>
 	<ul>

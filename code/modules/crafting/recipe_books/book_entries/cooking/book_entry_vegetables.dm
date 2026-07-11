@@ -14,12 +14,26 @@
 	<li><b>Cabbage</b> into shreds.</li>
 	<li><b>Potato</b> into cuts.</li>
 	<li><b>Cucumber</b> and <b>garlick</b> down to size.</li>
+	<li><b>Eggplant</b> into a carved shell for stuffing.</li>
 	</ul>
 
 	<h3>Cooking Them</h3>
 	<ul>
 	<li>Sliced vegetables can be roasted or fried like any other ingredient.</li>
 	<li>Fried onions, fried cabbage, and fried potato among them.</li>
+	</ul>
+
+	<h3>Pesto</h3>
+	<ul>
+	<li>Combine a <b>garlick clove</b> with <b>rocknut powder</b> on a table to make <b>pesto</b>.</li>
+	<li>Pesto is used in pasta dishes and frybread - a luxurious condiment.</li>
+	</ul>
+
+	<h3>Stuffed Eggplant</h3>
+	<ul>
+	<li>Carved eggplant + <b>beef mince</b> = unfinished stuffed eggplant.</li>
+	<li>Unfinished stuffed eggplant + <b>tomato</b> = raw stuffed eggplant. Bake to finish.</li>
+	<li>Cooked stuffed eggplant + <b>cheese wedge</b> = stuffed eggplant with cheese.</li>
 	</ul>
 
 	<h3>Where They Go</h3>

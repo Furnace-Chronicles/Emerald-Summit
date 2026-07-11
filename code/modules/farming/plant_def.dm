@@ -104,6 +104,16 @@
 	produce_time = 2 MINUTES
 	water_drain_rate = 4 / (1 MINUTES)
 
+/datum/plant_def/maize
+	name = "maize stalks"
+	icon_state = "maize"
+	produce_type = /obj/item/reagent_containers/food/snacks/grown/maize
+	produce_amount_min = 4
+	produce_amount_max = 6
+	uproot_loot = list(/obj/item/natural/fibers, /obj/item/natural/fibers)
+	maturation_time = SLOW_GROWING
+	produce_time = 3 MINUTES
+
 /datum/plant_def/pipeweed
 	name = "westleach plant"
 	icon_state = "westleach"

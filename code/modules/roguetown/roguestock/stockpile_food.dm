@@ -117,7 +117,7 @@
 /datum/roguestock/stockpile/egg
 	name = "Egg"
 	desc = "Egg laid by a hen."
-	item_type = /obj/item/reagent_containers/food/snacks/egg
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/egg
 	held_items = list(0, 0)
 	payout_price = 3
 	withdraw_price = 3

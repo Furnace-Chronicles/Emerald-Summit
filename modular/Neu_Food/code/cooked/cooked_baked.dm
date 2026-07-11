@@ -817,3 +817,53 @@
 	warming = 5 MINUTES
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/greatsnackbuff
+
+/*	.................   Challah   ................... */
+/obj/item/reagent_containers/food/snacks/rogue/challah
+	name = "challah loaf"
+	desc = "A Nshkormh loaf of bread, made from leavened dough and egg, the communities of Psydonites in the region continued it's usage even during the Sun Dominion's banning of it's creation for it's 'rejection of Astratan butterness'."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "challah4"
+	slices_num = 4
+	bitesize = 5
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/challah_slice
+	list_reagents = list(/datum/reagent/consumable/nutriment = DOUGH_NUTRITION)
+	faretype = FARE_NEUTRAL
+	w_class = WEIGHT_CLASS_NORMAL
+	tastes = list("soft, pillowy eggdough" = 1)
+	slice_batch = FALSE
+	slice_sound = TRUE
+	rotprocess = SHELFLIFE_LONG
+	eat_effect = /datum/status_effect/buff/snackbuff
+	foodtype = GRAIN
+
+/obj/item/reagent_containers/food/snacks/rogue/challah/update_icon()
+	if(slices_num)
+		icon_state = "challah[slices_num]"
+	else
+		icon_state = "challah_slice"
+
+/obj/item/reagent_containers/food/snacks/rogue/challah/On_Consume(mob/living/eater)
+	..()
+	if(slices_num)
+		if(bitecount == 2)
+			slices_num = 3
+		if(bitecount == 4)
+			slices_num = 2
+		if(bitecount == 5)
+			changefood(slice_path, eater)
+
+/obj/item/reagent_containers/food/snacks/rogue/challah_slice
+	name = "sliced challah"
+	desc = "Some would dip the slice into salt to complete the bread at this point, but it is what it is."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "challah_slice"
+	faretype = FARE_NEUTRAL
+	w_class = WEIGHT_CLASS_NORMAL
+	tastes = list("soft, pillowy eggdough" = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = SMALLDOUGH_NUTRITION)
+	bitesize = 3
+	rotprocess = SHELFLIFE_LONG
+	dropshrink = 0.8
+	eat_effect = /datum/status_effect/buff/snackbuff
+	foodtype = GRAIN

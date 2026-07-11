@@ -267,3 +267,8 @@
 	scent = "fresh tomatoes and truffled flatbread"
 
 
+/datum/pollutant/food/pasta
+	name = "fresh pasta"
+	scent = "fresh pasta"
+
+
