@@ -442,7 +442,8 @@
 		if("Sailor")
 			if(H.mind)
 				H.mind.special_items = list(
-					"Equipment Bag" = /obj/item/storage/roguebag/sailfix 
+					"Equipment Bag" = /obj/item/storage/roguebag/sailfix,
+					"Axe "= /obj/item/rogueweapon/stoneaxe/woodcut
 					
 				)
 
@@ -838,7 +839,6 @@
 //Sailor
 /obj/item/storage/roguebag/sailfix
 	populate_contents = list(
-		/obj/item/rogueweapon/stoneaxe/woodcut,
 		/obj/item/natural/bundle/stick,
 		/obj/item/natural/bundle/stick,
 		/obj/item/natural/bundle/stick,
