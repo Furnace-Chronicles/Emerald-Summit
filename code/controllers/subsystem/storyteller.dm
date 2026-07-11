@@ -549,6 +549,7 @@ SUBSYSTEM_DEF(gamemode)
 
 	pick_most_influential(TRUE)
 	calculate_ready_players()
+	SSjob?.recheck_wretch_bandit_slots() // scale wretch/bandit slots to ready pop before jobs divide
 	roll_pre_setup_points()
 	//handle_pre_setup_roundstart_events()
 	return TRUE

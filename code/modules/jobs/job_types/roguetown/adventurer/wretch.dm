@@ -4,7 +4,7 @@
 	flag = WRETCH
 	department_flag = PEASANTS
 	faction = "Station"
-	total_positions = 2
+	total_positions = 2 // slots are pop-scaled at runtime by SSjob.recheck_wretch_bandit_slots() (0 below 15 players, +1 per 15)
 	spawn_positions = 2
 	allowed_races = RACES_ALL_KINDS
 	disallowed_races = list(
