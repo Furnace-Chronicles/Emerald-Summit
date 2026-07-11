@@ -538,12 +538,33 @@
 				return FALSE
 
 // origin is used for multi-step dodges like jukes
+/// Cardinal directions that move away along `away_dir`: its axis components when diagonal,
+/// or the direction itself plus perpendicular sidesteps when straight. NPC movement is
+/// cardinal-only (NESW); `shuffled` randomizes try-order so groups fan out.
+/proc/get_cardinal_escape_dirs(away_dir, shuffled = FALSE)
+	var/list/dirs = list()
+	if(ISDIAGONALDIR(away_dir))
+		dirs += NSCOMPONENT(away_dir)
+		dirs += EWCOMPONENT(away_dir)
+		if(shuffled)
+			dirs = shuffle(dirs)
+	else
+		dirs += away_dir
+		if(shuffled)
+			var/side = pick(90, -90)
+			dirs += turn(away_dir, side)
+			dirs += turn(away_dir, -side)
+		else
+			dirs += turn(away_dir, 90)
+			dirs += turn(away_dir, -90)
+	return dirs
+
 /mob/living/proc/get_dodge_destinations(mob/living/attacker, atom/origin = src)
 	var/dodge_dir = get_dir(attacker, origin)
 	if(!dodge_dir)
 		return null
-	var/list/dirry = list()
-	// pick a random dir
+	// cardinal backstep arc - NPC movement is cardinal-only
+	var/list/dirry = get_cardinal_escape_dirs(dodge_dir)
 	var/list/turf/dodge_candidates = list()
 	for(var/dir_to_check in dirry)
 		var/turf/dodge_candidate = get_step(origin, dir_to_check)

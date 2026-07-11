@@ -258,6 +258,12 @@
 /// Sleep mode (NPC is not processing, excluded from mob subsystem). Remember that NPC_AI_OFF is different from this and supposes *removed* AI (aka player-controlled mob)
 #define NPC_AI_SLEEP    6
 
+// Return values for /mob/living/proc/jump_action(). A stumble still throws the mob one
+// tile (it IS airborne) - callers must not book it as "no jump happened".
+#define JUMP_FAILED		0
+#define JUMP_SUCCESS	1
+#define JUMP_STUMBLE	2
+
 //determines if a mob can smash through it
 #define ENVIRONMENT_SMASH_NONE			0
 #define ENVIRONMENT_SMASH_STRUCTURES	(1<<0) 	//crates, lockers, ect
