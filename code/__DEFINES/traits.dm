@@ -129,6 +129,7 @@
 #define TRAIT_LONGSTRIDER "Longstrider"
 #define TRAIT_PSYDONIAN_GRIT "Psydonian Grit" // Pain Tolerance. Through faith, ENDURE.
 #define TRAIT_PSYDONITE "Psydonite's Devotion" // Anti-Miracles on a selective basis, anastasis / cure rot still apply. Slow passive wound healing while you have blood.
+#define TRAIT_PESTRAS_BLESSING "Pestra's blessing" // Black rose blessing: spreads black rot to attackers/targets.
 #define TRAIT_BLACKBAGGER "Apprehension Techniques" // Capable of using Garrotes and Blackbags. Apprehension techniques.w passive wound healing while you have blood.
 #define TRAIT_HERETIC_DEVOUT "Heretic Devout" // used to make it so excom and other priest stuff doesn't work on wretches
 
@@ -381,6 +382,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CABAL = span_info("In secret, I have studied the ways of Her ascension."),
 	TRAIT_HORDE = span_info("BY BLOOD AND BONE, I AM OF GRAGGAR'S ANOINTED!"),
 	TRAIT_PSYDONITE = span_info("PSYDON LYVES. PSYDON PERSISTS. I can ENDURE and LYVE with wounds better than most. Healing miracles hold no sway over me."),
+	TRAIT_PESTRAS_BLESSING = span_infection("The sacred black rot of Pestra burns within me. Should intelligent foes try to harm me, they will feel her greatest plague."),
 	TRAIT_PSYDONIAN_GRIT = span_info("I can shrug off my wounds and maintain composure under duress. My own mortality is proof that I LYVE, as too does HE."),
 	TRAIT_BLACKBAGGER = span_info("I've been trained to properly abduct individuals through the use of seizing garrotes and blackbags."),
 	TRAIT_FORTITUDE = span_info("The typical drain I feel from day to day life is lessened, my athleticism greater."),
@@ -414,7 +416,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CICERONE = span_info("I am well-versed in the differences of brews and spirits, and can tell them apart at a glance."),
 	TRAIT_BETTER_SLEEP = span_info("I recover more energy when sleeping."),
 	TRAIT_NOCINSPIRE = span_info("The moon inspires me, and whispers knowledge in my dreams. I will recieve an extra inspiration when sleeping."),
-	TRAIT_ROTMAN = span_info("I am partially undead. My heart does not beat."),
+	TRAIT_ROTMAN = span_necrosis("I am partially undead. My heart does not beat."),
 	TRAIT_EASYDISMEMBER = span_info("My limbs are frail and fragile. They can be dismembered with greater ease, including my neck."),
 	TRAIT_EASYDECAPITATION = span_info("I often find my head rolling from my shoulders."),
 	TRAIT_NOPAIN = span_info("I feel no pain."),
@@ -476,7 +478,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CURSE_GRAGGAR = span_warning("I am forsaken by the Warlord. Bloodlust is only thing I know for real."),
 	TRAIT_CURSE_MATTHIOS = span_warning("I am forsaken by the Dragon. Greed will be my only salvation."),
 	TRAIT_CURSE_BAOTHA = span_warning("I am forsaken by the Heartbreaker. I am drowning in her promises."),
-	TRAIT_DEADITE = span_danger("The Rot has overtaken me."),
+	TRAIT_DEADITE = span_necrosis("I am a feral deadite, anyone can tell at a glance, regardless of my equipment. I am stiff and unthinking, my trait-defining techniques and smarts in lyfe will not always follow me into this undeath, I cannot benefit from woodwalker or falling immunity. <b>My wounds and injuries will passively regenerate away as long as I am not set ablaze.</b>"),
 	TRAIT_PUZZLEMASTER = span_notice("I've solved an impossible puzzle!"),
 	TRAIT_ENGINEERING_GOGGLES = span_warning("I can see structural details others can't"),
 	TRAIT_MASTER_CARPENTER = span_warning("I've been trained to make the most of wood"), 

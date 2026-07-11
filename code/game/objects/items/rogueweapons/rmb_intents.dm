@@ -75,7 +75,10 @@
 		return
 	if(user == target)
 		return
-	
+	if(HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites can't bait.
+		to_chat(user, span_warning(pick("I stare uselessly at their weapon..", "I drool as I stare at their weapon..", "I stare at their weapon... and forgot what I was doing..")))
+		return
+
 	var/mob/living/carbon/human/HT = target
 	var/mob/living/carbon/human/HU = user
 	var/target_zone = HT.zone_selected
@@ -164,6 +167,9 @@
 		return
 	if(user.has_status_effect(/datum/status_effect/debuff/specialcd))
 		return
+	if(HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites can't perform special attacks.
+		to_chat(user, span_warning(pick("I use the ancient technique... of nearly falling over..", "I muster all of my strength... and forgot what I was doing..", "I trip and stumble while wildly flailing around..", "I focus... and... feel too hungry to do so..", "I... feel suddenly very... what is stupid..?", "I focus... but the concept slipped my mind..")))
+		return
 
 	user.face_atom(target)
 
@@ -207,6 +213,9 @@
 	if(!user.mind)
 		return
 	if(user.has_status_effect(/datum/status_effect/debuff/feintcd))
+		return
+	if(HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites can't feint.
+		to_chat(user, span_warning(pick("I... Prepare to lunge vaguely towards nothing in particular, then stumble..", "I claw at nothing in particular uselessly..", "I trip and flail wildly... nothing happens..", "I claw... at the air and stumble, this achieves nothing..", "I swing for a moment... then stop, what is a feint..?")))
 		return
 	var/mob/living/L = target
 	if (L.client && !L.cmode)
@@ -344,6 +353,9 @@
 	return "neutrally" // shouldn't see this
 
 /datum/rmb_intent/riposte/special_attack(mob/living/user, atom/target)	//Wish we could breakline these somehow.
+	if(HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites are too stiff to riposte.
+		to_chat(user, span_warning("...What?"))
+		return
 	user.attempt_riposte(user, target)
 
 /datum/rmb_intent/guard

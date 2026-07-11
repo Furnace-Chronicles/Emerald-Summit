@@ -39,6 +39,8 @@
 				if(ishuman(user))
 					var/mob/living/carbon/H = user
 					H.update_inv_pants()
+		// Sync live coverage to the toggle; coverage checks read the dynamic value.
+		body_parts_covered_dynamic = body_parts_covered
 #else
 	return
 #endif

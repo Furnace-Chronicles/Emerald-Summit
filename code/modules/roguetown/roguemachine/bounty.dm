@@ -437,6 +437,17 @@
 		if(istype(old_mask, /obj/item/clothing/neck/roguetown/collar/prisoner))
 			say("COLLAR DISCARDED. FREEDOM, AT LAST...")
 			M.dropItemToGround(old_mask, TRUE)
+		else if(istype(old_mask, /obj/item/clothing/neck/roguetown/gorget/controllable))
+			// Disarm before stripping: cancel any pending detonation and clear the unequip lock so
+			// the collar can come off, then drop it. The wearer walks away unharmed.
+			var/obj/item/clothing/neck/roguetown/gorget/controllable/servitude = old_mask
+			servitude.is_going_to_boom = FALSE
+			servitude.collar_unlocked = TRUE
+			say("SERVITUDE COLLAR DISARMED. FREEDOM, AT LAST...")
+			M.dropItemToGround(old_mask, TRUE)
+		else
+			say("ANALYSIS COMPLETE. NO CURSED COLLAR FOUND. ABORT.")
+			return
 	else
 		say("ANALYSIS COMPLETE. NO CURSED COLLAR FOUND. ABORT.")
 		return

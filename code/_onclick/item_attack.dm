@@ -14,7 +14,7 @@
 	if(!user.has_hand_for_held_index(user.active_hand_index, TRUE)) //we obviously have a hadn, but we need to check for fingers/prosthetics
 		to_chat(user, span_warning("I can't move the fingers."))
 		return
-	if(!istype(src, /obj/item/grabbing))
+	if(!istype(src, /obj/item/grabbing) && !istype(src, /obj/item/bodypart)) //Limbs are fine (deadites swing torn-off limbs)
 		if(HAS_TRAIT(user, TRAIT_CHUNKYFINGERS))
 			to_chat(user, span_warning("...What?"))
 			return
@@ -204,10 +204,15 @@
 
 
 	SEND_SIGNAL(M, COMSIG_ITEM_ATTACKED_SUCCESS, src, user)
+	SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_SUCCESS, M, user)	//to the weapon itself (Pestilent Blade enchant)
 	if(user.zone_selected == BODY_ZONE_PRECISE_R_INHAND)
 		var/offh = 0
 		var/obj/item/W = M.held_items[1]
 		if(W)
+			if(istype(W, /obj/item/reagent_containers/glass/bottle))
+				var/obj/item/reagent_containers/glass/bottle/BTL = W
+				BTL.shatter_inhand(M, user)
+				return
 			if(!(M.mobility_flags & MOBILITY_STAND))
 				M.throw_item(get_step(M,turn(M.dir, 90)), offhand = offh)
 			else
@@ -220,6 +225,10 @@
 		var/offh = 0
 		var/obj/item/W = M.held_items[2]
 		if(W)
+			if(istype(W, /obj/item/reagent_containers/glass/bottle))
+				var/obj/item/reagent_containers/glass/bottle/BTL = W
+				BTL.shatter_inhand(M, user)
+				return
 			if(!(M.mobility_flags & MOBILITY_STAND))
 				M.throw_item(get_step(M,turn(M.dir, 270)), offhand = offh)
 			else
@@ -227,6 +236,20 @@
 			M.visible_message(span_notice("[user] disarms [M]!"), \
 							span_boldwarning("I'm disarmed by [user]!"))
 			return
+
+	for(var/i in 1 to M.held_items.len)
+		var/obj/item/W = M.get_item_for_held_index(i)
+		if(!W)
+			continue
+		// Non-breakable containers (cups, mugs, waterskins) — glass bottles are already handled above
+		if(istype(W, /obj/item/reagent_containers/glass) && (!istype(W, /obj/item/reagent_containers/glass/bottle) || istype(W, /obj/item/reagent_containers/glass/bottle/waterskin)))
+			if(!(M.mobility_flags & MOBILITY_STAND))
+				M.throw_item(get_step(M, turn(M.dir, i == 1 ? 90 : 270)))
+			else
+				M.dropItemToGround(W)
+			M.visible_message(span_notice("[user] knocks [W] from [M]'s [i == 1 ? "right" : "left"] hand!"), \
+							span_boldwarning("[W] is knocked from my hands!"))
+			break
 
 	if(M.attacked_by(src, user))
 		if(user.used_intent == cached_intent)

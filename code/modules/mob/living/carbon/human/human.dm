@@ -926,17 +926,19 @@
 
 /mob/living/carbon/human/adjust_hydration(change)
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
-		remove_status_effect(/datum/status_effect/debuff/thirstyt1)
-		remove_status_effect(/datum/status_effect/debuff/thirstyt2)
-		remove_status_effect(/datum/status_effect/debuff/thirstyt3)
+		if(!HAS_TRAIT(src, TRAIT_VAMPIRE))
+			remove_status_effect(/datum/status_effect/debuff/thirstyt1)
+			remove_status_effect(/datum/status_effect/debuff/thirstyt2)
+			remove_status_effect(/datum/status_effect/debuff/thirstyt3)
 		return FALSE
 	return ..()
 
 /mob/living/carbon/human/set_hydration(change)
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
-		remove_status_effect(/datum/status_effect/debuff/thirstyt1)
-		remove_status_effect(/datum/status_effect/debuff/thirstyt2)
-		remove_status_effect(/datum/status_effect/debuff/thirstyt3)
+		if(!HAS_TRAIT(src, TRAIT_VAMPIRE))
+			remove_status_effect(/datum/status_effect/debuff/thirstyt1)
+			remove_status_effect(/datum/status_effect/debuff/thirstyt2)
+			remove_status_effect(/datum/status_effect/debuff/thirstyt3)
 		return FALSE
 	return ..()
 

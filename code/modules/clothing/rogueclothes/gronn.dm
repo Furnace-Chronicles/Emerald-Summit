@@ -161,6 +161,8 @@
 		else if(adjustable == CADJUSTED)
 			playsound(src, 'sound/foley/equip/cloak (3).ogg', 50, TRUE)
 			ResetAdjust(user)
+		// Sync live coverage to the toggle; armor/surgery/drinking checks read the dynamic value.
+		body_parts_covered_dynamic = body_parts_covered
 		if(ishuman(user))
 			var/mob/living/carbon/H = user
 			H.update_inv_neck()

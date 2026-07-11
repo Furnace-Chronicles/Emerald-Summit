@@ -39,6 +39,12 @@
 	max_integrity = 250
 	sellprice = 121
 
+/obj/item/rogueweapon/woodstaff/implement_magi2/greater/blacksteel
+	base_implement_name = "blacksteel staff"
+	name = "blacksteel staff"
+	desc = "A fine wood staff reinforced with blacksteel rivets and furnishings, carried by War-Magos who graduated from the Celestial Academy of Magos. Placed atop it is a less efficient though equally beautiful alchemical Dorpel. Perhaps its power can be enhanced by a gemerald?"
+	icon_state = "blacksteelstaff"
+
 // Court Magician's grand staff — keeps its classic name, but as a grand implement it
 // attunes to "Staff of the Court Magos of <school>" on cast. Scoped as its own subtype so
 // the generic "grand staff" (crafting) is unaffected.

@@ -43,7 +43,7 @@
 	to_chat(H, span_warning("You father your unholy cause through the most time-tested of ways: hard, heavy steel in both arms and armor."))
 	H.mind.current.faction += "[H.name]_faction"
 	H.set_blindness(0)
-	var/weapons = list("Longsword", "Mace", "Flail", "Axe", "Spear", "MY BARE HANDS!!")
+	var/weapons = list("Longsword", "Mace", "Flail", "Axe", "Spear", "MY BARE HANDS!!!")
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Longsword")
