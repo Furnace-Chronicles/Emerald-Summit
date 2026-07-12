@@ -399,6 +399,12 @@
 	createditem_num = 2
 	craftdiff = 1
 
+/datum/anvil_recipe/weapons/iron/ironpike
+	name = "iron pike (+2 Small Log)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/grown/log/tree/small, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/halberd/glaive/ironpike
+
 /// STEEL WEAPONS
 
 /datum/anvil_recipe/weapons/steel/dagger
@@ -652,6 +658,13 @@
 	name = "Falx"
 	req_bar = /obj/item/ingot/steel
 	created_item = /obj/item/rogueweapon/sword/falx
+	craftdiff = 2
+
+/datum/anvil_recipe/weapons/steel/steelpike
+	name = "steel pike (+2 Small Log)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/grown/log/tree/small, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/halberd/glaive/steelpike
 	craftdiff = 2
 
 /// UPGRADED WEAPONS
@@ -935,6 +948,12 @@
 	created_item = /obj/item/rogueweapon/sword/long/blackflamb
 	craftdiff = 5
 
+/datum/anvil_recipe/weapons/blackpyke
+	name = "Blacksteel Pyke (+1 Blacksteel, +1 Golden Ingot, +1 silver ingot)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/ingot/gold, /obj/item/ingot/silver)
+	created_item = /obj/item/rogueweapon/halberd/glaive/blackpyke
+	craftdiff = 5
 
 /datum/anvil_recipe/weapons/swarhammer
 	name = "Warhammer (+1 Steel)"

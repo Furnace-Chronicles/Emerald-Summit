@@ -417,6 +417,13 @@
 			if(!do_after(user, salvage_time, target = user))
 				return
 
+			// Mirror the scissors' guard: items crafted by multi-output recipes (one hide makes two
+			// glove pairs) must not yield their full salvage_result per output or salvaging mints
+			// materials - the fibers below are the consolation.
+			var/datum/crafting_recipe/item_recipe = item.get_salvage_recipe()
+			var/multi_output_recipe = is_multi_output_recipe(item_recipe)
+			qdel(item_recipe)
+
 			if(item.fiber_salvage) //We're getting fiber as base if fiber is present on the item
 				new /obj/item/natural/fibers(get_turf(item))
 			if(istype(item, /obj/item/storage))
@@ -429,10 +436,15 @@
 				qdel(item)
 				user.mind.add_sleep_experience(/datum/skill/misc/sewing, (user.STAINT)) //Getting exp for failing
 				return //We are returning early if the skill check fails!
-			item.salvage_amount -= item.torn_sleeve_number
-			for(var/i = 1; i <= item.salvage_amount; i++) // We are spawning salvage result for the salvage amount minus the torn sleves!
-				var/obj/item/Sr = new item.salvage_result(get_turf(item))
-				Sr.color = item.color
+			if(item.flags_1 & HOARDMASTER_SPAWNED_1) // bandit favor gear only ever yields ash - tell the player why
+				to_chat(user, span_warning("The Hoardmaster's make betrays itself - [item] comes apart into worthless ash."))
+			if(multi_output_recipe)
+				to_chat(user, span_info("I can only tease a few usable fibers out of [item]."))
+			else
+				item.salvage_amount -= item.torn_sleeve_number
+				for(var/i = 1; i <= item.salvage_amount; i++) // We are spawning salvage result for the salvage amount minus the torn sleves!
+					var/obj/item/Sr = new item.salvage_result(get_turf(item))
+					Sr.color = item.color
 			user.visible_message(span_notice("[user] salvages [item] into usable materials."))
 			playsound(item, 'sound/items/flint.ogg', 100, TRUE)
 			qdel(item)
@@ -499,6 +511,7 @@
 	gripped_intents = list(/datum/intent/drill)
 	slot_flags = ITEM_SLOT_HIP
 	smeltresult = /obj/item/ingot/bronze
+	anvilrepair = /datum/skill/craft/engineering
 	w_class = WEIGHT_CLASS_HUGE
 	accepted_power_source = /obj/item/alch/coaldust
 	prime_power_source = /obj/item/alch/firedust

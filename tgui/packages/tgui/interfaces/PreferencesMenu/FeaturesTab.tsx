@@ -1,19 +1,13 @@
 import { Fragment } from 'react';
-import {
-  Box,
-  Button,
-  LabeledList,
-  Section,
-  Stack,
-} from 'tgui-core/components';
+import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
 
 import type { ActFunctionType } from '../../backend';
-import { BodySection } from './BodySection';
-import { CustomizerCard, CustomizerEntry } from './CustomizerCard';
-import { MarkingsSection } from './MarkingsSection';
 // Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
 // list passes 7 options. (Replaces the per-tab RawDropdown + inline-Box wrapper.)
 import { SearchableDropdown as Dropdown } from '../common/SearchableDropdown';
+import { BodySection } from './BodySection';
+import { CustomizerCard, CustomizerEntry } from './CustomizerCard';
+import { MarkingsSection } from './MarkingsSection';
 
 type DescriptorEntryStatic = {
   choice_type: string;
@@ -77,7 +71,6 @@ type Data = {
 type FeaturesTabProps = { data: Data; act: ActFunctionType };
 
 export const FeaturesTab = ({ data, act }: FeaturesTabProps) => {
-
   // Merge each descriptor entry's static (name + options) with its dynamic
   // (current_name) half by choice_type, so the rendering loop sees the
   // existing unified shape.
@@ -128,9 +121,7 @@ export const FeaturesTab = ({ data, act }: FeaturesTabProps) => {
       <Stack.Item>
         <Section title="Describe Myself">
           {!descriptors || descriptors.entries.length === 0 ? (
-            <Box color="label">
-              Your species has no descriptor choices.
-            </Box>
+            <Box color="label">Your species has no descriptor choices.</Box>
           ) : (
             <LabeledList>
               {descriptors.entries.map((entry) => (
@@ -204,9 +195,7 @@ export const FeaturesTab = ({ data, act }: FeaturesTabProps) => {
           }
         >
           {!customizers || customizers.entries.length === 0 ? (
-            <Box color="label">
-              Your species has no customizers available.
-            </Box>
+            <Box color="label">Your species has no customizers available.</Box>
           ) : (
             <Stack vertical>
               {(() => {
@@ -271,20 +260,20 @@ export const FeaturesTab = ({ data, act }: FeaturesTabProps) => {
                 );
                 return rows.map((row, idx) => (
                   <Fragment key={idx}>
-                  <Stack.Item>
-                    <Stack>
-                      {row.map((c) => (
-                        <Stack.Item key={c.customizer_type} grow>
-                          <CustomizerCard customizer={c} act={act} />
-                        </Stack.Item>
-                      ))}
-                    </Stack>
-                  </Stack.Item>
-                  {idx === hairRowIdx && (
                     <Stack.Item>
-                      <BodySection data={data} act={act} />
+                      <Stack>
+                        {row.map((c) => (
+                          <Stack.Item key={c.customizer_type} grow>
+                            <CustomizerCard customizer={c} act={act} />
+                          </Stack.Item>
+                        ))}
+                      </Stack>
                     </Stack.Item>
-                  )}
+                    {idx === hairRowIdx && (
+                      <Stack.Item>
+                        <BodySection data={data as never} act={act} />
+                      </Stack.Item>
+                    )}
                   </Fragment>
                 ));
               })()}
@@ -296,7 +285,7 @@ export const FeaturesTab = ({ data, act }: FeaturesTabProps) => {
       {/* Markings section moved from the Identity tab — at the bottom of
           Features per user request. */}
       <Stack.Item>
-        <MarkingsSection data={data} act={act} />
+        <MarkingsSection data={data as never} act={act} />
       </Stack.Item>
     </Stack>
   );

@@ -27,6 +27,7 @@
 #define NO_MAT_REDEMPTION			(1<<5) // Stops you from putting things like an RCD or other items into an ORM or protolathe for materials.
 #define DROPDEL						(1<<6) // When dropped, it calls qdel on itself
 #define NOBLUDGEON				(1<<7)		// when an item has this it produces no "X has been hit by Y with Z" message in the default attackby()
+#define FRESH_FOOD_ITEM			(1<<8) // Currently only used for fresh meat from butchering to differentiate it from stockpile magic meat.
 #define ABSTRACT				(1<<9) 	// for all things that are technically items but used for various different stuff
 #define IMMUTABLE_SLOW			(1<<10) // When players should not be able to change the slowdown of the item (Speed potions, etc)
 #define IN_STORAGE				(1<<11) //is this item in the storage item, such as backpack? used for tooltips

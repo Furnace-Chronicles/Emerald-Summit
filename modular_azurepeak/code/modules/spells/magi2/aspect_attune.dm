@@ -57,8 +57,10 @@
 /datum/mind/proc/attune_aspect(datum/magic_aspect/aspect, variant, choice_spell)
 	if(!aspect)
 		return FALSE
-	var/max_majors = LAZYLEN(mage_aspect_config) ? mage_aspect_config["major"] : MAX_MAJOR_ASPECTS
-	var/max_minors = LAZYLEN(mage_aspect_config) ? mage_aspect_config["minor"] : MAX_MINOR_ASPECTS
+	// No class config => not a sanctioned caster (e.g. the arcane skill learned from a book): grant zero
+	// aspect slots rather than the MAX_* baseline, which would hand them a free 1-major/2-minor loadout.
+	var/max_majors = LAZYLEN(mage_aspect_config) ? mage_aspect_config["major"] : 0
+	var/max_minors = LAZYLEN(mage_aspect_config) ? mage_aspect_config["minor"] : 0
 	var/has_mastery = LAZYLEN(mage_aspect_config) ? mage_aspect_config["mastery"] : FALSE
 	switch(aspect.aspect_type)
 		if(ASPECT_MAJOR)

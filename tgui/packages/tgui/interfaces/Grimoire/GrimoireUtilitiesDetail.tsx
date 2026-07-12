@@ -25,7 +25,8 @@ export const GrimoireUtilitiesDetail = ({
     <div className="AspectPicker__heading">Cantrips &amp; Utilities</div>
     <div className="AspectPicker__fluff">
       The lesser workings of the arcyne arts - simple enchantments, practical
-      cantrips, and scholarly conveniences that require no particular attunement.
+      cantrips, and scholarly conveniences that require no particular
+      attunement.
     </div>
     <div className="AspectPicker__divider" />
     <div className="AspectPicker__section-label">
@@ -85,6 +86,7 @@ export const GrimoireUtilitiesDetail = ({
           {spell.desc && (
             <div
               className="AspectPicker__spell-desc"
+              // eslint-disable-next-line react/no-danger -- spell text is server-authored HTML from the DM backend
               dangerouslySetInnerHTML={{ __html: spell.desc }}
             />
           )}

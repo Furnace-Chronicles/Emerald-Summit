@@ -91,7 +91,7 @@
 			jadded += 50
 			jrange = 1
 
-	jump_action_resolve(A, jadded, jrange, jextra)
+	return jump_action_resolve(A, jadded, jrange, jextra) // JUMP_SUCCESS on a full jump, JUMP_STUMBLE on the exhausted 1-tile hop
 
 #define FLIP_DIRECTION_CLOCKWISE 1
 #define FLIP_DIRECTION_ANTICLOCKWISE 0
@@ -119,11 +119,13 @@
 			animate(transform = prev_transform, time = 0)
 
 		throw_at(A, jrange, 1, src, spin = FALSE, callback = CALLBACK(src, PROC_REF(after_jump), jextra))
+		return JUMP_SUCCESS
 	else
 		animate(src, pixel_z = pixel_z + 6, time = 1)
 		animate(pixel_z = prev_pixel_z, transform = turn(transform, pick(-12, 0, 12)), time=2)
 		animate(transform = prev_transform, time = 0)
 		throw_at(A, 1, 1, src, spin = FALSE)
+		return JUMP_STUMBLE
 
 #undef FLIP_DIRECTION_CLOCKWISE
 #undef FLIP_DIRECTION_ANTICLOCKWISE
@@ -187,3 +189,5 @@
 		throw_at(get_step(src, src.dir), 1, 1, src, spin = FALSE)
 	if(!HAS_TRAIT(src, TRAIT_ZJUMP) && (m_intent == MOVE_INTENT_RUN))	//Jesters and werewolves don't get immobilized at all
 		Immobilize((HAS_TRAIT(src, TRAIT_LEAPER) ? 2 : 5))	//Acrobatics get half the time 🤫
+		if(HAS_TRAIT(src, TRAIT_DEADITE)) //Non-jester deadites collapse on landing -- they're rotting apart.
+			Knockdown(10)

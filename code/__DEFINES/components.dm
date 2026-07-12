@@ -235,6 +235,7 @@
 	/* #define HEARING_RADIO_FREQ 5
 	#define HEARING_SPANS 6
 	#define HEARING_MESSAGE_MODE 7 */
+#define COMSIG_HEART_BEAST_HEAR "heart_beast_hear"
 #define COMSIG_MOVABLE_DISPOSING "movable_disposing"			//called when the movable is added to a disposal holder object for disposal movement: (obj/structure/disposalholder/holder, obj/machinery/disposal/source)
 #define COMSIG_MOVABLE_UPDATE_GLIDE_SIZE "movable_glide_size"	//Called when the movable's glide size is updated: (new_glide_size)
 
@@ -339,6 +340,11 @@
 #define COMSIG_ITEM_ATTACK "item_attack"						//from base of obj/item/attack(): (/mob/living/target, /mob/living/user)
 #define COMSIG_ITEM_ATTACK_SELF "item_attack_self"				//from base of obj/item/attack_self(): (/mob)
 #define COMSIG_ITEM_ATTACKED_SUCCESS	"mob_item_attacked"		//from base of obj/item/attack(): (/mob/living/user, /mob/living/target) upon successful attacking
+#define COMSIG_ITEM_ATTACK_SUCCESS		"item_attack_success"	//sent TO the weapon on a successful hit: (/mob/living/target, /mob/living/user)
+//Pestra infestation-charge miracle signals
+#define COMSIG_INFESTATION_CHARGE_ADD "infestation_charge_add"			//from infestation cast: (num/amount), sent to the spell
+#define COMSIG_INFESTATION_CHARGE_REMOVE "infestation_charge_remove"	//from remove_infestation_charges(): (num/amount), sent to the mob
+#define COMSIG_DIVINE_REBIRTH_CAST "divine_rebirth_cast"				//from divine_rebirth cast: (mob/living/target), sent to the mob
 	#define COMPONENT_NO_INTERACT 1
 #define COMSIG_ITEM_ATTACK_OBJ "item_attack_obj"				//from base of obj/item/attack_obj(): (/obj, /mob)
 	#define COMPONENT_NO_ATTACK_OBJ 1

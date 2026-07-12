@@ -62,9 +62,6 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 	id = /obj/item/scomstone/garrison
-	beltl = /obj/item/quiver/bolts
-	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-	beltr = /obj/item/rogueweapon/sword/sabre
 
 //Rare-ish anti-armor two hander sword. Kinda alternative of a bastard sword type. Could be cool.
 /datum/advclass/sergeant/sergeant

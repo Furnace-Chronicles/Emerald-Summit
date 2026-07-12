@@ -181,6 +181,10 @@ GLOBAL_LIST_INIT(magic_aspects_minor, init_magic_aspects(ASPECT_MINOR))
 		if(_mind_has_magi2_spell(target, spell_path))
 			return null
 		var/obj/effect/proc_holder/spell/legacy = new spell_path(null)
+		// Tag provenance on fixed/choice proc_holders (Geomancy's Magician's Brick, Lesser Kinesis'
+		// Fetch/Repel) so the picker's utility budget treats them as aspect-given, not counted picks.
+		// Datum spells already get this via _mind_make_magi2_spell; proc_holders were the gap.
+		mark_aspect_spell(legacy)
 		target.AddSpell(legacy)
 		return legacy
 	var/datum/action/cooldown/spell/S = _mind_make_magi2_spell(spell_path, src, variant_name)

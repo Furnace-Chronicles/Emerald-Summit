@@ -141,7 +141,10 @@ export const FlavorTab = ({ data, act }: FlavorTabProps) => {
           ) : (
             <LabeledList>
               <LabeledList.Item label="Headshot">
-                <Button tooltip={TIP_IMAGE} onClick={() => act('edit_headshot')}>
+                <Button
+                  tooltip={TIP_IMAGE}
+                  onClick={() => act('edit_headshot')}
+                >
                   Edit URL
                 </Button>
                 <Box inline ml={1} color="label">
@@ -160,7 +163,10 @@ export const FlavorTab = ({ data, act }: FlavorTabProps) => {
                 </Box>
               </LabeledList.Item>
               <LabeledList.Item label="OOC Extra Image/Video/Gif (Flavor Text)">
-                <Button tooltip={TIP_EXTRA} onClick={() => act('edit_ooc_extra')}>
+                <Button
+                  tooltip={TIP_EXTRA}
+                  onClick={() => act('edit_ooc_extra')}
+                >
                   Edit URL
                 </Button>
                 <Box inline ml={1} color="label">
@@ -193,7 +199,10 @@ export const FlavorTab = ({ data, act }: FlavorTabProps) => {
                 </Box>
               </LabeledList.Item>
               <LabeledList.Item label="Image Gallery">
-                <Button tooltip={TIP_GALLERY} onClick={() => act('img_gallery_add')}>
+                <Button
+                  tooltip={TIP_GALLERY}
+                  onClick={() => act('img_gallery_add')}
+                >
                   Add
                 </Button>
                 <Button onClick={() => act('img_gallery_clear')}>

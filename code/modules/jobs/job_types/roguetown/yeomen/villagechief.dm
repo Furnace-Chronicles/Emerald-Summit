@@ -141,7 +141,7 @@ GLOBAL_VAR_INIT(last_elder_announcement, -50000) // Inits variable for later, co
 		to_chat(recruiter, span_warning("Their loyalty is to Psydon alone! They can't join the militia!"))
 		return FALSE
 	//If you're reading this, please refactor this once we have TRAIT_CLERGY thanks
-	if(recruit.job in list("Priest", "Priestess", "Templar", "Acolyte"))
+	if(recruit.job in list("Priest", "Priestess", "Templar", "Acolyte" , "Mystic Theurge"))
 		to_chat(recruiter, span_warning("Clergy cannot join the militia! Their loyalty is to the Ten!"))
 		return FALSE
 	..()
