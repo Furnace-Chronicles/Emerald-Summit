@@ -180,6 +180,11 @@
 /obj/structure/roguemachine/scrapper/ui_state(mob/user)
 	return GLOB.human_adjacent_state
 
+/obj/structure/roguemachine/scrapper/ui_status(mob/user, datum/ui_state/state)
+	if(!isliving(user) || user.stat == DEAD)
+		return UI_CLOSE
+	return ..()
+
 /obj/structure/roguemachine/scrapper/attack_hand(mob/living/user)
 	. = ..()
 	if(.)

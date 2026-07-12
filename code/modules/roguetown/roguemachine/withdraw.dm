@@ -26,6 +26,11 @@
 /obj/structure/roguemachine/withdraw/ui_state(mob/user)
 	return GLOB.human_adjacent_state
 
+/obj/structure/roguemachine/withdraw/ui_status(mob/user, datum/ui_state/state)
+	if(!isliving(user) || user.stat == DEAD)
+		return UI_CLOSE
+	return ..()
+
 /obj/structure/roguemachine/withdraw/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/roguecoin/aalloy))
 		return
@@ -39,6 +44,8 @@
 /obj/structure/roguemachine/withdraw/attack_hand(mob/living/user)
 	. = ..()
 	if(.)
+		return
+	if(!ishuman(user))
 		return
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	playsound(loc, 'sound/misc/keyboard_enter.ogg', 100, FALSE, -1)

@@ -49,6 +49,11 @@
 /obj/structure/roguemachine/stockpile/ui_state(mob/user)
 	return GLOB.human_adjacent_state
 
+/obj/structure/roguemachine/stockpile/ui_status(mob/user, datum/ui_state/state)
+	if(!isliving(user) || user.stat == DEAD)
+		return UI_CLOSE
+	return ..()
+
 /obj/structure/roguemachine/stockpile/attack_hand(mob/living/user)
 	. = ..()
 	if(.)

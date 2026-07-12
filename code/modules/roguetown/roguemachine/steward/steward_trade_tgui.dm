@@ -16,6 +16,8 @@
 /// the whole window grey). Authority is already enforced by alderman_has_access() on every
 /// ui_act. Pull the status straight from state.can_use_topic without the adjacency filter.
 /obj/structure/roguemachine/steward/ui_status(mob/user, datum/ui_state/state)
+	if(!isliving(user) || user.stat == DEAD)
+		return UI_CLOSE
 	if(SScity_assembly?.is_alderman(user))
 		. = UI_CLOSE
 		if(state)
