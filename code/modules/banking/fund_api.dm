@@ -41,6 +41,19 @@
 			return innkeeper_fund
 	return null
 
+/datum/controller/subsystem/treasury/proc/get_fund_id(datum/fund/F)
+	if(F == discretionary_fund)
+		return "crown"
+	if(F == church_fund)
+		return "church"
+	if(F == merchant_fund)
+		return "merchant"
+	if(F == bathhouse_fund)
+		return "bathhouse"
+	if(F == innkeeper_fund)
+		return "innkeeper"
+	return ""
+
 /datum/controller/subsystem/treasury/proc/find_jawbank_for_fund_id(fund_id)
 	var/obj/structure/roguemachine/vaultbank/V = jawbanks_by_fund_id[fund_id]
 	if(QDELETED(V))

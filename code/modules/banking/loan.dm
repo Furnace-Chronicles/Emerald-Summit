@@ -58,6 +58,21 @@
 /datum/loan/proc/days_until_due()
 	return max(due_on_day - GLOB.dayspassed, 0)
 
+/datum/loan/proc/minutes_until_due()
+	var/days_remaining = days_until_due()
+	if(days_remaining <= 0)
+		return 0
+	var/current_st = station_time()
+	var/dawn_time = SSnightshift.nightshift_dawn_start
+	var/ds_until_next_dawn
+	if(current_st <= dawn_time)
+		ds_until_next_dawn = dawn_time - current_st
+	else
+		ds_until_next_dawn = (MIDNIGHT_ROLLOVER - current_st) + dawn_time
+	var/full_days_after_next = max(0, days_remaining - 1)
+	var/total_station_ds = ds_until_next_dawn + (full_days_after_next * MIDNIGHT_ROLLOVER)
+	return round(total_station_ds / (SSticker.station_time_rate_multiplier * 600))
+
 /datum/loan/proc/format()
 	var/pct = round(interest_rate * 100)
 	if(defaulted)
@@ -84,6 +99,26 @@
 		if(resolved == H)
 			return L
 	return null
+
+/// Repay up to `amount` toward an institutional indenture from the target fund's balance.
+/datum/controller/subsystem/treasury/proc/repay_indenture(datum/loan/L, amount)
+	if(!L || !L.is_institutional || amount <= 0)
+		return 0
+	var/datum/fund/target = L.target_fund
+	var/datum/fund/source = L.source_fund
+	if(!target || !source)
+		return 0
+	var/outstanding = L.get_remaining_due()
+	amount = min(amount, outstanding, target.balance)
+	if(amount <= 0)
+		return 0
+	if(!transfer(target, source, amount, L.defaulted ? "Indenture settlement (manual)" : "Indenture repayment (early)"))
+		return 0
+	L.repaid_so_far += amount
+	if(L.get_remaining_due() <= 0)
+		loans -= L
+		qdel(L)
+	return amount
 
 /// Repay up to `amount` toward the caller's personal loan. ES: reads integer bank_accounts.
 /datum/controller/subsystem/treasury/proc/repay_loan(mob/living/carbon/human/debtor, amount)

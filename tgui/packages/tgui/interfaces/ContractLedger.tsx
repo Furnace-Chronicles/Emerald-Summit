@@ -454,7 +454,7 @@ const ActiveStrip = (props: {
             {fellowshipNote}
           </span>
         </span>
-        <span>Balance: {props.balance} mammon</span>
+        <span>Meister Balance: {props.balance} Mammons</span>
       </div>
       {blockReason && (
         <div

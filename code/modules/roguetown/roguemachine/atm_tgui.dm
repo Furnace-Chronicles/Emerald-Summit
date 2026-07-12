@@ -109,6 +109,7 @@
 			"days_total" = active.days_total,
 			"due_on_day" = active.due_on_day,
 			"days_until_due" = active.days_until_due(),
+			"minutes_until_due" = active.minutes_until_due(),
 			"remaining" = active.get_remaining_due(),
 			"defaulted" = active.defaulted ? TRUE : FALSE,
 			"creditor" = active.source_fund ? SStreasury.indenture_faction_label(active.source_fund) : "the Crown",
@@ -156,18 +157,20 @@
 			institutional_logs[fid] = build_log_entries(F.name)
 			if(V.supports_loans)
 				for(var/datum/loan/L in SStreasury.loans)
-					if(L.source_fund != F)
+					if(L.source_fund != F && L.target_fund != F)
 						continue
 					institutional_loans += list(list(
 						"creditor_id" = fid,
-						"creditor_label" = SStreasury.indenture_faction_label(F),
+						"creditor_label" = L.source_fund ? SStreasury.indenture_faction_label(L.source_fund) : "the Crown",
 						"debtor" = L.debtor_name,
 						"is_institutional" = L.is_institutional ? TRUE : FALSE,
+						"target_id" = L.target_fund ? SStreasury.get_fund_id(L.target_fund) : "",
 						"target_label" = L.target_fund ? SStreasury.indenture_faction_label(L.target_fund) : "",
 						"principal" = L.principal,
 						"interest_pct" = round(L.interest_rate * 100),
 						"due_on_day" = L.due_on_day,
 						"days_until_due" = L.days_until_due(),
+						"minutes_until_due" = L.minutes_until_due(),
 						"remaining" = L.get_remaining_due(),
 						"defaulted" = L.defaulted ? TRUE : FALSE,
 					))
@@ -222,6 +225,10 @@
 			return TRUE
 		if("repay_loan")
 			handle_repay_loan(H, params)
+			SStgui.update_uis(src)
+			return TRUE
+		if("repay_indenture")
+			handle_repay_indenture(H, params)
 			SStgui.update_uis(src)
 			return TRUE
 		if("advance_poll_tax")
@@ -306,6 +313,49 @@
 	else
 		var/datum/loan/still = SStreasury.get_loan_for(H)
 		say("[paid]m transferred. [still.get_remaining_due()]m remains.")
+
+/obj/structure/roguemachine/atm/proc/handle_repay_indenture(mob/living/carbon/human/H, list/params)
+	var/fund_id = "[params["fund_id"]]"
+	var/obj/structure/roguemachine/vaultbank/V = SStreasury.find_jawbank_for_fund_id(fund_id)
+	if(!V || !V.can_issue_loan(H))
+		say("You lack the authority to make payments on behalf of that institution.")
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+	var/datum/fund/target = SStreasury.resolve_fund_by_id(fund_id)
+	if(!target)
+		return
+	var/datum/loan/L
+	for(var/datum/loan/candidate in SStreasury.loans)
+		if(candidate.is_institutional && candidate.target_fund == target)
+			L = candidate
+			break
+	if(!L)
+		say("No active indenture on record for that institution.")
+		return
+	var/pay_amt = round(text2num("[params["amount"]]"))
+	if(isnull(pay_amt) || pay_amt < 1)
+		return
+	var/outstanding = L.get_remaining_due()
+	pay_amt = min(pay_amt, outstanding, target.balance)
+	if(pay_amt < 1)
+		say("[target.name]'s coffers are too thin to make a payment.")
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+	var/paid = SStreasury.repay_indenture(L, pay_amt)
+	if(!paid)
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		say("The ledger refused the transfer.")
+		return
+	playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
+	var/datum/loan/still_active
+	for(var/datum/loan/check in SStreasury.loans)
+		if(check.is_institutional && check.target_fund == target)
+			still_active = check
+			break
+	if(!still_active)
+		say("Indenture repaid in full. [paid]m transferred to [L.source_fund.name].")
+	else
+		say("[paid]m transferred. [still_active.get_remaining_due()]m remains on the indenture.")
 
 // Taxation 2 (ported): prepay up to POLL_TAX_MAX_ADVANCE_DAYS of poll tax.
 /obj/structure/roguemachine/atm/proc/handle_advance_poll_tax(mob/living/carbon/human/H, list/params)

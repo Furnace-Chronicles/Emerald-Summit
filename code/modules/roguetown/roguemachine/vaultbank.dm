@@ -660,7 +660,7 @@
 /obj/structure/roguemachine/vaultbank/church
 	name = "\improper CHURCH JAWBANK"
 	desc = "A biomechanical obelisk that holds the alms and tithe of the Church's faithful. Throttle it with a strike to spill that which is rightfully yours."
-	alert_jobs = list("Bishop", "Martyr", "Acolyte")
+	alert_jobs = list("Priest", "Martyr", "Acolyte")
 	alert_location = "the Church"
 	bash_floor = 500
 	lump_payout = 100
@@ -674,13 +674,13 @@
 /obj/structure/roguemachine/vaultbank/church/can_issue_loan(mob/user)
 	if(!user)
 		return FALSE
-	return user.job == "Bishop" || user.job == "Martyr"
+	return user.job == "Priest" || user.job == "Martyr"
 
 /obj/structure/roguemachine/vaultbank/church/allowed_rates()
 	return list(0, 10, 15, 20, 25, 50)
 
 /obj/structure/roguemachine/vaultbank/church/get_authority_label()
-	return "the Bishop or Martyr"
+	return "the Priest or Martyr"
 
 /obj/structure/roguemachine/vaultbank/church/get_patronage_writ_path()
 	return /obj/item/patronage_writ/benefactor
@@ -703,14 +703,9 @@
 	var/datum/fund/F = get_linked_fund()
 	if(!F)
 		return FALSE
-	var/outstanding = SStreasury.get_outstanding_principal_from_fund(F)
-	var/withdrawable = max(0, F.balance - max(0, CHURCH_RESERVE_FLOOR - outstanding))
 	if(isnull(amount))
-		return withdrawable > 0
-	return amount <= withdrawable
-
-/obj/structure/roguemachine/vaultbank/church/get_withdraw_rule_text()
-	return "The Church mandates that loans are to be given to the poor and downtrodden. [CHURCH_RESERVE_FLOOR]m must remain reserved for charity, less the principal currently in circulation."
+		return F.balance > 0
+	return amount <= F.balance
 
 /obj/structure/roguemachine/vaultbank/church/enforce_placement()
 	return

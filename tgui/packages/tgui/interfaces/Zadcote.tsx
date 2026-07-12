@@ -249,8 +249,10 @@ const StatusPill = (props: { slot: ZadcoteSlot }) => {
         }}
         title={`A flight is ${direction}, arriving in ${formatCountdown(arriving)}`}
       >
-        {direction} {slot.flight_zads ? `(${slot.flight_zads})` : ''}{' '}
-        <span style={{ color: INK_SOFT, fontWeight: 'normal' }}>
+        {direction}
+        {slot.flight_zads ? ` (${slot.flight_zads})` : ''}
+        {' — '}
+        <span style={{ color: INK_SOFT, fontWeight: 'normal', fontVariantNumeric: 'tabular-nums' }}>
           {formatCountdown(arriving)}
         </span>
       </span>
@@ -656,78 +658,78 @@ const SlotRow = (props: {
         fontSize: FONT_BODY,
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <SlotNameField slot={slot} act={act} />
-        <div style={{ flex: '0 0 auto', textAlign: 'right' }}>
+        <div style={{ flexShrink: 0, whiteSpace: 'nowrap', textAlign: 'right' }}>
           <StatusPill slot={slot} />
         </div>
-        <div style={{ flexShrink: 0, display: 'flex', gap: '4px' }}>
+      </div>
+      <div style={{ display: 'flex', gap: '4px', marginTop: '4px', justifyContent: 'flex-end' }}>
+        <button
+          type="button"
+          style={inkButtonStyle({ disabled: slot.severed })}
+          disabled={slot.severed}
+          title={
+            slot.in_flight
+              ? 'Send a dispatch on this slot. The zad in flight will land first.'
+              : 'Send a dispatch on this slot.'
+          }
+          onClick={onToggle}
+        >
+          {expanded ? 'Hide' : 'Send'}
+        </button>
+        {data.allows_voyeur && (
           <button
             type="button"
-            style={inkButtonStyle({ disabled: slot.severed })}
-            disabled={slot.severed}
+            style={inkButtonStyle({ disabled: !canVoyeur })}
+            disabled={!canVoyeur}
             title={
-              slot.in_flight
-                ? 'Send a dispatch on this slot. The zad in flight will land first.'
-                : 'Send a dispatch on this slot.'
-            }
-            onClick={onToggle}
-          >
-            {expanded ? 'Hide' : 'Send'}
-          </button>
-          {data.allows_voyeur && (
-            <button
-              type="button"
-              style={inkButtonStyle({ disabled: !canVoyeur })}
-              disabled={!canVoyeur}
-              title={
-                !fundsOk
-                  ? `Scrying fund empty. Feed mammon coins into the zadcote (needs ${data.voyeur_cost}m).`
-                  : canVoyeur
-                    ? `Scry through the bonded zad. Costs ${data.voyeur_cost}m from the zadcote's scrying fund.`
-                    : 'Voyeur unavailable.'
-              }
-              onClick={() => {
-                if (!canVoyeur) return;
-                act('voyeur', { slot: slot.slot });
-              }}
-            >
-              Scry
-            </button>
-          )}
-          <button
-            type="button"
-            style={inkButtonStyle({ disabled: !canSever })}
-            disabled={!canSever}
-            title={
-              slot.allow_summons
-                ? 'Summons are allowed. The cage holder may summon a zad on demand.'
-                : 'Summons are blocked. The cage holder cannot summon zads.'
+              !fundsOk
+                ? `Scrying fund empty. Feed mammon coins into the zadcote (needs ${data.voyeur_cost}m).`
+                : canVoyeur
+                  ? `Scry through the bonded zad. Costs ${data.voyeur_cost}m from the zadcote's scrying fund.`
+                  : 'Voyeur unavailable.'
             }
             onClick={() => {
-              if (!canSever) return;
-              act('toggle_summons', { slot: slot.slot });
+              if (!canVoyeur) return;
+              act('voyeur', { slot: slot.slot });
             }}
           >
-            {slot.allow_summons ? 'Summons: on' : 'Summons: off'}
+            Scry
           </button>
-          <button
-            type="button"
-            style={inkButtonStyle({ disabled: !canSever })}
-            disabled={!canSever}
-            title={
-              canSever
-                ? 'Sever this zadlink. A zad in flight will complete its trip first.'
-                : 'Nothing to sever.'
-            }
-            onClick={() => {
-              if (!canSever) return;
-              act('sever', { slot: slot.slot });
-            }}
-          >
-            Sever
-          </button>
-        </div>
+        )}
+        <button
+          type="button"
+          style={inkButtonStyle({ disabled: !canSever })}
+          disabled={!canSever}
+          title={
+            slot.allow_summons
+              ? 'Summons are allowed. The cage holder may summon a zad on demand.'
+              : 'Summons are blocked. The cage holder cannot summon zads.'
+          }
+          onClick={() => {
+            if (!canSever) return;
+            act('toggle_summons', { slot: slot.slot });
+          }}
+        >
+          {slot.allow_summons ? 'Summons: on' : 'Summons: off'}
+        </button>
+        <button
+          type="button"
+          style={inkButtonStyle({ disabled: !canSever })}
+          disabled={!canSever}
+          title={
+            canSever
+              ? 'Sever this zadlink. A zad in flight will complete its trip first.'
+              : 'Nothing to sever.'
+          }
+          onClick={() => {
+            if (!canSever) return;
+            act('sever', { slot: slot.slot });
+          }}
+        >
+          Sever
+        </button>
       </div>
       {expanded && !slot.severed && slot.bonded && (
         <SendPanel data={data} slot={slot} act={act} onClose={onToggle} />
