@@ -21,6 +21,25 @@
 	if(hingot && hott)
 		. += span_warning("[hingot] is too hot to touch.")
 
+/// Faint hammering heard around the map while someone works an anvil. Reintroduction of the
+/// mechanic removed in 9b1a682717 - that version played at a flat volume 100 to the whole z-web
+/// ("smithy noises from anywhere"); this one fades with distance and dies out entirely by ~45 tiles.
+/obj/machinery/anvil/proc/play_distant_smithing()
+	var/far_smith_sound = sound(pick('sound/items/smithdist1.ogg','sound/items/smithdist2.ogg','sound/items/smithdist3.ogg'))
+	for(var/mob/M in GLOB.player_list)
+		if(!M.client)
+			continue
+		var/turf/M_turf = get_turf(M)
+		if(!M_turf || M_turf.z != z)
+			continue
+		var/dist = get_dist(M_turf, loc)
+		if(dist < 7) // close enough to hear the anvil itself
+			continue
+		var/vol = 65 - ((dist - 7) * 1.7) // ~65 at the edge of earshot, 0 at ~45 tiles
+		if(vol <= 0)
+			continue
+		M.playsound_local(M_turf, null, vol, TRUE, get_rand_frequency(), S = far_smith_sound)
+
 /obj/machinery/anvil/attackby(obj/item/W, mob/living/user, params)
 	if(istype(W, /obj/item/rogueweapon/tongs))
 		var/obj/item/rogueweapon/tongs/T = W
@@ -108,8 +127,10 @@
 				if(!hingot.currecipe.advance(user, breakthrough, advance_multiplier))
 					shake_camera(user, 1, 1)
 					playsound(src,'sound/items/bsmithfail.ogg', 100, FALSE)
+					play_distant_smithing()
 					break
 				playsound(src,pick('sound/items/bsmith1.ogg','sound/items/bsmith2.ogg','sound/items/bsmith3.ogg','sound/items/bsmith4.ogg'), 100, FALSE)
+				play_distant_smithing()
 				if(do_after(user, 20, target = src)) //Let's do it all over again!
 					advance_multiplier = 0.50
 				else

@@ -1,10 +1,4 @@
-import {
-  Box,
-  Button,
-  LabeledList,
-  Section,
-  Stack,
-} from 'tgui-core/components';
+import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
 
 import type { ActFunctionType } from '../../backend';
 // Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
@@ -149,7 +143,12 @@ export const GnollTab = ({ data, act }: GnollTabProps) => {
                 ['Coat', 'fur', g.fur_label, g.fur_options],
                 ['Voice', 'voice', g.voice_label, g.voice_options],
                 ['Muzzle Shape', 'muzzle', g.muzzle_label, g.muzzle_options],
-                ['Expression', 'expression', g.expression_label, g.expression_options],
+                [
+                  'Expression',
+                  'expression',
+                  g.expression_label,
+                  g.expression_options,
+                ],
               ] as [string, string, string, string[]][]
             ).map(([label, slot, current, options]) => (
               <LabeledList.Item key={slot} label={label}>

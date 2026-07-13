@@ -16,6 +16,7 @@
 
 //Human Overlays Indexes/////////
 
+#define BLACK_ROT_LAYER			56		//Pestra's black rot fire overlay (infestation_black_rot component)
 #define JOYBRINGER_LAYER		55
 #define POTENCE_LAYER			54
 #define MUTATIONS_LAYER			53		//mutations. Tk headglows, cold resistance glow, etc
@@ -71,7 +72,7 @@
 #define SUNDER_LAYER            3
 #define FIRE_LAYER				2		//If you're on fire
 #define TURF_LAYER				1		//If you're on fire
-#define TOTAL_LAYERS			55		//KEEP THIS UP-TO-DATE OR SHIT WILL BREAK ;_;
+#define TOTAL_LAYERS			56		//KEEP THIS UP-TO-DATE OR SHIT WILL BREAK ;_;
 
 #define BACK_CLOAK_SOUTH_LAYER		(BODY_BEHIND_LAYER+1)
 

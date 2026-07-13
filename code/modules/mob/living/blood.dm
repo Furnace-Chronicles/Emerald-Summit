@@ -94,6 +94,12 @@
 		if (stat == DEAD)
 			bleed_rate = 0 // just to be sure for anything else that cares about it, since we're ostensibly out of blood now
 			return
+		else if(HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
+			// "can bleed, but will never die from blood loss" -- this branch used to skip the
+			// trait check entirely, so deadites and the like died of oxyloss once fully bled dry
+			if(getOxyLoss())
+				adjustOxyLoss(-1.6) // mirror the immune-mob oxy recovery further below
+			return
 		else
 			// handle just the oxyloss, and then abort. nothing else in here is relevant to us
 			adjustOxyLoss(blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1)

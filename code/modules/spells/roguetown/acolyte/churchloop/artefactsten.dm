@@ -7,8 +7,8 @@
 	/obj/item/ingot/purifiedaalloy \
 )
 
-var/global/list/EORA_PARTNERS_BY_ID = list()
-var/global/list/EORA_ID_NAME = list()
+GLOBAL_LIST_EMPTY(EORA_PARTNERS_BY_ID)
+GLOBAL_LIST_EMPTY(EORA_ID_NAME)
 
 GLOBAL_LIST_INIT(generated_reliquary_codes, list())
 
@@ -716,7 +716,7 @@ Necra's Censer (by ARefrigerator)
 	if(!id) return
 	var/display = H.real_name ? H.real_name : H.name
 	if(display && length(display))
-		EORA_ID_NAME[id] = "[display]"
+		GLOB.EORA_ID_NAME[id] = "[display]"
 
 /proc/eora_lookup_name_by_id(id)
 	if(!id) return "Unknown"
@@ -730,8 +730,8 @@ Necra's Censer (by ARefrigerator)
 			if(eora_get_round_id(H) == id)
 				return H.real_name ? H.real_name : H.name
 
-	if(EORA_ID_NAME[id])
-		return "[EORA_ID_NAME[id]]"
+	if(GLOB.EORA_ID_NAME[id])
+		return "[GLOB.EORA_ID_NAME[id]]"
 
 	return "Unknown"
 
@@ -744,11 +744,11 @@ Necra's Censer (by ARefrigerator)
 	var/idB = eora_get_round_id(B)
 	if(!idA || !idB) return
 
-	if(!EORA_PARTNERS_BY_ID[idA]) EORA_PARTNERS_BY_ID[idA] = list()
-	if(!EORA_PARTNERS_BY_ID[idB]) EORA_PARTNERS_BY_ID[idB] = list()
+	if(!GLOB.EORA_PARTNERS_BY_ID[idA]) GLOB.EORA_PARTNERS_BY_ID[idA] = list()
+	if(!GLOB.EORA_PARTNERS_BY_ID[idB]) GLOB.EORA_PARTNERS_BY_ID[idB] = list()
 
-	var/list/LA = EORA_PARTNERS_BY_ID[idA]
-	var/list/LB = EORA_PARTNERS_BY_ID[idB]
+	var/list/LA = GLOB.EORA_PARTNERS_BY_ID[idA]
+	var/list/LB = GLOB.EORA_PARTNERS_BY_ID[idB]
 
 	LA[idB] = TRUE
 	LB[idA] = TRUE
@@ -760,7 +760,7 @@ Necra's Censer (by ARefrigerator)
 	if(!H || !H.client) return 0
 	var/id = eora_get_round_id(H)
 	if(!id) return 0
-	var/list/L = EORA_PARTNERS_BY_ID[id]
+	var/list/L = GLOB.EORA_PARTNERS_BY_ID[id]
 	if(!islist(L)) return 0
 	var/c = 0
 	for(var/_ in L) c++
@@ -772,7 +772,7 @@ Necra's Censer (by ARefrigerator)
 	var/id = eora_get_round_id(H)
 	if(!id) return names
 
-	var/list/L = EORA_PARTNERS_BY_ID[id]
+	var/list/L = GLOB.EORA_PARTNERS_BY_ID[id]
 	if(!islist(L)) return names
 
 	for(var/pid in L)

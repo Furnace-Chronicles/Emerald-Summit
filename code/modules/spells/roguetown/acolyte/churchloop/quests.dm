@@ -386,7 +386,7 @@
 	return out
 
 // GLOBAL
-var/global/list/Q_WITNESS_EFFECTS = list(
+GLOBAL_LIST_INIT(Q_WITNESS_EFFECTS, list(
 	/datum/status_effect/buff/sermon,
 	/datum/status_effect/buff/drunk,
 	/datum/status_effect/buff/foodbuff,
@@ -395,7 +395,7 @@ var/global/list/Q_WITNESS_EFFECTS = list(
 	/datum/status_effect/buff/moondust_purest,
 	/datum/status_effect/buff/starsugar,
 	/datum/status_effect/buff/weed
-)
+))
 
 // ---------------------------------------------------------------------
 //
@@ -955,8 +955,8 @@ var/global/list/Q_WITNESS_EFFECTS = list(
 /obj/item/quest_token/sermon_witness/Initialize()
 	. = ..()
 	if(!islist(required_effect_types) || !required_effect_types.len)
-		if(islist(Q_WITNESS_EFFECTS) && Q_WITNESS_EFFECTS.len)
-			required_effect_types = Q_WITNESS_EFFECTS.Copy()
+		if(islist(GLOB.Q_WITNESS_EFFECTS) && GLOB.Q_WITNESS_EFFECTS.len)
+			required_effect_types = GLOB.Q_WITNESS_EFFECTS.Copy()
 		else
 			required_effect_types = list(/datum/status_effect/buff/sermon)
 
@@ -1045,8 +1045,8 @@ var/global/list/Q_WITNESS_EFFECTS = list(
 /proc/_rt_patron_name_pool()
 	build_divine_patrons_index()
 	var/list/pool = list()
-	if(divine_patrons_index && divine_patrons_index.len)
-		for(var/n in divine_patrons_index)
+	if(GLOB.divine_patrons_index && GLOB.divine_patrons_index.len)
+		for(var/n in GLOB.divine_patrons_index)
 			pool += "[n]"
 	else
 		pool = list("Astrata","Noc","Dendor","Abyssor","Ravox","Necra","Xylix","Pestra","Malum","Eora")
@@ -1318,7 +1318,7 @@ var/global/list/Q_WITNESS_EFFECTS = list(
 		if("count" in D9 && isnum(D9["count"]))
 			cn9 = D9["count"]
 
-		var/list/pool   = (islist(Q_WITNESS_EFFECTS) && Q_WITNESS_EFFECTS.len) ? Q_WITNESS_EFFECTS : list(/datum/status_effect/buff/sermon)
+		var/list/pool   = (islist(GLOB.Q_WITNESS_EFFECTS) && GLOB.Q_WITNESS_EFFECTS.len) ? GLOB.Q_WITNESS_EFFECTS : list(/datum/status_effect/buff/sermon)
 		var/list/picked = _rt_pick_unique(pool, max(1, cn9))
 
 		var/list/names = list()

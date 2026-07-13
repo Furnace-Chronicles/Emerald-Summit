@@ -512,6 +512,9 @@
 	allowed_race = OGRE_RACE_TYPES
 	max_integrity = 250
 	armor = ARMOR_BOOTS_PLATED_IRON
+	armor_class = ARMOR_CLASS_HEAVY
+	anvilrepair = /datum/skill/craft/armorsmithing
+	smeltresult = /obj/item/ingot/iron
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 
 /obj/item/clothing/shoes/roguetown/boots/ogre

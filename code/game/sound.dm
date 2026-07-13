@@ -44,6 +44,41 @@
 	if(!turf_source)
 		return
 
+	if(!extrarange)
+		extrarange = 1
+	var/maxdistance = (world.view + extrarange)
+	var/source_z = turf_source.z
+
+	var/turf/above_turf = GET_TURF_ABOVE(turf_source)
+	var/turf/below_turf = GET_TURF_BELOW(turf_source)
+
+	// Most world sounds (torch/hearth loops especially) fire with no client in
+	// earshot, so bail out before the expensive sound/LOS work below.
+	var/list/candidates = SSmobs.clients_by_zlevel[source_z].Copy()
+	candidates += SSmobs.dead_players_by_zlevel[source_z]
+	if(ignore_walls)
+		if(above_turf)
+			candidates += SSmobs.clients_by_zlevel[above_turf.z]
+			candidates += SSmobs.dead_players_by_zlevel[above_turf.z]
+		if(below_turf)
+			candidates += SSmobs.clients_by_zlevel[below_turf.z]
+			candidates += SSmobs.dead_players_by_zlevel[below_turf.z]
+
+	var/found_listener = FALSE
+	for(var/mob/M as anything in candidates)
+		var/turf/tocheck = get_turf(M)
+		if(isdullahan(M))
+			var/mob/living/carbon/human = M
+			var/datum/species/dullahan/dullahan = human.dna.species
+			if(dullahan.headless)
+				tocheck = get_turf(dullahan.my_head)
+		if(get_dist(tocheck, turf_source) <= maxdistance)
+			found_listener = TRUE
+			break
+
+	if(!found_listener)
+		return list()
+
 	// Get same sound for everyone
 	soundin = get_sfx(soundin)
 	// Same frequency for everybody
@@ -58,14 +93,7 @@
 
 	// Looping through the player list has the added bonus of working for mobs inside containers
 	var/sound/S = sound(soundin)
-	if(!extrarange)
-		extrarange = 1
-	var/maxdistance = (world.view + extrarange)
-	var/source_z = turf_source.z
 	var/list/listeners = SSmobs.clients_by_zlevel[source_z].Copy()
-
-	var/turf/above_turf = GET_TURF_ABOVE(turf_source)
-	var/turf/below_turf = GET_TURF_BELOW(turf_source)
 
 	if(soundping)
 		ping_sound(source)

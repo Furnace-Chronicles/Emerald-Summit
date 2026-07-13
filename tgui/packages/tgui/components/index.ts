@@ -3,8 +3,8 @@
  * @copyright 2020 Aleksej Komarov
  * @license MIT
  */
-import React from "react";
-import { Box, Section, Tooltip } from "tgui-core/components";
+import React from 'react';
+import { Box, Section, Tooltip } from 'tgui-core/components';
 /**
  * Re-exports props from tgui-core so we can freely use them in our wrappers.
  */

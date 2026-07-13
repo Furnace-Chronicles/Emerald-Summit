@@ -55,7 +55,9 @@ export const GamePrefsTab = ({ data, act }: GamePrefsTabProps) => {
               </Button>
             </LabeledList.Item>
             <LabeledList.Item label="Client FPS">
-              <Button onClick={() => act('set_clientfps')}>{gp.clientfps}</Button>
+              <Button onClick={() => act('set_clientfps')}>
+                {gp.clientfps}
+              </Button>
             </LabeledList.Item>
             <LabeledList.Item label="Ambient Occlusion">
               <Button

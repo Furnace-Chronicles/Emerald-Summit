@@ -38,6 +38,7 @@
 		"Mercenary" = TRUE,
 		"Warden" = TRUE,
 		"Acolyte" = TRUE,
+		"Mystic Theurge" = TRUE,
 		"Vanguard" = TRUE,
 		"City Guard" = TRUE,
 		"Bandit" = TRUE,

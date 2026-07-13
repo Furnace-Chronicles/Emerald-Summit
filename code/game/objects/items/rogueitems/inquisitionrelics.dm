@@ -599,8 +599,11 @@ Inquisitorial armory down here
 		if(subject)
 			if(M != subject)
 				return
-		if(HAS_TRAIT(M, TRAIT_BLOODLOSS_IMMUNE))
-			to_chat(user, span_warning("They don't have any blood to sample."))		
+		// Vampires are bloodloss-immune (clan trait) but are very much full of blood — and catching
+		// that CURSED BLOOD is the whole point of indexing them. Only the genuinely bloodless
+		// (zombies, constructs) should be turned away here; takeblood() handles the vampire flagging.
+		if(HAS_TRAIT(M, TRAIT_BLOODLOSS_IMMUNE) && !(M.mind?.has_antag_datum(/datum/antagonist/vampire)))
+			to_chat(user, span_warning("They don't have any blood to sample."))
 			return
 		if(istype(M, /mob/living/carbon/human/species/skeleton))
 			to_chat(user, span_warning("I don't think the Inquisition values marrow much these daes."))	
@@ -1211,6 +1214,7 @@ Inquisitorial armory down here
 	addtimer(CALLBACK(S, TYPE_PROC_REF(/mob/dead/observer, reenter_corpse)), 4 SECONDS)
 	sleep(41)
 	REMOVE_TRAIT(user, TRAIT_NOSSDINDICATOR, "blackmirror")
+	soundloop.stop()
 	playsound(user, 'sound/items/blackeye.ogg', 100, FALSE)
 	return
 
@@ -1317,6 +1321,10 @@ Inquisitorial armory down here
 /obj/item/inqarticles/bmirror/Initialize()
 	soundloop = new(src, FALSE)
 	. = ..()
+
+/obj/item/inqarticles/bmirror/dropped(mob/user)
+	. = ..()
+	soundloop.stop()
 
 /obj/item/inqarticles/bmirror/Destroy()
 	if(soundloop)
