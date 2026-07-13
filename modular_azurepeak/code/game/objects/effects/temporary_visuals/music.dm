@@ -52,12 +52,79 @@
 			if (H != owner && HAS_TRAIT(H, TRAIT_XYLIX) && !H.has_status_effect(/datum/status_effect/buff/xylix_joy))
 				H.apply_status_effect(/datum/status_effect/buff/xylix_joy)
 				to_chat(H, span_info("The music brings a smile to my face, and fortune to my steps!"))
+// ---- Bardic Inspiration Song Visuals ----
+
+/obj/effect/temp_visual/songs
+	name = "songs"
+	icon = 'icons/mob/actions/bardsong_anims.dmi'
+	duration = 15
+	plane = GAME_PLANE_UPPER
+	layer = ABOVE_ALL_MOB_LAYER
+
+/obj/effect/temp_visual/songs/Initialize(mapload)
+	. = ..()
+	alpha = 140
+	pixel_x = rand(-18, 18)
+	pixel_y = rand(-16, 0)
+	var/matrix/m = matrix()
+	m.Scale(0.75, 0.75)
+	transform = m
+
+/obj/effect/temp_visual/songs/inspiration_dirget1
+	icon_state = "dirge_t1_base"
+
+/obj/effect/temp_visual/songs/inspiration_dirget2
+	icon_state = "dirge_t2_base"
+
+/obj/effect/temp_visual/songs/inspiration_dirget3
+	icon_state = "dirge_t3_base"
+
+/obj/effect/temp_visual/songs/inspiration_melodyt1
+	icon_state = "melody_t1_base"
+
+/obj/effect/temp_visual/songs/inspiration_melodyt2
+	icon_state = "melody_t2_base"
+
+/obj/effect/temp_visual/songs/inspiration_melodyt3
+	icon_state = "melody_t3_base"
+
+/obj/effect/temp_visual/songs/inspiration_bardsongt1
+	icon_state = "bardsong_t1_base"
+
+/obj/effect/temp_visual/songs/inspiration_bardsongt2
+	icon_state = "bardsong_t2_base"
+
+/obj/effect/temp_visual/songs/inspiration_bardsongt3
+	icon_state = "bardsong_t3_base"
+
+/obj/effect/temp_visual/song_telltale
+	name = "music"
+	icon = 'modular_azurepeak/icons/effects/music-note.dmi'
+	icon_state = "music_note"
+	duration = 20
+	plane = GAME_PLANE_UPPER
+	layer = ABOVE_ALL_MOB_LAYER
+	var/note_color = "#7f7f7f"
+
+/obj/effect/temp_visual/song_telltale/Initialize(mapload)
+	. = ..()
+	add_atom_colour(note_color, FIXED_COLOUR_PRIORITY)
+	alpha = 200
+	pixel_x = rand(-10, 10)
+	pixel_y = rand(14, 22)
+
+/obj/effect/temp_visual/song_telltale/buff
+	note_color = "#5CB8E6"
+
+/obj/effect/temp_visual/song_telltale/debuff
+	note_color = "#CC3333"
+
 ////////////////////
 ///HARPY SINGING///
 //////////////////
 // i dont wanna refactor how instruments function, so this is how we go about an instrument that can't be dropped bc it's inside of us
 // since stopping playing relies on dropping item to stop unconscious people playing music
-/datum/status_effect/buff/harpy_sing 
+/datum/status_effect/buff/harpy_sing
 	id = "harpy_sing"
 	alert_type = null
 	tick_interval = 10

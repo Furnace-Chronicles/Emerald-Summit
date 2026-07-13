@@ -11,7 +11,7 @@
 		/datum/language/etruscan,
 	)
 
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_DECEIVING_MEEKNESS, TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_DECEIVING_MEEKNESS)
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_INT = 2,
@@ -66,7 +66,7 @@
 					)
 	var/weapons = list("Rapier and Parrying Dagger", "Arquebus Pistol")
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
-	var/instruments = list("Accordion","Bagpipe","Drum","Guitar","Harp","Hurdy-Gurdy","Jaw Harp","Lute","Trumpet","Viola","Vocal Talisman")
+	var/instruments = list("Accordion","Bagpipe","Drum","Guitar","Harp","Hurdy-Gurdy","Jaw Harp","Lute","Psyaltery","Trumpet","Viola","Vocal Talisman")
 	var/instrument_choice = input(H, "Choose your instrument.", "TAKE UP SONG") as anything in instruments
 	H.set_blindness(0)
 	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
@@ -106,3 +106,14 @@
 			H.put_in_hands(new /obj/item/rogue/instrument/jawharp(H), TRUE)
 		if("Drum")
 			H.put_in_hands(new /obj/item/rogue/instrument/drum(H), TRUE)
+		if("Psyaltery")
+			H.put_in_hands(new /obj/item/rogue/instrument/psyaltery(H), TRUE)
+	var/disciplines = list("Maille Training","Bardic Inspiration")
+	var/discipline_choice = input(H, "Choose your discipline.", "TAKE A PATH") as anything in disciplines
+	switch(discipline_choice)
+		if("Maille Training")
+			ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+		if("Bardic Inspiration")
+			var/datum/inspiration/I = new /datum/inspiration(H)
+			I.grant_inspiration(H, bard_tier = BARD_T1)
+			H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)

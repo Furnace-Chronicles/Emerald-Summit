@@ -179,10 +179,12 @@
 		/obj/item/recipe_book/survival = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
+	var/datum/inspiration/I = new /datum/inspiration(H)
+	I.grant_inspiration(H, bard_tier = BARD_T2)
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery/bard)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 
-	var/weapons = list("Accordion","Bagpipe","Drum","Guitar","Harp","Hurdy-Gurdy","Jaw Harp","Lute","Trumpet","Viola","Vocal Talisman")
+	var/weapons = list("Accordion","Bagpipe","Drum","Guitar","Harp","Hurdy-Gurdy","Jaw Harp","Lute","Psyaltery","Trumpet","Viola","Vocal Talisman")
 	var/weapon_choice = input(H, "Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
@@ -210,6 +212,8 @@
 			backr = /obj/item/rogue/instrument/jawharp
 		if("Drum")
 			backr = /obj/item/rogue/instrument/drum
+		if("Psyaltery")
+			backr = /obj/item/rogue/instrument/psyaltery
 
 /datum/advclass/rogue/swashbuckler
 	name = "Swashbuckler"

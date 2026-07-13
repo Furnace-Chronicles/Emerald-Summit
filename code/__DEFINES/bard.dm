@@ -1,0 +1,77 @@
+#define BARD_T1 1
+#define BARD_T2 2
+
+#define SONG_ACTIVATION_COST 30
+#define SONG_SUSTAIN_COST -10
+#define SONG_SUSTAIN_TICKS 10
+
+#define BARD_SCALING_LESSER 0.66
+#define BARD_SCALING_FULL 1.0
+
+#define BARD_STAT_FULL 3
+#define BARD_STAT_LESSER 2
+
+#define RHYTHM_COOLDOWN 7 SECONDS
+#define RHYTHM_WINDOW 8 SECONDS
+#define RHYTHM_ACTIVATION_COST 10
+#define CRESCENDO_STACKS 3
+#define CRESCENDO_DECAY 20 SECONDS
+
+#define RHYTHM_SHARED_COOLDOWN "bardic_rhythm"
+
+#define RHYTHM_PICKS_T1 2
+#define RHYTHM_PICKS_T2 2
+
+#define RHYTHM_NONE 0
+#define RHYTHM_RESONATING 1
+#define RHYTHM_CONCUSSIVE 2
+#define RHYTHM_FRIGID 3
+#define RHYTHM_REGENERATING 4
+
+#define RHYTHM_RESONATING_DAMAGE 20
+#define RHYTHM_CONCUSSIVE_DAMAGE 8
+#define RHYTHM_REGEN_TICK 0.5
+#define RHYTHM_REGEN_DURATION 10 SECONDS
+
+#define CRESCENDO_RESONATING_DAMAGE 55
+#define CRESCENDO_CONCUSSIVE_DAMAGE 25
+#define CRESCENDO_MENDING_DURATION 30 SECONDS
+#define CRESCENDO_MENDING_TICK 1.0
+
+// magi2 spell framework defines — guarded so they don't clash with modular_azurepeak
+#ifndef GLOW_COLOR_BARDIC
+#define GLOW_COLOR_BARDIC "#E8837C"
+#endif
+#ifndef SPELL_COST_NONE
+#define SPELL_COST_NONE     0
+#endif
+#ifndef SPELL_COST_STAMINA
+#define SPELL_COST_STAMINA  1
+#endif
+#ifndef INVOCATION_NONE
+#define INVOCATION_NONE    "none"
+#endif
+#ifndef INVOCATION_SHOUT
+#define INVOCATION_SHOUT   "shout"
+#endif
+#ifndef INVOCATION_EMOTE
+#define INVOCATION_EMOTE   "emote"
+#endif
+#ifndef SPELL_REQUIRES_HUMAN
+#define SPELL_REQUIRES_HUMAN               (1 << 1)
+#endif
+#ifndef SPELLCOST_MINOR_PROJECTILE
+#define SPELLCOST_MINOR_PROJECTILE   10
+#endif
+#ifndef CHARGETIME_POKE
+#define CHARGETIME_POKE   (1 SECONDS)
+#endif
+#ifndef CHARGING_SLOWDOWN_NONE
+#define CHARGING_SLOWDOWN_NONE   0
+#endif
+#ifndef PEN_NONE
+#define PEN_NONE 0
+#endif
+#ifndef UPDATE_BUTTON_STATUS
+#define UPDATE_BUTTON_STATUS     (1 << 4)
+#endif

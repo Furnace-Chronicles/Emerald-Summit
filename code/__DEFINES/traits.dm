@@ -217,6 +217,8 @@
 #define TRAIT_DARKVISION "Darksight"
 #define TRAIT_NOCSHADES "Nocshaded"
 #define TRAIT_LIGHT_STEP	"Light Step"
+#define TRAIT_INSPIRING_MUSICIAN "Inspiring Musician"
+#define TRAIT_MUSES_GRACE	"Muses Grace"
 #define TRAIT_REACHNATIVE "Reach Native"
 #define TRAIT_SLEUTH	"Sleuth"
 #define TRAIT_HARDSHELL "Hardshell"
@@ -409,6 +411,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_NOCSHADES = span_info("The lens I look through allows me to see in the dark clear as dae, at the cost of greater vision."),
 	TRAIT_RESIDENT = span_info("I've been granted a Meister account, and the ownership of a house in Emerald Summit."),
 	TRAIT_LIGHT_STEP = span_info("My steps are light and swift. I make less noise while sneaking, and can sneak much quicker."),
+	TRAIT_INSPIRING_MUSICIAN = span_info("The flow of battle dances to my song!"),
+	TRAIT_MUSES_GRACE = span_info("I feel a sudden and powerful urge to break out into song."),
 	TRAIT_NOMOOD = span_info("I feel no sorrow, no joy, and no stress."),
 	TRAIT_REACHNATIVE = span_info("I've grown up and lived all my lyfe in these lands. I can only trigger ambushes if I sprint through them."),
 	TRAIT_SLEUTH = span_info("I can spot my tracked Mark's trail without needing to approach it, and can spot them at a distance. I can track more frequently, and the act is not impaired by movement. I can examine tracks right away, and others will not notice my efforts to search."),

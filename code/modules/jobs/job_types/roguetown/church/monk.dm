@@ -229,6 +229,9 @@
 		H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/music, 2, TRUE)
+		H.cmode_music = 'sound/music/combat_jester.ogg'
+		var/datum/inspiration/I = new /datum/inspiration(H)
+		I.grant_inspiration(H, bard_tier = BARD_T2)
 
 /datum/advclass/nocA
 	name = "Mystic Theurge"

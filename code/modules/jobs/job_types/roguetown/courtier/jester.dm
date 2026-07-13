@@ -41,6 +41,8 @@
 	H.adjust_skillrank(/datum/skill/combat/wrestling, rand(1,5), TRUE)
 	H.adjust_skillrank(/datum/skill/misc/lockpicking, rand(1,4), TRUE)
 	H.adjust_skillrank(/datum/skill/craft/cooking, rand(1,3), TRUE)
+	var/datum/inspiration/I = new /datum/inspiration(H)
+	I.grant_inspiration(H, bard_tier = BARD_T2)
 	H.STASTR = rand(1, 21)
 	H.STAEND = rand(1, 21)
 	H.STACON = rand(1, 21)
